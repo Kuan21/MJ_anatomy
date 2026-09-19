@@ -9,10 +9,10 @@ import {createExplosionLayout} from './explosion-layout';
 import {decodeModelResponse} from './model-download';
 import {PointerTap} from './pointer-tap';
 import {SYSTEMS,type Atlas,type SceneState} from './anatomy';
-interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;onProgress:(n:number)=>void;onError:(s:string)=>void;onJointDrag?:(side:'left'|'right',joint:'shoulderAbduction'|'elbowFlexion',delta:number)=>void;region?:'whole-body'|'shoulder'|'arm'|'forearm'|'hand';focusSide?:'both'|'left'|'right';motionActive?:boolean}
-export default function AnatomyScene({atlas,state,onSelect,onProgress,onError,onJointDrag,region='whole-body',focusSide='both',motionActive=false}:Props){
- const host=useRef<HTMLDivElement>(null),latest=useRef(state),select=useRef(onSelect),jointDrag=useRef(onJointDrag),viewerContext=useRef({region,focusSide,motionActive});
- latest.current=state;select.current=onSelect;jointDrag.current=onJointDrag;viewerContext.current={region,focusSide,motionActive};
+interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;onSelectNerve?:(name:string)=>void;onProgress:(n:number)=>void;onError:(s:string)=>void;onJointDrag?:(side:'left'|'right',joint:'shoulderAbduction'|'elbowFlexion',delta:number)=>void;region?:'whole-body'|'shoulder'|'arm'|'forearm'|'hand';focusSide?:'both'|'left'|'right';motionActive?:boolean}
+export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgress,onError,onJointDrag,region='whole-body',focusSide='both',motionActive=false}:Props){
+ const host=useRef<HTMLDivElement>(null),latest=useRef(state),select=useRef(onSelect),selectNerve=useRef(onSelectNerve),jointDrag=useRef(onJointDrag),viewerContext=useRef({region,focusSide,motionActive});
+ latest.current=state;select.current=onSelect;selectNerve.current=onSelectNerve;jointDrag.current=onJointDrag;viewerContext.current={region,focusSide,motionActive};
  useEffect(()=>{
   const el=host.current!;let disposed=false,frame=0,dirty=true,ready=false,lastView='',lastReset=-1,lastIsolate='',layoutKey='',amount=0,lastCameraFocus=-1;
   let lastState:SceneState|null=null;
@@ -148,6 +148,13 @@ export default function AnatomyScene({atlas,state,onSelect,onProgress,onError,on
    pickers.forEach((mesh,i)=>{if(!mesh||data[i*4+3]<.5||(hasSolid&&atlas.parts[i].system==='integumentary'))return;worldBox.copy(bounds[i]).applyMatrix4(mesh.matrixWorld);if(!raycaster.ray.intersectBox(worldBox,hitPoint))return;const hits=raycaster.intersectObject(mesh,false);if(hits[0]&&hits[0].distance<nearest){nearest=hits[0].distance;found=i;}});
    return found;
   };
+  const pickNerveAt=(clientX:number,clientY:number)=>{
+   if(!nerveRoot.visible||!selectNerve.current)return null;
+   const rect=renderer.domElement.getBoundingClientRect();pointer.set((clientX-rect.left)/rect.width*2-1,-(clientY-rect.top)/rect.height*2+1);raycaster.setFromCamera(pointer,camera);
+   let nearest=Infinity,found:NerveMesh|null=null;
+   for(const mesh of nerveMeshes){if(!mesh.visible)continue;const hits=raycaster.intersectObject(mesh,false);if(hits[0]&&hits[0].distance<nearest){nearest=hits[0].distance;found=mesh;}}
+   return found?.name??null;
+  };
   type JointGesture={pointerId:number;side:'left'|'right';joint:'shoulderAbduction'|'elbowFlexion';startX:number;startY:number;lastX:number;lastY:number;hitIndex:number;dragging:boolean};
   let jointGesture:JointGesture|null=null;
   const jointForPart=(index:number)=>{
@@ -161,7 +168,8 @@ export default function AnatomyScene({atlas,state,onSelect,onProgress,onError,on
   const down=(e:PointerEvent)=>{
    hover.hidden=true;
    if(e.button===0){
-    const hit=ready?pickAt(e.clientX,e.clientY):-1,jointInfo=jointForPart(hit);
+    const nerveHit=ready?pickNerveAt(e.clientX,e.clientY):null;
+    const hit=ready&&!nerveHit?pickAt(e.clientX,e.clientY):-1,jointInfo=jointForPart(hit);
     if(jointInfo&&jointDrag.current){
      // Treat a press as a possible anatomy tap first. Only convert it into a
      // joint drag after the pointer actually moves. This keeps muscles, bones
@@ -169,7 +177,7 @@ export default function AnatomyScene({atlas,state,onSelect,onProgress,onError,on
      jointGesture={pointerId:e.pointerId,side:jointInfo.side,joint:jointInfo.joint,startX:e.clientX,startY:e.clientY,lastX:e.clientX,lastY:e.clientY,hitIndex:hit,dragging:false};
      controls.enabled=false;renderer.domElement.setPointerCapture?.(e.pointerId);renderer.domElement.style.cursor='grab';e.preventDefault();return;
     }
-    const onAnatomy=hit>=0;controls.mouseButtons.LEFT=onAnatomy?T.MOUSE.ROTATE:T.MOUSE.PAN;if(e.pointerType==='touch')controls.touches.ONE=onAnatomy?T.TOUCH.ROTATE:T.TOUCH.PAN;renderer.domElement.style.cursor=onAnatomy?'grabbing':'move';
+    const onAnatomy=!!nerveHit||hit>=0;controls.mouseButtons.LEFT=onAnatomy?T.MOUSE.ROTATE:T.MOUSE.PAN;if(e.pointerType==='touch')controls.touches.ONE=onAnatomy?T.TOUCH.ROTATE:T.TOUCH.PAN;renderer.domElement.style.cursor=onAnatomy?'grabbing':'move';
    }
    tap.down(e.pointerId,e.clientX,e.clientY,e.pointerType==='touch'?12:5);
   };
@@ -199,6 +207,7 @@ export default function AnatomyScene({atlas,state,onSelect,onProgress,onError,on
     return;
    }
    const validTap=tap.up(e.pointerId,e.clientX,e.clientY);resetPrimaryGesture();if(!validTap||!ready)return;
+   const nerveHit=pickNerveAt(e.clientX,e.clientY);if(nerveHit){hover.hidden=true;selectNerve.current?.(nerveHit);return;}
    let found=pickAt(e.clientX,e.clientY);const rect=renderer.domElement.getBoundingClientRect();if(found<0&&amount>.45)found=findTarget(e.clientX-rect.left,e.clientY-rect.top,e.pointerType==='touch'?24:16);if(found>=0){hover.hidden=true;select.current(atlas.parts[found].id);}
   };
   renderer.domElement.addEventListener('pointerdown',down,true);renderer.domElement.addEventListener('pointermove',move);renderer.domElement.addEventListener('pointerup',up);renderer.domElement.addEventListener('pointercancel',cancel);
