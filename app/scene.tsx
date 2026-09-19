@@ -45,7 +45,7 @@ export default function AnatomyScene({atlas,state,onSelect,onProgress,onError,on
    right:{upper:boneMotionId('right',/^right humerus$/i),forearm:boneMotionId('right',/^right radius$/i),hand:boneMotionId('right',/right .*?(metacarpal|carpal|scaphoid|lunate|capitate|hamate)/i)},
    left:{upper:boneMotionId('left',/^left humerus$/i),forearm:boneMotionId('left',/^left radius$/i),hand:boneMotionId('left',/left .*?(metacarpal|carpal|scaphoid|lunate|capitate|hamate)/i)}
   };
-  const transformMatrix=(t:SceneState['partTransforms'][string]|undefined)=>{const m=new T.Matrix4();if(!t)return m.identity();return m.compose(new T.Vector3(...t.translation),new T.Quaternion(...t.quaternion),new T.Vector3(1,1,1));};
+  const transformMatrix=(t:NonNullable<SceneState['partTransforms']>[string]|undefined)=>{const m=new T.Matrix4();if(!t)return m.identity();return m.compose(new T.Vector3(...t.translation),new T.Quaternion(...t.quaternion),new T.Vector3(1,1,1));};
   const nerveP=new T.Vector3(),nerveA=new T.Vector3(),nerveB=new T.Vector3();
   const updateNerveMotion=(s:SceneState)=>{
    const ctx=viewerContext.current;
