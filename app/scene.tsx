@@ -7,10 +7,10 @@ import {createExplosionLayout} from './explosion-layout';
 import {decodeModelResponse} from './model-download';
 import {PointerTap} from './pointer-tap';
 import {SYSTEMS,type Atlas,type SceneState} from './anatomy';
-interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;onProgress:(n:number)=>void;onError:(s:string)=>void}
-export default function AnatomyScene({atlas,state,onSelect,onProgress,onError}:Props){
- const host=useRef<HTMLDivElement>(null),latest=useRef(state),select=useRef(onSelect);
- latest.current=state;select.current=onSelect;
+interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;onProgress:(n:number)=>void;onError:(s:string)=>void;motionEnabled?:boolean;motionSide?:'left'|'right';onJointDrag?:(joint:'shoulderAbduction'|'elbowFlexion',delta:number)=>void}
+export default function AnatomyScene({atlas,state,onSelect,onProgress,onError,motionEnabled=false,motionSide='right',onJointDrag}:Props){
+ const host=useRef<HTMLDivElement>(null),latest=useRef(state),select=useRef(onSelect),jointDrag=useRef(onJointDrag),motion=useRef({enabled:motionEnabled,side:motionSide});
+ latest.current=state;select.current=onSelect;jointDrag.current=onJointDrag;motion.current={enabled:motionEnabled,side:motionSide};
  useEffect(()=>{
   const el=host.current!;let disposed=false,frame=0,dirty=true,ready=false,lastView='',lastReset=-1,lastIsolate='',layoutKey='',amount=0,lastCameraFocus=-1;
   let lastState:SceneState|null=null;
@@ -94,11 +94,41 @@ export default function AnatomyScene({atlas,state,onSelect,onProgress,onError}:P
    pickers.forEach((mesh,i)=>{if(!mesh||data[i*4+3]<.5||(hasSolid&&atlas.parts[i].system==='integumentary'))return;worldBox.copy(bounds[i]).applyMatrix4(mesh.matrixWorld);if(!raycaster.ray.intersectBox(worldBox,hitPoint))return;const hits=raycaster.intersectObject(mesh,false);if(hits[0]&&hits[0].distance<nearest){nearest=hits[0].distance;found=i;}});
    return found;
   };
-  const down=(e:PointerEvent)=>{hover.hidden=true;if(e.button===0){const onAnatomy=ready&&pickAt(e.clientX,e.clientY)>=0;controls.mouseButtons.LEFT=onAnatomy?T.MOUSE.ROTATE:T.MOUSE.PAN;if(e.pointerType==='touch')controls.touches.ONE=onAnatomy?T.TOUCH.ROTATE:T.TOUCH.PAN;renderer.domElement.style.cursor=onAnatomy?'grabbing':'move';}tap.down(e.pointerId,e.clientX,e.clientY,e.pointerType==='touch'?12:5);};
-  const move=(e:PointerEvent)=>{tap.move(e.pointerId,e.clientX,e.clientY);if(e.buttons||amount<.5||e.pointerType==='touch'){hover.hidden=true;return;}const rect=el.getBoundingClientRect(),x=e.clientX-rect.left,y=e.clientY-rect.top,index=findTarget(x,y,12);hover.hidden=index<0;renderer.domElement.style.cursor=index<0?'move':'grab';if(index>=0){hover.textContent=atlas.parts[index].name;hover.style.left=`${Math.max(8,Math.min(x+14,el.clientWidth-260))}px`;hover.style.top=`${Math.max(8,Math.min(y+18,el.clientHeight-55))}px`;}};
-  const resetPrimaryGesture=()=>{controls.mouseButtons.LEFT=T.MOUSE.PAN;controls.touches.ONE=T.TOUCH.PAN;renderer.domElement.style.cursor='move';};
-  const cancel=(e:PointerEvent)=>{tap.cancel(e.pointerId);resetPrimaryGesture();};
+  type JointGesture={pointerId:number;joint:'shoulderAbduction'|'elbowFlexion';lastX:number;lastY:number};
+  let jointGesture:JointGesture|null=null;
+  const jointForPart=(index:number)=>{
+   if(!motion.current.enabled||index<0)return null;
+   const p=atlas.parts[index],cx=(p.bounds[0][0]+p.bounds[1][0])/2,cy=(p.bounds[0][1]+p.bounds[1][1])/2;
+   const right=motion.current.side==='right';
+   if((right&&cx>=-.04)||(!right&&cx<=.04))return null;
+   if(cy>=1.10&&cy<=1.43)return 'shoulderAbduction' as const;
+   if(cy>=.78&&cy<1.10)return 'elbowFlexion' as const;
+   return null;
+  };
+  const down=(e:PointerEvent)=>{
+   hover.hidden=true;
+   if(e.button===0){
+    const hit=ready?pickAt(e.clientX,e.clientY):-1,joint=jointForPart(hit);
+    if(joint&&jointDrag.current){
+     jointGesture={pointerId:e.pointerId,joint,lastX:e.clientX,lastY:e.clientY};controls.enabled=false;renderer.domElement.setPointerCapture?.(e.pointerId);renderer.domElement.style.cursor=joint==='shoulderAbduction'?'ew-resize':'ns-resize';tap.cancel(e.pointerId);e.preventDefault();return;
+    }
+    const onAnatomy=hit>=0;controls.mouseButtons.LEFT=onAnatomy?T.MOUSE.ROTATE:T.MOUSE.PAN;if(e.pointerType==='touch')controls.touches.ONE=onAnatomy?T.TOUCH.ROTATE:T.TOUCH.PAN;renderer.domElement.style.cursor=onAnatomy?'grabbing':'move';
+   }
+   tap.down(e.pointerId,e.clientX,e.clientY,e.pointerType==='touch'?12:5);
+  };
+  const move=(e:PointerEvent)=>{
+   if(jointGesture&&jointGesture.pointerId===e.pointerId){
+    const dx=e.clientX-jointGesture.lastX,dy=e.clientY-jointGesture.lastY;
+    const delta=jointGesture.joint==='shoulderAbduction'?(motion.current.side==='right'?-dx:dx)*.65:-dy*.65;
+    if(Math.abs(delta)>.05)jointDrag.current?.(jointGesture.joint,delta);
+    jointGesture.lastX=e.clientX;jointGesture.lastY=e.clientY;e.preventDefault();return;
+   }
+   tap.move(e.pointerId,e.clientX,e.clientY);if(e.buttons||amount<.5||e.pointerType==='touch'){hover.hidden=true;return;}const rect=el.getBoundingClientRect(),x=e.clientX-rect.left,y=e.clientY-rect.top,index=findTarget(x,y,12);hover.hidden=index<0;renderer.domElement.style.cursor=index<0?'move':'grab';if(index>=0){hover.textContent=atlas.parts[index].name;hover.style.left=`${Math.max(8,Math.min(x+14,el.clientWidth-260))}px`;hover.style.top=`${Math.max(8,Math.min(y+18,el.clientHeight-55))}px`;}
+  };
+  const resetPrimaryGesture=()=>{controls.enabled=true;controls.mouseButtons.LEFT=T.MOUSE.PAN;controls.touches.ONE=T.TOUCH.PAN;renderer.domElement.style.cursor='move';};
+  const cancel=(e:PointerEvent)=>{if(jointGesture?.pointerId===e.pointerId)jointGesture=null;tap.cancel(e.pointerId);resetPrimaryGesture();};
   const up=(e:PointerEvent)=>{
+   if(jointGesture?.pointerId===e.pointerId){jointGesture=null;renderer.domElement.releasePointerCapture?.(e.pointerId);resetPrimaryGesture();return;}
    const validTap=tap.up(e.pointerId,e.clientX,e.clientY);resetPrimaryGesture();if(!validTap||!ready)return;
    let found=pickAt(e.clientX,e.clientY);const rect=renderer.domElement.getBoundingClientRect();if(found<0&&amount>.45)found=findTarget(e.clientX-rect.left,e.clientY-rect.top,e.pointerType==='touch'?24:16);if(found>=0){hover.hidden=true;select.current(atlas.parts[found].id);}
   };
