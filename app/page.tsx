@@ -13,18 +13,19 @@ import {DEFAULT_VISIBLE,SYSTEMS,EXPLANATIONS,explanation,type Atlas,type Concept
 import {ANATOMY_REGIONS,regionById,type RegionId} from './mj-regions';
 import {resolveDissection} from './mj-dissection';
 import {structureProfile} from './mj-structure-info';
+import {normalizeAtlasSystems} from './mj-system-classifier';
 const initial:SceneState={explode:0,visible:DEFAULT_VISIBLE,selected:[],isolate:false,view:'three-quarter',rotate:false,reset:0};
 export default function Home(){
  const detailTitle=useRef<HTMLHeadingElement>(null);
  const [atlas,setAtlas]=useState<Atlas|null>(null),[state,setState]=useState(initial),[progress,setProgress]=useState(0),[error,setError]=useState(''),[panel,setPanel]=useState<'layers'|'search'|null>(null),[details,setDetails]=useState(false),[about,setAbout]=useState(false),[query,setQuery]=useState(''),[chosen,setChosen]=useState<Concept|null>(null);
  const [region,setRegion]=useState<RegionId>('whole-body'),[dissectionStage,setDissectionStage]=useState(0);
- useEffect(()=>{const abort=new AbortController();setProgress(0);setError('');setAtlas(null);setChosen(null);setDetails(false);setState({...initial,visible:DEFAULT_VISIBLE});fetch(`${import.meta.env.BASE_URL}models/atlas.json`,{signal:abort.signal}).then(r=>{if(!r.ok)throw new Error('The anatomy catalogue could not be loaded.');return r.json();}).then(data=>setAtlas(data as Atlas)).catch(e=>{if(e.name!=='AbortError')setError(e.message);});return()=>abort.abort();},[]);
+ useEffect(()=>{const abort=new AbortController();setProgress(0);setError('');setAtlas(null);setChosen(null);setDetails(false);setState({...initial,visible:DEFAULT_VISIBLE});fetch(`${import.meta.env.BASE_URL}models/atlas.json`,{signal:abort.signal}).then(r=>{if(!r.ok)throw new Error('The anatomy catalogue could not be loaded.');return r.json();}).then(data=>setAtlas(normalizeAtlasSystems(data as Atlas))).catch(e=>{if(e.name!=='AbortError')setError(e.message);});return()=>abort.abort();},[]);
  useEffect(()=>{const key=(e:KeyboardEvent)=>{if(e.key==='/'&&!(e.target instanceof HTMLInputElement)&&!(e.target instanceof HTMLTextAreaElement)){e.preventDefault();setPanel('search');setDetails(false);}};window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key);},[]);
  const parts=useMemo(()=>new Map(atlas?.parts.map(p=>[p.id,p])),[atlas]);
  const counts=useMemo(()=>Object.fromEntries(SYSTEMS.map(s=>[s.id,atlas?.parts.filter(p=>p.system===s.id).length??0])),[atlas]);
  const activeSystems=SYSTEMS.filter(s=>counts[s.id]>0);
  const selectedParts=state.selected.map(id=>parts.get(id)).filter(p=>!!p),selected=selectedParts[0],system=SYSTEMS.find(s=>s.id===selected?.system);
- const visibleCount=atlas?.parts.filter(p=>state.isolate?state.selected.includes(p.id):state.visible.includes(p.system)||state.selected.includes(p.id)).length??0;
+ const visibleCount=atlas?.parts.filter(p=>state.isolate?state.selected.includes(p.id):state.focusParts?(state.focusParts.includes(p.id)&&state.visible.includes(p.system))||state.selected.includes(p.id):state.visible.includes(p.system)||state.selected.includes(p.id)).length??0;
  const results=useMemo(()=>{if(!atlas)return[];const term=query.toLowerCase().trim();if(!term)return ['heart','brain','liver','stomach','spleen','pancreas','urinary bladder','trachea'].map(name=>atlas.concepts.find(c=>c.name.toLowerCase()===name)).filter((x):x is Concept=>!!x);return atlas.concepts.filter(c=>c.name.toLowerCase().includes(term)||c.id.toLowerCase().includes(term)).sort((a,b)=>a.name.length-b.name.length).slice(0,80);},[atlas,query]);
  const choose=(c:Concept)=>{setChosen(c);setState(s=>({...s,selected:c.elements,isolate:false,rotate:false}));setDetails(true);setPanel(null);};
  useEffect(()=>{if(!atlas)return;return registerAtlasTools(atlas,c=>flushSync(()=>choose(c)));},[atlas]);
@@ -34,8 +35,8 @@ export default function Home(){
  const openPanel=(next:'layers'|'search')=>{setDetails(false);setPanel(p=>p===next?null:next);};
  const currentRegion=regionById(region);
  const profile=chosen&&selected?structureProfile(chosen.name,selected.system):null;
- const dissect=(nextStage:number)=>{if(!atlas||region==='whole-body')return;const resolved=resolveDissection(atlas,region,nextStage);setDissectionStage(resolved.stage);setChosen(null);setDetails(false);setPanel(null);setState(s=>({...s,selected:resolved.partIds,isolate:true,explode:0,rotate:false}));};
- const changeRegion=(next:RegionId)=>{setRegion(next);setDissectionStage(0);setChosen(null);setDetails(false);setState(s=>({...s,selected:[],isolate:false,explode:0,rotate:false}));};
+ const dissect=(nextStage:number)=>{if(!atlas||region==='whole-body')return;const resolved=resolveDissection(atlas,region,nextStage);setDissectionStage(resolved.stage);setChosen(null);setDetails(false);setPanel(null);setState(s=>({...s,focusParts:resolved.partIds,selected:[],isolate:false,explode:0,rotate:false}));};
+ const changeRegion=(next:RegionId)=>{setRegion(next);setDissectionStage(0);setChosen(null);setDetails(false);if(!atlas||next==='whole-body'){setState(s=>({...s,focusParts:undefined,selected:[],isolate:false,explode:0,rotate:false,visible:DEFAULT_VISIBLE}));return;}const resolved=resolveDissection(atlas,next,0);setState(s=>({...s,focusParts:resolved.partIds,selected:[],isolate:false,explode:0,rotate:false,visible:DEFAULT_VISIBLE}));};
  return <main className="studio">
   {atlas&&<AnatomyScene atlas={atlas} state={{...state,inspectorOpen:details&&selectedParts.length>0}} onSelect={choosePart} onProgress={n=>{setProgress(n);if(n===100)setError('');}} onError={setError}/>}
   <div className="vignette"/>
