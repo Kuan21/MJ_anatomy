@@ -1,5 +1,6 @@
 import * as T from 'three';
 import type {Atlas,PartTransform} from './anatomy';
+import {evaluateLigaments,type LigamentConstraint} from './mj-constraints';
 
 export type UpperLimbJoint='shoulder-abduction'|'shoulder-flexion'|'shoulder-rotation'|'elbow-flexion'|'forearm-rotation';
 export type Side='left'|'right';
@@ -7,7 +8,7 @@ export interface MotionPose{shoulderAbduction:number;shoulderFlexion:number;shou
 export const NEUTRAL_POSE:MotionPose={shoulderAbduction:0,shoulderFlexion:0,shoulderRotation:0,elbowFlexion:0,forearmRotation:0};
 export interface KinematicPartSet{clavicle:number[];scapula:number[];humerus:number[];ulna:number[];radius:number[];hand:number[]}
 export interface CalibrationReport{side:Side;mapped:{[K in keyof KinematicPartSet]:number};readyForBonePreview:boolean;warnings:string[]}
-export interface MotionBuildResult{transforms:Record<string,PartTransform>;warnings:string[]}
+export interface MotionBuildResult{transforms:Record<string,PartTransform>;warnings:string[];ligamentStates?:ReturnType<typeof evaluateLigaments>}
 export interface ConstraintResult{pose:MotionPose;warnings:string[]}
 
 const norm=(s:string)=>s.trim().toLowerCase();
@@ -100,6 +101,7 @@ export function buildUpperLimbPreview(atlas:Atlas,side:Side,pose:MotionPose):Mot
  const forearmM=about(movedElbow,forearmQ).multiply(elbowM);
  const assign=(indices:number[],m:T.Matrix4)=>indices.forEach(i=>{const id=atlas.parts[i]?.id;if(id)transforms[id]=rigid(m);});
  assign(b.humerus,shoulderM);assign(b.ulna,elbowM);assign([...b.radius,...b.hand],forearmM);
- return{transforms,warnings:constrained.warnings};
+ const ligamentStates=evaluateLigaments([],transforms);
+ return{transforms,warnings:constrained.warnings,ligamentStates};
 }
 export const MOTION_LIMITS={shoulderAbduction:[0,170],shoulderFlexion:[-40,170],shoulderRotation:[-80,90],elbowFlexion:[0,145],forearmRotation:[-80,80]} as const;
