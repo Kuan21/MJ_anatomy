@@ -30,7 +30,7 @@ export default function Home(){
  useEffect(()=>{if(!atlas)return;return registerAtlasTools(atlas,c=>flushSync(()=>choose(c)));},[atlas]);
  const choosePart=(id:string)=>{const p=parts.get(id);if(!p)return;setChosen({id:p.conceptId,name:p.name,elements:[id]});setState(s=>({...s,selected:[id],isolate:false,rotate:false}));setDetails(true);setPanel(null);};
  const toggle=(id:SystemId)=>{setDetails(false);setState(s=>({...s,selected:[],isolate:false,visible:s.visible.includes(id)?s.visible.filter(x=>x!==id):[...s.visible,id]}));};
- const reset=()=>{setState(s=>({...initial,visible:DEFAULT_VISIBLE,reset:s.reset+1}));setChosen(null);setDetails(false);setPanel(null);};
+ const reset=()=>{setMotionPreview(false);setState(s=>({...initial,visible:DEFAULT_VISIBLE,reset:s.reset+1}));setChosen(null);setDetails(false);setPanel(null);};
  const openPanel=(next:'layers'|'search')=>{setDetails(false);setPanel(p=>p===next?null:next);};
  const currentRegion=regionById(region);
  const previewShoulder=()=>{
@@ -49,8 +49,8 @@ export default function Home(){
   setState(s=>({...s,selected:resolved.partIds,isolate:true,explode:0,rotate:false}));
  };
  const changeRegion=(next:RegionId)=>{
-  setRegion(next);setDissectionStage(0);setChosen(null);setDetails(false);
-  setState(s=>({...s,selected:[],isolate:false,explode:0,rotate:false}));
+  setRegion(next);setDissectionStage(0);setMotionPreview(false);setChosen(null);setDetails(false);
+  setState(s=>({...s,selected:[],isolate:false,explode:0,rotate:false,partTransforms:undefined}));
  };
  return <main className="studio">
   {atlas&&<AnatomyScene atlas={atlas} state={{...state,inspectorOpen:details&&selectedParts.length>0}} onSelect={choosePart} onProgress={n=>{setProgress(n);if(n===100)setError('');}} onError={setError}/>}
