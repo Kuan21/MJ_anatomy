@@ -8,6 +8,7 @@ export const NEUTRAL_POSE:MotionPose={shoulderAbduction:0,shoulderFlexion:0,shou
 export interface KinematicPartSet{clavicle:number[];scapula:number[];humerus:number[];ulna:number[];radius:number[];hand:number[]}
 export interface CalibrationReport{side:Side;mapped:{[K in keyof KinematicPartSet]:number};readyForBonePreview:boolean;warnings:string[]}
 export interface MotionBuildResult{transforms:Record<string,PartTransform>;warnings:string[]}
+export interface ConstraintResult{pose:MotionPose;warnings:string[]}
 
 const norm=(s:string)=>s.trim().toLowerCase();
 const skeletal=(atlas:Atlas)=>atlas.parts.map((p,i)=>({p,i})).filter(x=>x.p.system==='skeletal');
@@ -58,21 +59,47 @@ const tuple4=(q:T.Quaternion):[number,number,number,number]=>[q.x,q.y,q.z,q.w];
 const about=(pivot:T.Vector3,q:T.Quaternion)=>new T.Matrix4().makeTranslation(pivot.x,pivot.y,pivot.z).multiply(new T.Matrix4().makeRotationFromQuaternion(q)).multiply(new T.Matrix4().makeTranslation(-pivot.x,-pivot.y,-pivot.z));
 const rigid=(m:T.Matrix4):PartTransform=>{const p=new T.Vector3(),q=new T.Quaternion(),s=new T.Vector3();m.decompose(p,q,s);return{translation:tuple3(p),quaternion:tuple4(q.normalize())};};
 
-/** Bone-only shoulder preview. Soft tissues stay neutral until attachment deformation exists. */
+const clamp=(v:number,[lo,hi]:readonly[number,number])=>T.MathUtils.clamp(v,lo,hi);
+/**
+ * First-pass passive soft-tissue envelope. These are conservative educational
+ * bounds, not a subject-specific tissue simulation. Coupled shoulder limits
+ * tighten external rotation when the arm is elevated, reflecting the fact that
+ * capsuloligamentous restraint changes with position.
+ */
+export function constrainUpperLimbPose(input:MotionPose):ConstraintResult{
+ const warnings:string[]=[];
+ const pose:MotionPose={
+  shoulderAbduction:clamp(input.shoulderAbduction,MOTION_LIMITS.shoulderAbduction),
+  shoulderFlexion:clamp(input.shoulderFlexion,MOTION_LIMITS.shoulderFlexion),
+  shoulderRotation:clamp(input.shoulderRotation,MOTION_LIMITS.shoulderRotation),
+  elbowFlexion:clamp(input.elbowFlexion,MOTION_LIMITS.elbowFlexion),
+  forearmRotation:clamp(input.forearmRotation,MOTION_LIMITS.forearmRotation)
+ };
+ // High abduction recruits different GH capsuloligamentous restraints; keep
+ // this preview inside a guarded envelope until explicit attachment landmarks exist.
+ if(pose.shoulderAbduction>90){
+  const maxER=T.MathUtils.lerp(90,70,(pose.shoulderAbduction-90)/90);
+  if(pose.shoulderRotation>maxER){pose.shoulderRotation=maxER;warnings.push('Shoulder external rotation limited by the guarded capsuloligamentous envelope.');}
+ }
+ return{pose,warnings};
+}
+
+/** Bone-only preview with passive constraint envelope; attachment-level soft tissue follows next. */
 export function buildUpperLimbPreview(atlas:Atlas,side:Side,pose:MotionPose):MotionBuildResult{
  const report=validateUpperLimbMapping(atlas,side);if(!report.readyForBonePreview)return{transforms:{},warnings:report.warnings};
  const b=mapUpperLimbBones(atlas,side),frame=basis(atlas,side,b),transforms:Record<string,PartTransform>={};
- const shoulderQ=qdeg(frame.anterior,pose.shoulderAbduction).multiply(qdeg(frame.lateral,pose.shoulderFlexion)).multiply(qdeg(frame.superior,pose.shoulderRotation)).normalize();
+ const constrained=constrainUpperLimbPose(pose),p=constrained.pose;
+ const shoulderQ=qdeg(frame.anterior,p.shoulderAbduction).multiply(qdeg(frame.lateral,p.shoulderFlexion)).multiply(qdeg(frame.superior,p.shoulderRotation)).normalize();
  const shoulderM=about(frame.shoulder,shoulderQ);
  const movedElbow=frame.elbow.clone().applyMatrix4(shoulderM);
  const movedLateral=frame.lateral.clone().applyQuaternion(shoulderQ).normalize();
- const elbowQ=qdeg(movedLateral,pose.elbowFlexion);
+ const elbowQ=qdeg(movedLateral,p.elbowFlexion);
  const elbowM=about(movedElbow,elbowQ).multiply(shoulderM);
  const forearmAxis=frame.elbow.clone().sub(center(atlas,b.hand)).normalize().applyQuaternion(shoulderQ).applyQuaternion(elbowQ).normalize();
- const forearmQ=qdeg(forearmAxis,pose.forearmRotation);
+ const forearmQ=qdeg(forearmAxis,p.forearmRotation);
  const forearmM=about(movedElbow,forearmQ).multiply(elbowM);
  const assign=(indices:number[],m:T.Matrix4)=>indices.forEach(i=>{const id=atlas.parts[i]?.id;if(id)transforms[id]=rigid(m);});
  assign(b.humerus,shoulderM);assign(b.ulna,elbowM);assign([...b.radius,...b.hand],forearmM);
- return{transforms,warnings:[]};
+ return{transforms,warnings:constrained.warnings};
 }
-export const MOTION_LIMITS={shoulderAbduction:[0,180],shoulderFlexion:[-40,180],shoulderRotation:[-90,90],elbowFlexion:[0,150],forearmRotation:[-80,80]} as const;
+export const MOTION_LIMITS={shoulderAbduction:[0,170],shoulderFlexion:[-40,170],shoulderRotation:[-80,90],elbowFlexion:[0,145],forearmRotation:[-80,80]} as const;
