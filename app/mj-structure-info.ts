@@ -137,7 +137,8 @@ const detailed:Record<string,ProfileBody>={
 
 const muscleZh:Record<string,string>={
  'abductor hallucis':'拇外展肌','abductor pollicis brevis':'拇短外展肌','abductor pollicis longus':'拇長外展肌','adductor brevis':'短收肌','adductor longus':'長收肌','adductor magnus':'大收肌','adductor minimus':'小收肌','anconeus':'肘肌','aryepiglotticus':'杓會厭肌','brachialis':'肱肌','brachioradialis':'肱橈肌','coccygeus':'尾骨肌','coracobrachialis':'喙肱肌','digastric':'二腹肌','diaphragm':'橫膈','external oblique':'腹外斜肌','fibularis brevis':'腓骨短肌','fibularis longus':'腓骨長肌','fibularis tertius':'第三腓骨肌','flexor accessorius':'副屈肌','flexor carpi radialis':'橈側腕屈肌','flexor digitorum brevis':'趾短屈肌','flexor digitorum longus':'趾長屈肌','flexor digitorum profundus':'指深屈肌','flexor digitorum superficialis':'指淺屈肌','flexor hallucis longus':'拇長屈肌','flexor pollicis brevis':'拇短屈肌','flexor pollicis longus':'拇長屈肌','gastrocnemius':'腓腸肌','gemellus inferior':'下孖肌','gemellus superior':'上孖肌','genioglossus':'頦舌肌','geniohyoid':'頦舌骨肌','gluteus maximus':'臀大肌','gluteus medius':'臀中肌','gluteus minimus':'臀小肌','gracilis':'股薄肌','hyoglossus':'舌骨舌肌','iliacus':'髂肌','iliocostalis cervicis':'頸髂肋肌','iliocostalis lumborum':'腰髂肋肌','iliocostalis thoracis':'胸髂肋肌','inferior oblique':'下斜肌','inferior rectus':'下直肌','infraspinatus muscle':'棘下肌','interspinalis thoracis':'胸棘間肌','lateral rectus':'外直肌','latissimus dorsi':'背闊肌','levator palpebrae superioris':'提上瞼肌','levator veli palatini':'提腭帆肌','longissimus capitis':'頭最長肌','longissimus cervicis':'頸最長肌','longissimus thoracis':'胸最長肌','longus capitis':'頭長肌','medial rectus':'內直肌','mylohyoid':'下頜舌骨肌','oblique arytenoid':'斜杓肌','obliquus capitis inferior':'頭下斜肌','obliquus capitis superior':'頭上斜肌','obturator externus':'閉孔外肌','obturator internus':'閉孔內肌','omohyoid':'肩胛舌骨肌','opponens pollicis':'拇對掌肌','palmaris longus':'掌長肌','pectineus':'恥骨肌','pectoralis major':'胸大肌','pectoralis minor':'胸小肌','piriformis':'梨狀肌','plantaris':'蹠肌','platysma':'頸闊肌','popliteus':'膕肌','pronator quadratus':'旋前方肌','pronator teres':'旋前圓肌','psoas major':'腰大肌','pubococcygeus':'恥尾肌','puborectalis':'恥骨直腸肌','quadratus femoris':'股方肌','rectus capitis anterior':'頭前直肌','rectus capitis lateralis':'頭外側直肌','rectus capitis posterior major':'頭後大直肌','rectus capitis posterior minor':'頭後小直肌','rectus femoris':'股直肌','rhomboid major':'大菱形肌','rhomboid minor':'小菱形肌','sartorius':'縫匠肌','scalenus anterior':'前斜角肌','scalenus medius':'中斜角肌','scalenus posterior':'後斜角肌','semimembranosus':'半膜肌','semispinalis capitis':'頭半棘肌','semispinalis cervicis':'頸半棘肌','semispinalis thoracis':'胸半棘肌','semitendinosus':'半腱肌','serratus anterior':'前鋸肌','serratus posterior inferior':'後下鋸肌','serratus posterior superior':'後上鋸肌','soleus':'比目魚肌','spinalis':'棘肌','spinalis thoracis':'胸棘肌','splenius capitis':'頭夾肌','splenius cervicis':'頸夾肌','sternocleidomastoid':'胸鎖乳突肌','sternohyoid':'胸骨舌骨肌','sternothyroid':'胸骨甲狀肌','stylohyoid':'莖突舌骨肌','subclavius':'鎖骨下肌','superior oblique':'上斜肌','superior rectus':'上直肌','supinator':'旋後肌','supraspinatus':'棘上肌','tensor veli palatini':'張腭帆肌','teres major':'大圓肌','teres minor':'小圓肌','thyro-arytenoid':'甲杓肌','thyrohyoid':'甲狀舌骨肌','tibialis anterior':'脛骨前肌','tibialis posterior':'脛骨後肌','transversus thoracis':'胸橫肌','vastus intermedius':'股中間肌','vastus lateralis':'股外側肌','vastus medialis':'股內側肌','vocalis':'聲帶肌',
- 'extensor carpi radialis brevis':'橈側腕短伸肌','extensor carpi radialis longus':'橈側腕長伸肌','extensor carpi ulnaris':'尺側腕伸肌','extensor digiti minimi':'小指伸肌','extensor digitorum':'指伸肌','extensor digitorum longus':'趾長伸肌','extensor hallucis brevis':'拇短伸肌','extensor hallucis longus':'拇長伸肌','extensor indicis':'食指伸肌','extensor pollicis brevis':'拇短伸肌','extensor pollicis longus':'拇長伸肌'
+ 'extensor carpi radialis brevis':'橈側腕短伸肌','extensor carpi radialis longus':'橈側腕長伸肌','extensor carpi ulnaris':'尺側腕伸肌','extensor digiti minimi':'小指伸肌','extensor digitorum':'指伸肌','extensor digitorum longus':'趾長伸肌','extensor hallucis brevis':'拇短伸肌','extensor hallucis longus':'拇長伸肌','extensor indicis':'食指伸肌','extensor pollicis brevis':'拇短伸肌','extensor pollicis longus':'拇長伸肌',
+ 'external anal sphincter':'肛門外括約肌','external intercostal muscle':'肋間外肌','internal intercostal muscle':'肋間內肌','innermost intercostal muscle':'肋間最內肌','flexor digiti minimi brevis of foot':'足小趾短屈肌','opponens digiti minimi of foot':'足小趾對蹠肌','lateral lumbar intertransversarius':'腰外側橫突間肌','medial lumbar intertransversarius':'腰內側橫突間肌','cervical rotator':'頸迴旋肌','thoracic rotator':'胸迴旋肌','lumbar rotator':'腰迴旋肌','iliococcygeus':'髂尾肌','lateral crico-arytenoid':'環杓外側肌','posterior crico-arytenoid':'環杓後肌','cricothyroid':'環甲肌','transverse arytenoid':'杓橫肌','uvular muscle':'懸雍垂肌','longus colli':'頸長肌','superficial perineal muscle':'淺會陰肌','papillary muscle of ventricle':'心室乳頭肌','anterior papillary muscle of ventricle':'心室前乳頭肌','posterior papillary muscle of ventricle':'心室後乳頭肌','septal papillary muscle of ventricle':'心室隔側乳頭肌','lateral papillary muscle of ventricle':'心室外側乳頭肌'
 };
 
 const exactZh:Record<string,string>={
@@ -162,6 +163,7 @@ function directBaseChinese(base:string){
  const n=norm(base);
  if(exactZh[n])return exactZh[n];
  if(muscleZh[n])return muscleZh[n];
+ if(detailed[n]?.chinese)return detailed[n].chinese;
  const lm=landmarkZh.find(([key])=>n===key||n.includes(key));
  return lm?.[1];
 }
@@ -176,6 +178,17 @@ function chineseName(name:string,system:SystemId){
  if(ofHand){const ord:{[k:string]:string}={first:'第一',second:'第二',third:'第三',fourth:'第四'};return side+ord[ofHand[1].toLowerCase()]+'蚓狀肌';}
  const ofFoot=/^(first|second|third|fourth)\s+lumbrical\s+of\s+foot$/i.exec(base);
  if(ofFoot){const ord:{[k:string]:string}={first:'第一',second:'第二',third:'第三',fourth:'第四'};return side+'足'+ord[ofFoot[1].toLowerCase()]+'蚓狀肌';}
+ const plantarInterosseous=/^(first|second|third)\s+plantar\s+interosseous\s+of\s+foot$/i.exec(base);
+ if(plantarInterosseous){const ord:{[k:string]:string}={first:'第一',second:'第二',third:'第三'};return side+'足'+ord[plantarInterosseous[1].toLowerCase()]+'蹠側骨間肌';}
+ const setName=/^set\s+of\s+(.+)$/i.exec(base);
+ if(setName){
+  const setMap:Record<string,string>={
+   'dorsal interossei of hand':'手背側骨間肌群','palmar interossei of hand':'手掌側骨間肌群','lumbricals of hand':'手蚓狀肌群',
+   'anterior cervical intertransversarii':'頸前橫突間肌群','posterior cervical intertransversarii':'頸後橫突間肌群',
+   'interspinales cervicis':'頸棘間肌群','interspinales lumborum':'腰棘間肌群','levatores costarum breves':'短肋提肌群','levatores costarum longi':'長肋提肌群'
+  };
+  const zh=setMap[norm(setName[1])];if(zh)return side+zh;
+ }
 
  const head=/^(long|short|medial|lateral|humeral|ulnar|oblique|transverse)\s+head\s+of\s+(.+)$/i.exec(base);
  if(head){const b=directBaseChinese(head[2]);const h:{[k:string]:string}={long:'長頭',short:'短頭',medial:'內側頭',lateral:'外側頭',humeral:'肱骨頭',ulnar:'尺骨頭',oblique:'斜頭',transverse:'橫頭'};if(b)return side+b+h[head[1].toLowerCase()];}
