@@ -83,11 +83,11 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  const forearmAxis=movedElbow.clone().sub(distalCenter).normalize();
  const forearmQ=qdeg(forearmAxis,p.forearmRotation);
  const forearmM=about(movedElbow,forearmQ).multiply(elbowM);
- const softElbowQ=qdeg(movedLateral,p.elbowFlexion*flexSign*.45);
+ const softElbowQ=qdeg(movedLateral,p.elbowFlexion*flexSign*.72);
  const softElbowM=about(movedElbow,softElbowQ).multiply(shoulderM);
  // A reduced shoulder transform keeps shoulder-girdle soft tissues from
  // tearing away from the thorax while the humerus moves.
- const softShoulderQ=qdeg(abductionAxis,p.shoulderAbduction*.38).multiply(qdeg(lateral,p.shoulderFlexion*shoulderFlexSign*.38)).multiply(qdeg(superior,p.shoulderRotation*.3)).normalize();
+ const softShoulderQ=qdeg(abductionAxis,p.shoulderAbduction*.55).multiply(qdeg(lateral,p.shoulderFlexion*shoulderFlexSign*.55)).multiply(qdeg(superior,p.shoulderRotation*.4)).normalize();
  const softShoulderM=about(shoulder,softShoulderQ);
  const transforms:Record<string,PartTransform>={};
 
@@ -95,8 +95,8 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
   const c=centerOfPart(part);
   return side==='right'?c.x<-.10:c.x>.10;
  };
- const torsoAnchored=(part:Atlas['parts'][number])=>/pectoralis|latissimus dorsi|serratus anterior/.test(norm(part.name));
- const crossesShoulder=(part:Atlas['parts'][number])=>/deltoid|supraspinatus|infraspinatus|subscapularis|teres major|teres minor|coracobrachialis/.test(norm(part.name));
+ const torsoAnchored=(part:Atlas['parts'][number])=>/pectoralis|latissimus dorsi|serratus anterior|trapezius|rhomboid|levator scapulae|subclavius|supraspinatus|infraspinatus|subscapularis|teres major|teres minor/.test(norm(part.name));
+ const crossesShoulder=(part:Atlas['parts'][number])=>/deltoid|coracobrachialis/.test(norm(part.name));
  const crossesElbow=(part:Atlas['parts'][number])=>/biceps brachii|triceps brachii|brachialis|brachioradialis|pronator teres|flexor carpi radialis|flexor carpi ulnaris|palmaris longus|extensor carpi/.test(norm(part.name));
  const isProximalBundle=(part:Atlas['parts'][number])=>{
   const c=centerOfPart(part),n=norm(part.name);
