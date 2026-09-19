@@ -21,9 +21,9 @@ export const NEUTRAL_POSE:MotionPose={
  wristDeviation:0
 };
 export const MOTION_LIMITS={
- shoulderAbduction:[-30,165],
+ shoulderAbduction:[0,155],
  shoulderFlexion:[-45,165],
- shoulderRotation:[-75,85],
+ shoulderRotation:[-45,55],
  elbowFlexion:[-5,135],
  forearmRotation:[-75,75],
  wristFlexion:[-60,60],
@@ -123,8 +123,6 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  // Soft-tissue approximations: structures anchored on the trunk remain fixed.
  // Selected muscles spanning a joint follow only a fraction of the skeletal motion
  // to reduce visual tearing in this rigid-mesh educational model.
- const softElbowQ=qdeg(movedLateral,p.elbowFlexion*flexSign*.72);
- const softElbowM=about(movedElbow,softElbowQ).multiply(shoulderM);
  const softShoulderQ=qdeg(abductionAxis,p.shoulderAbduction*.55)
   .multiply(qdeg(lateral,p.shoulderFlexion*shoulderFlexSign*.55))
   .multiply(qdeg(superior,p.shoulderRotation*shoulderRotationSign*.4)).normalize();
@@ -136,8 +134,9 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
   return side==='right'?c.x<-.10:c.x>.10;
  };
  const torsoAnchored=(part:Atlas['parts'][number])=>/pectoralis|latissimus dorsi|serratus anterior|trapezius|rhomboid|levator scapulae|subclavius|supraspinatus|infraspinatus|subscapularis|teres major|teres minor/.test(norm(part.name));
- const crossesShoulder=(part:Atlas['parts'][number])=>/deltoid|coracobrachialis/.test(norm(part.name));
- const crossesElbow=(part:Atlas['parts'][number])=>/biceps brachii|triceps brachii|brachialis|brachioradialis|pronator teres|flexor carpi radialis|flexor carpi ulnaris|palmaris longus|extensor carpi/.test(norm(part.name));
+ const crossesShoulder=(part:Atlas['parts'][number])=>/deltoid/.test(norm(part.name));
+ const upperArmMuscle=(part:Atlas['parts'][number])=>/biceps brachii|triceps brachii|brachialis|coracobrachialis/.test(norm(part.name));
+ const forearmMuscle=(part:Atlas['parts'][number])=>/brachioradialis|pronator|supinator|flexor|extensor|palmaris/.test(norm(part.name));
  const isProximalBundle=(part:Atlas['parts'][number])=>{
   const c=centerOfPart(part),n=norm(part.name);
   return c.y>1.27&&/(artery|vein|nerve|plexus|ligament|retinaculum|fascia|aponeurosis)/.test(n);
@@ -173,7 +172,8 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  for(const part of atlas.parts){
   if(torsoAnchored(part))continue;
   if(crossesShoulder(part)&&onSide(part)){transforms[part.id]=rigid(softShoulderM);continue;}
-  if(crossesElbow(part)&&onSide(part)){transforms[part.id]=rigid(softElbowM);continue;}
+  if(upperArmMuscle(part)&&onSide(part)){transforms[part.id]=rigid(shoulderM);continue;}
+  if(forearmMuscle(part)&&onSide(part)){transforms[part.id]=rigid(elbowM);continue;}
   if(!isUpperLimb(part))continue;
   if(isHandPart(part)){transforms[part.id]=rigid(wristM);continue;}
   if(isPronating(part)){transforms[part.id]=rigid(forearmM);continue;}
