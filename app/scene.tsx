@@ -148,7 +148,7 @@ export default function AnatomyScene({atlas,state,onSelect,onProgress,onError,on
    pickers.forEach((mesh,i)=>{if(!mesh||data[i*4+3]<.5||(hasSolid&&atlas.parts[i].system==='integumentary'))return;worldBox.copy(bounds[i]).applyMatrix4(mesh.matrixWorld);if(!raycaster.ray.intersectBox(worldBox,hitPoint))return;const hits=raycaster.intersectObject(mesh,false);if(hits[0]&&hits[0].distance<nearest){nearest=hits[0].distance;found=i;}});
    return found;
   };
-  type JointGesture={pointerId:number;side:'left'|'right';joint:'shoulderAbduction'|'elbowFlexion';lastX:number;lastY:number};
+  type JointGesture={pointerId:number;side:'left'|'right';joint:'shoulderAbduction'|'elbowFlexion';startX:number;startY:number;lastX:number;lastY:number;hitIndex:number;dragging:boolean};
   let jointGesture:JointGesture|null=null;
   const jointForPart=(index:number)=>{
    if(index<0)return null;
@@ -163,7 +163,11 @@ export default function AnatomyScene({atlas,state,onSelect,onProgress,onError,on
    if(e.button===0){
     const hit=ready?pickAt(e.clientX,e.clientY):-1,jointInfo=jointForPart(hit);
     if(jointInfo&&jointDrag.current){
-     jointGesture={pointerId:e.pointerId,side:jointInfo.side,joint:jointInfo.joint,lastX:e.clientX,lastY:e.clientY};controls.enabled=false;renderer.domElement.setPointerCapture?.(e.pointerId);renderer.domElement.style.cursor=jointInfo.joint==='shoulderAbduction'?'ew-resize':'ns-resize';tap.cancel(e.pointerId);e.preventDefault();return;
+     // Treat a press as a possible anatomy tap first. Only convert it into a
+     // joint drag after the pointer actually moves. This keeps muscles, bones
+     // and other visible structures selectable while Motion Lab is active.
+     jointGesture={pointerId:e.pointerId,side:jointInfo.side,joint:jointInfo.joint,startX:e.clientX,startY:e.clientY,lastX:e.clientX,lastY:e.clientY,hitIndex:hit,dragging:false};
+     controls.enabled=false;renderer.domElement.setPointerCapture?.(e.pointerId);renderer.domElement.style.cursor='grab';e.preventDefault();return;
     }
     const onAnatomy=hit>=0;controls.mouseButtons.LEFT=onAnatomy?T.MOUSE.ROTATE:T.MOUSE.PAN;if(e.pointerType==='touch')controls.touches.ONE=onAnatomy?T.TOUCH.ROTATE:T.TOUCH.PAN;renderer.domElement.style.cursor=onAnatomy?'grabbing':'move';
    }
@@ -171,6 +175,14 @@ export default function AnatomyScene({atlas,state,onSelect,onProgress,onError,on
   };
   const move=(e:PointerEvent)=>{
    if(jointGesture&&jointGesture.pointerId===e.pointerId){
+    const total=Math.hypot(e.clientX-jointGesture.startX,e.clientY-jointGesture.startY);
+    if(!jointGesture.dragging&&total<7){e.preventDefault();return;}
+    if(!jointGesture.dragging){
+     jointGesture.dragging=true;
+     jointGesture.lastX=e.clientX;jointGesture.lastY=e.clientY;
+     renderer.domElement.style.cursor=jointGesture.joint==='shoulderAbduction'?'ew-resize':'ns-resize';
+     e.preventDefault();return;
+    }
     const dx=e.clientX-jointGesture.lastX,dy=e.clientY-jointGesture.lastY;
     const delta=jointGesture.joint==='shoulderAbduction'?(jointGesture.side==='right'?-dx:dx)*.65:-dy*.65;
     if(Math.abs(delta)>.05)jointDrag.current?.(jointGesture.side,jointGesture.joint,delta);
@@ -181,7 +193,11 @@ export default function AnatomyScene({atlas,state,onSelect,onProgress,onError,on
   const resetPrimaryGesture=()=>{controls.enabled=true;controls.mouseButtons.LEFT=T.MOUSE.PAN;controls.touches.ONE=T.TOUCH.PAN;renderer.domElement.style.cursor='move';};
   const cancel=(e:PointerEvent)=>{if(jointGesture?.pointerId===e.pointerId)jointGesture=null;tap.cancel(e.pointerId);resetPrimaryGesture();};
   const up=(e:PointerEvent)=>{
-   if(jointGesture?.pointerId===e.pointerId){jointGesture=null;renderer.domElement.releasePointerCapture?.(e.pointerId);resetPrimaryGesture();return;}
+   if(jointGesture?.pointerId===e.pointerId){
+    const gesture=jointGesture;jointGesture=null;renderer.domElement.releasePointerCapture?.(e.pointerId);resetPrimaryGesture();
+    if(!gesture.dragging&&gesture.hitIndex>=0&&ready){hover.hidden=true;select.current(atlas.parts[gesture.hitIndex].id);}
+    return;
+   }
    const validTap=tap.up(e.pointerId,e.clientX,e.clientY);resetPrimaryGesture();if(!validTap||!ready)return;
    let found=pickAt(e.clientX,e.clientY);const rect=renderer.domElement.getBoundingClientRect();if(found<0&&amount>.45)found=findTarget(e.clientX-rect.left,e.clientY-rect.top,e.pointerType==='touch'?24:16);if(found>=0){hover.hidden=true;select.current(atlas.parts[found].id);}
   };
