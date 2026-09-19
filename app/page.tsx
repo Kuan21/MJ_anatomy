@@ -14,7 +14,7 @@ import {ANATOMY_REGIONS,regionById,type RegionId} from './mj-regions';
 import {resolveDissection} from './mj-dissection';
 import {structureProfile} from './mj-structure-info';
 import {normalizeAtlasSystems} from './mj-system-classifier';
-import {buildUpperLimbMotion,MOTION_LIMITS,NEUTRAL_POSE,sideRegionIds,type MotionPose,type Side} from './mj-motion';
+import {buildUpperLimbMotion,MOTION_LIMITS,NEUTRAL_POSE,type MotionPose,type Side} from './mj-motion';
 const REGIONAL_VISIBLE:SystemId[]=['skeletal','muscular','arterial','venous','nervous','connective'];
 const initial:SceneState={explode:0,visible:DEFAULT_VISIBLE,selected:[],isolate:false,view:'three-quarter',rotate:false,reset:0};
 export default function Home(){
