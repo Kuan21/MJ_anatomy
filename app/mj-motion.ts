@@ -66,3 +66,23 @@ export const MOTION_LIMITS={
  elbowFlexion:[0,150],
  forearmRotation:[-80,80],
 } as const;
+
+
+export interface CalibrationReport {
+ side:Side;
+ mapped:{[K in keyof KinematicPartSet]:number};
+ readyForBonePreview:boolean;
+ warnings:string[];
+}
+
+/**
+ * Gate visible motion behind catalogue validation. A preview is enabled only
+ * when the major bones needed for a coherent chain are independently mapped.
+ */
+export function validateUpperLimbMapping(atlas:Atlas,side:Side):CalibrationReport{
+ const b=mapUpperLimbBones(atlas,side);
+ const mapped={clavicle:b.clavicle.length,scapula:b.scapula.length,humerus:b.humerus.length,ulna:b.ulna.length,radius:b.radius.length,hand:b.hand.length};
+ const required:(keyof KinematicPartSet)[]=['clavicle','scapula','humerus','ulna','radius'];
+ const missing=required.filter(k=>mapped[k]===0);
+ return {side,mapped,readyForBonePreview:missing.length===0,warnings:missing.map(k=>`No unambiguous ${side} ${k} mapping found; motion remains disabled.`)};
+}
