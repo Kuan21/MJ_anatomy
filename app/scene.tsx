@@ -142,18 +142,24 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   };
   const resize=()=>{layoutKey='';lastState=null;renderer.setPixelRatio(Math.min(devicePixelRatio,el.clientWidth<768||el.clientHeight<600?1.5:2));camera.aspect=el.clientWidth/el.clientHeight;camera.updateProjectionMatrix();renderer.setSize(el.clientWidth,el.clientHeight);fit(latest.current.view,amount);};const observer=new ResizeObserver(resize);observer.observe(el);
   const raycaster=new T.Raycaster(),pointer=new T.Vector2(),tap=new PointerTap(),worldBox=new T.Box3(),hitPoint=new T.Vector3();
-  const pickAt=(clientX:number,clientY:number)=>{
+  const pickPartAt=(clientX:number,clientY:number)=>{
    const rect=renderer.domElement.getBoundingClientRect();pointer.set((clientX-rect.left)/rect.width*2-1,-(clientY-rect.top)/rect.height*2+1);raycaster.setFromCamera(pointer,camera);
    let nearest=Infinity,found=-1;const hasSolid=atlas.parts.some((p,i)=>p.system!=='integumentary'&&data[i*4+3]>.5);
    pickers.forEach((mesh,i)=>{if(!mesh||data[i*4+3]<.5||(hasSolid&&atlas.parts[i].system==='integumentary'))return;worldBox.copy(bounds[i]).applyMatrix4(mesh.matrixWorld);if(!raycaster.ray.intersectBox(worldBox,hitPoint))return;const hits=raycaster.intersectObject(mesh,false);if(hits[0]&&hits[0].distance<nearest){nearest=hits[0].distance;found=i;}});
-   return found;
+   return found>=0?{index:found,distance:nearest}:null;
   };
+  const pickAt=(clientX:number,clientY:number)=>pickPartAt(clientX,clientY)?.index??-1;
   const pickNerveAt=(clientX:number,clientY:number)=>{
    if(!nerveRoot.visible||!selectNerve.current)return null;
    const rect=renderer.domElement.getBoundingClientRect();pointer.set((clientX-rect.left)/rect.width*2-1,-(clientY-rect.top)/rect.height*2+1);raycaster.setFromCamera(pointer,camera);
    let nearest=Infinity,found:NerveMesh|null=null;
    for(const mesh of nerveMeshes){if(!mesh.visible)continue;const hits=raycaster.intersectObject(mesh,false);if(hits[0]&&hits[0].distance<nearest){nearest=hits[0].distance;found=mesh;}}
-   return found?.name??null;
+   return found?{name:found.name,distance:nearest}:null;
+  };
+  const frontHit=(clientX:number,clientY:number)=>{
+   const part=pickPartAt(clientX,clientY),nerve=pickNerveAt(clientX,clientY);
+   if(nerve&&(!part||nerve.distance<=part.distance+.002))return{kind:'nerve' as const,name:nerve.name};
+   return part?{kind:'part' as const,index:part.index}:null;
   };
   type JointGesture={pointerId:number;side:'left'|'right';joint:'shoulderAbduction'|'elbowFlexion';startX:number;startY:number;lastX:number;lastY:number;hitIndex:number;dragging:boolean};
   let jointGesture:JointGesture|null=null;
@@ -168,8 +174,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   const down=(e:PointerEvent)=>{
    hover.hidden=true;
    if(e.button===0){
-    const nerveHit=ready?pickNerveAt(e.clientX,e.clientY):null;
-    const hit=ready&&!nerveHit?pickAt(e.clientX,e.clientY):-1,jointInfo=jointForPart(hit);
+    const front=ready?frontHit(e.clientX,e.clientY):null;
+    const hit=front?.kind==='part'?front.index:-1,jointInfo=jointForPart(hit);
     if(jointInfo&&jointDrag.current){
      // Treat a press as a possible anatomy tap first. Only convert it into a
      // joint drag after the pointer actually moves. This keeps muscles, bones
@@ -177,7 +183,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      jointGesture={pointerId:e.pointerId,side:jointInfo.side,joint:jointInfo.joint,startX:e.clientX,startY:e.clientY,lastX:e.clientX,lastY:e.clientY,hitIndex:hit,dragging:false};
      controls.enabled=false;renderer.domElement.setPointerCapture?.(e.pointerId);renderer.domElement.style.cursor='grab';e.preventDefault();return;
     }
-    const onAnatomy=!!nerveHit||hit>=0;controls.mouseButtons.LEFT=onAnatomy?T.MOUSE.ROTATE:T.MOUSE.PAN;if(e.pointerType==='touch')controls.touches.ONE=onAnatomy?T.TOUCH.ROTATE:T.TOUCH.PAN;renderer.domElement.style.cursor=onAnatomy?'grabbing':'move';
+    const onAnatomy=!!front;controls.mouseButtons.LEFT=onAnatomy?T.MOUSE.ROTATE:T.MOUSE.PAN;if(e.pointerType==='touch')controls.touches.ONE=onAnatomy?T.TOUCH.ROTATE:T.TOUCH.PAN;renderer.domElement.style.cursor=onAnatomy?'grabbing':'move';
    }
    tap.down(e.pointerId,e.clientX,e.clientY,e.pointerType==='touch'?12:5);
   };
@@ -207,8 +213,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     return;
    }
    const validTap=tap.up(e.pointerId,e.clientX,e.clientY);resetPrimaryGesture();if(!validTap||!ready)return;
-   const nerveHit=pickNerveAt(e.clientX,e.clientY);if(nerveHit){hover.hidden=true;selectNerve.current?.(nerveHit);return;}
-   let found=pickAt(e.clientX,e.clientY);const rect=renderer.domElement.getBoundingClientRect();if(found<0&&amount>.45)found=findTarget(e.clientX-rect.left,e.clientY-rect.top,e.pointerType==='touch'?24:16);if(found>=0){hover.hidden=true;select.current(atlas.parts[found].id);}
+   const front=frontHit(e.clientX,e.clientY);if(front?.kind==='nerve'){hover.hidden=true;selectNerve.current?.(front.name);return;}
+   let found=front?.kind==='part'?front.index:-1;const rect=renderer.domElement.getBoundingClientRect();if(found<0&&amount>.45)found=findTarget(e.clientX-rect.left,e.clientY-rect.top,e.pointerType==='touch'?24:16);if(found>=0){hover.hidden=true;select.current(atlas.parts[found].id);}
   };
   renderer.domElement.addEventListener('pointerdown',down,true);renderer.domElement.addEventListener('pointermove',move);renderer.domElement.addEventListener('pointerup',up);renderer.domElement.addEventListener('pointercancel',cancel);
   const clock=new T.Clock();let lastExtent=-1;
