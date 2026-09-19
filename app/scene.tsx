@@ -22,7 +22,8 @@ export default function AnatomyScene({atlas,state,onSelect,onProgress,onError,on
   renderer.setPixelRatio(Math.min(devicePixelRatio,innerWidth<768?1.5:2));renderer.setClearColor('#cbd2d6');renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;el.appendChild(renderer.domElement);
   renderer.domElement.setAttribute('aria-label','Interactive human anatomy. Drag to orbit, pinch or scroll to zoom, and tap a structure to inspect it.');
   const scene=new T.Scene(),camera=new T.PerspectiveCamera(34,1,.005,100),controls=new OrbitControls(camera,renderer.domElement);
-  const nerveRoot=new T.Group();nerveRoot.name='MJ external nervous system';scene.add(nerveRoot);const nerveMeshes:T.Object3D[]=[];
+  type NerveMesh=T.Mesh<T.BufferGeometry,T.MeshStandardMaterial>;
+  const nerveRoot=new T.Group();nerveRoot.name='MJ external nervous system';scene.add(nerveRoot);const nerveMeshes:NerveMesh[]=[];
   const shoulderNerve=/brachial plexus|trunk of brachial plexus|division of .*brachial plexus|cord of brachial plexus|roots of brachial plexus|axillary nerve|suprascapular nerve|long thoracic nerve|thoracodorsal nerve|pectoral nerve|subscapular nerve|dorsal scapular nerve|subclavian nerve/i;
   const armNerve=/musculocutaneous nerve|radial nerve|median nerve|ulnar nerve|brachial cutaneous nerve|antebrachial cutaneous nerve|muscular branches of (radial|axillary|median|ulnar) nerve/i;
   const forearmNerve=/median nerve|ulnar nerve|radial nerve|antebrachial cutaneous nerve|interosseous nerve|superficial branch of radial nerve|deep branch of radial nerve|dorsal branch of ulnar nerve|palmar branch of (median|ulnar) nerve/i;
@@ -38,7 +39,39 @@ export default function AnatomyScene({atlas,state,onSelect,onProgress,onError,on
    if(r==='forearm')return forearmNerve.test(name);
    return handNerve.test(name);
   };
-  const draco=new DRACOLoader();draco.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');const loader=new GLTFLoader();loader.setDRACOLoader(draco);loader.load(`${import.meta.env.BASE_URL}models/nervous.glb`,gltf=>{if(disposed)return;gltf.scene.updateMatrixWorld(true);gltf.scene.traverse(o=>{if(o instanceof T.Mesh){o.material=new T.MeshStandardMaterial({color:0xe2bd4a,metalness:0,roughness:.5,emissive:0x352700,emissiveIntensity:.08,depthTest:true,depthWrite:true,transparent:false,opacity:1});o.renderOrder=2;o.userData.mjNerve=true;nerveMeshes.push(o);}});nerveRoot.add(gltf.scene);dirty=true;},undefined,err=>{if(!disposed)console.warn('Could not load legacy nervous system model',err);});
+  const draco=new DRACOLoader();draco.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');const loader=new GLTFLoader();loader.setDRACOLoader(draco);loader.load(`${import.meta.env.BASE_URL}models/nervous.glb`,gltf=>{if(disposed)return;gltf.scene.updateMatrixWorld(true);gltf.scene.traverse(o=>{if(!(o instanceof T.Mesh))return;const fullName=nerveName(o);if(/nervous system\s*&\s*sense organs/i.test(fullName))return;const geometry=o.geometry.clone();geometry.applyMatrix4(o.matrixWorld);const position=geometry.getAttribute('position');if(!position)return;const material=new T.MeshStandardMaterial({color:0xe2bd4a,metalness:0,roughness:.5,emissive:0x352700,emissiveIntensity:.08,depthTest:true,depthWrite:true,transparent:false,opacity:1});const mesh=new T.Mesh(geometry,material);mesh.name=fullName;mesh.frustumCulled=false;mesh.renderOrder=2;mesh.userData.mjNerve=true;mesh.userData.basePositions=new Float32Array((position.array as ArrayLike<number>));nerveRoot.add(mesh);nerveMeshes.push(mesh);});dirty=true;},undefined,err=>{if(!disposed)console.warn('Could not load legacy nervous system model',err);});
+  const boneMotionId=(side:'left'|'right',pattern:RegExp)=>atlas.parts.find(p=>{if(p.system!=='skeletal'||!pattern.test(p.name.toLowerCase()))return false;const cx=(p.bounds[0][0]+p.bounds[1][0])/2;return side==='right'?cx<-.04:cx>.04;})?.id;
+  const nerveMotionIds={
+   right:{upper:boneMotionId('right',/^right humerus$/i),forearm:boneMotionId('right',/^right radius$/i),hand:boneMotionId('right',/right .*?(metacarpal|carpal|scaphoid|lunate|capitate|hamate)/i)},
+   left:{upper:boneMotionId('left',/^left humerus$/i),forearm:boneMotionId('left',/^left radius$/i),hand:boneMotionId('left',/left .*?(metacarpal|carpal|scaphoid|lunate|capitate|hamate)/i)}
+  };
+  const transformMatrix=(t:SceneState['partTransforms'][string]|undefined)=>{const m=new T.Matrix4();if(!t)return m.identity();return m.compose(new T.Vector3(...t.translation),new T.Quaternion(...t.quaternion),new T.Vector3(1,1,1));};
+  const nerveP=new T.Vector3(),nerveA=new T.Vector3(),nerveB=new T.Vector3();
+  const updateNerveMotion=(s:SceneState)=>{
+   const ctx=viewerContext.current;
+   for(const mesh of nerveMeshes){
+    const attr=mesh.geometry.getAttribute('position') as T.BufferAttribute,base=mesh.userData.basePositions as Float32Array|undefined;if(!base)continue;
+    const name=mesh.name,side=nerveSide(name);
+    const ids=side==='left'?nerveMotionIds.left:side==='right'?nerveMotionIds.right:null;
+    const active=ctx.motionActive&&ids&&upperLimbNerve.test(name)&&s.partTransforms;
+    const upper=active?transformMatrix(ids!.upper?s.partTransforms?.[ids!.upper]:undefined):new T.Matrix4();
+    const fore=active?transformMatrix(ids!.forearm?s.partTransforms?.[ids!.forearm]:undefined):new T.Matrix4();
+    const hand=active?transformMatrix(ids!.hand?s.partTransforms?.[ids!.hand]:undefined):fore;
+    for(let i=0;i<attr.count;i++){
+     nerveP.set(base[i*3],base[i*3+1],base[i*3+2]);
+     if(!active){attr.setXYZ(i,nerveP.x,nerveP.y,nerveP.z);continue;}
+     const y=nerveP.y;
+     if(y>=1.36){attr.setXYZ(i,nerveP.x,nerveP.y,nerveP.z);continue;}
+     if(y>1.28){const t=(1.36-y)/.08;nerveA.copy(nerveP);nerveB.copy(nerveP).applyMatrix4(upper);nerveA.lerp(nerveB,t);attr.setXYZ(i,nerveA.x,nerveA.y,nerveA.z);continue;}
+     if(y>=1.08){nerveA.copy(nerveP).applyMatrix4(upper);attr.setXYZ(i,nerveA.x,nerveA.y,nerveA.z);continue;}
+     if(y>.98){const t=(1.08-y)/.10;nerveA.copy(nerveP).applyMatrix4(upper);nerveB.copy(nerveP).applyMatrix4(fore);nerveA.lerp(nerveB,t);attr.setXYZ(i,nerveA.x,nerveA.y,nerveA.z);continue;}
+     if(y>=.76){nerveA.copy(nerveP).applyMatrix4(fore);attr.setXYZ(i,nerveA.x,nerveA.y,nerveA.z);continue;}
+     if(y>.68){const t=(.76-y)/.08;nerveA.copy(nerveP).applyMatrix4(fore);nerveB.copy(nerveP).applyMatrix4(hand);nerveA.lerp(nerveB,t);attr.setXYZ(i,nerveA.x,nerveA.y,nerveA.z);continue;}
+     nerveA.copy(nerveP).applyMatrix4(hand);attr.setXYZ(i,nerveA.x,nerveA.y,nerveA.z);
+    }
+    attr.needsUpdate=true;
+   }
+  };
   camera.position.set(1.4,1.05,3.6);controls.target.set(0,.85,0);controls.enableDamping=true;controls.dampingFactor=.085;controls.enablePan=true;controls.screenSpacePanning=true;controls.panSpeed=1;controls.zoomSpeed=1;controls.minDistance=.04;controls.maxDistance=40;controls.maxPolarAngle=Math.PI*.96;controls.mouseButtons.LEFT=T.MOUSE.PAN;controls.mouseButtons.RIGHT=T.MOUSE.ROTATE;controls.touches.ONE=T.TOUCH.PAN;controls.touches.TWO=T.TOUCH.DOLLY_ROTATE;let focusTarget:T.Vector3|null=null,focusPosition:T.Vector3|null=null;controls.addEventListener('start',()=>{focusTarget=null;focusPosition=null;});controls.addEventListener('change',()=>{dirty=true;});
   const pmrem=new T.PMREMGenerator(renderer),room=new RoomEnvironment(),env=pmrem.fromScene(room,.04);scene.environment=env.texture;room.dispose();pmrem.dispose();
   scene.add(new T.HemisphereLight(0xffffff,0xa7acb2,1.05));
@@ -156,6 +189,7 @@ export default function AnatomyScene({atlas,state,onSelect,onProgress,onError,on
    if(disposed)return;frame=requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05),s=latest.current;
    if(focusTarget&&focusPosition){const a=1-Math.exp(-8*dt);controls.target.lerp(focusTarget,a);camera.position.lerp(focusPosition,a);dirty=true;if(controls.target.distanceToSquared(focusTarget)<1e-7&&camera.position.distanceToSquared(focusPosition)<1e-7){controls.target.copy(focusTarget);camera.position.copy(focusPosition);focusTarget=null;focusPosition=null;}}
    const changed=lastState?.visible!==s.visible||lastState?.selected!==s.selected||lastState?.focusParts!==s.focusParts||lastState?.isolate!==s.isolate||lastState?.partTransforms!==s.partTransforms;
+   if(changed&&nerveMeshes.length)updateNerveMotion(s);
    if(nerveMeshes.length){
     const nervesOn=s.visible.includes('nervous'),ctx=viewerContext.current;
     nerveRoot.visible=nervesOn;
