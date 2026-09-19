@@ -157,7 +157,7 @@ const systemZh:Record<SystemId,string>={
 };
 
 const norm=(s:string)=>s.toLowerCase().replace(/[_-]+/g,' ').replace(/\s+/g,' ').trim();
-const stripSide=(s:string)=>s.replace(/\b(left|right)\b/gi,'').replace(/\s+/g,' ').trim();
+const stripSide=(s:string)=>s.replace(/\b(left|right)\b/gi,'').replace(/(?:^|\.)[lr](?=\.|$)/gi,' ').replace(/[._]+/g,' ').replace(/\s+/g,' ').trim();
 
 function directBaseChinese(base:string){
  const n=norm(base);
@@ -169,7 +169,7 @@ function directBaseChinese(base:string){
 }
 
 function chineseName(name:string,system:SystemId){
- const side=/\bleft\b/i.test(name)?'左':/\bright\b/i.test(name)?'右':'';
+ const side=/\bleft\b|(?:^|\.)l(?:\.|$)/i.test(name)?'左':/\bright\b|(?:^|\.)r(?:\.|$)/i.test(name)?'右':'';
  let base=stripSide(name).replace(/^the\s+/i,'').trim();
  const direct=directBaseChinese(base);
  if(direct)return side+direct;
@@ -231,6 +231,15 @@ function detailKey(name:string){
  return Object.keys(detailed).sort((a,b)=>b.length-a.length).find(k=>n===k||n.includes(k));
 }
 
+function displayEnglish(name:string,system:SystemId){
+ if(system!=='nervous')return name;
+ const n=norm(stripSide(name));
+ const key=Object.keys(detailed).filter(k=>k.includes('nerve')&&n.includes(k)).sort((a,b)=>b.length-a.length)[0];
+ if(!key)return name.replace(/[._]+/g,' ').replace(/\s+/g,' ').trim();
+ const side=/\bleft\b|(?:^|\.)l(?:\.|$)/i.test(name)?'Left ':/\bright\b|(?:^|\.)r(?:\.|$)/i.test(name)?'Right ':'';
+ return side+key.replace(/\b\w/g,ch=>ch.toUpperCase());
+}
+
 function genericSummary(name:string,system:SystemId,chinese:string|undefined){
  const zhName=chinese??'此構造';
  if(system==='muscular')return{
@@ -261,14 +270,15 @@ function sourceFor(name:string,system:SystemId){
 
 export function structureProfile(name:string,system:SystemId):StructureProfile{
  const key=detailKey(name);
+ const english=displayEnglish(name,system);
  const chinese=chineseName(name,system);
  if(key){
-  const d=detailed[key],summary=genericSummary(name,system,chinese);
-  return {english:name,chinese:chinese||d.chinese,category:d.category,summaryEn:d.summaryEn??summary.en,summaryZh:d.summaryZh??summary.zh,facts:d.facts,source:d.source};
+  const d=detailed[key],summary=genericSummary(english,system,chinese);
+  return {english,chinese:chinese||d.chinese,category:d.category,summaryEn:d.summaryEn??summary.en,summaryZh:d.summaryZh??summary.zh,facts:d.facts,source:d.source};
  }
- const summary=genericSummary(name,system,chinese);
+ const summary=genericSummary(english,system,chinese);
  return {
-  english:name,
+  english,
   chinese,
   category:`${systemZh[system]}｜${system}`,
   summaryEn:summary.en,
