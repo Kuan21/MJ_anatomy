@@ -16,18 +16,20 @@ const matches=(name:string,keywords:string[])=>{
  return keywords.some(keyword=>n.includes(normalize(keyword)));
 };
 
-const REGION_Y_BANDS:Record<Exclude<RegionId,'whole-body'>,[number,number]>={
- shoulder:[1.18,1.62],
- arm:[1.02,1.40],
- forearm:[0.82,1.18],
- hand:[0.70,0.96],
+const REGION_BOXES:Record<Exclude<RegionId,'whole-body'>,{y:[number,number];absX:[number,number]}>={
+ shoulder:{y:[1.18,1.54],absX:[.045,.32]},
+ arm:{y:[1.02,1.41],absX:[.12,.31]},
+ forearm:{y:[.82,1.18],absX:[.16,.33]},
+ hand:{y:[.70,.96],absX:[.19,.36]},
 };
+const shoulderMidlineAnchor=/shoulder|scapul|clavic|acrom|corac|glen|humer|subacrom|subdeltoid|sternoclav|costoclav|interclav/i;
 
 const inRegion=(part:Part,regionId:RegionId)=>{
  if(regionId==='whole-body')return true;
- const [minY,maxY]=REGION_Y_BANDS[regionId];
- const centerY=(part.bounds[0][1]+part.bounds[1][1])/2;
- return centerY>=minY&&centerY<=maxY;
+ const spec=REGION_BOXES[regionId],cx=(part.bounds[0][0]+part.bounds[1][0])/2,cy=(part.bounds[0][1]+part.bounds[1][1])/2,ax=Math.abs(cx);
+ if(cy<spec.y[0]||cy>spec.y[1]||ax>spec.absX[1])return false;
+ if(regionId==='shoulder')return ax>=spec.absX[0]||shoulderMidlineAnchor.test(part.name);
+ return ax>=spec.absX[0];
 };
 
 export function dissectionPartMatches(part:Part,keywords:string[],regionId:RegionId='whole-body'){
