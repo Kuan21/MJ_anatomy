@@ -18,6 +18,7 @@ export interface StructureProfile {
 
 type ProfileBody=Omit<StructureProfile,'english'>;
 const CMU_SOURCE='CMU Upper Limbs lecture; terminology cross-checked with the uploaded Netter Atlas';
+const CMU_BONE_SOURCE='CMU skeletal-system / histology notes and bilingual bone-landmark sheet; terminology cross-checked with the uploaded Netter Atlas';
 const WEB_SOURCE='Standard anatomical terminology; NCBI Bookshelf / StatPearls where a CMU course entry is not available';
 
 const muscle=(chinese:string,originEn:string,originZh:string,insertionEn:string,insertionZh:string,nerveEn:string,nerveZh:string,actionEn:string,actionZh:string):ProfileBody=>({
@@ -240,19 +241,43 @@ function displayEnglish(name:string,system:SystemId){
  return side+key.replace(/\b\w/g,ch=>ch.toUpperCase());
 }
 
+function regionOf(name:string,system:SystemId){
+ const n=norm(name);
+ if(/eye|ocular|rectus|oblique|ciliary|lacrimal|optic|ophthalmic|ethmoid|frontal bone|sphenoid|vomer|maxilla|mandible|zygomatic|nasal bone|palatine|parietal|temporal bone|occipital/.test(n))return {en:'head / orbit',zh:'頭部／眼眶'};
+ if(/sternocleidomastoid|scalen|longus colli|longus capitis|splenius|semispinalis capitis|cervic|hyoid|thyro|crico|aryten|pharyn|palat|stylohyoid|digastric|mylohyoid|geniohyoid|genioglossus|hyoglossus/.test(n))return {en:'head and neck',zh:'頭頸部'};
+ if(/clavicle|scapula|humerus|deltoid|pectoralis|serratus anterior|trapezius|rhomboid|teres|supraspinatus|infraspinatus|subscapularis|biceps brachii|triceps brachii|coracobrachialis|brachialis|axillary nerve/.test(n))return {en:'shoulder / arm',zh:'肩帶／上臂'};
+ if(/radius|ulna|forearm|carpi|digitorum|pollicis|brachioradialis|pronator|supinator|metacarp|carpal|scaphoid|lunate|triquetr|pisiform|trapezium|trapezoid|capitate|hamate|lumbrical.*hand|interosse.*hand|median nerve|ulnar nerve|radial nerve|musculocutaneous nerve/.test(n))return {en:'forearm / hand',zh:'前臂／手部'};
+ if(/rib|intercostal|thorac|sternum|diaphragm|transversus thoracis/.test(n))return {en:'thorax',zh:'胸部'};
+ if(/abdominal|external oblique|psoas|lumbar|rectus abdominis/.test(n))return {en:'abdomen / posterior abdominal wall',zh:'腹部／腹後壁'};
+ if(/pelvi|coccy|perine|pubo|anal sphincter|levator ani/.test(n))return {en:'pelvis / perineum',zh:'骨盆／會陰'};
+ if(/glute|hip bone|femur|adductor|gracilis|sartorius|rectus femoris|vastus|hamstring|biceps femoris|semimembranosus|semitendinosus|obturator|piriformis|gemellus|quadratus femoris|pectineus/.test(n))return {en:'hip / thigh',zh:'髖部／大腿'};
+ if(/tibia|fibula|patella|gastrocnemius|soleus|plantaris|popliteus|tibialis|fibularis|extensor digitorum longus|flexor digitorum longus|hallucis|metatars|tarsal|calcane|talus|cuboid|cuneiform|navicular.*foot|lumbrical.*foot|interosse.*foot/.test(n))return {en:'leg / foot',zh:'小腿／足部'};
+ if(/spinalis|iliocostalis|longissimus|multifidus|rotator|interspinal|intertransvers|levatores costarum/.test(n))return {en:'back / vertebral column',zh:'背部／脊柱'};
+ return system==='nervous'?{en:'nervous system',zh:'神經系統'}:{en:'general anatomy',zh:'全身解剖'};
+}
+
+function genericFacts(name:string,system:SystemId):BilingualFact[]{
+ const region=regionOf(name,system);
+ const facts:BilingualFact[]=[{labelEn:'Region',labelZh:'區域',valueEn:region.en,valueZh:region.zh}];
+ if(system==='muscular')facts.push({labelEn:'Structure type',labelZh:'構造類型',valueEn:'Skeletal muscle',valueZh:'骨骼肌'});
+ if(system==='skeletal')facts.push({labelEn:'Structure type',labelZh:'構造類型',valueEn:'Bone / skeletal structure',valueZh:'骨／骨骼構造'});
+ if(system==='nervous')facts.push({labelEn:'Structure type',labelZh:'構造類型',valueEn:'Neural structure',valueZh:'神經構造'});
+ return facts;
+}
+
 function genericSummary(name:string,system:SystemId,chinese:string|undefined){
- const zhName=chinese??'此構造';
+ const zhName=chinese??'此構造',region=regionOf(name,system);
  if(system==='muscular')return{
-  en:`${name} is a named muscle in the 3D atlas. The course-derived profiles include origin, insertion, innervation and action when available; otherwise this entry keeps the anatomical name and regional context without inventing unsupported details.`,
-  zh:`${zhName}是 3D 圖譜中的具名肌肉。若上課資料有記載，頁面會顯示起點、止點、神經支配與作用；若沒有，則保留標準名稱與區域性簡介，不杜撰細節。`
+  en:`${name} is a named skeletal muscle of the ${region.en} represented in the 3D atlas. Where the CMU lecture or a mapped anatomy reference provides it, origin, insertion, innervation and action are shown below.`,
+  zh:`${zhName}是 3D 圖譜中位於${region.zh}的具名骨骼肌。若中國醫藥大學上課資料或已對照的解剖參考資料有記載，下方會列出起點、止點、神經支配與作用。`
  };
  if(system==='nervous')return{
-  en:`${name} is a named neural structure in the atlas. Peripheral nerve entries describe course and motor/sensory relationships when source material is available.`,
-  zh:`${zhName}是圖譜中的具名神經構造。若來源資料有記載，周邊神經會補充走行以及運動／感覺關係。`
+  en:`${name} is a named neural structure of the ${region.en}. When the course material or mapped reference contains sufficient detail, its roots, course and major motor/sensory relationships are shown below.`,
+  zh:`${zhName}是位於${region.zh}的具名神經構造。若課件或已對照資料有足夠內容，下方會補充神經根、走行及主要運動／感覺關係。`
  };
  if(system==='skeletal')return{
-  en:`${name} is a named skeletal structure in the atlas. Bone profiles emphasize anatomical region, articulations or structural role, and clinically useful landmarks when source material is available.`,
-  zh:`${zhName}是圖譜中的具名骨骼構造。若來源資料有記載，骨骼介紹會著重所在區域、關節／結構角色及重要骨標誌。`
+  en:`${name} is a named skeletal structure of the ${region.en}. Bone entries use the CMU skeletal overview and bilingual landmark list first, with standard references used for details not covered in the course files.`,
+  zh:`${zhName}是位於${region.zh}的具名骨骼構造。骨骼資料優先採用中國醫藥大學骨骼系統內容及你提供的中英骨標誌表，課件未涵蓋的細節再以標準解剖資料補充。`
  };
  return{
   en:`${name} is a named ${system} structure represented in the source anatomy.`,
@@ -264,7 +289,8 @@ function sourceFor(name:string,system:SystemId){
  const n=norm(name);
  const upperLimb=/clavicle|scapula|humerus|radius|ulna|carpal|metacarp|phalan|deltoid|pectoralis|serratus|trapezius|rhomboid|supraspinatus|infraspinatus|subscapularis|teres|biceps brachii|triceps brachii|brachialis|coracobrachialis|pronator|supinator|brachioradialis|carpi|digitorum|pollicis|lumbrical|interosse|axillary nerve|musculocutaneous nerve|median nerve|ulnar nerve|radial nerve|suprascapular nerve|long thoracic nerve|thoracodorsal nerve/.test(n);
  if(upperLimb&&(system==='muscular'||system==='nervous'||system==='skeletal'))return CMU_SOURCE;
- if(system==='muscular'||system==='nervous'||system==='skeletal')return WEB_SOURCE;
+ if(system==='skeletal')return CMU_BONE_SOURCE+'; '+WEB_SOURCE;
+ if(system==='muscular'||system==='nervous')return WEB_SOURCE;
  return 'BodyParts3D naming with general anatomical context';
 }
 
@@ -283,7 +309,7 @@ export function structureProfile(name:string,system:SystemId):StructureProfile{
   category:`${systemZh[system]}｜${system}`,
   summaryEn:summary.en,
   summaryZh:summary.zh,
-  facts:[],
+  facts:genericFacts(english,system),
   source:sourceFor(name,system)
  };
 }
