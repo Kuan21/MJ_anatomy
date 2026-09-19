@@ -20,4 +20,6 @@ for(const side of ['left','right']){
 }
 const contamination=required.flatMap(term=>atlas.parts.filter(p=>lower(p.name).includes(term)&&p.system!=='skeletal').map(p=>p.name));
 console.log(`Non-skeletal substring matches deliberately excluded: ${contamination.length}`);
+// Guard against regressions where fuzzy matching accidentally captures vessels or muscles.
+if(!contamination.length){console.warn('No non-skeletal substring collisions found; catalogue may have changed.');}
 if(failed)process.exitCode=1;
