@@ -1,119 +1,68 @@
 import * as T from 'three';
-import type {Atlas} from './anatomy';
+import type {Atlas,PartTransform} from './anatomy';
 
 export type UpperLimbJoint='shoulder-abduction'|'shoulder-flexion'|'shoulder-rotation'|'elbow-flexion'|'forearm-rotation';
 export type Side='left'|'right';
-
-export interface MotionPose {
- shoulderAbduction:number;
- shoulderFlexion:number;
- shoulderRotation:number;
- elbowFlexion:number;
- forearmRotation:number;
-}
+export interface MotionPose{shoulderAbduction:number;shoulderFlexion:number;shoulderRotation:number;elbowFlexion:number;forearmRotation:number}
 export const NEUTRAL_POSE:MotionPose={shoulderAbduction:0,shoulderFlexion:0,shoulderRotation:0,elbowFlexion:0,forearmRotation:0};
+export interface KinematicPartSet{clavicle:number[];scapula:number[];humerus:number[];ulna:number[];radius:number[];hand:number[]}
+export interface CalibrationReport{side:Side;mapped:{[K in keyof KinematicPartSet]:number};readyForBonePreview:boolean;warnings:string[]}
+export interface MotionBuildResult{transforms:Record<string,PartTransform>;warnings:string[]}
 
-export interface KinematicPartSet {clavicle:number[];scapula:number[];humerus:number[];ulna:number[];radius:number[];hand:number[]}
-export interface JointFrame {pivot:T.Vector3;axis:T.Vector3}
-export interface MotionBuildResult {transforms:Record<string,{pivot:[number,number,number];quaternion:[number,number,number,number]}>;warnings:string[]}
-
-/**
- * Catalogue-driven bone mapper. We only animate parts actually present in
- * BodyParts3D. Side detection uses the source names; ambiguous structures are
- * deliberately excluded instead of guessed.
- */
-export function mapUpperLimbBones(atlas:Atlas,side:Side):KinematicPartSet{
- const names=(needles:string[])=>atlas.parts.map((p,i)=>({p,i})).filter(({p})=>{
-  const n=p.name.toLowerCase();
-  return needles.some(k=>n.includes(k))&&n.includes(side);
- }).map(x=>x.i);
- return {
-  clavicle:names(['clavicle']),
-  scapula:names(['scapula']),
-  humerus:names(['humerus']),
-  ulna:names(['ulna']),
-  radius:names(['radius']),
-  hand:names(['carpal','metacarp','phalan']),
- };
-}
-const center=(atlas:Atlas,indices:number[])=>{
- const box=new T.Box3();
- indices.forEach(i=>{const p=atlas.parts[i];box.union(new T.Box3(new T.Vector3().fromArray(p.bounds[0]),new T.Vector3().fromArray(p.bounds[1])))});
- return box.isEmpty()?new T.Vector3():box.getCenter(new T.Vector3());
+const norm=(s:string)=>s.trim().toLowerCase();
+const skeletal=(atlas:Atlas)=>atlas.parts.map((p,i)=>({p,i})).filter(x=>x.p.system==='skeletal');
+const exact=(atlas:Atlas,name:string)=>skeletal(atlas).filter(x=>norm(x.p.name)===norm(name)).map(x=>x.i);
+const handBone=(name:string,side:Side)=>{
+ const n=norm(name);if(!n.startsWith(side+' '))return false;
+ return /metacarpal bone|phalanx .* (finger|thumb)|scaphoid|lunate|triquetr|pisiform|trapezium|trapezoid|capitate|hamate/.test(n);
 };
-export function estimateJointFrames(atlas:Atlas,b:KinematicPartSet){
- const shoulder=center(atlas,b.humerus),elbow=center(atlas,[...b.ulna,...b.radius]);
- // These are provisional geometric frames, not claimed anatomical landmarks.
- // They are exposed so the next validation pass can replace pivots with
- // landmark-calibrated coordinates before motion is enabled for release.
+
+/** Strict skeletal-only catalogue mapping: no substring matches to vessels/muscles. */
+export function mapUpperLimbBones(atlas:Atlas,side:Side):KinematicPartSet{
+ const cap=side[0].toUpperCase()+side.slice(1);
  return {
-  shoulder:{pivot:shoulder,axis:new T.Vector3(0,0,1)} as JointFrame,
-  elbow:{pivot:elbow,axis:new T.Vector3(0,0,1)} as JointFrame,
-  radioulnar:{pivot:center(atlas,b.radius),axis:new T.Vector3(0,1,0)} as JointFrame,
+  clavicle:exact(atlas,`${cap} clavicle`),scapula:exact(atlas,`${cap} scapula`),
+  humerus:exact(atlas,`${cap} humerus`),ulna:exact(atlas,`${cap} ulna`),radius:exact(atlas,`${cap} radius`),
+  hand:skeletal(atlas).filter(x=>handBone(x.p.name,side)).map(x=>x.i)
  };
 }
-
-/** Scapulohumeral coupling used only after the joint frames are calibrated. */
-export function shoulderComplexContribution(humeralElevationDeg:number){
- const elevation=T.MathUtils.clamp(humeralElevationDeg,0,180);
- // Educational approximation: do not present as a fixed physiological ratio.
- return {glenohumeralDeg:elevation*(2/3),scapularUpwardRotationDeg:elevation*(1/3),clavicularElevationDeg:elevation*(1/6)};
-}
-
-export const MOTION_LIMITS={
- shoulderAbduction:[0,180],
- shoulderFlexion:[-40,180],
- shoulderRotation:[-90,90],
- elbowFlexion:[0,150],
- forearmRotation:[-80,80],
-} as const;
-
-
-export interface CalibrationReport {
- side:Side;
- mapped:{[K in keyof KinematicPartSet]:number};
- readyForBonePreview:boolean;
- warnings:string[];
-}
-
-/**
- * Gate visible motion behind catalogue validation. A preview is enabled only
- * when the major bones needed for a coherent chain are independently mapped.
- */
+const boxFor=(atlas:Atlas,indices:number[])=>{const b=new T.Box3();indices.forEach(i=>{const p=atlas.parts[i];if(p)b.union(new T.Box3(new T.Vector3().fromArray(p.bounds[0]),new T.Vector3().fromArray(p.bounds[1])))});return b;};
+const center=(atlas:Atlas,indices:number[])=>boxFor(atlas,indices).getCenter(new T.Vector3());
+const longEndpoints=(box:T.Box3)=>{
+ const c=box.getCenter(new T.Vector3()),s=box.getSize(new T.Vector3());let axis=0;if(s.y>s.x&&s.y>=s.z)axis=1;else if(s.z>s.x&&s.z>s.y)axis=2;
+ const a=c.clone(),b=c.clone();a.setComponent(axis,box.min.getComponent(axis));b.setComponent(axis,box.max.getComponent(axis));return[a,b] as const;
+};
+const nearer=(a:T.Vector3,b:T.Vector3,to:T.Vector3)=>a.distanceToSquared(to)<b.distanceToSquared(to)?a:b;
+const shoulderPivot=(atlas:Atlas,b:KinematicPartSet)=>{const [a,z]=longEndpoints(boxFor(atlas,b.humerus));return nearer(a,z,center(atlas,b.scapula));};
+const elbowPivot=(atlas:Atlas,b:KinematicPartSet)=>{
+ const hb=longEndpoints(boxFor(atlas,b.humerus)),fb=longEndpoints(boxFor(atlas,[...b.ulna,...b.radius]));
+ let best=new T.Vector3(),d=Infinity;for(const h of hb)for(const f of fb){const q=h.distanceToSquared(f);if(q<d){d=q;best.copy(h).add(f).multiplyScalar(.5);}}return best;
+};
+const basis=(atlas:Atlas,side:Side,b:KinematicPartSet)=>{
+ const shoulder=shoulderPivot(atlas,b),elbow=elbowPivot(atlas,b);
+ const superior=shoulder.clone().sub(elbow).normalize();
+ const other=mapUpperLimbBones(atlas,side==='left'?'right':'left');
+ let lateral=center(atlas,b.humerus).sub(center(atlas,other.humerus)).normalize();
+ if(side==='left')lateral.negate();
+ let anterior=lateral.clone().cross(superior).normalize();if(anterior.lengthSq()<.5)anterior.set(0,0,1);
+ return {shoulder,elbow,superior,lateral,anterior};
+};
 export function validateUpperLimbMapping(atlas:Atlas,side:Side):CalibrationReport{
- const b=mapUpperLimbBones(atlas,side);
- const mapped={clavicle:b.clavicle.length,scapula:b.scapula.length,humerus:b.humerus.length,ulna:b.ulna.length,radius:b.radius.length,hand:b.hand.length};
+ const b=mapUpperLimbBones(atlas,side),mapped={clavicle:b.clavicle.length,scapula:b.scapula.length,humerus:b.humerus.length,ulna:b.ulna.length,radius:b.radius.length,hand:b.hand.length};
  const required:(keyof KinematicPartSet)[]=['clavicle','scapula','humerus','ulna','radius'];
- const missing=required.filter(k=>mapped[k]===0);
- return {side,mapped,readyForBonePreview:missing.length===0,warnings:missing.map(k=>`No unambiguous ${side} ${k} mapping found; motion remains disabled.`)};
+ const ambiguous=required.filter(k=>mapped[k]!==1),warnings=ambiguous.map(k=>`Expected exactly one skeletal ${side} ${k}; found ${mapped[k]}.`);
+ return {side,mapped,readyForBonePreview:ambiguous.length===0,warnings};
 }
-
-
+const qdeg=(axis:T.Vector3,d:number)=>new T.Quaternion().setFromAxisAngle(axis,T.MathUtils.degToRad(d));
 const tuple3=(v:T.Vector3):[number,number,number]=>[v.x,v.y,v.z];
 const tuple4=(q:T.Quaternion):[number,number,number,number]=>[q.x,q.y,q.z,q.w];
-const qdeg=(axis:T.Vector3,degrees:number)=>new T.Quaternion().setFromAxisAngle(axis.clone().normalize(),T.MathUtils.degToRad(degrees));
 
-/**
- * Bone-only preview builder. This deliberately keeps muscles, nerves and
- * vessels static until attachment/path deformation is implemented.
- * Motion is disabled if the catalogue cannot resolve a coherent limb chain.
- */
+/** Bone-only shoulder preview. Soft tissues stay neutral until attachment deformation exists. */
 export function buildUpperLimbPreview(atlas:Atlas,side:Side,pose:MotionPose):MotionBuildResult{
- const report=validateUpperLimbMapping(atlas,side);
- if(!report.readyForBonePreview)return {transforms:{},warnings:report.warnings};
- const b=mapUpperLimbBones(atlas,side),frames=estimateJointFrames(atlas,b),transforms:MotionBuildResult['transforms']={};
- const assign=(indices:number[],pivot:T.Vector3,q:T.Quaternion)=>indices.forEach(i=>{const id=atlas.parts[i]?.id;if(id)transforms[id]={pivot:tuple3(pivot),quaternion:tuple4(q)};});
- const shoulderCoupling=shoulderComplexContribution(Math.max(Math.abs(pose.shoulderAbduction),Math.max(0,pose.shoulderFlexion)));
- const qAbd=qdeg(new T.Vector3(0,0,side==='left'?-1:1),pose.shoulderAbduction*(2/3));
- const qFlex=qdeg(new T.Vector3(1,0,0),pose.shoulderFlexion*(2/3));
- const qRot=qdeg(new T.Vector3(0,1,0),pose.shoulderRotation);
- const qShoulder=qAbd.multiply(qFlex).multiply(qRot);
- assign([...b.humerus,...b.ulna,...b.radius,...b.hand],frames.shoulder.pivot,qShoulder);
- const qScap=qdeg(new T.Vector3(0,0,side==='left'?-1:1),shoulderCoupling.scapularUpwardRotationDeg);
- assign(b.scapula,center(atlas,b.scapula),qScap);
- const qClav=qdeg(new T.Vector3(0,0,side==='left'?-1:1),shoulderCoupling.clavicularElevationDeg);
- assign(b.clavicle,center(atlas,b.clavicle),qClav);
- // Elbow and radioulnar transforms will be composed in segment space after
- // landmark calibration; overwriting shoulder transforms here would be wrong.
- return {transforms,warnings:['Bone-only shoulder preview: joint centres/axes remain provisional until landmark calibration.']};
+ const report=validateUpperLimbMapping(atlas,side);if(!report.readyForBonePreview)return{transforms:{},warnings:report.warnings};
+ const b=mapUpperLimbBones(atlas,side),frame=basis(atlas,side,b),transforms:Record<string,PartTransform>={};
+ const q=qdeg(frame.anterior,pose.shoulderAbduction).multiply(qdeg(frame.lateral,pose.shoulderFlexion)).multiply(qdeg(frame.superior,pose.shoulderRotation)).normalize();
+ [...b.humerus,...b.ulna,...b.radius,...b.hand].forEach(i=>{const id=atlas.parts[i]?.id;if(id)transforms[id]={pivot:tuple3(frame.shoulder),quaternion:tuple4(q)};});
+ return{transforms,warnings:[]};
 }
+export const MOTION_LIMITS={shoulderAbduction:[0,180],shoulderFlexion:[-40,180],shoulderRotation:[-90,90],elbowFlexion:[0,150],forearmRotation:[-80,80]} as const;
