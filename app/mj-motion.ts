@@ -13,7 +13,7 @@ const norm=(s:string)=>s.trim().toLowerCase();
 const skeletal=(atlas:Atlas)=>atlas.parts.map((p,i)=>({p,i})).filter(x=>x.p.system==='skeletal');
 const exact=(atlas:Atlas,name:string)=>skeletal(atlas).filter(x=>norm(x.p.name)===norm(name)).map(x=>x.i);
 const handBone=(name:string,side:Side)=>{
- const n=norm(name);if(!n.startsWith(side+' '))return false;
+ const n=norm(name);if(!n.includes(side))return false;
  return /metacarpal bone|phalanx .* (finger|thumb)|scaphoid|lunate|triquetr|pisiform|trapezium|trapezoid|capitate|hamate/.test(n);
 };
 
