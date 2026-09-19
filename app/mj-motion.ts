@@ -1,6 +1,6 @@
 import * as T from 'three';
 import type {Atlas,PartTransform} from './anatomy';
-import {evaluateLigaments,type LigamentConstraint} from './mj-constraints';
+import {evaluateLigaments} from './mj-constraints';
 
 export type UpperLimbJoint='shoulder-abduction'|'shoulder-flexion'|'shoulder-rotation'|'elbow-flexion'|'forearm-rotation';
 export type Side='left'|'right';
