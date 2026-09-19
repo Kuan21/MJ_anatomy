@@ -142,7 +142,7 @@ const muscleZh:Record<string,string>={
 };
 
 const exactZh:Record<string,string>={
- 'clavicle':'鎖骨','scapula':'肩胛骨','humerus':'肱骨','radius':'橈骨','ulna':'尺骨','femur':'股骨','tibia':'脛骨','fibula':'腓骨','patella':'髕骨','hyoid bone':'舌骨','hip bone':'髖骨','sternum':'胸骨','body of sternum':'胸骨體','xiphoid process':'劍突','atlas':'寰椎','axis':'樞椎','sacrum':'薦骨','coccyx':'尾骨',
+ 'clavicle':'鎖骨','scapula':'肩胛骨','humerus':'肱骨','radius':'橈骨','ulna':'尺骨','femur':'股骨','tibia':'脛骨','fibula':'腓骨','patella':'髕骨','hyoid bone':'舌骨','hip bone':'髖骨','sternum':'胸骨','body of sternum':'胸骨體','manubrium':'胸骨柄','xiphoid process':'劍突','atlas':'寰椎','axis':'樞椎','sacrum':'薦骨','coccyx':'尾骨','ethmoid':'篩骨','frontal bone':'額骨','occipital bone':'枕骨','sphenoid bone':'蝶骨','vomer':'犁骨','mandible':'下頜骨','maxilla':'上頜骨','nasal bone':'鼻骨','palatine bone':'顎骨','parietal bone':'頂骨','temporal bone':'顳骨','zygomatic bone':'顴骨','calcaneus':'跟骨','talus':'距骨','cuboid bone':'骰骨','navicular bone of foot':'足舟骨','medial cuneiform bone':'內側楔骨','intermediate cuneiform bone':'中間楔骨','lateral cuneiform bone':'外側楔骨','sesamoid bone of foot':'足籽骨','triquetral':'三角骨','gingiva of upper jaw':'上顎牙齦','gingiva of lower jaw':'下顎牙齦',
  'scaphoid':'舟狀骨','lunate':'月狀骨','triquetrum':'三角骨','pisiform':'豆狀骨','trapezium':'大菱形骨','trapezoid':'小菱形骨','capitate':'頭狀骨','hamate':'鉤骨',
  'axillary nerve':'腋神經','musculocutaneous nerve':'肌皮神經','median nerve':'正中神經','ulnar nerve':'尺神經','radial nerve':'橈神經','suprascapular nerve':'肩胛上神經','dorsal scapular nerve':'肩胛背神經','long thoracic nerve':'胸長神經','thoracodorsal nerve':'胸背神經','lateral pectoral nerve':'外側胸神經','medial pectoral nerve':'內側胸神經','upper subscapular nerve':'上肩胛下神經','lower subscapular nerve':'下肩胛下神經','anterior interosseous nerve':'前骨間神經','posterior interosseous nerve':'後骨間神經','lateral antebrachial cutaneous nerve':'外側前臂皮神經','medial antebrachial cutaneous nerve':'內側前臂皮神經','medial brachial cutaneous nerve':'內側上臂皮神經',
  'optic nerve':'視神經','oculomotor nerve':'動眼神經','trochlear nerve':'滑車神經','ophthalmic nerve':'眼神經','frontal nerve':'額神經','lacrimal nerve':'淚腺神經','nasociliary nerve':'鼻睫神經','supra-orbital nerve':'眶上神經','supratrochlear nerve':'滑車上神經','infratrochlear nerve':'滑車下神經','anterior ethmoidal nerve':'前篩神經','posterior ethmoidal nerve':'後篩神經','long ciliary nerve':'長睫狀神經','short ciliary nerve':'短睫狀神經','ciliary ganglion':'睫狀神經節'
@@ -203,6 +203,14 @@ function chineseName(name:string,system:SystemId){
  if(metacarpal){const ord:{[k:string]:string}={first:'第一',second:'第二',third:'第三',fourth:'第四',fifth:'第五'};return side+ord[metacarpal[1].toLowerCase()]+'掌骨';}
  const metatarsal=/^(first|second|third|fourth|fifth)\s+metatarsal(?:\s+bone)?$/i.exec(base);
  if(metatarsal){const ord:{[k:string]:string}={first:'第一',second:'第二',third:'第三',fourth:'第四',fifth:'第五'};return side+ord[metatarsal[1].toLowerCase()]+'蹠骨';}
+ const rib=/^(first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth)\s+rib$/i.exec(base);
+ if(rib){const ord:{[k:string]:string}={first:'第一',second:'第二',third:'第三',fourth:'第四',fifth:'第五',sixth:'第六',seventh:'第七',eighth:'第八',ninth:'第九',tenth:'第十',eleventh:'第十一',twelfth:'第十二'};return side+ord[rib[1].toLowerCase()]+'肋骨';}
+ const tooth=/^(upper|lower)\s+(first|second)\s+secondary\s+(molar|premolar)\s+tooth$/i.exec(base);
+ if(tooth){const jaw=tooth[1].toLowerCase()==='upper'?'上顎':'下顎',ord=tooth[2].toLowerCase()==='first'?'第一':'第二',kind=tooth[3].toLowerCase()==='molar'?'大臼齒':'小臼齒';return side+jaw+ord+'恆'+kind;}
+ const incisor=/^(upper|lower)\s+(central|lateral)\s+secondary\s+incisor\s+tooth$/i.exec(base);
+ if(incisor){const jaw=incisor[1].toLowerCase()==='upper'?'上顎':'下顎',pos=incisor[2].toLowerCase()==='central'?'中切齒':'側切齒';return side+jaw+'恆'+pos;}
+ const canine=/^(upper|lower)\s+secondary\s+canine\s+tooth$/i.exec(base);
+ if(canine){const jaw=canine[1].toLowerCase()==='upper'?'上顎':'下顎';return side+jaw+'恆犬齒';}
 
  if(/\bnerve\b/i.test(base)){
   let x=norm(base);
