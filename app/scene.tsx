@@ -2,6 +2,7 @@ import {useEffect,useRef} from 'react';
 import * as T from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import {RoomEnvironment} from 'three/examples/jsm/environments/RoomEnvironment.js';
+import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 import {mergeGeometries} from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import {createExplosionLayout} from './explosion-layout';
 import {decodeModelResponse} from './model-download';
@@ -20,6 +21,10 @@ export default function AnatomyScene({atlas,state,onSelect,onProgress,onError,on
   renderer.setPixelRatio(Math.min(devicePixelRatio,innerWidth<768?1.5:2));renderer.setClearColor('#cbd2d6');renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;el.appendChild(renderer.domElement);
   renderer.domElement.setAttribute('aria-label','Interactive human anatomy. Drag to orbit, pinch or scroll to zoom, and tap a structure to inspect it.');
   const scene=new T.Scene(),camera=new T.PerspectiveCamera(34,1,.005,100),controls=new OrbitControls(camera,renderer.domElement);
+  const nerveRoot=new T.Group();nerveRoot.name='MJ external nervous system';scene.add(nerveRoot);const nerveMeshes:T.Object3D[]=[];
+  const upperLimbNerve=/brachial plexus|axillary nerve|musculocutaneous nerve|median nerve|ulnar nerve|radial nerve|suprascapular nerve|long thoracic nerve|thoracodorsal nerve|pectoral nerve|subscapular nerve|dorsal scapular nerve|cutaneous nerve of (arm|forearm)|intercostobrachial nerve|palmar digital|dorsal digital/i;
+  const nerveSide=(name:string)=>/\.r(?:\.|$)/i.test(name)?'right':/\.l(?:\.|$)/i.test(name)?'left':'both';
+  const loader=new GLTFLoader();loader.load(`${import.meta.env.BASE_URL}models/nervous.glb`,gltf=>{if(disposed)return;gltf.scene.traverse(o=>{if(o instanceof T.Mesh){o.material=new T.MeshStandardMaterial({color:0xe6c35c,metalness:0,roughness:.5,emissive:0x2a2108,emissiveIntensity:.08});o.renderOrder=3;nerveMeshes.push(o);}});nerveRoot.add(gltf.scene);dirty=true;},undefined,()=>{});
   camera.position.set(1.4,1.05,3.6);controls.target.set(0,.85,0);controls.enableDamping=true;controls.dampingFactor=.085;controls.enablePan=true;controls.screenSpacePanning=true;controls.panSpeed=1;controls.zoomSpeed=1;controls.minDistance=.04;controls.maxDistance=40;controls.maxPolarAngle=Math.PI*.96;controls.mouseButtons.LEFT=T.MOUSE.PAN;controls.mouseButtons.RIGHT=T.MOUSE.ROTATE;controls.touches.ONE=T.TOUCH.PAN;controls.touches.TWO=T.TOUCH.DOLLY_ROTATE;let focusTarget:T.Vector3|null=null,focusPosition:T.Vector3|null=null;controls.addEventListener('start',()=>{focusTarget=null;focusPosition=null;});controls.addEventListener('change',()=>{dirty=true;});
   const pmrem=new T.PMREMGenerator(renderer),room=new RoomEnvironment(),env=pmrem.fromScene(room,.04);scene.environment=env.texture;room.dispose();pmrem.dispose();
   scene.add(new T.HemisphereLight(0xffffff,0xa7acb2,1.05));
@@ -137,6 +142,14 @@ export default function AnatomyScene({atlas,state,onSelect,onProgress,onError,on
    if(disposed)return;frame=requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05),s=latest.current;
    if(focusTarget&&focusPosition){const a=1-Math.exp(-8*dt);controls.target.lerp(focusTarget,a);camera.position.lerp(focusPosition,a);dirty=true;if(controls.target.distanceToSquared(focusTarget)<1e-7&&camera.position.distanceToSquared(focusPosition)<1e-7){controls.target.copy(focusTarget);camera.position.copy(focusPosition);focusTarget=null;focusPosition=null;}}
    const changed=lastState?.visible!==s.visible||lastState?.selected!==s.selected||lastState?.focusParts!==s.focusParts||lastState?.isolate!==s.isolate||lastState?.partTransforms!==s.partTransforms;
+   if(nerveMeshes.length){
+    const nervesOn=s.visible.includes('nervous');
+    let focusSide:'left'|'right'|'both'='both';
+    if(s.focusParts?.length){let sum=0,count=0;for(const id of s.focusParts){const p=atlas.parts.find(x=>x.id===id);if(!p)continue;sum+=(p.bounds[0][0]+p.bounds[1][0])/2;count++;}if(count){const avg=sum/count;if(avg<-.03)focusSide='right';else if(avg>.03)focusSide='left';}}
+    const regional=!!s.focusParts?.length;
+    nerveRoot.visible=nervesOn;
+    nerveMeshes.forEach(o=>{if(!nervesOn){o.visible=false;return;}if(!regional){o.visible=true;return;}const name=o.name||o.parent?.name||'';const side=nerveSide(name);o.visible=upperLimbNerve.test(name)&&(focusSide==='both'||side==='both'||side===focusSide);});
+   }
    const moving=Math.abs(amount-s.explode)>.0001;
    if(moving){amount=T.MathUtils.damp(amount,s.explode,8,dt);dirty=true;}
    if(changed||moving||lastExtent<0){
