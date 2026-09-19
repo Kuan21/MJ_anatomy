@@ -8,9 +8,27 @@ export interface MotionPose{
  shoulderRotation:number;
  elbowFlexion:number;
  forearmRotation:number;
+ wristFlexion:number;
+ wristDeviation:number;
 }
-export const NEUTRAL_POSE:MotionPose={shoulderAbduction:0,shoulderFlexion:0,shoulderRotation:0,elbowFlexion:0,forearmRotation:0};
-export const MOTION_LIMITS={shoulderAbduction:[0,165],shoulderFlexion:[-35,165],shoulderRotation:[-75,85],elbowFlexion:[-5,135],forearmRotation:[-75,75]} as const;
+export const NEUTRAL_POSE:MotionPose={
+ shoulderAbduction:0,
+ shoulderFlexion:0,
+ shoulderRotation:0,
+ elbowFlexion:0,
+ forearmRotation:0,
+ wristFlexion:0,
+ wristDeviation:0
+};
+export const MOTION_LIMITS={
+ shoulderAbduction:[-30,165],
+ shoulderFlexion:[-45,165],
+ shoulderRotation:[-75,85],
+ elbowFlexion:[-5,135],
+ forearmRotation:[-75,75],
+ wristFlexion:[-60,60],
+ wristDeviation:[-20,30]
+} as const;
 
 const norm=(s:string)=>s.trim().toLowerCase();
 const centerOfPart=(p:Atlas['parts'][number])=>new T.Vector3().fromArray(p.bounds[0]).add(new T.Vector3().fromArray(p.bounds[1])).multiplyScalar(.5);
@@ -37,15 +55,9 @@ export function constrainPose(input:MotionPose):MotionPose{
   shoulderRotation:clamp(input.shoulderRotation,MOTION_LIMITS.shoulderRotation),
   elbowFlexion:clamp(input.elbowFlexion,MOTION_LIMITS.elbowFlexion),
   forearmRotation:clamp(input.forearmRotation,MOTION_LIMITS.forearmRotation),
+  wristFlexion:clamp(input.wristFlexion,MOTION_LIMITS.wristFlexion),
+  wristDeviation:clamp(input.wristDeviation,MOTION_LIMITS.wristDeviation),
  };
-}
-
-export function sideRegionIds(atlas:Atlas,side:Side,minY=.68,maxY=1.50){
- return atlas.parts.filter(p=>{
-  const c=centerOfPart(p);
-  const correctSide=side==='right'?c.x<-.055:c.x>.055;
-  return correctSide&&c.y>=minY&&c.y<=maxY;
- }).map(p=>p.id);
 }
 
 export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
@@ -56,41 +68,69 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
   warnings.push(`Upper-limb bone mapping incomplete for ${side} side.`);
   return{transforms:{} as Record<string,PartTransform>,warnings};
  }
+
+ const handBone=/metacarpal|phalanx|carpal|scaphoid|lunate|triquetr|pisiform|trapezium|trapezoid|capitate|hamate/;
+ const handIndices=atlas.parts.map((p,i)=>({p,i})).filter(({p})=>{
+  if(p.system!=='skeletal')return false;
+  const c=centerOfPart(p),correctSide=side==='right'?c.x<-.04:c.x>.04;
+  return correctSide&&handBone.test(norm(p.name));
+ }).map(x=>x.i);
+
  const shoulderCandidates=longEndpoints(boxFor(atlas,humerus));
  const shoulder=nearer(shoulderCandidates[0],shoulderCandidates[1],boxCenter(atlas,scapula));
  const forearmBox=boxFor(atlas,[...radius,...ulna]),forearmEnds=longEndpoints(forearmBox),humerusEnds=longEndpoints(boxFor(atlas,humerus));
+ const neutralHandCenter=handIndices.length?boxCenter(atlas,handIndices):forearmBox.getCenter(new T.Vector3()).add(new T.Vector3(0,-.22,0));
+ const neutralWrist=nearer(forearmEnds[0],forearmEnds[1],neutralHandCenter);
+
  let elbow=new T.Vector3(),best=Infinity;
  for(const h of humerusEnds)for(const f of forearmEnds){const d=h.distanceToSquared(f);if(d<best){best=d;elbow.copy(h).add(f).multiplyScalar(.5);}}
+
  const superior=shoulder.clone().sub(elbow).normalize();
  const lateral=new T.Vector3(side==='right'?-1:1,0,0);
  const abductionAxis=lateral.clone().cross(superior).normalize();if(abductionAxis.lengthSq()<.5)abductionAxis.set(0,0,side==='right'?-1:1);
- const worldAnterior=new T.Vector3(0,0,1),shoulderFlexSign=side==='right'?1:-1;
+ const worldAnterior=new T.Vector3(0,0,1),shoulderFlexSign=side==='right'?1:-1,shoulderRotationSign=side==='right'?-1:1;
  const p=constrainPose(input);
- const shoulderQ=qdeg(abductionAxis,p.shoulderAbduction).multiply(qdeg(lateral,p.shoulderFlexion*shoulderFlexSign)).multiply(qdeg(superior,p.shoulderRotation)).normalize();
+
+ const shoulderQ=qdeg(abductionAxis,p.shoulderAbduction)
+  .multiply(qdeg(lateral,p.shoulderFlexion*shoulderFlexSign))
+  .multiply(qdeg(superior,p.shoulderRotation*shoulderRotationSign)).normalize();
  const shoulderM=about(shoulder,shoulderQ);
  const movedElbow=elbow.clone().applyMatrix4(shoulderM);
  const movedLateral=lateral.clone().applyQuaternion(shoulderQ).normalize();
  const movedAnterior=worldAnterior.clone().applyQuaternion(shoulderQ).normalize();
  const neutralForearmCenter=forearmBox.getCenter(new T.Vector3()).applyMatrix4(shoulderM);
- // Choose the elbow flexion sign anatomically: positive flexion must move the
- // distal forearm anteriorly, never into hyperextension behind the arm.
+
+ // Positive elbow flexion must move the forearm anteriorly. Negative values
+ // allow only a small physiological hyperextension.
  const testQ=qdeg(movedLateral,5);
  const testPoint=neutralForearmCenter.clone().sub(movedElbow).applyQuaternion(testQ).add(movedElbow);
  const flexSign=testPoint.clone().sub(neutralForearmCenter).dot(movedAnterior)>=0?1:-1;
  const elbowQ=qdeg(movedLateral,p.elbowFlexion*flexSign);
  const elbowM=about(movedElbow,elbowQ).multiply(shoulderM);
+
  const distalCenter=forearmBox.getCenter(new T.Vector3()).applyMatrix4(elbowM);
  const forearmAxis=movedElbow.clone().sub(distalCenter).normalize();
  const forearmQ=qdeg(forearmAxis,p.forearmRotation);
  const forearmM=about(movedElbow,forearmQ).multiply(elbowM);
+
+ const movedWrist=neutralWrist.clone().applyMatrix4(forearmM);
+ const wristFlexAxis=movedLateral.clone().applyQuaternion(forearmQ).normalize();
+ const wristDeviationAxis=forearmAxis.clone().cross(wristFlexAxis).normalize();
+ const wristQ=qdeg(wristFlexAxis,p.wristFlexion)
+  .multiply(qdeg(wristDeviationAxis,p.wristDeviation)).normalize();
+ const wristM=about(movedWrist,wristQ).multiply(forearmM);
+
+ // Soft-tissue approximations: structures anchored on the trunk remain fixed.
+ // Selected muscles spanning a joint follow only a fraction of the skeletal motion
+ // to reduce visual tearing in this rigid-mesh educational model.
  const softElbowQ=qdeg(movedLateral,p.elbowFlexion*flexSign*.72);
  const softElbowM=about(movedElbow,softElbowQ).multiply(shoulderM);
- // A reduced shoulder transform keeps shoulder-girdle soft tissues from
- // tearing away from the thorax while the humerus moves.
- const softShoulderQ=qdeg(abductionAxis,p.shoulderAbduction*.55).multiply(qdeg(lateral,p.shoulderFlexion*shoulderFlexSign*.55)).multiply(qdeg(superior,p.shoulderRotation*.4)).normalize();
+ const softShoulderQ=qdeg(abductionAxis,p.shoulderAbduction*.55)
+  .multiply(qdeg(lateral,p.shoulderFlexion*shoulderFlexSign*.55))
+  .multiply(qdeg(superior,p.shoulderRotation*shoulderRotationSign*.4)).normalize();
  const softShoulderM=about(shoulder,softShoulderQ);
- const transforms:Record<string,PartTransform>={};
 
+ const transforms:Record<string,PartTransform>={};
  const onSide=(part:Atlas['parts'][number])=>{
   const c=centerOfPart(part);
   return side==='right'?c.x<-.10:c.x>.10;
@@ -104,25 +144,30 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  };
  const isUpperLimb=(part:Atlas['parts'][number])=>{
   const c=centerOfPart(part),ax=Math.abs(c.x),n=norm(part.name);
-  if(!onSide(part)||c.y<.68||c.y>1.44)return false;
+  if(!onSide(part)||c.y<.62||c.y>1.44)return false;
   if(part.system==='nervous')return false;
   if(torsoAnchored(part))return false;
   if(/scapula|clavicle|sternum|rib/.test(n))return false;
   if(isProximalBundle(part))return false;
-  if(/humerus|radius|ulna|metacarpal|phalanx|carpal|scaphoid|lunate|triquetr|pisiform|trapezium|trapezoid|capitate|hamate/.test(n))return true;
+  if(/humerus|radius|ulna/.test(n)||handBone.test(n))return true;
   return ax>.145;
  };
  const isDistalToElbow=(part:Atlas['parts'][number])=>{
   const c=centerOfPart(part),n=norm(part.name);
   if(!isUpperLimb(part))return false;
-  if(/radius|ulna|metacarpal|phalanx|carpal|scaphoid|lunate|triquetr|pisiform|trapezium|trapezoid|capitate|hamate/.test(n))return true;
+  if(/radius|ulna/.test(n)||handBone.test(n))return true;
   return c.y<=elbow.y+.02;
+ };
+ const isHandPart=(part:Atlas['parts'][number])=>{
+  if(!isUpperLimb(part))return false;
+  const c=centerOfPart(part),n=norm(part.name);
+  return handBone.test(n)||/thenar|hypothenar|lumbrical|interosse|palmar|digital|thumb|finger/.test(n)||c.y<=neutralWrist.y+.035;
  };
  const isPronating=(part:Atlas['parts'][number])=>{
   const n=norm(part.name),c=centerOfPart(part);
   if(!isDistalToElbow(part))return false;
   if(n===norm(`${cap} ulna`))return false;
-  return n===norm(`${cap} radius`)||c.y<1.10||/metacarpal|phalanx|carpal|scaphoid|lunate|triquetr|pisiform|trapezium|trapezoid|capitate|hamate/.test(n);
+  return n===norm(`${cap} radius`)||c.y<1.10||handBone.test(n);
  };
 
  for(const part of atlas.parts){
@@ -130,10 +175,10 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
   if(crossesShoulder(part)&&onSide(part)){transforms[part.id]=rigid(softShoulderM);continue;}
   if(crossesElbow(part)&&onSide(part)){transforms[part.id]=rigid(softElbowM);continue;}
   if(!isUpperLimb(part))continue;
+  if(isHandPart(part)){transforms[part.id]=rigid(wristM);continue;}
+  if(isPronating(part)){transforms[part.id]=rigid(forearmM);continue;}
   transforms[part.id]=rigid(isDistalToElbow(part)?elbowM:shoulderM);
  }
- for(const part of atlas.parts){
-  if(isPronating(part))transforms[part.id]=rigid(forearmM);
- }
+
  return{transforms,warnings};
 }
