@@ -1,7 +1,9 @@
 name: Deploy MJ Anatomy Preview
 on:
   push:
-    branches: [main, mj-upper-limb-v1]
+    branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
