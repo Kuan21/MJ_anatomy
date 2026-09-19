@@ -63,13 +63,14 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  for(const h of humerusEnds)for(const f of forearmEnds){const d=h.distanceToSquared(f);if(d<best){best=d;elbow.copy(h).add(f).multiplyScalar(.5);}}
  const superior=shoulder.clone().sub(elbow).normalize();
  const lateral=new T.Vector3(side==='right'?-1:1,0,0);
- let anterior=lateral.clone().cross(superior).normalize();if(anterior.lengthSq()<.5)anterior.set(0,0,1);
+ const abductionAxis=lateral.clone().cross(superior).normalize();if(abductionAxis.lengthSq()<.5)abductionAxis.set(0,0,side==='right'?-1:1);
+ const worldAnterior=new T.Vector3(0,0,1),shoulderFlexSign=side==='right'?1:-1;
  const p=constrainPose(input);
- const shoulderQ=qdeg(anterior,p.shoulderAbduction).multiply(qdeg(lateral,p.shoulderFlexion)).multiply(qdeg(superior,p.shoulderRotation)).normalize();
+ const shoulderQ=qdeg(abductionAxis,p.shoulderAbduction).multiply(qdeg(lateral,p.shoulderFlexion*shoulderFlexSign)).multiply(qdeg(superior,p.shoulderRotation)).normalize();
  const shoulderM=about(shoulder,shoulderQ);
  const movedElbow=elbow.clone().applyMatrix4(shoulderM);
  const movedLateral=lateral.clone().applyQuaternion(shoulderQ).normalize();
- const movedAnterior=anterior.clone().applyQuaternion(shoulderQ).normalize();
+ const movedAnterior=worldAnterior.clone().applyQuaternion(shoulderQ).normalize();
  const neutralForearmCenter=forearmBox.getCenter(new T.Vector3()).applyMatrix4(shoulderM);
  // Choose the elbow flexion sign anatomically: positive flexion must move the
  // distal forearm anteriorly, never into hyperextension behind the arm.
@@ -84,7 +85,7 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  const forearmM=about(movedElbow,forearmQ).multiply(elbowM);
  // A reduced shoulder transform keeps shoulder-girdle soft tissues from
  // tearing away from the thorax while the humerus moves.
- const softShoulderQ=qdeg(anterior,p.shoulderAbduction*.38).multiply(qdeg(lateral,p.shoulderFlexion*.38)).multiply(qdeg(superior,p.shoulderRotation*.3)).normalize();
+ const softShoulderQ=qdeg(abductionAxis,p.shoulderAbduction*.38).multiply(qdeg(lateral,p.shoulderFlexion*shoulderFlexSign*.38)).multiply(qdeg(superior,p.shoulderRotation*.3)).normalize();
  const softShoulderM=about(shoulder,softShoulderQ);
  const transforms:Record<string,PartTransform>={};
 
