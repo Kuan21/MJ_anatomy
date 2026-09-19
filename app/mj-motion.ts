@@ -55,13 +55,24 @@ export function validateUpperLimbMapping(atlas:Atlas,side:Side):CalibrationRepor
 const qdeg=(axis:T.Vector3,d:number)=>new T.Quaternion().setFromAxisAngle(axis,T.MathUtils.degToRad(d));
 const tuple3=(v:T.Vector3):[number,number,number]=>[v.x,v.y,v.z];
 const tuple4=(q:T.Quaternion):[number,number,number,number]=>[q.x,q.y,q.z,q.w];
+const about=(pivot:T.Vector3,q:T.Quaternion)=>new T.Matrix4().makeTranslation(pivot.x,pivot.y,pivot.z).multiply(new T.Matrix4().makeRotationFromQuaternion(q)).multiply(new T.Matrix4().makeTranslation(-pivot.x,-pivot.y,-pivot.z));
+const rigid=(m:T.Matrix4):PartTransform=>{const p=new T.Vector3(),q=new T.Quaternion(),s=new T.Vector3();m.decompose(p,q,s);return{translation:tuple3(p),quaternion:tuple4(q.normalize())};};
 
 /** Bone-only shoulder preview. Soft tissues stay neutral until attachment deformation exists. */
 export function buildUpperLimbPreview(atlas:Atlas,side:Side,pose:MotionPose):MotionBuildResult{
  const report=validateUpperLimbMapping(atlas,side);if(!report.readyForBonePreview)return{transforms:{},warnings:report.warnings};
  const b=mapUpperLimbBones(atlas,side),frame=basis(atlas,side,b),transforms:Record<string,PartTransform>={};
- const q=qdeg(frame.anterior,pose.shoulderAbduction).multiply(qdeg(frame.lateral,pose.shoulderFlexion)).multiply(qdeg(frame.superior,pose.shoulderRotation)).normalize();
- [...b.humerus,...b.ulna,...b.radius,...b.hand].forEach(i=>{const id=atlas.parts[i]?.id;if(id)transforms[id]={pivot:tuple3(frame.shoulder),quaternion:tuple4(q)};});
+ const shoulderQ=qdeg(frame.anterior,pose.shoulderAbduction).multiply(qdeg(frame.lateral,pose.shoulderFlexion)).multiply(qdeg(frame.superior,pose.shoulderRotation)).normalize();
+ const shoulderM=about(frame.shoulder,shoulderQ);
+ const movedElbow=frame.elbow.clone().applyMatrix4(shoulderM);
+ const movedLateral=frame.lateral.clone().applyQuaternion(shoulderQ).normalize();
+ const elbowQ=qdeg(movedLateral,pose.elbowFlexion);
+ const elbowM=about(movedElbow,elbowQ).multiply(shoulderM);
+ const forearmAxis=frame.elbow.clone().sub(center(atlas,b.hand)).normalize().applyQuaternion(shoulderQ).applyQuaternion(elbowQ).normalize();
+ const forearmQ=qdeg(forearmAxis,pose.forearmRotation);
+ const forearmM=about(movedElbow,forearmQ).multiply(elbowM);
+ const assign=(indices:number[],m:T.Matrix4)=>indices.forEach(i=>{const id=atlas.parts[i]?.id;if(id)transforms[id]=rigid(m);});
+ assign(b.humerus,shoulderM);assign(b.ulna,elbowM);assign([...b.radius,...b.hand],forearmM);
  return{transforms,warnings:[]};
 }
 export const MOTION_LIMITS={shoulderAbduction:[0,180],shoulderFlexion:[-40,180],shoulderRotation:[-90,90],elbowFlexion:[0,150],forearmRotation:[-80,80]} as const;
