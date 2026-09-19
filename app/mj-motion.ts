@@ -76,19 +76,36 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  const forearmQ=qdeg(forearmAxis,p.forearmRotation);
  const forearmM=about(movedElbow,forearmQ).multiply(elbowM);
  const transforms:Record<string,PartTransform>={};
+
+ const onSide=(part:Atlas['parts'][number])=>{
+  const c=centerOfPart(part);
+  return side==='right'?c.x<-.10:c.x>.10;
+ };
+ const isUpperLimb=(part:Atlas['parts'][number])=>{
+  const c=centerOfPart(part),ax=Math.abs(c.x),n=norm(part.name);
+  if(!onSide(part)||c.y<.68||c.y>1.44)return false;
+  if(/humerus|radius|ulna|metacarpal|phalanx|carpal|scaphoid|lunate|triquetr|pisiform|trapezium|trapezoid|capitate|hamate/.test(n))return true;
+  return ax>.125;
+ };
+ const isDistalToElbow=(part:Atlas['parts'][number])=>{
+  const c=centerOfPart(part),n=norm(part.name);
+  if(!isUpperLimb(part))return false;
+  if(/radius|ulna|metacarpal|phalanx|carpal|scaphoid|lunate|triquetr|pisiform|trapezium|trapezoid|capitate|hamate/.test(n))return true;
+  return c.y<=elbow.y+.02;
+ };
+ const isPronating=(part:Atlas['parts'][number])=>{
+  const n=norm(part.name),c=centerOfPart(part);
+  if(!isDistalToElbow(part))return false;
+  if(n===norm(`${cap} ulna`))return false;
+  return n===norm(`${cap} radius`)||c.y<.96||/metacarpal|phalanx|carpal|scaphoid|lunate|triquetr|pisiform|trapezium|trapezoid|capitate|hamate/.test(n);
+ };
+
  for(const part of atlas.parts){
-  const c=centerOfPart(part),correctSide=side==='right'?c.x<-.055:c.x>.055;
-  if(!correctSide||c.y<.68||c.y>1.50)continue;
-  // Rigid educational approximation: all visible tissues travel with the limb segment.
-  if(c.y<elbow.y+.015)transforms[part.id]=rigid(elbowM);
-  else transforms[part.id]=rigid(shoulderM);
+  if(!isUpperLimb(part))continue;
+  transforms[part.id]=rigid(isDistalToElbow(part)?elbowM:shoulderM);
  }
- // Radius, hand and distal wrist receive pronation/supination around the forearm axis.
  for(const part of atlas.parts){
-  const c=centerOfPart(part),correctSide=side==='right'?c.x<-.055:c.x>.055;
-  if(!correctSide)continue;
-  const n=norm(part.name);
-  if((c.y<.96&&c.y>.68)||n===norm(`${cap} radius`)||/metacarpal|phalanx|carpal|scaphoid|lunate|triquetr|pisiform|trapezium|trapezoid|capitate|hamate/.test(n))transforms[part.id]=rigid(forearmM);
+  if(isPronating(part))transforms[part.id]=rigid(forearmM);
  }
  return{transforms,warnings};
 }
