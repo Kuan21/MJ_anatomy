@@ -15,6 +15,7 @@ export const NEUTRAL_POSE:MotionPose={shoulderAbduction:0,shoulderFlexion:0,shou
 
 export interface KinematicPartSet {clavicle:number[];scapula:number[];humerus:number[];ulna:number[];radius:number[];hand:number[]}
 export interface JointFrame {pivot:T.Vector3;axis:T.Vector3}
+export interface MotionBuildResult {transforms:Record<string,{pivot:[number,number,number];quaternion:[number,number,number,number]}>;warnings:string[]}
 
 /**
  * Catalogue-driven bone mapper. We only animate parts actually present in
@@ -85,4 +86,34 @@ export function validateUpperLimbMapping(atlas:Atlas,side:Side):CalibrationRepor
  const required:(keyof KinematicPartSet)[]=['clavicle','scapula','humerus','ulna','radius'];
  const missing=required.filter(k=>mapped[k]===0);
  return {side,mapped,readyForBonePreview:missing.length===0,warnings:missing.map(k=>`No unambiguous ${side} ${k} mapping found; motion remains disabled.`)};
+}
+
+
+const tuple3=(v:T.Vector3):[number,number,number]=>[v.x,v.y,v.z];
+const tuple4=(q:T.Quaternion):[number,number,number,number]=>[q.x,q.y,q.z,q.w];
+const qdeg=(axis:T.Vector3,degrees:number)=>new T.Quaternion().setFromAxisAngle(axis.clone().normalize(),T.MathUtils.degToRad(degrees));
+
+/**
+ * Bone-only preview builder. This deliberately keeps muscles, nerves and
+ * vessels static until attachment/path deformation is implemented.
+ * Motion is disabled if the catalogue cannot resolve a coherent limb chain.
+ */
+export function buildUpperLimbPreview(atlas:Atlas,side:Side,pose:MotionPose):MotionBuildResult{
+ const report=validateUpperLimbMapping(atlas,side);
+ if(!report.readyForBonePreview)return {transforms:{},warnings:report.warnings};
+ const b=mapUpperLimbBones(atlas,side),frames=estimateJointFrames(atlas,b),transforms:MotionBuildResult['transforms']={};
+ const assign=(indices:number[],pivot:T.Vector3,q:T.Quaternion)=>indices.forEach(i=>{const id=atlas.parts[i]?.id;if(id)transforms[id]={pivot:tuple3(pivot),quaternion:tuple4(q)};});
+ const shoulderCoupling=shoulderComplexContribution(Math.max(Math.abs(pose.shoulderAbduction),Math.max(0,pose.shoulderFlexion)));
+ const qAbd=qdeg(new T.Vector3(0,0,side==='left'?-1:1),pose.shoulderAbduction*(2/3));
+ const qFlex=qdeg(new T.Vector3(1,0,0),pose.shoulderFlexion*(2/3));
+ const qRot=qdeg(new T.Vector3(0,1,0),pose.shoulderRotation);
+ const qShoulder=qAbd.multiply(qFlex).multiply(qRot);
+ assign([...b.humerus,...b.ulna,...b.radius,...b.hand],frames.shoulder.pivot,qShoulder);
+ const qScap=qdeg(new T.Vector3(0,0,side==='left'?-1:1),shoulderCoupling.scapularUpwardRotationDeg);
+ assign(b.scapula,center(atlas,b.scapula),qScap);
+ const qClav=qdeg(new T.Vector3(0,0,side==='left'?-1:1),shoulderCoupling.clavicularElevationDeg);
+ assign(b.clavicle,center(atlas,b.clavicle),qClav);
+ // Elbow and radioulnar transforms will be composed in segment space after
+ // landmark calibration; overwriting shoulder transforms here would be wrong.
+ return {transforms,warnings:['Bone-only shoulder preview: joint centres/axes remain provisional until landmark calibration.']};
 }
