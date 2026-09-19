@@ -32,8 +32,10 @@ export default function AnatomyScene({atlas,state,onSelect,onProgress,onError,on
   const nerveSide=(name:string)=>/\.r(?:\.|$)/i.test(name)?'right':/\.l(?:\.|$)/i.test(name)?'left':'both';
   const nerveName=(o:T.Object3D)=>[o.name,o.parent?.name,o.parent?.parent?.name].filter(Boolean).join(' ');
   const nerveMatchesRegion=(name:string,r:'whole-body'|'shoulder'|'arm'|'forearm'|'hand',motion:boolean)=>{
-   if(r==='whole-body')return true;
+   // Motion Lab is limb-focused: never reveal the rest of the whole-body
+   // nervous system just because the global nervous-system layer is enabled.
    if(motion)return upperLimbNerve.test(name);
+   if(r==='whole-body')return true;
    if(r==='shoulder')return shoulderNerve.test(name);
    if(r==='arm')return armNerve.test(name);
    if(r==='forearm')return forearmNerve.test(name);
