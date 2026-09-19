@@ -7,10 +7,10 @@ import {createExplosionLayout} from './explosion-layout';
 import {decodeModelResponse} from './model-download';
 import {PointerTap} from './pointer-tap';
 import {SYSTEMS,type Atlas,type SceneState} from './anatomy';
-interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;onProgress:(n:number)=>void;onError:(s:string)=>void;motionEnabled?:boolean;motionSide?:'left'|'right';onJointDrag?:(joint:'shoulderAbduction'|'elbowFlexion',delta:number)=>void}
-export default function AnatomyScene({atlas,state,onSelect,onProgress,onError,motionEnabled=false,motionSide='right',onJointDrag}:Props){
- const host=useRef<HTMLDivElement>(null),latest=useRef(state),select=useRef(onSelect),jointDrag=useRef(onJointDrag),motion=useRef({enabled:motionEnabled,side:motionSide});
- latest.current=state;select.current=onSelect;jointDrag.current=onJointDrag;motion.current={enabled:motionEnabled,side:motionSide};
+interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;onProgress:(n:number)=>void;onError:(s:string)=>void;onJointDrag?:(side:'left'|'right',joint:'shoulderAbduction'|'elbowFlexion',delta:number)=>void}
+export default function AnatomyScene({atlas,state,onSelect,onProgress,onError,onJointDrag}:Props){
+ const host=useRef<HTMLDivElement>(null),latest=useRef(state),select=useRef(onSelect),jointDrag=useRef(onJointDrag);
+ latest.current=state;select.current=onSelect;jointDrag.current=onJointDrag;
  useEffect(()=>{
   const el=host.current!;let disposed=false,frame=0,dirty=true,ready=false,lastView='',lastReset=-1,lastIsolate='',layoutKey='',amount=0,lastCameraFocus=-1;
   let lastState:SceneState|null=null;
@@ -94,23 +94,22 @@ export default function AnatomyScene({atlas,state,onSelect,onProgress,onError,mo
    pickers.forEach((mesh,i)=>{if(!mesh||data[i*4+3]<.5||(hasSolid&&atlas.parts[i].system==='integumentary'))return;worldBox.copy(bounds[i]).applyMatrix4(mesh.matrixWorld);if(!raycaster.ray.intersectBox(worldBox,hitPoint))return;const hits=raycaster.intersectObject(mesh,false);if(hits[0]&&hits[0].distance<nearest){nearest=hits[0].distance;found=i;}});
    return found;
   };
-  type JointGesture={pointerId:number;joint:'shoulderAbduction'|'elbowFlexion';lastX:number;lastY:number};
+  type JointGesture={pointerId:number;side:'left'|'right';joint:'shoulderAbduction'|'elbowFlexion';lastX:number;lastY:number};
   let jointGesture:JointGesture|null=null;
   const jointForPart=(index:number)=>{
-   if(!motion.current.enabled||index<0)return null;
-   const p=atlas.parts[index],cx=(p.bounds[0][0]+p.bounds[1][0])/2,cy=(p.bounds[0][1]+p.bounds[1][1])/2;
-   const right=motion.current.side==='right';
-   if((right&&cx>=-.04)||(!right&&cx<=.04))return null;
-   if(cy>=1.10&&cy<=1.43)return 'shoulderAbduction' as const;
-   if(cy>=.78&&cy<1.10)return 'elbowFlexion' as const;
-   return null;
+   if(index<0)return null;
+   const p=atlas.parts[index],cx=(p.bounds[0][0]+p.bounds[1][0])/2,cy=(p.bounds[0][1]+p.bounds[1][1])/2,ax=Math.abs(cx);
+   if(ax<.12||cy<.72||cy>1.44)return null;
+   const side: 'left'|'right'=cx<0?'right':'left';
+   if(cy>=1.10)return {side,joint:'shoulderAbduction' as const};
+   return {side,joint:'elbowFlexion' as const};
   };
   const down=(e:PointerEvent)=>{
    hover.hidden=true;
    if(e.button===0){
-    const hit=ready?pickAt(e.clientX,e.clientY):-1,joint=jointForPart(hit);
-    if(joint&&jointDrag.current){
-     jointGesture={pointerId:e.pointerId,joint,lastX:e.clientX,lastY:e.clientY};controls.enabled=false;renderer.domElement.setPointerCapture?.(e.pointerId);renderer.domElement.style.cursor=joint==='shoulderAbduction'?'ew-resize':'ns-resize';tap.cancel(e.pointerId);e.preventDefault();return;
+    const hit=ready?pickAt(e.clientX,e.clientY):-1,jointInfo=jointForPart(hit);
+    if(jointInfo&&jointDrag.current){
+     jointGesture={pointerId:e.pointerId,side:jointInfo.side,joint:jointInfo.joint,lastX:e.clientX,lastY:e.clientY};controls.enabled=false;renderer.domElement.setPointerCapture?.(e.pointerId);renderer.domElement.style.cursor=jointInfo.joint==='shoulderAbduction'?'ew-resize':'ns-resize';tap.cancel(e.pointerId);e.preventDefault();return;
     }
     const onAnatomy=hit>=0;controls.mouseButtons.LEFT=onAnatomy?T.MOUSE.ROTATE:T.MOUSE.PAN;if(e.pointerType==='touch')controls.touches.ONE=onAnatomy?T.TOUCH.ROTATE:T.TOUCH.PAN;renderer.domElement.style.cursor=onAnatomy?'grabbing':'move';
    }
@@ -119,8 +118,8 @@ export default function AnatomyScene({atlas,state,onSelect,onProgress,onError,mo
   const move=(e:PointerEvent)=>{
    if(jointGesture&&jointGesture.pointerId===e.pointerId){
     const dx=e.clientX-jointGesture.lastX,dy=e.clientY-jointGesture.lastY;
-    const delta=jointGesture.joint==='shoulderAbduction'?(motion.current.side==='right'?-dx:dx)*.65:-dy*.65;
-    if(Math.abs(delta)>.05)jointDrag.current?.(jointGesture.joint,delta);
+    const delta=jointGesture.joint==='shoulderAbduction'?(jointGesture.side==='right'?-dx:dx)*.65:-dy*.65;
+    if(Math.abs(delta)>.05)jointDrag.current?.(jointGesture.side,jointGesture.joint,delta);
     jointGesture.lastX=e.clientX;jointGesture.lastY=e.clientY;e.preventDefault();return;
    }
    tap.move(e.pointerId,e.clientX,e.clientY);if(e.buttons||amount<.5||e.pointerType==='touch'){hover.hidden=true;return;}const rect=el.getBoundingClientRect(),x=e.clientX-rect.left,y=e.clientY-rect.top,index=findTarget(x,y,12);hover.hidden=index<0;renderer.domElement.style.cursor=index<0?'move':'grab';if(index>=0){hover.textContent=atlas.parts[index].name;hover.style.left=`${Math.max(8,Math.min(x+14,el.clientWidth-260))}px`;hover.style.top=`${Math.max(8,Math.min(y+18,el.clientHeight-55))}px`;}
