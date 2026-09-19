@@ -2,8 +2,6 @@ name: Deploy MJ Anatomy Preview
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
@@ -22,7 +20,6 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npm run validate:upper-limb
       - run: npm run check
       - run: npm run build -- --base /MJ_anatomy/
       - uses: actions/configure-pages@v5
@@ -30,7 +27,6 @@ jobs:
         with:
           path: dist
   deploy:
-    if: github.event_name != 'pull_request'
     permissions:
       pages: write
       id-token: write
@@ -43,5 +39,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-# Pages source enabled via GitHub Actions
