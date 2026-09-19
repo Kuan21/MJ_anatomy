@@ -91,9 +91,17 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  const worldAnterior=new T.Vector3(0,0,1),shoulderFlexSign=side==='right'?1:-1,shoulderRotationSign=side==='right'?-1:1;
  const p=constrainPose(input);
 
- const shoulderQ=qdeg(abductionAxis,p.shoulderAbduction)
-  .multiply(qdeg(lateral,p.shoulderFlexion*shoulderFlexSign))
-  .multiply(qdeg(superior,p.shoulderRotation*shoulderRotationSign)).normalize();
+ // Compose shoulder motion on moving anatomical axes rather than three fixed
+ // world axes. This keeps abduction/adduction, flexion/extension and axial
+ // rotation centred on the humeral head instead of letting combined sliders
+ // sweep the arm through the thorax.
+ const qAbduction=qdeg(abductionAxis,p.shoulderAbduction);
+ const flexionAxis=lateral.clone().applyQuaternion(qAbduction).normalize();
+ const qFlexion=qdeg(flexionAxis,p.shoulderFlexion*shoulderFlexSign);
+ const shoulderSwingQ=qFlexion.clone().multiply(qAbduction).normalize();
+ const axialAxis=superior.clone().applyQuaternion(shoulderSwingQ).normalize();
+ const qAxial=qdeg(axialAxis,p.shoulderRotation*shoulderRotationSign);
+ const shoulderQ=qAxial.clone().multiply(shoulderSwingQ).normalize();
  const shoulderM=about(shoulder,shoulderQ);
  const movedElbow=elbow.clone().applyMatrix4(shoulderM);
  const movedLateral=lateral.clone().applyQuaternion(shoulderQ).normalize();
@@ -120,20 +128,22 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
   .multiply(qdeg(wristDeviationAxis,p.wristDeviation)).normalize();
  const wristM=about(movedWrist,wristQ).multiply(forearmM);
 
- // Soft-tissue approximations: structures anchored on the trunk remain fixed.
- // Selected muscles spanning a joint follow only a fraction of the skeletal motion
- // to reduce visual tearing in this rigid-mesh educational model.
- const softShoulderQ=qdeg(abductionAxis,p.shoulderAbduction*.55)
-  .multiply(qdeg(lateral,p.shoulderFlexion*shoulderFlexSign*.55))
-  .multiply(qdeg(superior,p.shoulderRotation*shoulderRotationSign*.4)).normalize();
+ // Soft-tissue approximations. These meshes are rigid (not skinned), so muscles
+ // spanning the glenohumeral joint follow a controlled fraction of the same
+ // anatomical shoulder quaternion instead of rotating around a different axis.
+ const identityQ=new T.Quaternion();
+ const softShoulderQ=new T.Quaternion().slerpQuaternions(identityQ,shoulderQ,.78).normalize();
+ const cuffShoulderQ=new T.Quaternion().slerpQuaternions(identityQ,shoulderQ,.42).normalize();
  const softShoulderM=about(shoulder,softShoulderQ);
+ const cuffShoulderM=about(shoulder,cuffShoulderQ);
 
  const transforms:Record<string,PartTransform>={};
  const onSide=(part:Atlas['parts'][number])=>{
   const c=centerOfPart(part);
   return side==='right'?c.x<-.10:c.x>.10;
  };
- const torsoAnchored=(part:Atlas['parts'][number])=>/pectoralis|latissimus dorsi|serratus anterior|trapezius|rhomboid|levator scapulae|subclavius|supraspinatus|infraspinatus|subscapularis|teres major|teres minor/.test(norm(part.name));
+ const trunkAnchored=(part:Atlas['parts'][number])=>/pectoralis|latissimus dorsi|serratus anterior|trapezius|rhomboid|levator scapulae|subclavius/.test(norm(part.name));
+ const scapulohumeral=(part:Atlas['parts'][number])=>/supraspinatus|infraspinatus|subscapularis|teres major|teres minor/.test(norm(part.name));
  const crossesShoulder=(part:Atlas['parts'][number])=>/deltoid/.test(norm(part.name));
  const upperArmMuscle=(part:Atlas['parts'][number])=>/biceps brachii|triceps brachii|brachialis|coracobrachialis/.test(norm(part.name));
  const forearmMuscle=(part:Atlas['parts'][number])=>/brachioradialis|pronator|supinator|flexor|extensor|palmaris/.test(norm(part.name));
@@ -145,7 +155,7 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
   const c=centerOfPart(part),ax=Math.abs(c.x),n=norm(part.name);
   if(!onSide(part)||c.y<.62||c.y>1.44)return false;
   if(part.system==='nervous')return false;
-  if(torsoAnchored(part))return false;
+  if(trunkAnchored(part)||scapulohumeral(part))return false;
   if(/scapula|clavicle|sternum|rib/.test(n))return false;
   if(isProximalBundle(part))return false;
   if(/humerus|radius|ulna/.test(n)||handBone.test(n))return true;
@@ -170,7 +180,8 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  };
 
  for(const part of atlas.parts){
-  if(torsoAnchored(part))continue;
+  if(trunkAnchored(part))continue;
+  if(scapulohumeral(part)&&onSide(part)){transforms[part.id]=rigid(cuffShoulderM);continue;}
   if(crossesShoulder(part)&&onSide(part)){transforms[part.id]=rigid(softShoulderM);continue;}
   if(upperArmMuscle(part)&&onSide(part)){transforms[part.id]=rigid(shoulderM);continue;}
   if(forearmMuscle(part)&&onSide(part)){transforms[part.id]=rigid(elbowM);continue;}
