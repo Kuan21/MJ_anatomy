@@ -43,7 +43,6 @@ const basis=(atlas:Atlas,side:Side,b:KinematicPartSet)=>{
  const superior=shoulder.clone().sub(elbow).normalize();
  const other=mapUpperLimbBones(atlas,side==='left'?'right':'left');
  let lateral=center(atlas,b.humerus).sub(center(atlas,other.humerus)).normalize();
- if(side==='left')lateral.negate();
  let anterior=lateral.clone().cross(superior).normalize();if(anterior.lengthSq()<.5)anterior.set(0,0,1);
  return {shoulder,elbow,superior,lateral,anterior};
 };
