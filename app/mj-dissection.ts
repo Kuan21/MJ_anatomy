@@ -27,7 +27,7 @@ export function resolveDissection(atlas:Atlas,regionId:RegionId,stageIndex:numbe
  const included=region.stages.slice(safe); // peel superficial stages; retain the current and deeper anatomy
  const keywords=included.flatMap(s=>s.keywords);
  const partIds=atlas.parts.filter(p=>matches(p.name,keywords)).map(p=>p.id);
- const systems=Array.from(new Set(atlas.parts.filter(p=>partIds.includes(p.id)).map(p=>p.system)));
+ const idSet=new Set(partIds);\n const systems=Array.from(new Set(atlas.parts.filter(p=>idSet.has(p.id)).map(p=>p.system)));
  const current=region.stages[safe];
  return {region:region.id,stage:safe,stageLabel:current.label,stageDescription:current.description,partIds,systems};
 }
