@@ -36,5 +36,10 @@ export function anatomyDepth(part:Part):Exclude<TissueDepth,'all'> {
 }
 
 export function matchesDepth(part:Part,depth:TissueDepth|undefined){
- return !depth||depth==='all'||anatomyDepth(part)===depth;
+ if(!depth||depth==='all')return true;
+ const d=anatomyDepth(part);
+ // "Intermediate" acts like a real dissection peel: remove the superficial
+ // layer but keep intermediate + deep anatomy visible for spatial context.
+ if(depth==='intermediate')return d==='intermediate'||d==='deep';
+ return d===depth;
 }
