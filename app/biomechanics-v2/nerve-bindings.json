@@ -1,0 +1,394 @@
+{
+  "Superior trunk of brachial plexus.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Posterior division of superior trunk of brachial plexus.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Superior trunk of brachial plexus.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Posterior division of superior trunk of brachial plexus.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Anterior division of superior trunk of brachial plexus.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Middle trunk of brachial plexus.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Anterior division of middle trunk of brachial plexus.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Posterior division of middle trunk of brachial plexus.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Middle trunk of brachial plexus.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Anterior division of middle trunk of brachial plexus.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Posterior division of middle trunk of brachial plexus.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Inferior trunk of brachial plexus.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Inferior trunk of brachial plexus.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Anterior division of inferior trunk of brachial plexus.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Posterior division of inferior trunk of brachial plexus.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Roots of brachial plexus.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Roots of brachial plexus.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Dorsal scapular nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Long thoracic nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Suprascapular nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Subclavian nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Dorsal scapular nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Long thoracic nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Suprascapular nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Subclavian nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Axillary nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Posterior cord of brachial plexus.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Axillary nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Posterior cord of brachial plexus.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Lateral pectoral nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Lateral pectoral nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Musculocutaneous nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Lateral antebrachial cutaneous nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Musculocutaneous nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Lateral antebrachial cutaneous nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Deep branch of radial nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Posterior interosseous nerve of forearm.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Deep branch of radial nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Posterior interosseous nerve of forearm.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Superficial branch of radial nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Dorsal digital branches of radial nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Superficial branch of radial nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Dorsal digital branches of radial nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Posterior antebrachial cutaneous nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Radial nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Inferior lateral brachial cutaneous nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Muscular branches of radial nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Posterior antebrachial cutaneous nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Radial nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Inferior lateral brachial cutaneous nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Muscular branches of radial nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Superior lateral brachial cutaneous nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Muscular branches of axillary nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Superior lateral brachial cutaneous nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Muscular branches of axillary nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Anterior branch of medial antebrachial cutaneous nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Posterior branch of medial antebrachial cutaneous nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Medial antebrachial cutaneous nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Anterior branch of medial antebrachial cutaneous nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Posterior branch of medial antebrachial cutaneous nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Medial antebrachial cutaneous nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Dorsal digital branches of ulnar nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Dorsal branch of ulnar nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Dorsal digital branches of ulnar nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Dorsal branch of ulnar nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Proper palmar digital branches of ulnar nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Proper palmar digital branches of ulnar nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Common palmar digital branches of ulnar nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Superficial branch of ulnar nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Common palmar digital branches of ulnar nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Superficial branch of ulnar nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Palmar branch of ulnar nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Deep branch of ulnar nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Muscular branches of ulnar nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Ulnar nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Palmar branch of ulnar nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Deep branch of ulnar nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Muscular branches of ulnar nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Ulnar nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Medial brachial cutaneous nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Medial brachial cutaneous nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Proper palmar digital branches of median nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Proper palmar digital branches of median nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Common palmar digital branches of median nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "(Communicating branch of median nerve with ulnar nerve).r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Median nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Anterior interosseous nerve of forearm.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Palmar branch of median nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Muscular branches of median nerve.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Common palmar digital branches of median nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "(Communicating branch of median nerve with ulnar nerve).l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Median nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Anterior interosseous nerve of forearm.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Palmar branch of median nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Muscular branches of median nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Anterior division of superior trunk of brachial plexus.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Anterior division of inferior trunk of brachial plexus.r.001": {
+    "side": "right",
+    "profile": "path"
+  },
+  "Posterior division of inferior trunk of brachial plexus.r.001": {
+    "side": "right",
+    "profile": "path"
+  }
+}

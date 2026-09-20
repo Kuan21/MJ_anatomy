@@ -10,6 +10,7 @@ import {decodeModelResponse} from './model-download';
 import {PointerTap} from './pointer-tap';
 import {SYSTEMS,type Atlas,type SceneState} from './anatomy';
 import {matchesDepth} from './mj-depth';
+import {makeSoftRig,bindTissue,makePalette,deformTissue,tissueBindings,nerveBindings,type SkinBinding} from './biomechanics-v2/soft-tissue';
 interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;onSelectNerve?:(name:string)=>void;onProgress:(n:number)=>void;onError:(s:string)=>void;onJointDrag?:(side:'left'|'right',joint:'shoulderAbduction'|'elbowFlexion',delta:number)=>void;region?:'whole-body'|'shoulder'|'arm'|'forearm'|'hand';focusSide?:'both'|'left'|'right';motionActive?:boolean}
 export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgress,onError,onJointDrag,region='whole-body',focusSide='both',motionActive=false}:Props){
  const host=useRef<HTMLDivElement>(null),latest=useRef(state),select=useRef(onSelect),selectNerve=useRef(onSelectNerve),jointDrag=useRef(onJointDrag),viewerContext=useRef({region,focusSide,motionActive});
@@ -24,6 +25,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   renderer.domElement.setAttribute('aria-label','Interactive human anatomy. Drag to orbit, pinch or scroll to zoom, and tap a structure to inspect it.');
   const scene=new T.Scene(),camera=new T.PerspectiveCamera(34,1,.005,100),controls=new OrbitControls(camera,renderer.domElement);
   type NerveMesh=T.Mesh<T.BufferGeometry,T.MeshStandardMaterial>;
+  const softRigs={left:makeSoftRig(atlas,'left'),right:makeSoftRig(atlas,'right')};
   const nerveRoot=new T.Group();nerveRoot.name='MJ external nervous system';scene.add(nerveRoot);const nerveMeshes:NerveMesh[]=[];
   const shoulderNerve=/brachial plexus|trunk of brachial plexus|division of .*brachial plexus|cord of brachial plexus|roots of brachial plexus|axillary nerve|suprascapular nerve|long thoracic nerve|thoracodorsal nerve|pectoral nerve|subscapular nerve|dorsal scapular nerve|subclavian nerve/i;
   const armNerve=/musculocutaneous nerve|radial nerve|median nerve|ulnar nerve|brachial cutaneous nerve|antebrachial cutaneous nerve|muscular branches of (radial|axillary|median|ulnar) nerve/i;
@@ -31,8 +33,12 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   const handNerve=/median nerve|ulnar nerve|radial nerve|palmar digital|dorsal digital|deep branch of ulnar nerve|superficial branch of ulnar nerve|palmar branch of (median|ulnar) nerve/i;
   const upperLimbNerve=new RegExp([shoulderNerve.source,armNerve.source,forearmNerve.source,handNerve.source].join('|'),'i');
   const nerveSide=(name:string)=>/\.r(?:\.|$)/i.test(name)?'right':/\.l(?:\.|$)/i.test(name)?'left':'both';
-  const nerveName=(o:T.Object3D)=>[o.name,o.parent?.name,o.parent?.parent?.name].filter(Boolean).join(' ');
-  const hasNamedAncestor=(o:T.Object3D,pattern:RegExp)=>{let p:T.Object3D|null=o;while(p){if(pattern.test(p.name||''))return true;p=p.parent;}return false;};
+  // GLTFLoader sanitizes spaces/dots in Object3D.name. Preserve the source
+  // node metadata for exact anatomical identity and laterality instead.
+  const sourceName=(o:T.Object3D)=>typeof o.userData.name==='string'?o.userData.name:o.name;
+  const meshSourceName=(o:T.Object3D)=>{let p:T.Object3D|null=o;while(p){if(typeof p.userData.name==='string')return p.userData.name;p=p.parent;}return o.name;};
+  const nerveName=(o:T.Object3D)=>[sourceName(o),o.parent?sourceName(o.parent):'',o.parent?.parent?sourceName(o.parent.parent):''].filter(Boolean).join(' ');
+  const hasNamedAncestor=(o:T.Object3D,pattern:RegExp)=>{let p:T.Object3D|null=o;while(p){if(pattern.test(sourceName(p)||''))return true;p=p.parent;}return false;};
   const nerveMatchesRegion=(name:string,r:'whole-body'|'shoulder'|'arm'|'forearm'|'hand',motion:boolean)=>{
    // Motion Lab is limb-focused: never reveal the rest of the whole-body
    // nervous system just because the global nervous-system layer is enabled.
@@ -43,8 +49,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    if(r==='forearm')return forearmNerve.test(name);
    return handNerve.test(name);
   };
-  const draco=new DRACOLoader();draco.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');const loader=new GLTFLoader();loader.setDRACOLoader(draco);loader.load(`${import.meta.env.BASE_URL}models/nervous.glb`,gltf=>{if(disposed)return;gltf.scene.updateMatrixWorld(true);gltf.scene.traverse(o=>{if(!(o instanceof T.Mesh))return;
-    const exactName=o.name||'',fullName=nerveName(o);
+  const draco=new DRACOLoader();draco.setDecoderPath(`${import.meta.env.BASE_URL}draco/`);const loader=new GLTFLoader();loader.setDRACOLoader(draco);loader.load(`${import.meta.env.BASE_URL}models/nervous.glb`,gltf=>{if(disposed)return;gltf.scene.updateMatrixWorld(true);gltf.scene.traverse(o=>{if(!(o instanceof T.Mesh))return;
+    const exactName=meshSourceName(o)||'',fullName=nerveName(o);
     // The source GLB contains a freestanding 3-D title at x≈-0.81. Remove it
     // deterministically, and never import central-nervous-system meshes from
     // this legacy overlay (the BodyParts3D atlas already owns the brain/CNS).
@@ -55,47 +61,27 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     // Fallback for the title geometry even if a future exporter renames it.
     if(geoCenter.x<-.58&&geoCenter.y>.68&&geoCenter.y<1.12)return;
     geometry.boundingSphere=new T.Sphere(new T.Vector3(0,.9,0),2.5);const position=geometry.getAttribute('position');if(!position)return;const material=new T.MeshStandardMaterial({color:0xf1cb4f,metalness:0,roughness:.42,emissive:0x6b5100,emissiveIntensity:.28,depthTest:true,depthWrite:false,transparent:true,opacity:.82});geometry.computeBoundingBox();const nerveCenter=geometry.boundingBox?.getCenter(new T.Vector3())??new T.Vector3();
-    let rightArmHits=0,leftArmHits=0,sampled=0;const sampleStep=Math.max(1,Math.floor(position.count/1200));
-    for(let vi=0;vi<position.count;vi+=sampleStep){const x=position.getX(vi),y=position.getY(vi);sampled++;if(y<.55||y>1.52||Math.abs(x)<.025)continue;if(x<0)rightArmHits++;else leftArmHits++;}
-    const minArmHits=Math.max(3,Math.ceil(sampled*.08)),motionRight=rightArmHits>=minArmHits&&rightArmHits>leftArmHits*.65,motionLeft=leftArmHits>=minArmHits&&leftArmHits>rightArmHits*.65;
-    const inferredSide=motionRight&&!motionLeft?'right':motionLeft&&!motionRight?'left':nerveCenter.x<-.012?'right':nerveCenter.x>.012?'left':'both';
-    const nerveBox=geometry.boundingBox!,nerveSize=nerveBox.getSize(new T.Vector3());
-    const upperLimbSized=nerveBox.min.y>.52&&nerveBox.max.y<1.55&&nerveSize.y<1.02&&nerveSize.x<.42;
-    const mesh=new T.Mesh(geometry,material);mesh.name=exactName||fullName;mesh.frustumCulled=false;mesh.renderOrder=18;mesh.userData.mjNerve=true;mesh.userData.mjExactName=exactName;mesh.userData.mjSide=nerveSide(exactName)||inferredSide;mesh.userData.mjMotionRight=motionRight&&upperLimbSized;mesh.userData.mjMotionLeft=motionLeft&&upperLimbSized;mesh.userData.basePositions=new Float32Array((position.array as ArrayLike<number>));nerveRoot.add(mesh);nerveMeshes.push(mesh);});dirty=true;},undefined,err=>{if(!disposed)console.warn('Could not load legacy nervous system model',err);});
-  const boneMotionId=(side:'left'|'right',pattern:RegExp)=>atlas.parts.find(p=>{if(p.system!=='skeletal'||!pattern.test(p.name.toLowerCase()))return false;const cx=(p.bounds[0][0]+p.bounds[1][0])/2;return side==='right'?cx<-.04:cx>.04;})?.id;
-  const nerveMotionIds={
-   right:{upper:boneMotionId('right',/^right humerus$/i),forearm:boneMotionId('right',/^right radius$/i),hand:boneMotionId('right',/right .*?(metacarpal|carpal|scaphoid|lunate|capitate|hamate)/i)},
-   left:{upper:boneMotionId('left',/^left humerus$/i),forearm:boneMotionId('left',/^left radius$/i),hand:boneMotionId('left',/left .*?(metacarpal|carpal|scaphoid|lunate|capitate|hamate)/i)}
-  };
+    const binding=nerveBindings[exactName];
+    const mesh=new T.Mesh(geometry,material);mesh.name=exactName||fullName;mesh.frustumCulled=false;mesh.renderOrder=0;
+    mesh.userData.mjNerve=true;mesh.userData.mjExactName=exactName;mesh.userData.mjSide=binding?.side??nerveSide(exactName);
+    mesh.userData.basePositions=new Float32Array(position.array as ArrayLike<number>);
+    if(binding&&softRigs[binding.side])mesh.userData.skin=bindTissue(softRigs[binding.side]!,'path',mesh.userData.basePositions);
+    nerveRoot.add(mesh);nerveMeshes.push(mesh);
+   });lastState=null;dirty=true;},undefined,err=>{if(!disposed)console.warn('Could not load legacy nervous system model',err);});
   const transformMatrix=(t:NonNullable<SceneState['partTransforms']>[string]|undefined)=>{const m=new T.Matrix4();if(!t)return m.identity();return m.compose(new T.Vector3(...t.translation),new T.Quaternion(...t.quaternion),new T.Vector3(1,1,1));};
-  const nerveP=new T.Vector3(),nerveA=new T.Vector3(),nerveB=new T.Vector3();
   const updateNerveMotion=(s:SceneState)=>{
-   const ctx=viewerContext.current;
+   const palettes={left:softRigs.left?makePalette(softRigs.left,s.partTransforms??{}):null,right:softRigs.right?makePalette(softRigs.right,s.partTransforms??{}):null};
    for(const mesh of nerveMeshes){
-    const attr=mesh.geometry.getAttribute('position') as T.BufferAttribute,base=mesh.userData.basePositions as Float32Array|undefined;if(!base)continue;
-    const name=(mesh.userData.mjExactName as string|undefined)||mesh.name,side=nerveSide(name);
-    const ids=side==='left'?nerveMotionIds.left:side==='right'?nerveMotionIds.right:null;
-    const active=!!(ctx.motionActive&&ids&&upperLimbNerve.test(name)&&s.partTransforms);
-    const upper=active?transformMatrix(ids!.upper?s.partTransforms?.[ids!.upper]:undefined):new T.Matrix4();
-    const fore=active?transformMatrix(ids!.forearm?s.partTransforms?.[ids!.forearm]:undefined):new T.Matrix4();
-    const hand=active?transformMatrix(ids!.hand?s.partTransforms?.[ids!.hand]:undefined):fore;
-    for(let i=0;i<attr.count;i++){
-     nerveP.set(base[i*3],base[i*3+1],base[i*3+2]);
-     if(!active){attr.setXYZ(i,nerveP.x,nerveP.y,nerveP.z);continue;}
-     const y=nerveP.y;
-     if(y>=1.36)nerveA.copy(nerveP);
-     else if(y>1.28){const t=(1.36-y)/.08;nerveA.copy(nerveP);nerveB.copy(nerveP).applyMatrix4(upper);nerveA.lerp(nerveB,t);}
-     else if(y>=1.08)nerveA.copy(nerveP).applyMatrix4(upper);
-     else if(y>.98){const t=(1.08-y)/.10;nerveA.copy(nerveP).applyMatrix4(upper);nerveB.copy(nerveP).applyMatrix4(fore);nerveA.lerp(nerveB,t);}
-     else if(y>=.76)nerveA.copy(nerveP).applyMatrix4(fore);
-     else if(y>.68){const t=(.76-y)/.08;nerveA.copy(nerveP).applyMatrix4(fore);nerveB.copy(nerveP).applyMatrix4(hand);nerveA.lerp(nerveB,t);}
-     else nerveA.copy(nerveP).applyMatrix4(hand);
-     nerveB.copy(nerveA).sub(nerveP);if(nerveB.length()>.28)nerveB.setLength(.28);
-     nerveA.copy(nerveP).add(nerveB);attr.setXYZ(i,nerveA.x,nerveA.y,nerveA.z);
-    }
-    attr.needsUpdate=true;
+    const base=mesh.userData.basePositions as Float32Array,skin=mesh.userData.skin as SkinBinding|undefined;
+    const binding=nerveBindings[mesh.name],rig=binding?softRigs[binding.side]:null;
+    const active=!!(s.tissueMotion&&skin&&rig&&s.partTransforms?.[rig.ids[3]!]);
+    if(!active&&!mesh.userData.tissuePosed)continue;
+    const attr=mesh.geometry.getAttribute('position') as T.BufferAttribute;
+    if(active)deformTissue(skin!,base,palettes[binding.side]!,attr.array as Float32Array);else (attr.array as Float32Array).set(base);
+    mesh.userData.tissuePosed=active;attr.needsUpdate=true;mesh.geometry.computeVertexNormals();mesh.geometry.computeBoundingBox();mesh.geometry.computeBoundingSphere();
    }
   };
+
   camera.position.set(1.4,1.05,3.6);controls.target.set(0,.85,0);controls.enableDamping=true;controls.dampingFactor=.085;controls.enablePan=true;controls.screenSpacePanning=true;controls.panSpeed=1;controls.zoomSpeed=1;controls.minDistance=.04;controls.maxDistance=40;controls.maxPolarAngle=Math.PI*.96;controls.mouseButtons.LEFT=T.MOUSE.PAN;controls.mouseButtons.RIGHT=T.MOUSE.ROTATE;controls.touches.ONE=T.TOUCH.PAN;controls.touches.TWO=T.TOUCH.DOLLY_ROTATE;let focusTarget:T.Vector3|null=null,focusPosition:T.Vector3|null=null;controls.addEventListener('start',()=>{focusTarget=null;focusPosition=null;});controls.addEventListener('change',()=>{dirty=true;});
   const pmrem=new T.PMREMGenerator(renderer),room=new RoomEnvironment(),env=pmrem.fromScene(room,.04);scene.environment=env.texture;room.dispose();pmrem.dispose();
   scene.add(new T.HemisphereLight(0xffffff,0xa7acb2,1.05));
@@ -189,18 +175,37 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     if(p.chunk!==ci)return;
     const g=new T.BufferGeometry();g.setAttribute('position',new T.BufferAttribute(new Float32Array(buffer,p.positions,p.vertexCount*3),3));
     // GPU normalized signed-short normals keep the complete atlas compact in memory.
-    g.setAttribute('normal',new T.BufferAttribute(new Int16Array(buffer,p.normals,p.vertexCount*3),3,true));g.setIndex(new T.BufferAttribute(new Uint32Array(buffer,p.indices,p.indexCount),1));
+    g.setAttribute('normal',new T.BufferAttribute(Float32Array.from(new Int16Array(buffer,p.normals,p.vertexCount*3),n=>Math.max(-1,n/32767)),3));g.setIndex(new T.BufferAttribute(new Uint32Array(buffer,p.indices,p.indexCount),1));
     const position=g.getAttribute('position') as T.BufferAttribute,weights=new Float32Array(p.vertexCount);
     for(let vi=0;vi<p.vertexCount;vi++)weights[vi]=vertexMotionWeight(p,position.getX(vi),position.getY(vi),position.getZ(vi));
     g.setAttribute('motionWeight',new T.BufferAttribute(weights,1));
-    g.boundingBox=bounds[i].clone();g.computeBoundingSphere();const pick=new T.Mesh(g);pick.matrixAutoUpdate=false;pick.userData.baseMotionPositions=new Float32Array(position.array as ArrayLike<number>);pick.userData.motionWeights=weights;pickers[i]=pick;geometries.push(g);
+    g.boundingBox=bounds[i].clone();g.computeBoundingSphere();const pick=new T.Mesh(g);pick.matrixAutoUpdate=false;pick.userData.baseMotionPositions=new Float32Array(position.array as ArrayLike<number>);pick.userData.motionWeights=weights;
+    const binding=tissueBindings[p.id],rig=binding?softRigs[binding.side]:null;
+    if(binding?.name===p.name&&rig){pick.userData.skin=bindTissue(rig,binding.profile,pick.userData.baseMotionPositions,p);pick.userData.tissueSide=binding.side;}
+    pickers[i]=pick;geometries.push(g);
     g.setAttribute('partIndex',new T.BufferAttribute(new Float32Array(p.vertexCount).fill(i),1));
     const list=groups.get(p.system)??[];list.push(g);groups.set(p.system,list);
    });
-   groups.forEach((gs,system)=>{const geometry=mergeGeometries(gs,false);if(!geometry)throw new Error('Could not assemble anatomy geometry.');geometries.push(geometry);const mesh=new T.Mesh(geometry,mats.get(system as never));mesh.frustumCulled=false;scene.add(mesh);});
+   groups.forEach((gs,system)=>{const geometry=mergeGeometries(gs,false);if(!geometry)throw new Error('Could not assemble anatomy geometry.');geometries.push(geometry);let vertexOffset=0;
+    for(const g of gs){const index=g.getAttribute('partIndex').getX(0),pick=pickers[index]!;pick.userData.mergedGeometry=geometry;pick.userData.mergedOffset=vertexOffset;vertexOffset+=g.getAttribute('position').count;}
+    const mesh=new T.Mesh(geometry,mats.get(system as never));mesh.frustumCulled=false;scene.add(mesh);});
    lastState=null;loaded++;onProgress(Math.round(loaded/atlas.chunks.length*100));dirty=true;
   };
   (async()=>{try{let cursor=0;await Promise.all(Array.from({length:3},async()=>{while(cursor<atlas.chunks.length){const i=cursor++;await loadChunk(i);}}));if(!disposed){ready=true;dirty=true;}}catch(e){if(!disposed)onError(e instanceof Error?e.message:'Could not load the anatomy.');}})();
+  const updateTissueMotion=(s:SceneState)=>{
+   const palettes={left:softRigs.left?makePalette(softRigs.left,s.partTransforms??{}):null,right:softRigs.right?makePalette(softRigs.right,s.partTransforms??{}):null};
+   for(const mesh of pickers){
+    if(!mesh)continue;const skin=mesh.userData.skin as SkinBinding|undefined;if(!skin)continue;
+    const side=mesh.userData.tissueSide as 'left'|'right',rig=softRigs[side];
+    const active=!!(s.tissueMotion&&rig&&s.partTransforms?.[rig.ids[3]!]);
+    if(!active&&!mesh.userData.tissuePosed)continue;
+    const attr=mesh.geometry.getAttribute('position') as T.BufferAttribute,base=mesh.userData.baseMotionPositions as Float32Array;
+    if(active)deformTissue(skin,base,palettes[side]!,attr.array as Float32Array);else (attr.array as Float32Array).set(base);
+    mesh.userData.tissuePosed=active;attr.needsUpdate=true;mesh.geometry.computeVertexNormals();mesh.geometry.computeBoundingBox();mesh.geometry.computeBoundingSphere();
+    const merged=mesh.userData.mergedGeometry as T.BufferGeometry,offset=mesh.userData.mergedOffset*3;
+    for(const key of ['position','normal']){const to=merged.getAttribute(key) as T.BufferAttribute;(to.array as Float32Array).set(mesh.geometry.getAttribute(key).array,offset);to.needsUpdate=true;}
+   }
+  };
   const fit=(view:string,extent=0)=>{
    const aspect=camera.aspect,mobile=el.clientWidth<768,normalDistance=mobile?Math.max(4.5,1.8*el.clientHeight/Math.max(160,el.clientHeight-350)/(2*Math.tan(T.MathUtils.degToRad(camera.fov/2)))):4;
    const reservedHeight=mobile?350:270;const availableAspect=Math.max(.35,(el.clientWidth-(mobile?40:340))/Math.max(160,el.clientHeight-reservedHeight));const atlasDistance=Math.max(packingHeight,packingWidth/availableAspect)/(2*Math.tan(T.MathUtils.degToRad(camera.fov/2)))*(el.clientHeight/Math.max(160,el.clientHeight-reservedHeight))*1.08;
@@ -290,7 +295,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    if(disposed)return;frame=requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05),s=latest.current;
    if(focusTarget&&focusPosition){const a=1-Math.exp(-8*dt);controls.target.lerp(focusTarget,a);camera.position.lerp(focusPosition,a);dirty=true;if(controls.target.distanceToSquared(focusTarget)<1e-7&&camera.position.distanceToSquared(focusPosition)<1e-7){controls.target.copy(focusTarget);camera.position.copy(focusPosition);focusTarget=null;focusPosition=null;}}
    const changed=lastState?.visible!==s.visible||lastState?.selected!==s.selected||lastState?.hiddenParts!==s.hiddenParts||lastState?.depthFilter!==s.depthFilter||lastState?.focusParts!==s.focusParts||lastState?.isolate!==s.isolate||lastState?.partTransforms!==s.partTransforms;
-   if(changed&&nerveMeshes.length)updateNerveMotion(s);
+   const tissueChanged=!lastState||lastState.partTransforms!==s.partTransforms||lastState.tissueMotion!==s.tissueMotion;
+   if(tissueChanged){updateTissueMotion(s);updateNerveMotion(s);}
    if(nerveMeshes.length){
     const nervesOn=s.visible.includes('nervous'),ctx=viewerContext.current;
     nerveRoot.visible=nervesOn;
@@ -298,9 +304,9 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      if(!nervesOn){o.visible=false;return;}
      const name=(o.userData.mjExactName as string|undefined)||o.name,side=nerveSide(name),overlay=ctx.motionActive||ctx.region!=='whole-body';
      const sideOk=ctx.focusSide==='both'||side==='both'||side===ctx.focusSide;
-     if(ctx.motionActive)o.visible=sideOk&&upperLimbNerve.test(name);
+     if(ctx.motionActive)o.visible=sideOk&&!!nerveBindings[name];
      else o.visible=sideOk&&nerveMatchesRegion(name,ctx.region,false);
-     if(o.material.depthTest===overlay){o.material.depthTest=!overlay;o.material.opacity=overlay?1:.82;o.material.emissiveIntensity=overlay?.65:.28;o.material.needsUpdate=true;}
+     if(!o.material.depthTest||o.material.opacity!==1){o.material.depthTest=true;o.material.depthWrite=true;o.material.transparent=false;o.material.opacity=1;o.material.emissiveIntensity=.28;o.material.needsUpdate=true;}
     });
    }
    const moving=Math.abs(amount-s.explode)>.0001;

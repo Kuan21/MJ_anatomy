@@ -40,3 +40,6 @@ next-env.d.ts
 
 # local Sites runtime
 /.sites-runtime/
+
+# Rebuilt from the pinned Three.js package before dev/build
+/public/draco/draco_*

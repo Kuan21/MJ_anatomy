@@ -1,5 +1,6 @@
 import * as T from 'three';
 import type {Atlas,PartTransform} from './anatomy';
+import boneBindings from './biomechanics-v2/bone-bindings.json';
 
 export type Side='left'|'right';
 export interface MotionPose{
@@ -50,11 +51,6 @@ const about=(pivot:T.Vector3,q:T.Quaternion)=>new T.Matrix4().makeTranslation(pi
 const tuple3=(v:T.Vector3):[number,number,number]=>[v.x,v.y,v.z];
 const tuple4=(q:T.Quaternion):[number,number,number,number]=>[q.x,q.y,q.z,q.w];
 const rigid=(m:T.Matrix4):PartTransform=>{const p=new T.Vector3(),q=new T.Quaternion(),s=new T.Vector3();m.decompose(p,q,s);return{translation:tuple3(p),quaternion:tuple4(q.normalize())};};
-const blendRigid=(a:T.Matrix4,b:T.Matrix4,t:number):PartTransform=>{const pa=new T.Vector3(),qa=new T.Quaternion(),sa=new T.Vector3(),pb=new T.Vector3(),qb=new T.Quaternion(),sb=new T.Vector3();a.decompose(pa,qa,sa);b.decompose(pb,qb,sb);if(qa.dot(qb)<0)qb.set(-qb.x,-qb.y,-qb.z,-qb.w);const p=pa.lerp(pb,t),q=qa.slerp(qb,t).normalize();return{translation:tuple3(p),quaternion:tuple4(q)};};
-const deform=(moving:T.Matrix4,anchor:T.Matrix4):PartTransform=>{
- const a=rigid(anchor),b=rigid(moving);
- return{...b,anchorTranslation:a.translation,anchorQuaternion:a.quaternion};
-};
 const clamp=(v:number,[lo,hi]:readonly[number,number])=>T.MathUtils.clamp(v,lo,hi);
 
 export function constrainPose(input:MotionPose):MotionPose{
@@ -86,12 +82,8 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
   return{transforms:{} as Record<string,PartTransform>,warnings};
  }
 
- const handBone=/metacarpal|phalanx|carpal|scaphoid|lunate|triquetr|pisiform|trapezium|trapezoid|capitate|hamate/;
- const handIndices=atlas.parts.map((p,i)=>({p,i})).filter(({p})=>{
-  if(p.system!=='skeletal')return false;
-  const c=centerOfPart(p),correctSide=side==='right'?c.x<-.04:c.x>.04;
-  return correctSide&&handBone.test(norm(p.name));
- }).map(x=>x.i);
+ const handIds=new Set([...boneBindings[side].carpus,...boneBindings[side].hand].map(p=>p.id));
+ const handIndices=atlas.parts.map((p,i)=>({p,i})).filter(({p})=>handIds.has(p.id)&&p.system==='skeletal').map(({i})=>i);
 
  const humerusBox=boxFor(atlas,humerus),scapulaBox=boxFor(atlas,scapula),clavicleBox=boxFor(atlas,clavicle);
  const shoulderCandidates=longEndpoints(humerusBox);
@@ -188,141 +180,14 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  const wristQ=qdeg(wristFlexAxis,p.wristFlexion).multiply(qdeg(wristDeviationAxis,p.wristDeviation)).normalize();
  const wristM=about(movedWrist,wristQ).multiply(forearmM);
 
- const identityM=new T.Matrix4();
+ // Soft tissues are deformed in scene.tsx from a shared bind-space field.
+ // Emit bone-only transforms; never rotate muscle heads as separate rigid lumps.
  const transforms:Record<string,PartTransform>={};
- const onSide=(part:Atlas['parts'][number])=>{
-  const name=norm(part.name);
-  if(/\bright\b/.test(name))return side==='right';
-  if(/\bleft\b/.test(name))return side==='left';
-  const c=centerOfPart(part);if(Math.abs(c.x)<.02)return false;
-  return side==='right'?c.x<0:c.x>0;
- };
- const exactName=(part:Atlas['parts'][number],needle:string)=>norm(part.name)===norm(`${cap} ${needle}`);
-
- const deltoid=(part:Atlas['parts'][number])=>/deltoid/.test(norm(part.name));
- const cuff=(part:Atlas['parts'][number])=>/supraspinatus|infraspinatus|subscapularis|teres minor/.test(norm(part.name));
- const trunkToScapula=(part:Atlas['parts'][number])=>/pectoralis minor|serratus anterior|trapezius|rhomboid|levator scapulae/.test(norm(part.name));
- const trunkToClavicle=(part:Atlas['parts'][number])=>/subclavius/.test(norm(part.name));
- const trunkToHumerus=(part:Atlas['parts'][number])=>/pectoralis major|latissimus dorsi|teres major/.test(norm(part.name));
- const biceps=(part:Atlas['parts'][number])=>/biceps brachii/.test(norm(part.name));
- const triceps=(part:Atlas['parts'][number])=>/triceps brachii/.test(norm(part.name));
- const brachialis=(part:Atlas['parts'][number])=>/\bbrachialis\b/.test(norm(part.name))&&!/brachioradialis/.test(norm(part.name));
- const coracobrachialis=(part:Atlas['parts'][number])=>/coracobrachialis/.test(norm(part.name));
- const brachioradialis=(part:Atlas['parts'][number])=>/brachioradialis/.test(norm(part.name));
- const forearmRotator=(part:Atlas['parts'][number])=>/pronator teres|pronator quadratus|supinator/.test(norm(part.name));
- const wristCrosser=(part:Atlas['parts'][number])=>/flexor carpi|palmaris longus|flexor digitorum|flexor pollicis longus|extensor carpi|extensor digitorum|extensor digiti minimi|extensor pollicis|extensor indicis|abductor pollicis longus/.test(norm(part.name));
- const forearmMuscle=(part:Atlas['parts'][number])=>/pronator|supinator|flexor|extensor|palmaris/.test(norm(part.name));
- const vascular=(part:Atlas['parts'][number])=>part.system==='arterial'||part.system==='venous';
- const upperLimbVascular=(part:Atlas['parts'][number])=>centerOfPart(part).y>.68&&/subclavian|axillary|brachial|radial|ulnar|interosseous|palmar|digital|metacarpal|carpal|cephalic|basilic|median cubital|median antebrachial|circumflex humeral|thoraco-acromial|lateral thoracic|subscapular|suprascapular|thoracodorsal|dorsal scapular|princeps pollicis|radialis indicis/.test(norm(part.name));
- const thoraxStatic=(part:Atlas['parts'][number])=>/rib|sternum|intercostal|costal cartilage|thoracic fascia|pectoral fascia|clavipectoral fascia|endothoracic|pleura|diaphragm|rectus sheath|linea alba|intervertebral/.test(norm(part.name));
- const specialShoulder=(part:Atlas['parts'][number])=>deltoid(part)||cuff(part)||trunkToScapula(part)||trunkToClavicle(part)||trunkToHumerus(part)||biceps(part)||triceps(part)||brachialis(part)||coracobrachialis(part);
- const forearmBand=(part:Atlas['parts'][number])=>{const c=centerOfPart(part);return c.y>.74&&c.y<1.20&&Math.abs(c.x)>.13;};
-
- const isProximalBundle=(part:Atlas['parts'][number])=>{
-  const c=centerOfPart(part),name=norm(part.name);
-  return c.y>1.27&&/(ligament|retinaculum|fascia|aponeurosis)/.test(name);
- };
- const isUpperLimb=(part:Atlas['parts'][number])=>{
-  const c=centerOfPart(part),name=norm(part.name);
-  if(!onSide(part)||c.y<.62||c.y>1.46)return false;
-  if(part.system==='nervous'||part.system==='integumentary'||vascular(part))return false;
-  if(specialShoulder(part)||thoraxStatic(part))return false;
-  if(/scapula|clavicle/.test(name))return false;
-  if(isProximalBundle(part))return false;
-  if(/humerus|radius|ulna/.test(name)||handBone.test(name))return true;
-  // Do not use a broad coordinate fallback here: hip/thigh structures occupy
-  // overlapping Y ranges in this atlas and were previously dragged with the
-  // arm. Only explicitly upper-limb connective/soft structures may follow.
-  return /forearm|wrist|hand|digital|palmar|antebrachial|brachial|flexor retinaculum|interosseous membrane/.test(name);
- };
- const isDistalToElbow=(part:Atlas['parts'][number])=>{
-  const c=centerOfPart(part),name=norm(part.name);
-  if(!isUpperLimb(part))return false;
-  if(/radius|ulna/.test(name)||handBone.test(name))return true;
-  return c.y<=elbow.y+.02;
- };
- const isHandPart=(part:Atlas['parts'][number])=>{
-  if(!isUpperLimb(part))return false;
-  const c=centerOfPart(part),name=norm(part.name);
-  return handBone.test(name)||/thenar|hypothenar|lumbrical|interosse|palmar|digital|thumb|finger/.test(name)||c.y<=neutralWrist.y+.035;
- };
- const isPronating=(part:Atlas['parts'][number])=>{
-  const name=norm(part.name),c=centerOfPart(part);
-  if(!isDistalToElbow(part))return false;
-  if(name===norm(`${cap} ulna`))return false;
-  return name===norm(`${cap} radius`)||c.y<1.10||handBone.test(name);
- };
-
- const vesselTransform=(part:Atlas['parts'][number])=>{
-  const name=norm(part.name),c=centerOfPart(part);
-  // Scapular branches remain related to the moving scapula rather than the
-  // humeral shaft.
-  if(/suprascapular|dorsal scapular|circumflex scapular|thoracodorsal/.test(name))return deform(scapulaM,identityM);
-  // Subclavian vessels are anchored to the root of the neck and follow only
-  // the lateral clavicular end.
-  if(/subclavian/.test(name))return deform(clavicleM,identityM);
-  // Axillary/circumflex vessels bridge trunk/shoulder to the arm.
-  if(c.y>1.30||/axillary|circumflex humeral|thoraco-acromial|lateral thoracic|subscapular/.test(name))return deform(shoulderM,identityM);
-  // Brachial and superficial arm vessels bend from humerus to elbow.
-  if(c.y>1.08)return deform(elbowM,shoulderM);
-  // Forearm vessels rotate with the radius/ulna relationship while remaining
-  // connected at the cubital fossa.
-  if(c.y>.88)return deform(forearmM,elbowM);
-  // Carpal branches bridge the moving wrist; digital/palmar vessels then move
-  // rigidly with the hand so the vascular tree stays continuous.
-  if(c.y>.80)return deform(wristM,forearmM);
-  return rigid(wristM);
- };
-
- for(const part of atlas.parts){
-  if(exactName(part,'scapula')){transforms[part.id]=rigid(scapulaM);continue;}
-  if(exactName(part,'clavicle')){transforms[part.id]=rigid(clavicleM);continue;}
-  if(!onSide(part)||thoraxStatic(part))continue;
-
-  // Vessels are treated as continuous soft tubes rather than disconnected
-  // rigid fragments. scene.tsx blends each segment between these transforms.
-  if(vascular(part)){if(upperLimbVascular(part))transforms[part.id]=vesselTransform(part);continue;}
-
-  // The source atlas muscles are rigid surface meshes. Use whole-mesh rigid
-  // interpolation between anatomical attachments so they retain their volume
-  // and cannot turn into thin membranes during motion.
-  if(deltoid(part)){
-   const anchor=/clavicular part/.test(norm(part.name))?clavicleM:scapulaM;
-   transforms[part.id]=blendRigid(anchor,shoulderM,.72);continue;
-  }
-  if(cuff(part)){transforms[part.id]=blendRigid(scapulaM,shoulderM,.52);continue;}
-  if(trunkToScapula(part)){
-   if(/pectoralis minor|serratus anterior|trapezius|rhomboid|levator scapulae/.test(norm(part.name)))continue;
-   transforms[part.id]=rigid(clavicleM);continue;
-  }
-  if(trunkToClavicle(part)){transforms[part.id]=rigid(clavicleM);continue;}
-  if(trunkToHumerus(part)){
-   const n=norm(part.name);
-   if(/pectoralis major|latissimus dorsi/.test(n))continue;
-   transforms[part.id]=blendRigid(scapulaM,shoulderM,.58);continue;
-  }
-
-  // Upper-arm muscle bellies travel with the humerus. Their distal tendons are
-  // not separately skinned in this atlas, so keeping the bellies rigid gives
-  // a much more human-looking result than stretching them across joints.
-  if(biceps(part)){transforms[part.id]=rigid(shoulderM);continue;}
-  if(triceps(part)){transforms[part.id]=rigid(shoulderM);continue;}
-  if(brachialis(part)){transforms[part.id]=rigid(shoulderM);continue;}
-  if(coracobrachialis(part)){transforms[part.id]=blendRigid(scapulaM,shoulderM,.78);continue;}
-  // The source forearm muscles are rigid surface meshes, not skinned tissue.
-  // Stretching them between elbow/radius/wrist transforms made them fan apart.
-  // Keep muscle bellies with the forearm compartment; radius and hand still
-  // perform pronation/supination and wrist motion independently.
-  if(brachioradialis(part)&&forearmBand(part)){transforms[part.id]=rigid(elbowM);continue;}
-  if(wristCrosser(part)&&forearmBand(part)){transforms[part.id]=rigid(elbowM);continue;}
-  if(forearmRotator(part)&&forearmBand(part)){transforms[part.id]=rigid(elbowM);continue;}
-  if(forearmMuscle(part)&&forearmBand(part)){transforms[part.id]=rigid(elbowM);continue;}
-
-  if(!isUpperLimb(part))continue;
-  if(isHandPart(part)){transforms[part.id]=rigid(wristM);continue;}
-  if(isPronating(part)){transforms[part.id]=rigid(forearmM);continue;}
-  transforms[part.id]=rigid(isDistalToElbow(part)?elbowM:shoulderM);
+ const matrices={clavicle:clavicleM,scapula:scapulaM,humerus:shoulderM,ulna:elbowM,radius:forearmM,carpus:wristM,hand:wristM};
+ for(const [group,entries] of Object.entries(boneBindings[side]))for(const entry of entries){
+  const part=atlas.parts.find(p=>p.id===entry.id&&p.name===entry.name&&p.system==='skeletal');
+  if(!part){warnings.push(`Bone binding missing: ${entry.name}`);continue;}
+  transforms[part.id]=rigid(matrices[group as keyof typeof matrices]);
  }
-
  return{transforms,warnings};
 }
