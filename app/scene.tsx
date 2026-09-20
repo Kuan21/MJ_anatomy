@@ -8,7 +8,7 @@ import {mergeGeometries} from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import {createExplosionLayout} from './explosion-layout';
 import {decodeModelResponse} from './model-download';
 import {PointerTap} from './pointer-tap';
-import {SYSTEMS,type Atlas,type SceneState} from './anatomy';
+import {SYSTEMS,type Atlas,type LimbMotionChain,type PartTransform,type SceneState} from './anatomy';
 import {matchesDepth} from './mj-depth';
 interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;onSelectNerve?:(name:string)=>void;onProgress:(n:number)=>void;onError:(s:string)=>void;onJointDrag?:(side:'left'|'right',joint:'shoulderAbduction'|'elbowFlexion',delta:number)=>void;region?:'whole-body'|'shoulder'|'arm'|'forearm'|'hand';focusSide?:'both'|'left'|'right';motionActive?:boolean}
 export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgress,onError,onJointDrag,region='whole-body',focusSide='both',motionActive=false}:Props){
@@ -62,37 +62,57 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const nerveBox=geometry.boundingBox!,nerveSize=nerveBox.getSize(new T.Vector3());
     const upperLimbSized=nerveBox.min.y>.52&&nerveBox.max.y<1.55&&nerveSize.y<1.02&&nerveSize.x<.42;
     const mesh=new T.Mesh(geometry,material);mesh.name=exactName||fullName;mesh.frustumCulled=false;mesh.renderOrder=18;mesh.userData.mjNerve=true;mesh.userData.mjExactName=exactName;mesh.userData.mjSide=nerveSide(exactName)||inferredSide;mesh.userData.mjMotionRight=motionRight&&upperLimbSized;mesh.userData.mjMotionLeft=motionLeft&&upperLimbSized;mesh.userData.basePositions=new Float32Array((position.array as ArrayLike<number>));nerveRoot.add(mesh);nerveMeshes.push(mesh);});dirty=true;},undefined,err=>{if(!disposed)console.warn('Could not load legacy nervous system model',err);});
-  const boneMotionId=(side:'left'|'right',pattern:RegExp)=>atlas.parts.find(p=>{if(p.system!=='skeletal'||!pattern.test(p.name.toLowerCase()))return false;const cx=(p.bounds[0][0]+p.bounds[1][0])/2;return side==='right'?cx<-.04:cx>.04;})?.id;
-  const nerveMotionIds={
-   right:{upper:boneMotionId('right',/^right humerus$/i),forearm:boneMotionId('right',/^right radius$/i),hand:boneMotionId('right',/right .*?(metacarpal|carpal|scaphoid|lunate|capitate|hamate)/i)},
-   left:{upper:boneMotionId('left',/^left humerus$/i),forearm:boneMotionId('left',/^left radius$/i),hand:boneMotionId('left',/left .*?(metacarpal|carpal|scaphoid|lunate|capitate|hamate)/i)}
+  const transformMatrix=(t:PartTransform|undefined)=>{const m=new T.Matrix4();if(!t)return m.identity();return m.compose(new T.Vector3(...t.translation),new T.Quaternion(...t.quaternion),new T.Vector3(1,1,1));};
+  type ChainMatrices={side:'left'|'right';shoulder:T.Matrix4;elbow:T.Matrix4;forearm:T.Matrix4;wrist:T.Matrix4};
+  const buildChainMatrices=(chain:LimbMotionChain|undefined):ChainMatrices|null=>chain?{side:chain.side,shoulder:transformMatrix(chain.shoulder),elbow:transformMatrix(chain.elbow),forearm:transformMatrix(chain.forearm),wrist:transformMatrix(chain.wrist)}:null;
+  const chainA=new T.Vector3(),chainB=new T.Vector3();
+  const smooth01=(v:number)=>{const x=T.MathUtils.clamp(v,0,1);return x*x*(3-2*x);};
+  const warpAlongLimb=(source:T.Vector3,out:T.Vector3,chain:ChainMatrices|null)=>{
+   if(!chain)return out.copy(source);
+   const sideMatch=chain.side==='right'?source.x<-.045:source.x>.045;
+   if(!sideMatch||source.y>.1.52||source.y<.55||Math.abs(source.x)<.045)return out.copy(source);
+   const y=source.y;
+   const apply=(m:T.Matrix4)=>out.copy(source).applyMatrix4(m);
+   const blend=(a:T.Matrix4|null,b:T.Matrix4,t:number)=>{
+    if(a)chainA.copy(source).applyMatrix4(a);else chainA.copy(source);
+    chainB.copy(source).applyMatrix4(b);return out.copy(chainA).lerp(chainB,smooth01(t));
+   };
+   if(y>=1.38)return out.copy(source);
+   if(y>1.28)return blend(null,chain.shoulder,(1.38-y)/.10);
+   if(y>=1.10)return apply(chain.shoulder);
+   if(y>1.02)return blend(chain.shoulder,chain.elbow,(1.10-y)/.08);
+   if(y>=.98)return apply(chain.elbow);
+   if(y>.90)return blend(chain.elbow,chain.forearm,(.98-y)/.08);
+   if(y>=.76)return apply(chain.forearm);
+   if(y>.68)return blend(chain.forearm,chain.wrist,(.76-y)/.08);
+   return apply(chain.wrist);
   };
-  const transformMatrix=(t:NonNullable<SceneState['partTransforms']>[string]|undefined)=>{const m=new T.Matrix4();if(!t)return m.identity();return m.compose(new T.Vector3(...t.translation),new T.Quaternion(...t.quaternion),new T.Vector3(1,1,1));};
-  const nerveP=new T.Vector3(),nerveA=new T.Vector3(),nerveB=new T.Vector3();
+  const upperLimbVascularPart=(p:Atlas['parts'][number],side:'left'|'right')=>{
+   if(p.system!=='arterial'&&p.system!=='venous')return false;
+   const cx=(p.bounds[0][0]+p.bounds[1][0])*.5,cy=(p.bounds[0][1]+p.bounds[1][1])*.5;
+   if(side==='right'?cx>=-.035:cx<=.035)return false;
+   if(cy<.55||cy>1.52)return false;
+   return /subclavian|axillary|brachial|radial|ulnar|interosseous|palmar|digital|metacarpal|carpal|cephalic|basilic|median cubital|median antebrachial|circumflex humeral|thoraco-acromial|lateral thoracic|subscapular|suprascapular|thoracodorsal|dorsal scapular|princeps pollicis|radialis indicis/i.test(p.name);
+  };
+  const nerveP=new T.Vector3(),nerveA=new T.Vector3();
   const updateNerveMotion=(s:SceneState)=>{
-   const ctx=viewerContext.current;
+   const chain=viewerContext.current.motionActive?buildChainMatrices(s.limbChain):null;
    for(const mesh of nerveMeshes){
     const attr=mesh.geometry.getAttribute('position') as T.BufferAttribute,base=mesh.userData.basePositions as Float32Array|undefined;if(!base)continue;
-    const name=(mesh.userData.mjExactName as string|undefined)||mesh.name,side=(mesh.userData.mjSide as 'left'|'right'|'both'|undefined)??nerveSide(name);
-    const ids=side==='left'?nerveMotionIds.left:side==='right'?nerveMotionIds.right:null;
-    const geometryEligible=side==='right'?!!mesh.userData.mjMotionRight:side==='left'?!!mesh.userData.mjMotionLeft:false;
-    const active=!!(ctx.motionActive&&ids&&(geometryEligible||upperLimbNerve.test(name))&&s.partTransforms);
-    const upper=active?transformMatrix(ids!.upper?s.partTransforms?.[ids!.upper]:undefined):new T.Matrix4();
-    const fore=active?transformMatrix(ids!.forearm?s.partTransforms?.[ids!.forearm]:undefined):new T.Matrix4();
-    const hand=active?transformMatrix(ids!.hand?s.partTransforms?.[ids!.hand]:undefined):fore;
+    for(let i=0;i<attr.count;i++){nerveP.set(base[i*3],base[i*3+1],base[i*3+2]);warpAlongLimb(nerveP,nerveA,chain);attr.setXYZ(i,nerveA.x,nerveA.y,nerveA.z);}
+    attr.needsUpdate=true;
+   }
+  };
+  const vascularP=new T.Vector3(),vascularOut=new T.Vector3();
+  const updateVascularMotion=(s:SceneState)=>{
+   const chain=viewerContext.current.motionActive?buildChainMatrices(s.limbChain):null;
+   for(const mesh of vascularMeshes){
+    const attr=mesh.geometry.getAttribute('position') as T.BufferAttribute,partIndex=mesh.geometry.getAttribute('partIndex') as T.BufferAttribute|undefined,base=mesh.userData.baseMotionPositions as Float32Array|undefined;if(!base||!partIndex)continue;
     for(let i=0;i<attr.count;i++){
-     nerveP.set(base[i*3],base[i*3+1],base[i*3+2]);
-     if(!active){attr.setXYZ(i,nerveP.x,nerveP.y,nerveP.z);continue;}
-     const y=nerveP.y;
-     if(y>=1.36)nerveA.copy(nerveP);
-     else if(y>1.28){const t=(1.36-y)/.08;nerveA.copy(nerveP);nerveB.copy(nerveP).applyMatrix4(upper);nerveA.lerp(nerveB,t);}
-     else if(y>=1.08)nerveA.copy(nerveP).applyMatrix4(upper);
-     else if(y>.98){const t=(1.08-y)/.10;nerveA.copy(nerveP).applyMatrix4(upper);nerveB.copy(nerveP).applyMatrix4(fore);nerveA.lerp(nerveB,t);}
-     else if(y>=.76)nerveA.copy(nerveP).applyMatrix4(fore);
-     else if(y>.68){const t=(.76-y)/.08;nerveA.copy(nerveP).applyMatrix4(fore);nerveB.copy(nerveP).applyMatrix4(hand);nerveA.lerp(nerveB,t);}
-     else nerveA.copy(nerveP).applyMatrix4(hand);
-     nerveB.copy(nerveA).sub(nerveP);if(nerveB.length()>.85)nerveB.setLength(.85);
-     nerveA.copy(nerveP).add(nerveB);attr.setXYZ(i,nerveA.x,nerveA.y,nerveA.z);
+     vascularP.set(base[i*3],base[i*3+1],base[i*3+2]);
+     const p=atlas.parts[Math.round(partIndex.getX(i))];
+     if(chain&&p&&upperLimbVascularPart(p,chain.side))warpAlongLimb(vascularP,vascularOut,chain);else vascularOut.copy(vascularP);
+     attr.setXYZ(i,vascularOut.x,vascularOut.y,vascularOut.z);
     }
     attr.needsUpdate=true;
    }
