@@ -42,7 +42,12 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    if(r==='forearm')return forearmNerve.test(name);
    return handNerve.test(name);
   };
-  const draco=new DRACOLoader();draco.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');const loader=new GLTFLoader();loader.setDRACOLoader(draco);loader.load(`${import.meta.env.BASE_URL}models/nervous.glb`,gltf=>{if(disposed)return;gltf.scene.updateMatrixWorld(true);gltf.scene.traverse(o=>{if(!(o instanceof T.Mesh))return;const fullName=nerveName(o);if(/nervous system\s*&?\s*sense organs?/i.test(o.name))return;if(/brain|cerebr|cerebell|\bgyrus\b|lobule|\blobe\b|hemisphere|corpus callosum|thalam|hypothalam|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|colliculus|geniculate|midbrain|pons|medulla|fornix|commissure|ventricle|choroid plexus|optic chiasm|optic tract|pituitary|pineal|basilar artery|cerebral artery|cerebellar artery/i.test(fullName))return;const geometry=o.geometry.clone();geometry.applyMatrix4(o.matrixWorld);geometry.boundingBox=null;geometry.boundingSphere=new T.Sphere(new T.Vector3(0,.9,0),2.5);const position=geometry.getAttribute('position');if(!position)return;const material=new T.MeshStandardMaterial({color:0xf1cb4f,metalness:0,roughness:.42,emissive:0x6b5100,emissiveIntensity:.28,depthTest:true,depthWrite:false,transparent:true,opacity:.82});geometry.computeBoundingBox();const nerveCenter=geometry.boundingBox?.getCenter(new T.Vector3())??new T.Vector3();const mesh=new T.Mesh(geometry,material);mesh.name=fullName;mesh.frustumCulled=false;mesh.renderOrder=18;mesh.userData.mjNerve=true;mesh.userData.mjSide=nerveCenter.x<-.012?'right':nerveCenter.x>.012?'left':'both';mesh.userData.basePositions=new Float32Array((position.array as ArrayLike<number>));nerveRoot.add(mesh);nerveMeshes.push(mesh);});dirty=true;},undefined,err=>{if(!disposed)console.warn('Could not load legacy nervous system model',err);});
+  const draco=new DRACOLoader();draco.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');const loader=new GLTFLoader();loader.setDRACOLoader(draco);loader.load(`${import.meta.env.BASE_URL}models/nervous.glb`,gltf=>{if(disposed)return;gltf.scene.updateMatrixWorld(true);gltf.scene.traverse(o=>{if(!(o instanceof T.Mesh))return;const fullName=nerveName(o);if(/nervous system\s*&?\s*sense organs?/i.test(o.name))return;if(/brain|cerebr|cerebell|\bgyrus\b|lobule|\blobe\b|hemisphere|corpus callosum|thalam|hypothalam|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|colliculus|geniculate|midbrain|pons|medulla|fornix|commissure|ventricle|choroid plexus|optic chiasm|optic tract|pituitary|pineal|basilar artery|cerebral artery|cerebellar artery/i.test(fullName))return;const geometry=o.geometry.clone();geometry.applyMatrix4(o.matrixWorld);geometry.boundingBox=null;geometry.boundingSphere=new T.Sphere(new T.Vector3(0,.9,0),2.5);const position=geometry.getAttribute('position');if(!position)return;const material=new T.MeshStandardMaterial({color:0xf1cb4f,metalness:0,roughness:.42,emissive:0x6b5100,emissiveIntensity:.28,depthTest:true,depthWrite:false,transparent:true,opacity:.82});geometry.computeBoundingBox();const nerveCenter=geometry.boundingBox?.getCenter(new T.Vector3())??new T.Vector3();
+    let rightArmHits=0,leftArmHits=0,sampled=0;const sampleStep=Math.max(1,Math.floor(position.count/1200));
+    for(let vi=0;vi<position.count;vi+=sampleStep){const x=position.getX(vi),y=position.getY(vi);sampled++;if(y<.55||y>1.52||Math.abs(x)<.025)continue;if(x<0)rightArmHits++;else leftArmHits++;}
+    const minArmHits=Math.max(3,Math.ceil(sampled*.08)),motionRight=rightArmHits>=minArmHits&&rightArmHits>leftArmHits*.65,motionLeft=leftArmHits>=minArmHits&&leftArmHits>rightArmHits*.65;
+    const inferredSide=motionRight&&!motionLeft?'right':motionLeft&&!motionRight?'left':nerveCenter.x<-.012?'right':nerveCenter.x>.012?'left':'both';
+    const mesh=new T.Mesh(geometry,material);mesh.name=fullName;mesh.frustumCulled=false;mesh.renderOrder=18;mesh.userData.mjNerve=true;mesh.userData.mjSide=inferredSide;mesh.userData.mjMotionRight=motionRight;mesh.userData.mjMotionLeft=motionLeft;mesh.userData.basePositions=new Float32Array((position.array as ArrayLike<number>));nerveRoot.add(mesh);nerveMeshes.push(mesh);});dirty=true;},undefined,err=>{if(!disposed)console.warn('Could not load legacy nervous system model',err);});
   const boneMotionId=(side:'left'|'right',pattern:RegExp)=>atlas.parts.find(p=>{if(p.system!=='skeletal'||!pattern.test(p.name.toLowerCase()))return false;const cx=(p.bounds[0][0]+p.bounds[1][0])/2;return side==='right'?cx<-.04:cx>.04;})?.id;
   const nerveMotionIds={
    right:{upper:boneMotionId('right',/^right humerus$/i),forearm:boneMotionId('right',/^right radius$/i),hand:boneMotionId('right',/right .*?(metacarpal|carpal|scaphoid|lunate|capitate|hamate)/i)},
@@ -56,7 +61,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const attr=mesh.geometry.getAttribute('position') as T.BufferAttribute,base=mesh.userData.basePositions as Float32Array|undefined;if(!base)continue;
     const name=mesh.name,side=(mesh.userData.mjSide as 'left'|'right'|'both'|undefined)??nerveSide(name);
     const ids=side==='left'?nerveMotionIds.left:side==='right'?nerveMotionIds.right:null;
-    const active=!!(ctx.motionActive&&ids&&upperLimbNerve.test(name)&&s.partTransforms);
+    const geometryEligible=side==='right'?!!mesh.userData.mjMotionRight:side==='left'?!!mesh.userData.mjMotionLeft:false;
+    const active=!!(ctx.motionActive&&ids&&(geometryEligible||upperLimbNerve.test(name))&&s.partTransforms);
     const upper=active?transformMatrix(ids!.upper?s.partTransforms?.[ids!.upper]:undefined):new T.Matrix4();
     const fore=active?transformMatrix(ids!.forearm?s.partTransforms?.[ids!.forearm]:undefined):new T.Matrix4();
     const hand=active?transformMatrix(ids!.hand?s.partTransforms?.[ids!.hand]:undefined):fore;
@@ -149,7 +155,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    // Pectoralis major should keep almost all of its broad sternal/rib origin
    // on the chest. Only the lateral humeral insertion is allowed to travel
    // strongly with the arm, which keeps the ribs covered during elevation.
-   if(/pectoralis major|latissimus dorsi/.test(name))return 0;
+   if(/pectoralis major/.test(name))return smoothstep((lateral-.70)/.24);
+   if(/latissimus dorsi/.test(name))return smoothstep((lateral-.76)/.18);
 
    // Rotator cuff and scapular muscles blend from their medial/trunk origin to
    // the lateral scapular/humeral attachment.
@@ -276,7 +283,10 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      if(!nervesOn){o.visible=false;return;}
      const name=nerveName(o),side=(o.userData.mjSide as 'left'|'right'|'both'|undefined)??nerveSide(name),overlay=ctx.motionActive||ctx.region!=='whole-body';
      const sideOk=ctx.focusSide==='both'||side==='both'||side===ctx.focusSide;
-     o.visible=sideOk&&nerveMatchesRegion(name,ctx.region,ctx.motionActive);
+     if(ctx.motionActive){
+      const geometryMatch=ctx.focusSide==='right'?!!o.userData.mjMotionRight:ctx.focusSide==='left'?!!o.userData.mjMotionLeft:!!o.userData.mjMotionRight||!!o.userData.mjMotionLeft;
+      o.visible=geometryMatch||(sideOk&&upperLimbNerve.test(name));
+     }else o.visible=sideOk&&nerveMatchesRegion(name,ctx.region,false);
      if(o.material.depthTest===overlay){o.material.depthTest=!overlay;o.material.opacity=overlay?1:.82;o.material.emissiveIntensity=overlay?.65:.28;o.material.needsUpdate=true;}
     });
    }
