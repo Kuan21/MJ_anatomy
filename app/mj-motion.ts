@@ -30,8 +30,8 @@ export const MOTION_LIMITS={
  shoulderRotation:[-25,35],
  elbowFlexion:[0,135],
  forearmRotation:[-55,55],
- wristFlexion:[-35,35],
- wristDeviation:[-15,15]
+ wristFlexion:[-28,28],
+ wristDeviation:[-12,12]
 } as const;
 
 const norm=(s:string)=>s.trim().toLowerCase();
@@ -50,6 +50,7 @@ const about=(pivot:T.Vector3,q:T.Quaternion)=>new T.Matrix4().makeTranslation(pi
 const tuple3=(v:T.Vector3):[number,number,number]=>[v.x,v.y,v.z];
 const tuple4=(q:T.Quaternion):[number,number,number,number]=>[q.x,q.y,q.z,q.w];
 const rigid=(m:T.Matrix4):PartTransform=>{const p=new T.Vector3(),q=new T.Quaternion(),s=new T.Vector3();m.decompose(p,q,s);return{translation:tuple3(p),quaternion:tuple4(q.normalize())};};
+const blendRigid=(a:T.Matrix4,b:T.Matrix4,t:number):PartTransform=>{const pa=new T.Vector3(),qa=new T.Quaternion(),sa=new T.Vector3(),pb=new T.Vector3(),qb=new T.Quaternion(),sb=new T.Vector3();a.decompose(pa,qa,sa);b.decompose(pb,qb,sb);if(qa.dot(qb)<0)qb.set(-qb.x,-qb.y,-qb.z,-qb.w);const p=pa.lerp(pb,t),q=qa.slerp(qb,t).normalize();return{translation:tuple3(p),quaternion:tuple4(q)};};
 const deform=(moving:T.Matrix4,anchor:T.Matrix4):PartTransform=>{
  const a=rigid(anchor),b=rigid(moving);
  return{...b,anchorTranslation:a.translation,anchorQuaternion:a.quaternion};
@@ -282,36 +283,33 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
   // rigid fragments. scene.tsx blends each segment between these transforms.
   if(vascular(part)){if(upperLimbVascular(part))transforms[part.id]=vesselTransform(part);continue;}
 
-  // Shoulder-girdle muscles preserve their anatomical attachments.
+  // The source atlas muscles are rigid surface meshes. Use whole-mesh rigid
+  // interpolation between anatomical attachments so they retain their volume
+  // and cannot turn into thin membranes during motion.
   if(deltoid(part)){
    const anchor=/clavicular part/.test(norm(part.name))?clavicleM:scapulaM;
-   transforms[part.id]=deform(shoulderM,anchor);continue;
+   transforms[part.id]=blendRigid(anchor,shoulderM,.72);continue;
   }
-  if(cuff(part)){transforms[part.id]=deform(shoulderM,scapulaM);continue;}
+  if(cuff(part)){transforms[part.id]=blendRigid(scapulaM,shoulderM,.52);continue;}
   if(trunkToScapula(part)){
-   // Keep broad trunk-origin muscles visually continuous on this rigid atlas.
-   // Their true shortening/bulging needs a skinned or volumetric model.
    if(/pectoralis minor|serratus anterior|trapezius|rhomboid|levator scapulae/.test(norm(part.name)))continue;
    transforms[part.id]=rigid(clavicleM);continue;
   }
   if(trunkToClavicle(part)){transforms[part.id]=rigid(clavicleM);continue;}
   if(trunkToHumerus(part)){
-   // Pectoralis major / latissimus / teres major previously became large
-   // triangular sheets during elevation. Preserve thoracic coverage instead
-   // of stretching the rigid source mesh across the moving shoulder.
-   if(/pectoralis major|latissimus dorsi/.test(norm(part.name)))continue;
-   transforms[part.id]=deform(shoulderM,scapulaM);continue;
+   const n=norm(part.name);
+   if(/pectoralis major/.test(n)){transforms[part.id]=deform(shoulderM,identityM);continue;}
+   if(/latissimus dorsi/.test(n)){transforms[part.id]=deform(shoulderM,identityM);continue;}
+   transforms[part.id]=blendRigid(scapulaM,shoulderM,.58);continue;
   }
 
-  // Muscles crossing joints are blended from their origin-side transform to
-  // their insertion-side transform, so they elongate/curve rather than detach.
-  if(biceps(part)){transforms[part.id]=deform(forearmM,scapulaM);continue;}
-  if(triceps(part)){
-   const anchor=/long head/.test(norm(part.name))?scapulaM:shoulderM;
-   transforms[part.id]=deform(elbowM,anchor);continue;
-  }
-  if(brachialis(part)){transforms[part.id]=deform(elbowM,shoulderM);continue;}
-  if(coracobrachialis(part)){transforms[part.id]=deform(shoulderM,scapulaM);continue;}
+  // Upper-arm muscle bellies travel with the humerus. Their distal tendons are
+  // not separately skinned in this atlas, so keeping the bellies rigid gives
+  // a much more human-looking result than stretching them across joints.
+  if(biceps(part)){transforms[part.id]=rigid(shoulderM);continue;}
+  if(triceps(part)){transforms[part.id]=rigid(shoulderM);continue;}
+  if(brachialis(part)){transforms[part.id]=rigid(shoulderM);continue;}
+  if(coracobrachialis(part)){transforms[part.id]=blendRigid(scapulaM,shoulderM,.78);continue;}
   // The source forearm muscles are rigid surface meshes, not skinned tissue.
   // Stretching them between elbow/radius/wrist transforms made them fan apart.
   // Keep muscle bellies with the forearm compartment; radius and hand still
