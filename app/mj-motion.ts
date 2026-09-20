@@ -148,7 +148,8 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
 
  // Axial humeral rotation is applied after elevation and kept conservative.
  const axialAxis=superior.clone().applyQuaternion(shoulderSwingQ).normalize();
- const axialAmount=p.shoulderRotation*shoulderRotationSign;
+ const axialScale=T.MathUtils.lerp(1,.68,T.MathUtils.clamp(elevation/165,0,1));
+ const axialAmount=p.shoulderRotation*shoulderRotationSign*axialScale;
  const qAxial=qdeg(axialAxis,axialAmount);
  const shoulderQ=qAxial.clone().multiply(shoulderSwingQ).normalize();
  const shoulderM=about(movedShoulder,qAxial).multiply(swingM);
@@ -174,7 +175,9 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  const forearmM=about(movedElbow,forearmQ).multiply(elbowM);
 
  const movedWrist=neutralWrist.clone().applyMatrix4(forearmM);
- const wristFlexAxis=movedLateral.clone().applyQuaternion(forearmQ).normalize();
+ const elbowWorldQ=elbowQ.clone().multiply(shoulderQ).normalize();
+ const forearmWorldQ=forearmQ.clone().multiply(elbowWorldQ).normalize();
+ const wristFlexAxis=lateral.clone().applyQuaternion(forearmWorldQ).normalize();
  const wristDeviationAxis=forearmAxis.clone().cross(wristFlexAxis).normalize();
  const wristQ=qdeg(wristFlexAxis,p.wristFlexion).multiply(qdeg(wristDeviationAxis,p.wristDeviation)).normalize();
  const wristM=about(movedWrist,wristQ).multiply(forearmM);
@@ -280,11 +283,19 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
    transforms[part.id]=deform(shoulderM,anchor);continue;
   }
   if(cuff(part)){transforms[part.id]=deform(shoulderM,scapulaM);continue;}
-  if(trunkToScapula(part)){transforms[part.id]=deform(scapulaM,identityM);continue;}
-  if(trunkToClavicle(part)){transforms[part.id]=deform(clavicleM,identityM);continue;}
+  if(trunkToScapula(part)){
+   // Keep broad trunk-origin muscles visually continuous on this rigid atlas.
+   // Their true shortening/bulging needs a skinned or volumetric model.
+   if(/pectoralis minor|serratus anterior|trapezius|rhomboid|levator scapulae/.test(norm(part.name)))continue;
+   transforms[part.id]=rigid(clavicleM);continue;
+  }
+  if(trunkToClavicle(part)){transforms[part.id]=rigid(clavicleM);continue;}
   if(trunkToHumerus(part)){
-   const anchor=/clavicular part of pectoralis major/.test(norm(part.name))?clavicleM:identityM;
-   transforms[part.id]=deform(shoulderM,anchor);continue;
+   // Pectoralis major / latissimus / teres major previously became large
+   // triangular sheets during elevation. Preserve thoracic coverage instead
+   // of stretching the rigid source mesh across the moving shoulder.
+   if(/pectoralis major|latissimus dorsi/.test(norm(part.name)))continue;
+   transforms[part.id]=deform(shoulderM,scapulaM);continue;
   }
 
   // Muscles crossing joints are blended from their origin-side transform to
