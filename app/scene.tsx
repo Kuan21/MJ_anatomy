@@ -73,9 +73,10 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    const ctx=viewerContext.current;
    for(const mesh of nerveMeshes){
     const attr=mesh.geometry.getAttribute('position') as T.BufferAttribute,base=mesh.userData.basePositions as Float32Array|undefined;if(!base)continue;
-    const name=(mesh.userData.mjExactName as string|undefined)||mesh.name,side=nerveSide(name);
+    const name=(mesh.userData.mjExactName as string|undefined)||mesh.name,side=(mesh.userData.mjSide as 'left'|'right'|'both'|undefined)??nerveSide(name);
     const ids=side==='left'?nerveMotionIds.left:side==='right'?nerveMotionIds.right:null;
-    const active=!!(ctx.motionActive&&ids&&upperLimbNerve.test(name)&&s.partTransforms);
+    const geometryEligible=side==='right'?!!mesh.userData.mjMotionRight:side==='left'?!!mesh.userData.mjMotionLeft:false;
+    const active=!!(ctx.motionActive&&ids&&(geometryEligible||upperLimbNerve.test(name))&&s.partTransforms);
     const upper=active?transformMatrix(ids!.upper?s.partTransforms?.[ids!.upper]:undefined):new T.Matrix4();
     const fore=active?transformMatrix(ids!.forearm?s.partTransforms?.[ids!.forearm]:undefined):new T.Matrix4();
     const hand=active?transformMatrix(ids!.hand?s.partTransforms?.[ids!.hand]:undefined):fore;
@@ -90,7 +91,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      else if(y>=.76)nerveA.copy(nerveP).applyMatrix4(fore);
      else if(y>.68){const t=(.76-y)/.08;nerveA.copy(nerveP).applyMatrix4(fore);nerveB.copy(nerveP).applyMatrix4(hand);nerveA.lerp(nerveB,t);}
      else nerveA.copy(nerveP).applyMatrix4(hand);
-     nerveB.copy(nerveA).sub(nerveP);if(nerveB.length()>.28)nerveB.setLength(.28);
+     nerveB.copy(nerveA).sub(nerveP);if(nerveB.length()>.85)nerveB.setLength(.85);
      nerveA.copy(nerveP).add(nerveB);attr.setXYZ(i,nerveA.x,nerveA.y,nerveA.z);
     }
     attr.needsUpdate=true;
@@ -297,10 +298,12 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     nerveRoot.visible=nervesOn;
     nerveMeshes.forEach(o=>{
      if(!nervesOn){o.visible=false;return;}
-     const name=(o.userData.mjExactName as string|undefined)||o.name,side=nerveSide(name),overlay=ctx.motionActive||ctx.region!=='whole-body';
+     const name=(o.userData.mjExactName as string|undefined)||o.name,side=(o.userData.mjSide as 'left'|'right'|'both'|undefined)??nerveSide(name),overlay=ctx.motionActive||ctx.region!=='whole-body';
      const sideOk=ctx.focusSide==='both'||side==='both'||side===ctx.focusSide;
-     if(ctx.motionActive)o.visible=sideOk&&upperLimbNerve.test(name);
-     else o.visible=sideOk&&nerveMatchesRegion(name,ctx.region,false);
+     if(ctx.motionActive){
+      const geometryMatch=ctx.focusSide==='right'?!!o.userData.mjMotionRight:ctx.focusSide==='left'?!!o.userData.mjMotionLeft:!!o.userData.mjMotionRight||!!o.userData.mjMotionLeft;
+      o.visible=sideOk&&(geometryMatch||upperLimbNerve.test(name));
+     }else o.visible=sideOk&&nerveMatchesRegion(name,ctx.region,false);
      if(o.material.depthTest===overlay){o.material.depthTest=!overlay;o.material.opacity=overlay?1:.82;o.material.emissiveIntensity=overlay?.65:.28;o.material.needsUpdate=true;}
     });
    }
