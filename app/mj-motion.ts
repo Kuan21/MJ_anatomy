@@ -101,6 +101,9 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
 
  let elbow=new T.Vector3(),best=Infinity;
  for(const h of humerusEnds)for(const f of forearmEnds){const d=h.distanceToSquared(f);if(d<best){best=d;elbow.copy(h).add(f).multiplyScalar(.5);}}
+ const radiusEnds=longEndpoints(boxFor(atlas,radius)),ulnaEnds=longEndpoints(boxFor(atlas,ulna));
+ const neutralRadialHead=nearer(radiusEnds[0],radiusEnds[1],elbow);
+ const neutralUlnarHead=nearer(ulnaEnds[0],ulnaEnds[1],neutralHandCenter);
 
  const superior=shoulder.clone().sub(elbow).normalize();
  const lateral=new T.Vector3(side==='right'?-1:1,0,0);
@@ -167,12 +170,14 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  const elbowQ=qdeg(movedLateral,p.elbowFlexion*flexSign);
  const elbowM=about(movedElbow,elbowQ).multiply(shoulderM);
 
- // Pronation/supination is applied around the forearm long axis. The ulna is
- // kept with the hinge transform while the radius/hand rotate around it.
- const distalCenter=forearmBox.getCenter(new T.Vector3()).applyMatrix4(elbowM);
- const forearmAxis=movedElbow.clone().sub(distalCenter).normalize();
+ // Pronation/supination follows the anatomical longitudinal axis from the
+ // radial head proximally toward the ulnar head distally. The ulna stays with
+ // elbow flexion while the radius and hand rotate around this axis.
+ const movedRadialHead=neutralRadialHead.clone().applyMatrix4(elbowM);
+ const movedUlnarHead=neutralUlnarHead.clone().applyMatrix4(elbowM);
+ const forearmAxis=movedUlnarHead.clone().sub(movedRadialHead).normalize();
  const forearmQ=qdeg(forearmAxis,p.forearmRotation);
- const forearmM=about(movedElbow,forearmQ).multiply(elbowM);
+ const forearmM=about(movedRadialHead,forearmQ).multiply(elbowM);
 
  const movedWrist=neutralWrist.clone().applyMatrix4(forearmM);
  const elbowWorldQ=elbowQ.clone().multiply(shoulderQ).normalize();
