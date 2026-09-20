@@ -47,7 +47,9 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     for(let vi=0;vi<position.count;vi+=sampleStep){const x=position.getX(vi),y=position.getY(vi);sampled++;if(y<.55||y>1.52||Math.abs(x)<.025)continue;if(x<0)rightArmHits++;else leftArmHits++;}
     const minArmHits=Math.max(3,Math.ceil(sampled*.08)),motionRight=rightArmHits>=minArmHits&&rightArmHits>leftArmHits*.65,motionLeft=leftArmHits>=minArmHits&&leftArmHits>rightArmHits*.65;
     const inferredSide=motionRight&&!motionLeft?'right':motionLeft&&!motionRight?'left':nerveCenter.x<-.012?'right':nerveCenter.x>.012?'left':'both';
-    const mesh=new T.Mesh(geometry,material);mesh.name=fullName;mesh.frustumCulled=false;mesh.renderOrder=18;mesh.userData.mjNerve=true;mesh.userData.mjSide=inferredSide;mesh.userData.mjMotionRight=motionRight;mesh.userData.mjMotionLeft=motionLeft;mesh.userData.basePositions=new Float32Array((position.array as ArrayLike<number>));nerveRoot.add(mesh);nerveMeshes.push(mesh);});dirty=true;},undefined,err=>{if(!disposed)console.warn('Could not load legacy nervous system model',err);});
+    const nerveBox=geometry.boundingBox!,nerveSize=nerveBox.getSize(new T.Vector3());
+    const upperLimbSized=nerveBox.min.y>.52&&nerveBox.max.y<1.55&&nerveSize.y<1.02&&nerveSize.x<.42;
+    const mesh=new T.Mesh(geometry,material);mesh.name=fullName;mesh.frustumCulled=false;mesh.renderOrder=18;mesh.userData.mjNerve=true;mesh.userData.mjSide=inferredSide;mesh.userData.mjMotionRight=motionRight&&upperLimbSized;mesh.userData.mjMotionLeft=motionLeft&&upperLimbSized;mesh.userData.basePositions=new Float32Array((position.array as ArrayLike<number>));nerveRoot.add(mesh);nerveMeshes.push(mesh);});dirty=true;},undefined,err=>{if(!disposed)console.warn('Could not load legacy nervous system model',err);});
   const boneMotionId=(side:'left'|'right',pattern:RegExp)=>atlas.parts.find(p=>{if(p.system!=='skeletal'||!pattern.test(p.name.toLowerCase()))return false;const cx=(p.bounds[0][0]+p.bounds[1][0])/2;return side==='right'?cx<-.04:cx>.04;})?.id;
   const nerveMotionIds={
    right:{upper:boneMotionId('right',/^right humerus$/i),forearm:boneMotionId('right',/^right radius$/i),hand:boneMotionId('right',/right .*?(metacarpal|carpal|scaphoid|lunate|capitate|hamate)/i)},
@@ -70,13 +72,15 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      nerveP.set(base[i*3],base[i*3+1],base[i*3+2]);
      if(!active){attr.setXYZ(i,nerveP.x,nerveP.y,nerveP.z);continue;}
      const y=nerveP.y;
-     if(y>=1.36){attr.setXYZ(i,nerveP.x,nerveP.y,nerveP.z);continue;}
-     if(y>1.28){const t=(1.36-y)/.08;nerveA.copy(nerveP);nerveB.copy(nerveP).applyMatrix4(upper);nerveA.lerp(nerveB,t);attr.setXYZ(i,nerveA.x,nerveA.y,nerveA.z);continue;}
-     if(y>=1.08){nerveA.copy(nerveP).applyMatrix4(upper);attr.setXYZ(i,nerveA.x,nerveA.y,nerveA.z);continue;}
-     if(y>.98){const t=(1.08-y)/.10;nerveA.copy(nerveP).applyMatrix4(upper);nerveB.copy(nerveP).applyMatrix4(fore);nerveA.lerp(nerveB,t);attr.setXYZ(i,nerveA.x,nerveA.y,nerveA.z);continue;}
-     if(y>=.76){nerveA.copy(nerveP).applyMatrix4(fore);attr.setXYZ(i,nerveA.x,nerveA.y,nerveA.z);continue;}
-     if(y>.68){const t=(.76-y)/.08;nerveA.copy(nerveP).applyMatrix4(fore);nerveB.copy(nerveP).applyMatrix4(hand);nerveA.lerp(nerveB,t);attr.setXYZ(i,nerveA.x,nerveA.y,nerveA.z);continue;}
-     nerveA.copy(nerveP).applyMatrix4(hand);attr.setXYZ(i,nerveA.x,nerveA.y,nerveA.z);
+     if(y>=1.36)nerveA.copy(nerveP);
+     else if(y>1.28){const t=(1.36-y)/.08;nerveA.copy(nerveP);nerveB.copy(nerveP).applyMatrix4(upper);nerveA.lerp(nerveB,t);}
+     else if(y>=1.08)nerveA.copy(nerveP).applyMatrix4(upper);
+     else if(y>.98){const t=(1.08-y)/.10;nerveA.copy(nerveP).applyMatrix4(upper);nerveB.copy(nerveP).applyMatrix4(fore);nerveA.lerp(nerveB,t);}
+     else if(y>=.76)nerveA.copy(nerveP).applyMatrix4(fore);
+     else if(y>.68){const t=(.76-y)/.08;nerveA.copy(nerveP).applyMatrix4(fore);nerveB.copy(nerveP).applyMatrix4(hand);nerveA.lerp(nerveB,t);}
+     else nerveA.copy(nerveP).applyMatrix4(hand);
+     nerveB.copy(nerveA).sub(nerveP);if(nerveB.length()>.28)nerveB.setLength(.28);
+     nerveA.copy(nerveP).add(nerveB);attr.setXYZ(i,nerveA.x,nerveA.y,nerveA.z);
     }
     attr.needsUpdate=true;
    }
@@ -283,10 +287,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      if(!nervesOn){o.visible=false;return;}
      const name=nerveName(o),side=(o.userData.mjSide as 'left'|'right'|'both'|undefined)??nerveSide(name),overlay=ctx.motionActive||ctx.region!=='whole-body';
      const sideOk=ctx.focusSide==='both'||side==='both'||side===ctx.focusSide;
-     if(ctx.motionActive){
-      const geometryMatch=ctx.focusSide==='right'?!!o.userData.mjMotionRight:ctx.focusSide==='left'?!!o.userData.mjMotionLeft:!!o.userData.mjMotionRight||!!o.userData.mjMotionLeft;
-      o.visible=geometryMatch||(sideOk&&upperLimbNerve.test(name));
-     }else o.visible=sideOk&&nerveMatchesRegion(name,ctx.region,false);
+     if(ctx.motionActive)o.visible=true;
+     else o.visible=sideOk&&nerveMatchesRegion(name,ctx.region,false);
      if(o.material.depthTest===overlay){o.material.depthTest=!overlay;o.material.opacity=overlay?1:.82;o.material.emissiveIntensity=overlay?.65:.28;o.material.needsUpdate=true;}
     });
    }
@@ -308,13 +310,12 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     // keep those deep structures occluded while the cranial bones are present.
     // They become available again when the skull is hidden/peeled or when an
     // intracranial structure is explicitly isolated.
-    const cranialVaultNames=['Frontal bone','Left parietal bone','Right parietal bone','Left temporal bone','Right temporal bone','Occipital bone','Sphenoid bone','Ethmoid'];
-    const cranialVaultIntact=cranialVaultNames.every(name=>atlas.parts.some(part=>part.name===name&&baseVisible(part)));
+    const cranialVaultVisible=atlas.parts.some(part=>cranialVault.test(part.name)&&baseVisible(part));
     const isVisible=(p:(typeof atlas.parts)[number])=>{
      if(hidden.has(p.id))return false;
-     if(selection.has(p.id)&&(!cranialVaultIntact||!intracranial.test(p.name)||s.isolate))return true;
+     if(selection.has(p.id)&&(!cranialVaultVisible||!intracranial.test(p.name)||s.isolate))return true;
      if(!baseVisible(p))return false;
-     if(cranialVaultIntact&&intracranial.test(p.name))return false;
+     if(cranialVaultVisible&&intracranial.test(p.name))return false;
      return true;
     };
     const visibleParts=atlas.parts.filter(isVisible);
