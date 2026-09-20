@@ -284,12 +284,27 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    if(moving){amount=T.MathUtils.damp(amount,s.explode,8,dt);dirty=true;}
    if(changed||moving||lastExtent<0){
     const visible=new Set(s.visible),selection=new Set(s.selected),hidden=new Set(s.hiddenParts??[]),focus=s.focusParts?new Set(s.focusParts):null;
-    const isVisible=(p:(typeof atlas.parts)[number])=>{
+    const cranialVault=/^(frontal bone|left parietal bone|right parietal bone|left temporal bone|right temporal bone|occipital bone|sphenoid bone|ethmoid)$/i;
+    const intracranial=/brain|cerebr|cerebell|midbrain|pons|medulla oblongata|thalam|hypothalam|fornix|ventricle|choroid plexus|corpus callosum|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|cerebral aqueduct|pineal|pituitary|cerebral artery|cerebellar artery|basilar artery/i;
+    const baseVisible=(p:(typeof atlas.parts)[number])=>{
      if(hidden.has(p.id))return false;
-     if(selection.has(p.id))return true;
      if(!matchesDepth(p,s.depthFilter))return false;
      if(s.isolate)return false;
      return focus?focus.has(p.id)&&visible.has(p.system):visible.has(p.system);
+    };
+    // In the intact-body view the cranial vault should visually contain the
+    // brain, just like a real head. BodyParts3D contains separately rendered
+    // intracranial meshes that can protrude through tiny gaps in the skull, so
+    // keep those deep structures occluded while the cranial bones are present.
+    // They become available again when the skull is hidden/peeled or when an
+    // intracranial structure is explicitly isolated.
+    const cranialVaultVisible=atlas.parts.some(part=>cranialVault.test(part.name)&&baseVisible(part));
+    const isVisible=(p:(typeof atlas.parts)[number])=>{
+     if(hidden.has(p.id))return false;
+     if(selection.has(p.id)&&(!cranialVaultVisible||!intracranial.test(p.name)||s.isolate))return true;
+     if(!baseVisible(p))return false;
+     if(cranialVaultVisible&&intracranial.test(p.name))return false;
+     return true;
     };
     const visibleParts=atlas.parts.filter(isVisible);
     const nextLayoutKey=visibleParts.map(p=>p.id).join(',')+':'+camera.aspect.toFixed(3);
