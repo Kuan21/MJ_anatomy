@@ -71,7 +71,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   const warpAlongLimb=(source:T.Vector3,out:T.Vector3,chain:ChainMatrices|null)=>{
    if(!chain)return out.copy(source);
    const sideMatch=chain.side==='right'?source.x<-.045:source.x>.045;
-   if(!sideMatch||source.y>.1.52||source.y<.55||Math.abs(source.x)<.045)return out.copy(source);
+   if(!sideMatch||source.y>1.52||source.y<.55||Math.abs(source.x)<.045)return out.copy(source);
    const y=source.y;
    const apply=(m:T.Matrix4)=>out.copy(source).applyMatrix4(m);
    const blend=(a:T.Matrix4|null,b:T.Matrix4,t:number)=>{
