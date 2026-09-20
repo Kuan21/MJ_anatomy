@@ -22,7 +22,7 @@ export interface Atlas {version:string;sex?:'male';source?:string;scope?:string;
 export type View = 'three-quarter'|'front'|'back'|'side';
 export interface PartTransform {translation:[number,number,number];quaternion:[number,number,number,number];anchorTranslation?:[number,number,number];anchorQuaternion?:[number,number,number,number];softLimit?:number}
 export interface LimbMotionChain {side:'left'|'right';clavicle:PartTransform;scapula:PartTransform;shoulder:PartTransform;elbow:PartTransform;forearm:PartTransform;wrist:PartTransform}
-export interface SceneState {inspectorOpen?:boolean;explode:number;visible:SystemId[];selected:string[];hiddenParts?:string[];depthFilter?:'all'|'superficial'|'intermediate'|'deep';focusParts?:string[];cameraFocusParts?:string[];cameraFocusNonce?:number;partTransforms?:Record<string,PartTransform>;limbChain?:LimbMotionChain;isolate:boolean;view:View;rotate:boolean;reset:number}
+export interface SceneState {inspectorOpen?:boolean;explode:number;visible:SystemId[];selected:string[];hiddenParts?:string[];depthFilter?:'all'|'superficial'|'intermediate'|'deep';muscleLayer?:'all'|1|2|3|4|5|6|7;focusParts?:string[];cameraFocusParts?:string[];cameraFocusNonce?:number;partTransforms?:Record<string,PartTransform>;limbChain?:LimbMotionChain;isolate:boolean;view:View;rotate:boolean;reset:number}
 export const DEFAULT_VISIBLE:SystemId[] = ['skeletal','muscular','arterial','venous','nervous','connective'];
 export const EXPLANATIONS:Record<string,string> = {
  'heart':'A muscular pump in the chest. Its right side sends blood to the lungs; its left side sends blood through the systemic circulation.',
