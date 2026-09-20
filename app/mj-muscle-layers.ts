@@ -56,6 +56,10 @@ const layerPatterns:[number,RegExp][]=[
 
 export function upperLimbMuscleLayer(part:Part):number|undefined{
  if(part.system!=='muscular')return undefined;
+ const centerY=(part.bounds[0][1]+part.bounds[1][1])*.5;
+ // The seven-layer reference is an upper-limb study. Do not accidentally
+ // classify similarly named intrinsic muscles in the foot or lower limb.
+ if(centerY<.72)return undefined;
  const name=n(part);
  for(const [layer,pattern] of layerPatterns)if(pattern.test(name))return layer;
  return undefined;
