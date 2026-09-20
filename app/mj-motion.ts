@@ -29,9 +29,9 @@ export const MOTION_LIMITS={
  shoulderFlexion:[-25,150],
  shoulderRotation:[-25,35],
  elbowFlexion:[0,135],
- forearmRotation:[-55,55],
- wristFlexion:[-28,28],
- wristDeviation:[-12,12]
+ forearmRotation:[-45,45],
+ wristFlexion:[-18,18],
+ wristDeviation:[-8,8]
 } as const;
 
 const norm=(s:string)=>s.trim().toLowerCase();
@@ -298,8 +298,7 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
   if(trunkToClavicle(part)){transforms[part.id]=rigid(clavicleM);continue;}
   if(trunkToHumerus(part)){
    const n=norm(part.name);
-   if(/pectoralis major/.test(n)){transforms[part.id]=deform(shoulderM,identityM);continue;}
-   if(/latissimus dorsi/.test(n)){transforms[part.id]=deform(shoulderM,identityM);continue;}
+   if(/pectoralis major|latissimus dorsi/.test(n))continue;
    transforms[part.id]=blendRigid(scapulaM,shoulderM,.58);continue;
   }
 
