@@ -29,9 +29,9 @@ export const MOTION_LIMITS={
  shoulderFlexion:[-25,150],
  shoulderRotation:[-25,35],
  elbowFlexion:[0,135],
- forearmRotation:[-70,70],
- wristFlexion:[-50,50],
- wristDeviation:[-18,20]
+ forearmRotation:[-55,55],
+ wristFlexion:[-35,35],
+ wristDeviation:[-15,15]
 } as const;
 
 const norm=(s:string)=>s.trim().toLowerCase();
@@ -307,10 +307,14 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
   }
   if(brachialis(part)){transforms[part.id]=deform(elbowM,shoulderM);continue;}
   if(coracobrachialis(part)){transforms[part.id]=deform(shoulderM,scapulaM);continue;}
-  if(brachioradialis(part)&&forearmBand(part)){transforms[part.id]=deform(forearmM,shoulderM);continue;}
-  if(wristCrosser(part)&&forearmBand(part)){transforms[part.id]=deform(wristM,elbowM);continue;}
-  if(forearmRotator(part)&&forearmBand(part)){transforms[part.id]=deform(forearmM,elbowM);continue;}
-  if(forearmMuscle(part)&&forearmBand(part)){transforms[part.id]=deform(forearmM,elbowM);continue;}
+  // The source forearm muscles are rigid surface meshes, not skinned tissue.
+  // Stretching them between elbow/radius/wrist transforms made them fan apart.
+  // Keep muscle bellies with the forearm compartment; radius and hand still
+  // perform pronation/supination and wrist motion independently.
+  if(brachioradialis(part)&&forearmBand(part)){transforms[part.id]=rigid(elbowM);continue;}
+  if(wristCrosser(part)&&forearmBand(part)){transforms[part.id]=rigid(elbowM);continue;}
+  if(forearmRotator(part)&&forearmBand(part)){transforms[part.id]=rigid(elbowM);continue;}
+  if(forearmMuscle(part)&&forearmBand(part)){transforms[part.id]=rigid(elbowM);continue;}
 
   if(!isUpperLimb(part))continue;
   if(isHandPart(part)){transforms[part.id]=rigid(wristM);continue;}
