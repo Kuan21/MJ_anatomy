@@ -20,14 +20,18 @@ export const NEUTRAL_POSE:MotionPose={
  wristFlexion:0,
  wristDeviation:0
 };
+
+// These limits intentionally stay a little conservative. The web atlas is a
+// surface reference, not a skinned biomechanical model; conservative limits
+// prevent anatomically impossible-looking combined rotations and self-crossing.
 export const MOTION_LIMITS={
  shoulderAbduction:[0,165],
- shoulderFlexion:[-45,170],
- shoulderRotation:[-45,60],
+ shoulderFlexion:[-40,165],
+ shoulderRotation:[-35,45],
  elbowFlexion:[-5,140],
- forearmRotation:[-80,80],
- wristFlexion:[-65,65],
- wristDeviation:[-20,30]
+ forearmRotation:[-75,75],
+ wristFlexion:[-60,60],
+ wristDeviation:[-20,25]
 } as const;
 
 const norm=(s:string)=>s.trim().toLowerCase();
@@ -65,14 +69,12 @@ export function constrainPose(input:MotionPose):MotionPose{
 }
 
 /**
- * Educational upper-limb kinematic model.
+ * Educational upper-limb kinematics.
  *
- * The shoulder is no longer treated as a humerus rotating against a fixed
- * thorax. Elevation is split between glenohumeral motion and a simplified
- * scapulothoracic/clavicular contribution. Soft tissues can carry two rigid
- * transforms (an anatomical anchor and a moving insertion); scene.tsx blends
- * their vertices between those transforms so muscles do not detach as one
- * rigid block.
+ * The model uses a simplified scapulohumeral rhythm and attachment-aware soft
+ * tissue deformation. It is deliberately conservative: the goal is to keep the
+ * atlas anatomically legible while showing realistic relationships, not to
+ * claim patient-specific biomechanics.
  */
 export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  const cap=side[0].toUpperCase()+side.slice(1);
@@ -106,28 +108,30 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  const worldAnterior=new T.Vector3(0,0,1),shoulderFlexSign=side==='right'?1:-1,shoulderRotationSign=side==='right'?-1:1;
  const p=constrainPose(input);
 
- // Total humeral swing in the requested plane.
- const qAbduction=qdeg(abductionAxis,p.shoulderAbduction);
- const flexionAxis=lateral.clone().applyQuaternion(qAbduction).normalize();
- const qFlexion=qdeg(flexionAxis,p.shoulderFlexion*shoulderFlexSign);
- const shoulderSwingQ=qFlexion.clone().multiply(qAbduction).normalize();
+ // Flexion and abduction are treated as a single plane-of-elevation rotation
+ // (rotation-vector composition). This avoids the non-physiological twisting
+ // produced by successively rotating around already-rotated world axes.
+ const abdRad=T.MathUtils.degToRad(p.shoulderAbduction),flexRad=T.MathUtils.degToRad(p.shoulderFlexion*shoulderFlexSign);
+ const rotationVector=abductionAxis.clone().multiplyScalar(abdRad).add(lateral.clone().multiplyScalar(flexRad));
+ const requestedSwing=rotationVector.length(),maxSwing=T.MathUtils.degToRad(165),swingRad=Math.min(requestedSwing,maxSwing);
+ const swingAxis=requestedSwing>.00001?rotationVector.normalize():abductionAxis.clone();
+ const shoulderSwingQ=new T.Quaternion().setFromAxisAngle(swingAxis,swingRad).normalize();
+ const elevation=T.MathUtils.radToDeg(swingRad);
 
- // Simplified scapulohumeral rhythm:
- // first ~30 degrees are predominantly glenohumeral; above that the scapula
- // contributes progressively, approaching ~60 degrees near full elevation.
- const swingAngle=T.MathUtils.radToDeg(2*Math.acos(T.MathUtils.clamp(Math.abs(shoulderSwingQ.w),0,1)));
- const elevationDemand=Math.min(180,Math.hypot(Math.max(0,p.shoulderAbduction),Math.max(0,p.shoulderFlexion)));
- const scapularAngle=T.MathUtils.clamp((elevationDemand-30)/2.5,0,60);
- const scapularFraction=swingAngle>.001?T.MathUtils.clamp(scapularAngle/swingAngle,0,.42):0;
- const clavicularAngle=Math.min(20,scapularAngle*.35);
- const clavicularFraction=swingAngle>.001?T.MathUtils.clamp(clavicularAngle/swingAngle,0,.18):0;
- const identityQ=new T.Quaternion();
- const scapulaQ=new T.Quaternion().slerpQuaternions(identityQ,shoulderSwingQ,scapularFraction).normalize();
- const clavicleQ=new T.Quaternion().slerpQuaternions(identityQ,shoulderSwingQ,clavicularFraction).normalize();
+ // Scapulohumeral rhythm: little scapular motion in the first ~30 degrees,
+ // then a progressive scapular contribution, reaching roughly 55-60 degrees
+ // at high elevation. The scapula upwardly rotates instead of copying the
+ // humeral rotation axis; flexion adds a modest posterior tilt.
+ const scapularUp=T.MathUtils.clamp((elevation-30)*.43,0,58);
+ const posteriorTilt=T.MathUtils.clamp(Math.max(0,p.shoulderFlexion-35)*.09,0,12);
+ const scapulaUpQ=qdeg(abductionAxis,scapularUp);
+ const scapulaTiltQ=qdeg(lateral,posteriorTilt*shoulderFlexSign);
+ const scapulaQ=scapulaTiltQ.clone().multiply(scapulaUpQ).normalize();
+ const clavicularElevation=T.MathUtils.clamp(scapularUp*.30,0,16);
+ const clavicleQ=qdeg(abductionAxis,clavicularElevation);
 
- // Approximate sternoclavicular and acromioclavicular ends from the clavicle's
- // long axis. The scapula follows the moved AC end, keeping the shoulder girdle
- // mechanically connected instead of leaving the scapula fixed to the thorax.
+ // Approximate SC/AC pivots from the clavicle itself. The scapula follows the
+ // moving AC end so the shoulder girdle remains connected during elevation.
  const clavicleEnds=longEndpoints(clavicleBox),clavicleCenter=clavicleBox.getCenter(new T.Vector3());
  const scJoint=nearer(clavicleEnds[0],clavicleEnds[1],new T.Vector3(0,clavicleCenter.y,clavicleCenter.z));
  const acJoint=scJoint===clavicleEnds[0]?clavicleEnds[1]:clavicleEnds[0];
@@ -136,14 +140,16 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  const scapulaRotateM=about(acJoint,scapulaQ);
  const scapulaM=new T.Matrix4().makeTranslation(acShift.x,acShift.y,acShift.z).multiply(scapulaRotateM);
 
- // Humeral head follows the moving glenoid, then completes the remaining
- // glenohumeral swing. The resulting world orientation still equals the user's
- // requested total shoulder swing.
+ // The humeral head follows the moving glenoid. Remaining glenohumeral motion
+ // is the total requested swing after removing the scapular contribution.
  const movedShoulder=shoulder.clone().applyMatrix4(scapulaM);
  const glenohumeralQ=shoulderSwingQ.clone().multiply(scapulaQ.clone().invert()).normalize();
  const swingM=about(movedShoulder,glenohumeralQ).multiply(scapulaM);
+
+ // Axial humeral rotation is applied after elevation and kept conservative.
  const axialAxis=superior.clone().applyQuaternion(shoulderSwingQ).normalize();
- const qAxial=qdeg(axialAxis,p.shoulderRotation*shoulderRotationSign);
+ const axialAmount=p.shoulderRotation*shoulderRotationSign;
+ const qAxial=qdeg(axialAxis,axialAmount);
  const shoulderQ=qAxial.clone().multiply(shoulderSwingQ).normalize();
  const shoulderM=about(movedShoulder,qAxial).multiply(swingM);
 
@@ -152,14 +158,16 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  const movedAnterior=worldAnterior.clone().applyQuaternion(shoulderQ).normalize();
  const neutralForearmCenter=forearmBox.getCenter(new T.Vector3()).applyMatrix4(shoulderM);
 
- // Elbow hinge: choose the sign that moves the forearm anteriorly.
+ // Elbow remains a hinge. Pick the sign that moves the forearm anteriorly and
+ // allow only a small amount of hyperextension.
  const testQ=qdeg(movedLateral,5);
  const testPoint=neutralForearmCenter.clone().sub(movedElbow).applyQuaternion(testQ).add(movedElbow);
  const flexSign=testPoint.clone().sub(neutralForearmCenter).dot(movedAnterior)>=0?1:-1;
  const elbowQ=qdeg(movedLateral,p.elbowFlexion*flexSign);
  const elbowM=about(movedElbow,elbowQ).multiply(shoulderM);
 
- // Radius/hand rotation for pronation-supination.
+ // Pronation/supination is applied around the forearm long axis. The ulna is
+ // kept with the hinge transform while the radius/hand rotate around it.
  const distalCenter=forearmBox.getCenter(new T.Vector3()).applyMatrix4(elbowM);
  const forearmAxis=movedElbow.clone().sub(distalCenter).normalize();
  const forearmQ=qdeg(forearmAxis,p.forearmRotation);
@@ -168,73 +176,105 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  const movedWrist=neutralWrist.clone().applyMatrix4(forearmM);
  const wristFlexAxis=movedLateral.clone().applyQuaternion(forearmQ).normalize();
  const wristDeviationAxis=forearmAxis.clone().cross(wristFlexAxis).normalize();
- const wristQ=qdeg(wristFlexAxis,p.wristFlexion)
-  .multiply(qdeg(wristDeviationAxis,p.wristDeviation)).normalize();
+ const wristQ=qdeg(wristFlexAxis,p.wristFlexion).multiply(qdeg(wristDeviationAxis,p.wristDeviation)).normalize();
  const wristM=about(movedWrist,wristQ).multiply(forearmM);
 
  const identityM=new T.Matrix4();
  const transforms:Record<string,PartTransform>={};
  const onSide=(part:Atlas['parts'][number])=>{
-  const n=norm(part.name);
-  if(/\bright\b/.test(n))return side==='right';
-  if(/\bleft\b/.test(n))return side==='left';
+  const name=norm(part.name);
+  if(/\bright\b/.test(name))return side==='right';
+  if(/\bleft\b/.test(name))return side==='left';
   const c=centerOfPart(part);if(Math.abs(c.x)<.02)return false;
   return side==='right'?c.x<0:c.x>0;
  };
  const exactName=(part:Atlas['parts'][number],needle:string)=>norm(part.name)===norm(`${cap} ${needle}`);
 
  const deltoid=(part:Atlas['parts'][number])=>/deltoid/.test(norm(part.name));
- const cuff=(part:Atlas['parts'][number])=>/supraspinatus|infraspinatus|subscapularis|teres major|teres minor/.test(norm(part.name));
+ const cuff=(part:Atlas['parts'][number])=>/supraspinatus|infraspinatus|subscapularis|teres minor/.test(norm(part.name));
  const trunkToScapula=(part:Atlas['parts'][number])=>/pectoralis minor|serratus anterior|trapezius|rhomboid|levator scapulae/.test(norm(part.name));
  const trunkToClavicle=(part:Atlas['parts'][number])=>/subclavius/.test(norm(part.name));
- const trunkToHumerus=(part:Atlas['parts'][number])=>/pectoralis major|latissimus dorsi/.test(norm(part.name));
+ const trunkToHumerus=(part:Atlas['parts'][number])=>/pectoralis major|latissimus dorsi|teres major/.test(norm(part.name));
  const biceps=(part:Atlas['parts'][number])=>/biceps brachii/.test(norm(part.name));
  const triceps=(part:Atlas['parts'][number])=>/triceps brachii/.test(norm(part.name));
  const brachialis=(part:Atlas['parts'][number])=>/\bbrachialis\b/.test(norm(part.name))&&!/brachioradialis/.test(norm(part.name));
  const coracobrachialis=(part:Atlas['parts'][number])=>/coracobrachialis/.test(norm(part.name));
- const forearmRotator=(part:Atlas['parts'][number])=>/brachioradialis|pronator teres|pronator quadratus|supinator/.test(norm(part.name));
+ const brachioradialis=(part:Atlas['parts'][number])=>/brachioradialis/.test(norm(part.name));
+ const forearmRotator=(part:Atlas['parts'][number])=>/pronator teres|pronator quadratus|supinator/.test(norm(part.name));
  const wristCrosser=(part:Atlas['parts'][number])=>/flexor carpi|palmaris longus|flexor digitorum|flexor pollicis longus|extensor carpi|extensor digitorum|extensor digiti minimi|extensor pollicis|extensor indicis|abductor pollicis longus/.test(norm(part.name));
- const forearmMuscle=(part:Atlas['parts'][number])=>/brachioradialis|pronator|supinator|flexor|extensor|palmaris/.test(norm(part.name));
+ const forearmMuscle=(part:Atlas['parts'][number])=>/pronator|supinator|flexor|extensor|palmaris/.test(norm(part.name));
+ const vascular=(part:Atlas['parts'][number])=>part.system==='arterial'||part.system==='venous';
+ const upperLimbVascular=(part:Atlas['parts'][number])=>centerOfPart(part).y>.68&&/subclavian|axillary|brachial|radial|ulnar|interosseous|palmar|digital|metacarpal|carpal|cephalic|basilic|median cubital|median antebrachial|circumflex humeral|thoraco-acromial|lateral thoracic|subscapular|suprascapular|thoracodorsal|dorsal scapular|princeps pollicis|radialis indicis/.test(norm(part.name));
+ const thoraxStatic=(part:Atlas['parts'][number])=>/rib|sternum|intercostal|costal cartilage|thoracic fascia|pectoral fascia|clavipectoral fascia|endothoracic|pleura|diaphragm|rectus sheath|linea alba|intervertebral/.test(norm(part.name));
  const specialShoulder=(part:Atlas['parts'][number])=>deltoid(part)||cuff(part)||trunkToScapula(part)||trunkToClavicle(part)||trunkToHumerus(part)||biceps(part)||triceps(part)||brachialis(part)||coracobrachialis(part);
+ const forearmBand=(part:Atlas['parts'][number])=>{const c=centerOfPart(part);return c.y>.74&&c.y<1.20&&Math.abs(c.x)>.13;};
 
  const isProximalBundle=(part:Atlas['parts'][number])=>{
-  const c=centerOfPart(part),n=norm(part.name);
-  return c.y>1.27&&/(artery|vein|nerve|plexus|ligament|retinaculum|fascia|aponeurosis)/.test(n);
+  const c=centerOfPart(part),name=norm(part.name);
+  return c.y>1.27&&/(ligament|retinaculum|fascia|aponeurosis)/.test(name);
  };
  const isUpperLimb=(part:Atlas['parts'][number])=>{
-  const c=centerOfPart(part),ax=Math.abs(c.x),n=norm(part.name);
+  const c=centerOfPart(part),name=norm(part.name);
   if(!onSide(part)||c.y<.62||c.y>1.46)return false;
-  if(part.system==='nervous')return false;
-  if(specialShoulder(part))return false;
-  if(/scapula|clavicle|sternum|rib/.test(n))return false;
+  if(part.system==='nervous'||part.system==='integumentary'||vascular(part))return false;
+  if(specialShoulder(part)||thoraxStatic(part))return false;
+  if(/scapula|clavicle/.test(name))return false;
   if(isProximalBundle(part))return false;
-  if(/humerus|radius|ulna/.test(n)||handBone.test(n))return true;
-  return ax>.13;
+  if(/humerus|radius|ulna/.test(name)||handBone.test(name))return true;
+  // Do not use a broad coordinate fallback here: hip/thigh structures occupy
+  // overlapping Y ranges in this atlas and were previously dragged with the
+  // arm. Only explicitly upper-limb connective/soft structures may follow.
+  return /forearm|wrist|hand|digital|palmar|antebrachial|brachial|flexor retinaculum|interosseous membrane/.test(name);
  };
  const isDistalToElbow=(part:Atlas['parts'][number])=>{
-  const c=centerOfPart(part),n=norm(part.name);
+  const c=centerOfPart(part),name=norm(part.name);
   if(!isUpperLimb(part))return false;
-  if(/radius|ulna/.test(n)||handBone.test(n))return true;
+  if(/radius|ulna/.test(name)||handBone.test(name))return true;
   return c.y<=elbow.y+.02;
  };
  const isHandPart=(part:Atlas['parts'][number])=>{
   if(!isUpperLimb(part))return false;
-  const c=centerOfPart(part),n=norm(part.name);
-  return handBone.test(n)||/thenar|hypothenar|lumbrical|interosse|palmar|digital|thumb|finger/.test(n)||c.y<=neutralWrist.y+.035;
+  const c=centerOfPart(part),name=norm(part.name);
+  return handBone.test(name)||/thenar|hypothenar|lumbrical|interosse|palmar|digital|thumb|finger/.test(name)||c.y<=neutralWrist.y+.035;
  };
  const isPronating=(part:Atlas['parts'][number])=>{
-  const n=norm(part.name),c=centerOfPart(part);
+  const name=norm(part.name),c=centerOfPart(part);
   if(!isDistalToElbow(part))return false;
-  if(n===norm(`${cap} ulna`))return false;
-  return n===norm(`${cap} radius`)||c.y<1.10||handBone.test(n);
+  if(name===norm(`${cap} ulna`))return false;
+  return name===norm(`${cap} radius`)||c.y<1.10||handBone.test(name);
+ };
+
+ const vesselTransform=(part:Atlas['parts'][number])=>{
+  const name=norm(part.name),c=centerOfPart(part);
+  // Scapular branches remain related to the moving scapula rather than the
+  // humeral shaft.
+  if(/suprascapular|dorsal scapular|circumflex scapular|thoracodorsal/.test(name))return deform(scapulaM,identityM);
+  // Subclavian vessels are anchored to the root of the neck and follow only
+  // the lateral clavicular end.
+  if(/subclavian/.test(name))return deform(clavicleM,identityM);
+  // Axillary/circumflex vessels bridge trunk/shoulder to the arm.
+  if(c.y>1.30||/axillary|circumflex humeral|thoraco-acromial|lateral thoracic|subscapular/.test(name))return deform(shoulderM,identityM);
+  // Brachial and superficial arm vessels bend from humerus to elbow.
+  if(c.y>1.08)return deform(elbowM,shoulderM);
+  // Forearm vessels rotate with the radius/ulna relationship while remaining
+  // connected at the cubital fossa.
+  if(c.y>.88)return deform(forearmM,elbowM);
+  // Carpal branches bridge the moving wrist; digital/palmar vessels then move
+  // rigidly with the hand so the vascular tree stays continuous.
+  if(c.y>.80)return deform(wristM,forearmM);
+  return rigid(wristM);
  };
 
  for(const part of atlas.parts){
   if(exactName(part,'scapula')){transforms[part.id]=rigid(scapulaM);continue;}
   if(exactName(part,'clavicle')){transforms[part.id]=rigid(clavicleM);continue;}
-  if(!onSide(part))continue;
+  if(!onSide(part)||thoraxStatic(part))continue;
 
-  // Shoulder-girdle muscles: preserve both anatomical attachments.
+  // Vessels are treated as continuous soft tubes rather than disconnected
+  // rigid fragments. scene.tsx blends each segment between these transforms.
+  if(vascular(part)){if(upperLimbVascular(part))transforms[part.id]=vesselTransform(part);continue;}
+
+  // Shoulder-girdle muscles preserve their anatomical attachments.
   if(deltoid(part)){
    const anchor=/clavicular part/.test(norm(part.name))?clavicleM:scapulaM;
    transforms[part.id]=deform(shoulderM,anchor);continue;
@@ -243,12 +283,12 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
   if(trunkToScapula(part)){transforms[part.id]=deform(scapulaM,identityM);continue;}
   if(trunkToClavicle(part)){transforms[part.id]=deform(clavicleM,identityM);continue;}
   if(trunkToHumerus(part)){
-   const anchor=/clavicular part/.test(norm(part.name))?clavicleM:identityM;
+   const anchor=/clavicular part of pectoralis major/.test(norm(part.name))?clavicleM:identityM;
    transforms[part.id]=deform(shoulderM,anchor);continue;
   }
 
-  // Muscles crossing joints are blended from origin-side motion to
-  // insertion-side motion instead of being moved as detached rigid objects.
+  // Muscles crossing joints are blended from their origin-side transform to
+  // their insertion-side transform, so they elongate/curve rather than detach.
   if(biceps(part)){transforms[part.id]=deform(forearmM,scapulaM);continue;}
   if(triceps(part)){
    const anchor=/long head/.test(norm(part.name))?scapulaM:shoulderM;
@@ -256,9 +296,10 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
   }
   if(brachialis(part)){transforms[part.id]=deform(elbowM,shoulderM);continue;}
   if(coracobrachialis(part)){transforms[part.id]=deform(shoulderM,scapulaM);continue;}
-  if(wristCrosser(part)){transforms[part.id]=deform(wristM,forearmM);continue;}
-  if(forearmRotator(part)){transforms[part.id]=deform(forearmM,elbowM);continue;}
-  if(forearmMuscle(part)){transforms[part.id]=deform(elbowM,shoulderM);continue;}
+  if(brachioradialis(part)&&forearmBand(part)){transforms[part.id]=deform(forearmM,shoulderM);continue;}
+  if(wristCrosser(part)&&forearmBand(part)){transforms[part.id]=deform(wristM,elbowM);continue;}
+  if(forearmRotator(part)&&forearmBand(part)){transforms[part.id]=deform(forearmM,elbowM);continue;}
+  if(forearmMuscle(part)&&forearmBand(part)){transforms[part.id]=deform(forearmM,elbowM);continue;}
 
   if(!isUpperLimb(part))continue;
   if(isHandPart(part)){transforms[part.id]=rigid(wristM);continue;}

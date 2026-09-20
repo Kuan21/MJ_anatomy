@@ -169,3 +169,24 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
  .layers-panel.mobile-open{top:12px;bottom:12px;max-height:none;overflow-y:auto}
  .layers-panel .mj-motion-lab{width:auto;max-height:none;margin-bottom:14px}
 }
+
+/* Anatomical depth + reversible peel controls */
+.depth-filter{padding:9px 0 10px;border-bottom:1px solid #18253612}
+.depth-filter-label{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:7px}
+.depth-filter-label strong{font-size:10px;font-weight:650;color:#42515d}
+.depth-filter-label span{font-size:8px;color:#89949d;white-space:nowrap}
+.depth-filter-buttons{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.depth-filter-buttons button{min-height:30px;padding:5px 6px;border:1px solid #18253612;border-radius:6px;font-size:9px;color:#6c7883;white-space:normal;line-height:1.25}
+.depth-filter-buttons button.active{background:#263b4810;border-color:#263b4830;color:#263b48;font-weight:600}
+.panel-foot{gap:6px;flex-wrap:wrap;padding-block:4px}.panel-foot>span{white-space:nowrap}.panel-foot>span small{font:inherit;color:#a05c52}
+.panel-foot-actions{margin-left:auto;flex-wrap:wrap;justify-content:flex-end}.panel-foot-actions button{padding:7px 2px}
+.structure-meta{flex-wrap:wrap;gap:16px 24px}.structure-meta>span{min-width:92px}
+.hide-structure-action{display:flex;align-items:center;justify-content:center;gap:8px;min-height:42px;border:1px solid #a85b5030;border-radius:9px;color:#8c5149!important;font-size:12px}
+.hide-structure-action:hover{background:#a85b500d!important}
+@media(max-width:767px){.depth-filter-buttons button{min-height:40px;font-size:10px}.panel-foot{align-items:flex-start}.panel-foot-actions{width:100%;justify-content:space-between}.hide-structure-action{min-height:44px}}
+.hidden-structures{border-top:1px solid #18253610;padding:5px 0 7px;color:#6d7984}
+.hidden-structures summary{cursor:pointer;font-size:10px;display:flex;justify-content:space-between;align-items:center;min-height:28px}
+.hidden-structures summary span{font-variant-numeric:tabular-nums;color:#9a6b64}
+.hidden-structures>div{max-height:132px;overflow:auto;scrollbar-width:thin}
+.hidden-structures button{width:100%;min-height:30px;padding:4px 2px;display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:9px;text-align:left;color:#64717c}
+.hidden-structures button span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
