@@ -283,12 +283,14 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
   // rigid fragments. scene.tsx blends each segment between these transforms.
   if(vascular(part)){if(upperLimbVascular(part))transforms[part.id]=vesselTransform(part);continue;}
 
-  // The source atlas muscles are rigid surface meshes. Use whole-mesh rigid
-  // interpolation between anatomical attachments so they retain their volume
-  // and cannot turn into thin membranes during motion.
+  // Deltoid has three separate atlas heads. Preserve the real proximal
+  // attachments (lateral clavicle / acromion / scapular spine) while the
+  // distal fibres follow the humerus toward the deltoid tuberosity. A small
+  // per-part displacement cap prevents the rigid source mesh from "exploding"
+  // away from the shoulder when the arm elevates.
   if(deltoid(part)){
-   const anchor=/clavicular part/.test(norm(part.name))?clavicleM:scapulaM;
-   transforms[part.id]=blendRigid(anchor,shoulderM,.72);continue;
+   const n=norm(part.name),anchor=/clavicular part/.test(n)?clavicleM:scapulaM;
+   transforms[part.id]={...deform(shoulderM,anchor),softLimit:/acromial part/.test(n)?.115:.105};continue;
   }
   if(cuff(part)){transforms[part.id]=blendRigid(scapulaM,shoulderM,.52);continue;}
   if(trunkToScapula(part)){
