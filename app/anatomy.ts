@@ -20,7 +20,7 @@ export interface Part {id:string;name:string;conceptId:string;system:SystemId;ch
 export interface Concept {id:string;name:string;elements:string[]}
 export interface Atlas {version:string;sex?:'male';source?:string;scope?:string;parts:Part[];concepts:Concept[];chunks:{url:string;bytes:number;gzip?:string;gzipBytes?:number}[];triangles:number}
 export type View = 'three-quarter'|'front'|'back'|'side';
-export interface PartTransform {translation:[number,number,number];quaternion:[number,number,number,number]}
+export interface PartTransform {translation:[number,number,number];quaternion:[number,number,number,number];anchorTranslation?:[number,number,number];anchorQuaternion?:[number,number,number,number]}
 export interface SceneState {inspectorOpen?:boolean;explode:number;visible:SystemId[];selected:string[];focusParts?:string[];cameraFocusParts?:string[];cameraFocusNonce?:number;partTransforms?:Record<string,PartTransform>;isolate:boolean;view:View;rotate:boolean;reset:number}
 export const DEFAULT_VISIBLE:SystemId[] = ['cardiac','sensory','skeletal','muscular','arterial','venous','nervous','respiratory','digestive','urinary','lymphatic','endocrine','reproductive','connective'];
 export const EXPLANATIONS:Record<string,string> = {
