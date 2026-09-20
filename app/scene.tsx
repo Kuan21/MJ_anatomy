@@ -33,6 +33,29 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   const nerveSide=(name:string)=>/\.r(?:\.|$)/i.test(name)?'right':/\.l(?:\.|$)/i.test(name)?'left':'both';
   const nerveName=(o:T.Object3D)=>[o.name,o.parent?.name,o.parent?.parent?.name].filter(Boolean).join(' ');
   const hasNamedAncestor=(o:T.Object3D,pattern:RegExp)=>{let p:T.Object3D|null=o;while(p){if(pattern.test(p.name||''))return true;p=p.parent;}return false;};
+  const skeletalPart=(name:string)=>atlas.parts.find(p=>p.system==='skeletal'&&p.name.toLowerCase()===name.toLowerCase());
+  const pointFrom=(name:string,where:'center'|'proximal'|'distal')=>{
+   const p=skeletalPart(name);if(!p)return new T.Vector3();
+   const min=new T.Vector3().fromArray(p.bounds[0]),max=new T.Vector3().fromArray(p.bounds[1]),mid=min.clone().add(max).multiplyScalar(.5);
+   if(where==='center')return mid;
+   const y=where==='proximal'?max.y:min.y;return new T.Vector3(mid.x,y,mid.z);
+  };
+  const neutralLimbLine=(side:'left'|'right')=>{
+   const cap=side[0].toUpperCase()+side.slice(1);
+   const clav=skeletalPart(`${cap} clavicle`),h=skeletalPart(`${cap} humerus`),r=skeletalPart(`${cap} radius`),m=skeletalPart(`${cap} third metacarpal bone`);
+   if(!clav||!h||!r||!m)return null;
+   const cmin=new T.Vector3().fromArray(clav.bounds[0]),cmax=new T.Vector3().fromArray(clav.bounds[1]),cmid=cmin.clone().add(cmax).multiplyScalar(.5);
+   const root=new T.Vector3(side==='left'?cmax.x:cmin.x,cmid.y,cmid.z);
+   return [root,pointFrom(`${cap} humerus`,'proximal'),pointFrom(`${cap} humerus`,'distal'),pointFrom(`${cap} radius`,'distal'),pointFrom(`${cap} third metacarpal bone`,'center')] as const;
+  };
+  const neutralLines={left:neutralLimbLine('left'),right:neutralLimbLine('right')};
+  const segDistance=(p:T.Vector3,a:T.Vector3,b:T.Vector3)=>{const ab=b.clone().sub(a),den=ab.lengthSq();if(den<1e-8)return p.distanceTo(a);const t=T.MathUtils.clamp(p.clone().sub(a).dot(ab)/den,0,1);return p.distanceTo(a.clone().addScaledVector(ab,t));};
+  const insideNeutralLimbTube=(p:T.Vector3,side:'left'|'right')=>{
+   const line=neutralLines[side];if(!line)return false;
+   let d=Infinity,seg=0;for(let i=0;i<line.length-1;i++){const di=segDistance(p,line[i],line[i+1]);if(di<d){d=di;seg=i;}}
+   const radius=seg===0?.115:seg===1?.095:seg===2?.085:.09;
+   return d<=radius;
+  };
   const nerveMatchesRegion=(name:string,r:'whole-body'|'shoulder'|'arm'|'forearm'|'hand',motion:boolean)=>{
    // Motion Lab is limb-focused: never reveal the rest of the whole-body
    // nervous system just because the global nervous-system layer is enabled.
@@ -55,9 +78,9 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     // Fallback for the title geometry even if a future exporter renames it.
     if(geoCenter.x<-.58&&geoCenter.y>.68&&geoCenter.y<1.12)return;
     geometry.boundingSphere=new T.Sphere(new T.Vector3(0,.9,0),2.5);const position=geometry.getAttribute('position');if(!position)return;const material=new T.MeshStandardMaterial({color:0xf1cb4f,metalness:0,roughness:.42,emissive:0x6b5100,emissiveIntensity:.28,depthTest:true,depthWrite:false,transparent:true,opacity:.82});geometry.computeBoundingBox();const nerveCenter=geometry.boundingBox?.getCenter(new T.Vector3())??new T.Vector3();
-    let rightArmHits=0,leftArmHits=0,sampled=0;const sampleStep=Math.max(1,Math.floor(position.count/1200));
-    for(let vi=0;vi<position.count;vi+=sampleStep){const x=position.getX(vi),y=position.getY(vi);sampled++;if(y<.52||y>1.58||Math.abs(x)<.02)continue;if(x<0)rightArmHits++;else leftArmHits++;}
-    const minArmHits=Math.max(2,Math.ceil(sampled*.025)),motionRight=rightArmHits>=minArmHits&&rightArmHits>leftArmHits*.4,motionLeft=leftArmHits>=minArmHits&&leftArmHits>rightArmHits*.4;
+    let rightArmHits=0,leftArmHits=0,sampled=0;const sampleStep=Math.max(1,Math.floor(position.count/1200)),samplePoint=new T.Vector3();
+    for(let vi=0;vi<position.count;vi+=sampleStep){samplePoint.set(position.getX(vi),position.getY(vi),position.getZ(vi));sampled++;if(insideNeutralLimbTube(samplePoint,'right'))rightArmHits++;if(insideNeutralLimbTube(samplePoint,'left'))leftArmHits++;}
+    const minArmHits=Math.max(2,Math.ceil(sampled*.015)),motionRight=rightArmHits>=minArmHits&&rightArmHits>leftArmHits*1.15,motionLeft=leftArmHits>=minArmHits&&leftArmHits>rightArmHits*1.15;
     const inferredSide=motionRight&&!motionLeft?'right':motionLeft&&!motionRight?'left':nerveCenter.x<-.012?'right':nerveCenter.x>.012?'left':'both';
     const nerveBox=geometry.boundingBox!,nerveSize=nerveBox.getSize(new T.Vector3());
     const upperLimbSized=nerveBox.min.y>.45&&nerveBox.max.y<1.66&&nerveSize.y<1.35&&nerveSize.x<.78;
@@ -70,8 +93,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   const smooth01=(v:number)=>{const x=T.MathUtils.clamp(v,0,1);return x*x*(3-2*x);};
   const warpAlongLimb=(source:T.Vector3,out:T.Vector3,chain:ChainMatrices|null)=>{
    if(!chain)return out.copy(source);
-   const sideMatch=chain.side==='right'?source.x<-.045:source.x>.045;
-   if(!sideMatch||source.y>1.52||source.y<.55||Math.abs(source.x)<.045)return out.copy(source);
+   if(!insideNeutralLimbTube(source,chain.side))return out.copy(source);
    const y=source.y;
    const apply=(m:T.Matrix4)=>out.copy(source).applyMatrix4(m);
    const blend=(a:T.Matrix4|null,b:T.Matrix4,t:number)=>{
