@@ -1,5 +1,5 @@
 import * as T from 'three';
-import type {Atlas,PartTransform} from './anatomy';
+import type {Atlas,LimbMotionChain,PartTransform} from './anatomy';
 
 export type Side='left'|'right';
 export interface MotionPose{
@@ -260,35 +260,15 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
   return name===norm(`${cap} radius`)||c.y<1.10||handBone.test(name);
  };
 
- const vesselTransform=(part:Atlas['parts'][number])=>{
-  const name=norm(part.name),c=centerOfPart(part),bridge=(moving:T.Matrix4,anchor:T.Matrix4):PartTransform=>({...deform(moving,anchor),softLimit:.8});
-  // Scapular branches remain related to the moving scapula rather than the
-  // humeral shaft.
-  if(/suprascapular|dorsal scapular|circumflex scapular|thoracodorsal/.test(name))return bridge(scapulaM,identityM);
-  // Subclavian vessels are anchored to the root of the neck and follow only
-  // the lateral clavicular end.
-  if(/subclavian/.test(name))return bridge(clavicleM,identityM);
-  // Axillary/circumflex vessels bridge trunk/shoulder to the arm.
-  if(c.y>1.30||/axillary|circumflex humeral|thoraco-acromial|lateral thoracic|subscapular/.test(name))return bridge(shoulderM,identityM);
-  // Brachial and superficial arm vessels bend from humerus to elbow.
-  if(c.y>1.08)return bridge(elbowM,shoulderM);
-  // Forearm vessels rotate with the radius/ulna relationship while remaining
-  // connected at the cubital fossa.
-  if(c.y>.88)return bridge(forearmM,elbowM);
-  // Carpal branches bridge the moving wrist; digital/palmar vessels then move
-  // rigidly with the hand so the vascular tree stays continuous.
-  if(c.y>.80)return bridge(wristM,forearmM);
-  return rigid(wristM);
- };
-
  for(const part of atlas.parts){
   if(exactName(part,'scapula')){transforms[part.id]=rigid(scapulaM);continue;}
   if(exactName(part,'clavicle')){transforms[part.id]=rigid(clavicleM);continue;}
   if(!onSide(part)||thoraxStatic(part))continue;
 
-  // Vessels are treated as continuous soft tubes rather than disconnected
-  // rigid fragments. scene.tsx blends each segment between these transforms.
-  if(vascular(part)){if(upperLimbVascular(part))transforms[part.id]=vesselTransform(part);continue;}
+  // Arteries and veins are no longer transformed piece-by-piece here.
+  // scene.tsx applies one continuous shared limb-warp field to every vascular
+  // vertex, so adjoining segments receive the same deformation at a joint.
+  if(vascular(part)){continue;}
 
   // Keep each deltoid head as a volume-preserving rigid segment between its
   // proximal attachment and the humeral insertion. This avoids the dramatic
@@ -331,5 +311,14 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
   transforms[part.id]=rigid(isDistalToElbow(part)?elbowM:shoulderM);
  }
 
- return{transforms,warnings};
+ const chain:LimbMotionChain={
+  side,
+  clavicle:rigid(clavicleM),
+  scapula:rigid(scapulaM),
+  shoulder:rigid(shoulderM),
+  elbow:rigid(elbowM),
+  forearm:rigid(forearmM),
+  wrist:rigid(wristM)
+ };
+ return{transforms,warnings,chain};
 }
