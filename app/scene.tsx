@@ -93,7 +93,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   const anchorRotationData=new Float32Array(width*4);for(let i=0;i<width;i++)anchorRotationData[i*4+3]=1;
   const anchorRotationTexture=new T.DataTexture(anchorRotationData,width,1,T.RGBAFormat,T.FloatType);anchorRotationTexture.needsUpdate=true;
   const materials:T.Material[]=[],geometries:T.BufferGeometry[]=[],pickers:(T.Mesh|undefined)[]=[],centers=atlas.parts.map(p=>new T.Vector3().fromArray(p.bounds[0]).add(new T.Vector3().fromArray(p.bounds[1])).multiplyScalar(.5));
-  const softP=new T.Vector3(),softT=new T.Vector3(),softQ=new T.Quaternion(),softAQ=new T.Quaternion(),softBQ=new T.Quaternion();
+  const softP=new T.Vector3(),softA=new T.Vector3(),softB=new T.Vector3(),softD=new T.Vector3();
   const offsets:T.Vector3[]=[],bounds=atlas.parts.map(p=>new T.Box3(new T.Vector3().fromArray(p.bounds[0]),new T.Vector3().fromArray(p.bounds[1])));
   let packingWidth=1,packingHeight=1;
   const markerPositions=new Float32Array(atlas.parts.length*3),markerGeometry=new T.BufferGeometry();markerGeometry.setAttribute('position',new T.BufferAttribute(markerPositions,3));
@@ -111,10 +111,10 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   const materialFor=(system:string)=>{
    const m=new T.MeshStandardMaterial({color:SYSTEMS.find(s=>s.id===system)?.color??'#aebbb8',metalness:.08,roughness:.53,side:T.DoubleSide,transparent:system==='integumentary',opacity:system==='integumentary'?.1:1,depthWrite:system!=='integumentary'});
    m.onBeforeCompile=shader=>{
-    shader.uniforms.partState={value:partTexture};shader.uniforms.selectionState={value:selectionTexture};shader.uniforms.motionState={value:motionTexture};shader.uniforms.rotationState={value:rotationTexture};shader.uniforms.anchorMotionState={value:anchorMotionTexture};shader.uniforms.anchorRotationState={value:anchorRotationTexture};shader.uniforms.stateWidth={value:width};
-    shader.vertexShader='attribute float partIndex; attribute float motionWeight; uniform sampler2D partState; uniform sampler2D selectionState; uniform sampler2D motionState; uniform sampler2D rotationState; uniform sampler2D anchorMotionState; uniform sampler2D anchorRotationState; uniform float stateWidth; varying float partVisible; varying float partSelected; vec3 qrot(vec4 q, vec3 v){ return v + 2.0*cross(q.xyz, cross(q.xyz,v)+q.w*v); }\n'+shader.vertexShader;
+    shader.uniforms.partState={value:partTexture};shader.uniforms.selectionState={value:selectionTexture};shader.uniforms.motionState={value:motionTexture};shader.uniforms.rotationState={value:rotationTexture};shader.uniforms.anchorMotionState={value:anchorMotionTexture};shader.uniforms.anchorRotationState={value:anchorRotationTexture};shader.uniforms.stateWidth={value:width};shader.uniforms.maxSoftDisplacement={value:system==='arterial'||system==='venous'?.16:system==='muscular'?.24:1.0};
+    shader.vertexShader='attribute float partIndex; attribute float motionWeight; uniform sampler2D partState; uniform sampler2D selectionState; uniform sampler2D motionState; uniform sampler2D rotationState; uniform sampler2D anchorMotionState; uniform sampler2D anchorRotationState; uniform float stateWidth; uniform float maxSoftDisplacement; varying float partVisible; varying float partSelected; vec3 qrot(vec4 q, vec3 v){ return v + 2.0*cross(q.xyz, cross(q.xyz,v)+q.w*v); }\n'+shader.vertexShader;
     shader.vertexShader=shader.vertexShader.replace('#include <beginnormal_vertex>','#include <beginnormal_vertex>\nvec2 normalStateUv = vec2((partIndex + 0.5) / stateWidth, 0.5); vec4 normalRot = normalize(texture2D(rotationState,normalStateUv)); vec4 normalAnchorRot = normalize(texture2D(anchorRotationState,normalStateUv)); if(dot(normalAnchorRot,normalRot)<0.0) normalRot=-normalRot; vec4 normalBlend=normalize(mix(normalAnchorRot,normalRot,motionWeight)); objectNormal=qrot(normalBlend,objectNormal);');
-    shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nvec2 stateUv = vec2((partIndex + 0.5) / stateWidth, 0.5); vec4 state = texture2D(partState, stateUv); vec3 motion = texture2D(motionState,stateUv).xyz; vec4 rotation = normalize(texture2D(rotationState,stateUv)); vec3 anchorMotion = texture2D(anchorMotionState,stateUv).xyz; vec4 anchorRotation = normalize(texture2D(anchorRotationState,stateUv)); if(dot(anchorRotation,rotation)<0.0) rotation=-rotation; vec4 blendedRotation=normalize(mix(anchorRotation,rotation,motionWeight)); vec3 blendedMotion=mix(anchorMotion,motion,motionWeight); transformed = qrot(blendedRotation,transformed)+blendedMotion+state.xyz; partVisible = state.w; partSelected = texture2D(selectionState, stateUv).r;');
+    shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nvec2 stateUv = vec2((partIndex + 0.5) / stateWidth, 0.5); vec4 state = texture2D(partState, stateUv); vec3 motion = texture2D(motionState,stateUv).xyz; vec4 rotation = normalize(texture2D(rotationState,stateUv)); vec3 anchorMotion = texture2D(anchorMotionState,stateUv).xyz; vec4 anchorRotation = normalize(texture2D(anchorRotationState,stateUv)); vec3 anchorPosition=qrot(anchorRotation,transformed)+anchorMotion; vec3 movingPosition=qrot(rotation,transformed)+motion; vec3 softDelta=movingPosition-anchorPosition; float softLen=length(softDelta); if(softLen>maxSoftDisplacement) softDelta*=maxSoftDisplacement/softLen; transformed=anchorPosition+softDelta*motionWeight+state.xyz; partVisible = state.w; partSelected = texture2D(selectionState, stateUv).r;');
     shader.fragmentShader='varying float partVisible; varying float partSelected;\n'+shader.fragmentShader;
     shader.fragmentShader=shader.fragmentShader.replace('#include <clipping_planes_fragment>','#include <clipping_planes_fragment>\nif (partVisible < 0.5) discard;');
     shader.fragmentShader=shader.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\ndiffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.42, 0.85, 0.78), partSelected * 0.75);');
@@ -149,8 +149,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    // Pectoralis major should keep almost all of its broad sternal/rib origin
    // on the chest. Only the lateral humeral insertion is allowed to travel
    // strongly with the arm, which keeps the ribs covered during elevation.
-   if(/pectoralis major/.test(name))return smoothstep((lateral-.68)/.28);
-   if(/latissimus dorsi/.test(name))return smoothstep((lateral-.58)/.36);
+   if(/pectoralis major|latissimus dorsi/.test(name))return 0;
 
    // Rotator cuff and scapular muscles blend from their medial/trunk origin to
    // the lateral scapular/humeral attachment.
@@ -278,7 +277,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      const name=nerveName(o),side=nerveSide(name),overlay=ctx.motionActive||ctx.region!=='whole-body';
      const sideOk=ctx.focusSide==='both'||side==='both'||side===ctx.focusSide;
      o.visible=sideOk&&nerveMatchesRegion(name,ctx.region,ctx.motionActive);
-     if(o.material.depthTest===overlay){o.material.depthTest=!overlay;o.material.opacity=overlay?.96:.82;o.material.needsUpdate=true;}
+     if(o.material.depthTest===overlay){o.material.depthTest=!overlay;o.material.opacity=overlay?1:.82;o.material.emissiveIntensity=overlay?.65:.28;o.material.needsUpdate=true;}
     });
    }
    const moving=Math.abs(amount-s.explode)>.0001;
@@ -312,10 +311,14 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      if(mesh){
       const isSoft=!!(transform?.anchorTranslation&&transform?.anchorQuaternion),base=mesh.userData.baseMotionPositions as Float32Array|undefined,weights=mesh.userData.motionWeights as Float32Array|undefined,attr=mesh.geometry.getAttribute('position') as T.BufferAttribute;
       if(isSoft&&base&&weights&&transform){
-       const movingT=new T.Vector3(...transform.translation),anchorT=new T.Vector3(...transform.anchorTranslation!);
-       softBQ.set(...transform.quaternion);softAQ.set(...transform.anchorQuaternion!);if(softAQ.dot(softBQ)<0)softBQ.set(-softBQ.x,-softBQ.y,-softBQ.z,-softBQ.w);
+       const movingM=transformMatrix(transform),anchorM=transformMatrix({translation:transform.anchorTranslation!,quaternion:transform.anchorQuaternion!});
+       const maxSoft=p.system==='arterial'||p.system==='venous'?.16:p.system==='muscular'?.24:1;
        for(let vi=0;vi<attr.count;vi++){
-        const w=weights[vi];softQ.set(T.MathUtils.lerp(softAQ.x,softBQ.x,w),T.MathUtils.lerp(softAQ.y,softBQ.y,w),T.MathUtils.lerp(softAQ.z,softBQ.z,w),T.MathUtils.lerp(softAQ.w,softBQ.w,w)).normalize();softT.lerpVectors(anchorT,movingT,w);softP.set(base[vi*3],base[vi*3+1],base[vi*3+2]).applyQuaternion(softQ).add(softT);attr.setXYZ(vi,softP.x,softP.y,softP.z);
+        const w=weights[vi];
+        softP.set(base[vi*3],base[vi*3+1],base[vi*3+2]);
+        softA.copy(softP).applyMatrix4(anchorM);softB.copy(softP).applyMatrix4(movingM);
+        softD.copy(softB).sub(softA);if(softD.length()>maxSoft)softD.setLength(maxSoft);
+        softA.addScaledVector(softD,w);attr.setXYZ(vi,softA.x,softA.y,softA.z);
        }
        attr.needsUpdate=true;mesh.geometry.computeBoundingBox();mesh.geometry.computeBoundingSphere();mesh.userData.mjSoftDeformed=true;mesh.quaternion.identity();mesh.position.set(dx,dy,dz);
       }else{
