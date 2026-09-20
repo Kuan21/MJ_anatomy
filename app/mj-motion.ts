@@ -51,6 +51,13 @@ const tuple3=(v:T.Vector3):[number,number,number]=>[v.x,v.y,v.z];
 const tuple4=(q:T.Quaternion):[number,number,number,number]=>[q.x,q.y,q.z,q.w];
 const rigid=(m:T.Matrix4):PartTransform=>{const p=new T.Vector3(),q=new T.Quaternion(),s=new T.Vector3();m.decompose(p,q,s);return{translation:tuple3(p),quaternion:tuple4(q.normalize())};};
 const blendRigid=(a:T.Matrix4,b:T.Matrix4,t:number):PartTransform=>{const pa=new T.Vector3(),qa=new T.Quaternion(),sa=new T.Vector3(),pb=new T.Vector3(),qb=new T.Quaternion(),sb=new T.Vector3();a.decompose(pa,qa,sa);b.decompose(pb,qb,sb);if(qa.dot(qb)<0)qb.set(-qb.x,-qb.y,-qb.z,-qb.w);const p=pa.lerp(pb,t),q=qa.slerp(qb,t).normalize();return{translation:tuple3(p),quaternion:tuple4(q)};};
+const followSegmentRigid=(part:Atlas['parts'][number],originM:T.Matrix4,insertionM:T.Matrix4):PartTransform=>{
+ const min=new T.Vector3().fromArray(part.bounds[0]),max=new T.Vector3().fromArray(part.bounds[1]),mid=min.clone().add(max).multiplyScalar(.5);
+ const origin=new T.Vector3(mid.x,max.y,mid.z),insertion=new T.Vector3(mid.x,min.y,mid.z),sourceAxis=insertion.clone().sub(origin).normalize();
+ const targetOrigin=origin.clone().applyMatrix4(originM),targetInsertion=insertion.clone().applyMatrix4(insertionM),targetAxis=targetInsertion.clone().sub(targetOrigin).normalize();
+ const q=new T.Quaternion().setFromUnitVectors(sourceAxis,targetAxis),sourceMid=origin.clone().add(insertion).multiplyScalar(.5),targetMid=targetOrigin.clone().add(targetInsertion).multiplyScalar(.5);
+ return rigid(new T.Matrix4().makeTranslation(targetMid.x,targetMid.y,targetMid.z).multiply(new T.Matrix4().makeRotationFromQuaternion(q)).multiply(new T.Matrix4().makeTranslation(-sourceMid.x,-sourceMid.y,-sourceMid.z)));
+};
 const deform=(moving:T.Matrix4,anchor:T.Matrix4):PartTransform=>{
  const a=rigid(anchor),b=rigid(moving);
  return{...b,anchorTranslation:a.translation,anchorQuaternion:a.quaternion};
@@ -254,23 +261,23 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  };
 
  const vesselTransform=(part:Atlas['parts'][number])=>{
-  const name=norm(part.name),c=centerOfPart(part);
+  const name=norm(part.name),c=centerOfPart(part),bridge=(moving:T.Matrix4,anchor:T.Matrix4):PartTransform=>({...deform(moving,anchor),softLimit:.8});
   // Scapular branches remain related to the moving scapula rather than the
   // humeral shaft.
-  if(/suprascapular|dorsal scapular|circumflex scapular|thoracodorsal/.test(name))return deform(scapulaM,identityM);
+  if(/suprascapular|dorsal scapular|circumflex scapular|thoracodorsal/.test(name))return bridge(scapulaM,identityM);
   // Subclavian vessels are anchored to the root of the neck and follow only
   // the lateral clavicular end.
-  if(/subclavian/.test(name))return deform(clavicleM,identityM);
+  if(/subclavian/.test(name))return bridge(clavicleM,identityM);
   // Axillary/circumflex vessels bridge trunk/shoulder to the arm.
-  if(c.y>1.30||/axillary|circumflex humeral|thoraco-acromial|lateral thoracic|subscapular/.test(name))return deform(shoulderM,identityM);
+  if(c.y>1.30||/axillary|circumflex humeral|thoraco-acromial|lateral thoracic|subscapular/.test(name))return bridge(shoulderM,identityM);
   // Brachial and superficial arm vessels bend from humerus to elbow.
-  if(c.y>1.08)return deform(elbowM,shoulderM);
+  if(c.y>1.08)return bridge(elbowM,shoulderM);
   // Forearm vessels rotate with the radius/ulna relationship while remaining
   // connected at the cubital fossa.
-  if(c.y>.88)return deform(forearmM,elbowM);
+  if(c.y>.88)return bridge(forearmM,elbowM);
   // Carpal branches bridge the moving wrist; digital/palmar vessels then move
   // rigidly with the hand so the vascular tree stays continuous.
-  if(c.y>.80)return deform(wristM,forearmM);
+  if(c.y>.80)return bridge(wristM,forearmM);
   return rigid(wristM);
  };
 
@@ -283,14 +290,12 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
   // rigid fragments. scene.tsx blends each segment between these transforms.
   if(vascular(part)){if(upperLimbVascular(part))transforms[part.id]=vesselTransform(part);continue;}
 
-  // Deltoid has three separate atlas heads. Preserve the real proximal
-  // attachments (lateral clavicle / acromion / scapular spine) while the
-  // distal fibres follow the humerus toward the deltoid tuberosity. A small
-  // per-part displacement cap prevents the rigid source mesh from "exploding"
-  // away from the shoulder when the arm elevates.
+  // Keep each deltoid head as a volume-preserving rigid segment between its
+  // proximal attachment and the humeral insertion. This avoids the dramatic
+  // membrane/explosion artifact caused by stretching the rigid BodyParts3D mesh.
   if(deltoid(part)){
-   const n=norm(part.name),anchor=/clavicular part/.test(n)?clavicleM:scapulaM;
-   transforms[part.id]={...deform(shoulderM,anchor),softLimit:/acromial part/.test(n)?.115:.105};continue;
+   const n=norm(part.name),origin=/clavicular part/.test(n)?clavicleM:scapulaM;
+   transforms[part.id]=followSegmentRigid(part,origin,shoulderM);continue;
   }
   if(cuff(part)){transforms[part.id]=blendRigid(scapulaM,shoulderM,.52);continue;}
   if(trunkToScapula(part)){
