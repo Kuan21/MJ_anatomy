@@ -1378,5 +1378,65 @@
     "name": "Right subclavian vein",
     "side": "right",
     "profile": "path"
+  },
+  "FJ1471": {
+    "name": "Flexor retinaculum of right wrist",
+    "side": "right",
+    "profile": "hand"
+  },
+  "FJ1471M": {
+    "name": "Flexor retinaculum of left wrist",
+    "side": "left",
+    "profile": "hand"
+  },
+  "FJ1485": {
+    "name": "Right anconeus",
+    "side": "right",
+    "profile": "forearm"
+  },
+  "FJ1485M": {
+    "name": "Left anconeus",
+    "side": "left",
+    "profile": "forearm"
+  },
+  "FJ1487": {
+    "name": "Right brachioradialis",
+    "side": "right",
+    "profile": "forearm"
+  },
+  "FJ1487M": {
+    "name": "Left brachioradialis",
+    "side": "left",
+    "profile": "forearm"
+  },
+  "FJ2221": {
+    "name": "Left circumflex scapular artery",
+    "side": "left",
+    "profile": "path"
+  },
+  "FJ2222": {
+    "name": "Left circumflex scapular vein",
+    "side": "left",
+    "profile": "path"
+  },
+  "FJ2273": {
+    "name": "Right circumflex scapular artery",
+    "side": "right",
+    "profile": "path"
+  },
+  "FJ2274": {
+    "name": "Right circumflex scapular vein",
+    "side": "right",
+    "profile": "path"
+  },
+  "FJ2347": {
+    "name": "Set of dorsal metacarpal arteries",
+    "side": "right",
+    "profile": "path"
+  },
+  "FJ2348": {
+    "name": "Set of dorsal metacarpal arteries",
+    "side": "left",
+    "profile": "path"
   }
 }
