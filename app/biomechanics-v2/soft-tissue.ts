@@ -4,7 +4,7 @@ import {createSkeletonRig,type Side} from './skeleton';
 import rawBindings from './tissue-bindings.json';
 import rawNerves from './nerve-bindings.json';
 
-export type Profile='path'|'deltoid'|'chest'|'cuff'|'biceps'|'triceps'|'arm'|'coraco'|'forearm'|'hand'|'scapular'|'clavicular';
+export type Profile='pectoralPath'|'path'|'deltoid'|'chest'|'cuff'|'biceps'|'triceps'|'arm'|'coraco'|'forearm'|'hand'|'scapular'|'clavicular';
 export interface TissueBinding {name:string;side:Side;profile:Profile}
 export const tissueBindings=rawBindings as Record<string,TissueBinding>;
 export const nerveBindings=rawNerves as Record<string,{side:Side;profile:'path'}>;
@@ -54,6 +54,7 @@ export function weightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''
  const c=box.getCenter(new Vector3()),size=box.getSize(new Vector3());
  const down=clamp((box.max.y-p.y)/Math.max(.01,size.y));
  const lateral=clamp((Math.abs(p.x)-Math.min(Math.abs(box.min.x),Math.abs(box.max.x)))/Math.max(.01,size.x));
+ if(profile==='pectoralPath'){const b=rig.groups.chest??box;const t=(Math.abs(p.x)-Math.min(Math.abs(b.min.x),Math.abs(b.max.x)))/Math.max(.01,b.max.x-b.min.x);return pair(0,3,range(t,.72,.98));}
  if(profile==='path'||profile==='forearm')return pathWeights(rig,p.x,p.y,p.z);
  if(profile==='hand')return pair(6,6,1);
  if(profile==='clavicular')return pair(0,1,smooth(lateral));
@@ -137,7 +138,7 @@ export function deformTissue(binding:SkinBinding,base:Float32Array,palette:Palet
  for(let i=0;i<base.length/3;i++){
   blended(palette,binding.indices,binding.weights,i*4,q);
   const extra=(radialScale-1)*binding.belly[i],j=i*3;
-  if(binding.profile==='chest'){
+  if((binding.profile==='chest'||binding.profile==='pectoralPath')){
    // Broad origin stays anchored. Blend endpoint-frame displacements instead
    // of rotating the fan as a dual quaternion, which bows the chest upward.
    let x=0,y=0,z=0;const v=new Float64Array(3);
