@@ -10,7 +10,7 @@ export const tissueBindings=rawBindings as Record<string,TissueBinding>;
 export const nerveBindings=rawNerves as Record<string,{side:Side;profile:'path'}>;
 // Common frame palette: trunk, clavicle, scapula, humerus, ulna, radius, hand.
 export const FRAMES=['root','clavicle','scapula','humerus','ulna','radius','hand'] as const;
-export interface SoftRig {side:Side;ids:(string|undefined)[];shoulder:Vector3;elbow:Vector3;wrist:Vector3;groups:Record<string,Box3>;radius:Vector3;ulna:Vector3;handTipY:number}
+export interface SoftRig {side:Side;ids:(string|undefined)[];shoulder:Vector3;elbow:Vector3;wrist:Vector3;groups:Record<string,Box3>;radius:Vector3;ulna:Vector3;handTipY:number;digitalLandmarks:{source:Vector3;target:Vector3}[]}
 export interface SkinBinding {indices:Uint8Array;weights:Float32Array;belly:Float32Array;radial:Float32Array;origin:Vector3;insertion:Vector3;originWeights:number[];insertionWeights:number[];restLength:number;profile:Profile}
 export function makeSoftRig(atlas:Atlas,side:Side):SoftRig|null{
  const rig=createSkeletonRig(atlas,side);if(!rig.valid)return null;
@@ -20,7 +20,10 @@ export function makeSoftRig(atlas:Atlas,side:Side):SoftRig|null{
   const key=b.profile;groups[key]??=new Box3();groups[key].union(new Box3(new Vector3().fromArray(p.bounds[0]),new Vector3().fromArray(p.bounds[1])));
  }
  const center=(id:string)=>{const p=atlas.parts.find(p=>p.id===node(id).partIds[0])!;return new Vector3().fromArray(p.bounds[0]).add(new Vector3().fromArray(p.bounds[1])).multiplyScalar(.5);};
- return{side,ids:[undefined,...['clavicle','scapula','humerus','ulna','radius','hand'].map(id=>node(id).partIds[0])],shoulder:node('humerus').pivot.clone(),elbow:node('ulna').pivot.clone(),wrist:node('carpus').pivot.clone(),groups,handTipY:Math.min(...atlas.parts.filter(p=>node('hand').partIds.includes(p.id)).map(p=>p.bounds[0][1])),radius:center('radius'),ulna:center('ulna')};
+ const sourceTips=[[.23294473,.72658675,.07827127],[.2544531,.7137407,.08966618],[.28421846,.70268024,.09161239],[.31737652,.71126334,.08250995],[.32835086,.77373981,.06288589]];
+ const fingers=['little finger','ring finger','middle finger','index finger','thumb'],sign=side==='left'?1:-1;
+ const digitalLandmarks=fingers.map((finger,i)=>{const p=atlas.parts.find(p=>p.name===`Distal phalanx of ${side} ${finger}`);if(!p)throw new Error(`Missing distal landmark: ${side} ${finger}`);return{source:new Vector3(sign*sourceTips[i][0],sourceTips[i][1],sourceTips[i][2]),target:new Vector3((p.bounds[0][0]+p.bounds[1][0])*.5,p.bounds[0][1]-.001,p.bounds[1][2]-.002)};});
+ return{side,digitalLandmarks,ids:[undefined,...['clavicle','scapula','humerus','ulna','radius','hand'].map(id=>node(id).partIds[0])],shoulder:node('humerus').pivot.clone(),elbow:node('ulna').pivot.clone(),wrist:node('carpus').pivot.clone(),groups,handTipY:Math.min(...atlas.parts.filter(p=>node('hand').partIds.includes(p.id)).map(p=>p.bounds[0][1])),radius:center('radius'),ulna:center('ulna')};
 }
 const clamp=(x:number)=>Math.max(0,Math.min(1,x));
 const smooth=(x:number)=>{x=clamp(x);return x*x*(3-2*x);};
@@ -38,16 +41,19 @@ export function pathWeights(rig:SoftRig,x:number,y:number,z:number):number[]{
  return[(1-lateral)*(1-e),lateral*(1-arm)*(1-e),0,lateral*arm*(1-e),e*(1-w)*(1-radial),e*(1-w)*radial,e*w];
 }
 /** Register the separate legacy nerve atlas to this atlas BEFORE skinning.
- * Source distal landmark measured from all 98 decoded upper-limb GLB nodes.
- * A shared monotone warp preserves branch joins; wrist and proximal paths stay fixed.
- * This is a rest-pose length registration, not a clipping of posed nerve tips.
+ * Five source digit landmarks are measured from decoded digital nerve branches.
+ * A shared 3-D displacement field preserves branch joins; the wrist stays fixed.
+ * This is rest-pose registration, not clipping or removal of posed nerve tips.
  */
 export function registerNerveRest(rig:SoftRig,positions:Float32Array):void{
- const sourceTip=.70182711,targetTip=rig.handTipY-.002,anchor=rig.wrist.y;
- const delta=targetTip-sourceTip,length=anchor-sourceTip;
+ // Digit endpoints measured in the decoded legacy GLB; target landmarks
+ // follow each atlas distal phalanx, with a 1 mm distal soft-tissue allowance.
+ // A shared smooth 3-D displacement field preserves cross-mesh branch joins.
  for(let i=0;i<positions.length;i+=3){
-  const t=clamp((anchor-positions[i+1])/length);
-  positions[i+1]+=delta*smooth(t);
+  const x=positions[i],y=positions[i+1],z=positions[i+2],t=range(.84-y,0,.06);if(t===0)continue;
+  let total=0,dx=0,dy=0,dz=0;
+  for(const {source:a,target:b} of rig.digitalLandmarks){const d=(x-a.x)**2+(y-a.y)**2+(z-a.z)**2,w=1/Math.max(1e-14,d*d);total+=w;dx+=w*(b.x-a.x);dy+=w*(b.y-a.y);dz+=w*(b.z-a.z);}
+  positions[i]+=t*dx/total;positions[i+1]+=t*dy/total;positions[i+2]+=t*dz/total;
  }
 }
 export function weightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''):number[]{

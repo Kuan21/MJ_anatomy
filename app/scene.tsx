@@ -11,7 +11,7 @@ import {PointerTap} from './pointer-tap';
 import {SYSTEMS,type Atlas,type SceneState} from './anatomy';
 import {matchesDepth} from './mj-depth';
 import {makeSoftRig,bindTissue,makePalette,deformTissue,registerNerveRest,tissueBindings,nerveBindings,type SkinBinding} from './biomechanics-v2/soft-tissue';
-import {makeBodyRig,buildBodyMotion,bindBodyTissue,bodyBindings,type BodyRegion} from './biomechanics-v2/body-motion';
+import {makeBodyRig,buildBodyMotion,bindBodyTissue,cranialNerveRigid,bodyBindings,type BodyRegion} from './biomechanics-v2/body-motion';
 import bodyNerveData from './biomechanics-v2/body-nerve-bindings.json';
 const bodyNerveBindings=bodyNerveData as Record<string,BodyRegion>;
 interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;onSelectNerve?:(name:string)=>void;onProgress:(n:number)=>void;onError:(s:string)=>void;onJointDrag?:(side:'left'|'right',joint:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion',delta:number)=>void;region?:'whole-body'|'shoulder'|'arm'|'forearm'|'hand';focusSide?:'both'|'left'|'right';motionActive?:boolean}
@@ -71,7 +71,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     if(binding&&softRigs[binding.side]){registerNerveRest(softRigs[binding.side]!,position.array as Float32Array);position.needsUpdate=true;geometry.computeVertexNormals();geometry.computeBoundingBox();}
     mesh.userData.basePositions=new Float32Array(position.array as ArrayLike<number>);
     if(binding&&softRigs[binding.side])mesh.userData.skin=bindTissue(softRigs[binding.side]!,/pectoral nerve/i.test(exactName)?'pectoralPath':'path',mesh.userData.basePositions);
-    const bodyRegion=bodyNerveBindings[exactName];if(bodyRegion){mesh.userData.bodyRegion=bodyRegion;mesh.userData.bodySkin=bindBodyTissue(bodyRigs[bodyRegion],mesh.userData.basePositions);}
+    const bodyRegion=bodyNerveBindings[exactName];if(bodyRegion){mesh.userData.bodyRegion=bodyRegion;mesh.userData.bodySkin=bindBodyTissue(bodyRigs[bodyRegion],mesh.userData.basePositions,cranialNerveRigid(exactName));}
     nerveRoot.add(mesh);nerveMeshes.push(mesh);
    });lastState=null;dirty=true;},undefined,err=>{if(!disposed)console.warn('Could not load legacy nervous system model',err);});
   const transformMatrix=(t:NonNullable<SceneState['partTransforms']>[string]|undefined)=>{const m=new T.Matrix4();if(!t)return m.identity();return m.compose(new T.Vector3(...t.translation),new T.Quaternion(...t.quaternion),new T.Vector3(1,1,1));};

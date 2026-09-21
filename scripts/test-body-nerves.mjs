@@ -24,7 +24,8 @@ for(const [i,node] of gltf.nodes.entries()){
   const status=decoder.DecodeBufferToMesh(buffer,mesh);assert.ok(status.ok(),node.name);
   const attribute=decoder.GetAttributeByUniqueId(mesh,ext.attributes.POSITION),values=new draco.DracoFloat32Array();decoder.GetAttributeFloatForAllPoints(mesh,attribute,values);
   const positions=new Float32Array(mesh.num_points()*3),v=new Vector3();for(let j=0;j<mesh.num_points();j++){v.set(values.GetValue(j*3),values.GetValue(j*3+1),values.GetValue(j*3+2)).applyMatrix4(matrix(i));positions.set(v.toArray(),j*3);}
-  const skin=body.bindBodyTissue(rig,positions),output=new Float32Array(positions.length);soft.deformTissue(skin,positions,palette,output);assert.ok(output.every(Number.isFinite));
+  const skull=body.cranialNerveRigid(node.name),skin=body.bindBodyTissue(rig,positions,skull),output=new Float32Array(positions.length);soft.deformTissue(skin,positions,palette,output);assert.ok(output.every(Number.isFinite));
+  if(skull&&binding==='head'){const m=body.buildBodyMotion(rig,{...body.BODY_NEUTRAL,flexion:25,rotation:20,knee:70,ankle:15}).matrices[8];for(let j=0;j<positions.length;j+=3)assert.ok(new Vector3(...positions.slice(j,j+3)).applyMatrix4(m).distanceTo(new Vector3(...output.slice(j,j+3)))<3e-7,'Facial nerve must follow skull');}
   const neutral=new Float32Array(positions.length);soft.deformTissue(skin,positions,body.buildBodyMotion(rig,body.BODY_NEUTRAL).palette,neutral);assert.deepEqual(neutral,positions);
   vertices+=mesh.num_points();for(const object of [values,mesh,decoder,buffer])draco.destroy(object);
  }

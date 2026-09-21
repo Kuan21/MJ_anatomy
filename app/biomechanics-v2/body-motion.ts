@@ -58,8 +58,9 @@ export function bodyWeights(rig:BodyRig,y:number):number[]{
  const [h,k,a]=rig.levels,hip=smooth((h+.075-y)/.15),knee=smooth((k+.055-y)/.11),ankle=smooth((a+.035-y)/.07);
  w[0]=1-hip;w[1]=hip*(1-knee);w[2]=hip*knee*(1-ankle);w[3]=hip*knee*ankle;return w;
 }
-export function bindBodyTissue(rig:BodyRig,positions:ArrayLike<number>):SkinBinding{
+export function cranialNerveRigid(name:string):boolean{return /facial nerve|trigeminal|supraorbital|supratrochlear|infraorbital|mental nerve|buccal nerve|zygomatic|infratrochlear|nasociliary|ethmoidal|ciliary|lacrimal|ophthalmic|maxillary nerve|mandibular nerve/i.test(name);}
+export function bindBodyTissue(rig:BodyRig,positions:ArrayLike<number>,skull=false):SkinBinding{
  const count=positions.length/3,indices=new Uint8Array(count*4),weights=new Float32Array(count*4);
- for(let i=0;i<count;i++){const entries=bodyWeights(rig,positions[i*3+1]).map((w,j)=>({w,j})).filter(e=>e.w>0);entries.forEach((e,k)=>{indices[i*4+k]=e.j;weights[i*4+k]=e.w;});}
+ for(let i=0;i<count;i++){const entries=(skull&&rig.region==='head'?[0,0,0,0,0,0,0,0,1]:bodyWeights(rig,positions[i*3+1])).map((w,j)=>({w,j})).filter(e=>e.w>0);entries.forEach((e,k)=>{indices[i*4+k]=e.j;weights[i*4+k]=e.w;});}
  return{indices,weights,belly:new Float32Array(count),radial:new Float32Array(count*3),origin:new Vector3(),insertion:new Vector3(0,1,0),originWeights:[1],insertionWeights:[1],restLength:1,profile:'path'};
 }
