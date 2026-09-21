@@ -10,7 +10,7 @@ export const tissueBindings=rawBindings as Record<string,TissueBinding>;
 export const nerveBindings=rawNerves as Record<string,{side:Side;profile:'path'}>;
 // Common frame palette: trunk, clavicle, scapula, humerus, ulna, radius, hand.
 export const FRAMES=['root','clavicle','scapula','humerus','ulna','radius','hand'] as const;
-export interface SoftRig {side:Side;ids:(string|undefined)[];shoulder:Vector3;elbow:Vector3;wrist:Vector3;groups:Record<string,Box3>;radius:Vector3;ulna:Vector3}
+export interface SoftRig {side:Side;ids:(string|undefined)[];shoulder:Vector3;elbow:Vector3;wrist:Vector3;groups:Record<string,Box3>;radius:Vector3;ulna:Vector3;handTipY:number}
 export interface SkinBinding {indices:Uint8Array;weights:Float32Array;belly:Float32Array;radial:Float32Array;origin:Vector3;insertion:Vector3;originWeights:number[];insertionWeights:number[];restLength:number;profile:Profile}
 export function makeSoftRig(atlas:Atlas,side:Side):SoftRig|null{
  const rig=createSkeletonRig(atlas,side);if(!rig.valid)return null;
@@ -20,7 +20,7 @@ export function makeSoftRig(atlas:Atlas,side:Side):SoftRig|null{
   const key=b.profile;groups[key]??=new Box3();groups[key].union(new Box3(new Vector3().fromArray(p.bounds[0]),new Vector3().fromArray(p.bounds[1])));
  }
  const center=(id:string)=>{const p=atlas.parts.find(p=>p.id===node(id).partIds[0])!;return new Vector3().fromArray(p.bounds[0]).add(new Vector3().fromArray(p.bounds[1])).multiplyScalar(.5);};
- return{side,ids:[undefined,...['clavicle','scapula','humerus','ulna','radius','hand'].map(id=>node(id).partIds[0])],shoulder:node('humerus').pivot.clone(),elbow:node('ulna').pivot.clone(),wrist:node('carpus').pivot.clone(),groups,radius:center('radius'),ulna:center('ulna')};
+ return{side,ids:[undefined,...['clavicle','scapula','humerus','ulna','radius','hand'].map(id=>node(id).partIds[0])],shoulder:node('humerus').pivot.clone(),elbow:node('ulna').pivot.clone(),wrist:node('carpus').pivot.clone(),groups,handTipY:Math.min(...atlas.parts.filter(p=>node('hand').partIds.includes(p.id)).map(p=>p.bounds[0][1])),radius:center('radius'),ulna:center('ulna')};
 }
 const clamp=(x:number)=>Math.max(0,Math.min(1,x));
 const smooth=(x:number)=>{x=clamp(x);return x*x*(3-2*x);};
@@ -37,6 +37,19 @@ export function pathWeights(rig:SoftRig,x:number,y:number,z:number):number[]{
  const radial=dU/(dR+dU+1e-9); // continuous, identical across adjacent segments
  return[(1-lateral)*(1-e),lateral*(1-arm)*(1-e),0,lateral*arm*(1-e),e*(1-w)*(1-radial),e*(1-w)*radial,e*w];
 }
+/** Register the separate legacy nerve atlas to this atlas BEFORE skinning.
+ * Source distal landmark measured from all 98 decoded upper-limb GLB nodes.
+ * A shared monotone warp preserves branch joins; wrist and proximal paths stay fixed.
+ * This is a rest-pose length registration, not a clipping of posed nerve tips.
+ */
+export function registerNerveRest(rig:SoftRig,positions:Float32Array):void{
+ const sourceTip=.70182711,targetTip=rig.handTipY-.002,anchor=rig.wrist.y;
+ const delta=targetTip-sourceTip,length=anchor-sourceTip;
+ for(let i=0;i<positions.length;i+=3){
+  const t=clamp((anchor-positions[i+1])/length);
+  positions[i+1]+=delta*smooth(t);
+ }
+}
 export function weightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''):number[]{
  const c=box.getCenter(new Vector3()),size=box.getSize(new Vector3());
  const down=clamp((box.max.y-p.y)/Math.max(.01,size.y));
@@ -45,7 +58,7 @@ export function weightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''
  if(profile==='hand')return pair(6,6,1);
  if(profile==='clavicular')return pair(0,1,smooth(lateral));
  if(profile==='scapular')return pair(0,2,range(lateral,.35,.95));
- if(profile==='chest')return pair(name.toLowerCase().includes('clavicular')?1:0,3,range(lateral,.62,.97));
+ if(profile==='chest')return pair(name.toLowerCase().includes('clavicular')?1:0,3,range(lateral,.72,.98));
  if(profile==='cuff')return pair(2,3,range(lateral,.30,.95));
  if(profile==='coraco')return pair(2,3,range(down,.1,.85));
  if(profile==='deltoid'){
@@ -124,6 +137,16 @@ export function deformTissue(binding:SkinBinding,base:Float32Array,palette:Palet
  for(let i=0;i<base.length/3;i++){
   blended(palette,binding.indices,binding.weights,i*4,q);
   const extra=(radialScale-1)*binding.belly[i],j=i*3;
+  if(binding.profile==='chest'){
+   // Broad origin stays anchored. Blend endpoint-frame displacements instead
+   // of rotating the fan as a dual quaternion, which bows the chest upward.
+   let x=0,y=0,z=0;const v=new Float64Array(3);
+   for(let k=0;k<4;k++){const w=binding.weights[i*4+k];if(!w)continue;
+    const f=binding.indices[i*4+k];transform(base[j],base[j+1],base[j+2],palette.subarray(f*8,f*8+8),v,0);
+    x+=w*v[0];y+=w*v[1];z+=w*v[2];
+   }
+   out[j]=x;out[j+1]=y;out[j+2]=z;continue;
+  }
   transform(base[j]+binding.radial[j]*extra,base[j+1]+binding.radial[j+1]*extra,base[j+2]+binding.radial[j+2]*extra,q,out,j);
  }
  return radialScale;

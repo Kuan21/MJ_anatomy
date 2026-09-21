@@ -19,7 +19,7 @@ const {resolveDissection}=await import(new URL('mj-dissection.mjs',tmp));
 const focusIds=new Set(['shoulder','arm','forearm','hand'].flatMap(region=>resolveDissection(atlas,region,0).partIds));
 const buffers=await Promise.all(atlas.chunks.map(c=>readFile(new URL('public'+c.url,root))));
 const geometry=p=>{const b=buffers[p.chunk];return{positions:new Float32Array(b.buffer,b.byteOffset+p.positions,p.vertexCount*3).slice(),indices:new Uint32Array(b.buffer,b.byteOffset+p.indices,p.indexCount).slice()};};
-const poses={videoReplay:{...motion.NEUTRAL_POSE,shoulderFlexion:90,shoulderAbduction:17,shoulderRotation:-25},neutral:motion.NEUTRAL_POSE,raise60:{...motion.NEUTRAL_POSE,shoulderAbduction:60},raise90:{...motion.NEUTRAL_POSE,shoulderAbduction:90},raise145:{...motion.NEUTRAL_POSE,shoulderAbduction:145},flex90:{...motion.NEUTRAL_POSE,elbowFlexion:90},combined:{...motion.NEUTRAL_POSE,shoulderAbduction:70,shoulderFlexion:45,elbowFlexion:100,forearmRotation:40,wristFlexion:15}};
+const poses={extension:{...motion.NEUTRAL_POSE,shoulderFlexion:-45},wristExtension:{...motion.NEUTRAL_POSE,wristFlexion:45},videoReplay:{...motion.NEUTRAL_POSE,shoulderFlexion:90,shoulderAbduction:17,shoulderRotation:-25},neutral:motion.NEUTRAL_POSE,raise60:{...motion.NEUTRAL_POSE,shoulderAbduction:60},raise90:{...motion.NEUTRAL_POSE,shoulderAbduction:90},raise145:{...motion.NEUTRAL_POSE,shoulderAbduction:145},flex90:{...motion.NEUTRAL_POSE,elbowFlexion:90},combined:{...motion.NEUTRAL_POSE,shoulderAbduction:70,shoulderFlexion:45,elbowFlexion:100,forearmRotation:40,wristFlexion:15}};
 const render={};let vertices=0,maxNeutral=0;const start=performance.now();
 for(const side of ['left','right']){
  const rig=soft.makeSoftRig(atlas,side);assert.ok(rig);
@@ -40,10 +40,16 @@ for(const side of ['left','right']){
  for(const [poseName,pose] of Object.entries(poses)){
   const {transforms,warnings}=motion.buildUpperLimbMotion(atlas,side,pose);assert.equal(warnings.length,0);assert.equal(Object.keys(transforms).length,32);
   const palette=soft.makePalette(rig,transforms),rows=[];
+  if(poseName==='extension'){
+   const t=transforms[rig.ids[3]],p=rig.elbow.clone().applyQuaternion(new Quaternion(...t.quaternion)).add(new Vector3(...t.translation));
+   assert.ok(p.z<rig.elbow.z-.08,'Extension must move upper arm posteriorly');
+  }
+
   const whole=new Float32Array(9),first=new Float32Array(6);soft.deformTissue(wholeBinding,nerveProbe,palette,whole);soft.deformTissue(firstBinding,nerveProbe.slice(0,6),palette,first);assert.deepEqual([...whole.slice(0,6)],[...first]);
   for(const {p,positions,indices,binding} of skin){
    const output=new Float32Array(positions.length),scale=soft.deformTissue(binding,positions,palette,output);assert.ok(scale>=.94&&scale<=1.12);assert.ok(output.every(Number.isFinite));vertices+=p.vertexCount;
    if(poseName==='raise90'&&/brachioradialis|anconeus|circumflex scapular|dorsal metacarpal arteries|flexor retinaculum/i.test(p.name)){let squared=0;for(let i=0;i<output.length;i++)squared+=(output[i]-positions[i])**2;assert.ok(Math.sqrt(squared/p.vertexCount)>.005,`${p.name} stayed at rest`);}
+   if(poseName==='wristExtension'&&binding.profile==='chest')assert.deepEqual(output,positions,'Wrist must not move the chest');
    if(poseName==='neutral'){const delta=Math.max(...output.map((v,i)=>Math.abs(v-positions[i])));maxNeutral=Math.max(maxNeutral,delta);assert.ok(delta<2e-7,`${p.name}: neutral changed ${delta}`);}
    // Attachments represented by a one-frame weight remain pinned to that frame.
    for(let i=0;i<p.vertexCount;i++)if(binding.weights[i*4]>.999999&&binding.belly[i]<1e-6){
@@ -61,7 +67,7 @@ for(const side of ['left','right']){
  const deltoids=skin.filter(s=>s.binding.profile==='deltoid'),point=new Float32Array([rig.shoulder.x,rig.shoulder.y-.07,-.01]);
  const palette=soft.makePalette(rig,motion.buildUpperLimbMotion(atlas,side,poses.raise90).transforms),outputs=deltoids.map(({p})=>{const binding=soft.bindTissue(rig,'deltoid',point,p),out=new Float32Array(3);soft.deformTissue(binding,point,palette,out);return [...out];});
  outputs.forEach(o=>assert.deepEqual(o,outputs[0]));
- console.log(`${side}: ${skin.length} tissues; 7 poses finite; exact neutral; pinned endpoints; shared deltoid seams; split-tube continuity PASS`);
+ console.log(`${side}: ${skin.length} tissues; 9 poses finite; exact neutral; pinned endpoints; shared deltoid seams; split-tube continuity PASS`);
 }
 await writeFile(new URL('tissue-qa.json',tmp),JSON.stringify(render));
 console.log(`Processed ${vertices.toLocaleString()} posed vertices in ${Math.round(performance.now()-start)} ms. Maximum neutral error ${maxNeutral}.`);

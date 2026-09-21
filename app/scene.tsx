@@ -10,8 +10,8 @@ import {decodeModelResponse} from './model-download';
 import {PointerTap} from './pointer-tap';
 import {SYSTEMS,type Atlas,type SceneState} from './anatomy';
 import {matchesDepth} from './mj-depth';
-import {makeSoftRig,bindTissue,makePalette,deformTissue,tissueBindings,nerveBindings,type SkinBinding} from './biomechanics-v2/soft-tissue';
-interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;onSelectNerve?:(name:string)=>void;onProgress:(n:number)=>void;onError:(s:string)=>void;onJointDrag?:(side:'left'|'right',joint:'shoulderAbduction'|'elbowFlexion',delta:number)=>void;region?:'whole-body'|'shoulder'|'arm'|'forearm'|'hand';focusSide?:'both'|'left'|'right';motionActive?:boolean}
+import {makeSoftRig,bindTissue,makePalette,deformTissue,registerNerveRest,tissueBindings,nerveBindings,type SkinBinding} from './biomechanics-v2/soft-tissue';
+interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;onSelectNerve?:(name:string)=>void;onProgress:(n:number)=>void;onError:(s:string)=>void;onJointDrag?:(side:'left'|'right',joint:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion',delta:number)=>void;region?:'whole-body'|'shoulder'|'arm'|'forearm'|'hand';focusSide?:'both'|'left'|'right';motionActive?:boolean}
 export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgress,onError,onJointDrag,region='whole-body',focusSide='both',motionActive=false}:Props){
  const host=useRef<HTMLDivElement>(null),latest=useRef(state),select=useRef(onSelect),selectNerve=useRef(onSelectNerve),jointDrag=useRef(onJointDrag),viewerContext=useRef({region,focusSide,motionActive});
  latest.current=state;select.current=onSelect;selectNerve.current=onSelectNerve;jointDrag.current=onJointDrag;viewerContext.current={region,focusSide,motionActive};
@@ -64,6 +64,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const binding=nerveBindings[exactName];
     const mesh=new T.Mesh(geometry,material);mesh.name=exactName||fullName;mesh.frustumCulled=false;mesh.renderOrder=0;
     mesh.userData.mjNerve=true;mesh.userData.mjExactName=exactName;mesh.userData.mjSide=binding?.side??nerveSide(exactName);
+    if(binding&&softRigs[binding.side]){registerNerveRest(softRigs[binding.side]!,position.array as Float32Array);position.needsUpdate=true;geometry.computeVertexNormals();geometry.computeBoundingBox();}
     mesh.userData.basePositions=new Float32Array(position.array as ArrayLike<number>);
     if(binding&&softRigs[binding.side])mesh.userData.skin=bindTissue(softRigs[binding.side]!,'path',mesh.userData.basePositions);
     nerveRoot.add(mesh);nerveMeshes.push(mesh);
@@ -234,7 +235,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    if(nerve&&(!part||nerve.distance<=part.distance+.002))return{kind:'nerve' as const,name:nerve.name};
    return part?{kind:'part' as const,index:part.index}:null;
   };
-  type JointGesture={pointerId:number;side:'left'|'right';joint:'shoulderAbduction'|'elbowFlexion';startX:number;startY:number;lastX:number;lastY:number;hitIndex:number;dragging:boolean};
+  type JointGesture={pointerId:number;side:'left'|'right';joint:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion';startX:number;startY:number;lastX:number;lastY:number;hitIndex:number;dragging:boolean};
   let jointGesture:JointGesture|null=null;
   const jointForPart=(index:number)=>{
    if(index<0)return null;
@@ -265,6 +266,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const total=Math.hypot(e.clientX-jointGesture.startX,e.clientY-jointGesture.startY);
     if(!jointGesture.dragging&&total<7){e.preventDefault();return;}
     if(!jointGesture.dragging){
+     if(jointGesture.joint==='shoulderAbduction'&&Math.abs(e.clientY-jointGesture.startY)>Math.abs(e.clientX-jointGesture.startX))jointGesture.joint='shoulderFlexion';
      jointGesture.dragging=true;
      jointGesture.lastX=e.clientX;jointGesture.lastY=e.clientY;
      renderer.domElement.style.cursor=jointGesture.joint==='shoulderAbduction'?'ew-resize':'ns-resize';

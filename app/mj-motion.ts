@@ -27,11 +27,11 @@ export const NEUTRAL_POSE:MotionPose={
 // prevent anatomically impossible-looking combined rotations and self-crossing.
 export const MOTION_LIMITS={
  shoulderAbduction:[0,145],
- shoulderFlexion:[-25,150],
+ shoulderFlexion:[-45,150],
  shoulderRotation:[-25,35],
  elbowFlexion:[0,135],
  forearmRotation:[-45,45],
- wristFlexion:[-18,18],
+ wristFlexion:[-45,45],
  wristDeviation:[-8,8]
 } as const;
 
@@ -118,7 +118,8 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  // then a progressive scapular contribution, reaching roughly 55-60 degrees
  // at high elevation. The scapula upwardly rotates instead of copying the
  // humeral rotation axis; flexion adds a modest posterior tilt.
- const scapularUp=T.MathUtils.clamp((elevation-30)*.43,0,58);
+ const upwardElevation=Math.hypot(p.shoulderAbduction,Math.max(0,p.shoulderFlexion));
+ const scapularUp=T.MathUtils.clamp((upwardElevation-30)*.43,0,58);
  const posteriorTilt=T.MathUtils.clamp(Math.max(0,p.shoulderFlexion-35)*.09,0,12);
  const scapulaUpQ=qdeg(abductionAxis,scapularUp);
  const scapulaTiltQ=qdeg(lateral,posteriorTilt*shoulderFlexSign);
