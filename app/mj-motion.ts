@@ -270,40 +270,47 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
   // vertex, so adjoining segments receive the same deformation at a joint.
   if(vascular(part)){continue;}
 
-  // Keep each deltoid head as a volume-preserving rigid segment between its
-  // proximal attachment and the humeral insertion. This avoids the dramatic
-  // membrane/explosion artifact caused by stretching the rigid BodyParts3D mesh.
+  // BodyParts3D muscles are rigid meshes, so use attachment-aware rigid
+  // interpolation rather than unrestricted vertex stretching. This keeps
+  // volume stable while still letting each muscle follow the bones it spans.
   if(deltoid(part)){
    const n=norm(part.name),origin=/clavicular part/.test(n)?clavicleM:scapulaM;
-   transforms[part.id]=followSegmentRigid(part,origin,shoulderM);continue;
+   transforms[part.id]=blendRigid(origin,shoulderM,/acromial part/.test(n)?.56:.52);continue;
   }
-  if(cuff(part)){transforms[part.id]=blendRigid(scapulaM,shoulderM,.52);continue;}
+  if(cuff(part)){transforms[part.id]=blendRigid(scapulaM,shoulderM,.50);continue;}
   if(trunkToScapula(part)){
-   if(/pectoralis minor|serratus anterior|trapezius|rhomboid|levator scapulae/.test(norm(part.name)))continue;
+   const n=norm(part.name);
+   if(/pectoralis minor/.test(n)){transforms[part.id]=blendRigid(identityM,scapulaM,.34);continue;}
+   if(/serratus anterior/.test(n)){transforms[part.id]=blendRigid(identityM,scapulaM,.20);continue;}
+   if(/rhomboid|levator scapulae/.test(n)){transforms[part.id]=blendRigid(identityM,scapulaM,.28);continue;}
+   if(/trapezius/.test(n)){transforms[part.id]=blendRigid(identityM,scapulaM,.12);continue;}
    transforms[part.id]=rigid(clavicleM);continue;
   }
-  if(trunkToClavicle(part)){transforms[part.id]=rigid(clavicleM);continue;}
+  if(trunkToClavicle(part)){transforms[part.id]=blendRigid(identityM,clavicleM,.45);continue;}
   if(trunkToHumerus(part)){
    const n=norm(part.name);
-   if(/pectoralis major|latissimus dorsi/.test(n))continue;
-   transforms[part.id]=blendRigid(scapulaM,shoulderM,.58);continue;
+   if(/pectoralis major/.test(n)){transforms[part.id]=blendRigid(identityM,shoulderM,.12);continue;}
+   if(/latissimus dorsi/.test(n)){transforms[part.id]=blendRigid(identityM,shoulderM,.10);continue;}
+   transforms[part.id]=blendRigid(scapulaM,shoulderM,.55);continue;
   }
 
-  // Upper-arm muscle bellies travel with the humerus. Their distal tendons are
-  // not separately skinned in this atlas, so keeping the bellies rigid gives
-  // a much more human-looking result than stretching them across joints.
-  if(biceps(part)){transforms[part.id]=rigid(shoulderM);continue;}
-  if(triceps(part)){transforms[part.id]=rigid(shoulderM);continue;}
-  if(brachialis(part)){transforms[part.id]=rigid(shoulderM);continue;}
-  if(coracobrachialis(part)){transforms[part.id]=blendRigid(scapulaM,shoulderM,.78);continue;}
-  // The source forearm muscles are rigid surface meshes, not skinned tissue.
-  // Stretching them between elbow/radius/wrist transforms made them fan apart.
-  // Keep muscle bellies with the forearm compartment; radius and hand still
-  // perform pronation/supination and wrist motion independently.
-  if(brachioradialis(part)&&forearmBand(part)){transforms[part.id]=rigid(elbowM);continue;}
-  if(wristCrosser(part)&&forearmBand(part)){transforms[part.id]=rigid(elbowM);continue;}
-  if(forearmRotator(part)&&forearmBand(part)){transforms[part.id]=rigid(elbowM);continue;}
-  if(forearmMuscle(part)&&forearmBand(part)){transforms[part.id]=rigid(elbowM);continue;}
+  // Muscles crossing a joint keep their shape but orient between the moving
+  // attachment regions. This makes elbow flexion and pronation visibly affect
+  // the soft tissues without turning them into membrane-like sheets.
+  if(biceps(part)){transforms[part.id]=followSegmentRigid(part,scapulaM,forearmM);continue;}
+  if(triceps(part)){
+   const origin=/long head/.test(norm(part.name))?scapulaM:shoulderM;
+   transforms[part.id]=followSegmentRigid(part,origin,elbowM);continue;
+  }
+  if(brachialis(part)){transforms[part.id]=followSegmentRigid(part,shoulderM,elbowM);continue;}
+  if(coracobrachialis(part)){transforms[part.id]=followSegmentRigid(part,scapulaM,shoulderM);continue;}
+
+  // Forearm bellies now respond to pronation/supination and wrist movement
+  // through the same radius/ulna chain, while remaining volume preserving.
+  if(brachioradialis(part)&&forearmBand(part)){transforms[part.id]=followSegmentRigid(part,shoulderM,forearmM);continue;}
+  if(forearmRotator(part)&&forearmBand(part)){transforms[part.id]=followSegmentRigid(part,elbowM,forearmM);continue;}
+  if(wristCrosser(part)&&forearmBand(part)){transforms[part.id]=followSegmentRigid(part,elbowM,wristM);continue;}
+  if(forearmMuscle(part)&&forearmBand(part)){transforms[part.id]=blendRigid(elbowM,forearmM,.48);continue;}
 
   if(!isUpperLimb(part))continue;
   if(isHandPart(part)){transforms[part.id]=rigid(wristM);continue;}
