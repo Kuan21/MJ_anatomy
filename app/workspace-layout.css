@@ -186,3 +186,27 @@
  .left-workspace.mobile-open{top:158px;width:min(300px,calc(100vw - 72px))}
  .left-workspace .layers-panel{max-height:48vh}
 }
+
+
+/* iPad landscape spacing pass: use the marked empty space instead of leaving
+ * controls floating too low. Keep the 3-D model as the visual centre. */
+@media(min-width:768px){
+ .body-region-nav{
+  top:86px;
+ }
+ .left-workspace{
+  top:136px;
+ }
+ .right-tool-rail,
+ .right-tool-panel{
+  top:154px;
+ }
+ .right-tool-panel{
+  max-height:calc(100dvh - 178px);
+ }
+}
+@media(min-width:768px) and (max-width:1180px){
+ .body-region-nav{top:84px}
+ .left-workspace{top:132px}
+ .right-tool-rail,.right-tool-panel{top:150px}
+}
