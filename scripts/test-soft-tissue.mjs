@@ -15,6 +15,10 @@ for(const file of ['biomechanics-v2/skeleton','biomechanics-v2/soft-tissue','mj-
 }
 const soft=await import(new URL('soft-tissue.mjs',tmp)),motion=await import(new URL('mj-motion.mjs',tmp));
 const atlas=JSON.parse(await readFile(new URL('public/models/atlas.json',root),'utf8'));
+assert.equal(soft.resolveNeurovascularProfile('Right lateral thoracic artery','path'),'pectoralPath');
+assert.equal(soft.resolveNeurovascularProfile('Right thoracodorsal artery','path'),'scapular');
+assert.equal(soft.resolveNeurovascularProfile('Right suprascapular vein','path'),'scapular');
+assert.equal(soft.resolveNeurovascularProfile('Right brachial artery','path'),'path');
 const {resolveDissection}=await import(new URL('mj-dissection.mjs',tmp));
 const focusIds=new Set(['shoulder','arm','forearm','hand'].flatMap(region=>resolveDissection(atlas,region,0).partIds));
 const buffers=await Promise.all(atlas.chunks.map(c=>readFile(new URL('public'+c.url,root))));
@@ -34,7 +38,7 @@ for(const side of ['left','right']){
  }
  const tissues=atlas.parts.filter(p=>soft.tissueBindings[p.id]?.side===side);
  for(const p of tissues){const binding=soft.tissueBindings[p.id];assert.equal(binding.name,p.name);assert.ok(!/toe|thigh|femor|glute|brain/i.test(p.name));}
- const skin=tissues.map(p=>{const g=geometry(p);return{p,...g,binding:soft.bindTissue(rig,soft.tissueBindings[p.id].profile,g.positions,p)};});
+ const skin=tissues.map(p=>{const g=geometry(p),raw=soft.tissueBindings[p.id].profile,profile=(p.system==='arterial'||p.system==='venous')?soft.resolveNeurovascularProfile(p.name,raw):raw;return{p,...g,binding:soft.bindTissue(rig,profile,g.positions,p)};});
  const nerveProbe=new Float32Array([rig.shoulder.x,rig.shoulder.y-.03,0,rig.elbow.x,rig.elbow.y,0,rig.wrist.x,rig.wrist.y,0]);
  // Splitting a tube into independent source objects must not change the posed points.
  const wholeBinding=soft.bindTissue(rig,'path',nerveProbe),firstBinding=soft.bindTissue(rig,'path',nerveProbe.slice(0,6));
