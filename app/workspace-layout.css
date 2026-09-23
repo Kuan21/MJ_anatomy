@@ -425,3 +425,10 @@
 .course-note-meta{margin-bottom:5px}
 .course-note-meta span{font-size:10px}
 .course-note-card p{font-size:11px;line-height:1.62}
+
+
+/* One scrolling surface is faster to read than a nested note scroller. */
+.detail-sheet .course-note-list{
+ max-height:none!important;
+ overflow:visible!important;
+}
