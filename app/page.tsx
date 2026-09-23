@@ -13,7 +13,7 @@ import {DEFAULT_VISIBLE,SYSTEMS,EXPLANATIONS,explanation,type Atlas,type Concept
 import {ANATOMY_REGIONS,regionById,type RegionId} from './mj-regions';
 import {resolveDissection} from './mj-dissection';
 import {structureProfile} from './mj-structure-info';
-import {setCourseNoteIndex,type CourseNoteEntry} from './mj-course-notes';
+import {setCourseNoteIndex,type CourseNoteEntry,type CourseNoteIndex} from './mj-course-notes';
 import {normalizeAtlasSystems} from './mj-system-classifier';
 import {buildUpperLimbMotion,MOTION_LIMITS,NEUTRAL_POSE,type MotionPose,type Side} from './mj-motion';
 import BodyControls from './biomechanics-v2/body-controls';
@@ -35,7 +35,7 @@ export default function Home(){
  const [motionSide,setMotionSide]=useState<Side>('right'),[motionPose,setMotionPose]=useState<MotionPose>(NEUTRAL_POSE),[motionEdit,setMotionEdit]=useState(false),[motionEnabled,setMotionEnabled]=useState(false),[organsOpen,setOrgansOpen]=useState(false);
  const motionPoseRef=useRef<MotionPose>(NEUTRAL_POSE);motionPoseRef.current=motionPose;
  useEffect(()=>{if(state.bodyMotion)setTopRegion(state.bodyMotion.region==='head'?'head':'lower');else if(motionEdit)setTopRegion('upper');},[state.bodyMotion?.region,motionEdit]);
- useEffect(()=>{const abort=new AbortController();setProgress(0);setError('');setAtlas(null);setChosen(null);setExternalNerve(null);setDetails(false);setState({...initial,visible:DEFAULT_VISIBLE});Promise.all([fetch(`${import.meta.env.BASE_URL}models/atlas.json`,{signal:abort.signal}),fetch(`${import.meta.env.BASE_URL}models/cmu-course-notes.json`,{signal:abort.signal})]).then(async([atlasResponse,courseResponse])=>{if(!atlasResponse.ok)throw new Error('The anatomy catalogue could not be loaded.');if(!courseResponse.ok)throw new Error('The CMU course-note index could not be loaded.');const [data,course]=await Promise.all([atlasResponse.json(),courseResponse.json()]);setCourseNoteIndex(course);return augmentAtlasWithFacial(normalizeAtlasSystems(data as Atlas),abort.signal);}).then(data=>setAtlas(data)).catch(e=>{if(e.name!=='AbortError')setError(e.message);});return()=>abort.abort();},[]);
+ useEffect(()=>{const abort=new AbortController();setProgress(0);setError('');setAtlas(null);setChosen(null);setExternalNerve(null);setDetails(false);setState({...initial,visible:DEFAULT_VISIBLE});Promise.all([fetch(`${import.meta.env.BASE_URL}models/atlas.json`,{signal:abort.signal}),fetch(`${import.meta.env.BASE_URL}models/cmu-course-notes.json`,{signal:abort.signal})]).then(async([atlasResponse,courseResponse])=>{if(!atlasResponse.ok)throw new Error('The anatomy catalogue could not be loaded.');if(!courseResponse.ok)throw new Error('The CMU course-note index could not be loaded.');const [data,course]=await Promise.all([atlasResponse.json(),courseResponse.json()]);setCourseNoteIndex(course as CourseNoteIndex);return augmentAtlasWithFacial(normalizeAtlasSystems(data as Atlas),abort.signal);}).then(data=>setAtlas(data)).catch(e=>{if(e.name!=='AbortError')setError(e.message);});return()=>abort.abort();},[]);
  useEffect(()=>{const key=(e:KeyboardEvent)=>{if(e.key==='/'&&!(e.target instanceof HTMLInputElement)&&!(e.target instanceof HTMLTextAreaElement)){e.preventDefault();setPanel('search');setDetails(false);}};window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key);},[]);
  const parts=useMemo(()=>new Map(atlas?.parts.map(p=>[p.id,p])),[atlas]);
  const counts=useMemo(()=>Object.fromEntries(SYSTEMS.map(s=>[s.id,atlas?.parts.filter(p=>p.system===s.id).length??0])),[atlas]);
