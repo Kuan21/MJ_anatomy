@@ -21,9 +21,9 @@ assert.equal(soft.resolveNeurovascularProfile('Right anterior circumflex humeral
 assert.equal(soft.resolveNeurovascularProfile('Right thoracodorsal artery','path'),'scapular');
 assert.equal(soft.resolveNeurovascularProfile('Right suprascapular vein','path'),'scapular');
 assert.equal(soft.resolveNeurovascularProfile('Right brachial artery','path'),'path');
-assert.equal(soft.resolveMuscleProfile('Sternocostal part of right pectoralis major','chest'),'sheetMuscle');
-assert.equal(soft.resolveMuscleProfile('Clavicular part of right pectoralis major','chest'),'sheetMuscle');
-assert.equal(soft.resolveMuscleProfile('Abdominal part of right pectoralis major','chest'),'sheetMuscle');
+assert.equal(soft.resolveMuscleProfile('Sternocostal part of right pectoralis major','chest'),'chest');
+assert.equal(soft.resolveMuscleProfile('Clavicular part of right pectoralis major','chest'),'chest');
+assert.equal(soft.resolveMuscleProfile('Abdominal part of right pectoralis major','chest'),'chest');
 assert.equal(soft.resolveMuscleProfile('Right pectoralis minor','scapular'),'scapular');
 assert.equal(soft.resolveMuscleProfile('Acromial part of right deltoid','deltoid'),'deltoid');
 assert.equal(soft.resolveMuscleProfile('Right teres major','cuff'),'cuff');
@@ -53,9 +53,7 @@ for(const side of ['left','right']){
  const tissues=atlas.parts.filter(p=>soft.tissueBindings[p.id]?.side===side);
  for(const p of tissues){const binding=soft.tissueBindings[p.id];assert.equal(binding.name,p.name);assert.ok(!/toe|thigh|femor|glute|brain/i.test(p.name));}
  const skin=tissues.map(p=>{const g=geometry(p),raw=soft.tissueBindings[p.id].profile,profile=(p.system==='arterial'||p.system==='venous')?soft.resolveNeurovascularProfile(p.name,raw):raw;return{p,...g,binding:soft.bindTissue(rig,profile,g.positions,p)};});
- const clavPec=skin.find(x=>/Clavicular part of .*pectoralis major/i.test(x.p.name)),sternPec=skin.find(x=>/Sternocostal part of .*pectoralis major/i.test(x.p.name));
- assert.equal(clavPec?.binding.profile,'sheetMuscle');assert.equal(clavPec?.binding.sheetOriginFrame,1);
- assert.equal(sternPec?.binding.profile,'sheetMuscle');assert.equal(sternPec?.binding.sheetOriginFrame,0);
+
  const nerveProbe=new Float32Array([rig.shoulder.x,rig.shoulder.y-.03,0,rig.elbow.x,rig.elbow.y,0,rig.wrist.x,rig.wrist.y,0]);
  // Splitting a tube into independent source objects must not change the posed points.
  const wholeBinding=soft.bindTissue(rig,'path',nerveProbe),firstBinding=soft.bindTissue(rig,'path',nerveProbe.slice(0,6));
@@ -73,11 +71,7 @@ for(const side of ['left','right']){
    if(poseName==='raise90'&&/brachioradialis|anconeus|circumflex scapular|dorsal metacarpal arteries|flexor retinaculum/i.test(p.name)){let squared=0;for(let i=0;i<output.length;i++)squared+=(output[i]-positions[i])**2;assert.ok(Math.sqrt(squared/p.vertexCount)>.005,`${p.name} stayed at rest`);}
    if(poseName==='wristExtension'&&binding.profile==='chest')assert.deepEqual(output,positions,'Wrist must not move the chest');
    if(poseName==='neutral'){const delta=Math.max(...output.map((v,i)=>Math.abs(v-positions[i])));maxNeutral=Math.max(maxNeutral,delta);assert.ok(delta<2e-7,`${p.name}: neutral changed ${delta}`);}
-   if(poseName==='overheadCompound'&&binding.profile==='sheetMuscle'){
-    const a=soft.deformPoint(binding.origin,binding.originWeights,palette),b=soft.deformPoint(binding.insertion,binding.insertionWeights,palette),axisLength=b.distanceTo(a);assert.ok(axisLength>.02,`${p.name}: collapsed attachment axis`);
-    let minT=1,maxT=0;for(let i=0;i<binding.longitudinal.length;i++){minT=Math.min(minT,binding.longitudinal[i]);maxT=Math.max(maxT,binding.longitudinal[i]);}
-    assert.ok(minT<.08&&maxT>.92,`${p.name}: sheet does not cover both attachment bands`);
-   }
+
    // Attachments represented by a one-frame weight remain pinned to that frame.
    for(let i=0;i<p.vertexCount;i++)if(binding.weights[i*4]>.999999&&binding.belly[i]<1e-6){
     const f=binding.indices[i*4],t=transforms[rig.ids[f]],expected=new Vector3(...positions.slice(i*3,i*3+3));

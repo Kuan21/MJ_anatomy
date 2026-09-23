@@ -29,8 +29,10 @@ export function resolveNeurovascularProfile(name:string,fallback:Profile='path')
  * origins stay attached while the narrow humeral insertion follows the arm.
  * Other muscles keep their specialised profiles until separately validated.
  */
-export function resolveMuscleProfile(name:string,fallback:Profile):Profile{
- if(/(?:clavicular|sternocostal|abdominal) part of .*pectoralis major|pectoralis major/i.test(name))return 'sheetMuscle';
+export function resolveMuscleProfile(_name:string,fallback:Profile):Profile{
+ // Keep the atlas-authored muscle profile by default. The experimental
+ // pectoralis sheet solver is intentionally disabled: at high elevation it can
+ // collapse broad chest meshes into balloon/flap artefacts.
  return fallback;
 }
 // Common frame palette: trunk, clavicle, scapula, humerus, ulna, radius, hand.

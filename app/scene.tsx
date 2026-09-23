@@ -198,7 +198,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const binding=tissueBindings[p.id],rig=binding?softRigs[binding.side]:null;
     if(binding?.name===p.name&&rig){const profile=(p.system==='arterial'||p.system==='venous')?resolveNeurovascularProfile(p.name,binding.profile):binding.profile;pick.userData.skin=bindTissue(rig,profile,pick.userData.baseMotionPositions,p);pick.userData.tissueSide=binding.side;}
     const bb=bodyBindings[p.id];if(bb?.name===p.name&&bb.frame===null){pick.userData.bodySkin=bindBodyTissue(bodyRigs[bb.rig],pick.userData.baseMotionPositions,false,p);pick.userData.bodyRegion=bb.rig;}
-    if(pick.userData.skin&&['chest','cuff','sheetMuscle'].includes(pick.userData.skin.profile))pick.userData.surfaceGuard=makeSurfaceConstraints(pick.userData.baseMotionPositions,g.index!.array,pick.userData.skin);
+    if(pick.userData.skin&&['chest','cuff'].includes(pick.userData.skin.profile))pick.userData.surfaceGuard=makeSurfaceConstraints(pick.userData.baseMotionPositions,g.index!.array,pick.userData.skin);
     if(bb?.rig==='head'&&/platysma|sternocleidomastoid/.test(p.name)&&pick.userData.bodySkin)pick.userData.bodySurfaceGuard=makeSurfaceConstraints(pick.userData.baseMotionPositions,g.index!.array,pick.userData.bodySkin);
     pickers[i]=pick;geometries.push(g);
     g.setAttribute('partIndex',new T.BufferAttribute(new Float32Array(p.vertexCount).fill(i),1));
