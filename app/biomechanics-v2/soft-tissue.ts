@@ -4,7 +4,7 @@ import {createSkeletonRig,type Side} from './skeleton';
 import rawBindings from './tissue-bindings.json';
 import rawNerves from './nerve-bindings.json';
 
-export type Profile='pectoralPath'|'path'|'deltoid'|'chest'|'cuff'|'biceps'|'triceps'|'arm'|'coraco'|'forearm'|'hand'|'scapular'|'clavicular';
+export type Profile='pectoralPath'|'path'|'trunk'|'humeral'|'deltoid'|'chest'|'cuff'|'biceps'|'triceps'|'arm'|'coraco'|'forearm'|'hand'|'scapular'|'clavicular';
 export interface TissueBinding {name:string;side:Side;profile:Profile}
 export const tissueBindings=rawBindings as Record<string,TissueBinding>;
 export const nerveBindings=rawNerves as Record<string,{side:Side;profile:'path'}>;
@@ -16,9 +16,14 @@ export const nerveBindings=rawNerves as Record<string,{side:Side;profile:'path'}
  */
 export function resolveNeurovascularProfile(name:string,fallback:Profile='path'):Profile{
  const n=name.toLowerCase();
- if(/dorsal scapular|suprascapular|thoracodorsal|subscapular (?:nerve|artery|vein)|upper subscapular nerve|lower subscapular nerve/.test(n))return 'scapular';
- if(/subclavian nerve|nerve to subclavius/.test(n))return 'clavicular';
- if(/brachial plexus|trunk of brachial plexus|division of .*brachial plexus|cord of brachial plexus|roots of brachial plexus|pectoral nerve|long thoracic nerve|lateral thoracic (?:artery|vein)|thoraco-?acromial/.test(n))return 'pectoralPath';
+ // Chest-wall structures stay on the thorax even when the humerus elevates.
+ // This removes the long U-shaped loops previously produced at 120-150°.
+ if(/long thoracic nerve|intercostobrachial|lateral thoracic (?:artery|vein)|superior thoracic (?:artery|vein)/.test(n))return 'trunk';
+ // Structures wrapping the surgical neck should travel with the humerus.
+ if(/axillary nerve|muscular branches of axillary nerve|superior lateral brachial cutaneous nerve|anterior circumflex humeral (?:artery|vein)|posterior circumflex humeral (?:artery|vein)/.test(n))return 'humeral';
+ if(/dorsal scapular|suprascapular|thoracodorsal|circumflex scapular|subscapular (?:nerve|artery|vein)|upper subscapular nerve|lower subscapular nerve/.test(n))return 'scapular';
+ if(/subclavian nerve|nerve to subclavius|supraclavicular/.test(n))return 'clavicular';
+ if(/brachial plexus|trunk of brachial plexus|division of .*brachial plexus|cord of brachial plexus|roots of brachial plexus|pectoral nerve|thoraco-?acromial/.test(n))return 'pectoralPath';
  return fallback;
 }
 // Common frame palette: trunk, clavicle, scapula, humerus, ulna, radius, hand.
@@ -73,6 +78,8 @@ export function weightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''
  const c=box.getCenter(new Vector3()),size=box.getSize(new Vector3());
  const down=clamp((box.max.y-p.y)/Math.max(.01,size.y));
  const lateral=clamp((Math.abs(p.x)-Math.min(Math.abs(box.min.x),Math.abs(box.max.x)))/Math.max(.01,size.x));
+ if(profile==='trunk')return pair(0,0,1);
+ if(profile==='humeral')return pair(3,3,1);
  if(profile==='pectoralPath'){const b=rig.groups.chest??box;const t=(Math.abs(p.x)-Math.min(Math.abs(b.min.x),Math.abs(b.max.x)))/Math.max(.01,b.max.x-b.min.x);return pair(0,3,range(t,.72,.98));}
  if(profile==='path'||profile==='forearm')return pathWeights(rig,p.x,p.y,p.z);
  if(profile==='hand')return pair(6,6,1);
