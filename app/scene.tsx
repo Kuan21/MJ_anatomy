@@ -144,7 +144,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    };materials.push(m);return m;
   };
   const mats=new Map(SYSTEMS.map(s=>[s.id,materialFor(s.id)]));
-  let loaded=0;
+  
   const smoothstep=(t:number)=>{const x=T.MathUtils.clamp(t,0,1);return x*x*(3-2*x);};
   const vertexMotionWeight=(p:(typeof atlas.parts)[number],x:number,y:number,z:number)=>{
    const name=p.name.toLowerCase(),min=p.bounds[0],max=p.bounds[1],cy=(min[1]+max[1])*.5,dy=Math.max(1e-5,max[1]-min[1]),dx=Math.max(1e-5,max[0]-min[0]);
@@ -343,9 +343,10 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    const changed=lastState?.visible!==s.visible||lastState?.selected!==s.selected||lastState?.hiddenParts!==s.hiddenParts||lastState?.depthFilter!==s.depthFilter||lastState?.muscleLayer!==s.muscleLayer||lastState?.faceMuscleLayer!==s.faceMuscleLayer||lastState?.focusParts!==s.focusParts||lastState?.isolate!==s.isolate||lastState?.partTransforms!==s.partTransforms||lastState?.bodyMotion!==s.bodyMotion;
    const tissueChanged=!lastState||lastState.partTransforms!==s.partTransforms||lastState.tissueMotion!==s.tissueMotion||lastState.bodyMotion!==s.bodyMotion;
    if(tissueChanged){updateTissueMotion(s);updateNerveMotion(s);}
+   const ctx=viewerContext.current;
+   if(ctx.bodyArea==='head'&&facialChunkIndex>=0&&!loadedChunks.has(facialChunkIndex)&&!loadingChunks.has(facialChunkIndex)){void loadChunk(facialChunkIndex).catch(e=>{loadingChunks.delete(facialChunkIndex);if(!disposed)onError(e instanceof Error?`Facial muscles: ${e.message}`:'Could not load facial muscles.');});}
    if(nerveMeshes.length){
-    const nervesOn=s.visible.includes('nervous'),ctx=viewerContext.current;
-    if(ctx.bodyArea==='head'&&facialChunkIndex>=0&&!loadedChunks.has(facialChunkIndex)&&!loadingChunks.has(facialChunkIndex)){void loadChunk(facialChunkIndex).catch(e=>{loadingChunks.delete(facialChunkIndex);if(!disposed)onError(e instanceof Error?`Facial muscles: ${e.message}`:'Could not load facial muscles.');});}
+    const nervesOn=s.visible.includes('nervous');
     nerveRoot.visible=nervesOn;
     nerveMeshes.forEach(o=>{
      if(!nervesOn){o.visible=false;return;}
