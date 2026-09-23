@@ -15,7 +15,9 @@ for(const file of ['biomechanics-v2/skeleton','biomechanics-v2/soft-tissue','mj-
 }
 const soft=await import(new URL('soft-tissue.mjs',tmp)),motion=await import(new URL('mj-motion.mjs',tmp));
 const atlas=JSON.parse(await readFile(new URL('public/models/atlas.json',root),'utf8'));
-assert.equal(soft.resolveNeurovascularProfile('Right lateral thoracic artery','path'),'pectoralPath');
+assert.equal(soft.resolveNeurovascularProfile('Right lateral thoracic artery','path'),'trunk');
+assert.equal(soft.resolveNeurovascularProfile('Right posterior circumflex humeral artery','path'),'humeral');
+assert.equal(soft.resolveNeurovascularProfile('Right anterior circumflex humeral vein','path'),'humeral');
 assert.equal(soft.resolveNeurovascularProfile('Right thoracodorsal artery','path'),'scapular');
 assert.equal(soft.resolveNeurovascularProfile('Right suprascapular vein','path'),'scapular');
 assert.equal(soft.resolveNeurovascularProfile('Right brachial artery','path'),'path');
