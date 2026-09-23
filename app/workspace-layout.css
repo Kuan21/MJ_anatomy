@@ -210,3 +210,28 @@
  .left-workspace{top:132px}
  .right-tool-rail,.right-tool-panel{top:150px}
 }
+
+
+/* Final iPad/desktop alignment: place navigation in the header band and start
+ * the left/right workspaces immediately below the atlas metadata. This keeps
+ * the model head unobstructed and removes the remaining dead space. */
+@media(min-width:768px){
+ .body-region-nav{
+  top:52px;
+ }
+ .left-workspace{
+  top:116px;
+ }
+ .right-tool-rail,
+ .right-tool-panel{
+  top:116px;
+ }
+ .right-tool-panel{
+  max-height:calc(100dvh - 140px);
+ }
+}
+@media(min-width:768px) and (max-width:1180px){
+ .body-region-nav{top:50px}
+ .left-workspace{top:112px}
+ .right-tool-rail,.right-tool-panel{top:112px}
+}
