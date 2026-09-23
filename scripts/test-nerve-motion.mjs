@@ -10,9 +10,10 @@ const factory=createRequire(import.meta.url)(new URL('draco.cjs',tmp).pathname);
 const draco=await factory({wasmBinary:await readFile(new URL('public/draco/draco_decoder.wasm',root))});
 const bytes=await readFile(new URL('public/models/nervous.glb',root)),jsonLength=bytes.readUInt32LE(12),gltf=JSON.parse(bytes.subarray(20,20+jsonLength).toString()),bin=bytes.subarray(28+jsonLength);
 const atlas=JSON.parse(await readFile(new URL('public/models/atlas.json',root),'utf8'));
-assert.equal(soft.resolveNeurovascularProfile('Long thoracic nerve.r.001'),'trunk');
-assert.equal(soft.resolveNeurovascularProfile('Axillary nerve.r.001'),'humeral');
-assert.equal(soft.resolveNeurovascularProfile('Superior lateral brachial cutaneous nerve.r.001'),'humeral');
+assert.equal(soft.resolveNeurovascularProfile('Long thoracic nerve.r.001'),'axillaryCable');
+assert.equal(soft.resolveNeurovascularProfile('Axillary nerve.r.001'),'axillaryCable');
+assert.equal(soft.resolveNeurovascularProfile('Superior lateral brachial cutaneous nerve.r.001'),'axillaryCable');
+assert.equal(soft.resolveNeurovascularProfile('Superior trunk of brachial plexus.r.001'),'axillaryCable');
 assert.equal(soft.resolveNeurovascularProfile('Suprascapular nerve.r.001'),'scapular');
 assert.equal(soft.resolveNeurovascularProfile('Subclavian nerve.r.001'),'clavicular');
 assert.equal(soft.resolveNeurovascularProfile('Median nerve.r.001'),'path');
@@ -23,6 +24,9 @@ for(const [i,node] of gltf.nodes.entries()){
  const binding=soft.nerveBindings[node.name];if(!binding)continue;
  assert.notEqual(PropertyBinding.sanitizeNodeName(node.name),node.name,'Source names must not be confused with runtime names');
  const rig=soft.makeSoftRig(atlas,binding.side),palette=soft.makePalette(rig,motion.buildUpperLimbMotion(atlas,binding.side,{...motion.NEUTRAL_POSE,shoulderAbduction:70,elbowFlexion:95,forearmRotation:35}).transforms);
+ const nearShoulder=soft.axillaryCableWeights(rig,rig.shoulder.x,rig.shoulder.y-.02,rig.shoulder.z),belowAxilla=soft.axillaryCableWeights(rig,0,rig.shoulder.y-.26,rig.shoulder.z);
+ assert.ok(nearShoulder[3]>.5,'Axillary cable should follow humerus near shoulder');
+ assert.ok(belowAxilla[0]>.99,'Axillary cable should remain on thorax below axilla');
  for(const primitive of gltf.meshes[node.mesh].primitives){
   const ext=primitive.extensions.KHR_draco_mesh_compression,view=gltf.bufferViews[ext.bufferView],buffer=new draco.DecoderBuffer(),decoder=new draco.Decoder(),mesh=new draco.Mesh();
   const data=bin.subarray(view.byteOffset??0,(view.byteOffset??0)+view.byteLength);buffer.Init(data,data.length);
