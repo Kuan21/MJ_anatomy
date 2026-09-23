@@ -8,6 +8,19 @@ export type Profile='pectoralPath'|'path'|'deltoid'|'chest'|'cuff'|'biceps'|'tri
 export interface TissueBinding {name:string;side:Side;profile:Profile}
 export const tissueBindings=rawBindings as Record<string,TissueBinding>;
 export const nerveBindings=rawNerves as Record<string,{side:Side;profile:'path'}>;
+
+/**
+ * Route neurovascular structures by their real attachment territory instead of
+ * treating every branch as a free upper-limb tube. This prevents thoracic and
+ * scapular branches from being dragged around the humerus during elevation.
+ */
+export function resolveNeurovascularProfile(name:string,fallback:Profile='path'):Profile{
+ const n=name.toLowerCase();
+ if(/dorsal scapular|suprascapular|thoracodorsal|subscapular (?:nerve|artery|vein)|upper subscapular nerve|lower subscapular nerve/.test(n))return 'scapular';
+ if(/subclavian nerve|nerve to subclavius/.test(n))return 'clavicular';
+ if(/brachial plexus|trunk of brachial plexus|division of .*brachial plexus|cord of brachial plexus|roots of brachial plexus|pectoral nerve|long thoracic nerve|lateral thoracic (?:artery|vein)|thoraco-?acromial/.test(n))return 'pectoralPath';
+ return fallback;
+}
 // Common frame palette: trunk, clavicle, scapula, humerus, ulna, radius, hand.
 export const FRAMES=['root','clavicle','scapula','humerus','ulna','radius','hand'] as const;
 export interface SoftRig {side:Side;ids:(string|undefined)[];shoulder:Vector3;elbow:Vector3;wrist:Vector3;groups:Record<string,Box3>;radius:Vector3;ulna:Vector3;handTipY:number;digitalLandmarks:{source:Vector3;target:Vector3}[]}
