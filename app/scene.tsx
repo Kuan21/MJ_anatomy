@@ -12,7 +12,7 @@ import {framingDistance} from './camera-framing';
 import {SYSTEMS,type Atlas,type SceneState} from './anatomy';
 import {matchesUpperLimbMuscleLayer} from './mj-muscle-layers';
 import {matchesDepth} from './mj-depth';
-import {makeSoftRig,bindTissue,makePalette,deformTissue,registerNerveRest,tissueBindings,nerveBindings,type SkinBinding} from './biomechanics-v2/soft-tissue';
+import {makeSoftRig,bindTissue,makePalette,deformTissue,registerNerveRest,resolveNeurovascularProfile,tissueBindings,nerveBindings,type SkinBinding} from './biomechanics-v2/soft-tissue';
 import {makeBodyRig,buildBodyMotion,bindBodyTissue,cranialNerveRigid,bodyBindings,type BodyRegion} from './biomechanics-v2/body-motion';
 import {makeSurfaceConstraints,constrainSurface,makeSurfaceGroup,constrainSurfaceGroup} from './biomechanics-v2/surface-constraints';
 import bodyNerveData from './biomechanics-v2/body-nerve-bindings.json';
@@ -73,7 +73,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     mesh.userData.mjNerve=true;mesh.userData.mjExactName=exactName;mesh.userData.mjSide=binding?.side??nerveSide(exactName);
     if(binding&&softRigs[binding.side]){registerNerveRest(softRigs[binding.side]!,position.array as Float32Array);position.needsUpdate=true;geometry.computeVertexNormals();geometry.computeBoundingBox();}
     mesh.userData.basePositions=new Float32Array(position.array as ArrayLike<number>);
-    if(binding&&softRigs[binding.side])mesh.userData.skin=bindTissue(softRigs[binding.side]!,/pectoral nerve/i.test(exactName)?'pectoralPath':'path',mesh.userData.basePositions);
+    if(binding&&softRigs[binding.side])mesh.userData.skin=bindTissue(softRigs[binding.side]!,resolveNeurovascularProfile(exactName,'path'),mesh.userData.basePositions);
     const bodyRegion=bodyNerveBindings[exactName];if(bodyRegion){mesh.userData.bodyRegion=bodyRegion;mesh.userData.bodySkin=bindBodyTissue(bodyRigs[bodyRegion],mesh.userData.basePositions,cranialNerveRigid(exactName));}
     nerveRoot.add(mesh);nerveMeshes.push(mesh);
    });lastState=null;dirty=true;},undefined,err=>{if(!disposed)console.warn('Could not load legacy nervous system model',err);});
@@ -196,7 +196,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     g.setAttribute('motionWeight',new T.BufferAttribute(weights,1));
     g.boundingBox=bounds[i].clone();g.computeBoundingSphere();const pick=new T.Mesh(g);pick.matrixAutoUpdate=false;pick.userData.baseMotionPositions=new Float32Array(position.array as ArrayLike<number>);pick.userData.motionWeights=weights;
     const binding=tissueBindings[p.id],rig=binding?softRigs[binding.side]:null;
-    if(binding?.name===p.name&&rig){pick.userData.skin=bindTissue(rig,binding.profile,pick.userData.baseMotionPositions,p);pick.userData.tissueSide=binding.side;}
+    if(binding?.name===p.name&&rig){const profile=(p.system==='arterial'||p.system==='venous')?resolveNeurovascularProfile(p.name,binding.profile):binding.profile;pick.userData.skin=bindTissue(rig,profile,pick.userData.baseMotionPositions,p);pick.userData.tissueSide=binding.side;}
     const bb=bodyBindings[p.id];if(bb?.name===p.name&&bb.frame===null){pick.userData.bodySkin=bindBodyTissue(bodyRigs[bb.rig],pick.userData.baseMotionPositions,false,p);pick.userData.bodyRegion=bb.rig;}
     if(binding&&['chest','cuff'].includes(binding.profile)&&pick.userData.skin)pick.userData.surfaceGuard=makeSurfaceConstraints(pick.userData.baseMotionPositions,g.index!.array,pick.userData.skin);
     if(bb?.rig==='head'&&/platysma|sternocleidomastoid/.test(p.name)&&pick.userData.bodySkin)pick.userData.bodySurfaceGuard=makeSurfaceConstraints(pick.userData.baseMotionPositions,g.index!.array,pick.userData.bodySkin);
