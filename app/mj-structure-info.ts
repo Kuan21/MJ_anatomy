@@ -1,5 +1,5 @@
 import type {SystemId} from './anatomy';
-import {muscleFactsFor,MUSCLE_FACT_SOURCE} from './mj-muscle-facts';
+import {muscleFactsFor,muscleFactSourceFor} from './mj-muscle-facts';
 
 export interface BilingualFact {
  labelEn:string;
@@ -314,7 +314,7 @@ export function structureProfile(name:string,system:SystemId):StructureProfile{
     {labelEn:'Action',labelZh:'作用',valueEn:m.actionEn,valueZh:m.actionZh},
     {labelEn:'Blood supply',labelZh:'血液供應',valueEn:m.bloodEn,valueZh:m.bloodZh}
    ],
-   source:MUSCLE_FACT_SOURCE
+   source:muscleFactSourceFor(name)
   };
  }
  const key=detailKey(name);
