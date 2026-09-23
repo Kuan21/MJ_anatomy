@@ -1,4 +1,5 @@
 import type {SystemId} from './anatomy';
+import {muscleFactsFor,MUSCLE_FACT_SOURCE} from './mj-muscle-facts';
 
 export interface BilingualFact {
  labelEn:string;
@@ -295,9 +296,28 @@ function sourceFor(name:string,system:SystemId){
 }
 
 export function structureProfile(name:string,system:SystemId):StructureProfile{
- const key=detailKey(name);
  const english=displayEnglish(name,system);
  const chinese=chineseName(name,system);
+ const m=muscleFactsFor(name);
+ if(m&&(system==='muscular'||system==='cardiac'||/muscle/i.test(name))){
+  const zh=chinese||m.chinese;
+  return{
+   english,
+   chinese:zh,
+   category:'Muscle｜肌肉',
+   summaryEn:`${english} is represented in the 3D atlas with bilingual study data for origin, insertion, innervation, action and principal blood supply.`,
+   summaryZh:`${zh}在 3D 圖譜中附有中英雙語的起點、止點、神經支配、作用及主要血液供應資料。`,
+   facts:[
+    {labelEn:'Origin',labelZh:'起點',valueEn:m.originEn,valueZh:m.originZh},
+    {labelEn:'Insertion',labelZh:'止點',valueEn:m.insertionEn,valueZh:m.insertionZh},
+    {labelEn:'Innervation',labelZh:'神經支配',valueEn:m.innervationEn,valueZh:m.innervationZh},
+    {labelEn:'Action',labelZh:'作用',valueEn:m.actionEn,valueZh:m.actionZh},
+    {labelEn:'Blood supply',labelZh:'血液供應',valueEn:m.bloodEn,valueZh:m.bloodZh}
+   ],
+   source:MUSCLE_FACT_SOURCE
+  };
+ }
+ const key=detailKey(name);
  if(key){
   const d=detailed[key],summary=genericSummary(english,system,chinese);
   return {english,chinese:chinese||d.chinese,category:d.category,summaryEn:d.summaryEn??summary.en,summaryZh:d.summaryZh??summary.zh,facts:d.facts,source:d.source};
