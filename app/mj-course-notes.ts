@@ -6,7 +6,7 @@ export interface CourseNoteEntry{
  text:string;
 }
 type CourseNoteRecord={names:string[];systems:string[];entries:CourseNoteEntry[]};
-type CourseNoteIndex=Record<string,CourseNoteRecord>;
+export type CourseNoteIndex=Record<string,CourseNoteRecord>;
 
 let index:CourseNoteIndex={};
 
