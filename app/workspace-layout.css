@@ -17,3 +17,172 @@
 .left-workspace>*{pointer-events:auto}.left-workspace .layers-panel{position:relative;inset:auto;width:100%;max-height:55vh;flex-shrink:1;overflow:auto;padding:10px 14px;border-radius:12px}.left-workspace .system-name{font-size:14px;min-height:40px}.left-workspace .system-list{overflow:visible}.left-workspace .panel-foot{flex-wrap:wrap}.left-workspace .joint-workspace{border-radius:12px;overflow:auto;min-height:48px}.joint-workspace>summary{padding:14px;font-size:15px;cursor:pointer}.joint-workspace-content{padding:0 14px 14px}.joint-workspace .mj-motion-lab{position:static;width:auto;max-height:none;overflow:visible;border:0;box-shadow:none;padding:8px 0;background:transparent}.joint-workspace .mj-joint-control{font-size:14px}.joint-workspace .mj-motion-note{font-size:12px}.joint-workspace .mj-motion-sides{flex-wrap:wrap}.joint-workspace .mj-motion-sides button{font-size:14px}.joint-workspace .mj-motion-head{position:static}.close-systems{align-self:flex-end}.top-actions>a{display:none}
 @media(max-width:767px){.body-region-nav{top:105px;width:calc(100% - 24px);justify-content:center}.body-region-nav button{flex:1;min-width:0;padding:8px 4px;font-size:14px}.right-tool-rail{top:170px;right:8px}.right-tool-panel{top:170px;right:66px;width:min(260px,calc(100vw - 82px));max-height:calc(100dvh - 240px)}.right-tool-panel.view-controls{right:66px;top:170px;width:min(260px,calc(100vw - 82px))}.left-workspace{display:none}.left-workspace.mobile-open{display:flex;top:160px;left:8px;bottom:76px;width:min(285px,calc(100vw - 80px));z-index:25}.left-workspace .layers-panel.mobile-open{display:flex;position:relative;inset:auto;width:100%;max-height:50vh}.mobile-system-trigger{bottom:24px}.search-panel{top:160px}}
 @media(max-height:600px) and (orientation:landscape){.body-region-nav{top:85px;left:50%;width:auto}.left-workspace{top:145px;bottom:12px}.right-tool-rail,.right-tool-panel,.right-tool-panel.view-controls{top:145px}.right-tool-panel{max-height:calc(100dvh - 160px)}.left-workspace.mobile-open{top:130px}}
+
+
+/* 2026-09 studio polish: cleaner hierarchy, quieter chrome, larger model canvas. */
+.body-region-nav{
+ top:106px;
+ gap:3px;
+ padding:4px;
+ border-radius:16px;
+ background:linear-gradient(180deg,#fffffff4,#f7f9fae8);
+ border:1px solid #20324214;
+ box-shadow:0 10px 34px #1f31420c,0 1px 2px #1f314208;
+}
+.body-region-nav button{
+ min-height:40px;
+ padding:8px 21px;
+ border-radius:12px;
+ font-size:14px;
+ font-weight:520;
+ letter-spacing:.01em;
+ color:#5b6873;
+}
+.body-region-nav button[aria-pressed=true]{
+ background:#263f4d;
+ color:white;
+ box-shadow:0 4px 12px #263f4d20;
+}
+.left-workspace{
+ left:26px;
+ top:174px;
+ bottom:24px;
+ width:286px;
+ gap:14px;
+}
+.left-workspace .layers-panel,
+.left-workspace .joint-workspace{
+ border:1px solid #20324212;
+ border-radius:18px;
+ background:linear-gradient(180deg,#fffffff2,#f8fafbec);
+ box-shadow:0 16px 44px #1f31420b,0 1px 3px #1f314207;
+ backdrop-filter:blur(24px) saturate(1.05);
+}
+.left-workspace .layers-panel{
+ max-height:48vh;
+ padding:14px 14px 10px;
+}
+.left-workspace .system-list{padding:2px 2px 4px}
+.left-workspace .system-row{min-height:39px}
+.left-workspace .system-name{
+ min-height:39px;
+ padding:0 7px;
+ border-radius:10px;
+ font-size:13px;
+}
+.left-workspace .system-row.enabled .system-name{font-weight:520;color:#30414e}
+.left-workspace .system-row:hover .system-name{background:#263b4807}
+.left-workspace .system-count{
+ margin-left:auto;
+ padding:2px 6px;
+ border-radius:999px;
+ background:#eef2f4;
+ color:#7b8790;
+}
+.left-workspace .panel-foot{
+ margin-top:7px;
+ padding:9px 4px 2px;
+ border-top:1px solid #2032420e;
+}
+.joint-workspace>summary{
+ min-height:50px;
+ padding:15px 16px;
+ display:flex;
+ align-items:center;
+ font-size:14px;
+ font-weight:600;
+ color:#334652;
+ letter-spacing:.01em;
+}
+.joint-workspace[open]>summary{border-bottom:1px solid #2032420e}
+.joint-workspace-content{padding:10px 14px 15px}
+.joint-workspace .mj-motion-sides button{
+ min-height:34px;
+ border-radius:10px;
+ border-color:#20324212;
+ font-size:12px;
+}
+.joint-workspace .mj-motion-sides button[aria-pressed=true]{
+ background:#263f4d;
+ color:white;
+}
+.joint-workspace .mj-joint-control{
+ gap:6px;
+ padding:4px 0;
+ font-size:12px;
+ color:#5b6874;
+}
+.joint-workspace .mj-joint-control b{
+ min-width:42px;
+ text-align:right;
+ font-variant-numeric:tabular-nums;
+ font-size:13px;
+ color:#29414e;
+}
+.right-tool-rail{
+ top:188px;
+ right:20px;
+ gap:3px;
+ padding:4px;
+ border-radius:16px;
+ background:#fffffff0;
+ border:1px solid #20324212;
+ box-shadow:0 12px 34px #1f31420a;
+}
+.right-tool-rail button{
+ min-width:42px;
+ min-height:72px;
+ padding:10px 8px;
+ border-radius:11px;
+ font-size:13px;
+ letter-spacing:.06em;
+ color:#5d6974;
+}
+.right-tool-rail button[aria-expanded=true]{
+ background:#263f4d;
+ color:white;
+ box-shadow:0 3px 10px #263f4d1d;
+}
+.right-tool-panel{
+ right:76px;
+ top:188px;
+ width:276px;
+ border-radius:18px;
+ border:1px solid #20324212;
+ background:#fffffff2;
+ box-shadow:0 18px 50px #1f31420d;
+}
+.identity{left:30px;top:28px}
+.identity h1{font-size:34px;letter-spacing:-1.35px;margin:8px 0 6px}
+.identity .eyebrow{font-size:9px;letter-spacing:.17em;color:#74818a}
+.identity-meta{font-size:11px;color:#7a8791}
+.top-actions{top:28px;right:30px}
+.top-actions button{
+ min-height:42px;
+ border-radius:12px;
+ background:#fffffff0;
+ border-color:#20324212;
+ box-shadow:0 5px 18px #1f314208;
+}
+.vignette{background:radial-gradient(ellipse at 52% 44%,transparent 43%,#56636b12 100%)}
+
+@media(min-width:768px) and (max-width:1180px){
+ .left-workspace{left:18px;width:260px}
+ .body-region-nav button{padding-inline:16px}
+ .right-tool-rail{right:12px}
+ .right-tool-panel{right:66px;width:250px}
+}
+@media(max-width:767px){
+ .body-region-nav{
+  top:104px;
+  width:calc(100% - 24px);
+  padding:3px;
+  border-radius:14px;
+ }
+ .body-region-nav button{padding:7px 3px;font-size:13px;border-radius:10px}
+ .right-tool-rail{top:166px;right:8px;border-radius:14px}
+ .right-tool-rail button{min-height:66px;min-width:40px;font-size:12px}
+ .right-tool-panel,.right-tool-panel.view-controls{top:166px;right:60px;width:min(270px,calc(100vw - 76px))}
+ .left-workspace.mobile-open{top:158px;width:min(300px,calc(100vw - 72px))}
+ .left-workspace .layers-panel{max-height:48vh}
+}

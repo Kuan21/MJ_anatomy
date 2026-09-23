@@ -30,13 +30,13 @@ export function resolveNeurovascularProfile(name:string,fallback:Profile='path')
  * Other muscles keep their specialised profiles until separately validated.
  */
 export function resolveMuscleProfile(name:string,fallback:Profile):Profile{
- if(/pectoralis major/i.test(name))return 'sheetMuscle';
+ if(/(?:clavicular|sternocostal|abdominal) part of .*pectoralis major|pectoralis major/i.test(name))return 'sheetMuscle';
  return fallback;
 }
 // Common frame palette: trunk, clavicle, scapula, humerus, ulna, radius, hand.
 export const FRAMES=['root','clavicle','scapula','humerus','ulna','radius','hand'] as const;
 export interface SoftRig {side:Side;ids:(string|undefined)[];shoulder:Vector3;elbow:Vector3;wrist:Vector3;groups:Record<string,Box3>;radius:Vector3;ulna:Vector3;handTipY:number;digitalLandmarks:{source:Vector3;target:Vector3}[]}
-export interface SkinBinding {indices:Uint8Array;weights:Float32Array;belly:Float32Array;radial:Float32Array;longitudinal?:Float32Array;restAxis?:Vector3;origin:Vector3;insertion:Vector3;originWeights:number[];insertionWeights:number[];restLength:number;profile:Profile}
+export interface SkinBinding {indices:Uint8Array;weights:Float32Array;belly:Float32Array;radial:Float32Array;longitudinal?:Float32Array;restAxis?:Vector3;sheetOriginFrame?:number;origin:Vector3;insertion:Vector3;originWeights:number[];insertionWeights:number[];restLength:number;profile:Profile}
 export function makeSoftRig(atlas:Atlas,side:Side):SoftRig|null{
  const rig=createSkeletonRig(atlas,side);if(!rig.valid)return null;
  const node=(id:string)=>rig.nodes.find(n=>n.id===id)!;
@@ -157,7 +157,8 @@ export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<numbe
   const r=p.clone().sub(origin.clone().addScaledVector(restVector,t));radial.set(r.toArray(),i*3);
   belly[i]=['biceps','triceps','arm'].includes(effectiveProfile)?Math.sin(Math.PI*t)**2:0;
  }
- return{indices,weights,belly,radial,longitudinal,restAxis,origin,insertion,originWeights:weightsAt(rig,effectiveProfile,origin,box,name),insertionWeights:weightsAt(rig,effectiveProfile,insertion,box,name),restLength,profile:effectiveProfile};
+ const sheetOriginFrame=effectiveProfile==='sheetMuscle'&&/clavicular part/i.test(name)?1:effectiveProfile==='sheetMuscle'?0:undefined;
+ return{indices,weights,belly,radial,longitudinal,restAxis,sheetOriginFrame,origin,insertion,originWeights:weightsAt(rig,effectiveProfile,origin,box,name),insertionWeights:weightsAt(rig,effectiveProfile,insertion,box,name),restLength,profile:effectiveProfile};
 }
 export type Palette=Float64Array;
 export function makePalette(rig:SoftRig,transforms:Record<string,PartTransform>):Palette{
@@ -198,23 +199,29 @@ export function deformPoint(p:Vector3,weights:number[],palette:Palette):Vector3{
 }
 export function deformTissue(binding:SkinBinding,base:Float32Array,palette:Palette,out:Float32Array):number{
  const a=deformPoint(binding.origin,binding.originWeights,palette),b=deformPoint(binding.insertion,binding.insertionWeights,palette);
- const posedVector=b.clone().sub(a),posedLength=Math.max(posedVector.length(),1e-6),posedAxis=posedVector.clone().normalize();
+ const posedVector=b.clone().sub(a),posedLength=Math.max(posedVector.length(),1e-6);
  const ratio=posedLength/Math.max(binding.restLength,1e-6);
  const radialScale=Math.max(.94,Math.min(1.08,1/Math.sqrt(Math.max(.60,ratio))));
  const q=new Float64Array(8);
 
  if(binding.profile==='sheetMuscle'){
-  // Keep fibres tensioned between broad origin and humeral insertion. Cross-
-  // fibre shape rotates progressively from chest orientation to arm orientation;
-  // no vertex is allowed to become an independent cloth-like hinge.
-  const axisRotation=new Quaternion().setFromUnitVectors(binding.restAxis!,posedAxis),localRotation=new Quaternion(),r0=new Vector3(),r1=new Vector3(),p=new Vector3();
+  // Pectoralis major is a tensioned fan, not a cloth sheet. Preserve the broad
+  // thoracic/clavicular origin point-by-point, progressively hand fibres over
+  // to the humerus, and pin a generous medial band so the inferior edge cannot
+  // peel away from the chest during overhead motion.
+  const originFrame=binding.sheetOriginFrame??0,insertionFrame=3;
+  const aFrame=palette.subarray(originFrame*8,originFrame*8+8),bFrame=palette.subarray(insertionFrame*8,insertionFrame*8+8);
+  const va=new Float64Array(3),vb=new Float64Array(3);
   for(let i=0;i<base.length/3;i++){
-   const j=i*3,t=binding.longitudinal![i],blend=smooth(t);
-   localRotation.identity().slerp(axisRotation,blend);
-   r0.set(binding.radial[j],binding.radial[j+1],binding.radial[j+2]);
-   r1.copy(r0).applyQuaternion(localRotation).multiplyScalar(radialScale);
-   p.copy(a).addScaledVector(posedVector,t).add(r1);
-   out[j]=p.x;out[j+1]=p.y;out[j+2]=p.z;
+   const j=i*3,t=binding.longitudinal![i];
+   // Origin remains fully anchored for the medial quarter; the final 8% is
+   // fully humeral. Smooth interpolation produces fibre glide without a fold.
+   const pull=range(t,.24,.92);
+   transform(base[j],base[j+1],base[j+2],aFrame,va,0);
+   transform(base[j],base[j+1],base[j+2],bFrame,vb,0);
+   out[j]=va[0]+(vb[0]-va[0])*pull;
+   out[j+1]=va[1]+(vb[1]-va[1])*pull;
+   out[j+2]=va[2]+(vb[2]-va[2])*pull;
   }
   return radialScale;
  }

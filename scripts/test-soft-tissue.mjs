@@ -22,6 +22,8 @@ assert.equal(soft.resolveNeurovascularProfile('Right thoracodorsal artery','path
 assert.equal(soft.resolveNeurovascularProfile('Right suprascapular vein','path'),'scapular');
 assert.equal(soft.resolveNeurovascularProfile('Right brachial artery','path'),'path');
 assert.equal(soft.resolveMuscleProfile('Sternocostal part of right pectoralis major','chest'),'sheetMuscle');
+assert.equal(soft.resolveMuscleProfile('Clavicular part of right pectoralis major','chest'),'sheetMuscle');
+assert.equal(soft.resolveMuscleProfile('Abdominal part of right pectoralis major','chest'),'sheetMuscle');
 assert.equal(soft.resolveMuscleProfile('Right pectoralis minor','scapular'),'scapular');
 assert.equal(soft.resolveMuscleProfile('Acromial part of right deltoid','deltoid'),'deltoid');
 assert.equal(soft.resolveMuscleProfile('Right teres major','cuff'),'cuff');
@@ -46,6 +48,9 @@ for(const side of ['left','right']){
  const tissues=atlas.parts.filter(p=>soft.tissueBindings[p.id]?.side===side);
  for(const p of tissues){const binding=soft.tissueBindings[p.id];assert.equal(binding.name,p.name);assert.ok(!/toe|thigh|femor|glute|brain/i.test(p.name));}
  const skin=tissues.map(p=>{const g=geometry(p),raw=soft.tissueBindings[p.id].profile,profile=(p.system==='arterial'||p.system==='venous')?soft.resolveNeurovascularProfile(p.name,raw):raw;return{p,...g,binding:soft.bindTissue(rig,profile,g.positions,p)};});
+ const clavPec=skin.find(x=>/Clavicular part of .*pectoralis major/i.test(x.p.name)),sternPec=skin.find(x=>/Sternocostal part of .*pectoralis major/i.test(x.p.name));
+ assert.equal(clavPec?.binding.profile,'sheetMuscle');assert.equal(clavPec?.binding.sheetOriginFrame,1);
+ assert.equal(sternPec?.binding.profile,'sheetMuscle');assert.equal(sternPec?.binding.sheetOriginFrame,0);
  const nerveProbe=new Float32Array([rig.shoulder.x,rig.shoulder.y-.03,0,rig.elbow.x,rig.elbow.y,0,rig.wrist.x,rig.wrist.y,0]);
  // Splitting a tube into independent source objects must not change the posed points.
  const wholeBinding=soft.bindTissue(rig,'path',nerveProbe),firstBinding=soft.bindTissue(rig,'path',nerveProbe.slice(0,6));
