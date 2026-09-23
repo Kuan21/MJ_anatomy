@@ -1,5 +1,6 @@
 import type {SystemId} from './anatomy';
 import {muscleFactsFor,muscleFactSourceFor} from './mj-muscle-facts';
+import {courseNotesFor,type CourseNoteEntry} from './mj-course-notes';
 
 export interface BilingualFact {
  labelEn:string;
@@ -15,6 +16,7 @@ export interface StructureProfile {
  summaryZh?:string;
  facts:BilingualFact[];
  source:string;
+ courseNotes?:CourseNoteEntry[];
 }
 
 type ProfileBody=Omit<StructureProfile,'english'>;
@@ -295,13 +297,19 @@ function sourceFor(name:string,system:SystemId){
  return 'BodyParts3D naming with general anatomical context';
 }
 
+function withCourseNotes(profile:StructureProfile,name:string):StructureProfile{
+ const courseNotes=courseNotesFor(name);
+ if(!courseNotes.length)return profile;
+ return{...profile,courseNotes,source:`${profile.source}; CMU anatomy course-note index from the linked Google Drive folder`};
+}
+
 export function structureProfile(name:string,system:SystemId):StructureProfile{
  const english=displayEnglish(name,system);
  const chinese=chineseName(name,system);
  const m=muscleFactsFor(name);
  if(m&&(system==='muscular'||system==='cardiac'||/muscle/i.test(name))){
   const zh=chinese||m.chinese;
-  return{
+  return withCourseNotes({
    english,
    chinese:zh,
    category:'Muscle｜肌肉',
@@ -315,15 +323,15 @@ export function structureProfile(name:string,system:SystemId):StructureProfile{
     {labelEn:'Blood supply',labelZh:'血液供應',valueEn:m.bloodEn,valueZh:m.bloodZh}
    ],
    source:muscleFactSourceFor(name)
-  };
+  },name);
  }
  const key=detailKey(name);
  if(key){
   const d=detailed[key],summary=genericSummary(english,system,chinese);
-  return {english,chinese:chinese||d.chinese,category:d.category,summaryEn:d.summaryEn??summary.en,summaryZh:d.summaryZh??summary.zh,facts:d.facts,source:d.source};
+  return withCourseNotes({english,chinese:chinese||d.chinese,category:d.category,summaryEn:d.summaryEn??summary.en,summaryZh:d.summaryZh??summary.zh,facts:d.facts,source:d.source},name);
  }
  const summary=genericSummary(english,system,chinese);
- return {
+ return withCourseNotes({
   english,
   chinese,
   category:`${systemZh[system]}｜${system}`,
@@ -331,5 +339,5 @@ export function structureProfile(name:string,system:SystemId):StructureProfile{
   summaryZh:summary.zh,
   facts:genericFacts(english,system),
   source:sourceFor(name,system)
- };
+ },name);
 }

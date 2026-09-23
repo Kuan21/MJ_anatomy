@@ -283,3 +283,59 @@
 .joint-workspace [data-slot=slider][aria-disabled=true]{
  opacity:.42;
 }
+
+
+/* Source-grounded CMU anatomy notes inside the structure description panel. */
+.course-note-details{
+ margin:16px 0 4px;
+ border:1px solid #20324214;
+ border-radius:13px;
+ background:#f7f9fa;
+ overflow:hidden;
+}
+.course-note-details>summary{
+ display:flex;
+ flex-direction:column;
+ gap:3px;
+ padding:11px 12px;
+ cursor:pointer;
+ color:#334a56;
+}
+.course-note-details>summary span{font-size:12px;font-weight:700}
+.course-note-details>summary small{font-size:10px;color:#81909a;font-weight:500}
+.course-note-list{
+ display:flex;
+ flex-direction:column;
+ gap:8px;
+ max-height:46vh;
+ overflow:auto;
+ padding:0 9px 10px;
+}
+.course-note-card{
+ padding:10px 11px;
+ border-radius:10px;
+ background:#fff;
+ border:1px solid #2032420e;
+}
+.course-note-meta{
+ display:flex;
+ flex-direction:column;
+ gap:2px;
+ margin-bottom:6px;
+}
+.course-note-meta span{
+ font-size:10px;
+ font-weight:700;
+ color:#435d6a;
+}
+.course-note-meta small{
+ font-size:9px;
+ color:#8a969e;
+}
+.course-note-card p{
+ margin:0;
+ white-space:normal;
+ line-height:1.55;
+ font-size:11px;
+ color:#53636d;
+}
