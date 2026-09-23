@@ -21,12 +21,17 @@ assert.equal(soft.resolveNeurovascularProfile('Right anterior circumflex humeral
 assert.equal(soft.resolveNeurovascularProfile('Right thoracodorsal artery','path'),'scapular');
 assert.equal(soft.resolveNeurovascularProfile('Right suprascapular vein','path'),'scapular');
 assert.equal(soft.resolveNeurovascularProfile('Right brachial artery','path'),'path');
+assert.equal(soft.resolveMuscleProfile('Sternocostal part of right pectoralis major','chest'),'sheetMuscle');
+assert.equal(soft.resolveMuscleProfile('Right pectoralis minor','scapular'),'scapular');
+assert.equal(soft.resolveMuscleProfile('Acromial part of right deltoid','deltoid'),'deltoid');
+assert.equal(soft.resolveMuscleProfile('Right teres major','cuff'),'cuff');
 const {resolveDissection}=await import(new URL('mj-dissection.mjs',tmp));
 const focusIds=new Set(['shoulder','arm','forearm','hand'].flatMap(region=>resolveDissection(atlas,region,0).partIds));
 const buffers=await Promise.all(atlas.chunks.map(c=>readFile(new URL('public'+c.url,root))));
 const geometry=p=>{const b=buffers[p.chunk];return{positions:new Float32Array(b.buffer,b.byteOffset+p.positions,p.vertexCount*3).slice(),indices:new Uint32Array(b.buffer,b.byteOffset+p.indices,p.indexCount).slice()};};
 const poses={extension:{...motion.NEUTRAL_POSE,shoulderFlexion:-45},wristExtension:{...motion.NEUTRAL_POSE,wristFlexion:45},videoReplay:{...motion.NEUTRAL_POSE,shoulderFlexion:90,shoulderAbduction:17,shoulderRotation:-25},neutral:motion.NEUTRAL_POSE,raise60:{...motion.NEUTRAL_POSE,shoulderAbduction:60},raise90:{...motion.NEUTRAL_POSE,shoulderAbduction:90},raise145:{...motion.NEUTRAL_POSE,shoulderAbduction:145},flex90:{...motion.NEUTRAL_POSE,elbowFlexion:90},combined:{...motion.NEUTRAL_POSE,shoulderAbduction:70,shoulderFlexion:45,elbowFlexion:100,forearmRotation:40,wristFlexion:15}};
 poses.userCompound={...motion.NEUTRAL_POSE,shoulderFlexion:-45,shoulderAbduction:69,elbowFlexion:50};
+poses.overheadCompound={...motion.NEUTRAL_POSE,shoulderFlexion:150,shoulderAbduction:145,shoulderRotation:35};
 const render={};let vertices=0,maxNeutral=0;const start=performance.now();
 for(const side of ['left','right']){
  const rig=soft.makeSoftRig(atlas,side);assert.ok(rig);
@@ -58,6 +63,11 @@ for(const side of ['left','right']){
    if(poseName==='raise90'&&/brachioradialis|anconeus|circumflex scapular|dorsal metacarpal arteries|flexor retinaculum/i.test(p.name)){let squared=0;for(let i=0;i<output.length;i++)squared+=(output[i]-positions[i])**2;assert.ok(Math.sqrt(squared/p.vertexCount)>.005,`${p.name} stayed at rest`);}
    if(poseName==='wristExtension'&&binding.profile==='chest')assert.deepEqual(output,positions,'Wrist must not move the chest');
    if(poseName==='neutral'){const delta=Math.max(...output.map((v,i)=>Math.abs(v-positions[i])));maxNeutral=Math.max(maxNeutral,delta);assert.ok(delta<2e-7,`${p.name}: neutral changed ${delta}`);}
+   if(poseName==='overheadCompound'&&binding.profile==='sheetMuscle'){
+    const a=soft.deformPoint(binding.origin,binding.originWeights,palette),b=soft.deformPoint(binding.insertion,binding.insertionWeights,palette),axisLength=b.distanceTo(a);assert.ok(axisLength>.02,`${p.name}: collapsed attachment axis`);
+    let minT=1,maxT=0;for(let i=0;i<binding.longitudinal.length;i++){minT=Math.min(minT,binding.longitudinal[i]);maxT=Math.max(maxT,binding.longitudinal[i]);}
+    assert.ok(minT<.08&&maxT>.92,`${p.name}: sheet does not cover both attachment bands`);
+   }
    // Attachments represented by a one-frame weight remain pinned to that frame.
    for(let i=0;i<p.vertexCount;i++)if(binding.weights[i*4]>.999999&&binding.belly[i]<1e-6){
     const f=binding.indices[i*4],t=transforms[rig.ids[f]],expected=new Vector3(...positions.slice(i*3,i*3+3));
