@@ -235,3 +235,51 @@
  .left-workspace{top:112px}
  .right-tool-rail,.right-tool-panel{top:112px}
 }
+
+
+/* Joint motion is opt-in. The atlas remains selectable/orbitable while locked. */
+.motion-enable-toggle{
+ display:inline-flex;
+ align-items:center;
+ gap:7px;
+ margin-left:auto;
+ padding:5px 9px;
+ border:1px solid #20324216;
+ border-radius:999px;
+ background:#f2f5f6;
+ color:#4b5e69;
+ font-size:11px;
+ font-weight:650;
+ line-height:1;
+ cursor:pointer;
+ user-select:none;
+}
+.motion-enable-toggle input{
+ width:14px;
+ height:14px;
+ margin:0;
+ accent-color:#263f4d;
+}
+.motion-enable-toggle:has(input:checked){
+ background:#e5eef1;
+ border-color:#4266752b;
+ color:#263f4d;
+}
+.motion-lock-note{
+ margin:2px 0 10px;
+ padding:9px 10px;
+ border-radius:11px;
+ background:#f6f8f9;
+ border:1px solid #20324210;
+ color:#6c7982;
+ font-size:11px;
+ line-height:1.45;
+}
+.joint-workspace button:disabled{
+ opacity:.42;
+ cursor:not-allowed;
+}
+.joint-workspace [data-slot=slider][data-disabled],
+.joint-workspace [data-slot=slider][aria-disabled=true]{
+ opacity:.42;
+}

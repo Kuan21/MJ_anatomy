@@ -28,7 +28,7 @@ export const ANATOMY_REGIONS:AnatomyRegion[]=[
   {id:'superficial',label:'表層 · Superficial',description:'Surface and superficial muscular anatomy.',keywords:['skin','fascia','biceps brachii']},
   {id:'anterior',label:'前群 · Anterior compartment',description:'Flexor compartment of the arm.',keywords:['biceps brachii','brachialis','coracobrachialis']},
   {id:'posterior',label:'後群 · Posterior compartment',description:'Extensor compartment of the arm.',keywords:['triceps brachii']},
-  {id:'neurovascular',label:'神經血管 · Neurovascular',description:'Major nerves and vessels of the arm.',keywords:['musculocutaneous nerve','radial nerve','median nerve','ulnar nerve','brachial artery','brachial vein']},
+  {id:'neurovascular',label:'神經血管 · Neurovascular',description:'Major nerves and vessels of the arm.',keywords:['musculocutaneous nerve','radial nerve','median nerve','ulnar nerve','brachial artery','brachial vein','cephalic vein','basilic vein','median cubital vein']},
   {id:'bone',label:'骨 · Bone',description:'Humerus and related landmarks.',keywords:['humerus']},
  ]},
  {id:'forearm',name:'Forearm',subtitle:'前臂 · Forearm',stages:[
@@ -36,7 +36,7 @@ export const ANATOMY_REGIONS:AnatomyRegion[]=[
   {id:'flexor-superficial',label:'淺層屈肌 · Superficial flexors',description:'Superficial anterior forearm muscles.',keywords:['pronator teres','flexor carpi radialis','palmaris longus','flexor carpi ulnaris','flexor digitorum superficialis']},
   {id:'flexor-deep',label:'深層屈肌 · Deep flexors',description:'Deep anterior forearm muscles.',keywords:['flexor digitorum profundus','flexor pollicis longus','pronator quadratus']},
   {id:'extensor',label:'伸肌群 · Extensors',description:'Posterior forearm muscle groups.',keywords:['brachioradialis','extensor carpi','extensor digitorum','supinator']},
-  {id:'neurovascular',label:'神經血管 · Neurovascular',description:'Median, ulnar and radial pathways with forearm vessels.',keywords:['median nerve','ulnar nerve','radial nerve','radial artery','ulnar artery']},
+  {id:'neurovascular',label:'神經血管 · Neurovascular',description:'Median, ulnar and radial pathways with forearm vessels.',keywords:['median nerve','ulnar nerve','radial nerve','radial artery','ulnar artery','cephalic vein','basilic vein','median cubital vein','median antebrachial vein']},
   {id:'bone',label:'橈尺骨 · Radius & ulna',description:'Bony framework for elbow and radioulnar motion.',keywords:['radius','ulna']},
  ]},
  {id:'hand',name:'Hand',subtitle:'手部 · Hand',stages:[
