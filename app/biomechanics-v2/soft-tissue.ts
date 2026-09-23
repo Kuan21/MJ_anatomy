@@ -4,7 +4,7 @@ import {createSkeletonRig,type Side} from './skeleton';
 import rawBindings from './tissue-bindings.json';
 import rawNerves from './nerve-bindings.json';
 
-export type Profile='pectoralPath'|'path'|'trunk'|'humeral'|'deltoid'|'chest'|'cuff'|'biceps'|'triceps'|'arm'|'coraco'|'forearm'|'hand'|'scapular'|'clavicular';
+export type Profile='pectoralPath'|'axillaryCable'|'path'|'trunk'|'humeral'|'deltoid'|'chest'|'cuff'|'biceps'|'triceps'|'arm'|'coraco'|'forearm'|'hand'|'scapular'|'clavicular';
 export interface TissueBinding {name:string;side:Side;profile:Profile}
 export const tissueBindings=rawBindings as Record<string,TissueBinding>;
 export const nerveBindings=rawNerves as Record<string,{side:Side;profile:'path'}>;
@@ -16,14 +16,12 @@ export const nerveBindings=rawNerves as Record<string,{side:Side;profile:'path'}
  */
 export function resolveNeurovascularProfile(name:string,fallback:Profile='path'):Profile{
  const n=name.toLowerCase();
- // Chest-wall structures stay on the thorax even when the humerus elevates.
- // This removes the long U-shaped loops previously produced at 120-150°.
- if(/long thoracic nerve|intercostobrachial|lateral thoracic (?:artery|vein)|superior thoracic (?:artery|vein)/.test(n))return 'trunk';
- // Structures wrapping the surgical neck should travel with the humerus.
- if(/axillary nerve|muscular branches of axillary nerve|superior lateral brachial cutaneous nerve|anterior circumflex humeral (?:artery|vein)|posterior circumflex humeral (?:artery|vein)/.test(n))return 'humeral';
+ // Proximal neurovascular structures use one continuous world-space cable
+ // field. Anatomically these bundles mainly glide and uncoil; the visual
+ // effect is elastic lengthening without tearing at named-mesh boundaries.
+ if(/long thoracic nerve|intercostobrachial|lateral thoracic (?:artery|vein)|superior thoracic (?:artery|vein)|axillary nerve|muscular branches of axillary nerve|superior lateral brachial cutaneous nerve|anterior circumflex humeral (?:artery|vein)|posterior circumflex humeral (?:artery|vein)|brachial plexus|trunk of brachial plexus|division of .*brachial plexus|cord of brachial plexus|roots of brachial plexus|pectoral nerve|thoraco-?acromial/.test(n))return 'axillaryCable';
  if(/dorsal scapular|suprascapular|thoracodorsal|circumflex scapular|subscapular (?:nerve|artery|vein)|upper subscapular nerve|lower subscapular nerve/.test(n))return 'scapular';
  if(/subclavian nerve|nerve to subclavius|supraclavicular/.test(n))return 'clavicular';
- if(/brachial plexus|trunk of brachial plexus|division of .*brachial plexus|cord of brachial plexus|roots of brachial plexus|pectoral nerve|thoraco-?acromial/.test(n))return 'pectoralPath';
  return fallback;
 }
 // Common frame palette: trunk, clavicle, scapula, humerus, ulna, radius, hand.
@@ -58,6 +56,17 @@ export function pathWeights(rig:SoftRig,x:number,y:number,z:number):number[]{
  const radial=dU/(dR+dU+1e-9); // continuous, identical across adjacent segments
  return[(1-lateral)*(1-e),lateral*(1-arm)*(1-e),0,lateral*arm*(1-e),e*(1-w)*(1-radial),e*(1-w)*radial,e*w];
 }
+/** Continuous thorax-to-humerus field for axillary nerves/vessels.
+ * It depends only on world position, so equal rest points on adjacent source
+ * meshes remain coincident after deformation.
+ */
+export function axillaryCableWeights(rig:SoftRig,x:number,y:number,z:number):number[]{
+ const lateral=range(Math.abs(x),.045,Math.max(.09,Math.abs(rig.shoulder.x)-.01));
+ const height=range(y,rig.shoulder.y-.24,rig.shoulder.y+.025);
+ const anterior=range(z,rig.shoulder.z-.11,rig.shoulder.z+.10);
+ const humeral=smooth(lateral*(.82*height+.18*height*anterior));
+ return pair(0,3,humeral);
+}
 /** Register the separate legacy nerve atlas to this atlas BEFORE skinning.
  * Five source digit landmarks are measured from decoded digital nerve branches.
  * A shared 3-D displacement field preserves branch joins; the wrist stays fixed.
@@ -80,6 +89,7 @@ export function weightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''
  const lateral=clamp((Math.abs(p.x)-Math.min(Math.abs(box.min.x),Math.abs(box.max.x)))/Math.max(.01,size.x));
  if(profile==='trunk')return pair(0,0,1);
  if(profile==='humeral')return pair(3,3,1);
+ if(profile==='axillaryCable')return axillaryCableWeights(rig,p.x,p.y,p.z);
  if(profile==='pectoralPath'){const b=rig.groups.chest??box;const t=(Math.abs(p.x)-Math.min(Math.abs(b.min.x),Math.abs(b.max.x)))/Math.max(.01,b.max.x-b.min.x);return pair(0,3,range(t,.72,.98));}
  if(profile==='path'||profile==='forearm')return pathWeights(rig,p.x,p.y,p.z);
  if(profile==='hand')return pair(6,6,1);
@@ -166,7 +176,7 @@ export function deformTissue(binding:SkinBinding,base:Float32Array,palette:Palet
  for(let i=0;i<base.length/3;i++){
   blended(palette,binding.indices,binding.weights,i*4,q);
   const extra=(radialScale-1)*binding.belly[i],j=i*3;
-  if((binding.profile==='chest'||binding.profile==='pectoralPath')){
+  if((binding.profile==='chest'||binding.profile==='pectoralPath'||binding.profile==='axillaryCable')){
    // Broad origin stays anchored. Blend endpoint-frame displacements instead
    // of rotating the fan as a dual quaternion, which bows the chest upward.
    let x=0,y=0,z=0;const v=new Float64Array(3);
