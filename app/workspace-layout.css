@@ -432,3 +432,75 @@
  max-height:none!important;
  overflow:visible!important;
 }
+
+
+/* Readability pass: long anatomical names keep a normal reading size and the
+ * header grows vertically instead of squeezing the name into one line. */
+.detail-sheet{
+ max-height:calc(100dvh - 8px)!important;
+}
+.detail-header{
+ height:auto!important;
+ min-height:0!important;
+ padding-bottom:10px!important;
+}
+.detail-sheet .structure-title{
+ font-size:22px!important;
+ line-height:1.18!important;
+ white-space:normal!important;
+ overflow:visible!important;
+ text-overflow:clip!important;
+ overflow-wrap:anywhere!important;
+}
+.detail-sheet .structure-title-zh{
+ font-size:15px!important;
+ line-height:1.28!important;
+ margin-top:6px!important;
+}
+@media(max-width:767px){
+ .detail-sheet .structure-title{font-size:20px!important}
+ .detail-sheet .structure-title-zh{font-size:14px!important}
+}
+
+/* Group the re-scanned course material by anatomical relationship, without
+ * exposing filenames in the learner-facing description. */
+.course-note-groups{display:flex;flex-direction:column;gap:10px;padding:0 9px 10px}
+.course-note-group{display:flex;flex-direction:column;gap:6px}
+.course-note-group h4{
+ margin:0 2px;
+ font-size:10px;
+ line-height:1.25;
+ font-weight:750;
+ color:#3f5966;
+ letter-spacing:.01em;
+}
+.course-note-group .course-note-list{
+ max-height:none;
+ overflow:visible;
+ padding:0;
+ gap:6px;
+}
+.course-note-card{padding:9px 10px}
+.course-note-card p{font-size:11px;line-height:1.62}
+
+/* Keep the atlas boilerplate as the last item in the scrollable description. */
+.description-footnote{
+ margin-top:18px!important;
+ padding:12px 1px 2px!important;
+ border-top:1px solid #20324212!important;
+}
+
+/* Action controls are approximately one-third smaller than the earlier bar. */
+.detail-actions{
+ gap:4px!important;
+ padding:6px 8px!important;
+}
+.detail-actions button{
+ min-height:27px!important;
+ height:27px!important;
+ padding:3px 6px!important;
+ font-size:9.25px!important;
+ border-radius:7px!important;
+ gap:3px!important;
+}
+.detail-actions button svg{width:11px!important;height:11px!important}

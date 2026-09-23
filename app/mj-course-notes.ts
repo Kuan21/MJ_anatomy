@@ -1,7 +1,7 @@
 export type CourseNoteKind='attachment'|'course'|'joint'|'location'|'supply'|'note';
 
 export interface CourseNoteEntry{
- source:string;
+ source?:string;
  kind:CourseNoteKind;
  text:string;
 }
@@ -24,6 +24,3 @@ export function courseNotesFor(name:string):CourseNoteEntry[]{
  return index[norm(name)]?.entries??[];
 }
 
-export function courseNoteSourceCount(name:string){
- return new Set(courseNotesFor(name).map(x=>x.source)).size;
-}
