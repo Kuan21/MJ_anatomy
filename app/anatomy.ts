@@ -18,10 +18,10 @@ export const SYSTEMS: {id:SystemId;name:string;color:string;description:string}[
 ];
 export interface Part {id:string;name:string;conceptId:string;system:SystemId;chunk:number;positions:number;normals:number;indices:number;vertexCount:number;indexCount:number;bounds:[number[],number[]]}
 export interface Concept {id:string;name:string;elements:string[]}
-export interface Atlas {version:string;sex?:'male';source?:string;scope?:string;parts:Part[];concepts:Concept[];chunks:{url:string;bytes:number;gzip?:string;gzipBytes?:number}[];triangles:number}
+export interface Atlas {version:string;sex?:'male';source?:string;scope?:string;parts:Part[];concepts:Concept[];chunks:{url:string;bytes:number;gzip?:string;gzipBytes?:number;deferUntil?:'head'}[];triangles:number}
 export type View = 'three-quarter'|'front'|'back'|'side';
 export interface PartTransform {translation:[number,number,number];quaternion:[number,number,number,number];anchorTranslation?:[number,number,number];anchorQuaternion?:[number,number,number,number]}
-export interface SceneState {muscleLayer?:import('./mj-muscle-layers').UpperLimbMuscleLayer;bodyMotion?:{region:import('./biomechanics-v2/body-motion').BodyRegion;pose:import('./biomechanics-v2/body-motion').BodyPose};tissueMotion?:boolean;inspectorOpen?:boolean;explode:number;visible:SystemId[];selected:string[];hiddenParts?:string[];depthFilter?:'all'|'superficial'|'intermediate'|'deep';focusParts?:string[];cameraFocusParts?:string[];cameraFocusNonce?:number;partTransforms?:Record<string,PartTransform>;isolate:boolean;view:View;rotate:boolean;reset:number}
+export interface SceneState {muscleLayer?:import('./mj-muscle-layers').UpperLimbMuscleLayer;faceMuscleLayer?:import('./mj-facial-layers').FacialMuscleLayer;bodyMotion?:{region:import('./biomechanics-v2/body-motion').BodyRegion;pose:import('./biomechanics-v2/body-motion').BodyPose};tissueMotion?:boolean;inspectorOpen?:boolean;explode:number;visible:SystemId[];selected:string[];hiddenParts?:string[];depthFilter?:'all'|'superficial'|'intermediate'|'deep';focusParts?:string[];cameraFocusParts?:string[];cameraFocusNonce?:number;partTransforms?:Record<string,PartTransform>;isolate:boolean;view:View;rotate:boolean;reset:number}
 export const DEFAULT_VISIBLE:SystemId[] = ['skeletal','muscular','arterial','venous','nervous','connective'];
 export const EXPLANATIONS:Record<string,string> = {
  'heart':'A muscular pump in the chest. Its right side sends blood to the lungs; its left side sends blood through the systemic circulation.',

@@ -11,6 +11,7 @@ import {PointerTap} from './pointer-tap';
 import {framingDistance} from './camera-framing';
 import {SYSTEMS,type Atlas,type SceneState} from './anatomy';
 import {matchesUpperLimbMuscleLayer} from './mj-muscle-layers';
+import {matchesFacialMuscleLayer} from './mj-facial-layers';
 import {matchesDepth} from './mj-depth';
 import {makeSoftRig,bindTissue,makePalette,deformTissue,registerNerveRest,resolveNeurovascularProfile,tissueBindings,nerveBindings,type SkinBinding} from './biomechanics-v2/soft-tissue';
 import {makeBodyRig,buildBodyMotion,bindBodyTissue,cranialNerveRigid,bodyBindings,type BodyRegion} from './biomechanics-v2/body-motion';
@@ -143,7 +144,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    };materials.push(m);return m;
   };
   const mats=new Map(SYSTEMS.map(s=>[s.id,materialFor(s.id)]));
-  let loaded=0;
+  
   const smoothstep=(t:number)=>{const x=T.MathUtils.clamp(t,0,1);return x*x*(3-2*x);};
   const vertexMotionWeight=(p:(typeof atlas.parts)[number],x:number,y:number,z:number)=>{
    const name=p.name.toLowerCase(),min=p.bounds[0],max=p.bounds[1],cy=(min[1]+max[1])*.5,dy=Math.max(1e-5,max[1]-min[1]),dx=Math.max(1e-5,max[0]-min[0]);
@@ -183,7 +184,12 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    return 1;
   };
   const resolveModelUrl=(url:string)=>url.startsWith('/')?`${import.meta.env.BASE_URL}${url.slice(1)}`:url;
+  const loadedChunks=new Set<number>(),loadingChunks=new Set<number>();
+  const eagerChunks=atlas.chunks.map((_,i)=>i).filter(i=>!atlas.chunks[i].deferUntil),facialChunkIndex=atlas.chunks.findIndex(ch=>ch.deferUntil==='head');
+  let eagerLoaded=0;
   const loadChunk=async(ci:number)=>{
+   if(loadedChunks.has(ci)||loadingChunks.has(ci))return;
+   loadingChunks.add(ci);
    const chunk=atlas.chunks[ci],compressed=!!chunk.gzip&&typeof DecompressionStream!=='undefined';const response=await fetch(resolveModelUrl(compressed?chunk.gzip!:chunk.url),{signal:abort.signal});const buffer=await decodeModelResponse(response,chunk.bytes,compressed);if(disposed)return;
    const groups=new Map<string,T.BufferGeometry[]>();
    atlas.parts.forEach((p,i)=>{
@@ -207,9 +213,11 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    groups.forEach((gs,system)=>{const geometry=mergeGeometries(gs,false);if(!geometry)throw new Error('Could not assemble anatomy geometry.');geometries.push(geometry);let vertexOffset=0;
     for(const g of gs){const index=g.getAttribute('partIndex').getX(0),pick=pickers[index]!;pick.userData.mergedGeometry=geometry;pick.userData.mergedOffset=vertexOffset;vertexOffset+=g.getAttribute('position').count;}
     const mesh=new T.Mesh(geometry,mats.get(system as never));mesh.frustumCulled=false;scene.add(mesh);});
-   lastState=null;loaded++;onProgress(Math.round(loaded/atlas.chunks.length*100));dirty=true;
+   loadedChunks.add(ci);loadingChunks.delete(ci);lastState=null;
+   if(!chunk.deferUntil){eagerLoaded++;onProgress(Math.round(eagerLoaded/Math.max(1,eagerChunks.length)*100));}
+   dirty=true;
   };
-  (async()=>{try{let cursor=0;await Promise.all(Array.from({length:3},async()=>{while(cursor<atlas.chunks.length){const i=cursor++;await loadChunk(i);}}));if(!disposed){ready=true;dirty=true;}}catch(e){if(!disposed)onError(e instanceof Error?e.message:'Could not load the anatomy.');}})();
+  (async()=>{try{let cursor=0;await Promise.all(Array.from({length:3},async()=>{while(cursor<eagerChunks.length){const i=eagerChunks[cursor++];await loadChunk(i);}}));if(!disposed){ready=true;onProgress(100);dirty=true;}}catch(e){if(!disposed)onError(e instanceof Error?e.message:'Could not load the anatomy.');}})();
   const shoulderGroups=new Map<string,{count:number;group:ReturnType<typeof makeSurfaceGroup>}>();
   const updateTissueMotion=(s:SceneState)=>{
    const touched=new Set<T.Mesh>();
@@ -332,11 +340,13 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   const animate=()=>{
    if(disposed)return;frame=requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05),s=latest.current;
    if(focusTarget&&focusPosition){const a=1-Math.exp(-8*dt);controls.target.lerp(focusTarget,a);camera.position.lerp(focusPosition,a);dirty=true;if(controls.target.distanceToSquared(focusTarget)<1e-7&&camera.position.distanceToSquared(focusPosition)<1e-7){controls.target.copy(focusTarget);camera.position.copy(focusPosition);focusTarget=null;focusPosition=null;}}
-   const changed=lastState?.visible!==s.visible||lastState?.selected!==s.selected||lastState?.hiddenParts!==s.hiddenParts||lastState?.depthFilter!==s.depthFilter||lastState?.muscleLayer!==s.muscleLayer||lastState?.focusParts!==s.focusParts||lastState?.isolate!==s.isolate||lastState?.partTransforms!==s.partTransforms||lastState?.bodyMotion!==s.bodyMotion;
+   const changed=lastState?.visible!==s.visible||lastState?.selected!==s.selected||lastState?.hiddenParts!==s.hiddenParts||lastState?.depthFilter!==s.depthFilter||lastState?.muscleLayer!==s.muscleLayer||lastState?.faceMuscleLayer!==s.faceMuscleLayer||lastState?.focusParts!==s.focusParts||lastState?.isolate!==s.isolate||lastState?.partTransforms!==s.partTransforms||lastState?.bodyMotion!==s.bodyMotion;
    const tissueChanged=!lastState||lastState.partTransforms!==s.partTransforms||lastState.tissueMotion!==s.tissueMotion||lastState.bodyMotion!==s.bodyMotion;
    if(tissueChanged){updateTissueMotion(s);updateNerveMotion(s);}
+   const ctx=viewerContext.current;
+   if(ctx.bodyArea==='head'&&facialChunkIndex>=0&&!loadedChunks.has(facialChunkIndex)&&!loadingChunks.has(facialChunkIndex)){void loadChunk(facialChunkIndex).catch(e=>{loadingChunks.delete(facialChunkIndex);if(!disposed)onError(e instanceof Error?`Facial muscles: ${e.message}`:'Could not load facial muscles.');});}
    if(nerveMeshes.length){
-    const nervesOn=s.visible.includes('nervous'),ctx=viewerContext.current;
+    const nervesOn=s.visible.includes('nervous');
     nerveRoot.visible=nervesOn;
     nerveMeshes.forEach(o=>{
      if(!nervesOn){o.visible=false;return;}
@@ -360,7 +370,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const intracranial=/brain|cerebr|cerebell|\bgyrus\b|lobule|\blobe\b|hemisphere|white matter|gray matter|cortex|insula|midbrain|pons|medulla oblongata|thalam|hypothalam|fornix|ventricle|choroid plexus|corpus callosum|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|commissure|colliculus|geniculate|habenula|mammillary|stria terminalis|stria medullaris|septum of telencephalon|tuber cinereum|interpeduncular fossa|lamina terminalis|optic chiasm|optic tract|peduncle of midbrain|cerebral aqueduct|pineal|pituitary|cerebral artery|cerebellar artery|basilar artery|callosomarginal artery|pericallosal artery|pontine artery|thalamogeniculate artery|thalamoperforating artery/i;
     const baseVisible=(p:(typeof atlas.parts)[number])=>{
      if(hidden.has(p.id))return false;
-     if(!matchesDepth(p,s.depthFilter)||!matchesUpperLimbMuscleLayer(p,s.muscleLayer))return false;
+     if(!matchesDepth(p,s.depthFilter)||!matchesUpperLimbMuscleLayer(p,s.muscleLayer)||!matchesFacialMuscleLayer(p,s.faceMuscleLayer))return false;
      if(s.isolate)return false;
      return focus?focus.has(p.id)&&visible.has(p.system):visible.has(p.system);
     };

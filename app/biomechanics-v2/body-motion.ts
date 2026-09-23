@@ -13,7 +13,7 @@ export interface BodyRig {region:BodyRegion;pivots:Vector3[];levels:number[];foc
 const center=(p:Atlas['parts'][number])=>new Vector3().fromArray(p.bounds[0]).add(new Vector3().fromArray(p.bounds[1])).multiplyScalar(.5);
 export function makeBodyRig(atlas:Atlas,region:BodyRegion):BodyRig{
  const part=(name:string)=>{const p=atlas.parts.find(p=>p.name===name);if(!p)throw new Error(`Missing joint landmark: ${name}`);return p;};
- const focusIds=atlas.parts.filter(p=>bodyBindings[p.id]?.rig===region&&bodyBindings[p.id].name===p.name&&(region!=='head'||p.bounds[0][1]>1.27)).map(p=>p.id);
+ const focusIds=atlas.parts.filter(p=>(bodyBindings[p.id]?.rig===region&&bodyBindings[p.id].name===p.name&&(region!=='head'||p.bounds[0][1]>1.27))||(region==='head'&&p.id.startsWith('BP3-FMA'))).map(p=>p.id);
  if(region==='head'){
   const names=['Seventh cervical vertebra','Sixth cervical vertebra','Fifth cervical vertebra','Fourth cervical vertebra','Third cervical vertebra','Axis','Atlas'];
   const cs=names.map(n=>center(part(n)));
@@ -45,7 +45,7 @@ export function buildBodyMotion(rig:BodyRig,input:BodyPose){
  }
  const palette=new Float64Array(matrices.length*8),transforms:Record<string,PartTransform>={};
  matrices.forEach((m,i)=>{const t=rigid(m),q=new Quaternion(...t.quaternion),v=t.translation,d=new Quaternion(...v,0).multiply(q);palette.set([...q.toArray(),...d.toArray().map(x=>x*.5)],i*8);});
- for(const id of rig.focusIds){const b=bodyBindings[id];if(b?.rig===rig.region&&b.frame!==null)transforms[id]=rigid(matrices[b.frame]);}
+ for(const id of rig.focusIds){const b=bodyBindings[id];if(b?.rig===rig.region&&b.frame!==null)transforms[id]=rigid(matrices[b.frame]);else if(rig.region==='head'&&id.startsWith('BP3-FMA'))transforms[id]=rigid(matrices[8]);}
  return{pose,matrices,palette,transforms};
 }
 const smooth=(x:number)=>{x=Math.max(0,Math.min(1,x));return x*x*(3-2*x);};
