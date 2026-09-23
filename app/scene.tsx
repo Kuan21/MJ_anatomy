@@ -90,19 +90,9 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const attr=mesh.geometry.getAttribute('position') as T.BufferAttribute;
     if(bodyActive)deformTissue(mesh.userData.bodySkin,base,body!.palette,attr.array as Float32Array);else if(active)deformTissue(skin!,base,palettes[binding.side]!,attr.array as Float32Array);else (attr.array as Float32Array).set(base);
     mesh.userData.tissuePosed=active;
-   }
-   // Solve the complete deltoid envelope before rendering; per-head correction
-   // would separate duplicated vertices along shared surface seams.
-   if(!s.bodyMotion&&s.tissueMotion)for(const side of ['left','right'] as const){
-    const meshes=pickers.filter(m=>m?.userData.tissuePosed&&m.userData.tissueSide===side&&m.userData.skin?.profile==='deltoid');
-    if(!meshes.length)continue;
-    let entry=shoulderGroups.get(side);
-    if(!entry||entry.count!==meshes.length){entry={count:meshes.length,group:makeSurfaceGroup(meshes.map(m=>({base:m!.userData.baseMotionPositions,triangles:m!.geometry.index!.array,skin:m!.userData.skin,positions:m!.geometry.getAttribute('position').array as Float32Array})))};shoulderGroups.set(side,entry);}
-    constrainSurfaceGroup(entry.group);
-   }
-   for(const mesh of pickers){
-    if(!mesh||(!mesh.userData.skin&&!mesh.userData.bodySkin))continue;
-    const attr=mesh.geometry.getAttribute('position') as T.BufferAttribute;
+    // Nerve meshes are independent from the atlas picker meshes. Mark the
+    // deformed nerve position buffer itself dirty so Three.js uploads the new
+    // vertices to the GPU, then refresh bounds used for picking/culling.
     attr.needsUpdate=true;mesh.geometry.computeVertexNormals();mesh.geometry.computeBoundingBox();mesh.geometry.computeBoundingSphere();
    }
   };
