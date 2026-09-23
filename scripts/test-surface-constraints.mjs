@@ -21,3 +21,27 @@ for(const p of atlas.parts){
 }
 assert.ok(before>0&&after<before,'Guard must reduce aggregate excess edge stretch on actual meshes');
 console.log(`${checked} actual sheet/pose combinations; neutral and rigid anchors exact; excess edge stretch energy reduced ${Math.round((1-after/before)*100)}%.`);
+for(const side of ['left','right']){
+ const rig=soft.makeSoftRig(atlas,side),members=atlas.parts.filter(p=>soft.tissueBindings[p.id]?.side===side&&soft.tissueBindings[p.id]?.profile==='deltoid').map(p=>{
+  const chunk=chunks[p.chunk],base=new Float32Array(chunk.buffer,chunk.byteOffset+p.positions,p.vertexCount*3).slice();
+  return{base,triangles:new Uint32Array(chunk.buffer,chunk.byteOffset+p.indices,p.indexCount),skin:soft.bindTissue(rig,'deltoid',base,p),positions:base.slice()};
+ });
+ assert.equal(members.length,3);
+ const group=guard.makeSurfaceGroup(members);
+ guard.constrainSurfaceGroup(group);members.forEach(m=>assert.deepEqual(m.positions,m.base));
+ let raw=0,corrected=0;
+ for(const pose of [{shoulderFlexion:-45,shoulderAbduction:69,elbowFlexion:50},{shoulderAbduction:145},{shoulderFlexion:150}]){
+  const palette=soft.makePalette(rig,motion.buildUpperLimbMotion(atlas,side,{...motion.NEUTRAL_POSE,...pose}).transforms);
+  members.forEach(m=>soft.deformTissue(m.skin,m.base,palette,m.positions));
+  const before=members.map(m=>m.positions.slice());
+  const energy=()=>members.reduce((total,m)=>{for(let k=0;k<m.triangles.length;k+=3)for(let e=0;e<3;e++){const a=m.triangles[k+e]*3,b=m.triangles[k+(e+1)%3]*3,dist=p=>Math.hypot(p[a]-p[b],p[a+1]-p[b+1],p[a+2]-p[b+2]);total+=Math.max(0,dist(m.positions)-1.45*dist(m.base))**2;}return total;},0);
+  raw+=energy();guard.constrainSurfaceGroup(group);corrected+=energy();
+  const joined=new Map();members.forEach((m,k)=>{assert.ok(m.positions.every(Number.isFinite));for(let i=0;i<m.base.length/3;i++){
+   const key=[...m.base.subarray(i*3,i*3+3)].join(','),point=[...m.positions.subarray(i*3,i*3+3)];
+   if(joined.has(key))assert.deepEqual(point,joined.get(key),'Coincident source seams must remain closed');else joined.set(key,point);
+   if(group.constraints.mobility[group.maps[k][i]]===0)assert.deepEqual(point,[...before[k].subarray(i*3,i*3+3)],'Pinned shoulder attachments must not drift');
+  }});
+  const once=members.map(m=>m.positions.slice());members.forEach(m=>soft.deformTissue(m.skin,m.base,palette,m.positions));guard.constrainSurfaceGroup(group);members.forEach((m,i)=>assert.deepEqual(m.positions,once[i],'Repeated pose must not accumulate deformation'));
+ }
+ assert.ok(corrected<raw);console.log(`${side} deltoid group: neutral, attachment and seam invariants PASS; excess stretch reduced ${Math.round((1-corrected/raw)*100)}% across compound and extreme poses.`);
+}

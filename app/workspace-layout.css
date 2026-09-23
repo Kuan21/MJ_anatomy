@@ -1,4 +1,11 @@
 .body-region-nav{position:absolute;z-index:15;top:112px;left:50%;transform:translateX(-50%);display:flex;gap:4px;padding:5px;border-radius:10px;max-width:calc(100% - 24px)}
+.joint-workspace [data-slot=slider]{display:block;width:100%;padding:10px 0}
+.joint-workspace [data-slot=slider]>div{display:flex;position:relative;width:100%;align-items:center;min-height:20px;touch-action:none}
+.joint-workspace [data-slot=slider-track]{position:relative;width:100%;height:4px;flex:1;background:#bdc8ce;border-radius:4px;overflow:hidden}
+.joint-workspace [data-slot=slider-range]{height:100%;background:#456674}
+.joint-workspace [data-slot=slider-thumb]{width:16px;height:16px;background:white;border:2px solid #456674;border-radius:50%}
+.joint-workspace [data-slot=slider-thumb]:focus-visible{outline:3px solid #789eaf;outline-offset:3px}
+.muscle-layer-filter{margin:18px 0}.muscle-layer-members{margin-top:12px}.muscle-layer-members p{font-size:14px;margin:8px 0}
 .body-region-nav button{font-size:15px;min-height:42px;padding:8px 20px}
 .body-region-nav button[aria-pressed=true],.right-tool-rail button[aria-expanded=true],.right-tool-panel button[aria-pressed=true]{background:#263b48;color:#fff}
 .right-tool-rail{position:absolute;right:16px;top:185px;z-index:22;display:flex;flex-direction:column;border-radius:12px;padding:5px;gap:4px}
