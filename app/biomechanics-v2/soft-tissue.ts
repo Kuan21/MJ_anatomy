@@ -4,7 +4,7 @@ import {createSkeletonRig,type Side} from './skeleton';
 import rawBindings from './tissue-bindings.json';
 import rawNerves from './nerve-bindings.json';
 
-export type Profile='pectoralPath'|'axillaryCable'|'path'|'trunk'|'humeral'|'deltoid'|'chest'|'cuff'|'biceps'|'triceps'|'arm'|'coraco'|'forearm'|'hand'|'scapular'|'clavicular';
+export type Profile='pectoralPath'|'axillaryCable'|'path'|'trunk'|'humeral'|'sheetMuscle'|'deltoid'|'chest'|'cuff'|'biceps'|'triceps'|'arm'|'coraco'|'forearm'|'hand'|'scapular'|'clavicular';
 export interface TissueBinding {name:string;side:Side;profile:Profile}
 export const tissueBindings=rawBindings as Record<string,TissueBinding>;
 export const nerveBindings=rawNerves as Record<string,{side:Side;profile:'path'}>;
@@ -24,10 +24,19 @@ export function resolveNeurovascularProfile(name:string,fallback:Profile='path')
  if(/subclavian nerve|nerve to subclavius|supraclavicular/.test(n))return 'clavicular';
  return fallback;
 }
+/** Muscle deformation classification.
+ * Broad pectoralis-major parts are fibre sheets: broad thoracic/clavicular
+ * origins stay attached while the narrow humeral insertion follows the arm.
+ * Other muscles keep their specialised profiles until separately validated.
+ */
+export function resolveMuscleProfile(name:string,fallback:Profile):Profile{
+ if(/pectoralis major/i.test(name))return 'sheetMuscle';
+ return fallback;
+}
 // Common frame palette: trunk, clavicle, scapula, humerus, ulna, radius, hand.
 export const FRAMES=['root','clavicle','scapula','humerus','ulna','radius','hand'] as const;
 export interface SoftRig {side:Side;ids:(string|undefined)[];shoulder:Vector3;elbow:Vector3;wrist:Vector3;groups:Record<string,Box3>;radius:Vector3;ulna:Vector3;handTipY:number;digitalLandmarks:{source:Vector3;target:Vector3}[]}
-export interface SkinBinding {indices:Uint8Array;weights:Float32Array;belly:Float32Array;radial:Float32Array;origin:Vector3;insertion:Vector3;originWeights:number[];insertionWeights:number[];restLength:number;profile:Profile}
+export interface SkinBinding {indices:Uint8Array;weights:Float32Array;belly:Float32Array;radial:Float32Array;longitudinal:Float32Array;restAxis:Vector3;origin:Vector3;insertion:Vector3;originWeights:number[];insertionWeights:number[];restLength:number;profile:Profile}
 export function makeSoftRig(atlas:Atlas,side:Side):SoftRig|null{
  const rig=createSkeletonRig(atlas,side);if(!rig.valid)return null;
  const node=(id:string)=>rig.nodes.find(n=>n.id===id)!;
@@ -89,6 +98,7 @@ export function weightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''
  const lateral=clamp((Math.abs(p.x)-Math.min(Math.abs(box.min.x),Math.abs(box.max.x)))/Math.max(.01,size.x));
  if(profile==='trunk')return pair(0,0,1);
  if(profile==='humeral')return pair(3,3,1);
+ if(profile==='sheetMuscle')return pair(0,3,range(lateral,.10,.90));
  if(profile==='axillaryCable')return axillaryCableWeights(rig,p.x,p.y,p.z);
  if(profile==='pectoralPath'){const b=rig.groups.chest??box;const t=(Math.abs(p.x)-Math.min(Math.abs(b.min.x),Math.abs(b.max.x)))/Math.max(.01,b.max.x-b.min.x);return pair(0,3,range(t,.72,.98));}
  if(profile==='path'||profile==='forearm')return pathWeights(rig,p.x,p.y,p.z);
@@ -109,26 +119,45 @@ export function weightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''
  void c;return weights;
 }
 
-/** Store sparse weights once. All deltoid heads use the SAME envelope. */
+/** Store sparse weights once. All deltoid heads use the SAME envelope.
+ * Broad sheet muscles use their actual medial/lateral mesh edges as attachment
+ * bands. This preserves the fan shape while preventing free cloth-like folds.
+ */
 export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<number>,part?:Part):SkinBinding{
- const count=positions.length/3,indices=new Uint8Array(count*4),weights=new Float32Array(count*4),belly=new Float32Array(count),radial=new Float32Array(count*3);
+ const count=positions.length/3,indices=new Uint8Array(count*4),weights=new Float32Array(count*4),belly=new Float32Array(count),radial=new Float32Array(count*3),longitudinal=new Float32Array(count);
  const own=new Box3();for(let i=0;i<count;i++)own.expandByPoint(new Vector3(positions[i*3],positions[i*3+1],positions[i*3+2]));
- const shared=['deltoid','biceps','triceps'].includes(profile)?rig.groups[profile]:null;
+ const name=part?.name??'',effectiveProfile=resolveMuscleProfile(name,profile);
+ const shared=['deltoid','biceps','triceps'].includes(effectiveProfile)?rig.groups[effectiveProfile]:null;
  const box=shared??own;
- const origin=box.getCenter(new Vector3()).setY(box.max.y),insertion=box.getCenter(new Vector3()).setY(box.min.y),axis=insertion.clone().sub(origin),restLength=axis.length();axis.normalize();
- const name=part?.name??'';
+ let origin:Vector3,insertion:Vector3,minAbs=0,maxAbs=1,spanAbs=1;
+
+ if(effectiveProfile==='sheetMuscle'){
+  minAbs=Math.min(Math.abs(own.min.x),Math.abs(own.max.x));maxAbs=Math.max(Math.abs(own.min.x),Math.abs(own.max.x));spanAbs=Math.max(1e-6,maxAbs-minAbs);
+  const originSum=new Vector3(),insertionSum=new Vector3();let originCount=0,insertionCount=0;
+  for(let i=0;i<count;i++){
+   const p=new Vector3(positions[i*3],positions[i*3+1],positions[i*3+2]),t=clamp((Math.abs(p.x)-minAbs)/spanAbs);
+   if(t<=.12){originSum.add(p);originCount++;}
+   if(t>=.88){insertionSum.add(p);insertionCount++;}
+  }
+  const center=own.getCenter(new Vector3());
+  origin=originCount?originSum.multiplyScalar(1/originCount):center.clone();
+  insertion=insertionCount?insertionSum.multiplyScalar(1/insertionCount):center.clone();
+ }else{
+  origin=box.getCenter(new Vector3()).setY(box.max.y);
+  insertion=box.getCenter(new Vector3()).setY(box.min.y);
+ }
+
+ const restVector=insertion.clone().sub(origin),restLength=Math.max(restVector.length(),1e-6),restAxis=restVector.clone().normalize();
  for(let i=0;i<count;i++){
   const p=new Vector3(positions[i*3],positions[i*3+1],positions[i*3+2]);
-  const raw=weightsAt(rig,profile,p,box,name),entries=raw.map((w,j)=>({w,j})).filter(x=>x.w>0).sort((a,b)=>b.w-a.w).slice(0,4),total=entries.reduce((s,x)=>s+x.w,0);
+  const raw=weightsAt(rig,effectiveProfile,p,box,name),entries=raw.map((w,j)=>({w,j})).filter(x=>x.w>0).sort((a,b)=>b.w-a.w).slice(0,4),total=entries.reduce((s,x)=>s+x.w,0);
   for(let k=0;k<entries.length;k++){indices[i*4+k]=entries[k].j;weights[i*4+k]=entries[k].w/total;}
-  const t=clamp(p.clone().sub(origin).dot(axis)/Math.max(restLength,1e-6));
-  const r=p.clone().sub(origin.clone().addScaledVector(axis,t*restLength));radial.set(r.toArray(),i*3);
-  // Taper to zero at both attachments. Broad muscles get no volume correction.
-  // The deltoid wraps the shoulder, not the synthetic vertical belly axis.
-  // Radial inflation around that axis pushes its surface off the joint.
-  belly[i]=['biceps','triceps','arm'].includes(profile)?Math.sin(Math.PI*t)**2:0;
+  const t=effectiveProfile==='sheetMuscle'?clamp((Math.abs(p.x)-minAbs)/spanAbs):clamp(p.clone().sub(origin).dot(restAxis)/restLength);
+  longitudinal[i]=t;
+  const r=p.clone().sub(origin.clone().addScaledVector(restVector,t));radial.set(r.toArray(),i*3);
+  belly[i]=['biceps','triceps','arm'].includes(effectiveProfile)?Math.sin(Math.PI*t)**2:0;
  }
- return{indices,weights,belly,radial,origin,insertion,originWeights:weightsAt(rig,profile,origin,box,name),insertionWeights:weightsAt(rig,profile,insertion,box,name),restLength,profile};
+ return{indices,weights,belly,radial,longitudinal,restAxis,origin,insertion,originWeights:weightsAt(rig,effectiveProfile,origin,box,name),insertionWeights:weightsAt(rig,effectiveProfile,insertion,box,name),restLength,profile:effectiveProfile};
 }
 export type Palette=Float64Array;
 export function makePalette(rig:SoftRig,transforms:Record<string,PartTransform>):Palette{
@@ -169,16 +198,31 @@ export function deformPoint(p:Vector3,weights:number[],palette:Palette):Vector3{
 }
 export function deformTissue(binding:SkinBinding,base:Float32Array,palette:Palette,out:Float32Array):number{
  const a=deformPoint(binding.origin,binding.originWeights,palette),b=deformPoint(binding.insertion,binding.insertionWeights,palette);
- const ratio=a.distanceTo(b)/Math.max(binding.restLength,1e-6);
- // Modest inverse-length radial response; bounded, visual approximation only.
- const radialScale=Math.max(.94,Math.min(1.12,1/Math.sqrt(Math.max(.5,ratio))));
+ const posedVector=b.clone().sub(a),posedLength=Math.max(posedVector.length(),1e-6),posedAxis=posedVector.clone().normalize();
+ const ratio=posedLength/Math.max(binding.restLength,1e-6);
+ const radialScale=Math.max(.94,Math.min(1.08,1/Math.sqrt(Math.max(.60,ratio))));
  const q=new Float64Array(8);
+
+ if(binding.profile==='sheetMuscle'){
+  // Keep fibres tensioned between broad origin and humeral insertion. Cross-
+  // fibre shape rotates progressively from chest orientation to arm orientation;
+  // no vertex is allowed to become an independent cloth-like hinge.
+  const axisRotation=new Quaternion().setFromUnitVectors(binding.restAxis,posedAxis),localRotation=new Quaternion(),r0=new Vector3(),r1=new Vector3(),p=new Vector3();
+  for(let i=0;i<base.length/3;i++){
+   const j=i*3,t=binding.longitudinal[i],blend=smooth(t);
+   localRotation.identity().slerp(axisRotation,blend);
+   r0.set(binding.radial[j],binding.radial[j+1],binding.radial[j+2]);
+   r1.copy(r0).applyQuaternion(localRotation).multiplyScalar(radialScale);
+   p.copy(a).addScaledVector(posedVector,t).add(r1);
+   out[j]=p.x;out[j+1]=p.y;out[j+2]=p.z;
+  }
+  return radialScale;
+ }
+
  for(let i=0;i<base.length/3;i++){
   blended(palette,binding.indices,binding.weights,i*4,q);
   const extra=(radialScale-1)*binding.belly[i],j=i*3;
   if((binding.profile==='chest'||binding.profile==='pectoralPath'||binding.profile==='axillaryCable')){
-   // Broad origin stays anchored. Blend endpoint-frame displacements instead
-   // of rotating the fan as a dual quaternion, which bows the chest upward.
    let x=0,y=0,z=0;const v=new Float64Array(3);
    for(let k=0;k<4;k++){const w=binding.weights[i*4+k];if(!w)continue;
     const f=binding.indices[i*4+k];transform(base[j],base[j+1],base[j+2],palette.subarray(f*8,f*8+8),v,0);
