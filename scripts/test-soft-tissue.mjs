@@ -29,6 +29,11 @@ assert.equal(soft.resolveMuscleProfile('Acromial part of right deltoid','deltoid
 assert.equal(soft.resolveMuscleProfile('Right teres major','cuff'),'cuff');
 const {resolveDissection}=await import(new URL('mj-dissection.mjs',tmp));
 const focusIds=new Set(['shoulder','arm','forearm','hand'].flatMap(region=>resolveDissection(atlas,region,0).partIds));
+for(const vesselName of ['Left cephalic vein','Left median cubital vein']){
+ const part=atlas.parts.find(p=>p.name.toLowerCase()===vesselName.toLowerCase());
+ assert.ok(part,`Missing atlas vessel: ${vesselName}`);
+ assert.ok(focusIds.has(part.id),`${vesselName} must remain visible when upper-limb motion focus activates`);
+}
 const buffers=await Promise.all(atlas.chunks.map(c=>readFile(new URL('public'+c.url,root))));
 const geometry=p=>{const b=buffers[p.chunk];return{positions:new Float32Array(b.buffer,b.byteOffset+p.positions,p.vertexCount*3).slice(),indices:new Uint32Array(b.buffer,b.byteOffset+p.indices,p.indexCount).slice()};};
 const poses={extension:{...motion.NEUTRAL_POSE,shoulderFlexion:-45},wristExtension:{...motion.NEUTRAL_POSE,wristFlexion:45},videoReplay:{...motion.NEUTRAL_POSE,shoulderFlexion:90,shoulderAbduction:17,shoulderRotation:-25},neutral:motion.NEUTRAL_POSE,raise60:{...motion.NEUTRAL_POSE,shoulderAbduction:60},raise90:{...motion.NEUTRAL_POSE,shoulderAbduction:90},raise145:{...motion.NEUTRAL_POSE,shoulderAbduction:145},flex90:{...motion.NEUTRAL_POSE,elbowFlexion:90},combined:{...motion.NEUTRAL_POSE,shoulderAbduction:70,shoulderFlexion:45,elbowFlexion:100,forearmRotation:40,wristFlexion:15}};
