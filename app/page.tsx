@@ -21,7 +21,7 @@ import {JOINT_TYPES} from './mj-joints';
 import {matchesUpperLimbMuscleLayer,UPPER_LIMB_MUSCLE_LAYERS,type UpperLimbMuscleLayer} from './mj-muscle-layers';
 import {anatomyDepth,matchesDepth,type TissueDepth} from './mj-depth';
 import {augmentAtlasWithFacial} from './mj-facial-atlas';
-import {FACIAL_MUSCLE_LAYERS,matchesFacialMuscleLayer,type FacialMuscleLayer} from './mj-facial-layers';
+import {FACIAL_MUSCLE_LAYERS,facialMuscleLayer,matchesFacialMuscleLayer,type FacialMuscleLayer} from './mj-facial-layers';
 type TopRegion='whole'|'upper'|'lower'|'head'|'organs';
 const REGIONAL_VISIBLE:SystemId[]=['skeletal','muscular','arterial','venous','nervous','connective'];
 const ORGAN_SYSTEM_IDS:SystemId[]=['cardiac','sensory','respiratory','digestive','urinary','lymphatic','endocrine','reproductive'];
@@ -46,6 +46,19 @@ export default function Home(){
  const allOrgansVisible=organSystems.length>0&&organSystems.every(s=>state.visible.includes(s.id));
  const toggleOrgans=()=>{setDetails(false);setState(s=>{const hasAll=organSystems.every(x=>s.visible.includes(x.id));const without=s.visible.filter(id=>!ORGAN_SYSTEM_IDS.includes(id));return{...s,selected:[],isolate:false,visible:hasAll?without:[...without,...organSystems.map(x=>x.id)]};});};
  const selectedParts=state.selected.map(id=>parts.get(id)).filter(p=>!!p),selected=selectedParts[0],inspectedSystem:SystemId|undefined=externalNerve?'nervous':selected?.system,system=SYSTEMS.find(s=>s.id===inspectedSystem);
+ const headMuscleGroups=useMemo(()=>{
+  if(!atlas)return[] as {name:string;zh:string;ids:string[];layer:number}[];
+  const groups=new Map<string,{name:string;zh:string;ids:string[];layer:number}>();
+  for(const p of atlas.parts){
+   if(p.system!=='muscular'||!p.id.startsWith('BP3-FMA'))continue;
+   const name=p.name.replace(/\b(left|right)\b/gi,'').replace(/\s+/g,' ').trim();
+   const zh=(structureProfile(p.name,'muscular').chinese??'').replace(/^[左右]/,'')||name;
+   const layer=facialMuscleLayer(p)??5;
+   const existing=groups.get(name);
+   if(existing)existing.ids.push(p.id);else groups.set(name,{name,zh,ids:[p.id],layer});
+  }
+  return [...groups.values()].sort((a,b)=>a.layer-b.layer||a.name.localeCompare(b.name));
+ },[atlas]);
  const hiddenSet=new Set(state.hiddenParts??[]);
  const visibleCount=atlas?.parts.filter(p=>!hiddenSet.has(p.id)&&(state.selected.includes(p.id)||(matchesDepth(p,state.depthFilter)&&matchesUpperLimbMuscleLayer(p,state.muscleLayer)&&matchesFacialMuscleLayer(p,state.faceMuscleLayer)&&(state.isolate?false:state.focusParts?state.focusParts.includes(p.id)&&state.visible.includes(p.system):state.visible.includes(p.system))))).length??0;
  const results=useMemo(()=>{if(!atlas)return[];const term=query.toLowerCase().trim();if(!term)return ['heart','brain','liver','stomach','spleen','pancreas','urinary bladder','trachea'].map(name=>atlas.concepts.find(c=>c.name.toLowerCase()===name)).filter((x):x is Concept=>!!x);return atlas.concepts.filter(c=>c.name.toLowerCase().includes(term)||c.id.toLowerCase().includes(term)).sort((a,b)=>a.name.length-b.name.length).slice(0,80);},[atlas,query]);
@@ -59,6 +72,8 @@ export default function Home(){
  const hideSelected=()=>{if(!state.selected.length)return;setState(s=>({...s,hiddenParts:Array.from(new Set([...(s.hiddenParts??[]),...s.selected])),selected:[],isolate:false}));setChosen(null);setDetails(false);};
  const restoreHidden=()=>setState(s=>({...s,hiddenParts:[]}));
  const restorePart=(id:string)=>setState(s=>({...s,hiddenParts:(s.hiddenParts??[]).filter(x=>x!==id)}));
+ const chooseHeadMuscle=(name:string,ids:string[])=>{setExternalNerve(null);setChosen({id:`head-muscle:${name}`,name,elements:ids});setState(s=>({...s,hiddenParts:(s.hiddenParts??[]).filter(id=>!ids.includes(id)),selected:ids,cameraFocusParts:ids,cameraFocusNonce:(s.cameraFocusNonce??0)+1,isolate:false,rotate:false}));setDetails(true);setPanel(null);};
+ const toggleHeadMuscle=(ids:string[],show:boolean)=>{setDetails(false);setChosen(null);setState(s=>{const hidden=new Set(s.hiddenParts??[]);for(const id of ids)show?hidden.delete(id):hidden.add(id);return{...s,hiddenParts:[...hidden],selected:s.selected.filter(id=>!ids.includes(id)),isolate:false};});};
  const toggle=(id:SystemId)=>{setDetails(false);setState(s=>({...s,selected:[],isolate:false,visible:s.visible.includes(id)?s.visible.filter(x=>x!==id):[...s.visible,id]}));};
  const reset=()=>{setState(s=>({...initial,visible:DEFAULT_VISIBLE,reset:s.reset+1}));setTopRegion('whole');setStudySide('both');setRightTool(null);setChosen(null);setExternalNerve(null);setDetails(false);setPanel(null);setRegion('whole-body');setDissectionStage(0);setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;setMotionEdit(false);setMotionEnabled(false);};
  const openPanel=(next:'layers'|'search')=>{setDetails(false);setPanel(p=>p===next?null:next);};
@@ -109,7 +124,7 @@ export default function Home(){
   <section className={`layers-panel glass ${panel==='layers'?'mobile-open':''}`} aria-label="Anatomical layers">
    <Button variant="ghost" className="mobile-only close-systems" onClick={()=>setPanel(null)} aria-label="Close systems"><X size={18}/></Button>
    <div className="system-list">
-    {primarySystems.map(s=><div className={`system-row ${state.visible.includes(s.id)?'enabled':''}`} key={s.id}><Button variant="ghost" className="system-name" title={`Show only ${s.name.toLowerCase()}`} onClick={()=>setState(v=>({...v,visible:[s.id],isolate:false,selected:[]}))}><span className="system-dot" style={{background:s.color}}/>{s.name}<span className="system-count">{counts[s.id]}</span></Button><Switch checked={state.visible.includes(s.id)} onCheckedChange={()=>toggle(s.id)} aria-label={`Show ${s.name.toLowerCase()}`} /></div>)}
+    {primarySystems.map(s=><div className="system-block" key={s.id}><div className={`system-row ${state.visible.includes(s.id)?'enabled':''}`}><Button variant="ghost" className="system-name" title={`Show only ${s.name.toLowerCase()}`} onClick={()=>setState(v=>({...v,visible:[s.id],isolate:false,selected:[]}))}><span className="system-dot" style={{background:s.color}}/>{s.name}<span className="system-count">{counts[s.id]}</span></Button><Switch checked={state.visible.includes(s.id)} onCheckedChange={()=>toggle(s.id)} aria-label={`Show ${s.name.toLowerCase()}`} /></div>{topRegion==='head'&&s.id==='muscular'&&<div className="head-muscle-system"><div className="head-muscle-system-head"><strong>Head & facial muscles</strong><span>頭面部肌肉 · {atlas?.parts.filter(p=>p.id.startsWith('BP3-FMA')).length??0}</span></div><div className="head-muscle-system-list">{headMuscleGroups.map(group=>{const shown=group.ids.some(id=>!hiddenSet.has(id));return <div className={`head-muscle-row ${shown?'shown':'hidden'}`} key={group.name}><Button variant="ghost" className="head-muscle-name" onClick={()=>chooseHeadMuscle(group.name,group.ids)} title={`${group.name}｜${group.zh}`}><span className="head-muscle-layer">L{group.layer}</span><span className="head-muscle-copy"><b>{group.name}</b><small>{group.zh}</small></span></Button><Switch checked={shown} onCheckedChange={checked=>toggleHeadMuscle(group.ids,checked)} aria-label={`Show ${group.name}`}/></div>})}</div></div>}</div>)}
     {organSystems.length>0&&<div className={`organ-layer ${organsOpen?'open':''}`}>
      <div className={`system-row organ-parent ${anyOrganVisible?'enabled':''}`}>
       <Button variant="ghost" className="system-name organ-expand" aria-expanded={organsOpen} onClick={()=>setOrgansOpen(v=>!v)}><ChevronRight size={13}/><span className="system-dot organ-dot"/><span>Organs</span><span className="system-count">{organPieceCount}</span></Button>
