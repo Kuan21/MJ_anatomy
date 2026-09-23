@@ -9,7 +9,10 @@
     "dev": "vite --host 0.0.0.0 --port 3016",
     "build": "vite build",
     "build:vercel": "vite build",
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "predev": "node scripts/prepare-draco.mjs",
+    "prebuild": "node scripts/prepare-draco.mjs",
+    "prebuild:vercel": "node scripts/prepare-draco.mjs"
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",

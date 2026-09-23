@@ -1,0 +1,290 @@
+{
+  "left": {
+    "clavicle": [
+      {
+        "id": "FJ3237",
+        "name": "Left clavicle"
+      }
+    ],
+    "scapula": [
+      {
+        "id": "FJ3279",
+        "name": "Left scapula"
+      }
+    ],
+    "humerus": [
+      {
+        "id": "FJ3262",
+        "name": "Left humerus"
+      }
+    ],
+    "ulna": [
+      {
+        "id": "FJ3286",
+        "name": "Left ulna"
+      }
+    ],
+    "radius": [
+      {
+        "id": "FJ3277",
+        "name": "Left radius"
+      }
+    ],
+    "carpus": [
+      {
+        "id": "FJ3257",
+        "name": "Left capitate"
+      },
+      {
+        "id": "FJ3261",
+        "name": "Left hamate"
+      },
+      {
+        "id": "FJ3268",
+        "name": "Left lunate"
+      },
+      {
+        "id": "FJ3276",
+        "name": "Left pisiform"
+      },
+      {
+        "id": "FJ3278",
+        "name": "Left scaphoid"
+      },
+      {
+        "id": "FJ3283",
+        "name": "Left trapezium"
+      },
+      {
+        "id": "FJ3284",
+        "name": "Left trapezoid"
+      },
+      {
+        "id": "FJ3285",
+        "name": "Left triquetral"
+      }
+    ],
+    "hand": [
+      {
+        "id": "FJ3183",
+        "name": "Distal phalanx of left index finger"
+      },
+      {
+        "id": "FJ3184",
+        "name": "Distal phalanx of left little finger"
+      },
+      {
+        "id": "FJ3186",
+        "name": "Distal phalanx of left middle finger"
+      },
+      {
+        "id": "FJ3187",
+        "name": "Distal phalanx of left ring finger"
+      },
+      {
+        "id": "FJ3188",
+        "name": "Distal phalanx of left thumb"
+      },
+      {
+        "id": "FJ3240",
+        "name": "Left first metacarpal bone"
+      },
+      {
+        "id": "FJ3243",
+        "name": "Left second metacarpal bone"
+      },
+      {
+        "id": "FJ3246",
+        "name": "Left third metacarpal bone"
+      },
+      {
+        "id": "FJ3249",
+        "name": "Left fourth metacarpal bone"
+      },
+      {
+        "id": "FJ3252",
+        "name": "Left fifth metacarpal bone"
+      },
+      {
+        "id": "FJ3291",
+        "name": "Middle phalanx of left ring finger"
+      },
+      {
+        "id": "FJ3296",
+        "name": "Middle phalanx of left index finger"
+      },
+      {
+        "id": "FJ3297",
+        "name": "Middle phalanx of left little finger"
+      },
+      {
+        "id": "FJ3299",
+        "name": "Middle phalanx of left middle finger"
+      },
+      {
+        "id": "FJ3313",
+        "name": "Proximal phalanx of left index finger"
+      },
+      {
+        "id": "FJ3314",
+        "name": "Proximal phalanx of left little finger"
+      },
+      {
+        "id": "FJ3316",
+        "name": "Proximal phalanx of left middle finger"
+      },
+      {
+        "id": "FJ3317",
+        "name": "Proximal phalanx of left ring finger"
+      },
+      {
+        "id": "FJ3318",
+        "name": "Proximal phalanx of left thumb"
+      }
+    ]
+  },
+  "right": {
+    "clavicle": [
+      {
+        "id": "FJ3362",
+        "name": "Right clavicle"
+      }
+    ],
+    "scapula": [
+      {
+        "id": "FJ3384",
+        "name": "Right scapula"
+      }
+    ],
+    "humerus": [
+      {
+        "id": "FJ3368",
+        "name": "Right humerus"
+      }
+    ],
+    "ulna": [
+      {
+        "id": "FJ3391",
+        "name": "Right ulna"
+      }
+    ],
+    "radius": [
+      {
+        "id": "FJ3349",
+        "name": "Right radius"
+      }
+    ],
+    "carpus": [
+      {
+        "id": "FJ3361",
+        "name": "Right capitate"
+      },
+      {
+        "id": "FJ3367",
+        "name": "Right hamate"
+      },
+      {
+        "id": "FJ3374",
+        "name": "Right lunate"
+      },
+      {
+        "id": "FJ3382",
+        "name": "Right pisiform"
+      },
+      {
+        "id": "FJ3383",
+        "name": "Right scaphoid"
+      },
+      {
+        "id": "FJ3388",
+        "name": "Right trapezium"
+      },
+      {
+        "id": "FJ3389",
+        "name": "Right trapezoid"
+      },
+      {
+        "id": "FJ3390",
+        "name": "Right triquetral"
+      }
+    ],
+    "hand": [
+      {
+        "id": "FJ3193",
+        "name": "Distal phalanx of right index finger"
+      },
+      {
+        "id": "FJ3194",
+        "name": "Distal phalanx of right little finger"
+      },
+      {
+        "id": "FJ3196",
+        "name": "Distal phalanx of right middle finger"
+      },
+      {
+        "id": "FJ3197",
+        "name": "Distal phalanx of right ring finger"
+      },
+      {
+        "id": "FJ3198",
+        "name": "Distal phalanx of right thumb"
+      },
+      {
+        "id": "FJ3292",
+        "name": "Middle phalanx of right ring finger"
+      },
+      {
+        "id": "FJ3303",
+        "name": "Middle phalanx of right index finger"
+      },
+      {
+        "id": "FJ3304",
+        "name": "Middle phalanx of right little finger"
+      },
+      {
+        "id": "FJ3306",
+        "name": "Middle phalanx of right middle finger"
+      },
+      {
+        "id": "FJ3322",
+        "name": "Proximal phalanx of right index finger"
+      },
+      {
+        "id": "FJ3323",
+        "name": "Proximal phalanx of right little finger"
+      },
+      {
+        "id": "FJ3325",
+        "name": "Proximal phalanx of right middle finger"
+      },
+      {
+        "id": "FJ3326",
+        "name": "Proximal phalanx of right ring finger"
+      },
+      {
+        "id": "FJ3327",
+        "name": "Proximal phalanx of right thumb"
+      },
+      {
+        "id": "FJ3350",
+        "name": "Right first metacarpal bone"
+      },
+      {
+        "id": "FJ3352",
+        "name": "Right second metacarpal bone"
+      },
+      {
+        "id": "FJ3354",
+        "name": "Right third metacarpal bone"
+      },
+      {
+        "id": "FJ3356",
+        "name": "Right fourth metacarpal bone"
+      },
+      {
+        "id": "FJ3358",
+        "name": "Right fifth metacarpal bone"
+      }
+    ]
+  }
+}
