@@ -339,3 +339,89 @@
  font-size:11px;
  color:#53636d;
 }
+
+
+/* Description readability: titles wrap naturally and grow the sheet downward.
+ * Never shrink a long anatomical name just to keep it on one line. */
+.detail-sheet{
+ display:flex!important;
+ flex-direction:column;
+ max-height:100dvh!important;
+ overflow:hidden!important;
+}
+.detail-header{
+ flex:0 0 auto;
+ min-height:0!important;
+ height:auto!important;
+ align-items:flex-start!important;
+}
+.detail-sheet .structure-title{
+ display:block!important;
+ width:100%!important;
+ max-width:100%!important;
+ height:auto!important;
+ max-height:none!important;
+ overflow:visible!important;
+ white-space:normal!important;
+ text-overflow:clip!important;
+ word-break:normal!important;
+ overflow-wrap:anywhere!important;
+ line-height:1.16!important;
+ font-size:clamp(18px,2.1vw,28px)!important;
+}
+.detail-sheet .structure-title-zh{
+ display:block!important;
+ margin-top:5px!important;
+ white-space:normal!important;
+ line-height:1.22!important;
+ font-size:.72em!important;
+}
+.detail-scroll{
+ flex:1 1 auto!important;
+ min-height:0!important;
+ overflow-y:auto!important;
+}
+.description-footnote{
+ margin-top:16px;
+ padding-top:12px;
+ border-top:1px solid #20324212;
+}
+.description-footnote .structure-description{
+ margin:0;
+ color:#75838c;
+ font-size:10.5px;
+ line-height:1.5;
+}
+.description-footnote .zh-copy{margin-top:5px}
+
+/* Compact action bar: about one third smaller than the previous controls. */
+.detail-actions{
+ flex:0 0 auto!important;
+ gap:5px!important;
+ padding-top:7px!important;
+ padding-bottom:7px!important;
+}
+.detail-actions button{
+ min-height:28px!important;
+ height:28px!important;
+ padding:4px 7px!important;
+ border-radius:8px!important;
+ font-size:9.5px!important;
+ line-height:1!important;
+ gap:4px!important;
+}
+.detail-actions button svg{
+ width:12px!important;
+ height:12px!important;
+}
+.detail-actions .primary-action,
+.detail-actions .hide-structure-action,
+.detail-actions .secondary-action{
+ min-height:28px!important;
+}
+
+/* Course-note excerpts are content-first; filenames/source plumbing stay hidden. */
+.course-note-details>summary small{font-size:9.5px}
+.course-note-meta{margin-bottom:5px}
+.course-note-meta span{font-size:10px}
+.course-note-card p{font-size:11px;line-height:1.62}
