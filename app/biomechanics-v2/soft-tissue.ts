@@ -94,7 +94,9 @@ export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<numbe
   const t=clamp(p.clone().sub(origin).dot(axis)/Math.max(restLength,1e-6));
   const r=p.clone().sub(origin.clone().addScaledVector(axis,t*restLength));radial.set(r.toArray(),i*3);
   // Taper to zero at both attachments. Broad muscles get no volume correction.
-  belly[i]=['biceps','triceps','arm','deltoid'].includes(profile)?Math.sin(Math.PI*t)**2:0;
+  // The deltoid wraps the shoulder, not the synthetic vertical belly axis.
+  // Radial inflation around that axis pushes its surface off the joint.
+  belly[i]=['biceps','triceps','arm'].includes(profile)?Math.sin(Math.PI*t)**2:0;
  }
  return{indices,weights,belly,radial,origin,insertion,originWeights:weightsAt(rig,profile,origin,box,name),insertionWeights:weightsAt(rig,profile,insertion,box,name),restLength,profile};
 }

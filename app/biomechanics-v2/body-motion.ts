@@ -1,5 +1,5 @@
 import {Matrix4,Quaternion,Vector3} from 'three';
-import type {Atlas,PartTransform} from '../anatomy';
+import type {Atlas,Part,PartTransform} from '../anatomy';
 import type {SkinBinding,Palette} from './soft-tissue';
 import rawBindings from './body-bindings.json';
 export type BodyRegion='head'|'leftLeg'|'rightLeg';
@@ -7,7 +7,8 @@ export interface BodyPose {flexion:number;rotation:number;sideBend:number;knee:n
 export const BODY_NEUTRAL:BodyPose={flexion:0,rotation:0,sideBend:0,knee:0,ankle:0};
 export const BODY_LIMITS={head:{flexion:[-30,35],rotation:[-55,55],sideBend:[-25,25],knee:[0,0],ankle:[0,0]},leg:{flexion:[-20,80],rotation:[-20,20],sideBend:[0,35],knee:[0,110],ankle:[-30,20]}} as const;
 export interface BodyBinding {name:string;rig:BodyRegion;frame:number|null}
-export const bodyBindings=rawBindings as Record<string,BodyBinding>;
+// Cervical vessels must blend into the skull, not rotate as entire rigid tubes.
+export const bodyBindings=Object.fromEntries(Object.entries(rawBindings).map(([id,b])=>[id,b.rig==='head'&&/artery|vein|venous/i.test(b.name)?{...b,frame:null}:b])) as Record<string,BodyBinding>;
 export interface BodyRig {region:BodyRegion;pivots:Vector3[];levels:number[];focusIds:string[]}
 const center=(p:Atlas['parts'][number])=>new Vector3().fromArray(p.bounds[0]).add(new Vector3().fromArray(p.bounds[1])).multiplyScalar(.5);
 export function makeBodyRig(atlas:Atlas,region:BodyRegion):BodyRig{
@@ -59,8 +60,39 @@ export function bodyWeights(rig:BodyRig,y:number):number[]{
  w[0]=1-hip;w[1]=hip*(1-knee);w[2]=hip*knee*(1-ankle);w[3]=hip*knee*ankle;return w;
 }
 export function cranialNerveRigid(name:string):boolean{return /facial nerve|trigeminal|supraorbital|supratrochlear|infraorbital|mental nerve|buccal nerve|zygomatic|infratrochlear|nasociliary|ethmoidal|ciliary|lacrimal|ophthalmic|maxillary nerve|mandibular nerve/i.test(name);}
-export function bindBodyTissue(rig:BodyRig,positions:ArrayLike<number>,skull=false):SkinBinding{
+/** Shared neck soft-tissue field. The anterior neck starts above the thoracic
+ * inlet, not at C7: otherwise most of the trachea/strap muscles remain frozen.
+ * The jaw is lower than the skull base, so anterior tissues reach head motion
+ * lower down. Equal nerve/vessel rest points always receive equal weights.
+ * This is an educational attachment envelope, not a physiological solver. */
+export function neckSoftWeights(rig:BodyRig,y:number,z:number):number[]{
+ const anterior=smooth((z+.035)/.065),base=rig.levels[0]-.05;
+ const top=rig.levels[8]-.035*anterior;
+ const t=Math.max(0,Math.min(1,(y-base)/(top-base)));
+ return bodyWeights(rig,rig.levels[0]+t*(rig.levels[8]-rig.levels[0]));
+}
+export function bindBodyTissue(rig:BodyRig,positions:ArrayLike<number>,skull=false,part?:Part):SkinBinding{
  const count=positions.length/3,indices=new Uint8Array(count*4),weights=new Float32Array(count*4);
- for(let i=0;i<count;i++){const entries=(skull&&rig.region==='head'?[0,0,0,0,0,0,0,0,1]:bodyWeights(rig,positions[i*3+1])).map((w,j)=>({w,j})).filter(e=>e.w>0);entries.forEach((e,k)=>{indices[i*4+k]=e.j;weights[i*4+k]=e.w;});}
+ const rigidThroat=part&&/^(Hyoid bone|.*cartilage)$/.test(part.name)&&!/disk/i.test(part.name);
+ const spinal=part&&/longus colli|cervicis|scalen|intervertebral|vertebral artery/i.test(part.name);
+ const c=rigidThroat?center(part):null;
+ for(let i=0;i<count;i++){
+  const y=c?.y??positions[i*3+1],z=c?.z??positions[i*3+2];
+  let w=skull&&rig.region==='head'?[0,0,0,0,0,0,0,0,1]:rig.region==='head'&&!spinal?neckSoftWeights(rig,y,z):bodyWeights(rig,y);
+  if(rig.region==='head'&&part&&/platysma/.test(part.name)){
+   // Keep the broad clavicular sheet stationary and let its mandibular edge
+   // reach the skull transform. Height-only cervical weights leave a flap
+   // beside the jaw while rotating the lateral shoulder portion too far.
+   const t=smooth((y-(part.bounds[0][1]+.018))/.10),lateral=smooth((.14-Math.abs(positions[i*3]))/.075),follow=t*lateral;
+   w=[1-follow,0,0,0,0,0,0,0,follow];
+  }
+  // Broad skull-inserting neck muscles keep their thoracic origins fixed.
+  if(rig.region==='head'&&part&&/sternocleidomastoid|splenius capitis|semispinalis capitis|longus capitis/.test(part.name)){
+   const t=smooth((y-part.bounds[0][1])/(part.bounds[1][1]-part.bounds[0][1]));
+   const root=bodyWeights(rig,part.bounds[0][1]),tip=[0,0,0,0,0,0,0,0,1];
+   w=root.map((v,j)=>v*(1-t)+tip[j]*t);
+  }
+  const entries=w.map((w,j)=>({w,j})).filter(e=>e.w>0);entries.forEach((e,k)=>{indices[i*4+k]=e.j;weights[i*4+k]=e.w;});
+ }
  return{indices,weights,belly:new Float32Array(count),radial:new Float32Array(count*3),origin:new Vector3(),insertion:new Vector3(0,1,0),originWeights:[1],insertionWeights:[1],restLength:1,profile:'path'};
 }
