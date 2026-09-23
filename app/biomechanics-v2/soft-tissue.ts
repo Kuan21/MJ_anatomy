@@ -199,7 +199,7 @@ export function deformPoint(p:Vector3,weights:number[],palette:Palette):Vector3{
 }
 export function deformTissue(binding:SkinBinding,base:Float32Array,palette:Palette,out:Float32Array):number{
  const a=deformPoint(binding.origin,binding.originWeights,palette),b=deformPoint(binding.insertion,binding.insertionWeights,palette);
- const posedVector=b.clone().sub(a),posedLength=Math.max(posedVector.length(),1e-6),posedAxis=posedVector.clone().normalize();
+ const posedVector=b.clone().sub(a),posedLength=Math.max(posedVector.length(),1e-6);
  const ratio=posedLength/Math.max(binding.restLength,1e-6);
  const radialScale=Math.max(.94,Math.min(1.08,1/Math.sqrt(Math.max(.60,ratio))));
  const q=new Float64Array(8);
