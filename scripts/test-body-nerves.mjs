@@ -10,6 +10,7 @@ const factory=createRequire(import.meta.url)(new URL('draco.cjs',tmp).pathname);
 const draco=await factory({wasmBinary:await readFile(new URL('public/draco/draco_decoder.wasm',root))});
 const bytes=await readFile(new URL('public/models/nervous.glb',root)),jsonLength=bytes.readUInt32LE(12),gltf=JSON.parse(bytes.subarray(20,20+jsonLength).toString()),bin=bytes.subarray(28+jsonLength);
 const body=await import(new URL('body-motion.mjs',tmp)),bindings=JSON.parse(await readFile(new URL('app/biomechanics-v2/body-nerve-bindings.json',root),'utf8'));
+for(const [name,region] of Object.entries(bindings))if(region==='head')assert.ok(!/brachial plexus|trunk of brachial plexus|division of .*brachial plexus|cord of brachial plexus|roots of brachial plexus/i.test(name),`Upper-limb brachial plexus must not be driven by the head rig: ${name}`);
 const atlas=JSON.parse(await readFile(new URL('public/models/atlas.json',root),'utf8'));
 const world=[],parents=new Map();gltf.nodes.forEach((n,i)=>(n.children??[]).forEach(c=>parents.set(c,i)));
 function matrix(i){if(world[i])return world[i];const n=gltf.nodes[i],m=n.matrix?new Matrix4().fromArray(n.matrix):new Matrix4().compose(new Vector3(...(n.translation??[0,0,0])),new Quaternion(...(n.rotation??[0,0,0,1])),new Vector3(...(n.scale??[1,1,1])));return world[i]=parents.has(i)?matrix(parents.get(i)).clone().multiply(m):m;}
