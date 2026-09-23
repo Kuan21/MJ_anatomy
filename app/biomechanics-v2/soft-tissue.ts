@@ -36,7 +36,7 @@ export function resolveMuscleProfile(name:string,fallback:Profile):Profile{
 // Common frame palette: trunk, clavicle, scapula, humerus, ulna, radius, hand.
 export const FRAMES=['root','clavicle','scapula','humerus','ulna','radius','hand'] as const;
 export interface SoftRig {side:Side;ids:(string|undefined)[];shoulder:Vector3;elbow:Vector3;wrist:Vector3;groups:Record<string,Box3>;radius:Vector3;ulna:Vector3;handTipY:number;digitalLandmarks:{source:Vector3;target:Vector3}[]}
-export interface SkinBinding {indices:Uint8Array;weights:Float32Array;belly:Float32Array;radial:Float32Array;longitudinal:Float32Array;restAxis:Vector3;origin:Vector3;insertion:Vector3;originWeights:number[];insertionWeights:number[];restLength:number;profile:Profile}
+export interface SkinBinding {indices:Uint8Array;weights:Float32Array;belly:Float32Array;radial:Float32Array;longitudinal?:Float32Array;restAxis?:Vector3;origin:Vector3;insertion:Vector3;originWeights:number[];insertionWeights:number[];restLength:number;profile:Profile}
 export function makeSoftRig(atlas:Atlas,side:Side):SoftRig|null{
  const rig=createSkeletonRig(atlas,side);if(!rig.valid)return null;
  const node=(id:string)=>rig.nodes.find(n=>n.id===id)!;
@@ -207,9 +207,9 @@ export function deformTissue(binding:SkinBinding,base:Float32Array,palette:Palet
   // Keep fibres tensioned between broad origin and humeral insertion. Cross-
   // fibre shape rotates progressively from chest orientation to arm orientation;
   // no vertex is allowed to become an independent cloth-like hinge.
-  const axisRotation=new Quaternion().setFromUnitVectors(binding.restAxis,posedAxis),localRotation=new Quaternion(),r0=new Vector3(),r1=new Vector3(),p=new Vector3();
+  const axisRotation=new Quaternion().setFromUnitVectors(binding.restAxis!,posedAxis),localRotation=new Quaternion(),r0=new Vector3(),r1=new Vector3(),p=new Vector3();
   for(let i=0;i<base.length/3;i++){
-   const j=i*3,t=binding.longitudinal[i],blend=smooth(t);
+   const j=i*3,t=binding.longitudinal![i],blend=smooth(t);
    localRotation.identity().slerp(axisRotation,blend);
    r0.set(binding.radial[j],binding.radial[j+1],binding.radial[j+2]);
    r1.copy(r0).applyQuaternion(localRotation).multiplyScalar(radialScale);
