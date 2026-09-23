@@ -17,10 +17,10 @@ import {makeBodyRig,buildBodyMotion,bindBodyTissue,cranialNerveRigid,bodyBinding
 import {makeSurfaceConstraints,constrainSurface,makeSurfaceGroup,constrainSurfaceGroup} from './biomechanics-v2/surface-constraints';
 import bodyNerveData from './biomechanics-v2/body-nerve-bindings.json';
 const bodyNerveBindings=bodyNerveData as Record<string,BodyRegion>;
-interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;onSelectNerve?:(name:string)=>void;onProgress:(n:number)=>void;onError:(s:string)=>void;onJointDrag?:(side:'left'|'right',joint:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion',delta:number)=>void;region?:'whole-body'|'shoulder'|'arm'|'forearm'|'hand';focusSide?:'both'|'left'|'right';motionActive?:boolean;bodyArea?:'whole'|'upper'|'lower'|'head'|'organs'}
-export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgress,onError,onJointDrag,region='whole-body',focusSide='both',motionActive=false,bodyArea='whole'}:Props){
- const host=useRef<HTMLDivElement>(null),latest=useRef(state),select=useRef(onSelect),selectNerve=useRef(onSelectNerve),jointDrag=useRef(onJointDrag),viewerContext=useRef({region,focusSide,motionActive,bodyArea});
- latest.current=state;select.current=onSelect;selectNerve.current=onSelectNerve;jointDrag.current=onJointDrag;viewerContext.current={region,focusSide,motionActive,bodyArea};
+interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;onSelectNerve?:(name:string)=>void;onProgress:(n:number)=>void;onError:(s:string)=>void;onJointDrag?:(side:'left'|'right',joint:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion',delta:number)=>void;region?:'whole-body'|'shoulder'|'arm'|'forearm'|'hand';focusSide?:'both'|'left'|'right';motionActive?:boolean;jointMotionEnabled?:boolean;bodyArea?:'whole'|'upper'|'lower'|'head'|'organs'}
+export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgress,onError,onJointDrag,region='whole-body',focusSide='both',motionActive=false,jointMotionEnabled=false,bodyArea='whole'}:Props){
+ const host=useRef<HTMLDivElement>(null),latest=useRef(state),select=useRef(onSelect),selectNerve=useRef(onSelectNerve),jointDrag=useRef(onJointDrag),viewerContext=useRef({region,focusSide,motionActive,jointMotionEnabled,bodyArea});
+ latest.current=state;select.current=onSelect;selectNerve.current=onSelectNerve;jointDrag.current=onJointDrag;viewerContext.current={region,focusSide,motionActive,jointMotionEnabled,bodyArea};
  useEffect(()=>{
   const el=host.current!;let disposed=false,frame=0,dirty=true,ready=false,lastView='',lastReset=-1,lastIsolate='',layoutKey='',amount=0,lastCameraFocus=-1;
   let lastState:SceneState|null=null;
@@ -286,7 +286,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    if(e.button===0){
     const front=ready?frontHit(e.clientX,e.clientY):null;
     const hit=front?.kind==='part'?front.index:-1,jointInfo=jointForPart(hit);
-    if(jointInfo&&jointDrag.current){
+    if(viewerContext.current.jointMotionEnabled&&jointInfo&&jointDrag.current){
      // Treat a press as a possible anatomy tap first. Only convert it into a
      // joint drag after the pointer actually moves. This keeps muscles, bones
      // and other visible structures selectable while Motion Lab is active.
