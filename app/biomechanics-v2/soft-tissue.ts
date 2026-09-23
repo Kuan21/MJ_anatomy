@@ -204,27 +204,11 @@ export function deformTissue(binding:SkinBinding,base:Float32Array,palette:Palet
  const radialScale=Math.max(.94,Math.min(1.08,1/Math.sqrt(Math.max(.60,ratio))));
  const q=new Float64Array(8);
 
- if(binding.profile==='sheetMuscle'){
-  // Pectoralis major is a tensioned fan, not a cloth sheet. Preserve the broad
-  // thoracic/clavicular origin point-by-point, progressively hand fibres over
-  // to the humerus, and pin a generous medial band so the inferior edge cannot
-  // peel away from the chest during overhead motion.
-  const originFrame=binding.sheetOriginFrame??0,insertionFrame=3;
-  const aFrame=palette.subarray(originFrame*8,originFrame*8+8),bFrame=palette.subarray(insertionFrame*8,insertionFrame*8+8);
-  const va=new Float64Array(3),vb=new Float64Array(3);
-  for(let i=0;i<base.length/3;i++){
-   const j=i*3,t=binding.longitudinal![i];
-   // Origin remains fully anchored for the medial quarter; the final 8% is
-   // fully humeral. Smooth interpolation produces fibre glide without a fold.
-   const pull=range(t,.24,.92);
-   transform(base[j],base[j+1],base[j+2],aFrame,va,0);
-   transform(base[j],base[j+1],base[j+2],bFrame,vb,0);
-   out[j]=va[0]+(vb[0]-va[0])*pull;
-   out[j+1]=va[1]+(vb[1]-va[1])*pull;
-   out[j+2]=va[2]+(vb[2]-va[2])*pull;
-  }
-  return radialScale;
- }
+ // Broad muscles must not be linearly interpolated between a fixed thorax
+ // and a highly rotated humerus: linear position blending collapses the mesh
+ // into long triangular flaps at high shoulder elevation. The generic
+ // dual-quaternion path below blends the two attachment frames without volume
+ // collapse, while the sheet weights still keep the medial origin pinned.
 
  for(let i=0;i<base.length/3;i++){
   blended(palette,binding.indices,binding.weights,i*4,q);
