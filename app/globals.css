@@ -199,12 +199,16 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 .studio:has(.micro-atlas-shell) .scene-caption,
 .studio:has(.micro-atlas-shell) .mj-motion-preview,
 .studio:has(.micro-atlas-shell) .bottom-dock,
-.studio:has(.micro-atlas-shell) .studio-footer{display:none!important}
+.studio:has(.micro-atlas-shell) .studio-footer,
+.studio:has(.micro-atlas-shell) .left-workspace,
+.studio:has(.micro-atlas-shell) .right-tool-rail,
+.studio:has(.micro-atlas-shell) .right-tool-panel,
+.studio:has(.micro-atlas-shell) .mobile-system-trigger{display:none!important}
 .micro-atlas-shell{position:absolute;inset:0;z-index:1}
 .micro-atlas-canvas{position:absolute;inset:0}
 .micro-atlas-canvas canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
 .micro-atlas-canvas canvas:active{cursor:grabbing}
-.micro-atlas-panel{position:absolute;z-index:14;right:28px;top:118px;bottom:28px;width:320px;display:flex;flex-direction:column;padding:15px;gap:12px;overflow:hidden}
+.micro-atlas-panel{position:absolute;z-index:18;right:22px;top:126px;bottom:22px;width:336px;max-width:calc(100vw - 44px);display:flex;flex-direction:column;padding:16px;gap:11px;overflow:hidden;border-radius:16px}
 .micro-atlas-heading{display:flex;flex-direction:column;gap:3px;padding-bottom:9px;border-bottom:1px solid #18253612}
 .micro-atlas-heading .micro-back{align-self:flex-start;height:28px;min-height:28px;padding:0 7px;margin:0 0 5px -7px;gap:5px;font-size:10px;color:#65727d}
 .micro-atlas-heading h2{font-size:25px;line-height:1.05;letter-spacing:-.7px;font-weight:600;margin:2px 0 1px}
@@ -240,8 +244,13 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 .micro-loading>div i{display:block;height:100%;background:#536875;transition:width .2s}
 .micro-loading.error{grid-template-columns:1fr}.micro-loading.error button{justify-self:start;font-size:10px;padding:5px 0}
 .mj-region-tabs .micro-tab{border-left:1px solid #18253612;margin-left:2px;padding-left:11px}
+@media(min-width:768px) and (max-width:1366px){
+ .micro-atlas-panel{right:16px;top:116px;bottom:16px;width:304px;padding:14px}
+ .micro-atlas-heading h2{font-size:22px}
+ .micro-layer-list button{min-height:34px}
+}
 @media(max-width:1100px){
- .micro-atlas-panel{right:18px;width:290px}
+ .micro-atlas-panel{right:14px;width:286px}
 }
 @media(max-width:767px){
  .studio:has(.micro-atlas-shell) .identity{z-index:16}
