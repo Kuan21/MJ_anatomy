@@ -300,7 +300,7 @@ function sourceFor(name:string,system:SystemId){
 function withCourseNotes(profile:StructureProfile,name:string):StructureProfile{
  const courseNotes=courseNotesFor(name);
  if(!courseNotes.length)return profile;
- return{...profile,courseNotes,source:`${profile.source}; CMU anatomy course-note index from the linked Google Drive folder`};
+ return{...profile,courseNotes,source:`${profile.source}; CMU anatomy course material`};
 }
 
 export function structureProfile(name:string,system:SystemId):StructureProfile{
