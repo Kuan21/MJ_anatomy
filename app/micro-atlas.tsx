@@ -36,6 +36,8 @@ const EYE_URLS=[
  'https://raw.githubusercontent.com/huahbo/ocularium/main/public/models/eye-anatomy.glb',
 ];
 const EYE_ORBIT_URLS=[
+ 'https://cdn.humanatlas.io/digital-objects/ref-organ/eye-male-left/v1.3/assets/3d-vh-m-eye-l.glb',
+ 'https://3d.nih.gov/api/submissions/29116/runs/365c5e09-2486-4d48-a725-f707520ab9a3/output-files/741947',
  'https://cdn.jsdelivr.net/gh/huahbo/ocularium@main/source/eye-anatomy.glb',
  'https://raw.githubusercontent.com/huahbo/ocularium/main/source/eye-anatomy.glb',
 ];
