@@ -67,7 +67,7 @@ const EYE_PARTS:Record<string,{name:string;group:string;rank:number}> = {
  VH_M_fovea_L:{name:'Fovea',group:'Retinal landmarks',rank:8},
 };
 
-const EAR_BASE='https://zenodo.org/records/10625570/files/';
+const EAR_BASE='https://media.githubusercontent.com/media/pydsgz/IEMap/master/data/';
 const EAR_FILES=[
  {file:'seg_coch_outer_T2.vtk',name:'Cochlea · outer contour',group:'Bony labyrinth',rank:0},
  {file:'mesh_david_cochlea.vtk',name:'Cochlear labyrinth',group:'Bony labyrinth',rank:0},
@@ -286,7 +286,7 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
   const loadEar=async()=>{
    const loader=new VTKLoader();let done=0;
    const jobs=EAR_FILES.map((entry,index)=>new Promise<void>((resolve)=>{
-    loader.load(EAR_BASE+entry.file+'?download=1',geometry=>{
+    loader.load(EAR_BASE+entry.file,geometry=>{
       if(disposed){resolve();return;}
       geometry.computeVertexNormals();
       const mesh=new T.Mesh(geometry,new T.MeshStandardMaterial({color:meshColor(entry.rank),roughness:.62,side:T.DoubleSide}));
