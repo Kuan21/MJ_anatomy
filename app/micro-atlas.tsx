@@ -190,12 +190,13 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
    atlasRoot.updateMatrixWorld(true);
    const box=new T.Box3().setFromObject(atlasRoot),center=box.getCenter(new T.Vector3()),size=box.getSize(new T.Vector3());
    const max=Math.max(size.x,size.y,size.z)||1;
-   atlasRoot.position.sub(center);
-   atlasRoot.scale.setScalar(2.45/max);
+   const scale=2.45/max;
+   atlasRoot.scale.setScalar(scale);
+   atlasRoot.position.copy(center).multiplyScalar(-scale);
    atlasRoot.updateMatrixWorld(true);
    loaded.forEach(r=>{
     r.object.geometry.computeBoundingBox();
-    r.center=r.object.geometry.boundingBox?.getCenter(new T.Vector3())??new T.Vector3();
+    r.center=(r.object.geometry.boundingBox?.getCenter(new T.Vector3())??new T.Vector3()).sub(center);
    });
    recordsRef.current=loaded;
    setRecords(loaded.map(({id,name,group,rank})=>({id,name,group,rank})));
