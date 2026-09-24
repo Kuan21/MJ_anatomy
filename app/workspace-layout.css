@@ -422,3 +422,44 @@
  .detail-sheet .structure-title{font-size:20px!important}
  .detail-sheet .structure-title-zh{font-size:14px!important}
 }
+
+
+/* 2026-09 note/readability pass: preserve title size even for long named
+ * structures and give the inspector more vertical room instead of compressing
+ * the heading. */
+@media(min-width:768px) and (min-height:700px){
+ .detail-sheet{
+  bottom:64px!important;
+  max-height:calc(100dvh - 112px)!important;
+ }
+}
+.detail-sheet .structure-title{
+ font-size:23px!important;
+ line-height:1.2!important;
+ text-wrap:pretty;
+}
+.detail-sheet .structure-title-zh{
+ font-size:15.5px!important;
+ line-height:1.32!important;
+}
+.detail-header{overflow:visible!important}
+@media(max-width:767px){
+ .detail-sheet{max-height:58dvh!important}
+ .detail-sheet .structure-title{font-size:21px!important;line-height:1.22!important}
+ .detail-sheet .structure-title-zh{font-size:14.5px!important}
+}
+
+/* Keep Focus / Isolate / Hide / Clear about one-third smaller, including on
+ * touch layouts where the global stylesheet otherwise restores large targets. */
+.detail-actions{gap:4px!important;padding:6px 8px!important}
+.detail-actions button,
+.detail-actions .primary-action,
+.detail-actions .hide-structure-action,
+.detail-actions .secondary-action{
+ min-height:27px!important;
+ height:27px!important;
+ padding:3px 7px!important;
+ font-size:9.25px!important;
+ border-radius:7px!important;
+}
+.detail-actions button svg{width:11px!important;height:11px!important}
