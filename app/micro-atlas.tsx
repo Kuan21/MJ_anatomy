@@ -12,7 +12,7 @@ export type MicroAtlasId='brain'|'eye'|'ear';
 
 export const MICRO_ATLASES:Record<MicroAtlasId,{title:string;subtitle:string;source:string;license:string}> = {
  brain:{title:'Brain',subtitle:'Neuroanatomy micro-atlas',source:'Brain Project · Z-Anatomy / BodyParts3D',license:'CC BY-SA 4.0'},
- eye:{title:'Eye',subtitle:'24-layer ocular micro-atlas',source:'Human Reference Atlas · Ocularium',license:'CC BY 4.0'},
+ eye:{title:'Eye',subtitle:'Layered ocular micro-atlas',source:'Human Reference Atlas · Ocularium',license:'CC BY 4.0'},
  ear:{title:'Inner ear',subtitle:'Vestibular & cochlear micro-atlas',source:'IE-Map · LMU Munich',license:'CC BY 4.0'},
 };
 
@@ -113,7 +113,6 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
  const host=useRef<HTMLDivElement>(null);
  const recordsRef=useRef<Record3D[]>([]);
  const rootRef=useRef<T.Group|null>(null);
- const rendererRef=useRef<T.WebGLRenderer|null>(null);
  const cameraRef=useRef<T.PerspectiveCamera|null>(null);
  const controlsRef=useRef<OrbitControls|null>(null);
  const [records,setRecords]=useState<{id:string;name:string;group:string;rank:number}[]>([]);
@@ -134,7 +133,7 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
   const camera=new T.PerspectiveCamera(32,1,.001,100);camera.position.set(2.6,1.4,3.3);
   const renderer=new T.WebGLRenderer({antialias:true,powerPreference:'high-performance'});
   renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
-  el.appendChild(renderer.domElement);rendererRef.current=renderer;cameraRef.current=camera;
+  el.appendChild(renderer.domElement);cameraRef.current=camera;
   const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.dampingFactor=.08;controls.minDistance=.35;controls.maxDistance=10;controls.target.set(0,0,0);controlsRef.current=controls;
   scene.add(new T.HemisphereLight(0xffffff,0x9aa1a8,2.1));
   const key=new T.DirectionalLight(0xffffff,2.2);key.position.set(-3,4,5);scene.add(key);
@@ -271,8 +270,9 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
    const direction=r.center.clone();
    if(direction.lengthSq()<1e-8)direction.set((r.rank%3)-1,((r.rank+1)%3)-1,1);
    direction.normalize();
-   const amount=explode*.009;
-   r.object.position.copy(direction.multiplyScalar(amount*(1+r.rank*.08)));
+   const rootScale=rootRef.current?.scale.x||1;
+   const amount=(explode/100)*(.58/rootScale);
+   r.object.position.copy(direction.multiplyScalar(amount*(1+r.rank*.04)));
    const mats=Array.isArray(r.object.material)?r.object.material:[r.object.material];
    mats.forEach(m=>{
     const mm=m as T.MeshStandardMaterial;
