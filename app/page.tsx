@@ -162,7 +162,7 @@ export default function Home(){
   if(target==='leftLeg'||target==='rightLeg')return bodyRigs[target].focusIds;
   return atlas.parts.filter(p=>{
    const cx=(p.bounds[0][0]+p.bounds[1][0])*.5,cy=(p.bounds[0][1]+p.bounds[1][1])*.5,n=p.name.toLowerCase();
-   return (cy>=1.16&&Math.abs(cx)<=.34)||/cervical vertebra|atlas$|axis$|hyoid|laryn|pharyn|trachea|esophagus|carotid|jugular|vertebral artery|spinal cord|medulla oblongata|pons|midbrain/.test(n);
+   return p.system==='skeletal'&&((cy>=1.14&&Math.abs(cx)<=.34)||/cervical vertebra|atlas$|axis$|hyoid|mandible|occipital|parietal|frontal bone|temporal bone|sphenoid|ethmoid|maxilla|zygomatic/.test(n));
   }).map(p=>p.id);
  };
  const enterUpperMotion=()=>{if(!atlas)return;setMicroAtlas(null);setStudySide('both');setTopRegion('upper');setRegion('whole-body');setMotionEdit(true);const ids=motionCameraIds('upper');setState(s=>({...s,bodyMotion:undefined,partTransforms:undefined,focusParts:undefined,cameraFocusParts:ids,cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:.82,selected:[],isolate:false,explode:0,rotate:false}));};
