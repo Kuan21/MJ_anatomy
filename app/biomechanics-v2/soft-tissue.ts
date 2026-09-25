@@ -29,10 +29,13 @@ export function resolveNeurovascularProfile(name:string,fallback:Profile='path')
  * origins stay attached while the narrow humeral insertion follows the arm.
  * Other muscles keep their specialised profiles until separately validated.
  */
-export function resolveMuscleProfile(_name:string,fallback:Profile):Profile{
- // Keep the atlas-authored muscle profile by default. The experimental
- // pectoralis sheet solver is intentionally disabled: at high elevation it can
- // collapse broad chest meshes into balloon/flap artefacts.
+export function resolveMuscleProfile(name:string,fallback:Profile):Profile{
+ const n=name.toLowerCase();
+ // Pectoralis major is a broad thoracic fan with a narrow humeral insertion.
+ // Keep the belly on the thorax and move only the insertion band. Treating the
+ // entire surface as a two-bone sheet creates the balloon/flap artefact seen
+ // during arm elevation.
+ if(/pectoralis major/.test(n))return 'pectoralPath';
  return fallback;
 }
 // Common frame palette: trunk, clavicle, scapula, humerus, ulna, radius, hand.
@@ -102,7 +105,14 @@ export function weightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''
  if(profile==='humeral')return pair(3,3,1);
  if(profile==='sheetMuscle')return pair(0,3,range(lateral,.10,.90));
  if(profile==='axillaryCable')return axillaryCableWeights(rig,p.x,p.y,p.z);
- if(profile==='pectoralPath'){const b=rig.groups.chest??box;const t=(Math.abs(p.x)-Math.min(Math.abs(b.min.x),Math.abs(b.max.x)))/Math.max(.01,b.max.x-b.min.x);return pair(0,3,range(t,.72,.98));}
+ if(profile==='pectoralPath'){
+  const minAbs=Math.min(Math.abs(box.min.x),Math.abs(box.max.x)),maxAbs=Math.max(Math.abs(box.min.x),Math.abs(box.max.x));
+  const t=(Math.abs(p.x)-minAbs)/Math.max(1e-6,maxAbs-minAbs);
+  // Only the outer ~12% of the fan follows the humerus. The clavicular head's
+  // proximal attachment rides with the clavicle; the other heads stay on the
+  // thoracic frame.
+  return pair(/clavicular part/i.test(name)?1:0,3,range(t,.88,.995));
+ }
 
  if(profile==='shoulderJoint'){
   const n=name.toLowerCase();
