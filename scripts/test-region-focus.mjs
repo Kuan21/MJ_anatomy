@@ -92,3 +92,16 @@ for(const id of ['FJ2091','FJ2195']){
 }
 
 console.log(`Region/focus regression audit passed: ${upper.size} upper-limb, ${lower.size} lower-limb, ${head.size} head-neck meshes.`);
+
+// Regression: UI-visible foot/genicular/perforating vessels previously stayed
+// in the rest pose because this audit only checked existing manifest entries.
+const bodyBindings=JSON.parse(await readFile(new URL('app/biomechanics-v2/body-bindings.json',root),'utf8'));
+let legSoft=0;
+for(const p of parts){
+ if(!lower.has(p.id)||!['muscular','arterial','venous','connective'].includes(p.system))continue;
+ const side=regions.anatomicalSide(p);if(side==='midline')continue;
+ const b=bodyBindings[p.id];assert.ok(b,`Visible lower-limb tissue lacks motion: ${p.id} ${p.name}`);
+ assert.equal(b.rig,side==='left'?'leftLeg':'rightLeg',`Wrong leg rig: ${p.name}`);
+ assert.equal(b.name,p.name,`Stale binding name: ${p.id}`);legSoft++;
+}
+console.log(`${legSoft} visible lower-limb soft tissues all have matching motion bindings.`);

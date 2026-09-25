@@ -8,7 +8,7 @@ const rawAtlas=JSON.parse(await readFile(new URL('public/models/atlas.json',root
 let checked=0,before=0,after=0;
 for(const p of atlas.parts){
  const binding=soft.tissueBindings[p.id],head=/platysma|sternocleidomastoid/.test(p.name);
- if(!head&&(!binding||!['chest','cuff'].includes(binding.profile)))continue;
+ if(!head&&(!binding||!['chest','cuff','scapular'].includes(binding.profile)))continue;
  const chunk=chunks[p.chunk],base=new Float32Array(chunk.buffer,chunk.byteOffset+p.positions,p.vertexCount*3).slice(),tri=new Uint32Array(chunk.buffer,chunk.byteOffset+p.indices,p.indexCount);
  const rig=head?body.makeBodyRig(atlas,'head'):soft.makeSoftRig(atlas,binding.side),skin=head?body.bindBodyTissue(rig,base,false,p):soft.bindTissue(rig,binding.profile,base,p),c=guard.makeSurfaceConstraints(base,tri,skin);
  const neutral=base.slice();guard.constrainSurface(c,neutral);assert.deepEqual(neutral,base);
@@ -16,6 +16,12 @@ for(const p of atlas.parts){
  for(const angle of head?[-25,25]:[-45,90,150]){
   const palette=head?body.buildBodyMotion(rig,{...body.BODY_NEUTRAL,sideBend:angle,flexion:20}).palette:soft.makePalette(rig,motion.buildUpperLimbMotion(atlas,binding.side,{...motion.NEUTRAL_POSE,shoulderFlexion:angle}).transforms);
   const out=new Float32Array(base.length);soft.deformTissue(skin,base,palette,out);const posed=out.slice();before+=energy(out);guard.constrainSurface(c,out);after+=energy(out);assert.ok(out.every(Number.isFinite));
+  const seamPoints=new Map();
+  for(let i=0;i<base.length/3;i++){
+   const key=[...base.subarray(i*3,i*3+3)].join(','),point=[...out.subarray(i*3,i*3+3)];
+   if(seamPoints.has(key))assert.deepEqual(point,seamPoints.get(key),`Surface correction opened a normal seam: ${p.name}`);
+   else seamPoints.set(key,point);
+  }
   for(let i=0;i<c.mobility.length;i++)if(!c.mobility[i])assert.deepEqual(out.slice(i*3,i*3+3),posed.slice(i*3,i*3+3),'Rigid attachment must stay exact');checked++;
  }
 }

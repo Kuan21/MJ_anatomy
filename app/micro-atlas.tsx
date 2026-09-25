@@ -27,10 +27,7 @@ interface Record3D {
  baseColor?:T.Color;
 }
 
-const BRAIN_URLS=[
- 'https://cdn.jsdelivr.net/gh/itayinbarr/brainproject@main/brain-atlas/models/brain.glb',
- 'https://raw.githubusercontent.com/itayinbarr/brainproject/main/brain-atlas/models/brain.glb',
-];
+const BRAIN_URLS=[`${import.meta.env.BASE_URL}models/brain.glb`];
 const EYE_URLS=[
  'https://cdn.jsdelivr.net/gh/huahbo/ocularium@main/public/models/eye-anatomy.glb',
  'https://raw.githubusercontent.com/huahbo/ocularium/main/public/models/eye-anatomy.glb',
@@ -41,7 +38,7 @@ const EYE_ORBIT_URLS=[
  'https://cdn.jsdelivr.net/gh/huahbo/ocularium@main/source/eye-anatomy.glb',
  'https://raw.githubusercontent.com/huahbo/ocularium/main/source/eye-anatomy.glb',
 ];
-const DRACO_PATH='https://www.gstatic.com/draco/versioned/decoders/1.5.7/';
+const DRACO_PATH=`${import.meta.env.BASE_URL}draco/`;
 
 const EYE_PARTS:Record<string,{name:string;group:string;rank:number}> = {
  VH_M_palpebral_conjunctiva_of_upper_eyelid_L:{name:'Upper palpebral conjunctiva',group:'Surface & conjunctiva',rank:0},

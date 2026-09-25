@@ -73,6 +73,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     // deterministically, and never import central-nervous-system meshes from
     // this legacy overlay (the BodyParts3D atlas already owns the brain/CNS).
     if(/nervous system\s*&\s*sense organs/i.test(exactName))return;
+    if(!nerveBindings[exactName]&&!bodyNerveBindings[exactName]&&!/nerve|ganglion|plexus|ramus|rami/i.test(exactName))return;
     if(hasNamedAncestor(o,/central nervous system/i))return;
     if(/brain|cerebr|cerebell|\bgyrus\b|lobule|\blobe\b|hemisphere|white matter|gray matter|cortex|corpus callosum|thalam|hypothalam|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|colliculus|geniculate|midbrain|pons|medulla|fornix|commissure|ventricle|choroid plexus|optic chiasm|optic tract|pituitary|pineal/i.test(fullName))return;
     const geometry=o.geometry.clone();geometry.applyMatrix4(o.matrixWorld);geometry.computeBoundingBox();const geoCenter=geometry.boundingBox?.getCenter(new T.Vector3())??new T.Vector3(),geoSize=geometry.boundingBox?.getSize(new T.Vector3())??new T.Vector3();
@@ -95,10 +96,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     if(binding||bodyRegion==='head')mesh.userData.spineSkin=bindBodyTissue(bodyRigs.spine,mesh.userData.basePositions,true);
     nerveRoot.add(mesh);nerveMeshes.push(mesh);
    });lastState=null;dirty=true;},undefined,err=>{if(!disposed)console.warn('Could not load legacy nervous system model',err);});
-  // Integrated Brain Project overlay. It is lazy-loaded only when the user
-  // enters a head/neck workflow or exposes the cranial cavity, so the normal
-  // whole-body/iPad load remains lightweight. The original atlas brain stays
-  // as a fallback if the remote asset cannot be reached.
+  // The pinned Brain Project asset ships with the site. No runtime CDN or
+  // silent model substitution: a failed load is reported to the user.
   const brainMotionRoot=new T.Group(),brainVisualRoot=new T.Group();
   brainMotionRoot.name='MJ integrated Brain Project';brainMotionRoot.matrixAutoUpdate=false;brainMotionRoot.visible=false;brainMotionRoot.add(brainVisualRoot);scene.add(brainMotionRoot);
   let brainRequested=false,brainLoaded=false;
@@ -117,10 +116,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   };
   const ensureBrain=()=>{
    if(brainRequested)return;brainRequested=true;
-   const brainUrls=[
-    'https://cdn.jsdelivr.net/gh/itayinbarr/brainproject@main/brain-atlas/models/brain.glb',
-    'https://raw.githubusercontent.com/itayinbarr/brainproject/main/brain-atlas/models/brain.glb'
-   ];
+   const brainUrls=[`${import.meta.env.BASE_URL}models/brain.glb`];
    let bi=0;
    const attempt=()=>loader.load(brainUrls[bi],gltf=>{
     if(disposed)return;
@@ -143,7 +139,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const scale=Math.min(ts.x/Math.max(ss.x,1e-6),ts.y/Math.max(ss.y,1e-6),ts.z/Math.max(ss.z,1e-6))*.97;
     brainVisualRoot.scale.setScalar(scale);brainVisualRoot.position.copy(tc).addScaledVector(sc,-scale);brainVisualRoot.updateMatrixWorld(true);
     brainLoaded=true;lastState=null;dirty=true;
-   },undefined,err=>{bi++;if(bi<brainUrls.length)attempt();else console.warn('Integrated Brain Project model unavailable; keeping BodyParts3D brain fallback.',err);});
+   },undefined,err=>{bi++;if(bi<brainUrls.length)attempt();else if(!disposed)onError('腦模型載入失敗，請重新載入頁面。Brain Project model failed to load.');});
    attempt();
   };
   const updateBrainMotion=(s:SceneState)=>{
@@ -281,10 +277,10 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const canonicalRegion=anatomicalRegion(p),canonicalSide=anatomicalSide(p);
     const bindingSide=binding?(canonicalSide==='midline'?binding.side:canonicalSide):null;
     const rig=bindingSide?softRigs[bindingSide]:null;
-    // Upper-limb motion uses the same canonical region/laterality as Focus and
-    // the detail panel. A misleading source name can no longer attach a foot
-    // vessel or opposite-side hand muscle to an arm rig.
-    if(binding?.name===p.name&&rig&&canonicalRegion==='upper-limb'&&!isMotionQuarantined(p)){
+    // A curated attachment can cross the display-region boundary: subclavian
+    // and thoracic vessels still need their proximal-to-distal blend. Lower
+    // limbs and quarantined source meshes must never enter an arm rig.
+    if(binding?.name===p.name&&rig&&(canonicalRegion==='upper-limb'||canonicalRegion==='trunk')&&!isMotionQuarantined(p)){
      const profile=(p.system==='arterial'||p.system==='venous')?resolveNeurovascularProfile(p.name,binding.profile):binding.profile;
      pick.userData.skin=bindTissue(rig,profile,pick.userData.baseMotionPositions,p);
      pick.userData.tissueSide=bindingSide;
@@ -477,10 +473,10 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    const tissueChanged=!lastState||lastState.partTransforms!==s.partTransforms||lastState.tissueMotion!==s.tissueMotion||lastState.bodyMotion!==s.bodyMotion;
    if(tissueChanged){updateTissueMotion(s);updateNerveMotion(s);updateBrainMotion(s);}
    const ctx=viewerContext.current;
-   if(s.visible.includes('nervous')&&(ctx.bodyArea==='head'||s.bodyMotion?.region==='head'||!s.visible.includes('skeletal')))ensureBrain();
+   if(s.visible.includes('nervous')&&(ctx.bodyArea==='head'||ctx.bodyArea==='whole'||s.bodyMotion?.region==='head'||s.bodyMotion?.region==='spine'||!s.visible.includes('skeletal')||(s.hiddenParts?.length??0)>0))ensureBrain();
    if(ctx.bodyArea==='head'&&facialChunkIndex>=0&&!loadedChunks.has(facialChunkIndex)&&!loadingChunks.has(facialChunkIndex)){void loadChunk(facialChunkIndex).catch(e=>{loadingChunks.delete(facialChunkIndex);if(!disposed)onError(e instanceof Error?`Facial muscles: ${e.message}`:'Could not load facial muscles.');});}
    if(nerveMeshes.length){
-    const nervesOn=s.visible.includes('nervous');
+    const nervesOn=s.visible.includes('nervous')&&!s.isolate;
     nerveRoot.visible=nervesOn;
     nerveMeshes.forEach(o=>{
      if(!nervesOn){o.visible=false;return;}
@@ -520,12 +516,14 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     // keep those deep structures occluded while the cranial bones are present.
     // They become available again when the skull is hidden/peeled or when an
     // intracranial structure is explicitly isolated.
-    const cranialVaultVisible=visible.has('skeletal')&&atlas.parts.some(part=>cranialVault.test(part.name)&&!hidden.has(part.id));
+    const vaultParts=atlas.parts.filter(part=>cranialVault.test(part.name));
+    const cranialVaultVisible=vaultParts.length>0&&vaultParts.every(baseVisible);
+    const brainInFocus=!focus||atlas.parts.some(p=>p.system==='nervous'&&brainTargetPattern.test(p.name)&&focus.has(p.id));
     const legacyBrainParenchyma=/brain|cerebr|cerebell|\bgyrus\b|lobule|\blobe\b|hemisphere|white matter|gray matter|cortex|insula|midbrain|pons|medulla oblongata|thalam|hypothalam|fornix|ventricle|choroid plexus|corpus callosum|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|commissure|colliculus|geniculate|habenula|mammillary|stria terminalis|stria medullaris|septum of telencephalon|tuber cinereum|interpeduncular fossa|lamina terminalis|peduncle of midbrain|cerebral aqueduct/i;
-    brainMotionRoot.visible=brainLoaded&&visible.has('nervous')&&!cranialVaultVisible&&!s.isolate;
+    brainMotionRoot.visible=brainLoaded&&visible.has('nervous')&&brainInFocus&&!cranialVaultVisible&&!s.isolate;
     const isVisible=(p:(typeof atlas.parts)[number])=>{
      if(hidden.has(p.id))return false;
-     const replacedBrain=brainMotionRoot.visible&&legacyBrainParenchyma.test(p.name)&&!s.isolate;
+     const replacedBrain=p.system==='nervous'&&legacyBrainParenchyma.test(p.name)&&!s.isolate;
      if(selection.has(p.id)&&!replacedBrain&&(!cranialVaultVisible||!intracranial.test(p.name)||s.isolate))return true;
      if(!baseVisible(p))return false;
      if(cranialVaultVisible&&intracranial.test(p.name))return false;
@@ -541,7 +539,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      if(amount<=.45){const t=amount/.45;const group=SYSTEMS.findIndex(sys=>sys.id===p.system);const angle=group/SYSTEMS.length*Math.PI*2;dx=Math.sin(angle)*t*.48;dy=(c.y-.85)*t*.28;dz=Math.cos(angle)*t*.48;}
      else {const t=(amount-.45)/.55,group=SYSTEMS.findIndex(sys=>sys.id===p.system),angle=group/SYSTEMS.length*Math.PI*2;dx=T.MathUtils.lerp(Math.sin(angle)*.48,destination.x-c.x,t);dy=T.MathUtils.lerp((c.y-.85)*.28,destination.y-c.y,t);dz=T.MathUtils.lerp(Math.cos(angle)*.48,-c.z,t);}
      const selected=selection.has(p.id);data.set([dx,dy,dz,isVisible(p)?1:0],i*4);selectedData[i*4]=selected?255:0;
-     const transform=s.partTransforms?.[p.id];
+     // CPU skinning already includes the active frame. Never apply it twice.
+     const transform=pickers[i]?.userData.tissuePosed?undefined:s.partTransforms?.[p.id];
      if(transform){
       motionData.set([...transform.translation,0],i*4);rotationData.set(transform.quaternion,i*4);
       anchorMotionData.set([...(transform.anchorTranslation??transform.translation),0],i*4);anchorRotationData.set(transform.anchorQuaternion??transform.quaternion,i*4);
