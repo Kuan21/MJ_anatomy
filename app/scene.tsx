@@ -98,12 +98,29 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    });lastState=null;dirty=true;},undefined,err=>{if(!disposed)console.warn('Could not load legacy nervous system model',err);});
   // The pinned Brain Project asset ships with the site. No runtime CDN or
   // silent model substitution: a failed load is reported to the user.
-  const brainMotionRoot=new T.Group(),brainVisualRoot=new T.Group();
+  const brainMotionRoot=new T.Group(),brainVisualRoot=new T.Group(),brainPickers:T.Mesh[]=[];
   brainMotionRoot.name='MJ integrated Brain Project';brainMotionRoot.matrixAutoUpdate=false;brainMotionRoot.visible=false;brainMotionRoot.add(brainVisualRoot);scene.add(brainMotionRoot);
   let brainRequested=false,brainLoaded=false;
   const brainTargetPattern=/cerebr|cerebell|brainstem|midbrain|pons|medulla oblongata|thalam|hypothalam|corpus callosum|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|fornix|ventricle|cortex|gyrus|lobule/i;
   const brainTargetBox=new T.Box3();
   atlas.parts.forEach(p=>{if(p.system==='nervous'&&brainTargetPattern.test(p.name))brainTargetBox.union(new T.Box3(new T.Vector3().fromArray(p.bounds[0]),new T.Vector3().fromArray(p.bounds[1])));});
+  const brainAtlasCandidates=atlas.parts.filter(p=>p.system==='nervous'&&brainTargetPattern.test(p.name));
+  const normalizeBrainName=(value:string)=>value.toLowerCase().replace(/brain project|right|left|bilateral|hemisphere|part of/gi,' ').replace(/[^a-z0-9]+/g,' ').trim();
+  const brainAtlasIdFor=(label:string,category:string)=>{
+   const target=normalizeBrainName(label+' '+category);
+   if(!target)return brainAtlasCandidates[0]?.id;
+   const tokens=new Set(target.split(' ').filter(t=>t.length>2));
+   let bestId=brainAtlasCandidates[0]?.id,best=-1;
+   for(const p of brainAtlasCandidates){
+    const n=normalizeBrainName(p.name);
+    let score=n===target?100:n.includes(target)||target.includes(n)?70:0;
+    const pt=n.split(' ').filter(t=>t.length>2);
+    let overlap=0;for(const t of pt)if(tokens.has(t))overlap++;
+    score+=overlap*8-Math.abs(pt.length-tokens.size);
+    if(score>best){best=score;bestId=p.id;}
+   }
+   return bestId;
+  };
   const brainMaterials=new Map<string,T.MeshStandardMaterial>();
   const brainAppearance=(label:string,category:string)=>{
    const s=(label+' '+category).toLowerCase();
@@ -131,10 +148,10 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      const appearance=brainAppearance(label,category);
      let material=brainMaterials.get(appearance.key);
      if(!material){material=new T.MeshStandardMaterial({color:appearance.color,roughness:.72,metalness:0,side:T.FrontSide,transparent:appearance.transparent,opacity:appearance.opacity,depthWrite:!appearance.transparent});brainMaterials.set(appearance.key,material);materials.push(material);}
-     const mesh=new T.Mesh(geometry,material);mesh.name='Brain Project · '+label;mesh.frustumCulled=false;brainVisualRoot.add(mesh);added.push(mesh);
+     const mesh=new T.Mesh(geometry,material);mesh.name='Brain Project · '+label;mesh.frustumCulled=false;mesh.userData.mjBrainProject=true;mesh.userData.mjBrainLabel=label;mesh.userData.mjAtlasId=brainAtlasIdFor(label,category);brainVisualRoot.add(mesh);brainPickers.push(mesh);added.push(mesh);
      if(geometry.boundingBox)sourceBox.union(geometry.boundingBox);
     });
-    if(sourceBox.isEmpty()||brainTargetBox.isEmpty()||!added.length){brainVisualRoot.clear();return;}
+    if(sourceBox.isEmpty()||brainTargetBox.isEmpty()||!added.length){brainVisualRoot.clear();brainPickers.length=0;return;}
     const sc=sourceBox.getCenter(new T.Vector3()),ss=sourceBox.getSize(new T.Vector3()),tc=brainTargetBox.getCenter(new T.Vector3()),ts=brainTargetBox.getSize(new T.Vector3());
     const scale=Math.min(ts.x/Math.max(ss.x,1e-6),ts.y/Math.max(ss.y,1e-6),ts.z/Math.max(ss.z,1e-6))*.97;
     brainVisualRoot.scale.setScalar(scale);brainVisualRoot.position.copy(tc).addScaledVector(sc,-scale);brainVisualRoot.updateMatrixWorld(true);
@@ -403,8 +420,17 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    for(const mesh of nerveMeshes){if(!mesh.visible)continue;const hits=raycaster.intersectObject(mesh,false);if(hits[0]&&hits[0].distance<nearest){nearest=hits[0].distance;found=mesh;}}
    return found?{name:found.name,distance:nearest}:null;
   };
+  const pickBrainAt=(clientX:number,clientY:number)=>{
+   if(!brainMotionRoot.visible||!brainLoaded)return null;
+   const rect=renderer.domElement.getBoundingClientRect();pointer.set((clientX-rect.left)/rect.width*2-1,-(clientY-rect.top)/rect.height*2+1);raycaster.setFromCamera(pointer,camera);
+   let nearest=Infinity,found:T.Mesh|null=null;
+   for(const mesh of brainPickers){if(!mesh.visible)continue;const hits=raycaster.intersectObject(mesh,false);if(hits[0]&&hits[0].distance<nearest){nearest=hits[0].distance;found=mesh;}}
+   const id=found?.userData.mjAtlasId as string|undefined;
+   return found&&id?{id,distance:nearest,label:String(found.userData.mjBrainLabel??found.name)}:null;
+  };
   const frontHit=(clientX:number,clientY:number)=>{
-   const part=pickPartAt(clientX,clientY),nerve=pickNerveAt(clientX,clientY);
+   const part=pickPartAt(clientX,clientY),nerve=pickNerveAt(clientX,clientY),brain=pickBrainAt(clientX,clientY);
+   if(brain&&(!part||brain.distance<=part.distance+.002)&&(!nerve||brain.distance<=nerve.distance+.002))return{kind:'brain' as const,id:brain.id,label:brain.label};
    if(nerve&&(!part||nerve.distance<=part.distance+.002))return{kind:'nerve' as const,name:nerve.name};
    return part?{kind:'part' as const,index:part.index}:null;
   };
@@ -461,7 +487,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     return;
    }
    const validTap=tap.up(e.pointerId,e.clientX,e.clientY);resetPrimaryGesture();if(!validTap||!ready)return;
-   const front=frontHit(e.clientX,e.clientY);if(front?.kind==='nerve'){hover.hidden=true;selectNerve.current?.(front.name);return;}
+   const front=frontHit(e.clientX,e.clientY);if(front?.kind==='brain'){hover.hidden=true;select.current(front.id);return;}if(front?.kind==='nerve'){hover.hidden=true;selectNerve.current?.(front.name);return;}
    let found=front?.kind==='part'?front.index:-1;const rect=renderer.domElement.getBoundingClientRect();if(found<0&&amount>.45)found=findTarget(e.clientX-rect.left,e.clientY-rect.top,e.pointerType==='touch'?24:16);if(found>=0){hover.hidden=true;select.current(atlas.parts[found].id);}
   };
   renderer.domElement.addEventListener('pointerdown',down,true);renderer.domElement.addEventListener('pointermove',move);renderer.domElement.addEventListener('pointerup',up);renderer.domElement.addEventListener('pointercancel',cancel);
@@ -519,11 +545,13 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const vaultParts=atlas.parts.filter(part=>cranialVault.test(part.name));
     const cranialVaultVisible=vaultParts.length>0&&vaultParts.every(baseVisible);
     const brainInFocus=!focus||atlas.parts.some(p=>p.system==='nervous'&&brainTargetPattern.test(p.name)&&focus.has(p.id));
-    const legacyBrainParenchyma=/brain|cerebr|cerebell|\bgyrus\b|lobule|\blobe\b|hemisphere|white matter|gray matter|cortex|insula|midbrain|pons|medulla oblongata|thalam|hypothalam|fornix|ventricle|choroid plexus|corpus callosum|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|commissure|colliculus|geniculate|habenula|mammillary|stria terminalis|stria medullaris|septum of telencephalon|tuber cinereum|interpeduncular fossa|lamina terminalis|peduncle of midbrain|cerebral aqueduct/i;
+    const legacyBrainParenchyma=/brain|cerebr|cerebell|telenceph|dienceph|mesenceph|metenceph|myelenceph|\bgyrus\b|sulcus|lobule|\blobe\b|hemisphere|white matter|gray matter|cortex|insula|midbrain|pons|medulla oblongata|thalam|hypothalam|fornix|ventricle|choroid plexus|corpus callosum|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|commissure|colliculus|geniculate|habenula|mammillary|stria terminalis|stria medullaris|septum of telencephalon|tuber cinereum|interpeduncular fossa|lamina terminalis|peduncle of midbrain|cerebral aqueduct/i;
     brainMotionRoot.visible=brainLoaded&&visible.has('nervous')&&brainInFocus&&!cranialVaultVisible&&!s.isolate;
     const isVisible=(p:(typeof atlas.parts)[number])=>{
      if(hidden.has(p.id))return false;
-     const replacedBrain=p.system==='nervous'&&legacyBrainParenchyma.test(p.name)&&!s.isolate;
+     const cx=(p.bounds[0][0]+p.bounds[1][0])*.5,cy=(p.bounds[0][1]+p.bounds[1][1])*.5,cz=(p.bounds[0][2]+p.bounds[1][2])*.5;
+     const intracranialLegacy=p.system==='nervous'&&cy>1.38&&Math.abs(cx)<.36&&Math.abs(cz)<.34&&!/cranial.?nerve|\bnerve\b|tract|root|ganglion/i.test(p.name);
+     const replacedBrain=brainLoaded&&!s.isolate&&(legacyBrainParenchyma.test(p.name)||intracranialLegacy);
      if(selection.has(p.id)&&!replacedBrain&&(!cranialVaultVisible||!intracranial.test(p.name)||s.isolate))return true;
      if(!baseVisible(p))return false;
      if(cranialVaultVisible&&intracranial.test(p.name))return false;
