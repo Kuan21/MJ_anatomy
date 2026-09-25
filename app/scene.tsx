@@ -75,6 +75,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     if(binding&&softRigs[binding.side]){registerNerveRest(softRigs[binding.side]!,position.array as Float32Array);position.needsUpdate=true;geometry.computeVertexNormals();geometry.computeBoundingBox();}
     mesh.userData.basePositions=new Float32Array(position.array as ArrayLike<number>);
     if(binding&&softRigs[binding.side])mesh.userData.skin=bindTissue(softRigs[binding.side]!,resolveNeurovascularProfile(exactName,'path'),mesh.userData.basePositions);
+    if(binding)mesh.userData.spineSkin=bindBodyTissue(bodyRigs.spine,mesh.userData.basePositions,true);
     const bodyRegion=bodyNerveBindings[exactName];if(bodyRegion){mesh.userData.bodyRegion=bodyRegion;mesh.userData.bodySkin=bindBodyTissue(bodyRigs[bodyRegion],mesh.userData.basePositions,cranialNerveRigid(exactName));}
     nerveRoot.add(mesh);nerveMeshes.push(mesh);
    });lastState=null;dirty=true;},undefined,err=>{if(!disposed)console.warn('Could not load legacy nervous system model',err);});
@@ -86,10 +87,11 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const base=mesh.userData.basePositions as Float32Array,skin=mesh.userData.skin as SkinBinding|undefined;
     const binding=nerveBindings[mesh.name],rig=binding?softRigs[binding.side]:null;
     const bodyActive=!!(body&&mesh.userData.bodySkin&&mesh.userData.bodyRegion===s.bodyMotion?.region);
-    const active=bodyActive||!!(!s.bodyMotion&&s.tissueMotion&&skin&&rig&&s.partTransforms?.[rig.ids[3]!]);
+    const spineCarry=!!(body&&s.bodyMotion?.region==='spine'&&mesh.userData.spineSkin);
+    const active=bodyActive||spineCarry||!!(!s.bodyMotion&&s.tissueMotion&&skin&&rig&&s.partTransforms?.[rig.ids[3]!]);
     if(!active&&!mesh.userData.tissuePosed)continue;
     const attr=mesh.geometry.getAttribute('position') as T.BufferAttribute;
-    if(bodyActive)deformTissue(mesh.userData.bodySkin,base,body!.palette,attr.array as Float32Array);else if(active)deformTissue(skin!,base,palettes[binding.side]!,attr.array as Float32Array);else (attr.array as Float32Array).set(base);
+    if(bodyActive)deformTissue(mesh.userData.bodySkin,base,body!.palette,attr.array as Float32Array);else if(spineCarry)deformTissue(mesh.userData.spineSkin,base,body!.palette,attr.array as Float32Array);else if(active)deformTissue(skin!,base,palettes[binding.side]!,attr.array as Float32Array);else (attr.array as Float32Array).set(base);
     mesh.userData.tissuePosed=active;
     // Nerve meshes are independent from the atlas picker meshes. Mark the
     // deformed nerve position buffer itself dirty so Three.js uploads the new
@@ -207,6 +209,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const spineCenter=(p.bounds[0][1]+p.bounds[1][1])*.5,spineLevels=bodyRigs.spine.levels;
     const spineSoft=!bb&&spineCenter>=spineLevels[0]-.12&&spineCenter<=spineLevels[spineLevels.length-1]+.13&&/pectoralis|serratus|intercostal|rectus abdominis|oblique|transversus abdominis|latissimus|trapezius|erector spinae|multifidus|semispinalis thoracis|quadratus lumborum|psoas|thoracolumbar|aorta|vena cava|intercostal (?:artery|vein)|thoracic duct/i.test(p.name);
     if(spineSoft){pick.userData.bodySkin=bindBodyTissue(bodyRigs.spine,pick.userData.baseMotionPositions,false,p);pick.userData.bodyRegion='spine';}
+    else if(binding?.name===p.name){pick.userData.bodySkin=bindBodyTissue(bodyRigs.spine,pick.userData.baseMotionPositions,true,p);pick.userData.bodyRegion='spine';}
     if(pick.userData.skin&&['chest','cuff'].includes(pick.userData.skin.profile))pick.userData.surfaceGuard=makeSurfaceConstraints(pick.userData.baseMotionPositions,g.index!.array,pick.userData.skin);
     if(((bb?.rig==='head'&&/platysma|sternocleidomastoid/.test(p.name))||spineSoft)&&pick.userData.bodySkin)pick.userData.bodySurfaceGuard=makeSurfaceConstraints(pick.userData.baseMotionPositions,g.index!.array,pick.userData.bodySkin);
     pickers[i]=pick;geometries.push(g);
