@@ -1,0 +1,19 @@
+name: Temporary Netter terminology validation
+on:
+  push:
+    branches: [data/netter7-display-terminology-20260925]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: node scripts/test-netter-terminology.mjs
+      - run: npm run build -- --base /MJ_anatomy/
