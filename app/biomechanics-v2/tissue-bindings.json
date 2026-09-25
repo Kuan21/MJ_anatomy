@@ -90,14 +90,14 @@
     "profile": "deltoid"
   },
   "FJ1469": {
-    "name": "Left flexor pollicis brevis",
-    "side": "left",
-    "profile": "forearm"
-  },
-  "FJ1469M": {
     "name": "Right flexor pollicis brevis",
     "side": "right",
-    "profile": "forearm"
+    "profile": "hand"
+  },
+  "FJ1469M": {
+    "name": "Left flexor pollicis brevis",
+    "side": "left",
+    "profile": "hand"
   },
   "FJ1470": {
     "name": "Flexor digiti minimi brevis of right hand",
@@ -512,12 +512,12 @@
   "FJ1514": {
     "name": "Superficial head of right flexor pollicis brevis",
     "side": "right",
-    "profile": "forearm"
+    "profile": "hand"
   },
   "FJ1514M": {
     "name": "Superficial head of left flexor pollicis brevis",
     "side": "left",
-    "profile": "forearm"
+    "profile": "hand"
   },
   "FJ1515": {
     "name": "Transverse head of right adductor pollicis",
@@ -1437,6 +1437,26 @@
   "FJ2348": {
     "name": "Set of dorsal metacarpal arteries",
     "side": "left",
+    "profile": "path"
+  },
+  "FJ2318": {
+    "name": "Set of dorsal digital arteries",
+    "side": "left",
+    "profile": "path"
+  },
+  "FJ2346": {
+    "name": "Set of dorsal digital arteries",
+    "side": "right",
+    "profile": "path"
+  },
+  "FJ2322": {
+    "name": "Common palmar digital vein",
+    "side": "left",
+    "profile": "path"
+  },
+  "FJ2352": {
+    "name": "Common palmar digital vein",
+    "side": "right",
     "profile": "path"
   }
 }
