@@ -29,9 +29,9 @@ assert.equal(soft.resolveNeurovascularProfile('Right anterior circumflex humeral
 assert.equal(soft.resolveNeurovascularProfile('Right thoracodorsal artery','path'),'scapular');
 assert.equal(soft.resolveNeurovascularProfile('Right suprascapular vein','path'),'scapular');
 assert.equal(soft.resolveNeurovascularProfile('Right brachial artery','path'),'path');
-assert.equal(soft.resolveMuscleProfile('Sternocostal part of right pectoralis major','chest'),'chest');
-assert.equal(soft.resolveMuscleProfile('Clavicular part of right pectoralis major','chest'),'chest');
-assert.equal(soft.resolveMuscleProfile('Abdominal part of right pectoralis major','chest'),'chest');
+assert.equal(soft.resolveMuscleProfile('Sternocostal part of right pectoralis major','chest'),'pectoralPath');
+assert.equal(soft.resolveMuscleProfile('Clavicular part of right pectoralis major','chest'),'pectoralPath');
+assert.equal(soft.resolveMuscleProfile('Abdominal part of right pectoralis major','chest'),'pectoralPath');
 assert.equal(soft.resolveMuscleProfile('Right pectoralis minor','scapular'),'scapular');
 assert.equal(soft.resolveMuscleProfile('Acromial part of right deltoid','deltoid'),'deltoid');
 assert.equal(soft.resolveMuscleProfile('Right teres major','cuff'),'cuff');
@@ -61,6 +61,17 @@ for(const side of ['left','right']){
  const tissues=atlas.parts.filter(p=>soft.tissueBindings[p.id]?.side===side);
  for(const p of tissues){const binding=soft.tissueBindings[p.id];assert.equal(binding.name,p.name);assert.ok(!/toe|thigh|femor|glute|brain/i.test(p.name));}
  const skin=tissues.map(p=>{const g=geometry(p),raw=soft.tissueBindings[p.id].profile,profile=(p.system==='arterial'||p.system==='venous')?soft.resolveNeurovascularProfile(p.name,raw):raw;return{p,...g,binding:soft.bindTissue(rig,profile,g.positions,p)};});
+ // Pectoralis major is a broad chest fan. Only its narrow lateral insertion
+ // band may be predominantly humeral; the belly must remain thoracic/clavicular.
+ for(const {p,binding} of skin.filter(x=>/pectoralis major/i.test(x.p.name))){
+  let humeral=0,anyHumeral=0,count=binding.weights.length/4;
+  for(let i=0;i<count;i++){
+   let w=0;for(let k=0;k<4;k++)if(binding.indices[i*4+k]===3)w+=binding.weights[i*4+k];
+   if(w>.5)humeral++;if(w>.02)anyHumeral++;
+  }
+  assert.ok(anyHumeral>0,p.name+' lost its humeral insertion');
+  assert.ok(humeral/count<.35,p.name+' has too much of the muscle belly following the humerus: '+(humeral/count).toFixed(3));
+ }
 
  const nerveProbe=new Float32Array([rig.shoulder.x,rig.shoulder.y-.03,0,rig.elbow.x,rig.elbow.y,0,rig.wrist.x,rig.wrist.y,0]);
  // Splitting a tube into independent source objects must not change the posed points.
