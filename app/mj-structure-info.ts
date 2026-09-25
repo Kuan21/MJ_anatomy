@@ -1,4 +1,5 @@
-import type {SystemId} from './anatomy';
+import type {Part,SystemId} from './anatomy';
+import {anatomicalRegion,partCenter} from './mj-part-regions';
 import {muscleFactsFor,muscleFactSourceFor} from './mj-muscle-facts';
 import {courseNotesFor,type CourseNoteEntry} from './mj-course-notes';
 import {netterEnglishName,NETTER_TERMINOLOGY_SOURCE} from './mj-netter-terminology';
@@ -249,7 +250,14 @@ function displayEnglish(name:string,system:SystemId){
  return netterEnglishName(canonical,system);
 }
 
-function regionOf(name:string,system:SystemId){
+function regionOf(name:string,system:SystemId,part?:Part){
+ if(part){
+  const region=anatomicalRegion(part),[,y]=partCenter(part);
+  if(region==='lower-limb')return y>.48?{en:'hip / thigh',zh:'髖部／大腿'}:{en:'leg / foot',zh:'小腿／足部'};
+  if(region==='upper-limb')return y>1.08?{en:'shoulder / arm',zh:'肩帶／上臂'}:{en:'forearm / hand',zh:'前臂／手部'};
+  if(region==='head-neck')return y>1.48?{en:'head / orbit',zh:'頭部／眼眶'}:{en:'head and neck',zh:'頭頸部'};
+ }
+
  const n=norm(name);
  if(/eye|ocular|rectus|oblique|ciliary|lacrimal|optic|ophthalmic|ethmoid|frontal bone|sphenoid|vomer|maxilla|mandible|zygomatic|nasal bone|palatine|parietal|temporal bone|occipital/.test(n))return {en:'head / orbit',zh:'頭部／眼眶'};
  if(/sternocleidomastoid|scalen|longus colli|longus capitis|splenius|semispinalis capitis|cervic|hyoid|thyro|crico|aryten|pharyn|palat|stylohyoid|digastric|mylohyoid|geniohyoid|genioglossus|hyoglossus/.test(n))return {en:'head and neck',zh:'頭頸部'};
@@ -264,8 +272,8 @@ function regionOf(name:string,system:SystemId){
  return system==='nervous'?{en:'nervous system',zh:'神經系統'}:{en:'general anatomy',zh:'全身解剖'};
 }
 
-function genericFacts(name:string,system:SystemId):BilingualFact[]{
- const region=regionOf(name,system);
+function genericFacts(name:string,system:SystemId,part?:Part):BilingualFact[]{
+ const region=regionOf(name,system,part);
  const facts:BilingualFact[]=[{labelEn:'Region',labelZh:'區域',valueEn:region.en,valueZh:region.zh}];
  if(system==='muscular')facts.push({labelEn:'Structure type',labelZh:'構造類型',valueEn:'Skeletal muscle',valueZh:'骨骼肌'});
  if(system==='skeletal')facts.push({labelEn:'Structure type',labelZh:'構造類型',valueEn:'Bone / skeletal structure',valueZh:'骨／骨骼構造'});
@@ -273,8 +281,8 @@ function genericFacts(name:string,system:SystemId):BilingualFact[]{
  return facts;
 }
 
-function genericSummary(name:string,system:SystemId,chinese:string|undefined){
- const zhName=chinese??'此構造',region=regionOf(name,system);
+function genericSummary(name:string,system:SystemId,chinese:string|undefined,part?:Part){
+ const zhName=chinese??'此構造',region=regionOf(name,system,part);
  if(system==='muscular')return{
   en:`${name} is a named skeletal muscle of the ${region.en} represented in the 3D atlas. Where the CMU lecture or a mapped anatomy reference provides it, origin, insertion, innervation and action are shown below.`,
   zh:`${zhName}是 3D 圖譜中位於${region.zh}的具名骨骼肌。若中國醫藥大學上課資料或已對照的解剖參考資料有記載，下方會列出起點、止點、神經支配與作用。`
@@ -309,7 +317,7 @@ function withCourseNotes(profile:StructureProfile,name:string):StructureProfile{
  return{...profile,courseNotes,source:`${source}; CMU anatomy course material`};
 }
 
-export function structureProfile(name:string,system:SystemId):StructureProfile{
+export function structureProfile(name:string,system:SystemId,part?:Part):StructureProfile{
  const english=displayEnglish(name,system);
  const chinese=chineseName(name,system);
  const m=muscleFactsFor(name);
@@ -336,14 +344,14 @@ export function structureProfile(name:string,system:SystemId):StructureProfile{
   const d=detailed[key],summary=genericSummary(english,system,chinese);
   return withCourseNotes({english,chinese:chinese||d.chinese,category:d.category,summaryEn:d.summaryEn??summary.en,summaryZh:d.summaryZh??summary.zh,facts:d.facts,source:d.source},name);
  }
- const summary=genericSummary(english,system,chinese);
+ const summary=genericSummary(english,system,chinese,part);
  return withCourseNotes({
   english,
   chinese,
   category:`${systemZh[system]}｜${system}`,
   summaryEn:summary.en,
   summaryZh:summary.zh,
-  facts:genericFacts(english,system),
+  facts:genericFacts(english,system,part),
   source:sourceFor(name,system)
  },name);
 }
