@@ -321,3 +321,22 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
  .motion-demo-button{height:42px!important;min-height:42px!important}
  .motion-pull-track{padding-block:4px}
 }
+
+
+/* MJ motion anatomy inspector */
+.motion-anatomy-panel{border-top:1px solid #18253610;padding-top:5px}
+.motion-anatomy-panel>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;min-height:32px;font-size:9.5px;font-weight:650;color:#495965}
+.motion-anatomy-panel>summary::-webkit-details-marker{display:none}
+.motion-anatomy-panel>summary span{font-size:7.5px;font-weight:500;color:#98a1a8}
+.motion-anatomy-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:5px}
+.motion-anatomy-grid section{min-width:0;border:1px solid #18253610;border-radius:8px;background:#fff;padding:6px}
+.motion-anatomy-grid h4{font-size:8px;letter-spacing:.06em;color:#89939a;margin:0 0 4px;text-transform:uppercase}
+.motion-anatomy-grid button{width:100%;height:auto!important;min-height:34px!important;padding:5px 6px!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;gap:2px!important;border-radius:6px!important;text-align:left!important;white-space:normal!important}
+.motion-anatomy-grid button:hover{background:#263b4808!important}
+.motion-anatomy-grid button span{font-size:9px;line-height:1.15;color:#3f505c;font-weight:620}
+.motion-anatomy-grid button small{font-size:7.3px;line-height:1.18;color:#8b969e;font-weight:400}
+.motion-layer-lock-note{font-size:8px;line-height:1.35;color:#6d7982;background:#eef3f4;border:1px solid #1825360d;border-radius:7px;padding:6px 7px}
+@media(max-width:767px){
+ .motion-anatomy-grid{grid-template-columns:1fr}
+ .motion-anatomy-grid button{min-height:40px!important}
+}
