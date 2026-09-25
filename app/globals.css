@@ -1186,3 +1186,47 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
  .motion-control-stack{gap:5px}
  .motion-control-stack .motion-pull-controller{padding:7px}
 }
+
+
+/* MJ detail panel scroll ownership fix */
+.detail-sheet{
+  overflow:hidden!important;
+}
+.detail-scroll{
+  flex:1 1 auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  overscroll-behavior:contain!important;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+  padding-right:6px!important;
+  padding-bottom:18px!important;
+  scrollbar-gutter:stable;
+}
+.detail-scroll .course-note-details,
+.detail-scroll .course-note-groups,
+.detail-scroll .course-note-group,
+.detail-scroll .course-note-list,
+.detail-scroll .course-note-card,
+.detail-scroll .course-note-card p{
+  max-height:none!important;
+  overflow:visible!important;
+}
+@media(min-width:768px){
+  .detail-sheet{
+    top:92px!important;
+    bottom:auto!important;
+    height:fit-content!important;
+    max-height:calc(100dvh - 108px)!important;
+  }
+}
+@media(max-width:767px){
+  .detail-sheet{
+    top:132px!important;
+    bottom:auto!important;
+    height:fit-content!important;
+    max-height:calc(100dvh - 144px)!important;
+  }
+}
