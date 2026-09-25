@@ -4,7 +4,7 @@ import ts from 'typescript';
 const root=new URL('../',import.meta.url),tmp=new URL('.sites-runtime/',root);
 await writeFile(new URL('surface-constraints.mjs',tmp),ts.transpileModule(await readFile(new URL('app/biomechanics-v2/surface-constraints.ts',root),'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText);
 const guard=await import(new URL('surface-constraints.mjs',tmp)),soft=await import(new URL('soft-tissue.mjs',tmp)),body=await import(new URL('body-motion.mjs',tmp)),motion=await import(new URL('mj-motion.mjs',tmp));
-const atlas=JSON.parse(await readFile(new URL('public/models/atlas.json',root),'utf8')),chunks=await Promise.all(atlas.chunks.map(c=>readFile(new URL('public'+c.url,root))));
+const rawAtlas=JSON.parse(await readFile(new URL('public/models/atlas.json',root),'utf8')),sourceOverrides=JSON.parse(await readFile(new URL('app/anatomy-source-overrides.json',root),'utf8')),excludedSourceIds=new Set(sourceOverrides.exclude),atlas={...rawAtlas,parts:rawAtlas.parts.filter(p=>!excludedSourceIds.has(p.id)).map(p=>({...p,...(sourceOverrides.parts[p.id]||{})}))},chunks=await Promise.all(atlas.chunks.map(c=>readFile(new URL('public'+c.url,root))));
 let checked=0,before=0,after=0;
 for(const p of atlas.parts){
  const binding=soft.tissueBindings[p.id],head=/platysma|sternocleidomastoid/.test(p.name);
