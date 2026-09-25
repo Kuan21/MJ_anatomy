@@ -26,13 +26,13 @@ export const NEUTRAL_POSE:MotionPose={
 // surface reference, not a skinned biomechanical model; conservative limits
 // prevent anatomically impossible-looking combined rotations and self-crossing.
 export const MOTION_LIMITS={
- shoulderAbduction:[0,145],
- shoulderFlexion:[-45,150],
- shoulderRotation:[-25,35],
- elbowFlexion:[0,135],
- forearmRotation:[-45,45],
- wristFlexion:[-45,45],
- wristDeviation:[-8,8]
+ shoulderAbduction:[-20,165],
+ shoulderFlexion:[-60,165],
+ shoulderRotation:[-60,70],
+ elbowFlexion:[-5,140],
+ forearmRotation:[-80,80],
+ wristFlexion:[-70,80],
+ wristDeviation:[-30,20]
 } as const;
 
 const norm=(s:string)=>s.trim().toLowerCase();
