@@ -320,15 +320,15 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     // Continuous cervical field for throat, spinal cord and neck
     // neurovasculature. This prevents a carotid/jugular/tracheal segment from
     // being left behind when the head flexes, extends or rotates.
-    const pc=partCenter(p);
-    const headFollower=pc.y>=1.10&&pc.y<=1.72&&Math.abs(pc.x)<=.34&&(
+    const pc=partCenter(p),spinalCordPart=/spinal cord|central canal/i.test(p.name),spansNeck=p.bounds[1][1]>=1.10&&p.bounds[0][1]<=1.72;
+    const headFollower=(pc.y>=1.10&&pc.y<=1.72&&Math.abs(pc.x)<=.34&&(
      p.system==='arterial'||p.system==='venous'||p.system==='connective'||
-     /spinal cord|central canal|trachea|esophagus|laryn|pharyn|hyoid|thyroid|cricoid|epiglott|longus|scalen|sternocleidomastoid|splenius|semispinalis|carotid|jugular|vertebral artery/i.test(p.name)
-    );
+     /trachea|esophagus|laryn|pharyn|hyoid|thyroid|cricoid|epiglott|longus|scalen|sternocleidomastoid|splenius|semispinalis|carotid|jugular|vertebral artery/i.test(p.name)
+    ))||(spinalCordPart&&spansNeck);
     if(!pick.userData.bodySkin&&headFollower){pick.userData.bodySkin=bindBodyTissue(bodyRigs.head,pick.userData.baseMotionPositions,false,p);pick.userData.bodyRegion='head';}
 
     const headDescendant=(bb?.rig==='head'||p.id.startsWith('BP3-FMA')||headFollower)&&p.system!=='skeletal';
-    if(headDescendant)pick.userData.spineSkin=bindBodyTissue(bodyRigs.spine,pick.userData.baseMotionPositions,true,p);
+    if(headDescendant)pick.userData.spineSkin=bindBodyTissue(bodyRigs.spine,pick.userData.baseMotionPositions,!spinalCordPart,p);
 
     // During trunk motion the entire shoulder girdle, head and both upper
     // limbs ride with the superior thoracic frame. Their local joint pose is
