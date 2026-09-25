@@ -43,3 +43,6 @@ next-env.d.ts
 
 # Rebuilt from the pinned Three.js package before dev/build
 /public/draco/draco_*
+
+# Pinned Brain Project asset verified and vendored before dev/build
+/public/models/brain.glb

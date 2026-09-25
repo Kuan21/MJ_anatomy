@@ -124,7 +124,12 @@ export function weightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''
  if(profile==='path'||profile==='forearm')return pathWeights(rig,p.x,p.y,p.z);
  if(profile==='hand')return pair(6,6,1);
  if(profile==='clavicular')return pair(0,1,smooth(lateral));
- if(profile==='scapular')return pair(0,2,range(lateral,.35,.95));
+ if(profile==='scapular'){
+  // Serratus wraps from anterior/lateral ribs to the POSTERIOR medial
+  // scapular border. A lateral-X envelope reverses these attachments.
+  if(/serratus anterior/i.test(name))return pair(0,2,range(box.max.z-p.z,size.z*.25,size.z*.90));
+  return pair(0,2,range(lateral,.35,.95));
+ }
  if(profile==='chest')return pair(name.toLowerCase().includes('clavicular')?1:0,3,range(lateral,.72,.98));
  if(profile==='cuff')return pair(2,3,range(lateral,.30,.95));
  if(profile==='coraco')return pair(2,3,range(down,.1,.85));
@@ -224,16 +229,14 @@ export function deformTissue(binding:SkinBinding,base:Float32Array,palette:Palet
  const radialScale=Math.max(.94,Math.min(1.08,1/Math.sqrt(Math.max(.60,ratio))));
  const q=new Float64Array(8);
 
- // Broad muscles must not be linearly interpolated between a fixed thorax
- // and a highly rotated humerus: linear position blending collapses the mesh
- // into long triangular flaps at high shoulder elevation. The generic
- // dual-quaternion path below blends the two attachment frames without volume
- // collapse, while the sheet weights still keep the medial origin pinned.
+ // Preserve the established chest endpoint blend here. Changing to pure
+ // dual-quaternion interpolation increases local expansion at large angles;
+ // the surface solver must preserve seams while correcting excess stretch.
 
  for(let i=0;i<base.length/3;i++){
   blended(palette,binding.indices,binding.weights,i*4,q);
   const extra=(radialScale-1)*binding.belly[i],j=i*3;
-  if((binding.profile==='chest'||binding.profile==='pectoralPath'||binding.profile==='axillaryCable')){
+  if(binding.profile==='chest'||binding.profile==='pectoralPath'||binding.profile==='axillaryCable'){
    let x=0,y=0,z=0;const v=new Float64Array(3);
    for(let k=0;k<4;k++){const w=binding.weights[i*4+k];if(!w)continue;
     const f=binding.indices[i*4+k];transform(base[j],base[j+1],base[j+2],palette.subarray(f*8,f*8+8),v,0);
