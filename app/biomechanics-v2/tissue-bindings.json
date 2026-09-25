@@ -102,12 +102,12 @@
   "FJ1470": {
     "name": "Flexor digiti minimi brevis of right hand",
     "side": "right",
-    "profile": "forearm"
+    "profile": "hand"
   },
   "FJ1470M": {
     "name": "Flexor digiti minimi brevis of left hand",
     "side": "left",
-    "profile": "forearm"
+    "profile": "hand"
   },
   "FJ1472": {
     "name": "Right extensor carpi ulnaris",
