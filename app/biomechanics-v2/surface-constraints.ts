@@ -1,6 +1,6 @@
 import type {SkinBinding} from './soft-tissue';
 
-export interface SurfaceConstraints{edges:Uint32Array;lengths:Float32Array;mobility:Float32Array;maxStretch:number}
+export interface SurfaceConstraints{edges:Uint32Array;lengths:Float32Array;mobility:Float32Array}
 /** Rest-edge guard for broad sheets. It limits local stretch after skinning;
  * it is not a collision or physiological muscle solver. Rigid attachments stay put. */
 export function makeSurfaceConstraints(base:Float32Array,triangles:ArrayLike<number>,skin:SkinBinding):SurfaceConstraints{
@@ -11,13 +11,12 @@ export function makeSurfaceConstraints(base:Float32Array,triangles:ArrayLike<num
   if(seen.has(key))continue;seen.add(key);const length=Math.hypot(base[a*3]-base[b*3],base[a*3+1]-base[b*3+1],base[a*3+2]-base[b*3+2]);
   if(length<1e-7)continue;edges.push(a,b);lengths.push(length);
  }
- const maxStretch=skin.profile==='pectoralPath'?1.16:skin.profile==='chest'?1.18:skin.profile==='cuff'?1.22:skin.profile==='deltoid'?1.26:1.35;
- return{edges:new Uint32Array(edges),lengths:new Float32Array(lengths),mobility,maxStretch};
+ return{edges:new Uint32Array(edges),lengths:new Float32Array(lengths),mobility};
 }
 export function constrainSurface(c:SurfaceConstraints,positions:Float32Array,passes=6):void{
  for(let pass=0;pass<passes;pass++)for(let k=pass%2?c.lengths.length-1:0;pass%2?k>=0:k<c.lengths.length;k+=pass%2?-1:1){
   const a=c.edges[k*2],b=c.edges[k*2+1],ma=c.mobility[a],mb=c.mobility[b],sum=ma+mb;if(!sum)continue;
-  const i=a*3,j=b*3,dx=positions[j]-positions[i],dy=positions[j+1]-positions[i+1],dz=positions[j+2]-positions[i+2],length=Math.hypot(dx,dy,dz),max=c.lengths[k]*c.maxStretch;
+  const i=a*3,j=b*3,dx=positions[j]-positions[i],dy=positions[j+1]-positions[i+1],dz=positions[j+2]-positions[i+2],length=Math.hypot(dx,dy,dz),max=c.lengths[k]*1.45;
   if(length<=max)continue;
   const correction=(length-max)/length/sum*.8;
   positions[i]+=dx*correction*ma;positions[i+1]+=dy*correction*ma;positions[i+2]+=dz*correction*ma;
