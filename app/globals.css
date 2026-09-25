@@ -565,3 +565,137 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
     display:none;
   }
 }
+
+
+/* MJ polish pass: compact systems, frameless region nav, horizontal right tools */
+@media(min-width:768px){
+  .top-region-nav{
+    background:transparent!important;
+    border:0!important;
+    box-shadow:none!important;
+    backdrop-filter:none!important;
+    padding:0!important;
+    gap:6px!important;
+    width:min(350px,36vw)!important;
+    min-width:310px!important;
+  }
+  .top-region-nav button{
+    background:transparent;
+    border:0;
+    box-shadow:none;
+  }
+  .top-region-nav button:hover{
+    background:#ffffffb8;
+  }
+  .top-region-nav button[aria-pressed=true]{
+    background:#263b48!important;
+    color:#fff!important;
+  }
+
+  .layers-panel{
+    padding:10px 10px 7px!important;
+    overflow:hidden!important;
+  }
+  .layers-panel .system-list{
+    flex:0 1 auto!important;
+    max-height:calc(100dvh - 280px)!important;
+    overflow-y:auto!important;
+    padding-right:6px!important;
+    scrollbar-gutter:auto!important;
+  }
+  .layers-panel .system-row,
+  .layers-panel .system-name{
+    min-height:31px!important;
+    height:31px!important;
+  }
+  .layers-panel .system-name{
+    font-size:11px!important;
+    padding:0 4px!important;
+  }
+  .layers-panel .system-count{
+    font-size:9px!important;
+  }
+  .layers-panel .system-row [data-slot=switch]{
+    transform:scale(.86)!important;
+    transform-origin:right center!important;
+    margin-right:0!important;
+  }
+  .layers-panel .organ-children .system-row,
+  .layers-panel .organ-children .system-name{
+    min-height:29px!important;
+    height:29px!important;
+  }
+  .detail-atlas-shortcuts{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:4px;
+    padding:6px 0;
+    margin-top:3px;
+    border-top:1px solid #18253610;
+  }
+  .detail-atlas-shortcuts button{
+    min-height:30px;
+    height:30px;
+    padding:0 6px;
+    border-radius:7px;
+    background:#f1f4f5;
+    color:#5f6d78;
+    font-size:10px;
+    font-weight:500;
+  }
+  .detail-atlas-shortcuts button:hover{
+    background:#e8edef;
+    color:#263b48;
+  }
+  .layers-panel .panel-foot{
+    min-height:34px!important;
+    padding:3px 2px!important;
+    gap:3px!important;
+  }
+  .layers-panel .panel-foot>span{
+    font-size:9px!important;
+  }
+  .layers-panel .panel-foot-actions button{
+    min-height:28px!important;
+    padding:3px 4px!important;
+    font-size:9px!important;
+  }
+
+  .right-tool-rail button{
+    writing-mode:horizontal-tb!important;
+    text-orientation:mixed!important;
+    word-break:keep-all!important;
+    overflow-wrap:normal!important;
+    white-space:nowrap!important;
+    line-height:1!important;
+    display:flex!important;
+    flex-direction:row!important;
+    align-items:center!important;
+    justify-content:center!important;
+    letter-spacing:0!important;
+  }
+}
+
+@media(max-width:767px){
+  .top-region-nav{
+    background:transparent!important;
+    border:0!important;
+    box-shadow:none!important;
+    backdrop-filter:none!important;
+    padding:0!important;
+    gap:4px!important;
+  }
+  .detail-atlas-shortcuts{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:5px;
+    padding:8px 0;
+    border-top:1px solid #18253610;
+  }
+  .detail-atlas-shortcuts button{
+    min-height:40px;
+    border-radius:8px;
+    background:#f1f4f5;
+    font-size:12px;
+  }
+}
