@@ -1171,3 +1171,18 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
     overflow-y:auto!important;
   }
 }
+
+
+/* Direct motion controls: every joint axis stays visible and draggable. */
+.motion-control-stack{display:flex;flex-direction:column;gap:6px;min-width:0}
+.motion-control-stack .motion-pull-controller{padding:7px 8px;gap:5px;background:#f3f6f7}
+.motion-control-stack .motion-pull-head{align-items:center}
+.motion-control-stack .motion-pull-head>div>span{display:none}
+.motion-control-stack .motion-pull-head strong{font-size:10.5px;line-height:1.2}
+.motion-control-stack .motion-pull-head output{font-size:10px;padding:2px 5px}
+.motion-control-stack .motion-angle-track{padding:4px 7px 5px}
+.motion-control-stack .motion-pull-scale{font-size:7px}
+@media(max-width:767px){
+ .motion-control-stack{gap:5px}
+ .motion-control-stack .motion-pull-controller{padding:7px}
+}
