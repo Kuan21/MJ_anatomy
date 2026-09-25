@@ -13,6 +13,7 @@ const byId=new Map(parts.map(p=>[p.id,p]));
 const failures=[];
 const center=p=>p.bounds[0].map((v,i)=>(v+p.bounds[1][i])/2);
 const side=p=>{const x=center(p)[0];return x>.025?'left':x<-.025?'right':null;};
+const limbLaterality=/clavicle|scapula|humerus|radius|ulna|hand|finger|thumb|carpal|metacarp|brachial|antebrachial|cephalic|basilic|femur|femoral|patella|tibia|fibula|fibular|saphen|sciatic|glute|thigh|leg|foot|toe|tarsal|metatars|plantar|calcane|talus|gastrocnem|soleus/i;
 
 for(const p of parts){
  const [x,y]=center(p);
