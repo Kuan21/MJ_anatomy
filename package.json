@@ -13,7 +13,7 @@
     "predev": "node scripts/prepare-draco.mjs",
     "prebuild": "node scripts/prepare-draco.mjs",
     "prebuild:vercel": "node scripts/prepare-draco.mjs",
-    "check:motion": "node scripts/test-skeleton-v2.mjs && node scripts/test-soft-tissue.mjs && node scripts/test-body-motion.mjs && node scripts/test-nerve-motion.mjs && node scripts/test-body-nerves.mjs && node scripts/test-surface-constraints.mjs"
+    "check:motion": "node scripts/prepare-draco.mjs && node scripts/test-skeleton-v2.mjs && node scripts/test-soft-tissue.mjs && node scripts/test-body-motion.mjs && node scripts/test-nerve-motion.mjs && node scripts/test-body-nerves.mjs && node scripts/test-surface-constraints.mjs"
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",
