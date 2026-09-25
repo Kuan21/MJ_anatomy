@@ -34,7 +34,18 @@ export function makeBodyRig(atlas:Atlas,region:BodyRegion):BodyRig{
    let best=0,dist=Infinity;levels.forEach((level,i)=>{const d=Math.abs(level-y);if(d<dist){dist=d;best=i;}});
    framePartIds[best].push(p.id);
   }
-  return{region,pivots,levels,focusIds,framePartIds};
+  // Everything anatomically suspended from the upper thorax must inherit the
+  // final thoracic frame during trunk motion. Otherwise the ribs bend while
+  // the shoulder girdle, arms and head remain behind in world space.
+  const upperChain=/clavicle|scapula|humerus|ulna|radius|carpal|metacarpal|phalanx of .*?(?:finger|thumb)|cervical vertebra|atlas$|axis$|occipital|parietal|frontal bone|temporal bone|sphenoid|ethmoid|mandible|maxilla|zygomatic|nasal bone|lacrimal bone|palatine bone|vomer/i;
+  const topFrame=framePartIds[framePartIds.length-1];
+  const assigned=new Set(framePartIds.flat());
+  for(const p of atlas.parts){
+   if(p.system!=='skeletal'||assigned.has(p.id))continue;
+   const b=bodyBindings[p.id];
+   if(upperChain.test(p.name)||(b?.rig==='head'&&b.frame!==null))topFrame.push(p.id);
+  }
+  return{region,pivots,levels,focusIds:[...new Set([...focusIds,...framePartIds.flat()])],framePartIds};
  }
  const side=region==='leftLeg'?'Left':'Right',sign=region==='leftLeg'?1:-1,femur=part(`${side} femur`),tibia=part(`${side} tibia`),talus=part(`${side} talus`);
  const hip=center(femur).set(sign*(Math.min(Math.abs(femur.bounds[0][0]),Math.abs(femur.bounds[1][0]))+.022),femur.bounds[1][1]-.023,center(femur).z);
