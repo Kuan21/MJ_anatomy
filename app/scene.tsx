@@ -13,6 +13,7 @@ import {SYSTEMS,type Atlas,type SceneState} from './anatomy';
 import {matchesUpperLimbMuscleLayer} from './mj-muscle-layers';
 import {matchesFacialMuscleLayer} from './mj-facial-layers';
 import {matchesDepth} from './mj-depth';
+import {anatomicalRegion,anatomicalSide,isMotionQuarantined} from './mj-part-regions';
 import {makeSoftRig,bindTissue,makePalette,deformTissue,registerNerveRest,resolveNeurovascularProfile,tissueBindings,nerveBindings,type SkinBinding,type Profile} from './biomechanics-v2/soft-tissue';
 import {makeBodyRig,buildBodyMotion,bindBodyTissue,cranialNerveRigid,bodyBindings,type BodyRegion} from './biomechanics-v2/body-motion';
 import {makeSurfaceConstraints,constrainSurface,makeSurfaceGroup,constrainSurfaceGroup} from './biomechanics-v2/surface-constraints';
@@ -276,26 +277,40 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     for(let vi=0;vi<p.vertexCount;vi++)weights[vi]=vertexMotionWeight(p,position.getX(vi),position.getY(vi),position.getZ(vi));
     g.setAttribute('motionWeight',new T.BufferAttribute(weights,1));
     g.boundingBox=bounds[i].clone();g.computeBoundingSphere();const pick=new T.Mesh(g);pick.matrixAutoUpdate=false;pick.userData.baseMotionPositions=new Float32Array(position.array as ArrayLike<number>);pick.userData.motionWeights=weights;
-    const binding=tissueBindings[p.id],rig=binding?softRigs[binding.side]:null;
-    if(binding?.name===p.name&&rig){
+    const binding=tissueBindings[p.id];
+    const canonicalRegion=anatomicalRegion(p),canonicalSide=anatomicalSide(p);
+    const bindingSide=binding?(canonicalSide==='midline'?binding.side:canonicalSide):null;
+    const rig=bindingSide?softRigs[bindingSide]:null;
+    // Upper-limb motion uses the same canonical region/laterality as Focus and
+    // the detail panel. A misleading source name can no longer attach a foot
+    // vessel or opposite-side hand muscle to an arm rig.
+    if(binding?.name===p.name&&rig&&canonicalRegion==='upper-limb'&&!isMotionQuarantined(p)){
      const profile=(p.system==='arterial'||p.system==='venous')?resolveNeurovascularProfile(p.name,binding.profile):binding.profile;
      pick.userData.skin=bindTissue(rig,profile,pick.userData.baseMotionPositions,p);
-     pick.userData.tissueSide=binding.side;
+     pick.userData.tissueSide=bindingSide;
     }
-    if(!pick.userData.skin&&p.system==='connective'){
-     const side=connectiveSide(p.name),profile=connectiveProfile(p.name),jointRig=side?softRigs[side]:null;
+    if(!pick.userData.skin&&p.system==='connective'&&canonicalRegion==='upper-limb'&&!isMotionQuarantined(p)){
+     const side=canonicalSide==='midline'?connectiveSide(p.name):canonicalSide,profile=connectiveProfile(p.name),jointRig=side?softRigs[side]:null;
      if(side&&profile&&jointRig){
       pick.userData.skin=bindTissue(jointRig,profile,pick.userData.baseMotionPositions,p);
       pick.userData.tissueSide=side;pick.userData.mjJointBinding=profile;
      }
     }
 
-    // Whole-body bindings are explicit. Do not infer a leg/arm from a shared
-    // word in the structure name: that was the source of cross-region motion.
+    // Whole-body bindings are keyed by stable source ID. The curated binding
+    // name may intentionally correct a bad BodyParts3D label (for example the
+    // dorsal foot veins mislabelled as metacarpal), so do not reject the
+    // binding merely because the raw source name differs.
     const bb=bodyBindings[p.id];
-    if(bb?.name===p.name&&bb.frame===null){
-     pick.userData.bodySkin=bindBodyTissue(bodyRigs[bb.rig],pick.userData.baseMotionPositions,false,p);
-     pick.userData.bodyRegion=bb.rig;
+    let resolvedBodyRegion:BodyRegion|undefined=bb?.rig;
+    if(resolvedBodyRegion==='leftLeg'||resolvedBodyRegion==='rightLeg'){
+     if(canonicalRegion!=='lower-limb'||isMotionQuarantined(p))resolvedBodyRegion=undefined;
+     else if(canonicalSide==='left')resolvedBodyRegion='leftLeg';
+     else if(canonicalSide==='right')resolvedBodyRegion='rightLeg';
+    }
+    if(bb&&bb.frame===null&&resolvedBodyRegion){
+     pick.userData.bodySkin=bindBodyTissue(bodyRigs[resolvedBodyRegion],pick.userData.baseMotionPositions,false,p);
+     pick.userData.bodyRegion=resolvedBodyRegion;
     }
 
     const pc=partCenter(p),spinalCordPart=/spinal cord|central canal/i.test(p.name),spansNeck=p.bounds[1][1]>=1.10&&p.bounds[0][1]<=1.72;
