@@ -127,11 +127,24 @@ export default function Home(){
  const pullMotion=(value:number)=>applyMotionPose({...motionTargetRef.current,[upperActionKey]:value});
  useEffect(()=>()=>{if(smoothMotionFrame.current!==null)cancelAnimationFrame(smoothMotionFrame.current);},[]);
  const bodyRigs=useMemo(()=>atlas?{head:makeBodyRig(atlas,'head'),spine:makeBodyRig(atlas,'spine'),leftLeg:makeBodyRig(atlas,'leftLeg'),rightLeg:makeBodyRig(atlas,'rightLeg')}:null,[atlas]);
+ const topFocusIds=(next:TopRegion)=>{
+  if(!atlas||next==='whole')return undefined;
+  if(next==='organs')return atlas.parts.filter(p=>ORGAN_SYSTEM_IDS.includes(p.system)).map(p=>p.id);
+  return atlas.parts.filter(p=>{
+   const cx=(p.bounds[0][0]+p.bounds[1][0])*.5,cy=(p.bounds[0][1]+p.bounds[1][1])*.5,ax=Math.abs(cx),n=p.name.toLowerCase();
+   if(next==='head')return cy>=1.27||/cervical vertebra|atlas$|axis$|hyoid/.test(n);
+   if(next==='lower')return (cy<=.92&&ax>=.035)||/hip bone|femur|patella|tibia|fibula|talus|calcaneus|metatars|phalanx of .*toe/.test(n);
+   return (cy>=.68&&cy<=1.55&&ax>=.09)||/clavicle|scapula|humerus|radius|ulna|carpal|metacarp|phalanx of .*finger|phalanx of .*thumb/.test(n);
+  }).map(p=>p.id);
+ };
  const selectTop=(next:TopRegion)=>{
-  setMicroAtlas(null);if(!atlas||!bodyRigs)return;setTopRegion(next);setStudySide('both');setRegion('whole-body');setDissectionStage(0);setMotionEdit(false);setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;motionTargetRef.current=NEUTRAL_POSE;setDetails(false);setChosen(null);setExternalNerve(null);
-  if(next==='head'){changeBody('head',{...BODY_NEUTRAL},true);return;}
-  const ids=next==='upper'?[...new Set((['shoulder','arm','forearm','hand'] as RegionId[]).flatMap(r=>resolveDissection(atlas,r,0).partIds))]:next==='lower'?[...bodyRigs.leftLeg.focusIds,...bodyRigs.rightLeg.focusIds]:next==='organs'?atlas.parts.filter(p=>ORGAN_SYSTEM_IDS.includes(p.system)).map(p=>p.id):undefined;
-  setState(s=>({...s,focusParts:ids,cameraFocusParts:ids,cameraFocusNonce:(s.cameraFocusNonce??0)+1,bodyMotion:undefined,partTransforms:undefined,selected:[],hiddenParts:[],depthFilter:'all',muscleLayer:'all',faceMuscleLayer:'all',isolate:false,explode:0,rotate:false,visible:next==='organs'?ORGAN_SYSTEM_IDS:next==='whole'?DEFAULT_VISIBLE:[...REGIONAL_VISIBLE,'respiratory','digestive','sensory'],reset:s.reset+1}));
+  setMicroAtlas(null);if(!atlas||!bodyRigs)return;
+  if(smoothMotionFrame.current!==null){cancelAnimationFrame(smoothMotionFrame.current);smoothMotionFrame.current=null;}
+  setTopRegion(next);setStudySide('both');setRegion('whole-body');setDissectionStage(0);setMotionEdit(false);setMotionEnabled(false);
+  setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;motionTargetRef.current=NEUTRAL_POSE;
+  setDetails(false);setChosen(null);setExternalNerve(null);
+  const ids=topFocusIds(next);
+  setState(s=>({...s,focusParts:ids,cameraFocusParts:ids,cameraFocusNonce:(s.cameraFocusNonce??0)+1,bodyMotion:undefined,partTransforms:undefined,selected:[],hiddenParts:[],depthFilter:'all',muscleLayer:'all',faceMuscleLayer:'all',isolate:false,explode:0,rotate:false,reset:s.reset+1}));
  };
  const enterUpperMotion=()=>{if(!atlas)return;setMicroAtlas(null);setStudySide('both');setTopRegion('upper');setRegion('whole-body');setMotionEdit(true);setState(s=>({...s,bodyMotion:undefined,partTransforms:undefined,focusParts:undefined,selected:[],isolate:false,explode:0,rotate:false}));};
  const inspectMotionStructure=(term:string)=>{if(!atlas)return;const t=term.toLowerCase(),side=state.bodyMotion?.region==='leftLeg'?'left':state.bodyMotion?.region==='rightLeg'?'right':!state.bodyMotion&&studySide!=='both'?studySide:null;let candidates=atlas.concepts.filter(x=>x.name.toLowerCase().includes(t));if(side){const sided=candidates.filter(x=>x.name.toLowerCase().includes(side));if(sided.length)candidates=sided;}candidates.sort((a,b)=>a.name.length-b.name.length);if(candidates[0])choose(candidates[0]);};
@@ -140,9 +153,8 @@ export default function Home(){
  return <main className="studio">
   {microAtlas?<MicroAtlasScene atlasId={microAtlas} onExit={()=>setMicroAtlas(null)}/>:atlas&&<AnatomyScene atlas={atlas} state={{...state,inspectorOpen:details&&(selectedParts.length>0||!!externalNerve)}} onSelect={choosePart} onSelectNerve={chooseNerve} onProgress={n=>{setProgress(n);if(n===100)setError('');}} onError={setError} onJointDrag={nudgeJoint} region={region} focusSide={studySide} motionActive={motionEdit} jointMotionEnabled={motionEnabled} selectedExternalNerve={externalNerve} bodyArea={topRegion}/>}
   <div className="vignette"/>
-  <header className="identity"><div className="eyebrow"><span className="status-dot"/> INTERACTIVE ANATOMY ATLAS</div><h1>{microAtlas?MICRO_ATLASES[microAtlas].title:'MJ Anatomy'}<Badge variant="outline" className="edition">3D</Badge></h1><div className="identity-meta">{microAtlas?MICRO_ATLASES[microAtlas].source:<>{atlas?atlas.parts.length.toLocaleString():'2,234'} structures <span>·</span> BodyParts3D <span>·</span> Human Atlas adapted</>}</div></header>
-  <nav className="top-actions" aria-label="Explorer panels">{!microAtlas&&<><a href="?lab=skeleton-v2" style={{fontSize:12,padding:8}}>Skeleton v2｜骨骼測試</a><Button variant="ghost" className={panel==='search'?'active':''} onClick={()=>openPanel('search')} aria-label="Search anatomy"><Search size={18}/><span>Find a structure</span><kbd>/</kbd></Button></>}<Button variant="ghost" className="icon-button" aria-label="About this atlas" onClick={()=>{setDetails(false);setPanel(null);setAbout(true);}}><Info size={18}/></Button></nav>
-  <nav className="body-region-nav glass" aria-label="身體區域">{([['whole','全身'],['upper','上肢'],['lower','下肢'],['head','頭部'],['organs','內臟']] as [TopRegion,string][]).map(([id,label])=><Button variant="ghost" key={id} aria-pressed={!microAtlas&&topRegion===id} onClick={()=>selectTop(id)}>{label}</Button>)}{(['brain','eye','ear'] as MicroAtlasId[]).map(id=><Button variant="ghost" key={id} className="micro-region-button" aria-pressed={microAtlas===id} onClick={()=>openMicroAtlas(id)}>{id==='brain'?'腦':id==='eye'?'眼':'耳'}</Button>)}</nav>
+  <header className="identity"><div className="eyebrow"><span className="status-dot"/> INTERACTIVE ANATOMY ATLAS</div><div className="identity-title-row"><h1>MJ Anatomy<Badge variant="outline" className="edition">3D</Badge></h1><nav className="header-region-nav glass" aria-label="身體區域">{([['whole','全身'],['upper','上肢'],['lower','下肢'],['head','頭部']] as [TopRegion,string][]).map(([id,label])=><Button variant="ghost" key={id} aria-pressed={topRegion===id&&!microAtlas} onClick={()=>selectTop(id)}>{label}</Button>)}</nav></div><div className="identity-meta">{atlas?atlas.parts.length.toLocaleString():'2,234'} structures <span>·</span> BodyParts3D <span>·</span> Human Atlas adapted</div></header>
+  <nav className="top-actions" aria-label="Explorer panels"><a href="?lab=skeleton-v2" style={{fontSize:12,padding:8}}>Skeleton v2｜骨骼測試</a><Button variant="ghost" className={panel==='search'?'active':''} onClick={()=>openPanel('search')} aria-label="Search anatomy"><Search size={18}/><span>Find a structure</span><kbd>/</kbd></Button><Button variant="ghost" className="icon-button" aria-label="About this atlas" onClick={()=>{setDetails(false);setPanel(null);setAbout(true);}}><Info size={18}/></Button></nav>
   <aside className="right-tool-rail glass" aria-label="模型檢視工具">{([['view','體位'],['dissection','分層解剖'],['depth','組織深度']] as const).map(([id,label])=><Button variant="ghost" key={id} aria-expanded={rightTool===id} aria-controls={`tool-${id}`} onClick={()=>setRightTool(v=>v===id?null:id)}>{label}</Button>)}</aside>
   {rightTool==='dissection'&&<section id="tool-dissection" className="right-tool-panel glass" aria-label="分層解剖">
    <div className="mj-region-title"><strong>Dissection｜分層解剖</strong><span>Peel anatomy layer by layer</span></div>
