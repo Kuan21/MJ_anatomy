@@ -42,6 +42,22 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    if(/wrist|radiocarpal|ulnocarpal|intercarpal|carpometacarp|metacarpophalangeal|interphalangeal|retinaculum/.test(n))return 'wristJoint';
    return null;
   };
+  const partCenter=(p:(typeof atlas.parts)[number])=>new T.Vector3().fromArray(p.bounds[0]).add(new T.Vector3().fromArray(p.bounds[1])).multiplyScalar(.5);
+  const inferredSide=(p:(typeof atlas.parts)[number]):'left'|'right'=>/\bleft\b/i.test(p.name)?'left':/\bright\b/i.test(p.name)?'right':partCenter(p).x>=0?'left':'right';
+  const lowerLimbName=/femoral|saphen|tibial|fibular|peroneal|popliteal|sciatic|obturator|glute|adductor|quadriceps|rectus femoris|vastus|hamstring|biceps femoris|semitend|semimembr|gastrocnem|soleus|tibialis|fibularis|gracilis|sartorius|iliotibial|patellar|calcaneal|achilles|plantar|hallucis|digitorum.*(?:foot|toe)|metatars|toe|ankle|hip joint|thigh|leg/i;
+  const upperAutoProfile=(p:(typeof atlas.parts)[number]):Profile|null=>{
+   const n=p.name.toLowerCase(),q=partCenter(p),ax=Math.abs(q.x);
+   if(/latissimus dorsi/.test(n))return 'chest';
+   if(/serratus anterior|trapezius|rhomboid|levator scapulae/.test(n))return 'scapular';
+   if(ax<.13||q.y<.60||q.y>1.50)return null;
+   if(q.y<.84)return 'hand';
+   if(q.y<1.08)return 'forearm';
+   return 'arm';
+  };
+  const lowerBodyRegion=(p:(typeof atlas.parts)[number]):BodyRegion|null=>{
+   if(!lowerLimbName.test(p.name))return null;
+   return inferredSide(p)==='left'?'leftLeg':'rightLeg';
+  };
   const nerveRoot=new T.Group();nerveRoot.name='MJ external nervous system';scene.add(nerveRoot);const nerveMeshes:NerveMesh[]=[];
   const shoulderNerve=/brachial plexus|trunk of brachial plexus|division of .*brachial plexus|cord of brachial plexus|roots of brachial plexus|axillary nerve|suprascapular nerve|long thoracic nerve|thoracodorsal nerve|pectoral nerve|subscapular nerve|dorsal scapular nerve|subclavian nerve/i;
   const armNerve=/musculocutaneous nerve|radial nerve|median nerve|ulnar nerve|brachial cutaneous nerve|antebrachial cutaneous nerve|muscular branches of (radial|axillary|median|ulnar) nerve/i;
