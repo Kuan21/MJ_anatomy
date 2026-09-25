@@ -1,3 +1,4 @@
+import type {CSSProperties} from 'react';
 import {GripVertical,Pause,Play} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 
@@ -23,7 +24,7 @@ export default function MotionPullControl({
    </Button>
    <label className={'motion-pull-track '+(disabled?'disabled':'')}>
     <span className="motion-pull-label"><b>拉動</b><small>Pull</small></span>
-    <div className="motion-pull-rail" style={{'--pull':value/100} as React.CSSProperties}>
+    <div className="motion-pull-rail" style={{'--pull':value/100} as CSSProperties}>
      <i className="motion-pull-fill"/>
      <span className="motion-pull-anchor"/>
      <span className="motion-pull-handle"><GripVertical size={13}/></span>
