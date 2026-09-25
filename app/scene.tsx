@@ -73,17 +73,19 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     // deterministically, and never import central-nervous-system meshes from
     // this legacy overlay (the BodyParts3D atlas already owns the brain/CNS).
     if(/nervous system\s*&\s*sense organs/i.test(exactName))return;
-    if(!nerveBindings[exactName]&&!bodyNerveBindings[exactName]&&!/nerve|ganglion|plexus|ramus|rami/i.test(exactName))return;
-    if(hasNamedAncestor(o,/central nervous system/i))return;
-    if(/brain|cerebr|cerebell|\bgyrus\b|lobule|\blobe\b|hemisphere|white matter|gray matter|cortex|corpus callosum|thalam|hypothalam|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|colliculus|geniculate|midbrain|pons|medulla|fornix|commissure|ventricle|choroid plexus|optic chiasm|optic tract|pituitary|pineal/i.test(fullName))return;
+    const spinalCordLike=/spinal cord|medulla spinalis/i.test(fullName);
+    const cranialNerveLike=/optic nerve|oculomotor|trochlear|trigeminal|abducens|facial nerve|vestibulocochlear|glossopharyngeal|vagus|accessory nerve|hypoglossal|cranial nerve/i.test(fullName);
+    if(!nerveBindings[exactName]&&!bodyNerveBindings[exactName]&&!spinalCordLike&&!/nerve|ganglion|plexus|ramus|rami/i.test(exactName))return;
+    if(hasNamedAncestor(o,/central nervous system/i)&&!spinalCordLike)return;
+    if(/brain|cerebr|cerebell|\bgyrus\b|lobule|\blobe\b|hemisphere|white matter|gray matter|cortex|corpus callosum|thalam|hypothalam|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|colliculus|geniculate|midbrain|pons|medulla oblongata|fornix|commissure|ventricle|choroid plexus|optic chiasm|optic tract|pituitary|pineal/i.test(fullName)&&!spinalCordLike)return;
     const geometry=o.geometry.clone();geometry.applyMatrix4(o.matrixWorld);geometry.computeBoundingBox();const geoCenter=geometry.boundingBox?.getCenter(new T.Vector3())??new T.Vector3(),geoSize=geometry.boundingBox?.getSize(new T.Vector3())??new T.Vector3();
     // Fallback for the title geometry even if a future exporter renames it.
     if(geoCenter.x<-.58&&geoCenter.y>.68&&geoCenter.y<1.12)return;
     // Some legacy CNS children have no useful anatomical node label. Reject
     // broad intracranial sheets by geometry as well, while retaining slender
     // cranial/peripheral nerves. The integrated brain model owns this volume.
-    if(geoCenter.y>1.49&&Math.abs(geoCenter.x)<.16&&geoSize.x>.045&&geoSize.z>.045)return;
-    geometry.boundingSphere=new T.Sphere(new T.Vector3(0,.9,0),2.5);const position=geometry.getAttribute('position');if(!position)return;const material=new T.MeshStandardMaterial({color:0xf1cb4f,metalness:0,roughness:.42,emissive:0x6b5100,emissiveIntensity:.28,depthTest:true,depthWrite:false,transparent:true,opacity:.82});geometry.computeBoundingBox();const nerveCenter=geometry.boundingBox?.getCenter(new T.Vector3())??new T.Vector3();
+    if(geoCenter.y>1.46&&Math.abs(geoCenter.x)<.22&&!cranialNerveLike&&!spinalCordLike&&(geoSize.x>.028||geoSize.z>.028))return;
+    geometry.boundingSphere=new T.Sphere(new T.Vector3(0,.9,0),2.5);const position=geometry.getAttribute('position');if(!position)return;const material=new T.MeshStandardMaterial({color:spinalCordLike?0xe8d9b8:0xf1cb4f,metalness:0,roughness:.42,emissive:spinalCordLike?0x493f2d:0x6b5100,emissiveIntensity:spinalCordLike?.10:.28,depthTest:true,depthWrite:true,transparent:false,opacity:1});geometry.computeBoundingBox();const nerveCenter=geometry.boundingBox?.getCenter(new T.Vector3())??new T.Vector3();
     const binding=nerveBindings[exactName];
     const mesh=new T.Mesh(geometry,material);mesh.name=exactName||fullName;mesh.frustumCulled=false;mesh.renderOrder=0;
     mesh.userData.mjNerve=true;mesh.userData.mjExactName=exactName;mesh.userData.mjSide=binding?.side??nerveSide(exactName);
@@ -91,9 +93,10 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     mesh.userData.basePositions=new Float32Array(position.array as ArrayLike<number>);
     if(binding&&softRigs[binding.side])mesh.userData.skin=bindTissue(softRigs[binding.side]!,resolveNeurovascularProfile(exactName,'path'),mesh.userData.basePositions);
     const inferredHeadNerve=/cervical|vagus|phrenic|hypoglossal|accessory|glossopharyngeal|ansa cervicalis|sympathetic trunk|superior cervical|middle cervical|inferior cervical/i.test(exactName);
-    const bodyRegion=bodyNerveBindings[exactName]??(inferredHeadNerve?'head':undefined);
-    if(bodyRegion){mesh.userData.bodyRegion=bodyRegion;mesh.userData.bodySkin=bindBodyTissue(bodyRigs[bodyRegion],mesh.userData.basePositions,cranialNerveRigid(exactName));}
-    if(binding||bodyRegion==='head')mesh.userData.spineSkin=bindBodyTissue(bodyRigs.spine,mesh.userData.basePositions,true);
+    const bodyRegion=spinalCordLike?'head':bodyNerveBindings[exactName]??(inferredHeadNerve?'head':undefined);
+    if(bodyRegion){mesh.userData.bodyRegion=bodyRegion;mesh.userData.bodySkin=bindBodyTissue(bodyRigs[bodyRegion],mesh.userData.basePositions,spinalCordLike?false:cranialNerveRigid(exactName));}
+    if(spinalCordLike)mesh.userData.spineSkin=bindBodyTissue(bodyRigs.spine,mesh.userData.basePositions,false);
+    else if(binding||bodyRegion==='head')mesh.userData.spineSkin=bindBodyTissue(bodyRigs.spine,mesh.userData.basePositions,true);
     nerveRoot.add(mesh);nerveMeshes.push(mesh);
    });lastState=null;dirty=true;},undefined,err=>{if(!disposed)console.warn('Could not load legacy nervous system model',err);});
   // The pinned Brain Project asset ships with the site. No runtime CDN or
@@ -147,8 +150,9 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      const geometry=o.geometry.clone();geometry.applyMatrix4(o.matrixWorld);geometry.computeBoundingBox();geometry.computeVertexNormals();
      const appearance=brainAppearance(label,category);
      let material=brainMaterials.get(appearance.key);
-     if(!material){material=new T.MeshStandardMaterial({color:appearance.color,roughness:.72,metalness:0,side:T.FrontSide,transparent:appearance.transparent,opacity:appearance.opacity,depthWrite:!appearance.transparent});brainMaterials.set(appearance.key,material);materials.push(material);}
-     const mesh=new T.Mesh(geometry,material);mesh.name='Brain Project · '+label;mesh.frustumCulled=false;mesh.userData.mjBrainProject=true;mesh.userData.mjBrainLabel=label;mesh.userData.mjAtlasId=brainAtlasIdFor(label,category);brainVisualRoot.add(mesh);brainPickers.push(mesh);added.push(mesh);
+     if(!material){material=new T.MeshStandardMaterial({color:appearance.color,roughness:.72,metalness:0,side:T.FrontSide,transparent:appearance.transparent,opacity:appearance.opacity,depthWrite:!appearance.transparent});brainMaterials.set(appearance.key,material);}
+     const meshMaterial=material.clone();materials.push(meshMaterial);
+     const mesh=new T.Mesh(geometry,meshMaterial);mesh.name='Brain Project · '+label;mesh.frustumCulled=false;mesh.userData.mjBrainProject=true;mesh.userData.mjBrainLabel=label;mesh.userData.mjAtlasId=brainAtlasIdFor(label,category);mesh.userData.mjBrainBaseColor=appearance.color;mesh.userData.mjBrainBaseOpacity=appearance.opacity;brainVisualRoot.add(mesh);brainPickers.push(mesh);added.push(mesh);
      if(geometry.boundingBox)sourceBox.union(geometry.boundingBox);
     });
     if(sourceBox.isEmpty()||brainTargetBox.isEmpty()||!added.length){brainVisualRoot.clear();brainPickers.length=0;return;}
@@ -506,13 +510,13 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     nerveRoot.visible=nervesOn;
     nerveMeshes.forEach(o=>{
      if(!nervesOn){o.visible=false;return;}
-     const name=(o.userData.mjExactName as string|undefined)||o.name,side=nerveSide(name);
+     const name=(o.userData.mjExactName as string|undefined)||o.name,side=nerveSide(name),boundRegion=o.userData.bodyRegion as BodyRegion|undefined;
      const sideOk=ctx.focusSide==='both'||side==='both'||side===ctx.focusSide;
      if(s.bodyMotion?.region==='spine')o.visible=sideOk;
-     else if(s.bodyMotion?.region==='head')o.visible=sideOk&&bodyNerveBindings[name]==='head';
-     else if(s.bodyMotion?.region==='leftLeg'||s.bodyMotion?.region==='rightLeg')o.visible=sideOk&&bodyNerveBindings[name]===s.bodyMotion.region;
-     else if(ctx.bodyArea==='head')o.visible=bodyNerveBindings[name]==='head';
-     else if(ctx.bodyArea==='lower')o.visible=bodyNerveBindings[name]==='leftLeg'||bodyNerveBindings[name]==='rightLeg';
+     else if(s.bodyMotion?.region==='head')o.visible=sideOk&&boundRegion==='head';
+     else if(s.bodyMotion?.region==='leftLeg'||s.bodyMotion?.region==='rightLeg')o.visible=sideOk&&boundRegion===s.bodyMotion.region;
+     else if(ctx.bodyArea==='head')o.visible=boundRegion==='head';
+     else if(ctx.bodyArea==='lower')o.visible=boundRegion==='leftLeg'||boundRegion==='rightLeg';
      else if(ctx.bodyArea==='organs')o.visible=false;
      else if(ctx.bodyArea==='upper'&&ctx.region==='whole-body')o.visible=sideOk&&!!nerveBindings[name];
      else if(ctx.motionActive)o.visible=sideOk&&!!nerveBindings[name];
@@ -549,8 +553,13 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const selectedBrain=brainAtlasCandidates.some(p=>selection.has(p.id));
     brainMotionRoot.visible=brainLoaded&&visible.has('nervous')&&brainInFocus&&!cranialVaultVisible&&(!s.isolate||selectedBrain);
     for(const mesh of brainPickers){
-     const atlasId=mesh.userData.mjAtlasId as string|undefined;
-     mesh.visible=brainMotionRoot.visible&&(!s.isolate||!!atlasId&&selection.has(atlasId));
+     const atlasId=mesh.userData.mjAtlasId as string|undefined,selected=!!atlasId&&selection.has(atlasId);
+     mesh.visible=brainMotionRoot.visible&&(!s.isolate||selected);
+     const mat=mesh.material as T.MeshStandardMaterial,baseColor=mesh.userData.mjBrainBaseColor as number|undefined,baseOpacity=mesh.userData.mjBrainBaseOpacity as number|undefined;
+     const targetColor=selected?0x9cf7b0:(baseColor??0xc9857d),targetEmissive=selected?0x2f7a48:0x000000,targetIntensity=selected?.5:0;
+     if(mat.color.getHex()!==targetColor||mat.emissive.getHex()!==targetEmissive||mat.emissiveIntensity!==targetIntensity){
+      mat.color.setHex(targetColor);mat.emissive.setHex(targetEmissive);mat.emissiveIntensity=targetIntensity;mat.opacity=selected?1:(baseOpacity??1);mat.needsUpdate=true;
+     }
     }
     const isVisible=(p:(typeof atlas.parts)[number])=>{
      if(hidden.has(p.id))return false;
