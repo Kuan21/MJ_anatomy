@@ -79,7 +79,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     mesh.userData.basePositions=new Float32Array(position.array as ArrayLike<number>);
     if(skinSide&&softRigs[skinSide])mesh.userData.skin=bindTissue(softRigs[skinSide]!,resolveNeurovascularProfile(exactName||fullName,'path'),mesh.userData.basePositions);
     if(skinSide)mesh.userData.spineSkin=bindBodyTissue(bodyRigs.spine,mesh.userData.basePositions,true);
-    const bodyRegion=bodyNerveBindings[exactName];if(bodyRegion){mesh.userData.bodyRegion=bodyRegion;mesh.userData.bodySkin=bindBodyTissue(bodyRigs[bodyRegion],mesh.userData.basePositions,cranialNerveRigid(exactName));}
+    const bodyRegion=bodyNerveBindings[exactName];if(bodyRegion){mesh.userData.bodyRegion=bodyRegion;mesh.userData.bodySkin=bindBodyTissue(bodyRigs[bodyRegion],mesh.userData.basePositions,cranialNerveRigid(exactName));if(bodyRegion==='head'&&!mesh.userData.spineSkin)mesh.userData.spineSkin=bindBodyTissue(bodyRigs.spine,mesh.userData.basePositions,true);}
     nerveRoot.add(mesh);nerveMeshes.push(mesh);
    });lastState=null;dirty=true;},undefined,err=>{if(!disposed)console.warn('Could not load legacy nervous system model',err);});
   const transformMatrix=(t:NonNullable<SceneState['partTransforms']>[string]|undefined)=>{const m=new T.Matrix4();if(!t)return m.identity();return m.compose(new T.Vector3(...t.translation),new T.Quaternion(...t.quaternion),new T.Vector3(1,1,1));};
@@ -362,14 +362,16 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     nerveRoot.visible=nervesOn;
     nerveMeshes.forEach(o=>{
      if(!nervesOn){o.visible=false;return;}
-     const name=(o.userData.mjExactName as string|undefined)||o.name,side=nerveSide(name),overlay=ctx.motionActive||ctx.region!=='whole-body';
+     const name=(o.userData.mjExactName as string|undefined)||o.name,side=(o.userData.mjSide as 'left'|'right'|'both'|undefined)??nerveSide(name);
      const sideOk=ctx.focusSide==='both'||side==='both'||side===ctx.focusSide;
-     if(s.bodyMotion)o.visible=sideOk;
+     const upper=upperLimbNerve.test(name),hasArmSkin=!!o.userData.skin,hasSpineSkin=!!o.userData.spineSkin;
+     if(s.bodyMotion?.region==='spine')o.visible=sideOk&&(!upper||hasSpineSkin);
+     else if(s.bodyMotion)o.visible=sideOk;
      else if(ctx.bodyArea==='head')o.visible=bodyNerveBindings[name]==='head';
      else if(ctx.bodyArea==='lower')o.visible=bodyNerveBindings[name]==='leftLeg'||bodyNerveBindings[name]==='rightLeg';
      else if(ctx.bodyArea==='organs')o.visible=false;
-     else if(ctx.bodyArea==='upper'&&ctx.region==='whole-body')o.visible=sideOk&&!!nerveBindings[name];
-     else if(ctx.motionActive)o.visible=sideOk&&!!nerveBindings[name];
+     else if(ctx.bodyArea==='upper'&&ctx.region==='whole-body')o.visible=sideOk&&(!upper||hasArmSkin);
+     else if(ctx.motionActive)o.visible=sideOk&&(!upper||hasArmSkin);
      else o.visible=sideOk&&nerveMatchesRegion(name,ctx.region,false);
      const isSelectedNerve=!!selectedNerve.current&&name===selectedNerve.current;
      const targetColor=isSelectedNerve?0x9cf7b0:0xf1cb4f,targetEmissive=isSelectedNerve?0x3f9a5d:0x6b5100,targetIntensity=isSelectedNerve?.60:.28;
