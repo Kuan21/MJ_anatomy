@@ -1,0 +1,31 @@
+{
+  "exclude": [
+    "FJ2091",
+    "FJ2195"
+  ],
+  "parts": {
+    "FJ2186": {
+      "name": "Left dorsal metatarsal vein",
+      "conceptId": "MJ-DORSAL-METATARSAL-VEIN"
+    },
+    "FJ2199": {
+      "name": "Right dorsal metatarsal vein",
+      "conceptId": "MJ-DORSAL-METATARSAL-VEIN"
+    },
+    "FJ2190": {
+      "name": "Left fibular vein",
+      "conceptId": "FMA44886"
+    },
+    "FJ1469": {
+      "name": "Right flexor pollicis brevis",
+      "conceptId": "FMA37388"
+    },
+    "FJ1469M": {
+      "name": "Left flexor pollicis brevis",
+      "conceptId": "FMA37389"
+    }
+  },
+  "concepts": {
+    "MJ-DORSAL-METATARSAL-VEIN": "Dorsal metatarsal vein"
+  }
+}
