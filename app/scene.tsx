@@ -43,22 +43,6 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    return null;
   };
   const partCenter=(p:(typeof atlas.parts)[number])=>new T.Vector3().fromArray(p.bounds[0]).add(new T.Vector3().fromArray(p.bounds[1])).multiplyScalar(.5);
-  const inferredSide=(p:(typeof atlas.parts)[number]):'left'|'right'=>/\bleft\b/i.test(p.name)?'left':/\bright\b/i.test(p.name)?'right':partCenter(p).x>=0?'left':'right';
-  const lowerLimbName=/femoral|saphen|tibial|fibular|peroneal|popliteal|sciatic|obturator|glute|adductor|quadriceps|rectus femoris|vastus|hamstring|biceps femoris|semitend|semimembr|gastrocnem|soleus|tibialis|fibularis|gracilis|sartorius|iliotibial|patellar|calcaneal|achilles|plantar|hallucis|digitorum.*(?:foot|toe)|metatars|toe|ankle|hip joint|thigh|leg/i;
-  const upperAutoProfile=(p:(typeof atlas.parts)[number]):Profile|null=>{
-   const n=p.name.toLowerCase(),q=partCenter(p),ax=Math.abs(q.x);
-   if(/latissimus dorsi/.test(n))return 'chest';
-   if(/serratus anterior|trapezius|rhomboid|levator scapulae/.test(n))return 'scapular';
-   if(ax<.13||q.y<.60||q.y>1.50)return null;
-   if(q.y<.84)return 'hand';
-   if(q.y<1.08)return 'forearm';
-   return 'arm';
-  };
-  const lowerBodyRegion=(p:(typeof atlas.parts)[number]):BodyRegion|null=>{
-   const q=partCenter(p),ax=Math.abs(q.x),spatialFootOrLeg=q.y<.67&&ax>.055&&ax<.24;
-   if(!lowerLimbName.test(p.name)&&!spatialFootOrLeg)return null;
-   return inferredSide(p)==='left'?'leftLeg':'rightLeg';
-  };
   const nerveRoot=new T.Group();nerveRoot.name='MJ external nervous system';scene.add(nerveRoot);const nerveMeshes:NerveMesh[]=[];
   const shoulderNerve=/brachial plexus|trunk of brachial plexus|division of .*brachial plexus|cord of brachial plexus|roots of brachial plexus|axillary nerve|suprascapular nerve|long thoracic nerve|thoracodorsal nerve|pectoral nerve|subscapular nerve|dorsal scapular nerve|subclavian nerve/i;
   const armNerve=/musculocutaneous nerve|radial nerve|median nerve|ulnar nerve|brachial cutaneous nerve|antebrachial cutaneous nerve|muscular branches of (radial|axillary|median|ulnar) nerve/i;
@@ -289,59 +273,53 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     g.setAttribute('motionWeight',new T.BufferAttribute(weights,1));
     g.boundingBox=bounds[i].clone();g.computeBoundingSphere();const pick=new T.Mesh(g);pick.matrixAutoUpdate=false;pick.userData.baseMotionPositions=new Float32Array(position.array as ArrayLike<number>);pick.userData.motionWeights=weights;
     const binding=tissueBindings[p.id],rig=binding?softRigs[binding.side]:null;
-    if(binding?.name===p.name&&rig){const profile=(p.system==='arterial'||p.system==='venous')?resolveNeurovascularProfile(p.name,binding.profile):binding.profile;pick.userData.skin=bindTissue(rig,profile,pick.userData.baseMotionPositions,p);pick.userData.tissueSide=binding.side;}
+    if(binding?.name===p.name&&rig){
+     const profile=(p.system==='arterial'||p.system==='venous')?resolveNeurovascularProfile(p.name,binding.profile):binding.profile;
+     pick.userData.skin=bindTissue(rig,profile,pick.userData.baseMotionPositions,p);
+     pick.userData.tissueSide=binding.side;
+    }
     if(!pick.userData.skin&&p.system==='connective'){
      const side=connectiveSide(p.name),profile=connectiveProfile(p.name),jointRig=side?softRigs[side]:null;
-     if(side&&profile&&jointRig){pick.userData.skin=bindTissue(jointRig,profile,pick.userData.baseMotionPositions,p);pick.userData.tissueSide=side;pick.userData.mjJointBinding=profile;}
-    }
-    // Catch atlas pieces that were never present in the hand-authored upper-limb
-    // binding table. These used to remain at the neutral pose while the bone
-    // moved, which produced detached muscles, vessels and tendons.
-    if(!pick.userData.skin&&!lowerLimbName.test(p.name)){
-     const side=inferredSide(p),autoRig=softRigs[side],pc=partCenter(p);
-     let profile:Profile|null=null;
-     if(p.system==='muscular')profile=upperAutoProfile(p);
-     else if((p.system==='arterial'||p.system==='venous')&&Math.abs(pc.x)>.10&&pc.y>.60&&pc.y<1.48)profile=resolveNeurovascularProfile(p.name,'path');
-     else if(p.system==='connective')profile=connectiveProfile(p.name)??upperAutoProfile(p);
-     if(profile&&autoRig){pick.userData.skin=bindTissue(autoRig,profile,pick.userData.baseMotionPositions,p);pick.userData.tissueSide=side;}
+     if(side&&profile&&jointRig){
+      pick.userData.skin=bindTissue(jointRig,profile,pick.userData.baseMotionPositions,p);
+      pick.userData.tissueSide=side;pick.userData.mjJointBinding=profile;
+     }
     }
 
-    const bb=bodyBindings[p.id],namedLowerRegion=lowerBodyRegion(p);
-    const resolvedBodyRegion:BodyRegion|undefined=bb?.rig==='leftLeg'||bb?.rig==='rightLeg'?(namedLowerRegion??bb.rig):bb?.rig;
-    if(bb?.name===p.name&&bb.frame===null&&resolvedBodyRegion){pick.userData.bodySkin=bindBodyTissue(bodyRigs[resolvedBodyRegion],pick.userData.baseMotionPositions,false,p);pick.userData.bodyRegion=resolvedBodyRegion;}
-
-    // Lower-limb fallbacks keep vessels, nerves' neighbouring connective
-    // tissues and tendons attached even when the source binding manifest did
-    // not list the individual mesh.
-    if(!pick.userData.bodySkin&&namedLowerRegion&&['muscular','arterial','venous','connective'].includes(p.system)){
-     pick.userData.bodySkin=bindBodyTissue(bodyRigs[namedLowerRegion],pick.userData.baseMotionPositions,false,p);
-     pick.userData.bodyRegion=namedLowerRegion;
+    // Whole-body bindings are explicit. Do not infer a leg/arm from a shared
+    // word in the structure name: that was the source of cross-region motion.
+    const bb=bodyBindings[p.id];
+    if(bb?.name===p.name&&bb.frame===null){
+     pick.userData.bodySkin=bindBodyTissue(bodyRigs[bb.rig],pick.userData.baseMotionPositions,false,p);
+     pick.userData.bodyRegion=bb.rig;
     }
 
-    // Continuous cervical field for throat, spinal cord and neck
-    // neurovasculature. This prevents a carotid/jugular/tracheal segment from
-    // being left behind when the head flexes, extends or rotates.
     const pc=partCenter(p),spinalCordPart=/spinal cord|central canal/i.test(p.name),spansNeck=p.bounds[1][1]>=1.10&&p.bounds[0][1]<=1.72;
-    const headFollower=(pc.y>=1.10&&pc.y<=1.72&&Math.abs(pc.x)<=.34&&(
-     p.system==='arterial'||p.system==='venous'||p.system==='connective'||
-     /trachea|esophagus|laryn|pharyn|hyoid|thyroid|cricoid|epiglott|longus|scalen|sternocleidomastoid|splenius|semispinalis|carotid|jugular|vertebral artery/i.test(p.name)
-    ))||(spinalCordPart&&spansNeck);
-    if(!pick.userData.bodySkin&&headFollower){pick.userData.bodySkin=bindBodyTissue(bodyRigs.head,pick.userData.baseMotionPositions,false,p);pick.userData.bodyRegion='head';}
+    const cervicalFollower=(pc.y>=1.10&&pc.y<=1.72&&Math.abs(pc.x)<=.34&&(
+      p.system==='arterial'||p.system==='venous'||p.system==='connective'||
+      /trachea|esophagus|laryn|pharyn|hyoid|thyroid|cricoid|epiglott|longus|scalen|sternocleidomastoid|splenius|semispinalis|carotid|jugular|vertebral artery/i.test(p.name)
+     ))||(spinalCordPart&&spansNeck);
+    if(!pick.userData.bodySkin&&cervicalFollower){
+     pick.userData.bodySkin=bindBodyTissue(bodyRigs.head,pick.userData.baseMotionPositions,false,p);
+     pick.userData.bodyRegion='head';
+    }
 
-    const headDescendant=(bb?.rig==='head'||p.id.startsWith('BP3-FMA')||headFollower)&&p.system!=='skeletal';
+    // Head/neck and upper-limb tissues inherit trunk motion as one carried
+    // chain, but their own head/arm deformation fields remain independent.
+    const headDescendant=(bb?.rig==='head'||p.id.startsWith('BP3-FMA')||cervicalFollower)&&p.system!=='skeletal';
     if(headDescendant)pick.userData.spineSkin=bindBodyTissue(bodyRigs.spine,pick.userData.baseMotionPositions,!spinalCordPart,p);
-
-    // During trunk motion the entire shoulder girdle, head and both upper
-    // limbs ride with the superior thoracic frame. Their local joint pose is
-    // preserved instead of leaving soft tissue floating behind the bones.
-    const upperCarry=p.system!=='skeletal'&&!lowerLimbName.test(p.name)&&(pc.y>=1.13||(pc.y>=.62&&Math.abs(pc.x)>=.075));
-    if(upperCarry&&!pick.userData.spineSkin)pick.userData.spineSkin=bindBodyTissue(bodyRigs.spine,pick.userData.baseMotionPositions,true,p);
+    if(binding?.name===p.name)pick.userData.spineSkin=bindBodyTissue(bodyRigs.spine,pick.userData.baseMotionPositions,true,p);
 
     const spineCenter=pc.y,spineLevels=bodyRigs.spine.levels;
     const spineSoft=!bb&&spineCenter>=spineLevels[0]-.12&&spineCenter<=spineLevels[spineLevels.length-1]+.13&&/pectoralis|serratus|intercostal|costal cartilage|costochondral|sternocostal|rectus abdominis|oblique|transversus abdominis|latissimus|trapezius|erector spinae|multifidus|semispinalis thoracis|quadratus lumborum|psoas|thoracolumbar|aorta|vena cava|intercostal (?:artery|vein)|thoracic duct/i.test(p.name);
-    if(spineSoft){pick.userData.bodySkin=bindBodyTissue(bodyRigs.spine,pick.userData.baseMotionPositions,false,p);pick.userData.bodyRegion='spine';}
-    if(pick.userData.skin&&['chest','cuff','scapular'].includes(pick.userData.skin.profile))pick.userData.surfaceGuard=makeSurfaceConstraints(pick.userData.baseMotionPositions,g.index!.array,pick.userData.skin);
-    if(((resolvedBodyRegion==='head'&&/platysma|sternocleidomastoid/.test(p.name))||spineSoft)&&pick.userData.bodySkin)pick.userData.bodySurfaceGuard=makeSurfaceConstraints(pick.userData.baseMotionPositions,g.index!.array,pick.userData.bodySkin);
+    if(spineSoft){
+     pick.userData.bodySkin=bindBodyTissue(bodyRigs.spine,pick.userData.baseMotionPositions,false,p);
+     pick.userData.bodyRegion='spine';
+    }
+    if(pick.userData.skin&&['chest','cuff','scapular'].includes(pick.userData.skin.profile))
+     pick.userData.surfaceGuard=makeSurfaceConstraints(pick.userData.baseMotionPositions,g.index!.array,pick.userData.skin);
+    if(((bb?.rig==='head'&&/platysma|sternocleidomastoid/.test(p.name))||spineSoft)&&pick.userData.bodySkin)
+     pick.userData.bodySurfaceGuard=makeSurfaceConstraints(pick.userData.baseMotionPositions,g.index!.array,pick.userData.bodySkin);
     pickers[i]=pick;geometries.push(g);
     g.setAttribute('partIndex',new T.BufferAttribute(new Float32Array(p.vertexCount).fill(i),1));
     const list=groups.get(p.system)??[];list.push(g);groups.set(p.system,list);
