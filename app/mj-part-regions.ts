@@ -144,6 +144,6 @@ export function topRegionParts(parts:Part[],region:'whole'|'upper'|'lower'|'head
  return parts.filter(p=>{
   if(isMotionQuarantined(p))return false;
   const r=anatomicalRegion(p),[,y]=partCenter(p);
-  return r==='head-neck'||(r==='upper-limb'&&y>=1.00)||(r==='trunk'&&y>=1.05);
+  return r==='head-neck'||r==='upper-limb'||(r==='trunk'&&y>=1.05);
  }).map(p=>p.id);
 }
