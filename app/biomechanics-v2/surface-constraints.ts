@@ -11,7 +11,7 @@ export function makeSurfaceConstraints(base:Float32Array,triangles:ArrayLike<num
   if(seen.has(key))continue;seen.add(key);const length=Math.hypot(base[a*3]-base[b*3],base[a*3+1]-base[b*3+1],base[a*3+2]-base[b*3+2]);
   if(length<1e-7)continue;edges.push(a,b);lengths.push(length);
  }
- const maxStretch=skin.profile==='chest'?1.18:skin.profile==='cuff'?1.22:skin.profile==='deltoid'?1.26:1.35;
+ const maxStretch=skin.profile==='pectoralPath'?1.16:skin.profile==='chest'?1.18:skin.profile==='cuff'?1.22:skin.profile==='deltoid'?1.26:1.35;
  return{edges:new Uint32Array(edges),lengths:new Float32Array(lengths),mobility,maxStretch};
 }
 export function constrainSurface(c:SurfaceConstraints,positions:Float32Array,passes=6):void{
