@@ -37,13 +37,14 @@ export function makeBodyRig(atlas:Atlas,region:BodyRegion):BodyRig{
   // Everything anatomically suspended from the upper thorax must inherit the
   // final thoracic frame during trunk motion. Otherwise the ribs bend while
   // the shoulder girdle, arms and head remain behind in world space.
-  const upperChain=/clavicle|scapula|humerus|ulna|radius|carpal|metacarpal|phalanx of .*?(?:finger|thumb)|cervical vertebra|atlas$|axis$|occipital|parietal|frontal bone|temporal bone|sphenoid|ethmoid|mandible|maxilla|zygomatic|nasal bone|lacrimal bone|palatine bone|vomer/i;
+  const upperChain=/clavicle|scapula|humerus|ulna|radius|carpal|metacarpal|phalanx of .*?(?:finger|thumb)|cervical vertebra|atlas$|axis$|occipital|parietal|frontal bone|temporal bone|sphenoid|ethmoid|mandible|maxilla|zygomatic|nasal bone|lacrimal bone|palatine bone|vomer|inferior nasal concha|hyoid/i;
   const topFrame=framePartIds[framePartIds.length-1];
-  const assigned=new Set(framePartIds.flat());
+  const assigned=new Set(framePartIds.flat()),topY=levels[levels.length-1];
   for(const p of atlas.parts){
    if(p.system!=='skeletal'||assigned.has(p.id))continue;
-   const b=bodyBindings[p.id];
-   if(upperChain.test(p.name)||(b?.rig==='head'&&b.frame!==null))topFrame.push(p.id);
+   const b=bodyBindings[p.id],pc=center(p);
+   const cranioCervicalSpatial=pc.y>topY+.035&&Math.abs(pc.x)<.38;
+   if(upperChain.test(p.name)||(b?.rig==='head'&&b.frame!==null)||cranioCervicalSpatial)topFrame.push(p.id);
   }
   return{region,pivots,levels,focusIds:[...new Set([...focusIds,...framePartIds.flat()])],framePartIds};
  }
