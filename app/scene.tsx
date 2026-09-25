@@ -55,7 +55,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    return 'arm';
   };
   const lowerBodyRegion=(p:(typeof atlas.parts)[number]):BodyRegion|null=>{
-   if(!lowerLimbName.test(p.name))return null;
+   const q=partCenter(p),spatialFootOrLeg=q.y<.67&&Math.abs(q.x)<.24;
+   if(!lowerLimbName.test(p.name)&&!spatialFootOrLeg)return null;
    return inferredSide(p)==='left'?'leftLeg':'rightLeg';
   };
   const nerveRoot=new T.Group();nerveRoot.name='MJ external nervous system';scene.add(nerveRoot);const nerveMeshes:NerveMesh[]=[];
@@ -301,7 +302,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      let profile:Profile|null=null;
      if(p.system==='muscular')profile=upperAutoProfile(p);
      else if((p.system==='arterial'||p.system==='venous')&&Math.abs(pc.x)>.10&&pc.y>.60&&pc.y<1.48)profile=resolveNeurovascularProfile(p.name,'path');
-     else if(p.system==='connective')profile=connectiveProfile(p.name);
+     else if(p.system==='connective')profile=connectiveProfile(p.name)??upperAutoProfile(p);
      if(profile&&autoRig){pick.userData.skin=bindTissue(autoRig,profile,pick.userData.baseMotionPositions,p);pick.userData.tissueSide=side;}
     }
 
