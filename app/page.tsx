@@ -17,6 +17,7 @@ import {resolveDissection} from './mj-dissection';
 import {structureProfile} from './mj-structure-info';
 import {setCourseNoteIndex,type CourseNoteEntry,type CourseNoteIndex} from './mj-course-notes';
 import {normalizeAtlasSystems} from './mj-system-classifier';
+import {anatomicalRegion,anatomicalSide,partsInRegion,topRegionParts} from './mj-part-regions';
 import {buildUpperLimbMotion,MOTION_LIMITS,NEUTRAL_POSE,type MotionPose,type Side} from './mj-motion';
 import BodyControls from './biomechanics-v2/body-controls';
 import {makeBodyRig,buildBodyMotion,BODY_NEUTRAL,type BodyRegion,type BodyPose} from './biomechanics-v2/body-motion';
@@ -135,17 +136,7 @@ export default function Home(){
  const pullMotion=(value:number)=>applyMotionPose({...motionTargetRef.current,[upperActionKey]:value});
  useEffect(()=>()=>{if(smoothMotionFrame.current!==null)cancelAnimationFrame(smoothMotionFrame.current);},[]);
  const bodyRigs=useMemo(()=>atlas?{head:makeBodyRig(atlas,'head'),spine:makeBodyRig(atlas,'spine'),leftLeg:makeBodyRig(atlas,'leftLeg'),rightLeg:makeBodyRig(atlas,'rightLeg')}:null,[atlas]);
- const topFocusIds=(next:TopRegion)=>{
-  if(!atlas||next==='whole')return undefined;
-  if(next==='organs')return atlas.parts.filter(p=>ORGAN_SYSTEM_IDS.includes(p.system)).map(p=>p.id);
-  return atlas.parts.filter(p=>{
-   const cx=(p.bounds[0][0]+p.bounds[1][0])*.5,cy=(p.bounds[0][1]+p.bounds[1][1])*.5,ax=Math.abs(cx),n=p.name.toLowerCase();
-   const lowerAnatomy=/hip bone|femur|patella|tibia|fibula|talus|calcaneus|metatars|toe|foot|ankle|glute|adductor|vastus|hamstring|biceps femoris|semitend|semimembr|gastrocnem|soleus|femoral|popliteal|saphen|sciatic|plantar|tibialis|fibularis/;
-   if(next==='head')return !lowerAnatomy.test(n)&&(cy>=.92||(cy>=.66&&ax>=.18)||/cervical vertebra|atlas$|axis$|hyoid|clavicle|scapula|humerus|radius|ulna|carpal|metacarp|phalanx of .*finger|phalanx of .*thumb/.test(n));
-   if(next==='lower')return (cy<=.92&&ax>=.035)||/hip bone|femur|patella|tibia|fibula|talus|calcaneus|metatars|phalanx of .*toe/.test(n);
-   return (cy>=.68&&cy<=1.55&&ax>=.09)||/clavicle|scapula|humerus|radius|ulna|carpal|metacarp|phalanx of .*finger|phalanx of .*thumb/.test(n);
-  }).map(p=>p.id);
- };
+ const topFocusIds=(next:TopRegion)=>atlas?topRegionParts(atlas.parts,next,ORGAN_SYSTEM_IDS):undefined;
  const selectTop=(next:TopRegion)=>{
   setMicroAtlas(null);if(!atlas||!bodyRigs)return;
   if(smoothMotionFrame.current!==null){cancelAnimationFrame(smoothMotionFrame.current);smoothMotionFrame.current=null;}
@@ -155,22 +146,20 @@ export default function Home(){
   const ids=topFocusIds(next);
   setState(s=>({...s,focusParts:ids,cameraFocusParts:ids,cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:1,bodyMotion:undefined,partTransforms:undefined,selected:[],hiddenParts:[],depthFilter:'all',muscleLayer:'all',faceMuscleLayer:'all',isolate:false,explode:0,rotate:false,reset:s.reset+1}));
  };
- const motionCameraIds=(target:'head'|'upper'|'lower'|'spine'|'leftLeg'|'rightLeg')=>{
-  if(!atlas||!bodyRigs)return[] as string[];
+ const motionRegionIds=(target:'head'|'upper'|'lower'|'spine'|'leftLeg'|'rightLeg')=>{
+  if(!atlas)return[] as string[];
   if(target==='spine')return atlas.parts.map(p=>p.id);
-  if(target==='upper')return topFocusIds('upper')??[];
-  if(target==='lower')return topFocusIds('lower')??[];
-  if(target==='leftLeg'||target==='rightLeg')return bodyRigs[target].focusIds;
-  return atlas.parts.filter(p=>{
-   const cx=(p.bounds[0][0]+p.bounds[1][0])*.5,cy=(p.bounds[0][1]+p.bounds[1][1])*.5,n=p.name.toLowerCase();
-   return p.system==='skeletal'&&((cy>=1.14&&Math.abs(cx)<=.34)||/cervical vertebra|atlas$|axis$|hyoid|mandible|occipital|parietal|frontal bone|temporal bone|sphenoid|ethmoid|maxilla|zygomatic/.test(n));
-  }).map(p=>p.id);
+  if(target==='head')return partsInRegion(atlas.parts,'head-neck');
+  if(target==='upper')return partsInRegion(atlas.parts,'upper-limb');
+  if(target==='lower')return partsInRegion(atlas.parts,'lower-limb');
+  const wantedSide=target==='leftLeg'?'left':'right';
+  return atlas.parts.filter(p=>anatomicalRegion(p)==='lower-limb'&&(anatomicalSide(p)===wantedSide||anatomicalSide(p)==='midline')).map(p=>p.id);
  };
- const enterUpperMotion=()=>{if(!atlas)return;setMicroAtlas(null);setStudySide('both');setTopRegion('upper');setRegion('whole-body');setMotionEdit(true);const ids=motionCameraIds('upper');setState(s=>({...s,bodyMotion:undefined,partTransforms:undefined,focusParts:undefined,cameraFocusParts:ids,cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:.82,selected:[],isolate:false,explode:0,rotate:false}));};
- const enterLowerMotion=()=>{if(!bodyRigs)return;setMicroAtlas(null);setTopRegion('lower');setRegion('whole-body');setStudySide('both');setMotionEdit(false);setDetails(false);setChosen(null);setExternalNerve(null);const built=buildBodyMotion(bodyRigs.leftLeg,{...BODY_NEUTRAL}),ids=motionCameraIds('lower');setState(s=>({...s,bodyMotion:{region:'leftLeg',pose:built.pose},partTransforms:built.transforms,focusParts:undefined,cameraFocusParts:ids,cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:.84,selected:[],isolate:false,explode:0,rotate:false}));};
+ const enterUpperMotion=()=>{if(!atlas)return;setMicroAtlas(null);setStudySide('both');setTopRegion('upper');setRegion('whole-body');setMotionEdit(true);const ids=motionRegionIds('upper');setState(s=>({...s,bodyMotion:undefined,partTransforms:undefined,focusParts:ids,cameraFocusParts:ids,cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:.82,selected:[],isolate:false,explode:0,rotate:false}));};
+ const enterLowerMotion=()=>{if(!bodyRigs)return;setMicroAtlas(null);setTopRegion('lower');setRegion('whole-body');setStudySide('both');setMotionEdit(false);setDetails(false);setChosen(null);setExternalNerve(null);const built=buildBodyMotion(bodyRigs.leftLeg,{...BODY_NEUTRAL}),ids=motionRegionIds('lower');setState(s=>({...s,bodyMotion:{region:'leftLeg',pose:built.pose},partTransforms:built.transforms,focusParts:ids,cameraFocusParts:ids,cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:.84,selected:[],isolate:false,explode:0,rotate:false}));};
  const inspectMotionStructure=(term:string)=>{if(!atlas)return;const t=term.toLowerCase(),side=state.bodyMotion?.region==='leftLeg'?'left':state.bodyMotion?.region==='rightLeg'?'right':!state.bodyMotion&&studySide!=='both'?studySide:null;let candidates=atlas.concepts.filter(x=>x.name.toLowerCase().includes(t));if(side){const sided=candidates.filter(x=>x.name.toLowerCase().includes(side));if(sided.length)candidates=sided;}candidates.sort((a,b)=>a.name.length-b.name.length);if(candidates[0])choose(candidates[0]);};
  const openMicroAtlas=(next:MicroAtlasId)=>{setMicroAtlas(next);setDetails(false);setPanel(null);setRightTool(null);setChosen(null);setExternalNerve(null);setMotionEdit(false);setMotionEnabled(false);};
- const changeBody=(bodyRegion:BodyRegion,pose:BodyPose,focus=false)=>{setMicroAtlas(null);if(!bodyRigs)return;const rig=bodyRigs[bodyRegion],built=buildBodyMotion(rig,pose);setMotionEdit(false);setRegion('whole-body');setStudySide(bodyRegion==='leftLeg'?'left':bodyRegion==='rightLeg'?'right':'both');setDetails(false);setChosen(null);setExternalNerve(null);setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;const ids=bodyRegion==='head'?motionCameraIds('head'):bodyRegion==='spine'?motionCameraIds('spine'):motionCameraIds(bodyRegion);const scale=bodyRegion==='head'?.76:bodyRegion==='spine'?1:.82;setState(s=>({...s,bodyMotion:{region:bodyRegion,pose:built.pose},partTransforms:built.transforms,focusParts:undefined,cameraFocusParts:ids,cameraFocusNonce:focus||s.bodyMotion?.region!==bodyRegion?(s.cameraFocusNonce??0)+1:s.cameraFocusNonce,cameraFocusScale:scale,selected:[],isolate:false,explode:0,rotate:false}));};
+ const changeBody=(bodyRegion:BodyRegion,pose:BodyPose,focus=false)=>{setMicroAtlas(null);if(!bodyRigs)return;const rig=bodyRigs[bodyRegion],built=buildBodyMotion(rig,pose);setMotionEdit(false);setRegion('whole-body');setStudySide(bodyRegion==='leftLeg'?'left':bodyRegion==='rightLeg'?'right':'both');setDetails(false);setChosen(null);setExternalNerve(null);setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;const ids=bodyRegion==='head'?motionRegionIds('head'):bodyRegion==='spine'?motionRegionIds('spine'):motionRegionIds(bodyRegion);const scale=bodyRegion==='head'?.76:bodyRegion==='spine'?1:.82;setState(s=>({...s,bodyMotion:{region:bodyRegion,pose:built.pose},partTransforms:built.transforms,focusParts:bodyRegion==='spine'?undefined:ids,cameraFocusParts:ids,cameraFocusNonce:focus||s.bodyMotion?.region!==bodyRegion?(s.cameraFocusNonce??0)+1:s.cameraFocusNonce,cameraFocusScale:scale,selected:[],isolate:false,explode:0,rotate:false}));};
  return <main className="studio">
   {microAtlas?<MicroAtlasScene atlasId={microAtlas} onExit={()=>setMicroAtlas(null)}/>:atlas&&<AnatomyScene atlas={atlas} state={{...state,inspectorOpen:details&&(selectedParts.length>0||!!externalNerve)}} onSelect={choosePart} onSelectNerve={chooseNerve} onProgress={n=>{setProgress(n);if(n===100)setError('');}} onError={setError} onJointDrag={nudgeJoint} region={region} focusSide={studySide} motionActive={motionEdit} jointMotionEnabled={motionEnabled} selectedExternalNerve={externalNerve} bodyArea={topRegion}/>}
   <div className="vignette"/>
