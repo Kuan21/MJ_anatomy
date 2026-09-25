@@ -154,7 +154,7 @@ export default function Home(){
   {microAtlas?<MicroAtlasScene atlasId={microAtlas} onExit={()=>setMicroAtlas(null)}/>:atlas&&<AnatomyScene atlas={atlas} state={{...state,inspectorOpen:details&&(selectedParts.length>0||!!externalNerve)}} onSelect={choosePart} onSelectNerve={chooseNerve} onProgress={n=>{setProgress(n);if(n===100)setError('');}} onError={setError} onJointDrag={nudgeJoint} region={region} focusSide={studySide} motionActive={motionEdit} jointMotionEnabled={motionEnabled} selectedExternalNerve={externalNerve} bodyArea={topRegion}/>}
   <div className="vignette"/>
   <header className="identity"><div className="eyebrow"><span className="status-dot"/> INTERACTIVE ANATOMY ATLAS</div><h1>MJ Anatomy<Badge variant="outline" className="edition">3D</Badge></h1><div className="identity-meta">{atlas?atlas.parts.length.toLocaleString():'2,234'} structures <span>·</span> BodyParts3D <span>·</span> Human Atlas adapted</div></header>
-  <nav className="body-region-nav top-region-nav glass" aria-label="身體區域">{([['whole','全身'],['upper','上肢'],['lower','下肢'],['head','頭部']] as [TopRegion,string][]).map(([id,label])=><Button variant="ghost" key={id} aria-pressed={topRegion===id&&!microAtlas} onClick={()=>selectTop(id)}>{label}</Button>)}</nav>
+  <nav className="body-region-nav top-region-nav" aria-label="身體區域">{([['whole','全身'],['upper','上肢'],['lower','下肢'],['head','頭部']] as [TopRegion,string][]).map(([id,label])=><Button variant="ghost" key={id} aria-pressed={topRegion===id&&!microAtlas} onClick={()=>selectTop(id)}>{label}</Button>)}</nav>
   <nav className="top-actions" aria-label="Explorer panels"><a href="?lab=skeleton-v2" style={{fontSize:12,padding:8}}>Skeleton v2｜骨骼測試</a><Button variant="ghost" className={panel==='search'?'active':''} onClick={()=>openPanel('search')} aria-label="Search anatomy"><Search size={18}/><span>Find a structure</span><kbd>/</kbd></Button><Button variant="ghost" className="icon-button" aria-label="About this atlas" onClick={()=>{setDetails(false);setPanel(null);setAbout(true);}}><Info size={18}/></Button></nav>
   <aside className={`left-workspace ${panel==='layers'?'mobile-open':''}`}>
   <section className={`layers-panel glass ${panel==='layers'?'mobile-open':''}`} aria-label="Anatomical layers">
@@ -168,6 +168,11 @@ export default function Home(){
      </div>
      {organsOpen&&<div className="organ-children">{organSystems.map(s=><div className={`system-row ${state.visible.includes(s.id)?'enabled':''}`} key={s.id}><Button variant="ghost" className="system-name" title={`Show only ${s.name.toLowerCase()}`} onClick={()=>setState(v=>({...v,visible:[s.id],isolate:false,selected:[]}))}><span className="system-dot" style={{background:s.color}}/>{s.name}<span className="system-count">{counts[s.id]}</span></Button><Switch checked={state.visible.includes(s.id)} onCheckedChange={()=>toggle(s.id)} aria-label={`Show ${s.name.toLowerCase()}`} /></div>)}</div>}
     </div>}
+   </div>
+   <div className="detail-atlas-shortcuts" aria-label="Detail atlases">
+    <Button variant="ghost" onClick={()=>openMicroAtlas('brain')}>腦</Button>
+    <Button variant="ghost" onClick={()=>openMicroAtlas('eye')}>眼</Button>
+    <Button variant="ghost" onClick={()=>openMicroAtlas('ear')}>耳</Button>
    </div>
    <div className="panel-foot"><span>{visibleCount.toLocaleString()} pieces visible{(state.hiddenParts?.length??0)>0&&<small> · {state.hiddenParts?.length} hidden</small>}</span><div className="panel-foot-actions">{(state.hiddenParts?.length??0)>0&&<Button variant="ghost" onClick={restoreHidden}><Undo2 size={14}/> Restore hidden</Button>}<Button variant="ghost" onClick={()=>setState(s=>({...s,visible:[],selected:[],isolate:false}))}>Hide all</Button><Button variant="ghost" onClick={reset}><RotateCcw size={14}/> Reset</Button></div></div>{(state.hiddenParts?.length??0)>0&&<details className="hidden-structures"><summary>Hidden structures｜已隱藏 <span>{state.hiddenParts?.length}</span></summary><div>{(state.hiddenParts??[]).slice(0,24).map(id=>{const hp=profileForPart(id);return <Button variant="ghost" key={id} onClick={()=>restorePart(id)}><span>{hp?.english??parts.get(id)?.name??id}{hp?.chinese&&<small>{hp.chinese}</small>}</span><Undo2 size={13}/></Button>})}</div></details>}
   </section>
@@ -204,7 +209,6 @@ export default function Home(){
      <label className="mj-joint-control"><span>Wrist flex / extend｜腕屈曲／伸展 <b>{Math.round(motionPose.wristFlexion)}°</b></span><Slider disabled={!motionEnabled} min={MOTION_LIMITS.wristFlexion[0]} max={MOTION_LIMITS.wristFlexion[1]} step={1} value={[motionPose.wristFlexion]} onValueChange={v=>setJoint('wristFlexion',Array.isArray(v)?v[0]:v)}/></label>
      <label className="mj-joint-control"><span>Wrist deviation｜橈偏／尺偏 <b>{Math.round(motionPose.wristDeviation)}°</b></span><Slider disabled={!motionEnabled} min={MOTION_LIMITS.wristDeviation[0]} max={MOTION_LIMITS.wristDeviation[1]} step={1} value={[motionPose.wristDeviation]} onValueChange={v=>setJoint('wristDeviation',Array.isArray(v)?v[0]:v)}/></label>
     </details>
-    <small className="mj-motion-note">肌肉、神經與血管會跟隨現有軟組織場連續變形。下一步手指會把 MCP / PIP / DIP 與伸肌腱路徑接入同一個 pull driver。</small>
    </section>}
    </div></details>
   </aside>
