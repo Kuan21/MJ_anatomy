@@ -55,7 +55,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    return 'arm';
   };
   const lowerBodyRegion=(p:(typeof atlas.parts)[number]):BodyRegion|null=>{
-   const q=partCenter(p),spatialFootOrLeg=q.y<.67&&Math.abs(q.x)<.24;
+   const q=partCenter(p),ax=Math.abs(q.x),spatialFootOrLeg=q.y<.67&&ax>.055&&ax<.24;
    if(!lowerLimbName.test(p.name)&&!spatialFootOrLeg)return null;
    return inferredSide(p)==='left'?'leftLeg':'rightLeg';
   };
