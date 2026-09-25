@@ -528,10 +528,11 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     brainMotionRoot.visible=brainLoaded&&visible.has('nervous')&&!cranialVaultVisible&&!s.isolate;
     const isVisible=(p:(typeof atlas.parts)[number])=>{
      if(hidden.has(p.id))return false;
-     if(selection.has(p.id)&&(!cranialVaultVisible||!intracranial.test(p.name)||s.isolate))return true;
+     const replacedBrain=brainMotionRoot.visible&&legacyBrainParenchyma.test(p.name)&&!s.isolate;
+     if(selection.has(p.id)&&!replacedBrain&&(!cranialVaultVisible||!intracranial.test(p.name)||s.isolate))return true;
      if(!baseVisible(p))return false;
      if(cranialVaultVisible&&intracranial.test(p.name))return false;
-     if(brainMotionRoot.visible&&legacyBrainParenchyma.test(p.name))return false;
+     if(replacedBrain)return false;
      return true;
     };
     const visibleParts=atlas.parts.filter(isVisible);
