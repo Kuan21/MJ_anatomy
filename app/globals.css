@@ -1050,3 +1050,61 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
   .detail-reference-bar strong,
   .detail-reference-bar a{font-size:8.5px}
 }
+
+
+/* MJ control sizing pass: compact right tools + larger detail actions */
+@media(min-width:768px){
+  .right-tool-rail{
+    gap:2px!important;
+    padding:2px!important;
+    border-radius:9px!important;
+  }
+  .right-tool-rail button{
+    height:28px!important;
+    min-height:28px!important;
+    padding:0 5px!important;
+    border-radius:6px!important;
+    font-size:12.5px!important;
+    font-weight:600!important;
+    line-height:1!important;
+  }
+  .right-workspace{
+    gap:6px!important;
+  }
+
+  .detail-actions{
+    gap:7px!important;
+    padding-top:9px!important;
+  }
+  .detail-actions button,
+  .detail-actions .primary-action,
+  .detail-actions .secondary-action,
+  .detail-actions .hide-structure-action{
+    min-height:58px!important;
+    height:58px!important;
+    padding:0 8px!important;
+    border-radius:10px!important;
+    font-size:13px!important;
+    font-weight:600!important;
+    gap:6px!important;
+  }
+  .detail-actions button svg{
+    width:18px!important;
+    height:18px!important;
+  }
+}
+@media(max-width:767px){
+  .detail-actions button,
+  .detail-actions .primary-action,
+  .detail-actions .secondary-action,
+  .detail-actions .hide-structure-action{
+    min-height:54px!important;
+    height:54px!important;
+    font-size:11.5px!important;
+    border-radius:9px!important;
+  }
+  .detail-actions button svg{
+    width:16px!important;
+    height:16px!important;
+  }
+}
