@@ -285,8 +285,8 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 .motion-demo-button.active{background:#263b48!important;color:#fff!important}
 .motion-demo-button>span{display:flex;flex-direction:column;align-items:flex-start;gap:1px;line-height:1.05}
 .motion-demo-button b{font-size:9.5px;font-weight:650}.motion-demo-button small{font-size:7.5px;opacity:.62;font-weight:500}
-.motion-pull-track{min-width:0;border:1px solid #18253612;border-radius:8px;background:#fff;padding:5px 8px 7px;display:flex;flex-direction:column;gap:4px}
-.motion-pull-track.disabled{opacity:.4}
+.motion-pull-track,.motion-angle-track{min-width:0;border:1px solid #18253612;border-radius:8px;background:#fff;padding:6px 8px 7px;display:flex;flex-direction:column;gap:4px}
+.motion-pull-track.disabled,.motion-angle-track.disabled{opacity:.4}
 .motion-pull-label{display:flex;align-items:baseline;gap:5px;color:#4d5d69}
 .motion-pull-label b{font-size:9px}.motion-pull-label small{font-size:7.5px;color:#929ba3}
 .motion-pull-rail{--pull:0;position:relative;height:21px;margin:0 5px}
@@ -319,7 +319,7 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
  .motion-pull-grid{grid-template-columns:82px minmax(0,1fr)}
  .motion-pull-scale{display:none}
  .motion-demo-button{height:42px!important;min-height:42px!important}
- .motion-pull-track{padding-block:4px}
+ .motion-pull-track,.motion-angle-track{padding-block:4px}
 }
 
 
