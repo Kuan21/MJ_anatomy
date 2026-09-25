@@ -215,7 +215,7 @@ export function deformTissue(binding:SkinBinding,base:Float32Array,palette:Palet
  for(let i=0;i<base.length/3;i++){
   blended(palette,binding.indices,binding.weights,i*4,q);
   const extra=(radialScale-1)*binding.belly[i],j=i*3;
-  if((binding.profile==='chest'||binding.profile==='pectoralPath'||binding.profile==='axillaryCable')){
+  if((binding.profile==='pectoralPath'||binding.profile==='axillaryCable')){
    let x=0,y=0,z=0;const v=new Float64Array(3);
    for(let k=0;k<4;k++){const w=binding.weights[i*4+k];if(!w)continue;
     const f=binding.indices[i*4+k];transform(base[j],base[j+1],base[j+2],palette.subarray(f*8,f*8+8),v,0);
