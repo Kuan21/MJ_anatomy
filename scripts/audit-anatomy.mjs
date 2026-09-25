@@ -17,8 +17,8 @@ const limbLaterality=/clavicle|scapula|humerus|radius|ulna|hand|finger|thumb|car
 
 for(const p of parts){
  const [x,y]=center(p);
- if(/^Left\b/i.test(p.name)&&x<-.025)failures.push(p.id+': "'+p.name+'" is labelled left but geometry is on the right');
- if(/^Right\b/i.test(p.name)&&x>.025)failures.push(p.id+': "'+p.name+'" is labelled right but geometry is on the left');
+ if(limbLaterality.test(p.name)&&/^Left\b/i.test(p.name)&&x<-.025)failures.push(p.id+': "'+p.name+'" is labelled left but geometry is on the right');
+ if(limbLaterality.test(p.name)&&/^Right\b/i.test(p.name)&&x>.025)failures.push(p.id+': "'+p.name+'" is labelled right but geometry is on the left');
  if(/\bmetacarpal\b/i.test(p.name)&&y<.30)failures.push(p.id+': hand/metacarpal name is located at foot height');
  if(/\bmetatarsal\b/i.test(p.name)&&y>.30)failures.push(p.id+': foot/metatarsal name is located above the lower limb');
 }
