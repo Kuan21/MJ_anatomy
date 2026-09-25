@@ -1,6 +1,7 @@
 import type {SystemId} from './anatomy';
 import {muscleFactsFor,muscleFactSourceFor} from './mj-muscle-facts';
 import {courseNotesFor,type CourseNoteEntry} from './mj-course-notes';
+import {netterEnglishName,NETTER_TERMINOLOGY_SOURCE} from './mj-netter-terminology';
 
 export interface BilingualFact {
  labelEn:string;
@@ -236,12 +237,16 @@ function detailKey(name:string){
 }
 
 function displayEnglish(name:string,system:SystemId){
- if(system!=='nervous')return name;
- const n=norm(stripSide(name));
- const key=Object.keys(detailed).filter(k=>k.includes('nerve')&&n.includes(k)).sort((a,b)=>b.length-a.length)[0];
- if(!key)return name.replace(/[._]+/g,' ').replace(/\s+/g,' ').trim();
- const side=/\bleft\b|(?:^|\.)l(?:\.|$)/i.test(name)?'Left ':/\bright\b|(?:^|\.)r(?:\.|$)/i.test(name)?'Right ':'';
- return side+key.replace(/\b\w/g,ch=>ch.toUpperCase());
+ let canonical=name;
+ if(system==='nervous'){
+  const n=norm(stripSide(name));
+  const key=Object.keys(detailed).filter(k=>k.includes('nerve')&&n.includes(k)).sort((a,b)=>b.length-a.length)[0];
+  if(key){
+   const side=/\bleft\b|(?:^|\.)l(?:\.|$)/i.test(name)?'Left ':/\bright\b|(?:^|\.)r(?:\.|$)/i.test(name)?'Right ':'';
+   canonical=side+key;
+  }
+ }
+ return netterEnglishName(canonical,system);
 }
 
 function regionOf(name:string,system:SystemId){
@@ -299,8 +304,9 @@ function sourceFor(name:string,system:SystemId){
 
 function withCourseNotes(profile:StructureProfile,name:string):StructureProfile{
  const courseNotes=courseNotesFor(name);
- if(!courseNotes.length)return profile;
- return{...profile,courseNotes,source:`${profile.source}; CMU anatomy course material`};
+ const source=`${profile.source}; ${NETTER_TERMINOLOGY_SOURCE}`;
+ if(!courseNotes.length)return{...profile,source};
+ return{...profile,courseNotes,source:`${source}; CMU anatomy course material`};
 }
 
 export function structureProfile(name:string,system:SystemId):StructureProfile{
