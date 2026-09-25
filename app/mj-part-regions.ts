@@ -37,7 +37,7 @@ const REGION_OVERRIDES:Record<string,{region:AnatomicalRegion;subregion:Anatomic
 // These BodyParts3D elements have names that are irreconcilable with their
 // geometry. Keep them in the full atlas for source traceability, but exclude
 // them from regional motion/focus until a corrected source mesh is substituted.
-const MOTION_QUARANTINE=new Set(['FJ2091','FJ2195','FJ2190']);
+const MOTION_QUARANTINE=new Set(['FJ2091','FJ2195']);
 
 export const partCenter=(part:Part):[number,number,number]=>[
  (part.bounds[0][0]+part.bounds[1][0])*.5,
