@@ -478,8 +478,9 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    if(focusTarget&&focusPosition){const a=1-Math.exp(-8*dt);controls.target.lerp(focusTarget,a);camera.position.lerp(focusPosition,a);dirty=true;if(controls.target.distanceToSquared(focusTarget)<1e-7&&camera.position.distanceToSquared(focusPosition)<1e-7){controls.target.copy(focusTarget);camera.position.copy(focusPosition);focusTarget=null;focusPosition=null;}}
    const changed=lastState?.visible!==s.visible||lastState?.selected!==s.selected||lastState?.hiddenParts!==s.hiddenParts||lastState?.depthFilter!==s.depthFilter||lastState?.muscleLayer!==s.muscleLayer||lastState?.faceMuscleLayer!==s.faceMuscleLayer||lastState?.focusParts!==s.focusParts||lastState?.isolate!==s.isolate||lastState?.partTransforms!==s.partTransforms||lastState?.bodyMotion!==s.bodyMotion;
    const tissueChanged=!lastState||lastState.partTransforms!==s.partTransforms||lastState.tissueMotion!==s.tissueMotion||lastState.bodyMotion!==s.bodyMotion;
-   if(tissueChanged){updateTissueMotion(s);updateNerveMotion(s);}
+   if(tissueChanged){updateTissueMotion(s);updateNerveMotion(s);updateBrainMotion(s);}
    const ctx=viewerContext.current;
+   if(s.visible.includes('nervous')&&(ctx.bodyArea==='head'||s.bodyMotion?.region==='head'||!s.visible.includes('skeletal')))ensureBrain();
    if(ctx.bodyArea==='head'&&facialChunkIndex>=0&&!loadedChunks.has(facialChunkIndex)&&!loadingChunks.has(facialChunkIndex)){void loadChunk(facialChunkIndex).catch(e=>{loadingChunks.delete(facialChunkIndex);if(!disposed)onError(e instanceof Error?`Facial muscles: ${e.message}`:'Could not load facial muscles.');});}
    if(nerveMeshes.length){
     const nervesOn=s.visible.includes('nervous');
@@ -522,11 +523,14 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     // They become available again when the skull is hidden/peeled or when an
     // intracranial structure is explicitly isolated.
     const cranialVaultVisible=visible.has('skeletal')&&atlas.parts.some(part=>cranialVault.test(part.name)&&!hidden.has(part.id));
+    const legacyBrainParenchyma=/brain|cerebr|cerebell|\bgyrus\b|lobule|\blobe\b|hemisphere|white matter|gray matter|cortex|insula|midbrain|pons|medulla oblongata|thalam|hypothalam|fornix|ventricle|choroid plexus|corpus callosum|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|commissure|colliculus|geniculate|habenula|mammillary|stria terminalis|stria medullaris|septum of telencephalon|tuber cinereum|interpeduncular fossa|lamina terminalis|peduncle of midbrain|cerebral aqueduct/i;
+    brainMotionRoot.visible=brainLoaded&&visible.has('nervous')&&!cranialVaultVisible&&!s.isolate;
     const isVisible=(p:(typeof atlas.parts)[number])=>{
      if(hidden.has(p.id))return false;
      if(selection.has(p.id)&&(!cranialVaultVisible||!intracranial.test(p.name)||s.isolate))return true;
      if(!baseVisible(p))return false;
      if(cranialVaultVisible&&intracranial.test(p.name))return false;
+     if(brainMotionRoot.visible&&legacyBrainParenchyma.test(p.name))return false;
      return true;
     };
     const visibleParts=atlas.parts.filter(isVisible);
