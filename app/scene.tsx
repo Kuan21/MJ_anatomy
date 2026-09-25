@@ -228,7 +228,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const spineSoft=!bb&&spineCenter>=spineLevels[0]-.12&&spineCenter<=spineLevels[spineLevels.length-1]+.13&&/pectoralis|serratus|intercostal|rectus abdominis|oblique|transversus abdominis|latissimus|trapezius|erector spinae|multifidus|semispinalis thoracis|quadratus lumborum|psoas|thoracolumbar|aorta|vena cava|intercostal (?:artery|vein)|thoracic duct/i.test(p.name);
     if(spineSoft){pick.userData.bodySkin=bindBodyTissue(bodyRigs.spine,pick.userData.baseMotionPositions,false,p);pick.userData.bodyRegion='spine';}
     else if(binding?.name===p.name){pick.userData.bodySkin=bindBodyTissue(bodyRigs.spine,pick.userData.baseMotionPositions,true,p);pick.userData.bodyRegion='spine';}
-    if(pick.userData.skin&&['chest','cuff'].includes(pick.userData.skin.profile))pick.userData.surfaceGuard=makeSurfaceConstraints(pick.userData.baseMotionPositions,g.index!.array,pick.userData.skin);
+    if(pick.userData.skin&&['pectoralPath','chest','cuff'].includes(pick.userData.skin.profile))pick.userData.surfaceGuard=makeSurfaceConstraints(pick.userData.baseMotionPositions,g.index!.array,pick.userData.skin);
     if(((bb?.rig==='head'&&/platysma|sternocleidomastoid/.test(p.name))||spineSoft)&&pick.userData.bodySkin)pick.userData.bodySurfaceGuard=makeSurfaceConstraints(pick.userData.baseMotionPositions,g.index!.array,pick.userData.bodySkin);
     pickers[i]=pick;geometries.push(g);
     g.setAttribute('partIndex',new T.BufferAttribute(new Float32Array(p.vertexCount).fill(i),1));
