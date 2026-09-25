@@ -237,8 +237,8 @@ function detailKey(name:string){
  return Object.keys(detailed).sort((a,b)=>b.length-a.length).find(k=>n===k||n.includes(k));
 }
 
-function displayEnglish(name:string,system:SystemId){
- let canonical=name;
+function displayEnglish(name:string,system:SystemId,part?:Part){
+ let canonical=part?correctedPartName(part):name;
  if(system==='nervous'){
   const n=norm(stripSide(name));
   const key=Object.keys(detailed).filter(k=>k.includes('nerve')&&n.includes(k)).sort((a,b)=>b.length-a.length)[0];
@@ -339,9 +339,9 @@ export function structureProfile(name:string,system:SystemId,part?:Part):Structu
    source:muscleFactSourceFor(name)
   },name);
  }
- const key=detailKey(name);
+ const key=detailKey(sourceName);
  if(key){
-  const d=detailed[key],summary=genericSummary(english,system,chinese);
+  const d=detailed[key],summary=genericSummary(english,system,chinese,part);
   return withCourseNotes({english,chinese:chinese||d.chinese,category:d.category,summaryEn:d.summaryEn??summary.en,summaryZh:d.summaryZh??summary.zh,facts:d.facts,source:d.source},name);
  }
  const summary=genericSummary(english,system,chinese,part);
