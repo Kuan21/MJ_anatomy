@@ -106,7 +106,7 @@ export function anatomicalRegion(part:Part):AnatomicalRegion{
  const n=part.name.toLowerCase(),[x,y]=partCenter(part),ax=Math.abs(x);
  // The source names of small intrinsic laryngeal structures do not contain
  // "neck", yet their meshes are clustered around the larynx, above the chest.
- if(y>=1.35&&ax<.08&&/conus elasticus|crico.?arytenoid|cricothyroid|sternothyroid|thyroid artery|deep cervical artery|superficial cervical artery|median cricothyroid ligament|\\btrachea\\b/i.test(n))return 'head-neck';
+ if(y>=1.35&&ax<.08&&/conus elasticus|crico.?arytenoid|cricothyroid|sternothyroid|thyroid artery|deep cervical artery|superficial cervical artery|median cricothyroid ligament|\btrachea\b/i.test(n))return 'head-neck';
  const hand=HAND.test(n),foot=FOOT.test(n);
  const spatialFoot=y<.22&&ax>=.035&&ax<=.205;
  const spatialHand=y>=.67&&y<=.96&&ax>=.19;
