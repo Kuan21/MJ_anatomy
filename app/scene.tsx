@@ -99,7 +99,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   let brainRequested=false,brainLoaded=false;
   const brainTargetPattern=/cerebr|cerebell|brainstem|midbrain|pons|medulla oblongata|thalam|hypothalam|corpus callosum|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|fornix|ventricle|cortex|gyrus|lobule/i;
   const brainTargetBox=new T.Box3();
-  atlas.parts.forEach(p=>{if(brainTargetPattern.test(p.name))brainTargetBox.union(new T.Box3(new T.Vector3().fromArray(p.bounds[0]),new T.Vector3().fromArray(p.bounds[1])));});
+  atlas.parts.forEach(p=>{if(p.system==='nervous'&&brainTargetPattern.test(p.name))brainTargetBox.union(new T.Box3(new T.Vector3().fromArray(p.bounds[0]),new T.Vector3().fromArray(p.bounds[1])));});
   const brainMaterials=new Map<string,T.MeshStandardMaterial>();
   const brainAppearance=(label:string,category:string)=>{
    const s=(label+' '+category).toLowerCase();
