@@ -33,17 +33,15 @@ const UPPER_MOTION_ACTIONS:{id:UpperMotionAction;label:string}[]=[
  {id:'shoulderAbduction',label:'肩外展'},
  {id:'elbowFlexion',label:'屈肘'},
  {id:'forearmRotation',label:'旋前／旋後'},
- {id:'wristExtension',label:'腕伸展'},
+ {id:'wristExtension',label:'腕屈／伸'},
 ];
 const MOTION_KEYS=(Object.keys(NEUTRAL_POSE) as (keyof MotionPose)[]);
-const upperMotionTarget=(action:UpperMotionAction,side:Side):MotionPose=>{
- const p={...NEUTRAL_POSE};
- if(action==='shoulderFlexion')p.shoulderFlexion=90;
- else if(action==='shoulderAbduction')p.shoulderAbduction=90;
- else if(action==='elbowFlexion')p.elbowFlexion=105;
- else if(action==='forearmRotation')p.forearmRotation=side==='left'?-45:45;
- else p.wristFlexion=side==='left'?42:-42;
- return p;
+const UPPER_MOTION_KEY:Record<UpperMotionAction,keyof MotionPose>={
+ shoulderFlexion:'shoulderFlexion',
+ shoulderAbduction:'shoulderAbduction',
+ elbowFlexion:'elbowFlexion',
+ forearmRotation:'forearmRotation',
+ wristExtension:'wristFlexion',
 };
 const mixPose=(from:MotionPose,to:MotionPose,t:number):MotionPose=>{
  const out={...from};
@@ -59,7 +57,7 @@ export default function Home(){
  const [region,setRegion]=useState<RegionId>('whole-body'),[dissectionStage,setDissectionStage]=useState(0),[studySide,setStudySide]=useState<'both'|Side>('both');
  const [topRegion,setTopRegion]=useState<TopRegion>('whole'),[rightTool,setRightTool]=useState<'view'|'dissection'|'depth'|null>(null),[microAtlas,setMicroAtlas]=useState<MicroAtlasId|null>(null);
  const [motionSide,setMotionSide]=useState<Side>('right'),[motionPose,setMotionPose]=useState<MotionPose>(NEUTRAL_POSE),[motionEdit,setMotionEdit]=useState(false),[motionEnabled,setMotionEnabled]=useState(false),[organsOpen,setOrgansOpen]=useState(false);
- const [motionAction,setMotionAction]=useState<UpperMotionAction>('shoulderFlexion'),[motionPull,setMotionPull]=useState(0),[motionDemo,setMotionDemo]=useState(false);
+ const [motionAction,setMotionAction]=useState<UpperMotionAction>('shoulderFlexion');
  const motionPoseRef=useRef<MotionPose>(NEUTRAL_POSE);motionPoseRef.current=motionPose;
  const motionTargetRef=useRef<MotionPose>(NEUTRAL_POSE),smoothMotionFrame=useRef<number|null>(null);
  useEffect(()=>{if(state.bodyMotion)setTopRegion(state.bodyMotion.region==='head'?'head':state.bodyMotion.region==='spine'?'whole':'lower');else if(motionEdit)setTopRegion('upper');},[state.bodyMotion?.region,motionEdit]);
@@ -93,7 +91,7 @@ export default function Home(){
  const restorePart=(id:string)=>setState(s=>({...s,hiddenParts:(s.hiddenParts??[]).filter(x=>x!==id)}));
 
  const toggle=(id:SystemId)=>{setDetails(false);setState(s=>({...s,selected:[],isolate:false,visible:s.visible.includes(id)?s.visible.filter(x=>x!==id):[...s.visible,id]}));};
- const reset=()=>{setMicroAtlas(null);setState(s=>({...initial,visible:DEFAULT_VISIBLE,reset:s.reset+1}));setTopRegion('whole');setStudySide('both');setRightTool(null);setChosen(null);setExternalNerve(null);setDetails(false);setPanel(null);setRegion('whole-body');setDissectionStage(0);setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;motionTargetRef.current=NEUTRAL_POSE;setMotionPull(0);setMotionDemo(false);setMotionEdit(false);setMotionEnabled(false);};
+ const reset=()=>{setMicroAtlas(null);setState(s=>({...initial,visible:DEFAULT_VISIBLE,reset:s.reset+1}));setTopRegion('whole');setStudySide('both');setRightTool(null);setChosen(null);setExternalNerve(null);setDetails(false);setPanel(null);setRegion('whole-body');setDissectionStage(0);setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;motionTargetRef.current=NEUTRAL_POSE;setMotionEdit(false);setMotionEnabled(false);};
  const openPanel=(next:'layers'|'search')=>{setDetails(false);setPanel(p=>p===next?null:next);};
  const currentRegion=regionById(region);
  const profile=externalNerve?structureProfile(externalNerve,'nervous'):chosen&&selected?structureProfile(chosen.name,selected.system):null;
@@ -120,31 +118,25 @@ export default function Home(){
  const buildShownMotion=(pose:MotionPose)=>{const sides:Side[]=studySide==='both'?['left','right']:[studySide];const builds=sides.map(side=>buildUpperLimbMotion(atlas!,side,pose));return{transforms:Object.assign({},...builds.map(b=>b.transforms)),warnings:builds.flatMap(b=>b.warnings)};};
  const commitMotionPose=(pose:MotionPose,focusCamera=false)=>{if(!atlas||!motionEnabled)return;motionPoseRef.current=pose;setMotionPose(pose);setMotionEdit(true);setTopRegion('upper');const built=buildShownMotion(pose);if(built.warnings.length)setError(built.warnings.join(' '));else setError('');const ids=motionFocusIds(studySide);setState(s=>({...s,focusParts:undefined,cameraFocusParts:focusCamera?ids:s.cameraFocusParts,cameraFocusNonce:focusCamera?(s.cameraFocusNonce??0)+1:s.cameraFocusNonce,bodyMotion:undefined,partTransforms:built.transforms,rotate:false}));};
  const applyMotionPose=(pose:MotionPose,focusCamera=false)=>{if(!atlas||!motionEnabled)return;motionTargetRef.current=pose;if(smoothMotionFrame.current!==null)return;let last=performance.now();let first=true;const tick=(now:number)=>{const current=motionPoseRef.current,target=motionTargetRef.current,dt=Math.min(.05,Math.max(.001,(now-last)/1000));last=now;const alpha=1-Math.exp(-dt*16);const next=mixPose(current,target,alpha);const maxDiff=Math.max(...MOTION_KEYS.map(k=>Math.abs(target[k]-next[k])));commitMotionPose(maxDiff<.12?target:next,focusCamera&&first);first=false;if(maxDiff<.12){smoothMotionFrame.current=null;return;}smoothMotionFrame.current=requestAnimationFrame(tick);};smoothMotionFrame.current=requestAnimationFrame(tick);};
- const activateMotionSide=(side:Side)=>{if(!atlas||!motionEnabled)return;setMotionDemo(false);setMotionPull(0);setMotionSide(side);setStudySide(side);motionTargetRef.current=NEUTRAL_POSE;motionPoseRef.current=NEUTRAL_POSE;setMotionPose(NEUTRAL_POSE);setMotionEdit(true);const ids=motionFocusIds(side),built=buildUpperLimbMotion(atlas,side,NEUTRAL_POSE);if(built.warnings.length)setError(built.warnings.join(' '));else setError('');setState(s=>({...s,focusParts:undefined,cameraFocusParts:ids,cameraFocusNonce:(s.cameraFocusNonce??0)+1,bodyMotion:undefined,partTransforms:built.transforms,selected:[],isolate:false,explode:0,rotate:false}));};
- const setJoint=(key:keyof MotionPose,value:number)=>{setMotionDemo(false);applyMotionPose({...motionTargetRef.current,[key]:value});};
- const nudgeJoint=(side:Side,key:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion',delta:number)=>{if(!atlas||!motionEnabled)return;setMotionDemo(false);setMotionSide(side);setStudySide(side);const limits=MOTION_LIMITS[key],base=motionTargetRef.current,value=Math.max(limits[0],Math.min(limits[1],base[key]+delta)),pose={...base,[key]:value};applyMotionPose(pose,true);};
- const neutralMotion=()=>{setMotionDemo(false);setMotionPull(0);applyMotionPose(NEUTRAL_POSE);};
- const chooseMotionAction=(action:UpperMotionAction)=>{setMotionDemo(false);setMotionAction(action);setMotionPull(0);applyMotionPose(NEUTRAL_POSE);};
- const pullMotion=(value:number)=>{setMotionDemo(false);setMotionPull(value);const side=studySide==='both'?motionSide:studySide;applyMotionPose(mixPose(NEUTRAL_POSE,upperMotionTarget(motionAction,side),value/100));};
- useEffect(()=>{
-  if(!motionDemo||!motionEnabled||!atlas)return;
-  if(smoothMotionFrame.current!==null){cancelAnimationFrame(smoothMotionFrame.current);smoothMotionFrame.current=null;}
-  const side=studySide==='both'?motionSide:studySide,target=upperMotionTarget(motionAction,side),start=performance.now();let frame=0,lastPaint=0;
-  const loop=(now:number)=>{if(now-lastPaint>=18){const phase=((now-start)%3200)/3200,raw=.5-.5*Math.cos(phase*Math.PI*2),eased=raw*raw*(3-2*raw);setMotionPull(eased*100);motionTargetRef.current=mixPose(NEUTRAL_POSE,target,eased);commitMotionPose(motionTargetRef.current);lastPaint=now;}frame=requestAnimationFrame(loop);};
-  frame=requestAnimationFrame(loop);return()=>cancelAnimationFrame(frame);
- },[motionDemo,motionEnabled,motionAction,motionSide,studySide,atlas]);
+ const activateMotionSide=(side:Side)=>{if(!atlas||!motionEnabled)return;setMotionSide(side);setStudySide(side);motionTargetRef.current=NEUTRAL_POSE;motionPoseRef.current=NEUTRAL_POSE;setMotionPose(NEUTRAL_POSE);setMotionEdit(true);const ids=motionFocusIds(side),built=buildUpperLimbMotion(atlas,side,NEUTRAL_POSE);if(built.warnings.length)setError(built.warnings.join(' '));else setError('');setState(s=>({...s,focusParts:undefined,cameraFocusParts:ids,cameraFocusNonce:(s.cameraFocusNonce??0)+1,bodyMotion:undefined,partTransforms:built.transforms,selected:[],isolate:false,explode:0,rotate:false}));};
+ const setJoint=(key:keyof MotionPose,value:number)=>{applyMotionPose({...motionTargetRef.current,[key]:value});};
+ const nudgeJoint=(side:Side,key:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion',delta:number)=>{if(!atlas||!motionEnabled)return;setMotionSide(side);setStudySide(side);const limits=MOTION_LIMITS[key],base=motionTargetRef.current,value=Math.max(limits[0],Math.min(limits[1],base[key]+delta)),pose={...base,[key]:value};applyMotionPose(pose,true);};
+ const neutralMotion=()=>{applyMotionPose(NEUTRAL_POSE);};
+ const chooseMotionAction=(action:UpperMotionAction)=>setMotionAction(action);
+ const upperActionKey=UPPER_MOTION_KEY[motionAction],upperActionLimit=MOTION_LIMITS[upperActionKey];
+ const pullMotion=(value:number)=>applyMotionPose({...motionTargetRef.current,[upperActionKey]:value});
  useEffect(()=>()=>{if(smoothMotionFrame.current!==null)cancelAnimationFrame(smoothMotionFrame.current);},[]);
  const bodyRigs=useMemo(()=>atlas?{head:makeBodyRig(atlas,'head'),spine:makeBodyRig(atlas,'spine'),leftLeg:makeBodyRig(atlas,'leftLeg'),rightLeg:makeBodyRig(atlas,'rightLeg')}:null,[atlas]);
  const selectTop=(next:TopRegion)=>{
-  setMicroAtlas(null);if(!atlas||!bodyRigs)return;setMotionDemo(false);setMotionPull(0);setTopRegion(next);setStudySide('both');setRegion('whole-body');setDissectionStage(0);setMotionEdit(false);setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;motionTargetRef.current=NEUTRAL_POSE;setDetails(false);setChosen(null);setExternalNerve(null);
+  setMicroAtlas(null);if(!atlas||!bodyRigs)return;setTopRegion(next);setStudySide('both');setRegion('whole-body');setDissectionStage(0);setMotionEdit(false);setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;motionTargetRef.current=NEUTRAL_POSE;setDetails(false);setChosen(null);setExternalNerve(null);
   if(next==='head'){changeBody('head',{...BODY_NEUTRAL},true);return;}
   const ids=next==='upper'?[...new Set((['shoulder','arm','forearm','hand'] as RegionId[]).flatMap(r=>resolveDissection(atlas,r,0).partIds))]:next==='lower'?[...bodyRigs.leftLeg.focusIds,...bodyRigs.rightLeg.focusIds]:next==='organs'?atlas.parts.filter(p=>ORGAN_SYSTEM_IDS.includes(p.system)).map(p=>p.id):undefined;
   setState(s=>({...s,focusParts:ids,cameraFocusParts:ids,cameraFocusNonce:(s.cameraFocusNonce??0)+1,bodyMotion:undefined,partTransforms:undefined,selected:[],hiddenParts:[],depthFilter:'all',muscleLayer:'all',faceMuscleLayer:'all',isolate:false,explode:0,rotate:false,visible:next==='organs'?ORGAN_SYSTEM_IDS:next==='whole'?DEFAULT_VISIBLE:[...REGIONAL_VISIBLE,'respiratory','digestive','sensory'],reset:s.reset+1}));
  };
- const enterUpperMotion=()=>{if(!atlas)return;setMotionDemo(false);setMotionPull(0);setMicroAtlas(null);setStudySide('both');setTopRegion('upper');setRegion('whole-body');setMotionEdit(true);setState(s=>({...s,bodyMotion:undefined,partTransforms:undefined,focusParts:undefined,selected:[],isolate:false,explode:0,rotate:false}));};
+ const enterUpperMotion=()=>{if(!atlas)return;setMicroAtlas(null);setStudySide('both');setTopRegion('upper');setRegion('whole-body');setMotionEdit(true);setState(s=>({...s,bodyMotion:undefined,partTransforms:undefined,focusParts:undefined,selected:[],isolate:false,explode:0,rotate:false}));};
  const inspectMotionStructure=(term:string)=>{if(!atlas)return;const t=term.toLowerCase(),side=state.bodyMotion?.region==='leftLeg'?'left':state.bodyMotion?.region==='rightLeg'?'right':!state.bodyMotion&&studySide!=='both'?studySide:null;let candidates=atlas.concepts.filter(x=>x.name.toLowerCase().includes(t));if(side){const sided=candidates.filter(x=>x.name.toLowerCase().includes(side));if(sided.length)candidates=sided;}candidates.sort((a,b)=>a.name.length-b.name.length);if(candidates[0])choose(candidates[0]);};
- const openMicroAtlas=(next:MicroAtlasId)=>{setMotionDemo(false);setMotionPull(0);setMicroAtlas(next);setDetails(false);setPanel(null);setRightTool(null);setChosen(null);setExternalNerve(null);setMotionEdit(false);setMotionEnabled(false);};
- const changeBody=(bodyRegion:BodyRegion,pose:BodyPose,focus=false)=>{setMotionDemo(false);setMotionPull(0);setMicroAtlas(null);if(!bodyRigs)return;const rig=bodyRigs[bodyRegion],built=buildBodyMotion(rig,pose);setMotionEdit(false);setRegion('whole-body');setStudySide('both');setDetails(false);setChosen(null);setExternalNerve(null);setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;setState(s=>({...s,bodyMotion:{region:bodyRegion,pose:built.pose},partTransforms:built.transforms,focusParts:undefined,cameraFocusParts:rig.focusIds,cameraFocusNonce:focus||s.bodyMotion?.region!==bodyRegion?(s.cameraFocusNonce??0)+1:s.cameraFocusNonce,selected:[],isolate:false,explode:0,rotate:false}));};
+ const openMicroAtlas=(next:MicroAtlasId)=>{setMicroAtlas(next);setDetails(false);setPanel(null);setRightTool(null);setChosen(null);setExternalNerve(null);setMotionEdit(false);setMotionEnabled(false);};
+ const changeBody=(bodyRegion:BodyRegion,pose:BodyPose,focus=false)=>{setMicroAtlas(null);if(!bodyRigs)return;const rig=bodyRigs[bodyRegion],built=buildBodyMotion(rig,pose);setMotionEdit(false);setRegion('whole-body');setStudySide('both');setDetails(false);setChosen(null);setExternalNerve(null);setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;setState(s=>({...s,bodyMotion:{region:bodyRegion,pose:built.pose},partTransforms:built.transforms,focusParts:undefined,cameraFocusParts:rig.focusIds,cameraFocusNonce:focus||s.bodyMotion?.region!==bodyRegion?(s.cameraFocusNonce??0)+1:s.cameraFocusNonce,selected:[],isolate:false,explode:0,rotate:false}));};
  return <main className="studio">
   {microAtlas?<MicroAtlasScene atlasId={microAtlas} onExit={()=>setMicroAtlas(null)}/>:atlas&&<AnatomyScene atlas={atlas} state={{...state,inspectorOpen:details&&(selectedParts.length>0||!!externalNerve)}} onSelect={choosePart} onSelectNerve={chooseNerve} onProgress={n=>{setProgress(n);if(n===100)setError('');}} onError={setError} onJointDrag={nudgeJoint} region={region} focusSide={studySide} motionActive={motionEdit} jointMotionEnabled={motionEnabled} selectedExternalNerve={externalNerve} bodyArea={topRegion}/>}
   <div className="vignette"/>
@@ -183,8 +175,8 @@ export default function Home(){
    <div className="mj-motion-head"><div><strong>{studySide==='both'?'雙側上肢':studySide==='right'?'右上肢':'左上肢'}</strong></div><Button variant="ghost" disabled={!motionEnabled} onClick={neutralMotion}>復位</Button></div>
    <div className="mj-motion-sides"><Button variant="ghost" disabled={!motionEnabled} aria-pressed={studySide==='both'} onClick={enterUpperMotion}>雙側</Button><Button variant="ghost" disabled={!motionEnabled} aria-pressed={studySide==='left'} onClick={()=>activateMotionSide('left')}>左側</Button><Button variant="ghost" disabled={!motionEnabled} aria-pressed={studySide==='right'} onClick={()=>activateMotionSide('right')}>右側</Button></div>
    <div className="motion-action-picker" role="group" aria-label="選擇示範動作">{UPPER_MOTION_ACTIONS.map(action=><Button variant="ghost" key={action.id} aria-pressed={motionAction===action.id} disabled={!motionEnabled} onClick={()=>chooseMotionAction(action.id)}>{action.label}</Button>)}</div>
-   <MotionPullControl label={UPPER_MOTION_ACTIONS.find(a=>a.id===motionAction)?.label??'動作'} value={motionPull} disabled={!motionEnabled} demoActive={motionDemo} onDemoToggle={()=>setMotionDemo(v=>!v)} onValueChange={pullMotion}/>
-   <small className="mj-motion-note">像肌腱牽拉一樣由 0–100% 連續控制整段動作；「自動演示」會平滑往返。你亦可以直接拖動上臂控制肩／肘。</small>
+   <MotionPullControl label={UPPER_MOTION_ACTIONS.find(a=>a.id===motionAction)?.label??'動作'} value={motionPose[upperActionKey]} min={upperActionLimit[0]} max={upperActionLimit[1]} disabled={!motionEnabled} onValueChange={pullMotion}/>
+   <small className="mj-motion-note">0° 為放鬆中立位；正負角度代表相反方向。你可以任意拖動，不再自動播放。</small>
    <MotionAnatomyPanel anatomy={UPPER_ACTION_ANATOMY[motionAction]} onInspect={inspectMotionStructure}/>
    <details className="motion-fine-tune"><summary>精細角度調整 <span>Advanced</span></summary>
     <label className="mj-joint-control"><span>Shoulder flex / extend｜肩屈曲／伸展 <b>{Math.round(motionPose.shoulderFlexion)}°</b></span><Slider disabled={!motionEnabled} min={MOTION_LIMITS.shoulderFlexion[0]} max={MOTION_LIMITS.shoulderFlexion[1]} step={1} value={[motionPose.shoulderFlexion]} onValueChange={v=>setJoint('shoulderFlexion',Array.isArray(v)?v[0]:v)}/></label>
