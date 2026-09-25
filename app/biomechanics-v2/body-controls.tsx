@@ -18,6 +18,10 @@ const actionTarget=(region:BodyRegion,action:BodyAction):BodyPose=>{
   if(action==='rotation')p.rotation=45;
   else if(action==='sideBend')p.sideBend=22;
   else p.flexion=30;
+ }else if(region==='spine'){
+  if(action==='rotation')p.rotation=22;
+  else if(action==='sideBend')p.sideBend=18;
+  else p.flexion=38;
  }else{
   if(action==='knee')p.knee=85;
   else if(action==='ankle')p.ankle=20;
@@ -28,14 +32,15 @@ const actionTarget=(region:BodyRegion,action:BodyAction):BodyPose=>{
 };
 
 export default function BodyControls({region,pose,onChange,disabled=false}:{region:BodyRegion;pose:BodyPose;onChange:(region:BodyRegion,pose:BodyPose,focus?:boolean)=>void;disabled?:boolean}){
- const head=region==='head',limits=BODY_LIMITS[head?'head':'leg'];
- const controls:([keyof BodyPose,string])[]=head?[['flexion','低頭（＋）／抬頭（－）'],['rotation','向左（＋）／向右（－）轉頭'],['sideBend','向左（＋）／向右（－）側彎']]:[['flexion','髖：前抬（＋）／後伸（－）'],['sideBend','髖：向外展開'],['rotation','髖：內旋（＋）／外旋（－）'],['knee','膝：屈曲'],['ankle','踝：抬腳尖（＋）／下壓（－）']];
+ const head=region==='head',spine=region==='spine',limits=BODY_LIMITS[head?'head':spine?'spine':'leg'];
+ const controls:([keyof BodyPose,string])[]=head?[['flexion','低頭（＋）／抬頭（－）'],['rotation','向左（＋）／向右（－）轉頭'],['sideBend','向左（＋）／向右（－）側彎']]:spine?[['flexion','脊柱：前屈（＋）／後伸（－）'],['rotation','軀幹：向左（＋）／向右（－）旋轉'],['sideBend','軀幹：向左（＋）／向右（－）側彎']]:[['flexion','髖：前抬（＋）／後伸（－）'],['sideBend','髖：向外展開'],['rotation','髖：內旋（＋）／外旋（－）'],['knee','膝：屈曲'],['ankle','踝：抬腳尖（＋）／下壓（－）']];
  const actions:{id:BodyAction;label:string}[]=head?
-  [{id:'flexion',label:'低頭／抬頭'},{id:'rotation',label:'左右轉頭'},{id:'sideBend',label:'側彎'}]:
+  [{id:'flexion',label:'低頭／抬頭'},{id:'rotation',label:'左右轉頭'},{id:'sideBend',label:'側彎'}]:spine?
+  [{id:'flexion',label:'彎腰／伸展'},{id:'rotation',label:'軀幹旋轉'},{id:'sideBend',label:'軀幹側彎'}]:
   [{id:'flexion',label:'抬腿'},{id:'knee',label:'屈膝'},{id:'sideBend',label:'髖外展'},{id:'ankle',label:'踝背屈'}];
- const [action,setAction]=useState<BodyAction>(head?'flexion':'knee'),[pull,setPull]=useState(0),[demo,setDemo]=useState(false);
+ const [action,setAction]=useState<BodyAction>(head||spine?'flexion':'knee'),[pull,setPull]=useState(0),[demo,setDemo]=useState(false);
  const frame=useRef<number|null>(null);
- useEffect(()=>{setDemo(false);setPull(0);setAction(region==='head'?'flexion':'knee');},[region]);
+ useEffect(()=>{setDemo(false);setPull(0);setAction(region==='head'||region==='spine'?'flexion':'knee');},[region]);
  useEffect(()=>{
   if(!demo||disabled)return;
   const target=actionTarget(region,action),start=performance.now();let last=0;
@@ -45,9 +50,9 @@ export default function BodyControls({region,pose,onChange,disabled=false}:{regi
  const chooseAction=(next:BodyAction)=>{setDemo(false);setAction(next);setPull(0);onChange(region,{...BODY_NEUTRAL});};
  const pullAction=(value:number)=>{setDemo(false);setPull(value);onChange(region,mixBody(BODY_NEUTRAL,actionTarget(region,action),value/100));};
  const reset=()=>{setDemo(false);setPull(0);onChange(region,{...BODY_NEUTRAL});};
- return <section className="mj-motion-lab glass" aria-label={head?'Head and neck motion':'Lower limb motion'}>
-  <div className="mj-motion-head"><strong>{head?'頭頸動作':region==='leftLeg'?'左腳動作':'右腳動作'}</strong><Button variant="ghost" disabled={disabled} onClick={reset}>復位</Button></div>
-  {!head&&<div className="mj-motion-sides"><Button variant="ghost" disabled={disabled} aria-pressed={region==='leftLeg'} onClick={()=>onChange('leftLeg',{...BODY_NEUTRAL},true)}>左腳</Button><Button variant="ghost" disabled={disabled} aria-pressed={region==='rightLeg'} onClick={()=>onChange('rightLeg',{...BODY_NEUTRAL},true)}>右腳</Button></div>}
+ return <section className="mj-motion-lab glass" aria-label={head?'Head and neck motion':spine?'Spine and trunk motion':'Lower limb motion'}>
+  <div className="mj-motion-head"><strong>{head?'頭頸動作':spine?'軀幹與脊柱':region==='leftLeg'?'左腳動作':'右腳動作'}</strong><Button variant="ghost" disabled={disabled} onClick={reset}>復位</Button></div>
+  {!head&&!spine&&<div className="mj-motion-sides"><Button variant="ghost" disabled={disabled} aria-pressed={region==='leftLeg'} onClick={()=>onChange('leftLeg',{...BODY_NEUTRAL},true)}>左腳</Button><Button variant="ghost" disabled={disabled} aria-pressed={region==='rightLeg'} onClick={()=>onChange('rightLeg',{...BODY_NEUTRAL},true)}>右腳</Button></div>}
   <div className="motion-action-picker" role="group" aria-label="選擇示範動作">{actions.map(item=><Button variant="ghost" key={item.id} aria-pressed={action===item.id} disabled={disabled} onClick={()=>chooseAction(item.id)}>{item.label}</Button>)}</div>
   <MotionPullControl label={actions.find(x=>x.id===action)?.label??'動作'} value={pull} disabled={disabled} demoActive={demo} onDemoToggle={()=>setDemo(v=>!v)} onValueChange={pullAction}/>
   <small className="mj-motion-note">用一個拉動量連續驅動整段動作；自動演示使用平滑往返，不再逐格跳角度。</small>
