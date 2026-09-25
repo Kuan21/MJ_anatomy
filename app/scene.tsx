@@ -105,6 +105,63 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     if(binding||bodyRegion==='head')mesh.userData.spineSkin=bindBodyTissue(bodyRigs.spine,mesh.userData.basePositions,true);
     nerveRoot.add(mesh);nerveMeshes.push(mesh);
    });lastState=null;dirty=true;},undefined,err=>{if(!disposed)console.warn('Could not load legacy nervous system model',err);});
+  // Integrated Brain Project overlay. It is lazy-loaded only when the user
+  // enters a head/neck workflow or exposes the cranial cavity, so the normal
+  // whole-body/iPad load remains lightweight. The original atlas brain stays
+  // as a fallback if the remote asset cannot be reached.
+  const brainMotionRoot=new T.Group(),brainVisualRoot=new T.Group();
+  brainMotionRoot.name='MJ integrated Brain Project';brainMotionRoot.matrixAutoUpdate=false;brainMotionRoot.visible=false;brainMotionRoot.add(brainVisualRoot);scene.add(brainMotionRoot);
+  let brainRequested=false,brainLoaded=false;
+  const brainTargetPattern=/cerebr|cerebell|brainstem|midbrain|pons|medulla oblongata|thalam|hypothalam|corpus callosum|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|fornix|ventricle|cortex|gyrus|lobule/i;
+  const brainTargetBox=new T.Box3();
+  atlas.parts.forEach(p=>{if(brainTargetPattern.test(p.name))brainTargetBox.union(new T.Box3(new T.Vector3().fromArray(p.bounds[0]),new T.Vector3().fromArray(p.bounds[1])));});
+  const brainMaterials=new Map<string,T.MeshStandardMaterial>();
+  const brainAppearance=(label:string,category:string)=>{
+   const s=(label+' '+category).toLowerCase();
+   if(/ventricle|aqueduct/.test(s))return{key:'ventricle',color:0x99bdc7,transparent:true,opacity:.22};
+   if(/white matter|capsule|commissure|corpus callosum|fornix/.test(s))return{key:'white',color:0xe7ddd0,transparent:false,opacity:1};
+   if(/cerebell/.test(s))return{key:'cerebellum',color:0xb86f68,transparent:false,opacity:1};
+   if(/brainstem|midbrain|pons|medulla/.test(s))return{key:'brainstem',color:0xd39780,transparent:false,opacity:1};
+   if(/deep|thalam|hypothalam|caudate|putamen|globus|amygdal|hippocamp/.test(s))return{key:'deep',color:0xc58d83,transparent:false,opacity:1};
+   return{key:'cortex',color:0xc9857d,transparent:false,opacity:1};
+  };
+  const ensureBrain=()=>{
+   if(brainRequested)return;brainRequested=true;
+   const brainUrls=[
+    'https://cdn.jsdelivr.net/gh/itayinbarr/brainproject@main/brain-atlas/models/brain.glb',
+    'https://raw.githubusercontent.com/itayinbarr/brainproject/main/brain-atlas/models/brain.glb'
+   ];
+   let bi=0;
+   const attempt=()=>loader.load(brainUrls[bi],gltf=>{
+    if(disposed)return;
+    gltf.scene.updateMatrixWorld(true);
+    const sourceBox=new T.Box3(),added:T.Mesh[]=[];
+    gltf.scene.traverse(o=>{
+     if(!(o instanceof T.Mesh))return;
+     const label=String(o.userData?.bx_label||o.name||'Brain structure');
+     const category=String(o.userData?.bx_cat||'');
+     if(/arter|vein|cranial.?nerve|\bnerve\b|tracts?|fibres?/i.test(category+' '+label))return;
+     const geometry=o.geometry.clone();geometry.applyMatrix4(o.matrixWorld);geometry.computeBoundingBox();geometry.computeVertexNormals();
+     const appearance=brainAppearance(label,category);
+     let material=brainMaterials.get(appearance.key);
+     if(!material){material=new T.MeshStandardMaterial({color:appearance.color,roughness:.72,metalness:0,side:T.FrontSide,transparent:appearance.transparent,opacity:appearance.opacity,depthWrite:!appearance.transparent});brainMaterials.set(appearance.key,material);materials.push(material);}
+     const mesh=new T.Mesh(geometry,material);mesh.name='Brain Project · '+label;mesh.frustumCulled=false;brainVisualRoot.add(mesh);added.push(mesh);
+     if(geometry.boundingBox)sourceBox.union(geometry.boundingBox);
+    });
+    if(sourceBox.isEmpty()||brainTargetBox.isEmpty()||!added.length){brainVisualRoot.clear();return;}
+    const sc=sourceBox.getCenter(new T.Vector3()),ss=sourceBox.getSize(new T.Vector3()),tc=brainTargetBox.getCenter(new T.Vector3()),ts=brainTargetBox.getSize(new T.Vector3());
+    const scale=Math.min(ts.x/Math.max(ss.x,1e-6),ts.y/Math.max(ss.y,1e-6),ts.z/Math.max(ss.z,1e-6))*.97;
+    brainVisualRoot.scale.setScalar(scale);brainVisualRoot.position.copy(tc).addScaledVector(sc,-scale);brainVisualRoot.updateMatrixWorld(true);
+    brainLoaded=true;lastState=null;dirty=true;
+   },undefined,err=>{bi++;if(bi<brainUrls.length)attempt();else console.warn('Integrated Brain Project model unavailable; keeping BodyParts3D brain fallback.',err);});
+   attempt();
+  };
+  const updateBrainMotion=(s:SceneState)=>{
+   const m=new T.Matrix4();
+   if(s.bodyMotion?.region==='head'){const built=buildBodyMotion(bodyRigs.head,s.bodyMotion.pose);m.copy(built.matrices[built.matrices.length-1]);}
+   else if(s.bodyMotion?.region==='spine'){const built=buildBodyMotion(bodyRigs.spine,s.bodyMotion.pose);m.copy(built.matrices[built.matrices.length-1]);}
+   brainMotionRoot.matrix.copy(m);brainMotionRoot.matrixWorldNeedsUpdate=true;
+  };
   const transformMatrix=(t:NonNullable<SceneState['partTransforms']>[string]|undefined)=>{const m=new T.Matrix4();if(!t)return m.identity();return m.compose(new T.Vector3(...t.translation),new T.Quaternion(...t.quaternion),new T.Vector3(1,1,1));};
   const updateNerveMotion=(s:SceneState)=>{
    const body=s.bodyMotion?buildBodyMotion(bodyRigs[s.bodyMotion.region],s.bodyMotion.pose):null;
