@@ -9,7 +9,7 @@
     "dev": "vite --host 0.0.0.0 --port 3016",
     "build": "vite build",
     "build:vercel": "vite build",
-    "check": "tsc --noEmit && node scripts/audit-anatomy.mjs && node scripts/test-region-focus.mjs",
+    "check": "tsc --noEmit && node scripts/audit-anatomy.mjs && node scripts/test-region-focus.mjs && npm run check:motion",
     "predev": "node scripts/prepare-draco.mjs",
     "prebuild": "node scripts/prepare-draco.mjs",
     "prebuild:vercel": "node scripts/prepare-draco.mjs",
