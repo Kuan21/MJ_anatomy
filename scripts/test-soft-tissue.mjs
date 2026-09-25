@@ -14,7 +14,15 @@ for(const file of ['biomechanics-v2/skeleton','biomechanics-v2/soft-tissue','mj-
  await writeFile(new URL(`${file.split('/').pop()}.mjs`,tmp),js);
 }
 const soft=await import(new URL('soft-tissue.mjs',tmp)),motion=await import(new URL('mj-motion.mjs',tmp));
-const atlas=JSON.parse(await readFile(new URL('public/models/atlas.json',root),'utf8'));
+const rawAtlas=JSON.parse(await readFile(new URL('public/models/atlas.json',root),'utf8'));
+const sourceOverrides=JSON.parse(await readFile(new URL('app/anatomy-source-overrides.json',root),'utf8'));
+const excludedSourceIds=new Set(sourceOverrides.exclude);
+const runtimeParts=rawAtlas.parts.filter(p=>!excludedSourceIds.has(p.id)).map(p=>({...p,...(sourceOverrides.parts[p.id]||{})}));
+const runtimePartIds=new Set(runtimeParts.map(p=>p.id));
+const runtimeConceptElements=new Map();
+for(const p of runtimeParts){const ids=runtimeConceptElements.get(p.conceptId)||[];ids.push(p.id);runtimeConceptElements.set(p.conceptId,ids);}
+const runtimeConcepts=rawAtlas.concepts.map(c=>({...c,name:sourceOverrides.concepts[c.id]||c.name,elements:(runtimeConceptElements.get(c.id)||[]).filter(id=>runtimePartIds.has(id))})).filter(c=>c.elements.length);
+const atlas={...rawAtlas,parts:runtimeParts,concepts:runtimeConcepts};
 assert.equal(soft.resolveNeurovascularProfile('Right lateral thoracic artery','path'),'axillaryCable');
 assert.equal(soft.resolveNeurovascularProfile('Right posterior circumflex humeral artery','path'),'axillaryCable');
 assert.equal(soft.resolveNeurovascularProfile('Right anterior circumflex humeral vein','path'),'axillaryCable');
