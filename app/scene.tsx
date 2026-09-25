@@ -299,10 +299,9 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     }
 
     const pc=partCenter(p),spinalCordPart=/spinal cord|central canal/i.test(p.name),spansNeck=p.bounds[1][1]>=1.10&&p.bounds[0][1]<=1.72;
-    const cervicalFollower=(pc.y>=1.10&&pc.y<=1.72&&Math.abs(pc.x)<=.34&&(
-      p.system==='arterial'||p.system==='venous'||p.system==='connective'||
-      /trachea|esophagus|laryn|pharyn|hyoid|thyroid|cricoid|epiglott|longus|scalen|sternocleidomastoid|splenius|semispinalis|carotid|jugular|vertebral artery/i.test(p.name)
-     ))||(spinalCordPart&&spansNeck);
+    const cervicalFollower=(pc.y>=1.08&&pc.y<=1.72&&Math.abs(pc.x)<=.34&&
+      /trachea|esophagus|laryn|pharyn|hyoid|thyroid|cricoid|epiglott|longus|scalen|sternocleidomastoid|splenius|semispinalis|carotid|jugular|vertebral artery|vertebral vein|cervical fascia|nuchal ligament/i.test(p.name)
+     )||(spinalCordPart&&spansNeck);
     if(!pick.userData.bodySkin&&cervicalFollower){
      pick.userData.bodySkin=bindBodyTissue(bodyRigs.head,pick.userData.baseMotionPositions,false,p);
      pick.userData.bodyRegion='head';
