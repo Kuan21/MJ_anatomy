@@ -140,10 +140,5 @@ export function topRegionParts(parts:Part[],region:'whole'|'upper'|'lower'|'head
  if(region==='organs')return parts.filter(p=>organSystems.includes(p.system)).map(p=>p.id);
  if(region==='upper')return partsInRegion(parts,'upper-limb');
  if(region==='lower')return partsInRegion(parts,'lower-limb');
- // Top-level 頭部 keeps upper-body context; Motion 頭頸 uses only head-neck.
- return parts.filter(p=>{
-  if(isMotionQuarantined(p))return false;
-  const r=anatomicalRegion(p),[,y]=partCenter(p);
-  return r==='head-neck'||r==='upper-limb'||(r==='trunk'&&y>=1.05);
- }).map(p=>p.id);
+ return partsInRegion(parts,'head-neck');
 }
