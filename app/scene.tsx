@@ -546,12 +546,17 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const cranialVaultVisible=vaultParts.length>0&&vaultParts.every(baseVisible);
     const brainInFocus=!focus||atlas.parts.some(p=>p.system==='nervous'&&brainTargetPattern.test(p.name)&&focus.has(p.id));
     const legacyBrainParenchyma=/brain|cerebr|cerebell|telenceph|dienceph|mesenceph|metenceph|myelenceph|\bgyrus\b|sulcus|lobule|\blobe\b|hemisphere|white matter|gray matter|cortex|insula|midbrain|pons|medulla oblongata|thalam|hypothalam|fornix|ventricle|choroid plexus|corpus callosum|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|commissure|colliculus|geniculate|habenula|mammillary|stria terminalis|stria medullaris|septum of telencephalon|tuber cinereum|interpeduncular fossa|lamina terminalis|peduncle of midbrain|cerebral aqueduct/i;
-    brainMotionRoot.visible=brainLoaded&&visible.has('nervous')&&brainInFocus&&!cranialVaultVisible&&!s.isolate;
+    const selectedBrain=brainAtlasCandidates.some(p=>selection.has(p.id));
+    brainMotionRoot.visible=brainLoaded&&visible.has('nervous')&&brainInFocus&&!cranialVaultVisible&&(!s.isolate||selectedBrain);
+    for(const mesh of brainPickers){
+     const atlasId=mesh.userData.mjAtlasId as string|undefined;
+     mesh.visible=brainMotionRoot.visible&&(!s.isolate||!!atlasId&&selection.has(atlasId));
+    }
     const isVisible=(p:(typeof atlas.parts)[number])=>{
      if(hidden.has(p.id))return false;
      const cx=(p.bounds[0][0]+p.bounds[1][0])*.5,cy=(p.bounds[0][1]+p.bounds[1][1])*.5,cz=(p.bounds[0][2]+p.bounds[1][2])*.5;
      const intracranialLegacy=p.system==='nervous'&&cy>1.38&&Math.abs(cx)<.36&&Math.abs(cz)<.34&&!/cranial.?nerve|\bnerve\b|tract|root|ganglion/i.test(p.name);
-     const replacedBrain=brainLoaded&&!s.isolate&&(legacyBrainParenchyma.test(p.name)||intracranialLegacy);
+     const replacedBrain=brainLoaded&&(legacyBrainParenchyma.test(p.name)||intracranialLegacy);
      if(selection.has(p.id)&&!replacedBrain&&(!cranialVaultVisible||!intracranial.test(p.name)||s.isolate))return true;
      if(!baseVisible(p))return false;
      if(cranialVaultVisible&&intracranial.test(p.name))return false;
