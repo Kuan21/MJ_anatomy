@@ -1,5 +1,5 @@
 import type {Part,SystemId} from './anatomy';
-import {anatomicalRegion,partCenter} from './mj-part-regions';
+import {anatomicalRegionLabel,correctedPartName} from './mj-part-regions';
 import {muscleFactsFor,muscleFactSourceFor} from './mj-muscle-facts';
 import {courseNotesFor,type CourseNoteEntry} from './mj-course-notes';
 import {netterEnglishName,NETTER_TERMINOLOGY_SOURCE} from './mj-netter-terminology';
@@ -251,12 +251,7 @@ function displayEnglish(name:string,system:SystemId,part?:Part){
 }
 
 function regionOf(name:string,system:SystemId,part?:Part){
- if(part){
-  const region=anatomicalRegion(part),[,y]=partCenter(part);
-  if(region==='lower-limb')return y>.48?{en:'hip / thigh',zh:'髖部／大腿'}:{en:'leg / foot',zh:'小腿／足部'};
-  if(region==='upper-limb')return y>1.08?{en:'shoulder / arm',zh:'肩帶／上臂'}:{en:'forearm / hand',zh:'前臂／手部'};
-  if(region==='head-neck')return y>1.48?{en:'head / orbit',zh:'頭部／眼眶'}:{en:'head and neck',zh:'頭頸部'};
- }
+ if(part)return anatomicalRegionLabel(part);
 
  const n=norm(name);
  if(/eye|ocular|rectus|oblique|ciliary|lacrimal|optic|ophthalmic|ethmoid|frontal bone|sphenoid|vomer|maxilla|mandible|zygomatic|nasal bone|palatine|parietal|temporal bone|occipital/.test(n))return {en:'head / orbit',zh:'頭部／眼眶'};
@@ -318,9 +313,10 @@ function withCourseNotes(profile:StructureProfile,name:string):StructureProfile{
 }
 
 export function structureProfile(name:string,system:SystemId,part?:Part):StructureProfile{
- const english=displayEnglish(name,system);
- const chinese=chineseName(name,system);
- const m=muscleFactsFor(name);
+ const sourceName=part?.name??name;
+ const english=displayEnglish(name,system,part);
+ const chinese=chineseName(sourceName,system);
+ const m=muscleFactsFor(sourceName);
  if(m&&(system==='muscular'||system==='cardiac'||/muscle/i.test(name))){
   const zh=chinese||m.chinese;
   return withCourseNotes({
@@ -336,13 +332,13 @@ export function structureProfile(name:string,system:SystemId,part?:Part):Structu
     {labelEn:'Action',labelZh:'作用',valueEn:m.actionEn,valueZh:m.actionZh},
     {labelEn:'Blood supply',labelZh:'血液供應',valueEn:m.bloodEn,valueZh:m.bloodZh}
    ],
-   source:muscleFactSourceFor(name)
-  },name);
+   source:muscleFactSourceFor(sourceName)
+  },sourceName);
  }
  const key=detailKey(sourceName);
  if(key){
   const d=detailed[key],summary=genericSummary(english,system,chinese,part);
-  return withCourseNotes({english,chinese:chinese||d.chinese,category:d.category,summaryEn:d.summaryEn??summary.en,summaryZh:d.summaryZh??summary.zh,facts:d.facts,source:d.source},name);
+  return withCourseNotes({english,chinese:chinese||d.chinese,category:d.category,summaryEn:d.summaryEn??summary.en,summaryZh:d.summaryZh??summary.zh,facts:d.facts,source:d.source},sourceName);
  }
  const summary=genericSummary(english,system,chinese,part);
  return withCourseNotes({
@@ -352,6 +348,6 @@ export function structureProfile(name:string,system:SystemId,part?:Part):Structu
   summaryEn:summary.en,
   summaryZh:summary.zh,
   facts:genericFacts(english,system,part),
-  source:sourceFor(name,system)
- },name);
+  source:sourceFor(sourceName,system)
+ },sourceName);
 }
