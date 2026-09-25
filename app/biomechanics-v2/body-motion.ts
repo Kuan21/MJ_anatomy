@@ -5,7 +5,7 @@ import rawBindings from './body-bindings.json';
 export type BodyRegion='head'|'spine'|'leftLeg'|'rightLeg';
 export interface BodyPose {flexion:number;rotation:number;sideBend:number;knee:number;ankle:number}
 export const BODY_NEUTRAL:BodyPose={flexion:0,rotation:0,sideBend:0,knee:0,ankle:0};
-export const BODY_LIMITS={head:{flexion:[-60,50],rotation:[-80,80],sideBend:[-45,45],knee:[0,0],ankle:[0,0]},spine:{flexion:[-30,55],rotation:[-35,35],sideBend:[-25,25],knee:[0,0],ankle:[0,0]},leg:{flexion:[-25,100],rotation:[-35,35],sideBend:[-10,45],knee:[-5,125],ankle:[-35,25]}} as const;
+export const BODY_LIMITS={head:{flexion:[-35,40],rotation:[-60,60],sideBend:[-30,30],knee:[0,0],ankle:[0,0]},spine:{flexion:[-25,50],rotation:[-30,30],sideBend:[-20,20],knee:[0,0],ankle:[0,0]},leg:{flexion:[-20,80],rotation:[-20,20],sideBend:[0,35],knee:[0,110],ankle:[-30,20]}} as const;
 export interface BodyBinding {name:string;rig:BodyRegion;frame:number|null}
 // Cervical vessels must blend into the skull, not rotate as entire rigid tubes.
 export const bodyBindings=Object.fromEntries(Object.entries(rawBindings).map(([id,b])=>[id,b.rig==='head'&&/artery|vein|venous/i.test(b.name)?{...b,frame:null}:b])) as Record<string,BodyBinding>;
