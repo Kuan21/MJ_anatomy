@@ -5,6 +5,7 @@ const atlas=read('public/models/atlas.json');
 const overrides=read('app/anatomy-source-overrides.json');
 const tissue=read('app/biomechanics-v2/tissue-bindings.json');
 const body=read('app/biomechanics-v2/body-bindings.json');
+const bodyNerves=read('app/biomechanics-v2/body-nerve-bindings.json');
 
 const excluded=new Set(overrides.exclude);
 const parts=atlas.parts.filter(p=>!excluded.has(p.id)).map(p=>({...p,...(overrides.parts[p.id]||{})}));
@@ -26,6 +27,14 @@ for(const [id,b] of Object.entries(tissue)){
  if(b.name!==p.name)failures.push(id+': tissue binding name "'+b.name+'" != part "'+p.name+'"');
  const s=side(p);if(s&&b.side!==s)failures.push(id+': tissue binding side '+b.side+' != geometry side '+s);
 }
+const intrinsicHand=/flexor digiti minimi brevis of .* hand|flexor pollicis brevis|abductor pollicis brevis|adductor pollicis|opponens pollicis|abductor digiti minimi.*hand|opponens digiti minimi|lumbrical.*hand|interosse.*hand/i;
+for(const [id,b] of Object.entries(tissue)){
+ const p=byId.get(id);if(!p)continue;
+ if(intrinsicHand.test(p.name)&&b.profile!=='hand')failures.push(id+': intrinsic hand muscle uses '+b.profile+' profile instead of hand');
+ const [,y]=center(p),x=Math.abs(center(p)[0]);
+ if(y<.30&&x>.035&&x<.21)failures.push(id+': upper-limb tissue binding lies in foot/lower-leg space');
+}
+
 for(const [id,b] of Object.entries(body)){
  const p=byId.get(id);if(!p)continue;
  if(b.name!==p.name)failures.push(id+': body binding name "'+b.name+'" != part "'+p.name+'"');
@@ -34,6 +43,19 @@ for(const [id,b] of Object.entries(body)){
   if(expected&&b.rig!==expected)failures.push(id+': body rig '+b.rig+' != geometry side '+expected);
  }
 }
+
+for(const [name,region] of Object.entries(bodyNerves)){
+ const sideSuffix=/\.l(?:\.|$)/i.test(name)?'left':/\.r(?:\.|$)/i.test(name)?'right':null;
+ if(region==='leftLeg'&&sideSuffix==='right')failures.push(name+': right-sided nerve bound to leftLeg');
+ if(region==='rightLeg'&&sideSuffix==='left')failures.push(name+': left-sided nerve bound to rightLeg');
+}
+
+// Explicit regressions for source records that previously produced the exact
+// cross-region failures visible in the UI.
+for(const [id,expected] of Object.entries({FJ2186:'Left dorsal metatarsal vein',FJ2199:'Right dorsal metatarsal vein',FJ2190:'Left fibular vein',FJ1469:'Right flexor pollicis brevis',FJ1469M:'Left flexor pollicis brevis'})){
+ const p=byId.get(id);if(!p||p.name!==expected)failures.push(id+': expected corrected runtime identity "'+expected+'"');
+}
+for(const id of ['FJ2091','FJ2195'])if(byId.has(id))failures.push(id+': quarantined source anomaly is still active');
 
 for(const [id,patch] of Object.entries(overrides.parts)){
  const p=byId.get(id);
@@ -46,4 +68,4 @@ if(failures.length){
  console.error('Anatomy mapping audit failed:\n'+failures.map(x=>' - '+x).join('\n'));
  process.exit(1);
 }
-console.log('Anatomy mapping audit passed: '+parts.length+' runtime meshes, '+Object.keys(tissue).length+' upper-tissue bindings, '+Object.keys(body).length+' body bindings.');
+console.log('Anatomy mapping audit passed: '+parts.length+' runtime meshes, '+Object.keys(tissue).length+' upper-tissue bindings, '+Object.keys(body).length+' body bindings, '+Object.keys(bodyNerves).length+' body-nerve bindings.');
