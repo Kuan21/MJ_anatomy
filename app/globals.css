@@ -1138,3 +1138,36 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
   flex-wrap:wrap!important;
   row-gap:2px!important;
 }
+
+
+/* MJ content-sized structure detail panel */
+@media(min-width:768px){
+  .detail-sheet{
+    top:92px!important;
+    bottom:auto!important;
+    height:fit-content!important;
+    max-height:calc(100dvh - 116px)!important;
+    min-height:0!important;
+    overflow:hidden!important;
+  }
+  .detail-scroll{
+    flex:0 1 auto!important;
+    min-height:0!important;
+    max-height:calc(100dvh - 330px)!important;
+    overflow-y:auto!important;
+  }
+}
+@media(max-width:767px){
+  .detail-sheet{
+    top:132px!important;
+    bottom:auto!important;
+    height:fit-content!important;
+    max-height:calc(100dvh - 146px)!important;
+    min-height:0!important;
+  }
+  .detail-scroll{
+    flex:0 1 auto!important;
+    max-height:calc(100dvh - 350px)!important;
+    overflow-y:auto!important;
+  }
+}
