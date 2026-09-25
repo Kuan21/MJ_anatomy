@@ -31,7 +31,13 @@ const REGION_OVERRIDES:Record<string,{region:AnatomicalRegion;subregion:Anatomic
  FJ2186:{region:'lower-limb',subregion:'foot',side:'left'},
  FJ2199:{region:'lower-limb',subregion:'foot',side:'right'},
  FJ1469:{region:'upper-limb',subregion:'hand',side:'right'},
- FJ1469M:{region:'upper-limb',subregion:'hand',side:'left'}
+ FJ1469M:{region:'upper-limb',subregion:'hand',side:'left'},
+ // These scapular attachments cross the neck/chest coordinate bands. Their
+ // source IDs identify the shoulder chain more reliably than their centroid.
+ FJ1460:{region:'upper-limb',subregion:'shoulder',side:'right'},
+ FJ1460M:{region:'upper-limb',subregion:'shoulder',side:'left'},
+ FJ1521:{region:'upper-limb',subregion:'shoulder',side:'right'},
+ FJ1521M:{region:'upper-limb',subregion:'shoulder',side:'left'}
 };
 
 // These BodyParts3D elements have names that are irreconcilable with their
@@ -98,6 +104,9 @@ export function anatomicalSubregion(part:Part):AnatomicalSubregion{
 export function anatomicalRegion(part:Part):AnatomicalRegion{
  const forced=REGION_OVERRIDES[part.id]?.region;if(forced)return forced;
  const n=part.name.toLowerCase(),[x,y]=partCenter(part),ax=Math.abs(x);
+ // The source names of small intrinsic laryngeal structures do not contain
+ // "neck", yet their meshes are clustered around the larynx, above the chest.
+ if(y>=1.35&&ax<.08&&/conus elasticus|crico.?arytenoid|cricothyroid|sternothyroid|thyroid artery|deep cervical artery|superficial cervical artery|median cricothyroid ligament|\\btrachea\\b/i.test(n))return 'head-neck';
  const hand=HAND.test(n),foot=FOOT.test(n);
  const spatialFoot=y<.22&&ax>=.035&&ax<=.205;
  const spatialHand=y>=.67&&y<=.96&&ax>=.19;
