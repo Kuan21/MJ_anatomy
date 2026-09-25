@@ -74,9 +74,13 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     if(/nervous system\s*&\s*sense organs/i.test(exactName))return;
     if(hasNamedAncestor(o,/central nervous system/i))return;
     if(/brain|cerebr|cerebell|\bgyrus\b|lobule|\blobe\b|hemisphere|white matter|gray matter|cortex|corpus callosum|thalam|hypothalam|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|colliculus|geniculate|midbrain|pons|medulla|fornix|commissure|ventricle|choroid plexus|optic chiasm|optic tract|pituitary|pineal/i.test(fullName))return;
-    const geometry=o.geometry.clone();geometry.applyMatrix4(o.matrixWorld);geometry.computeBoundingBox();const geoCenter=geometry.boundingBox?.getCenter(new T.Vector3())??new T.Vector3();
+    const geometry=o.geometry.clone();geometry.applyMatrix4(o.matrixWorld);geometry.computeBoundingBox();const geoCenter=geometry.boundingBox?.getCenter(new T.Vector3())??new T.Vector3(),geoSize=geometry.boundingBox?.getSize(new T.Vector3())??new T.Vector3();
     // Fallback for the title geometry even if a future exporter renames it.
     if(geoCenter.x<-.58&&geoCenter.y>.68&&geoCenter.y<1.12)return;
+    // Some legacy CNS children have no useful anatomical node label. Reject
+    // broad intracranial sheets by geometry as well, while retaining slender
+    // cranial/peripheral nerves. The integrated brain model owns this volume.
+    if(geoCenter.y>1.49&&Math.abs(geoCenter.x)<.16&&geoSize.x>.045&&geoSize.z>.045)return;
     geometry.boundingSphere=new T.Sphere(new T.Vector3(0,.9,0),2.5);const position=geometry.getAttribute('position');if(!position)return;const material=new T.MeshStandardMaterial({color:0xf1cb4f,metalness:0,roughness:.42,emissive:0x6b5100,emissiveIntensity:.28,depthTest:true,depthWrite:false,transparent:true,opacity:.82});geometry.computeBoundingBox();const nerveCenter=geometry.boundingBox?.getCenter(new T.Vector3())??new T.Vector3();
     const binding=nerveBindings[exactName];
     const mesh=new T.Mesh(geometry,material);mesh.name=exactName||fullName;mesh.frustumCulled=false;mesh.renderOrder=0;
