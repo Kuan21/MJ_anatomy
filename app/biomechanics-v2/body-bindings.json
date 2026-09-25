@@ -3044,11 +3044,6 @@
     "rig": "leftLeg",
     "frame": null
   },
-  "FJ2091": {
-    "name": "Set of calcaneal branches of posterior tibial artery",
-    "rig": "leftLeg",
-    "frame": null
-  },
   "FJ2092": {
     "name": "Set of common plantar digital arteries",
     "rig": "leftLeg",
@@ -3270,8 +3265,8 @@
     "frame": null
   },
   "FJ2190": {
-    "name": "Right fibular vein",
-    "rig": "rightLeg",
+    "name": "Left fibular vein",
+    "rig": "leftLeg",
     "frame": null
   },
   "FJ2191": {
@@ -3286,11 +3281,6 @@
   },
   "FJ2194": {
     "name": "Right fibular vein",
-    "rig": "rightLeg",
-    "frame": null
-  },
-  "FJ2195": {
-    "name": "Set of calcaneal branches of posterior tibial artery",
     "rig": "rightLeg",
     "frame": null
   },
@@ -4341,6 +4331,26 @@
   },
   "FJ3616": {
     "name": "Right superior gluteal vein",
+    "rig": "rightLeg",
+    "frame": null
+  },
+  "FJ1405": {
+    "name": "Right calcaneal tendon",
+    "rig": "rightLeg",
+    "frame": null
+  },
+  "FJ1405M": {
+    "name": "Left calcaneal tendon",
+    "rig": "leftLeg",
+    "frame": null
+  },
+  "FJ2186": {
+    "name": "Left dorsal metatarsal vein",
+    "rig": "leftLeg",
+    "frame": null
+  },
+  "FJ2199": {
+    "name": "Right dorsal metatarsal vein",
     "rig": "rightLeg",
     "frame": null
   }
