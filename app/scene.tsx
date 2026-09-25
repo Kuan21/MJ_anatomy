@@ -228,14 +228,54 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      const side=connectiveSide(p.name),profile=connectiveProfile(p.name),jointRig=side?softRigs[side]:null;
      if(side&&profile&&jointRig){pick.userData.skin=bindTissue(jointRig,profile,pick.userData.baseMotionPositions,p);pick.userData.tissueSide=side;pick.userData.mjJointBinding=profile;}
     }
-    const bb=bodyBindings[p.id];if(bb?.name===p.name&&bb.frame===null){pick.userData.bodySkin=bindBodyTissue(bodyRigs[bb.rig],pick.userData.baseMotionPositions,false,p);pick.userData.bodyRegion=bb.rig;}
-    const headDescendant=(bb?.rig==='head'||p.id.startsWith('BP3-FMA'))&&p.system!=='skeletal';
+    // Catch atlas pieces that were never present in the hand-authored upper-limb
+    // binding table. These used to remain at the neutral pose while the bone
+    // moved, which produced detached muscles, vessels and tendons.
+    if(!pick.userData.skin&&!lowerLimbName.test(p.name)){
+     const side=inferredSide(p),autoRig=softRigs[side],pc=partCenter(p);
+     let profile:Profile|null=null;
+     if(p.system==='muscular')profile=upperAutoProfile(p);
+     else if((p.system==='arterial'||p.system==='venous')&&Math.abs(pc.x)>.10&&pc.y>.60&&pc.y<1.48)profile=resolveNeurovascularProfile(p.name,'path');
+     else if(p.system==='connective')profile=connectiveProfile(p.name);
+     if(profile&&autoRig){pick.userData.skin=bindTissue(autoRig,profile,pick.userData.baseMotionPositions,p);pick.userData.tissueSide=side;}
+    }
+
+    const bb=bodyBindings[p.id],namedLowerRegion=lowerBodyRegion(p);
+    const resolvedBodyRegion:BodyRegion|undefined=bb?.rig==='leftLeg'||bb?.rig==='rightLeg'?(namedLowerRegion??bb.rig):bb?.rig;
+    if(bb?.name===p.name&&bb.frame===null&&resolvedBodyRegion){pick.userData.bodySkin=bindBodyTissue(bodyRigs[resolvedBodyRegion],pick.userData.baseMotionPositions,false,p);pick.userData.bodyRegion=resolvedBodyRegion;}
+
+    // Lower-limb fallbacks keep vessels, nerves' neighbouring connective
+    // tissues and tendons attached even when the source binding manifest did
+    // not list the individual mesh.
+    if(!pick.userData.bodySkin&&namedLowerRegion&&['muscular','arterial','venous','connective'].includes(p.system)){
+     pick.userData.bodySkin=bindBodyTissue(bodyRigs[namedLowerRegion],pick.userData.baseMotionPositions,false,p);
+     pick.userData.bodyRegion=namedLowerRegion;
+    }
+
+    // Continuous cervical field for throat, spinal cord and neck
+    // neurovasculature. This prevents a carotid/jugular/tracheal segment from
+    // being left behind when the head flexes, extends or rotates.
+    const pc=partCenter(p);
+    const headFollower=pc.y>=1.10&&pc.y<=1.72&&Math.abs(pc.x)<=.34&&(
+     p.system==='arterial'||p.system==='venous'||p.system==='connective'||
+     /spinal cord|central canal|trachea|esophagus|laryn|pharyn|hyoid|thyroid|cricoid|epiglott|longus|scalen|sternocleidomastoid|splenius|semispinalis|carotid|jugular|vertebral artery/i.test(p.name)
+    );
+    if(!pick.userData.bodySkin&&headFollower){pick.userData.bodySkin=bindBodyTissue(bodyRigs.head,pick.userData.baseMotionPositions,false,p);pick.userData.bodyRegion='head';}
+
+    const headDescendant=(bb?.rig==='head'||p.id.startsWith('BP3-FMA')||headFollower)&&p.system!=='skeletal';
     if(headDescendant)pick.userData.spineSkin=bindBodyTissue(bodyRigs.spine,pick.userData.baseMotionPositions,true,p);
-    const spineCenter=(p.bounds[0][1]+p.bounds[1][1])*.5,spineLevels=bodyRigs.spine.levels;
-    const spineSoft=!bb&&spineCenter>=spineLevels[0]-.12&&spineCenter<=spineLevels[spineLevels.length-1]+.13&&/pectoralis|serratus|intercostal|rectus abdominis|oblique|transversus abdominis|latissimus|trapezius|erector spinae|multifidus|semispinalis thoracis|quadratus lumborum|psoas|thoracolumbar|aorta|vena cava|intercostal (?:artery|vein)|thoracic duct/i.test(p.name);
+
+    // During trunk motion the entire shoulder girdle, head and both upper
+    // limbs ride with the superior thoracic frame. Their local joint pose is
+    // preserved instead of leaving soft tissue floating behind the bones.
+    const upperCarry=p.system!=='skeletal'&&!lowerLimbName.test(p.name)&&(pc.y>=1.13||(pc.y>=.62&&Math.abs(pc.x)>=.075));
+    if(upperCarry&&!pick.userData.spineSkin)pick.userData.spineSkin=bindBodyTissue(bodyRigs.spine,pick.userData.baseMotionPositions,true,p);
+
+    const spineCenter=pc.y,spineLevels=bodyRigs.spine.levels;
+    const spineSoft=!bb&&spineCenter>=spineLevels[0]-.12&&spineCenter<=spineLevels[spineLevels.length-1]+.13&&/pectoralis|serratus|intercostal|costal cartilage|costochondral|sternocostal|rectus abdominis|oblique|transversus abdominis|latissimus|trapezius|erector spinae|multifidus|semispinalis thoracis|quadratus lumborum|psoas|thoracolumbar|aorta|vena cava|intercostal (?:artery|vein)|thoracic duct/i.test(p.name);
     if(spineSoft){pick.userData.bodySkin=bindBodyTissue(bodyRigs.spine,pick.userData.baseMotionPositions,false,p);pick.userData.bodyRegion='spine';}
-    if(pick.userData.skin&&['chest','cuff'].includes(pick.userData.skin.profile))pick.userData.surfaceGuard=makeSurfaceConstraints(pick.userData.baseMotionPositions,g.index!.array,pick.userData.skin);
-    if(((bb?.rig==='head'&&/platysma|sternocleidomastoid/.test(p.name))||spineSoft)&&pick.userData.bodySkin)pick.userData.bodySurfaceGuard=makeSurfaceConstraints(pick.userData.baseMotionPositions,g.index!.array,pick.userData.bodySkin);
+    if(pick.userData.skin&&['chest','cuff','scapular'].includes(pick.userData.skin.profile))pick.userData.surfaceGuard=makeSurfaceConstraints(pick.userData.baseMotionPositions,g.index!.array,pick.userData.skin);
+    if(((resolvedBodyRegion==='head'&&/platysma|sternocleidomastoid/.test(p.name))||spineSoft)&&pick.userData.bodySkin)pick.userData.bodySurfaceGuard=makeSurfaceConstraints(pick.userData.baseMotionPositions,g.index!.array,pick.userData.bodySkin);
     pickers[i]=pick;geometries.push(g);
     g.setAttribute('partIndex',new T.BufferAttribute(new Float32Array(p.vertexCount).fill(i),1));
     const list=groups.get(p.system)??[];list.push(g);groups.set(p.system,list);
