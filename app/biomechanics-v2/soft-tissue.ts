@@ -4,7 +4,7 @@ import {createSkeletonRig,type Side} from './skeleton';
 import rawBindings from './tissue-bindings.json';
 import rawNerves from './nerve-bindings.json';
 
-export type Profile='pectoralPath'|'axillaryCable'|'path'|'trunk'|'humeral'|'sheetMuscle'|'deltoid'|'chest'|'cuff'|'biceps'|'triceps'|'arm'|'coraco'|'forearm'|'hand'|'scapular'|'clavicular';
+export type Profile='pectoralPath'|'axillaryCable'|'path'|'trunk'|'humeral'|'sheetMuscle'|'deltoid'|'chest'|'cuff'|'biceps'|'triceps'|'arm'|'coraco'|'forearm'|'hand'|'scapular'|'clavicular'|'shoulderJoint'|'elbowJoint'|'wristJoint';
 export interface TissueBinding {name:string;side:Side;profile:Profile}
 export const tissueBindings=rawBindings as Record<string,TissueBinding>;
 export const nerveBindings=rawNerves as Record<string,{side:Side;profile:'path'}>;
@@ -29,12 +29,10 @@ export function resolveNeurovascularProfile(name:string,fallback:Profile='path')
  * origins stay attached while the narrow humeral insertion follows the arm.
  * Other muscles keep their specialised profiles until separately validated.
  */
-export function resolveMuscleProfile(name:string,fallback:Profile):Profile{
- // Treat all three pectoralis-major parts as one shared attachment field.
- // Their broad thoracic/clavicular origins stay on the trunk while the common
- // humeral insertion follows the arm. A shared field prevents the three source
- // meshes from opening into separate flaps at shoulder elevation.
- if(/pectoralis major/i.test(name))return 'pectoralPath';
+export function resolveMuscleProfile(_name:string,fallback:Profile):Profile{
+ // Keep the atlas-authored muscle profile by default. The experimental
+ // pectoralis sheet solver is intentionally disabled: at high elevation it can
+ // collapse broad chest meshes into balloon/flap artefacts.
  return fallback;
 }
 // Common frame palette: trunk, clavicle, scapula, humerus, ulna, radius, hand.
@@ -104,7 +102,25 @@ export function weightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''
  if(profile==='humeral')return pair(3,3,1);
  if(profile==='sheetMuscle')return pair(0,3,range(lateral,.10,.90));
  if(profile==='axillaryCable')return axillaryCableWeights(rig,p.x,p.y,p.z);
- if(profile==='pectoralPath'){const b=rig.groups.chest??box;const t=(Math.abs(p.x)-Math.min(Math.abs(b.min.x),Math.abs(b.max.x)))/Math.max(.01,b.max.x-b.min.x);return pair(/clavicular part/i.test(name)?1:0,3,range(t,.70,.985));}
+ if(profile==='pectoralPath'){const b=rig.groups.chest??box;const t=(Math.abs(p.x)-Math.min(Math.abs(b.min.x),Math.abs(b.max.x)))/Math.max(.01,b.max.x-b.min.x);return pair(0,3,range(t,.72,.98));}
+
+ if(profile==='shoulderJoint'){
+  const n=name.toLowerCase();
+  if(/coracoacromial/.test(n))return pair(2,2,1);
+  if(/acromioclavicular|coracoclavicular/.test(n))return pair(1,2,range(lateral,.10,.90));
+  return pair(2,3,range(lateral,.18,.92));
+ }
+ if(profile==='elbowJoint'){
+  const n=name.toLowerCase(),dR=Math.hypot(p.x-rig.radius.x,p.z-rig.radius.z),dU=Math.hypot(p.x-rig.ulna.x,p.z-rig.ulna.z);
+  const distal=/annular|radial/.test(n)?5:/ulnar/.test(n)?4:(dR<dU?5:4);
+  return pair(3,distal,range(down,.08,.92));
+ }
+ if(profile==='wristJoint'){
+  const n=name.toLowerCase();
+  if(/intercarpal|carpometacarp|metacarpophalangeal|interphalangeal|palmar aponeurosis/.test(n))return pair(6,6,1);
+  const dR=Math.hypot(p.x-rig.radius.x,p.z-rig.radius.z),dU=Math.hypot(p.x-rig.ulna.x,p.z-rig.ulna.z),prox=dR<dU?5:4;
+  return pair(prox,6,range(down,.08,.92));
+ }
  if(profile==='path'||profile==='forearm')return pathWeights(rig,p.x,p.y,p.z);
  if(profile==='hand')return pair(6,6,1);
  if(profile==='clavicular')return pair(0,1,smooth(lateral));
@@ -217,7 +233,7 @@ export function deformTissue(binding:SkinBinding,base:Float32Array,palette:Palet
  for(let i=0;i<base.length/3;i++){
   blended(palette,binding.indices,binding.weights,i*4,q);
   const extra=(radialScale-1)*binding.belly[i],j=i*3;
-  if((binding.profile==='pectoralPath'||binding.profile==='axillaryCable')){
+  if((binding.profile==='chest'||binding.profile==='pectoralPath'||binding.profile==='axillaryCable')){
    let x=0,y=0,z=0;const v=new Float64Array(3);
    for(let k=0;k<4;k++){const w=binding.weights[i*4+k];if(!w)continue;
     const f=binding.indices[i*4+k];transform(base[j],base[j+1],base[j+2],palette.subarray(f*8,f*8+8),v,0);
