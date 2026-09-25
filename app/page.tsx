@@ -56,7 +56,7 @@ export default function Home(){
  const [atlas,setAtlas]=useState<Atlas|null>(null),[state,setState]=useState(initial),[progress,setProgress]=useState(0),[error,setError]=useState(''),[panel,setPanel]=useState<'layers'|'search'|null>(null),[details,setDetails]=useState(false),[about,setAbout]=useState(false),[query,setQuery]=useState(''),[chosen,setChosen]=useState<Concept|null>(null),[externalNerve,setExternalNerve]=useState<string|null>(null);
  const [region,setRegion]=useState<RegionId>('whole-body'),[dissectionStage,setDissectionStage]=useState(0),[studySide,setStudySide]=useState<'both'|Side>('both');
  const [topRegion,setTopRegion]=useState<TopRegion>('whole'),[rightTool,setRightTool]=useState<'view'|'dissection'|'depth'|null>(null),[microAtlas,setMicroAtlas]=useState<MicroAtlasId|null>(null);
- const [motionSide,setMotionSide]=useState<Side>('right'),[motionPose,setMotionPose]=useState<MotionPose>(NEUTRAL_POSE),[motionEdit,setMotionEdit]=useState(false),[motionEnabled,setMotionEnabled]=useState(false),[organsOpen,setOrgansOpen]=useState(false);
+ const [motionSide,setMotionSide]=useState<Side>('right'),[motionPose,setMotionPose]=useState<MotionPose>(NEUTRAL_POSE),[motionEdit,setMotionEdit]=useState(false),[motionEnabled,setMotionEnabled]=useState(false),[organsOpen,setOrgansOpen]=useState(true);
  const [motionAction,setMotionAction]=useState<UpperMotionAction>('shoulderFlexion');
  const motionPoseRef=useRef<MotionPose>(NEUTRAL_POSE);motionPoseRef.current=motionPose;
  const motionTargetRef=useRef<MotionPose>(NEUTRAL_POSE),smoothMotionFrame=useRef<number|null>(null);
