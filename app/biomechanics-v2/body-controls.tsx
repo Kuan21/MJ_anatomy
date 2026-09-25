@@ -2,6 +2,7 @@ import {useEffect,useRef,useState} from 'react';
 import {Button} from '@/components/ui/button';
 import {Slider} from '@/components/ui/slider';
 import MotionPullControl from '../motion-pull-control';
+import MotionAnatomyPanel,{BODY_ACTION_ANATOMY} from '../motion-anatomy';
 import {BODY_LIMITS,BODY_NEUTRAL,type BodyPose,type BodyRegion} from './body-motion';
 
 type BodyAction='flexion'|'rotation'|'sideBend'|'knee'|'ankle';
@@ -31,7 +32,7 @@ const actionTarget=(region:BodyRegion,action:BodyAction):BodyPose=>{
  return p;
 };
 
-export default function BodyControls({region,pose,onChange,disabled=false}:{region:BodyRegion;pose:BodyPose;onChange:(region:BodyRegion,pose:BodyPose,focus?:boolean)=>void;disabled?:boolean}){
+export default function BodyControls({region,pose,onChange,onInspect,disabled=false}:{region:BodyRegion;pose:BodyPose;onChange:(region:BodyRegion,pose:BodyPose,focus?:boolean)=>void;onInspect?:(name:string)=>void;disabled?:boolean}){
  const head=region==='head',spine=region==='spine',limits=BODY_LIMITS[head?'head':spine?'spine':'leg'];
  const controls:([keyof BodyPose,string])[]=head?[['flexion','低頭（＋）／抬頭（－）'],['rotation','向左（＋）／向右（－）轉頭'],['sideBend','向左（＋）／向右（－）側彎']]:spine?[['flexion','脊柱：前屈（＋）／後伸（－）'],['rotation','軀幹：向左（＋）／向右（－）旋轉'],['sideBend','軀幹：向左（＋）／向右（－）側彎']]:[['flexion','髖：前抬（＋）／後伸（－）'],['sideBend','髖：向外展開'],['rotation','髖：內旋（＋）／外旋（－）'],['knee','膝：屈曲'],['ankle','踝：抬腳尖（＋）／下壓（－）']];
  const actions:{id:BodyAction;label:string}[]=head?
@@ -56,6 +57,7 @@ export default function BodyControls({region,pose,onChange,disabled=false}:{regi
   <div className="motion-action-picker" role="group" aria-label="選擇示範動作">{actions.map(item=><Button variant="ghost" key={item.id} aria-pressed={action===item.id} disabled={disabled} onClick={()=>chooseAction(item.id)}>{item.label}</Button>)}</div>
   <MotionPullControl label={actions.find(x=>x.id===action)?.label??'動作'} value={pull} disabled={disabled} demoActive={demo} onDemoToggle={()=>setDemo(v=>!v)} onValueChange={pullAction}/>
   <small className="mj-motion-note">用一個拉動量連續驅動整段動作；自動演示使用平滑往返，不再逐格跳角度。</small>
+  <MotionAnatomyPanel anatomy={BODY_ACTION_ANATOMY(region,action)} onInspect={onInspect}/>
   <details className="motion-fine-tune"><summary>精細角度調整 <span>Advanced</span></summary>
    {controls.map(([key,label])=><label className="mj-joint-control" key={key}><span>{label}<b>{Math.round(pose[key])}°</b></span><Slider disabled={disabled} aria-label={label} min={limits[key][0]} max={limits[key][1]} step={1} value={[pose[key]]} onValueChange={v=>{setDemo(false);onChange(region,{...pose,[key]:Array.isArray(v)?v[0]:v});}}/></label>)}
   </details>
