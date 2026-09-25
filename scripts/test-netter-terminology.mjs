@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
 import {netterEnglishName} from '../app/mj-netter-terminology.ts';
 
 const cases=[
@@ -25,3 +26,17 @@ for(const [raw,system,expected] of cases){
  assert.equal(actual,expected,`${raw} -> ${actual}`);
 }
 console.log(`Netter terminology regression: ${cases.length} cases passed`);
+
+
+const atlas=JSON.parse(await readFile(new URL('../public/models/atlas.json',import.meta.url),'utf8'));
+const facial=JSON.parse(await readFile(new URL('../public/models/facial/atlas.json',import.meta.url),'utf8'));
+const namedSystems=new Set(['muscular','skeletal','nervous','arterial','venous','connective']);
+const all=[...(atlas.parts??[]),...(facial.parts??[])].filter(p=>namedSystems.has(p.system));
+for(const part of all){
+ const label=netterEnglishName(part.name,part.system);
+ assert.ok(label.trim().length>0,`empty terminology for ${part.id}`);
+ assert.ok(!/^set of\b/i.test(label),`dataset wording leaked: ${part.name} -> ${label}`);
+ assert.ok(!/supra-orbital|infra-orbital/i.test(label),`legacy hyphenation leaked: ${label}`);
+ assert.ok(!/\bsecondary\b/i.test(label),`secondary dentition wording leaked: ${label}`);
+}
+console.log(`Full atlas terminology pass: ${all.length} named muscle/bone/nerve/vessel/connective meshes checked`);
