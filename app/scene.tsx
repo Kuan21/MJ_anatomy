@@ -71,7 +71,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     geometry.boundingSphere=new T.Sphere(new T.Vector3(0,.9,0),2.5);const position=geometry.getAttribute('position');if(!position)return;const material=new T.MeshStandardMaterial({color:0xf1cb4f,metalness:0,roughness:.42,emissive:0x6b5100,emissiveIntensity:.28,depthTest:true,depthWrite:false,transparent:true,opacity:.82});geometry.computeBoundingBox();const nerveCenter=geometry.boundingBox?.getCenter(new T.Vector3())??new T.Vector3();
     const binding=nerveBindings[exactName];
     const namedSide=nerveSide(fullName+' '+exactName),fallbackSide=namedSide==='both'?(nerveCenter.x>.015?'left':nerveCenter.x<-.015?'right':'both'):namedSide;
-    const upperFallback=!binding&&upperLimbNerve.test(fullName+' '+exactName)&&fallbackSide!=='both';
+    const spatialUpper=Math.abs(nerveCenter.x)>.17&&nerveCenter.y>.64&&nerveCenter.y<1.43;
+    const upperFallback=!binding&&(upperLimbNerve.test(fullName+' '+exactName)||spatialUpper)&&fallbackSide!=='both';
     const skinSide=(binding?.side??(upperFallback?fallbackSide:null)) as 'left'|'right'|null;
     const mesh=new T.Mesh(geometry,material);mesh.name=exactName||fullName;mesh.frustumCulled=false;mesh.renderOrder=0;
     mesh.userData.mjNerve=true;mesh.userData.mjExactName=exactName;mesh.userData.mjSide=skinSide??fallbackSide;
@@ -208,6 +209,18 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     g.boundingBox=bounds[i].clone();g.computeBoundingSphere();const pick=new T.Mesh(g);pick.matrixAutoUpdate=false;pick.userData.baseMotionPositions=new Float32Array(position.array as ArrayLike<number>);pick.userData.motionWeights=weights;
     const binding=tissueBindings[p.id],rig=binding?softRigs[binding.side]:null;
     if(binding?.name===p.name&&rig){const profile=(p.system==='arterial'||p.system==='venous')?resolveNeurovascularProfile(p.name,binding.profile):binding.profile;pick.userData.skin=bindTissue(rig,profile,pick.userData.baseMotionPositions,p);pick.userData.tissueSide=binding.side;}
+    // Fallback for small hand/forearm/arm meshes that are absent from the
+    // curated binding table. Leaving even one vessel, tendon or muscle in
+    // world space creates the "ghost hand" seen during shoulder/elbow motion.
+    if(!pick.userData.skin&&['muscular','arterial','venous','connective'].includes(p.system)){
+     const cx=(p.bounds[0][0]+p.bounds[1][0])*.5,cy=(p.bounds[0][1]+p.bounds[1][1])*.5;
+     const spatialSide=Math.abs(cx)>.17&&cy>.66&&cy<1.43?(cx>0?'left':'right') as 'left'|'right':null;
+     const spatialRig=spatialSide?softRigs[spatialSide]:null;
+     if(spatialSide&&spatialRig){
+      const profile=p.system==='muscular'?(p.bounds[1][1]<spatialRig.wrist.y+.045?'hand':cy<spatialRig.elbow.y+.09?'forearm':'arm'):'path';
+      pick.userData.skin=bindTissue(spatialRig,profile,pick.userData.baseMotionPositions,p);pick.userData.tissueSide=spatialSide;pick.userData.mjSpatialFallback=true;
+     }
+    }
     const bb=bodyBindings[p.id];if(bb?.name===p.name&&bb.frame===null){pick.userData.bodySkin=bindBodyTissue(bodyRigs[bb.rig],pick.userData.baseMotionPositions,false,p);pick.userData.bodyRegion=bb.rig;}
     const headDescendant=(bb?.rig==='head'||p.id.startsWith('BP3-FMA'))&&p.system!=='skeletal';
     if(headDescendant)pick.userData.spineSkin=bindBodyTissue(bodyRigs.spine,pick.userData.baseMotionPositions,true,p);
@@ -235,7 +248,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    const body=s.bodyMotion?buildBodyMotion(bodyRigs[s.bodyMotion.region],s.bodyMotion.pose):null;
    const palettes={left:softRigs.left?makePalette(softRigs.left,s.partTransforms??{}):null,right:softRigs.right?makePalette(softRigs.right,s.partTransforms??{}):null};
    for(const mesh of pickers){
-    if(!mesh)continue;const skin=mesh.userData.skin as SkinBinding|undefined;if(!skin&&!mesh.userData.bodySkin)continue;
+    if(!mesh)continue;const skin=mesh.userData.skin as SkinBinding|undefined;if(!skin&&!mesh.userData.bodySkin&&!mesh.userData.spineSkin)continue;
     const side=mesh.userData.tissueSide as 'left'|'right',rig=softRigs[side];
     const bodyActive=!!(body&&mesh.userData.bodySkin&&mesh.userData.bodyRegion===s.bodyMotion?.region);
     const spineCarry=!!(body&&s.bodyMotion?.region==='spine'&&mesh.userData.spineSkin);
@@ -370,8 +383,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      else if(ctx.bodyArea==='head')o.visible=bodyNerveBindings[name]==='head';
      else if(ctx.bodyArea==='lower')o.visible=bodyNerveBindings[name]==='leftLeg'||bodyNerveBindings[name]==='rightLeg';
      else if(ctx.bodyArea==='organs')o.visible=false;
-     else if(ctx.bodyArea==='upper'&&ctx.region==='whole-body')o.visible=sideOk&&(!upper||hasArmSkin);
-     else if(ctx.motionActive)o.visible=sideOk&&(!upper||hasArmSkin);
+     else if(ctx.bodyArea==='upper'&&ctx.region==='whole-body')o.visible=sideOk&&hasArmSkin;
+     else if(ctx.motionActive)o.visible=sideOk&&hasArmSkin;
      else o.visible=sideOk&&nerveMatchesRegion(name,ctx.region,false);
      const isSelectedNerve=!!selectedNerve.current&&name===selectedNerve.current;
      const targetColor=isSelectedNerve?0x9cf7b0:0xf1cb4f,targetEmissive=isSelectedNerve?0x3f9a5d:0x6b5100,targetIntensity=isSelectedNerve?.60:.28;
