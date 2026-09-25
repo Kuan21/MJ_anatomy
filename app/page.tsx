@@ -140,7 +140,8 @@ export default function Home(){
   if(next==='organs')return atlas.parts.filter(p=>ORGAN_SYSTEM_IDS.includes(p.system)).map(p=>p.id);
   return atlas.parts.filter(p=>{
    const cx=(p.bounds[0][0]+p.bounds[1][0])*.5,cy=(p.bounds[0][1]+p.bounds[1][1])*.5,ax=Math.abs(cx),n=p.name.toLowerCase();
-   if(next==='head')return cy>=1.0||(cy>=.68&&ax>=.18)||/cervical vertebra|atlas$|axis$|hyoid|clavicle|scapula|humerus|radius|ulna|carpal|metacarp|phalanx of .*finger|phalanx of .*thumb/.test(n);
+   const lowerAnatomy=/hip bone|femur|patella|tibia|fibula|talus|calcaneus|metatars|toe|foot|ankle|glute|adductor|vastus|hamstring|biceps femoris|semitend|semimembr|gastrocnem|soleus|femoral|popliteal|saphen|sciatic|plantar|tibialis|fibularis/;
+   if(next==='head')return !lowerAnatomy.test(n)&&(cy>=.92||(cy>=.66&&ax>=.18)||/cervical vertebra|atlas$|axis$|hyoid|clavicle|scapula|humerus|radius|ulna|carpal|metacarp|phalanx of .*finger|phalanx of .*thumb/.test(n));
    if(next==='lower')return (cy<=.92&&ax>=.035)||/hip bone|femur|patella|tibia|fibula|talus|calcaneus|metatars|phalanx of .*toe/.test(n);
    return (cy>=.68&&cy<=1.55&&ax>=.09)||/clavicle|scapula|humerus|radius|ulna|carpal|metacarp|phalanx of .*finger|phalanx of .*thumb/.test(n);
   }).map(p=>p.id);
