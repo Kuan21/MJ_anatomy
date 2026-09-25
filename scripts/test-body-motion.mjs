@@ -7,7 +7,15 @@ let source=await readFile(new URL('app/biomechanics-v2/body-motion.ts',root),'ut
 source=source.replace("import rawBindings from './body-bindings.json';",`const rawBindings=${await readFile(new URL('app/biomechanics-v2/body-bindings.json',root),'utf8')};`);
 await writeFile(new URL('body-motion.mjs',tmp),ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText);
 const body=await import(new URL('body-motion.mjs',tmp)),soft=await import(new URL('soft-tissue.mjs',tmp));
-const atlas=JSON.parse(await readFile(new URL('public/models/atlas.json',root),'utf8'));
+const rawAtlas=JSON.parse(await readFile(new URL('public/models/atlas.json',root),'utf8'));
+const sourceOverrides=JSON.parse(await readFile(new URL('app/anatomy-source-overrides.json',root),'utf8'));
+const excludedSourceIds=new Set(sourceOverrides.exclude);
+const runtimeParts=rawAtlas.parts.filter(p=>!excludedSourceIds.has(p.id)).map(p=>({...p,...(sourceOverrides.parts[p.id]||{})}));
+const runtimePartIds=new Set(runtimeParts.map(p=>p.id));
+const runtimeConceptElements=new Map();
+for(const p of runtimeParts){const ids=runtimeConceptElements.get(p.conceptId)||[];ids.push(p.id);runtimeConceptElements.set(p.conceptId,ids);}
+const runtimeConcepts=rawAtlas.concepts.map(c=>({...c,name:sourceOverrides.concepts[c.id]||c.name,elements:(runtimeConceptElements.get(c.id)||[]).filter(id=>runtimePartIds.has(id))})).filter(c=>c.elements.length);
+const atlas={...rawAtlas,parts:runtimeParts,concepts:runtimeConcepts};
 const chunks=await Promise.all(atlas.chunks.map(c=>readFile(new URL('public'+c.url,root))));
 const geometry=p=>{const b=chunks[p.chunk];return{positions:new Float32Array(b.buffer,b.byteOffset+p.positions,p.vertexCount*3).slice(),indices:new Uint32Array(b.buffer,b.byteOffset+p.indices,p.indexCount).slice()};};
 const qa={};let vertices=0;
