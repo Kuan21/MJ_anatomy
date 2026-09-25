@@ -487,3 +487,22 @@
  min-width:0;
  text-align:left;
 }
+
+/* A visible mobile entry point opens the same controls used on desktop. */
+@media(max-width:767px){
+ .mobile-motion-trigger{position:absolute;right:12px;bottom:calc(24px + env(safe-area-inset-bottom));z-index:35;display:flex;gap:8px;min-height:44px;padding:10px 16px;border-radius:14px;background:#263f4d;color:white}
+ .right-workspace.mobile-motion-open{display:flex;position:absolute;inset:auto 8px calc(78px + env(safe-area-inset-bottom));width:auto;max-height:62dvh;overflow-y:auto;overscroll-behavior:contain;flex-direction:column;gap:8px;z-index:34;padding:12px;border-radius:18px;background:#f8fafbfa;box-shadow:0 8px 36px #18253630;pointer-events:auto}
+ .motion-close{align-self:flex-end;min-height:44px;gap:8px}
+ .right-workspace.mobile-motion-open .right-tool-rail{position:static;display:flex;flex-direction:row;justify-content:space-between;box-shadow:none}
+ .right-workspace.mobile-motion-open .right-tool-rail button{writing-mode:horizontal-tb;min-height:44px;height:auto;flex:1;letter-spacing:0;padding:8px;font-size:13px}
+ .right-workspace.mobile-motion-open .right-tool-panel{position:static;width:auto;max-height:none;overflow:visible}
+ .right-workspace.mobile-motion-open .joint-workspace{position:static;width:auto;max-height:none;overflow:visible;border-radius:12px}
+ .right-workspace.mobile-motion-open .joint-workspace>summary{flex-wrap:wrap;gap:8px;padding:10px;font-size:14px}
+ .right-workspace.mobile-motion-open .joint-workspace-content{padding:8px}
+ .right-workspace.mobile-motion-open .motion-region-picker{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+ .right-workspace.mobile-motion-open .mj-motion-sides button{min-height:44px}
+ .right-workspace.mobile-motion-open .motion-pull-head strong{font-size:13px;line-height:1.4}
+ .right-workspace.mobile-motion-open .motion-pull-head output{font-size:13px;white-space:nowrap}
+ .right-workspace.mobile-motion-open .motion-pull-rail input{touch-action:pan-y}
+ .right-workspace.mobile-motion-open .motion-pull-scale{font-size:11px}
+}

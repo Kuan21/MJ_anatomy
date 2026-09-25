@@ -170,7 +170,8 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  const movedRadialHead=neutralRadialHead.clone().applyMatrix4(elbowM);
  const movedUlnarHead=neutralUlnarHead.clone().applyMatrix4(elbowM);
  const forearmAxis=movedUlnarHead.clone().sub(movedRadialHead).normalize();
- const forearmQ=qdeg(forearmAxis,p.forearmRotation);
+ // Mirrored limbs need opposite axial signs for the same named motion.
+ const forearmQ=qdeg(forearmAxis,p.forearmRotation*(side==='right'?-1:1));
  const forearmM=about(movedRadialHead,forearmQ).multiply(elbowM);
 
  const movedWrist=neutralWrist.clone().applyMatrix4(forearmM);
@@ -178,7 +179,8 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  const forearmWorldQ=forearmQ.clone().multiply(elbowWorldQ).normalize();
  const wristFlexAxis=lateral.clone().applyQuaternion(forearmWorldQ).normalize();
  const wristDeviationAxis=forearmAxis.clone().cross(wristFlexAxis).normalize();
- const wristQ=qdeg(wristFlexAxis,p.wristFlexion).multiply(qdeg(wristDeviationAxis,p.wristDeviation)).normalize();
+ // Positive flexion moves both palms anteriorly; positive deviation is ulnar.
+ const wristQ=qdeg(wristFlexAxis,p.wristFlexion*shoulderFlexSign).multiply(qdeg(wristDeviationAxis,-p.wristDeviation)).normalize();
  const wristM=about(movedWrist,wristQ).multiply(forearmM);
 
  // Soft tissues are deformed in scene.tsx from a shared bind-space field.

@@ -111,3 +111,21 @@ for(const side of ['left','right']){
 }
 await writeFile(new URL('tissue-qa.json',tmp),JSON.stringify(render));
 console.log(`Processed ${vertices.toLocaleString()} posed vertices in ${Math.round(performance.now()-start)} ms. Maximum neutral error ${maxNeutral}.`);
+
+// The UI gives both limbs the same anatomical sign conventions. Check actual
+// hand displacement, not just finite matrices or neutral reset.
+for(const side of ['left','right']){
+ const p=atlas.parts.find(p=>p.name===`Distal phalanx of ${side} middle finger`);
+ const c=new Vector3().fromArray(p.bounds[0]).add(new Vector3().fromArray(p.bounds[1])).multiplyScalar(.5);
+ const delta=(key,value)=>{
+  const t=motion.buildUpperLimbMotion(atlas,side,{...motion.NEUTRAL_POSE,[key]:value}).transforms[p.id];
+  return c.clone().applyQuaternion(new Quaternion().fromArray(t.quaternion)).add(new Vector3().fromArray(t.translation)).sub(c);
+ };
+ assert.ok(delta('wristFlexion',20).z>0,side+' wrist flexion must move palm anteriorly');
+ assert.ok(delta('wristFlexion',-20).z<0,side+' wrist extension must move dorsally');
+ assert.ok(delta('wristDeviation',20).x*(side==='left'?-1:1)>0,side+' positive deviation must be ulnar');
+ const t=motion.buildUpperLimbMotion(atlas,side,{...motion.NEUTRAL_POSE,forearmRotation:20}).transforms[p.id];
+ const palmNormal=new Vector3(0,0,1).applyQuaternion(new Quaternion().fromArray(t.quaternion));
+ assert.ok(palmNormal.x*(side==='left'?-1:1)>0,side+' pronation must turn the palm medially');
+}
+console.log('Bilateral wrist flexion/extension, ulnar deviation and pronation directions PASS');
