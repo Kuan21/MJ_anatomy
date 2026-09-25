@@ -5,11 +5,11 @@ import rawBindings from './body-bindings.json';
 export type BodyRegion='head'|'spine'|'leftLeg'|'rightLeg';
 export interface BodyPose {flexion:number;rotation:number;sideBend:number;knee:number;ankle:number}
 export const BODY_NEUTRAL:BodyPose={flexion:0,rotation:0,sideBend:0,knee:0,ankle:0};
-export const BODY_LIMITS={head:{flexion:[-30,35],rotation:[-55,55],sideBend:[-25,25],knee:[0,0],ankle:[0,0]},spine:{flexion:[-15,42],rotation:[-24,24],sideBend:[-20,20],knee:[0,0],ankle:[0,0]},leg:{flexion:[-20,80],rotation:[-20,20],sideBend:[0,35],knee:[0,110],ankle:[-30,20]}} as const;
+export const BODY_LIMITS={head:{flexion:[-35,40],rotation:[-60,60],sideBend:[-30,30],knee:[0,0],ankle:[0,0]},spine:{flexion:[-25,50],rotation:[-30,30],sideBend:[-20,20],knee:[0,0],ankle:[0,0]},leg:{flexion:[-25,100],rotation:[-30,30],sideBend:[-20,45],knee:[-5,120],ankle:[-35,25]}} as const;
 export interface BodyBinding {name:string;rig:BodyRegion;frame:number|null}
 // Cervical vessels must blend into the skull, not rotate as entire rigid tubes.
 export const bodyBindings=Object.fromEntries(Object.entries(rawBindings).map(([id,b])=>[id,b.rig==='head'&&/artery|vein|venous/i.test(b.name)?{...b,frame:null}:b])) as Record<string,BodyBinding>;
-export interface BodyRig {region:BodyRegion;pivots:Vector3[];levels:number[];focusIds:string[];framePartIds?:string[][]}
+export interface BodyRig {region:BodyRegion;pivots:Vector3[];levels:number[];focusIds:string[];framePartIds?:string[][];blendPartIds?:{id:string;y:number}[]}
 const center=(p:Atlas['parts'][number])=>new Vector3().fromArray(p.bounds[0]).add(new Vector3().fromArray(p.bounds[1])).multiplyScalar(.5);
 export function makeBodyRig(atlas:Atlas,region:BodyRegion):BodyRig{
  const part=(name:string)=>{const p=atlas.parts.find(p=>p.name===name);if(!p)throw new Error(`Missing joint landmark: ${name}`);return p;};
@@ -28,12 +28,7 @@ export function makeBodyRig(atlas:Atlas,region:BodyRegion):BodyRig{
   const focusIds=atlas.parts.filter(p=>{const c=center(p);return c.y>=minY&&c.y<=maxY&&Math.abs(c.x)<.48;}).map(p=>p.id);
   const framePartIds=Array.from({length:vertebrae.length},()=>[] as string[]);
   vertebrae.forEach((p,i)=>framePartIds[i].push(p.id));
-  for(const p of atlas.parts){
-   if(p.system!=='skeletal'||!/(rib|sternum)/i.test(p.name))continue;
-   const y=center(p).y;if(y<minY||y>maxY)continue;
-   let best=0,dist=Infinity;levels.forEach((level,i)=>{const d=Math.abs(level-y);if(d<dist){dist=d;best=i;}});
-   framePartIds[best].push(p.id);
-  }
+  const blendPartIds=atlas.parts.filter(p=>p.system==='skeletal'&&/(rib|sternum)/i.test(p.name)).map(p=>({id:p.id,y:center(p).y})).filter(x=>x.y>=minY&&x.y<=maxY);
   // Everything anatomically suspended from the upper thorax must inherit the
   // final thoracic frame during trunk motion. Otherwise the ribs bend while
   // the shoulder girdle, arms and head remain behind in world space.
@@ -46,7 +41,7 @@ export function makeBodyRig(atlas:Atlas,region:BodyRegion):BodyRig{
    const cranioCervicalSpatial=pc.y>topY+.035&&Math.abs(pc.x)<.38;
    if(upperChain.test(p.name)||(b?.rig==='head'&&b.frame!==null)||cranioCervicalSpatial)topFrame.push(p.id);
   }
-  return{region,pivots,levels,focusIds:[...new Set([...focusIds,...framePartIds.flat()])],framePartIds};
+  return{region,pivots,levels,focusIds:[...new Set([...focusIds,...framePartIds.flat(),...blendPartIds.map(x=>x.id)])],framePartIds,blendPartIds};
  }
  const side=region==='leftLeg'?'Left':'Right',sign=region==='leftLeg'?1:-1,femur=part(`${side} femur`),tibia=part(`${side} tibia`),talus=part(`${side} talus`);
  const hip=center(femur).set(sign*(Math.min(Math.abs(femur.bounds[0][0]),Math.abs(femur.bounds[1][0]))+.022),femur.bounds[1][1]-.023,center(femur).z);
@@ -86,6 +81,18 @@ export function buildBodyMotion(rig:BodyRig,input:BodyPose){
  matrices.forEach((m,i)=>{const t=rigid(m),q=new Quaternion(...t.quaternion),v=t.translation,d=new Quaternion(...v,0).multiply(q);palette.set([...q.toArray(),...d.toArray().map(x=>x*.5)],i*8);});
  if(rig.region==='spine'){
   rig.framePartIds?.forEach((ids,i)=>ids.forEach(id=>transforms[id]=rigid(matrices[i+1])));
+  const atHeight=(y:number):PartTransform=>{
+   const levels=rig.levels;
+   if(y<=levels[0])return rigid(matrices[1]);
+   if(y>=levels[levels.length-1])return rigid(matrices[matrices.length-1]);
+   let i=0;while(i<levels.length-1&&y>levels[i+1])i++;
+   const raw=(y-levels[i])/Math.max(.001,levels[i+1]-levels[i]),t=raw*raw*(3-2*raw);
+   const a=rigid(matrices[i+1]),b=rigid(matrices[i+2]);
+   const qa=new Quaternion(...a.quaternion),qb=new Quaternion(...b.quaternion);qa.slerp(qb,t);
+   const va=new Vector3(...a.translation).lerp(new Vector3(...b.translation),t);
+   return{translation:va.toArray() as [number,number,number],quaternion:qa.toArray() as [number,number,number,number]};
+  };
+  rig.blendPartIds?.forEach(x=>transforms[x.id]=atHeight(x.y));
  }else{
   for(const id of rig.focusIds){const b=bodyBindings[id];if(b?.rig===rig.region&&b.frame!==null)transforms[id]=rigid(matrices[b.frame]);else if(rig.region==='head'&&id.startsWith('BP3-FMA'))transforms[id]=rigid(matrices[8]);}
  }
