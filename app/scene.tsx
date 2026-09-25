@@ -473,7 +473,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      const name=(o.userData.mjExactName as string|undefined)||o.name,side=nerveSide(name);
      const sideOk=ctx.focusSide==='both'||side==='both'||side===ctx.focusSide;
      if(s.bodyMotion?.region==='spine')o.visible=sideOk;
-     else if(s.bodyMotion)o.visible=sideOk;
+     else if(s.bodyMotion?.region==='head')o.visible=sideOk&&bodyNerveBindings[name]==='head';
+     else if(s.bodyMotion?.region==='leftLeg'||s.bodyMotion?.region==='rightLeg')o.visible=sideOk&&bodyNerveBindings[name]===s.bodyMotion.region;
      else if(ctx.bodyArea==='head')o.visible=bodyNerveBindings[name]==='head';
      else if(ctx.bodyArea==='lower')o.visible=bodyNerveBindings[name]==='leftLeg'||bodyNerveBindings[name]==='rightLeg';
      else if(ctx.bodyArea==='organs')o.visible=false;
