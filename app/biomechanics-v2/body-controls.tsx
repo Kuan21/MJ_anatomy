@@ -20,7 +20,24 @@ export default function BodyControls({region,pose,onChange,onInspect,disabled=fa
  const actionLimit=limits[actionKey];
  const pullAction=(value:number)=>onChange(region,{...pose,[actionKey]:value});
  const reset=()=>onChange(region,{...BODY_NEUTRAL});
- return <section className="mj-motion-lab glass" aria-label={head?'Head and neck motion':spine?'Spine and trunk motion':'Lower limb motion'}>
+ if(!head&&!spine){
+  const legacyLimits=BODY_LIMITS.leg;
+  const legacyControls:([keyof BodyPose,string])[]=[
+   ['flexion','髖：前抬（＋）／後伸（－）'],
+   ['sideBend','髖：向外展開'],
+   ['rotation','髖：內旋（＋）／外旋（－）'],
+   ['knee','膝：屈曲'],
+   ['ankle','踝：抬腳尖（＋）／下壓（－）'],
+  ];
+  return <section className="mj-motion-lab glass" aria-label="Lower limb motion">
+   <div className="mj-motion-head"><strong>{region==='leftLeg'?'左腳動作':'右腳動作'}</strong><Button variant="ghost" disabled={disabled} onClick={reset}>復位</Button></div>
+   <div className="mj-motion-sides"><Button variant="ghost" disabled={disabled} aria-pressed={region==='leftLeg'} onClick={()=>onChange('leftLeg',{...BODY_NEUTRAL},true)}>左腳</Button><Button variant="ghost" disabled={disabled} aria-pressed={region==='rightLeg'} onClick={()=>onChange('rightLeg',{...BODY_NEUTRAL},true)}>右腳</Button></div>
+   <div className="mj-motion-sides"><Button variant="ghost" disabled={disabled} onClick={()=>onChange(region,{...BODY_NEUTRAL,flexion:45,knee:65})}>抬膝</Button><Button variant="ghost" disabled={disabled} onClick={()=>onChange(region,{...BODY_NEUTRAL,knee:70})}>屈膝</Button></div>
+   {legacyControls.map(([key,label])=><label className="mj-joint-control" key={key}><span>{label}<b>{Math.round(pose[key])}°</b></span><Slider disabled={disabled} aria-label={label} min={legacyLimits[key][0]} max={legacyLimits[key][1]} step={1} value={[pose[key]]} onValueChange={v=>onChange(region,{...pose,[key]:Array.isArray(v)?v[0]:v})}/></label>)}
+   <small className="mj-motion-note">下肢已回復至 9 月 24 日穩定版：髖、膝、踝直接角度控制，不經今日新增的動作驅動器。</small>
+  </section>;
+ }
+ return <section className="mj-motion-lab glass" aria-label={head?'Head and neck motion':'Spine and trunk motion'}>
   <div className="mj-motion-head"><strong>{head?'頭頸動作':spine?'軀幹與脊柱':region==='leftLeg'?'左腳動作':'右腳動作'}</strong><Button variant="ghost" disabled={disabled} onClick={reset}>復位</Button></div>
   {!head&&!spine&&<div className="mj-motion-sides"><Button variant="ghost" disabled={disabled} aria-pressed={region==='leftLeg'} onClick={()=>onChange('leftLeg',{...BODY_NEUTRAL},true)}>左腳</Button><Button variant="ghost" disabled={disabled} aria-pressed={region==='rightLeg'} onClick={()=>onChange('rightLeg',{...BODY_NEUTRAL},true)}>右腳</Button></div>}
   <div className="motion-action-picker" role="group" aria-label="選擇示範動作">{actions.map(item=><Button variant="ghost" key={item.id} aria-pressed={action===item.id} disabled={disabled} onClick={()=>chooseAction(item.id)}>{item.label}</Button>)}</div>
