@@ -22,6 +22,7 @@ const upper=new Set(regions.partsInRegion(parts,'upper-limb'));
 const lower=new Set(regions.partsInRegion(parts,'lower-limb'));
 const head=new Set(regions.partsInRegion(parts,'head-neck'));
 const topHead=new Set(regions.topRegionParts(parts,'head'));
+assert.deepEqual(topHead,head,'Top-level Head focus must contain only head and neck meshes');
 
 // The four focus groups must not overlap. A mesh belongs to one anatomical
 // movement chain; duplicated membership is exactly what caused unrelated parts
