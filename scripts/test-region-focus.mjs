@@ -75,6 +75,17 @@ assert.equal(regions.anatomicalRegion(leftFibular),'lower-limb');
 assert.equal(regions.anatomicalSide(leftFibular),'left');
 assert.ok(lower.has(leftFibular.id),'Corrected left fibular vein must stay in lower-limb focus');
 
+// A neck/chest centroid must not detach a shoulder muscle from its upper-limb
+// motion chain. Intrinsic laryngeal structures belong to the head/neck view.
+for(const id of ['FJ1460','FJ1460M','FJ1521','FJ1521M']){
+ assert.equal(regions.anatomicalRegion(requirePart(id)),'upper-limb',id+' must stay in the shoulder chain');
+ assert.ok(upper.has(id),id+' missing from upper-limb focus');
+}
+for(const id of ['FJ2777','FJ2778','FJ2781','FJ2782','FJ2783','FJ2789','FJ2794','FJ2796','FJ2799','FJ2800','FJ2801']){
+ assert.equal(regions.anatomicalRegion(requirePart(id)),'head-neck',id+' is intrinsic laryngeal anatomy');
+ assert.ok(head.has(id),id+' missing from head-neck focus');
+}
+
 for(const id of ['FJ2091','FJ2195']){
  assert.ok(!byId.has(id),'Excluded source anomaly still exists at runtime: '+id);
  assert.ok(!upper.has(id)&&!lower.has(id)&&!head.has(id),'Excluded source anomaly leaked into focus: '+id);
