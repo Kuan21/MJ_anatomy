@@ -105,3 +105,11 @@ for(const p of parts){
  assert.equal(b.name,p.name,`Stale binding name: ${p.id}`);legSoft++;
 }
 console.log(`${legSoft} visible lower-limb soft tissues all have matching motion bindings.`);
+
+for(const id of ['FJ1438','FJ1438M']){assert.ok(lower.has(id));assert.ok(!upper.has(id),'Tensor fasciae latae must not float in arm view');}
+
+const classifierSource=(await readFile(new URL('app/mj-system-classifier.ts',root),'utf8')).replace(/import sourceOverrides from '[^']+';/,`const sourceOverrides=${JSON.stringify(overrides)};`);
+await writeFile(new URL('mj-system-classifier.mjs',tmp),ts.transpileModule(classifierSource,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText);
+const {normalizeAtlasSystems}=await import(new URL('mj-system-classifier.mjs',tmp));
+const normalized=normalizeAtlasSystems(raw);
+for(const id of ['FJ1438','FJ1438M'])assert.equal(normalized.parts.find(p=>p.id===id).system,'muscular');

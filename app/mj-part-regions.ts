@@ -11,7 +11,7 @@ const SHOULDER=/clavicle|scapula|deltoid|axillary|suprascapular|subscapular|circ
 const FOOT=/\bfoot\b|metatars|plantar|\btoe\b|halluc|calcane|\btalus\b|cuboid|cuneiform bone|navicular.*foot/i;
 const LEG=/\bleg\b|tibia|fibula|fibular|peroneal|tibial|popliteal|gastrocnem|soleus|tibialis|patellar|achilles/i;
 const THIGH=/\bthigh\b|femur|femoral|adductor|gracilis|sartorius|rectus femoris|vastus|hamstring|biceps femoris|semitend|semimembr/i;
-const HIP=/hip bone|hip joint|glute|sciatic|obturator|piriformis|gemellus|quadratus femoris|pectineus|iliotibial|iliacus|psoas major/i;
+const HIP=/tensor fasciae latae|hip bone|hip joint|glute|sciatic|obturator|piriformis|gemellus|quadratus femoris|pectineus|iliotibial|iliacus|psoas major/i;
 
 const HEAD=/brain|cerebr|cerebell|medulla|pons|midbrain|skull|cranial|mandible|maxilla|zygomatic|frontal bone|parietal|temporal bone|occipital|sphenoid|ethmoid|\beye\b|ocular|orbit|optic|lacrimal|nasal bone|palatine bone|vomer/i;
 const NECK=/cervical vertebra|\batlas\b|\baxis\b|hyoid|laryn|pharyn|thyroid cartilage|cricoid|epiglott|sternocleidomastoid|scalen|longus capitis|longus colli|splenius capitis|semispinalis capitis|jugular|carotid/i;

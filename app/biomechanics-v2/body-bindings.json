@@ -4578,5 +4578,15 @@
     "name": "Set of perforating arteries",
     "rig": "rightLeg",
     "frame": null
+  },
+  "FJ1438": {
+    "name": "Right tensor fasciae latae",
+    "rig": "rightLeg",
+    "frame": null
+  },
+  "FJ1438M": {
+    "name": "Left tensor fasciae latae",
+    "rig": "leftLeg",
+    "frame": null
   }
 }
