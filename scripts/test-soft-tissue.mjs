@@ -129,3 +129,21 @@ for(const side of ['left','right']){
  assert.ok(palmNormal.x*(side==='left'?-1:1)>0,side+' pronation must turn the palm medially');
 }
 console.log('Bilateral wrist flexion/extension, ulnar deviation and pronation directions PASS');
+
+const landmarks=JSON.parse(await readFile(new URL('app/biomechanics-v2/shoulder-landmarks.json',root),'utf8'));
+let jointPoses=0,maxDrift=0;
+for(const side of ['left','right']){
+ const l=landmarks.sides[side],head=new Vector3().fromArray(l.headCenter);
+ assert.ok(l.fitRms<.002,'Head sphere fit must remain within 2 mm RMS of the selected bone patch');
+ for(const flex of [-60,0,60,120,165])for(const abd of [-20,0,60,120,165])for(const rotation of [-60,0,70]){
+  const pose={...motion.NEUTRAL_POSE,shoulderFlexion:flex,shoulderAbduction:abd,shoulderRotation:rotation,elbowFlexion:140,forearmRotation:80,wristFlexion:80,wristDeviation:20};
+  const result=motion.buildUpperLimbMotion(atlas,side,pose);
+  const point=id=>{const t=result.transforms[id];return head.clone().applyQuaternion(new Quaternion().fromArray(t.quaternion)).add(new Vector3().fromArray(t.translation));};
+  const drift=point(l.humerusId).distanceTo(point(l.scapulaId));maxDrift=Math.max(maxDrift,drift);
+  assert.ok(drift<1e-9,`${side} humeral head separated from its scapular socket frame: ${drift}`);
+  const c=motion.constrainPose(pose);assert.ok(Math.hypot(c.shoulderAbduction,c.shoulderFlexion)<=165+1e-9);
+  assert.ok(Math.hypot(c.wristFlexion/80,c.wristDeviation/20)<=1+1e-9);
+  jointPoses++;
+ }
+}
+console.log(`${jointPoses} combined-maximum shoulder/arm poses: fitted head/socket centre continuity PASS (max numerical drift ${maxDrift} m)`);

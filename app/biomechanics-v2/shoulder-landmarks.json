@@ -1,0 +1,39 @@
+{
+  "method": "Least-squares sphere on proximal medial humeral surface (y > 1.38 m, abs(x) < 0.177 m), BodyParts3D atlas rest frame. Approximate landmarks; not measured cartilage or clinical validation.",
+  "sides": {
+    "right": {
+      "humerusId": "FJ3368",
+      "scapulaId": "FJ3384",
+      "headCenter": [
+        -0.1638396071168641,
+        1.3937561622623464,
+        -0.02395335107576855
+      ],
+      "headRadius": 0.02166518600310218,
+      "fitRms": 0.0013750600907814865,
+      "fitVertices": 394,
+      "glenoidFacingPoint": [
+        -0.14044299721717834,
+        1.3971612453460693,
+        -0.03187109902501106
+      ]
+    },
+    "left": {
+      "humerusId": "FJ3262",
+      "scapulaId": "FJ3279",
+      "headCenter": [
+        0.16346617964997745,
+        1.3936584955616191,
+        -0.023747567505401697
+      ],
+      "headRadius": 0.021647457377902475,
+      "fitRms": 0.0013018957826469353,
+      "fitVertices": 212,
+      "glenoidFacingPoint": [
+        0.14038699865341187,
+        1.397051215171814,
+        -0.0317578986287117
+      ]
+    }
+  }
+}

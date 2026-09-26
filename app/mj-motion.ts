@@ -1,6 +1,7 @@
 import * as T from 'three';
 import type {Atlas,PartTransform} from './anatomy';
 import boneBindings from './biomechanics-v2/bone-bindings.json';
+import shoulderLandmarks from './biomechanics-v2/shoulder-landmarks.json';
 
 export type Side='left'|'right';
 export interface MotionPose{
@@ -54,7 +55,7 @@ const rigid=(m:T.Matrix4):PartTransform=>{const p=new T.Vector3(),q=new T.Quater
 const clamp=(v:number,[lo,hi]:readonly[number,number])=>T.MathUtils.clamp(v,lo,hi);
 
 export function constrainPose(input:MotionPose):MotionPose{
- return{
+ const p={
   shoulderAbduction:clamp(input.shoulderAbduction,MOTION_LIMITS.shoulderAbduction),
   shoulderFlexion:clamp(input.shoulderFlexion,MOTION_LIMITS.shoulderFlexion),
   shoulderRotation:clamp(input.shoulderRotation,MOTION_LIMITS.shoulderRotation),
@@ -63,6 +64,15 @@ export function constrainPose(input:MotionPose):MotionPose{
   wristFlexion:clamp(input.wristFlexion,MOTION_LIMITS.wristFlexion),
   wristDeviation:clamp(input.wristDeviation,MOTION_LIMITS.wristDeviation),
  };
+ // A conservative combined-motion envelope, not independent maximum axes.
+ // Keep the displayed pose identical to the pose used by bones and soft tissue.
+ const swing=Math.hypot(p.shoulderAbduction,p.shoulderFlexion);
+ if(swing>165){p.shoulderAbduction*=165/swing;p.shoulderFlexion*=165/swing;}
+ const axialScale=1-.32*Math.min(1,Math.hypot(p.shoulderAbduction,p.shoulderFlexion)/165);
+ p.shoulderRotation=T.MathUtils.clamp(p.shoulderRotation,MOTION_LIMITS.shoulderRotation[0]*axialScale,MOTION_LIMITS.shoulderRotation[1]*axialScale);
+ const wristLoad=Math.hypot(p.wristFlexion/(p.wristFlexion>=0?80:70),p.wristDeviation/(p.wristDeviation>=0?20:30));
+ if(wristLoad>1){p.wristFlexion/=wristLoad;p.wristDeviation/=wristLoad;}
+ return p;
 }
 
 /**
@@ -86,8 +96,13 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  const handIndices=atlas.parts.map((p,i)=>({p,i})).filter(({p})=>handIds.has(p.id)&&p.system==='skeletal').map(({i})=>i);
 
  const humerusBox=boxFor(atlas,humerus),scapulaBox=boxFor(atlas,scapula),clavicleBox=boxFor(atlas,clavicle);
- const shoulderCandidates=longEndpoints(humerusBox);
- const shoulder=nearer(shoulderCandidates[0],shoulderCandidates[1],boxCenter(atlas,scapula));
+ // Rotate about the fitted articular head centre, not the top of the
+ // humerus bounding box (which includes the lateral greater tuberosity).
+ const landmark=shoulderLandmarks.sides[side];
+ if(atlas.parts[humerus[0]].id!==landmark.humerusId||atlas.parts[scapula[0]].id!==landmark.scapulaId){
+  return{transforms:{} as Record<string,PartTransform>,warnings:['Shoulder landmark/source mismatch.']};
+ }
+ const shoulder=new T.Vector3().fromArray(landmark.headCenter);
  const forearmBox=boxFor(atlas,[...radius,...ulna]),forearmEnds=longEndpoints(forearmBox),humerusEnds=longEndpoints(humerusBox);
  const neutralHandCenter=handIndices.length?boxCenter(atlas,handIndices):forearmBox.getCenter(new T.Vector3()).add(new T.Vector3(0,-.22,0));
  const neutralWrist=nearer(forearmEnds[0],forearmEnds[1],neutralHandCenter);
@@ -140,13 +155,11 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  // The humeral head follows the moving glenoid. Remaining glenohumeral motion
  // is the total requested swing after removing the scapular contribution.
  const movedShoulder=shoulder.clone().applyMatrix4(scapulaM);
- const glenohumeralQ=shoulderSwingQ.clone().multiply(scapulaQ.clone().invert()).normalize();
- const swingM=about(movedShoulder,glenohumeralQ).multiply(scapulaM);
+ const swingM=new T.Matrix4().makeTranslation(movedShoulder.x,movedShoulder.y,movedShoulder.z).multiply(new T.Matrix4().makeRotationFromQuaternion(shoulderSwingQ)).multiply(new T.Matrix4().makeTranslation(-shoulder.x,-shoulder.y,-shoulder.z));
 
  // Axial humeral rotation is applied after elevation and kept conservative.
  const axialAxis=superior.clone().applyQuaternion(shoulderSwingQ).normalize();
- const axialScale=T.MathUtils.lerp(1,.68,T.MathUtils.clamp(elevation/165,0,1));
- const axialAmount=p.shoulderRotation*shoulderRotationSign*axialScale;
+ const axialAmount=p.shoulderRotation*shoulderRotationSign;
  const qAxial=qdeg(axialAxis,axialAmount);
  const shoulderQ=qAxial.clone().multiply(shoulderSwingQ).normalize();
  const shoulderM=about(movedShoulder,qAxial).multiply(swingM);
