@@ -4,7 +4,7 @@ import {performance} from 'node:perf_hooks';
 import ts from 'typescript';
 import {Vector3,Quaternion,Matrix4} from 'three';
 const root=new URL('../',import.meta.url),tmp=new URL('.sites-runtime/',root);await mkdir(tmp,{recursive:true});
-for(const file of ['biomechanics-v2/skeleton','biomechanics-v2/soft-tissue','mj-motion','mj-regions','mj-dissection']){
+for(const file of ['biomechanics-v2/skeleton','biomechanics-v2/soft-tissue','mj-motion','mj-regions','mj-dissection','mj-system-classifier']){
  let source=await readFile(new URL(`app/${file}.ts`,root),'utf8');
  for(const match of [...source.matchAll(/import (\w+) from '([^']+\.json)';/g)]){
   const data=await readFile(new URL(match[2],new URL(`app/${file}.ts`,root)),'utf8');source=source.replace(match[0],`const ${match[1]}=${data};`);
@@ -15,14 +15,8 @@ for(const file of ['biomechanics-v2/skeleton','biomechanics-v2/soft-tissue','mj-
 }
 const soft=await import(new URL('soft-tissue.mjs',tmp)),motion=await import(new URL('mj-motion.mjs',tmp));
 const rawAtlas=JSON.parse(await readFile(new URL('public/models/atlas.json',root),'utf8'));
-const sourceOverrides=JSON.parse(await readFile(new URL('app/anatomy-source-overrides.json',root),'utf8'));
-const excludedSourceIds=new Set(sourceOverrides.exclude);
-const runtimeParts=rawAtlas.parts.filter(p=>!excludedSourceIds.has(p.id)).map(p=>({...p,...(sourceOverrides.parts[p.id]||{})}));
-const runtimePartIds=new Set(runtimeParts.map(p=>p.id));
-const runtimeConceptElements=new Map();
-for(const p of runtimeParts){const ids=runtimeConceptElements.get(p.conceptId)||[];ids.push(p.id);runtimeConceptElements.set(p.conceptId,ids);}
-const runtimeConcepts=rawAtlas.concepts.map(c=>({...c,name:sourceOverrides.concepts[c.id]||c.name,elements:(runtimeConceptElements.get(c.id)||[]).filter(id=>runtimePartIds.has(id))})).filter(c=>c.elements.length);
-const atlas={...rawAtlas,parts:runtimeParts,concepts:runtimeConcepts};
+const {normalizeAtlasSystems}=await import(new URL('mj-system-classifier.mjs',tmp));
+const atlas=normalizeAtlasSystems(rawAtlas);
 assert.equal(soft.resolveNeurovascularProfile('Right lateral thoracic artery','path'),'axillaryCable');
 assert.equal(soft.resolveNeurovascularProfile('Right posterior circumflex humeral artery','path'),'axillaryCable');
 assert.equal(soft.resolveNeurovascularProfile('Right anterior circumflex humeral vein','path'),'axillaryCable');

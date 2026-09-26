@@ -13,6 +13,7 @@ export function displaySystem(part:Part):SystemId{
  if(/artery|arterial/.test(n))return 'arterial';
  if(/vein|venous/.test(n))return 'venous';
  if(/nerve|plexus|ganglion|neural/.test(n))return 'nervous';
+ if(/tensor fasciae latae/.test(n))return 'muscular';
  if(connectiveTerms.some(term=>n.includes(term)))return 'connective';
  if(muscleTerms.some(term=>n.includes(term)))return 'muscular';
  return part.system;
