@@ -506,3 +506,7 @@
  .right-workspace.mobile-motion-open .motion-pull-rail input{touch-action:pan-y}
  .right-workspace.mobile-motion-open .motion-pull-scale{font-size:11px}
 }
+
+.joint-surface-toggle{display:flex;align-items:center;gap:8px;min-height:44px;font-size:12px;cursor:pointer}
+.joint-surface-toggle input{width:18px;height:18px;accent-color:#387c77}
+.joint-surface-note{display:block;font-size:11px;line-height:1.5;color:#60727c;margin:0 0 10px}

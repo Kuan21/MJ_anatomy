@@ -1,3 +1,4 @@
+import shoulderCartilage from './biomechanics-v2/shoulder-cartilage.json';
 import {useEffect,useRef} from 'react';
 import * as T from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
@@ -44,6 +45,13 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    return null;
   };
   const partCenter=(p:(typeof atlas.parts)[number])=>new T.Vector3().fromArray(p.bounds[0]).add(new T.Vector3().fromArray(p.bounds[1])).multiplyScalar(.5);
+  // Optional educational surfaces: source-bone patches, not segmented cartilage.
+  const jointSurfaces=shoulderCartilage.patches.map(patch=>{
+   const geometry=new T.BufferGeometry();geometry.setAttribute('position',new T.Float32BufferAttribute(patch.positions,3));geometry.computeVertexNormals();
+   const material=new T.MeshStandardMaterial({color:patch.surface==='humeral'?0x8ddfd4:0x77bddb,roughness:.55,side:T.DoubleSide,polygonOffset:true,polygonOffsetFactor:-1,polygonOffsetUnits:-1});
+   const mesh=new T.Mesh(geometry,material);mesh.name='Estimated shoulder cartilage · '+patch.side+' '+patch.surface;mesh.visible=false;scene.add(mesh);
+   return{mesh,parentId:patch.parentId};
+  });
   const nerveRoot=new T.Group();nerveRoot.name='MJ external nervous system';scene.add(nerveRoot);const nerveMeshes:NerveMesh[]=[];
   const shoulderNerve=/brachial plexus|trunk of brachial plexus|division of .*brachial plexus|cord of brachial plexus|roots of brachial plexus|axillary nerve|suprascapular nerve|long thoracic nerve|thoracodorsal nerve|pectoral nerve|subscapular nerve|dorsal scapular nerve|subclavian nerve/i;
   const armNerve=/musculocutaneous nerve|radial nerve|median nerve|ulnar nerve|brachial cutaneous nerve|antebrachial cutaneous nerve|muscular branches of (radial|axillary|median|ulnar) nerve/i;
@@ -572,6 +580,13 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      if(replacedBrain)return false;
      return true;
     };
+    for(const {mesh,parentId} of jointSurfaces){
+     const parent=atlas.parts.find(p=>p.id===parentId);
+     mesh.visible=!!s.jointSurfaces&&amount<.01&&!!parent&&isVisible(parent)&&!s.bodyMotion;
+     const transform=s.partTransforms?.[parentId];
+     if(transform){mesh.position.set(...transform.translation);mesh.quaternion.set(...transform.quaternion);}
+     else{mesh.position.set(0,0,0);mesh.quaternion.identity();}
+    }
     const visibleParts=atlas.parts.filter(isVisible);
     const nextLayoutKey=visibleParts.map(p=>p.id).join(',')+':'+camera.aspect.toFixed(3);
     if(nextLayoutKey!==layoutKey){const layout=createExplosionLayout(visibleParts,camera.aspect);packingWidth=layout.width;packingHeight=layout.height;atlas.parts.forEach((p,i)=>{const cell=layout.cells.get(p.id);offsets[i]=cell?new T.Vector3(cell.x,cell.y+.85,0):centers[i].clone();});layoutKey=nextLayoutKey;if(amount>.05&&!s.isolate)fit(s.view,Math.max(0,(amount-.3)/.7));}

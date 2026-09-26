@@ -1,6 +1,7 @@
 import {Matrix4, Quaternion, Vector3} from 'three';
 import type {Atlas, Part, PartTransform} from '../anatomy';
 import bindings from './bone-bindings.json';
+import shoulderLandmarks from './shoulder-landmarks.json';
 
 export type Side = 'left' | 'right';
 export type NodeId = 'thorax' | 'clavicle' | 'scapula' | 'humerus' | 'ulna' | 'radius' | 'carpus' | 'hand';
@@ -30,7 +31,7 @@ export function createSkeletonRig(atlas:Atlas,side:Side):SkeletonRig {
  const medial=side==='left'?false:true;
  const pivots:Record<NodeId,Vector3>={
   thorax:new Vector3(),clavicle:endpoint(clavicle,0,medial),scapula:endpoint(clavicle,0,!medial),
-  humerus:endpoint(humerus,1,true),
+  humerus:new Vector3().fromArray(shoulderLandmarks.sides[side].headCenter),
   ulna:endpoint(humerus,1,false).add(endpoint(ulna,1,true)).multiplyScalar(.5),
   radius:endpoint(radius,1,true),carpus:endpoint(radius,1,false),hand:endpoint(radius,1,false)
  };
