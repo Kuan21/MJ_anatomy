@@ -32,16 +32,15 @@ export function resolveNeurovascularProfile(name:string,fallback:Profile='path')
 export function resolveMuscleProfile(name:string,fallback:Profile):Profile{
  const n=name.toLowerCase();
  // Pectoralis major is a broad thoracic fan with a narrow humeral insertion.
- // Keep the belly on the thorax and move only the insertion band. Treating the
- // entire surface as a two-bone sheet creates the balloon/flap artefact seen
- // during arm elevation.
+ // The fan uses attachment-driven fibre extension instead of rotating its
+ // broad thoracic belly with the arm.
  if(/pectoralis major/.test(n))return 'pectoralPath';
  return fallback;
 }
 // Common frame palette: trunk, clavicle, scapula, humerus, ulna, radius, hand.
 export const FRAMES=['root','clavicle','scapula','humerus','ulna','radius','hand'] as const;
 export interface SoftRig {side:Side;ids:(string|undefined)[];shoulder:Vector3;elbow:Vector3;wrist:Vector3;groups:Record<string,Box3>;radius:Vector3;ulna:Vector3;handTipY:number;digitalLandmarks:{source:Vector3;target:Vector3}[]}
-export interface SkinBinding {indices:Uint8Array;weights:Float32Array;belly:Float32Array;radial:Float32Array;longitudinal?:Float32Array;restAxis?:Vector3;sheetOriginFrame?:number;origin:Vector3;insertion:Vector3;originWeights:number[];insertionWeights:number[];restLength:number;profile:Profile}
+export interface SkinBinding {indices:Uint8Array;weights:Float32Array;belly:Float32Array;radial:Float32Array;longitudinal?:Float32Array;restAxis?:Vector3;sheetOriginFrame?:number;origin:Vector3;insertion:Vector3;originWeights:number[];insertionWeights:number[];restLength:number;profile:Profile;fan?:{originFrame:number;insertionFrame:number;tip:Vector3;minX:number;spanX:number}}
 export function makeSoftRig(atlas:Atlas,side:Side):SoftRig|null{
  const rig=createSkeletonRig(atlas,side);if(!rig.valid)return null;
  const node=(id:string)=>rig.nodes.find(n=>n.id===id)!;
@@ -68,18 +67,17 @@ export function pathWeights(rig:SoftRig,x:number,y:number,z:number):number[]{
  const arm=range(rig.shoulder.y-y,-.015,.105);
  const dR=Math.hypot(x-rig.radius.x,z-rig.radius.z),dU=Math.hypot(x-rig.ulna.x,z-rig.ulna.z);
  const radial=dU/(dR+dU+1e-9); // continuous, identical across adjacent segments
- return[(1-lateral)*(1-e),lateral*(1-arm)*(1-e),0,lateral*arm*(1-e),e*(1-w)*(1-radial),e*(1-w)*radial,e*w];
+ return[1-lateral,lateral*(1-arm)*(1-e),0,lateral*arm*(1-e),lateral*e*(1-w)*(1-radial),lateral*e*(1-w)*radial,lateral*e*w];
 }
 /** Continuous thorax-to-humerus field for axillary nerves/vessels.
  * It depends only on world position, so equal rest points on adjacent source
  * meshes remain coincident after deformation.
  */
 export function axillaryCableWeights(rig:SoftRig,x:number,y:number,z:number):number[]{
- const lateral=range(Math.abs(x),.045,Math.max(.09,Math.abs(rig.shoulder.x)-.01));
- const height=range(y,rig.shoulder.y-.24,rig.shoulder.y+.025);
- const anterior=range(z,rig.shoulder.z-.11,rig.shoulder.z+.10);
- const humeral=smooth(lateral*(.82*height+.18*height*anterior));
- return pair(0,3,humeral);
+ // Use the same proximal-to-distal field as the subclavian/axillary/brachial
+ // parent vessels. The old height envelope assigned MORE humeral rotation
+ // to the proximal bundle than the distal bundle, folding it back on itself.
+ return pathWeights(rig,x,y,z);
 }
 /** Register the separate legacy nerve atlas to this atlas BEFORE skinning.
  * Five source digit landmarks are measured from decoded digital nerve branches.
@@ -108,10 +106,9 @@ export function weightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''
  if(profile==='pectoralPath'){
   const minAbs=Math.min(Math.abs(box.min.x),Math.abs(box.max.x)),maxAbs=Math.max(Math.abs(box.min.x),Math.abs(box.max.x));
   const t=(Math.abs(p.x)-minAbs)/Math.max(1e-6,maxAbs-minAbs);
-  // Only the outer ~12% of the fan follows the humerus. The clavicular head's
-  // proximal attachment rides with the clavicle; the other heads stay on the
-  // thoracic frame.
-  return pair(/clavicular part/i.test(name)?1:0,3,range(t,.88,.995));
+  // Spread insertion displacement over the full fibre length. The clavicular
+  // origin rides with the clavicle; other origins stay on the thorax.
+  return pair(/clavicular part/i.test(name)?1:0,3,clamp(t));
  }
 
  if(profile==='shoulderJoint'){
@@ -192,8 +189,16 @@ export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<numbe
   const r=p.clone().sub(origin.clone().addScaledVector(restVector,t));radial.set(r.toArray(),i*3);
   belly[i]=['biceps','triceps','arm'].includes(effectiveProfile)?Math.sin(Math.PI*t)**2:0;
  }
+ let fan:SkinBinding['fan'];
+ if(effectiveProfile==='pectoralPath'){
+  const minX=Math.min(Math.abs(own.min.x),Math.abs(own.max.x)),maxX=Math.max(Math.abs(own.min.x),Math.abs(own.max.x));
+  const tip=new Vector3();let n=0;
+  for(let i=0;i<count;i++)if(Math.abs(positions[i*3])>=maxX-.002){tip.add(new Vector3(positions[i*3],positions[i*3+1],positions[i*3+2]));n++;}
+  tip.multiplyScalar(1/Math.max(1,n));
+  fan={originFrame:/clavicular part/i.test(name)?1:0,insertionFrame:3,tip,minX,spanX:Math.max(.001,maxX-minX)};
+ }
  const sheetOriginFrame=effectiveProfile==='sheetMuscle'&&/clavicular part/i.test(name)?1:effectiveProfile==='sheetMuscle'?0:undefined;
- return{indices,weights,belly,radial,longitudinal,restAxis,sheetOriginFrame,origin,insertion,originWeights:weightsAt(rig,effectiveProfile,origin,box,name),insertionWeights:weightsAt(rig,effectiveProfile,insertion,box,name),restLength,profile:effectiveProfile};
+ return{indices,weights,belly,radial,longitudinal,restAxis,sheetOriginFrame,fan,origin,insertion,originWeights:weightsAt(rig,effectiveProfile,origin,box,name),insertionWeights:weightsAt(rig,effectiveProfile,insertion,box,name),restLength,profile:effectiveProfile};
 }
 export type Palette=Float64Array;
 export function makePalette(rig:SoftRig,transforms:Record<string,PartTransform>):Palette{
@@ -233,6 +238,22 @@ export function deformPoint(p:Vector3,weights:number[],palette:Palette):Vector3{
  blended(palette,pairs.map(p=>p.i),pairs.map(p=>p.w/sum),0,q);transform(p.x,p.y,p.z,q,v,0);return new Vector3(...v);
 }
 export function deformTissue(binding:SkinBinding,base:Float32Array,palette:Palette,out:Float32Array):number{
+ if(binding.fan){
+  const f=binding.fan,originQ=palette.subarray(f.originFrame*8,f.originFrame*8+8),insertQ=palette.subarray(f.insertionFrame*8,f.insertionFrame*8+8);
+  const originTip=new Float64Array(3),movingTip=new Float64Array(3),originOffset=new Float64Array(3),movingOffset=new Float64Array(3);
+  transform(f.tip.x,f.tip.y,f.tip.z,originQ,originTip,0);transform(f.tip.x,f.tip.y,f.tip.z,insertQ,movingTip,0);
+  // Translate fibre cross-sections towards the moving insertion. Do not
+  // rotate the thoracic fan by the humeral quaternion: that rolls it into a
+  // flap. The full fibre length absorbs extension, not just a thin edge band.
+  for(let i=0;i<base.length;i+=3){
+   const t=clamp((Math.abs(base[i])-f.minX)/f.spanX);
+   transform(base[i],base[i+1],base[i+2],originQ,out,i);
+   transform(base[i]-f.tip.x,base[i+1]-f.tip.y,base[i+2]-f.tip.z,originQ,originOffset,0,false);
+   transform(base[i]-f.tip.x,base[i+1]-f.tip.y,base[i+2]-f.tip.z,insertQ,movingOffset,0,false);
+   for(let c=0;c<3;c++)out[i+c]+=t*(movingTip[c]-originTip[c])+t**4*(movingOffset[c]-originOffset[c]);
+  }
+  return 1;
+ }
  const a=deformPoint(binding.origin,binding.originWeights,palette),b=deformPoint(binding.insertion,binding.insertionWeights,palette);
  const posedVector=b.clone().sub(a),posedLength=Math.max(posedVector.length(),1e-6);
  const ratio=posedLength/Math.max(binding.restLength,1e-6);

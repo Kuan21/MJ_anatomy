@@ -15,9 +15,12 @@ export function includeJoint(name:string){
 }
 export function jointProfile(name:string,y:number):Profile{
  name=name.toLowerCase();
+ // Name territories take precedence over substrings: scaphotrapeziotrapezoidal
+ // is a wrist ligament, not the trapezoid component at the shoulder.
+ if(/scapho|trapezi|carpal|metacarp|phalange|pisohamate|pisometacarp/.test(name))return 'hand';
  if(/glenoid labrum|transverse humeral/.test(name))return /labrum/.test(name)?'scapular':'humeral';
  if(/sternoclavicular|interclavicular/.test(name))return 'clavicular';
- if(/glenohumeral|coracohumeral|acromioclavicular|conoid|trapezoid/.test(name))return 'shoulderJoint';
+ if(/glenohumeral|coracohumeral|acromioclavicular|coracoacromial|coracoclavicular|\bconoid ligament\b|\btrapezoid ligament\b/.test(name))return 'shoulderJoint';
  if(/wrist|radiocarpal|radio-ulnar|ulnocarpal/.test(name))return 'wristJoint';
  if(/elbow|annular|collateral ligament/.test(name)&&y>1)return 'elbowJoint';
  return y<.84?'hand':y<.98?'wristJoint':'path';

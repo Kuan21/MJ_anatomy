@@ -25,7 +25,9 @@ for(const [i,node] of gltf.nodes.entries()){
  assert.notEqual(PropertyBinding.sanitizeNodeName(node.name),node.name,'Source names must not be confused with runtime names');
  const rig=soft.makeSoftRig(atlas,binding.side),palette=soft.makePalette(rig,motion.buildUpperLimbMotion(atlas,binding.side,{...motion.NEUTRAL_POSE,shoulderAbduction:70,elbowFlexion:95,forearmRotation:35}).transforms);
  const nearShoulder=soft.axillaryCableWeights(rig,rig.shoulder.x,rig.shoulder.y-.02,rig.shoulder.z),belowAxilla=soft.axillaryCableWeights(rig,0,rig.shoulder.y-.26,rig.shoulder.z);
- assert.ok(nearShoulder[3]>.5,'Axillary cable should follow humerus near shoulder');
+ const distal=soft.axillaryCableWeights(rig,rig.shoulder.x,rig.shoulder.y-.12,rig.shoulder.z);
+ assert.ok(distal[3]>nearShoulder[3],'Distal axillary bundle must follow humerus more than proximal bundle');
+ assert.deepEqual(nearShoulder,soft.pathWeights(rig,rig.shoulder.x,rig.shoulder.y-.02,rig.shoulder.z),'Branches and parent vessels must share their field');
  assert.ok(belowAxilla[0]>.99,'Axillary cable should remain on thorax below axilla');
  for(const primitive of gltf.meshes[node.mesh].primitives){
   const ext=primitive.extensions.KHR_draco_mesh_compression,view=gltf.bufferViews[ext.bufferView],buffer=new draco.DecoderBuffer(),decoder=new draco.Decoder(),mesh=new draco.Mesh();
