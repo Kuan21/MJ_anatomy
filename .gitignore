@@ -51,3 +51,5 @@ next-env.d.ts
 /public/models/joints.glb
 
 /public/models/articular-surfaces.json
+
+/public/models/neck-vessels.json

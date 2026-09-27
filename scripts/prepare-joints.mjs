@@ -15,3 +15,5 @@ console.log(`Joint source verified: ${b.length} bytes`);
 
 const {gunzipSync}=await import('node:zlib');
 await writeFile(new URL('../public/models/articular-surfaces.json',import.meta.url),gunzipSync(await readFile(new URL('../public/models/articular-surfaces.json.gz',import.meta.url))));
+
+await writeFile(new URL('../public/models/neck-vessels.json',import.meta.url),gunzipSync(await readFile(new URL('../public/models/neck-vessels.json.gz',import.meta.url))));
