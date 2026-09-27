@@ -9,7 +9,7 @@ export const BODY_LIMITS={head:{flexion:[-35,40],rotation:[-60,60],sideBend:[-30
 export interface BodyBinding {name:string;rig:BodyRegion;frame:number|null}
 // Cervical vessels must blend into the skull, not rotate as entire rigid tubes.
 export const bodyBindings=Object.fromEntries(Object.entries(rawBindings).map(([id,b])=>[id,b.rig==='head'&&/artery|vein|venous/i.test(b.name)?{...b,frame:null}:b])) as Record<string,BodyBinding>;
-export interface BodyRig {region:BodyRegion;pivots:Vector3[];levels:number[];focusIds:string[];framePartIds?:string[][];blendPartIds?:{id:string;y:number}[]}
+export interface BodyRig {region:BodyRegion;pivots:Vector3[];levels:number[];focusIds:string[];framePartIds?:string[][];blendPartIds?:{id:string;y:number}[];hyoid?:Vector3}
 const center=(p:Atlas['parts'][number])=>new Vector3().fromArray(p.bounds[0]).add(new Vector3().fromArray(p.bounds[1])).multiplyScalar(.5);
 export function makeBodyRig(atlas:Atlas,region:BodyRegion):BodyRig{
  const part=(name:string)=>{const p=atlas.parts.find(p=>p.name===name);if(!p)throw new Error(`Missing joint landmark: ${name}`);return p;};
@@ -18,7 +18,7 @@ export function makeBodyRig(atlas:Atlas,region:BodyRegion):BodyRig{
   const names=['Seventh cervical vertebra','Sixth cervical vertebra','Fifth cervical vertebra','Fourth cervical vertebra','Third cervical vertebra','Axis','Atlas'];
   const cs=names.map(n=>center(part(n)));
   const pivots=[new Vector3(),...cs.map((c,i)=>i?c.clone().add(cs[i-1]).multiplyScalar(.5):c.clone().setY(part(names[0]).bounds[0][1])),cs[6].clone().setY(part('Atlas').bounds[1][1])];
-  return{region,pivots,levels:[pivots[1].y,...cs.map(c=>c.y),pivots[8].y],focusIds};
+  return{region,pivots,levels:[pivots[1].y,...cs.map(c=>c.y),pivots[8].y],focusIds,hyoid:center(part('Hyoid bone'))};
  }
  if(region==='spine'){
   const vertebrae=atlas.parts.filter(p=>p.system==='skeletal'&&/(lumbar vertebra|thoracic vertebra)/i.test(p.name)).sort((a,b)=>center(a).y-center(b).y);
@@ -144,6 +144,22 @@ export function bindBodyTissue(rig:BodyRig,positions:ArrayLike<number>,skull=fal
    // beside the jaw while rotating the lateral shoulder portion too far.
    const t=smooth((y-(part.bounds[0][1]+.018))/.10),lateral=smooth((.14-Math.abs(positions[i*3]))/.075),follow=t*lateral;
    w=[1-follow,0,0,0,0,0,0,0,follow];
+  }
+  if(rig.region==='head'&&part&&rig.hyoid&&/digastric|mylohyoid|geniohyoid|stylohyoid|sternohyoid|omohyoid|thyrohyoid/i.test(part.name)){
+   const h=rig.hyoid,hw=neckSoftWeights(rig,h.y,h.z);
+   const supra=/digastric|mylohyoid|geniohyoid|stylohyoid/i.test(part.name);
+   if(supra){
+    // Both digastric bellies meet the same hyoid frame. The anterior belly
+    // reaches the mandibular symphysis anteriorly, not at the highest y.
+    const anterior=part.bounds[0][2]>.015;
+    const extent=anterior?part.bounds[1][2]-h.z:part.bounds[1][1]-h.y;
+    const distance=anterior?z-h.z:y-h.y;
+    const follow=smooth(distance/Math.max(.006,extent*.8));
+    w=hw.map((v,j)=>v*(1-follow)+(j===8?follow:0));
+   }else{
+    const follow=smooth((y-part.bounds[0][1])/Math.max(.008,h.y-part.bounds[0][1]));
+    w=hw.map((v,j)=>v*follow+(j===0?1-follow:0));
+   }
   }
   // Broad skull-inserting neck muscles keep their thoracic origins fixed.
   if(rig.region==='head'&&part&&/sternocleidomastoid|splenius capitis|semispinalis capitis|longus capitis/.test(part.name)){
