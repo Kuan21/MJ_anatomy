@@ -9,7 +9,7 @@ export const BODY_LIMITS={head:{flexion:[-35,40],rotation:[-60,60],sideBend:[-30
 export interface BodyBinding {name:string;rig:BodyRegion;frame:number|null}
 // Cervical vessels must blend into the skull, not rotate as entire rigid tubes.
 export const bodyBindings=Object.fromEntries(Object.entries(rawBindings).map(([id,b])=>[id,b.rig==='head'&&/artery|vein|venous/i.test(b.name)?{...b,frame:null}:b])) as Record<string,BodyBinding>;
-export interface BodyRig {region:BodyRegion;pivots:Vector3[];levels:number[];focusIds:string[];framePartIds?:string[][];blendPartIds?:{id:string;y:number}[];hyoid?:Vector3}
+export interface BodyRig {region:BodyRegion;pivots:Vector3[];levels:number[];focusIds:string[];framePartIds?:string[][];blendPartIds?:{id:string;y:number}[];hyoid?:Vector3;larynx?:Vector3}
 const center=(p:Atlas['parts'][number])=>new Vector3().fromArray(p.bounds[0]).add(new Vector3().fromArray(p.bounds[1])).multiplyScalar(.5);
 export function makeBodyRig(atlas:Atlas,region:BodyRegion):BodyRig{
  const part=(name:string)=>{const p=atlas.parts.find(p=>p.name===name);if(!p)throw new Error(`Missing joint landmark: ${name}`);return p;};
@@ -18,7 +18,7 @@ export function makeBodyRig(atlas:Atlas,region:BodyRegion):BodyRig{
   const names=['Seventh cervical vertebra','Sixth cervical vertebra','Fifth cervical vertebra','Fourth cervical vertebra','Third cervical vertebra','Axis','Atlas'];
   const cs=names.map(n=>center(part(n)));
   const pivots=[new Vector3(),...cs.map((c,i)=>i?c.clone().add(cs[i-1]).multiplyScalar(.5):c.clone().setY(part(names[0]).bounds[0][1])),cs[6].clone().setY(part('Atlas').bounds[1][1])];
-  return{region,pivots,levels:[pivots[1].y,...cs.map(c=>c.y),pivots[8].y],focusIds,hyoid:center(part('Hyoid bone'))};
+  return{region,pivots,levels:[pivots[1].y,...cs.map(c=>c.y),pivots[8].y],focusIds,hyoid:center(part('Hyoid bone')),larynx:center(part('Thyroid cartilage'))};
  }
  if(region==='spine'){
   const vertebrae=atlas.parts.filter(p=>p.system==='skeletal'&&/(lumbar vertebra|thoracic vertebra)/i.test(p.name)).sort((a,b)=>center(a).y-center(b).y);
@@ -134,7 +134,11 @@ export function bindBodyTissue(rig:BodyRig,positions:ArrayLike<number>,skull=fal
  const count=positions.length/3,indices=new Uint8Array(count*4),weights=new Float32Array(count*4);
  const rigidThroat=part&&/^(Hyoid bone|.*cartilage)$/.test(part.name)&&!/disk/i.test(part.name);
  const spinal=part&&/longus colli|cervicis|scalen|intervertebral|vertebral artery/i.test(part.name);
- const c=rigidThroat?center(part):null;
+ // Head turns do not articulate the laryngeal cartilages relative to one
+ // another. Use one rigid carrier for this assembly, including its membranes;
+ // sampling a different neck rotation at each vertex sheared thin membranes.
+ const laryngeal=part&&/thyroid cartilage|cricoid cartilage|arytenoid cartilage|corniculate cartilage|cuneiform cartilage|thyrohyoid|cricothyroid|cricoarytenoid|thyroarytenoid|vocal ligament|conus elasticus|hyo-epiglottic|thyro-epiglottic|epiglottic cartilage|hyoid bone|intermediate tendon/i.test(part.name);
+ const c=rig.region==='head'&&laryngeal?(rig.larynx??rig.hyoid):rigidThroat?center(part):null;
  for(let i=0;i<count;i++){
   const y=c?.y??positions[i*3+1],z=c?.z??positions[i*3+2];
   let w=skull&&rig.region==='head'?[0,0,0,0,0,0,0,0,1]:skull&&rig.region==='spine'?Array.from({length:rig.pivots.length},(_,j)=>j===rig.pivots.length-1?1:0):rig.region==='head'&&!spinal?neckSoftWeights(rig,y,z):bodyWeights(rig,y);
@@ -145,8 +149,8 @@ export function bindBodyTissue(rig:BodyRig,positions:ArrayLike<number>,skull=fal
    const t=smooth((y-(part.bounds[0][1]+.018))/.10),lateral=smooth((.14-Math.abs(positions[i*3]))/.075),follow=t*lateral;
    w=[1-follow,0,0,0,0,0,0,0,follow];
   }
-  if(rig.region==='head'&&part&&rig.hyoid&&/digastric|mylohyoid|geniohyoid|stylohyoid|sternohyoid|omohyoid|thyrohyoid/i.test(part.name)){
-   const h=rig.hyoid,hw=neckSoftWeights(rig,h.y,h.z);
+  if(!laryngeal&&rig.region==='head'&&part&&rig.hyoid&&/digastric|mylohyoid|geniohyoid|stylohyoid|sternohyoid|omohyoid|thyrohyoid/i.test(part.name)){
+   const h=rig.hyoid,carrier=rig.larynx??h,hw=neckSoftWeights(rig,carrier.y,carrier.z);
    const supra=/digastric|mylohyoid|geniohyoid|stylohyoid/i.test(part.name);
    if(supra){
     // Both digastric bellies meet the same hyoid frame. The anterior belly

@@ -41,11 +41,11 @@ for(const region of ['head','leftLeg','rightLeg']){
     const max=Math.max(...Array.from({length:p.vertexCount},(_,i)=>Math.hypot(out[i*3]-positions[i*3],out[i*3+1]-positions[i*3+1],out[i*3+2]-positions[i*3+2])));
     assert.ok(max>.0005,`${p.name} must move in ${name}, measured ${max}`);
    }
-   if(region==='head'&&/^(Hyoid bone|Thyroid cartilage|Cricoid cartilage)$/.test(p.name)){
+   if(region==='head'&&/^(Hyoid bone|Thyroid cartilage|Cricoid cartilage)$|thyrohyoid membrane|vocal ligament|conus elasticus/i.test(p.name)){
     const a=new Vector3().fromArray(positions),b=new Vector3().fromArray(out);
     for(let i=3;i<positions.length;i+=3)assert.ok(Math.abs(a.distanceTo(new Vector3().fromArray(positions,i))-b.distanceTo(new Vector3().fromArray(out,i)))<5e-7,`${p.name} must retain its rigid shape`);
    }
-   if(region!=='rightLeg'&&(p.system==='skeletal'||p.system==='muscular'))rows.push({name:p.name,vertices:[...out],indices:[...indices],system:p.system});
+   if(region!=='rightLeg'&&(p.system==='skeletal'||p.system==='muscular'||p.system==='connective'))rows.push({name:p.name,vertices:[...out],indices:[...indices],system:p.system});
   }
   if(region!=='rightLeg')qa[region+'_'+name]=rows;
  }

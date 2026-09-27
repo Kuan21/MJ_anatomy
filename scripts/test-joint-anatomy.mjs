@@ -61,4 +61,15 @@ controller.update({...neutral,jointSurfaces:false},0);assert.ok(controller.surfa
 const counts={};for(const r of rows){const kind=jointKind(r.mesh.name);counts[kind]=(counts[kind]??0)+1;}
 await writeFile(new URL('joints-qa.json',tmp),JSON.stringify(rows.map(r=>({name:r.mesh.name,region:r.region,anchor:r.anchor.name,rigid:r.rigidId,vertices:[...r.base],indices:[...r.mesh.geometry.index.array]}))));
 console.log(`${rows.length} source joint structures: ${JSON.stringify(counts)}; both shoulder rims anchored, four body regions finite, reset/layer/isolate/explode PASS`);
+const userPose={...motion.NEUTRAL_POSE,shoulderFlexion:68,shoulderAbduction:150};
+const userTransforms={...motion.buildUpperLimbMotion(atlas,'left',userPose).transforms,...motion.buildUpperLimbMotion(atlas,'right',userPose).transforms};
+controller.update({...neutral,partTransforms:userTransforms},0);
+await writeFile(new URL('joints-user-qa.json',tmp),JSON.stringify(rows.filter(r=>r.region==='upper-limb').map(r=>({name:r.mesh.name,anchor:r.anchor.name,profile:r.skin?.profile,vertices:[...r.mesh.geometry.attributes.position.array],base:[...r.base],indices:[...r.mesh.geometry.index.array]}))));
+for(const side of ['left','right']){
+ const r=rows.find(r=>r.mesh.name==='Scaphotrapeziotrapezoidal ligament'+(side==='left'?'.l':'.r'));
+ assert.equal(r.skin.profile,'hand','Wrist ligament must not use shoulder frames');
+ const soft=await import(new URL('soft-tissue.mjs',tmp)),rig=soft.makeSoftRig(atlas,side),t=userTransforms[rig.ids[6]],q=new T.Quaternion(...t.quaternion),v=new T.Vector3(...t.translation);
+ const out=r.mesh.geometry.attributes.position;
+ for(let i=0;i<out.count;i++)assert.ok(new T.Vector3().fromArray(r.base,i*3).applyQuaternion(q).add(v).distanceTo(new T.Vector3().fromBufferAttribute(out,i))<3e-7,'Reported white fragment detached from wrist');
+}
 controller.dispose();

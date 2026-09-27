@@ -39,6 +39,7 @@ for(const vesselName of ['Left cephalic vein','Left median cubital vein']){
 const buffers=await Promise.all(atlas.chunks.map(c=>readFile(new URL('public'+c.url,root))));
 const geometry=p=>{const b=buffers[p.chunk];return{positions:new Float32Array(b.buffer,b.byteOffset+p.positions,p.vertexCount*3).slice(),indices:new Uint32Array(b.buffer,b.byteOffset+p.indices,p.indexCount).slice()};};
 const poses={extension:{...motion.NEUTRAL_POSE,shoulderFlexion:-45},wristExtension:{...motion.NEUTRAL_POSE,wristFlexion:45},videoReplay:{...motion.NEUTRAL_POSE,shoulderFlexion:90,shoulderAbduction:17,shoulderRotation:-25},neutral:motion.NEUTRAL_POSE,raise60:{...motion.NEUTRAL_POSE,shoulderAbduction:60},raise90:{...motion.NEUTRAL_POSE,shoulderAbduction:90},raise145:{...motion.NEUTRAL_POSE,shoulderAbduction:145},flex90:{...motion.NEUTRAL_POSE,elbowFlexion:90},combined:{...motion.NEUTRAL_POSE,shoulderAbduction:70,shoulderFlexion:45,elbowFlexion:100,forearmRotation:40,wristFlexion:15}};
+poses.reportedRaise={...motion.NEUTRAL_POSE,shoulderFlexion:68,shoulderAbduction:150};
 poses.userCompound={...motion.NEUTRAL_POSE,shoulderFlexion:-45,shoulderAbduction:69,elbowFlexion:50};
 poses.overheadCompound={...motion.NEUTRAL_POSE,shoulderFlexion:150,shoulderAbduction:145,shoulderRotation:35};
 const render={};let vertices=0,maxNeutral=0;const start=performance.now();
@@ -55,8 +56,7 @@ for(const side of ['left','right']){
  const tissues=atlas.parts.filter(p=>soft.tissueBindings[p.id]?.side===side);
  for(const p of tissues){const binding=soft.tissueBindings[p.id];assert.equal(binding.name,p.name);assert.ok(!/toe|thigh|femor|glute|brain/i.test(p.name));}
  const skin=tissues.map(p=>{const g=geometry(p),raw=soft.tissueBindings[p.id].profile,profile=(p.system==='arterial'||p.system==='venous')?soft.resolveNeurovascularProfile(p.name,raw):raw;return{p,...g,binding:soft.bindTissue(rig,profile,g.positions,p)};});
- // Pectoralis major is a broad chest fan. Only its narrow lateral insertion
- // band may be predominantly humeral; the belly must remain thoracic/clavicular.
+ // Pectoralis must distribute extension through the whole fibre fan.
  for(const {p,binding} of skin.filter(x=>/pectoralis major/i.test(x.p.name))){
   let humeral=0,anyHumeral=0,count=binding.weights.length/4;
   for(let i=0;i<count;i++){
@@ -64,7 +64,7 @@ for(const side of ['left','right']){
    if(w>.5)humeral++;if(w>.02)anyHumeral++;
   }
   assert.ok(anyHumeral>0,p.name+' lost its humeral insertion');
-  assert.ok(humeral/count<.35,p.name+' has too much of the muscle belly following the humerus: '+(humeral/count).toFixed(3));
+  assert.ok(binding.fan,p.name+' must use distributed fibre extension');
  }
 
  const nerveProbe=new Float32Array([rig.shoulder.x,rig.shoulder.y-.03,0,rig.elbow.x,rig.elbow.y,0,rig.wrist.x,rig.wrist.y,0]);
@@ -83,6 +83,14 @@ for(const side of ['left','right']){
    const output=new Float32Array(positions.length),scale=soft.deformTissue(binding,positions,palette,output);assert.ok(scale>=.94&&scale<=1.12);assert.ok(output.every(Number.isFinite));vertices+=p.vertexCount;
    if(poseName==='raise90'&&/brachioradialis|anconeus|circumflex scapular|dorsal metacarpal arteries|flexor retinaculum/i.test(p.name)){let squared=0;for(let i=0;i<output.length;i++)squared+=(output[i]-positions[i])**2;assert.ok(Math.sqrt(squared/p.vertexCount)>.005,`${p.name} stayed at rest`);}
    if(poseName==='wristExtension'&&binding.profile==='chest')assert.deepEqual(output,positions,'Wrist must not move the chest');
+   if(poseName==='reportedRaise'&&/pectoralis major/i.test(p.name)){
+    let maxRatio=0;
+    for(let j=0;j<indices.length;j+=3)for(let e=0;e<3;e++){
+     const a=indices[j+e]*3,b=indices[j+(e+1)%3]*3,length=v=>Math.hypot(v[a]-v[b],v[a+1]-v[b+1],v[a+2]-v[b+2]);
+     const rest=length(positions);if(rest>.0002)maxRatio=Math.max(maxRatio,length(output)/rest);
+    }
+    assert.ok(maxRatio<3,`${p.name}: reported pose developed a stretched spike (${maxRatio})`);
+   }
    if(poseName==='neutral'){const delta=Math.max(...output.map((v,i)=>Math.abs(v-positions[i])));maxNeutral=Math.max(maxNeutral,delta);assert.ok(delta<2e-7,`${p.name}: neutral changed ${delta}`);}
 
    // Attachments represented by a one-frame weight remain pinned to that frame.
