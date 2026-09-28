@@ -525,10 +525,10 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      else if(s.bodyMotion?.region==='head')o.visible=sideOk&&boundRegion==='head';
      else if(s.bodyMotion?.region==='leftLeg'||s.bodyMotion?.region==='rightLeg')o.visible=sideOk&&boundRegion===s.bodyMotion.region;
      else if(ctx.bodyArea==='head')o.visible=boundRegion==='head';
-     else if(ctx.bodyArea==='lower')o.visible=boundRegion==='leftLeg'||boundRegion==='rightLeg';
+     else if(ctx.bodyArea==='lower')o.visible=sideOk&&(boundRegion==='leftLeg'||boundRegion==='rightLeg');
      else if(ctx.bodyArea==='organs')o.visible=false;
      else if(ctx.bodyArea==='upper'&&ctx.region==='whole-body')o.visible=sideOk&&!!nerveBindings[name];
-     else if(ctx.motionActive)o.visible=sideOk&&!!nerveBindings[name];
+     else if(ctx.motionActive)o.visible=sideOk&&!!nerveBindings[name]&&nerveMatchesRegion(name,ctx.region,false);
      else o.visible=sideOk&&nerveMatchesRegion(name,ctx.region,false);
      const isSelectedNerve=!!selectedNerve.current&&name===selectedNerve.current;
      const targetColor=isSelectedNerve?0x9cf7b0:0xf1cb4f,targetEmissive=isSelectedNerve?0x3f9a5d:0x6b5100,targetIntensity=isSelectedNerve?.60:.28;
@@ -634,7 +634,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    }
    if((s.cameraFocusNonce??0)!==lastCameraFocus&&s.cameraFocusParts?.length){
     const wanted=new Set(s.cameraFocusParts),box=new T.Box3();
-    atlas.parts.forEach((p,i)=>{if(!wanted.has(p.id))return;const mesh=pickers[i];box.union(mesh?(mesh.geometry.boundingBox??bounds[i]).clone().applyMatrix4(mesh.matrixWorld):bounds[i].clone());});
+    atlas.parts.forEach((p,i)=>{if(!wanted.has(p.id))return;const replacement=s.visible.includes(p.system)&&!(s.hiddenParts??[]).includes(p.id)&&(!s.focusParts||s.focusParts.includes(p.id))&&(cervicalVessels.replaced.has(p.id)||brainPickers.some(m=>m.visible&&m.userData.mjAtlasId===p.id));if(data[i*4+3]<.5&&!replacement)return;const mesh=pickers[i];box.union(mesh?(mesh.geometry.boundingBox??bounds[i]).clone().applyMatrix4(mesh.matrixWorld):bounds[i].clone());});
     if(!box.isEmpty()){
      const center=box.getCenter(new T.Vector3()),dir=camera.position.clone().sub(controls.target).normalize();
      const rect=el.getBoundingClientRect(),w=el.clientWidth,h=el.clientHeight;

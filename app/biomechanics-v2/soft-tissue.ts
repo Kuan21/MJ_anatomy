@@ -9,20 +9,10 @@ export interface TissueBinding {name:string;side:Side;profile:Profile}
 export const tissueBindings=rawBindings as Record<string,TissueBinding>;
 export const nerveBindings=rawNerves as Record<string,{side:Side;profile:'path'}>;
 
-/**
- * Route neurovascular structures by their real attachment territory instead of
- * treating every branch as a free upper-limb tube. This prevents thoracic and
- * scapular branches from being dragged around the humerus during elevation.
- */
-export function resolveNeurovascularProfile(name:string,fallback:Profile='path'):Profile{
- const n=name.toLowerCase();
- // Proximal neurovascular structures use one continuous world-space cable
- // field. Anatomically these bundles mainly glide and uncoil; the visual
- // effect is elastic lengthening without tearing at named-mesh boundaries.
- if(/long thoracic nerve|intercostobrachial|lateral thoracic (?:artery|vein)|superior thoracic (?:artery|vein)|axillary nerve|muscular branches of axillary nerve|superior lateral brachial cutaneous nerve|anterior circumflex humeral (?:artery|vein)|posterior circumflex humeral (?:artery|vein)|brachial plexus|trunk of brachial plexus|division of .*brachial plexus|cord of brachial plexus|roots of brachial plexus|pectoral nerve|thoraco-?acromial/.test(n))return 'axillaryCable';
- if(/dorsal scapular|suprascapular|thoracodorsal|circumflex scapular|subscapular (?:nerve|artery|vein)|upper subscapular nerve|lower subscapular nerve/.test(n))return 'scapular';
- if(/subclavian nerve|nerve to subclavius|supraclavicular/.test(n))return 'clavicular';
- return fallback;
+/** One rest-space carrier for connected upper-limb branches. Names determine
+ * atlas identity, but must not select incompatible transforms at junctions. */
+export function resolveNeurovascularProfile(_name:string,_fallback:Profile='path'):Profile{
+ return 'path';
 }
 /** Muscle deformation classification.
  * Broad pectoralis-major parts are fibre sheets: broad thoracic/clavicular
@@ -40,7 +30,8 @@ export function resolveMuscleProfile(name:string,fallback:Profile):Profile{
 // Common frame palette: trunk, clavicle, scapula, humerus, ulna, radius, hand.
 export const FRAMES=['root','clavicle','scapula','humerus','ulna','radius','hand'] as const;
 export interface SoftRig {side:Side;ids:(string|undefined)[];shoulder:Vector3;elbow:Vector3;wrist:Vector3;groups:Record<string,Box3>;radius:Vector3;ulna:Vector3;handTipY:number;digitalLandmarks:{source:Vector3;target:Vector3}[]}
-export interface SkinBinding {indices:Uint8Array;weights:Float32Array;belly:Float32Array;radial:Float32Array;longitudinal?:Float32Array;restAxis?:Vector3;sheetOriginFrame?:number;origin:Vector3;insertion:Vector3;originWeights:number[];insertionWeights:number[];restLength:number;profile:Profile;fan?:{originFrame:number;insertionFrame:number;tip:Vector3;minX:number;spanX:number}}
+export interface FibreGuide {centres:Vector3[];indices:Uint8Array;weights:Float32Array;coordinates:Float32Array;axis:Vector3;origin:Vector3;length:number}
+export interface SkinBinding {fibre?:FibreGuide;indices:Uint8Array;weights:Float32Array;belly:Float32Array;radial:Float32Array;longitudinal?:Float32Array;restAxis?:Vector3;sheetOriginFrame?:number;origin:Vector3;insertion:Vector3;originWeights:number[];insertionWeights:number[];restLength:number;profile:Profile;fan?:{originFrame:number;insertionFrame:number;tip:Vector3;minX:number;spanX:number}}
 export function makeSoftRig(atlas:Atlas,side:Side):SoftRig|null{
  const rig=createSkeletonRig(atlas,side);if(!rig.valid)return null;
  const node=(id:string)=>rig.nodes.find(n=>n.id===id)!;
@@ -197,8 +188,9 @@ export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<numbe
   tip.multiplyScalar(1/Math.max(1,n));
   fan={originFrame:/clavicular part/i.test(name)?1:0,insertionFrame:3,tip,minX,spanX:Math.max(.001,maxX-minX)};
  }
+ const fibre=part?.system==='muscular'&&['biceps','triceps','arm'].includes(effectiveProfile)?bindFibreGuide(rig,effectiveProfile,positions,box,name):undefined;
  const sheetOriginFrame=effectiveProfile==='sheetMuscle'&&/clavicular part/i.test(name)?1:effectiveProfile==='sheetMuscle'?0:undefined;
- return{indices,weights,belly,radial,longitudinal,restAxis,sheetOriginFrame,fan,origin,insertion,originWeights:weightsAt(rig,effectiveProfile,origin,box,name),insertionWeights:weightsAt(rig,effectiveProfile,insertion,box,name),restLength,profile:effectiveProfile};
+ return{fibre,indices,weights,belly,radial,longitudinal,restAxis,sheetOriginFrame,fan,origin,insertion,originWeights:weightsAt(rig,effectiveProfile,origin,box,name),insertionWeights:weightsAt(rig,effectiveProfile,insertion,box,name),restLength,profile:effectiveProfile};
 }
 export type Palette=Float64Array;
 export function makePalette(rig:SoftRig,transforms:Record<string,PartTransform>):Palette{
@@ -238,6 +230,19 @@ export function deformPoint(p:Vector3,weights:number[],palette:Palette):Vector3{
  blended(palette,pairs.map(p=>p.i),pairs.map(p=>p.w/sum),0,q);transform(p.x,p.y,p.z,q,v,0);return new Vector3(...v);
 }
 export function deformTissue(binding:SkinBinding,base:Float32Array,palette:Palette,out:Float32Array):number{
+ if(binding.fibre){
+  deformFibres(binding.fibre,base,palette,out);
+  // Preserve the authored attachment collars, including broad scapular and
+  // clavicular origins that cannot be represented by a single centre point.
+  const q=new Float64Array(8),p=new Float64Array(3);
+  for(let i=0;i<base.length/3;i++){
+   const collar=range(binding.weights[i*4],.75,1);if(!collar)continue;
+   blended(palette,binding.indices,binding.weights,i*4,q);
+   transform(base[i*3],base[i*3+1],base[i*3+2],q,p,0);
+   for(let c=0;c<3;c++)out[i*3+c]+=(p[c]-out[i*3+c])*collar;
+  }
+  return 1;
+ }
  if(binding.fan){
   const f=binding.fan,originQ=palette.subarray(f.originFrame*8,f.originFrame*8+8),insertQ=palette.subarray(f.insertionFrame*8,f.insertionFrame*8+8);
   const originTip=new Float64Array(3),movingTip=new Float64Array(3),originOffset=new Float64Array(3),movingOffset=new Float64Array(3);
@@ -278,4 +283,50 @@ export function deformTissue(binding:SkinBinding,base:Float32Array,palette:Palet
   transform(base[j]+binding.radial[j]*extra,base[j+1]+binding.radial[j+1]*extra,base[j+2]+binding.radial[j+2]*extra,q,out,j);
  }
  return radialScale;
+}
+
+/** Longitudinal guide: cross-sections rotate as units, with reciprocal area
+ * change as the guide length changes. This is a geometric muscle approximation,
+ * not a force/contact solver. Broad shoulder sheets keep their existing solver. */
+function bindFibreGuide(rig:SoftRig,profile:Profile,base:ArrayLike<number>,box:Box3,name:string):FibreGuide{
+ const origin=box.getCenter(new Vector3()),end=origin.clone();
+ if(profile==='cuff'){
+  origin.x=rig.side==='left'?box.min.x:box.max.x;
+  end.x=rig.side==='left'?box.max.x:box.min.x;
+ }else{origin.y=box.max.y;end.y=box.min.y;}
+ const axis=end.clone().sub(origin),length=Math.max(axis.length(),1e-6);axis.normalize();
+ const centres=Array.from({length:33},(_,i)=>origin.clone().addScaledVector(axis,length*i/32));
+ const indices=new Uint8Array(33*4),weights=new Float32Array(33*4);
+ centres.forEach((c,i)=>{
+  const entries=weightsAt(rig,profile,c,box,name).map((w,j)=>({w,j})).filter(v=>v.w>0).sort((a,b)=>b.w-a.w).slice(0,4),sum=entries.reduce((s,v)=>s+v.w,0);
+  entries.forEach((v,k)=>{indices[i*4+k]=v.j;weights[i*4+k]=v.w/sum;});
+ });
+ const coordinates=new Float32Array(base.length/3);
+ for(let i=0;i<coordinates.length;i++)coordinates[i]=clamp(new Vector3(base[i*3],base[i*3+1],base[i*3+2]).sub(origin).dot(axis)/length);
+ return{centres,indices,weights,coordinates,axis,origin,length};
+}
+function deformFibres(f:FibreGuide,base:Float32Array,palette:Palette,out:Float32Array){
+ const points:Vector3[]=[],rotations:Quaternion[]=[],scales:number[]=[],q=new Float64Array(8),v=new Float64Array(3);
+ for(let k=0;k<33;k++){
+  blended(palette,f.indices,f.weights,k*4,q);
+  const c=f.centres[k];transform(c.x,c.y,c.z,q,v,0);
+  points.push(new Vector3(...v));rotations.push(new Quaternion(q[0],q[1],q[2],q[3]));
+ }
+ for(let k=0;k<33;k++){
+  const lo=Math.max(0,k-1),hi=Math.min(32,k+1),tangent=points[hi].clone().sub(points[lo]);
+  const stretch=Math.max(.1,tangent.length()/((hi-lo)*f.length/32));
+  // Endpoint collars retain their bone orientation and calibre. Interior
+  // sections adjust their area using the local longitudinal stretch.
+  const envelope=Math.sin(Math.PI*k/32)**2;
+  scales.push(1+envelope*(Math.max(.65,Math.min(1.6,1/Math.sqrt(stretch)))-1));
+ }
+ const offset=new Vector3(),centre=new Vector3(),rotation=new Quaternion();
+ for(let i=0;i<f.coordinates.length;i++){
+  const t=f.coordinates[i]*32,k=Math.min(31,Math.floor(t)),u=t-k;
+  centre.copy(points[k]).lerp(points[k+1],u);rotation.copy(rotations[k]).slerp(rotations[k+1],u);
+  offset.set(base[i*3],base[i*3+1],base[i*3+2]).sub(f.origin).addScaledVector(f.axis,-f.length*f.coordinates[i]);
+  const axial=offset.dot(f.axis),scale=scales[k]*(1-u)+scales[k+1]*u;
+  offset.addScaledVector(f.axis,-axial).multiplyScalar(scale).addScaledVector(f.axis,axial).applyQuaternion(rotation).add(centre);
+  out[i*3]=offset.x;out[i*3+1]=offset.y;out[i*3+2]=offset.z;
+ }
 }
