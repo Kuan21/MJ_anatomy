@@ -236,7 +236,11 @@ export function deformTissue(binding:SkinBinding,base:Float32Array,palette:Palet
   // clavicular origins that cannot be represented by a single centre point.
   const q=new Float64Array(8),p=new Float64Array(3);
   for(let i=0;i<base.length/3;i++){
-   const collar=range(binding.weights[i*4],.75,1);if(!collar)continue;
+   // A dominant bone weight is NOT an attachment: the old test also pinned
+   // most of the muscle belly to the humerus and cancelled its contraction.
+   // Only the longitudinal end bands retain the authored attachment motion.
+   const t=binding.fibre.coordinates[i];
+   const collar=1-range(Math.min(t,1-t),0,.25);if(!collar)continue;
    blended(palette,binding.indices,binding.weights,i*4,q);
    transform(base[i*3],base[i*3+1],base[i*3+2],q,p,0);
    for(let c=0;c<3;c++)out[i*3+c]+=(p[c]-out[i*3+c])*collar;
@@ -306,11 +310,26 @@ function bindFibreGuide(rig:SoftRig,profile:Profile,base:ArrayLike<number>,box:B
  return{centres,indices,weights,coordinates,axis,origin,length};
 }
 function deformFibres(f:FibreGuide,base:Float32Array,palette:Palette,out:Float32Array){
- const points:Vector3[]=[],rotations:Quaternion[]=[],scales:number[]=[],q=new Float64Array(8),v=new Float64Array(3);
+ const carrier:Vector3[]=[],carrierRotations:Quaternion[]=[],q=new Float64Array(8),v=new Float64Array(3);
  for(let k=0;k<33;k++){
   blended(palette,f.indices,f.weights,k*4,q);
   const c=f.centres[k];transform(c.x,c.y,c.z,q,v,0);
-  points.push(new Vector3(...v));rotations.push(new Quaternion(q[0],q[1],q[2],q[3]));
+  carrier.push(new Vector3(...v));carrierRotations.push(new Quaternion(q[0],q[1],q[2],q[3]));
+ }
+ // Skinning provides the route, not the longitudinal material coordinates.
+ // Redistribute sections by arc length so extension is shared along the
+ // muscle instead of accumulating only where bone weights transition.
+ const distances=[0];
+ for(let k=1;k<33;k++)distances.push(distances[k-1]+carrier[k].distanceTo(carrier[k-1]));
+ const total=distances[32],points:Vector3[]=[],rotations:Quaternion[]=[],scales:number[]=[];
+ let segment=0;
+ for(let k=0;k<33;k++){
+  const distance=total*k/32;
+  while(segment<31&&distances[segment+1]<distance)segment++;
+  const span=distances[segment+1]-distances[segment];
+  const u=span>1e-12?clamp((distance-distances[segment])/span):0;
+  points.push(carrier[segment].clone().lerp(carrier[segment+1],u));
+  rotations.push(carrierRotations[segment].clone().slerp(carrierRotations[segment+1],u));
  }
  for(let k=0;k<33;k++){
   const lo=Math.max(0,k-1),hi=Math.min(32,k+1),tangent=points[hi].clone().sub(points[lo]);

@@ -23,3 +23,37 @@ Base: upstream `591d8a8424d9a76aaba8d1d8054e2d95b6f9daa0`.
 The requested natural shoulder-muscle motion is NOT complete. Applying the experimental section-guide approach to the broad deltoid increased the clavicular-head maximum triangle-edge stretch at the reported raised-arm pose from 2.13 to 5.36. That extension was removed from the candidate. The original shoulder solver remains, including its known shortcomings.
 
 The remaining work is an attachment- and contact-aware shoulder model with measured per-head origin/insertion regions, humeral wrapping paths, and independent neurovascular sliding paths. Mesh continuity and finite coordinates alone cannot establish anatomical realism. Do not describe this candidate as a complete shoulder repair or a physiological simulation.
+
+## Follow-up: reference review, 29 September 2026
+
+Inspected publicly playable examples from `amos_hsiang`'s Instagram series,
+including iliacus (`DdiPEJMBe-7`) and different phases of gluteus medius
+(`DcxVk1UTqiZ`). These are visual references only. The series' complete videos,
+shoulder-specific movement and underlying rig/solver have not been verified.
+No media, model assets or code were copied from the account.
+
+Found and corrected a defect in this candidate's arm-fibre implementation:
+the attachment-preservation test used the dominant skin weight, inadvertently
+pinning the middle of the muscle to the humerus and overriding fibre scaling.
+Collars now use the longitudinal end bands. Guide sections are redistributed
+by posed arc length, sharing extension along the belly rather than concentrating
+it at transitions between bone weights. Biceps/triceps/arm profiles only;
+the deltoid and cuff are deliberately not switched to this approximation.
+
+Added independent synthetic tests for both 20% shortening and 25% lengthening:
+section positions must distribute that change, mid-belly cross-sectional area
+must vary inversely with length, and endpoint calibre must remain unchanged.
+Both sides' existing 12-pose, attachment and junction tests still pass, as do
+TypeScript and region-focus checks.
+
+Offline comparisons still show limitations. At 90-degree elbow flexion the
+maximum triangle-edge length ratio for the left lateral triceps head falls
+from 2.36 (upstream) to 1.50. At the reported elevated-shoulder pose, however,
+the left short biceps head increases from 1.49 to 1.65. These are mesh-quality
+diagnostics, not clinical or browser-rendered validation. The motion route is
+still skinning-derived, not a measured fibre path with bone contact; constant
+whole-muscle volume and physiological contraction are not established.
+
+The draft remains blocked from release. This follow-up does not complete the
+requested natural shoulder simulation, neurovascular sliding/contact or full
+camera/selection visual acceptance testing, and must not be deployed as such.

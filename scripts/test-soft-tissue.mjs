@@ -45,6 +45,24 @@ poses.overheadCompound={...motion.NEUTRAL_POSE,shoulderFlexion:150,shoulderAbduc
 const render={};let vertices=0,maxNeutral=0;const start=performance.now();
 for(const side of ['left','right']){
  const rig=soft.makeSoftRig(atlas,side);assert.ok(rig);
+ // A pure endpoint displacement must change the WHOLE muscle's longitudinal
+ // material coordinates, including the formerly rigid humeral belly.
+ // Synthetic straight sections make the expected area/length relationship
+ // measurable independently of the production deformation implementation.
+ const cylinder=new Float32Array([0,.25,.5,.75,1].flatMap(t=>[-.02,1-t,0,.02,1-t,0]));
+ const fibreBinding=soft.bindTissue(rig,'arm',cylinder,{name:'Fibre regression fixture',system:'muscular'});
+ assert.ok(fibreBinding.fibre);
+ for(const length of [.8,1.25]){
+  const palette=soft.makePalette(rig,{[rig.ids[4]]:{quaternion:[0,0,0,1],translation:[0,1-length,0]}});
+  const out=new Float32Array(cylinder.length);soft.deformTissue(fibreBinding,cylinder,palette,out);
+  for(let section=0;section<5;section++){
+   const t=section/4;
+   for(let edge=0;edge<2;edge++)assert.ok(Math.abs(out[section*6+edge*3+1]-(1-length*t))<1e-6,'Fibre extension must be distributed along the belly');
+  }
+  const radius=(out[15]-out[12])/2;
+  assert.ok(Math.abs(radius-.02/Math.sqrt(length))<1e-6,'Mid-belly area must change inversely with length');
+  for(const section of [0,4])for(const edge of [0,1])assert.equal(out[section*6+edge*3],cylinder[section*6+edge*3],'Attachment calibre must remain unchanged');
+ }
  // Audit the actual UI focus set, independently of the binding manifest.
  const bones=motion.buildUpperLimbMotion(atlas,side,motion.NEUTRAL_POSE).transforms;
  const focused=atlas.parts.filter(p=>focusIds.has(p.id)&&(side==='left'?(p.bounds[0][0]+p.bounds[1][0])/2>.04:(p.bounds[0][0]+p.bounds[1][0])/2<-.04));
