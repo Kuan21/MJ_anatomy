@@ -1,0 +1,35 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {gzipSync} from 'node:zlib';
+import ts from 'typescript';
+const source=fs.readFileSync(new URL('../app/model-download.ts',import.meta.url),'utf8');
+const code=ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext}}).outputText;
+const {decodeModelResponse,fetchModelBuffer,loadMissingChunks}=await import(`data:text/javascript;base64,${Buffer.from(code).toString('base64')}`);
+const data=new Uint8Array([0,1,2,3,4,5,6,7]),gz=gzipSync(data);
+assert.deepEqual(new Uint8Array(await decodeModelResponse(new Response(gz),8,true)),data);
+assert.deepEqual(new Uint8Array(await decodeModelResponse(new Response(data),8,true)),data,'HTTP already decoded gzip');
+let cursor=0;
+const split=new ReadableStream({pull(c){if(cursor===gz.length)c.close();else c.enqueue(gz.subarray(cursor,++cursor));}});
+assert.deepEqual(new Uint8Array(await decodeModelResponse(new Response(split),8,true)),data,'gzip header split across packets');
+await assert.rejects(decodeModelResponse(new Response(data),9,false),/incomplete/);
+await assert.rejects(decodeModelResponse(new Response('not found',{status:404}),8,false));
+const signal=new AbortController().signal,loaded=new Set(),calls=[],failures=[];
+const load=async i=>{calls.push(i);if(i===3)throw new Error('offline');loaded.add(i);};
+const failed=await loadMissingChunks(Array.from({length:15},(_,i)=>i),load,signal,i=>failures.push(i));
+assert.deepEqual(failed,[3]);assert.deepEqual(failures,[3]);assert.equal(loaded.size,14);assert.ok(loaded.has(14),'failure did not cancel later vessels');assert.equal(calls.filter(i=>i===3).length,2);
+await loadMissingChunks(failed,async i=>loaded.add(i),signal,()=>assert.fail('retry failed'));
+assert.equal(loaded.size,15);assert.equal(calls.length,16,'successful packages were never downloaded twice');
+const aborted=new AbortController();aborted.abort();let called=false;
+await loadMissingChunks([1],async()=>{called=true;},aborted.signal,()=>{});assert.equal(called,false);
+const realFetch=globalThis.fetch;
+globalThis.fetch=async(_url,{signal})=>new Promise((_,reject)=>{if(signal.aborted)reject(new DOMException('Aborted','AbortError'));else signal.addEventListener('abort',()=>reject(new DOMException('Aborted','AbortError')),{once:true});});
+await assert.rejects(fetchModelBuffer('test',8,false,signal,10),/下載逾時/);
+globalThis.fetch=realFetch;
+const atlas=JSON.parse(fs.readFileSync(new URL('../public/models/atlas.json',import.meta.url),'utf8'));
+for(const chunk of atlas.chunks){
+ const raw=fs.readFileSync(new URL(`../public${chunk.url}`,import.meta.url));
+ assert.equal(raw.byteLength,chunk.bytes);
+ const zipped=fs.readFileSync(new URL(`../public${chunk.gzip}`,import.meta.url));
+ assert.deepEqual(Buffer.from(await decodeModelResponse(new Response(zipped),chunk.bytes,true)),raw);
+}
+console.log('PASS: all 15 anatomy packages, streaming gzip, decoded HTTP, split headers, failure isolation, resume and timeout.');
