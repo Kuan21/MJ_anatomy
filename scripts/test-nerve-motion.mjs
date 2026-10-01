@@ -10,12 +10,12 @@ const factory=createRequire(import.meta.url)(new URL('draco.cjs',tmp).pathname);
 const draco=await factory({wasmBinary:await readFile(new URL('public/draco/draco_decoder.wasm',root))});
 const bytes=await readFile(new URL('public/models/nervous.glb',root)),jsonLength=bytes.readUInt32LE(12),gltf=JSON.parse(bytes.subarray(20,20+jsonLength).toString()),bin=bytes.subarray(28+jsonLength);
 const atlas=JSON.parse(await readFile(new URL('public/models/atlas.json',root),'utf8'));
-assert.equal(soft.resolveNeurovascularProfile('Long thoracic nerve.r.001'),'axillaryCable');
-assert.equal(soft.resolveNeurovascularProfile('Axillary nerve.r.001'),'axillaryCable');
-assert.equal(soft.resolveNeurovascularProfile('Superior lateral brachial cutaneous nerve.r.001'),'axillaryCable');
-assert.equal(soft.resolveNeurovascularProfile('Superior trunk of brachial plexus.r.001'),'axillaryCable');
-assert.equal(soft.resolveNeurovascularProfile('Suprascapular nerve.r.001'),'scapular');
-assert.equal(soft.resolveNeurovascularProfile('Subclavian nerve.r.001'),'clavicular');
+assert.equal(soft.resolveNeurovascularProfile('Long thoracic nerve.r.001'),'path');
+assert.equal(soft.resolveNeurovascularProfile('Axillary nerve.r.001'),'path');
+assert.equal(soft.resolveNeurovascularProfile('Superior lateral brachial cutaneous nerve.r.001'),'path');
+assert.equal(soft.resolveNeurovascularProfile('Superior trunk of brachial plexus.r.001'),'path');
+assert.equal(soft.resolveNeurovascularProfile('Suprascapular nerve.r.001'),'path');
+assert.equal(soft.resolveNeurovascularProfile('Subclavian nerve.r.001'),'path');
 assert.equal(soft.resolveNeurovascularProfile('Median nerve.r.001'),'path');
 const world=[],parents=new Map();gltf.nodes.forEach((n,i)=>(n.children??[]).forEach(c=>parents.set(c,i)));
 function matrix(i){if(world[i])return world[i];const n=gltf.nodes[i],m=n.matrix?new Matrix4().fromArray(n.matrix):new Matrix4().compose(new Vector3(...(n.translation??[0,0,0])),new Quaternion(...(n.rotation??[0,0,0,1])),new Vector3(...(n.scale??[1,1,1])));return world[i]=parents.has(i)?matrix(parents.get(i)).clone().multiply(m):m;}

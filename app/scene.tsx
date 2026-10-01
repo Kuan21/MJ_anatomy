@@ -16,9 +16,11 @@ import {matchesUpperLimbMuscleLayer} from './mj-muscle-layers';
 import {matchesFacialMuscleLayer} from './mj-facial-layers';
 import {matchesDepth} from './mj-depth';
 import {anatomicalRegion,anatomicalSide,isMotionQuarantined} from './mj-part-regions';
-import {makeSoftRig,bindTissue,makePalette,deformTissue,registerNerveRest,resolveNeurovascularProfile,tissueBindings,nerveBindings,type SkinBinding,type Profile} from './biomechanics-v2/soft-tissue';
+import {makeSoftRig,bindTissue,makePalette,deformTissue,deformPoint,registerNerveRest,resolveNeurovascularProfile,tissueBindings,nerveBindings,type SkinBinding,type Profile} from './biomechanics-v2/soft-tissue';
 import {makeBodyRig,buildBodyMotion,bindBodyTissue,cranialNerveRigid,bodyBindings,type BodyRegion} from './biomechanics-v2/body-motion';
-import {makeSurfaceConstraints,constrainSurface,makeSurfaceGroup,constrainSurfaceGroup} from './biomechanics-v2/surface-constraints';
+import {makeSurfaceConstraints,constrainSurface} from './biomechanics-v2/surface-constraints';
+import {makeShoulderMuscles,solveShoulderMuscles} from './biomechanics-v2/shoulder-muscles';
+import shoulderLandmarks from './biomechanics-v2/shoulder-landmarks.json';
 import bodyNerveData from './biomechanics-v2/body-nerve-bindings.json';
 const bodyNerveBindings=bodyNerveData as Record<string,BodyRegion>;
 interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;onSelectNerve?:(name:string)=>void;onProgress:(n:number)=>void;onError:(s:string)=>void;onJointDrag?:(side:'left'|'right',joint:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion',delta:number)=>void;region?:'whole-body'|'shoulder'|'arm'|'forearm'|'hand';focusSide?:'both'|'left'|'right';motionActive?:boolean;jointMotionEnabled?:boolean;selectedExternalNerve?:string|null;bodyArea?:'whole'|'upper'|'lower'|'head'|'organs'}
@@ -357,7 +359,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      pick.userData.bodySkin=bindBodyTissue(bodyRigs.spine,pick.userData.baseMotionPositions,false,p);
      pick.userData.bodyRegion='spine';
     }
-    if(pick.userData.skin&&['chest','cuff','scapular'].includes(pick.userData.skin.profile))
+    if(pick.userData.skin&&['chest','scapular'].includes(pick.userData.skin.profile))
      pick.userData.surfaceGuard=makeSurfaceConstraints(pick.userData.baseMotionPositions,g.index!.array,pick.userData.skin);
     if(((bb?.rig==='head'&&/platysma|sternocleidomastoid/.test(p.name))||spineSoft)&&pick.userData.bodySkin)
      pick.userData.bodySurfaceGuard=makeSurfaceConstraints(pick.userData.baseMotionPositions,g.index!.array,pick.userData.bodySkin);
@@ -373,7 +375,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    dirty=true;
   };
   (async()=>{try{let cursor=0;await Promise.all(Array.from({length:3},async()=>{while(cursor<eagerChunks.length){const i=eagerChunks[cursor++];await loadChunk(i);}}));if(!disposed){ready=true;onProgress(100);dirty=true;}}catch(e){if(!disposed)onError(e instanceof Error?e.message:'Could not load the anatomy.');}})();
-  const shoulderGroups=new Map<string,{count:number;group:ReturnType<typeof makeSurfaceGroup>}>();
+  const shoulderGroups=new Map<string,{meshes:T.Mesh[];model:ReturnType<typeof makeShoulderMuscles>}>();
   const updateTissueMotion=(s:SceneState)=>{
    const touched=new Set<T.Mesh>();
    const enabled=new Set(s.visible),focused=s.focusParts?new Set(s.focusParts):null,hidden=new Set(s.hiddenParts??[]);
@@ -381,7 +383,13 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    const palettes={left:softRigs.left?makePalette(softRigs.left,s.partTransforms??{}):null,right:softRigs.right?makePalette(softRigs.right,s.partTransforms??{}):null};
    for(const [index,mesh] of pickers.entries()){
     const part=atlas.parts[index];
-    if(!mesh||!enabled.has(part.system)||hidden.has(part.id)||(focused&&!focused.has(part.id)))continue;const skin=mesh.userData.skin as SkinBinding|undefined;if(!skin&&!mesh.userData.bodySkin&&!mesh.userData.spineSkin)continue;
+    if(!mesh||!enabled.has(part.system))continue;
+    const skin=mesh.userData.skin as SkinBinding|undefined;
+    // A hidden shoulder head still participates in its mechanical group.
+    // Visibility/focus controls rendering, not the shape of its neighbours.
+    const shoulderParticipant=!s.bodyMotion&&s.tissueMotion&&skin&&['deltoid','cuff'].includes(skin.profile);
+    if(!shoulderParticipant&&(hidden.has(part.id)||(focused&&!focused.has(part.id))))continue;
+    if(!skin&&!mesh.userData.bodySkin&&!mesh.userData.spineSkin)continue;
     const side=mesh.userData.tissueSide as 'left'|'right',rig=softRigs[side];
     const bodyActive=!!(body&&mesh.userData.bodySkin&&mesh.userData.bodyRegion===s.bodyMotion?.region);
     const spineCarry=!!(body&&s.bodyMotion?.region==='spine'&&mesh.userData.spineSkin);
@@ -393,14 +401,24 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const guard=bodyActive?mesh.userData.bodySurfaceGuard:active&&!spineCarry?mesh.userData.surfaceGuard:null;if(guard)constrainSurface(guard,attr.array as Float32Array);
     mesh.userData.tissuePosed=active;
    }
-   // Solve the complete deltoid envelope before rendering; per-head correction
-   // would separate duplicated vertices along shared surface seams.
-   if(!s.bodyMotion&&s.tissueMotion)for(const side of ['left','right'] as const){
-    const meshes=pickers.filter(m=>m?.userData.tissuePosed&&m.userData.tissueSide===side&&m.userData.skin?.profile==='deltoid');
-    if(!meshes.length)continue;
-    let entry=shoulderGroups.get(side);
-    if(!entry||entry.count!==meshes.length){entry={count:meshes.length,group:makeSurfaceGroup(meshes.map(m=>({base:m!.userData.baseMotionPositions,triangles:m!.geometry.index!.array,skin:m!.userData.skin,positions:m!.geometry.getAttribute('position').array as Float32Array})))};shoulderGroups.set(side,entry);}
-    constrainSurfaceGroup(entry.group);
+   if(!s.bodyMotion&&s.tissueMotion&&enabled.has('muscular'))for(const side of ['left','right'] as const){
+    const rig=softRigs[side],palette=palettes[side];if(!rig||!palette)continue;
+    const groups=new Map<string,T.Mesh[]>();
+    for(const mesh of pickers){
+     if(!mesh?.userData.tissuePosed||mesh.userData.tissueSide!==side)continue;
+     const profile=mesh.userData.skin?.profile;if(!['deltoid','cuff'].includes(profile))continue;
+     const key=profile==='deltoid'?`${side}:deltoid`:mesh.uuid;
+     const list=groups.get(key)??[];list.push(mesh);groups.set(key,list);
+    }
+    const head=deformPoint(rig.shoulder,[0,0,0,1,0,0,0],palette);
+    for(const [key,meshes] of groups){
+     let entry=shoulderGroups.get(key);
+     if(!entry||entry.meshes.length!==meshes.length||entry.meshes.some((m,i)=>m!==meshes[i])){
+      entry={meshes,model:makeShoulderMuscles(meshes.map(m=>({base:m.userData.baseMotionPositions,triangles:m.geometry.index!.array,skin:m.userData.skin,positions:m.geometry.getAttribute('position').array as Float32Array})),rig.shoulder,shoulderLandmarks.sides[side].headRadius)};
+      shoulderGroups.set(key,entry);
+     }
+     solveShoulderMuscles(entry.model,head);
+    }
    }
    for(const mesh of touched){
     const attr=mesh.geometry.getAttribute('position') as T.BufferAttribute;
@@ -525,10 +543,10 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      else if(s.bodyMotion?.region==='head')o.visible=sideOk&&boundRegion==='head';
      else if(s.bodyMotion?.region==='leftLeg'||s.bodyMotion?.region==='rightLeg')o.visible=sideOk&&boundRegion===s.bodyMotion.region;
      else if(ctx.bodyArea==='head')o.visible=boundRegion==='head';
-     else if(ctx.bodyArea==='lower')o.visible=boundRegion==='leftLeg'||boundRegion==='rightLeg';
+     else if(ctx.bodyArea==='lower')o.visible=sideOk&&(boundRegion==='leftLeg'||boundRegion==='rightLeg');
      else if(ctx.bodyArea==='organs')o.visible=false;
      else if(ctx.bodyArea==='upper'&&ctx.region==='whole-body')o.visible=sideOk&&!!nerveBindings[name];
-     else if(ctx.motionActive)o.visible=sideOk&&!!nerveBindings[name];
+     else if(ctx.motionActive)o.visible=sideOk&&!!nerveBindings[name]&&nerveMatchesRegion(name,ctx.region,false);
      else o.visible=sideOk&&nerveMatchesRegion(name,ctx.region,false);
      const isSelectedNerve=!!selectedNerve.current&&name===selectedNerve.current;
      const targetColor=isSelectedNerve?0x9cf7b0:0xf1cb4f,targetEmissive=isSelectedNerve?0x3f9a5d:0x6b5100,targetIntensity=isSelectedNerve?.60:.28;
@@ -634,7 +652,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    }
    if((s.cameraFocusNonce??0)!==lastCameraFocus&&s.cameraFocusParts?.length){
     const wanted=new Set(s.cameraFocusParts),box=new T.Box3();
-    atlas.parts.forEach((p,i)=>{if(!wanted.has(p.id))return;const mesh=pickers[i];box.union(mesh?(mesh.geometry.boundingBox??bounds[i]).clone().applyMatrix4(mesh.matrixWorld):bounds[i].clone());});
+    atlas.parts.forEach((p,i)=>{if(!wanted.has(p.id))return;const replacement=s.visible.includes(p.system)&&!(s.hiddenParts??[]).includes(p.id)&&(!s.focusParts||s.focusParts.includes(p.id))&&(cervicalVessels.replaced.has(p.id)||brainPickers.some(m=>m.visible&&m.userData.mjAtlasId===p.id));if(data[i*4+3]<.5&&!replacement)return;const mesh=pickers[i];box.union(mesh?(mesh.geometry.boundingBox??bounds[i]).clone().applyMatrix4(mesh.matrixWorld):bounds[i].clone());});
     if(!box.isEmpty()){
      const center=box.getCenter(new T.Vector3()),dir=camera.position.clone().sub(controls.target).normalize();
      const rect=el.getBoundingClientRect(),w=el.clientWidth,h=el.clientHeight;

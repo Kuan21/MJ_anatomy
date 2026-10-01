@@ -17,11 +17,11 @@ const soft=await import(new URL('soft-tissue.mjs',tmp)),motion=await import(new 
 const rawAtlas=JSON.parse(await readFile(new URL('public/models/atlas.json',root),'utf8'));
 const {normalizeAtlasSystems}=await import(new URL('mj-system-classifier.mjs',tmp));
 const atlas=normalizeAtlasSystems(rawAtlas);
-assert.equal(soft.resolveNeurovascularProfile('Right lateral thoracic artery','path'),'axillaryCable');
-assert.equal(soft.resolveNeurovascularProfile('Right posterior circumflex humeral artery','path'),'axillaryCable');
-assert.equal(soft.resolveNeurovascularProfile('Right anterior circumflex humeral vein','path'),'axillaryCable');
-assert.equal(soft.resolveNeurovascularProfile('Right thoracodorsal artery','path'),'scapular');
-assert.equal(soft.resolveNeurovascularProfile('Right suprascapular vein','path'),'scapular');
+assert.equal(soft.resolveNeurovascularProfile('Right lateral thoracic artery','path'),'path');
+assert.equal(soft.resolveNeurovascularProfile('Right posterior circumflex humeral artery','path'),'path');
+assert.equal(soft.resolveNeurovascularProfile('Right anterior circumflex humeral vein','path'),'path');
+assert.equal(soft.resolveNeurovascularProfile('Right thoracodorsal artery','path'),'path');
+assert.equal(soft.resolveNeurovascularProfile('Right suprascapular vein','path'),'path');
 assert.equal(soft.resolveNeurovascularProfile('Right brachial artery','path'),'path');
 assert.equal(soft.resolveMuscleProfile('Sternocostal part of right pectoralis major','chest'),'pectoralPath');
 assert.equal(soft.resolveMuscleProfile('Clavicular part of right pectoralis major','chest'),'pectoralPath');
@@ -45,6 +45,24 @@ poses.overheadCompound={...motion.NEUTRAL_POSE,shoulderFlexion:150,shoulderAbduc
 const render={};let vertices=0,maxNeutral=0;const start=performance.now();
 for(const side of ['left','right']){
  const rig=soft.makeSoftRig(atlas,side);assert.ok(rig);
+ // A pure endpoint displacement must change the WHOLE muscle's longitudinal
+ // material coordinates, including the formerly rigid humeral belly.
+ // Synthetic straight sections make the expected area/length relationship
+ // measurable independently of the production deformation implementation.
+ const cylinder=new Float32Array([0,.25,.5,.75,1].flatMap(t=>[-.02,1-t,0,.02,1-t,0]));
+ const fibreBinding=soft.bindTissue(rig,'arm',cylinder,{name:'Fibre regression fixture',system:'muscular'});
+ assert.ok(fibreBinding.fibre);
+ for(const length of [.8,1.25]){
+  const palette=soft.makePalette(rig,{[rig.ids[4]]:{quaternion:[0,0,0,1],translation:[0,1-length,0]}});
+  const out=new Float32Array(cylinder.length);soft.deformTissue(fibreBinding,cylinder,palette,out);
+  for(let section=0;section<5;section++){
+   const t=section/4;
+   for(let edge=0;edge<2;edge++)assert.ok(Math.abs(out[section*6+edge*3+1]-(1-length*t))<1e-6,'Fibre extension must be distributed along the belly');
+  }
+  const radius=(out[15]-out[12])/2;
+  assert.ok(Math.abs(radius-.02/Math.sqrt(length))<1e-6,'Mid-belly area must change inversely with length');
+  for(const section of [0,4])for(const edge of [0,1])assert.equal(out[section*6+edge*3],cylinder[section*6+edge*3],'Attachment calibre must remain unchanged');
+ }
  // Audit the actual UI focus set, independently of the binding manifest.
  const bones=motion.buildUpperLimbMotion(atlas,side,motion.NEUTRAL_POSE).transforms;
  const focused=atlas.parts.filter(p=>focusIds.has(p.id)&&(side==='left'?(p.bounds[0][0]+p.bounds[1][0])/2>.04:(p.bounds[0][0]+p.bounds[1][0])/2<-.04));
@@ -73,6 +91,16 @@ for(const side of ['left','right']){
  for(const [poseName,pose] of Object.entries(poses)){
   const {transforms,warnings}=motion.buildUpperLimbMotion(atlas,side,pose);assert.equal(warnings.length,0);assert.equal(Object.keys(transforms).length,32);
   const palette=soft.makePalette(rig,transforms),rows=[];
+  // A branch junction must not move when its source name/profile changes.
+  for(const point of [rig.shoulder.clone().add(new Vector3(0,-.03,-.04)),rig.elbow,rig.wrist]){
+   const base=new Float32Array(point.toArray()),outputs=[];
+   for(const name of ['Subclavian artery','Axillary artery','Thoracodorsal artery','Suprascapular vein','Dorsal scapular nerve','Subclavian nerve']){
+    const binding=soft.bindTissue(rig,soft.resolveNeurovascularProfile(name,'scapular'),base),out=new Float32Array(3);
+    soft.deformTissue(binding,base,palette,out);outputs.push(out);
+   }
+   outputs.forEach(out=>assert.deepEqual(out,outputs[0],`${side} ${poseName}: branch junction depends on source name`));
+  }
+
   if(poseName==='extension'){
    const t=transforms[rig.ids[3]],p=rig.elbow.clone().applyQuaternion(new Quaternion(...t.quaternion)).add(new Vector3(...t.translation));
    assert.ok(p.z<rig.elbow.z-.08,'Extension must move upper arm posteriorly');
@@ -97,7 +125,7 @@ for(const side of ['left','right']){
    for(let i=0;i<p.vertexCount;i++)if(binding.weights[i*4]>.999999&&binding.belly[i]<1e-6){
     const f=binding.indices[i*4],t=transforms[rig.ids[f]],expected=new Vector3(...positions.slice(i*3,i*3+3));
     if(t)expected.applyQuaternion(new Quaternion(...t.quaternion)).add(new Vector3(...t.translation));
-    assert.ok(expected.distanceTo(new Vector3(...output.slice(i*3,i*3+3)))<3e-7);
+    assert.ok(expected.distanceTo(new Vector3(...output.slice(i*3,i*3+3)))<3e-7,`${p.name} ${poseName} vertex ${i} attachment drift`);
    }
    if(side==='left'&&/deltoid|pectoralis major|biceps brachii|triceps brachii|brachialis|brachioradialis|anconeus/i.test(p.name))rows.push({id:p.id,name:p.name,vertices:[...output],indices:[...indices]});
   }
