@@ -297,19 +297,31 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   const loadedChunks=new Set<number>(),loadingChunks=new Set<number>();
   const deviceNavigator=navigator as Navigator&{deviceMemory?:number};
   const constrainedDevice=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)||(deviceNavigator.deviceMemory??8)<=4;
-  const nextPaint=()=>new Promise<void>(resolve=>requestAnimationFrame(()=>resolve()));
+  // A hidden or transitioning WKWebView may throttle requestAnimationFrame.
+  // The loader must never wait on a paint callback in order to make progress.
+  const cooperativeYield=()=>new Promise<void>(resolve=>setTimeout(resolve,0));
   const chunkParts=atlas.chunks.map(()=>[] as {p:(typeof atlas.parts)[number];i:number}[]);
   atlas.parts.forEach((p,i)=>chunkParts[p.chunk]?.push({p,i}));
-  const shoulderCore=/deltoid|supraspinatus|infraspinatus|subscapularis|teres (?:major|minor)|humerus|scapula|clavicle/i;
-  const chunkPriority=(ci:number)=>chunkParts[ci].reduce((score,{p})=>score+(shoulderCore.test(p.name)?1000:0)+(p.system==='skeletal'?5:p.system==='muscular'?3:0),0);
+  const shoulderMuscle=/deltoid|supraspinatus|infraspinatus|subscapularis|teres (?:major|minor)/i;
+  const shoulderBone=/\b(?:humerus|scapula|clavicle)\b/i;
+  const chunkPriority=(ci:number)=>chunkParts[ci].reduce((score,{p})=>score+
+   (p.system==='muscular'&&shoulderMuscle.test(p.name)?10000:0)+
+   (p.system==='skeletal'&&shoulderBone.test(p.name)?10000:0)+
+   (p.system==='skeletal'?5:p.system==='muscular'?3:0),0);
   const eagerChunks=atlas.chunks.map((_,i)=>i).filter(i=>!atlas.chunks[i].deferUntil).sort((a,b)=>chunkPriority(b)-chunkPriority(a)),facialChunkIndex=atlas.chunks.findIndex(ch=>ch.deferUntil==='head');
-  const interactiveChunkCount=constrainedDevice?Math.min(5,eagerChunks.length):eagerChunks.length;
+  const interactiveChunkCount=constrainedDevice?Math.min(4,eagerChunks.length):eagerChunks.length;
   let primaryAtlasReady=false,userReady=false;
   let eagerLoaded=0;
   const loadChunk=async(ci:number)=>{
    if(loadedChunks.has(ci)||loadingChunks.has(ci))return;
    loadingChunks.add(ci);
-   const chunk=atlas.chunks[ci],compressed=!!chunk.gzip&&typeof DecompressionStream!=='undefined';const response=await fetch(resolveModelUrl(compressed?chunk.gzip!:chunk.url),{signal:abort.signal});const buffer=await decodeModelResponse(response,chunk.bytes,compressed);if(disposed)return;
+   const chunk=atlas.chunks[ci];
+   // On constrained WebKit devices the raw 4 MB chunks use less peak memory
+   // than retaining a gzip payload while DecompressionStream creates another
+   // full decoded buffer.
+   const compressed=!constrainedDevice&&!!chunk.gzip&&typeof DecompressionStream!=='undefined';
+   if(constrainedDevice&&!userReady)onProgress(Math.max(1,Math.round(eagerLoaded/Math.max(1,interactiveChunkCount)*100)));
+   const response=await fetch(resolveModelUrl(compressed?chunk.gzip!:chunk.url),{signal:abort.signal});const buffer=await decodeModelResponse(response,chunk.bytes,compressed);if(disposed)return;
    const groups=new Map<string,T.BufferGeometry[]>();let partOrdinal=0;
    for(const {p,i} of chunkParts[ci]){
     const g=new T.BufferGeometry();g.setAttribute('position',new T.BufferAttribute(new Float32Array(buffer,p.positions,p.vertexCount*3),3));
@@ -385,7 +397,11 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     pickers[i]=pick;geometries.push(g);
     g.setAttribute('partIndex',new T.BufferAttribute(new Float32Array(p.vertexCount).fill(i),1));
     const list=groups.get(p.system)??[];list.push(g);groups.set(p.system,list);
-    if(constrainedDevice&&++partOrdinal%24===0)await nextPaint();
+    partOrdinal++;
+    if(constrainedDevice&&partOrdinal%12===0){
+     if(!userReady)onProgress(Math.max(1,Math.min(99,Math.round((eagerLoaded+partOrdinal/Math.max(1,chunkParts[ci].length))/Math.max(1,interactiveChunkCount)*100))));
+     await cooperativeYield();
+    }
    }
    groups.forEach((gs,system)=>{const geometry=mergeGeometries(gs,false);if(!geometry)throw new Error('Could not assemble anatomy geometry.');geometries.push(geometry);let vertexOffset=0;
     for(const g of gs){const index=g.getAttribute('partIndex').getX(0),pick=pickers[index]!;pick.userData.mergedGeometry=geometry;pick.userData.mergedOffset=vertexOffset;vertexOffset+=g.getAttribute('position').count;g.deleteAttribute('partIndex');g.deleteAttribute('motionWeight');}
@@ -394,7 +410,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    if(!chunk.deferUntil){eagerLoaded++;if(!userReady){const target=interactiveChunkCount;if(eagerLoaded>=target){userReady=true;ready=true;onProgress(100);}else onProgress(Math.round(eagerLoaded/Math.max(1,target)*100));}}
    dirty=true;
   };
-  (async()=>{try{let cursor=0;const workers=constrainedDevice?1:3;await Promise.all(Array.from({length:workers},async()=>{while(cursor<eagerChunks.length){const i=eagerChunks[cursor++];await loadChunk(i);if(constrainedDevice)await nextPaint();}}));if(!disposed){primaryAtlasReady=true;if(!userReady){userReady=true;ready=true;onProgress(100);}releaseSupplementaryAssets();dirty=true;}}catch(e){if(!disposed)onError(e instanceof Error?e.message:'Could not load the anatomy.');}})();
+  (async()=>{try{let cursor=0;const workers=constrainedDevice?1:3;await Promise.all(Array.from({length:workers},async()=>{while(cursor<eagerChunks.length){const i=eagerChunks[cursor++];await loadChunk(i);if(constrainedDevice)await cooperativeYield();}}));if(!disposed){primaryAtlasReady=true;if(!userReady){userReady=true;ready=true;onProgress(100);}releaseSupplementaryAssets();dirty=true;}}catch(e){if(!disposed)onError(e instanceof Error?e.message:'Could not load the anatomy.');}})();
   const shoulderGroups=new Map<string,{meshes:T.Mesh[];model:ReturnType<typeof makeShoulderMuscles>}>();
   const updateTissueMotion=(s:SceneState)=>{
    const touched=new Set<T.Mesh>();

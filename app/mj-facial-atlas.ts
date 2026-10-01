@@ -30,8 +30,10 @@ export async function augmentAtlasWithFacial(base:Atlas,signal?:AbortSignal):Pro
   source:`${base.source??'BodyParts3D'} + registered BodyParts3D 3.0 facial muscles`,
   parts:[...base.parts,...facialParts],
   concepts:[...byConcept.values()],
-  // Load facial muscles with the rest of the atlas so Muscular is one unified
-  // system from first render rather than a head-only secondary layer.
-  chunks:[...base.chunks,{url:FACIAL_BINARY_URL,bytes:16390216}]
+  // The registered facial supplement is a large, remote binary. Keep its
+  // catalogue entries in the unified Muscular system, but only fetch the
+  // geometry when the user opens the head region. Loading it beside the
+  // whole-body atlas can exhaust an iPad WebKit tab before the first frame.
+  chunks:[...base.chunks,{url:FACIAL_BINARY_URL,bytes:16390216,deferUntil:'head'}]
  };
 }
