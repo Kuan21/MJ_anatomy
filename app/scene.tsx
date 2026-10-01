@@ -296,22 +296,42 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   const resolveModelUrl=(url:string)=>url.startsWith('/')?`${import.meta.env.BASE_URL}${url.slice(1)}`:url;
   const loadedChunks=new Set<number>(),loadingChunks=new Set<number>();
   const deviceNavigator=navigator as Navigator&{deviceMemory?:number};
-  const constrainedDevice=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)||(deviceNavigator.deviceMemory??8)<=4;
+  // ChatGPT's iPad in-app browser can mask both the iPad user-agent and the
+  // MacIntel platform value. Coarse multi-touch is the stable signal shared
+  // by Safari and WKWebView, so those browsers must use the safe loader too.
+  const coarseTouchDevice=navigator.maxTouchPoints>1&&
+   (typeof matchMedia!=='function'||matchMedia('(pointer: coarse)').matches||matchMedia('(any-pointer: coarse)').matches);
+  const constrainedDevice=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)||coarseTouchDevice||(deviceNavigator.deviceMemory??8)<=4;
   // A hidden or transitioning WKWebView may throttle requestAnimationFrame.
   // The loader must never wait on a paint callback in order to make progress.
   const cooperativeYield=()=>new Promise<void>(resolve=>setTimeout(resolve,0));
   const chunkParts=atlas.chunks.map(()=>[] as {p:(typeof atlas.parts)[number];i:number}[]);
   atlas.parts.forEach((p,i)=>chunkParts[p.chunk]?.push({p,i}));
-  const shoulderMuscle=/deltoid|supraspinatus|infraspinatus|subscapularis|teres (?:major|minor)/i;
+  const deltoidCore=/deltoid/i,shoulderMuscle=/supraspinatus|infraspinatus|subscapularis|teres (?:major|minor)/i;
   const shoulderBone=/\b(?:humerus|scapula|clavicle)\b/i;
   const chunkPriority=(ci:number)=>chunkParts[ci].reduce((score,{p})=>score+
+   (p.system==='muscular'&&deltoidCore.test(p.name)?50000:0)+
    (p.system==='muscular'&&shoulderMuscle.test(p.name)?10000:0)+
    (p.system==='skeletal'&&shoulderBone.test(p.name)?10000:0)+
    (p.system==='skeletal'?5:p.system==='muscular'?3:0),0);
   const eagerChunks=atlas.chunks.map((_,i)=>i).filter(i=>!atlas.chunks[i].deferUntil).sort((a,b)=>chunkPriority(b)-chunkPriority(a)),facialChunkIndex=atlas.chunks.findIndex(ch=>ch.deferUntil==='head');
-  const interactiveChunkCount=constrainedDevice?Math.min(4,eagerChunks.length):eagerChunks.length;
+  // Show a real, selectable first frame after one shoulder-heavy package;
+  // the remaining systems continue sequentially behind the live viewer.
+  const interactiveChunkCount=constrainedDevice?Math.min(1,eagerChunks.length):eagerChunks.length;
   let primaryAtlasReady=false,userReady=false;
   let eagerLoaded=0;
+  const fetchChunkBuffer=async(url:string,expectedBytes:number,compressed:boolean,timeoutMs:number)=>{
+   const controller=new AbortController();let timedOut=false;
+   const cancel=()=>controller.abort();abort.signal.addEventListener('abort',cancel,{once:true});
+   const timer=window.setTimeout(()=>{timedOut=true;controller.abort();},timeoutMs);
+   try{
+    const response=await fetch(resolveModelUrl(url),{signal:controller.signal});
+    return await decodeModelResponse(response,expectedBytes,compressed);
+   }catch(error){
+    if(timedOut)throw new Error('The anatomy download timed out. Please reload the viewer.');
+    throw error;
+   }finally{window.clearTimeout(timer);abort.signal.removeEventListener('abort',cancel);}
+  };
   const loadChunk=async(ci:number)=>{
    if(loadedChunks.has(ci)||loadingChunks.has(ci))return;
    loadingChunks.add(ci);
@@ -321,7 +341,16 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    // full decoded buffer.
    const compressed=!constrainedDevice&&!!chunk.gzip&&typeof DecompressionStream!=='undefined';
    if(constrainedDevice&&!userReady)onProgress(Math.max(1,Math.round(eagerLoaded/Math.max(1,interactiveChunkCount)*100)));
-   const response=await fetch(resolveModelUrl(compressed?chunk.gzip!:chunk.url),{signal:abort.signal});const buffer=await decodeModelResponse(response,chunk.bytes,compressed);if(disposed)return;
+   let buffer:ArrayBuffer;
+   try{buffer=await fetchChunkBuffer(compressed?chunk.gzip!:chunk.url,chunk.bytes,compressed,15000);}
+   catch(firstError){
+    if(disposed||abort.signal.aborted)throw firstError;
+    const fallbackCompressed=!compressed&&!!chunk.gzip&&typeof DecompressionStream!=='undefined';
+    if(!fallbackCompressed)throw firstError;
+    if(!userReady)onProgress(2);
+    buffer=await fetchChunkBuffer(chunk.gzip!,chunk.bytes,true,20000);
+   }
+   if(disposed)return;
    const groups=new Map<string,T.BufferGeometry[]>();let partOrdinal=0;
    for(const {p,i} of chunkParts[ci]){
     const g=new T.BufferGeometry();g.setAttribute('position',new T.BufferAttribute(new Float32Array(buffer,p.positions,p.vertexCount*3),3));
