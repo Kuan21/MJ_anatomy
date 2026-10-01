@@ -3,6 +3,8 @@ import type {Atlas,Part,PartTransform} from '../anatomy';
 import {createSkeletonRig,type Side} from './skeleton';
 import rawBindings from './tissue-bindings.json';
 import rawNerves from './nerve-bindings.json';
+import rawShoulderAttachments from './shoulder-attachments.json';
+const shoulderAttachments=rawShoulderAttachments.parts as Record<string,{name:string;vertexCount:number;positionHash:number;originFrame:number;weight:number[]}>;
 
 export type Profile='pectoralPath'|'axillaryCable'|'path'|'trunk'|'humeral'|'sheetMuscle'|'deltoid'|'chest'|'cuff'|'biceps'|'triceps'|'arm'|'coraco'|'forearm'|'hand'|'scapular'|'clavicular'|'shoulderJoint'|'elbowJoint'|'wristJoint';
 export interface TissueBinding {name:string;side:Side;profile:Profile}
@@ -179,6 +181,15 @@ export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<numbe
   longitudinal[i]=t;
   const r=p.clone().sub(origin.clone().addScaledVector(restVector,t));radial.set(r.toArray(),i*3);
   belly[i]=['biceps','triceps','arm'].includes(effectiveProfile)?Math.sin(Math.PI*t)**2:0;
+ }
+ // Shoulder attachment patches are fitted against the source bone surfaces.
+ // Surface-geodesic influence replaces the old world-axis weight envelope.
+ const fitted=part?shoulderAttachments[part.id]:undefined;
+ if(fitted&&part?.vertexCount===count){
+  let hash=2166136261;for(let i=0;i<positions.length;i++)hash=Math.imul(hash^Math.round(positions[i]*1e7),16777619);
+  if(fitted.name!==name||fitted.vertexCount!==count||fitted.positionHash!==(hash>>>0))throw new Error(`Shoulder attachment mesh mismatch: ${name}`);
+  indices.fill(0);weights.fill(0);
+  fitted.weight.forEach((w,i)=>{indices[i*4]=w>.5?3:fitted.originFrame;indices[i*4+1]=w>.5?fitted.originFrame:3;weights[i*4]=Math.max(w,1-w);weights[i*4+1]=Math.min(w,1-w);});
  }
  let fan:SkinBinding['fan'];
  if(effectiveProfile==='pectoralPath'){

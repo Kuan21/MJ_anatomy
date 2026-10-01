@@ -1,5 +1,10 @@
 # Upper-limb review, 28 September 2026
 
+Historical note: the shoulder implementation has since changed in the review
+branch. See `shoulder-muscle-candidate-2026-10-01.md` for the latest candidate,
+test results and unresolved release gate. The dated observations below remain
+a record of the earlier candidate, not its current shoulder implementation.
+
 Base: upstream `591d8a8424d9a76aaba8d1d8054e2d95b6f9daa0`.
 
 ## Changes in this candidate
