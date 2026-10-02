@@ -9,7 +9,7 @@
     "dev": "vite --host 0.0.0.0 --port 3016",
     "build": "vite build",
     "build:vercel": "vite build",
-    "check": "tsc --noEmit && node scripts/audit-anatomy.mjs && node scripts/test-region-focus.mjs && node scripts/test-model-loading.mjs && node --experimental-vm-modules scripts/test-scene-loading.mjs && node --experimental-vm-modules scripts/test-scene-loading.mjs --fail",
+    "check": "node scripts/prepare-joints.mjs && tsc --noEmit && node scripts/audit-anatomy.mjs && node scripts/test-region-focus.mjs && node scripts/test-model-loading.mjs && node --experimental-vm-modules scripts/test-scene-loading.mjs && node --experimental-vm-modules scripts/test-scene-loading.mjs --fail",
     "predev": "node scripts/prepare-draco.mjs && node scripts/prepare-brain.mjs && node scripts/prepare-joints.mjs",
     "prebuild": "node scripts/prepare-draco.mjs && node scripts/prepare-brain.mjs && node scripts/prepare-joints.mjs",
     "prebuild:vercel": "node scripts/prepare-draco.mjs && node scripts/prepare-brain.mjs && node scripts/prepare-joints.mjs",
