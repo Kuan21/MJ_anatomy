@@ -20,27 +20,42 @@ export async function decodeModelResponse(response:Response,expectedBytes:number
 }
 
 export async function fetchModelBuffer(url:string,expectedBytes:number,compressed:boolean,signal:AbortSignal,timeoutMs=60000):Promise<ArrayBuffer>{
+ if(signal.aborted)throw signal.reason??new DOMException('Aborted','AbortError');
+ // Only immutable, content-addressed assets enter this cache. Catalogue and
+ // mutable legacy URLs always use HTTP so a deployment can update them.
+ let cache:Cache|undefined;
+ if(expectedBytes>0&&url.includes('/models/stream/')&&typeof caches!=='undefined'){
+  try{cache=await caches.open('mj-anatomy-models-v1');const hit=await cache.match(url);if(hit){const data=await hit.arrayBuffer();if(data.byteLength===expectedBytes)return data;await cache.delete(url);}}catch{cache=undefined;}
+ }
  const controller=new AbortController();let timedOut=false;
  const cancel=()=>controller.abort(signal.reason);
  if(signal.aborted)cancel();else signal.addEventListener('abort',cancel,{once:true});
  const timer=setTimeout(()=>{timedOut=true;controller.abort();},timeoutMs);
- try{return await decodeModelResponse(await fetch(url,{signal:controller.signal}),expectedBytes,compressed);}
+ try{
+  const data=await decodeModelResponse(await fetch(url,{signal:controller.signal}),expectedBytes,compressed);
+  // Persist the validated decoded bytes. Safari can reopen without repeating
+  // the network transfer or gzip work; quota/private-mode failures are benign.
+  if(cache&&!signal.aborted)try{await cache.put(url,new Response(data));}catch{ /* HTTP loading still succeeded. */ }
+  return data;
+ }
  catch(e){if(timedOut)throw new Error('下載逾時，正在保留已載入的組織。');throw e;}
  finally{clearTimeout(timer);signal.removeEventListener('abort',cancel);}
 }
 
 /** One failed package must not cancel the rest of the anatomy. A retry run
  * receives only missing packages, so successful geometry is never duplicated. */
-export async function loadMissingChunks(indices:number[],load:(index:number)=>Promise<void>,signal:AbortSignal,onFailure:(index:number,error:unknown)=>void){
- const failed:number[]=[];
- for(const index of indices){
+export async function loadMissingChunks(indices:number[],load:(index:number)=>Promise<void>,signal:AbortSignal,onFailure:(index:number,error:unknown)=>void,concurrency=2){
+ const failed:number[]=[];let cursor=0;
+ const worker=async()=>{while(cursor<indices.length){
   if(signal.aborted)break;
+  const index=indices[cursor++];
   let error:unknown;
   for(let attempt=0;attempt<2;attempt++){
    try{await load(index);error=undefined;break;}
    catch(e){error=e;if(signal.aborted)break;}
   }
   if(error!==undefined&&!signal.aborted){failed.push(index);onFailure(index,error);}
- }
- return failed;
+ }};
+ await Promise.all(Array.from({length:Math.min(indices.length,Math.max(1,concurrency))},worker));
+ return indices.filter(index=>failed.includes(index));
 }

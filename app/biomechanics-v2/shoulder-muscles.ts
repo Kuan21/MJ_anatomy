@@ -1,5 +1,8 @@
 import {Vector3} from 'three';
 import {makeSurfaceGroup,type SurfaceMember} from './surface-constraints';
+// Coordinates are metres, bounded by the atlas; no overflow-safe hypot is
+// needed in the millions of inner-loop distance calculations.
+const length3=(x:number,y:number,z:number)=>Math.sqrt(x*x+y*y+z*z);
 
 /** Position-based, anisotropic muscle approximation. Distances THROUGH the
  * belly constrain its thickness as well as surface distances. It is not a
@@ -13,7 +16,7 @@ export function makeShoulderMuscles(members:SurfaceMember[],head:Vector3,radius:
   const axis=m.skin.profile==='deltoid'?1:0;
   const add=(a:number,b:number)=>{
    if(a===b)return;const key=a<b?`${a}:${b}`:`${b}:${a}`;if(edges.has(key))return;edges.add(key);
-   const d=Math.hypot(rest[a*3]-rest[b*3],rest[a*3+1]-rest[b*3+1],rest[a*3+2]-rest[b*3+2]);if(d<1e-7)return;
+   const d=length3(rest[a*3]-rest[b*3],rest[a*3+1]-rest[b*3+1],rest[a*3+2]-rest[b*3+2]);if(d<1e-7)return;
    links.push(a,b);lengths.push(d);axial.push(((rest[a*3+axis]-rest[b*3+axis])/d)**2);
   };
   for(let t=0;t<m.triangles.length;t+=3){
@@ -22,7 +25,7 @@ export function makeShoulderMuscles(members:SurfaceMember[],head:Vector3,radius:
    const n=b.sub(a).cross(c.sub(a));
    ids.forEach((id,k)=>{for(let j=0;j<3;j++)normals[id*3+j]+=n.getComponent(j);add(id,ids[(k+1)%3]);});
   }
-  unique.forEach(i=>{const n=Math.hypot(normals[i*3],normals[i*3+1],normals[i*3+2]);if(n>0)for(let c=0;c<3;c++)normals[i*3+c]/=n;});
+  unique.forEach(i=>{const n=length3(normals[i*3],normals[i*3+1],normals[i*3+2]);if(n>0)for(let c=0;c<3;c++)normals[i*3+c]/=n;});
   // Only opposite-facing surfaces within this SAME muscle are joined. Never
   // weld adjacent muscles, blood vessels, nerves or nearby but distinct parts.
   let thicknessLinks=0;
@@ -30,8 +33,9 @@ export function makeShoulderMuscles(members:SurfaceMember[],head:Vector3,radius:
    const candidates:{b:number;d:number}[]=[];
    for(const b of unique){
     if(b===a)continue;
-    const dx=rest[b*3]-rest[a*3],dy=rest[b*3+1]-rest[a*3+1],dz=rest[b*3+2]-rest[a*3+2],d=Math.hypot(dx,dy,dz);
-    if(d<.001||d>.035)continue;
+    const dx=rest[b*3]-rest[a*3],dy=rest[b*3+1]-rest[a*3+1],dz=rest[b*3+2]-rest[a*3+2],d2=dx*dx+dy*dy+dz*dz;
+    if(d2<.001**2||d2>.035**2)continue;
+    const d=Math.sqrt(d2);
     const dot=normals[a*3]*normals[b*3]+normals[a*3+1]*normals[b*3+1]+normals[a*3+2]*normals[b*3+2];
     const inward=(dx*normals[a*3]+dy*normals[a*3+1]+dz*normals[a*3+2])/d;
     if(dot<-.5&&inward<-.5)candidates.push({b,d});
@@ -94,7 +98,7 @@ export function solveShoulderMuscles(model:ReturnType<typeof makeShoulderMuscles
   model.muscles.forEach((m,mi)=>{
    for(let e=pass%2?m.lengths.length-1:0;pass%2?e>=0:e<m.lengths.length;e+=pass%2?-1:1){
     const a=m.links[e*2],b=m.links[e*2+1],ma=mobility[a],mb=mobility[b],sum=ma+mb;if(!sum)continue;
-    const i=a*3,j=b*3,dx=p[j]-p[i],dy=p[j+1]-p[i+1],dz=p[j+2]-p[i+2],length=Math.hypot(dx,dy,dz);if(length<1e-9)continue;
+    const i=a*3,j=b*3,dx=p[j]-p[i],dy=p[j+1]-p[i+1],dz=p[j+2]-p[i+2],length=length3(dx,dy,dz);if(length<1e-9)continue;
     const target=targets[mi][e],error=length>target*1.15?length-target*1.15:length<target*.85?length-target*.85:0;
     if(!error)continue;
     const correction=.8*error/(length*sum);
@@ -106,18 +110,18 @@ export function solveShoulderMuscles(model:ReturnType<typeof makeShoulderMuscles
   // that a surface edge limit (or local thickness links alone) cannot detect.
   for(const m of model.muscles){
    const volume=muscleVolume(p,m.triangles,head,m.gradient);let denominator=0;
-   for(const n of m.unique)if(mobility[n])denominator+=Math.hypot(m.gradient[n*3],m.gradient[n*3+1],m.gradient[n*3+2]);
+   for(const n of m.unique)if(mobility[n])denominator+=length3(m.gradient[n*3],m.gradient[n*3+1],m.gradient[n*3+2]);
    if(denominator<1e-20)continue;
    const lambda=(m.volume-volume)/denominator;
    for(const n of m.unique)if(mobility[n]){
-    const i=n*3,g=Math.max(1e-12,Math.hypot(m.gradient[i],m.gradient[i+1],m.gradient[i+2])),dx=lambda*m.gradient[i]/g,dy=lambda*m.gradient[i+1]/g,dz=lambda*m.gradient[i+2]/g,scale=Math.min(1,.003/Math.max(1e-12,Math.hypot(dx,dy,dz)));
+    const i=n*3,g=Math.max(1e-12,length3(m.gradient[i],m.gradient[i+1],m.gradient[i+2])),dx=lambda*m.gradient[i]/g,dy=lambda*m.gradient[i+1]/g,dz=lambda*m.gradient[i+2]/g,scale=Math.min(1,.003/Math.max(1e-12,length3(dx,dy,dz)));
     p[i]+=dx*scale;p[i+1]+=dy*scale;p[i+2]+=dz*scale;
    }
   }
   // Keep free belly vertices outside the estimated humeral-head surface.
   // Bone-pinned attachments are never displaced by collision correction.
   for(let n=0;n<mobility.length;n++)if(mobility[n]){
-   const i=n*3,dx=p[i]-head.x,dy=p[i+1]-head.y,dz=p[i+2]-head.z,d=Math.hypot(dx,dy,dz),r=model.clearance[n];
+   const i=n*3,dx=p[i]-head.x,dy=p[i+1]-head.y,dz=p[i+2]-head.z,d=length3(dx,dy,dz),r=model.clearance[n];
    if(d<r&&d>1e-9){p[i]=head.x+dx*r/d;p[i+1]=head.y+dy*r/d;p[i+2]=head.z+dz*r/d;}
   }
  }
@@ -127,13 +131,13 @@ export function solveShoulderMuscles(model:ReturnType<typeof makeShoulderMuscles
  for(let pass=0;pass<80;pass++){
  for(let e=0;e<lengths.length;e++){
   const a=edges[e*2],b=edges[e*2+1],ma=mobility[a],mb=mobility[b],sum=ma+mb;if(!sum)continue;
-  const i=a*3,j=b*3,dx=p[j]-p[i],dy=p[j+1]-p[i+1],dz=p[j+2]-p[i+2],length=Math.hypot(dx,dy,dz),max=lengths[e]*2;
+  const i=a*3,j=b*3,dx=p[j]-p[i],dy=p[j+1]-p[i+1],dz=p[j+2]-p[i+2],length=length3(dx,dy,dz),max=lengths[e]*2;
   if(length<=max)continue;const correction=(length-max)/(length*sum);
   p[i]+=dx*correction*ma;p[i+1]+=dy*correction*ma;p[i+2]+=dz*correction*ma;
   p[j]-=dx*correction*mb;p[j+1]-=dy*correction*mb;p[j+2]-=dz*correction*mb;
  }
  for(let n=0;n<mobility.length;n++)if(mobility[n]){
-  const i=n*3,dx=p[i]-head.x,dy=p[i+1]-head.y,dz=p[i+2]-head.z,d=Math.hypot(dx,dy,dz),r=model.clearance[n];
+  const i=n*3,dx=p[i]-head.x,dy=p[i+1]-head.y,dz=p[i+2]-head.z,d=length3(dx,dy,dz),r=model.clearance[n];
   if(d<r&&d>1e-9){p[i]=head.x+dx*r/d;p[i+1]=head.y+dy*r/d;p[i+2]=head.z+dz*r/d;}
  }
  }

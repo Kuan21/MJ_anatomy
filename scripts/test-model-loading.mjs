@@ -25,6 +25,19 @@ const realFetch=globalThis.fetch;
 globalThis.fetch=async(_url,{signal})=>new Promise((_,reject)=>{if(signal.aborted)reject(new DOMException('Aborted','AbortError'));else signal.addEventListener('abort',()=>reject(new DOMException('Aborted','AbortError')),{once:true});});
 await assert.rejects(fetchModelBuffer('test',8,false,signal,10),/下載逾時/);
 globalThis.fetch=realFetch;
+// Bound concurrency while still downloading later packages behind a slow one.
+let active=0,peak=0;
+await loadMissingChunks([0,1,2,3,4],async()=>{active++;peak=Math.max(peak,active);await new Promise(r=>setTimeout(r,2));active--;},signal,()=>assert.fail('unexpected failure'),2);
+assert.equal(peak,2);
+const cacheEntries=new Map();let networkCalls=0;
+globalThis.caches={async open(){return{match:async url=>cacheEntries.get(url)?.clone(),put:async(url,response)=>cacheEntries.set(url,response),delete:async url=>cacheEntries.delete(url)};}};
+globalThis.fetch=async()=>{networkCalls++;return new Response(gz);};
+const immutable='/models/stream/test-immutable.bin.gz';
+assert.deepEqual(new Uint8Array(await fetchModelBuffer(immutable,8,true,signal)),data);
+assert.deepEqual(new Uint8Array(await fetchModelBuffer(immutable,8,true,signal)),data);assert.equal(networkCalls,1,'reopen uses validated persistent bytes');
+cacheEntries.set(immutable,new Response(new Uint8Array(2)));
+await fetchModelBuffer(immutable,8,true,signal);assert.equal(networkCalls,2,'incomplete cache repaired');
+delete globalThis.caches;globalThis.fetch=realFetch;
 const atlas=JSON.parse(fs.readFileSync(new URL('../public/models/atlas.json',import.meta.url),'utf8'));
 for(const chunk of atlas.chunks){
  const raw=fs.readFileSync(new URL(`../public${chunk.url}`,import.meta.url));
@@ -32,4 +45,16 @@ for(const chunk of atlas.chunks){
  const zipped=fs.readFileSync(new URL(`../public${chunk.gzip}`,import.meta.url));
  assert.deepEqual(Buffer.from(await decodeModelResponse(new Response(zipped),chunk.bytes,true)),raw);
 }
-console.log('PASS: all 15 anatomy packages, streaming gzip, decoded HTTP, split headers, failure isolation, resume and timeout.');
+const streamed=JSON.parse(fs.readFileSync(new URL('../public/models/atlas-stream.json',import.meta.url),'utf8'));
+const sourceBuffers=atlas.chunks.map(c=>fs.readFileSync(new URL(`../public${c.url}`,import.meta.url)));
+const delivered=[];
+for(const chunk of streamed.chunks){
+ const raw=fs.readFileSync(new URL(`../public${chunk.url}`,import.meta.url)),zipped=fs.readFileSync(new URL(`../public${chunk.gzip}`,import.meta.url));
+ assert.deepEqual(Buffer.from(await decodeModelResponse(new Response(zipped),chunk.bytes,true)),raw);delivered.push(raw);
+}
+assert.equal(streamed.parts.length,atlas.parts.length);
+for(let i=0;i<atlas.parts.length;i++){
+ const before=atlas.parts[i],after=streamed.parts[i];assert.equal(after.id,before.id);assert.equal(after.vertexCount,before.vertexCount);assert.equal(after.indexCount,before.indexCount);
+ for(const [key,length] of [['positions',before.vertexCount*12],['normals',before.vertexCount*6],['indices',before.indexCount*4]])assert.deepEqual(delivered[after.chunk].subarray(after[key],after[key]+length),sourceBuffers[before.chunk].subarray(before[key],before[key]+length),`${before.name}: unchanged ${key}`);
+}
+console.log(`PASS: 15 source / ${streamed.chunks.length} immutable packages, all ${atlas.parts.length} tissues byte-identical, bounded downloads, persistent cache, gzip, failure isolation, resume and timeout.`);
