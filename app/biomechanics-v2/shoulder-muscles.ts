@@ -103,6 +103,18 @@ export function solveShoulderMuscles(model:ReturnType<typeof makeShoulderMuscles
   const stretch=m.proximal.length&&m.distal.length?Math.max(.5,Math.min(2,length/Math.max(1e-6,m.restLength))):1;
   return m.lengths.map((length,i)=>length*Math.sqrt(m.axial[i]*stretch*stretch+(1-m.axial[i])/stretch));
  });
+ const preserveVolume=()=>{
+  for(const m of model.muscles){
+   const volume=muscleVolume(p,m.triangles,head,m.gradient);let denominator=0;
+   for(const n of m.unique)if(mobility[n])denominator+=length3(m.gradient[n*3],m.gradient[n*3+1],m.gradient[n*3+2]);
+   if(denominator<1e-20)continue;
+   const lambda=(m.volume-volume)/denominator;
+   for(const n of m.unique)if(mobility[n]){
+    const i=n*3,g=Math.max(1e-12,length3(m.gradient[i],m.gradient[i+1],m.gradient[i+2])),dx=lambda*m.gradient[i]/g,dy=lambda*m.gradient[i+1]/g,dz=lambda*m.gradient[i+2]/g,scale=Math.min(1,.003/Math.max(1e-12,length3(dx,dy,dz)));
+    p[i]+=dx*scale;p[i+1]+=dy*scale;p[i+2]+=dz*scale;
+   }
+  }
+ };
  for(let pass=0;pass<passes;pass++){
   model.muscles.forEach((m,mi)=>{
    for(let e=pass%2?m.lengths.length-1:0;pass%2?e>=0:e<m.lengths.length;e+=pass%2?-1:1){
@@ -117,16 +129,7 @@ export function solveShoulderMuscles(model:ReturnType<typeof makeShoulderMuscles
   });
   // Bulk-volume preservation prevents the folded/flattened sheet failure
   // that a surface edge limit (or local thickness links alone) cannot detect.
-  for(const m of model.muscles){
-   const volume=muscleVolume(p,m.triangles,head,m.gradient);let denominator=0;
-   for(const n of m.unique)if(mobility[n])denominator+=length3(m.gradient[n*3],m.gradient[n*3+1],m.gradient[n*3+2]);
-   if(denominator<1e-20)continue;
-   const lambda=(m.volume-volume)/denominator;
-   for(const n of m.unique)if(mobility[n]){
-    const i=n*3,g=Math.max(1e-12,length3(m.gradient[i],m.gradient[i+1],m.gradient[i+2])),dx=lambda*m.gradient[i]/g,dy=lambda*m.gradient[i+1]/g,dz=lambda*m.gradient[i+2]/g,scale=Math.min(1,.003/Math.max(1e-12,length3(dx,dy,dz)));
-    p[i]+=dx*scale;p[i+1]+=dy*scale;p[i+2]+=dz*scale;
-   }
-  }
+  preserveVolume();
   // Keep free belly vertices outside the estimated humeral-head surface.
   // Bone-pinned attachments are never displaced by collision correction.
   for(let n=0;n<mobility.length;n++)if(mobility[n]){
@@ -145,6 +148,9 @@ export function solveShoulderMuscles(model:ReturnType<typeof makeShoulderMuscles
   p[i]+=dx*correction*ma;p[i+1]+=dy*correction*ma;p[i+2]+=dz*correction*ma;
   p[j]-=dx*correction*mb;p[j+1]-=dy*correction*mb;p[j+2]-=dz*correction*mb;
  }
+ // The edge guard must not flatten away the volume just solved above.
+ // Alternate both constraints; attachment mobility remains zero throughout.
+ preserveVolume();
  for(let n=0;n<mobility.length;n++)if(mobility[n]){
   const i=n*3,dx=p[i]-head.x,dy=p[i+1]-head.y,dz=p[i+2]-head.z,d=length3(dx,dy,dz),r=model.clearance[n];
   if(d<r&&d>1e-9){p[i]=head.x+dx*r/d;p[i+1]=head.y+dy*r/d;p[i+2]=head.z+dz*r/d;}
