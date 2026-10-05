@@ -13,11 +13,10 @@ export function makeShoulderMuscles(members:SurfaceMember[],head:Vector3,radius:
  const muscles=members.map((m,member)=>{
   const map=group.maps[member],unique=[...new Set(map)],normals=new Float64Array(rest.length),edges=new Set<string>();
   const links:number[]=[],lengths:number[]=[],axial:number[]=[];
-  const axis=m.skin.profile==='deltoid'?1:0;
   const add=(a:number,b:number)=>{
    if(a===b)return;const key=a<b?`${a}:${b}`:`${b}:${a}`;if(edges.has(key))return;edges.add(key);
    const d=length3(rest[a*3]-rest[b*3],rest[a*3+1]-rest[b*3+1],rest[a*3+2]-rest[b*3+2]);if(d<1e-7)return;
-   links.push(a,b);lengths.push(d);axial.push(((rest[a*3+axis]-rest[b*3+axis])/d)**2);
+   links.push(a,b);lengths.push(d);
   };
   for(let t=0;t<m.triangles.length;t+=3){
    const ids=[map[m.triangles[t]],map[m.triangles[t+1]],map[m.triangles[t+2]]];
@@ -50,6 +49,16 @@ export function makeShoulderMuscles(members:SurfaceMember[],head:Vector3,radius:
   }
   const centroid=(ids:number[],p:Float32Array)=>{const v=new Vector3();for(const i of ids)v.add(new Vector3().fromArray(p,i*3));return v.multiplyScalar(1/Math.max(1,ids.length));};
   const a=centroid(proximal,rest),b=centroid(distal,rest);
+  // Derive longitudinal strain from this muscle's own attachments, not a
+  // world X/Y axis. This remains an estimated bulk fibre direction, not
+  // measured fascicles. Without two distinct anchors, use no directional bias.
+  const direction=b.clone().sub(a),hasAxis=proximal.length>0&&distal.length>0&&direction.lengthSq()>1e-12;
+  direction.normalize();
+  for(let e=0;e<lengths.length;e++){
+   const i=links[e*2]*3,j=links[e*2+1]*3;
+   const projection=((rest[j]-rest[i])*direction.x+(rest[j+1]-rest[i+1])*direction.y+(rest[j+2]-rest[i+2])*direction.z)/lengths[e];
+   axial.push(hasAxis?Math.min(1,projection*projection):1/3);
+  }
   const triangles=Uint32Array.from(m.triangles,i=>map[i]);
   return{links:new Uint32Array(links),lengths:new Float32Array(lengths),axial:new Float32Array(axial),thicknessLinks,proximal,distal,centroid,restLength:wrappedLength(a,b,head,radius),triangles,volume:muscleVolume(rest,triangles,head),gradient:new Float64Array(rest.length),unique};
  });

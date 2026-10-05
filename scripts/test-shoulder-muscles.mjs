@@ -10,6 +10,18 @@ for(const name of ['surface-constraints','shoulder-muscles']){
  await writeFile(new URL(`${name}.mjs`,tmp),ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText);
 }
 const muscles=await import(new URL('shoulder-muscles.mjs',tmp)),soft=await import(new URL('soft-tissue.mjs',tmp)),motion=await import(new URL('mj-motion.mjs',tmp));
+// Longitudinal behaviour belongs to the attachments, not world X or Y.
+{
+ const base=new Float32Array([0,0,0,.02,.04,.01,.01,.01,.02,-.01,.02,.01]);
+ const rotated=base.slice();for(let i=0;i<base.length;i+=3){rotated[i]=-base[i+1];rotated[i+1]=base[i];}
+ const skin={profile:'cuff',indices:new Uint8Array([2,0,0,0,3,0,0,0,2,3,0,0,2,3,0,0]),weights:new Float32Array([1,0,0,0,1,0,0,0,.5,.5,0,0,.5,.5,0,0])};
+ const make=p=>muscles.makeShoulderMuscles([{base:p,positions:p.slice(),skin,triangles:new Uint32Array([0,2,1,0,1,3,0,3,2,1,2,3])}],new Vector3(),0).muscles[0];
+ const a=make(base),b=make(rotated);
+ assert.deepEqual(a.links,b.links);
+ for(let i=0;i<a.axial.length;i++)assert.ok(Math.abs(a.axial[i]-b.axial[i])<1e-6,'Fibre direction changed under rigid coordinate rotation');
+ assert.ok(a.axial.some(v=>v>.999),'Attachment-to-attachment link must be longitudinal');
+ console.log('Attachment-derived strain: rigid-coordinate rotation invariance PASS');
+}
 const raw=JSON.parse(await readFile(new URL('public/models/atlas.json',root),'utf8'));
 const {normalizeAtlasSystems}=await import(new URL('mj-system-classifier.mjs',tmp));
 const atlas=normalizeAtlasSystems(raw),landmarks=JSON.parse(await readFile(new URL('app/biomechanics-v2/shoulder-landmarks.json',root),'utf8'));
