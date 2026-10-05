@@ -125,10 +125,15 @@ export function weightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''
  if(profile==='hand')return pair(6,6,1);
  if(profile==='clavicular')return pair(0,1,smooth(lateral));
  if(profile==='scapular'){
+  // Pectoralis minor runs from inferior rib origins to the superior
+  // coracoid attachment. Its narrow X extent is not its fibre direction.
+  if(/pectoralis minor/i.test(name))return pair(0,2,range(1-down,.05,.95));
   // Serratus wraps from anterior/lateral ribs to the POSTERIOR medial
   // scapular border. A lateral-X envelope reverses these attachments.
   if(/serratus anterior/i.test(name))return pair(0,2,range(box.max.z-p.z,size.z*.25,size.z*.90));
-  return pair(0,2,range(lateral,.35,.95));
+  // Distribute extension over the full medial-to-lateral span rather than
+  // concentrating it in a narrow smoothstep band in the muscle belly.
+  return pair(0,2,lateral);
  }
  if(profile==='chest')return pair(name.toLowerCase().includes('clavicular')?1:0,3,range(lateral,.72,.98));
  if(profile==='cuff')return pair(2,3,range(lateral,.30,.95));
