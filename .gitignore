@@ -57,3 +57,4 @@ next-env.d.ts
 # Lossless, content-addressed delivery packages generated from the source atlas
 /public/models/stream/
 /public/models/atlas-stream.json*
+/public/models/nerve-stream.json

@@ -23,6 +23,7 @@ import {makeSurfaceConstraints,constrainSurface} from './biomechanics-v2/surface
 import {makeShoulderMuscles,solveShoulderMuscles} from './biomechanics-v2/shoulder-muscles';
 import shoulderLandmarks from './biomechanics-v2/shoulder-landmarks.json';
 import bodyNerveData from './biomechanics-v2/body-nerve-bindings.json';
+import {nerveChunkScene,type NerveCatalogue} from './nerve-stream';
 const bodyNerveBindings=bodyNerveData as Record<string,BodyRegion>;
 export interface AnatomyLoadStatus {loaded:number;total:number;systems:Record<string,number>;failed:string[];busy:boolean;interactive:boolean;supplementaryPending:number}
 interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;onSelectNerve?:(name:string)=>void;onProgress:(n:number)=>void;onLoadStatus?:(status:AnatomyLoadStatus)=>void;retryNonce?:number;onError:(s:string)=>void;onJointDrag?:(side:'left'|'right',joint:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion',delta:number)=>void;region?:'whole-body'|'shoulder'|'arm'|'forearm'|'hand';focusSide?:'both'|'left'|'right';motionActive?:boolean;jointMotionEnabled?:boolean;selectedExternalNerve?:string|null;bodyArea?:'whole'|'upper'|'lower'|'head'|'organs'}
@@ -39,7 +40,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   const constrainedDevice=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)||coarseTouchDevice||(deviceNavigator.deviceMemory??8)<=4;
   const cooperativeYield=()=>new Promise<void>(resolve=>setTimeout(resolve,0));
   let reportLoading=()=>{},supplementaryPending=0;
-  type SupplementaryTask={task:()=>Promise<void>;onFailure:()=>void};
+  type SupplementaryTask={task:()=>Promise<void>;onFailure:()=>void;label:string};
   const failedSupplementary:SupplementaryTask[]=[];
   let renderer:T.WebGLRenderer;
   try{renderer=new T.WebGLRenderer({antialias:!constrainedDevice,alpha:false,powerPreference:'high-performance'});}catch{onError('This browser could not start the 3D viewer. Please try a browser with WebGL enabled.');return;}
@@ -64,13 +65,13 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   let releaseSupplementaryAssets=()=>{};
   const supplementaryAssetsReady=new Promise<void>(resolve=>{releaseSupplementaryAssets=resolve;});
   let supplementaryTail:Promise<void>=supplementaryAssetsReady;
-  const scheduleSupplementary=(task:()=>Promise<void>,onFailure:()=>void)=>{
+  const scheduleSupplementary=(task:()=>Promise<void>,onFailure:()=>void,label='補充組織')=>{
    supplementaryPending++;reportLoading();
    supplementaryTail=supplementaryTail.then(async()=>{
     if(disposed)return;
     let error:unknown;
     for(let attempt=0;attempt<2;attempt++){try{await task();error=undefined;break;}catch(e){error=e;if(disposed)return;}}
-    if(error!==undefined){failedSupplementary.push({task,onFailure});console.warn('Supplementary anatomy unavailable',error);}
+    if(error!==undefined){failedSupplementary.push({task,onFailure,label});console.warn(label+' unavailable',error);}
     supplementaryPending--;lastState=null;dirty=true;reportLoading();await cooperativeYield();
    });
   };
@@ -108,7 +109,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    void fetchModelBuffer(url,0,false,abort.signal).then(buffer=>gltfLoader.parseAsync(buffer,`${import.meta.env.BASE_URL}models/`)).then(gltf=>{if(!disposed)onLoad(gltf);}).catch(onFailure);
   }};
   scheduleSupplementary(()=>new Promise<void>((resolve,reject)=>loader.load(`${import.meta.env.BASE_URL}models/joints.glb`,gltf=>{if(!disposed){supplementaryJoints.add(gltf.scene);supplementaryJoints.update(latest.current,amount);dirty=true;}resolve();},undefined,reject)),()=>onError('關節組織模型載入失敗，請重新整理。'));
-  scheduleSupplementary(()=>new Promise<void>((resolve,reject)=>loader.load(`${import.meta.env.BASE_URL}models/nervous.glb`,gltf=>{if(disposed){resolve();return;}gltf.scene.updateMatrixWorld(true);gltf.scene.traverse(o=>{if(!(o instanceof T.Mesh))return;
+  const installNerves=(root:T.Group)=>{if(disposed)return;root.updateMatrixWorld(true);root.traverse(o=>{if(!(o instanceof T.Mesh))return;
     const exactName=meshSourceName(o)||'',fullName=nerveName(o);
     // The source GLB contains a freestanding 3-D title at x≈-0.81. Remove it
     // deterministically, and never import central-nervous-system meshes from
@@ -125,7 +126,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     // Some legacy CNS children have no useful anatomical node label. Reject
     // broad intracranial sheets by geometry as well, while retaining slender
     // cranial/peripheral nerves. The integrated brain model owns this volume.
-    if(geoCenter.y>1.46&&Math.abs(geoCenter.x)<.22&&!cranialNerveLike&&!spinalCordLike&&(geoSize.x>.028||geoSize.z>.028))return;
+    if(!nerveBindings[exactName]&&!bodyNerveBindings[exactName]&&geoCenter.y>1.46&&Math.abs(geoCenter.x)<.22&&!cranialNerveLike&&!spinalCordLike&&(geoSize.x>.028||geoSize.z>.028))return;
     geometry.boundingSphere=new T.Sphere(new T.Vector3(0,.9,0),2.5);const position=geometry.getAttribute('position');if(!position)return;const material=new T.MeshStandardMaterial({color:spinalCordLike?0xe8d9b8:0xf1cb4f,metalness:0,roughness:.42,emissive:spinalCordLike?0x493f2d:0x6b5100,emissiveIntensity:spinalCordLike?.10:.28,depthTest:true,depthWrite:true,transparent:false,opacity:1});geometry.computeBoundingBox();const nerveCenter=geometry.boundingBox?.getCenter(new T.Vector3())??new T.Vector3();
     const binding=nerveBindings[exactName];
     const mesh=new T.Mesh(geometry,material);mesh.name=exactName||fullName;mesh.frustumCulled=false;mesh.renderOrder=0;
@@ -139,7 +140,17 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     if(spinalCordLike)mesh.userData.spineSkin=bindBodyTissue(bodyRigs.spine,mesh.userData.basePositions,false);
     else if(binding||bodyRegion==='head')mesh.userData.spineSkin=bindBodyTissue(bodyRigs.spine,mesh.userData.basePositions,true);
     nerveRoot.add(mesh);nerveMeshes.push(mesh);
-   });lastState=null;dirty=true;resolve();},undefined,reject)),()=>{if(!disposed)console.warn('Could not load legacy nervous system model');});
+   });lastState=null;dirty=true;};
+  // Keep successful nerve packages when another one fails. No browser Draco
+  // worker or monolithic GLB decode is needed for the peripheral nerve layer.
+  scheduleSupplementary(async()=>{
+   const catalogue=await fetchSupplementaryJson('nerve-stream.json') as NerveCatalogue;
+   catalogue.chunks.forEach((chunk,i)=>scheduleSupplementary(async()=>{
+    const bytes=await fetchModelBuffer(`${import.meta.env.BASE_URL}${chunk.url.replace(/^\//,'')}`,chunk.bytes,true,abort.signal);
+    const group=nerveChunkScene(chunk,bytes);
+    try{installNerves(group);}finally{group.traverse(o=>{if(o instanceof T.Mesh){o.geometry.dispose();const materials=Array.isArray(o.material)?o.material:[o.material];materials.forEach(m=>m.dispose());}});}
+   },()=>{},`周邊神經 ${i+1}/${catalogue.chunks.length}`));
+  },()=>{},'周邊神經目錄');
   // The pinned Brain Project asset ships with the site. No runtime CDN or
   // silent model substitution: a failed load is reported to the user.
   const brainMotionRoot=new T.Group(),brainVisualRoot=new T.Group(),brainPickers:T.Mesh[]=[];
@@ -367,7 +378,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    const loadedParts=atlas.parts.filter(p=>loadedChunks.has(p.chunk)),primaryCount=loadedParts.filter(p=>requestedChunks.has(p.chunk)).length;
    const totalPrimary=atlas.parts.filter(p=>requestedChunks.has(p.chunk)).length;
    const systems:Record<string,number>={};loadedParts.forEach(p=>{systems[p.system]=(systems[p.system]??0)+1;});
-   const failed=[...failedChunks.values(),...failedSupplementary.map((_,i)=>`補充組織 ${i+1} 未完成`)];
+   const failed=[...failedChunks.values(),...failedSupplementary.map(item=>`${item.label} 未完成`)];
    const complete=primaryCount===totalPrimary&&supplementaryPending===0&&failed.length===0;
    onProgress(complete?100:Math.min(99,Math.floor(primaryCount/Math.max(1,totalPrimary)*95)));
    onLoadStatus?.({loaded:primaryCount,total:totalPrimary,systems,failed,busy:loadBusy||supplementaryPending>0,interactive:ready,supplementaryPending});
@@ -496,7 +507,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    primaryAtlasReady=orderedChunks.every(ci=>loadedChunks.has(ci));
    if(!supplementaryReleased){supplementaryReleased=true;releaseSupplementaryAssets();}
    // Failed packages are retried independently; success never gets discarded.
-   const retryTasks=failedSupplementary.splice(0);retryTasks.forEach(({task,onFailure})=>scheduleSupplementary(task,onFailure));
+   const retryTasks=failedSupplementary.splice(0);retryTasks.forEach(({task,onFailure,label})=>scheduleSupplementary(task,onFailure,label));
    await supplementaryTail;
    loadBusy=false;reportLoading();dirty=true;
    // A head request can arrive while the baseline is downloading. Finish

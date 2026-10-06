@@ -31,6 +31,9 @@ class Room extends THREE.Scene{dispose(){}}
 class Draco{setDecoderPath(){}setWorkerLimit(){}dispose(){}}
 class Gltf{setDRACOLoader(){}async parseAsync(){return{scene:new THREE.Group()};}}
 const requests=[],failedPath='/models/body-14.bin',failOnce=process.argv.includes('--fail');
+const nerveFail=process.argv.includes('--nerve-fail');
+const nerveCatalogue=JSON.parse(fs.readFileSync(path.join(root,'public/models/nerve-stream.json'),'utf8'));
+const failedNervePath=nerveCatalogue.chunks[0].url;
 globalThis.window=globalThis;globalThis.document={createElement:element,querySelector(){return null;}};
 Object.defineProperty(globalThis,'navigator',{value:{userAgent:'masked WKWebView',platform:'unknown',maxTouchPoints:5},configurable:true});
 globalThis.matchMedia=()=>({matches:true});globalThis.devicePixelRatio=2;globalThis.innerWidth=1024;
@@ -39,6 +42,7 @@ globalThis.requestAnimationFrame=fn=>{nextFrame=fn;return 1;};globalThis.cancelA
 globalThis.fetch=async url=>{
  requests.push(String(url));
  if(failOnce&&!retryAvailable&&String(url).replace(/\.gz$/,'')===failedPath)return new Response('offline',{status:503});
+ if(nerveFail&&!retryAvailable&&String(url)===failedNervePath)return new Response('offline',{status:503});
  const file=path.join(root,'public',String(url));
  return fs.existsSync(file)?new Response(fs.readFileSync(file)):new Response('missing',{status:404});
 };
@@ -91,7 +95,21 @@ if(failOnce){
  const resumed=await done;assert.equal(resumed.loaded,atlas.parts.length);assert.equal(resumed.failed.length,0);
  for(const [url,count] of counts)if(!url.includes('body-14'))assert.equal(requests.filter(x=>x===url).length,count,'retry duplicated successful package');
 }
+if(nerveFail){
+ assert.equal(first.failed.length,1);assert.match(first.failed[0],/周邊神經/);
+ const installed=[];scene.traverse(o=>{if(o.userData.mjNerve)installed.push(o);});
+ assert.ok(installed.length>100,'One failed package must not remove the other nerves');
+ const counts=new Map(requests.map(url=>[url,requests.filter(x=>x===url).length]));
+ retryAvailable=true;done=new Promise(resolve=>{resolveDone=resolve;});refCursor=0;
+ main.namespace.default({...props,retryNonce:1});effects[1]();effects=[];await done;
+ for(const [url,count] of counts)if(url!==failedNervePath)assert.equal(requests.filter(x=>x===url).length,count,'Nerve retry fetched an already successful package');
+ for(const mesh of installed)assert.ok(mesh.parent,'Retry removed a successfully installed nerve');
+}
 const final=statuses.at(-1);assert.equal(final.loaded,atlas.parts.length);assert.equal(final.failed.length,0);assert.equal(progress.at(-1),100);
+const nerveNames=[];scene.traverse(o=>{if(o.userData.mjNerve)nerveNames.push(o.userData.mjExactName);});
+const exactBindings=JSON.parse(fs.readFileSync(path.join(root,'app/biomechanics-v2/nerve-bindings.json'),'utf8'));
+for(const name of Object.keys(exactBindings))assert.equal(nerveNames.filter(n=>n===name).length,1,'Missing or duplicated nerve in actual scene: '+name);
+assert.ok(!requests.some(url=>url.endsWith('/nervous.glb')),'Nerve rendering must not depend on browser GLB/Draco decode');
 for(const system of state.visible){const expected=atlas.parts.filter(p=>p.system===system).length;assert.equal(final.systems[system],expected,`${system} complete`);}
 const rendered=new Set();scene.traverse(o=>{const a=o.geometry?.getAttribute('partIndex');if(a)for(const value of a.array)rendered.add(value);});
 assert.equal(rendered.size,atlas.parts.length,'all catalogue parts have assembled scene geometry');
