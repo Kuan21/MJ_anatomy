@@ -32,9 +32,10 @@ export function resolveMuscleProfile(name:string,fallback:Profile):Profile{
 }
 // Common frame palette: trunk, clavicle, scapula, humerus, ulna, radius, hand.
 export const FRAMES=['root','clavicle','scapula','humerus','ulna','radius','hand'] as const;
-export interface SoftRig {side:Side;ids:(string|undefined)[];shoulder:Vector3;elbow:Vector3;wrist:Vector3;groups:Record<string,Box3>;radius:Vector3;ulna:Vector3;handTipY:number;digitalLandmarks:{source:Vector3;target:Vector3}[]}
+export interface ThoraxWrap {centerZ:number;radiusX:number;radiusZ:number}
+export interface SoftRig {side:Side;ids:(string|undefined)[];shoulder:Vector3;elbow:Vector3;wrist:Vector3;groups:Record<string,Box3>;radius:Vector3;ulna:Vector3;thorax:ThoraxWrap;handTipY:number;digitalLandmarks:{source:Vector3;target:Vector3}[]}
 export interface FibreGuide {centres:Vector3[];indices:Uint8Array;weights:Float32Array;coordinates:Float32Array;axis:Vector3;origin:Vector3;length:number}
-export interface SkinBinding {fibre?:FibreGuide;indices:Uint8Array;weights:Float32Array;belly:Float32Array;radial:Float32Array;longitudinal?:Float32Array;restAxis?:Vector3;sheetOriginFrame?:number;origin:Vector3;insertion:Vector3;originWeights:number[];insertionWeights:number[];restLength:number;profile:Profile;fan?:{originFrame:number;insertionFrame:number;tip:Vector3;minX:number;spanX:number}}
+export interface SkinBinding {wrap?:ThoraxWrap;fibre?:FibreGuide;indices:Uint8Array;weights:Float32Array;belly:Float32Array;radial:Float32Array;longitudinal?:Float32Array;restAxis?:Vector3;sheetOriginFrame?:number;origin:Vector3;insertion:Vector3;originWeights:number[];insertionWeights:number[];restLength:number;profile:Profile;fan?:{originFrame:number;insertionFrame:number;tip:Vector3;minX:number;spanX:number}}
 export function makeSoftRig(atlas:Atlas,side:Side):SoftRig|null{
  const rig=createSkeletonRig(atlas,side);if(!rig.valid)return null;
  const node=(id:string)=>rig.nodes.find(n=>n.id===id)!;
@@ -46,7 +47,9 @@ export function makeSoftRig(atlas:Atlas,side:Side):SoftRig|null{
  const sourceTips=[[.23294473,.72658675,.07827127],[.2544531,.7137407,.08966618],[.28421846,.70268024,.09161239],[.31737652,.71126334,.08250995],[.32835086,.77373981,.06288589]];
  const fingers=['little finger','ring finger','middle finger','index finger','thumb'],sign=side==='left'?1:-1;
  const digitalLandmarks=fingers.map((finger,i)=>{const p=atlas.parts.find(p=>p.name===`Distal phalanx of ${side} ${finger}`);if(!p)throw new Error(`Missing distal landmark: ${side} ${finger}`);return{source:new Vector3(sign*sourceTips[i][0],sourceTips[i][1],sourceTips[i][2]),target:new Vector3((p.bounds[0][0]+p.bounds[1][0])*.5,p.bounds[0][1]-.001,p.bounds[1][2]-.002)};});
- return{side,digitalLandmarks,ids:[undefined,...['clavicle','scapula','humerus','ulna','radius','hand'].map(id=>node(id).partIds[0])],shoulder:node('humerus').pivot.clone(),elbow:node('ulna').pivot.clone(),wrist:node('carpus').pivot.clone(),groups,handTipY:Math.min(...atlas.parts.filter(p=>node('hand').partIds.includes(p.id)).map(p=>p.bounds[0][1])),radius:center('radius'),ulna:center('ulna')};
+ const ribs=new Box3();for(const p of atlas.parts)if(p.system==='skeletal'&&/ rib$/i.test(p.name))ribs.union(new Box3(new Vector3().fromArray(p.bounds[0]),new Vector3().fromArray(p.bounds[1])));
+ const thorax={centerZ:(ribs.min.z+ribs.max.z)/2,radiusX:Math.max(Math.abs(ribs.min.x),Math.abs(ribs.max.x)),radiusZ:(ribs.max.z-ribs.min.z)/2};
+ return{side,digitalLandmarks,thorax,ids:[undefined,...['clavicle','scapula','humerus','ulna','radius','hand'].map(id=>node(id).partIds[0])],shoulder:node('humerus').pivot.clone(),elbow:node('ulna').pivot.clone(),wrist:node('carpus').pivot.clone(),groups,handTipY:Math.min(...atlas.parts.filter(p=>node('hand').partIds.includes(p.id)).map(p=>p.bounds[0][1])),radius:center('radius'),ulna:center('ulna')};
 }
 const clamp=(x:number)=>Math.max(0,Math.min(1,x));
 const smooth=(x:number)=>{x=clamp(x);return x*x*(3-2*x);};
@@ -215,7 +218,8 @@ export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<numbe
  }
  const fibre=part?.system==='muscular'&&['biceps','triceps','arm'].includes(effectiveProfile)?bindFibreGuide(rig,effectiveProfile,positions,box,name):undefined;
  const sheetOriginFrame=effectiveProfile==='sheetMuscle'&&/clavicular part/i.test(name)?1:effectiveProfile==='sheetMuscle'?0:undefined;
- return{fibre,indices,weights,belly,radial,longitudinal,restAxis,sheetOriginFrame,fan,origin,insertion,originWeights:weightsAt(rig,effectiveProfile,origin,box,name),insertionWeights:weightsAt(rig,effectiveProfile,insertion,box,name),restLength,profile:effectiveProfile};
+ const wrap=fitted&&/serratus anterior/i.test(name)?rig.thorax:undefined;
+ return{wrap,fibre,indices,weights,belly,radial,longitudinal,restAxis,sheetOriginFrame,fan,origin,insertion,originWeights:weightsAt(rig,effectiveProfile,origin,box,name),insertionWeights:weightsAt(rig,effectiveProfile,insertion,box,name),restLength,profile:effectiveProfile};
 }
 export type Palette=Float64Array;
 export function makePalette(rig:SoftRig,transforms:Record<string,PartTransform>):Palette{
@@ -255,6 +259,25 @@ export function deformPoint(p:Vector3,weights:number[],palette:Palette):Vector3{
  blended(palette,pairs.map(p=>p.i),pairs.map(p=>p.w/sum),0,q);transform(p.x,p.y,p.z,q,v,0);return new Vector3(...v);
 }
 export function deformTissue(binding:SkinBinding,base:Float32Array,palette:Palette,out:Float32Array):number{
+ if(binding.wrap){
+  // Follow the chest circumference, not a quaternion arc about the AC joint.
+  // Preserve source radial detail and exact rib/scapular attachment patches.
+  // This is a geometric wrap guide, not a collision or force simulation.
+  const wrap=binding.wrap,scapula=palette.subarray(16,24),target=new Float64Array(3);
+  if(scapula[0]===0&&scapula[1]===0&&scapula[2]===0&&Math.abs(scapula[3])===1&&scapula.subarray(4).every(v=>v===0)){out.set(base);return 1;}
+  for(let i=0;i<base.length/3;i++){
+   const j=i*3;let t=0;for(let k=0;k<4;k++)if(binding.indices[i*4+k]===2)t+=binding.weights[i*4+k];
+   if(t===0){out.set(base.subarray(j,j+3),j);continue;}
+   transform(base[j],base[j+1],base[j+2],scapula,target,0);
+   if(t===1){out.set(target,j);continue;}
+   const x=base[j]/wrap.radiusX,z=(base[j+2]-wrap.centerZ)/wrap.radiusZ;
+   const tx=target[0]/wrap.radiusX,tz=(target[2]-wrap.centerZ)/wrap.radiusZ;
+   const theta=Math.atan2(z,x),delta=Math.atan2(Math.sin(Math.atan2(tz,tx)-theta),Math.cos(Math.atan2(tz,tx)-theta));
+   const radius=Math.hypot(x,z),r=radius+t*(Math.hypot(tx,tz)-radius),angle=theta+t*delta;
+   out[j]=wrap.radiusX*r*Math.cos(angle);out[j+1]=base[j+1]+t*(target[1]-base[j+1]);out[j+2]=wrap.centerZ+wrap.radiusZ*r*Math.sin(angle);
+  }
+  return 1;
+ }
  if(binding.fibre){
   deformFibres(binding.fibre,base,palette,out);
   // Preserve the authored attachment collars, including broad scapular and
