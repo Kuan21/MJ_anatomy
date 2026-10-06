@@ -4,7 +4,8 @@ import {createSkeletonRig,type Side} from './skeleton';
 import rawBindings from './tissue-bindings.json';
 import rawNerves from './nerve-bindings.json';
 import rawShoulderAttachments from './shoulder-attachments.json';
-const shoulderAttachments=rawShoulderAttachments.parts as Record<string,{name:string;vertexCount:number;positionHash:number;originFrame:number;weight:number[]}>;
+import rawSerratusAttachments from './serratus-attachments.json';
+const shoulderAttachments={...rawShoulderAttachments.parts,...rawSerratusAttachments.parts} as Record<string,{name:string;vertexCount:number;positionHash:number;originFrame:number;insertionFrame?:number;weight:number[]}>;
 
 export type Profile='pectoralPath'|'axillaryCable'|'path'|'trunk'|'humeral'|'sheetMuscle'|'deltoid'|'chest'|'cuff'|'biceps'|'triceps'|'arm'|'coraco'|'forearm'|'hand'|'scapular'|'clavicular'|'shoulderJoint'|'elbowJoint'|'wristJoint';
 export interface TissueBinding {name:string;side:Side;profile:Profile}
@@ -60,7 +61,14 @@ export function pathWeights(rig:SoftRig,x:number,y:number,z:number):number[]{
  const arm=range(rig.shoulder.y-y,-.015,.105);
  const dR=Math.hypot(x-rig.radius.x,z-rig.radius.z),dU=Math.hypot(x-rig.ulna.x,z-rig.ulna.z);
  const radial=dU/(dR+dU+1e-9); // continuous, identical across adjacent segments
- return[1-lateral,lateral*(1-arm)*(1-e),0,lateral*arm*(1-e),lateral*e*(1-w)*(1-radial),lateral*e*(1-w)*radial,lateral*e*w];
+ // Posteromedial shoulder branches belong to the scapular carrier, not the
+ // elevated humerus. Use one spatial partition for every nerve/vessel object
+ // so coincident branch junctions cannot separate because of their names.
+ const posterior=range(rig.shoulder.z-z,0,.075);
+ const medial=1-range(Math.abs(x),Math.abs(rig.shoulder.x)-.025,Math.abs(rig.shoulder.x)+.025);
+ const proximal=range(y,rig.elbow.y+.025,rig.elbow.y+.125);
+ const humeral=lateral*arm*(1-e),scapular=humeral*posterior*medial*proximal;
+ return[1-lateral,lateral*(1-arm)*(1-e),scapular,humeral-scapular,lateral*e*(1-w)*(1-radial),lateral*e*(1-w)*radial,lateral*e*w];
 }
 /** Continuous thorax-to-humerus field for axillary nerves/vessels.
  * It depends only on world position, so equal rest points on adjacent source
@@ -194,7 +202,8 @@ export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<numbe
   let hash=2166136261;for(let i=0;i<positions.length;i++)hash=Math.imul(hash^Math.round(positions[i]*1e7),16777619);
   if(fitted.name!==name||fitted.vertexCount!==count||fitted.positionHash!==(hash>>>0))throw new Error(`Shoulder attachment mesh mismatch: ${name}`);
   indices.fill(0);weights.fill(0);
-  fitted.weight.forEach((w,i)=>{indices[i*4]=w>.5?3:fitted.originFrame;indices[i*4+1]=w>.5?fitted.originFrame:3;weights[i*4]=Math.max(w,1-w);weights[i*4+1]=Math.min(w,1-w);});
+  const insertionFrame=fitted.insertionFrame??3;
+  fitted.weight.forEach((w,i)=>{indices[i*4]=w>.5?insertionFrame:fitted.originFrame;indices[i*4+1]=w>.5?fitted.originFrame:insertionFrame;weights[i*4]=Math.max(w,1-w);weights[i*4+1]=Math.min(w,1-w);});
  }
  let fan:SkinBinding['fan'];
  if(effectiveProfile==='pectoralPath'){
