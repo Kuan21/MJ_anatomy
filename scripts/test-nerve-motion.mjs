@@ -38,7 +38,7 @@ for(const [i,node] of gltf.nodes.entries()){
   const raw=positions.slice();soft.registerNerveRest(rig,positions);
   for(let j=0;j<positions.length;j+=3){if(raw[j+1]>=.84)assert.deepEqual(positions.slice(j,j+3),raw.slice(j,j+3));assert.ok(positions[j+1]>=rig.handTipY-.004,'Registered nerve exceeds distal atlas landmark');}
   for(const landmark of rig.digitalLandmarks){const probe=new Float32Array(landmark.source.toArray());soft.registerNerveRest(rig,probe);assert.ok(new Vector3(...probe).distanceTo(landmark.target)<1e-6,'Individual fingertip registration');}
-  const profile=soft.resolveNeurovascularProfile(node.name,'path'),skin=soft.bindTissue(rig,profile,positions),output=new Float32Array(positions.length);soft.deformTissue(skin,positions,palette,output);assert.ok(output.every(Number.isFinite));
+  const profile=soft.resolveNeurovascularProfile(node.name,'path'),skin=soft.bindTissue(rig,profile,positions,undefined,node.name),output=new Float32Array(positions.length);soft.deformTissue(skin,positions,palette,output);assert.ok(output.every(Number.isFinite));
   const neutral=new Float32Array(positions.length);soft.deformTissue(skin,positions,soft.makePalette(rig,{}),neutral);assert.deepEqual(neutral,positions);
   vertices+=mesh.num_points();for(const object of [values,mesh,decoder,buffer])draco.destroy(object);
  }

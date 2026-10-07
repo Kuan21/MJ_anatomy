@@ -133,7 +133,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     mesh.userData.mjNerve=true;mesh.userData.mjExactName=exactName;mesh.userData.mjSide=binding?.side??nerveSide(exactName);
     if(binding&&softRigs[binding.side]){registerNerveRest(softRigs[binding.side]!,position.array as Float32Array);position.needsUpdate=true;geometry.computeVertexNormals();geometry.computeBoundingBox();}
     mesh.userData.basePositions=new Float32Array(position.array as ArrayLike<number>);
-    if(binding&&softRigs[binding.side])mesh.userData.skin=bindTissue(softRigs[binding.side]!,resolveNeurovascularProfile(exactName,'path'),mesh.userData.basePositions);
+    if(binding&&softRigs[binding.side])mesh.userData.skin=bindTissue(softRigs[binding.side]!,resolveNeurovascularProfile(exactName,'path'),mesh.userData.basePositions,undefined,exactName);
     const inferredHeadNerve=/cervical|vagus|phrenic|hypoglossal|accessory|glossopharyngeal|ansa cervicalis|sympathetic trunk|superior cervical|middle cervical|inferior cervical/i.test(exactName);
     const bodyRegion=spinalCordLike?'head':bodyNerveBindings[exactName]??(inferredHeadNerve?'head':undefined);
     if(bodyRegion){mesh.userData.bodyRegion=bodyRegion;mesh.userData.bodySkin=bindBodyTissue(bodyRigs[bodyRegion],mesh.userData.basePositions,spinalCordLike?false:cranialNerveRigid(exactName));}

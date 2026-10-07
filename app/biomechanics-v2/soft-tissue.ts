@@ -5,6 +5,7 @@ import rawBindings from './tissue-bindings.json';
 import rawNerves from './nerve-bindings.json';
 import rawShoulderAttachments from './shoulder-attachments.json';
 import rawSerratusAttachments from './serratus-attachments.json';
+import rawThoracicCables from './thoracic-cables.json';
 const shoulderAttachments={...rawShoulderAttachments.parts,...rawSerratusAttachments.parts} as Record<string,{name:string;vertexCount:number;positionHash:number;originFrame:number;insertionFrame?:number;weight:number[]}>;
 
 export type Profile='pectoralPath'|'axillaryCable'|'path'|'trunk'|'humeral'|'sheetMuscle'|'deltoid'|'chest'|'cuff'|'biceps'|'triceps'|'arm'|'coraco'|'forearm'|'hand'|'scapular'|'clavicular'|'shoulderJoint'|'elbowJoint'|'wristJoint';
@@ -35,7 +36,10 @@ export const FRAMES=['root','clavicle','scapula','humerus','ulna','radius','hand
 export interface ThoraxWrap {centerZ:number;radiusX:number;radiusZ:number}
 export interface SoftRig {side:Side;ids:(string|undefined)[];shoulder:Vector3;elbow:Vector3;wrist:Vector3;groups:Record<string,Box3>;radius:Vector3;ulna:Vector3;thorax:ThoraxWrap;handTipY:number;digitalLandmarks:{source:Vector3;target:Vector3}[]}
 export interface FibreGuide {centres:Vector3[];indices:Uint8Array;weights:Float32Array;coordinates:Float32Array;axis:Vector3;origin:Vector3;length:number}
-export interface SkinBinding {wrap?:ThoraxWrap;fibre?:FibreGuide;indices:Uint8Array;weights:Float32Array;belly:Float32Array;radial:Float32Array;longitudinal?:Float32Array;restAxis?:Vector3;sheetOriginFrame?:number;origin:Vector3;insertion:Vector3;originWeights:number[];insertionWeights:number[];restLength:number;profile:Profile;fan?:{originFrame:number;insertionFrame:number;tip:Vector3;minX:number;spanX:number}}
+interface CableSource {side:string;vertexCount:number;positionHash:number;nodes:number[][];stations:number[];edges:number[][];vertexEdges:number[];fractions:number[]}
+interface CableGuide {source:CableSource;centres:Vector3[];rootWeights:number[];parentIndices:Uint8Array;parentWeights:Float32Array;lengths:number[];freeNodes:number[];freeIndex:Int32Array;factor:Float64Array}
+const thoracicCables=rawThoracicCables.parts as Record<string,CableSource>;
+export interface SkinBinding {cable?:CableGuide;wrap?:ThoraxWrap;fibre?:FibreGuide;indices:Uint8Array;weights:Float32Array;belly:Float32Array;radial:Float32Array;longitudinal?:Float32Array;restAxis?:Vector3;sheetOriginFrame?:number;origin:Vector3;insertion:Vector3;originWeights:number[];insertionWeights:number[];restLength:number;profile:Profile;fan?:{originFrame:number;insertionFrame:number;tip:Vector3;minX:number;spanX:number}}
 export function makeSoftRig(atlas:Atlas,side:Side):SoftRig|null{
  const rig=createSkeletonRig(atlas,side);if(!rig.valid)return null;
  const node=(id:string)=>rig.nodes.find(n=>n.id===id)!;
@@ -164,10 +168,10 @@ export function weightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''
  * Broad sheet muscles use their actual medial/lateral mesh edges as attachment
  * bands. This preserves the fan shape while preventing free cloth-like folds.
  */
-export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<number>,part?:Part):SkinBinding{
+export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<number>,part?:Part,sourceName=''):SkinBinding{
  const count=positions.length/3,indices=new Uint8Array(count*4),weights=new Float32Array(count*4),belly=new Float32Array(count),radial=new Float32Array(count*3),longitudinal=new Float32Array(count);
  const own=new Box3();for(let i=0;i<count;i++)own.expandByPoint(new Vector3(positions[i*3],positions[i*3+1],positions[i*3+2]));
- const name=part?.name??'',effectiveProfile=resolveMuscleProfile(name,profile);
+ const name=part?.name??sourceName,effectiveProfile=resolveMuscleProfile(name,profile);
  const shared=['deltoid','biceps','triceps'].includes(effectiveProfile)?rig.groups[effectiveProfile]:null;
  const box=shared??own;
  let origin:Vector3,insertion:Vector3,minAbs=0,maxAbs=1,spanAbs=1;
@@ -219,7 +223,65 @@ export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<numbe
  const fibre=part?.system==='muscular'&&['biceps','triceps','arm'].includes(effectiveProfile)?bindFibreGuide(rig,effectiveProfile,positions,box,name):undefined;
  const sheetOriginFrame=effectiveProfile==='sheetMuscle'&&/clavicular part/i.test(name)?1:effectiveProfile==='sheetMuscle'?0:undefined;
  const wrap=fitted&&/serratus anterior/i.test(name)?rig.thorax:undefined;
- return{wrap,fibre,indices,weights,belly,radial,longitudinal,restAxis,sheetOriginFrame,fan,origin,insertion,originWeights:weightsAt(rig,effectiveProfile,origin,box,name),insertionWeights:weightsAt(rig,effectiveProfile,insertion,box,name),restLength,profile:effectiveProfile};
+ const cable=effectiveProfile==='path'&&thoracicCables[name]?bindCable(rig,thoracicCables[name],positions,indices,weights):undefined;
+ return{cable,wrap,fibre,indices,weights,belly,radial,longitudinal,restAxis,sheetOriginFrame,fan,origin,insertion,originWeights:weightsAt(rig,effectiveProfile,origin,box,name),insertionWeights:weightsAt(rig,effectiveProfile,insertion,box,name),restLength,profile:effectiveProfile};
+}
+
+// Selected thoracic tubes have rib-attached distal courses, not humeral ones.
+// Solve a connected centreline and carry the original cross-sections with it.
+// Branching dorsal/thoracodorsal structures intentionally retain their shared
+// field until a topology-aware branched embedding is available.
+function bindCable(rig:SoftRig,source:CableSource,positions:ArrayLike<number>,indices:Uint8Array,weights:Float32Array):CableGuide{
+ let hash=2166136261;for(let i=0;i<positions.length;i++)hash=Math.imul(hash^Math.round(positions[i]*1e7),16777619);
+ if(source.side!==rig.side||source.vertexCount*3!==positions.length||source.positionHash!==(hash>>>0))throw new Error('Thoracic cable/source mismatch');
+ const centres=source.nodes.map(p=>new Vector3(...p)),root=centres[0],rootWeights=pathWeights(rig,root.x,root.y,root.z),parentIndices=indices.slice(),parentWeights=weights.slice();
+ const degree=new Uint16Array(centres.length),lengths=source.edges.map(([a,b])=>{degree[a]++;degree[b]++;return centres[a].distanceTo(centres[b]);});
+ const freeNodes=centres.map((_,i)=>i).filter(i=>degree[i]!==1&&source.stations[i]>.12&&source.stations[i]<.88),freeIndex=new Int32Array(centres.length).fill(-1);freeNodes.forEach((i,j)=>freeIndex[i]=j);
+ const n=freeNodes.length,factor=new Float64Array(n*n);
+ source.edges.forEach(([a,b],e)=>{const i=freeIndex[a],j=freeIndex[b],w=1/Math.max(1e-8,lengths[e]);if(i>=0)factor[i*n+i]+=w;if(j>=0)factor[j*n+j]+=w;if(i>=0&&j>=0){factor[i*n+j]-=w;factor[j*n+i]-=w;}});
+ for(let i=0;i<n;i++)for(let j=0;j<=i;j++){let sum=factor[i*n+j];for(let k=0;k<j;k++)sum-=factor[i*n+k]*factor[j*n+k];if(i===j){if(sum<=0)throw new Error('Unanchored cable component');factor[i*n+j]=Math.sqrt(sum);}else factor[i*n+j]=sum/factor[j*n+j];}
+ for(let i=0;i<source.vertexCount;i++){
+  const [a,b]=source.edges[source.vertexEdges[i]],u=source.fractions[i],t=range(source.stations[a]*(1-u)+source.stations[b]*u,.12,.88),raw=rootWeights.map(w=>w*(1-t));raw[0]+=t;
+  const entries=raw.map((w,j)=>({w,j})).sort((a,b)=>b.w-a.w).slice(0,4),sum=entries.reduce((s,e)=>s+e.w,0);
+  for(let k=0;k<4;k++){indices[i*4+k]=entries[k].j;weights[i*4+k]=entries[k].w/sum;}
+ }
+ return{source,centres,rootWeights,parentIndices,parentWeights,lengths,freeNodes,freeIndex,factor};
+}
+
+function deformCable(binding:SkinBinding,base:Float32Array,palette:Palette,out:Float32Array){
+ const c=binding.cable!,s=c.source;
+ if(palette.every((v,i)=>i%8===3?Math.abs(v)===1:v===0)){out.set(base);return;}
+ const target=c.centres.map((p,i)=>deformPoint(p,c.rootWeights,palette).lerp(p,range(s.stations[i],.12,.88))),points=target.map(p=>p.clone()),n=c.freeNodes.length,rhs=new Float64Array(n*3),f=c.factor;
+ // Local/global rod solve: fixed collars, rest-length edge projections, then
+ // one coupled Laplacian solve. No vertex clipping or triangle deletion.
+ for(let pass=0;pass<24;pass++){
+  rhs.fill(0);
+  s.edges.forEach(([a,b],e)=>{
+   const len=c.lengths[e],w=1/Math.max(1e-8,len),delta=points[b].clone().sub(points[a]);if(delta.lengthSq()<1e-16)delta.copy(c.centres[b]).sub(c.centres[a]);delta.normalize().multiplyScalar(len);
+   const i=c.freeIndex[a],j=c.freeIndex[b];
+   for(let axis=0;axis<3;axis++){if(i>=0)rhs[i*3+axis]+=w*((j<0?target[b].getComponent(axis):0)-delta.getComponent(axis));if(j>=0)rhs[j*3+axis]+=w*((i<0?target[a].getComponent(axis):0)+delta.getComponent(axis));}
+  });
+  for(let axis=0;axis<3;axis++){
+   for(let i=0;i<n;i++){let value=rhs[i*3+axis];for(let k=0;k<i;k++)value-=f[i*n+k]*rhs[k*3+axis];rhs[i*3+axis]=value/f[i*n+i];}
+   for(let i=n-1;i>=0;i--){let value=rhs[i*3+axis];for(let k=i+1;k<n;k++)value-=f[k*n+i]*rhs[k*3+axis];rhs[i*3+axis]=value/f[i*n+i];}
+  }
+  c.freeNodes.forEach((node,i)=>points[node].set(rhs[i*3],rhs[i*3+1],rhs[i*3+2]));
+ }
+ const rotations=points.map(()=>new Quaternion(0,0,0,0));
+ for(const [a,b] of s.edges){const q=new Quaternion().setFromUnitVectors(c.centres[b].clone().sub(c.centres[a]).normalize(),points[b].clone().sub(points[a]).normalize());for(const i of [a,b]){const sign=rotations[i].dot(q)<0?-1:1;rotations[i].x+=sign*q.x;rotations[i].y+=sign*q.y;rotations[i].z+=sign*q.z;rotations[i].w+=sign*q.w;}}
+ const pairs=c.rootWeights.map((w,i)=>({w,i})).sort((a,b)=>b.w-a.w).slice(0,4),total=pairs.reduce((a,b)=>a+b.w,0),dq=new Float64Array(8);blended(palette,pairs.map(p=>p.i),pairs.map(p=>p.w/total),0,dq);
+ const rootQ=new Quaternion(...dq.slice(0,4)),identity=new Quaternion(),parent=new Float64Array(3);
+ rotations.forEach((q,i)=>{q.normalize();q.copy(rootQ.clone().slerp(q,range(s.stations[i],.12,.32))).slerp(identity,range(s.stations[i],.68,.88));});
+ for(let i=0;i<s.vertexCount;i++){
+  const j=i*3,[a,b]=s.edges[s.vertexEdges[i]],u=s.fractions[i],progress=s.stations[a]*(1-u)+s.stations[b]*u,rest=c.centres[a].clone().lerp(c.centres[b],u),posed=points[a].clone().lerp(points[b],u),q=rotations[a].clone().slerp(rotations[b],u);
+  const p=new Vector3(base[j],base[j+1],base[j+2]).sub(rest).applyQuaternion(q).add(posed),collar=1-range(progress,.025,.12);
+  // Match both position and tangent at the thoracic attachment collar; a
+  // hard pin at the last free cross-section otherwise creates a small kink.
+  p.lerp(new Vector3(base[j],base[j+1],base[j+2]),range(progress,.68,.88));
+  if(collar>0){blended(palette,c.parentIndices,c.parentWeights,i*4,dq);transform(base[j],base[j+1],base[j+2],dq,parent,0);p.lerp(new Vector3(...parent),collar);}
+  out.set(p.toArray(),j);
+  if(binding.weights[i*4]>.999999){const frame=binding.indices[i*4];transform(base[j],base[j+1],base[j+2],palette.subarray(frame*8,frame*8+8),out,j);}
+ }
 }
 export type Palette=Float64Array;
 export function makePalette(rig:SoftRig,transforms:Record<string,PartTransform>):Palette{
@@ -259,6 +321,7 @@ export function deformPoint(p:Vector3,weights:number[],palette:Palette):Vector3{
  blended(palette,pairs.map(p=>p.i),pairs.map(p=>p.w/sum),0,q);transform(p.x,p.y,p.z,q,v,0);return new Vector3(...v);
 }
 export function deformTissue(binding:SkinBinding,base:Float32Array,palette:Palette,out:Float32Array):number{
+ if(binding.cable){deformCable(binding,base,palette,out);return 1;}
  if(binding.wrap){
   // Follow the chest circumference, not a quaternion arc about the AC joint.
   // Preserve source radial detail and exact rib/scapular attachment patches.

@@ -2,6 +2,7 @@ import * as T from 'three';
 import type {Atlas,PartTransform} from './anatomy';
 import boneBindings from './biomechanics-v2/bone-bindings.json';
 import shoulderLandmarks from './biomechanics-v2/shoulder-landmarks.json';
+import scapularContact from './biomechanics-v2/scapular-contact.json';
 
 export type Side='left'|'right';
 export interface MotionPose{
@@ -53,6 +54,38 @@ const tuple3=(v:T.Vector3):[number,number,number]=>[v.x,v.y,v.z];
 const tuple4=(q:T.Quaternion):[number,number,number,number]=>[q.x,q.y,q.z,q.w];
 const rigid=(m:T.Matrix4):PartTransform=>{const p=new T.Vector3(),q=new T.Quaternion(),s=new T.Vector3();m.decompose(p,q,s);return{translation:tuple3(p),quaternion:tuple4(q.normalize())};};
 const clamp=(v:number,[lo,hi]:readonly[number,number])=>T.MathUtils.clamp(v,lo,hi);
+
+// Keep the blade centre on its source thoracic shell while preserving the
+// clavicle length and both joint pivots. This is a geometric guide, not a
+// patient-specific collision or muscle-force simulation.
+function contactGirdle(atlas:Atlas,side:Side,sc:T.Vector3,ac:T.Vector3,up:number,tilt:T.Quaternion,desired:T.Matrix4){
+ const fit=scapularContact.sides[side],centre=new T.Vector3(...fit.centre),normal=new T.Vector3(...fit.normal);
+ if(!atlas.parts.some(p=>p.id===fit.scapulaId&&p.system==='skeletal'))throw new Error('Scapular contact/source mismatch');
+ const ribs=new T.Box3();for(const p of atlas.parts)if(p.system==='skeletal'&&/ rib$/i.test(p.name))ribs.union(new T.Box3(new T.Vector3(...p.bounds[0]),new T.Vector3(...p.bounds[1])));
+ const rx=Math.max(Math.abs(ribs.min.x),Math.abs(ribs.max.x)),rz=(ribs.max.z-ribs.min.z)/2,cz=(ribs.min.z+ribs.max.z)/2;
+ const theta0=Math.atan2((centre.z-cz)/rz,centre.x/rx),rad=Math.hypot(centre.x/rx,(centre.z-cz)/rz),wanted=centre.clone().applyMatrix4(desired);
+ const thetaWanted=theta0+Math.atan2(Math.sin(Math.atan2((wanted.z-cz)/rz,wanted.x/rx)-theta0),Math.cos(Math.atan2((wanted.z-cz)/rz,wanted.x/rx)-theta0));
+ if(side==='right')normal.negate();
+ const local=tilt.clone().multiply(qdeg(normal,up)),restAc=ac.clone().sub(centre),restNormal=new T.Vector3(Math.cos(theta0)/rx,0,Math.sin(theta0)/rz).normalize(),length=sc.distanceTo(ac);
+ const candidate=(theta:number)=>{
+  const surfaceNormal=new T.Vector3(Math.cos(theta)/rx,0,Math.sin(theta)/rz).normalize(),rotation=new T.Quaternion().setFromUnitVectors(restNormal,surfaceNormal).multiply(local);
+  const point=new T.Vector3(rx*rad*Math.cos(theta),0,cz+rz*rad*Math.sin(theta)),offset=restAc.clone().applyQuaternion(rotation),joint=point.clone().add(offset);
+  const height2=length*length-(joint.x-sc.x)**2-(joint.z-sc.z)**2;
+  if(height2<0)return{score:Infinity,point,rotation,joint};
+  point.y=sc.y+Math.sqrt(height2)-offset.y;joint.y=sc.y+Math.sqrt(height2);
+  const score=((theta-thetaWanted)*(rx+rz)/2)**2+(point.y-wanted.y)**2;
+  return{score,point,rotation,joint};
+ };
+ let bestTheta=theta0,best=candidate(theta0);
+ for(let i=-40;i<=40;i++){const theta=theta0+i*.02,result=candidate(theta);if(result.score<best.score){best=result;bestTheta=theta;}}
+ let lo=bestTheta-.02,hi=bestTheta+.02;
+ for(let i=0;i<28;i++){const a=lo+(hi-lo)/3,b=hi-(hi-lo)/3;if(candidate(a).score<candidate(b).score)hi=b;else lo=a;}
+ const refined=candidate((lo+hi)/2);if(refined.score<best.score)best=refined;
+ if(!Number.isFinite(best.score))throw new Error('No connected scapular contact solution');
+ const scapula=new T.Matrix4().makeTranslation(...best.point.toArray()).multiply(new T.Matrix4().makeRotationFromQuaternion(best.rotation)).multiply(new T.Matrix4().makeTranslation(-centre.x,-centre.y,-centre.z));
+ const clavicle=about(sc,new T.Quaternion().setFromUnitVectors(ac.clone().sub(sc).normalize(),best.joint.clone().sub(sc).normalize()));
+ return{scapula,clavicle};
+}
 
 export function constrainPose(input:MotionPose):MotionPose{
  const p={
@@ -147,10 +180,11 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  const clavicleEnds=longEndpoints(clavicleBox),clavicleCenter=clavicleBox.getCenter(new T.Vector3());
  const scJoint=nearer(clavicleEnds[0],clavicleEnds[1],new T.Vector3(0,clavicleCenter.y,clavicleCenter.z));
  const acJoint=scJoint===clavicleEnds[0]?clavicleEnds[1]:clavicleEnds[0];
- const clavicleM=about(scJoint,clavicleQ);
+ let clavicleM=about(scJoint,clavicleQ);
  const movedAc=acJoint.clone().applyMatrix4(clavicleM),acShift=movedAc.clone().sub(acJoint);
  const scapulaRotateM=about(acJoint,scapulaQ);
- const scapulaM=new T.Matrix4().makeTranslation(acShift.x,acShift.y,acShift.z).multiply(scapulaRotateM);
+ let scapulaM=new T.Matrix4().makeTranslation(acShift.x,acShift.y,acShift.z).multiply(scapulaRotateM);
+ if(scapularUp>0){const contact=contactGirdle(atlas,side,scJoint,acJoint,scapularUp,scapulaTiltQ,scapulaM);scapulaM=contact.scapula;clavicleM=contact.clavicle;}
 
  // The humeral head follows the moving glenoid. Remaining glenohumeral motion
  // is the total requested swing after removing the scapular contribution.
