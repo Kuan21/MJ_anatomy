@@ -6,6 +6,8 @@ import rawNerves from './nerve-bindings.json';
 import rawShoulderAttachments from './shoulder-attachments.json';
 import rawSerratusAttachments from './serratus-attachments.json';
 import rawThoracicCables from './thoracic-cables.json';
+import rawScapularBranches from './scapular-branches.json';
+const scapularBranches=rawScapularBranches.parts as Record<string,{side:string;vertexCount:number;positionHash:number;progress:number[]}>;
 const shoulderAttachments={...rawShoulderAttachments.parts,...rawSerratusAttachments.parts} as Record<string,{name:string;vertexCount:number;positionHash:number;originFrame:number;insertionFrame?:number;weight:number[]}>;
 
 export type Profile='pectoralPath'|'axillaryCable'|'path'|'trunk'|'humeral'|'sheetMuscle'|'deltoid'|'chest'|'cuff'|'biceps'|'triceps'|'arm'|'coraco'|'forearm'|'hand'|'scapular'|'clavicular'|'shoulderJoint'|'elbowJoint'|'wristJoint';
@@ -223,14 +225,26 @@ export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<numbe
  const fibre=part?.system==='muscular'&&['biceps','triceps','arm'].includes(effectiveProfile)?bindFibreGuide(rig,effectiveProfile,positions,box,name):undefined;
  const sheetOriginFrame=effectiveProfile==='sheetMuscle'&&/clavicular part/i.test(name)?1:effectiveProfile==='sheetMuscle'?0:undefined;
  const wrap=fitted&&/serratus anterior/i.test(name)?rig.thorax:undefined;
+ const branch=effectiveProfile==='path'?scapularBranches[name]:undefined;
+ if(branch){
+  let hash=2166136261;for(let i=0;i<positions.length;i++)hash=Math.imul(hash^Math.round(positions[i]*1e7),16777619);
+  if(branch.side!==rig.side||branch.vertexCount!==count||branch.progress.length!==count||branch.positionHash!==(hash>>>0))throw new Error('Scapular branch/source mismatch');
+  for(let i=0;i<count;i++){
+   // Preserve the proximal shared field exactly. Progress follows source
+   // topology, so adjacent branches cannot select unrelated centreline edges.
+   const t=range(branch.progress[i],.10,.70),raw=pathWeights(rig,positions[i*3],positions[i*3+1],positions[i*3+2]).map(w=>w*(1-t));raw[2]+=t;
+   const entries=raw.map((w,j)=>({w,j})).sort((a,b)=>b.w-a.w).slice(0,4),sum=entries.reduce((s,e)=>s+e.w,0);
+   for(let k=0;k<4;k++){indices[i*4+k]=entries[k].j;weights[i*4+k]=entries[k].w/sum;}
+  }
+ }
  const cable=effectiveProfile==='path'&&thoracicCables[name]?bindCable(rig,thoracicCables[name],positions,indices,weights):undefined;
  return{cable,wrap,fibre,indices,weights,belly,radial,longitudinal,restAxis,sheetOriginFrame,fan,origin,insertion,originWeights:weightsAt(rig,effectiveProfile,origin,box,name),insertionWeights:weightsAt(rig,effectiveProfile,insertion,box,name),restLength,profile:effectiveProfile};
 }
 
 // Selected thoracic tubes have rib-attached distal courses, not humeral ones.
 // Solve a connected centreline and carry the original cross-sections with it.
-// Branching dorsal/thoracodorsal structures intentionally retain their shared
-// field until a topology-aware branched embedding is available.
+// Dorsal scapular branches use source-topology skinning above, not the nearest
+// centreline embedding below. Thoracodorsal structures retain the shared field.
 function bindCable(rig:SoftRig,source:CableSource,positions:ArrayLike<number>,indices:Uint8Array,weights:Float32Array):CableGuide{
  let hash=2166136261;for(let i=0;i<positions.length;i++)hash=Math.imul(hash^Math.round(positions[i]*1e7),16777619);
  if(source.side!==rig.side||source.vertexCount*3!==positions.length||source.positionHash!==(hash>>>0))throw new Error('Thoracic cable/source mismatch');

@@ -10,9 +10,10 @@ root=Path(__file__).resolve().parent.parent
 cases=json.loads((root/'.sites-runtime/shoulder-comparison.json').read_text())
 fig=plt.figure(figsize=(16,10))
 for row,case in enumerate(cases):
- for col,(field,az,label) in enumerate([('base',35,'Source neutral'),('after',35,'Posed lateral'),('after',145,'Posed medial')]):
+ for col,(field,az,label) in enumerate([('base',145,'Source neutral'),('before',145,'Previous branch motion'),('after',145,'Updated branch motion')]):
   ax=fig.add_subplot(2,3,row*3+col+1,projection='3d')
   for mesh in case['rows']:
+   if mesh['system']=='arterial' and 'dorsal scapular' not in mesh['name']: continue
    vertices=np.array(mesh[field]).reshape(-1,3); faces=vertices[np.array(mesh['idx']).reshape(-1,3)]
    color={'skeletal':'#dacba9','muscular':'#b96b60','arterial':'#e72731','venous':'#315db7'}.get(mesh['system'],'#e5c833')
    ax.add_collection3d(Poly3DCollection(faces,facecolors=color,linewidths=0,shade=True))
