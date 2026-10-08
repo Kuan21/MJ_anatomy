@@ -38,3 +38,19 @@ collars. A mesh-edge stretch bound detects spikes; it is not a physiological
 strain limit. These are geometric educational approximations, not a
 force-based simulation or clinical/anatomical validation. CPU scene tests
 stub GPU drawing and cannot substitute for an iPhone/iPad WebGL review.
+
+## Follow-up: bent muscle sections
+
+Section calibre now uses the redistributed route's arc length, not the chord
+across a bent section. Curvature alone must not introduce false compression
+and local inflation. Upper-arm biceps/triceps/brachialis sections also swing
+towards the route tangent while retaining the carrier's axial twist and
+attachment collars. This swing is intentionally not applied to forearm
+multi-tendon meshes: it failed their existing spike regression.
+
+`test-muscle-sections.mjs` independently prescribes a curved route, measures
+middle-section radius and perpendicularity, and checks 108 real upper-arm
+muscle/pose combinations. It includes the reported elbow 140°, pronation 80°,
+wrist flexion -23° and ulnar deviation 19°; shoulder angles are swept because
+they were not visible in the user's screenshot. This improves the geometric
+solver but does not add muscle-to-muscle collision or clinical validation.

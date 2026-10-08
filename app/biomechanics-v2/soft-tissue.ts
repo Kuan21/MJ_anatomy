@@ -40,6 +40,7 @@ export const FRAMES=['root','clavicle','scapula','humerus','ulna','radius','hand
 export interface ThoraxWrap {centerZ:number;radiusX:number;radiusZ:number}
 export interface SoftRig {side:Side;ids:(string|undefined)[];shoulder:Vector3;elbow:Vector3;wrist:Vector3;groups:Record<string,Box3>;radius:Vector3;ulna:Vector3;thorax:ThoraxWrap;handTipY:number;digitalLandmarks:{source:Vector3;target:Vector3}[]}
 export interface FibreGuide {centres:Vector3[];indices:Uint8Array;weights:Float32Array;coordinates:Float32Array;axis:Vector3;origin:Vector3;length:number}
+export interface FibreGuide {alignSections?:boolean}
 export interface SkinBinding {follower?:{parent:SkinBinding;progress:number[]}}
 interface CableSource {side:string;vertexCount:number;positionHash:number;nodes:number[][];stations:number[];edges:number[][];vertexEdges:number[];fractions:number[]}
 interface CableGuide {source:CableSource;centres:Vector3[];rootWeights:number[];parentIndices:Uint8Array;parentWeights:Float32Array;lengths:number[];freeNodes:number[];freeIndex:Int32Array;factor:Float64Array}
@@ -485,7 +486,7 @@ function bindFibreGuide(rig:SoftRig,profile:Profile,base:ArrayLike<number>,box:B
  });
  const coordinates=new Float32Array(base.length/3);
  for(let i=0;i<coordinates.length;i++)coordinates[i]=clamp(new Vector3(base[i*3],base[i*3+1],base[i*3+2]).sub(origin).dot(axis)/length);
- return{centres,indices,weights,coordinates,axis,origin,length};
+ return{centres,indices,weights,coordinates,axis,origin,length,alignSections:['biceps','triceps','arm'].includes(profile)};
 }
 function deformFibres(f:FibreGuide,base:Float32Array,palette:Palette,out:Float32Array){
  const carrier:Vector3[]=[],carrierRotations:Quaternion[]=[],q=new Float64Array(8),v=new Float64Array(3);
@@ -511,10 +512,21 @@ function deformFibres(f:FibreGuide,base:Float32Array,palette:Palette,out:Float32
  }
  for(let k=0;k<33;k++){
   const lo=Math.max(0,k-1),hi=Math.min(32,k+1),tangent=points[hi].clone().sub(points[lo]);
-  const stretch=Math.max(.1,tangent.length()/((hi-lo)*f.length/32));
+  // Sections were redistributed by ARC length above. A chord across a bent
+  // elbow is shorter than that arc even without compression; using its
+  // length spuriously inflates the muscle at the corner.
+  const stretch=Math.max(.1,total/f.length);
   // Endpoint collars retain their bone orientation and calibre. Interior
   // sections adjust their area using the local longitudinal stretch.
   const envelope=Math.sin(Math.PI*k/32)**2;
+  if(f.alignSections&&tangent.lengthSq()>1e-14){
+   // Preserve axial twist from the bone carrier, but swing interior cross
+   // sections toward their actual route. Otherwise they stay oblique to
+   // the bent centreline and overlap like a folded ribbon.
+   const carriedAxis=f.axis.clone().applyQuaternion(rotations[k]);
+   const swing=new Quaternion().slerp(new Quaternion().setFromUnitVectors(carriedAxis,tangent.normalize()),envelope);
+   rotations[k].premultiply(swing);
+  }
   scales.push(1+envelope*(Math.max(.65,Math.min(1.6,1/Math.sqrt(stretch)))-1));
  }
  const offset=new Vector3(),centre=new Vector3(),rotation=new Quaternion();
