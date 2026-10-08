@@ -122,7 +122,7 @@ for(const side of ['left','right']){
    if(poseName==='neutral'){const delta=Math.max(...output.map((v,i)=>Math.abs(v-positions[i])));maxNeutral=Math.max(maxNeutral,delta);assert.ok(delta<2e-7,`${p.name}: neutral changed ${delta}`);}
 
    // Attachments represented by a one-frame weight remain pinned to that frame.
-   for(let i=0;i<p.vertexCount;i++)if(binding.weights[i*4]>.999999&&binding.belly[i]<1e-6){
+   for(let i=0;i<p.vertexCount;i++)if(!binding.follower&&binding.weights[i*4]>.999999&&binding.belly[i]<1e-6&&(!binding.fibre||binding.fibre.coordinates[i]===0||binding.fibre.coordinates[i]===1||binding.profile==='forearm'&&binding.indices[i*4]===6)){
     const f=binding.indices[i*4],t=transforms[rig.ids[f]],expected=new Vector3(...positions.slice(i*3,i*3+3));
     if(t)expected.applyQuaternion(new Quaternion(...t.quaternion)).add(new Vector3(...t.translation));
     assert.ok(expected.distanceTo(new Vector3(...output.slice(i*3,i*3+3)))<3e-7,`${p.name} ${poseName} vertex ${i} attachment drift`);

@@ -7,6 +7,8 @@ import rawShoulderAttachments from './shoulder-attachments.json';
 import rawSerratusAttachments from './serratus-attachments.json';
 import rawThoracicCables from './thoracic-cables.json';
 import rawScapularBranches from './scapular-branches.json';
+import rawPectoralFollowers from './pectoral-followers.json';
+const pectoralFollowers=rawPectoralFollowers.parts as Record<string,{side:string;vertexCount:number;positionHash:number;progress:number[];fan:{originFrame:number;insertionFrame:number;tip:number[];minX:number;spanX:number}}>;
 const scapularBranches=rawScapularBranches.parts as Record<string,{side:string;vertexCount:number;positionHash:number;progress:number[]}>;
 const shoulderAttachments={...rawShoulderAttachments.parts,...rawSerratusAttachments.parts} as Record<string,{name:string;vertexCount:number;positionHash:number;originFrame:number;insertionFrame?:number;weight:number[]}>;
 
@@ -38,6 +40,7 @@ export const FRAMES=['root','clavicle','scapula','humerus','ulna','radius','hand
 export interface ThoraxWrap {centerZ:number;radiusX:number;radiusZ:number}
 export interface SoftRig {side:Side;ids:(string|undefined)[];shoulder:Vector3;elbow:Vector3;wrist:Vector3;groups:Record<string,Box3>;radius:Vector3;ulna:Vector3;thorax:ThoraxWrap;handTipY:number;digitalLandmarks:{source:Vector3;target:Vector3}[]}
 export interface FibreGuide {centres:Vector3[];indices:Uint8Array;weights:Float32Array;coordinates:Float32Array;axis:Vector3;origin:Vector3;length:number}
+export interface SkinBinding {follower?:{parent:SkinBinding;progress:number[]}}
 interface CableSource {side:string;vertexCount:number;positionHash:number;nodes:number[][];stations:number[];edges:number[][];vertexEdges:number[];fractions:number[]}
 interface CableGuide {source:CableSource;centres:Vector3[];rootWeights:number[];parentIndices:Uint8Array;parentWeights:Float32Array;lengths:number[];freeNodes:number[];freeIndex:Int32Array;factor:Float64Array}
 const thoracicCables=rawThoracicCables.parts as Record<string,CableSource>;
@@ -138,7 +141,33 @@ export function weightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''
   const dR=Math.hypot(p.x-rig.radius.x,p.z-rig.radius.z),dU=Math.hypot(p.x-rig.ulna.x,p.z-rig.ulna.z),prox=dR<dU?5:4;
   return pair(prox,6,range(down,.08,.92));
  }
- if(profile==='path'||profile==='forearm')return pathWeights(rig,p.x,p.y,p.z);
+ if(profile==='path')return pathWeights(rig,p.x,p.y,p.z);
+ if(profile==='forearm'){
+  const n=name.toLowerCase();
+  // Bone-to-bone forearm muscles must not inherit wrist movement.
+  if(/pronator quadratus/.test(n)){
+   const axis=rig.radius.clone().sub(rig.ulna);axis.y=0;axis.normalize();
+   const corners=[new Vector3(box.min.x,0,box.min.z),new Vector3(box.min.x,0,box.max.z),new Vector3(box.max.x,0,box.min.z),new Vector3(box.max.x,0,box.max.z)].map(v=>v.dot(axis));
+   return pair(4,5,range(p.dot(axis),Math.min(...corners),Math.max(...corners)));
+  }
+  if(/brachioradialis/.test(n))return pair(3,5,range(down,0,.85));
+  if(/anconeus/.test(n))return pair(3,4,down);
+  if(/pronator teres/.test(n))return pair(/ulnar head/.test(n)?4:3,5,down);
+  if(/supinator/.test(n)){
+   const origin=pair(3,4,range(rig.elbow.y-p.y,-.01,.03)).map(w=>w*(1-down));origin[5]+=down;return origin;
+  }
+  // Deep origins remain on their forearm carrier. Only distal tendons
+  // crossing the wrist acquire the hand transform.
+  const ulnar=/carpi ulnaris|digitorum profundus|extensor pollicis longus|extensor indicis/.test(n),frame=ulnar?4:5;
+  const deep=/digitorum profundus|pollicis|extensor indicis|ulnar head/.test(n);
+  const elbow=deep?1:range(rig.elbow.y-p.y,-.055,.065),wrist=range(rig.wrist.y-p.y,-.035,.035);
+  const result=pair(3,frame,elbow);
+  if(!deep){
+   const dR=Math.hypot(p.x-rig.radius.x,p.z-rig.radius.z),dU=Math.hypot(p.x-rig.ulna.x,p.z-rig.ulna.z),radial=dU/(dR+dU+1e-9);
+   result[4]=elbow*(1-radial);result[5]=elbow*radial;
+  }
+  for(let i=0;i<7;i++)result[i]*=1-wrist;result[6]+=wrist;return result;
+ }
  if(profile==='hand')return pair(6,6,1);
  if(profile==='clavicular')return pair(0,1,smooth(lateral));
  if(profile==='scapular'){
@@ -222,7 +251,8 @@ export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<numbe
   tip.multiplyScalar(1/Math.max(1,n));
   fan={originFrame:/clavicular part/i.test(name)?1:0,insertionFrame:3,tip,minX,spanX:Math.max(.001,maxX-minX)};
  }
- const fibre=part?.system==='muscular'&&['biceps','triceps','arm'].includes(effectiveProfile)?bindFibreGuide(rig,effectiveProfile,positions,box,name):undefined;
+ const useForearmFibres=effectiveProfile==='forearm'&&!/pronator quadratus|supinator|anconeus/i.test(name);
+ const fibre=part?.system==='muscular'&&(['biceps','triceps','arm'].includes(effectiveProfile)||useForearmFibres)?bindFibreGuide(rig,effectiveProfile,positions,box,name):undefined;
  const sheetOriginFrame=effectiveProfile==='sheetMuscle'&&/clavicular part/i.test(name)?1:effectiveProfile==='sheetMuscle'?0:undefined;
  const wrap=fitted&&/serratus anterior/i.test(name)?rig.thorax:undefined;
  const branch=effectiveProfile==='path'?scapularBranches[name]:undefined;
@@ -238,7 +268,16 @@ export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<numbe
   }
  }
  const cable=effectiveProfile==='path'&&thoracicCables[name]?bindCable(rig,thoracicCables[name],positions,indices,weights):undefined;
- return{cable,wrap,fibre,indices,weights,belly,radial,longitudinal,restAxis,sheetOriginFrame,fan,origin,insertion,originWeights:weightsAt(rig,effectiveProfile,origin,box,name),insertionWeights:weightsAt(rig,effectiveProfile,insertion,box,name),restLength,profile:effectiveProfile};
+ let follower:SkinBinding['follower'];
+ const source=effectiveProfile==='path'?pectoralFollowers[name]:undefined;
+ if(source){
+  let hash=2166136261;for(let i=0;i<positions.length;i++)hash=Math.imul(hash^Math.round(positions[i]*1e7),16777619);
+  if(source.side!==rig.side||source.vertexCount!==count||source.positionHash!==(hash>>>0))throw new Error('Pectoral follower/source mismatch');
+  const parent=bindTissue(rig,'pectoralPath',positions);
+  parent.fan={...source.fan,tip:new Vector3().fromArray(source.fan.tip)};
+  follower={parent,progress:source.progress};
+ }
+ return{follower,cable,wrap,fibre,indices,weights,belly,radial,longitudinal,restAxis,sheetOriginFrame,fan,origin,insertion,originWeights:weightsAt(rig,effectiveProfile,origin,box,name),insertionWeights:weightsAt(rig,effectiveProfile,insertion,box,name),restLength,profile:effectiveProfile};
 }
 
 // Selected thoracic tubes have rib-attached distal courses, not humeral ones.
@@ -335,6 +374,17 @@ export function deformPoint(p:Vector3,weights:number[],palette:Palette):Vector3{
  blended(palette,pairs.map(p=>p.i),pairs.map(p=>p.w/sum),0,q);transform(p.x,p.y,p.z,q,v,0);return new Vector3(...v);
 }
 export function deformTissue(binding:SkinBinding,base:Float32Array,palette:Palette,out:Float32Array):number{
+ if(binding.follower){
+  const {parent,progress}=binding.follower;
+  deformTissue(parent,base,palette,out);
+  const q=new Float64Array(8),v=new Float64Array(3);
+  for(let i=0;i<progress.length;i++){
+   const t=range(progress[i],.10,.70);if(t===1)continue;
+   blended(palette,binding.indices,binding.weights,i*4,q);transform(base[i*3],base[i*3+1],base[i*3+2],q,v,0);
+   for(let k=0;k<3;k++)out[i*3+k]=v[k]+t*(out[i*3+k]-v[k]);
+  }
+  return 1;
+ }
  if(binding.cable){deformCable(binding,base,palette,out);return 1;}
  if(binding.wrap){
   // Follow the chest circumference, not a quaternion arc about the AC joint.
@@ -365,7 +415,10 @@ export function deformTissue(binding:SkinBinding,base:Float32Array,palette:Palet
    // most of the muscle belly to the humerus and cancelled its contraction.
    // Only the longitudinal end bands retain the authored attachment motion.
    const t=binding.fibre.coordinates[i];
-   const collar=1-range(Math.min(t,1-t),0,.25);if(!collar)continue;
+   // Smoothly restore rigid digital tendons: a binary hand-weight test
+   // would create a discontinuity across the last wrist blend section.
+   let handWeight=0;if(binding.profile==='forearm')for(let k=0;k<4;k++)if(binding.indices[i*4+k]===6)handWeight+=binding.weights[i*4+k];
+   const collar=Math.max(range(handWeight,.5,1),1-range(Math.min(t,1-t),0,.25));if(!collar)continue;
    blended(palette,binding.indices,binding.weights,i*4,q);
    transform(base[i*3],base[i*3+1],base[i*3+2],q,p,0);
    for(let c=0;c<3;c++)out[i*3+c]+=(p[c]-out[i*3+c])*collar;
