@@ -2,6 +2,7 @@ import {Matrix4, Quaternion, Vector3} from 'three';
 import type {Atlas, Part, PartTransform} from '../anatomy';
 import bindings from './bone-bindings.json';
 import shoulderLandmarks from './shoulder-landmarks.json';
+import forearmLandmarks from './forearm-landmarks.json';
 
 export type Side = 'left' | 'right';
 export type NodeId = 'thorax' | 'clavicle' | 'scapula' | 'humerus' | 'ulna' | 'radius' | 'carpus' | 'hand';
@@ -33,7 +34,7 @@ export function createSkeletonRig(atlas:Atlas,side:Side):SkeletonRig {
   thorax:new Vector3(),clavicle:endpoint(clavicle,0,medial),scapula:endpoint(clavicle,0,!medial),
   humerus:new Vector3().fromArray(shoulderLandmarks.sides[side].headCenter),
   ulna:endpoint(humerus,1,false).add(endpoint(ulna,1,true)).multiplyScalar(.5),
-  radius:endpoint(radius,1,true),carpus:endpoint(radius,1,false),hand:endpoint(radius,1,false)
+  radius:new Vector3().fromArray(forearmLandmarks.sides[side].radialHead),carpus:new Vector3().fromArray(forearmLandmarks.sides[side].wrist),hand:new Vector3().fromArray(forearmLandmarks.sides[side].wrist)
  };
  const parents:Record<NodeId,NodeId|null>={thorax:null,clavicle:'thorax',scapula:'clavicle',humerus:'scapula',ulna:'humerus',radius:'ulna',carpus:'radius',hand:'carpus'};
  const nodes=(Object.keys(parents) as NodeId[]).map(id=>({id,parent:parents[id],pivot:pivots[id],partIds:id==='thorax'?[]:group[id].map(p=>p.id)}));

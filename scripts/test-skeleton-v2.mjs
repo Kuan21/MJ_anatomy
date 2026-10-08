@@ -4,6 +4,7 @@ import ts from 'typescript';
 import {Matrix4,Quaternion,Vector3} from 'three';
 const root=new URL('../',import.meta.url);
 let source=await readFile(new URL('app/biomechanics-v2/skeleton.ts',root),'utf8');
+source=source.replace("import forearmLandmarks from './forearm-landmarks.json';",`const forearmLandmarks=${await readFile(new URL('app/biomechanics-v2/forearm-landmarks.json',root),'utf8')};`);
 source=source.replace("import shoulderLandmarks from './shoulder-landmarks.json';",`const shoulderLandmarks=${await readFile(new URL('app/biomechanics-v2/shoulder-landmarks.json',root),'utf8')};`);
 const bindings=await readFile(new URL('app/biomechanics-v2/bone-bindings.json',root),'utf8');
 const js=ts.transpileModule(source.replace("import bindings from './bone-bindings.json';",`const bindings=${bindings};`),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;

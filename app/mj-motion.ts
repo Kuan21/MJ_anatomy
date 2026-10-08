@@ -2,6 +2,7 @@ import * as T from 'three';
 import type {Atlas,PartTransform} from './anatomy';
 import boneBindings from './biomechanics-v2/bone-bindings.json';
 import shoulderLandmarks from './biomechanics-v2/shoulder-landmarks.json';
+import forearmLandmarks from './biomechanics-v2/forearm-landmarks.json';
 import scapularContact from './biomechanics-v2/scapular-contact.json';
 
 export type Side='left'|'right';
@@ -138,13 +139,14 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  const shoulder=new T.Vector3().fromArray(landmark.headCenter);
  const forearmBox=boxFor(atlas,[...radius,...ulna]),forearmEnds=longEndpoints(forearmBox),humerusEnds=longEndpoints(humerusBox);
  const neutralHandCenter=handIndices.length?boxCenter(atlas,handIndices):forearmBox.getCenter(new T.Vector3()).add(new T.Vector3(0,-.22,0));
- const neutralWrist=nearer(forearmEnds[0],forearmEnds[1],neutralHandCenter);
+ const forearmLandmark=forearmLandmarks.sides[side];
+ if(atlas.parts[radius[0]].id!==forearmLandmark.radiusId||atlas.parts[ulna[0]].id!==forearmLandmark.ulnaId)return{transforms:{} as Record<string,PartTransform>,warnings:['Forearm landmark/source mismatch.']};
+ const neutralWrist=new T.Vector3().fromArray(forearmLandmark.wrist);
 
  let elbow=new T.Vector3(),best=Infinity;
  for(const h of humerusEnds)for(const f of forearmEnds){const d=h.distanceToSquared(f);if(d<best){best=d;elbow.copy(h).add(f).multiplyScalar(.5);}}
- const radiusEnds=longEndpoints(boxFor(atlas,radius)),ulnaEnds=longEndpoints(boxFor(atlas,ulna));
- const neutralRadialHead=nearer(radiusEnds[0],radiusEnds[1],elbow);
- const neutralUlnarHead=nearer(ulnaEnds[0],ulnaEnds[1],neutralHandCenter);
+ const neutralRadialHead=new T.Vector3().fromArray(forearmLandmark.radialHead);
+ const neutralUlnarHead=new T.Vector3().fromArray(forearmLandmark.ulnarHead);
 
  const superior=shoulder.clone().sub(elbow).normalize();
  const lateral=new T.Vector3(side==='right'?-1:1,0,0);

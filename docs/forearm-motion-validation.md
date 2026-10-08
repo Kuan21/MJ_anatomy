@@ -54,3 +54,24 @@ muscle/pose combinations. It includes the reported elbow 140°, pronation 80°,
 wrist flexion -23° and ulnar deviation 19°; shoulder angles are swept because
 they were not visible in the user's screenshot. This improves the geometric
 solver but does not add muscle-to-muscle collision or clinical validation.
+
+## Follow-up: wrist and forearm joint landmarks
+
+Whole-shaft bounding-box centres placed the old wrist pivot posterior to the
+actual distal radius/carpal contact. `fit-forearm-landmarks.mjs` fits radial
+and ulnar head centres from source surface bands, and the wrist from equal
+weight scaphoid/radius and lunate/radius nearest-contact patches. Both the
+rigid motion builder and soft-tissue skeleton use the same fitted wrist.
+These are approximate geometric landmarks, not clinical joint centres.
+
+`test-forearm-joints.mjs` checks 72 bilateral combinations, including the
+reported shoulder 74° flexion/147° abduction, elbow 140°, forearm -80°,
+wrist 17°/-29°. It checks source proximity, rotation-axis invariance,
+hand/radius wrist continuity and isolation of forearm bones from wrist-only
+changes. Shoulder regression also includes this exact reported pose.
+
+Shoulder volume projection now uses squared-gradient normalization and
+fractional vertex mobility, rather than equal-length displacement for tiny
+and large surface gradients. Attachments remain pinned. This is a numerical
+stability correction, not a claim that all shoulder contours or nerve routes
+are anatomically correct. Actual iPad/iPhone WebGL review is still required.

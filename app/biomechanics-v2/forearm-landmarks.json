@@ -1,0 +1,43 @@
+{
+  "method": "Radial head superior 5 mm surface; distal ulnar head patch 4–14 mm proximal to styloid; equal-weight scaphoid/lunate closest radial contact patch centres. Approximate rigid-joint model.",
+  "sides": {
+    "left": {
+      "radiusId": "FJ3277",
+      "ulnaId": "FJ3286",
+      "radialHead": [
+        0.23098491794533196,
+        1.110169804758496,
+        -0.02646124161158999
+      ],
+      "ulnarHead": [
+        0.24046924943104386,
+        0.8912378549575806,
+        0.015401531185489148
+      ],
+      "wrist": [
+        0.25732486269303734,
+        0.8876942839328346,
+        0.016870344233058103
+      ]
+    },
+    "right": {
+      "radiusId": "FJ3349",
+      "ulnaId": "FJ3391",
+      "radialHead": [
+        -0.23057276755571365,
+        1.1099782109260559,
+        -0.027692936609188715
+      ],
+      "ulnarHead": [
+        -0.23864354255298778,
+        0.8911607389648756,
+        0.014698270931451892
+      ],
+      "wrist": [
+        -0.256805373976628,
+        0.8875068786243596,
+        0.016786937466046464
+      ]
+    }
+  }
+}

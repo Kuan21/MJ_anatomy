@@ -26,7 +26,7 @@ const raw=JSON.parse(await readFile(new URL('public/models/atlas.json',root),'ut
 const {normalizeAtlasSystems}=await import(new URL('mj-system-classifier.mjs',tmp));
 const atlas=normalizeAtlasSystems(raw),landmarks=JSON.parse(await readFile(new URL('app/biomechanics-v2/shoulder-landmarks.json',root),'utf8'));
 const buffers=await Promise.all(atlas.chunks.map(c=>readFile(new URL('public'+c.url,root))));
-const poses={neutral:{},raise60:{shoulderAbduction:60},raise90:{shoulderAbduction:90},raise145:{shoulderAbduction:145},flex90:{shoulderFlexion:90},extension:{shoulderFlexion:-45},reportedRaise:{shoulderFlexion:68,shoulderAbduction:150},compound:{shoulderFlexion:-45,shoulderAbduction:69,elbowFlexion:50}};
+const poses={reportedWrist:{shoulderFlexion:74,shoulderAbduction:147,elbowFlexion:140,forearmRotation:-80,wristFlexion:17,wristDeviation:-29},neutral:{},raise60:{shoulderAbduction:60},raise90:{shoulderAbduction:90},raise145:{shoulderAbduction:145},flex90:{shoulderFlexion:90},extension:{shoulderFlexion:-45},reportedRaise:{shoulderFlexion:68,shoulderAbduction:150},compound:{shoulderFlexion:-45,shoulderAbduction:69,elbowFlexion:50}};
 for(let angle=0;angle<=165;angle+=15){poses['abduction'+angle]={shoulderAbduction:angle};poses['flexion'+angle]={shoulderFlexion:angle};}
 for(const angle of [-60,-30,30,70]){poses['rotation'+angle]={shoulderRotation:angle};poses['raisedRotation'+angle]={shoulderAbduction:120,shoulderFlexion:40,shoulderRotation:angle};}
 const qa={};

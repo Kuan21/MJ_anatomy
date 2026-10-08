@@ -106,11 +106,14 @@ export function solveShoulderMuscles(model:ReturnType<typeof makeShoulderMuscles
  const preserveVolume=()=>{
   for(const m of model.muscles){
    const volume=muscleVolume(p,m.triangles,head,m.gradient);let denominator=0;
-   for(const n of m.unique)if(mobility[n])denominator+=length3(m.gradient[n*3],m.gradient[n*3+1],m.gradient[n*3+2]);
+   for(const n of m.unique)if(mobility[n]){const i=n*3;denominator+=mobility[n]*(m.gradient[i]**2+m.gradient[i+1]**2+m.gradient[i+2]**2);}
    if(denominator<1e-20)continue;
    const lambda=(m.volume-volume)/denominator;
    for(const n of m.unique)if(mobility[n]){
-    const i=n*3,g=Math.max(1e-12,length3(m.gradient[i],m.gradient[i+1],m.gradient[i+2])),dx=lambda*m.gradient[i]/g,dy=lambda*m.gradient[i+1]/g,dz=lambda*m.gradient[i+2]/g,scale=Math.min(1,.003/Math.max(1e-12,length3(dx,dy,dz)));
+    // Minimum-displacement volume projection. Normalising every vertex's
+    // gradient used to push tiny surface triangles as far as broad belly
+    // regions, and ignored the attachment collar's fractional mobility.
+    const i=n*3,weight=mobility[n],dx=lambda*weight*m.gradient[i],dy=lambda*weight*m.gradient[i+1],dz=lambda*weight*m.gradient[i+2],scale=Math.min(1,.003/Math.max(1e-12,length3(dx,dy,dz)));
     p[i]+=dx*scale;p[i+1]+=dy*scale;p[i+2]+=dz*scale;
    }
   }
