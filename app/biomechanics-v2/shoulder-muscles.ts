@@ -12,11 +12,11 @@ export function makeShoulderMuscles(members:SurfaceMember[],head:Vector3,radius:
  members.forEach((m,k)=>group.maps[k].forEach((node,i)=>rest.set(m.base.subarray(i*3,i*3+3),node*3)));
  const muscles=members.map((m,member)=>{
   const map=group.maps[member],unique=[...new Set(map)],normals=new Float64Array(rest.length),edges=new Set<string>();
-  const links:number[]=[],lengths:number[]=[],axial:number[]=[];
-  const add=(a:number,b:number)=>{
+  const links:number[]=[],lengths:number[]=[],axial:number[]=[],stiffness:number[]=[];
+  const add=(a:number,b:number,strength=.8)=>{
    if(a===b)return;const key=a<b?`${a}:${b}`:`${b}:${a}`;if(edges.has(key))return;edges.add(key);
    const d=length3(rest[a*3]-rest[b*3],rest[a*3+1]-rest[b*3+1],rest[a*3+2]-rest[b*3+2]);if(d<1e-7)return;
-   links.push(a,b);lengths.push(d);
+   links.push(a,b);lengths.push(d);stiffness.push(strength);
   };
   for(let t=0;t<m.triangles.length;t+=3){
    const ids=[map[m.triangles[t]],map[m.triangles[t+1]],map[m.triangles[t+2]]];
@@ -25,6 +25,16 @@ export function makeShoulderMuscles(members:SurfaceMember[],head:Vector3,radius:
    ids.forEach((id,k)=>{for(let j=0;j<3;j++)normals[id*3+j]+=n.getComponent(j);add(id,ids[(k+1)%3]);});
   }
   unique.forEach(i=>{const n=length3(normals[i*3],normals[i*3+1],normals[i*3+2]);if(n>0)for(let c=0;c<3;c++)normals[i*3+c]/=n;});
+  // Edge lengths and bulk volume alone permit neighbouring triangles to
+  // hinge into sharp folds. Cross-edge diagonals retain local sheet curvature
+  // without welding separate muscles or restricting their bone attachments.
+  const opposite=new Map<string,number[]>();
+  for(let t=0;t<m.triangles.length;t+=3){
+   const ids=[map[m.triangles[t]],map[m.triangles[t+1]],map[m.triangles[t+2]]];
+   for(let k=0;k<3;k++){const a=ids[k],b=ids[(k+1)%3],key=a<b?`${a}:${b}`:`${b}:${a}`;const list=opposite.get(key)??[];list.push(ids[(k+2)%3]);opposite.set(key,list);}
+  }
+  let bendingLinks=0;
+  for(const ids of opposite.values())if(ids.length===2){const before=lengths.length;add(ids[0],ids[1],.25);bendingLinks+=lengths.length-before;}
   // Only opposite-facing surfaces within this SAME muscle are joined. Never
   // weld adjacent muscles, blood vessels, nerves or nearby but distinct parts.
   let thicknessLinks=0;
@@ -60,7 +70,7 @@ export function makeShoulderMuscles(members:SurfaceMember[],head:Vector3,radius:
    axial.push(hasAxis?Math.min(1,projection*projection):1/3);
   }
   const triangles=Uint32Array.from(m.triangles,i=>map[i]);
-  return{links:new Uint32Array(links),lengths:new Float32Array(lengths),axial:new Float32Array(axial),thicknessLinks,proximal,distal,centroid,restLength:wrappedLength(a,b,head,radius),triangles,volume:muscleVolume(rest,triangles,head),gradient:new Float64Array(rest.length),unique};
+  return{links:new Uint32Array(links),lengths:new Float32Array(lengths),axial:new Float32Array(axial),stiffness:new Float32Array(stiffness),bendingLinks,thicknessLinks,proximal,distal,centroid,restLength:wrappedLength(a,b,head,radius),triangles,volume:muscleVolume(rest,triangles,head),gradient:new Float64Array(rest.length),unique};
  });
  // Preserve source clearance; do not "correct" rest anatomy by inflating it.
  const clearance=new Float32Array(rest.length/3);
@@ -125,7 +135,7 @@ export function solveShoulderMuscles(model:ReturnType<typeof makeShoulderMuscles
     const i=a*3,j=b*3,dx=p[j]-p[i],dy=p[j+1]-p[i+1],dz=p[j+2]-p[i+2],length=length3(dx,dy,dz);if(length<1e-9)continue;
     const target=targets[mi][e],error=length>target*1.15?length-target*1.15:length<target*.85?length-target*.85:0;
     if(!error)continue;
-    const correction=.8*error/(length*sum);
+    const correction=m.stiffness[e]*error/(length*sum);
     p[i]+=dx*correction*ma;p[i+1]+=dy*correction*ma;p[i+2]+=dz*correction*ma;
     p[j]-=dx*correction*mb;p[j+1]-=dy*correction*mb;p[j+2]-=dz*correction*mb;
    }

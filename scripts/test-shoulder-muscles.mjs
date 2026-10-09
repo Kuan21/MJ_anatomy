@@ -37,6 +37,7 @@ for(const side of ['left','right']){
  const members=parts.map(p=>{const b=buffers[p.chunk],base=new Float32Array(b.buffer,b.byteOffset+p.positions,p.vertexCount*3).slice();return{name:p.name,id:p.id,base,triangles:new Uint32Array(b.buffer,b.byteOffset+p.indices,p.indexCount).slice(),skin:soft.bindTissue(rig,soft.tissueBindings[p.id].profile,base,p),positions:base.slice()};});
  const models=[muscles.makeShoulderMuscles(members.filter(m=>m.skin.profile==='deltoid'),rig.shoulder,landmarks.sides[side].headRadius),...members.filter(m=>m.skin.profile==='cuff').map(m=>muscles.makeShoulderMuscles([m],rig.shoulder,landmarks.sides[side].headRadius))];
  for(const model of models)assert.ok(model.muscles.every(m=>m.thicknessLinks>0),'Shoulder belly must have internal thickness links');
+ for(const model of models)assert.ok(model.muscles.every(m=>m.bendingLinks>0),'Shoulder surfaces must resist unconstrained triangle hinging');
  for(const [name,pose] of Object.entries(poses)){
   const transforms=motion.buildUpperLimbMotion(atlas,side,{...motion.NEUTRAL_POSE,...pose}).transforms,palette=soft.makePalette(rig,transforms),head=soft.deformPoint(rig.shoulder,[0,0,0,1,0,0,0],palette);
   members.forEach(m=>soft.deformTissue(m.skin,m.base,palette,m.positions));

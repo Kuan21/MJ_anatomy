@@ -75,3 +75,30 @@ fractional vertex mobility, rather than equal-length displacement for tiny
 and large surface gradients. Attachments remain pinned. This is a numerical
 stability correction, not a claim that all shoulder contours or nerve routes
 are anatomically correct. Actual iPad/iPhone WebGL review is still required.
+
+## Follow-up: axillary terminal nerves and shoulder folds
+
+The bilateral superior lateral brachial cutaneous nerves and muscular branches
+of the axillary nerves now retain their original proximal junction collars,
+while terminal portions follow fixed, overlapping deltoid surface patches.
+These patches transfer displacement from the completed shoulder solve, not a
+different intermediate pose. They are computed in source space and never
+reselected during movement. Missing host meshes retain the carrier fallback;
+nerve-only visibility still evaluates the hidden deltoid hosts. No nerve mesh
+is removed or shortened. Run `fit-deltoid-nerve-followers.mjs` after preparing
+the original atlas/nerve streams to regenerate the source-hashed mapping.
+
+A nearest-triangle normal-offset experiment was rejected because it produced
+large nerve spikes at surface folds. The accepted smooth displacement field
+is an approximation, not measured nerve sliding or an anatomical validation.
+`test-deltoid-followers.mjs` covers 20 bilateral branch/pose combinations,
+including raised shoulder and maximum elbow/forearm angles, checking exact
+neutral, source identity, translation covariance, coincident seams, unchanged
+axillary collars, a spike guard and separation from the solved deltoid.
+
+Shoulder surfaces additionally resist adjacent triangles hinging into sharp
+creases using compliant cross-edge diagonals. Existing volume, attachment,
+clearance, seam and deterministic-reset checks remain unchanged (41 poses per
+side). This is an incremental local correction; broad chest contours, other
+nerve branches, muscle-to-muscle collision and device WebGL rendering are not
+certified by these tests.

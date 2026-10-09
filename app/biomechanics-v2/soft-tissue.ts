@@ -8,6 +8,32 @@ import rawSerratusAttachments from './serratus-attachments.json';
 import rawThoracicCables from './thoracic-cables.json';
 import rawScapularBranches from './scapular-branches.json';
 import rawPectoralFollowers from './pectoral-followers.json';
+import rawDeltoidFollowers from './deltoid-nerve-followers.json';
+const deltoidFollowers=rawDeltoidFollowers.parts as unknown as Record<string,{side:string;vertexCount:number;positionHash:number;progress:number[];hostWeights:number[][];nodes:number[];samples:[string,number][];patches:[number,number][][]}>;
+
+/** Smooth, rest-space surface displacement transfer. Fixed overlapping source
+ * patches avoid discontinuities from nearest-face switches or folded normals.
+ * The source nerve's shape and proximal axillary collar are preserved. */
+export function followDeltoidSurface(name:string,base:Float32Array,out:Float32Array,getHost:(id:string)=>{base:Float32Array;posed:Float32Array}|undefined){
+ const fit=deltoidFollowers[name];if(!fit)return;
+ const hosts=new Map([...new Set(fit.samples.map(s=>s[0]))].map(id=>[id,getHost(id)]));
+ if([...hosts.values()].some(host=>!host))return;
+ for(let i=0;i<fit.vertexCount;i++){
+  const t=fit.progress[i];if(t===0)continue;
+  let dx=0,dy=0,dz=0,weight=0;
+  for(const [sample,w] of fit.patches[fit.nodes[i]]){
+   const [id,index]=fit.samples[sample];
+   const host=hosts.get(id)!;
+   dx+=w*(host.posed[index*3]-host.base[index*3]);
+   dy+=w*(host.posed[index*3+1]-host.base[index*3+1]);
+   dz+=w*(host.posed[index*3+2]-host.base[index*3+2]);weight+=w;
+  }
+  if(weight<1e-10)continue;
+  out[i*3]+=t*(base[i*3]+dx/weight-out[i*3]);
+  out[i*3+1]+=t*(base[i*3+1]+dy/weight-out[i*3+1]);
+  out[i*3+2]+=t*(base[i*3+2]+dz/weight-out[i*3+2]);
+ }
+}
 const pectoralFollowers=rawPectoralFollowers.parts as Record<string,{side:string;vertexCount:number;positionHash:number;progress:number[];fan:{originFrame:number;insertionFrame:number;tip:number[];minX:number;spanX:number}}>;
 const scapularBranches=rawScapularBranches.parts as Record<string,{side:string;vertexCount:number;positionHash:number;progress:number[]}>;
 const shoulderAttachments={...rawShoulderAttachments.parts,...rawSerratusAttachments.parts} as Record<string,{name:string;vertexCount:number;positionHash:number;originFrame:number;insertionFrame?:number;weight:number[]}>;
@@ -264,6 +290,17 @@ export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<numbe
    // Preserve the proximal shared field exactly. Progress follows source
    // topology, so adjacent branches cannot select unrelated centreline edges.
    const t=range(branch.progress[i],.10,.70),raw=pathWeights(rig,positions[i*3],positions[i*3+1],positions[i*3+2]).map(w=>w*(1-t));raw[2]+=t;
+   const entries=raw.map((w,j)=>({w,j})).sort((a,b)=>b.w-a.w).slice(0,4),sum=entries.reduce((s,e)=>s+e.w,0);
+   for(let k=0;k<4;k++){indices[i*4+k]=entries[k].j;weights[i*4+k]=entries[k].w/sum;}
+  }
+ }
+ const deltoidFollower=effectiveProfile==='path'?deltoidFollowers[name]:undefined;
+ if(deltoidFollower){
+  let hash=2166136261;for(let i=0;i<positions.length;i++)hash=Math.imul(hash^Math.round(positions[i]*1e7),16777619);
+  if(deltoidFollower.side!==rig.side||deltoidFollower.vertexCount!==count||deltoidFollower.positionHash!==(hash>>>0))throw new Error('Deltoid nerve/source mismatch');
+  for(let i=0;i<count;i++){
+   const t=deltoidFollower.progress[i];if(t===0)continue;
+   const raw=pathWeights(rig,positions[i*3],positions[i*3+1],positions[i*3+2]).map((w,j)=>w*(1-t)+t*deltoidFollower.hostWeights[i][j]);
    const entries=raw.map((w,j)=>({w,j})).sort((a,b)=>b.w-a.w).slice(0,4),sum=entries.reduce((s,e)=>s+e.w,0);
    for(let k=0;k<4;k++){indices[i*4+k]=entries[k].j;weights[i*4+k]=entries[k].w/sum;}
   }
