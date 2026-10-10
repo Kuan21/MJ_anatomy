@@ -217,7 +217,9 @@ export function weightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''
  }
  const proximal=profile==='biceps'||(profile==='triceps'&&name.toLowerCase().includes('long head'))?2:3;
  const distal=profile==='biceps'?5:4;
- const a=range(down,0,.22),b=range(down,.62,1);
+ // Keep the triceps belly on the humerus; elbow excursion transitions in
+ // the distal 35 mm collar (a source-space approximation, not tendon segmentation).
+ const a=range(down,0,.22),b=profile==='triceps'?range(box.min.y+.035-p.y,0,.035):range(down,.62,1);
  const weights=pair(proximal,3,a);for(let i=0;i<7;i++)weights[i]*=1-b;weights[distal]+=b;
  void c;return weights;
 }
@@ -230,7 +232,9 @@ export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<numbe
  const count=positions.length/3,indices=new Uint8Array(count*4),weights=new Float32Array(count*4),belly=new Float32Array(count),radial=new Float32Array(count*3),longitudinal=new Float32Array(count);
  const own=new Box3();for(let i=0;i<count;i++)own.expandByPoint(new Vector3(positions[i*3],positions[i*3+1],positions[i*3+2]));
  const name=part?.name??sourceName,effectiveProfile=resolveMuscleProfile(name,profile);
- const shared=['deltoid','biceps','triceps'].includes(effectiveProfile)?rig.groups[effectiveProfile]:null;
+ // Each triceps head has its own attachment extent. A union puts shorter
+ // heads' origins inside the long head's moving belly coordinates.
+ const shared=['deltoid','biceps'].includes(effectiveProfile)?rig.groups[effectiveProfile]:null;
  const box=shared??own;
  let origin:Vector3,insertion:Vector3,minAbs=0,maxAbs=1,spanAbs=1;
 

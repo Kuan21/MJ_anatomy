@@ -35,13 +35,23 @@ let count=0,worst=0;
 for(const p of atlas.parts){
  const b=soft.tissueBindings[p.id];if(!b||!['arm','biceps','triceps'].includes(b.profile))continue;
  const buf=fs.readFileSync('public'+atlas.chunks[p.chunk].url),base=new Float32Array(buf.buffer,buf.byteOffset+p.positions,p.vertexCount*3).slice(),idx=new Uint32Array(buf.buffer,buf.byteOffset+p.indices,p.indexCount),rig=soft.makeSoftRig(atlas,b.side),binding=soft.bindTissue(rig,b.profile,base,p),out=base.slice();
- for(const shoulderAbduction of [70,145,165])for(const elbowFlexion of [0,70,140]){
-  const pose={...motion.NEUTRAL_POSE,shoulderAbduction,elbowFlexion,forearmRotation:80,wristFlexion:-23,wristDeviation:19};
+ if(b.profile==='triceps'){
+  assert.ok(Math.min(...binding.fibre.coordinates)<1e-6&&Math.max(...binding.fibre.coordinates)>1-1e-6,'Each head spans its own attachment coordinates');
+  for(let i=0;i<base.length/3;i++)if(base[i*3+1]>p.bounds[0][1]+.036){
+   let ulna=0;for(let k=0;k<4;k++)if(binding.indices[i*4+k]===4)ulna+=binding.weights[i*4+k];
+   assert.equal(ulna,0,'Elbow must not rotate the upper triceps belly');
+  }
+ }
+ const poses=[...[70,145,165].flatMap(shoulderAbduction=>[0,70,140].map(elbowFlexion=>({shoulderAbduction,elbowFlexion,forearmRotation:80,wristFlexion:-23,wristDeviation:19}))),
+  {shoulderFlexion:82,shoulderAbduction:143,shoulderRotation:0,elbowFlexion:0},
+  {shoulderFlexion:82,shoulderAbduction:143,shoulderRotation:48,elbowFlexion:140,forearmRotation:80,wristFlexion:80}];
+ for(const input of poses){
+  const pose={...motion.NEUTRAL_POSE,...input};
   soft.deformTissue(binding,base,soft.makePalette(rig,motion.buildUpperLimbMotion(atlas,b.side,pose).transforms),out);
   assert.ok(out.every(Number.isFinite));let ratio=0;
   for(let i=0;i<idx.length;i+=3)for(let k=0;k<3;k++){const a=idx[i+k]*3,b=idx[i+(k+1)%3]*3,L=v=>Math.hypot(v[a]-v[b],v[a+1]-v[b+1],v[a+2]-v[b+2]),rest=L(base);if(rest>.0002)ratio=Math.max(ratio,L(out)/rest);}
   assert.ok(ratio<4.2,`${p.name}: elbow spike ${ratio}`);worst=Math.max(worst,ratio);count++;
  }
 }
-assert.equal(count,108);
+assert.equal(count,132);
 console.log(count,'actual upper-arm muscle/pose cases; screenshot elbow/pronation/wrist values PASS; maximum edge ratio',worst);

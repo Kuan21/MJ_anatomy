@@ -102,3 +102,25 @@ clearance, seam and deterministic-reset checks remain unchanged (41 poses per
 side). This is an incremental local correction; broad chest contours, other
 nerve branches, muscle-to-muscle collision and device WebGL rendering are not
 certified by these tests.
+
+## Follow-up: individual triceps heads and unbound trunk nerves
+
+Triceps heads now use their own source bounds for fibre/material coordinates.
+The previous union put shorter heads' origins inside the shared belly envelope.
+The elbow carrier transitions over the distal 35 mm rather than 38% of the
+full head length. This is a geometric approximation, not measured tendon
+segmentation. Arc-length section scaling and endpoint treatment are retained.
+The regression includes 132 cases, including shoulder 82/143/48 degrees,
+elbow 140 degrees and wrist 80 degrees from the reported screenshots.
+
+All accepted external nerve meshes receive a trunk binding. Previously,
+unclassified thoracic roots/rami could remain stationary during trunk motion.
+Long head-to-thorax nerves use the continuous spinal field; upper-limb nerves
+retain the upper-thorax carrier. Actual-scene tests cover trunk 50/0/0 and
+50/29/20 degrees, binding coverage, high head/neck vertex motion, finite
+outputs and exact reset. GPU drawing is stubbed in these integration tests.
+
+These changes correct specific motion-binding defects, not every anatomical
+nerve junction or muscle fold. Trunk muscles/ribs still use the existing
+approximate solver, not a validated fibre/contact simulation. Cross-mesh gaps,
+nerve sliding, chest folds and real-device visuals remain to be validated.

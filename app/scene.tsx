@@ -137,8 +137,10 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const inferredHeadNerve=/cervical|vagus|phrenic|hypoglossal|accessory|glossopharyngeal|ansa cervicalis|sympathetic trunk|superior cervical|middle cervical|inferior cervical/i.test(exactName);
     const bodyRegion=spinalCordLike?'head':bodyNerveBindings[exactName]??(inferredHeadNerve?'head':undefined);
     if(bodyRegion){mesh.userData.bodyRegion=bodyRegion;mesh.userData.bodySkin=bindBodyTissue(bodyRigs[bodyRegion],mesh.userData.basePositions,spinalCordLike?false:cranialNerveRigid(exactName));}
-    if(spinalCordLike)mesh.userData.spineSkin=bindBodyTissue(bodyRigs.spine,mesh.userData.basePositions,false);
-    else if(binding||bodyRegion==='head')mesh.userData.spineSkin=bindBodyTissue(bodyRigs.spine,mesh.userData.basePositions,true);
+    // Include otherwise unbound thoracic roots/rami in trunk motion. Long
+    // head-to-thorax nerves use the continuous spinal field; articulated arm
+    // nerves inherit the upper-thorax carrier.
+    mesh.userData.spineSkin=bindBodyTissue(bodyRigs.spine,mesh.userData.basePositions,!!binding);
     nerveRoot.add(mesh);nerveMeshes.push(mesh);
    });lastState=null;dirty=true;};
   // Keep successful nerve packages when another one fails. No browser Draco

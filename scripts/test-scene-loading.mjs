@@ -146,5 +146,23 @@ refCursor=0;main.namespace.default(props);await settle();
 const visible=drawnParts();for(const system of state.visible)assert.ok([...visible].some(i=>atlas.parts[i].system===system),`${system} restored after isolation`);
 if(withWorker){assert.ok(workerReplies>=5,'actual worker solved shoulder poses');assert.equal(peakWorker,1,'only one outstanding shoulder solve');}
 scene.traverse(o=>{const a=o.geometry?.getAttribute('position');if(a)for(const value of a.array)assert.ok(Number.isFinite(value),'finite geometry after lazy motion');});
+// Regression for the reported trunk poses, including unnamed thoracic nerves.
+const body=(await getModule(path.join(root,'app/biomechanics-v2/body-motion.ts'))).namespace;
+const spine=body.makeBodyRig(atlas,'spine');let spineNerves=0;
+scene.traverse(o=>{if(o.userData.mjNerve){assert.ok(o.userData.spineSkin,'Missing trunk binding: '+o.name);spineNerves++;}});
+for(const pose of [{flexion:50,rotation:0,sideBend:0,knee:0,ankle:0},{flexion:50,rotation:29,sideBend:20,knee:0,ankle:0}]){
+ const built=body.buildBodyMotion(spine,pose);refCursor=0;
+ main.namespace.default({...props,state:{...state,bodyMotion:{region:'spine',pose},partTransforms:built.transforms}});await settle();
+ scene.traverse(o=>{if(!o.userData.mjNerve)return;const base=o.userData.basePositions,out=o.geometry.getAttribute('position').array;
+  assert.ok(out.every(Number.isFinite),o.name);
+  for(let i=0;i<base.length;i+=3)if(base[i+1]>spine.levels.at(-1)+.02){
+   const expected=new THREE.Vector3(...base.subarray(i,i+3)).applyMatrix4(built.matrices.at(-1));
+   assert.ok(expected.distanceTo(new THREE.Vector3(...out.subarray(i,i+3)))<2e-6,'Head/neck nerve left behind: '+o.name);
+  }
+ });
+}
+refCursor=0;main.namespace.default(props);await settle();
+scene.traverse(o=>{if(o.userData.mjNerve)assert.deepEqual(o.geometry.getAttribute('position').array,o.userData.basePositions,'nerve reset '+o.name);});
+console.log(spineNerves,'loaded nerves: trunk bindings, reported poses and exact reset PASS');
 cleanups[0]();clearTimeout(timeout);
 console.log(`PASS actual scene: ${rendered.size} geometries, all 6 systems, valid normals through 90°, GPU indices match focus${failOnce?', missing vessels resumed':''}${withWorker?', real shoulder worker and atomic poses':''}. GPU drawing was stubbed. Maximum CPU frame ${Math.max(...frameTimes).toFixed(0)} ms.`);
