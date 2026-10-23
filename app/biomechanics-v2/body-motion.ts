@@ -175,3 +175,18 @@ export function bindBodyTissue(rig:BodyRig,positions:ArrayLike<number>,skull=fal
  }
  return{indices,weights,belly:new Float32Array(count),radial:new Float32Array(count*3),origin:new Vector3(),insertion:new Vector3(0,1,0),originWeights:[1],insertionWeights:[1],restLength:1,profile:'path'};
 }
+
+/** Preserve authored thoracic origins while carrying scapular/arm attachments
+ * with the same final thoracic frame as their bones. Height alone incorrectly
+ * bends a hanging arm; an entirely rigid carrier pulls rib attachments away. */
+export function bindSpineCarrier(rig:BodyRig,positions:ArrayLike<number>,upper:SkinBinding):SkinBinding{
+ const skin=bindBodyTissue(rig,positions),last=rig.pivots.length-1;
+ skin.indices.fill(0);skin.weights.fill(0);
+ for(let i=0;i<positions.length/3;i++){
+  let root=0;for(let k=0;k<4;k++)if(upper.indices[i*4+k]===0)root+=upper.weights[i*4+k];
+  root=Math.max(0,Math.min(1,root));
+  const w=bodyWeights(rig,positions[i*3+1]).map(v=>v*root);w[last]+=1-root;
+  let slot=0;w.forEach((value,frame)=>{if(value>0){skin.indices[i*4+slot]=frame;skin.weights[i*4+slot++]=value;}});
+ }
+ return skin;
+}

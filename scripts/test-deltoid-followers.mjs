@@ -4,6 +4,7 @@ import fs from 'node:fs';import {gunzipSync} from 'node:zlib';
 import * as soft from '../.sites-runtime/soft-tissue.mjs';
 import * as motion from '../.sites-runtime/mj-motion.mjs';
 const atlas=JSON.parse(fs.readFileSync('public/models/atlas.json')),fit=JSON.parse(fs.readFileSync('app/biomechanics-v2/deltoid-nerve-followers.json')).parts;
+soft.setDeltoidFollowers(fit);
 const qa=JSON.parse(fs.readFileSync('.sites-runtime/shoulder-qa.json')),sources=new Map(),hosts=new Map();
 for(const p of atlas.parts.filter(p=>/deltoid/.test(p.name)&&p.system==='muscular')){const b=fs.readFileSync('public'+atlas.chunks[p.chunk].url),base=new Float32Array(b.buffer,b.byteOffset+p.positions,p.vertexCount*3).slice();hosts.set(p.id,{base,posed:base});}
 for(const c of JSON.parse(fs.readFileSync('public/models/nerve-stream.json')).chunks){const selected=c.meshes.filter(p=>fit[p.name]);if(!selected.length)continue;const b=gunzipSync(fs.readFileSync('public'+c.url));for(const p of selected)sources.set(p.name,{base:new Float32Array(b.buffer,b.byteOffset+p.positions,p.vertexCount*3).slice(),idx:new Uint32Array(b.buffer,b.byteOffset+p.indices,p.indexCount).slice()});}

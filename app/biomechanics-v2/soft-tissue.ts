@@ -8,8 +8,10 @@ import rawSerratusAttachments from './serratus-attachments.json';
 import rawThoracicCables from './thoracic-cables.json';
 import rawScapularBranches from './scapular-branches.json';
 import rawPectoralFollowers from './pectoral-followers.json';
-import rawDeltoidFollowers from './deltoid-nerve-followers.json';
-const deltoidFollowers=rawDeltoidFollowers.parts as unknown as Record<string,{side:string;vertexCount:number;positionHash:number;progress:number[];hostWeights:number[][];nodes:number[];samples:[string,number][];patches:[number,number][][]}>;
+export type DeltoidFollowers=Record<string,{side:string;vertexCount:number;positionHash:number;progress:number[];hostWeights:number[][];nodes:number[];samples:[string,number][];patches:[number,number][][]}>;
+let deltoidFollowers:DeltoidFollowers={};
+// Loaded with the peripheral nerves, not duplicated in the entry and worker.
+export function setDeltoidFollowers(parts:DeltoidFollowers){deltoidFollowers=parts;}
 
 /** Smooth, rest-space surface displacement transfer. Fixed overlapping source
  * patches avoid discontinuities from nearest-face switches or folded normals.

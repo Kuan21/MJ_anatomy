@@ -10,13 +10,13 @@ import {Worker as NodeWorker} from 'node:worker_threads';
 import ts from 'typescript';
 import * as THREE from 'three';
 const root=fileURLToPath(new URL('../',import.meta.url)),stream=process.argv.includes('--stream'),withWorker=process.argv.includes('--worker');
-let pendingWorker=0,peakWorker=0,workerReplies=0,workerResults=[];
+let pendingWorker=0,peakWorker=0,workerReplies=0,workerResults=[],workerCreated=0;
 if(withWorker){
  const {build}=await import('vite');const out=path.join(root,'.sites-runtime/test-worker');
  await build({configFile:false,root,logLevel:'error',build:{outDir:out,emptyOutDir:true,minify:false,target:'es2022',lib:{entry:path.join(root,'app/biomechanics-v2/shoulder-worker.ts'),formats:['es'],fileName:'solver'}}});
  fs.writeFileSync(path.join(out,'bootstrap.mjs'),`import {parentPort} from 'node:worker_threads';globalThis.self={postMessage:(data,options)=>parentPort.postMessage(data,options?.transfer)};await import('./solver.js');parentPort.on('message',data=>self.onmessage({data}));`);
  globalThis.Worker=class{
-  constructor(){this.worker=new NodeWorker(pathToFileURL(path.join(out,'bootstrap.mjs')));this.worker.on('message',data=>{pendingWorker--;workerReplies++;workerResults=data.results??[];assert.ok(!data.error,data.error);this.onmessage?.({data});});this.worker.on('error',e=>assert.fail(e));}
+  constructor(){workerCreated++;this.worker=new NodeWorker(pathToFileURL(path.join(out,'bootstrap.mjs')));this.worker.on('message',data=>{pendingWorker--;workerReplies++;workerResults=data.results??[];assert.ok(!data.error,data.error);this.onmessage?.({data});});this.worker.on('error',e=>assert.fail(e));}
   postMessage(data,transfer){pendingWorker++;peakWorker=Math.max(peakWorker,pendingWorker);this.worker.postMessage(data,transfer);}
   terminate(){this.worker.terminate();}
  };
@@ -66,7 +66,7 @@ async function getModule(key){
  else{
   const source=fs.readFileSync(key,'utf8');
   const code=ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext,jsx:ts.JsxEmit.ReactJSX}}).outputText;
-  mod=new vm.SourceTextModule(code,{identifier:key,initializeImportMeta(meta){meta.env={BASE_URL:'/'};meta.url=pathToFileURL(key).href;}});
+  mod=new vm.SourceTextModule(code,{identifier:key,initializeImportMeta(meta){meta.env={BASE_URL:'/'};meta.url=pathToFileURL(key).href;},async importModuleDynamically(spec,ref){const target=await linker(spec,ref);if(target.status==='unlinked')await target.link(linker);if(target.status!=='evaluated')await target.evaluate();return target;}});
  }
  cache.set(key,mod);return mod;
 }
@@ -84,7 +84,7 @@ let resolveDone;let done=new Promise(resolve=>{resolveDone=resolve;});
 const state={tissueMotion:true,explode:0,visible:['skeletal','muscular','arterial','venous','nervous','connective'],selected:[],hiddenParts:[],depthFilter:'all',isolate:false,view:'three-quarter',rotate:false,reset:0};
 const props={atlas,state,onSelect(){},onProgress(n){progress.push(n);},onLoadStatus(s){statuses.push(s);if(!s.busy&&(s.loaded===s.total||s.failed.length))resolveDone(s);},onError(e){assert.fail(e);}};
 main.namespace.default(props);for(const fn of effects)cleanups.push(fn());effects=[];
-const timeout=setTimeout(()=>{console.error('Scene loader timed out');process.exit(1);},20000);
+const timeout=setTimeout(()=>{console.error('Scene loader timed out');process.exit(1);},withWorker?45000:20000);
 const first=await done;
 assert.ok(first.interactive);assert.equal(first.total,atlas.parts.length);
 if(failOnce){
@@ -106,6 +106,7 @@ if(nerveFail){
  for(const mesh of installed)assert.ok(mesh.parent,'Retry removed a successfully installed nerve');
 }
 const final=statuses.at(-1);assert.equal(final.loaded,atlas.parts.length);assert.equal(final.failed.length,0);assert.equal(progress.at(-1),100);
+assert.equal(workerCreated,0,'static atlas must not start the motion worker');
 const nerveNames=[];scene.traverse(o=>{if(o.userData.mjNerve)nerveNames.push(o.userData.mjExactName);});
 const exactBindings=JSON.parse(fs.readFileSync(path.join(root,'app/biomechanics-v2/nerve-bindings.json'),'utf8'));
 for(const name of Object.keys(exactBindings))assert.equal(nerveNames.filter(n=>n===name).length,1,'Missing or duplicated nerve in actual scene: '+name);
@@ -152,7 +153,11 @@ const spine=body.makeBodyRig(atlas,'spine');let spineNerves=0;
 scene.traverse(o=>{if(o.userData.mjNerve){assert.ok(o.userData.spineSkin,'Missing trunk binding: '+o.name);spineNerves++;}});
 for(const pose of [{flexion:50,rotation:0,sideBend:0,knee:0,ankle:0},{flexion:50,rotation:29,sideBend:20,knee:0,ankle:0}]){
  const built=body.buildBodyMotion(spine,pose);refCursor=0;
- main.namespace.default({...props,state:{...state,bodyMotion:{region:'spine',pose},partTransforms:built.transforms}});await settle();
+ const previous=motionValues.slice();
+ main.namespace.default({...props,state:{...state,bodyMotion:{region:'spine',pose},partTransforms:built.transforms}});runFrame();
+ if(withWorker)assert.deepEqual(motionValues,previous,'trunk bones wait for tissue worker');
+ await settle();
+ if(withWorker){assert.ok(workerResults.length>30,'trunk solved off render thread');assertWorkerBuffers();}
  scene.traverse(o=>{if(!o.userData.mjNerve)return;const base=o.userData.basePositions,out=o.geometry.getAttribute('position').array;
   assert.ok(out.every(Number.isFinite),o.name);
   for(let i=0;i<base.length;i+=3)if(base[i+1]>spine.levels.at(-1)+.02){
@@ -161,8 +166,24 @@ for(const pose of [{flexion:50,rotation:0,sideBend:0,knee:0,ankle:0},{flexion:50
   }
  });
 }
+function assertWorkerBuffers(){
+ const expected=new Map(workerResults.map(r=>[atlas.parts.findIndex(p=>p.id===r.id),r.positions]));
+ scene.traverse(o=>{const p=o.geometry?.getAttribute('partIndex'),positions=o.geometry?.getAttribute('position');if(!p)return;for(let i=0;i<p.count;){const id=p.getX(i),part=atlas.parts[id],posed=expected.get(id);if(posed&&state.visible.includes(part.system))assert.ok(posed.every((v,j)=>positions.array[i*3+j]===v),'body GPU buffer commits worker pose: '+part.name);i+=part.vertexCount;}});
+}
+if(withWorker){
+ for(const region of ['head','leftLeg','rightLeg','spine']){
+  const pose={flexion:25,rotation:15,sideBend:10,knee:65,ankle:15},built=body.buildBodyMotion(body.makeBodyRig(atlas,region),pose),previous=motionValues.slice();
+  refCursor=0;main.namespace.default({...props,state:{...state,bodyMotion:{region,pose},partTransforms:built.transforms}});runFrame();assert.deepEqual(motionValues,previous,'region switch waits for tissue worker');await settle();
+  assert.ok(workerResults.length>30,region+' body solver results');assertWorkerBuffers();
+ }
+ const pose={flexion:10,rotation:-15,sideBend:-10,knee:0,ankle:0},built=body.buildBodyMotion(spine,pose);
+ refCursor=0;main.namespace.default({...props,state:{...state,bodyMotion:{region:'spine',pose},partTransforms:built.transforms}});runFrame();assert.equal(pendingWorker,1);
+ // Reset before the pending result returns; stale work must never reapply.
+}
 refCursor=0;main.namespace.default(props);await settle();
 scene.traverse(o=>{if(o.userData.mjNerve)assert.deepEqual(o.geometry.getAttribute('position').array,o.userData.basePositions,'nerve reset '+o.name);});
+const sourceBuffers=atlas.chunks.map(c=>fs.readFileSync(path.join(root,'public',c.url)));
+scene.traverse(o=>{const p=o.geometry?.getAttribute('partIndex'),positions=o.geometry?.getAttribute('position');if(!p)return;for(let i=0;i<p.count;){const part=atlas.parts[p.getX(i)],buffer=sourceBuffers[part.chunk],base=new Float32Array(buffer.buffer,buffer.byteOffset+part.positions,part.vertexCount*3);assert.ok(base.every((v,j)=>positions.array[i*3+j]===v),'exact reset after mixed motion: '+part.name);i+=part.vertexCount;}});
 console.log(spineNerves,'loaded nerves: trunk bindings, reported poses and exact reset PASS');
 cleanups[0]();clearTimeout(timeout);
 console.log(`PASS actual scene: ${rendered.size} geometries, all 6 systems, valid normals through 90°, GPU indices match focus${failOnce?', missing vessels resumed':''}${withWorker?', real shoulder worker and atomic poses':''}. GPU drawing was stubbed. Maximum CPU frame ${Math.max(...frameTimes).toFixed(0)} ms.`);
