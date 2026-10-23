@@ -4,9 +4,10 @@ import ts from 'typescript';
 import {Vector3} from 'three';
 const root=new URL('../',import.meta.url),tmp=new URL('.sites-runtime/',root);
 // Run test-soft-tissue.mjs first to compile the shared motion modules.
-for(const name of ['surface-constraints','shoulder-muscles']){
+for(const name of ['surface-constraints','muscle-cells','shoulder-muscles']){
  let source=await readFile(new URL(`app/biomechanics-v2/${name}.ts`,root),'utf8');
  source=source.replace("from './surface-constraints'","from './surface-constraints.mjs'");
+ source=source.replace("from './muscle-cells'","from './muscle-cells.mjs'");
  await writeFile(new URL(`${name}.mjs`,tmp),ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText);
 }
 const muscles=await import(new URL('shoulder-muscles.mjs',tmp)),soft=await import(new URL('soft-tissue.mjs',tmp)),motion=await import(new URL('mj-motion.mjs',tmp));

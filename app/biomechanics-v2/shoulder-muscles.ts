@@ -1,5 +1,6 @@
 import {Vector3} from 'three';
 import {makeSurfaceGroup,type SurfaceMember} from './surface-constraints';
+import {makeMuscleCells,constrainMuscleCells} from './muscle-cells';
 // Coordinates are metres, bounded by the atlas; no overflow-safe hypot is
 // needed in the millions of inner-loop distance calculations.
 const length3=(x:number,y:number,z:number)=>Math.sqrt(x*x+y*y+z*z);
@@ -9,6 +10,16 @@ const length3=(x:number,y:number,z:number)=>Math.sqrt(x*x+y*y+z*z);
  * physiological force model or a substitute for measured fibre architecture. */
 export function makeShoulderMuscles(members:SurfaceMember[],head:Vector3,radius:number){
  const group=makeSurfaceGroup(members),rest=group.positions.slice();
+ const longitudinal=members.every(m=>!!m.skin.fibre);
+ if(longitudinal){
+  radius=0;group.constraints.mobility.fill(1);
+  members.forEach((m,k)=>group.maps[k].forEach((node,i)=>{
+   const t=m.skin.fibre!.coordinates[i];
+   let hand=0;for(let j=0;j<4;j++)if(m.skin.indices[i*4+j]===6)hand+=m.skin.weights[i*4+j];
+   const free=Math.min(1,Math.min(t,1-t)/.12)*(1-hand);
+   group.constraints.mobility[node]=Math.min(group.constraints.mobility[node],free<1e-6?0:free);
+  }));
+ }
  members.forEach((m,k)=>group.maps[k].forEach((node,i)=>rest.set(m.base.subarray(i*3,i*3+3),node*3)));
  const muscles=members.map((m,member)=>{
   const map=group.maps[member],unique=[...new Set(map)],normals=new Float64Array(rest.length),edges=new Set<string>();
@@ -37,7 +48,7 @@ export function makeShoulderMuscles(members:SurfaceMember[],head:Vector3,radius:
   for(const ids of opposite.values())if(ids.length===2){const before=lengths.length;add(ids[0],ids[1],.25);bendingLinks+=lengths.length-before;}
   // Only opposite-facing surfaces within this SAME muscle are joined. Never
   // weld adjacent muscles, blood vessels, nerves or nearby but distinct parts.
-  let thicknessLinks=0;
+  let thicknessLinks=0;const through=new Map<number,number[]>();
   for(const a of unique){
    const candidates:{b:number;d:number}[]=[];
    for(const b of unique){
@@ -50,12 +61,14 @@ export function makeShoulderMuscles(members:SurfaceMember[],head:Vector3,radius:
     if(dot<-.5&&inward<-.5)candidates.push({b,d});
    }
    candidates.sort((a,b)=>a.d-b.d);
+   through.set(a,candidates.slice(0,3).map(x=>x.b));
    for(const {b} of candidates.slice(0,3)){const before=lengths.length;add(a,b);thicknessLinks+=lengths.length-before;}
   }
   const proximal:number[]=[],distal:number[]=[];
   for(let i=0;i<map.length;i++){
    const frame=m.skin.indices[i*4],weight=m.skin.weights[i*4];
-   if(weight>=.995){if(frame===3)distal.push(map[i]);else if(frame===1||frame===2)proximal.push(map[i]);}
+   if(longitudinal){const t=m.skin.fibre!.coordinates[i];if(t<.025)proximal.push(map[i]);if(t>.975)distal.push(map[i]);}
+   else if(weight>=.995){if(frame===3)distal.push(map[i]);else if(frame===1||frame===2)proximal.push(map[i]);}
   }
   const centroid=(ids:number[],p:Float32Array)=>{const v=new Vector3();for(const i of ids)v.add(new Vector3().fromArray(p,i*3));return v.multiplyScalar(1/Math.max(1,ids.length));};
   const a=centroid(proximal,rest),b=centroid(distal,rest);
@@ -70,12 +83,20 @@ export function makeShoulderMuscles(members:SurfaceMember[],head:Vector3,radius:
    axial.push(hasAxis?Math.min(1,projection*projection):1/3);
   }
   const triangles=Uint32Array.from(m.triangles,i=>map[i]);
-  return{links:new Uint32Array(links),lengths:new Float32Array(lengths),axial:new Float32Array(axial),stiffness:new Float32Array(stiffness),bendingLinks,thicknessLinks,proximal,distal,centroid,restLength:wrappedLength(a,b,head,radius),triangles,volume:muscleVolume(rest,triangles,head),gradient:new Float64Array(rest.length),unique};
+  // A bent route has not necessarily shortened. Measure the material route
+  // through the belly, not the chord between the two attachment endpoints.
+  const stations=Array.from({length:17},()=>[] as number[]);
+  if(m.skin.fibre)for(let i=0;i<map.length;i++)stations[Math.min(16,Math.round(m.skin.fibre.coordinates[i]*16))].push(map[i]);
+  const routeLength=(p:Float32Array)=>{
+   const centres=stations.filter(s=>s.length).map(s=>centroid(s,p));let length=0;
+   for(let i=1;i<centres.length;i++)length+=centres[i].distanceTo(centres[i-1]);return length;
+  };
+  return{routeLength,restRoute:routeLength(rest),cells:makeMuscleCells(rest,triangles,through),links:new Uint32Array(links),lengths:new Float32Array(lengths),axial:new Float32Array(axial),stiffness:new Float32Array(stiffness),bendingLinks,thicknessLinks,proximal,distal,centroid,restLength:wrappedLength(a,b,head,radius),triangles,volume:muscleVolume(rest,triangles,head),gradient:new Float64Array(rest.length),unique};
  });
  // Preserve source clearance; do not "correct" rest anatomy by inflating it.
  const clearance=new Float32Array(rest.length/3);
  for(let i=0;i<clearance.length;i++)clearance[i]=Math.min(radius,new Vector3().fromArray(rest,i*3).distanceTo(head));
- return{group,rest,muscles,clearance,head:head.clone(),radius};
+ return{group,rest,muscles,clearance,head:head.clone(),radius,longitudinal};
 }
 
 /** Length of a taut path around a spherical obstacle, used to derive axial
@@ -103,14 +124,15 @@ export function muscleVolume(p:Float32Array,triangles:ArrayLike<number>,centre:V
  return volume;
 }
 
-export function solveShoulderMuscles(model:ReturnType<typeof makeShoulderMuscles>,head:Vector3,passes=80){
+export function solveShoulderMuscles(model:ReturnType<typeof makeShoulderMuscles>,head:Vector3,passes=model.longitudinal?24:80){
  const {group,rest}=model,p=group.positions,mobility=group.constraints.mobility;
  group.members.forEach((m,k)=>group.maps[k].forEach((node,i)=>p.set(m.positions.subarray(i*3,i*3+3),node*3)));
  // Exact neutral/rest reset; no numerical constraint creep.
  if(p.every((v,i)=>v===rest[i]))return;
  const targets=model.muscles.map(m=>{
   const length=wrappedLength(m.centroid(m.proximal,p),m.centroid(m.distal,p),head,model.radius);
-  const stretch=m.proximal.length&&m.distal.length?Math.max(.5,Math.min(2,length/Math.max(1e-6,m.restLength))):1;
+  const ratio=model.longitudinal&&m.restRoute>1e-6?m.routeLength(p)/m.restRoute:m.proximal.length&&m.distal.length?length/Math.max(1e-6,m.restLength):1;
+  const stretch=Math.max(.5,Math.min(2,ratio));
   return m.lengths.map((length,i)=>length*Math.sqrt(m.axial[i]*stretch*stretch+(1-m.axial[i])/stretch));
  });
  const preserveVolume=()=>{
@@ -142,6 +164,7 @@ export function solveShoulderMuscles(model:ReturnType<typeof makeShoulderMuscles
   });
   // Bulk-volume preservation prevents the folded/flattened sheet failure
   // that a surface edge limit (or local thickness links alone) cannot detect.
+  for(const m of model.muscles)constrainMuscleCells(m.cells,p,mobility);
   preserveVolume();
   // Keep free belly vertices outside the estimated humeral-head surface.
   // Bone-pinned attachments are never displaced by collision correction.
@@ -153,7 +176,7 @@ export function solveShoulderMuscles(model:ReturnType<typeof makeShoulderMuscles
  // Final local spike guard, independent of triangle size. Bulk constraints
  // cannot certify local mesh quality; report volume/clearance after this pass.
  const edges=group.constraints.edges,lengths=group.constraints.lengths;
- for(let pass=0;pass<80;pass++){
+ for(let pass=0;pass<passes;pass++){
  for(let e=0;e<lengths.length;e++){
   const a=edges[e*2],b=edges[e*2+1],ma=mobility[a],mb=mobility[b],sum=ma+mb;if(!sum)continue;
   const i=a*3,j=b*3,dx=p[j]-p[i],dy=p[j+1]-p[i+1],dz=p[j+2]-p[i+2],length=length3(dx,dy,dz),max=lengths[e]*2;
@@ -163,11 +186,22 @@ export function solveShoulderMuscles(model:ReturnType<typeof makeShoulderMuscles
  }
  // The edge guard must not flatten away the volume just solved above.
  // Alternate both constraints; attachment mobility remains zero throughout.
+ for(const m of model.muscles)constrainMuscleCells(m.cells,p,mobility);
  preserveVolume();
  for(let n=0;n<mobility.length;n++)if(mobility[n]){
   const i=n*3,dx=p[i]-head.x,dy=p[i+1]-head.y,dz=p[i+2]-head.z,d=length3(dx,dy,dz),r=model.clearance[n];
   if(d<r&&d>1e-9){p[i]=head.x+dx*r/d;p[i+1]=head.y+dy*r/d;p[i+2]=head.z+dz*r/d;}
  }
+ }
+ // End with orientation recovery: bulk-volume/edge projection can otherwise
+ // re-invert a small cell on its last iteration. Preserve bone clearance and
+ // exact fixed attachments; do not accumulate this correction between poses.
+ for(let pass=0;model.longitudinal&&pass<24;pass++){
+  for(const m of model.muscles)constrainMuscleCells(m.cells,p,mobility,.02);
+  for(let n=0;n<mobility.length;n++)if(mobility[n]){
+   const i=n*3,dx=p[i]-head.x,dy=p[i+1]-head.y,dz=p[i+2]-head.z,d=length3(dx,dy,dz),r=model.clearance[n];
+   if(d<r&&d>1e-9){p[i]=head.x+dx*r/d;p[i+1]=head.y+dy*r/d;p[i+2]=head.z+dz*r/d;}
+  }
  }
  group.members.forEach((m,k)=>group.maps[k].forEach((node,i)=>m.positions.set(p.subarray(node*3,node*3+3),i*3)));
 }

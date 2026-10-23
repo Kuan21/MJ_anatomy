@@ -564,7 +564,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const skin=mesh.userData.skin as SkinBinding|undefined;
     // A hidden shoulder head still participates in its mechanical group.
     // Visibility/focus controls rendering, not the shape of its neighbours.
-    const shoulderParticipant=!s.bodyMotion&&s.tissueMotion&&skin&&['deltoid','cuff'].includes(skin.profile);
+    const shoulderParticipant=!s.bodyMotion&&s.tissueMotion&&skin&&(skin.fibre||['deltoid','cuff'].includes(skin.profile));
     if(!shoulderParticipant&&(hidden.has(part.id)||(focused&&!focused.has(part.id))))continue;
     if(!skin&&!mesh.userData.bodySkin&&!mesh.userData.spineSkin&&!mesh.userData.tissuePosed)continue;
     const side=mesh.userData.tissueSide as 'left'|'right',rig=softRigs[side];
@@ -584,8 +584,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const groups=new Map<string,T.Mesh[]>();
     for(const mesh of pickers){
      if(!mesh?.userData.tissuePosed||mesh.userData.tissueSide!==side)continue;
-     const profile=mesh.userData.skin?.profile;if(!['deltoid','cuff'].includes(profile))continue;
-     const key=profile==='deltoid'?`${side}:deltoid`:mesh.uuid;
+     const profile=mesh.userData.skin?.profile;if(!mesh.userData.skin?.fibre&&!['deltoid','cuff'].includes(profile))continue;
+     const key=['deltoid','biceps','triceps'].includes(profile)?`${side}:${profile}`:mesh.uuid;
      const list=groups.get(key)??[];list.push(mesh);groups.set(key,list);
     }
     const head=deformPoint(rig.shoulder,[0,0,0,1,0,0,0],palette);

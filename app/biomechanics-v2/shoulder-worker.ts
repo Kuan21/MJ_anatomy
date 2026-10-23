@@ -33,8 +33,8 @@ export function createShoulderSolver(atlas:Atlas){
    for(const m of members.values())if(m.side===side){
     deformTissue(m.skin,m.base,palette,m.positions);
     if(m.guard)constrainSurface(m.guard,m.positions);
-    if(!['deltoid','cuff'].includes(m.skin.profile))continue;
-    const key=m.skin.profile==='deltoid'?side+':deltoid':m.part.id;
+    if(!m.skin.fibre&&!['deltoid','cuff'].includes(m.skin.profile))continue;
+    const key=['deltoid','biceps','triceps'].includes(m.skin.profile)?side+':'+m.skin.profile:m.part.id;
     const list=groups.get(key)??[];list.push(m);groups.set(key,list);
    }
    const head=deformPoint(rig.shoulder,[0,0,0,1,0,0,0],palette);
