@@ -1,5 +1,5 @@
 export type QuizSystem = 'skeletal' | 'muscular' | 'nervous' | 'arterial' | 'venous';
-export type QuizRegionId = 'lower-limb' | 'upper-limb' | 'thorax';
+export type QuizRegionId = 'lower-limb' | 'upper-limb' | 'thorax' | 'back';
 /** Section ids are region specific ('hip', 'thigh'… for the leg; 'shoulder', 'arm'… for the arm; 'cage', 'wall'… for the thorax). */
 export type QuizSection = string;
 export type QuizSide = 'right' | 'left' | 'both';
@@ -28,6 +28,10 @@ export interface QuizRegionDef {
   headline: [string, string];
   description: [string, string];
   scope: string;
+  /** View the model opens in; the back quiz starts from behind. */
+  defaultView?: 'front' | 'back';
+  /** Side selected when the setup page opens (the back is symmetric, so both sides). */
+  defaultSide?: QuizSide;
   /** Framing of the section box: half-width in x (per side) and the z range in metres. */
   frame: {x: number; z: [number, number]; footZ?: number};
   sections: QuizSectionDef[];
@@ -55,7 +59,15 @@ const THORAX_SECTIONS: QuizSectionDef[] = [
   {id: 'vessels', label: '縱膈・大血管', english: 'Mediastinum & great vessels', range: [1.04, 1.5]},
   {id: 'intercostal', label: '肋間與胸壁血管神經', english: 'Intercostal & chest-wall vessels and nerves', range: [1.04, 1.5]},
 ];
-export const QUIZ_REGIONS: Record<QuizRegionId, QuizRegionDef> = {
+const BACK_SECTIONS: QuizSectionDef[] = [
+  {id: 'all', label: '全部背部', english: 'Back', range: [.78, 1.68]},
+  {id: 'superficial', label: '淺層背肌', english: 'Superficial back muscles', range: [.85, 1.62]},
+  {id: 'intermediate', label: '中層背肌', english: 'Intermediate back muscles', range: [.95, 1.5]},
+  {id: 'deep', label: '深層固有背肌', english: 'Deep (intrinsic) back muscles', range: [.78, 1.68]},
+  {id: 'suboccipital', label: '枕下區', english: 'Suboccipital region', range: [1.5, 1.68]},
+  {id: 'neurovascular', label: '背部神經與血管', english: 'Nerves and vessels of the back', range: [.78, 1.68]},
+];
+export const QUIZ_REGIONS = {
   'lower-limb': {
     id: 'lower-limb', label: '下肢', english: 'Lower limb', tag: '下肢篇', file: 'quiz-lower.json', hash: '#/quiz/lower-limb', atlasHash: '#/atlas/lower',
     headline: ['看名稱，', '點出位置。'], description: ['由臀部到足部，喺 3D 模型練習辨認。', '每答一題，即刻睇到正確位置。'],
@@ -74,8 +86,16 @@ export const QUIZ_REGIONS: Record<QuizRegionId, QuizRegionDef> = {
     scope: '採用現有圖譜嘅固定解剖姿勢。題目只涵蓋胸腔內外已有模型嘅主要構造（不含器官內部分支）；神經、動脈同靜脈可以獨立練習。',
     frame: {x: .24, z: [-.13, .15]}, sections: THORAX_SECTIONS,
   },
+} as Record<QuizRegionId, QuizRegionDef>;
+QUIZ_REGIONS.back = {
+  id: 'back', label: '背部', english: 'Back', tag: '背部篇', file: 'quiz-back.json', hash: '#/quiz/back', atlasHash: '#/atlas/whole',
+  headline: ['看名稱，', '點出位置。'], description: ['由淺層到深層背肌，連同枕下區的神經與血管，在 3D 模型上練習辨認。', '每答一題，立即顯示正確位置與資料卡。'],
+  scope: '採用現有圖譜的固定解剖姿勢，預設由後方觀看。題目涵蓋斜方肌、背闊肌、提肩胛肌、大小菱形肌、後上下鋸肌、夾肌、豎脊肌群、橫棘肌群、枕下肌群，以及模型中已有的相關神經與血管；模型尚未收錄的構造（例如枕下神經、枕大神經、枕下靜脈叢）不會出題。',
+  defaultView: 'back', defaultSide: 'both',
+  frame: {x: .26, z: [-.17, .12]}, sections: BACK_SECTIONS,
 };
 export const QUIZ_REGION_IDS = Object.keys(QUIZ_REGIONS) as QuizRegionId[];
+export const isQuizHub = (hash: string) => hash === '#/quiz' || hash === '#/quiz/';
 export const regionOfHash = (hash: string): QuizRegionId | undefined => QUIZ_REGION_IDS.find(id => QUIZ_REGIONS[id].hash === hash);
 export const QUIZ_SECTIONS = LOWER_SECTIONS;
 export const regionSections = (region: QuizRegionId | undefined) => QUIZ_REGIONS[region ?? 'lower-limb'].sections;
@@ -264,7 +284,36 @@ export function thoraxSections(name: string, bounds: Bounds, system?: QuizSystem
   return ['vessels'];
 }
 
+// Back: individually identified nerves and vessels. Branches the atlas does not model (suboccipital, greater occipital nerve, dorsal rami,
+// suboccipital venous plexus) are not turned into answers.
+export const BACK_NERVES: Record<string, {zh: string; sections: SectionList}> = {
+  'accessory nerve (xi)': {zh: '副神經', sections: ['superficial', 'neurovascular']},
+  'dorsal scapular nerve': {zh: '肩胛背神經', sections: ['intermediate', 'neurovascular']},
+  'thoracodorsal nerve': {zh: '胸背神經', sections: ['superficial', 'neurovascular']},
+};
+export const BACK_INCLUDE: Record<QuizSystem, RegExp> = {
+  skeletal: /^(?:(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth) (?:cervical|thoracic|lumbar) vertebra|atlas|axis|sacrum|coccyx|occipital bone|scapula)$/,
+  muscular: /^(?:(?:descending|transverse|ascending) part of trapezius|latissimus dorsi|levator scapulae|rhomboid (?:major|minor)|serratus posterior (?:superior|inferior)|splenius (?:capitis|cervicis)|iliocostalis (?:cervicis|thoracis|lumborum)|longissimus (?:capitis|cervicis|thoracis)|spinalis(?: thoracis| cervicis)?|semispinalis (?:capitis|cervicis|thoracis)|multifidus|(?:cervical|thoracic|lumbar) rotator|rectus capitis posterior (?:major|minor)|obliquus capitis (?:superior|inferior))$/,
+  nervous: /^$/,
+  arterial: /^(?:dorsal scapular artery|transverse cervical artery|superficial cervical artery|deep cervical artery|vertebral artery|costocervical trunk|posterior intercostal arteries|subcostal artery|lumbar artery|thoracodorsal artery)$/,
+  venous: /^(?:subcostal vein|lumbar vein|ascending lumbar vein|thoracodorsal vein)$/,
+};
+/** Back sections: superficial (trapezius, latissimus), intermediate (levator, rhomboids, serratus posterior), deep intrinsic, suboccipital, nerves and vessels. */
+export function backSections(name: string, system?: QuizSystem): SectionList {
+  const n = cleanName(name);
+  if (BACK_NERVES[n]) return BACK_NERVES[n].sections;
+  if (/trapezius|latissimus/.test(n)) return ['superficial'];
+  if (/levator scapulae|rhomboid|serratus posterior/.test(n)) return ['intermediate'];
+  if (/rectus capitis posterior|obliquus capitis/.test(n)) return ['suboccipital'];
+  if (/splenius|iliocostalis|longissimus|spinalis|semispinalis|multifidus|rotator/.test(n)) return ['deep'];
+  if (n === 'vertebral artery') return ['suboccipital', 'neurovascular'];
+  if (system === 'arterial' || system === 'venous' || system === 'nervous') return ['neurovascular'];
+  if (/occipital bone|atlas|axis|first cervical|second cervical/.test(n)) return ['deep', 'suboccipital'];
+  return ['deep'];
+}
+
 export function classifySections(region: QuizRegionId, name: string, bounds: Bounds, system?: QuizSystem): SectionList {
+  if (region === 'back') return backSections(name, system);
   return region === 'upper-limb' ? upperSections(name, bounds) : region === 'thorax' ? thoraxSections(name, bounds, system) : lowerSections(name, bounds);
 }
 

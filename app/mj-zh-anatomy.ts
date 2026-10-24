@@ -36,7 +36,7 @@ const STANDARD:Record<string,string>={
  'common interosseous artery':'總骨間動脈','anterior interosseous artery':'前骨間動脈','dorsal carpal branch of radial artery':'橈動脈背側腕支','dorsal carpal branch of ulnar artery':'尺動脈背側腕支',
  'deep palmar arch':'深掌動脈弓','superficial palmar arterial arch':'淺掌動脈弓','palmar metacarpal artery':'掌側掌骨動脈',
  'circumflex scapular artery':'旋肩胛動脈','subscapular artery':'肩胛下動脈','suprascapular artery':'肩胛上動脈','dorsal scapular artery':'肩胛背動脈',
- 'lateral thoracic artery':'外側胸動脈','thoracodorsal artery':'胸背動脈','transverse cervical artery':'頸橫動脈',
+ 'lateral thoracic artery':'外側胸動脈','thoracodorsal artery':'胸背動脈','deep cervical artery':'頸深動脈','superficial cervical artery':'頸淺動脈','vertebral artery':'椎動脈','ascending lumbar vein':'腰升靜脈','thoracodorsal vein':'胸背靜脈','transverse cervical artery':'頸橫動脈',
  // upper-limb veins
  'axillary vein':'腋靜脈','basilic vein':'貴要靜脈','cephalic vein':'頭靜脈','median cubital vein':'正中肘靜脈','median antebrachial vein':'前臂正中靜脈','radial vein':'橈靜脈','ulnar vein':'尺靜脈',
  'circumflex scapular vein':'旋肩胛靜脈','subscapular vein':'肩胛下靜脈','suprascapular vein':'肩胛上靜脈','common palmar digital vein':'掌側總指靜脈',
