@@ -158,3 +158,5 @@ a.quiz-hub-card:hover{transform:translateY(-2px);border-color:#263b4866;box-shad
 .quiz-info-card .is-empty dd{color:#8a949d}
 .quiz-info-none{font-size:12px}
 .quiz-info-note{font-size:11px;color:var(--quiz-muted);margin:2px 0 10px}
+.quiz-target{display:block}
+.quiz-target>span{display:block}

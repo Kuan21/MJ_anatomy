@@ -33,7 +33,7 @@ export const FEEDBACK = {
   wrong: {fill: '#D6304A', edge: '#6F0F22'},
 };
 const outlineMaterial = (color: string) => new T.ShaderMaterial({
-  uniforms: {color: {value: new T.Color(color)}, width: {value: .0018}}, side: T.BackSide, depthTest: false, depthWrite: false,
+  uniforms: {color: {value: new T.Color(color)}, width: {value: .0011}}, side: T.BackSide, depthTest: false, depthWrite: false, transparent: true,
   vertexShader: 'uniform float width; void main(){ gl_Position = projectionMatrix * modelViewMatrix * vec4(position + normalize(normal) * width, 1.0); }',
   fragmentShader: 'uniform vec3 color; void main(){ gl_FragColor = vec4(color, 1.0); }',
 });
@@ -92,15 +92,16 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
       // Outline shell around the answer and the wrong pick (shares the mesh geometry).
       let shell = mesh.userData.outline as T.Mesh<T.BufferGeometry, T.ShaderMaterial> | undefined;
       if (isAnswer || isWrong) {
-        if (!shell) {shell = new T.Mesh(mesh.geometry, outlineMaterial(FEEDBACK.correct.edge)); shell.renderOrder = 2; mesh.add(shell); mesh.userData.outline = shell;}
+        if (!shell) {shell = new T.Mesh(mesh.geometry, outlineMaterial(FEEDBACK.correct.edge)); shell.renderOrder = 3; mesh.add(shell); mesh.userData.outline = shell;}
         shell.material.uniforms.color.value.set(isAnswer ? FEEDBACK.correct.edge : FEEDBACK.wrong.edge);
         shell.visible = mesh.visible;
       } else if (shell) shell.visible = false;
-      material.transparent = material.opacity < 1;
-      material.depthWrite = material.opacity === 1;
+      // The feedback meshes join the transparent pass (sorted last by renderOrder) so faint context anatomy never washes their colour out.
+      material.transparent = material.opacity < 1 || isAnswer || isWrong;
+      material.depthWrite = material.opacity === 1 && !isAnswer && !isWrong;
       // Correct/wrong overlays remain visible even behind an outer muscle.
       material.depthTest = !isAnswer && !isWrong;
-      mesh.renderOrder = isAnswer ? 4 : isWrong ? 3 : isContext ? 0 : 1;
+      mesh.renderOrder = isAnswer ? 5 : isWrong ? 4 : isContext ? 0 : 1;
       material.needsUpdate = true;
     }
     canvas.style.cursor = state.peeling ? 'crosshair' : 'grab';
