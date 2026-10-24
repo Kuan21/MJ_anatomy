@@ -1,6 +1,7 @@
 import type {Atlas,Part,PartTransform,SceneState} from '../anatomy';
 import {BufferAttribute,BufferGeometry} from 'three';
-import {makeSoftRig,bindTissue,makePalette,deformTissue,deformPoint,tissueBindings,resolveNeurovascularProfile} from './soft-tissue';
+import {makeSoftRig,bindTissue,makePalette,deformTissue,deformPoint,tissueBindings,resolveNeurovascularProfile,isLinearBinding} from './soft-tissue';
+import {gpuBinding,type GpuBinding} from './gpu-skinning';
 import {makeShoulderMuscles,solveShoulderMuscles} from './shoulder-muscles';
 import {makeSurfaceConstraints,constrainSurface} from './surface-constraints';
 import {prepareSurfaceNormals,updateSurfaceNormals} from '../surface-normals';
@@ -11,17 +12,21 @@ import {anatomicalRegion,isMotionQuarantined} from '../mj-part-regions';
 
 export type ShoulderInput={part:Part;base:Float32Array;triangles:Uint32Array;normals:Int16Array};
 export type ShoulderResult={id:string;positions:Float32Array;normals:Int16Array;bounds:[number[],number[]]};
+/** Linear bindings are skinned on the GPU: their weights are sent once and they are never re-solved. */
+export type GpuSkinResult={id:string}&GpuBinding;
 export function createShoulderSolver(atlas:Atlas){
  const rigs={left:makeSoftRig(atlas,'left')!,right:makeSoftRig(atlas,'right')!};
  const members=new Map<string,ShoulderInput&{skin:ReturnType<typeof bindTissue>;positions:Float32Array;side:'left'|'right';geometry:BufferGeometry;guard?:ReturnType<typeof makeSurfaceConstraints>}>();
  const models=new Map<string,ReturnType<typeof makeShoulderMuscles>>();
- return(inputs:ShoulderInput[],transforms:Record<string,PartTransform>)=>{
+ return(inputs:ShoulderInput[],transforms:Record<string,PartTransform>,gpu:GpuSkinResult[]=[])=>{
   if(inputs.length)models.clear();
   for(const input of inputs){
    const binding=tissueBindings[input.part.id];
    if(!binding||binding.name!==input.part.name||isMotionQuarantined(input.part)||!['upper-limb','trunk'].includes(anatomicalRegion(input.part)))continue;
    const profile=['arterial','venous'].includes(input.part.system)?resolveNeurovascularProfile(input.part.name,binding.profile):binding.profile;
-   const skin=bindTissue(rigs[binding.side],profile,input.base,input.part),positions=input.base.slice(),geometry=new BufferGeometry();
+   const skin=bindTissue(rigs[binding.side],profile,input.base,input.part);
+   if(isLinearBinding(skin)){gpu.push({id:input.part.id,...gpuBinding(binding.side,{indices:skin.indices.slice(),weights:skin.weights.slice()})});continue;}
+   const positions=input.base.slice(),geometry=new BufferGeometry();
    geometry.setAttribute('position',new BufferAttribute(positions,3));geometry.setAttribute('normal',new BufferAttribute(input.normals.slice(),3,true));geometry.setIndex(new BufferAttribute(input.triangles,1));prepareSurfaceNormals(geometry);
    const guard=['chest','scapular'].includes(skin.profile)?makeSurfaceConstraints(input.base,input.triangles,skin):undefined;
    members.set(input.part.id,{...input,side:binding.side,skin,positions,geometry,guard});
@@ -87,7 +92,7 @@ if(typeof self!=='undefined')self.onmessage=(event:MessageEvent<{atlas?:Atlas;in
   for(const input of event.data.inputs)sources.set(input.part.id,input);
   const seen=event.data.bodyMotion?seenBody:seenUpper,inputs=[...sources.values()].filter(input=>!seen.has(input.part.id));
   inputs.forEach(input=>seen.add(input.part.id));
-  const results=event.data.bodyMotion?solveBody(inputs,event.data.bodyMotion):solve(inputs,event.data.transforms);
-  self.postMessage({results},{transfer:results.flatMap(r=>[r.positions.buffer,r.normals.buffer])});
+  const gpu:GpuSkinResult[]=[],results=event.data.bodyMotion?solveBody(inputs,event.data.bodyMotion):solve(inputs,event.data.transforms,gpu);
+  self.postMessage({results,gpu},{transfer:[...results.flatMap(r=>[r.positions.buffer,r.normals.buffer]),...gpu.flatMap(g=>[g.indices.buffer,g.weights.buffer])]});
  }catch(error){self.postMessage({error:error instanceof Error?error.message:String(error)});}
 };

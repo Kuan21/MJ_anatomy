@@ -413,6 +413,19 @@ function transform(x:number,y:number,z:number,q:Float64Array,out:ArrayLike<numbe
  out[i+1]=y+d*ty+c*tx-a*tz+(translate?2*(-h*b+d*f-g*a+e*c):0);
  out[i+2]=z+d*tz+a*ty-b*tx+(translate?2*(-h*c+d*g-e*b+f*a):0);
 }
+/** True when deformTissue reduces to exactly one normalized dual-quaternion blend
+ * per vertex: no follower, cable, wrap, fibre guide, fan, surface guard, shoulder
+ * muscle group or belly section change. Such bindings are skinned on the GPU
+ * (gpu-skinning.ts) instead of being re-solved and re-uploaded for every pose. */
+export function isLinearBinding(b:SkinBinding){
+ return !b.follower&&!b.cable&&!b.wrap&&!b.fibre&&!b.fan&&!['chest','pectoralPath','scapular','deltoid','cuff'].includes(b.profile)&&!b.belly.some(x=>x!==0);
+}
+/** CPU twin of the GPU stage for linear bindings (picking, tests). */
+export function linearSkin(b:Pick<SkinBinding,'indices'|'weights'>,base:ArrayLike<number>,palette:Palette,out:Float32Array){
+ const q=new Float64Array(8);
+ for(let i=0;i<out.length/3;i++){blended(palette,b.indices,b.weights,i*4,q);transform(base[i*3],base[i*3+1],base[i*3+2],q,out,i*3);}
+ return out;
+}
 export function deformPoint(p:Vector3,weights:number[],palette:Palette):Vector3{
  const pairs=weights.map((w,i)=>({w,i})).sort((a,b)=>b.w-a.w).slice(0,4),sum=pairs.reduce((s,p)=>s+p.w,0),q=new Float64Array(8),v=new Float64Array(3);
  blended(palette,pairs.map(p=>p.i),pairs.map(p=>p.w/sum),0,q);transform(p.x,p.y,p.z,q,v,0);return new Vector3(...v);
