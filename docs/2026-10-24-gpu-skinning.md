@@ -114,3 +114,55 @@ this change.
 
 Not changed: the downloads (44 MB), the Three.js scene creation (~0.5 s), the
 per-chunk geometry assembly and `vertexMotionWeight`.
+
+## Drag preview (coarse while moving, solved on release)
+
+Before this change the displayed pose was always the last *finished* solve, so
+dragging an arm updated roughly twice a second and every update was a
+200–400 ms main-thread frame. Now:
+
+- **While the pose is changing** the bones follow the latest input immediately
+  and all bound tissue is skinned on the GPU from the binding weights the
+  worker hands over once: dual quaternions for most tissue, linear blend for the
+  `chest`/`pectoralPath` sheets (closer to their solved shape: 35 mm vs 52 mm
+  mean deviation at 100° abduction). Peripheral nerves use the same palette
+  through their own material. No full solve is started, and nothing is bound on
+  the main thread.
+- **On release** (no new pose for 150 ms, `PREVIEW_QUIET_MS` in `scene.tsx`) the
+  full solve runs exactly as before and replaces the preview atomically when it
+  completes. A result for an older pose never replaces the live preview.
+- Ligaments and capsules (the joint structures) are hidden during the preview
+  and reappear with the solved pose; the rigid articular surfaces keep moving.
+- Body regions (head, spine, legs) are unchanged: they keep the old
+  "bones wait for tissue" behaviour. The first drag after opening the motion
+  lab also behaves as before until the worker has handed over its weights.
+
+How rough is the preview? At 75° abduction / 60° elbow flexion over the 98
+refined parts, the mean deviation from the solved shape is 1.3 mm (median part),
+16.6 mm (p90), with the worst vertices on the pectoral sheets and their
+vessels (~90 mm); `scripts/test-gpu-skinning.mjs` prints these numbers.
+
+### Cost per dragged frame (main thread, real scene loader, GPU draw stubbed)
+
+45 pose changes, one every ~16 ms, both arms:
+
+| | `main` (c0a73b0) | this change |
+|---|---|---|
+| frames that show a new pose | ~4 (one per finished solve) | all 45 |
+| worst frame while dragging | 391 ms | ≤45 ms |
+| median frame while dragging | 0.7 ms (nothing new to show) | ~13 ms |
+| frames over 50 ms while dragging | 4 | 0 |
+
+The one remaining spike is the frame where the solved shape lands after release
+(~230 ms: applying the worker result, re-deforming the peripheral nerves,
+re-lighting the joint structures). It now happens once per drag instead of
+twice a second.
+
+Two more per-update full recomputations were removed on the way: the cervical
+vessels rebuilt normals for all 8 meshes on every viewer state change even when
+the neck had not moved (bit-identical output over a 35-state scripted
+sequence, 360 ms → 142 ms), and the same pattern in the joint structures was
+already fixed above.
+
+Not measured: a real GPU or an iPad. The numbers above exclude the cost of
+drawing.

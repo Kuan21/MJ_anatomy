@@ -18,11 +18,11 @@ import {matchesUpperLimbMuscleLayer} from './mj-muscle-layers';
 import {matchesFacialMuscleLayer} from './mj-facial-layers';
 import {matchesDepth} from './mj-depth';
 import {anatomicalRegion,anatomicalSide,isMotionQuarantined} from './mj-part-regions';
-import {isLinearBinding,linearSkin,makeSoftRig,bindTissue,makePalette,deformTissue,deformPoint,followDeltoidSurface,setDeltoidFollowers,registerNerveRest,resolveNeurovascularProfile,tissueBindings,nerveBindings,type SkinBinding,type Profile,type DeltoidFollowers} from './biomechanics-v2/soft-tissue';
+import {isLinearBinding,lbsSkin,linearSkin,makeSoftRig,bindTissue,makePalette,deformTissue,deformPoint,followDeltoidSurface,setDeltoidFollowers,registerNerveRest,resolveNeurovascularProfile,tissueBindings,nerveBindings,type SkinBinding,type Profile,type DeltoidFollowers} from './biomechanics-v2/soft-tissue';
 import {makeBodyRig,buildBodyMotion,bindBodyTissue,bindSpineCarrier,cranialNerveRigid,type BodyRegion} from './biomechanics-v2/body-motion';
 import {bindBodyPart,bodyPartRule} from './biomechanics-v2/body-part';
 import {makeSurfaceConstraints,constrainSurface} from './biomechanics-v2/surface-constraints';
-import {GPU_SKIN_NORMAL,GPU_SKIN_PARS,GPU_SKIN_POSITION,PALETTE_WIDTH,clearGpuAttributes,gpuBinding,writeGpuAttributes,writePalette,slotSkin,type GpuBinding} from './biomechanics-v2/gpu-skinning';
+import {GPU_SKIN_NORMAL,GPU_SKIN_PARS,GPU_SKIN_POSITION,PALETTE_WIDTH,clearGpuAttributes,gpuBinding,gpuSkinNormal,skinMode,writeGpuAttributes,writePalette,slotSkin,type GpuBinding} from './biomechanics-v2/gpu-skinning';
 import {makeShoulderMuscles,solveShoulderMuscles,SHEET_PROFILES} from './biomechanics-v2/shoulder-muscles';
 import shoulderLandmarks from './biomechanics-v2/shoulder-landmarks.json';
 import bodyNerveData from './biomechanics-v2/body-nerve-bindings.json';
@@ -91,7 +91,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const slots=decode(w.slots),raw=decode(w.weights),values=new Uint16Array(raw.buffer,raw.byteOffset,raw.byteLength/2),weights=new Float32Array(values.length);
     for(let i=0;i<values.length;i++)weights[i]=values[i]/65535;
     if(slots.length!==w.vertexCount*4)continue;
-    surfaceBindings.set(id,{side:null,indices:slots,weights});
+    surfaceBindings.set(id,{side:null,indices:slots,weights,exact:true,lbs:false});
    }
    lastState=null;dirty=true;
   },()=>onError('皮膚權重載入失敗，請重新整理。'),'皮膚權重');
@@ -159,6 +159,15 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     else geometry.computeVertexNormals();// once, and only for meshes that survived the filters above
     mesh.userData.basePositions=new Float32Array(position.array as ArrayLike<number>);
     if(binding&&softRigs[binding.side])mesh.userData.skin=bindTissue(softRigs[binding.side]!,resolveNeurovascularProfile(exactName,'path'),mesh.userData.basePositions,undefined,exactName);
+    // Live drag preview: limb nerves carry the same palette weights as the anatomy meshes (other nerves stay on the identity slot).
+    {const count=position.count,slots=new Uint8Array(count*4),weights=new Uint16Array(count*4);clearGpuAttributes(slots,weights,0,count);
+     if(mesh.userData.skin&&binding)writeGpuAttributes(gpuBinding(binding.side,mesh.userData.skin),slots,weights,0);
+     geometry.setAttribute('segIndex',new T.BufferAttribute(slots,4));geometry.setAttribute('segWeight',new T.BufferAttribute(weights,4,true));
+     const flag={value:0};mesh.userData.previewFlag=flag;mesh.userData.baseNormals=new Float32Array(geometry.getAttribute('normal').array as ArrayLike<number>);
+     material.onBeforeCompile=shader=>{shader.uniforms.paletteState={value:paletteTexture};shader.uniforms.paletteWidth={value:PALETTE_WIDTH};shader.uniforms.nervePreview=flag;
+      shader.vertexShader=GPU_SKIN_PARS+'uniform float nervePreview;\n'+shader.vertexShader;
+      shader.vertexShader=shader.vertexShader.replace('#include <beginnormal_vertex>','#include <beginnormal_vertex>\n'+gpuSkinNormal('nervePreview'));
+      shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n'+GPU_SKIN_POSITION);};}
     const inferredHeadNerve=/cervical|vagus|phrenic|hypoglossal|accessory|glossopharyngeal|ansa cervicalis|sympathetic trunk|superior cervical|middle cervical|inferior cervical/i.test(exactName);
     const bodyRegion=spinalCordLike?'head':bodyNerveBindings[exactName]??(inferredHeadNerve?'head':undefined);
     if(bodyRegion){mesh.userData.bodyRegion=bodyRegion;mesh.userData.bodySkin=bindBodyTissue(bodyRigs[bodyRegion],mesh.userData.basePositions,spinalCordLike?false:cranialNerveRigid(exactName));}
@@ -264,6 +273,16 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const bodyActive=!!(body&&mesh.userData.bodySkin&&mesh.userData.bodyRegion===s.bodyMotion?.region);
     const spineCarry=!!(body&&s.bodyMotion?.region==='spine'&&mesh.userData.spineSkin);
     const limbActive=!!(!s.bodyMotion&&s.tissueMotion&&skin&&rig&&s.partTransforms?.[rig.ids[3]!]);
+    // Drag preview: the nerve shader blends the rest shape with the live palette, so restore the rest shape once and stop.
+    const flag=mesh.userData.previewFlag as {value:number}|undefined,previewing=!!(s.previewMotion&&limbActive&&flag);
+    if(flag)flag.value=previewing?1:0;
+    if(previewing){
+     if(mesh.userData.tissuePosed){
+      const attr=mesh.geometry.getAttribute('position') as T.BufferAttribute;(attr.array as Float32Array).set(base);attr.needsUpdate=true;
+      const normal=mesh.geometry.getAttribute('normal') as T.BufferAttribute;(normal.array as Float32Array).set(mesh.userData.baseNormals);normal.needsUpdate=true;mesh.userData.tissuePosed=false;
+     }
+     continue;
+    }
     const active=bodyActive||spineCarry||limbActive;
     if(!active&&!mesh.userData.tissuePosed)continue;
     const attr=mesh.geometry.getAttribute('position') as T.BufferAttribute;
@@ -534,11 +553,18 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   let submittedBody:SceneState['bodyMotion'],completedBody:SceneState['bodyMotion'];
   let workerPositions=new Map<string,import('./biomechanics-v2/shoulder-worker').ShoulderResult>();
   const workerParts=new Set<string>();
+  // Live preview while a pose is being dragged: bones follow the latest input at once and tissue is skinned on the GPU from
+  // the binding weights the worker handed over. A full solve starts only when no new pose has arrived for PREVIEW_QUIET_MS
+  // (the slider/drag was released) and replaces the preview atomically when it completes.
+  const PREVIEW_QUIET_MS=150;
+  let previewReady=false,lastWantedPose:SceneState['partTransforms'],lastPoseInput=0;
   const poseForFrame=(wanted:SceneState):SceneState=>{
    const active=!!(workerAvailable&&(wanted.bodyMotion||(wanted.tissueMotion&&(wanted.visible.includes('muscular')||wanted.visible.includes('nervous'))&&Object.keys(wanted.partTransforms??{}).length)));
    if(!active){if(completedPose||submittedPose||completedBody||submittedBody){workerGeneration++;completedPose=undefined;submittedPose=undefined;completedBody=undefined;submittedBody=undefined;workerPositions.clear();}return wanted;}
    if(!shoulderWorker){try{shoulderWorker=new Worker(new URL('./biomechanics-v2/shoulder-worker.ts',import.meta.url),{type:'module'});}catch{workerAvailable=false;return wanted;}}
-   if(!workerBusy&&(submittedPose!==wanted.partTransforms||submittedBody!==wanted.bodyMotion||submittedCount!==loadedChunks.size)){
+   if(wanted.partTransforms!==lastWantedPose){lastWantedPose=wanted.partTransforms;lastPoseInput=performance.now();}
+   const canPreview=previewReady&&!wanted.bodyMotion,quiet=performance.now()-lastPoseInput>=PREVIEW_QUIET_MS;
+   if(!workerBusy&&(!canPreview||quiet)&&(submittedPose!==wanted.partTransforms||submittedBody!==wanted.bodyMotion||submittedCount!==loadedChunks.size)){
     workerBusy=true;submittedPose=wanted.partTransforms;submittedBody=wanted.bodyMotion;submittedCount=loadedChunks.size;
     const pose=submittedPose,bodyMotion=submittedBody,generation=workerGeneration;
     const inputs:import('./biomechanics-v2/shoulder-worker').ShoulderInput[]=[];
@@ -552,12 +578,12 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     });
     shoulderWorker!.onmessage=event=>{
      workerBusy=false;if(disposed)return;
-     if(event.data.error){console.warn('Motion worker failed; using local solver',event.data.error);shoulderWorker?.terminate();shoulderWorker=null;workerAvailable=false;lastState=null;dirty=true;return;}
+     if(event.data.error){console.warn('Motion worker failed; using local solver',event.data.error);shoulderWorker?.terminate();shoulderWorker=null;workerAvailable=false;previewReady=false;lastState=null;dirty=true;return;}
      // Linear bindings arrive once and are skinned on the GPU from then on.
-     for(const g of (event.data.gpu??[]) as import('./biomechanics-v2/shoulder-worker').GpuSkinResult[])gpuBindings.set(g.id,gpuBinding(g.side,g));
+     for(const g of (event.data.gpu??[]) as import('./biomechanics-v2/shoulder-worker').GpuSkinResult[]){gpuBindings.set(g.id,gpuBinding(g.side,g,g.exact,g.lbs));previewReady=true;}
      if(generation===workerGeneration){completedPose=pose;completedBody=bodyMotion;workerPositions=new Map(event.data.results.map((r:import('./biomechanics-v2/shoulder-worker').ShoulderResult)=>[r.id,r]));dirty=true;}
     };
-    shoulderWorker!.onerror=()=>{workerBusy=false;shoulderWorker?.terminate();shoulderWorker=null;workerAvailable=false;lastState=null;dirty=true;};
+    shoulderWorker!.onerror=()=>{workerBusy=false;shoulderWorker?.terminate();shoulderWorker=null;workerAvailable=false;previewReady=false;lastState=null;dirty=true;};
     // Once the whole bony thorax is loaded, hand the worker its surface samples so broad shoulder sheets cannot sink into the chest.
     let collision:Float32Array|undefined;
     if(!collisionSent){
@@ -570,33 +596,37 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     }
     shoulderWorker!.postMessage({atlas:workerInitialized?undefined:atlas,inputs,transforms:pose??{},bodyMotion,collision},[...inputs.flatMap(input=>[input.base.buffer,input.normals.buffer,input.triangles.buffer]),...(collision?[collision.buffer]:[])]);workerInitialized=true;
    }
+   if(canPreview&&!(completedPose===wanted.partTransforms&&completedBody===wanted.bodyMotion))return {...wanted,previewMotion:true};
    return {...wanted,partTransforms:completedPose,bodyMotion:completedBody};
   };
   const updateTissueMotion=(s:SceneState)=>{
    // Prepare the active limb only. Building every head/leg/spine binding on
    // the first shoulder input used to block pointer handling for seconds.
-   if(s.bodyMotion||Object.keys(s.partTransforms??{}).length)for(const [i,mesh] of pickers.entries()){
+   // A drag preview is all GPU: binding anything on the main thread here would defeat it.
+   if(!s.previewMotion&&(s.bodyMotion||Object.keys(s.partTransforms??{}).length))for(const [i,mesh] of pickers.entries()){
     const p=atlas.parts[i],binding=tissueBindings[p.id];
     if(s.partTransforms===completedPose&&s.bodyMotion===completedBody&&workerPositions.has(p.id))continue;
-    if(!s.bodyMotion&&gpuBindings.has(p.id))continue;
+    if(!s.bodyMotion&&gpuBindings.get(p.id)?.exact)continue;
     if(s.bodyMotion||s.partTransforms?.[p.id]||(binding&&softRigs[binding.side]&&s.partTransforms?.[softRigs[binding.side]!.ids[3]!]))mesh?.userData.prepareMotion?.(s.bodyMotion?.region??'upper');
    }
    const touched=new Set<T.Mesh>(),normalsReady=new Set<T.Mesh>();
    const enabled=new Set(s.visible),focused=s.focusParts?new Set(s.focusParts):null,hidden=new Set(s.hiddenParts??[]);
    const body=s.bodyMotion?buildBodyMotion(bodyRigs[s.bodyMotion.region],s.bodyMotion.pose):null;
    const palettes={left:softRigs.left?makePalette(softRigs.left,s.partTransforms??{}):null,right:softRigs.right?makePalette(softRigs.right,s.partTransforms??{}):null};
-   // The palette only ever carries the displayed (worker-completed) pose, so GPU-skinned tissue stays atomic with the bones.
+   // The palette carries the displayed pose: the worker-completed one, or the live drag pose while previewing.
    const legActive=!!body&&(s.bodyMotion!.region==='leftLeg'||s.bodyMotion!.region==='rightLeg');
    writePalette(paletteData,palettes,{left:legActive&&s.bodyMotion!.region==='leftLeg'?body!.palette:null,right:legActive&&s.bodyMotion!.region==='rightLeg'?body!.palette:null});paletteTexture.needsUpdate=true;skinPalettes=palettes;paletteVersion++;
    for(const [index,mesh] of pickers.entries()){
     const part=atlas.parts[index];
     if(!mesh)continue;
-    if(!enabled.has(part.system)&&!(enabled.has('nervous')&&tissueBindings[part.id]?.profile==='deltoid')){mesh.userData.gpuSkinned=false;continue;}
+    if(!enabled.has(part.system)&&!(enabled.has('nervous')&&tissueBindings[part.id]?.profile==='deltoid')){mesh.userData.gpuSkinned=false;mesh.userData.skinMode=0;continue;}
     // Linear bindings: one dual-quaternion blend per vertex, done by the shader (gpu-skinning.ts).
     const localSkin=mesh.userData.skin as SkinBinding|undefined;
     if(!s.bodyMotion&&!gpuBindings.has(part.id)&&localSkin&&mesh.userData.tissueSide&&isLinearBinding(localSkin))gpuBindings.set(part.id,gpuBinding(mesh.userData.tissueSide,localSkin));
+    const live=!!s.previewMotion;
     const surface=surfaceBindings.get(part.id),gpu=surface??(s.bodyMotion?undefined:gpuBindings.get(part.id)),gpuRig=gpu?.side?softRigs[gpu.side]:null;
-    mesh.userData.gpuSkinned=surface?!!(s.tissueMotion&&(legActive||(!s.bodyMotion&&Object.keys(s.partTransforms??{}).length>0))):!!(gpu&&gpuRig&&s.tissueMotion&&s.partTransforms?.[gpuRig.ids[3]!]&&!s.partTransforms?.[part.id]);
+    mesh.userData.gpuSkinned=surface?!!(s.tissueMotion&&(legActive||(!s.bodyMotion&&Object.keys(s.partTransforms??{}).length>0))):!!(gpu&&(gpu.exact||live)&&gpuRig&&s.tissueMotion&&s.partTransforms?.[gpuRig.ids[3]!]&&!s.partTransforms?.[part.id]);
+    mesh.userData.skinMode=skinMode(gpu,mesh.userData.gpuSkinned);
     if(mesh.userData.gpuSkinned){
      if(mesh.userData.tissuePosed||mesh.userData.workerPosed){
       (mesh.geometry.getAttribute('position').array as Float32Array).set(mesh.userData.baseMotionPositions);
@@ -623,6 +653,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      mesh.geometry.boundingBox!.getBoundingSphere(mesh.geometry.boundingSphere!);
      mesh.userData.tissuePosed=true;mesh.userData.workerPosed=true;touched.add(mesh);normalsReady.add(mesh);continue;
     }
+    if(live)continue;// no GPU binding yet: keep its last shape rather than solving on the main thread mid-drag
     if(mesh.userData.workerPosed){
      (mesh.geometry.getAttribute('position').array as Float32Array).set(mesh.userData.baseMotionPositions);
      (mesh.geometry.getAttribute('normal').array as Int16Array).set(mesh.userData.baseMotionNormals);
@@ -688,9 +719,9 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    const id=atlas.parts[i].id,gpu=mesh.userData.gpuSkinned?surfaceBindings.get(id)??gpuBindings.get(id):undefined,palette=gpu?.side?skinPalettes[gpu.side]:null;
    if(!gpu||(gpu.side&&!palette))return mesh;
    const base=(mesh.userData.baseMotionPositions??mesh.geometry.getAttribute('position').array) as Float32Array;
-   let proxy=pickProxies.get(i);
+   let proxy=pickProxies.get(i);const skinOf=gpu.lbs?lbsSkin:linearSkin;
    if(!proxy){const g=new T.BufferGeometry();g.setAttribute('position',new T.BufferAttribute(new Float32Array(base.length),3));g.setIndex(mesh.geometry.index);proxy={mesh:new T.Mesh(g),version:-1};proxy.mesh.matrixAutoUpdate=false;pickProxies.set(i,proxy);}
-   if(proxy.version!==paletteVersion){const g=proxy.mesh.geometry,a=g.getAttribute('position') as T.BufferAttribute;if(gpu.side)linearSkin(gpu,base,palette!,a.array as Float32Array);else slotSkin(gpu,base,paletteData,a.array as Float32Array);a.needsUpdate=true;g.computeBoundingBox();g.computeBoundingSphere();proxy.version=paletteVersion;}
+   if(proxy.version!==paletteVersion){const g=proxy.mesh.geometry,a=g.getAttribute('position') as T.BufferAttribute;if(gpu.side)skinOf(gpu,base,palette!,a.array as Float32Array);else slotSkin(gpu,base,paletteData,a.array as Float32Array);a.needsUpdate=true;g.computeBoundingBox();g.computeBoundingSphere();proxy.version=paletteVersion;}
    proxy.mesh.matrixWorld.copy(mesh.matrixWorld);return proxy.mesh;
   };
   const pickPartAt=(clientX:number,clientY:number)=>{
@@ -794,7 +825,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    if(disposed)return;frame=requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05),s=poseForFrame(latest.current);
    if(focusTarget&&focusPosition){const a=1-Math.exp(-8*dt);controls.target.lerp(focusTarget,a);camera.position.lerp(focusPosition,a);dirty=true;if(controls.target.distanceToSquared(focusTarget)<1e-7&&camera.position.distanceToSquared(focusPosition)<1e-7){controls.target.copy(focusTarget);camera.position.copy(focusPosition);focusTarget=null;focusPosition=null;}}
    const changed=lastState?.jointSurfaces!==s.jointSurfaces||lastState?.visible!==s.visible||lastState?.selected!==s.selected||lastState?.hiddenParts!==s.hiddenParts||lastState?.depthFilter!==s.depthFilter||lastState?.muscleLayer!==s.muscleLayer||lastState?.faceMuscleLayer!==s.faceMuscleLayer||lastState?.focusParts!==s.focusParts||lastState?.isolate!==s.isolate||lastState?.partTransforms!==s.partTransforms||lastState?.bodyMotion!==s.bodyMotion;
-   const tissueChanged=!lastState||lastState.partTransforms!==s.partTransforms||lastState.tissueMotion!==s.tissueMotion||lastState.bodyMotion!==s.bodyMotion||lastState.visible!==s.visible||lastState.focusParts!==s.focusParts||lastState.hiddenParts!==s.hiddenParts;
+   const tissueChanged=!lastState||lastState.partTransforms!==s.partTransforms||lastState.tissueMotion!==s.tissueMotion||lastState.previewMotion!==s.previewMotion||lastState.bodyMotion!==s.bodyMotion||lastState.visible!==s.visible||lastState.focusParts!==s.focusParts||lastState.hiddenParts!==s.hiddenParts;
    if(tissueChanged){updateTissueMotion(s);updateNerveMotion(s);updateBrainMotion(s);}
    const ctx=viewerContext.current;
    if(primaryAtlasReady&&s.visible.includes('nervous')&&(ctx.bodyArea==='head'||s.bodyMotion?.region==='head'||s.bodyMotion?.region==='spine'||!s.visible.includes('skeletal')||(s.hiddenParts?.length??0)>0))ensureBrain();
@@ -824,7 +855,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    const moving=Math.abs(amount-s.explode)>.0001;
    if(moving){amount=T.MathUtils.damp(amount,s.explode,8,dt);dirty=true;}
    if(changed||moving||tissueChanged||lastExtent<0){
-    supplementaryJoints.update(s,amount);cervicalVessels.update(s,amount);
+    supplementaryJoints.update(s,amount,!!s.previewMotion);cervicalVessels.update(s,amount);
     const visible=new Set(s.visible),selection=new Set(s.selected),hidden=new Set(s.hiddenParts??[]),focus=s.focusParts?new Set(s.focusParts):null;
     const cranialVault=/^(frontal bone|left parietal bone|right parietal bone|left temporal bone|right temporal bone|occipital bone|sphenoid bone|ethmoid)$/i;
     const intracranial=/brain|cerebr|cerebell|\bgyrus\b|lobule|\blobe\b|hemisphere|white matter|gray matter|cortex|insula|midbrain|pons|medulla oblongata|thalam|hypothalam|fornix|ventricle|choroid plexus|corpus callosum|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|commissure|colliculus|geniculate|habenula|mammillary|stria terminalis|stria medullaris|septum of telencephalon|tuber cinereum|interpeduncular fossa|lamina terminalis|optic chiasm|optic tract|peduncle of midbrain|cerebral aqueduct|pineal|pituitary|cerebral artery|cerebellar artery|basilar artery|callosomarginal artery|pericallosal artery|pontine artery|thalamogeniculate artery|thalamoperforating artery/i;
@@ -879,10 +910,10 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      // CPU skinning already includes the active frame. Never apply it twice.
      const transform=pickers[i]?.userData.tissuePosed?undefined:s.partTransforms?.[p.id];
      if(transform){
-      motionData.set([...transform.translation,pickers[i]?.userData.gpuSkinned?1:0],i*4);rotationData.set(transform.quaternion,i*4);
+      motionData.set([...transform.translation,pickers[i]?.userData.skinMode??0],i*4);rotationData.set(transform.quaternion,i*4);
       anchorMotionData.set([...(transform.anchorTranslation??transform.translation),0],i*4);anchorRotationData.set(transform.anchorQuaternion??transform.quaternion,i*4);
      }else{
-      motionData.set([0,0,0,pickers[i]?.userData.gpuSkinned?1:0],i*4);rotationData.set([0,0,0,1],i*4);anchorMotionData.set([0,0,0,0],i*4);anchorRotationData.set([0,0,0,1],i*4);
+      motionData.set([0,0,0,pickers[i]?.userData.skinMode??0],i*4);rotationData.set([0,0,0,1],i*4);anchorMotionData.set([0,0,0,0],i*4);anchorRotationData.set([0,0,0,1],i*4);
      }
      const mesh=pickers[i];
      if(mesh){

@@ -32,9 +32,14 @@ export const PALETTE_WIDTH=2**Math.ceil(Math.log2(SLOT_COUNT*2));
 const IDENTITY=[0,0,0,1,0,0,0,0];
 const WEIGHT_SCALE=65535;
 
-/** `side` selects the arm palette the indices are relative to; `side:null` means the indices are absolute palette slots. */
-export interface GpuBinding {side:Side|null;indices:Uint8Array;weights:Float32Array}
-export const gpuBinding=(side:Side|null,b:Pick<SkinBinding,'indices'|'weights'>):GpuBinding=>({side,indices:b.indices,weights:b.weights});
+/** `side` selects the arm palette the indices are relative to; `side:null` means the indices are absolute palette slots.
+ * `exact`: the GPU blend is the whole solution (linear binding). Otherwise the CPU/worker result is the exact one and
+ * the GPU blend is only the coarse live preview shown while the pose is still being dragged.
+ * `lbs`: the preview uses linear blend skinning (chest/pectoral sheets) instead of dual quaternions. */
+export interface GpuBinding {side:Side|null;indices:Uint8Array;weights:Float32Array;exact:boolean;lbs:boolean}
+export const gpuBinding=(side:Side|null,b:Pick<SkinBinding,'indices'|'weights'>,exact=true,lbs=false):GpuBinding=>({side,indices:b.indices,weights:b.weights,exact,lbs});
+/** Value written to the per-part shader flag: 0 off, 1 dual quaternion, 2 linear blend. */
+export const skinMode=(b:Pick<GpuBinding,'lbs'>|undefined,on:boolean)=>on?(b?.lbs?2:1):0;
 
 /** Pack both sides' soft-rig palettes, and the active leg body palette, into the palette texture data (missing = identity). */
 export function writePalette(data:Float32Array,palettes:Record<Side,Palette|null>,legs?:Partial<Record<Side,Palette|null>>){
@@ -71,15 +76,25 @@ export function clearGpuAttributes(slots:Uint8Array,weights:Uint16Array,offset:n
  for(let v=offset;v<offset+count;v++)weights[v*4]=WEIGHT_SCALE;
 }
 
-/** Shader chunks. `motionState.w` > 0.5 marks a part as GPU-skinned; qrot, partIndex and stateWidth come from the anatomy material. */
+/** Shader chunks. The blend is applied when `flag` (a float expression) is above 0.5. The anatomy material reads it from
+ * the per-part motion texture; other materials (peripheral nerves) read a uniform. */
 export const GPU_SKIN_PARS=`attribute vec4 segIndex; attribute vec4 segWeight; uniform sampler2D paletteState; uniform float paletteWidth;
 vec4 mjSlotReal(float s){ return texture2D(paletteState, vec2((2.0*s+0.5)/paletteWidth, 0.5)); }
 vec4 mjSlotDual(float s){ return texture2D(paletteState, vec2((2.0*s+1.5)/paletteWidth, 0.5)); }
+vec3 mjQrot(vec4 q, vec3 v){ return v + 2.0*cross(q.xyz, cross(q.xyz,v)+q.w*v); }
 `;
-export const GPU_SKIN_NORMAL=`
-float mjGpuSkin = texture2D(motionState, vec2((partIndex + 0.5) / stateWidth, 0.5)).w;
-vec4 mjReal = vec4(0.0,0.0,0.0,1.0), mjDual = vec4(0.0);
-if(mjGpuSkin > 0.5){
+export const gpuSkinNormal=(flag:string)=>`
+float mjGpuSkin = ${flag};
+vec4 mjReal = vec4(0.0,0.0,0.0,1.0), mjDual = vec4(0.0); vec3 mjLbs = position;
+if(mjGpuSkin > 1.5){
+ float mjTot = max(dot(segWeight, vec4(1.0)), 1e-6); vec3 mjAcc = vec3(0.0), mjNormal = vec3(0.0);
+ for(int k = 0; k < 4; k++){
+  float w = segWeight[k]/mjTot; if(w <= 0.0) continue;
+  vec4 r = mjSlotReal(segIndex[k]), d = mjSlotDual(segIndex[k]);
+  mjAcc += w*(mjQrot(r, position) + 2.0*(r.w*d.xyz - d.w*r.xyz + cross(r.xyz, d.xyz))); mjNormal += w*mjQrot(r, objectNormal);
+ }
+ mjLbs = mjAcc; objectNormal = normalize(mjNormal);
+} else if(mjGpuSkin > 0.5){
  vec4 mjR0 = mjSlotReal(segIndex.x); float mjTotal = max(dot(segWeight, vec4(1.0)), 1e-6); mjReal = vec4(0.0);
  for(int k = 0; k < 4; k++){
   float w = segWeight[k]/mjTotal; if(w <= 0.0) continue;
@@ -87,12 +102,15 @@ if(mjGpuSkin > 0.5){
   mjReal += w*r; mjDual += w*mjSlotDual(segIndex[k]);
  }
  float mjLen = max(length(mjReal), 1e-10); mjReal /= mjLen; mjDual /= mjLen; mjDual -= dot(mjReal, mjDual)*mjReal;
- objectNormal = qrot(mjReal, objectNormal);
+ objectNormal = mjQrot(mjReal, objectNormal);
 }
 `;
 export const GPU_SKIN_POSITION=`
-if(mjGpuSkin > 0.5) transformed = qrot(mjReal, transformed) + 2.0*(mjReal.w*mjDual.xyz - mjDual.w*mjReal.xyz + cross(mjReal.xyz, mjDual.xyz));
+if(mjGpuSkin > 1.5) transformed = mjLbs;
+else if(mjGpuSkin > 0.5) transformed = mjQrot(mjReal, transformed) + 2.0*(mjReal.w*mjDual.xyz - mjDual.w*mjReal.xyz + cross(mjReal.xyz, mjDual.xyz));
 `;
+export const GPU_SKIN_NORMAL=gpuSkinNormal('texture2D(motionState, vec2((partIndex + 0.5) / stateWidth, 0.5)).w');
+
 
 /** CPU twin of GPU_SKIN_POSITION for absolute-slot bindings, reading the packed float32 palette (picking, tests). */
 export function slotSkin(b:Pick<GpuBinding,'indices'|'weights'>,base:ArrayLike<number>,palette:Float32Array,out:Float32Array){
