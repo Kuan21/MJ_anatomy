@@ -7,11 +7,12 @@ MJ Anatomy should not treat joints as unconstrained animation pivots. Motion is 
 Each ligament or tendon path will be represented by named attachment landmarks on parent bones, plus a path model where wrapping is needed.
 
 ```ts
-interface Attachment { boneId:string; local:[number,number,number] }
+// A rest-pose world point carried by one rig segment (see mj-rig.ts).
+interface AttachmentLandmark { segment:string; point:[number,number,number] }
 interface LigamentConstraint {
   id:string;
-  origin:Attachment;
-  insertion:Attachment;
+  origin:AttachmentLandmark;
+  insertion:AttachmentLandmark;
   slackLength:number;
   toeStrain:number;
   maxStrain:number;
@@ -19,7 +20,7 @@ interface LigamentConstraint {
 }
 ```
 
-At runtime, attachment landmarks are transformed with their bones. Ligament length is measured in world space. Below slack length it does not impose a hard stop; through the toe region restraint rises progressively; beyond the guarded maximum the requested pose is rejected/clamped. This is an educational kinematic constraint model, not a finite-element tissue simulation.
+At runtime, attachment landmarks are transformed with their segments. The first guards in use are the annular ligament and the distal radioulnar joint (`upperLimbLigaments`): with pronation solved about the radial head → distal ulna axis they stay at rest length, and `solveWithinLigaments` backs a pose off toward neutral if they would be over-strained. Ligament length is measured in world space. Below slack length it does not impose a hard stop; through the toe region restraint rises progressively; beyond the guarded maximum the requested pose is rejected/clamped. This is an educational kinematic constraint model, not a finite-element tissue simulation.
 
 ## Shoulder
 

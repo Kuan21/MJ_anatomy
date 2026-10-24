@@ -7,8 +7,9 @@ permissions:
   contents: read
   pages: write
   id-token: write
+# One queue per ref: a branch push must never cancel a main deployment (or another branch's build).
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 jobs:
   build:
@@ -28,7 +29,8 @@ jobs:
         with:
           path: dist
   deploy:
-    if: github.event_name != 'pull_request'
+    # The github-pages environment only accepts the default branch; branch pushes stop after a validated build.
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     permissions:
       pages: write
       id-token: write

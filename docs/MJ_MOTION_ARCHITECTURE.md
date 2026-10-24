@@ -30,6 +30,34 @@ Later motion support will use structure-specific attachment/anchor metadata:
 - nerve/vessel: ordered path anchors
 - connective tissue: attachment regions
 
+## Skinned anatomy (V1.1): one segment chain for every structure
+A single rig (`app/mj-rig.ts`) is built from catalogue names and bounds before any geometry loads:
+
+```
+thorax ─┬─ {side}.scapula → {side}.humerus ─┬─ {side}.ulna
+        │   (clavicle + scapula)            └─ {side}.radius → {side}.hand
+        └─ pelvis → {side}.femur → {side}.tibia → {side}.foot
+```
+
+Each segment has mapped bones (exact skeletal names), a proximal joint `pivot`, a distal `end` and capsules that describe its soft-tissue envelope. Motion builders output one rigid world transform per **segment** (`SceneState.segmentTransforms`), never per part.
+
+Rendering (`app/mj-skinning.ts`, `app/scene.tsx`):
+- Segment transforms are converted to unit dual quaternions and stored in a float texture (2 texels per segment). The merged anatomy shader blends up to four per vertex (`segIndex`, `segWeight`) with dual-quaternion skinning, so bends keep volume instead of collapsing like linear blending. Normals are rotated by the same blend.
+- **Bones** are weighted 1.0 to their own segment.
+- **Muscles** blend from origin segment to insertion segment along a surface-geodesic origin→insertion parameter, centred on each crossed joint. Origin/insertion come from `ATTACHMENT_HINTS` where proximity is ambiguous (biceps → radius, brachialis → ulna, …), otherwise from the segments the muscle lies against. Belly calibre follows the stretch ratio λ (cross-section ∝ λ^-½, clamped, tapering to 1 at both attachments), measured about the muscle's own bent axis.
+- **Nerves, arteries, veins** and other soft tissue use a position-only field over the same chain: smooth soft-min inside a blend group (trunk + girdles, each free limb), sharp between groups except near the joint that links them. Because the weights are a pure function of position, two catalogue parts that meet always receive the same transform at the seam: they bend together and cannot separate.
+- **Picking** uses the CPU twin of the shader (`skinPositions`) for every part whose segments are posed, so taps, markers and isolate framing match what is drawn.
+- Weights are computed in a Web Worker (`app/skin-worker.ts`) and patched into the merged meshes as they arrive; bones are rigid from the first frame.
+
+Known limits: the axillary fold stretches noticeably at high abduction (the thoracodorsal bundle follows latissimus dorsi toward the humerus); this BodyParts3D build has no peripheral upper-limb nerve meshes, so the nerve path is exercised by the same field code as the vessels.
+
+### Adding the lower limb
+The lower-limb chain is already registered (`LOWER_LIMB_CHAIN`): femur, tibia (+ fibula, patella) and foot bones are mapped, capsules and pivots exist, and every vertex near the leg already carries leg weights (identity until driven). To animate it:
+1. Add `lowerLimbSegments(rig, side, pose)` beside `upperLimbSegments` in `mj-motion.ts`, rotating `{side}.femur` about its `pivot` (hip), `{side}.tibia` about the knee and `{side}.foot` about the ankle, composed parent → child exactly like the arm.
+2. Add guards in `mj-constraints.ts` (e.g. patellar tendon length, tibiofibular coupling) and solve with `solveWithinLigaments`.
+3. Add leg muscles to `ATTACHMENT_HINTS` where proximity is ambiguous.
+4. Extend `scripts/validate-upper-limb.mjs` (or a sibling script) with leg poses; the shader, picker, worker and texture layout need no change.
+
 ## Validation order
 1. Bone-only motion
 2. Origin/insertion markers

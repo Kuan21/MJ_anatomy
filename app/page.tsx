@@ -14,6 +14,7 @@ import {DEFAULT_VISIBLE,SYSTEMS,explanation,type Atlas,type Concept,type SceneSt
 import {ANATOMY_REGIONS,regionById,type RegionId} from './mj-regions';
 import {resolveDissection} from './mj-dissection';
 import {buildUpperLimbPreview,NEUTRAL_POSE} from './mj-motion';
+const PREVIEW_POSE={...NEUTRAL_POSE,shoulderAbduction:75,elbowFlexion:60};
 const initial:SceneState={explode:0,visible:DEFAULT_VISIBLE,selected:[],isolate:false,view:'three-quarter',rotate:false,reset:0};
 export default function Home(){
  const detailTitle=useRef<HTMLHeadingElement>(null);
@@ -36,11 +37,11 @@ export default function Home(){
  const currentRegion=regionById(region);
  const previewShoulder=()=>{
   if(!atlas)return;
-  if(motionPreview){setMotionPreview(false);setState(s=>({...s,partTransforms:undefined,selected:[],isolate:false}));return;}
-  const preview=buildUpperLimbPreview(atlas,'right',{...NEUTRAL_POSE,shoulderAbduction:75});
-  if(Object.keys(preview.transforms).length===0){setError(preview.warnings.join(' '));return;}
+  if(motionPreview){setMotionPreview(false);setState(s=>({...s,segmentTransforms:undefined,selected:[],isolate:false}));return;}
+  const preview=buildUpperLimbPreview(atlas,'right',PREVIEW_POSE);
+  if(Object.keys(preview.segments).length===0){setError(preview.warnings.join(' '));return;}
   setError('');setMotionPreview(true);setDetails(false);setPanel(null);
-  setState(s=>({...s,partTransforms:preview.transforms,visible:['skeletal'],selected:[],isolate:false,explode:0,rotate:false,view:'front',reset:s.reset+1}));
+  setState(s=>({...s,segmentTransforms:preview.segments,selected:[],isolate:false,explode:0,rotate:false,view:'front',reset:s.reset+1}));
  };
  const dissect=(nextStage:number)=>{
   if(!atlas||region==='whole-body')return;
@@ -51,7 +52,7 @@ export default function Home(){
  };
  const changeRegion=(next:RegionId)=>{
   setMicroAtlas(null);setRegion(next);setDissectionStage(0);setMotionPreview(false);setChosen(null);setDetails(false);
-  setState(s=>({...s,selected:[],isolate:false,explode:0,rotate:false,partTransforms:undefined}));
+  setState(s=>({...s,selected:[],isolate:false,explode:0,rotate:false,segmentTransforms:undefined}));
  };
  const openMicroAtlas=(next:MicroAtlasId)=>{setMicroAtlas(next);setDetails(false);setPanel(null);setChosen(null);setMotionPreview(false);setState(s=>({...s,selected:[],isolate:false,rotate:false}));};
  return <main className="studio">
@@ -73,7 +74,7 @@ export default function Home(){
   {panel==='search'&&<section className="search-panel glass" aria-label="Find anatomy"><div className="panel-heading"><span>Find a structure</span><Button variant="ghost" className="icon-button" onClick={()=>setPanel(null)} aria-label="Close search"><X size={18}/></Button></div><Combobox<Concept> items={results} value={null} onValueChange={value=>{if(value)choose(value);}} inputValue={query} onInputValueChange={setQuery} itemToStringLabel={c=>c.name} filter={null} open onOpenChange={open=>{if(!open)setPanel(null);}}><ComboboxInput autoFocus placeholder="Heart, femur, cranial nerve…" aria-label="Search named anatomical structures" showTrigger={false}/><ComboboxContent className="anatomy-search-results"><ComboboxEmpty>No structures match your search.</ComboboxEmpty><ComboboxList>{(c:Concept)=><ComboboxItem key={c.id} value={c}><span className="search-result-name">{c.name}</span><span className="small-number">{c.elements.length} {c.elements.length===1?'piece':'pieces'}</span></ComboboxItem>}</ComboboxList></ComboboxContent></Combobox><p className="search-note">{query?'Showing up to 80 matches. Refine your search to find smaller structures.':'Start with a major organ, or search every named structure.'}</p></section>}
   <nav className="view-controls glass" aria-label="Camera controls">{(['three-quarter','front','side','back'] as View[]).map((v,i)=><Button variant="ghost" key={v} className={state.view===v?'active':''} aria-pressed={state.view===v} disabled={state.explode>.8&&v!=='front'} onClick={()=>setState(s=>({...s,view:v,reset:s.reset+1,rotate:false}))} title={`${v} view`} aria-label={`${v} view`}><span>{['¾','F','S','B'][i]}</span></Button>)}<i/><Button variant="ghost" disabled={state.explode>=.4} aria-label={state.rotate?'Pause rotation':'Rotate body'} title="Auto rotate" className={state.rotate?'active':''} onClick={()=>setState(s=>({...s,rotate:!s.rotate}))}>{state.rotate?<Pause size={17}/>:<RotateCw size={18}/>}</Button><Button variant="ghost" aria-label="Reset view and layers" title="Reset" onClick={reset}><RotateCcw size={17}/></Button></nav>
   <div className="scene-caption"><span className="caption-line"/><span>{state.isolate?(chosen?.name??'SELECTED STRUCTURE'):state.explode>.95?'ANATOMICAL INVENTORY':state.explode>.05?'SEPARATED STRUCTURES':'ADULT HUMAN · MALE'}</span><span className="caption-line"/></div>
-  <div className="mj-motion-preview glass"><div><span className="eyebrow">MOTION LAB · BONE PREVIEW</span><strong>Right shoulder complex</strong><small>75° abduction · guarded preview</small></div><Button variant="ghost" className={motionPreview?'active':''} onClick={previewShoulder}>{motionPreview?'Return neutral':'Preview motion'}</Button></div>
+  <div className="mj-motion-preview glass"><div><span className="eyebrow">MOTION LAB · SKINNED PREVIEW</span><strong>Right upper limb</strong><small>75° abduction · 60° elbow flexion · guarded</small></div><Button variant="ghost" className={motionPreview?'active':''} onClick={previewShoulder}>{motionPreview?'Return neutral':'Preview motion'}</Button></div>
   <div className="bottom-dock glass"><Button variant="ghost" className="mobile-only dock-layers" onClick={()=>openPanel('layers')} aria-label="Open system layers"><Layers3 size={20}/><span>Systems</span></Button><div className="explode-control"><div className="explode-label"><label id="explode-label">Explode anatomy</label><output>{Math.round(state.explode*100)}<span>%</span></output></div><Slider aria-labelledby="explode-label" min={0} max={100} step={1} value={[state.explode*100]} onValueChange={v=>setState(s=>({...s,explode:(Array.isArray(v)?v[0]:v)/100,view:(Array.isArray(v)?v[0]:v)>80?'front':s.view,rotate:false}))}/><div className="slider-endpoints"><span>Assembled</span><span>Every piece</span></div></div><Button variant="ghost" className="dock-reset" onClick={reset} aria-label="Assemble and reset"><RotateCcw size={18}/><span>Reset</span></Button></div>
   <footer className="studio-footer"><span>{state.explode>.8?'Drag to pan':'Drag to orbit'} <b>·</b> Pinch to zoom <b>·</b> Tap to inspect</span><Button variant="ghost" onClick={()=>{setDetails(false);setPanel(null);setAbout(true);}}>Source & credits <ArrowUpRight size={12}/></Button></footer>
   {!microAtlas&&progress<100&&!error&&<div className="loading glass" role="status"><Activity size={18}/><div><strong>Preparing the anatomy</strong><span>{progress}% · Loading {atlas?.parts.length.toLocaleString()??'2,234'} pieces</span><div className="loading-track"><i style={{width:`${progress}%`}}/></div></div></div>}
