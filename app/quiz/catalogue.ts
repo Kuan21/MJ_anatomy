@@ -1,6 +1,10 @@
 export type QuizSystem = 'skeletal' | 'muscular' | 'nervous' | 'arterial' | 'venous';
-export type QuizSection = 'all' | 'hip' | 'thigh' | 'knee' | 'leg' | 'foot';
+export type QuizRegionId = 'lower-limb' | 'upper-limb' | 'thorax';
+/** Section ids are region specific ('hip', 'thigh'… for the leg; 'shoulder', 'arm'… for the arm; 'cage', 'wall'… for the thorax). */
+export type QuizSection = string;
 export type QuizSide = 'right' | 'left' | 'both';
+/** Paired structures are left/right; unpaired ones (sternum, vertebrae, aorta, azygos vein…) are 'midline' and appear for either side. */
+export type StructureSide = 'left' | 'right' | 'midline';
 export type Bounds = [number[], number[]];
 
 export const QUIZ_SYSTEMS: {id: QuizSystem; label: string; english: string; color: string}[] = [
@@ -10,7 +14,25 @@ export const QUIZ_SYSTEMS: {id: QuizSystem; label: string; english: string; colo
   {id: 'arterial', label: '動脈', english: 'Arteries', color: '#bf5363'},
   {id: 'venous', label: '靜脈', english: 'Veins', color: '#6399bc'},
 ];
-export const QUIZ_SECTIONS: {id: QuizSection; label: string; english: string; range: [number, number]}[] = [
+export interface QuizSectionDef {id: string; label: string; english: string; range: [number, number]}
+export interface QuizRegionDef {
+  id: QuizRegionId;
+  label: string;
+  english: string;
+  /** Header tag, catalogue file and route. */
+  tag: string;
+  file: string;
+  hash: string;
+  atlasHash: string;
+  /** Short lines for the setup page. */
+  headline: [string, string];
+  description: [string, string];
+  scope: string;
+  /** Framing of the section box: half-width in x (per side) and the z range in metres. */
+  frame: {x: number; z: [number, number]; footZ?: number};
+  sections: QuizSectionDef[];
+}
+const LOWER_SECTIONS: QuizSectionDef[] = [
   {id: 'all', label: '全部下肢', english: 'Lower limb', range: [0, 1.13]},
   {id: 'hip', label: '臀部・髖', english: 'Gluteal & hip', range: [.75, 1.13]},
   {id: 'thigh', label: '大腿', english: 'Thigh', range: [.43, .96]},
@@ -18,13 +40,52 @@ export const QUIZ_SECTIONS: {id: QuizSection; label: string; english: string; ra
   {id: 'leg', label: '小腿', english: 'Leg', range: [.08, .54]},
   {id: 'foot', label: '踝・足', english: 'Ankle & foot', range: [0, .23]},
 ];
+const UPPER_SECTIONS: QuizSectionDef[] = [
+  {id: 'all', label: '全部上肢', english: 'Upper limb', range: [.66, 1.47]},
+  {id: 'shoulder', label: '肩帶・肩', english: 'Shoulder girdle', range: [1.2, 1.47]},
+  {id: 'arm', label: '上臂', english: 'Arm', range: [1.04, 1.42]},
+  {id: 'elbow', label: '肘', english: 'Elbow', range: [.98, 1.2]},
+  {id: 'forearm', label: '前臂', english: 'Forearm', range: [.84, 1.16]},
+  {id: 'hand', label: '腕・手', english: 'Wrist & hand', range: [.66, .93]},
+];
+const THORAX_SECTIONS: QuizSectionDef[] = [
+  {id: 'all', label: '全部胸腔', english: 'Thorax', range: [1.04, 1.5]},
+  {id: 'cage', label: '胸廓骨架', english: 'Bony thorax', range: [1.04, 1.5]},
+  {id: 'wall', label: '胸壁・呼吸肌', english: 'Chest wall & breathing muscles', range: [1.04, 1.5]},
+  {id: 'vessels', label: '縱膈・大血管', english: 'Mediastinum & great vessels', range: [1.04, 1.5]},
+  {id: 'intercostal', label: '肋間與胸壁血管神經', english: 'Intercostal & chest-wall vessels and nerves', range: [1.04, 1.5]},
+];
+export const QUIZ_REGIONS: Record<QuizRegionId, QuizRegionDef> = {
+  'lower-limb': {
+    id: 'lower-limb', label: '下肢', english: 'Lower limb', tag: '下肢篇', file: 'quiz-lower.json', hash: '#/quiz/lower-limb', atlasHash: '#/atlas/lower',
+    headline: ['看名稱，', '點出位置。'], description: ['由臀部到足部，喺 3D 模型練習辨認。', '每答一題，即刻睇到正確位置。'],
+    scope: '採用現有圖譜嘅固定解剖姿勢。題目只涵蓋已有模型嘅構造；神經、動脈同靜脈可以獨立練習。',
+    frame: {x: .19, z: [-.13, .09], footZ: .19}, sections: LOWER_SECTIONS,
+  },
+  'upper-limb': {
+    id: 'upper-limb', label: '上肢', english: 'Upper limb', tag: '上肢篇', file: 'quiz-upper.json', hash: '#/quiz/upper-limb', atlasHash: '#/atlas/upper',
+    headline: ['看名稱，', '點出位置。'], description: ['由肩帶到手指，喺 3D 模型練習辨認。', '每答一題，即刻睇到正確位置。'],
+    scope: '採用現有圖譜嘅固定解剖姿勢。題目涵蓋肩帶、上臂、肘、前臂同手；神經、動脈同靜脈可以獨立練習。',
+    frame: {x: .37, z: [-.13, .13]}, sections: UPPER_SECTIONS,
+  },
+  thorax: {
+    id: 'thorax', label: '胸腔', english: 'Thorax', tag: '胸腔篇', file: 'quiz-thorax.json', hash: '#/quiz/thorax', atlasHash: '#/atlas/whole',
+    headline: ['看名稱，', '點出位置。'], description: ['由胸廓骨架到縱膈大血管，喺 3D 模型練習辨認。', '每答一題，即刻睇到正確位置。'],
+    scope: '採用現有圖譜嘅固定解剖姿勢。題目只涵蓋胸腔內外已有模型嘅主要構造（不含器官內部分支）；神經、動脈同靜脈可以獨立練習。',
+    frame: {x: .24, z: [-.13, .15]}, sections: THORAX_SECTIONS,
+  },
+};
+export const QUIZ_REGION_IDS = Object.keys(QUIZ_REGIONS) as QuizRegionId[];
+export const regionOfHash = (hash: string): QuizRegionId | undefined => QUIZ_REGION_IDS.find(id => QUIZ_REGIONS[id].hash === hash);
+export const QUIZ_SECTIONS = LOWER_SECTIONS;
+export const regionSections = (region: QuizRegionId | undefined) => QUIZ_REGIONS[region ?? 'lower-limb'].sections;
 
 export interface QuizStructure {
   id: string;
   name: string;
   chinese?: string;
   system: QuizSystem;
-  side: 'left' | 'right';
+  side: StructureSide;
   sections: Exclude<QuizSection, 'all'>[];
   meshIds: string[];
   bounds: Bounds;
@@ -45,11 +106,12 @@ export interface QuizPackage {
   bytes: number;
   gzipBytes: number;
   system: QuizSystem;
-  side: 'left' | 'right';
+  side: StructureSide;
   meshes: QuizMesh[];
 }
 export interface QuizCatalogue {
   version: 1;
+  region?: QuizRegionId;
   structures: QuizStructure[];
   packages: QuizPackage[];
 }
@@ -100,16 +162,122 @@ export function lowerSections(name: string, bounds: Bounds): Exclude<QuizSection
   return [y < .23 ? 'foot' : y < .53 ? 'leg' : y < .84 ? 'thigh' : 'hip'];
 }
 
+type SectionList = Exclude<QuizSection, 'all'>[];
+const cleanName = (name: string) => name.toLowerCase().replace(/\b(left|right)\b/g, '').replace(/\s+/g, ' ').trim();
+/** Sections whose y range a structure overlaps (long structures belong to several, no mesh is cut). */
+function overlapSections(region: QuizRegionId, bounds: Bounds): SectionList {
+  const [y0, y1] = [bounds[0][1], bounds[1][1]], span = Math.max(y1 - y0, 1e-3);
+  const hit = regionSections(region).filter(s => s.id !== 'all' && Math.min(y1, s.range[1]) - Math.max(y0, s.range[0]) >= Math.min(.45 * span, .04));
+  if (hit.length) return hit.map(s => s.id);
+  const mid = (y0 + y1) / 2;
+  return [regionSections(region).filter(s => s.id !== 'all').reduce((best, s) => Math.abs((s.range[0] + s.range[1]) / 2 - mid) < Math.abs((best.range[0] + best.range[1]) / 2 - mid) ? s : best).id];
+}
+
+// Individually identified upper-limb nerves (brachial plexus and its named branches).
+export const UPPER_NERVES: Record<string, {zh: string; sections: SectionList}> = {
+  'roots of brachial plexus': {zh: '臂神經叢神經根', sections: ['shoulder']},
+  'superior trunk of brachial plexus': {zh: '臂神經叢上幹', sections: ['shoulder']},
+  'middle trunk of brachial plexus': {zh: '臂神經叢中幹', sections: ['shoulder']},
+  'inferior trunk of brachial plexus': {zh: '臂神經叢下幹', sections: ['shoulder']},
+  'posterior cord of brachial plexus': {zh: '臂神經叢後束', sections: ['shoulder']},
+  'dorsal scapular nerve': {zh: '肩胛背神經', sections: ['shoulder']},
+  'long thoracic nerve': {zh: '胸長神經', sections: ['shoulder']},
+  'suprascapular nerve': {zh: '肩胛上神經', sections: ['shoulder']},
+  'subclavian nerve': {zh: '鎖骨下肌神經', sections: ['shoulder']},
+  'lateral pectoral nerve': {zh: '外側胸神經', sections: ['shoulder']},
+  'thoracodorsal nerve': {zh: '胸背神經', sections: ['shoulder']},
+  'axillary nerve': {zh: '腋神經', sections: ['shoulder', 'arm']},
+  'muscular branches of axillary nerve': {zh: '腋神經肌支', sections: ['shoulder']},
+  'superior lateral brachial cutaneous nerve': {zh: '上外側臂皮神經', sections: ['shoulder', 'arm']},
+  'musculocutaneous nerve': {zh: '肌皮神經', sections: ['shoulder', 'arm']},
+  'lateral antebrachial cutaneous nerve': {zh: '外側前臂皮神經', sections: ['elbow', 'forearm']},
+  'radial nerve': {zh: '橈神經', sections: ['arm', 'elbow']},
+  'muscular branches of radial nerve': {zh: '橈神經肌支', sections: ['arm']},
+  'inferior lateral brachial cutaneous nerve': {zh: '下外側臂皮神經', sections: ['arm']},
+  'posterior antebrachial cutaneous nerve': {zh: '後前臂皮神經', sections: ['arm', 'forearm']},
+  'deep branch of radial nerve': {zh: '橈神經深支', sections: ['elbow', 'forearm']},
+  'posterior interosseous nerve of forearm': {zh: '後骨間神經', sections: ['forearm']},
+  'superficial branch of radial nerve': {zh: '橈神經淺支', sections: ['forearm', 'hand']},
+  'dorsal digital branches of radial nerve': {zh: '橈神經背側指支', sections: ['hand']},
+  'median nerve': {zh: '正中神經', sections: ['arm', 'elbow', 'forearm', 'hand']},
+  'anterior interosseous nerve of forearm': {zh: '前骨間神經', sections: ['forearm']},
+  'palmar branch of median nerve': {zh: '正中神經掌支', sections: ['forearm', 'hand']},
+  'muscular branches of median nerve': {zh: '正中神經肌支', sections: ['forearm', 'hand']},
+  'common palmar digital branches of median nerve': {zh: '正中神經掌側總指支', sections: ['hand']},
+  'proper palmar digital branches of median nerve': {zh: '正中神經掌側固有指支', sections: ['hand']},
+  '(communicating branch of median nerve with ulnar nerve)': {zh: '正中神經與尺神經交通支', sections: ['hand']},
+  'ulnar nerve': {zh: '尺神經', sections: ['arm', 'elbow', 'forearm']},
+  'dorsal branch of ulnar nerve': {zh: '尺神經背支', sections: ['forearm', 'hand']},
+  'palmar branch of ulnar nerve': {zh: '尺神經掌支', sections: ['forearm', 'hand']},
+  'superficial branch of ulnar nerve': {zh: '尺神經淺支', sections: ['hand']},
+  'deep branch of ulnar nerve': {zh: '尺神經深支', sections: ['hand']},
+  'muscular branches of ulnar nerve': {zh: '尺神經肌支', sections: ['forearm']},
+  'common palmar digital branches of ulnar nerve': {zh: '尺神經掌側總指支', sections: ['hand']},
+  'proper palmar digital branches of ulnar nerve': {zh: '尺神經掌側固有指支', sections: ['hand']},
+  'dorsal digital branches of ulnar nerve': {zh: '尺神經背側指支', sections: ['hand']},
+  'medial brachial cutaneous nerve': {zh: '內側臂皮神經', sections: ['arm']},
+  'medial antebrachial cutaneous nerve': {zh: '內側前臂皮神經', sections: ['arm', 'forearm']},
+  'anterior branch of medial antebrachial cutaneous nerve': {zh: '內側前臂皮神經前支', sections: ['forearm']},
+  'posterior branch of medial antebrachial cutaneous nerve': {zh: '內側前臂皮神經後支', sections: ['forearm']},
+};
+
+/** Upper-limb sections: bones and muscles by named attachment, everything else by the height it spans. */
+export function upperSections(name: string, bounds: Bounds): SectionList {
+  const n = cleanName(name);
+  if (UPPER_NERVES[n]) return UPPER_NERVES[n].sections;
+  if (/^(clavicle|scapula)$/.test(n)) return ['shoulder'];
+  if (/^humerus$/.test(n)) return ['shoulder', 'arm', 'elbow'];
+  if (/^(radius|ulna)$/.test(n)) return ['elbow', 'forearm', 'hand'];
+  if (/phalan|metacarp|scaphoid|lunate|triquetr|pisiform|trapezium|trapezoid|capitate|hamate/.test(n)) return ['hand'];
+  if (/deltoid|teres major|teres minor|supraspinatus|infraspinatus|subscapularis/.test(n)) return /deltoid|teres major/.test(n) ? ['shoulder', 'arm'] : ['shoulder'];
+  if (/pectoralis|trapezius|rhomboid|levator scapulae|serratus anterior|subclavius|latissimus/.test(n)) return ['shoulder'];
+  if (/biceps brachii|brachialis|coracobrachialis|triceps brachii/.test(n)) return ['arm'];
+  if (/anconeus|brachioradialis|pronator teres|supinator/.test(n)) return ['elbow', 'forearm'];
+  if (/abductor pollicis longus|extensor pollicis brevis/.test(n)) return ['forearm', 'hand'];
+  if (/lumbrical|interossei|flexor pollicis brevis|abductor pollicis brevis|opponens|adductor pollicis|digiti minimi of hand|palmaris brevis/.test(n)) return ['hand'];
+  if (/carpi|digitorum|digiti minimi|pollicis longus|indicis|pronator quadratus|palmaris longus/.test(n)) return ['forearm'];
+  return overlapSections('upper-limb', bounds);
+}
+
+// Thorax: individually identified unpaired and paired structures. Organ-internal branches (lung segments, coronary
+// twigs, hepatic/portal tributaries) are deliberately not turned into answers.
+export const THORAX_NERVES: Record<string, {zh: string; sections: SectionList}> = {
+  'intercostal nerves': {zh: '肋間神經', sections: ['intercostal']},
+  'vagus nerve (x)': {zh: '迷走神經', sections: ['vessels']},
+  'sympathetic nerves': {zh: '交感神經', sections: ['vessels']},
+};
+export const THORAX_INCLUDE: Record<QuizSystem, RegExp> = {
+  skeletal: /^(?:(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth) rib|manubrium|body of sternum|xiphoid process|(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth) thoracic vertebra|costal cartilages?|intervertebral discs?)$/,
+  muscular: /intercostal|transversus thoracis|levatores costarum|serratus posterior|^diaphragm$|spinalis thoracis|iliocostalis thoracis|longissimus thoracis|semispinalis thoracis|interspinalis thoracis|thoracic rotator|subcostal/,
+  nervous: /^$/,
+  arterial: /^(?:arch of aorta|ascending aorta|descending thoracic aorta|descending aorta|brachiocephalic artery|(?:left |right )?(?:common carotid|subclavian) artery|internal thoracic artery|(?:first |second )?posterior intercostal arteries?|superior intercostal artery|subcostal artery|costocervical trunk|thyrocervical trunk|bronchial arter(?:y|ies)|esophageal arter(?:y|ies)|musculophrenic artery|pulmonary trunk|pulmonary artery)$/,
+  venous: /^(?:superior vena cava|inferior vena cava|brachiocephalic vein|azygos vein|hemiazygos vein|accessory hemiazygos vein|internal thoracic vein|set of anterior intercostal veins|superior intercostal vein|subcostal vein|musculophrenic vein|superior pulmonary vein|inferior pulmonary vein|(?:left |right )?subclavian vein)$/,
+};
+/** Thorax sections: skeleton → cage; muscles → wall; named trunk vessels → vessels; chest-wall vessels and nerves → intercostal. */
+export function thoraxSections(name: string, bounds: Bounds, system?: QuizSystem): SectionList {
+  const n = cleanName(name);
+  if (THORAX_NERVES[n]) return THORAX_NERVES[n].sections;
+  if (system === 'skeletal' || /\brib\b|sternum|manubrium|xiphoid|thoracic vertebra|costal cartilage|intervertebral/.test(n)) return ['cage'];
+  if (system === 'muscular') return ['wall'];
+  if (/intercostal|internal thoracic|musculophrenic|subcostal|costocervical|thyrocervical|bronchial|esophageal/.test(n)) return ['intercostal'];
+  void bounds;
+  return ['vessels'];
+}
+
+export function classifySections(region: QuizRegionId, name: string, bounds: Bounds, system?: QuizSystem): SectionList {
+  return region === 'upper-limb' ? upperSections(name, bounds) : region === 'thorax' ? thoraxSections(name, bounds, system) : lowerSections(name, bounds);
+}
+
 export function questionPool(catalogue: QuizCatalogue, settings: QuizSettings): QuizStructure[] {
   return catalogue.structures.filter(s => settings.systems.includes(s.system)
-    && (settings.side === 'both' || settings.side === s.side)
+    && (settings.side === 'both' || s.side === 'midline' || settings.side === s.side)
     && (settings.section === 'all' || s.sections.includes(settings.section)));
 }
 
 /** Same-system regional anatomy stays available as distractors and for peeling. */
 export function sceneStructures(catalogue: QuizCatalogue, target: QuizStructure, section: QuizSection, side: QuizSide) {
-  const range = QUIZ_SECTIONS.find(s => s.id === section)!.range;
-  return catalogue.structures.filter(s => (side === 'both' || s.side === side)
+  const range = (regionSections(catalogue.region).find(s => s.id === section) ?? regionSections(catalogue.region)[0]).range;
+  return catalogue.structures.filter(s => (side === 'both' || s.side === 'midline' || s.side === side)
     && (s.system === target.system || s.system === 'skeletal')
     && (s.id === target.id || section === 'all' || s.sections.includes(section)
       || (s.bounds[0][1] < range[1] && s.bounds[1][1] > range[0])));

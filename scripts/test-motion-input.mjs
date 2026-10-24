@@ -13,7 +13,7 @@ let number=0,displayed,side='right';const focus=['shoulder'];let state={cameraFo
 const context={atlas:{},motionEnabled:true,studySide:'right',motionTargetRef,motionInputSide,motionPoseRef,smoothMotionFrame,
  buildUpperLimbMotion(_atlas,shown,pose){return{transforms:{[shown]:pose},warnings:[]};},constrainPose:p=>p,
  setMotionPose:p=>{displayed=p;},setMotionEdit(){},setError(){},setTopRegion(){},setMotionSide(){},setStudySide:s=>{side=s;},
- setState:update=>{state=update(state);},MOTION_LIMITS:{shoulderAbduction:[-20,165]},
+ setState:update=>{state=update(state);},MOTION_LIMITS:{shoulderAbduction:[-20,180]},
  requestAnimationFrame:fn=>{const id=++number;frames.set(id,fn);return id;},cancelAnimationFrame:id=>frames.delete(id)
 };
 const api=new Function(...Object.keys(context),code+'return {'+names.join(',')+'};')(...Object.values(context));

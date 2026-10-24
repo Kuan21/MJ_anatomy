@@ -1,7 +1,4 @@
 .body-region-nav{position:absolute;z-index:15;top:112px;left:50%;transform:translateX(-50%);display:flex;gap:4px;padding:5px;border-radius:10px;max-width:calc(100% - 24px)}
-.body-region-nav .lower-quiz-link{display:inline-flex;align-items:center;justify-content:center;gap:4px;min-height:40px;padding:7px 12px;border:1px solid #94bfb0;border-radius:10px;background:#e7f3eb;color:#236e60;font-size:12px;font-weight:600;white-space:nowrap;text-decoration:none}
-.body-region-nav:has(.lower-quiz-link){width:max-content}
-@media(max-width:767px){.body-region-nav .lower-quiz-link{padding-inline:8px;min-height:40px;flex:none}}
 .joint-workspace [data-slot=slider]{display:block;width:100%;padding:10px 0}
 .joint-workspace [data-slot=slider]>div{display:flex;position:relative;width:100%;align-items:center;min-height:20px;touch-action:none}
 .joint-workspace [data-slot=slider-track]{position:relative;width:100%;height:4px;flex:1;background:#bdc8ce;border-radius:4px;overflow:hidden}
@@ -513,3 +510,22 @@
 .joint-surface-toggle{display:flex;align-items:center;gap:8px;min-height:44px;font-size:12px;cursor:pointer}
 .joint-surface-toggle input{width:18px;height:18px;accent-color:#387c77}
 .joint-surface-note{display:block;font-size:11px;line-height:1.5;color:#60727c;margin:0 0 10px}
+/* Top-right toolbar: every item shares one height, radius, border and type scale. */
+.top-actions{align-items:stretch}
+.top-actions .top-link,.top-actions>button,.top-actions>.icon-button{box-sizing:border-box;height:42px;min-height:42px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:0 14px;border:1px solid var(--border);border-radius:10px;background:#ffffffd9;color:#515d69;font-size:12px;font-weight:500;line-height:1;text-decoration:none;white-space:nowrap;transition:background .18s,border-color .18s,color .18s}
+.top-actions .top-link:hover,.top-actions>button:hover{background:#fff;color:#182536}
+.top-actions .top-link.quiz-link{border-color:#94bfb0;background:#e7f3eb;color:#236e60;font-weight:600}
+.top-actions .top-link.quiz-link:hover{background:#dcefe3;color:#175a4d}
+.top-actions .top-link.lab-link{color:#7c8793;font-weight:400}
+.top-actions .icon-button{width:42px;min-width:42px;padding:0}
+@media(max-width:1180px){.top-actions .lab-link{display:none}}
+@media(max-width:767px){
+ .top-actions{gap:6px}
+ .top-actions .top-link,.top-actions>button,.top-actions>.icon-button{height:44px;min-height:44px;min-width:44px;padding:0 12px;border-radius:12px}
+ .top-actions .top-link.quiz-link{width:auto}
+ .top-actions .top-link.quiz-link{padding:0}
+ .top-actions .top-link.quiz-link span{display:none}
+ .identity h1{font-size:26px}
+ .top-actions>button span,.top-actions kbd{display:none}
+ .top-actions>button,.top-actions .icon-button{width:44px;padding:0}
+}

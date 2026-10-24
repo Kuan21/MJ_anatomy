@@ -206,9 +206,13 @@ export function weightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''
   // Serratus wraps from anterior/lateral ribs to the POSTERIOR medial
   // scapular border. A lateral-X envelope reverses these attachments.
   if(/serratus anterior/i.test(name))return pair(0,2,range(box.max.z-p.z,size.z*.25,size.z*.90));
-  // Distribute extension over the full medial-to-lateral span rather than
-  // concentrating it in a narrow smoothstep band in the muscle belly.
-  return pair(0,2,lateral);
+  // Distribute extension over the full medial-to-lateral span, but keep the
+  // spinal origin and the scapular/clavicular insertion collars (outer 8 %)
+  // exactly on their bones so the sheet cannot peel away from them.
+  // The descending (upper) trapezius inserts on the lateral third of the CLAVICLE, not the blade: it must ride with the clavicle as
+  // it elevates and retracts, otherwise the bone pokes out above the muscle at full elevation.
+  if(/descending part of .*trapezius/i.test(name))return pair(0,1,range(lateral,.08,.92));
+  return pair(0,2,range(lateral,.08,.92));
  }
  if(profile==='chest')return pair(name.toLowerCase().includes('clavicular')?1:0,3,range(lateral,.72,.98));
  if(profile==='cuff')return pair(2,3,range(lateral,.30,.95));
@@ -226,11 +230,41 @@ export function weightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''
  void c;return weights;
 }
 
+/** One weight-smoothing pass over the mesh. Each free vertex's frame weights are blended with the mean of its surface
+ * neighbours (duplicated normal-seam vertices count as one), then renormalised to the best four. A vertex whose
+ * dominant bone weight is already >= .995 is an attachment collar and stays exactly on its bone. */
+export function smoothSkinWeights(positions:ArrayLike<number>,triangles:ArrayLike<number>,indices:Uint8Array,weights:Float32Array,frames=7,amount=.5,passes=1){
+ const count=weights.length/4,node=new Uint32Array(count),keys=new Map<string,number>();
+ for(let i=0;i<count;i++){const key=`${positions[i*3]},${positions[i*3+1]},${positions[i*3+2]}`,first=keys.get(key);if(first===undefined){keys.set(key,i);node[i]=i;}else node[i]=first;}
+ const neighbours:Set<number>[]=Array.from({length:count},()=>new Set<number>());
+ for(let t=0;t<triangles.length;t+=3)for(let k=0;k<3;k++){const a=node[triangles[t+k]],b=node[triangles[t+(k+1)%3]];if(a!==b){neighbours[a].add(b);neighbours[b].add(a);}}
+ let dense=new Float32Array(count*frames);
+ for(let i=0;i<count;i++)for(let k=0;k<4;k++)dense[i*frames+indices[i*4+k]]+=weights[i*4+k];
+ const pinned=new Uint8Array(count);
+ for(let i=0;i<count;i++){let max=0;for(let f=0;f<frames;f++)max=Math.max(max,dense[i*frames+f]);pinned[i]=max>=.995?1:0;}
+ for(let pass=0;pass<passes;pass++){
+  const next=dense.slice();
+  for(let i=0;i<count;i++){
+   const v=node[i],around=neighbours[v];if(pinned[v]||!around.size)continue;
+   let total=0;
+   for(let f=0;f<frames;f++){let mean=0;for(const u of around)mean+=dense[u*frames+f];next[i*frames+f]=(1-amount)*dense[v*frames+f]+amount*mean/around.size;total+=next[i*frames+f];}
+   for(let f=0;f<frames;f++)next[i*frames+f]/=total;
+  }
+  dense=next;
+ }
+ for(let i=0;i<count;i++){
+  const entries:{w:number;j:number}[]=[];for(let f=0;f<frames;f++)if(dense[i*frames+f]>1e-5)entries.push({w:dense[i*frames+f],j:f});
+  entries.sort((a,b)=>b.w-a.w);const top=entries.slice(0,4),sum=top.reduce((s,e)=>s+e.w,0);
+  for(let k=0;k<4;k++){indices[i*4+k]=top[k]?.j??0;weights[i*4+k]=top[k]?top[k].w/sum:0;}
+ }
+}
+const SMOOTHED_PROFILES:Profile[]=['chest','scapular','clavicular','coraco'];
+
 /** Store sparse weights once. All deltoid heads use the SAME envelope.
  * Broad sheet muscles use their actual medial/lateral mesh edges as attachment
  * bands. This preserves the fan shape while preventing free cloth-like folds.
  */
-export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<number>,part?:Part,sourceName=''):SkinBinding{
+export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<number>,part?:Part,sourceName='',triangles?:ArrayLike<number>):SkinBinding{
  const count=positions.length/3,indices=new Uint8Array(count*4),weights=new Float32Array(count*4),belly=new Float32Array(count),radial=new Float32Array(count*3),longitudinal=new Float32Array(count);
  const own=new Box3();for(let i=0;i<count;i++)own.expandByPoint(new Vector3(positions[i*3],positions[i*3+1],positions[i*3+2]));
  const name=part?.name??sourceName,effectiveProfile=resolveMuscleProfile(name,profile);
@@ -276,6 +310,8 @@ export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<numbe
   const insertionFrame=fitted.insertionFrame??3;
   fitted.weight.forEach((w,i)=>{indices[i*4]=w>.5?insertionFrame:fitted.originFrame;indices[i*4+1]=w>.5?fitted.originFrame:insertionFrame;weights[i*4]=Math.max(w,1-w);weights[i*4+1]=Math.min(w,1-w);});
  }
+ // One weight-smoothing pass for broad shoulder sheets (collars at the bones stay fixed).
+ if(triangles&&!fitted&&SMOOTHED_PROFILES.includes(effectiveProfile))smoothSkinWeights(positions,triangles,indices,weights);
  let fan:SkinBinding['fan'];
  if(effectiveProfile==='pectoralPath'){
   const minX=Math.min(Math.abs(own.min.x),Math.abs(own.max.x)),maxX=Math.max(Math.abs(own.min.x),Math.abs(own.max.x));

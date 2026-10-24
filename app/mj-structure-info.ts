@@ -1,3 +1,4 @@
+import {zhAnatomy} from './mj-zh-anatomy';
 import type {Part,SystemId} from './anatomy';
 import {anatomicalRegionLabel,correctedPartName} from './mj-part-regions';
 import {muscleFactsFor,muscleFactSourceFor} from './mj-muscle-facts';
@@ -179,6 +180,9 @@ function chineseName(name:string,system:SystemId){
  let base=stripSide(name).replace(/^the\s+/i,'').trim();
  const direct=directBaseChinese(base);
  if(direct)return side+direct;
+ // Vessels, digital bones and named nerve branches (Taiwan terminology, see mj-zh-anatomy.ts).
+ const known=zhAnatomy(base);
+ if(known)return side+known.zh;
 
  const ofHand=/^(first|second|third|fourth)\s+lumbrical\s+of\s+hand$/i.exec(base);
  if(ofHand){const ord:{[k:string]:string}={first:'第一',second:'第二',third:'第三',fourth:'第四'};return side+ord[ofHand[1].toLowerCase()]+'蚓狀肌';}

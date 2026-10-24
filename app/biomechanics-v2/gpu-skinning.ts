@@ -12,33 +12,50 @@ import {FRAMES,type Palette,type SkinBinding} from './soft-tissue';
  * soft-tissue.ts `blended`). Fibre guides, sections, wraps, cables and surface
  * guards stay on the CPU solver.
  *
- * Palette slots: 0 = identity, then the FRAMES of each side. Body regions can
- * claim further slots the same way; the shader does not change.
+ * Palette slots: 0 = identity, then the FRAMES of each side, then the four moving
+ * frames (thigh, shank, foot, half-knee) of each leg body region. The shader does
+ * not change: it only blends whichever slots a vertex names.
+ *
+ * Skin (and any other unbound limb surface) carries ABSOLUTE slots computed at
+ * build time by scripts/prepare-skin-weights.mjs, so skin, muscles, vessels and
+ * bones all follow the same segment chain.
  */
 export const FRAME_COUNT=FRAMES.length;
 export const SIDE_BASE:Record<Side,number>={left:1,right:1+FRAME_COUNT};
-export const SLOT_COUNT=1+2*FRAME_COUNT;
+export const LEG_FRAME_COUNT=4;
+const ARM_SLOTS=1+2*FRAME_COUNT;
+/** Slot of leg frame k (1 = thigh, 2 = shank, 3 = foot, 4 = half-knee) is LEG_BASE[side]+k-1. */
+export const LEG_BASE:Record<Side,number>={left:ARM_SLOTS,right:ARM_SLOTS+LEG_FRAME_COUNT};
+export const SLOT_COUNT=ARM_SLOTS+2*LEG_FRAME_COUNT;
 /** Two RGBA texels (real, dual) per slot, power-of-two width. */
 export const PALETTE_WIDTH=2**Math.ceil(Math.log2(SLOT_COUNT*2));
 const IDENTITY=[0,0,0,1,0,0,0,0];
 const WEIGHT_SCALE=65535;
 
-export interface GpuBinding {side:Side;indices:Uint8Array;weights:Float32Array}
-export const gpuBinding=(side:Side,b:Pick<SkinBinding,'indices'|'weights'>):GpuBinding=>({side,indices:b.indices,weights:b.weights});
+/** `side` selects the arm palette the indices are relative to; `side:null` means the indices are absolute palette slots. */
+export interface GpuBinding {side:Side|null;indices:Uint8Array;weights:Float32Array}
+export const gpuBinding=(side:Side|null,b:Pick<SkinBinding,'indices'|'weights'>):GpuBinding=>({side,indices:b.indices,weights:b.weights});
 
-/** Pack both sides' soft-rig palettes into the palette texture data (missing side = identity). */
-export function writePalette(data:Float32Array,palettes:Record<Side,Palette|null>){
+/** Pack both sides' soft-rig palettes, and the active leg body palette, into the palette texture data (missing = identity). */
+export function writePalette(data:Float32Array,palettes:Record<Side,Palette|null>,legs?:Partial<Record<Side,Palette|null>>){
  data.fill(0);data.set(IDENTITY,0);
- for(const side of ['left','right'] as Side[])for(let f=0;f<FRAME_COUNT;f++){
-  const slot=(SIDE_BASE[side]+f)*8,p=palettes[side];
-  if(p)for(let c=0;c<8;c++)data[slot+c]=p[f*8+c];else data.set(IDENTITY,slot);
+ for(const side of ['left','right'] as Side[]){
+  for(let f=0;f<FRAME_COUNT;f++){
+   const slot=(SIDE_BASE[side]+f)*8,p=palettes[side];
+   if(p)for(let c=0;c<8;c++)data[slot+c]=p[f*8+c];else data.set(IDENTITY,slot);
+  }
+  // A body-region palette holds the root (identity) at frame 0, then the moving frames.
+  for(let f=0;f<LEG_FRAME_COUNT;f++){
+   const slot=(LEG_BASE[side]+f)*8,p=legs?.[side];
+   if(p&&p.length>=(f+2)*8)for(let c=0;c<8;c++)data[slot+c]=p[(f+1)*8+c];else data.set(IDENTITY,slot);
+  }
  }
  return data;
 }
 
 /** Write one binding into the merged mesh's slot/weight attributes at a vertex offset. Weights keep an exact partition of unity. */
 export function writeGpuAttributes(b:GpuBinding,slots:Uint8Array,weights:Uint16Array,offset:number){
- const count=b.indices.length/4,base=SIDE_BASE[b.side];
+ const count=b.indices.length/4,base=b.side?SIDE_BASE[b.side]:0;
  for(let v=0;v<count;v++){
   const o=v*4,to=(offset+v)*4;let total=0,largest=0;
   for(let k=0;k<4;k++){const w=Math.max(0,b.weights[o+k]);total+=w;}
@@ -76,3 +93,24 @@ if(mjGpuSkin > 0.5){
 export const GPU_SKIN_POSITION=`
 if(mjGpuSkin > 0.5) transformed = qrot(mjReal, transformed) + 2.0*(mjReal.w*mjDual.xyz - mjDual.w*mjReal.xyz + cross(mjReal.xyz, mjDual.xyz));
 `;
+
+/** CPU twin of GPU_SKIN_POSITION for absolute-slot bindings, reading the packed float32 palette (picking, tests). */
+export function slotSkin(b:Pick<GpuBinding,'indices'|'weights'>,base:ArrayLike<number>,palette:Float32Array,out:Float32Array){
+ const R=[0,0,0,0],D=[0,0,0,0];
+ for(let v=0;v<out.length/3;v++){
+  const o=v*4,s0=b.indices[o]*8;let total=0;for(let k=0;k<4;k++)total+=Math.max(0,b.weights[o+k]);total=Math.max(total,1e-6);
+  R.fill(0);D.fill(0);
+  for(let k=0;k<4;k++){
+   let w=Math.max(0,b.weights[o+k])/total;if(w<=0)continue;const s=b.indices[o+k]*8;
+   if(palette[s]*palette[s0]+palette[s+1]*palette[s0+1]+palette[s+2]*palette[s0+2]+palette[s+3]*palette[s0+3]<0)w=-w;
+   for(let c=0;c<4;c++){R[c]+=w*palette[s+c];D[c]+=w*palette[s+4+c];}
+  }
+  const len=Math.max(Math.hypot(R[0],R[1],R[2],R[3]),1e-10);for(let c=0;c<4;c++){R[c]/=len;D[c]/=len;}
+  const dot=R[0]*D[0]+R[1]*D[1]+R[2]*D[2]+R[3]*D[3];for(let c=0;c<4;c++)D[c]-=dot*R[c];
+  const x=base[v*3],y=base[v*3+1],z=base[v*3+2],cx=R[1]*z-R[2]*y+R[3]*x,cy=R[2]*x-R[0]*z+R[3]*y,cz=R[0]*y-R[1]*x+R[3]*z;
+  out[v*3]=x+2*(R[1]*cz-R[2]*cy)+2*(R[3]*D[0]-D[3]*R[0]+R[1]*D[2]-R[2]*D[1]);
+  out[v*3+1]=y+2*(R[2]*cx-R[0]*cz)+2*(R[3]*D[1]-D[3]*R[1]+R[2]*D[0]-R[0]*D[2]);
+  out[v*3+2]=z+2*(R[0]*cy-R[1]*cx)+2*(R[3]*D[2]-D[3]*R[2]+R[0]*D[1]-R[1]*D[0]);
+ }
+ return out;
+}

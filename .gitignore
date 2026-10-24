@@ -58,4 +58,10 @@ next-env.d.ts
 /public/models/stream/
 /public/models/atlas-stream.json*
 /public/models/nerve-stream.json
-/public/models/quiz-lower.json
+/public/models/quiz-*.json
+
+# Pinned facial-muscle source, verified and repackaged before dev/build
+/public/models/facial/facial-stream.json.gz
+
+# Skin/fascia weights over the shared segment chain, computed from the atlas before dev/build
+/public/models/skin-weights.json.gz
