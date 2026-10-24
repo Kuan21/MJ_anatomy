@@ -58,3 +58,4 @@ next-env.d.ts
 /public/models/stream/
 /public/models/atlas-stream.json*
 /public/models/nerve-stream.json
+/public/models/quiz-lower.json
