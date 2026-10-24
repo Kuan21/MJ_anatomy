@@ -7,7 +7,7 @@ import vm from 'node:vm';
 import {fileURLToPath} from 'node:url';
 import ts from 'typescript';
 const root = fileURLToPath(new URL('../', import.meta.url));
-const catalogues = Object.fromEntries(['lower','upper','thorax'].map(k => [k, fs.readFileSync(path.join(root, `public/models/quiz-${k}.json`), 'utf8')]));
+const catalogues = Object.fromEntries(['lower','upper','thorax','back'].map(k => [k, fs.readFileSync(path.join(root, `public/models/quiz-${k}.json`), 'utf8')]));
 let hooks = [], cursor = 0, effects = [], dirty = true, tree;
 const changed = (a, b) => !a || !b || a.length !== b.length || a.some((x, i) => x !== b[i]);
 const react = {
@@ -22,7 +22,7 @@ const external = {
   react, 'react/jsx-runtime': {jsx, jsxs: jsx, Fragment: 'fragment'},
   'lucide-react': Object.fromEntries(icons.map(name => [name, name])),
 };
-globalThis.fetch = async url => new Response(catalogues[/quiz-(lower|upper|thorax)\.json/.exec(String(url))[1]]);
+globalThis.fetch = async url => new Response(catalogues[/quiz-(lower|upper|thorax|back)\.json/.exec(String(url))[1]]);
 const cache = new Map();
 async function moduleFor(key) {
   if (cache.has(key)) return cache.get(key);
@@ -46,19 +46,19 @@ function button(label) {const result = all().find(n => n.type === 'button' && te
 function click(label) {const node = button(label); assert.ok(!node.props.disabled, `Enabled: ${label}`); node.props.onClick(); render();}
 const scene = () => all().find(n => typeof n.type === 'function' && n.type.name === 'QuizScene');
 const settle = async () => {render(); await new Promise(resolve => setTimeout(resolve, 0)); render();};
-for (const [id, file, label, tag, labels] of [['upper-limb', 'upper', '上肢', '上肢篇', ['肩帶・肩', '上臂', '前臂', '腕・手']], ['thorax', 'thorax', '胸腔', '胸腔篇', ['胸廓骨架', '胸壁・呼吸肌', '縱膈・大血管']]]) {
+for (const [id, file, label, tag, labels] of [['upper-limb', 'upper', '上肢', '上肢篇', ['肩帶・肩', '上臂', '前臂', '腕・手']], ['thorax', 'thorax', '胸腔', '胸腔篇', ['胸廓骨架', '胸壁・呼吸肌', '縱膈・大血管']], ['back', 'back', '背部', '背部篇', ['淺層背肌', '中層背肌', '深層固有背肌', '枕下區', '背部神經與血管']]]) {
   hooks = []; cursor = 0; effects = []; dirty = true; region = id;
   const catalogue = JSON.parse(catalogues[file]);
   await settle();
   assert.ok(text(tree).includes(tag), `${label}: header tag`);
   assert.match(text(tree), new RegExp(`${catalogue.structures.length} 個構造`));
   for (const section of labels) button(section);
-  assert.ok(all().some(n => n.type === 'a' && n.props.href === (id === 'thorax' ? '#/atlas/whole' : '#/atlas/upper')), `${label}: back link`);
+  assert.ok(all().some(n => n.type === 'a' && n.props.href === '#/quiz'), `${label}: back link goes to the body-part chooser`);
   click(labels[0]);
   assert.ok(!/下肢/.test(text(tree)), `${label}: no lower-limb copy`);
   click('開始測驗');
   let view = scene().props.view;
-  assert.equal(view.section, id === 'thorax' ? 'cage' : 'shoulder'); assert.equal(view.side, 'right');
+  assert.equal(view.section, id === 'thorax' ? 'cage' : id === 'back' ? 'superficial' : 'shoulder'); assert.equal(view.side, id === 'back' ? 'both' : 'right');
   scene().props.onReady(view.key, true); render();
   // Answer card: 中文名 first, English name beneath.
   const heading = all().find(n => n.type === 'h1' && n.props.className === 'quiz-target');
@@ -66,20 +66,22 @@ for (const [id, file, label, tag, labels] of [['upper-limb', 'upper', '上肢', 
   assert.ok(shown.includes(view.target.chinese) && shown.includes(view.target.name), 'Chinese and English names shown together');
   assert.ok(shown.indexOf(view.target.chinese) < shown.indexOf(view.target.name), 'Chinese name first');
   scene().props.onPick(view.target.id); render();
-  assert.match(text(tree), /答啱/);
+  assert.match(text(tree), /答對/);
+  assert.ok(all().some(n => typeof n.type === 'function' && n.type.name === 'AnswerCard'), `${label}: the answer card follows a correct answer`);
   click('下一題'); view = scene().props.view; scene().props.onReady(view.key, true); render();
-  click('唔識，顯示答案'); assert.match(text(tree), /今題睇答案/);
+  click('不會，顯示答案'); assert.match(text(tree), /本題已查看答案/);
+  assert.ok(all().some(n => typeof n.type === 'function' && n.type.name === 'AnswerCard'), `${label}: the answer card also follows a revealed answer`);
   assert.ok(text(all().find(n => n.props?.className === 'quiz-answer-name' && /正確位置/.test(text(n))).props.children[1].props.children.type(all().find(n => n.props?.className === 'quiz-answer-name' && /正確位置/.test(text(n))).props.children[1].props.children.props)).includes(view.target.chinese), 'Answer card shows the Chinese name');
   click('下一題');
   for (let guard = 0; guard < 12 && !/PRACTICE COMPLETE/.test(text(tree)); guard++) {
     const next = all().find(n => n.type === 'button' && /下一題|查看成績/.test(text(n)));
     if (!next) {view = scene().props.view; scene().props.onReady(view.key, true); render(); scene().props.onPick(view.target.id); render(); continue;}
-    next.props.onClick(); render(); if (scene()) {view = scene().props.view; scene().props.onReady(view.key, true); render(); if (!/答啱|未啱|今題睇答案/.test(text(tree))) {scene().props.onPick(view.target.id); render();}}
+    next.props.onClick(); render(); if (scene()) {view = scene().props.view; scene().props.onReady(view.key, true); render(); if (!/答對|未啱|本題已查看答案/.test(text(tree))) {scene().props.onPick(view.target.id); render();}}
   }
   // Practising either side keeps unpaired thoracic answers in the pool.
   if (id === 'thorax') {
     if (all().some(n => n.type === 'button' && /結束測驗/.test(text(n)))) click('結束測驗');
-    click('重新揀部位'); click('全部胸腔'); click('左側');
+    click('重新選擇部位'); click('全部胸腔'); click('左側');
     click('開始測驗'); const left = scene().props.view; assert.equal(left.side, 'left');
   }
   for (const h of hooks) h?.cleanup?.();

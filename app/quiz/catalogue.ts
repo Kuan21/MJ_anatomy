@@ -70,20 +70,20 @@ const BACK_SECTIONS: QuizSectionDef[] = [
 export const QUIZ_REGIONS = {
   'lower-limb': {
     id: 'lower-limb', label: '下肢', english: 'Lower limb', tag: '下肢篇', file: 'quiz-lower.json', hash: '#/quiz/lower-limb', atlasHash: '#/atlas/lower',
-    headline: ['看名稱，', '點出位置。'], description: ['由臀部到足部，喺 3D 模型練習辨認。', '每答一題，即刻睇到正確位置。'],
-    scope: '採用現有圖譜嘅固定解剖姿勢。題目只涵蓋已有模型嘅構造；神經、動脈同靜脈可以獨立練習。',
+    headline: ['看名稱，', '點出位置。'], description: ['由臀部到足部，在 3D 模型上練習辨認。', '每答一題，立即顯示正確位置與資料卡。'],
+    scope: '採用現有圖譜的固定解剖姿勢。題目只涵蓋已有模型的構造；神經、動脈與靜脈可以獨立練習。',
     frame: {x: .19, z: [-.13, .09], footZ: .19}, sections: LOWER_SECTIONS,
   },
   'upper-limb': {
     id: 'upper-limb', label: '上肢', english: 'Upper limb', tag: '上肢篇', file: 'quiz-upper.json', hash: '#/quiz/upper-limb', atlasHash: '#/atlas/upper',
-    headline: ['看名稱，', '點出位置。'], description: ['由肩帶到手指，喺 3D 模型練習辨認。', '每答一題，即刻睇到正確位置。'],
-    scope: '採用現有圖譜嘅固定解剖姿勢。題目涵蓋肩帶、上臂、肘、前臂同手；神經、動脈同靜脈可以獨立練習。',
+    headline: ['看名稱，', '點出位置。'], description: ['由肩帶到手指，在 3D 模型上練習辨認。', '每答一題，立即顯示正確位置與資料卡。'],
+    scope: '採用現有圖譜的固定解剖姿勢。題目涵蓋肩帶、上臂、肘、前臂與手；神經、動脈與靜脈可以獨立練習。',
     frame: {x: .37, z: [-.13, .13]}, sections: UPPER_SECTIONS,
   },
   thorax: {
     id: 'thorax', label: '胸腔', english: 'Thorax', tag: '胸腔篇', file: 'quiz-thorax.json', hash: '#/quiz/thorax', atlasHash: '#/atlas/whole',
-    headline: ['看名稱，', '點出位置。'], description: ['由胸廓骨架到縱膈大血管，喺 3D 模型練習辨認。', '每答一題，即刻睇到正確位置。'],
-    scope: '採用現有圖譜嘅固定解剖姿勢。題目只涵蓋胸腔內外已有模型嘅主要構造（不含器官內部分支）；神經、動脈同靜脈可以獨立練習。',
+    headline: ['看名稱，', '點出位置。'], description: ['由胸廓骨架到縱膈大血管，在 3D 模型上練習辨認。', '每答一題，立即顯示正確位置與資料卡。'],
+    scope: '採用現有圖譜的固定解剖姿勢。題目只涵蓋胸腔內外已有模型的主要構造（不含器官內部分支）；神經、動脈與靜脈可以獨立練習。',
     frame: {x: .24, z: [-.13, .15]}, sections: THORAX_SECTIONS,
   },
 } as Record<QuizRegionId, QuizRegionDef>;

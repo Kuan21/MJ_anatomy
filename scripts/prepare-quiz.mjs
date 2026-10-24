@@ -119,7 +119,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
     }
   }
 
-  const packages = [], sides = region === 'thorax' ? ['left', 'right', 'midline'] : ['left', 'right'];
+  const packages = [], sides = region === 'thorax' || region === 'back' ? ['left', 'right', 'midline'] : ['left', 'right'];
   for (const {id: system} of QUIZ_SYSTEMS) for (const side of sides) {
     let buffers = [], bytes = 0, meshes = [];
     const append = data => {

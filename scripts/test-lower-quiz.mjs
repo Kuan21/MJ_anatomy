@@ -10,6 +10,12 @@ const {PointerTap} = await quizModule('app/pointer-tap.ts');
 const {normalizeAtlasSystems} = await quizModule('app/mj-system-classifier.ts');
 const catalogue = JSON.parse(fs.readFileSync('public/models/quiz-lower.json'));
 const atlas = normalizeAtlasSystems(JSON.parse(fs.readFileSync('public/models/atlas.json')));
+// BodyParts3D 3.0 supplement structures (latissimus dorsi, extensor digitorum brevis…) are quiz answers too; their packages sit after the atlas chunks.
+{
+  const supplement = JSON.parse(gunzipSync(fs.readFileSync('public/models/supplement/supplement-stream.json.gz'))), offset = atlas.chunks.length;
+  atlas.chunks.push(...supplement.chunks);
+  for (const p of supplement.parts) atlas.parts.push({...p, chunk: p.chunk + offset});
+}
 const native = new Map(atlas.parts.map(p => [p.id, p]));
 const nerves = JSON.parse(fs.readFileSync('public/models/nerve-stream.json'));
 const nerveMeshes = new Map(nerves.chunks.flatMap(c => c.meshes.map(m => [m.name, {mesh: m, chunk: c}])));
