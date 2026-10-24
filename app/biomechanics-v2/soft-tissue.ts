@@ -426,6 +426,18 @@ export function linearSkin(b:Pick<SkinBinding,'indices'|'weights'>,base:ArrayLik
  for(let i=0;i<out.length/3;i++){blended(palette,b.indices,b.weights,i*4,q);transform(base[i*3],base[i*3+1],base[i*3+2],q,out,i*3);}
  return out;
 }
+/** Plain linear-blend skinning with the binding's weights: the preview shape of the `chest`/`pectoralPath` profiles, whose
+ * exact deformation also averages per-frame rigid transforms rather than blending dual quaternions. */
+export function lbsSkin(b:Pick<SkinBinding,'indices'|'weights'>,base:ArrayLike<number>,palette:Palette,out:Float32Array){
+ const t=new Float64Array(3);
+ for(let i=0;i<out.length/3;i++){
+  let total=0;for(let k=0;k<4;k++)total+=b.weights[i*4+k];
+  let x=0,y=0,z=0;
+  for(let k=0;k<4;k++){const w=b.weights[i*4+k]/(total||1);if(!w)continue;const f=b.indices[i*4+k];transform(base[i*3],base[i*3+1],base[i*3+2],palette.subarray(f*8,f*8+8),t,0);x+=w*t[0];y+=w*t[1];z+=w*t[2];}
+  out[i*3]=x;out[i*3+1]=y;out[i*3+2]=z;
+ }
+ return out;
+}
 export function deformPoint(p:Vector3,weights:number[],palette:Palette):Vector3{
  const pairs=weights.map((w,i)=>({w,i})).sort((a,b)=>b.w-a.w).slice(0,4),sum=pairs.reduce((s,p)=>s+p.w,0),q=new Float64Array(8),v=new Float64Array(3);
  blended(palette,pairs.map(p=>p.i),pairs.map(p=>p.w/sum),0,q);transform(p.x,p.y,p.z,q,v,0);return new Vector3(...v);

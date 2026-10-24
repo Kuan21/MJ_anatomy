@@ -34,6 +34,14 @@ const shaderSkin=(palette,slots,weights,v,x,y,z)=>{
  const cx=R[1]*z-R[2]*y+R[3]*x,cy=R[2]*x-R[0]*z+R[3]*y,cz=R[0]*y-R[1]*x+R[3]*z;
  return[x+2*(R[1]*cz-R[2]*cy)+2*(R[3]*D[0]-D[3]*R[0]+R[1]*D[2]-R[2]*D[1]),y+2*(R[2]*cx-R[0]*cz)+2*(R[3]*D[1]-D[3]*R[1]+R[2]*D[0]-R[0]*D[2]),z+2*(R[0]*cy-R[1]*cx)+2*(R[3]*D[2]-D[3]*R[2]+R[0]*D[1]-R[1]*D[0])];
 };
+// Mirror of the shader's linear-blend branch (chest / pectoral sheets, preview only).
+const shaderLbs=(palette,slots,weights,v,x,y,z)=>{
+ let total=0;for(let k=0;k<4;k++)total+=weights[v*4+k]/65535;const acc=[0,0,0];
+ for(let k=0;k<4;k++){const w=weights[v*4+k]/65535/total;if(w<=0)continue;const s2=slots[v*4+k],r=[0,1,2,3].map(c=>palette[s2*8+c]),d=[4,5,6,7].map(c=>palette[s2*8+c]);
+  const cx=r[1]*z-r[2]*y+r[3]*x,cy=r[2]*x-r[0]*z+r[3]*y,cz=r[0]*y-r[1]*x+r[3]*z;
+  acc[0]+=w*(x+2*(r[1]*cz-r[2]*cy)+2*(r[3]*d[0]-d[3]*r[0]+r[1]*d[2]-r[2]*d[1]));acc[1]+=w*(y+2*(r[2]*cx-r[0]*cz)+2*(r[3]*d[1]-d[3]*r[1]+r[2]*d[0]-r[0]*d[2]));acc[2]+=w*(z+2*(r[0]*cy-r[1]*cx)+2*(r[3]*d[2]-d[3]*r[2]+r[0]*d[1]-r[1]*d[0]));}
+ return acc;
+};
 const POSES=[{shoulderAbduction:75,elbowFlexion:60},{shoulderFlexion:120,elbowFlexion:120,forearmRotation:60},{shoulderAbduction:150,shoulderRotation:40,elbowFlexion:140}];
 let twinError=0,shaderError=0,seamDrift=0,seamBaseline=0,seamPair='';
 const contacts=[];{
@@ -74,8 +82,31 @@ assert.ok(seamDrift<5e-5,`GPU vessels stay joined to CPU-solved neighbours: extr
 // The worker must stop re-solving linear bindings and hand their weights over once.
 const solve=worker.createShoulderSolver(atlas),gpuOut=[],inputs=bound.map(x=>({part:x.p,base:x.base.slice(),normals:view(x.p,Int16Array,x.p.normals,x.p.vertexCount*3),triangles:view(x.p,Uint32Array,x.p.indices,x.p.indexCount)}));
 const pose={...motion.NEUTRAL_POSE,shoulderAbduction:60},results=solve(inputs,{...motion.buildUpperLimbMotion(atlas,'left',pose).transforms,...motion.buildUpperLimbMotion(atlas,'right',pose).transforms},gpuOut);
-const solved=new Set(results.map(r=>r.id)),handed=new Set(gpuOut.map(g=>g.id));
-for(const x of linear){assert.ok(handed.has(x.p.id),'weights handed over: '+x.p.name);assert.ok(!solved.has(x.p.id),'not re-solved per pose: '+x.p.name);}
-for(const x of bound.filter(x=>!soft.isLinearBinding(x.skin)))assert.ok(!handed.has(x.p.id),'refined tissue stays on the CPU solver: '+x.p.name);
+const solved=new Set(results.map(r=>r.id)),handed=new Map(gpuOut.map(g=>[g.id,g]));
+for(const x of linear){assert.ok(handed.get(x.p.id)?.exact===true,'weights handed over as exact: '+x.p.name);assert.ok(!solved.has(x.p.id),'not re-solved per pose: '+x.p.name);}
+const refined=bound.filter(x=>!soft.isLinearBinding(x.skin));
+for(const x of refined){assert.ok(handed.get(x.p.id)?.exact===false,'preview weights handed over for refined tissue: '+x.p.name);assert.ok(solved.has(x.p.id),'refined tissue is still solved exactly: '+x.p.name);}
+
+// Drag preview: how far is the coarse GPU blend from the solved shape? (mm; bounds the visible jump when the solve lands)
+const previewPose={...motion.NEUTRAL_POSE,shoulderAbduction:75,elbowFlexion:60},previewTransforms={...motion.buildUpperLimbMotion(atlas,'left',previewPose).transforms,...motion.buildUpperLimbMotion(atlas,'right',previewPose).transforms};
+const previewResults=solve([],previewTransforms,[]),previewPalettes={left:soft.makePalette(rigs.left,previewTransforms),right:soft.makePalette(rigs.right,previewTransforms)};
+const byId=new Map(bound.map(x=>[x.p.id,x])),jumps=[];let worstJump=0,worstName='';
+for(const r of previewResults){
+ const x=byId.get(r.id),coarse=(['chest','pectoralPath'].includes(x.skin.profile)?soft.lbsSkin:soft.linearSkin)(x.skin,x.base,previewPalettes[x.side],new Float32Array(x.base.length));
+ let sum=0,max=0;const n=x.p.vertexCount;for(let v=0;v<n;v++){const d=Math.hypot(coarse[v*3]-r.positions[v*3],coarse[v*3+1]-r.positions[v*3+1],coarse[v*3+2]-r.positions[v*3+2]);sum+=d;if(d>max)max=d;}
+ jumps.push(sum/n);if(max>worstJump){worstJump=max;worstName=x.p.name;}
+ assert.ok(coarse.every(Number.isFinite),'finite preview: '+x.p.name);
+}
+jumps.sort((a,b)=>a-b);const medianJump=jumps[jumps.length>>1],p90Jump=jumps[Math.floor(jumps.length*.9)];
+{ // the linear-blend preview branch equals its CPU twin on the packed data
+ const lbsParts=bound.filter(x=>['chest','pectoralPath'].includes(x.skin.profile));assert.ok(lbsParts.length>0,'chest/pectoral bindings exist');
+ const tr={...motion.buildUpperLimbMotion(atlas,'left',previewPose).transforms,...motion.buildUpperLimbMotion(atlas,'right',previewPose).transforms},pal={left:soft.makePalette(rigs.left,tr),right:soft.makePalette(rigs.right,tr)};let worst=0;
+ for(const x of lbsParts){const packed=gpu.writePalette(new Float32Array(gpu.PALETTE_WIDTH*4),pal),n=x.p.vertexCount,slots=new Uint8Array(n*4),weights=new Uint16Array(n*4);gpu.writeGpuAttributes(gpu.gpuBinding(x.side,x.skin),slots,weights,0);
+  const twin=soft.lbsSkin(x.skin,x.base,pal[x.side],new Float32Array(x.base.length));
+  for(let v=0;v<n;v+=3){const g=shaderLbs(packed,slots,weights,v,x.base[v*3],x.base[v*3+1],x.base[v*3+2]);worst=Math.max(worst,Math.hypot(g[0]-twin[v*3],g[1]-twin[v*3+1],g[2]-twin[v*3+2]));}}
+ assert.ok(worst<5e-5,`linear-blend shader mirror within 0.05 mm of its CPU twin (max ${worst})`);
+}
+assert.ok(medianJump<.02,`preview is a recognisable approximation of the solved shape (median mean deviation ${(medianJump*1000).toFixed(1)} mm)`);
+console.log(`Preview vs solved at 75° abduction / 60° elbow, ${previewResults.length} refined parts: mean deviation median ${(medianJump*1000).toFixed(1)} mm, p90 ${(p90Jump*1000).toFixed(1)} mm, worst vertex ${(worstJump*1000).toFixed(1)} mm (${worstName})`);
 const later=[];solve([],{},later);assert.equal(later.length,0,'weights are sent only once');
-console.log(`PASS GPU skinning: ${linear.length}/${bound.length} upper-limb bindings (${linearVertices.toLocaleString()}/${allVertices.toLocaleString()} vertices) skinned on the GPU; CPU twin ${twinError.toExponential(1)} m, shader mirror ${(shaderError*1000).toFixed(4)} mm, GPU↔CPU seam extra drift ${(seamDrift*1000).toFixed(4)} mm over ${contacts.length} contacts (baseline ${(seamBaseline*1000).toFixed(2)} mm); worker hands ${handed.size} bindings over once.`);
+console.log(`PASS GPU skinning: ${linear.length}/${bound.length} upper-limb bindings (${linearVertices.toLocaleString()}/${allVertices.toLocaleString()} vertices) skinned on the GPU; CPU twin ${twinError.toExponential(1)} m, shader mirror ${(shaderError*1000).toFixed(4)} mm, GPU↔CPU seam extra drift ${(seamDrift*1000).toFixed(4)} mm over ${contacts.length} contacts (baseline ${(seamBaseline*1000).toFixed(2)} mm); worker hands ${handed.size} bindings over once (${linear.length} exact, ${refined.length} preview-only).`);

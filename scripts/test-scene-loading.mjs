@@ -122,21 +122,52 @@ refCursor=0;
 main.namespace.default({...props,state:{...state,partTransforms:{[humerus.id]:{translation:[0,0,0],quaternion:[0,0,0,1]}}}});
 const frameTimes=[];
 const runFrame=()=>{const start=performance.now();nextFrame();frameTimes.push(performance.now()-start);};
-const settle=async()=>{runFrame();while(pendingWorker){await new Promise(resolve=>setTimeout(resolve,2));runFrame();}runFrame();};
+// A dragged pose is previewed on the GPU; the full solve starts only once input has been quiet for 150 ms.
+const settle=async()=>{const start=performance.now();runFrame();while(performance.now()-start<(withWorker?320:0)||pendingWorker){await new Promise(resolve=>setTimeout(resolve,2));runFrame();}runFrame();};
 await settle();
 const drawnParts=()=>{const ids=new Set();scene.traverse(o=>{const g=o.geometry,p=g?.getAttribute('partIndex');if(!o.visible||!p)return;for(let i=0;i<g.drawRange.count;i++)ids.add(p.getX(g.index.getX(i)));});return ids;};
 let motionValues;scene.traverse(o=>{if(motionValues||!o.geometry?.getAttribute('partIndex'))return;const shader={uniforms:{},vertexShader:'',fragmentShader:''};o.material.onBeforeCompile(shader);motionValues=shader.uniforms.motionState.value.image.data;});
+const humerusIndex=atlas.parts.indexOf(humerus),deltoidIndex=atlas.parts.findIndex(p=>/acromial part of right deltoid/i.test(p.name));assert.ok(deltoidIndex>=0);
+const gpuFlags=()=>{let n=0;for(let i=0;i<atlas.parts.length;i++)if(motionValues[i*4+3]>.5)n++;return n;};
+const humerusMotion=()=>[...motionValues.slice(humerusIndex*4,humerusIndex*4+3)];
 for(const angle of [15,30,60,90]){
  const transforms=motion.buildUpperLimbMotion(atlas,'right',{...motion.NEUTRAL_POSE,shoulderAbduction:angle}).transforms;
- const previous=motionValues.slice();
+ const previous=humerusMotion(),flagsBefore=gpuFlags();
  refCursor=0;main.namespace.default({...props,state:{...state,partTransforms:transforms}});runFrame();
- if(withWorker)assert.deepEqual(motionValues,previous,'bones cannot advance ahead of the pending tissue solve');
+ if(withWorker){
+  // Live drag preview: the bones and every bound tissue follow the new pose at once, and nothing is solved yet.
+  assert.notDeepEqual(humerusMotion(),previous,'bones follow the dragged pose immediately');
+  assert.equal(motionValues[deltoidIndex*4+3],1,'a refined muscle shows the GPU preview while dragging');
+  assert.ok(gpuFlags()>flagsBefore||angle>15,'preview skins more parts than the settled pose');
+  assert.equal(pendingWorker,0,'no full solve while the pose is still being dragged');
+ }
+ const previewFlags=gpuFlags();
  await settle();
+ if(withWorker){
+  assert.equal(motionValues[deltoidIndex*4+3],0,'the solved shape replaces the preview');
+  assert.ok(gpuFlags()>0&&gpuFlags()<previewFlags,'only exactly-skinned (linear) parts stay on the GPU after the solve');
+ }
  if(withWorker){
   const expected=new Map(workerResults.map(r=>[atlas.parts.findIndex(p=>p.id===r.id),r.positions]));
   scene.traverse(o=>{const p=o.geometry?.getAttribute('partIndex'),positions=o.geometry?.getAttribute('position');if(!p)return;for(let i=0;i<p.count;){const id=p.getX(i),part=atlas.parts[id],posed=expected.get(id);if(posed&&state.visible.includes(part.system))assert.ok(posed.every((v,j)=>positions.array[i*3+j]===v),`GPU tissue buffer commits exact worker pose: ${part.name} (${part.system})`);i+=part.vertexCount;}});
  }
  scene.traverse(o=>{const normal=o.geometry?.getAttribute('normal'),part=o.geometry?.getAttribute('partIndex');if(!normal||!part)return;for(let i=0;i<normal.count;i++)assert.ok(Math.abs(Math.hypot(normal.getX(i),normal.getY(i),normal.getZ(i))-1)<.001,`valid packed surface normal at ${angle} degrees`);});
+}
+if(withWorker){
+ // A pose that changes while a full solve is in flight: the stale result must never replace the live preview.
+ const poseA=motion.buildUpperLimbMotion(atlas,'right',{...motion.NEUTRAL_POSE,shoulderAbduction:40}).transforms,poseB=motion.buildUpperLimbMotion(atlas,'right',{...motion.NEUTRAL_POSE,shoulderAbduction:80}).transforms;
+ refCursor=0;main.namespace.default({...props,state:{...state,partTransforms:poseA}});
+ const waitStart=performance.now();while(!pendingWorker&&performance.now()-waitStart<3000){await new Promise(resolve=>setTimeout(resolve,2));runFrame();}
+ assert.equal(pendingWorker,1,'the full solve for pose A is in flight');
+ refCursor=0;main.namespace.default({...props,state:{...state,partTransforms:poseB}});runFrame();
+ const live=humerusMotion(),repliesBefore=workerReplies;
+ while(workerReplies===repliesBefore){await new Promise(resolve=>setTimeout(resolve,2));runFrame();}
+ runFrame();
+ assert.deepEqual(humerusMotion(),live,'the stale solve for pose A does not move the bones');
+ assert.equal(motionValues[deltoidIndex*4+3],1,'still previewing pose B after the stale solve returned');
+ assert.equal(pendingWorker,1,'the solve for pose B starts as soon as input is quiet');
+ await settle();
+ assert.equal(motionValues[deltoidIndex*4+3],0,'pose B is finally solved');
 }
 // Hidden systems must not cost GPU triangles. A region selection should draw
 // only the requested structures, and restoring visibility must restore them.
