@@ -3,9 +3,11 @@ import type {Atlas,SceneState,SystemId,Part} from '../anatomy';
 import {makeBodyRig,buildBodyMotion,bindBodyTissue} from './body-motion';
 import {deformTissue,type SkinBinding} from './soft-tissue';
 export interface NeckVesselData {vessels:{name:string;parentId:string;system:SystemId;positions:number[];indices:number[]}[]}
+const NO_PALETTE=new Float64Array(0);
+const samePalette=(a:Float64Array,b:Float64Array)=>{if(a.length!==b.length)return false;for(let i=0;i<a.length;i++)if(a[i]!==b[i])return false;return true;};
 export function createNeckVessels(atlas:Atlas,scene:T.Scene){
  const head=makeBodyRig(atlas,'head'),spine=makeBodyRig(atlas,'spine');
- const rows:{mesh:T.Mesh<T.BufferGeometry,T.MeshStandardMaterial>;parent:Part;system:SystemId;base:Float32Array;head:SkinBinding;spine:SkinBinding}[]=[];
+ const rows:{mesh:T.Mesh<T.BufferGeometry,T.MeshStandardMaterial>;parent:Part;system:SystemId;base:Float32Array;head:SkinBinding;spine:SkinBinding;/** what produced the current positions, so an unchanged pose is not re-deformed and re-lit */posed?:{region:string;palette:Float64Array}}[]=[];
  const replaced=new Set<string>();
  function add(data:NeckVesselData){
   for(const v of data.vessels){
@@ -23,9 +25,14 @@ export function createNeckVessels(atlas:Atlas,scene:T.Scene){
   const focus=s.focusParts?new Set(s.focusParts):null,hidden=new Set(s.hiddenParts??[]),selected=new Set(s.selected);
   for(const r of rows){
    r.mesh.visible=explode<.01&&!hidden.has(r.parent.id)&&s.visible.includes(r.system)&&(!focus||focus.has(r.parent.id))&&(!s.isolate||selected.has(r.parent.id));
+   // Deformation is a pure function of (region, palette); update() runs for every viewer state change. A row still at its
+   // source shape already has the source normals computed in add().
+   const region=moving?s.bodyMotion!.region:'',palette=moving?moving.palette:NO_PALETTE,previous=r.posed;
+   if(previous?(previous.region===region&&samePalette(previous.palette,palette)):!moving)continue;
    const attr=r.mesh.geometry.getAttribute('position') as T.BufferAttribute;
    if(moving)deformTissue(s.bodyMotion?.region==='head'?r.head:r.spine,r.base,moving.palette,attr.array as Float32Array);else (attr.array as Float32Array).set(r.base);
    attr.needsUpdate=true;r.mesh.geometry.computeVertexNormals();r.mesh.geometry.computeBoundingSphere();
+   r.posed={region,palette:moving?Float64Array.from(palette):NO_PALETTE};
   }
  }
  function dispose(){for(const r of rows){scene.remove(r.mesh);r.mesh.geometry.dispose();r.mesh.material.dispose();}}

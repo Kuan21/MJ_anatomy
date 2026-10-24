@@ -86,7 +86,8 @@ export function createJointAnatomy(atlas:Atlas,scene:T.Scene){
   let start=performance.now();
   for(const o of meshes){if(performance.now()-start>budgetMs){await pause();if(cancelled())return;start=performance.now();}addMesh(o);}
  }
- function update(s:SceneState,explode:number){
+ /** `surfacesOnly`: move the rigid articular surfaces but leave the deformed ligaments/capsules where they are (live drag preview). */
+ function update(s:SceneState,explode:number,surfacesOnly=false){
   const palettes={left:upper.left?makePalette(upper.left,s.partTransforms??{}):null,right:upper.right?makePalette(upper.right,s.partTransforms??{}):null};
   const active=s.bodyMotion?buildBodyMotion(body[s.bodyMotion.region],s.bodyMotion.pose):null;
   const focus=s.focusParts?new Set(s.focusParts):null,hidden=new Set(s.hiddenParts??[]);
@@ -94,6 +95,8 @@ export function createJointAnatomy(atlas:Atlas,scene:T.Scene){
    mesh.visible=s.jointSurfaces!==false&&s.visible.includes('connective')&&!s.isolate&&explode<.01&&s.depthFilter!=='superficial'&&!hidden.has(parent.id)&&(!focus||focus.has(parent.id));
    const t=s.partTransforms?.[parent.id];mesh.position.set(...(t?.translation??[0,0,0]));mesh.quaternion.set(...(t?.quaternion??[0,0,0,1]));
   }
+  // A drag preview moves the rigid surfaces only: stale ligaments and capsules would hang at the old pose, so hide them until the solve lands.
+  if(surfacesOnly){for(const r of rows)r.mesh.visible=false;return;}
   for(const r of rows){
    r.mesh.visible=s.visible.includes('connective')&&!s.isolate&&explode<.01&&s.depthFilter!=='superficial'&&!hidden.has(r.anchor.id)&&(!focus||focus.has(r.anchor.id));
    // The deformation is a pure function of (mode, input). Skip it, and the normal rebuild, when neither changed:

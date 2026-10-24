@@ -12,7 +12,8 @@ import {anatomicalRegion,isMotionQuarantined} from '../mj-part-regions';
 
 export type ShoulderInput={part:Part;base:Float32Array;triangles:Uint32Array;normals:Int16Array};
 export type ShoulderResult={id:string;positions:Float32Array;normals:Int16Array;bounds:[number[],number[]]};
-/** Linear bindings are skinned on the GPU: their weights are sent once and they are never re-solved. */
+/** Weights are sent once. Linear bindings (`exact`) are skinned on the GPU and never re-solved; refined ones are still solved
+ * here, and their weights only drive the coarse live preview while a pose is being dragged. */
 export type GpuSkinResult={id:string}&GpuBinding;
 export function createShoulderSolver(atlas:Atlas){
  const rigs={left:makeSoftRig(atlas,'left')!,right:makeSoftRig(atlas,'right')!};
@@ -25,7 +26,9 @@ export function createShoulderSolver(atlas:Atlas){
    if(!binding||binding.name!==input.part.name||isMotionQuarantined(input.part)||!['upper-limb','trunk'].includes(anatomicalRegion(input.part)))continue;
    const profile=['arterial','venous'].includes(input.part.system)?resolveNeurovascularProfile(input.part.name,binding.profile):binding.profile;
    const skin=bindTissue(rigs[binding.side],profile,input.base,input.part);
-   if(isLinearBinding(skin)){gpu.push({id:input.part.id,...gpuBinding(binding.side,{indices:skin.indices.slice(),weights:skin.weights.slice()})});continue;}
+   const linear=isLinearBinding(skin);
+   gpu.push({id:input.part.id,...gpuBinding(binding.side,{indices:skin.indices.slice(),weights:skin.weights.slice()},linear,skin.profile==='chest'||skin.profile==='pectoralPath')});
+   if(linear)continue;
    const positions=input.base.slice(),geometry=new BufferGeometry();
    geometry.setAttribute('position',new BufferAttribute(positions,3));geometry.setAttribute('normal',new BufferAttribute(input.normals.slice(),3,true));geometry.setIndex(new BufferAttribute(input.triangles,1));prepareSurfaceNormals(geometry);
    const guard=['chest','scapular'].includes(skin.profile)?makeSurfaceConstraints(input.base,input.triangles,skin):undefined;
