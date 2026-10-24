@@ -24,12 +24,15 @@ export function constrainMuscleCells(cells:ReturnType<typeof makeMuscleCells>,p:
  for(let cell=0;cell<cells.volumes.length;cell++){
   const j=cell*4,a=cells.nodes[j]*3,b=cells.nodes[j+1]*3,c=cells.nodes[j+2]*3,d=cells.nodes[j+3]*3;
   const ax=p[a]-p[d],ay=p[a+1]-p[d+1],az=p[a+2]-p[d+2],bx=p[b]-p[d],by=p[b+1]-p[d+1],bz=p[b+2]-p[d+2],cx=p[c]-p[d],cy=p[c+1]-p[d+1],cz=p[c+2]-p[d+2];
-  g[0]=by*cz-bz*cy;g[1]=bz*cx-bx*cz;g[2]=bx*cy-by*cx;
+  // Almost every cell is healthy: test the signed volume first and build the
+  // rest of the gradient only for cells that need correcting (same arithmetic).
+  const g0=by*cz-bz*cy,g1=bz*cx-bx*cz,g2=bx*cy-by*cx;
+  const volume=ax*g0+ay*g1+az*g2,rest=cells.volumes[cell],ratio=volume/rest;
+  if(ratio>=minimum)continue;
+  g[0]=g0;g[1]=g1;g[2]=g2;
   g[3]=cy*az-cz*ay;g[4]=cz*ax-cx*az;g[5]=cx*ay-cy*ax;
   g[6]=ay*bz-az*by;g[7]=az*bx-ax*bz;g[8]=ax*by-ay*bx;
   for(let k=0;k<3;k++)g[9+k]=-g[k]-g[3+k]-g[6+k];
-  const volume=ax*g[0]+ay*g[1]+az*g[2],rest=cells.volumes[cell],ratio=volume/rest;
-  if(ratio>=minimum)continue;
   let denominator=0;
   for(let k=0;k<4;k++)denominator+=mobility[cells.nodes[j+k]]*(g[k*3]**2+g[k*3+1]**2+g[k*3+2]**2);
   if(denominator<1e-20)continue;

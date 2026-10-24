@@ -96,7 +96,10 @@ export function makeShoulderMuscles(members:SurfaceMember[],head:Vector3,radius:
  // Preserve source clearance; do not "correct" rest anatomy by inflating it.
  const clearance=new Float32Array(rest.length/3);
  for(let i=0;i<clearance.length;i++)clearance[i]=Math.min(radius,new Vector3().fromArray(rest,i*3).distanceTo(head));
- return{group,rest,muscles,clearance,head:head.clone(),radius,longitudinal};
+ // Only free vertices with a non-zero clearance can ever be pushed out of the head: elsewhere the test below can never
+ // fire. Longitudinal muscles use radius 0, so they skip the collision scans entirely.
+ const mobility=group.constraints.mobility,colliders=Uint32Array.from({length:clearance.length},(_,i)=>i).filter(i=>mobility[i]&&clearance[i]>0);
+ return{group,rest,muscles,clearance,colliders,head:head.clone(),radius,longitudinal};
 }
 
 /** Length of a taut path around a spherical obstacle, used to derive axial
@@ -109,8 +112,11 @@ export function wrappedLength(a:Vector3,b:Vector3,c:Vector3,r:number):number{
  return arc>0?Math.sqrt(da*da-r*r)+Math.sqrt(db*db-r*r)+r*arc:a.distanceTo(b);
 }
 
-export function muscleVolume(p:Float32Array,triangles:ArrayLike<number>,centre:Vector3,gradient?:Float64Array):number{
- gradient?.fill(0);let volume=0;
+/** `nodes` (optional) lists the only gradient entries a muscle touches, so a muscle in a large shared group clears
+ * its own vertices instead of the whole group's array. */
+export function muscleVolume(p:Float32Array,triangles:ArrayLike<number>,centre:Vector3,gradient?:Float64Array,nodes?:ArrayLike<number>):number{
+ if(gradient){if(nodes){for(let k=0;k<nodes.length;k++){const i=nodes[k]*3;gradient[i]=0;gradient[i+1]=0;gradient[i+2]=0;}}else gradient.fill(0);}
+ let volume=0;
  for(let t=0;t<triangles.length;t+=3){
   const a=triangles[t]*3,b=triangles[t+1]*3,c=triangles[t+2]*3;
   const ax=p[a]-centre.x,ay=p[a+1]-centre.y,az=p[a+2]-centre.z,bx=p[b]-centre.x,by=p[b+1]-centre.y,bz=p[b+2]-centre.z,cx=p[c]-centre.x,cy=p[c+1]-centre.y,cz=p[c+2]-centre.z;
@@ -137,7 +143,7 @@ export function solveShoulderMuscles(model:ReturnType<typeof makeShoulderMuscles
  });
  const preserveVolume=()=>{
   for(const m of model.muscles){
-   const volume=muscleVolume(p,m.triangles,head,m.gradient);let denominator=0;
+   const volume=muscleVolume(p,m.triangles,head,m.gradient,m.unique);let denominator=0;
    for(const n of m.unique)if(mobility[n]){const i=n*3;denominator+=mobility[n]*(m.gradient[i]**2+m.gradient[i+1]**2+m.gradient[i+2]**2);}
    if(denominator<1e-20)continue;
    const lambda=(m.volume-volume)/denominator;
@@ -151,13 +157,16 @@ export function solveShoulderMuscles(model:ReturnType<typeof makeShoulderMuscles
   }
  };
  for(let pass=0;pass<passes;pass++){
+  const reverse=pass%2===1;
   model.muscles.forEach((m,mi)=>{
-   for(let e=pass%2?m.lengths.length-1:0;pass%2?e>=0:e<m.lengths.length;e+=pass%2?-1:1){
-    const a=m.links[e*2],b=m.links[e*2+1],ma=mobility[a],mb=mobility[b],sum=ma+mb;if(!sum)continue;
+   const {links,stiffness}=m,target=targets[mi],count=m.lengths.length;
+   for(let k=0;k<count;k++){
+    const e=reverse?count-1-k:k;
+    const a=links[e*2],b=links[e*2+1],ma=mobility[a],mb=mobility[b],sum=ma+mb;if(!sum)continue;
     const i=a*3,j=b*3,dx=p[j]-p[i],dy=p[j+1]-p[i+1],dz=p[j+2]-p[i+2],length=length3(dx,dy,dz);if(length<1e-9)continue;
-    const target=targets[mi][e],error=length>target*1.15?length-target*1.15:length<target*.85?length-target*.85:0;
+    const goal=target[e],error=length>goal*1.15?length-goal*1.15:length<goal*.85?length-goal*.85:0;
     if(!error)continue;
-    const correction=m.stiffness[e]*error/(length*sum);
+    const correction=stiffness[e]*error/(length*sum);
     p[i]+=dx*correction*ma;p[i+1]+=dy*correction*ma;p[i+2]+=dz*correction*ma;
     p[j]-=dx*correction*mb;p[j+1]-=dy*correction*mb;p[j+2]-=dz*correction*mb;
    }
@@ -168,7 +177,7 @@ export function solveShoulderMuscles(model:ReturnType<typeof makeShoulderMuscles
   preserveVolume();
   // Keep free belly vertices outside the estimated humeral-head surface.
   // Bone-pinned attachments are never displaced by collision correction.
-  for(let n=0;n<mobility.length;n++)if(mobility[n]){
+  for(const n of model.colliders){
    const i=n*3,dx=p[i]-head.x,dy=p[i+1]-head.y,dz=p[i+2]-head.z,d=length3(dx,dy,dz),r=model.clearance[n];
    if(d<r&&d>1e-9){p[i]=head.x+dx*r/d;p[i+1]=head.y+dy*r/d;p[i+2]=head.z+dz*r/d;}
   }
@@ -188,7 +197,7 @@ export function solveShoulderMuscles(model:ReturnType<typeof makeShoulderMuscles
  // Alternate both constraints; attachment mobility remains zero throughout.
  for(const m of model.muscles)constrainMuscleCells(m.cells,p,mobility);
  preserveVolume();
- for(let n=0;n<mobility.length;n++)if(mobility[n]){
+ for(const n of model.colliders){
   const i=n*3,dx=p[i]-head.x,dy=p[i+1]-head.y,dz=p[i+2]-head.z,d=length3(dx,dy,dz),r=model.clearance[n];
   if(d<r&&d>1e-9){p[i]=head.x+dx*r/d;p[i+1]=head.y+dy*r/d;p[i+2]=head.z+dz*r/d;}
  }
@@ -198,7 +207,7 @@ export function solveShoulderMuscles(model:ReturnType<typeof makeShoulderMuscles
  // exact fixed attachments; do not accumulate this correction between poses.
  for(let pass=0;model.longitudinal&&pass<24;pass++){
   for(const m of model.muscles)constrainMuscleCells(m.cells,p,mobility,.02);
-  for(let n=0;n<mobility.length;n++)if(mobility[n]){
+  for(const n of model.colliders){
    const i=n*3,dx=p[i]-head.x,dy=p[i+1]-head.y,dz=p[i+2]-head.z,d=length3(dx,dy,dz),r=model.clearance[n];
    if(d<r&&d>1e-9){p[i]=head.x+dx*r/d;p[i+1]=head.y+dy*r/d;p[i+2]=head.z+dz*r/d;}
   }

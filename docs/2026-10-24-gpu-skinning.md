@@ -58,3 +58,59 @@ unchanged.
 - Headless Chromium (SwiftShader) compiled the shader without errors; with
   both arms at 75° abduction and 70° elbow flexion, the GPU-skinned vessels
   followed the bones. This is not an iPad/GPU-vendor test.
+
+## Performance pass (dragging the arm, opening the site)
+
+Measured on the same machine, before vs after, in headless Chromium (software
+WebGL) and Node. Absolute numbers will differ on a real device; the ratios are
+what carry over.
+
+### Dragging an upper-limb pose (shoulder worker, both arms, 290 bindings)
+
+| | before | after |
+|---|---|---|
+| solve per pose (median) | 622 ms | ~500 ms |
+| data returned per pose | 3.6 MB | 2.1 MB |
+
+The solver output is **bit-identical** (SHA-1 of every returned position and
+normal over 34 poses). Changes, all arithmetic-preserving:
+- `constrainMuscleCells` builds the full cell gradient only for the few cells
+  that need correcting, after the cheap signed-volume test.
+- `muscleVolume` clears only the muscle's own gradient entries, not the whole
+  shared group's array, on every pass.
+- The edge loop no longer re-derives its direction and re-indexes `targets`
+  per edge.
+- The head-clearance scans visit only free vertices with a non-zero clearance
+  (longitudinal muscles use radius 0 and skip them).
+
+What did **not** change: the solver still runs 24/80 passes of its constraint
+loop for every refined muscle, so a pose is still roughly half a second.
+Making that interactive needs either fewer passes or a coarse live preview
+while dragging; both change the shape the user sees, so they are not part of
+this change.
+
+### Opening the site
+
+| median of 5 interleaved runs | before | after |
+|---|---|---|
+| main-thread blocking (long tasks, minus 50 ms each) | 8.2 s | 3.2 s |
+| worst single freeze | 2.3 s | 1.3 s |
+| until "full model loaded" | 20.9 s | 18.3 s |
+
+- `JointAnatomy.update()` rebuilt normals for all 285 joint structures on every
+  viewer state change, and loading invalidates state about 75 times. It now
+  skips a row whose (mode, input pose) is unchanged. A scripted sequence of 29
+  states (poses, repeats, hide, body regions, explode, reset) gives
+  bit-identical positions, normals and visibility, in 2.3 s instead of 13.7 s.
+- Peripheral nerve normals were computed for every mesh in the package, then
+  again after rest registration, including for meshes that are discarded.
+  They are now computed once for installed meshes only. Normals differ from
+  before by at most 6e-8 (one float32 step, from renormalising in a different
+  order).
+- Installing a nerve package and registering the joint structures yield to the
+  browser every ~12 ms instead of holding the page for up to 2 s.
+- GPU skin attributes are created when a merged mesh first needs them, not for
+  all 1.78 M vertices at load.
+
+Not changed: the downloads (44 MB), the Three.js scene creation (~0.5 s), the
+per-chunk geometry assembly and `vertexMotionWeight`.

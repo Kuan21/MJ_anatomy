@@ -109,8 +109,17 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   const loader={load(url:string,onLoad:(gltf:GLTF)=>void,_progress:unknown,onFailure:(error:unknown)=>void){
    void fetchModelBuffer(url,0,false,abort.signal).then(buffer=>gltfLoader.parseAsync(buffer,`${import.meta.env.BASE_URL}models/`)).then(gltf=>{if(!disposed)onLoad(gltf);}).catch(onFailure);
   }};
-  scheduleSupplementary(()=>new Promise<void>((resolve,reject)=>loader.load(`${import.meta.env.BASE_URL}models/joints.glb`,gltf=>{if(!disposed){supplementaryJoints.add(gltf.scene);supplementaryJoints.update(latest.current,amount);dirty=true;}resolve();},undefined,reject)),()=>onError('關節組織模型載入失敗，請重新整理。'));
-  const installNerves=(root:T.Group)=>{if(disposed)return;root.updateMatrixWorld(true);root.traverse(o=>{if(!(o instanceof T.Mesh))return;
+  scheduleSupplementary(()=>new Promise<void>((resolve,reject)=>loader.load(`${import.meta.env.BASE_URL}models/joints.glb`,gltf=>{if(disposed){resolve();return;}supplementaryJoints.addSliced(gltf.scene,cooperativeYield,()=>disposed).then(()=>{if(!disposed){supplementaryJoints.update(latest.current,amount);dirty=true;}resolve();},reject);},undefined,reject)),()=>onError('關節組織模型載入失敗，請重新整理。'));
+  // A nerve package holds dozens of meshes; installing them in one task froze the page for ~2 s, so the work yields
+  // to input and rendering every ~12 ms. The result is the same set of meshes.
+  const installNerves=async(root:T.Group)=>{if(disposed)return;root.updateMatrixWorld(true);const sources:T.Mesh[]=[];root.traverse(o=>{if(o instanceof T.Mesh)sources.push(o);});
+   let sliceStart=performance.now();
+   for(const o of sources){
+    if(performance.now()-sliceStart>12){await cooperativeYield();if(disposed)return;sliceStart=performance.now();}
+    installNerve(o);
+   }
+   lastState=null;dirty=true;};
+  const installNerve=(o:T.Mesh)=>{{
     const exactName=meshSourceName(o)||'',fullName=nerveName(o);
     // The source GLB contains a freestanding 3-D title at x≈-0.81. Remove it
     // deterministically, and never import central-nervous-system meshes from
@@ -133,6 +142,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const mesh=new T.Mesh(geometry,material);mesh.name=exactName||fullName;mesh.frustumCulled=false;mesh.renderOrder=0;
     mesh.userData.mjNerve=true;mesh.userData.mjExactName=exactName;mesh.userData.mjSide=binding?.side??nerveSide(exactName);
     if(binding&&softRigs[binding.side]){registerNerveRest(softRigs[binding.side]!,position.array as Float32Array);position.needsUpdate=true;geometry.computeVertexNormals();geometry.computeBoundingBox();}
+    else geometry.computeVertexNormals();// once, and only for meshes that survived the filters above
     mesh.userData.basePositions=new Float32Array(position.array as ArrayLike<number>);
     if(binding&&softRigs[binding.side])mesh.userData.skin=bindTissue(softRigs[binding.side]!,resolveNeurovascularProfile(exactName,'path'),mesh.userData.basePositions,undefined,exactName);
     const inferredHeadNerve=/cervical|vagus|phrenic|hypoglossal|accessory|glossopharyngeal|ansa cervicalis|sympathetic trunk|superior cervical|middle cervical|inferior cervical/i.test(exactName);
@@ -143,7 +153,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     // nerves inherit the upper-thorax carrier.
     mesh.userData.spineSkin=mesh.userData.skin?bindSpineCarrier(bodyRigs.spine,mesh.userData.basePositions,mesh.userData.skin):bindBodyTissue(bodyRigs.spine,mesh.userData.basePositions);
     nerveRoot.add(mesh);nerveMeshes.push(mesh);
-   });lastState=null;dirty=true;};
+   }};
   // Keep successful nerve packages when another one fails. No browser Draco
   // worker or monolithic GLB decode is needed for the peripheral nerve layer.
   scheduleSupplementary(async()=>{
@@ -151,8 +161,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    if(disposed)return;setDeltoidFollowers(followers.default.parts as unknown as DeltoidFollowers);
    catalogue.chunks.forEach((chunk,i)=>scheduleSupplementary(async()=>{
     const bytes=await fetchModelBuffer(`${import.meta.env.BASE_URL}${chunk.url.replace(/^\//,'')}`,chunk.bytes,true,abort.signal);
-    const group=nerveChunkScene(chunk,bytes);
-    try{installNerves(group);}finally{group.traverse(o=>{if(o instanceof T.Mesh){o.geometry.dispose();const materials=Array.isArray(o.material)?o.material:[o.material];materials.forEach(m=>m.dispose());}});}
+    const group=nerveChunkScene(chunk,bytes,false);
+    try{await installNerves(group);}finally{group.traverse(o=>{if(o instanceof T.Mesh){o.geometry.dispose();const materials=Array.isArray(o.material)?o.material:[o.material];materials.forEach(m=>m.dispose());}});}
    },()=>{},`周邊神經 ${i+1}/${catalogue.chunks.length}`));
   },()=>{},'周邊神經目錄');
   // The pinned Brain Project asset ships with the site. No runtime CDN or
