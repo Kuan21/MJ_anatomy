@@ -422,8 +422,6 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const position=g.getAttribute('position') as T.BufferAttribute,weights=new Float32Array(p.vertexCount);let variableWeights=false;
     for(let vi=0;vi<p.vertexCount;vi++){const weight=vertexMotionWeight(p,position.getX(vi),position.getY(vi),position.getZ(vi));weights[vi]=weight;if(weight<.999)variableWeights=true;}
     g.setAttribute('motionWeight',new T.BufferAttribute(weights,1));
-    const gpuSlots=new Uint8Array(p.vertexCount*4),gpuWeights=new Uint16Array(p.vertexCount*4);clearGpuAttributes(gpuSlots,gpuWeights,0,p.vertexCount);
-    g.setAttribute('segIndex',new T.BufferAttribute(gpuSlots,4));g.setAttribute('segWeight',new T.BufferAttribute(gpuWeights,4,true));
     g.boundingBox=bounds[i].clone();g.computeBoundingSphere();const pick=new T.Mesh(g);pick.matrixAutoUpdate=false;
     const ensureMotionBase=()=>{pick.userData.baseMotionNormals??=(g.getAttribute('normal').array as Int16Array).slice();return pick.userData.baseMotionPositions??(pick.userData.baseMotionPositions=new Float32Array(position.array as ArrayLike<number>));};
     // Building fibre bindings and sheet constraints is for motion, not for
@@ -476,7 +474,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    }
    groups.forEach((gs,system)=>{const geometry=mergeGeometries(gs,false);if(!geometry)throw new Error('Could not assemble anatomy geometry.');geometries.push(geometry);let vertexOffset=0;
     const parts:{index:number;offset:number;geometry:T.BufferGeometry}[]=[];
-    for(const g of gs){const index=g.getAttribute('partIndex').getX(0),pick=pendingPickers.get(index)!;pick.userData.mergedGeometry=geometry;pick.userData.mergedOffset=vertexOffset;parts.push({index,offset:vertexOffset,geometry:g});vertexOffset+=g.getAttribute('position').count;g.deleteAttribute('partIndex');g.deleteAttribute('motionWeight');g.deleteAttribute('segIndex');g.deleteAttribute('segWeight');pickers[index]=pick;}
+    for(const g of gs){const index=g.getAttribute('partIndex').getX(0),pick=pendingPickers.get(index)!;pick.userData.mergedGeometry=geometry;pick.userData.mergedOffset=vertexOffset;parts.push({index,offset:vertexOffset,geometry:g});vertexOffset+=g.getAttribute('position').count;g.deleteAttribute('partIndex');g.deleteAttribute('motionWeight');pickers[index]=pick;}
     geometry.index!.setUsage(T.DynamicDrawUsage);for(const key of ['position','normal'])(geometry.getAttribute(key) as T.BufferAttribute).setUsage(T.DynamicDrawUsage);
     const mesh=new T.Mesh(geometry,mats.get(system as never));mesh.frustumCulled=false;scene.add(mesh);renderBatches.push({mesh,parts,mask:'pending'});});
    for(const [i,pick] of pendingPickers)if((!workerAvailable&&tissueBindings[atlas.parts[i].id])||(atlas.parts[i].system==='connective'&&anatomicalRegion(atlas.parts[i])==='upper-limb'))warmBindings.push(pick);
@@ -572,7 +570,10 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
       mesh.userData.tissuePosed=false;mesh.userData.workerPosed=false;touched.add(mesh);normalsReady.add(mesh);
      }
      if(!mesh.userData.gpuWritten){
-      const merged=mesh.userData.mergedGeometry as T.BufferGeometry,slots=merged.getAttribute('segIndex') as T.BufferAttribute,weights=merged.getAttribute('segWeight') as T.BufferAttribute,offset=mesh.userData.mergedOffset as number;
+      const merged=mesh.userData.mergedGeometry as T.BufferGeometry,offset=mesh.userData.mergedOffset as number;
+      // Created on first use, so loading the atlas pays nothing for the GPU stage. Unset vertices stay on the identity slot.
+      if(!merged.getAttribute('segIndex')){const count=merged.getAttribute('position').count,a=new Uint8Array(count*4),b=new Uint16Array(count*4);clearGpuAttributes(a,b,0,count);merged.setAttribute('segIndex',new T.BufferAttribute(a,4));merged.setAttribute('segWeight',new T.BufferAttribute(b,4,true));}
+      const slots=merged.getAttribute('segIndex') as T.BufferAttribute,weights=merged.getAttribute('segWeight') as T.BufferAttribute;
       writeGpuAttributes(gpu!,slots.array as Uint8Array,weights.array as Uint16Array,offset);
       for(const a of [slots,weights]){a.addUpdateRange(offset*4,part.vertexCount*4);a.needsUpdate=true;}
       mesh.userData.gpuWritten=true;
