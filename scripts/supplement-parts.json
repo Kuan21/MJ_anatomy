@@ -1,0 +1,92 @@
+{
+ "repository": "Kevin-Mattheus-Moerman/BodyParts3D",
+ "revision": "f0eeb6e843380cfe6b83797cf8c3e1af74de5e61",
+ "license": "CC-BY-SA-2.1-JP",
+ "note": "BodyParts3D 3.0 (95% polygon-reduction OBJ archive, converted to binary STL). Each entry exists in the 3.0 release but was not exported to the 4.0 atlas the site is built from; sha256 pins the exact file.",
+ "parts": [
+  {
+   "fma": "FMA13358","name": "Right latissimus dorsi","system": "muscular","sha256": "46fbeb728109587f3bd0b99a3140c3e572e1ab28a2324f911d2ee4e4a07197d5"
+  },
+  {
+   "fma": "FMA13359","name": "Left latissimus dorsi","system": "muscular","sha256": "2759c014517102c690b36e2962f808f39b3dd9a9e01f1ae2c0d38b10cabd7341"
+  },
+  {
+   "fma": "FMA13377","name": "Right rectus abdominis","system": "muscular","sha256": "4349d30019c36fc1823c1473b9c5ea5e06275f1d1f50b62ded4c2989ad6233a9"
+  },
+  {
+   "fma": "FMA13378","name": "Left rectus abdominis","system": "muscular","sha256": "ae21dee8f0c8be12b817a8c6eb06c4ebd009e297e584844a71d4751d60452437"
+  },
+  {
+   "fma": "FMA13892","name": "Right internal oblique","system": "muscular","sha256": "40a5e17cfcb701b95139d0be4a4d6d6abe9be5444a693e8019344661ff186425"
+  },
+  {
+   "fma": "FMA13893","name": "Left internal oblique","system": "muscular","sha256": "d73d78bf6703f3423a4241dfc63a3a065f306287bb05dc10a25b3a830b563503"
+  },
+  {
+   "fma": "FMA22344","name": "Right transversus abdominis","system": "muscular","sha256": "0dd051312779e2dbd842ff3d5ddff9e39f181250cc94f1775ffc0b66385b311e"
+  },
+  {
+   "fma": "FMA22345","name": "Left transversus abdominis","system": "muscular","sha256": "48d4271a2e38edf1f9ca59acf655bb966ea179b395c87f6eb537174d4e5e04df"
+  },
+  {
+   "fma": "FMA22346","name": "Right pyramidalis","system": "muscular","sha256": "4fcdeae46ac20a941ef7f7c81b07f39a935cd362dbc351b351a3c98637622a74"
+  },
+  {
+   "fma": "FMA22347","name": "Left pyramidalis","system": "muscular","sha256": "269ea5aab5ea16c39a6b6c5a3e70995d3cbe025bd7eba689317901b517f23faf"
+  },
+  {
+   "fma": "FMA22348","name": "Right quadratus lumborum","system": "muscular","sha256": "8c21623781466c87c16fa03b93cd00322f3a20afa4d5439c799978d4b5ce70c4"
+  },
+  {
+   "fma": "FMA22349","name": "Left quadratus lumborum","system": "muscular","sha256": "1761bf8813a1585d108260e16522c4f07088a9607c57dda16d05d3a854428212"
+  },
+  {
+   "fma": "FMA22781","name": "Right spinalis cervicis","system": "muscular","sha256": "a2af87e91bd28106ee14f88567d45e75584bb318ff9475a6281700cfc9140fc1"
+  },
+  {
+   "fma": "FMA22782","name": "Left spinalis cervicis","system": "muscular","sha256": "ce669219381d0b942ca8e36cab52bb4f4b9f18801be6f980e0f6bb33ff4b09bc"
+  },
+  {
+   "fma": "FMA22878","name": "Right multifidus","system": "muscular","sha256": "9656e98befdf390ff2822835a105ed0797dffd5fc95863732ab43eeb909b8ed0"
+  },
+  {
+   "fma": "FMA22879","name": "Left multifidus","system": "muscular","sha256": "f4603f667435c9d1e63e4cdce29b17c9cd3f50fcd4cd40eef52d203a4c6d5ea2"
+  },
+  {
+   "fma": "FMA21964","name": "Right inguinal ligament","system": "connective","sha256": "0a2a0bf6bf51259995bf4b8c83c01f55215d55f9d85dfd5c094d779b30406f95"
+  },
+  {
+   "fma": "FMA21965","name": "Left inguinal ligament","system": "connective","sha256": "63102856cfe49804cbed0b2e2807d5d8243ba4ac81036b61b5348b924c84283e"
+  },
+  {
+   "fma": "FMA51142","name": "Right extensor digitorum brevis","system": "muscular","sha256": "7baa654aa673ab3c2055da6228ea612f8a91a7c596d424ea1cf1d02d8b48b869"
+  },
+  {
+   "fma": "FMA51143","name": "Left extensor digitorum brevis","system": "muscular","sha256": "63cf9cf4eb66dd36cb2087d78760a1e29ea27c02a85764909396048873fe4d5e"
+  },
+  {
+   "fma": "FMA46283","name": "Superior oblique part of right longus colli","system": "muscular","sha256": "a76f9a2b8409d802dc8d62b6e7d3094a819ed3af6100a97143295c1c6abde793"
+  },
+  {
+   "fma": "FMA46285","name": "Vertical intermediate part of right longus colli","system": "muscular","sha256": "48b92384ed0946ddf9e776a418ed006a6667e8c6778794e14fbcccb274e99a26"
+  },
+  {
+   "fma": "FMA46287","name": "Inferior oblique part of right longus colli","system": "muscular","sha256": "ef0a8c75509259499448100092c887b9c976b6523507246f6eb765f89e276884"
+  },
+  {
+   "fma": "FMA46763","name": "Right temporoparietalis","system": "muscular","sha256": "e62daa86524fe2a2c598901e7b8fe60140b127a01068cf7f5b32487fdadf346a"
+  },
+  {
+   "fma": "FMA46764","name": "Left temporoparietalis","system": "muscular","sha256": "f261e6c1712ef3250210a407e10a201ed2c81c59abc09213141f8fed37d8be40"
+  },
+  {
+   "fma": "FMA46768","name": "Aponeurosis of epicranius","system": "muscular","sha256": "4186e24a09042bb3ee022d746938f54263cc5e3aab41cdd95b906c0347611e36"
+  },
+  {
+   "fma": "FMA55608","name": "Right depressor septi nasi","system": "muscular","sha256": "ac70607f86eb061e4a7c29fb84ce78e634a0577ea1955faa5ed2e6bdb4f6ec79"
+  },
+  {
+   "fma": "FMA55609","name": "Left depressor septi nasi","system": "muscular","sha256": "d5540a81a4c9b2786177be1ceb5f3292232038014d1a375904d34a055414ac00"
+  }
+ ]
+}

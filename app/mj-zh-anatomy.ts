@@ -20,6 +20,7 @@ const FINGER_CHECK='指名用語：「無名指」（亦作「環指」）、「
 
 /** Standard terms (arteries, veins, bones, muscles). */
 const STANDARD:Record<string,string>={
+ 'inguinal ligament':'腹股溝韌帶',
  // aorta and thoracic arteries
  'ascending aorta':'升主動脈','arch of aorta':'主動脈弓','descending thoracic aorta':'胸主動脈','descending aorta':'降主動脈','abdominal aorta':'腹主動脈',
  'brachiocephalic artery':'頭臂動脈','common carotid artery':'總頸動脈','subclavian artery':'鎖骨下動脈','internal thoracic artery':'內胸動脈',

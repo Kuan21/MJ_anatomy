@@ -10,9 +10,12 @@ const root = new URL('../', import.meta.url), models = new URL('public/models/',
 const {normalizeAtlasSystems} = await quizModule('app/mj-system-classifier.ts');
 const {correctedPartName} = await quizModule('app/mj-part-regions.ts');
 const {structureProfile} = await quizModule('app/mj-structure-info.ts');
+const {mergeAtlasStreams} = await quizModule('app/mj-facial-atlas.ts');
+const {conceptMatches} = await quizModule('app/mj-search.ts');
 const curriculum = JSON.parse(fs.readFileSync(new URL('docs/curriculum-terms.json', root), 'utf8'));
 const atlas = normalizeAtlasSystems(JSON.parse(fs.readFileSync(new URL('atlas.json', models), 'utf8')));
 const facial = JSON.parse(fs.readFileSync(new URL('facial/atlas.json', models), 'utf8'));
+const supplement = JSON.parse(gunzipSync(fs.readFileSync(new URL('supplement/supplement-stream.json.gz', models))));
 const conceptName = new Map(atlas.concepts.map(c => [c.id, c.name]));
 const partIds = new Set(atlas.parts.map(p => p.id));
 
@@ -57,6 +60,7 @@ for (const p of atlas.parts) {
   add('atlas', p.id, p.system, [name, conceptName.get(p.conceptId), profile.english, p.name], {searchable: !!conceptName.get(p.conceptId), concept: p.conceptId});
 }
 for (const p of facial.parts) add('facial', p.id, 'muscular', [p.name], {searchable: true});
+for (const p of supplement.parts) add('supplement', p.id, p.system, [p.name], {searchable: true});
 const extraNames = new Set((() => {try {return JSON.parse(gunzipSync(fs.readFileSync(new URL('search-extras.json.gz', models)))).map(e => e.n.replace(/^(Left|Right) /, '').toLowerCase());} catch {return [];}})());
 const isIndexed = name => extraNames.has(name.toLowerCase());
 const nerves = JSON.parse(fs.readFileSync(new URL('nerve-stream.json', models), 'utf8'));
@@ -191,10 +195,37 @@ if (candidateArg) {const by = {}; for (const l of report.lectures) for (const x 
 if (process.argv.includes('--pre-fix')) {const by = {}; for (const l of report.lectures) for (const x of l.findability) by[x.source] = (by[x.source] ?? new Set()).add(x.term.toLowerCase()); console.log(Object.fromEntries(Object.entries(by).map(([k, v]) => [k, v.size])), out.findability.length); process.exit(0);}
 if (process.argv.includes('--data-only')) {console.log(JSON.stringify(out.totals)); process.exit(0);}
 
+// The viewer's own Find-a-structure predicate over the atlas it really builds (body + facial + supplement).
+const fullAtlas = mergeAtlasStreams(atlas, [JSON.parse(gunzipSync(fs.readFileSync(new URL('facial/facial-stream.json.gz', models)))), supplement]);
+const fullParts = new Map(fullAtlas.parts.map(p => [p.id, p]));
+const uiSearch = query => fullAtlas.concepts.filter(c => {
+  const p = c.elements.map(id => fullParts.get(id)).find(Boolean), profile = p ? structureProfile(c.name, p.system, p) : undefined;
+  return conceptMatches(c, profile, query);
+});
+const isMuscleTerm = t => analyse(t).type === 'muscle' || /\bm\.?$/i.test(t.trim());
+// What a student would type: lecture abbreviations spelled out (post. sup. → posterior superior), list letters and the trailing "m." dropped,
+// position words left out (the model may order them differently), and only plain muscle names (not "nerve to …", "… artery", "tendon of …").
+const searchText = t => t.replace(/^[a-z]\.\s+/i, '').replace(/^(?:part of|musculus)\s+/i, '').toLowerCase().replace(/[^a-z\s.]/g, ' ').split(/\s+/).filter(Boolean)
+  .flatMap(w => (ABBR[w.replace(/\.$/, '')] ?? w.replace(/\.$/, '')).split(' ')).filter(w => !MOD.has(w) && !STOP.has(w) && w !== 'muscle' && w !== 'muscles').join(' ').trim();
+const plainMuscle = t => !/\b(nerve|artery|arteries|vein|tendon|ligament|branch|fascia|innervat\w*)\b/i.test(t) && !/\ba\.?$/i.test(t.trim());
+const typoed = t => tokens(t).some(w => fixToken(w) !== w);
+// Lecture terms for muscles the model has, typed the way the lecture wrote them, must be found by search.
+const unsearchable = [];
+for (const l of report.lectures) for (const x of l.have) {
+  if (!isMuscleTerm(x.term) || !plainMuscle(x.term) || !['exact', 'contained'].includes(x.kind) || x.system !== 'muscular' && x.source !== 'supplement') continue;
+  const q = searchText(x.term);
+  if (q.length >= 4 && !typoed(x.term) && !uiSearch(q).length) unsearchable.push(x.term + ` [${q}]`);
+}
+const MUST_FIND = ['latissimus dorsi', 'latiss', '背闊肌', '闊背肌', '背阔肌', '闊背', 'rectus abdominis', 'internal oblique', 'transversus abdominis', 'quadratus lumborum', 'multifidus', 'trapezius', '斜方肌'];
+const mustMiss = MUST_FIND.filter(q => !uiSearch(q).length);
+const unreachable = fullAtlas.parts.filter(p => !fullAtlas.concepts.some(c => c.elements.includes(p.id))).map(p => p.name);
 if (process.argv.includes('--check')) {
   const baseline = JSON.parse(fs.readFileSync(new URL('docs/coverage-baseline.json', root), 'utf8'));
   const problems = [];
   if (out.findability.length) problems.push(`${out.findability.length} structures are in the model but cannot be found by search: ${out.findability.slice(0, 12).join(', ')}`);
+  if (mustMiss.length) problems.push(`Find a structure returns nothing for: ${mustMiss.join(', ')}`);
+  if (unsearchable.length) problems.push(`${unsearchable.length} muscles in the curriculum list are in the model but not found by search: ${[...new Set(unsearchable)].slice(0, 12).join(', ')}`);
+  if (unreachable.length) problems.push(`${unreachable.length} drawn structures belong to no searchable concept: ${unreachable.slice(0, 8).join(', ')}`);
   if (orphan.noConcept.length) problems.push(`${orphan.noConcept.length} meshes have no searchable concept`);
   const bySystem = Object.fromEntries([...new Set(atlas.parts.map(p => p.system))].map(x => [x, atlas.parts.filter(p => p.system === x).length]));
   for (const [system, n] of Object.entries(baseline.partsBySystem)) if ((bySystem[system] ?? 0) < n) problems.push(`system '${system}' lost meshes: ${bySystem[system] ?? 0} < ${n}`);
@@ -222,13 +253,17 @@ const md = ['# 課程清單覆蓋報告', '',
 const ids = atlas.parts.map(p => +p.id.replace(/\D/g, '')).filter(Boolean).sort((a, b) => a - b), gaps = [];
 for (let i = 1; i < ids.length; i++) if (ids[i] - ids[i - 1] > 1) gaps.push([ids[i - 1] + 1, ids[i] - 1]);
 const gapCount = gaps.reduce((n, g) => n + g[1] - g[0] + 1, 0);
-md.push('## 闊背肌（Latissimus dorsi）點解一直冇出現', '',
-  '**結論：唔係分類錯、唔係被 dissection／region 篩走、亦唔係被隱藏——來源模型入面根本冇呢件肌肉。**', '',
+md.push('## 闊背肌（Latissimus dorsi）點解搵唔到', '',
+  '**結論：係 (b)——BodyParts3D 原始資料有，但網站用嘅 4.0 匯出（2,234 件）冇匯出呢件肌肉，所以冇 geometry、冇 concept，搜尋當然搵唔到。** 唔係 (c) 有 geometry 但冇載入，亦唔係 (d) 搜尋索引漏收；之前報告話「來源入面根本冇」係錯嘅，原因係當時連唔到官方部件名單。', '',
   '查證：', '',
-  '- `public/models/atlas.json` 嘅 2,234 件 mesh 同 3,432 個 concept 都冇 latissimus／dorsi／FMA13357 任何一項；`app/anatomy-source-overrides.json` 只排除咗 2 件（足跟動脈分支），冇涉及闊背肌。',
-  `- 來源匯出嘅 mesh 編號有 ${gaps.length} 段缺口、共 ${gapCount} 個編號冇匯出（例如 FJ1519 夾喺 FJ1518 前臂肌同 FJ1520 斜方肌之間，位置同闊背肌吻合；FJ1602–1653 連續 52 個落喺頸前肌同腦動脈之間）。本環境連唔到 BodyParts3D 官方部件名單，所以未能逐個編號核對，只可以話：課程要求嘅闊背肌、腹直肌、腹內斜肌、腹橫肌、腰方肌、多裂肌、顳肌、枕額肌、提睪肌等都唔喺現有 2,234 件入面，而且缺口大小足夠容納。`,
-  '- `normalizeAtlasSystems` 已經修正 89 件系統分類錯誤（例如腓骨肌被標成骨骼），分類後再冇「名稱同系統唔符」嘅件。冇肌肉被 dissection／region／depth 過濾器濾走：全身視圖永遠顯示所有開咗嘅系統。', '',
-  '**同類 bug 嘅影響**：真正「模型有、UI 搵唔到」嘅係另一類——外周神經（286 件）、關節韌帶／關節囊（349 件）、腦結構（437 件）、頸部血管（8 件）喺 3D 入面畫到，但唔屬於 atlas concepts，搜尋搵唔到（課程詞中有 187 個受影響：神經 124、關節 49、腦 11、頸血管 3）。已經喺「Find a structure」加入呢 1,080 項索引（見下面「修復」），揀到神經會直接高亮，揀到其餘會打開圖層同資料卡；`npm run check:coverage` 會防止將來再有結構只喺 3D 有而搜尋唔到。', '',
+  '- BodyParts3D 3.0 官方部件名單（`parts_list_e.txt`，經 Kevin-Mattheus-Moerman/BodyParts3D 鏡像 `f0eeb6e843380cfe6b83797cf8c3e1af74de5e61` 取得）有 `FMA13357 latissimus dorsi`、`FMA13358 right latissimus dorsi`、`FMA13359 left latissimus dorsi`，而且左右兩邊都有 STL（各約 22.8 萬三角面）。',
+  '- `public/models/atlas.json`（4.0 匯出）嘅 2,234 件 mesh 同 3,432 個 concept 都冇 latissimus／dorsi／FMA13357–13359；`app/anatomy-source-overrides.json` 只排除咗 2 件（足跟動脈分支），冇涉及闊背肌。',
+  `- 3.0 有 925 個 STL；其中 128 個唔喺 4.0 atlas 入面：47 個係已經用緊嘅面部肌（OMFAtlas 套件），其餘主要係闊背肌、腹直肌、腹內斜肌、腹橫肌、錐狀肌、腰方肌、頸棘肌、多裂肌、腹股溝韌帶、伸趾短肌、右頸長肌、顳頂肌、帽狀腱膜、降鼻中隔肌（共 28 件已補入，見 \`scripts/supplement-parts.json\`），餘下係腦／心臟細部、毛髮、結腸等，另計。來源 mesh 編號有 ${gaps.length} 段缺口、共 ${gapCount} 個編號冇匯出，同樣係 4.0 匯出時被略去。`,
+  '- `normalizeAtlasSystems` 已經修正 89 件系統分類錯誤（例如腓骨肌被標成骨骼）；冇肌肉被 dissection／region／depth 過濾器濾走：全身視圖永遠顯示所有開咗嘅系統。', '',
+  '**修復**：`scripts/prepare-supplement.mjs` 由 3.0 鏡像下載已釘 sha256 嘅 STL，用 OMFAtlas 面部肌肉同一個相似變換（比例 1.0594、Z-up mm → Y-up m）對齊 4.0，再以 meshoptimizer 簡化（每件 ≤ 1.6 萬三角面，誤差 < 0.1%）、分成細包 gzip，載入方式同其餘分包一樣。對齊用六塊面部肌（4.0 已有）驗證，偏差 ≤ 0.02 mm；`scripts/test-all-structures.mjs` 再驗證闊背肌左右兩邊貼住肩胛骨、到達髂嵴。授權同現有資料一樣係 CC BY-SA 2.1 Japan。', '',
+  '**2,279 對 2,232 嘅差異**：47 件面部肌（`BP3-FMA…`）以前要由 raw.githubusercontent.com 讀 16 MB 單一檔案，慢線 60 秒逾時就永遠載入唔到，標題就顯示 2,279 但只畫到 2,232（載入條停喺 93 %）。而家改為同源、壓縮、分段載入；`test-all-structures.mjs` 檢查每一件都有對應 package bytes。', '',
+  '**同類 bug 嘅影響**：真正「模型有、UI 搵唔到」嘅係另一類——外周神經（286 件）、關節韌帶／關節囊（349 件）、腦結構（437 件）、頸部血管（8 件）喺 3D 入面畫到，但唔屬於 atlas concepts，搜尋搵唔到（課程詞中有 187 個受影響：神經 124、關節 49、腦 11、頸血管 3）。已經喺「Find a structure」加入呢 1,080 項索引，揀到神經會直接高亮，揀到其餘會打開圖層同資料卡。', '',
+  '**build 守門**：`npm run check:coverage`（亦係 `npm run build` 前置步驟）用 Find a structure 真正嘅比對函式（`app/mj-search.ts`）檢查：闊背肌（latissimus／背闊肌／闊背肌／背阔肌）等指定肌肉必須搵到；課程清單入面「模型有嘅肌肉」用講義寫法（縮寫展開後）全部必須搵到；每一件畫出嚟嘅 mesh 都屬於某個可搜尋 concept。唔通過就 build 失敗。', '',
   '缺口編號（供補模型時對照）：' + gaps.map(g => g[0] === g[1] ? `FJ${g[0]}` : `FJ${g[0]}–${g[1]}`).join('、'), '');
 for (const l of report.lectures) {
   md.push(`## ${l.lecture}　\`${l.file}\``, '', `已有 ${l.have.length}　·　UI 搵唔到 ${l.findability.length}　·　模型冇 ${l.missing.length}　·　骨標誌 ${l.landmark.length}　·　雜訊 ${l.noise}`, '');

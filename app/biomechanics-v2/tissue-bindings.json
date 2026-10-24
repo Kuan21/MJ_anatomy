@@ -1458,5 +1458,15 @@
     "name": "Common palmar digital vein",
     "side": "right",
     "profile": "path"
+  },
+  "BP3S-FMA13358": {
+    "name": "Right latissimus dorsi",
+    "side": "right",
+    "profile": "chest"
+  },
+  "BP3S-FMA13359": {
+    "name": "Left latissimus dorsi",
+    "side": "left",
+    "profile": "chest"
   }
 }

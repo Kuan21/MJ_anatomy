@@ -1,9 +1,9 @@
 {
  "totals": {
   "terms": 3816,
-  "have": 1012,
+  "have": 1031,
   "findability": 0,
-  "missing": 1298,
+  "missing": 1278,
   "landmark": 294,
   "noise": 650
  },
@@ -27,6 +27,14 @@
      "model": "Accessory nerve (XI)",
      "source": "nerve",
      "system": "nervous"
+    },
+    {
+     "term": "Latissimus dorsi m",
+     "zh": null,
+     "kind": "exact",
+     "model": "Right latissimus dorsi",
+     "source": "supplement",
+     "system": "muscular"
     },
     {
      "term": "Thoracodorsal n",
@@ -162,6 +170,14 @@
      "kind": "exact",
      "model": "Right semispinalis cervicis",
      "source": "atlas",
+     "system": "muscular"
+    },
+    {
+     "term": "Mutifidus m",
+     "zh": null,
+     "kind": "exact",
+     "model": "Right multifidus",
+     "source": "supplement",
      "system": "muscular"
     },
     {
@@ -1805,6 +1821,14 @@
      "system": "muscular"
     },
     {
+     "term": "inguinal lig",
+     "zh": null,
+     "kind": "exact",
+     "model": "Right inguinal ligament",
+     "source": "supplement",
+     "system": "connective"
+    },
+    {
      "term": "femoral n",
      "zh": null,
      "kind": "exact",
@@ -2429,6 +2453,14 @@
      "system": "muscular"
     },
     {
+     "term": "extensor digitorum brevis m",
+     "zh": null,
+     "kind": "exact",
+     "model": "Right extensor digitorum brevis",
+     "source": "supplement",
+     "system": "muscular"
+    },
+    {
      "term": "abductor hallucis m",
      "zh": null,
      "kind": "exact",
@@ -2482,6 +2514,14 @@
      "kind": "contained",
      "model": "Set of dorsal interossei of right hand",
      "source": "atlas",
+     "system": "muscular"
+    },
+    {
+     "term": "Latissimus dorsi",
+     "zh": null,
+     "kind": "exact",
+     "model": "Right latissimus dorsi",
+     "source": "supplement",
      "system": "muscular"
     },
     {
@@ -2840,19 +2880,11 @@
    "findability": [],
    "missing": [
     {
-     "term": "Latissimus dorsi m",
-     "zh": null
-    },
-    {
      "term": "Thoracolumber fascia",
      "zh": null
     },
     {
      "term": "suboccipital triangle",
-     "zh": null
-    },
-    {
-     "term": "Mutifidus m",
      "zh": null
     },
     {
@@ -3172,10 +3204,6 @@
      "zh": null
     },
     {
-     "term": "inguinal lig",
-     "zh": null
-    },
-    {
      "term": "superficial circumflex iliac a",
      "zh": null
     },
@@ -3208,15 +3236,7 @@
      "zh": null
     },
     {
-     "term": "extensor digitorum brevis m",
-     "zh": null
-    },
-    {
      "term": "plantar interossei m",
-     "zh": null
-    },
-    {
-     "term": "Latissimus dorsi",
      "zh": null
     },
     {
@@ -3529,6 +3549,14 @@
      "system": "muscular"
     },
     {
+     "term": "Latissimus dorsi",
+     "zh": "闊背肌",
+     "kind": "exact",
+     "model": "Right latissimus dorsi",
+     "source": "supplement",
+     "system": "muscular"
+    },
+    {
      "term": "Pronator teres",
      "zh": null,
      "kind": "contained",
@@ -3750,10 +3778,6 @@
     {
      "term": "Bicipital aponeurosis",
      "zh": null
-    },
-    {
-     "term": "Latissimus dorsi",
-     "zh": "闊背肌"
     },
     {
      "term": "phalanges",
@@ -5063,9 +5087,17 @@
     {
      "term": "Transversospinal Muscles",
      "zh": "橫棘肌群",
-     "kind": "group-partial",
-     "model": "2/3 members（缺：multifidus）",
+     "kind": "group",
+     "model": "3/3 members",
      "source": "atlas",
+     "system": "muscular"
+    },
+    {
+     "term": "Latissimus dorsi",
+     "zh": null,
+     "kind": "exact",
+     "model": "Right latissimus dorsi",
+     "source": "supplement",
      "system": "muscular"
     },
     {
@@ -5149,14 +5181,6 @@
     },
     {
      "term": "Erector spinae m",
-     "zh": null
-    },
-    {
-     "term": "Transversospinal Muscles → multifidus",
-     "zh": null
-    },
-    {
-     "term": "Latissimus dorsi",
      "zh": null
     },
     {
@@ -5729,6 +5753,14 @@
      "system": "muscular"
     },
     {
+     "term": "Latissimus dorsi",
+     "zh": null,
+     "kind": "exact",
+     "model": "Right latissimus dorsi",
+     "source": "supplement",
+     "system": "muscular"
+    },
+    {
      "term": "Pronator teres",
      "zh": null,
      "kind": "contained",
@@ -5992,10 +6024,6 @@
      "zh": null
     },
     {
-     "term": "Latissimus dorsi",
-     "zh": null
-    },
-    {
      "term": "Palmaris brevis",
      "zh": null
     },
@@ -6094,6 +6122,22 @@
      "kind": "exact",
      "model": "Right psoas major",
      "source": "atlas",
+     "system": "muscular"
+    },
+    {
+     "term": "Quadratus lumborum m",
+     "zh": "腰方肌",
+     "kind": "exact",
+     "model": "Right quadratus lumborum",
+     "source": "supplement",
+     "system": "muscular"
+    },
+    {
+     "term": "Transversus abdominis m",
+     "zh": "腹橫肌",
+     "kind": "exact",
+     "model": "Right transversus abdominis",
+     "source": "supplement",
      "system": "muscular"
     },
     {
@@ -6681,6 +6725,22 @@
      "system": "nervous"
     },
     {
+     "term": "Quadratus lumborum",
+     "zh": "韌帶蓋過腰方肌",
+     "kind": "exact",
+     "model": "Right quadratus lumborum",
+     "source": "supplement",
+     "system": "muscular"
+    },
+    {
+     "term": "Transversus abdominis",
+     "zh": "穿入腹橫肌",
+     "kind": "exact",
+     "model": "Right transversus abdominis",
+     "source": "supplement",
+     "system": "muscular"
+    },
+    {
      "term": "diaphragm",
      "zh": "橫隔",
      "kind": "exact",
@@ -6817,6 +6877,14 @@
      "system": "digestive"
     },
     {
+     "term": "musculus rectus abdominis",
+     "zh": "延伸至腹直肌",
+     "kind": "exact",
+     "model": "Right rectus abdominis",
+     "source": "supplement",
+     "system": "muscular"
+    },
+    {
      "term": "pubic region",
      "zh": "恥骨區",
      "kind": "contained",
@@ -6926,14 +6994,6 @@
     {
      "term": "suprarenal gland",
      "zh": "腎上腺"
-    },
-    {
-     "term": "Quadratus lumborum m",
-     "zh": "腰方肌"
-    },
-    {
-     "term": "Transversus abdominis m",
-     "zh": "腹橫肌"
     },
     {
      "term": "Pressure of anterior abdominal cavity",
@@ -7192,14 +7252,6 @@
      "zh": "支配提睪肌"
     },
     {
-     "term": "Quadratus lumborum",
-     "zh": "韌帶蓋過腰方肌"
-    },
-    {
-     "term": "Transversus abdominis",
-     "zh": "穿入腹橫肌"
-    },
-    {
      "term": "sympathetic ganglion chain or sympathetic chunk",
      "zh": "交感神經鏈"
     },
@@ -7330,10 +7382,6 @@
     {
      "term": "superior mesenteric a., sma",
      "zh": "上腸繫膜動脈"
-    },
-    {
-     "term": "musculus rectus abdominis",
-     "zh": "延伸至腹直肌"
     },
     {
      "term": "hepatic sinusoid",
@@ -8185,6 +8233,14 @@
      "system": "skeletal"
     },
     {
+     "term": "rectus abdominis muscle",
+     "zh": null,
+     "kind": "exact",
+     "model": "Right rectus abdominis",
+     "source": "supplement",
+     "system": "muscular"
+    },
+    {
      "term": "costal cartilage",
      "zh": null,
      "kind": "contained",
@@ -8215,6 +8271,14 @@
      "model": "Right subcostal artery",
      "source": "atlas",
      "system": "arterial"
+    },
+    {
+     "term": "inguinal lig",
+     "zh": null,
+     "kind": "exact",
+     "model": "Right inguinal ligament",
+     "source": "supplement",
+     "system": "connective"
     },
     {
      "term": "superior epigastric v",
@@ -8401,6 +8465,22 @@
      "system": "nervous"
     },
     {
+     "term": "inguinal ligament",
+     "zh": null,
+     "kind": "exact",
+     "model": "Right inguinal ligament",
+     "source": "supplement",
+     "system": "connective"
+    },
+    {
+     "term": "transversus abdorminis muscle",
+     "zh": null,
+     "kind": "exact",
+     "model": "Right transversus abdominis",
+     "source": "supplement",
+     "system": "muscular"
+    },
+    {
      "term": "Testicular artery",
      "zh": null,
      "kind": "exact",
@@ -8433,6 +8513,30 @@
      "system": "arterial"
     },
     {
+     "term": "Rectus abdominis",
+     "zh": null,
+     "kind": "exact",
+     "model": "Right rectus abdominis",
+     "source": "supplement",
+     "system": "muscular"
+    },
+    {
+     "term": "Transversus abdominis",
+     "zh": null,
+     "kind": "exact",
+     "model": "Right transversus abdominis",
+     "source": "supplement",
+     "system": "muscular"
+    },
+    {
+     "term": "Quadratus lumborum",
+     "zh": null,
+     "kind": "exact",
+     "model": "Right quadratus lumborum",
+     "source": "supplement",
+     "system": "muscular"
+    },
+    {
      "term": "Ligamentum teres",
      "zh": null,
      "kind": "contained",
@@ -8449,10 +8553,6 @@
     },
     {
      "term": "lumborum psoas major iliacus muscles",
-     "zh": null
-    },
-    {
-     "term": "rectus abdominis muscle",
      "zh": null
     },
     {
@@ -8489,10 +8589,6 @@
     },
     {
      "term": "deep circumflex iliac a",
-     "zh": null
-    },
-    {
-     "term": "inguinal lig",
      "zh": null
     },
     {
@@ -8620,10 +8716,6 @@
      "zh": null
     },
     {
-     "term": "inguinal ligament",
-     "zh": null
-    },
-    {
      "term": "falx Fusion of the aponeurosis",
      "zh": null
     },
@@ -8637,10 +8729,6 @@
     },
     {
      "term": "Ext. spermatic fascia",
-     "zh": null
-    },
-    {
-     "term": "transversus abdorminis muscle",
      "zh": null
     },
     {
@@ -8685,18 +8773,6 @@
     },
     {
      "term": "Hesselbach's triangle",
-     "zh": null
-    },
-    {
-     "term": "Rectus abdominis",
-     "zh": null
-    },
-    {
-     "term": "Transversus abdominis",
-     "zh": null
-    },
-    {
-     "term": "Quadratus lumborum",
      "zh": null
     },
     {
@@ -10173,6 +10249,22 @@
    "lecture": "頭部 I（顏面、腮腺、頭皮）",
    "have": [
     {
+     "term": "Epicranius muscle",
+     "zh": "顱頂肌",
+     "kind": "contained",
+     "model": "Aponeurosis of epicranius",
+     "source": "supplement",
+     "system": "muscular"
+    },
+    {
+     "term": "Epicranius aponeurosis",
+     "zh": "頭皮腱膜",
+     "kind": "exact",
+     "model": "Aponeurosis of epicranius",
+     "source": "supplement",
+     "system": "muscular"
+    },
+    {
      "term": "sphincter muscle",
      "zh": "眼部與外界屬於括約肌",
      "kind": "contained",
@@ -10621,6 +10713,14 @@
      "system": "muscular"
     },
     {
+     "term": "Depressor septi",
+     "zh": null,
+     "kind": "contained",
+     "model": "Right depressor septi nasi",
+     "source": "supplement",
+     "system": "muscular"
+    },
+    {
      "term": "Zygomaticus major",
      "zh": null,
      "kind": "exact",
@@ -10701,6 +10801,14 @@
      "system": "muscular"
     },
     {
+     "term": "depressor septi nasi",
+     "zh": "降鼻中隔肌",
+     "kind": "exact",
+     "model": "Right depressor septi nasi",
+     "source": "supplement",
+     "system": "muscular"
+    },
+    {
      "term": "levator labii superioris",
      "zh": "提上唇肌",
      "kind": "exact",
@@ -10746,14 +10854,6 @@
     {
      "term": "Parotid gland",
      "zh": "腮腺"
-    },
-    {
-     "term": "Epicranius muscle",
-     "zh": "顱頂肌"
-    },
-    {
-     "term": "Epicranius aponeurosis",
-     "zh": "頭皮腱膜"
     },
     {
      "term": "Upper group of oral muscles",
@@ -10968,10 +11068,6 @@
      "zh": null
     },
     {
-     "term": "Depressor septi",
-     "zh": null
-    },
-    {
      "term": "scalp",
      "zh": "頭皮"
     },
@@ -10998,10 +11094,6 @@
     {
      "term": "occipitofrontalis",
      "zh": "額枕肌"
-    },
-    {
-     "term": "depressor septi nasi",
-     "zh": "降鼻中隔肌"
     },
     {
      "term": "tip of nose",
@@ -13585,6 +13677,14 @@
      "system": "integumentary"
     },
     {
+     "term": "rectus abdominis m",
+     "zh": "腹直肌",
+     "kind": "exact",
+     "model": "Right rectus abdominis",
+     "source": "supplement",
+     "system": "muscular"
+    },
+    {
      "term": "superior epigastric a",
      "zh": "上腹壁動脈",
      "kind": "exact",
@@ -13750,6 +13850,14 @@
      "kind": "exact",
      "model": "Right obturator internus",
      "source": "atlas",
+     "system": "muscular"
+    },
+    {
+     "term": "Quadratus lumborum",
+     "zh": "腰方肌",
+     "kind": "exact",
+     "model": "Right quadratus lumborum",
+     "source": "supplement",
      "system": "muscular"
     },
     {
@@ -14032,10 +14140,6 @@
      "zh": "深旋髂動脈"
     },
     {
-     "term": "rectus abdominis m",
-     "zh": "腹直肌"
-    },
-    {
      "term": "Medial umbilical lig",
      "zh": "內側臍韌帶"
     },
@@ -14214,10 +14318,6 @@
     {
      "term": "Colliculus seminalis",
      "zh": "精阜"
-    },
-    {
-     "term": "Quadratus lumborum",
-     "zh": "腰方肌"
     },
     {
      "term": "Superoposterior rectum",
