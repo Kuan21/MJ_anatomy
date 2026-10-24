@@ -4,7 +4,8 @@ import '../app/globals.css';
 import '../app/workspace-layout.css';
 const Home = lazy(() => import('../app/page'));
 const SkeletonLab = lazy(() => import('../app/biomechanics-v2/lab'));
-const LowerLimbQuiz = lazy(() => import('../app/quiz/page'));
+const RegionQuiz = lazy(() => import('../app/quiz/page'));
+import {QUIZ_REGIONS, regionOfHash} from '../app/quiz/catalogue';
 function App() {
   const [hash, setHash] = useState(location.hash);
   useEffect(() => {
@@ -12,10 +13,10 @@ function App() {
     window.addEventListener('hashchange', change);
     return () => window.removeEventListener('hashchange', change);
   }, []);
-  const quiz = hash === '#/quiz/lower-limb';
-  useEffect(() => {document.title = quiz ? '下肢 Quiz · MJ Anatomy' : 'MJ Anatomy';}, [quiz]);
+  const quiz = regionOfHash(hash);
+  useEffect(() => {document.title = quiz ? `${QUIZ_REGIONS[quiz].label} Quiz · MJ Anatomy` : 'MJ Anatomy';}, [quiz]);
   return <Suspense fallback={<div role="status" style={{padding: 32}}>正在載入 MJ Anatomy…</div>}>
-    {quiz ? <LowerLimbQuiz/> : new URLSearchParams(location.search).get('lab') === 'skeleton-v2' ? <SkeletonLab/> : <Home initialRegion={hash === '#/atlas/lower' ? 'lower' : 'whole'}/>}
+    {quiz ? <RegionQuiz key={quiz} region={quiz}/> : new URLSearchParams(location.search).get('lab') === 'skeleton-v2' ? <SkeletonLab/> : <Home initialRegion={hash === '#/atlas/lower' ? 'lower' : hash === '#/atlas/upper' ? 'upper' : 'whole'}/>}
   </Suspense>;
 }
 createRoot(document.getElementById('root')!).render(<App/>);

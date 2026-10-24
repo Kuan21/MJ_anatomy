@@ -29,8 +29,8 @@ export const NEUTRAL_POSE:MotionPose={
 // surface reference, not a skinned biomechanical model; conservative limits
 // prevent anatomically impossible-looking combined rotations and self-crossing.
 export const MOTION_LIMITS={
- shoulderAbduction:[-20,165],
- shoulderFlexion:[-60,165],
+ shoulderAbduction:[-20,180],
+ shoulderFlexion:[-60,180],
  shoulderRotation:[-60,70],
  elbowFlexion:[-5,140],
  forearmRotation:[-80,80],
@@ -101,8 +101,8 @@ export function constrainPose(input:MotionPose):MotionPose{
  // A conservative combined-motion envelope, not independent maximum axes.
  // Keep the displayed pose identical to the pose used by bones and soft tissue.
  const swing=Math.hypot(p.shoulderAbduction,p.shoulderFlexion);
- if(swing>165){p.shoulderAbduction*=165/swing;p.shoulderFlexion*=165/swing;}
- const axialScale=1-.32*Math.min(1,Math.hypot(p.shoulderAbduction,p.shoulderFlexion)/165);
+ if(swing>180){p.shoulderAbduction*=180/swing;p.shoulderFlexion*=180/swing;}
+ const axialScale=1-.32*Math.min(1,Math.hypot(p.shoulderAbduction,p.shoulderFlexion)/180);
  p.shoulderRotation=T.MathUtils.clamp(p.shoulderRotation,MOTION_LIMITS.shoulderRotation[0]*axialScale,MOTION_LIMITS.shoulderRotation[1]*axialScale);
  const wristLoad=Math.hypot(p.wristFlexion/(p.wristFlexion>=0?80:70),p.wristDeviation/(p.wristDeviation>=0?20:30));
  if(wristLoad>1){p.wristFlexion/=wristLoad;p.wristDeviation/=wristLoad;}
@@ -159,23 +159,28 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  // produced by successively rotating around already-rotated world axes.
  const abdRad=T.MathUtils.degToRad(p.shoulderAbduction),flexRad=T.MathUtils.degToRad(p.shoulderFlexion*shoulderFlexSign);
  const rotationVector=abductionAxis.clone().multiplyScalar(abdRad).add(lateral.clone().multiplyScalar(flexRad));
- const requestedSwing=rotationVector.length(),maxSwing=T.MathUtils.degToRad(165),swingRad=Math.min(requestedSwing,maxSwing);
+ const requestedSwing=rotationVector.length(),maxSwing=T.MathUtils.degToRad(180),swingRad=Math.min(requestedSwing,maxSwing);
  const swingAxis=requestedSwing>.00001?rotationVector.normalize():abductionAxis.clone();
  const shoulderSwingQ=new T.Quaternion().setFromAxisAngle(swingAxis,swingRad).normalize();
  const elevation=T.MathUtils.radToDeg(swingRad);
 
- // Scapulohumeral rhythm: little scapular motion in the first ~30 degrees,
- // then a progressive scapular contribution, reaching roughly 55-60 degrees
- // at high elevation. The scapula upwardly rotates instead of copying the
- // humeral rotation axis; flexion adds a modest posterior tilt.
+ // Scapulohumeral rhythm (Inman): after the first ~30 degrees the humerus
+ // and the scapulothoracic joint share elevation about 2:1, so a full 180
+ // degree reach is ~120 degrees glenohumeral plus ~60 degrees of scapular
+ // upward rotation (52 from this term, the rest from the scapula sliding
+ // round the thoracic shell in the contact solve below). The scapula also tilts posteriorly with flexion, and the
+ // clavicle elevates and retracts (its lateral end moves up and back) to carry
+ // the acromion, so the shoulder girdle opens instead of folding.
  const upwardElevation=Math.hypot(p.shoulderAbduction,Math.max(0,p.shoulderFlexion));
- const scapularUp=T.MathUtils.clamp((upwardElevation-30)*.43,0,58);
- const posteriorTilt=T.MathUtils.clamp(Math.max(0,p.shoulderFlexion-35)*.09,0,12);
+ const scapularUp=T.MathUtils.clamp((upwardElevation-30)*.35,0,52.5);
+ const rhythm=T.MathUtils.clamp(scapularUp/52.5,0,1);
+ const posteriorTilt=T.MathUtils.clamp(Math.max(0,p.shoulderFlexion-35)*.12,0,20);
  const scapulaUpQ=qdeg(abductionAxis,scapularUp);
  const scapulaTiltQ=qdeg(lateral,posteriorTilt*shoulderFlexSign);
  const scapulaQ=scapulaTiltQ.clone().multiply(scapulaUpQ).normalize();
- const clavicularElevation=T.MathUtils.clamp(scapularUp*.30,0,16);
- const clavicleQ=qdeg(abductionAxis,clavicularElevation);
+ const clavicularElevation=T.MathUtils.clamp(scapularUp*.30,0,18);
+ const clavicularRetraction=20*rhythm;
+ const clavicleQ=qdeg(abductionAxis,clavicularElevation).multiply(qdeg(new T.Vector3(0,1,0),clavicularRetraction*-shoulderFlexSign)).normalize();
 
  // Approximate SC/AC pivots from the clavicle itself. The scapula follows the
  // moving AC end so the shoulder girdle remains connected during elevation.

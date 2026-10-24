@@ -2,37 +2,45 @@ import type {Atlas,Concept,Part} from './anatomy';
 import {fetchModelBuffer} from './model-download';
 
 type FacialSourcePart={
- id:string;conceptId:string;name:string;system:'muscular';vertexCount:number;indexCount:number;
- bounds:[number[],number[]];positions:number;normals:number;indices:number;
+ id:string;conceptId:string;name:string;system:Part['system'];vertexCount:number;indexCount:number;
+ bounds:[number[],number[]];positions:number;normals:number;indices:number;chunk:number;
 };
 
-type FacialSourceAtlas={parts:FacialSourcePart[]};
+export type FacialStream={parts:FacialSourcePart[];chunks:Atlas['chunks']};
 
-export const FACIAL_BINARY_URL='https://raw.githubusercontent.com/choxos/OMFAtlas/c835665a9ade09ee0b993cee6eee1b25b7f7311b/public/models/facial/facial.bin';
+const streamOf=async(file:string,signal:AbortSignal)=>JSON.parse(new TextDecoder().decode(await fetchModelBuffer(`${import.meta.env.BASE_URL}models/${file}`,0,true,signal))) as FacialStream;
 
-export async function augmentAtlasWithFacial(base:Atlas,signal?:AbortSignal):Promise<Atlas>{
- const facial=JSON.parse(new TextDecoder().decode(await fetchModelBuffer(`${import.meta.env.BASE_URL}models/facial/atlas.json`,0,false,signal??new AbortController().signal))) as FacialSourceAtlas;
- const chunk=base.chunks.length;
- const facialParts:Part[]=facial.parts.map(p=>({
-  id:p.id,name:p.name,conceptId:p.conceptId,system:'muscular',chunk,
-  positions:p.positions,normals:p.normals,indices:p.indices,
-  vertexCount:p.vertexCount,indexCount:p.indexCount,bounds:p.bounds
- }));
+/** Append the facial and supplement streams to the base atlas: parts, concepts (so search finds them) and packages. */
+export function mergeAtlasStreams(base:Atlas,streams:FacialStream[]):Atlas{
+ let offset=base.chunks.length;
+ const added:Part[]=[],addedChunks:Atlas['chunks']=[];
+ for(const stream of streams){
+  for(const p of stream.parts)added.push({
+   id:p.id,name:p.name,conceptId:p.conceptId,system:p.system,chunk:offset+p.chunk,
+   positions:p.positions,normals:p.normals,indices:p.indices,
+   vertexCount:p.vertexCount,indexCount:p.indexCount,bounds:p.bounds
+  });
+  addedChunks.push(...stream.chunks);offset+=stream.chunks.length;
+ }
  const byConcept=new Map<string,Concept>(base.concepts.map(c=>[c.id,{...c,elements:[...c.elements]}]));
- for(const p of facialParts){
+ for(const p of added){
   const existing=byConcept.get(p.conceptId);
   if(existing){if(!existing.elements.includes(p.id))existing.elements.push(p.id);}
   else byConcept.set(p.conceptId,{id:p.conceptId,name:p.name,elements:[p.id]});
  }
  return{
   ...base,
-  source:`${base.source??'BodyParts3D'} + registered BodyParts3D 3.0 facial muscles`,
-  parts:[...base.parts,...facialParts],
+  source:`${base.source??'BodyParts3D'} + registered BodyParts3D 3.0 facial muscles and abdominal/back muscles`,
+  parts:[...base.parts,...added],
   concepts:[...byConcept.values()],
-  // The registered facial supplement is a large, remote binary. Keep its
-  // catalogue entries in the unified Muscular system, but only fetch the
-  // geometry when the user opens the head region. Loading it beside the
-  // whole-body atlas can exhaust an iPad WebKit tab before the first frame.
-  chunks:[...base.chunks,{url:FACIAL_BINARY_URL,bytes:16390216,deferUntil:'head'}]
+  chunks:[...base.chunks,...addedChunks]
  };
+}
+
+export async function augmentAtlasWithFacial(base:Atlas,signal?:AbortSignal):Promise<Atlas>{
+ // scripts/prepare-facial.mjs and scripts/prepare-supplement.mjs repackage pinned BodyParts3D 3.0 structures (the facial muscles, and
+ // the muscles/ligaments the 4.0 export left out, such as latissimus dorsi) into small, gzip-compressed, immutable same-origin
+ // packages, so these pieces load in stages beside the body.
+ const abort=signal??new AbortController().signal;
+ return mergeAtlasStreams(base,await Promise.all([streamOf('facial/facial-stream.json.gz',abort),streamOf('supplement/supplement-stream.json.gz',abort)]));
 }

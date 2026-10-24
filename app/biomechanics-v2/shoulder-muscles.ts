@@ -8,7 +8,31 @@ const length3=(x:number,y:number,z:number)=>Math.sqrt(x*x+y*y+z*z);
 /** Position-based, anisotropic muscle approximation. Distances THROUGH the
  * belly constrain its thickness as well as surface distances. It is not a
  * physiological force model or a substitute for measured fibre architecture. */
-export function makeShoulderMuscles(members:SurfaceMember[],head:Vector3,radius:number){
+/** Which skeleton frames hold a muscle's two attachments (0 trunk, 1 clavicle, 2 scapula, 3 humerus). Broad sheets
+ * (pectoralis major, trapezius, rhomboids, levator scapulae, pectoralis minor) are solved like any belly:
+ * collars on their bones stay fixed, the belly keeps its volume and cannot fold flat as the girdle moves. */
+export const SHEET_PROFILES=['chest','pectoralPath','scapular'];
+const SHOULDER_ANCHORS={proximal:[1,2],distal:[3]};
+
+/** Static bone surface samples (ribs, sternum, thoracic vertebrae) that a free muscle vertex may approach but not sink into. */
+export interface PointCollider{nearest(x:number,y:number,z:number,limit:number):[number,number,number,number]|null}
+export function makePointCollider(points:Float32Array,cell=.012):PointCollider{
+ const grid=new Map<number,number[]>(),key=(x:number,y:number,z:number)=>((x+4096)*8192+(y+4096))*8192+(z+4096);
+ for(let i=0;i<points.length;i+=3){const k=key(Math.floor(points[i]/cell),Math.floor(points[i+1]/cell),Math.floor(points[i+2]/cell));let l=grid.get(k);if(!l)grid.set(k,l=[]);l.push(i);}
+ return{nearest(x,y,z,limit){
+  const r=Math.ceil(limit/cell),cx=Math.floor(x/cell),cy=Math.floor(y/cell),cz=Math.floor(z/cell);let best=limit*limit,bi=-1;
+  for(let a=-r;a<=r;a++)for(let b=-r;b<=r;b++)for(let c=-r;c<=r;c++){const l=grid.get(key(cx+a,cy+b,cz+c));if(!l)continue;for(const i of l){const dx=points[i]-x,dy=points[i+1]-y,dz=points[i+2]-z,d=dx*dx+dy*dy+dz*dz;if(d<best){best=d;bi=i;}}}
+  return bi<0?null:[Math.sqrt(best),points[bi],points[bi+1],points[bi+2]];
+ }};
+}
+function anchorFrames(members:SurfaceMember[]){
+ const profile=members[0]?.skin.profile;
+ if(profile==='chest'||profile==='pectoralPath')return{proximal:[0,1],distal:[3]};
+ if(profile==='scapular')return{proximal:[0],distal:[1,2]};
+ return SHOULDER_ANCHORS;
+}
+export function makeShoulderMuscles(members:SurfaceMember[],head:Vector3,radius:number,frames?:{proximal:number[];distal:number[]},collider?:PointCollider){
+ const anchors=frames??anchorFrames(members),sheet=SHEET_PROFILES.includes(members[0]?.skin.profile??'');
  const group=makeSurfaceGroup(members),rest=group.positions.slice();
  const longitudinal=members.every(m=>!!m.skin.fibre);
  if(longitudinal){
@@ -68,7 +92,7 @@ export function makeShoulderMuscles(members:SurfaceMember[],head:Vector3,radius:
   for(let i=0;i<map.length;i++){
    const frame=m.skin.indices[i*4],weight=m.skin.weights[i*4];
    if(longitudinal){const t=m.skin.fibre!.coordinates[i];if(t<.025)proximal.push(map[i]);if(t>.975)distal.push(map[i]);}
-   else if(weight>=.995){if(frame===3)distal.push(map[i]);else if(frame===1||frame===2)proximal.push(map[i]);}
+   else if(weight>=.995){if(anchors.distal.includes(frame))distal.push(map[i]);else if(anchors.proximal.includes(frame))proximal.push(map[i]);}
   }
   const centroid=(ids:number[],p:Float32Array)=>{const v=new Vector3();for(const i of ids)v.add(new Vector3().fromArray(p,i*3));return v.multiplyScalar(1/Math.max(1,ids.length));};
   const a=centroid(proximal,rest),b=centroid(distal,rest);
@@ -99,7 +123,15 @@ export function makeShoulderMuscles(members:SurfaceMember[],head:Vector3,radius:
  // Only free vertices with a non-zero clearance can ever be pushed out of the head: elsewhere the test below can never
  // fire. Longitudinal muscles use radius 0, so they skip the collision scans entirely.
  const mobility=group.constraints.mobility,colliders=Uint32Array.from({length:clearance.length},(_,i)=>i).filter(i=>mobility[i]&&clearance[i]>0);
- return{group,rest,muscles,clearance,colliders,head:head.clone(),radius,longitudinal};
+ // Broad sheets also keep clear of the thoracic cage: a free vertex may not sink closer to a rib, the sternum or a vertebra than
+ // (a little under) its rest distance, capped at 4 mm. Attachment collars (mobility 0) are never moved.
+ const boneNodes:number[]=[],boneClearance:number[]=[];
+ if(collider&&sheet)for(let n=0;n<clearance.length;n++){
+  if(!mobility[n])continue;
+  const near=collider.nearest(rest[n*3],rest[n*3+1],rest[n*3+2],.05);
+  if(near){boneNodes.push(n);boneClearance.push(Math.min(near[0]*.9,.004));}
+ }
+ return{group,rest,muscles,clearance,colliders,head:head.clone(),radius,longitudinal,sheet,collider,boneNodes:Uint32Array.from(boneNodes),boneClearance:Float32Array.from(boneClearance)};
 }
 
 /** Length of a taut path around a spherical obstacle, used to derive axial
@@ -130,7 +162,7 @@ export function muscleVolume(p:Float32Array,triangles:ArrayLike<number>,centre:V
  return volume;
 }
 
-export function solveShoulderMuscles(model:ReturnType<typeof makeShoulderMuscles>,head:Vector3,passes=model.longitudinal?24:80){
+export function solveShoulderMuscles(model:ReturnType<typeof makeShoulderMuscles>,head:Vector3,passes=model.longitudinal?24:model.sheet?32:80){
  const {group,rest}=model,p=group.positions,mobility=group.constraints.mobility;
  group.members.forEach((m,k)=>group.maps[k].forEach((node,i)=>p.set(m.positions.subarray(i*3,i*3+3),node*3)));
  // Exact neutral/rest reset; no numerical constraint creep.
@@ -154,6 +186,13 @@ export function solveShoulderMuscles(model:ReturnType<typeof makeShoulderMuscles
     const i=n*3,weight=mobility[n],dx=lambda*weight*m.gradient[i],dy=lambda*weight*m.gradient[i+1],dz=lambda*weight*m.gradient[i+2],scale=Math.min(1,.003/Math.max(1e-12,length3(dx,dy,dz)));
     p[i]+=dx*scale;p[i+1]+=dy*scale;p[i+2]+=dz*scale;
    }
+  }
+ };
+ const pushOffBones=()=>{
+  const collider=model.collider;if(!collider)return;
+  for(let k=0;k<model.boneNodes.length;k++){
+   const n=model.boneNodes[k],i=n*3,clear=model.boneClearance[k],q=collider.nearest(p[i],p[i+1],p[i+2],clear);
+   if(q&&q[0]<clear){const dx=p[i]-q[1],dy=p[i+1]-q[2],dz=p[i+2]-q[3],d=length3(dx,dy,dz);if(d>1e-9){p[i]=q[1]+dx*clear/d;p[i+1]=q[2]+dy*clear/d;p[i+2]=q[3]+dz*clear/d;}}
   }
  };
  for(let pass=0;pass<passes;pass++){
@@ -181,6 +220,7 @@ export function solveShoulderMuscles(model:ReturnType<typeof makeShoulderMuscles
    const i=n*3,dx=p[i]-head.x,dy=p[i+1]-head.y,dz=p[i+2]-head.z,d=length3(dx,dy,dz),r=model.clearance[n];
    if(d<r&&d>1e-9){p[i]=head.x+dx*r/d;p[i+1]=head.y+dy*r/d;p[i+2]=head.z+dz*r/d;}
   }
+  pushOffBones();
  }
  // Final local spike guard, independent of triangle size. Bulk constraints
  // cannot certify local mesh quality; report volume/clearance after this pass.
@@ -201,6 +241,7 @@ export function solveShoulderMuscles(model:ReturnType<typeof makeShoulderMuscles
   const i=n*3,dx=p[i]-head.x,dy=p[i+1]-head.y,dz=p[i+2]-head.z,d=length3(dx,dy,dz),r=model.clearance[n];
   if(d<r&&d>1e-9){p[i]=head.x+dx*r/d;p[i+1]=head.y+dy*r/d;p[i+2]=head.z+dz*r/d;}
  }
+ pushOffBones();
  }
  // End with orientation recovery: bulk-volume/edge projection can otherwise
  // re-invert a small cell on its last iteration. Preserve bone clearance and

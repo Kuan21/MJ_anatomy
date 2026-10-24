@@ -13,7 +13,7 @@ for(const side of ['left','right']){
  const sc=c.clone().setX(side==='left'?box.min.x:box.max.x),ac=c.clone().setX(side==='left'?box.max.x:box.min.x);
  for(const [abd,flex] of [[1,0],[0,1],[.7,.7]]){
   let prev;
-  for(let angle=0;angle<=165;angle++){
+  for(let angle=0;angle<=180;angle++){
    const {transforms,warnings}=buildUpperLimbMotion(atlas,side,{...NEUTRAL_POSE,shoulderAbduction:angle*abd,shoulderFlexion:angle*flex});
    assert.equal(warnings.length,0);
    const blade=moved(centre,transforms[s.scapulaId]),drift=Math.abs(radial(blade)-radial(centre)),gap=moved(ac,transforms[s.scapulaId]).distanceTo(moved(ac,transforms[clavicle.id]));

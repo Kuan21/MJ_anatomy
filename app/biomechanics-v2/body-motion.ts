@@ -5,7 +5,7 @@ import rawBindings from './body-bindings.json';
 export type BodyRegion='head'|'spine'|'leftLeg'|'rightLeg';
 export interface BodyPose {flexion:number;rotation:number;sideBend:number;knee:number;ankle:number}
 export const BODY_NEUTRAL:BodyPose={flexion:0,rotation:0,sideBend:0,knee:0,ankle:0};
-export const BODY_LIMITS={head:{flexion:[-35,40],rotation:[-60,60],sideBend:[-30,30],knee:[0,0],ankle:[0,0]},spine:{flexion:[-25,50],rotation:[-30,30],sideBend:[-20,20],knee:[0,0],ankle:[0,0]},leg:{flexion:[-20,80],rotation:[-20,20],sideBend:[0,35],knee:[0,110],ankle:[-30,20]}} as const;
+export const BODY_LIMITS={head:{flexion:[-35,40],rotation:[-60,60],sideBend:[-30,30],knee:[0,0],ankle:[0,0]},spine:{flexion:[-25,50],rotation:[-30,30],sideBend:[-20,20],knee:[0,0],ankle:[0,0]},leg:{flexion:[-20,120],rotation:[-20,20],sideBend:[0,35],knee:[0,130],ankle:[-30,20]}} as const;
 export interface BodyBinding {name:string;rig:BodyRegion;frame:number|null}
 // Cervical vessels must blend into the skull, not rotate as entire rigid tubes.
 export const bodyBindings=Object.fromEntries(Object.entries(rawBindings).map(([id,b])=>[id,b.rig==='head'&&/artery|vein|venous/i.test(b.name)?{...b,frame:null}:b])) as Record<string,BodyBinding>;
@@ -130,6 +130,17 @@ export function neckSoftWeights(rig:BodyRig,y:number,z:number):number[]{
  const t=Math.max(0,Math.min(1,(y-base)/(top-base)));
  return bodyWeights(rig,rig.levels[0]+t*(rig.levels[8]-rig.levels[0]));
 }
+/** Frame (0 pelvis, 1 thigh, 2 shank, 3 foot) holding each end of a leg muscle, from where its extent starts and stops
+ * relative to the hip, knee and ankle levels. Collars cover the outer 12 % of the muscle's length. */
+export function legMuscleAnchors(rig:BodyRig,part:Pick<Part,'bounds'>){
+ const [hip,knee,ankle]=rig.levels,top=part.bounds[1][1],bottom=part.bounds[0][1];
+ return{origin:top>hip-.1?0:top>knee+.01?1:top>ankle+.01?2:3,insertion:bottom<ankle+.06?3:bottom<knee+.1?2:1,top,bottom};
+}
+export function legMuscleWeights(rig:BodyRig,part:Pick<Part,'bounds'>,y:number,field:number[],collar=.12):number[]{
+ const {origin,insertion,top,bottom}=legMuscleAnchors(rig,part),span=Math.max(.006,top-bottom),t=(top-y)/span;
+ const atOrigin=1-smooth(t/collar),atInsertion=smooth((t-(1-collar))/collar),free=Math.max(0,1-atOrigin-atInsertion);
+ const out=field.map(v=>v*free);out[origin]+=atOrigin;out[insertion]+=atInsertion;return out;
+}
 export function bindBodyTissue(rig:BodyRig,positions:ArrayLike<number>,skull=false,part?:Part):SkinBinding{
  const count=positions.length/3,indices=new Uint8Array(count*4),weights=new Float32Array(count*4);
  const rigidThroat=part&&/^(Hyoid bone|.*cartilage)$/.test(part.name)&&!/disk/i.test(part.name);
@@ -171,7 +182,11 @@ export function bindBodyTissue(rig:BodyRig,positions:ArrayLike<number>,skull=fal
    const root=bodyWeights(rig,part.bounds[0][1]),tip=[0,0,0,0,0,0,0,0,1];
    w=root.map((v,j)=>v*(1-t)+tip[j]*t);
   }
-  const entries=w.map((w,j)=>({w,j})).filter(e=>e.w>0);entries.forEach((e,k)=>{indices[i*4+k]=e.j;weights[i*4+k]=e.w;});
+  // A leg muscle is anchored at its own two attachments, not only by height: its proximal and distal collars stay on the bone
+  // they attach to (pelvis, thigh, shank or foot); the belly between them follows the shared hip/knee/ankle field.
+  if((rig.region==='leftLeg'||rig.region==='rightLeg')&&part?.system==='muscular')w=legMuscleWeights(rig,part,y,w);
+  // Strongest influence first: the solver and the DQ hemisphere reference both read the dominant frame from slot 0.
+  const entries=w.map((w,j)=>({w,j})).filter(e=>e.w>0).sort((a,b)=>b.w-a.w).slice(0,4);entries.forEach((e,k)=>{indices[i*4+k]=e.j;weights[i*4+k]=e.w;});
  }
  return{indices,weights,belly:new Float32Array(count),radial:new Float32Array(count*3),origin:new Vector3(),insertion:new Vector3(0,1,0),originWeights:[1],insertionWeights:[1],restLength:1,profile:'path'};
 }

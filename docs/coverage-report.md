@@ -6,29 +6,36 @@
 
 | 類別 | 不重複詞數 | 意思 |
 |---|---|---|
-| 一、已有 | 1012 | 模型有，而且可以用搜尋／圖層揀到 |
+| 一、已有 | 1031 | 模型有，而且可以用搜尋／圖層揀到 |
 | 二、模型有但 UI 搵唔到 | 0 | 模型有幾何，但搜尋唔到（見下面清單；已修好者會喺「修復」一節列明） |
-| 三、模型冇 | 1298 | 交俾第 2 部分補模型 |
+| 三、模型冇 | 1278 | 交俾第 2 部分補模型 |
 | 骨性標誌 | 294 | 結節、窩、切跡等，屬已有骨件嘅表面特徵，模型唔另外分件 |
 | 雜訊（已略去） | 650 | 唔係解剖結構 |
 
-## 闊背肌（Latissimus dorsi）點解一直冇出現
+## 闊背肌（Latissimus dorsi）點解搵唔到
 
-**結論：唔係分類錯、唔係被 dissection／region 篩走、亦唔係被隱藏——來源模型入面根本冇呢件肌肉。**
+**結論：係 (b)——BodyParts3D 原始資料有，但網站用嘅 4.0 匯出（2,234 件）冇匯出呢件肌肉，所以冇 geometry、冇 concept，搜尋當然搵唔到。** 唔係 (c) 有 geometry 但冇載入，亦唔係 (d) 搜尋索引漏收；之前報告話「來源入面根本冇」係錯嘅，原因係當時連唔到官方部件名單。
 
 查證：
 
-- `public/models/atlas.json` 嘅 2,234 件 mesh 同 3,432 個 concept 都冇 latissimus／dorsi／FMA13357 任何一項；`app/anatomy-source-overrides.json` 只排除咗 2 件（足跟動脈分支），冇涉及闊背肌。
-- 來源匯出嘅 mesh 編號有 99 段缺口、共 413 個編號冇匯出（例如 FJ1519 夾喺 FJ1518 前臂肌同 FJ1520 斜方肌之間，位置同闊背肌吻合；FJ1602–1653 連續 52 個落喺頸前肌同腦動脈之間）。本環境連唔到 BodyParts3D 官方部件名單，所以未能逐個編號核對，只可以話：課程要求嘅闊背肌、腹直肌、腹內斜肌、腹橫肌、腰方肌、多裂肌、顳肌、枕額肌、提睪肌等都唔喺現有 2,234 件入面，而且缺口大小足夠容納。
-- `normalizeAtlasSystems` 已經修正 89 件系統分類錯誤（例如腓骨肌被標成骨骼），分類後再冇「名稱同系統唔符」嘅件。冇肌肉被 dissection／region／depth 過濾器濾走：全身視圖永遠顯示所有開咗嘅系統。
+- BodyParts3D 3.0 官方部件名單（`parts_list_e.txt`，經 Kevin-Mattheus-Moerman/BodyParts3D 鏡像 `f0eeb6e843380cfe6b83797cf8c3e1af74de5e61` 取得）有 `FMA13357 latissimus dorsi`、`FMA13358 right latissimus dorsi`、`FMA13359 left latissimus dorsi`，而且左右兩邊都有 STL（各約 22.8 萬三角面）。
+- `public/models/atlas.json`（4.0 匯出）嘅 2,234 件 mesh 同 3,432 個 concept 都冇 latissimus／dorsi／FMA13357–13359；`app/anatomy-source-overrides.json` 只排除咗 2 件（足跟動脈分支），冇涉及闊背肌。
+- 3.0 有 925 個 STL；其中 128 個唔喺 4.0 atlas 入面：47 個係已經用緊嘅面部肌（OMFAtlas 套件），其餘主要係闊背肌、腹直肌、腹內斜肌、腹橫肌、錐狀肌、腰方肌、頸棘肌、多裂肌、腹股溝韌帶、伸趾短肌、右頸長肌、顳頂肌、帽狀腱膜、降鼻中隔肌（共 28 件已補入，見 `scripts/supplement-parts.json`），餘下係腦／心臟細部、毛髮、結腸等，另計。來源 mesh 編號有 99 段缺口、共 413 個編號冇匯出，同樣係 4.0 匯出時被略去。
+- `normalizeAtlasSystems` 已經修正 89 件系統分類錯誤（例如腓骨肌被標成骨骼）；冇肌肉被 dissection／region／depth 過濾器濾走：全身視圖永遠顯示所有開咗嘅系統。
 
-**同類 bug 嘅影響**：真正「模型有、UI 搵唔到」嘅係另一類——外周神經（286 件）、關節韌帶／關節囊（349 件）、腦結構（437 件）、頸部血管（8 件）喺 3D 入面畫到，但唔屬於 atlas concepts，搜尋搵唔到（課程詞中有 187 個受影響：神經 124、關節 49、腦 11、頸血管 3）。已經喺「Find a structure」加入呢 1,080 項索引（見下面「修復」），揀到神經會直接高亮，揀到其餘會打開圖層同資料卡；`npm run check:coverage` 會防止將來再有結構只喺 3D 有而搜尋唔到。
+**修復**：`scripts/prepare-supplement.mjs` 由 3.0 鏡像下載已釘 sha256 嘅 STL，用 OMFAtlas 面部肌肉同一個相似變換（比例 1.0594、Z-up mm → Y-up m）對齊 4.0，再以 meshoptimizer 簡化（每件 ≤ 1.6 萬三角面，誤差 < 0.1%）、分成細包 gzip，載入方式同其餘分包一樣。對齊用六塊面部肌（4.0 已有）驗證，偏差 ≤ 0.02 mm；`scripts/test-all-structures.mjs` 再驗證闊背肌左右兩邊貼住肩胛骨、到達髂嵴。授權同現有資料一樣係 CC BY-SA 2.1 Japan。
+
+**2,279 對 2,232 嘅差異**：47 件面部肌（`BP3-FMA…`）以前要由 raw.githubusercontent.com 讀 16 MB 單一檔案，慢線 60 秒逾時就永遠載入唔到，標題就顯示 2,279 但只畫到 2,232（載入條停喺 93 %）。而家改為同源、壓縮、分段載入；`test-all-structures.mjs` 檢查每一件都有對應 package bytes。
+
+**同類 bug 嘅影響**：真正「模型有、UI 搵唔到」嘅係另一類——外周神經（286 件）、關節韌帶／關節囊（349 件）、腦結構（437 件）、頸部血管（8 件）喺 3D 入面畫到，但唔屬於 atlas concepts，搜尋搵唔到（課程詞中有 187 個受影響：神經 124、關節 49、腦 11、頸血管 3）。已經喺「Find a structure」加入呢 1,080 項索引，揀到神經會直接高亮，揀到其餘會打開圖層同資料卡。
+
+**build 守門**：`npm run check:coverage`（亦係 `npm run build` 前置步驟）用 Find a structure 真正嘅比對函式（`app/mj-search.ts`）檢查：闊背肌（latissimus／背闊肌／闊背肌／背阔肌）等指定肌肉必須搵到；課程清單入面「模型有嘅肌肉」用講義寫法（縮寫展開後）全部必須搵到；每一件畫出嚟嘅 mesh 都屬於某個可搜尋 concept。唔通過就 build 失敗。
 
 缺口編號（供補模型時對照）：FJ1303、FJ1307、FJ1314、FJ1327、FJ1354、FJ1358、FJ1365、FJ1378、FJ1519、FJ1523、FJ1529–1531、FJ1602–1653、FJ1765、FJ1845、FJ1847–1852、FJ1854–1857、FJ1859–1866、FJ1868–1873、FJ1875–1882、FJ1884–1892、FJ1894、FJ1897–1912、FJ1915、FJ1917–1923、FJ1925–1927、FJ1929–1930、FJ1940–1949、FJ1951–1960、FJ1962–1966、FJ1968、FJ1978、FJ1980、FJ1982–1984、FJ1989–1990、FJ1992、FJ1997–2010、FJ2012、FJ2014–2024、FJ2026–2033、FJ2035–2037、FJ2039–2040、FJ2047–2048、FJ2050–2051、FJ2070–2071、FJ2075、FJ2088、FJ2091、FJ2098、FJ2101、FJ2104–2106、FJ2109–2112、FJ2114、FJ2116、FJ2123、FJ2126、FJ2134、FJ2139–2140、FJ2142、FJ2146–2149、FJ2154–2157、FJ2161、FJ2168、FJ2177、FJ2180、FJ2195、FJ2375–2385、FJ2387–2393、FJ2395–2403、FJ2406–2408、FJ2410–2413、FJ2559–2560、FJ2666、FJ2669、FJ2726、FJ2825–2880、FJ3087、FJ3238、FJ3363、FJ3402–3405、FJ3407–3408、FJ3412、FJ3422–3425、FJ3435–3436、FJ3445、FJ3453–3457、FJ3487–3492、FJ3498、FJ3503–3509、FJ3521、FJ3528、FJ3535–3540、FJ3547–3552、FJ3554–3556、FJ3588、FJ3598–3602、FJ3613、FJ3627–3630、FJ3633–3634、FJ3642–3643
 
 ## 背部/上肢/胸腔/下肢（跑考摘要）　`115-1_第一次跑考摘要`
 
-已有 353　·　UI 搵唔到 0　·　模型冇 101　·　骨標誌 35　·　雜訊 79
+已有 358　·　UI 搵唔到 0　·　模型冇 96　·　骨標誌 35　·　雜訊 79
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -36,10 +43,8 @@
 
 **三、模型冇**
 
-- Latissimus dorsi m
 - Thoracolumber fascia
 - suboccipital triangle
-- Mutifidus m
 - Suboccipital n
 - Greater occipital n
 - Third occipital n
@@ -119,7 +124,6 @@
 - quadriceps femoris m
 - Quadriceps tendon
 - iliopsoas m
-- inguinal lig
 - superficial circumflex iliac a
 - superficial external pudendal a
 - deep external pudendal a
@@ -128,9 +132,7 @@
 - anterior lateral malleolar a
 - anterior medial malleolar a
 - Circumflex fibular a
-- extensor digitorum brevis m
 - plantar interossei m
-- Latissimus dorsi
 - Ligamentum flavum
 - Palmaris brevis
 - Ligamentum arteriosum
@@ -140,7 +142,7 @@
 
 ## 上肢 I　`20250228_解剖_上肢__W2`
 
-已有 40　·　UI 搵唔到 0　·　模型冇 13　·　骨標誌 18　·　雜訊 25
+已有 41　·　UI 搵唔到 0　·　模型冇 12　·　骨標誌 18　·　雜訊 25
 
 **三、模型冇**
 
@@ -153,7 +155,6 @@
 - Medial intermuscular septum
 - fascia of forearm muscles
 - Bicipital aponeurosis
-- Latissimus dorsi（闊背肌）
 - phalanges（塊指骨）
 - subscapularis, teres major, latissimus dorsi（三塊肌肉）
 - triangular interval（三角區間）
@@ -323,7 +324,7 @@
 
 ## 背部 II／脊髓　`20250513_解剖_背部II_魏___W13`
 
-已有 15　·　UI 搵唔到 0　·　模型冇 19　·　骨標誌 7　·　雜訊 27
+已有 16　·　UI 搵唔到 0　·　模型冇 17　·　骨標誌 7　·　雜訊 27
 
 **三、模型冇**
 
@@ -333,8 +334,6 @@
 - Respiratory Muscles（呼吸肌）
 - Intrinsic Back Muscles（內在肌群）
 - Erector spinae m
-- Transversospinal Muscles → multifidus
-- Latissimus dorsi
 - Spinous processes
 - enlargement（膨大部位）
 - cervical enlargement（頸膨大）
@@ -349,7 +348,7 @@
 
 ## 上肢 II　`20250523_解剖_上肢II_張___W14`
 
-已有 87　·　UI 搵唔到 0　·　模型冇 18　·　骨標誌 3　·　雜訊 19
+已有 88　·　UI 搵唔到 0　·　模型冇 17　·　骨標誌 3　·　雜訊 19
 
 **三、模型冇**
 
@@ -366,7 +365,6 @@
 - s. hypothenar muscles
 - recurrent branch of median n
 - Intrinsic muscle
-- Latissimus dorsi
 - Palmaris brevis
 - triangular interval（一起穿過三角區間）
 - medial epicondylitis（學名就是肱骨內上髁炎）
@@ -374,7 +372,7 @@
 
 ## 腹部 III　`20250606_解剖_腹部III_謝___W16`
 
-已有 106　·　UI 搵唔到 0　·　模型冇 146　·　骨標誌 7　·　雜訊 33
+已有 111　·　UI 搵唔到 0　·　模型冇 141　·　骨標誌 7　·　雜訊 33
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -397,8 +395,6 @@
 - phrenic nerve（膈神經）
 - Superior phrenic artery（上膈動脈）
 - suprarenal gland（腎上腺）
-- Quadratus lumborum m（腰方肌）
-- Transversus abdominis m（腹橫肌）
 - Pressure of anterior abdominal cavity（腹腔壓力）
 - Renal fascia（腎筋膜）
 - Extraperitoneal fascia
@@ -463,8 +459,6 @@
 - Lumbosacral trunk（腰薦神經幹）
 - spermatic cord（精索）
 - cremaster muscle（支配提睪肌）
-- Quadratus lumborum（韌帶蓋過腰方肌）
-- Transversus abdominis（穿入腹橫肌）
 - sympathetic ganglion chain or sympathetic chunk（交感神經鏈）
 - crura of the diaphragm（橫膈腳）
 - apertures of the diaphragm（橫膈裂孔）
@@ -498,7 +492,6 @@
 - lesser omentum（小網膜）
 - fundus（胃最上方的胃底）
 - superior mesenteric a., sma（上腸繫膜動脈）
-- musculus rectus abdominis（延伸至腹直肌）
 - hepatic sinusoid（肝竇隙）
 - portal-systemic anastomoses（門靜脈與體循環的吻合）
 - portal system（腔靜脈系統）
@@ -606,7 +599,7 @@
 
 ## 腹部 I　`Med_Abdomen_I_20250519_14ba0910260399815d92ca495866ae39`
 
-已有 33　·　UI 搵唔到 0　·　模型冇 66　·　骨標誌 22　·　雜訊 57
+已有 40　·　UI 搵唔到 0　·　模型冇 59　·　骨標誌 22　·　雜訊 57
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -619,7 +612,6 @@
 
 - Inf. thoracic aperture
 - lumborum psoas major iliacus muscles
-- rectus abdominis muscle
 - IV disc
 - superior mesenteric and splenic veins
 - Scarpa's fascia
@@ -629,7 +621,6 @@
 - fascial layer containing smooth muscle
 - subcostal n
 - deep circumflex iliac a
-- inguinal lig
 - thoracolumbar fascia
 - drains into the subclavian v
 - Lower superficial circumflex iliac a
@@ -661,12 +652,10 @@
 - spermatic cord
 - ring Femoral ring Lacunar ligament
 - conjoint tendon
-- inguinal ligament
 - falx Fusion of the aponeurosis
 - Int. spermatic fascia
 - Cremasteric muscle
 - Ext. spermatic fascia
-- transversus abdorminis muscle
 - Int. oblique abdominis m
 - Cremasteric m. and fascia
 - Int. spermatic fascia Smooth m
@@ -678,9 +667,6 @@
 - acquired Protrudes through inguinal triangle
 - v. Inguinal triangle
 - Hesselbach's triangle
-- Rectus abdominis
-- Transversus abdominis
-- Quadratus lumborum
 - Ductus deferens
 - abdomen pei-ling hsieh（謝佩伶）
 
@@ -845,7 +831,7 @@
 
 ## 頭部 I（顏面、腮腺、頭皮）　`解剖_0929`
 
-已有 70　·　UI 搵唔到 0　·　模型冇 80　·　骨標誌 13　·　雜訊 35
+已有 74　·　UI 搵唔到 0　·　模型冇 76　·　骨標誌 13　·　雜訊 35
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -856,8 +842,6 @@
 - Facial expression muscle
 - Mimetic muscle
 - Parotid gland（腮腺）
-- Epicranius muscle（顱頂肌）
-- Epicranius aponeurosis（頭皮腱膜）
 - Upper group of oral muscles
 - Lower group of oral muscles
 - Auricular muscles（耳肌）
@@ -911,7 +895,6 @@
 - CN V C. Mandibular branch
 - deepest in the parotid gland
 - infraorbital and infratrochlear vein
-- Depressor septi
 - scalp（頭皮）
 - subcutaneous layer（皮下層）
 - calvarial group（顱頂群）
@@ -919,7 +902,6 @@
 - nasal group（鼻周圍）
 - oral group（口周圍）
 - occipitofrontalis（額枕肌）
-- depressor septi nasi（降鼻中隔肌）
 - tip of nose（鼻尖）
 - facial nerve, cn vii（顏面神經）
 - external carotid artery, eca（外頸動脈）
@@ -1175,7 +1157,7 @@
 
 ## 骨盆會陰 I　`解剖_1110`
 
-已有 59　·　UI 搵唔到 0　·　模型冇 148　·　骨標誌 19　·　雜訊 33
+已有 61　·　UI 搵唔到 0　·　模型冇 146　·　骨標誌 19　·　雜訊 33
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -1219,7 +1201,6 @@
 - Superior gluteal a（上臀動脈）
 - Iliolumbar a（髂腰動脈）
 - Deep circumflex iliac a（深旋髂動脈）
-- rectus abdominis m（腹直肌）
 - Medial umbilical lig（內側臍韌帶）
 - Sup. vesical a（分出上膀胱動脈）
 - Nutrient a
@@ -1265,7 +1246,6 @@
 - Levator prostatae
 - Ductus deferens（輸精管）
 - Colliculus seminalis（精阜）
-- Quadratus lumborum（腰方肌）
 - Superoposterior rectum
 - pelvis（骨盆）
 - pelvic brim/inlet（入口）

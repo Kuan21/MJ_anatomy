@@ -1,7 +1,7 @@
 import {useEffect, useMemo, useRef, useState} from 'react';
 import {ArrowLeft, ArrowRight, Check, CheckCircle2, ChevronRight, Eye, Layers, RotateCcw, Target, X, XCircle} from 'lucide-react';
 import {fetchModelBuffer} from '../model-download';
-import {QUIZ_SECTIONS, QUIZ_SYSTEMS, questionPool, type QuizCatalogue, type QuizSettings, type QuizStructure} from './catalogue';
+import {QUIZ_REGIONS, QUIZ_SYSTEMS, questionPool, type QuizCatalogue, type QuizRegionId, type QuizSettings, type QuizStructure} from './catalogue';
 import {createSession, recordAnswer, retryMistakes, type QuizSession} from './engine';
 import {createQuizViewer, type QuizView, type QuizViewState} from './viewer';
 import './quiz.css';
@@ -35,13 +35,17 @@ function QuizScene({catalogue, view, onReady, onProgress, onError, onPick, onMes
   return <div className="quiz-canvas" ref={host}/>;
 }
 
+/** Chinese name (Taiwan medical terminology) first, English name beneath it. */
 function Name({structure}: {structure: QuizStructure}) {
-  return <><span lang="en">{structure.name}</span>{structure.chinese && <small lang="zh-Hant">{structure.chinese}</small>}</>;
+  return structure.chinese
+    ? <><span lang="zh-Hant">{structure.chinese}</span><small lang="en">{structure.name}</small></>
+    : <span lang="en">{structure.name}</span>;
 }
 
 const defaults: QuizSettings = {section: 'all', systems: ['skeletal', 'muscular', 'nervous', 'arterial', 'venous'], side: 'right', count: 10};
 
-export default function LowerLimbQuiz() {
+export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: QuizRegionId} = {}) {
+  const region = QUIZ_REGIONS[regionId];
   const [catalogue, setCatalogue] = useState<QuizCatalogue | null>(null), [catalogueError, setCatalogueError] = useState(''), [catalogueRetry, setCatalogueRetry] = useState(0);
   const [settings, setSettings] = useState<QuizSettings>(defaults), [phase, setPhase] = useState<'setup' | 'playing' | 'summary'>('setup');
   const [session, setSession] = useState<QuizSession>({queue: [], answers: []}), [index, setIndex] = useState(0), [round, setRound] = useState(0);
@@ -54,15 +58,15 @@ export default function LowerLimbQuiz() {
   useEffect(() => {
     const abort = new AbortController();
     setCatalogueError('');
-    void fetchModelBuffer(`${import.meta.env.BASE_URL}models/quiz-lower.json`, 0, false, abort.signal)
+    void fetchModelBuffer(`${import.meta.env.BASE_URL}models/${region.file}`, 0, false, abort.signal)
       .then(bytes => {
         const data = JSON.parse(new TextDecoder().decode(bytes)) as QuizCatalogue;
-        if (data.version !== 1 || !data.structures?.length || !data.packages?.length) throw Error('Invalid quiz catalogue');
+        if (data.version !== 1 || !data.structures?.length || !data.packages?.length || (data.region ?? 'lower-limb') !== regionId) throw Error('Invalid quiz catalogue');
         if (!abort.signal.aborted) setCatalogue(data);
       })
       .catch(() => {if (!abort.signal.aborted) setCatalogueError('測驗目錄未能載入，請重試。');});
     return () => abort.abort();
-  }, [catalogueRetry]);
+  }, [catalogueRetry, region.file, regionId]);
   useEffect(() => {title.current?.focus();}, [phase, index]);
 
   const pool = useMemo(() => catalogue ? questionPool(catalogue, settings) : [], [catalogue, settings]);
@@ -70,7 +74,7 @@ export default function LowerLimbQuiz() {
   const target = structures.get(session.queue[index]);
   const answer = session.answers[index];
   const picked = answer?.pickedId ? structures.get(answer.pickedId) : undefined;
-  const section = QUIZ_SECTIONS.find(s => s.id === settings.section)!;
+  const section = region.sections.find(s => s.id === settings.section)!;
   const system = QUIZ_SYSTEMS.find(s => s.id === target?.system);
   const questionKey = `${round}:${index}:${target?.id ?? ''}`;
   const ready = readiness.key === questionKey && readiness.ready && !error;
@@ -100,35 +104,35 @@ export default function LowerLimbQuiz() {
 
   return <main className={`quiz-app quiz-phase-${phase}`} lang="zh-Hant">
     <header className="quiz-header">
-      <a className="quiz-back" href="#/atlas/lower" aria-label="返回下肢圖譜"><ArrowLeft size={18}/><span>返回圖譜</span></a>
+      <a className="quiz-back" href={region.atlasHash} aria-label={`返回${region.label}圖譜`}><ArrowLeft size={18}/><span>返回圖譜</span></a>
       <div className="quiz-brand">MJ Anatomy <span>QUIZ</span></div>
-      {phase === 'playing' ? <button data-slot="quiz-button" className="quiz-quiet" onClick={() => setPhase('summary')}>結束測驗 <X size={16}/></button> : <span className="quiz-header-tag">下肢篇</span>}
+      {phase === 'playing' ? <button data-slot="quiz-button" className="quiz-quiet" onClick={() => setPhase('summary')}>結束測驗 <X size={16}/></button> : <span className="quiz-header-tag">{region.tag}</span>}
     </header>
 
     {phase === 'setup' && <div className="quiz-setup-content">
       <section className="quiz-intro">
         <div className="quiz-kicker"><Target size={15}/> FIND THE STRUCTURE</div>
-        <h1 ref={title} tabIndex={-1}>看名稱，<br/>點出位置。</h1>
-        <p>由臀部到足部，喺 3D 模型練習辨認。<br/>每答一題，即刻睇到正確位置。</p>
+        <h1 ref={title} tabIndex={-1}>{region.headline[0]}<br/>{region.headline[1]}</h1>
+        <p>{region.description[0]}<br/>{region.description[1]}</p>
         <div className="quiz-how">
           <span><b>01</b>選部位同系統</span>
           <span><b>02</b>旋轉模型，點出答案</span>
           <span><b>03</b>對照顏色，再練錯題</span>
         </div>
         <div className="quiz-color-key"><span><i className="correct-dot"/>正確位置</span><span><i className="wrong-dot"/>你點錯嘅構造</span></div>
-        <p className="quiz-scope">採用現有圖譜嘅固定解剖姿勢。題目只涵蓋已有模型嘅構造；神經、動脈同靜脈可以獨立練習。</p>
+        <p className="quiz-scope">{region.scope}</p>
         <a className="quiz-source" href={`${import.meta.env.BASE_URL}ATTRIBUTION.md`} target="_blank" rel="noreferrer">圖譜來源與使用範圍 ↗</a>
       </section>
 
-      <section className="quiz-setup-card" aria-label="設定下肢測驗">
+      <section className="quiz-setup-card" aria-label={`設定${region.label}測驗`}>
         <div className="quiz-card-heading"><span className="quiz-kicker">YOUR PRACTICE</span><span>{catalogue ? `${catalogue.structures.length} 個構造` : '載入目錄中…'}</span></div>
-        <fieldset><legend><b>01</b> 練習邊個部位？</legend>
-          <div className="quiz-region-grid">{QUIZ_SECTIONS.map(r => <button data-slot="quiz-button" key={r.id} aria-pressed={settings.section === r.id} onClick={() => setSettings(s => ({...s, section: r.id}))}><span>{r.label}<small>{r.english}</small></span>{settings.section === r.id ? <Check size={17}/> : <ChevronRight size={15}/>}</button>)}</div>
+        <fieldset><legend><b>01</b> {regionId === 'thorax' ? '練習邊類構造？' : '練習邊個部位？'}</legend>
+          <div className="quiz-region-grid">{region.sections.map(r => <button data-slot="quiz-button" key={r.id} aria-pressed={settings.section === r.id} onClick={() => setSettings(s => ({...s, section: r.id}))}><span>{r.label}<small>{r.english}</small></span>{settings.section === r.id ? <Check size={17}/> : <ChevronRight size={15}/>}</button>)}</div>
         </fieldset>
         <fieldset><legend><b>02</b> 選擇系統 <small>可選多個</small></legend>
           <div className="quiz-system-grid">{QUIZ_SYSTEMS.map(s => {
             const count = catalogue ? questionPool(catalogue, {...settings, systems: [s.id]}).length : 0;
-            return <button data-slot="quiz-button" key={s.id} aria-pressed={settings.systems.includes(s.id)} onClick={() => setSettings(prev => ({...prev, systems: prev.systems.includes(s.id) ? prev.systems.filter(id => id !== s.id) : [...prev.systems, s.id]}))}><i style={{background: s.color}}/><span>{s.label}<small>{s.english}</small></span><span className="quiz-count">{count}</span><span className="quiz-checkbox">{settings.systems.includes(s.id) && <Check size={12}/>}</span></button>;
+            return <button data-slot="quiz-button" key={s.id} disabled={!!catalogue && !count} aria-pressed={settings.systems.includes(s.id)} onClick={() => setSettings(prev => ({...prev, systems: prev.systems.includes(s.id) ? prev.systems.filter(id => id !== s.id) : [...prev.systems, s.id]}))}><i style={{background: s.color}}/><span>{s.label}<small>{s.english}</small></span><span className="quiz-count">{count}</span><span className="quiz-checkbox">{settings.systems.includes(s.id) && <Check size={12}/>}</span></button>;
           })}</div>
         </fieldset>
         <div className="quiz-options-row">
@@ -144,7 +148,7 @@ export default function LowerLimbQuiz() {
       <section className="quiz-stage" aria-label="點選模型作答">
         <QuizScene key={sceneRetry} catalogue={catalogue} view={{key: questionKey, target, section: settings.section, side: settings.side, answered: !!answer, pickedId: answer?.pickedId ?? null, hidden, context, peeling, command}}
           onReady={(key, value) => setReadiness({key, ready: value})} onProgress={(loaded, total) => setLoad({loaded, total})} onError={setError} onPick={choose} onMessage={setMessage}/>
-        <div className="quiz-stage-caption"><span>{section.id === 'all' ? QUIZ_SECTIONS.find(s => s.id === target.sections[0])?.label : section.label}</span><span>{system?.label} · {settings.side === 'both' ? '雙側' : settings.side === 'right' ? '右側' : '左側'}</span></div>
+        <div className="quiz-stage-caption"><span>{section.id === 'all' ? region.sections.find(s => s.id === target.sections[0])?.label : section.label}</span><span>{system?.label} · {settings.side === 'both' ? '雙側' : settings.side === 'right' ? '右側' : '左側'}</span></div>
         <div className="quiz-view-buttons" aria-label="模型視角"><button data-slot="quiz-button" onClick={() => changeView('front')}>前面</button><button data-slot="quiz-button" onClick={() => changeView('back')}>後面</button><button data-slot="quiz-button" onClick={() => changeView('side')}>側面</button><button data-slot="quiz-button" onClick={() => changeView('fit')} aria-label="模型置中"><RotateCcw size={16}/></button></div>
         {!ready && !error && <div className="quiz-loading" role="status"><span className="quiz-spinner"/><strong>載入本題模型</strong><small>{load.loaded} / {load.total || '…'} 個模型套件</small></div>}
         {error && <div className="quiz-model-error" role="alert"><strong>暫時未能作答</strong><p>{error}</p><button data-slot="quiz-button" className="quiz-primary" onClick={() => {setError(''); setReadiness({key: '', ready: false}); setSceneRetry(n => n + 1);}}>重新載入模型</button></div>}
@@ -152,7 +156,7 @@ export default function LowerLimbQuiz() {
       </section>
 
       <aside className="quiz-question-card" aria-label="測驗題目">
-        <div className="quiz-progress-label"><span>下肢辨認</span><b>{index + 1} <span>/ {session.queue.length}</span></b></div>
+        <div className="quiz-progress-label"><span>{region.label}辨認</span><b>{index + 1} <span>/ {session.queue.length}</span></b></div>
         <progress className="quiz-progress" value={session.answers.length} max={session.queue.length} aria-label="已作答題數"/>
         <div className="quiz-question-heading"><span className="quiz-kicker">{answer ? 'ANSWER · 答案' : 'FIND IT · 請找出'}</span><span className="quiz-system-label" style={{borderColor: system?.color}}>{system?.label}</span></div>
         <h1 className="quiz-target" ref={title} tabIndex={-1}><Name structure={target}/></h1>
@@ -185,7 +189,7 @@ export default function LowerLimbQuiz() {
       <div className="quiz-summary-actions">{mistakes.length > 0 && <button data-slot="quiz-button" className="quiz-primary" onClick={() => begin(retryMistakes(session))}><RotateCcw size={17}/>只練錯題（{mistakes.length}）</button>}<button data-slot="quiz-button" className="quiz-secondary" onClick={() => begin(createSession(pool, settings.count))}>再練一回</button><button data-slot="quiz-button" className="quiz-text-button" onClick={() => setPhase('setup')}>重新揀部位／系統</button></div>
       {mistakes.length > 0 && <div className="quiz-review-list"><h2>今回需要重溫</h2>{mistakes.map(a => {
         const item = structures.get(a.targetId)!;
-        return <div className="quiz-review-item" key={a.targetId}><span className="quiz-review-dot"/><div><b><Name structure={item}/></b><p>{a.pickedId ? `你揀咗：${structures.get(a.pickedId)?.name}` : '今題有顯示答案'}</p></div></div>;
+        return <div className="quiz-review-item" key={a.targetId}><span className="quiz-review-dot"/><div><b><Name structure={item}/></b><p>{a.pickedId ? `你揀咗：${[structures.get(a.pickedId)?.chinese, structures.get(a.pickedId)?.name].filter(Boolean).join(' · ')}` : '今題有顯示答案'}</p></div></div>;
       })}</div>}
     </section>}
   </main>;

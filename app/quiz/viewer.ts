@@ -3,7 +3,7 @@ import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import {fetchModelBuffer, loadMissingChunks} from '../model-download';
 import {PointerTap} from '../pointer-tap';
 import {framingDistance} from '../camera-framing';
-import {QUIZ_SECTIONS, QUIZ_SYSTEMS, sceneStructures, type QuizCatalogue, type QuizSection, type QuizSide, type QuizStructure} from './catalogue';
+import {QUIZ_REGIONS, QUIZ_SYSTEMS, regionSections, sceneStructures, type QuizCatalogue, type QuizSection, type QuizSide, type QuizStructure} from './catalogue';
 
 export type QuizView = 'front' | 'back' | 'side' | 'fit' | 'answer';
 export interface QuizViewState {
@@ -39,7 +39,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
   renderer.toneMapping = T.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.2;
   const canvas = renderer.domElement;
-  canvas.setAttribute('aria-label', '3D 下肢測驗模型。拖曳旋轉，滾輪或雙指縮放；方向鍵巡覽構造，Enter 點選。');
+  canvas.setAttribute('aria-label', `3D ${QUIZ_REGIONS[catalogue.region ?? 'lower-limb'].label}測驗模型。拖曳旋轉，滾輪或雙指縮放；方向鍵巡覽構造，Enter 點選。`);
   canvas.setAttribute('role', 'group');
   canvas.tabIndex = 0;
   canvas.style.touchAction = 'none';
@@ -92,12 +92,13 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
 
   const frameModel = (view: QuizView) => {
     if (!state) return;
+    const region = QUIZ_REGIONS[catalogue.region ?? 'lower-limb'];
     const section = state.section === 'all' ? state.target.sections[0] : state.section;
-    const range = QUIZ_SECTIONS.find(s => s.id === section)!.range;
-    const minX = state.side === 'left' ? -.01 : -.19, maxX = state.side === 'right' ? .01 : .19;
+    const range = (regionSections(catalogue.region).find(s => s.id === section) ?? regionSections(catalogue.region)[0]).range;
+    const wide = region.frame.x, minX = state.side === 'left' ? -.01 : -wide, maxX = state.side === 'right' ? .01 : wide;
     const box = view === 'answer'
       ? new T.Box3(new T.Vector3().fromArray(state.target.bounds[0]), new T.Vector3().fromArray(state.target.bounds[1])).expandByScalar(.015)
-      : new T.Box3(new T.Vector3(minX, range[0], -.13), new T.Vector3(maxX, range[1], section === 'foot' ? .19 : .09));
+      : new T.Box3(new T.Vector3(minX, range[0], region.frame.z[0]), new T.Vector3(maxX, range[1], section === 'foot' && region.frame.footZ ? region.frame.footZ : region.frame.z[1]));
     // A structure spanning two sections must still be entirely in the frame.
     if (view !== 'answer') box.union(new T.Box3(new T.Vector3().fromArray(state.target.bounds[0]), new T.Vector3().fromArray(state.target.bounds[1])));
     let direction = camera.position.clone().sub(controls.target).normalize();

@@ -144,11 +144,13 @@ export function isMotionQuarantined(part:Part){return MOTION_QUARANTINE.has(part
 
 export const partsInRegion=(parts:Part[],region:AnatomicalRegion)=>parts.filter(p=>!isMotionQuarantined(p)&&anatomicalRegion(p)===region).map(p=>p.id);
 
+/** The body-surface layer is skinned over the same limb segment chain, so a limb view keeps it available (it is still off until the layer is switched on). */
+const skinIds=(parts:Part[])=>parts.filter(p=>p.system==='integumentary'&&p.name==='Skin').map(p=>p.id);
 export function topRegionParts(parts:Part[],region:'whole'|'upper'|'lower'|'head'|'organs',organSystems:readonly string[]=[]):string[]|undefined{
  if(region==='whole')return undefined;
  if(region==='organs')return parts.filter(p=>organSystems.includes(p.system)).map(p=>p.id);
- if(region==='upper')return partsInRegion(parts,'upper-limb');
- if(region==='lower')return partsInRegion(parts,'lower-limb');
+ if(region==='upper')return [...partsInRegion(parts,'upper-limb'),...skinIds(parts)];
+ if(region==='lower')return [...partsInRegion(parts,'lower-limb'),...skinIds(parts)];
  // Top-level 頭部 keeps upper-body context; Motion 頭頸 uses only head-neck.
  return parts.filter(p=>{
   if(isMotionQuarantined(p))return false;
