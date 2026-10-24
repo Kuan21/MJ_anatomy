@@ -65,3 +65,6 @@ next-env.d.ts
 
 # Skin/fascia weights over the shared segment chain, computed from the atlas before dev/build
 /public/models/skin-weights.json.gz
+
+# Names of structures outside the atlas concepts, generated for search
+/public/models/search-extras.json.gz
