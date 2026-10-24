@@ -87,7 +87,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
       const material = mesh.material;
       material.color.set(isAnswer ? FEEDBACK.correct.fill : isWrong ? FEEDBACK.wrong.fill : keyboardId === structure.id ? '#5aa9e6' : base);
       material.emissive.set(isAnswer ? FEEDBACK.correct.fill : isWrong ? FEEDBACK.wrong.fill : '#000000');
-      material.emissiveIntensity = isAnswer || isWrong ? .22 : 0;
+      material.emissiveIntensity = isAnswer || isWrong ? .08 : 0;
       material.opacity = isAnswer || isWrong ? 1 : isContext ? .2 : state.answered ? .16 : 1;
       // Outline shell around the answer and the wrong pick (shares the mesh geometry).
       let shell = mesh.userData.outline as T.Mesh<T.BufferGeometry, T.ShaderMaterial> | undefined;
