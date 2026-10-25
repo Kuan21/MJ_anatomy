@@ -90,7 +90,7 @@ export const QUIZ_REGIONS = {
 QUIZ_REGIONS.back = {
   id: 'back', label: '背部', english: 'Back', tag: '背部篇', file: 'quiz-back.json', hash: '#/quiz/back', atlasHash: '#/atlas/whole',
   headline: ['看名稱，', '點出位置。'], description: ['由淺層到深層背肌，連同枕下區的神經與血管，在 3D 模型上練習辨認。', '每答一題，立即顯示正確位置與資料卡。'],
-  scope: '採用現有圖譜的固定解剖姿勢，預設由後方觀看。題目涵蓋斜方肌、背闊肌、提肩胛肌、大小菱形肌、後上下鋸肌、夾肌、豎脊肌群、橫棘肌群、枕下肌群，以及模型中已有的相關神經與血管；模型尚未收錄的構造（例如枕下神經、枕大神經、枕下靜脈叢）不會出題。',
+  scope: '採用現有圖譜的固定解剖姿勢，預設由後方觀看。題目涵蓋斜方肌、闊背肌、提肩胛肌、大小菱形肌、後上下鋸肌、夾肌、豎脊肌群、橫棘肌群、枕下肌群，以及模型中已有的相關神經與血管；模型尚未收錄的構造（例如枕下神經、枕大神經、枕下靜脈叢）不會出題。',
   defaultView: 'back', defaultSide: 'both',
   frame: {x: .26, z: [-.17, .12]}, sections: BACK_SECTIONS,
 };

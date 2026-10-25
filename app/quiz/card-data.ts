@@ -23,7 +23,7 @@ export const CARD_EXTRAS: Record<string, CardExtra> = {
     主要分支: e('肌支至大、小菱形肌，並分支至提肩胛肌', 'Muscular branches to rhomboid major and minor, with a branch to levator scapulae'),
   },
   'thoracodorsal nerve': {
-    主要分支: e('肌支進入背闊肌', 'Muscular branches entering latissimus dorsi'),
+    主要分支: e('肌支進入闊背肌', 'Muscular branches entering latissimus dorsi'),
   },
   'vertebral artery': {
     來源: e('鎖骨下動脈第一段', 'First part of the subclavian artery'),
@@ -55,9 +55,9 @@ export const CARD_EXTRAS: Record<string, CardExtra> = {
   },
   'thoracodorsal artery': {
     來源: e('肩胛下動脈', 'Subscapular artery'),
-    走向: e('與胸背神經伴行，沿背闊肌前緣下行', 'Descends with the thoracodorsal nerve along the anterior border of latissimus dorsi'),
+    走向: e('與胸背神經伴行，沿闊背肌前緣下行', 'Descends with the thoracodorsal nerve along the anterior border of latissimus dorsi'),
     主要分支: e('肌支，並分支至前鋸肌', 'Muscular branches, with branches to serratus anterior'),
-    供應範圍: e('背闊肌、前鋸肌與鄰近胸壁', 'Latissimus dorsi, serratus anterior and the adjacent chest wall'),
+    供應範圍: e('闊背肌、前鋸肌與鄰近胸壁', 'Latissimus dorsi, serratus anterior and the adjacent chest wall'),
   },
   'superficial cervical artery': {
     來源: e('甲狀頸動脈幹', 'Thyrocervical trunk'),
@@ -75,9 +75,9 @@ export const CARD_EXTRAS: Record<string, CardExtra> = {
     引流範圍: e('第十二肋下方的腹壁與背部', 'Abdominal wall and back below the twelfth rib'),
   },
   'thoracodorsal vein': {
-    來源: e('背闊肌與鄰近胸壁的靜脈', 'Veins of latissimus dorsi and the adjacent chest wall'),
+    來源: e('闊背肌與鄰近胸壁的靜脈', 'Veins of latissimus dorsi and the adjacent chest wall'),
     走向: e('與胸背動脈伴行，注入肩胛下靜脈，再入腋靜脈', 'Accompanies the thoracodorsal artery and drains into the subscapular vein, then the axillary vein'),
-    引流範圍: e('背闊肌與前鋸肌', 'Latissimus dorsi and serratus anterior'),
+    引流範圍: e('闊背肌與前鋸肌', 'Latissimus dorsi and serratus anterior'),
   },
   'ascending lumbar vein': {
     來源: e('腰靜脈、髂腰靜脈與外側薦靜脈之間的縱向連接', 'Longitudinal connection between the lumbar, iliolumbar and lateral sacral veins'),

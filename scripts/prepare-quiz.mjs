@@ -13,6 +13,7 @@ fs.mkdirSync(output, {recursive: true});
 const {normalizeAtlasSystems} = await quizModule('app/mj-system-classifier.ts');
 const {anatomicalRegion, anatomicalSide, correctedPartName} = await quizModule('app/mj-part-regions.ts');
 const {structureProfile} = await quizModule('app/mj-structure-info.ts');
+const {namingOverride, applyZhFixes} = await quizModule('app/mj-naming.ts');
 const {QUIZ_SYSTEMS, QUIZ_REGIONS, LOWER_NERVES, UPPER_NERVES, THORAX_NERVES, THORAX_INCLUDE, BACK_NERVES, BACK_INCLUDE, classifySections} = await quizModule('app/quiz/catalogue.ts');
 const atlas = normalizeAtlasSystems(JSON.parse(fs.readFileSync(new URL('atlas.json', models))));
 // BodyParts3D 3.0 structures the 4.0 export left out (latissimus dorsi, multifidus, spinalis cervicis…) are quiz answers too: their packages are read like the atlas chunks.
@@ -113,7 +114,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
       if (region !== 'thorax' && ((side === 'right' && bounds[1][0] > .035) || (side === 'left' && bounds[0][0] < -.035))) throw Error(`Nerve laterality mismatch: ${mesh.name}`);
       const normals = new Int16Array(mesh.vertexCount * 3);
       geometry.getAttribute('normal').array.forEach((x, i) => {normals[i] = Math.round(x * 32767);});
-      add({id: `nerve:${mesh.name}:${ordinal}`, name, chinese: (side === 'left' ? '左' : '右') + definition.zh,
+      add({id: `nerve:${mesh.name}:${ordinal}`, name, chinese: applyZhFixes((side === 'left' ? '左' : '右') + (namingOverride(name) ?? definition.zh)),
         system: 'nervous', side, bounds, source: 'Nervous supplement', positions, normals: Buffer.from(normals.buffer), indices});
       geometry.dispose();
     }

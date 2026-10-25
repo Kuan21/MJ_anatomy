@@ -46,6 +46,9 @@ const EXACT:Record<string,string>={
  // heart valves, vessels with fixed names
  'anterior cusp of aortic valve':'主動脈瓣前尖','posterior cusp of aortic valve':'主動脈瓣後尖','anterior cusp of pulmonary valve':'肺動脈瓣前尖','posterior cusp of pulmonary valve':'肺動脈瓣後尖',
  'anterior leaflet of mitral valve':'二尖瓣前葉','posterior leaflet of mitral valve':'二尖瓣後葉','anterior leaflet of tricuspid valve':'三尖瓣前葉','posterior leaflet of tricuspid valve':'三尖瓣後葉','septal leaflet of tricuspid valve':'三尖瓣隔葉',
+ 'atrium':'心房','ventricle':'心室','inferior papillary muscle of ventricle':'下乳頭肌','inferior leaflet of atrioventricular valve':'房室瓣下葉','septal leaflet of atrioventricular valve':'房室瓣隔葉','posterior leaflet of atrioventricular valve':'房室瓣後葉',
+ 'coronary leaflet of aortic valve':'主動脈瓣冠狀瓣','non-coronary leaflet of aortic valve':'主動脈瓣無冠瓣','anterior semilunar cusp of pulmonary valve':'肺動脈瓣前半月瓣','semilunar cusp of pulmonary valve':'肺動脈瓣半月瓣',
+ 'inferolateral branch of coronary artery':'冠狀動脈下外側支','circumflex artery':'迴旋支','inferior vein of ventricle':'心室下靜脈','aortic arch':'主動脈弓','bifurcation of pulmonary trunk':'肺動脈幹分叉',
  'coronary sinus':'冠狀竇','celiac trunk':'腹腔動脈幹','celiac artery':'腹腔動脈幹','basilar artery':'基底動脈','anterior communicating artery':'前交通動脈','common hepatic artery':'總肝動脈','hepatic artery proper':'固有肝動脈',
  'inferior mesenteric artery':'下腸繫膜動脈','ileocolic artery':'迴結腸動脈','ileal artery':'迴腸動脈','appendicular artery':'闌尾動脈','anterior cecal artery':'盲腸前動脈','lumbar artery':'腰動脈','marginal colic artery':'結腸邊緣動脈','marginal artery of colon':'結腸邊緣動脈',
  'anterior inferior cerebellar artery':'小腦前下動脈','anterior inferior pancreaticoduodenal artery':'胰十二指腸前下動脈','anterior superior pancreaticoduodenal artery':'胰十二指腸前上動脈','inferior pancreaticoduodenal artery':'胰十二指腸下動脈',
