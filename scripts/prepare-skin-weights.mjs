@@ -13,7 +13,7 @@ const root = new URL('../', import.meta.url), models = new URL('public/models/',
 // The result depends only on these inputs; skip the minute-long solve when nothing changed.
 const inputHash = createHash('sha256');
 for (const file of ['scripts/prepare-skin-weights.mjs', 'public/models/atlas.json', 'app/biomechanics-v2/bone-bindings.json', 'app/biomechanics-v2/body-bindings.json', 'app/biomechanics-v2/tissue-bindings.json', 'app/biomechanics-v2/gpu-skinning.ts', 'app/mj-part-regions.ts', 'app/mj-system-classifier.ts', 'app/anatomy-source-overrides.json']) inputHash.update(fs.readFileSync(new URL(file, root)));
-for (const k of ['SKIN_SIGMA_ROOT', 'SKIN_SIGMA_SCALE', 'SKIN_SMOOTH']) inputHash.update(`${k}=${process.env[k] ?? ''}`);
+for (const k of ['SKIN_SIGMA_ROOT', 'SKIN_SIGMA_SCALE', 'SKIN_SMOOTH', 'SKIN_GEO_LIMIT']) inputHash.update(`${k}=${process.env[k] ?? ''}`);
 const stamp = inputHash.digest('hex').slice(0, 24);
 const stampFile = new URL('../../work/skin-weights.stamp', models);
 try {
@@ -88,6 +88,7 @@ const sigmaOfSlot = slot => {
   }
   return SIGMA_ROOT;
 };
+const GEO_LIMIT = Number(process.env.SKIN_GEO_LIMIT ?? .12); // metres along the skin surface
 const SMOOTH_PASSES = Number(process.env.SKIN_SMOOTH ?? 20); // weight-smoothing over the mesh edges
 const out = {version: 1, inputHash: stamp, slotCount: gpu.SLOT_COUNT, sigma: SIGMA_BY_FRAME, parts: {}};
 for (const part of targets) {
@@ -103,7 +104,7 @@ for (const part of targets) {
     for (const i of [a, b, c]) {nor[i] += nx; nor[i + 1] += ny; nor[i + 2] += nz;}
   }
   for (let v = 0; v < n; v++) {const flip = (volume.get(find(v)) ?? 1) < 0 ? -1 : 1, len = Math.hypot(nor[v * 3], nor[v * 3 + 1], nor[v * 3 + 2]) || 1; for (let k = 0; k < 3; k++) nor[v * 3 + k] *= flip / len;}
-  let weights = new Array(n);
+  const nearestMaps = new Array(n);
   for (let v = 0; v < n; v++) {
     const x = pos[v * 3], y = pos[v * 3 + 1], z = pos[v * 3 + 2], cx = Math.floor(x / CELL), cy = Math.floor(y / CELL), cz = Math.floor(z / CELL), reach = Math.ceil(RANGE / CELL);
     const nearest = new Map();
@@ -116,11 +117,45 @@ for (const part of targets) {
         if (d < (nearest.get(slot) ?? Infinity)) nearest.set(slot, d);
       }
     }
-    const w = new Map();
+    nearestMaps[v] = nearest;
+  }
+  // Surface adjacency (also used for smoothing below).
+  const neighbours = Array.from({length: n}, () => new Set());
+  for (let t = 0; t < tri.length; t += 3) for (let k = 0; k < 3; k++) {const a = tri[t + k], b = tri[t + (k + 1) % 3]; if (a !== b) {neighbours[a].add(b); neighbours[b].add(a);}}
+  // A segment may only move skin that is close to it ALONG THE SURFACE. Euclidean proximity alone lets the skin of a hanging hand drag the thigh
+  // skin it touches, or the torso wall drag the inner arm, which stretches into the sails and balloons seen when an arm is raised.
+  // Every vertex has a primary segment (its nearest bone); a segment's other weights survive only within GEO_LIMIT metres of the surface
+  // region of that primary segment, fading out over the last third.
+  const primary = new Int16Array(n);
+  for (let v = 0; v < n; v++) {let best = Infinity, slot = 0; for (const [k, d] of nearestMaps[v]) if (d < best) {best = d; slot = k;} primary[v] = slot;}
+  const geodesic = new Map();
+  const slotsUsed = [...new Set(primary)];
+  for (const slot of slotsUsed) {
+    const dist = new Float32Array(n).fill(Infinity), heap = [];
+    const push = (d, v) => {heap.push([d, v]); let i = heap.length - 1; while (i > 0) {const p = (i - 1) >> 1; if (heap[p][0] <= heap[i][0]) break; [heap[p], heap[i]] = [heap[i], heap[p]]; i = p;}};
+    const pop = () => {const top = heap[0], last = heap.pop(); if (heap.length) {heap[0] = last; let i = 0; for (;;) {const l = 2 * i + 1, r = l + 1; let m = i; if (l < heap.length && heap[l][0] < heap[m][0]) m = l; if (r < heap.length && heap[r][0] < heap[m][0]) m = r; if (m === i) break; [heap[m], heap[i]] = [heap[i], heap[m]]; i = m;}} return top;};
+    for (let v = 0; v < n; v++) if (primary[v] === slot) {dist[v] = 0; push(0, v);}
+    while (heap.length) {
+      const [d, v] = pop(); if (d > dist[v]) continue;
+      for (const u of neighbours[v]) {const e = d + Math.hypot(pos[u * 3] - pos[v * 3], pos[u * 3 + 1] - pos[v * 3 + 1], pos[u * 3 + 2] - pos[v * 3 + 2]); if (e < dist[u] && e < GEO_LIMIT * 1.1) {dist[u] = e; push(e, u);}}
+    }
+    geodesic.set(slot, dist);
+  }
+  let weights = new Array(n);
+  for (let v = 0; v < n; v++) {
+    const nearest = nearestMaps[v], w = new Map();
     if (!nearest.size) w.set(0, 1);
     else {
       const best = Math.min(...nearest.values());
-      for (const [slot, d] of nearest) {const value = Math.exp(-(d - best) / sigmaOfSlot(slot)); if (value > .02) w.set(slot, value);}
+      for (const [slot, d] of nearest) {
+        let value = Math.exp(-(d - best) / sigmaOfSlot(slot));
+        if (slot !== primary[v]) {
+          const g = geodesic.get(slot)?.[v] ?? Infinity, fade = g >= GEO_LIMIT ? 0 : g <= GEO_LIMIT * .66 ? 1 : (GEO_LIMIT - g) / (GEO_LIMIT * .34);
+          value *= fade;
+        }
+        if (value > .02) w.set(slot, value);
+      }
+      if (!w.size) w.set(primary[v], 1);
     }
     weights[v] = w;
   }
@@ -128,8 +163,6 @@ for (const part of targets) {
   // this vertex's own segment contribute: where a hand rests against a thigh the mesh is touching, but the segments are kinematically unrelated.
   const dominant = weights.map(w => [...w].reduce((best, e) => e[1] > best[1] ? e : best)[0]);
   const related = (a, b) => a === b || (hops.get(a)?.get(b) ?? 99) <= 2;
-  const neighbours = Array.from({length: n}, () => new Set());
-  for (let t = 0; t < tri.length; t += 3) for (let k = 0; k < 3; k++) {const a = tri[t + k], b = tri[t + (k + 1) % 3]; if (a !== b) {neighbours[a].add(b); neighbours[b].add(a);}}
   const normalise = w => {let s = 0; for (const x of w.values()) s += x; for (const [k, x] of w) w.set(k, x / s);};
   weights.forEach(normalise);
   for (let pass = 0; pass < SMOOTH_PASSES; pass++) {

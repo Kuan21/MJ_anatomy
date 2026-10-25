@@ -9,16 +9,19 @@ export const BODY_LIMITS={head:{flexion:[-35,40],rotation:[-60,60],sideBend:[-30
 export interface BodyBinding {name:string;rig:BodyRegion;frame:number|null}
 // Cervical vessels must blend into the skull, not rotate as entire rigid tubes.
 export const bodyBindings=Object.fromEntries(Object.entries(rawBindings).map(([id,b])=>[id,b.rig==='head'&&/artery|vein|venous/i.test(b.name)?{...b,frame:null}:b])) as Record<string,BodyBinding>;
-export interface BodyRig {region:BodyRegion;pivots:Vector3[];levels:number[];focusIds:string[];framePartIds?:string[][];blendPartIds?:{id:string;y:number}[];hyoid?:Vector3;larynx?:Vector3}
+/** Facial muscles and the scalp structures that the 4.0 export lacks (epicranial aponeurosis, temporoparietalis, depressor septi nasi) ride on the skull. */
+export const skullAttached=(p:{id:string;name:string})=>p.id.startsWith('BP3-FMA')||(p.id.startsWith('BP3S-')&&/epicranius|temporoparietalis|depressor septi nasi/i.test(p.name));
+export interface BodyRig {skullIds?:string[];region:BodyRegion;pivots:Vector3[];levels:number[];focusIds:string[];framePartIds?:string[][];blendPartIds?:{id:string;y:number}[];hyoid?:Vector3;larynx?:Vector3}
 const center=(p:Atlas['parts'][number])=>new Vector3().fromArray(p.bounds[0]).add(new Vector3().fromArray(p.bounds[1])).multiplyScalar(.5);
 export function makeBodyRig(atlas:Atlas,region:BodyRegion):BodyRig{
  const part=(name:string)=>{const p=atlas.parts.find(p=>p.name===name);if(!p)throw new Error(`Missing joint landmark: ${name}`);return p;};
- const focusIds=atlas.parts.filter(p=>(bodyBindings[p.id]?.rig===region&&bodyBindings[p.id].name===p.name&&(region!=='head'||p.bounds[0][1]>1.27))||(region==='head'&&p.id.startsWith('BP3-FMA'))).map(p=>p.id);
+ const focusIds=atlas.parts.filter(p=>(bodyBindings[p.id]?.rig===region&&bodyBindings[p.id].name===p.name&&(region!=='head'||p.bounds[0][1]>1.27))||(region==='head'&&skullAttached(p))).map(p=>p.id);
+ const skullIds=atlas.parts.filter(skullAttached).map(p=>p.id);
  if(region==='head'){
   const names=['Seventh cervical vertebra','Sixth cervical vertebra','Fifth cervical vertebra','Fourth cervical vertebra','Third cervical vertebra','Axis','Atlas'];
   const cs=names.map(n=>center(part(n)));
   const pivots=[new Vector3(),...cs.map((c,i)=>i?c.clone().add(cs[i-1]).multiplyScalar(.5):c.clone().setY(part(names[0]).bounds[0][1])),cs[6].clone().setY(part('Atlas').bounds[1][1])];
-  return{region,pivots,levels:[pivots[1].y,...cs.map(c=>c.y),pivots[8].y],focusIds,hyoid:center(part('Hyoid bone')),larynx:center(part('Thyroid cartilage'))};
+  return{region,pivots,levels:[pivots[1].y,...cs.map(c=>c.y),pivots[8].y],focusIds,skullIds,hyoid:center(part('Hyoid bone')),larynx:center(part('Thyroid cartilage'))};
  }
  if(region==='spine'){
   const vertebrae=atlas.parts.filter(p=>p.system==='skeletal'&&/(lumbar vertebra|thoracic vertebra)/i.test(p.name)).sort((a,b)=>center(a).y-center(b).y);
@@ -28,7 +31,7 @@ export function makeBodyRig(atlas:Atlas,region:BodyRegion):BodyRig{
   const focusIds=atlas.parts.filter(p=>{const c=center(p);return c.y>=minY&&c.y<=maxY&&Math.abs(c.x)<.48;}).map(p=>p.id);
   const framePartIds=Array.from({length:vertebrae.length},()=>[] as string[]);
   vertebrae.forEach((p,i)=>framePartIds[i].push(p.id));
-  const blendPartIds=atlas.parts.filter(p=>p.system==='skeletal'&&/(rib|sternum)/i.test(p.name)).map(p=>({id:p.id,y:center(p).y})).filter(x=>x.y>=minY&&x.y<=maxY);
+  const blendPartIds=atlas.parts.filter(p=>(p.system==='skeletal'&&/(rib|sternum|manubrium|xiphoid)/i.test(p.name))||/intervertebral/i.test(p.name)).map(p=>({id:p.id,y:center(p).y})).filter(x=>x.y>=minY&&x.y<=maxY);
   // Everything anatomically suspended from the upper thorax must inherit the
   // final thoracic frame during trunk motion. Otherwise the ribs bend while
   // the shoulder girdle, arms and head remain behind in world space.
@@ -94,7 +97,7 @@ export function buildBodyMotion(rig:BodyRig,input:BodyPose){
   };
   rig.blendPartIds?.forEach(x=>transforms[x.id]=atHeight(x.y));
  }else{
-  for(const id of rig.focusIds){const b=bodyBindings[id];if(b?.rig===rig.region&&b.frame!==null)transforms[id]=rigid(matrices[b.frame]);else if(rig.region==='head'&&id.startsWith('BP3-FMA'))transforms[id]=rigid(matrices[8]);}
+  for(const id of rig.focusIds){const b=bodyBindings[id];if(b?.rig===rig.region&&b.frame!==null)transforms[id]=rigid(matrices[b.frame]);else if(rig.region==='head'&&rig.skullIds?.includes(id))transforms[id]=rigid(matrices[8]);}
  }
  return{pose,matrices,palette,transforms};
 }

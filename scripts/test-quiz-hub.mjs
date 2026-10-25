@@ -53,8 +53,8 @@ for (const label of ['頭部', '頸部', '胸腔', '背部', '上肢', '下肢']
 assert.ok(all(tree).some(n => n.type === 'a' && n.props.href === '#/' ), 'a way back to the atlas');
 
 // ---- answer card content
-const muscle = structureCard({name: 'Right latissimus dorsi', chinese: '右背闊肌', system: 'muscular'});
-assert.equal(muscle.english, 'Right latissimus dorsi'); assert.equal(muscle.chinese, '右背闊肌');
+const muscle = structureCard({name: 'Right latissimus dorsi', chinese: '右闊背肌', system: 'muscular'});
+assert.equal(muscle.english, 'Right latissimus dorsi'); assert.equal(muscle.chinese, '右闊背肌');
 assert.deepEqual(muscle.fields.map(f => f.label), ['起點', '止點', '作用', '神經支配', '血液供應']);
 assert.deepEqual(muscle.missing, []);
 const nerve = structureCard({name: 'Left accessory nerve (XI)', chinese: '左副神經', system: 'nervous'});

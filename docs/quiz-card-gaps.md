@@ -54,17 +54,17 @@
 
 - 隱神經（saphenous nerve）：缺 來源、走向、主要分支、支配範圍
 - 腓腸神經（sural nerve）：缺 來源、走向、主要分支、支配範圍
-- 腓腸內側皮神經（medial sural cutaneous nerve）：缺 來源、走向、主要分支、支配範圍
+- 內側腓腸皮神經（medial sural cutaneous nerve）：缺 來源、走向、主要分支、支配範圍
 - 股神經（femoral nerve）：缺 來源、走向、主要分支、支配範圍
-- 股外側皮神經（lateral femoral cutaneous nerve）：缺 來源、走向、主要分支、支配範圍
+- 外股皮神經（lateral femoral cutaneous nerve）：缺 來源、走向、主要分支、支配範圍
 - 閉孔神經（obturator nerve）：缺 來源、走向、主要分支、支配範圍
-- 腓淺神經（superficial fibular nerve）：缺 來源、走向、主要分支、支配範圍
-- 腓深神經（deep fibular nerve）：缺 來源、走向、主要分支、支配範圍
+- 淺腓神經（superficial fibular nerve）：缺 來源、走向、主要分支、支配範圍
+- 深腓神經（deep fibular nerve）：缺 來源、走向、主要分支、支配範圍
 - 坐骨神經（sciatic nerve）：缺 來源、走向、主要分支、支配範圍
 - 脛神經（tibial nerve）：缺 來源、走向、主要分支、支配範圍
-- 足底外側神經（lateral plantar nerve）：缺 來源、走向、主要分支、支配範圍
-- 足底內側神經（medial plantar nerve）：缺 來源、走向、主要分支、支配範圍
-- 腓總神經（common fibular nerve）：缺 來源、走向、主要分支、支配範圍
+- 外蹠神經（lateral plantar nerve）：缺 來源、走向、主要分支、支配範圍
+- 內蹠神經（medial plantar nerve）：缺 來源、走向、主要分支、支配範圍
+- 總腓神經（common fibular nerve）：缺 來源、走向、主要分支、支配範圍
 - 臀上神經（superior gluteal nerve）：缺 來源、走向、主要分支、支配範圍
 - 股方肌神經（nerve to quadratus femoris muscle）：缺 來源、走向、主要分支、支配範圍
 - 股後皮神經（posterior femoral cutaneous nerve）：缺 來源、走向、主要分支、支配範圍
@@ -77,19 +77,19 @@
 - 脛前動脈（anterior tibial artery）：缺 來源、走向、主要分支、供應範圍
 - 脛前返動脈（anterior tibial recurrent artery）：缺 來源、走向、主要分支、供應範圍
 - 弓狀動脈（arcuate artery）：缺 來源、走向、主要分支、供應範圍
-- 足底深動脈（deep plantar artery）：缺 來源、走向、主要分支、供應範圍
-- 膝降動脈（descending genicular artery）：缺 來源、走向、主要分支、供應範圍
+- 深趾動脈（deep plantar artery）：缺 來源、走向、主要分支、供應範圍
+- 降膝動脈（descending genicular artery）：缺 來源、走向、主要分支、供應範圍
 - 足背趾動脈（dorsal digital artery of foot）：缺 來源、走向、主要分支、供應範圍
 - 股動脈（femoral artery）：缺 來源、走向、主要分支、供應範圍
-- 膝下外側動脈（inferior lateral genicular artery）：缺 來源、走向、主要分支、供應範圍
-- 膝下內側動脈（inferior medial genicular artery）：缺 來源、走向、主要分支、供應範圍
-- 旋股外側動脈（lateral circumflex femoral artery）：缺 來源、走向、主要分支、供應範圍
+- 外下膝動脈（inferior lateral genicular artery）：缺 來源、走向、主要分支、供應範圍
+- 內下膝動脈（inferior medial genicular artery）：缺 來源、走向、主要分支、供應範圍
+- 外旋股動脈（lateral circumflex femoral artery）：缺 來源、走向、主要分支、供應範圍
 - 足底外側動脈（lateral plantar artery）：缺 來源、走向、主要分支、供應範圍
 - 膝上外側動脈（lateral superior genicular artery）：缺 來源、走向、主要分支、供應範圍
 - 外側跗動脈（lateral tarsal artery）：缺 來源、走向、主要分支、供應範圍
 - 足底內側動脈（medial plantar artery）：缺 來源、走向、主要分支、供應範圍
 - 膝上內側動脈（medial superior genicular artery）：缺 來源、走向、主要分支、供應範圍
-- 膝中動脈（middle genicular artery）：缺 來源、走向、主要分支、供應範圍
+- 中膝動脈（middle genicular artery）：缺 來源、走向、主要分支、供應範圍
 - 足底動脈弓（plantar arch）：缺 來源、走向、主要分支、供應範圍
 - 膕動脈（popliteal artery）：缺 來源、走向、主要分支、供應範圍
 - 脛後動脈（posterior tibial artery）：缺 來源、走向、主要分支、供應範圍
@@ -100,8 +100,8 @@
 - 足底固有趾動脈群（set of plantar digital arteries proper）：缺 來源、走向、主要分支、供應範圍
 - 足底蹠骨動脈（plantar metatarsal artery）：缺 來源、走向、主要分支、供應範圍
 - 總髂動脈（common iliac artery）：缺 來源、走向、主要分支、供應範圍
-- 髂外動脈（external iliac artery）：缺 來源、走向、主要分支、供應範圍
-- 髂內動脈（internal iliac artery）：缺 來源、走向、主要分支、供應範圍
+- 外髂動脈（external iliac artery）：缺 來源、走向、主要分支、供應範圍
+- 內髂動脈（internal iliac artery）：缺 來源、走向、主要分支、供應範圍
 
 ### 靜脈：0 / 25 項資料完整
 
@@ -178,7 +178,7 @@
 - 臂神經叢中幹（middle trunk of brachial plexus）：缺 來源、走向、主要分支、支配範圍
 - 臂神經叢下幹（inferior trunk of brachial plexus）：缺 來源、走向、主要分支、支配範圍
 - 臂神經叢神經根（roots of brachial plexus）：缺 來源、走向、主要分支、支配範圍
-- 胸長神經（long thoracic nerve）：缺 主要分支
+- 長胸神經（long thoracic nerve）：缺 主要分支
 - 肩胛上神經（suprascapular nerve）：缺 主要分支
 - 鎖骨下肌神經（subclavian nerve）：缺 來源、走向、主要分支、支配範圍
 - 腋神經（axillary nerve）：缺 主要分支
@@ -234,10 +234,10 @@
 - 肩胛背動脈（dorsal scapular artery）：缺 主要分支
 - 尺動脈背側腕支（dorsal carpal branch of ulnar artery）：缺 來源、走向、主要分支、供應範圍
 - 掌側掌骨動脈（palmar metacarpal artery）：缺 來源、走向、主要分支、供應範圍
-- 旋肱後動脈（posterior circumflex humeral artery）：缺 來源、走向、主要分支、供應範圍
+- 後旋肱動脈（posterior circumflex humeral artery）：缺 來源、走向、主要分支、供應範圍
 - 尺側返動脈後支（posterior ulnar recurrent artery）：缺 來源、走向、主要分支、供應範圍
 - 橈動脈（radial artery）：缺 來源、走向、主要分支、供應範圍
-- 橈側返動脈（radial recurrent artery）：缺 來源、走向、主要分支、供應範圍
+- 橈側迴返動脈（radial recurrent artery）：缺 來源、走向、主要分支、供應範圍
 - 骨間返動脈（recurrent interosseous artery）：缺 來源、走向、主要分支、供應範圍
 - 肩胛下動脈（subscapular artery）：缺 來源、走向、主要分支、供應範圍
 - 淺掌動脈弓（superficial palmar arterial arch）：缺 來源、走向、主要分支、供應範圍
@@ -401,9 +401,13 @@
 
 - 多裂肌（multifidus）：缺 血液供應
 
-### 神經：3 / 3 項資料完整
+### 神經：3 / 8 項資料完整
 
-（全部完整）
+- 枕下神經（suboccipital nerve）：缺 主要分支
+- 枕大神經（greater occipital nerve）：缺 主要分支
+- 第三枕神經（third occipital nerve）：缺 主要分支
+- 枕小神經（lesser occipital nerve）：缺 主要分支
+- 耳大神經（great auricular nerve）：缺 主要分支
 
 ### 動脈：5 / 8 項資料完整
 
@@ -411,11 +415,12 @@
 - 肩胛背動脈（dorsal scapular artery）：缺 主要分支
 - 頸淺動脈（superficial cervical artery）：缺 主要分支
 
-### 靜脈：0 / 3 項資料完整
+### 靜脈：0 / 4 項資料完整
 
 - 肋下靜脈（subcostal vein）：缺 來源、主要分支
 - 胸背靜脈（thoracodorsal vein）：缺 主要分支
 - 腰升靜脈（ascending lumbar vein）：缺 主要分支
+- 枕下靜脈叢（suboccipital venous plexus）：缺 走向、主要分支
 
 ## 心臟（Heart）
 
