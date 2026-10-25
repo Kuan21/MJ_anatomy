@@ -516,9 +516,7 @@
 .top-actions .top-link:hover,.top-actions>button:hover{background:#fff;color:#182536}
 .top-actions .top-link.quiz-link{border-color:#94bfb0;background:#e7f3eb;color:#236e60;font-weight:600}
 .top-actions .top-link.quiz-link:hover{background:#dcefe3;color:#175a4d}
-.top-actions .top-link.lab-link{color:#7c8793;font-weight:400}
 .top-actions .icon-button{width:42px;min-width:42px;padding:0}
-@media(max-width:1180px){.top-actions .lab-link{display:none}}
 @media(max-width:767px){
  .top-actions{gap:6px}
  .top-actions .top-link,.top-actions>button,.top-actions>.icon-button{height:44px;min-height:44px;min-width:44px;padding:0 12px;border-radius:12px}

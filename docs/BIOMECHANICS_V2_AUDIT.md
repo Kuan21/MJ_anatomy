@@ -18,7 +18,7 @@ Replace manual parent propagation with explicit bind frames and absolute local-p
 
 ## Phase 1 implemented
 
-- Separate `app/biomechanics-v2` module and `?lab=skeleton-v2` entry point.
+- Separate `app/biomechanics-v2` module and `?dev=1` entry point (developer-only, no link in the product; see docs/skeleton-v2-lab.md).
 - Thorax root → clavicle → scapula → humerus → ulna → radius → carpus → hand transform dependency.
 - 32 exact bone bindings per side; 8 carpals, 19 metacarpals/phalanges, 5 proximal bones.
 - Explicit parent-relative bind translations and local quaternions; `world * inverse(bindWorld)` emits rigid deltas for existing renderer.

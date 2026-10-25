@@ -11,6 +11,12 @@ const {createSession, recordAnswer, retryMistakes} = await quizModule('app/quiz/
 const {normalizeAtlasSystems} = await quizModule('app/mj-system-classifier.ts');
 const {zhAnatomy} = await quizModule('app/mj-zh-anatomy.ts');
 const atlas = normalizeAtlasSystems(JSON.parse(fs.readFileSync('public/models/atlas.json')));
+// BodyParts3D 3.0 supplement structures (latissimus dorsi, extensor digitorum brevis…) are quiz answers too; their packages sit after the atlas chunks.
+{
+  const supplement = JSON.parse(gunzipSync(fs.readFileSync('public/models/supplement/supplement-stream.json.gz'))), offset = atlas.chunks.length;
+  atlas.chunks.push(...supplement.chunks);
+  for (const p of supplement.parts) atlas.parts.push({...p, chunk: p.chunk + offset});
+}
 const native = new Map(atlas.parts.map(p => [p.id, p]));
 const nerves = JSON.parse(fs.readFileSync('public/models/nerve-stream.json'));
 const nerveMeshes = new Map(nerves.chunks.flatMap(c => c.meshes.map(m => [m.name, {mesh: m, chunk: c}])));
@@ -35,8 +41,20 @@ const expected = {
     count: [100, 150],
     names: ['First rib', 'Twelfth rib', 'Third thoracic vertebra', 'Intercostal nerves', 'Posterior intercostal arteries', 'Internal thoracic artery', 'Subcostal artery', 'Vagus nerve (X)'],
     plain: ['Manubrium', 'Body of sternum', 'Xiphoid process', 'Diaphragm', 'Ascending aorta', 'Arch of aorta', 'Descending thoracic aorta', 'Superior vena cava', 'Inferior vena cava', 'Azygos vein', 'Brachiocephalic artery', 'Pulmonary trunk'],
+  },  back: {
+    count: [100, 130],
+    names: ['Latissimus dorsi', 'Levator scapulae', 'Rhomboid major', 'Rhomboid minor', 'Serratus posterior superior', 'Serratus posterior inferior', 'Splenius capitis', 'Splenius cervicis', 'Iliocostalis thoracis', 'Longissimus thoracis', 'Spinalis thoracis', 'Semispinalis capitis', 'Multifidus', 'Cervical rotator', 'Rectus capitis posterior major', 'Rectus capitis posterior minor', 'Obliquus capitis superior', 'Obliquus capitis inferior', 'Dorsal scapular nerve', 'Thoracodorsal nerve', 'Accessory nerve (XI)', 'Vertebral artery', 'Dorsal scapular artery', 'Transverse cervical artery'],
+    plain: ['Atlas', 'Axis', 'Sacrum', 'Occipital bone'],
   },
 };
+// The back quiz covers all three parts of trapezius by name, opens from behind and practises both sides by default.
+
+{
+  const back = JSON.parse(fs.readFileSync('public/models/quiz-back.json')), names = back.structures.map(s => s.name.toLowerCase());
+  for (const part of ['descending', 'transverse', 'ascending']) assert.ok(names.some(n => n.startsWith(`${part} part of`) && n.includes('trapezius')), `back quiz has the ${part} part of trapezius`);
+  assert.equal(QUIZ_REGIONS.back.defaultView, 'back'); assert.equal(QUIZ_REGIONS.back.defaultSide, 'both');
+  assert.ok(back.structures.every(s => s.system !== 'muscular' || s.sections.some(x => ['superficial', 'intermediate', 'deep', 'suboccipital'].includes(x))), 'every back muscle sits in a muscle layer');
+}
 let total = 0;
 for (const regionId of Object.keys(QUIZ_REGIONS)) {
   const def = QUIZ_REGIONS[regionId], catalogue = JSON.parse(fs.readFileSync('public/models/' + def.file));
@@ -78,7 +96,7 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
     assert.ok(s.meshIds.length && s.meshIds.every(id => meshes.has(id)), `Renderable geometry: ${s.name}`);
     assert.ok(s.sections.length && s.sections.every(id => sectionIds.has(id) && id !== 'all'), `${s.name}: valid sections ${s.sections}`);
     assert.ok(['left', 'right', 'midline'].includes(s.side));
-    if (regionId !== 'thorax') assert.notEqual(s.side, 'midline');
+    if (regionId !== 'thorax' && regionId !== 'back') assert.notEqual(s.side, 'midline');
     // Every answer shows 中文名 + English name, Taiwan terminology.
     checkChinese(`${regionId} ${s.name}`, s.chinese);
     assert.ok(/[A-Za-z]/.test(s.name), 'English name present');
@@ -119,4 +137,4 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
 // The data panel and the quiz share one dictionary: spot-check Taiwan forms.
 const expectZh = {'axillary artery': '腋動脈', 'deep palmar arch': '深掌動脈弓', 'superior vena cava': '上腔靜脈', 'common iliac artery': '總髂動脈', 'popliteal artery': '膕動脈', 'distal phalanx of index finger': '食指遠節指骨', 'proximal phalanx of big toe': '拇趾近節趾骨', 'great saphenous vein': '大隱靜脈', 'azygos vein': '奇靜脈', 'arch of aorta': '主動脈弓'};
 for (const [en, zh] of Object.entries(expectZh)) assert.equal(zhAnatomy(en)?.zh, zh, en);
-console.log(`PASS region quizzes: ${total} answers over lower limb, upper limb and thorax; every answer has a Taiwan-terminology Chinese name beside its English name; sections, systems, sides, unpaired thoracic answers and scoring all playable.`);
+console.log(`PASS region quizzes: ${total} answers over lower limb, upper limb, thorax and back; every answer has a Taiwan-terminology Chinese name beside its English name; sections, systems, sides, unpaired thoracic answers and scoring all playable.`);

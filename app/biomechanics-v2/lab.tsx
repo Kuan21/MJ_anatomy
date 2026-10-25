@@ -28,7 +28,7 @@ export default function SkeletonLab(){
    <div className="rig-tree">{rig?.nodes.map((n,i)=><Button variant="ghost" key={n.id} aria-pressed={node===n.id} onClick={()=>{setNode(n.id);setAngle(0);}} style={{marginLeft:Math.min(i,4)*8}}><span>{labels[n.id]}</span><small>{n.partIds.length||'root'}</small></Button>)}</div>
    <p className="rig-description">{node==='thorax'?'Root frame｜根座標':`Parent: ${labels[rig?.nodes.find(n=>n.id===node)?.parent??'thorax']}`}</p>
    <h2>Inheritance test｜連動測試</h2>
-   <p className="rig-description">小角度測試子骨骼跟隨關係。旋轉中心暫由模型邊界估算，並非已校準嘅生理關節動作。</p>
+   <p className="rig-description">小角度測試子骨骼跟隨關係。旋轉中心暫由模型邊界估算，並非已校準的生理關節動作。</p>
    <div className="rig-tabs">{['X','Y','Z'].map((a,i)=><Button key={a} variant="ghost" aria-pressed={axis===i} onClick={()=>{setAxis(i);setAngle(0);}}>{a} axis</Button>)}</div>
    <label className="rig-angle"><span>Local rotation｜局部旋轉 <b>{angle}°</b></span><Slider aria-label="Test local rotation" min={-15} max={15} step={1} value={[angle]} disabled={!rig?.valid} onValueChange={v=>setAngle(Array.isArray(v)?v[0]:v)}/></label>
    <Button variant="outline" onClick={neutral}>Reset to bind pose｜還原</Button>

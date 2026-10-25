@@ -13,14 +13,19 @@ fs.mkdirSync(output, {recursive: true});
 const {normalizeAtlasSystems} = await quizModule('app/mj-system-classifier.ts');
 const {anatomicalRegion, anatomicalSide, correctedPartName} = await quizModule('app/mj-part-regions.ts');
 const {structureProfile} = await quizModule('app/mj-structure-info.ts');
-const {QUIZ_SYSTEMS, QUIZ_REGIONS, LOWER_NERVES, UPPER_NERVES, THORAX_NERVES, THORAX_INCLUDE, classifySections} = await quizModule('app/quiz/catalogue.ts');
+const {QUIZ_SYSTEMS, QUIZ_REGIONS, LOWER_NERVES, UPPER_NERVES, THORAX_NERVES, THORAX_INCLUDE, BACK_NERVES, BACK_INCLUDE, classifySections} = await quizModule('app/quiz/catalogue.ts');
 const atlas = normalizeAtlasSystems(JSON.parse(fs.readFileSync(new URL('atlas.json', models))));
+// BodyParts3D 3.0 structures the 4.0 export left out (latissimus dorsi, multifidus, spinalis cervicis…) are quiz answers too: their packages are read like the atlas chunks.
+const supplement = JSON.parse(gunzipSync(fs.readFileSync(new URL('supplement/supplement-stream.json.gz', models))));
+const supplementBase = atlas.chunks.length;
+atlas.chunks.push(...supplement.chunks);
+for (const p of supplement.parts) atlas.parts.push({...p, chunk: p.chunk + supplementBase});
 const nerveStream = JSON.parse(fs.readFileSync(new URL('nerve-stream.json', models)));
 const sourceBuffers = new Map();
 const lc = s => s[0].toLowerCase() + s.slice(1);
 const cleanName = name => name.toLowerCase().replace(/\b(left|right)\b/g, '').replace(/\s+/g, ' ').trim();
 const PAIRED_THORAX = /\brib\b|intercostal|serratus posterior|levatores costarum|rotator|iliocostalis|longissimus|spinalis|semispinalis|interspinalis|transversus thoracis|subcostal|internal thoracic|musculophrenic|bronchial|pulmonary (?:artery|vein)|superior pulmonary|inferior pulmonary|costocervical|thyrocervical|costal cartilage/i;
-const NERVES = {'lower-limb': LOWER_NERVES, 'upper-limb': UPPER_NERVES, thorax: THORAX_NERVES};
+const NERVES = {'lower-limb': LOWER_NERVES, 'upper-limb': UPPER_NERVES, thorax: THORAX_NERVES, back: BACK_NERVES};
 
 /** Which atlas meshes belong to a region's quiz, and on which side (null = leave out). */
 function include(region, part) {
@@ -29,6 +34,11 @@ function include(region, part) {
     if (anatomicalRegion(part) !== 'lower-limb' && !hip) return null;
   } else if (region === 'upper-limb') {
     if (anatomicalRegion(part) !== 'upper-limb') return null;
+  } else if (region === 'back') {
+    const name = cleanName(correctedPartName(part));
+    if (!BACK_INCLUDE[part.system]?.test(name)) return null;
+    // Source files also hold side-less duplicates of paired structures; only use the explicitly left/right ones (vertebrae, sacrum and skull are unpaired).
+    if (part.system !== 'skeletal' && !/\b(left|right)\b/i.test(part.name)) return null;
   } else {
     const y = (part.bounds[0][1] + part.bounds[1][1]) / 2;
     if (y < 1.04 || y > 1.5 || !THORAX_INCLUDE[part.system]?.test(cleanName(correctedPartName(part)))) return null;
@@ -36,7 +46,7 @@ function include(region, part) {
   let side = anatomicalSide(part);
   if (side === 'midline') {
     const x = (part.bounds[0][0] + part.bounds[1][0]) / 2;
-    if (region === 'thorax') side = Math.abs(x) < .012 ? 'midline' : x > 0 ? 'left' : 'right';
+    if (region === 'thorax' || region === 'back') side = Math.abs(x) < .012 || (region === 'back' && part.system === 'skeletal' && !/scapula/.test(part.name.toLowerCase())) ? 'midline' : x > 0 ? 'left' : 'right';
     else if (Math.abs(x) < .005) return null;
     else side = x > 0 ? 'left' : 'right';
   }
@@ -109,7 +119,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
     }
   }
 
-  const packages = [], sides = region === 'thorax' ? ['left', 'right', 'midline'] : ['left', 'right'];
+  const packages = [], sides = region === 'thorax' || region === 'back' ? ['left', 'right', 'midline'] : ['left', 'right'];
   for (const {id: system} of QUIZ_SYSTEMS) for (const side of sides) {
     let buffers = [], bytes = 0, meshes = [];
     const append = data => {

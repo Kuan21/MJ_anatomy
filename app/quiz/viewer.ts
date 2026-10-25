@@ -27,6 +27,16 @@ interface Callbacks {
   keyboard: (message: string) => void;
 }
 type AnatomyMesh = T.Mesh<T.BufferGeometry, T.MeshStandardMaterial>;
+/** Correct / wrong feedback colours: deep, opaque and outlined so they read on the light stage and on red muscle alike. */
+export const FEEDBACK = {
+  correct: {fill: '#0E9F6E', edge: '#064E3B'},
+  wrong: {fill: '#D6304A', edge: '#6F0F22'},
+};
+const outlineMaterial = (color: string) => new T.ShaderMaterial({
+  uniforms: {color: {value: new T.Color(color)}, width: {value: .0011}}, side: T.BackSide, depthTest: false, depthWrite: false, transparent: true,
+  vertexShader: 'uniform float width; void main(){ gl_Position = projectionMatrix * modelViewMatrix * vec4(position + normalize(normal) * width, 1.0); }',
+  fragmentShader: 'uniform vec3 color; void main(){ gl_FragColor = vec4(color, 1.0); }',
+});
 
 /** A static identification viewer. It never imports or applies motion skinning. */
 export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue, callbacks: Callbacks) {
@@ -34,7 +44,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
   const scene = new T.Scene(), camera = new T.PerspectiveCamera(34, 1, .002, 30);
   const renderer = new T.WebGLRenderer({antialias: true, alpha: false, powerPreference: 'low-power'});
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
-  renderer.setClearColor('#172f36');
+  renderer.setClearColor('#cbd2d6');
   renderer.outputColorSpace = T.SRGBColorSpace;
   renderer.toneMapping = T.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.2;
@@ -75,15 +85,23 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
       mesh.visible = allowed.has(structure.id) && (state.answered || !hidden.has(structure.id)) && (!isContext || state.context);
       const base = QUIZ_SYSTEMS.find(s => s.id === structure.system)!.color;
       const material = mesh.material;
-      material.color.set(isAnswer ? '#49e5a0' : isWrong ? '#f76d7d' : keyboardId === structure.id ? '#8bc9fc' : base);
-      material.emissive.set(isAnswer ? '#20c780' : isWrong ? '#cd3654' : '#000000');
-      material.emissiveIntensity = isAnswer || isWrong ? .28 : 0;
-      material.opacity = isAnswer || isWrong ? 1 : isContext ? .09 : state.answered ? .12 : 1;
-      material.transparent = material.opacity < 1;
-      material.depthWrite = material.opacity === 1;
+      material.color.set(isAnswer ? FEEDBACK.correct.fill : isWrong ? FEEDBACK.wrong.fill : keyboardId === structure.id ? '#5aa9e6' : base);
+      material.emissive.set(isAnswer ? FEEDBACK.correct.fill : isWrong ? FEEDBACK.wrong.fill : '#000000');
+      material.emissiveIntensity = isAnswer || isWrong ? .08 : 0;
+      material.opacity = isAnswer || isWrong ? 1 : isContext ? .2 : state.answered ? .16 : 1;
+      // Outline shell around the answer and the wrong pick (shares the mesh geometry).
+      let shell = mesh.userData.outline as T.Mesh<T.BufferGeometry, T.ShaderMaterial> | undefined;
+      if (isAnswer || isWrong) {
+        if (!shell) {shell = new T.Mesh(mesh.geometry, outlineMaterial(FEEDBACK.correct.edge)); shell.renderOrder = 3; mesh.add(shell); mesh.userData.outline = shell;}
+        shell.material.uniforms.color.value.set(isAnswer ? FEEDBACK.correct.edge : FEEDBACK.wrong.edge);
+        shell.visible = mesh.visible;
+      } else if (shell) shell.visible = false;
+      // The feedback meshes join the transparent pass (sorted last by renderOrder) so faint context anatomy never washes their colour out.
+      material.transparent = material.opacity < 1 || isAnswer || isWrong;
+      material.depthWrite = material.opacity === 1 && !isAnswer && !isWrong;
       // Correct/wrong overlays remain visible even behind an outer muscle.
       material.depthTest = !isAnswer && !isWrong;
-      mesh.renderOrder = isAnswer ? 4 : isWrong ? 3 : isContext ? 0 : 1;
+      mesh.renderOrder = isAnswer ? 5 : isWrong ? 4 : isContext ? 0 : 1;
       material.needsUpdate = true;
     }
     canvas.style.cursor = state.peeling ? 'crosshair' : 'grab';
@@ -166,7 +184,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
         if (failed.length) {callbacks.error('部分模型未能載入，題目暫停。請重試，載入完整後先作答。'); return;}
         ready = true; callbacks.ready(next.key, true); dirty = true;
       });
-      frameModel('front');
+      frameModel(QUIZ_REGIONS[catalogue.region ?? 'lower-limb'].defaultView ?? 'front');
     }
     if (command !== next.command.id) {
       command = next.command.id;
@@ -243,7 +261,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
       canvas.removeEventListener('pointerup', up); canvas.removeEventListener('pointercancel', cancel);
       canvas.removeEventListener('lostpointercapture', cancel);
       canvas.removeEventListener('keydown', keydown); canvas.removeEventListener('webglcontextlost', lostContext);
-      for (const mesh of meshes.values()) {mesh.geometry.dispose(); mesh.material.dispose();}
+      for (const mesh of meshes.values()) {mesh.geometry.dispose(); mesh.material.dispose(); (mesh.userData.outline as T.Mesh<T.BufferGeometry, T.ShaderMaterial> | undefined)?.material.dispose();}
       renderer.dispose(); canvas.remove();
     },
   };

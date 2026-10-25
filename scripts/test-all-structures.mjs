@@ -46,7 +46,23 @@ for (const side of ['Right', 'Left']) {
   assert.ok(overlap(lat, scapula), `${side} latissimus dorsi overlaps its scapula (registration)`);
   assert.ok(lat.bounds[0][1] < ilium.bounds[1][1] && lat.bounds[0][1] > ilium.bounds[0][1] - .05, `${side} latissimus dorsi reaches the iliac crest`);
 }
-for (const p of supplement.parts) assert.ok(p.bounds[0][1] > -.02 && p.bounds[1][1] < 1.75 && Math.abs(p.bounds[0][0]) < .45 && Math.abs(p.bounds[1][0]) < .45, `${p.name} inside the body envelope`);
+for (const p of supplement.parts) assert.ok(p.bounds[0][1] > -.005 && p.bounds[1][1] < 1.75 && Math.abs(p.bounds[0][0]) < .45 && Math.abs(p.bounds[1][0]) < .45, `${p.name} inside the body envelope`);
+
+// Registration: the displacement field is cross-validated on the shared bones (each one predicted from the others).
+{
+  const registration = JSON.parse(fs.readFileSync(new URL('./supplement-registration.json', import.meta.url), 'utf8')), P = registration.controlPoints;
+  const predict = (set, p) => {
+    const best = set.map(q => ({q, dist: Math.hypot(p[0] - q.src[0], p[1] - q.src[1], p[2] - q.src[2])})).sort((a, b) => a.dist - b.dist).slice(0, registration.k);
+    let w = 0; const d = [0, 0, 0];
+    for (const {q, dist} of best) {const wi = 1 / Math.max(dist, registration.floorMm) ** 2; w += wi; for (let i = 0; i < 3; i++) d[i] += wi * q.d[i];}
+    return d.map(v => v / w);
+  };
+  const errors = P.map((r, i) => {const d = predict(P.filter((_, j) => j !== i), r.src); return Math.hypot(...r.d.map((v, j) => v - d[j]));}).sort((a, b) => a - b);
+  const median = errors[errors.length >> 1], p90 = errors[Math.floor(errors.length * .9)];
+  assert.ok(P.length >= 250, `registration control points: ${P.length}`);
+  assert.ok(median < 3 && p90 < 9, `registration cross-validation: median ${median.toFixed(1)} mm, p90 ${p90.toFixed(1)} mm`);
+  globalThis.__registration = `held-out shared bones: median ${median.toFixed(1)} mm, 90th percentile ${p90.toFixed(1)} mm`;
+}
 
 // search finds every supplement structure by English and Chinese, as the Find-a-structure panel does
 const parts = new Map(atlas.parts.map(p => [p.id, p]));
@@ -59,4 +75,4 @@ for (const p of atlas.parts.filter(p => p.id.startsWith('BP3S-'))) {
   const hits = search(p.name);
   assert.ok(hits.some(c => c.elements.includes(p.id)), `search finds "${p.name}"`);
 }
-console.log(`PASS all structures: ${atlas.parts.length.toLocaleString()} (${base.parts.length.toLocaleString()} body + ${facial.parts.length} facial + ${supplement.parts.length} supplement) resolve to real package bytes, are registered to the atlas frame, and are found by search in English, 背闊肌/闊背肌/背阔肌 and simplified spellings.`);
+console.log(`PASS all structures: ${atlas.parts.length.toLocaleString()} (${base.parts.length.toLocaleString()} body + ${facial.parts.length} facial + ${supplement.parts.length} supplement) resolve to real package bytes, are registered to the atlas frame (${globalThis.__registration}), and are found by search in English, 背闊肌/闊背肌/背阔肌 and simplified spellings.`);

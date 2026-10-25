@@ -12,10 +12,29 @@ const specUrl = new URL('./supplement-parts.json', import.meta.url), spec = JSON
 const out = new URL('../public/models/stream/', import.meta.url), dir = new URL('../public/models/supplement/', import.meta.url), cache = new URL('../work/supplement/', import.meta.url);
 fs.mkdirSync(out, {recursive: true}); fs.mkdirSync(dir, {recursive: true}); fs.mkdirSync(cache, {recursive: true});
 const digest = b => createHash('sha256').update(b).digest('hex');
-// 3.0 millimetre, Z-up (anterior = −Y) → 4.0 metre, Y-up. Scale and offset are the OMFAtlas facial registration; the offset was re-derived here
-// from six shared facial muscles (all agree to 0.02 mm), the residual rotation (≈0.0002 rad) is below 0.3 mm over the whole body.
+// 3.0 millimetre, Z-up (anterior = −Y) → 4.0 metre, Y-up. Scale and offset are the OMFAtlas facial registration (the offset re-derived from six shared
+// facial muscles, all agreeing to 0.02 mm). The two releases are not one rigid body, so the similarity alone drifts from the head (12 mm at the ribs,
+// 30 mm at the feet). scripts/supplement-registration.json adds a smooth displacement field fitted on 270 bones both releases share.
 const SCALE = 1.059369874098004, OFFSET_MM = [0.04, -21.16, -115.62];
-const toAtlas = (x, y, z) => [(SCALE * x + OFFSET_MM[0]) / 1000, (SCALE * z + OFFSET_MM[1]) / 1000, (SCALE * -y + OFFSET_MM[2]) / 1000];
+const registration = JSON.parse(fs.readFileSync(new URL('./supplement-registration.json', import.meta.url), 'utf8'));
+const control = registration.controlPoints, K = registration.k, FLOOR = registration.floorMm;
+function displacement(x, y, z) {
+  // K nearest control points, inverse-distance weighted (distance floor, power 2).
+  const best = [];
+  for (const c of control) {
+    const dist = Math.hypot(x - c.src[0], y - c.src[1], z - c.src[2]);
+    if (best.length < K || dist < best[best.length - 1].dist) {
+      best.push({dist, c}); best.sort((a, b) => a.dist - b.dist); if (best.length > K) best.pop();
+    }
+  }
+  let w = 0, dx = 0, dy = 0, dz = 0;
+  for (const {dist, c} of best) {const wi = 1 / Math.max(dist, FLOOR) ** 2; w += wi; dx += wi * c.d[0]; dy += wi * c.d[1]; dz += wi * c.d[2];}
+  return [dx / w, dy / w, dz / w];
+}
+const toAtlas = (x, y, z) => {
+  const u = [x, z, -y], d = displacement(u[0], u[1], u[2]);
+  return [(SCALE * u[0] + OFFSET_MM[0] + d[0]) / 1000, (SCALE * u[1] + OFFSET_MM[1] + d[1]) / 1000, (SCALE * u[2] + OFFSET_MM[2] + d[2]) / 1000];
+};
 const MAX_TRIANGLES = 16000;
 
 async function source(part) {
