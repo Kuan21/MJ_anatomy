@@ -1562,7 +1562,7 @@
      "kind": "contained",
      "model": "Interventricular foramen",
      "source": "atlas",
-     "system": "cardiac"
+     "system": "nervous"
     },
     {
      "term": "Tricuspid valve",
@@ -3902,7 +3902,7 @@
      "kind": "contained",
      "model": "Third ventricle",
      "source": "atlas",
-     "system": "cardiac"
+     "system": "nervous"
     },
     {
      "term": "Lateral ventricles",
@@ -3910,7 +3910,7 @@
      "kind": "exact",
      "model": "Left lateral ventricle",
      "source": "atlas",
-     "system": "cardiac"
+     "system": "nervous"
     },
     {
      "term": "Olfactory nerve",
@@ -8926,7 +8926,7 @@
      "kind": "contained",
      "model": "Third ventricle",
      "source": "atlas",
-     "system": "cardiac"
+     "system": "nervous"
     },
     {
      "term": "posterior Left ventricle",

@@ -5,6 +5,7 @@ import {createHash} from 'node:crypto';
 import {quizModule} from './quiz-modules.mjs';
 
 const {QUIZ_SECTIONS, QUIZ_SYSTEMS, questionPool, sceneStructures} = await quizModule('app/quiz/catalogue.ts');
+const LOWER_SYSTEMS = QUIZ_SYSTEMS.filter(s => s.id !== 'cardiac'); // heart structures only exist in the heart quiz
 const {createSession, recordAnswer, retryMistakes} = await quizModule('app/quiz/engine.ts');
 const {PointerTap} = await quizModule('app/pointer-tap.ts');
 const {normalizeAtlasSystems} = await quizModule('app/mj-system-classifier.ts');
@@ -78,7 +79,7 @@ assert.equal(new Set(catalogue.structures.filter(s => s.name === 'Left internal 
 let seed = 327;
 const random = () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 2 ** 32);
 for (const section of QUIZ_SECTIONS) for (const side of ['right', 'left', 'both']) {
-  for (const systems of [QUIZ_SYSTEMS.map(s => s.id), ...QUIZ_SYSTEMS.map(s => [s.id])]) {
+  for (const systems of [LOWER_SYSTEMS.map(s => s.id), ...LOWER_SYSTEMS.map(s => [s.id])]) {
     const settings = {section: section.id, side, systems, count: 10};
     const pool = questionPool(catalogue, settings), session = createSession(pool, 10, random);
     assert.ok(pool.length, `Playable section/system: ${section.id}/${side}/${systems}`);

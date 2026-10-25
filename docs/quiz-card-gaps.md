@@ -331,7 +331,7 @@
 - 肋間神經（intercostal nerves）：缺 來源、走向、主要分支、支配範圍
 - 交感神經（sympathetic nerves）：缺 來源、走向、主要分支、支配範圍
 
-### 動脈：3 / 18 項資料完整
+### 動脈：4 / 18 項資料完整
 
 - 胸主動脈（Descending thoracic aorta）：缺 來源、走向、主要分支、供應範圍
 - 支氣管動脈（bronchial artery）：缺 來源、走向、主要分支、供應範圍
@@ -343,7 +343,6 @@
 - 肌膈動脈（musculophrenic artery）：缺 來源、走向、主要分支、供應範圍
 - 甲狀頸動脈幹（thyrocervical trunk）：缺 來源、走向、主要分支、供應範圍
 - 肺動脈（pulmonary artery）：缺 主要分支
-- 主動脈弓（Arch of aorta）：缺 來源、走向、主要分支、供應範圍
 - 頭臂動脈（Brachiocephalic artery）：缺 來源、走向、主要分支、供應範圍
 - 降主動脈（Descending aorta）：缺 來源、走向、主要分支、供應範圍
 - 鎖骨下動脈（subclavian artery）：缺 來源、走向、主要分支、供應範圍
