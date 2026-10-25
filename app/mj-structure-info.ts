@@ -266,9 +266,16 @@ function chineseNameBase(name:string,system:SystemId){
  return side+base;
 }
 
-function detailKey(name:string){
+// A detailed entry only describes a structure of its own kind: "circumflex scapular artery" contains the word "scapular" but is not the scapula.
+const CATEGORY_SYSTEM:Record<string,SystemId[]>={Muscle:['muscular','cardiac'],Nerve:['nervous'],Bone:['skeletal'],Vein:['venous']};
+function detailKey(name:string,system:SystemId){
  const n=norm(stripSide(name));
- return Object.keys(detailed).sort((a,b)=>b.length-a.length).find(k=>n===k||n.includes(k));
+ return Object.keys(detailed).sort((a,b)=>b.length-a.length).find(k=>{
+  if(!(n===k||(` ${n} `).includes(` ${k} `)))return false;
+  const family=detailed[k].category.match(/^[A-Za-z]+/)?.[0]??'';
+  const systems=CATEGORY_SYSTEM[family];
+  return !systems||systems.includes(system);
+ });
 }
 
 function displayEnglish(name:string,system:SystemId,part?:Part){
@@ -369,7 +376,7 @@ export function structureProfile(rawName:string,system:SystemId,part?:Part):Stru
    source:muscleFactSourceFor(sourceName)
   },sourceName);
  }
- const key=detailKey(sourceName);
+ const key=detailKey(sourceName,system);
  if(key){
   const d=detailed[key],summary=genericSummary(english,system,chinese,part);
   return withCourseNotes({english,chinese:chinese||d.chinese,category:d.category,summaryEn:d.summaryEn??summary.en,summaryZh:d.summaryZh??summary.zh,facts:d.facts,source:d.source},sourceName);
