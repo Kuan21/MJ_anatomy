@@ -20,7 +20,7 @@ for(const [i,node] of gltf.nodes.entries()){
  if(node.mesh===undefined)continue;
  const ancestry=[];for(let p=parents.get(i);p!==undefined;p=parents.get(p))ancestry.push(gltf.nodes[p].name??'');
  const name=node.name??'',fullName=[name,...ancestry].join(' '),spinal=/spinal cord|medulla spinalis/i.test(fullName);
- if(!bindings[name]&&!spinal&&!/nerve|ganglion|plexus|ramus|rami/i.test(name))continue;
+ if(!bindings[name]&&!spinal&&!/nerve|ganglion|ganglia|plexus|ramus|rami|sympathetic trunk/i.test(name))continue;
  if(ancestry.some(s=>/central nervous system/i.test(s))&&!spinal)continue;
  for(const primitive of gltf.meshes[node.mesh].primitives){
   const ext=primitive.extensions.KHR_draco_mesh_compression,view=gltf.bufferViews[ext.bufferView],decoder=new draco.Decoder(),buffer=new draco.DecoderBuffer(),mesh=new draco.Mesh();

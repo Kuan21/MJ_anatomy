@@ -1,0 +1,670 @@
+[
+ {
+  "child": "Brachiocephalic artery",
+  "parent": "Arch of aorta",
+  "gapMm": 1.6,
+  "status": "ok"
+ },
+ {
+  "child": "Right subclavian artery",
+  "parent": "Brachiocephalic artery",
+  "gapMm": 0.3,
+  "status": "ok"
+ },
+ {
+  "child": "Right common carotid artery",
+  "parent": "Brachiocephalic artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left common carotid artery",
+  "parent": "Arch of aorta",
+  "gapMm": 1.1,
+  "status": "ok"
+ },
+ {
+  "child": "Left subclavian artery",
+  "parent": "Arch of aorta",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right internal thoracic artery",
+  "parent": "Right subclavian artery",
+  "gapMm": 0.3,
+  "status": "ok"
+ },
+ {
+  "child": "Left internal thoracic artery",
+  "parent": "Left subclavian artery",
+  "gapMm": 1.5,
+  "status": "ok"
+ },
+ {
+  "child": "Right vertebral artery",
+  "parent": "Right subclavian artery",
+  "gapMm": 49.9,
+  "status": "fixed"
+ },
+ {
+  "child": "Left vertebral artery",
+  "parent": "Left subclavian artery",
+  "gapMm": 49.2,
+  "status": "fixed"
+ },
+ {
+  "child": "Right superior thoracic artery",
+  "parent": "Right axillary artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left superior thoracic artery",
+  "parent": "Left axillary artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Trunk of right thoraco-acromial artery",
+  "parent": "Right axillary artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Trunk of left thoraco-acromial artery",
+  "parent": "Left axillary artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Pectoral branch of right thoraco-acromial artery",
+  "parent": "Trunk of right thoraco-acromial artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Pectoral branch of left thoraco-acromial artery",
+  "parent": "Trunk of left thoraco-acromial artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Acromial branch of right thoraco-acromial artery",
+  "parent": "Trunk of right thoraco-acromial artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Acromial branch of left thoraco-acromial artery",
+  "parent": "Trunk of left thoraco-acromial artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Deltoid branch of right thoraco-acromial artery",
+  "parent": "Trunk of right thoraco-acromial artery",
+  "gapMm": 14.8,
+  "status": "fixed"
+ },
+ {
+  "child": "Deltoid branch of left thoraco-acromial artery",
+  "parent": "Trunk of left thoraco-acromial artery",
+  "gapMm": 15,
+  "status": "fixed"
+ },
+ {
+  "child": "Clavicular branch of right thoraco-acromial artery",
+  "parent": "Trunk of right thoraco-acromial artery",
+  "gapMm": 1.3,
+  "status": "ok"
+ },
+ {
+  "child": "Clavicular branch of left thoraco-acromial artery",
+  "parent": "Trunk of left thoraco-acromial artery",
+  "gapMm": 1.3,
+  "status": "ok"
+ },
+ {
+  "child": "Right lateral thoracic artery",
+  "parent": "Right axillary artery",
+  "gapMm": 0.2,
+  "status": "ok"
+ },
+ {
+  "child": "Left lateral thoracic artery",
+  "parent": "Left axillary artery",
+  "gapMm": 0.2,
+  "status": "ok"
+ },
+ {
+  "child": "Right subscapular artery",
+  "parent": "Right axillary artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left subscapular artery",
+  "parent": "Left axillary artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right circumflex scapular artery",
+  "parent": "Right subscapular artery",
+  "gapMm": 0.5,
+  "status": "ok"
+ },
+ {
+  "child": "Left circumflex scapular artery",
+  "parent": "Left subscapular artery",
+  "gapMm": 0.6,
+  "status": "ok"
+ },
+ {
+  "child": "Right thoracodorsal artery",
+  "parent": "Right subscapular artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left thoracodorsal artery",
+  "parent": "Left subscapular artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right anterior circumflex humeral artery",
+  "parent": "Right axillary artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left anterior circumflex humeral artery",
+  "parent": "Left axillary artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right posterior circumflex humeral artery",
+  "parent": "Right axillary artery",
+  "gapMm": 1.6,
+  "status": "ok"
+ },
+ {
+  "child": "Left posterior circumflex humeral artery",
+  "parent": "Left axillary artery",
+  "gapMm": 1.6,
+  "status": "ok"
+ },
+ {
+  "child": "Right brachial artery",
+  "parent": "Right axillary artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left brachial artery",
+  "parent": "Left axillary artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right deep brachial artery",
+  "parent": "Right brachial artery",
+  "gapMm": 1.2,
+  "status": "fixed",
+  "originY": 1.298
+ },
+ {
+  "child": "Left deep brachial artery",
+  "parent": "Left brachial artery",
+  "gapMm": 1,
+  "status": "fixed",
+  "originY": 1.298
+ },
+ {
+  "child": "Middle collateral branch of right deep brachial artery",
+  "parent": "Right deep brachial artery",
+  "gapMm": 0.1,
+  "status": "ok"
+ },
+ {
+  "child": "Middle collateral branch of left deep brachial artery",
+  "parent": "Left deep brachial artery",
+  "gapMm": 0.3,
+  "status": "ok"
+ },
+ {
+  "child": "Radial collateral branch of right deep brachial artery",
+  "parent": "Right deep brachial artery",
+  "gapMm": 0.1,
+  "status": "ok"
+ },
+ {
+  "child": "Radial collateral branch of left deep brachial artery",
+  "parent": "Left deep brachial artery",
+  "gapMm": 0.1,
+  "status": "ok"
+ },
+ {
+  "child": "Right superior ulnar collateral artery",
+  "parent": "Right brachial artery",
+  "gapMm": 0.7,
+  "status": "ok"
+ },
+ {
+  "child": "Left superior ulnar collateral artery",
+  "parent": "Left brachial artery",
+  "gapMm": 0.8,
+  "status": "ok"
+ },
+ {
+  "child": "Right inferior ulnar collateral artery",
+  "parent": "Right brachial artery",
+  "gapMm": 0.1,
+  "status": "ok"
+ },
+ {
+  "child": "Left inferior ulnar collateral artery",
+  "parent": "Left brachial artery",
+  "gapMm": 1.2,
+  "status": "ok"
+ },
+ {
+  "child": "Right radial artery",
+  "parent": "Right brachial artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left radial artery",
+  "parent": "Left brachial artery",
+  "gapMm": 0.3,
+  "status": "ok"
+ },
+ {
+  "child": "Right ulnar artery",
+  "parent": "Right brachial artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left ulnar artery",
+  "parent": "Left brachial artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right radial recurrent artery",
+  "parent": "Right radial artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left radial recurrent artery",
+  "parent": "Left radial artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right anterior ulnar recurrent artery",
+  "parent": "Right ulnar artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left anterior ulnar recurrent artery",
+  "parent": "Left ulnar artery",
+  "gapMm": 0.2,
+  "status": "ok"
+ },
+ {
+  "child": "Right posterior ulnar recurrent artery",
+  "parent": "Right ulnar artery",
+  "gapMm": 21.6,
+  "status": "fixed"
+ },
+ {
+  "child": "Left posterior ulnar recurrent artery",
+  "parent": "Left ulnar artery",
+  "gapMm": 21.6,
+  "status": "fixed"
+ },
+ {
+  "child": "Right common interosseous artery",
+  "parent": "Right ulnar artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left common interosseous artery",
+  "parent": "Left ulnar artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right anterior interosseous artery",
+  "parent": "Right common interosseous artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left anterior interosseous artery",
+  "parent": "Left common interosseous artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right posterior interosseous artery",
+  "parent": "Right common interosseous artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left posterior interosseous artery",
+  "parent": "Left common interosseous artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right recurrent interosseous artery",
+  "parent": "Right common interosseous artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left recurrent interosseous artery",
+  "parent": "Left common interosseous artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right superficial palmar branch of radial artery",
+  "parent": "Right radial artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left superficial palmar branch of radial artery",
+  "parent": "Left radial artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right deep palmar branch of ulnar artery",
+  "parent": "Right ulnar artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left deep palmar branch of ulnar artery",
+  "parent": "Left ulnar artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right common iliac artery",
+  "parent": "Abdominal aorta",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left common iliac artery",
+  "parent": "Abdominal aorta",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right external iliac artery",
+  "parent": "Right common iliac artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left external iliac artery",
+  "parent": "Left common iliac artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right internal iliac artery",
+  "parent": "Right common iliac artery",
+  "gapMm": 0.1,
+  "status": "ok"
+ },
+ {
+  "child": "Left internal iliac artery",
+  "parent": "Left common iliac artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right femoral artery",
+  "parent": "Right external iliac artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left femoral artery",
+  "parent": "Left external iliac artery",
+  "gapMm": 3,
+  "status": "fixed"
+ },
+ {
+  "child": "Right deep femoral artery",
+  "parent": "Right femoral artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left deep femoral artery",
+  "parent": "Left femoral artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right lateral circumflex femoral artery",
+  "parent": "Right deep femoral artery",
+  "gapMm": 19.9,
+  "status": "fixed"
+ },
+ {
+  "child": "Left lateral circumflex femoral artery",
+  "parent": "Left deep femoral artery",
+  "gapMm": 24.2,
+  "status": "fixed"
+ },
+ {
+  "child": "Right medial circumflex femoral artery",
+  "parent": "Right deep femoral artery",
+  "gapMm": 0.5,
+  "status": "ok"
+ },
+ {
+  "child": "Left medial circumflex femoral artery",
+  "parent": "Left deep femoral artery",
+  "gapMm": 0.5,
+  "status": "ok"
+ },
+ {
+  "child": "Right popliteal artery",
+  "parent": "Right femoral artery",
+  "gapMm": 0.8,
+  "status": "ok"
+ },
+ {
+  "child": "Left popliteal artery",
+  "parent": "Left femoral artery",
+  "gapMm": 1.7,
+  "status": "ok"
+ },
+ {
+  "child": "Right anterior tibial artery",
+  "parent": "Right popliteal artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left anterior tibial artery",
+  "parent": "Left popliteal artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right posterior tibial artery",
+  "parent": "Right popliteal artery",
+  "gapMm": 0.1,
+  "status": "ok"
+ },
+ {
+  "child": "Left posterior tibial artery",
+  "parent": "Left popliteal artery",
+  "gapMm": 0.3,
+  "status": "ok"
+ },
+ {
+  "child": "Right fibular artery",
+  "parent": "Right posterior tibial artery",
+  "gapMm": 0.5,
+  "status": "ok"
+ },
+ {
+  "child": "Left fibular artery",
+  "parent": "Left posterior tibial artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right dorsalis pedis artery",
+  "parent": "Right anterior tibial artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left dorsalis pedis artery",
+  "parent": "Left anterior tibial artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right medial plantar artery",
+  "parent": "Right posterior tibial artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left medial plantar artery",
+  "parent": "Left posterior tibial artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right lateral plantar artery",
+  "parent": "Right posterior tibial artery",
+  "gapMm": 0.1,
+  "status": "ok"
+ },
+ {
+  "child": "Left lateral plantar artery",
+  "parent": "Left posterior tibial artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right superior gluteal artery",
+  "parent": "Right internal iliac artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left superior gluteal artery",
+  "parent": "Left internal iliac artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right inferior gluteal artery",
+  "parent": "Right internal iliac artery",
+  "gapMm": 0.7,
+  "status": "ok"
+ },
+ {
+  "child": "Left inferior gluteal artery",
+  "parent": "Left internal iliac artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right internal pudendal artery",
+  "parent": "Right internal iliac artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left internal pudendal artery",
+  "parent": "Left internal iliac artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right descending genicular artery",
+  "parent": "Right femoral artery",
+  "gapMm": 0.4,
+  "status": "ok"
+ },
+ {
+  "child": "Left descending genicular artery",
+  "parent": "Left femoral artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right axillary vein",
+  "parent": "Right subclavian vein",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left axillary vein",
+  "parent": "Left subclavian vein",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right cephalic vein",
+  "parent": "Right axillary vein",
+  "gapMm": 0.3,
+  "status": "ok"
+ },
+ {
+  "child": "Left cephalic vein",
+  "parent": "Left axillary vein",
+  "gapMm": 0.1,
+  "status": "ok"
+ },
+ {
+  "child": "Right basilic vein",
+  "parent": "Right axillary vein",
+  "gapMm": 0.8,
+  "status": "ok"
+ },
+ {
+  "child": "Left basilic vein",
+  "parent": "Left axillary vein",
+  "gapMm": 0.8,
+  "status": "ok"
+ },
+ {
+  "child": "Right posterior circumflex humeral vein",
+  "parent": "Right axillary vein",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left posterior circumflex humeral vein",
+  "parent": "Left axillary vein",
+  "gapMm": 0,
+  "status": "ok"
+ }
+]

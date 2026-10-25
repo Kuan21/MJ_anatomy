@@ -28,7 +28,7 @@ const external = {react, 'react/jsx-runtime': {jsx, jsxs: jsx, Fragment: 'fragme
 const cache = new Map();
 async function moduleFor(key) {
   if (cache.has(key)) return cache.get(key);
-  const exports = key.endsWith('.css') ? {} : external[key];
+  const exports = key.endsWith('.json') ? {default: JSON.parse(fs.readFileSync(key, 'utf8'))} : key.endsWith('.css') ? {} : external[key];
   let mod;
   if (exports) mod = new vm.SyntheticModule(Object.keys(exports), function () {for (const [n, v] of Object.entries(exports)) this.setExport(n, v);});
   else mod = new vm.SourceTextModule(ts.transpileModule(fs.readFileSync(key, 'utf8'), {compilerOptions: {target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext, jsx: ts.JsxEmit.ReactJSX}}).outputText, {identifier: key});
