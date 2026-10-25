@@ -43,5 +43,5 @@ export async function augmentAtlasWithFacial(base:Atlas,signal?:AbortSignal):Pro
  // the muscles/ligaments the 4.0 export left out, such as latissimus dorsi) into small, gzip-compressed, immutable same-origin
  // packages, so these pieces load in stages beside the body.
  const abort=signal??new AbortController().signal;
- return mergeAtlasStreams(base,await Promise.all([streamOf('facial/facial-stream.json.gz',abort),streamOf('supplement/supplement-stream.json.gz',abort),streamOf('female/female-stream.json.gz',abort),streamOf('serous/serous-stream.json.gz',abort),streamOf('paokao/paokao-stream.json.gz',abort)]));
+ return mergeAtlasStreams(base,await Promise.all([streamOf('facial/facial-stream.json.gz',abort),streamOf('supplement/supplement-stream.json.gz',abort),streamOf('female/female-stream.json.gz',abort),streamOf('serous/serous-stream.json.gz',abort),streamOf('vessel-ends/vessel-ends-stream.json.gz',abort),streamOf('paokao/paokao-stream.json.gz',abort)]));
 }
