@@ -1,0 +1,978 @@
+{
+ "source": "115-1 第一次跑考摘要（中國醫藥大學 大體解剖跑考共筆）；由 Claude 從使用者上載嘅筆記人手整理。order 1 = 最淺層。",
+ "rules": [
+  "同一 region 內按 order 由淺到深",
+  "note 為筆記原文重點（已改寫為書面語）",
+  "筆記未提供中文名者，zh 為台灣常用譯名"
+ ],
+ "regions": [
+  {
+   "id": "back_superficial",
+   "zh": "背部淺層（外在肌群）",
+   "en": "Back – superficial layer (2+3+2)",
+   "layers": [
+    {
+     "order": 1,
+     "label": "第一層",
+     "muscles": [
+      {
+       "en": "Trapezius",
+       "zh": "斜方肌",
+       "note": "副神經支配；橫頸動脈淺支供血"
+      },
+      {
+       "en": "Latissimus dorsi",
+       "zh": "闊背肌",
+       "note": "胸背神經／胸背動脈"
+      }
+     ]
+    },
+    {
+     "order": 2,
+     "label": "第二層（共同止於肩胛骨內側緣）",
+     "muscles": [
+      {
+       "en": "Rhomboid major",
+       "zh": "大菱形肌",
+       "note": "以肩胛棘為界，以下為大菱形肌"
+      },
+      {
+       "en": "Rhomboid minor",
+       "zh": "小菱形肌"
+      },
+      {
+       "en": "Levator scapulae",
+       "zh": "提肩胛肌",
+       "note": "附著於 C1–C4 橫突"
+      }
+     ],
+     "note": "三者由背肩胛神經／背肩胛動脈支配"
+    },
+    {
+     "order": 3,
+     "label": "第三層",
+     "muscles": [
+      {
+       "en": "Serratus posterior superior",
+       "zh": "後上鋸肌",
+       "note": "薄、多為肌腱"
+      },
+      {
+       "en": "Serratus posterior inferior",
+       "zh": "後下鋸肌"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "back_deep",
+   "zh": "背部深層（內在肌群）",
+   "en": "Back – deep layer (2+3+3+3)",
+   "note": "只有前 2+3+2 會考；最深 5 條不易觀察",
+   "layers": [
+    {
+     "order": 1,
+     "label": "第一層：夾肌",
+     "muscles": [
+      {
+       "en": "Splenius capitis",
+       "zh": "頭夾肌"
+      },
+      {
+       "en": "Splenius cervicis",
+       "zh": "頸夾肌",
+       "note": "被後上鋸肌壓住"
+      }
+     ]
+    },
+    {
+     "order": 2,
+     "label": "第二層：豎脊肌群（由內而外）",
+     "muscles": [
+      {
+       "en": "Spinalis",
+       "zh": "棘肌",
+       "note": "最靠近脊椎"
+      },
+      {
+       "en": "Longissimus",
+       "zh": "最長肌",
+       "note": "腰區為肌腱，往上變肌肉，最遠到乳突"
+      },
+      {
+       "en": "Iliocostalis",
+       "zh": "髂肋肌",
+       "note": "腰區為肌肉，往上到肋骨處只剩肌腱"
+      }
+     ],
+     "note": "脊神經背支支配"
+    },
+    {
+     "order": 3,
+     "label": "第三層：橫棘肌群",
+     "muscles": [
+      {
+       "en": "Semispinalis capitis",
+       "zh": "頭半棘肌",
+       "note": "枕下三角之頂"
+      },
+      {
+       "en": "Semispinalis cervicis",
+       "zh": "頸半棘肌",
+       "note": "上端附著於 C2 棘突"
+      },
+      {
+       "en": "Multifidus",
+       "zh": "多裂肌"
+      }
+     ]
+    },
+    {
+     "order": 4,
+     "label": "更深層（不太會考）",
+     "muscles": [
+      {
+       "en": "Rotatores",
+       "zh": "轉肌"
+      },
+      {
+       "en": "Interspinales",
+       "zh": "棘間肌"
+      },
+      {
+       "en": "Intertransversarii",
+       "zh": "橫突間肌"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "suboccipital",
+   "zh": "枕下三角",
+   "en": "Suboccipital triangle",
+   "layers": [
+    {
+     "order": 1,
+     "label": "頂",
+     "muscles": [
+      {
+       "en": "Semispinalis capitis",
+       "zh": "頭半棘肌",
+       "note": "位於頭夾肌下方，垂直走向"
+      }
+     ]
+    },
+    {
+     "order": 2,
+     "label": "邊界肌肉",
+     "muscles": [
+      {
+       "en": "Obliquus capitis superior",
+       "zh": "頭上斜肌",
+       "note": "外上邊界"
+      },
+      {
+       "en": "Obliquus capitis inferior",
+       "zh": "頭下斜肌",
+       "note": "外下邊界"
+      },
+      {
+       "en": "Rectus capitis posterior major",
+       "zh": "頭後大直肌",
+       "note": "內側邊界"
+      }
+     ]
+    },
+    {
+     "order": 3,
+     "label": "更內側",
+     "muscles": [
+      {
+       "en": "Rectus capitis posterior minor",
+       "zh": "頭後小直肌"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "scapular",
+   "zh": "肩胛區",
+   "en": "Scapular region",
+   "layers": [
+    {
+     "order": 1,
+     "label": "後面觀",
+     "muscles": [
+      {
+       "en": "Supraspinatus",
+       "zh": "棘上肌",
+       "note": "棘上窩"
+      },
+      {
+       "en": "Infraspinatus",
+       "zh": "棘下肌",
+       "note": "棘下窩"
+      },
+      {
+       "en": "Teres minor",
+       "zh": "小圓肌",
+       "note": "位於大圓肌上方，蓋住肱三頭肌長頭近端"
+      },
+      {
+       "en": "Teres major",
+       "zh": "大圓肌",
+       "note": "部分被肱三頭肌長頭蓋住"
+      }
+     ]
+    },
+    {
+     "order": 2,
+     "label": "前面觀",
+     "muscles": [
+      {
+       "en": "Subscapularis",
+       "zh": "肩胛下肌"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "arm_anterior",
+   "zh": "上臂前側",
+   "en": "Arm – anterior",
+   "layers": [
+    {
+     "order": 1,
+     "label": "淺層",
+     "muscles": [
+      {
+       "en": "Biceps brachii – long head",
+       "zh": "肱二頭肌長頭",
+       "note": "外側"
+      },
+      {
+       "en": "Biceps brachii – short head",
+       "zh": "肱二頭肌短頭",
+       "note": "內側"
+      },
+      {
+       "en": "Coracobrachialis",
+       "zh": "喙肱肌",
+       "note": "肌皮神經穿過"
+      }
+     ]
+    },
+    {
+     "order": 2,
+     "label": "深層",
+     "muscles": [
+      {
+       "en": "Brachialis",
+       "zh": "肱肌",
+       "note": "位於肱二頭肌下方"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "arm_posterior",
+   "zh": "上臂後側",
+   "en": "Arm – posterior",
+   "layers": [
+    {
+     "order": 1,
+     "label": "淺層",
+     "muscles": [
+      {
+       "en": "Triceps brachii – long head",
+       "zh": "肱三頭肌長頭",
+       "note": "靠內"
+      },
+      {
+       "en": "Triceps brachii – lateral head",
+       "zh": "肱三頭肌外側頭"
+      }
+     ]
+    },
+    {
+     "order": 2,
+     "label": "深層",
+     "muscles": [
+      {
+       "en": "Triceps brachii – medial head",
+       "zh": "肱三頭肌內側頭",
+       "note": "位於長頭及外側頭深層"
+      }
+     ]
+    },
+    {
+     "order": 1,
+     "label": "肘部",
+     "muscles": [
+      {
+       "en": "Anconeus",
+       "zh": "肘肌",
+       "note": "肱骨與尺骨之間"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "forearm_flexor",
+   "zh": "前臂屈肌側（4+1+3）",
+   "en": "Forearm – flexor compartment",
+   "layers": [
+    {
+     "order": 1,
+     "label": "淺層 4（由外而內，皆起自肱骨內上髁）",
+     "muscles": [
+      {
+       "en": "Pronator teres",
+       "zh": "旋前圓肌",
+       "note": "正中神經穿過兩頭之間"
+      },
+      {
+       "en": "Flexor carpi radialis",
+       "zh": "橈側屈腕肌"
+      },
+      {
+       "en": "Palmaris longus",
+       "zh": "掌長肌",
+       "note": "肌腱很長，延續為掌腱膜"
+      },
+      {
+       "en": "Flexor carpi ulnaris",
+       "zh": "尺側屈腕肌"
+      }
+     ]
+    },
+    {
+     "order": 2,
+     "label": "中間層 1",
+     "muscles": [
+      {
+       "en": "Flexor digitorum superficialis",
+       "zh": "屈指淺肌",
+       "note": "指處肌腱分叉讓屈指深肌肌腱通過"
+      }
+     ]
+    },
+    {
+     "order": 3,
+     "label": "深層 3",
+     "muscles": [
+      {
+       "en": "Flexor digitorum profundus",
+       "zh": "屈指深肌",
+       "note": "靠尺側"
+      },
+      {
+       "en": "Flexor pollicis longus",
+       "zh": "屈拇長肌",
+       "note": "靠橈側，單羽"
+      },
+      {
+       "en": "Pronator quadratus",
+       "zh": "旋前方肌",
+       "note": "前臂遠端橫走"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "forearm_extensor",
+   "zh": "前臂伸肌側（6+5）",
+   "en": "Forearm – extensor compartment",
+   "layers": [
+    {
+     "order": 1,
+     "label": "淺層 6（由外而內）",
+     "muscles": [
+      {
+       "en": "Brachioradialis",
+       "zh": "肱橈肌"
+      },
+      {
+       "en": "Extensor carpi radialis longus",
+       "zh": "橈側伸腕長肌",
+       "note": "肌腱至第二掌骨"
+      },
+      {
+       "en": "Extensor carpi radialis brevis",
+       "zh": "橈側伸腕短肌",
+       "note": "肌腱至第三掌骨"
+      },
+      {
+       "en": "Extensor digitorum",
+       "zh": "伸指肌"
+      },
+      {
+       "en": "Extensor digiti minimi",
+       "zh": "伸小指肌"
+      },
+      {
+       "en": "Extensor carpi ulnaris",
+       "zh": "尺側伸腕肌",
+       "note": "肌腱至第五掌骨"
+      }
+     ]
+    },
+    {
+     "order": 2,
+     "label": "深層 5（由外而內；前三塊構成鼻煙盒）",
+     "muscles": [
+      {
+       "en": "Abductor pollicis longus",
+       "zh": "外展拇長肌"
+      },
+      {
+       "en": "Extensor pollicis brevis",
+       "zh": "伸拇短肌"
+      },
+      {
+       "en": "Extensor pollicis longus",
+       "zh": "伸拇長肌"
+      },
+      {
+       "en": "Extensor indicis",
+       "zh": "伸食指肌"
+      },
+      {
+       "en": "Supinator",
+       "zh": "旋後肌",
+       "note": "橈神經深支穿出"
+      }
+     ],
+     "note": "鼻煙盒附近，深層三肌之肌腱比淺層更靠表面"
+    }
+   ]
+  },
+  {
+   "id": "hand",
+   "zh": "手部",
+   "en": "Hand",
+   "layers": [
+    {
+     "order": 1,
+     "label": "大魚際淺層",
+     "muscles": [
+      {
+       "en": "Abductor pollicis brevis",
+       "zh": "外展拇短肌"
+      },
+      {
+       "en": "Flexor pollicis brevis",
+       "zh": "屈拇短肌"
+      }
+     ]
+    },
+    {
+     "order": 2,
+     "label": "大魚際深層",
+     "muscles": [
+      {
+       "en": "Opponens pollicis",
+       "zh": "拇對掌肌"
+      }
+     ]
+    },
+    {
+     "order": 1,
+     "label": "小魚際淺層",
+     "muscles": [
+      {
+       "en": "Abductor digiti minimi (hand)",
+       "zh": "外展小指肌"
+      },
+      {
+       "en": "Flexor digiti minimi brevis (hand)",
+       "zh": "屈小指短肌"
+      }
+     ]
+    },
+    {
+     "order": 2,
+     "label": "小魚際深層",
+     "muscles": [
+      {
+       "en": "Opponens digiti minimi",
+       "zh": "小指對掌肌"
+      }
+     ]
+    },
+    {
+     "order": 1,
+     "label": "掌側其他（淺）",
+     "muscles": [
+      {
+       "en": "Palmaris brevis",
+       "zh": "掌短肌"
+      },
+      {
+       "en": "Lumbricals (hand)",
+       "zh": "蚓狀肌",
+       "note": "以屈指深肌肌腱為起點"
+      }
+     ]
+    },
+    {
+     "order": 2,
+     "label": "掌側其他（深）",
+     "muscles": [
+      {
+       "en": "Adductor pollicis",
+       "zh": "內收拇肌",
+       "note": "分橫頭及斜頭"
+      },
+      {
+       "en": "Palmar interossei",
+       "zh": "掌側骨間肌",
+       "note": "單羽，較蚓狀肌深"
+      }
+     ]
+    },
+    {
+     "order": 3,
+     "label": "背側",
+     "muscles": [
+      {
+       "en": "Dorsal interossei (hand)",
+       "zh": "背側骨間肌",
+       "note": "雙羽"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "gluteal",
+   "zh": "臀部",
+   "en": "Gluteal region",
+   "layers": [
+    {
+     "order": 1,
+     "label": "第一層",
+     "muscles": [
+      {
+       "en": "Gluteus maximus",
+       "zh": "臀大肌"
+      }
+     ]
+    },
+    {
+     "order": 2,
+     "label": "第二層",
+     "muscles": [
+      {
+       "en": "Gluteus medius",
+       "zh": "臀中肌",
+       "note": "臀大肌深層，扇形至大轉子"
+      },
+      {
+       "en": "Piriformis",
+       "zh": "梨狀肌"
+      },
+      {
+       "en": "Superior gemellus",
+       "zh": "上孖肌"
+      },
+      {
+       "en": "Obturator internus",
+       "zh": "閉孔內肌",
+       "note": "臀區為白色肌腱"
+      },
+      {
+       "en": "Inferior gemellus",
+       "zh": "下孖肌"
+      },
+      {
+       "en": "Quadratus femoris",
+       "zh": "股方肌"
+      }
+     ]
+    },
+    {
+     "order": 3,
+     "label": "第三層",
+     "muscles": [
+      {
+       "en": "Gluteus minimus",
+       "zh": "臀小肌",
+       "note": "臀中肌深層；以臀上神經血管為界"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "thigh_anterior",
+   "zh": "大腿前區",
+   "en": "Thigh – anterior",
+   "layers": [
+    {
+     "order": 1,
+     "label": "淺層",
+     "muscles": [
+      {
+       "en": "Sartorius",
+       "zh": "縫匠肌"
+      },
+      {
+       "en": "Tensor fasciae latae",
+       "zh": "闊筋膜張肌"
+      },
+      {
+       "en": "Rectus femoris",
+       "zh": "股直肌"
+      },
+      {
+       "en": "Vastus lateralis",
+       "zh": "股外側肌",
+       "note": "壓在髂脛束下"
+      },
+      {
+       "en": "Vastus medialis",
+       "zh": "股內側肌"
+      }
+     ]
+    },
+    {
+     "order": 2,
+     "label": "深層",
+     "muscles": [
+      {
+       "en": "Vastus intermedius",
+       "zh": "股中間肌",
+       "note": "壓在股直肌底下"
+      },
+      {
+       "en": "Iliopsoas",
+       "zh": "髂腰肌",
+       "note": "股神經壓在其上"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "thigh_medial",
+   "zh": "大腿內側區",
+   "en": "Thigh – medial",
+   "layers": [
+    {
+     "order": 1,
+     "label": "淺層",
+     "muscles": [
+      {
+       "en": "Pectineus",
+       "zh": "恥骨肌"
+      },
+      {
+       "en": "Adductor longus",
+       "zh": "內收長肌"
+      },
+      {
+       "en": "Gracilis",
+       "zh": "股薄肌",
+       "note": "最內側縱走"
+      }
+     ]
+    },
+    {
+     "order": 2,
+     "label": "中層",
+     "muscles": [
+      {
+       "en": "Adductor brevis",
+       "zh": "內收短肌",
+       "note": "內收長肌深處；分隔閉孔神經前後支"
+      }
+     ]
+    },
+    {
+     "order": 3,
+     "label": "深層",
+     "muscles": [
+      {
+       "en": "Adductor magnus",
+       "zh": "內收大肌",
+       "note": "內側深層最大片"
+      },
+      {
+       "en": "Obturator externus",
+       "zh": "閉孔外肌",
+       "note": "深處橫走"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "thigh_posterior",
+   "zh": "大腿後區",
+   "en": "Thigh – posterior",
+   "layers": [
+    {
+     "order": 1,
+     "label": "淺層",
+     "muscles": [
+      {
+       "en": "Semitendinosus",
+       "zh": "半腱肌",
+       "note": "較淺偏內，參與鵝足"
+      },
+      {
+       "en": "Biceps femoris – long head",
+       "zh": "股二頭肌長頭"
+      }
+     ]
+    },
+    {
+     "order": 2,
+     "label": "深層",
+     "muscles": [
+      {
+       "en": "Semimembranosus",
+       "zh": "半膜肌",
+       "note": "上 1/3 為腱膜，被半腱肌壓住"
+      },
+      {
+       "en": "Biceps femoris – short head",
+       "zh": "股二頭肌短頭",
+       "note": "被長頭壓住"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "leg_anterior",
+   "zh": "小腿前區（由內而外）",
+   "en": "Leg – anterior",
+   "layers": [
+    {
+     "order": 1,
+     "label": "淺層",
+     "muscles": [
+      {
+       "en": "Tibialis anterior",
+       "zh": "脛前肌",
+       "note": "最內側貼脛骨"
+      },
+      {
+       "en": "Extensor digitorum longus",
+       "zh": "伸趾長肌"
+      },
+      {
+       "en": "Fibularis tertius",
+       "zh": "第三腓骨肌",
+       "note": "最外側"
+      }
+     ]
+    },
+    {
+     "order": 2,
+     "label": "深層",
+     "muscles": [
+      {
+       "en": "Extensor hallucis longus",
+       "zh": "伸拇長肌",
+       "note": "夾在脛前肌與伸趾長肌之間"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "leg_lateral",
+   "zh": "小腿外側區",
+   "en": "Leg – lateral",
+   "layers": [
+    {
+     "order": 1,
+     "label": "淺層",
+     "muscles": [
+      {
+       "en": "Fibularis longus",
+       "zh": "腓長肌"
+      }
+     ]
+    },
+    {
+     "order": 2,
+     "label": "深層",
+     "muscles": [
+      {
+       "en": "Fibularis brevis",
+       "zh": "腓短肌",
+       "note": "壓在腓長肌下"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "leg_posterior",
+   "zh": "小腿後區",
+   "en": "Leg – posterior",
+   "layers": [
+    {
+     "order": 1,
+     "label": "淺層",
+     "muscles": [
+      {
+       "en": "Gastrocnemius",
+       "zh": "腓腸肌",
+       "note": "最淺層，分內外側頭"
+      }
+     ]
+    },
+    {
+     "order": 2,
+     "label": "淺層（較深）",
+     "muscles": [
+      {
+       "en": "Plantaris",
+       "zh": "蹠肌",
+       "note": "夾在腓腸肌與比目魚肌之間"
+      },
+      {
+       "en": "Soleus",
+       "zh": "比目魚肌"
+      }
+     ]
+    },
+    {
+     "order": 3,
+     "label": "深層",
+     "muscles": [
+      {
+       "en": "Popliteus",
+       "zh": "膕肌",
+       "note": "貼脛骨，最深"
+      },
+      {
+       "en": "Flexor digitorum longus",
+       "zh": "屈趾長肌",
+       "note": "偏內"
+      },
+      {
+       "en": "Tibialis posterior",
+       "zh": "脛後肌",
+       "note": "夾在兩肌之間"
+      },
+      {
+       "en": "Flexor hallucis longus",
+       "zh": "屈拇長肌",
+       "note": "偏外"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "foot_dorsum",
+   "zh": "足背",
+   "en": "Foot – dorsum",
+   "layers": [
+    {
+     "order": 1,
+     "label": "—",
+     "muscles": [
+      {
+       "en": "Extensor hallucis brevis",
+       "zh": "伸拇短肌"
+      },
+      {
+       "en": "Extensor digitorum brevis",
+       "zh": "伸趾短肌"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "foot_sole",
+   "zh": "足底（四層）",
+   "en": "Foot – sole",
+   "note": "足底筋膜覆蓋於第一層之上；神經血管起初走在第 1、2 層之間",
+   "layers": [
+    {
+     "order": 1,
+     "label": "第一層（皆起自跟骨粗隆）",
+     "muscles": [
+      {
+       "en": "Abductor hallucis",
+       "zh": "外展拇趾肌"
+      },
+      {
+       "en": "Flexor digitorum brevis",
+       "zh": "屈趾短肌"
+      },
+      {
+       "en": "Abductor digiti minimi (foot)",
+       "zh": "外展小趾肌"
+      }
+     ]
+    },
+    {
+     "order": 2,
+     "label": "第二層（必連到屈趾長肌肌腱）",
+     "muscles": [
+      {
+       "en": "Quadratus plantae",
+       "zh": "足底方肌"
+      },
+      {
+       "en": "Lumbricals (foot)",
+       "zh": "蚓狀肌"
+      }
+     ]
+    },
+    {
+     "order": 3,
+     "label": "第三層",
+     "muscles": [
+      {
+       "en": "Flexor hallucis brevis",
+       "zh": "屈拇短肌",
+       "note": "分內外側頭"
+      },
+      {
+       "en": "Adductor hallucis",
+       "zh": "內收拇趾肌",
+       "note": "分橫頭及斜頭"
+      },
+      {
+       "en": "Flexor digiti minimi brevis (foot)",
+       "zh": "屈小趾短肌"
+      }
+     ]
+    },
+    {
+     "order": 4,
+     "label": "第四層",
+     "muscles": [
+      {
+       "en": "Plantar interossei",
+       "zh": "蹠側骨間肌",
+       "note": "單羽"
+      },
+      {
+       "en": "Dorsal interossei (foot)",
+       "zh": "背側骨間肌",
+       "note": "雙羽"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
