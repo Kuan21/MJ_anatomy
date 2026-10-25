@@ -154,7 +154,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     if(/nervous system\s*&\s*sense organs/i.test(exactName))return;
     const spinalCordLike=/spinal cord|medulla spinalis/i.test(fullName);
     const cranialNerveLike=/optic nerve|oculomotor|trochlear|trigeminal|abducens|facial nerve|vestibulocochlear|glossopharyngeal|vagus|accessory nerve|hypoglossal|cranial nerve/i.test(fullName);
-    if(!nerveBindings[exactName]&&!bodyNerveBindings[exactName]&&!spinalCordLike&&!/nerve|ganglion|plexus|ramus|rami/i.test(exactName))return;
+    if(!nerveBindings[exactName]&&!bodyNerveBindings[exactName]&&!spinalCordLike&&!/nerve|ganglion|ganglia|plexus|ramus|rami|sympathetic trunk/i.test(exactName))return;
     if(hasNamedAncestor(o,/central nervous system/i)&&!spinalCordLike)return;
     if(/brain|cerebr|cerebell|\bgyrus\b|lobule|\blobe\b|hemisphere|white matter|gray matter|cortex|corpus callosum|thalam|hypothalam|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|colliculus|geniculate|midbrain|pons|medulla oblongata|fornix|commissure|ventricle|choroid plexus|optic chiasm|optic tract|pituitary|pineal/i.test(fullName)&&!spinalCordLike)return;
     const geometry=o.geometry.clone();geometry.applyMatrix4(o.matrixWorld);geometry.computeBoundingBox();const geoCenter=geometry.boundingBox?.getCenter(new T.Vector3())??new T.Vector3(),geoSize=geometry.boundingBox?.getSize(new T.Vector3())??new T.Vector3();
@@ -372,8 +372,10 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   };
   const mats=new Map<string,T.MeshStandardMaterial>(SYSTEMS.map(s=>[s.id,materialFor(s.id)]));
   // Organ-surface shells (lung lobes, serous membranes) are drawn translucent so the airways, vessels and heart inside stay visible.
-  const shellOf=(p:{name:string;system:string})=>isShellSurface(p.name)?p.system+':shell':p.system;
+  const shellOf=(p:{name:string;system:string;kind?:string})=>p.kind==='space'||p.kind==='sheath'?'connective:space':p.kind==='fascia'||p.kind==='aponeurosis'?'connective:fascia':p.kind==='surface'?'respiratory:mark':isShellSurface(p.name)?p.system+':shell':p.system;
   mats.set('respiratory:shell',materialFor('respiratory',.32));mats.set('serous:shell',materialFor('serous',.28));
+  // Course-summary structures: spaces and sheaths are faint volumes, fasciae thin translucent sheets, lung surface marks a deeper tint of the lung colour.
+  mats.set('connective:space',materialFor('connective',.2));mats.set('connective:fascia',materialFor('connective',.62));{const mark=materialFor('respiratory');mark.color.set('#c97b8b');mats.set('respiratory:mark',mark);}
   const renderBatches:{mesh:T.Mesh;parts:{index:number;offset:number;geometry:T.BufferGeometry}[];mask:string}[]=[];
   const updateVisibleBatches=()=>{
    for(const batch of renderBatches){

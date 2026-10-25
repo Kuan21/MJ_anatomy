@@ -24,6 +24,7 @@ export interface StructureProfile {
 }
 
 import vesselEnds from './mj-vessel-ends.json';
+import paokaoCards from './mj-paokao.json';
 type ProfileBody=Omit<StructureProfile,'english'>;
 const CMU_SOURCE='CMU Upper Limbs lecture; terminology cross-checked with the uploaded Netter Atlas';
 const CMU_BONE_SOURCE='CMU skeletal-system / histology notes and bilingual bone-landmark sheet; terminology cross-checked with the uploaded Netter Atlas';
@@ -199,6 +200,7 @@ function directBaseChinese(base:string){
 }
 
 function chineseName(name:string,system:SystemId){
+ const pk=paokaoZh(name);if(pk)return pk;
  const plain=namingOverride(name);
  if(plain){const sideZh=/\bleft\b|(?:^|\.)l(?:\.|$)/i.test(name)?'左':/\bright\b|(?:^|\.)r(?:\.|$)/i.test(name)?'右':'';return applyZhFixes(sideZh+plain);}
  return applyZhFixes(chineseNameBase(name,system));
@@ -267,9 +269,16 @@ function chineseNameBase(name:string,system:SystemId){
  return side+base;
 }
 
-function detailKey(name:string){
+// A detailed entry only describes a structure of its own kind: "circumflex scapular artery" contains the word "scapular" but is not the scapula.
+const CATEGORY_SYSTEM:Record<string,SystemId[]>={Muscle:['muscular','cardiac'],Nerve:['nervous'],Bone:['skeletal'],Vein:['venous']};
+function detailKey(name:string,system:SystemId){
  const n=norm(stripSide(name));
- return Object.keys(detailed).sort((a,b)=>b.length-a.length).find(k=>n===k||n.includes(k));
+ return Object.keys(detailed).sort((a,b)=>b.length-a.length).find(k=>{
+  if(!(n===k||(` ${n} `).includes(` ${k} `)))return false;
+  const family=detailed[k].category.match(/^[A-Za-z]+/)?.[0]??'';
+  const systems=CATEGORY_SYSTEM[family];
+  return !systems||systems.includes(system);
+ });
 }
 
 function displayEnglish(name:string,system:SystemId,part?:Part){
@@ -370,7 +379,7 @@ function baseStructureProfile(rawName:string,system:SystemId,part?:Part):Structu
    source:muscleFactSourceFor(sourceName)
   },sourceName);
  }
- const key=detailKey(sourceName);
+ const key=detailKey(sourceName,system);
  if(key){
   const d=detailed[key],summary=genericSummary(english,system,chinese,part);
   return withCourseNotes({english,chinese:chinese||d.chinese,category:d.category,summaryEn:d.summaryEn??summary.en,summaryZh:d.summaryZh??summary.zh,facts:d.facts,source:d.source},sourceName);
@@ -387,9 +396,29 @@ function baseStructureProfile(rawName:string,system:SystemId,part?:Part):Structu
  },sourceName);
 }
 
+type PaokaoCard={name:string;zh:string;system:string;kind:string;origin?:[string,string];course?:[string,string];supply?:[string,string];extra?:{labelEn:string;labelZh:string;en:string;zh:string}[];note?:string;refs?:string[];parent?:string};
+const PAOKAO=paokaoCards as unknown as Record<string,PaokaoCard>;
+const paokaoByName=new Map(Object.values(PAOKAO).map(c=>[c.name.toLowerCase(),c]));
+/** Course-summary structures built by scripts/prepare-paokao.mjs: the Chinese name and the bilingual data card come from app/mj-paokao.json. */
+export function paokaoZh(name:string){return paokaoByName.get(name.toLowerCase())?.zh;}
+const KIND_LABEL:Record<string,[string,string]>={artery:['Artery','動脈'],vein:['Vein','靜脈'],nerve:['Nerve','神經'],vessel:['Lymphatic vessel','淋巴管'],ligament:['Ligament','韌帶'],fascia:['Fascia','筋膜'],retinaculum:['Retinaculum','支持帶'],aponeurosis:['Aponeurosis','腱膜'],membrane:['Membrane','膜'],sheath:['Sheath','鞘'],ganglion:['Ganglion','神經節'],plexus:['Plexus','神經叢'],space:['Space','間隙'],landmark:['Bone landmark','骨性標誌'],muscle:['Muscle','肌肉'],surface:['Surface mark','表面標記']};
+const SCHEMATIC_NOTE_ZH2='示意模型：公開人體圖譜（BodyParts3D、Z-Anatomy）沒有此構造的三維模型，這裡依教科書走行與位置以簡化形態繪製；粗細、彎曲與分支僅供辨認方向，不是實測形狀。';
+const SCHEMATIC_NOTE_EN2='Schematic model: neither BodyParts3D nor Z-Anatomy has a 3D model of this structure. It is drawn in simplified form from the textbook course and position; calibre, curvature and branching are for orientation only, not measured.';
+function paokaoProfile(rawName:string,system:SystemId,part?:Part):StructureProfile{
+ const card=part?PAOKAO[part.id]:undefined;
+ if(!card)return baseStructureProfile(rawName,system,part);
+ const [en,zh]=KIND_LABEL[card.kind]??['Structure','構造'];
+ const facts:BilingualFact[]=[];
+ if(card.origin)facts.push({labelEn:card.kind==='nerve'?'Origin / roots':'Origin',labelZh:'起始',valueEn:card.origin[0],valueZh:card.origin[1]});
+ if(card.course)facts.push({labelEn:'Course / relations',labelZh:'走行／位置關係',valueEn:card.course[0],valueZh:card.course[1]});
+ if(card.supply)facts.push({labelEn:card.kind==='artery'||card.kind==='vein'?'Territory':'Supply / role',labelZh:card.kind==='artery'||card.kind==='vein'?'供應／引流範圍':'支配範圍／功能',valueEn:card.supply[0],valueZh:card.supply[1]});
+ for(const f of card.extra??[])facts.push({labelEn:f.labelEn,labelZh:f.labelZh,valueEn:f.en,valueZh:f.zh});
+ return{english:card.name,chinese:card.zh,category:`${en}｜${zh}（示意模型）`,summaryEn:SCHEMATIC_NOTE_EN2,summaryZh:SCHEMATIC_NOTE_ZH2,facts,source:card.refs?.length?`Schematic model built for this atlas from the textbook course (${card.refs.join('; ')}); landmarks measured on the BodyParts3D atlas meshes.`:'Schematic model built for this atlas from the textbook course; landmarks measured on the BodyParts3D atlas meshes.'};
+}
+
 /** Small vessels whose model end was tapered by scripts/prepare-vessel-ends.mjs say so on their card. */
 export function structureProfile(rawName:string,system:SystemId,part?:Part):StructureProfile{
- const profile=baseStructureProfile(rawName,system,part);
+ const profile=paokaoProfile(rawName,system,part);
  if(!part||!(part.id in vesselEnds))return profile;
  return{...profile,facts:[...profile.facts,{labelEn:'Model end',labelZh:'模型末端',valueEn:'Small branches end by thinning out into the surrounding muscle, organ or fascia; the model tapers the end to show this.',valueZh:'細小分支在周圍的肌肉、器官或筋膜內逐漸變細而終止；模型把末端收細表示。'}]};
 }

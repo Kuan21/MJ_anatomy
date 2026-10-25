@@ -6,10 +6,10 @@
 
 | 類別 | 不重複詞數 | 意思 |
 |---|---|---|
-| 一、已有 | 1038 | 模型有，而且可以用搜尋／圖層揀到 |
+| 一、已有 | 1192 | 模型有，而且可以用搜尋／圖層揀到 |
 | 二、模型有但 UI 搵唔到 | 0 | 模型有幾何，但搜尋唔到（見下面清單；已修好者會喺「修復」一節列明） |
-| 三、模型冇 | 1271 | 交俾第 2 部分補模型 |
-| 骨性標誌 | 294 | 結節、窩、切跡等，屬已有骨件嘅表面特徵，模型唔另外分件 |
+| 三、模型冇 | 1147 | 交俾第 2 部分補模型 |
+| 骨性標誌 | 264 | 結節、窩、切跡等，屬已有骨件嘅表面特徵，模型唔另外分件 |
 | 雜訊（已略去） | 650 | 唔係解剖結構 |
 
 ## 闊背肌（Latissimus dorsi）點解搵唔到
@@ -35,29 +35,17 @@
 
 ## 背部/上肢/胸腔/下肢（跑考摘要）　`115-1_第一次跑考摘要`
 
-已有 363　·　UI 搵唔到 0　·　模型冇 91　·　骨標誌 35　·　雜訊 79
-
-**一、已有（部分配對：模型件較概括／較細，請覆核）**
-
-- deep femoral a → Left femoral artery［specific］
+已有 442　·　UI 搵唔到 0　·　模型冇 37　·　骨標誌 10　·　雜訊 79
 
 **三、模型冇**
 
-- Thoracolumber fascia
-- suboccipital triangle
-- Denticulate lig. b. Denticulate lig
 - profunda branchial a（前穿到肱骨後側）
-- Triangular space
-- Mammary br
-- quadrangular space
 - deltopectoral triangle
 - Profunda brachial artery
 - Radial artery Ulnar artery
-- posterior Interosseous artery
 - superficial palmaer br
 - forearm ii. Median n
 - ii. Med. cutaneous n
-- intercostobrachial n
 - iii. Med. cutaneous n
 - ii. Ulnar n
 - i. Upper subscapular n
@@ -66,9 +54,7 @@
 - ii. Radial n
 - iii. Superficial br
 - iv. Deep br
-- Superior transverse scapular ligament
 - scalis muscle
-- phrenic nerve
 - upper subscapular nerve
 - middle subscapular nerve
 - lower subscapular nerve
@@ -76,75 +62,29 @@
 - peripheral nerve
 - Subscapular m
 - Dorsal interosseous m
-- Palmaris brevis m
 - Palmar interosseous m
 - external oblique abdominis m
-- Subcostal m
-- Lat mammary a
-- Med. Mammary br
-- ant. intercostal a
-- Pericardiophrenic a
-- Phrenic n
 - Descending aorta B. Pulmonary a
-- left recurrent laryngeal n
-- right recurrent laryngeal n
-- sympathetic trunk
-- Post. intercostal v
-- Supreme intercostal a
 - Azygos arch
 - thoracic splanchnic n
-- Greater splanchnic n
-- Lesser splanchnic n
-- aorticorenal ganglion
-- sup. mesenteric ganglion
-- Least splanchnic n
-- Post. vagal trunk
-- esophageal plexus
-- posterior vagal trunk
-- Superior phrenic a
-- Transverse pericardial sinus
-- Oblique pericardial sinus
 - SA nodal a
 - Opening of coronary sinus
 - auricle B. Interatrial septum
-- Pectinate m
-- Crista terminalis
-- Trabeculae carneae
 - chordae tendineae
-- inf. gluteal n
-- Internal pudendal a. v
-- inf. gluteal a
-- internal pudendal a
 - semitendinosus m. Gracilis m
 - quadriceps femoris m
-- Quadriceps tendon
 - iliopsoas m
-- superficial circumflex iliac a
-- superficial external pudendal a
-- deep external pudendal a
-- medial circumflex femoral a
-- lateral sural cutaneous n
-- anterior lateral malleolar a
-- anterior medial malleolar a
-- Circumflex fibular a
 - plantar interossei m
-- Ligamentum flavum
-- Palmaris brevis
-- Ligamentum arteriosum
-- Fibrous pericardium
 - superficial palmaer br. of radial a（橈動脈淺掌分支）
-- deep palmer br. of ulnar a（尺動脈深掌分支）
 
 ## 上肢 I　`20250228_解剖_上肢__W2`
 
-已有 41　·　UI 搵唔到 0　·　模型冇 12　·　骨標誌 18　·　雜訊 25
+已有 48　·　UI 搵唔到 0　·　模型冇 9　·　骨標誌 14　·　雜訊 25
 
 **三、模型冇**
 
 - Costoclavicular ligament（肋鎖韌帶）
 - Pyramidal space（錐形空間）
-- quadrangular space（方形間隙）
-- triangular space（三角形間隙）
 - intermuscular septum（肌間隔）
 - Lateral intermuscular septum
 - Medial intermuscular septum
@@ -152,11 +92,10 @@
 - Bicipital aponeurosis
 - phalanges（塊指骨）
 - subscapularis, teres major, latissimus dorsi（三塊肌肉）
-- triangular interval（三角區間）
 
 ## 神經系統　`20250321_解剖_神經系統__W5_2`
 
-已有 39　·　UI 搵唔到 0　·　模型冇 70　·　骨標誌 13　·　雜訊 26
+已有 40　·　UI 搵唔到 0　·　模型冇 70　·　骨標誌 12　·　雜訊 26
 
 **三、模型冇**
 
@@ -233,7 +172,7 @@
 
 ## 生殖系統＋喉　`20250411_解剖_生殖系統_曾__喉部_陳___W8`
 
-已有 18　·　UI 搵唔到 0　·　模型冇 79　·　骨標誌 7　·　雜訊 17
+已有 33　·　UI 搵唔到 0　·　模型冇 65　·　骨標誌 6　·　雜訊 17
 
 **三、模型冇**
 
@@ -248,12 +187,8 @@
 - Vaginal cavity
 - Ejaculatory Duct
 - bulbo-urethral glands
-- ovarian ligament（卵巢韌帶）
-- round ligament
-- broad ligament
 - spiral artery
 - recto-uterine pouch
-- Mammary gland
 - Modified sweat gland（皮膚系統的特化汗腺）
 - Tubuloalveolar exocrine gland（泡狀的複合式外分泌腺）
 - Lactiferous ducts（放射排列的輸乳管）
@@ -275,20 +210,11 @@
 - deep inguinal ring（向下依序經過深鼠蹊環）
 - superficial inguinal ring（淺鼠蹊環）
 - ductus deferens（輸精管）
-- ovary（卵巢）
 - primordial follicle（內有許多原始濾泡）
-- suspensory ligament of ovary（卵巢懸韌帶）
-- round ligament of uterus（子宮圓韌帶）
-- broad ligament of uterus（子宮擴韌帶）
 - mesometrium（子宮繫膜）
 - mesosalpinx（輸卵管繫膜）
 - mesovarian（卵巢繫膜）
-- infundibulum（漏斗部）
 - fimbirae（前方伸出輸卵管繖）
-- ampulla（壺腹）
-- isthmus（峽部）
-- cervix（子宮頸）
-- fundus of uterus（分成子宮底）
 - isthmus of uterus（子宮峽）
 - internal os（內口）
 - external os（外口）
@@ -301,7 +227,6 @@
 - postovulatory phase（因此又稱為排卵後期）
 - progesterone（黃體分泌黃體固酮）
 - prostaglandin（前列腺素）
-- vagina（陰道）
 - vaginal fornix（陰道穹窿）
 - anterior fornix（靠近膀胱的前穹窿）
 - kegel exercise（凱格爾運動）
@@ -319,17 +244,15 @@
 
 ## 背部 II／脊髓　`20250513_解剖_背部II_魏___W13`
 
-已有 17　·　UI 搵唔到 0　·　模型冇 16　·　骨標誌 7　·　雜訊 27
+已有 23　·　UI 搵唔到 0　·　模型冇 14　·　骨標誌 3　·　雜訊 27
 
 **三、模型冇**
 
 - Lumbar Cistern（充滿脊髓液的腰池）
-- Thoracolumbar Fascia（是否被胸腰筋膜）
 - Superficial Back Muscles（外在肌群）
 - Respiratory Muscles（呼吸肌）
 - Intrinsic Back Muscles（內在肌群）
 - Erector spinae m
-- Spinous processes
 - enlargement（膨大部位）
 - cervical enlargement（頸膨大）
 - lumbar enlargement（腰膨大）
@@ -342,31 +265,26 @@
 
 ## 上肢 II　`20250523_解剖_上肢II_張___W14`
 
-已有 88　·　UI 搵唔到 0　·　模型冇 17　·　骨標誌 3　·　雜訊 19
+已有 94　·　UI 搵唔到 0　·　模型冇 12　·　骨標誌 2　·　雜訊 19
 
 **三、模型冇**
 
 - middle trunk lateral pectoral n
-- intercostobrachial n
 - upper subscapular n
 - middle subscapular n
 - lower subscapular n
 - inferior interosseous a
 - bicipital aponeurosis
-- posterior interosseous a（後骨間動脈）
 - dorsal interosseous m
 - Carpal arch
 - s. hypothenar muscles
-- recurrent branch of median n
 - Intrinsic muscle
-- Palmaris brevis
-- triangular interval（一起穿過三角區間）
 - medial epicondylitis（學名就是肱骨內上髁炎）
 - lateral epicondylitis（學名就是肱骨外上髁炎）
 
 ## 腹部 III　`20250606_解剖_腹部III_謝___W16`
 
-已有 111　·　UI 搵唔到 0　·　模型冇 141　·　骨標誌 7　·　雜訊 33
+已有 125　·　UI 搵唔到 0　·　模型冇 128　·　骨標誌 6　·　雜訊 33
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -381,13 +299,9 @@
 - Lumber plexus（股骨小轉子）
 - Median arcuate ligament（正中韌帶）
 - Medial arcuate ligament（一起從內側弓狀韌帶）
-- sympathetic ganglion
 - Lateral arcuate ligament（外側韌帶）
-- Right phrenic nerve（右膈神經）
 - Esophageal branches
 - Pericardiacophrenic artery（心包膜膈動脈）
-- phrenic nerve（膈神經）
-- Superior phrenic artery（上膈動脈）
 - suprarenal gland（腎上腺）
 - Pressure of anterior abdominal cavity（腹腔壓力）
 - Renal fascia（腎筋膜）
@@ -412,7 +326,6 @@
 - Jejunal a（空腸動脈）
 - Right gastro-omental a（右胃網膜動脈）
 - Deep circumflex iliac artery（深旋髂動脈）
-- Superficial circumflex iliac artery（淺旋髂動脈）
 - Right gonadal vein（右生殖腺靜脈）
 - Cystic vein（膽囊靜脈）
 - Paraumbilical vein（旁靜脈）
@@ -432,15 +345,9 @@
 - Parasympathetic nerve（消化相關的副交感神經）
 - Vague nerve（迷走神經）
 - Pelvic splanchnic nerve（腸胃道）
-- Greater splanchnic nerve（大內臟神經）
-- Aorticorenal ganglion
-- Lesser splanchnic nerve
-- Superior mesenteric ganglion
-- Least splanchnic nerve
 - Inferior mesenteric ganglion
 - preaortic plexus
 - greater and lesser splanchnic nerve（小內臟神經）
-- vagal trunk（來自後迷走神經幹）
 - Superior mesenteric plexus（上腸繫膜叢）
 - Intermesenteric plexus（中腸繫膜叢）
 - Inferior mesenteric plexus（下腸繫膜叢）
@@ -484,7 +391,6 @@
 - foregut（胰臟）
 - hindgut（下直腸動脈均源自其他）
 - lesser omentum（小網膜）
-- fundus（胃最上方的胃底）
 - superior mesenteric a., sma（上腸繫膜動脈）
 - hepatic sinusoid（肝竇隙）
 - portal-systemic anastomoses（門靜脈與體循環的吻合）
@@ -514,7 +420,6 @@
 - scrotum（前側陰囊）
 - labium major（大陰脣）
 - asis（前上髂棘）
-- quadricepts（股四頭肌）
 - musculotendinous bands（肌肉與肌腱組成）
 - left colic flexure（左大腸彎）
 - ureteral stone（輸尿管結石）
@@ -522,10 +427,11 @@
 
 ## 下肢 I（骨、臀部）　`Anatomy_Lower_Limb_Lin_CH_Part_I_bones_and_gluteal_region_bb15ebc7f24f0b132626748650ed9648_2`
 
-已有 32　·　UI 搵唔到 0　·　模型冇 60　·　骨標誌 41　·　雜訊 42
+已有 43　·　UI 搵唔到 0　·　模型冇 50　·　骨標誌 40　·　雜訊 42
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
+- superior and inferior gluteal a → Right superior gluteal artery［specific］
 - deep to sciatic n → Sciatic nerve［specific］
 
 **三、模型冇**
@@ -550,21 +456,14 @@
 - lateral malleoli Foot region Muscles
 - stabilize the hip joint
 - sacrum and coccyx sacrotuberous lig
-- Inferior gluteal n
-- superior and inferior gluteal a
-- superior gluteal a
 - main trunk and deep br
 - superior gluteal a. ascending br
 - latae Deep layer of muscles
 - sacrum sacrotuberous ligament
-- internal pudendal a
 - surrounding bones
 - internal pudendal a. obturator a
-- inferior gluteal a
-- medial circumflex femoral a
 - Quadratus femoris Gluteus maximus m
 - Gluteus medius m. Piriformis m
-- Gluteal Region Arteries
 - largest br
 - skin deep br
 - Anastomoses with inferior gluteal a
@@ -573,12 +472,9 @@
 - perineum region Nerves
 - Gluteal Region Sacral plexuses Nerves
 - Several nerves
-- Superficial gluteal nerves
 - superior clunial nerve
 - middle clunial nerve
 - inferior clunial nerve
-- Deep gluteal nerves
-- Inferior gluteal nerve
 - Pudendal nerve Gluteal ligaments
 - piriformis innervates gluteus maximus m
 - tibial and common fibular nerves
@@ -593,7 +489,7 @@
 
 ## 腹部 I　`Med_Abdomen_I_20250519_14ba0910260399815d92ca495866ae39`
 
-已有 40　·　UI 搵唔到 0　·　模型冇 59　·　骨標誌 22　·　雜訊 57
+已有 46　·　UI 搵唔到 0　·　模型冇 54　·　骨標誌 21　·　雜訊 57
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -615,16 +511,13 @@
 - fascial layer containing smooth muscle
 - subcostal n
 - deep circumflex iliac a
-- thoracolumbar fascia
 - drains into the subclavian v
 - Lower superficial circumflex iliac a
-- Superficial circumflex iliac a
 - intercostal a. Subcostal a
 - Superficial circumflex iliac v
 - Paraumbilical v
 - Thoracoepigastric v
 - Deep circumflex iliac v
-- Axillary nodes
 - Superficial inguinal nodes
 - Parasternal nodes
 - along the int. thoracic a
@@ -633,11 +526,9 @@
 - Umbilical lig
 - distal of umbilical a
 - Falciform lig
-- Round lig
 - Lig. remnants of umbilical v
 - paired medial umbilical ligaments
 - Median umbilical ligament
-- Round ligament
 - liver Inguinal ligament
 - extend from the lacunar ligament
 - Lacunar ligament
@@ -666,13 +557,15 @@
 
 ## 心臟／大血管　`heart-115醫中上課_bc42d7386f0985d8632eb5dd2feacf1f`
 
-已有 43　·　UI 搵唔到 0　·　模型冇 65　·　骨標誌 9　·　雜訊 26
+已有 60　·　UI 搵唔到 0　·　模型冇 49　·　骨標誌 8　·　雜訊 26
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
 - lt. superior intercostal v → Left superior intercostal vein［specific］
 - rt. superior intercostal v → Left superior intercostal vein［specific］
+- rt. posterior intercostal v → Right posterior intercostal veins［specific］
 - rt. subcostal v → Left subcostal vein［specific］
+- lt. Posterior intercostal v → Right posterior intercostal veins［specific］
 - lt. subcostal v → Left subcostal vein［specific］
 
 **三、模型冇**
@@ -688,22 +581,18 @@
 - pericardiacophrenic lig
 - Parietal pericardium Pericardial cavity
 - pericardial fluid Pericardial sinus
-- Pericardial sinus Transverse pericardial sinus
 - heart Oblique pericardial sinus
 - blind-sac recess
 - Pericardiacophrenic artery
 - Brachiocephalic vein Pericardiacophrenic vein
-- Phrenic nerve
 - Parallel the pericardiacophrenic a
 - internal features Right atrium
 - Auricle Crista terminalis
-- Pectinate m
 - crescent valve
 - Opening of the coronary sinus
 - Rt. atrioventricular orifice Tricuspid valves
 - septal cusps
 - Cardiac muscles Trabeculae carneae
-- trabecula
 - usually contains the right branch
 - Posterior and septal papillary muscles
 - Chordae tendineae
@@ -711,11 +600,9 @@
 - Pulmonary semilunar valves Left atrium
 - Principal cavity
 - Orifice of pulmonary veins
-- Left auricle
 - Left atrioventricular orifice
 - Aortic semilunar valves
 - dilatations opposite to the cusps
-- crista terminalis
 - subendocardial plexus
 - superficial and deep cardiac plexus
 - Parasympathetic n
@@ -725,27 +612,17 @@
 - common carotid Left subclavian artery
 - Mediastinal branch
 - Posterior intercostal arteries-intercostal space
-- Superior phrenic artery
 - diaphragm Aortic arch
 - Brachiocephalic trunk
 - Superior intercostol a. Subclavian a
-- anterior intercostal a
-- Right posterior intercostal vein
-- Left posterior intercostal vein
 - Joins the azygos vein
-- rt. posterior intercostal v
-- lt. Posterior intercostal v
 - parallel courses with pulmonary a
-- Fibrous pericardium
-- Serous pericardium
-- Trabeculae carneae
 - Posterior mediastinum
 - Ligamentum arteriosumductus
-- Ligamentum arteriosum
 
 ## 胸部 I（胸壁、乳房）　`解剖_0908-3`
 
-已有 40　·　UI 搵唔到 0　·　模型冇 67　·　骨標誌 29　·　雜訊 28
+已有 48　·　UI 搵唔到 0　·　模型冇 61　·　骨標誌 27　·　雜訊 28
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -760,10 +637,8 @@
 - sebaceous glands（含有數條皮脂腺）
 - retromammary space（乳房後間隙）
 - pectoralis fascia
-- mammary gland（乳腺）
 - lactiferous duct（葉分泌乳汁經由乳腺管）
 - lactiferous sinus（匯集輸乳竇）
-- medial mammary branch（內側的內乳腺分支）
 - axillary lymph node（腋淋巴結）
 - subclavian lymphatic trunk（帶回鎖骨下淋巴幹）
 - parasternal lymph node（胸骨旁淋巴結）
@@ -783,8 +658,6 @@
 - Xiphisternal joints
 - sternocostal joints
 - radiate sternocostal ligaments
-- phrenic nerve
-- sympathetic trunk
 - sternum via cartilage
 - Cisterna chyli B. Thoracic duct
 - Left lymphatic duct
@@ -795,7 +668,6 @@
 - ribs D. Branches
 - position corresponds to the space
 - Transversus thoracic muscle
-- posterior intercostal veins
 - anastomoses with anterior intercostal veins
 - they accompany the intercostal arteries
 - intercostal vessels and nerve
@@ -804,7 +676,6 @@
 - sternum C. the costal cartilages
 - bars of hyaline cartilage
 - respiratory diaphragm（向下藉由呼吸性橫膈）
-- breast（乳房）
 - areola（乳暈）
 - nipple（奶頭）
 - mammary gland lobules（支撐乳腺小葉）
@@ -911,7 +782,7 @@
 
 ## 頭部 II　`解剖_1013`
 
-已有 73　·　UI 搵唔到 0　·　模型冇 128　·　骨標誌 46　·　雜訊 57
+已有 74　·　UI 搵唔到 0　·　模型冇 128　·　骨標誌 45　·　雜訊 57
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -1050,7 +921,7 @@
 
 ## 頸部 II　`解剖_1020`
 
-已有 77　·　UI 搵唔到 0　·　模型冇 80　·　骨標誌 18　·　雜訊 45
+已有 83　·　UI 搵唔到 0　·　模型冇 74　·　骨標誌 18　·　雜訊 45
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -1079,7 +950,6 @@
 - External jugular v（外頸靜脈）
 - Supraclavicular n（鎖骨上神經）
 - Middle Scalene m（中斜角肌）
-- Phrenic n（膈神經）
 - carotid sinus（頸動脈竇）
 - Carotid Sinus nerve（壓訊息由頸動脈竇神經）
 - Superior thyroid a（上甲狀腺動脈）
@@ -1093,10 +963,6 @@
 - supraclavicular space
 - superior thoracic aperture
 - brachiocephalic trunk
-- sympathetic trunk（交感神經幹）
-- recurrent laryngeal n
-- Right recurrent laryngeal n
-- sympathetic ganglion
 - muller muscle
 - Stella ganglion
 - External jugular vein
@@ -1138,7 +1004,6 @@
 - endocrine layer（內分泌層）
 - respiratory layer（呼吸層）
 - alimentary layer（消化層）
-- isthmus（融合形成較狹窄的峽部）
 - parathyroid（副甲狀腺）
 - thyrocervical trunk, tct（甲狀頸動脈幹）
 - posterior border of the sternocleidomastoid muscle（胸鎖乳突肌後緣）
@@ -1147,7 +1012,7 @@
 
 ## 骨盆會陰 I　`解剖_1110`
 
-已有 61　·　UI 搵唔到 0　·　模型冇 146　·　骨標誌 19　·　雜訊 33
+已有 79　·　UI 搵唔到 0　·　模型冇 129　·　骨標誌 18　·　雜訊 33
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -1184,11 +1049,7 @@
 - Umbilical a（臍動脈）
 - Inferior vesical a（下膀胱動脈）
 - Vaginal a（陰道動脈）
-- Uterine a（子宮動脈）
 - Middle rectal a（中直腸動脈）
-- Internal pudendal a（內陰動脈）
-- Inferior gluteal a（下臀動脈）
-- Superior gluteal a（上臀動脈）
 - Iliolumbar a（髂腰動脈）
 - Deep circumflex iliac a（深旋髂動脈）
 - Medial umbilical lig（內側臍韌帶）
@@ -1200,25 +1061,19 @@
 - Badal a（基底動脈）
 - Spiral a（螺旋動脈）
 - Vaginal branch（陰道分支）
-- Ovarian branch（卵巢支）
 - Tubal branch（輸卵管支）
 - Tubal br. of ovarian a（卵巢動脈的輸卵管支）
-- round lig
 - Prostatic branch（前列腺支）
 - inferior rectal a（下直腸動脈）
 - perineal a（會陰動脈）
 - Iliolumbar artery（髂腰動脈）
-- Superior gluteal artery（上臀動脈）
 - Lumbosacral trunk（腰薦神經幹）
 - Nutrient artery
 - Ovarian artery（卵巢動脈）
-- Ovarian br（卵巢支）
 - Tubal br（輸卵管支）
-- Uterine artery（分別會和子宮動脈）
 - brim. B. The pubic arch
 - bladder B. Pubovesical ligament
 - Douglas D. Rectovesical pouch
-- Internal pudendal artery
 - Median sacral artery
 - Inferior vesical artery
 - Middle rectal artery
@@ -1247,13 +1102,8 @@
 - pubo-analis mi（恥骨肛門肌）
 - urinary system（泌尿系統）
 - reproductive system（生殖系統）
-- ovary（卵巢）
-- uterine tube（輸卵管）
-- uterus（子宮）
-- vagina（陰道）
 - digestive system（消化系統）
 - sigmoid colon（部分乙狀結腸）
-- fundus（膀胱底）
 - internal urethral sphincter（約肌）
 - peritoneum（脹大的膀胱會將腹膜）
 - serosa（漿膜層）
@@ -1285,7 +1135,6 @@
 - inferior transverse rectal fold（下橫褶）
 - germinal epithelium（外面由一層生殖上皮）
 - mesosalpinx（分別為輸卵管繫膜）
-- mesovarium（卵巢繫膜）
 - mesometrium（子宮繫膜）
 - peritoneal reflections（腹膜反摺）
 - ureteric fold（輸尿管褶）
@@ -1296,7 +1145,6 @@
 - patent part（開放部）
 - fundus of bladder（膀胱底）
 - sup. part of vagina（上半部陰道）
-- round lig. of uterus（子宮圓韌帶支）
 - bulb（尿道球動脈）
 - dorsal a. to the penis/clitoris（陰蒂背動脈）
 - deep a. to the penis/clitoris（陰蒂深動脈）
@@ -1305,7 +1153,7 @@
 
 ## 頭部 IV　`解剖_1117`
 
-已有 88　·　UI 搵唔到 0　·　模型冇 73　·　骨標誌 15　·　雜訊 20
+已有 89　·　UI 搵唔到 0　·　模型冇 72　·　骨標誌 15　·　雜訊 20
 
 **三、模型冇**
 
@@ -1323,7 +1171,6 @@
 - Short posterior ciliary a（短後睫動脈）
 - Long posterior ciliary a（長後睫動脈）
 - Ophthalmic vein（眼靜脈）
-- Auricle（耳廓）
 - Ceruminous gland（含有耵聹腺）
 - Tympanic membrane（鼓膜）
 - Posterior auricular a（後耳動脈）
@@ -1385,7 +1232,7 @@
 
 ## 頸部 III　`解剖_1124-2_頸III_`
 
-已有 51　·　UI 搵唔到 0　·　模型冇 58　·　骨標誌 3　·　雜訊 27
+已有 54　·　UI 搵唔到 0　·　模型冇 55　·　骨標誌 3　·　雜訊 27
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -1410,17 +1257,14 @@
 - Otic ganglion（腮腺中的耳下腺）
 - ext. laryngeal n
 - Int. laryngeal n
-- laryngeal n
 - Carotid triangle A
 - external jugular vein
 - external laryngeal nerve
 - inferior laryngeal nerve
 - internal laryngeal nerve
-- recurrent laryngeal nerve
 - thoracic duct B. thyrocervical trunk
 - intrinsic laryngeal muscles
 - laryngeal muscles
-- sympathetic trunk
 - Superficial cervical lymph nodes
 - deep cervical lymph nodes
 - prevertebral fascia
@@ -1454,24 +1298,19 @@
 
 ## 骨盆會陰 II　`解剖_1201`
 
-已有 52　·　UI 搵唔到 0　·　模型冇 192　·　骨標誌 26　·　雜訊 54
+已有 62　·　UI 搵唔到 0　·　模型冇 182　·　骨標誌 26　·　雜訊 54
 
 **三、模型冇**
 
 - Ovarian a（卵巢動脈）
 - Median sacral a（正中薦動脈）
 - Ovarian artery（卵巢動脈）
-- Ovarian br（卵巢支）
 - Tubal br（輸卵管支）
-- Uterine artery（分別會和子宮動脈）
 - Sup. Vesical a
 - Inf. Vesical a（男性）
-- Vagina a（陰道動脈）
 - Inferior Vesical a（下膀胱動脈）
 - Middle Rectal a（中直腸動脈）
 - Prostatic br（前列腺分支）
-- Internal Pudendal a（內陰動脈）
-- Uterine a
 - Vaginal a
 - Inferior Rectal a（下直腸動脈）
 - Spermatic Cord（供應精索）
@@ -1487,7 +1326,6 @@
 - Inferior rectal v（下直腸靜脈）
 - superior and inferior vesical veins（下膀胱靜脈）
 - Vesical Plexus（藉膀胱上的膀胱靜脈叢）
-- Uterine vein（子宮靜脈）
 - Vaginal vein（陰道靜脈）
 - Uterine Venous Plexus（子宮中段的子宮靜脈叢）
 - Vaginal Venous Plexus（段的陰道靜脈叢）
@@ -1558,8 +1396,6 @@
 - labial a
 - Perineal nerve（會陰神經）
 - labial n
-- Internal pudendal artery
-- Superior gluteal artery
 - Median sacral artery
 - Inferior vesical artery
 - Middle rectal artery
@@ -1610,7 +1446,6 @@
 - vasomotor（血管收縮）
 - pilomotor（豎毛肌收縮）
 - sudomotor（排汗）
-- ischial tuberosities（坐骨粗隆）
 - inferiormost sacrum and coccyx（薦骨尾骨最下處）
 - pelvic diaphragm（骨盆膈膜）
 - roof of perineum（骨盆膈膜是會陰的頂部）
@@ -1631,7 +1466,6 @@
 - frenulum of the labia minora/ fourchette（小陰唇繫帶）
 - frenulum of the clitoris（陰蒂繫帶）
 - prepuce of the clitoris（陰蒂包皮）
-- vestibule（前庭）
 - bulbs of vestibule（前庭球）
 - bulb of the penis（陰莖球）
 - bulbospongiosus（球海綿體肌）
