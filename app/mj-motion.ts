@@ -56,14 +56,20 @@ const tuple4=(q:T.Quaternion):[number,number,number,number]=>[q.x,q.y,q.z,q.w];
 const rigid=(m:T.Matrix4):PartTransform=>{const p=new T.Vector3(),q=new T.Quaternion(),s=new T.Vector3();m.decompose(p,q,s);return{translation:tuple3(p),quaternion:tuple4(q.normalize())};};
 const clamp=(v:number,[lo,hi]:readonly[number,number])=>T.MathUtils.clamp(v,lo,hi);
 
+const ribDims=new WeakMap<Atlas,{rx:number;rz:number;cz:number}>();
+function ribShell(atlas:Atlas){
+ const cached=ribDims.get(atlas);if(cached)return cached;
+ const ribs=new T.Box3();for(const p of atlas.parts)if(p.system==='skeletal'&&/ rib$/i.test(p.name))ribs.union(new T.Box3(new T.Vector3(...p.bounds[0]),new T.Vector3(...p.bounds[1])));
+ const dims={rx:Math.max(Math.abs(ribs.min.x),Math.abs(ribs.max.x)),rz:(ribs.max.z-ribs.min.z)/2,cz:(ribs.min.z+ribs.max.z)/2};
+ ribDims.set(atlas,dims);return dims;
+}
 // Keep the blade centre on its source thoracic shell while preserving the
 // clavicle length and both joint pivots. This is a geometric guide, not a
 // patient-specific collision or muscle-force simulation.
 function contactGirdle(atlas:Atlas,side:Side,sc:T.Vector3,ac:T.Vector3,up:number,tilt:T.Quaternion,desired:T.Matrix4){
  const fit=scapularContact.sides[side],centre=new T.Vector3(...fit.centre),normal=new T.Vector3(...fit.normal);
  if(!atlas.parts.some(p=>p.id===fit.scapulaId&&p.system==='skeletal'))throw new Error('Scapular contact/source mismatch');
- const ribs=new T.Box3();for(const p of atlas.parts)if(p.system==='skeletal'&&/ rib$/i.test(p.name))ribs.union(new T.Box3(new T.Vector3(...p.bounds[0]),new T.Vector3(...p.bounds[1])));
- const rx=Math.max(Math.abs(ribs.min.x),Math.abs(ribs.max.x)),rz=(ribs.max.z-ribs.min.z)/2,cz=(ribs.min.z+ribs.max.z)/2;
+ const {rx,rz,cz}=ribShell(atlas);
  const theta0=Math.atan2((centre.z-cz)/rz,centre.x/rx),rad=Math.hypot(centre.x/rx,(centre.z-cz)/rz),wanted=centre.clone().applyMatrix4(desired);
  const thetaWanted=theta0+Math.atan2(Math.sin(Math.atan2((wanted.z-cz)/rz,wanted.x/rx)-theta0),Math.cos(Math.atan2((wanted.z-cz)/rz,wanted.x/rx)-theta0));
  if(side==='right')normal.negate();
@@ -117,41 +123,69 @@ export function constrainPose(input:MotionPose):MotionPose{
  * atlas anatomically legible while showing realistic relationships, not to
  * claim patient-specific biomechanics.
  */
-export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
+interface ArmStatic{
+ warnings:string[];shoulder:T.Vector3;elbow:T.Vector3;superior:T.Vector3;lateral:T.Vector3;abductionAxis:T.Vector3;
+ neutralForearmCenter:T.Vector3;neutralRadialHead:T.Vector3;neutralUlnarHead:T.Vector3;neutralWrist:T.Vector3;
+ scJoint:T.Vector3;acJoint:T.Vector3;handTip:T.Vector3;shoulderFlexSign:number;shoulderRotationSign:number;
+ bones:{group:string;id:string}[];
+}
+// Everything that depends only on the atlas and the side (bone boxes, landmarks, joint centres, bone-part lookup) is computed once.
+const armStatic=new WeakMap<Atlas,Partial<Record<Side,ArmStatic>>>();
+function prepareArm(atlas:Atlas,side:Side):ArmStatic{
+ const cached=armStatic.get(atlas)?.[side];if(cached)return cached;
+ const made=makeArmStatic(atlas,side);
+ armStatic.set(atlas,{...armStatic.get(atlas),[side]:made});return made;
+}
+function handTipRest(atlas:Atlas,side:Side,wrist:T.Vector3){
+ const hand=new Set([...boneBindings[side].carpus,...boneBindings[side].hand].map(p=>p.id)),box=new T.Box3();
+ for(const p of atlas.parts)if(hand.has(p.id)&&p.system==='skeletal')box.union(new T.Box3(new T.Vector3().fromArray(p.bounds[0]),new T.Vector3().fromArray(p.bounds[1])));
+ return box.isEmpty()?wrist.clone().add(new T.Vector3(0,-.18,0)):new T.Vector3((box.min.x+box.max.x)/2,box.min.y,(box.min.z+box.max.z)/2);
+}
+function makeArmStatic(atlas:Atlas,side:Side):ArmStatic{
+ const empty=(warning:string):ArmStatic=>({warnings:[warning]} as ArmStatic);
  const cap=side[0].toUpperCase()+side.slice(1);
  const humerus=exact(atlas,`${cap} humerus`),scapula=exact(atlas,`${cap} scapula`),clavicle=exact(atlas,`${cap} clavicle`),radius=exact(atlas,`${cap} radius`),ulna=exact(atlas,`${cap} ulna`);
- const warnings:string[]=[];
- if(humerus.length!==1||scapula.length!==1||clavicle.length!==1||radius.length!==1||ulna.length!==1){
-  warnings.push(`Upper-limb bone mapping incomplete for ${side} side.`);
-  return{transforms:{} as Record<string,PartTransform>,warnings};
- }
-
- const handIds=new Set([...boneBindings[side].carpus,...boneBindings[side].hand].map(p=>p.id));
- const handIndices=atlas.parts.map((p,i)=>({p,i})).filter(({p})=>handIds.has(p.id)&&p.system==='skeletal').map(({i})=>i);
-
- const humerusBox=boxFor(atlas,humerus),scapulaBox=boxFor(atlas,scapula),clavicleBox=boxFor(atlas,clavicle);
- // Rotate about the fitted articular head centre, not the top of the
- // humerus bounding box (which includes the lateral greater tuberosity).
+ if(humerus.length!==1||scapula.length!==1||clavicle.length!==1||radius.length!==1||ulna.length!==1)return empty(`Upper-limb bone mapping incomplete for ${side} side.`);
+ const humerusBox=boxFor(atlas,humerus),clavicleBox=boxFor(atlas,clavicle);
  const landmark=shoulderLandmarks.sides[side];
- if(atlas.parts[humerus[0]].id!==landmark.humerusId||atlas.parts[scapula[0]].id!==landmark.scapulaId){
-  return{transforms:{} as Record<string,PartTransform>,warnings:['Shoulder landmark/source mismatch.']};
- }
+ if(atlas.parts[humerus[0]].id!==landmark.humerusId||atlas.parts[scapula[0]].id!==landmark.scapulaId)return empty('Shoulder landmark/source mismatch.');
  const shoulder=new T.Vector3().fromArray(landmark.headCenter);
  const forearmBox=boxFor(atlas,[...radius,...ulna]),forearmEnds=longEndpoints(forearmBox),humerusEnds=longEndpoints(humerusBox);
- const neutralHandCenter=handIndices.length?boxCenter(atlas,handIndices):forearmBox.getCenter(new T.Vector3()).add(new T.Vector3(0,-.22,0));
  const forearmLandmark=forearmLandmarks.sides[side];
- if(atlas.parts[radius[0]].id!==forearmLandmark.radiusId||atlas.parts[ulna[0]].id!==forearmLandmark.ulnaId)return{transforms:{} as Record<string,PartTransform>,warnings:['Forearm landmark/source mismatch.']};
+ if(atlas.parts[radius[0]].id!==forearmLandmark.radiusId||atlas.parts[ulna[0]].id!==forearmLandmark.ulnaId)return empty('Forearm landmark/source mismatch.');
  const neutralWrist=new T.Vector3().fromArray(forearmLandmark.wrist);
-
- let elbow=new T.Vector3(),best=Infinity;
+ const elbow=new T.Vector3();let best=Infinity;
  for(const h of humerusEnds)for(const f of forearmEnds){const d=h.distanceToSquared(f);if(d<best){best=d;elbow.copy(h).add(f).multiplyScalar(.5);}}
- const neutralRadialHead=new T.Vector3().fromArray(forearmLandmark.radialHead);
- const neutralUlnarHead=new T.Vector3().fromArray(forearmLandmark.ulnarHead);
-
  const superior=shoulder.clone().sub(elbow).normalize();
  const lateral=new T.Vector3(side==='right'?-1:1,0,0);
  const abductionAxis=lateral.clone().cross(superior).normalize();if(abductionAxis.lengthSq()<.5)abductionAxis.set(0,0,side==='right'?-1:1);
- const worldAnterior=new T.Vector3(0,0,1),shoulderFlexSign=side==='right'?1:-1,shoulderRotationSign=side==='right'?-1:1;
+ const clavicleEnds=longEndpoints(clavicleBox),clavicleCenter=clavicleBox.getCenter(new T.Vector3());
+ const scJoint=nearer(clavicleEnds[0],clavicleEnds[1],new T.Vector3(0,clavicleCenter.y,clavicleCenter.z));
+ const acJoint=scJoint===clavicleEnds[0]?clavicleEnds[1]:clavicleEnds[0];
+ const warnings:string[]=[],bones:{group:string;id:string}[]=[];
+ for(const [group,entries] of Object.entries(boneBindings[side]))for(const entry of entries){
+  const part=atlas.parts.find(p=>p.id===entry.id&&p.name===entry.name&&p.system==='skeletal');
+  if(!part){warnings.push(`Bone binding missing: ${entry.name}`);continue;}
+  bones.push({group,id:part.id});
+ }
+ return{warnings,shoulder,elbow,superior,lateral,abductionAxis,neutralForearmCenter:forearmBox.getCenter(new T.Vector3()),
+  neutralRadialHead:new T.Vector3().fromArray(forearmLandmark.radialHead),neutralUlnarHead:new T.Vector3().fromArray(forearmLandmark.ulnarHead),neutralWrist,
+  scJoint,acJoint,handTip:handTipRest(atlas,side,neutralWrist),shoulderFlexSign:side==='right'?1:-1,shoulderRotationSign:side==='right'?-1:1,bones};
+}
+/** Joint centres of one arm after a pose, from the bone transforms: shoulder (humeral head), elbow, wrist and the tip of the hand (for collision checks). */
+export function armJoints(atlas:Atlas,side:Side,transforms:Record<string,PartTransform>){
+ const st=prepareArm(atlas,side);if(!st.shoulder)return null;
+ const at=(group:string,rest:T.Vector3)=>{
+  const id=st.bones.find(b=>b.group===group)?.id,t=id?transforms[id]:undefined;if(!t)return rest.clone();
+  return rest.clone().applyQuaternion(new T.Quaternion(...t.quaternion)).add(new T.Vector3(...t.translation));
+ };
+ return{shoulder:at('humerus',st.shoulder),elbow:at('humerus',st.elbow),wrist:at('radius',st.neutralWrist),tip:at('hand',st.handTip)};
+}
+export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
+ const st=prepareArm(atlas,side);
+ if(!st.shoulder)return{transforms:{} as Record<string,PartTransform>,warnings:st.warnings};
+ const {shoulder,elbow,superior,lateral,abductionAxis,neutralRadialHead,neutralUlnarHead,neutralWrist,scJoint,acJoint,shoulderFlexSign,shoulderRotationSign}=st;
+ const worldAnterior=new T.Vector3(0,0,1);
  const p=constrainPose(input);
 
  // Flexion and abduction are treated as a single plane-of-elevation rotation
@@ -182,11 +216,8 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  const clavicularRetraction=20*rhythm;
  const clavicleQ=qdeg(abductionAxis,clavicularElevation).multiply(qdeg(new T.Vector3(0,1,0),clavicularRetraction*-shoulderFlexSign)).normalize();
 
- // Approximate SC/AC pivots from the clavicle itself. The scapula follows the
+ // Approximate SC/AC pivots from the clavicle itself (found once per atlas in prepareArm). The scapula follows the
  // moving AC end so the shoulder girdle remains connected during elevation.
- const clavicleEnds=longEndpoints(clavicleBox),clavicleCenter=clavicleBox.getCenter(new T.Vector3());
- const scJoint=nearer(clavicleEnds[0],clavicleEnds[1],new T.Vector3(0,clavicleCenter.y,clavicleCenter.z));
- const acJoint=scJoint===clavicleEnds[0]?clavicleEnds[1]:clavicleEnds[0];
  let clavicleM=about(scJoint,clavicleQ);
  const movedAc=acJoint.clone().applyMatrix4(clavicleM),acShift=movedAc.clone().sub(acJoint);
  const scapulaRotateM=about(acJoint,scapulaQ);
@@ -208,7 +239,7 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  const movedElbow=elbow.clone().applyMatrix4(shoulderM);
  const movedLateral=lateral.clone().applyQuaternion(shoulderQ).normalize();
  const movedAnterior=worldAnterior.clone().applyQuaternion(shoulderQ).normalize();
- const neutralForearmCenter=forearmBox.getCenter(new T.Vector3()).applyMatrix4(shoulderM);
+ const neutralForearmCenter=st.neutralForearmCenter.clone().applyMatrix4(shoulderM);
 
  // Elbow remains a hinge. Pick the sign that moves the forearm anteriorly and
  // allow only a small amount of hyperextension.
@@ -241,10 +272,7 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  // Emit bone-only transforms; never rotate muscle heads as separate rigid lumps.
  const transforms:Record<string,PartTransform>={};
  const matrices={clavicle:clavicleM,scapula:scapulaM,humerus:shoulderM,ulna:elbowM,radius:forearmM,carpus:wristM,hand:wristM};
- for(const [group,entries] of Object.entries(boneBindings[side]))for(const entry of entries){
-  const part=atlas.parts.find(p=>p.id===entry.id&&p.name===entry.name&&p.system==='skeletal');
-  if(!part){warnings.push(`Bone binding missing: ${entry.name}`);continue;}
-  transforms[part.id]=rigid(matrices[group as keyof typeof matrices]);
- }
+ for(const bone of st.bones)transforms[bone.id]=rigid(matrices[bone.group as keyof typeof matrices]);
+ const warnings=st.warnings.slice();
  return{transforms,warnings};
 }
