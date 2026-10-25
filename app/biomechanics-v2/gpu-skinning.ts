@@ -113,8 +113,22 @@ export const GPU_SKIN_NORMAL=gpuSkinNormal('texture2D(motionState, vec2((partInd
 
 
 /** CPU twin of GPU_SKIN_POSITION for absolute-slot bindings, reading the packed float32 palette (picking, tests). */
-export function slotSkin(b:Pick<GpuBinding,'indices'|'weights'>,base:ArrayLike<number>,palette:Float32Array,out:Float32Array){
+export function slotSkin(b:Pick<GpuBinding,'indices'|'weights'>&{lbs?:boolean},base:ArrayLike<number>,palette:Float32Array,out:Float32Array){
  const R=[0,0,0,0],D=[0,0,0,0];
+ if(b.lbs){
+  // Linear blend of the posed positions (shader mode 2): where two segments that turn far apart meet, the skin folds in rather than swinging outward.
+  for(let v=0;v<out.length/3;v++){
+   const o=v*4,x=base[v*3],y=base[v*3+1],z=base[v*3+2];let total=0;for(let k=0;k<4;k++)total+=Math.max(0,b.weights[o+k]);total=Math.max(total,1e-6);
+   let ax=0,ay=0,az=0;
+   for(let k=0;k<4;k++){
+    const w=Math.max(0,b.weights[o+k])/total;if(w<=0)continue;const s=b.indices[o+k]*8,r0=palette[s],r1=palette[s+1],r2=palette[s+2],r3=palette[s+3],d0=palette[s+4],d1=palette[s+5],d2=palette[s+6],d3=palette[s+7];
+    const cx=r1*z-r2*y+r3*x,cy=r2*x-r0*z+r3*y,cz=r0*y-r1*x+r3*z;
+    ax+=w*(x+2*(r1*cz-r2*cy)+2*(r3*d0-d3*r0+r1*d2-r2*d1));ay+=w*(y+2*(r2*cx-r0*cz)+2*(r3*d1-d3*r1+r2*d0-r0*d2));az+=w*(z+2*(r0*cy-r1*cx)+2*(r3*d2-d3*r2+r0*d1-r1*d0));
+   }
+   out[v*3]=ax;out[v*3+1]=ay;out[v*3+2]=az;
+  }
+  return out;
+ }
  for(let v=0;v<out.length/3;v++){
   const o=v*4,s0=b.indices[o]*8;let total=0;for(let k=0;k<4;k++)total+=Math.max(0,b.weights[o+k]);total=Math.max(total,1e-6);
   R.fill(0);D.fill(0);

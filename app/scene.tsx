@@ -93,7 +93,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const slots=decode(w.slots),raw=decode(w.weights),values=new Uint16Array(raw.buffer,raw.byteOffset,raw.byteLength/2),weights=new Float32Array(values.length);
     for(let i=0;i<values.length;i++)weights[i]=values[i]/65535;
     if(slots.length!==w.vertexCount*4)continue;
-    surfaceBindings.set(id,{side:null,indices:slots,weights,exact:true,lbs:false});
+    surfaceBindings.set(id,{side:null,indices:slots,weights,exact:true,lbs:true});
    }
    lastState=null;dirty=true;
   },()=>onError('皮膚權重載入失敗，請重新整理。'),'皮膚權重');

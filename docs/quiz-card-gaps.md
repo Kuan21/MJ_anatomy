@@ -404,9 +404,13 @@
 
 - 右多裂肌（multifidus）：缺 血液供應
 
-### 神經：3 / 3 項資料完整
+### 神經：3 / 8 項資料完整
 
-（全部完整）
+- 左枕下神經（suboccipital nerve）：缺 主要分支
+- 左枕大神經（greater occipital nerve）：缺 主要分支
+- 左第三枕神經（third occipital nerve）：缺 主要分支
+- 左枕小神經（lesser occipital nerve）：缺 主要分支
+- 左耳大神經（great auricular nerve）：缺 主要分支
 
 ### 動脈：5 / 8 項資料完整
 
@@ -414,8 +418,9 @@
 - 左肩胛背動脈（dorsal scapular artery）：缺 主要分支
 - 左頸淺動脈（superficial cervical artery）：缺 主要分支
 
-### 靜脈：0 / 3 項資料完整
+### 靜脈：0 / 4 項資料完整
 
 - 左肋下靜脈（subcostal vein）：缺 來源、主要分支
 - 左胸背靜脈（thoracodorsal vein）：缺 主要分支
 - 左腰升靜脈（ascending lumbar vein）：缺 主要分支
+- 左枕下靜脈叢（suboccipital venous plexus）：缺 走向、主要分支
