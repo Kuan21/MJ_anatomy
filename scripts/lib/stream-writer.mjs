@@ -38,10 +38,10 @@ export function weldByPosition(positions, indices) {
   return {positions: Float32Array.from(out), indices: Uint32Array.from(kept)};
 }
 
-export async function simplify(positions, indices, maxTriangles, error = .004) {
+export async function simplify(positions, indices, maxTriangles, error = .004, flags = []) {
   await MeshoptSimplifier.ready;
   if (indices.length / 3 <= maxTriangles) return {positions, indices};
-  const [simplified] = MeshoptSimplifier.simplify(indices, positions, 3, maxTriangles * 3, error);
+  const [simplified] = MeshoptSimplifier.simplify(indices, positions, 3, maxTriangles * 3, error, flags);
   const [remap, vertexCount] = MeshoptSimplifier.compactMesh(simplified);
   const next = new Float32Array(vertexCount * 3);
   for (let old = 0; old < remap.length; old++) { const k = remap[old]; if (k !== 0xffffffff) next.set(positions.subarray(old * 3, old * 3 + 3), k * 3); }

@@ -1,0 +1,1123 @@
+{
+ "3": {
+  "names": [
+   "Jugular foramen"
+  ]
+ },
+ "6": {
+  "names": [
+   "Posterior cutaneous branch of dorsal ramus of spinal nerve"
+  ]
+ },
+ "7": {
+  "names": [
+   "Dorsal ramus of spinal nerve"
+  ]
+ },
+ "8": {
+  "names": [
+   "Rhomboid minor muscle"
+  ],
+  "note": "筆記換行截斷，原文 Rhomboid major/minor m."
+ },
+ "13": {
+  "names": [
+   "Deep branch of transverse cervical artery"
+  ],
+  "note": "又稱 Dorsal scapular artery（筆記原文）"
+ },
+ "17": {
+  "names": [
+   "Thoracolumbar fascia"
+  ]
+ },
+ "530": {
+  "names": [
+   "Thoracolumbar fascia"
+  ]
+ },
+ "21": {
+  "names": [
+   "Suprascapular notch"
+  ],
+  "note": "筆記寫 foramen（韌帶骨化時）；模型以切跡表示"
+ },
+ "23": {
+  "names": [
+   "Superior nuchal line"
+  ]
+ },
+ "24": {
+  "names": [
+   "Mastoid process"
+  ]
+ },
+ "31": {
+  "names": [
+   "Suboccipital triangle"
+  ]
+ },
+ "33": {
+  "names": [
+   "Spinous process of axis"
+  ]
+ },
+ "39": {
+  "names": [
+   "Spinous process of axis"
+  ]
+ },
+ "35": {
+  "names": [
+   "Semispinalis capitis muscle"
+  ],
+  "note": "筆記換行截斷（capitis m.），context 為頭半棘肌"
+ },
+ "47": {
+  "names": [
+   "Posterior arch of atlas"
+  ]
+ },
+ "49": {
+  "names": [
+   "Denticulate ligament"
+  ]
+ },
+ "50": {
+  "names": [
+   "Denticulate ligament"
+  ]
+ },
+ "51": {
+  "names": [
+   "Ventral root of spinal nerve"
+  ]
+ },
+ "52": {
+  "names": [
+   "Dorsal root of spinal nerve"
+  ]
+ },
+ "56": {
+  "names": [
+   "Nuchal ligament",
+   "Supraspinous ligament"
+  ]
+ },
+ "57": {
+  "names": [
+   "Supraspinous ligament"
+  ]
+ },
+ "59": {
+  "skip": "泛稱（br. of～、head of～、tendon of～ 的說明句），不是特定結構；各肌腱、分支已於對應項目逐一列出"
+ },
+ "60": {
+  "names": [
+   "Coracoid process"
+  ]
+ },
+ "61": {
+  "names": [
+   "Greater tubercle of humerus"
+  ]
+ },
+ "62": {
+  "names": [
+   "Lesser tubercle of humerus"
+  ]
+ },
+ "63": {
+  "names": [
+   "Intertubercular groove"
+  ]
+ },
+ "64": {
+  "names": [
+   "Intertubercular groove"
+  ],
+  "note": "biceps groove 為同義詞"
+ },
+ "65": {
+  "names": [
+   "Axillary fossa"
+  ]
+ },
+ "66": {
+  "names": [
+   "Axillary sheath"
+  ]
+ },
+ "68": {
+  "names": [
+   "Quadrangular space"
+  ]
+ },
+ "71": {
+  "names": [
+   "Triangular interval"
+  ]
+ },
+ "74": {
+  "names": [
+   "Triangular space"
+  ]
+ },
+ "70": {
+  "names": [
+   "Posterior circumflex humeral artery",
+   "Posterior circumflex humeral vein"
+  ]
+ },
+ "73": {
+  "names": [
+   "Profunda brachii artery"
+  ],
+  "note": "筆記拼成 branchial；即 Deep brachial artery"
+ },
+ "78": {
+  "names": [
+   "Superior thoracic artery"
+  ]
+ },
+ "93": {
+  "names": [
+   "Superior thoracic artery"
+  ]
+ },
+ "94": {
+  "names": [
+   "Thoracoacromial artery"
+  ]
+ },
+ "80": {
+  "names": [
+   "Pectoral branch of thoracoacromial artery"
+  ]
+ },
+ "81": {
+  "names": [
+   "Acromial branch of thoracoacromial artery"
+  ]
+ },
+ "82": {
+  "names": [
+   "Clavicular branch of thoracoacromial artery"
+  ]
+ },
+ "83": {
+  "names": [
+   "Deltoid branch of thoracoacromial artery"
+  ]
+ },
+ "95": {
+  "names": [
+   "Clavicular branch of thoracoacromial artery"
+  ]
+ },
+ "96": {
+  "names": [
+   "Acromial branch of thoracoacromial artery"
+  ]
+ },
+ "97": {
+  "names": [
+   "Deltoid branch of thoracoacromial artery"
+  ]
+ },
+ "247": {
+  "names": [
+   "Pectoral branch of thoracoacromial artery"
+  ]
+ },
+ "85": {
+  "names": [
+   "Lateral thoracic artery"
+  ]
+ },
+ "86": {
+  "names": [
+   "Mammary branch of lateral thoracic artery"
+  ]
+ },
+ "92": {
+  "names": [
+   "Quadrangular space"
+  ],
+  "note": "筆記換行截斷（space），context 指方形間隙"
+ },
+ "99": {
+  "names": [
+   "Long thoracic nerve"
+  ],
+  "note": "筆記換行截斷（nerve 伴行），context 指長胸神經"
+ },
+ "102": {
+  "names": [
+   "Infraspinous fossa"
+  ]
+ },
+ "166": {
+  "names": [
+   "Infraspinous fossa"
+  ]
+ },
+ "105": {
+  "names": [
+   "Surgical neck of humerus"
+  ]
+ },
+ "108": {
+  "names": [
+   "Clavipectoral triangle"
+  ],
+  "note": "筆記：胸大肌、三角肌、鎖骨圍成，頭靜脈由此匯入腋靜脈（又稱三角肌胸大肌三角）"
+ },
+ "114": {
+  "names": [
+   "Teres major muscle"
+  ],
+  "note": "low part of teres major m.：肱動脈的命名界線（大圓肌下緣）"
+ },
+ "115": {
+  "names": [
+   "Middle collateral artery"
+  ],
+  "note": "筆記換行截斷（collateral artery）；肱深動脈分支"
+ },
+ "118": {
+  "names": [
+   "Middle collateral artery"
+  ],
+  "note": "筆記換行截斷（artery, radial collateral artery）"
+ },
+ "122": {
+  "names": [
+   "Common interosseous artery"
+  ],
+  "note": "筆記寫 Interosseous artery，分前、後骨間動脈"
+ },
+ "125": {
+  "names": [
+   "Superficial palmar arch"
+  ]
+ },
+ "126": {
+  "names": [
+   "Superficial palmar branch of radial artery"
+  ]
+ },
+ "128": {
+  "names": [
+   "Deep palmar arch"
+  ]
+ },
+ "130": {
+  "names": [
+   "Deep palmar branch of ulnar artery"
+  ]
+ },
+ "131": {
+  "names": [
+   "Common palmar digital artery"
+  ]
+ },
+ "132": {
+  "names": [
+   "Proper palmar digital artery"
+  ]
+ },
+ "536": {
+  "names": [
+   "Common palmar digital artery"
+  ]
+ },
+ "537": {
+  "names": [
+   "Proper palmar digital artery"
+  ]
+ },
+ "196": {
+  "names": [
+   "Common palmar digital nerve"
+  ]
+ },
+ "197": {
+  "names": [
+   "Proper palmar digital nerve"
+  ]
+ },
+ "198": {
+  "names": [
+   "Proper palmar digital nerve"
+  ]
+ },
+ "134": {
+  "names": [
+   "Lateral cord of brachial plexus"
+  ]
+ },
+ "186": {
+  "names": [
+   "Lateral cord of brachial plexus"
+  ]
+ },
+ "142": {
+  "names": [
+   "Medial cord of brachial plexus"
+  ]
+ },
+ "188": {
+  "names": [
+   "Medial cord of brachial plexus"
+  ]
+ },
+ "187": {
+  "names": [
+   "Lateral root of median nerve"
+  ]
+ },
+ "189": {
+  "names": [
+   "Medial root of median nerve"
+  ]
+ },
+ "163": {
+  "names": [
+   "Superior trunk of brachial plexus"
+  ]
+ },
+ "135": {
+  "names": [
+   "Lateral pectoral nerve"
+  ]
+ },
+ "176": {
+  "names": [
+   "Lateral pectoral nerve"
+  ]
+ },
+ "140": {
+  "names": [
+   "Lateral cutaneous nerve of forearm"
+  ],
+  "note": "筆記縮寫 Lat. cutaneous n.（肌皮神經終末支）"
+ },
+ "144": {
+  "names": [
+   "Medial cutaneous nerve of arm"
+  ]
+ },
+ "146": {
+  "names": [
+   "Medial cutaneous nerve of forearm"
+  ]
+ },
+ "184": {
+  "names": [
+   "Medial cutaneous nerve of arm",
+   "Medial cutaneous nerve of forearm"
+  ],
+  "note": "筆記僅寫 medial cutaneous nerve"
+ },
+ "145": {
+  "names": [
+   "Intercostobrachial nerve"
+  ]
+ },
+ "150": {
+  "names": [
+   "Carpal tunnel"
+  ]
+ },
+ "153": {
+  "names": [
+   "Superior subscapular nerve"
+  ],
+  "note": "Upper subscapular n."
+ },
+ "177": {
+  "names": [
+   "Superior subscapular nerve"
+  ]
+ },
+ "154": {
+  "names": [
+   "Middle subscapular nerve"
+  ],
+  "note": "即 Thoracodorsal n."
+ },
+ "178": {
+  "names": [
+   "Middle subscapular nerve"
+  ]
+ },
+ "155": {
+  "names": [
+   "Inferior subscapular nerve"
+  ],
+  "note": "Lower subscapular n."
+ },
+ "180": {
+  "names": [
+   "Inferior subscapular nerve"
+  ]
+ },
+ "158": {
+  "names": [
+   "Radial groove"
+  ]
+ },
+ "160": {
+  "names": [
+   "Superficial branch of radial nerve"
+  ]
+ },
+ "195": {
+  "names": [
+   "Superficial branch of radial nerve"
+  ]
+ },
+ "161": {
+  "names": [
+   "Deep branch of radial nerve"
+  ]
+ },
+ "170": {
+  "names": [
+   "Anterior scalene muscle",
+   "Middle scalene muscle"
+  ],
+  "note": "筆記換行截斷（scalis muscle），context：前斜角肌與中斜角肌之間"
+ },
+ "172": {
+  "names": [
+   "Phrenic nerve"
+  ]
+ },
+ "175": {
+  "names": [
+   "Suprascapular notch"
+  ]
+ },
+ "181": {
+  "skip": "泛稱（Terminal branch＝終末支），不是特定結構"
+ },
+ "182": {
+  "skip": "泛稱（peripheral nerve＝周邊神經），不是特定結構"
+ },
+ "183": {
+  "names": [
+   "Medial pectoral nerve"
+  ]
+ },
+ "190": {
+  "names": [
+   "Thenar muscles"
+  ]
+ },
+ "191": {
+  "names": [
+   "Lumbrical muscle"
+  ]
+ },
+ "208": {
+  "names": [
+   "Triangular interval"
+  ],
+  "note": "筆記「腋窩 Interval、Space」，Interval 即 Triangular interval"
+ },
+ "207": {
+  "names": [
+   "Infraglenoid tubercle"
+  ]
+ },
+ "209": {
+  "names": [
+   "Subscapularis muscle"
+  ]
+ },
+ "210": {
+  "names": [
+   "Medial epicondyle of humerus"
+  ]
+ },
+ "222": {
+  "names": [
+   "Styloid process of radius"
+  ]
+ },
+ "212": {
+  "partOf": "Pronator teres muscle",
+  "names": [
+   "Humeral head of pronator teres muscle"
+  ]
+ },
+ "213": {
+  "partOf": "Pronator teres muscle",
+  "names": [
+   "Ulnar head of pronator teres muscle"
+  ]
+ },
+ "242": {
+  "partOf": "Adductor pollicis muscle",
+  "names": [
+   "Transverse head of adductor pollicis muscle"
+  ]
+ },
+ "243": {
+  "partOf": "Adductor pollicis muscle",
+  "names": [
+   "Oblique head of adductor pollicis muscle"
+  ]
+ },
+ "250": {
+  "names": [
+   "External oblique muscle"
+  ]
+ },
+ "251": {
+  "names": [
+   "Iliac crest"
+  ]
+ },
+ "252": {
+  "names": [
+   "Pubic tubercle"
+  ]
+ },
+ "254": {
+  "names": [
+   "External intercostal membrane"
+  ]
+ },
+ "256": {
+  "names": [
+   "Internal intercostal membrane"
+  ]
+ },
+ "260": {
+  "names": [
+   "Suspensory ligament of breast"
+  ]
+ },
+ "548": {
+  "names": [
+   "Suspensory ligament of breast"
+  ]
+ },
+ "261": {
+  "names": [
+   "Lateral mammary artery"
+  ]
+ },
+ "549": {
+  "names": [
+   "Lateral mammary artery"
+  ]
+ },
+ "262": {
+  "names": [
+   "Medial mammary branch of internal thoracic artery"
+  ]
+ },
+ "550": {
+  "names": [
+   "Medial mammary branch of internal thoracic artery"
+  ]
+ },
+ "264": {
+  "names": [
+   "Internal thoracic vein"
+  ]
+ },
+ "268": {
+  "names": [
+   "Rectus sheath"
+  ]
+ },
+ "270": {
+  "names": [
+   "Anterior intercostal artery",
+   "Anterior intercostal vein"
+  ]
+ },
+ "273": {
+  "names": [
+   "Pericardiophrenic artery",
+   "Pericardiophrenic vein"
+  ]
+ },
+ "274": {
+  "names": [
+   "Phrenic nerve"
+  ]
+ },
+ "294": {
+  "names": [
+   "Phrenic nerve"
+  ]
+ },
+ "286": {
+  "names": [
+   "Azygos vein"
+  ]
+ },
+ "287": {
+  "names": [
+   "Hemiazygos vein"
+  ]
+ },
+ "291": {
+  "partOf": "Azygos vein",
+  "names": [
+   "Arch of azygos vein"
+  ]
+ },
+ "297": {
+  "names": [
+   "Thoracic splanchnic nerve"
+  ]
+ },
+ "309": {
+  "names": [
+   "Esophageal artery"
+  ]
+ },
+ "310": {
+  "names": [
+   "Posterior intercostal artery",
+   "Subcostal artery"
+  ]
+ },
+ "312": {
+  "names": [
+   "Aortic hiatus"
+  ]
+ },
+ "323": {
+  "names": [
+   "Sinoatrial nodal artery"
+  ]
+ },
+ "563": {
+  "names": [
+   "Sinoatrial nodal artery",
+   "Atrioventricular nodal artery"
+  ],
+  "note": "筆記僅寫 nodal a."
+ },
+ "318": {
+  "names": [
+   "Right marginal branch of right coronary artery"
+  ]
+ },
+ "562": {
+  "names": [
+   "Right marginal branch of right coronary artery",
+   "Left marginal branch of circumflex artery"
+  ]
+ },
+ "329": {
+  "names": [
+   "Left marginal branch of circumflex artery"
+  ]
+ },
+ "338": {
+  "names": [
+   "Papillary muscle"
+  ]
+ },
+ "340": {
+  "names": [
+   "Septal papillary muscle"
+  ]
+ },
+ "343": {
+  "names": [
+   "Anterolateral papillary muscle of left ventricle",
+   "Posteromedial papillary muscle of left ventricle"
+  ],
+  "note": "Ant./Post. papillary m."
+ },
+ "336": {
+  "names": [
+   "Fossa ovalis"
+  ]
+ },
+ "350": {
+  "names": [
+   "Groove for descending aorta"
+  ]
+ },
+ "351": {
+  "names": [
+   "Groove for subclavian artery"
+  ]
+ },
+ "551": {
+  "names": [
+   "Pulmonary artery",
+   "Pulmonary vein"
+  ]
+ },
+ "558": {
+  "names": [
+   "Anterior vagal trunk",
+   "Posterior vagal trunk"
+  ]
+ },
+ "305": {
+  "names": [
+   "Posterior vagal trunk"
+  ]
+ },
+ "372": {
+  "names": [
+   "Internal pudendal artery",
+   "Internal pudendal vein"
+  ]
+ },
+ "374": {
+  "names": [
+   "Superior gluteal artery",
+   "Superior gluteal vein"
+  ]
+ },
+ "376": {
+  "names": [
+   "Inferior gluteal artery",
+   "Inferior gluteal vein"
+  ]
+ },
+ "377": {
+  "names": [
+   "Internal pudendal artery",
+   "Internal pudendal vein"
+  ]
+ },
+ "375": {
+  "names": [
+   "Superficial branch of superior gluteal artery"
+  ],
+  "note": "筆記換行截斷；深支 deep br. 於下一行"
+ },
+ "369": {
+  "names": [
+   "Posterior cutaneous nerve of thigh"
+  ]
+ },
+ "370": {
+  "names": [
+   "Nerve to obturator internus"
+  ]
+ },
+ "379": {
+  "names": [
+   "Ischial tuberosity"
+  ]
+ },
+ "381": {
+  "names": [
+   "Spine of ischium"
+  ]
+ },
+ "388": {
+  "names": [
+   "Tibial tuberosity"
+  ]
+ },
+ "399": {
+  "names": [
+   "Femoral sheath"
+  ]
+ },
+ "373": {
+  "names": [
+   "Nerve to quadratus femoris"
+  ]
+ },
+ "400": {
+  "names": [
+   "Anterior femoral cutaneous nerve"
+  ]
+ },
+ "401": {
+  "skip": "佔位寫法（nerve to XXX m.＝至某肌肉之神經的通稱），不是特定結構；各肌肉支已於 370、373、402 逐一列出"
+ },
+ "402": {
+  "names": [
+   "Nerve to vastus medialis"
+  ]
+ },
+ "405": {
+  "names": [
+   "Saphenous branch of descending genicular artery"
+  ]
+ },
+ "407": {
+  "names": [
+   "Articular branch of descending genicular artery"
+  ]
+ },
+ "408": {
+  "names": [
+   "Saphenous branch of descending genicular artery"
+  ]
+ },
+ "417": {
+  "names": [
+   "Ascending branch of lateral circumflex femoral artery"
+  ]
+ },
+ "418": {
+  "names": [
+   "Transverse branch of lateral circumflex femoral artery"
+  ]
+ },
+ "419": {
+  "names": [
+   "Descending branch of lateral circumflex femoral artery"
+  ]
+ },
+ "422": {
+  "names": [
+   "Perforating branch of deep femoral artery"
+  ]
+ },
+ "441": {
+  "names": [
+   "Perforating branch of deep femoral artery"
+  ]
+ },
+ "423": {
+  "names": [
+   "Adductor hiatus"
+  ]
+ },
+ "427": {
+  "names": [
+   "Obturator externus muscle"
+  ]
+ },
+ "431": {
+  "names": [
+   "Posterior branch of obturator nerve"
+  ]
+ },
+ "434": {
+  "names": [
+   "Anterior branch of obturator nerve"
+  ]
+ },
+ "453": {
+  "names": [
+   "Sural communicating branch of common fibular nerve"
+  ]
+ },
+ "455": {
+  "names": [
+   "Transverse ligament of knee"
+  ]
+ },
+ "461": {
+  "partOf": "Popliteus muscle",
+  "names": [
+   "Tendon of popliteus muscle"
+  ]
+ },
+ "472": {
+  "names": [
+   "Lateral branch of deep fibular nerve"
+  ]
+ },
+ "473": {
+  "names": [
+   "Medial branch of deep fibular nerve"
+  ]
+ },
+ "482": {
+  "partOf": "Gastrocnemius muscle",
+  "names": [
+   "Lateral head of gastrocnemius muscle"
+  ]
+ },
+ "492": {
+  "skip": "截斷（Posterior m.＝小腿後區肌群標題），不是特定結構；後區各肌已逐項列出"
+ },
+ "490": {
+  "names": [
+   "Tarsal tunnel"
+  ]
+ },
+ "495": {
+  "names": [
+   "Circumflex fibular artery"
+  ]
+ },
+ "497": {
+  "names": [
+   "Flexor retinaculum of ankle"
+  ]
+ },
+ "486": {
+  "partOf": "Plantaris muscle",
+  "names": [
+   "Tendon of plantaris muscle"
+  ]
+ },
+ "498": {
+  "partOf": "Tibialis posterior muscle",
+  "names": [
+   "Tendon of tibialis posterior muscle"
+  ]
+ },
+ "499": {
+  "partOf": "Flexor digitorum longus muscle",
+  "names": [
+   "Tendon of flexor digitorum longus muscle"
+  ]
+ },
+ "503": {
+  "partOf": "Flexor hallucis longus muscle",
+  "names": [
+   "Tendon of flexor hallucis longus muscle"
+  ]
+ },
+ "506": {
+  "names": [
+   "Superior extensor retinaculum of foot"
+  ]
+ },
+ "507": {
+  "names": [
+   "Inferior extensor retinaculum of foot"
+  ]
+ },
+ "513": {
+  "names": [
+   "Lateral plantar vein"
+  ]
+ },
+ "515": {
+  "partOf": "Flexor hallucis brevis muscle",
+  "names": [
+   "Medial head of flexor hallucis brevis muscle"
+  ]
+ },
+ "526": {
+  "names": [
+   "Rhomboid major muscle",
+   "Rhomboid minor muscle"
+  ]
+ },
+ "528": {
+  "names": [
+   "Serratus posterior superior muscle",
+   "Serratus posterior inferior muscle"
+  ]
+ },
+ "529": {
+  "skip": "截斷（inf. m.，Serratus post. sup./inf. m. 的後半），已於 528 一併列出"
+ },
+ "535": {
+  "skip": "非結構（Roof＝枕下三角的頂，即 Semispinalis capitis，已於 30 列出）"
+ },
+ "14": {
+  "names": [
+   "Dorsal scapular artery"
+  ]
+ },
+ "573": {
+  "names": [
+   "Horizontal fissure of right lung"
+  ]
+ },
+ "354": {
+  "names": [
+   "Oblique fissure of lung"
+  ]
+ },
+ "347": {
+  "names": [
+   "Oblique fissure of lung"
+  ]
+ },
+ "355": {
+  "names": [
+   "Horizontal fissure of right lung"
+  ]
+ },
+ "345": {
+  "names": [
+   "Pulmonary ligament"
+  ]
+ },
+ "572": {
+  "names": [
+   "Pulmonary ligament"
+  ]
+ },
+ "346": {
+  "names": [
+   "Lingula of left lung"
+  ]
+ },
+ "348": {
+  "names": [
+   "Cardiac impression"
+  ]
+ },
+ "353": {
+  "names": [
+   "Cardiac notch of left lung"
+  ]
+ },
+ "349": {
+  "names": [
+   "Groove for aortic arch"
+  ]
+ },
+ "352": {
+  "names": [
+   "Groove for left brachiocephalic vein"
+  ]
+ },
+ "356": {
+  "names": [
+   "Groove for brachiocephalic vein"
+  ]
+ },
+ "357": {
+  "names": [
+   "Groove for azygos vein"
+  ]
+ },
+ "571": {
+  "names": [
+   "Pulmonary artery"
+  ]
+ },
+ "396": {
+  "names": [
+   "Inguinal ligament"
+  ]
+ },
+ "386": {
+  "names": [
+   "Quadriceps tendon"
+  ]
+ },
+ "569": {
+  "partOf": "Coronary sinus",
+  "names": [
+   "Opening of coronary sinus"
+  ]
+ },
+ "337": {
+  "partOf": "Coronary sinus",
+  "names": [
+   "Opening of coronary sinus"
+  ]
+ }
+}
