@@ -90,7 +90,7 @@ export const QUIZ_REGIONS = {
 QUIZ_REGIONS.back = {
   id: 'back', label: '背部', english: 'Back', tag: '背部篇', file: 'quiz-back.json', hash: '#/quiz/back', atlasHash: '#/atlas/whole',
   headline: ['看名稱，', '點出位置。'], description: ['由淺層到深層背肌，連同枕下區的神經與血管，在 3D 模型上練習辨認。', '每答一題，立即顯示正確位置與資料卡。'],
-  scope: '採用現有圖譜的固定解剖姿勢，預設由後方觀看。題目涵蓋斜方肌、背闊肌、提肩胛肌、大小菱形肌、後上下鋸肌、夾肌、豎脊肌群、橫棘肌群、枕下肌群，以及模型中已有的相關神經與血管；模型尚未收錄的構造（例如枕下神經、枕大神經、枕下靜脈叢）不會出題。',
+  scope: '採用現有圖譜的固定解剖姿勢，預設由後方觀看。題目涵蓋斜方肌、闊背肌、提肩胛肌、大小菱形肌、後上下鋸肌、夾肌、豎脊肌群、橫棘肌群、枕下肌群，以及模型中已有的相關神經與血管；枕下神經、枕大神經、第三枕神經、枕小神經、耳大神經與枕下靜脈叢因公開模型沒有，為沿教科書走行建立的示意管狀模型（資料卡標示「示意模型」）；胸椎以下的背支神經未收錄，不會出題。',
   defaultView: 'back', defaultSide: 'both',
   frame: {x: .26, z: [-.17, .12]}, sections: BACK_SECTIONS,
 };
@@ -284,12 +284,18 @@ export function thoraxSections(name: string, bounds: Bounds, system?: QuizSystem
   return ['vessels'];
 }
 
-// Back: individually identified nerves and vessels. Branches the atlas does not model (suboccipital, greater occipital nerve, dorsal rami,
-// suboccipital venous plexus) are not turned into answers.
-export const BACK_NERVES: Record<string, {zh: string; sections: SectionList}> = {
+// Back: individually identified nerves and vessels. Dorsal rami below C3 are not modelled and are not turned into answers.
+export const BACK_NERVES: Record<string, {zh: string; sections: SectionList; system?: QuizSystem; schematic?: boolean}> = {
   'accessory nerve (xi)': {zh: '副神經', sections: ['superficial', 'neurovascular']},
   'dorsal scapular nerve': {zh: '肩胛背神經', sections: ['intermediate', 'neurovascular']},
   'thoracodorsal nerve': {zh: '胸背神經', sections: ['superficial', 'neurovascular']},
+  // Schematic tube models (neither BodyParts3D nor Z-Anatomy has them); the answer card says 示意模型.
+  'suboccipital nerve': {zh: '枕下神經', sections: ['suboccipital', 'neurovascular'], schematic: true},
+  'greater occipital nerve': {zh: '枕大神經', sections: ['suboccipital', 'neurovascular'], schematic: true},
+  'third occipital nerve': {zh: '第三枕神經', sections: ['deep', 'neurovascular'], schematic: true},
+  'lesser occipital nerve': {zh: '枕小神經', sections: ['superficial', 'neurovascular'], schematic: true},
+  'great auricular nerve': {zh: '耳大神經', sections: ['superficial', 'neurovascular'], schematic: true},
+  'suboccipital venous plexus': {zh: '枕下靜脈叢', sections: ['suboccipital', 'neurovascular'], system: 'venous', schematic: true},
 };
 export const BACK_INCLUDE: Record<QuizSystem, RegExp> = {
   skeletal: /^(?:(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth) (?:cervical|thoracic|lumbar) vertebra|atlas|axis|sacrum|coccyx|occipital bone|scapula)$/,

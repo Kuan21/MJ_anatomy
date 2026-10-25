@@ -4588,5 +4588,15 @@
     "name": "Left tensor fasciae latae",
     "rig": "leftLeg",
     "frame": null
+  },
+  "BP3S-FMA51142": {
+    "name": "Right extensor digitorum brevis",
+    "rig": "rightLeg",
+    "frame": null
+  },
+  "BP3S-FMA51143": {
+    "name": "Left extensor digitorum brevis",
+    "rig": "leftLeg",
+    "frame": null
   }
 }

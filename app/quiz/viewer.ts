@@ -29,11 +29,11 @@ interface Callbacks {
 type AnatomyMesh = T.Mesh<T.BufferGeometry, T.MeshStandardMaterial>;
 /** Correct / wrong feedback colours: deep, opaque and outlined so they read on the light stage and on red muscle alike. */
 export const FEEDBACK = {
-  correct: {fill: '#0E9F6E', edge: '#064E3B'},
-  wrong: {fill: '#D6304A', edge: '#6F0F22'},
+  correct: {fill: '#0E9F6E', edge: '#0A7F57'},
+  wrong: {fill: '#D6304A', edge: '#A8243A'},
 };
 const outlineMaterial = (color: string) => new T.ShaderMaterial({
-  uniforms: {color: {value: new T.Color(color)}, width: {value: .0011}}, side: T.BackSide, depthTest: false, depthWrite: false, transparent: true,
+  uniforms: {color: {value: new T.Color(color)}, width: {value: .0004}}, side: T.BackSide, depthTest: false, depthWrite: false, transparent: true,
   vertexShader: 'uniform float width; void main(){ gl_Position = projectionMatrix * modelViewMatrix * vec4(position + normalize(normal) * width, 1.0); }',
   fragmentShader: 'uniform vec3 color; void main(){ gl_FragColor = vec4(color, 1.0); }',
 });
