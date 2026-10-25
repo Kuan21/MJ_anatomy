@@ -20,6 +20,7 @@ const atlas = normalizeAtlasSystems(JSON.parse(fs.readFileSync('public/models/at
 const native = new Map(atlas.parts.map(p => [p.id, p]));
 const nerves = JSON.parse(fs.readFileSync('public/models/nerve-stream.json'));
 const nerveMeshes = new Map(nerves.chunks.flatMap(c => c.meshes.map(m => [m.name, {mesh: m, chunk: c}])));
+const heart = JSON.parse(gunzipSync(fs.readFileSync('public/models/heart/heart-detail.json.gz')));
 const buffers = new Map();
 const read = (file, gzip = false) => {if (!buffers.has(file)) buffers.set(file, gzip ? gunzipSync(fs.readFileSync(file)) : fs.readFileSync(file)); return buffers.get(file);};
 
@@ -41,7 +42,11 @@ const expected = {
     count: [100, 150],
     names: ['First rib', 'Twelfth rib', 'Third thoracic vertebra', 'Intercostal nerves', 'Posterior intercostal arteries', 'Internal thoracic artery', 'Subcostal artery', 'Vagus nerve (X)'],
     plain: ['Manubrium', 'Body of sternum', 'Xiphoid process', 'Diaphragm', 'Ascending aorta', 'Arch of aorta', 'Descending thoracic aorta', 'Superior vena cava', 'Inferior vena cava', 'Azygos vein', 'Brachiocephalic artery', 'Pulmonary trunk'],
-  },  back: {
+  },  heart: {
+    count: [36, 40],
+    plain: ['Right atrium', 'Right ventricle', 'Left atrium', 'Left ventricle', 'Right coronary artery', 'Left coronary artery', 'Anterior interventricular artery', 'Circumflex artery', 'Great cardiac vein', 'Middle cardiac vein', 'Coronary sinus', 'Pulmonary trunk', 'Ascending aorta', 'Anterior papillary muscle of right ventricle', 'Inferior papillary muscle of left ventricle'],
+  },
+  back: {
     count: [100, 130],
     names: ['Latissimus dorsi', 'Levator scapulae', 'Rhomboid major', 'Rhomboid minor', 'Serratus posterior superior', 'Serratus posterior inferior', 'Splenius capitis', 'Splenius cervicis', 'Iliocostalis thoracis', 'Longissimus thoracis', 'Spinalis thoracis', 'Semispinalis capitis', 'Multifidus', 'Cervical rotator', 'Rectus capitis posterior major', 'Rectus capitis posterior minor', 'Obliquus capitis superior', 'Obliquus capitis inferior', 'Dorsal scapular nerve', 'Thoracodorsal nerve', 'Accessory nerve (XI)', 'Vertebral artery', 'Dorsal scapular artery', 'Transverse cervical artery'],
     plain: ['Atlas', 'Axis', 'Sacrum', 'Occipital bone'],
@@ -60,6 +65,7 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
   const def = QUIZ_REGIONS[regionId], catalogue = JSON.parse(fs.readFileSync('public/models/' + def.file));
   assert.equal(catalogue.region ?? 'lower-limb', regionId);
   assert.equal(regionOfHash(def.hash), regionId);
+  const regionSystems = (def.systems ?? QUIZ_SYSTEMS.filter(s => s.id !== 'cardiac').map(s => s.id)).map(id => QUIZ_SYSTEMS.find(s => s.id === id));
   const structures = new Map(catalogue.structures.map(s => [s.id, s]));
   assert.equal(structures.size, catalogue.structures.length, `${regionId}: no repeated anatomical answers`);
   if (expected[regionId]) assert.ok(catalogue.structures.length >= expected[regionId].count[0] && catalogue.structures.length <= expected[regionId].count[1], `${regionId}: ${catalogue.structures.length} structures`);
@@ -84,6 +90,11 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
         const original = read('public' + atlas.chunks[source.chunk].url);
         assert.deepEqual(positions, original.subarray(source.positions, source.positions + source.vertexCount * 12), 'Unchanged original position data');
         assert.deepEqual(indices, original.subarray(source.indices, source.indices + source.indexCount * 4), 'Unchanged source triangles');
+      } else if (structure.source === 'Z-Anatomy') {
+        const part = heart.parts.find(p => p.id === mesh.id); assert.ok(part, mesh.id);
+        const original = read('public' + heart.chunks[part.chunk].url);
+        assert.deepEqual(positions, original.subarray(part.positions, part.positions + part.vertexCount * 12), 'Unchanged heart position data');
+        assert.deepEqual(indices, original.subarray(part.indices, part.indices + part.indexCount * 4), 'Unchanged heart triangles');
       } else {
         const name = mesh.id.replace(/^nerve:/, '').replace(/:\d+$/, ''), source = nerveMeshes.get(name); assert.ok(source, name);
         const original = read('public' + source.chunk.url, true), m = source.mesh;
@@ -96,7 +107,7 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
     assert.ok(s.meshIds.length && s.meshIds.every(id => meshes.has(id)), `Renderable geometry: ${s.name}`);
     assert.ok(s.sections.length && s.sections.every(id => sectionIds.has(id) && id !== 'all'), `${s.name}: valid sections ${s.sections}`);
     assert.ok(['left', 'right', 'midline'].includes(s.side));
-    if (regionId !== 'thorax' && regionId !== 'back') assert.notEqual(s.side, 'midline');
+    if (regionId !== 'thorax' && regionId !== 'back' && regionId !== 'heart') assert.notEqual(s.side, 'midline');
     // Every answer shows 中文名 + English name, Taiwan terminology.
     checkChinese(`${regionId} ${s.name}`, s.chinese);
     assert.ok(/[A-Za-z]/.test(s.name), 'English name present');
@@ -109,8 +120,8 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
   let seed = 811;
   const random = () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 2 ** 32);
   for (const section of def.sections) {
-    assert.ok(questionPool(catalogue, {section: section.id, side: 'both', systems: QUIZ_SYSTEMS.map(s => s.id), count: 10}).length, `${regionId}/${section.id} has questions`);
-    for (const side of ['right', 'left', 'both']) for (const systems of [QUIZ_SYSTEMS.map(s => s.id), ...QUIZ_SYSTEMS.map(s => [s.id])]) {
+    assert.ok(questionPool(catalogue, {section: section.id, side: 'both', systems: regionSystems.map(s => s.id), count: 10}).length, `${regionId}/${section.id} has questions`);
+    for (const side of ['right', 'left', 'both']) for (const systems of [regionSystems.map(s => s.id), ...regionSystems.map(s => [s.id])]) {
       const pool = questionPool(catalogue, {section: section.id, side, systems, count: 10});
       if (!pool.length) continue;
       const session = createSession(pool, 10, random);
@@ -125,7 +136,7 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
     }
   }
   // Each system has at least one question in the whole-region quiz.
-  for (const system of QUIZ_SYSTEMS) assert.ok(questionPool(catalogue, {section: 'all', side: 'both', systems: [system.id], count: 10}).length, `${regionId} has ${system.id} questions`);
+  for (const system of regionSystems) assert.ok(questionPool(catalogue, {section: 'all', side: 'both', systems: [system.id], count: 10}).length, `${regionId} has ${system.id} questions`);
   // Unpaired answers stay available whichever side is practised.
   if (regionId === 'thorax') for (const side of ['right', 'left']) assert.ok(questionPool(catalogue, {section: 'all', side, systems: ['arterial'], count: 10}).some(s => s.side === 'midline'));
   const sample = createSession(catalogue.structures, 3, random), correct = recordAnswer(sample, 0, sample.queue[0]);
@@ -137,4 +148,4 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
 // The data panel and the quiz share one dictionary: spot-check Taiwan forms.
 const expectZh = {'axillary artery': '腋動脈', 'deep palmar arch': '深掌動脈弓', 'superior vena cava': '上腔靜脈', 'common iliac artery': '總髂動脈', 'popliteal artery': '膕動脈', 'distal phalanx of index finger': '食指遠節指骨', 'proximal phalanx of big toe': '拇趾近節趾骨', 'great saphenous vein': '大隱靜脈', 'azygos vein': '奇靜脈', 'arch of aorta': '主動脈弓'};
 for (const [en, zh] of Object.entries(expectZh)) assert.equal(zhAnatomy(en)?.zh, zh, en);
-console.log(`PASS region quizzes: ${total} answers over lower limb, upper limb, thorax and back; every answer has a Taiwan-terminology Chinese name beside its English name; sections, systems, sides, unpaired thoracic answers and scoring all playable.`);
+console.log(`PASS region quizzes: ${total} answers over lower limb, upper limb, thorax, back and heart; every answer has a Taiwan-terminology Chinese name beside its English name; sections, systems, sides, unpaired thoracic answers and scoring all playable.`);

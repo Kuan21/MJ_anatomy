@@ -1,5 +1,5 @@
-export type QuizSystem = 'skeletal' | 'muscular' | 'nervous' | 'arterial' | 'venous';
-export type QuizRegionId = 'lower-limb' | 'upper-limb' | 'thorax' | 'back';
+export type QuizSystem = 'skeletal' | 'muscular' | 'nervous' | 'arterial' | 'venous' | 'cardiac';
+export type QuizRegionId = 'lower-limb' | 'upper-limb' | 'thorax' | 'back' | 'heart';
 /** Section ids are region specific ('hip', 'thigh'… for the leg; 'shoulder', 'arm'… for the arm; 'cage', 'wall'… for the thorax). */
 export type QuizSection = string;
 export type QuizSide = 'right' | 'left' | 'both';
@@ -13,6 +13,8 @@ export const QUIZ_SYSTEMS: {id: QuizSystem; label: string; english: string; colo
   {id: 'nervous', label: '神經', english: 'Nerves', color: '#e4ba4b'},
   {id: 'arterial', label: '動脈', english: 'Arteries', color: '#bf5363'},
   {id: 'venous', label: '靜脈', english: 'Veins', color: '#6399bc'},
+  // Heart quiz only: chambers, papillary muscles and valve leaflets.
+  {id: 'cardiac', label: '心臟構造', english: 'Heart structures', color: '#d98a85'},
 ];
 export interface QuizSectionDef {id: string; label: string; english: string; range: [number, number]}
 export interface QuizRegionDef {
@@ -32,6 +34,8 @@ export interface QuizRegionDef {
   defaultView?: 'front' | 'back';
   /** Side selected when the setup page opens (the back is symmetric, so both sides). */
   defaultSide?: QuizSide;
+  /** Systems offered on the setup page; omitted = the five body-system chips (not the heart structures). */
+  systems?: QuizSystem[];
   /** Framing of the section box: half-width in x (per side) and the z range in metres. */
   frame: {x: number; z: [number, number]; footZ?: number};
   sections: QuizSectionDef[];
@@ -94,6 +98,22 @@ QUIZ_REGIONS.back = {
   defaultView: 'back', defaultSide: 'both',
   frame: {x: .26, z: [-.17, .12]}, sections: BACK_SECTIONS,
 };
+const HEART_SECTIONS: QuizSectionDef[] = [
+  {id: 'all', label: '全部心臟', english: 'Heart', range: [1.2, 1.42]},
+  {id: 'chambers', label: '心腔', english: 'Chambers', range: [1.2, 1.42]},
+  {id: 'papillary', label: '乳頭肌', english: 'Papillary muscles', range: [1.2, 1.42]},
+  {id: 'valves', label: '瓣膜（含腱索）', english: 'Valves with chordae tendineae', range: [1.2, 1.42]},
+  {id: 'coronary', label: '冠狀動脈', english: 'Coronary arteries', range: [1.2, 1.42]},
+  {id: 'veins', label: '心臟靜脈', english: 'Cardiac veins', range: [1.2, 1.42]},
+  {id: 'vessels', label: '相連大血管', english: 'Great vessels', range: [1.2, 1.42]},
+];
+QUIZ_REGIONS.heart = {
+  id: 'heart', label: '心臟', english: 'Heart', tag: '心臟篇', file: 'quiz-heart.json', hash: '#/quiz/heart', atlasHash: '#/organ/heart',
+  headline: ['看名稱，', '點出位置。'], description: ['由心腔、瓣膜、乳頭肌到冠狀動脈，在 3D 心臟模型上練習辨認。', '每答一題，立即顯示正確位置與說明。'],
+  scope: '採用心臟詳細模型。瓣膜（房室瓣）連同腱索一併呈現，腱索不能單獨作答；乳頭肌與瓣膜位於心腔內，題目開始時心腔已先移開，可用「移開遮擋」再調整。模型尚未收錄界嵴、梳狀肌、卵圓窩、節制索與傳導系統，不會出題。',
+  defaultView: 'front', defaultSide: 'both', systems: ['cardiac', 'arterial', 'venous'],
+  frame: {x: .075, z: [-.06, .09]}, sections: HEART_SECTIONS,
+};
 export const QUIZ_REGION_IDS = Object.keys(QUIZ_REGIONS) as QuizRegionId[];
 export const isQuizHub = (hash: string) => hash === '#/quiz' || hash === '#/quiz/';
 export const regionOfHash = (hash: string): QuizRegionId | undefined => QUIZ_REGION_IDS.find(id => QUIZ_REGIONS[id].hash === hash);
@@ -109,7 +129,9 @@ export interface QuizStructure {
   sections: Exclude<QuizSection, 'all'>[];
   meshIds: string[];
   bounds: Bounds;
-  source: 'BodyParts3D' | 'Nervous supplement';
+  source: 'BodyParts3D' | 'Nervous supplement' | 'Z-Anatomy';
+  /** Short bilingual description (heart quiz), shown on the answer card. */
+  description?: {zh: string; en: string};
 }
 export interface QuizMesh {
   id: string;
@@ -270,6 +292,7 @@ export const THORAX_INCLUDE: Record<QuizSystem, RegExp> = {
   skeletal: /^(?:(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth) rib|manubrium|body of sternum|xiphoid process|(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth) thoracic vertebra|costal cartilages?|intervertebral discs?)$/,
   muscular: /intercostal|transversus thoracis|levatores costarum|serratus posterior|^diaphragm$|spinalis thoracis|iliocostalis thoracis|longissimus thoracis|semispinalis thoracis|interspinalis thoracis|thoracic rotator|subcostal/,
   nervous: /^$/,
+  cardiac: /^$/,
   arterial: /^(?:arch of aorta|ascending aorta|descending thoracic aorta|descending aorta|brachiocephalic artery|(?:left |right )?(?:common carotid|subclavian) artery|internal thoracic artery|(?:first |second )?posterior intercostal arteries?|superior intercostal artery|subcostal artery|costocervical trunk|thyrocervical trunk|bronchial arter(?:y|ies)|esophageal arter(?:y|ies)|musculophrenic artery|pulmonary trunk|pulmonary artery)$/,
   venous: /^(?:superior vena cava|inferior vena cava|brachiocephalic vein|azygos vein|hemiazygos vein|accessory hemiazygos vein|internal thoracic vein|set of anterior intercostal veins|superior intercostal vein|subcostal vein|musculophrenic vein|superior pulmonary vein|inferior pulmonary vein|(?:left |right )?subclavian vein)$/,
 };
@@ -301,6 +324,7 @@ export const BACK_INCLUDE: Record<QuizSystem, RegExp> = {
   skeletal: /^(?:(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth) (?:cervical|thoracic|lumbar) vertebra|atlas|axis|sacrum|coccyx|occipital bone|scapula)$/,
   muscular: /^(?:(?:descending|transverse|ascending) part of trapezius|latissimus dorsi|levator scapulae|rhomboid (?:major|minor)|serratus posterior (?:superior|inferior)|splenius (?:capitis|cervicis)|iliocostalis (?:cervicis|thoracis|lumborum)|longissimus (?:capitis|cervicis|thoracis)|spinalis(?: thoracis| cervicis)?|semispinalis (?:capitis|cervicis|thoracis)|multifidus|(?:cervical|thoracic|lumbar) rotator|rectus capitis posterior (?:major|minor)|obliquus capitis (?:superior|inferior))$/,
   nervous: /^$/,
+  cardiac: /^$/,
   arterial: /^(?:dorsal scapular artery|transverse cervical artery|superficial cervical artery|deep cervical artery|vertebral artery|costocervical trunk|posterior intercostal arteries|subcostal artery|lumbar artery|thoracodorsal artery)$/,
   venous: /^(?:subcostal vein|lumbar vein|ascending lumbar vein|thoracodorsal vein)$/,
 };
@@ -333,7 +357,7 @@ export function questionPool(catalogue: QuizCatalogue, settings: QuizSettings): 
 export function sceneStructures(catalogue: QuizCatalogue, target: QuizStructure, section: QuizSection, side: QuizSide) {
   const range = (regionSections(catalogue.region).find(s => s.id === section) ?? regionSections(catalogue.region)[0]).range;
   return catalogue.structures.filter(s => (side === 'both' || s.side === 'midline' || s.side === side)
-    && (s.system === target.system || s.system === 'skeletal')
+    && (catalogue.region === 'heart' || s.system === target.system || s.system === 'skeletal')
     && (s.id === target.id || section === 'all' || s.sections.includes(section)
       || (s.bounds[0][1] < range[1] && s.bounds[1][1] > range[0])));
 }

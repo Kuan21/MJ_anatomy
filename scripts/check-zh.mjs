@@ -11,6 +11,7 @@ const SCAN = [
   {dir: 'web', ext: /\.(?:tsx?|css)$/},
   {dir: '.', ext: /^index\.html$/, shallow: true},
   {dir: 'public/models', ext: /\.json$/, shallow: true},
+  {dir: 'scripts', ext: /^heart-parts\.json$/, shallow: true},
 ];
 // Cantonese-only characters (no written-Chinese use).
 const CHARS = '嘅咗喺唔嚟啲睇揀嗰咁冇俾佢啱嘢哋乜咩嘥啩噉嗮咪';

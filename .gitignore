@@ -66,6 +66,9 @@ next-env.d.ts
 # BodyParts3D 3.0 structures missing from the 4.0 export, verified and packaged before dev/build
 /public/models/supplement/supplement-stream.json.gz
 
+# Heart detail package built from the pinned Z-Anatomy export before dev/build
+/public/models/heart/heart-detail.json.gz
+
 # Skin/fascia weights over the shared segment chain, computed from the atlas before dev/build
 /public/models/skin-weights.json.gz
 
