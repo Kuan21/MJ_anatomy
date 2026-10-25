@@ -14,7 +14,7 @@ import {prepareSurfaceNormals,updateSurfaceNormals} from './surface-normals';
 import {PointerTap} from './pointer-tap';
 import {framingDistance} from './camera-framing';
 import {SYSTEMS,type Atlas,type SceneState} from './anatomy';
-import {matchesUpperLimbMuscleLayer} from './mj-muscle-layers';
+import {matchesMuscleLayer} from './mj-muscle-layers';
 import {matchesFacialMuscleLayer} from './mj-facial-layers';
 import {matchesDepth} from './mj-depth';
 import {anatomicalRegion,anatomicalSide,isMotionQuarantined} from './mj-part-regions';
@@ -879,7 +879,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const intracranial=/brain|cerebr|cerebell|\bgyrus\b|lobule|\blobe\b|hemisphere|white matter|gray matter|cortex|insula|midbrain|pons|medulla oblongata|thalam|hypothalam|fornix|ventricle|choroid plexus|corpus callosum|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|commissure|colliculus|geniculate|habenula|mammillary|stria terminalis|stria medullaris|septum of telencephalon|tuber cinereum|interpeduncular fossa|lamina terminalis|optic chiasm|optic tract|peduncle of midbrain|cerebral aqueduct|pineal|pituitary|cerebral artery|cerebellar artery|basilar artery|callosomarginal artery|pericallosal artery|pontine artery|thalamogeniculate artery|thalamoperforating artery/i;
     const baseVisible=(p:(typeof atlas.parts)[number])=>{
      if(hidden.has(p.id))return false;
-     if(!matchesDepth(p,s.depthFilter)||!matchesUpperLimbMuscleLayer(p,s.muscleLayer)||!matchesFacialMuscleLayer(p,s.faceMuscleLayer))return false;
+     if(!matchesDepth(p,s.depthFilter)||!matchesMuscleLayer(p,s.muscleRegion,s.muscleLayer)||!matchesFacialMuscleLayer(p,s.faceMuscleLayer))return false;
      if(s.isolate)return false;
      return focus?focus.has(p.id)&&visible.has(p.system):visible.has(p.system);
     };
