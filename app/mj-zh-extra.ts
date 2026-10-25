@@ -7,6 +7,7 @@ import type {ZhName} from './mj-zh-anatomy';
 import {zhExtra2} from './mj-zh-extra2';
 
 const EXACT:Record<string,string>={
+ 'sympathetic trunk':'交感幹','ganglia of sympathetic trunk':'交感幹神經節',
  // digestive
  'esophagus':'食道','stomach':'胃','duodenum':'十二指腸','appendix':'闌尾','mesoappendix':'闌尾繫膜','ascending colon':'升結腸','transverse colon':'橫結腸','descending colon':'降結腸','rectum':'直腸',
  'ileocecal junction':'迴盲交界','mesentery of small intestine':'小腸繫膜','transverse mesocolon':'橫結腸繫膜','taenia libera':'游離結腸帶','taenia mesocolica':'結腸繫膜帶','taenia omentalis':'網膜帶',

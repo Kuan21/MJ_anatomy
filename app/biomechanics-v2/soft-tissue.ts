@@ -2,6 +2,7 @@ import {Box3,Matrix4,Quaternion,Vector3} from 'three';
 import type {Atlas,Part,PartTransform} from '../anatomy';
 import {createSkeletonRig,type Side} from './skeleton';
 import rawBindings from './tissue-bindings.json';
+import paokaoBindings from './paokao-bindings.json';
 import rawNerves from './nerve-bindings.json';
 import rawShoulderAttachments from './shoulder-attachments.json';
 import rawSerratusAttachments from './serratus-attachments.json';
@@ -42,7 +43,7 @@ const shoulderAttachments={...rawShoulderAttachments.parts,...rawSerratusAttachm
 
 export type Profile='pectoralPath'|'axillaryCable'|'path'|'trunk'|'humeral'|'sheetMuscle'|'deltoid'|'chest'|'cuff'|'biceps'|'triceps'|'arm'|'coraco'|'forearm'|'hand'|'scapular'|'clavicular'|'shoulderJoint'|'elbowJoint'|'wristJoint';
 export interface TissueBinding {name:string;side:Side;profile:Profile}
-export const tissueBindings=rawBindings as Record<string,TissueBinding>;
+export const tissueBindings={...rawBindings,...paokaoBindings.tissue} as Record<string,TissueBinding>;
 export const nerveBindings=rawNerves as Record<string,{side:Side;profile:'path'}>;
 
 /** One rest-space carrier for connected upper-limb branches. Names determine

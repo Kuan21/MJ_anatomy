@@ -90,5 +90,19 @@ for (const [title, st] of [['缺少', 'missing'], ['略過（非結構詞）', '
   md.push(`## ${title}`, '', '| # | 原文 | 完整名稱 | 位置 | 備註 |', '| ---: | --- | --- | --- | --- |', ...list.map(r => `| ${r.index} | ${r.term} | ${r.name ?? ''} | ${r.section.split('／').slice(0, 2).join('／')} | ${r.reason ?? r.model ?? r.note ?? ''} |`), '');
 }
 md.push('## 全部項目', '', '| # | 原文 | 完整名稱 | 狀態 | 模型名稱 | 來源 |', '| ---: | --- | --- | --- | --- | --- |', ...rows.map(r => `| ${r.index} | ${r.term} | ${r.name ?? ''} | ${{have: '已有', new: '新增示意模型', part: '已有（部分）', skip: '略過', missing: '缺少'}[r.status]}${r.via && r.via !== 'exact' ? `（${r.via}）` : ''} | ${r.model ?? r.reason ?? ''} | ${r.source ?? ''} |`), '');
+const fixes = JSON.parse(fs.readFileSync(new URL('docs/topology-report.json', root), 'utf8')).filter(r => r.status === 'fixed');
+const review = rows.filter(r => (r.status === 'have' || r.status === 'new') && ['contained', 'specific'].includes(r.kind) && r.via !== 'alias');
+md.push('## 血管神經接駁修正', '', `\`scripts/topology-spec.mjs\` 列出每條分支應由哪一級分出（動脈、靜脈、神經共 ${JSON.parse(fs.readFileSync(new URL('docs/topology-report.json', root), 'utf8')).length} 組以上），\`npm run check:topology\` 逐組檢查，並檢查全身 ${'1,100+'} 條血管每條至少接到另一條同類血管。以下是檢查發現後已修正的接駁（加細管連回上一級；連接管與該血管同名同概念，一起選取、顯示、隱藏）：`, '',
+  '| 分支 | 上一級 | 原本斷開（mm） | 修正 |', '| --- | --- | ---: | --- |',
+  ...fixes.map(f => `| ${f.child} | ${f.parent} | ${f.gapMm} | ${f.originY ? `起點改到 ${f.originY} m 高（大圓肌下緣下方）並沿肱動脈後側連到原有肱深動脈` : '加連接管'} |`), '',
+  '新增的示意結構（血管、神經）都在建置時檢查：起點必須落在其上一級的表面，否則 build 失敗。', '');
+md.push('## 請覆核：配對較寬鬆的已有項目', '', '模型名稱比筆記名稱更具體（或更概括），自動配對接受；請抽查是否真是同一結構。', '', '| 筆記名稱 | 模型名稱 | 配對 |', '| --- | --- | --- |', ...review.map(r => `| ${r.name} | ${r.model} | ${r.kind} |`), '');
+md.push('## 參考來源與查證', '',
+  '- 位置與走向：Gray’s Anatomy for Students 第 4 版（Drake 等）、Moore’s Clinically Oriented Anatomy 第 8 版；各結構資料卡「來源」欄逐項註明。',
+  '- 先查現有模型：BodyParts3D 4.0 圖譜（2,232 件）、已匯入的 Z-Anatomy `nervous.glb`（本次把其中的交感幹與交感神經節加回圖譜）與 Z-Anatomy 心血管匯出（`work/heart-source.glb`，676 個節點）。',
+  '- Z-Anatomy 心血管匯出另有後骨間動脈、旋股內側動脈、臀上／下動脈、陰部內動脈、陰部外淺／深動脈、最上肋間動脈、膈上動脈、穿通動脈，但其座標與 BodyParts3D 圖譜的對位誤差達 1–4 公分（共同血管重心差 10–40 mm），直接放入會浮在身體外，因此本次這些結構改以示意管狀模型，起點貼在圖譜母血管上；日後若做逐結構對位，可改用 Z-Anatomy 幾何。',
+  '- 骨性標誌、肺的裂、溝、壓跡：直接標在圖譜骨骼與肺葉表面（高出表面 0.3 mm 的薄片），不另載外部模型。',
+  '- 筋膜、鞘、支持帶、腱膜、間隙：公開人體圖譜都沒有，依解剖位置做示意模型（半透明片或帶）。', '',
+  '## 授權', '', '全部新增結構為本專案產生，沒有第三方幾何；詳見 `public/model_sources.json` 的 `schematic-paokao`。', '');
 fs.writeFileSync(new URL('docs/paokao-audit.md', root), md.join('\n'));
 console.log(JSON.stringify({terms: items.length, have: count('have'), new: count('new'), part: count('part'), skip: count('skip'), missing: count('missing'), problems: problems.length}));

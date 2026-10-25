@@ -11,14 +11,14 @@
 
 ## 一、結果摘要
 
-- 涵蓋結構名稱（去除左右後）：1526 個
+- 涵蓋結構名稱（去除左右後）：1528 個
 - 採用來源 1（muscle-layers.json）改名：33 個；來源 2（跑考摘要）：14 個；來源 3（其他筆記）：25 個
 - 全站固定修正：「背闊肌」→「闊背肌」
 - 仍缺中文名或含英文：0 個
 
 | 來源 | 結構數 |
 |---|---|
-| 台灣解剖學名詞（程式內建對照表） | 1329 |
+| 台灣解剖學名詞（程式內建對照表） | 1331 |
 | muscle-layers.json | 88 |
 | glossary.json（其他筆記） | 75 |
 | glossary.json（跑考摘要） | 34 |
@@ -1075,7 +1075,7 @@
 
 ## 五、全部結構命名一覽
 
-<details><summary>展開 1526 項</summary>
+<details><summary>展開 1528 項</summary>
 
 | 結構 | 使用來源 | 中文名 |
 |---|---|---|
@@ -2222,6 +2222,8 @@
 | proper plantar digital branches of lateral plantar nerve | 台灣解剖學名詞（程式內建對照表） | 外蹠神經蹠側固有趾支 |
 | common plantar digital branches of medial plantar nerve | 台灣解剖學名詞（程式內建對照表） | 內蹠神經蹠側總趾支 |
 | sympathetic nerves | 台灣解剖學名詞（程式內建對照表） | 交感神經 |
+| ganglia of sympathetic trunk | 台灣解剖學名詞（程式內建對照表） | 交感幹神經節 |
+| sympathetic trunk | 台灣解剖學名詞（程式內建對照表） | 交感幹 |
 | pyramis of vermis | 台灣解剖學名詞（程式內建對照表） | 蚓錐 |
 | nucleus of trochlear nerve | 台灣解剖學名詞（程式內建對照表） | 滑車 |
 | posterior nucleus of vagus nerve | 台灣解剖學名詞（程式內建對照表） | 迷走神經背核 |

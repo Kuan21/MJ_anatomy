@@ -4,7 +4,7 @@
 //   node scripts/audit-coverage.mjs --check   fail when coverage regresses (npm run check:coverage)
 import fs from 'node:fs';
 import {gunzipSync} from 'node:zlib';
-import {candidateArg, GROUPS, root, models, atlas, facial, supplement, conceptName, partIds, curriculum, entities, extraNames, ABBR, STOP, MOD, GENERIC, NOT_STRUCTURE, LANDMARK, tokens, analyse, fixToken, match, classifyNoise, structureProfile, mergeAtlasStreams, conceptMatches, isIndexed} from './lib/coverage-match.mjs';
+import {female, serous, paokao, candidateArg, GROUPS, root, models, atlas, facial, supplement, conceptName, partIds, curriculum, entities, extraNames, ABBR, STOP, MOD, GENERIC, NOT_STRUCTURE, LANDMARK, tokens, analyse, fixToken, match, classifyNoise, structureProfile, mergeAtlasStreams, conceptMatches, isIndexed} from './lib/coverage-match.mjs';
 
 // ---------------------------------------------------------------- run
 const report = {generated: 'scripts/audit-coverage.mjs', lectures: [], totals: {}, missing: {}, hidden: {}};
@@ -46,7 +46,7 @@ if (process.argv.includes('--pre-fix')) {const by = {}; for (const l of report.l
 if (process.argv.includes('--data-only')) {console.log(JSON.stringify(out.totals)); process.exit(0);}
 
 // The viewer's own Find-a-structure predicate over the atlas it really builds (body + facial + supplement).
-const fullAtlas = mergeAtlasStreams(atlas, [JSON.parse(gunzipSync(fs.readFileSync(new URL('facial/facial-stream.json.gz', models)))), supplement]);
+const fullAtlas = mergeAtlasStreams(atlas, [JSON.parse(gunzipSync(fs.readFileSync(new URL('facial/facial-stream.json.gz', models)))), supplement, female, serous, paokao]);
 const fullParts = new Map(fullAtlas.parts.map(p => [p.id, p]));
 const uiSearch = query => fullAtlas.concepts.filter(c => {
   const p = c.elements.map(id => fullParts.get(id)).find(Boolean), profile = p ? structureProfile(c.name, p.system, p) : undefined;

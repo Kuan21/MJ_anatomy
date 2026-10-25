@@ -776,3 +776,99 @@
 | 571 | Pulmonary a | Pulmonary artery | 已有 | Left pulmonary artery | atlas |
 | 572 | Pulmonary lig | Pulmonary ligament | 已有（contained） | Pulmonary trunk | heart |
 | 573 | Horizontal fissure | Horizontal fissure of right lung | 新增示意模型 | Horizontal fissure of right lung | paokao |
+
+## 血管神經接駁修正
+
+`scripts/topology-spec.mjs` 列出每條分支應由哪一級分出（動脈、靜脈、神經共 111 組以上），`npm run check:topology` 逐組檢查，並檢查全身 1,100+ 條血管每條至少接到另一條同類血管。以下是檢查發現後已修正的接駁（加細管連回上一級；連接管與該血管同名同概念，一起選取、顯示、隱藏）：
+
+| 分支 | 上一級 | 原本斷開（mm） | 修正 |
+| --- | --- | ---: | --- |
+| Right vertebral artery | Right subclavian artery | 49.9 | 加連接管 |
+| Left vertebral artery | Left subclavian artery | 49.2 | 加連接管 |
+| Deltoid branch of right thoraco-acromial artery | Trunk of right thoraco-acromial artery | 14.8 | 加連接管 |
+| Deltoid branch of left thoraco-acromial artery | Trunk of left thoraco-acromial artery | 15 | 加連接管 |
+| Right deep brachial artery | Right brachial artery | 1.2 | 起點改到 1.298 m 高（大圓肌下緣下方）並沿肱動脈後側連到原有肱深動脈 |
+| Left deep brachial artery | Left brachial artery | 1 | 起點改到 1.298 m 高（大圓肌下緣下方）並沿肱動脈後側連到原有肱深動脈 |
+| Right posterior ulnar recurrent artery | Right ulnar artery | 21.6 | 加連接管 |
+| Left posterior ulnar recurrent artery | Left ulnar artery | 21.6 | 加連接管 |
+| Left femoral artery | Left external iliac artery | 3 | 加連接管 |
+| Right lateral circumflex femoral artery | Right deep femoral artery | 19.9 | 加連接管 |
+| Left lateral circumflex femoral artery | Left deep femoral artery | 24.2 | 加連接管 |
+
+新增的示意結構（血管、神經）都在建置時檢查：起點必須落在其上一級的表面，否則 build 失敗。
+
+## 請覆核：配對較寬鬆的已有項目
+
+模型名稱比筆記名稱更具體（或更概括），自動配對接受；請抽查是否真是同一結構。
+
+| 筆記名稱 | 模型名稱 | 配對 |
+| --- | --- | --- |
+| Trapezius muscle | Ascending part of right trapezius | contained |
+| Longissimus muscle | Right longissimus capitis | contained |
+| Iliocostalis muscle | Right iliocostalis cervicis | contained |
+| Semispinalis muscle | Right semispinalis capitis | contained |
+| Occipital artery | Right lateral occipital artery | contained |
+| Thoracoacromial artery | Acromial branch of left thoraco-acromial artery | contained |
+| Thoracoacromial artery | Acromial branch of left thoraco-acromial artery | contained |
+| Middle collateral artery | Middle collateral branch of left deep brachial artery | contained |
+| Middle collateral artery | Middle collateral branch of left deep brachial artery | contained |
+| radial collateral artery | Radial collateral branch of left deep brachial artery | contained |
+| Common palmar digital artery | Left first common palmar digital artery | contained |
+| Proper palmar digital artery | Medial proper palmar digital artery of left index finger | contained |
+| Brachial plexus | Roots of brachial plexus | contained |
+| biceps brachii muscle | Long head of right biceps brachii | contained |
+| anterior Interosseous nerve | Anterior interosseous nerve of forearm | contained |
+| Flexor carpi ulnaris muscle | Humeral head of right flexor carpi ulnaris | contained |
+| posterior interosseous nerve | Posterior interosseous nerve of forearm | contained |
+| Lumbrical muscle | Set of lumbricals of right hand | contained |
+| anterior interosseous nerve | Anterior interosseous nerve of forearm | contained |
+| Common palmar digital nerve | Common palmar digital branches of ulnar nerve | contained |
+| Proper palmar digital nerve | Proper palmar digital branches of ulnar nerve | contained |
+| Proper palmar digital nerve | Proper palmar digital branches of ulnar nerve | contained |
+| Pronator teres muscle | Humeral head of right pronator teres | contained |
+| Flexor carpi ulnaris muscle | Humeral head of right flexor carpi ulnaris | contained |
+| pollicis longus muscle | Right abductor pollicis longus | contained |
+| Abductor digiti minimi muscle | Abductor digiti minimi of right foot | contained |
+| Flexor digiti minimi brevis muscle | Flexor digiti minimi brevis of right foot | contained |
+| Opponens digiti minimi muscle | Opponens digiti minimi of right foot | contained |
+| Adductor pollicis muscle | Oblique head of right adductor pollicis | contained |
+| Lumbrical muscle | Set of lumbricals of right hand | contained |
+| Pectoralis major muscle | Abdominal part of right pectoralis major | contained |
+| intercostal artery | Right superior intercostal artery | contained |
+| Ligamentum arteriosum | Conus arteriosus | contained |
+| diagonal branch | Diagonal branches | contained |
+| Papillary muscle | Anterior papillary muscle of right ventricle | contained |
+| Septal papillary muscle | Septal papillary muscle of right ventricle | contained |
+| Pulmonary vein | Left superior pulmonary vein | contained |
+| Pulmonary ligament | Pulmonary trunk | contained |
+| Cardiac impression | Cardiac impression of left lung | contained |
+| Anterior femoral cutaneous nerve | Anterior cutaneous branches of femoral nerve | contained |
+| Gastrocnemius muscle | Lateral head of right gastrocnemius | contained |
+| genicular artery | Left descending genicular artery | contained |
+| tibial collateral ligament | Deep part of tibial collateral ligament | contained |
+| medial dorsal cutaneous nerve | Medial dorsal cutaneous nerve of foot | contained |
+| intermediate dorsal cutaneous nerve | Intermediate dorsal cutaneous nerve of foot | contained |
+| flexor hallucis brevis muscle | Lateral head of right flexor hallucis brevis | contained |
+| adductor hallucis muscle | Oblique head of right adductor hallucis | contained |
+| flexor digiti minimi muscle | Flexor digiti minimi brevis of right foot | contained |
+| dorsal interossei muscle | Set of dorsal interossei of right hand | contained |
+| Longissimus muscle | Right longissimus capitis | contained |
+| Iliocostalis muscle | Right iliocostalis cervicis | contained |
+| Common palmar digital artery | Left first common palmar digital artery | contained |
+| Proper palmar digital artery | Medial proper palmar digital artery of left index finger | contained |
+| Pronator teres muscle | Humeral head of right pronator teres | contained |
+| Pulmonary vein | Left superior pulmonary vein | contained |
+| Bronchus | Left main bronchus | contained |
+| Pulmonary ligament | Pulmonary trunk | contained |
+
+## 參考來源與查證
+
+- 位置與走向：Gray’s Anatomy for Students 第 4 版（Drake 等）、Moore’s Clinically Oriented Anatomy 第 8 版；各結構資料卡「來源」欄逐項註明。
+- 先查現有模型：BodyParts3D 4.0 圖譜（2,232 件）、已匯入的 Z-Anatomy `nervous.glb`（本次把其中的交感幹與交感神經節加回圖譜）與 Z-Anatomy 心血管匯出（`work/heart-source.glb`，676 個節點）。
+- Z-Anatomy 心血管匯出另有後骨間動脈、旋股內側動脈、臀上／下動脈、陰部內動脈、陰部外淺／深動脈、最上肋間動脈、膈上動脈、穿通動脈，但其座標與 BodyParts3D 圖譜的對位誤差達 1–4 公分（共同血管重心差 10–40 mm），直接放入會浮在身體外，因此本次這些結構改以示意管狀模型，起點貼在圖譜母血管上；日後若做逐結構對位，可改用 Z-Anatomy 幾何。
+- 骨性標誌、肺的裂、溝、壓跡：直接標在圖譜骨骼與肺葉表面（高出表面 0.3 mm 的薄片），不另載外部模型。
+- 筋膜、鞘、支持帶、腱膜、間隙：公開人體圖譜都沒有，依解剖位置做示意模型（半透明片或帶）。
+
+## 授權
+
+全部新增結構為本專案產生，沒有第三方幾何；詳見 `public/model_sources.json` 的 `schematic-paokao`。

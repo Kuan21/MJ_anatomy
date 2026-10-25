@@ -1,7 +1,9 @@
 import {Matrix4,Quaternion,Vector3} from 'three';
 import type {Atlas,Part,PartTransform} from '../anatomy';
 import type {SkinBinding,Palette} from './soft-tissue';
-import rawBindings from './body-bindings.json';
+import rawBindingsJson from './body-bindings.json';
+import paokaoBindings from './paokao-bindings.json';
+const rawBindings={...rawBindingsJson,...paokaoBindings.body} as typeof rawBindingsJson;
 export type BodyRegion='head'|'spine'|'leftLeg'|'rightLeg';
 export interface BodyPose {flexion:number;rotation:number;sideBend:number;knee:number;ankle:number}
 export const BODY_NEUTRAL:BodyPose={flexion:0,rotation:0,sideBend:0,knee:0,ankle:0};
