@@ -550,3 +550,6 @@
 .joint-surface-row{display:flex;align-items:center;gap:8px}
 .joint-info-button{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;border:1px solid #18253626;background:#fff;color:#53606c}
 .joint-info-button[aria-expanded=true]{background:#e7f3eb;border-color:#94bfb0;color:#236e60}
+.muscle-layer-members .layer-muscle{display:block;width:100%;height:auto;text-align:left;padding:5px 8px;border-radius:8px;justify-content:flex-start}
+.muscle-layer-members .layer-muscle[aria-pressed=true],.muscle-layer-members .layer-group[aria-pressed=true]{background:#dcebe4;box-shadow:inset 0 0 0 1px #2f6b57}
+.muscle-layer-members .layer-group{height:auto;padding:2px 8px;border-radius:8px;font-weight:600}
