@@ -16,7 +16,8 @@ import {DEFAULT_VISIBLE,SYSTEMS,EXPLANATIONS,explanation,type Atlas,type Concept
 import {ANATOMY_REGIONS,regionById,type RegionId} from './mj-regions';
 import {resolveDissection} from './mj-dissection';
 import {structureProfile} from './mj-structure-info';
-import {chineseMatches,conceptMatches} from './mj-search';
+import {buildSearchIndex,type SearchEntry,type SearchSource} from './mj-search';
+import SearchPanel from './search-panel';
 import {setCourseNoteIndex,type CourseNoteEntry,type CourseNoteIndex} from './mj-course-notes';
 import {normalizeAtlasSystems} from './mj-system-classifier';
 import {anatomicalRegion,anatomicalSide,partsInRegion,topRegionParts} from './mj-part-regions';
@@ -68,7 +69,7 @@ function LoadBar({progress,failed,busy,onRetry}:{progress:number;failed:boolean;
 
 export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'upper'|'lower'}){
  const detailTitle=useRef<HTMLHeadingElement>(null);
- const [atlas,setAtlas]=useState<Atlas|null>(null),[state,setState]=useState(initial),[progress,setProgress]=useState(0),[error,setError]=useState(''),[panel,setPanel]=useState<'layers'|'search'|null>(null),[details,setDetails]=useState(false),[about,setAbout]=useState(false),[query,setQuery]=useState(''),[chosen,setChosen]=useState<Concept|null>(null),[externalNerve,setExternalNerve]=useState<string|null>(null);
+ const [atlas,setAtlas]=useState<Atlas|null>(null),[state,setState]=useState(initial),[progress,setProgress]=useState(0),[error,setError]=useState(''),[panel,setPanel]=useState<'layers'|'search'|null>(null),[details,setDetails]=useState(false),[about,setAbout]=useState(false),[chosen,setChosen]=useState<Concept|null>(null),[externalNerve,setExternalNerve]=useState<string|null>(null);
  const [loadStatus,setLoadStatus]=useState<AnatomyLoadStatus|null>(null),[retryNonce,setRetryNonce]=useState(0);
  // Structures the viewer draws that are not atlas concepts (external nerves, joint ligaments, brain, neck vessels): loaded when search first opens.
  type Extra={n:string;s:SystemId;k:'nerve'|'joint'|'brain'|'vessel';raw?:string};
@@ -114,9 +115,19 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const quizHref='#/quiz';
  const hiddenSet=new Set(state.hiddenParts??[]);
  const visibleCount=atlas?.parts.filter(p=>!hiddenSet.has(p.id)&&(state.selected.includes(p.id)||(matchesDepth(p,state.depthFilter)&&matchesUpperLimbMuscleLayer(p,state.muscleLayer)&&matchesFacialMuscleLayer(p,state.faceMuscleLayer)&&(state.isolate?false:state.focusParts?state.focusParts.includes(p.id)&&state.visible.includes(p.system):state.visible.includes(p.system))))).length??0;
- const results=useMemo(()=>{if(!atlas)return[];const term=query.toLowerCase().trim();if(!term)return ['heart','brain','liver','stomach','spleen','pancreas','urinary bladder','trachea'].map(name=>atlas.concepts.find(c=>c.name.toLowerCase()===name)).filter((x):x is Concept=>!!x);return atlas.concepts.filter(c=>{const p=c.elements.map(id=>parts.get(id)).find(Boolean),profile=p?structureProfile(c.name,p.system,p):undefined;return conceptMatches(c,profile,query);}).sort((a,b)=>{const pa=profileForConcept(a)?.english??a.name,pb=profileForConcept(b)?.english??b.name;return pa.length-pb.length;}).slice(0,80);},[atlas,query,parts]);
- const extraConcepts=useMemo(()=>{const term=query.toLowerCase().trim();if(!term)return[] as Concept[];return extras.filter(x=>{const zh=structureProfile(x.n,x.s).chinese;return x.n.toLowerCase().includes(term)||chineseMatches(zh,query);}).slice(0,Math.max(0,80-results.length)||12).map((x,i)=>({id:`extra:${x.k}:${x.raw??x.n}`,name:x.n,elements:[] as string[]}));},[extras,query,results.length]);
- const searchItems=useMemo(()=>[...results,...extraConcepts],[results,extraConcepts]);
+ // Search index: built once in idle slices after the atlas is ready (and again when the extra names arrive), then queried per keystroke by the search panel.
+ const [searchIndex,setSearchIndex]=useState<SearchEntry[]|null>(null);
+ useEffect(()=>{
+  if(!atlas)return;
+  let cancelled=false;const sources:SearchSource[]=[],queue:(()=>void)[]=[];
+  const concepts=atlas.concepts;
+  for(let i=0;i<concepts.length;i+=150)queue.push(()=>{for(const c of concepts.slice(i,i+150)){const p=c.elements.map(id=>parts.get(id)).find(Boolean),profile=p?structureProfile(c.name,p.system,p):undefined;sources.push({concept:c,english:profile?.english??c.name,chinese:profile?.chinese});}});
+  for(let i=0;i<extras.length;i+=150)queue.push(()=>{for(const x of extras.slice(i,i+150)){const profile=structureProfile(x.n,x.s);sources.push({concept:{id:`extra:${x.k}:${x.raw??x.n}`,name:x.n,elements:[] as string[]},english:profile.english??x.n,chinese:profile.chinese,kind:x.k});}});
+  const idle=(fn:()=>void)=>'requestIdleCallback' in window?(window as unknown as {requestIdleCallback:(f:()=>void,o?:{timeout:number})=>number}).requestIdleCallback(fn,{timeout:400}):setTimeout(fn,16);
+  const step=()=>{if(cancelled)return;const job=queue.shift();if(job){job();idle(step);}else setSearchIndex(buildSearchIndex(sources));};
+  idle(step);
+  return()=>{cancelled=true;};
+ },[atlas,parts,extras]);
  const choose=(c:Concept)=>{const x=extraOf(c);if(x){chooseExtra(x);return;}setExternalNerve(null);setChosen(c);setState(s=>({...s,hiddenParts:(s.hiddenParts??[]).filter(id=>!c.elements.includes(id)),selected:c.elements,cameraFocusParts:c.elements,cameraFocusNonce:(s.cameraFocusNonce??0)+1,isolate:false,rotate:false}));setDetails(true);setPanel(null);};
  useEffect(()=>{if(!atlas)return;return registerAtlasTools(atlas,c=>flushSync(()=>choose(c)));},[atlas]);
  const choosePart=(id:string)=>{const p=parts.get(id);if(!p)return;setExternalNerve(null);setChosen({id:p.conceptId,name:p.name,elements:[id]});setState(s=>({...s,hiddenParts:(s.hiddenParts??[]).filter(x=>x!==id),selected:[id],cameraFocusParts:[id],cameraFocusNonce:(s.cameraFocusNonce??0)+1,isolate:false,rotate:false}));setDetails(true);setPanel(null);};
@@ -229,7 +240,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
   </section>
   <footer className="studio-footer workspace-credit"><Button variant="ghost" onClick={()=>{setDetails(false);setPanel(null);setAbout(true);}}>Source & credits <ArrowUpRight size={12}/></Button></footer>
   </aside>
-  {panel==='search'&&<section className="search-panel glass" aria-label="Find anatomy"><div className="panel-heading"><span>Find a structure</span><Button variant="ghost" className="icon-button" onClick={()=>setPanel(null)} aria-label="Close search"><X size={18}/></Button></div><Combobox<Concept> items={searchItems} value={null} onValueChange={value=>{if(value)choose(value);}} inputValue={query} onInputValueChange={setQuery} itemToStringLabel={c=>profileForConcept(c)?.english??c.name} filter={null} open onOpenChange={open=>{if(!open)setPanel(null);}}><ComboboxInput autoFocus placeholder="Heart, femur, median nerve, 正中神經…" aria-label="Search named anatomical structures" showTrigger={false}/><ComboboxContent className="anatomy-search-results"><ComboboxEmpty>No structures match your search.</ComboboxEmpty><ComboboxList>{(c:Concept)=>{const cp=profileForConcept(c);return <ComboboxItem key={c.id} value={c}><span className="search-result-name">{cp?.english??c.name}{cp?.chinese&&<small>{cp.chinese}</small>}</span><span className="small-number">{extraOf(c)?({nerve:'nerve',joint:'joint',brain:'brain',vessel:'vessel'} as const)[extraOf(c)!.k]:`${c.elements.length} ${c.elements.length===1?'piece':'pieces'}`}</span></ComboboxItem>}}</ComboboxList></ComboboxContent></Combobox><p className="search-note">{query?'Showing up to 80 matches. Refine your search to find smaller structures.':'Start with a major organ, or search every named structure.'}</p></section>}
+  {panel==='search'&&<SearchPanel index={searchIndex} onChoose={choose} onClose={()=>setPanel(null)}/>}
   <aside id="motion-workspace" className={`right-workspace ${mobileMotionOpen?'mobile-motion-open':''}`} aria-label="模型檢視與關節動作">
    <Button variant="ghost" className="mobile-only motion-close" onClick={()=>setMobileMotionOpen(false)} aria-label="關閉動作面板">收起動作 <X size={18}/></Button>
    <nav className="right-tool-rail glass" aria-label="模型檢視工具">{([['view','體位'],['dissection','分層解剖'],['depth','組織深度']] as const).map(([id,label])=><Button variant="ghost" key={id} aria-expanded={rightTool===id} aria-controls={`tool-${id}`} onClick={()=>setRightTool(v=>v===id?null:id)}>{label}</Button>)}</nav>

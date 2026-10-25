@@ -30,7 +30,7 @@ import {nerveChunkScene,type NerveCatalogue} from './nerve-stream';
 const bodyNerveBindings=bodyNerveData as Record<string,BodyRegion>;
 export interface AnatomyLoadStatus {loaded:number;total:number;systems:Record<string,number>;failed:string[];busy:boolean;interactive:boolean;supplementaryPending:number}
 // Selection colours: deep green (#0E9F6E) with a dark outline; hover is a lighter mint of the same hue.
-const SELECT_COLOR=0x0E9F6E,SELECT_EDGE=0x064E3B,HOVER_COLOR=0x7DE3B8;
+const SELECT_COLOR=0x0E9F6E,HOVER_COLOR=0x7DE3B8;
 interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;onSelectNerve?:(name:string)=>void;onProgress:(n:number)=>void;onLoadStatus?:(status:AnatomyLoadStatus)=>void;retryNonce?:number;onError:(s:string)=>void;onJointDrag?:(side:'left'|'right',joint:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion',delta:number)=>void;region?:'whole-body'|'shoulder'|'arm'|'forearm'|'hand';focusSide?:'both'|'left'|'right';motionActive?:boolean;jointMotionEnabled?:boolean;selectedExternalNerve?:string|null;bodyArea?:'whole'|'upper'|'lower'|'head'|'organs'}
 export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgress,onLoadStatus,retryNonce=0,onError,onJointDrag,region='whole-body',focusSide='both',motionActive=false,jointMotionEnabled=false,selectedExternalNerve=null,bodyArea='whole'}:Props){
  const retryLoad=useRef<(()=>void)|null>(null);
@@ -317,14 +317,6 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    hoverIndex=index;hoverNerve=nerve;if(index>=0)selectedData[index*4+1]=255;
    selectionTexture.needsUpdate=true;dirty=true;
   };
-  // Nerve tubes are thin, so a selected or hovered nerve also gets a solid outline shell (inverted hull sharing the tube's own geometry).
-  const outlineMaterial=new T.ShaderMaterial({uniforms:{color:{value:new T.Color(SELECT_EDGE)},width:{value:.0016}},side:T.BackSide,depthTest:true,depthWrite:false,vertexShader:'uniform float width; void main(){ gl_Position = projectionMatrix * modelViewMatrix * vec4(position + normalize(normal) * width, 1.0); }',fragmentShader:'uniform vec3 color; void main(){ gl_FragColor = vec4(color, 1.0); }'});
-  const setNerveOutline=(nerve:T.Mesh,color:number|null)=>{
-   let shell=nerve.userData.outline as T.Mesh|undefined;
-   if(color===null){if(shell&&shell.visible){shell.visible=false;dirty=true;}return;}
-   if(!shell){shell=new T.Mesh(nerve.geometry,outlineMaterial.clone());shell.frustumCulled=false;shell.renderOrder=-1;nerve.add(shell);nerve.userData.outline=shell;}
-   if(!shell.visible||(shell.material as T.ShaderMaterial).uniforms.color.value.getHex()!==color){(shell.material as T.ShaderMaterial).uniforms.color.value.setHex(color);shell.visible=true;dirty=true;}
-  };
   const motionData=new Float32Array(width*4),motionTexture=new T.DataTexture(motionData,width,1,T.RGBAFormat,T.FloatType);motionTexture.needsUpdate=true;
   const rotationData=new Float32Array(width*4);for(let i=0;i<width;i++)rotationData[i*4+3]=1;
   const rotationTexture=new T.DataTexture(rotationData,width,1,T.RGBAFormat,T.FloatType);rotationTexture.needsUpdate=true;
@@ -360,8 +352,11 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     shader.fragmentShader='varying float partVisible; varying float partSelected; varying float partHovered;\n'+shader.fragmentShader;
     shader.fragmentShader=shader.fragmentShader.replace('#include <clipping_planes_fragment>','#include <clipping_planes_fragment>\nif (partVisible < 0.5) discard;');
     shader.fragmentShader=shader.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\ndiffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.055, 0.624, 0.431), partSelected * 0.6);');
-    // Selection: opaque deep green (#0E9F6E) with a dark-green outline ring on the silhouette; hover: lighter mint of the same hue. Applied after lighting so it reads on white and on red muscle.
-    shader.fragmentShader=shader.fragmentShader.replace('#include <dithering_fragment>','#include <dithering_fragment>\n{ float rim = 1.0 - abs(dot(normalize(vViewPosition), normalize(normal))); float edge = smoothstep(0.5, 0.78, rim); if (partSelected > 0.5) { gl_FragColor.rgb = mix(mix(gl_FragColor.rgb, vec3(0.055, 0.624, 0.431), 0.9), vec3(0.016, 0.29, 0.2), edge); gl_FragColor.a = 1.0; } else if (partHovered > 0.5) { gl_FragColor.rgb = mix(mix(gl_FragColor.rgb, vec3(0.49, 0.89, 0.72), 0.8), vec3(0.055, 0.624, 0.431), edge * 0.85); } }');
+    // Selection: opaque deep green (#0E9F6E), no outline; hover: lighter mint of the same hue. Applied after lighting so it reads on white and on red muscle.
+    shader.fragmentShader=shader.fragmentShader.replace('#include <dithering_fragment>','#include <dithering_fragment>\n{ if (partSelected > 0.5) { gl_FragColor.rgb = mix(gl_FragColor.rgb, vec3(0.055, 0.624, 0.431), 0.92); gl_FragColor.a = 1.0; } else if (partHovered > 0.5) { gl_FragColor.rgb = mix(gl_FragColor.rgb, vec3(0.49, 0.89, 0.72), 0.8); } }');
+    // A selected part is pulled slightly towards the camera (the shader equivalent of polygonOffset) so it shows whole where it overlaps neighbouring meshes.
+    shader.vertexShader=shader.vertexShader.replace('#include <project_vertex>','#include <project_vertex>\nif (partSelected > 0.5) gl_Position.z -= 0.002 * gl_Position.w;');
+
    };materials.push(m);return m;
   };
   const mats=new Map(SYSTEMS.map(s=>[s.id,materialFor(s.id)]));
@@ -869,7 +864,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      const isSelectedNerve=!!selectedNerve.current&&name===selectedNerve.current;
      const isHoverNerve=!isSelectedNerve&&hoverNerve===name;
      const targetColor=isSelectedNerve?SELECT_COLOR:isHoverNerve?HOVER_COLOR:0xf1cb4f,targetEmissive=isSelectedNerve?SELECT_COLOR:isHoverNerve?HOVER_COLOR:0x6b5100,targetIntensity=isSelectedNerve?.4:isHoverNerve?.3:.28;
-     setNerveOutline(o as T.Mesh,isSelectedNerve?SELECT_EDGE:isHoverNerve?SELECT_COLOR:null);
+     {const nm=(o as T.Mesh).material as T.MeshStandardMaterial,lift=isSelectedNerve;if(nm.polygonOffset!==lift){nm.polygonOffset=lift;nm.polygonOffsetFactor=-4;nm.polygonOffsetUnits=-4;nm.needsUpdate=true;}}
      if(o.material.color.getHex()!==targetColor||o.material.emissive.getHex()!==targetEmissive||o.material.emissiveIntensity!==targetIntensity||!o.material.depthTest||o.material.opacity!==1){
       o.material.color.setHex(targetColor);o.material.emissive.setHex(targetEmissive);o.material.emissiveIntensity=targetIntensity;o.material.depthTest=true;o.material.depthWrite=true;o.material.transparent=false;o.material.opacity=1;o.material.needsUpdate=true;
      }
@@ -993,7 +988,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
 
   };animate();
   const contextLost=(e:Event)=>{e.preventDefault();onError('The 3D session was paused by your device. Reload to continue.');};renderer.domElement.addEventListener('webglcontextlost',contextLost);
-  return()=>{disposed=true;shoulderWorker?.terminate();retryLoad.current=null;abort.abort();cancelAnimationFrame(frame);observer.disconnect();controls.dispose();cervicalVessels.dispose();supplementaryJoints.dispose();draco.dispose();geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());outlineMaterial.dispose();scene.traverse(o=>{if(o instanceof T.Mesh&&!geometries.includes(o.geometry)){o.geometry.dispose();const ms=Array.isArray(o.material)?o.material:[o.material];ms.forEach(m=>m.dispose());}});env.dispose();partTexture.dispose();selectionTexture.dispose();motionTexture.dispose();rotationTexture.dispose();anchorMotionTexture.dispose();anchorRotationTexture.dispose();paletteTexture.dispose();markerGeometry.dispose();markerMaterial.dispose();hover.remove();renderer.dispose();renderer.domElement.remove();};
+  return()=>{disposed=true;shoulderWorker?.terminate();retryLoad.current=null;abort.abort();cancelAnimationFrame(frame);observer.disconnect();controls.dispose();cervicalVessels.dispose();supplementaryJoints.dispose();draco.dispose();geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());scene.traverse(o=>{if(o instanceof T.Mesh&&!geometries.includes(o.geometry)){o.geometry.dispose();const ms=Array.isArray(o.material)?o.material:[o.material];ms.forEach(m=>m.dispose());}});env.dispose();partTexture.dispose();selectionTexture.dispose();motionTexture.dispose();rotationTexture.dispose();anchorMotionTexture.dispose();anchorRotationTexture.dispose();paletteTexture.dispose();markerGeometry.dispose();markerMaterial.dispose();hover.remove();renderer.dispose();renderer.domElement.remove();};
  },[atlas]);
  useEffect(()=>{if(retryNonce>0)retryLoad.current?.();},[retryNonce]);
  return <div className="scene" ref={host}/>;
