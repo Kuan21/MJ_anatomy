@@ -1,0 +1,2876 @@
+{
+ "source": "115-1 第一次跑考摘要（使用者課堂共筆）。自動抽取，按原文次序排列；context 為原文該行（已截短）。",
+ "rule": "網站必須包含清單內所有真實解剖結構（可以多，不可以少）。非結構詞（如動作、方向描述）可略過，但必須在報告中列出略過原因。",
+ "items": [
+  {
+   "en": "Trapezius m",
+   "section": "背部／Superficial layer （2+3+2",
+   "context": "A. Trapezius m."
+  },
+  {
+   "en": "Accessory n",
+   "section": "背部／Superficial layer （2+3+2",
+   "context": "(1) 支配神經：Accessory n."
+  },
+  {
+   "en": "Superficial br. of transverse cervical a",
+   "section": "背部／Superficial layer （2+3+2",
+   "context": "(2) 支配血管：Superficial br. of transverse cervical a."
+  },
+  {
+   "en": "jugular foramen",
+   "section": "背部／Superficial layer （2+3+2",
+   "context": "※辨別：Accessory n. （CNXI） 從腦幹和脊髓發出，經過 jugular foramen 後沿著脖子"
+  },
+  {
+   "en": "B. Latissimus dorsi m",
+   "section": "背部／Superficial layer （2+3+2",
+   "context": "B. Latissimus dorsi m."
+  },
+  {
+   "en": "Thoracodorsal n",
+   "section": "背部／Superficial layer （2+3+2",
+   "context": "(1) 支配神經動脈：Thoracodorsal n./a."
+  },
+  {
+   "en": "Post. cutaneous br",
+   "section": "背部／Superficial layer （2+3+2",
+   "context": "C. 其他考點：Post. cutaneous br. （dorsal ramus of spinal n.來的）"
+  },
+  {
+   "en": "dorsal ramus of spinal n",
+   "section": "背部／Superficial layer （2+3+2",
+   "context": "C. 其他考點：Post. cutaneous br. （dorsal ramus of spinal n.來的）"
+  },
+  {
+   "en": "minor m",
+   "section": "背部／Superficial layer （2+3+2",
+   "context": "A. Rhomboid major/minor m."
+  },
+  {
+   "en": "B. Levator scapulae m",
+   "section": "背部／Superficial layer （2+3+2",
+   "context": "B. Levator scapulae m."
+  },
+  {
+   "en": "Dorsal scapular n",
+   "section": "背部／Superficial layer （2+3+2",
+   "context": "C. 支配以上三條的神經血管：Dorsal scapular n./a."
+  },
+  {
+   "en": "Subclavian a",
+   "section": "背部／Superficial layer （2+3+2",
+   "context": "※觀念（頸部範圍之後會上）有些人 Subclavian a.第三段有一分支直接叫 Dorsal scapular"
+  },
+  {
+   "en": "Transverse cervical a",
+   "section": "背部／Superficial layer （2+3+2",
+   "context": "a.有些人則是由 Transverse cervical a.分支後的 deep br.而來，又稱 Dorsal scapular a.。"
+  },
+  {
+   "en": "deep br",
+   "section": "背部／Superficial layer （2+3+2",
+   "context": "a.有些人則是由 Transverse cervical a.分支後的 deep br.而來，又稱 Dorsal scapular a.。"
+  },
+  {
+   "en": "Dorsal scapular a",
+   "section": "背部／Superficial layer （2+3+2",
+   "context": "a.有些人則是由 Transverse cervical a.分支後的 deep br.而來，又稱 Dorsal scapular a.。"
+  },
+  {
+   "en": "Rhomboid major m",
+   "section": "背部／Superficial layer （2+3+2",
+   "context": "※區別 Rhomboid major m.：兩者走向相近，但是 Rhomboid major m. 主要功能是將肩胛往後"
+  },
+  {
+   "en": "Serratus post. sup. m",
+   "section": "背部／Superficial layer （2+3+2",
+   "context": "，因此他需要有厚實的肌腹。相較之下 Serratus post. sup. m. 只"
+  },
+  {
+   "en": "B. Thoracolumber fascia",
+   "section": "背部／Superficial layer （2+3+2",
+   "context": "B. Thoracolumber fascia：其實有三層（ant. middle post.），不用區分"
+  },
+  {
+   "en": "Supraspinatus m",
+   "section": "背部／Superficial layer （2+3+2",
+   "context": "(1) Supraspinatus m."
+  },
+  {
+   "en": "Infraspinatus m",
+   "section": "背部／Superficial layer （2+3+2",
+   "context": "(2) Infraspinatus m."
+  },
+  {
+   "en": "Suprascapular n",
+   "section": "背部／Superficial layer （2+3+2",
+   "context": "a. 支配神經血管肌肉：Suprascapular n./a."
+  },
+  {
+   "en": "Suprascapular foramen",
+   "section": "背部／Superficial layer （2+3+2",
+   "context": "b. 只有 n.會走入 Suprascapular foramen"
+  },
+  {
+   "en": "Splenius capitis m",
+   "section": "背部／Deep layer （2+3+3+3） （只有",
+   "context": "A. Splenius capitis m.：棘突到 sup. nuchal line & mastoid process"
+  },
+  {
+   "en": "sup. nuchal line",
+   "section": "背部／Deep layer （2+3+3+3） （只有",
+   "context": "A. Splenius capitis m.：棘突到 sup. nuchal line & mastoid process"
+  },
+  {
+   "en": "mastoid process",
+   "section": "背部／Deep layer （2+3+3+3） （只有",
+   "context": "A. Splenius capitis m.：棘突到 sup. nuchal line & mastoid process"
+  },
+  {
+   "en": "B. Splenius cervicis m",
+   "section": "背部／Deep layer （2+3+3+3） （只有",
+   "context": "B. Splenius cervicis m.：棘突到 C1~C3 橫突，被 Serratus post. sup.m.壓住"
+  },
+  {
+   "en": "Spinalis m",
+   "section": "背部／Deep layer （2+3+3+3） （只有",
+   "context": "A. Spinalis m.：很靠近脊椎的一區肌肉"
+  },
+  {
+   "en": "B. Longissimus m",
+   "section": "背部／Deep layer （2+3+3+3） （只有",
+   "context": "B. Longissimus m.：腰區是白色肌鍵，往上變肌肉，最遠附著到 mastoid process"
+  },
+  {
+   "en": "C. Iliocostalis m",
+   "section": "背部／Deep layer （2+3+3+3） （只有",
+   "context": "C. Iliocostalis m.：腰區是肌肉，往上到肋骨處剩下白白的肌腱而已"
+  },
+  {
+   "en": "Semispinalis m",
+   "section": "背部／Deep layer （2+3+3+3） （只有",
+   "context": "A. Semispinalis m.："
+  },
+  {
+   "en": "Semispinalis capitis m",
+   "section": "背部／Deep layer （2+3+3+3） （只有",
+   "context": "(1) Semispinalis capitis m.：為 suboccipital triangle 的 roof"
+  },
+  {
+   "en": "suboccipital triangle",
+   "section": "背部／Deep layer （2+3+3+3） （只有",
+   "context": "(1) Semispinalis capitis m.：為 suboccipital triangle 的 roof"
+  },
+  {
+   "en": "Semispinalis cervicis m",
+   "section": "背部／Deep layer （2+3+3+3） （只有",
+   "context": "(2) Semispinalis cervicis m.：上端附著在 spinous process of C2"
+  },
+  {
+   "en": "spinous process",
+   "section": "背部／Deep layer （2+3+3+3） （只有",
+   "context": "(2) Semispinalis cervicis m.：上端附著在 spinous process of C2"
+  },
+  {
+   "en": "Mutifidus m",
+   "section": "背部／Deep layer （2+3+3+3） （只有",
+   "context": "(3) Mutifidus m.：連在 C2 的那條有機會觀察到"
+  },
+  {
+   "en": "capitis m",
+   "section": "背部／枕下三角 Suboccipital triang",
+   "context": "1. Roof：Semispinalis capitis m.頭半棘肌（在splenius capitis m. 底下，垂直走）"
+  },
+  {
+   "en": "Obliquus capitis sup. m",
+   "section": "背部／枕下三角 Suboccipital triang",
+   "context": "(1) Obliquus capitis sup. m.（三角外上邊界）"
+  },
+  {
+   "en": "Obliquus capitis inf. m",
+   "section": "背部／枕下三角 Suboccipital triang",
+   "context": "(2) Obliquus capitis inf. m. （三角外下邊界）"
+  },
+  {
+   "en": "Rectus capitis post. major m",
+   "section": "背部／枕下三角 Suboccipital triang",
+   "context": "(3) Rectus capitis post. major m.（三角內側邊界）"
+  },
+  {
+   "en": "spinal process",
+   "section": "背部／枕下三角 Suboccipital triang",
+   "context": "Semispinalis cervicis m.都有附著到 C2 spinal process。"
+  },
+  {
+   "en": "Rectus capitis post. minor m",
+   "section": "背部／枕下三角 Suboccipital triang",
+   "context": "(4) Rectus capitis post. minor m.（三角邊界再裡面的那塊）"
+  },
+  {
+   "en": "Suboccipital n",
+   "section": "背部／枕下三角 Suboccipital triang",
+   "context": "(1) Suboccipital n.：在三角內，會有許多分支跑出三角支配枕下肌群"
+  },
+  {
+   "en": "Greater occipital n",
+   "section": "背部／枕下三角 Suboccipital triang",
+   "context": "(2) Greater occipital n.：通常會從 Obliquus capitis inf. m. 下方出現，再從 Semispinalis"
+  },
+  {
+   "en": "Third occipital n",
+   "section": "背部／枕下三角 Suboccipital triang",
+   "context": "----以下（3）-（4） 指引無，但醫學中甲需要知道，偶爾會考---(3) Third occipital n.：C2 更下方、更內側發出：通常穿過 Splenius capitis m."
+  },
+  {
+   "en": "Lesser occipital n",
+   "section": "背部／枕下三角 Suboccipital triang",
+   "context": "(4) Lesser occipital n.：往頭部上方走（靠內）"
+  },
+  {
+   "en": "Great auricular n",
+   "section": "背部／枕下三角 Suboccipital triang",
+   "context": "(5) Great auricular n.：往耳朵方向走（靠外）"
+  },
+  {
+   "en": "Vertebral a",
+   "section": "背部／枕下三角 Suboccipital triang",
+   "context": "(1) Vertebral a.：在三角內，C1 後弓旁可找到"
+  },
+  {
+   "en": "Post. Arch",
+   "section": "背部／枕下三角 Suboccipital triang",
+   "context": "注意：要伸手進去摸是骨頭還是血管，若為骨頭要寫 Post. Arch of C1"
+  },
+  {
+   "en": "Occipital a",
+   "section": "背部／枕下三角 Suboccipital triang",
+   "context": "(2) Occipital a.：枕骨後方可看到一些枕動脈分支們"
+  },
+  {
+   "en": "Denticulate lig",
+   "section": "背部／枕下三角 Suboccipital triang",
+   "context": "a. 往外黏在 dura mater 上，會形成 Denticulate lig."
+  },
+  {
+   "en": "b. Denticulate lig",
+   "section": "背部／枕下三角 Suboccipital triang",
+   "context": "b. Denticulate lig.可以用來區別 Ventral root & Dorsal root"
+  },
+  {
+   "en": "Ventral root",
+   "section": "背部／枕下三角 Suboccipital triang",
+   "context": "b. Denticulate lig.可以用來區別 Ventral root & Dorsal root"
+  },
+  {
+   "en": "Dorsal root",
+   "section": "背部／枕下三角 Suboccipital triang",
+   "context": "b. Denticulate lig.可以用來區別 Ventral root & Dorsal root"
+  },
+  {
+   "en": "Ligamentum flavum",
+   "section": "背部／枕下三角 Suboccipital triang",
+   "context": "(4) Ligamentum flavum：位在切下來的脊椎，椎板之間，顏色偏深，不一定是黃色的"
+  },
+  {
+   "en": "Post. longitudinal lig",
+   "section": "背部／枕下三角 Suboccipital triang",
+   "context": "(5) Post. longitudinal lig.：位在椎管內，脊髓剝開後可以看到"
+  },
+  {
+   "en": "Ant. longitudinal lig",
+   "section": "背部／枕下三角 Suboccipital triang",
+   "context": "(6) Ant. longitudinal lig.：位於椎體前方，在頭半切的老師身上或是後胸壁上可以看到"
+  },
+  {
+   "en": "Nuchal lig./ supraspinous lig",
+   "section": "背部／枕下三角 Suboccipital triang",
+   "context": "(7) Nuchal lig./ supraspinous lig.：C7 以上到 inion 之間，是多條肌肉的附著點，C7 以"
+  },
+  {
+   "en": "supraspinous lig",
+   "section": "背部／枕下三角 Suboccipital triang",
+   "context": "下為 supraspinous lig."
+  },
+  {
+   "en": "Interspinous lig",
+   "section": "背部／枕下三角 Suboccipital triang",
+   "context": "(8) Interspinous lig.：在切下來的脊椎上，清掉 spinalis m.就會出現，薄薄的像一層膜"
+  },
+  {
+   "en": "tendon",
+   "section": "上肢／枕下三角 Suboccipital triang",
+   "context": "Ø 上肢有一些地方是 br. of~、head of~、tendon of~，考試有把握可寫一下，老師有時會要求"
+  },
+  {
+   "en": "Coracoid process",
+   "section": "上肢／上肢附著肌肉複習",
+   "context": "1. Coracoid process: Pectoralis minor, Biceps brachii（至橈骨粗隆） 短頭, Coracobrachialis （至"
+  },
+  {
+   "en": "Great tubercle",
+   "section": "上肢／上肢附著肌肉複習",
+   "context": "4. Great tubercle: supraspinatus, infraspinatus, teres minor"
+  },
+  {
+   "en": "Lesser tubercle",
+   "section": "上肢／上肢附著肌肉複習",
+   "context": "5. Lesser tubercle: subscapularis"
+  },
+  {
+   "en": "Intertubercle groove",
+   "section": "上肢／上肢附著肌肉複習",
+   "context": "6. Intertubercle groove: 肱二頭肌走在裡面，又稱 biceps groove, 其 medial lip: teres major,"
+  },
+  {
+   "en": "biceps groove",
+   "section": "上肢／上肢附著肌肉複習",
+   "context": "6. Intertubercle groove: 肱二頭肌走在裡面，又稱 biceps groove, 其 medial lip: teres major,"
+  },
+  {
+   "en": "Axilla fossa",
+   "section": "上肢／上肢附著肌肉複習",
+   "context": "7. Axilla fossa: 其中包含腋淋巴結、喙肱肌、肱二頭肌長短頭、axillary sheath（中有 axillary"
+  },
+  {
+   "en": "axillary sheath",
+   "section": "上肢／上肢附著肌肉複習",
+   "context": "7. Axilla fossa: 其中包含腋淋巴結、喙肱肌、肱二頭肌長短頭、axillary sheath（中有 axillary"
+  },
+  {
+   "en": "axillary v",
+   "section": "上肢／上肢附著肌肉複習",
+   "context": "a., axillary v., 臂神經叢）"
+  },
+  {
+   "en": "Quadrangular space",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "Quadrangular space"
+  },
+  {
+   "en": "axillary nerve",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "N: axillary nerve"
+  },
+  {
+   "en": "posterior circumflex humeral a./ v",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "B: posterior circumflex humeral a./ v.後旋肱動靜脈（由前穿到後）"
+  },
+  {
+   "en": "Triangular interval",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "Triangular interval"
+  },
+  {
+   "en": "radial nerve",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "N: radial nerve"
+  },
+  {
+   "en": "profunda branchial a",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "B: profunda branchial a.（由前穿到肱骨後側）"
+  },
+  {
+   "en": "Triangular space",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "Triangular space"
+  },
+  {
+   "en": "circumflex scapular a",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "B: circumflex scapular a.旋肩胛a. （肩胛下動脈的分支之一，另一分"
+  },
+  {
+   "en": "Axillary a",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "1. 腋動脈 Axillary a. （M64、M65 都考 vein）：以 pectoralis minor m.為界分成三段，分別"
+  },
+  {
+   "en": "pectoralis minor m",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "1. 腋動脈 Axillary a. （M64、M65 都考 vein）：以 pectoralis minor m.為界分成三段，分別"
+  },
+  {
+   "en": "Sup. thoracic a",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "(1) Sup. thoracic a.： 進入並支配第一肋間"
+  },
+  {
+   "en": "Thoracoacromial a",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "(1) Thoracoacromial a.：會分出四個分支，靠走向判斷（時常被破壞）"
+  },
+  {
+   "en": "Pectoral br",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "a. Pectoral br.： 會往 pectoralis major / minor 走並發散支配，注意此二肌肉常被"
+  },
+  {
+   "en": "b. Acromial br",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "b. Acromial br.：向外、向上往 acromion（肩峰）前外側走"
+  },
+  {
+   "en": "c. Clavicular br",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "c. Clavicular br.：鑽向鎖骨下方或胸鎖關節附近的小分支"
+  },
+  {
+   "en": "d. Deltoid br",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "d. Deltoid br.：常伴行 cephalic v.，進入並支配三角肌"
+  },
+  {
+   "en": "cephalic v",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "d. Deltoid br.：常伴行 cephalic v.，進入並支配三角肌"
+  },
+  {
+   "en": "Lat. thoracic a",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "(2) Lat. thoracic a.：支配外側胸壁，會和長胸神經伴行（走向一樣，但可能沒有很靠"
+  },
+  {
+   "en": "Mammary br",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "(3) Mammary br.：供應乳線與乳房外分泌"
+  },
+  {
+   "en": "Subscapular a",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "(1) Subscapular a."
+  },
+  {
+   "en": "Thoracodorsal a",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "Thoracodorsal a. （M65）：往下走並支配闊背肌，常有變異的外胸動脈從此動"
+  },
+  {
+   "en": "Ant. circumflex humeral a",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "(2) Ant. circumflex humeral a. （M65）：小條（可能*2），沒有東西伴行"
+  },
+  {
+   "en": "Post. circumflex humeral a",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "(3) Post. circumflex humeral a. （M66）：和 axillary n.伴行，進入 quadrangular"
+  },
+  {
+   "en": "axillary n",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "(3) Post. circumflex humeral a. （M66）：和 axillary n.伴行，進入 quadrangular"
+  },
+  {
+   "en": "space",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "space，通常較前旋肱動脈粗但不建議以此來記"
+  },
+  {
+   "en": "Superior thoracic artery",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "1. Superior thoracic artery：位於鎖骨下肌下緣，供應血液給腋部前側壁(短)，"
+  },
+  {
+   "en": "Thoraco-acromial artery",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "1. Thoraco-acromial artery：（anterior wall）位於胸小肌上緣，主幹短馬上就會"
+  },
+  {
+   "en": "clavicular br",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "產生 4 個分支：clavicular br.（往鎖骨走） acromial br.（向肩胛骨的尖峰"
+  },
+  {
+   "en": "acromial br",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "產生 4 個分支：clavicular br.（往鎖骨走） acromial br.（向肩胛骨的尖峰"
+  },
+  {
+   "en": "deltoid br",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "走）, deltoid br.（向三角肌走，常伴行 cephalic v. ） pectoral br.（往胸大"
+  },
+  {
+   "en": "Lateral thoracic artery",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "2. Lateral thoracic artery（anterior and medial wall）：位於胸小肌下緣，供應血"
+  },
+  {
+   "en": "nerve",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "nerve 伴行（會下到 rib4, 5 左右，走在前鋸肌表面）"
+  },
+  {
+   "en": "subscapular artery",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "1. subscapular artery (posterior wall, posterior scapular):"
+  },
+  {
+   "en": "circumflex scapular branch",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "-circumflex scapular branch 旋肩胛支，由前往後通過 triangular space，走到肩"
+  },
+  {
+   "en": "infraspiratus fossa",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "胛骨後方 infraspiratus fossa，＊肩胛骨後方還有肩胛上動脈、橫頸動脈深支"
+  },
+  {
+   "en": "thoracodorsal artery",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "-thoracodorsal artery (medial and posterior wall)，走到闊背肌，thoracodorsal"
+  },
+  {
+   "en": "anterior circumflex humeral artery",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "2. anterior circumflex humeral artery：不會走進 Quadrangular space"
+  },
+  {
+   "en": "surgical neck",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "-約略在 surgical neck 前方"
+  },
+  {
+   "en": "posterior circumflex humeral artery",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "3. posterior circumflex humeral artery: 走進 Quadrangular space"
+  },
+  {
+   "en": "Cephalic vein",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "Cephalic vein"
+  },
+  {
+   "en": "triangle",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "triangle (胸大肌、三角肌、鎖骨)後匯入腋靜脈"
+  },
+  {
+   "en": "Median cubital vein",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "Median cubital vein"
+  },
+  {
+   "en": "Basilic vein",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "Basilic vein"
+  },
+  {
+   "en": "Axillary vein",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "Axillary vein"
+  },
+  {
+   "en": "brachial artery",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "肱動脈 brachial artery: axillary artery 過 low part of teres major m. 改名（兩旁有成對肱靜脈"
+  },
+  {
+   "en": "axillary artery",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "肱動脈 brachial artery: axillary artery 過 low part of teres major m. 改名（兩旁有成對肱靜脈"
+  },
+  {
+   "en": "low part of teres major m",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "肱動脈 brachial artery: axillary artery 過 low part of teres major m. 改名（兩旁有成對肱靜脈"
+  },
+  {
+   "en": "collateral artery",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "collateral artery"
+  },
+  {
+   "en": "Radial artery",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "Radial artery"
+  },
+  {
+   "en": "Ulnar artery",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "Ulnar artery"
+  },
+  {
+   "en": "artery",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "artery, radial collateral artery"
+  },
+  {
+   "en": "radial collateral artery",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "artery, radial collateral artery"
+  },
+  {
+   "en": "radial recurrent artery",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "分出 radial recurrent artery, 和 radial collateral artery 在"
+  },
+  {
+   "en": "anterior ulnar recurrent artery",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "分出 anterior ulnar recurrent artery（內上髁前方）, and"
+  },
+  {
+   "en": "Interosseous artery",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "Interosseous artery（分成 anterior Interosseous artery,"
+  },
+  {
+   "en": "anterior Interosseous artery",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "Interosseous artery（分成 anterior Interosseous artery,"
+  },
+  {
+   "en": "Interosseous recurrent artery",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "Interosseous artery, Interosseous recurrent artery(和"
+  },
+  {
+   "en": "superficial palmer arch",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "A. superficial palmer arch：橈動脈淺掌分支（superficial palmaer br. of radial a.）與尺動脈"
+  },
+  {
+   "en": "superficial palmaer br. of radial a",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "A. superficial palmer arch：橈動脈淺掌分支（superficial palmaer br. of radial a.）與尺動脈"
+  },
+  {
+   "en": "ulnar a",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "（ulnar a.）在掌部形成的弓狀結構"
+  },
+  {
+   "en": "deep palmer arch",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "*補個 deep palmer arch：橈動脈（radial a.）與尺動脈深掌分支（deep palmer br. of ulnar"
+  },
+  {
+   "en": "radial a",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "*補個 deep palmer arch：橈動脈（radial a.）與尺動脈深掌分支（deep palmer br. of ulnar"
+  },
+  {
+   "en": "deep palmer br",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "*補個 deep palmer arch：橈動脈（radial a.）與尺動脈深掌分支（deep palmer br. of ulnar"
+  },
+  {
+   "en": "B. common palmer digital a",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "B. common palmer digital a. ：淺掌弓往指頭發出的分支"
+  },
+  {
+   "en": "C. proper palmer digital a",
+   "section": "上肢／腋窩邊界 Axillary boundary",
+   "context": "C. proper palmer digital a.：固有掌指動脈往前的分支"
+  },
+  {
+   "en": "Brachial plexus",
+   "section": "上肢／上肢神經",
+   "context": "1. Brachial plexus"
+  },
+  {
+   "en": "lat. cord",
+   "section": "上肢／上肢神經",
+   "context": "(1) 外索 lat. cord（Ｍ65）"
+  },
+  {
+   "en": "i. Lat. pectoral n",
+   "section": "上肢／上肢神經",
+   "context": "i. Lat. pectoral n.：胸小肌內側發出，支配胸大肌"
+  },
+  {
+   "en": "i. Musculocutaneous n",
+   "section": "上肢／上肢神經",
+   "context": "i. Musculocutaneous n.：發出後穿過 Coracobrachialis m.，走在 biceps brachii m."
+  },
+  {
+   "en": "Coracobrachialis m",
+   "section": "上肢／上肢神經",
+   "context": "i. Musculocutaneous n.：發出後穿過 Coracobrachialis m.，走在 biceps brachii m."
+  },
+  {
+   "en": "biceps brachii m",
+   "section": "上肢／上肢神經",
+   "context": "i. Musculocutaneous n.：發出後穿過 Coracobrachialis m.，走在 biceps brachii m."
+  },
+  {
+   "en": "brachialis m",
+   "section": "上肢／上肢神經",
+   "context": "跟 brachialis m.之間，穿出後變成 Lat. cutaneous n. of forearm"
+  },
+  {
+   "en": "Lat. cutaneous n",
+   "section": "上肢／上肢神經",
+   "context": "跟 brachialis m.之間，穿出後變成 Lat. cutaneous n. of forearm"
+  },
+  {
+   "en": "ii. Median n",
+   "section": "上肢／上肢神經",
+   "context": "ii. Median n.：會和肱動脈一起走到肘窩（下頁有更多介紹）"
+  },
+  {
+   "en": "med. cord",
+   "section": "上肢／上肢神經",
+   "context": "(2) 內索 med. cord"
+  },
+  {
+   "en": "i. Med. pectoral n",
+   "section": "上肢／上肢神經",
+   "context": "i. Med. pectoral n.：穿過胸小肌到胸大肌"
+  },
+  {
+   "en": "ii. Med. cutaneous n",
+   "section": "上肢／上肢神經",
+   "context": "ii. Med. cutaneous n. of arm：和第二肋間發出的 intercostobrachial n.有會合，在"
+  },
+  {
+   "en": "intercostobrachial n",
+   "section": "上肢／上肢神經",
+   "context": "ii. Med. cutaneous n. of arm：和第二肋間發出的 intercostobrachial n.有會合，在"
+  },
+  {
+   "en": "iii. Med. cutaneous n",
+   "section": "上肢／上肢神經",
+   "context": "iii. Med. cutaneous n. of forearm：往前臂走去，往遠端追較好判斷，在 ulnar n."
+  },
+  {
+   "en": "ulnar n",
+   "section": "上肢／上肢神經",
+   "context": "iii. Med. cutaneous n. of forearm：往前臂走去，往遠端追較好判斷，在 ulnar n."
+  },
+  {
+   "en": "i. Median n",
+   "section": "上肢／上肢神經",
+   "context": "i. Median n.：內、外索會合。在上臂無分支，從 Pronator teres 兩個頭之間穿"
+  },
+  {
+   "en": "Ant. Interosseous n",
+   "section": "上肢／上肢神經",
+   "context": "過，走在屈指深淺肌之間，並發出 Ant. Interosseous n.（有同名 a.伴行，走"
+  },
+  {
+   "en": "carpal tunnel",
+   "section": "上肢／上肢神經",
+   "context": "在屈指深肌與屈大拇指長肌之間），最後穿過 carpal tunnel 到手掌"
+  },
+  {
+   "en": "ii. Ulnar n",
+   "section": "上肢／上肢神經",
+   "context": "ii. Ulnar n.（M66）：上臂無分支，繞內上髁後面到前臂，在前臂和 Ulnar a.伴"
+  },
+  {
+   "en": "Flexor carpi ulnaris m",
+   "section": "上肢／上肢神經",
+   "context": "行，走在 Flexor carpi ulnaris m.和屈指深淺肌之間"
+  },
+  {
+   "en": "i. Upper subscapular n",
+   "section": "上肢／上肢神經",
+   "context": "i. Upper subscapular n.：短短的，只支配肩胛下肌"
+  },
+  {
+   "en": "ii. Middle subscapular n",
+   "section": "上肢／上肢神經",
+   "context": "ii. Middle subscapular n.（Thoracodorsal n.）（M64）：有同名 a.伴行， 支配闊"
+  },
+  {
+   "en": "iii. Lower subscapular n",
+   "section": "上肢／上肢神經",
+   "context": "iii. Lower subscapular n. （M64）（M66）：往遠端走有兩分岔，分別支配肩胛"
+  },
+  {
+   "en": "i. Axillary n",
+   "section": "上肢／上肢神經",
+   "context": "i. Axillary n.：和後旋肱動脈伴行，進 Quadrangularspace（沒跨過闊背肌肌"
+  },
+  {
+   "en": "ii. Radial n",
+   "section": "上肢／上肢神經",
+   "context": "ii. Radial n.：會走在闊背肌肌腱上方，跨過闊背肌肌腱後和深肱動脈一起進"
+  },
+  {
+   "en": "Radial groove",
+   "section": "上肢／上肢神經",
+   "context": "Triangular interval，接著在 humerus 背側沿著 Radial groove 到下外側，走在"
+  },
+  {
+   "en": "brachioradialis m",
+   "section": "上肢／上肢神經",
+   "context": "brachioradialis m.跟 brachialis m.之間（這邊是三塊肌肉夾兩條神經），在肘"
+  },
+  {
+   "en": "iii. Superficial br",
+   "section": "上肢／上肢神經",
+   "context": "iii. Superficial br.會和 Radial a.伴行，走在 Brachioradialis m.下方，一路往下到"
+  },
+  {
+   "en": "iv. Deep br",
+   "section": "上肢／上肢神經",
+   "context": "iv. Deep br.分支出來之後，穿進 Supinator m.，穿出後變成 Post. interosseous"
+  },
+  {
+   "en": "Supinator m",
+   "section": "上肢／上肢神經",
+   "context": "iv. Deep br.分支出來之後，穿進 Supinator m.，穿出後變成 Post. interosseous"
+  },
+  {
+   "en": "Sup. trunk",
+   "section": "上肢／上肢神經",
+   "context": "a. Suprascapular n. （M64）：翻開 Supraspinatus m.可見，由 Sup. trunk 發出，走"
+  },
+  {
+   "en": "Superior transverse scapular ligament",
+   "section": "上肢／上肢神經",
+   "context": "在 Superior transverse scapular ligament 下方（Suprascapular a.在 lig.上方），會"
+  },
+  {
+   "en": "Suprascapular a",
+   "section": "上肢／上肢神經",
+   "context": "在 Superior transverse scapular ligament 下方（Suprascapular a.在 lig.上方），會"
+  },
+  {
+   "en": "infraspinatus fossa",
+   "section": "上肢／上肢神經",
+   "context": "跟著動脈往肩胛脊外側走，往下繞到 infraspinatus fossa"
+  },
+  {
+   "en": "b. Long thoracic n",
+   "section": "上肢／上肢神經",
+   "context": "b. Long thoracic n.：緊貼外側胸壁支配 Serratus anterior m.，由 C5-C7 root 發出"
+  },
+  {
+   "en": "Serratus anterior m",
+   "section": "上肢／上肢神經",
+   "context": "b. Long thoracic n.：緊貼外側胸壁支配 Serratus anterior m.，由 C5-C7 root 發出"
+  },
+  {
+   "en": "c. Dorsal scapular n",
+   "section": "上肢／上肢神經",
+   "context": "c. Dorsal scapular n. （M64）（M66）：伴行 Dorsal scapular a./v.，在背部記得觀"
+  },
+  {
+   "en": "scalis muscle",
+   "section": "上肢／上肢神經",
+   "context": "scalis muscle 之間）（前斜角肌後"
+  },
+  {
+   "en": "dorsal scapular nerve",
+   "section": "上肢／上肢神經",
+   "context": "-dorsal scapular nerve 支配 levator scapulae, rhomboid"
+  },
+  {
+   "en": "phrenic nerve",
+   "section": "上肢／上肢神經",
+   "context": "-to phrenic nerve 支配橫膈"
+  },
+  {
+   "en": "long thoracic nerve",
+   "section": "上肢／上肢神經",
+   "context": "*C5-C7 long thoracic nerve 支配前鋸肌(在前鋸肌淺層)"
+  },
+  {
+   "en": "suprascapular nerve",
+   "section": "上肢／上肢神經",
+   "context": "*C5, 6 suprascapular nerve 支配棘上肌、棘下肌，且走"
+  },
+  {
+   "en": "notch",
+   "section": "上肢／上肢神經",
+   "context": "在肩胛上切跡 notch 中, a.則是走在上切跡上"
+  },
+  {
+   "en": "lateral pectoral n",
+   "section": "上肢／上肢神經",
+   "context": "-lateral pectoral n.（走在胸小肌內側緣，跑到胸大肌深"
+  },
+  {
+   "en": "upper subscapular nerve",
+   "section": "上肢／上肢神經",
+   "context": "-*upper subscapular nerve 支配 subscapularis"
+  },
+  {
+   "en": "middle subscapular nerve",
+   "section": "上肢／上肢神經",
+   "context": "* middle subscapular nerve 支配 latissimus dorsi，又稱"
+  },
+  {
+   "en": "thoracodorsal nerve",
+   "section": "上肢／上肢神經",
+   "context": "thoracodorsal nerve*不支配肩胛下肌（和 thoracodorsal a."
+  },
+  {
+   "en": "lower subscapular nerve",
+   "section": "上肢／上肢神經",
+   "context": "* lower subscapular nerve 支配 subscapularis, teres major"
+  },
+  {
+   "en": "Terminal branch",
+   "section": "上肢／上肢神經",
+   "context": "Terminal branch"
+  },
+  {
+   "en": "peripheral nerve",
+   "section": "上肢／上肢神經",
+   "context": "（peripheral nerve）"
+  },
+  {
+   "en": "medial pectoral n",
+   "section": "上肢／上肢神經",
+   "context": "-medial pectoral n.（會穿過胸小肌本身！！支配胸大胸"
+  },
+  {
+   "en": "medial cutaneous nerve",
+   "section": "上肢／上肢神經",
+   "context": "-medial cutaneous nerve of arm: 第二肋間的外側皮分"
+  },
+  {
+   "en": "posterior interosseous nerve",
+   "section": "上肢／上肢神經",
+   "context": "posterior interosseous nerve."
+  },
+  {
+   "en": "lateral cord",
+   "section": "上肢／上肢神經",
+   "context": "Median: lateral cord 的 lateral root+ medial cord 的"
+  },
+  {
+   "en": "lateral root",
+   "section": "上肢／上肢神經",
+   "context": "Median: lateral cord 的 lateral root+ medial cord 的"
+  },
+  {
+   "en": "medial cord",
+   "section": "上肢／上肢神經",
+   "context": "Median: lateral cord 的 lateral root+ medial cord 的"
+  },
+  {
+   "en": "medial root",
+   "section": "上肢／上肢神經",
+   "context": "medial root"
+  },
+  {
+   "en": "thenar muscle",
+   "section": "上肢／上肢神經",
+   "context": "（支配大部分前臂肌肉、thenar muscle, lumbrical muscle"
+  },
+  {
+   "en": "lumbrical muscle",
+   "section": "上肢／上肢神經",
+   "context": "（支配大部分前臂肌肉、thenar muscle, lumbrical muscle"
+  },
+  {
+   "en": "anterior interosseous n",
+   "section": "上肢／上肢神經",
+   "context": "anterior interosseous n. ）支配 thenar muscle（正中神經"
+  },
+  {
+   "en": "Ulnar nerve",
+   "section": "上肢／上肢神經",
+   "context": "Ulnar nerve: 從後側繞過內上髁，在內上髁後方，後走"
+  },
+  {
+   "en": "Recurrent br. of median n",
+   "section": "上肢／上肢神經",
+   "context": "a. Recurrent br. of median n.：支配大魚際肌"
+  },
+  {
+   "en": "b. Superficial br. of radial n",
+   "section": "上肢／上肢神經",
+   "context": "b. Superficial br. of radial n.：在 Snuff box 可見的皮神經"
+  },
+  {
+   "en": "c. common palmer digital n",
+   "section": "上肢／上肢神經",
+   "context": "c. common palmer digital n."
+  },
+  {
+   "en": "d. proper palmer digital n",
+   "section": "上肢／上肢神經",
+   "context": "d. proper palmer digital n."
+  },
+  {
+   "en": "proper palmer digital br",
+   "section": "上肢／上肢神經",
+   "context": "*注意：如果是 234 指分出的應稱呼為 common/proper palmer digital br. of"
+  },
+  {
+   "en": "median n",
+   "section": "上肢／上肢神經",
+   "context": "median n. 、若是 45 指分出的應稱呼為 common/proper palmer digital br. of"
+  },
+  {
+   "en": "short head of Biceps brachii m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "(1) Long/short head of Biceps brachii m.：內側短頭，外側長頭（看到題目寫 Be specific"
+  },
+  {
+   "en": "Subscapularis m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "(4) Subscapularis m.：手外展，臂神經叢下方的肌肉"
+  },
+  {
+   "en": "Med. head of Triceps brachii m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "(1) Lat./Long./Med. head of Triceps brachii m.：後側觀表層是長頭（靠內）、外側頭；"
+  },
+  {
+   "en": "Anconeus m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "(2) Anconeus m.：靠近肘窩可見，Humerus 與 Ulna 之間"
+  },
+  {
+   "en": "Teres minor m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "(3) Teres minor m.：在 Teres major m.上方，會蓋住 long head of triceps brachii m.近端"
+  },
+  {
+   "en": "Teres major m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "(3) Teres minor m.：在 Teres major m.上方，會蓋住 long head of triceps brachii m.近端"
+  },
+  {
+   "en": "long head of triceps brachii m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "(3) Teres minor m.：在 Teres major m.上方，會蓋住 long head of triceps brachii m.近端"
+  },
+  {
+   "en": "infraglenoid tubercle",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "（靠近 infraglenoid tubercle）"
+  },
+  {
+   "en": "Interval",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "(5) *這邊要注意腋窩 Interval、Space 穿過的 n./a.，可以從後側考（邊界基本一樣，只"
+  },
+  {
+   "en": "Subscapular m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "是 Subscapular m.變成 Teres minor m.）"
+  },
+  {
+   "en": "medial epicondyle",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "(1) 淺層 4（由外而內，都源自 medial epicondyle of humerus）"
+  },
+  {
+   "en": "Pronator teres m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "a. Pronator teres m.：分成 humeral head 及 ulnar head，在兩頭間"
+  },
+  {
+   "en": "humeral head",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "a. Pronator teres m.：分成 humeral head 及 ulnar head，在兩頭間"
+  },
+  {
+   "en": "ulnar head",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "a. Pronator teres m.：分成 humeral head 及 ulnar head，在兩頭間"
+  },
+  {
+   "en": "c. Flexor carpi radialis m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "c. Flexor carpi radialis m."
+  },
+  {
+   "en": "d. Palmaris longus m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "d. Palmaris longus m.：到手掌會變成掌腱膜，肌鍵很長"
+  },
+  {
+   "en": "e. Flexor carpi ulnaris m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "e. Flexor carpi ulnaris m."
+  },
+  {
+   "en": "Flexor digitorum superficialis m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "a. Flexor digitorum superficialis m.：在手指處肌腱會開叉給屈指深肌肌腱通過，通"
+  },
+  {
+   "en": "Flexor digitorum profundus m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "a. Flexor digitorum profundus m.：靠近尺側（內側），上面有 median n.走過。要記"
+  },
+  {
+   "en": "b. Flexor pollicis longus m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "b. Flexor pollicis longus m.：靠近橈側（外側），單羽"
+  },
+  {
+   "en": "Pronator quadratus m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "Pronator quadratus m.：前臂近手掌處，將 Flexor digitorum profundus m.與 Flexor"
+  },
+  {
+   "en": "pollicis longus m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "pollicis longus m.撥開可見的橫向肌肉（看走向，非常好認!!）"
+  },
+  {
+   "en": "styloid process",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "a. Brachioradialis m.：細長薄薄的一片，從肘窩以上就發源，肌腱到 styloid process"
+  },
+  {
+   "en": "b. Extensor carpi radialis longus m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "b. Extensor carpi radialis longus m.：肌腱到第二掌骨"
+  },
+  {
+   "en": "Extensor carpi radialis brevis m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "Extensor carpi radialis brevis m.：肌腱到第三掌骨"
+  },
+  {
+   "en": "d. Extensor digitorum m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "d. Extensor digitorum m.：肌腱到 2-5 遠端指節（沒分深淺）"
+  },
+  {
+   "en": "e. Extensor digiti minimi m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "e. Extensor digiti minimi m.：肌腱到小指遠端"
+  },
+  {
+   "en": "f. Extensor carpi ulnaris m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "f. Extensor carpi ulnaris m.：肌腱到第五掌骨內側"
+  },
+  {
+   "en": "Abductor pollicis longus m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "a. Abductor pollicis longus m.：到第一掌骨底部"
+  },
+  {
+   "en": "b. Extensor pollicis brevis m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "b. Extensor pollicis brevis m.：肌腱到大拇指的近端指節"
+  },
+  {
+   "en": "c. Extensor pollicis longus m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "c. Extensor pollicis longus m.：肌腱到大拇指的遠端指節"
+  },
+  {
+   "en": "Extensor indicis m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "Extensor indicis m.：肌腱在近手腕處走在二、三指伸指肌肌腱中間，再走到第"
+  },
+  {
+   "en": "e. Supinator m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "e. Supinator m.：前臂外側近肘窩處，走向不好認，有橈神經深支從此肌肉穿出"
+  },
+  {
+   "en": "Dorsal interosseous m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "(1) Dorsal interosseous m.：雙羽狀"
+  },
+  {
+   "en": "Abductor pollicis brevis m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "(1) Abductor pollicis brevis m.：表層外側"
+  },
+  {
+   "en": "Flexor pollicis brevis m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "(2) Flexor pollicis brevis m.：表層靠掌心"
+  },
+  {
+   "en": "Opponens pollicis m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "(3) Opponens pollicis m.：在上述兩塊肌肉的深層"
+  },
+  {
+   "en": "Abductor digiti minimi m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "(1) Abductor digiti minimi m.：表層內側，注意沒有 brevis！！"
+  },
+  {
+   "en": "Flexor digiti minimi brevis m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "(2) Flexor digiti minimi brevis m.：表層靠掌心"
+  },
+  {
+   "en": "Opponens digiti minimi m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "(3) Opponens digiti minimi m.：在上述兩塊肌肉的深層"
+  },
+  {
+   "en": "Palmaris brevis m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "(1) Palmaris brevis m.：小指側靠近手腕的橫向肌肉，相對淺層"
+  },
+  {
+   "en": "Adductor pollicis m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "(2) Adductor pollicis m.：大拇指側，要分成橫頭 transverse head、斜頭 oblique head"
+  },
+  {
+   "en": "transverse head",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "(2) Adductor pollicis m.：大拇指側，要分成橫頭 transverse head、斜頭 oblique head"
+  },
+  {
+   "en": "oblique head",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "(2) Adductor pollicis m.：大拇指側，要分成橫頭 transverse head、斜頭 oblique head"
+  },
+  {
+   "en": "Lumbrical m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "(3) Lumbrical m.：在屈指肌腱間，以屈指深肌肌腱為 origin"
+  },
+  {
+   "en": "Palmar interosseous m",
+   "section": "上肢／上肢肌肉（insertion/origin 可幫",
+   "context": "(4) Palmar interosseous m.：單羽，比 lumbrical m.深層，可以用 origin 和 insertion 辨別"
+  },
+  {
+   "en": "Pectoralis major m",
+   "section": "胸腔／上肢肌肉（insertion/origin 可幫",
+   "context": "A. Pectoralis major m.：想到 lateral pectoral n. 和 pectoral branch of thoracoacromial a."
+  },
+  {
+   "en": "pectoral branch of thoracoacromial a",
+   "section": "胸腔／上肢肌肉（insertion/origin 可幫",
+   "context": "A. Pectoralis major m.：想到 lateral pectoral n. 和 pectoral branch of thoracoacromial a."
+  },
+  {
+   "en": "B. Pectoralis minor m",
+   "section": "胸腔／上肢肌肉（insertion/origin 可幫",
+   "context": "B. Pectoralis minor m.： medial pectoral n. 穿出，其會再接到 Pectoralis major m."
+  },
+  {
+   "en": "C. Serratus anterior m",
+   "section": "胸腔／上肢肌肉（insertion/origin 可幫",
+   "context": "C. Serratus anterior m.：注意可從背部觀察，和肩胛骨夾著 Subscapularis m."
+  },
+  {
+   "en": "external oblique abdominis m",
+   "section": "胸腔／上肢肌肉（insertion/origin 可幫",
+   "context": "external oblique abdominis m.起於 5~12 肋， 終於 linea alba, iliac crest, pubic tubercle（插"
+  },
+  {
+   "en": "iliac crest",
+   "section": "胸腔／上肢肌肉（insertion/origin 可幫",
+   "context": "external oblique abdominis m.起於 5~12 肋， 終於 linea alba, iliac crest, pubic tubercle（插"
+  },
+  {
+   "en": "pubic tubercle",
+   "section": "胸腔／上肢肌肉（insertion/origin 可幫",
+   "context": "external oblique abdominis m.起於 5~12 肋， 終於 linea alba, iliac crest, pubic tubercle（插"
+  },
+  {
+   "en": "External intercostal m",
+   "section": "胸腔／上肢肌肉（insertion/origin 可幫",
+   "context": "A. External intercostal m.：插口袋方向（外上→內下）。在後腹壁為反插口袋方向（內上→"
+  },
+  {
+   "en": "external intercostal membrane",
+   "section": "胸腔／上肢肌肉（insertion/origin 可幫",
+   "context": "*前面肋骨與肋軟骨交界處成膜狀構造：external intercostal membrane"
+  },
+  {
+   "en": "B. Internal intercostal m",
+   "section": "胸腔／上肢肌肉（insertion/origin 可幫",
+   "context": "B. Internal intercostal m.：外下→內上、內上→外下。在前胸廓胸骨兩側唯一的肌肉"
+  },
+  {
+   "en": "internal intercostal membrane",
+   "section": "胸腔／上肢肌肉（insertion/origin 可幫",
+   "context": "*後面肋骨與脊椎骨交界處成膜狀構造：internal intercostal membrane"
+  },
+  {
+   "en": "C. Transverse thoracic m",
+   "section": "胸腔／上肢肌肉（insertion/origin 可幫",
+   "context": "C. Transverse thoracic m.：肋骨內面近胸骨處，v 字型，連 3-6 肋"
+  },
+  {
+   "en": "Innermost intercostal m",
+   "section": "胸腔／上肢肌肉（insertion/origin 可幫",
+   "context": "A. Innermost intercostal m.：在腋窩中線與肋骨角處，跨一個肋間。走向同內肋間肌，在"
+  },
+  {
+   "en": "B. Subcostal m",
+   "section": "胸腔／上肢肌肉（insertion/origin 可幫",
+   "context": "B. Subcostal m.：橫跨 2、3 個肋間。橫跨 2、3 個肋間，偏向縱走的肌肉，會有很多條"
+  },
+  {
+   "en": "Suspensory ligament",
+   "section": "胸腔／前胸壁（肌肉以外）",
+   "context": "A. Suspensory ligament of breast：乳房小葉中可見的白色纖維。"
+  },
+  {
+   "en": "B. Lat mammary a",
+   "section": "胸腔／前胸壁（肌肉以外）",
+   "context": "B. Lat mammary a.:由外胸或胸肩峰動脈連到乳腺的動脈"
+  },
+  {
+   "en": "C. Med. Mammary br",
+   "section": "胸腔／前胸壁（肌肉以外）",
+   "context": "C. Med. Mammary br. of internal thoracic a.:內胸動脈發出至乳腺"
+  },
+  {
+   "en": "internal thoracic a",
+   "section": "胸腔／前胸壁（肌肉以外）",
+   "context": "C. Med. Mammary br. of internal thoracic a.:內胸動脈發出至乳腺"
+  },
+  {
+   "en": "thoracic v",
+   "section": "胸腔／前胸壁（肌肉以外）",
+   "context": "A. Internal thoracic a.：與 2 條Internal thoracic v.伴行，呈 v.→a.→v."
+  },
+  {
+   "en": "Musculophrenic a",
+   "section": "胸腔／前胸壁（肌肉以外）",
+   "context": "(2) Musculophrenic a.：沿肋軟骨內下緣往外下沿著橫膈分出，會再分出 7-9 的 ant."
+  },
+  {
+   "en": "intercostal a",
+   "section": "胸腔／前胸壁（肌肉以外）",
+   "context": "intercostal a."
+  },
+  {
+   "en": "Sup. epigastric a",
+   "section": "胸腔／前胸壁（肌肉以外）",
+   "context": "(3) Sup. epigastric a.：向下走入 rectus sheath，與 inf. epigastric a.吻合。"
+  },
+  {
+   "en": "rectus sheath",
+   "section": "胸腔／前胸壁（肌肉以外）",
+   "context": "(3) Sup. epigastric a.：向下走入 rectus sheath，與 inf. epigastric a.吻合。"
+  },
+  {
+   "en": "inf. epigastric a",
+   "section": "胸腔／前胸壁（肌肉以外）",
+   "context": "(3) Sup. epigastric a.：向下走入 rectus sheath，與 inf. epigastric a.吻合。"
+  },
+  {
+   "en": "ant. intercostal a",
+   "section": "胸腔／前胸壁（肌肉以外）",
+   "context": "(1) ant. intercostal a./v."
+  },
+  {
+   "en": "intercostal n",
+   "section": "胸腔／前胸壁（肌肉以外）",
+   "context": "(2) intercostal n."
+  },
+  {
+   "en": "subcostal a",
+   "section": "胸腔／前胸壁（肌肉以外）",
+   "context": "(3) 第12 對為 subcostal a./v./n."
+  },
+  {
+   "en": "Pericardiophrenic a",
+   "section": "胸腔／後胸壁",
+   "context": "A. Pericardiophrenic a./v.伴行：由內胸分出，兩者非常近"
+  },
+  {
+   "en": "B. Phrenic n",
+   "section": "胸腔／後胸壁",
+   "context": "B. Phrenic n.：會往上插至頸部，通常在 Pericardiophrenic a./v.內側，但沒有絕對，有時會"
+  },
+  {
+   "en": "Thoracic duct",
+   "section": "胸腔／後胸壁",
+   "context": "C. 淋巴管：Thoracic duct，通常較細、扁、深色，貼在錐體前方，可追至橫膈以下， 有略"
+  },
+  {
+   "en": "Aortic arch",
+   "section": "胸腔／後胸壁",
+   "context": "A. Ascending aorta→ Aortic arch→ Descending aorta"
+  },
+  {
+   "en": "B. Pulmonary a",
+   "section": "胸腔／後胸壁",
+   "context": "B. Pulmonary a./v."
+  },
+  {
+   "en": "Ligamentum arteriosum",
+   "section": "胸腔／後胸壁",
+   "context": "(1) 主動脈跟肺動脈間有 Ligamentum arteriosum，left vagus n.在此向後上勾回主動脈並"
+  },
+  {
+   "en": "left vagus n",
+   "section": "胸腔／後胸壁",
+   "context": "(1) 主動脈跟肺動脈間有 Ligamentum arteriosum，left vagus n.在此向後上勾回主動脈並"
+  },
+  {
+   "en": "left recurrent laryngeal n",
+   "section": "胸腔／後胸壁",
+   "context": "分出迴返支：left recurrent laryngeal n."
+  },
+  {
+   "en": "right recurrent laryngeal n",
+   "section": "胸腔／後胸壁",
+   "context": "(2) 補充：right recurrent laryngeal n.迴返處在 right subclavian a."
+  },
+  {
+   "en": "right subclavian a",
+   "section": "胸腔／後胸壁",
+   "context": "(2) 補充：right recurrent laryngeal n.迴返處在 right subclavian a."
+  },
+  {
+   "en": "bronchial a",
+   "section": "胸腔／後胸壁",
+   "context": "bronchial a.支配"
+  },
+  {
+   "en": "sympathetic trunk",
+   "section": "胸腔／後胸壁",
+   "context": "A. Intercostal n.：追至椎骨旁 sympathetic trunk"
+  },
+  {
+   "en": "B. Post. intercostal v",
+   "section": "胸腔／後胸壁",
+   "context": "B. Post. intercostal v.：追至奇靜脈系統（包含 azygo v.、hemiazygo v.、accessory hemiazygo"
+  },
+  {
+   "en": "azygo v",
+   "section": "胸腔／後胸壁",
+   "context": "B. Post. intercostal v.：追至奇靜脈系統（包含 azygo v.、hemiazygo v.、accessory hemiazygo"
+  },
+  {
+   "en": "hemiazygo v",
+   "section": "胸腔／後胸壁",
+   "context": "B. Post. intercostal v.：追至奇靜脈系統（包含 azygo v.、hemiazygo v.、accessory hemiazygo"
+  },
+  {
+   "en": "C. Post. intercostal a",
+   "section": "胸腔／後胸壁",
+   "context": "C. Post. intercostal a.：不易追至降主動脈。*1、2 肋間由 Supreme intercostal a.分出"
+  },
+  {
+   "en": "Supreme intercostal a",
+   "section": "胸腔／後胸壁",
+   "context": "C. Post. intercostal a.：不易追至降主動脈。*1、2 肋間由 Supreme intercostal a.分出"
+  },
+  {
+   "en": "Azygos v",
+   "section": "胸腔／後胸壁",
+   "context": "A. 主幹：Azygos v."
+  },
+  {
+   "en": "Azygos arch",
+   "section": "胸腔／後胸壁",
+   "context": "(3) 有 Azygos arch 連接 SVC（胸骨角高度）"
+  },
+  {
+   "en": "Ascending lumbar v",
+   "section": "胸腔／後胸壁",
+   "context": "(4) 延伸至腰區也貼在脊椎兩側的 v.：Ascending lumbar v."
+  },
+  {
+   "en": "Left superior intercostal v",
+   "section": "胸腔／後胸壁",
+   "context": "(1) Left superior intercostal v.：2~4 對後肋間靜脈匯入，繞過主動脈弓上方回到左頭臂"
+  },
+  {
+   "en": "Phrenic n",
+   "section": "胸腔／後胸壁",
+   "context": "靜脈。回流時路線會夾在 Phrenic n.和vagus n.間。"
+  },
+  {
+   "en": "Accessory hemiazygos v",
+   "section": "胸腔／後胸壁",
+   "context": "(2) Accessory hemiazygos v.：5~8 對後肋間靜脈匯入，之後回到 Azygos v."
+  },
+  {
+   "en": "Hemiazygos v",
+   "section": "胸腔／後胸壁",
+   "context": "(3) Hemiazygos v.：9~11 對後肋間靜脈&肋下靜脈匯入，之後回到 Azygos v."
+  },
+  {
+   "en": "thoracic splanchnic n",
+   "section": "胸腔／後胸壁",
+   "context": "---以下內臟神經系列在未匯聚成一條前都稱 thoracic splanchnic n.--B. Greater splanchnic n.（T5~T9 神經會合）."
+  },
+  {
+   "en": "B. Greater splanchnic n",
+   "section": "胸腔／後胸壁",
+   "context": "---以下內臟神經系列在未匯聚成一條前都稱 thoracic splanchnic n.--B. Greater splanchnic n.（T5~T9 神經會合）."
+  },
+  {
+   "en": "celiac ganglion",
+   "section": "胸腔／後胸壁",
+   "context": "(1) 接到 celiac ganglion"
+  },
+  {
+   "en": "C. Lesser splanchnic n",
+   "section": "胸腔／後胸壁",
+   "context": "C. Lesser splanchnic n.（T10~T11 神經會合）："
+  },
+  {
+   "en": "aorticorenal ganglion",
+   "section": "胸腔／後胸壁",
+   "context": "(1) 接到 aorticorenal ganglion 或 sup. mesenteric ganglion"
+  },
+  {
+   "en": "sup. mesenteric ganglion",
+   "section": "胸腔／後胸壁",
+   "context": "(1) 接到 aorticorenal ganglion 或 sup. mesenteric ganglion"
+  },
+  {
+   "en": "D. Least splanchnic n",
+   "section": "胸腔／後胸壁",
+   "context": "D. Least splanchnic n.（T12 神經會合）："
+  },
+  {
+   "en": "renal ganglion",
+   "section": "胸腔／後胸壁",
+   "context": "(1) 接到 renal ganglion"
+  },
+  {
+   "en": "Post. vagal trunk",
+   "section": "胸腔／後胸壁",
+   "context": "E. Ant. / Post. vagal trunk（左前右後貼著食道到橫膈）"
+  },
+  {
+   "en": "vagus n",
+   "section": "胸腔／後胸壁",
+   "context": "(1) 左、右 vagus n.會先在食道前後分開形成 esophageal plexus，之後在食道下端匯集成"
+  },
+  {
+   "en": "esophageal plexus",
+   "section": "胸腔／後胸壁",
+   "context": "(1) 左、右 vagus n.會先在食道前後分開形成 esophageal plexus，之後在食道下端匯集成"
+  },
+  {
+   "en": "posterior vagal trunk",
+   "section": "胸腔／後胸壁",
+   "context": "ant./posterior vagal trunk。"
+  },
+  {
+   "en": "Esophageal a",
+   "section": "胸腔／後胸壁",
+   "context": "A. Esophageal a.：arota 直接分出到食道，不成對，可能不只一條"
+  },
+  {
+   "en": "Posterior intercostal a./ subcostal a",
+   "section": "胸腔／後胸壁",
+   "context": "(2) Posterior intercostal a./ subcostal a."
+  },
+  {
+   "en": "Superior phrenic a",
+   "section": "胸腔／後胸壁",
+   "context": "(3) Superior phrenic a.：胸主動脈在經過 aortic hiatus 前的小分支，很難觀察到。"
+  },
+  {
+   "en": "aortic hiatus",
+   "section": "胸腔／後胸壁",
+   "context": "(3) Superior phrenic a.：胸主動脈在經過 aortic hiatus 前的小分支，很難觀察到。"
+  },
+  {
+   "en": "Fibrous pericardium",
+   "section": "胸腔／後胸壁",
+   "context": "A. Fibrous pericardium：心包膜外面那層"
+  },
+  {
+   "en": "B. Parietal layer of serous pericardium",
+   "section": "胸腔／後胸壁",
+   "context": "B. Parietal layer of serous pericardium：心包膜內面，較光滑、亮"
+  },
+  {
+   "en": "C. Transverse pericardial sinus",
+   "section": "胸腔／後胸壁",
+   "context": "C. Transverse pericardial sinus：動脈幹（升主動脈幹＆肺動脈幹）與 SVC 之間的空間"
+  },
+  {
+   "en": "D. Oblique pericardial sinus",
+   "section": "胸腔／後胸壁",
+   "context": "D. Oblique pericardial sinus"
+  },
+  {
+   "en": "Right coronary a",
+   "section": "胸腔／後胸壁",
+   "context": "A. Right coronary a."
+  },
+  {
+   "en": "R. marginal branch",
+   "section": "胸腔／後胸壁",
+   "context": "(1) R. marginal branch"
+  },
+  {
+   "en": "small cardiac v",
+   "section": "胸腔／後胸壁",
+   "context": "→small cardiac v.伴行（但不易追到冠狀竇、易斷）"
+  },
+  {
+   "en": "Post. interventricular a",
+   "section": "胸腔／後胸壁",
+   "context": "(2) Post. interventricular a."
+  },
+  {
+   "en": "middle cardiac v",
+   "section": "胸腔／後胸壁",
+   "context": "→middle cardiac v.伴行（回到 coronary sinus）"
+  },
+  {
+   "en": "coronary sinus",
+   "section": "胸腔／後胸壁",
+   "context": "→middle cardiac v.伴行（回到 coronary sinus）"
+  },
+  {
+   "en": "SA nodal a",
+   "section": "胸腔／後胸壁",
+   "context": "(3) SA nodal a.（右冠狀動脈往右心房方向的一條分支）"
+  },
+  {
+   "en": "B. Left coronary a",
+   "section": "胸腔／後胸壁",
+   "context": "B. Left coronary a."
+  },
+  {
+   "en": "Ant. interventricular a",
+   "section": "胸腔／後胸壁",
+   "context": "(1) Ant. interventricular a."
+  },
+  {
+   "en": "great cardiac v",
+   "section": "胸腔／後胸壁",
+   "context": "→ great cardiac v.伴行"
+  },
+  {
+   "en": "diagonal branch",
+   "section": "胸腔／後胸壁",
+   "context": "→再分出的動脈為 diagonal branch"
+  },
+  {
+   "en": "Circumflex branch of left coronary a",
+   "section": "胸腔／後胸壁",
+   "context": "(2) Circumflex branch of left coronary a."
+  },
+  {
+   "en": "left marginal branch",
+   "section": "胸腔／後胸壁",
+   "context": "→沿線會分出 left marginal branch"
+  },
+  {
+   "en": "B. Middle cardiac v",
+   "section": "胸腔／後胸壁",
+   "context": "B. Middle cardiac v.：與 Post. interventricular a 伴行"
+  },
+  {
+   "en": "C. Small cardiac v",
+   "section": "胸腔／後胸壁",
+   "context": "C. Small cardiac v.：與 R. marginal branch 伴行，再沿右冠狀動脈走回冠狀竇"
+  },
+  {
+   "en": "D. Ant. cardiac v",
+   "section": "胸腔／後胸壁",
+   "context": "D. Ant. cardiac v.：走在心臟前表面，直接進入右心房"
+  },
+  {
+   "en": "E. Coronary sinus",
+   "section": "胸腔／後胸壁",
+   "context": "E. Coronary sinus：走在 coronary sulcus 中，可在右心房見到連通的開口 Opening of"
+  },
+  {
+   "en": "B. Interatrial septum",
+   "section": "胸腔／後胸壁",
+   "context": "B. Interatrial septum：分隔左右心房"
+  },
+  {
+   "en": "C. Pectinate m",
+   "section": "胸腔／後胸壁",
+   "context": "C. Pectinate m.：心房內粗糙肌肉處"
+  },
+  {
+   "en": "D. Fossa",
+   "section": "胸腔／後胸壁",
+   "context": "D. Fossa ovalis：心房內左右心房間的凹窩"
+  },
+  {
+   "en": "E. Opening of coronary sinus",
+   "section": "胸腔／後胸壁",
+   "context": "E. Opening of coronary sinus：右心房可見"
+  },
+  {
+   "en": "papillary m",
+   "section": "胸腔／後胸壁",
+   "context": "→ valve－chordae tendineae－papillary m."
+  },
+  {
+   "en": "Interventricular septum",
+   "section": "胸腔／後胸壁",
+   "context": "(1) Interventricular septum"
+  },
+  {
+   "en": "Septal papillary m",
+   "section": "胸腔／後胸壁",
+   "context": "→對應 Ant./Post./Septal papillary m."
+  },
+  {
+   "en": "Moderator band",
+   "section": "胸腔／後胸壁",
+   "context": "(5) Moderator band：室間隔到前乳突肌下方之肌肉柱"
+  },
+  {
+   "en": "Supraventricular crest",
+   "section": "胸腔／後胸壁",
+   "context": "(6) Supraventricular crest"
+  },
+  {
+   "en": "Post. papillary m",
+   "section": "胸腔／後胸壁",
+   "context": "→對應 Ant./Post. papillary m."
+  },
+  {
+   "en": "Pulmonary v",
+   "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
+   "context": "厚（可用刪去法辨別 a.）Pulmonary v.：左、右肺皆靠前下，小、數量較多，管腔較扁"
+  },
+  {
+   "en": "C. Pulmonary lig",
+   "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
+   "context": "C. Pulmonary lig.：肺門下方肋膜的延伸，將肺根下的肺"
+  },
+  {
+   "en": "Lingula",
+   "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
+   "context": "A. Lingula：：肺小舌，上葉前緣末端"
+  },
+  {
+   "en": "B. Oblique fissure",
+   "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
+   "context": "B. Oblique fissure：兩葉間的縫隙"
+  },
+  {
+   "en": "Cardiac impression",
+   "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
+   "context": "(1) Cardiac impression：肺門前下方"
+  },
+  {
+   "en": "Groove for aortic arch",
+   "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
+   "context": "(2) Groove for aortic arch"
+  },
+  {
+   "en": "Groove",
+   "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
+   "context": "(3) Groove for descending aorta"
+  },
+  {
+   "en": "Groove for subclavian a",
+   "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
+   "context": "(5) Groove for subclavian a."
+  },
+  {
+   "en": "Groove for left brachiocephalic v",
+   "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
+   "context": "(6) Groove for left brachiocephalic v."
+  },
+  {
+   "en": "Cardiac notch",
+   "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
+   "context": "(7) Cardiac notch"
+  },
+  {
+   "en": "Oblique fissure",
+   "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
+   "context": "A. Oblique fissure"
+  },
+  {
+   "en": "B. Horizontal fissure",
+   "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
+   "context": "B. Horizontal fissure"
+  },
+  {
+   "en": "Groove for brachiocephalic v",
+   "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
+   "context": "(3) Groove for brachiocephalic v."
+  },
+  {
+   "en": "Groove for azygos v",
+   "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
+   "context": "(4) Groove for azygos v.：考在肺門上緣要寫 arch of"
+  },
+  {
+   "en": "gluteus maximus m",
+   "section": "下肢／臀部",
+   "context": "A. 臀 大 肌 gluteus maximus m."
+  },
+  {
+   "en": "gluteus medius m",
+   "section": "下肢／臀部",
+   "context": "B. 臀 中 肌 gluteus medius m.：臀大肌深層，扇形肌肉走到大轉子"
+  },
+  {
+   "en": "gluteus minimus m",
+   "section": "下肢／臀部",
+   "context": "C. 臀 小 肌 gluteus minimus m.：臀中肌深層"
+  },
+  {
+   "en": "piriformis m",
+   "section": "下肢／臀部",
+   "context": "D. 梨 狀 肌 piriformis m.：將坐骨大孔分為上下兩個空間，除了臀上神經血管從梨狀肌上"
+  },
+  {
+   "en": "sup. gemellus m",
+   "section": "下肢／臀部",
+   "context": "(1) 上孖肌 sup. gemellus m.：閉孔內肌肌腱之上"
+  },
+  {
+   "en": "obturator internus m",
+   "section": "下肢／臀部",
+   "context": "(2) 閉孔內肌 obturator internus m.：在臀區已轉為白白的肌腱當辨認點"
+  },
+  {
+   "en": "inf. gemellus m",
+   "section": "下肢／臀部",
+   "context": "(3) 下孖肌 inf. gemellus m.：閉孔內肌肌腱之下"
+  },
+  {
+   "en": "quadratus femoris m",
+   "section": "下肢／臀部",
+   "context": "(4) 股方肌 quadratus femoris m.：臀區最下方橫走（方形）的肌肉"
+  },
+  {
+   "en": "sup. gluteal n",
+   "section": "下肢／臀部",
+   "context": "A. 臀上神經 sup. gluteal n.：梨狀肌以上出來，走在臀中臀小肌之間"
+  },
+  {
+   "en": "inf. gluteal n",
+   "section": "下肢／臀部",
+   "context": "B. 臀下神經 inf. gluteal n.：梨狀肌以下出來，直接走到臀大肌（通常是切下來的碎肉）"
+  },
+  {
+   "en": "sciatic n",
+   "section": "下肢／臀部",
+   "context": "(1) 坐骨神經 sciatic n.：有夠粗"
+  },
+  {
+   "en": "post. cutaneous nerve",
+   "section": "下肢／臀部",
+   "context": "(2) 後股皮神經 post. cutaneous nerve of thigh：在坐骨神經內側、走得遠到大腿內側"
+  },
+  {
+   "en": "Nerve to obturator internus m",
+   "section": "下肢／臀部",
+   "context": "(3) 至閉孔內肌神經 Nerve to obturator internus m.：很小條，有個小分支到閉孔內肌"
+  },
+  {
+   "en": "pudendal n",
+   "section": "下肢／臀部",
+   "context": "(4) 陰部神經 pudendal n.：最內側，繞過薦棘韌帶，走進坐骨小孔。其外有內陰動靜脈"
+  },
+  {
+   "en": "Internal pudendal a. v",
+   "section": "下肢／臀部",
+   "context": "Internal pudendal a. v.伴行"
+  },
+  {
+   "en": "nerve to quadratus femoris m",
+   "section": "下肢／臀部",
+   "context": "(5) 至股方肌神經 nerve to quadratus femoris m.：在上下孖和閉孔內肌下，深層那條神"
+  },
+  {
+   "en": "sup. gluteal a",
+   "section": "下肢／臀部",
+   "context": "A. 臀上動脈 sup. gluteal a/v.：淺支（superficial br.）會直接走到臀大肌，深支（deep br.）"
+  },
+  {
+   "en": "superficial br",
+   "section": "下肢／臀部",
+   "context": "A. 臀上動脈 sup. gluteal a/v.：淺支（superficial br.）會直接走到臀大肌，深支（deep br.）"
+  },
+  {
+   "en": "inf. gluteal a",
+   "section": "下肢／臀部",
+   "context": "B. 臀下動脈 inf. gluteal a./v.：（同神經）"
+  },
+  {
+   "en": "internal pudendal a",
+   "section": "下肢／臀部",
+   "context": "C. 內陰動脈 internal pudendal a./v.：通常走在陰部神經（pudendal n.）外側與其伴行"
+  },
+  {
+   "en": "sacrotuberous ligament",
+   "section": "下肢／臀部",
+   "context": "A. 薦粗隆韌帶 sacrotuberous ligament：連接 ischial tuberosity，通常已經破壞"
+  },
+  {
+   "en": "ischial tuberosity",
+   "section": "下肢／臀部",
+   "context": "A. 薦粗隆韌帶 sacrotuberous ligament：連接 ischial tuberosity，通常已經破壞"
+  },
+  {
+   "en": "sacrospinous ligament",
+   "section": "下肢／臀部",
+   "context": "B. 薦棘韌帶 sacrospinous ligament：連接 spine of ischial，會被陰部神經和內陰動靜脈繞過"
+  },
+  {
+   "en": "spine",
+   "section": "下肢／臀部",
+   "context": "B. 薦棘韌帶 sacrospinous ligament：連接 spine of ischial，會被陰部神經和內陰動靜脈繞過"
+  },
+  {
+   "en": "Sartorius m",
+   "section": "下肢／大腿前區間",
+   "context": "A. 縫 匠 肌 Sartorius m.：前側斜走（外上→內下）的肌肉，從 ASIS 走到 tibia 內上側，"
+  },
+  {
+   "en": "semitendinosus m",
+   "section": "下肢／大腿前區間",
+   "context": "＊Pes anserinus組成：\"semitendinosus m."
+  },
+  {
+   "en": "Gracilis m",
+   "section": "下肢／大腿前區間",
+   "context": "Gracilis m."
+  },
+  {
+   "en": "quadriceps femoris m",
+   "section": "下肢／大腿前區間",
+   "context": "B. 股四頭肌 quadriceps femoris m.：大腿前側，分 4 塊，肌腱共同形成 Quadriceps tendon"
+  },
+  {
+   "en": "Quadriceps tendon",
+   "section": "下肢／大腿前區間",
+   "context": "B. 股四頭肌 quadriceps femoris m.：大腿前側，分 4 塊，肌腱共同形成 Quadriceps tendon"
+  },
+  {
+   "en": "Rectus femoris m",
+   "section": "下肢／大腿前區間",
+   "context": "(1) Rectus femoris m.：中間，跨兩個關節，從 AIIS 到 tibial tuberosity"
+  },
+  {
+   "en": "tibial tuberosity",
+   "section": "下肢／大腿前區間",
+   "context": "(1) Rectus femoris m.：中間，跨兩個關節，從 AIIS 到 tibial tuberosity"
+  },
+  {
+   "en": "Vastus lateralis m",
+   "section": "下肢／大腿前區間",
+   "context": "(2) Vastus lateralis m.：外側，壓在 iliotibial tract 下，後側也可看見"
+  },
+  {
+   "en": "iliotibial tract",
+   "section": "下肢／大腿前區間",
+   "context": "(2) Vastus lateralis m.：外側，壓在 iliotibial tract 下，後側也可看見"
+  },
+  {
+   "en": "Vastus intermedius m",
+   "section": "下肢／大腿前區間",
+   "context": "(3) Vastus intermedius m.：壓在 Rectus femoris m.底下"
+  },
+  {
+   "en": "Vastus medialis m",
+   "section": "下肢／大腿前區間",
+   "context": "(4) Vastus medialis m.：內側"
+  },
+  {
+   "en": "iliopsoas m",
+   "section": "下肢／大腿前區間",
+   "context": "C. 髂 腰 肌 iliopsoas m.：由 iliacus m.和 psoas major m.經過 inguinal lig.後合稱，向外附著"
+  },
+  {
+   "en": "iliacus m",
+   "section": "下肢／大腿前區間",
+   "context": "C. 髂 腰 肌 iliopsoas m.：由 iliacus m.和 psoas major m.經過 inguinal lig.後合稱，向外附著"
+  },
+  {
+   "en": "psoas major m",
+   "section": "下肢／大腿前區間",
+   "context": "C. 髂 腰 肌 iliopsoas m.：由 iliacus m.和 psoas major m.經過 inguinal lig.後合稱，向外附著"
+  },
+  {
+   "en": "inguinal lig",
+   "section": "下肢／大腿前區間",
+   "context": "C. 髂 腰 肌 iliopsoas m.：由 iliacus m.和 psoas major m.經過 inguinal lig.後合稱，向外附著"
+  },
+  {
+   "en": "femoral n",
+   "section": "下肢／大腿前區間",
+   "context": "到小轉子。可以看到 femoral n.壓在他上面。"
+  },
+  {
+   "en": "tensor fasciae latae m",
+   "section": "下肢／大腿前區間",
+   "context": "D. 闊筋膜張肌 tensor fasciae latae m.：附著點在縫匠肌後側（ASIS 後），下方接髂脛束"
+  },
+  {
+   "en": "femoral sheath",
+   "section": "下肢／大腿前區間",
+   "context": "A. 股 神 經 femoral n.：不在 femoral sheath 中，過了 inguinal lig.之後再走一小段就會直接"
+  },
+  {
+   "en": "ant. femoral n",
+   "section": "下肢／大腿前區間",
+   "context": "(1) 前股皮神經 ant. femoral n.：femoral n.散開之後連到皮膚，不只一條"
+  },
+  {
+   "en": "nerve to XXX m",
+   "section": "下肢／大腿前區間",
+   "context": "(2) 至 XX 肌肉神經（肌肉支） nerve to XXX m.：會穿到那個肌肉裡面※特別注意"
+  },
+  {
+   "en": "nerve to vastus medialis m",
+   "section": "下肢／大腿前區間",
+   "context": "nerve to vastus medialis m.跟 saphenous n.易搞混"
+  },
+  {
+   "en": "saphenous n",
+   "section": "下肢／大腿前區間",
+   "context": "nerve to vastus medialis m.跟 saphenous n.易搞混"
+  },
+  {
+   "en": "femoral a",
+   "section": "下肢／大腿前區間",
+   "context": "(3) 隱 神 經 saphenous n.：和 femoral a.一起走入內收肌管後再和 femoral a.的分支"
+  },
+  {
+   "en": "saphenous br. of descending genicular a",
+   "section": "下肢／大腿前區間",
+   "context": "saphenous br. of descending genicular a.伴行，由前穿出筋膜走在小腿內緣"
+  },
+  {
+   "en": "descending genicular a",
+   "section": "下肢／大腿前區間",
+   "context": "＊descending genicular a.在內收肌管才分出，又分成 articular br.（往 Patella的方"
+  },
+  {
+   "en": "articular br",
+   "section": "下肢／大腿前區間",
+   "context": "＊descending genicular a.在內收肌管才分出，又分成 articular br.（往 Patella的方"
+  },
+  {
+   "en": "saphenous br",
+   "section": "下肢／大腿前區間",
+   "context": "向）與 saphenous br.（跟隱神經伴行）"
+  },
+  {
+   "en": "Lateral femoral cutaneous n",
+   "section": "下肢／大腿前區間",
+   "context": "(4) 外股皮神經 Lateral femoral cutaneous n.：走在 ASIS 內側出來，走在大腿外側支配"
+  },
+  {
+   "en": "lat. femoral cutaneous n",
+   "section": "下肢／大腿前區間",
+   "context": "表皮感覺（ant. femoral n.來自 femoral n.，lat. femoral cutaneous n.是單獨一條）"
+  },
+  {
+   "en": "superficial circumflex iliac a",
+   "section": "下肢／大腿前區間",
+   "context": "a. 淺旋髂動脈 superficial circumflex iliac a.：往外側 ASIS 的方向走"
+  },
+  {
+   "en": "superficial epigastric a",
+   "section": "下肢／大腿前區間",
+   "context": "b. 淺腹壁動脈 superficial epigastric a.：往上方前腹壁的方向"
+  },
+  {
+   "en": "superficial external pudendal a",
+   "section": "下肢／大腿前區間",
+   "context": "c. 淺外陰動脈 superficial external pudendal a.：往內"
+  },
+  {
+   "en": "deep external pudendal a",
+   "section": "下肢／大腿前區間",
+   "context": "d. 深外陰動脈 deep external pudendal a.：往內"
+  },
+  {
+   "en": "deep femoral a",
+   "section": "下肢／大腿前區間",
+   "context": "B. 股深動脈 deep femoral a.：從 femoral a.往深處分出很粗一條"
+  },
+  {
+   "en": "lateral circumflex femoral a",
+   "section": "下肢／大腿前區間",
+   "context": "(1) 外旋股動脈 lateral circumflex femoral a.：從股深動脈往外發出，同常會走在"
+  },
+  {
+   "en": "Ascending br",
+   "section": "下肢／大腿前區間",
+   "context": "a. 上升支 Ascending br.：往上，走到 tensor fasciae latae m.之下"
+  },
+  {
+   "en": "Transverse br",
+   "section": "下肢／大腿前區間",
+   "context": "b. 橫支 Transverse br.：水平往外走"
+  },
+  {
+   "en": "Descending br",
+   "section": "下肢／大腿前區間",
+   "context": "c. 下降支 Descending br.：往下，會走到膝關節"
+  },
+  {
+   "en": "medial circumflex femoral a",
+   "section": "下肢／大腿前區間",
+   "context": "(2) 內旋股動脈 medial circumflex femoral a.：從股深動脈發出，穿進 pectineus m.與"
+  },
+  {
+   "en": "pectineus m",
+   "section": "下肢／大腿前區間",
+   "context": "(2) 內旋股動脈 medial circumflex femoral a.：從股深動脈發出，穿進 pectineus m.與"
+  },
+  {
+   "en": "perforating br",
+   "section": "下肢／大腿前區間",
+   "context": "(3) 穿 通 支 perforating br.：深股動脈發出內、外旋股動脈後，主幹往下走會再發出穿"
+  },
+  {
+   "en": "adductor hiatus",
+   "section": "下肢／大腿前區間",
+   "context": "(4) 降膝動脈 descending genicular a.：femoral a.在進入內收肌裂孔 adductor hiatus 之前"
+  },
+  {
+   "en": "femoral v",
+   "section": "下肢／大腿前區間",
+   "context": "C. 股 靜 脈 femoral v.：所有跟 a.同名的靜脈，不再贅述"
+  },
+  {
+   "en": "great saphenous v",
+   "section": "下肢／大腿前區間",
+   "context": "(1) 大隱靜脈 great saphenous v.：從足背靜脈弓開始，走內踝前側，沿著小腿內側上"
+  },
+  {
+   "en": "sural n",
+   "section": "下肢／大腿前區間",
+   "context": "(2) (大隱和隱神經伴行走內側；小隱和 sural n.伴行走外側)"
+  },
+  {
+   "en": "obturator externus. m",
+   "section": "下肢／大腿內側區間",
+   "context": "B. 閉 孔 外 肌 obturator externus. m. 深 處 橫 走 的 肌 肉"
+  },
+  {
+   "en": "adductor longus m",
+   "section": "下肢／大腿內側區間",
+   "context": "C. 內 收 長 肌 adductor longus m.： 恥 骨 肌 遠 端"
+  },
+  {
+   "en": "adductor brevis m",
+   "section": "下肢／大腿內側區間",
+   "context": "D. 內 收 短 肌 adductor brevis m.： 內 收 長 肌 深 處 ， 通"
+  },
+  {
+   "en": "obturator n",
+   "section": "下肢／大腿內側區間",
+   "context": "常 剪 開 內 收 長 肌 才 看 到 ， 分 隔 obturator n.的"
+  },
+  {
+   "en": "post. br",
+   "section": "下肢／大腿內側區間",
+   "context": "ant./post. br."
+  },
+  {
+   "en": "adductor magnus m",
+   "section": "下肢／大腿內側區間",
+   "context": "E. 內收大肌 adductor magnus m.：內側深層最大片的肌"
+  },
+  {
+   "en": "Gracilis muscle",
+   "section": "下肢／大腿內側區間",
+   "context": "(1) 股 薄 肌 Gracilis muscle：最內側的縱走肌"
+  },
+  {
+   "en": "B. ant. br",
+   "section": "下肢／大腿內側區間",
+   "context": "B. ant. br.會支配股薄肌"
+  },
+  {
+   "en": "semimembranosus m",
+   "section": "下肢／大腿後側區間",
+   "context": "(2) 半 膜 肌 semimembranosus m.：上 1/3 是腱膜被壓在 semitendinosus m.下面"
+  },
+  {
+   "en": "long head of biceps femoris m",
+   "section": "下肢／大腿後側區間",
+   "context": "(1) 股二頭肌長頭 long head of biceps femoris m.：由坐骨粗隆起源由內向外走。"
+  },
+  {
+   "en": "short head of biceps femoris m",
+   "section": "下肢／大腿後側區間",
+   "context": "(2) 股二頭肌短頭 short head of biceps femoris m.：起源自股骨下 1/2 處，被壓在長頭深"
+  },
+  {
+   "en": "tibial n",
+   "section": "下肢／大腿後側區間",
+   "context": "(1) 脛 神 經 tibial n.：偏內側，往下走到 Gastrocnemius m.兩頭之間"
+  },
+  {
+   "en": "Gastrocnemius m",
+   "section": "下肢／大腿後側區間",
+   "context": "(1) 脛 神 經 tibial n.：偏內側，往下走到 Gastrocnemius m.兩頭之間"
+  },
+  {
+   "en": "common fibular n",
+   "section": "下肢／大腿後側區間",
+   "context": "(2) 總腓神經 common fibular n.：偏外側，接著向外往小腿前側繞"
+  },
+  {
+   "en": "perforating br. of deep femoral a",
+   "section": "下肢／大腿後側區間",
+   "context": "A. 股深動脈的穿通支 perforating br. of deep femoral a."
+  },
+  {
+   "en": "popliteal a",
+   "section": "下肢／膕窩",
+   "context": "1. 膕動脈 popliteal a.："
+  },
+  {
+   "en": "genicular a",
+   "section": "下肢／膕窩",
+   "context": "，被壓在膕靜脈底下，會分出五條膝動脈 genicular a. ，主幹在"
+  },
+  {
+   "en": "Sup. lat. genicular a",
+   "section": "下肢／膕窩",
+   "context": "A. 外上膝動脈 Sup. lat. genicular a."
+  },
+  {
+   "en": "Inf. lat. genicular a",
+   "section": "下肢／膕窩",
+   "context": "B. 外下膝動脈 Inf. lat. genicular a."
+  },
+  {
+   "en": "Sup. med. genicular a",
+   "section": "下肢／膕窩",
+   "context": "C. 內上膝動脈 Sup. med. genicular a."
+  },
+  {
+   "en": "Inf. med. genicular a",
+   "section": "下肢／膕窩",
+   "context": "D. 內下膝動脈 Inf. med. genicular a."
+  },
+  {
+   "en": "Middle genicular a",
+   "section": "下肢／膕窩",
+   "context": "E. 中膝動脈 Middle genicular a.（Middle、Median、Medial 需注意使用）"
+  },
+  {
+   "en": "popliteal v",
+   "section": "下肢／膕窩",
+   "context": "2. 膕靜脈 popliteal v.：在膕動脈淺層，包著膕動脈，有與 a.同名 v.不再重複（此處一定要回追"
+  },
+  {
+   "en": "small saphenous v",
+   "section": "下肢／膕窩",
+   "context": "A. 小隱靜脈 small saphenous v.：在腓腸肌兩頭之間匯入膕靜脈，在下游與腓腸神經伴"
+  },
+  {
+   "en": "medial sural cutaneous n",
+   "section": "下肢／膕窩",
+   "context": "(1) 內側腓腸皮神經 medial sural cutaneous n."
+  },
+  {
+   "en": "lateral sural cutaneous n",
+   "section": "下肢／膕窩",
+   "context": "(1) 外側腓腸皮神經 lateral sural cutaneous n.：走在小腿外側，通常開到一半就沒了或"
+  },
+  {
+   "en": "Sural communicating br",
+   "section": "下肢／膕窩",
+   "context": "(2) Sural communicating br.：由外側腓腸皮神經或直接由總腓神經發出"
+  },
+  {
+   "en": "lateral meniscus",
+   "section": "下肢／膝關節附近",
+   "context": "2. 內/外半月板 medial/lateral meniscus（要開髕骨才可見）"
+  },
+  {
+   "en": "transverse lig",
+   "section": "下肢／膝關節附近",
+   "context": "※內/外半月板之間有 transverse lig. of knee 連接"
+  },
+  {
+   "en": "Patellar lig",
+   "section": "下肢／膝關節附近",
+   "context": "A. 髕 韌 帶 Patellar lig.：Patella 以下"
+  },
+  {
+   "en": "ant. Cruciate lig",
+   "section": "下肢／膝關節附近",
+   "context": "B. 前十字韌帶 ant. Cruciate lig.：（下前內→上後外）"
+  },
+  {
+   "en": "post. Cruciate lig",
+   "section": "下肢／膝關節附近",
+   "context": "C. 後十字韌帶 post. Cruciate lig.：（下後外→上前"
+  },
+  {
+   "en": "fibular collateral lig",
+   "section": "下肢／膝關節附近",
+   "context": "D. 腓側副韌帶 fibular collateral lig."
+  },
+  {
+   "en": "tibial collateral lig",
+   "section": "下肢／膝關節附近",
+   "context": "E. 脛側副韌帶 tibial collateral lig."
+  },
+  {
+   "en": "tendon of popliteus m",
+   "section": "下肢／膝關節附近",
+   "context": "※tendon of popliteus m.：夾在 fibular collateral lig.與 lat. meniscus 之間"
+  },
+  {
+   "en": "lat. meniscus",
+   "section": "下肢／膝關節附近",
+   "context": "※tendon of popliteus m.：夾在 fibular collateral lig.與 lat. meniscus 之間"
+  },
+  {
+   "en": "Tibialis anterior m",
+   "section": "下肢／小腿前區間",
+   "context": "A. 脛 前 肌 Tibialis anterior m.：最內側直接貼在脛骨上（注意和脛前動脈拼字差異）"
+  },
+  {
+   "en": "Extensor hallucis longus m",
+   "section": "下肢／小腿前區間",
+   "context": "B. 伸拇長肌 Extensor hallucis longus m.：夾在脛前肌和伸指長肌之間（相對深處），其肌"
+  },
+  {
+   "en": "Extensor digitorum longus m",
+   "section": "下肢／小腿前區間",
+   "context": "C. 伸指長肌 Extensor digitorum longus m.：看肌腱認最快"
+  },
+  {
+   "en": "Fibularis tertius m",
+   "section": "下肢／小腿前區間",
+   "context": "D. 第三腓骨肌 Fibularis tertius m.：最外側，肌腱不會走到腳趾，在伸指長肌到小指的肌"
+  },
+  {
+   "en": "anterior tibial a",
+   "section": "下肢／小腿前區間",
+   "context": "A. 脛前動脈 anterior tibial a.：從膕動脈在小腿後側發出往前穿過骨間膜，夾在脛前肌和伸"
+  },
+  {
+   "en": "dorsalis pedis a",
+   "section": "下肢／小腿前區間",
+   "context": "拇長肌之間，往足背走（轉彎之後）會改名叫足背動脈 dorsalis pedis a.。靜脈都與動脈"
+  },
+  {
+   "en": "anterior lateral malleolar a",
+   "section": "下肢／小腿前區間",
+   "context": "B. 前外踝動脈 anterior lateral malleolar a.：由脛前動脈在靠近腳踝往外側發出"
+  },
+  {
+   "en": "anterior medial malleolar a",
+   "section": "下肢／小腿前區間",
+   "context": "C. 前外踝動脈 anterior medial malleolar a.：由脛前動脈在靠近腳踝往內側發出"
+  },
+  {
+   "en": "deep fibular n",
+   "section": "下肢／小腿前區間",
+   "context": "A. 深腓神經 deep fibular n.：common fibular n.的分支，跟脛前動脈伴行走在脛前肌與伸拇"
+  },
+  {
+   "en": "lateral br",
+   "section": "下肢／小腿前區間",
+   "context": "長肌之間，在足背分成 medial 與 lateral br.，lateral br.往外走到伸大拇指與伸指肌下；"
+  },
+  {
+   "en": "medial br",
+   "section": "下肢／小腿前區間",
+   "context": "medial br.會走到一二指之間"
+  },
+  {
+   "en": "superficial fibular n",
+   "section": "下肢／小腿前區間",
+   "context": "B. 淺腓神經 superficial fibular n.：common fibular n.的分支，先走在腓長肌和腓短肌之"
+  },
+  {
+   "en": "medial dorsal cutaneous n",
+   "section": "下肢／小腿前區間",
+   "context": "(1) 內側背側皮神經 medial dorsal cutaneous n."
+  },
+  {
+   "en": "intermediate dorsal cutaneous n",
+   "section": "下肢／小腿前區間",
+   "context": "(2) 中間背側皮神經 intermediate dorsal cutaneous n.（比內側更外側一點）、"
+  },
+  {
+   "en": "lateral dorsal cutaneous n",
+   "section": "下肢／小腿前區間",
+   "context": "※還有一條外側背側皮神經 lateral dorsal cutaneous n.：從 Sural n.來，走在小指外側"
+  },
+  {
+   "en": "fibularis longus m",
+   "section": "下肢／小腿外側區間",
+   "context": "A. 腓 長 肌 fibularis longus m.：在淺層，肌腱從足底外側往內側走，壓在屈指長肌肌腱底"
+  },
+  {
+   "en": "fibularis brevis m",
+   "section": "下肢／小腿外側區間",
+   "context": "B. 腓 短 肌 fibularis brevis m.：起自腓 骨下 1/2 處，會壓在腓長肌下，肌腱走至足部外側"
+  },
+  {
+   "en": "Sup. fibular retinaculum",
+   "section": "下肢／小腿外側區間",
+   "context": "A. 上腓側支持帶 Sup. fibular retinaculum"
+  },
+  {
+   "en": "Inf. fibular retinaculum",
+   "section": "下肢／小腿外側區間",
+   "context": "B. 下腓側支持帶 Inf. fibular retinaculum：會連到下伸肌支持帶"
+  },
+  {
+   "en": "lateral head",
+   "section": "下肢／小腿後區間",
+   "context": "(1) 腓腸 肌 Gastrocnemius m.（medial/lateral head）：最淺層在比目魚肌上，有內外兩"
+  },
+  {
+   "en": "Soleus m",
+   "section": "下肢／小腿後區間",
+   "context": "(2) 比目魚肌 Soleus m. ：沒有跨到膝關節以上"
+  },
+  {
+   "en": "calcaneal tendon",
+   "section": "下肢／小腿後區間",
+   "context": "※阿基里斯腱 Achilles /calcaneal tendon：為以上兩者肌腱共同形成的"
+  },
+  {
+   "en": "Plantaris m",
+   "section": "下肢／小腿後區間",
+   "context": "(3) 蹠肌 Plantaris m.：肌腱很長，夾在腓腸肌與比目魚肌之間，肌腱往下走在阿基里斯"
+  },
+  {
+   "en": "tendon of plantaris m",
+   "section": "下肢／小腿後區間",
+   "context": "腱內側，夾在銀白色細細處需寫 tendon of plantaris m."
+  },
+  {
+   "en": "Tibialis Posterior m",
+   "section": "下肢／小腿後區間",
+   "context": "(1) 脛 後 肌 Tibialis Posterior m.：夾在屈拇長肌跟屈指長肌兩塊肌肉之間，肌腱明顯"
+  },
+  {
+   "en": "Flexor hallucis longus m",
+   "section": "下肢／小腿後區間",
+   "context": "(2) 屈拇長肌 Flexor hallucis longus m.：偏外側"
+  },
+  {
+   "en": "Flexor digitorum longus m",
+   "section": "下肢／小腿後區間",
+   "context": "(3) 屈指長肌 Flexor digitorum longus m.：偏內側"
+  },
+  {
+   "en": "tarsal tunnel",
+   "section": "下肢／小腿後區間",
+   "context": "腱，屈指長肌都在霸凌別人，在 tarsal tunnel 壓 tibialis post. m.，在足底壓 Tibialis"
+  },
+  {
+   "en": "tibialis post. m",
+   "section": "下肢／小腿後區間",
+   "context": "腱，屈指長肌都在霸凌別人，在 tarsal tunnel 壓 tibialis post. m.，在足底壓 Tibialis"
+  },
+  {
+   "en": "Posterior m",
+   "section": "下肢／小腿後區間",
+   "context": "Posterior m."
+  },
+  {
+   "en": "Popliteus m",
+   "section": "下肢／小腿後區間",
+   "context": "(4) 膕 肌 Popliteus m.：直接貼在脛骨上，很深層被神經血管蓋住，tendon 在外側往上"
+  },
+  {
+   "en": "Posterior tibial a",
+   "section": "下肢／小腿後區間",
+   "context": "A. 脛後動脈 Posterior tibial a.：靠內，與脛神經伴行，由比目魚肌腱弓鑽入小腿後側深淺肌"
+  },
+  {
+   "en": "Circumflex fibular a",
+   "section": "下肢／小腿後區間",
+   "context": "B. 旋腓動脈 Circumflex fibular a.：脛後動脈發出往外側的分支這條不易開出"
+  },
+  {
+   "en": "Fibular a",
+   "section": "下肢／小腿後區間",
+   "context": "C. 腓動脈 Fibular a.：脛後動脈往外側發出，走在屈拇長肌和脛後肌之間，會靠著腓骨走"
+  },
+  {
+   "en": "flexor retinaculum",
+   "section": "下肢／Tarsal tunnel：在內踝由屈肌支持帶 ",
+   "context": "十、 Tarsal tunnel：在內踝由屈肌支持帶 flexor retinaculum 圍起來的通道，小腿後側的東西會由"
+  },
+  {
+   "en": "tendon of Tibialis Posterior m",
+   "section": "下肢／Tarsal tunnel：在內踝由屈肌支持帶 ",
+   "context": "A. 脛後肌肌腱 tendon of Tibialis Posterior m."
+  },
+  {
+   "en": "tendon of Flexor Digitorum longus m",
+   "section": "下肢／Tarsal tunnel：在內踝由屈肌支持帶 ",
+   "context": "B. 屈趾長肌肌腱 tendon of Flexor Digitorum longus m."
+  },
+  {
+   "en": "Post. tibial Artery",
+   "section": "下肢／Tarsal tunnel：在內踝由屈肌支持帶 ",
+   "context": "C. 脛後動脈 Post. tibial Artery"
+  },
+  {
+   "en": "Post. tibial Vein",
+   "section": "下肢／Tarsal tunnel：在內踝由屈肌支持帶 ",
+   "context": "D. 脛後靜脈 Post. tibial Vein（會有兩靜夾一動的狀況）"
+  },
+  {
+   "en": "Tibial Nerve",
+   "section": "下肢／Tarsal tunnel：在內踝由屈肌支持帶 ",
+   "context": "E. 脛神經 Tibial Nerve"
+  },
+  {
+   "en": "tendon of Flexor Hallucis longus m",
+   "section": "下肢／Tarsal tunnel：在內踝由屈肌支持帶 ",
+   "context": "F. 屈拇長肌肌腱 tendon of Flexor Hallucis longus m."
+  },
+  {
+   "en": "extensor hallucis brevis m",
+   "section": "下肢／足背",
+   "context": "A. 伸拇短肌 extensor hallucis brevis m."
+  },
+  {
+   "en": "extensor digitorum brevis m",
+   "section": "下肢／足背",
+   "context": "B. 伸指短肌 extensor digitorum brevis m.：沒有到小指"
+  },
+  {
+   "en": "sup. extensor retinaculum",
+   "section": "下肢／足背",
+   "context": "A. 上伸肌支持帶 sup. extensor retinaculum"
+  },
+  {
+   "en": "inf. extensor retinaculum",
+   "section": "下肢／足背",
+   "context": "B. 下伸肌支持帶 inf. extensor retinaculum"
+  },
+  {
+   "en": "deep plantar a",
+   "section": "下肢／足背",
+   "context": "B. 深趾動脈 deep plantar a.：足背動脈在第一、二趾間往足底穿入"
+  },
+  {
+   "en": "plantar aponeurosis",
+   "section": "下肢／足底：注意分層，但是拇指和小指的部分不用分層也看",
+   "context": "足底筋膜 plantar aponeurosis：蓋在足底肌肉上面"
+  },
+  {
+   "en": "abductor hallucis m",
+   "section": "下肢／足底：注意分層，但是拇指和小指的部分不用分層也看",
+   "context": "(1) 外展拇趾肌 abductor hallucis m."
+  },
+  {
+   "en": "flexor digitorum brevis m",
+   "section": "下肢／足底：注意分層，但是拇指和小指的部分不用分層也看",
+   "context": "(2) 屈趾短肌 flexor digitorum brevis m."
+  },
+  {
+   "en": "quadratus plantae m",
+   "section": "下肢／足底：注意分層，但是拇指和小指的部分不用分層也看",
+   "context": "(1) 足底方肌 quadratus plantae m.：表面有 lat. plantar v./a./n.，附著到屈趾長肌肌"
+  },
+  {
+   "en": "lat. plantar v",
+   "section": "下肢／足底：注意分層，但是拇指和小指的部分不用分層也看",
+   "context": "(1) 足底方肌 quadratus plantae m.：表面有 lat. plantar v./a./n.，附著到屈趾長肌肌"
+  },
+  {
+   "en": "flexor hallucis brevis m",
+   "section": "下肢／足底：注意分層，但是拇指和小指的部分不用分層也看",
+   "context": "(1) 屈拇短肌 flexor hallucis brevis m.：有 lateral/medial head，屈拇長肌肌腱壓"
+  },
+  {
+   "en": "medial head",
+   "section": "下肢／足底：注意分層，但是拇指和小指的部分不用分層也看",
+   "context": "(1) 屈拇短肌 flexor hallucis brevis m.：有 lateral/medial head，屈拇長肌肌腱壓"
+  },
+  {
+   "en": "adductor hallucis m",
+   "section": "下肢／足底：注意分層，但是拇指和小指的部分不用分層也看",
+   "context": "(2) 內收拇趾肌 adductor hallucis m.：有 transverse/oblique head，要會分辨"
+  },
+  {
+   "en": "flexor digiti minimi m",
+   "section": "下肢／足底：注意分層，但是拇指和小指的部分不用分層也看",
+   "context": "(3) 屈小趾肌 flexor digiti minimi m."
+  },
+  {
+   "en": "plantar interossei m",
+   "section": "下肢／足底：注意分層，但是拇指和小指的部分不用分層也看",
+   "context": "(1) 蹠側骨間肌 plantar interossei m.：單羽狀"
+  },
+  {
+   "en": "dorsal interossei m",
+   "section": "下肢／足底：注意分層，但是拇指和小指的部分不用分層也看",
+   "context": "(2) 背側骨間肌 dorsal interossei m.：雙羽狀"
+  },
+  {
+   "en": "deep plantar arch",
+   "section": "下肢／足底：注意分層，但是拇指和小指的部分不用分層也看",
+   "context": "間形成深蹠弓 deep plantar arch，會與足背來的深蹠動脈 deep plantar a.吻合"
+  },
+  {
+   "en": "medial plantar n",
+   "section": "下肢／足底：注意分層，但是拇指和小指的部分不用分層也看",
+   "context": "A. 內蹠神經 medial plantar n./內蹠動靜脈 medial plantar a./v."
+  },
+  {
+   "en": "medial plantar a",
+   "section": "下肢／足底：注意分層，但是拇指和小指的部分不用分層也看",
+   "context": "A. 內蹠神經 medial plantar n./內蹠動靜脈 medial plantar a./v."
+  },
+  {
+   "en": "lateral plantar n",
+   "section": "下肢／足底：注意分層，但是拇指和小指的部分不用分層也看",
+   "context": "B. 外蹠神經 lateral plantar n./外蹠動靜脈 lateral plantar a./v."
+  },
+  {
+   "en": "lateral plantar a",
+   "section": "下肢／足底：注意分層，但是拇指和小指的部分不用分層也看",
+   "context": "B. 外蹠神經 lateral plantar n./外蹠動靜脈 lateral plantar a./v."
+  },
+  {
+   "en": "Latissimus dorsi m",
+   "section": "Superficial layer （2",
+   "context": ""
+  },
+  {
+   "en": "Rhomboid major/minor m",
+   "section": "Superficial layer （2",
+   "context": ""
+  },
+  {
+   "en": "Levator scapulae m",
+   "section": "Superficial layer （2",
+   "context": ""
+  },
+  {
+   "en": "Serratus post. sup./inf. m",
+   "section": "Superficial layer （2",
+   "context": ""
+  },
+  {
+   "en": "inf. m",
+   "section": "Superficial layer （2",
+   "context": ""
+  },
+  {
+   "en": "Thoracolumber fascia",
+   "section": "Superficial layer （2",
+   "context": ""
+  },
+  {
+   "en": "Scapula",
+   "section": "Superficial layer （2",
+   "context": ""
+  },
+  {
+   "en": "Splenius cervicis m",
+   "section": "Deep layer （2+3+3+3）",
+   "context": ""
+  },
+  {
+   "en": "Longissimus m",
+   "section": "Deep layer （2+3+3+3）",
+   "context": ""
+  },
+  {
+   "en": "Iliocostalis m",
+   "section": "Deep layer （2+3+3+3）",
+   "context": ""
+  },
+  {
+   "en": "Roof",
+   "section": "枕下三角 Suboccipital tr",
+   "context": ""
+  },
+  {
+   "en": "common palmer digital a",
+   "section": "腋窩邊界 Axillary bounda",
+   "context": ""
+  },
+  {
+   "en": "proper palmer digital a",
+   "section": "腋窩邊界 Axillary bounda",
+   "context": ""
+  },
+  {
+   "en": "a. Suprascapular n",
+   "section": "上肢神經",
+   "context": ""
+  },
+  {
+   "en": "a. Recurrent br. of median n",
+   "section": "上肢神經",
+   "context": ""
+  },
+  {
+   "en": "a. Pronator teres m",
+   "section": "上肢肌肉（insertion/origi",
+   "context": ""
+  },
+  {
+   "en": "a. Flexor digitorum superficialis m",
+   "section": "上肢肌肉（insertion/origi",
+   "context": ""
+  },
+  {
+   "en": "a. Flexor digitorum profundus m",
+   "section": "上肢肌肉（insertion/origi",
+   "context": ""
+  },
+  {
+   "en": "a. Brachioradialis m",
+   "section": "上肢肌肉（insertion/origi",
+   "context": ""
+  },
+  {
+   "en": "a. Abductor pollicis longus m",
+   "section": "上肢肌肉（insertion/origi",
+   "context": ""
+  },
+  {
+   "en": "Internal intercostal m",
+   "section": "上肢肌肉（insertion/origi",
+   "context": ""
+  },
+  {
+   "en": "Transverse thoracic m",
+   "section": "上肢肌肉（insertion/origi",
+   "context": ""
+  },
+  {
+   "en": "Subcostal m",
+   "section": "上肢肌肉（insertion/origi",
+   "context": ""
+  },
+  {
+   "en": "Suspensory ligament of breast",
+   "section": "前胸壁（肌肉以外）",
+   "context": ""
+  },
+  {
+   "en": "Lat mammary a",
+   "section": "前胸壁（肌肉以外）",
+   "context": ""
+  },
+  {
+   "en": "Med. Mammary br. of internal thoracic a",
+   "section": "前胸壁（肌肉以外）",
+   "context": ""
+  },
+  {
+   "en": "Pulmonary a./v",
+   "section": "後胸壁",
+   "context": ""
+  },
+  {
+   "en": "Superior vena cava",
+   "section": "後胸壁",
+   "context": ""
+  },
+  {
+   "en": "Bronchus",
+   "section": "後胸壁",
+   "context": ""
+  },
+  {
+   "en": "Post. intercostal v",
+   "section": "後胸壁",
+   "context": ""
+  },
+  {
+   "en": "Post. intercostal a",
+   "section": "後胸壁",
+   "context": ""
+  },
+  {
+   "en": "Lesser splanchnic n",
+   "section": "後胸壁",
+   "context": ""
+  },
+  {
+   "en": "Least splanchnic n",
+   "section": "後胸壁",
+   "context": ""
+  },
+  {
+   "en": "Ant. / Post. vagal trunk",
+   "section": "後胸壁",
+   "context": ""
+  },
+  {
+   "en": "Parietal layer of serous pericardium",
+   "section": "後胸壁",
+   "context": ""
+  },
+  {
+   "en": "Transverse pericardial sinus",
+   "section": "後胸壁",
+   "context": ""
+  },
+  {
+   "en": "Oblique pericardial sinus",
+   "section": "後胸壁",
+   "context": ""
+  },
+  {
+   "en": "marginal branch",
+   "section": "後胸壁",
+   "context": ""
+  },
+  {
+   "en": "nodal a",
+   "section": "後胸壁",
+   "context": ""
+  },
+  {
+   "en": "Left coronary a",
+   "section": "後胸壁",
+   "context": ""
+  },
+  {
+   "en": "Ant. cardiac v",
+   "section": "後胸壁",
+   "context": ""
+  },
+  {
+   "en": "Interatrial septum",
+   "section": "後胸壁",
+   "context": ""
+  },
+  {
+   "en": "Pectinate m",
+   "section": "後胸壁",
+   "context": ""
+  },
+  {
+   "en": "Fossa ovalis",
+   "section": "後胸壁",
+   "context": ""
+  },
+  {
+   "en": "Opening of coronary sinus",
+   "section": "後胸壁",
+   "context": ""
+  },
+  {
+   "en": "Crista terminalis",
+   "section": "後胸壁",
+   "context": ""
+  },
+  {
+   "en": "Pulmonary a",
+   "section": "肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾",
+   "context": ""
+  },
+  {
+   "en": "Pulmonary lig",
+   "section": "肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾",
+   "context": ""
+  },
+  {
+   "en": "Horizontal fissure",
+   "section": "肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾",
+   "context": ""
+  }
+ ]
+}
