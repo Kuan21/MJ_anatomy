@@ -240,7 +240,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
     </div>}
    </div>
    <div className="detail-atlas-shortcuts" aria-label="Detail atlases">
-    <Button variant="ghost" onClick={()=>openMicroAtlas('brain')}>腦</Button>
+    <Button variant="ghost" onClick={()=>{window.location.hash='#/organ/brain';}}>腦</Button>
     <Button variant="ghost" onClick={()=>openMicroAtlas('eye')}>眼</Button>
     <Button variant="ghost" onClick={()=>openMicroAtlas('ear')}>耳</Button>
    </div>
