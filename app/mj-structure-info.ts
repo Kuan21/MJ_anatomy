@@ -23,6 +23,7 @@ export interface StructureProfile {
  courseNotes?:CourseNoteEntry[];
 }
 
+import vesselEnds from './mj-vessel-ends.json';
 type ProfileBody=Omit<StructureProfile,'english'>;
 const CMU_SOURCE='CMU Upper Limbs lecture; terminology cross-checked with the uploaded Netter Atlas';
 const CMU_BONE_SOURCE='CMU skeletal-system / histology notes and bilingual bone-landmark sheet; terminology cross-checked with the uploaded Netter Atlas';
@@ -345,7 +346,7 @@ function withCourseNotes(profile:StructureProfile,name:string):StructureProfile{
  return{...profile,source:`${profile.source}; ${NETTER_TERMINOLOGY_SOURCE}`};
 }
 
-export function structureProfile(rawName:string,system:SystemId,part?:Part):StructureProfile{
+function baseStructureProfile(rawName:string,system:SystemId,part?:Part):StructureProfile{
  const name=part?rawName:cleanMeshName(rawName);
  const sourceName=part?.name??name;
  const english=displayEnglish(name,system,part);
@@ -384,4 +385,11 @@ export function structureProfile(rawName:string,system:SystemId,part?:Part):Stru
   facts:genericFacts(english,system,part),
   source:sourceFor(sourceName,system)
  },sourceName);
+}
+
+/** Small vessels whose model end was tapered by scripts/prepare-vessel-ends.mjs say so on their card. */
+export function structureProfile(rawName:string,system:SystemId,part?:Part):StructureProfile{
+ const profile=baseStructureProfile(rawName,system,part);
+ if(!part||!(part.id in vesselEnds))return profile;
+ return{...profile,facts:[...profile.facts,{labelEn:'Model end',labelZh:'模型末端',valueEn:'Small branches end by thinning out into the surrounding muscle, organ or fascia; the model tapers the end to show this.',valueZh:'細小分支在周圍的肌肉、器官或筋膜內逐漸變細而終止；模型把末端收細表示。'}]};
 }

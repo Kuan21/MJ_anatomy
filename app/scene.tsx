@@ -17,6 +17,7 @@ import {SYSTEMS,type Atlas,type SceneState} from './anatomy';
 import {matchesMuscleLayer} from './mj-muscle-layers';
 import {matchesFacialMuscleLayer} from './mj-facial-layers';
 import {matchesHeartLayer,isShellSurface} from './mj-heart-layers';
+import {clavicleLevel} from './mj-part-regions';
 import {matchesSex} from './mj-sex';
 import {serousLayerKey} from './mj-serous';
 import {matchesDepth} from './mj-depth';
@@ -52,6 +53,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   type SupplementaryTask={task:()=>Promise<void>;onFailure:()=>void;label:string};
   const failedSupplementary:SupplementaryTask[]=[];
   let renderer:T.WebGLRenderer;
+  const headCut=new T.Plane(new T.Vector3(0,1,0),-clavicleLevel(atlas.parts));
   try{renderer=new T.WebGLRenderer({antialias:!constrainedDevice,alpha:false,powerPreference:'high-performance'});}catch{onError('This browser could not start the 3D viewer. Please try a browser with WebGL enabled.');return;}
   renderer.setPixelRatio(Math.min(devicePixelRatio,constrainedDevice?1:innerWidth<768?1.5:2));renderer.setClearColor('#cbd2d6');renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;el.appendChild(renderer.domElement);
   renderer.domElement.setAttribute('aria-label','Interactive human anatomy. Drag to orbit, pinch or scroll to zoom, and tap a structure to inspect it.');
@@ -856,6 +858,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    const tissueChanged=!lastState||lastState.partTransforms!==s.partTransforms||lastState.tissueMotion!==s.tissueMotion||lastState.previewMotion!==s.previewMotion||lastState.bodyMotion!==s.bodyMotion||lastState.visible!==s.visible||lastState.focusParts!==s.focusParts||lastState.hiddenParts!==s.hiddenParts;
    if(tissueChanged){updateTissueMotion(s);updateNerveMotion(s);updateBrainMotion(s);}
    const ctx=viewerContext.current;
+   // Head view: everything below the collarbones is cut away, including vessels and muscles that run on into the chest.
+   {const want=ctx.bodyArea==='head'&&!s.bodyMotion;if(want!==!!renderer.clippingPlanes?.length){renderer.clippingPlanes=want?[headCut]:[];dirty=true;}}
    if(primaryAtlasReady&&s.visible.includes('nervous')&&(ctx.bodyArea==='head'||s.bodyMotion?.region==='head'||s.bodyMotion?.region==='spine'||!s.visible.includes('skeletal')||(s.hiddenParts?.length??0)>0))ensureBrain();
    if(nerveMeshes.length){
     const nervesOn=s.visible.includes('nervous')&&!s.isolate;

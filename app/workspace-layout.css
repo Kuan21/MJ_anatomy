@@ -546,3 +546,7 @@
 .organ-sub-row .bn-stack{display:flex;flex-direction:column;line-height:1.2}
 .organ-sub-row .bn-en{font-size:12px;color:#1f2a35}
 .organ-sub-row .bn-zh{font-size:10.5px;color:#7b8793}
+
+.joint-surface-row{display:flex;align-items:center;gap:8px}
+.joint-info-button{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;border:1px solid #18253626;background:#fff;color:#53606c}
+.joint-info-button[aria-expanded=true]{background:#e7f3eb;border-color:#94bfb0;color:#236e60}

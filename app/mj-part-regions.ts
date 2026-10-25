@@ -151,10 +151,16 @@ export function topRegionParts(parts:Part[],region:'whole'|'upper'|'lower'|'head
  if(region==='organs')return parts.filter(p=>organSystems.includes(p.system)).map(p=>p.id);
  if(region==='upper')return [...partsInRegion(parts,'upper-limb'),...skinIds(parts)];
  if(region==='lower')return [...partsInRegion(parts,'lower-limb'),...skinIds(parts)];
- // Top-level 頭部 keeps upper-body context; Motion 頭頸 uses only head-neck.
+ // Top-level 頭部 shows only what lies above the collarbones (the scene also cuts long vessels and nerves at that level); Motion 頭頸 uses only head-neck.
+ const level=clavicleLevel(parts);
  return parts.filter(p=>{
   if(isMotionQuarantined(p))return false;
   const r=anatomicalRegion(p),[,y]=partCenter(p);
-  return r==='head-neck'||r==='upper-limb'||(r==='trunk'&&y>=1.05);
+  return r==='head-neck'||y>=level;
  }).map(p=>p.id);
+}
+/** Height of the collarbones (mean centre of both clavicles): the lower limit of the head view. */
+export function clavicleLevel(parts:Pick<Part,'name'|'system'|'bounds'>[]):number{
+ const ys=parts.filter(p=>p.system==='skeletal'&&/clavicle/i.test(p.name)).map(p=>(p.bounds[0][1]+p.bounds[1][1])/2);
+ return ys.length?ys.reduce((a,b)=>a+b,0)/ys.length-.012:1.38;
 }
