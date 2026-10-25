@@ -15,6 +15,12 @@ Source OBJ comments mention an older CC BY-SA 2.1 Japan license. The official cu
 
 BodyParts3D represents an adult male reference anatomy based on TARO MRI and anatomical illustration refinements. It is not a complete model of every possible human anatomical structure or variation. This interface is educational and is not a clinical tool.
 
+## Female reproductive organs and serous membranes
+
+The sex switch under Organs → Reproductive shows 33 female pelvic structures (ovaries, uterine tubes, uterus and its ligaments, vagina, uterine arteries and veins). They come from Kristen Browne and Heidi Schlehlein, Human Reference Atlas / HuBMAP, *3D Reference Organ Set for Female v1.5* (2023), CC BY 4.0, DOI https://doi.org/10.48539/HBM352.BTSQ.586. Only these 33 meshes are kept (`scripts/data/hra-female-pelvis.json.gz`, extracted once by `scripts/extract-hra-female.mjs`); they are scaled and moved onto the BodyParts3D pelvis by `scripts/prepare-female.mjs`. The pelvic bones, muscles and perineum remain the BodyParts3D male model, so the female organs sit in a male pelvis; this is a known limitation.
+
+The pleura and pericardium layers are schematic shells written by this project (`scripts/prepare-serous.mjs`): each is an offset of the lung lobe or heart wall surface, not a measured structure. The five lung lobes are BodyParts3D 3.0 meshes (CC BY-SA 2.1 Japan, FMA7333, FMA7383, FMA7337, FMA7370, FMA7371).
+
 ## Historical assets (not included in the current release)
 
 Earlier repository revisions included female reference anatomy: Kristen Browne and Heidi Schlehlein, Human Reference Atlas / HuBMAP, *3D Reference Organ Set for Female v1.5* (2023). CC BY 4.0. Geometry adapted for this viewer.

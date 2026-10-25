@@ -87,6 +87,21 @@
   },
   {
    "fma": "FMA55609","name": "Left depressor septi nasi","system": "muscular","sha256": "d5540a81a4c9b2786177be1ceb5f3292232038014d1a375904d34a055414ac00"
+  },
+  {
+   "fma": "FMA7333","name": "Upper lobe of right lung","system": "respiratory","sha256": "cd168d6c22d10dcb5e8be3ec88e9a97b33a261fc3e8195001daaac32d964a177"
+  },
+  {
+   "fma": "FMA7383","name": "Middle lobe of right lung","system": "respiratory","sha256": "a12839911dd06f97d21f716d717a207ad0237dc602ce2ad2ad53fbcd402d4673"
+  },
+  {
+   "fma": "FMA7337","name": "Lower lobe of right lung","system": "respiratory","sha256": "cfb1641ad8443abd6da3919d3f7565f7d119dc740b7cf91d51d17ae9f2f67eda"
+  },
+  {
+   "fma": "FMA7370","name": "Upper lobe of left lung","system": "respiratory","sha256": "d5e0401182d8af9e9b05f4cac7eb4f728598650645370a15eec83ea1598b7e24"
+  },
+  {
+   "fma": "FMA7371","name": "Lower lobe of left lung","system": "respiratory","sha256": "17419dd2f9d837e162286b8545308893a9377e1f410c6e3c6385b45f1a6e90a3"
   }
  ]
 }
