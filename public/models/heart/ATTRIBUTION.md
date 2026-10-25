@@ -2,6 +2,8 @@
 
 The heart, valves (with chordae tendineae), papillary muscles, coronary arteries, cardiac veins and adjoining great vessels in `heart-detail.json.gz` are taken from the Z-Anatomy cardiovascular export published at [nqwrc/3d-anatomy](https://github.com/nqwrc/3d-anatomy) (commit `8ca3b7421bcfbe88b85859eb1983d5cf79f21749`, `public/models/cardiovascular.glb`, sha256 pinned in `scripts/heart-parts.json`).
 
+Three pieces missing from the Z-Anatomy export (anterior leaflets of the tricuspid and mitral valves, anterolateral papillary muscle of the left ventricle) come from BodyParts3D 4.0 (CC BY 4.0, The Database Center for Life Science), the atlas this site already ships; `scripts/prepare-heart.mjs` moves them by the mean offset of five structures present in both models so they sit inside the same chambers. The superior and inferior venae cavae are Z-Anatomy pieces.
+
 Licence: the content is a derivative of BodyParts3D made by Z-Anatomy.
 
 - "BodyParts3D - The Database Center for Life Science - CC-BY-SA 2.1 Japan"

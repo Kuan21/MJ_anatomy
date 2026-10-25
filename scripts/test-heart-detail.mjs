@@ -18,7 +18,7 @@ for (const part of spec.parts) assert.ok(!/kidney|inner ear|cochlea|brainder|whi
 assert.ok(fs.existsSync(new URL('public/models/heart/ATTRIBUTION.md', root)), 'attribution file ships with the package');
 
 // catalogue
-assert.equal(heart.parts.length, spec.parts.length);
+assert.equal(heart.parts.length, spec.parts.length + spec.bodyparts3d.length);
 const groups = new Set(heart.groups.map(g => g.id));
 assert.equal(new Set(heart.parts.map(p => p.id)).size, heart.parts.length, 'unique ids');
 const raws = heart.chunks.map(c => {
@@ -44,7 +44,39 @@ for (const p of heart.parts) {
 }
 const names = new Set(heart.parts.map(p => p.name));
 for (const required of ['Right atrium', 'Right ventricle', 'Left atrium', 'Left ventricle', 'Anterior papillary muscle of right ventricle', 'Inferior papillary muscle of left ventricle', 'Posterior leaflet of left atrioventricular valve', 'Septal leaflet of right atrioventricular valve', 'Right coronary artery', 'Great cardiac vein', 'Coronary sinus']) assert.ok(names.has(required), required);
-assert.ok(heart.parts.filter(p => p.group === 'valves').length === 9 && heart.parts.filter(p => p.group === 'papillary').length === 4);
+assert.ok(heart.parts.filter(p => p.group === 'valves').length === 11 && heart.parts.filter(p => p.group === 'papillary').length === 5);
+
+// the great veins join their atrium: venae cavae to the right atrium, the four pulmonary veins to the left atrium (surfaces within 1 mm)
+{
+  const positions = name => {const p = heart.parts.find(q => q.name === name); assert.ok(p, `${name} present`); const r = raws[p.chunk]; return new Float32Array(r.buffer.slice(r.byteOffset + p.positions, r.byteOffset + p.positions + p.vertexCount * 12));};
+  const gap = (a, b) => {let m = Infinity; const sa = Math.max(1, Math.floor(a.length / 12000)) * 3, sb = Math.max(1, Math.floor(b.length / 12000)) * 3; for (let i = 0; i < a.length; i += sa) for (let j = 0; j < b.length; j += sb) m = Math.min(m, Math.hypot(a[i] - b[j], a[i + 1] - b[j + 1], a[i + 2] - b[j + 2])); return m;};
+  for (const v of ['Superior vena cava', 'Inferior vena cava']) assert.ok(gap(positions(v), positions('Right atrium')) < .001, `${v} opens into the right atrium`);
+  for (const v of ['Left superior pulmonary vein', 'Left inferior pulmonary vein', 'Right superior pulmonary vein', 'Right inferior pulmonary vein']) assert.ok(gap(positions(v), positions('Left atrium')) < .001, `${v} opens into the left atrium`);
+  assert.equal(heart.parts.find(q => q.name === 'Superior vena cava').system, 'venous');
+}
+
+// chamber chooser: every listed piece exists in the catalogue, every chamber lists its structures, names are Taiwan-style written Chinese
+{
+  const {CHAMBERS} = await quizModule('app/organ/heart-chambers.ts');
+  assert.deepEqual(CHAMBERS.map(c => c.id), ['ra', 'rv', 'la', 'lv']);
+  const known = new Set(heart.parts.map(p => p.name));
+  for (const c of CHAMBERS) {
+    assert.ok(known.has(c.wall), `${c.id}: wall piece exists`);
+    for (const name of c.inside) assert.ok(known.has(name), `${c.id}: inside piece ${name}`);
+    for (const it of c.items) {
+      for (const name of it.parts) assert.ok(known.has(name), `${c.id}/${it.en}: piece ${name}`);
+      assert.ok(/[一-鿿]/.test(it.zh) && !/[嘅咗喺唔嚟啲睇揀嗰咁冇俾佢啱]/.test(it.zh + it.zhDesc) && it.enDesc.length > 10, `${c.id}/${it.en}: names and descriptions`);
+    }
+  }
+  const items = id => CHAMBERS.find(c => c.id === id).items.map(i => i.zh).join('|');
+  for (const need of ['梳狀肌', '界嵴', '卵圓窩', '上腔靜脈開口', '下腔靜脈開口', '冠狀竇開口', '右心耳']) assert.ok(items('ra').includes(need), `right atrium lists ${need}`);
+  for (const need of ['三尖瓣前尖', '三尖瓣隔側尖', '前乳頭肌', '後乳頭肌', '中隔乳頭肌', '腱索', '肉柱', '節制索', '室上嵴', '動脈圓錐', '肺動脈瓣']) assert.ok(items('rv').includes(need), `right ventricle lists ${need}`);
+  for (const need of ['左上肺靜脈開口', '左下肺靜脈開口', '右上肺靜脈開口', '右下肺靜脈開口', '左心耳', '卵圓瓣痕跡']) assert.ok(items('la').includes(need), `left atrium lists ${need}`);
+  for (const need of ['二尖瓣前瓣', '二尖瓣後瓣', '前乳頭肌', '後乳頭肌', '腱索', '肉柱', '主動脈前庭', '主動脈瓣']) assert.ok(items('lv').includes(need), `left ventricle lists ${need}`);
+  // the opened chamber's own valves and papillary muscles are the only internal pieces drawn: none of them belongs to another chamber's list
+  const owner = new Map(); for (const c of CHAMBERS) for (const n of c.inside) { assert.ok(!owner.has(n), `${n} belongs to one chamber`); owner.set(n, c.id); }
+  for (const p of heart.parts.filter(p => p.group === 'valves' || p.group === 'papillary')) assert.ok(owner.has(p.name), `${p.name} is shown when its chamber opens`);
+}
 
 // place in the atlas: the chambers sit on the atlas heart (centre within 25 mm)
 const {normalizeAtlasSystems} = await quizModule('app/mj-system-classifier.ts');

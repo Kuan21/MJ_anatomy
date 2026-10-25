@@ -2,6 +2,7 @@ import {useEffect, useMemo, useRef, useState} from 'react';
 import {ArrowLeft, Eye, EyeOff, RotateCcw} from 'lucide-react';
 import {fetchModelBuffer} from '../model-download';
 import {createHeartViewer} from './heart-viewer';
+import {CHAMBERS, chamberView, type ChamberItem} from './heart-chambers';
 import {SECTION_AXES, type HeartCatalogue, type HeartPart, type HeartView, type HeartViewState, type SectionAxis} from './heart-types';
 import './organ.css';
 
@@ -29,8 +30,8 @@ function HeartScene({catalogue, view, onProgress, onReady, onError, onPick, onHo
 
 // Closed heart by default: the outside (chambers as the epicardial surface, coronary vessels, great vessels). Valves, chordae and papillary muscles appear when the heart is opened.
 const INTERNAL = ['papillary', 'valves'];
-const defaults: HeartViewState = {hiddenGroups: INTERNAL, selectedId: null, section: {axis: 'none', offset: .5, flip: true}, ghostChambers: false, command: {id: 0, view: 'front'}};
-const OPENED: Partial<HeartViewState> = {hiddenGroups: [], section: {axis: 'coronal', offset: .5, flip: true}, ghostChambers: true};
+const defaults: HeartViewState = {hiddenGroups: INTERNAL, selectedId: null, section: {axis: 'none', offset: .5, flip: true}, ghostChambers: false, openChamber: null, highlight: [], command: {id: 0, view: 'front'}};
+const OPENED: Partial<HeartViewState> = {openChamber: null, highlight: [], hiddenGroups: [], section: {axis: 'coronal', offset: .5, flip: true}, ghostChambers: true};
 const AXES: SectionAxis[] = ['none', 'coronal', 'sagittal', 'transverse'];
 /** Each cut removes the half facing the camera that looks into it: coronal from the front, sagittal from the body's right, transverse from above. */
 const CUT: Record<Exclude<SectionAxis, 'none'>, {flip: boolean; view: HeartView}> = {coronal: {flip: true, view: 'front'}, sagittal: {flip: false, view: 'right'}, transverse: {flip: true, view: 'top'}};
@@ -38,7 +39,9 @@ const CUT: Record<Exclude<SectionAxis, 'none'>, {flip: boolean; view: HeartView}
 export default function HeartDetail() {
   const [catalogue, setCatalogue] = useState<HeartCatalogue | null>(null), [catalogueError, setCatalogueError] = useState(''), [retry, setRetry] = useState(0);
   const [view, setView] = useState<HeartViewState>(defaults);
+  const [item, setItem] = useState<ChamberItem | null>(null);
   const [load, setLoad] = useState({loaded: 0, total: 0}), [ready, setReady] = useState(false), [error, setError] = useState(''), [hover, setHover] = useState<string | null>(null);
+  useEffect(() => {if (!view.openChamber) setItem(null);}, [view.openChamber]);
   useEffect(() => {document.title = '心臟詳細模式 · MJ Anatomy';}, []);
   useEffect(() => {
     const abort = new AbortController(); setCatalogueError('');
@@ -57,6 +60,18 @@ export default function HeartDetail() {
   const patch = (next: Partial<HeartViewState>) => setView(v => ({...v, ...next}));
   const go = (name: HeartView) => setView(v => ({...v, command: {id: v.command.id + 1, view: name}}));
   const toggleGroup = (id: string) => patch({hiddenGroups: view.hiddenGroups.includes(id) ? view.hiddenGroups.filter(g => g !== id) : [...view.hiddenGroups, id]});
+  const chamber = CHAMBERS.find(c => c.id === view.openChamber);
+  const idsOf = (names: string[]) => (catalogue?.parts ?? []).filter(p => names.includes(p.name)).map(p => p.id);
+  const openChamber = (id: string | null) => {
+    setItem(null);
+    const c = CHAMBERS.find(x => x.id === id);
+    setView(v => ({...v, ...defaults, command: {id: v.command.id + 1, view: c ? chamberView(c) : 'front', look: c?.look, focus: c?.wall}, openChamber: c ? c.id : null}));
+  };
+  const chooseItem = (next: ChamberItem) => {
+    const same = item?.en === next.en;
+    setItem(same ? null : next);
+    patch({selectedId: null, highlight: same ? [] : idsOf(next.parts)});
+  };
   const grouped = useMemo(() => catalogue?.groups.map(g => ({...g, parts: catalogue.parts.filter(p => p.group === g.id)})) ?? [], [catalogue]);
 
   return <main className="organ-app" lang="zh-Hant">
@@ -80,13 +95,31 @@ export default function HeartDetail() {
       </section>
       <aside className="organ-panel" aria-label="心臟控制與說明">
         <section className="organ-block organ-info" aria-live="polite">
-          {selected ? <>
+          {item && !selected ? <>
+            <h2 className="organ-info-title" lang="en">{item.en}</h2>
+            <p className="organ-info-zh" lang="zh-Hant">{item.zh}</p>
+            <p lang="zh-Hant">{item.zhDesc}</p>
+            <p className="organ-info-en" lang="en">{item.enDesc}</p>
+            {item.parts.length === 0 && <p className="organ-nomodel" lang="zh-Hant">此構造在目前使用的開源模型（Z-Anatomy、BodyParts3D）中沒有對應的三維網格，因此無法在模型上高亮，只提供文字說明。</p>}
+            <button className="organ-clear" onClick={() => {setItem(null); patch({highlight: []});}}>取消選取</button>
+          </> : selected ? <>
             <h2 className="organ-info-title" lang="en">{selected.name}</h2>
             <p className="organ-info-zh" lang="zh-Hant">{selected.chinese}</p>
             <p lang="zh-Hant">{selected.description.zh}</p>
             <p className="organ-info-en" lang="en">{selected.description.en}</p>
             <button className="organ-clear" onClick={() => patch({selectedId: null})}>取消選取</button>
           </> : <p className="organ-info-empty">點選模型或清單中的構造，會顯示名稱與說明。</p>}
+        </section>
+        <section className="organ-block">
+          <h2>逐個心腔打開<small>Open one chamber</small></h2>
+          <div className="organ-segmented organ-chambers" role="group" aria-label="選擇心腔">
+            {CHAMBERS.map(c => <button key={c.id} aria-pressed={view.openChamber === c.id} onClick={() => openChamber(view.openChamber === c.id ? null : c.id)}><span lang="en">{c.en}</span><small lang="zh-Hant">{c.zh}</small></button>)}
+          </div>
+          {chamber ? <>
+            <small>只將{chamber.zh}的外壁變成近乎透明，其他部分保持原狀，鏡頭已轉到適合看入內部的角度。再按一次同一個心腔可還原。</small>
+            <ul className="organ-chamber-items" aria-label={`${chamber.zh}內的構造`}>{chamber.items.map(it => <li key={it.en}>
+              <button aria-pressed={item?.en === it.en} onClick={() => chooseItem(it)}><span lang="en">{it.en}</span><small lang="zh-Hant">{it.zh}</small>{it.parts.length === 0 && <i className="organ-nomodel-tag" lang="zh-Hant">無模型</i>}</button></li>)}</ul>
+          </> : <small>選擇一個心腔，只打開該心腔的外壁，並列出腔內構造；點選清單可在模型上高亮。</small>}
         </section>
         <section className="organ-block">
           <h2>心臟外觀與內部<small>Outside / inside</small></h2>
@@ -98,7 +131,7 @@ export default function HeartDetail() {
         </section>
         <section className="organ-block">
           <h2>切面<small>Section</small></h2>
-          <div className="organ-segmented" role="group" aria-label="切面方向">{AXES.map(axis => <button key={axis} aria-pressed={view.section.axis === axis} onClick={() => axis === 'none' ? patch({section: {...view.section, axis}}) : setView(v => ({...v, section: {axis, offset: .5, flip: CUT[axis].flip}, command: {id: v.command.id + 1, view: CUT[axis].view}}))}>{axis === 'none' ? '完整' : SECTION_AXES[axis].label.slice(0, 2)}</button>)}</div>
+          <div className="organ-segmented" role="group" aria-label="切面方向">{AXES.map(axis => <button key={axis} aria-pressed={view.section.axis === axis} onClick={() => axis === 'none' ? patch({section: {...view.section, axis}, openChamber: null, highlight: []}) : setView(v => ({...v, openChamber: null, highlight: [], hiddenGroups: v.openChamber ? INTERNAL : v.hiddenGroups, section: {axis, offset: .5, flip: CUT[axis].flip}, command: {id: v.command.id + 1, view: CUT[axis].view}}))}>{axis === 'none' ? '完整' : SECTION_AXES[axis].label.slice(0, 2)}</button>)}</div>
           {view.section.axis !== 'none' && <>
             <label className="organ-slider"><span>{SECTION_AXES[view.section.axis].label} · 位置 {Math.round(view.section.offset * 100)}%</span>
               <input type="range" min={0} max={100} value={Math.round(view.section.offset * 100)} aria-label="切面位置" onChange={e => patch({section: {...view.section, offset: +e.target.value / 100}})}/></label>
@@ -111,15 +144,15 @@ export default function HeartDetail() {
           {grouped.map(g => {
             const hidden = view.hiddenGroups.includes(g.id);
             return <div className="organ-group" key={g.id}>
-              <button className="organ-group-head" onClick={() => toggleGroup(g.id)} aria-pressed={!hidden} aria-label={`${hidden ? '顯示' : '隱藏'}${g.label}`}>{hidden ? <EyeOff size={15}/> : <Eye size={15}/>}<span>{g.label}<small>{g.english}</small></span><b>{g.parts.length}</b></button>
-              {!hidden && <ul>{g.parts.map((p: HeartPart) => <li key={p.id}><button aria-pressed={view.selectedId === p.id} onMouseEnter={() => setHover(p.id)} onMouseLeave={() => setHover(null)} onClick={() => patch({selectedId: view.selectedId === p.id ? null : p.id})}><span lang="zh-Hant">{p.chinese}</span><small lang="en">{p.name}</small></button></li>)}</ul>}
+              <button className="organ-group-head" onClick={() => toggleGroup(g.id)} aria-pressed={!hidden} aria-label={`${hidden ? '顯示' : '隱藏'}${g.label}`}>{hidden ? <EyeOff size={15}/> : <Eye size={15}/>}<span lang="en">{g.english}<small lang="zh-Hant">{g.label}</small></span><b>{g.parts.length}</b></button>
+              {!hidden && <ul>{g.parts.map((p: HeartPart) => <li key={p.id}><button aria-pressed={view.selectedId === p.id} onMouseEnter={() => setHover(p.id)} onMouseLeave={() => setHover(null)} onClick={() => patch({selectedId: view.selectedId === p.id ? null : p.id})}><span lang="en">{p.name}</span><small lang="zh-Hant">{p.chinese}</small></button></li>)}</ul>}
             </div>;
           })}
         </section>
         <section className="organ-block organ-note">
           <h2>模型範圍</h2>
-          <p>心腔、房室瓣與半月瓣（房室瓣連同腱索）、乳頭肌、冠狀動脈、心臟靜脈與相連大血管。腱索包含在瓣膜模型中，不能單獨選取。</p>
-          <p>模型尚未收錄：界嵴、梳狀肌、卵圓窩、節制索、傳導系統（竇房結、房室結、希氏束），以及二尖瓣前尖、三尖瓣前尖與左心室前乳頭肌。</p>
+          <p>心腔、房室瓣與半月瓣（房室瓣連同腱索）、乳頭肌、冠狀動脈、心臟靜脈、上下腔靜脈、肺靜脈與相連大血管。腱索包含在瓣膜模型中，不能單獨選取。三尖瓣前尖、二尖瓣前瓣與左心室前外側乳頭肌取自 BodyParts3D 4.0，並對齊到同一心臟。</p>
+          <p>以下構造在目前使用的開源模型中沒有網格，只在「逐個心腔打開」的清單中提供文字說明（標示「無模型」）：梳狀肌、界嵴、卵圓窩、右心耳、肉柱、節制索、室上嵴、動脈圓錐、左心耳、卵圓瓣痕跡、主動脈前庭；傳導系統（竇房結、房室結、希氏束）亦未收錄。</p>
           <p className="organ-source">來源：{catalogue.source}。{catalogue.attribution}。授權 {catalogue.license}。</p>
         </section>
       </aside>
