@@ -26,14 +26,14 @@ export default function lowerLimb(U) {
         const o = add(v(y), P(S.sx * -.005, 0, -.005)), t = U.onSurface(femur, P(S.sx * .085, y, -.045), .010);
         return {pts: [o, lerp(o, t, .55), t], r: [.0011, .0006], samples: 16};
       });
-      art(S, `${S.w} deep femoral artery`, 'perforating branches of deep femoral artery', '股深動脈穿通支',
+      art(S, `${S.w} deep femoral artery`, 'perforating branch of deep femoral artery', '股深動脈穿通支',
         ['Deep femoral artery (three perforating branches, one for each of the upper three adductor attachments)', '股深動脈（三條穿通支）'],
         ['Pierce adductor brevis/magnus close to the linea aspera and reach the posterior compartment', '貼近股骨粗線穿過內收短肌與內收大肌，到達大腿後區'],
         ['Hamstrings, adductor magnus and the femoral shaft (they anastomose with each other and with the gluteal and popliteal arteries)', '膕繩肌、內收大肌與股骨幹（彼此及與臀動脈、膕動脈吻合）'], tubes);
     }
     // Medial circumflex femoral artery: from the deep femoral artery, backwards between pectineus and iliopsoas to the trochanteric fossa.
     {
-      const o = add(v(.848), P(S.sx * -.004, .002, -.004)), neck = U.onSurface(femur, P(S.sx * .060, .895, -.010), .006), end = U.onSurface(femur, P(S.sx * .105, .885, -.040), .006);
+      const o = lerp(dfaPts[0], dfaPts[1], .22), neck = U.onSurface(femur, P(S.sx * .060, .895, -.010), .006), end = U.onSurface(femur, P(S.sx * .105, .885, -.040), .006);
       art(S, `${S.w} deep femoral artery`, 'medial circumflex femoral artery', '旋股內側動脈',
         ['Deep femoral artery (sometimes the femoral artery)', '股深動脈（有時來自股動脈）'],
         ['Winds backwards round the medial side of the femoral neck between pectineus and iliopsoas, then passes above quadratus femoris to the trochanteric fossa', '繞股骨頸內側向後，經恥骨肌與髂腰肌之間，再越過方形股肌上緣到轉子窩'],
@@ -119,8 +119,8 @@ export default function lowerLimb(U) {
         [{pts: [sup, add(lerp(sup, deepTo, .5), P(0, .012, 0)), deepTo], r: [.0022, .0012], samples: 18}]);
       const ig = add(pirLo, P(0, -.005, -.006)), igTo = U.onSurface(gmax, P(S.sx * .060, .900, -.100), -.004);
       art(S, iia, 'inferior gluteal artery', '臀下動脈', ['Anterior division of the internal iliac artery', '髂內動脈前幹'], ['Leaves the pelvis through the greater sciatic foramen below piriformis and descends into gluteus maximus with the sciatic nerve', '經坐骨大孔、梨狀肌下緣出骨盆，與坐骨神經一起下行進入臀大肌'],
-        ['Gluteus maximus, the upper hamstrings and the sciatic nerve (companion artery)', '臀大肌、膕繩肌上部與坐骨神經（伴行動脈）'], [{pts: [add(o, P(S.sx * .003, -.006, .0)), add(lerp(o, ig, .5), P(0, -.004, -.004)), ig, add(lerp(ig, igTo, .5), P(0, -.006, -.004)), igTo], r: [.0028, .0014], samples: 30}]);
-      const ipa = [add(o, P(S.sx * .002, -.010, .002)), add(ig, P(S.sx * .0, -.004, -.002)), add(spine, P(0, .003, -.003)), add(spine, P(S.sx * -.010, -.010, .002)), add(spine, P(S.sx * -.018, -.026, .012))];
+        ['Gluteus maximus, the upper hamstrings and the sciatic nerve (companion artery)', '臀大肌、膕繩肌上部與坐骨神經（伴行動脈）'], [{pts: [o, add(lerp(o, ig, .5), P(0, -.004, -.004)), ig, add(lerp(ig, igTo, .5), P(0, -.006, -.004)), igTo], r: [.0028, .0014], samples: 30}]);
+      const ipa = [o, add(lerp(o, ig, .5), P(0, -.004, -.003)), add(ig, P(S.sx * .0, -.004, -.002)), add(spine, P(0, .003, -.003)), add(spine, P(S.sx * -.010, -.010, .002)), add(spine, P(S.sx * -.018, -.026, .012))];
       art(S, iia, 'internal pudendal artery', '陰部內動脈', ['Anterior division of the internal iliac artery', '髂內動脈前幹'], ['Leaves through the greater sciatic foramen below piriformis, curls round the ischial spine and re-enters the pelvis through the lesser sciatic foramen to the pudendal canal', '經坐骨大孔、梨狀肌下緣出骨盆，繞坐骨棘後經坐骨小孔回到會陰，走入陰部管'],
         ['Perineum and external genitalia (with the pudendal nerve)', '會陰與外生殖器（與陰部神經伴行）'], [{pts: ipa, r: [.0022, .0012], samples: 30}]);
     }

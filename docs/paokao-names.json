@@ -669,6 +669,7 @@
   ]
  },
  "291": {
+  "partOf": "Azygos vein",
   "names": [
    "Arch of azygos vein"
   ]
@@ -1105,6 +1106,18 @@
  "386": {
   "names": [
    "Quadriceps tendon"
+  ]
+ },
+ "569": {
+  "partOf": "Coronary sinus",
+  "names": [
+   "Opening of coronary sinus"
+  ]
+ },
+ "337": {
+  "partOf": "Coronary sinus",
+  "names": [
+   "Opening of coronary sinus"
   ]
  }
 }

@@ -54,7 +54,7 @@ export default function upperLimb(U) {
     // Intercostobrachial nerve: lateral cutaneous branch of the 2nd intercostal nerve, across the axilla to the skin of the medial arm.
     {
       const brach = y => axis(`${S.w} brachial artery`, y, P(S.sx * .165, y, -.02));
-      const a = U.onSurface(`${S.w} second rib`, P(S.sx * .112, 1.340, .004), .0035), b = add(artery(1.352), P(0, -.006, .012)), c = add(brach(1.316), P(-S.sx * .013, 0, .005)), d = add(brach(1.272), P(-S.sx * .016, 0, .003));
+      const a = U.onSurface(`${S.w} second rib`, P(S.sx * .112, 1.340, .004), .0010), b = add(artery(1.352), P(0, -.006, .012)), c = add(brach(1.316), P(-S.sx * .013, 0, .005)), d = add(brach(1.272), P(-S.sx * .016, 0, .003));
       out.push({
         name: `${S.w} intercostobrachial nerve`, zh: `${S.zh}肋間臂神經`, system: 'nervous', kind: 'nerve',
         tubes: [{pts: [a, b, c, d], r: [.0007, .0005], samples: 32}],

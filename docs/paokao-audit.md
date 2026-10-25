@@ -4,106 +4,11 @@
 
 | 狀態 | 項數 | 說明 |
 | --- | ---: | --- |
-| 已有 | 413 | 模型原本就有（含別名拼法） |
-| 新增示意模型 | 71 | 公開圖譜沒有，依真實解剖位置新做 |
-| 屬於已有結構的一部分 | 11 | 肌頭、肌腱等，包含在對應肌肉內 |
+| 已有 | 418 | 模型原本就有（含別名拼法） |
+| 新增示意模型 | 153 | 公開圖譜沒有，依真實解剖位置新做 |
+| 屬於已有結構的一部分 | 14 | 肌頭、肌腱等，包含在對應肌肉內 |
 | 略過 | 7 | 非結構詞，原因見下 |
-| 缺少 | 90 | 仍缺（build 失敗） |
-
-## 缺少
-
-| # | 原文 | 完整名稱 | 位置 | 備註 |
-| ---: | --- | --- | --- | --- |
-| 3 | jugular foramen | Jugular foramen | 背部／Superficial layer （2+3+2 |  |
-| 6 | Post. cutaneous br | Posterior cutaneous branch of dorsal ramus of spinal nerve | 背部／Superficial layer （2+3+2 |  |
-| 7 | dorsal ramus of spinal n | Dorsal ramus of spinal nerve | 背部／Superficial layer （2+3+2 |  |
-| 17 | B. Thoracolumber fascia | Thoracolumbar fascia | 背部／Superficial layer （2+3+2 |  |
-| 21 | Suprascapular foramen | Suprascapular notch | 背部／Superficial layer （2+3+2 | 筆記寫 foramen（韌帶骨化時）；模型以切跡表示 |
-| 23 | sup. nuchal line | Superior nuchal line | 背部／Deep layer （2+3+3+3） （只有 |  |
-| 24 | mastoid process | Mastoid process | 背部／Deep layer （2+3+3+3） （只有 |  |
-| 31 | suboccipital triangle | Suboccipital triangle | 背部／Deep layer （2+3+3+3） （只有 |  |
-| 33 | spinous process | Spinous process of axis | 背部／Deep layer （2+3+3+3） （只有 |  |
-| 39 | spinal process | Spinous process of axis | 背部／枕下三角 Suboccipital triang |  |
-| 47 | Post. Arch | Posterior arch of atlas | 背部／枕下三角 Suboccipital triang |  |
-| 49 | Denticulate lig | Denticulate ligament | 背部／枕下三角 Suboccipital triang |  |
-| 50 | b. Denticulate lig | Denticulate ligament | 背部／枕下三角 Suboccipital triang |  |
-| 53 | Ligamentum flavum | Ligamentum flavum | 背部／枕下三角 Suboccipital triang |  |
-| 60 | Coracoid process | Coracoid process | 上肢／上肢附著肌肉複習 |  |
-| 61 | Great tubercle | Greater tubercle of humerus | 上肢／上肢附著肌肉複習 |  |
-| 62 | Lesser tubercle | Lesser tubercle of humerus | 上肢／上肢附著肌肉複習 |  |
-| 63 | Intertubercle groove | Intertubercular groove | 上肢／上肢附著肌肉複習 |  |
-| 64 | biceps groove | Intertubercular groove | 上肢／上肢附著肌肉複習 | biceps groove 為同義詞 |
-| 65 | Axilla fossa | Axillary fossa | 上肢／上肢附著肌肉複習 |  |
-| 66 | axillary sheath | Axillary sheath | 上肢／上肢附著肌肉複習 |  |
-| 68 | Quadrangular space | Quadrangular space | 上肢／腋窩邊界 Axillary boundary |  |
-| 71 | Triangular interval | Triangular interval | 上肢／腋窩邊界 Axillary boundary |  |
-| 74 | Triangular space | Triangular space | 上肢／腋窩邊界 Axillary boundary |  |
-| 86 | Mammary br | Mammary branch of lateral thoracic artery | 上肢／腋窩邊界 Axillary boundary |  |
-| 92 | space | Quadrangular space | 上肢／腋窩邊界 Axillary boundary | 筆記換行截斷（space），context 指方形間隙 |
-| 102 | infraspiratus fossa | Infraspinous fossa | 上肢／腋窩邊界 Axillary boundary |  |
-| 105 | surgical neck | Surgical neck of humerus | 上肢／腋窩邊界 Axillary boundary |  |
-| 108 | triangle | Clavipectoral triangle | 上肢／腋窩邊界 Axillary boundary | 筆記：胸大肌、三角肌、鎖骨圍成，頭靜脈由此匯入腋靜脈（又稱三角肌胸大肌三角） |
-| 150 | carpal tunnel | Carpal tunnel | 上肢／上肢神經 |  |
-| 158 | Radial groove | Radial groove | 上肢／上肢神經 |  |
-| 164 | Superior transverse scapular ligament | Superior transverse scapular ligament | 上肢／上肢神經 |  |
-| 166 | infraspinatus fossa | Infraspinous fossa | 上肢／上肢神經 |  |
-| 175 | notch | Suprascapular notch | 上肢／上肢神經 |  |
-| 207 | infraglenoid tubercle | Infraglenoid tubercle | 上肢／上肢肌肉（insertion/origin 可幫 |  |
-| 208 | Interval | Triangular interval | 上肢／上肢肌肉（insertion/origin 可幫 | 筆記「腋窩 Interval、Space」，Interval 即 Triangular interval |
-| 210 | medial epicondyle | Medial epicondyle of humerus | 上肢／上肢肌肉（insertion/origin 可幫 |  |
-| 222 | styloid process | Styloid process of radius | 上肢／上肢肌肉（insertion/origin 可幫 |  |
-| 240 | Palmaris brevis m | Palmaris brevis muscle | 上肢／上肢肌肉（insertion/origin 可幫 |  |
-| 251 | iliac crest | Iliac crest | 胸腔／上肢肌肉（insertion/origin 可幫 |  |
-| 252 | pubic tubercle | Pubic tubercle | 胸腔／上肢肌肉（insertion/origin 可幫 |  |
-| 257 | C. Transverse thoracic m | Transverse thoracic muscle | 胸腔／上肢肌肉（insertion/origin 可幫 |  |
-| 259 | B. Subcostal m | Subcostal muscle | 胸腔／上肢肌肉（insertion/origin 可幫 |  |
-| 260 | Suspensory ligament | Suspensory ligament of breast | 胸腔／前胸壁（肌肉以外） |  |
-| 268 | rectus sheath | Rectus sheath | 胸腔／前胸壁（肌肉以外） |  |
-| 275 | Thoracic duct | Thoracic duct | 胸腔／後胸壁 |  |
-| 285 | B. Post. intercostal v | posterior intercostal vein | 胸腔／後胸壁 |  |
-| 289 | Supreme intercostal a | Supreme intercostal artery | 胸腔／後胸壁 |  |
-| 291 | Azygos arch | Arch of azygos vein | 胸腔／後胸壁 |  |
-| 297 | thoracic splanchnic n | Thoracic splanchnic nerve | 胸腔／後胸壁 |  |
-| 311 | Superior phrenic a | Superior phrenic artery | 胸腔／後胸壁 |  |
-| 312 | aortic hiatus | Aortic hiatus | 胸腔／後胸壁 |  |
-| 329 | left marginal branch | Left marginal branch of circumflex artery | 胸腔／後胸壁 |  |
-| 337 | E. Opening of coronary sinus | Opening of coronary sinus | 胸腔／後胸壁 |  |
-| 341 | Moderator band | Moderator band | 胸腔／後胸壁 |  |
-| 343 | Post. papillary m | Posteromedial papillary muscle of left ventricle | 胸腔／後胸壁 | Ant./Post. papillary m. |
-| 346 | Lingula | Lingula of left lung | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 |  |
-| 347 | B. Oblique fissure | Oblique fissure of lung | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 |  |
-| 348 | Cardiac impression | Cardiac impression | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 |  |
-| 349 | Groove for aortic arch | Groove for aortic arch | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 |  |
-| 350 | Groove | Groove for descending aorta | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 |  |
-| 351 | Groove for subclavian a | Groove for subclavian artery | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 |  |
-| 352 | Groove for left brachiocephalic v | Groove for left brachiocephalic vein | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 |  |
-| 353 | Cardiac notch | Cardiac notch of left lung | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 |  |
-| 354 | Oblique fissure | Oblique fissure of lung | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 |  |
-| 355 | B. Horizontal fissure | Horizontal fissure of right lung | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 |  |
-| 356 | Groove for brachiocephalic v | Groove for brachiocephalic vein | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 |  |
-| 357 | Groove for azygos v | Groove for azygos vein | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 |  |
-| 379 | ischial tuberosity | Ischial tuberosity | 下肢／臀部 |  |
-| 381 | spine | Spine of ischium | 下肢／臀部 |  |
-| 386 | Quadriceps tendon | Quadriceps tendon | 下肢／大腿前區間 |  |
-| 388 | tibial tuberosity | Tibial tuberosity | 下肢／大腿前區間 |  |
-| 399 | femoral sheath | Femoral sheath | 下肢／大腿前區間 |  |
-| 423 | adductor hiatus | Adductor hiatus | 下肢／大腿前區間 |  |
-| 480 | Sup. fibular retinaculum | superior fibular retinaculum | 下肢／小腿外側區間 |  |
-| 481 | Inf. fibular retinaculum | inferior fibular retinaculum | 下肢／小腿外側區間 |  |
-| 490 | tarsal tunnel | Tarsal tunnel | 下肢／小腿後區間 |  |
-| 497 | flexor retinaculum | Flexor retinaculum of ankle | 下肢／Tarsal tunnel：在內踝由屈肌支持帶  |  |
-| 506 | sup. extensor retinaculum | Superior extensor retinaculum of foot | 下肢／足背 |  |
-| 507 | inf. extensor retinaculum | Inferior extensor retinaculum of foot | 下肢／足背 |  |
-| 509 | plantar aponeurosis | plantar aponeurosis | 下肢／足底：注意分層，但是拇指和小指的部分不用分層也看 |  |
-| 530 | Thoracolumber fascia | Thoracolumbar fascia | Superficial layer （2 |  |
-| 546 | Transverse thoracic m | Transverse thoracic muscle | 上肢肌肉（insertion/origi |  |
-| 547 | Subcostal m | Subcostal muscle | 上肢肌肉（insertion/origi |  |
-| 548 | Suspensory ligament of breast | Suspensory ligament of breast | 前胸壁（肌肉以外） |  |
-| 554 | Post. intercostal v | posterior intercostal vein | 後胸壁 |  |
-| 562 | marginal branch | Left marginal branch of circumflex artery | 後胸壁 |  |
-| 563 | nodal a | Atrioventricular nodal artery | 後胸壁 | 筆記僅寫 nodal a. |
-| 569 | Opening of coronary sinus | Opening of coronary sinus | 後胸壁 |  |
-| 573 | Horizontal fissure | Horizontal fissure of right lung | 肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾 |  |
+| 缺少 | 0 | 仍缺（build 失敗） |
 
 ## 略過（非結構詞）
 
@@ -121,31 +26,79 @@
 
 | # | 原文 | 完整名稱 | 位置 | 備註 |
 | ---: | --- | --- | --- | --- |
+| 3 | jugular foramen | Jugular foramen | 背部／Superficial layer （2+3+2 | Jugular foramen |
+| 6 | Post. cutaneous br | Posterior cutaneous branch of dorsal ramus of spinal nerve | 背部／Superficial layer （2+3+2 | Right posterior cutaneous branch of dorsal ramus of thoracic spinal nerve |
+| 7 | dorsal ramus of spinal n | Dorsal ramus of spinal nerve | 背部／Superficial layer （2+3+2 | Right dorsal ramus of thoracic spinal nerve |
+| 17 | B. Thoracolumber fascia | Thoracolumbar fascia | 背部／Superficial layer （2+3+2 | thoracolumbar fascia |
+| 21 | Suprascapular foramen | Suprascapular notch | 背部／Superficial layer （2+3+2 | Right suprascapular notch |
+| 23 | sup. nuchal line | Superior nuchal line | 背部／Deep layer （2+3+3+3） （只有 | Superior nuchal line |
+| 24 | mastoid process | Mastoid process | 背部／Deep layer （2+3+3+3） （只有 | Mastoid process |
+| 31 | suboccipital triangle | Suboccipital triangle | 背部／Deep layer （2+3+3+3） （只有 | Right suboccipital triangle |
+| 33 | spinous process | Spinous process of axis | 背部／Deep layer （2+3+3+3） （只有 | Spinous process of axis |
+| 39 | spinal process | Spinous process of axis | 背部／枕下三角 Suboccipital triang | Spinous process of axis |
+| 47 | Post. Arch | Posterior arch of atlas | 背部／枕下三角 Suboccipital triang | Posterior arch of atlas |
+| 49 | Denticulate lig | Denticulate ligament | 背部／枕下三角 Suboccipital triang | Right denticulate ligament |
+| 50 | b. Denticulate lig | Denticulate ligament | 背部／枕下三角 Suboccipital triang | Right denticulate ligament |
+| 53 | Ligamentum flavum | Ligamentum flavum | 背部／枕下三角 Suboccipital triang | Ligamentum flavum |
+| 60 | Coracoid process | Coracoid process | 上肢／上肢附著肌肉複習 | Right coracoid process |
+| 61 | Great tubercle | Greater tubercle of humerus | 上肢／上肢附著肌肉複習 | Right greater tubercle of humerus |
+| 62 | Lesser tubercle | Lesser tubercle of humerus | 上肢／上肢附著肌肉複習 | Right lesser tubercle of humerus |
+| 63 | Intertubercle groove | Intertubercular groove | 上肢／上肢附著肌肉複習 | Right intertubercular groove |
+| 64 | biceps groove | Intertubercular groove | 上肢／上肢附著肌肉複習 | Right intertubercular groove |
+| 65 | Axilla fossa | Axillary fossa | 上肢／上肢附著肌肉複習 | Right axillary fossa |
+| 66 | axillary sheath | Axillary sheath | 上肢／上肢附著肌肉複習 | Right axillary sheath |
+| 68 | Quadrangular space | Quadrangular space | 上肢／腋窩邊界 Axillary boundary | Right quadrangular space |
 | 70 | posterior circumflex humeral a./ v | Posterior circumflex humeral vein | 上肢／腋窩邊界 Axillary boundary | Right posterior circumflex humeral vein |
+| 71 | Triangular interval | Triangular interval | 上肢／腋窩邊界 Axillary boundary | Right triangular interval |
+| 74 | Triangular space | Triangular space | 上肢／腋窩邊界 Axillary boundary | Right triangular space |
 | 78 | Sup. thoracic a | Superior thoracic artery | 上肢／腋窩邊界 Axillary boundary | Right superior thoracic artery |
 | 82 | c. Clavicular br | Clavicular branch of thoracoacromial artery | 上肢／腋窩邊界 Axillary boundary | Clavicular branch of right thoraco-acromial artery |
+| 86 | Mammary br | Mammary branch of lateral thoracic artery | 上肢／腋窩邊界 Axillary boundary | Right lateral mammary artery |
+| 92 | space | Quadrangular space | 上肢／腋窩邊界 Axillary boundary | Right quadrangular space |
 | 93 | Superior thoracic artery | Superior thoracic artery | 上肢／腋窩邊界 Axillary boundary | Right superior thoracic artery |
 | 95 | clavicular br | Clavicular branch of thoracoacromial artery | 上肢／腋窩邊界 Axillary boundary | Clavicular branch of right thoraco-acromial artery |
+| 102 | infraspiratus fossa | Infraspinous fossa | 上肢／腋窩邊界 Axillary boundary | Right infraspinous fossa |
+| 105 | surgical neck | Surgical neck of humerus | 上肢／腋窩邊界 Axillary boundary | Right surgical neck of humerus |
+| 108 | triangle | Clavipectoral triangle | 上肢／腋窩邊界 Axillary boundary | Right clavipectoral triangle |
 | 126 | superficial palmaer br. of radial a | Superficial palmar branch of radial artery | 上肢／腋窩邊界 Axillary boundary | Right superficial palmar branch of radial artery |
 | 130 | deep palmer br | Deep palmar branch of ulnar artery | 上肢／腋窩邊界 Axillary boundary | Right deep palmar branch of ulnar artery |
 | 134 | lat. cord | Lateral cord of brachial plexus | 上肢／上肢神經 | Right lateral cord of brachial plexus |
 | 142 | med. cord | Medial cord of brachial plexus | 上肢／上肢神經 | Right medial cord of brachial plexus |
 | 145 | intercostobrachial n | Intercostobrachial nerve | 上肢／上肢神經 | Right intercostobrachial nerve |
+| 150 | carpal tunnel | Carpal tunnel | 上肢／上肢神經 | Right carpal tunnel |
+| 158 | Radial groove | Radial groove | 上肢／上肢神經 | Right radial groove |
+| 164 | Superior transverse scapular ligament | Superior transverse scapular ligament | 上肢／上肢神經 | Right superior transverse scapular ligament |
+| 166 | infraspinatus fossa | Infraspinous fossa | 上肢／上肢神經 | Right infraspinous fossa |
 | 172 | phrenic nerve | Phrenic nerve | 上肢／上肢神經 | Right phrenic nerve |
+| 175 | notch | Suprascapular notch | 上肢／上肢神經 | Right suprascapular notch |
 | 186 | lateral cord | Lateral cord of brachial plexus | 上肢／上肢神經 | Right lateral cord of brachial plexus |
 | 187 | lateral root | Lateral root of median nerve | 上肢／上肢神經 | Right lateral root of median nerve |
 | 188 | medial cord | Medial cord of brachial plexus | 上肢／上肢神經 | Right medial cord of brachial plexus |
 | 189 | medial root | Medial root of median nerve | 上肢／上肢神經 | Right medial root of median nerve |
 | 194 | Recurrent br. of median n | Recurrent branch of median nerve | 上肢／上肢神經 | Right recurrent branch of median nerve |
+| 207 | infraglenoid tubercle | Infraglenoid tubercle | 上肢／上肢肌肉（insertion/origin 可幫 | Right infraglenoid tubercle |
+| 208 | Interval | Triangular interval | 上肢／上肢肌肉（insertion/origin 可幫 | Right triangular interval |
+| 210 | medial epicondyle | Medial epicondyle of humerus | 上肢／上肢肌肉（insertion/origin 可幫 | Right medial epicondyle of humerus |
+| 222 | styloid process | Styloid process of radius | 上肢／上肢肌肉（insertion/origin 可幫 | Right styloid process of radius |
+| 240 | Palmaris brevis m | Palmaris brevis muscle | 上肢／上肢肌肉（insertion/origin 可幫 | Right palmaris brevis |
+| 251 | iliac crest | Iliac crest | 胸腔／上肢肌肉（insertion/origin 可幫 | Right iliac crest |
+| 252 | pubic tubercle | Pubic tubercle | 胸腔／上肢肌肉（insertion/origin 可幫 | Right pubic tubercle |
+| 259 | B. Subcostal m | Subcostal muscle | 胸腔／上肢肌肉（insertion/origin 可幫 | Right subcostal muscles |
+| 260 | Suspensory ligament | Suspensory ligament of breast | 胸腔／前胸壁（肌肉以外） | Right suspensory ligament of breast |
 | 261 | B. Lat mammary a | Lateral mammary artery | 胸腔／前胸壁（肌肉以外） | Right lateral mammary artery |
-| 262 | C. Med. Mammary br | Medial mammary branch of internal thoracic artery | 胸腔／前胸壁（肌肉以外） | Right medial mammary branches of internal thoracic artery |
+| 262 | C. Med. Mammary br | Medial mammary branch of internal thoracic artery | 胸腔／前胸壁（肌肉以外） | Right medial mammary branch of internal thoracic artery |
+| 268 | rectus sheath | Rectus sheath | 胸腔／前胸壁（肌肉以外） | rectus sheath |
 | 270 | ant. intercostal a | Anterior intercostal artery | 胸腔／前胸壁（肌肉以外） | Right anterior intercostal arteries |
 | 273 | Pericardiophrenic a | Pericardiophrenic artery | 胸腔／後胸壁 | Right pericardiophrenic artery |
 | 273 | Pericardiophrenic a | Pericardiophrenic vein | 胸腔／後胸壁 | Right pericardiophrenic vein |
 | 274 | B. Phrenic n | Phrenic nerve | 胸腔／後胸壁 | Right phrenic nerve |
+| 275 | Thoracic duct | Thoracic duct | 胸腔／後胸壁 | Thoracic duct |
 | 280 | left recurrent laryngeal n | left recurrent laryngeal nerve | 胸腔／後胸壁 | Right recurrent laryngeal nerve |
 | 281 | right recurrent laryngeal n | right recurrent laryngeal nerve | 胸腔／後胸壁 | Right recurrent laryngeal nerve |
+| 285 | B. Post. intercostal v | posterior intercostal vein | 胸腔／後胸壁 | Right posterior intercostal veins |
+| 289 | Supreme intercostal a | Supreme intercostal artery | 胸腔／後胸壁 | Right supreme intercostal artery |
 | 294 | Phrenic n | Phrenic nerve | 胸腔／後胸壁 | Right phrenic nerve |
+| 297 | thoracic splanchnic n | Thoracic splanchnic nerve | 胸腔／後胸壁 | Right greater splanchnic nerve；Right lesser splanchnic nerve；Right least splanchnic nerve |
 | 298 | B. Greater splanchnic n | Greater splanchnic nerve | 胸腔／後胸壁 | Right greater splanchnic nerve |
 | 299 | celiac ganglion | celiac ganglion | 胸腔／後胸壁 | Right celiac ganglion |
 | 300 | C. Lesser splanchnic n | Lesser splanchnic nerve | 胸腔／後胸壁 | Right lesser splanchnic nerve |
@@ -156,6 +109,20 @@
 | 305 | Post. vagal trunk | Posterior vagal trunk | 胸腔／後胸壁 | Posterior vagal trunk |
 | 307 | esophageal plexus | esophageal plexus | 胸腔／後胸壁 | Esophageal plexus |
 | 308 | posterior vagal trunk | posterior vagal trunk | 胸腔／後胸壁 | Posterior vagal trunk |
+| 311 | Superior phrenic a | Superior phrenic artery | 胸腔／後胸壁 | Right superior phrenic artery |
+| 312 | aortic hiatus | Aortic hiatus | 胸腔／後胸壁 | Aortic hiatus |
+| 346 | Lingula | Lingula of left lung | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 | Lingula of left lung |
+| 347 | B. Oblique fissure | Oblique fissure of lung | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 | Oblique fissure of right lung |
+| 348 | Cardiac impression | Cardiac impression | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 | Cardiac impression of left lung |
+| 349 | Groove for aortic arch | Groove for aortic arch | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 | Groove for aortic arch |
+| 350 | Groove | Groove for descending aorta | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 | Groove for descending aorta |
+| 351 | Groove for subclavian a | Groove for subclavian artery | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 | Left groove for subclavian artery |
+| 352 | Groove for left brachiocephalic v | Groove for left brachiocephalic vein | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 | Groove for left brachiocephalic vein |
+| 353 | Cardiac notch | Cardiac notch of left lung | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 | Cardiac notch of left lung |
+| 354 | Oblique fissure | Oblique fissure of lung | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 | Oblique fissure of right lung |
+| 355 | B. Horizontal fissure | Horizontal fissure of right lung | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 | Horizontal fissure of right lung |
+| 356 | Groove for brachiocephalic v | Groove for brachiocephalic vein | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 | Groove for left brachiocephalic vein |
+| 357 | Groove for azygos v | Groove for azygos vein | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 | Groove for azygos vein |
 | 367 | inf. gluteal n | inferior gluteal nerve | 下肢／臀部 | Right inferior gluteal nerve |
 | 370 | Nerve to obturator internus m | Nerve to obturator internus | 下肢／臀部 | Right nerve to obturator internus |
 | 372 | Internal pudendal a. v | Internal pudendal artery | 下肢／臀部 | Right internal pudendal artery |
@@ -163,6 +130,11 @@
 | 375 | superficial br | Superficial branch of superior gluteal artery | 下肢／臀部 | Right superficial branch of superior gluteal artery |
 | 376 | inf. gluteal a | Inferior gluteal artery | 下肢／臀部 | Right inferior gluteal artery |
 | 377 | internal pudendal a | Internal pudendal artery | 下肢／臀部 | Right internal pudendal artery |
+| 379 | ischial tuberosity | Ischial tuberosity | 下肢／臀部 | Right ischial tuberosity |
+| 381 | spine | Spine of ischium | 下肢／臀部 | Right spine of ischium |
+| 386 | Quadriceps tendon | Quadriceps tendon | 下肢／大腿前區間 | Right quadriceps tendon |
+| 388 | tibial tuberosity | Tibial tuberosity | 下肢／大腿前區間 | Right tibial tuberosity |
+| 399 | femoral sheath | Femoral sheath | 下肢／大腿前區間 | Right femoral sheath |
 | 402 | nerve to vastus medialis m | Nerve to vastus medialis | 下肢／大腿前區間 | Right nerve to vastus medialis |
 | 405 | saphenous br. of descending genicular a | Saphenous branch of descending genicular artery | 下肢／大腿前區間 | Right saphenous branch of descending genicular artery |
 | 407 | articular br | Articular branch of descending genicular artery | 下肢／大腿前區間 | Right articular branch of descending genicular artery |
@@ -174,24 +146,39 @@
 | 417 | Ascending br | Ascending branch of lateral circumflex femoral artery | 下肢／大腿前區間 | Right ascending branch of lateral circumflex femoral artery |
 | 418 | Transverse br | Transverse branch of lateral circumflex femoral artery | 下肢／大腿前區間 | Right transverse branch of lateral circumflex femoral artery |
 | 420 | medial circumflex femoral a | medial circumflex femoral artery | 下肢／大腿前區間 | Right medial circumflex femoral artery |
-| 422 | perforating br | Perforating branch of deep femoral artery | 下肢／大腿前區間 | Right perforating branches of deep femoral artery |
-| 441 | perforating br. of deep femoral a | Perforating branch of deep femoral artery | 下肢／大腿後側區間 | Right perforating branches of deep femoral artery |
+| 422 | perforating br | Perforating branch of deep femoral artery | 下肢／大腿前區間 | Right perforating branch of deep femoral artery |
+| 423 | adductor hiatus | Adductor hiatus | 下肢／大腿前區間 | Right adductor hiatus |
+| 441 | perforating br. of deep femoral a | Perforating branch of deep femoral artery | 下肢／大腿後側區間 | Right perforating branch of deep femoral artery |
 | 452 | lateral sural cutaneous n | lateral sural cutaneous nerve | 下肢／膕窩 | Right lateral sural cutaneous nerve |
+| 456 | Patellar lig | Patellar ligament | 下肢／膝關節附近 | Right patellar ligament |
 | 469 | anterior lateral malleolar a | anterior lateral malleolar artery | 下肢／小腿前區間 | Right anterior lateral malleolar artery |
 | 470 | anterior medial malleolar a | anterior medial malleolar artery | 下肢／小腿前區間 | Right anterior medial malleolar artery |
 | 472 | lateral br | Lateral branch of deep fibular nerve | 下肢／小腿前區間 | Right lateral branch of deep fibular nerve |
 | 473 | medial br | Medial branch of deep fibular nerve | 下肢／小腿前區間 | Right medial branch of deep fibular nerve |
 | 477 | lateral dorsal cutaneous n | lateral dorsal cutaneous nerve | 下肢／小腿前區間 | Right lateral dorsal cutaneous nerve |
+| 480 | Sup. fibular retinaculum | superior fibular retinaculum | 下肢／小腿外側區間 | Right superior fibular retinaculum |
+| 481 | Inf. fibular retinaculum | inferior fibular retinaculum | 下肢／小腿外側區間 | Right inferior fibular retinaculum |
+| 490 | tarsal tunnel | Tarsal tunnel | 下肢／小腿後區間 | Right tarsal tunnel |
 | 495 | Circumflex fibular a | Circumflex fibular artery | 下肢／小腿後區間 | Right circumflex fibular artery |
 | 496 | Fibular a | Fibular artery | 下肢／小腿後區間 | Right fibular artery |
+| 497 | flexor retinaculum | Flexor retinaculum of ankle | 下肢／Tarsal tunnel：在內踝由屈肌支持帶  | Right flexor retinaculum of ankle |
+| 506 | sup. extensor retinaculum | Superior extensor retinaculum of foot | 下肢／足背 | Right superior extensor retinaculum of foot |
+| 507 | inf. extensor retinaculum | Inferior extensor retinaculum of foot | 下肢／足背 | Right inferior extensor retinaculum of foot |
+| 509 | plantar aponeurosis | plantar aponeurosis | 下肢／足底：注意分層，但是拇指和小指的部分不用分層也看 | plantar aponeurosis |
 | 513 | lat. plantar v | Lateral plantar vein | 下肢／足底：注意分層，但是拇指和小指的部分不用分層也看 | Right lateral plantar vein |
+| 530 | Thoracolumber fascia | Thoracolumbar fascia | Superficial layer （2 | thoracolumbar fascia |
 | 539 | a. Recurrent br. of median n | Recurrent branch of median nerve | 上肢神經 | Right recurrent branch of median nerve |
+| 547 | Subcostal m | Subcostal muscle | 上肢肌肉（insertion/origi | Right subcostal muscles |
+| 548 | Suspensory ligament of breast | Suspensory ligament of breast | 前胸壁（肌肉以外） | Right suspensory ligament of breast |
 | 549 | Lat mammary a | Lateral mammary artery | 前胸壁（肌肉以外） | Right lateral mammary artery |
-| 550 | Med. Mammary br. of internal thoracic a | Medial mammary branch of internal thoracic artery | 前胸壁（肌肉以外） | Right medial mammary branches of internal thoracic artery |
+| 550 | Med. Mammary br. of internal thoracic a | Medial mammary branch of internal thoracic artery | 前胸壁（肌肉以外） | Right medial mammary branch of internal thoracic artery |
+| 554 | Post. intercostal v | posterior intercostal vein | 後胸壁 | Right posterior intercostal veins |
 | 556 | Lesser splanchnic n | Lesser splanchnic nerve | 後胸壁 | Right lesser splanchnic nerve |
 | 557 | Least splanchnic n | Least splanchnic nerve | 後胸壁 | Right least splanchnic nerve |
 | 558 | Ant. / Post. vagal trunk | Anterior vagal trunk | 後胸壁 | Anterior vagal trunk |
 | 558 | Ant. / Post. vagal trunk | Posterior vagal trunk | 後胸壁 | Posterior vagal trunk |
+| 563 | nodal a | Atrioventricular nodal artery | 後胸壁 | Atrioventricular nodal artery |
+| 573 | Horizontal fissure | Horizontal fissure of right lung | 肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾 | Horizontal fissure of right lung |
 
 ## 全部項目
 
@@ -200,11 +187,11 @@
 | 0 | Trapezius m | Trapezius muscle | 已有（contained） | Ascending part of right trapezius | atlas |
 | 1 | Accessory n | Accessory nerve | 已有 | Accessory nerve (XI) | nerve |
 | 2 | Superficial br. of transverse cervical a | Superficial branch of transverse cervical artery | 已有（alias） | Left superficial cervical artery | atlas |
-| 3 | jugular foramen | Jugular foramen | 缺少 |  |  |
+| 3 | jugular foramen | Jugular foramen | 新增示意模型 | Jugular foramen | paokao |
 | 4 | B. Latissimus dorsi m | Latissimus dorsi muscle | 已有 | Right latissimus dorsi | supplement |
 | 5 | Thoracodorsal n | Thoracodorsal nerve | 已有 | Thoracodorsal nerve | nerve |
-| 6 | Post. cutaneous br | Posterior cutaneous branch of dorsal ramus of spinal nerve | 缺少 |  |  |
-| 7 | dorsal ramus of spinal n | Dorsal ramus of spinal nerve | 缺少 |  |  |
+| 6 | Post. cutaneous br | Posterior cutaneous branch of dorsal ramus of spinal nerve | 新增示意模型（alias） | Right posterior cutaneous branch of dorsal ramus of thoracic spinal nerve | paokao |
+| 7 | dorsal ramus of spinal n | Dorsal ramus of spinal nerve | 新增示意模型（alias） | Right dorsal ramus of thoracic spinal nerve | paokao |
 | 8 | minor m | Rhomboid minor muscle | 已有 | Right rhomboid minor | atlas |
 | 9 | B. Levator scapulae m | Levator scapulae muscle | 已有 | Right levator scapulae | atlas |
 | 10 | Dorsal scapular n | Dorsal scapular nerve | 已有 | Dorsal scapular nerve | nerve |
@@ -214,29 +201,29 @@
 | 14 | Dorsal scapular a | Dorsal scapular artery | 已有 | Left dorsal scapular artery | atlas |
 | 15 | Rhomboid major m | Rhomboid major muscle | 已有 | Right rhomboid major | atlas |
 | 16 | Serratus post. sup. m | Serratus posterior superior muscle | 已有 | Right serratus posterior superior | atlas |
-| 17 | B. Thoracolumber fascia | Thoracolumbar fascia | 缺少 |  |  |
+| 17 | B. Thoracolumber fascia | Thoracolumbar fascia | 新增示意模型 | thoracolumbar fascia | paokao |
 | 18 | Supraspinatus m | Supraspinatus muscle | 已有 | Right supraspinatus | atlas |
 | 19 | Infraspinatus m | Infraspinatus muscle | 已有 | Right infraspinatus muscle | atlas |
 | 20 | Suprascapular n | Suprascapular nerve | 已有 | Suprascapular nerve | nerve |
-| 21 | Suprascapular foramen | Suprascapular notch | 缺少 |  |  |
+| 21 | Suprascapular foramen | Suprascapular notch | 新增示意模型 | Right suprascapular notch | paokao |
 | 22 | Splenius capitis m | Splenius capitis muscle | 已有 | Right splenius capitis | atlas |
-| 23 | sup. nuchal line | Superior nuchal line | 缺少 |  |  |
-| 24 | mastoid process | Mastoid process | 缺少 |  |  |
+| 23 | sup. nuchal line | Superior nuchal line | 新增示意模型 | Superior nuchal line | paokao |
+| 24 | mastoid process | Mastoid process | 新增示意模型 | Mastoid process | paokao |
 | 25 | B. Splenius cervicis m | Splenius cervicis muscle | 已有 | Right splenius cervicis | atlas |
 | 26 | Spinalis m | Spinalis muscle | 已有 | spinalis | atlas |
 | 27 | B. Longissimus m | Longissimus muscle | 已有（contained） | Right longissimus capitis | atlas |
 | 28 | C. Iliocostalis m | Iliocostalis muscle | 已有（contained） | Right iliocostalis cervicis | atlas |
 | 29 | Semispinalis m | Semispinalis muscle | 已有（contained） | Right semispinalis capitis | atlas |
 | 30 | Semispinalis capitis m | Semispinalis capitis muscle | 已有 | Right semispinalis capitis | atlas |
-| 31 | suboccipital triangle | Suboccipital triangle | 缺少 |  |  |
+| 31 | suboccipital triangle | Suboccipital triangle | 新增示意模型 | Right suboccipital triangle | paokao |
 | 32 | Semispinalis cervicis m | Semispinalis cervicis muscle | 已有 | Right semispinalis cervicis | atlas |
-| 33 | spinous process | Spinous process of axis | 缺少 |  |  |
+| 33 | spinous process | Spinous process of axis | 新增示意模型 | Spinous process of axis | paokao |
 | 34 | Mutifidus m | Mutifidus muscle | 已有（alias） | Right multifidus | supplement |
 | 35 | capitis m | Semispinalis capitis muscle | 已有 | Right semispinalis capitis | atlas |
 | 36 | Obliquus capitis sup. m | Obliquus capitis superior muscle | 已有 | Left obliquus capitis superior | atlas |
 | 37 | Obliquus capitis inf. m | Obliquus capitis inferior muscle | 已有 | Left obliquus capitis inferior | atlas |
 | 38 | Rectus capitis post. major m | Rectus capitis posterior major muscle | 已有 | Left rectus capitis posterior major | atlas |
-| 39 | spinal process | Spinous process of axis | 缺少 |  |  |
+| 39 | spinal process | Spinous process of axis | 新增示意模型 | Spinous process of axis | paokao |
 | 40 | Rectus capitis post. minor m | Rectus capitis posterior minor muscle | 已有 | Left rectus capitis posterior minor | atlas |
 | 41 | Suboccipital n | Suboccipital nerve | 已有 | Suboccipital nerve | nerve |
 | 42 | Greater occipital n | Greater occipital nerve | 已有 | Greater occipital nerve | nerve |
@@ -244,13 +231,13 @@
 | 44 | Lesser occipital n | Lesser occipital nerve | 已有 | Lesser occipital nerve | nerve |
 | 45 | Great auricular n | Great auricular nerve | 已有 | Great auricular nerve | nerve |
 | 46 | Vertebral a | Vertebral artery | 已有 | Right vertebral artery | atlas |
-| 47 | Post. Arch | Posterior arch of atlas | 缺少 |  |  |
+| 47 | Post. Arch | Posterior arch of atlas | 新增示意模型 | Posterior arch of atlas | paokao |
 | 48 | Occipital a | Occipital artery | 已有（contained） | Right lateral occipital artery | atlas |
-| 49 | Denticulate lig | Denticulate ligament | 缺少 |  |  |
-| 50 | b. Denticulate lig | Denticulate ligament | 缺少 |  |  |
+| 49 | Denticulate lig | Denticulate ligament | 新增示意模型 | Right denticulate ligament | paokao |
+| 50 | b. Denticulate lig | Denticulate ligament | 新增示意模型 | Right denticulate ligament | paokao |
 | 51 | Ventral root | Ventral root of spinal nerve | 已有（alias） | Anterior root of spinal nerve | nerve |
 | 52 | Dorsal root | Dorsal root of spinal nerve | 已有（alias） | Posterior root of spinal nerve | nerve |
-| 53 | Ligamentum flavum | Ligamentum flavum | 缺少 |  |  |
+| 53 | Ligamentum flavum | Ligamentum flavum | 新增示意模型 | Ligamentum flavum | paokao |
 | 54 | Post. longitudinal lig | posterior longitudinal ligament | 已有 | Posterior longitudinal ligament | joints |
 | 55 | Ant. longitudinal lig | anterior longitudinal ligament | 已有 | Anterior longitudinal ligament | joints |
 | 56 | Nuchal lig./ supraspinous lig | Nuchal ligament | 已有 | Nuchal ligament | joints |
@@ -258,22 +245,22 @@
 | 57 | supraspinous lig | Supraspinous ligament | 已有 | Supraspinous ligament | joints |
 | 58 | Interspinous lig | Interspinous ligament | 已有 | Interspinous ligaments | joints |
 | 59 | tendon |  | 略過 | 泛稱（br. of～、head of～、tendon of～ 的說明句），不是特定結構；各肌腱、分支已於對應項目逐一列出 |  |
-| 60 | Coracoid process | Coracoid process | 缺少 |  |  |
-| 61 | Great tubercle | Greater tubercle of humerus | 缺少 |  |  |
-| 62 | Lesser tubercle | Lesser tubercle of humerus | 缺少 |  |  |
-| 63 | Intertubercle groove | Intertubercular groove | 缺少 |  |  |
-| 64 | biceps groove | Intertubercular groove | 缺少 |  |  |
-| 65 | Axilla fossa | Axillary fossa | 缺少 |  |  |
-| 66 | axillary sheath | Axillary sheath | 缺少 |  |  |
+| 60 | Coracoid process | Coracoid process | 新增示意模型 | Right coracoid process | paokao |
+| 61 | Great tubercle | Greater tubercle of humerus | 新增示意模型 | Right greater tubercle of humerus | paokao |
+| 62 | Lesser tubercle | Lesser tubercle of humerus | 新增示意模型 | Right lesser tubercle of humerus | paokao |
+| 63 | Intertubercle groove | Intertubercular groove | 新增示意模型 | Right intertubercular groove | paokao |
+| 64 | biceps groove | Intertubercular groove | 新增示意模型 | Right intertubercular groove | paokao |
+| 65 | Axilla fossa | Axillary fossa | 新增示意模型 | Right axillary fossa | paokao |
+| 66 | axillary sheath | Axillary sheath | 新增示意模型 | Right axillary sheath | paokao |
 | 67 | axillary v | axillary vein | 已有 | Left axillary vein | atlas |
-| 68 | Quadrangular space | Quadrangular space | 缺少 |  |  |
+| 68 | Quadrangular space | Quadrangular space | 新增示意模型 | Right quadrangular space | paokao |
 | 69 | axillary nerve | axillary nerve | 已有 | Axillary nerve | nerve |
 | 70 | posterior circumflex humeral a./ v | Posterior circumflex humeral artery | 已有 | Left posterior circumflex humeral artery | atlas |
 | 70 | posterior circumflex humeral a./ v | Posterior circumflex humeral vein | 新增示意模型 | Right posterior circumflex humeral vein | paokao |
-| 71 | Triangular interval | Triangular interval | 缺少 |  |  |
+| 71 | Triangular interval | Triangular interval | 新增示意模型 | Right triangular interval | paokao |
 | 72 | radial nerve | radial nerve | 已有 | Radial nerve | nerve |
 | 73 | profunda branchial a | Profunda brachii artery | 已有 | Left deep brachial artery | atlas |
-| 74 | Triangular space | Triangular space | 缺少 |  |  |
+| 74 | Triangular space | Triangular space | 新增示意模型 | Right triangular space | paokao |
 | 75 | circumflex scapular a | circumflex scapular artery | 已有 | Left circumflex scapular artery | atlas |
 | 76 | Axillary a | Axillary artery | 已有 | Left axillary artery | atlas |
 | 77 | pectoralis minor m | pectoralis minor muscle | 已有 | Right pectoralis minor | atlas |
@@ -285,13 +272,13 @@
 | 83 | d. Deltoid br | Deltoid branch of thoracoacromial artery | 已有 | Deltoid branch of left thoraco-acromial artery | atlas |
 | 84 | cephalic v | cephalic vein | 已有 | Left cephalic vein | atlas |
 | 85 | Lat. thoracic a | Lateral thoracic artery | 已有 | Right lateral thoracic artery | atlas |
-| 86 | Mammary br | Mammary branch of lateral thoracic artery | 缺少 |  |  |
+| 86 | Mammary br | Mammary branch of lateral thoracic artery | 新增示意模型（alias） | Right lateral mammary artery | paokao |
 | 87 | Subscapular a | Subscapular artery | 已有 | Left subscapular artery | atlas |
 | 88 | Thoracodorsal a | Thoracodorsal artery | 已有 | Left thoracodorsal artery | atlas |
 | 89 | Ant. circumflex humeral a | anterior circumflex humeral artery | 已有 | Left anterior circumflex humeral artery | atlas |
 | 90 | Post. circumflex humeral a | posterior circumflex humeral artery | 已有 | Left posterior circumflex humeral artery | atlas |
 | 91 | axillary n | axillary nerve | 已有 | Axillary nerve | nerve |
-| 92 | space | Quadrangular space | 缺少 |  |  |
+| 92 | space | Quadrangular space | 新增示意模型 | Right quadrangular space | paokao |
 | 93 | Superior thoracic artery | Superior thoracic artery | 新增示意模型 | Right superior thoracic artery | paokao |
 | 94 | Thoraco-acromial artery | Thoracoacromial artery | 已有（contained） | Acromial branch of left thoraco-acromial artery | atlas |
 | 95 | clavicular br | Clavicular branch of thoracoacromial artery | 新增示意模型 | Clavicular branch of right thoraco-acromial artery | paokao |
@@ -301,13 +288,13 @@
 | 99 | nerve | Long thoracic nerve | 已有 | Long thoracic nerve | nerve |
 | 100 | subscapular artery | subscapular artery | 已有 | Left subscapular artery | atlas |
 | 101 | circumflex scapular branch | circumflex scapular branch | 已有 | Left circumflex scapular artery | atlas |
-| 102 | infraspiratus fossa | Infraspinous fossa | 缺少 |  |  |
+| 102 | infraspiratus fossa | Infraspinous fossa | 新增示意模型 | Right infraspinous fossa | paokao |
 | 103 | thoracodorsal artery | thoracodorsal artery | 已有 | Left thoracodorsal artery | atlas |
 | 104 | anterior circumflex humeral artery | anterior circumflex humeral artery | 已有 | Left anterior circumflex humeral artery | atlas |
-| 105 | surgical neck | Surgical neck of humerus | 缺少 |  |  |
+| 105 | surgical neck | Surgical neck of humerus | 新增示意模型 | Right surgical neck of humerus | paokao |
 | 106 | posterior circumflex humeral artery | posterior circumflex humeral artery | 已有 | Left posterior circumflex humeral artery | atlas |
 | 107 | Cephalic vein | Cephalic vein | 已有 | Left cephalic vein | atlas |
-| 108 | triangle | Clavipectoral triangle | 缺少 |  |  |
+| 108 | triangle | Clavipectoral triangle | 新增示意模型 | Right clavipectoral triangle | paokao |
 | 109 | Median cubital vein | Median cubital vein | 已有 | Left median cubital vein | atlas |
 | 110 | Basilic vein | Basilic vein | 已有 | Left basilic vein | atlas |
 | 111 | Axillary vein | Axillary vein | 已有 | Left axillary vein | atlas |
@@ -349,7 +336,7 @@
 | 147 | ulnar n | ulnar nerve | 已有 | Ulnar nerve | nerve |
 | 148 | i. Median n | Median nerve | 已有 | Median nerve | nerve |
 | 149 | Ant. Interosseous n | anterior Interosseous nerve | 已有（contained） | Anterior interosseous nerve of forearm | nerve |
-| 150 | carpal tunnel | Carpal tunnel | 缺少 |  |  |
+| 150 | carpal tunnel | Carpal tunnel | 新增示意模型 | Right carpal tunnel | paokao |
 | 151 | ii. Ulnar n | Ulnar nerve | 已有 | Ulnar nerve | nerve |
 | 152 | Flexor carpi ulnaris m | Flexor carpi ulnaris muscle | 已有（contained） | Humeral head of right flexor carpi ulnaris | atlas |
 | 153 | i. Upper subscapular n | Superior subscapular nerve | 已有 | Superior subscapular nerve | nerve |
@@ -357,15 +344,15 @@
 | 155 | iii. Lower subscapular n | Inferior subscapular nerve | 已有 | Inferior subscapular nerve | nerve |
 | 156 | i. Axillary n | Axillary nerve | 已有 | Axillary nerve | nerve |
 | 157 | ii. Radial n | Radial nerve | 已有 | Radial nerve | nerve |
-| 158 | Radial groove | Radial groove | 缺少 |  |  |
+| 158 | Radial groove | Radial groove | 新增示意模型 | Right radial groove | paokao |
 | 159 | brachioradialis m | brachioradialis muscle | 已有 | Right brachioradialis | atlas |
 | 160 | iii. Superficial br | Superficial branch of radial nerve | 已有 | Superficial branch of radial nerve | nerve |
 | 161 | iv. Deep br | Deep branch of radial nerve | 已有 | Deep branch of radial nerve | nerve |
 | 162 | Supinator m | Supinator muscle | 已有 | Right supinator | atlas |
 | 163 | Sup. trunk | Superior trunk of brachial plexus | 已有 | Superior trunk of brachial plexus | nerve |
-| 164 | Superior transverse scapular ligament | Superior transverse scapular ligament | 缺少 |  |  |
+| 164 | Superior transverse scapular ligament | Superior transverse scapular ligament | 新增示意模型 | Right superior transverse scapular ligament | paokao |
 | 165 | Suprascapular a | Suprascapular artery | 已有 | Left suprascapular artery | atlas |
-| 166 | infraspinatus fossa | Infraspinous fossa | 缺少 |  |  |
+| 166 | infraspinatus fossa | Infraspinous fossa | 新增示意模型 | Right infraspinous fossa | paokao |
 | 167 | b. Long thoracic n | Long thoracic nerve | 已有 | Long thoracic nerve | nerve |
 | 168 | Serratus anterior m | Serratus anterior muscle | 已有 | Right serratus anterior | atlas |
 | 169 | c. Dorsal scapular n | Dorsal scapular nerve | 已有 | Dorsal scapular nerve | nerve |
@@ -375,7 +362,7 @@
 | 172 | phrenic nerve | Phrenic nerve | 新增示意模型 | Right phrenic nerve | paokao |
 | 173 | long thoracic nerve | long thoracic nerve | 已有 | Long thoracic nerve | nerve |
 | 174 | suprascapular nerve | suprascapular nerve | 已有 | Suprascapular nerve | nerve |
-| 175 | notch | Suprascapular notch | 缺少 |  |  |
+| 175 | notch | Suprascapular notch | 新增示意模型 | Right suprascapular notch | paokao |
 | 176 | lateral pectoral n | Lateral pectoral nerve | 已有 | Lateral pectoral nerve | nerve |
 | 177 | upper subscapular nerve | Superior subscapular nerve | 已有 | Superior subscapular nerve | nerve |
 | 178 | middle subscapular nerve | Middle subscapular nerve | 已有（alias） | Thoracodorsal nerve | nerve |
@@ -408,10 +395,10 @@
 | 204 | Teres minor m | Teres minor muscle | 已有 | Right teres minor | atlas |
 | 205 | Teres major m | Teres major muscle | 已有 | Right teres major | atlas |
 | 206 | long head of triceps brachii m | long head of triceps brachii muscle | 已有 | Long head of right triceps brachii | atlas |
-| 207 | infraglenoid tubercle | Infraglenoid tubercle | 缺少 |  |  |
-| 208 | Interval | Triangular interval | 缺少 |  |  |
+| 207 | infraglenoid tubercle | Infraglenoid tubercle | 新增示意模型 | Right infraglenoid tubercle | paokao |
+| 208 | Interval | Triangular interval | 新增示意模型 | Right triangular interval | paokao |
 | 209 | Subscapular m | Subscapularis muscle | 已有 | Right subscapularis | atlas |
-| 210 | medial epicondyle | Medial epicondyle of humerus | 缺少 |  |  |
+| 210 | medial epicondyle | Medial epicondyle of humerus | 新增示意模型 | Right medial epicondyle of humerus | paokao |
 | 211 | Pronator teres m | Pronator teres muscle | 已有（contained） | Humeral head of right pronator teres | atlas |
 | 212 | humeral head | Humeral head of pronator teres muscle | 已有（部分） | Humeral head of right pronator teres | atlas |
 | 213 | ulnar head | Ulnar head of pronator teres muscle | 已有（部分） | Humeral head of right pronator teres | atlas |
@@ -423,7 +410,7 @@
 | 219 | b. Flexor pollicis longus m | Flexor pollicis longus muscle | 已有 | Right flexor pollicis longus | atlas |
 | 220 | Pronator quadratus m | Pronator quadratus muscle | 已有 | Right pronator quadratus | atlas |
 | 221 | pollicis longus m | pollicis longus muscle | 已有（contained） | Right abductor pollicis longus | atlas |
-| 222 | styloid process | Styloid process of radius | 缺少 |  |  |
+| 222 | styloid process | Styloid process of radius | 新增示意模型 | Right styloid process of radius | paokao |
 | 223 | b. Extensor carpi radialis longus m | Extensor carpi radialis longus muscle | 已有 | Right extensor carpi radialis longus | atlas |
 | 224 | Extensor carpi radialis brevis m | Extensor carpi radialis brevis muscle | 已有 | Right extensor carpi radialis brevis | atlas |
 | 225 | d. Extensor digitorum m | Extensor digitorum muscle | 已有 | Right extensor digitorum | atlas |
@@ -441,7 +428,7 @@
 | 237 | Abductor digiti minimi m | Abductor digiti minimi muscle | 已有（contained） | Abductor digiti minimi of right foot | atlas |
 | 238 | Flexor digiti minimi brevis m | Flexor digiti minimi brevis muscle | 已有（contained） | Flexor digiti minimi brevis of right foot | atlas |
 | 239 | Opponens digiti minimi m | Opponens digiti minimi muscle | 已有（contained） | Opponens digiti minimi of right foot | atlas |
-| 240 | Palmaris brevis m | Palmaris brevis muscle | 缺少 |  |  |
+| 240 | Palmaris brevis m | Palmaris brevis muscle | 新增示意模型 | Right palmaris brevis | paokao |
 | 241 | Adductor pollicis m | Adductor pollicis muscle | 已有（contained） | Oblique head of right adductor pollicis | atlas |
 | 242 | transverse head | Transverse head of adductor pollicis muscle | 已有（部分） | Oblique head of right adductor pollicis | atlas |
 | 243 | oblique head | Oblique head of adductor pollicis muscle | 已有（部分） | Oblique head of right adductor pollicis | atlas |
@@ -452,24 +439,24 @@
 | 248 | B. Pectoralis minor m | Pectoralis minor muscle | 已有 | Right pectoralis minor | atlas |
 | 249 | C. Serratus anterior m | Serratus anterior muscle | 已有 | Right serratus anterior | atlas |
 | 250 | external oblique abdominis m | External oblique muscle | 已有 | Right external oblique | atlas |
-| 251 | iliac crest | Iliac crest | 缺少 |  |  |
-| 252 | pubic tubercle | Pubic tubercle | 缺少 |  |  |
+| 251 | iliac crest | Iliac crest | 新增示意模型 | Right iliac crest | paokao |
+| 252 | pubic tubercle | Pubic tubercle | 新增示意模型 | Right pubic tubercle | paokao |
 | 253 | External intercostal m | External intercostal muscle | 已有 | external intercostal muscle | atlas |
 | 254 | external intercostal membrane | External intercostal membrane | 已有 | External intercostal membrane | joints |
 | 255 | B. Internal intercostal m | Internal intercostal muscle | 已有 | internal intercostal muscle | atlas |
 | 256 | internal intercostal membrane | Internal intercostal membrane | 已有 | Internal intercostal membrane | joints |
-| 257 | C. Transverse thoracic m | Transverse thoracic muscle | 缺少 |  |  |
+| 257 | C. Transverse thoracic m | Transverse thoracic muscle | 已有（alias） | Right transversus thoracis | atlas |
 | 258 | Innermost intercostal m | Innermost intercostal muscle | 已有 | innermost intercostal muscle | atlas |
-| 259 | B. Subcostal m | Subcostal muscle | 缺少 |  |  |
-| 260 | Suspensory ligament | Suspensory ligament of breast | 缺少 |  |  |
+| 259 | B. Subcostal m | Subcostal muscle | 新增示意模型 | Right subcostal muscles | paokao |
+| 260 | Suspensory ligament | Suspensory ligament of breast | 新增示意模型 | Right suspensory ligament of breast | paokao |
 | 261 | B. Lat mammary a | Lateral mammary artery | 新增示意模型 | Right lateral mammary artery | paokao |
-| 262 | C. Med. Mammary br | Medial mammary branch of internal thoracic artery | 新增示意模型（contained） | Right medial mammary branches of internal thoracic artery | paokao |
+| 262 | C. Med. Mammary br | Medial mammary branch of internal thoracic artery | 新增示意模型 | Right medial mammary branch of internal thoracic artery | paokao |
 | 263 | internal thoracic a | internal thoracic artery | 已有 | Right internal thoracic artery | atlas |
 | 264 | thoracic v | Internal thoracic vein | 已有 | Right internal thoracic vein | atlas |
 | 265 | Musculophrenic a | Musculophrenic artery | 已有 | Right musculophrenic artery | atlas |
 | 266 | intercostal a | intercostal artery | 已有（contained） | Right superior intercostal artery | atlas |
 | 267 | Sup. epigastric a | superior epigastric artery | 已有 | Right superior epigastric artery | atlas |
-| 268 | rectus sheath | Rectus sheath | 缺少 |  |  |
+| 268 | rectus sheath | Rectus sheath | 新增示意模型 | rectus sheath | paokao |
 | 269 | inf. epigastric a | inferior epigastric artery | 已有 | Left inferior epigastric artery | atlas |
 | 270 | ant. intercostal a | Anterior intercostal artery | 新增示意模型 | Right anterior intercostal arteries | paokao |
 | 270 | ant. intercostal a | Anterior intercostal vein | 已有 | Set of anterior intercostal veins | atlas |
@@ -478,7 +465,7 @@
 | 273 | Pericardiophrenic a | Pericardiophrenic artery | 新增示意模型 | Right pericardiophrenic artery | paokao |
 | 273 | Pericardiophrenic a | Pericardiophrenic vein | 新增示意模型 | Right pericardiophrenic vein | paokao |
 | 274 | B. Phrenic n | Phrenic nerve | 新增示意模型 | Right phrenic nerve | paokao |
-| 275 | Thoracic duct | Thoracic duct | 缺少 |  |  |
+| 275 | Thoracic duct | Thoracic duct | 新增示意模型 | Thoracic duct | paokao |
 | 276 | Aortic arch | Aortic arch | 已有（alias） | Arch of aorta | atlas |
 | 277 | B. Pulmonary a | Pulmonary artery | 已有 | Left pulmonary artery | atlas |
 | 278 | Ligamentum arteriosum | Ligamentum arteriosum | 已有（contained） | Conus arteriosus | heart |
@@ -488,19 +475,19 @@
 | 282 | right subclavian a | right subclavian artery | 已有 | Left subclavian artery | atlas |
 | 283 | bronchial a | bronchial artery | 已有 | Bronchial artery | atlas |
 | 284 | sympathetic trunk | sympathetic trunk | 已有 | Ganglia of sympathetic trunk | nerve |
-| 285 | B. Post. intercostal v | posterior intercostal vein | 缺少 |  |  |
+| 285 | B. Post. intercostal v | posterior intercostal vein | 新增示意模型 | Right posterior intercostal veins | paokao |
 | 286 | azygo v | Azygos vein | 已有 | Azygos vein | atlas |
 | 287 | hemiazygo v | Hemiazygos vein | 已有 | Hemiazygos vein | atlas |
 | 288 | C. Post. intercostal a | posterior intercostal artery | 已有 | Posterior intercostal arteries | atlas |
-| 289 | Supreme intercostal a | Supreme intercostal artery | 缺少 |  |  |
+| 289 | Supreme intercostal a | Supreme intercostal artery | 新增示意模型 | Right supreme intercostal artery | paokao |
 | 290 | Azygos v | Azygos vein | 已有 | Azygos vein | atlas |
-| 291 | Azygos arch | Arch of azygos vein | 缺少 |  |  |
+| 291 | Azygos arch | Arch of azygos vein | 已有（部分） | Azygos vein | atlas |
 | 292 | Ascending lumbar v | Ascending lumbar vein | 已有 | Left ascending lumbar vein | atlas |
 | 293 | Left superior intercostal v | Left superior intercostal vein | 已有 | Left superior intercostal vein | atlas |
 | 294 | Phrenic n | Phrenic nerve | 新增示意模型 | Right phrenic nerve | paokao |
 | 295 | Accessory hemiazygos v | Accessory hemiazygos vein | 已有 | Accessory hemiazygos vein | atlas |
 | 296 | Hemiazygos v | Hemiazygos vein | 已有 | Hemiazygos vein | atlas |
-| 297 | thoracic splanchnic n | Thoracic splanchnic nerve | 缺少 |  |  |
+| 297 | thoracic splanchnic n | Thoracic splanchnic nerve | 新增示意模型（alias） | Right greater splanchnic nerve；Right lesser splanchnic nerve；Right least splanchnic nerve | paokao |
 | 298 | B. Greater splanchnic n | Greater splanchnic nerve | 新增示意模型 | Right greater splanchnic nerve | paokao |
 | 299 | celiac ganglion | celiac ganglion | 新增示意模型 | Right celiac ganglion | paokao |
 | 300 | C. Lesser splanchnic n | Lesser splanchnic nerve | 新增示意模型 | Right lesser splanchnic nerve | paokao |
@@ -515,8 +502,8 @@
 | 309 | Esophageal a | Esophageal artery | 已有 | Esophageal artery | atlas |
 | 310 | Posterior intercostal a./ subcostal a | Posterior intercostal artery | 已有 | Posterior intercostal arteries | atlas |
 | 310 | Posterior intercostal a./ subcostal a | Subcostal artery | 已有 | Right subcostal artery | atlas |
-| 311 | Superior phrenic a | Superior phrenic artery | 缺少 |  |  |
-| 312 | aortic hiatus | Aortic hiatus | 缺少 |  |  |
+| 311 | Superior phrenic a | Superior phrenic artery | 新增示意模型 | Right superior phrenic artery | paokao |
+| 312 | aortic hiatus | Aortic hiatus | 新增示意模型 | Aortic hiatus | paokao |
 | 313 | Fibrous pericardium | Fibrous pericardium | 已有 | Fibrous pericardium | serous |
 | 314 | B. Parietal layer of serous pericardium | Parietal layer of serous pericardium | 已有 | Parietal layer of serous pericardium | serous |
 | 315 | C. Transverse pericardial sinus | Transverse pericardial sinus | 已有 | Transverse pericardial sinus | heart |
@@ -533,7 +520,7 @@
 | 326 | great cardiac v | great cardiac vein | 已有 | Great cardiac vein | atlas |
 | 327 | diagonal branch | diagonal branch | 已有（contained） | Diagonal branches | heart |
 | 328 | Circumflex branch of left coronary a | Circumflex branch of left coronary artery | 已有 | Circumflex branch of left coronary artery | atlas |
-| 329 | left marginal branch | Left marginal branch of circumflex artery | 缺少 |  |  |
+| 329 | left marginal branch | Left marginal branch of circumflex artery | 已有（alias） | Left marginal vein | atlas |
 | 330 | B. Middle cardiac v | Middle cardiac vein | 已有 | Middle cardiac vein | atlas |
 | 331 | C. Small cardiac v | Small cardiac vein | 已有 | Small cardiac vein | atlas |
 | 332 | D. Ant. cardiac v | anterior cardiac vein | 已有 | Anterior cardiac vein | atlas |
@@ -541,28 +528,28 @@
 | 334 | B. Interatrial septum | Interatrial septum | 已有 | Interatrial septum | heart |
 | 335 | C. Pectinate m | Pectinate muscle | 已有 | Pectinate muscles | heart |
 | 336 | D. Fossa | Fossa ovalis | 已有 | Fossa ovalis | heart |
-| 337 | E. Opening of coronary sinus | Opening of coronary sinus | 缺少 |  |  |
+| 337 | E. Opening of coronary sinus | Opening of coronary sinus | 已有（部分） | Coronary sinus | atlas |
 | 338 | papillary m | Papillary muscle | 已有（contained） | Anterior papillary muscle of right ventricle | atlas |
 | 339 | Interventricular septum | Interventricular septum | 已有 | Interventricular septum | heart |
 | 340 | Septal papillary m | Septal papillary muscle | 已有（contained） | Septal papillary muscle of right ventricle | atlas |
-| 341 | Moderator band | Moderator band | 缺少 |  |  |
+| 341 | Moderator band | Moderator band | 已有（alias） | Septomarginal trabecula (moderator band) | heart |
 | 342 | Supraventricular crest | Supraventricular crest | 已有 | Supraventricular crest | heart |
 | 343 | Post. papillary m | Anterolateral papillary muscle of left ventricle | 已有 | Anterolateral papillary muscle of left ventricle | heart |
-| 343 | Post. papillary m | Posteromedial papillary muscle of left ventricle | 缺少 |  |  |
+| 343 | Post. papillary m | Posteromedial papillary muscle of left ventricle | 已有（alias） | Inferior papillary muscle of right ventricle | heart |
 | 344 | Pulmonary v | Pulmonary vein | 已有（contained） | Left superior pulmonary vein | atlas |
 | 345 | C. Pulmonary lig | Pulmonary ligament | 已有（contained） | Pulmonary trunk | heart |
-| 346 | Lingula | Lingula of left lung | 缺少 |  |  |
-| 347 | B. Oblique fissure | Oblique fissure of lung | 缺少 |  |  |
-| 348 | Cardiac impression | Cardiac impression | 缺少 |  |  |
-| 349 | Groove for aortic arch | Groove for aortic arch | 缺少 |  |  |
-| 350 | Groove | Groove for descending aorta | 缺少 |  |  |
-| 351 | Groove for subclavian a | Groove for subclavian artery | 缺少 |  |  |
-| 352 | Groove for left brachiocephalic v | Groove for left brachiocephalic vein | 缺少 |  |  |
-| 353 | Cardiac notch | Cardiac notch of left lung | 缺少 |  |  |
-| 354 | Oblique fissure | Oblique fissure of lung | 缺少 |  |  |
-| 355 | B. Horizontal fissure | Horizontal fissure of right lung | 缺少 |  |  |
-| 356 | Groove for brachiocephalic v | Groove for brachiocephalic vein | 缺少 |  |  |
-| 357 | Groove for azygos v | Groove for azygos vein | 缺少 |  |  |
+| 346 | Lingula | Lingula of left lung | 新增示意模型 | Lingula of left lung | paokao |
+| 347 | B. Oblique fissure | Oblique fissure of lung | 新增示意模型 | Oblique fissure of right lung | paokao |
+| 348 | Cardiac impression | Cardiac impression | 新增示意模型（contained） | Cardiac impression of left lung | paokao |
+| 349 | Groove for aortic arch | Groove for aortic arch | 新增示意模型 | Groove for aortic arch | paokao |
+| 350 | Groove | Groove for descending aorta | 新增示意模型 | Groove for descending aorta | paokao |
+| 351 | Groove for subclavian a | Groove for subclavian artery | 新增示意模型 | Left groove for subclavian artery | paokao |
+| 352 | Groove for left brachiocephalic v | Groove for left brachiocephalic vein | 新增示意模型 | Groove for left brachiocephalic vein | paokao |
+| 353 | Cardiac notch | Cardiac notch of left lung | 新增示意模型 | Cardiac notch of left lung | paokao |
+| 354 | Oblique fissure | Oblique fissure of lung | 新增示意模型 | Oblique fissure of right lung | paokao |
+| 355 | B. Horizontal fissure | Horizontal fissure of right lung | 新增示意模型 | Horizontal fissure of right lung | paokao |
+| 356 | Groove for brachiocephalic v | Groove for brachiocephalic vein | 新增示意模型 | Groove for left brachiocephalic vein | paokao |
+| 357 | Groove for azygos v | Groove for azygos vein | 新增示意模型 | Groove for azygos vein | paokao |
 | 358 | gluteus maximus m | gluteus maximus muscle | 已有 | Right gluteus maximus | atlas |
 | 359 | gluteus medius m | gluteus medius muscle | 已有 | Right gluteus medius | atlas |
 | 360 | gluteus minimus m | gluteus minimus muscle | 已有 | Right gluteus minimus | atlas |
@@ -588,16 +575,16 @@
 | 377 | internal pudendal a | Internal pudendal artery | 新增示意模型 | Right internal pudendal artery | paokao |
 | 377 | internal pudendal a | Internal pudendal vein | 已有 | Left internal pudendal vein | atlas |
 | 378 | sacrotuberous ligament | sacrotuberous ligament | 已有 | Sacrotuberous ligament | joints |
-| 379 | ischial tuberosity | Ischial tuberosity | 缺少 |  |  |
+| 379 | ischial tuberosity | Ischial tuberosity | 新增示意模型 | Right ischial tuberosity | paokao |
 | 380 | sacrospinous ligament | sacrospinous ligament | 已有 | Sacrospinous ligament | joints |
-| 381 | spine | Spine of ischium | 缺少 |  |  |
+| 381 | spine | Spine of ischium | 新增示意模型 | Right spine of ischium | paokao |
 | 382 | Sartorius m | Sartorius muscle | 已有 | Right sartorius | atlas |
 | 383 | semitendinosus m | semitendinosus muscle | 已有 | Right semitendinosus | atlas |
 | 384 | Gracilis m | Gracilis muscle | 已有 | Right gracilis | atlas |
 | 385 | quadriceps femoris m | quadriceps femoris muscle | 已有（alias） | Right rectus femoris；Right vastus lateralis；Right vastus medialis；Right vastus intermedius | atlas |
-| 386 | Quadriceps tendon | Quadriceps tendon | 缺少 |  |  |
+| 386 | Quadriceps tendon | Quadriceps tendon | 新增示意模型 | Right quadriceps tendon | paokao |
 | 387 | Rectus femoris m | Rectus femoris muscle | 已有 | Right rectus femoris | atlas |
-| 388 | tibial tuberosity | Tibial tuberosity | 缺少 |  |  |
+| 388 | tibial tuberosity | Tibial tuberosity | 新增示意模型 | Right tibial tuberosity | paokao |
 | 389 | Vastus lateralis m | Vastus lateralis muscle | 已有 | Right vastus lateralis | atlas |
 | 390 | iliotibial tract | iliotibial tract | 已有 | Right iliotibial tract | atlas |
 | 391 | Vastus intermedius m | Vastus intermedius muscle | 已有 | Right vastus intermedius | atlas |
@@ -608,7 +595,7 @@
 | 396 | inguinal lig | Inguinal ligament | 已有 | Right inguinal ligament | supplement |
 | 397 | femoral n | femoral nerve | 已有 | Femoral nerve | nerve |
 | 398 | tensor fasciae latae m | tensor fasciae latae muscle | 已有 | Right tensor fasciae latae | atlas |
-| 399 | femoral sheath | Femoral sheath | 缺少 |  |  |
+| 399 | femoral sheath | Femoral sheath | 新增示意模型 | Right femoral sheath | paokao |
 | 400 | ant. femoral n | Anterior femoral cutaneous nerve | 已有（contained） | Anterior cutaneous branches of femoral nerve | nerve |
 | 401 | nerve to XXX m |  | 略過 | 佔位寫法（nerve to XXX m.＝至某肌肉之神經的通稱），不是特定結構；各肌肉支已於 370、373、402 逐一列出 |  |
 | 402 | nerve to vastus medialis m | Nerve to vastus medialis | 新增示意模型 | Right nerve to vastus medialis | paokao |
@@ -631,8 +618,8 @@
 | 419 | Descending br | Descending branch of lateral circumflex femoral artery | 已有 | Descending branch of right lateral circumflex femoral artery | atlas |
 | 420 | medial circumflex femoral a | medial circumflex femoral artery | 新增示意模型 | Right medial circumflex femoral artery | paokao |
 | 421 | pectineus m | pectineus muscle | 已有 | Right pectineus | atlas |
-| 422 | perforating br | Perforating branch of deep femoral artery | 新增示意模型（contained） | Right perforating branches of deep femoral artery | paokao |
-| 423 | adductor hiatus | Adductor hiatus | 缺少 |  |  |
+| 422 | perforating br | Perforating branch of deep femoral artery | 新增示意模型 | Right perforating branch of deep femoral artery | paokao |
+| 423 | adductor hiatus | Adductor hiatus | 新增示意模型 | Right adductor hiatus | paokao |
 | 424 | femoral v | femoral vein | 已有 | Left femoral vein | atlas |
 | 425 | great saphenous v | great saphenous vein | 已有 | Left great saphenous vein | atlas |
 | 426 | sural n | sural nerve | 已有 | Sural nerve | nerve |
@@ -650,7 +637,7 @@
 | 438 | tibial n | tibial nerve | 已有 | Tibial nerve | nerve |
 | 439 | Gastrocnemius m | Gastrocnemius muscle | 已有（contained） | Lateral head of right gastrocnemius | atlas |
 | 440 | common fibular n | common fibular nerve | 已有 | Common fibular nerve | nerve |
-| 441 | perforating br. of deep femoral a | Perforating branch of deep femoral artery | 新增示意模型（contained） | Right perforating branches of deep femoral artery | paokao |
+| 441 | perforating br. of deep femoral a | Perforating branch of deep femoral artery | 新增示意模型 | Right perforating branch of deep femoral artery | paokao |
 | 442 | popliteal a | popliteal artery | 已有 | Left popliteal artery | atlas |
 | 443 | genicular a | genicular artery | 已有（contained） | Left descending genicular artery | atlas |
 | 444 | Sup. lat. genicular a | superior lateral genicular artery | 已有（alias） | Left lateral superior genicular artery | atlas |
@@ -665,7 +652,7 @@
 | 453 | Sural communicating br | Sural communicating branch of common fibular nerve | 已有 | Sural communicating branch of common fibular nerve | nerve |
 | 454 | lateral meniscus | lateral meniscus | 已有 | Lateral meniscus | joints |
 | 455 | transverse lig | Transverse ligament of knee | 已有 | Transverse ligament of knee | joints |
-| 456 | Patellar lig | Patellar ligament | 已有 | Left patella | atlas |
+| 456 | Patellar lig | Patellar ligament | 新增示意模型 | Right patellar ligament | paokao |
 | 457 | ant. Cruciate lig | anterior Cruciate ligament | 已有 | Anterior cruciate ligament | joints |
 | 458 | post. Cruciate lig | posterior Cruciate ligament | 已有 | Posterior cruciate ligament | joints |
 | 459 | fibular collateral lig | fibular collateral ligament | 已有 | Fibular collateral ligament | joints |
@@ -689,8 +676,8 @@
 | 477 | lateral dorsal cutaneous n | lateral dorsal cutaneous nerve | 新增示意模型 | Right lateral dorsal cutaneous nerve | paokao |
 | 478 | fibularis longus m | fibularis longus muscle | 已有 | Right fibularis longus | atlas |
 | 479 | fibularis brevis m | fibularis brevis muscle | 已有 | Right fibularis brevis | atlas |
-| 480 | Sup. fibular retinaculum | superior fibular retinaculum | 缺少 |  |  |
-| 481 | Inf. fibular retinaculum | inferior fibular retinaculum | 缺少 |  |  |
+| 480 | Sup. fibular retinaculum | superior fibular retinaculum | 新增示意模型 | Right superior fibular retinaculum | paokao |
+| 481 | Inf. fibular retinaculum | inferior fibular retinaculum | 新增示意模型 | Right inferior fibular retinaculum | paokao |
 | 482 | lateral head | Lateral head of gastrocnemius muscle | 已有（部分） | Lateral head of right gastrocnemius | atlas |
 | 483 | Soleus m | Soleus muscle | 已有 | Right soleus | atlas |
 | 484 | calcaneal tendon | calcaneal tendon | 已有 | Right calcaneal tendon | atlas |
@@ -699,14 +686,14 @@
 | 487 | Tibialis Posterior m | Tibialis Posterior muscle | 已有 | Right tibialis posterior | atlas |
 | 488 | Flexor hallucis longus m | Flexor hallucis longus muscle | 已有 | Right flexor hallucis longus | atlas |
 | 489 | Flexor digitorum longus m | Flexor digitorum longus muscle | 已有 | Right flexor digitorum longus | atlas |
-| 490 | tarsal tunnel | Tarsal tunnel | 缺少 |  |  |
+| 490 | tarsal tunnel | Tarsal tunnel | 新增示意模型 | Right tarsal tunnel | paokao |
 | 491 | tibialis post. m | tibialis posterior muscle | 已有 | Right tibialis posterior | atlas |
 | 492 | Posterior m |  | 略過 | 截斷（Posterior m.＝小腿後區肌群標題），不是特定結構；後區各肌已逐項列出 |  |
 | 493 | Popliteus m | Popliteus muscle | 已有 | Right popliteus | atlas |
 | 494 | Posterior tibial a | Posterior tibial artery | 已有 | Left posterior tibial artery | atlas |
 | 495 | Circumflex fibular a | Circumflex fibular artery | 新增示意模型 | Right circumflex fibular artery | paokao |
 | 496 | Fibular a | Fibular artery | 新增示意模型 | Right fibular artery | paokao |
-| 497 | flexor retinaculum | Flexor retinaculum of ankle | 缺少 |  |  |
+| 497 | flexor retinaculum | Flexor retinaculum of ankle | 新增示意模型 | Right flexor retinaculum of ankle | paokao |
 | 498 | tendon of Tibialis Posterior m | Tendon of tibialis posterior muscle | 已有（部分） | Right tibialis posterior | atlas |
 | 499 | tendon of Flexor Digitorum longus m | Tendon of flexor digitorum longus muscle | 已有（部分） | Right flexor digitorum longus | atlas |
 | 500 | Post. tibial Artery | posterior tibial Artery | 已有 | Left posterior tibial artery | atlas |
@@ -715,10 +702,10 @@
 | 503 | tendon of Flexor Hallucis longus m | Tendon of flexor hallucis longus muscle | 已有（部分） | Right flexor hallucis longus | atlas |
 | 504 | extensor hallucis brevis m | extensor hallucis brevis muscle | 已有 | Right extensor hallucis brevis | atlas |
 | 505 | extensor digitorum brevis m | extensor digitorum brevis muscle | 已有 | Right extensor digitorum brevis | supplement |
-| 506 | sup. extensor retinaculum | Superior extensor retinaculum of foot | 缺少 |  |  |
-| 507 | inf. extensor retinaculum | Inferior extensor retinaculum of foot | 缺少 |  |  |
+| 506 | sup. extensor retinaculum | Superior extensor retinaculum of foot | 新增示意模型 | Right superior extensor retinaculum of foot | paokao |
+| 507 | inf. extensor retinaculum | Inferior extensor retinaculum of foot | 新增示意模型 | Right inferior extensor retinaculum of foot | paokao |
 | 508 | deep plantar a | deep plantar artery | 已有 | Left deep plantar artery | atlas |
-| 509 | plantar aponeurosis | plantar aponeurosis | 缺少 |  |  |
+| 509 | plantar aponeurosis | plantar aponeurosis | 新增示意模型 | plantar aponeurosis | paokao |
 | 510 | abductor hallucis m | abductor hallucis muscle | 已有 | Right abductor hallucis | atlas |
 | 511 | flexor digitorum brevis m | flexor digitorum brevis muscle | 已有 | Right flexor digitorum brevis | atlas |
 | 512 | quadratus plantae m | quadratus plantae muscle | 已有 | Right flexor accessorius | atlas |
@@ -741,7 +728,7 @@
 | 528 | Serratus post. sup./inf. m | Serratus posterior superior muscle | 已有 | Right serratus posterior superior | atlas |
 | 528 | Serratus post. sup./inf. m | Serratus posterior inferior muscle | 已有 | Right serratus posterior inferior | atlas |
 | 529 | inf. m |  | 略過 | 截斷（inf. m.，Serratus post. sup./inf. m. 的後半），已於 528 一併列出 |  |
-| 530 | Thoracolumber fascia | Thoracolumbar fascia | 缺少 |  |  |
+| 530 | Thoracolumber fascia | Thoracolumbar fascia | 新增示意模型 | thoracolumbar fascia | paokao |
 | 531 | Scapula | Scapula | 已有 | Left scapula | atlas |
 | 532 | Splenius cervicis m | Splenius cervicis muscle | 已有 | Right splenius cervicis | atlas |
 | 533 | Longissimus m | Longissimus muscle | 已有（contained） | Right longissimus capitis | atlas |
@@ -757,16 +744,16 @@
 | 543 | a. Brachioradialis m | Brachioradialis muscle | 已有 | Right brachioradialis | atlas |
 | 544 | a. Abductor pollicis longus m | Abductor pollicis longus muscle | 已有 | Right abductor pollicis longus | atlas |
 | 545 | Internal intercostal m | Internal intercostal muscle | 已有 | internal intercostal muscle | atlas |
-| 546 | Transverse thoracic m | Transverse thoracic muscle | 缺少 |  |  |
-| 547 | Subcostal m | Subcostal muscle | 缺少 |  |  |
-| 548 | Suspensory ligament of breast | Suspensory ligament of breast | 缺少 |  |  |
+| 546 | Transverse thoracic m | Transverse thoracic muscle | 已有（alias） | Right transversus thoracis | atlas |
+| 547 | Subcostal m | Subcostal muscle | 新增示意模型 | Right subcostal muscles | paokao |
+| 548 | Suspensory ligament of breast | Suspensory ligament of breast | 新增示意模型 | Right suspensory ligament of breast | paokao |
 | 549 | Lat mammary a | Lateral mammary artery | 新增示意模型 | Right lateral mammary artery | paokao |
-| 550 | Med. Mammary br. of internal thoracic a | Medial mammary branch of internal thoracic artery | 新增示意模型（contained） | Right medial mammary branches of internal thoracic artery | paokao |
+| 550 | Med. Mammary br. of internal thoracic a | Medial mammary branch of internal thoracic artery | 新增示意模型 | Right medial mammary branch of internal thoracic artery | paokao |
 | 551 | Pulmonary a./v | Pulmonary artery | 已有 | Left pulmonary artery | atlas |
 | 551 | Pulmonary a./v | Pulmonary vein | 已有（contained） | Left superior pulmonary vein | atlas |
 | 552 | Superior vena cava | Superior vena cava | 已有 | Superior vena cava | atlas |
 | 553 | Bronchus | Bronchus | 已有（contained） | Left main bronchus | atlas |
-| 554 | Post. intercostal v | posterior intercostal vein | 缺少 |  |  |
+| 554 | Post. intercostal v | posterior intercostal vein | 新增示意模型 | Right posterior intercostal veins | paokao |
 | 555 | Post. intercostal a | posterior intercostal artery | 已有 | Posterior intercostal arteries | atlas |
 | 556 | Lesser splanchnic n | Lesser splanchnic nerve | 新增示意模型 | Right lesser splanchnic nerve | paokao |
 | 557 | Least splanchnic n | Least splanchnic nerve | 新增示意模型 | Right least splanchnic nerve | paokao |
@@ -776,16 +763,16 @@
 | 560 | Transverse pericardial sinus | Transverse pericardial sinus | 已有 | Transverse pericardial sinus | heart |
 | 561 | Oblique pericardial sinus | Oblique pericardial sinus | 已有 | Oblique pericardial sinus | heart |
 | 562 | marginal branch | Right marginal branch of right coronary artery | 已有 | Marginal branch of right coronary artery | atlas |
-| 562 | marginal branch | Left marginal branch of circumflex artery | 缺少 |  |  |
+| 562 | marginal branch | Left marginal branch of circumflex artery | 已有（alias） | Left marginal vein | atlas |
 | 563 | nodal a | Sinoatrial nodal artery | 已有 | Sinoatrial nodal artery | heart |
-| 563 | nodal a | Atrioventricular nodal artery | 缺少 |  |  |
+| 563 | nodal a | Atrioventricular nodal artery | 新增示意模型 | Atrioventricular nodal artery | paokao |
 | 564 | Left coronary a | Left coronary artery | 已有 | Right coronary artery | heart |
 | 565 | Ant. cardiac v | anterior cardiac vein | 已有 | Anterior cardiac vein | atlas |
 | 566 | Interatrial septum | Interatrial septum | 已有 | Interatrial septum | heart |
 | 567 | Pectinate m | Pectinate muscle | 已有 | Pectinate muscles | heart |
 | 568 | Fossa ovalis | Fossa ovalis | 已有 | Fossa ovalis | heart |
-| 569 | Opening of coronary sinus | Opening of coronary sinus | 缺少 |  |  |
+| 569 | Opening of coronary sinus | Opening of coronary sinus | 已有（部分） | Coronary sinus | atlas |
 | 570 | Crista terminalis | Crista terminalis | 已有 | Crista terminalis | heart |
 | 571 | Pulmonary a | Pulmonary artery | 已有 | Left pulmonary artery | atlas |
 | 572 | Pulmonary lig | Pulmonary ligament | 已有（contained） | Pulmonary trunk | heart |
-| 573 | Horizontal fissure | Horizontal fissure of right lung | 缺少 |  |  |
+| 573 | Horizontal fissure | Horizontal fissure of right lung | 新增示意模型 | Horizontal fissure of right lung | paokao |

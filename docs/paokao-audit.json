@@ -2,11 +2,11 @@
  "totals": {
   "terms": 574,
   "rows": 592,
-  "have": 413,
-  "new": 71,
-  "part": 11,
+  "have": 418,
+  "new": 153,
+  "part": 14,
   "skip": 7,
-  "missing": 90
+  "missing": 0
  },
  "rows": [
   {
@@ -50,7 +50,12 @@
    "term": "jugular foramen",
    "name": "Jugular foramen",
    "section": "背部／Superficial layer （2+3+2",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Jugular foramen",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 4,
@@ -81,14 +86,24 @@
    "term": "Post. cutaneous br",
    "name": "Posterior cutaneous branch of dorsal ramus of spinal nerve",
    "section": "背部／Superficial layer （2+3+2",
-   "status": "missing"
+   "status": "new",
+   "via": "alias",
+   "model": "Right posterior cutaneous branch of dorsal ramus of thoracic spinal nerve",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 7,
    "term": "dorsal ramus of spinal n",
    "name": "Dorsal ramus of spinal nerve",
    "section": "背部／Superficial layer （2+3+2",
-   "status": "missing"
+   "status": "new",
+   "via": "alias",
+   "model": "Right dorsal ramus of thoracic spinal nerve",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 8,
@@ -205,7 +220,12 @@
    "term": "B. Thoracolumber fascia",
    "name": "Thoracolumbar fascia",
    "section": "背部／Superficial layer （2+3+2",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "thoracolumbar fascia",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 18,
@@ -249,7 +269,12 @@
    "name": "Suprascapular notch",
    "section": "背部／Superficial layer （2+3+2",
    "note": "筆記寫 foramen（韌帶骨化時）；模型以切跡表示",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right suprascapular notch",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 22,
@@ -268,14 +293,24 @@
    "term": "sup. nuchal line",
    "name": "Superior nuchal line",
    "section": "背部／Deep layer （2+3+3+3） （只有",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Superior nuchal line",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 24,
    "term": "mastoid process",
    "name": "Mastoid process",
    "section": "背部／Deep layer （2+3+3+3） （只有",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Mastoid process",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 25,
@@ -354,7 +389,12 @@
    "term": "suboccipital triangle",
    "name": "Suboccipital triangle",
    "section": "背部／Deep layer （2+3+3+3） （只有",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right suboccipital triangle",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 32,
@@ -373,7 +413,12 @@
    "term": "spinous process",
    "name": "Spinous process of axis",
    "section": "背部／Deep layer （2+3+3+3） （只有",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Spinous process of axis",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 34,
@@ -441,7 +486,12 @@
    "term": "spinal process",
    "name": "Spinous process of axis",
    "section": "背部／枕下三角 Suboccipital triang",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Spinous process of axis",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 40,
@@ -532,7 +582,12 @@
    "term": "Post. Arch",
    "name": "Posterior arch of atlas",
    "section": "背部／枕下三角 Suboccipital triang",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Posterior arch of atlas",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 48,
@@ -551,14 +606,24 @@
    "term": "Denticulate lig",
    "name": "Denticulate ligament",
    "section": "背部／枕下三角 Suboccipital triang",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right denticulate ligament",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 50,
    "term": "b. Denticulate lig",
    "name": "Denticulate ligament",
    "section": "背部／枕下三角 Suboccipital triang",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right denticulate ligament",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 51,
@@ -589,7 +654,12 @@
    "term": "Ligamentum flavum",
    "name": "Ligamentum flavum",
    "section": "背部／枕下三角 Suboccipital triang",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Ligamentum flavum",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 54,
@@ -675,28 +745,48 @@
    "term": "Coracoid process",
    "name": "Coracoid process",
    "section": "上肢／上肢附著肌肉複習",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right coracoid process",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 61,
    "term": "Great tubercle",
    "name": "Greater tubercle of humerus",
    "section": "上肢／上肢附著肌肉複習",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right greater tubercle of humerus",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 62,
    "term": "Lesser tubercle",
    "name": "Lesser tubercle of humerus",
    "section": "上肢／上肢附著肌肉複習",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right lesser tubercle of humerus",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 63,
    "term": "Intertubercle groove",
    "name": "Intertubercular groove",
    "section": "上肢／上肢附著肌肉複習",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right intertubercular groove",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 64,
@@ -704,21 +794,36 @@
    "name": "Intertubercular groove",
    "section": "上肢／上肢附著肌肉複習",
    "note": "biceps groove 為同義詞",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right intertubercular groove",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 65,
    "term": "Axilla fossa",
    "name": "Axillary fossa",
    "section": "上肢／上肢附著肌肉複習",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right axillary fossa",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 66,
    "term": "axillary sheath",
    "name": "Axillary sheath",
    "section": "上肢／上肢附著肌肉複習",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right axillary sheath",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 67,
@@ -737,7 +842,12 @@
    "term": "Quadrangular space",
    "name": "Quadrangular space",
    "section": "上肢／腋窩邊界 Axillary boundary",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right quadrangular space",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 69,
@@ -780,7 +890,12 @@
    "term": "Triangular interval",
    "name": "Triangular interval",
    "section": "上肢／腋窩邊界 Axillary boundary",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right triangular interval",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 72,
@@ -812,7 +927,12 @@
    "term": "Triangular space",
    "name": "Triangular space",
    "section": "上肢／腋窩邊界 Axillary boundary",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right triangular space",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 75,
@@ -951,7 +1071,12 @@
    "term": "Mammary br",
    "name": "Mammary branch of lateral thoracic artery",
    "section": "上肢／腋窩邊界 Axillary boundary",
-   "status": "missing"
+   "status": "new",
+   "via": "alias",
+   "model": "Right lateral mammary artery",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 87,
@@ -1019,7 +1144,12 @@
    "name": "Quadrangular space",
    "section": "上肢／腋窩邊界 Axillary boundary",
    "note": "筆記換行截斷（space），context 指方形間隙",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right quadrangular space",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 93,
@@ -1135,7 +1265,12 @@
    "term": "infraspiratus fossa",
    "name": "Infraspinous fossa",
    "section": "上肢／腋窩邊界 Axillary boundary",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right infraspinous fossa",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 103,
@@ -1166,7 +1301,12 @@
    "term": "surgical neck",
    "name": "Surgical neck of humerus",
    "section": "上肢／腋窩邊界 Axillary boundary",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right surgical neck of humerus",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 106,
@@ -1198,7 +1338,12 @@
    "name": "Clavipectoral triangle",
    "section": "上肢／腋窩邊界 Axillary boundary",
    "note": "筆記：胸大肌、三角肌、鎖骨圍成，頭靜脈由此匯入腋靜脈（又稱三角肌胸大肌三角）",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right clavipectoral triangle",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 109,
@@ -1702,7 +1847,12 @@
    "term": "carpal tunnel",
    "name": "Carpal tunnel",
    "section": "上肢／上肢神經",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right carpal tunnel",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 151,
@@ -1796,7 +1946,12 @@
    "term": "Radial groove",
    "name": "Radial groove",
    "section": "上肢／上肢神經",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right radial groove",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 159,
@@ -1863,7 +2018,12 @@
    "term": "Superior transverse scapular ligament",
    "name": "Superior transverse scapular ligament",
    "section": "上肢／上肢神經",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right superior transverse scapular ligament",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 165,
@@ -1882,7 +2042,12 @@
    "term": "infraspinatus fossa",
    "name": "Infraspinous fossa",
    "section": "上肢／上肢神經",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right infraspinous fossa",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 167,
@@ -1999,7 +2164,12 @@
    "term": "notch",
    "name": "Suprascapular notch",
    "section": "上肢／上肢神經",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right suprascapular notch",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 176,
@@ -2382,7 +2552,12 @@
    "term": "infraglenoid tubercle",
    "name": "Infraglenoid tubercle",
    "section": "上肢／上肢肌肉（insertion/origin 可幫",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right infraglenoid tubercle",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 208,
@@ -2390,7 +2565,12 @@
    "name": "Triangular interval",
    "section": "上肢／上肢肌肉（insertion/origin 可幫",
    "note": "筆記「腋窩 Interval、Space」，Interval 即 Triangular interval",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right triangular interval",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 209,
@@ -2409,7 +2589,12 @@
    "term": "medial epicondyle",
    "name": "Medial epicondyle of humerus",
    "section": "上肢／上肢肌肉（insertion/origin 可幫",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right medial epicondyle of humerus",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 211,
@@ -2544,7 +2729,12 @@
    "term": "styloid process",
    "name": "Styloid process of radius",
    "section": "上肢／上肢肌肉（insertion/origin 可幫",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right styloid process of radius",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 223,
@@ -2755,7 +2945,12 @@
    "term": "Palmaris brevis m",
    "name": "Palmaris brevis muscle",
    "section": "上肢／上肢肌肉（insertion/origin 可幫",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right palmaris brevis",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 241,
@@ -2878,14 +3073,24 @@
    "term": "iliac crest",
    "name": "Iliac crest",
    "section": "胸腔／上肢肌肉（insertion/origin 可幫",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right iliac crest",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 252,
    "term": "pubic tubercle",
    "name": "Pubic tubercle",
    "section": "胸腔／上肢肌肉（insertion/origin 可幫",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right pubic tubercle",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 253,
@@ -2940,7 +3145,12 @@
    "term": "C. Transverse thoracic m",
    "name": "Transverse thoracic muscle",
    "section": "胸腔／上肢肌肉（insertion/origin 可幫",
-   "status": "missing"
+   "status": "have",
+   "via": "alias",
+   "model": "Right transversus thoracis",
+   "source": "atlas",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 258,
@@ -2959,14 +3169,24 @@
    "term": "B. Subcostal m",
    "name": "Subcostal muscle",
    "section": "胸腔／上肢肌肉（insertion/origin 可幫",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right subcostal muscles",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 260,
    "term": "Suspensory ligament",
    "name": "Suspensory ligament of breast",
    "section": "胸腔／前胸壁（肌肉以外）",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right suspensory ligament of breast",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 261,
@@ -2986,11 +3206,11 @@
    "name": "Medial mammary branch of internal thoracic artery",
    "section": "胸腔／前胸壁（肌肉以外）",
    "status": "new",
-   "via": "contained",
-   "model": "Right medial mammary branches of internal thoracic artery",
+   "via": "exact",
+   "model": "Right medial mammary branch of internal thoracic artery",
    "source": "paokao",
-   "kind": "contained",
-   "findable": false
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 263,
@@ -3057,7 +3277,12 @@
    "term": "rectus sheath",
    "name": "Rectus sheath",
    "section": "胸腔／前胸壁（肌肉以外）",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "rectus sheath",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 269,
@@ -3160,7 +3385,12 @@
    "term": "Thoracic duct",
    "name": "Thoracic duct",
    "section": "胸腔／後胸壁",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Thoracic duct",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 276,
@@ -3268,14 +3498,19 @@
    "model": "Ganglia of sympathetic trunk",
    "source": "nerve",
    "kind": "exact",
-   "findable": false
+   "findable": true
   },
   {
    "index": 285,
    "term": "B. Post. intercostal v",
    "name": "posterior intercostal vein",
    "section": "胸腔／後胸壁",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right posterior intercostal veins",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 286,
@@ -3318,7 +3553,12 @@
    "term": "Supreme intercostal a",
    "name": "Supreme intercostal artery",
    "section": "胸腔／後胸壁",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right supreme intercostal artery",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 290,
@@ -3337,7 +3577,10 @@
    "term": "Azygos arch",
    "name": "Arch of azygos vein",
    "section": "胸腔／後胸壁",
-   "status": "missing"
+   "status": "part",
+   "parent": "Azygos vein",
+   "model": "Azygos vein",
+   "source": "atlas"
   },
   {
    "index": 292,
@@ -3404,7 +3647,12 @@
    "term": "thoracic splanchnic n",
    "name": "Thoracic splanchnic nerve",
    "section": "胸腔／後胸壁",
-   "status": "missing"
+   "status": "new",
+   "via": "alias",
+   "model": "Right greater splanchnic nerve；Right lesser splanchnic nerve；Right least splanchnic nerve",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 298,
@@ -3579,14 +3827,24 @@
    "term": "Superior phrenic a",
    "name": "Superior phrenic artery",
    "section": "胸腔／後胸壁",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right superior phrenic artery",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 312,
    "term": "aortic hiatus",
    "name": "Aortic hiatus",
    "section": "胸腔／後胸壁",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Aortic hiatus",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 313,
@@ -3785,7 +4043,12 @@
    "term": "left marginal branch",
    "name": "Left marginal branch of circumflex artery",
    "section": "胸腔／後胸壁",
-   "status": "missing"
+   "status": "have",
+   "via": "alias",
+   "model": "Left marginal vein",
+   "source": "atlas",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 330,
@@ -3876,7 +4139,10 @@
    "term": "E. Opening of coronary sinus",
    "name": "Opening of coronary sinus",
    "section": "胸腔／後胸壁",
-   "status": "missing"
+   "status": "part",
+   "parent": "Coronary sinus",
+   "model": "Coronary sinus",
+   "source": "atlas"
   },
   {
    "index": 338,
@@ -3919,7 +4185,12 @@
    "term": "Moderator band",
    "name": "Moderator band",
    "section": "胸腔／後胸壁",
-   "status": "missing"
+   "status": "have",
+   "via": "alias",
+   "model": "Septomarginal trabecula (moderator band)",
+   "source": "heart",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 342,
@@ -3952,7 +4223,12 @@
    "name": "Posteromedial papillary muscle of left ventricle",
    "section": "胸腔／後胸壁",
    "note": "Ant./Post. papillary m.",
-   "status": "missing"
+   "status": "have",
+   "via": "alias",
+   "model": "Inferior papillary muscle of right ventricle",
+   "source": "heart",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 344,
@@ -3983,84 +4259,144 @@
    "term": "Lingula",
    "name": "Lingula of left lung",
    "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Lingula of left lung",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 347,
    "term": "B. Oblique fissure",
    "name": "Oblique fissure of lung",
    "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Oblique fissure of right lung",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 348,
    "term": "Cardiac impression",
    "name": "Cardiac impression",
    "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
-   "status": "missing"
+   "status": "new",
+   "via": "contained",
+   "model": "Cardiac impression of left lung",
+   "source": "paokao",
+   "kind": "contained",
+   "findable": true
   },
   {
    "index": 349,
    "term": "Groove for aortic arch",
    "name": "Groove for aortic arch",
    "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Groove for aortic arch",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 350,
    "term": "Groove",
    "name": "Groove for descending aorta",
    "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Groove for descending aorta",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 351,
    "term": "Groove for subclavian a",
    "name": "Groove for subclavian artery",
    "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Left groove for subclavian artery",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 352,
    "term": "Groove for left brachiocephalic v",
    "name": "Groove for left brachiocephalic vein",
    "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Groove for left brachiocephalic vein",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 353,
    "term": "Cardiac notch",
    "name": "Cardiac notch of left lung",
    "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Cardiac notch of left lung",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 354,
    "term": "Oblique fissure",
    "name": "Oblique fissure of lung",
    "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Oblique fissure of right lung",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 355,
    "term": "B. Horizontal fissure",
    "name": "Horizontal fissure of right lung",
    "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Horizontal fissure of right lung",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 356,
    "term": "Groove for brachiocephalic v",
    "name": "Groove for brachiocephalic vein",
    "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Groove for left brachiocephalic vein",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 357,
    "term": "Groove for azygos v",
    "name": "Groove for azygos vein",
    "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Groove for azygos vein",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 358,
@@ -4368,7 +4704,12 @@
    "term": "ischial tuberosity",
    "name": "Ischial tuberosity",
    "section": "下肢／臀部",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right ischial tuberosity",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 380,
@@ -4387,7 +4728,12 @@
    "term": "spine",
    "name": "Spine of ischium",
    "section": "下肢／臀部",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right spine of ischium",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 382,
@@ -4442,7 +4788,12 @@
    "term": "Quadriceps tendon",
    "name": "Quadriceps tendon",
    "section": "下肢／大腿前區間",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right quadriceps tendon",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 387,
@@ -4461,7 +4812,12 @@
    "term": "tibial tuberosity",
    "name": "Tibial tuberosity",
    "section": "下肢／大腿前區間",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right tibial tuberosity",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 389,
@@ -4588,7 +4944,12 @@
    "term": "femoral sheath",
    "name": "Femoral sheath",
    "section": "下肢／大腿前區間",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right femoral sheath",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 400,
@@ -4855,18 +5216,23 @@
    "name": "Perforating branch of deep femoral artery",
    "section": "下肢／大腿前區間",
    "status": "new",
-   "via": "contained",
-   "model": "Right perforating branches of deep femoral artery",
+   "via": "exact",
+   "model": "Right perforating branch of deep femoral artery",
    "source": "paokao",
-   "kind": "contained",
-   "findable": false
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 423,
    "term": "adductor hiatus",
    "name": "Adductor hiatus",
    "section": "下肢／大腿前區間",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right adductor hiatus",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 424,
@@ -5078,11 +5444,11 @@
    "name": "Perforating branch of deep femoral artery",
    "section": "下肢／大腿後側區間",
    "status": "new",
-   "via": "contained",
-   "model": "Right perforating branches of deep femoral artery",
+   "via": "exact",
+   "model": "Right perforating branch of deep femoral artery",
    "source": "paokao",
-   "kind": "contained",
-   "findable": false
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 442,
@@ -5257,12 +5623,12 @@
    "term": "Patellar lig",
    "name": "Patellar ligament",
    "section": "下肢／膝關節附近",
-   "status": "have",
+   "status": "new",
    "via": "exact",
-   "model": "Left patella",
-   "source": "atlas",
+   "model": "Right patellar ligament",
+   "source": "paokao",
    "kind": "exact",
-   "findable": false
+   "findable": true
   },
   {
    "index": 457,
@@ -5543,14 +5909,24 @@
    "term": "Sup. fibular retinaculum",
    "name": "superior fibular retinaculum",
    "section": "下肢／小腿外側區間",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right superior fibular retinaculum",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 481,
    "term": "Inf. fibular retinaculum",
    "name": "inferior fibular retinaculum",
    "section": "下肢／小腿外側區間",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right inferior fibular retinaculum",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 482,
@@ -5649,7 +6025,12 @@
    "term": "tarsal tunnel",
    "name": "Tarsal tunnel",
    "section": "下肢／小腿後區間",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right tarsal tunnel",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 491,
@@ -5723,7 +6104,12 @@
    "term": "flexor retinaculum",
    "name": "Flexor retinaculum of ankle",
    "section": "下肢／Tarsal tunnel：在內踝由屈肌支持帶 ",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right flexor retinaculum of ankle",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 498,
@@ -5820,14 +6206,24 @@
    "term": "sup. extensor retinaculum",
    "name": "Superior extensor retinaculum of foot",
    "section": "下肢／足背",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right superior extensor retinaculum of foot",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 507,
    "term": "inf. extensor retinaculum",
    "name": "Inferior extensor retinaculum of foot",
    "section": "下肢／足背",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right inferior extensor retinaculum of foot",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 508,
@@ -5846,7 +6242,12 @@
    "term": "plantar aponeurosis",
    "name": "plantar aponeurosis",
    "section": "下肢／足底：注意分層，但是拇指和小指的部分不用分層也看",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "plantar aponeurosis",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 510,
@@ -6110,7 +6511,12 @@
    "term": "Thoracolumber fascia",
    "name": "Thoracolumbar fascia",
    "section": "Superficial layer （2",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "thoracolumbar fascia",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 531,
@@ -6292,21 +6698,36 @@
    "term": "Transverse thoracic m",
    "name": "Transverse thoracic muscle",
    "section": "上肢肌肉（insertion/origi",
-   "status": "missing"
+   "status": "have",
+   "via": "alias",
+   "model": "Right transversus thoracis",
+   "source": "atlas",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 547,
    "term": "Subcostal m",
    "name": "Subcostal muscle",
    "section": "上肢肌肉（insertion/origi",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right subcostal muscles",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 548,
    "term": "Suspensory ligament of breast",
    "name": "Suspensory ligament of breast",
    "section": "前胸壁（肌肉以外）",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right suspensory ligament of breast",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 549,
@@ -6326,11 +6747,11 @@
    "name": "Medial mammary branch of internal thoracic artery",
    "section": "前胸壁（肌肉以外）",
    "status": "new",
-   "via": "contained",
-   "model": "Right medial mammary branches of internal thoracic artery",
+   "via": "exact",
+   "model": "Right medial mammary branch of internal thoracic artery",
    "source": "paokao",
-   "kind": "contained",
-   "findable": false
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 551,
@@ -6385,7 +6806,12 @@
    "term": "Post. intercostal v",
    "name": "posterior intercostal vein",
    "section": "後胸壁",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Right posterior intercostal veins",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 555,
@@ -6500,7 +6926,12 @@
    "term": "marginal branch",
    "name": "Left marginal branch of circumflex artery",
    "section": "後胸壁",
-   "status": "missing"
+   "status": "have",
+   "via": "alias",
+   "model": "Left marginal vein",
+   "source": "atlas",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 563,
@@ -6521,7 +6952,12 @@
    "name": "Atrioventricular nodal artery",
    "section": "後胸壁",
    "note": "筆記僅寫 nodal a.",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Atrioventricular nodal artery",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 564,
@@ -6588,7 +7024,10 @@
    "term": "Opening of coronary sinus",
    "name": "Opening of coronary sinus",
    "section": "後胸壁",
-   "status": "missing"
+   "status": "part",
+   "parent": "Coronary sinus",
+   "model": "Coronary sinus",
+   "source": "atlas"
   },
   {
    "index": 570,
@@ -6631,7 +7070,12 @@
    "term": "Horizontal fissure",
    "name": "Horizontal fissure of right lung",
    "section": "肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾",
-   "status": "missing"
+   "status": "new",
+   "via": "exact",
+   "model": "Horizontal fissure of right lung",
+   "source": "paokao",
+   "kind": "exact",
+   "findable": true
   }
  ]
 }

@@ -90,11 +90,11 @@ export default function thoraxExtra(U) {
       cutaneous.push({pts: [med, lerp(med, skin, .5), skin], r: [.0006, .0004], samples: 12});
     }
     out.push({
-      name: `${S.w} dorsal rami of thoracic spinal nerves`, zh: `${S.zh}胸脊神經後支`, system: 'nervous', kind: 'nerve', tubes: rami,
+      name: `${S.w} dorsal ramus of thoracic spinal nerve`, zh: `${S.zh}胸脊神經後支`, system: 'nervous', kind: 'nerve', tubes: rami,
       card: {origin: ['Spinal nerves T2–T11, just outside the intervertebral foramen', '第二至第十一胸脊神經，在椎間孔外'], course: ['Pass backwards between the transverse processes and divide into medial and lateral branches that supply the deep back muscles', '向後穿過橫突之間，分成內側支與外側支，分布到深背肌'], supply: ['Deep (intrinsic) back muscles and the skin of the back', '深背肌（固有背肌）與背部皮膚']}, refs: [GRAYS],
     });
     out.push({
-      name: `${S.w} posterior cutaneous branches of dorsal rami of thoracic spinal nerves`, zh: `${S.zh}胸脊神經後支的後皮支`, system: 'nervous', kind: 'nerve', tubes: cutaneous,
+      name: `${S.w} posterior cutaneous branch of dorsal ramus of thoracic spinal nerve`, zh: `${S.zh}胸脊神經後支的後皮支`, system: 'nervous', kind: 'nerve', tubes: cutaneous,
       card: {origin: ['Medial (upper thoracic) or lateral (lower thoracic) branch of the dorsal ramus', '後支的內側支（上胸段）或外側支（下胸段）'], course: ['Pierces trapezius or latissimus dorsi near the midline and runs in the superficial fascia of the back', '在中線附近穿過斜方肌或背闊肌，走在背部淺筋膜內'], supply: ['Skin of the back along the vertebral column', '沿脊柱的背部皮膚']}, refs: [GRAYS],
     });
   }

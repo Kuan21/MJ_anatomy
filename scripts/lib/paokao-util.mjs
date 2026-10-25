@@ -1,6 +1,7 @@
 // Geometry helpers for the structures built in scripts/paokao-structures/*.mjs: landmarks measured on the atlas meshes, tubes, ribbons, surface patches.
 import {tube} from './nerve-schematics.mjs';
 import {tubeTips} from './tube-tips.mjs';
+import {weldByPosition} from './stream-writer.mjs';
 import {sub, add, mul, unit, len, lerp, dot, cross, closest, patch, merge, meshOf, ray} from './heart-geom.mjs';
 export {sub, add, mul, unit, len, lerp, dot, cross, merge};
 
@@ -24,6 +25,22 @@ function refine(mesh, region, maxEdge) {
   return meshOf(positions, indices);
 }
 
+const distCache = new Map();
+/** The triangles of `mesh` chosen by `keep`, welded into one surface and lifted `off` along smoothed vertex normals (so the patch stays one piece and can be simplified). */
+function smoothPatch(mesh, keep, off) {
+  const pos = [], idx = [];
+  for (const tr of mesh.tris) if (keep(tr)) { const b = pos.length / 3; pos.push(...tr.a, ...tr.b, ...tr.c); idx.push(b, b + 1, b + 2); }
+  if (!idx.length) return {positions: new Float32Array(0), indices: new Uint32Array(0)};
+  const {positions, indices} = weldByPosition(Float32Array.from(pos), Uint32Array.from(idx)), n = new Float32Array(positions.length);
+  for (let i = 0; i < indices.length; i += 3) {
+    const [a, b, c] = [indices[i], indices[i + 1], indices[i + 2]];
+    const ux = positions[b * 3] - positions[a * 3], uy = positions[b * 3 + 1] - positions[a * 3 + 1], uz = positions[b * 3 + 2] - positions[a * 3 + 2], vx = positions[c * 3] - positions[a * 3], vy = positions[c * 3 + 1] - positions[a * 3 + 1], vz = positions[c * 3 + 2] - positions[a * 3 + 2];
+    const nx = uy * vz - uz * vy, ny = uz * vx - ux * vz, nz = ux * vy - uy * vx;
+    for (const k of [a, b, c]) { n[k * 3] += nx; n[k * 3 + 1] += ny; n[k * 3 + 2] += nz; }
+  }
+  for (let i = 0; i < positions.length; i += 3) { const l = Math.hypot(n[i], n[i + 1], n[i + 2]) || 1; for (let k = 0; k < 3; k++) positions[i + k] += n[i + k] / l * off; }
+  return {positions, indices};
+}
 export function makeUtil(w) {
   const verts = name => { const m = w.mesh(name), out = []; for (let i = 0; i < m.positions.length; i += 3) out.push([m.positions[i], m.positions[i + 1], m.positions[i + 2]]); return out; };
   const vcache = new Map(), V = name => (vcache.has(name) ? vcache.get(name) : (vcache.set(name, verts(name)), vcache.get(name)));
@@ -75,6 +92,15 @@ export function makeUtil(w) {
     },
     /** First hit of a ray on a mesh (e.g. the skin of the back from a point inside the body): {point, normal} or null. */
     rayHit(name, o, d) { const h = ray(w.mesh(name), o, unit(d)); return h ? {point: h.point, normal: h.normal} : null; },
+    /** Direction (pointing out of the tube) and radius of a tube end: vertices within 5 mm of the tip give a principal axis and the RMS distance from it. */
+    tipFrame(name, tip) {
+      const near = V(name).filter(v => len(sub(v, tip)) < .005); if (near.length < 8) return {dir: [0, -1, 0], radius: .001};
+      const c = centroid(near), cov = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+      for (const v of near) { const d = sub(v, c); for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) cov[i][j] += d[i] * d[j] / near.length; }
+      let a = unit(sub(tip, c)); for (let k = 0; k < 24; k++) a = unit([0, 1, 2].map(i => cov[i][0] * a[0] + cov[i][1] * a[1] + cov[i][2] * a[2]));
+      const dir = dot(a, sub(tip, c)) < 0 ? mul(a, -1) : a; let r2 = 0; for (const v of near) { const d = sub(v, c), al = dot(d, dir); r2 += (dot(d, d) - al * al) / near.length; }
+      return {dir, radius: Math.max(.0004, Math.min(Math.sqrt(r2) * 1.2, .008))};
+    },
     surf(name, p) { const c = closest(w.mesh(name), p); return c.point; },
     /** Point on the surface of `name` nearest p, moved `off` along the outward normal. */
     onSurface(name, p, off = 0) { const c = closest(w.mesh(name), p); return add(c.point, mul(c.normal, off)); },
@@ -92,7 +118,7 @@ export function makeUtil(w) {
       const positions = [], indices = [];
       P.forEach((p, i) => {
         const a = P[Math.max(0, i - 1)], b = P[Math.min(P.length - 1, i + 1)], tan = unit(sub(b, a));
-        let side = cross(tan, hint); if (len(side) < 1e-6) side = cross(tan, [0, 1, 0]); side = unit(side);
+        let side = hint === 'vertical' ? sub([0, 1, 0], mul(tan, tan[1])) : cross(tan, hint); if (len(side) < 1e-6) side = cross(tan, [0, 1, 0]); side = unit(side);
         const up = unit(cross(side, tan));
         for (const [sx, sy] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) positions.push(...add(add(p, mul(side, sx * width / 2)), mul(up, sy * thick / 2)));
       });
@@ -103,7 +129,17 @@ export function makeUtil(w) {
     /** Triangles of a mesh whose centre is within `radius` of `c` (or satisfies keep), as a patch lifted `off` off the surface. */
     surfacePatch(name, c, radius, off = .0003, keep) { return U.patchWhere(name, tr => len(sub(tr.mid, c)) <= radius && (!keep || keep(tr)), off, p => len(sub(p, c)) < radius + .006, Math.max(.0007, radius / 5)); },
     /** Triangles of mesh `name` within `d` of another mesh (an impression or groove left by a neighbouring structure). */
-    contactPatch(name, other, d, off = .0003, keep) { const o = w.mesh(other); return patch(w.mesh(name), tr => closest(o, tr.mid).d <= d && (!keep || keep(tr)), off); },
+    contactPatch(name, other, d, off = .0003, keep) { const dist = U.nearDist(name, other), m = w.mesh(name); const idx = new Map(m.tris.map((t, i) => [t, i])); return smoothPatch(m, tr => dist[idx.get(tr)] <= d && (!keep || keep(tr)), off); },
+    /** Distance from each triangle centre of `name` to the nearest vertex or triangle centre of `other` (grid lookup, accurate to about half an edge). */
+    nearDist(name, other) {
+      const key = name + '>' + other; if (distCache.has(key)) return distCache.get(key);
+      const o = w.mesh(other), pts = []; for (const t of o.tris) pts.push(t.a, t.b, t.c, t.mid);
+      const C = .008, cell = v => [Math.floor(v[0] / C), Math.floor(v[1] / C), Math.floor(v[2] / C)], grid = new Map();
+      for (const p of pts) { const k = cell(p).join(','); (grid.get(k) ?? grid.set(k, []).get(k)).push(p); }
+      const m = w.mesh(name), out = new Float32Array(m.tris.length).fill(1);
+      m.tris.forEach((t, i) => { const [cx, cy, cz] = cell(t.mid); let best = 1; for (let x = cx - 2; x <= cx + 2; x++) for (let y = cy - 2; y <= cy + 2; y++) for (let z = cz - 2; z <= cz + 2; z++) for (const p of grid.get(`${x},${y},${z}`) ?? []) { const d = len(sub(p, t.mid)); if (d < best) best = d; } out[i] = best; });
+      distCache.set(key, out); return out;
+    },
     /** A thin sheet through a grid of points (rows × cols), thickness t. Double sided. */
     sheet(grid, t = .0006) {
       const rows = grid.length, cols = grid[0].length, positions = [], indices = [];
@@ -134,7 +170,7 @@ export function makeUtil(w) {
     patchWhere(name, keep, off = .0003, region, maxEdge = .0015) {
       let m = w.mesh(name);
       if (region) m = refine(m, region, maxEdge);
-      return patch(m, keep, off);
+      return smoothPatch(m, keep, off);
     },
     /** Predicate: the triangle centre lies within r of a polyline. */
     nearPolyline(pts, r) {

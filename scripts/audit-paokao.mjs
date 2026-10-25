@@ -36,7 +36,7 @@ const TYPE_SYSTEMS = {artery: ['arterial'], arteries: ['arterial'], vein: ['veno
 const typeOf = name => { const w = name.toLowerCase().split(/[^a-z]+/).filter(Boolean); if (/^nerve to /i.test(name)) return ['nervous']; for (let i = w.length - 1; i >= 0; i--) if (TYPE_SYSTEMS[w[i]]) return TYPE_SYSTEMS[w[i]]; return null; };
 // Position words in the term (deep, superior, medial …) must be in the model's name too: "deep femoral artery" is not the femoral artery.
 const modifiersKept = (name, entity) => { const mods = tokens(name).filter(t => MOD.has(t)); return mods.every(m => entity.names.some(n => tokens(n).includes(m))); };
-const compatible = (name, entity) => { if (!modifiersKept(name, entity)) return false; const t = typeOf(name); return !t || entity.source === 'heart' || t.includes(entity.system) || (entity.source === 'joints' && t.includes('connective')); };
+const compatible = (name, entity) => { if (!modifiersKept(name, entity)) return false; if (/^groove for /i.test(name)) return true; const t = typeOf(name); return !t || entity.source === 'heart' || t.includes(entity.system) || (entity.source === 'joints' && t.includes('connective')); };
 const matchFor = name => matchAll(name).find(m => compatible(name, m.entity)) ?? null;
 function resolve(name) {
   const alt = aliases[name.toLowerCase()];

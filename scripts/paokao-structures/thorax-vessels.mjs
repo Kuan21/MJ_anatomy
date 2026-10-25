@@ -62,7 +62,7 @@ export default function thoraxVessels(U) {
         return {pts: [o, lerp(o, t, .5), t], r: [.0006, .0003]};
       });
       out.push({
-        name: `${S.w} medial mammary branches of internal thoracic artery`, zh: `${S.zh}內胸動脈內側乳房支`, system: 'arterial', kind: 'artery', parent: ita, tubes,
+        name: `${S.w} medial mammary branch of internal thoracic artery`, zh: `${S.zh}內胸動脈內側乳房支`, system: 'arterial', kind: 'artery', parent: ita, tubes,
         card: {origin: ['Perforating branches of the internal thoracic artery, 2nd–4th intercostal spaces', '內胸動脈穿通支（第二至四肋間隙）'],
           course: ['Pierce the intercostal space and pectoralis major beside the sternum', '在胸骨旁穿過肋間隙與胸大肌'],
           supply: ['Medial part of the mammary gland', '乳腺內側部']},
