@@ -63,6 +63,8 @@ const readGz = file => JSON.parse(gunzipSync(fs.readFileSync(new URL(file, model
 const female = readGz('female/female-stream.json.gz'), serous = readGz('serous/serous-stream.json.gz'), heart = readGz('heart/heart-detail.json.gz');
 for (const p of female.parts) add('female', p.id, p.system, [p.name], {searchable: true});
 for (const p of serous.parts) add('serous', p.id, p.system, [p.name], {searchable: true});
+const paokaoFile = new URL('paokao/paokao-stream.json.gz', models), paokao = fs.existsSync(paokaoFile) ? readGz('paokao/paokao-stream.json.gz') : {parts: [], chunks: []};
+for (const p of paokao.parts) add('paokao', p.id, p.system, [p.name], {searchable: true});
 for (const p of heart.parts) add('heart', p.id, p.system ?? 'cardiac', [p.name, p.chinese ? null : null], {searchable: true});
 const extraNames = new Set((() => {try {return JSON.parse(gunzipSync(fs.readFileSync(new URL('search-extras.json.gz', models)))).map(e => e.n.replace(/^(Left|Right) /, '').toLowerCase());} catch {return [];}})());
 const isIndexed = name => extraNames.has(name.toLowerCase());
@@ -106,17 +108,17 @@ function candidates(core) {
   for (const t of core) {const s = index.get(t); if (s && (!best || s.size < best.size)) best = s;}
   return best ? [...best] : [];
 }
-function match(term) {
+function matchAll(term) {
   const a = analyse(term);
   a.core = new Set([...a.core].map(fixToken));
-  if (!a.core.size) return null;
-  let best = null;
+  if (!a.core.size) return [];
+  const found = [];
   for (const i of candidates(a.core)) {
     const e = entities[i];
+    let best = null;
     for (const m of e.analysed) {
       if (!m.core.size) continue;
       if (a.type && m.type && a.type !== m.type && !(a.type === 'branch' || m.type === 'branch')) continue;
-      if (!a.type && m.type && !['muscle', 'artery', 'vein', 'nerve'].every(x => x !== m.type)) { /* a bare name may still name this structure */ }
       const inter = [...a.core].filter(t => m.core.has(t)).length;
       let kind = null;
       if (inter === a.core.size && inter === m.core.size) kind = 'exact';
@@ -126,9 +128,11 @@ function match(term) {
       const rank = {exact: 4, contained: 3, specific: 2, fuzzy: 1}[kind] * 100 - Math.abs(m.core.size - a.core.size);
       if (!best || rank > best.rank) best = {rank, kind, entity: e, name: e.names[0]};
     }
+    if (best) found.push(best);
   }
-  return best;
+  return found.sort((x, y) => y.rank - x.rank);
 }
+function match(term) { return matchAll(term)[0] ?? null; }
 function classifyNoise(term) {
   const t = term.trim();
   if (t.length < 4 || t.length > 70 || /\d/.test(t) || /[=<>→±%]/.test(t)) return 'noise';
@@ -159,4 +163,4 @@ const GROUPS = [
   [/^(pelvic floor|levator ani( muscle)?)$/, ['pubococcygeus', 'iliococcygeus', 'puborectalis']],
   [/^(transversospinal muscles?)$/, ['semispinalis', 'multifidus', 'rotator']],
 ];
-export {candidateArg, GROUPS, female, serous, heart, root, models, atlas, facial, supplement, conceptName, partIds, curriculum, entities, extraNames, ABBR, TYPE, STOP, MOD, GENERIC, NOT_STRUCTURE, LANDMARK, tokens, analyse, stem1, fixToken, match, candidates, classifyNoise, structureProfile, mergeAtlasStreams, conceptMatches, correctedPartName, isIndexed};
+export {matchAll, paokao, candidateArg, GROUPS, female, serous, heart, root, models, atlas, facial, supplement, conceptName, partIds, curriculum, entities, extraNames, ABBR, TYPE, STOP, MOD, GENERIC, NOT_STRUCTURE, LANDMARK, tokens, analyse, stem1, fixToken, match, candidates, classifyNoise, structureProfile, mergeAtlasStreams, conceptMatches, correctedPartName, isIndexed};
