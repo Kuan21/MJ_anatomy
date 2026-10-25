@@ -25,7 +25,12 @@ export interface HeartViewState {
   selectedId: string | null;
   section: SectionState;
   ghostChambers: boolean;
-  command: {id: number; view: HeartView};
+  /** chamber whose wall is made nearly transparent so its inside shows; its own valves and papillary muscles are drawn even while those groups are hidden */
+  openChamber: string | null;
+  /** further catalogue ids drawn as selected (a list entry can stand for several pieces, e.g. the three cusps of a valve) */
+  highlight: string[];
+  /** `look` is an explicit camera direction (atlas axes), `focus` a catalogue id whose bounds the camera frames */
+  command: {id: number; view: HeartView; look?: [number, number, number]; focus?: string};
 }
 /** Atlas axes: +x is the body's left, +y up, +z anterior. A coronal cut moves along z, a sagittal cut along x, a transverse cut along y. */
 export const SECTION_AXES: Record<Exclude<SectionAxis, 'none'>, {index: 0 | 1 | 2; label: string; english: string}> = {

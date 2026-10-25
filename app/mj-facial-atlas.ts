@@ -3,7 +3,7 @@ import {fetchModelBuffer} from './model-download';
 
 type FacialSourcePart={
  id:string;conceptId:string;name:string;system:Part['system'];vertexCount:number;indexCount:number;
- bounds:[number[],number[]];positions:number;normals:number;indices:number;chunk:number;
+ bounds:[number[],number[]];positions:number;normals:number;indices:number;chunk:number;sex?:'female';schematic?:boolean;
 };
 
 export type FacialStream={parts:FacialSourcePart[];chunks:Atlas['chunks']};
@@ -18,7 +18,8 @@ export function mergeAtlasStreams(base:Atlas,streams:FacialStream[]):Atlas{
   for(const p of stream.parts)added.push({
    id:p.id,name:p.name,conceptId:p.conceptId,system:p.system,chunk:offset+p.chunk,
    positions:p.positions,normals:p.normals,indices:p.indices,
-   vertexCount:p.vertexCount,indexCount:p.indexCount,bounds:p.bounds
+   vertexCount:p.vertexCount,indexCount:p.indexCount,bounds:p.bounds,
+   ...(p.sex?{sex:p.sex}:{}),...(p.schematic?{schematic:true}:{})
   });
   addedChunks.push(...stream.chunks);offset+=stream.chunks.length;
  }
@@ -42,5 +43,5 @@ export async function augmentAtlasWithFacial(base:Atlas,signal?:AbortSignal):Pro
  // the muscles/ligaments the 4.0 export left out, such as latissimus dorsi) into small, gzip-compressed, immutable same-origin
  // packages, so these pieces load in stages beside the body.
  const abort=signal??new AbortController().signal;
- return mergeAtlasStreams(base,await Promise.all([streamOf('facial/facial-stream.json.gz',abort),streamOf('supplement/supplement-stream.json.gz',abort)]));
+ return mergeAtlasStreams(base,await Promise.all([streamOf('facial/facial-stream.json.gz',abort),streamOf('supplement/supplement-stream.json.gz',abort),streamOf('female/female-stream.json.gz',abort),streamOf('serous/serous-stream.json.gz',abort)]));
 }

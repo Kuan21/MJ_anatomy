@@ -3,7 +3,7 @@
 // allow-listed nodes (scripts/heart-parts.json) are decoded, welded and repacked into a small gzip package that the viewer loads on demand.
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
-import {gzipSync} from 'node:zlib';
+import {gzipSync, gunzipSync} from 'node:zlib';
 import {createRequire} from 'node:module';
 import * as T from 'three';
 
@@ -100,15 +100,45 @@ const flush = () => {
   fs.writeFileSync(new URL(name, out), data); fs.writeFileSync(new URL(name + '.gz', out), gzip);
   chunks.push({url: '/models/stream/' + name, gzip: '/models/stream/' + name + '.gz', bytes: data.length, gzipBytes: gzip.length}); slices = []; size = 0;
 };
-for (const part of spec.parts) {
+// A few left-sided and tricuspid structures are missing from the Z-Anatomy export but exist in the BodyParts3D atlas the site already ships
+// (spec.bodyparts3d). The Z-Anatomy heart sits a constant ~15 mm lower than the atlas heart, so the BodyParts3D pieces are moved by the mean
+// offset of five structures present in both (spec.alignWith), which keeps the leaflets and papillary muscles inside the Z-Anatomy chambers.
+const atlas = JSON.parse(gunzipSync(fs.readFileSync(new URL('public/models/atlas-stream.json.gz', root))));
+const atlasById = new Map(atlas.parts.map(p => [p.id, p]));
+const atlasChunk = new Map();
+const atlasGeometry = id => {
+  const p = atlasById.get(id); if (!p) throw new Error(`BodyParts3D piece not in the atlas: ${id}`);
+  let raw = atlasChunk.get(p.chunk);
+  if (!raw) {raw = fs.readFileSync(new URL('public' + atlas.chunks[p.chunk].url, root)); atlasChunk.set(p.chunk, raw);}
+  const positions = new Float32Array(raw.buffer.slice(raw.byteOffset + p.positions, raw.byteOffset + p.positions + p.vertexCount * 12));
+  const indices = new Uint32Array(raw.buffer.slice(raw.byteOffset + p.indices, raw.byteOffset + p.indices + p.indexCount * 4));
+  return {p, positions, indices};
+};
+const boundsOf = positions => {const b = [[Infinity, Infinity, Infinity], [-Infinity, -Infinity, -Infinity]]; for (let i = 0; i < positions.length; i += 3) for (let k = 0; k < 3; k++) {b[0][k] = Math.min(b[0][k], positions[i + k]); b[1][k] = Math.max(b[1][k], positions[i + k]);} return b;};
+const centre = b => [0, 1, 2].map(k => (b[0][k] + b[1][k]) / 2);
+const offset = [0, 0, 0];
+for (const pair of spec.alignWith) {
+  const z = boundsOf(weld(decode(byName.get(pair.node))).positions), a = atlasGeometry(pair.id).p.bounds;
+  for (let k = 0; k < 3; k++) offset[k] += (centre(z)[k] - centre(a)[k]) / spec.alignWith.length;
+}
+console.log('BodyParts3D -> Z-Anatomy heart offset (mm):', offset.map(v => (v * 1000).toFixed(1)).join(', '));
+
+const sources = [...spec.parts.map(part => ({part, geometry: () => {
   const nodeIndex = byName.get(part.node);
   if (nodeIndex === undefined || gltf.nodes[nodeIndex].mesh === undefined) throw new Error(`Node not found in the pinned export: ${part.node}`);
-  const {positions, indices} = weld(decode(nodeIndex)), normals = normalsOf(positions, indices);
+  return weld(decode(nodeIndex));
+}})), ...(spec.bodyparts3d ?? []).map(part => ({part: {...part, node: part.id}, geometry: () => {
+  const {positions, indices} = atlasGeometry(part.id), moved = new Float32Array(positions.length);
+  for (let i = 0; i < moved.length; i += 3) for (let k = 0; k < 3; k++) moved[i + k] = positions[i + k] + offset[k];
+  return weld({pos: moved, idx: indices});
+}}))];
+for (const {part, geometry} of sources) {
+  const {positions, indices} = geometry(), normals = normalsOf(positions, indices);
   const bounds = [[Infinity, Infinity, Infinity], [-Infinity, -Infinity, -Infinity]];
   for (let i = 0; i < positions.length; i += 3) for (let k = 0; k < 3; k++) {bounds[0][k] = Math.min(bounds[0][k], positions[i + k]); bounds[1][k] = Math.max(bounds[1][k], positions[i + k]);}
   const pos = Buffer.from(positions.buffer), nor = Buffer.from(normals.buffer), idx = Buffer.from(indices.buffer);
   if (size && size + pos.length + nor.length + idx.length > 900000) flush();
-  parts.push({id: `HEART-${parts.length + 1}`, name: part.name, chinese: part.zh, group: part.group, system: part.system, description: {zh: part.zhDesc, en: part.enDesc}, node: part.node,
+  parts.push({id: `HEART-${parts.length + 1}`, name: part.name, chinese: part.zh, group: part.group, system: part.system, description: {zh: part.zhDesc, en: part.enDesc}, node: part.node, ...(part.id ? {origin: 'BodyParts3D 4.0'} : {}),
     chunk: chunks.length, vertexCount: positions.length / 3, indexCount: indices.length, bounds, positions: append(pos), normals: append(nor), indices: append(idx)});
 }
 flush();

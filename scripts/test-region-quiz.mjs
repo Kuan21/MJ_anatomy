@@ -43,8 +43,8 @@ const expected = {
     names: ['First rib', 'Twelfth rib', 'Third thoracic vertebra', 'Intercostal nerves', 'Posterior intercostal arteries', 'Internal thoracic artery', 'Subcostal artery', 'Vagus nerve (X)'],
     plain: ['Manubrium', 'Body of sternum', 'Xiphoid process', 'Diaphragm', 'Ascending aorta', 'Arch of aorta', 'Descending thoracic aorta', 'Superior vena cava', 'Inferior vena cava', 'Azygos vein', 'Brachiocephalic artery', 'Pulmonary trunk'],
   },  heart: {
-    count: [36, 40],
-    plain: ['Right atrium', 'Right ventricle', 'Left atrium', 'Left ventricle', 'Right coronary artery', 'Left coronary artery', 'Anterior interventricular artery', 'Circumflex artery', 'Great cardiac vein', 'Middle cardiac vein', 'Coronary sinus', 'Pulmonary trunk', 'Ascending aorta', 'Anterior papillary muscle of right ventricle', 'Inferior papillary muscle of left ventricle'],
+    count: [40, 46],
+    plain: ['Right atrium', 'Right ventricle', 'Left atrium', 'Left ventricle', 'Right coronary artery', 'Left coronary artery', 'Anterior interventricular artery', 'Circumflex artery', 'Great cardiac vein', 'Middle cardiac vein', 'Coronary sinus', 'Superior vena cava', 'Inferior vena cava', 'Pulmonary trunk', 'Ascending aorta', 'Anterior papillary muscle of right ventricle', 'Inferior papillary muscle of left ventricle'],
   },
   back: {
     count: [100, 130],

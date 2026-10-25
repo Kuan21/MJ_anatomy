@@ -36,11 +36,9 @@ function QuizScene({catalogue, view, onReady, onProgress, onError, onPick, onMes
   return <div className="quiz-canvas" ref={host}/>;
 }
 
-/** Chinese name (Taiwan medical terminology) first, English name beneath it. */
+/** English name first (large, dark), Chinese name (Taiwan medical terminology) after it in small grey. Cards with little room set it on one line. */
 function Name({structure}: {structure: QuizStructure}) {
-  return structure.chinese
-    ? <><span lang="zh-Hant">{structure.chinese}</span><small lang="en">{structure.name}</small></>
-    : <span lang="en">{structure.name}</span>;
+  return <><span className="bn-en" lang="en">{structure.name}</span>{structure.chinese && <small className="bn-zh" lang="zh-Hant">{structure.chinese}</small>}</>;
 }
 
 /** Shown under the correct answer, right or wrong: English name (large), Chinese name (small), then the fields for that kind of structure. */

@@ -3,6 +3,7 @@ import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import {fetchModelBuffer, loadMissingChunks} from '../model-download';
 import {PointerTap} from '../pointer-tap';
 import {framingDistance} from '../camera-framing';
+import {CHAMBERS} from './heart-chambers';
 import {SECTION_AXES, type HeartCatalogue, type HeartView, type HeartViewState} from './heart-types';
 
 interface Callbacks {
@@ -23,6 +24,8 @@ const COLOR_BY_PART = (id: string, group: string, system: string, name: string) 
   void id;
   return GROUP_COLOR[group] ?? '#cfae9a';
 };
+
+const chamberOf = (id: string) => CHAMBERS.find(c => c.id === id);
 
 /** Isolated, static viewer for the heart detail model: sections, per-group visibility, hover and selection. It never touches the atlas scene. */
 export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogue, callbacks: Callbacks) {
@@ -73,15 +76,16 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
 
   const apply = () => {
     if (!state) return;
-    const hidden = new Set(state.hiddenGroups), planes = clipping();
+    const hidden = new Set(state.hiddenGroups), planes = clipping(), lit = new Set(state.highlight), open = state.openChamber ? chamberOf(state.openChamber) : undefined;
+    const insideNames = new Set(open?.inside ?? []), wallName = open?.wall;
     for (const [id, mesh] of meshes) {
-      const part = parts.get(id)!, selected = id === state.selectedId, hovered = id === hoverId && !selected;
-      mesh.visible = !hidden.has(part.group);
+      const part = parts.get(id)!, selected = id === state.selectedId || lit.has(id), hovered = id === hoverId && !selected;
+      mesh.visible = !hidden.has(part.group) || insideNames.has(part.name);
       const m = mesh.material;
       m.color.set(selected ? HEART_SELECT.fill : hovered ? HEART_SELECT.hover : COLOR_BY_PART(id, part.group, part.system, part.name));
       m.emissive.set(selected ? HEART_SELECT.fill : '#000000'); m.emissiveIntensity = selected ? .1 : 0;
-      const ghost = state.ghostChambers && part.group === 'chambers' && !selected;
-      m.opacity = ghost ? .3 : selected ? .85 : 1; m.transparent = ghost || selected; m.depthWrite = !ghost && !selected;
+      const wall = part.name === wallName, ghost = (state.ghostChambers && part.group === 'chambers' && !selected) || wall;
+      m.opacity = wall ? .12 : ghost ? .3 : selected ? .85 : 1; m.transparent = ghost || selected; m.depthWrite = !ghost && !selected;
       // Selected piece is drawn whole over the pieces it overlaps (polygonOffset), like the main atlas.
       m.polygonOffset = selected; m.polygonOffsetFactor = -4; m.polygonOffsetUnits = -4;
       m.clippingPlanes = planes; m.needsUpdate = true;
@@ -100,18 +104,25 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
     dirty = true;
   };
 
-  const frameModel = (view: HeartView) => {
+  let lastFocus: string | undefined;
+  const frameModel = (view: HeartView, look?: [number, number, number], focusName?: string) => {
+    if (view !== 'fit') lastFocus = focusName;
+    const focus = view === 'fit' ? lastFocus : focusName;
     const direction = new T.Vector3(0, .05, 1);
     if (view === 'back') direction.set(0, .05, -1);
     if (view === 'left') direction.set(1, .05, 0);
     if (view === 'right') direction.set(-1, .05, 0);
     if (view === 'top') direction.set(0, 1, .12);
     if (view === 'fit') direction.copy(camera.position).sub(controls.target).normalize();
+    if (look) direction.set(...look);
     if (direction.lengthSq() < .5) direction.set(0, .05, 1);
     direction.normalize();
-    const target = new T.Box3(core.min.clone().addScalar(-.012), core.max.clone().addScalar(.012));
-    controls.target.copy(coreCentre);
-    camera.position.copy(coreCentre).addScaledVector(direction, framingDistance(target, direction, camera.fov, camera.aspect, .9, .9));
+    const focusPart = focus ? [...parts.values()].find(p => p.name === focus) : undefined;
+    const area = focusPart ? new T.Box3(new T.Vector3().fromArray(focusPart.bounds[0]), new T.Vector3().fromArray(focusPart.bounds[1])) : core;
+    const areaCentre = area.getCenter(new T.Vector3());
+    const target = new T.Box3(area.min.clone().addScalar(-.012), area.max.clone().addScalar(.012));
+    controls.target.copy(areaCentre);
+    camera.position.copy(areaCentre).addScaledVector(direction, framingDistance(target, direction, camera.fov, camera.aspect, .9, .9));
     controls.update(); dirty = true;
   };
 
@@ -147,7 +158,7 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
 
   const update = (next: HeartViewState) => {
     state = next;
-    if (command !== next.command.id) {command = next.command.id; if (loadedAll || command >= 0) frameModel(next.command.view);}
+    if (command !== next.command.id) {command = next.command.id; if (loadedAll || command >= 0) frameModel(next.command.view, next.command.look, next.command.focus);}
     apply();
   };
 
@@ -155,7 +166,8 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
     const rect = canvas.getBoundingClientRect();
     camera.updateMatrixWorld(); scene.updateMatrixWorld(true);
     raycaster.setFromCamera(new T.Vector2(((clientX - rect.left) / rect.width) * 2 - 1, 1 - ((clientY - rect.top) / rect.height) * 2), camera);
-    const candidates = [...meshes.values()].filter(m => m.visible && !(state?.ghostChambers && parts.get(m.userData.partId)?.group === 'chambers' && m.userData.partId !== state.selectedId));
+    const wallName = state?.openChamber ? chamberOf(state.openChamber)?.wall : undefined;
+    const candidates = [...meshes.values()].filter(m => m.visible && parts.get(m.userData.partId)?.name !== wallName && !(state?.ghostChambers && parts.get(m.userData.partId)?.group === 'chambers' && m.userData.partId !== state.selectedId));
     for (const hit of raycaster.intersectObjects(candidates, false)) if (keeps(hit.point)) return hit.object.userData.partId as string;
     // Ghosted chambers are still selectable when nothing else is hit.
     for (const hit of raycaster.intersectObjects([...meshes.values()].filter(m => m.visible), false)) if (keeps(hit.point)) return hit.object.userData.partId as string;

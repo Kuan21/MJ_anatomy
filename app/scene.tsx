@@ -16,7 +16,9 @@ import {framingDistance} from './camera-framing';
 import {SYSTEMS,type Atlas,type SceneState} from './anatomy';
 import {matchesMuscleLayer} from './mj-muscle-layers';
 import {matchesFacialMuscleLayer} from './mj-facial-layers';
-import {matchesHeartLayer} from './mj-heart-layers';
+import {matchesHeartLayer,isShellSurface} from './mj-heart-layers';
+import {matchesSex} from './mj-sex';
+import {serousLayerKey} from './mj-serous';
 import {matchesDepth} from './mj-depth';
 import {anatomicalRegion,anatomicalSide,isMotionQuarantined} from './mj-part-regions';
 import {isLinearBinding,lbsSkin,linearSkin,makeSoftRig,bindTissue,makePalette,deformTissue,deformPoint,followDeltoidSurface,setDeltoidFollowers,registerNerveRest,resolveNeurovascularProfile,tissueBindings,nerveBindings,type SkinBinding,type Profile,type DeltoidFollowers} from './biomechanics-v2/soft-tissue';
@@ -343,8 +345,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    for(const t of targets){const dx=Math.max(t.left-x,0,x-t.right),dy=Math.max(t.top-y,0,y-t.bottom),distance=Math.hypot(dx,dy);if(distance>radius)continue;const candidate=distance+Math.hypot(t.x-x,t.y-y)*.025;if(candidate<score){score=candidate;best=t.index;}}
    return best;
   };
-  const materialFor=(system:string)=>{
-   const m=new T.MeshStandardMaterial({color:SYSTEMS.find(s=>s.id===system)?.color??'#aebbb8',metalness:.08,roughness:.53,side:T.DoubleSide,transparent:system==='integumentary',opacity:system==='integumentary'?.1:1,depthWrite:system!=='integumentary'});
+  const materialFor=(system:string,shellOpacity?:number)=>{
+   const m=new T.MeshStandardMaterial({color:SYSTEMS.find(s=>s.id===system)?.color??'#aebbb8',metalness:.08,roughness:.53,side:T.DoubleSide,transparent:system==='integumentary'||shellOpacity!==undefined,opacity:shellOpacity??(system==='integumentary'?.1:1),depthWrite:system!=='integumentary'&&shellOpacity===undefined});
    m.onBeforeCompile=shader=>{
     shader.uniforms.partState={value:partTexture};shader.uniforms.paletteState={value:paletteTexture};shader.uniforms.paletteWidth={value:PALETTE_WIDTH};shader.uniforms.selectionState={value:selectionTexture};shader.uniforms.motionState={value:motionTexture};shader.uniforms.rotationState={value:rotationTexture};shader.uniforms.anchorMotionState={value:anchorMotionTexture};shader.uniforms.anchorRotationState={value:anchorRotationTexture};shader.uniforms.stateWidth={value:width};shader.uniforms.maxSoftDisplacement={value:system==='arterial'||system==='venous'?.16:system==='muscular'?.24:1.0};
     shader.vertexShader=GPU_SKIN_PARS+'attribute float partIndex; attribute float motionWeight; uniform sampler2D partState; uniform sampler2D selectionState; uniform sampler2D motionState; uniform sampler2D rotationState; uniform sampler2D anchorMotionState; uniform sampler2D anchorRotationState; uniform float stateWidth; uniform float maxSoftDisplacement; varying float partVisible; varying float partSelected; varying float partHovered; vec3 qrot(vec4 q, vec3 v){ return v + 2.0*cross(q.xyz, cross(q.xyz,v)+q.w*v); }\n'+shader.vertexShader;
@@ -360,7 +362,10 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
 
    };materials.push(m);return m;
   };
-  const mats=new Map(SYSTEMS.map(s=>[s.id,materialFor(s.id)]));
+  const mats=new Map<string,T.MeshStandardMaterial>(SYSTEMS.map(s=>[s.id,materialFor(s.id)]));
+  // Organ-surface shells (lung lobes, serous membranes) are drawn translucent so the airways, vessels and heart inside stay visible.
+  const shellOf=(p:{name:string;system:string})=>isShellSurface(p.name)?p.system+':shell':p.system;
+  mats.set('respiratory:shell',materialFor('respiratory',.32));mats.set('serous:shell',materialFor('serous',.28));
   const renderBatches:{mesh:T.Mesh;parts:{index:number;offset:number;geometry:T.BufferGeometry}[];mask:string}[]=[];
   const updateVisibleBatches=()=>{
    for(const batch of renderBatches){
@@ -527,7 +532,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     };
     pendingPickers.set(i,pick);geometries.push(g);
     g.setAttribute('partIndex',new T.BufferAttribute(new Float32Array(p.vertexCount).fill(i),1));
-    const list=groups.get(p.system)??[];list.push(g);groups.set(p.system,list);
+    const key=shellOf(p),list=groups.get(key)??[];list.push(g);groups.set(key,list);
     partOrdinal++;
     if(partOrdinal%12===0)await cooperativeYield();
    }
@@ -882,7 +887,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const intracranial=/brain|cerebr|cerebell|\bgyrus\b|lobule|\blobe\b|hemisphere|white matter|gray matter|cortex|insula|midbrain|pons|medulla oblongata|thalam|hypothalam|fornix|ventricle|choroid plexus|corpus callosum|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|commissure|colliculus|geniculate|habenula|mammillary|stria terminalis|stria medullaris|septum of telencephalon|tuber cinereum|interpeduncular fossa|lamina terminalis|optic chiasm|optic tract|peduncle of midbrain|cerebral aqueduct|pineal|pituitary|cerebral artery|cerebellar artery|basilar artery|callosomarginal artery|pericallosal artery|pontine artery|thalamogeniculate artery|thalamoperforating artery/i;
     const baseVisible=(p:(typeof atlas.parts)[number])=>{
      if(hidden.has(p.id))return false;
-     if(!matchesDepth(p,s.depthFilter)||!matchesMuscleLayer(p,s.muscleRegion,s.muscleLayer)||!matchesFacialMuscleLayer(p,s.faceMuscleLayer)||!matchesHeartLayer(p,s.heartOpen))return false;
+     if(!matchesDepth(p,s.depthFilter)||!matchesMuscleLayer(p,s.muscleRegion,s.muscleLayer)||!matchesFacialMuscleLayer(p,s.faceMuscleLayer)||!matchesHeartLayer(p,s.heartOpen)||!matchesSex(p,s.sex)||(p.system==='serous'&&(s.hiddenSerous??[]).includes(serousLayerKey(p.name))))return false;
      if(s.isolate)return false;
      return focus?focus.has(p.id)&&visible.has(p.system):visible.has(p.system);
     };

@@ -60,11 +60,11 @@ for (const [id, file, label, tag, labels] of [['upper-limb', 'upper', '上肢', 
   let view = scene().props.view;
   assert.equal(view.section, id === 'thorax' ? 'cage' : id === 'back' ? 'superficial' : id === 'heart' ? 'chambers' : 'shoulder'); assert.equal(view.side, id === 'back' || id === 'heart' ? 'both' : 'right');
   scene().props.onReady(view.key, true); render();
-  // Answer card: 中文名 first, English name beneath.
+  // Names: English first (large), Chinese name after it (small).
   const heading = all().find(n => n.type === 'h1' && n.props.className === 'quiz-target');
   const shown = text(heading.props.children.type(heading.props.children.props));
   assert.ok(shown.includes(view.target.chinese) && shown.includes(view.target.name), 'Chinese and English names shown together');
-  assert.ok(shown.indexOf(view.target.chinese) < shown.indexOf(view.target.name), 'Chinese name first');
+  assert.ok(shown.indexOf(view.target.name) < shown.indexOf(view.target.chinese), 'English name first');
   scene().props.onPick(view.target.id); render();
   assert.match(text(tree), /答對/);
   assert.ok(all().some(n => typeof n.type === 'function' && n.type.name === 'AnswerCard'), `${label}: the answer card follows a correct answer`);

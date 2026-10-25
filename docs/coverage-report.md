@@ -6,9 +6,9 @@
 
 | 類別 | 不重複詞數 | 意思 |
 |---|---|---|
-| 一、已有 | 1031 | 模型有，而且可以用搜尋／圖層揀到 |
+| 一、已有 | 1038 | 模型有，而且可以用搜尋／圖層揀到 |
 | 二、模型有但 UI 搵唔到 | 0 | 模型有幾何，但搜尋唔到（見下面清單；已修好者會喺「修復」一節列明） |
-| 三、模型冇 | 1278 | 交俾第 2 部分補模型 |
+| 三、模型冇 | 1271 | 交俾第 2 部分補模型 |
 | 骨性標誌 | 294 | 結節、窩、切跡等，屬已有骨件嘅表面特徵，模型唔另外分件 |
 | 雜訊（已略去） | 650 | 唔係解剖結構 |
 
@@ -35,7 +35,7 @@
 
 ## 背部/上肢/胸腔/下肢（跑考摘要）　`115-1_第一次跑考摘要`
 
-已有 358　·　UI 搵唔到 0　·　模型冇 96　·　骨標誌 35　·　雜訊 79
+已有 363　·　UI 搵唔到 0　·　模型冇 91　·　骨標誌 35　·　雜訊 79
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -45,11 +45,6 @@
 
 - Thoracolumber fascia
 - suboccipital triangle
-- Suboccipital n
-- Greater occipital n
-- Third occipital n
-- Lesser occipital n
-- Great auricular n
 - Denticulate lig. b. Denticulate lig
 - profunda branchial a（前穿到肱骨後側）
 - Triangular space
@@ -324,7 +319,7 @@
 
 ## 背部 II／脊髓　`20250513_解剖_背部II_魏___W13`
 
-已有 16　·　UI 搵唔到 0　·　模型冇 17　·　骨標誌 7　·　雜訊 27
+已有 17　·　UI 搵唔到 0　·　模型冇 16　·　骨標誌 7　·　雜訊 27
 
 **三、模型冇**
 
@@ -344,7 +339,6 @@
 - superficial/extrinsic（外在肌群）
 - deep/intrinsic（內在肌群）
 - intermediate layer（中層肌群）
-- suboccipital region（枕下三角）
 
 ## 上肢 II　`20250523_解剖_上肢II_張___W14`
 
@@ -831,7 +825,7 @@
 
 ## 頭部 I（顏面、腮腺、頭皮）　`解剖_0929`
 
-已有 74　·　UI 搵唔到 0　·　模型冇 76　·　骨標誌 13　·　雜訊 35
+已有 75　·　UI 搵唔到 0　·　模型冇 75　·　骨標誌 13　·　雜訊 35
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -866,7 +860,6 @@
 - Danger Triangle
 - Superficial temporal artery（淺顳動脈）
 - Auriculotemporal nerve（耳顳神經）
-- Great auricular nerve（大耳神經）
 - Otic ganglion
 - Posterior auricular artery（耳後動脈）
 - Supraorbital artery（分支包括眶上動脈）
@@ -918,7 +911,7 @@
 
 ## 頭部 II　`解剖_1013`
 
-已有 72　·　UI 搵唔到 0　·　模型冇 129　·　骨標誌 46　·　雜訊 57
+已有 73　·　UI 搵唔到 0　·　模型冇 128　·　骨標誌 46　·　雜訊 57
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -939,7 +932,6 @@
 - Further Division of Main Trunk（主幹再分）
 - chorda tympani nerve（鼓索神經）
 - Middle meningeal artery（中腦膜動脈）
-- Great auricular nerve
 - Tympanic plexus（鼓室神經叢）
 - Lesser petrosal nerve（小岩神經）
 - superficial temporal a（另一分支為淺顳動脈）
@@ -1058,7 +1050,7 @@
 
 ## 頸部 II　`解剖_1020`
 
-已有 75　·　UI 搵唔到 0　·　模型冇 82　·　骨標誌 18　·　雜訊 45
+已有 77　·　UI 搵唔到 0　·　模型冇 80　·　骨標誌 18　·　雜訊 45
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -1085,8 +1077,6 @@
 - Ext. Jugular v
 - Cervical Carotid triangle Plexus
 - External jugular v（外頸靜脈）
-- Great auricular n（耳大神經）
-- Lesser occipital n（枕小神經）
 - Supraclavicular n（鎖骨上神經）
 - Middle Scalene m（中斜角肌）
 - Phrenic n（膈神經）
@@ -1315,7 +1305,7 @@
 
 ## 頭部 IV　`解剖_1117`
 
-已有 86　·　UI 搵唔到 0　·　模型冇 75　·　骨標誌 15　·　雜訊 20
+已有 88　·　UI 搵唔到 0　·　模型冇 73　·　骨標誌 15　·　雜訊 20
 
 **三、模型冇**
 
@@ -1338,8 +1328,6 @@
 - Tympanic membrane（鼓膜）
 - Posterior auricular a（後耳動脈）
 - Superficial temporal a（淺顳動脈）
-- Great auricular n（耳大神經）
-- Lesser occipital n（枕小神經）
 - Auriculotemporal n（耳顳神經）
 - Superior tarsal muscle
 - statements regarding the ophthalmic nerve
