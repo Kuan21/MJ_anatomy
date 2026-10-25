@@ -165,3 +165,12 @@ a.quiz-hub-card:hover{transform:translateY(-2px);border-color:#263b4866;box-shad
 .quiz-hub-organs{margin-top:14px;grid-template-columns:repeat(3,minmax(0,1fr))}
 @media(max-width:900px){.quiz-hub-organs{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.quiz-hub-organs{grid-template-columns:1fr}}
+
+/* One name layout everywhere: English large and dark, Chinese small and light grey. */
+.quiz-target .bn-en{font-size:25px;color:var(--quiz-ink)}
+.quiz-target small.bn-zh{display:block;font-size:14px;color:var(--quiz-muted);font-weight:400;margin-top:6px}
+/* Result cards and the review list have little room: the Chinese name follows the English name on the same line, wrapping with it. */
+.quiz-answer-name>b{font-size:15px;color:var(--quiz-ink)}
+.quiz-answer-name small.bn-zh,.quiz-review-item small.bn-zh{display:inline;font-size:11px;font-weight:400;color:var(--quiz-muted);margin:0 0 0 8px}
+.quiz-review-item b{font-size:13px}
+.quiz-info-zh{font-size:12px}

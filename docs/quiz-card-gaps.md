@@ -432,16 +432,18 @@
 - 左肺動脈（Left pulmonary artery）：缺 主要分支
 - 右肺動脈（Right pulmonary artery）：缺 主要分支
 
-### 靜脈：2 / 9 項資料完整
+### 靜脈：2 / 11 項資料完整
 
 - 心中靜脈（Middle cardiac vein）：缺 主要分支
 - 左心室下靜脈（Inferior vein of left ventricle）：缺 來源、主要分支
 - 左心室後靜脈（Posterior vein of left ventricle）：缺 來源、主要分支
+- 上腔靜脈（Superior vena cava）：缺 來源、走向、主要分支、引流範圍
+- 下腔靜脈（Inferior vena cava）：缺 來源、走向、主要分支、引流範圍
 - 左上肺靜脈（Left superior pulmonary vein）：缺 來源、主要分支
 - 左下肺靜脈（Left inferior pulmonary vein）：缺 來源、主要分支
 - 右上肺靜脈（Right superior pulmonary vein）：缺 來源、主要分支
 - 右下肺靜脈（Right inferior pulmonary vein）：缺 來源、主要分支
 
-### 心臟構造：17 / 17 項資料完整
+### 心臟構造：20 / 20 項資料完整
 
 （全部完整）
