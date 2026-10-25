@@ -71,14 +71,20 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   // used to download and decode beside it, which could push iPad Safari over
   // its per-tab memory limit before the progress card disappeared.
   const supplementaryQueue=createAssetQueue(abort.signal,2);
+  // Nerves and veins of the nerve layer are bound to the motion skeleton by weights that arrive in separate packages (skin weights, nerve packages).
+  // Until every one of them has been applied they stay hidden, so a nerve never shows in an unweighted, wrongly placed state.
+  const settling={nerves:0,skin:0};
+  const settlingKey=(label:string):keyof typeof settling|null=>label.startsWith('周邊神經')?'nerves':label==='皮膚權重'?'skin':null;
+  const nervesReady=()=>settling.nerves===0&&settling.skin===0;
   const scheduleSupplementary=(task:()=>Promise<void>,onFailure:()=>void,label='補充組織')=>{
    supplementaryPending++;reportLoading();
+   const group=settlingKey(label);if(group)settling[group]++;
    supplementaryQueue.add(async()=>{
     if(disposed)return;
     let error:unknown;
     for(let attempt=0;attempt<2;attempt++){try{await task();error=undefined;break;}catch(e){error=e;if(disposed)return;}}
     if(error!==undefined){failedSupplementary.push({task,onFailure,label});console.warn(label+' unavailable',error);}
-    supplementaryPending--;lastState=null;dirty=true;reportLoading();await cooperativeYield();
+    supplementaryPending--;if(group)settling[group]--;lastState=null;dirty=true;reportLoading();await cooperativeYield();
    });
   };
   const fetchSupplementaryJson=async(path:string)=>JSON.parse(new TextDecoder().decode(await fetchModelBuffer(`${import.meta.env.BASE_URL}models/${path}`,0,path.endsWith('.gz'),abort.signal)));
@@ -855,9 +861,9 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const nervesOn=s.visible.includes('nervous')&&!s.isolate;
     // Schematic veins (suboccipital plexus) live in the nerve mesh group but belong to the Veins system.
     const veinsOn=s.visible.includes('venous')&&!s.isolate;
-    nerveRoot.visible=nervesOn||veinsOn;
+    nerveRoot.visible=(nervesOn||veinsOn)&&nervesReady();
     nerveMeshes.forEach(o=>{
-     if(o.userData.mjVein?!veinsOn:!nervesOn){o.visible=false;return;}
+     if(!nervesReady()||(o.userData.mjVein?!veinsOn:!nervesOn)){o.visible=false;return;}
      const name=(o.userData.mjExactName as string|undefined)||o.name,side=nerveSide(name),boundRegion=o.userData.bodyRegion as BodyRegion|undefined;
      const sideOk=ctx.focusSide==='both'||side==='both'||side===ctx.focusSide;
      if(s.bodyMotion?.region==='spine')o.visible=sideOk;

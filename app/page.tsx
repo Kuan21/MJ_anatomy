@@ -22,6 +22,7 @@ import SearchPanel from './search-panel';
 import type {CourseNoteEntry} from './mj-course-notes';
 import {normalizeAtlasSystems} from './mj-system-classifier';
 import {anatomicalRegion,anatomicalSide,partsInRegion,topRegionParts} from './mj-part-regions';
+import {resolveArmCollision} from './mj-arm-collision';
 import {buildUpperLimbMotion,constrainPose,MOTION_LIMITS,NEUTRAL_POSE,type MotionPose,type Side} from './mj-motion';
 import BodyControls from './biomechanics-v2/body-controls';
 import {makeBodyRig,buildBodyMotion,BODY_NEUTRAL,type BodyRegion,type BodyPose} from './biomechanics-v2/body-motion';
@@ -80,7 +81,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const [extras,setExtras]=useState<Extra[]>([]),[externalSystem,setExternalSystem]=useState<SystemId>('nervous');
  const [region,setRegion]=useState<RegionId>('whole-body'),[dissectionStage,setDissectionStage]=useState(0),[studySide,setStudySide]=useState<'both'|Side>('both');
  const [topRegion,setTopRegion]=useState<TopRegion>('whole'),[rightTool,setRightTool]=useState<'view'|'dissection'|'depth'|null>(null),[microAtlas,setMicroAtlas]=useState<MicroAtlasId|null>(null);
- const [motionSide,setMotionSide]=useState<Side>('right'),[motionPose,setMotionPose]=useState<MotionPose>(NEUTRAL_POSE),[motionEdit,setMotionEdit]=useState(false),[motionEnabled,setMotionEnabled]=useState(false),[organsOpen,setOrgansOpen]=useState(true);
+ const [motionSide,setMotionSide]=useState<Side>('right'),[motionPose,setMotionPose]=useState<MotionPose>(NEUTRAL_POSE),[motionEdit,setMotionEdit]=useState(false),[motionBlock,setMotionBlock]=useState(''),[motionEnabled,setMotionEnabled]=useState(false),[organsOpen,setOrgansOpen]=useState(true);
  const [mobileMotionOpen,setMobileMotionOpen]=useState(false);
  const [motionAction,setMotionAction]=useState<UpperMotionAction>('shoulderFlexion');
  const motionPoseRef=useRef<MotionPose>(NEUTRAL_POSE);motionPoseRef.current=motionPose;
@@ -117,7 +118,8 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  // The Quiz button always opens the body-part chooser (#/quiz), from every page.
  const quizHref='#/quiz';
  const hiddenSet=new Set(state.hiddenParts??[]);
- const visibleCount=atlas?.parts.filter(p=>!hiddenSet.has(p.id)&&(state.selected.includes(p.id)||(matchesDepth(p,state.depthFilter)&&matchesMuscleLayer(p,state.muscleRegion,state.muscleLayer)&&matchesFacialMuscleLayer(p,state.faceMuscleLayer)&&matchesHeartLayer(p,state.heartOpen)&&matchesSex(p,state.sex)&&!(p.system==='serous'&&(state.hiddenSerous??[]).includes(serousLayerKey(p.name)))&&(state.isolate?false:state.focusParts?state.focusParts.includes(p.id)&&state.visible.includes(p.system):state.visible.includes(p.system))))).length??0;
+ // Counting ~2,300 parts is skipped while only the pose changes (a motion drag re-renders this page every frame).
+ const visibleCount=useMemo(()=>atlas?.parts.filter(p=>!hiddenSet.has(p.id)&&(state.selected.includes(p.id)||(matchesDepth(p,state.depthFilter)&&matchesMuscleLayer(p,state.muscleRegion,state.muscleLayer)&&matchesFacialMuscleLayer(p,state.faceMuscleLayer)&&matchesHeartLayer(p,state.heartOpen)&&matchesSex(p,state.sex)&&!(p.system==='serous'&&(state.hiddenSerous??[]).includes(serousLayerKey(p.name)))&&(state.isolate?false:state.focusParts?state.focusParts.includes(p.id)&&state.visible.includes(p.system):state.visible.includes(p.system))))).length??0,[atlas,state.hiddenParts,state.selected,state.depthFilter,state.muscleRegion,state.muscleLayer,state.faceMuscleLayer,state.heartOpen,state.sex,state.hiddenSerous,state.isolate,state.focusParts,state.visible]);
  // Search index: built once in idle slices after the atlas is ready (and again when the extra names arrive), then queried per keystroke by the search panel.
  const [searchIndex,setSearchIndex]=useState<SearchEntry[]|null>(null);
  useEffect(()=>{
@@ -177,7 +179,10 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  // Direct manipulation follows the latest input once per animation frame.
  // A smoothing loop previously rewrote the slider with older angles, kept
  // moving after release, and captured the wrong side during a side switch.
- const applyMotionPose=(pose:MotionPose,side:'both'|Side=studySide)=>{if(!atlas||!motionEnabled)return;const target=constrainPose(pose);motionTargetRef.current=target;motionInputSide.current=side;setMotionPose(target);if(smoothMotionFrame.current!==null)return;smoothMotionFrame.current=requestAnimationFrame(()=>{smoothMotionFrame.current=null;commitMotionPose(motionTargetRef.current,motionInputSide.current);});};
+ // Direct manipulation: each input only records the latest requested pose. Once per animation frame the pose is resolved against the joint limits and
+ // the collision envelope, and the page state is updated in a single batch (pose readout, notice and bone transforms together).
+ const requestedPose=useRef<{pose:MotionPose;side:'both'|Side}|null>(null);
+ const applyMotionPose=(pose:MotionPose,side:'both'|Side=studySide)=>{if(!atlas||!motionEnabled)return;requestedPose.current={pose,side};motionTargetRef.current=constrainPose(pose);motionInputSide.current=side;if(smoothMotionFrame.current!==null)return;smoothMotionFrame.current=requestAnimationFrame(()=>{smoothMotionFrame.current=null;const request=requestedPose.current;requestedPose.current=null;if(!request||!atlas)return;let target=constrainPose(request.pose),block='';for(const arm of request.side==='both'?(['left','right'] as Side[]):[request.side]){const r=resolveArmCollision(atlas,arm,target);target=r.pose;if(r.limited&&r.contact)block=`${r.contact.segment==='hand'?'手':r.contact.segment==='forearm'?'前臂':'上臂'}已碰到${r.contact.body==='head'?'頭部':r.contact.body==='neck'?'頸部':'軀幹'}，角度已依人體活動度限制，避免穿過身體。`;}motionTargetRef.current=target;setMotionBlock(block);setMotionPose(target);commitMotionPose(target,request.side);});};
  const activateMotionSide=(side:Side)=>{if(!atlas||!motionEnabled)return;stopMotionAnimation();setTopRegion('upper');setMotionSide(side);setStudySide(side);motionTargetRef.current=NEUTRAL_POSE;motionPoseRef.current=NEUTRAL_POSE;setMotionPose(NEUTRAL_POSE);setMotionEdit(true);const ids=filterSide(motionRegionIds('upper'),side),built=buildUpperLimbMotion(atlas,side,NEUTRAL_POSE);if(built.warnings.length)setError(built.warnings.join(' '));else setError('');setState(s=>({...s,focusParts:ids,cameraFocusParts:ids,cameraFocusNonce:(s.cameraFocusNonce??0)+1,bodyMotion:undefined,partTransforms:built.transforms,selected:[],isolate:false,explode:0,rotate:false}));};
  const setJoint=(key:keyof MotionPose,value:number)=>{applyMotionPose({...motionTargetRef.current,[key]:value});};
  const nudgeJoint=(side:Side,key:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion',delta:number)=>{if(!atlas||!motionEnabled)return;setMotionSide(side);setStudySide(side);const limits=MOTION_LIMITS[key],base=motionTargetRef.current,value=Math.max(limits[0],Math.min(limits[1],base[key]+delta)),pose={...base,[key]:value};applyMotionPose(pose,side);};
@@ -190,7 +195,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const topFocusIds=(next:TopRegion)=>atlas?topRegionParts(atlas.parts,next,ORGAN_SYSTEM_IDS):undefined;
  const selectTop=(next:TopRegion)=>{
   setMicroAtlas(null);if(!atlas||!bodyRigs)return;
-  if(smoothMotionFrame.current!==null){cancelAnimationFrame(smoothMotionFrame.current);smoothMotionFrame.current=null;}
+  if(smoothMotionFrame.current!==null){cancelAnimationFrame(smoothMotionFrame.current);smoothMotionFrame.current=null;}requestedPose.current=null;
   setTopRegion(next);setStudySide('both');setRegion('whole-body');setDissectionStage(0);setMotionEdit(false);setMotionEnabled(false);
   setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;motionTargetRef.current=NEUTRAL_POSE;
   setDetails(false);setChosen(null);setExternalNerve(null);
@@ -257,6 +262,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
    {rightTool==='depth'&&<section id="tool-depth" className="right-tool-panel glass" aria-label="組織深度"><strong>組織深度</strong><div className="depth-filter-buttons">{([['all','全部'],['superficial','淺層'],['intermediate','中層'],['deep','深層']] as [TissueDepth,string][]).map(([depth,label])=><Button variant="ghost" key={depth} aria-pressed={state.depthFilter===depth} onClick={()=>setDepth(depth)}>{label}</Button>)}</div></section>}
    {rightTool==='view'&&<nav id="tool-view" className="right-tool-panel view-controls glass" aria-label="Camera controls">{(['three-quarter','front','side','back'] as View[]).map((v,i)=><Button variant="ghost" key={v} className={state.view===v?'active':''} aria-pressed={state.view===v} disabled={state.explode>.8&&v!=='front'} onClick={()=>setState(s=>({...s,view:v,reset:s.reset+1,rotate:false}))} title={`${v} view`} aria-label={`${v} view`}><span>{['¾','正面','側面','背面'][i]}</span></Button>)}<i/><Button variant="ghost" disabled={state.explode>=.4} aria-label={state.rotate?'Pause rotation':'Rotate body'} title="Auto rotate" className={state.rotate?'active':''} onClick={()=>setState(s=>({...s,rotate:!s.rotate}))}>{state.rotate?<Pause size={17}/>:<RotateCw size={18}/>}</Button><Button variant="ghost" aria-label="Reset view and layers" title="Reset" onClick={reset}><RotateCcw size={17}/></Button></nav>}
    <details className="joint-workspace glass" open={mobileMotionOpen||undefined}><summary><span>關節系統與動作</span><label className="motion-enable-toggle" onClick={e=>e.stopPropagation()}><input type="checkbox" checked={motionEnabled} onChange={e=>{stopMotionAnimation();motionTargetRef.current=motionPoseRef.current;setMotionEnabled(e.target.checked);}}/><span>{motionEnabled?'已啟用':'啟用活動'}</span></label></summary><div className="joint-workspace-content">
+    {motionBlock&&<div className="motion-lock-note motion-limit-note" role="status">{motionBlock}</div>}
     {!motionEnabled&&<div className="motion-lock-note">關節已鎖定。勾選「啟用活動」後，先可以拖動模型或調整關節角度。</div>}
     <details className="joint-guide"><summary>關節類型</summary><div className="joint-guide-list">{JOINT_TYPES.map(j=><div className="joint-guide-row" key={j.id}><div><strong>{j.zh} · {j.en}</strong><span>{j.axis}</span></div><small>{j.upperLimbExamples}</small><p>{j.movements}</p></div>)}</div></details>
     <label className="joint-surface-toggle"><input type="checkbox" checked={state.jointSurfaces!==false} onChange={e=>setState(s=>({...s,jointSurfaces:e.target.checked,visible:e.target.checked&&!s.visible.includes('connective')?[...s.visible,'connective']:s.visible}))}/>關節軟骨面</label><small className="joint-surface-note">Connective tissue 層：藍綠色為軟骨面、盂唇與關節盤；淡色半透明為關節囊。軟骨面依來源標記配準，厚度非實測。角度為教學限制，未模擬韌帶張力或骨面碰撞。</small>
