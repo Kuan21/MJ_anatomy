@@ -44,7 +44,7 @@ export default function QuizHub() {
       <h2 className="quiz-hub-subhead">器官 <small>Organs</small></h2>
       <section aria-label="器官" className="quiz-hub-grid quiz-hub-organs">
         <a className="quiz-hub-card" href={QUIZ_REGIONS.heart.hash} data-part="heart">
-          <span className="quiz-hub-text"><b>心臟</b><small>Heart</small><em>心腔、瓣膜（含腱索）、乳頭肌、冠狀動脈與心臟靜脈</em></span><ChevronRight size={18}/>
+          <span className="quiz-hub-text"><b>心臟</b><small>Heart</small><em>心腔、瓣膜（含腱索）、乳突肌、冠狀動脈與心臟靜脈</em></span><ChevronRight size={18}/>
         </a>
         <div className="quiz-hub-card is-soon" aria-disabled="true" data-part="organs">
           <span className="quiz-hub-text"><b>其他器官</b><small>Other organs</small><em>肺、腦等器官的 Quiz，之後加入</em></span>

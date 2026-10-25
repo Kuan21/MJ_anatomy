@@ -424,15 +424,20 @@
 
 ## 心臟（Heart）
 
-### 動脈：7 / 12 項資料完整
+### 動脈：7 / 17 項資料完整
 
 - 右冠狀動脈右下外側支（Right inferolateral branch of right coronary artery）：缺 主要分支
 - 前室間動脈中隔支（Septal branches of anterior interventricular artery）：缺 主要分支
 - 肺動脈幹分叉處（Bifurcation of pulmonary trunk）：缺 供應範圍
 - 左肺動脈（Left pulmonary artery）：缺 主要分支
 - 右肺動脈（Right pulmonary artery）：缺 主要分支
+- 右緣支（Right marginal branch）：缺 來源、走向、主要分支、供應範圍
+- 後室間支（Posterior interventricular branch）：缺 來源、走向、主要分支、供應範圍
+- 對角支（Diagonal branches）：缺 來源、走向、主要分支、供應範圍
+- 竇房結動脈（Sinoatrial nodal artery）：缺 來源、走向、主要分支、供應範圍
+- 左緣支（Left marginal branch）：缺 來源、走向、主要分支、供應範圍
 
-### 靜脈：2 / 11 項資料完整
+### 靜脈：2 / 13 項資料完整
 
 - 心中靜脈（Middle cardiac vein）：缺 主要分支
 - 左心室下靜脈（Inferior vein of left ventricle）：缺 來源、主要分支
@@ -443,7 +448,9 @@
 - 左下肺靜脈（Left inferior pulmonary vein）：缺 來源、主要分支
 - 右上肺靜脈（Right superior pulmonary vein）：缺 來源、主要分支
 - 右下肺靜脈（Right inferior pulmonary vein）：缺 來源、主要分支
+- 心小靜脈（Small cardiac vein）：缺 來源、走向、主要分支、引流範圍
+- 心前靜脈（Anterior cardiac veins）：缺 來源、走向、主要分支、引流範圍
 
-### 心臟構造：20 / 20 項資料完整
+### 心臟構造：38 / 38 項資料完整
 
 （全部完整）

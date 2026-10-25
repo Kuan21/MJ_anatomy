@@ -1615,8 +1615,8 @@
 | Middle hepatic vein | 台灣解剖學名詞（程式內建對照表） | 中肝靜脈 |
 | hepatic vein | 台灣解剖學名詞（程式內建對照表） | 肝靜脈 |
 | anterior cusp of pulmonary valve | 台灣解剖學名詞（程式內建對照表） | 肺動脈瓣前尖 |
-| Anterolateral head of lateral papillary muscle of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室外側乳頭肌前外側頭 |
-| Anterior papillary muscle of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室前乳頭肌 |
+| Anterolateral head of lateral papillary muscle of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室外側乳突肌前外側頭 |
+| Anterior papillary muscle of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室前乳突肌 |
 | Anterior leaflet of mitral valve | 台灣解剖學名詞（程式內建對照表） | 二尖瓣前葉 |
 | Anterior leaflet of tricuspid valve | 台灣解剖學名詞（程式內建對照表） | 三尖瓣前葉 |
 | Cavity of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室腔 |
@@ -1624,13 +1624,13 @@
 | posterior cusp of aortic valve | 台灣解剖學名詞（程式內建對照表） | 主動脈瓣後尖 |
 | Posterior cusp of pulmonary valve | 台灣解剖學名詞（程式內建對照表） | 肺動脈瓣後尖 |
 | Wall of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室壁 |
-| Lateral papillary muscle of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室外側乳頭肌 |
-| Posterior papillary muscle of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室後乳頭肌 |
+| Lateral papillary muscle of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室外側乳突肌 |
+| Posterior papillary muscle of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室後乳突肌 |
 | Posterior leaflet of mitral valve | 台灣解剖學名詞（程式內建對照表） | 二尖瓣後葉 |
 | Posterior leaflet of tricuspid valve | 台灣解剖學名詞（程式內建對照表） | 三尖瓣後葉 |
 | Anterior cusp of aortic valve | 台灣解剖學名詞（程式內建對照表） | 主動脈瓣前尖 |
 | Septal leaflet of tricuspid valve | 台灣解剖學名詞（程式內建對照表） | 三尖瓣隔葉 |
-| Septal papillary muscle of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室隔側乳頭肌 |
+| Septal papillary muscle of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室隔側乳突肌 |
 | Wall of atrium | 台灣解剖學名詞（程式內建對照表） | 心房壁 |
 | Cricoid cartilage | 台灣解剖學名詞（程式內建對照表） | 環狀軟骨 |
 | Inferior lingular bronchial tree | 台灣解剖學名詞（程式內建對照表） | 下舌支氣管樹 |

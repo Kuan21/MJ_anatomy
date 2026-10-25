@@ -1,0 +1,396 @@
+{
+ "source": "115-1 第一次跑考摘要 第17頁（心臟）。清單任何一項在模型、資料卡、Quiz 缺少，npm run check:heart 會失敗，build 也會失敗。傳導系統不在跑考範圍，排在最後並標為未收錄。",
+ "sections": [
+  {
+   "id": "pericardium",
+   "zh": "心包膜",
+   "list": "group",
+   "items": [
+    {
+     "zh": "纖維心包",
+     "en": "Fibrous pericardium",
+     "parts": [
+      "Fibrous pericardium"
+     ]
+    },
+    {
+     "zh": "漿膜心包壁層",
+     "en": "Parietal layer of serous pericardium",
+     "parts": [
+      "Parietal layer of serous pericardium"
+     ]
+    },
+    {
+     "zh": "心包橫竇",
+     "en": "Transverse pericardial sinus",
+     "parts": [
+      "Transverse pericardial sinus"
+     ]
+    },
+    {
+     "zh": "心包斜竇",
+     "en": "Oblique pericardial sinus",
+     "parts": [
+      "Oblique pericardial sinus"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "rca",
+   "zh": "右冠狀動脈",
+   "list": "group",
+   "items": [
+    {
+     "zh": "右緣支",
+     "en": "Right marginal branch",
+     "parts": [
+      "Right marginal branch"
+     ]
+    },
+    {
+     "zh": "後室間支",
+     "en": "Posterior interventricular branch",
+     "parts": [
+      "Posterior interventricular branch"
+     ]
+    },
+    {
+     "zh": "竇房結動脈",
+     "en": "Sinoatrial nodal artery",
+     "parts": [
+      "Sinoatrial nodal artery"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "lca",
+   "zh": "左冠狀動脈",
+   "list": "group",
+   "items": [
+    {
+     "zh": "前室間支",
+     "en": "Anterior interventricular branch",
+     "parts": [
+      "Anterior interventricular artery"
+     ]
+    },
+    {
+     "zh": "對角支",
+     "en": "Diagonal branches",
+     "parts": [
+      "Diagonal branches"
+     ]
+    },
+    {
+     "zh": "迴旋支",
+     "en": "Circumflex branch",
+     "parts": [
+      "Circumflex artery"
+     ]
+    },
+    {
+     "zh": "左緣支",
+     "en": "Left marginal branch",
+     "parts": [
+      "Left marginal branch"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "veins",
+   "zh": "靜脈",
+   "list": "group",
+   "items": [
+    {
+     "zh": "心大靜脈",
+     "en": "Great cardiac vein",
+     "parts": [
+      "Great cardiac vein"
+     ]
+    },
+    {
+     "zh": "心中靜脈",
+     "en": "Middle cardiac vein",
+     "parts": [
+      "Middle cardiac vein"
+     ]
+    },
+    {
+     "zh": "心小靜脈",
+     "en": "Small cardiac vein",
+     "parts": [
+      "Small cardiac vein"
+     ]
+    },
+    {
+     "zh": "心前靜脈",
+     "en": "Anterior cardiac veins",
+     "parts": [
+      "Anterior cardiac veins"
+     ]
+    },
+    {
+     "zh": "冠狀竇",
+     "en": "Coronary sinus",
+     "parts": [
+      "Coronary sinus"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ra",
+   "zh": "右心房",
+   "list": "chamber",
+   "items": [
+    {
+     "zh": "右心耳",
+     "en": "Right auricle",
+     "parts": [
+      "Right auricle"
+     ]
+    },
+    {
+     "zh": "左心耳",
+     "en": "Left auricle",
+     "parts": [
+      "Left auricle"
+     ]
+    },
+    {
+     "zh": "心房中隔",
+     "en": "Interatrial septum",
+     "parts": [
+      "Interatrial septum"
+     ]
+    },
+    {
+     "zh": "梳狀肌",
+     "en": "Pectinate muscles",
+     "parts": [
+      "Pectinate muscles"
+     ]
+    },
+    {
+     "zh": "卵圓窩",
+     "en": "Fossa ovalis",
+     "parts": [
+      "Fossa ovalis"
+     ]
+    },
+    {
+     "zh": "冠狀竇開口",
+     "en": "Opening of the coronary sinus",
+     "parts": [
+      "Coronary sinus"
+     ]
+    },
+    {
+     "zh": "界嵴",
+     "en": "Crista terminalis",
+     "parts": [
+      "Crista terminalis"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "rv",
+   "zh": "右心室",
+   "list": "chamber",
+   "items": [
+    {
+     "zh": "三尖瓣前瓣",
+     "en": "Anterior leaflet of the tricuspid valve",
+     "parts": [
+      "Anterior leaflet of right atrioventricular valve"
+     ]
+    },
+    {
+     "zh": "三尖瓣後瓣",
+     "en": "Posterior (inferior) leaflet of the tricuspid valve",
+     "parts": [
+      "Inferior leaflet of right atrioventricular valve"
+     ]
+    },
+    {
+     "zh": "三尖瓣中隔瓣",
+     "en": "Septal leaflet of the tricuspid valve",
+     "parts": [
+      "Septal leaflet of right atrioventricular valve"
+     ]
+    },
+    {
+     "zh": "前乳突肌",
+     "en": "Anterior papillary muscle",
+     "parts": [
+      "Anterior papillary muscle of right ventricle"
+     ]
+    },
+    {
+     "zh": "後乳突肌",
+     "en": "Posterior (inferior) papillary muscle",
+     "parts": [
+      "Inferior papillary muscle of right ventricle"
+     ]
+    },
+    {
+     "zh": "中隔乳突肌",
+     "en": "Septal papillary muscle",
+     "parts": [
+      "Septal papillary muscle of right ventricle"
+     ]
+    },
+    {
+     "zh": "腱索",
+     "en": "Chordae tendineae",
+     "parts": [
+      "Anterior leaflet of right atrioventricular valve",
+      "Inferior leaflet of right atrioventricular valve",
+      "Septal leaflet of right atrioventricular valve"
+     ]
+    },
+    {
+     "zh": "肉柱",
+     "en": "Trabeculae carneae",
+     "parts": [
+      "Trabeculae carneae of right ventricle"
+     ]
+    },
+    {
+     "zh": "節制索",
+     "en": "Septomarginal trabecula (moderator band)",
+     "parts": [
+      "Septomarginal trabecula (moderator band)"
+     ]
+    },
+    {
+     "zh": "室上嵴",
+     "en": "Supraventricular crest",
+     "parts": [
+      "Supraventricular crest"
+     ]
+    },
+    {
+     "zh": "動脈圓錐",
+     "en": "Conus arteriosus (infundibulum)",
+     "parts": [
+      "Conus arteriosus"
+     ]
+    },
+    {
+     "zh": "肺動脈瓣",
+     "en": "Pulmonary valve",
+     "parts": [
+      "Anterior semilunar cusp of pulmonary valve",
+      "Left semilunar cusp of pulmonary valve",
+      "Right semilunar cusp of pulmonary valve"
+     ]
+    },
+    {
+     "zh": "室間隔",
+     "en": "Interventricular septum",
+     "parts": [
+      "Interventricular septum"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "lv",
+   "zh": "左心室",
+   "list": "chamber",
+   "items": [
+    {
+     "zh": "二尖瓣前瓣",
+     "en": "Anterior leaflet of the mitral valve",
+     "parts": [
+      "Anterior leaflet of left atrioventricular valve"
+     ]
+    },
+    {
+     "zh": "二尖瓣後瓣",
+     "en": "Posterior leaflet of the mitral valve",
+     "parts": [
+      "Posterior leaflet of left atrioventricular valve"
+     ]
+    },
+    {
+     "zh": "前乳突肌",
+     "en": "Anterior (anterolateral) papillary muscle",
+     "parts": [
+      "Anterolateral papillary muscle of left ventricle"
+     ]
+    },
+    {
+     "zh": "後乳突肌",
+     "en": "Posterior (posteromedial) papillary muscle",
+     "parts": [
+      "Inferior papillary muscle of left ventricle"
+     ]
+    },
+    {
+     "zh": "腱索",
+     "en": "Chordae tendineae",
+     "parts": [
+      "Anterior leaflet of left atrioventricular valve",
+      "Posterior leaflet of left atrioventricular valve"
+     ]
+    },
+    {
+     "zh": "肉柱",
+     "en": "Trabeculae carneae",
+     "parts": [
+      "Trabeculae carneae of left ventricle"
+     ]
+    },
+    {
+     "zh": "主動脈前庭",
+     "en": "Aortic vestibule",
+     "parts": [
+      "Aortic vestibule"
+     ]
+    },
+    {
+     "zh": "主動脈瓣",
+     "en": "Aortic valve",
+     "parts": [
+      "Left coronary leaflet of aortic valve",
+      "Right coronary leaflet of aortic valve",
+      "Non-coronary leaflet of aortic valve"
+     ]
+    },
+    {
+     "zh": "主動脈瓣右冠狀瓣",
+     "en": "Right coronary cusp of the aortic valve",
+     "parts": [
+      "Right coronary leaflet of aortic valve"
+     ]
+    },
+    {
+     "zh": "主動脈瓣左冠狀瓣",
+     "en": "Left coronary cusp of the aortic valve",
+     "parts": [
+      "Left coronary leaflet of aortic valve"
+     ]
+    },
+    {
+     "zh": "主動脈瓣無冠狀瓣",
+     "en": "Non-coronary cusp of the aortic valve",
+     "parts": [
+      "Non-coronary leaflet of aortic valve"
+     ]
+    }
+   ]
+  }
+ ],
+ "outOfScope": [
+  {
+   "zh": "傳導系統（竇房結、房室結、希氏束、浦肯野纖維）",
+   "note": "不在跑考範圍；模型沒有，排在最後，不出題。"
+  }
+ ]
+}

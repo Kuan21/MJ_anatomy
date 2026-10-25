@@ -73,3 +73,7 @@
 .organ-nomodel-tag{position:absolute;right:8px;top:8px;font-style:normal;font-size:10px;color:#8a949d;border:1px solid #18253620;border-radius:999px;padding:1px 7px}
 .organ-nomodel{font-size:12px;color:#8a6a2f;background:#fbf3df;border-radius:8px;padding:8px 10px}
 .organ-group li button{display:block}
+.organ-segmented>button small{display:block;font-size:10.5px;font-weight:400;color:var(--muted)}
+.organ-segmented>button{line-height:1.2}
+.organ-mj-tag{color:#8a6a2f;border-color:#d9c79a;background:#fbf3df}
+.organ-group li button{position:relative}
