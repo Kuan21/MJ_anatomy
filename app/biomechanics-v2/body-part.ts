@@ -8,6 +8,8 @@ type SoftRigs=Record<'left'|'right',ReturnType<typeof makeSoftRig>>;
 export function bodyPartRule(p:Part,rig:BodyRig){
  const bb=bodyBindings[p.id],binding=tissueBindings[p.id],region=anatomicalRegion(p),side=anatomicalSide(p),pc=partCenter(p);
  const spinal=/spinal cord|central canal/i.test(p.name);
+ // The body surface follows the head and the trunk too (per vertex, over the same frame chain as the structures beneath it).
+ if(p.system==='integumentary'&&p.name==='Skin'&&(rig.region==='spine'||rig.region==='head'))return{carrier:false,skull:false,guard:false};
  const cervical=(pc[1]>=1.08&&pc[1]<=1.72&&Math.abs(pc[0])<=.34&&/trachea|esophagus|laryn|pharyn|hyoid|thyroid|cricoid|epiglott|longus|scalen|sternocleidomastoid|splenius|semispinalis|carotid|jugular|vertebral artery|vertebral vein|cervical fascia|nuchal ligament|spinalis cervicis|spinalis capitis/i.test(p.name))||(spinal&&p.bounds[1][1]>=1.10&&p.bounds[0][1]<=1.72);
  if(rig.region==='spine'){
   if(binding?.name===p.name&&!isMotionQuarantined(p)&&['upper-limb','trunk'].includes(region))return{carrier:true,skull:false,guard:false};

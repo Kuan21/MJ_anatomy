@@ -1,9 +1,9 @@
-import {namingOverride,applyZhFixes} from './mj-naming';
+import {namingOverride,applyZhFixes,cleanMeshName} from './mj-naming';
 import {zhAnatomy} from './mj-zh-anatomy';
 import type {Part,SystemId} from './anatomy';
 import {anatomicalRegionLabel,correctedPartName} from './mj-part-regions';
 import {muscleFactsFor,muscleFactSourceFor} from './mj-muscle-facts';
-import {courseNotesFor,type CourseNoteEntry} from './mj-course-notes';
+import type {CourseNoteEntry} from './mj-course-notes';
 import {netterEnglishName,NETTER_TERMINOLOGY_SOURCE} from './mj-netter-terminology';
 
 export interface BilingualFact {
@@ -340,13 +340,13 @@ function sourceFor(name:string,system:SystemId){
 }
 
 function withCourseNotes(profile:StructureProfile,name:string):StructureProfile{
- const courseNotes=courseNotesFor(name);
- const source=`${profile.source}; ${NETTER_TERMINOLOGY_SOURCE}`;
- if(!courseNotes.length)return{...profile,source};
- return{...profile,courseNotes,source:`${source}; CMU anatomy course material`};
+ // Lecture-note fragments are no longer attached: they were truncated, often unrelated to the structure, and are not ours to republish.
+ void name;
+ return{...profile,source:`${profile.source}; ${NETTER_TERMINOLOGY_SOURCE}`};
 }
 
-export function structureProfile(name:string,system:SystemId,part?:Part):StructureProfile{
+export function structureProfile(rawName:string,system:SystemId,part?:Part):StructureProfile{
+ const name=part?rawName:cleanMeshName(rawName);
  const sourceName=part?.name??name;
  const english=displayEnglish(name,system,part);
  const chinese=chineseName(sourceName,system);

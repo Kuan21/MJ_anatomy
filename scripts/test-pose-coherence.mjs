@@ -42,6 +42,9 @@ for(const name of ['Aponeurosis of epicranius','Right temporoparietalis','Left t
  const q=built.transforms[part.id].quaternion;assert.ok(Math.abs(q[0])>1e-3,`${name} actually rotates`);
  assert.ok(rules.bodyPartRule(part,body.makeBodyRig(atlas,'spine')),`${name} follows trunk motion with the head`);
 }
+// The body surface follows the head and the trunk as well.
+const skin=atlas.parts.find(p=>p.system==='integumentary'&&p.name==='Skin');assert.ok(skin,'skin present');
+for(const region of ['head','spine'])assert.ok(rules.bodyPartRule(skin,body.makeBodyRig(atlas,region)),`skin follows ${region} motion`);
 const edb=atlas.parts.filter(p=>/extensor digitorum brevis/i.test(p.name));
 assert.equal(edb.length,2);
 for(const part of edb)assert.ok(rules.bodyPartRule(part,body.makeBodyRig(atlas,/^Left/.test(part.name)?'leftLeg':'rightLeg')),`${part.name} follows hip flexion`);

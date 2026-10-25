@@ -156,6 +156,11 @@ export function bindBodyTissue(rig:BodyRig,positions:ArrayLike<number>,skull=fal
  for(let i=0;i<count;i++){
   const y=c?.y??positions[i*3+1],z=c?.z??positions[i*3+2];
   let w=skull&&rig.region==='head'?[0,0,0,0,0,0,0,0,1]:skull&&rig.region==='spine'?Array.from({length:rig.pivots.length},(_,j)=>j===rig.pivots.length-1?1:0):rig.region==='head'&&!spinal?neckSoftWeights(rig,y,z):bodyWeights(rig,y);
+  if(part?.system==='integumentary'&&part.name==='Skin'&&rig.region==='spine'){
+   // Arms hang beside the trunk and ride on the top frame (like their bones); only the torso skin blends by height.
+   const x=Math.abs(positions[i*3]);
+   if(x>.185&&y>rig.levels[0])w=Array.from({length:rig.pivots.length},(_,j)=>j===rig.pivots.length-1?1:0);
+  }
   if(rig.region==='head'&&part&&/platysma/.test(part.name)){
    // Keep the broad clavicular sheet stationary and let its mandibular edge
    // reach the skull transform. Height-only cervical weights leave a flap
