@@ -22,7 +22,7 @@ import {serousLayerKey} from './mj-serous';
 import {matchesDepth} from './mj-depth';
 import {anatomicalRegion,anatomicalSide,isMotionQuarantined} from './mj-part-regions';
 import {isLinearBinding,lbsSkin,linearSkin,makeSoftRig,bindTissue,makePalette,deformTissue,deformPoint,followDeltoidSurface,setDeltoidFollowers,registerNerveRest,resolveNeurovascularProfile,tissueBindings,nerveBindings,type SkinBinding,type Profile,type DeltoidFollowers} from './biomechanics-v2/soft-tissue';
-import {makeBodyRig,buildBodyMotion,bindBodyTissue,bindSpineCarrier,cranialNerveRigid,type BodyRegion} from './biomechanics-v2/body-motion';
+import {makeBodyRig,buildBodyMotion,bindBodyTissue,bindSpineCarrier,cranialNerveRigid,inferredLimb,type BodyRegion} from './biomechanics-v2/body-motion';
 import {bindBodyPart,bodyPartRule} from './biomechanics-v2/body-part';
 import {makeSurfaceConstraints,constrainSurface} from './biomechanics-v2/surface-constraints';
 import {GPU_SKIN_NORMAL,GPU_SKIN_PARS,GPU_SKIN_POSITION,PALETTE_WIDTH,clearGpuAttributes,gpuBinding,gpuSkinNormal,skinMode,writeGpuAttributes,writePalette,slotSkin,type GpuBinding} from './biomechanics-v2/gpu-skinning';
@@ -174,12 +174,12 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
       shader.vertexShader=shader.vertexShader.replace('#include <beginnormal_vertex>','#include <beginnormal_vertex>\n'+gpuSkinNormal('nervePreview'));
       shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n'+GPU_SKIN_POSITION);};}
     const inferredHeadNerve=/cervical|vagus|phrenic|hypoglossal|accessory|glossopharyngeal|ansa cervicalis|sympathetic trunk|superior cervical|middle cervical|inferior cervical/i.test(exactName);
-    const bodyRegion=spinalCordLike?'head':bodyNerveBindings[exactName]??(inferredHeadNerve?'head':undefined);
+    const limb=inferredLimb(geoCenter),bodyRegion=spinalCordLike?'head':bodyNerveBindings[exactName]??(inferredHeadNerve?'head':limb==='leftLeg'||limb==='rightLeg'?limb:undefined);
     if(bodyRegion){mesh.userData.bodyRegion=bodyRegion;mesh.userData.bodySkin=bindBodyTissue(bodyRigs[bodyRegion],mesh.userData.basePositions,spinalCordLike?false:cranialNerveRigid(exactName));}
     // Include otherwise unbound thoracic roots/rami in trunk motion. Long
     // head-to-thorax nerves use the continuous spinal field; articulated arm
     // nerves inherit the upper-thorax carrier.
-    mesh.userData.spineSkin=mesh.userData.skin?bindSpineCarrier(bodyRigs.spine,mesh.userData.basePositions,mesh.userData.skin):bindBodyTissue(bodyRigs.spine,mesh.userData.basePositions);
+    mesh.userData.spineSkin=mesh.userData.skin?bindSpineCarrier(bodyRigs.spine,mesh.userData.basePositions,mesh.userData.skin):bindBodyTissue(bodyRigs.spine,mesh.userData.basePositions,limb==='arm');
     nerveRoot.add(mesh);nerveMeshes.push(mesh);
    }};
   // Keep successful nerve packages when another one fails. No browser Draco
