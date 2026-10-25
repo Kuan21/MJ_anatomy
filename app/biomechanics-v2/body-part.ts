@@ -15,6 +15,13 @@ export function bodyPartRule(p:Part,rig:BodyRig){
   if(binding?.name===p.name&&!isMotionQuarantined(p)&&['upper-limb','trunk'].includes(region))return{carrier:true,skull:false,guard:false};
   if(pc[1]>=rig.levels[0]-.12&&pc[1]<=rig.levels[rig.levels.length-1]+.13&&/pectoralis|lobe of (?:right |left )?lung|pleura|pericardi|serratus|intercostal|costal cartilage|costochondral|sternocostal|rectus abdominis|pyramidalis|inguinal ligament|oblique|transversus abdominis|latissimus|trapezius|diaphragm|erector spinae|iliocostalis|longissimus|spinalis|multifidus|rotator|interspinal|intertransvers|levatores costarum|transversus thoracis|linea alba|semispinalis thoracis|quadratus lumborum|psoas|thoracolumbar|aorta|vena cava|intercostal (?:artery|vein)|thoracic duct/i.test(p.name))return{carrier:false,skull:false,guard:p.system==='muscular'};
   if((bb?.rig==='head'||skullAttached(p)||cervical)&&p.system!=='skeletal')return{carrier:false,skull:!spinal,guard:false};
+  // Everything else above the pelvis moves with the trunk: arms hang from the top frame (like their bones), every organ, vessel, duct, serous
+  // layer and fascia of the chest and abdomen blends by height over the same frame chain. Below the lowest lumbar frame the weights are 0, so
+  // the pelvic organs stay with the pelvis.
+  if(p.system!=='skeletal'&&p.system!=='integumentary'){
+   if(region==='upper-limb')return{carrier:false,skull:true,guard:false};
+   if(region==='trunk')return{carrier:false,skull:false,guard:false};
+  }
  }else if(rig.region==='head'){
   if((bb?.rig==='head'&&bb.frame===null)||cervical)return{carrier:false,skull:false,guard:/platysma|sternocleidomastoid/i.test(p.name)};
  }else if(bb&&bb.frame===null&&(bb.rig==='leftLeg'||bb.rig==='rightLeg')&&region==='lower-limb'&&!isMotionQuarantined(p)){

@@ -11,6 +11,12 @@ export interface BodyBinding {name:string;rig:BodyRegion;frame:number|null}
 export const bodyBindings=Object.fromEntries(Object.entries(rawBindings).map(([id,b])=>[id,b.rig==='head'&&/artery|vein|venous/i.test(b.name)?{...b,frame:null}:b])) as Record<string,BodyBinding>;
 /** Facial muscles and the scalp structures that the 4.0 export lacks (epicranial aponeurosis, temporoparietalis, depressor septi nasi) ride on the skull. */
 export const skullAttached=(p:{id:string;name:string})=>p.id.startsWith('BP3-FMA')||(p.id.startsWith('BP3S-')&&/epicranius|temporoparietalis|depressor septi nasi/i.test(p.name));
+/** Nerve meshes that carry no explicit binding follow the limb they lie in: below the hip and near the midline a leg (by side), further out an arm. */
+export const HIP_LEVEL=.93,ARM_X=.2;
+export function inferredLimb(center:{x:number;y:number}):'leftLeg'|'rightLeg'|'arm'|undefined{
+ if(center.y<HIP_LEVEL&&Math.abs(center.x)<ARM_X)return center.x>=0?'leftLeg':'rightLeg';
+ if(center.y<1.45&&Math.abs(center.x)>=ARM_X)return'arm';
+}
 export interface BodyRig {skullIds?:string[];region:BodyRegion;pivots:Vector3[];levels:number[];focusIds:string[];framePartIds?:string[][];blendPartIds?:{id:string;y:number}[];hyoid?:Vector3;larynx?:Vector3}
 const center=(p:Atlas['parts'][number])=>new Vector3().fromArray(p.bounds[0]).add(new Vector3().fromArray(p.bounds[1])).multiplyScalar(.5);
 export function makeBodyRig(atlas:Atlas,region:BodyRegion):BodyRig{
@@ -35,7 +41,7 @@ export function makeBodyRig(atlas:Atlas,region:BodyRegion):BodyRig{
   // Everything anatomically suspended from the upper thorax must inherit the
   // final thoracic frame during trunk motion. Otherwise the ribs bend while
   // the shoulder girdle, arms and head remain behind in world space.
-  const upperChain=/clavicle|scapula|humerus|ulna|radius|carpal|metacarpal|phalanx of .*?(?:finger|thumb)|cervical vertebra|atlas$|axis$|occipital|parietal|frontal bone|temporal bone|sphenoid|ethmoid|mandible|maxilla|zygomatic|nasal bone|lacrimal bone|palatine bone|vomer|inferior nasal concha|hyoid/i;
+  const upperChain=/clavicle|scapula|humerus|ulna|radius|carpal|capitate|hamate|lunate|pisiform|scaphoid|trapezium|trapezoid|triquetr|sesamoid bone of (?:left|right) hand|metacarpal|phalanx of .*?(?:finger|thumb)|cervical vertebra|atlas$|axis$|occipital|parietal|frontal bone|temporal bone|sphenoid|ethmoid|mandible|maxilla|zygomatic|nasal bone|lacrimal bone|palatine bone|vomer|inferior nasal concha|hyoid/i;
   const topFrame=framePartIds[framePartIds.length-1];
   const assigned=new Set(framePartIds.flat()),topY=levels[levels.length-1];
   for(const p of atlas.parts){
