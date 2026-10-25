@@ -91,3 +91,9 @@ export function matchesMuscleLayer(part:Part,regionId:string|undefined,selected:
  const order=muscleLayerOrder(part,regionId);
  return order===undefined||order>=selected;
 }
+
+/** Atlas parts (either side) that one entry of the layer file stands for; used to highlight a muscle or a whole group picked from the layer list. */
+export function partsForLayerMuscles(parts:Part[],regionId:string,names:string[]):Part[]{
+ const res=names.flatMap(n=>patternsFor(n,regionId));
+ return parts.filter(p=>{const name=p.name.toLowerCase();return(!NOT_MUSCLE.test(name)||/tensor fasciae latae/.test(name))&&res.some(re=>re.test(name));});
+}
