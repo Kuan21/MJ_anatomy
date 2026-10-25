@@ -42,6 +42,12 @@ const EXACT:Record<string,string>={
  'medulla oblongata':'延腦','midbrain':'中腦','pons':'橋腦','peduncle of midbrain':'中腦腳','middle frontal gyrus':'額中回','middle temporal gyrus':'顳中回','occipital lobe':'枕葉','optic chiasm':'視交叉','optic tract':'視徑','orbital gyrus':'眶回',
  'parahippocampal gyrus':'海馬旁回','postcentral gyrus':'中央後回','precentral gyrus':'中央前回','posterior commissure':'後連合','putamen':'殼核','septum of telencephalon':'端腦中隔','stria medullaris of thalamus':'視丘髓紋','stria terminalis':'終紋',
  'superior colliculus':'上丘','superior frontal gyrus':'額上回','superior parietal lobule':'頂上小葉','supramarginal gyrus':'緣上回','tentorium cerebelli':'小腦幕','thalamus':'視丘','tuber cinereum':'灰結節','white matter of cerebral hemisphere':'大腦半球白質',
+ // lung lobes, serous membranes and female reproductive organs (side is added in front)
+ 'upper lobe of lung':'肺上葉','middle lobe of lung':'肺中葉','lower lobe of lung':'肺下葉',
+ 'visceral pleura':'臟層胸膜','parietal pleura':'壁層胸膜','fibrous pericardium':'纖維心包','visceral layer of serous pericardium':'漿膜心包臟層（心外膜）','parietal layer of serous pericardium':'漿膜心包壁層',
+ 'vagina':'陰道','cervicovaginal junction':'子宮頸陰道交界','ampulla of uterine tube':'輸卵管壺腹','isthmus of uterine tube':'輸卵管峽部','fimbriae of uterine tube':'輸卵管繖','infundibulum of uterine tube':'輸卵管漏斗',
+ 'round ligament of uterus':'子宮圓韌帶','uterosacral ligament':'子宮薦韌帶','cardinal ligament of uterus':'子宮主韌帶','suspensory ligament of ovary':'卵巢懸韌帶','ovarian ligament':'卵巢韌帶','broad ligament of uterus':'子宮闊韌帶','mesovarium':'卵巢繫膜',
+ 'ovary':'卵巢','body of uterus':'子宮體','fundus of uterus':'子宮底','lower uterine segment':'子宮下段','cervix of uterus':'子宮頸','uterine artery':'子宮動脈','uterine vein':'子宮靜脈',
  'interventricular foramen':'室間孔（Monro 孔）','cavity of atrium':'心房腔','cavity of ventricle':'心室腔','wall of atrium':'心房壁','wall of ventricle':'心室壁',
  // heart valves, vessels with fixed names
  'anterior cusp of aortic valve':'主動脈瓣前尖','posterior cusp of aortic valve':'主動脈瓣後尖','anterior cusp of pulmonary valve':'肺動脈瓣前尖','posterior cusp of pulmonary valve':'肺動脈瓣後尖',

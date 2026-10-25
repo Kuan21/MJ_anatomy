@@ -1,6 +1,7 @@
+import {SEROUS_LAYERS} from './mj-serous';
 import {flushSync} from 'react-dom';
 import {registerAtlasTools} from './agent-tools';
-import {useEffect,useMemo,useRef,useState} from 'react';
+import {Fragment,useEffect,useMemo,useRef,useState} from 'react';
 import {Activity,ArrowUpRight,ChevronRight,EyeOff,GraduationCap,Focus,Info,Layers3,Pause,RotateCcw,RotateCw,Search,Undo2,X} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {Badge} from '@/components/ui/badge';
@@ -29,6 +30,8 @@ import {matchesMuscleLayer,MUSCLE_LAYER_REGIONS,MUSCLE_LAYER_SOURCE,layerOrders,
 import {anatomyDepth,matchesDepth,type TissueDepth} from './mj-depth';
 import {augmentAtlasWithFacial} from './mj-facial-atlas';
 import {matchesHeartLayer} from './mj-heart-layers';
+import {matchesSex} from './mj-sex';
+import {serousLayerKey} from './mj-serous';
 import {FACIAL_MUSCLE_LAYERS,matchesFacialMuscleLayer,type FacialMuscleLayer} from './mj-facial-layers';
 type TopRegion='whole'|'upper'|'lower'|'head'|'organs';
 type UpperMotionAction='shoulderFlexion'|'shoulderAbduction'|'elbowFlexion'|'forearmRotation'|'wristExtension';
@@ -56,7 +59,7 @@ const UPPER_MOTION_CONTROLS:{key:keyof MotionPose;label:string;action:UpperMotio
  {key:'wristDeviation',label:'腕尺偏（＋）／橈偏（－）',action:'wristExtension'},
 ];
 const REGIONAL_VISIBLE:SystemId[]=['skeletal','muscular','arterial','venous','nervous','connective'];
-const ORGAN_SYSTEM_IDS:SystemId[]=['cardiac','sensory','respiratory','digestive','urinary','lymphatic','endocrine','reproductive'];
+const ORGAN_SYSTEM_IDS:SystemId[]=['cardiac','serous','sensory','respiratory','digestive','urinary','lymphatic','endocrine','reproductive'];
 const initial:SceneState={tissueMotion:true,explode:0,visible:DEFAULT_VISIBLE,selected:[],hiddenParts:[],depthFilter:'all',isolate:false,view:'three-quarter',rotate:false,reset:0};
 /** One thin green line at the very bottom of the screen: no card, no text. It fades out when everything has
  * loaded. If a package failed it turns amber and becomes a (text-free) button that retries only the missing pieces. */
@@ -101,7 +104,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const extraOf=(c:Concept)=>c.id.startsWith('extra:')?extras.find(x=>c.id===`extra:${x.k}:${x.raw??x.n}`):undefined;
  const profileForConcept=(c:Concept)=>{const x=extraOf(c);if(x)return structureProfile(x.n,x.s);const p=c.elements.map(id=>parts.get(id)).find(Boolean);return p?structureProfile(c.name,p.system,p):undefined;};
  const profileForPart=(id:string)=>{const p=parts.get(id);return p?structureProfile(p.name,p.system,p):undefined;};
- const counts=useMemo(()=>Object.fromEntries(SYSTEMS.map(s=>[s.id,atlas?.parts.filter(p=>p.system===s.id).length??0])),[atlas]);
+ const counts=useMemo(()=>Object.fromEntries(SYSTEMS.map(s=>[s.id,atlas?.parts.filter(p=>p.system===s.id&&matchesSex(p,state.sex)).length??0])),[atlas,state.sex]);
  const activeSystems=SYSTEMS.filter(s=>counts[s.id]>0);
  const organSystems=activeSystems.filter(s=>ORGAN_SYSTEM_IDS.includes(s.id));
  const primarySystems=activeSystems.filter(s=>!ORGAN_SYSTEM_IDS.includes(s.id));
@@ -114,7 +117,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  // The Quiz button always opens the body-part chooser (#/quiz), from every page.
  const quizHref='#/quiz';
  const hiddenSet=new Set(state.hiddenParts??[]);
- const visibleCount=atlas?.parts.filter(p=>!hiddenSet.has(p.id)&&(state.selected.includes(p.id)||(matchesDepth(p,state.depthFilter)&&matchesMuscleLayer(p,state.muscleRegion,state.muscleLayer)&&matchesFacialMuscleLayer(p,state.faceMuscleLayer)&&matchesHeartLayer(p,state.heartOpen)&&(state.isolate?false:state.focusParts?state.focusParts.includes(p.id)&&state.visible.includes(p.system):state.visible.includes(p.system))))).length??0;
+ const visibleCount=atlas?.parts.filter(p=>!hiddenSet.has(p.id)&&(state.selected.includes(p.id)||(matchesDepth(p,state.depthFilter)&&matchesMuscleLayer(p,state.muscleRegion,state.muscleLayer)&&matchesFacialMuscleLayer(p,state.faceMuscleLayer)&&matchesHeartLayer(p,state.heartOpen)&&matchesSex(p,state.sex)&&!(p.system==='serous'&&(state.hiddenSerous??[]).includes(serousLayerKey(p.name)))&&(state.isolate?false:state.focusParts?state.focusParts.includes(p.id)&&state.visible.includes(p.system):state.visible.includes(p.system))))).length??0;
  // Search index: built once in idle slices after the atlas is ready (and again when the extra names arrive), then queried per keystroke by the search panel.
  const [searchIndex,setSearchIndex]=useState<SearchEntry[]|null>(null);
  useEffect(()=>{
@@ -228,7 +231,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
       <Button variant="ghost" className="system-name organ-expand" aria-expanded={organsOpen} onClick={()=>setOrgansOpen(v=>!v)}><ChevronRight size={13}/><span className="system-dot organ-dot"/><span>Organs</span><span className="system-count">{organPieceCount}</span></Button>
       <Switch checked={allOrgansVisible} onCheckedChange={toggleOrgans} aria-label="Show all organ systems"/>
      </div>
-     {organsOpen&&<div className="organ-children">{organSystems.map(s=><div className={`system-row ${state.visible.includes(s.id)?'enabled':''}`} key={s.id}><Button variant="ghost" className="system-name" title={`Show only ${s.name.toLowerCase()}`} onClick={()=>setState(v=>({...v,visible:[s.id],isolate:false,selected:[]}))}><span className="system-dot" style={{background:s.color}}/>{s.name}<span className="system-count">{counts[s.id]}</span></Button>{s.id==='cardiac'&&<a className="organ-detail-link" href="#/organ/heart" title="心臟詳細模式：切面、心腔、瓣膜、乳頭肌">詳細</a>}{s.id==='cardiac'&&<Button variant="ghost" className="organ-detail-link" aria-pressed={!!state.heartOpen} title="預設只顯示心臟外表；打開後顯示瓣膜與乳頭肌" onClick={()=>setState(v=>({...v,heartOpen:!v.heartOpen}))}>{state.heartOpen?'閉合':'打開心臟'}</Button>}<Switch checked={state.visible.includes(s.id)} onCheckedChange={()=>toggle(s.id)} aria-label={`Show ${s.name.toLowerCase()}`} /></div>)}</div>}
+     {organsOpen&&<div className="organ-children">{organSystems.map(s=><Fragment key={s.id}><div className={`system-row ${state.visible.includes(s.id)?'enabled':''}`}><Button variant="ghost" className="system-name" title={`Show only ${s.name.toLowerCase()}`} onClick={()=>setState(v=>({...v,visible:[s.id],isolate:false,selected:[]}))}><span className="system-dot" style={{background:s.color}}/>{s.name}<span className="system-count">{counts[s.id]}</span></Button>{s.id==='cardiac'&&<a className="organ-detail-link" href="#/organ/heart" title="心臟詳細模式：切面、心腔、瓣膜、乳頭肌">詳細</a>}{s.id==='cardiac'&&<Button variant="ghost" className="organ-detail-link" aria-pressed={!!state.heartOpen} title="預設只顯示心臟外表；打開後顯示瓣膜與乳頭肌" onClick={()=>setState(v=>({...v,heartOpen:!v.heartOpen}))}>{state.heartOpen?'閉合':'打開心臟'}</Button>}<Switch checked={state.visible.includes(s.id)} onCheckedChange={()=>toggle(s.id)} aria-label={`Show ${s.name.toLowerCase()}`} /></div>{s.id==='serous'&&<div className="organ-sub" role="group" aria-label="漿膜層次">{SEROUS_LAYERS.map(l=>{const off=(state.hiddenSerous??[]).includes(l.key);return <label key={l.key} className="organ-sub-row"><span>{l.zh}</span><Switch checked={state.visible.includes('serous')&&!off} onCheckedChange={()=>setState(v=>{const hidden=v.hiddenSerous??[];const vis=v.visible.includes('serous');const nowOff=hidden.includes(l.key);if(!vis)return{...v,visible:[...v.visible,'serous'],hiddenSerous:SEROUS_LAYERS.map(x=>x.key).filter(k=>k!==l.key)};return{...v,hiddenSerous:nowOff?hidden.filter(k=>k!==l.key):[...hidden,l.key]}})} aria-label={l.en}/></label>})}<small>示意模型：由器官表面外擴生成</small></div>}{s.id==='reproductive'&&<div className="organ-sub" role="group" aria-label="生殖系統性別"><span>性別</span>{(['male','female'] as const).map(x=><Button key={x} variant="ghost" className="organ-detail-link" aria-pressed={(state.sex??'male')===x} title={x==='male'?'顯示男性生殖器官（BodyParts3D）':'顯示女性生殖器官（Human Reference Atlas）；骨盆骨骼仍為男性模型'} onClick={()=>setState(v=>({...v,sex:x,visible:v.visible.includes('reproductive')?v.visible:[...v.visible,'reproductive']}))}>{x==='male'?'男':'女'}</Button>)}<small>骨盆骨骼仍為男性模型</small></div>}</Fragment>)}</div>}
     </div>}
    </div>
    <div className="detail-atlas-shortcuts" aria-label="Detail atlases">

@@ -1,9 +1,9 @@
 {
  "totals": {
   "terms": 3816,
-  "have": 1031,
+  "have": 1038,
   "findability": 0,
-  "missing": 1278,
+  "missing": 1271,
   "landmark": 294,
   "noise": 650
  },
@@ -219,6 +219,46 @@
      "model": "Left rectus capitis posterior minor",
      "source": "atlas",
      "system": "muscular"
+    },
+    {
+     "term": "Suboccipital n",
+     "zh": null,
+     "kind": "exact",
+     "model": "Suboccipital nerve",
+     "source": "nerve",
+     "system": "nervous"
+    },
+    {
+     "term": "Greater occipital n",
+     "zh": null,
+     "kind": "exact",
+     "model": "Greater occipital nerve",
+     "source": "nerve",
+     "system": "nervous"
+    },
+    {
+     "term": "Third occipital n",
+     "zh": null,
+     "kind": "exact",
+     "model": "Third occipital nerve",
+     "source": "nerve",
+     "system": "nervous"
+    },
+    {
+     "term": "Lesser occipital n",
+     "zh": null,
+     "kind": "exact",
+     "model": "Lesser occipital nerve",
+     "source": "nerve",
+     "system": "nervous"
+    },
+    {
+     "term": "Great auricular n",
+     "zh": null,
+     "kind": "exact",
+     "model": "Great auricular nerve",
+     "source": "nerve",
+     "system": "nervous"
     },
     {
      "term": "Occipital a",
@@ -2888,26 +2928,6 @@
      "zh": null
     },
     {
-     "term": "Suboccipital n",
-     "zh": null
-    },
-    {
-     "term": "Greater occipital n",
-     "zh": null
-    },
-    {
-     "term": "Third occipital n",
-     "zh": null
-    },
-    {
-     "term": "Lesser occipital n",
-     "zh": null
-    },
-    {
-     "term": "Great auricular n",
-     "zh": null
-    },
-    {
      "term": "Denticulate lig. b. Denticulate lig",
      "zh": null
     },
@@ -5154,7 +5174,15 @@
      "kind": "contained",
      "model": "Hepatovenous segment V",
      "source": "atlas",
-     "system": "venous"
+     "system": "digestive"
+    },
+    {
+     "term": "suboccipital region",
+     "zh": "枕下三角",
+     "kind": "exact",
+     "model": "Suboccipital nerve",
+     "source": "nerve",
+     "system": "nervous"
     }
    ],
    "findability": [],
@@ -5222,10 +5250,6 @@
     {
      "term": "intermediate layer",
      "zh": "中層肌群"
-    },
-    {
-     "term": "suboccipital region",
-     "zh": "枕下三角"
     }
    ],
    "landmark": [
@@ -10601,6 +10625,14 @@
      "system": "nervous"
     },
     {
+     "term": "Great auricular nerve",
+     "zh": "大耳神經",
+     "kind": "exact",
+     "model": "Great auricular nerve",
+     "source": "nerve",
+     "system": "nervous"
+    },
+    {
      "term": "Occipital artery",
      "zh": "分支包括枕動脈",
      "kind": "contained",
@@ -10670,7 +10702,7 @@
      "kind": "contained",
      "model": "Hepatovenous segment VII",
      "source": "atlas",
-     "system": "venous"
+     "system": "digestive"
     },
     {
      "term": "submandibular glands",
@@ -10950,10 +10982,6 @@
     {
      "term": "Auriculotemporal nerve",
      "zh": "耳顳神經"
-    },
-    {
-     "term": "Great auricular nerve",
-     "zh": "大耳神經"
     },
     {
      "term": "Otic ganglion",
@@ -11292,8 +11320,8 @@
      "term": "Venous Plexus",
      "zh": "靜脈叢",
      "kind": "contained",
-     "model": "Basilar venous plexus",
-     "source": "brain",
+     "model": "Suboccipital venous plexus",
+     "source": "nerve",
      "system": "nervous"
     },
     {
@@ -11457,6 +11485,14 @@
      "system": "digestive"
     },
     {
+     "term": "Great auricular nerve",
+     "zh": null,
+     "kind": "exact",
+     "model": "Great auricular nerve",
+     "source": "nerve",
+     "system": "nervous"
+    },
+    {
      "term": "External carotid a",
      "zh": "外頸動脈",
      "kind": "exact",
@@ -11598,7 +11634,7 @@
      "kind": "contained",
      "model": "Left internal capsule",
      "source": "atlas",
-     "system": "connective"
+     "system": "nervous"
     },
     {
      "term": "temporomandibular lig",
@@ -11718,7 +11754,7 @@
      "kind": "contained",
      "model": "Hepatovenous segment VII",
      "source": "atlas",
-     "system": "venous"
+     "system": "digestive"
     },
     {
      "term": "submandibular glands",
@@ -11838,10 +11874,6 @@
     {
      "term": "Middle meningeal artery",
      "zh": "中腦膜動脈"
-    },
-    {
-     "term": "Great auricular nerve",
-     "zh": null
     },
     {
      "term": "Tympanic plexus",
@@ -12593,6 +12625,22 @@
      "system": "muscular"
     },
     {
+     "term": "Great auricular n",
+     "zh": "耳大神經",
+     "kind": "exact",
+     "model": "Great auricular nerve",
+     "source": "nerve",
+     "system": "nervous"
+    },
+    {
+     "term": "Lesser occipital n",
+     "zh": "枕小神經",
+     "kind": "exact",
+     "model": "Lesser occipital nerve",
+     "source": "nerve",
+     "system": "nervous"
+    },
+    {
      "term": "Accessory n",
      "zh": "副神經",
      "kind": "exact",
@@ -13150,14 +13198,6 @@
     {
      "term": "External jugular v",
      "zh": "外頸靜脈"
-    },
-    {
-     "term": "Great auricular n",
-     "zh": "耳大神經"
-    },
-    {
-     "term": "Lesser occipital n",
-     "zh": "枕小神經"
     },
     {
      "term": "Supraclavicular n",
@@ -15069,6 +15109,22 @@
      "system": "arterial"
     },
     {
+     "term": "Great auricular n",
+     "zh": "耳大神經",
+     "kind": "exact",
+     "model": "Great auricular nerve",
+     "source": "nerve",
+     "system": "nervous"
+    },
+    {
+     "term": "Lesser occipital n",
+     "zh": "枕小神經",
+     "kind": "exact",
+     "model": "Lesser occipital nerve",
+     "source": "nerve",
+     "system": "nervous"
+    },
+    {
      "term": "Vagus n",
      "zh": "迷走神經",
      "kind": "exact",
@@ -15434,14 +15490,6 @@
     {
      "term": "Superficial temporal a",
      "zh": "淺顳動脈"
-    },
-    {
-     "term": "Great auricular n",
-     "zh": "耳大神經"
-    },
-    {
-     "term": "Lesser occipital n",
-     "zh": "枕小神經"
     },
     {
      "term": "Auriculotemporal n",

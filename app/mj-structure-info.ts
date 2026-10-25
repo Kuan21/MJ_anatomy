@@ -182,7 +182,7 @@ const landmarkZh:[string,string][]=[
 ];
 
 const systemZh:Record<SystemId,string>={
- skeletal:'骨骼',muscular:'肌肉',arterial:'動脈',venous:'靜脈',nervous:'神經',digestive:'消化系統',respiratory:'呼吸系統',urinary:'泌尿系統',reproductive:'生殖系統',lymphatic:'淋巴系統',endocrine:'內分泌系統',integumentary:'體表／皮膚',connective:'結締組織',sensory:'感覺器官',cardiac:'心臟'
+ skeletal:'骨骼',serous:'漿膜',muscular:'肌肉',arterial:'動脈',venous:'靜脈',nervous:'神經',digestive:'消化系統',respiratory:'呼吸系統',urinary:'泌尿系統',reproductive:'生殖系統',lymphatic:'淋巴系統',endocrine:'內分泌系統',integumentary:'體表／皮膚',connective:'結締組織',sensory:'感覺器官',cardiac:'心臟'
 };
 
 const norm=(s:string)=>s.toLowerCase().replace(/[_-]+/g,' ').replace(/\s+/g,' ').trim();
