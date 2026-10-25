@@ -16,9 +16,17 @@ interface Callbacks {
 /** Selection colours shared with the atlas: deep green, outlined; hover is a lighter mint of the same hue. */
 export const HEART_SELECT = {fill: '#5DB89A', edge: '#3E8E74', hover: '#A7DCCB'};
 const GROUP_COLOR: Record<string, string> = {
-  chambers: '#d98a85', papillary: '#c97a5a', valves: '#f0dfa3', coronary: '#b0313f', veins: '#4f86bf', vessels: '#c9a8a0',
+  chambers: '#d98a85', papillary: '#c97a5a', valves: '#f0dfa3', coronary: '#b0313f', veins: '#4f86bf', vessels: '#c9a8a0', interior: '#c9785f', pericardium: '#d9c9a3',
 };
+/** MJ-built surface patches and spaces are drawn as tinted, translucent regions so they read as areas, not as ridges. */
+const PATCH_COLOR: Record<string, string> = {
+  'Interatrial septum': '#8fb8e6', 'Fossa ovalis': '#f0e3a8', 'Right auricle': '#e8a15a', 'Left auricle': '#e8a15a', 'Interventricular septum': '#86c08a', 'Conus arteriosus': '#b98ad6', 'Aortic vestibule': '#5fb0dc',
+  'Transverse pericardial sinus': '#69b96a', 'Oblique pericardial sinus': '#69b96a',
+  'Fibrous pericardium': '#d9c9a3', 'Parietal layer of serous pericardium': '#e3d6b4', 'Visceral layer of serous pericardium (epicardium)': '#e8b9ae',
+};
+const isPatch = (name: string) => name in PATCH_COLOR;
 const COLOR_BY_PART = (id: string, group: string, system: string, name: string) => {
+  if (PATCH_COLOR[name]) return PATCH_COLOR[name];
   if (group === 'chambers') return /atrium/i.test(name) ? '#86a8dc' : '#dc8f8a';
   if (group === 'vessels') return system === 'venous' ? '#86a8dc' : /pulmonary/i.test(name) ? '#a9b8e0' : '#d3817c';
   void id;
@@ -43,6 +51,15 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
   canvas.setAttribute('role', 'group');
   canvas.style.touchAction = 'none';
   host.appendChild(canvas);
+  // Name labels (valves, leaflets) are plain DOM in the margins of the view, tied to their structure by a thin leader line, so they follow the
+  // structure when the heart is turned or zoomed and never sit on top of the model.
+  const labelLayer = document.createElement('div');
+  labelLayer.style.cssText = 'position:absolute;inset:0;pointer-events:none;overflow:hidden';
+  const leaders = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  leaders.setAttribute('style', 'position:absolute;inset:0;width:100%;height:100%');
+  labelLayer.appendChild(leaders); host.appendChild(labelLayer);
+  let labelSpecs: {id: string; en: string; zh: string; ids: string[]}[] = [];
+  const labelNodes = new Map<string, HTMLDivElement>();
   const controls = new OrbitControls(camera, canvas);
   controls.enableDamping = true; controls.dampingFactor = .15; controls.minDistance = .03; controls.maxDistance = 2; controls.enablePan = true;
   scene.add(new T.HemisphereLight('#ffffff', '#7b8e9c', 2.2));
@@ -84,8 +101,8 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
       const m = mesh.material;
       m.color.set(selected ? HEART_SELECT.fill : hovered ? HEART_SELECT.hover : COLOR_BY_PART(id, part.group, part.system, part.name));
       m.emissive.set(selected ? HEART_SELECT.fill : '#000000'); m.emissiveIntensity = selected ? .1 : 0;
-      const wall = part.name === wallName, ghost = (state.ghostChambers && part.group === 'chambers' && !selected) || wall;
-      m.opacity = wall ? .12 : ghost ? .3 : selected ? .85 : 1; m.transparent = ghost || selected; m.depthWrite = !ghost && !selected;
+      const wall = part.name === wallName, patch = isPatch(part.name) && !selected, ghost = (state.ghostChambers && part.group === 'chambers' && !selected) || wall || patch;
+      m.opacity = wall ? .12 : patch ? (part.group === 'pericardium' ? .22 : .6) : ghost ? .3 : selected ? .85 : 1; m.transparent = ghost || selected; m.depthWrite = !ghost && !selected;
       // Selected piece is drawn whole over the pieces it overlaps (polygonOffset), like the main atlas.
       m.polygonOffset = selected; m.polygonOffsetFactor = -4; m.polygonOffsetUnits = -4;
       m.clippingPlanes = planes; m.needsUpdate = true;
@@ -104,6 +121,51 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
     dirty = true;
   };
 
+  const layoutLabels = () => {
+    const width = host.clientWidth, height = host.clientHeight;
+    const active: {spec: typeof labelSpecs[number]; x: number; y: number; side: 'l' | 'r'}[] = [];
+    const centreX = (() => {const v = coreCentre.clone().project(camera); return (v.x * .5 + .5) * width;})();
+    const clipped = (p: T.Vector3) => { const planes = clipping(); return planes.length > 0 && planes[0].distanceToPoint(p) < 0; };
+    for (const spec of labelSpecs) {
+      const box = new T.Box3();
+      for (const id of spec.ids) {const mesh = meshes.get(id); if (mesh?.visible) box.union(new T.Box3().setFromObject(mesh));}
+      if (box.isEmpty()) continue;
+      const c = box.getCenter(new T.Vector3());
+      if (clipped(c)) continue;
+      const v = c.clone().project(camera);
+      if (v.z > 1 || Math.abs(v.x) > 1 || Math.abs(v.y) > 1) continue;
+      const x = (v.x * .5 + .5) * width, y = (-v.y * .5 + .5) * height;
+      active.push({spec, x, y, side: x < centreX ? 'l' : 'r'});
+    }
+    const placed = new Map<string, number>();
+    for (const side of ['l', 'r'] as const) {
+      const column = active.filter(a => a.side === side).sort((a, b) => a.y - b.y);
+      let last = -Infinity;
+      for (const a of column) {const y = Math.max(a.y, last + 34); placed.set(a.spec.id, y); last = y;}
+      const overflow = last - (height - 24);
+      if (overflow > 0) for (const a of column) placed.set(a.spec.id, Math.max(14, placed.get(a.spec.id)! - overflow));
+    }
+    const live = new Set<string>();
+    let lines = '';
+    for (const a of active) {
+      live.add(a.spec.id);
+      let node = labelNodes.get(a.spec.id);
+      if (!node) {
+        node = document.createElement('div');
+        node.style.cssText = 'position:absolute;max-width:24%;padding:3px 7px;border-radius:6px;background:#ffffffe6;box-shadow:0 1px 4px #1825361f;font:11.5px/1.25 system-ui,sans-serif;color:#1f2a35;white-space:normal';
+        const en = document.createElement('div'); en.textContent = a.spec.en; en.style.fontWeight = '600';
+        const zh = document.createElement('div'); zh.textContent = a.spec.zh; zh.style.cssText = 'font-size:10.5px;color:#7b8793';
+        node.appendChild(en); node.appendChild(zh); labelLayer.appendChild(node); labelNodes.set(a.spec.id, node);
+      }
+      const y = placed.get(a.spec.id)!;
+      node.style.display = 'block'; node.style.top = `${y - 15}px`;
+      if (a.side === 'l') {node.style.left = '10px'; node.style.right = ''; node.style.textAlign = 'left';} else {node.style.right = '10px'; node.style.left = ''; node.style.textAlign = 'right';}
+      const edge = a.side === 'l' ? 10 + Math.min(node.offsetWidth, width * .24) : width - 10 - Math.min(node.offsetWidth, width * .24);
+      lines += `<line x1="${edge}" y1="${y}" x2="${a.x}" y2="${a.y}" stroke="#5a6b78" stroke-width="1"/><circle cx="${a.x}" cy="${a.y}" r="2.6" fill="#fff" stroke="#3e5463" stroke-width="1.2"/>`;
+    }
+    for (const [id, node] of labelNodes) if (!live.has(id)) node.style.display = 'none';
+    leaders.innerHTML = lines;
+  };
   let lastFocus: string | undefined;
   const frameModel = (view: HeartView, look?: [number, number, number], focusName?: string) => {
     if (view !== 'fit') lastFocus = focusName;
@@ -168,7 +230,14 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
     raycaster.setFromCamera(new T.Vector2(((clientX - rect.left) / rect.width) * 2 - 1, 1 - ((clientY - rect.top) / rect.height) * 2), camera);
     const wallName = state?.openChamber ? chamberOf(state.openChamber)?.wall : undefined;
     const candidates = [...meshes.values()].filter(m => m.visible && parts.get(m.userData.partId)?.name !== wallName && !(state?.ghostChambers && parts.get(m.userData.partId)?.group === 'chambers' && m.userData.partId !== state.selectedId));
-    for (const hit of raycaster.intersectObjects(candidates, false)) if (keeps(hit.point)) return hit.object.userData.partId as string;
+    // The pericardial shells wrap the whole heart: they are picked only when nothing inside them is hit.
+    let shellHit: string | null = null;
+    for (const hit of raycaster.intersectObjects(candidates, false)) if (keeps(hit.point)) {
+      const id = hit.object.userData.partId as string;
+      if (parts.get(id)?.group !== 'pericardium') return id;
+      shellHit ??= id;
+    }
+    if (shellHit) return shellHit;
     // Ghosted chambers are still selectable when nothing else is hit.
     for (const hit of raycaster.intersectObjects([...meshes.values()].filter(m => m.visible), false)) if (keeps(hit.point)) return hit.object.userData.partId as string;
     return null;
@@ -196,18 +265,22 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
     frameModel(loadedAll ? 'fit' : 'front'); dirty = true;
   };
   const observer = new ResizeObserver(resize); observer.observe(host); resize();
-  const render = () => {if (disposed) return; frame = requestAnimationFrame(render); controls.update(); if (dirty) {renderer.render(scene, camera); dirty = false;}};
+  const render = () => {if (disposed) return; frame = requestAnimationFrame(render); controls.update(); if (dirty) {renderer.render(scene, camera); if (labelSpecs.length) layoutLabels(); dirty = false;}};
   render();
   void centre; void size;
+  const setLabels = (specs: typeof labelSpecs) => {
+    labelSpecs = specs; for (const [id, node] of labelNodes) if (!specs.some(x => x.id === id)) {node.remove(); labelNodes.delete(id);}
+    if (!specs.length) leaders.innerHTML = ''; dirty = true;
+  };
   return {
-    update,
+    update, setLabels,
     dispose() {
       disposed = true; controller.abort(); cancelAnimationFrame(frame); observer.disconnect(); controls.dispose();
       canvas.removeEventListener('pointerdown', down); canvas.removeEventListener('pointermove', move); canvas.removeEventListener('pointerup', up);
       canvas.removeEventListener('pointercancel', cancel); canvas.removeEventListener('pointerleave', leave); canvas.removeEventListener('webglcontextlost', lost);
       for (const mesh of meshes.values()) {mesh.geometry.dispose(); mesh.material.dispose();}
       for (const shell of shells.values()) (shell.material as T.Material).dispose();
-      renderer.dispose(); canvas.remove();
+      labelLayer.remove(); renderer.dispose(); canvas.remove();
     },
   };
 }

@@ -6,6 +6,7 @@ import {createHash} from 'node:crypto';
 import {gzipSync, gunzipSync} from 'node:zlib';
 import {createRequire} from 'node:module';
 import * as T from 'three';
+import {buildMjHeart} from './lib/heart-mj.mjs';
 
 const root = new URL('../', import.meta.url);
 const spec = JSON.parse(fs.readFileSync(new URL('scripts/heart-parts.json', root), 'utf8'));
@@ -13,6 +14,14 @@ const cache = new URL('work/', root), out = new URL('public/models/stream/', roo
 for (const d of [cache, out, dir]) fs.mkdirSync(d, {recursive: true});
 const digest = b => createHash('sha256').update(b).digest('hex');
 
+// Building the MJ structures takes ~30 s, so the package is rebuilt only when an input changed (spec, builders, atlas, serous shells) or an output is missing.
+const stampFile = new URL('heart.stamp', cache), stampInputs = ['scripts/heart-parts.json', 'scripts/prepare-heart.mjs', 'scripts/lib/heart-mj.mjs', 'scripts/lib/heart-geom.mjs', 'scripts/lib/nerve-schematics.mjs', 'public/models/atlas-stream.json.gz', 'public/models/serous/serous-stream.json.gz'];
+const stamp = digest(Buffer.concat(stampInputs.map(f => fs.readFileSync(new URL(f, root)))));
+try {
+  const previous = fs.readFileSync(stampFile, 'utf8').split('\n');
+  const catalogue = JSON.parse(gunzipSync(fs.readFileSync(new URL('heart-detail.json.gz', dir))));
+  if (previous[0] === stamp && catalogue.chunks.every(c => fs.existsSync(new URL('public' + c.url, root)) && fs.existsSync(new URL('public' + c.gzip, root)))) {console.log(previous[1]); process.exit(0);}
+} catch {}
 const glbFile = new URL('heart-source.glb', cache);
 let bytes; try {bytes = fs.readFileSync(glbFile);} catch {}
 if (!bytes || digest(bytes) !== spec.sha256) {
@@ -114,6 +123,15 @@ const atlasGeometry = id => {
   const indices = new Uint32Array(raw.buffer.slice(raw.byteOffset + p.indices, raw.byteOffset + p.indices + p.indexCount * 4));
   return {p, positions, indices};
 };
+// The pericardial layers come from the schematic shells of the serous-membrane package (offsets of the BodyParts3D heart walls), moved by the same offset.
+const serousManifest = JSON.parse(gunzipSync(fs.readFileSync(new URL('public/models/serous/serous-stream.json.gz', root))));
+const serousChunk = new Map();
+const serousGeometry = name => {
+  const p = serousManifest.parts.find(x => x.name === name); if (!p) throw new Error(`Serous shell missing: ${name}`);
+  let raw = serousChunk.get(p.chunk);
+  if (!raw) {raw = fs.readFileSync(new URL('public' + serousManifest.chunks[p.chunk].url, root)); serousChunk.set(p.chunk, raw);}
+  return {positions: new Float32Array(raw.buffer.slice(raw.byteOffset + p.positions, raw.byteOffset + p.positions + p.vertexCount * 12)), indices: new Uint32Array(raw.buffer.slice(raw.byteOffset + p.indices, raw.byteOffset + p.indices + p.indexCount * 4))};
+};
 const boundsOf = positions => {const b = [[Infinity, Infinity, Infinity], [-Infinity, -Infinity, -Infinity]]; for (let i = 0; i < positions.length; i += 3) for (let k = 0; k < 3; k++) {b[0][k] = Math.min(b[0][k], positions[i + k]); b[1][k] = Math.max(b[1][k], positions[i + k]);} return b;};
 const centre = b => [0, 1, 2].map(k => (b[0][k] + b[1][k]) / 2);
 const offset = [0, 0, 0];
@@ -123,14 +141,33 @@ for (const pair of spec.alignWith) {
 }
 console.log('BodyParts3D -> Z-Anatomy heart offset (mm):', offset.map(v => (v * 1000).toFixed(1)).join(', '));
 
+// MJ-made structures, built once on the Z-Anatomy chambers (see scripts/lib/heart-mj.mjs).
+const zNode = name => {const part = spec.parts.find(p => p.name === name); if (!part) throw new Error(`MJ builder needs ${name}`); return byName.get(part.node);};
+const mjGeometry = buildMjHeart(name => weld(decode(zNode(name))));
+
 const sources = [...spec.parts.map(part => ({part, geometry: () => {
   const nodeIndex = byName.get(part.node);
   if (nodeIndex === undefined || gltf.nodes[nodeIndex].mesh === undefined) throw new Error(`Node not found in the pinned export: ${part.node}`);
   return weld(decode(nodeIndex));
-}})), ...(spec.bodyparts3d ?? []).map(part => ({part: {...part, node: part.id}, geometry: () => {
-  const {positions, indices} = atlasGeometry(part.id), moved = new Float32Array(positions.length);
-  for (let i = 0; i < moved.length; i += 3) for (let k = 0; k < 3; k++) moved[i + k] = positions[i + k] + offset[k];
-  return weld({pos: moved, idx: indices});
+}})), ...(spec.bodyparts3d ?? []).map(part => ({part: {...part, node: part.id ?? part.match}, geometry: () => {
+  // one atlas piece (`id`) or every atlas piece whose name matches (`match`, merged into one structure); moved into the Z-Anatomy heart frame
+  const ids = part.id ? [part.id] : atlas.parts.filter(p => new RegExp(part.match).test(p.name)).map(p => p.id);
+  if (!ids.length) throw new Error(`No BodyParts3D piece matches ${part.match}`);
+  const pos = [], idx = [];
+  for (const id of ids) {
+   const g = atlasGeometry(id), base = pos.length / 3;
+   for (let i = 0; i < g.positions.length; i += 3) for (let k = 0; k < 3; k++) pos.push(g.positions[i + k] + offset[k]);
+   for (const i of g.indices) idx.push(base + i);
+  }
+  return weld({pos, idx});
+}})),...(spec.serous ?? []).map(part => ({part: {...part, node: part.shell}, geometry: () => {
+  const g = serousGeometry(part.shell), moved = new Float32Array(g.positions.length);
+  for (let i = 0; i < moved.length; i += 3) for (let k = 0; k < 3; k++) moved[i + k] = g.positions[i + k] + offset[k];
+  return weld({pos: moved, idx: g.indices});
+}})),...(spec.mj ?? []).map(part => ({part: {...part, node: part.build.join('+')}, geometry: () => {
+  const list = part.build.map(k => {const g = mjGeometry[k]; if (!g) throw new Error(`MJ builder produced nothing for ${k}`); return g;});
+  const positions = [], indices = []; for (const g of list) {const base = positions.length / 3; for (const v of g.positions) positions.push(v); for (const i of g.indices) indices.push(base + i);}
+  return weld({pos: Float32Array.from(positions), idx: Uint32Array.from(indices)});
 }}))];
 for (const {part, geometry} of sources) {
   const {positions, indices} = geometry(), normals = normalsOf(positions, indices);
@@ -138,7 +175,7 @@ for (const {part, geometry} of sources) {
   for (let i = 0; i < positions.length; i += 3) for (let k = 0; k < 3; k++) {bounds[0][k] = Math.min(bounds[0][k], positions[i + k]); bounds[1][k] = Math.max(bounds[1][k], positions[i + k]);}
   const pos = Buffer.from(positions.buffer), nor = Buffer.from(normals.buffer), idx = Buffer.from(indices.buffer);
   if (size && size + pos.length + nor.length + idx.length > 900000) flush();
-  parts.push({id: `HEART-${parts.length + 1}`, name: part.name, chinese: part.zh, group: part.group, system: part.system, description: {zh: part.zhDesc, en: part.enDesc}, node: part.node, ...(part.id ? {origin: 'BodyParts3D 4.0'} : {}),
+  parts.push({id: `HEART-${parts.length + 1}`, name: part.name, chinese: part.zh, group: part.group, system: part.system, description: {zh: part.zhDesc, en: part.enDesc}, node: part.node, ...(part.id || part.match ? {origin: 'BodyParts3D 4.0'} : part.shell ? {origin: 'MJ schematic shell'} : part.build ? {origin: 'MJ 補建'} : {}),
     chunk: chunks.length, vertexCount: positions.length / 3, indexCount: indices.length, bounds, positions: append(pos), normals: append(nor), indices: append(idx)});
 }
 flush();
@@ -147,4 +184,5 @@ const catalogue = {version: 1, source: `Z-Anatomy cardiovascular export (${spec.
   groups: spec.groups, parts, chunks};
 fs.writeFileSync(new URL('heart-detail.json.gz', dir), gzipSync(Buffer.from(JSON.stringify(catalogue)), {level: 9}));
 const triangles = parts.reduce((n, p) => n + p.indexCount / 3, 0);
-console.log(`Heart detail: ${parts.length} structures, ${triangles.toLocaleString()} triangles, ${chunks.length} packages, ${(chunks.reduce((n, c) => n + c.gzipBytes, 0) / 1e6).toFixed(2)} MB compressed (${(chunks.reduce((n, c) => n + c.bytes, 0) / 1e6).toFixed(1)} MB raw).`);
+const summary = `Heart detail: ${parts.length} structures, ${triangles.toLocaleString()} triangles, ${chunks.length} packages, ${(chunks.reduce((n, c) => n + c.gzipBytes, 0) / 1e6).toFixed(2)} MB compressed (${(chunks.reduce((n, c) => n + c.bytes, 0) / 1e6).toFixed(1)} MB raw).`;
+console.log(summary); fs.writeFileSync(stampFile, stamp + '\n' + summary);

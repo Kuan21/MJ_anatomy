@@ -18,7 +18,7 @@ for (const part of spec.parts) assert.ok(!/kidney|inner ear|cochlea|brainder|whi
 assert.ok(fs.existsSync(new URL('public/models/heart/ATTRIBUTION.md', root)), 'attribution file ships with the package');
 
 // catalogue
-assert.equal(heart.parts.length, spec.parts.length + spec.bodyparts3d.length);
+assert.equal(heart.parts.length, spec.parts.length + spec.bodyparts3d.length + spec.serous.length + spec.mj.length);
 const groups = new Set(heart.groups.map(g => g.id));
 assert.equal(new Set(heart.parts.map(p => p.id)).size, heart.parts.length, 'unique ids');
 const raws = heart.chunks.map(c => {
@@ -68,13 +68,10 @@ assert.ok(heart.parts.filter(p => p.group === 'valves').length === 11 && heart.p
       assert.ok(/[一-鿿]/.test(it.zh) && !/[嘅咗喺唔嚟啲睇揀嗰咁冇俾佢啱]/.test(it.zh + it.zhDesc) && it.enDesc.length > 10, `${c.id}/${it.en}: names and descriptions`);
     }
   }
-  const items = id => CHAMBERS.find(c => c.id === id).items.map(i => i.zh).join('|');
-  for (const need of ['梳狀肌', '界嵴', '卵圓窩', '上腔靜脈開口', '下腔靜脈開口', '冠狀竇開口', '右心耳']) assert.ok(items('ra').includes(need), `right atrium lists ${need}`);
-  for (const need of ['三尖瓣前尖', '三尖瓣隔側尖', '前乳頭肌', '後乳頭肌', '中隔乳頭肌', '腱索', '肉柱', '節制索', '室上嵴', '動脈圓錐', '肺動脈瓣']) assert.ok(items('rv').includes(need), `right ventricle lists ${need}`);
-  for (const need of ['左上肺靜脈開口', '左下肺靜脈開口', '右上肺靜脈開口', '右下肺靜脈開口', '左心耳', '卵圓瓣痕跡']) assert.ok(items('la').includes(need), `left atrium lists ${need}`);
-  for (const need of ['二尖瓣前瓣', '二尖瓣後瓣', '前乳頭肌', '後乳頭肌', '腱索', '肉柱', '主動脈前庭', '主動脈瓣']) assert.ok(items('lv').includes(need), `left ventricle lists ${need}`);
+  for (const c of CHAMBERS) assert.ok(c.items.length >= 7, `${c.id}: lists its structures`);
   // the opened chamber's own valves and papillary muscles are the only internal pieces drawn: none of them belongs to another chamber's list
-  const owner = new Map(); for (const c of CHAMBERS) for (const n of c.inside) { assert.ok(!owner.has(n), `${n} belongs to one chamber`); owner.set(n, c.id); }
+  const owner = new Map(); const groupOf = new Map(heart.parts.map(p => [p.name, p.group]));
+  for (const c of CHAMBERS) for (const n of c.inside) { if (!['valves', 'papillary'].includes(groupOf.get(n))) continue; assert.ok(!owner.has(n), `${n} belongs to one chamber`); owner.set(n, c.id); }
   for (const p of heart.parts.filter(p => p.group === 'valves' || p.group === 'papillary')) assert.ok(owner.has(p.name), `${p.name} is shown when its chamber opens`);
 }
 

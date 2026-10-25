@@ -111,7 +111,9 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
   const mistakes = session.answers.filter(a => !a.correct);
 
   // Papillary muscles and valve leaflets sit inside the chambers, so the heart quiz opens those questions with the chambers already moved aside.
-  const openingHidden = (t?: QuizStructure) => regionId === 'heart' && t && (t.sections.includes('papillary') || t.sections.includes('valves')) ? (catalogue?.structures ?? []).filter(x => x.sections.includes('chambers')).map(x => x.id) : [];
+  const openingHidden = (t?: QuizStructure) => regionId === 'heart' && t && (t.sections.includes('papillary') || t.sections.includes('valves') || t.sections.includes('interior')) ? (catalogue?.structures ?? []).filter(x => x.sections.includes('chambers')).map(x => x.id) : [];
+  // The MJ-built interior and the pericardium would crowd every other question: they are drawn only when the question is about them.
+  const autoHidden = useMemo(() => regionId === 'heart' && target ? (catalogue?.structures ?? []).filter(x => (x.sections.includes('interior') && !target.sections.includes('interior')) || (x.sections.includes('pericardium') && !target.sections.includes('pericardium'))).map(x => x.id) : [], [regionId, target, catalogue]);
   const clearQuestion = (t?: QuizStructure) => {setHidden(openingHidden(t)); setPeeling(false); setMessage(''); setError('');};
   const begin = (next: QuizSession) => {
     if (!next.queue.length) return;
@@ -177,7 +179,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
 
     {phase === 'playing' && catalogue && target && <div className="quiz-play-layout">
       <section className="quiz-stage" aria-label="點選模型作答">
-        <QuizScene key={sceneRetry} catalogue={catalogue} view={{key: questionKey, target, section: settings.section, side: settings.side, answered: !!answer, pickedId: answer?.pickedId ?? null, hidden, context, peeling, command}}
+        <QuizScene key={sceneRetry} catalogue={catalogue} view={{key: questionKey, target, section: settings.section, side: settings.side, answered: !!answer, pickedId: answer?.pickedId ?? null, hidden: autoHidden.length ? [...hidden, ...autoHidden] : hidden, context, peeling, command}}
           onReady={(key, value) => setReadiness({key, ready: value})} onProgress={(loaded, total) => setLoad({loaded, total})} onError={setError} onPick={choose} onMessage={setMessage}/>
         <div className="quiz-stage-caption"><span>{section.id === 'all' ? region.sections.find(s => s.id === target.sections[0])?.label : section.label}</span><span>{system?.label} · {settings.side === 'both' ? '雙側' : settings.side === 'right' ? '右側' : '左側'}</span></div>
         <div className="quiz-view-buttons" aria-label="模型視角"><button data-slot="quiz-button" onClick={() => changeView('front')}>前面</button><button data-slot="quiz-button" onClick={() => changeView('back')}>後面</button><button data-slot="quiz-button" onClick={() => changeView('side')}>側面</button><button data-slot="quiz-button" onClick={() => changeView('fit')} aria-label="模型置中"><RotateCcw size={16}/></button></div>

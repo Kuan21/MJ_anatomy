@@ -82,7 +82,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
     const heartChunks = heart.chunks.map(c => fs.readFileSync(new URL('public' + c.url, root)));
     for (const part of heart.parts) {
       const raw = heartChunks[part.chunk];
-      add({id: part.id, name: part.name, chinese: part.chinese, system: part.system, side: 'midline', bounds: part.bounds, source: 'Z-Anatomy', sections: [part.group], description: part.description,
+      add({id: part.id, name: part.name, chinese: part.chinese, system: part.system, side: 'midline', bounds: part.bounds, source: part.origin ? `Z-Anatomy / ${part.origin}` : 'Z-Anatomy', sections: [part.group], description: part.description, origin: part.origin,
         positions: raw.subarray(part.positions, part.positions + part.vertexCount * 12), normals: raw.subarray(part.normals, part.normals + part.vertexCount * 6), indices: raw.subarray(part.indices, part.indices + part.indexCount * 4)});
     }
   }

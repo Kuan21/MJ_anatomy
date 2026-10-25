@@ -6,8 +6,15 @@ import {CHAMBERS, chamberView, type ChamberItem} from './heart-chambers';
 import {SECTION_AXES, type HeartCatalogue, type HeartPart, type HeartView, type HeartViewState, type SectionAxis} from './heart-types';
 import './organ.css';
 
-function HeartScene({catalogue, view, onProgress, onReady, onError, onPick, onHover}: {
-  catalogue: HeartCatalogue; view: HeartViewState;
+const LEAFLET_LABEL: Record<string, string> = {
+  'Anterior leaflet of right atrioventricular valve': 'Tricuspid · anterior', 'Inferior leaflet of right atrioventricular valve': 'Tricuspid · posterior', 'Septal leaflet of right atrioventricular valve': 'Tricuspid · septal',
+  'Anterior leaflet of left atrioventricular valve': 'Mitral · anterior', 'Posterior leaflet of left atrioventricular valve': 'Mitral · posterior',
+  'Left coronary leaflet of aortic valve': 'Aortic · left coronary', 'Right coronary leaflet of aortic valve': 'Aortic · right coronary', 'Non-coronary leaflet of aortic valve': 'Aortic · non-coronary',
+  'Anterior semilunar cusp of pulmonary valve': 'Pulmonary · anterior', 'Left semilunar cusp of pulmonary valve': 'Pulmonary · left', 'Right semilunar cusp of pulmonary valve': 'Pulmonary · right',
+};
+interface LabelSpec {id: string; en: string; zh: string; ids: string[]}
+function HeartScene({catalogue, view, labels, onProgress, onReady, onError, onPick, onHover}: {
+  catalogue: HeartCatalogue; view: HeartViewState; labels: LabelSpec[];
   onProgress: (loaded: number, total: number) => void; onReady: () => void; onError: (message: string) => void;
   onPick: (id: string | null) => void; onHover: (id: string | null) => void;
 }) {
@@ -25,13 +32,14 @@ function HeartScene({catalogue, view, onProgress, onReady, onError, onPick, onHo
     return () => {viewer.current?.dispose(); viewer.current = null;};
   }, [catalogue]);
   useEffect(() => {viewer.current?.update(view);}, [view]);
+  useEffect(() => {viewer.current?.setLabels(labels);}, [labels]);
   return <div className="organ-canvas" ref={host}/>;
 }
 
 // Closed heart by default: the outside (chambers as the epicardial surface, coronary vessels, great vessels). Valves, chordae and papillary muscles appear when the heart is opened.
-const INTERNAL = ['papillary', 'valves'];
+const INTERNAL = ['papillary', 'valves', 'interior', 'pericardium'];
 const defaults: HeartViewState = {hiddenGroups: INTERNAL, selectedId: null, section: {axis: 'none', offset: .5, flip: true}, ghostChambers: false, openChamber: null, highlight: [], command: {id: 0, view: 'front'}};
-const OPENED: Partial<HeartViewState> = {openChamber: null, highlight: [], hiddenGroups: [], section: {axis: 'coronal', offset: .5, flip: true}, ghostChambers: true};
+const OPENED: Partial<HeartViewState> = {openChamber: null, highlight: [], hiddenGroups: ['pericardium'], section: {axis: 'coronal', offset: .5, flip: true}, ghostChambers: true};
 const AXES: SectionAxis[] = ['none', 'coronal', 'sagittal', 'transverse'];
 /** Each cut removes the half facing the camera that looks into it: coronal from the front, sagittal from the body's right, transverse from above. */
 const CUT: Record<Exclude<SectionAxis, 'none'>, {flip: boolean; view: HeartView}> = {coronal: {flip: true, view: 'front'}, sagittal: {flip: false, view: 'right'}, transverse: {flip: true, view: 'top'}};
@@ -39,7 +47,7 @@ const CUT: Record<Exclude<SectionAxis, 'none'>, {flip: boolean; view: HeartView}
 export default function HeartDetail() {
   const [catalogue, setCatalogue] = useState<HeartCatalogue | null>(null), [catalogueError, setCatalogueError] = useState(''), [retry, setRetry] = useState(0);
   const [view, setView] = useState<HeartViewState>(defaults);
-  const [item, setItem] = useState<ChamberItem | null>(null);
+  const [item, setItem] = useState<ChamberItem | null>(null), [labelOn, setLabelOn] = useState({valves: false, leaflets: false});
   const [load, setLoad] = useState({loaded: 0, total: 0}), [ready, setReady] = useState(false), [error, setError] = useState(''), [hover, setHover] = useState<string | null>(null);
   useEffect(() => {if (!view.openChamber) setItem(null);}, [view.openChamber]);
   useEffect(() => {document.title = '心臟詳細模式 · MJ Anatomy';}, []);
@@ -72,6 +80,19 @@ export default function HeartDetail() {
     setItem(same ? null : next);
     patch({selectedId: null, highlight: same ? [] : idsOf(next.parts)});
   };
+  const labelSpecs = useMemo<LabelSpec[]>(() => {
+    if (!catalogue) return [];
+    const idsOf2 = (names: string[]) => catalogue.parts.filter(p => names.includes(p.name)).map(p => p.id);
+    const list: LabelSpec[] = [];
+    if (labelOn.valves) for (const [id, en, zh, names] of [
+      ['v-tri', 'Tricuspid valve', '三尖瓣', CHAMBERS[1].inside.filter(n => /right atrioventricular valve/.test(n))],
+      ['v-mit', 'Mitral valve', '二尖瓣', CHAMBERS[3].inside.filter(n => /left atrioventricular valve/.test(n))],
+      ['v-aor', 'Aortic valve', '主動脈瓣', CHAMBERS[3].inside.filter(n => /aortic valve/.test(n))],
+      ['v-pul', 'Pulmonary valve', '肺動脈瓣', CHAMBERS[1].inside.filter(n => /pulmonary valve/.test(n))],
+    ] as [string, string, string, string[]][]) list.push({id, en, zh, ids: idsOf2(names)});
+    if (labelOn.leaflets) for (const p of catalogue.parts) if (p.group === 'valves') list.push({id: p.id, en: LEAFLET_LABEL[p.name] ?? p.name, zh: p.chinese, ids: [p.id]});
+    return list;
+  }, [catalogue, labelOn]);
   const grouped = useMemo(() => catalogue?.groups.map(g => ({...g, parts: catalogue.parts.filter(p => p.group === g.id)})) ?? [], [catalogue]);
 
   return <main className="organ-app" lang="zh-Hant">
@@ -84,7 +105,7 @@ export default function HeartDetail() {
     {!catalogue && !catalogueError && <div className="organ-loading" role="status">正在準備心臟模型…</div>}
     {catalogue && <div className="organ-layout">
       <section className="organ-stage" aria-label="心臟 3D 模型">
-        <HeartScene catalogue={catalogue} view={view} onProgress={(loaded, total) => setLoad({loaded, total})} onReady={() => setReady(true)} onError={setError}
+        <HeartScene catalogue={catalogue} view={view} labels={labelSpecs} onProgress={(loaded, total) => setLoad({loaded, total})} onReady={() => setReady(true)} onError={setError}
           onPick={id => patch({selectedId: id})} onHover={setHover}/>
         <div className="organ-views" aria-label="視角">{([['front', '前面'], ['back', '後面'], ['left', '左側'], ['right', '右側'], ['top', '上面']] as const).map(([id, label]) => <button key={id} onClick={() => go(id)}>{label}</button>)}
           <button onClick={() => {setView(v => ({...defaults, command: {id: v.command.id + 1, view: 'front'}}));}} aria-label="還原預設" title="還原預設"><RotateCcw size={15}/></button></div>
@@ -127,7 +148,15 @@ export default function HeartDetail() {
             <button aria-pressed={view.hiddenGroups.length > 0 || view.section.axis === 'none'} onClick={() => patch({...defaults, selectedId: view.selectedId})}>閉合（外表）</button>
             <button aria-pressed={view.hiddenGroups.length === 0 && view.section.axis !== 'none'} onClick={() => patch(OPENED)}>打開心臟（內部）</button>
           </div>
-          <small>預設只顯示外表；打開後顯示瓣膜、腱索與乳頭肌，也可用下方切面與各組構造開關逐層查看。</small>
+          <small>預設只顯示外表；打開後顯示瓣膜、腱索與乳突肌，也可用下方切面與各組構造開關逐層查看。</small>
+        </section>
+        <section className="organ-block">
+          <h2>名稱標籤<small>Labels</small></h2>
+          <div className="organ-segmented" role="group" aria-label="名稱標籤">
+            <button aria-pressed={labelOn.valves} onClick={() => setLabelOn(v => ({...v, valves: !v.valves}))}><span lang="en">Valves</span><small lang="zh-Hant">瓣膜</small></button>
+            <button aria-pressed={labelOn.leaflets} onClick={() => setLabelOn(v => ({...v, leaflets: !v.leaflets}))}><span lang="en">Leaflets</span><small lang="zh-Hant">瓣葉</small></button>
+          </div>
+          <small>標籤放在畫面左右兩側，以細線連到構造，隨構造轉動；只標示目前可見的瓣膜或瓣葉（瓣膜預設在心腔內，需先打開心腔）。</small>
         </section>
         <section className="organ-block">
           <h2>切面<small>Section</small></h2>
@@ -145,14 +174,14 @@ export default function HeartDetail() {
             const hidden = view.hiddenGroups.includes(g.id);
             return <div className="organ-group" key={g.id}>
               <button className="organ-group-head" onClick={() => toggleGroup(g.id)} aria-pressed={!hidden} aria-label={`${hidden ? '顯示' : '隱藏'}${g.label}`}>{hidden ? <EyeOff size={15}/> : <Eye size={15}/>}<span lang="en">{g.english}<small lang="zh-Hant">{g.label}</small></span><b>{g.parts.length}</b></button>
-              {!hidden && <ul>{g.parts.map((p: HeartPart) => <li key={p.id}><button aria-pressed={view.selectedId === p.id} onMouseEnter={() => setHover(p.id)} onMouseLeave={() => setHover(null)} onClick={() => patch({selectedId: view.selectedId === p.id ? null : p.id})}><span lang="en">{p.name}</span><small lang="zh-Hant">{p.chinese}</small></button></li>)}</ul>}
+              {!hidden && <ul>{g.parts.map((p: HeartPart) => <li key={p.id}><button aria-pressed={view.selectedId === p.id} onMouseEnter={() => setHover(p.id)} onMouseLeave={() => setHover(null)} onClick={() => patch({selectedId: view.selectedId === p.id ? null : p.id})}><span lang="en">{p.name}</span><small lang="zh-Hant">{p.chinese}</small>{p.origin === 'MJ 補建' && <i className="organ-nomodel-tag organ-mj-tag" lang="zh-Hant">MJ 補建</i>}</button></li>)}</ul>}
             </div>;
           })}
         </section>
         <section className="organ-block organ-note">
           <h2>模型範圍</h2>
-          <p>心腔、房室瓣與半月瓣（房室瓣連同腱索）、乳頭肌、冠狀動脈、心臟靜脈、上下腔靜脈、肺靜脈與相連大血管。腱索包含在瓣膜模型中，不能單獨選取。三尖瓣前尖、二尖瓣前瓣與左心室前外側乳頭肌取自 BodyParts3D 4.0，並對齊到同一心臟。</p>
-          <p>以下構造在目前使用的開源模型中沒有網格，只在「逐個心腔打開」的清單中提供文字說明（標示「無模型」）：梳狀肌、界嵴、卵圓窩、右心耳、肉柱、節制索、室上嵴、動脈圓錐、左心耳、卵圓瓣痕跡、主動脈前庭；傳導系統（竇房結、房室結、希氏束）亦未收錄。</p>
+          <p>心腔、房室瓣與半月瓣（房室瓣連同腱索）、乳突肌、冠狀動脈與心臟靜脈、上下腔靜脈、肺靜脈與相連大血管，以及心包膜三層。腱索包含在瓣膜模型中，不能單獨選取。三尖瓣前瓣、二尖瓣前瓣、左心室前乳突肌，以及右緣支、後室間支、對角支、心小靜脈與心前靜脈取自 BodyParts3D 4.0，並對齊到同一心臟；心包膜三層由心壁向外偏移生成，為示意模型。</p>
+          <p>來源模型沒有、依解剖知識補建的構造（清單中標示「MJ 補建」，位置與形狀為示意）：界嵴、梳狀肌、卵圓窩、心房中隔、左右心耳、室間隔、肉柱、節制索、室上嵴、動脈圓錐、主動脈前庭、竇房結動脈、左緣支、心包橫竇與心包斜竇。卵圓瓣痕跡仍沒有模型，只提供文字說明；傳導系統（竇房結、房室結、希氏束）不在跑考範圍，未收錄。</p>
           <p className="organ-source">來源：{catalogue.source}。{catalogue.attribution}。授權 {catalogue.license}。</p>
         </section>
       </aside>
