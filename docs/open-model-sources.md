@@ -12,7 +12,7 @@
 | 大小（Draco 壓縮後） | muscular 4.5 MB、cardiovascular 5.6 MB、visceral 1.8 MB、nervous 3.8 MB、skeletal 1.9 MB、lymphatic 0.4 MB、joints 0.9 MB |
 | 同現有模型對位 | 同源（BodyParts3D 座標系，專案已用 joints.glb、頸血管、腦 glb 同一系列，並已有註冊程序），預期可直接對齊；需要用重疊嘅骨件做一次驗證 |
 | 補到咩 | 闊背肌、腹直肌、腹內／外斜肌、腹橫肌、腰方肌、多裂肌、顳肌、豎脊肌各段、心臟四個腔室、房室瓣／肺動脈瓣瓣葉、乳頭肌、冠狀竇…（用 `node scripts/audit-coverage.mjs --candidate=…` 試算：呢包可以補返課程「模型冇」清單中 141 個詞：肌肉 42、心血管 106、神經 11、淋巴 12、內臟 23、骨 2，部分詞有重疊） |
-| 做唔到 | **腱索、界嵴、梳狀肌、卵圓窩、肉柱、節制索、傳導系統（SA／AV node、His 束、束支）**喺呢包入面搵唔到（只得乳頭肌同瓣葉） |
+| 做唔到 | **界嵴、梳狀肌、卵圓窩、節制索、傳導系統（SA／AV node、His 束、束支）**喺呢包入面搵唔到。**更正**：腱索唔係獨立件，但已經建喺房室瓣瓣葉嘅網格入面（逐件渲染確認，見 `docs/heart-detail.md`）；二尖瓣前尖、三尖瓣前尖、左心室前乳頭肌冇模型 |
 
 建議：只抽取 muscular／cardiovascular／skeletal／lymphatic 入面課程需要嘅件，排除所有 NC 或授權不明件；加入前出示逐件清單俾你確認。
 

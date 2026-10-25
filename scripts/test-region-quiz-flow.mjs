@@ -7,7 +7,7 @@ import vm from 'node:vm';
 import {fileURLToPath} from 'node:url';
 import ts from 'typescript';
 const root = fileURLToPath(new URL('../', import.meta.url));
-const catalogues = Object.fromEntries(['lower','upper','thorax','back'].map(k => [k, fs.readFileSync(path.join(root, `public/models/quiz-${k}.json`), 'utf8')]));
+const catalogues = Object.fromEntries(['lower','upper','thorax','back','heart'].map(k => [k, fs.readFileSync(path.join(root, `public/models/quiz-${k}.json`), 'utf8')]));
 let hooks = [], cursor = 0, effects = [], dirty = true, tree;
 const changed = (a, b) => !a || !b || a.length !== b.length || a.some((x, i) => x !== b[i]);
 const react = {
@@ -22,7 +22,7 @@ const external = {
   react, 'react/jsx-runtime': {jsx, jsxs: jsx, Fragment: 'fragment'},
   'lucide-react': Object.fromEntries(icons.map(name => [name, name])),
 };
-globalThis.fetch = async url => new Response(catalogues[/quiz-(lower|upper|thorax|back)\.json/.exec(String(url))[1]]);
+globalThis.fetch = async url => new Response(catalogues[/quiz-(lower|upper|thorax|back|heart)\.json/.exec(String(url))[1]]);
 const cache = new Map();
 async function moduleFor(key) {
   if (cache.has(key)) return cache.get(key);
@@ -46,7 +46,7 @@ function button(label) {const result = all().find(n => n.type === 'button' && te
 function click(label) {const node = button(label); assert.ok(!node.props.disabled, `Enabled: ${label}`); node.props.onClick(); render();}
 const scene = () => all().find(n => typeof n.type === 'function' && n.type.name === 'QuizScene');
 const settle = async () => {render(); await new Promise(resolve => setTimeout(resolve, 0)); render();};
-for (const [id, file, label, tag, labels] of [['upper-limb', 'upper', '上肢', '上肢篇', ['肩帶・肩', '上臂', '前臂', '腕・手']], ['thorax', 'thorax', '胸腔', '胸腔篇', ['胸廓骨架', '胸壁・呼吸肌', '縱膈・大血管']], ['back', 'back', '背部', '背部篇', ['淺層背肌', '中層背肌', '深層固有背肌', '枕下區', '背部神經與血管']]]) {
+for (const [id, file, label, tag, labels] of [['upper-limb', 'upper', '上肢', '上肢篇', ['肩帶・肩', '上臂', '前臂', '腕・手']], ['thorax', 'thorax', '胸腔', '胸腔篇', ['胸廓骨架', '胸壁・呼吸肌', '縱膈・大血管']], ['back', 'back', '背部', '背部篇', ['淺層背肌', '中層背肌', '深層固有背肌', '枕下區', '背部神經與血管']], ['heart', 'heart', '心臟', '心臟篇', ['心腔', '乳頭肌', '瓣膜（含腱索）', '冠狀動脈', '心臟靜脈', '相連大血管']]]) {
   hooks = []; cursor = 0; effects = []; dirty = true; region = id;
   const catalogue = JSON.parse(catalogues[file]);
   await settle();
@@ -58,7 +58,7 @@ for (const [id, file, label, tag, labels] of [['upper-limb', 'upper', '上肢', 
   assert.ok(!/下肢/.test(text(tree)), `${label}: no lower-limb copy`);
   click('開始測驗');
   let view = scene().props.view;
-  assert.equal(view.section, id === 'thorax' ? 'cage' : id === 'back' ? 'superficial' : 'shoulder'); assert.equal(view.side, id === 'back' ? 'both' : 'right');
+  assert.equal(view.section, id === 'thorax' ? 'cage' : id === 'back' ? 'superficial' : id === 'heart' ? 'chambers' : 'shoulder'); assert.equal(view.side, id === 'back' || id === 'heart' ? 'both' : 'right');
   scene().props.onReady(view.key, true); render();
   // Answer card: 中文名 first, English name beneath.
   const heading = all().find(n => n.type === 'h1' && n.props.className === 'quiz-target');

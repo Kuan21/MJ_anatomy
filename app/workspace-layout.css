@@ -527,3 +527,5 @@
  .top-actions>button span,.top-actions kbd{display:none}
  .top-actions>button,.top-actions .icon-button{width:44px;padding:0}
 }
+.system-row .organ-detail-link{margin-left:auto;margin-right:8px;font-size:11px;line-height:1;padding:5px 9px;border-radius:999px;border:1px solid #94bfb0;background:#e7f3eb;color:#236e60;text-decoration:none;white-space:nowrap}
+.system-row .organ-detail-link:hover{background:#dcefe3}

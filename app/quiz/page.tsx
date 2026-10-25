@@ -67,6 +67,7 @@ const FIELD_ORDER: Record<string, string[]> = {
   arterial: ['來源', '走向', '主要分支', '供應範圍'],
   venous: ['來源', '走向', '主要分支', '引流範圍'],
   skeletal: ['主要標誌', '相關關節', '附著肌肉'],
+  cardiac: ['說明'],
 };
 const order = (system: string) => FIELD_ORDER[system] ?? [];
 
@@ -75,7 +76,7 @@ const defaults: QuizSettings = {section: 'all', systems: ['skeletal', 'muscular'
 export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: QuizRegionId} = {}) {
   const region = QUIZ_REGIONS[regionId];
   const [catalogue, setCatalogue] = useState<QuizCatalogue | null>(null), [catalogueError, setCatalogueError] = useState(''), [catalogueRetry, setCatalogueRetry] = useState(0);
-  const [settings, setSettings] = useState<QuizSettings>({...defaults, side: region.defaultSide ?? defaults.side}), [phase, setPhase] = useState<'setup' | 'playing' | 'summary'>('setup');
+  const [settings, setSettings] = useState<QuizSettings>({...defaults, side: region.defaultSide ?? defaults.side, systems: region.systems ?? defaults.systems}), [phase, setPhase] = useState<'setup' | 'playing' | 'summary'>('setup');
   const [session, setSession] = useState<QuizSession>({queue: [], answers: []}), [index, setIndex] = useState(0), [round, setRound] = useState(0);
   const [hidden, setHidden] = useState<string[]>([]), [peeling, setPeeling] = useState(false), [context, setContext] = useState(true);
   const [command, setCommand] = useState<{id: number; view: QuizView}>({id: 0, view: 'front'});
@@ -104,15 +105,19 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
   const picked = answer?.pickedId ? structures.get(answer.pickedId) : undefined;
   const section = region.sections.find(s => s.id === settings.section)!;
   const system = QUIZ_SYSTEMS.find(s => s.id === target?.system);
+  const systemChips = QUIZ_SYSTEMS.filter(s => region.systems ? region.systems.includes(s.id) : s.id !== 'cardiac');
+  const contextName = regionId === 'heart' ? '其他心臟構造' : '骨骼';
   const questionKey = `${round}:${index}:${target?.id ?? ''}`;
   const ready = readiness.key === questionKey && readiness.ready && !error;
   const correct = session.answers.filter(a => a.correct).length;
   const mistakes = session.answers.filter(a => !a.correct);
 
-  const clearQuestion = () => {setHidden([]); setPeeling(false); setMessage(''); setError('');};
+  // Papillary muscles and valve leaflets sit inside the chambers, so the heart quiz opens those questions with the chambers already moved aside.
+  const openingHidden = (t?: QuizStructure) => regionId === 'heart' && t && (t.sections.includes('papillary') || t.sections.includes('valves')) ? (catalogue?.structures ?? []).filter(x => x.sections.includes('chambers')).map(x => x.id) : [];
+  const clearQuestion = (t?: QuizStructure) => {setHidden(openingHidden(t)); setPeeling(false); setMessage(''); setError('');};
   const begin = (next: QuizSession) => {
     if (!next.queue.length) return;
-    setSession(next); setIndex(0); setRound(n => n + 1); clearQuestion(); setPhase('playing');
+    setSession(next); setIndex(0); setRound(n => n + 1); clearQuestion(structures.get(next.queue[0])); setPhase('playing');
   };
   const choose = (id: string) => {
     if (!target || answer || !ready || phase !== 'playing') return;
@@ -126,7 +131,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
   const nextQuestion = () => {
     if (!answer) return;
     if (index + 1 >= session.queue.length) setPhase('summary');
-    else {setIndex(index + 1); clearQuestion();}
+    else {setIndex(index + 1); clearQuestion(structures.get(session.queue[index + 1]));}
   };
   const changeView = (view: QuizView) => setCommand(c => ({id: c.id + 1, view}));
 
@@ -158,7 +163,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
           <div className="quiz-region-grid">{region.sections.map(r => <button data-slot="quiz-button" key={r.id} aria-pressed={settings.section === r.id} onClick={() => setSettings(s => ({...s, section: r.id}))}><span>{r.label}<small>{r.english}</small></span>{settings.section === r.id ? <Check size={17}/> : <ChevronRight size={15}/>}</button>)}</div>
         </fieldset>
         <fieldset><legend><b>02</b> 選擇系統 <small>可選多個</small></legend>
-          <div className="quiz-system-grid">{QUIZ_SYSTEMS.map(s => {
+          <div className="quiz-system-grid">{systemChips.map(s => {
             const count = catalogue ? questionPool(catalogue, {...settings, systems: [s.id]}).length : 0;
             return <button data-slot="quiz-button" key={s.id} disabled={!!catalogue && !count} aria-pressed={settings.systems.includes(s.id)} onClick={() => setSettings(prev => ({...prev, systems: prev.systems.includes(s.id) ? prev.systems.filter(id => id !== s.id) : [...prev.systems, s.id]}))}><i style={{background: s.color}}/><span>{s.label}<small>{s.english}</small></span><span className="quiz-count">{count}</span><span className="quiz-checkbox">{settings.systems.includes(s.id) && <Check size={12}/>}</span></button>;
           })}</div>
@@ -195,10 +200,10 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
           <div className="quiz-answer-name"><span><i className="correct-dot"/>{answer.correct ? '綠色顯示' : '正確位置用綠色顯示'}</span><b><Name structure={target}/></b></div>
           <button data-slot="quiz-button" className="quiz-text-button" onClick={() => changeView('answer')}><Target size={15}/>放大正確位置</button>
         </div> : <div className="quiz-answer-tools">
-          <p>請在模型上直接點選你認為正確的{system?.label}。{target.system !== 'skeletal' && '淡色骨骼僅供定位。'}</p>
+          <p>請在模型上直接點選你認為正確的{system?.label}。{target.system !== 'skeletal' && `淡色${contextName}僅供定位。`}</p>
           <button data-slot="quiz-button" className="quiz-tool-button" aria-pressed={peeling} disabled={!ready} onClick={() => {setPeeling(v => !v); setMessage('');}}><Layers size={17}/><span>{peeling ? '完成移開，返回作答' : '移開遮擋'}<small>{peeling ? '按下此鍵後，再點選模型作答' : '深層構造可先移開表面組織'}</small></span></button>
           {hidden.length > 0 && <button data-slot="quiz-button" className="quiz-text-button" onClick={() => {setHidden([]); setMessage('');}}><RotateCcw size={14}/>還原已移開的 {hidden.length} 個構造</button>}
-          {target.system !== 'skeletal' && <label className="quiz-context-toggle"><input type="checkbox" checked={context} onChange={e => setContext(e.target.checked)}/>顯示淡色骨骼定位</label>}
+          {target.system !== 'skeletal' && <label className="quiz-context-toggle"><input type="checkbox" checked={context} onChange={e => setContext(e.target.checked)}/>顯示淡色{contextName}定位</label>}
           <p className="quiz-message" role="status" aria-live="polite">{message}</p>
         </div>}
 

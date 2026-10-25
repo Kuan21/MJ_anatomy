@@ -13,7 +13,7 @@ const {structureCard} = await quizModule('app/quiz/card.ts');
 
 // ---- routing
 assert.ok(isQuizHub('#/quiz') && isQuizHub('#/quiz/') && !isQuizHub('#/quiz/back') && !isQuizHub(''));
-for (const id of ['thorax', 'back', 'upper-limb', 'lower-limb']) assert.equal(regionOfHash(QUIZ_REGIONS[id].hash), id);
+for (const id of ['thorax', 'back', 'upper-limb', 'lower-limb', 'heart']) assert.equal(regionOfHash(QUIZ_REGIONS[id].hash), id);
 const main = fs.readFileSync(path.join(root, 'web/main.tsx'), 'utf8');
 assert.match(main, /hub \? <QuizHub\/>/, 'the router shows the chooser for #/quiz');
 assert.match(main, /params\.get\('dev'\) === '1'/, 'Skeleton v2 lab needs ?dev=1');
@@ -40,8 +40,8 @@ const tree = hub.namespace.default();
 const all = n => Array.isArray(n) ? n.flatMap(all) : !n || typeof n !== 'object' ? [] : [n, ...all(n.props?.children)];
 const text = n => Array.isArray(n) ? n.map(text).join('') : n == null || typeof n === 'boolean' ? '' : typeof n !== 'object' ? String(n) : text(n.props?.children);
 const cards = all(tree).filter(n => n.props?.['data-part']);
-assert.deepEqual(cards.map(c => c.props['data-part']), ['head', 'neck', 'thorax', 'back', 'upper-limb', 'lower-limb', 'organs'], 'six body parts, then the reserved organ slot');
-for (const part of ['thorax', 'back', 'upper-limb', 'lower-limb']) {
+assert.deepEqual(cards.map(c => c.props['data-part']), ['head', 'neck', 'thorax', 'back', 'upper-limb', 'lower-limb', 'heart', 'organs'], 'six body parts, then the organ quizzes (heart first, other organs reserved)');
+for (const part of ['thorax', 'back', 'upper-limb', 'lower-limb', 'heart']) {
   const card = cards.find(c => c.props['data-part'] === part);
   assert.equal(card.type, 'a'); assert.equal(card.props.href, QUIZ_REGIONS[part].hash);
 }

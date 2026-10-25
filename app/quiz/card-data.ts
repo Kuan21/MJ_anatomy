@@ -105,6 +105,107 @@ export const CARD_EXTRAS: Record<string, CardExtra> = {
   },
 };
 
+
+// Heart and adjoining great vessels (heart quiz). Standard textbook anatomy; variable branching is described as "常見".
+Object.assign(CARD_EXTRAS, {
+  'right coronary artery': {
+    來源: e('升主動脈的右冠狀竇', 'Right aortic sinus of the ascending aorta'),
+    走向: e('沿右房室溝（冠狀溝）向右下行，繞過心臟右緣至後方', 'Runs in the right atrioventricular (coronary) groove, around the right border to the back of the heart'),
+    主要分支: e('竇房結支、右緣支、後室間支（後降支）、房室結支（常見）', 'Sinoatrial nodal branch, right marginal branch, posterior interventricular branch and atrioventricular nodal branch (common pattern)'),
+    供應範圍: e('右心房、右心室與室間隔後部；多數人亦供應竇房結與房室結', 'Right atrium, right ventricle and the posterior part of the interventricular septum; in most people also the sinoatrial and atrioventricular nodes'),
+  },
+  'right inferolateral branch of right coronary artery': {
+    來源: e('右冠狀動脈', 'Right coronary artery'),
+    走向: e('沿心臟下緣向心尖方向走行', 'Runs along the inferior border of the heart towards the apex'),
+    供應範圍: e('右心室下緣的心壁', 'The wall of the right ventricle along the inferior border'),
+  },
+  'left coronary artery': {
+    來源: e('升主動脈的左冠狀竇', 'Left aortic sinus of the ascending aorta'),
+    走向: e('短幹行於肺動脈幹與左心耳之間，隨即分為兩支', 'A short main stem passing between the pulmonary trunk and the left auricle, then dividing into two branches'),
+    主要分支: e('前室間動脈（左前降支）與迴旋支', 'Anterior interventricular artery (left anterior descending) and circumflex artery'),
+    供應範圍: e('左心房、左心室與室間隔前部', 'Left atrium, left ventricle and the anterior part of the interventricular septum'),
+  },
+  'anterior interventricular artery': {
+    來源: e('左冠狀動脈', 'Left coronary artery'),
+    走向: e('沿前室間溝向心尖下行，常繞過心尖至後室間溝', 'Descends in the anterior interventricular groove towards the apex, often turning round it into the posterior groove'),
+    主要分支: e('對角支與室間隔支（中隔支）', 'Diagonal branches and septal branches'),
+    供應範圍: e('左心室前壁、室間隔前部與右心室前壁的一部分', 'Anterior wall of the left ventricle, the anterior part of the interventricular septum and part of the anterior wall of the right ventricle'),
+  },
+  'septal branches of anterior interventricular artery': {
+    來源: e('前室間動脈', 'Anterior interventricular artery'),
+    走向: e('穿入室間隔', 'Penetrate the interventricular septum'),
+    供應範圍: e('室間隔（含部分傳導系統）', 'The interventricular septum, including part of the conducting system'),
+  },
+  'circumflex artery': {
+    來源: e('左冠狀動脈', 'Left coronary artery'),
+    走向: e('沿左房室溝（冠狀溝）繞向心臟後方', 'Follows the left atrioventricular (coronary) groove round to the back of the heart'),
+    主要分支: e('左緣支（鈍緣支）', 'Left marginal branch'),
+    供應範圍: e('左心房與左心室的外側壁及後壁', 'Left atrium and the lateral and posterior walls of the left ventricle'),
+  },
+  'great cardiac vein': {
+    來源: e('心尖附近，前室間溝下端', 'Near the apex, at the lower end of the anterior interventricular groove'),
+    走向: e('伴隨前室間動脈上行，再沿左房室溝繞向後方，續為冠狀竇', 'Ascends beside the anterior interventricular artery, then follows the left atrioventricular groove to the back and continues as the coronary sinus'),
+    主要分支: e('左緣靜脈、左心室後靜脈等屬支', 'Tributaries include the left marginal vein and the posterior vein of the left ventricle'),
+    引流範圍: e('心臟前面與左側，注入冠狀竇', 'Anterior and left parts of the heart; drains into the coronary sinus'),
+  },
+  'middle cardiac vein': {
+    來源: e('心尖附近', 'Near the apex'),
+    走向: e('沿後室間溝上行，注入冠狀竇', 'Ascends in the posterior interventricular groove and drains into the coronary sinus'),
+    引流範圍: e('左、右心室的後面與室間隔後部', 'Posterior surfaces of both ventricles and the posterior part of the septum'),
+  },
+  'inferior vein of left ventricle': {
+    走向: e('沿左心室下壁走行，注入冠狀竇或心大靜脈', 'Runs along the inferior wall of the left ventricle and drains into the coronary sinus or the great cardiac vein'),
+    引流範圍: e('左心室下壁', 'Inferior wall of the left ventricle'),
+  },
+  'posterior vein of left ventricle': {
+    走向: e('沿左心室後壁走行，注入冠狀竇', 'Runs along the posterior wall of the left ventricle and drains into the coronary sinus'),
+    引流範圍: e('左心室後壁', 'Posterior wall of the left ventricle'),
+  },
+  'coronary sinus': {
+    來源: e('心大靜脈在左房室溝後部的延續', 'Continuation of the great cardiac vein in the posterior part of the left atrioventricular groove'),
+    走向: e('位於後方的左房室溝內，向右開口於右心房', 'Lies in the posterior atrioventricular groove and opens to the right into the right atrium'),
+    主要分支: e('心中靜脈、心小靜脈、左心室後靜脈、左緣靜脈', 'Middle and small cardiac veins, posterior vein of the left ventricle, left marginal vein'),
+    引流範圍: e('絕大部分心臟的靜脈血', 'Most of the venous blood of the heart'),
+  },
+  'ascending aorta': {
+    來源: e('左心室（經主動脈瓣）', 'Left ventricle, through the aortic valve'),
+    走向: e('向上、向前、向右行，於胸骨角水平續為主動脈弓', 'Passes upward, forward and to the right, becoming the aortic arch at the level of the sternal angle'),
+    主要分支: e('左、右冠狀動脈', 'Left and right coronary arteries'),
+    供應範圍: e('心臟（經冠狀動脈），並將血液送往全身', 'The heart (through the coronary arteries); it also carries blood on to the whole body'),
+  },
+  'aortic arch': {
+    來源: e('升主動脈', 'Ascending aorta'),
+    走向: e('向後、向左彎，越過左主支氣管，續為降主動脈', 'Arches backward and to the left over the left main bronchus and continues as the descending aorta'),
+    主要分支: e('頭臂動脈幹、左總頸動脈、左鎖骨下動脈', 'Brachiocephalic trunk, left common carotid artery and left subclavian artery'),
+    供應範圍: e('頭頸部與上肢', 'Head, neck and upper limbs'),
+  },
+  'pulmonary trunk': {
+    來源: e('右心室（經肺動脈瓣）', 'Right ventricle, through the pulmonary valve'),
+    走向: e('向上、向後行，於主動脈弓下方分為左、右肺動脈', 'Ascends and passes backward, dividing below the aortic arch into the left and right pulmonary arteries'),
+    主要分支: e('左肺動脈、右肺動脈', 'Left and right pulmonary arteries'),
+    供應範圍: e('將缺氧血送往兩肺', 'Carries deoxygenated blood to both lungs'),
+  },
+  'bifurcation of pulmonary trunk': {
+    來源: e('肺動脈幹', 'Pulmonary trunk'),
+    走向: e('肺動脈幹在此分為左、右肺動脈', 'The pulmonary trunk divides here into the left and right pulmonary arteries'),
+    主要分支: e('左肺動脈、右肺動脈', 'Left and right pulmonary arteries'),
+  },
+  'left pulmonary artery': {
+    來源: e('肺動脈幹分叉處', 'Bifurcation of the pulmonary trunk'),
+    走向: e('越過左主支氣管前方進入左肺門', 'Passes in front of the left main bronchus to the hilum of the left lung'),
+    供應範圍: e('左肺（缺氧血）', 'Left lung (deoxygenated blood)'),
+  },
+  'right pulmonary artery': {
+    來源: e('肺動脈幹分叉處', 'Bifurcation of the pulmonary trunk'),
+    走向: e('經升主動脈與上腔靜脈後方、右主支氣管前方進入右肺門', 'Passes behind the ascending aorta and superior vena cava and in front of the right main bronchus to the hilum of the right lung'),
+    供應範圍: e('右肺（缺氧血）', 'Right lung (deoxygenated blood)'),
+  },
+  'left superior pulmonary vein': {走向: e('由左肺門向內行，注入左心房', 'Passes from the hilum of the left lung to the left atrium'), 引流範圍: e('左肺上葉', 'Upper lobe of the left lung')},
+  'left inferior pulmonary vein': {走向: e('由左肺門向內行，注入左心房', 'Passes from the hilum of the left lung to the left atrium'), 引流範圍: e('左肺下葉', 'Lower lobe of the left lung')},
+  'right superior pulmonary vein': {走向: e('由右肺門向內行，注入左心房', 'Passes from the hilum of the right lung to the left atrium'), 引流範圍: e('右肺上葉與中葉', 'Upper and middle lobes of the right lung')},
+  'right inferior pulmonary vein': {走向: e('由右肺門向內行，注入左心房', 'Passes from the hilum of the right lung to the left atrium'), 引流範圍: e('右肺下葉', 'Lower lobe of the right lung')},
+});
+
 const ORDINALS: [string, string][] = [['first', '一'], ['second', '二'], ['third', '三'], ['fourth', '四'], ['fifth', '五'], ['sixth', '六'], ['seventh', '七'], ['eighth', '八'], ['ninth', '九'], ['tenth', '十'], ['eleventh', '十一'], ['twelfth', '十二']];
 const CERVICAL: CardExtra = {
   主要標誌: e('椎體小而寬、橫突孔、棘突多為分叉（第三至第六頸椎）、上下關節突', 'Small wide body, transverse foramen, spinous process usually bifid (C3–C6), superior and inferior articular processes'),
@@ -129,3 +230,4 @@ CARD_EXTRAS['seventh cervical vertebra'] = {
 };
 CARD_EXTRAS['eleventh thoracic vertebra'] = {...THORACIC, 主要標誌: e('只有單一肋凹（在椎體上）、無橫突肋凹、棘突短而近水平', 'A single costal facet on the body, no transverse costal facet, short nearly horizontal spinous process')};
 CARD_EXTRAS['twelfth thoracic vertebra'] = {...THORACIC, 主要標誌: e('只有單一肋凹（在椎體上）、無橫突肋凹，兼具胸椎與腰椎的特徵', 'A single costal facet on the body, no transverse costal facet, with features of both thoracic and lumbar vertebrae')};
+CARD_EXTRAS['arch of aorta'] = CARD_EXTRAS['aortic arch'];

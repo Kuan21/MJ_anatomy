@@ -6,6 +6,7 @@ const Home = lazy(() => import('../app/page'));
 const SkeletonLab = lazy(() => import('../app/biomechanics-v2/lab'));
 const RegionQuiz = lazy(() => import('../app/quiz/page'));
 const QuizHub = lazy(() => import('../app/quiz/hub'));
+const HeartDetail = lazy(() => import('../app/organ/heart'));
 import {QUIZ_REGIONS, isQuizHub, regionOfHash} from '../app/quiz/catalogue';
 /** The Skeleton v2 lab is a developer preview: it opens only with ?dev=1 (optionally ?dev=1&lab=skeleton-v2) and has no link in the product. */
 const devLab = () => {
@@ -22,7 +23,7 @@ function App() {
   const quiz = regionOfHash(hash), hub = isQuizHub(hash);
   useEffect(() => {document.title = quiz ? `${QUIZ_REGIONS[quiz].label} Quiz · MJ Anatomy` : 'MJ Anatomy';}, [quiz]);
   return <Suspense fallback={<div role="status" style={{padding: 32}}>正在載入 MJ Anatomy…</div>}>
-    {hub ? <QuizHub/> : quiz ? <RegionQuiz key={quiz} region={quiz}/> : devLab() ? <SkeletonLab/> : <Home initialRegion={hash === '#/atlas/lower' ? 'lower' : hash === '#/atlas/upper' ? 'upper' : 'whole'}/>}
+    {hash === '#/organ/heart' ? <HeartDetail/> : hub ? <QuizHub/> : quiz ? <RegionQuiz key={quiz} region={quiz}/> : devLab() ? <SkeletonLab/> : <Home initialRegion={hash === '#/atlas/lower' ? 'lower' : hash === '#/atlas/upper' ? 'upper' : 'whole'}/>}
   </Suspense>;
 }
 createRoot(document.getElementById('root')!).render(<App/>);

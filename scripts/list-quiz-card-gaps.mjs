@@ -13,11 +13,14 @@ for (const region of Object.values(QUIZ_REGIONS)) {
   const catalogue = JSON.parse(fs.readFileSync(new URL(region.file, models), 'utf8'));
   const seen = new Set(), bySystem = {};
   for (const s of catalogue.structures) {
-    const key = s.system + ':' + s.name.toLowerCase().replace(/\b(left|right)\b/g, '').replace(/\s+/g, ' ').trim();
+    const key = s.system + ':' + (s.side === 'midline' ? s.name.toLowerCase() : s.name.toLowerCase().replace(/\b(left|right)\b/g, '').replace(/\s+/g, ' ').trim());
     if (seen.has(key)) continue; seen.add(key);
     const card = structureCard(s);
     (bySystem[s.system] ??= {total: 0, rows: []}).total++;
-    if (card.missing.length) bySystem[s.system].rows.push(`- ${card.chinese ? card.chinese + '（' + card.english.replace(/^(Left|Right) /, '') + '）' : card.english.replace(/^(Left|Right) /, '')}：缺 ${card.missing.join('、')}`);
+    // Side words are dropped for paired structures only (right/left latissimus dorsi → one row); "left" in "left atrium" is part of the name.
+    const strip = s.side !== 'midline';
+    const english = strip ? card.english.replace(/^(Left|Right) /, '') : card.english, chinese = strip ? card.chinese?.replace(/^[左右]/, '') : card.chinese;
+    if (card.missing.length) bySystem[s.system].rows.push(`- ${chinese ? chinese + '（' + english + '）' : english}：缺 ${card.missing.join('、')}`);
   }
   out.push(`## ${region.label}（${region.english}）`, '');
   let incomplete = 0, total = 0;

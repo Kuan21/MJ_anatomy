@@ -40,10 +40,14 @@ export default function QuizHub() {
             : <div key={part.id} className="quiz-hub-card is-soon" aria-disabled="true" data-part={part.id}>{body}</div>;
         })}
       </section>
-      {/* Reserved: organ quizzes (heart, lung, brain …) will be added here. */}
-      <section aria-label="器官" className="quiz-hub-organs">
+      {/* Organ quizzes: the heart is first; other organs (lung, brain …) are added here later. */}
+      <h2 className="quiz-hub-subhead">器官 <small>Organs</small></h2>
+      <section aria-label="器官" className="quiz-hub-grid quiz-hub-organs">
+        <a className="quiz-hub-card" href={QUIZ_REGIONS.heart.hash} data-part="heart">
+          <span className="quiz-hub-text"><b>心臟</b><small>Heart</small><em>心腔、瓣膜（含腱索）、乳頭肌、冠狀動脈與心臟靜脈</em></span><ChevronRight size={18}/>
+        </a>
         <div className="quiz-hub-card is-soon" aria-disabled="true" data-part="organs">
-          <span className="quiz-hub-text"><b>器官</b><small>Organs</small><em>心臟、肺、腦等器官的 Quiz，之後加入</em></span>
+          <span className="quiz-hub-text"><b>其他器官</b><small>Other organs</small><em>肺、腦等器官的 Quiz，之後加入</em></span>
           <span className="quiz-soon"><Lock size={13}/>即將推出</span>
         </div>
       </section>

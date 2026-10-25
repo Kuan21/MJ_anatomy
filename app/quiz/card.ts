@@ -20,6 +20,7 @@ const FIELDS: Record<QuizSystem, string[]> = {
   arterial: ['來源', '走向', '主要分支', '供應範圍'],
   venous: ['來源', '走向', '主要分支', '引流範圍'],
   skeletal: ['主要標誌', '相關關節', '附著肌肉'],
+  cardiac: ['說明'],
 };
 /** Existing profile facts (by their Chinese label) that answer a card field. */
 const FROM_PROFILE: Record<QuizSystem, Record<string, string[]>> = {
@@ -28,20 +29,23 @@ const FROM_PROFILE: Record<QuizSystem, Record<string, string[]>> = {
   arterial: {},
   venous: {},
   skeletal: {主要標誌: ['重要骨標誌']},
+  cardiac: {},
 };
 
 const clean = (name: string) => name.toLowerCase().replace(/\b(left|right)\b/g, '').replace(/\s+/g, ' ').trim();
 const present = (fact?: BilingualFact) => fact && (fact.valueZh || fact.valueEn) ? {zh: fact.valueZh, en: fact.valueEn} : undefined;
 
-export function structureCard(structure: Pick<QuizStructure, 'name' | 'chinese' | 'system'>): StructureCard {
+export function structureCard(structure: Pick<QuizStructure, 'name' | 'chinese' | 'system' | 'description'>): StructureCard {
   const system = structure.system;
   const profile = structureProfile(structure.name, system as SystemId);
-  const extra: CardExtra | undefined = CARD_EXTRAS[clean(structure.name)];
+  // Paired structures are keyed without left/right; names where "left"/"right" belongs to the name itself (left atrium, left pulmonary artery…) are keyed in full.
+  const extra: CardExtra | undefined = CARD_EXTRAS[structure.name.toLowerCase()] ?? CARD_EXTRAS[clean(structure.name)];
   const fields: CardField[] = [], missing: string[] = [];
   for (const label of FIELDS[system]) {
     const fromExtra = extra?.[label];
     const fact = FROM_PROFILE[system][label]?.map(l => profile.facts.find(f => f.labelZh === l)).find(Boolean);
-    const found = fromExtra ? {zh: fromExtra.zh, en: fromExtra.en} : present(fact);
+    // Heart structures carry their own checked description (catalogue), shown as the card's 說明.
+    const found = fromExtra ? {zh: fromExtra.zh, en: fromExtra.en} : label === '說明' && structure.description ? structure.description : present(fact);
     if (found) fields.push({label, ...found}); else missing.push(label);
   }
   return {english: structure.name, chinese: structure.chinese ?? profile.chinese, system, fields, missing};

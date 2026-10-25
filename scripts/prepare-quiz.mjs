@@ -60,11 +60,11 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
   const def = QUIZ_REGIONS[region], short = def.file.replace(/^quiz-|\.json$/g, '');
   const items = [], structures = new Map();
   const groupId = (system, name) => `${system}:${name.toLowerCase().replace(/\s+/g, ' ').trim()}`;
-  function add({id, name, chinese, system, side, bounds, source, positions, normals, indices}) {
+  function add({id, name, chinese, system, side, bounds, source, positions, normals, indices, sections, description}) {
     const structureId = groupId(system, name);
     let structure = structures.get(structureId);
     if (!structure) {
-      structure = {id: structureId, name, chinese, system, side, sections: classifySections(region, name, bounds, system), meshIds: [], bounds: bounds.map(b => [...b]), source};
+      structure = {id: structureId, name, chinese, system, side, sections: sections ?? classifySections(region, name, bounds, system), meshIds: [], bounds: bounds.map(b => [...b]), source, ...(description ? {description} : {})};
       structures.set(structureId, structure);
     }
     structure.meshIds.push(id);
@@ -75,7 +75,17 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
     items.push({id, structureId, system, side, positions, normals, indices});
   }
 
-  for (const part of atlas.parts) {
+  // Heart quiz: the structures come from the heart detail package (Z-Anatomy), not the atlas.
+  if (region === 'heart') {
+    const heart = JSON.parse(gunzipSync(fs.readFileSync(new URL('heart/heart-detail.json.gz', models))));
+    const heartChunks = heart.chunks.map(c => fs.readFileSync(new URL('public' + c.url, root)));
+    for (const part of heart.parts) {
+      const raw = heartChunks[part.chunk];
+      add({id: part.id, name: part.name, chinese: part.chinese, system: part.system, side: 'midline', bounds: part.bounds, source: 'Z-Anatomy', sections: [part.group], description: part.description,
+        positions: raw.subarray(part.positions, part.positions + part.vertexCount * 12), normals: raw.subarray(part.normals, part.normals + part.vertexCount * 6), indices: raw.subarray(part.indices, part.indices + part.indexCount * 4)});
+    }
+  }
+  for (const part of region === 'heart' ? [] : atlas.parts) {
     if (!QUIZ_SYSTEMS.some(s => s.id === part.system)) continue;
     const side = include(region, part);
     if (!side) continue;
@@ -93,7 +103,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
       indices: raw.subarray(part.indices, part.indices + part.indexCount * 4)});
   }
 
-  for (const chunk of nerveStream.chunks) {
+  for (const chunk of region === 'heart' ? [] : nerveStream.chunks) {
     let raw;
     for (const [ordinal, mesh] of chunk.meshes.entries()) {
       const match = /^(.*?)\.([lr])(?:\.\d+)?$/i.exec(mesh.name);
@@ -119,7 +129,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
     }
   }
 
-  const packages = [], sides = region === 'thorax' || region === 'back' ? ['left', 'right', 'midline'] : ['left', 'right'];
+  const packages = [], sides = region === 'thorax' || region === 'back' || region === 'heart' ? ['left', 'right', 'midline'] : ['left', 'right'];
   for (const {id: system} of QUIZ_SYSTEMS) for (const side of sides) {
     let buffers = [], bytes = 0, meshes = [];
     const append = data => {

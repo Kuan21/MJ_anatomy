@@ -13,6 +13,8 @@ export function displaySystem(part:Part):SystemId{
  if(/artery|arterial/.test(n))return 'arterial';
  if(/vein|venous/.test(n))return 'venous';
  if(/nerve|plexus|ganglion|neural/.test(n))return 'nervous';
+ // The brain's ventricles are filed under the heart in the source; they belong to the nervous system (the Heart layer is the heart only).
+ if(/(third|fourth|lateral) ventricle|interventricular foramen/.test(n))return 'nervous';
  if(/tensor fasciae latae/.test(n))return 'muscular';
  if(connectiveTerms.some(term=>n.includes(term)))return 'connective';
  if(muscleTerms.some(term=>n.includes(term)))return 'muscular';
