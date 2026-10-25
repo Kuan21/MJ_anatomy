@@ -11,15 +11,15 @@
 
 ## 一、結果摘要
 
-- 涵蓋結構名稱（去除左右後）：1552 個，其中 Quiz 用到 511 個
+- 涵蓋結構名稱（去除左右後）：1528 個
 - 採用來源 1（muscle-layers.json）改名：33 個；來源 2（跑考摘要）：14 個；來源 3（其他筆記）：25 個
 - 全站固定修正：「背闊肌」→「闊背肌」
 - 仍缺中文名或含英文：0 個
 
 | 來源 | 結構數 |
 |---|---|
-| 台灣解剖學名詞（程式內建對照表） | 1352 |
-| muscle-layers.json | 91 |
+| 台灣解剖學名詞（程式內建對照表） | 1331 |
+| muscle-layers.json | 88 |
 | glossary.json（其他筆記） | 75 |
 | glossary.json（跑考摘要） | 34 |
 
@@ -102,7 +102,7 @@
 
 ## 三、已知錯誤的修正結果
 
-- 左背闊肌→左闊背肌：目前「闊背肌」（muscle-layers.json（back_superficial））
+- 左背闊肌→左闊背肌
 - Quiz 說明文字「背闊肌」→「闊背肌」
 - 左Occipital Pole→左枕極：目前「枕極」（台灣解剖學名詞（程式內建對照表））
 - 左Angular Gyrus→左角回：目前「角回」（台灣解剖學名詞（程式內建對照表））
@@ -1042,7 +1042,6 @@
 | extensor pollicis longus | 伸拇長肌 | 伸大拇指短肌 |
 | flexor carpi radialis | 橈側屈腕肌 | 旋前圓肌 |
 | pronator quadratus | 旋前方肌 | 屈拇指長肌 |
-| extensor digitorum brevis | 伸趾短肌 | 伸指短肌 |
 
 ### 4.3 同一中文名對應多個不同英文結構
 
@@ -1063,8 +1062,6 @@
 | 眶回 | Orbital gyrus；orbital gyri |
 | 腹腔動脈幹 | Celiac artery；Celiac trunk |
 | 結腸邊緣動脈 | Marginal colic artery；Marginal artery of colon |
-| 前室間動脈隔支 | Septal branch of anterior interventricular artery；Septal branches of anterior interventricular artery |
-| 主動脈弓 | Arch of aorta；Aortic arch |
 | 枕前溝 | anterior occipital sulcus*；anterior occipital sulcus |
 | 枕下回及溝 | inferior occipital gyrus and sulcus*；inferior occipital gyrus and sulcus |
 | 枕外側回（枕中回） | lateral occipital gyrus (Middle occipital gyrus*)；lateral occipital gyrus (Middle occipital gyrus) |
@@ -1078,529 +1075,9 @@
 
 這些名稱由規則組合產生（器官段血管、椎間盤、腦回／溝別名等），已列入 `docs/zh-tw-terminology-review.md`，請抽查。
 
-## 五、Quiz 結構命名一覽
+## 五、全部結構命名一覽
 
-<details><summary>展開 511 項</summary>
-
-| 結構 | 使用來源 | 中文名 |
-|---|---|---|
-| First lumbrical of foot | 台灣解剖學名詞（程式內建對照表） | 足第一蚓狀肌 |
-| First plantar interosseous of foot | 台灣解剖學名詞（程式內建對照表） | 足第一蹠側骨間肌 |
-| Second lumbrical of foot | 台灣解剖學名詞（程式內建對照表） | 足第二蚓狀肌 |
-| Second plantar interosseous of foot | 台灣解剖學名詞（程式內建對照表） | 足第二蹠側骨間肌 |
-| Third lumbrical of foot | 台灣解剖學名詞（程式內建對照表） | 足第三蚓狀肌 |
-| Third plantar interosseous of foot | 台灣解剖學名詞（程式內建對照表） | 足第三蹠側骨間肌 |
-| Fourth lumbrical of foot | 台灣解剖學名詞（程式內建對照表） | 足第四蚓狀肌 |
-| Abductor digiti minimi of foot | muscle-layers.json（foot_sole） | 外展小趾肌 |
-| Flexor digiti minimi brevis of foot | muscle-layers.json（foot_sole） | 屈小趾短肌 |
-| Lateral head of flexor hallucis brevis | 台灣解剖學名詞（程式內建對照表） | 拇短屈肌外側頭 |
-| Lateral head of gastrocnemius | 台灣解剖學名詞（程式內建對照表） | 腓腸肌外側頭 |
-| Long head of biceps femoris | muscle-layers.json（thigh_posterior） | 股二頭肌長頭 |
-| Medial head of flexor hallucis brevis | 台灣解剖學名詞（程式內建對照表） | 拇短屈肌內側頭 |
-| Medial head of gastrocnemius | 台灣解剖學名詞（程式內建對照表） | 腓腸肌內側頭 |
-| Oblique head of adductor hallucis | 台灣解剖學名詞（程式內建對照表） | 拇收肌斜頭 |
-| Opponens digiti minimi of foot | 台灣解剖學名詞（程式內建對照表） | 足小趾對蹠肌 |
-| abductor hallucis | muscle-layers.json（foot_sole） | 外展拇趾肌 |
-| adductor brevis | muscle-layers.json（thigh_medial） | 內收短肌 |
-| adductor longus | muscle-layers.json（thigh_medial） | 內收長肌 |
-| adductor magnus | muscle-layers.json（thigh_medial） | 內收大肌 |
-| adductor minimus | 台灣解剖學名詞（程式內建對照表） | 小收肌 |
-| extensor digitorum longus | muscle-layers.json（leg_anterior） | 伸趾長肌 |
-| extensor hallucis brevis | muscle-layers.json（foot_dorsum） | 伸拇短肌 |
-| extensor hallucis longus | muscle-layers.json（leg_anterior） | 伸拇長肌 |
-| fibularis brevis | muscle-layers.json（leg_lateral） | 腓短肌 |
-| fibularis longus | muscle-layers.json（leg_lateral） | 腓長肌 |
-| fibularis tertius | muscle-layers.json（leg_anterior） | 第三腓骨肌 |
-| flexor accessorius | 台灣解剖學名詞（程式內建對照表） | 足底方肌 |
-| flexor digitorum brevis | muscle-layers.json（foot_sole） | 屈趾短肌 |
-| flexor digitorum longus | muscle-layers.json（leg_posterior） | 屈趾長肌 |
-| flexor hallucis longus | muscle-layers.json（leg_posterior） | 屈拇長肌 |
-| gemellus inferior | glossary.json（跑考摘要） | 下孖肌 |
-| gemellus superior | glossary.json（跑考摘要） | 上孖肌 |
-| gluteus maximus | muscle-layers.json（gluteal） | 臀大肌 |
-| gluteus medius | muscle-layers.json（gluteal） | 臀中肌 |
-| gluteus minimus | muscle-layers.json（gluteal） | 臀小肌 |
-| gracilis | muscle-layers.json（thigh_medial） | 股薄肌 |
-| iliacus | 台灣解剖學名詞（程式內建對照表） | 髂肌 |
-| obturator externus | muscle-layers.json（thigh_medial） | 閉孔外肌 |
-| obturator internus | muscle-layers.json（gluteal） | 閉孔內肌 |
-| pectineus | muscle-layers.json（thigh_medial） | 恥骨肌 |
-| piriformis | muscle-layers.json（gluteal） | 梨狀肌 |
-| plantaris | muscle-layers.json（leg_posterior） | 蹠肌 |
-| popliteus | muscle-layers.json（leg_posterior） | 膕肌 |
-| psoas major | glossary.json（其他筆記） | 腰大肌 |
-| quadratus femoris | muscle-layers.json（gluteal） | 股方肌 |
-| rectus femoris | muscle-layers.json（thigh_anterior） | 股直肌 |
-| sartorius | muscle-layers.json（thigh_anterior） | 縫匠肌 |
-| semimembranosus | muscle-layers.json（thigh_posterior） | 半膜肌 |
-| semitendinosus | muscle-layers.json（thigh_posterior） | 半腱肌 |
-| soleus | muscle-layers.json（leg_posterior） | 比目魚肌 |
-| tensor fasciae latae | muscle-layers.json（thigh_anterior） | 闊筋膜張肌 |
-| tibialis anterior | muscle-layers.json（leg_anterior） | 脛前肌 |
-| tibialis posterior | muscle-layers.json（leg_posterior） | 脛後肌 |
-| vastus intermedius | muscle-layers.json（thigh_anterior） | 股中間肌 |
-| vastus lateralis | muscle-layers.json（thigh_anterior） | 股外側肌 |
-| vastus medialis | muscle-layers.json（thigh_anterior） | 股內側肌 |
-| Short head of biceps femoris | muscle-layers.json（thigh_posterior） | 股二頭肌短頭 |
-| Transverse head of adductor hallucis | 台灣解剖學名詞（程式內建對照表） | 拇收肌橫頭 |
-| Abdominal part of pectoralis major | 台灣解剖學名詞（程式內建對照表） | 胸大肌腹部 |
-| Clavicular part of pectoralis major | 台灣解剖學名詞（程式內建對照表） | 胸大肌鎖骨頭 |
-| external intercostal muscle | glossary.json（其他筆記） | 外肋間肌 |
-| innermost intercostal muscle | glossary.json（其他筆記） | 最內肋間肌 |
-| internal intercostal muscle | glossary.json（其他筆記） | 內肋間肌 |
-| pectoralis minor | 台灣解剖學名詞（程式內建對照表） | 胸小肌 |
-| serratus anterior | 台灣解剖學名詞（程式內建對照表） | 前鋸肌 |
-| subclavius | 台灣解剖學名詞（程式內建對照表） | 鎖骨下肌 |
-| transversus thoracis | 台灣解剖學名詞（程式內建對照表） | 胸橫肌 |
-| Set of levatores costarum breves | 台灣解剖學名詞（程式內建對照表） | 短肋提肌群 |
-| Set of levatores costarum longi | 台灣解剖學名詞（程式內建對照表） | 長肋提肌群 |
-| Sternocostal part of pectoralis major | 台灣解剖學名詞（程式內建對照表） | 胸大肌胸肋頭 |
-| Abductor digiti minimi of hand | muscle-layers.json（hand） | 外展小指肌 |
-| Acromial part of deltoid | 台灣解剖學名詞（程式內建對照表） | 三角肌肩峰部 |
-| Clavicular part of deltoid | 台灣解剖學名詞（程式內建對照表） | 三角肌鎖骨部 |
-| flexor pollicis brevis | muscle-layers.json（hand） | 屈拇短肌 |
-| Flexor digiti minimi brevis of hand | muscle-layers.json（hand） | 屈小指短肌 |
-| extensor carpi ulnaris | muscle-layers.json（forearm_extensor） | 尺側伸腕肌 |
-| Humeral head of flexor carpi ulnaris | 台灣解剖學名詞（程式內建對照表） | 尺側腕屈肌肱骨頭 |
-| Humeral head of pronator teres | 台灣解剖學名詞（程式內建對照表） | 旋前圓肌肱骨頭 |
-| flexor digitorum superficialis | muscle-layers.json（forearm_flexor） | 屈指淺肌 |
-| Lateral head of triceps brachii | muscle-layers.json（arm_posterior） | 肱三頭肌外側頭 |
-| Long head of biceps brachii | muscle-layers.json（arm_anterior） | 肱二頭肌長頭 |
-| Long head of triceps brachii | muscle-layers.json（arm_posterior） | 肱三頭肌長頭 |
-| Medial head of triceps brachii | muscle-layers.json（arm_posterior） | 肱三頭肌內側頭 |
-| Oblique head of adductor pollicis | 台灣解剖學名詞（程式內建對照表） | 拇收肌斜頭 |
-| Opponens digiti minimi of hand | 台灣解剖學名詞（程式內建對照表） | 小指對掌肌 |
-| abductor pollicis brevis | muscle-layers.json（hand） | 外展拇短肌 |
-| abductor pollicis longus | muscle-layers.json（forearm_extensor） | 外展拇長肌 |
-| anconeus | muscle-layers.json（arm_posterior） | 肘肌 |
-| brachialis | muscle-layers.json（arm_anterior） | 肱肌 |
-| brachioradialis | muscle-layers.json（forearm_extensor） | 肱橈肌 |
-| coracobrachialis | muscle-layers.json（arm_anterior） | 喙肱肌 |
-| extensor carpi radialis brevis | muscle-layers.json（forearm_extensor） | 橈側伸腕短肌 |
-| extensor carpi radialis longus | muscle-layers.json（forearm_extensor） | 橈側伸腕長肌 |
-| extensor digiti minimi | muscle-layers.json（forearm_extensor） | 伸小指肌 |
-| extensor digitorum | muscle-layers.json（forearm_extensor） | 伸指肌 |
-| extensor indicis | muscle-layers.json（forearm_extensor） | 伸食指肌 |
-| extensor pollicis brevis | muscle-layers.json（forearm_extensor） | 伸拇短肌 |
-| extensor pollicis longus | muscle-layers.json（forearm_extensor） | 伸拇長肌 |
-| flexor carpi radialis | muscle-layers.json（forearm_flexor） | 橈側屈腕肌 |
-| flexor digitorum profundus | muscle-layers.json（forearm_flexor） | 屈指深肌 |
-| flexor pollicis longus | muscle-layers.json（forearm_flexor） | 屈拇長肌 |
-| infraspinatus muscle | muscle-layers.json（scapular） | 棘下肌 |
-| opponens pollicis | muscle-layers.json（hand） | 拇對掌肌 |
-| palmaris longus | muscle-layers.json（forearm_flexor） | 掌長肌 |
-| pronator quadratus | muscle-layers.json（forearm_flexor） | 旋前方肌 |
-| subscapularis | muscle-layers.json（scapular） | 肩胛下肌 |
-| supinator | muscle-layers.json（forearm_extensor） | 旋後肌 |
-| supraspinatus | muscle-layers.json（scapular） | 棘上肌 |
-| teres major | muscle-layers.json（scapular） | 大圓肌 |
-| teres minor | muscle-layers.json（scapular） | 小圓肌 |
-| Set of dorsal interossei of hand | 台灣解剖學名詞（程式內建對照表） | 手背側骨間肌群 |
-| Set of lumbricals of hand | 台灣解剖學名詞（程式內建對照表） | 手蚓狀肌群 |
-| Set of palmar interossei of hand | 台灣解剖學名詞（程式內建對照表） | 手掌側骨間肌群 |
-| Short head of biceps brachii | muscle-layers.json（arm_anterior） | 肱二頭肌短頭 |
-| Spinal part of deltoid | 台灣解剖學名詞（程式內建對照表） | 三角肌肩胛棘部 |
-| Superficial head of flexor pollicis brevis | 台灣解剖學名詞（程式內建對照表） | 拇短屈肌淺頭 |
-| Transverse head of adductor pollicis | 台灣解剖學名詞（程式內建對照表） | 拇收肌橫頭 |
-| Ulnar head of pronator teres | 台灣解剖學名詞（程式內建對照表） | 旋前圓肌尺骨頭 |
-| Ulnar head of flexor carpi ulnaris | 台灣解剖學名詞（程式內建對照表） | 尺側腕屈肌尺骨頭 |
-| Ascending part of trapezius | 台灣解剖學名詞（程式內建對照表） | 斜方肌升部（下部纖維） |
-| Descending part of trapezius | 台灣解剖學名詞（程式內建對照表） | 斜方肌降部（上部纖維） |
-| lumbar rotator | 台灣解剖學名詞（程式內建對照表） | 腰迴旋肌 |
-| cervical rotator | 台灣解剖學名詞（程式內建對照表） | 頸迴旋肌 |
-| thoracic rotator | 台灣解剖學名詞（程式內建對照表） | 胸迴旋肌 |
-| iliocostalis cervicis | 台灣解剖學名詞（程式內建對照表） | 頸髂肋肌 |
-| iliocostalis lumborum | 台灣解剖學名詞（程式內建對照表） | 腰髂肋肌 |
-| iliocostalis thoracis | 台灣解剖學名詞（程式內建對照表） | 胸髂肋肌 |
-| levator scapulae | muscle-layers.json（back_superficial） | 提肩胛肌 |
-| longissimus capitis | 台灣解剖學名詞（程式內建對照表） | 頭最長肌 |
-| longissimus cervicis | 台灣解剖學名詞（程式內建對照表） | 頸最長肌 |
-| longissimus thoracis | 台灣解剖學名詞（程式內建對照表） | 胸最長肌 |
-| rhomboid major | muscle-layers.json（back_superficial） | 大菱形肌 |
-| rhomboid minor | muscle-layers.json（back_superficial） | 小菱形肌 |
-| semispinalis capitis | muscle-layers.json（back_deep） | 頭半棘肌 |
-| semispinalis cervicis | muscle-layers.json（back_deep） | 頸半棘肌 |
-| semispinalis thoracis | 台灣解剖學名詞（程式內建對照表） | 胸半棘肌 |
-| serratus posterior inferior | muscle-layers.json（back_superficial） | 後下鋸肌 |
-| serratus posterior superior | muscle-layers.json（back_superficial） | 後上鋸肌 |
-| spinalis thoracis | 台灣解剖學名詞（程式內建對照表） | 胸棘肌 |
-| splenius capitis | muscle-layers.json（back_deep） | 頭夾肌 |
-| splenius cervicis | muscle-layers.json（back_deep） | 頸夾肌 |
-| interspinalis thoracis | 台灣解剖學名詞（程式內建對照表） | 胸棘間肌 |
-| Transverse part of trapezius | 台灣解剖學名詞（程式內建對照表） | 斜方肌橫部（中部纖維） |
-| obliquus capitis inferior | muscle-layers.json（suboccipital） | 頭下斜肌 |
-| obliquus capitis superior | muscle-layers.json（suboccipital） | 頭上斜肌 |
-| rectus capitis posterior major | muscle-layers.json（suboccipital） | 頭後大直肌 |
-| rectus capitis posterior minor | muscle-layers.json（suboccipital） | 頭後小直肌 |
-| vertebral artery | 台灣解剖學名詞（程式內建對照表） | 椎動脈 |
-| Descending thoracic aorta | 台灣解剖學名詞（程式內建對照表） | 胸主動脈 |
-| Bronchial artery | 台灣解剖學名詞（程式內建對照表） | 支氣管動脈 |
-| Esophageal artery | 台灣解剖學名詞（程式內建對照表） | 食道動脈 |
-| superior intercostal artery | 台灣解剖學名詞（程式內建對照表） | 最上肋間動脈 |
-| internal thoracic artery | 台灣解剖學名詞（程式內建對照表） | 內胸動脈 |
-| Posterior intercostal arteries | 台灣解剖學名詞（程式內建對照表） | 後肋間動脈 |
-| subcostal artery | glossary.json（其他筆記） | 肋下動脈 |
-| musculophrenic artery | 台灣解剖學名詞（程式內建對照表） | 肌膈動脈 |
-| Accessory hemiazygos vein | 台灣解剖學名詞（程式內建對照表） | 副半奇靜脈 |
-| Set of anterior intercostal veins | 台灣解剖學名詞（程式內建對照表） | 前肋間靜脈群 |
-| superior intercostal vein | 台灣解剖學名詞（程式內建對照表） | 最上肋間靜脈 |
-| subcostal vein | 台灣解剖學名詞（程式內建對照表） | 肋下靜脈 |
-| musculophrenic vein | 台灣解剖學名詞（程式內建對照表） | 肌膈靜脈 |
-| internal thoracic vein | 台灣解剖學名詞（程式內建對照表） | 內胸靜脈 |
-| dorsalis pedis artery | glossary.json（跑考摘要） | 足背動脈 |
-| Descending branch of lateral circumflex femoral artery | 台灣解剖學名詞（程式內建對照表） | 旋股外側動脈降支 |
-| Distal perforating artery | 台灣解剖學名詞（程式內建對照表） | 遠端穿動脈 |
-| Dorsal venous arch of foot | 台灣解剖學名詞（程式內建對照表） | 足背靜脈弓 |
-| anterior tibial artery | glossary.json（跑考摘要） | 脛前動脈 |
-| anterior tibial recurrent artery | 台灣解剖學名詞（程式內建對照表） | 脛前返動脈 |
-| arcuate artery | glossary.json（其他筆記） | 弓狀動脈 |
-| deep plantar artery | glossary.json（跑考摘要） | 深趾動脈 |
-| descending genicular artery | glossary.json（跑考摘要） | 降膝動脈 |
-| Dorsal digital artery of foot | 台灣解剖學名詞（程式內建對照表） | 足背趾動脈 |
-| femoral artery | 台灣解剖學名詞（程式內建對照表） | 股動脈 |
-| inferior lateral genicular artery | glossary.json（跑考摘要） | 外下膝動脈 |
-| inferior medial genicular artery | glossary.json（跑考摘要） | 內下膝動脈 |
-| lateral circumflex femoral artery | glossary.json（跑考摘要） | 外旋股動脈 |
-| lateral plantar artery | 台灣解剖學名詞（程式內建對照表） | 足底外側動脈 |
-| lateral superior genicular artery | 台灣解剖學名詞（程式內建對照表） | 膝上外側動脈 |
-| lateral tarsal artery | 台灣解剖學名詞（程式內建對照表） | 外側跗動脈 |
-| medial plantar artery | 台灣解剖學名詞（程式內建對照表） | 足底內側動脈 |
-| medial superior genicular artery | 台灣解剖學名詞（程式內建對照表） | 膝上內側動脈 |
-| middle genicular artery | glossary.json（跑考摘要） | 中膝動脈 |
-| plantar arch | 台灣解剖學名詞（程式內建對照表） | 足底動脈弓 |
-| popliteal artery | glossary.json（跑考摘要） | 膕動脈 |
-| posterior tibial artery | glossary.json（跑考摘要） | 脛後動脈 |
-| superficial medial plantar artery | 台灣解剖學名詞（程式內建對照表） | 足底內側淺動脈 |
-| Set of perforating arteries | 台灣解剖學名詞（程式內建對照表） | 穿動脈群 |
-| Set of common plantar digital arteries | 台灣解剖學名詞（程式內建對照表） | 足底總趾動脈群 |
-| Set of dorsal digital arteries | 台灣解剖學名詞（程式內建對照表） | 背側指（趾）動脈群 |
-| Set of plantar digital arteries proper | 台灣解剖學名詞（程式內建對照表） | 足底固有趾動脈群 |
-| Plantar metatarsal artery | 台灣解剖學名詞（程式內建對照表） | 足底蹠骨動脈 |
-| anterior tibial vein | 台灣解剖學名詞（程式內建對照表） | 脛前靜脈 |
-| deep femoral vein | 台灣解剖學名詞（程式內建對照表） | 股深靜脈 |
-| Set of perforating veins | 台灣解剖學名詞（程式內建對照表） | 穿靜脈群 |
-| femoral vein | 台灣解剖學名詞（程式內建對照表） | 股靜脈 |
-| great saphenous vein | glossary.json（跑考摘要） | 大隱靜脈 |
-| genicular vein | 台灣解剖學名詞（程式內建對照表） | 膝靜脈 |
-| Tributary of plantar venous arch | 台灣解剖學名詞（程式內建對照表） | 足底靜脈弓屬支 |
-| popliteal vein | 台灣解剖學名詞（程式內建對照表） | 膕靜脈 |
-| posterior tibial vein | 台灣解剖學名詞（程式內建對照表） | 脛後靜脈 |
-| Set of plantar digital veins | 台灣解剖學名詞（程式內建對照表） | 足底趾靜脈群 |
-| small saphenous vein | glossary.json（跑考摘要） | 小隱靜脈 |
-| Plantar venous arch of foot | 台灣解剖學名詞（程式內建對照表） | 足底靜脈弓 |
-| fibular vein | 台灣解剖學名詞（程式內建對照表） | 腓靜脈 |
-| Set of dorsal digital veins | 台灣解剖學名詞（程式內建對照表） | 背側趾靜脈群 |
-| lateral circumflex femoral vein | 台灣解剖學名詞（程式內建對照表） | 旋股外側靜脈 |
-| medial circumflex femoral vein | 台灣解剖學名詞（程式內建對照表） | 旋股內側靜脈 |
-| Plantar metatarsal vein | 台灣解剖學名詞（程式內建對照表） | 足底蹠骨靜脈 |
-| Acromial branch of thoraco-acromial artery | 台灣解剖學名詞（程式內建對照表） | 胸肩峰動脈肩峰支 |
-| anterior circumflex humeral artery | 台灣解剖學名詞（程式內建對照表） | 旋肱前動脈 |
-| anterior circumflex humeral vein | 台灣解剖學名詞（程式內建對照表） | 旋肱前靜脈 |
-| anterior interosseous artery | 台灣解剖學名詞（程式內建對照表） | 前骨間動脈 |
-| inferior ulnar collateral artery | 台灣解剖學名詞（程式內建對照表） | 下尺側副動脈 |
-| axillary artery | glossary.json（跑考摘要） | 腋動脈 |
-| axillary vein | 台灣解剖學名詞（程式內建對照表） | 腋靜脈 |
-| basilic vein | 台灣解剖學名詞（程式內建對照表） | 貴要靜脈 |
-| brachial artery | glossary.json（其他筆記） | 肱動脈 |
-| cephalic vein | 台灣解剖學名詞（程式內建對照表） | 頭靜脈 |
-| circumflex scapular artery | 台灣解剖學名詞（程式內建對照表） | 旋肩胛動脈 |
-| circumflex scapular vein | 台灣解剖學名詞（程式內建對照表） | 旋肩胛靜脈 |
-| common interosseous artery | glossary.json（其他筆記） | 總骨間動脈 |
-| costocervical trunk | 台灣解剖學名詞（程式內建對照表） | 肋頸動脈幹 |
-| deep brachial artery | 台灣解剖學名詞（程式內建對照表） | 肱深動脈 |
-| deep cervical artery | 台灣解剖學名詞（程式內建對照表） | 頸深動脈 |
-| deep palmar arch | 台灣解剖學名詞（程式內建對照表） | 深掌動脈弓 |
-| Dorsal venous network of hand | 台灣解剖學名詞（程式內建對照表） | 手背靜脈網 |
-| deep palmar venous arch | 台灣解剖學名詞（程式內建對照表） | 深掌靜脈弓 |
-| Deltoid branch of thoraco-acromial artery | 台灣解剖學名詞（程式內建對照表） | 胸肩峰動脈三角肌支 |
-| Dorsal carpal branch of radial artery | 台灣解剖學名詞（程式內建對照表） | 橈動脈背側腕支 |
-| dorsal scapular artery | 台灣解剖學名詞（程式內建對照表） | 肩胛背動脈 |
-| median antebrachial vein | 台灣解剖學名詞（程式內建對照表） | 前臂正中靜脈 |
-| median cubital vein | 台灣解剖學名詞（程式內建對照表） | 正中肘靜脈 |
-| dorsal carpal branch of ulnar artery | 台灣解剖學名詞（程式內建對照表） | 尺動脈背側腕支 |
-| palmar metacarpal artery | 台灣解剖學名詞（程式內建對照表） | 掌側掌骨動脈 |
-| palmar metacarpal vein | 台灣解剖學名詞（程式內建對照表） | 掌側掌骨靜脈 |
-| posterior circumflex humeral artery | glossary.json（其他筆記） | 後旋肱動脈 |
-| posterior ulnar recurrent artery | 台灣解剖學名詞（程式內建對照表） | 尺側返動脈後支 |
-| radial artery | glossary.json（跑考摘要） | 橈動脈 |
-| radial recurrent artery | glossary.json（其他筆記） | 橈側迴返動脈 |
-| radial vein | 台灣解剖學名詞（程式內建對照表） | 橈靜脈 |
-| recurrent interosseous artery | 台灣解剖學名詞（程式內建對照表） | 骨間返動脈 |
-| subscapular artery | 台灣解剖學名詞（程式內建對照表） | 肩胛下動脈 |
-| subscapular vein | 台灣解剖學名詞（程式內建對照表） | 肩胛下靜脈 |
-| superficial palmar arterial arch | 台灣解剖學名詞（程式內建對照表） | 淺掌動脈弓 |
-| superficial palmar venous arch | 台灣解剖學名詞（程式內建對照表） | 淺掌靜脈弓 |
-| suprascapular vein | 台灣解剖學名詞（程式內建對照表） | 肩胛上靜脈 |
-| suprascapular artery | glossary.json（其他筆記） | 肩胛上動脈 |
-| Trunk of thoraco-acromial artery | 台灣解剖學名詞（程式內建對照表） | 胸肩峰動脈幹 |
-| thoracodorsal artery | 台灣解剖學名詞（程式內建對照表） | 胸背動脈 |
-| thoracodorsal vein | 台灣解剖學名詞（程式內建對照表） | 胸背靜脈 |
-| thyrocervical trunk | 台灣解剖學名詞（程式內建對照表） | 甲狀頸動脈幹 |
-| superficial cervical artery | 台灣解剖學名詞（程式內建對照表） | 頸淺動脈 |
-| transverse cervical artery | 台灣解剖學名詞（程式內建對照表） | 頸橫動脈 |
-| ulnar artery | glossary.json（跑考摘要） | 尺動脈 |
-| anterior ulnar recurrent artery | 台灣解剖學名詞（程式內建對照表） | 尺側返動脈前支 |
-| ulnar vein | 台灣解剖學名詞（程式內建對照表） | 尺靜脈 |
-| Radial collateral branch of deep brachial artery | 台灣解剖學名詞（程式內建對照表） | 肱深動脈橈側副支 |
-| medial brachial vein | 台灣解剖學名詞（程式內建對照表） | 內側肱靜脈 |
-| arteria radialis indicis | 台灣解剖學名詞（程式內建對照表） | 食指橈側動脈 |
-| first common palmar digital artery | 台灣解剖學名詞（程式內建對照表） | 第一掌側總指動脈 |
-| second common palmar digital artery | 台灣解剖學名詞（程式內建對照表） | 第二掌側總指動脈 |
-| third common palmar digital artery | 台灣解剖學名詞（程式內建對照表） | 第三掌側總指動脈 |
-| Proper palmar digital vein of little finger | 台灣解剖學名詞（程式內建對照表） | 小指掌側固有指靜脈 |
-| Common palmar digital vein | 台灣解剖學名詞（程式內建對照表） | 掌側總指靜脈 |
-| Proper palmar digital vein of index finger | 台灣解剖學名詞（程式內建對照表） | 食指掌側固有指靜脈 |
-| Proper palmar digital vein of middle finger | 台灣解剖學名詞（程式內建對照表） | 中指掌側固有指靜脈 |
-| Proper palmar digital vein of ring finger | 台灣解剖學名詞（程式內建對照表） | 無名指掌側固有指靜脈 |
-| Pectoral branch of thoraco-acromial artery | 台灣解剖學名詞（程式內建對照表） | 胸肩峰動脈胸肌支 |
-| Middle collateral branch of deep brachial artery | 台灣解剖學名詞（程式內建對照表） | 肱深動脈中副支 |
-| Medial proper palmar digital artery of index finger | 台灣解剖學名詞（程式內建對照表） | 食指內側掌側固有指動脈 |
-| Lateral proper palmar digital artery of middle finger | 台灣解剖學名詞（程式內建對照表） | 中指外側掌側固有指動脈 |
-| Lateral proper palmar digital artery of ring finger | 台灣解剖學名詞（程式內建對照表） | 無名指外側掌側固有指動脈 |
-| Lateral proper palmar digital artery of little finger | 台灣解剖學名詞（程式內建對照表） | 小指外側掌側固有指動脈 |
-| fourth common palmar digital artery | 台灣解剖學名詞（程式內建對照表） | 第四掌側總指動脈 |
-| arteria princeps pollicis | 台灣解剖學名詞（程式內建對照表） | 拇主要動脈 |
-| Set of dorsal metacarpal arteries | 台灣解剖學名詞（程式內建對照表） | 背側掌骨動脈群 |
-| Medial proper palmar digital artery of middle finger | 台灣解剖學名詞（程式內建對照表） | 中指內側掌側固有指動脈 |
-| Medial proper palmar digital artery of ring finger | 台灣解剖學名詞（程式內建對照表） | 無名指內側掌側固有指動脈 |
-| superior ulnar collateral artery | 台灣解剖學名詞（程式內建對照表） | 上尺側副動脈 |
-| Anterior papillary muscle of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室前乳頭肌 |
-| Septal papillary muscle of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室隔側乳頭肌 |
-| Coronary sinus | 台灣解剖學名詞（程式內建對照表） | 冠狀竇 |
-| Great cardiac vein | 台灣解剖學名詞（程式內建對照表） | 心大靜脈 |
-| Middle cardiac vein | 台灣解剖學名詞（程式內建對照表） | 心中靜脈 |
-| Posterior vein of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室後靜脈 |
-| pulmonary artery | 台灣解剖學名詞（程式內建對照表） | 肺動脈 |
-| superior pulmonary vein | 台灣解剖學名詞（程式內建對照表） | 上肺靜脈 |
-| inferior pulmonary vein | 台灣解剖學名詞（程式內建對照表） | 下肺靜脈 |
-| Pulmonary trunk | 台灣解剖學名詞（程式內建對照表） | 肺動脈幹 |
-| Diaphragm | 台灣解剖學名詞（程式內建對照表） | 橫膈 |
-| hip bone | 台灣解剖學名詞（程式內建對照表） | 髖骨 |
-| Xiphoid process | 台灣解剖學名詞（程式內建對照表） | 劍突 |
-| Tenth thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第十胸椎 |
-| Eleventh thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第十一胸椎 |
-| Twelfth thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第十二胸椎 |
-| First lumbar vertebra | 台灣解剖學名詞（程式內建對照表） | 第一腰椎 |
-| First thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第一胸椎 |
-| Second lumbar vertebra | 台灣解剖學名詞（程式內建對照表） | 第二腰椎 |
-| Second thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第二胸椎 |
-| Third cervical vertebra | 台灣解剖學名詞（程式內建對照表） | 第三頸椎 |
-| Third lumbar vertebra | 台灣解剖學名詞（程式內建對照表） | 第三腰椎 |
-| Third thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第三胸椎 |
-| Fourth cervical vertebra | 台灣解剖學名詞（程式內建對照表） | 第四頸椎 |
-| Fourth lumbar vertebra | 台灣解剖學名詞（程式內建對照表） | 第四腰椎 |
-| Fourth thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第四胸椎 |
-| Fifth cervical vertebra | 台灣解剖學名詞（程式內建對照表） | 第五頸椎 |
-| Fifth lumbar vertebra | 台灣解剖學名詞（程式內建對照表） | 第五腰椎 |
-| Fifth thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第五胸椎 |
-| Sixth cervical vertebra | 台灣解剖學名詞（程式內建對照表） | 第六頸椎 |
-| Sixth thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第六胸椎 |
-| Seventh cervical vertebra | 台灣解剖學名詞（程式內建對照表） | 第七頸椎 |
-| Seventh thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第七胸椎 |
-| Eighth thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第八胸椎 |
-| Ninth thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第九胸椎 |
-| Atlas | 台灣解剖學名詞（程式內建對照表） | 寰椎 |
-| Axis | 台灣解剖學名詞（程式內建對照表） | 樞椎 |
-| Body of sternum | 台灣解剖學名詞（程式內建對照表） | 胸骨體 |
-| Distal phalanx of second toe | 台灣解剖學名詞（程式內建對照表） | 第二趾遠節趾骨 |
-| Distal phalanx of third toe | 台灣解剖學名詞（程式內建對照表） | 第三趾遠節趾骨 |
-| Distal phalanx of fourth toe | 台灣解剖學名詞（程式內建對照表） | 第四趾遠節趾骨 |
-| Distal phalanx of big toe | 台灣解剖學名詞（程式內建對照表） | 拇趾遠節趾骨 |
-| Distal phalanx of index finger | 台灣解剖學名詞（程式內建對照表） | 食指遠節指骨 |
-| Distal phalanx of little finger | 台灣解剖學名詞（程式內建對照表） | 小指遠節指骨 |
-| Distal phalanx of little toe | 台灣解剖學名詞（程式內建對照表） | 小趾遠節趾骨 |
-| Distal phalanx of middle finger | 台灣解剖學名詞（程式內建對照表） | 中指遠節指骨 |
-| Distal phalanx of ring finger | 台灣解剖學名詞（程式內建對照表） | 無名指遠節指骨 |
-| Distal phalanx of thumb | 台灣解剖學名詞（程式內建對照表） | 拇指遠節指骨 |
-| tenth rib | 台灣解剖學名詞（程式內建對照表） | 第十肋骨 |
-| eleventh rib | 台灣解剖學名詞（程式內建對照表） | 第十一肋骨 |
-| twelfth rib | 台灣解剖學名詞（程式內建對照表） | 第十二肋骨 |
-| first rib | 台灣解剖學名詞（程式內建對照表） | 第一肋骨 |
-| second rib | 台灣解剖學名詞（程式內建對照表） | 第二肋骨 |
-| third rib | 台灣解剖學名詞（程式內建對照表） | 第三肋骨 |
-| fourth rib | 台灣解剖學名詞（程式內建對照表） | 第四肋骨 |
-| fifth rib | 台灣解剖學名詞（程式內建對照表） | 第五肋骨 |
-| sixth rib | 台灣解剖學名詞（程式內建對照表） | 第六肋骨 |
-| seventh rib | 台灣解剖學名詞（程式內建對照表） | 第七肋骨 |
-| eighth rib | 台灣解剖學名詞（程式內建對照表） | 第八肋骨 |
-| ninth rib | 台灣解剖學名詞（程式內建對照表） | 第九肋骨 |
-| clavicle | 台灣解剖學名詞（程式內建對照表） | 鎖骨 |
-| first metacarpal bone | 台灣解剖學名詞（程式內建對照表） | 第一掌骨 |
-| first metatarsal bone | 台灣解剖學名詞（程式內建對照表） | 第一蹠骨 |
-| second metacarpal bone | 台灣解剖學名詞（程式內建對照表） | 第二掌骨 |
-| second metatarsal bone | 台灣解剖學名詞（程式內建對照表） | 第二蹠骨 |
-| third metacarpal bone | 台灣解剖學名詞（程式內建對照表） | 第三掌骨 |
-| third metatarsal bone | 台灣解剖學名詞（程式內建對照表） | 第三蹠骨 |
-| fourth metacarpal bone | 台灣解剖學名詞（程式內建對照表） | 第四掌骨 |
-| fourth metatarsal bone | 台灣解剖學名詞（程式內建對照表） | 第四蹠骨 |
-| fifth metacarpal bone | 台灣解剖學名詞（程式內建對照表） | 第五掌骨 |
-| fifth metatarsal bone | 台灣解剖學名詞（程式內建對照表） | 第五蹠骨 |
-| calcaneus | 台灣解剖學名詞（程式內建對照表） | 跟骨 |
-| capitate | 台灣解剖學名詞（程式內建對照表） | 頭狀骨 |
-| cuboid bone | 台灣解剖學名詞（程式內建對照表） | 骰骨 |
-| femur | 台灣解剖學名詞（程式內建對照表） | 股骨 |
-| fibula | 台灣解剖學名詞（程式內建對照表） | 腓骨 |
-| hamate | 台灣解剖學名詞（程式內建對照表） | 鉤骨 |
-| humerus | 台灣解剖學名詞（程式內建對照表） | 肱骨 |
-| intermediate cuneiform bone | 台灣解剖學名詞（程式內建對照表） | 中間楔骨 |
-| Sesamoid bone of foot | 台灣解剖學名詞（程式內建對照表） | 足籽骨 |
-| lateral cuneiform bone | 台灣解剖學名詞（程式內建對照表） | 外側楔骨 |
-| lunate | 台灣解剖學名詞（程式內建對照表） | 月狀骨 |
-| medial cuneiform bone | 台灣解剖學名詞（程式內建對照表） | 內側楔骨 |
-| patella | 台灣解剖學名詞（程式內建對照表） | 髕骨 |
-| pisiform | 台灣解剖學名詞（程式內建對照表） | 豆狀骨 |
-| radius | 台灣解剖學名詞（程式內建對照表） | 橈骨 |
-| scaphoid | 台灣解剖學名詞（程式內建對照表） | 舟狀骨 |
-| scapula | 台灣解剖學名詞（程式內建對照表） | 肩胛骨 |
-| talus | 台灣解剖學名詞（程式內建對照表） | 距骨 |
-| tibia | 台灣解剖學名詞（程式內建對照表） | 脛骨 |
-| trapezium | 台灣解剖學名詞（程式內建對照表） | 大菱形骨 |
-| trapezoid | 台灣解剖學名詞（程式內建對照表） | 小菱形骨 |
-| triquetral | 台灣解剖學名詞（程式內建對照表） | 三角骨 |
-| ulna | 台灣解剖學名詞（程式內建對照表） | 尺骨 |
-| Manubrium | 台灣解剖學名詞（程式內建對照表） | 胸骨柄 |
-| Middle phalanx of ring finger | 台灣解剖學名詞（程式內建對照表） | 無名指中節指骨 |
-| Middle phalanx of second toe | 台灣解剖學名詞（程式內建對照表） | 第二趾中節趾骨 |
-| Middle phalanx of third toe | 台灣解剖學名詞（程式內建對照表） | 第三趾中節趾骨 |
-| Middle phalanx of fourth toe | 台灣解剖學名詞（程式內建對照表） | 第四趾中節趾骨 |
-| Middle phalanx of index finger | 台灣解剖學名詞（程式內建對照表） | 食指中節指骨 |
-| Middle phalanx of little finger | 台灣解剖學名詞（程式內建對照表） | 小指中節指骨 |
-| Middle phalanx of little toe | 台灣解剖學名詞（程式內建對照表） | 小趾中節趾骨 |
-| Middle phalanx of middle finger | 台灣解剖學名詞（程式內建對照表） | 中指中節指骨 |
-| Navicular bone of foot | 台灣解剖學名詞（程式內建對照表） | 足舟骨 |
-| Occipital bone | 台灣解剖學名詞（程式內建對照表） | 枕骨 |
-| Proximal phalanx of big toe | 台灣解剖學名詞（程式內建對照表） | 拇趾近節趾骨 |
-| Proximal phalanx of third toe | 台灣解剖學名詞（程式內建對照表） | 第三趾近節趾骨 |
-| Proximal phalanx of fourth toe | 台灣解剖學名詞（程式內建對照表） | 第四趾近節趾骨 |
-| Proximal phalanx of index finger | 台灣解剖學名詞（程式內建對照表） | 食指近節指骨 |
-| Proximal phalanx of little finger | 台灣解剖學名詞（程式內建對照表） | 小指近節指骨 |
-| Proximal phalanx of little toe | 台灣解剖學名詞（程式內建對照表） | 小趾近節趾骨 |
-| Proximal phalanx of middle finger | 台灣解剖學名詞（程式內建對照表） | 中指近節指骨 |
-| Proximal phalanx of ring finger | 台灣解剖學名詞（程式內建對照表） | 無名指近節指骨 |
-| Proximal phalanx of thumb | 台灣解剖學名詞（程式內建對照表） | 拇指近節指骨 |
-| Proximal phalanx of second toe | 台灣解剖學名詞（程式內建對照表） | 第二趾近節趾骨 |
-| Sacrum | 台灣解剖學名詞（程式內建對照表） | 薦骨 |
-| Arch of aorta | 台灣解剖學名詞（程式內建對照表） | 主動脈弓 |
-| Ascending aorta | 台灣解剖學名詞（程式內建對照表） | 升主動脈 |
-| Azygos vein | 台灣解剖學名詞（程式內建對照表） | 奇靜脈 |
-| Brachiocephalic artery | 台灣解剖學名詞（程式內建對照表） | 頭臂動脈 |
-| Descending aorta | 台灣解剖學名詞（程式內建對照表） | 降主動脈 |
-| Hemiazygos vein | 台灣解剖學名詞（程式內建對照表） | 半奇靜脈 |
-| Inferior vena cava | 台灣解剖學名詞（程式內建對照表） | 下腔靜脈 |
-| common iliac artery | 台灣解剖學名詞（程式內建對照表） | 總髂動脈 |
-| common iliac vein | glossary.json（其他筆記） | 總髂靜脈 |
-| external iliac artery | glossary.json（其他筆記） | 外髂動脈 |
-| internal iliac artery | glossary.json（其他筆記） | 內髂動脈 |
-| internal iliac vein | 台灣解剖學名詞（程式內建對照表） | 髂內靜脈 |
-| subclavian artery | glossary.json（其他筆記） | 鎖骨下動脈 |
-| brachiocephalic vein | 台灣解剖學名詞（程式內建對照表） | 頭臂靜脈 |
-| common carotid artery | glossary.json（其他筆記） | 總頸動脈 |
-| external iliac vein | 台灣解剖學名詞（程式內建對照表） | 髂外靜脈 |
-| subclavian vein | 台灣解剖學名詞（程式內建對照表） | 鎖骨下靜脈 |
-| ascending lumbar vein | 台灣解剖學名詞（程式內建對照表） | 腰升靜脈 |
-| inferior gluteal vein | 台灣解剖學名詞（程式內建對照表） | 臀下靜脈 |
-| obturator vein | 台灣解剖學名詞（程式內建對照表） | 閉孔靜脈 |
-| superior gluteal vein | 台灣解剖學名詞（程式內建對照表） | 臀上靜脈 |
-| Superior vena cava | 台灣解剖學名詞（程式內建對照表） | 上腔靜脈 |
-| vagus nerve (X) | 台灣解剖學名詞（程式內建對照表） | 迷走神經 |
-| accessory nerve (XI) | 台灣解剖學名詞（程式內建對照表） | 副神經（第十一對腦神經） |
-| superior trunk of brachial plexus | 台灣解剖學名詞（程式內建對照表） | 臂神經叢上幹 |
-| middle trunk of brachial plexus | 台灣解剖學名詞（程式內建對照表） | 臂神經叢中幹 |
-| inferior trunk of brachial plexus | 台灣解剖學名詞（程式內建對照表） | 臂神經叢下幹 |
-| roots of brachial plexus | 台灣解剖學名詞（程式內建對照表） | 臂神經叢神經根 |
-| dorsal scapular nerve | glossary.json（其他筆記） | 背肩胛神經 |
-| long thoracic nerve | glossary.json（其他筆記） | 長胸神經 |
-| suprascapular nerve | 台灣解剖學名詞（程式內建對照表） | 肩胛上神經 |
-| subclavian nerve | 台灣解剖學名詞（程式內建對照表） | 鎖骨下肌神經 |
-| axillary nerve | 台灣解剖學名詞（程式內建對照表） | 腋神經 |
-| posterior cord of brachial plexus | 台灣解剖學名詞（程式內建對照表） | 臂神經叢後束 |
-| lateral pectoral nerve | 台灣解剖學名詞（程式內建對照表） | 外側胸神經 |
-| musculocutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 肌皮神經 |
-| lateral antebrachial cutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 外側前臂皮神經 |
-| deep branch of radial nerve | 台灣解剖學名詞（程式內建對照表） | 橈神經深支 |
-| posterior interosseous nerve of forearm | 台灣解剖學名詞（程式內建對照表） | 後骨間神經 |
-| superficial branch of radial nerve | 台灣解剖學名詞（程式內建對照表） | 橈神經淺支 |
-| dorsal digital branches of radial nerve | 台灣解剖學名詞（程式內建對照表） | 橈神經背側指支 |
-| posterior antebrachial cutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 後前臂皮神經 |
-| radial nerve | 台灣解剖學名詞（程式內建對照表） | 橈神經 |
-| inferior lateral brachial cutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 下外側臂皮神經 |
-| muscular branches of radial nerve | 台灣解剖學名詞（程式內建對照表） | 橈神經肌支 |
-| superior lateral brachial cutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 上外側臂皮神經 |
-| muscular branches of axillary nerve | 台灣解剖學名詞（程式內建對照表） | 腋神經肌支 |
-| anterior branch of medial antebrachial cutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 內側前臂皮神經前支 |
-| posterior branch of medial antebrachial cutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 內側前臂皮神經後支 |
-| medial antebrachial cutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 內側前臂皮神經 |
-| dorsal digital branches of ulnar nerve | 台灣解剖學名詞（程式內建對照表） | 尺神經背側指支 |
-| dorsal branch of ulnar nerve | 台灣解剖學名詞（程式內建對照表） | 尺神經背支 |
-| proper palmar digital branches of ulnar nerve | 台灣解剖學名詞（程式內建對照表） | 尺神經掌側固有指支 |
-| common palmar digital branches of ulnar nerve | 台灣解剖學名詞（程式內建對照表） | 尺神經掌側總指支 |
-| superficial branch of ulnar nerve | 台灣解剖學名詞（程式內建對照表） | 尺神經淺支 |
-| palmar branch of ulnar nerve | 台灣解剖學名詞（程式內建對照表） | 尺神經掌支 |
-| deep branch of ulnar nerve | 台灣解剖學名詞（程式內建對照表） | 尺神經深支 |
-| muscular branches of ulnar nerve | 台灣解剖學名詞（程式內建對照表） | 尺神經肌支 |
-| ulnar nerve | 台灣解剖學名詞（程式內建對照表） | 尺神經 |
-| medial brachial cutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 內側上臂皮神經 |
-| proper palmar digital branches of median nerve | 台灣解剖學名詞（程式內建對照表） | 正中神經掌側固有指支 |
-| common palmar digital branches of median nerve | 台灣解剖學名詞（程式內建對照表） | 正中神經掌側總指支 |
-| median nerve | 台灣解剖學名詞（程式內建對照表） | 正中神經 |
-| anterior interosseous nerve of forearm | 台灣解剖學名詞（程式內建對照表） | 前骨間神經 |
-| palmar branch of median nerve | 台灣解剖學名詞（程式內建對照表） | 正中神經掌支 |
-| muscular branches of median nerve | 台灣解剖學名詞（程式內建對照表） | 正中神經肌支 |
-| intercostal nerves | 台灣解剖學名詞（程式內建對照表） | 肋間神經 |
-| saphenous nerve | 台灣解剖學名詞（程式內建對照表） | 隱神經 |
-| sural nerve | glossary.json（跑考摘要） | 腓腸神經 |
-| medial sural cutaneous nerve | glossary.json（跑考摘要） | 內側腓腸皮神經 |
-| femoral nerve | glossary.json（跑考摘要） | 股神經 |
-| lateral femoral cutaneous nerve | glossary.json（跑考摘要） | 外股皮神經 |
-| obturator nerve | 台灣解剖學名詞（程式內建對照表） | 閉孔神經 |
-| superficial fibular nerve | glossary.json（跑考摘要） | 淺腓神經 |
-| deep fibular nerve | glossary.json（跑考摘要） | 深腓神經 |
-| sciatic nerve | glossary.json（跑考摘要） | 坐骨神經 |
-| tibial nerve | glossary.json（跑考摘要） | 脛神經 |
-| lateral plantar nerve | glossary.json（跑考摘要） | 外蹠神經 |
-| medial plantar nerve | glossary.json（跑考摘要） | 內蹠神經 |
-| common fibular nerve | glossary.json（跑考摘要） | 總腓神經 |
-| sympathetic nerves | 台灣解剖學名詞（程式內建對照表） | 交感神經 |
-| thoracodorsal nerve | 台灣解剖學名詞（程式內建對照表） | 胸背神經 |
-| superior gluteal nerve | glossary.json（跑考摘要） | 臀上神經 |
-| nerve to quadratus femoris muscle | 台灣解剖學名詞（程式內建對照表） | 股方肌神經 |
-| posterior femoral cutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 股後皮神經 |
-| suboccipital nerve | 台灣解剖學名詞（程式內建對照表） | 枕下神經 |
-| greater occipital nerve | 台灣解剖學名詞（程式內建對照表） | 枕大神經 |
-| third occipital nerve | 台灣解剖學名詞（程式內建對照表） | 第三枕神經 |
-| lesser occipital nerve | glossary.json（其他筆記） | 枕小神經 |
-| great auricular nerve | glossary.json（其他筆記） | 耳大神經 |
-| suboccipital venous plexus | 台灣解剖學名詞（程式內建對照表） | 枕下靜脈叢 |
-| latissimus dorsi | muscle-layers.json（back_superficial） | 闊背肌 |
-| spinalis cervicis | 台灣解剖學名詞（程式內建對照表） | 頸棘肌 |
-| multifidus | muscle-layers.json（back_deep） | 多裂肌 |
-| atrium | 台灣解剖學名詞（程式內建對照表） | 心房 |
-| ventricle | 台灣解剖學名詞（程式內建對照表） | 心室 |
-| Inferior papillary muscle of ventricle | 台灣解剖學名詞（程式內建對照表） | 下乳頭肌 |
-| Inferior leaflet of atrioventricular valve | 台灣解剖學名詞（程式內建對照表） | 房室瓣下葉 |
-| Septal leaflet of atrioventricular valve | 台灣解剖學名詞（程式內建對照表） | 房室瓣隔葉 |
-| Posterior leaflet of atrioventricular valve | 台灣解剖學名詞（程式內建對照表） | 房室瓣後葉 |
-| coronary leaflet of aortic valve | 台灣解剖學名詞（程式內建對照表） | 主動脈瓣冠狀瓣 |
-| Non-coronary leaflet of aortic valve | 台灣解剖學名詞（程式內建對照表） | 主動脈瓣無冠瓣 |
-| Anterior semilunar cusp of pulmonary valve | 台灣解剖學名詞（程式內建對照表） | 肺動脈瓣前半月瓣 |
-| semilunar cusp of pulmonary valve | 台灣解剖學名詞（程式內建對照表） | 肺動脈瓣半月瓣 |
-| coronary artery | 台灣解剖學名詞（程式內建對照表） | 冠狀動脈 |
-| inferolateral branch of coronary artery | 台灣解剖學名詞（程式內建對照表） | 冠狀動脈下外側支 |
-| Anterior interventricular artery | 台灣解剖學名詞（程式內建對照表） | 前室間動脈 |
-| Septal branches of anterior interventricular artery | 台灣解剖學名詞（程式內建對照表） | 前室間動脈隔支 |
-| Circumflex artery | 台灣解剖學名詞（程式內建對照表） | 迴旋支 |
-| Inferior vein of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室下靜脈 |
-| Aortic arch | 台灣解剖學名詞（程式內建對照表） | 主動脈弓 |
-| Bifurcation of pulmonary trunk | 台灣解剖學名詞（程式內建對照表） | 肺動脈幹分叉 |
-| dorsal metatarsal vein | 台灣解剖學名詞（程式內建對照表） | 背側蹠骨靜脈 |
-| extensor digitorum brevis | muscle-layers.json（foot_dorsum） | 伸趾短肌 |
-| (Communicating branch of median nerve with ulnar nerve) | 台灣解剖學名詞（程式內建對照表） | 正中神經與尺神經交通支 |
-
-</details>
-
-## 六、其餘圖譜結構命名一覽
-
-<details><summary>展開 1041 項</summary>
+<details><summary>展開 1528 項</summary>
 
 | 結構 | 使用來源 | 中文名 |
 |---|---|---|
@@ -1666,36 +1143,184 @@
 | trochlear nerve | glossary.json（其他筆記） | 滑車神經 |
 | vitreous body | 台灣解剖學名詞（程式內建對照表） | 玻璃體 |
 | Tendon of levator palpebrae superioris | 台灣解剖學名詞（程式內建對照表） | 提上瞼肌腱 |
+| First lumbrical of foot | 台灣解剖學名詞（程式內建對照表） | 足第一蚓狀肌 |
+| First plantar interosseous of foot | 台灣解剖學名詞（程式內建對照表） | 足第一蹠側骨間肌 |
+| Second lumbrical of foot | 台灣解剖學名詞（程式內建對照表） | 足第二蚓狀肌 |
+| Second plantar interosseous of foot | 台灣解剖學名詞（程式內建對照表） | 足第二蹠側骨間肌 |
+| Third lumbrical of foot | 台灣解剖學名詞（程式內建對照表） | 足第三蚓狀肌 |
+| Third plantar interosseous of foot | 台灣解剖學名詞（程式內建對照表） | 足第三蹠側骨間肌 |
+| Fourth lumbrical of foot | 台灣解剖學名詞（程式內建對照表） | 足第四蚓狀肌 |
+| Abductor digiti minimi of foot | muscle-layers.json（foot_sole） | 外展小趾肌 |
+| Flexor digiti minimi brevis of foot | muscle-layers.json（foot_sole） | 屈小趾短肌 |
 | Interosseous membrane of leg | 台灣解剖學名詞（程式內建對照表） | 小腿骨間膜 |
+| Lateral head of flexor hallucis brevis | 台灣解剖學名詞（程式內建對照表） | 拇短屈肌外側頭 |
+| Lateral head of gastrocnemius | 台灣解剖學名詞（程式內建對照表） | 腓腸肌外側頭 |
+| Long head of biceps femoris | muscle-layers.json（thigh_posterior） | 股二頭肌長頭 |
+| Medial head of flexor hallucis brevis | 台灣解剖學名詞（程式內建對照表） | 拇短屈肌內側頭 |
+| Medial head of gastrocnemius | 台灣解剖學名詞（程式內建對照表） | 腓腸肌內側頭 |
+| Oblique head of adductor hallucis | 台灣解剖學名詞（程式內建對照表） | 拇收肌斜頭 |
+| Opponens digiti minimi of foot | 台灣解剖學名詞（程式內建對照表） | 足小趾對蹠肌 |
+| abductor hallucis | muscle-layers.json（foot_sole） | 外展拇趾肌 |
+| adductor brevis | muscle-layers.json（thigh_medial） | 內收短肌 |
+| adductor longus | muscle-layers.json（thigh_medial） | 內收長肌 |
+| adductor magnus | muscle-layers.json（thigh_medial） | 內收大肌 |
+| adductor minimus | 台灣解剖學名詞（程式內建對照表） | 小收肌 |
 | calcaneal tendon | 台灣解剖學名詞（程式內建對照表） | 跟腱 |
+| extensor digitorum longus | muscle-layers.json（leg_anterior） | 伸趾長肌 |
+| extensor hallucis brevis | muscle-layers.json（foot_dorsum） | 伸拇短肌 |
+| extensor hallucis longus | muscle-layers.json（leg_anterior） | 伸拇長肌 |
+| fibularis brevis | muscle-layers.json（leg_lateral） | 腓短肌 |
+| fibularis longus | muscle-layers.json（leg_lateral） | 腓長肌 |
+| fibularis tertius | muscle-layers.json（leg_anterior） | 第三腓骨肌 |
+| flexor accessorius | 台灣解剖學名詞（程式內建對照表） | 足底方肌 |
+| flexor digitorum brevis | muscle-layers.json（foot_sole） | 屈趾短肌 |
+| flexor digitorum longus | muscle-layers.json（leg_posterior） | 屈趾長肌 |
+| flexor hallucis longus | muscle-layers.json（leg_posterior） | 屈拇長肌 |
+| gemellus inferior | glossary.json（跑考摘要） | 下孖肌 |
+| gemellus superior | glossary.json（跑考摘要） | 上孖肌 |
+| gluteus maximus | muscle-layers.json（gluteal） | 臀大肌 |
+| gluteus medius | muscle-layers.json（gluteal） | 臀中肌 |
+| gluteus minimus | muscle-layers.json（gluteal） | 臀小肌 |
+| gracilis | muscle-layers.json（thigh_medial） | 股薄肌 |
+| iliacus | 台灣解剖學名詞（程式內建對照表） | 髂肌 |
 | iliotibial tract | 台灣解剖學名詞（程式內建對照表） | 髂脛束 |
 | long plantar ligament | 台灣解剖學名詞（程式內建對照表） | 長足底韌帶 |
+| obturator externus | muscle-layers.json（thigh_medial） | 閉孔外肌 |
+| obturator internus | muscle-layers.json（gluteal） | 閉孔內肌 |
+| pectineus | muscle-layers.json（thigh_medial） | 恥骨肌 |
+| piriformis | muscle-layers.json（gluteal） | 梨狀肌 |
+| plantaris | muscle-layers.json（leg_posterior） | 蹠肌 |
+| popliteus | muscle-layers.json（leg_posterior） | 膕肌 |
+| psoas major | glossary.json（其他筆記） | 腰大肌 |
+| quadratus femoris | muscle-layers.json（gluteal） | 股方肌 |
+| rectus femoris | muscle-layers.json（thigh_anterior） | 股直肌 |
+| sartorius | muscle-layers.json（thigh_anterior） | 縫匠肌 |
+| semimembranosus | muscle-layers.json（thigh_posterior） | 半膜肌 |
+| semitendinosus | muscle-layers.json（thigh_posterior） | 半腱肌 |
+| soleus | muscle-layers.json（leg_posterior） | 比目魚肌 |
+| tensor fasciae latae | muscle-layers.json（thigh_anterior） | 闊筋膜張肌 |
+| tibialis anterior | muscle-layers.json（leg_anterior） | 脛前肌 |
+| tibialis posterior | muscle-layers.json（leg_posterior） | 脛後肌 |
+| vastus intermedius | muscle-layers.json（thigh_anterior） | 股中間肌 |
+| vastus lateralis | muscle-layers.json（thigh_anterior） | 股外側肌 |
+| vastus medialis | muscle-layers.json（thigh_anterior） | 股內側肌 |
+| Short head of biceps femoris | muscle-layers.json（thigh_posterior） | 股二頭肌短頭 |
+| Transverse head of adductor hallucis | 台灣解剖學名詞（程式內建對照表） | 拇收肌橫頭 |
+| Abdominal part of pectoralis major | 台灣解剖學名詞（程式內建對照表） | 胸大肌腹部 |
+| Clavicular part of pectoralis major | 台灣解剖學名詞（程式內建對照表） | 胸大肌鎖骨頭 |
 | Linea alba | 台灣解剖學名詞（程式內建對照表） | 腹白線 |
 | coccygeus | glossary.json（其他筆記） | 尾骨肌 |
 | superficial perineal muscle | 台灣解剖學名詞（程式內建對照表） | 淺會陰肌 |
 | External anal sphincter | 台灣解剖學名詞（程式內建對照表） | 肛門外括約肌 |
+| external intercostal muscle | glossary.json（其他筆記） | 外肋間肌 |
 | external oblique | 台灣解剖學名詞（程式內建對照表） | 腹外斜肌 |
 | iliococcygeus | glossary.json（其他筆記） | 髂骨尾骨肌 |
+| innermost intercostal muscle | glossary.json（其他筆記） | 最內肋間肌 |
+| internal intercostal muscle | glossary.json（其他筆記） | 內肋間肌 |
+| pectoralis minor | 台灣解剖學名詞（程式內建對照表） | 胸小肌 |
 | pubococcygeus | glossary.json（其他筆記） | 恥骨尾骨肌 |
 | puborectalis | glossary.json（其他筆記） | 恥骨直腸肌 |
+| serratus anterior | 台灣解剖學名詞（程式內建對照表） | 前鋸肌 |
+| subclavius | 台灣解剖學名詞（程式內建對照表） | 鎖骨下肌 |
+| transversus thoracis | 台灣解剖學名詞（程式內建對照表） | 胸橫肌 |
+| Set of levatores costarum breves | 台灣解剖學名詞（程式內建對照表） | 短肋提肌群 |
+| Set of levatores costarum longi | 台灣解剖學名詞（程式內建對照表） | 長肋提肌群 |
+| Sternocostal part of pectoralis major | 台灣解剖學名詞（程式內建對照表） | 胸大肌胸肋頭 |
 | tendinous arch of levator ani | 台灣解剖學名詞（程式內建對照表） | 提肛肌腱弓 |
+| Abductor digiti minimi of hand | muscle-layers.json（hand） | 外展小指肌 |
+| Acromial part of deltoid | 台灣解剖學名詞（程式內建對照表） | 三角肌肩峰部 |
+| Clavicular part of deltoid | 台灣解剖學名詞（程式內建對照表） | 三角肌鎖骨部 |
+| flexor pollicis brevis | muscle-layers.json（hand） | 屈拇短肌 |
+| Flexor digiti minimi brevis of hand | muscle-layers.json（hand） | 屈小指短肌 |
 | Flexor retinaculum of wrist | 台灣解剖學名詞（程式內建對照表） | 屈肌支持帶（腕） |
+| extensor carpi ulnaris | muscle-layers.json（forearm_extensor） | 尺側伸腕肌 |
+| Humeral head of flexor carpi ulnaris | 台灣解剖學名詞（程式內建對照表） | 尺側腕屈肌肱骨頭 |
+| Humeral head of pronator teres | 台灣解剖學名詞（程式內建對照表） | 旋前圓肌肱骨頭 |
+| flexor digitorum superficialis | muscle-layers.json（forearm_flexor） | 屈指淺肌 |
 | Interosseous membrane of forearm | 台灣解剖學名詞（程式內建對照表） | 前臂骨間膜 |
+| Lateral head of triceps brachii | muscle-layers.json（arm_posterior） | 肱三頭肌外側頭 |
+| Long head of biceps brachii | muscle-layers.json（arm_anterior） | 肱二頭肌長頭 |
+| Long head of triceps brachii | muscle-layers.json（arm_posterior） | 肱三頭肌長頭 |
+| Medial head of triceps brachii | muscle-layers.json（arm_posterior） | 肱三頭肌內側頭 |
+| Oblique head of adductor pollicis | 台灣解剖學名詞（程式內建對照表） | 拇收肌斜頭 |
+| Opponens digiti minimi of hand | 台灣解剖學名詞（程式內建對照表） | 小指對掌肌 |
+| abductor pollicis brevis | muscle-layers.json（hand） | 外展拇短肌 |
+| abductor pollicis longus | muscle-layers.json（forearm_extensor） | 外展拇長肌 |
+| anconeus | muscle-layers.json（arm_posterior） | 肘肌 |
+| brachialis | muscle-layers.json（arm_anterior） | 肱肌 |
+| brachioradialis | muscle-layers.json（forearm_extensor） | 肱橈肌 |
+| coracobrachialis | muscle-layers.json（arm_anterior） | 喙肱肌 |
+| extensor carpi radialis brevis | muscle-layers.json（forearm_extensor） | 橈側伸腕短肌 |
+| extensor carpi radialis longus | muscle-layers.json（forearm_extensor） | 橈側伸腕長肌 |
+| extensor digiti minimi | muscle-layers.json（forearm_extensor） | 伸小指肌 |
+| extensor digitorum | muscle-layers.json（forearm_extensor） | 伸指肌 |
+| extensor indicis | muscle-layers.json（forearm_extensor） | 伸食指肌 |
+| extensor pollicis brevis | muscle-layers.json（forearm_extensor） | 伸拇短肌 |
+| extensor pollicis longus | muscle-layers.json（forearm_extensor） | 伸拇長肌 |
+| flexor carpi radialis | muscle-layers.json（forearm_flexor） | 橈側屈腕肌 |
+| flexor digitorum profundus | muscle-layers.json（forearm_flexor） | 屈指深肌 |
+| flexor pollicis longus | muscle-layers.json（forearm_flexor） | 屈拇長肌 |
+| infraspinatus muscle | muscle-layers.json（scapular） | 棘下肌 |
+| opponens pollicis | muscle-layers.json（hand） | 拇對掌肌 |
+| palmaris longus | muscle-layers.json（forearm_flexor） | 掌長肌 |
+| pronator quadratus | muscle-layers.json（forearm_flexor） | 旋前方肌 |
+| subscapularis | muscle-layers.json（scapular） | 肩胛下肌 |
+| supinator | muscle-layers.json（forearm_extensor） | 旋後肌 |
+| supraspinatus | muscle-layers.json（scapular） | 棘上肌 |
+| teres major | muscle-layers.json（scapular） | 大圓肌 |
+| teres minor | muscle-layers.json（scapular） | 小圓肌 |
+| Set of dorsal interossei of hand | 台灣解剖學名詞（程式內建對照表） | 手背側骨間肌群 |
+| Set of lumbricals of hand | 台灣解剖學名詞（程式內建對照表） | 手蚓狀肌群 |
+| Set of palmar interossei of hand | 台灣解剖學名詞（程式內建對照表） | 手掌側骨間肌群 |
+| Short head of biceps brachii | muscle-layers.json（arm_anterior） | 肱二頭肌短頭 |
+| Spinal part of deltoid | 台灣解剖學名詞（程式內建對照表） | 三角肌肩胛棘部 |
+| Superficial head of flexor pollicis brevis | 台灣解剖學名詞（程式內建對照表） | 拇短屈肌淺頭 |
+| Transverse head of adductor pollicis | 台灣解剖學名詞（程式內建對照表） | 拇收肌橫頭 |
+| Ulnar head of pronator teres | 台灣解剖學名詞（程式內建對照表） | 旋前圓肌尺骨頭 |
+| Ulnar head of flexor carpi ulnaris | 台灣解剖學名詞（程式內建對照表） | 尺側腕屈肌尺骨頭 |
+| Ascending part of trapezius | 台灣解剖學名詞（程式內建對照表） | 斜方肌升部（下部纖維） |
+| Descending part of trapezius | 台灣解剖學名詞（程式內建對照表） | 斜方肌降部（上部纖維） |
+| lumbar rotator | 台灣解剖學名詞（程式內建對照表） | 腰迴旋肌 |
+| cervical rotator | 台灣解剖學名詞（程式內建對照表） | 頸迴旋肌 |
+| thoracic rotator | 台灣解剖學名詞（程式內建對照表） | 胸迴旋肌 |
+| iliocostalis cervicis | 台灣解剖學名詞（程式內建對照表） | 頸髂肋肌 |
+| iliocostalis lumborum | 台灣解剖學名詞（程式內建對照表） | 腰髂肋肌 |
+| iliocostalis thoracis | 台灣解剖學名詞（程式內建對照表） | 胸髂肋肌 |
+| levator scapulae | muscle-layers.json（back_superficial） | 提肩胛肌 |
+| longissimus capitis | 台灣解剖學名詞（程式內建對照表） | 頭最長肌 |
+| longissimus cervicis | 台灣解剖學名詞（程式內建對照表） | 頸最長肌 |
+| longissimus thoracis | 台灣解剖學名詞（程式內建對照表） | 胸最長肌 |
+| rhomboid major | muscle-layers.json（back_superficial） | 大菱形肌 |
+| rhomboid minor | muscle-layers.json（back_superficial） | 小菱形肌 |
+| semispinalis capitis | muscle-layers.json（back_deep） | 頭半棘肌 |
+| semispinalis cervicis | muscle-layers.json（back_deep） | 頸半棘肌 |
+| semispinalis thoracis | 台灣解剖學名詞（程式內建對照表） | 胸半棘肌 |
+| serratus posterior inferior | muscle-layers.json（back_superficial） | 後下鋸肌 |
+| serratus posterior superior | muscle-layers.json（back_superficial） | 後上鋸肌 |
 | spinalis | muscle-layers.json（back_deep） | 棘肌 |
+| spinalis thoracis | 台灣解剖學名詞（程式內建對照表） | 胸棘肌 |
+| splenius capitis | muscle-layers.json（back_deep） | 頭夾肌 |
+| splenius cervicis | muscle-layers.json（back_deep） | 頸夾肌 |
 | lateral lumbar intertransversarius | 台灣解剖學名詞（程式內建對照表） | 腰外側橫突間肌 |
 | medial lumbar intertransversarius | 台灣解剖學名詞（程式內建對照表） | 腰內側橫突間肌 |
 | set of anterior cervical intertransversarii | 台灣解剖學名詞（程式內建對照表） | 頸前橫突間肌群 |
 | set of interspinales lumborum | 台灣解剖學名詞（程式內建對照表） | 腰棘間肌群 |
+| interspinalis thoracis | 台灣解剖學名詞（程式內建對照表） | 胸棘間肌 |
 | set of interspinales cervicis | 台灣解剖學名詞（程式內建對照表） | 頸棘間肌群 |
 | set of posterior cervical intertransversarii | 台灣解剖學名詞（程式內建對照表） | 頸後橫突間肌群 |
+| Transverse part of trapezius | 台灣解剖學名詞（程式內建對照表） | 斜方肌橫部（中部纖維） |
 | digastric | 台灣解剖學名詞（程式內建對照表） | 二腹肌 |
 | Inferior oblique part of longus colli | 台灣解剖學名詞（程式內建對照表） | 頸長肌下斜部 |
 | platysma | glossary.json（其他筆記） | 闊頸肌 |
 | geniohyoid | 台灣解剖學名詞（程式內建對照表） | 頦舌骨肌 |
 | longus capitis | 台灣解剖學名詞（程式內建對照表） | 頭長肌 |
 | mylohyoid | 台灣解剖學名詞（程式內建對照表） | 下頜舌骨肌 |
+| obliquus capitis inferior | muscle-layers.json（suboccipital） | 頭下斜肌 |
+| obliquus capitis superior | muscle-layers.json（suboccipital） | 頭上斜肌 |
 | omohyoid | glossary.json（其他筆記） | 肩胛舌骨肌 |
 | rectus capitis anterior | 台灣解剖學名詞（程式內建對照表） | 頭前直肌 |
+| rectus capitis posterior major | muscle-layers.json（suboccipital） | 頭後大直肌 |
+| rectus capitis posterior minor | muscle-layers.json（suboccipital） | 頭後小直肌 |
 | rectus capitis lateralis | 台灣解剖學名詞（程式內建對照表） | 頭外側直肌 |
 | scalenus anterior | 台灣解剖學名詞（程式內建對照表） | 前斜角肌 |
 | scalenus medius | 台灣解剖學名詞（程式內建對照表） | 中斜角肌 |
@@ -1758,6 +1383,7 @@
 | Posteromedial branch of callosomarginal artery | 台灣解剖學名詞（程式內建對照表） | 胼胝體邊緣動脈後內側支 |
 | Precommunicating part of posterior cerebral artery | 台灣解剖學名詞（程式內建對照表） | 大腦後動脈交通前部 |
 | prefrontal artery | 台灣解剖學名詞（程式內建對照表） | 前額動脈 |
+| vertebral artery | 台灣解剖學名詞（程式內建對照表） | 椎動脈 |
 | superior cerebellar artery | 台灣解剖學名詞（程式內建對照表） | 小腦上動脈 |
 | posterior medial choroidal artery | 台灣解剖學名詞（程式內建對照表） | 脈絡叢後內側動脈 |
 | Superior vermian branch of medial branch of superior cerebellar artery | 台灣解剖學名詞（程式內建對照表） | 小腦上動脈內側支上小腦蚓支 |
@@ -1837,11 +1463,25 @@
 | Caudate lobe branch of portal vein | 台灣解剖學名詞（程式內建對照表） | 門靜脈尾狀葉葉支 |
 | Caudate lobe branch of hepatic artery | 台灣解剖學名詞（程式內建對照表） | 肝動脈尾狀葉葉支 |
 | Superior mesenteric artery | 台灣解剖學名詞（程式內建對照表） | 上腸繫膜動脈 |
+| Descending thoracic aorta | 台灣解剖學名詞（程式內建對照表） | 胸主動脈 |
 | Abdominal aorta | 台灣解剖學名詞（程式內建對照表） | 腹主動脈 |
+| Bronchial artery | 台灣解剖學名詞（程式內建對照表） | 支氣管動脈 |
+| Esophageal artery | 台灣解剖學名詞（程式內建對照表） | 食道動脈 |
+| superior intercostal artery | 台灣解剖學名詞（程式內建對照表） | 最上肋間動脈 |
 | superior epigastric artery | glossary.json（其他筆記） | 上腹壁動脈 |
+| internal thoracic artery | 台灣解剖學名詞（程式內建對照表） | 內胸動脈 |
 | lateral thoracic artery | 台灣解剖學名詞（程式內建對照表） | 外側胸動脈 |
 | first posterior intercostal artery | 台灣解剖學名詞（程式內建對照表） | 第一後肋間動脈 |
 | second posterior intercostal artery | 台灣解剖學名詞（程式內建對照表） | 第二後肋間動脈 |
+| Posterior intercostal arteries | 台灣解剖學名詞（程式內建對照表） | 後肋間動脈 |
+| subcostal artery | glossary.json（其他筆記） | 肋下動脈 |
+| musculophrenic artery | 台灣解剖學名詞（程式內建對照表） | 肌膈動脈 |
+| Accessory hemiazygos vein | 台灣解剖學名詞（程式內建對照表） | 副半奇靜脈 |
+| Set of anterior intercostal veins | 台灣解剖學名詞（程式內建對照表） | 前肋間靜脈群 |
+| superior intercostal vein | 台灣解剖學名詞（程式內建對照表） | 最上肋間靜脈 |
+| subcostal vein | 台灣解剖學名詞（程式內建對照表） | 肋下靜脈 |
+| musculophrenic vein | 台灣解剖學名詞（程式內建對照表） | 肌膈靜脈 |
+| internal thoracic vein | 台灣解剖學名詞（程式內建對照表） | 內胸靜脈 |
 | Marginal colic artery | 台灣解剖學名詞（程式內建對照表） | 結腸邊緣動脈 |
 | Ileal branch of inferior branch of ileocolic artery | 台灣解剖學名詞（程式內建對照表） | 迴結腸動脈下支迴腸支 |
 | renal artery | 台灣解剖學名詞（程式內建對照表） | 腎動脈 |
@@ -1849,18 +1489,136 @@
 | Superior segmental branch of renal artery | 台灣解剖學名詞（程式內建對照表） | 腎動脈上段支 |
 | Inferior segmental branch of renal artery | 台灣解剖學名詞（程式內建對照表） | 腎動脈下段支 |
 | Posterior segmental branch of renal artery | 台灣解剖學名詞（程式內建對照表） | 腎動脈後段支 |
+| dorsalis pedis artery | glossary.json（跑考摘要） | 足背動脈 |
 | Deep dorsal vein of penis | 台灣解剖學名詞（程式內建對照表） | 陰莖背深靜脈 |
+| Descending branch of lateral circumflex femoral artery | 台灣解剖學名詞（程式內建對照表） | 旋股外側動脈降支 |
+| Distal perforating artery | 台灣解剖學名詞（程式內建對照表） | 遠端穿動脈 |
+| Dorsal venous arch of foot | 台灣解剖學名詞（程式內建對照表） | 足背靜脈弓 |
+| anterior tibial artery | glossary.json（跑考摘要） | 脛前動脈 |
+| anterior tibial recurrent artery | 台灣解剖學名詞（程式內建對照表） | 脛前返動脈 |
+| arcuate artery | glossary.json（其他筆記） | 弓狀動脈 |
+| deep plantar artery | glossary.json（跑考摘要） | 深趾動脈 |
+| descending genicular artery | glossary.json（跑考摘要） | 降膝動脈 |
+| Dorsal digital artery of foot | 台灣解剖學名詞（程式內建對照表） | 足背趾動脈 |
+| femoral artery | 台灣解剖學名詞（程式內建對照表） | 股動脈 |
+| inferior lateral genicular artery | glossary.json（跑考摘要） | 外下膝動脈 |
+| inferior medial genicular artery | glossary.json（跑考摘要） | 內下膝動脈 |
+| lateral circumflex femoral artery | glossary.json（跑考摘要） | 外旋股動脈 |
+| lateral plantar artery | 台灣解剖學名詞（程式內建對照表） | 足底外側動脈 |
+| lateral superior genicular artery | 台灣解剖學名詞（程式內建對照表） | 膝上外側動脈 |
+| lateral tarsal artery | 台灣解剖學名詞（程式內建對照表） | 外側跗動脈 |
+| medial plantar artery | 台灣解剖學名詞（程式內建對照表） | 足底內側動脈 |
+| medial superior genicular artery | 台灣解剖學名詞（程式內建對照表） | 膝上內側動脈 |
+| middle genicular artery | glossary.json（跑考摘要） | 中膝動脈 |
+| plantar arch | 台灣解剖學名詞（程式內建對照表） | 足底動脈弓 |
+| popliteal artery | glossary.json（跑考摘要） | 膕動脈 |
+| posterior tibial artery | glossary.json（跑考摘要） | 脛後動脈 |
+| superficial medial plantar artery | 台灣解剖學名詞（程式內建對照表） | 足底內側淺動脈 |
+| Set of perforating arteries | 台灣解剖學名詞（程式內建對照表） | 穿動脈群 |
 | Set of calcaneal branches of posterior tibial artery | 台灣解剖學名詞（程式內建對照表） | 脛後動脈跟支 |
+| Set of common plantar digital arteries | 台灣解剖學名詞（程式內建對照表） | 足底總趾動脈群 |
+| Set of dorsal digital arteries | 台灣解剖學名詞（程式內建對照表） | 背側指（趾）動脈群 |
+| Set of plantar digital arteries proper | 台灣解剖學名詞（程式內建對照表） | 足底固有趾動脈群 |
+| Plantar metatarsal artery | 台灣解剖學名詞（程式內建對照表） | 足底蹠骨動脈 |
+| anterior tibial vein | 台灣解剖學名詞（程式內建對照表） | 脛前靜脈 |
+| deep femoral vein | 台灣解剖學名詞（程式內建對照表） | 股深靜脈 |
+| Set of perforating veins | 台灣解剖學名詞（程式內建對照表） | 穿靜脈群 |
+| femoral vein | 台灣解剖學名詞（程式內建對照表） | 股靜脈 |
+| great saphenous vein | glossary.json（跑考摘要） | 大隱靜脈 |
+| genicular vein | 台灣解剖學名詞（程式內建對照表） | 膝靜脈 |
+| Tributary of plantar venous arch | 台灣解剖學名詞（程式內建對照表） | 足底靜脈弓屬支 |
+| popliteal vein | 台灣解剖學名詞（程式內建對照表） | 膕靜脈 |
+| posterior tibial vein | 台灣解剖學名詞（程式內建對照表） | 脛後靜脈 |
+| Set of plantar digital veins | 台灣解剖學名詞（程式內建對照表） | 足底趾靜脈群 |
+| small saphenous vein | glossary.json（跑考摘要） | 小隱靜脈 |
 | superficial epigastric vein | 台灣解剖學名詞（程式內建對照表） | 腹壁淺靜脈 |
+| Plantar venous arch of foot | 台灣解剖學名詞（程式內建對照表） | 足底靜脈弓 |
+| fibular vein | 台灣解剖學名詞（程式內建對照表） | 腓靜脈 |
+| Set of dorsal digital veins | 台灣解剖學名詞（程式內建對照表） | 背側趾靜脈群 |
 | Dorsal metacarpal vein | 台灣解剖學名詞（程式內建對照表） | 掌背靜脈 |
+| lateral circumflex femoral vein | 台灣解剖學名詞（程式內建對照表） | 旋股外側靜脈 |
+| medial circumflex femoral vein | 台灣解剖學名詞（程式內建對照表） | 旋股內側靜脈 |
+| Plantar metatarsal vein | 台灣解剖學名詞（程式內建對照表） | 足底蹠骨靜脈 |
 | Superficial dorsal vein of penis | 台灣解剖學名詞（程式內建對照表） | 陰莖背淺靜脈 |
 | inferior thyroid artery | glossary.json（其他筆記） | 下甲狀腺動脈 |
+| Acromial branch of thoraco-acromial artery | 台灣解剖學名詞（程式內建對照表） | 胸肩峰動脈肩峰支 |
+| anterior circumflex humeral artery | 台灣解剖學名詞（程式內建對照表） | 旋肱前動脈 |
+| anterior circumflex humeral vein | 台灣解剖學名詞（程式內建對照表） | 旋肱前靜脈 |
+| anterior interosseous artery | 台灣解剖學名詞（程式內建對照表） | 前骨間動脈 |
+| inferior ulnar collateral artery | 台灣解剖學名詞（程式內建對照表） | 下尺側副動脈 |
+| axillary artery | glossary.json（跑考摘要） | 腋動脈 |
+| axillary vein | 台灣解剖學名詞（程式內建對照表） | 腋靜脈 |
+| basilic vein | 台灣解剖學名詞（程式內建對照表） | 貴要靜脈 |
+| brachial artery | glossary.json（其他筆記） | 肱動脈 |
+| cephalic vein | 台灣解剖學名詞（程式內建對照表） | 頭靜脈 |
+| circumflex scapular artery | 台灣解剖學名詞（程式內建對照表） | 旋肩胛動脈 |
+| circumflex scapular vein | 台灣解剖學名詞（程式內建對照表） | 旋肩胛靜脈 |
+| common interosseous artery | glossary.json（其他筆記） | 總骨間動脈 |
+| costocervical trunk | 台灣解剖學名詞（程式內建對照表） | 肋頸動脈幹 |
+| deep brachial artery | 台灣解剖學名詞（程式內建對照表） | 肱深動脈 |
+| deep cervical artery | 台灣解剖學名詞（程式內建對照表） | 頸深動脈 |
+| deep palmar arch | 台灣解剖學名詞（程式內建對照表） | 深掌動脈弓 |
+| Dorsal venous network of hand | 台灣解剖學名詞（程式內建對照表） | 手背靜脈網 |
+| deep palmar venous arch | 台灣解剖學名詞（程式內建對照表） | 深掌靜脈弓 |
+| Deltoid branch of thoraco-acromial artery | 台灣解剖學名詞（程式內建對照表） | 胸肩峰動脈三角肌支 |
+| Dorsal carpal branch of radial artery | 台灣解剖學名詞（程式內建對照表） | 橈動脈背側腕支 |
+| dorsal scapular artery | 台灣解剖學名詞（程式內建對照表） | 肩胛背動脈 |
 | lateral thoracic vein | 台灣解剖學名詞（程式內建對照表） | 胸外側靜脈 |
+| median antebrachial vein | 台灣解剖學名詞（程式內建對照表） | 前臂正中靜脈 |
+| median cubital vein | 台灣解剖學名詞（程式內建對照表） | 正中肘靜脈 |
+| dorsal carpal branch of ulnar artery | 台灣解剖學名詞（程式內建對照表） | 尺動脈背側腕支 |
+| palmar metacarpal artery | 台灣解剖學名詞（程式內建對照表） | 掌側掌骨動脈 |
+| palmar metacarpal vein | 台灣解剖學名詞（程式內建對照表） | 掌側掌骨靜脈 |
+| posterior circumflex humeral artery | glossary.json（其他筆記） | 後旋肱動脈 |
+| posterior ulnar recurrent artery | 台灣解剖學名詞（程式內建對照表） | 尺側返動脈後支 |
+| radial artery | glossary.json（跑考摘要） | 橈動脈 |
+| radial recurrent artery | glossary.json（其他筆記） | 橈側迴返動脈 |
+| radial vein | 台灣解剖學名詞（程式內建對照表） | 橈靜脈 |
+| recurrent interosseous artery | 台灣解剖學名詞（程式內建對照表） | 骨間返動脈 |
+| subscapular artery | 台灣解剖學名詞（程式內建對照表） | 肩胛下動脈 |
+| subscapular vein | 台灣解剖學名詞（程式內建對照表） | 肩胛下靜脈 |
+| superficial palmar arterial arch | 台灣解剖學名詞（程式內建對照表） | 淺掌動脈弓 |
+| superficial palmar venous arch | 台灣解剖學名詞（程式內建對照表） | 淺掌靜脈弓 |
+| suprascapular vein | 台灣解剖學名詞（程式內建對照表） | 肩胛上靜脈 |
+| suprascapular artery | glossary.json（其他筆記） | 肩胛上動脈 |
+| Trunk of thoraco-acromial artery | 台灣解剖學名詞（程式內建對照表） | 胸肩峰動脈幹 |
+| thoracodorsal artery | 台灣解剖學名詞（程式內建對照表） | 胸背動脈 |
+| thoracodorsal vein | 台灣解剖學名詞（程式內建對照表） | 胸背靜脈 |
+| thyrocervical trunk | 台灣解剖學名詞（程式內建對照表） | 甲狀頸動脈幹 |
+| superficial cervical artery | 台灣解剖學名詞（程式內建對照表） | 頸淺動脈 |
+| transverse cervical artery | 台灣解剖學名詞（程式內建對照表） | 頸橫動脈 |
+| ulnar artery | glossary.json（跑考摘要） | 尺動脈 |
+| anterior ulnar recurrent artery | 台灣解剖學名詞（程式內建對照表） | 尺側返動脈前支 |
+| ulnar vein | 台灣解剖學名詞（程式內建對照表） | 尺靜脈 |
+| Radial collateral branch of deep brachial artery | 台灣解剖學名詞（程式內建對照表） | 肱深動脈橈側副支 |
+| medial brachial vein | 台灣解剖學名詞（程式內建對照表） | 內側肱靜脈 |
+| arteria radialis indicis | 台灣解剖學名詞（程式內建對照表） | 食指橈側動脈 |
+| first common palmar digital artery | 台灣解剖學名詞（程式內建對照表） | 第一掌側總指動脈 |
+| second common palmar digital artery | 台灣解剖學名詞（程式內建對照表） | 第二掌側總指動脈 |
+| third common palmar digital artery | 台灣解剖學名詞（程式內建對照表） | 第三掌側總指動脈 |
+| Proper palmar digital vein of little finger | 台灣解剖學名詞（程式內建對照表） | 小指掌側固有指靜脈 |
+| Common palmar digital vein | 台灣解剖學名詞（程式內建對照表） | 掌側總指靜脈 |
+| Proper palmar digital vein of index finger | 台灣解剖學名詞（程式內建對照表） | 食指掌側固有指靜脈 |
+| Proper palmar digital vein of middle finger | 台灣解剖學名詞（程式內建對照表） | 中指掌側固有指靜脈 |
+| Proper palmar digital vein of ring finger | 台灣解剖學名詞（程式內建對照表） | 無名指掌側固有指靜脈 |
+| Pectoral branch of thoraco-acromial artery | 台灣解剖學名詞（程式內建對照表） | 胸肩峰動脈胸肌支 |
+| Middle collateral branch of deep brachial artery | 台灣解剖學名詞（程式內建對照表） | 肱深動脈中副支 |
+| Medial proper palmar digital artery of index finger | 台灣解剖學名詞（程式內建對照表） | 食指內側掌側固有指動脈 |
+| Lateral proper palmar digital artery of middle finger | 台灣解剖學名詞（程式內建對照表） | 中指外側掌側固有指動脈 |
+| Lateral proper palmar digital artery of ring finger | 台灣解剖學名詞（程式內建對照表） | 無名指外側掌側固有指動脈 |
+| Lateral proper palmar digital artery of little finger | 台灣解剖學名詞（程式內建對照表） | 小指外側掌側固有指動脈 |
+| fourth common palmar digital artery | 台灣解剖學名詞（程式內建對照表） | 第四掌側總指動脈 |
+| arteria princeps pollicis | 台灣解剖學名詞（程式內建對照表） | 拇主要動脈 |
+| Set of dorsal metacarpal arteries | 台灣解剖學名詞（程式內建對照表） | 背側掌骨動脈群 |
+| Medial proper palmar digital artery of middle finger | 台灣解剖學名詞（程式內建對照表） | 中指內側掌側固有指動脈 |
+| Medial proper palmar digital artery of ring finger | 台灣解剖學名詞（程式內建對照表） | 無名指內側掌側固有指動脈 |
+| superior ulnar collateral artery | 台灣解剖學名詞（程式內建對照表） | 上尺側副動脈 |
 | Hepatovenous segment VII | 台灣解剖學名詞（程式內建對照表） | 肝靜脈段 VII |
 | Middle hepatic vein | 台灣解剖學名詞（程式內建對照表） | 中肝靜脈 |
 | hepatic vein | 台灣解剖學名詞（程式內建對照表） | 肝靜脈 |
 | anterior cusp of pulmonary valve | 台灣解剖學名詞（程式內建對照表） | 肺動脈瓣前尖 |
 | Anterolateral head of lateral papillary muscle of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室外側乳頭肌前外側頭 |
+| Anterior papillary muscle of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室前乳頭肌 |
 | Anterior leaflet of mitral valve | 台灣解剖學名詞（程式內建對照表） | 二尖瓣前葉 |
 | Anterior leaflet of tricuspid valve | 台灣解剖學名詞（程式內建對照表） | 三尖瓣前葉 |
 | Cavity of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室腔 |
@@ -1874,6 +1632,7 @@
 | Posterior leaflet of tricuspid valve | 台灣解剖學名詞（程式內建對照表） | 三尖瓣後葉 |
 | Anterior cusp of aortic valve | 台灣解剖學名詞（程式內建對照表） | 主動脈瓣前尖 |
 | Septal leaflet of tricuspid valve | 台灣解剖學名詞（程式內建對照表） | 三尖瓣隔葉 |
+| Septal papillary muscle of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室隔側乳頭肌 |
 | Wall of atrium | 台灣解剖學名詞（程式內建對照表） | 心房壁 |
 | Cricoid cartilage | 台灣解剖學名詞（程式內建對照表） | 環狀軟骨 |
 | Inferior lingular bronchial tree | 台灣解剖學名詞（程式內建對照表） | 下舌支氣管樹 |
@@ -1923,11 +1682,15 @@
 | Conus branch of anterior interventricular branch of coronary artery | 台灣解剖學名詞（程式內建對照表） | 冠狀動脈前室間支圓錐支 |
 | Second anterior branch of anterior interventricular branch of coronary artery | 台灣解剖學名詞（程式內建對照表） | 第二冠狀動脈前室間支前支 |
 | Circumflex branch of coronary artery | 台灣解剖學名詞（程式內建對照表） | 冠狀動脈迴旋支 |
+| Coronary sinus | 台灣解剖學名詞（程式內建對照表） | 冠狀竇 |
+| Great cardiac vein | 台灣解剖學名詞（程式內建對照表） | 心大靜脈 |
 | Anterior interventricular vein | 台灣解剖學名詞（程式內建對照表） | 前室間靜脈 |
 | Marginal branch of coronary artery | 台灣解剖學名詞（程式內建對照表） | 冠狀動脈邊緣支 |
 | conus artery | 台灣解剖學名詞（程式內建對照表） | 圓錐動脈 |
 | First anterior ventricular branch of coronary artery | 台灣解剖學名詞（程式內建對照表） | 第一冠狀動脈前心室支 |
+| Middle cardiac vein | 台灣解剖學名詞（程式內建對照表） | 心中靜脈 |
 | Posterior interventricular branch of coronary artery | 台灣解剖學名詞（程式內建對照表） | 冠狀動脈後室間支 |
+| Posterior vein of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室後靜脈 |
 | marginal vein | 台灣解剖學名詞（程式內建對照表） | 邊緣靜脈 |
 | First posterior ventricular branch of coronary artery | 台灣解剖學名詞（程式內建對照表） | 第一冠狀動脈後心室支 |
 | Trunk of coronary artery | 台灣解剖學名詞（程式內建對照表） | 冠狀動脈幹 |
@@ -1999,14 +1762,18 @@
 | Superior lingular artery | 台灣解剖學名詞（程式內建對照表） | 上舌動脈 |
 | posterior segmental artery | 台灣解剖學名詞（程式內建對照表） | 後段動脈 |
 | apical segmental artery | 台灣解剖學名詞（程式內建對照表） | 尖段動脈 |
+| pulmonary artery | 台灣解剖學名詞（程式內建對照表） | 肺動脈 |
+| superior pulmonary vein | 台灣解剖學名詞（程式內建對照表） | 上肺靜脈 |
 | posterior segmental vein | 台灣解剖學名詞（程式內建對照表） | 後段靜脈 |
 | anterior segmental vein | 台灣解剖學名詞（程式內建對照表） | 前段靜脈 |
 | Inferior lingular vein | 台灣解剖學名詞（程式內建對照表） | 下舌靜脈 |
 | apical segmental vein | 台灣解剖學名詞（程式內建對照表） | 尖段靜脈 |
 | Superior lingular vein | 台灣解剖學名詞（程式內建對照表） | 上舌靜脈 |
+| inferior pulmonary vein | 台灣解剖學名詞（程式內建對照表） | 下肺靜脈 |
 | posterior basal segmental vein | 台灣解剖學名詞（程式內建對照表） | 後底段靜脈 |
 | lateral basal segmental vein | 台灣解剖學名詞（程式內建對照表） | 外側底段靜脈 |
 | anterior basal segmental vein | 台灣解剖學名詞（程式內建對照表） | 前底段靜脈 |
+| Pulmonary trunk | 台灣解剖學名詞（程式內建對照表） | 肺動脈幹 |
 | Apical part of apical segmental artery | 台灣解剖學名詞（程式內建對照表） | 尖段動脈尖部 |
 | Apical part of posterior segmental artery | 台灣解剖學名詞（程式內建對照表） | 後段動脈尖部 |
 | Posterior part of posterior segmental artery | 台灣解剖學名詞（程式內建對照表） | 後段動脈後部 |
@@ -2080,6 +1847,7 @@
 | Medial superior segmental branch of portal vein | 台灣解剖學名詞（程式內建對照表） | 門靜脈內側上段支 |
 | Medial inferior segmental branch of portal vein | 台灣解剖學名詞（程式內建對照表） | 門靜脈內側下段支 |
 | adrenal gland | 台灣解剖學名詞（程式內建對照表） | 腎上腺 |
+| Diaphragm | 台灣解剖學名詞（程式內建對照表） | 橫膈 |
 | Corpus cavernosum of penis | 台灣解剖學名詞（程式內建對照表） | 陰莖海綿體 |
 | Corpus spongiosum of penis | 台灣解剖學名詞（程式內建對照表） | 尿道海綿體 |
 | Glans penis | 台灣解剖學名詞（程式內建對照表） | 陰莖頭 |
@@ -2093,6 +1861,43 @@
 | Urethra | 台灣解剖學名詞（程式內建對照表） | 尿道 |
 | Urinary bladder | 台灣解剖學名詞（程式內建對照表） | 膀胱 |
 | lobe of thymus | 台灣解剖學名詞（程式內建對照表） | 胸腺葉 |
+| hip bone | 台灣解剖學名詞（程式內建對照表） | 髖骨 |
+| Xiphoid process | 台灣解剖學名詞（程式內建對照表） | 劍突 |
+| Tenth thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第十胸椎 |
+| Eleventh thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第十一胸椎 |
+| Twelfth thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第十二胸椎 |
+| First lumbar vertebra | 台灣解剖學名詞（程式內建對照表） | 第一腰椎 |
+| First thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第一胸椎 |
+| Second lumbar vertebra | 台灣解剖學名詞（程式內建對照表） | 第二腰椎 |
+| Second thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第二胸椎 |
+| Third cervical vertebra | 台灣解剖學名詞（程式內建對照表） | 第三頸椎 |
+| Third lumbar vertebra | 台灣解剖學名詞（程式內建對照表） | 第三腰椎 |
+| Third thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第三胸椎 |
+| Fourth cervical vertebra | 台灣解剖學名詞（程式內建對照表） | 第四頸椎 |
+| Fourth lumbar vertebra | 台灣解剖學名詞（程式內建對照表） | 第四腰椎 |
+| Fourth thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第四胸椎 |
+| Fifth cervical vertebra | 台灣解剖學名詞（程式內建對照表） | 第五頸椎 |
+| Fifth lumbar vertebra | 台灣解剖學名詞（程式內建對照表） | 第五腰椎 |
+| Fifth thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第五胸椎 |
+| Sixth cervical vertebra | 台灣解剖學名詞（程式內建對照表） | 第六頸椎 |
+| Sixth thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第六胸椎 |
+| Seventh cervical vertebra | 台灣解剖學名詞（程式內建對照表） | 第七頸椎 |
+| Seventh thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第七胸椎 |
+| Eighth thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第八胸椎 |
+| Ninth thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第九胸椎 |
+| Atlas | 台灣解剖學名詞（程式內建對照表） | 寰椎 |
+| Axis | 台灣解剖學名詞（程式內建對照表） | 樞椎 |
+| Body of sternum | 台灣解剖學名詞（程式內建對照表） | 胸骨體 |
+| Distal phalanx of second toe | 台灣解剖學名詞（程式內建對照表） | 第二趾遠節趾骨 |
+| Distal phalanx of third toe | 台灣解剖學名詞（程式內建對照表） | 第三趾遠節趾骨 |
+| Distal phalanx of fourth toe | 台灣解剖學名詞（程式內建對照表） | 第四趾遠節趾骨 |
+| Distal phalanx of big toe | 台灣解剖學名詞（程式內建對照表） | 拇趾遠節趾骨 |
+| Distal phalanx of index finger | 台灣解剖學名詞（程式內建對照表） | 食指遠節指骨 |
+| Distal phalanx of little finger | 台灣解剖學名詞（程式內建對照表） | 小指遠節指骨 |
+| Distal phalanx of little toe | 台灣解剖學名詞（程式內建對照表） | 小趾遠節趾骨 |
+| Distal phalanx of middle finger | 台灣解剖學名詞（程式內建對照表） | 中指遠節指骨 |
+| Distal phalanx of ring finger | 台灣解剖學名詞（程式內建對照表） | 無名指遠節指骨 |
+| Distal phalanx of thumb | 台灣解剖學名詞（程式內建對照表） | 拇指遠節指骨 |
 | Ethmoid | 台灣解剖學名詞（程式內建對照表） | 篩骨 |
 | Frontal bone | 台灣解剖學名詞（程式內建對照表） | 額骨 |
 | Intervertebral disk of axis | 台灣解剖學名詞（程式內建對照表） | 第二頸椎椎間盤 |
@@ -2118,22 +1923,90 @@
 | Intervertebral disk of first thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第一胸椎椎間盤 |
 | Intervertebral disk of second thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第二胸椎椎間盤 |
 | Intervertebral disk of third thoracic vertebra | 台灣解剖學名詞（程式內建對照表） | 第三胸椎椎間盤 |
+| tenth rib | 台灣解剖學名詞（程式內建對照表） | 第十肋骨 |
+| eleventh rib | 台灣解剖學名詞（程式內建對照表） | 第十一肋骨 |
+| twelfth rib | 台灣解剖學名詞（程式內建對照表） | 第十二肋骨 |
+| first rib | 台灣解剖學名詞（程式內建對照表） | 第一肋骨 |
+| second rib | 台灣解剖學名詞（程式內建對照表） | 第二肋骨 |
+| third rib | 台灣解剖學名詞（程式內建對照表） | 第三肋骨 |
+| fourth rib | 台灣解剖學名詞（程式內建對照表） | 第四肋骨 |
+| fifth rib | 台灣解剖學名詞（程式內建對照表） | 第五肋骨 |
+| sixth rib | 台灣解剖學名詞（程式內建對照表） | 第六肋骨 |
+| seventh rib | 台灣解剖學名詞（程式內建對照表） | 第七肋骨 |
+| eighth rib | 台灣解剖學名詞（程式內建對照表） | 第八肋骨 |
+| ninth rib | 台灣解剖學名詞（程式內建對照表） | 第九肋骨 |
+| clavicle | 台灣解剖學名詞（程式內建對照表） | 鎖骨 |
 | first costal cartilage | 台灣解剖學名詞（程式內建對照表） | 第一肋軟骨 |
+| first metacarpal bone | 台灣解剖學名詞（程式內建對照表） | 第一掌骨 |
+| first metatarsal bone | 台灣解剖學名詞（程式內建對照表） | 第一蹠骨 |
 | second costal cartilage | 台灣解剖學名詞（程式內建對照表） | 第二肋軟骨 |
+| second metacarpal bone | 台灣解剖學名詞（程式內建對照表） | 第二掌骨 |
+| second metatarsal bone | 台灣解剖學名詞（程式內建對照表） | 第二蹠骨 |
 | third costal cartilage | 台灣解剖學名詞（程式內建對照表） | 第三肋軟骨 |
+| third metacarpal bone | 台灣解剖學名詞（程式內建對照表） | 第三掌骨 |
+| third metatarsal bone | 台灣解剖學名詞（程式內建對照表） | 第三蹠骨 |
 | fourth costal cartilage | 台灣解剖學名詞（程式內建對照表） | 第四肋軟骨 |
+| fourth metacarpal bone | 台灣解剖學名詞（程式內建對照表） | 第四掌骨 |
+| fourth metatarsal bone | 台灣解剖學名詞（程式內建對照表） | 第四蹠骨 |
 | fifth costal cartilage | 台灣解剖學名詞（程式內建對照表） | 第五肋軟骨 |
+| fifth metacarpal bone | 台灣解剖學名詞（程式內建對照表） | 第五掌骨 |
+| fifth metatarsal bone | 台灣解剖學名詞（程式內建對照表） | 第五蹠骨 |
 | sixth costal cartilage | 台灣解剖學名詞（程式內建對照表） | 第六肋軟骨 |
 | seventh costal cartilage | 台灣解剖學名詞（程式內建對照表） | 第七肋軟骨 |
+| calcaneus | 台灣解剖學名詞（程式內建對照表） | 跟骨 |
+| capitate | 台灣解剖學名詞（程式內建對照表） | 頭狀骨 |
+| cuboid bone | 台灣解剖學名詞（程式內建對照表） | 骰骨 |
+| femur | 台灣解剖學名詞（程式內建對照表） | 股骨 |
+| fibula | 台灣解剖學名詞（程式內建對照表） | 腓骨 |
+| hamate | 台灣解剖學名詞（程式內建對照表） | 鉤骨 |
+| humerus | 台灣解剖學名詞（程式內建對照表） | 肱骨 |
 | inferior nasal concha | 台灣解剖學名詞（程式內建對照表） | 下鼻甲 |
+| intermediate cuneiform bone | 台灣解剖學名詞（程式內建對照表） | 中間楔骨 |
 | lacrimal bone | 台灣解剖學名詞（程式內建對照表） | 淚骨 |
+| Sesamoid bone of foot | 台灣解剖學名詞（程式內建對照表） | 足籽骨 |
+| lateral cuneiform bone | 台灣解剖學名詞（程式內建對照表） | 外側楔骨 |
+| lunate | 台灣解剖學名詞（程式內建對照表） | 月狀骨 |
 | maxilla | 台灣解剖學名詞（程式內建對照表） | 上頜骨 |
+| medial cuneiform bone | 台灣解剖學名詞（程式內建對照表） | 內側楔骨 |
 | nasal bone | 台灣解剖學名詞（程式內建對照表） | 鼻骨 |
 | palatine bone | 台灣解剖學名詞（程式內建對照表） | 顎骨 |
 | parietal bone | 台灣解剖學名詞（程式內建對照表） | 頂骨 |
+| patella | 台灣解剖學名詞（程式內建對照表） | 髕骨 |
+| pisiform | 台灣解剖學名詞（程式內建對照表） | 豆狀骨 |
+| radius | 台灣解剖學名詞（程式內建對照表） | 橈骨 |
+| scaphoid | 台灣解剖學名詞（程式內建對照表） | 舟狀骨 |
+| scapula | 台灣解剖學名詞（程式內建對照表） | 肩胛骨 |
+| talus | 台灣解剖學名詞（程式內建對照表） | 距骨 |
 | temporal bone | 台灣解剖學名詞（程式內建對照表） | 顳骨 |
+| tibia | 台灣解剖學名詞（程式內建對照表） | 脛骨 |
+| trapezium | 台灣解剖學名詞（程式內建對照表） | 大菱形骨 |
+| trapezoid | 台灣解剖學名詞（程式內建對照表） | 小菱形骨 |
+| triquetral | 台灣解剖學名詞（程式內建對照表） | 三角骨 |
+| ulna | 台灣解剖學名詞（程式內建對照表） | 尺骨 |
 | zygomatic bone | 台灣解剖學名詞（程式內建對照表） | 顴骨 |
 | Mandible | 台灣解剖學名詞（程式內建對照表） | 下頜骨 |
+| Manubrium | 台灣解剖學名詞（程式內建對照表） | 胸骨柄 |
+| Middle phalanx of ring finger | 台灣解剖學名詞（程式內建對照表） | 無名指中節指骨 |
+| Middle phalanx of second toe | 台灣解剖學名詞（程式內建對照表） | 第二趾中節趾骨 |
+| Middle phalanx of third toe | 台灣解剖學名詞（程式內建對照表） | 第三趾中節趾骨 |
+| Middle phalanx of fourth toe | 台灣解剖學名詞（程式內建對照表） | 第四趾中節趾骨 |
+| Middle phalanx of index finger | 台灣解剖學名詞（程式內建對照表） | 食指中節指骨 |
+| Middle phalanx of little finger | 台灣解剖學名詞（程式內建對照表） | 小指中節指骨 |
+| Middle phalanx of little toe | 台灣解剖學名詞（程式內建對照表） | 小趾中節趾骨 |
+| Middle phalanx of middle finger | 台灣解剖學名詞（程式內建對照表） | 中指中節指骨 |
+| Navicular bone of foot | 台灣解剖學名詞（程式內建對照表） | 足舟骨 |
+| Occipital bone | 台灣解剖學名詞（程式內建對照表） | 枕骨 |
+| Proximal phalanx of big toe | 台灣解剖學名詞（程式內建對照表） | 拇趾近節趾骨 |
+| Proximal phalanx of third toe | 台灣解剖學名詞（程式內建對照表） | 第三趾近節趾骨 |
+| Proximal phalanx of fourth toe | 台灣解剖學名詞（程式內建對照表） | 第四趾近節趾骨 |
+| Proximal phalanx of index finger | 台灣解剖學名詞（程式內建對照表） | 食指近節指骨 |
+| Proximal phalanx of little finger | 台灣解剖學名詞（程式內建對照表） | 小指近節指骨 |
+| Proximal phalanx of little toe | 台灣解剖學名詞（程式內建對照表） | 小趾近節趾骨 |
+| Proximal phalanx of middle finger | 台灣解剖學名詞（程式內建對照表） | 中指近節指骨 |
+| Proximal phalanx of ring finger | 台灣解剖學名詞（程式內建對照表） | 無名指近節指骨 |
+| Proximal phalanx of thumb | 台灣解剖學名詞（程式內建對照表） | 拇指近節指骨 |
+| Proximal phalanx of second toe | 台灣解剖學名詞（程式內建對照表） | 第二趾近節趾骨 |
+| Sacrum | 台灣解剖學名詞（程式內建對照表） | 薦骨 |
 | Sphenoid bone | 台灣解剖學名詞（程式內建對照表） | 蝶骨 |
 | Vomer | 台灣解剖學名詞（程式內建對照表） | 犁骨 |
 | Mesentery of small intestine | 台灣解剖學名詞（程式內建對照表） | 小腸繫膜 |
@@ -2145,33 +2018,51 @@
 | Anterior cecal artery | 台灣解剖學名詞（程式內建對照表） | 盲腸前動脈 |
 | Anterior superior pancreaticoduodenal artery | 台灣解剖學名詞（程式內建對照表） | 胰十二指腸前上動脈 |
 | Appendicular artery | glossary.json（其他筆記） | 闌尾動脈 |
+| Arch of aorta | 台灣解剖學名詞（程式內建對照表） | 主動脈弓 |
+| Ascending aorta | 台灣解剖學名詞（程式內建對照表） | 升主動脈 |
 | Ascending branch of inferior branch of ileocolic artery | 台灣解剖學名詞（程式內建對照表） | 迴結腸動脈下支升支 |
 | Ileocolic vein | 台灣解剖學名詞（程式內建對照表） | 迴結腸靜脈 |
+| Azygos vein | 台灣解剖學名詞（程式內建對照表） | 奇靜脈 |
+| Brachiocephalic artery | 台灣解剖學名詞（程式內建對照表） | 頭臂動脈 |
 | Bronchial branch of arch of aorta | 台灣解剖學名詞（程式內建對照表） | 主動脈弓支氣管支 |
 | Caudal pancreatic artery | 台灣解剖學名詞（程式內建對照表） | 胰尾動脈 |
 | Celiac trunk | 台灣解剖學名詞（程式內建對照表） | 腹腔動脈幹 |
+| Descending aorta | 台灣解剖學名詞（程式內建對照表） | 降主動脈 |
 | Descending branch of colic artery | 台灣解剖學名詞（程式內建對照表） | 結腸動脈降支 |
 | Dorsal pancreatic artery | glossary.json（其他筆記） | 背胰動脈 |
 | Set of oesophageal branches of thoracic aorta | 台灣解剖學名詞（程式內建對照表） | 胸主動脈食道支 |
 | Trunk of gastroduodenal artery | 台灣解剖學名詞（程式內建對照表） | 胃十二指腸動脈幹 |
 | Great pancreatic artery | 台灣解剖學名詞（程式內建對照表） | 胰大動脈 |
+| Hemiazygos vein | 台灣解剖學名詞（程式內建對照表） | 半奇靜脈 |
 | Ileal artery | glossary.json（其他筆記） | 迴腸動脈 |
 | Ileal vein | 台灣解剖學名詞（程式內建對照表） | 迴腸靜脈 |
 | Ileocolic artery | glossary.json（其他筆記） | 迴結腸動脈 |
+| Inferior vena cava | 台灣解剖學名詞（程式內建對照表） | 下腔靜脈 |
 | Inferior mesenteric artery | glossary.json（其他筆記） | 下腸繫膜動脈 |
 | Inferior mesenteric vein | 台灣解剖學名詞（程式內建對照表） | 下腸繫膜靜脈 |
 | Inferior pancreatic artery | 台灣解剖學名詞（程式內建對照表） | 胰下動脈 |
 | Inferior pancreaticoduodenal artery | glossary.json（其他筆記） | 下胰十二指腸動脈 |
 | Inferior phrenic vein | 台灣解剖學名詞（程式內建對照表） | 膈下靜脈 |
 | Anterior division of renal artery | 台灣解剖學名詞（程式內建對照表） | 腎動脈前分支 |
+| common iliac artery | 台灣解剖學名詞（程式內建對照表） | 總髂動脈 |
+| common iliac vein | glossary.json（其他筆記） | 總髂靜脈 |
+| external iliac artery | glossary.json（其他筆記） | 外髂動脈 |
 | inferior suprarenal artery | 台灣解剖學名詞（程式內建對照表） | 腎上腺下動脈 |
+| internal iliac artery | glossary.json（其他筆記） | 內髂動脈 |
+| internal iliac vein | 台灣解剖學名詞（程式內建對照表） | 髂內靜脈 |
 | middle suprarenal artery | 台灣解剖學名詞（程式內建對照表） | 腎上腺中動脈 |
 | Posterior division of renal artery | 台灣解剖學名詞（程式內建對照表） | 腎動脈後分支 |
 | Trunk of renal artery | 台灣解剖學名詞（程式內建對照表） | 腎動脈幹 |
 | renal vein | 台灣解剖學名詞（程式內建對照表） | 腎靜脈 |
+| subclavian artery | glossary.json（其他筆記） | 鎖骨下動脈 |
 | suprarenal vein | glossary.json（其他筆記） | 腎上腺靜脈 |
 | Ureteric segment of renal artery | 台灣解剖學名詞（程式內建對照表） | 腎動脈輸尿管段 |
+| brachiocephalic vein | 台灣解剖學名詞（程式內建對照表） | 頭臂靜脈 |
+| common carotid artery | glossary.json（其他筆記） | 總頸動脈 |
+| external iliac vein | 台灣解剖學名詞（程式內建對照表） | 髂外靜脈 |
 | internal jugular vein | glossary.json（其他筆記） | 內頸靜脈 |
+| subclavian vein | 台灣解剖學名詞（程式內建對照表） | 鎖骨下靜脈 |
+| ascending lumbar vein | 台灣解剖學名詞（程式內建對照表） | 腰升靜脈 |
 | colic artery | 台灣解剖學名詞（程式內建對照表） | 結腸動脈 |
 | dorsal artery of penis | 台灣解剖學名詞（程式內建對照表） | 陰莖背動脈 |
 | gastric artery | 台灣解剖學名詞（程式內建對照表） | 胃動脈 |
@@ -2181,11 +2072,14 @@
 | iliolumbar vein | 台灣解剖學名詞（程式內建對照表） | 髂腰靜脈 |
 | inferior epigastric artery | glossary.json（其他筆記） | 下腹壁動脈 |
 | inferior epigastric vein | 台灣解剖學名詞（程式內建對照表） | 腹壁下靜脈 |
+| inferior gluteal vein | 台灣解剖學名詞（程式內建對照表） | 臀下靜脈 |
 | inferior phrenic artery | glossary.json（其他筆記） | 下膈動脈 |
 | internal pudendal vein | 台灣解剖學名詞（程式內建對照表） | 陰部內靜脈 |
 | lateral sacral vein | glossary.json（其他筆記） | 外薦靜脈 |
+| obturator vein | 台灣解剖學名詞（程式內建對照表） | 閉孔靜脈 |
 | superficial epigastric artery | glossary.json（跑考摘要） | 淺腹壁動脈 |
 | superior epigastric vein | 台灣解剖學名詞（程式內建對照表） | 腹壁上靜脈 |
+| superior gluteal vein | 台灣解剖學名詞（程式內建對照表） | 臀上靜脈 |
 | testicular artery | glossary.json（其他筆記） | 睪丸動脈 |
 | testicular vein | 台灣解剖學名詞（程式內建對照表） | 睪丸靜脈 |
 | Marginal artery of colon | 台灣解剖學名詞（程式內建對照表） | 結腸邊緣動脈 |
@@ -2202,6 +2096,7 @@
 | Sigmoid vein | 台灣解剖學名詞（程式內建對照表） | 乙狀結腸靜脈 |
 | Splenic vein | 台灣解剖學名詞（程式內建對照表） | 脾靜脈 |
 | Trunk of superior mesenteric artery | 台灣解剖學名詞（程式內建對照表） | 上腸繫膜動脈幹 |
+| Superior vena cava | 台灣解剖學名詞（程式內建對照表） | 上腔靜脈 |
 | Superior mesenteric vein | 台灣解剖學名詞（程式內建對照表） | 上腸繫膜靜脈 |
 | Superior phrenic vein | 台灣解剖學名詞（程式內建對照表） | 膈上靜脈 |
 | Superior rectal artery | glossary.json（其他筆記） | 上直腸動脈 |
@@ -2240,36 +2135,95 @@
 | cochlear nerve | 台灣解剖學名詞（程式內建對照表） | 耳蝸神經 |
 | vestibulocochlear nerve (VIII) | 台灣解剖學名詞（程式內建對照表） | 前庭耳蝸神經（第八對腦神經） |
 | glossopharyngeal nerve (IX) | 台灣解剖學名詞（程式內建對照表） | 舌咽神經（第九對腦神經） |
+| vagus nerve (X) | 台灣解剖學名詞（程式內建對照表） | 迷走神經 |
+| accessory nerve (XI) | 台灣解剖學名詞（程式內建對照表） | 副神經（第十一對腦神經） |
 | hypoglossal nerve (XII) | 台灣解剖學名詞（程式內建對照表） | 舌下神經（第十二對腦神經） |
 | abducens nerve (VI) | 台灣解剖學名詞（程式內建對照表） | 外旋神經（第六對腦神經） |
 | trochlear nerve (IV) | 台灣解剖學名詞（程式內建對照表） | 滑車 |
+| superior trunk of brachial plexus | 台灣解剖學名詞（程式內建對照表） | 臂神經叢上幹 |
 | posterior division of superior trunk of brachial plexus | 台灣解剖學名詞（程式內建對照表） | 臂神經叢上幹後股 |
 | anterior division of superior trunk of brachial plexus | 台灣解剖學名詞（程式內建對照表） | 臂神經叢上幹前股 |
+| middle trunk of brachial plexus | 台灣解剖學名詞（程式內建對照表） | 臂神經叢中幹 |
 | anterior division of middle trunk of brachial plexus | 台灣解剖學名詞（程式內建對照表） | 臂神經叢中幹前股 |
 | posterior division of middle trunk of brachial plexus | 台灣解剖學名詞（程式內建對照表） | 臂神經叢中幹後股 |
+| inferior trunk of brachial plexus | 台灣解剖學名詞（程式內建對照表） | 臂神經叢下幹 |
 | anterior division of inferior trunk of brachial plexus | 台灣解剖學名詞（程式內建對照表） | 臂神經叢下幹前股 |
 | posterior division of inferior trunk of brachial plexus | 台灣解剖學名詞（程式內建對照表） | 臂神經叢下幹後股 |
+| roots of brachial plexus | 台灣解剖學名詞（程式內建對照表） | 臂神經叢神經根 |
+| dorsal scapular nerve | glossary.json（其他筆記） | 背肩胛神經 |
+| long thoracic nerve | glossary.json（其他筆記） | 長胸神經 |
+| suprascapular nerve | 台灣解剖學名詞（程式內建對照表） | 肩胛上神經 |
+| subclavian nerve | 台灣解剖學名詞（程式內建對照表） | 鎖骨下肌神經 |
+| axillary nerve | 台灣解剖學名詞（程式內建對照表） | 腋神經 |
+| posterior cord of brachial plexus | 台灣解剖學名詞（程式內建對照表） | 臂神經叢後束 |
+| lateral pectoral nerve | 台灣解剖學名詞（程式內建對照表） | 外側胸神經 |
+| musculocutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 肌皮神經 |
+| lateral antebrachial cutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 外側前臂皮神經 |
+| deep branch of radial nerve | 台灣解剖學名詞（程式內建對照表） | 橈神經深支 |
+| posterior interosseous nerve of forearm | 台灣解剖學名詞（程式內建對照表） | 後骨間神經 |
+| superficial branch of radial nerve | 台灣解剖學名詞（程式內建對照表） | 橈神經淺支 |
+| dorsal digital branches of radial nerve | 台灣解剖學名詞（程式內建對照表） | 橈神經背側指支 |
+| posterior antebrachial cutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 後前臂皮神經 |
+| radial nerve | 台灣解剖學名詞（程式內建對照表） | 橈神經 |
+| inferior lateral brachial cutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 下外側臂皮神經 |
+| muscular branches of radial nerve | 台灣解剖學名詞（程式內建對照表） | 橈神經肌支 |
+| superior lateral brachial cutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 上外側臂皮神經 |
+| muscular branches of axillary nerve | 台灣解剖學名詞（程式內建對照表） | 腋神經肌支 |
+| anterior branch of medial antebrachial cutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 內側前臂皮神經前支 |
+| posterior branch of medial antebrachial cutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 內側前臂皮神經後支 |
+| medial antebrachial cutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 內側前臂皮神經 |
+| dorsal digital branches of ulnar nerve | 台灣解剖學名詞（程式內建對照表） | 尺神經背側指支 |
+| dorsal branch of ulnar nerve | 台灣解剖學名詞（程式內建對照表） | 尺神經背支 |
+| proper palmar digital branches of ulnar nerve | 台灣解剖學名詞（程式內建對照表） | 尺神經掌側固有指支 |
+| common palmar digital branches of ulnar nerve | 台灣解剖學名詞（程式內建對照表） | 尺神經掌側總指支 |
+| superficial branch of ulnar nerve | 台灣解剖學名詞（程式內建對照表） | 尺神經淺支 |
+| palmar branch of ulnar nerve | 台灣解剖學名詞（程式內建對照表） | 尺神經掌支 |
+| deep branch of ulnar nerve | 台灣解剖學名詞（程式內建對照表） | 尺神經深支 |
+| muscular branches of ulnar nerve | 台灣解剖學名詞（程式內建對照表） | 尺神經肌支 |
+| ulnar nerve | 台灣解剖學名詞（程式內建對照表） | 尺神經 |
+| medial brachial cutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 內側上臂皮神經 |
+| proper palmar digital branches of median nerve | 台灣解剖學名詞（程式內建對照表） | 正中神經掌側固有指支 |
+| common palmar digital branches of median nerve | 台灣解剖學名詞（程式內建對照表） | 正中神經掌側總指支 |
 | communicating branch of median nerve with ulnar nerve | 台灣解剖學名詞（程式內建對照表） | 正中神經 |
+| median nerve | 台灣解剖學名詞（程式內建對照表） | 正中神經 |
+| anterior interosseous nerve of forearm | 台灣解剖學名詞（程式內建對照表） | 前骨間神經 |
+| palmar branch of median nerve | 台灣解剖學名詞（程式內建對照表） | 正中神經掌支 |
+| muscular branches of median nerve | 台灣解剖學名詞（程式內建對照表） | 正中神經肌支 |
+| intercostal nerves | 台灣解剖學名詞（程式內建對照表） | 肋間神經 |
 | iliohypogastric nerve | 台灣解剖學名詞（程式內建對照表） | 髂腹下神經 |
 | ilio-inguinal nerve | 台灣解剖學名詞（程式內建對照表） | 髂腹股溝神經 |
 | infrapatellar branch of saphenous nerve | 台灣解剖學名詞（程式內建對照表） | 隱神經髕下支 |
+| saphenous nerve | 台灣解剖學名詞（程式內建對照表） | 隱神經 |
 | medial crural cutaneous branches of saphenous nerve | 台灣解剖學名詞（程式內建對照表） | 隱神經小腿內側皮支 |
+| sural nerve | glossary.json（跑考摘要） | 腓腸神經 |
 | sural communicating branch of common fibular nerve | 台灣解剖學名詞（程式內建對照表） | 腓總神經腓腸交通支 |
+| medial sural cutaneous nerve | glossary.json（跑考摘要） | 內側腓腸皮神經 |
 | anterior cutaneous branches of femoral nerve | 台灣解剖學名詞（程式內建對照表） | 股神經前皮支 |
+| femoral nerve | glossary.json（跑考摘要） | 股神經 |
+| lateral femoral cutaneous nerve | glossary.json（跑考摘要） | 外股皮神經 |
+| obturator nerve | 台灣解剖學名詞（程式內建對照表） | 閉孔神經 |
 | posterior branch of obturator nerve | 台灣解剖學名詞（程式內建對照表） | 閉孔神經後支 |
 | anterior branch of obturator nerve | 台灣解剖學名詞（程式內建對照表） | 閉孔神經前支 |
 | genitofemoral nerve | 台灣解剖學名詞（程式內建對照表） | 生殖股神經 |
 | femoral branch of genitofemoral nerve | 台灣解剖學名詞（程式內建對照表） | 生殖股神經股支 |
 | genital branch of genitofemoral nerve | 台灣解剖學名詞（程式內建對照表） | 生殖股神經生殖支 |
 | dorsal digital branches of superficial fibular nerve | 台灣解剖學名詞（程式內建對照表） | 腓淺神經背側趾支 |
+| superficial fibular nerve | glossary.json（跑考摘要） | 淺腓神經 |
 | medial dorsal cutaneous nerve of foot | 台灣解剖學名詞（程式內建對照表） | 足內側背側皮神經 |
 | intermediate dorsal cutaneous nerve of foot | 台灣解剖學名詞（程式內建對照表） | 足中間背側皮神經 |
 | dorsal digital branches of deep fibular nerve | 台灣解剖學名詞（程式內建對照表） | 腓深神經背側趾支 |
 | muscular branches of deep fibular nerve | 台灣解剖學名詞（程式內建對照表） | 腓深神經肌支 |
+| deep fibular nerve | glossary.json（跑考摘要） | 深腓神經 |
+| sciatic nerve | glossary.json（跑考摘要） | 坐骨神經 |
+| tibial nerve | glossary.json（跑考摘要） | 脛神經 |
 | proper plantar digital branches of medial plantar nerve | 台灣解剖學名詞（程式內建對照表） | 內蹠神經蹠側固有趾支 |
 | common plantar digital branches of lateral plantar nerve | 台灣解剖學名詞（程式內建對照表） | 外蹠神經蹠側總趾支 |
+| lateral plantar nerve | glossary.json（跑考摘要） | 外蹠神經 |
+| medial plantar nerve | glossary.json（跑考摘要） | 內蹠神經 |
+| common fibular nerve | glossary.json（跑考摘要） | 總腓神經 |
 | proper plantar digital branches of lateral plantar nerve | 台灣解剖學名詞（程式內建對照表） | 外蹠神經蹠側固有趾支 |
 | common plantar digital branches of medial plantar nerve | 台灣解剖學名詞（程式內建對照表） | 內蹠神經蹠側總趾支 |
+| sympathetic nerves | 台灣解剖學名詞（程式內建對照表） | 交感神經 |
 | pyramis of vermis | 台灣解剖學名詞（程式內建對照表） | 蚓錐 |
 | nucleus of trochlear nerve | 台灣解剖學名詞（程式內建對照表） | 滑車 |
 | posterior nucleus of vagus nerve | 台灣解剖學名詞（程式內建對照表） | 迷走神經背核 |
@@ -2283,10 +2237,20 @@
 | medial pectoral nerve | 台灣解剖學名詞（程式內建對照表） | 內側胸神經 |
 | superior subscapular nerve | 台灣解剖學名詞（程式內建對照表） | 肩胛下神經（上） |
 | inferior subscapular nerve | 台灣解剖學名詞（程式內建對照表） | 肩胛下神經（下） |
+| thoracodorsal nerve | 台灣解剖學名詞（程式內建對照表） | 胸背神經 |
+| superior gluteal nerve | glossary.json（跑考摘要） | 臀上神經 |
 | nerve to piriformis muscle | 台灣解剖學名詞（程式內建對照表） | 梨狀肌神經 |
+| nerve to quadratus femoris muscle | 台灣解剖學名詞（程式內建對照表） | 股方肌神經 |
+| posterior femoral cutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 股後皮神經 |
 | anterior root of posterior femoral cutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 股後皮神經前根 |
 | posterior root of posterior femoral cutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 股後皮神經後根 |
 | pudendal nerve | glossary.json（跑考摘要） | 陰部神經 |
+| suboccipital nerve | 台灣解剖學名詞（程式內建對照表） | 枕下神經 |
+| greater occipital nerve | 台灣解剖學名詞（程式內建對照表） | 枕大神經 |
+| third occipital nerve | 台灣解剖學名詞（程式內建對照表） | 第三枕神經 |
+| lesser occipital nerve | glossary.json（其他筆記） | 枕小神經 |
+| great auricular nerve | glossary.json（其他筆記） | 耳大神經 |
+| suboccipital venous plexus | 台灣解剖學名詞（程式內建對照表） | 枕下靜脈叢 |
 | anterior tibiofibular ligament | 台灣解剖學名詞（程式內建對照表） | 前脛腓韌帶 |
 | posterior tibiofibular ligament | 台灣解剖學名詞（程式內建對照表） | 後脛腓韌帶 |
 | transverse tibiofibular ligament | 台灣解剖學名詞（程式內建對照表） | 脛腓橫韌帶 |
