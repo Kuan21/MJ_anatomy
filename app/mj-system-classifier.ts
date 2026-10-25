@@ -10,11 +10,15 @@ const excluded=new Set(overrides.exclude);
 
 export function displaySystem(part:Part):SystemId{
  const n=part.name.toLowerCase();
+ // BodyParts3D's "hepatovenous segments" are the liver tissue itself (the parts of the liver drained by each hepatic vein), not veins.
+ if(/hepatovenous segment/.test(n))return 'digestive';
  if(/artery|arterial/.test(n))return 'arterial';
  if(/vein|venous/.test(n))return 'venous';
  if(/nerve|plexus|ganglion|neural/.test(n))return 'nervous';
  // The brain's ventricles are filed under the heart in the source; they belong to the nervous system (the Heart layer is the heart only).
  if(/(third|fourth|lateral) ventricle|interventricular foramen/.test(n))return 'nervous';
+ // Brain structures whose names contain connective-tissue words (internal capsule is white matter).
+ if(/internal capsule/.test(n))return 'nervous';
  if(/tensor fasciae latae/.test(n))return 'muscular';
  if(connectiveTerms.some(term=>n.includes(term)))return 'connective';
  if(muscleTerms.some(term=>n.includes(term)))return 'muscular';

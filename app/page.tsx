@@ -18,7 +18,7 @@ import {resolveDissection} from './mj-dissection';
 import {structureProfile} from './mj-structure-info';
 import {buildSearchIndex,type SearchEntry,type SearchSource} from './mj-search';
 import SearchPanel from './search-panel';
-import {setCourseNoteIndex,type CourseNoteEntry,type CourseNoteIndex} from './mj-course-notes';
+import type {CourseNoteEntry} from './mj-course-notes';
 import {normalizeAtlasSystems} from './mj-system-classifier';
 import {anatomicalRegion,anatomicalSide,partsInRegion,topRegionParts} from './mj-part-regions';
 import {buildUpperLimbMotion,constrainPose,MOTION_LIMITS,NEUTRAL_POSE,type MotionPose,type Side} from './mj-motion';
@@ -28,6 +28,7 @@ import {JOINT_TYPES} from './mj-joints';
 import {matchesMuscleLayer,MUSCLE_LAYER_REGIONS,MUSCLE_LAYER_SOURCE,layerOrders,layerMembers,type MuscleLayer} from './mj-muscle-layers';
 import {anatomyDepth,matchesDepth,type TissueDepth} from './mj-depth';
 import {augmentAtlasWithFacial} from './mj-facial-atlas';
+import {matchesHeartLayer} from './mj-heart-layers';
 import {FACIAL_MUSCLE_LAYERS,matchesFacialMuscleLayer,type FacialMuscleLayer} from './mj-facial-layers';
 type TopRegion='whole'|'upper'|'lower'|'head'|'organs';
 type UpperMotionAction='shoulderFlexion'|'shoulderAbduction'|'elbowFlexion'|'forearmRotation'|'wristExtension';
@@ -86,8 +87,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  useEffect(()=>{
   const abort=new AbortController();setProgress(0);setError('');setAtlas(null);setLoadStatus(null);setChosen(null);setExternalNerve(null);setDetails(false);setState({...initial,visible:DEFAULT_VISIBLE});
   const readJson=async(path:string)=>JSON.parse(new TextDecoder().decode(await fetchModelBuffer(`${import.meta.env.BASE_URL}models/${path}`,0,false,abort.signal)));
-  // A delayed course-note index must not block any 3-D anatomy package.
-  void readJson('cmu-course-notes-v4.json').then(course=>{if(!abort.signal.aborted)setCourseNoteIndex(course as CourseNoteIndex);}).catch(e=>{if(!abort.signal.aborted)console.warn('Course-note index unavailable',e);});
+  // The 解剖重點 panel is off: the extracted lecture-note fragments were cut mid-sentence and often unrelated to the structure.
   void (async()=>{
    let data:Atlas;
    try{data=normalizeAtlasSystems(JSON.parse(new TextDecoder().decode(await fetchModelBuffer(`${import.meta.env.BASE_URL}models/atlas-stream.json.gz`,0,true,abort.signal))) as Atlas);}catch(e){if(abort.signal.aborted)throw e;data=normalizeAtlasSystems(await readJson('atlas.json') as Atlas);}
@@ -114,7 +114,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  // The Quiz button always opens the body-part chooser (#/quiz), from every page.
  const quizHref='#/quiz';
  const hiddenSet=new Set(state.hiddenParts??[]);
- const visibleCount=atlas?.parts.filter(p=>!hiddenSet.has(p.id)&&(state.selected.includes(p.id)||(matchesDepth(p,state.depthFilter)&&matchesMuscleLayer(p,state.muscleRegion,state.muscleLayer)&&matchesFacialMuscleLayer(p,state.faceMuscleLayer)&&(state.isolate?false:state.focusParts?state.focusParts.includes(p.id)&&state.visible.includes(p.system):state.visible.includes(p.system))))).length??0;
+ const visibleCount=atlas?.parts.filter(p=>!hiddenSet.has(p.id)&&(state.selected.includes(p.id)||(matchesDepth(p,state.depthFilter)&&matchesMuscleLayer(p,state.muscleRegion,state.muscleLayer)&&matchesFacialMuscleLayer(p,state.faceMuscleLayer)&&matchesHeartLayer(p,state.heartOpen)&&(state.isolate?false:state.focusParts?state.focusParts.includes(p.id)&&state.visible.includes(p.system):state.visible.includes(p.system))))).length??0;
  // Search index: built once in idle slices after the atlas is ready (and again when the extra names arrive), then queried per keystroke by the search panel.
  const [searchIndex,setSearchIndex]=useState<SearchEntry[]|null>(null);
  useEffect(()=>{
@@ -199,7 +199,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const motionRegionIds=(target:'head'|'upper'|'lower'|'spine'|'leftLeg'|'rightLeg')=>{
   if(!atlas)return[] as string[];
   if(target==='spine')return atlas.parts.map(p=>p.id);
-  if(target==='head')return partsInRegion(atlas.parts,'head-neck');
+  if(target==='head')return [...partsInRegion(atlas.parts,'head-neck'),...skinIds()];
   if(target==='upper')return [...partsInRegion(atlas.parts,'upper-limb'),...skinIds()];
   if(target==='lower')return [...partsInRegion(atlas.parts,'lower-limb'),...skinIds()];
   const wantedSide=target==='leftLeg'?'left':'right';
@@ -228,7 +228,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
       <Button variant="ghost" className="system-name organ-expand" aria-expanded={organsOpen} onClick={()=>setOrgansOpen(v=>!v)}><ChevronRight size={13}/><span className="system-dot organ-dot"/><span>Organs</span><span className="system-count">{organPieceCount}</span></Button>
       <Switch checked={allOrgansVisible} onCheckedChange={toggleOrgans} aria-label="Show all organ systems"/>
      </div>
-     {organsOpen&&<div className="organ-children">{organSystems.map(s=><div className={`system-row ${state.visible.includes(s.id)?'enabled':''}`} key={s.id}><Button variant="ghost" className="system-name" title={`Show only ${s.name.toLowerCase()}`} onClick={()=>setState(v=>({...v,visible:[s.id],isolate:false,selected:[]}))}><span className="system-dot" style={{background:s.color}}/>{s.name}<span className="system-count">{counts[s.id]}</span></Button>{s.id==='cardiac'&&<a className="organ-detail-link" href="#/organ/heart" title="心臟詳細模式：切面、心腔、瓣膜、乳頭肌">詳細</a>}<Switch checked={state.visible.includes(s.id)} onCheckedChange={()=>toggle(s.id)} aria-label={`Show ${s.name.toLowerCase()}`} /></div>)}</div>}
+     {organsOpen&&<div className="organ-children">{organSystems.map(s=><div className={`system-row ${state.visible.includes(s.id)?'enabled':''}`} key={s.id}><Button variant="ghost" className="system-name" title={`Show only ${s.name.toLowerCase()}`} onClick={()=>setState(v=>({...v,visible:[s.id],isolate:false,selected:[]}))}><span className="system-dot" style={{background:s.color}}/>{s.name}<span className="system-count">{counts[s.id]}</span></Button>{s.id==='cardiac'&&<a className="organ-detail-link" href="#/organ/heart" title="心臟詳細模式：切面、心腔、瓣膜、乳頭肌">詳細</a>}{s.id==='cardiac'&&<Button variant="ghost" className="organ-detail-link" aria-pressed={!!state.heartOpen} title="預設只顯示心臟外表；打開後顯示瓣膜與乳頭肌" onClick={()=>setState(v=>({...v,heartOpen:!v.heartOpen}))}>{state.heartOpen?'閉合':'打開心臟'}</Button>}<Switch checked={state.visible.includes(s.id)} onCheckedChange={()=>toggle(s.id)} aria-label={`Show ${s.name.toLowerCase()}`} /></div>)}</div>}
     </div>}
    </div>
    <div className="detail-atlas-shortcuts" aria-label="Detail atlases">

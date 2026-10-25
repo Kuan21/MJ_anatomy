@@ -29,7 +29,7 @@ interface Callbacks {
 type AnatomyMesh = T.Mesh<T.BufferGeometry, T.MeshStandardMaterial>;
 /** Correct / wrong feedback colours: deep, opaque and outlined so they read on the light stage and on red muscle alike. */
 export const FEEDBACK = {
-  correct: {fill: '#0E9F6E', edge: '#0A7F57'},
+  correct: {fill: '#5DB89A', edge: '#3E8E74'},
   wrong: {fill: '#D6304A', edge: '#A8243A'},
 };
 const outlineMaterial = (color: string) => new T.ShaderMaterial({
@@ -88,7 +88,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
       material.color.set(isAnswer ? FEEDBACK.correct.fill : isWrong ? FEEDBACK.wrong.fill : keyboardId === structure.id ? '#5aa9e6' : base);
       material.emissive.set(isAnswer ? FEEDBACK.correct.fill : isWrong ? FEEDBACK.wrong.fill : '#000000');
       material.emissiveIntensity = isAnswer || isWrong ? .08 : 0;
-      material.opacity = isAnswer || isWrong ? 1 : isContext ? .2 : state.answered ? .16 : 1;
+      material.opacity = isAnswer || isWrong ? .85 : isContext ? .2 : state.answered ? .16 : 1;
       // Outline shell around the answer and the wrong pick (shares the mesh geometry).
       let shell = mesh.userData.outline as T.Mesh<T.BufferGeometry, T.ShaderMaterial> | undefined;
       if (isAnswer || isWrong) {
@@ -97,12 +97,14 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
         shell.visible = mesh.visible;
       } else if (shell) shell.visible = false;
       // The feedback meshes join the transparent pass (sorted last by renderOrder) so faint context anatomy never washes their colour out.
-      material.transparent = material.opacity < 1 || isAnswer || isWrong;
-      material.depthWrite = material.opacity === 1 && !isAnswer && !isWrong;
+      const transparent = material.opacity < 1 || isAnswer || isWrong, depthWrite = material.opacity === 1 && !isAnswer && !isWrong;
       // Correct/wrong overlays remain visible even behind an outer muscle.
-      material.depthTest = !isAnswer && !isWrong;
+      const depthTest = !isAnswer && !isWrong;
+      // Only a change of render state needs the material revalidated; doing it for every mesh on every update made each tap re-check hundreds of programs.
+      const stateChanged = material.transparent !== transparent || material.depthWrite !== depthWrite || material.depthTest !== depthTest;
+      material.transparent = transparent; material.depthWrite = depthWrite; material.depthTest = depthTest;
       mesh.renderOrder = isAnswer ? 5 : isWrong ? 4 : isContext ? 0 : 1;
-      material.needsUpdate = true;
+      if (stateChanged) material.needsUpdate = true;
     }
     canvas.style.cursor = state.peeling ? 'crosshair' : 'grab';
     dirty = true;
@@ -262,7 +264,8 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
       canvas.removeEventListener('lostpointercapture', cancel);
       canvas.removeEventListener('keydown', keydown); canvas.removeEventListener('webglcontextlost', lostContext);
       for (const mesh of meshes.values()) {mesh.geometry.dispose(); mesh.material.dispose(); (mesh.userData.outline as T.Mesh<T.BufferGeometry, T.ShaderMaterial> | undefined)?.material.dispose();}
-      renderer.dispose(); canvas.remove();
+      // Release the WebGL context right away: phones allow only a handful, and leaving old quiz canvases around makes the next one lose its context.
+      renderer.dispose(); renderer.forceContextLoss?.(); canvas.remove();
     },
   };
 }

@@ -11,14 +11,14 @@
 
 ## 一、結果摘要
 
-- 涵蓋結構名稱（去除左右後）：1528 個
+- 涵蓋結構名稱（去除左右後）：1526 個
 - 採用來源 1（muscle-layers.json）改名：33 個；來源 2（跑考摘要）：14 個；來源 3（其他筆記）：25 個
 - 全站固定修正：「背闊肌」→「闊背肌」
 - 仍缺中文名或含英文：0 個
 
 | 來源 | 結構數 |
 |---|---|
-| 台灣解剖學名詞（程式內建對照表） | 1331 |
+| 台灣解剖學名詞（程式內建對照表） | 1329 |
 | muscle-layers.json | 88 |
 | glossary.json（其他筆記） | 75 |
 | glossary.json（跑考摘要） | 34 |
@@ -37,13 +37,13 @@
 | adductor longus | muscle-layers.json（thigh_medial） | 長收肌 | 內收長肌 |
 | adductor magnus | muscle-layers.json（thigh_medial） | 大收肌 | 內收大肌 |
 | extensor digitorum longus | muscle-layers.json（leg_anterior） | 趾長伸肌 | 伸趾長肌 |
-| extensor hallucis brevis | muscle-layers.json（foot_dorsum） | 拇短伸肌 | 伸拇短肌 |
-| extensor hallucis longus | muscle-layers.json（leg_anterior） | 拇長伸肌 | 伸拇長肌 |
+| extensor hallucis brevis | muscle-layers.json（foot_dorsum） | 拇短伸肌 | 伸拇趾短肌 |
+| extensor hallucis longus | muscle-layers.json（leg_anterior） | 拇長伸肌 | 伸拇趾長肌 |
 | fibularis brevis | muscle-layers.json（leg_lateral） | 腓骨短肌 | 腓短肌 |
 | fibularis longus | muscle-layers.json（leg_lateral） | 腓骨長肌 | 腓長肌 |
 | flexor digitorum brevis | muscle-layers.json（foot_sole） | 趾短屈肌 | 屈趾短肌 |
 | flexor digitorum longus | muscle-layers.json（leg_posterior） | 趾長屈肌 | 屈趾長肌 |
-| flexor hallucis longus | muscle-layers.json（leg_posterior） | 拇長屈肌 | 屈拇長肌 |
+| flexor hallucis longus | muscle-layers.json（leg_posterior） | 拇長屈肌 | 屈拇趾長肌 |
 | tibialis anterior | muscle-layers.json（leg_anterior） | 脛骨前肌 | 脛前肌 |
 | tibialis posterior | muscle-layers.json（leg_posterior） | 脛骨後肌 | 脛後肌 |
 | external intercostal muscle | glossary.json（其他筆記） | 肋間外肌 | 外肋間肌 |
@@ -1036,7 +1036,10 @@
 | 結構 | muscle-layers.json（採用） | glossary.json |
 |---|---|---|
 | extensor digitorum longus | 伸趾長肌 | 伸指長肌 |
+| extensor hallucis brevis | 伸拇趾短肌 | 伸拇短肌 |
+| extensor hallucis longus | 伸拇趾長肌 | 伸拇長肌 |
 | flexor digitorum longus | 屈趾長肌 | 屈指長肌 |
+| flexor hallucis longus | 屈拇趾長肌 | 屈拇長肌 |
 | extensor carpi ulnaris | 尺側伸腕肌 | 伸小指肌 |
 | extensor pollicis brevis | 伸拇短肌 | 外展大拇指長肌 |
 | extensor pollicis longus | 伸拇長肌 | 伸大拇指短肌 |
@@ -1051,9 +1054,6 @@
 | 鼻睫神經 | nasociliary nerve；Communicating branch of nasociliary nerve with ciliary ganglion |
 | 滑車 | Trochlea of superior oblique；trochlear nerve (IV)；nucleus of trochlear nerve |
 | 拇收肌斜頭 | Oblique head of adductor hallucis；Oblique head of adductor pollicis |
-| 伸拇短肌 | extensor hallucis brevis；extensor pollicis brevis |
-| 伸拇長肌 | extensor hallucis longus；extensor pollicis longus |
-| 屈拇長肌 | flexor hallucis longus；flexor pollicis longus |
 | 拇收肌橫頭 | Transverse head of adductor hallucis；Transverse head of adductor pollicis |
 | 中腦導水管 | Cerebral aqueduct；aqueduct of midbrain |
 | 穹窿 | fornix of forebrain；fornix |
@@ -1062,8 +1062,6 @@
 | 眶回 | Orbital gyrus；orbital gyri |
 | 腹腔動脈幹 | Celiac artery；Celiac trunk |
 | 結腸邊緣動脈 | Marginal colic artery；Marginal artery of colon |
-| 枕前溝 | anterior occipital sulcus*；anterior occipital sulcus |
-| 枕下回及溝 | inferior occipital gyrus and sulcus*；inferior occipital gyrus and sulcus |
 | 枕外側回（枕中回） | lateral occipital gyrus (Middle occipital gyrus*)；lateral occipital gyrus (Middle occipital gyrus) |
 | 腋神經 | maxillary nerve；meningeal branch of maxillary nerve；axillary nerve |
 | 正中神經 | communicating branch of median nerve with ulnar nerve；median nerve |
@@ -1077,7 +1075,7 @@
 
 ## 五、全部結構命名一覽
 
-<details><summary>展開 1528 項</summary>
+<details><summary>展開 1526 項</summary>
 
 | 結構 | 使用來源 | 中文名 |
 |---|---|---|
@@ -1167,15 +1165,15 @@
 | adductor minimus | 台灣解剖學名詞（程式內建對照表） | 小收肌 |
 | calcaneal tendon | 台灣解剖學名詞（程式內建對照表） | 跟腱 |
 | extensor digitorum longus | muscle-layers.json（leg_anterior） | 伸趾長肌 |
-| extensor hallucis brevis | muscle-layers.json（foot_dorsum） | 伸拇短肌 |
-| extensor hallucis longus | muscle-layers.json（leg_anterior） | 伸拇長肌 |
+| extensor hallucis brevis | muscle-layers.json（foot_dorsum） | 伸拇趾短肌 |
+| extensor hallucis longus | muscle-layers.json（leg_anterior） | 伸拇趾長肌 |
 | fibularis brevis | muscle-layers.json（leg_lateral） | 腓短肌 |
 | fibularis longus | muscle-layers.json（leg_lateral） | 腓長肌 |
 | fibularis tertius | muscle-layers.json（leg_anterior） | 第三腓骨肌 |
 | flexor accessorius | 台灣解剖學名詞（程式內建對照表） | 足底方肌 |
 | flexor digitorum brevis | muscle-layers.json（foot_sole） | 屈趾短肌 |
 | flexor digitorum longus | muscle-layers.json（leg_posterior） | 屈趾長肌 |
-| flexor hallucis longus | muscle-layers.json（leg_posterior） | 屈拇長肌 |
+| flexor hallucis longus | muscle-layers.json（leg_posterior） | 屈拇趾長肌 |
 | gemellus inferior | glossary.json（跑考摘要） | 下孖肌 |
 | gemellus superior | glossary.json（跑考摘要） | 上孖肌 |
 | gluteus maximus | muscle-layers.json（gluteal） | 臀大肌 |
@@ -1403,7 +1401,7 @@
 | inferior temporal gyrus | 台灣解剖學名詞（程式內建對照表） | 顳下回 |
 | insula | 台灣解剖學名詞（程式內建對照表） | 腦島 |
 | internal capsule | 台灣解剖學名詞（程式內建對照表） | 內囊 |
-| Interventricular foramen | 台灣解剖學名詞（程式內建對照表） | 室間孔 |
+| Interventricular foramen | 台灣解剖學名詞（程式內建對照表） | 室間孔（Monro 孔） |
 | amygdala | 台灣解剖學名詞（程式內建對照表） | 杏仁核 |
 | caudate nucleus | 台灣解剖學名詞（程式內建對照表） | 尾狀核 |
 | Choroid plexus of cerebral hemisphere | 台灣解剖學名詞（程式內建對照表） | 大腦半球脈絡叢 |
@@ -1453,10 +1451,10 @@
 | Tentorium cerebelli | 台灣解剖學名詞（程式內建對照表） | 小腦幕 |
 | Celiac artery | 台灣解剖學名詞（程式內建對照表） | 腹腔動脈幹 |
 | Hepatic portal vein | 台灣解剖學名詞（程式內建對照表） | 肝門靜脈 |
-| Hepatovenous segment IX | 台灣解剖學名詞（程式內建對照表） | 肝靜脈段 IX |
+| Hepatovenous segment IX | 台灣解剖學名詞（程式內建對照表） | 肝第 IX 段 |
 | Tributary of middle hepatic vein | 台灣解剖學名詞（程式內建對照表） | 中肝靜脈屬支 |
 | lobe branch of hepatic artery | 台灣解剖學名詞（程式內建對照表） | 肝動脈葉支 |
-| Caudate lobe tributary of hepatic biliary tree | 台灣解剖學名詞（程式內建對照表） | 肝內膽管樹尾狀葉葉屬支 |
+| Caudate lobe tributary of hepatic biliary tree | 台灣解剖學名詞（程式內建對照表） | 肝內膽管樹尾狀葉屬支 |
 | portal vein | 台灣解剖學名詞（程式內建對照表） | 門靜脈 |
 | Pancreas | 台灣解剖學名詞（程式內建對照表） | 胰臟 |
 | Pancreatic duct | 台灣解剖學名詞（程式內建對照表） | 胰管 |
@@ -1613,7 +1611,7 @@
 | Medial proper palmar digital artery of middle finger | 台灣解剖學名詞（程式內建對照表） | 中指內側掌側固有指動脈 |
 | Medial proper palmar digital artery of ring finger | 台灣解剖學名詞（程式內建對照表） | 無名指內側掌側固有指動脈 |
 | superior ulnar collateral artery | 台灣解剖學名詞（程式內建對照表） | 上尺側副動脈 |
-| Hepatovenous segment VII | 台灣解剖學名詞（程式內建對照表） | 肝靜脈段 VII |
+| Hepatovenous segment VII | 台灣解剖學名詞（程式內建對照表） | 肝第 VII 段 |
 | Middle hepatic vein | 台灣解剖學名詞（程式內建對照表） | 中肝靜脈 |
 | hepatic vein | 台灣解剖學名詞（程式內建對照表） | 肝靜脈 |
 | anterior cusp of pulmonary valve | 台灣解剖學名詞（程式內建對照表） | 肺動脈瓣前尖 |
@@ -1747,12 +1745,12 @@
 | Pubic hair | 台灣解剖學名詞（程式內建對照表） | 陰毛 |
 | Caudate lobe of liver | 台灣解剖學名詞（程式內建對照表） | 肝尾狀葉 |
 | Gallbladder | 台灣解剖學名詞（程式內建對照表） | 膽囊 |
-| Hepatovenous segment II | 台灣解剖學名詞（程式內建對照表） | 肝靜脈段 II |
-| Hepatovenous segment III | 台灣解剖學名詞（程式內建對照表） | 肝靜脈段 III |
-| Hepatovenous segment IV | 台灣解剖學名詞（程式內建對照表） | 肝靜脈段 IV |
-| Hepatovenous segment V | 台灣解剖學名詞（程式內建對照表） | 肝靜脈段 V |
-| Hepatovenous segment VI | 台灣解剖學名詞（程式內建對照表） | 肝靜脈段 VI |
-| Hepatovenous segment VIII | 台灣解剖學名詞（程式內建對照表） | 肝靜脈段 VIII |
+| Hepatovenous segment II | 台灣解剖學名詞（程式內建對照表） | 肝第 II 段 |
+| Hepatovenous segment III | 台灣解剖學名詞（程式內建對照表） | 肝第 III 段 |
+| Hepatovenous segment IV | 台灣解剖學名詞（程式內建對照表） | 肝第 IV 段 |
+| Hepatovenous segment V | 台灣解剖學名詞（程式內建對照表） | 肝第 V 段 |
+| Hepatovenous segment VI | 台灣解剖學名詞（程式內建對照表） | 肝第 VI 段 |
+| Hepatovenous segment VIII | 台灣解剖學名詞（程式內建對照表） | 肝第 VIII 段 |
 | posterior basal segmental artery | 台灣解剖學名詞（程式內建對照表） | 後底段動脈 |
 | lateral basal segmental artery | 台灣解剖學名詞（程式內建對照表） | 外側底段動脈 |
 | anterior basal segmental artery | 台灣解剖學名詞（程式內建對照表） | 前底段動脈 |
@@ -2481,7 +2479,6 @@
 | cingulate sulcus (Marginal part) | 台灣解剖學名詞（程式內建對照表） | 扣帶溝（邊緣部） |
 | circular sulcus of insula | 台灣解剖學名詞（程式內建對照表） | 腦島環溝 |
 | collateral sulcus | 台灣解剖學名詞（程式內建對照表） | 側副溝 |
-| anterior occipital sulcus | 台灣解剖學名詞（程式內建對照表） | 枕前溝 |
 | opercular part of inferior frontal gyrus | 台灣解剖學名詞（程式內建對照表） | 額下回蓋部 |
 | orbital part of inferior frontal gyrus | 台灣解剖學名詞（程式內建對照表） | 額下回眶部 |
 | triangular part of inferior frontal gyrus | 台灣解剖學名詞（程式內建對照表） | 額下回三角部 |
@@ -2502,7 +2499,6 @@
 | postcentral sulcus | 台灣解剖學名詞（程式內建對照表） | 中央後溝 |
 | precuneus | 台灣解剖學名詞（程式內建對照表） | 楔前葉 |
 | intraparietal sulcus | 台灣解剖學名詞（程式內建對照表） | 頂內溝 |
-| inferior occipital gyrus and sulcus | 台灣解剖學名詞（程式內建對照表） | 枕下回及溝 |
 | lingual gyrus | 台灣解剖學名詞（程式內建對照表） | 舌回 |
 | lateral occipital gyrus (Middle occipital gyrus) | 台灣解剖學名詞（程式內建對照表） | 枕外側回（枕中回） |
 | calcarine sulcus | 台灣解剖學名詞（程式內建對照表） | 距狀溝 |

@@ -16,6 +16,7 @@ import {framingDistance} from './camera-framing';
 import {SYSTEMS,type Atlas,type SceneState} from './anatomy';
 import {matchesMuscleLayer} from './mj-muscle-layers';
 import {matchesFacialMuscleLayer} from './mj-facial-layers';
+import {matchesHeartLayer} from './mj-heart-layers';
 import {matchesDepth} from './mj-depth';
 import {anatomicalRegion,anatomicalSide,isMotionQuarantined} from './mj-part-regions';
 import {isLinearBinding,lbsSkin,linearSkin,makeSoftRig,bindTissue,makePalette,deformTissue,deformPoint,followDeltoidSurface,setDeltoidFollowers,registerNerveRest,resolveNeurovascularProfile,tissueBindings,nerveBindings,type SkinBinding,type Profile,type DeltoidFollowers} from './biomechanics-v2/soft-tissue';
@@ -29,8 +30,8 @@ import bodyNerveData from './biomechanics-v2/body-nerve-bindings.json';
 import {nerveChunkScene,type NerveCatalogue} from './nerve-stream';
 const bodyNerveBindings=bodyNerveData as Record<string,BodyRegion>;
 export interface AnatomyLoadStatus {loaded:number;total:number;systems:Record<string,number>;failed:string[];busy:boolean;interactive:boolean;supplementaryPending:number}
-// Selection colours: deep green (#0E9F6E) with a dark outline; hover is a lighter mint of the same hue.
-const SELECT_COLOR=0x0E9F6E,HOVER_COLOR=0x7DE3B8;
+// Selection colours: soft mint (#5DB89A) at 85 % strength; hover is a lighter tint of the same hue.
+const SELECT_COLOR=0x5DB89A,HOVER_COLOR=0xA7DCCB;
 interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;onSelectNerve?:(name:string)=>void;onProgress:(n:number)=>void;onLoadStatus?:(status:AnatomyLoadStatus)=>void;retryNonce?:number;onError:(s:string)=>void;onJointDrag?:(side:'left'|'right',joint:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion',delta:number)=>void;region?:'whole-body'|'shoulder'|'arm'|'forearm'|'hand';focusSide?:'both'|'left'|'right';motionActive?:boolean;jointMotionEnabled?:boolean;selectedExternalNerve?:string|null;bodyArea?:'whole'|'upper'|'lower'|'head'|'organs'}
 export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgress,onLoadStatus,retryNonce=0,onError,onJointDrag,region='whole-body',focusSide='both',motionActive=false,jointMotionEnabled=false,selectedExternalNerve=null,bodyArea='whole'}:Props){
  const retryLoad=useRef<(()=>void)|null>(null);
@@ -351,9 +352,9 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n'+GPU_SKIN_POSITION+'\nvec2 stateUv = vec2((partIndex + 0.5) / stateWidth, 0.5); vec4 state = texture2D(partState, stateUv); vec3 motion = texture2D(motionState,stateUv).xyz; vec4 rotation = normalize(texture2D(rotationState,stateUv)); vec3 anchorMotion = texture2D(anchorMotionState,stateUv).xyz; vec4 anchorRotation = normalize(texture2D(anchorRotationState,stateUv)); vec3 anchorPosition=qrot(anchorRotation,transformed)+anchorMotion; vec3 movingPosition=qrot(rotation,transformed)+motion; vec3 softDelta=movingPosition-anchorPosition; float softLen=length(softDelta); if(softLen>maxSoftDisplacement) softDelta*=maxSoftDisplacement/softLen; transformed=anchorPosition+softDelta*motionWeight+state.xyz; partVisible = state.w; partSelected = texture2D(selectionState, stateUv).r; partHovered = texture2D(selectionState, stateUv).g;');
     shader.fragmentShader='varying float partVisible; varying float partSelected; varying float partHovered;\n'+shader.fragmentShader;
     shader.fragmentShader=shader.fragmentShader.replace('#include <clipping_planes_fragment>','#include <clipping_planes_fragment>\nif (partVisible < 0.5) discard;');
-    shader.fragmentShader=shader.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\ndiffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.055, 0.624, 0.431), partSelected * 0.6);');
-    // Selection: opaque deep green (#0E9F6E), no outline; hover: lighter mint of the same hue. Applied after lighting so it reads on white and on red muscle.
-    shader.fragmentShader=shader.fragmentShader.replace('#include <dithering_fragment>','#include <dithering_fragment>\n{ if (partSelected > 0.5) { gl_FragColor.rgb = mix(gl_FragColor.rgb, vec3(0.055, 0.624, 0.431), 0.92); gl_FragColor.a = 1.0; } else if (partHovered > 0.5) { gl_FragColor.rgb = mix(gl_FragColor.rgb, vec3(0.49, 0.89, 0.72), 0.8); } }');
+    shader.fragmentShader=shader.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\ndiffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.365, 0.722, 0.604), partSelected * 0.6);');
+    // Selection: soft mint (#5DB89A) at 0.85, no outline; hover: lighter tint of the same hue. Applied after lighting so it reads on white and on red muscle.
+    shader.fragmentShader=shader.fragmentShader.replace('#include <dithering_fragment>','#include <dithering_fragment>\n{ if (partSelected > 0.5) { gl_FragColor.rgb = mix(gl_FragColor.rgb, vec3(0.365, 0.722, 0.604), 0.85); gl_FragColor.a = 1.0; } else if (partHovered > 0.5) { gl_FragColor.rgb = mix(gl_FragColor.rgb, vec3(0.655, 0.863, 0.796), 0.7); } }');
     // A selected part is pulled slightly towards the camera (the shader equivalent of polygonOffset) so it shows whole where it overlaps neighbouring meshes.
     shader.vertexShader=shader.vertexShader.replace('#include <project_vertex>','#include <project_vertex>\nif (partSelected > 0.5) gl_Position.z -= 0.002 * gl_Position.w;');
 
@@ -847,9 +848,11 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    if(primaryAtlasReady&&s.visible.includes('nervous')&&(ctx.bodyArea==='head'||s.bodyMotion?.region==='head'||s.bodyMotion?.region==='spine'||!s.visible.includes('skeletal')||(s.hiddenParts?.length??0)>0))ensureBrain();
    if(nerveMeshes.length){
     const nervesOn=s.visible.includes('nervous')&&!s.isolate;
-    nerveRoot.visible=nervesOn;
+    // Schematic veins (suboccipital plexus) live in the nerve mesh group but belong to the Veins system.
+    const veinsOn=s.visible.includes('venous')&&!s.isolate;
+    nerveRoot.visible=nervesOn||veinsOn;
     nerveMeshes.forEach(o=>{
-     if(!nervesOn){o.visible=false;return;}
+     if(o.userData.mjVein?!veinsOn:!nervesOn){o.visible=false;return;}
      const name=(o.userData.mjExactName as string|undefined)||o.name,side=nerveSide(name),boundRegion=o.userData.bodyRegion as BodyRegion|undefined;
      const sideOk=ctx.focusSide==='both'||side==='both'||side===ctx.focusSide;
      if(s.bodyMotion?.region==='spine')o.visible=sideOk;
@@ -879,7 +882,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const intracranial=/brain|cerebr|cerebell|\bgyrus\b|lobule|\blobe\b|hemisphere|white matter|gray matter|cortex|insula|midbrain|pons|medulla oblongata|thalam|hypothalam|fornix|ventricle|choroid plexus|corpus callosum|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|commissure|colliculus|geniculate|habenula|mammillary|stria terminalis|stria medullaris|septum of telencephalon|tuber cinereum|interpeduncular fossa|lamina terminalis|optic chiasm|optic tract|peduncle of midbrain|cerebral aqueduct|pineal|pituitary|cerebral artery|cerebellar artery|basilar artery|callosomarginal artery|pericallosal artery|pontine artery|thalamogeniculate artery|thalamoperforating artery/i;
     const baseVisible=(p:(typeof atlas.parts)[number])=>{
      if(hidden.has(p.id))return false;
-     if(!matchesDepth(p,s.depthFilter)||!matchesMuscleLayer(p,s.muscleRegion,s.muscleLayer)||!matchesFacialMuscleLayer(p,s.faceMuscleLayer))return false;
+     if(!matchesDepth(p,s.depthFilter)||!matchesMuscleLayer(p,s.muscleRegion,s.muscleLayer)||!matchesFacialMuscleLayer(p,s.faceMuscleLayer)||!matchesHeartLayer(p,s.heartOpen))return false;
      if(s.isolate)return false;
      return focus?focus.has(p.id)&&visible.has(p.system):visible.has(p.system);
     };

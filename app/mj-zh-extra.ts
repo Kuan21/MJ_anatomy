@@ -42,7 +42,7 @@ const EXACT:Record<string,string>={
  'medulla oblongata':'延腦','midbrain':'中腦','pons':'橋腦','peduncle of midbrain':'中腦腳','middle frontal gyrus':'額中回','middle temporal gyrus':'顳中回','occipital lobe':'枕葉','optic chiasm':'視交叉','optic tract':'視徑','orbital gyrus':'眶回',
  'parahippocampal gyrus':'海馬旁回','postcentral gyrus':'中央後回','precentral gyrus':'中央前回','posterior commissure':'後連合','putamen':'殼核','septum of telencephalon':'端腦中隔','stria medullaris of thalamus':'視丘髓紋','stria terminalis':'終紋',
  'superior colliculus':'上丘','superior frontal gyrus':'額上回','superior parietal lobule':'頂上小葉','supramarginal gyrus':'緣上回','tentorium cerebelli':'小腦幕','thalamus':'視丘','tuber cinereum':'灰結節','white matter of cerebral hemisphere':'大腦半球白質',
- 'interventricular foramen':'室間孔','cavity of atrium':'心房腔','cavity of ventricle':'心室腔','wall of atrium':'心房壁','wall of ventricle':'心室壁',
+ 'interventricular foramen':'室間孔（Monro 孔）','cavity of atrium':'心房腔','cavity of ventricle':'心室腔','wall of atrium':'心房壁','wall of ventricle':'心室壁',
  // heart valves, vessels with fixed names
  'anterior cusp of aortic valve':'主動脈瓣前尖','posterior cusp of aortic valve':'主動脈瓣後尖','anterior cusp of pulmonary valve':'肺動脈瓣前尖','posterior cusp of pulmonary valve':'肺動脈瓣後尖',
  'anterior leaflet of mitral valve':'二尖瓣前葉','posterior leaflet of mitral valve':'二尖瓣後葉','anterior leaflet of tricuspid valve':'三尖瓣前葉','posterior leaflet of tricuspid valve':'三尖瓣後葉','septal leaflet of tricuspid valve':'三尖瓣隔葉',
@@ -126,10 +126,10 @@ export function zhExtra(n:string):ZhName|undefined{
  const disc=/^intervertebral disk of (first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth) (cervical|thoracic|lumbar) vertebra$/.exec(key);
  if(disc)return{zh:`${ORD[disc[1]]}${REGION[disc[2]]}椎椎間盤`,check:'椎間盤命名：以其所屬椎體命名（臺灣另有「第N與N+1椎間盤」寫法）'};
  const hv=/^hepatovenous segment ([ivx]+)$/.exec(key);
- if(hv)return{zh:`肝靜脈段 ${hv[1].toUpperCase()}`,check:'肝段命名（Couinaud 分段）'};
+ if(hv)return{zh:`肝第 ${hv[1].toUpperCase()} 段`,check:'肝段命名（Couinaud 分段；來源名 hepatovenous segment）'};
  if(VESSEL[key])return{zh:VESSEL[key],check:'血管名稱'};
  const tree=/^(.*) tributary of hepatic biliary tree$/.exec(key);
- if(tree){const a=mods(tree[1]);if(a!==undefined)return{zh:'肝內膽管樹'+a+'屬支',check:'組合詞（肝段膽管）'};}
+ if(tree){const a=mods(tree[1].replace(/^caudate lobe$/,'caudate'));if(a!==undefined)return{zh:'肝內膽管樹'+a+'屬支',check:'組合詞（肝段膽管）'};}
  const composed=compose(key);
  return composed?{zh:composed,check:'組合詞（臟器段血管）'}:zhExtra2(key);
 }

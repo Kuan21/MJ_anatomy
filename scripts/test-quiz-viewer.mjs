@@ -103,7 +103,7 @@ assert.equal(picks.length, beforeGesture, 'Orbit and pinch do not submit an answ
 click([1, 1]); assert.equal(missed, 1); assert.equal(picks.length, beforeGesture);
 viewer.update({...state, hidden: [other], peeling: true}); frame(); assert.ok(meshes(other).every(m => !m.visible));
 viewer.update({...state, answered: true, pickedId: other}); frame();
-assert.ok(meshes(state.target.id).every(m => m.visible && m.material.color.getHexString() === '0e9f6e' && !m.material.depthTest));
+assert.ok(meshes(state.target.id).every(m => m.visible && m.material.color.getHexString() === '5db89a' && !m.material.depthTest));
 assert.ok(meshes(other).every(m => m.visible && m.material.color.getHexString() === 'd6304a'));
 click(correctPoint); assert.equal(picks.length, beforeGesture, 'Answered question cannot accept another selection');
 
@@ -119,7 +119,7 @@ for (const [name, system] of [['Right gluteus maximus', 'muscular'], ['Right sci
   canvas.listeners.get('keydown')({key: 'Enter', preventDefault() {}});
   assert.equal(picks.at(-1), state.target.id, 'Anonymous keyboard selection reaches every structure');
   viewer.update({...state, answered: true, pickedId: state.target.id}); frame();
-  assert.ok(meshes(state.target.id).every(m => m.material.color.getHexString() === '0e9f6e'));
+  assert.ok(meshes(state.target.id).every(m => m.material.color.getHexString() === '5db89a'));
 }
 const completedRequests = requests.length;
 viewer.update(makeState('cached', 'Right patella', 'knee')); await settle();

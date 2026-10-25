@@ -23,7 +23,7 @@
 .quiz-color-key{display:flex;gap:22px;font-size:12px;margin-bottom:30px;color:#536e6a}
 .quiz-color-key>span{display:flex;align-items:center;gap:7px}
 .correct-dot,.wrong-dot{width:8px;height:8px;display:inline-block;border-radius:50%;flex:none}
-.correct-dot{background:#0e9f6e}.wrong-dot{background:#d6304a}
+.correct-dot{background:#5db89a}.wrong-dot{background:#d6304a}
 .quiz-intro .quiz-scope{font-size:12px;line-height:1.8;max-width:330px;margin-bottom:12px}
 .quiz-source{font-size:11px;color:var(--quiz-muted);text-decoration:underline;text-underline-offset:4px}
 .quiz-setup-card{background:#ffffffee;border:1px solid #18253618;border-radius:22px;padding:28px;box-shadow:0 20px 60px #1825361a}

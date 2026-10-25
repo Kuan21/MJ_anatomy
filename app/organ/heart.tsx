@@ -27,7 +27,10 @@ function HeartScene({catalogue, view, onProgress, onReady, onError, onPick, onHo
   return <div className="organ-canvas" ref={host}/>;
 }
 
-const defaults: HeartViewState = {hiddenGroups: [], selectedId: null, section: {axis: 'coronal', offset: .5, flip: true}, ghostChambers: false, command: {id: 0, view: 'front'}};
+// Closed heart by default: the outside (chambers as the epicardial surface, coronary vessels, great vessels). Valves, chordae and papillary muscles appear when the heart is opened.
+const INTERNAL = ['papillary', 'valves'];
+const defaults: HeartViewState = {hiddenGroups: INTERNAL, selectedId: null, section: {axis: 'none', offset: .5, flip: true}, ghostChambers: false, command: {id: 0, view: 'front'}};
+const OPENED: Partial<HeartViewState> = {hiddenGroups: [], section: {axis: 'coronal', offset: .5, flip: true}, ghostChambers: true};
 const AXES: SectionAxis[] = ['none', 'coronal', 'sagittal', 'transverse'];
 /** Each cut removes the half facing the camera that looks into it: coronal from the front, sagittal from the body's right, transverse from above. */
 const CUT: Record<Exclude<SectionAxis, 'none'>, {flip: boolean; view: HeartView}> = {coronal: {flip: true, view: 'front'}, sagittal: {flip: false, view: 'right'}, transverse: {flip: true, view: 'top'}};
@@ -84,6 +87,14 @@ export default function HeartDetail() {
             <p className="organ-info-en" lang="en">{selected.description.en}</p>
             <button className="organ-clear" onClick={() => patch({selectedId: null})}>取消選取</button>
           </> : <p className="organ-info-empty">點選模型或清單中的構造，會顯示名稱與說明。</p>}
+        </section>
+        <section className="organ-block">
+          <h2>心臟外觀與內部<small>Outside / inside</small></h2>
+          <div className="organ-segmented" role="group" aria-label="外觀或內部">
+            <button aria-pressed={view.hiddenGroups.length > 0 || view.section.axis === 'none'} onClick={() => patch({...defaults, selectedId: view.selectedId})}>閉合（外表）</button>
+            <button aria-pressed={view.hiddenGroups.length === 0 && view.section.axis !== 'none'} onClick={() => patch(OPENED)}>打開心臟（內部）</button>
+          </div>
+          <small>預設只顯示外表；打開後顯示瓣膜、腱索與乳頭肌，也可用下方切面與各組構造開關逐層查看。</small>
         </section>
         <section className="organ-block">
           <h2>切面<small>Section</small></h2>

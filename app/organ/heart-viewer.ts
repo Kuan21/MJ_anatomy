@@ -13,7 +13,7 @@ interface Callbacks {
   hover: (id: string | null) => void;
 }
 /** Selection colours shared with the atlas: deep green, outlined; hover is a lighter mint of the same hue. */
-export const HEART_SELECT = {fill: '#0E9F6E', edge: '#064E3B', hover: '#7DE3B8'};
+export const HEART_SELECT = {fill: '#5DB89A', edge: '#3E8E74', hover: '#A7DCCB'};
 const GROUP_COLOR: Record<string, string> = {
   chambers: '#d98a85', papillary: '#c97a5a', valves: '#f0dfa3', coronary: '#b0313f', veins: '#4f86bf', vessels: '#c9a8a0',
 };
@@ -81,7 +81,9 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
       m.color.set(selected ? HEART_SELECT.fill : hovered ? HEART_SELECT.hover : COLOR_BY_PART(id, part.group, part.system, part.name));
       m.emissive.set(selected ? HEART_SELECT.fill : '#000000'); m.emissiveIntensity = selected ? .1 : 0;
       const ghost = state.ghostChambers && part.group === 'chambers' && !selected;
-      m.opacity = ghost ? .3 : 1; m.transparent = ghost; m.depthWrite = !ghost;
+      m.opacity = ghost ? .3 : selected ? .85 : 1; m.transparent = ghost || selected; m.depthWrite = !ghost && !selected;
+      // Selected piece is drawn whole over the pieces it overlaps (polygonOffset), like the main atlas.
+      m.polygonOffset = selected; m.polygonOffsetFactor = -4; m.polygonOffsetUnits = -4;
       m.clippingPlanes = planes; m.needsUpdate = true;
       mesh.renderOrder = ghost ? 2 : selected ? 3 : 1;
       const shell = shells.get(id);
@@ -89,7 +91,7 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
         let s2 = shell;
         if (!s2) {
           const material = new T.MeshBasicMaterial({color: HEART_SELECT.edge, side: T.BackSide, depthWrite: false});
-          material.onBeforeCompile = shader => {shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>\ntransformed += normalize(normal) * 0.0009;');};
+          material.onBeforeCompile = shader => {shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>\ntransformed += normalize(normal) * 0.0003;');};
           s2 = new T.Mesh(mesh.geometry, material); s2.renderOrder = 0; mesh.add(s2); shells.set(id, s2);
         }
         (s2.material as T.MeshBasicMaterial).clippingPlanes = planes; s2.visible = mesh.visible;
