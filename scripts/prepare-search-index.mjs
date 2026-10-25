@@ -10,7 +10,7 @@ const lc = s => s[0].toLowerCase() + s.slice(1);
 const entries = [];
 const nerves = JSON.parse(read('nerve-stream.json'));
 for (const c of nerves.chunks) for (const m of c.meshes) {
-  entries.push({n: side(m.name) + lc(clean(m.name)), s: 'nervous', k: 'nerve', raw: m.name});
+  entries.push({n: side(m.name) + lc(clean(m.name)), s: /vein|venous/i.test(m.name) ? 'venous' : 'nervous', k: 'nerve', raw: m.name});
 }
 for (const n of glb('joints.glb').nodes) if (n.name) entries.push({n: side(n.name) + lc(clean(n.name)), s: 'connective', k: 'joint'});
 for (const n of glb('brain.glb').nodes) if (n.extras?.bx_label) entries.push({n: (n.extras.bx_side === 'left' ? 'Left ' : n.extras.bx_side === 'right' ? 'Right ' : '') + lc(n.extras.bx_label), s: 'nervous', k: 'brain'});

@@ -4,6 +4,8 @@ import {createRequire} from 'node:module';
 import {createHash} from 'node:crypto';
 import {gzipSync} from 'node:zlib';
 import {Matrix4,Quaternion,Vector3} from 'three';
+import {fileURLToPath} from 'node:url';
+import {buildSchematics} from './lib/nerve-schematics.mjs';
 const root=new URL('../',import.meta.url),out=new URL('public/models/stream/',root);
 fs.mkdirSync(out,{recursive:true});fs.mkdirSync(new URL('.sites-runtime/',root),{recursive:true});
 fs.copyFileSync(new URL('public/draco/draco_wasm_wrapper.js',root),new URL('.sites-runtime/nerve-draco.cjs',root));
@@ -35,6 +37,13 @@ for(const [i,node] of gltf.nodes.entries()){
   buffers.push(Buffer.from(positions.buffer),Buffer.from(indices.buffer));size+=positions.byteLength+indices.byteLength;total++;
   for(const object of [face,values,mesh,decoder,buffer])draco.destroy(object);
  }
+}
+// Schematic tubes for the suboccipital / posterior cervical nerves and veins that neither BodyParts3D nor Z-Anatomy contains.
+flush();
+for(const t of buildSchematics(fileURLToPath(root))){
+ if(size+t.positions.byteLength+t.indices.byteLength>384*1024)flush();
+ records.push({name:t.name,ancestry:'Schematic model',positions:size,vertexCount:t.positions.length/3,indices:size+t.positions.byteLength,indexCount:t.indices.length,schematic:true});
+ buffers.push(Buffer.from(t.positions.buffer),Buffer.from(t.indices.buffer));size+=t.positions.byteLength+t.indices.byteLength;total++;
 }
 flush();
 fs.writeFileSync(new URL('public/models/nerve-stream.json',root),JSON.stringify({source:'nervous.glb',sourceSha256:createHash('sha256').update(bytes).digest('hex'),meshCount:total,chunks}));

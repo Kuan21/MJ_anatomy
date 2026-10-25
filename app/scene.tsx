@@ -156,7 +156,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     geometry.boundingSphere=new T.Sphere(new T.Vector3(0,.9,0),2.5);const position=geometry.getAttribute('position');if(!position)return;const material=new T.MeshStandardMaterial({color:spinalCordLike?0xe8d9b8:0xf1cb4f,metalness:0,roughness:.42,emissive:spinalCordLike?0x493f2d:0x6b5100,emissiveIntensity:spinalCordLike?.10:.28,depthTest:true,depthWrite:true,transparent:false,opacity:1});geometry.computeBoundingBox();const nerveCenter=geometry.boundingBox?.getCenter(new T.Vector3())??new T.Vector3();
     const binding=nerveBindings[exactName];
     const mesh=new T.Mesh(geometry,material);mesh.name=exactName||fullName;mesh.frustumCulled=false;mesh.renderOrder=0;
-    mesh.userData.mjNerve=true;mesh.userData.mjExactName=exactName;mesh.userData.mjSide=binding?.side??nerveSide(exactName);
+    mesh.userData.mjNerve=true;mesh.userData.mjExactName=exactName;mesh.userData.mjVein=/vein|venous/i.test(exactName);mesh.userData.mjSide=binding?.side??nerveSide(exactName);
     if(binding&&softRigs[binding.side]){registerNerveRest(softRigs[binding.side]!,position.array as Float32Array);position.needsUpdate=true;geometry.computeVertexNormals();geometry.computeBoundingBox();}
     else geometry.computeVertexNormals();// once, and only for meshes that survived the filters above
     mesh.userData.basePositions=new Float32Array(position.array as ArrayLike<number>);
@@ -863,7 +863,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      else o.visible=sideOk&&nerveMatchesRegion(name,ctx.region,false);
      const isSelectedNerve=!!selectedNerve.current&&name===selectedNerve.current;
      const isHoverNerve=!isSelectedNerve&&hoverNerve===name;
-     const targetColor=isSelectedNerve?SELECT_COLOR:isHoverNerve?HOVER_COLOR:0xf1cb4f,targetEmissive=isSelectedNerve?SELECT_COLOR:isHoverNerve?HOVER_COLOR:0x6b5100,targetIntensity=isSelectedNerve?.4:isHoverNerve?.3:.28;
+     const isVein=!!o.userData.mjVein,targetColor=isSelectedNerve?SELECT_COLOR:isHoverNerve?HOVER_COLOR:isVein?0x3f7bd0:0xf1cb4f,targetEmissive=isSelectedNerve?SELECT_COLOR:isHoverNerve?HOVER_COLOR:isVein?0x0f2c5c:0x6b5100,targetIntensity=isSelectedNerve?.4:isHoverNerve?.3:.28;
      {const nm=(o as T.Mesh).material as T.MeshStandardMaterial,lift=isSelectedNerve;if(nm.polygonOffset!==lift){nm.polygonOffset=lift;nm.polygonOffsetFactor=-4;nm.polygonOffsetUnits=-4;nm.needsUpdate=true;}}
      if(o.material.color.getHex()!==targetColor||o.material.emissive.getHex()!==targetEmissive||o.material.emissiveIntensity!==targetIntensity||!o.material.depthTest||o.material.opacity!==1){
       o.material.color.setHex(targetColor);o.material.emissive.setHex(targetEmissive);o.material.emissiveIntensity=targetIntensity;o.material.depthTest=true;o.material.depthWrite=true;o.material.transparent=false;o.material.opacity=1;o.material.needsUpdate=true;

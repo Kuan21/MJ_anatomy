@@ -51,6 +51,20 @@ const nerve=(chinese:string,rootsEn:string,rootsZh:string,courseEn:string,course
  ],source:CMU_SOURCE
 });
 
+
+const SCHEMATIC_NOTE_ZH='示意模型：公開人體圖譜（BodyParts3D、Z-Anatomy）均無此構造的三維模型，圖譜中的管狀形態是沿教科書走行以簡化管狀模型繪製，粗細、彎曲與分支僅供學習方位，並非實際解剖形態。';
+const SCHEMATIC_NOTE_EN='Schematic model: neither BodyParts3D nor Z-Anatomy contains a 3D model of this structure. The tube follows the textbook course for orientation only; calibre, curvature and branching are not anatomical.';
+const SCHEMATIC_SOURCE='Schematic tube model built for this atlas along the standard textbook course, placed on landmarks measured from the BodyParts3D atlas meshes (no Z-Anatomy or BodyParts3D geometry exists for this structure)';
+const schematic=(chinese:string,vein:boolean,rootsEn:string,rootsZh:string,courseEn:string,courseZh:string,supplyEn:string,supplyZh:string):ProfileBody=>({
+ chinese,category:vein?'Vein｜靜脈（示意模型）':'Nerve｜神經（示意模型）',
+ summaryEn:SCHEMATIC_NOTE_EN,summaryZh:SCHEMATIC_NOTE_ZH,
+ facts:[
+  {labelEn:vein?'Drains to':'Roots / origin',labelZh:vein?'引流至':'神經根／來源',valueEn:rootsEn,valueZh:rootsZh},
+  {labelEn:'Course / relation',labelZh:'走行／關係',valueEn:courseEn,valueZh:courseZh},
+  {labelEn:vein?'Region drained':'Supply',labelZh:vein?'引流範圍':'支配範圍',valueEn:supplyEn,valueZh:supplyZh}
+ ],source:SCHEMATIC_SOURCE
+});
+
 const bone=(chinese:string,typeEn:string,typeZh:string,roleEn:string,roleZh:string,landmarksEn:string,landmarksZh:string):ProfileBody=>({
  chinese,category:'Bone｜骨骼',
  summaryEn:'A named skeletal structure represented in the 3D atlas.',
@@ -115,6 +129,12 @@ const detailed:Record<string,ProfileBody>={
  'axillary nerve':nerve('腋神經','Posterior cord, mainly C5–C6','後束，主要C5–C6','Passes through quadrangular space with posterior circumflex humeral artery and winds around surgical neck of humerus','與肱骨後旋動脈通過四邊孔，繞行肱骨外科頸','Motor to deltoid and teres minor; sensory over superolateral arm','運動支配三角肌與小圓肌；感覺支配上臂外上側'),
  'musculocutaneous nerve':nerve('肌皮神經','Lateral cord, C5–C7','外側束，C5–C7','Pierces coracobrachialis, then travels between biceps and brachialis; continues as lateral antebrachial cutaneous nerve','穿過喙肱肌，在肱二頭肌與肱肌之間下行，續為外側前臂皮神經','Motor to anterior arm compartment; sensory to lateral forearm','運動支配上臂前群；感覺支配前臂外側'),
  'radial nerve':nerve('橈神經','Posterior cord, C5–T1','後束，C5–T1','Runs with profunda brachii in radial groove, then anterior to lateral epicondyle before dividing','與肱深動脈沿橈神經溝走行，至外上髁前方後分支','Motor to posterior arm/forearm extensors; sensory to posterior limb and dorsolateral hand','運動支配上臂及前臂後群伸肌；感覺支配後側肢體與手背橈側'),
+ 'suboccipital nerve':schematic('枕下神經',false,'Dorsal ramus of C1','第一頸神經（C1）後支','Emerges between the occipital bone and the posterior arch of the atlas, above the vertebral artery, into the suboccipital triangle','在枕骨與寰椎後弓之間、椎動脈上方穿出，進入枕下三角','Rectus capitis posterior major and minor, obliquus capitis superior and inferior, semispinalis capitis (motor)','運動支配頭後大直肌、頭後小直肌、頭上斜肌、頭下斜肌與頭半棘肌'),
+ 'greater occipital nerve':schematic('枕大神經',false,'Medial branch of the dorsal ramus of C2','第二頸神經（C2）後支內側支','Emerges below obliquus capitis inferior, ascends across it, pierces semispinalis capitis and trapezius near the superior nuchal line and runs up the scalp','自頭下斜肌下緣穿出，斜向上越過該肌，在上項線附近穿過頭半棘肌與斜方肌，沿頭皮上行','Skin of the posterior scalp up to the vertex (sensory)','感覺支配後頭皮，上達頭頂'),
+ 'third occipital nerve':schematic('第三枕神經',false,'Medial branch of the dorsal ramus of C3','第三頸神經（C3）後支內側支','Crosses the C2–C3 zygapophyseal joint, runs medially deep to semispinalis capitis and pierces the muscle and trapezius close to the midline','越過 C2–C3 關節突關節，在頭半棘肌深面向內側行，於近正中線處穿過頭半棘肌與斜方肌','Skin of the suboccipital midline; C2–C3 zygapophyseal joint (sensory)','感覺支配枕下正中皮膚及 C2–C3 關節突關節'),
+ 'lesser occipital nerve':schematic('枕小神經',false,'Ventral rami of C2–C3 (cervical plexus)','第二、三頸神經（C2–C3）前支（頸神經叢）','Emerges at the posterior border of sternocleidomastoid (Erb point) and ascends along it to the scalp behind the ear','自胸鎖乳突肌後緣中點（Erb 點）穿出，沿該肌後緣上行至耳後頭皮','Skin of the scalp behind the ear and the upper medial auricle (sensory)','感覺支配耳後頭皮與耳廓內側上部'),
+ 'great auricular nerve':schematic('耳大神經',false,'Ventral rami of C2–C3 (cervical plexus)','第二、三頸神經（C2–C3）前支（頸神經叢）','Emerges at Erb point, crosses the outer surface of sternocleidomastoid obliquely upward toward the angle of the mandible, then divides over the parotid gland','自 Erb 點穿出，斜向上越過胸鎖乳突肌淺面，往下頷角方向行，並在腮腺表面分支','Skin over the parotid gland, the angle of the mandible and the auricle (sensory)','感覺支配腮腺區皮膚、下頷角與耳廓'),
+ 'suboccipital venous plexus':schematic('枕下靜脈叢',true,'Vertebral veins, deep cervical veins and the occipital veins (with emissary connections to the intracranial sinuses)','椎靜脈、頸深靜脈與枕靜脈（並經導靜脈與顱內靜脈竇相通）','A venous network in the suboccipital triangle around the vertebral artery above the posterior arch of the atlas','位於枕下三角，環繞椎動脈，在寰椎後弓上方的靜脈網','Deep suboccipital muscles and the upper cervical vertebral region','枕下深層肌與上頸椎區'),
  'median nerve':nerve('正中神經','Lateral and medial cords, C6–T1','外側束與內側束，C6–T1','Descends with brachial artery, enters forearm between pronator teres heads and passes through carpal tunnel','與肱動脈下行，經旋前圓肌兩頭之間進入前臂，再通過腕隧道','Most forearm flexors and thenar/lateral lumbricals; sensation to lateral palm and lateral 3½ digits','支配多數前臂屈肌及魚際／外側蚓狀肌；感覺支配外側手掌及外側3½指'),
  'ulnar nerve':nerve('尺神經','Medial cord, mainly C8–T1','內側束，主要C8–T1','Passes posterior to medial epicondyle, enters forearm between flexor carpi ulnaris heads and reaches hand via Guyon canal','經肱骨內上髁後方，穿尺側腕屈肌兩頭進入前臂，再經Guyon管入手','FCU, medial FDP and most intrinsic hand muscles; sensation to medial 1½ digits','支配尺側腕屈肌、指深屈肌內側半及多數手內在肌；感覺支配內側1½指'),
  'suprascapular nerve':nerve('肩胛上神經','Upper trunk, C5–C6','上幹，C5–C6','Passes through suprascapular notch beneath superior transverse scapular ligament','經肩胛上切跡並位於肩胛上橫韌帶下方','Motor to supraspinatus and infraspinatus; articular branches to shoulder','運動支配棘上肌與棘下肌；亦有肩關節支'),

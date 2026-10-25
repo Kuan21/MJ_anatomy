@@ -11,16 +11,16 @@
 
 ## 一、結果摘要
 
-- 涵蓋結構名稱（去除左右後）：1546 個，其中 Quiz 用到 505 個
+- 涵蓋結構名稱（去除左右後）：1552 個，其中 Quiz 用到 505 個
 - 採用來源 1（muscle-layers.json）改名：33 個；來源 2（跑考摘要）：14 個；來源 3（其他筆記）：25 個
 - 全站固定修正：「背闊肌」→「闊背肌」
 - 仍缺中文名或含英文：0 個
 
 | 來源 | 結構數 |
 |---|---|
-| 台灣解剖學名詞（程式內建對照表） | 1348 |
+| 台灣解剖學名詞（程式內建對照表） | 1352 |
 | muscle-layers.json | 91 |
-| glossary.json（其他筆記） | 73 |
+| glossary.json（其他筆記） | 75 |
 | glossary.json（跑考摘要） | 34 |
 
 ## 二、已改名（前後對照）
@@ -1594,7 +1594,7 @@
 
 ## 六、其餘圖譜結構命名一覽
 
-<details><summary>展開 1041 項</summary>
+<details><summary>展開 1047 項</summary>
 
 | 結構 | 使用來源 | 中文名 |
 |---|---|---|
@@ -2281,6 +2281,12 @@
 | anterior root of posterior femoral cutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 股後皮神經前根 |
 | posterior root of posterior femoral cutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 股後皮神經後根 |
 | pudendal nerve | glossary.json（跑考摘要） | 陰部神經 |
+| suboccipital nerve | 台灣解剖學名詞（程式內建對照表） | 枕下神經 |
+| greater occipital nerve | 台灣解剖學名詞（程式內建對照表） | 枕大神經 |
+| third occipital nerve | 台灣解剖學名詞（程式內建對照表） | 第三枕神經 |
+| lesser occipital nerve | glossary.json（其他筆記） | 枕小神經 |
+| great auricular nerve | glossary.json（其他筆記） | 耳大神經 |
+| suboccipital venous plexus | 台灣解剖學名詞（程式內建對照表） | 枕下靜脈叢 |
 | anterior tibiofibular ligament | 台灣解剖學名詞（程式內建對照表） | 前脛腓韌帶 |
 | posterior tibiofibular ligament | 台灣解剖學名詞（程式內建對照表） | 後脛腓韌帶 |
 | transverse tibiofibular ligament | 台灣解剖學名詞（程式內建對照表） | 脛腓橫韌帶 |

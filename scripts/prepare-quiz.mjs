@@ -115,7 +115,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
       const normals = new Int16Array(mesh.vertexCount * 3);
       geometry.getAttribute('normal').array.forEach((x, i) => {normals[i] = Math.round(x * 32767);});
       add({id: `nerve:${mesh.name}:${ordinal}`, name, chinese: applyZhFixes((side === 'left' ? '左' : '右') + (namingOverride(name) ?? definition.zh)),
-        system: 'nervous', side, bounds, source: 'Nervous supplement', positions, normals: Buffer.from(normals.buffer), indices});
+        system: definition.system ?? 'nervous', side, bounds, source: definition.schematic ? 'Schematic model' : 'Nervous supplement', positions, normals: Buffer.from(normals.buffer), indices});
       geometry.dispose();
     }
   }
