@@ -2,8 +2,8 @@
  "totals": {
   "terms": 574,
   "rows": 592,
-  "have": 418,
-  "new": 153,
+  "have": 416,
+  "new": 155,
   "part": 14,
   "skip": 7,
   "missing": 0
@@ -4247,11 +4247,11 @@
    "term": "C. Pulmonary lig",
    "name": "Pulmonary ligament",
    "section": "胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左",
-   "status": "have",
-   "via": "contained",
-   "model": "Pulmonary trunk",
-   "source": "heart",
-   "kind": "contained",
+   "status": "new",
+   "via": "exact",
+   "model": "Left pulmonary ligament",
+   "source": "paokao",
+   "kind": "exact",
    "findable": true
   },
   {
@@ -7058,11 +7058,11 @@
    "term": "Pulmonary lig",
    "name": "Pulmonary ligament",
    "section": "肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾",
-   "status": "have",
-   "via": "contained",
-   "model": "Pulmonary trunk",
-   "source": "heart",
-   "kind": "contained",
+   "status": "new",
+   "via": "exact",
+   "model": "Left pulmonary ligament",
+   "source": "paokao",
+   "kind": "exact",
    "findable": true
   },
   {

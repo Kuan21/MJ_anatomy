@@ -4,8 +4,8 @@
 
 | 狀態 | 項數 | 說明 |
 | --- | ---: | --- |
-| 已有 | 418 | 模型原本就有（含別名拼法） |
-| 新增示意模型 | 153 | 公開圖譜沒有，依真實解剖位置新做 |
+| 已有 | 416 | 模型原本就有（含別名拼法） |
+| 新增示意模型 | 155 | 公開圖譜沒有，依真實解剖位置新做 |
 | 屬於已有結構的一部分 | 14 | 肌頭、肌腱等，包含在對應肌肉內 |
 | 略過 | 7 | 非結構詞，原因見下 |
 | 缺少 | 0 | 仍缺（build 失敗） |
@@ -111,6 +111,7 @@
 | 308 | posterior vagal trunk | posterior vagal trunk | 胸腔／後胸壁 | Posterior vagal trunk |
 | 311 | Superior phrenic a | Superior phrenic artery | 胸腔／後胸壁 | Right superior phrenic artery |
 | 312 | aortic hiatus | Aortic hiatus | 胸腔／後胸壁 | Aortic hiatus |
+| 345 | C. Pulmonary lig | Pulmonary ligament | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 | Left pulmonary ligament |
 | 346 | Lingula | Lingula of left lung | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 | Lingula of left lung |
 | 347 | B. Oblique fissure | Oblique fissure of lung | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 | Oblique fissure of right lung |
 | 348 | Cardiac impression | Cardiac impression | 胸腔／肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾葉確認左 | Cardiac impression of left lung |
@@ -178,6 +179,7 @@
 | 558 | Ant. / Post. vagal trunk | Anterior vagal trunk | 後胸壁 | Anterior vagal trunk |
 | 558 | Ant. / Post. vagal trunk | Posterior vagal trunk | 後胸壁 | Posterior vagal trunk |
 | 563 | nodal a | Atrioventricular nodal artery | 後胸壁 | Atrioventricular nodal artery |
+| 572 | Pulmonary lig | Pulmonary ligament | 肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾 | Left pulmonary ligament |
 | 573 | Horizontal fissure | Horizontal fissure of right lung | 肺臟（拿到肺有肋骨壓痕的靠前面，接著看幾 | Horizontal fissure of right lung |
 
 ## 全部項目
@@ -537,7 +539,7 @@
 | 343 | Post. papillary m | Anterolateral papillary muscle of left ventricle | 已有 | Anterolateral papillary muscle of left ventricle | heart |
 | 343 | Post. papillary m | Posteromedial papillary muscle of left ventricle | 已有（alias） | Inferior papillary muscle of right ventricle | heart |
 | 344 | Pulmonary v | Pulmonary vein | 已有（contained） | Left superior pulmonary vein | atlas |
-| 345 | C. Pulmonary lig | Pulmonary ligament | 已有（contained） | Pulmonary trunk | heart |
+| 345 | C. Pulmonary lig | Pulmonary ligament | 新增示意模型 | Left pulmonary ligament | paokao |
 | 346 | Lingula | Lingula of left lung | 新增示意模型 | Lingula of left lung | paokao |
 | 347 | B. Oblique fissure | Oblique fissure of lung | 新增示意模型 | Oblique fissure of right lung | paokao |
 | 348 | Cardiac impression | Cardiac impression | 新增示意模型（contained） | Cardiac impression of left lung | paokao |
@@ -774,7 +776,7 @@
 | 569 | Opening of coronary sinus | Opening of coronary sinus | 已有（部分） | Coronary sinus | atlas |
 | 570 | Crista terminalis | Crista terminalis | 已有 | Crista terminalis | heart |
 | 571 | Pulmonary a | Pulmonary artery | 已有 | Left pulmonary artery | atlas |
-| 572 | Pulmonary lig | Pulmonary ligament | 已有（contained） | Pulmonary trunk | heart |
+| 572 | Pulmonary lig | Pulmonary ligament | 新增示意模型 | Left pulmonary ligament | paokao |
 | 573 | Horizontal fissure | Horizontal fissure of right lung | 新增示意模型 | Horizontal fissure of right lung | paokao |
 
 ## 血管神經接駁修正
@@ -840,7 +842,6 @@
 | Papillary muscle | Anterior papillary muscle of right ventricle | contained |
 | Septal papillary muscle | Septal papillary muscle of right ventricle | contained |
 | Pulmonary vein | Left superior pulmonary vein | contained |
-| Pulmonary ligament | Pulmonary trunk | contained |
 | Cardiac impression | Cardiac impression of left lung | contained |
 | Anterior femoral cutaneous nerve | Anterior cutaneous branches of femoral nerve | contained |
 | Gastrocnemius muscle | Lateral head of right gastrocnemius | contained |
@@ -859,7 +860,6 @@
 | Pronator teres muscle | Humeral head of right pronator teres | contained |
 | Pulmonary vein | Left superior pulmonary vein | contained |
 | Bronchus | Left main bronchus | contained |
-| Pulmonary ligament | Pulmonary trunk | contained |
 
 ## 參考來源與查證
 

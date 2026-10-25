@@ -47,5 +47,18 @@ export default function lungs(U) {
   lobes('right', 'Groove for superior vena cava', '上腔靜脈溝', [[RU, 'Superior vena cava', .0045]], ['A vertical groove in front of the hilum of the right lung', '右肺肺門前方的垂直溝'], ['Left by the superior vena cava', '由上腔靜脈壓出']);
   lobes('right', 'Groove for azygos vein', '奇靜脈溝', [[RU, 'Azygos vein', .0045]], ['An arching groove above the hilum of the right lung, where the arch of the azygos vein enters the superior vena cava', '右肺肺門上方的弓形溝，奇靜脈弓在此注入上腔靜脈'], ['Left by the arch of the azygos vein', '由奇靜脈弓壓出']);
   lobes('right', 'Groove for esophagus', '食道溝', [[RL, 'Esophagus', .0045], [RU, 'Esophagus', .0045]], ['A groove on the mediastinal surface behind the hilum of the right lung', '右肺縱隔面、肺門後方的溝'], ['Left by the oesophagus', '由食道壓出']);
+  // Hilum of each lung: where the main bronchus, pulmonary artery and pulmonary veins enter the mediastinal surface.
+  lobes('left', 'Hilum of left lung', '左肺門', [[LL, 'Left main bronchus', .014], [LU, 'Left main bronchus', .014], [LL, 'Left pulmonary artery', .014], [LU, 'Left pulmonary artery', .014], [LL, 'Left inferior pulmonary vein', .012], [LU, 'Left superior pulmonary vein', .012]],
+    ['A triangular depression on the mediastinal surface where the bronchus, pulmonary artery and two pulmonary veins enter and leave', '縱隔面上的三角形凹陷，支氣管、肺動脈與兩條肺靜脈由此出入'], ['The pulmonary artery lies above and in front, the veins below and in front, the bronchus behind (left lung); the pleura reflects onto these at the root', '左肺：肺動脈在上方，肺靜脈在前下方，支氣管在後；胸膜在肺根處反折']);
+  lobes('right', 'Hilum of right lung', '右肺門', [[RL, 'Right main bronchus proper', .014], [RU, 'Right main bronchus proper', .014], [RL, 'Right pulmonary artery', .014], [RU, 'Right pulmonary artery', .014], [RL, 'Right inferior pulmonary vein', .012], [RM, 'Right superior pulmonary vein', .012]],
+    ['A depression on the mediastinal surface where the bronchus, pulmonary artery and two pulmonary veins enter and leave', '縱隔面上的凹陷，支氣管、肺動脈與兩條肺靜脈由此出入'], ['From above down the order is bronchus, artery, veins on the right (the eparterial bronchus runs above the artery); the pleura reflects onto these at the root', '右肺由上到下為支氣管、肺動脈、肺靜脈（上葉支氣管在動脈上方）；胸膜在肺根處反折']);
+  // Pulmonary ligament: the double fold of pleura hanging below the root from the mediastinal surface of the lower lobe towards the diaphragm.
+  for (const [side, w, LOBE, sx] of [['left', 'Left', LL, 1], ['right', 'Right', RL, -1]]) {
+    const m = U.mesh(LOBE), h = m.hi[1] - m.lo[1];
+    const top = U.extreme(LOBE, P(-sx * .8, -.2, 0), {y: [m.lo[1] + h * .45, m.lo[1] + h * .7]}), bot = U.extreme(LOBE, P(-sx * .5, -1, 0), {y: [m.lo[1], m.lo[1] + h * .25]});
+    const a = add(top, P(-sx * .0015, 0, 0)), b = add(bot, P(-sx * .0015, .003, 0));
+    out.push({name: `${w} pulmonary ligament`, zh: `${side === 'left' ? '左' : '右'}肺韌帶`, system: 'connective', kind: 'ligament', ribbons: [{pts: [a, lerp(a, b, .5), b], width: .012, thick: .0008, hint: P(1, 0, 0)}],
+      card: {origin: ['Mediastinal surface of the lower lobe, below the root of the lung', '下葉縱隔面、肺根下方'], course: ['A fold of pleura running down from the root of the lung to the diaphragm and mediastinum', '由肺根向下延伸到橫膈與縱隔的胸膜皺褶'], supply: ['Lets the lung root move with breathing; the inferior pulmonary vein lies at its upper end and the ligament is cut in lung surgery', '讓肺根隨呼吸移動；下肺靜脈在其上端，肺葉手術時需切開']}, refs: [REF]});
+  }
   return out;
 }
