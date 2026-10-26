@@ -92,5 +92,5 @@ assert.ok(atlas.parts.filter(p => /(third|fourth|lateral) ventricle/i.test(p.nam
 
 // wiring: route, atlas entry, quiz
 const main = fs.readFileSync(new URL('web/main.tsx', root), 'utf8'), page = fs.readFileSync(new URL('app/page.tsx', root), 'utf8');
-assert.match(main, /#\/organ\/heart/); assert.match(page, /href="#\/organ\/heart"/);
+assert.match(main, /#\/organ\/heart/); assert.match(page, /window\.location\.hash='#\/organ\/heart'/);
 console.log(`PASS heart detail: ${heart.parts.length} structures (${heart.parts.reduce((n, p) => n + p.indexCount / 3, 0).toLocaleString()} triangles) from the pinned Z-Anatomy export, ${(heart.chunks.reduce((n, c) => n + c.gzipBytes, 0) / 1e6).toFixed(2)} MB compressed, centred ${(offset * 1000).toFixed(1)} mm from the atlas heart; Heart layer = ${cardiac.length} heart pieces.`);
