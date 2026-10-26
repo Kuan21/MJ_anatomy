@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import {quizModule} from './quiz-modules.mjs';
 
 const {describeBrainNode, BRAIN_GROUPS, displayEn} = await quizModule('app/organ/brain-catalogue.ts');
-const {voxelize, LABEL} = await quizModule('app/organ/brain-voxels.ts');
+const {voxelize, LABEL, classFields, partField, GREY_MM, CLASS_COUNT} = await quizModule('app/organ/brain-voxels.ts');
 const {CSF_STEPS} = await quizModule('app/organ/csf-scene.ts');
 
 // ---- every named mesh of the model gets a group, a clean name and a Chinese name; spinal parts are left out
@@ -41,9 +41,21 @@ const grid = voxelize([
 const at = (x, y, z) => {const gx = Math.floor((x - grid.origin[0]) / grid.size), gy = Math.floor((y - grid.origin[1]) / grid.size), gz = Math.floor((z - grid.origin[2]) / grid.size); return grid.label[gx + grid.nx * (gy + grid.ny * gz)];};
 assert.equal(at(.03, .03, .03), LABEL.csf, 'ventricle is labelled CSF');
 assert.equal(at(.045, .03, .03), LABEL.cortexWhite, 'deep tissue is white matter');
-assert.ok([LABEL.cortexGrey].includes(at(.0035, .03, .03)), 'tissue next to the surface is grey matter');
+assert.ok([LABEL.cortexGrey].includes(at(.0015, .03, .03)), 'tissue next to the surface is grey matter');
 assert.equal(at(-.002, .03, .03), LABEL.empty, 'outside stays empty');
 assert.equal(grid.part[(Math.floor((.03 - grid.origin[0]) / grid.size)) + grid.nx * (Math.floor((.03 - grid.origin[1]) / grid.size) + grid.ny * Math.floor((.03 - grid.origin[2]) / grid.size))], 2, 'ventricle voxel belongs to part 1 (stored +1)');
+
+// smooth fields for the cut surface: grey beats white at the rim, white beats grey deep inside, the outside carries no tissue, and the grey band is no thicker than 2.4 mm
+const fields = classFields(grid), idx = (x, y, z) => Math.floor((x - grid.origin[0]) / grid.size) + grid.nx * (Math.floor((y - grid.origin[1]) / grid.size) + grid.ny * Math.floor((z - grid.origin[2]) / grid.size));
+const share = (i, k) => fields[(k - 1) >> 2][k < 9 ? i * 4 + ((k - 1) & 3) : i] / 255;
+assert.equal(fields.length, 3); assert.equal(CLASS_COUNT, 9);
+assert.ok(share(idx(.0015, .03, .03), LABEL.cortexGrey) > share(idx(.0015, .03, .03), LABEL.cortexWhite), 'grey dominates at the rim');
+assert.ok(share(idx(.045, .03, .03), LABEL.cortexWhite) > .9 && share(idx(.045, .03, .03), LABEL.cortexGrey) < .05, 'white dominates deep inside');
+assert.ok(share(idx(-.004, .03, .03), LABEL.cortexGrey) + share(idx(-.004, .03, .03), LABEL.cortexWhite) < .05, 'no tissue outside');
+let band = 0; for (let x = 0; x < .03; x += grid.size / 4) if (share(idx(x, .03, .03), LABEL.cortexGrey) > share(idx(x, .03, .03), LABEL.cortexWhite)) band = x;
+assert.ok(band <= GREY_MM + grid.size, `grey band ${band} m is not thicker than ${GREY_MM} m (+ one voxel)`);
+const flag = partField(grid, p => p === 2, 0);
+assert.ok(flag[idx(.03, .03, .03)] > 200 && flag[idx(.01, .03, .03)] < 30 && flag[idx(-.004, .03, .03)] === 0, 'selection field is smooth and confined to the selected part');
 
 // ---- CSF: the eight steps of the brief, in order
 assert.equal(CSF_STEPS.length, 8);

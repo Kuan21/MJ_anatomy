@@ -7,11 +7,13 @@ import {PointerTap} from '../pointer-tap';
 import {framingDistance} from '../camera-framing';
 import {describeBrainNode} from './brain-catalogue';
 import type {CsfSource} from './csf-scene';
-import {LABEL, voxelize, type VoxelGrid, type VoxelInput} from './brain-voxels';
+import {LABEL, classFields, partField, voxelize, type VoxelGrid, type VoxelInput} from './brain-voxels';
 import {SECTION_AXES, type BrainPart, type BrainView, type BrainViewState} from './brain-types';
 
 interface Callbacks {
   progress: (percent: number) => void;
+  /** true while the smooth cut surface is being computed for the first cut (a few seconds on a slow device) */
+  busy?: (busy: boolean) => void;
   ready: (parts: BrainPart[]) => void;
   error: (message: string) => void;
   pick: (id: string | null) => void;
@@ -67,7 +69,8 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
   const keeps = (point: T.Vector3) => !planeActive() || plane.distanceToPoint(point) >= 0;
 
   // ---- solid cut surface: one quad on the cutting plane that looks up the voxel grid (see brain-voxels.ts)
-  let grid: VoxelGrid | undefined, capMesh: T.Mesh | undefined, maskTexture: T.DataTexture | undefined, maskData: Uint8Array | undefined, building = false;
+  let grid: VoxelGrid | undefined, capMesh: T.Mesh | undefined, maskData: Uint8Array | undefined, building = false, fieldKey = '';
+  let selectedData: Uint8Array | undefined, shownData: Uint8Array | undefined, classTextures: T.Data3DTexture[] = [], selectedTexture: T.Data3DTexture | undefined, shownTexture: T.Data3DTexture | undefined;
   const PALETTE: Record<number, string> = {
     [LABEL.cortexGrey]: '#a99390', [LABEL.cortexWhite]: '#f1eadc', [LABEL.cerebellumGrey]: '#b49187', [LABEL.cerebellumWhite]: '#efe3d2', [LABEL.brainstem]: '#d4c0ac',
     [LABEL.basal]: '#9d8685', [LABEL.diencephalon]: '#b59ba3', [LABEL.tract]: '#faf6ee', [LABEL.csf]: '#5f8fb4',
@@ -80,36 +83,56 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
       const part = parts.get(id)!, index = Number(id.slice(1));
       inputs.push({index, group: part.group, hemisphere: mesh.geometry.boundingBox!.getCenter(new T.Vector3()).x >= 0 ? 1 : -1, positions: mesh.geometry.getAttribute('position').array, indices: mesh.geometry.getIndex()?.array ?? null});
     }
-    const t0 = performance.now(); grid = voxelize(inputs);
-    { const c = new Array(10).fill(0); for (const v of grid.label) c[v]++; void t0; void c; }
-    const label = new T.Data3DTexture(grid.label as unknown as Uint8Array<ArrayBuffer>, grid.nx, grid.ny, grid.nz); label.format = T.RedFormat; label.type = T.UnsignedByteType; label.minFilter = label.magFilter = T.NearestFilter; label.unpackAlignment = 1; label.needsUpdate = true;
-    const partTexture = new T.Data3DTexture(Float32Array.from(grid.part), grid.nx, grid.ny, grid.nz); partTexture.format = T.RedFormat; partTexture.type = T.FloatType; partTexture.minFilter = partTexture.magFilter = T.NearestFilter; partTexture.unpackAlignment = 1; partTexture.needsUpdate = true;
-    maskData = new Uint8Array(new ArrayBuffer((parts.size + 1) * 4)); maskTexture = new T.DataTexture(maskData as Uint8Array<ArrayBuffer>, parts.size + 1, 1, T.RGBAFormat); maskTexture.needsUpdate = true;
+    grid = voxelize(inputs);
+    const volume = (data: Uint8Array, format: T.PixelFormat) => {
+      const t = new T.Data3DTexture(data as unknown as Uint8Array<ArrayBuffer>, grid!.nx, grid!.ny, grid!.nz);
+      t.format = format; t.type = T.UnsignedByteType; t.minFilter = t.magFilter = T.LinearFilter; t.wrapS = t.wrapT = t.wrapR = T.ClampToEdgeWrapping; t.unpackAlignment = 1; t.needsUpdate = true;
+      return t;
+    };
+    const [c0, c1, c2] = classFields(grid);
+    classTextures = [volume(c0, T.RGBAFormat), volume(c1, T.RGBAFormat), volume(c2, T.RedFormat)];
+    selectedData = new Uint8Array(grid.nx * grid.ny * grid.nz); shownData = new Uint8Array(grid.nx * grid.ny * grid.nz).fill(255);
+    selectedTexture = volume(selectedData, T.RedFormat); shownTexture = volume(shownData, T.RedFormat);
+    maskData = new Uint8Array(new ArrayBuffer((parts.size + 1) * 4));
     const palette = Array.from({length: 10}, (_, i) => new T.Vector3(...(PALETTE[i] ? new T.Color(PALETTE[i]).toArray() : [0, 0, 0])));
     const selectedColor = new T.Color(BRAIN_SELECT.fill);
     const material = new T.ShaderMaterial({
-      side: T.DoubleSide,
-      uniforms: {uLabel: {value: label}, uPart: {value: partTexture}, uMask: {value: maskTexture}, uOrigin: {value: new T.Vector3(...grid.origin)}, uInvSize: {value: new T.Vector3(1 / (grid.nx * grid.size), 1 / (grid.ny * grid.size), 1 / (grid.nz * grid.size))}, uPalette: {value: palette}, uSelected: {value: new T.Vector3(...selectedColor.toArray())}},
+      side: T.DoubleSide, transparent: true, depthWrite: true,
+      uniforms: {uC0: {value: classTextures[0]}, uC1: {value: classTextures[1]}, uC2: {value: classTextures[2]}, uSel: {value: selectedTexture}, uShown: {value: shownTexture}, uOrigin: {value: new T.Vector3(...grid.origin)}, uInvSize: {value: new T.Vector3(1 / (grid.nx * grid.size), 1 / (grid.ny * grid.size), 1 / (grid.nz * grid.size))}, uPalette: {value: palette}, uSelected: {value: new T.Vector3(...selectedColor.toArray())}},
       vertexShader: 'varying vec3 vWorld; void main(){ vec4 w = modelMatrix * vec4(position, 1.0); vWorld = w.xyz; gl_Position = projectionMatrix * viewMatrix * w; }',
+      // Every field is sampled trilinearly, so outlines are smooth iso-contours: tissue where the summed class fields pass 0.5 (edge anti-aliased by the screen-space
+      // gradient), the class with the largest share wins, and shares are sharpened (^6) so the grey/white boundary is a thin blend rather than a gradient.
       fragmentShader: `precision highp float; precision highp sampler3D;
-        uniform sampler3D uLabel; uniform sampler3D uPart; uniform sampler2D uMask; uniform vec3 uOrigin; uniform vec3 uInvSize; uniform vec3 uPalette[10]; uniform vec3 uSelected; varying vec3 vWorld;
+        uniform sampler3D uC0; uniform sampler3D uC1; uniform sampler3D uC2; uniform sampler3D uSel; uniform sampler3D uShown; uniform vec3 uOrigin; uniform vec3 uInvSize; uniform vec3 uPalette[10]; uniform vec3 uSelected; varying vec3 vWorld;
         void main(){
           vec3 uvw = (vWorld - uOrigin) * uInvSize;
           if (any(lessThan(uvw, vec3(0.0))) || any(greaterThan(uvw, vec3(1.0)))) discard;
-          float lab = texture(uLabel, uvw).r * 255.0;
-          if (lab < 0.5) discard;
-          float part = texture(uPart, uvw).r;
-          vec4 m = texelFetch(uMask, ivec2(int(part + 0.5), 0), 0);
-          if (m.g < 0.5) discard;
-          vec3 col = m.r > 0.5 ? uSelected : uPalette[int(lab + 0.5)];
-          float edge = fwidth(part) + fwidth(lab);
-          if (edge > 0.01) col *= 0.8;
-          gl_FragColor = vec4(col, 1.0);
+          vec4 a = texture(uC0, uvw), b = texture(uC1, uvw); float c = texture(uC2, uvw).r;
+          float w[9]; w[0]=a.x; w[1]=a.y; w[2]=a.z; w[3]=a.w; w[4]=b.x; w[5]=b.y; w[6]=b.z; w[7]=b.w; w[8]=c;
+          float tissue = 0.0; for (int k = 0; k < 9; k++) tissue += w[k];
+          float shown = texture(uShown, uvw).r;
+          float edge = max(fwidth(tissue), 0.02), edgeShown = max(fwidth(shown), 0.02);
+          float alpha = smoothstep(0.5 - edge, 0.5 + edge, tissue) * smoothstep(0.5 - edgeShown, 0.5 + edgeShown, shown);
+          if (alpha < 0.01) discard;
+          float sum = 0.0, top = 0.0; vec3 col = vec3(0.0);
+          for (int k = 0; k < 9; k++) { float p = pow(w[k] / max(tissue, 1e-4), 6.0); sum += p; top = max(top, p); col += p * uPalette[k + 1]; }
+          col /= max(sum, 1e-6);
+          col *= mix(0.84, 1.0, smoothstep(0.45, 0.9, top / max(sum, 1e-6)));
+          float sel = texture(uSel, uvw).r, es = max(fwidth(sel), 0.02);
+          col = mix(col, uSelected, smoothstep(0.5 - es, 0.5 + es, sel));
+          gl_FragColor = vec4(col, alpha);
           gl_FragColor = linearToOutputTexel(gl_FragColor);
         }`,
     });
     capMesh = new T.Mesh(capQuad, material); capMesh.frustumCulled = false; capMesh.renderOrder = 5; capMesh.visible = false; scene.add(capMesh);
     building = false;
+  };
+  let scheduled = false;
+  /** The first cut computes the volume fields; paint the busy notice first, then do the work. */
+  const ensureCap = () => {
+    if (grid || building || scheduled) return;
+    scheduled = true; callbacks.busy?.(true);
+    requestAnimationFrame(() => requestAnimationFrame(() => {scheduled = false; if (disposed) return; buildCap(); callbacks.busy?.(false); apply();}));
   };
   const INTERNAL = new Set(['white', 'basal', 'diencephalon', 'ventricles']);
 
@@ -122,7 +145,7 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
   const apply = () => {
     if (!state) return;
     const cutting = placePlane(), selected = new Set(state.selectedIds);
-    if (cutting) buildCap();
+    if (cutting) ensureCap();
     for (const [id, mesh] of meshes) {
       const part = parts.get(id)!, on = selected.has(id);
       mesh.visible = visibleIn(part);
@@ -138,7 +161,15 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
         maskData[i] = on ? 255 : 0; maskData[i + 1] = shown ? 255 : 0;
       }
     }
-    if (maskTexture) maskTexture.needsUpdate = true;
+    if (grid && maskData && selectedTexture && shownTexture && selectedData && shownData) {
+      // smooth per-part flags for the cut surface, rebuilt only when the selection or the visibility actually changed
+      const key = [...meshes.keys()].map(id => (maskData![(Number(id.slice(1)) + 1) * 4] ? 's' : '') + (maskData![(Number(id.slice(1)) + 1) * 4 + 1] ? 'v' : '-')).join('');
+      if (key !== fieldKey) {
+        fieldKey = key;
+        const sel = partField(grid, p => maskData![p * 4] > 0, 0), shown = partField(grid, p => maskData![p * 4 + 1] > 0, 1);
+        selectedData.set(sel); shownData.set(shown); selectedTexture.needsUpdate = true; shownTexture.needsUpdate = true;
+      }
+    }
     if (capMesh) {
       capMesh.visible = cutting;
       if (cutting) {capMesh.position.copy(core.getCenter(new T.Vector3())).addScaledVector(plane.normal, -plane.normal.dot(core.getCenter(new T.Vector3())) - plane.constant); capMesh.quaternion.setFromUnitVectors(new T.Vector3(0, 0, 1), plane.normal);}
