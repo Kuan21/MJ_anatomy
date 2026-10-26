@@ -25,9 +25,11 @@ interface Route {steps: V[][]; weight: number; fade?: boolean}
 interface Structure {steps: number[]; materials: T.MeshStandardMaterial[]; base: number; lit: number; baseOpacity: number}
 
 /** Looped, self-playing CSF flow in its own scene. It never touches the main viewer; `onStep` reports the highlighted step (0–7) when it changes. */
-export function createCsfScene(host: HTMLElement, source: CsfSource, onStep: (step: number) => void) {
+export interface CsfQuality {particles?: number; detail?: number; pixelRatio?: number}
+export function createCsfScene(host: HTMLElement, source: CsfSource, onStep: (step: number) => void, quality: CsfQuality = {}) {
+  const detail = quality.detail ?? 1;
   const renderer = new T.WebGLRenderer({antialias: true, alpha: false, powerPreference: 'low-power'});
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, quality.pixelRatio ?? 1.5));
   renderer.setClearColor('#dfe5e8');
   renderer.outputColorSpace = T.SRGBColorSpace;
   const canvas = renderer.domElement;
@@ -47,6 +49,7 @@ export function createCsfScene(host: HTMLElement, source: CsfSource, onStep: (st
   };
   const tube = (points: V[], radius: number | ((t: number) => number), mat: T.MeshStandardMaterial, steps: number[] = [], samples = 48, sides = 10, lit = .6) => {
     const curve = new T.CatmullRomCurve3(points.map(p => new T.Vector3(...p)), false, 'centripetal');
+    samples = Math.round(samples * detail); sides = Math.max(sides, Math.round(sides * detail));
     const frames = curve.computeFrenetFrames(samples, false), pos: number[] = [], idx: number[] = [];
     const r = typeof radius === 'number' ? () => radius : radius;
     for (let i = 0; i <= samples; i++) {
@@ -166,7 +169,7 @@ export function createCsfScene(host: HTMLElement, source: CsfSource, onStep: (st
     const c = new T.CatmullRomCurve3(step.map(p => new T.Vector3(...p)), false, 'centripetal');
     return c.getSpacedPoints(40);
   }));
-  const N = 900, count = N;
+  const N = quality.particles ?? 900, count = N;
   const phase = new Float32Array(count), route = new Uint8Array(count), jitter = new Float32Array(count * 3);
   const totalWeight = routes.reduce((a, r) => a + r.weight, 0);
   for (let i = 0; i < count; i++) {

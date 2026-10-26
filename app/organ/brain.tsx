@@ -2,6 +2,7 @@ import {useEffect, useMemo, useRef, useState} from 'react';
 import {ArrowLeft, ChevronDown, ChevronRight, Eye, EyeOff, RotateCcw} from 'lucide-react';
 import {createBrainViewer} from './brain-viewer';
 import {createCsfScene, CSF_STEPS, type CsfSource} from './csf-scene';
+import {CSF_SHORT, CSF_STEP_NOTES} from './csf-notes';
 import {BRAIN_GROUPS, displayEn} from './brain-catalogue';
 import {SECTION_AXES, type BrainPart, type BrainView, type BrainViewState, type SectionAxis} from './brain-types';
 import './organ.css';
@@ -37,26 +38,41 @@ function BrainScene({view, exportRef, onReady, onError, onProgress, onPick}: {
   return <div className="organ-canvas" ref={host}/>;
 }
 
-/** CSF flow animation in its own canvas: it starts when mounted and stops when the panel is closed. */
-function CsfPanel({exportRef, onClose}: {exportRef: {current: (() => CsfSource | null) | null}; onClose: () => void}) {
+/** CSF flow as a full-page mode: animation on the left (3/4), step-synchronised lecture notes on the right (1/4), stacked on a portrait phone.
+ *  The brain viewer stays mounted underneath, so closing returns to exactly the same view, section and selection. */
+function CsfPage({exportRef, onClose}: {exportRef: {current: (() => CsfSource | null) | null}; onClose: () => void}) {
   const host = useRef<HTMLDivElement>(null), [step, setStep] = useState(0), [failed, setFailed] = useState(false);
   useEffect(() => {
     const source = exportRef.current?.();
     if (!source || !host.current) {setFailed(true); return;}
-    try {const scene = createCsfScene(host.current, source, setStep); return () => scene.dispose();} catch {setFailed(true);}
+    try {const scene = createCsfScene(host.current, source, setStep, {particles: 2600, detail: 1.6, pixelRatio: 2}); return () => scene.dispose();} catch {setFailed(true);}
   }, [exportRef]);
-  const info = CSF_STEPS[step];
-  return <aside className="csf-panel" aria-label="腦脊髓液流向動畫">
-    <div className="csf-head"><strong>CSF 流向<small>Cerebrospinal fluid flow</small></strong><button className="csf-close" onClick={onClose} aria-label="關閉 CSF 流向動畫">關閉</button></div>
-    <div className="csf-canvas" ref={host}>{failed && <p className="organ-error">動畫無法啟動（需要先載入腦部模型與 WebGL）。</p>}</div>
-    <div className="csf-caption" aria-live="polite">
-      <b>{step + 1} / {CSF_STEPS.length}</b>
-      <span lang="en">{info.en}</span>
-      <span lang="zh-Hant" className="csf-zh">{info.zh}</span>
-      <small lang="zh-Hant">{info.note}</small>
+  useEffect(() => {
+    const key = (e: KeyboardEvent) => {if (e.key === 'Escape') onClose();};
+    window.addEventListener('keydown', key); return () => window.removeEventListener('keydown', key);
+  }, [onClose]);
+  const info = CSF_STEPS[step], notes = CSF_STEP_NOTES[step];
+  return <div className="csf-page" role="dialog" aria-label="腦脊髓液流向" lang="zh-Hant">
+    <header className="csf-page-head"><strong>CSF 流向<small>Cerebrospinal fluid flow</small></strong><button className="csf-close" onClick={onClose} aria-label="關閉 CSF 流向，回到腦部模式">關閉</button></header>
+    <div className="csf-page-body">
+      <section className="csf-canvas" ref={host} aria-label="CSF 流向動畫">{failed && <p className="organ-error">動畫無法啟動（需要先載入腦部模型與 WebGL）。</p>}</section>
+      <aside className="csf-side" aria-live="polite">
+        <ol className="csf-steps" aria-label="流向步驟">{CSF_STEPS.map((s, i) => <li key={s.en} className={i === step ? 'now' : i < step ? 'done' : ''} aria-current={i === step ? 'step' : undefined}><b>{i + 1}</b><span lang="en">{CSF_SHORT[i][0]}</span><small>{CSF_SHORT[i][1]}</small></li>)}</ol>
+        <div className="csf-detail">
+          <p className="csf-stepno">步驟 {step + 1} / {CSF_STEPS.length}<span className="csf-event">{notes.event}</span></p>
+          <h2 lang="en">{info.en}</h2>
+          <p className="csf-zh" lang="zh-Hant">{info.zh}</p>
+          <dl>
+            <dt>所在位置</dt><dd>{notes.where}</dd>
+            <dt>CSF 在這裡</dt><dd><ul>{notes.happens.map(n => <li key={n.text}>{n.text}<small>〔{n.src}〕</small></li>)}</ul></dd>
+            {notes.clinical.length > 0 && <><dt>臨床相關</dt><dd><ul>{notes.clinical.map(n => <li key={n.text}>{n.text}<small>〔{n.src}〕</small></li>)}</ul></dd></>}
+            {notes.correction && <><dt>筆記與課本不同</dt><dd className="csf-correction">{notes.correction.text}</dd></>}
+          </dl>
+        </div>
+        <footer className="csf-foot">出處：神經解剖學共筆（M65×CM57）0218、0226、0305、0311、0324；步驟標示於各句之後。<br/>腦室、脈絡叢與上矢狀竇取自腦部模型；孔道、腦池、蛛網膜下腔、脊髓與腰池為示意模型。<b>脊髓段縮短，未依比例。</b></footer>
+      </aside>
     </div>
-    <small className="csf-note">腦室、脈絡叢與上矢狀竇取自腦部模型；孔道、腦池、蛛網膜下腔、脊髓與腰池為示意模型（脊髓段縮短，未依比例）。</small>
-  </aside>;
+  </div>;
 }
 
 export default function BrainDetail() {
@@ -95,7 +111,7 @@ export default function BrainDetail() {
       <div className="organ-brand">MJ Anatomy <span>腦部詳細模式</span></div>
       <button className="csf-toggle" aria-pressed={csf} disabled={!ready} onClick={() => setCsf(v => !v)}>CSF 流向</button>
     </header>
-    <div className={`organ-layout${csf ? ' with-csf' : ''}`}>
+    <div className="organ-layout" inert={csf || undefined} aria-hidden={csf || undefined}>
       <section className="organ-stage" aria-label="腦部 3D 模型">
         <BrainScene view={view} exportRef={exportRef} onReady={p => {setParts(p); setReady(true);}} onError={setError} onProgress={setPercent} onPick={select}/>
         <div className="organ-views" aria-label="視角">{([['front', '前面'], ['back', '後面'], ['left', '左側'], ['right', '右側'], ['top', '上面'], ['bottom', '下面']] as const).map(([id, label]) => <button key={id} onClick={() => go(id)}>{label}</button>)}
@@ -165,7 +181,7 @@ export default function BrainDetail() {
           <p className="organ-source">來源：Brain Project（Z-Anatomy / BodyParts3D），CC BY-SA 4.0。切面灰白質分界為依皮質表面向內縮 2.5 mm 產生的示意。</p>
         </section>
       </aside>
-      {csf && <CsfPanel exportRef={exportRef} onClose={() => setCsf(false)}/>}
     </div>
+    {csf && <CsfPage exportRef={exportRef} onClose={() => setCsf(false)}/>}
   </main>;
 }
