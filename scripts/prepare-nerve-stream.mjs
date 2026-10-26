@@ -6,6 +6,7 @@ import {gzipSync} from 'node:zlib';
 import {Matrix4,Quaternion,Vector3} from 'three';
 import {fileURLToPath} from 'node:url';
 import {buildSchematics} from './lib/nerve-schematics.mjs';
+import {correctNerve} from './lib/nerve-corrections.mjs';
 const root=new URL('../',import.meta.url),out=new URL('public/models/stream/',root);
 fs.mkdirSync(out,{recursive:true});fs.mkdirSync(new URL('.sites-runtime/',root),{recursive:true});
 fs.copyFileSync(new URL('public/draco/draco_wasm_wrapper.js',root),new URL('.sites-runtime/nerve-draco.cjs',root));
@@ -30,6 +31,7 @@ for(const [i,node] of gltf.nodes.entries()){
   decoder.GetAttributeFloatForAllPoints(mesh,attribute,values);
   const positions=new Float32Array(mesh.num_points()*3),v=new Vector3();
   for(let k=0;k<mesh.num_points();k++){v.set(values.GetValue(k*3),values.GetValue(k*3+1),values.GetValue(k*3+2)).applyMatrix4(matrix(i));positions.set(v.toArray(),k*3);}
+  correctNerve(name,positions);
   const indices=new Uint32Array(mesh.num_faces()*3),face=new draco.DracoInt32Array();
   for(let k=0;k<mesh.num_faces();k++){decoder.GetFaceFromMesh(mesh,k,face);for(let j=0;j<3;j++)indices[k*3+j]=face.GetValue(j);}
   if(size+positions.byteLength+indices.byteLength>384*1024)flush();
