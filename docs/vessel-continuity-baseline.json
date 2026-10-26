@@ -1,0 +1,6 @@
+{
+ "note": "Vessel pieces (12+ vertices) that touch no other vessel within 3 mm. A new one fails the build; fix it rather than adding it here.",
+ "floating": [
+  "Set of perforating veins [FJ2192] 37 vertices at -73, 659, 24 mm"
+ ]
+}
