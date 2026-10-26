@@ -5,9 +5,10 @@ import {DRACOLoader} from 'three/examples/jsm/loaders/DRACOLoader.js';
 import {mergeGeometries, mergeVertices} from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import {PointerTap} from '../pointer-tap';
 import {framingDistance} from '../camera-framing';
-import {describeBrainNode} from './brain-catalogue';
+import {BRAIN_GROUPS, describeBrainNode} from './brain-catalogue';
 import type {CsfSource} from './csf-scene';
 import {LABEL, classFields, partField, voxelize, type VoxelGrid, type VoxelInput} from './brain-voxels';
+import {SCHEMATIC} from './brain-schematic';
 import {SECTION_AXES, type BrainPart, type BrainView, type BrainViewState} from './brain-types';
 
 interface Callbacks {
@@ -18,6 +19,8 @@ interface Callbacks {
   error: (message: string) => void;
   pick: (id: string | null) => void;
 }
+/** Schematic (示意) structures are drawn in their own ochre so they are never mistaken for the real meshes. */
+const SCHEMATIC_COLOR = '#d2b25f';
 export const BRAIN_SELECT = {fill: '#5DB89A', edge: '#3E8E74'};
 const GROUP_COLOR: Record<string, string> = {
   meninges: '#d9c9a3', frontal: '#cdb0a8', parietal: '#c9b4ad', temporal: '#c5aaa3', occipital: '#c1a7a6', limbic: '#c9a9ad', insula: '#c8a8a0', 'cortex-other': '#cbb2ab',
@@ -150,7 +153,7 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
       const part = parts.get(id)!, on = selected.has(id);
       mesh.visible = visibleIn(part);
       const m = mesh.material, translucent = TRANSLUCENT[part.group];
-      m.color.set(on ? BRAIN_SELECT.fill : GROUP_COLOR[part.group] ?? '#cfae9a');
+      m.color.set(on ? BRAIN_SELECT.fill : part.schematic ? SCHEMATIC_COLOR : GROUP_COLOR[part.group] ?? '#cfae9a');
       m.emissive.set(on ? BRAIN_SELECT.fill : '#000000'); m.emissiveIntensity = on ? .12 : 0;
       m.transparent = translucent !== undefined && !on; m.opacity = translucent !== undefined && !on ? translucent : 1; m.depthWrite = !m.transparent;
       m.polygonOffset = on; m.polygonOffsetFactor = -3; m.polygonOffsetUnits = -3;
@@ -187,7 +190,8 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
     if (view === 'fit') direction.copy(camera.position).sub(controls.target).normalize();
     direction.normalize();
     const area = new T.Box3();
-    if (focus?.length) for (const id of focus) {const mesh = meshes.get(id); if (mesh) area.union(mesh.geometry.boundingBox!);}
+    const framed = focus?.length ? focus : state?.isolate?.length ? state.isolate : [];
+    for (const id of framed) {const mesh = meshes.get(id); if (mesh) area.union(mesh.geometry.boundingBox!);}
     if (area.isEmpty()) area.copy(core);
     const centre = area.getCenter(new T.Vector3()), target = new T.Box3(area.min.clone().addScalar(-.008), area.max.clone().addScalar(.008));
     controls.target.copy(centre);
@@ -226,6 +230,15 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
     };
     const walk = (node: T.Object3D) => {if (!take(node)) for (const child of [...node.children]) walk(child);};
     walk(gltf.scene);
+    // schematic structures the notes name but the model lacks
+    const SIDE_ZH = {left: '左', right: '右', mid: ''} as const;
+    for (const spec of SCHEMATIC) {
+      const geometry = spec.build(), group = BRAIN_GROUPS.find(g => g.id === spec.group)!;
+      const part: BrainPart = {id: `b${list.length}`, en: spec.en, zh: SIDE_ZH[spec.side] + spec.zh, side: spec.side, cat: 'schematic', region: '', group: spec.group, layer: group.layer, schematic: true};
+      const mesh = new T.Mesh(geometry, new T.MeshStandardMaterial({color: SCHEMATIC_COLOR, roughness: .6, metalness: 0, side: T.DoubleSide}));
+      mesh.userData.partId = part.id; list.push(part); parts.set(part.id, part); meshes.set(part.id, mesh); scene.add(mesh);
+      whole.union(geometry.boundingBox!);
+    }
     draco.dispose();
     if (core.isEmpty()) core.copy(whole);
     loaded = true; frameModel('front'); apply(); callbacks.ready(list);

@@ -6,6 +6,7 @@ import {quizModule} from './quiz-modules.mjs';
 const {describeBrainNode, BRAIN_GROUPS, displayEn} = await quizModule('app/organ/brain-catalogue.ts');
 const {voxelize, LABEL, classFields, partField, GREY_MM, CLASS_COUNT} = await quizModule('app/organ/brain-voxels.ts');
 const {CSF_STEPS} = await quizModule('app/organ/csf-scene.ts');
+const {SCHEMATIC, SCHEMATIC_NAMES} = await quizModule('app/organ/brain-schematic.ts');
 
 // ---- every named mesh of the model gets a group, a clean name and a Chinese name; spinal parts are left out
 const bytes = fs.readFileSync(new URL('../public/models/brain.glb', import.meta.url));
@@ -44,6 +45,25 @@ assert.equal(at(.045, .03, .03), LABEL.cortexWhite, 'deep tissue is white matter
 assert.ok([LABEL.cortexGrey].includes(at(.0015, .03, .03)), 'tissue next to the surface is grey matter');
 assert.equal(at(-.002, .03, .03), LABEL.empty, 'outside stays empty');
 assert.equal(grid.part[(Math.floor((.03 - grid.origin[0]) / grid.size)) + grid.nx * (Math.floor((.03 - grid.origin[1]) / grid.size) + grid.ny * Math.floor((.03 - grid.origin[2]) / grid.size))], 2, 'ventricle voxel belongs to part 1 (stored +1)');
+
+// ---- schematic (示意) structures: finite, closed, inside the brain, named in English and Chinese, in a real group, no clash with a real mesh name
+const realNames = new Set(parts.map(p => p.en));
+for (const spec of SCHEMATIC) {
+  assert.ok(spec.en && /[\u3400-\u9fff]/.test(spec.zh), `${spec.en}: English and Chinese name`);
+  assert.ok(groups.has(spec.group), `${spec.en}: known group`);
+  assert.ok(!realNames.has(spec.en), `${spec.en}: must not reuse the name of a real mesh`);
+  const g = spec.build(), a = g.getAttribute('position');
+  for (const v of a.array) assert.ok(Number.isFinite(v), `${spec.en}: finite positions`);
+  g.computeBoundingBox(); const b = g.boundingBox;
+  assert.ok(b.min.x * 1000 > -80 && b.max.x * 1000 < 80 && b.min.y * 1000 > 1540 && b.max.y * 1000 < 1700 && b.min.z * 1000 > -90 && b.max.z * 1000 < 90, `${spec.en}: inside the brain's extent`);
+  if (spec.side !== 'mid') assert.ok(spec.side === 'left' ? b.getCenter(new (b.min.constructor)()).x > 0 : b.getCenter(new (b.min.constructor)()).x < 0, `${spec.en}: left is +x, right is -x`);
+  // closed surface: every edge is shared by exactly two triangles
+  const idx = g.getIndex().array, edges = new Map();
+  for (let i = 0; i < idx.length; i += 3) for (let k = 0; k < 3; k++) {const e = [idx[i + k], idx[i + (k + 1) % 3]].sort((x, y) => x - y).join('-'); edges.set(e, (edges.get(e) ?? 0) + 1);}
+  const open = [...edges.values()].filter(n => n !== 2).length;
+  assert.ok(open <= edges.size * .02, `${spec.en}: closed shell (${open} open edges of ${edges.size})`);
+}
+assert.equal(SCHEMATIC.length, SCHEMATIC_NAMES.length * 2, 'every schematic structure comes as a left/right pair');
 
 // smooth fields for the cut surface: grey beats white at the rim, white beats grey deep inside, the outside carries no tissue, and the grey band is no thicker than 2.4 mm
 const fields = classFields(grid), idx = (x, y, z) => Math.floor((x - grid.origin[0]) / grid.size) + grid.nx * (Math.floor((y - grid.origin[1]) / grid.size) + grid.ny * Math.floor((z - grid.origin[2]) / grid.size));

@@ -10,6 +10,7 @@ import {SECTION_AXES, type BrainPart, type BrainView, type BrainViewState, type 
 import './organ.css';
 
 const MAX_PEEL = 7;
+const DEEP = new Set(['basal', 'diencephalon', 'ventricles']);
 const defaults: BrainViewState = {
   hiddenGroups: BRAIN_GROUPS.filter(g => !g.on).map(g => g.id), hiddenParts: [], peel: 0, isolate: null, selectedIds: [],
   section: {axis: 'none', offset: .5, flip: false}, command: {id: 0, view: 'front'},
@@ -145,7 +146,7 @@ export default function BrainDetail() {
             <h2 className="organ-info-title" lang="en">{displayEn(selected)}</h2>
             <p className="organ-info-zh" lang="zh-Hant">{selected.zh || '（尚無中文名稱）'}</p>
             <p lang="zh-Hant">分區：{BRAIN_GROUPS.find(g => g.id === selected.group)?.zh}｜{SIDE_ZH[selected.side]}{selected.region && selected.region !== selected.cat ? `｜${selected.region}` : ''}</p>
-            <p className="organ-info-en" lang="en">Group: {BRAIN_GROUPS.find(g => g.id === selected.group)?.en}. Source: Brain Project (Z-Anatomy / BodyParts3D).</p>
+            {selected.schematic ? <p className="organ-info-en" lang="zh-Hant"><b>示意模型</b>：位置與大小依周圍真實構造估算，不是實測形狀；名稱與功能取自神經解剖學共筆。</p> : <p className="organ-info-en" lang="en">Group: {BRAIN_GROUPS.find(g => g.id === selected.group)?.en}. Source: Brain Project (Z-Anatomy / BodyParts3D).</p>}
             <div className="organ-actions" role="group" aria-label="選取動作">
               <button onClick={() => go('fit', [selected.id])}>Focus</button>
               <button aria-pressed={!!view.isolate} onClick={() => patch({isolate: view.isolate ? null : [selected.id]})}>Isolate</button>
@@ -180,6 +181,9 @@ export default function BrainDetail() {
             <button onClick={() => patch({hiddenGroups: [], hiddenParts: [], isolate: null})}>全部開啟</button>
             <button onClick={() => patch({hiddenGroups: BRAIN_GROUPS.map(g => g.id), isolate: null})}>全部關閉</button>
           </div>
+          {parts.some(p => p.schematic) && <div className="organ-segmented" role="group" aria-label="示意構造">
+            <button aria-pressed={!!view.isolate && view.isolate.length > 1 && view.isolate.every(id => byId.get(id)?.schematic || DEEP.has(byId.get(id)?.group ?? ''))} onClick={() => {if (view.isolate) {patch({isolate: null}); return;} const ids = parts.filter(p => p.schematic || DEEP.has(p.group)).map(p => p.id); setView(v => ({...v, isolate: ids, command: {id: v.command.id + 1, view: 'fit', focus: ids}}));}}>只看深部與示意構造（{parts.filter(p => p.schematic).length}）</button>
+          </div>}
           <label className="organ-search"><span className="sr-only">搜尋構造</span><input type="search" value={query} placeholder="搜尋構造（中文或英文，含共筆結構）" onChange={e => setQuery(e.target.value)}/></label>
           {!ready && <p className="organ-info-empty">載入中…</p>}
           {q ? <div className="organ-results" aria-live="polite">
@@ -199,7 +203,7 @@ export default function BrainDetail() {
                 <button className="organ-expand" aria-expanded={expanded} aria-label={`${expanded ? '收合' : '展開'}${g.zh}`} onClick={() => setOpen(o => expanded ? o.filter(x => x !== g.id) : [...o, g.id])}>{expanded ? <ChevronDown size={15}/> : <ChevronRight size={15}/>}</button>
               </div>
               {expanded && <ul>{g.parts.map(p => <li key={p.id} className="organ-part-row">
-                <button aria-pressed={view.selectedIds.includes(p.id)} onClick={() => choose(p.id)}><span lang="en">{displayEn(p)}</span><small lang="zh-Hant">{p.zh}</small></button>
+                <button aria-pressed={view.selectedIds.includes(p.id)} onClick={() => choose(p.id)}><span lang="en">{displayEn(p)}</span><small lang="zh-Hant">{p.zh}{p.schematic ? '　〔示意〕' : ''}</small></button>
                 <button className="organ-eye" aria-label={`${view.hiddenParts.includes(p.id) ? '顯示' : '隱藏'}${displayEn(p)}`} onClick={() => togglePart(p.id)}>{view.hiddenParts.includes(p.id) ? <EyeOff size={14}/> : <Eye size={14}/>}</button>
               </li>)}</ul>}
             </div>;

@@ -4,8 +4,8 @@
 
 ## 摘要
 
-- 筆記自動抽取的結構：597 條 → 保留成 **484 張資訊卡**；併入其他條目 87 條（名稱保留為別名）；剔除 26 條（不是構造，原因見下表）。
-- 腦部模型（Brain Project）已有 mesh：142 張卡；只有近似 mesh：18 張；**模型未有：324 張**（清單與搜尋仍找得到，標示「模型未有」，點擊可開資訊卡）。
+- 筆記自動抽取的結構：597 條 → 保留成 **485 張資訊卡**；併入其他條目 87 條（名稱保留為別名）；剔除 26 條（不是構造，原因見下表）。
+- 腦部模型（Brain Project）已有 mesh：155 張卡；只有近似 mesh：13 張；**模型未有：317 張**（清單與搜尋仍找得到，標示「模型未有」，點擊可開資訊卡）。
 - 筆記正文未有描述、卡片內容尚待依 Essential Neuroscience 或圖譜補充並註明來源：9 張（見下表「資訊卡」欄）。
 
 | id | 中英名稱 | 類型 | 出處 | 是否有 mesh | 是否可點選 | 資訊卡 |
@@ -68,8 +68,8 @@
 | 0056 | 室間孔<br>Interventricular foramen | 腦室／腦池／腦膜 | 0218 p.11；0305 p.7 | 模型未有 | 僅清單（模型未有） | 已填（連通關係、筆記摘錄） |
 | 0057 | 聯合纖維<br>Commissural fibers | 纖維束／傳導路徑 | 0218 p.12 | 有：Corpus callosum、Anterior commissure、Hippocampal commissure…等 4 個 | 清單＋模型 | 已填（交叉位置） |
 | 0058 | 投射纖維<br>Projection fibers | 纖維束／傳導路徑 | 0218 p.12 | 有：Corticospinal tract、Corticobulbar tract、Corticopontine tract (frontal)…等 10 個 | 清單＋模型 | 已填（筆記摘錄） |
-| 0059 | 內囊前腳<br>Anterior limb | 纖維束／傳導路徑 | 0218 p.12 | 模型未有 | 僅清單（模型未有） | 已填（傳遞內容） |
-| 0060 | 內囊膝部<br>Genu | 纖維束／傳導路徑 | 0218 p.12；0423 p.14 | 模型未有 | 僅清單（模型未有） | 已填（交叉位置、筆記摘錄） |
+| 0059 | 內囊前腳<br>Anterior limb | 纖維束／傳導路徑 | 0218 p.12 | 有：Anterior limb of internal capsule | 清單＋模型 | 已填（傳遞內容） |
+| 0060 | 內囊膝部<br>Genu | 纖維束／傳導路徑 | 0218 p.12；0423 p.14 | 有：Genu of internal capsule | 清單＋模型 | 已填（交叉位置、筆記摘錄） |
 | 0061 | 殼核<br>Putamen | 核團 | 0218 p.13；0218 p.16；0311 p.13；0311 p.15；0430 p.10；0430 p.11；0430 p.34 | 有：Putamen | 清單＋模型 | 已填（位置／所在高度、損傷表現、筆記摘錄） |
 | 0062 | 蒼白球<br>Globus pallidus | 核團 | 0218 p.13；0218 p.16；0311 p.15；0430 p.10 | 有：Globus pallidus external、Globus pallidus internal | 清單＋模型 | 已填（位置／所在高度、損傷表現、筆記摘錄） |
 | 0063 | 尾狀核<br>Caudate nucleus | 核團 | 0218 p.13；0218 p.16；0430 p.10；0430 p.11；0430 p.34 | 有：Caudate nucleus | 清單＋模型 | 已填（位置／所在高度、功能、筆記摘錄） |
@@ -78,23 +78,23 @@
 | 0066 | 松果體<br>Pineal body | 其他結構 | 0218 p.14；0218 p.16 | 有：Pineal gland | 清單＋模型 | 已填（筆記摘錄） |
 | 0067 | 韁核<br>Habenular nuclei | 核團 | 0218 p.14 | 有：Habenula | 清單＋模型 | 已填（功能） |
 | 0068 | 下丘<br>inferior colliculus | 其他結構 | 0218 p.14；0305 p.6；0305 p.11；0305 p.18；0305 p.20 | 有：Inferior colliculus | 清單＋模型 | 已填（位置、構造、功能、筆記摘錄） |
-| 0069 | 旁室核<br>Paraventricular nucleus | 核團 | 0218 p.15 | 模型未有 | 僅清單（模型未有） | 已填（筆記摘錄） |
-| 0070 | 內側視前核<br>Medial preoptic nucleus | 核團 | 0218 p.15 | 有：Preoptic hypothalamus | 清單＋模型 | 已填（功能） |
+| 0069 | 旁室核<br>Paraventricular nucleus | 核團 | 0218 p.15 | 有：Paraventricular nucleus of hypothalamus | 清單＋模型 | 已填（筆記摘錄） |
+| 0070 | 內側視前核<br>Medial preoptic nucleus | 核團 | 0218 p.15 | 有：Medial preoptic nucleus | 清單＋模型 | 已填（功能） |
 | 0071 | 外側下視丘核<br>Lateral hypothalamic area | 核團 | 0218 p.15 | 有：Lateral hypothalamus | 清單＋模型 | 已填（筆記摘錄） |
-| 0072 | 腹內側核<br>Ventromedial nucleus | 核團 | 0218 p.15 | 近似：Tuberal hypothalamus | 清單＋模型 | 已填（筆記摘錄） |
+| 0072 | 腹內側核<br>Ventromedial nucleus | 核團 | 0218 p.15 | 有：Ventromedial nucleus of hypothalamus | 清單＋模型 | 已填（筆記摘錄） |
 | 0073 | 下視丘後核<br>Posterior hypothalamic area | 核團 | 0218 p.15 | 有：Posterior hypothalamus | 清單＋模型 | 已填（功能） |
 | 0074 | 下視丘前核<br>Anterior hypothalamic area | 核團 | 0218 p.15 | 有：Anterior hypothalamus | 清單＋模型 | 已填（功能） |
-| 0075 | 視上核<br>Supra-optic nucleus | 核團 | 0218 p.15 | 近似：Anterior hypothalamus | 清單＋模型 | 已填（功能） |
-| 0076 | 視交叉上核<br>Suprachiasmatic nucleus | 核團 | 0218 p.15 | 近似：Anterior hypothalamus | 清單＋模型 | 已填（功能） |
-| 0077 | 背內側核<br>Dorsomedial nucleus | 核團 | 0218 p.15 | 近似：Tuberal hypothalamus | 清單＋模型 | 已填（功能） |
+| 0075 | 視上核<br>Supra-optic nucleus | 核團 | 0218 p.15 | 有：Supraoptic nucleus | 清單＋模型 | 已填（功能） |
+| 0076 | 視交叉上核<br>Suprachiasmatic nucleus | 核團 | 0218 p.15 | 有：Suprachiasmatic nucleus | 清單＋模型 | 已填（功能） |
+| 0077 | 背內側核<br>Dorsomedial nucleus | 核團 | 0218 p.15 | 有：Dorsomedial nucleus of hypothalamus | 清單＋模型 | 已填（功能） |
 | 0078 | 上視丘<br>Epithalamus | 核團 | 0218 p.16 | 有：Habenula、Pineal gland、Stria medullaris thalami | 清單＋模型 | 已填（筆記摘錄） |
 | 0079 | 底視丘<br>Subthalamus | 核團 | 0218 p.16 | 有：Subthalamic nucleus | 清單＋模型 | 已填（功能） |
 | 0080 | 基底核<br>Basal ganglia | 核團 | 0218 p.16；0311 p.3；0430 p.2；0430 p.10 | 有：@group:basal | 清單＋模型 | 已填（筆記摘錄） |
-| 0081 | 帶狀核<br>Claustrum | 核團 | 0218 p.16；0311 p.15 | 模型未有 | 僅清單（模型未有） | 已填（位置／所在高度、筆記摘錄） |
+| 0081 | 帶狀核<br>Claustrum | 核團 | 0218 p.16；0311 p.15 | 有：Claustrum | 清單＋模型 | 已填（位置／所在高度、筆記摘錄） |
 | 0082 | 豆狀核<br>Lentiform nucleus | 核團 | 0218 p.16；0402 p.25；0430 p.10 | 有：Putamen、Globus pallidus external、Globus pallidus internal | 清單＋模型 | 已填（位置／所在高度、損傷表現、筆記摘錄） |
 | 0083 | 紋狀體<br>Corpus striatum | 其他結構 | 0218 p.16；0430 p.10 | 有：Caudate nucleus、Putamen | 清單＋模型 | 已填（筆記摘錄） |
-| 0084 | 內囊<br>Internal capsule | 纖維束／傳導路徑 | 0218 p.16；0305 p.12；0311 p.15；0324 p.16；0423 p.3；0430 p.10 | 模型未有 | 僅清單（模型未有） | 已填（中繼站、筆記摘錄） |
-| 0085 | 外囊<br>Lateral capsule | 纖維束／傳導路徑 | 0218 p.16；0311 p.15；0423 p.3 | 模型未有 | 僅清單（模型未有） | 已填（筆記摘錄） |
+| 0084 | 內囊<br>Internal capsule | 纖維束／傳導路徑 | 0218 p.16；0305 p.12；0311 p.15；0324 p.16；0423 p.3；0430 p.10 | 有：Anterior limb of internal capsule、Genu of internal capsule、Posterior limb of internal capsule | 清單＋模型 | 已填（中繼站、筆記摘錄） |
+| 0085 | 外囊<br>Lateral capsule | 纖維束／傳導路徑 | 0218 p.16；0311 p.15；0423 p.3 | 有：External capsule | 清單＋模型 | 已填（筆記摘錄） |
 | 0086 | 伏隔核<br>Accumbens nucleus | 核團 | 0218 p.16 | 有：Nucleus accumbens | 清單＋模型 | 已填（筆記摘錄） |
 | 0087 | 視丘迴路<br>Cortico-basal-thalamic loop | 纖維束／傳導路徑 | 0218 p.18 | 模型未有 | 僅清單（模型未有） | 已填（筆記摘錄） |
 | 0088 | 丘腦底核<br>Subthalamic nucleus | 核團 | 0218 p.18 | 有：Subthalamic nucleus | 清單＋模型 | 已填（筆記摘錄） |
@@ -479,7 +479,7 @@
 | 0479 | 心臟與內臟神經<br>Cardiac and splanchnic nerves | 神經 | 0411 p.21 | 模型未有 | 僅清單（模型未有） | 已填（分布） |
 | 0480 | 腹下神經叢<br>Hypogastric plexus | 神經 | 0411 p.21 | 模型未有 | 僅清單（模型未有） | 已填（分布） |
 | 0481 | 腰內臟神經<br>lumbar splanchnic nerve | 神經 | 0411 p.21 | 模型未有 | 僅清單（模型未有） | 已填（分布） |
-| 0482 | 視丘腹後外側核（VPL）<br>Ventral posterolateral nucleus (VPL) | 核團 | 0411 p.22 | 近似：Ventral lateroventral nucleus | 清單＋模型 | 已填（功能） |
+| 0482 | 視丘腹後外側核（VPL）<br>Ventral posterolateral nucleus (VPL) | 核團 | 0411 p.22 | 有：Ventral posterolateral nucleus (VPL) | 清單＋模型 | 已填（功能） |
 | 0483 | 脊髓網狀徑<br>spinoreticular tract | 纖維束／傳導路徑 | 0411 p.22 | 模型未有 | 僅清單（模型未有） | 已填（傳遞內容） |
 | 0484 | 視丘板內核<br>intralaminar nuclei of thalamus | 核團 | 0411 p.22 | 有：Intralaminar and lateral posterior nuclei | 清單＋模型 | 已填（功能） |
 | 0485 | 側分支<br>collateral branch | 其他結構 | 0411 p.22 | — | 否 | 已剔除：細胞層級概念（側分支），不是解剖構造 |
@@ -503,7 +503,7 @@
 | 0505 | 運動輔助區<br>Supplementary motor area | 皮質／腦迴／腦溝／腦葉 | 0423 p.10 | 模型未有 | 僅清單（模型未有） | 已填（功能） |
 | 0506 | 扣帶運動區<br>Cingulate motor areas | 皮質／腦迴／腦溝／腦葉 | 0423 p.10 | 模型未有 | 僅清單（模型未有） | 已填（功能） |
 | 0507 | 主要感覺區<br>Primary sensory cortex | 皮質／腦迴／腦溝／腦葉 | 0423 p.10 | 見 0456 | 見 0456 | 併入 0456「體感覺皮質」，名稱保留為別名 |
-| 0508 | 內囊後腳<br>Posterior limb of internal capsule | 纖維束／傳導路徑 | 0423 p.11 | 模型未有 | 僅清單（模型未有） | 已填（起始神經元） |
+| 0508 | 內囊後腳<br>Posterior limb of internal capsule | 纖維束／傳導路徑 | 0423 p.11 | 有：Posterior limb of internal capsule | 清單＋模型 | 已填（起始神經元） |
 | 0509 | 側柱<br>Lat. Funiculus | 其他結構 | 0423 p.12；0423 p.13 | 見 0129 | 見 0129 | 併入 0129「側索」，名稱保留為別名 |
 | 0510 | 前柱<br>Ant./Ventral funiculus | 其他結構 | 0423 p.12；0423 p.13 | 見 0128 | 見 0128 | 併入 0128「腹索」，名稱保留為別名 |
 | 0511 | 內側皮質脊髓徑<br>ACST | 纖維束／傳導路徑 | 0423 p.13 | 見 0165 | 見 0165 | 併入 0165「前側皮質脊髓徑」，名稱保留為別名 |
@@ -607,3 +607,4 @@
 | 0609 | 迷路動脈<br>Labyrinthine artery | 血管 | 0311 p.19 | 模型未有 | 僅清單（模型未有） | 已填（供應範圍） |
 | 0610 | 小腦蚓垂<br>Uvula (of vermis) | 其他結構 | 0324 p.5；0423 p.16 | 有：Uvula of vermis | 清單＋模型 | 已填（功能、筆記摘錄） |
 | 0611 | 小腦活樹<br>Arbor vitae | 其他結構 | 0324 p.6 | 模型未有 | 僅清單（模型未有） | 已填（筆記摘錄） |
+| x001 | 視丘腹後內側核（VPM）<br>Ventral posteromedial nucleus (VPM) | 核團 | 0218 p.14；0218 p.15；0411 p.6；0411 p.13；0411 p.15；0411 p.16 | 有：Ventral posteromedial nucleus (VPM)（示意） | 清單＋模型 | 已填（由逐頁全文取句：傳出、筆記摘錄） |
