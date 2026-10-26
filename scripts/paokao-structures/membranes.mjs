@@ -11,6 +11,17 @@ export default function membranes(U) {
   const lowest = n => U.extreme(n, P(0, -1, 0)), axis = (n, y, near) => U.axisAt(n, y, near, .002);
   for (const S of SIDES) {
     const sx = S.sx;
+    // ---- Extensor retinaculum of the wrist: a band about 2 cm wide that wraps the back of the distal radius and ulna, from the lateral edge of the radius to the ulnar styloid and the
+    // pisiform/triquetrum, lying on the extensor tendons and holding them down (the flexor retinaculum is the BodyParts3D mesh over the carpal tunnel).
+    {
+      const rad = `${S.w} radius`, uln = `${S.w} ulna`, y0 = U.mesh(rad).lo[1] + .016;
+      const rr = U.extreme(rad, P(sx, 0, -.15), {y: [y0 - .008, y0 + .008]}), ur = U.extreme(uln, P(-sx, 0, -.15), {y: [y0 - .008, y0 + .008]});
+      const tendons = [`${S.w} extensor digitorum`, `${S.w} extensor carpi radialis longus`, `${S.w} extensor carpi radialis brevis`, `${S.w} extensor carpi ulnaris`, `${S.w} extensor pollicis longus`, `${S.w} extensor pollicis brevis`, `${S.w} abductor pollicis longus`, `${S.w} extensor indicis`].filter(n => U.has(n));
+      const g = U.conformingSheet([add(rr, P(0, .009, 0)), add(ur, P(0, .009, 0)), add(ur, P(0, -.009, 0)), add(rr, P(0, -.009, 0))], [...tendons, rad, uln], .0013, .0012, .0025, P(0, 0, -.014));
+      push(S, 'extensor retinaculum of wrist', '腕伸肌支持帶', 'retinaculum', 'connective', {geometry: [g]},
+        ['A broad band across the back of the wrist, from the lateral edge of the radius to the ulnar styloid, triquetrum and pisiform', '橫跨腕背的寬帶，由橈骨外側緣連到尺骨莖突、三角骨與豌豆骨'], ['Binds down the extensor tendons in six compartments so they do not bowstring when the wrist extends', '把伸肌腱固定在六個腔室內，伸腕時不致弓弦狀突起'],
+        ['Radial side: lateral margin of the distal radius; ulnar side: styloid process of the ulna, triquetrum and pisiform', '橈側：橈骨遠端外側緣；尺側：尺骨莖突、三角骨與豌豆骨']);
+    }
     // ---- Superior transverse scapular ligament: roofs the suprascapular notch.
     {
       const sc = `${S.w} scapula`, cor = U.extreme(sc, P(sx * .45, .25, 1), {y: [1.375, 1.43]}), notch = U.extreme(sc, P(-sx * .2, 1, .15), {x: sx < 0 ? [-.115, -.075] : [.075, .115], y: [1.395, 1.44]});
