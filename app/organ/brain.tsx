@@ -17,17 +17,17 @@ const AXES: SectionAxis[] = ['none', 'sagittal', 'coronal', 'horizontal'];
 const CUT: Record<Exclude<SectionAxis, 'none'>, {flip: boolean; view: BrainView}> = {sagittal: {flip: false, view: 'right'}, coronal: {flip: true, view: 'front'}, horizontal: {flip: true, view: 'top'}};
 const SIDE_ZH = {left: '左', right: '右', mid: '正中'} as const;
 
-function BrainScene({view, exportRef, onReady, onError, onProgress, onPick}: {
-  view: BrainViewState; exportRef: {current: (() => CsfSource | null) | null}; onReady: (parts: BrainPart[]) => void; onError: (m: string) => void; onProgress: (p: number) => void; onPick: (id: string | null) => void;
+function BrainScene({view, exportRef, onReady, onError, onProgress, onPick, onBusy}: {
+  view: BrainViewState; exportRef: {current: (() => CsfSource | null) | null}; onReady: (parts: BrainPart[]) => void; onError: (m: string) => void; onProgress: (p: number) => void; onPick: (id: string | null) => void; onBusy: (busy: boolean) => void;
 }) {
   const host = useRef<HTMLDivElement>(null), viewer = useRef<ReturnType<typeof createBrainViewer> | null>(null);
-  const callbacks = useRef({onReady, onError, onProgress, onPick}); callbacks.current = {onReady, onError, onProgress, onPick};
+  const callbacks = useRef({onReady, onError, onProgress, onPick, onBusy}); callbacks.current = {onReady, onError, onProgress, onPick, onBusy};
   const latest = useRef(view); latest.current = view;
   useEffect(() => {
     try {
       viewer.current = createBrainViewer(host.current!, {
         progress: p => callbacks.current.onProgress(p), ready: parts => {callbacks.current.onReady(parts); viewer.current?.update(latest.current);},
-        error: m => callbacks.current.onError(m), pick: id => callbacks.current.onPick(id),
+        error: m => callbacks.current.onError(m), pick: id => callbacks.current.onPick(id), busy: b => callbacks.current.onBusy(b),
       });
       exportRef.current = () => viewer.current?.exportForCsf() ?? null;
       viewer.current.update(latest.current);
@@ -78,7 +78,7 @@ function CsfPage({exportRef, onClose}: {exportRef: {current: (() => CsfSource | 
 export default function BrainDetail() {
   const [view, setView] = useState<BrainViewState>(defaults);
   const [parts, setParts] = useState<BrainPart[]>([]), [ready, setReady] = useState(false), [error, setError] = useState(''), [percent, setPercent] = useState(0);
-  const [open, setOpen] = useState<string[]>([]), [csf, setCsf] = useState(false);
+  const [open, setOpen] = useState<string[]>([]), [csf, setCsf] = useState(false), [cutBusy, setCutBusy] = useState(false);
   const exportRef = useRef<(() => CsfSource | null) | null>(null);
   useEffect(() => {document.title = '腦部詳細模式 · MJ Anatomy';}, []);
   const byId = useMemo(() => new Map(parts.map(p => [p.id, p])), [parts]);
@@ -113,10 +113,11 @@ export default function BrainDetail() {
     </header>
     <div className="organ-layout" inert={csf || undefined} aria-hidden={csf || undefined}>
       <section className="organ-stage" aria-label="腦部 3D 模型">
-        <BrainScene view={view} exportRef={exportRef} onReady={p => {setParts(p); setReady(true);}} onError={setError} onProgress={setPercent} onPick={select}/>
+        <BrainScene view={view} exportRef={exportRef} onReady={p => {setParts(p); setReady(true);}} onError={setError} onProgress={setPercent} onPick={select} onBusy={setCutBusy}/>
         <div className="organ-views" aria-label="視角">{([['front', '前面'], ['back', '後面'], ['left', '左側'], ['right', '右側'], ['top', '上面'], ['bottom', '下面']] as const).map(([id, label]) => <button key={id} onClick={() => go(id)}>{label}</button>)}
           <button onClick={reset} aria-label="還原預設" title="還原預設"><RotateCcw size={15}/></button></div>
         {!ready && !error && <div className="organ-progress" role="status"><span className="organ-spinner"/><strong>載入腦部模型</strong><small>{percent ? `${percent}%` : '…'}</small></div>}
+        {cutBusy && <div className="organ-progress" role="status"><span className="organ-spinner"/><strong>正在計算平滑切面</strong><small>第一次切開需要幾秒</small></div>}
         {error && <div className="organ-error stage" role="alert">{error}</div>}
         <p className="organ-hint">拖曳旋轉 · 滾輪／雙指縮放 · 點選構造查看名稱</p>
       </section>
@@ -178,7 +179,7 @@ export default function BrainDetail() {
         <section className="organ-block organ-note">
           <h2>模型範圍</h2>
           <p>皮質各葉、腦溝與腦迴、小腦、腦幹、白質纖維束、基底核、間腦、腦室與脈絡叢、腦神經根部、腦動脈（含 Willis 環）、靜脈竇與硬腦膜反摺。已移除脊髓與脊神經等不屬於腦的構造。</p>
-          <p className="organ-source">來源：Brain Project（Z-Anatomy / BodyParts3D），CC BY-SA 4.0。切面灰白質分界為依皮質表面向內縮 2.5 mm 產生的示意。</p>
+          <p className="organ-source">來源：Brain Project（Z-Anatomy / BodyParts3D），CC BY-SA 4.0。切面灰白質分界為依皮質表面向內約 2.4 mm 產生的示意（體素 0.9 mm，以平滑場取等值面）。</p>
         </section>
       </aside>
     </div>
