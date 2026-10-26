@@ -126,6 +126,59 @@ export function makeUtil(w) {
       for (const [r, flip] of [[0, true], [P.length - 1, false]]) indices.push(...(flip ? [r * 4, r * 4 + 2, r * 4 + 1, r * 4, r * 4 + 3, r * 4 + 2] : [r * 4, r * 4 + 1, r * 4 + 2, r * 4, r * 4 + 2, r * 4 + 3]));
       return {positions: Float32Array.from(positions), indices: Uint32Array.from(indices)};
     },
+    /** The midpoint of the closest approach of two meshes (where two neighbouring muscles meet). */
+    meetPoint(a, b) {
+      const A = V(a), B = V(b); let best = Infinity, pa = null, pb = null;
+      for (const p of A) for (const q of B) { const d = (p[0] - q[0]) ** 2 + (p[1] - q[1]) ** 2 + (p[2] - q[2]) ** 2; if (d < best) { best = d; pa = p; pb = q; } }
+      return lerp(pa, pb, .5);
+    },
+    /** The point near `seed` that lies outside every mesh of `names` (and `avoid`) and is closest to all of `names` at once (smallest largest distance): the middle of the gap they surround. */
+    locate(names, seed, {r = .010, step = .002, avoid = []} = {}) {
+      const M = names.map(n => w.mesh(n)), A = avoid.map(n => w.mesh(n)), signed = (m, p) => { const c = closest(m, p), d = len(sub(p, c.point)); return dot(sub(p, c.point), c.normal) < 0 ? -d : d; };
+      let best = null;
+      for (let x = -r; x <= r + 1e-9; x += step) for (let y = -r; y <= r + 1e-9; y += step) for (let z = -r; z <= r + 1e-9; z += step) {
+        const p = add(seed, [x, y, z]), d = M.map(m => signed(m, p)); if (d.some(v => v < 0) || A.some(m => signed(m, p) < 0)) continue;
+        const sc = Math.max(...d); if (!best || sc < best.sc) best = {sc, p};
+      }
+      if (!best) throw new Error(`locate: no free point near the seed for ${names.join(', ')}`); return best.p;
+    },
+    /** Closed elliptical prism along a path: radii (rh across the path in the horizontal plane, rv the other way), flat ends. */
+    ellipticPrism(path, rh, rv, sides = 20) {
+      const positions = [], indices = [], n = path.length, up = [0, 1, 0];
+      path.forEach((p, i) => {
+        const tan = unit(sub(path[Math.min(n - 1, i + 1)], path[Math.max(0, i - 1)]));
+        let side = cross(tan, up); if (len(side) < 1e-6) side = cross(tan, [0, 0, 1]); side = unit(side); const vert = unit(cross(side, tan));
+        for (let j = 0; j < sides; j++) { const a = j / sides * Math.PI * 2; positions.push(...add(p, add(mul(side, Math.cos(a) * rh), mul(vert, Math.sin(a) * rv)))); }
+      });
+      for (let i = 0; i < n - 1; i++) for (let j = 0; j < sides; j++) { const a = i * sides + j, b = i * sides + (j + 1) % sides, c = (i + 1) * sides + j, d = (i + 1) * sides + (j + 1) % sides; indices.push(a, c, b, b, c, d); }
+      for (const [r, flip] of [[0, true], [n - 1, false]]) { const c0 = positions.length / 3; positions.push(...path[r]); for (let j = 0; j < sides; j++) { const a = r * sides + j, b = r * sides + (j + 1) % sides; indices.push(...(flip ? [c0, b, a] : [c0, a, b])); } }
+      return {positions: Float32Array.from(positions), indices: Uint32Array.from(indices)};
+    },
+    /** A thin closed sheet that lies on bones and muscles: the triangle or quad `poly` is subdivided to `step`, every point is moved onto the nearest of `surfaces` and lifted `off` along its normal,
+     *  and the result is given `thick` of thickness (half either side). Used for regions between structures (snuffbox, cubital fossa …) that should hug their floor, not float above it. */
+    conformingSheet(poly, surfaces, off = .0012, thick = .0016, step = .003) {
+      const meshes = surfaces.map(n => w.mesh(n)), grid = [], tri = poly.length === 3;
+      const edge = (a, b) => len(sub(a, b)), n = Math.max(2, Math.ceil(Math.max(...poly.map((p, i) => edge(p, poly[(i + 1) % poly.length]))) / step));
+      const place = p => { let best = null; for (const m of meshes) { const c = closest(m, p); if (!best || c.d < best.d) best = c; } return {c: add(best.point, mul(best.normal, off)), n: best.normal}; };
+      const idx = new Map(), pos = [], top = [], bot = [];
+      const at = (i, j) => { const k = i * (n + 1) + j; if (idx.has(k)) return idx.get(k);
+        let p; if (tri) { const u = i / n, v = j / n; p = add(add(mul(poly[0], 1 - u - v), mul(poly[1], u)), mul(poly[2], v)); } else { const u = i / n, v = j / n; p = add(add(mul(poly[0], (1 - u) * (1 - v)), mul(poly[1], u * (1 - v))), add(mul(poly[2], u * v), mul(poly[3], (1 - u) * v))); }
+        const q = place(p); const id = top.length; top.push(q.c); bot.push(q.n); idx.set(k, id); return id; };
+      const faces = [];
+      for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) {
+        if (tri) { if (i + j < n) faces.push([at(i, j), at(i + 1, j), at(i, j + 1)]); if (i + j < n - 1) faces.push([at(i + 1, j), at(i + 1, j + 1), at(i, j + 1)]); }
+        else faces.push([at(i, j), at(i + 1, j), at(i + 1, j + 1)], [at(i, j), at(i + 1, j + 1), at(i, j + 1)]);
+      }
+      // smooth the centre surface (three passes over the grid neighbours) so the sheet does not step from bone to bone, then give it its thickness along the original normals
+      const nb = top.map(() => new Set()); for (const [a, b, c] of faces) { nb[a].add(b); nb[a].add(c); nb[b].add(a); nb[b].add(c); nb[c].add(a); nb[c].add(b); }
+      let cen = top.map(p => p.slice()); for (let pass = 0; pass < 3; pass++) cen = cen.map((p, i) => { const q = [...nb[i]].map(j => cen[j]); if (!q.length) return p; const m = mul(q.reduce((t, v) => add(t, v), [0, 0, 0]), 1 / q.length); return lerp(p, m, .6); });
+      const norm = bot.map(v => v), tops = cen.map((p, i) => add(p, mul(norm[i], thick / 2))), bots = cen.map((p, i) => add(p, mul(norm[i], -thick / 2)));
+      const count = top.length, positions = [...tops, ...bots].flat(), indices = [];
+      for (const [a, b, c] of faces) indices.push(a, b, c, count + a, count + c, count + b);
+      const seen = new Map(); for (const [a, b, c] of faces) for (const [x, y] of [[a, b], [b, c], [c, a]]) { const k = x < y ? `${x},${y}` : `${y},${x}`; seen.set(k, (seen.get(k) ?? []).concat([[x, y]])); }
+      for (const list of seen.values()) if (list.length === 1) { const [x, y] = list[0]; indices.push(x, count + x, y, y, count + x, count + y); }
+      return {positions: Float32Array.from(positions), indices: Uint32Array.from(indices)};
+    },
     /** Triangles of a mesh whose centre is within `radius` of `c` (or satisfies keep), as a patch lifted `off` off the surface. */
     surfacePatch(name, c, radius, off = .0003, keep) { return U.patchWhere(name, tr => len(sub(tr.mid, c)) <= radius && (!keep || keep(tr)), off, p => len(sub(p, c)) < radius + .006, Math.max(.0007, radius / 5)); },
     /** Triangles of mesh `name` within `d` of another mesh (an impression or groove left by a neighbouring structure). */

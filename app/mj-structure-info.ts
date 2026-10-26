@@ -407,9 +407,16 @@ function paokaoProfile(rawName:string,system:SystemId,part?:Part):StructureProfi
  if(!card)return baseStructureProfile(rawName,system,part);
  const [en,zh]=KIND_LABEL[card.kind]??['Structure','構造'];
  const facts:BilingualFact[]=[];
+ // A space (snuffbox, fossa, tunnel, foramen …) has boundaries and contents rather than an origin and a course: its card fields hold [boundaries, location, contents].
+ if(card.kind==='space'){
+  if(card.origin)facts.push({labelEn:'Boundaries',labelZh:'邊界',valueEn:card.origin[0],valueZh:card.origin[1]});
+  if(card.course)facts.push({labelEn:'Location',labelZh:'位置',valueEn:card.course[0],valueZh:card.course[1]});
+  if(card.supply)facts.push({labelEn:'Contents',labelZh:'通過內容',valueEn:card.supply[0],valueZh:card.supply[1]});
+ }else{
  if(card.origin)facts.push({labelEn:card.kind==='nerve'?'Origin / roots':'Origin',labelZh:'起始',valueEn:card.origin[0],valueZh:card.origin[1]});
  if(card.course)facts.push({labelEn:'Course / relations',labelZh:'走行／位置關係',valueEn:card.course[0],valueZh:card.course[1]});
  if(card.supply)facts.push({labelEn:card.kind==='artery'||card.kind==='vein'?'Territory':'Supply / role',labelZh:card.kind==='artery'||card.kind==='vein'?'供應／引流範圍':'支配範圍／功能',valueEn:card.supply[0],valueZh:card.supply[1]});
+ }
  for(const f of card.extra??[])facts.push({labelEn:f.labelEn,labelZh:f.labelZh,valueEn:f.en,valueZh:f.zh});
  return{english:card.name,chinese:card.zh,category:`${en}｜${zh}（示意模型）`,summaryEn:SCHEMATIC_NOTE_EN2,summaryZh:SCHEMATIC_NOTE_ZH2,facts,source:card.refs?.length?`Schematic model built for this atlas from the textbook course (${card.refs.join('; ')}); landmarks measured on the BodyParts3D atlas meshes.`:'Schematic model built for this atlas from the textbook course; landmarks measured on the BodyParts3D atlas meshes.'};
 }
