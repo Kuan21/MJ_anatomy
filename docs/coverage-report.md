@@ -6,10 +6,10 @@
 
 | 類別 | 不重複詞數 | 意思 |
 |---|---|---|
-| 一、已有 | 1192 | 模型有，而且可以用搜尋／圖層揀到 |
+| 一、已有 | 1204 | 模型有，而且可以用搜尋／圖層揀到 |
 | 二、模型有但 UI 搵唔到 | 0 | 模型有幾何，但搜尋唔到（見下面清單；已修好者會喺「修復」一節列明） |
-| 三、模型冇 | 1147 | 交俾第 2 部分補模型 |
-| 骨性標誌 | 264 | 結節、窩、切跡等，屬已有骨件嘅表面特徵，模型唔另外分件 |
+| 三、模型冇 | 1136 | 交俾第 2 部分補模型 |
+| 骨性標誌 | 263 | 結節、窩、切跡等，屬已有骨件嘅表面特徵，模型唔另外分件 |
 | 雜訊（已略去） | 650 | 唔係解剖結構 |
 
 ## 闊背肌（Latissimus dorsi）點解搵唔到
@@ -79,7 +79,7 @@
 
 ## 上肢 I　`20250228_解剖_上肢__W2`
 
-已有 48　·　UI 搵唔到 0　·　模型冇 9　·　骨標誌 14　·　雜訊 25
+已有 49　·　UI 搵唔到 0　·　模型冇 9　·　骨標誌 13　·　雜訊 25
 
 **三、模型冇**
 
@@ -265,7 +265,7 @@
 
 ## 上肢 II　`20250523_解剖_上肢II_張___W14`
 
-已有 94　·　UI 搵唔到 0　·　模型冇 12　·　骨標誌 2　·　雜訊 19
+已有 95　·　UI 搵唔到 0　·　模型冇 12　·　骨標誌 1　·　雜訊 19
 
 **三、模型冇**
 
@@ -284,7 +284,7 @@
 
 ## 腹部 III　`20250606_解剖_腹部III_謝___W16`
 
-已有 125　·　UI 搵唔到 0　·　模型冇 128　·　骨標誌 6　·　雜訊 33
+已有 126　·　UI 搵唔到 0　·　模型冇 127　·　骨標誌 6　·　雜訊 33
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -372,7 +372,6 @@
 - nephron（腎元）
 - minor calyx（腎小盞）
 - renal column（腎柱）
-- hilum（腎門）
 - renal calyces（腎盞）
 - major calyx（腎大盞）
 - renal pelvis（腎盂）
@@ -427,7 +426,7 @@
 
 ## 下肢 I（骨、臀部）　`Anatomy_Lower_Limb_Lin_CH_Part_I_bones_and_gluteal_region_bb15ebc7f24f0b132626748650ed9648_2`
 
-已有 43　·　UI 搵唔到 0　·　模型冇 50　·　骨標誌 40　·　雜訊 42
+已有 44　·　UI 搵唔到 0　·　模型冇 49　·　骨標誌 40　·　雜訊 42
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -443,7 +442,6 @@
 - SI joint
 - mm pubis Pubis Inguinal ligament
 - pubs ischium Gluteal ligaments
-- pubis Bones
 - covered with articular cartilage
 - crescentic plates of cartilage
 - form the knee joint
@@ -622,7 +620,7 @@
 
 ## 胸部 I（胸壁、乳房）　`解剖_0908-3`
 
-已有 48　·　UI 搵唔到 0　·　模型冇 61　·　骨標誌 27　·　雜訊 28
+已有 50　·　UI 搵唔到 0　·　模型冇 59　·　骨標誌 27　·　雜訊 28
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -676,8 +674,6 @@
 - sternum C. the costal cartilages
 - bars of hyaline cartilage
 - respiratory diaphragm（向下藉由呼吸性橫膈）
-- areola（乳暈）
-- nipple（奶頭）
 - mammary gland lobules（支撐乳腺小葉）
 - axillary tail（腋尾）
 - osterocartilaginous thoracic cage（硬軟骨胸廓）
@@ -1012,7 +1008,7 @@
 
 ## 骨盆會陰 I　`解剖_1110`
 
-已有 79　·　UI 搵唔到 0　·　模型冇 129　·　骨標誌 18　·　雜訊 33
+已有 80　·　UI 搵唔到 0　·　模型冇 128　·　骨標誌 18　·　雜訊 33
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -1145,7 +1141,6 @@
 - patent part（開放部）
 - fundus of bladder（膀胱底）
 - sup. part of vagina（上半部陰道）
-- bulb（尿道球動脈）
 - dorsal a. to the penis/clitoris（陰蒂背動脈）
 - deep a. to the penis/clitoris（陰蒂深動脈）
 - ilium（髂骨）
@@ -1298,7 +1293,7 @@
 
 ## 骨盆會陰 II　`解剖_1201`
 
-已有 62　·　UI 搵唔到 0　·　模型冇 182　·　骨標誌 26　·　雜訊 54
+已有 69　·　UI 搵唔到 0　·　模型冇 175　·　骨標誌 26　·　雜訊 54
 
 **三、模型冇**
 
@@ -1384,7 +1379,6 @@
 - External urethral sphincter muscle（尿道外括約肌）
 - Rectovesical septum（直腸膀胱隔膜）
 - Rectovaginal septum（直腸陰道隔膜）
-- Greater vestibular gland
 - Paraurethral gland
 - Fundiform lig
 - Transverse perineal m（淺橫肌）
@@ -1455,10 +1449,7 @@
 - urethral sphincters（尿道外括約肌）
 - episiotomy（外陰切開術）
 - pudendum/vulva（外陰）
-- mons pubis（陰阜）
 - coarse pubic hairs（陰毛）
-- clitoris（陰蒂）
-- crus（陰蒂腳）
 - labia majora（大陰唇）
 - scrotum（陰囊）
 - pudendal cleft（空隙合併為陰部裂隙）
@@ -1466,10 +1457,8 @@
 - frenulum of the labia minora/ fourchette（小陰唇繫帶）
 - frenulum of the clitoris（陰蒂繫帶）
 - prepuce of the clitoris（陰蒂包皮）
-- bulbs of vestibule（前庭球）
 - bulb of the penis（陰莖球）
 - bulbospongiosus（球海綿體肌）
-- bulb（陰莖球）
 - tunica albuginea（白膜）
 - suspension of the penis（陰莖韌帶）
 - int. anal sphincter（肛門內括約肌）
@@ -1480,7 +1469,6 @@
 - recesses（坐骨肛門窩的隱窩）
 - ant. recesses（前隱窩）
 - post. recesses（後隱窩）
-- artery to the bulb（前庭球動脈）
 - posterior scrotal/labial n（陰唇神經）
 - dorsal nerve of penis /clitoris（陰蒂背神經）
 - external genitalia（最後到外生殖器）

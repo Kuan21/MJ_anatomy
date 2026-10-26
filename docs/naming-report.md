@@ -11,14 +11,14 @@
 
 ## 一、結果摘要
 
-- 涵蓋結構名稱（去除左右後）：1528 個
+- 涵蓋結構名稱（去除左右後）：1527 個
 - 採用來源 1（muscle-layers.json）改名：33 個；來源 2（跑考摘要）：14 個；來源 3（其他筆記）：25 個
 - 全站固定修正：「背闊肌」→「闊背肌」
 - 仍缺中文名或含英文：0 個
 
 | 來源 | 結構數 |
 |---|---|
-| 台灣解剖學名詞（程式內建對照表） | 1331 |
+| 台灣解剖學名詞（程式內建對照表） | 1330 |
 | muscle-layers.json | 88 |
 | glossary.json（其他筆記） | 75 |
 | glossary.json（跑考摘要） | 34 |
@@ -1062,7 +1062,6 @@
 | 眶回 | Orbital gyrus；orbital gyri |
 | 腹腔動脈幹 | Celiac artery；Celiac trunk |
 | 結腸邊緣動脈 | Marginal colic artery；Marginal artery of colon |
-| 枕外側回（枕中回） | lateral occipital gyrus (Middle occipital gyrus*)；lateral occipital gyrus (Middle occipital gyrus) |
 | 腋神經 | maxillary nerve；meningeal branch of maxillary nerve；axillary nerve |
 | 正中神經 | communicating branch of median nerve with ulnar nerve；median nerve |
 | 大腦中動脈（M3 段） | middle cerebral artery (M3 segment)；middle cerebral artery (M3-segment) |
@@ -1075,7 +1074,7 @@
 
 ## 五、全部結構命名一覽
 
-<details><summary>展開 1528 項</summary>
+<details><summary>展開 1527 項</summary>
 
 | 結構 | 使用來源 | 中文名 |
 |---|---|---|
@@ -1386,8 +1385,8 @@
 | posterior medial choroidal artery | 台灣解剖學名詞（程式內建對照表） | 脈絡叢後內側動脈 |
 | Superior vermian branch of medial branch of superior cerebellar artery | 台灣解剖學名詞（程式內建對照表） | 小腦上動脈內側支上小腦蚓支 |
 | Temporo-occipital branch of middle cerebral artery | 台灣解剖學名詞（程式內建對照表） | 大腦中動脈顳枕支 |
-| Third ventricle | 台灣解剖學名詞（程式內建對照表） | 第三心室 |
-| Fourth ventricle | 台灣解剖學名詞（程式內建對照表） | 第四心室 |
+| Third ventricle | 台灣解剖學名詞（程式內建對照表） | 第三腦室 |
+| Fourth ventricle | 台灣解剖學名詞（程式內建對照表） | 第四腦室 |
 | angular gyrus | 台灣解剖學名詞（程式內建對照表） | 角回 |
 | Anterior commissure | 台灣解剖學名詞（程式內建對照表） | 前連合 |
 | Brachium of superior colliculus | 台灣解剖學名詞（程式內建對照表） | 上丘臂 |
@@ -1674,29 +1673,29 @@
 | Parenchyma of pancreas | 台灣解剖學名詞（程式內建對照表） | 胰臟實質 |
 | Pancreatic duct tree | 台灣解剖學名詞（程式內建對照表） | 胰管樹 |
 | Trunk of anterior interventricular branch of coronary artery | 台灣解剖學名詞（程式內建對照表） | 冠狀動脈前室間支幹 |
-| First anterior branch of anterior interventricular branch of coronary artery | 台灣解剖學名詞（程式內建對照表） | 第一冠狀動脈前室間支前支 |
+| First anterior branch of anterior interventricular branch of coronary artery | 台灣解剖學名詞（程式內建對照表） | 冠狀動脈前室間支第一前支 |
 | Diagonal branch of anterior descending branch of coronary artery | 台灣解剖學名詞（程式內建對照表） | 冠狀動脈前降支斜支 |
-| Third anterior branch of anterior interventricular branch of coronary artery | 台灣解剖學名詞（程式內建對照表） | 第三冠狀動脈前室間支前支 |
+| Third anterior branch of anterior interventricular branch of coronary artery | 台灣解剖學名詞（程式內建對照表） | 冠狀動脈前室間支第三前支 |
 | Conus branch of anterior interventricular branch of coronary artery | 台灣解剖學名詞（程式內建對照表） | 冠狀動脈前室間支圓錐支 |
-| Second anterior branch of anterior interventricular branch of coronary artery | 台灣解剖學名詞（程式內建對照表） | 第二冠狀動脈前室間支前支 |
+| Second anterior branch of anterior interventricular branch of coronary artery | 台灣解剖學名詞（程式內建對照表） | 冠狀動脈前室間支第二前支 |
 | Circumflex branch of coronary artery | 台灣解剖學名詞（程式內建對照表） | 冠狀動脈迴旋支 |
 | Coronary sinus | 台灣解剖學名詞（程式內建對照表） | 冠狀竇 |
 | Great cardiac vein | 台灣解剖學名詞（程式內建對照表） | 心大靜脈 |
 | Anterior interventricular vein | 台灣解剖學名詞（程式內建對照表） | 前室間靜脈 |
 | Marginal branch of coronary artery | 台灣解剖學名詞（程式內建對照表） | 冠狀動脈邊緣支 |
 | conus artery | 台灣解剖學名詞（程式內建對照表） | 圓錐動脈 |
-| First anterior ventricular branch of coronary artery | 台灣解剖學名詞（程式內建對照表） | 第一冠狀動脈前心室支 |
+| First anterior ventricular branch of coronary artery | 台灣解剖學名詞（程式內建對照表） | 冠狀動脈第一前心室支 |
 | Middle cardiac vein | 台灣解剖學名詞（程式內建對照表） | 心中靜脈 |
 | Posterior interventricular branch of coronary artery | 台灣解剖學名詞（程式內建對照表） | 冠狀動脈後室間支 |
 | Posterior vein of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室後靜脈 |
 | marginal vein | 台灣解剖學名詞（程式內建對照表） | 邊緣靜脈 |
-| First posterior ventricular branch of coronary artery | 台灣解剖學名詞（程式內建對照表） | 第一冠狀動脈後心室支 |
+| First posterior ventricular branch of coronary artery | 台灣解剖學名詞（程式內建對照表） | 冠狀動脈第一後心室支 |
 | Trunk of coronary artery | 台灣解剖學名詞（程式內建對照表） | 冠狀動脈幹 |
 | Small cardiac vein | 台灣解剖學名詞（程式內建對照表） | 心小靜脈 |
 | Anterior cardiac vein | 台灣解剖學名詞（程式內建對照表） | 心前靜脈 |
 | Septal branch of anterior interventricular artery | 台灣解剖學名詞（程式內建對照表） | 前室間動脈隔支 |
-| First septal branch of posterior interventricular artery | 台灣解剖學名詞（程式內建對照表） | 第一後室間動脈隔支 |
-| Second septal branch of posterior interventricular artery | 台灣解剖學名詞（程式內建對照表） | 第二後室間動脈隔支 |
+| First septal branch of posterior interventricular artery | 台灣解剖學名詞（程式內建對照表） | 後室間動脈第一隔支 |
+| Second septal branch of posterior interventricular artery | 台灣解剖學名詞（程式內建對照表） | 後室間動脈第二隔支 |
 | genioglossus | 台灣解剖學名詞（程式內建對照表） | 頦舌肌 |
 | hyoglossus | 台灣解剖學名詞（程式內建對照表） | 舌骨舌肌 |
 | inferior pharyngeal constrictor | 台灣解剖學名詞（程式內建對照表） | 咽下縮肌 |
@@ -2102,9 +2101,9 @@
 | choroid plexus | 台灣解剖學名詞（程式內建對照表） | 脈絡叢 |
 | occipital pole | 台灣解剖學名詞（程式內建對照表） | 枕極 |
 | parieto-occipital sulcus | 台灣解剖學名詞（程式內建對照表） | 頂枕溝 |
-| anterior occipital sulcus* | 台灣解剖學名詞（程式內建對照表） | 枕前溝 |
-| inferior occipital gyrus and sulcus* | 台灣解剖學名詞（程式內建對照表） | 枕下回及溝 |
-| lateral occipital gyrus (Middle occipital gyrus*) | 台灣解剖學名詞（程式內建對照表） | 枕外側回（枕中回） |
+| anterior occipital sulcus | 台灣解剖學名詞（程式內建對照表） | 枕前溝 |
+| inferior occipital gyrus and sulcus | 台灣解剖學名詞（程式內建對照表） | 枕下回及溝 |
+| lateral occipital gyrus (Middle occipital gyrus) | 台灣解剖學名詞（程式內建對照表） | 枕外側回（枕中回） |
 | superior occipital gyri | 台灣解剖學名詞（程式內建對照表） | 枕上回 |
 | transverse occipital sulcus | 台灣解剖學名詞（程式內建對照表） | 枕橫溝 |
 | nucleus of oculomotor nerve | 台灣解剖學名詞（程式內建對照表） | 動眼神經 |
@@ -2502,7 +2501,6 @@
 | precuneus | 台灣解剖學名詞（程式內建對照表） | 楔前葉 |
 | intraparietal sulcus | 台灣解剖學名詞（程式內建對照表） | 頂內溝 |
 | lingual gyrus | 台灣解剖學名詞（程式內建對照表） | 舌回 |
-| lateral occipital gyrus (Middle occipital gyrus) | 台灣解剖學名詞（程式內建對照表） | 枕外側回（枕中回） |
 | calcarine sulcus | 台灣解剖學名詞（程式內建對照表） | 距狀溝 |
 | cuneus | 台灣解剖學名詞（程式內建對照表） | 楔葉 |
 | lunate sulcus | 台灣解剖學名詞（程式內建對照表） | 月狀溝 |
