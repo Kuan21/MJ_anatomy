@@ -123,6 +123,8 @@ export function zhAnatomy(baseName:string):ZhName|undefined{
   const part:Record<string,string>={acromial:'肩峰',deltoid:'三角肌',pectoral:'胸肌',descending:'降',ascending:'升','dorsal carpal':'背側腕'};
   if(parent&&part[branch[1]])return{zh:parent.zh+part[branch[1]]+'支',check:'組合詞'};
  }
+ // an exact entry in the extra tables wins over composing an ordinal ("third ventricle" is 第三腦室, not 第三＋心室)
+ const exact=zhExtra(n);if(exact)return exact;
  const ordinal=/^(first|second|third|fourth|fifth) (.+)$/.exec(n);
  if(ordinal){const rest=zhAnatomy(ordinal[2]);if(rest)return{zh:ORDINAL[ordinal[1]]+rest.zh,check:rest.check??'序數組合'};}
  return zhExtra(n);
