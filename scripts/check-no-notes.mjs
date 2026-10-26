@@ -34,5 +34,10 @@ for (const dir of ['app', 'components', 'lib', 'hooks']) for (const f of walk(pa
     if (m) problems.push(`${path.relative(root, f)}:${i + 1}: contains "${m[0]}"`);
   });
 }
+// 4. docs files the app imports (they are bundled into the site)
+for (const f of ['docs/muscle-layers.json', 'docs/paokao-aliases.json']) {
+  const m = FORBIDDEN.exec(fs.readFileSync(path.join(root, f), 'utf8'));
+  if (m) problems.push(`${f}: contains "${m[0]}" and is bundled into the site`);
+}
 if (problems.length) { console.error(`Course notes reach the site (${problems.length}):\n - ` + problems.slice(0, 40).join('\n - ')); process.exit(1); }
 console.log('No course notes on the site: no notes file served, no page citations or note wording in public/, dist/ or the app strings.');
