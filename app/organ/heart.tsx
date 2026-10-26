@@ -1,5 +1,5 @@
 import {useEffect, useMemo, useRef, useState} from 'react';
-import {ArrowLeft, Eye, EyeOff, RotateCcw} from 'lucide-react';
+import {ArrowLeft, ChevronDown, ChevronRight, Eye, EyeOff, RotateCcw} from 'lucide-react';
 import {fetchModelBuffer} from '../model-download';
 import {createHeartViewer} from './heart-viewer';
 import {CHAMBERS, chamberView, type ChamberItem} from './heart-chambers';
@@ -13,19 +13,19 @@ const LEAFLET_LABEL: Record<string, string> = {
   'Anterior semilunar cusp of pulmonary valve': 'Pulmonary · anterior', 'Left semilunar cusp of pulmonary valve': 'Pulmonary · left', 'Right semilunar cusp of pulmonary valve': 'Pulmonary · right',
 };
 interface LabelSpec {id: string; en: string; zh: string; ids: string[]}
-function HeartScene({catalogue, view, labels, onProgress, onReady, onError, onPick, onHover}: {
+function HeartScene({catalogue, view, labels, onProgress, onReady, onError, onPick}: {
   catalogue: HeartCatalogue; view: HeartViewState; labels: LabelSpec[];
   onProgress: (loaded: number, total: number) => void; onReady: () => void; onError: (message: string) => void;
-  onPick: (id: string | null) => void; onHover: (id: string | null) => void;
+  onPick: (id: string | null) => void;
 }) {
   const host = useRef<HTMLDivElement>(null), viewer = useRef<ReturnType<typeof createHeartViewer> | null>(null);
-  const callbacks = useRef({onProgress, onReady, onError, onPick, onHover}); callbacks.current = {onProgress, onReady, onError, onPick, onHover};
+  const callbacks = useRef({onProgress, onReady, onError, onPick}); callbacks.current = {onProgress, onReady, onError, onPick};
   const latest = useRef(view); latest.current = view;
   useEffect(() => {
     try {
       viewer.current = createHeartViewer(host.current!, catalogue, {
         progress: (a, b) => callbacks.current.onProgress(a, b), ready: () => callbacks.current.onReady(), error: m => callbacks.current.onError(m),
-        pick: id => callbacks.current.onPick(id), hover: id => callbacks.current.onHover(id),
+        pick: id => callbacks.current.onPick(id), hover: () => {},
       });
       viewer.current.update(latest.current);
     } catch {callbacks.current.onError('無法啟動 3D 顯示。請改用支援 WebGL 的瀏覽器開啟。');}
@@ -48,7 +48,7 @@ export default function HeartDetail() {
   const [catalogue, setCatalogue] = useState<HeartCatalogue | null>(null), [catalogueError, setCatalogueError] = useState(''), [retry, setRetry] = useState(0);
   const [view, setView] = useState<HeartViewState>(defaults);
   const [item, setItem] = useState<ChamberItem | null>(null), [labelOn, setLabelOn] = useState({valves: false, leaflets: false});
-  const [load, setLoad] = useState({loaded: 0, total: 0}), [ready, setReady] = useState(false), [error, setError] = useState(''), [hover, setHover] = useState<string | null>(null);
+  const [load, setLoad] = useState({loaded: 0, total: 0}), [ready, setReady] = useState(false), [error, setError] = useState(''), [openGroups, setOpenGroups] = useState<string[]>([]);
   useEffect(() => {if (!view.openChamber) setItem(null);}, [view.openChamber]);
   useEffect(() => {document.title = '心臟詳細模式 · MJ Anatomy';}, []);
   useEffect(() => {
@@ -64,7 +64,6 @@ export default function HeartDetail() {
 
   const parts = useMemo(() => new Map(catalogue?.parts.map(p => [p.id, p])), [catalogue]);
   const selected = view.selectedId ? parts.get(view.selectedId) : undefined;
-  const shown = hover && hover !== view.selectedId ? parts.get(hover) : undefined;
   const patch = (next: Partial<HeartViewState>) => setView(v => ({...v, ...next}));
   const go = (name: HeartView) => setView(v => ({...v, command: {id: v.command.id + 1, view: name}}));
   const toggleGroup = (id: string) => patch({hiddenGroups: view.hiddenGroups.includes(id) ? view.hiddenGroups.filter(g => g !== id) : [...view.hiddenGroups, id]});
@@ -86,7 +85,7 @@ export default function HeartDetail() {
     const list: LabelSpec[] = [];
     if (labelOn.valves) for (const [id, en, zh, names] of [
       ['v-tri', 'Tricuspid valve', '三尖瓣', CHAMBERS[1].inside.filter(n => /right atrioventricular valve/.test(n))],
-      ['v-mit', 'Mitral valve', '二尖瓣', CHAMBERS[3].inside.filter(n => /left atrioventricular valve/.test(n))],
+      ['v-mit', 'Mitral valve', '僧帽瓣', CHAMBERS[3].inside.filter(n => /left atrioventricular valve/.test(n))],
       ['v-aor', 'Aortic valve', '主動脈瓣', CHAMBERS[3].inside.filter(n => /aortic valve/.test(n))],
       ['v-pul', 'Pulmonary valve', '肺動脈瓣', CHAMBERS[1].inside.filter(n => /pulmonary valve/.test(n))],
     ] as [string, string, string, string[]][]) list.push({id, en, zh, ids: idsOf2(names)});
@@ -106,10 +105,9 @@ export default function HeartDetail() {
     {catalogue && <div className="organ-layout">
       <section className="organ-stage" aria-label="心臟 3D 模型">
         <HeartScene catalogue={catalogue} view={view} labels={labelSpecs} onProgress={(loaded, total) => setLoad({loaded, total})} onReady={() => setReady(true)} onError={setError}
-          onPick={id => patch({selectedId: id})} onHover={setHover}/>
+          onPick={id => patch({selectedId: id})}/>
         <div className="organ-views" aria-label="視角">{([['front', '前面'], ['back', '後面'], ['left', '左側'], ['right', '右側'], ['top', '上面']] as const).map(([id, label]) => <button key={id} onClick={() => go(id)}>{label}</button>)}
           <button onClick={() => {setView(v => ({...defaults, command: {id: v.command.id + 1, view: 'front'}}));}} aria-label="還原預設" title="還原預設"><RotateCcw size={15}/></button></div>
-        {shown && <div className="organ-hover" aria-hidden="true">{shown.name}<small>{shown.chinese}</small></div>}
         {!ready && !error && <div className="organ-progress" role="status"><span className="organ-spinner"/><strong>載入心臟模型</strong><small>{load.loaded} / {load.total || '…'} 個模型套件</small></div>}
         {error && <div className="organ-error stage" role="alert">{error}</div>}
         <p className="organ-hint">拖曳旋轉 · 滾輪／雙指縮放 · 點選構造查看說明</p>
@@ -170,17 +168,24 @@ export default function HeartDetail() {
         </section>
         <section className="organ-block">
           <h2>構造<small>Structures</small></h2>
+          <div className="organ-segmented" role="group" aria-label="全部開關">
+            <button onClick={() => patch({hiddenGroups: []})}>全部顯示</button>
+            <button onClick={() => patch({hiddenGroups: grouped.map(g => g.id)})}>全部隱藏</button>
+          </div>
           {grouped.map(g => {
-            const hidden = view.hiddenGroups.includes(g.id);
+            const hidden = view.hiddenGroups.includes(g.id), expanded = openGroups.includes(g.id);
             return <div className="organ-group" key={g.id}>
-              <button className="organ-group-head" onClick={() => toggleGroup(g.id)} aria-pressed={!hidden} aria-label={`${hidden ? '顯示' : '隱藏'}${g.label}`}>{hidden ? <EyeOff size={15}/> : <Eye size={15}/>}<span lang="en">{g.english}<small lang="zh-Hant">{g.label}</small></span><b>{g.parts.length}</b></button>
-              {!hidden && <ul>{g.parts.map((p: HeartPart) => <li key={p.id}><button aria-pressed={view.selectedId === p.id} onMouseEnter={() => setHover(p.id)} onMouseLeave={() => setHover(null)} onClick={() => patch({selectedId: view.selectedId === p.id ? null : p.id})}><span lang="en">{p.name}</span><small lang="zh-Hant">{p.chinese}</small>{p.origin === 'MJ 補建' && <i className="organ-nomodel-tag organ-mj-tag" lang="zh-Hant">MJ 補建</i>}</button></li>)}</ul>}
+              <div className="organ-group-row">
+                <button className="organ-group-head" onClick={() => toggleGroup(g.id)} aria-pressed={!hidden} aria-label={`${hidden ? '顯示' : '隱藏'}${g.label}`}>{hidden ? <EyeOff size={15}/> : <Eye size={15}/>}<span lang="en">{g.english}<small lang="zh-Hant">{g.label}</small></span><b>{g.parts.length}</b></button>
+                <button className="organ-expand" aria-expanded={expanded} aria-label={`${expanded ? '收合' : '展開'}${g.label}`} onClick={() => setOpenGroups(o => expanded ? o.filter(x => x !== g.id) : [...o, g.id])}>{expanded ? <ChevronDown size={15}/> : <ChevronRight size={15}/>}</button>
+              </div>
+              {expanded && <ul>{g.parts.map((p: HeartPart) => <li key={p.id}><button aria-pressed={view.selectedId === p.id} onClick={() => patch({selectedId: view.selectedId === p.id ? null : p.id, hiddenGroups: view.hiddenGroups.filter(x => x !== g.id)})}><span lang="en">{p.name}</span><small lang="zh-Hant">{p.chinese}</small>{p.origin === 'MJ 補建' && <i className="organ-nomodel-tag organ-mj-tag" lang="zh-Hant">MJ 補建</i>}</button></li>)}</ul>}
             </div>;
           })}
         </section>
         <section className="organ-block organ-note">
           <h2>模型範圍</h2>
-          <p>心腔、房室瓣與半月瓣（房室瓣連同腱索）、乳突肌、冠狀動脈與心臟靜脈、上下腔靜脈、肺靜脈與相連大血管，以及心包膜三層。腱索包含在瓣膜模型中，不能單獨選取。三尖瓣前瓣、二尖瓣前瓣、左心室前乳突肌，以及右緣支、後室間支、對角支、心小靜脈與心前靜脈取自 BodyParts3D 4.0，並對齊到同一心臟；心包膜三層由心壁向外偏移生成，為示意模型。</p>
+          <p>心腔、房室瓣與半月瓣（房室瓣連同腱索）、乳突肌、冠狀動脈與心臟靜脈、上下腔靜脈、肺靜脈與相連大血管，以及心包膜三層。腱索包含在瓣膜模型中，不能單獨選取。三尖瓣前瓣、僧帽瓣前瓣、左心室前乳突肌，以及右緣支、後室間支、對角支、心小靜脈與心前靜脈取自 BodyParts3D 4.0，並對齊到同一心臟；心包膜三層由心壁向外偏移生成，為示意模型。</p>
           <p>來源模型沒有、依解剖知識補建的構造（清單中標示「MJ 補建」，位置與形狀為示意）：界嵴、梳狀肌、卵圓窩、心房中隔、左右心耳、室間隔、肉柱、節制索、室上嵴、動脈圓錐、主動脈前庭、竇房結動脈、左緣支、心包橫竇與心包斜竇。卵圓瓣痕跡仍沒有模型，只提供文字說明；傳導系統（竇房結、房室結、希氏束）不在跑考範圍，未收錄。</p>
           <p className="organ-source">來源：{catalogue.source}。{catalogue.attribution}。授權 {catalogue.license}。</p>
         </section>
