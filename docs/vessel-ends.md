@@ -1,13 +1,13 @@
 # 血管末端審核
 
-共檢查 10373 個血管末端（動脈與靜脈；每個血管網格的各分支尖端）。
+共檢查 10366 個血管末端（動脈與靜脈；每個血管網格的各分支尖端）。
 
 | 處理 | 數量 | 說明 |
 | --- | ---: | --- |
-| 原本已相連 | 3447 | 末端接到同類型的上游或分支血管，不處理 |
-| 補接（connector） | 741 | 12 mm 內有同類型血管，加一條細而彎的連接管，接回母血管 |
-| 漸細（fade） | 2825 | 半徑 1.8 mm 以下的小血管，真實解剖上止於肌肉、器官或筋膜；末端收成尖端，資料卡註明「末端逐漸變細，進入周圍組織」 |
-| 進入器官／其他（enters） | 3360 | 較大的血管進入器官或骨（如主動脈根部、肝靜脈進入肝），不改形狀，列在下方供人工複查 |
+| 原本已相連 | 3454 | 末端接到同類型的上游或分支血管，不處理 |
+| 補接（connector） | 743 | 12 mm 內有同類型血管，加一條細而彎的連接管，接回母血管 |
+| 漸細（fade） | 2824 | 半徑 1.8 mm 以下的小血管，真實解剖上止於肌肉、器官或筋膜；末端收成尖端，資料卡註明「末端逐漸變細，進入周圍組織」 |
+| 進入器官／其他（enters） | 3345 | 較大的血管進入器官或骨（如主動脈根部、肝靜脈進入肝），不改形狀，列在下方供人工複查 |
 
 ## 補接與未處理清單
 
@@ -707,13 +707,14 @@
 | Left external iliac vein (FJ3522) | enters × 2 | 0 | 2.7 | 0.9 |
 | Left internal pudendal vein (FJ3525) | enters × 1 | 1.9 | 4.8 | 1.3 |
 | Left internal pudendal vein (FJ3525) | gap × 3 | 1.8 | 5.7 | 5 |
-| Left lateral sacral vein (FJ3526) | enters × 3 | 1.9 | 4 | 0.2 |
+| Left lateral sacral vein (FJ3526) | enters × 3 | 1.9 | 3.7 | 0.2 |
 | Left lateral sacral vein (FJ3526) | gap × 2 | 1.4 | 6.6 | 4.5 |
+| Left obturator vein (FJ3527) | gap × 3 | 1.2 | 6.6 | 4 |
 | Left obturator vein (FJ3527) | enters × 2 | 2 | 4.4 | 0 |
-| Left obturator vein (FJ3527) | gap × 2 | 1.2 | 8.3 | 6.2 |
 | Left superficial epigastric artery (FJ3529) | enters × 10 | 2.9 | 3.2 | 0.2 |
 | Left superficial epigastric artery (FJ3529) | gap × 1 | 2.7 | 11.5 | 6.4 |
-| Left superior gluteal vein (FJ3531) | enters × 11 | 2.3 | 5.4 | 0.1 |
+| Left superior gluteal vein (FJ3531) | enters × 3 | 0 | 3.2 | 0.9 |
+| Left superior gluteal vein (FJ3531) | gap × 2 | 2.1 | 4 | 5.8 |
 | Left testicular artery (FJ3532) | gap × 11 | 1.6 | 3.5 | 4.2 |
 | Left testicular artery (FJ3532) | enters × 6 | 0 | 7.2 | 0.2 |
 | Left testicular vein (FJ3533) | gap × 8 | 1.7 | 3.2 | 4.3 |
@@ -727,10 +728,10 @@
 | Right common iliac vein (FJ3566) | enters × 6 | 0 | 2.9 | 5.9 |
 | Right external iliac artery (FJ3567) | enters × 18 | 2.4 | 2.9 | 0.4 |
 | Right external iliac vein (FJ3568) | gap × 4 | 2.5 | 2.6 | 4.8 |
-| Right external iliac vein (FJ3568) | enters × 30 | 0 | 3.6 | 1 |
+| Right external iliac vein (FJ3568) | enters × 30 | 0 | 3 | 1 |
 | Right internal iliac artery (FJ3569) | enters × 4 | 2.4 | 7.9 | 1.1 |
 | Right internal iliac vein (FJ3570) | enters × 3 | 0 | 3.7 | 0.6 |
-| Right internal iliac vein (FJ3571) | enters × 2 | 1.9 | 13 | 0.2 |
+| Right internal iliac vein (FJ3571) | enters × 3 | 1.9 | 3.9 | 0.2 |
 | Right internal iliac vein (FJ3572) | enters × 7 | 1.8 | 3.1 | 1.6 |
 | Posterior division of right renal artery (FJ3574) | gap × 1 | 0.4 | 4.3 | 9.6 |
 | Right renal vein (FJ3577) | enters × 2 | 0 | 3.2 | 3.4 |
@@ -758,15 +759,15 @@
 | Right inferior epigastric vein (FJ3605) | enters × 14 | 0 | 13.5 | 0.1 |
 | Right inferior epigastric vein (FJ3605) | gap × 1 | 1.1 | 9.9 | 5.9 |
 | Right inferior gluteal vein (FJ3606) | enters × 5 | 2.2 | 7.6 | 2.1 |
-| Right inferior gluteal vein (FJ3606) | gap × 8 | 2.5 | 2.6 | 4.2 |
+| Right inferior gluteal vein (FJ3606) | gap × 6 | 2.5 | 2.6 | 4.2 |
 | Right internal iliac vein (FJ3607) | gap × 1 | 1.9 | 5 | 14.6 |
 | Right internal iliac vein (FJ3609) | enters × 1 | 0 | 3.1 | 6.2 |
 | Right internal pudendal vein (FJ3610) | gap × 5 | 1.9 | 2.7 | 4.2 |
-| Right lateral sacral vein (FJ3611) | gap × 1 | 1.6 | 3.9 | 6.6 |
 | Right obturator vein (FJ3612) | gap × 2 | 2 | 4.2 | 4.8 |
 | Right obturator vein (FJ3612) | enters × 2 | 2 | 3.1 | 3.4 |
 | Right superficial epigastric artery (FJ3614) | enters × 18 | 2.7 | 2.7 | 0 |
-| Right superior gluteal vein (FJ3616) | enters × 12 | 2.9 | 2.8 | 0.5 |
+| Right superior gluteal vein (FJ3616) | gap × 2 | 2.3 | 2.9 | 6.3 |
+| Right superior gluteal vein (FJ3616) | enters × 4 | 2.6 | 2.7 | 0.4 |
 | Right testicular artery (FJ3617) | gap × 8 | 1.5 | 2.9 | 4.3 |
 | Right testicular artery (FJ3617) | enters × 1 | 0 | 12.9 | 7.5 |
 | Right testicular vein (FJ3618) | gap × 11 | 1.6 | 3.9 | 4.2 |
