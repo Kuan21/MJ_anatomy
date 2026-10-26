@@ -117,3 +117,13 @@
 .csf-correction{padding:6px 8px;background:#fbf3e4;border-radius:6px;font-size:12px}
 .csf-foot{margin-top:auto;padding:10px 14px;border-top:1px solid var(--line);font-size:11px;color:var(--muted);line-height:1.6}
 @media(max-width:900px){.csf-page-body{grid-template-columns:1fr;grid-template-rows:48vh 1fr}.csf-side{border-left:0;border-top:1px solid var(--line)}}
+
+/* neuroanatomy notes: search, list rows and info cards */
+.organ-search{display:block;margin:8px 0}.organ-search input{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font:inherit;font-size:13px;background:#fff}
+.organ-results h3,.organ-notes-list h3{margin:10px 0 4px;font-size:12px;letter-spacing:1px;color:var(--muted)}.organ-notes-list h3 small{display:block;letter-spacing:0;font-weight:400;font-size:11px}
+.note-row{display:flex;flex-direction:column;align-items:flex-start;gap:0;width:100%;text-align:left}
+.note-card{display:flex;flex-direction:column;gap:6px;font-size:13px;line-height:1.6}.note-aka,.note-meta,.note-source,.note-pending{margin:0;font-size:11px;color:var(--muted)}
+.note-pending{padding:6px 8px;background:#fbf3e4;border-radius:6px;color:#6b5320}
+.note-field h3{margin:6px 0 2px;font-size:11px;letter-spacing:1px;color:var(--muted)}.note-field ul{margin:0;padding-left:16px}.note-field li{margin:2px 0}.note-field li small{margin-left:4px;color:var(--muted);font-size:11px}
+.note-links{margin-top:8px}.note-links h3{margin:0 0 4px;font-size:11px;letter-spacing:1px;color:var(--muted)}.note-links button{display:flex;flex-direction:column;align-items:flex-start;width:100%;text-align:left;padding:4px 0}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
