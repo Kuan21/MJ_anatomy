@@ -67,12 +67,11 @@ function CsfPage({exportRef, onClose}: {exportRef: {current: (() => CsfSource | 
           <p className="csf-zh" lang="zh-Hant">{info.zh}</p>
           <dl>
             <dt>所在位置</dt><dd>{notes.where}</dd>
-            <dt>CSF 在這裡</dt><dd><ul>{notes.happens.map(n => <li key={n.text}>{n.text}<small>〔{n.src}〕</small></li>)}</ul></dd>
-            {notes.clinical.length > 0 && <><dt>臨床相關</dt><dd><ul>{notes.clinical.map(n => <li key={n.text}>{n.text}<small>〔{n.src}〕</small></li>)}</ul></dd></>}
-            {notes.correction && <><dt>筆記與課本不同</dt><dd className="csf-correction">{notes.correction.text}</dd></>}
+            <dt>CSF 在這裡</dt><dd><ul>{notes.happens.map(n => <li key={n}>{n}</li>)}</ul></dd>
+            {notes.clinical.length > 0 && <><dt>臨床相關</dt><dd><ul>{notes.clinical.map(n => <li key={n}>{n}</li>)}</ul></dd></>}
           </dl>
         </div>
-        <footer className="csf-foot">出處：神經解剖學共筆（M65×CM57）0218、0226、0305、0311、0324；步驟標示於各句之後。<br/>腦室、脈絡叢與上矢狀竇取自腦部模型；孔道、腦池、蛛網膜下腔、脊髓與腰池為示意模型。<b>脊髓段縮短，未依比例。</b></footer>
+        <footer className="csf-foot">孔道、腦池、蛛網膜下腔、脊髓與腰池為示意模型。<b>脊髓段縮短，未依比例。</b></footer>
       </aside>
     </div>
   </div>;
@@ -146,14 +145,14 @@ export default function BrainDetail() {
             <h2 className="organ-info-title" lang="en">{displayEn(selected)}</h2>
             <p className="organ-info-zh" lang="zh-Hant">{selected.zh || '（尚無中文名稱）'}</p>
             <p lang="zh-Hant">分區：{BRAIN_GROUPS.find(g => g.id === selected.group)?.zh}｜{SIDE_ZH[selected.side]}{selected.region && selected.region !== selected.cat ? `｜${selected.region}` : ''}</p>
-            {selected.schematic ? <p className="organ-info-en" lang="zh-Hant"><b>示意模型</b>：位置與大小依周圍真實構造估算，不是實測形狀；名稱與功能取自神經解剖學共筆。</p> : <p className="organ-info-en" lang="en">Group: {BRAIN_GROUPS.find(g => g.id === selected.group)?.en}. Source: Brain Project (Z-Anatomy / BodyParts3D).</p>}
+            {selected.schematic ? <p className="organ-info-en" lang="zh-Hant"><b>示意模型</b>：位置與大小依周圍真實構造估算，不是實測形狀。</p> : <p className="organ-info-en" lang="en">Group: {BRAIN_GROUPS.find(g => g.id === selected.group)?.en}</p>}
             <div className="organ-actions" role="group" aria-label="選取動作">
               <button onClick={() => go('fit', [selected.id])}>Focus</button>
               <button aria-pressed={!!view.isolate} onClick={() => patch({isolate: view.isolate ? null : [selected.id]})}>Isolate</button>
               <button onClick={() => patch({hiddenParts: [...view.hiddenParts, selected.id], selectedIds: []})}>Hide</button>
               <button onClick={() => patch({selectedIds: [], isolate: null})}>Clear</button>
             </div>
-            {partNotes.length > 0 && <div className="note-links"><h3>共筆</h3>{partNotes.map(c => <button key={c.id} onClick={() => openNote(c)}><span lang="en">{c.en}</span><small lang="zh-Hant">{c.zh}</small></button>)}</div>}
+            {partNotes.length > 0 && <div className="note-links"><h3>相關資訊卡</h3>{partNotes.map(c => <button key={c.id} onClick={() => openNote(c)}><span lang="en">{c.en}</span><small lang="zh-Hant">{c.zh}</small></button>)}</div>}
           </> : view.selectedIds.length > 1 ? <p>已選取 {view.selectedIds.length} 個構造。<button className="organ-clear" onClick={() => patch({selectedIds: []})}>取消選取</button></p>
             : <p className="organ-info-empty">點選模型或清單中的構造，會顯示名稱與分區。</p>}
         </section>
@@ -184,13 +183,13 @@ export default function BrainDetail() {
           {parts.some(p => p.schematic) && <div className="organ-segmented" role="group" aria-label="示意構造">
             <button aria-pressed={!!view.isolate && view.isolate.length > 1 && view.isolate.every(id => byId.get(id)?.schematic || DEEP.has(byId.get(id)?.group ?? ''))} onClick={() => {if (view.isolate) {patch({isolate: null}); return;} const ids = parts.filter(p => p.schematic || DEEP.has(p.group)).map(p => p.id); setView(v => ({...v, isolate: ids, command: {id: v.command.id + 1, view: 'fit', focus: ids}}));}}>只看深部與示意構造（{parts.filter(p => p.schematic).length}）</button>
           </div>}
-          <label className="organ-search"><span className="sr-only">搜尋構造</span><input type="search" value={query} placeholder="搜尋構造（中文或英文，含共筆結構）" onChange={e => setQuery(e.target.value)}/></label>
+          <label className="organ-search"><span className="sr-only">搜尋構造</span><input type="search" value={query} placeholder="搜尋構造（中文或英文）" onChange={e => setQuery(e.target.value)}/></label>
           {!ready && <p className="organ-info-empty">載入中…</p>}
           {q ? <div className="organ-results" aria-live="polite">
             <h3>模型構造（{foundParts.length}）</h3>
             <ul>{foundParts.slice(0, 60).map(p => <li key={p.id} className="organ-part-row"><button aria-pressed={view.selectedIds.includes(p.id)} onClick={() => choose(p.id)}><span lang="en">{displayEn(p)}</span><small lang="zh-Hant">{p.zh}</small></button></li>)}</ul>
             {foundParts.length > 60 && <p className="organ-info-empty">還有 {foundParts.length - 60} 個，請輸入更多字。</p>}
-            <h3>共筆結構（{foundNotes.length}）</h3>
+            <h3>其他構造（{foundNotes.length}）</h3>
             <ul>{foundNotes.slice(0, 80).map(noteRow)}</ul>
             {foundNotes.length > 80 && <p className="organ-info-empty">還有 {foundNotes.length - 80} 個，請輸入更多字。</p>}
             {!foundParts.length && !foundNotes.length && <p className="organ-info-empty">找不到符合的構造。</p>}
@@ -209,7 +208,7 @@ export default function BrainDetail() {
             </div>;
           })}
           {regionGroups.length > 0 && <div className="organ-notes-list">
-            <h3>共筆結構<small>神經解剖學共筆；「模型未有」者只有資訊卡</small></h3>
+            <h3>構造資訊卡<small>「模型未有」者只有資訊卡</small></h3>
             {regionGroups.map(r => {
               const expanded = openRegions.includes(r.id);
               return <div className="organ-group" key={r.id}>

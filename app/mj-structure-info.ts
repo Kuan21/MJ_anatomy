@@ -3,8 +3,7 @@ import {zhAnatomy} from './mj-zh-anatomy';
 import type {Part,SystemId} from './anatomy';
 import {anatomicalRegionLabel,correctedPartName} from './mj-part-regions';
 import {muscleFactsFor,muscleFactSourceFor} from './mj-muscle-facts';
-import type {CourseNoteEntry} from './mj-course-notes';
-import {netterEnglishName,NETTER_TERMINOLOGY_SOURCE} from './mj-netter-terminology';
+ import {netterEnglishName,NETTER_TERMINOLOGY_SOURCE} from './mj-netter-terminology';
 
 export interface BilingualFact {
  labelEn:string;
@@ -20,7 +19,6 @@ export interface StructureProfile {
  summaryZh?:string;
  facts:BilingualFact[];
  source:string;
- courseNotes?:CourseNoteEntry[];
 }
 
 import vesselEnds from './mj-vessel-ends.json';

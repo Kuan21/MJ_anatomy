@@ -11,6 +11,8 @@ const SCAN = [
   {dir: 'web', ext: /\.(?:tsx?|css)$/},
   {dir: '.', ext: /^index\.html$/, shallow: true},
   {dir: 'public/models', ext: /\.json$/, shallow: true},
+  {dir: 'public/models/brain', ext: /\.json$/, shallow: true},
+  {dir: 'docs/neuro-card-text', ext: /\.json$/, shallow: true},
   {dir: 'scripts', ext: /^heart-parts\.json$/, shallow: true},
 ];
 // Cantonese-only characters (no written-Chinese use).

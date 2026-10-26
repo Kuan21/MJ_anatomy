@@ -18,14 +18,26 @@ for (const s of notes.structures) {
 const CJK = /[㐀-鿿]/;
 for (const c of data.cards) {
   assert.ok(c.en && c.zh && CJK.test(c.zh), `${c.id}: has an English and a Chinese name`);
-  assert.ok(c.fields.length > 0 || c.noBody, `${c.id} ${c.zh}: not blank (a body or an explicit "no body in the notes" notice)`);
+  assert.ok(c.fields.length > 0, `${c.id} ${c.zh}: has a card text (docs/neuro-card-text/)`);
   assert.ok(data.regions[c.region], `${c.id}: known region`);
-  assert.ok(c.sources.length || c.noBody, `${c.id}: source pages (or an explicit no-body notice)`);
-  for (const f of c.fields) for (const x of f.items) assert.ok(x.t && x.s, `${c.id}: every sentence has its source page`);
+  for (const f of c.fields) { assert.ok(f.label && f.items.length, `${c.id}: every field has a label and sentences`); for (const x of f.items) assert.equal(typeof x, 'string', `${c.id}: sentences are plain text`); }
 }
-// the notes' own marker for structures with no body text must survive
-const noBody = notes.structures.filter(s => s.note && !cur.entries[s.id].drop && !cur.entries[s.id].merge).map(s => s.id.replace('neuro-', ''));
-for (const id of noBody) assert.ok(data.cards.find(c => c.id === id)?.noBody || data.cards.find(c => c.id === id)?.fields.length, `${id}: flagged note-only structure is still a card`);
+// the site never shows the notes: no source pages, no mention of the notes in the public file
+const publicText = JSON.stringify(data);
+assert.ok(!/[0-9]{4} ?p\.[0-9]|共筆|筆記|跑考|M65|CM57|\"sources\"|\"noBody\"/.test(publicText), 'neuro-cards.json carries no note citations or note wording');
+// every written text belongs to a card, and none of it is copied from the notes: no run of 16 characters of a card text appears in the notes' sentences
+const cardIds = new Set(data.cards.map(c => c.id));
+const texts = {};
+for (const f of fs.readdirSync(new URL('docs/neuro-card-text/', root)).filter(f => f.endsWith('.json'))) Object.assign(texts, JSON.parse(fs.readFileSync(new URL('docs/neuro-card-text/' + f, root), 'utf8')));
+for (const id of Object.keys(texts)) assert.ok(cardIds.has(id), `docs/neuro-card-text has a text for ${id}, which is not a card`);
+const tidy = s => s.replace(/\s+/g, '').replace(/[，。；、：（）()\-—「」]/g, '');
+const noteText = tidy(notes.lectures.flatMap(l => l.pages.map(p => p.text)).join(''));
+const copied = [];
+for (const [id, fields] of Object.entries(texts)) for (const [label, items] of fields) for (const item of items) {
+  const t = tidy(item);
+  for (let i = 0; i + 16 <= t.length; i += 4) if ((t.slice(i, i + 16).match(/[㐀-鿿]/g) ?? []).length >= 10 && noteText.includes(t.slice(i, i + 16))) { copied.push(`${id} ${label}: …${t.slice(i, i + 16)}…`); break; }
+}
+assert.equal(copied.length, 0, `card texts must be in our own words; 16 characters in a row also appear in the notes:\n${copied.join('\n')}`);
 // partCards only points at real cards
 for (const [part, list] of Object.entries(data.partCards)) for (const id of list) assert.ok(ids.has(id), `${part} → ${id}`);
 console.log(`Neuro notes passed: ${data.cards.length} cards from ${notes.structures.length} extracted structures (${merged} merged, ${dropped} dropped with a reason); none blank.`);

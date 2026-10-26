@@ -1,14 +1,17 @@
-// Neuroanatomy notes (docs/neuro-notes.json, the 共筆) -> info cards for the brain detail mode.
-//   docs/neuro-notes.json            the notes' own structure list (auto-extracted: duplicates, broken names)
-//   docs/neuro-notes-curation.json   my line-by-line review: keep / merge / drop / rename / region / mesh
-// Writes public/models/brain/neuro-cards.json (loaded by the brain mode) and docs/neuro-notes-vs-model.md (the comparison table).
-// Nothing is written that the notes do not say: a card holds the notes' own sentences, sorted under the fields the notes' card_fields_by_type names,
-// each with its source page. `--check` fails when either output is stale or the curation no longer matches the model.
+// Neuroanatomy notes (docs/neuro-notes.json) -> info cards for the brain detail mode. The notes are internal reference only: nothing from them reaches the site.
+//   docs/neuro-notes.json            the notes' structure list (auto-extracted: duplicates, broken names); read at build time for names and types only
+//   docs/neuro-notes-curation.json   line-by-line review: keep / merge / drop / rename / region / mesh
+//   docs/neuro-card-text/*.json      the card texts, written for this site in our own words ({id: [[field label, [sentence, …]], …]})
+// Writes public/models/brain/neuro-cards.json (loaded by the brain mode: names, type, region, model links and our own texts, no note text or page numbers)
+// and docs/neuro-notes-vs-model.md (internal comparison table). `--check` fails when either output is stale or the curation no longer matches the model.
+// `--draft FROM TO` prints the notes' sentences for the cards with ids FROM..TO so they can be rewritten (internal use; never write them out as they are).
 import fs from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {quizModule} from './quiz-modules.mjs';
 
-const root = fileURLToPath(new URL('../', import.meta.url)), check = process.argv.includes('--check');
+const root = fileURLToPath(new URL('../', import.meta.url)), check = process.argv.includes('--check'), draft = process.argv.includes('--draft') ? process.argv.slice(process.argv.indexOf('--draft') + 1) : null;
+const texts = {};
+for (const f of fs.existsSync(root + 'docs/neuro-card-text') ? fs.readdirSync(root + 'docs/neuro-card-text').filter(f => f.endsWith('.json')).sort() : []) Object.assign(texts, JSON.parse(fs.readFileSync(root + 'docs/neuro-card-text/' + f, 'utf8')));
 const notes = JSON.parse(fs.readFileSync(root + 'docs/neuro-notes.json', 'utf8'));
 const cur = JSON.parse(fs.readFileSync(root + 'docs/neuro-notes-curation.json', 'utf8'));
 const {describeBrainNode, BRAIN_GROUPS} = await quizModule('app/organ/brain-catalogue.ts');
@@ -93,17 +96,29 @@ for (const card of cards.values()) {
     buckets.set(label, list);
   }
   const order = [...(FIELD_ORDER[card.type] ?? []).filter(f => f !== '出處'), '筆記摘錄'];
-  card.fields = order.filter(f => buckets.has(f)).map(f => ({label: f, items: buckets.get(f)}));
+  card.draft = order.filter(f => buckets.has(f)).map(f => ({label: f, items: buckets.get(f)}));
+  card.fields = (texts[card.id] ?? []).map(([label, items]) => ({label, items}));
   delete card.excerpts;
+  if (card.fields.length) delete card.noBody;
   card.aka = card.aka.filter((a, i, all) => (a.en || a.zh) && all.findIndex(b => b.en === a.en && b.zh === a.zh) === i && a.en !== card.en && a.zh !== card.zh);
   if (!card.aka.length) delete card.aka;
   if (!card.approx.length) delete card.approx;
   if (!card.mesh.length) delete card.mesh;
 }
 const list = [...cards.values()].sort((a, b) => a.id.localeCompare(b.id));
+if (draft) {
+  const [from, to] = draft;
+  for (const c of list.filter(c => c.id >= from && c.id <= to)) {
+    console.log(`\n## ${c.id} ${c.en} / ${c.zh} [${c.type}]${texts[c.id] ? ' (written)' : ''}`);
+    for (const f of c.draft) {console.log(`  ${f.label}:`); for (const x of f.items) console.log(`    - ${x.t}`);}
+  }
+  process.exit(0);
+}
 const partCards = {};
 for (const c of list) for (const m of c.mesh ?? []) if (!m.startsWith('@')) (partCards[m] ??= []).push(c.id);
-const out = {version: 1, source: 'docs/neuro-notes.json（神經解剖學共筆 M65×CM57）', regions: cur.regions, typeLabels: notes.type_labels, cards: list, partCards};
+// the public file carries names, type, region, model links and our own texts only
+const publicCards = list.map(({draft, sources, noBody, extra, ...c}) => c);
+const out = {version: 2, regions: cur.regions, typeLabels: notes.type_labels, cards: publicCards, partCards};
 const outText = JSON.stringify(out) + '\n';
 
 // ---- comparison table
@@ -116,13 +131,13 @@ for (const [id, s] of byId) {
   if (target !== id) {rows.push({id, region: card.region, line: `| ${id} | ${name} | ${typeLabel(s.type)} | ${(s.sources ?? []).join('；')} | 見 ${target} | 見 ${target} | 併入 ${target}「${card.zh}」，名稱保留為別名 |`}); continue;}
   const mesh = card.mesh?.length ? '有：' + card.mesh.slice(0, 3).join('、') + (card.mesh.length > 3 ? `…等 ${card.mesh.length} 個` : '') : card.approx?.length ? '近似：' + card.approx.join('、') : '模型未有';
   const clickable = card.mesh?.length || card.approx?.length ? '清單＋模型' : '僅清單（模型未有）';
-  const filled = card.noBody ? '筆記正文未有描述（待補來源）' : `已填（${[...card.fields.filter(f => f.label !== '筆記摘錄').map(f => f.label), ...(card.fields.some(f => f.label === '筆記摘錄') ? ['筆記摘錄'] : [])].join('、')}）`;
+  const filled = card.fields.length ? `已寫（${card.fields.map(f => f.label).join('、')}）` : card.noBody ? '筆記正文未有描述（待補，最終審核時依教科書或圖譜）' : '待寫';
   rows.push({id, region: card.region, line: `| ${id} | ${card.zh}<br>${card.en} | ${typeLabel(card.type)} | ${card.sources.join('；')} | ${mesh} | ${clickable} | ${filled} |`});
 }
-for (const x of cur.extras ?? []) {const card = cards.get(x.id); rows.push({id: x.id, region: card.region, line: `| ${x.id} | ${card.zh}<br>${card.en} | ${typeLabel(card.type)} | ${card.sources.join('；')} | 有：${card.mesh.join('、')}（示意） | 清單＋模型 | 已填（由逐頁全文取句：${card.fields.map(f => f.label).join('、')}） |`});}
+for (const x of cur.extras ?? []) {const card = cards.get(x.id); rows.push({id: x.id, region: card.region, line: `| ${x.id} | ${card.zh}<br>${card.en} | ${typeLabel(card.type)} | ${card.sources.join('；')} | 有：${card.mesh.join('、')}（示意） | 清單＋模型 | ${card.fields.length ? `已寫（${card.fields.map(f => f.label).join('、')}）` : '待寫'} |`});}
 const total = byId.size, kept = list.length, merged = [...byId.keys()].filter(id => !entry(id).drop && resolve(id) !== id).length, dropped = [...byId.keys()].filter(id => entry(id).drop).length;
 const withMesh = list.filter(c => c.mesh?.length).length, approxOnly = list.filter(c => !c.mesh?.length && c.approx?.length).length, none = kept - withMesh - approxOnly, empty = list.filter(c => c.noBody).length;
-const table = `# 神經解剖共筆 vs 模型現況對照表
+const table = `# 神經解剖筆記 vs 模型現況對照表（內部參考，不上網站）
 
 由 \`scripts/prepare-neuro-notes.mjs\` 產生（\`npm run check\` 會檢查本檔是否最新）。資料來源：\`docs/neuro-notes.json\`；人工整理：\`docs/neuro-notes-curation.json\`。
 
@@ -130,7 +145,8 @@ const table = `# 神經解剖共筆 vs 模型現況對照表
 
 - 筆記自動抽取的結構：${total} 條 → 保留成 **${kept} 張資訊卡**；併入其他條目 ${merged} 條（名稱保留為別名）；剔除 ${dropped} 條（不是構造，原因見下表）。
 - 腦部模型（Brain Project）已有 mesh：${withMesh} 張卡；只有近似 mesh：${approxOnly} 張；**模型未有：${none} 張**（清單與搜尋仍找得到，標示「模型未有」，點擊可開資訊卡）。
-- 筆記正文未有描述、卡片內容尚待依 Essential Neuroscience 或圖譜補充並註明來源：${empty} 張（見下表「資訊卡」欄）。
+- 筆記正文未有描述的卡片：${empty} 張（見下表「資訊卡」欄），內容待最終審核時依教科書或圖譜補上。
+- 已用自己的話寫好資訊卡的：${list.filter(c => c.fields.length).length} 張；待寫：${list.filter(c => !c.fields.length).length} 張。
 
 | id | 中英名稱 | 類型 | 出處 | 是否有 mesh | 是否可點選 | 資訊卡 |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -144,4 +160,4 @@ const write = (file, text) => {
 };
 write(root + 'public/models/brain/neuro-cards.json', outText);
 write(root + 'docs/neuro-notes-vs-model.md', table);
-console.log(`Neuro notes: ${total} extracted → ${kept} cards (${withMesh} with a model structure, ${approxOnly} approximate, ${none} note-only; ${empty} without lecture text); ${merged} merged, ${dropped} dropped.`);
+console.log(`Neuro notes: ${total} extracted → ${kept} cards (${withMesh} with a model structure, ${approxOnly} approximate, ${none} note-only; ${empty} without lecture text; ${list.filter(c => c.fields.length).length} texts written); ${merged} merged, ${dropped} dropped.`);

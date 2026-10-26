@@ -1,10 +1,10 @@
-/** Info cards built from the neuroanatomy notes (public/models/brain/neuro-cards.json, written by scripts/prepare-neuro-notes.mjs). */
+/** Info cards for brain structures (public/models/brain/neuro-cards.json, written by scripts/prepare-neuro-notes.mjs from the structure list and the texts in docs/neuro-card-text/). */
 import type {BrainPart} from './brain-types';
 
-export interface NoteField {label: string; items: {t: string; s: string}[]}
+export interface NoteField {label: string; items: string[]}
 export interface NoteCard {
   id: string; en: string; zh: string; type: string; region: string;
-  mesh?: string[]; approx?: string[]; aka?: {en?: string; zh?: string}[]; sources: string[]; noBody?: boolean; fields: NoteField[];
+  mesh?: string[]; approx?: string[]; aka?: {en?: string; zh?: string}[]; fields: NoteField[];
 }
 export interface NoteData {regions: Record<string, string>; typeLabels: Record<string, string>; cards: NoteCard[]; partCards: Record<string, string[]>}
 
