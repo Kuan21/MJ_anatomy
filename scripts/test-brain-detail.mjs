@@ -51,4 +51,12 @@ const need = [/choroid/i, /interventricular foramen/i, /third ventricle/i, /aque
 need.forEach((re, i) => assert.match(CSF_STEPS[i].en, re, `CSF step ${i + 1}`));
 assert.match(CSF_STEPS[5].note, /中央管/);
 assert.match(CSF_STEPS[6].note, /腰池/);
+// the full-page CSF mode: every step has lecture notes with a source, and a short label for the step list
+const {CSF_STEP_NOTES, CSF_SHORT} = await quizModule('app/organ/csf-notes.ts');
+assert.equal(CSF_STEP_NOTES.length, CSF_STEPS.length); assert.equal(CSF_SHORT.length, CSF_STEPS.length);
+for (const [i, n] of CSF_STEP_NOTES.entries()) {
+  assert.ok(n.where && n.event && n.happens.length, `CSF step ${i + 1} has a location, an event and lecture text`);
+  for (const x of [...n.happens, ...n.clinical, ...(n.correction ? [n.correction] : [])]) assert.match(x.src, /\d{4}|共筆|Essential/, `CSF step ${i + 1}: every sentence names its source`);
+}
+assert.ok(CSF_STEP_NOTES[6].clinical.some(x => /並非由中央管/.test(x.text)), 'lumbar puncture note');
 console.log(`Brain detail passed: ${parts.length} structures named and grouped (${BRAIN_GROUPS.length} groups, Chinese for all), voxel cut surface (grey rim, white core, CSF) and the 8 CSF steps.`);
