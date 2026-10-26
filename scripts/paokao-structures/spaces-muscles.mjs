@@ -128,8 +128,10 @@ export default function spacesMuscles(U) {
   for (const S of SIDES) {
     const sx = S.sx, hand = n => `${n} of ${S.l} hand`;
     // palmaris brevis: a small subcutaneous sheet from the flexor retinaculum / palmar aponeurosis to the skin of the ulnar border of the palm.
-    const pis = U.extreme(`${S.w} pisiform`, P(0, 0, 1)), a = add(pis, P(-sx * .010, -.002, .004)), b = add(pis, P(sx * .008, -.014, .008)), c = add(pis, P(-sx * .012, -.016, .006)), d = add(pis, P(sx * .003, -.020, .010));
-    out.push({name: `${S.w} palmaris brevis`, zh: `${S.zh}掌短肌`, system: 'muscular', kind: 'muscle', geometry: [U.sheet([[a, b], [c, d]], .0012)],
+    // The sheet is laid on the surface of abductor digiti minimi (the hypothenar eminence), so it cannot stand away from the hand: a quad over its upper (wrist-side) part, palmar face.
+    const adm = hand('Abductor digiti minimi'), am = U.mesh(adm), top = am.hi[1], xm = (am.lo[0] + am.hi[0]) / 2, zf = am.hi[2], hw = (am.hi[0] - am.lo[0]) / 2 * .7;
+    const brevis = U.conformingSheet([P(xm - hw, top - .004, zf), P(xm + hw, top - .004, zf), P(xm + hw, top - .026, zf), P(xm - hw, top - .026, zf)], [adm], .0012, .0014, .0025);
+    out.push({name: `${S.w} palmaris brevis`, zh: `${S.zh}掌短肌`, system: 'muscular', kind: 'muscle', geometry: [brevis],
       card: {origin: ['Flexor retinaculum and palmar aponeurosis', '屈肌支持帶與掌腱膜'], course: ['A thin subcutaneous sheet over the hypothenar eminence', '位於小魚際隆起皮下的薄肌'], supply: ['Skin of the ulnar border of the palm — wrinkles it and deepens the hollow of the palm (ulnar nerve, superficial branch)', '尺側手掌皮膚——使皮膚皺起並加深掌心凹（尺神經淺支）']}, refs: [REF]});
     // transversus thoracis: slips from the back of the lower sternum and xiphoid to the 2nd–6th costal cartilages.
     const body = U.mesh('Body of sternum'), slips = [];
