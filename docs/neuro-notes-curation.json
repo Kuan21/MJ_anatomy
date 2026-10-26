@@ -1,5 +1,5 @@
 {
-"_readme": "neuro-notes.json 的人工整理對照：每個筆記結構一行。region＝清單分組；mesh＝腦部模型內的構造英文名（@group:x 為整個分區，@cortex 為全部皮質）；approx＝只是近似對應的 mesh；merge＝併入另一筆（名稱與筆記摘錄保留為別名）；drop＝不是構造（附原因）；type＝修正自動抽取的類型；en/zh＝修正後名稱。由 scripts/prepare-neuro-notes.mjs 讀取。",
+"_readme": "neuro-notes.json 的人工整理對照：每個筆記結構一行。region＝清單分組；mesh＝腦部模型內的構造英文名（@group:x 為整個分區，@cortex 為全部皮質）；approx＝只是近似對應的 mesh；merge＝併入另一筆（名稱與筆記摘錄保留為別名）；drop＝不是構造（附原因）；type＝修正自動抽取的類型；en/zh＝修正後名稱。由 scripts/prepare-neuro-notes.mjs 讀取。 extras＝筆記的結構清單沒有、但逐頁全文明確提到的構造：依 terms 從 lectures 全文取含該詞的原句（過長者取詞前後各約 100 字），並標示出處。",
 "regions": {
 "cer": "大腦皮質與腦迴",
 "lim": "邊緣系統",
@@ -344,10 +344,16 @@
 ]
 },
 "neuro-0059": {
-"region": "bas"
+"region": "bas",
+"mesh": [
+"Anterior limb of internal capsule"
+]
 },
 "neuro-0060": {
-"region": "bas"
+"region": "bas",
+"mesh": [
+"Genu of internal capsule"
+]
 },
 "neuro-0061": {
 "region": "bas",
@@ -408,12 +414,15 @@
 },
 "neuro-0069": {
 "region": "die",
-"type": "nucleus"
+"type": "nucleus",
+"mesh": [
+"Paraventricular nucleus of hypothalamus"
+]
 },
 "neuro-0070": {
 "region": "die",
 "mesh": [
-"Preoptic hypothalamus"
+"Medial preoptic nucleus"
 ]
 },
 "neuro-0071": {
@@ -424,8 +433,8 @@
 },
 "neuro-0072": {
 "region": "die",
-"approx": [
-"Tuberal hypothalamus"
+"mesh": [
+"Ventromedial nucleus of hypothalamus"
 ]
 },
 "neuro-0073": {
@@ -442,21 +451,21 @@
 },
 "neuro-0075": {
 "region": "die",
-"approx": [
-"Anterior hypothalamus"
+"mesh": [
+"Supraoptic nucleus"
 ]
 },
 "neuro-0076": {
 "region": "die",
 "type": "nucleus",
-"approx": [
-"Anterior hypothalamus"
+"mesh": [
+"Suprachiasmatic nucleus"
 ]
 },
 "neuro-0077": {
 "region": "die",
-"approx": [
-"Tuberal hypothalamus"
+"mesh": [
+"Dorsomedial nucleus of hypothalamus"
 ]
 },
 "neuro-0078": {
@@ -480,7 +489,10 @@
 ]
 },
 "neuro-0081": {
-"region": "bas"
+"region": "bas",
+"mesh": [
+"Claustrum"
+]
 },
 "neuro-0082": {
 "region": "bas",
@@ -498,10 +510,18 @@
 ]
 },
 "neuro-0084": {
-"region": "bas"
+"region": "bas",
+"mesh": [
+"Anterior limb of internal capsule",
+"Genu of internal capsule",
+"Posterior limb of internal capsule"
+]
 },
 "neuro-0085": {
-"region": "bas"
+"region": "bas",
+"mesh": [
+"External capsule"
+]
 },
 "neuro-0086": {
 "region": "bas",
@@ -2366,8 +2386,8 @@
 "region": "die",
 "zh": "視丘腹後外側核（VPL）",
 "en": "Ventral posterolateral nucleus (VPL)",
-"approx": [
-"Ventral lateroventral nucleus"
+"mesh": [
+"Ventral posterolateral nucleus (VPL)"
 ]
 },
 "neuro-0483": {
@@ -2467,7 +2487,10 @@
 "neuro-0508": {
 "region": "bas",
 "zh": "內囊後腳",
-"en": "Posterior limb of internal capsule"
+"en": "Posterior limb of internal capsule",
+"mesh": [
+"Posterior limb of internal capsule"
+]
 },
 "neuro-0509": {
 "region": "spi",
@@ -2950,5 +2973,21 @@
 "en": "Arbor vitae",
 "type": "structure"
 }
+},
+"extras": [
+{
+"id": "x001",
+"zh": "視丘腹後內側核（VPM）",
+"en": "Ventral posteromedial nucleus (VPM)",
+"type": "nucleus",
+"region": "die",
+"mesh": [
+"Ventral posteromedial nucleus (VPM)"
+],
+"terms": [
+"VPM",
+"腹後內側"
+]
 }
+]
 }

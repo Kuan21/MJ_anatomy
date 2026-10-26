@@ -11,6 +11,8 @@ export interface BrainPart {
   group: string;
   /** peel order of the group: 0 = outermost layer, -1 = never peeled (vessels, nerves) */
   layer: number;
+  /** a schematic (示意) structure built by the viewer, not a mesh of the Brain Project model */
+  schematic?: boolean;
 }
 export interface BrainGroup {id: string; en: string; zh: string; layer: number; /** shown when the viewer opens */ on: boolean}
 

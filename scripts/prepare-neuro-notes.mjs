@@ -12,12 +12,13 @@ const root = fileURLToPath(new URL('../', import.meta.url)), check = process.arg
 const notes = JSON.parse(fs.readFileSync(root + 'docs/neuro-notes.json', 'utf8'));
 const cur = JSON.parse(fs.readFileSync(root + 'docs/neuro-notes-curation.json', 'utf8'));
 const {describeBrainNode, BRAIN_GROUPS} = await quizModule('app/organ/brain-catalogue.ts');
+const {SCHEMATIC_NAMES} = await quizModule('app/organ/brain-schematic.ts');
 
 // ---- the model's own structures
 const bytes = fs.readFileSync(root + 'public/models/brain.glb');
 const json = JSON.parse(bytes.toString('utf8', 20, 20 + bytes.readUInt32LE(12)));
 const parts = json.nodes.filter(n => n.extras?.bx_label).map((n, i) => describeBrainNode({name: n.name, cat: n.extras.bx_cat, region: n.extras.bx_region ?? '', label: n.extras.bx_label, side: n.extras.bx_side ?? ''}, i)).filter(Boolean);
-const partEn = new Set(parts.map(p => p.en)), groupIds = new Set(BRAIN_GROUPS.map(g => g.id));
+const partEn = new Set([...parts.map(p => p.en), ...SCHEMATIC_NAMES]), groupIds = new Set(BRAIN_GROUPS.map(g => g.id));
 const CORTEX_GROUPS = ['frontal', 'parietal', 'temporal', 'occipital', 'limbic', 'insula', 'cortex-other'];
 const checkMesh = (id, name) => {
   if (name === '@cortex') return;
@@ -64,6 +65,22 @@ for (const [id, s] of byId) {
   for (const src of s.sources ?? []) if (!card.sources.includes(src)) card.sources.push(src);
   if (s.note) card.noBody = true;
 }
+// structures the notes' list lacks but the lecture text names: the sentences that contain the term, verbatim, with their source page
+const windowAround = (text, at, len) => {
+  const start = Math.max(0, at - 100), end = Math.min(text.length, at + len + 100);
+  return (start > 0 ? '…' : '') + text.slice(start, end) + (end < text.length ? '…' : '');
+};
+for (const x of cur.extras ?? []) {
+  const excerpts = [];
+  for (const lecture of notes.lectures) for (const page of lecture.pages) {
+    const text = tidy(page.text);
+    for (const sentence of text.split(/(?<=[。；])/)) {
+      const term = x.terms.find(t => sentence.includes(t)); if (!term) continue;
+      excerpts.push({src: `${lecture.id} p.${page.page}`, text: sentence.length > 220 ? windowAround(sentence, sentence.indexOf(term), term.length) : sentence});
+    }
+  }
+  cards.set(x.id, {id: x.id, en: x.en, zh: x.zh, type: x.type, region: x.region, mesh: x.mesh ?? [], approx: [], aka: [], excerpts: excerpts.slice(0, 14), sources: [...new Set(excerpts.slice(0, 14).map(e => e.src))], extra: true});
+}
 for (const card of cards.values()) {
   for (const m of [...card.mesh, ...card.approx]) checkMesh(card.id, m);
   // a merged group's notes count as the body of the card
@@ -102,6 +119,7 @@ for (const [id, s] of byId) {
   const filled = card.noBody ? '筆記正文未有描述（待補來源）' : `已填（${[...card.fields.filter(f => f.label !== '筆記摘錄').map(f => f.label), ...(card.fields.some(f => f.label === '筆記摘錄') ? ['筆記摘錄'] : [])].join('、')}）`;
   rows.push({id, region: card.region, line: `| ${id} | ${card.zh}<br>${card.en} | ${typeLabel(card.type)} | ${card.sources.join('；')} | ${mesh} | ${clickable} | ${filled} |`});
 }
+for (const x of cur.extras ?? []) {const card = cards.get(x.id); rows.push({id: x.id, region: card.region, line: `| ${x.id} | ${card.zh}<br>${card.en} | ${typeLabel(card.type)} | ${card.sources.join('；')} | 有：${card.mesh.join('、')}（示意） | 清單＋模型 | 已填（由逐頁全文取句：${card.fields.map(f => f.label).join('、')}） |`});}
 const total = byId.size, kept = list.length, merged = [...byId.keys()].filter(id => !entry(id).drop && resolve(id) !== id).length, dropped = [...byId.keys()].filter(id => entry(id).drop).length;
 const withMesh = list.filter(c => c.mesh?.length).length, approxOnly = list.filter(c => !c.mesh?.length && c.approx?.length).length, none = kept - withMesh - approxOnly, empty = list.filter(c => c.noBody).length;
 const table = `# 神經解剖共筆 vs 模型現況對照表
