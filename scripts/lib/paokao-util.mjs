@@ -154,15 +154,15 @@ export function makeUtil(w) {
       for (const [r, flip] of [[0, true], [n - 1, false]]) { const c0 = positions.length / 3; positions.push(...path[r]); for (let j = 0; j < sides; j++) { const a = r * sides + j, b = r * sides + (j + 1) % sides; indices.push(...(flip ? [c0, b, a] : [c0, a, b])); } }
       return {positions: Float32Array.from(positions), indices: Uint32Array.from(indices)};
     },
-    /** A thin closed sheet that lies on bones and muscles: the triangle or quad `poly` is subdivided to `step`, every point is moved onto the nearest of `surfaces` and lifted `off` along its normal,
+    /** A thin closed sheet that lies on bones and muscles: the triangle or quad `poly` (a quad may be bowed out by `bulge` along its first edge, so a band that wraps round a limb starts outside it) is subdivided to `step`, every point is moved onto the nearest of `surfaces` and lifted `off` along its normal,
      *  and the result is given `thick` of thickness (half either side). Used for regions between structures (snuffbox, cubital fossa …) that should hug their floor, not float above it. */
-    conformingSheet(poly, surfaces, off = .0012, thick = .0016, step = .003) {
+    conformingSheet(poly, surfaces, off = .0012, thick = .0016, step = .003, bulge = null) {
       const meshes = surfaces.map(n => w.mesh(n)), grid = [], tri = poly.length === 3;
       const edge = (a, b) => len(sub(a, b)), n = Math.max(2, Math.ceil(Math.max(...poly.map((p, i) => edge(p, poly[(i + 1) % poly.length]))) / step));
       const place = p => { let best = null; for (const m of meshes) { const c = closest(m, p); if (!best || c.d < best.d) best = c; } return {c: add(best.point, mul(best.normal, off)), n: best.normal}; };
       const idx = new Map(), pos = [], top = [], bot = [];
       const at = (i, j) => { const k = i * (n + 1) + j; if (idx.has(k)) return idx.get(k);
-        let p; if (tri) { const u = i / n, v = j / n; p = add(add(mul(poly[0], 1 - u - v), mul(poly[1], u)), mul(poly[2], v)); } else { const u = i / n, v = j / n; p = add(add(mul(poly[0], (1 - u) * (1 - v)), mul(poly[1], u * (1 - v))), add(mul(poly[2], u * v), mul(poly[3], (1 - u) * v))); }
+        let p; if (tri) { const u = i / n, v = j / n; p = add(add(mul(poly[0], 1 - u - v), mul(poly[1], u)), mul(poly[2], v)); } else { const u = i / n, v = j / n; p = add(add(mul(poly[0], (1 - u) * (1 - v)), mul(poly[1], u * (1 - v))), add(mul(poly[2], u * v), mul(poly[3], (1 - u) * v))); if (bulge) p = add(p, mul(bulge, Math.sin(Math.PI * u))); }
         const q = place(p); const id = top.length; top.push(q.c); bot.push(q.n); idx.set(k, id); return id; };
       const faces = [];
       for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) {

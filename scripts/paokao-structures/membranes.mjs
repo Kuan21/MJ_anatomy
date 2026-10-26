@@ -11,10 +11,22 @@ export default function membranes(U) {
   const lowest = n => U.extreme(n, P(0, -1, 0)), axis = (n, y, near) => U.axisAt(n, y, near, .002);
   for (const S of SIDES) {
     const sx = S.sx;
+    // ---- Extensor retinaculum of the wrist: a band about 2 cm wide that wraps the back of the distal radius and ulna, from the lateral edge of the radius to the ulnar styloid and the
+    // pisiform/triquetrum, lying on the extensor tendons and holding them down (the flexor retinaculum is the BodyParts3D mesh over the carpal tunnel).
+    {
+      const rad = `${S.w} radius`, uln = `${S.w} ulna`, y0 = U.mesh(rad).lo[1] + .016;
+      const rr = U.extreme(rad, P(sx, 0, -.15), {y: [y0 - .008, y0 + .008]}), ur = U.extreme(uln, P(-sx, 0, -.15), {y: [y0 - .008, y0 + .008]});
+      const tendons = [`${S.w} extensor digitorum`, `${S.w} extensor carpi radialis longus`, `${S.w} extensor carpi radialis brevis`, `${S.w} extensor carpi ulnaris`, `${S.w} extensor pollicis longus`, `${S.w} extensor pollicis brevis`, `${S.w} abductor pollicis longus`, `${S.w} extensor indicis`].filter(n => U.has(n));
+      const g = U.conformingSheet([add(rr, P(0, .009, 0)), add(ur, P(0, .009, 0)), add(ur, P(0, -.009, 0)), add(rr, P(0, -.009, 0))], [...tendons, rad, uln], .0013, .0012, .0025, P(0, 0, -.014));
+      push(S, 'extensor retinaculum of wrist', '腕伸肌支持帶', 'retinaculum', 'connective', {geometry: [g]},
+        ['A broad band across the back of the wrist, from the lateral edge of the radius to the ulnar styloid, triquetrum and pisiform', '橫跨腕背的寬帶，由橈骨外側緣連到尺骨莖突、三角骨與豌豆骨'], ['Binds down the extensor tendons in six compartments so they do not bowstring when the wrist extends', '把伸肌腱固定在六個腔室內，伸腕時不致弓弦狀突起'],
+        ['Radial side: lateral margin of the distal radius; ulnar side: styloid process of the ulna, triquetrum and pisiform', '橈側：橈骨遠端外側緣；尺側：尺骨莖突、三角骨與豌豆骨']);
+    }
     // ---- Superior transverse scapular ligament: roofs the suprascapular notch.
     {
-      const sc = `${S.w} scapula`, cor = U.extreme(sc, P(sx * .45, .25, 1), {y: [1.375, 1.43]}), notch = U.extreme(sc, P(-sx * .2, 1, .15), {x: sx < 0 ? [-.115, -.075] : [.075, .115], y: [1.395, 1.44]});
-      const a = add(notch, P(0, .0015, 0)), b = add(lerp(notch, cor, .9), P(0, .0015, .001));
+      const sc = `${S.w} scapula`, rim = (x0, x1) => U.extreme(sc, P(0, 1, 0), {x: sx < 0 ? [-x1, -x0] : [x0, x1], y: [1.395, 1.44]});
+      // The notch is the dip in the upper border of the scapula (x about 10 cm from the midline on this atlas); the band joins its medial and lateral rims.
+      const a = add(rim(.086, .093), P(0, .0015, 0)), b = add(rim(.106, .112), P(0, .0015, 0));
       push(S, 'superior transverse scapular ligament', '肩胛上橫韌帶', 'ligament', 'connective', {ribbons: [{pts: [a, lerp(a, b, .5), b], width: .004, thick: .0012, hint: P(0, 0, 1)}]},
         ['A thin band across the suprascapular notch, from its medial edge to the base of the coracoid process', '橫跨肩胛上切跡的薄帶，由切跡內緣連到喙突基部'], ['Converts the notch into a foramen: the suprascapular nerve passes below it and the suprascapular artery above it', '把切跡變成孔：肩胛上神經走在其下方，肩胛上動脈走在其上方']);
     }
@@ -47,26 +59,23 @@ export default function membranes(U) {
       const mx = medM[0], lx = latM[0], legNames = [tib, fib, `${S.w} tibialis anterior`, `${S.w} extensor hallucis longus`, `${S.w} extensor digitorum longus`, `${S.w} fibularis tertius`].filter(U.has);
       // Front surface of everything under the band at (x, y): the band lies 1.2 mm in front of it and turns back to the bone at both ends.
       const frontZ = (x, y) => { let z = -1; for (const n of legNames) { const h = U.rayHit(n, P(x, y, .12), P(0, 0, -1)); if (h) z = Math.max(z, h.point[2]); } return z; };
-      const bandFront = (y0, tilt) => {
-        const pts = [], N = 8, slab = {y: [y0 - .006, y0 + .006]}, mx = U.extreme(tib, P(-sx, 0, 0), slab)[0] - -sx * -.0015, x1 = U.extreme(fib, P(sx, 0, 0), slab)[0];
-        for (let i = 0; i <= N; i++) {
-          const t = i / N, x = mx + (x1 - mx) * t, xin = mx + (x1 - mx) * (.04 + .92 * t), z = frontZ(xin, y0 + tilt * t);
-          pts.push(P(x, y0 + tilt * t, (z < 0 ? frontZ(mx + (x1 - mx) * .5, y0) : z) + .0012));
-        }
-        const first = pts[0], last = pts[pts.length - 1];
-        return [add(first, P(-sx * .0, 0, -.010)), ...pts, add(last, P(0, 0, -.010))];
+      // A band across the front of the ankle: both ends rest on the sides of tibia and fibula, and the middle is laid on the front of the tendons (the sheet starts bowed 2 cm out and is pulled onto the nearest surface).
+      const under = [...legNames, tal, calc, `${S.w} navicular`].filter(U.has);
+      const bandFront = (y0, h, tilt) => {
+        const slab = {y: [y0 - .006, y0 + .006]}, mx = U.extreme(tib, P(-sx, 0, 0), slab)[0], x1 = U.extreme(fib, P(sx, 0, 0), slab)[0], z = frontZ((mx + x1) / 2, y0);
+        return U.conformingSheet([P(mx, y0 + h + tilt, z - .006), P(x1, y0 + h, z - .006), P(x1, y0 - h, z - .006), P(mx, y0 - h + tilt, z - .006)], under, .0012, .0012, .0025, P(0, 0, .02));
       };
-      push(S, 'superior extensor retinaculum of foot', '伸肌上支持帶', 'retinaculum', 'connective', {ribbons: [{pts: bandFront(.125, 0), width: .028, thick: .0014, hint: 'vertical'}]},
+      push(S, 'superior extensor retinaculum of foot', '伸肌上支持帶', 'retinaculum', 'connective', {geometry: [bandFront(.125, .014, 0)]},
         ['A transverse band across the lower ends of the tibia and fibula, just above the ankle', '橫跨脛骨與腓骨下端、位於踝關節上方的橫帶'], ['Binds down the tendons of tibialis anterior, extensor hallucis longus, extensor digitorum longus and fibularis tertius', '把脛前肌、伸拇長肌、伸趾長肌與第三腓骨肌的肌腱固定在原位']);
-      push(S, 'inferior extensor retinaculum of foot', '伸肌下支持帶', 'retinaculum', 'connective', {ribbons: [{pts: bandFront(.082, -.004), width: .020, thick: .0014, hint: 'vertical'}]},
+      push(S, 'inferior extensor retinaculum of foot', '伸肌下支持帶', 'retinaculum', 'connective', {geometry: [bandFront(.082, .010, -.004)]},
         ['A Y-shaped band over the front of the ankle and dorsum of the foot, attached laterally to the calcaneus', '位於踝前與足背、外側附著於跟骨的 Y 形帶'], ['Holds the extensor tendons close to the ankle and foot', '把伸肌腱固定在踝與足背']);
       const mm = add(medM, P(-sx * .004, -.002, -.004)), calM = U.extreme(calc, P(-sx, 0, -.3), {y: [.02, .06]});
-      push(S, 'flexor retinaculum of ankle', '踝屈肌支持帶', 'retinaculum', 'connective', {ribbons: [{pts: [mm, add(lerp(mm, calM, .5), P(-sx * .005, .002, -.006)), add(calM, P(-sx * .003, .006, 0))], width: .026, thick: .0014, hint: 'vertical'}]},
+      push(S, 'flexor retinaculum of ankle', '踝屈肌支持帶', 'retinaculum', 'connective', {geometry: [U.conformingSheet([add(mm, P(0, .013, 0)), add(calM, P(0, .019, 0)), add(calM, P(0, -.007, 0)), add(mm, P(0, -.013, 0))], [tib, tal, calc, ...['Tibialis posterior', 'Flexor digitorum longus', 'Flexor hallucis longus'].map(n => `${S.w} ${n.toLowerCase()}`)].filter(U.has), .0012, .0012, .0025, P(-sx * .014, 0, -.004))]},
         ['A band from the medial malleolus to the medial surface of the calcaneus, roofing the tarsal tunnel', '由內踝連到跟骨內側面、構成跗隧道頂部的帶'], ['Holds the tendons of tibialis posterior, flexor digitorum longus and flexor hallucis longus and the tibial nerve and posterior tibial vessels against the ankle', '把脛後肌、屈趾長肌、屈拇長肌肌腱及脛神經、脛後血管固定在踝後內側']);
       const latCal = U.extreme(calc, P(sx, 0, -.2), {y: [.02, .06]}), lm = add(latM, P(sx * .004, .0, -.004));
-      push(S, 'superior fibular retinaculum', '腓骨肌上支持帶', 'retinaculum', 'connective', {ribbons: [{pts: [lm, add(lerp(lm, latCal, .5), P(sx * .004, 0, -.006)), add(latCal, P(sx * .002, .012, .0))], width: .014, thick: .0012, hint: 'vertical'}]},
+      push(S, 'superior fibular retinaculum', '腓骨肌上支持帶', 'retinaculum', 'connective', {geometry: [U.conformingSheet([add(lm, P(0, .007, 0)), add(latCal, P(0, .019, 0)), add(latCal, P(0, .005, 0)), add(lm, P(0, -.007, 0))], [fib, calc, tal, ...['Fibularis longus', 'Fibularis brevis'].map(n => `${S.w} ${n.toLowerCase()}`)].filter(U.has), .0012, .0012, .0025, P(sx * .012, 0, -.004))]},
         ['A band from the back of the lateral malleolus to the lateral surface of the calcaneus', '由外踝後方連到跟骨外側面的帶'], ['Holds the tendons of fibularis longus and brevis behind the lateral malleolus', '把腓骨長肌與短肌腱固定在外踝後方']);
-      push(S, 'inferior fibular retinaculum', '腓骨肌下支持帶', 'retinaculum', 'connective', {ribbons: [{pts: [add(latCal, P(sx * .002, .012, .006)), add(latCal, P(sx * .004, .004, .016)), add(latCal, P(sx * .002, -.004, .030))], width: .012, thick: .0012, hint: 'vertical'}]},
+      push(S, 'inferior fibular retinaculum', '腓骨肌下支持帶', 'retinaculum', 'connective', {geometry: [U.conformingSheet([add(latCal, P(0, .016, .004)), add(latCal, P(0, .016, .030)), add(latCal, P(0, .004, .030)), add(latCal, P(0, .004, .004))], [calc], .0012, .0012, .0025)]},
         ['A band on the lateral surface of the calcaneus, continuous above with the inferior extensor retinaculum', '位於跟骨外側面，上方與伸肌下支持帶相連'], ['Binds the fibularis tendons to the calcaneus below the lateral malleolus', '把腓骨肌腱固定在外踝下方的跟骨上']);
     }
   }
