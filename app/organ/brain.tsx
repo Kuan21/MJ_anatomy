@@ -4,6 +4,8 @@ import {createBrainViewer} from './brain-viewer';
 import {createCsfScene, CSF_STEPS, type CsfSource} from './csf-scene';
 import {CSF_SHORT, CSF_STEP_NOTES} from './csf-notes';
 import {BRAIN_GROUPS, displayEn} from './brain-catalogue';
+import {cardMatches, cardParts, loadNotes, type NoteCard, type NoteData} from './brain-notes';
+import {NoteCardView} from './brain-note-card';
 import {SECTION_AXES, type BrainPart, type BrainView, type BrainViewState, type SectionAxis} from './brain-types';
 import './organ.css';
 
@@ -17,17 +19,17 @@ const AXES: SectionAxis[] = ['none', 'sagittal', 'coronal', 'horizontal'];
 const CUT: Record<Exclude<SectionAxis, 'none'>, {flip: boolean; view: BrainView}> = {sagittal: {flip: false, view: 'right'}, coronal: {flip: true, view: 'front'}, horizontal: {flip: true, view: 'top'}};
 const SIDE_ZH = {left: '左', right: '右', mid: '正中'} as const;
 
-function BrainScene({view, exportRef, onReady, onError, onProgress, onPick}: {
-  view: BrainViewState; exportRef: {current: (() => CsfSource | null) | null}; onReady: (parts: BrainPart[]) => void; onError: (m: string) => void; onProgress: (p: number) => void; onPick: (id: string | null) => void;
+function BrainScene({view, exportRef, onReady, onError, onProgress, onPick, onBusy}: {
+  view: BrainViewState; exportRef: {current: (() => CsfSource | null) | null}; onReady: (parts: BrainPart[]) => void; onError: (m: string) => void; onProgress: (p: number) => void; onPick: (id: string | null) => void; onBusy: (busy: boolean) => void;
 }) {
   const host = useRef<HTMLDivElement>(null), viewer = useRef<ReturnType<typeof createBrainViewer> | null>(null);
-  const callbacks = useRef({onReady, onError, onProgress, onPick}); callbacks.current = {onReady, onError, onProgress, onPick};
+  const callbacks = useRef({onReady, onError, onProgress, onPick, onBusy}); callbacks.current = {onReady, onError, onProgress, onPick, onBusy};
   const latest = useRef(view); latest.current = view;
   useEffect(() => {
     try {
       viewer.current = createBrainViewer(host.current!, {
         progress: p => callbacks.current.onProgress(p), ready: parts => {callbacks.current.onReady(parts); viewer.current?.update(latest.current);},
-        error: m => callbacks.current.onError(m), pick: id => callbacks.current.onPick(id),
+        error: m => callbacks.current.onError(m), pick: id => callbacks.current.onPick(id), busy: b => callbacks.current.onBusy(b),
       });
       exportRef.current = () => viewer.current?.exportForCsf() ?? null;
       viewer.current.update(latest.current);
@@ -78,14 +80,17 @@ function CsfPage({exportRef, onClose}: {exportRef: {current: (() => CsfSource | 
 export default function BrainDetail() {
   const [view, setView] = useState<BrainViewState>(defaults);
   const [parts, setParts] = useState<BrainPart[]>([]), [ready, setReady] = useState(false), [error, setError] = useState(''), [percent, setPercent] = useState(0);
-  const [open, setOpen] = useState<string[]>([]), [csf, setCsf] = useState(false);
+  const [open, setOpen] = useState<string[]>([]), [csf, setCsf] = useState(false), [cutBusy, setCutBusy] = useState(false);
+  const [notes, setNotes] = useState<NoteData | null>(null), [noteId, setNoteId] = useState<string | null>(null), [query, setQuery] = useState(''), [openRegions, setOpenRegions] = useState<string[]>([]);
   const exportRef = useRef<(() => CsfSource | null) | null>(null);
   useEffect(() => {document.title = '腦部詳細模式 · MJ Anatomy';}, []);
+  useEffect(() => {loadNotes().then(setNotes).catch(() => setNotes(null));}, []);
   const byId = useMemo(() => new Map(parts.map(p => [p.id, p])), [parts]);
   const selected = view.selectedIds.length === 1 ? byId.get(view.selectedIds[0]) : undefined;
   const patch = (next: Partial<BrainViewState>) => setView(v => ({...v, ...next}));
   const go = (name: BrainView, focus?: string[]) => setView(v => ({...v, command: {id: v.command.id + 1, view: name, focus}}));
   const select = (id: string | null) => {
+    setNoteId(null);
     if (!id) {patch({selectedIds: []}); return;}
     const p = byId.get(id);
     setView(v => ({...v, selectedIds: v.selectedIds.length === 1 && v.selectedIds[0] === id ? [] : [id], hiddenGroups: p ? v.hiddenGroups.filter(g => g !== p.group) : v.hiddenGroups, hiddenParts: v.hiddenParts.filter(x => x !== id)}));
@@ -95,6 +100,19 @@ export default function BrainDetail() {
     select(id);
     if (!same) go('fit', [id]);
   };
+  const cardById = useMemo(() => new Map((notes?.cards ?? []).map(c => [c.id, c])), [notes]);
+  const noteCard = noteId ? cardById.get(noteId) : undefined;
+  const openNote = (card: NoteCard) => {
+    const exact = cardParts(card, parts), near = exact.length ? exact : cardParts(card, parts, true);
+    setNoteId(card.id);
+    setView(v => ({...v, selectedIds: near, isolate: null, hiddenGroups: v.hiddenGroups.filter(g => !near.some(id => byId.get(id)?.group === g)), hiddenParts: v.hiddenParts.filter(x => !near.includes(x)), command: near.length ? {id: v.command.id + 1, view: 'fit', focus: near} : v.command}));
+  };
+  const partNotes = selected && notes ? (notes.partCards[selected.en] ?? []).map(id => cardById.get(id)).filter((c): c is NoteCard => !!c) : [];
+  const q = query.trim().toLowerCase();
+  const foundParts = q ? parts.filter(p => p.en.toLowerCase().includes(q) || p.zh.toLowerCase().includes(q)) : [];
+  const foundNotes = q && notes ? notes.cards.filter(c => cardMatches(c, q)) : [];
+  const regionGroups = useMemo(() => notes ? Object.entries(notes.regions).map(([id, label]) => ({id, label, cards: notes.cards.filter(c => c.region === id)})).filter(r => r.cards.length) : [], [notes]);
+  const noteRow = (c: NoteCard) => <li key={c.id} className="organ-part-row"><button className="note-row" aria-pressed={noteId === c.id} onClick={() => openNote(c)}><span lang="en">{c.en}</span><small lang="zh-Hant">{c.zh}{c.mesh?.length || c.approx?.length ? '' : '　〔模型未有〕'}</small></button></li>;
   const toggleGroup = (id: string) => patch({hiddenGroups: view.hiddenGroups.includes(id) ? view.hiddenGroups.filter(g => g !== id) : [...view.hiddenGroups, id]});
   const togglePart = (id: string) => patch({hiddenParts: view.hiddenParts.includes(id) ? view.hiddenParts.filter(x => x !== id) : [...view.hiddenParts, id]});
   const grouped = useMemo(() => BRAIN_GROUPS.map(g => ({...g, parts: parts.filter(p => p.group === g.id).sort((a, b) => a.en.localeCompare(b.en) || a.side.localeCompare(b.side))})).filter(g => g.parts.length), [parts]);
@@ -113,16 +131,17 @@ export default function BrainDetail() {
     </header>
     <div className="organ-layout" inert={csf || undefined} aria-hidden={csf || undefined}>
       <section className="organ-stage" aria-label="腦部 3D 模型">
-        <BrainScene view={view} exportRef={exportRef} onReady={p => {setParts(p); setReady(true);}} onError={setError} onProgress={setPercent} onPick={select}/>
+        <BrainScene view={view} exportRef={exportRef} onReady={p => {setParts(p); setReady(true);}} onError={setError} onProgress={setPercent} onPick={select} onBusy={setCutBusy}/>
         <div className="organ-views" aria-label="視角">{([['front', '前面'], ['back', '後面'], ['left', '左側'], ['right', '右側'], ['top', '上面'], ['bottom', '下面']] as const).map(([id, label]) => <button key={id} onClick={() => go(id)}>{label}</button>)}
           <button onClick={reset} aria-label="還原預設" title="還原預設"><RotateCcw size={15}/></button></div>
         {!ready && !error && <div className="organ-progress" role="status"><span className="organ-spinner"/><strong>載入腦部模型</strong><small>{percent ? `${percent}%` : '…'}</small></div>}
+        {cutBusy && <div className="organ-progress" role="status"><span className="organ-spinner"/><strong>正在計算平滑切面</strong><small>第一次切開需要幾秒</small></div>}
         {error && <div className="organ-error stage" role="alert">{error}</div>}
         <p className="organ-hint">拖曳旋轉 · 滾輪／雙指縮放 · 點選構造查看名稱</p>
       </section>
       <aside className="organ-panel" aria-label="腦部控制與說明">
         <section className="organ-block organ-info" aria-live="polite">
-          {selected ? <>
+          {noteCard && notes ? <NoteCardView card={noteCard} data={notes} hasModel={!!noteCard.mesh?.length} approxModel={!noteCard.mesh?.length && !!noteCard.approx?.length} onFocus={() => openNote(noteCard)} onClose={() => setNoteId(null)}/> : selected ? <>
             <h2 className="organ-info-title" lang="en">{displayEn(selected)}</h2>
             <p className="organ-info-zh" lang="zh-Hant">{selected.zh || '（尚無中文名稱）'}</p>
             <p lang="zh-Hant">分區：{BRAIN_GROUPS.find(g => g.id === selected.group)?.zh}｜{SIDE_ZH[selected.side]}{selected.region && selected.region !== selected.cat ? `｜${selected.region}` : ''}</p>
@@ -133,6 +152,7 @@ export default function BrainDetail() {
               <button onClick={() => patch({hiddenParts: [...view.hiddenParts, selected.id], selectedIds: []})}>Hide</button>
               <button onClick={() => patch({selectedIds: [], isolate: null})}>Clear</button>
             </div>
+            {partNotes.length > 0 && <div className="note-links"><h3>共筆</h3>{partNotes.map(c => <button key={c.id} onClick={() => openNote(c)}><span lang="en">{c.en}</span><small lang="zh-Hant">{c.zh}</small></button>)}</div>}
           </> : view.selectedIds.length > 1 ? <p>已選取 {view.selectedIds.length} 個構造。<button className="organ-clear" onClick={() => patch({selectedIds: []})}>取消選取</button></p>
             : <p className="organ-info-empty">點選模型或清單中的構造，會顯示名稱與分區。</p>}
         </section>
@@ -160,8 +180,18 @@ export default function BrainDetail() {
             <button onClick={() => patch({hiddenGroups: [], hiddenParts: [], isolate: null})}>全部開啟</button>
             <button onClick={() => patch({hiddenGroups: BRAIN_GROUPS.map(g => g.id), isolate: null})}>全部關閉</button>
           </div>
+          <label className="organ-search"><span className="sr-only">搜尋構造</span><input type="search" value={query} placeholder="搜尋構造（中文或英文，含共筆結構）" onChange={e => setQuery(e.target.value)}/></label>
           {!ready && <p className="organ-info-empty">載入中…</p>}
-          {grouped.map(g => {
+          {q ? <div className="organ-results" aria-live="polite">
+            <h3>模型構造（{foundParts.length}）</h3>
+            <ul>{foundParts.slice(0, 60).map(p => <li key={p.id} className="organ-part-row"><button aria-pressed={view.selectedIds.includes(p.id)} onClick={() => choose(p.id)}><span lang="en">{displayEn(p)}</span><small lang="zh-Hant">{p.zh}</small></button></li>)}</ul>
+            {foundParts.length > 60 && <p className="organ-info-empty">還有 {foundParts.length - 60} 個，請輸入更多字。</p>}
+            <h3>共筆結構（{foundNotes.length}）</h3>
+            <ul>{foundNotes.slice(0, 80).map(noteRow)}</ul>
+            {foundNotes.length > 80 && <p className="organ-info-empty">還有 {foundNotes.length - 80} 個，請輸入更多字。</p>}
+            {!foundParts.length && !foundNotes.length && <p className="organ-info-empty">找不到符合的構造。</p>}
+          </div> : <>
+                    {grouped.map(g => {
             const hidden = view.hiddenGroups.includes(g.id), expanded = open.includes(g.id);
             return <div className="organ-group" key={g.id}>
               <div className="organ-group-row">
@@ -174,11 +204,23 @@ export default function BrainDetail() {
               </li>)}</ul>}
             </div>;
           })}
+          {regionGroups.length > 0 && <div className="organ-notes-list">
+            <h3>共筆結構<small>神經解剖學共筆；「模型未有」者只有資訊卡</small></h3>
+            {regionGroups.map(r => {
+              const expanded = openRegions.includes(r.id);
+              return <div className="organ-group" key={r.id}>
+                <div className="organ-group-row"><button className="organ-group-head" onClick={() => setOpenRegions(o => expanded ? o.filter(x => x !== r.id) : [...o, r.id])} aria-expanded={expanded}><span lang="zh-Hant">{r.label}</span><b>{r.cards.length}</b></button>
+                  <button className="organ-expand" aria-expanded={expanded} aria-label={`${expanded ? '收合' : '展開'}${r.label}`} onClick={() => setOpenRegions(o => expanded ? o.filter(x => x !== r.id) : [...o, r.id])}>{expanded ? <ChevronDown size={15}/> : <ChevronRight size={15}/>}</button></div>
+                {expanded && <ul>{r.cards.map(noteRow)}</ul>}
+              </div>;
+            })}
+          </div>}
+          </>}
         </section>
         <section className="organ-block organ-note">
           <h2>模型範圍</h2>
           <p>皮質各葉、腦溝與腦迴、小腦、腦幹、白質纖維束、基底核、間腦、腦室與脈絡叢、腦神經根部、腦動脈（含 Willis 環）、靜脈竇與硬腦膜反摺。已移除脊髓與脊神經等不屬於腦的構造。</p>
-          <p className="organ-source">來源：Brain Project（Z-Anatomy / BodyParts3D），CC BY-SA 4.0。切面灰白質分界為依皮質表面向內縮 2.5 mm 產生的示意。</p>
+          <p className="organ-source">來源：Brain Project（Z-Anatomy / BodyParts3D），CC BY-SA 4.0。切面灰白質分界為依皮質表面向內約 2.4 mm 產生的示意（體素 0.9 mm，以平滑場取等值面）。</p>
         </section>
       </aside>
     </div>

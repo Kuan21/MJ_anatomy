@@ -1,10 +1,10 @@
 {
  "totals": {
   "terms": 3816,
-  "have": 1192,
+  "have": 1204,
   "findability": 0,
-  "missing": 1147,
-  "landmark": 264,
+  "missing": 1136,
+  "landmark": 263,
   "noise": 650
  },
  "lectures": [
@@ -495,10 +495,10 @@
     {
      "term": "Mammary br",
      "zh": null,
-     "kind": "contained",
-     "model": "Right lateral mammary artery",
+     "kind": "exact",
+     "model": "Right mammary gland",
      "source": "paokao",
-     "system": "arterial"
+     "system": "reproductive"
     },
     {
      "term": "Subscapular a",
@@ -2071,10 +2071,10 @@
     {
      "term": "Pulmonary lig",
      "zh": null,
-     "kind": "contained",
-     "model": "Pulmonary trunk",
-     "source": "atlas",
-     "system": "arterial"
+     "kind": "exact",
+     "model": "Left pulmonary ligament",
+     "source": "paokao",
+     "system": "connective"
     },
     {
      "term": "Oblique fissure",
@@ -3853,6 +3853,14 @@
      "system": "skeletal"
     },
     {
+     "term": "Cubital fossa",
+     "zh": null,
+     "kind": "exact",
+     "model": "Right cubital fossa",
+     "source": "paokao",
+     "system": "connective"
+    },
+    {
      "term": "styloid process",
      "zh": "莖突",
      "kind": "contained",
@@ -4187,10 +4195,6 @@
     },
     {
      "term": "lateral epicondyle",
-     "zh": null
-    },
-    {
-     "term": "Cubital fossa",
      "zh": null
     },
     {
@@ -4971,10 +4975,10 @@
     {
      "term": "Mammary gland",
      "zh": null,
-     "kind": "contained",
-     "model": "Right medial mammary branch of internal thoracic artery",
+     "kind": "exact",
+     "model": "Right mammary gland",
      "source": "paokao",
-     "system": "arterial"
+     "system": "reproductive"
     },
     {
      "term": "lobule",
@@ -5785,6 +5789,14 @@
      "system": "arterial"
     },
     {
+     "term": "cubital fossa",
+     "zh": null,
+     "kind": "exact",
+     "model": "Right cubital fossa",
+     "source": "paokao",
+     "system": "connective"
+    },
+    {
      "term": "axillary n",
      "zh": null,
      "kind": "exact",
@@ -6525,10 +6537,6 @@
     }
    ],
    "landmark": [
-    {
-     "term": "cubital fossa",
-     "zh": null
-    },
     {
      "term": "lateral epicondyle",
      "zh": "外上髁"
@@ -7373,6 +7381,14 @@
      "system": "nervous"
     },
     {
+     "term": "hilum",
+     "zh": "腎門",
+     "kind": "contained",
+     "model": "Hilum of left lung",
+     "source": "paokao",
+     "system": "respiratory"
+    },
+    {
      "term": "ureter",
      "zh": "輸尿管",
      "kind": "exact",
@@ -7848,10 +7864,6 @@
      "zh": "腎柱"
     },
     {
-     "term": "hilum",
-     "zh": "腎門"
-    },
-    {
      "term": "renal calyces",
      "zh": "腎盞"
     },
@@ -8088,6 +8100,14 @@
    "file": "Anatomy_Lower_Limb_Lin_CH_Part_I_bones_and_gluteal_region_bb15ebc7f24f0b132626748650ed9648_2",
    "lecture": "下肢 I（骨、臀部）",
    "have": [
+    {
+     "term": "pubis Bones",
+     "zh": null,
+     "kind": "contained",
+     "model": "Mons pubis",
+     "source": "paokao",
+     "system": "reproductive"
+    },
     {
      "term": "adductor magnus m",
      "zh": null,
@@ -8461,10 +8481,6 @@
     },
     {
      "term": "pubs ischium Gluteal ligaments",
-     "zh": null
-    },
-    {
-     "term": "pubis Bones",
      "zh": null
     },
     {
@@ -10247,10 +10263,10 @@
     {
      "term": "mammary gland",
      "zh": "乳腺",
-     "kind": "contained",
-     "model": "Right medial mammary branch of internal thoracic artery",
+     "kind": "exact",
+     "model": "Right mammary gland",
      "source": "paokao",
-     "system": "arterial"
+     "system": "reproductive"
     },
     {
      "term": "subclavian artery",
@@ -10565,6 +10581,22 @@
      "system": "skeletal"
     },
     {
+     "term": "areola",
+     "zh": "乳暈",
+     "kind": "exact",
+     "model": "Right areola",
+     "source": "paokao",
+     "system": "reproductive"
+    },
+    {
+     "term": "nipple",
+     "zh": "奶頭",
+     "kind": "exact",
+     "model": "Right nipple",
+     "source": "paokao",
+     "system": "reproductive"
+    },
+    {
      "term": "thoracic vertebrae",
      "zh": "胸椎",
      "kind": "contained",
@@ -10766,14 +10798,6 @@
     {
      "term": "respiratory diaphragm",
      "zh": "向下藉由呼吸性橫膈"
-    },
-    {
-     "term": "areola",
-     "zh": "乳暈"
-    },
-    {
-     "term": "nipple",
-     "zh": "奶頭"
     },
     {
      "term": "mammary gland lobules",
@@ -14849,6 +14873,14 @@
      "system": "reproductive"
     },
     {
+     "term": "bulb",
+     "zh": "尿道球動脈",
+     "kind": "contained",
+     "model": "Right bulb of vestibule",
+     "source": "paokao",
+     "system": "reproductive"
+    },
+    {
      "term": "piriformis",
      "zh": "行走於梨狀肌",
      "kind": "exact",
@@ -15386,10 +15418,6 @@
     {
      "term": "sup. part of vagina",
      "zh": "上半部陰道"
-    },
-    {
-     "term": "bulb",
-     "zh": "尿道球動脈"
     },
     {
      "term": "dorsal a. to the penis/clitoris",
@@ -17453,6 +17481,14 @@
      "system": "connective"
     },
     {
+     "term": "Greater vestibular gland",
+     "zh": null,
+     "kind": "exact",
+     "model": "Right greater vestibular gland",
+     "source": "paokao",
+     "system": "reproductive"
+    },
+    {
      "term": "Suspensory lig",
      "zh": null,
      "kind": "contained",
@@ -17693,12 +17729,44 @@
      "system": "muscular"
     },
     {
+     "term": "mons pubis",
+     "zh": "陰阜",
+     "kind": "exact",
+     "model": "Mons pubis",
+     "source": "paokao",
+     "system": "reproductive"
+    },
+    {
+     "term": "clitoris",
+     "zh": "陰蒂",
+     "kind": "exact",
+     "model": "Clitoris",
+     "source": "paokao",
+     "system": "reproductive"
+    },
+    {
+     "term": "crus",
+     "zh": "陰蒂腳",
+     "kind": "contained",
+     "model": "Right crus of clitoris",
+     "source": "paokao",
+     "system": "reproductive"
+    },
+    {
      "term": "vestibule",
      "zh": "前庭",
      "kind": "contained",
-     "model": "Aortic vestibule",
-     "source": "heart",
-     "system": "cardiac"
+     "model": "Right bulb of vestibule",
+     "source": "paokao",
+     "system": "reproductive"
+    },
+    {
+     "term": "bulbs of vestibule",
+     "zh": "前庭球",
+     "kind": "exact",
+     "model": "Right bulb of vestibule",
+     "source": "paokao",
+     "system": "reproductive"
     },
     {
      "term": "corpus cavernosum penis",
@@ -17717,6 +17785,14 @@
      "system": "reproductive"
     },
     {
+     "term": "bulb",
+     "zh": "陰莖球",
+     "kind": "contained",
+     "model": "Right bulb of vestibule",
+     "source": "paokao",
+     "system": "reproductive"
+    },
+    {
      "term": "external anal sphincters",
      "zh": "肛門外括約肌",
      "kind": "exact",
@@ -17731,6 +17807,14 @@
      "model": "External anal sphincter",
      "source": "atlas",
      "system": "muscular"
+    },
+    {
+     "term": "artery to the bulb",
+     "zh": "前庭球動脈",
+     "kind": "contained",
+     "model": "Right bulb of vestibule",
+     "source": "paokao",
+     "system": "reproductive"
     }
    ],
    "findability": [],
@@ -18064,10 +18148,6 @@
      "zh": "直腸陰道隔膜"
     },
     {
-     "term": "Greater vestibular gland",
-     "zh": null
-    },
-    {
      "term": "Paraurethral gland",
      "zh": null
     },
@@ -18348,20 +18428,8 @@
      "zh": "外陰"
     },
     {
-     "term": "mons pubis",
-     "zh": "陰阜"
-    },
-    {
      "term": "coarse pubic hairs",
      "zh": "陰毛"
-    },
-    {
-     "term": "clitoris",
-     "zh": "陰蒂"
-    },
-    {
-     "term": "crus",
-     "zh": "陰蒂腳"
     },
     {
      "term": "labia majora",
@@ -18392,20 +18460,12 @@
      "zh": "陰蒂包皮"
     },
     {
-     "term": "bulbs of vestibule",
-     "zh": "前庭球"
-    },
-    {
      "term": "bulb of the penis",
      "zh": "陰莖球"
     },
     {
      "term": "bulbospongiosus",
      "zh": "球海綿體肌"
-    },
-    {
-     "term": "bulb",
-     "zh": "陰莖球"
     },
     {
      "term": "tunica albuginea",
@@ -18446,10 +18506,6 @@
     {
      "term": "post. recesses",
      "zh": "後隱窩"
-    },
-    {
-     "term": "artery to the bulb",
-     "zh": "前庭球動脈"
     },
     {
      "term": "posterior scrotal/labial n",

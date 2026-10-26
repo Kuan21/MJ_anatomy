@@ -1,0 +1,2954 @@
+{
+"_readme": "neuro-notes.json 的人工整理對照：每個筆記結構一行。region＝清單分組；mesh＝腦部模型內的構造英文名（@group:x 為整個分區，@cortex 為全部皮質）；approx＝只是近似對應的 mesh；merge＝併入另一筆（名稱與筆記摘錄保留為別名）；drop＝不是構造（附原因）；type＝修正自動抽取的類型；en/zh＝修正後名稱。由 scripts/prepare-neuro-notes.mjs 讀取。",
+"regions": {
+"cer": "大腦皮質與腦迴",
+"lim": "邊緣系統",
+"bas": "基底核與大腦白質",
+"die": "間腦與下視丘",
+"bst": "腦幹",
+"cbl": "小腦",
+"spi": "脊髓",
+"trt": "傳導路徑",
+"csf": "腦室、腦池、腦膜",
+"ves": "血管",
+"crn": "腦神經、神經節與周邊神經",
+"ear": "耳部結構",
+"oth": "其他（顱底、細胞、感受器）"
+},
+"entries": {
+"neuro-0001": {
+"region": "cer"
+},
+"neuro-0002": {
+"region": "bas",
+"mesh": [
+"Corpus callosum"
+]
+},
+"neuro-0003": {
+"region": "cer",
+"en": "Central sulcus",
+"mesh": [
+"Central sulcus"
+]
+},
+"neuro-0004": {
+"region": "cer",
+"mesh": [
+"@group:frontal"
+]
+},
+"neuro-0005": {
+"region": "cer",
+"mesh": [
+"@group:parietal"
+]
+},
+"neuro-0009": {
+"region": "cer",
+"mesh": [
+"@group:temporal"
+]
+},
+"neuro-0018": {
+"region": "cer",
+"mesh": [
+"@group:occipital"
+]
+},
+"neuro-0006": {
+"region": "cer",
+"mesh": [
+"Precentral gyrus"
+]
+},
+"neuro-0007": {
+"region": "cer",
+"mesh": [
+"Postcentral gyrus"
+]
+},
+"neuro-0008": {
+"region": "cer",
+"en": "Lateral sulcus (Sylvian fissure)",
+"mesh": [
+"Lat Fis-post",
+"Lat Fis-ant-Horizont",
+"Lat Fis-ant-Vertical"
+]
+},
+"neuro-0010": {
+"region": "cer",
+"mesh": [
+"Superior frontal gyrus"
+]
+},
+"neuro-0011": {
+"region": "cer",
+"mesh": [
+"Middle frontal gyrus"
+]
+},
+"neuro-0012": {
+"region": "cer",
+"mesh": [
+"Opercular part of inferior frontal gyrus",
+"Triangular part of inferior frontal gyrus",
+"Orbital part of inferior frontal gyrus"
+]
+},
+"neuro-0013": {
+"region": "cer",
+"approx": [
+"Transverse frontopolar gyrus and sulcus"
+]
+},
+"neuro-0014": {
+"region": "cer",
+"mesh": [
+"Superior parietal lobule"
+]
+},
+"neuro-0015": {
+"region": "cer",
+"mesh": [
+"Supramarginal gyrus",
+"Angular gyrus"
+]
+},
+"neuro-0016": {
+"region": "cer",
+"mesh": [
+"Supramarginal gyrus"
+]
+},
+"neuro-0017": {
+"region": "cer",
+"mesh": [
+"Angular gyrus"
+]
+},
+"neuro-0019": {
+"region": "cer",
+"mesh": [
+"Superior occipital gyri"
+]
+},
+"neuro-0020": {
+"region": "cer",
+"mesh": [
+"Lateral occipital gyrus (Middle occipital gyrus)"
+]
+},
+"neuro-0021": {
+"region": "cer",
+"mesh": [
+"Inferior occipital gyrus and sulcus"
+]
+},
+"neuro-0022": {
+"region": "cer",
+"mesh": [
+"Superior temporal gyrus (Lateral part)"
+]
+},
+"neuro-0023": {
+"region": "cer",
+"mesh": [
+"Middle temporal gyrus"
+]
+},
+"neuro-0024": {
+"region": "cer",
+"mesh": [
+"Inferior temporal gyrus"
+]
+},
+"neuro-0025": {
+"region": "cer",
+"mesh": [
+"Temporal pole"
+]
+},
+"neuro-0026": {
+"region": "cer",
+"approx": [
+"Calcarine sulcus"
+]
+},
+"neuro-0027": {
+"region": "cer",
+"mesh": [
+"Transverse temporal gyri",
+"Temporal plane"
+]
+},
+"neuro-0028": {
+"region": "cer"
+},
+"neuro-0029": {
+"region": "cer",
+"merge": "0047"
+},
+"neuro-0030": {
+"region": "cer"
+},
+"neuro-0031": {
+"region": "cer"
+},
+"neuro-0032": {
+"region": "cer",
+"mesh": [
+"Olfactory sulcus"
+]
+},
+"neuro-0033": {
+"region": "cer",
+"mesh": [
+"Orbital gyri"
+]
+},
+"neuro-0034": {
+"region": "cer",
+"mesh": [
+"Straight gyrus (Gyrus rectus)"
+]
+},
+"neuro-0035": {
+"region": "cer"
+},
+"neuro-0036": {
+"region": "lim",
+"zh": "杏仁核",
+"en": "Amygdala",
+"mesh": [
+"Basolateral complex",
+"Corticomedial group",
+"Central nucleus",
+"Lateral nucleus"
+]
+},
+"neuro-0037": {
+"region": "lim",
+"mesh": [
+"Hippocampus"
+]
+},
+"neuro-0038": {
+"region": "die",
+"mesh": [
+"Anterior hypothalamus",
+"Lateral hypothalamus",
+"Posterior hypothalamus",
+"Preoptic hypothalamus",
+"Tuberal hypothalamus"
+]
+},
+"neuro-0039": {
+"region": "cer"
+},
+"neuro-0040": {
+"region": "cer"
+},
+"neuro-0041": {
+"region": "cer"
+},
+"neuro-0042": {
+"region": "die",
+"mesh": [
+"Mamillary body"
+]
+},
+"neuro-0043": {
+"region": "bst"
+},
+"neuro-0044": {
+"region": "trt",
+"drop": "泛稱（輸出性纖維），不是具體構造"
+},
+"neuro-0045": {
+"region": "bst"
+},
+"neuro-0046": {
+"region": "trt"
+},
+"neuro-0047": {
+"region": "cer",
+"mesh": [
+"Insula (Subcentral gyrus and ant. and post. sulci)",
+"Circular sulcus of insula"
+]
+},
+"neuro-0048": {
+"region": "csf",
+"mesh": [
+"Lateral ventricle"
+]
+},
+"neuro-0049": {
+"region": "csf",
+"mesh": [
+"Third ventricle"
+]
+},
+"neuro-0050": {
+"region": "csf",
+"mesh": [
+"Fourth ventricle"
+]
+},
+"neuro-0051": {
+"region": "csf",
+"merge": "0242"
+},
+"neuro-0052": {
+"region": "csf"
+},
+"neuro-0053": {
+"region": "csf"
+},
+"neuro-0054": {
+"region": "csf"
+},
+"neuro-0055": {
+"region": "csf",
+"mesh": [
+"Choroid plexus"
+]
+},
+"neuro-0056": {
+"region": "csf"
+},
+"neuro-0057": {
+"region": "bas",
+"mesh": [
+"Corpus callosum",
+"Anterior commissure",
+"Hippocampal commissure",
+"Posterior commissure"
+]
+},
+"neuro-0058": {
+"region": "bas",
+"mesh": [
+"Corticospinal tract",
+"Corticobulbar tract",
+"Corticopontine tract (frontal)",
+"Corticopontine tract (occipital)",
+"Corticopontine tract (parietal)",
+"Anterior thalamic radiation",
+"Superior thalamic radiation",
+"Posterior thalamic radiation",
+"Optic radiation",
+"Acoustic radiation"
+]
+},
+"neuro-0059": {
+"region": "bas"
+},
+"neuro-0060": {
+"region": "bas"
+},
+"neuro-0061": {
+"region": "bas",
+"mesh": [
+"Putamen"
+]
+},
+"neuro-0062": {
+"region": "bas",
+"mesh": [
+"Globus pallidus external",
+"Globus pallidus internal"
+]
+},
+"neuro-0063": {
+"region": "bas",
+"mesh": [
+"Caudate nucleus"
+]
+},
+"neuro-0064": {
+"region": "bas",
+"mesh": [
+"Arcuate fasciculus",
+"Superior longitudinal fasciculus I",
+"Superior longitudinal fasciculus II",
+"Superior longitudinal fasciculus III",
+"Inferior longitudinal fasciculus",
+"Inferior fronto-occipital fasciculus",
+"Uncinate fasciculus",
+"Middle longitudinal fasciculus",
+"Frontal aslant tract"
+]
+},
+"neuro-0065": {
+"region": "die",
+"mesh": [
+"@group:diencephalon"
+]
+},
+"neuro-0066": {
+"region": "die",
+"mesh": [
+"Pineal gland"
+]
+},
+"neuro-0067": {
+"region": "die",
+"mesh": [
+"Habenula"
+]
+},
+"neuro-0068": {
+"region": "bst",
+"mesh": [
+"Inferior colliculus"
+]
+},
+"neuro-0069": {
+"region": "die",
+"type": "nucleus"
+},
+"neuro-0070": {
+"region": "die",
+"mesh": [
+"Preoptic hypothalamus"
+]
+},
+"neuro-0071": {
+"region": "die",
+"mesh": [
+"Lateral hypothalamus"
+]
+},
+"neuro-0072": {
+"region": "die",
+"approx": [
+"Tuberal hypothalamus"
+]
+},
+"neuro-0073": {
+"region": "die",
+"mesh": [
+"Posterior hypothalamus"
+]
+},
+"neuro-0074": {
+"region": "die",
+"mesh": [
+"Anterior hypothalamus"
+]
+},
+"neuro-0075": {
+"region": "die",
+"approx": [
+"Anterior hypothalamus"
+]
+},
+"neuro-0076": {
+"region": "die",
+"type": "nucleus",
+"approx": [
+"Anterior hypothalamus"
+]
+},
+"neuro-0077": {
+"region": "die",
+"approx": [
+"Tuberal hypothalamus"
+]
+},
+"neuro-0078": {
+"region": "die",
+"mesh": [
+"Habenula",
+"Pineal gland",
+"Stria medullaris thalami"
+]
+},
+"neuro-0079": {
+"region": "die",
+"mesh": [
+"Subthalamic nucleus"
+]
+},
+"neuro-0080": {
+"region": "bas",
+"mesh": [
+"@group:basal"
+]
+},
+"neuro-0081": {
+"region": "bas"
+},
+"neuro-0082": {
+"region": "bas",
+"mesh": [
+"Putamen",
+"Globus pallidus external",
+"Globus pallidus internal"
+]
+},
+"neuro-0083": {
+"region": "bas",
+"mesh": [
+"Caudate nucleus",
+"Putamen"
+]
+},
+"neuro-0084": {
+"region": "bas"
+},
+"neuro-0085": {
+"region": "bas"
+},
+"neuro-0086": {
+"region": "bas",
+"mesh": [
+"Nucleus accumbens"
+]
+},
+"neuro-0087": {
+"region": "bas"
+},
+"neuro-0088": {
+"region": "die",
+"mesh": [
+"Subthalamic nucleus"
+]
+},
+"neuro-0089": {
+"region": "oth"
+},
+"neuro-0090": {
+"region": "oth",
+"mesh": [
+"White matter of telencephalon"
+]
+},
+"neuro-0091": {
+"region": "oth",
+"drop": "泛稱（神經核），不是具體構造"
+},
+"neuro-0092": {
+"region": "oth",
+"drop": "細胞層級概念（細胞本體），不是解剖構造"
+},
+"neuro-0093": {
+"region": "oth",
+"drop": "泛稱（神經節），不是具體構造"
+},
+"neuro-0094": {
+"region": "oth"
+},
+"neuro-0095": {
+"region": "trt",
+"drop": "泛稱（路徑），不是具體構造"
+},
+"neuro-0096": {
+"region": "oth",
+"drop": "細胞層級概念（軸突），不是解剖構造"
+},
+"neuro-0097": {
+"region": "crn",
+"drop": "泛稱（神經），不是具體構造"
+},
+"neuro-0098": {
+"region": "bst"
+},
+"neuro-0099": {
+"region": "oth"
+},
+"neuro-0100": {
+"region": "spi"
+},
+"neuro-0101": {
+"region": "spi"
+},
+"neuro-0102": {
+"region": "spi",
+"type": "structure"
+},
+"neuro-0103": {
+"region": "spi",
+"type": "structure"
+},
+"neuro-0104": {
+"region": "oth",
+"drop": "細胞層級概念（樹突與軸突），不是解剖構造"
+},
+"neuro-0105": {
+"region": "spi"
+},
+"neuro-0106": {
+"region": "csf",
+"zh": "中央管",
+"en": "Central canal"
+},
+"neuro-0107": {
+"region": "spi",
+"merge": "0119"
+},
+"neuro-0108": {
+"region": "spi",
+"merge": "0110"
+},
+"neuro-0109": {
+"region": "spi",
+"drop": "測量描述（橫向直徑），不是構造"
+},
+"neuro-0110": {
+"region": "spi",
+"zh": "後角（背角）",
+"en": "Posterior horn (dorsal horn)"
+},
+"neuro-0111": {
+"region": "spi"
+},
+"neuro-0112": {
+"region": "spi"
+},
+"neuro-0113": {
+"region": "spi"
+},
+"neuro-0114": {
+"region": "spi",
+"zh": "克拉克背核",
+"en": "Clarke’s nucleus (dorsal nucleus)"
+},
+"neuro-0115": {
+"region": "spi"
+},
+"neuro-0116": {
+"region": "spi"
+},
+"neuro-0117": {
+"region": "spi",
+"zh": "胸腰髓節（C8–L2）",
+"en": "Thoracolumbar spinal segments (C8–L2)"
+},
+"neuro-0118": {
+"region": "spi",
+"zh": "薦髓節（S2–S4）",
+"en": "Sacral spinal segments (S2–S4)"
+},
+"neuro-0119": {
+"region": "spi",
+"zh": "前角（腹角）",
+"en": "Anterior horn (ventral horn)"
+},
+"neuro-0120": {
+"region": "oth"
+},
+"neuro-0121": {
+"region": "bst"
+},
+"neuro-0122": {
+"region": "oth",
+"merge": "0498"
+},
+"neuro-0123": {
+"region": "spi"
+},
+"neuro-0124": {
+"region": "spi",
+"zh": "中間帶",
+"en": "Intermediate zone"
+},
+"neuro-0125": {
+"region": "spi",
+"zh": "灰質柱",
+"en": "Columns"
+},
+"neuro-0126": {
+"region": "spi",
+"zh": "索",
+"en": "Funiculi"
+},
+"neuro-0127": {
+"region": "spi"
+},
+"neuro-0128": {
+"region": "spi"
+},
+"neuro-0129": {
+"region": "spi"
+},
+"neuro-0130": {
+"region": "trt",
+"mesh": [
+"Corticospinal tract"
+]
+},
+"neuro-0131": {
+"region": "trt"
+},
+"neuro-0132": {
+"region": "trt"
+},
+"neuro-0133": {
+"region": "spi",
+"merge": "0110"
+},
+"neuro-0134": {
+"region": "crn",
+"zh": "背根神經節",
+"en": "Dorsal root ganglion (DRG)"
+},
+"neuro-0135": {
+"region": "die",
+"mesh": [
+"Anterior nuclei of thalamus",
+"Intralaminar and lateral posterior nuclei",
+"Mediodorsal nucleus",
+"Pulvinar",
+"Ventral anterior nucleus",
+"Ventral laterodorsal nucleus",
+"Ventral lateroventral nucleus",
+"Lateral geniculate body",
+"Medial geniculate body"
+]
+},
+"neuro-0136": {
+"region": "bst",
+"mesh": [
+"Medulla oblongata"
+]
+},
+"neuro-0137": {
+"region": "cbl",
+"mesh": [
+"@group:cerebellum"
+]
+},
+"neuro-0138": {
+"region": "cer",
+"mesh": [
+"@cortex"
+]
+},
+"neuro-0139": {
+"region": "trt",
+"drop": "概念（交叉），不是構造"
+},
+"neuro-0140": {
+"region": "spi"
+},
+"neuro-0141": {
+"region": "trt"
+},
+"neuro-0142": {
+"region": "trt",
+"merge": "0131"
+},
+"neuro-0143": {
+"region": "trt"
+},
+"neuro-0144": {
+"region": "trt",
+"merge": "0493"
+},
+"neuro-0145": {
+"region": "crn",
+"merge": "0134"
+},
+"neuro-0146": {
+"region": "bst",
+"merge": "0136"
+},
+"neuro-0147": {
+"region": "bst",
+"type": "nucleus",
+"zh": "薄束核",
+"en": "Gracile nucleus (Nucleus gracilis)"
+},
+"neuro-0148": {
+"region": "bst",
+"zh": "楔形核",
+"en": "Cuneate nucleus (Nucleus cuneatus)"
+},
+"neuro-0149": {
+"region": "trt"
+},
+"neuro-0150": {
+"region": "trt"
+},
+"neuro-0151": {
+"region": "trt"
+},
+"neuro-0152": {
+"region": "cer",
+"merge": "0007"
+},
+"neuro-0153": {
+"region": "spi",
+"zh": "腹根",
+"en": "Ventral root"
+},
+"neuro-0154": {
+"region": "spi",
+"merge": "0129"
+},
+"neuro-0155": {
+"region": "trt"
+},
+"neuro-0156": {
+"region": "trt"
+},
+"neuro-0157": {
+"region": "spi",
+"merge": "0114"
+},
+"neuro-0158": {
+"region": "cbl",
+"merge": "0194"
+},
+"neuro-0159": {
+"region": "trt"
+},
+"neuro-0160": {
+"region": "bst",
+"zh": "副楔形核",
+"en": "Accessory cuneate nucleus"
+},
+"neuro-0161": {
+"region": "trt"
+},
+"neuro-0162": {
+"region": "trt",
+"merge": "0161"
+},
+"neuro-0163": {
+"region": "trt",
+"mesh": [
+"Corticobulbar tract"
+]
+},
+"neuro-0164": {
+"region": "trt",
+"zh": "外側皮質脊髓徑",
+"en": "Lateral corticospinal tract (LCST)",
+"approx": [
+"Corticospinal tract"
+]
+},
+"neuro-0165": {
+"region": "trt",
+"zh": "前側皮質脊髓徑",
+"en": "Anterior corticospinal tract (ACST)",
+"approx": [
+"Corticospinal tract"
+]
+},
+"neuro-0166": {
+"region": "oth"
+},
+"neuro-0167": {
+"region": "cer",
+"approx": [
+"Precentral gyrus"
+]
+},
+"neuro-0168": {
+"region": "trt"
+},
+"neuro-0169": {
+"region": "bst",
+"mesh": [
+"Red nucleus"
+]
+},
+"neuro-0170": {
+"region": "trt"
+},
+"neuro-0171": {
+"region": "bst",
+"mesh": [
+"Superior colliculus"
+]
+},
+"neuro-0172": {
+"region": "spi"
+},
+"neuro-0173": {
+"region": "spi",
+"merge": "0128"
+},
+"neuro-0175": {
+"region": "trt",
+"merge": "0156"
+},
+"neuro-0177": {
+"region": "oth",
+"zh": "後顱窩",
+"en": "Posterior cranial fossa"
+},
+"neuro-0178": {
+"region": "oth",
+"zh": "斜坡",
+"en": "Clivus"
+},
+"neuro-0179": {
+"region": "bst",
+"zh": "中腦",
+"en": "Midbrain",
+"mesh": [
+"Midbrain"
+]
+},
+"neuro-0180": {
+"region": "bst",
+"mesh": [
+"Pons"
+]
+},
+"neuro-0181": {
+"region": "bst",
+"type": "structure",
+"zh": "腳間窩",
+"en": "Interpeduncular fossa",
+"mesh": [
+"Interpeduncular fossa"
+]
+},
+"neuro-0182": {
+"region": "cbl",
+"mesh": [
+"Middle cerebellar peduncle"
+]
+},
+"neuro-0183": {
+"region": "bst",
+"mesh": [
+"Pyramid of medulla oblongata"
+]
+},
+"neuro-0184": {
+"region": "trt",
+"merge": "0130"
+},
+"neuro-0185": {
+"region": "bst",
+"mesh": [
+"Olive"
+]
+},
+"neuro-0186": {
+"region": "bst",
+"merge": "0211"
+},
+"neuro-0187": {
+"region": "bst",
+"zh": "四疊體",
+"en": "Corpora quadrigemina",
+"mesh": [
+"Superior colliculus",
+"Inferior colliculus"
+]
+},
+"neuro-0188": {
+"region": "bst",
+"zh": "上丘臂",
+"en": "Brachium of superior colliculus"
+},
+"neuro-0189": {
+"region": "die",
+"mesh": [
+"Lateral geniculate body"
+]
+},
+"neuro-0190": {
+"region": "bst",
+"zh": "下丘臂",
+"en": "Brachium of inferior colliculus"
+},
+"neuro-0191": {
+"region": "die",
+"mesh": [
+"Medial geniculate body"
+]
+},
+"neuro-0192": {
+"region": "bst",
+"zh": "菱形窩",
+"en": "Rhomboid fossa"
+},
+"neuro-0193": {
+"region": "cbl",
+"mesh": [
+"Superior cerebellar peduncle"
+]
+},
+"neuro-0194": {
+"region": "cbl",
+"zh": "下小腦腳",
+"en": "Inferior cerebellar peduncle (ICP)",
+"mesh": [
+"Inferior cerebellar peduncle"
+]
+},
+"neuro-0195": {
+"region": "bst"
+},
+"neuro-0196": {
+"region": "bst",
+"merge": "0147"
+},
+"neuro-0197": {
+"region": "trt",
+"merge": "0150"
+},
+"neuro-0198": {
+"region": "bst"
+},
+"neuro-0199": {
+"region": "bst",
+"merge": "0148"
+},
+"neuro-0200": {
+"region": "bst"
+},
+"neuro-0201": {
+"region": "bst"
+},
+"neuro-0202": {
+"region": "bst"
+},
+"neuro-0203": {
+"region": "bst"
+},
+"neuro-0204": {
+"region": "bst"
+},
+"neuro-0205": {
+"region": "bst",
+"zh": "基板",
+"en": "Basal plate"
+},
+"neuro-0206": {
+"region": "bst",
+"zh": "翼板",
+"en": "Alar plate"
+},
+"neuro-0207": {
+"region": "bst",
+"type": "structure"
+},
+"neuro-0208": {
+"region": "bst",
+"type": "structure"
+},
+"neuro-0209": {
+"region": "bst"
+},
+"neuro-0210": {
+"region": "bst",
+"zh": "橋腦核",
+"en": "Pontine nuclei"
+},
+"neuro-0211": {
+"region": "bst",
+"mesh": [
+"Olive"
+]
+},
+"neuro-0212": {
+"region": "bas"
+},
+"neuro-0213": {
+"region": "bst",
+"merge": "0043"
+},
+"neuro-0214": {
+"region": "bst",
+"merge": "0098"
+},
+"neuro-0215": {
+"region": "bst",
+"merge": "0098"
+},
+"neuro-0216": {
+"region": "bst",
+"merge": "0218"
+},
+"neuro-0217": {
+"region": "bst",
+"zh": "延腦尾側（閉鎖部）",
+"en": "Caudal (closed) medulla"
+},
+"neuro-0218": {
+"region": "trt"
+},
+"neuro-0219": {
+"region": "trt",
+"mesh": [
+"Medial lemniscus"
+]
+},
+"neuro-0220": {
+"region": "bst",
+"zh": "延腦吻側（開放部）",
+"en": "Rostral (open) medulla"
+},
+"neuro-0221": {
+"region": "bst",
+"merge": "0211"
+},
+"neuro-0222": {
+"region": "bst"
+},
+"neuro-0223": {
+"region": "bst"
+},
+"neuro-0224": {
+"region": "trt",
+"zh": "內側縱束",
+"en": "Medial longitudinal fasciculus (MLF)"
+},
+"neuro-0225": {
+"region": "bst"
+},
+"neuro-0226": {
+"region": "bst"
+},
+"neuro-0227": {
+"region": "trt"
+},
+"neuro-0228": {
+"region": "crn",
+"zh": "顏面神經",
+"en": "Facial nerve (CN VII)",
+"mesh": [
+"Facial nerve (VII)"
+]
+},
+"neuro-0229": {
+"region": "crn",
+"zh": "舌咽神經",
+"en": "Glossopharyngeal nerve (CN IX)"
+},
+"neuro-0230": {
+"region": "crn",
+"zh": "迷走神經",
+"en": "Vagus nerve (CN X)",
+"mesh": [
+"Vagus nerve (X)"
+]
+},
+"neuro-0231": {
+"region": "bst"
+},
+"neuro-0232": {
+"region": "bst",
+"zh": "外旋神經核（展神經核）",
+"en": "Abducens nucleus (nucleus of abducens nerve)",
+"mesh": [
+"Nucleus of abducens nerve"
+]
+},
+"neuro-0233": {
+"region": "crn",
+"merge": "0228"
+},
+"neuro-0234": {
+"region": "bst",
+"zh": "斜方體",
+"en": "Trapezoid body"
+},
+"neuro-0235": {
+"region": "trt",
+"zh": "上行聽覺傳導路徑",
+"en": "Ascending central auditory pathways"
+},
+"neuro-0236": {
+"region": "bst"
+},
+"neuro-0237": {
+"region": "bst"
+},
+"neuro-0238": {
+"region": "bst",
+"merge": "0190"
+},
+"neuro-0239": {
+"region": "cer",
+"mesh": [
+"Transverse temporal gyri"
+]
+},
+"neuro-0240": {
+"region": "bst"
+},
+"neuro-0241": {
+"region": "bst"
+},
+"neuro-0242": {
+"region": "csf",
+"zh": "大腦導水管（中腦導水管）",
+"en": "Cerebral aqueduct (Mesencephalic aqueduct)",
+"mesh": [
+"Aqueduct of midbrain"
+]
+},
+"neuro-0243": {
+"region": "crn",
+"zh": "滑車神經",
+"en": "Trochlear nerve (CN IV)",
+"mesh": [
+"Trochlear nerve (IV)"
+]
+},
+"neuro-0244": {
+"region": "bst",
+"mesh": [
+"Substantia nigra"
+]
+},
+"neuro-0245": {
+"region": "bst",
+"zh": "黑質緻密部",
+"en": "Substantia nigra, pars compacta",
+"approx": [
+"Substantia nigra"
+]
+},
+"neuro-0246": {
+"region": "bst",
+"zh": "黑質網狀部",
+"en": "Substantia nigra, pars reticulata",
+"approx": [
+"Substantia nigra"
+]
+},
+"neuro-0247": {
+"region": "bst",
+"zh": "黑質外側部",
+"en": "Substantia nigra, pars lateralis",
+"approx": [
+"Substantia nigra"
+]
+},
+"neuro-0248": {
+"region": "bst",
+"mesh": [
+"Nucleus of oculomotor nerve",
+"Accessory nucleus of oculomotor nerve"
+]
+},
+"neuro-0249": {
+"region": "crn",
+"zh": "動眼神經",
+"en": "Oculomotor nerve (CN III)",
+"mesh": [
+"Oculomotor nerve (III)"
+]
+},
+"neuro-0250": {
+"region": "bst",
+"mesh": [
+"Vestibular nuclei"
+]
+},
+"neuro-0251": {
+"region": "crn",
+"zh": "舌下神經",
+"en": "Hypoglossal nerve (CN XII)",
+"mesh": [
+"Hypoglossal nerve (XII)"
+]
+},
+"neuro-0252": {
+"region": "bst",
+"zh": "後縫核",
+"en": "Posterior raphe nucleus"
+},
+"neuro-0253": {
+"region": "bst",
+"merge": "0245"
+},
+"neuro-0255": {
+"region": "trt"
+},
+"neuro-0256": {
+"region": "trt"
+},
+"neuro-0257": {
+"region": "bst",
+"zh": "三叉神經中腦核",
+"en": "Mesencephalic nucleus of trigeminal nerve"
+},
+"neuro-0258": {
+"region": "bst",
+"zh": "內側前庭核",
+"en": "Medial vestibular nucleus",
+"approx": [
+"Vestibular nuclei"
+]
+},
+"neuro-0260": {
+"region": "bst",
+"mesh": [
+"Motor nucleus of facial nerve"
+]
+},
+"neuro-0261": {
+"region": "bst",
+"merge": "0225"
+},
+"neuro-0265": {
+"region": "oth",
+"drop": "章節標題／梗圖說明（The Blood Supply of the C.N.S.），不是構造"
+},
+"neuro-0266": {
+"region": "ves",
+"zh": "內頸動脈",
+"en": "Internal carotid artery (ICA)",
+"mesh": [
+"Internal carotid artery"
+]
+},
+"neuro-0267": {
+"region": "ves",
+"zh": "椎動脈",
+"en": "Vertebral artery"
+},
+"neuro-0268": {
+"region": "ves",
+"zh": "前大腦動脈",
+"en": "Anterior cerebral artery (ACA)",
+"mesh": [
+"Anterior cerebral artery"
+]
+},
+"neuro-0269": {
+"region": "ves",
+"zh": "中大腦動脈",
+"en": "Middle cerebral artery (MCA)",
+"mesh": [
+"Middle cerebral artery (M1-segment)",
+"Middle cerebral artery (M3 segment)",
+"Middle cerebral artery (M3-segment)",
+"Insular branches of middle cerebral artery (M2)",
+"Insular branches of middle cerebral artery (M2-segment)",
+"Parietal branches of middle cerebral artery",
+"Temporal branches of middle cerebral artery"
+]
+},
+"neuro-0270": {
+"region": "ves",
+"zh": "威利氏環",
+"en": "Circle of Willis",
+"mesh": [
+"Anterior communicating artery",
+"Posterior communicating artery",
+"Anterior cerebral artery",
+"Posterior cerebral artery",
+"Internal carotid artery"
+]
+},
+"neuro-0271": {
+"region": "ves",
+"zh": "鎖骨下動脈",
+"en": "Subclavian artery"
+},
+"neuro-0272": {
+"region": "ves",
+"zh": "基底動脈",
+"en": "Basilar artery",
+"mesh": [
+"Basilar artery"
+]
+},
+"neuro-0273": {
+"region": "ves",
+"zh": "橋腦動脈",
+"en": "Pontine arteries",
+"mesh": [
+"Medial pontine branches of basilar artery",
+"Lateral pontine branches of basilar artery"
+]
+},
+"neuro-0274": {
+"region": "ves",
+"zh": "後大腦動脈",
+"en": "Posterior cerebral artery (PCA)",
+"mesh": [
+"Posterior cerebral artery"
+]
+},
+"neuro-0275": {
+"region": "ves",
+"zh": "前下小腦動脈",
+"en": "Anterior inferior cerebellar artery (AICA)",
+"mesh": [
+"Anterior inferior cerebellar artery"
+]
+},
+"neuro-0276": {
+"region": "ves",
+"zh": "後下小腦動脈",
+"en": "Posterior inferior cerebellar artery (PICA)",
+"mesh": [
+"Posterior inferior cerebellar artery"
+]
+},
+"neuro-0277": {
+"region": "ves",
+"zh": "上小腦動脈",
+"en": "Superior cerebellar artery",
+"mesh": [
+"Superior cerebellar artery"
+]
+},
+"neuro-0278": {
+"region": "ves",
+"merge": "0298"
+},
+"neuro-0279": {
+"region": "ves",
+"zh": "前脊髓動脈",
+"en": "Anterior spinal artery"
+},
+"neuro-0280": {
+"region": "ves",
+"zh": "後脊髓動脈",
+"en": "Posterior spinal artery"
+},
+"neuro-0281": {
+"region": "csf",
+"zh": "外骨膜",
+"en": "Periosteum"
+},
+"neuro-0282": {
+"region": "oth",
+"zh": "顱骨",
+"en": "Cranial bone"
+},
+"neuro-0283": {
+"region": "csf",
+"merge": "0286"
+},
+"neuro-0284": {
+"region": "ves",
+"zh": "硬腦膜靜脈竇",
+"en": "Dural venous sinuses",
+"mesh": [
+"@group:veins"
+]
+},
+"neuro-0285": {
+"region": "ves",
+"zh": "中硬腦膜動脈",
+"en": "Middle meningeal artery"
+},
+"neuro-0286": {
+"region": "csf",
+"zh": "硬腦膜上腔（硬膜外腔）",
+"en": "Epidural (extradural) space"
+},
+"neuro-0287": {
+"region": "csf"
+},
+"neuro-0288": {
+"region": "csf"
+},
+"neuro-0289": {
+"region": "csf"
+},
+"neuro-0290": {
+"region": "csf"
+},
+"neuro-0291": {
+"region": "ves",
+"zh": "前交通動脈",
+"en": "Anterior communicating artery",
+"mesh": [
+"Anterior communicating artery"
+]
+},
+"neuro-0292": {
+"region": "ves",
+"zh": "後交通動脈",
+"en": "Posterior communicating artery",
+"mesh": [
+"Posterior communicating artery"
+]
+},
+"neuro-0293": {
+"region": "ves",
+"zh": "頸段（內頸動脈與椎動脈的第一段）",
+"en": "Cervical part (segment 1 of ICA and vertebral artery)"
+},
+"neuro-0294": {
+"region": "ves",
+"zh": "內頸動脈岩樣部段",
+"en": "Petrous part (ICA segment 2)"
+},
+"neuro-0295": {
+"region": "ves",
+"zh": "內頸動脈海綿竇段",
+"en": "Cavernous part (ICA segment 3)"
+},
+"neuro-0296": {
+"region": "ves",
+"zh": "椎動脈寰椎段",
+"en": "Atlantic part (vertebral artery segment 3)"
+},
+"neuro-0297": {
+"region": "ves",
+"zh": "內頸動脈大腦段",
+"en": "Cerebral part (ICA segment 4)"
+},
+"neuro-0298": {
+"region": "ves",
+"zh": "椎動脈顱內段",
+"en": "Intracranial part (vertebral artery segment 4)"
+},
+"neuro-0299": {
+"region": "ves",
+"zh": "總頸動脈",
+"en": "Common carotid artery"
+},
+"neuro-0300": {
+"region": "oth",
+"zh": "頸動脈孔",
+"en": "Carotid foramen"
+},
+"neuro-0301": {
+"region": "oth",
+"zh": "頸動脈管",
+"en": "Carotid canal"
+},
+"neuro-0302": {
+"region": "ves",
+"merge": "0274"
+},
+"neuro-0303": {
+"region": "ves",
+"zh": "前脈絡動脈",
+"en": "Anterior choroidal artery"
+},
+"neuro-0304": {
+"region": "ves",
+"zh": "眼動脈",
+"en": "Ophthalmic artery",
+"mesh": [
+"Ophthalmic artery"
+]
+},
+"neuro-0305": {
+"region": "crn",
+"zh": "視神經",
+"en": "Optic nerve (CN II)",
+"mesh": [
+"Optic nerve (II)"
+]
+},
+"neuro-0306": {
+"region": "oth",
+"zh": "視神經管",
+"en": "Optic canal",
+"type": "structure"
+},
+"neuro-0307": {
+"region": "ves",
+"zh": "海綿竇",
+"en": "Cavernous sinus",
+"mesh": [
+"Cavernous sinus"
+]
+},
+"neuro-0308": {
+"region": "csf"
+},
+"neuro-0309": {
+"region": "ves",
+"zh": "上岩狀竇與下岩狀竇",
+"en": "Superior and inferior petrosal sinuses",
+"mesh": [
+"Superior petrosal sinus",
+"Inferior petrosal sinus"
+]
+},
+"neuro-0310": {
+"region": "ves",
+"zh": "翼靜脈叢",
+"en": "Pterygoid venous plexus",
+"type": "vessel"
+},
+"neuro-0311": {
+"region": "csf"
+},
+"neuro-0312": {
+"region": "csf"
+},
+"neuro-0313": {
+"region": "oth",
+"zh": "視神經孔",
+"en": "Optic foramen",
+"type": "structure"
+},
+"neuro-0314": {
+"region": "die",
+"merge": "0189"
+},
+"neuro-0315": {
+"region": "ves",
+"zh": "後脈絡動脈",
+"en": "Posterior choroidal artery"
+},
+"neuro-0316": {
+"region": "ves",
+"type": "vessel",
+"zh": "皮質支",
+"en": "Cortical branches (of cerebral arteries)"
+},
+"neuro-0317": {
+"region": "ves",
+"type": "vessel",
+"zh": "中央支",
+"en": "Central branches (of cerebral arteries)"
+},
+"neuro-0318": {
+"region": "bst",
+"type": "structure"
+},
+"neuro-0319": {
+"region": "ves",
+"type": "vessel",
+"zh": "腦膜支",
+"en": "Meningeal branch (of vertebral artery)"
+},
+"neuro-0320": {
+"region": "bst",
+"type": "structure"
+},
+"neuro-0321": {
+"region": "ves",
+"zh": "延髓動脈",
+"en": "Medullary artery (medulla oblongata)"
+},
+"neuro-0322": {
+"region": "ves",
+"zh": "深頸動脈",
+"en": "Deep cervical artery"
+},
+"neuro-0323": {
+"region": "ves",
+"zh": "升頸動脈",
+"en": "Ascending cervical artery"
+},
+"neuro-0324": {
+"region": "ves",
+"zh": "後肋間動脈",
+"en": "Posterior intercostal artery"
+},
+"neuro-0325": {
+"region": "ves",
+"zh": "腰動脈",
+"en": "Lumbar artery"
+},
+"neuro-0326": {
+"region": "oth",
+"zh": "椎間孔",
+"en": "Intervertebral foramen",
+"type": "structure"
+},
+"neuro-0327": {
+"region": "ves",
+"zh": "前、後根動脈",
+"en": "Anterior and posterior radicular arteries"
+},
+"neuro-0328": {
+"region": "cbl",
+"merge": "0137"
+},
+"neuro-0329": {
+"region": "bst",
+"zh": "後腦",
+"en": "Hindbrain (rhombencephalon)"
+},
+"neuro-0330": {
+"region": "oth",
+"zh": "枕內嵴",
+"en": "Internal occipital crest"
+},
+"neuro-0331": {
+"region": "csf",
+"zh": "小腦天幕",
+"en": "Tentorium cerebelli",
+"mesh": [
+"Tentorium cerebelli"
+]
+},
+"neuro-0332": {
+"region": "cbl",
+"drop": "斷詞片段（「許多分葉」），內容已併入小腦各葉"
+},
+"neuro-0333": {
+"region": "cbl",
+"drop": "斷詞片段（「裂隙」），內容已併入小腦各裂"
+},
+"neuro-0334": {
+"region": "cbl",
+"type": "structure"
+},
+"neuro-0335": {
+"region": "cbl",
+"zh": "前葉",
+"en": "Anterior lobe",
+"type": "structure"
+},
+"neuro-0336": {
+"region": "cbl",
+"zh": "小腦小葉",
+"en": "Cerebellar lobules",
+"type": "structure"
+},
+"neuro-0337": {
+"region": "cbl",
+"drop": "重複：小腦體部已由前葉、後葉涵蓋"
+},
+"neuro-0338": {
+"region": "cbl",
+"type": "structure"
+},
+"neuro-0339": {
+"region": "cbl",
+"zh": "後外側裂",
+"en": "Posterolateral fissure",
+"type": "structure"
+},
+"neuro-0340": {
+"region": "cbl",
+"zh": "後葉",
+"en": "Posterior lobe",
+"type": "structure"
+},
+"neuro-0341": {
+"region": "cbl",
+"type": "structure",
+"mesh": [
+"Flocculus",
+"Nodule of vermis"
+]
+},
+"neuro-0342": {
+"region": "cbl",
+"mesh": [
+"Flocculus"
+]
+},
+"neuro-0343": {
+"region": "cbl",
+"zh": "小結",
+"en": "Nodule",
+"mesh": [
+"Nodule of vermis"
+]
+},
+"neuro-0344": {
+"region": "cbl",
+"zh": "蚓部",
+"en": "Vermis",
+"mesh": [
+"Lingula of cerebellum",
+"Central lobule",
+"Culmen",
+"Declive",
+"Folium of vermis",
+"Tuber of vermis",
+"Pyramis of vermis",
+"Uvula of vermis",
+"Nodule of vermis"
+]
+},
+"neuro-0345": {
+"region": "cbl",
+"zh": "小腦半球",
+"en": "Cerebellar hemisphere",
+"mesh": [
+"Wing of central lobule",
+"Anterior quadrangular lobule",
+"Posterior quadrangular lobule",
+"Superior semilunar lobule",
+"Inferior semilunar lobule",
+"Biventral lobule",
+"Gracile lobule",
+"Tonsil of cerebellum",
+"Flocculus"
+]
+},
+"neuro-0346": {
+"region": "cbl",
+"zh": "小腦扁桃體",
+"en": "Cerebellar tonsil",
+"mesh": [
+"Tonsil of cerebellum"
+]
+},
+"neuro-0347": {
+"region": "cbl",
+"merge": "0346"
+},
+"neuro-0348": {
+"region": "cbl",
+"merge": "0346"
+},
+"neuro-0349": {
+"region": "cbl",
+"type": "structure"
+},
+"neuro-0350": {
+"region": "cbl",
+"zh": "小腦葉片",
+"en": "Cerebellar folia",
+"type": "structure"
+},
+"neuro-0351": {
+"region": "cbl"
+},
+"neuro-0352": {
+"region": "cbl"
+},
+"neuro-0353": {
+"region": "cbl",
+"merge": "0352"
+},
+"neuro-0354": {
+"region": "cbl"
+},
+"neuro-0355": {
+"region": "cbl"
+},
+"neuro-0356": {
+"region": "cbl"
+},
+"neuro-0357": {
+"region": "cbl"
+},
+"neuro-0358": {
+"region": "cbl",
+"merge": "0357"
+},
+"neuro-0359": {
+"region": "cbl",
+"zh": "小腦腳",
+"en": "Cerebellar peduncles",
+"type": "structure",
+"mesh": [
+"Superior cerebellar peduncle",
+"Middle cerebellar peduncle",
+"Inferior cerebellar peduncle"
+]
+},
+"neuro-0360": {
+"region": "cbl",
+"merge": "0193"
+},
+"neuro-0361": {
+"region": "cbl"
+},
+"neuro-0362": {
+"region": "cbl"
+},
+"neuro-0363": {
+"region": "cbl",
+"type": "structure"
+},
+"neuro-0364": {
+"region": "cbl",
+"type": "structure"
+},
+"neuro-0365": {
+"region": "cbl",
+"type": "structure"
+},
+"neuro-0366": {
+"region": "cbl",
+"type": "structure"
+},
+"neuro-0367": {
+"region": "cbl",
+"type": "structure"
+},
+"neuro-0368": {
+"region": "cbl",
+"merge": "0427"
+},
+"neuro-0369": {
+"region": "cbl",
+"type": "structure"
+},
+"neuro-0370": {
+"region": "cbl",
+"type": "structure"
+},
+"neuro-0371": {
+"region": "cbl",
+"type": "structure"
+},
+"neuro-0372": {
+"region": "cbl"
+},
+"neuro-0373": {
+"region": "cbl",
+"type": "structure"
+},
+"neuro-0374": {
+"region": "cbl"
+},
+"neuro-0375": {
+"region": "cbl",
+"zh": "大腦小腦（新小腦）",
+"en": "Cerebrocerebellum (neocerebellum)"
+},
+"neuro-0376": {
+"region": "cbl",
+"zh": "脊髓小腦（古小腦）",
+"en": "Spinocerebellum (paleocerebellum)"
+},
+"neuro-0377": {
+"region": "cbl",
+"merge": "0375"
+},
+"neuro-0378": {
+"region": "trt"
+},
+"neuro-0379": {
+"region": "trt",
+"zh": "皮質橋腦纖維",
+"en": "Corticopontine fibers"
+},
+"neuro-0380": {
+"region": "trt"
+},
+"neuro-0381": {
+"region": "trt"
+},
+"neuro-0382": {
+"region": "trt"
+},
+"neuro-0383": {
+"region": "trt"
+},
+"neuro-0384": {
+"region": "trt"
+},
+"neuro-0385": {
+"region": "trt"
+},
+"neuro-0386": {
+"region": "trt",
+"merge": "0156"
+},
+"neuro-0387": {
+"region": "trt",
+"merge": "0155"
+},
+"neuro-0388": {
+"region": "bst",
+"merge": "0160"
+},
+"neuro-0389": {
+"region": "crn",
+"zh": "前庭神經",
+"en": "Vestibular nerve",
+"mesh": [
+"Vestibular nerve"
+]
+},
+"neuro-0390": {
+"region": "trt"
+},
+"neuro-0391": {
+"region": "trt"
+},
+"neuro-0392": {
+"region": "trt"
+},
+"neuro-0393": {
+"region": "trt",
+"zh": "網狀脊髓徑",
+"en": "Reticulospinal tract",
+"mesh": [
+"Reticulospinal tract"
+]
+},
+"neuro-0394": {
+"region": "trt"
+},
+"neuro-0395": {
+"region": "trt",
+"mesh": [
+"Dentatorubrothalamic tract"
+]
+},
+"neuro-0396": {
+"region": "cbl",
+"merge": "0137"
+},
+"neuro-0397": {
+"region": "trt",
+"zh": "橫行纖維",
+"en": "Transverse pontine fibers"
+},
+"neuro-0398": {
+"region": "trt"
+},
+"neuro-0399": {
+"region": "trt",
+"merge": "0385"
+},
+"neuro-0400": {
+"region": "cbl",
+"merge": "0374"
+},
+"neuro-0402": {
+"region": "cbl"
+},
+"neuro-0403": {
+"region": "lim"
+},
+"neuro-0404": {
+"region": "lim",
+"merge": "0036"
+},
+"neuro-0405": {
+"region": "lim",
+"merge": "0403"
+},
+"neuro-0406": {
+"region": "bst",
+"zh": "縫核",
+"en": "Raphe nuclei"
+},
+"neuro-0407": {
+"region": "die",
+"type": "nucleus",
+"zh": "下視丘視前區",
+"en": "Preoptic area",
+"mesh": [
+"Preoptic hypothalamus"
+]
+},
+"neuro-0408": {
+"region": "lim",
+"zh": "扣帶迴",
+"en": "Cingulate gyrus",
+"mesh": [
+"Cingulate gyrus (Posteroventral part)",
+"Cingulate gyrus and sulcus (Middle anterior part)",
+"Cingulate gyrus and sulcus (Middle posterior part)",
+"Cingulate gyrus and sulcus (Posterior dorsal part)",
+"Cingulate sulcus (Marginal part)"
+]
+},
+"neuro-0409": {
+"region": "lim",
+"mesh": [
+"Fornix"
+],
+"type": "structure"
+},
+"neuro-0410": {
+"region": "lim",
+"mesh": [
+"Hippocampus"
+]
+},
+"neuro-0411": {
+"region": "lim"
+},
+"neuro-0412": {
+"region": "lim"
+},
+"neuro-0413": {
+"region": "lim",
+"mesh": [
+"Medial occipitotemporal gyrus (Parahippocampal)"
+]
+},
+"neuro-0414": {
+"region": "lim",
+"merge": "0429"
+},
+"neuro-0415": {
+"region": "trt",
+"zh": "海馬輸入路徑",
+"en": "Hippocampal afferent connections"
+},
+"neuro-0416": {
+"region": "trt"
+},
+"neuro-0417": {
+"region": "trt"
+},
+"neuro-0418": {
+"region": "trt"
+},
+"neuro-0419": {
+"region": "trt",
+"zh": "海馬輸出路徑",
+"en": "Hippocampal efferent connections"
+},
+"neuro-0420": {
+"region": "lim",
+"type": "tract_pathway"
+},
+"neuro-0421": {
+"region": "die",
+"mesh": [
+"Anterior nuclei of thalamus"
+]
+},
+"neuro-0422": {
+"region": "die"
+},
+"neuro-0423": {
+"region": "lim",
+"type": "tract_pathway"
+},
+"neuro-0425": {
+"region": "lim",
+"zh": "海馬錐狀細胞層",
+"en": "Pyramidal cell layer (hippocampus)"
+},
+"neuro-0426": {
+"region": "lim",
+"zh": "海馬多型層",
+"en": "Polymorphic layer (hippocampus)"
+},
+"neuro-0427": {
+"region": "cbl",
+"zh": "顆粒細胞層",
+"en": "Granule cell layer",
+"type": "structure"
+},
+"neuro-0428": {
+"region": "lim",
+"merge": "0037"
+},
+"neuro-0429": {
+"region": "lim",
+"zh": "內嗅皮質",
+"en": "Entorhinal cortex"
+},
+"neuro-0430": {
+"region": "csf",
+"zh": "側腦室顳角",
+"en": "Temporal horn of the lateral ventricle",
+"type": "csf_meninges",
+"approx": [
+"Lateral ventricle"
+]
+},
+"neuro-0431": {
+"region": "lim",
+"mesh": [
+"Corticomedial group"
+]
+},
+"neuro-0432": {
+"region": "lim",
+"zh": "顳葉鉤",
+"en": "Uncus"
+},
+"neuro-0433": {
+"region": "lim",
+"mesh": [
+"Basolateral complex"
+]
+},
+"neuro-0434": {
+"region": "lim",
+"mesh": [
+"Central nucleus"
+]
+},
+"neuro-0435": {
+"region": "lim",
+"drop": "筆記只列「聽覺核」一詞，已由耳蝸神經核與上橄欖核條目涵蓋"
+},
+"neuro-0436": {
+"region": "lim",
+"merge": "0433"
+},
+"neuro-0437": {
+"region": "lim",
+"mesh": [
+"Stria terminalis"
+]
+},
+"neuro-0438": {
+"region": "lim",
+"type": "tract_pathway"
+},
+"neuro-0439": {
+"region": "lim",
+"mesh": [
+"Septal nuclei"
+]
+},
+"neuro-0440": {
+"region": "lim",
+"type": "tract_pathway"
+},
+"neuro-0441": {
+"region": "cer",
+"merge": "0009"
+},
+"neuro-0442": {
+"region": "bst"
+},
+"neuro-0443": {
+"region": "die",
+"zh": "視丘背內側核",
+"en": "Mediodorsal nucleus of thalamus",
+"mesh": [
+"Mediodorsal nucleus"
+]
+},
+"neuro-0444": {
+"region": "die",
+"zh": "腦下垂體",
+"en": "Pituitary gland",
+"mesh": [
+"Adenohypophysis",
+"Neurohypophysis"
+]
+},
+"neuro-0446": {
+"region": "lim",
+"mesh": [
+"Hippocampus"
+]
+},
+"neuro-0448": {
+"region": "trt",
+"zh": "體感覺傳入路徑",
+"en": "Somatic afferent pathway (GSA from body)"
+},
+"neuro-0449": {
+"region": "trt"
+},
+"neuro-0451": {
+"region": "crn",
+"drop": "泛稱（不同神經節），不是具體構造"
+},
+"neuro-0452": {
+"region": "trt"
+},
+"neuro-0453": {
+"region": "trt"
+},
+"neuro-0454": {
+"region": "trt"
+},
+"neuro-0455": {
+"region": "trt"
+},
+"neuro-0456": {
+"region": "cer",
+"zh": "體感覺皮質",
+"en": "Somatosensory cortex",
+"mesh": [
+"Postcentral gyrus"
+]
+},
+"neuro-0457": {
+"region": "oth",
+"drop": "方位詞（身體下位），不是構造"
+},
+"neuro-0458": {
+"region": "spi",
+"type": "structure"
+},
+"neuro-0459": {
+"region": "bst"
+},
+"neuro-0460": {
+"region": "trt",
+"merge": "0131"
+},
+"neuro-0461": {
+"region": "trt",
+"merge": "0452"
+},
+"neuro-0462": {
+"region": "oth"
+},
+"neuro-0463": {
+"region": "trt",
+"zh": "C 纖維",
+"en": "C fiber"
+},
+"neuro-0464": {
+"region": "crn",
+"zh": "三叉神經",
+"en": "Trigeminal nerve (CN V)",
+"mesh": [
+"Trigeminal nerve (V)"
+]
+},
+"neuro-0465": {
+"region": "trt"
+},
+"neuro-0466": {
+"region": "crn"
+},
+"neuro-0467": {
+"region": "trt",
+"merge": "0155"
+},
+"neuro-0468": {
+"region": "oth",
+"drop": "系統名稱（心血管系統），不是腦部構造"
+},
+"neuro-0469": {
+"region": "oth",
+"drop": "系統名稱（呼吸系統），不是腦部構造"
+},
+"neuro-0470": {
+"region": "oth"
+},
+"neuro-0471": {
+"region": "ves",
+"zh": "頸動脈竇",
+"en": "Carotid sinus"
+},
+"neuro-0472": {
+"region": "ves",
+"zh": "主動脈弓",
+"en": "Aortic arch"
+},
+"neuro-0473": {
+"region": "crn"
+},
+"neuro-0474": {
+"region": "trt"
+},
+"neuro-0475": {
+"region": "bst",
+"zh": "延腦腹外側區",
+"en": "Ventrolateral medulla",
+"type": "structure"
+},
+"neuro-0476": {
+"region": "oth"
+},
+"neuro-0477": {
+"region": "ves",
+"zh": "頸動脈體",
+"en": "Carotid body"
+},
+"neuro-0478": {
+"region": "ves",
+"zh": "主動脈體",
+"en": "Aortic body"
+},
+"neuro-0479": {
+"region": "crn",
+"zh": "心臟與內臟神經",
+"en": "Cardiac and splanchnic nerves"
+},
+"neuro-0480": {
+"region": "crn",
+"type": "nerve",
+"zh": "腹下神經叢",
+"en": "Hypogastric plexus"
+},
+"neuro-0481": {
+"region": "crn"
+},
+"neuro-0482": {
+"region": "die",
+"zh": "視丘腹後外側核（VPL）",
+"en": "Ventral posterolateral nucleus (VPL)",
+"approx": [
+"Ventral lateroventral nucleus"
+]
+},
+"neuro-0483": {
+"region": "trt"
+},
+"neuro-0484": {
+"region": "die",
+"mesh": [
+"Intralaminar and lateral posterior nuclei"
+]
+},
+"neuro-0485": {
+"region": "oth",
+"drop": "細胞層級概念（側分支），不是解剖構造"
+},
+"neuro-0486": {
+"region": "oth",
+"drop": "體表轉移痛區域，不是腦部構造"
+},
+"neuro-0487": {
+"region": "crn",
+"zh": "胸心臟分支",
+"en": "Thoracic cardiac branches",
+"type": "nerve"
+},
+"neuro-0488": {
+"region": "oth",
+"drop": "轉移痛部位（腰部），不是構造"
+},
+"neuro-0489": {
+"region": "crn"
+},
+"neuro-0490": {
+"region": "oth",
+"drop": "轉移痛部位（鼠蹊），不是構造"
+},
+"neuro-0491": {
+"region": "spi",
+"merge": "0114"
+},
+"neuro-0493": {
+"region": "trt",
+"zh": "後柱—內側丘系路徑",
+"en": "Posterior column–medial lemniscus pathway"
+},
+"neuro-0495": {
+"region": "oth",
+"zh": "肌束",
+"en": "Muscle fascicle"
+},
+"neuro-0496": {
+"region": "oth",
+"zh": "肌束膜",
+"en": "Perimysium"
+},
+"neuro-0497": {
+"region": "bas",
+"merge": "0085"
+},
+"neuro-0498": {
+"region": "oth",
+"zh": "梭內肌纖維",
+"en": "Intrafusal fiber"
+},
+"neuro-0499": {
+"region": "oth"
+},
+"neuro-0500": {
+"region": "oth"
+},
+"neuro-0501": {
+"region": "spi",
+"merge": "0119"
+},
+"neuro-0502": {
+"region": "trt",
+"zh": "第二型感覺纖維",
+"en": "Type II sensory fiber"
+},
+"neuro-0503": {
+"region": "crn",
+"merge": "0134"
+},
+"neuro-0504": {
+"region": "cer"
+},
+"neuro-0505": {
+"region": "cer"
+},
+"neuro-0506": {
+"region": "cer"
+},
+"neuro-0507": {
+"region": "cer",
+"merge": "0456"
+},
+"neuro-0508": {
+"region": "bas",
+"zh": "內囊後腳",
+"en": "Posterior limb of internal capsule"
+},
+"neuro-0509": {
+"region": "spi",
+"merge": "0129"
+},
+"neuro-0510": {
+"region": "spi",
+"merge": "0128"
+},
+"neuro-0511": {
+"region": "trt",
+"merge": "0165"
+},
+"neuro-0512": {
+"region": "bas",
+"merge": "0060"
+},
+"neuro-0513": {
+"region": "spi",
+"drop": "「LMN」被誤抽成「左側疑核」；下運動神經元為概念，已列於其他詞彙"
+},
+"neuro-0514": {
+"region": "crn",
+"type": "structure"
+},
+"neuro-0515": {
+"region": "crn",
+"type": "structure"
+},
+"neuro-0516": {
+"region": "trt"
+},
+"neuro-0517": {
+"region": "trt",
+"zh": "橋腦網狀脊髓徑（內側）",
+"en": "Pontine (medial) reticulospinal tract"
+},
+"neuro-0518": {
+"region": "trt",
+"zh": "延腦網狀脊髓徑（外側）",
+"en": "Medullary (lateral) reticulospinal tract"
+},
+"neuro-0519": {
+"region": "trt"
+},
+"neuro-0520": {
+"region": "bst",
+"approx": [
+"Vestibular nuclei"
+]
+},
+"neuro-0521": {
+"region": "spi",
+"merge": "0128"
+},
+"neuro-0522": {
+"region": "trt"
+},
+"neuro-0523": {
+"region": "trt",
+"merge": "0224"
+},
+"neuro-0524": {
+"region": "bst",
+"merge": "0171"
+},
+"neuro-0525": {
+"region": "ear"
+},
+"neuro-0526": {
+"region": "ear"
+},
+"neuro-0527": {
+"region": "ear",
+"zh": "鼓膜",
+"en": "Tympanic membrane"
+},
+"neuro-0528": {
+"region": "ear",
+"type": "ear"
+},
+"neuro-0529": {
+"region": "ear",
+"type": "ear"
+},
+"neuro-0530": {
+"region": "ear",
+"type": "ear"
+},
+"neuro-0531": {
+"region": "ear",
+"type": "ear"
+},
+"neuro-0532": {
+"region": "ear",
+"zh": "卵圓窗（前庭窗）",
+"en": "Oval window (fenestra vestibuli)",
+"type": "ear"
+},
+"neuro-0533": {
+"region": "ear"
+},
+"neuro-0534": {
+"region": "ear",
+"type": "ear"
+},
+"neuro-0535": {
+"region": "ear",
+"merge": "0532"
+},
+"neuro-0536": {
+"region": "ear",
+"zh": "圓窗（耳蝸窗）",
+"en": "Round window (fenestra cochleae)",
+"type": "ear"
+},
+"neuro-0537": {
+"region": "ear",
+"merge": "0536"
+},
+"neuro-0538": {
+"region": "ear"
+},
+"neuro-0539": {
+"region": "ear",
+"type": "ear"
+},
+"neuro-0540": {
+"region": "ear",
+"type": "ear"
+},
+"neuro-0541": {
+"region": "ear",
+"type": "ear"
+},
+"neuro-0542": {
+"region": "ear",
+"zh": "壺腹",
+"en": "Ampulla"
+},
+"neuro-0543": {
+"region": "ear",
+"zh": "壺腹嵴",
+"en": "Crista ampullaris"
+},
+"neuro-0544": {
+"region": "ear",
+"merge": "0545"
+},
+"neuro-0545": {
+"region": "ear",
+"zh": "耳蝸管（中階）",
+"en": "Cochlear duct (scala media)",
+"type": "ear"
+},
+"neuro-0546": {
+"region": "ear",
+"zh": "耳蝸底部",
+"en": "Base of cochlea"
+},
+"neuro-0547": {
+"region": "ear",
+"type": "ear"
+},
+"neuro-0548": {
+"region": "ear",
+"merge": "0545"
+},
+"neuro-0549": {
+"region": "ear",
+"zh": "血管紋",
+"en": "Stria vascularis",
+"type": "ear"
+},
+"neuro-0550": {
+"region": "ear",
+"type": "ear"
+},
+"neuro-0551": {
+"region": "ear",
+"type": "ear"
+},
+"neuro-0552": {
+"region": "ear",
+"type": "ear"
+},
+"neuro-0553": {
+"region": "ear",
+"merge": "0556"
+},
+"neuro-0554": {
+"region": "ear",
+"type": "nerve"
+},
+"neuro-0555": {
+"region": "crn",
+"zh": "耳蝸神經",
+"en": "Cochlear nerve"
+},
+"neuro-0556": {
+"region": "ear",
+"zh": "柯氏器（螺旋器）",
+"en": "Organ of Corti (spiral organ)",
+"type": "ear"
+},
+"neuro-0557": {
+"region": "ear",
+"type": "ear"
+},
+"neuro-0558": {
+"region": "ear",
+"type": "ear"
+},
+"neuro-0559": {
+"region": "ear",
+"zh": "內、外柱細胞",
+"en": "Inner and outer pillar cells",
+"type": "ear"
+},
+"neuro-0560": {
+"region": "ear",
+"type": "ear"
+},
+"neuro-0561": {
+"region": "ear",
+"zh": "內、外指細胞",
+"en": "Inner and outer phalangeal cells",
+"type": "ear"
+},
+"neuro-0562": {
+"region": "ear",
+"zh": "內、外邊緣細胞",
+"en": "Inner and outer border cells",
+"type": "ear"
+},
+"neuro-0563": {
+"region": "ear",
+"type": "ear"
+},
+"neuro-0564": {
+"region": "ear",
+"type": "ear"
+},
+"neuro-0565": {
+"region": "ear",
+"type": "ear"
+},
+"neuro-0566": {
+"region": "trt",
+"zh": "傳出纖維（耳蝸）",
+"en": "Efferent fibers (cochlear)"
+},
+"neuro-0567": {
+"region": "trt",
+"merge": "0235"
+},
+"neuro-0568": {
+"region": "ear",
+"type": "nerve"
+},
+"neuro-0569": {
+"region": "ear",
+"type": "ear"
+},
+"neuro-0570": {
+"region": "trt",
+"merge": "0235"
+},
+"neuro-0571": {
+"region": "bst",
+"merge": "0236"
+},
+"neuro-0572": {
+"region": "bst",
+"merge": "0237"
+},
+"neuro-0573": {
+"region": "trt",
+"merge": "0235"
+},
+"neuro-0574": {
+"region": "trt"
+},
+"neuro-0575": {
+"region": "cer",
+"approx": [
+"Temporal plane"
+]
+},
+"neuro-0576": {
+"region": "ear",
+"type": "ear"
+},
+"neuro-0577": {
+"region": "ear",
+"zh": "耳石膜",
+"en": "Otolithic membrane"
+},
+"neuro-0578": {
+"region": "crn",
+"zh": "前庭神經節（Scarpa 神經節）",
+"en": "Vestibular ganglion (Scarpa’s ganglion)"
+},
+"neuro-0579": {
+"region": "bst",
+"type": "structure",
+"zh": "橋腦延腦交界",
+"en": "Pontomedullary junction (caudal pons / rostral medulla)"
+},
+"neuro-0580": {
+"region": "cbl",
+"type": "structure"
+},
+"neuro-0581": {
+"region": "spi",
+"merge": "0128"
+},
+"neuro-0582": {
+"region": "trt",
+"merge": "0224"
+},
+"neuro-0583": {
+"region": "spi",
+"type": "structure",
+"zh": "頸髓運動神經元",
+"en": "Cervical motor neuron"
+},
+"neuro-0584": {
+"region": "oth",
+"drop": "影像方法（MRI），不是構造"
+},
+"neuro-0585": {
+"region": "csf",
+"merge": "0054"
+},
+"neuro-0586": {
+"region": "bas",
+"type": "structure"
+},
+"neuro-0587": {
+"region": "cer",
+"merge": "0008"
+},
+"neuro-0588": {
+"region": "oth",
+"type": "structure"
+},
+"neuro-0589": {
+"region": "die",
+"type": "tract_pathway",
+"mesh": [
+"Optic chiasm"
+]
+},
+"neuro-0590": {
+"region": "die",
+"type": "tract_pathway",
+"mesh": [
+"Optic tract"
+]
+},
+"neuro-0591": {
+"region": "ves",
+"merge": "0292"
+},
+"neuro-0592": {
+"region": "crn",
+"zh": "前庭耳蝸神經",
+"en": "Vestibulocochlear nerve (CN VIII)",
+"approx": [
+"Vestibular nerve"
+]
+},
+"neuro-0593": {
+"region": "oth",
+"drop": "影像方法（數位減影血管攝影），不是構造"
+},
+"neuro-0594": {
+"region": "ves",
+"type": "vessel",
+"zh": "深支",
+"en": "Deep branches (of posterior cerebral artery)"
+},
+"neuro-0595": {
+"region": "ves",
+"type": "structure",
+"zh": "分水嶺區域",
+"en": "Watershed area"
+},
+"neuro-0596": {
+"region": "ves"
+},
+"neuro-0597": {
+"region": "ves",
+"zh": "髓動脈",
+"en": "Medullary arteries (of white matter)"
+},
+"neuro-0598": {
+"region": "ves",
+"zh": "豆紋動脈",
+"en": "Lenticulostriate arteries",
+"mesh": [
+"Proximal lateral striate branches",
+"Distal lateral striate branches"
+]
+},
+"neuro-0599": {
+"region": "ves",
+"merge": "0270"
+},
+"neuro-0600": {
+"region": "ves",
+"merge": "0270"
+},
+"neuro-0601": {
+"region": "cer",
+"type": "structure",
+"zh": "大腦皮質下層",
+"en": "Subcortex of cerebrum"
+},
+"neuro-0602": {
+"region": "die",
+"mesh": [
+"Adenohypophysis"
+],
+"zh": "腺垂體",
+"en": "Adenohypophysis (anterior pituitary)"
+},
+"neuro-0603": {
+"region": "die",
+"type": "structure",
+"mesh": [
+"Neurohypophysis"
+],
+"zh": "神經垂體",
+"en": "Neurohypophysis (posterior pituitary)"
+},
+"neuro-0604": {
+"region": "csf",
+"zh": "蝶鞍上腦池",
+"en": "Suprasellar cistern"
+},
+"neuro-0605": {
+"region": "oth",
+"zh": "頭皮",
+"en": "Scalp"
+},
+"neuro-0606": {
+"region": "oth",
+"zh": "翼點",
+"en": "Pterion"
+},
+"neuro-0607": {
+"region": "oth",
+"zh": "蝶鞍",
+"en": "Sella turcica"
+},
+"neuro-0608": {
+"region": "oth",
+"zh": "前床突",
+"en": "Anterior clinoid process"
+},
+"neuro-0609": {
+"region": "ves",
+"zh": "迷路動脈",
+"en": "Labyrinthine artery"
+},
+"neuro-0610": {
+"region": "cbl",
+"zh": "小腦蚓垂",
+"en": "Uvula (of vermis)",
+"type": "structure",
+"mesh": [
+"Uvula of vermis"
+]
+},
+"neuro-0611": {
+"region": "cbl",
+"zh": "小腦活樹",
+"en": "Arbor vitae",
+"type": "structure"
+}
+}
+}
