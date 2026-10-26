@@ -62,9 +62,12 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
   const labelNodes = new Map<string, HTMLDivElement>();
   const controls = new OrbitControls(camera, canvas);
   controls.enableDamping = true; controls.dampingFactor = .15; controls.minDistance = .03; controls.maxDistance = 2; controls.enablePan = true;
-  scene.add(new T.HemisphereLight('#ffffff', '#7b8e9c', 2.2));
+  scene.add(new T.HemisphereLight('#ffffff', '#a9b8c5', 2.6));
   const key = new T.DirectionalLight('#fff6e6', 2.6); key.position.set(-1.5, 3, 4); scene.add(key);
   const fill = new T.DirectionalLight('#a8c8e3', 1.4); fill.position.set(3, 1, -3); scene.add(fill);
+  // the back and underside of the heart get their own soft light so they stay readable instead of going black
+  const back = new T.DirectionalLight('#f4f1ec', 1.9); back.position.set(-1.5, -1, -4); scene.add(back);
+  const under = new T.DirectionalLight('#e4ecf2', 1.1); under.position.set(0, -4, 1); scene.add(under);
 
   const plane = new T.Plane(new T.Vector3(0, 0, 1), 0);
   const parts = new Map(catalogue.parts.map(p => [p.id, p]));
@@ -243,16 +246,10 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
     return null;
   };
   const down = (e: PointerEvent) => {if (e.button === 0) tap.down(e.pointerId, e.clientX, e.clientY, e.pointerType === 'touch' ? 10 : 5);};
-  const move = (e: PointerEvent) => {
-    tap.move(e.pointerId, e.clientX, e.clientY);
-    if (e.buttons || e.pointerType === 'touch') return;
-    const now = performance.now(); if (now - lastHoverAt < 50) return; lastHoverAt = now;
-    const id = pickAt(e.clientX, e.clientY);
-    if (id !== hoverId) {hoverId = id; callbacks.hover(id); apply(); canvas.style.cursor = id ? 'pointer' : 'grab';}
-  };
+  const move = (e: PointerEvent) => tap.move(e.pointerId, e.clientX, e.clientY);
   const up = (e: PointerEvent) => {if (tap.up(e.pointerId, e.clientX, e.clientY)) callbacks.pick(pickAt(e.clientX, e.clientY));};
   const cancel = (e: PointerEvent) => tap.cancel(e.pointerId);
-  const leave = () => {if (hoverId) {hoverId = null; callbacks.hover(null); apply();}};
+  const leave = () => {};
   canvas.addEventListener('pointerdown', down); canvas.addEventListener('pointermove', move); canvas.addEventListener('pointerup', up);
   canvas.addEventListener('pointercancel', cancel); canvas.addEventListener('pointerleave', leave);
   const lost = (e: Event) => {e.preventDefault(); callbacks.error('3D 顯示已中斷，請重新載入頁面。');};

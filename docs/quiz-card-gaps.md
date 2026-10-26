@@ -424,11 +424,10 @@
 
 ## 心臟（Heart）
 
-### 動脈：7 / 17 項資料完整
+### 動脈：7 / 16 項資料完整
 
 - 右冠狀動脈右下外側支（Right inferolateral branch of right coronary artery）：缺 主要分支
 - 前室間動脈中隔支（Septal branches of anterior interventricular artery）：缺 主要分支
-- 肺動脈幹分叉處（Bifurcation of pulmonary trunk）：缺 供應範圍
 - 左肺動脈（Left pulmonary artery）：缺 主要分支
 - 右肺動脈（Right pulmonary artery）：缺 主要分支
 - 右緣支（Right marginal branch）：缺 來源、走向、主要分支、供應範圍
