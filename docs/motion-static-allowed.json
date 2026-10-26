@@ -1,0 +1,6 @@
+[
+  {"name": "^(Right|Left) hip bone$|^Sacrum$|^Coccyx$", "why": "The pelvis is the fixed base of the trunk and legs."},
+  {"name": "^Pubic hair$", "why": "Skin appendage on the fixed pelvis; the skin itself follows the joints."},
+  {"name": "calcaneal branches of posterior tibial artery", "why": "BodyParts3D FJ2091/FJ2195 are quarantined for motion (their geometry does not match their name, see app/mj-part-regions.ts)."},
+  {"name": "^(Right|Left) (iliac crest|pubic tubercle|ischial tuberosity|spine of ischium)$", "why": "Landmark patches on the fixed pelvis."}
+]

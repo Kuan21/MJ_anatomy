@@ -77,10 +77,14 @@ for (const row of rows) {
 
 fs.mkdirSync(out, {recursive: true}); fs.mkdirSync(new URL('public/models/vessel-ends/', root), {recursive: true}); fs.mkdirSync(new URL('work/', root), {recursive: true});
 const stream = createStream(out, 'vessel-ends');
+// Each end piece moves exactly like the vessel it finishes: it copies that vessel's arm (tissue) and body-rig bindings.
+const tissueJson = JSON.parse(fs.readFileSync(file('app/biomechanics-v2/tissue-bindings.json'), 'utf8')), bodyJson = JSON.parse(fs.readFileSync(file('app/biomechanics-v2/body-bindings.json'), 'utf8')), endBindings = {tissue: {}, body: {}};
 for (const [id, list] of byPart) {
   const positions = [], indices = [];
   for (const g of list) { const base = positions.length / 3; positions.push(...g.positions); for (const i of g.indices) indices.push(i + base); }
   const parent = parts.get(id);
+  if (tissueJson[id]) endBindings.tissue[`${id}-END`] = {...tissueJson[id]};
+  if (bodyJson[id]) endBindings.body[`${id}-END`] = {...bodyJson[id]};
   stream.add({id: `${id}-END`, conceptId: parent.conceptId, name: parent.name, system: parent.system, schematic: true}, Float32Array.from(positions), Uint32Array.from(indices));
 }
 const info = stream.finish({source: 'Generated for this atlas from the vessel meshes (connector and taper pieces)', license: 'Derived from BodyParts3D (CC BY-SA 2.1 Japan)', attribution: 'Connector and taper pieces added at audited vessel ends by scripts/prepare-vessel-ends.mjs.'}, new URL(manifest, 'file:'));
@@ -88,6 +92,7 @@ const info = stream.finish({source: 'Generated for this atlas from the vessel me
 const count = k => report.filter(r => r.action === k).length, fading = {};
 for (const r of report) if (r.action === 'fade') fading[r.id] = (fading[r.id] ?? 0) + 1;
 fs.writeFileSync(file('app/mj-vessel-ends.json'), JSON.stringify(fading));
+fs.writeFileSync(file('app/biomechanics-v2/vessel-end-bindings.json'), JSON.stringify(endBindings));
 const grouped = new Map();
 for (const r of report.filter(r => r.action === 'gap' || r.action === 'enters')) {
   const key = r.id + r.action, g = grouped.get(key) ?? {name: r.name, id: r.id, action: r.action, n: 0, radius: 0, same: Infinity, tissue: Infinity};

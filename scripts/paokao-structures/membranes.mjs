@@ -73,22 +73,19 @@ export default function membranes(U) {
   // ---- Fascial shells lifted off the muscles they cover.
   {
     const gridShell = (names, keep, off, maxEdge = .003) => names.map(n => U.patchWhere(n, keep, off, p => true, maxEdge));
-    const rect = [], back = [], sole = [];
+    const rect = [], back = [], sole = {Right: [], Left: []};
     for (const S of SIDES) {
       const ra = `${S.w} rectus abdominis`;
       if (U.has(ra)) rect.push(U.patchWhere(ra, tr => tr.n[2] > .45, .0016, p => true, .004));
       for (const n of [`${S.w} longissimus thoracis`, `${S.w} iliocostalis lumborum`, `${S.w} spinalis thoracis`].filter(U.has)) back.push(U.patchWhere(n, tr => tr.n[2] < -.4 && tr.mid[1] < 1.20 && tr.mid[1] > .98, .0014, p => p[1] < 1.21 && p[1] > .97, .004));
-      for (const n of [`Flexor digitorum brevis of ${S.l} foot`, `Abductor hallucis of ${S.l} foot`, `Abductor digiti minimi of ${S.l} foot`].filter(U.has)) sole.push(U.patchWhere(n, tr => tr.n[1] < -.45, .0012, p => true, .004));
+      for (const n of [`Flexor digitorum brevis of ${S.l} foot`, `Abductor hallucis of ${S.l} foot`, `Abductor digiti minimi of ${S.l} foot`].filter(U.has)) sole[S.w].push(U.patchWhere(n, tr => tr.n[1] < -.45, .0012, p => true, .004));
     }
     const geo = list => { const g = U.merge(list); if (!g.indices.length) throw new Error('empty fascial shell'); return g; };
     push(null, 'rectus sheath', '腹直肌鞘', 'sheath', 'connective', {geometry: [geo(rect)]},
       ['The aponeuroses of the three flat abdominal muscles enclose rectus abdominis; the anterior wall is drawn here', '三層腹壁扁肌的腱膜包住腹直肌；此處畫出前壁'], ['Encloses rectus abdominis and the superior and inferior epigastric vessels; fused in the midline as the linea alba', '包裹腹直肌與腹壁上、下動脈；在中線融合成白線'], ['Aponeuroses of external oblique, internal oblique and transversus abdominis', '腹外斜肌、腹內斜肌與腹橫肌的腱膜']);
     push(null, 'thoracolumbar fascia', '胸腰筋膜', 'fascia', 'connective', {geometry: [geo(back)]},
       ['The deep fascia of the back over the erector spinae, thickest in the lumbar region', '覆蓋豎脊肌的背部深筋膜，腰部最厚'], ['Encloses the erector spinae; gives origin to latissimus dorsi and transversus abdominis (shown here as its posterior layer)', '包裹豎脊肌；是背闊肌與腹橫肌的起點（此處畫出後層）']);
-    for (const S of SIDES) {
-      const own = S.s === 'r' ? [sole.slice(0, 3)] : [sole.slice(3)];
-    }
-    push(null, 'plantar aponeurosis', '足底腱膜', 'aponeurosis', 'connective', {geometry: [geo(sole)]},
+    for (const S of SIDES) push(S, 'plantar aponeurosis', '足底腱膜', 'aponeurosis', 'connective', {geometry: [geo(sole[S.w])]},
       ['A thick fibrous sheet covering the central and medial parts of the sole, from the calcaneal tuberosity to the toes', '覆蓋足底中央與內側的厚纖維膜，由跟骨粗隆到趾'], ['Supports the longitudinal arch and protects the plantar muscles, vessels and nerves', '支撐縱弓，保護足底肌肉、血管與神經']);
   }
   return out;
