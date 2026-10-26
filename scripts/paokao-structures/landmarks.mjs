@@ -27,7 +27,7 @@ export default function landmarks(U) {
     const me = U.extreme(hum, P(-side, -.25, 0), {y: [1.105, 1.150]});
     mark(S, 'medial epicondyle of humerus', '肱骨內上髁', hum, disc(hum, me, .0085), ['Prominent bump on the medial side of the lower end of the humerus', '肱骨下端內側的明顯隆起'], ['Common flexor origin; the ulnar nerve passes behind it', '屈肌總起點；尺神經經其後方'], {zhBone: '肱骨'});
     // ---- Scapula
-    const cor = U.extreme(sc, P(side * .45, .25, 1), {y: [1.375, 1.43]}), notchC = U.extreme(sc, P(-side * .2, 1, .15), {x: side < 0 ? [-.115, -.075] : [.075, .115], y: [1.395, 1.44]});
+    const cor = U.extreme(sc, P(side * .45, .25, 1), {y: [1.375, 1.43]}), notchC = U.extreme(sc, P(-side * .2, 1, .15), {x: side < 0 ? [-.106, -.098] : [.098, .106], y: [1.395, 1.44]});
     mark(S, 'coracoid process', '喙突', sc, disc(sc, cor, .0090), ['Hook-shaped projection from the upper border of the scapula, pointing forwards and laterally', '肩胛骨上緣向前外方的鉤狀突起'], ['Origin of coracobrachialis and the short head of biceps; insertion of pectoralis minor', '喙肱肌與肱二頭肌短頭的起點；胸小肌的止點'], {zhBone: '肩胛骨'});
     mark(S, 'suprascapular notch', '肩胛上切跡', sc, disc(sc, notchC, .0055), ['A notch in the upper border of the scapula, medial to the base of the coracoid process, bridged by the superior transverse scapular ligament', '肩胛骨上緣、喙突基部內側的切跡，上方由肩胛上橫韌帶橫跨'], ['The suprascapular nerve passes through it; the suprascapular artery runs above the ligament', '肩胛上神經由此通過；肩胛上動脈走在韌帶上方'], {zhBone: '肩胛骨'});
     const igt = U.extreme(sc, P(side * .55, -1, .35), {y: [1.30, 1.37]});
