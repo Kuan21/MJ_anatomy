@@ -70,7 +70,7 @@ for (const s of built) {
   const cap = ['fascia', 'sheath', 'aponeurosis'].includes(s.kind) ? 2500 : 700;
   if (indices.length / 3 > cap) { const w = weldByPosition(positions, indices); ({positions, indices} = await simplify(w.positions, w.indices, cap, .003, ['LockBorder'])); }
   bind(id, s);
-  stream.add({id, conceptId: s.connector ? s.concept : id, name: s.name, system: s.system, schematic: !s.connector, kind: s.kind}, positions, indices);
+  stream.add({id, conceptId: s.connector ? s.concept : id, name: s.name, system: s.system, schematic: !s.connector, kind: s.kind, ...(s.sex ? {sex: s.sex} : {})}, positions, indices);
   if (s.connector) continue;
   cards[id] = {name: s.name, zh: s.zh, system: s.system, kind: s.kind, origin: s.card?.origin, course: s.card?.course, supply: s.card?.supply, extra: s.card?.extra, note: s.note, refs: s.refs, parent: s.parent};
 }
