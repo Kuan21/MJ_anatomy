@@ -29,7 +29,7 @@
 
 ## 進行中（尚未合併）
 
-- `codex/fix-atlas-initial-render`：修正首次繪圖缺少的 GPU 蒙皮屬性、數值紋理取樣精度，新增真實 Chromium／WebKit 繪圖回歸測試。不改模型檔、結構、位置或形狀；iPad 現象的因果關係仍待實際畫面驗證。
+- [#75](https://github.com/Kuan21/MJ_anatomy/pull/75)（草稿）：修正首次繪圖缺少的 GPU 蒙皮屬性、數值紋理取樣精度，新增真實 Chromium／WebKit 繪圖回歸測試。不改模型檔、結構、位置或形狀；iPad 現象的因果關係仍待實際畫面驗證。
 
 | PR | 內容 |
 | --- | --- |

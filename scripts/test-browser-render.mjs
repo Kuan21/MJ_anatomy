@@ -45,10 +45,10 @@ try{
    };
    await capture('whole');
    for(const region of ['上肢','下肢','頭部','全身']){
-    await page.getByRole('checkbox',{name:region,exact:true}).click();await loaded();
+    await page.getByRole('navigation',{name:'身體區域'}).getByRole('button',{name:region,exact:true}).click();await loaded();
     await capture(region);
    }
-   const skeleton=page.getByRole('button',{name:/^Skeleton \d+/});
+   const skeleton=page.locator('button[title="Show only skeleton"]');
    if(!await skeleton.isVisible())await page.getByRole('button',{name:'Systems',exact:true}).click();
    await skeleton.click();await loaded();
    await capture('skeleton');
