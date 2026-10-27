@@ -78,7 +78,7 @@ export function clearGpuAttributes(slots:Uint8Array,weights:Uint16Array,offset:n
 
 /** Shader chunks. The blend is applied when `flag` (a float expression) is above 0.5. The anatomy material reads it from
  * the per-part motion texture; other materials (peripheral nerves) read a uniform. */
-export const GPU_SKIN_PARS=`attribute vec4 segIndex; attribute vec4 segWeight; uniform sampler2D paletteState; uniform float paletteWidth;
+export const GPU_SKIN_PARS=`attribute vec4 segIndex; attribute vec4 segWeight; uniform highp sampler2D paletteState; uniform float paletteWidth;
 vec4 mjSlotReal(float s){ return texture2D(paletteState, vec2((2.0*s+0.5)/paletteWidth, 0.5)); }
 vec4 mjSlotDual(float s){ return texture2D(paletteState, vec2((2.0*s+1.5)/paletteWidth, 0.5)); }
 vec3 mjQrot(vec4 q, vec3 v){ return v + 2.0*cross(q.xyz, cross(q.xyz,v)+q.w*v); }

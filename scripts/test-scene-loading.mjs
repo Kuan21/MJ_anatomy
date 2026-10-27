@@ -121,6 +121,21 @@ assert.ok(!requests.some(url=>url.endsWith('/nervous.glb')),'Nerve rendering mus
 for(const system of state.visible){const expected=atlas.parts.filter(p=>p.system===system).length;assert.equal(final.systems[system],expected,`${system} complete`);}
 const rendered=new Set();scene.traverse(o=>{const a=o.geometry?.getAttribute('partIndex');if(a)for(const value of a.array)rendered.add(value);});
 assert.equal(rendered.size,atlas.parts.length,'all catalogue parts have assembled scene geometry');
+// The static atlas already uses the skinning shader, before any pose/worker exists.
+// Missing active attributes can make a draw depend on generic vertex state left by
+// another mesh. Validate the actual merged buffers, not just loaded-part counts.
+scene.traverse(o=>{
+ const g=o.geometry,part=g?.getAttribute('partIndex');if(!part)return;
+ const slots=g.getAttribute('segIndex'),weights=g.getAttribute('segWeight');
+ assert.ok(slots&&weights,'static anatomy draw must bind both skinning attributes');
+ assert.equal(slots.count,part.count);assert.equal(weights.count,part.count);
+ assert.equal(slots.itemSize,4);assert.equal(weights.itemSize,4);
+ assert.equal(weights.normalized,true);
+ for(let v=0;v<part.count;v++){
+  assert.deepEqual(Array.from(slots.array.subarray(v*4,v*4+4)),[0,0,0,0]);
+  assert.deepEqual(Array.from(weights.array.subarray(v*4,v*4+4)),[65535,0,0,0]);
+ }
+});
 assert.equal(new Set(requests.filter(x=>/body-[\da-f]+\.bin\.gz$/.test(x))).size,atlas.chunks.filter(c=>/body-[\da-f]+\.bin/.test(c.url)).length);
 if(process.argv.includes('--full'))for(const c of atlas.chunks.filter(c=>/\/(?:facial|supplement)-/.test(c.url)))assert.ok(requests.includes(c.gzip??c.url),'package requested: '+c.url);
 // Exercise the newly lazy motion bindings in the actual scene, including

@@ -357,7 +357,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    const m=new T.MeshStandardMaterial({color:SYSTEMS.find(s=>s.id===system)?.color??'#aebbb8',metalness:.08,roughness:.53,side:T.DoubleSide,transparent:system==='integumentary'||shellOpacity!==undefined,opacity:shellOpacity??(system==='integumentary'?.1:1),depthWrite:system!=='integumentary'&&shellOpacity===undefined});
    m.onBeforeCompile=shader=>{
     shader.uniforms.partState={value:partTexture};shader.uniforms.paletteState={value:paletteTexture};shader.uniforms.paletteWidth={value:PALETTE_WIDTH};shader.uniforms.selectionState={value:selectionTexture};shader.uniforms.motionState={value:motionTexture};shader.uniforms.rotationState={value:rotationTexture};shader.uniforms.anchorMotionState={value:anchorMotionTexture};shader.uniforms.anchorRotationState={value:anchorRotationTexture};shader.uniforms.stateWidth={value:width};shader.uniforms.maxSoftDisplacement={value:system==='arterial'||system==='venous'?.16:system==='muscular'?.24:1.0};
-    shader.vertexShader=GPU_SKIN_PARS+'attribute float partIndex; attribute float motionWeight; uniform sampler2D partState; uniform sampler2D selectionState; uniform sampler2D motionState; uniform sampler2D rotationState; uniform sampler2D anchorMotionState; uniform sampler2D anchorRotationState; uniform float stateWidth; uniform float maxSoftDisplacement; varying float partVisible; varying float partSelected; varying float partHovered; vec3 qrot(vec4 q, vec3 v){ return v + 2.0*cross(q.xyz, cross(q.xyz,v)+q.w*v); }\n'+shader.vertexShader;
+    shader.vertexShader=GPU_SKIN_PARS+'attribute float partIndex; attribute float motionWeight; uniform highp sampler2D partState; uniform highp sampler2D selectionState; uniform highp sampler2D motionState; uniform highp sampler2D rotationState; uniform highp sampler2D anchorMotionState; uniform highp sampler2D anchorRotationState; uniform float stateWidth; uniform float maxSoftDisplacement; varying float partVisible; varying float partSelected; varying float partHovered; vec3 qrot(vec4 q, vec3 v){ return v + 2.0*cross(q.xyz, cross(q.xyz,v)+q.w*v); }\n'+shader.vertexShader;
     shader.vertexShader=shader.vertexShader.replace('#include <beginnormal_vertex>','#include <beginnormal_vertex>\n'+GPU_SKIN_NORMAL+'\nvec2 normalStateUv = vec2((partIndex + 0.5) / stateWidth, 0.5); vec4 normalRot = normalize(texture2D(rotationState,normalStateUv)); vec4 normalAnchorRot = normalize(texture2D(anchorRotationState,normalStateUv)); if(dot(normalAnchorRot,normalRot)<0.0) normalRot=-normalRot; vec4 normalBlend=normalize(mix(normalAnchorRot,normalRot,motionWeight)); objectNormal=qrot(normalBlend,objectNormal);');
     shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n'+GPU_SKIN_POSITION+'\nvec2 stateUv = vec2((partIndex + 0.5) / stateWidth, 0.5); vec4 state = texture2D(partState, stateUv); vec3 motion = texture2D(motionState,stateUv).xyz; vec4 rotation = normalize(texture2D(rotationState,stateUv)); vec3 anchorMotion = texture2D(anchorMotionState,stateUv).xyz; vec4 anchorRotation = normalize(texture2D(anchorRotationState,stateUv)); vec3 anchorPosition=qrot(anchorRotation,transformed)+anchorMotion; vec3 movingPosition=qrot(rotation,transformed)+motion; vec3 softDelta=movingPosition-anchorPosition; float softLen=length(softDelta); if(softLen>maxSoftDisplacement) softDelta*=maxSoftDisplacement/softLen; transformed=anchorPosition+softDelta*motionWeight+state.xyz; partVisible = state.w; partSelected = texture2D(selectionState, stateUv).r; partHovered = texture2D(selectionState, stateUv).g;');
     shader.fragmentShader='varying float partVisible; varying float partSelected; varying float partHovered;\n'+shader.fragmentShader;
@@ -550,6 +550,13 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const parts:{index:number;offset:number;geometry:T.BufferGeometry}[]=[];
     for(const g of gs){const index=g.getAttribute('partIndex').getX(0),pick=pendingPickers.get(index)!;pick.userData.mergedGeometry=geometry;pick.userData.mergedOffset=vertexOffset;parts.push({index,offset:vertexOffset,geometry:g});vertexOffset+=g.getAttribute('position').count;g.deleteAttribute('partIndex');g.deleteAttribute('motionWeight');pickers[index]=pick;}
     geometry.index!.setUsage(T.DynamicDrawUsage);for(const key of ['position','normal'])(geometry.getAttribute(key) as T.BufferAttribute).setUsage(T.DynamicDrawUsage);
+    // The material declares these attributes even in the neutral pose. Bind
+    // identity data before the first draw, rather than relying on generic
+    // attribute values (which are context state, not part of a mesh's VAO).
+    const count=geometry.getAttribute('position').count,slots=new Uint8Array(count*4),skinWeights=new Uint16Array(count*4);
+    clearGpuAttributes(slots,skinWeights,0,count);
+    geometry.setAttribute('segIndex',new T.BufferAttribute(slots,4).setUsage(T.DynamicDrawUsage));
+    geometry.setAttribute('segWeight',new T.BufferAttribute(skinWeights,4,true).setUsage(T.DynamicDrawUsage));
     const mesh=new T.Mesh(geometry,mats.get(system as never));mesh.frustumCulled=false;scene.add(mesh);renderBatches.push({mesh,parts,mask:'pending'});});
    for(const [i,pick] of pendingPickers)if((!workerAvailable&&tissueBindings[atlas.parts[i].id])||(atlas.parts[i].system==='connective'&&anatomicalRegion(atlas.parts[i])==='upper-limb'))warmBindings.push(pick);
    if(warmBindings.length)scheduleWarm();
@@ -667,8 +674,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      }
      if(!mesh.userData.gpuWritten){
       const merged=mesh.userData.mergedGeometry as T.BufferGeometry,offset=mesh.userData.mergedOffset as number;
-      // Created on first use, so loading the atlas pays nothing for the GPU stage. Unset vertices stay on the identity slot.
-      if(!merged.getAttribute('segIndex')){const count=merged.getAttribute('position').count,a=new Uint8Array(count*4),b=new Uint16Array(count*4);clearGpuAttributes(a,b,0,count);merged.setAttribute('segIndex',new T.BufferAttribute(a,4));merged.setAttribute('segWeight',new T.BufferAttribute(b,4,true));}
+      // Every batch starts with identity attributes; replace only this part's
+      // range when it receives its motion binding.
       const slots=merged.getAttribute('segIndex') as T.BufferAttribute,weights=merged.getAttribute('segWeight') as T.BufferAttribute;
       writeGpuAttributes(gpu!,slots.array as Uint8Array,weights.array as Uint16Array,offset);
       for(const a of [slots,weights]){a.addUpdateRange(offset*4,part.vertexCount*4);a.needsUpdate=true;}
@@ -1013,3 +1020,4 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
  useEffect(()=>{if(retryNonce>0)retryLoad.current?.();},[retryNonce]);
  return <div className="scene" ref={host}/>;
 }
+

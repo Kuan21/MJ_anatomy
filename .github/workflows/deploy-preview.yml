@@ -25,6 +25,15 @@ jobs:
       - run: npm run check
       - run: npm run check:motion
       - run: npm run build -- --base /MJ_anatomy/
+      - run: npx playwright install --with-deps chromium webkit
+      - run: node scripts/test-browser-render.mjs
+        env:
+          LIBGL_ALWAYS_SOFTWARE: 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: atlas-render
+          path: test-results/atlas-render
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:
