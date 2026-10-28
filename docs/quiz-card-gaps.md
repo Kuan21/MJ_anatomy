@@ -172,50 +172,52 @@
 
 （全部完整）
 
-### 神經：2 / 44 項資料完整
+### 神經：0 / 44 項資料完整
 
 - 臂神經叢上幹（superior trunk of brachial plexus）：缺 來源、走向、主要分支、支配範圍
 - 臂神經叢中幹（middle trunk of brachial plexus）：缺 來源、走向、主要分支、支配範圍
 - 臂神經叢下幹（inferior trunk of brachial plexus）：缺 來源、走向、主要分支、支配範圍
 - 臂神經叢神經根（roots of brachial plexus）：缺 來源、走向、主要分支、支配範圍
-- 長胸神經（long thoracic nerve）：缺 主要分支
-- 肩胛上神經（suprascapular nerve）：缺 主要分支
+- 背肩胛神經（dorsal scapular nerve）：缺 來源、走向、支配範圍
+- 長胸神經（long thoracic nerve）：缺 來源、走向、主要分支、支配範圍
+- 肩胛上神經（suprascapular nerve）：缺 來源、走向、主要分支、支配範圍
 - 鎖骨下肌神經（subclavian nerve）：缺 來源、走向、主要分支、支配範圍
-- 腋神經（axillary nerve）：缺 主要分支
+- 腋神經（axillary nerve）：缺 來源、走向、主要分支、支配範圍
 - 臂神經叢後束（posterior cord of brachial plexus）：缺 來源、走向、主要分支、支配範圍
-- 外側胸神經（lateral pectoral nerve）：缺 主要分支
-- 肌皮神經（musculocutaneous nerve）：缺 主要分支
+- 外側胸神經（lateral pectoral nerve）：缺 來源、走向、主要分支、支配範圍
+- 肌皮神經（musculocutaneous nerve）：缺 來源、走向、主要分支、支配範圍
 - 外側前臂皮神經（lateral antebrachial cutaneous nerve）：缺 來源、走向、主要分支、支配範圍
-- 橈神經深支（deep branch of radial nerve）：缺 主要分支
-- 後骨間神經（posterior interosseous nerve of forearm）：缺 主要分支
-- 橈神經淺支（superficial branch of radial nerve）：缺 主要分支
-- 橈神經背側指支（dorsal digital branches of radial nerve）：缺 主要分支
+- 橈神經深支（deep branch of radial nerve）：缺 來源、走向、主要分支、支配範圍
+- 後骨間神經（posterior interosseous nerve of forearm）：缺 來源、走向、主要分支、支配範圍
+- 橈神經淺支（superficial branch of radial nerve）：缺 來源、走向、主要分支、支配範圍
+- 橈神經背側指支（dorsal digital branches of radial nerve）：缺 來源、走向、主要分支、支配範圍
 - 後前臂皮神經（posterior antebrachial cutaneous nerve）：缺 來源、走向、主要分支、支配範圍
-- 橈神經（radial nerve）：缺 主要分支
+- 橈神經（radial nerve）：缺 來源、走向、主要分支、支配範圍
 - 下外側臂皮神經（inferior lateral brachial cutaneous nerve）：缺 來源、走向、主要分支、支配範圍
-- 橈神經肌支（muscular branches of radial nerve）：缺 主要分支
+- 橈神經肌支（muscular branches of radial nerve）：缺 來源、走向、主要分支、支配範圍
 - 上外側臂皮神經（superior lateral brachial cutaneous nerve）：缺 來源、走向、主要分支、支配範圍
-- 腋神經肌支（muscular branches of axillary nerve）：缺 主要分支
+- 腋神經肌支（muscular branches of axillary nerve）：缺 來源、走向、主要分支、支配範圍
 - 內側前臂皮神經前支（anterior branch of medial antebrachial cutaneous nerve）：缺 來源、走向、主要分支、支配範圍
 - 內側前臂皮神經後支（posterior branch of medial antebrachial cutaneous nerve）：缺 來源、走向、主要分支、支配範圍
 - 內側前臂皮神經（medial antebrachial cutaneous nerve）：缺 來源、走向、主要分支、支配範圍
-- 尺神經背側指支（dorsal digital branches of ulnar nerve）：缺 主要分支
-- 尺神經背支（dorsal branch of ulnar nerve）：缺 主要分支
-- 尺神經掌側固有指支（proper palmar digital branches of ulnar nerve）：缺 主要分支
-- 尺神經掌側總指支（common palmar digital branches of ulnar nerve）：缺 主要分支
-- 尺神經淺支（superficial branch of ulnar nerve）：缺 主要分支
-- 尺神經掌支（palmar branch of ulnar nerve）：缺 主要分支
-- 尺神經深支（deep branch of ulnar nerve）：缺 主要分支
-- 尺神經肌支（muscular branches of ulnar nerve）：缺 主要分支
-- 尺神經（ulnar nerve）：缺 主要分支
+- 尺神經背側指支（dorsal digital branches of ulnar nerve）：缺 來源、走向、主要分支、支配範圍
+- 尺神經背支（dorsal branch of ulnar nerve）：缺 來源、走向、主要分支、支配範圍
+- 尺神經掌側固有指支（proper palmar digital branches of ulnar nerve）：缺 來源、走向、主要分支、支配範圍
+- 尺神經掌側總指支（common palmar digital branches of ulnar nerve）：缺 來源、走向、主要分支、支配範圍
+- 尺神經淺支（superficial branch of ulnar nerve）：缺 來源、走向、主要分支、支配範圍
+- 尺神經掌支（palmar branch of ulnar nerve）：缺 來源、走向、主要分支、支配範圍
+- 尺神經深支（deep branch of ulnar nerve）：缺 來源、走向、主要分支、支配範圍
+- 尺神經肌支（muscular branches of ulnar nerve）：缺 來源、走向、主要分支、支配範圍
+- 尺神經（ulnar nerve）：缺 來源、走向、主要分支、支配範圍
 - 內側臂皮神經（medial brachial cutaneous nerve）：缺 來源、走向、主要分支、支配範圍
-- 正中神經掌側固有指支（proper palmar digital branches of median nerve）：缺 主要分支
-- 正中神經掌側總指支（common palmar digital branches of median nerve）：缺 主要分支
-- 正中神經與尺神經交通支（(Communicating branch of median nerve with ulnar nerve)）：缺 主要分支
-- 正中神經（median nerve）：缺 主要分支
-- 前骨間神經（anterior interosseous nerve of forearm）：缺 主要分支
-- 正中神經掌支（palmar branch of median nerve）：缺 主要分支
-- 正中神經肌支（muscular branches of median nerve）：缺 主要分支
+- 正中神經掌側固有指支（proper palmar digital branches of median nerve）：缺 來源、走向、主要分支、支配範圍
+- 正中神經掌側總指支（common palmar digital branches of median nerve）：缺 來源、走向、主要分支、支配範圍
+- 正中神經與尺神經交通支（(Communicating branch of median nerve with ulnar nerve)）：缺 來源、走向、主要分支、支配範圍
+- 正中神經（median nerve）：缺 來源、走向、主要分支、支配範圍
+- 前骨間神經（anterior interosseous nerve of forearm）：缺 來源、走向、主要分支、支配範圍
+- 正中神經掌支（palmar branch of median nerve）：缺 來源、走向、主要分支、支配範圍
+- 正中神經肌支（muscular branches of median nerve）：缺 來源、走向、主要分支、支配範圍
+- 胸背神經（thoracodorsal nerve）：缺 來源、走向、支配範圍
 
 ### 動脈：0 / 44 項資料完整
 
@@ -401,8 +403,10 @@
 
 - 多裂肌（multifidus）：缺 血液供應
 
-### 神經：3 / 8 項資料完整
+### 神經：1 / 8 項資料完整
 
+- 背肩胛神經（dorsal scapular nerve）：缺 來源、走向、支配範圍
+- 胸背神經（thoracodorsal nerve）：缺 來源、走向、支配範圍
 - 枕下神經（suboccipital nerve）：缺 主要分支
 - 枕大神經（greater occipital nerve）：缺 主要分支
 - 第三枕神經（third occipital nerve）：缺 主要分支

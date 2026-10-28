@@ -23,10 +23,11 @@ export interface StructureProfile {
 
 import vesselEnds from './mj-vessel-ends.json';
 import paokaoCards from './mj-paokao.json';
+import vesselBranches from './mj-vessel-branches.json';
 type ProfileBody=Omit<StructureProfile,'english'>;
-const CMU_SOURCE='CMU Upper Limbs lecture; terminology cross-checked with the uploaded Netter Atlas';
-const CMU_BONE_SOURCE='CMU skeletal-system / histology notes and bilingual bone-landmark sheet; terminology cross-checked with the uploaded Netter Atlas';
-const WEB_SOURCE='Standard anatomical terminology; NCBI Bookshelf / StatPearls where a CMU course entry is not available';
+const GROSS_SOURCE='Standard gross-anatomy references; terminology cross-checked with Netter, Atlas of Human Anatomy';
+const BONE_SOURCE='Standard skeletal anatomy references; terminology cross-checked with Netter, Atlas of Human Anatomy';
+const WEB_SOURCE='Standard anatomical terminology; NCBI Bookshelf / StatPearls';
 
 const muscle=(chinese:string,originEn:string,originZh:string,insertionEn:string,insertionZh:string,nerveEn:string,nerveZh:string,actionEn:string,actionZh:string):ProfileBody=>({
  chinese,category:'Muscle｜肌肉',
@@ -37,7 +38,7 @@ const muscle=(chinese:string,originEn:string,originZh:string,insertionEn:string,
   {labelEn:'Insertion',labelZh:'止點',valueEn:insertionEn,valueZh:insertionZh},
   {labelEn:'Innervation',labelZh:'神經支配',valueEn:nerveEn,valueZh:nerveZh},
   {labelEn:'Action',labelZh:'作用',valueEn:actionEn,valueZh:actionZh}
- ],source:CMU_SOURCE
+ ],source:GROSS_SOURCE
 });
 
 const nerve=(chinese:string,rootsEn:string,rootsZh:string,courseEn:string,courseZh:string,functionEn:string,functionZh:string):ProfileBody=>({
@@ -45,10 +46,10 @@ const nerve=(chinese:string,rootsEn:string,rootsZh:string,courseEn:string,course
  summaryEn:'A named neural structure of the upper limb represented in the atlas.',
  summaryZh:'圖譜中所呈現的上肢具名神經構造。',
  facts:[
-  {labelEn:'Roots / origin',labelZh:'神經根／來源',valueEn:rootsEn,valueZh:rootsZh},
-  {labelEn:'Course / relation',labelZh:'走行／關係',valueEn:courseEn,valueZh:courseZh},
-  {labelEn:'Main function',labelZh:'主要功能',valueEn:functionEn,valueZh:functionZh}
- ],source:CMU_SOURCE
+  {labelEn:'Nerve roots',labelZh:'神經根',valueEn:rootsEn,valueZh:rootsZh},
+  {labelEn:'Course',labelZh:'走向',valueEn:courseEn,valueZh:courseZh},
+  {labelEn:'Supply',labelZh:'支配範圍',valueEn:functionEn,valueZh:functionZh}
+ ],source:GROSS_SOURCE
 });
 
 
@@ -59,8 +60,8 @@ const schematic=(chinese:string,vein:boolean,rootsEn:string,rootsZh:string,cours
  chinese,category:vein?'Vein｜靜脈（示意模型）':'Nerve｜神經（示意模型）',
  summaryEn:SCHEMATIC_NOTE_EN,summaryZh:SCHEMATIC_NOTE_ZH,
  facts:[
-  {labelEn:vein?'Drains to':'Roots / origin',labelZh:vein?'引流至':'神經根／來源',valueEn:rootsEn,valueZh:rootsZh},
-  {labelEn:'Course / relation',labelZh:'走行／關係',valueEn:courseEn,valueZh:courseZh},
+  {labelEn:vein?'Drains to':'Nerve roots',labelZh:vein?'引流至':'神經根',valueEn:rootsEn,valueZh:rootsZh},
+  {labelEn:'Course',labelZh:'走向',valueEn:courseEn,valueZh:courseZh},
   {labelEn:vein?'Region drained':'Supply',labelZh:vein?'引流範圍':'支配範圍',valueEn:supplyEn,valueZh:supplyZh}
  ],source:SCHEMATIC_SOURCE
 });
@@ -73,7 +74,7 @@ const bone=(chinese:string,typeEn:string,typeZh:string,roleEn:string,roleZh:stri
   {labelEn:'Type / region',labelZh:'類型／區域',valueEn:typeEn,valueZh:typeZh},
   {labelEn:'Anatomical role',labelZh:'解剖角色',valueEn:roleEn,valueZh:roleZh},
   {labelEn:'Key landmarks',labelZh:'重要骨標誌',valueEn:landmarksEn,valueZh:landmarksZh}
- ],source:CMU_SOURCE
+ ],source:GROSS_SOURCE
 });
 
 const detailed:Record<string,ProfileBody>={
@@ -321,16 +322,16 @@ function genericFacts(name:string,system:SystemId,part?:Part):BilingualFact[]{
 function genericSummary(name:string,system:SystemId,chinese:string|undefined,part?:Part){
  const zhName=chinese??'此構造',region=regionOf(name,system,part);
  if(system==='muscular')return{
-  en:`${name} is a named skeletal muscle of the ${region.en} represented in the 3D atlas. Where the CMU lecture or a mapped anatomy reference provides it, origin, insertion, innervation and action are shown below.`,
-  zh:`${zhName}是 3D 圖譜中位於${region.zh}的具名骨骼肌。若中國醫藥大學上課資料或已對照的解剖參考資料有記載，下方會列出起點、止點、神經支配與作用。`
+  en:`${name} is a named skeletal muscle of the ${region.en} represented in the 3D atlas. Its origin, insertion, innervation and action are listed below where they are known for this muscle.`,
+  zh:`${zhName}是 3D 圖譜中位於${region.zh}的具名骨骼肌。已知的起點、止點、神經支配與作用列在下方。`
  };
  if(system==='nervous')return{
-  en:`${name} is a named neural structure of the ${region.en}. When the course material or mapped reference contains sufficient detail, its roots, course and major motor/sensory relationships are shown below.`,
-  zh:`${zhName}是位於${region.zh}的具名神經構造。若課件或已對照資料有足夠內容，下方會補充神經根、走行及主要運動／感覺關係。`
+  en:`${name} is a named neural structure of the ${region.en}. Its roots, course and supply are listed below where they are known for this structure.`,
+  zh:`${zhName}是位於${region.zh}的具名神經構造。已知的神經根、走向與支配範圍列在下方。`
  };
  if(system==='skeletal')return{
-  en:`${name} is a named skeletal structure of the ${region.en}. Bone entries use the CMU skeletal overview and bilingual landmark list first, with standard references used for details not covered in the course files.`,
-  zh:`${zhName}是位於${region.zh}的具名骨骼構造。骨骼資料優先採用中國醫藥大學骨骼系統內容及你提供的中英骨標誌表，課件未涵蓋的細節再以標準解剖資料補充。`
+  en:`${name} is a named skeletal structure of the ${region.en}. Its type, role and key landmarks are listed below where they are known for this bone.`,
+  zh:`${zhName}是位於${region.zh}的具名骨骼構造。已知的類型、功能與重要骨標誌列在下方。`
  };
  return{
   en:`${name} is a named ${system} structure represented in the source anatomy.`,
@@ -341,8 +342,8 @@ function genericSummary(name:string,system:SystemId,chinese:string|undefined,par
 function sourceFor(name:string,system:SystemId){
  const n=norm(name);
  const upperLimb=/clavicle|scapula|humerus|radius|ulna|carpal|metacarp|phalan|deltoid|pectoralis|serratus|trapezius|rhomboid|supraspinatus|infraspinatus|subscapularis|teres|biceps brachii|triceps brachii|brachialis|coracobrachialis|pronator|supinator|brachioradialis|carpi|digitorum|pollicis|lumbrical|interosse|axillary nerve|musculocutaneous nerve|median nerve|ulnar nerve|radial nerve|suprascapular nerve|long thoracic nerve|thoracodorsal nerve/.test(n);
- if(upperLimb&&(system==='muscular'||system==='nervous'||system==='skeletal'))return CMU_SOURCE;
- if(system==='skeletal')return CMU_BONE_SOURCE+'; '+WEB_SOURCE;
+ if(upperLimb&&(system==='muscular'||system==='nervous'||system==='skeletal'))return GROSS_SOURCE;
+ if(system==='skeletal')return BONE_SOURCE+'; '+WEB_SOURCE;
  if(system==='muscular'||system==='nervous')return WEB_SOURCE;
  return 'BodyParts3D naming with general anatomical context';
 }
@@ -394,7 +395,7 @@ function baseStructureProfile(rawName:string,system:SystemId,part?:Part):Structu
  },sourceName);
 }
 
-type PaokaoCard={name:string;zh:string;system:string;kind:string;origin?:[string,string];course?:[string,string];supply?:[string,string];extra?:{labelEn:string;labelZh:string;en:string;zh:string}[];note?:string;refs?:string[];parent?:string};
+type PaokaoCard={name:string;zh:string;system:string;kind:string;origin?:[string,string];course?:[string,string];supply?:[string,string];insertion?:[string,string];nerve?:[string,string];action?:[string,string];extra?:{labelEn:string;labelZh:string;en:string;zh:string}[];note?:string;refs?:string[];parent?:string};
 const PAOKAO=paokaoCards as unknown as Record<string,PaokaoCard>;
 const paokaoByName=new Map(Object.values(PAOKAO).map(c=>[c.name.toLowerCase(),c]));
 /** Course-summary structures built by scripts/prepare-paokao.mjs: the Chinese name and the bilingual data card come from app/mj-paokao.json. */
@@ -407,16 +408,23 @@ function paokaoProfile(rawName:string,system:SystemId,part?:Part):StructureProfi
  if(!card)return baseStructureProfile(rawName,system,part);
  const [en,zh]=KIND_LABEL[card.kind]??['Structure','構造'];
  const facts:BilingualFact[]=[];
- // A space (snuffbox, fossa, tunnel, foramen …) has boundaries and contents rather than an origin and a course: its card fields hold [boundaries, location, contents].
- if(card.kind==='space'){
-  if(card.origin)facts.push({labelEn:'Boundaries',labelZh:'邊界',valueEn:card.origin[0],valueZh:card.origin[1]});
-  if(card.course)facts.push({labelEn:'Location',labelZh:'位置',valueEn:card.course[0],valueZh:card.course[1]});
-  if(card.supply)facts.push({labelEn:'Contents',labelZh:'通過內容',valueEn:card.supply[0],valueZh:card.supply[1]});
- }else{
- if(card.origin)facts.push({labelEn:card.kind==='nerve'?'Origin / roots':'Origin',labelZh:'起始',valueEn:card.origin[0],valueZh:card.origin[1]});
- if(card.course)facts.push({labelEn:'Course / relations',labelZh:'走行／位置關係',valueEn:card.course[0],valueZh:card.course[1]});
- if(card.supply)facts.push({labelEn:card.kind==='artery'||card.kind==='vein'?'Territory':'Supply / role',labelZh:card.kind==='artery'||card.kind==='vein'?'供應／引流範圍':'支配範圍／功能',valueEn:card.supply[0],valueZh:card.supply[1]});
+ // Field names follow the kind of structure: muscles give origin / insertion / innervation / action; vessels origin / course / main branches / territory; nerves roots / course /
+ // supply; spaces boundaries / location / contents; organs and glands location / structure and relations / blood supply and nerves; ligaments, fasciae and the like attachments /
+ // course / function; bone landmarks description / attachments / related structures. The card holds three fields (origin, course, supply) that are read as these.
+ const L=(en:string,zh:string,v?:[string,string])=>{if(v)facts.push({labelEn:en,labelZh:zh,valueEn:v[0],valueZh:v[1]});};
+ const k=card.kind,vessel=k==='artery'||k==='vein'||k==='vessel';
+ if(k==='muscle'){L('Origin','起點',card.origin);L('Insertion','止點',card.insertion);L('Innervation','神經支配',card.nerve);L('Action','作用',card.action);}
+ else if(k==='space'){L('Boundaries','邊界',card.origin);L('Location','位置',card.course);L('Contents','內容物',card.supply);}
+ else if(vessel){
+  L('Origin','來源',card.origin);L('Course','走向',card.course);
+  const kids=(vesselBranches.branches as Record<string,string[]>)[card.name];
+  if(kids?.length)facts.push({labelEn:'Main branches',labelZh:'主要分支',valueEn:kids.join(', '),valueZh:kids.map(n=>chineseName(n,system)||n).join('、')});
+  L(k==='vein'?'Tributary area':'Territory',k==='vein'?'引流範圍':'供應範圍',card.supply);
  }
+ else if(k==='nerve'||k==='ganglion'||k==='plexus'){L(k==='nerve'?'Nerve roots':'Origin',k==='nerve'?'神經根':'來源',card.origin);L('Course','走向',card.course);L('Supply','支配範圍',card.supply);}
+ else if(k==='organ'||k==='gland'||k==='surface'){L('Location','位置',card.origin);L('Structure and relations','構造／毗鄰關係',card.course);L('Blood supply and nerves','血液供應／神經',card.supply);}
+ else if(k==='landmark'){L('Description','描述',card.origin);L('Attachments','附著構造',card.course);L('Related structures','相關構造',card.supply);}
+ else{L('Attachments','附著',card.origin);L('Course and relations','走向／位置關係',card.course);L('Function','功能',card.supply);}
  for(const f of card.extra??[])facts.push({labelEn:f.labelEn,labelZh:f.labelZh,valueEn:f.en,valueZh:f.zh});
  return{english:card.name,chinese:card.zh,category:`${en}｜${zh}（示意模型）`,summaryEn:SCHEMATIC_NOTE_EN2,summaryZh:SCHEMATIC_NOTE_ZH2,facts,source:card.refs?.length?`Schematic model built for this atlas from the textbook course (${card.refs.join('; ')}); landmarks measured on the BodyParts3D atlas meshes.`:'Schematic model built for this atlas from the textbook course; landmarks measured on the BodyParts3D atlas meshes.'};
 }
@@ -424,6 +432,11 @@ function paokaoProfile(rawName:string,system:SystemId,part?:Part):StructureProfi
 /** Small vessels whose model end was tapered by scripts/prepare-vessel-ends.mjs say so on their card. */
 export function structureProfile(rawName:string,system:SystemId,part?:Part):StructureProfile{
  let profile=paokaoProfile(rawName,system,part);
+ // An atlas vessel lists the branches the model joins to it (the same relations the build checks).
+ const kids=part&&(system==='arterial'||system==='venous')?(vesselBranches.branches as Record<string,string[]>)[part.name]:undefined;
+ const from=part&&(system==='arterial'||system==='venous')?(vesselBranches.parents as Record<string,string>)[part.name]:undefined;
+ if(from&&!profile.facts.some(f=>f.labelZh==='來源'||f.labelZh==='回流至'))profile={...profile,facts:[{labelEn:system==='venous'?'Drains into':'Origin',labelZh:system==='venous'?'回流至':'來源',valueEn:from,valueZh:chineseName(from,system)||from},...profile.facts]};
+ if(kids?.length&&!profile.facts.some(f=>f.labelEn==='Main branches'))profile={...profile,facts:[...profile.facts,{labelEn:'Main branches',labelZh:'主要分支',valueEn:kids.join(', '),valueZh:kids.map(n=>chineseName(n,system)||n).join('、')}]};
  // A schematic shell that is not in the course list (the pleura and pericardial layers) says so on its card: the tag sits on the category line.
  if(part?.schematic&&!(part.id in PAOKAO)&&!profile.category.includes('示意模型')){
   const pleura=/pleura/i.test(part.name),how=pleura?'由肺表面向外擴生成的薄殼':/pericardium|epicardium/i.test(part.name)?'由心臟壁面向外擴生成的薄殼':'由相鄰構造的表面生成';

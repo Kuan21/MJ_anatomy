@@ -1,6 +1,7 @@
 // Female reproductive anatomy from the Human Reference Atlas (CC BY 4.0), registered onto the BodyParts3D pelvis and packaged like the supplement
 // structures. The pieces come from scripts/data/hra-female-pelvis.json.gz (extract-hra-female.mjs). The pelvic bones in the atlas stay the male
 // BodyParts3D pelvis; the organs are scaled and placed so the uterus sits above the bladder and in front of the rectum. Educational placement only.
+// The female pelvic bones (scripts/data/hra-female-pelvis-bones.json.gz, extract-hra-pelvis-bones.mjs) replace the male hip bones and sacrum when the sex is female.
 import fs from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {createStream, simplify, weldByPosition} from './lib/stream-writer.mjs';
@@ -8,9 +9,10 @@ import {createStream, simplify, weldByPosition} from './lib/stream-writer.mjs';
 const root = new URL('../', import.meta.url), out = new URL('public/models/stream/', root), dir = new URL('public/models/female/', root);
 fs.mkdirSync(out, {recursive: true}); fs.mkdirSync(dir, {recursive: true});
 const source = JSON.parse(gunzipSync(fs.readFileSync(new URL('data/hra-female-pelvis.json.gz', import.meta.url))));
-// HRA frame (metres, +y up, +z anterior) → BodyParts3D atlas frame. Scale 0.9 maps the HRA iliac width (0.317 m) to the atlas hip bones (0.29 m); the
-// vertical offset puts the iliac crest at the atlas crest (y 1.036), which seats the uterine fundus just above the atlas bladder dome.
-const S = .9, toAtlas = (x, y, z) => [S * (x + .008), S * y + .8875, S * z + .018];
+// HRA frame (metres, +y up, +z anterior) → BodyParts3D atlas frame. The similarity transform comes from scripts/fit-female-pelvis.mjs, which registers the HRA
+// pelvic bones onto the atlas pelvis with the two femoral head centres as landmarks; the organs use the same transform so they stay inside their own pelvis.
+const reg = JSON.parse(fs.readFileSync(new URL('data/female-pelvis-registration.json', import.meta.url)));
+const toAtlas = (x, y, z) => reg.rotation.map((r, k) => reg.scale * (r[0] * x + r[1] * y + r[2] * z) + reg.translation[k]);
 
 const NAMES = [ // [regex on HRA node name, English (without side), Chinese, system, paired]
   [/^VH_F_body_of_uterus$/, 'Body of uterus', '子宮體', 'reproductive', false],
@@ -50,7 +52,24 @@ for (const piece of source.pieces) {
   stream.add({id: `HRAF-${piece.node}`, conceptId: `HRAF-${piece.node}`, name, system: rule[3], sex: 'female', chineseName: (rule[4] ? (side === 'Left' ? '左' : '右') : '') + rule[2], sourceNode: piece.name}, p, ix);
   report.push(`${name}: ${welded.indices.length / 3} → ${ix.length / 3} tris`);
 }
+// Pelvic bones: one hip bone per side (ilium + ischium + pubis compact bone), sacrum, coccyx.
+const bonesSource = JSON.parse(gunzipSync(fs.readFileSync(new URL('data/hra-female-pelvis-bones.json.gz', import.meta.url))));
+const boneGroups = [['hip', /_(ilium|ischium|pubis)_compact_bone_L$/, 'Left hip bone', '左髖骨'], ['hip', /_(ilium|ischium|pubis)_compact_bone_R$/, 'Right hip bone', '右髖骨'],
+  ['sacrum', /^VH_F_sacrum$/, 'Sacrum', '薦骨'], ['coccyx', /^VH_F_coccyx$/, 'Coccyx', '尾骨']];
+for (const [key, re, name, zh] of boneGroups) {
+  const pieces = bonesSource.pieces.filter(p => re.test(p.name)); if (!pieces.length) throw new Error('missing HRA bone ' + re);
+  const pos = [], idx = []; let base = 0;
+  for (const piece of pieces) {
+    const raw = decode(piece.positions, Float32Array), ix = decode(piece.indices, Uint32Array);
+    for (let i = 0; i < raw.length; i += 3) pos.push(...toAtlas(raw[i], raw[i + 1], raw[i + 2]));
+    for (const i of ix) idx.push(i + base); base += raw.length / 3;
+  }
+  const welded = weldByPosition(Float32Array.from(pos), Uint32Array.from(idx));
+  const {positions: p, indices: ix} = await simplify(welded.positions, welded.indices, key === 'hip' ? 16000 : key === 'sacrum' ? 9000 : 2500, .002);
+  stream.add({id: `HRAF-bone-${name.replace(/ /g, '-')}`, conceptId: `HRAF-bone-${name.replace(/ /g, '-')}`, name, system: 'skeletal', sex: 'female', chineseName: zh, sourceNode: pieces.map(q => q.name).join(' + ')}, p, ix);
+  report.push(`${name}: ${welded.indices.length / 3} → ${ix.length / 3} tris`);
+}
 const info = stream.finish({source: source.source, license: source.license, doi: source.doi, authors: source.authors, sourceSha256: source.sourceSha256,
-  attribution: `${source.authors}, Human Reference Atlas ${source.source}. ${source.url}. ${source.license}. Scaled 0.9 and registered to the BodyParts3D pelvis; the pelvic bones remain the male BodyParts3D model.`}, new URL('female-stream.json.gz', dir));
+  attribution: `${source.authors}, Human Reference Atlas ${source.source}. ${source.url}. ${source.license}. Registered to the BodyParts3D body by an iterative-closest-point fit of the pelvis with the femoral head centres as landmarks (scripts/fit-female-pelvis.mjs).`}, new URL('female-stream.json.gz', dir));
 console.log(`Female reproductive structures: ${info.parts} pieces in ${info.chunks} packages, ${(info.gzipBytes / 1e6).toFixed(2)} MB compressed.`);
 if (process.argv.includes('--verbose')) console.log(report.join('\n'));

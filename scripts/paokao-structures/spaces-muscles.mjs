@@ -122,7 +122,7 @@ export default function spacesMuscles(U) {
     const adm = hand('Abductor digiti minimi'), am = U.mesh(adm), top = am.hi[1], xm = (am.lo[0] + am.hi[0]) / 2, zf = am.hi[2], hw = (am.hi[0] - am.lo[0]) / 2 * .7;
     const brevis = U.conformingSheet([P(xm - hw, top - .004, zf), P(xm + hw, top - .004, zf), P(xm + hw, top - .026, zf), P(xm - hw, top - .026, zf)], [adm], .0012, .0014, .0025);
     out.push({name: `${S.w} palmaris brevis`, zh: `${S.zh}掌短肌`, system: 'muscular', kind: 'muscle', geometry: [brevis],
-      card: {origin: ['Flexor retinaculum and palmar aponeurosis', '屈肌支持帶與掌腱膜'], course: ['A thin subcutaneous sheet over the hypothenar eminence', '位於小魚際隆起皮下的薄肌'], supply: ['Skin of the ulnar border of the palm — wrinkles it and deepens the hollow of the palm (ulnar nerve, superficial branch)', '尺側手掌皮膚——使皮膚皺起並加深掌心凹（尺神經淺支）']}, refs: [REF]});
+      card: {origin: ['Flexor retinaculum and palmar aponeurosis', '屈肌支持帶與掌腱膜'], insertion: ['Skin of the ulnar border of the palm, over the hypothenar eminence', '手掌尺側緣、小魚際隆起上的皮膚'], nerve: ['Ulnar nerve, superficial branch', '尺神經淺支'], action: ['Wrinkles the skin of the hypothenar eminence and deepens the hollow of the palm', '使小魚際的皮膚皺起並加深掌心凹']}, refs: [REF]});
     // transversus thoracis: slips from the back of the lower sternum and xiphoid to the 2nd–6th costal cartilages.
     const body = U.mesh('Body of sternum'), slips = [];
     for (let i = 1; i <= 5; i++) {
@@ -131,7 +131,7 @@ export default function spacesMuscles(U) {
       slips.push(U.ribbon([from, lerp(from, to, .5), add(to, P(0, .002, 0))], .0045, .0010, 'vertical', 8));
     }
     out.push({name: `${S.w} transversus thoracis`, zh: `${S.zh}胸橫肌`, system: 'muscular', kind: 'muscle', geometry: [U.merge(slips)],
-      card: {origin: ['Posterior surface of the lower sternum and xiphoid process', '胸骨下部與劍突後面'], course: ['Slips fan out upwards and laterally to the inner surface of the 2nd–6th costal cartilages', '肌束向上外側散開，止於第二至第六肋軟骨內面'], supply: ['Depresses the costal cartilages (weak expiration); intercostal nerves 2–6', '下壓肋軟骨（微弱的呼氣作用）；第二至第六肋間神經']}, refs: [REF]});
+      card: {origin: ['Posterior surface of the lower sternum and xiphoid process', '胸骨下部與劍突後面'], insertion: ['Inner surface of the 2nd–6th costal cartilages', '第二至第六肋軟骨內面'], nerve: ['Intercostal nerves 2–6', '第二至第六肋間神經'], action: ['Depresses the costal cartilages (weak expiration)', '下壓肋軟骨（微弱的呼氣作用）']}, refs: [REF]});
     // subcostal muscles: slips on the inner surface of the lower ribs near their angles, crossing one or two ribs.
     const sub = [];
     for (let i = 7; i <= 10; i++) {
@@ -140,7 +140,7 @@ export default function spacesMuscles(U) {
       sub.push(U.ribbon([p1, lerp(p1, p2, .5), p2], .0075, .0010, 'vertical', 8));
     }
     out.push({name: `${S.w} subcostal muscles`, zh: `${S.zh}肋下肌`, system: 'muscular', kind: 'muscle', geometry: [U.merge(sub)],
-      card: {origin: ['Inner surface of the lower ribs near their angles', '下位肋骨角附近的內面'], course: ['Run down and medially, crossing one or two intercostal spaces, in the same direction as the innermost intercostals', '向下內方斜行，越過一或兩個肋間隙，方向與最內肋間肌相同'], supply: ['Depress the ribs; lower intercostal nerves', '下拉肋骨；下位肋間神經']}, refs: [REF]});
+      card: {origin: ['Inner surface of the lower ribs near their angles', '下位肋骨角附近的內面'], insertion: ['Inner surface of the 2nd or 3rd rib below, in the same direction as the innermost intercostals', '下方第二或第三條肋骨的內面，方向與最內肋間肌相同'], nerve: ['Lower intercostal nerves', '下位肋間神經'], action: ['Depress the ribs (weak expiration)', '下拉肋骨（微弱的呼氣作用）']}, refs: [REF]});
   }
   return out;
 }

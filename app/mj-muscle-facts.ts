@@ -32,7 +32,7 @@ export function muscleFactsFor(name:string):MuscleFacts|undefined{
  return key?MUSCLE_FACTS[key]:undefined;
 }
 
-export const MUSCLE_FACT_SOURCE='CMU anatomy course material is used as the primary teaching source; standard gross-anatomy references are used only to fill details not explicit in the course material.';
+export const MUSCLE_FACT_SOURCE='Standard gross-anatomy references (origin, insertion, innervation, action and blood supply).';
 
 export function muscleFactSourceFor(_name:string):string{
  return MUSCLE_FACT_SOURCE;
