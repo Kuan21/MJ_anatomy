@@ -6,6 +6,7 @@ import {createCsfScene, CSF_STEPS, type CsfSource} from './csf-scene';
 import {CSF_SHORT, CSF_STEP_NOTES} from './csf-notes';
 import {BRAIN_GROUPS, buildBrainTree, displayEn, relatedLobes, type BrainTreeNode} from './brain-catalogue';
 import {cardMatches, cardParts, loadNotes, type NoteCard, type NoteData} from './brain-notes';
+import {factOf, markSharedFacts} from './brain-facts';
 import {NoteCardView} from './brain-note-card';
 import {SECTION_AXES, type BrainPart, type BrainView, type BrainViewState, type SectionAxis} from './brain-types';
 import './organ.css';
@@ -81,7 +82,7 @@ function CsfPage({exportRef, onClose}: {exportRef: {current: (() => CsfSource | 
 export default function BrainDetail() {
   const [view, setView] = useState<BrainViewState>(defaults);
   const [parts, setParts] = useState<BrainPart[]>([]), [ready, setReady] = useState(false), [error, setError] = useState(''), [percent, setPercent] = useState(0);
-  const [open, setOpen] = useState<string[]>([]), [csf, setCsf] = useState(false), [cutBusy, setCutBusy] = useState(false);
+  const [open, setOpen] = useState<string[]>([]), [csf, setCsf] = useState(false), [allOpen, setAllOpen] = useState(false), [allSort, setAllSort] = useState<'name' | 'region'>('name'), [cutBusy, setCutBusy] = useState(false);
   const [notes, setNotes] = useState<NoteData | null>(null), [noteId, setNoteId] = useState<string | null>(null), [query, setQuery] = useState(''), [openRegions, setOpenRegions] = useState<string[]>([]);
   const exportRef = useRef<(() => CsfSource | null) | null>(null);
   useEffect(() => {document.title = csf ? 'CSF 流向 · MJ Anatomy' : '腦部詳細模式 · MJ Anatomy';}, [csf]);
@@ -108,7 +109,9 @@ export default function BrainDetail() {
     setNoteId(card.id);
     setView(v => ({...v, selectedIds: near, isolate: null, hiddenGroups: v.hiddenGroups.filter(g => !near.some(id => byId.get(id)?.group === g)), hiddenParts: v.hiddenParts.filter(x => !near.includes(x)), command: near.length ? {id: v.command.id + 1, view: 'fit', focus: near} : v.command}));
   };
-  const partNotes = selected && notes ? (notes.partCards[selected.en] ?? []).map(id => cardById.get(id)).filter((c): c is NoteCard => !!c) : [];
+  const plain = (z: string) => z.replace(/^[左右]/, '');
+  // the related cards never list the structure itself
+  const partNotes = selected && notes ? (notes.partCards[selected.en] ?? []).map(id => cardById.get(id)).filter((c): c is NoteCard => !!c && c.en.toLowerCase() !== selected.en.toLowerCase() && plain(c.zh) !== plain(selected.zh)) : [];
   const q = query.trim().toLowerCase();
   const foundParts = q ? parts.filter(p => p.en.toLowerCase().includes(q) || p.zh.toLowerCase().includes(q)) : [];
   const foundNotes = q && notes ? notes.cards.filter(c => cardMatches(c, q)) : [];
@@ -118,6 +121,8 @@ export default function BrainDetail() {
   const togglePart = (id: string) => patch({hiddenParts: view.hiddenParts.includes(id) ? view.hiddenParts.filter(x => x !== id) : [...view.hiddenParts, id]});
   const grouped = useMemo(() => BRAIN_GROUPS.map(g => ({...g, parts: parts.filter(p => p.group === g.id).sort((a, b) => a.en.localeCompare(b.en) || a.side.localeCompare(b.side))})).filter(g => g.parts.length), [parts]);
   const tree = useMemo(() => buildBrainTree(parts), [parts]);
+  const regionOrder = useMemo(() => {const m = new Map<string, number>(); let i = 0; const walk = (n: BrainTreeNode) => {n.leaf.forEach(p => m.set(p.id, i++)); n.children.forEach(walk);}; tree.forEach(walk); return m;}, [tree]);
+  const groupLabel = (p: BrainPart) => {const g = BRAIN_GROUPS.find(x => x.id === p.group); return g ? g.zh : '';};
   const partVisible = (p: BrainPart) => !view.hiddenParts.includes(p.id) && !view.hiddenGroups.includes(p.group);
   /** Switching a node switches everything below it; the other members of a hidden group stay as they were. */
   const setNodeVisible = (list: BrainPart[], on: boolean) => {
@@ -178,7 +183,14 @@ export default function BrainDetail() {
             {foundNotes.length > 80 && <p className="organ-info-empty">還有 {foundNotes.length - 80} 個，請輸入更多字。</p>}
             {!foundParts.length && !foundNotes.length && <p className="organ-info-empty">找不到符合的構造。</p>}
           </div> : <>
-          {tree.map(n => renderNode(n, 0))}
+          <button className="organ-all-toggle" aria-expanded={allOpen} onClick={() => setAllOpen(v => !v)}><span lang="en">All structures<small lang="zh-Hant">全部構造</small></span><b>{parts.length}</b>{allOpen ? <ChevronDown size={14}/> : <ChevronRight size={14}/>}</button>
+          {allOpen ? <div className="organ-all">
+            <div className="organ-segmented" role="group" aria-label="排序"><button aria-pressed={allSort === 'name'} onClick={() => setAllSort('name')}>依名稱</button><button aria-pressed={allSort === 'region'} onClick={() => setAllSort('region')}>依分區</button></div>
+            <ul>{[...parts].sort((a, b) => allSort === 'region' ? (regionOrder.get(a.id) ?? 0) - (regionOrder.get(b.id) ?? 0) || displayEn(a).localeCompare(displayEn(b)) : displayEn(a).localeCompare(displayEn(b))).map(p => {
+              const fact = factOf(p);
+              return <li key={p.id} className="organ-part-row"><button aria-pressed={view.selectedIds.includes(p.id)} onClick={() => choose(p.id)}><span lang="en">{displayEn(p)}</span><small lang="zh-Hant">{p.zh}{allSort === 'region' ? '' : `　${groupLabel(p)}`}{!fact ? '　〔資料待補〕' : fact.shared ? '　〔共用說明〕' : ''}{p.schematic ? '　〔示意〕' : ''}</small></button></li>;
+            })}</ul>
+          </div> : tree.map(n => renderNode(n, 0))}
           {regionGroups.length > 0 && <div className="organ-notes-list">
             <h3>構造資訊卡<small>「模型未有」者只有資訊卡</small></h3>
             {regionGroups.map(r => {
@@ -194,7 +206,7 @@ export default function BrainDetail() {
         </div>
       </aside>
       <section className="organ-stage" aria-label="腦部 3D 模型">
-        <BrainScene view={view} exportRef={exportRef} onReady={p => {setParts(p); setReady(true);}} onError={setError} onProgress={setPercent} onPick={select} onBusy={setCutBusy}/>
+        <BrainScene view={view} exportRef={exportRef} onReady={p => {markSharedFacts(p.map(q => q.en)); setParts(p); setReady(true);}} onError={setError} onProgress={setPercent} onPick={select} onBusy={setCutBusy}/>
         <div className="organ-views" aria-label="視角">{([['front', '前面'], ['back', '後面'], ['left', '左側'], ['right', '右側'], ['top', '上面'], ['bottom', '下面']] as const).map(([id, label]) => <button key={id} onClick={() => go(id)}>{label}</button>)}
           <button onClick={reset} aria-label="還原預設" title="還原預設"><RotateCcw size={15}/></button></div>
         {!ready && !error && <div className="organ-progress" role="status"><span className="organ-spinner"/><strong>載入腦部模型</strong><small>{percent ? `${percent}%` : '…'}</small></div>}
@@ -208,6 +220,19 @@ export default function BrainDetail() {
             <h2 className="organ-info-title" lang="en">{displayEn(selected)}</h2>
             <p className="organ-info-zh" lang="zh-Hant">{selected.zh || '（尚無中文名稱）'}</p>
             <p lang="zh-Hant">分區：{BRAIN_GROUPS.find(g => g.id === selected.group)?.zh}｜{SIDE_ZH[selected.side]}{selected.region && selected.region !== selected.cat ? `｜${selected.region}` : ''}</p>
+            {(() => {
+              const fact = factOf(selected);
+              if (!fact) return <p className="organ-info-empty" lang="zh-Hant">資料待補（此結構尚無位置、功能與血液供應說明）。</p>;
+              const rel = fact.rel.map(en => ({en, part: parts.find(q => q.en.toLowerCase() === en.toLowerCase() && (q.side === selected.side || q.side === 'mid' || selected.side === 'mid')) ?? parts.find(q => q.en.toLowerCase() === en.toLowerCase())}));
+              return <dl className="organ-facts" lang="zh-Hant">
+                <dt>Location｜位置</dt><dd>{fact.loc}</dd>
+                <dt>Function｜功能</dt><dd>{fact.fn}</dd>
+                <dt>Connections / Relations｜連結／毗鄰</dt><dd className="organ-rel">{rel.map(r => r.part ? <button key={r.en} onClick={() => choose(r.part!.id)}><span lang="en">{displayEn(r.part)}</span></button> : <span key={r.en}>{r.en}</span>)}</dd>
+                <dt>Blood supply｜血液供應</dt><dd>{fact.blood}</dd>
+                {fact.ba && <><dt>Brodmann area｜Brodmann 分區</dt><dd>{fact.ba}</dd></>}
+                {fact.shared && <dd className="organ-shared">此卡是同類結構的共用說明，不是針對這一個結構單獨寫的。</dd>}
+              </dl>;
+            })()}
             {relatedLobes(selected) && <p lang="zh-Hant">相關腦葉：{relatedLobes(selected)}</p>}
             {selected.schematic ? <p className="organ-info-en" lang="zh-Hant"><b>示意模型</b>：位置與大小依周圍真實構造估算，不是實測形狀。</p> : <p className="organ-info-en" lang="en">Group: {BRAIN_GROUPS.find(g => g.id === selected.group)?.en}</p>}
             <div className="organ-actions" role="group" aria-label="選取動作">

@@ -83,6 +83,7 @@ export function describeBrainNode(raw: RawBrainNode, index: number): BrainPart |
   if (NOT_BRAIN.test(en)) return null;
   const side = raw.side === 'left' ? 'left' : raw.side === 'right' ? 'right' : (/\.l(?:\.\d+)?$/i.test(raw.name) ? 'left' : /\.r(?:\.\d+)?$/i.test(raw.name) ? 'right' : 'mid');
   let group = groupOf(raw.cat, raw.region); if (group === 'cortex-other') group = SULCUS_LOBE[en0.toLowerCase()] ?? group;
+  if (en0 === 'Base of peduncle') group = 'brainstem'; // the model files the cerebral peduncle under the cerebellum
   const layer = BRAIN_GROUPS.find(g => g.id === group)!.layer;
   const zh = zhOfBrain(en);
   return {id: `b${index}`, en, zh: zh ? SIDE_ZH[side] + zh : '', side, cat: raw.cat, region: raw.region, group, layer, ...(LOBES.has(group) ? {sub: lobeSub(en)} : {})};

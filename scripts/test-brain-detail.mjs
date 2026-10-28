@@ -6,6 +6,7 @@ import {quizModule} from './quiz-modules.mjs';
 const {describeBrainNode, BRAIN_GROUPS, displayEn, buildBrainTree} = await quizModule('app/organ/brain-catalogue.ts');
 const {voxelize, LABEL, classFields, partField, GREY_MM, CLASS_COUNT} = await quizModule('app/organ/brain-voxels.ts');
 const {CSF_STEPS} = await quizModule('app/organ/csf-scene.ts');
+const {factOf, BRAIN_FACTS} = await quizModule('app/organ/brain-facts.ts');
 const {SCHEMATIC, SCHEMATIC_NAMES} = await quizModule('app/organ/brain-schematic.ts');
 
 // ---- every named mesh of the model gets a group, a clean name and a Chinese name; spinal parts are left out
@@ -41,6 +42,21 @@ assert.ok(!parts.some(p => p.group === 'cortex-other'), 'every cortical structur
   for (const id of ['diencephalon', 'basal', 'brainstem', 'cerebellum', 'ventricles', 'white', 'meninges', 'vessels']) assert.ok(after.includes(id), id);
   const central = tree[0].children.flatMap(l => l.children).flatMap(c => c.leaf).find(p => p.en === 'Central sulcus');
   assert.equal(central.sub, 'sulci');
+}
+// ---- structure cards: position, function, relations, blood supply (and Brodmann area for cortex) for every structure of the model
+{
+  const names = new Set(parts.map(p => p.en.toLowerCase()));
+  for (const p of parts) {
+    const fact = factOf(p);
+    assert.ok(fact, `${p.en}: no card text`);
+    for (const k of ['loc', 'fn', 'blood']) assert.ok(fact[k] && fact[k].length >= 3, `${p.en}: empty ${k}`);
+    assert.ok(fact.rel.length >= 1, `${p.en}: no related structures`);
+    for (const r of fact.rel) { assert.ok(names.has(r.toLowerCase()), `${p.en}: related structure "${r}" is not in the model`); assert.notEqual(r.toLowerCase(), p.en.toLowerCase(), `${p.en} lists itself as related`); }
+    if (['frontal', 'parietal', 'temporal', 'occipital'].includes(p.group) && p.sub === 'gyri') assert.ok(fact.ba, `${p.en}: Brodmann area missing`);
+    assert.ok(!/頁|p\.\d|筆記|共筆|課件/.test(JSON.stringify(fact)), `${p.en}: card must not cite notes`);
+  }
+  assert.ok(BRAIN_FACTS.every(([re]) => parts.some(p => re.test(p.en))), 'every card rule matches a structure of the model');
+  for (const en of new Set(parts.map(p => p.en))) assert.equal(BRAIN_FACTS.filter(([re]) => re.test(en)).length, 1, `${en}: matched by more than one card rule`);
 }
 const central = parts.find(p => p.en === 'Central sulcus' && p.side === 'left');
 assert.equal(displayEn(central), 'Left Central sulcus');
