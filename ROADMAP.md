@@ -79,3 +79,20 @@
 - 溫習覆蓋圖
 - 腦部辨認練習（等神經解剖筆記上傳）
 - 專案完成後由使用者決定是否清除 `cmu-course-notes-v4.json` 的 git 歷史
+
+## 追加指引（2026-10-28 第二批）
+
+### 優先 1-1｜臨時 workflow 清理 ✅
+- 檢查：11 個「Temporary … validation」workflow 共 26 次 run，逐一下載 log 掃描；內容只有 checkout、`npm ci`、`npm run check`、`npm run build`、（一個）術語回歸測試的「16 cases passed」。**沒有任何筆記原文輸出**，因此未刪除 runs。
+- workflow 檔案：所有遠端分支（含 main）都已沒有任何臨時 workflow 檔，`.github/workflows` 只剩 `ci.yml`、`deploy-preview.yml`、`mj-preview-check.yml`。
+- 殘留：GitHub 的 Actions 列表仍登記著 11 個舊 workflow 名稱（名稱含課程名），要從列表消失只能刪除其 runs；log 無筆記內容，故尚待使用者決定是否刪除。
+- 規則已寫入 `CLAUDE.md`（Workflow 與 PR 流程補充）。
+
+### 優先 1-2｜血管表面 🟡
+#83 已修 CI（排除與動作資料綁定的血管、法線後備），等 CI 與審核。
+
+### 優先 1-3｜膝部肌腱與韌帶 🟡
+#93（疊在 #83 上，等審核）：股四頭肌腱、髕韌帶、髕內／外側支持帶、髂脛束區域改 Thigh。全身肌腱／韌帶盒狀檢查未做。
+
+### 其餘項目（優先 1-4 至優先 4）
+⬜ 未開始或進行中者以 `REVIEW_LOG.md` 為準；已完成者：區域分頁側別（#91）、腦部版面（#89）、腦部階層與資訊卡（#92）、CSF 粒子（#90）、女性骨盆（#85）、分頁標題（#88）。

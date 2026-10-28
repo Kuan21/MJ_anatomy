@@ -46,3 +46,11 @@
 - 新增模型要更新 `public/ATTRIBUTION.md` 與 `model_sources.json`；動作要符合人體可能的活動範圍。
 - `REVIEW_LOG.md` 分兩欄：「已自動 merge」與「等我審核」；每個 PR 開出或合併後更新。
 - 不要動 `public/models/cmu-course-notes-v4.json` 的 git 歷史（是否清除由使用者在專案完成後決定）。
+
+### Workflow 與 PR 流程補充
+- GitHub Actions 的 workflow 名稱、檔名、log 輸出、分支名稱不可出現課程或筆記名稱，也不可輸出筆記內容（含 `echo`、除錯列印、驗證腳本的失敗訊息）。需要驗證時只輸出通過／失敗與數量。
+- 不使用「臨時 workflow」；只保留 Deploy、CI、Preview Check 三個。要一次性驗證就在本機或既有 CI 內跑。
+- 分支推送後必須開 PR，不可只推分支。
+- 「需人工審核」的 PR 一律不開 auto-merge；若已開啟，先關閉。
+- 生成檔（`.json.gz`、bindings 等）不手動修改，在 build 時或 merge 前重新生成；改同一批資料檔的 PR 按次序做；共用資料檔過大時按系統或區域拆分。
+- 檢查失敗的 PR 自行修正；無法修好時說明原因並建議是否關閉。
