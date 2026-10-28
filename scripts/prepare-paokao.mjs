@@ -78,7 +78,7 @@ for (const s of built) {
   const id = `${s.connector ? 'PKC' : 'PK'}-${++n}`;
   // Surface patches come out of a locally refined bone mesh with thousands of coplanar triangles: weld, then collapse the flat interior but keep the outline.
   let {positions, indices} = s.geometry;
-  const cap = ['fascia', 'sheath', 'aponeurosis'].includes(s.kind) ? 2500 : 700;
+  const cap = s.cap ?? (['fascia', 'sheath', 'aponeurosis'].includes(s.kind) ? 2500 : 700);
   if (indices.length / 3 > cap) { const w = weldByPosition(positions, indices); ({positions, indices} = await simplify(w.positions, w.indices, cap, .003, ['LockBorder'])); }
   bind(id, s);
   stream.add({id, conceptId: s.connector ? s.concept : id, name: s.name, system: s.system, schematic: !s.connector, kind: s.kind, ...(s.sex ? {sex: s.sex} : {})}, positions, indices);
