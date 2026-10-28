@@ -7,7 +7,7 @@ import {acceptedNames, judgeName, preferredName, type AnswerLanguage} from './na
 import {namingPool, neighbours} from './level2';
 import {addMistakes, clearMistakes, loadMistakes, scopeOf} from './mistakes';
 import {structureCard} from './card';
-import {createQuizViewer, type QuizView, type QuizViewState} from './viewer';
+import {createQuizViewer, neighbourShade, type QuizView, type QuizViewState} from './viewer';
 import './quiz.css';
 
 function QuizScene({catalogue, view, onReady, onProgress, onError, onPick, onMessage}: {
@@ -86,7 +86,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
   const [error, setError] = useState(''), [message, setMessage] = useState(''), [sceneRetry, setSceneRetry] = useState(0);
   // Level 1: given a name, find the structure. Level 2: given a structure, write its name.
   const [level, setLevel] = useState<1 | 2>(1), [language, setLanguage] = useState<AnswerLanguage>('any'), [needSide, setNeedSide] = useState(false);
-  const [typed, setTyped] = useState(''), [clarity, setClarity] = useState(.45), [only, setOnly] = useState(false), [highlightId, setHighlightId] = useState<string | null>(null);
+  const [typed, setTyped] = useState(''), [clarity, setClarity] = useState(.45), [only, setOnly] = useState(false), [highlightIds, setHighlightIds] = useState<string[]>([]);
   const [saved, setSaved] = useState<string[]>([]), [sessionLevel, setSessionLevel] = useState<1 | 2>(1);
   const naming = sessionLevel === 2;
   const title = useRef<HTMLHeadingElement>(null), input = useRef<HTMLInputElement>(null);
@@ -127,7 +127,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
   const openingHidden = (t?: QuizStructure) => regionId === 'heart' && t && (t.sections.includes('papillary') || t.sections.includes('valves') || t.sections.includes('interior')) ? (catalogue?.structures ?? []).filter(x => x.sections.includes('chambers')).map(x => x.id) : [];
   // The MJ-built interior and the pericardium would crowd every other question: they are drawn only when the question is about them.
   const autoHidden = useMemo(() => regionId === 'heart' && target ? (catalogue?.structures ?? []).filter(x => (x.sections.includes('interior') && !target.sections.includes('interior')) || (x.sections.includes('pericardium') && !target.sections.includes('pericardium'))).map(x => x.id) : [], [regionId, target, catalogue]);
-  const clearQuestion = (t?: QuizStructure) => {setHidden(openingHidden(t)); setPeeling(false); setMessage(''); setError(''); setTyped(''); setHighlightId(null); setOnly(false);};
+  const clearQuestion = (t?: QuizStructure) => {setHidden(openingHidden(t)); setPeeling(false); setMessage(''); setError(''); setTyped(''); setHighlightIds([]); setOnly(false);};
   const begin = (next: QuizSession) => {
     if (!next.queue.length) return;
     setSession(next); setSessionLevel(level); setIndex(0); setRound(n => n + 1); clearQuestion(structures.get(next.queue[0])); setPhase('playing');
@@ -217,7 +217,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
 
     {playing && catalogue && target && <div className={`quiz-play-layout ${naming ? 'is-naming' : ''}`}>
       <section className="quiz-stage" aria-label="點選模型作答">
-        <QuizScene key={sceneRetry} catalogue={catalogue} view={{key: questionKey, target, section: settings.section, side: settings.side, answered: !!answer, pickedId: answer?.pickedId ?? null, hidden: autoHidden.length ? [...hidden, ...autoHidden] : hidden, context, peeling, command, mode: naming ? 'name' : 'find', clarity, only, highlightId}}
+        <QuizScene key={sceneRetry} catalogue={catalogue} view={{key: questionKey, target, section: settings.section, side: settings.side, answered: !!answer, pickedId: answer?.pickedId ?? null, hidden: autoHidden.length ? [...hidden, ...autoHidden] : hidden, context, peeling, command, mode: naming ? 'name' : 'find', clarity, only, highlightIds}}
           onReady={(key, value) => setReadiness({key, ready: value})} onProgress={(loaded, total) => setLoad({loaded, total})} onError={setError} onPick={choose} onMessage={setMessage}/>
         <div className="quiz-stage-caption"><span>{section.id === 'all' ? region.sections.find(s => s.id === target.sections[0])?.label : section.label}</span><span>{system?.label} · {settings.side === 'both' ? '雙側' : settings.side === 'right' ? '右側' : '左側'}</span></div>
         <div className="quiz-view-buttons" aria-label="模型視角"><button data-slot="quiz-button" onClick={() => changeView('front')}>前面</button><button data-slot="quiz-button" onClick={() => changeView('back')}>後面</button><button data-slot="quiz-button" onClick={() => changeView('side')}>側面</button><button data-slot="quiz-button" onClick={() => changeView('fit')} aria-label="模型置中"><RotateCcw size={16}/></button>{naming && <><button data-slot="quiz-button" onClick={() => changeView('random')} aria-label="隨機角度"><Shuffle size={15}/>隨機</button><button data-slot="quiz-button" onClick={() => changeView('answer')} aria-label="放大至目標"><Maximize2 size={15}/>放大</button></>}</div>
@@ -269,7 +269,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
 
         </>}
         {answer && <AnswerCard structure={target}/>}
-        {naming && answer && near.length > 0 && <section className="quiz-neighbours" aria-label="鄰近相關構造"><h3>鄰近相關構造 <small>點擊在模型上高亮</small></h3><div>{near.map(n => <button key={n.id} data-slot="quiz-button" aria-pressed={highlightId === n.id} onClick={() => setHighlightId(h => h === n.id ? null : n.id)}><Name structure={n}/></button>)}</div></section>}
+        {naming && answer && near.length > 0 && <section className="quiz-neighbours" aria-label="鄰近相關構造"><h3>鄰近相關構造 <small>點擊在模型上高亮</small></h3><div>{near.map(n => {const shade = neighbourShade(highlightIds, n.id); return <button key={n.id} data-slot="quiz-button" aria-pressed={!!shade} style={shade ? {background: shade.fill, borderColor: shade.edge} : undefined} onClick={() => setHighlightIds(h => h.includes(n.id) ? h.filter(x => x !== n.id) : [...h, n.id])}><Name structure={n}/></button>;})}</div></section>}
         <div className="quiz-question-actions">
           {phase === 'review' ? <button data-slot="quiz-button" className="quiz-primary" onClick={() => setPhase('summary')}><ArrowLeft size={18}/>返回成績</button> : answer ? <button data-slot="quiz-button" className="quiz-primary" onClick={nextQuestion}>{index + 1 === session.queue.length ? '查看成績' : '下一題'}<ArrowRight size={18}/></button> : naming ? null : <button data-slot="quiz-button" className="quiz-secondary" disabled={!ready} onClick={reveal}><Eye size={17}/>不會，顯示答案</button>}
           <span className="quiz-live-score">答對 {correct} / {session.answers.length} 題{!answer && ' · 查看答案會列入錯題'}</span>
