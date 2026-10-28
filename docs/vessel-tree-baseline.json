@@ -1,0 +1,12 @@
+{
+ "note": "Vessel meshes that do not reach an aorta or a vena cava through touching meshes, and branches wider than their parent (known; the source atlas has them). A new one fails the build; fix the vessel rather than adding it here.",
+ "cutOff": [
+  "Left dorsal artery of penis",
+  "Right dorsal artery of penis",
+  "Right uterine artery",
+  "Right uterine vein"
+ ],
+ "wider": [
+  "Left popliteal artery"
+ ]
+}
