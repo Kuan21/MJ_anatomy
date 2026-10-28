@@ -1,3 +1,4 @@
+import {Switch} from '@/components/ui/switch';
 import {useEffect, useMemo, useRef, useState} from 'react';
 import {ArrowLeft, ChevronDown, ChevronRight, Eye, EyeOff, RotateCcw} from 'lucide-react';
 import {createBrainViewer} from './brain-viewer';
@@ -83,7 +84,7 @@ export default function BrainDetail() {
   const [open, setOpen] = useState<string[]>([]), [csf, setCsf] = useState(false), [cutBusy, setCutBusy] = useState(false);
   const [notes, setNotes] = useState<NoteData | null>(null), [noteId, setNoteId] = useState<string | null>(null), [query, setQuery] = useState(''), [openRegions, setOpenRegions] = useState<string[]>([]);
   const exportRef = useRef<(() => CsfSource | null) | null>(null);
-  useEffect(() => {document.title = '腦部詳細模式 · MJ Anatomy';}, []);
+  useEffect(() => {document.title = csf ? 'CSF 流向 · MJ Anatomy' : '腦部詳細模式 · MJ Anatomy';}, [csf]);
   useEffect(() => {loadNotes().then(setNotes).catch(() => setNotes(null));}, []);
   const byId = useMemo(() => new Map(parts.map(p => [p.id, p])), [parts]);
   const selected = view.selectedIds.length === 1 ? byId.get(view.selectedIds[0]) : undefined;
@@ -130,6 +131,54 @@ export default function BrainDetail() {
       <button className="csf-toggle" aria-pressed={csf} disabled={!ready} onClick={() => setCsf(v => !v)}>CSF 流向</button>
     </header>
     <div className="organ-layout" inert={csf || undefined} aria-hidden={csf || undefined}>
+      <aside className="organ-left" aria-label="腦部構造清單">
+        <div className="organ-left-body">
+          <div className="organ-segmented" role="group" aria-label="全部開關">
+            <button onClick={() => patch({hiddenGroups: [], hiddenParts: [], isolate: null})}>全部開啟</button>
+            <button onClick={() => patch({hiddenGroups: BRAIN_GROUPS.map(g => g.id), isolate: null})}>全部關閉</button>
+          </div>
+          {parts.some(p => p.schematic) && <div className="organ-segmented" role="group" aria-label="示意構造">
+            <button aria-pressed={!!view.isolate && view.isolate.length > 1 && view.isolate.every(id => byId.get(id)?.schematic || DEEP.has(byId.get(id)?.group ?? ''))} onClick={() => {if (view.isolate) {patch({isolate: null}); return;} const ids = parts.filter(p => p.schematic || DEEP.has(p.group)).map(p => p.id); setView(v => ({...v, isolate: ids, command: {id: v.command.id + 1, view: 'fit', focus: ids}}));}}>只看深部與示意構造（{parts.filter(p => p.schematic).length}）</button>
+          </div>}
+          <label className="organ-search"><span className="sr-only">搜尋構造</span><input type="search" value={query} placeholder="Search｜搜尋" onChange={e => setQuery(e.target.value)}/></label>
+          {!ready && <p className="organ-info-empty">載入中…</p>}
+          {q ? <div className="organ-results" aria-live="polite">
+            <h3>模型構造（{foundParts.length}）</h3>
+            <ul>{foundParts.slice(0, 60).map(p => <li key={p.id} className="organ-part-row"><button aria-pressed={view.selectedIds.includes(p.id)} onClick={() => choose(p.id)}><span lang="en">{displayEn(p)}</span><small lang="zh-Hant">{p.zh}</small></button></li>)}</ul>
+            {foundParts.length > 60 && <p className="organ-info-empty">還有 {foundParts.length - 60} 個，請輸入更多字。</p>}
+            <h3>其他構造（{foundNotes.length}）</h3>
+            <ul>{foundNotes.slice(0, 80).map(noteRow)}</ul>
+            {foundNotes.length > 80 && <p className="organ-info-empty">還有 {foundNotes.length - 80} 個，請輸入更多字。</p>}
+            {!foundParts.length && !foundNotes.length && <p className="organ-info-empty">找不到符合的構造。</p>}
+          </div> : <>
+                    {grouped.map(g => {
+            const hidden = view.hiddenGroups.includes(g.id), expanded = open.includes(g.id);
+            return <div className="organ-group" key={g.id}>
+              <div className={`system-row organ-group-row ${hidden ? '' : 'enabled'}`}>
+                <button className="row-arrow" aria-expanded={expanded} aria-label={`${expanded ? '收合' : '展開'}${g.zh}`} onClick={() => setOpen(o => expanded ? o.filter(x => x !== g.id) : [...o, g.id])}>{expanded ? <ChevronDown size={13}/> : <ChevronRight size={13}/>}</button>
+                <button className="system-name" onClick={() => setOpen(o => expanded ? o.filter(x => x !== g.id) : [...o, g.id])} aria-expanded={expanded}><span className="system-dot" style={{background: '#8aa0ad'}}/><span lang="en">{g.en}<small lang="zh-Hant">{g.zh}</small></span><span className="system-count">{g.parts.length}</span></button>
+                <Switch checked={!hidden} onCheckedChange={() => toggleGroup(g.id)} aria-label={`${hidden ? '顯示' : '隱藏'}${g.zh}`}/>
+              </div>
+              {expanded && <ul>{g.parts.map(p => <li key={p.id} className="organ-part-row">
+                <button aria-pressed={view.selectedIds.includes(p.id)} onClick={() => choose(p.id)}><span lang="en">{displayEn(p)}</span><small lang="zh-Hant">{p.zh}{p.schematic ? '　〔示意〕' : ''}</small></button>
+                <button className="organ-eye" aria-label={`${view.hiddenParts.includes(p.id) ? '顯示' : '隱藏'}${displayEn(p)}`} onClick={() => togglePart(p.id)}>{view.hiddenParts.includes(p.id) ? <EyeOff size={14}/> : <Eye size={14}/>}</button>
+              </li>)}</ul>}
+            </div>;
+          })}
+          {regionGroups.length > 0 && <div className="organ-notes-list">
+            <h3>構造資訊卡<small>「模型未有」者只有資訊卡</small></h3>
+            {regionGroups.map(r => {
+              const expanded = openRegions.includes(r.id);
+              return <div className="organ-group" key={r.id}>
+                <div className="organ-group-row"><button className="organ-group-head" onClick={() => setOpenRegions(o => expanded ? o.filter(x => x !== r.id) : [...o, r.id])} aria-expanded={expanded}><span lang="zh-Hant">{r.label}</span><b>{r.cards.length}</b></button>
+                  <button className="organ-expand" aria-expanded={expanded} aria-label={`${expanded ? '收合' : '展開'}${r.label}`} onClick={() => setOpenRegions(o => expanded ? o.filter(x => x !== r.id) : [...o, r.id])}>{expanded ? <ChevronDown size={15}/> : <ChevronRight size={15}/>}</button></div>
+                {expanded && <ul>{r.cards.map(noteRow)}</ul>}
+              </div>;
+            })}
+          </div>}
+          </>}
+        </div>
+      </aside>
       <section className="organ-stage" aria-label="腦部 3D 模型">
         <BrainScene view={view} exportRef={exportRef} onReady={p => {setParts(p); setReady(true);}} onError={setError} onProgress={setPercent} onPick={select} onBusy={setCutBusy}/>
         <div className="organ-views" aria-label="視角">{([['front', '前面'], ['back', '後面'], ['left', '左側'], ['right', '右側'], ['top', '上面'], ['bottom', '下面']] as const).map(([id, label]) => <button key={id} onClick={() => go(id)}>{label}</button>)}
@@ -173,52 +222,6 @@ export default function BrainDetail() {
             <button disabled={view.peel >= MAX_PEEL} onClick={() => patch({peel: Math.min(MAX_PEEL, view.peel + 1)})}>Peel deeper</button>
           </div>
           <small>由外而內：腦膜 → 皮質與小腦 → 腦幹 → 白質 → 基底核 → 間腦 → 腦室。目前已剝除 {view.peel} 層；血管與腦神經不受影響。</small>
-        </section>
-        <section className="organ-block">
-          <h2>構造<small>Structures</small></h2>
-          <div className="organ-segmented" role="group" aria-label="全部開關">
-            <button onClick={() => patch({hiddenGroups: [], hiddenParts: [], isolate: null})}>全部開啟</button>
-            <button onClick={() => patch({hiddenGroups: BRAIN_GROUPS.map(g => g.id), isolate: null})}>全部關閉</button>
-          </div>
-          {parts.some(p => p.schematic) && <div className="organ-segmented" role="group" aria-label="示意構造">
-            <button aria-pressed={!!view.isolate && view.isolate.length > 1 && view.isolate.every(id => byId.get(id)?.schematic || DEEP.has(byId.get(id)?.group ?? ''))} onClick={() => {if (view.isolate) {patch({isolate: null}); return;} const ids = parts.filter(p => p.schematic || DEEP.has(p.group)).map(p => p.id); setView(v => ({...v, isolate: ids, command: {id: v.command.id + 1, view: 'fit', focus: ids}}));}}>只看深部與示意構造（{parts.filter(p => p.schematic).length}）</button>
-          </div>}
-          <label className="organ-search"><span className="sr-only">搜尋構造</span><input type="search" value={query} placeholder="搜尋構造（中文或英文）" onChange={e => setQuery(e.target.value)}/></label>
-          {!ready && <p className="organ-info-empty">載入中…</p>}
-          {q ? <div className="organ-results" aria-live="polite">
-            <h3>模型構造（{foundParts.length}）</h3>
-            <ul>{foundParts.slice(0, 60).map(p => <li key={p.id} className="organ-part-row"><button aria-pressed={view.selectedIds.includes(p.id)} onClick={() => choose(p.id)}><span lang="en">{displayEn(p)}</span><small lang="zh-Hant">{p.zh}</small></button></li>)}</ul>
-            {foundParts.length > 60 && <p className="organ-info-empty">還有 {foundParts.length - 60} 個，請輸入更多字。</p>}
-            <h3>其他構造（{foundNotes.length}）</h3>
-            <ul>{foundNotes.slice(0, 80).map(noteRow)}</ul>
-            {foundNotes.length > 80 && <p className="organ-info-empty">還有 {foundNotes.length - 80} 個，請輸入更多字。</p>}
-            {!foundParts.length && !foundNotes.length && <p className="organ-info-empty">找不到符合的構造。</p>}
-          </div> : <>
-                    {grouped.map(g => {
-            const hidden = view.hiddenGroups.includes(g.id), expanded = open.includes(g.id);
-            return <div className="organ-group" key={g.id}>
-              <div className="organ-group-row">
-                <button className="organ-group-head" onClick={() => toggleGroup(g.id)} aria-pressed={!hidden} aria-label={`${hidden ? '顯示' : '隱藏'}${g.zh}`}>{hidden ? <EyeOff size={15}/> : <Eye size={15}/>}<span lang="en">{g.en}<small lang="zh-Hant">{g.zh}</small></span><b>{g.parts.length}</b></button>
-                <button className="organ-expand" aria-expanded={expanded} aria-label={`${expanded ? '收合' : '展開'}${g.zh}`} onClick={() => setOpen(o => expanded ? o.filter(x => x !== g.id) : [...o, g.id])}>{expanded ? <ChevronDown size={15}/> : <ChevronRight size={15}/>}</button>
-              </div>
-              {expanded && <ul>{g.parts.map(p => <li key={p.id} className="organ-part-row">
-                <button aria-pressed={view.selectedIds.includes(p.id)} onClick={() => choose(p.id)}><span lang="en">{displayEn(p)}</span><small lang="zh-Hant">{p.zh}{p.schematic ? '　〔示意〕' : ''}</small></button>
-                <button className="organ-eye" aria-label={`${view.hiddenParts.includes(p.id) ? '顯示' : '隱藏'}${displayEn(p)}`} onClick={() => togglePart(p.id)}>{view.hiddenParts.includes(p.id) ? <EyeOff size={14}/> : <Eye size={14}/>}</button>
-              </li>)}</ul>}
-            </div>;
-          })}
-          {regionGroups.length > 0 && <div className="organ-notes-list">
-            <h3>構造資訊卡<small>「模型未有」者只有資訊卡</small></h3>
-            {regionGroups.map(r => {
-              const expanded = openRegions.includes(r.id);
-              return <div className="organ-group" key={r.id}>
-                <div className="organ-group-row"><button className="organ-group-head" onClick={() => setOpenRegions(o => expanded ? o.filter(x => x !== r.id) : [...o, r.id])} aria-expanded={expanded}><span lang="zh-Hant">{r.label}</span><b>{r.cards.length}</b></button>
-                  <button className="organ-expand" aria-expanded={expanded} aria-label={`${expanded ? '收合' : '展開'}${r.label}`} onClick={() => setOpenRegions(o => expanded ? o.filter(x => x !== r.id) : [...o, r.id])}>{expanded ? <ChevronDown size={15}/> : <ChevronRight size={15}/>}</button></div>
-                {expanded && <ul>{r.cards.map(noteRow)}</ul>}
-              </div>;
-            })}
-          </div>}
-          </>}
         </section>
         <section className="organ-block organ-note">
           <h2>模型範圍</h2>
