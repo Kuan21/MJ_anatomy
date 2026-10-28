@@ -36,6 +36,42 @@
   "y": 0.933
  },
  {
+  "id": "HRAF-bone-Left-hip-bone",
+  "name": "Left hip bone",
+  "system": "skeletal",
+  "stream": "female",
+  "region": "lower-limb",
+  "side": "left",
+  "y": 0.927
+ },
+ {
+  "id": "HRAF-bone-Right-hip-bone",
+  "name": "Right hip bone",
+  "system": "skeletal",
+  "stream": "female",
+  "region": "lower-limb",
+  "side": "right",
+  "y": 0.927
+ },
+ {
+  "id": "HRAF-bone-Sacrum",
+  "name": "Sacrum",
+  "system": "skeletal",
+  "stream": "female",
+  "region": "trunk",
+  "side": "midline",
+  "y": 0.958
+ },
+ {
+  "id": "HRAF-bone-Coccyx",
+  "name": "Coccyx",
+  "system": "skeletal",
+  "stream": "female",
+  "region": "trunk",
+  "side": "midline",
+  "y": 0.908
+ },
+ {
   "id": "FJ2091-END",
   "name": "Set of calcaneal branches of posterior tibial artery",
   "system": "arterial",

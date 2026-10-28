@@ -10,7 +10,7 @@
 | #79 區域側別選擇（雙側／左／右＋淡化） | [#81](https://github.com/Kuan21/MJ_anatomy/pull/81) CSF 粒子限制在蛛網膜下腔（CI 已綠） |
 | #78 ROADMAP.md、CLAUDE.md 規則 | [#83](https://github.com/Kuan21/MJ_anatomy/pull/83) 血管：表面平滑、靜脈補齊、血管樹連續性驗證 |
 | #70 左側面板（心包／胸膜） | 分支 `mj-connective-layers`：結締組織六層、掌腱膜／指滑車、骨間膜（**尚未開 PR**，等 #83 merge 後開，避免產生檔衝突） |
-| #69 移除自編 Atlas reference | |
+| #69 移除自編 Atlas reference | 女性骨盆（HRA 骨盆骨取代男性髖骨／薦骨／尾骨；`docs/female-pelvis.md`；PR 開出後補連結） |
 | #68 網站不再出現筆記內容與出處 | |
 | #66、#62 文件與 baseline 修正 | |
 
