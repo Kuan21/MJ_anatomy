@@ -19,7 +19,7 @@ import {matchesFacialMuscleLayer} from './mj-facial-layers';
 import {matchesHeartLayer,isShellSurface} from './mj-heart-layers';
 import {clavicleLevel} from './mj-part-regions';
 import {matchesSex} from './mj-sex';
-import {serousLayerKey} from './mj-serous';
+import {serousLayerKey,PERITONEUM_KEYS} from './mj-serous';
 import {matchesDepth} from './mj-depth';
 import {anatomicalRegion,anatomicalSide,isMotionQuarantined} from './mj-part-regions';
 import {isLinearBinding,lbsSkin,linearSkin,makeSoftRig,bindTissue,makePalette,deformTissue,deformPoint,followDeltoidSurface,setDeltoidFollowers,registerNerveRest,resolveNeurovascularProfile,tissueBindings,nerveBindings,type SkinBinding,type Profile,type DeltoidFollowers} from './biomechanics-v2/soft-tissue';
@@ -372,8 +372,24 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   };
   const mats=new Map<string,T.MeshStandardMaterial>(SYSTEMS.map(s=>[s.id,materialFor(s.id)]));
   // Organ-surface shells (lung lobes, serous membranes) are drawn translucent so the airways, vessels and heart inside stay visible.
-  const shellOf=(p:{name:string;system:string;kind?:string})=>p.kind==='space'||p.kind==='sheath'?'connective:space':p.kind==='fascia'||p.kind==='aponeurosis'?'connective:fascia':p.kind==='surface'?'respiratory:mark':isShellSurface(p.name)?p.system+':shell':p.system;
+  // The pelvic organs get one soft tone each, from the same hue family (the reproductive pink-mauve), so that uterus, cervix, ovary, tube, vagina, ligaments and the
+  // external genitalia read apart; the bladder, ureters and urethra are amber and the rectum tan. [name test, key, colour, opacity]
+  const PELVIC_TONES:[RegExp,string,string,number|undefined,string][]=[
+   [/^(?:left |right )?(?:broad ligament|mesosalpinx|mesovarium)/i,'broad','#e9cdd2',.5,'reproductive'],
+   [/ligament/i,'lig','#e4c4bd',undefined,'reproductive'],
+   [/^(?:body|fundus) of uterus|^lower uterine segment|^uterine cornua|^uterus$/i,'uterus','#d79aa8',undefined,'reproductive'],
+   [/^cervi|cervicovaginal/i,'cervix','#bd7a8b',undefined,'reproductive'],
+   [/^vagina$|^vaginal/i,'vagina','#c98c97',undefined,'reproductive'],
+   [/\bovary$/i,'ovary','#eec3c9',undefined,'reproductive'],
+   [/uterine tube|fimbriae|ampulla of|isthmus of|infundibulum of/i,'tube','#dfa49a',undefined,'reproductive'],
+   [/labi|clitor|vestibul|mons pubis|vulva|prepuce of clitoris/i,'vulva','#cf9488',undefined,'reproductive'],
+   [/^urinary bladder$|trigone of urinary bladder|^(?:left |right )?ureter$|^female urethra$|^urethra$/i,'urinary','#dfbd6a',undefined,'urinary'],
+   [/^rectum$/i,'rectum','#c7a27c',undefined,'digestive']
+  ];
+  const pelvicTone=(p:{name:string;system:string})=>PELVIC_TONES.find(t=>t[4]===p.system&&t[0].test(p.name));
+  const shellOf=(p:{name:string;system:string;kind?:string})=>p.system==='serous'&&PERITONEUM_KEYS.includes(serousLayerKey(p.name))?'serous:peritoneum':pelvicTone(p)?'pelvic:'+pelvicTone(p)![1]:p.kind==='space'||p.kind==='sheath'?'connective:space':p.kind==='fascia'||p.kind==='aponeurosis'?'connective:fascia':p.kind==='surface'?'respiratory:mark':isShellSurface(p.name)?p.system+':shell':p.system;
   mats.set('respiratory:shell',materialFor('respiratory',.32));mats.set('serous:shell',materialFor('serous',.28));
+  {const pm=materialFor('serous',.3);pm.color.set('#e8b7c0');mats.set('serous:peritoneum',pm);for(const [,key,color,opacity,sys] of PELVIC_TONES){const m=materialFor(sys,opacity);m.color.set(color);mats.set('pelvic:'+key,m);}}
   // Course-summary structures: spaces and sheaths are faint volumes, fasciae thin translucent sheets, lung surface marks a deeper tint of the lung colour.
   mats.set('connective:space',materialFor('connective',.2));mats.set('connective:fascia',materialFor('connective',.62));{const mark=materialFor('respiratory');mark.color.set('#c97b8b');mats.set('respiratory:mark',mark);}
   const renderBatches:{mesh:T.Mesh;parts:{index:number;offset:number;geometry:T.BufferGeometry}[];mask:string}[]=[];
@@ -855,6 +871,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   const clock=new T.Clock();let lastExtent=-1;
   const animate=()=>{
    if(disposed)return;frame=requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05),s=poseForFrame(latest.current);
+   {const pm=mats.get('serous:peritoneum'),o=latest.current.peritoneumOpacity??.3;if(pm&&pm.opacity!==o){pm.opacity=o;dirty=true;}}
    if(focusTarget&&focusPosition){const a=1-Math.exp(-8*dt);controls.target.lerp(focusTarget,a);camera.position.lerp(focusPosition,a);dirty=true;if(controls.target.distanceToSquared(focusTarget)<1e-7&&camera.position.distanceToSquared(focusPosition)<1e-7){controls.target.copy(focusTarget);camera.position.copy(focusPosition);focusTarget=null;focusPosition=null;}}
    const changed=lastState?.jointSurfaces!==s.jointSurfaces||lastState?.visible!==s.visible||lastState?.selected!==s.selected||lastState?.hiddenParts!==s.hiddenParts||lastState?.fadedParts!==s.fadedParts||lastState?.highlightNerves!==s.highlightNerves||lastState?.depthFilter!==s.depthFilter||lastState?.muscleLayer!==s.muscleLayer||lastState?.faceMuscleLayer!==s.faceMuscleLayer||lastState?.focusParts!==s.focusParts||lastState?.isolate!==s.isolate||lastState?.partTransforms!==s.partTransforms||lastState?.bodyMotion!==s.bodyMotion;
    const tissueChanged=!lastState||lastState.partTransforms!==s.partTransforms||lastState.tissueMotion!==s.tissueMotion||lastState.previewMotion!==s.previewMotion||lastState.bodyMotion!==s.bodyMotion||lastState.visible!==s.visible||lastState.focusParts!==s.focusParts||lastState.hiddenParts!==s.hiddenParts;
