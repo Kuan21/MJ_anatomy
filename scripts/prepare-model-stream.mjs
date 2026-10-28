@@ -9,7 +9,13 @@ import {smoothTube} from './lib/mesh-smooth.mjs';
 import {quizModule} from './quiz-modules.mjs';
 const {anatomicalRegion}=await quizModule('app/mj-part-regions.ts');
 /** Limb vessels of a few thousand triangles or fewer: the arm and leg trees, not the aorta or the venae cavae. */
-const SMOOTH_MAX_TRIANGLES=3000,smoothed=part=>(part.system==='arterial'||part.system==='venous')&&part.indexCount/3<=SMOOTH_MAX_TRIANGLES&&['upper-limb','lower-limb'].includes(anatomicalRegion(part));
+// Some motion data files are fitted to the exact source mesh (vertex count and position hash): a vessel named there must keep its source geometry.
+const hashBound=new Set();
+for(const f of fs.readdirSync(new URL('../app/biomechanics-v2/',import.meta.url)).filter(f=>f.endsWith('.json'))){
+ const data=JSON.parse(fs.readFileSync(new URL('../app/biomechanics-v2/'+f,import.meta.url)));
+ for(const [key,entry] of Object.entries(data.parts??{}))if(entry&&typeof entry==='object'&&'positionHash' in entry){hashBound.add(key);if(entry.name)hashBound.add(entry.name);}
+}
+const SMOOTH_MAX_TRIANGLES=3000,smoothed=part=>(part.system==='arterial'||part.system==='venous')&&part.indexCount/3<=SMOOTH_MAX_TRIANGLES&&['upper-limb','lower-limb'].includes(anatomicalRegion(part))&&!hashBound.has(part.id)&&!hashBound.has(part.name);
 let smoothedParts=0,triangles=0;const skippedParts=[];
 const dir=new URL('../public/models/',import.meta.url),out=new URL('stream/',dir);
 fs.mkdirSync(out,{recursive:true});

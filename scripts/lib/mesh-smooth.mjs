@@ -71,7 +71,8 @@ export function packedNormals(pos, idx) {
   }
   const out = new Int16Array(pos.length);
   for (let i = 0; i < pos.length; i += 3) {
-    const l = Math.hypot(sums[i], sums[i + 1], sums[i + 2]) || 1;
+    const l = Math.hypot(sums[i], sums[i + 1], sums[i + 2]);
+    if (!(l > 1e-24)) { out[i + 2] = 32767; continue; }   // a vertex whose triangles are all degenerate still needs a unit normal
     out[i] = Math.round(sums[i] / l * 32767); out[i + 1] = Math.round(sums[i + 1] / l * 32767); out[i + 2] = Math.round(sums[i + 2] / l * 32767);
   }
   return out;
