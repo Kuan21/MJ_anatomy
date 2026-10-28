@@ -1,0 +1,6176 @@
+[
+ {
+  "name": "Right superior thoracic artery",
+  "zh": "右胸上動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   31,
+   33,
+   41
+  ],
+  "centreMm": [
+   -84,
+   1389,
+   12
+  ],
+  "triangles": 300,
+  "outsideSkinSamples": "0/51",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Clavicular branch of right thoraco-acromial artery",
+  "zh": "右胸肩峰動脈鎖骨支",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   19,
+   8,
+   9
+  ],
+  "centreMm": [
+   -85,
+   1409,
+   4
+  ],
+  "triangles": 300,
+  "outsideSkinSamples": "0/51",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right lateral mammary artery",
+  "zh": "右外側乳房動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   36,
+   68,
+   57
+  ],
+  "centreMm": [
+   -95,
+   1304,
+   45
+  ],
+  "triangles": 300,
+  "outsideSkinSamples": "0/51",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right medial mammary branch of internal thoracic artery",
+  "zh": "右內胸動脈內側乳房支",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   24,
+   61,
+   24
+  ],
+  "centreMm": [
+   -28,
+   1324,
+   75
+  ],
+  "triangles": 900,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right anterior intercostal arteries",
+  "zh": "右前肋間動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   42,
+   113,
+   39
+  ],
+  "centreMm": [
+   -35,
+   1294,
+   84
+  ],
+  "triangles": 1500,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left superior thoracic artery",
+  "zh": "左胸上動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   32,
+   33,
+   40
+  ],
+  "centreMm": [
+   84,
+   1389,
+   12
+  ],
+  "triangles": 300,
+  "outsideSkinSamples": "0/51",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Clavicular branch of left thoraco-acromial artery",
+  "zh": "左胸肩峰動脈鎖骨支",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   19,
+   8,
+   10
+  ],
+  "centreMm": [
+   85,
+   1409,
+   4
+  ],
+  "triangles": 300,
+  "outsideSkinSamples": "0/51",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left lateral mammary artery",
+  "zh": "左外側乳房動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   39,
+   63,
+   54
+  ],
+  "centreMm": [
+   96,
+   1303,
+   45
+  ],
+  "triangles": 300,
+  "outsideSkinSamples": "0/51",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left medial mammary branch of internal thoracic artery",
+  "zh": "左內胸動脈內側乳房支",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   22,
+   59,
+   24
+  ],
+  "centreMm": [
+   28,
+   1324,
+   75
+  ],
+  "triangles": 900,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left anterior intercostal arteries",
+  "zh": "左前肋間動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   42,
+   113,
+   38
+  ],
+  "centreMm": [
+   35,
+   1294,
+   84
+  ],
+  "triangles": 1500,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right phrenic nerve",
+  "zh": "右膈神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   22,
+   220,
+   46
+  ],
+  "centreMm": [
+   -40,
+   1376,
+   11
+  ],
+  "triangles": 600,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right pericardiophrenic artery",
+  "zh": "右心包膈動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   29,
+   113,
+   23
+  ],
+  "centreMm": [
+   -37,
+   1322,
+   27
+  ],
+  "triangles": 492,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right pericardiophrenic vein",
+  "zh": "右心包膈靜脈",
+  "system": "venous",
+  "kind": "vein",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   34,
+   112,
+   20
+  ],
+  "centreMm": [
+   -35,
+   1322,
+   29
+  ],
+  "triangles": 492,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right recurrent laryngeal nerve",
+  "zh": "右喉返神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   89,
+   86,
+   16
+  ],
+  "centreMm": [
+   -36,
+   1427,
+   -6
+  ],
+  "triangles": 552,
+  "outsideSkinSamples": "0/47",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right greater splanchnic nerve",
+  "zh": "右大內臟神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   9,
+   132,
+   83
+  ],
+  "centreMm": [
+   -13,
+   1226,
+   -21
+  ],
+  "triangles": 396,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right lesser splanchnic nerve",
+  "zh": "右小內臟神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   18,
+   94,
+   72
+  ],
+  "centreMm": [
+   -10,
+   1168,
+   -19
+  ],
+  "triangles": 396,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right least splanchnic nerve",
+  "zh": "右最小內臟神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   24,
+   52,
+   50
+  ],
+  "centreMm": [
+   -28,
+   1140,
+   -19
+  ],
+  "triangles": 372,
+  "outsideSkinSamples": "0/47",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right celiac ganglion",
+  "zh": "右腹腔神經節",
+  "system": "nervous",
+  "kind": "ganglion",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   12,
+   8,
+   6
+  ],
+  "centreMm": [
+   -9,
+   1161,
+   20
+  ],
+  "triangles": 160,
+  "outsideSkinSamples": "0/45",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right aorticorenal ganglion",
+  "zh": "右主動脈腎神經節",
+  "system": "nervous",
+  "kind": "ganglion",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   9,
+   7,
+   6
+  ],
+  "centreMm": [
+   -2,
+   1122,
+   17
+  ],
+  "triangles": 160,
+  "outsideSkinSamples": "0/45",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right superior mesenteric ganglion",
+  "zh": "右腸繫膜上神經節",
+  "system": "nervous",
+  "kind": "ganglion",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   8,
+   6,
+   5
+  ],
+  "centreMm": [
+   -4,
+   1132,
+   24
+  ],
+  "triangles": 160,
+  "outsideSkinSamples": "0/45",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right renal ganglion",
+  "zh": "右腎神經節",
+  "system": "nervous",
+  "kind": "ganglion",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   7,
+   6,
+   5
+  ],
+  "centreMm": [
+   -39,
+   1114,
+   5
+  ],
+  "triangles": 160,
+  "outsideSkinSamples": "0/45",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left phrenic nerve",
+  "zh": "左膈神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   71,
+   234,
+   50
+  ],
+  "centreMm": [
+   55,
+   1368,
+   13
+  ],
+  "triangles": 600,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left pericardiophrenic artery",
+  "zh": "左心包膈動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   68,
+   128,
+   20
+  ],
+  "centreMm": [
+   57,
+   1315,
+   26
+  ],
+  "triangles": 492,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left pericardiophrenic vein",
+  "zh": "左心包膈靜脈",
+  "system": "venous",
+  "kind": "vein",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   88,
+   145,
+   21
+  ],
+  "centreMm": [
+   48,
+   1323,
+   29
+  ],
+  "triangles": 492,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left recurrent laryngeal nerve",
+  "zh": "左喉返神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   32,
+   116,
+   25
+  ],
+  "centreMm": [
+   7,
+   1413,
+   -12
+  ],
+  "triangles": 552,
+  "outsideSkinSamples": "0/47",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left greater splanchnic nerve",
+  "zh": "左大內臟神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   5,
+   132,
+   83
+  ],
+  "centreMm": [
+   16,
+   1226,
+   -21
+  ],
+  "triangles": 396,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left lesser splanchnic nerve",
+  "zh": "左小內臟神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   19,
+   92,
+   77
+  ],
+  "centreMm": [
+   9,
+   1169,
+   -16
+  ],
+  "triangles": 396,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left least splanchnic nerve",
+  "zh": "左最小內臟神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   22,
+   51,
+   54
+  ],
+  "centreMm": [
+   27,
+   1140,
+   -17
+  ],
+  "triangles": 372,
+  "outsideSkinSamples": "0/47",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left celiac ganglion",
+  "zh": "左腹腔神經節",
+  "system": "nervous",
+  "kind": "ganglion",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   12,
+   8,
+   6
+  ],
+  "centreMm": [
+   14,
+   1161,
+   20
+  ],
+  "triangles": 160,
+  "outsideSkinSamples": "0/45",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left aorticorenal ganglion",
+  "zh": "左主動脈腎神經節",
+  "system": "nervous",
+  "kind": "ganglion",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   9,
+   7,
+   6
+  ],
+  "centreMm": [
+   0,
+   1124,
+   21
+  ],
+  "triangles": 160,
+  "outsideSkinSamples": "0/45",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left superior mesenteric ganglion",
+  "zh": "左腸繫膜上神經節",
+  "system": "nervous",
+  "kind": "ganglion",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   8,
+   6,
+   5
+  ],
+  "centreMm": [
+   9,
+   1132,
+   24
+  ],
+  "triangles": 160,
+  "outsideSkinSamples": "0/45",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left renal ganglion",
+  "zh": "左腎神經節",
+  "system": "nervous",
+  "kind": "ganglion",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   7,
+   6,
+   5
+  ],
+  "centreMm": [
+   37,
+   1116,
+   9
+  ],
+  "triangles": 160,
+  "outsideSkinSamples": "0/45",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Anterior vagal trunk",
+  "zh": "迷走神經前幹",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   15,
+   71,
+   38
+  ],
+  "centreMm": [
+   4,
+   1235,
+   4
+  ],
+  "triangles": 348,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Posterior vagal trunk",
+  "zh": "迷走神經後幹",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   15,
+   71,
+   38
+  ],
+  "centreMm": [
+   4,
+   1235,
+   -18
+  ],
+  "triangles": 348,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Esophageal plexus",
+  "zh": "食道神經叢",
+  "system": "nervous",
+  "kind": "plexus",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   32,
+   101,
+   54
+  ],
+  "centreMm": [
+   2,
+   1250,
+   -5
+  ],
+  "triangles": 1836,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right lateral cord of brachial plexus",
+  "zh": "右臂神經叢外側束",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   67,
+   90,
+   9
+  ],
+  "centreMm": [
+   -142,
+   1355,
+   -11
+  ],
+  "triangles": 732,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right lateral root of median nerve",
+  "zh": "右正中神經外側根",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   6,
+   6,
+   19
+  ],
+  "centreMm": [
+   -112,
+   1387,
+   -18
+  ],
+  "triangles": 204,
+  "outsideSkinSamples": "0/52",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right medial cord of brachial plexus",
+  "zh": "右臂神經叢內側束",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   9,
+   15,
+   6
+  ],
+  "centreMm": [
+   -98,
+   1393,
+   -11
+  ],
+  "triangles": 360,
+  "outsideSkinSamples": "0/46",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right medial root of median nerve",
+  "zh": "右正中神經內側根",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   18,
+   5,
+   17
+  ],
+  "centreMm": [
+   -104,
+   1388,
+   -19
+  ],
+  "triangles": 204,
+  "outsideSkinSamples": "0/52",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right intercostobrachial nerve",
+  "zh": "右肋間臂神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   71,
+   105,
+   37
+  ],
+  "centreMm": [
+   -122,
+   1324,
+   -3
+  ],
+  "triangles": 408,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right recurrent branch of median nerve",
+  "zh": "右正中神經返支",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   38,
+   9,
+   17
+  ],
+  "centreMm": [
+   -277,
+   860,
+   38
+  ],
+  "triangles": 252,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right posterior circumflex humeral vein",
+  "zh": "右旋肱後靜脈",
+  "system": "venous",
+  "kind": "vein",
+  "sex": "",
+  "shape": "sheet",
+  "sizeMm": [
+   48,
+   4,
+   35
+  ],
+  "centreMm": [
+   -165,
+   1370,
+   -15
+  ],
+  "triangles": 300,
+  "outsideSkinSamples": "0/51",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right posterior interosseous artery",
+  "zh": "右後骨間動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   33,
+   182,
+   42
+  ],
+  "centreMm": [
+   -233,
+   984,
+   -21
+  ],
+  "triangles": 588,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right superficial palmar branch of radial artery",
+  "zh": "右橈動脈掌淺支",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "sheet",
+  "sizeMm": [
+   12,
+   3,
+   11
+  ],
+  "centreMm": [
+   -272,
+   885,
+   29
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right deep palmar branch of ulnar artery",
+  "zh": "右尺動脈掌深支",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   5,
+   11,
+   9
+  ],
+  "centreMm": [
+   -241,
+   874,
+   28
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left lateral cord of brachial plexus",
+  "zh": "左臂神經叢外側束",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   67,
+   90,
+   9
+  ],
+  "centreMm": [
+   142,
+   1355,
+   -11
+  ],
+  "triangles": 732,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left lateral root of median nerve",
+  "zh": "左正中神經外側根",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   6,
+   6,
+   19
+  ],
+  "centreMm": [
+   112,
+   1387,
+   -18
+  ],
+  "triangles": 204,
+  "outsideSkinSamples": "0/52",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left medial cord of brachial plexus",
+  "zh": "左臂神經叢內側束",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   9,
+   15,
+   6
+  ],
+  "centreMm": [
+   98,
+   1393,
+   -11
+  ],
+  "triangles": 360,
+  "outsideSkinSamples": "0/46",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left medial root of median nerve",
+  "zh": "左正中神經內側根",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   18,
+   5,
+   17
+  ],
+  "centreMm": [
+   104,
+   1388,
+   -19
+  ],
+  "triangles": 204,
+  "outsideSkinSamples": "0/52",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left intercostobrachial nerve",
+  "zh": "左肋間臂神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   72,
+   103,
+   37
+  ],
+  "centreMm": [
+   122,
+   1324,
+   -3
+  ],
+  "triangles": 408,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left recurrent branch of median nerve",
+  "zh": "左正中神經返支",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   38,
+   9,
+   17
+  ],
+  "centreMm": [
+   277,
+   860,
+   38
+  ],
+  "triangles": 252,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left posterior circumflex humeral vein",
+  "zh": "左旋肱後靜脈",
+  "system": "venous",
+  "kind": "vein",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   25,
+   10,
+   36
+  ],
+  "centreMm": [
+   153,
+   1367,
+   -17
+  ],
+  "triangles": 300,
+  "outsideSkinSamples": "0/51",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left posterior interosseous artery",
+  "zh": "左後骨間動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   30,
+   180,
+   42
+  ],
+  "centreMm": [
+   232,
+   985,
+   -21
+  ],
+  "triangles": 588,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left superficial palmar branch of radial artery",
+  "zh": "左橈動脈掌淺支",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   13,
+   9,
+   12
+  ],
+  "centreMm": [
+   271,
+   881,
+   30
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left deep palmar branch of ulnar artery",
+  "zh": "左尺動脈掌深支",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   2,
+   6,
+   8
+  ],
+  "centreMm": [
+   242,
+   877,
+   26
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right deep femoral artery",
+  "zh": "右股深動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   22,
+   233,
+   30
+  ],
+  "centreMm": [
+   -63,
+   737,
+   27
+  ],
+  "triangles": 516,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right perforating branch of deep femoral artery",
+  "zh": "右股深動脈穿通支",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   32,
+   114,
+   63
+  ],
+  "centreMm": [
+   -81,
+   736,
+   -4
+  ],
+  "triangles": 612,
+  "outsideSkinSamples": "0/45",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right medial circumflex femoral artery",
+  "zh": "右旋股內側動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   51,
+   55,
+   79
+  ],
+  "centreMm": [
+   -82,
+   869,
+   -3
+  ],
+  "triangles": 372,
+  "outsideSkinSamples": "0/47",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right ascending branch of lateral circumflex femoral artery",
+  "zh": "右旋股外側動脈升支",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "sheet",
+  "sizeMm": [
+   63,
+   108,
+   3
+  ],
+  "centreMm": [
+   -107,
+   908,
+   24
+  ],
+  "triangles": 252,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right transverse branch of lateral circumflex femoral artery",
+  "zh": "右旋股外側動脈橫支",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   50,
+   22,
+   34
+  ],
+  "centreMm": [
+   -101,
+   845,
+   8
+  ],
+  "triangles": 204,
+  "outsideSkinSamples": "0/52",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right superficial circumflex iliac artery",
+  "zh": "右旋髂淺動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   66,
+   83,
+   14
+  ],
+  "centreMm": [
+   -87,
+   921,
+   40
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right superficial external pudendal artery",
+  "zh": "右陰部外淺動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   25,
+   53,
+   77
+  ],
+  "centreMm": [
+   -43,
+   856,
+   11
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right deep external pudendal artery",
+  "zh": "右陰部外深動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   23,
+   61,
+   83
+  ],
+  "centreMm": [
+   -38,
+   841,
+   0
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right articular branch of descending genicular artery",
+  "zh": "右膝降動脈關節支",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   15,
+   51,
+   27
+  ],
+  "centreMm": [
+   -57,
+   524,
+   16
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right saphenous branch of descending genicular artery",
+  "zh": "右膝降動脈隱支",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   13,
+   100,
+   15
+  ],
+  "centreMm": [
+   -45,
+   499,
+   -3
+  ],
+  "triangles": 300,
+  "outsideSkinSamples": "0/51",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right anterior lateral malleolar artery",
+  "zh": "右前外踝動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   26,
+   55,
+   38
+  ],
+  "centreMm": [
+   -87,
+   88,
+   -23
+  ],
+  "triangles": 204,
+  "outsideSkinSamples": "0/52",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right anterior medial malleolar artery",
+  "zh": "右前內踝動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   24,
+   36,
+   8
+  ],
+  "centreMm": [
+   -64,
+   97,
+   -7
+  ],
+  "triangles": 204,
+  "outsideSkinSamples": "0/52",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right fibular artery",
+  "zh": "右腓動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   30,
+   303,
+   20
+  ],
+  "centreMm": [
+   -89,
+   184,
+   -43
+  ],
+  "triangles": 600,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right circumflex fibular artery",
+  "zh": "右腓旋動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   29,
+   25,
+   13
+  ],
+  "centreMm": [
+   -97,
+   373,
+   -40
+  ],
+  "triangles": 204,
+  "outsideSkinSamples": "0/52",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right lateral plantar vein",
+  "zh": "右足底外側靜脈",
+  "system": "venous",
+  "kind": "vein",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   48,
+   26,
+   19
+  ],
+  "centreMm": [
+   -93,
+   30,
+   -8
+  ],
+  "triangles": 252,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right superior gluteal artery",
+  "zh": "右臀上動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   40,
+   17,
+   19
+  ],
+  "centreMm": [
+   -53,
+   935,
+   -65
+  ],
+  "triangles": 300,
+  "outsideSkinSamples": "0/51",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right superficial branch of superior gluteal artery",
+  "zh": "右臀上動脈淺支",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   13,
+   45,
+   35
+  ],
+  "centreMm": [
+   -66,
+   961,
+   -73
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right deep branch of superior gluteal artery",
+  "zh": "右臀上動脈深支",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   29,
+   53,
+   13
+  ],
+  "centreMm": [
+   -83,
+   966,
+   -62
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right inferior gluteal artery",
+  "zh": "右臀下動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   30,
+   38,
+   30
+  ],
+  "centreMm": [
+   -47,
+   911,
+   -82
+  ],
+  "triangles": 396,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right internal pudendal artery",
+  "zh": "右陰部內動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   54,
+   75,
+   41
+  ],
+  "centreMm": [
+   -59,
+   892,
+   -56
+  ],
+  "triangles": 372,
+  "outsideSkinSamples": "0/47",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right inferior gluteal nerve",
+  "zh": "右臀下神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   37,
+   11,
+   38
+  ],
+  "centreMm": [
+   -34,
+   919,
+   -79
+  ],
+  "triangles": 252,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right nerve to obturator internus",
+  "zh": "右閉孔內肌神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   69,
+   44,
+   37
+  ],
+  "centreMm": [
+   -51,
+   902,
+   -56
+  ],
+  "triangles": 372,
+  "outsideSkinSamples": "0/47",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right nerve to vastus medialis",
+  "zh": "右股內側肌神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   11,
+   189,
+   22
+  ],
+  "centreMm": [
+   -56,
+   705,
+   30
+  ],
+  "triangles": 252,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right lateral sural cutaneous nerve",
+  "zh": "右腓腸外側皮神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   14,
+   192,
+   28
+  ],
+  "centreMm": [
+   -105,
+   332,
+   -74
+  ],
+  "triangles": 300,
+  "outsideSkinSamples": "0/51",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right lateral dorsal cutaneous nerve",
+  "zh": "右足背外側皮神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   14,
+   24,
+   29
+  ],
+  "centreMm": [
+   -128,
+   26,
+   33
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right medial branch of deep fibular nerve",
+  "zh": "右腓深神經內側支",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   19,
+   7,
+   14
+  ],
+  "centreMm": [
+   -85,
+   46,
+   50
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right lateral branch of deep fibular nerve",
+  "zh": "右腓深神經外側支",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   35,
+   6,
+   21
+  ],
+  "centreMm": [
+   -93,
+   46,
+   47
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left deep femoral artery",
+  "zh": "左股深動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   32,
+   233,
+   30
+  ],
+  "centreMm": [
+   58,
+   740,
+   27
+  ],
+  "triangles": 516,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left perforating branch of deep femoral artery",
+  "zh": "左股深動脈穿通支",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   31,
+   115,
+   60
+  ],
+  "centreMm": [
+   81,
+   736,
+   -2
+  ],
+  "triangles": 612,
+  "outsideSkinSamples": "0/45",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left medial circumflex femoral artery",
+  "zh": "左旋股內側動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   59,
+   53,
+   80
+  ],
+  "centreMm": [
+   78,
+   870,
+   -3
+  ],
+  "triangles": 372,
+  "outsideSkinSamples": "0/47",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left ascending branch of lateral circumflex femoral artery",
+  "zh": "左旋股外側動脈升支",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "sheet",
+  "sizeMm": [
+   59,
+   108,
+   3
+  ],
+  "centreMm": [
+   105,
+   908,
+   24
+  ],
+  "triangles": 252,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left transverse branch of lateral circumflex femoral artery",
+  "zh": "左旋股外側動脈橫支",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   50,
+   22,
+   34
+  ],
+  "centreMm": [
+   101,
+   845,
+   8
+  ],
+  "triangles": 204,
+  "outsideSkinSamples": "0/52",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left superficial circumflex iliac artery",
+  "zh": "左旋髂淺動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   69,
+   85,
+   14
+  ],
+  "centreMm": [
+   82,
+   919,
+   43
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left superficial external pudendal artery",
+  "zh": "左陰部外淺動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   18,
+   50,
+   80
+  ],
+  "centreMm": [
+   40,
+   855,
+   13
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left deep external pudendal artery",
+  "zh": "左陰部外深動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   20,
+   64,
+   81
+  ],
+  "centreMm": [
+   37,
+   842,
+   -1
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left articular branch of descending genicular artery",
+  "zh": "左膝降動脈關節支",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   15,
+   51,
+   27
+  ],
+  "centreMm": [
+   61,
+   529,
+   13
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left saphenous branch of descending genicular artery",
+  "zh": "左膝降動脈隱支",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   13,
+   100,
+   15
+  ],
+  "centreMm": [
+   48,
+   504,
+   -7
+  ],
+  "triangles": 300,
+  "outsideSkinSamples": "0/51",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left anterior lateral malleolar artery",
+  "zh": "左前外踝動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   27,
+   55,
+   37
+  ],
+  "centreMm": [
+   88,
+   88,
+   -22
+  ],
+  "triangles": 204,
+  "outsideSkinSamples": "0/52",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left anterior medial malleolar artery",
+  "zh": "左前內踝動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   22,
+   36,
+   8
+  ],
+  "centreMm": [
+   65,
+   97,
+   -7
+  ],
+  "triangles": 204,
+  "outsideSkinSamples": "0/52",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left fibular artery",
+  "zh": "左腓動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   23,
+   304,
+   16
+  ],
+  "centreMm": [
+   85,
+   184,
+   -42
+  ],
+  "triangles": 600,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left circumflex fibular artery",
+  "zh": "左腓旋動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   28,
+   28,
+   14
+  ],
+  "centreMm": [
+   96,
+   372,
+   -39
+  ],
+  "triangles": 204,
+  "outsideSkinSamples": "0/52",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left lateral plantar vein",
+  "zh": "左足底外側靜脈",
+  "system": "venous",
+  "kind": "vein",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   48,
+   26,
+   19
+  ],
+  "centreMm": [
+   93,
+   30,
+   -8
+  ],
+  "triangles": 252,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left superior gluteal artery",
+  "zh": "左臀上動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   42,
+   12,
+   13
+  ],
+  "centreMm": [
+   51,
+   944,
+   -58
+  ],
+  "triangles": 300,
+  "outsideSkinSamples": "0/51",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left superficial branch of superior gluteal artery",
+  "zh": "左臀上動脈淺支",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   13,
+   45,
+   35
+  ],
+  "centreMm": [
+   66,
+   961,
+   -73
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left deep branch of superior gluteal artery",
+  "zh": "左臀上動脈深支",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   29,
+   53,
+   13
+  ],
+  "centreMm": [
+   83,
+   966,
+   -62
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left inferior gluteal artery",
+  "zh": "左臀下動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   33,
+   53,
+   45
+  ],
+  "centreMm": [
+   45,
+   918,
+   -75
+  ],
+  "triangles": 396,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left internal pudendal artery",
+  "zh": "左陰部內動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   57,
+   90,
+   39
+  ],
+  "centreMm": [
+   58,
+   899,
+   -54
+  ],
+  "triangles": 372,
+  "outsideSkinSamples": "0/47",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left inferior gluteal nerve",
+  "zh": "左臀下神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   37,
+   11,
+   38
+  ],
+  "centreMm": [
+   34,
+   919,
+   -79
+  ],
+  "triangles": 252,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left nerve to obturator internus",
+  "zh": "左閉孔內肌神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   69,
+   44,
+   37
+  ],
+  "centreMm": [
+   51,
+   902,
+   -56
+  ],
+  "triangles": 372,
+  "outsideSkinSamples": "0/47",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left nerve to vastus medialis",
+  "zh": "左股內側肌神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   11,
+   189,
+   22
+  ],
+  "centreMm": [
+   56,
+   705,
+   30
+  ],
+  "triangles": 252,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left lateral sural cutaneous nerve",
+  "zh": "左腓腸外側皮神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   14,
+   192,
+   28
+  ],
+  "centreMm": [
+   105,
+   332,
+   -74
+  ],
+  "triangles": 300,
+  "outsideSkinSamples": "0/51",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left lateral dorsal cutaneous nerve",
+  "zh": "左足背外側皮神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   15,
+   24,
+   30
+  ],
+  "centreMm": [
+   128,
+   26,
+   33
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left medial branch of deep fibular nerve",
+  "zh": "左腓深神經內側支",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   19,
+   6,
+   14
+  ],
+  "centreMm": [
+   85,
+   46,
+   50
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left lateral branch of deep fibular nerve",
+  "zh": "左腓深神經外側支",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   35,
+   6,
+   21
+  ],
+  "centreMm": [
+   93,
+   46,
+   47
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Thoracic duct",
+  "zh": "胸管",
+  "system": "lymphatic",
+  "kind": "vessel",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   38,
+   364,
+   65
+  ],
+  "centreMm": [
+   11,
+   1266,
+   -8
+  ],
+  "triangles": 876,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right posterior intercostal veins",
+  "zh": "右後肋間靜脈",
+  "system": "venous",
+  "kind": "vein",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   65,
+   220,
+   78
+  ],
+  "centreMm": [
+   -40,
+   1296,
+   -50
+  ],
+  "triangles": 1440,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right supreme intercostal artery",
+  "zh": "右最上肋間動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   51,
+   22,
+   47
+  ],
+  "centreMm": [
+   -53,
+   1422,
+   -19
+  ],
+  "triangles": 396,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right superior phrenic artery",
+  "zh": "右膈上動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   45,
+   35,
+   31
+  ],
+  "centreMm": [
+   -18,
+   1202,
+   -28
+  ],
+  "triangles": 204,
+  "outsideSkinSamples": "0/52",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left posterior intercostal veins",
+  "zh": "左後肋間靜脈",
+  "system": "venous",
+  "kind": "vein",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   66,
+   230,
+   57
+  ],
+  "centreMm": [
+   43,
+   1299,
+   -60
+  ],
+  "triangles": 1440,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left supreme intercostal artery",
+  "zh": "左最上肋間動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   19,
+   22,
+   37
+  ],
+  "centreMm": [
+   32,
+   1422,
+   -23
+  ],
+  "triangles": 396,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left superior phrenic artery",
+  "zh": "左膈上動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   32,
+   35,
+   31
+  ],
+  "centreMm": [
+   19,
+   1202,
+   -29
+  ],
+  "triangles": 204,
+  "outsideSkinSamples": "0/52",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Atrioventricular nodal artery",
+  "zh": "房室結動脈",
+  "system": "arterial",
+  "kind": "artery",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   1,
+   15,
+   6
+  ],
+  "centreMm": [
+   -1,
+   1275,
+   21
+  ],
+  "triangles": 156,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right dorsal ramus of thoracic spinal nerve",
+  "zh": "右胸脊神經後支",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   15,
+   247,
+   71
+  ],
+  "centreMm": [
+   -23,
+   1291,
+   -81
+  ],
+  "triangles": 1800,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right posterior cutaneous branch of dorsal ramus of thoracic spinal nerve",
+  "zh": "右胸脊神經後支的後皮支",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "sheet",
+  "sizeMm": [
+   4,
+   243,
+   26
+  ],
+  "centreMm": [
+   -15,
+   1293,
+   -103
+  ],
+  "triangles": 1560,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left dorsal ramus of thoracic spinal nerve",
+  "zh": "左胸脊神經後支",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   15,
+   247,
+   71
+  ],
+  "centreMm": [
+   23,
+   1291,
+   -81
+  ],
+  "triangles": 1800,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left posterior cutaneous branch of dorsal ramus of thoracic spinal nerve",
+  "zh": "左胸脊神經後支的後皮支",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "sheet",
+  "sizeMm": [
+   3,
+   243,
+   26
+  ],
+  "centreMm": [
+   15,
+   1293,
+   -103
+  ],
+  "triangles": 1560,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right greater tubercle of humerus",
+  "zh": "右肱骨大結節",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   11,
+   12,
+   16
+  ],
+  "centreMm": [
+   -183,
+   1407,
+   -22
+  ],
+  "triangles": 913,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right lesser tubercle of humerus",
+  "zh": "右肱骨小結節",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   13,
+   13,
+   4
+  ],
+  "centreMm": [
+   -165,
+   1393,
+   -2
+  ],
+  "triangles": 927,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right intertubercular groove",
+  "zh": "右結節間溝",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "tube",
+  "sizeMm": [
+   10,
+   39,
+   7
+  ],
+  "centreMm": [
+   -175,
+   1386,
+   -9
+  ],
+  "triangles": 2755,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right surgical neck of humerus",
+  "zh": "右肱骨外科頸",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   31,
+   17,
+   23
+  ],
+  "centreMm": [
+   -179,
+   1348,
+   -24
+  ],
+  "triangles": 21855,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right radial groove",
+  "zh": "右橈神經溝",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   21,
+   66,
+   7
+  ],
+  "centreMm": [
+   -195,
+   1264,
+   -40
+  ],
+  "triangles": 10585,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right medial epicondyle of humerus",
+  "zh": "右肱骨內上髁",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   9,
+   16,
+   12
+  ],
+  "centreMm": [
+   -182,
+   1125,
+   -32
+  ],
+  "triangles": 891,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right coracoid process",
+  "zh": "右喙突",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   13,
+   13,
+   11
+  ],
+  "centreMm": [
+   -133,
+   1404,
+   -2
+  ],
+  "triangles": 1035,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right suprascapular notch",
+  "zh": "右肩胛上切跡",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   10,
+   8,
+   8
+  ],
+  "centreMm": [
+   -99,
+   1401,
+   -51
+  ],
+  "triangles": 1780,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right infraglenoid tubercle",
+  "zh": "右盂下結節",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   8,
+   11,
+   10
+  ],
+  "centreMm": [
+   -113,
+   1300,
+   -81
+  ],
+  "triangles": 2583,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right infraspinous fossa",
+  "zh": "右棘下窩",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   78,
+   103,
+   61
+  ],
+  "centreMm": [
+   -112,
+   1335,
+   -75
+  ],
+  "triangles": 12817,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right styloid process of radius",
+  "zh": "右橈骨莖突",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   9,
+   8,
+   9
+  ],
+  "centreMm": [
+   -275,
+   888,
+   18
+  ],
+  "triangles": 606,
+  "outsideSkinSamples": "0/45",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right iliac crest",
+  "zh": "右髂嵴",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   69,
+   11,
+   57
+  ],
+  "centreMm": [
+   -98,
+   1031,
+   -37
+  ],
+  "triangles": 11472,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right pubic tubercle",
+  "zh": "右恥骨結節",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   10,
+   9,
+   7
+  ],
+  "centreMm": [
+   -12,
+   880,
+   35
+  ],
+  "triangles": 761,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right ischial tuberosity",
+  "zh": "右坐骨結節",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   24,
+   12,
+   21
+  ],
+  "centreMm": [
+   -50,
+   836,
+   -54
+  ],
+  "triangles": 1007,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right spine of ischium",
+  "zh": "右坐骨棘",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   10,
+   7,
+   11
+  ],
+  "centreMm": [
+   -41,
+   968,
+   -88
+  ],
+  "triangles": 842,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tibial tuberosity",
+  "zh": "右脛骨粗隆",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   20,
+   20,
+   7
+  ],
+  "centreMm": [
+   -85,
+   423,
+   12
+  ],
+  "triangles": 1039,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left greater tubercle of humerus",
+  "zh": "左肱骨大結節",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   11,
+   12,
+   17
+  ],
+  "centreMm": [
+   183,
+   1407,
+   -22
+  ],
+  "triangles": 870,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left lesser tubercle of humerus",
+  "zh": "左肱骨小結節",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   13,
+   13,
+   6
+  ],
+  "centreMm": [
+   156,
+   1395,
+   -4
+  ],
+  "triangles": 769,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left intertubercular groove",
+  "zh": "左結節間溝",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "tube",
+  "sizeMm": [
+   12,
+   41,
+   8
+  ],
+  "centreMm": [
+   172,
+   1388,
+   -8
+  ],
+  "triangles": 4468,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left surgical neck of humerus",
+  "zh": "左肱骨外科頸",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   31,
+   18,
+   23
+  ],
+  "centreMm": [
+   179,
+   1348,
+   -24
+  ],
+  "triangles": 19378,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left radial groove",
+  "zh": "左橈神經溝",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   21,
+   64,
+   7
+  ],
+  "centreMm": [
+   196,
+   1261,
+   -40
+  ],
+  "triangles": 12075,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left medial epicondyle of humerus",
+  "zh": "左肱骨內上髁",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   8,
+   17,
+   13
+  ],
+  "centreMm": [
+   181,
+   1126,
+   -31
+  ],
+  "triangles": 929,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left coracoid process",
+  "zh": "左喙突",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   13,
+   12,
+   11
+  ],
+  "centreMm": [
+   133,
+   1404,
+   -2
+  ],
+  "triangles": 934,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left suprascapular notch",
+  "zh": "左肩胛上切跡",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   10,
+   8,
+   8
+  ],
+  "centreMm": [
+   98,
+   1401,
+   -51
+  ],
+  "triangles": 1981,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left infraglenoid tubercle",
+  "zh": "左盂下結節",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   9,
+   11,
+   8
+  ],
+  "centreMm": [
+   113,
+   1302,
+   -78
+  ],
+  "triangles": 2186,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left infraspinous fossa",
+  "zh": "左棘下窩",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   78,
+   104,
+   80
+  ],
+  "centreMm": [
+   112,
+   1335,
+   -65
+  ],
+  "triangles": 13143,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left styloid process of radius",
+  "zh": "左橈骨莖突",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   9,
+   8,
+   9
+  ],
+  "centreMm": [
+   275,
+   888,
+   18
+  ],
+  "triangles": 594,
+  "outsideSkinSamples": "0/45",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left iliac crest",
+  "zh": "左髂嵴",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   69,
+   11,
+   57
+  ],
+  "centreMm": [
+   98,
+   1030,
+   -37
+  ],
+  "triangles": 8570,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left pubic tubercle",
+  "zh": "左恥骨結節",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   10,
+   9,
+   8
+  ],
+  "centreMm": [
+   11,
+   880,
+   34
+  ],
+  "triangles": 859,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left ischial tuberosity",
+  "zh": "左坐骨結節",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   24,
+   11,
+   22
+  ],
+  "centreMm": [
+   48,
+   835,
+   -52
+  ],
+  "triangles": 874,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left spine of ischium",
+  "zh": "左坐骨棘",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   11,
+   9,
+   10
+  ],
+  "centreMm": [
+   45,
+   965,
+   -86
+  ],
+  "triangles": 1402,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tibial tuberosity",
+  "zh": "左脛骨粗隆",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   20,
+   20,
+   7
+  ],
+  "centreMm": [
+   85,
+   424,
+   11
+  ],
+  "triangles": 1135,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Mastoid process",
+  "zh": "乳突",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   14,
+   12,
+   14
+  ],
+  "centreMm": [
+   -50,
+   1575,
+   -53
+  ],
+  "triangles": 822,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Jugular foramen",
+  "zh": "頸靜脈孔",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   13,
+   7,
+   12
+  ],
+  "centreMm": [
+   -15,
+   1560,
+   -23
+  ],
+  "triangles": 1000,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Superior nuchal line",
+  "zh": "上項線",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   88,
+   15,
+   24
+  ],
+  "centreMm": [
+   -1,
+   1597,
+   -103
+  ],
+  "triangles": 6371,
+  "outsideSkinSamples": "13/41",
+  "worstOverMm": 9
+ },
+ {
+  "name": "Posterior arch of atlas",
+  "zh": "寰椎後弓",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   36,
+   10,
+   12
+  ],
+  "centreMm": [
+   -1,
+   1547,
+   -54
+  ],
+  "triangles": 5080,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Spinous process of axis",
+  "zh": "樞椎棘突",
+  "system": "skeletal",
+  "kind": "landmark",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   10,
+   12,
+   10
+  ],
+  "centreMm": [
+   -1,
+   1517,
+   -59
+  ],
+  "triangles": 972,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right extensor retinaculum of wrist",
+  "zh": "右腕伸肌支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   46,
+   27,
+   18
+  ],
+  "centreMm": [
+   -253,
+   902,
+   3
+  ],
+  "triangles": 1760,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right superior transverse scapular ligament",
+  "zh": "右肩胛上橫韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   25,
+   7,
+   28
+  ],
+  "centreMm": [
+   -100,
+   1411,
+   -46
+  ],
+  "triangles": 164,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right axillary sheath",
+  "zh": "右腋鞘",
+  "system": "connective",
+  "kind": "sheath",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   75,
+   86,
+   37
+  ],
+  "centreMm": [
+   -122,
+   1379,
+   -9
+  ],
+  "triangles": 700,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right femoral sheath",
+  "zh": "右股鞘",
+  "system": "connective",
+  "kind": "sheath",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   40,
+   81,
+   46
+  ],
+  "centreMm": [
+   -41,
+   881,
+   29
+  ],
+  "triangles": 588,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right quadriceps tendon",
+  "zh": "右股四頭肌腱",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   36,
+   78,
+   11
+  ],
+  "centreMm": [
+   -83,
+   439,
+   13
+  ],
+  "triangles": 164,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right patellar ligament",
+  "zh": "右髕韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   27,
+   22,
+   8
+  ],
+  "centreMm": [
+   -85,
+   434,
+   15
+  ],
+  "triangles": 164,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right superior extensor retinaculum of foot",
+  "zh": "右伸肌上支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   37,
+   30,
+   16
+  ],
+  "centreMm": [
+   -78,
+   124,
+   -12
+  ],
+  "triangles": 1292,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right inferior extensor retinaculum of foot",
+  "zh": "右伸肌下支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   52,
+   22,
+   27
+  ],
+  "centreMm": [
+   -76,
+   76,
+   5
+  ],
+  "triangles": 2496,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right flexor retinaculum of ankle",
+  "zh": "右踝屈肌支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   11,
+   66,
+   34
+  ],
+  "centreMm": [
+   -43,
+   53,
+   -43
+  ],
+  "triangles": 2300,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right superior fibular retinaculum",
+  "zh": "右腓骨肌上支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   6,
+   16,
+   28
+  ],
+  "centreMm": [
+   -101,
+   54,
+   -34
+  ],
+  "triangles": 780,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right inferior fibular retinaculum",
+  "zh": "右腓骨肌下支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   11,
+   9,
+   10
+  ],
+  "centreMm": [
+   -94,
+   50,
+   -11
+  ],
+  "triangles": 572,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left extensor retinaculum of wrist",
+  "zh": "左腕伸肌支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   51,
+   28,
+   20
+  ],
+  "centreMm": [
+   254,
+   898,
+   7
+  ],
+  "triangles": 1932,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left superior transverse scapular ligament",
+  "zh": "左肩胛上橫韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   26,
+   6,
+   33
+  ],
+  "centreMm": [
+   98,
+   1412,
+   -44
+  ],
+  "triangles": 164,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left axillary sheath",
+  "zh": "左腋鞘",
+  "system": "connective",
+  "kind": "sheath",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   73,
+   85,
+   37
+  ],
+  "centreMm": [
+   123,
+   1379,
+   -9
+  ],
+  "triangles": 700,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left femoral sheath",
+  "zh": "左股鞘",
+  "system": "connective",
+  "kind": "sheath",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   32,
+   77,
+   40
+  ],
+  "centreMm": [
+   38,
+   883,
+   31
+  ],
+  "triangles": 588,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left quadriceps tendon",
+  "zh": "左股四頭肌腱",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   37,
+   78,
+   11
+  ],
+  "centreMm": [
+   83,
+   439,
+   13
+  ],
+  "triangles": 164,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left patellar ligament",
+  "zh": "左髕韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   28,
+   22,
+   8
+  ],
+  "centreMm": [
+   85,
+   434,
+   15
+  ],
+  "triangles": 164,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left superior extensor retinaculum of foot",
+  "zh": "左伸肌上支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   36,
+   30,
+   15
+  ],
+  "centreMm": [
+   78,
+   124,
+   -11
+  ],
+  "triangles": 1292,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left inferior extensor retinaculum of foot",
+  "zh": "左伸肌下支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   51,
+   22,
+   27
+  ],
+  "centreMm": [
+   76,
+   76,
+   5
+  ],
+  "triangles": 2496,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left flexor retinaculum of ankle",
+  "zh": "左踝屈肌支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   10,
+   69,
+   32
+  ],
+  "centreMm": [
+   43,
+   52,
+   -41
+  ],
+  "triangles": 2496,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left superior fibular retinaculum",
+  "zh": "左腓骨肌上支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   6,
+   16,
+   29
+  ],
+  "centreMm": [
+   102,
+   54,
+   -34
+  ],
+  "triangles": 780,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left inferior fibular retinaculum",
+  "zh": "左腓骨肌下支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   12,
+   9,
+   10
+  ],
+  "centreMm": [
+   94,
+   50,
+   -11
+  ],
+  "triangles": 572,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "rectus sheath",
+  "zh": "腹直肌鞘",
+  "system": "connective",
+  "kind": "sheath",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   161,
+   395,
+   82
+  ],
+  "centreMm": [
+   0,
+   1073,
+   79
+  ],
+  "triangles": 74886,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "thoracolumbar fascia",
+  "zh": "胸腰筋膜",
+  "system": "connective",
+  "kind": "fascia",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   179,
+   224,
+   57
+  ],
+  "centreMm": [
+   0,
+   1091,
+   -71
+  ],
+  "triangles": 81232,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "plantar aponeurosis",
+  "zh": "足底腱膜",
+  "system": "connective",
+  "kind": "aponeurosis",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   311,
+   14,
+   110
+  ],
+  "centreMm": [
+   0,
+   14,
+   -1
+  ],
+  "triangles": 4491,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right quadrangular space",
+  "zh": "右四邊孔",
+  "system": "connective",
+  "kind": "space",
+  "sex": "",
+  "shape": "sheet",
+  "sizeMm": [
+   14,
+   14,
+   2
+  ],
+  "centreMm": [
+   -161,
+   1362,
+   -37
+  ],
+  "triangles": 12,
+  "outsideSkinSamples": "0/8",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right triangular space",
+  "zh": "右三邊孔",
+  "system": "connective",
+  "kind": "space",
+  "sex": "",
+  "shape": "sheet",
+  "sizeMm": [
+   12,
+   14,
+   2
+  ],
+  "centreMm": [
+   -137,
+   1345,
+   -56
+  ],
+  "triangles": 12,
+  "outsideSkinSamples": "0/8",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right triangular interval",
+  "zh": "右三頭肌間隙",
+  "system": "connective",
+  "kind": "space",
+  "sex": "",
+  "shape": "sheet",
+  "sizeMm": [
+   12,
+   16,
+   2
+  ],
+  "centreMm": [
+   -174,
+   1330,
+   -57
+  ],
+  "triangles": 12,
+  "outsideSkinSamples": "0/8",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right clavipectoral triangle",
+  "zh": "右鎖骨胸大肌三角",
+  "system": "connective",
+  "kind": "space",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   25,
+   31,
+   30
+  ],
+  "centreMm": [
+   -79,
+   1397,
+   24
+  ],
+  "triangles": 756,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right axillary fossa",
+  "zh": "右腋窩",
+  "system": "connective",
+  "kind": "space",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   77,
+   140,
+   60
+  ],
+  "centreMm": [
+   -123,
+   1340,
+   -22
+  ],
+  "triangles": 12,
+  "outsideSkinSamples": "0/8",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right carpal tunnel",
+  "zh": "右腕隧道",
+  "system": "connective",
+  "kind": "space",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   23,
+   33,
+   11
+  ],
+  "centreMm": [
+   -252,
+   872,
+   31
+  ],
+  "triangles": 240,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tarsal tunnel",
+  "zh": "右跗隧道",
+  "system": "connective",
+  "kind": "space",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   28,
+   45,
+   25
+  ],
+  "centreMm": [
+   -49,
+   87,
+   -41
+  ],
+  "triangles": 320,
+  "outsideSkinSamples": "1/41",
+  "worstOverMm": 5
+ },
+ {
+  "name": "Right cubital fossa",
+  "zh": "右肘窩",
+  "system": "connective",
+  "kind": "space",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   54,
+   47,
+   13
+  ],
+  "centreMm": [
+   -209,
+   1103,
+   -20
+  ],
+  "triangles": 1008,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right anatomical snuffbox",
+  "zh": "右解剖鼻煙盒",
+  "system": "connective",
+  "kind": "space",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   18,
+   19,
+   18
+  ],
+  "centreMm": [
+   -276,
+   878,
+   16
+  ],
+  "triangles": 476,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right adductor hiatus",
+  "zh": "右內收肌裂孔",
+  "system": "connective",
+  "kind": "space",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   14,
+   26,
+   8
+  ],
+  "centreMm": [
+   -51,
+   576,
+   -9
+  ],
+  "triangles": 12,
+  "outsideSkinSamples": "0/8",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right suboccipital triangle",
+  "zh": "右枕下三角",
+  "system": "connective",
+  "kind": "space",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   36,
+   44,
+   38
+  ],
+  "centreMm": [
+   -20,
+   1543,
+   -52
+  ],
+  "triangles": 1196,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left quadrangular space",
+  "zh": "左四邊孔",
+  "system": "connective",
+  "kind": "space",
+  "sex": "",
+  "shape": "sheet",
+  "sizeMm": [
+   14,
+   14,
+   2
+  ],
+  "centreMm": [
+   161,
+   1362,
+   -37
+  ],
+  "triangles": 12,
+  "outsideSkinSamples": "0/8",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left triangular space",
+  "zh": "左三邊孔",
+  "system": "connective",
+  "kind": "space",
+  "sex": "",
+  "shape": "sheet",
+  "sizeMm": [
+   12,
+   14,
+   2
+  ],
+  "centreMm": [
+   137,
+   1345,
+   -56
+  ],
+  "triangles": 12,
+  "outsideSkinSamples": "0/8",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left triangular interval",
+  "zh": "左三頭肌間隙",
+  "system": "connective",
+  "kind": "space",
+  "sex": "",
+  "shape": "sheet",
+  "sizeMm": [
+   12,
+   16,
+   2
+  ],
+  "centreMm": [
+   174,
+   1330,
+   -57
+  ],
+  "triangles": 12,
+  "outsideSkinSamples": "0/8",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left clavipectoral triangle",
+  "zh": "左鎖骨胸大肌三角",
+  "system": "connective",
+  "kind": "space",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   21,
+   30,
+   32
+  ],
+  "centreMm": [
+   77,
+   1396,
+   23
+  ],
+  "triangles": 756,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left axillary fossa",
+  "zh": "左腋窩",
+  "system": "connective",
+  "kind": "space",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   76,
+   141,
+   60
+  ],
+  "centreMm": [
+   123,
+   1340,
+   -22
+  ],
+  "triangles": 12,
+  "outsideSkinSamples": "0/8",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left carpal tunnel",
+  "zh": "左腕隧道",
+  "system": "connective",
+  "kind": "space",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   23,
+   33,
+   11
+  ],
+  "centreMm": [
+   252,
+   872,
+   31
+  ],
+  "triangles": 240,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tarsal tunnel",
+  "zh": "左跗隧道",
+  "system": "connective",
+  "kind": "space",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   28,
+   43,
+   25
+  ],
+  "centreMm": [
+   49,
+   87,
+   -42
+  ],
+  "triangles": 320,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left cubital fossa",
+  "zh": "左肘窩",
+  "system": "connective",
+  "kind": "space",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   52,
+   47,
+   12
+  ],
+  "centreMm": [
+   208,
+   1104,
+   -20
+  ],
+  "triangles": 1008,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left anatomical snuffbox",
+  "zh": "左解剖鼻煙盒",
+  "system": "connective",
+  "kind": "space",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   16,
+   19,
+   17
+  ],
+  "centreMm": [
+   276,
+   878,
+   15
+  ],
+  "triangles": 416,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left adductor hiatus",
+  "zh": "左內收肌裂孔",
+  "system": "connective",
+  "kind": "space",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   14,
+   26,
+   8
+  ],
+  "centreMm": [
+   58,
+   575,
+   -9
+  ],
+  "triangles": 12,
+  "outsideSkinSamples": "0/8",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left suboccipital triangle",
+  "zh": "左枕下三角",
+  "system": "connective",
+  "kind": "space",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   39,
+   45,
+   40
+  ],
+  "centreMm": [
+   21,
+   1543,
+   -52
+  ],
+  "triangles": 1196,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Aortic hiatus",
+  "zh": "主動脈裂孔",
+  "system": "connective",
+  "kind": "space",
+  "sex": "",
+  "shape": "sheet",
+  "sizeMm": [
+   29,
+   2,
+   25
+  ],
+  "centreMm": [
+   1,
+   1179,
+   -1
+  ],
+  "triangles": 292,
+  "outsideSkinSamples": "0/50",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right denticulate ligament",
+  "zh": "右齒狀韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   8,
+   357,
+   53
+  ],
+  "centreMm": [
+   -6,
+   1322,
+   -45
+  ],
+  "triangles": 348,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left denticulate ligament",
+  "zh": "左齒狀韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   8,
+   357,
+   53
+  ],
+  "centreMm": [
+   7,
+   1322,
+   -45
+  ],
+  "triangles": 348,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Ligamentum flavum",
+  "zh": "黃韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   36,
+   491,
+   57
+  ],
+  "centreMm": [
+   0,
+   1264,
+   -57
+  ],
+  "triangles": 2856,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right palmaris brevis",
+  "zh": "右掌短肌",
+  "system": "muscular",
+  "kind": "muscle",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   7,
+   18,
+   7
+  ],
+  "centreMm": [
+   -232,
+   855,
+   43
+  ],
+  "triangles": 396,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right transversus thoracis",
+  "zh": "右胸橫肌",
+  "system": "muscular",
+  "kind": "muscle",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   34,
+   116,
+   44
+  ],
+  "centreMm": [
+   -23,
+   1308,
+   83
+  ],
+  "triangles": 340,
+  "outsideSkinSamples": "0/45",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right subcostal muscles",
+  "zh": "右肋下肌",
+  "system": "muscular",
+  "kind": "muscle",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   32,
+   128,
+   26
+  ],
+  "centreMm": [
+   -82,
+   1169,
+   -71
+  ],
+  "triangles": 272,
+  "outsideSkinSamples": "0/48",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left palmaris brevis",
+  "zh": "左掌短肌",
+  "system": "muscular",
+  "kind": "muscle",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   7,
+   19,
+   7
+  ],
+  "centreMm": [
+   232,
+   855,
+   43
+  ],
+  "triangles": 396,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left transversus thoracis",
+  "zh": "左胸橫肌",
+  "system": "muscular",
+  "kind": "muscle",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   34,
+   116,
+   44
+  ],
+  "centreMm": [
+   23,
+   1308,
+   83
+  ],
+  "triangles": 340,
+  "outsideSkinSamples": "0/45",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left subcostal muscles",
+  "zh": "左肋下肌",
+  "system": "muscular",
+  "kind": "muscle",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   33,
+   128,
+   24
+  ],
+  "centreMm": [
+   81,
+   1169,
+   -69
+  ],
+  "triangles": 272,
+  "outsideSkinSamples": "0/48",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Oblique fissure of right lung",
+  "zh": "右肺斜裂",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   110,
+   138,
+   169
+  ],
+  "centreMm": [
+   -69,
+   1289,
+   11
+  ],
+  "triangles": 5428,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Horizontal fissure of right lung",
+  "zh": "右肺水平裂",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   114,
+   33,
+   137
+  ],
+  "centreMm": [
+   -61,
+   1315,
+   19
+  ],
+  "triangles": 4125,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Oblique fissure of left lung",
+  "zh": "左肺斜裂",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   99,
+   144,
+   170
+  ],
+  "centreMm": [
+   73,
+   1300,
+   15
+  ],
+  "triangles": 3252,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Lingula of left lung",
+  "zh": "左肺舌葉",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   110,
+   86,
+   96
+  ],
+  "centreMm": [
+   67,
+   1273,
+   52
+  ],
+  "triangles": 4247,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Cardiac notch of left lung",
+  "zh": "左肺心切跡",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   73,
+   65,
+   56
+  ],
+  "centreMm": [
+   52,
+   1281,
+   63
+  ],
+  "triangles": 414,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Cardiac impression of left lung",
+  "zh": "左肺心壓跡",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   90,
+   118,
+   131
+  ],
+  "centreMm": [
+   50,
+   1303,
+   22
+  ],
+  "triangles": 3785,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Cardiac impression of right lung",
+  "zh": "右肺心壓跡",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   54,
+   117,
+   118
+  ],
+  "centreMm": [
+   -27,
+   1311,
+   22
+  ],
+  "triangles": 5402,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Groove for aortic arch",
+  "zh": "主動脈弓溝",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   16,
+   46,
+   79
+  ],
+  "centreMm": [
+   25,
+   1378,
+   -13
+  ],
+  "triangles": 1011,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Groove for descending aorta",
+  "zh": "降主動脈溝",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   16,
+   173,
+   39
+  ],
+  "centreMm": [
+   25,
+   1296,
+   -31
+  ],
+  "triangles": 993,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left groove for subclavian artery",
+  "zh": "左鎖骨下動脈溝",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   27,
+   47,
+   17
+  ],
+  "centreMm": [
+   31,
+   1407,
+   -2
+  ],
+  "triangles": 17,
+  "outsideSkinSamples": "0/37",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right groove for subclavian artery",
+  "zh": "右鎖骨下動脈溝",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   24,
+   19,
+   11
+  ],
+  "centreMm": [
+   -32,
+   1421,
+   -4
+  ],
+  "triangles": 54,
+  "outsideSkinSamples": "0/45",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Groove for left brachiocephalic vein",
+  "zh": "左頭臂靜脈溝",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   18,
+   34,
+   21
+  ],
+  "centreMm": [
+   25,
+   1411,
+   13
+  ],
+  "triangles": 155,
+  "outsideSkinSamples": "0/51",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Groove for brachiocephalic vein",
+  "zh": "頭臂靜脈溝",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   13,
+   39,
+   30
+  ],
+  "centreMm": [
+   -22,
+   1392,
+   20
+  ],
+  "triangles": 357,
+  "outsideSkinSamples": "0/45",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Groove for superior vena cava",
+  "zh": "上腔靜脈溝",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   13,
+   51,
+   34
+  ],
+  "centreMm": [
+   -20,
+   1372,
+   15
+  ],
+  "triangles": 805,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Groove for azygos vein",
+  "zh": "奇靜脈溝",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   5,
+   56,
+   45
+  ],
+  "centreMm": [
+   -16,
+   1345,
+   -18
+  ],
+  "triangles": 379,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Groove for esophagus",
+  "zh": "食道溝",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   12,
+   58,
+   29
+  ],
+  "centreMm": [
+   -7,
+   1264,
+   -18
+  ],
+  "triangles": 239,
+  "outsideSkinSamples": "0/47",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Hilum of left lung",
+  "zh": "左肺門",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   72,
+   103,
+   101
+  ],
+  "centreMm": [
+   56,
+   1336,
+   0
+  ],
+  "triangles": 3192,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Hilum of right lung",
+  "zh": "右肺門",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   78,
+   110,
+   65
+  ],
+  "centreMm": [
+   -44,
+   1335,
+   -16
+  ],
+  "triangles": 4865,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left pulmonary ligament",
+  "zh": "左肺韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   20,
+   76,
+   32
+  ],
+  "centreMm": [
+   27,
+   1227,
+   -53
+  ],
+  "triangles": 164,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right pulmonary ligament",
+  "zh": "右肺韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   38,
+   79,
+   60
+  ],
+  "centreMm": [
+   -18,
+   1225,
+   -25
+  ],
+  "triangles": 164,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right C1 spinal nerve",
+  "zh": "右第一頸脊神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   29,
+   12,
+   7
+  ],
+  "centreMm": [
+   -19,
+   1539,
+   -24
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right C2 spinal nerve",
+  "zh": "右第二頸脊神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   29,
+   12,
+   7
+  ],
+  "centreMm": [
+   -19,
+   1539,
+   -25
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right C3 spinal nerve",
+  "zh": "右第三頸脊神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   23,
+   12,
+   7
+  ],
+  "centreMm": [
+   -16,
+   1516,
+   -21
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right C4 spinal nerve",
+  "zh": "右第四頸脊神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   23,
+   12,
+   7
+  ],
+  "centreMm": [
+   -16,
+   1501,
+   -18
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right C5 spinal nerve",
+  "zh": "右第五頸脊神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   23,
+   12,
+   7
+  ],
+  "centreMm": [
+   -16,
+   1485,
+   -18
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right C6 spinal nerve",
+  "zh": "右第六頸脊神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   23,
+   12,
+   7
+  ],
+  "centreMm": [
+   -16,
+   1475,
+   -19
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right C7 spinal nerve",
+  "zh": "右第七頸脊神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   23,
+   12,
+   7
+  ],
+  "centreMm": [
+   -16,
+   1460,
+   -23
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right C8 spinal nerve",
+  "zh": "右第八頸脊神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   23,
+   12,
+   7
+  ],
+  "centreMm": [
+   -16,
+   1446,
+   -29
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right dorsal ramus of C1 spinal nerve",
+  "zh": "右第一頸脊神經後支",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "tube",
+  "sizeMm": [
+   6,
+   12,
+   36
+  ],
+  "centreMm": [
+   -28,
+   1535,
+   -44
+  ],
+  "triangles": 180,
+  "outsideSkinSamples": "0/46",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right dorsal ramus of C2 spinal nerve",
+  "zh": "右第二頸脊神經後支",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   22,
+   26,
+   26
+  ],
+  "centreMm": [
+   -15,
+   1528,
+   -40
+  ],
+  "triangles": 180,
+  "outsideSkinSamples": "0/46",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right dorsal ramus of C3 spinal nerve",
+  "zh": "右第三頸脊神經後支",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   9,
+   16,
+   36
+  ],
+  "centreMm": [
+   -17,
+   1510,
+   -41
+  ],
+  "triangles": 180,
+  "outsideSkinSamples": "0/46",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right dorsal ramus of C4 spinal nerve",
+  "zh": "右第四頸脊神經後支",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   9,
+   16,
+   36
+  ],
+  "centreMm": [
+   -17,
+   1495,
+   -38
+  ],
+  "triangles": 180,
+  "outsideSkinSamples": "0/46",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right dorsal ramus of C5 spinal nerve",
+  "zh": "右第五頸脊神經後支",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   9,
+   16,
+   36
+  ],
+  "centreMm": [
+   -17,
+   1479,
+   -38
+  ],
+  "triangles": 180,
+  "outsideSkinSamples": "0/46",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right dorsal ramus of C6 spinal nerve",
+  "zh": "右第六頸脊神經後支",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   9,
+   16,
+   36
+  ],
+  "centreMm": [
+   -17,
+   1469,
+   -39
+  ],
+  "triangles": 180,
+  "outsideSkinSamples": "0/46",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right dorsal ramus of C7 spinal nerve",
+  "zh": "右第七頸脊神經後支",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   9,
+   16,
+   36
+  ],
+  "centreMm": [
+   -17,
+   1454,
+   -43
+  ],
+  "triangles": 180,
+  "outsideSkinSamples": "0/46",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right dorsal ramus of C8 spinal nerve",
+  "zh": "右第八頸脊神經後支",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   9,
+   16,
+   36
+  ],
+  "centreMm": [
+   -17,
+   1440,
+   -49
+  ],
+  "triangles": 180,
+  "outsideSkinSamples": "0/46",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left C1 spinal nerve",
+  "zh": "左第一頸脊神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   29,
+   12,
+   7
+  ],
+  "centreMm": [
+   19,
+   1539,
+   -24
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left C2 spinal nerve",
+  "zh": "左第二頸脊神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   29,
+   12,
+   7
+  ],
+  "centreMm": [
+   19,
+   1539,
+   -25
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left C3 spinal nerve",
+  "zh": "左第三頸脊神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   23,
+   12,
+   7
+  ],
+  "centreMm": [
+   16,
+   1516,
+   -21
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left C4 spinal nerve",
+  "zh": "左第四頸脊神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   23,
+   12,
+   7
+  ],
+  "centreMm": [
+   16,
+   1501,
+   -18
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left C5 spinal nerve",
+  "zh": "左第五頸脊神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   23,
+   12,
+   7
+  ],
+  "centreMm": [
+   16,
+   1485,
+   -18
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left C6 spinal nerve",
+  "zh": "左第六頸脊神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   23,
+   12,
+   7
+  ],
+  "centreMm": [
+   16,
+   1475,
+   -19
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left C7 spinal nerve",
+  "zh": "左第七頸脊神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   23,
+   12,
+   7
+  ],
+  "centreMm": [
+   16,
+   1460,
+   -23
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left C8 spinal nerve",
+  "zh": "左第八頸脊神經",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   23,
+   12,
+   7
+  ],
+  "centreMm": [
+   16,
+   1446,
+   -29
+  ],
+  "triangles": 228,
+  "outsideSkinSamples": "0/58",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left dorsal ramus of C1 spinal nerve",
+  "zh": "左第一頸脊神經後支",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "tube",
+  "sizeMm": [
+   6,
+   12,
+   36
+  ],
+  "centreMm": [
+   27,
+   1535,
+   -44
+  ],
+  "triangles": 180,
+  "outsideSkinSamples": "0/46",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left dorsal ramus of C2 spinal nerve",
+  "zh": "左第二頸脊神經後支",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   21,
+   24,
+   24
+  ],
+  "centreMm": [
+   16,
+   1529,
+   -39
+  ],
+  "triangles": 180,
+  "outsideSkinSamples": "0/46",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left dorsal ramus of C3 spinal nerve",
+  "zh": "左第三頸脊神經後支",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   9,
+   16,
+   36
+  ],
+  "centreMm": [
+   17,
+   1510,
+   -41
+  ],
+  "triangles": 180,
+  "outsideSkinSamples": "0/46",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left dorsal ramus of C4 spinal nerve",
+  "zh": "左第四頸脊神經後支",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   9,
+   16,
+   36
+  ],
+  "centreMm": [
+   17,
+   1495,
+   -38
+  ],
+  "triangles": 180,
+  "outsideSkinSamples": "0/46",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left dorsal ramus of C5 spinal nerve",
+  "zh": "左第五頸脊神經後支",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   9,
+   16,
+   36
+  ],
+  "centreMm": [
+   17,
+   1479,
+   -38
+  ],
+  "triangles": 180,
+  "outsideSkinSamples": "0/46",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left dorsal ramus of C6 spinal nerve",
+  "zh": "左第六頸脊神經後支",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   9,
+   16,
+   36
+  ],
+  "centreMm": [
+   17,
+   1469,
+   -39
+  ],
+  "triangles": 180,
+  "outsideSkinSamples": "0/46",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left dorsal ramus of C7 spinal nerve",
+  "zh": "左第七頸脊神經後支",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   9,
+   16,
+   36
+  ],
+  "centreMm": [
+   17,
+   1454,
+   -43
+  ],
+  "triangles": 180,
+  "outsideSkinSamples": "0/46",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left dorsal ramus of C8 spinal nerve",
+  "zh": "左第八頸脊神經後支",
+  "system": "nervous",
+  "kind": "nerve",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   9,
+   16,
+   36
+  ],
+  "centreMm": [
+   17,
+   1440,
+   -49
+  ],
+  "triangles": 180,
+  "outsideSkinSamples": "0/46",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right mammary gland",
+  "zh": "右乳腺（乳房）",
+  "system": "reproductive",
+  "kind": "gland",
+  "sex": "female",
+  "shape": "volume",
+  "sizeMm": [
+   39,
+   61,
+   40
+  ],
+  "centreMm": [
+   -76,
+   1295,
+   152
+  ],
+  "triangles": 8994,
+  "outsideSkinSamples": "41/41",
+  "worstOverMm": 50
+ },
+ {
+  "name": "Right adipose tissue of breast",
+  "zh": "右乳房脂肪組織",
+  "system": "reproductive",
+  "kind": "organ",
+  "sex": "female",
+  "shape": "volume",
+  "sizeMm": [
+   70,
+   99,
+   103
+  ],
+  "centreMm": [
+   -65,
+   1308,
+   124
+  ],
+  "triangles": 5944,
+  "outsideSkinSamples": "40/41",
+  "worstOverMm": 53
+ },
+ {
+  "name": "Right lactiferous ducts",
+  "zh": "右輸乳管",
+  "system": "reproductive",
+  "kind": "organ",
+  "sex": "female",
+  "shape": "volume",
+  "sizeMm": [
+   32,
+   56,
+   44
+  ],
+  "centreMm": [
+   -78,
+   1294,
+   155
+  ],
+  "triangles": 4000,
+  "outsideSkinSamples": "41/41",
+  "worstOverMm": 57
+ },
+ {
+  "name": "Right lactiferous sinuses",
+  "zh": "右輸乳竇",
+  "system": "reproductive",
+  "kind": "organ",
+  "sex": "female",
+  "shape": "rod",
+  "sizeMm": [
+   10,
+   6,
+   7
+  ],
+  "centreMm": [
+   -79,
+   1284,
+   173
+  ],
+  "triangles": 1199,
+  "outsideSkinSamples": "42/42",
+  "worstOverMm": 56
+ },
+ {
+  "name": "Right areola",
+  "zh": "右乳暈",
+  "system": "reproductive",
+  "kind": "organ",
+  "sex": "female",
+  "shape": "rod",
+  "sizeMm": [
+   13,
+   14,
+   9
+  ],
+  "centreMm": [
+   -81,
+   1283,
+   173
+  ],
+  "triangles": 2299,
+  "outsideSkinSamples": "41/41",
+  "worstOverMm": 56
+ },
+ {
+  "name": "Right nipple",
+  "zh": "右乳頭",
+  "system": "reproductive",
+  "kind": "organ",
+  "sex": "female",
+  "shape": "rod",
+  "sizeMm": [
+   5,
+   6,
+   5
+  ],
+  "centreMm": [
+   -81,
+   1283,
+   176
+  ],
+  "triangles": 1199,
+  "outsideSkinSamples": "41/41",
+  "worstOverMm": 58
+ },
+ {
+  "name": "Right suspensory ligament of breast",
+  "zh": "右乳房懸韌帶（庫柏氏韌帶）",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "female",
+  "shape": "volume",
+  "sizeMm": [
+   37,
+   40,
+   31
+  ],
+  "centreMm": [
+   -77,
+   1284,
+   157
+  ],
+  "triangles": 5000,
+  "outsideSkinSamples": "41/41",
+  "worstOverMm": 53
+ },
+ {
+  "name": "Left mammary gland",
+  "zh": "左乳腺（乳房）",
+  "system": "reproductive",
+  "kind": "gland",
+  "sex": "female",
+  "shape": "volume",
+  "sizeMm": [
+   39,
+   61,
+   39
+  ],
+  "centreMm": [
+   76,
+   1294,
+   152
+  ],
+  "triangles": 8923,
+  "outsideSkinSamples": "41/41",
+  "worstOverMm": 49
+ },
+ {
+  "name": "Left adipose tissue of breast",
+  "zh": "左乳房脂肪組織",
+  "system": "reproductive",
+  "kind": "organ",
+  "sex": "female",
+  "shape": "volume",
+  "sizeMm": [
+   70,
+   100,
+   103
+  ],
+  "centreMm": [
+   65,
+   1307,
+   125
+  ],
+  "triangles": 5956,
+  "outsideSkinSamples": "41/41",
+  "worstOverMm": 53
+ },
+ {
+  "name": "Left lactiferous ducts",
+  "zh": "左輸乳管",
+  "system": "reproductive",
+  "kind": "organ",
+  "sex": "female",
+  "shape": "volume",
+  "sizeMm": [
+   32,
+   56,
+   43
+  ],
+  "centreMm": [
+   78,
+   1293,
+   156
+  ],
+  "triangles": 3999,
+  "outsideSkinSamples": "41/41",
+  "worstOverMm": 56
+ },
+ {
+  "name": "Left lactiferous sinuses",
+  "zh": "左輸乳竇",
+  "system": "reproductive",
+  "kind": "organ",
+  "sex": "female",
+  "shape": "rod",
+  "sizeMm": [
+   10,
+   6,
+   7
+  ],
+  "centreMm": [
+   79,
+   1282,
+   173
+  ],
+  "triangles": 1199,
+  "outsideSkinSamples": "42/42",
+  "worstOverMm": 55
+ },
+ {
+  "name": "Left areola",
+  "zh": "左乳暈",
+  "system": "reproductive",
+  "kind": "organ",
+  "sex": "female",
+  "shape": "rod",
+  "sizeMm": [
+   13,
+   14,
+   9
+  ],
+  "centreMm": [
+   80,
+   1282,
+   173
+  ],
+  "triangles": 2298,
+  "outsideSkinSamples": "41/41",
+  "worstOverMm": 55
+ },
+ {
+  "name": "Left nipple",
+  "zh": "左乳頭",
+  "system": "reproductive",
+  "kind": "organ",
+  "sex": "female",
+  "shape": "rod",
+  "sizeMm": [
+   5,
+   6,
+   4
+  ],
+  "centreMm": [
+   81,
+   1282,
+   175
+  ],
+  "triangles": 1200,
+  "outsideSkinSamples": "41/41",
+  "worstOverMm": 57
+ },
+ {
+  "name": "Left suspensory ligament of breast",
+  "zh": "左乳房懸韌帶（庫柏氏韌帶）",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "female",
+  "shape": "volume",
+  "sizeMm": [
+   38,
+   41,
+   31
+  ],
+  "centreMm": [
+   76,
+   1283,
+   157
+  ],
+  "triangles": 5000,
+  "outsideSkinSamples": "41/41",
+  "worstOverMm": 53
+ },
+ {
+  "name": "Mons pubis",
+  "zh": "陰阜",
+  "system": "reproductive",
+  "kind": "organ",
+  "sex": "female",
+  "shape": "volume",
+  "sizeMm": [
+   80,
+   48,
+   25
+  ],
+  "centreMm": [
+   0,
+   869,
+   58
+  ],
+  "triangles": 160,
+  "outsideSkinSamples": "1/45",
+  "worstOverMm": 6
+ },
+ {
+  "name": "Right labium majus",
+  "zh": "右大陰唇",
+  "system": "reproductive",
+  "kind": "organ",
+  "sex": "female",
+  "shape": "volume",
+  "sizeMm": [
+   16,
+   24,
+   117
+  ],
+  "centreMm": [
+   -18,
+   845,
+   21
+  ],
+  "triangles": 500,
+  "outsideSkinSamples": "3/42",
+  "worstOverMm": 25
+ },
+ {
+  "name": "Right labium minus",
+  "zh": "右小陰唇",
+  "system": "reproductive",
+  "kind": "organ",
+  "sex": "female",
+  "shape": "rod",
+  "sizeMm": [
+   9,
+   16,
+   115
+  ],
+  "centreMm": [
+   -8,
+   843,
+   17
+  ],
+  "triangles": 400,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right bulb of vestibule",
+  "zh": "右前庭球",
+  "system": "reproductive",
+  "kind": "organ",
+  "sex": "female",
+  "shape": "tube",
+  "sizeMm": [
+   9,
+   11,
+   38
+  ],
+  "centreMm": [
+   -13,
+   841,
+   -14
+  ],
+  "triangles": 160,
+  "outsideSkinSamples": "0/45",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right greater vestibular gland",
+  "zh": "右前庭大腺（巴氏腺）",
+  "system": "reproductive",
+  "kind": "gland",
+  "sex": "female",
+  "shape": "rod",
+  "sizeMm": [
+   11,
+   11,
+   10
+  ],
+  "centreMm": [
+   -14,
+   838,
+   -34
+  ],
+  "triangles": 160,
+  "outsideSkinSamples": "0/45",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right crus of clitoris",
+  "zh": "右陰蒂腳",
+  "system": "reproductive",
+  "kind": "organ",
+  "sex": "female",
+  "shape": "volume",
+  "sizeMm": [
+   36,
+   16,
+   68
+  ],
+  "centreMm": [
+   -19,
+   847,
+   42
+  ],
+  "triangles": 304,
+  "outsideSkinSamples": "0/52",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left labium majus",
+  "zh": "左大陰唇",
+  "system": "reproductive",
+  "kind": "organ",
+  "sex": "female",
+  "shape": "volume",
+  "sizeMm": [
+   16,
+   24,
+   117
+  ],
+  "centreMm": [
+   18,
+   845,
+   21
+  ],
+  "triangles": 500,
+  "outsideSkinSamples": "5/42",
+  "worstOverMm": 23
+ },
+ {
+  "name": "Left labium minus",
+  "zh": "左小陰唇",
+  "system": "reproductive",
+  "kind": "organ",
+  "sex": "female",
+  "shape": "rod",
+  "sizeMm": [
+   9,
+   16,
+   115
+  ],
+  "centreMm": [
+   8,
+   843,
+   17
+  ],
+  "triangles": 400,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left bulb of vestibule",
+  "zh": "左前庭球",
+  "system": "reproductive",
+  "kind": "organ",
+  "sex": "female",
+  "shape": "tube",
+  "sizeMm": [
+   9,
+   11,
+   38
+  ],
+  "centreMm": [
+   13,
+   841,
+   -14
+  ],
+  "triangles": 160,
+  "outsideSkinSamples": "0/45",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left greater vestibular gland",
+  "zh": "左前庭大腺（巴氏腺）",
+  "system": "reproductive",
+  "kind": "gland",
+  "sex": "female",
+  "shape": "rod",
+  "sizeMm": [
+   11,
+   11,
+   10
+  ],
+  "centreMm": [
+   14,
+   838,
+   -34
+  ],
+  "triangles": 160,
+  "outsideSkinSamples": "0/45",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left crus of clitoris",
+  "zh": "左陰蒂腳",
+  "system": "reproductive",
+  "kind": "organ",
+  "sex": "female",
+  "shape": "volume",
+  "sizeMm": [
+   36,
+   16,
+   68
+  ],
+  "centreMm": [
+   19,
+   847,
+   42
+  ],
+  "triangles": 304,
+  "outsideSkinSamples": "0/52",
+  "worstOverMm": 2
+ },
+ {
+  "name": "Clitoris",
+  "zh": "陰蒂",
+  "system": "reproductive",
+  "kind": "organ",
+  "sex": "female",
+  "shape": "rod",
+  "sizeMm": [
+   7,
+   20,
+   10
+  ],
+  "centreMm": [
+   0,
+   851,
+   77
+  ],
+  "triangles": 400,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 1
+ },
+ {
+  "name": "Vestibule of vagina",
+  "zh": "陰道前庭",
+  "system": "reproductive",
+  "kind": "organ",
+  "sex": "female",
+  "shape": "rod",
+  "sizeMm": [
+   15,
+   11,
+   59
+  ],
+  "centreMm": [
+   0,
+   843,
+   16
+  ],
+  "triangles": 160,
+  "outsideSkinSamples": "0/45",
+  "worstOverMm": 0
+ }
+]

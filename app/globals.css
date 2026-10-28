@@ -1285,3 +1285,10 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 .row-arrow svg{transition:transform .15s}
 .row-arrow[aria-expanded=true] svg{transform:rotate(90deg)}
 .row-arrow-spacer{display:inline-block;width:22px;flex:none}
+/* Side chooser (雙側 / 左側 / 右側) under the region nav for the upper and lower limb */
+.side-region-nav{position:absolute;z-index:18;left:50%;transform:translateX(-50%);top:78px;display:flex;align-items:center;gap:4px;padding:4px;border-radius:12px;flex-wrap:wrap;justify-content:center;max-width:min(92vw,520px)}
+.side-region-nav button{height:30px;min-width:56px;padding:0 12px;border-radius:8px;font-size:12px;color:#66727d;white-space:nowrap}
+.side-region-nav button[aria-pressed=true]{background:#263b48;color:#fff}
+.side-region-nav .side-fade-toggle{display:flex;align-items:center;gap:6px;margin-left:6px;padding:0 8px;font-size:12px;color:#44515c;white-space:nowrap;cursor:pointer}
+.side-region-nav .side-fade-toggle input{accent-color:#263b48}
+@media(max-width:767px){.side-region-nav{top:132px}}

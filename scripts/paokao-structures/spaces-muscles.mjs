@@ -112,17 +112,7 @@ export default function spacesMuscles(U) {
     }
     out.push({name: 'Ligamentum flavum', zh: '黃韌帶', system: 'connective', kind: 'ligament', geometry: [U.merge(ribs)],
       card: {origin: ['Lamina of the vertebra above', '上一節椎骨的椎弓板'], course: ['Yellow elastic bands joining the laminae of adjacent vertebrae on the inside of the vertebral canal, behind the spinal cord', '連接相鄰椎弓板的黃色彈性纖維帶，位於椎管內脊髓後方'], supply: ['Resists excessive flexion and helps the spine return to the upright posture', '限制過度前屈，並協助脊柱回復直立']}, refs: [REF]});
-    // Suspensory ligaments of the breast (Cooper): fibrous septa from the deep fascia over pectoralis major out to the skin of the breast.
-    for (const S of SIDES) {
-      const wall = U.mesh(`${S.w} fifth rib`), tubes = [];
-      const c0 = P(S.sx * .085, 1.270, .088);
-      for (let i = 0; i < 9; i++) {
-        const a = i / 9 * Math.PI * 2, d = P(Math.cos(a) * .020, Math.sin(a) * .020, 0), root = add(c0, mul(d, .35)), tip = add(c0, add(d, P(0, 0, .016)));
-        tubes.push(U.tube([add(root, P(0, 0, -.008)), lerp(add(root, P(0, 0, -.008)), tip, .5), tip], .0004, .0003, 6, 5));
-      }
-      out.push({name: `${S.w} suspensory ligament of breast`, zh: `${S.zh}乳房懸韌帶（庫柏氏韌帶）`, system: 'connective', kind: 'ligament', geometry: [U.merge(tubes)],
-        card: {origin: ['Deep fascia over pectoralis major', '胸大肌表面的深筋膜'], course: ['Fibrous septa running through the breast between the lobules to the dermis of the skin', '穿過乳腺小葉之間、連到皮膚真皮的纖維隔'], supply: ['Support the breast; invasion by cancer can pull on them and dimple the skin', '支撐乳房；乳癌侵犯時牽拉而使皮膚凹陷']}, refs: [REF]});
-    }
+    // The suspensory ligaments of the breast (Cooper) are part of the registered breast model in neck-breast-vulva.mjs.
   }
   // ---- Thin muscles
   for (const S of SIDES) {
