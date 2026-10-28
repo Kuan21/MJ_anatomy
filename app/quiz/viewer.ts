@@ -40,7 +40,7 @@ export const FEEDBACK = {
   correct: {fill: '#5DB89A', edge: '#3E8E74'},
   wrong: {fill: '#D6304A', edge: '#A8243A'},
   /** Level 2 target: yellow body with a brighter yellow glow around it. */
-  target: {fill: '#F4C20D', edge: '#FFD84A'},
+  target: {fill: '#FBE27A', edge: '#FFEB9E'},
   neighbour: {fill: '#5AA9E6', edge: '#2F7FC1'},
 };
 const outlineMaterial = (color: string) => new T.ShaderMaterial({
@@ -103,7 +103,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
       material.color.set(fill);
       // The emissive term keeps the light and shade of the surface: the yellow is a tint, not a flat fill.
       material.emissive.set(lit ? fill : '#000000');
-      material.emissiveIntensity = naming && isTarget ? .22 : isNeighbour ? .14 : isAnswer || isWrong ? .08 : 0;
+      material.emissiveIntensity = naming && isTarget ? .16 : isNeighbour ? .14 : isAnswer || isWrong ? .08 : 0;
       material.opacity = naming ? (isTarget || isNeighbour ? 1 : isContext ? .06 + .34 * clarity : .12 + .6 * clarity)
         : isAnswer || isWrong ? .85 : isContext ? .2 : state.answered ? .16 : 1;
       // Outline shell around the answer, the wrong pick, the level-2 target and a clicked neighbour (shares the mesh geometry).

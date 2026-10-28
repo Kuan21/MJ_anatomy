@@ -191,7 +191,7 @@ a.quiz-hub-card:hover{transform:translateY(-2px);border-color:#263b4866;box-shad
 .quiz-name-form label{font-size:13px;font-weight:600}
 .quiz-name-form label small{display:block;font-weight:400;font-size:11px;color:var(--quiz-muted);margin-top:2px}
 .quiz-name-input{width:100%;min-height:50px;padding:12px 14px;border:1.5px solid var(--quiz-line);border-radius:11px;font-size:16px;background:#fff;color:var(--quiz-ink)}
-.quiz-name-input:focus-visible{outline:2px solid #f0b400;outline-offset:1px;border-color:#f0b400}
+.quiz-name-input:focus-visible{outline:2px solid #f3cf55;outline-offset:1px;border-color:#f3cf55}
 .quiz-name-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .quiz-name-actions .quiz-primary small{margin-left:8px;opacity:.7;font-size:10px}
 .quiz-naming-tools{margin-top:6px}

@@ -240,7 +240,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
               <div className="quiz-tool-row"><button type="button" data-slot="quiz-button" className="quiz-tool-button" disabled={!ready} onClick={() => changeView('random')}><Shuffle size={16}/><span>隨機角度<small>換一個看得到目標的視角</small></span></button><button type="button" data-slot="quiz-button" className="quiz-tool-button" disabled={!ready} onClick={() => changeView('answer')}><Maximize2 size={16}/><span>放大至目標</span></button></div>
               <label className="quiz-slider">周圍構造清晰度<input type="range" min={0} max={1} step={.05} value={clarity} onChange={e => setClarity(+e.target.value)} aria-label="周圍構造清晰度"/></label>
               <label className="quiz-context-toggle"><input type="checkbox" checked={only} onChange={e => setOnly(e.target.checked)}/>只看目標</label>
-              {target.system !== 'skeletal' && <label className="quiz-context-toggle"><input type="checkbox" checked={context} onChange={e => setContext(e.target.checked)}/>顯示骨骼參照</label>}
+              {target.system !== 'skeletal' && <label className="quiz-context-toggle"><input type="checkbox" checked={context} onChange={e => setContext(e.target.checked)}/>顯示參照物</label>}
             </div>
             <p className="quiz-message" role="status" aria-live="polite">{message}</p>
           </form> : <div className={`quiz-feedback is-${result === 'correct' ? 'correct' : result === 'close' ? 'close' : 'wrong'}`} role="status" aria-live="polite" aria-atomic="true">
