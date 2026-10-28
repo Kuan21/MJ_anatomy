@@ -1298,3 +1298,5 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 .space-detail{display:grid;gap:8px}.space-detail>div{display:grid;gap:3px}.space-hint{margin:0;font-size:11px;color:#51606c}
 .dissection-sides{margin:4px 0 8px}
 .space-detail .bn-row{justify-content:flex-start;text-align:left;gap:8px}
+
+.organ-range{width:88px;accent-color:#5db89a}

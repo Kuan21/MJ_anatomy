@@ -7,11 +7,10 @@
 import fs from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {icp, applyFit} from './lib/similarity-fit.mjs';
+import {atlasPositions} from './lib/atlas-read.mjs';
 
-const root = new URL('../', import.meta.url), file = new URL('data/female-pelvis-registration.json', import.meta.url);
-const atlas = JSON.parse(fs.readFileSync(new URL('public/models/atlas.json', root)));
-const chunks = new Map(), chunk = i => { if (!chunks.has(i)) chunks.set(i, fs.readFileSync(new URL('public' + atlas.chunks[i].url, root))); return chunks.get(i); };
-const positionsOf = name => { const p = atlas.parts.find(q => q.name === name); if (!p) throw new Error(`atlas has no ${name}`); const b = chunk(p.chunk); return new Float32Array(b.buffer.slice(b.byteOffset + p.positions, b.byteOffset + p.positions + p.vertexCount * 12)); };
+const file = new URL('data/female-pelvis-registration.json', import.meta.url);
+const positionsOf = atlasPositions;
 const dec = (text, Type) => { const b = Buffer.from(text, 'base64'); return new Type(b.buffer.slice(b.byteOffset, b.byteOffset + b.length)); };
 const sample = (P, step) => { const out = []; for (let i = 0; i < P.length; i += 3 * step) out.push([P[i], P[i + 1], P[i + 2]]); return out; };
 
