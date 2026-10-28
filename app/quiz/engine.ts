@@ -1,6 +1,7 @@
 import type {QuizStructure} from './catalogue';
 
-export type QuizAnswer = {targetId: string; pickedId: string | null; correct: boolean};
+/** Level 1 records the structure that was picked; level 2 records the typed name and how it was judged (a close answer is not scored as correct but is shown with its correct spelling). */
+export type QuizAnswer = {targetId: string; pickedId: string | null; correct: boolean; typed?: string; result?: 'correct' | 'close' | 'wrong' | 'skipped'};
 export interface QuizSession {queue: string[]; answers: QuizAnswer[]}
 
 function shuffled<T>(values: readonly T[], random: () => number) {
@@ -34,6 +35,15 @@ export function recordAnswer(session: QuizSession, index: number, pickedId: stri
   const targetId = session.queue[index];
   return {...session, answers: [...session.answers, {targetId, pickedId, correct: pickedId === targetId}]};
 }
+
+/** A typed answer of level 2. */
+export function recordTyped(session: QuizSession, index: number, typed: string | null, result: 'correct' | 'close' | 'wrong' | 'skipped'): QuizSession {
+  if (index !== session.answers.length || !session.queue[index]) return session;
+  return {...session, answers: [...session.answers, {targetId: session.queue[index], pickedId: null, correct: result === 'correct', typed: typed ?? undefined, result}]};
+}
+
+/** A session made of chosen structures (the saved mistakes), in random order. */
+export function sessionOf(ids: string[], random = Math.random): QuizSession {return {queue: shuffled(ids, random), answers: []};}
 
 export function retryMistakes(session: QuizSession): QuizSession {
   return {queue: session.answers.filter(a => !a.correct).map(a => a.targetId), answers: []};
