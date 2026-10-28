@@ -54,12 +54,21 @@ function bind(id, s) {
     return;
   }
   const part = {id, name: s.name, system: s.system, bounds: boundsOf(s.geometry)}, region = anatomicalRegion(part), side = anatomicalSide(part);
-  if (region === 'upper-limb' && (side === 'left' || side === 'right')) {
-    const host = s.parent && atlasByName.get(s.parent), hostWord = host && /humerus|scapula|clavicle|radius|ulna/.exec(host.name)?.[0];
+  const host = s.parent && atlasByName.get(s.parent), hostWord = host && /humerus|scapula|clavicle|radius|ulna/.exec(host.name)?.[0];
+  const cy = (part.bounds[0][1] + part.bounds[1][1]) / 2;
+  // A landmark on a bone of the shoulder girdle or arm follows that bone, whatever band of the body its centre falls in.
+  if ((region === 'upper-limb' || hostWord) && (side === 'left' || side === 'right')) {
     bindings.tissue[id] = {name: s.name, side, profile: ARM_PROFILE[hostWord] ?? 'path'};
   } else if (region === 'lower-limb' && (side === 'left' || side === 'right')) {
-    const host = s.parent && atlasByName.get(s.parent), hostBinding = host && bodyJson[host.id];
+    const hostBinding = host && bodyJson[host.id];
     bindings.body[id] = {name: s.name, rig: side === 'left' ? 'leftLeg' : 'rightLeg', frame: s.kind === 'landmark' && hostBinding ? hostBinding.frame : null};
+  } else if (region === 'head-neck' && s.system === 'skeletal') {
+    // A landmark patch on a skull or cervical bone rides that bone's frame of the head rig (rigid, like the bone under it).
+    const hostBinding = host && bodyJson[host.id];
+    bindings.body[id] = {name: s.name, rig: 'head', frame: hostBinding ? hostBinding.frame : cy < 1.58 ? null : 8};
+  } else if (region === 'head-neck') {
+    // Neck and head structures (cervical spinal nerves and their dorsal rami, the suboccipital triangle ...) ride the head rig: soft in the neck, rigid with the skull above it.
+    bindings.body[id] = {name: s.name, rig: 'head', frame: cy < 1.58 ? null : 8};
   }
 }
 let n = 0;

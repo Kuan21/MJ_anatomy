@@ -3,6 +3,7 @@ import type {Atlas,Part,PartTransform} from '../anatomy';
 import {createSkeletonRig,type Side} from './skeleton';
 import rawBindings from './tissue-bindings.json';
 import paokaoBindings from './paokao-bindings.json';
+import vesselEndBindings from './vessel-end-bindings.json';
 import rawNerves from './nerve-bindings.json';
 import rawShoulderAttachments from './shoulder-attachments.json';
 import rawSerratusAttachments from './serratus-attachments.json';
@@ -43,7 +44,7 @@ const shoulderAttachments={...rawShoulderAttachments.parts,...rawSerratusAttachm
 
 export type Profile='pectoralPath'|'axillaryCable'|'path'|'trunk'|'humeral'|'sheetMuscle'|'deltoid'|'chest'|'cuff'|'biceps'|'triceps'|'arm'|'coraco'|'forearm'|'hand'|'scapular'|'clavicular'|'shoulderJoint'|'elbowJoint'|'wristJoint';
 export interface TissueBinding {name:string;side:Side;profile:Profile}
-export const tissueBindings={...rawBindings,...paokaoBindings.tissue} as Record<string,TissueBinding>;
+export const tissueBindings={...rawBindings,...paokaoBindings.tissue,...vesselEndBindings.tissue} as Record<string,TissueBinding>;
 export const nerveBindings=rawNerves as Record<string,{side:Side;profile:'path'}>;
 
 /** One rest-space carrier for connected upper-limb branches. Names determine
@@ -268,7 +269,8 @@ const SMOOTHED_PROFILES:Profile[]=['chest','scapular','clavicular','coraco'];
 export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<number>,part?:Part,sourceName='',triangles?:ArrayLike<number>):SkinBinding{
  const count=positions.length/3,indices=new Uint8Array(count*4),weights=new Float32Array(count*4),belly=new Float32Array(count),radial=new Float32Array(count*3),longitudinal=new Float32Array(count);
  const own=new Box3();for(let i=0;i<count;i++)own.expandByPoint(new Vector3(positions[i*3],positions[i*3+1],positions[i*3+2]));
- const name=part?.name??sourceName,effectiveProfile=resolveMuscleProfile(name,profile);
+ // A vessel-end piece shares its vessel's name but not its source mesh: keep it out of the lookups keyed by exact source name (cables, scapular branches, ...).
+ const name=part?(part.id?.endsWith('-END')?part.name+' (end)':part.name):sourceName,effectiveProfile=resolveMuscleProfile(name,profile);
  // Each triceps head has its own attachment extent. A union puts shorter
  // heads' origins inside the long head's moving belly coordinates.
  const shared=['deltoid','biceps'].includes(effectiveProfile)?rig.groups[effectiveProfile]:null;
