@@ -1287,3 +1287,9 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 .side-region-nav .side-fade-toggle{display:flex;align-items:center;gap:6px;margin-left:6px;padding:0 8px;font-size:12px;color:#44515c;white-space:nowrap;cursor:pointer}
 .side-region-nav .side-fade-toggle input{accent-color:#263b48}
 @media(max-width:767px){.side-region-nav{top:132px}}
+.space-list{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.space-pick{font-size:11px;border:1px solid #18253618;border-radius:7px;padding:6px 8px;text-align:left;line-height:1.25}
+.space-pick[aria-pressed="true"]{background:#263b48;color:#fff}
+.space-detail{display:grid;gap:8px}.space-detail>div{display:grid;gap:3px}.space-hint{margin:0;font-size:11px;color:#51606c}
+.dissection-sides{margin:4px 0 8px}
+.space-detail .bn-row{justify-content:flex-start;text-align:left;gap:8px}

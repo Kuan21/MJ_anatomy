@@ -6,7 +6,7 @@ import {BODY_LIMITS,BODY_NEUTRAL,type BodyPose,type BodyRegion} from './body-mot
 
 type BodyAction='flexion'|'rotation'|'sideBend'|'knee'|'ankle';
 
-export default function BodyControls({region,pose,onChange,onInspect,disabled=false}:{region:BodyRegion;pose:BodyPose;onChange:(region:BodyRegion,pose:BodyPose,focus?:boolean)=>void;onInspect?:(name:string)=>void;disabled?:boolean}){
+export default function BodyControls({region,pose,onChange,onInspect,onBoth,disabled=false}:{region:BodyRegion;pose:BodyPose;onChange:(region:BodyRegion,pose:BodyPose,focus?:boolean)=>void;onInspect?:(name:string)=>void;onBoth?:()=>void;disabled?:boolean}){
  const head=region==='head',spine=region==='spine',leg=!head&&!spine;
  const limits=BODY_LIMITS[head?'head':spine?'spine':'leg'];
  const controls:{key:keyof BodyPose;action:BodyAction;label:string}[]=head?[
@@ -37,8 +37,9 @@ export default function BodyControls({region,pose,onChange,onInspect,disabled=fa
    <Button variant="ghost" disabled={disabled} onClick={reset}>復位</Button>
   </div>
   {leg&&<div className="mj-motion-sides">
-   <Button variant="ghost" disabled={disabled} aria-pressed={region==='leftLeg'} onClick={()=>onChange('leftLeg',{...BODY_NEUTRAL},true)}>左側</Button>
-   <Button variant="ghost" disabled={disabled} aria-pressed={region==='rightLeg'} onClick={()=>onChange('rightLeg',{...BODY_NEUTRAL},true)}>右側</Button>
+   {onBoth&&<Button variant="ghost" disabled={disabled} aria-pressed={false} onClick={onBoth}>Both｜雙側</Button>}
+   <Button variant="ghost" disabled={disabled} aria-pressed={region==='leftLeg'} onClick={()=>onChange('leftLeg',{...BODY_NEUTRAL},true)}>Left｜左側</Button>
+   <Button variant="ghost" disabled={disabled} aria-pressed={region==='rightLeg'} onClick={()=>onChange('rightLeg',{...BODY_NEUTRAL},true)}>Right｜右側</Button>
   </div>}
   <div className="motion-control-stack">
    {controls.map(({key,action:nextAction,label})=><MotionPullControl
