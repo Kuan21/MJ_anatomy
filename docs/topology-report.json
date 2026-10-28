@@ -54,6 +54,54 @@
   "status": "fixed"
  },
  {
+  "child": "Right thyrocervical trunk",
+  "parent": "Right subclavian artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left thyrocervical trunk",
+  "parent": "Left subclavian artery",
+  "gapMm": 0.5,
+  "status": "ok"
+ },
+ {
+  "child": "Right suprascapular artery",
+  "parent": "Right thyrocervical trunk",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left suprascapular artery",
+  "parent": "Left thyrocervical trunk",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right transverse cervical artery",
+  "parent": "Right thyrocervical trunk",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left transverse cervical artery",
+  "parent": "Left thyrocervical trunk",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right dorsal scapular artery",
+  "parent": "Right transverse cervical artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left dorsal scapular artery",
+  "parent": "Left transverse cervical artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
   "child": "Right superior thoracic artery",
   "parent": "Right axillary artery",
   "gapMm": 0,
@@ -404,6 +452,102 @@
   "status": "ok"
  },
  {
+  "child": "Right superficial palmar arterial arch",
+  "parent": "Right ulnar artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left superficial palmar arterial arch",
+  "parent": "Left ulnar artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right deep palmar arch",
+  "parent": "Right radial artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left deep palmar arch",
+  "parent": "Left radial artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right first common palmar digital artery",
+  "parent": "Right superficial palmar arterial arch",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left first common palmar digital artery",
+  "parent": "Left superficial palmar arterial arch",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right second common palmar digital artery",
+  "parent": "Right superficial palmar arterial arch",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left second common palmar digital artery",
+  "parent": "Left superficial palmar arterial arch",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right third common palmar digital artery",
+  "parent": "Right superficial palmar arterial arch",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left third common palmar digital artery",
+  "parent": "Left superficial palmar arterial arch",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right fourth common palmar digital artery",
+  "parent": "Right superficial palmar arterial arch",
+  "gapMm": 0.2,
+  "status": "ok"
+ },
+ {
+  "child": "Left fourth common palmar digital artery",
+  "parent": "Left superficial palmar arterial arch",
+  "gapMm": 0.2,
+  "status": "ok"
+ },
+ {
+  "child": "Right arteria princeps pollicis",
+  "parent": "Right radial artery",
+  "gapMm": 0.3,
+  "status": "ok"
+ },
+ {
+  "child": "Left arteria princeps pollicis",
+  "parent": "Left radial artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right arteria radialis indicis",
+  "parent": "Right radial artery",
+  "gapMm": 28.9,
+  "status": "fixed"
+ },
+ {
+  "child": "Left arteria radialis indicis",
+  "parent": "Left radial artery",
+  "gapMm": 28.7,
+  "status": "fixed"
+ },
+ {
   "child": "Right common iliac artery",
   "parent": "Abdominal aorta",
   "gapMm": 0,
@@ -478,13 +622,13 @@
  {
   "child": "Right medial circumflex femoral artery",
   "parent": "Right deep femoral artery",
-  "gapMm": 0.5,
+  "gapMm": 0.8,
   "status": "ok"
  },
  {
   "child": "Left medial circumflex femoral artery",
   "parent": "Left deep femoral artery",
-  "gapMm": 0.5,
+  "gapMm": 0.8,
   "status": "ok"
  },
  {
@@ -526,7 +670,7 @@
  {
   "child": "Right fibular artery",
   "parent": "Right posterior tibial artery",
-  "gapMm": 0.5,
+  "gapMm": 0,
   "status": "ok"
  },
  {
@@ -586,7 +730,7 @@
  {
   "child": "Right inferior gluteal artery",
   "parent": "Right internal iliac artery",
-  "gapMm": 0.7,
+  "gapMm": 0,
   "status": "ok"
  },
  {
@@ -663,6 +807,150 @@
  },
  {
   "child": "Left posterior circumflex humeral vein",
+  "parent": "Left axillary vein",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right lateral brachial vein",
+  "parent": "Right axillary vein",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left lateral brachial vein",
+  "parent": "Left axillary vein",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right medial brachial vein",
+  "parent": "Right axillary vein",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left medial brachial vein",
+  "parent": "Left axillary vein",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right radial vein",
+  "parent": "Right medial brachial vein",
+  "gapMm": 0.1,
+  "status": "ok"
+ },
+ {
+  "child": "Left radial vein",
+  "parent": "Left medial brachial vein",
+  "gapMm": 0.1,
+  "status": "ok"
+ },
+ {
+  "child": "Right ulnar vein",
+  "parent": "Right medial brachial vein",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left ulnar vein",
+  "parent": "Left medial brachial vein",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right anterior interosseous vein",
+  "parent": "Right ulnar vein",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left anterior interosseous vein",
+  "parent": "Left ulnar vein",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right posterior interosseous vein",
+  "parent": "Right ulnar vein",
+  "gapMm": 0.4,
+  "status": "ok"
+ },
+ {
+  "child": "Left posterior interosseous vein",
+  "parent": "Left ulnar vein",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right median cubital vein",
+  "parent": "Right cephalic vein",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left median cubital vein",
+  "parent": "Left cephalic vein",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right median cubital vein",
+  "parent": "Right basilic vein",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left median cubital vein",
+  "parent": "Left basilic vein",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right superficial palmar venous arch",
+  "parent": "Right ulnar vein",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left superficial palmar venous arch",
+  "parent": "Left ulnar vein",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right deep palmar venous arch",
+  "parent": "Right radial vein",
+  "gapMm": 11.9,
+  "status": "fixed"
+ },
+ {
+  "child": "Left deep palmar venous arch",
+  "parent": "Left radial vein",
+  "gapMm": 12.3,
+  "status": "fixed"
+ },
+ {
+  "child": "Right thoracoepigastric vein",
+  "parent": "Right lateral thoracic vein",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left thoracoepigastric vein",
+  "parent": "Left lateral thoracic vein",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right lateral thoracic vein",
+  "parent": "Right axillary vein",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left lateral thoracic vein",
   "parent": "Left axillary vein",
   "gapMm": 0,
   "status": "ok"

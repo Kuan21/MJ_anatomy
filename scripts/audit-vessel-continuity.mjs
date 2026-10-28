@@ -6,6 +6,7 @@
 import fs from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {loadWorld} from './lib/paokao-world.mjs';
+import {closest} from './lib/heart-geom.mjs';
 
 const root = new URL('../', import.meta.url), TOL = .003, MIN = 12, C = TOL;
 const w = loadWorld({paokao: true});
@@ -37,7 +38,20 @@ const touches = pc => {
       if (k !== pc.k && Math.hypot(q[0] - p[0], q[1] - p[1], q[2] - p[2]) <= TOL) return true; } }
   return false;
 };
-const floating = pieces.filter(p => p.verts >= MIN && !touches(p)), slivers = pieces.filter(p => p.verts < MIN && !p.end);
+// Vertex-to-vertex distance misses a tip that sits inside a coarse neighbour (a 100-vertex artery has vertices 30 mm apart): a piece that fails it is re-checked against the
+// neighbours' surfaces, and counts as joined when one of its vertices lies within 1.5 mm of another vessel mesh.
+const SURFACE_TOL = .0015, meshNames = [...new Set(w.entries.filter(e => (e.system === 'arterial' || e.system === 'venous') && !/^extra:/.test(e.id)).map(e => e.name))];
+const bounds = new Map(); for (const n of meshNames) { let lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity]; for (const e of w.find(n)) { const g = e.load(); for (let i = 0; i < g.positions.length; i += 3) for (let k = 0; k < 3; k++) { lo[k] = Math.min(lo[k], g.positions[i + k]); hi[k] = Math.max(hi[k], g.positions[i + k]); } } bounds.set(n, [lo, hi]); }
+const touchesSurface = pc => {
+  const own = pc.name.replace(/ \(end piece\)$/, '');
+  for (const p of pc.pts) for (const n of meshNames) {
+    if (n === own) continue; const [lo, hi] = bounds.get(n);
+    if (p[0] < lo[0] - SURFACE_TOL || p[0] > hi[0] + SURFACE_TOL || p[1] < lo[1] - SURFACE_TOL || p[1] > hi[1] + SURFACE_TOL || p[2] < lo[2] - SURFACE_TOL || p[2] > hi[2] + SURFACE_TOL) continue;
+    if (closest(w.mesh(n), p).d <= SURFACE_TOL) return true;
+  }
+  return false;
+};
+const floating = pieces.filter(p => p.verts >= MIN && !touches(p) && !touchesSurface(p)), slivers = pieces.filter(p => p.verts < MIN && !p.end);
 const label = p => `${p.name} [${p.id}] ${p.verts} vertices at ${[0, 1, 2].map(a => Math.round(p.pts.reduce((t, q) => t + q[a], 0) / p.pts.length * 1000)).join(', ')} mm`;
 const names = floating.map(label).sort();
 const baseline = new URL('docs/vessel-continuity-baseline.json', root);
