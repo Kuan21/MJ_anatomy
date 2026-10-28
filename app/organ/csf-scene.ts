@@ -210,16 +210,33 @@ export function createCsfScene(host: HTMLElement, source: CsfSource, onStep: (st
   });
   const points = new T.Points(pg, pm); points.frustumCulled = false; points.renderOrder = 10; scene.add(points);
 
+  // ---- tracer group: about 20 purple particles, a little larger and packed close together, that follow one complete route once (steps 1 → 8) and drive the step highlight
+  const TRACE_ROUTE = 5, TN = 20, TRACE_HOLD = 2.5;   // lateral ventricle (right) → median aperture → posterior subarachnoid space → granulations → sinus
+  const tOffset = new Float32Array(TN), tJitter = new Float32Array(TN * 3), tPos = new Float32Array(TN * 3);
+  for (let i = 0; i < TN; i++) {tOffset[i] = (i / (TN - 1) - .5) * .018; for (let k = 0; k < 3; k++) tJitter[i * 3 + k] = (Math.random() - .5) * .0014;}
+  const tg = new T.BufferGeometry(); tg.setAttribute('position', new T.BufferAttribute(tPos, 3));
+  const tm = new T.ShaderMaterial({
+    transparent: true, depthWrite: false, depthTest: false,
+    uniforms: {uScale: {value: 400}},
+    vertexShader: 'uniform float uScale; void main(){ vec4 mv = modelViewMatrix * vec4(position,1.0); gl_PointSize = uScale * 0.0085 / -mv.z + 4.5; gl_Position = projectionMatrix * mv; }',
+    fragmentShader: 'void main(){ vec2 d = gl_PointCoord - 0.5; float r = length(d); if (r > 0.5) discard; float a = smoothstep(0.5, 0.2, r); gl_FragColor = vec4(0.54, 0.17, 0.86, a); }',
+  });
+  const tracer = new T.Points(tg, tm); tracer.frustumCulled = false; tracer.renderOrder = 11; scene.add(tracer);
+  let tracerU = 0, tracerHold = 0, follow = false;
+
   // ---- camera: fixed, mid-sagittal and slightly turned, framing the head and the whole schematic spine
+  const defPos = new T.Vector3(), defTarget = new T.Vector3(), camPos = new T.Vector3(), camTarget = new T.Vector3();
+  let camReady = false;
   const frame = () => {
     const w = host.clientWidth || 300, h = host.clientHeight || 600;
     renderer.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix();
     const top = cr.max.y + .02, bottom = y0 - L - .02, centreY = (top + bottom) / 2, span = top - bottom;
     const dist = Math.max(span / 2 / Math.tan(camera.fov * Math.PI / 360), (cr.max.z - cr.min.z) * .8 / (Math.tan(camera.fov * Math.PI / 360) * camera.aspect)) * 1.08;
     const az = 22 * Math.PI / 180;
-    camera.position.set(Math.cos(az) * dist, centreY + dist * .04, Math.sin(az) * dist * .6 + zf);
-    camera.lookAt(0, centreY, zf);
-    pm.uniforms.uScale.value = h * 1.1;
+    defPos.set(Math.cos(az) * dist, centreY + dist * .04, Math.sin(az) * dist * .6 + zf); defTarget.set(0, centreY, zf);
+    if (!camReady) {camPos.copy(defPos); camTarget.copy(defTarget); camReady = true;}
+    camera.position.copy(camPos); camera.lookAt(camTarget);
+    pm.uniforms.uScale.value = h * 1.1; tm.uniforms.uScale.value = h * 1.1;
   };
   const observer = new ResizeObserver(frame); observer.observe(host); frame();
 
@@ -228,8 +245,26 @@ export function createCsfScene(host: HTMLElement, source: CsfSource, onStep: (st
     if (disposed) return;
     raf = requestAnimationFrame(tick);
     const dt = Math.max(0, Math.min(.05, (now - last) / 1000)); last = now; clock += dt;
-    const cycle = (clock % CSF_CYCLE) / CSF_CYCLE, step = Math.min(7, Math.floor(cycle * 8));
+    // tracer: one pass through the route, a short rest at the sinus, then it starts again (or restart() puts it back at the start)
+    if (tracerU < 1) tracerU = Math.min(1, tracerU + dt / CSF_CYCLE);
+    else {tracerHold += dt; if (tracerHold > TRACE_HOLD) {tracerU = 0; tracerHold = 0;}}
+    const step = Math.min(7, Math.floor(Math.min(tracerU, .9999) * 8));
     if (step !== lastStep) {lastStep = step; onStep(step);}
+    {
+      const poly = sampled[TRACE_ROUTE]; let cx = 0, cy = 0, cz = 0;
+      for (let i = 0; i < TN; i++) {
+        const u = Math.min(.9999, Math.max(0, Math.min(tracerU, .9999) + tOffset[i])), st = Math.min(7, Math.floor(u * 8)), f = u * 8 - st, pl = poly[st];
+        const e = f * (pl.length - 1), a = Math.min(pl.length - 2, Math.floor(e)), q = e - a, p0 = pl[a], p1 = pl[a + 1];
+        tPos[i * 3] = p0.x + (p1.x - p0.x) * q + tJitter[i * 3]; tPos[i * 3 + 1] = p0.y + (p1.y - p0.y) * q + tJitter[i * 3 + 1]; tPos[i * 3 + 2] = p0.z + (p1.z - p0.z) * q + tJitter[i * 3 + 2];
+        cx += tPos[i * 3] / TN; cy += tPos[i * 3 + 1] / TN; cz += tPos[i * 3 + 2] / TN;
+      }
+      tg.attributes.position.needsUpdate = true;
+      // camera: fixed overview, or (follow) a closer view that moves with the tracer group
+      const k = 1 - Math.exp(-3 * dt);
+      if (follow) {const dir = defPos.clone().sub(defTarget).normalize(), tgt = new T.Vector3(cx, cy, cz); camTarget.lerp(tgt, k); camPos.lerp(tgt.clone().add(dir.multiplyScalar(defPos.distanceTo(defTarget) * .32)), k);}
+      else {camTarget.lerp(defTarget, k); camPos.lerp(defPos, k);}
+      camera.position.copy(camPos); camera.lookAt(camTarget);
+    }
     for (let i = 0; i < count; i++) {
       const u = (clock / CSF_CYCLE + phase[i]) % 1, s = Math.min(7, Math.floor(u * 8)), f = u * 8 - s;
       const poly = sampled[route[i]][s];
@@ -250,10 +285,13 @@ export function createCsfScene(host: HTMLElement, source: CsfSource, onStep: (st
   };
   raf = requestAnimationFrame(tick);
   return {
+    /** puts the tracer group back at the lateral ventricle (step 1) */
+    restart() {tracerU = 0; tracerHold = 0;},
+    setFollow(on: boolean) {follow = on;},
     dispose() {
       disposed = true; cancelAnimationFrame(raf); observer.disconnect();
       scene.traverse(o => {if (o instanceof T.Mesh) {o.geometry.dispose(); (o.material as T.Material).dispose();}});
-      pg.dispose(); pm.dispose(); renderer.dispose(); canvas.remove();
+      pg.dispose(); pm.dispose(); tg.dispose(); tm.dispose(); renderer.dispose(); canvas.remove();
     },
   };
 }
