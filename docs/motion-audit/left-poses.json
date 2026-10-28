@@ -1,0 +1,254 @@
+[
+ {
+  "pose": "neutral",
+  "desc": "0° all",
+  "shown": {
+   "shoulderFlexion": "0°",
+   "shoulderAbduction": "0°",
+   "shoulderRotation": "0°",
+   "elbowFlexion": "0°",
+   "forearmRotation": "0°",
+   "wristFlexion": "0°",
+   "wristDeviation": "0°"
+  },
+  "notice": ""
+ },
+ {
+  "pose": "shoulderFlexion-max",
+  "desc": "肩屈曲 180",
+  "shown": {
+   "shoulderFlexion": "+180°",
+   "shoulderAbduction": "0°",
+   "shoulderRotation": "0°",
+   "elbowFlexion": "0°",
+   "forearmRotation": "0°",
+   "wristFlexion": "0°",
+   "wristDeviation": "0°"
+  },
+  "notice": ""
+ },
+ {
+  "pose": "shoulderFlexion-min",
+  "desc": "肩屈曲 -60",
+  "shown": {
+   "shoulderFlexion": "-60°",
+   "shoulderAbduction": "0°",
+   "shoulderRotation": "0°",
+   "elbowFlexion": "0°",
+   "forearmRotation": "0°",
+   "wristFlexion": "0°",
+   "wristDeviation": "0°"
+  },
+  "notice": ""
+ },
+ {
+  "pose": "shoulderAbduction-max",
+  "desc": "肩外展 180",
+  "shown": {
+   "shoulderFlexion": "0°",
+   "shoulderAbduction": "+168°",
+   "shoulderRotation": "0°",
+   "elbowFlexion": "0°",
+   "forearmRotation": "0°",
+   "wristFlexion": "0°",
+   "wristDeviation": "0°"
+  },
+  "notice": "上臂已碰到頭部，角度已依人體活動度限制，避免穿過身體。"
+ },
+ {
+  "pose": "shoulderAbduction-min",
+  "desc": "肩外展 -20",
+  "shown": {
+   "shoulderFlexion": "0°",
+   "shoulderAbduction": "-10°",
+   "shoulderRotation": "0°",
+   "elbowFlexion": "0°",
+   "forearmRotation": "0°",
+   "wristFlexion": "0°",
+   "wristDeviation": "0°"
+  },
+  "notice": "前臂已碰到軀幹，角度已依人體活動度限制，避免穿過身體。"
+ },
+ {
+  "pose": "shoulderRotation-max",
+  "desc": "肩內旋 70",
+  "shown": {
+   "shoulderFlexion": "0°",
+   "shoulderAbduction": "0°",
+   "shoulderRotation": "+70°",
+   "elbowFlexion": "0°",
+   "forearmRotation": "0°",
+   "wristFlexion": "0°",
+   "wristDeviation": "0°"
+  },
+  "notice": ""
+ },
+ {
+  "pose": "shoulderRotation-min",
+  "desc": "肩內旋 -60",
+  "shown": {
+   "shoulderFlexion": "0°",
+   "shoulderAbduction": "0°",
+   "shoulderRotation": "-60°",
+   "elbowFlexion": "0°",
+   "forearmRotation": "0°",
+   "wristFlexion": "0°",
+   "wristDeviation": "0°"
+  },
+  "notice": ""
+ },
+ {
+  "pose": "elbowFlexion-max",
+  "desc": "肘屈曲 140",
+  "shown": {
+   "shoulderFlexion": "0°",
+   "shoulderAbduction": "0°",
+   "shoulderRotation": "0°",
+   "elbowFlexion": "+140°",
+   "forearmRotation": "0°",
+   "wristFlexion": "0°",
+   "wristDeviation": "0°"
+  },
+  "notice": ""
+ },
+ {
+  "pose": "elbowFlexion-min",
+  "desc": "肘屈曲 -5",
+  "shown": {
+   "shoulderFlexion": "0°",
+   "shoulderAbduction": "0°",
+   "shoulderRotation": "0°",
+   "elbowFlexion": "-5°",
+   "forearmRotation": "0°",
+   "wristFlexion": "0°",
+   "wristDeviation": "0°"
+  },
+  "notice": ""
+ },
+ {
+  "pose": "forearmRotation-max",
+  "desc": "前臂旋前 80",
+  "shown": {
+   "shoulderFlexion": "0°",
+   "shoulderAbduction": "0°",
+   "shoulderRotation": "0°",
+   "elbowFlexion": "0°",
+   "forearmRotation": "+80°",
+   "wristFlexion": "0°",
+   "wristDeviation": "0°"
+  },
+  "notice": ""
+ },
+ {
+  "pose": "forearmRotation-min",
+  "desc": "前臂旋前 -80",
+  "shown": {
+   "shoulderFlexion": "0°",
+   "shoulderAbduction": "0°",
+   "shoulderRotation": "0°",
+   "elbowFlexion": "0°",
+   "forearmRotation": "-80°",
+   "wristFlexion": "0°",
+   "wristDeviation": "0°"
+  },
+  "notice": ""
+ },
+ {
+  "pose": "wristFlexion-max",
+  "desc": "腕屈曲 80",
+  "shown": {
+   "shoulderFlexion": "0°",
+   "shoulderAbduction": "0°",
+   "shoulderRotation": "0°",
+   "elbowFlexion": "0°",
+   "forearmRotation": "0°",
+   "wristFlexion": "+80°",
+   "wristDeviation": "0°"
+  },
+  "notice": ""
+ },
+ {
+  "pose": "wristFlexion-min",
+  "desc": "腕屈曲 -70",
+  "shown": {
+   "shoulderFlexion": "0°",
+   "shoulderAbduction": "0°",
+   "shoulderRotation": "0°",
+   "elbowFlexion": "0°",
+   "forearmRotation": "0°",
+   "wristFlexion": "-70°",
+   "wristDeviation": "0°"
+  },
+  "notice": ""
+ },
+ {
+  "pose": "wristDeviation-max",
+  "desc": "腕尺偏 20",
+  "shown": {
+   "shoulderFlexion": "0°",
+   "shoulderAbduction": "0°",
+   "shoulderRotation": "0°",
+   "elbowFlexion": "0°",
+   "forearmRotation": "0°",
+   "wristFlexion": "0°",
+   "wristDeviation": "+20°"
+  },
+  "notice": ""
+ },
+ {
+  "pose": "wristDeviation-min",
+  "desc": "腕尺偏 -30",
+  "shown": {
+   "shoulderFlexion": "0°",
+   "shoulderAbduction": "0°",
+   "shoulderRotation": "0°",
+   "elbowFlexion": "0°",
+   "forearmRotation": "0°",
+   "wristFlexion": "0°",
+   "wristDeviation": "-30°"
+  },
+  "notice": ""
+ },
+ {
+  "pose": "combo-abd90-elbow90",
+  "desc": "肩外展90 + 肘屈曲90",
+  "shown": {
+   "shoulderFlexion": "0°",
+   "shoulderAbduction": "+90°",
+   "shoulderRotation": "0°",
+   "elbowFlexion": "+90°",
+   "forearmRotation": "0°",
+   "wristFlexion": "0°",
+   "wristDeviation": "0°"
+  },
+  "notice": ""
+ },
+ {
+  "pose": "combo-flexmax-pronmax",
+  "desc": "肩屈曲最大 + 前臂旋前最大",
+  "shown": {
+   "shoulderFlexion": "+180°",
+   "shoulderAbduction": "0°",
+   "shoulderRotation": "0°",
+   "elbowFlexion": "0°",
+   "forearmRotation": "+80°",
+   "wristFlexion": "0°",
+   "wristDeviation": "0°"
+  },
+  "notice": ""
+ },
+ {
+  "pose": "after-reset",
+  "desc": "復位",
+  "shown": {
+   "shoulderFlexion": "0°",
+   "shoulderAbduction": "0°",
+   "shoulderRotation": "0°",
+   "elbowFlexion": "0°",
+   "forearmRotation": "0°",
+   "wristFlexion": "0°",
+   "wristDeviation": "0°"
+  },
+  "notice": ""
+ }
+]
