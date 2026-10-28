@@ -164,10 +164,33 @@ export function createCsfScene(host: HTMLElement, source: CsfSource, onStep: (st
   for (const s of [-1, 1]) routes.push({weight: 1.2, steps: [lateralStep(s)[0], lateralStep(s)[1], middle[0], middle[1], middle[2], medianStep, spinalLoop(), [cisterna, ...posterior(s).slice(1), ...toGran, ...sinusOut]]});
   routes.push({weight: .5, fade: true, steps: [lateralStep(1)[0], lateralStep(1)[1], middle[0], middle[1], middle[2], canal.slice(0, 3), canal.slice(2, 12), canal.slice(11)]});
 
+  // the drawn subarachnoid space is the outer limit above the foramen magnum: particles sampled outside it are pulled back in
+  const sasHull = (() => {
+    const g = envelope.clone(), c = cr.getCenter(new T.Vector3());
+    g.scale(1.05, 1.04, 1.04); g.translate(-c.x * .05, -c.y * .04, -c.z * .04);
+    const pos = g.getAttribute('position'), a = new T.Vector3(), b = new T.Vector3(), d = new T.Vector3(), planes: {n: T.Vector3; d: number}[] = [];
+    const cen = new T.Vector3(); for (let i = 0; i < pos.count; i++) cen.add(a.fromBufferAttribute(pos, i)); cen.divideScalar(pos.count);
+    for (let i = 0; i + 2 < pos.count; i += 3) {
+      a.fromBufferAttribute(pos, i); b.fromBufferAttribute(pos, i + 1); d.fromBufferAttribute(pos, i + 2);
+      const n = b.clone().sub(a).cross(d.clone().sub(a));
+      if (n.lengthSq() < 1e-14) continue;
+      n.normalize(); let off = n.dot(a);
+      if (n.dot(cen) > off) {n.negate(); off = -off;}
+      planes.push({n, d: off});
+    }
+    return {cen, inside: (p: T.Vector3) => planes.every(q => q.n.dot(p) <= q.d + 1e-6)};
+  })();
+  const keepInside = (p: T.Vector3): T.Vector3 => {
+    if (p.y < cisternaY + .01 || sasHull.inside(p)) return p;
+    let lo = 0, hi = 1; const q = new T.Vector3();
+    for (let i = 0; i < 20; i++) {const m = (lo + hi) / 2; q.lerpVectors(p, sasHull.cen, m); if (sasHull.inside(q)) hi = m; else lo = m;}
+    return q.lerpVectors(p, sasHull.cen, Math.min(1, hi + .02));
+  };
+
   // sample each step to a polyline
   const sampled = routes.map(r => r.steps.map(step => {
     const c = new T.CatmullRomCurve3(step.map(p => new T.Vector3(...p)), false, 'centripetal');
-    return c.getSpacedPoints(40);
+    return c.getSpacedPoints(40).map(keepInside);
   }));
   const N = quality.particles ?? 900, count = N;
   const phase = new Float32Array(count), route = new Uint8Array(count), jitter = new Float32Array(count * 3);
