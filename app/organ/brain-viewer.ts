@@ -1,5 +1,6 @@
 import * as T from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
+import {reshapeFourthVentricle} from './brain-reshape';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 import {DRACOLoader} from 'three/examples/jsm/loaders/DRACOLoader.js';
 import {mergeGeometries, mergeVertices} from 'three/examples/jsm/utils/BufferGeometryUtils.js';
@@ -220,7 +221,9 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
       const part = describeBrainNode({name: node.name, cat: String(x.bx_cat), region: String(x.bx_region ?? ''), label: String(x.bx_label ?? ''), side: String(x.bx_side ?? '')}, list.length);
       if (!part) return true;
       const merged = mergeGeometries(pieces, false)!;
-      const geometry = mergeVertices(merged, 1e-6); geometry.computeVertexNormals();
+      const geometry = mergeVertices(merged, 1e-6);
+      if (/^fourth ventricle$/i.test(part.en)) {reshapeFourthVentricle(geometry.getAttribute('position').array as Float32Array); geometry.getAttribute('position').needsUpdate = true;}
+      geometry.computeVertexNormals();
       geometry.computeBoundingBox(); geometry.computeBoundingSphere();
       const mesh = new T.Mesh(geometry, new T.MeshStandardMaterial({color: GROUP_COLOR[part.group] ?? '#cfae9a', roughness: .6, metalness: 0, side: T.DoubleSide}));
       mesh.userData.partId = part.id; list.push(part); parts.set(part.id, part); meshes.set(part.id, mesh); scene.add(mesh);
