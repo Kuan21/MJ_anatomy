@@ -83,7 +83,7 @@ export default function BrainDetail() {
   const [open, setOpen] = useState<string[]>([]), [csf, setCsf] = useState(false), [cutBusy, setCutBusy] = useState(false);
   const [notes, setNotes] = useState<NoteData | null>(null), [noteId, setNoteId] = useState<string | null>(null), [query, setQuery] = useState(''), [openRegions, setOpenRegions] = useState<string[]>([]);
   const exportRef = useRef<(() => CsfSource | null) | null>(null);
-  useEffect(() => {document.title = '腦部詳細模式 · MJ Anatomy';}, []);
+  useEffect(() => {document.title = csf ? 'CSF 流向 · MJ Anatomy' : '腦部詳細模式 · MJ Anatomy';}, [csf]);
   useEffect(() => {loadNotes().then(setNotes).catch(() => setNotes(null));}, []);
   const byId = useMemo(() => new Map(parts.map(p => [p.id, p])), [parts]);
   const selected = view.selectedIds.length === 1 ? byId.get(view.selectedIds[0]) : undefined;
