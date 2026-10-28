@@ -8,7 +8,7 @@ import type {SystemId} from './anatomy';
  * shown to learners are normalized to the terminology used in Netter,
  * Atlas of Human Anatomy, 7th ed.
  */
-export const NETTER_TERMINOLOGY_SOURCE='English nomenclature: Netter, Atlas of Human Anatomy, 7th ed. (Elsevier, 2019); Traditional Chinese nomenclature: CMU course notes where mapped.';
+export const NETTER_TERMINOLOGY_SOURCE='English nomenclature: Netter, Atlas of Human Anatomy, 7th ed. (Elsevier, 2019); Traditional Chinese nomenclature: standard Taiwanese anatomical terms.';
 
 const preferred:Record<string,string>={
  // Netter 7 / Terminologia Anatomica wording that differs from BodyParts3D.
