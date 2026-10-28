@@ -15,7 +15,7 @@ export const LABEL = {empty: 0, cortexGrey: 1, cortexWhite: 2, cerebellumGrey: 3
 /** Grey matter thickness in metres (a schematic 2.4 mm, as before the smoothing). */
 export const GREY_MM = .0024;
 export const CLASS_COUNT = 9;
-const CORTEX = new Set(['frontal', 'parietal', 'temporal', 'occipital', 'limbic', 'insula', 'cortex-other']);
+const CORTEX = new Set(['frontal', 'parietal', 'temporal', 'occipital', 'limbic', 'insula', 'interlobar', 'cortex-other']);
 const BODY = new Set([...CORTEX, 'cerebellum', 'brainstem']);
 const INTERNAL: [string, number][] = [['white', LABEL.tract], ['basal', LABEL.basal], ['diencephalon', LABEL.diencephalon], ['ventricles', LABEL.csf]];
 

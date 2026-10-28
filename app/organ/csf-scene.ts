@@ -115,8 +115,11 @@ export function createCsfScene(host: HTMLElement, source: CsfSource, onStep: (st
   // foramina and apertures: short schematic tubes
   const holeMat = () => material('#6aa0c8', .85, '#1c4a70');
   for (const s of [-1, 1]) tube([P(s * .014, 1.640, .004), P(s * .008, 1.637, .012), P(s * .003, 1.632, .015), P(0, 1.629, .013)], .0014, holeMat(), [2], 20, 8, 1);
-  tube([P(0, 1.572, -.032), P(0, 1.566, -.040), P(0, cisternaY + .004, cisternaZ + .006)], .0016, holeMat(), [6], 20, 8, 1);
-  for (const s of [-1, 1]) tube([P(s * .014, 1.575, -.025), P(s * .030, 1.568, -.024), P(s * .038, 1.560, -.036)], .0015, holeMat(), [6], 20, 8, 1);
+  // apertures start at the reshaped fourth ventricle (see brain-reshape): median in the lower roof, lateral at the tips of the lateral recesses
+  const ap = source.fourth[0]?.userData.apertures as {median: number[]; left: number[]; right: number[]} | undefined;
+  const med = ap?.median ?? [0, 1.572, -.032];
+  tube([P(med[0], med[1], med[2]), P(med[0], med[1] - .005, med[2] - .009), P(0, cisternaY + .004, cisternaZ + .006)], .0016, holeMat(), [6], 20, 8, 1);
+  for (const s of [-1, 1]) {const a = (s > 0 ? ap?.left : ap?.right) ?? [s * .014, 1.575, -.025]; tube([P(a[0], a[1], a[2]), P(a[0] + s * .012, a[1] - .006, a[2] - .004), P(s * .038, 1.560, -.036)], .0015, holeMat(), [6], 20, 8, 1);}
   // cisterna magna and the basal cisterns
   ball(P(0, cisternaY, cisternaZ), .012, sasMat.clone(), [6, 7], 1.1, 1, 1.2);
   // spinal cord, central canal, subarachnoid sac, cauda equina

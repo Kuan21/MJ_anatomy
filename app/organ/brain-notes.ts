@@ -8,7 +8,7 @@ export interface NoteCard {
 }
 export interface NoteData {regions: Record<string, string>; typeLabels: Record<string, string>; cards: NoteCard[]; partCards: Record<string, string[]>}
 
-const CORTEX = ['frontal', 'parietal', 'temporal', 'occipital', 'limbic', 'insula', 'cortex-other'];
+const CORTEX = ['frontal', 'parietal', 'temporal', 'occipital', 'limbic', 'insula', 'interlobar', 'cortex-other'];
 
 export async function loadNotes(): Promise<NoteData> {
   const response = await fetch(`${import.meta.env.BASE_URL}models/brain/neuro-cards.json`);

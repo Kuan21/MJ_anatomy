@@ -11,6 +11,7 @@ export const BRAIN_GROUPS: BrainGroup[] = [
   {id: 'occipital', en: 'Occipital lobe', zh: '枕葉', layer: 1, on: true},
   {id: 'limbic', en: 'Limbic lobe', zh: '邊緣葉', layer: 1, on: true},
   {id: 'insula', en: 'Insula', zh: '腦島', layer: 1, on: true},
+  {id: 'interlobar', en: 'Interlobar sulci & fissures', zh: '腦葉分界溝裂', layer: 1, on: true},
   {id: 'cortex-other', en: 'Other cortical surface', zh: '其他皮質表面', layer: 1, on: true},
   {id: 'cerebellum', en: 'Cerebellum', zh: '小腦', layer: 1, on: true},
   {id: 'brainstem', en: 'Brainstem', zh: '腦幹', layer: 2, on: true},
@@ -66,9 +67,11 @@ export const zhOfBrain = (en: string): string => ZH_EXTRA[en.toLowerCase()] ?? b
 
 /** The model files nine sulci under "Telencephalon" without a lobe; each goes to the lobe it mainly belongs to (the card of the structure names the neighbouring lobes). */
 const SULCUS_LOBE: Record<string, string> = {
-  'central sulcus': 'frontal', 'parieto-occipital sulcus': 'occipital', 'subparietal sulcus': 'parietal', 'circular sulcus of insula': 'insula', 'collateral sulcus': 'temporal',
-  'anterior occipital sulcus': 'occipital', 'lat fis-post': 'temporal', 'posterior transverse collateral sulcus': 'occipital', 'sulcus interm prim-jensen': 'parietal',
+  'subparietal sulcus': 'parietal', 'circular sulcus of insula': 'insula', 'lat fis-ant-vertical': 'frontal', 'lat fis-ant-horizont': 'frontal',
+  'anterior occipital sulcus': 'occipital', 'posterior transverse collateral sulcus': 'occipital', 'sulcus interm prim-jensen': 'parietal', 'intraparietal sulcus': 'parietal',
 };
+/** The grooves that separate one lobe from another (the card names the two sides in its Borders row). Preoccipital notch and longitudinal fissure have no mesh in this model. */
+const INTERLOBAR = new Set(['central sulcus', 'lat fis-post', 'parieto-occipital sulcus', 'cingulate sulcus (marginal part)', 'collateral sulcus']);
 /** English names the model abbreviates: shown in full, while the model's own name stays the key for the information cards. */
 const RENAME: Record<string, string> = {
   'Lat Fis-post': 'Lateral sulcus (posterior ramus)', 'Lat Fis-ant-Vertical': 'Lateral sulcus (anterior ascending ramus)', 'Lat Fis-ant-Horizont': 'Lateral sulcus (anterior horizontal ramus)',
@@ -83,6 +86,7 @@ export function describeBrainNode(raw: RawBrainNode, index: number): BrainPart |
   if (NOT_BRAIN.test(en)) return null;
   const side = raw.side === 'left' ? 'left' : raw.side === 'right' ? 'right' : (/\.l(?:\.\d+)?$/i.test(raw.name) ? 'left' : /\.r(?:\.\d+)?$/i.test(raw.name) ? 'right' : 'mid');
   let group = groupOf(raw.cat, raw.region); if (group === 'cortex-other') group = SULCUS_LOBE[en0.toLowerCase()] ?? group;
+  if (INTERLOBAR.has(en0.toLowerCase())) group = 'interlobar';
   if (en0 === 'Base of peduncle') group = 'brainstem'; // the model files the cerebral peduncle under the cerebellum
   const layer = BRAIN_GROUPS.find(g => g.id === group)!.layer;
   const zh = zhOfBrain(en);
@@ -93,7 +97,7 @@ export const displayEn = (p: BrainPart) => SIDE_EN[p.side] + (RENAME[p.en] ?? p.
 /** The nested list of the left panel: lobes (each with gyri, then sulci and fissures), then the other main regions. Every structure sits in exactly one leaf. */
 export interface BrainTreeNode {id: string; en: string; zh: string; /** structures of this node's own, when it is a leaf */ leaf: BrainPart[]; children: BrainTreeNode[]; /** every structure below this node */ all: BrainPart[]}
 const LOBE_NODES: [string, string, string][] = [['frontal', 'Frontal lobe', '額葉'], ['parietal', 'Parietal lobe', '頂葉'], ['temporal', 'Temporal lobe', '顳葉'], ['occipital', 'Occipital lobe', '枕葉'], ['limbic', 'Limbic lobe', '邊緣葉'], ['insula', 'Insula', '腦島']];
-const MIDBRAIN = /midbrain|colliculus|red nucleus|oculomotor|aqueduct|interpeduncular|substantia nigra|trochlear/i, PONS = /\bpons\b|abducens|facial|vestibular|salivatory|trigeminal/i, MEDULLA = /medulla|olive|pyramid|hypoglossal|vagus|ambiguus|solitary|cuneate|gracile/i;
+const MIDBRAIN = /base of peduncle|crus cerebri|midbrain|colliculus|red nucleus|oculomotor|aqueduct|interpeduncular|substantia nigra|trochlear/i, PONS = /\bpons\b|abducens|facial|vestibular|salivatory|trigeminal/i, MEDULLA = /medulla|olive|pyramid|hypoglossal|vagus|ambiguus|solitary|cuneate|gracile/i;
 export function buildBrainTree(parts: BrainPart[]): BrainTreeNode[] {
   const node = (id: string, en: string, zh: string, leaf: BrainPart[] = [], children: BrainTreeNode[] = []): BrainTreeNode => ({id, en, zh, leaf, children, all: [...leaf, ...children.flatMap(c => c.all)]});
   const inGroup = (g: string) => parts.filter(p => p.group === g);
@@ -102,6 +106,7 @@ export function buildBrainTree(parts: BrainPart[]): BrainTreeNode[] {
     node(`${id}-gyri`, 'Gyri', '腦迴', byName(inGroup(id).filter(p => p.sub !== 'sulci'))),
     node(`${id}-sulci`, 'Sulci & fissures', '腦溝與裂', byName(inGroup(id).filter(p => p.sub === 'sulci'))),
   ].filter(n => n.leaf.length)));
+  lobes.push(node('interlobar', 'Interlobar sulci & fissures', '腦葉分界溝裂', byName(inGroup('interlobar'))));
   const stem = inGroup('brainstem'), midbrain = stem.filter(p => MIDBRAIN.test(p.en) || p.region === 'Mesencephalon'), rest1 = stem.filter(p => !midbrain.includes(p));
   const pons = rest1.filter(p => PONS.test(p.en)), rest2 = rest1.filter(p => !pons.includes(p)), medulla = rest2.filter(p => MEDULLA.test(p.en)), other = rest2.filter(p => !medulla.includes(p));
   const tree = [
@@ -121,9 +126,9 @@ export function buildBrainTree(parts: BrainPart[]): BrainTreeNode[] {
 
 /** Structures that sit on the border of several lobes are listed under one lobe only; the card names the others. [name test, lobes] */
 const RELATED_LOBES: [RegExp, string][] = [
-  [/^central sulcus$/i, '額葉、頂葉'], [/^lat fis|lateral sulcus/i, '額葉、頂葉、顳葉'], [/^parieto-occipital sulcus$/i, '頂葉、枕葉'], [/^anterior occipital sulcus$/i, '顳葉、枕葉'],
-  [/^collateral sulcus$|^posterior transverse collateral sulcus$/i, '顳葉、枕葉'], [/^subparietal sulcus$/i, '頂葉、邊緣葉（扣帶迴）'], [/^cingulate/i, '額葉、頂葉（內側面）'],
-  [/^circular sulcus of insula$|^insula/i, '額葉、顳葉（蓋部）'], [/^hippocampus$/i, '顳葉（內側）'], [/^intraparietal sulcus$|^sulcus interm prim/i, '頂葉'],
-  [/^precentral|^postcentral|^paracentral/i, '額葉與頂葉交界（中央溝兩側）'],
+  [/^central sulcus$/i, 'Frontal, Parietal'], [/^lat fis-post$/i, 'Frontal, Parietal, Temporal'], [/^lat fis-ant|lateral sulcus/i, 'Frontal, Insula (opercular part)'], [/^parieto-occipital sulcus$/i, 'Parietal, Occipital'], [/^anterior occipital sulcus$/i, 'Temporal, Occipital'],
+  [/^collateral sulcus$|^posterior transverse collateral sulcus$/i, 'Temporal, Occipital, Limbic'], [/^subparietal sulcus$/i, 'Parietal, Limbic (cingulate gyrus)'], [/^cingulate/i, 'Frontal, Parietal (medial surface)'],
+  [/^circular sulcus of insula$|^insula/i, 'Frontal, Temporal (opercula)'], [/^hippocampus$/i, 'Temporal (medial)'], [/^intraparietal sulcus$|^sulcus interm prim/i, 'Parietal'],
+  [/^precentral|^postcentral|^paracentral/i, 'Frontal and Parietal (either side of the central sulcus)'],
 ];
 export const relatedLobes = (p: BrainPart): string | null => RELATED_LOBES.find(([re]) => re.test(p.en))?.[1] ?? null;
