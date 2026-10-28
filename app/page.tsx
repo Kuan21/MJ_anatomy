@@ -1,4 +1,4 @@
-import {SEROUS_LAYERS} from './mj-serous';
+import {SEROUS_LAYERS,PERITONEUM_KEYS} from './mj-serous';
 import {flushSync} from 'react-dom';
 import {registerAtlasTools} from './agent-tools';
 import {Fragment,useEffect,useMemo,useRef,useState} from 'react';
@@ -115,7 +115,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  // Organs, top to bottom: heart, respiratory, digestive, urinary, reproductive, endocrine, lymphatic, sensory organs. The serous membranes belong to their organ: pleura to Respiratory, the three pericardial layers to the heart.
  const ORGAN_ORDER:SystemId[]=['cardiac','respiratory','digestive','urinary','reproductive','endocrine','lymphatic','sensory'];
  const ORGAN_LABEL:Partial<Record<SystemId,string>>={cardiac:'Cardiac'};
- const SEROUS_OF:Partial<Record<SystemId,typeof SEROUS_LAYERS[number][]>>={respiratory:SEROUS_LAYERS.slice(0,2),cardiac:SEROUS_LAYERS.slice(2)};
+ const SEROUS_OF:Partial<Record<SystemId,typeof SEROUS_LAYERS[number][]>>={respiratory:SEROUS_LAYERS.slice(0,2),cardiac:SEROUS_LAYERS.slice(2,5)};
  const serousCount=(keys:string[])=>atlas?.parts.filter(p=>p.system==='serous'&&keys.includes(serousLayerKey(p.name))).length??0;
  const setSerousGroup=(v:SceneState,keys:string[],on:boolean):SceneState=>{const all=SEROUS_LAYERS.map(x=>x.key) as string[],serousOn=v.visible.includes('serous');let hidden=serousOn?[...(v.hiddenSerous??[])]:[...all];hidden=on?hidden.filter(k=>!keys.includes(k)):[...new Set([...hidden,...keys])];return{...v,hiddenSerous:hidden,visible:on&&!serousOn?[...v.visible,'serous']:v.visible};};
  const toggleOrganRow=(id:SystemId)=>setState(v=>{const keys=(SEROUS_OF[id]??[]).map(l=>l.key) as string[],on=v.visible.includes(id);const base:SceneState={...v,isolate:false,selected:[],visible:on?v.visible.filter(x=>x!==id):[...v.visible,id]};return keys.length?setSerousGroup(base,keys,!on):base;});
@@ -314,6 +314,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
        <Button variant="ghost" className="system-name" title={`Show only ${(ORGAN_LABEL[s.id]??s.name).toLowerCase()}`} onClick={()=>setState(v=>({...v,visible:kids?[s.id,'serous']:[s.id],hiddenSerous:kids?SEROUS_LAYERS.map(l=>l.key).filter(k=>!(kids.map(l=>l.key) as string[]).includes(k)):v.hiddenSerous,isolate:false,selected:[]}))}><span className="system-dot" style={{background:s.color}}/>{ORGAN_LABEL[s.id]??s.name}<span className="system-count">{count}</span></Button><span className="organ-detail-slot"/><Switch checked={state.visible.includes(s.id)} onCheckedChange={()=>kids?toggleOrganRow(s.id):toggle(s.id)} aria-label={`Show ${(ORGAN_LABEL[s.id]??s.name).toLowerCase()}`} /></div>
        {open&&kids&&<div className="organ-sub" role="group" aria-label={s.id==='respiratory'?'胸膜':'心包與心外膜'}>{kids.map(serousRow)}</div>}
        {open&&s.id==='reproductive'&&<div className="organ-sub" role="group" aria-label="生殖系統性別"><span>性別</span>{(['male','female'] as const).map(x=><Button key={x} variant="ghost" className="organ-detail-link" aria-pressed={(state.sex??'male')===x} title={x==='male'?'顯示男性生殖器官（BodyParts3D）':'顯示女性生殖器官與女性骨盆（Human Reference Atlas）'} onClick={()=>setState(v=>({...v,sex:x,visible:v.visible.includes('reproductive')?v.visible:[...v.visible,'reproductive']}))}>{x==='male'?'男':'女'}</Button>)}</div>}
+       {open&&s.id==='reproductive'&&(state.sex??'male')==='female'&&<div className="organ-sub" role="group" aria-label="盆腔腹膜">{SEROUS_LAYERS.filter(l=>PERITONEUM_KEYS.includes(l.key)).map(serousRow)}<label className="organ-sub-row"><span className="bn-stack"><span className="bn-en">Peritoneum opacity</span><small className="bn-zh">腹膜透明度</small></span><input type="range" className="organ-range" min={10} max={80} step={5} value={Math.round((state.peritoneumOpacity??.3)*100)} onChange={e=>{const value=Number(e.target.value)/100;setState(v=>({...v,peritoneumOpacity:value}));}} aria-label="盆腔腹膜透明度"/></label></div>}
       </Fragment>;})}</div>}
     </div>}
    </div>

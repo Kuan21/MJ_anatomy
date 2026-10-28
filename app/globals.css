@@ -1299,6 +1299,7 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 .dissection-sides{margin:4px 0 8px}
 .space-detail .bn-row{justify-content:flex-start;text-align:left;gap:8px}
 
+.organ-range{width:88px;accent-color:#5db89a}
 /* Region tabs: picking 上肢 / 下肢 folds the other tabs away and puts the side buttons on the same row (about 200 ms) */
 .top-region-nav button,.top-region-nav .tab-sides{transition:max-width .2s ease,opacity .2s ease,padding .2s ease,margin .2s ease}
 .top-region-nav .tab-hidden{max-width:0!important;min-width:0!important;padding-left:0!important;padding-right:0!important;margin:0!important;opacity:0;overflow:hidden;pointer-events:none;border-width:0}
