@@ -103,6 +103,36 @@ export default function HeartDetail() {
     {catalogueError && <div className="organ-error" role="alert">{catalogueError}<button onClick={() => setRetry(n => n + 1)}>重新載入</button></div>}
     {!catalogue && !catalogueError && <div className="organ-loading" role="status">正在準備心臟模型…</div>}
     {catalogue && <div className="organ-layout">
+      <aside className="organ-left organ-left-heart" aria-label="心臟構造清單">
+        <section className="organ-block">
+          <h2>逐個心腔打開<small>Open one chamber</small></h2>
+          <div className="organ-segmented organ-chambers" role="group" aria-label="選擇心腔">
+            {CHAMBERS.map(c => <button key={c.id} aria-pressed={view.openChamber === c.id} onClick={() => openChamber(view.openChamber === c.id ? null : c.id)}><span lang="en">{c.en}</span><small lang="zh-Hant">{c.zh}</small></button>)}
+          </div>
+          {chamber ? <>
+            <small>只將{chamber.zh}的外壁變成近乎透明，其他部分保持原狀，鏡頭已轉到適合看入內部的角度。再按一次同一個心腔可還原。</small>
+            <ul className="organ-chamber-items" aria-label={`${chamber.zh}內的構造`}>{chamber.items.map(it => <li key={it.en}>
+              <button aria-pressed={item?.en === it.en} onClick={() => chooseItem(it)}><span lang="en">{it.en}</span><small lang="zh-Hant">{it.zh}</small>{it.parts.length === 0 && <i className="organ-nomodel-tag" lang="zh-Hant">無模型</i>}</button></li>)}</ul>
+          </> : <small>選擇一個心腔，只打開該心腔的外壁，並列出腔內構造；點選清單可在模型上高亮。</small>}
+        </section>
+        <section className="organ-block">
+          <h2>構造<small>Structures</small></h2>
+          <div className="organ-segmented" role="group" aria-label="全部開關">
+            <button onClick={() => patch({hiddenGroups: []})}>全部顯示</button>
+            <button onClick={() => patch({hiddenGroups: grouped.map(g => g.id)})}>全部隱藏</button>
+          </div>
+          {grouped.map(g => {
+            const hidden = view.hiddenGroups.includes(g.id), expanded = openGroups.includes(g.id);
+            return <div className="organ-group" key={g.id}>
+              <div className="organ-group-row">
+                <button className="organ-group-head" onClick={() => toggleGroup(g.id)} aria-pressed={!hidden} aria-label={`${hidden ? '顯示' : '隱藏'}${g.label}`}>{hidden ? <EyeOff size={15}/> : <Eye size={15}/>}<span lang="en">{g.english}<small lang="zh-Hant">{g.label}</small></span><b>{g.parts.length}</b></button>
+                <button className="organ-expand" aria-expanded={expanded} aria-label={`${expanded ? '收合' : '展開'}${g.label}`} onClick={() => setOpenGroups(o => expanded ? o.filter(x => x !== g.id) : [...o, g.id])}>{expanded ? <ChevronDown size={15}/> : <ChevronRight size={15}/>}</button>
+              </div>
+              {expanded && <ul>{g.parts.map((p: HeartPart) => <li key={p.id}><button aria-pressed={view.selectedId === p.id} onClick={() => patch({selectedId: view.selectedId === p.id ? null : p.id, hiddenGroups: view.hiddenGroups.filter(x => x !== g.id)})}><span lang="en">{p.name}</span><small lang="zh-Hant">{p.chinese}</small>{p.origin === 'MJ 補建' && <i className="organ-nomodel-tag organ-mj-tag" lang="zh-Hant">MJ 補建</i>}</button></li>)}</ul>}
+            </div>;
+          })}
+        </section>
+      </aside>
       <section className="organ-stage" aria-label="心臟 3D 模型">
         <HeartScene catalogue={catalogue} view={view} labels={labelSpecs} onProgress={(loaded, total) => setLoad({loaded, total})} onReady={() => setReady(true)} onError={setError}
           onPick={id => patch({selectedId: id})}/>
@@ -130,17 +160,6 @@ export default function HeartDetail() {
           </> : <p className="organ-info-empty">點選模型或清單中的構造，會顯示名稱與說明。</p>}
         </section>
         <section className="organ-block">
-          <h2>逐個心腔打開<small>Open one chamber</small></h2>
-          <div className="organ-segmented organ-chambers" role="group" aria-label="選擇心腔">
-            {CHAMBERS.map(c => <button key={c.id} aria-pressed={view.openChamber === c.id} onClick={() => openChamber(view.openChamber === c.id ? null : c.id)}><span lang="en">{c.en}</span><small lang="zh-Hant">{c.zh}</small></button>)}
-          </div>
-          {chamber ? <>
-            <small>只將{chamber.zh}的外壁變成近乎透明，其他部分保持原狀，鏡頭已轉到適合看入內部的角度。再按一次同一個心腔可還原。</small>
-            <ul className="organ-chamber-items" aria-label={`${chamber.zh}內的構造`}>{chamber.items.map(it => <li key={it.en}>
-              <button aria-pressed={item?.en === it.en} onClick={() => chooseItem(it)}><span lang="en">{it.en}</span><small lang="zh-Hant">{it.zh}</small>{it.parts.length === 0 && <i className="organ-nomodel-tag" lang="zh-Hant">無模型</i>}</button></li>)}</ul>
-          </> : <small>選擇一個心腔，只打開該心腔的外壁，並列出腔內構造；點選清單可在模型上高亮。</small>}
-        </section>
-        <section className="organ-block">
           <h2>心臟外觀與內部<small>Outside / inside</small></h2>
           <div className="organ-segmented" role="group" aria-label="外觀或內部">
             <button aria-pressed={view.hiddenGroups.length > 0 || view.section.axis === 'none'} onClick={() => patch({...defaults, selectedId: view.selectedId})}>閉合（外表）</button>
@@ -165,23 +184,6 @@ export default function HeartDetail() {
             <label className="organ-check"><input type="checkbox" checked={view.section.flip} onChange={e => patch({section: {...view.section, flip: e.target.checked}})}/>切除另一側</label>
           </>}
           <label className="organ-check"><input type="checkbox" checked={view.ghostChambers} onChange={e => patch({ghostChambers: e.target.checked})}/>心腔半透明（看清內部構造）</label>
-        </section>
-        <section className="organ-block">
-          <h2>構造<small>Structures</small></h2>
-          <div className="organ-segmented" role="group" aria-label="全部開關">
-            <button onClick={() => patch({hiddenGroups: []})}>全部顯示</button>
-            <button onClick={() => patch({hiddenGroups: grouped.map(g => g.id)})}>全部隱藏</button>
-          </div>
-          {grouped.map(g => {
-            const hidden = view.hiddenGroups.includes(g.id), expanded = openGroups.includes(g.id);
-            return <div className="organ-group" key={g.id}>
-              <div className="organ-group-row">
-                <button className="organ-group-head" onClick={() => toggleGroup(g.id)} aria-pressed={!hidden} aria-label={`${hidden ? '顯示' : '隱藏'}${g.label}`}>{hidden ? <EyeOff size={15}/> : <Eye size={15}/>}<span lang="en">{g.english}<small lang="zh-Hant">{g.label}</small></span><b>{g.parts.length}</b></button>
-                <button className="organ-expand" aria-expanded={expanded} aria-label={`${expanded ? '收合' : '展開'}${g.label}`} onClick={() => setOpenGroups(o => expanded ? o.filter(x => x !== g.id) : [...o, g.id])}>{expanded ? <ChevronDown size={15}/> : <ChevronRight size={15}/>}</button>
-              </div>
-              {expanded && <ul>{g.parts.map((p: HeartPart) => <li key={p.id}><button aria-pressed={view.selectedId === p.id} onClick={() => patch({selectedId: view.selectedId === p.id ? null : p.id, hiddenGroups: view.hiddenGroups.filter(x => x !== g.id)})}><span lang="en">{p.name}</span><small lang="zh-Hant">{p.chinese}</small>{p.origin === 'MJ 補建' && <i className="organ-nomodel-tag organ-mj-tag" lang="zh-Hant">MJ 補建</i>}</button></li>)}</ul>}
-            </div>;
-          })}
         </section>
         <section className="organ-block organ-note">
           <h2>模型範圍</h2>
