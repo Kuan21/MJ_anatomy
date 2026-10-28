@@ -2,6 +2,7 @@
 // It draws the same meshes the viewer loads (atlas, supplement, paokao, nerve stream …) with three.js in headless Chromium, so the camera is under script control.
 //   node scripts/render-preview.mjs <spec.json> <outDir>
 // spec: {"title": "…", "size": [900, 700], "context": [{"match": "regex", "color": "#ccc", "opacity": .25}],
+//        (a group can also carry "id" / "notId" regexes on the part id, e.g. {"id": "^HRAF-"} for the female structures only)
 //        "focus": [{"match": "regex", "color": "#0a0", "opacity": 1}], "views": [{"name": "front", "eye": [x, y, z], "target": [x, y, z], "fov": 30}]}
 // Coordinates are in metres in the model frame (+x body left, y up, +z anterior). Views can also be {"name", "around": "regex", "dir": [x, y, z], "dist": .25}
 // which looks at the centre of the focus meshes matching `around` from direction `dir`.
@@ -19,7 +20,7 @@ const meshes = [];
 for (const g of groups) {
   const re = new RegExp(g.match, 'i');
   for (const e of w.entries) {
-    if (!re.test(e.name) || (g.system && e.system !== g.system)) continue;
+    if (!re.test(e.name) || (g.system && e.system !== g.system) || (g.id && !new RegExp(g.id).test(e.id ?? '')) || (g.notId && new RegExp(g.notId).test(e.id ?? ''))) continue;
     const m = e.load(); meshes.push({name: e.name, color: g.color ?? '#999999', opacity: g.opacity ?? 1, kind: g.kind, positions: Array.from(m.positions), indices: Array.from(m.indices)});
   }
 }

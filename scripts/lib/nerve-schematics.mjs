@@ -13,7 +13,7 @@ export const SCHEMATIC_NAMES = {
 };
 
 /** Catmull-Rom through the waypoints, then a tapered tube with `sides` facets. */
-export function tube(points, r0, r1 = r0, samples = 28, sides = 8) {
+export function tube(points, r0, r1 = r0, samples = 28, sides = 12) {
   const P = points, n = P.length, path = [];
   const at = i => P[Math.max(0, Math.min(n - 1, i))];
   for (let s = 0; s < n - 1; s++) for (let k = 0; k < samples / (n - 1); k++) {

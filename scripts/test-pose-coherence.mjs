@@ -41,10 +41,10 @@ for(const [region,list] of Object.entries(poses)){
  }
 }
 // Trunk motion carries the whole upper body: every organ, vessel, duct, serous layer and fascia of the chest and abdomen, the heart and lungs, and both
-// arms with their carpals, metacarpals and phalanges. Only the sacrum, the pelvic floor and the pubic skin stay with the pelvis.
+// arms with their carpals, metacarpals and phalanges. Only the sacrum and coccyx, the pelvic floor and the pubic skin stay with the pelvis.
 {
  const rig=body.makeBodyRig(atlas,'spine'),fullAtlas={...atlas,parts:[...atlas.parts,...gz('public/models/female/female-stream.json.gz').parts,...gz('public/models/serous/serous-stream.json.gz').parts]};
- const fixedPelvis=/^sacrum$|pubic hair/i;
+ const fixedPelvis=/^(sacrum|coccyx)$|pubic hair/i;
  for(const pose of [{flexion:50},{flexion:-25},{rotation:30},{rotation:-30},{sideBend:20},{sideBend:-20},{flexion:50,rotation:30,sideBend:20}]){
   const built=body.buildBodyMotion(rig,{...body.BODY_NEUTRAL,...pose});
   const carried=p=>!!built.transforms[p.id]||!!rules.bodyPartRule(p,rig)||(rig.framePartIds??[]).flat().includes(p.id);

@@ -1,6 +1,6 @@
 /**
  * Chinese names (Taiwan medical terminology, 台灣解剖學名詞 conventions: 動脈／靜脈／神經, 橈・尺・脛・腓, 蹠, 旋肱動脈…) for
- * structures that the CMU lecture notes do not name: vessels, digital bones and a few branches. Look-ups take a lower-case
+ * structures that the standard Taiwanese terminology tables do not name: vessels, digital bones and a few branches. Look-ups take a lower-case
  * English name WITHOUT left/right; the caller adds 左／右.
  *
  * Every entry belongs to one of two tiers:

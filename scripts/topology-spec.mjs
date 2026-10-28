@@ -5,6 +5,8 @@ export const ARTERIES = [
   ['Brachiocephalic artery', 'Arch of aorta'], ['Right subclavian artery', 'Brachiocephalic artery'], ['Right common carotid artery', 'Brachiocephalic artery'],
   ['Left common carotid artery', 'Arch of aorta'], ['Left subclavian artery', 'Arch of aorta'],
   ['% internal thoracic artery', '% subclavian artery'], ['% vertebral artery', '% subclavian artery'],
+  // thyrocervical trunk and the scapular arteries it gives (suprascapular artery, transverse cervical artery with the dorsal scapular artery)
+  ['% thyrocervical trunk', '% subclavian artery'], ['% suprascapular artery', '% thyrocervical trunk'], ['% transverse cervical artery', '% thyrocervical trunk'], ['% dorsal scapular artery', '% transverse cervical artery'],
   // axillary artery, first part
   ['% superior thoracic artery', '% axillary artery'],
   // second part
@@ -24,6 +26,11 @@ export const ARTERIES = [
   ['% common interosseous artery', '% ulnar artery'], ['% anterior interosseous artery', '% common interosseous artery'], ['% posterior interosseous artery', '% common interosseous artery'],
   ['% recurrent interosseous artery', '% common interosseous artery'],
   ['% superficial palmar branch of radial artery', '% radial artery'], ['% deep palmar branch of ulnar artery', '% ulnar artery'],
+  // palmar arches and digital arteries
+  ['% superficial palmar arterial arch', '% ulnar artery'], ['% deep palmar arch', '% radial artery'],
+  ['% first common palmar digital artery', '% superficial palmar arterial arch'], ['% second common palmar digital artery', '% superficial palmar arterial arch'],
+  ['% third common palmar digital artery', '% superficial palmar arterial arch'], ['% fourth common palmar digital artery', '% superficial palmar arterial arch'],
+  ['% arteria princeps pollicis', '% radial artery'], ['% arteria radialis indicis', '% radial artery'],
   // pelvis and lower limb
   ['% common iliac artery', 'Abdominal aorta'], ['% external iliac artery', '% common iliac artery'], ['% internal iliac artery', '% common iliac artery'],
   ['% femoral artery', '% external iliac artery'], ['% deep femoral artery', '% femoral artery'], ['% lateral circumflex femoral artery', '% deep femoral artery'],
@@ -36,6 +43,12 @@ export const ARTERIES = [
 export const VEINS = [
   ['% axillary vein', '% subclavian vein'], ['% cephalic vein', '% axillary vein'], ['% basilic vein', '% axillary vein'],
   ['% posterior circumflex humeral vein', '% axillary vein'],
+  // deep veins of the arm and forearm (venae comitantes), the cubital veins and the chest wall
+  ['% lateral brachial vein', '% axillary vein'], ['% medial brachial vein', '% axillary vein'], ['% radial vein', '% medial brachial vein'], ['% ulnar vein', '% medial brachial vein'],
+  ['% anterior interosseous vein', '% ulnar vein'], ['% posterior interosseous vein', '% ulnar vein'],
+  ['% median cubital vein', '% cephalic vein'], ['% median cubital vein', '% basilic vein'],
+  ['% superficial palmar venous arch', '% ulnar vein'], ['% deep palmar venous arch', '% radial vein'],
+  ['% thoracoepigastric vein', '% lateral thoracic vein'], ['% lateral thoracic vein', '% axillary vein'],
 ];
 /** Nerve branches (stream names carry a .l/.r suffix): [child, parent]. */
 export const NERVES = [

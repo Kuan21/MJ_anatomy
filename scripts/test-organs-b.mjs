@@ -45,4 +45,19 @@ if (bladder && rectum) {
   const lo = female.find(p => p.name === 'Left ovary'), ro = female.find(p => p.name === 'Right ovary'), lk = find(/^left kidney$/i), rk = find(/^right kidney$/i);
   if (lk && rk) assert.equal(Math.sign(mid(lo)[0]), Math.sign(mid(lk)[0]), 'left ovary on the same side as the left kidney'), assert.equal(Math.sign(mid(ro)[0]), Math.sign(mid(rk)[0]));
 }
+// female pelvis: the HRA bones replace the male hip bones and sacrum in female mode, and the organs lie inside them
+for (const n of ['Left hip bone', 'Right hip bone', 'Sacrum', 'Coccyx']) {
+  const bone = female.find(p => p.name === n); assert.ok(bone && bone.system === 'skeletal', n);
+  assert.ok(matchesSex(bone, 'female') && !matchesSex(bone, 'male'), n);
+  const male = atlas.parts.find(p => p.name === n);
+  if (male) assert.ok(matchesSex(male, 'male') && !matchesSex(male, 'female'), `male ${n} is hidden in female mode`);
+}
+{
+  const hipL = female.find(p => p.name === 'Left hip bone'), hipR = female.find(p => p.name === 'Right hip bone'), sacrum = female.find(p => p.name === 'Sacrum');
+  assert.ok(mid(hipL)[0] > 0 && mid(hipR)[0] < 0, 'hip bones on the correct sides');
+  const lo = Math.min(hipR.bounds[0][0], hipL.bounds[0][0]), hi = Math.max(hipR.bounds[1][0], hipL.bounds[1][0]);
+  for (const p of female.filter(q => q.system === 'reproductive' && /uterus|vagina|cervix/i.test(q.name))) assert.ok(p.bounds[0][0] > lo && p.bounds[1][0] < hi, `${p.name} lies between the hip bones`);
+  assert.ok(mid(sacrum)[2] < mid(uterus)[2], 'sacrum behind the uterus');
+  assert.ok(sacrum.bounds[1][1] > uterus.bounds[0][1] && hipL.bounds[1][1] > uterus.bounds[1][1] - .03, 'uterus lies within the height of the pelvis');
+}
 console.log(`organs-b ok: ${lobes.length} lobes, ${serous.length} serous shells, ${female.length} female parts`);
