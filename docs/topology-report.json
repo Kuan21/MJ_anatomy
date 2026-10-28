@@ -54,6 +54,54 @@
   "status": "fixed"
  },
  {
+  "child": "Right thyrocervical trunk",
+  "parent": "Right subclavian artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left thyrocervical trunk",
+  "parent": "Left subclavian artery",
+  "gapMm": 0.5,
+  "status": "ok"
+ },
+ {
+  "child": "Right suprascapular artery",
+  "parent": "Right thyrocervical trunk",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left suprascapular artery",
+  "parent": "Left thyrocervical trunk",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right transverse cervical artery",
+  "parent": "Right thyrocervical trunk",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left transverse cervical artery",
+  "parent": "Left thyrocervical trunk",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Right dorsal scapular artery",
+  "parent": "Right transverse cervical artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
+  "child": "Left dorsal scapular artery",
+  "parent": "Left transverse cervical artery",
+  "gapMm": 0,
+  "status": "ok"
+ },
+ {
   "child": "Right superior thoracic artery",
   "parent": "Right axillary artery",
   "gapMm": 0,

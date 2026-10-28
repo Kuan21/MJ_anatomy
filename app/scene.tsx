@@ -856,7 +856,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   const animate=()=>{
    if(disposed)return;frame=requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05),s=poseForFrame(latest.current);
    if(focusTarget&&focusPosition){const a=1-Math.exp(-8*dt);controls.target.lerp(focusTarget,a);camera.position.lerp(focusPosition,a);dirty=true;if(controls.target.distanceToSquared(focusTarget)<1e-7&&camera.position.distanceToSquared(focusPosition)<1e-7){controls.target.copy(focusTarget);camera.position.copy(focusPosition);focusTarget=null;focusPosition=null;}}
-   const changed=lastState?.jointSurfaces!==s.jointSurfaces||lastState?.visible!==s.visible||lastState?.selected!==s.selected||lastState?.hiddenParts!==s.hiddenParts||lastState?.fadedParts!==s.fadedParts||lastState?.depthFilter!==s.depthFilter||lastState?.muscleLayer!==s.muscleLayer||lastState?.faceMuscleLayer!==s.faceMuscleLayer||lastState?.focusParts!==s.focusParts||lastState?.isolate!==s.isolate||lastState?.partTransforms!==s.partTransforms||lastState?.bodyMotion!==s.bodyMotion;
+   const changed=lastState?.jointSurfaces!==s.jointSurfaces||lastState?.visible!==s.visible||lastState?.selected!==s.selected||lastState?.hiddenParts!==s.hiddenParts||lastState?.fadedParts!==s.fadedParts||lastState?.highlightNerves!==s.highlightNerves||lastState?.depthFilter!==s.depthFilter||lastState?.muscleLayer!==s.muscleLayer||lastState?.faceMuscleLayer!==s.faceMuscleLayer||lastState?.focusParts!==s.focusParts||lastState?.isolate!==s.isolate||lastState?.partTransforms!==s.partTransforms||lastState?.bodyMotion!==s.bodyMotion;
    const tissueChanged=!lastState||lastState.partTransforms!==s.partTransforms||lastState.tissueMotion!==s.tissueMotion||lastState.previewMotion!==s.previewMotion||lastState.bodyMotion!==s.bodyMotion||lastState.visible!==s.visible||lastState.focusParts!==s.focusParts||lastState.hiddenParts!==s.hiddenParts;
    if(tissueChanged){updateTissueMotion(s);updateNerveMotion(s);updateBrainMotion(s);}
    const ctx=viewerContext.current;
@@ -881,7 +881,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      else if(ctx.bodyArea==='upper'&&ctx.region==='whole-body')o.visible=sideOk&&!!nerveBindings[name];
      else if(ctx.motionActive)o.visible=sideOk&&!!nerveBindings[name]&&nerveMatchesRegion(name,ctx.region,false);
      else o.visible=sideOk&&nerveMatchesRegion(name,ctx.region,false);
-     const isSelectedNerve=!!selectedNerve.current&&name===selectedNerve.current;
+     const isSelectedNerve=(!!selectedNerve.current&&name===selectedNerve.current)||(!!s.highlightNerves?.length&&s.highlightNerves.some(h=>h.replace(/\.001$/,'')===name.replace(/\.001$/,'')));
      const isHoverNerve=!isSelectedNerve&&hoverNerve===name;
      const isVein=!!o.userData.mjVein,targetColor=isSelectedNerve?SELECT_COLOR:isHoverNerve?HOVER_COLOR:isVein?0x3f7bd0:0xf1cb4f,targetEmissive=isSelectedNerve?SELECT_COLOR:isHoverNerve?HOVER_COLOR:isVein?0x0f2c5c:0x6b5100,targetIntensity=isSelectedNerve?.4:isHoverNerve?.3:.28;
      {const nm=(o as T.Mesh).material as T.MeshStandardMaterial,lift=isSelectedNerve;if(nm.polygonOffset!==lift){nm.polygonOffset=lift;nm.polygonOffsetFactor=-4;nm.polygonOffsetUnits=-4;nm.needsUpdate=true;}}

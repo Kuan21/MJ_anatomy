@@ -29,9 +29,9 @@
         "models/stream/female-*.bin.gz"
       ],
       "license": "CC BY 4.0",
-      "origin": "Human Reference Atlas 3D Reference Organ Set for Female v1.5 (Browne & Schlehlein, 2023), 33 pelvic structures",
+      "origin": "Human Reference Atlas 3D Reference Organ Set for Female v1.5 (Browne & Schlehlein, 2023), 33 pelvic organ structures and the pelvic bones (sacrum, coccyx, ilium, ischium, pubis)",
       "url": "https://doi.org/10.48539/HBM352.BTSQ.586",
-      "pinned_by": "scripts/data/hra-female-pelvis.json.gz"
+      "pinned_by": "scripts/data/hra-female-pelvis.json.gz, scripts/data/hra-female-pelvis-bones.json.gz"
     },
     {
       "id": "hra-female-breast",
@@ -188,9 +188,9 @@
         "models/stream/female-*.bin.gz"
       ],
       "license": "CC BY 4.0",
-      "origin": "Human Reference Atlas 3D Reference Organ Set for Female v1.5 (Browne & Schlehlein, 2023), 33 pelvic structures",
+      "origin": "Human Reference Atlas 3D Reference Organ Set for Female v1.5 (Browne & Schlehlein, 2023), 33 pelvic organ structures and the pelvic bones (sacrum, coccyx, ilium, ischium, pubis)",
       "url": "https://doi.org/10.48539/HBM352.BTSQ.586",
-      "pinned_by": "scripts/data/hra-female-pelvis.json.gz"
+      "pinned_by": "scripts/data/hra-female-pelvis.json.gz, scripts/data/hra-female-pelvis-bones.json.gz"
     },
     {
       "id": "schematic-serous",
