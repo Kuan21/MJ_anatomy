@@ -141,3 +141,5 @@
 .organ-left .organ-group li .organ-part-row>button:first-child,.organ-left .organ-part-row>button:first-child{flex:1;min-width:0;width:auto}
 .organ-left .organ-group ul{padding-left:20px}
 .organ-left .system-name>span:not(.system-dot):not(.system-count){flex:1;font-size:13px;font-weight:560;text-align:left}
+.organ-left .organ-subtree{padding-left:14px}
+.organ-left .organ-subtree .organ-group{border-top:0}

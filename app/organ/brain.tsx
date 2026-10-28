@@ -1,10 +1,10 @@
 import {Switch} from '@/components/ui/switch';
-import {useEffect, useMemo, useRef, useState} from 'react';
+import {useEffect, useMemo, useRef, useState, type ReactNode} from 'react';
 import {ArrowLeft, ChevronDown, ChevronRight, Eye, EyeOff, RotateCcw} from 'lucide-react';
 import {createBrainViewer} from './brain-viewer';
 import {createCsfScene, CSF_STEPS, type CsfSource} from './csf-scene';
 import {CSF_SHORT, CSF_STEP_NOTES} from './csf-notes';
-import {BRAIN_GROUPS, displayEn} from './brain-catalogue';
+import {BRAIN_GROUPS, buildBrainTree, displayEn, relatedLobes, type BrainTreeNode} from './brain-catalogue';
 import {cardMatches, cardParts, loadNotes, type NoteCard, type NoteData} from './brain-notes';
 import {NoteCardView} from './brain-note-card';
 import {SECTION_AXES, type BrainPart, type BrainView, type BrainViewState, type SectionAxis} from './brain-types';
@@ -117,6 +117,33 @@ export default function BrainDetail() {
   const toggleGroup = (id: string) => patch({hiddenGroups: view.hiddenGroups.includes(id) ? view.hiddenGroups.filter(g => g !== id) : [...view.hiddenGroups, id]});
   const togglePart = (id: string) => patch({hiddenParts: view.hiddenParts.includes(id) ? view.hiddenParts.filter(x => x !== id) : [...view.hiddenParts, id]});
   const grouped = useMemo(() => BRAIN_GROUPS.map(g => ({...g, parts: parts.filter(p => p.group === g.id).sort((a, b) => a.en.localeCompare(b.en) || a.side.localeCompare(b.side))})).filter(g => g.parts.length), [parts]);
+  const tree = useMemo(() => buildBrainTree(parts), [parts]);
+  const partVisible = (p: BrainPart) => !view.hiddenParts.includes(p.id) && !view.hiddenGroups.includes(p.group);
+  /** Switching a node switches everything below it; the other members of a hidden group stay as they were. */
+  const setNodeVisible = (list: BrainPart[], on: boolean) => {
+    const ids = new Set(list.map(p => p.id));
+    if (!on) {patch({hiddenParts: [...new Set([...view.hiddenParts, ...ids])], isolate: null}); return;}
+    const groups = new Set(list.filter(p => view.hiddenGroups.includes(p.group)).map(p => p.group));
+    const keep = parts.filter(p => groups.has(p.group) && !ids.has(p.id)).map(p => p.id);
+    patch({hiddenGroups: view.hiddenGroups.filter(g => !groups.has(g)), hiddenParts: [...new Set([...view.hiddenParts.filter(x => !ids.has(x)), ...keep])], isolate: null});
+  };
+  const renderNode = (n: BrainTreeNode, depth: number): ReactNode => {
+    const expanded = open.includes(n.id), some = n.all.some(partVisible);
+    return <div className="organ-group" key={n.id}>
+      <div className={`system-row organ-group-row ${some ? 'enabled' : ''}`}>
+        <button className="row-arrow" aria-expanded={expanded} aria-label={`${expanded ? '收合' : '展開'}${n.zh}`} onClick={() => setOpen(o => expanded ? o.filter(x => x !== n.id) : [...o, n.id])}>{expanded ? <ChevronDown size={13}/> : <ChevronRight size={13}/>}</button>
+        <button className="system-name" onClick={() => setOpen(o => expanded ? o.filter(x => x !== n.id) : [...o, n.id])} aria-expanded={expanded}><span className="system-dot" style={{background: depth === 0 ? '#8aa0ad' : '#b6c3cb'}}/><span lang="en">{n.en}<small lang="zh-Hant">{n.zh}</small></span><span className="system-count">{n.all.length}</span></button>
+        <Switch checked={some} onCheckedChange={() => setNodeVisible(n.all, !some)} aria-label={`${some ? '隱藏' : '顯示'}${n.zh}`}/>
+      </div>
+      {expanded && <div className="organ-subtree">
+        {n.children.map(c => renderNode(c, depth + 1))}
+        {n.leaf.length > 0 && <ul>{n.leaf.map(p => <li key={p.id} className="organ-part-row">
+          <button aria-pressed={view.selectedIds.includes(p.id)} onClick={() => choose(p.id)}><span lang="en">{displayEn(p)}</span><small lang="zh-Hant">{p.zh}{p.schematic ? '　〔示意〕' : ''}</small></button>
+          <button className="organ-eye" aria-label={`${partVisible(p) ? '隱藏' : '顯示'}${displayEn(p)}`} onClick={() => setNodeVisible([p], !partVisible(p))}>{partVisible(p) ? <Eye size={14}/> : <EyeOff size={14}/>}</button>
+        </li>)}</ul>}
+      </div>}
+    </div>;
+  };
   const section = view.section;
   const chooseAxis = (axis: SectionAxis) => {
     if (axis === 'none') {patch({section: {...section, axis}}); return;}
@@ -151,20 +178,7 @@ export default function BrainDetail() {
             {foundNotes.length > 80 && <p className="organ-info-empty">還有 {foundNotes.length - 80} 個，請輸入更多字。</p>}
             {!foundParts.length && !foundNotes.length && <p className="organ-info-empty">找不到符合的構造。</p>}
           </div> : <>
-                    {grouped.map(g => {
-            const hidden = view.hiddenGroups.includes(g.id), expanded = open.includes(g.id);
-            return <div className="organ-group" key={g.id}>
-              <div className={`system-row organ-group-row ${hidden ? '' : 'enabled'}`}>
-                <button className="row-arrow" aria-expanded={expanded} aria-label={`${expanded ? '收合' : '展開'}${g.zh}`} onClick={() => setOpen(o => expanded ? o.filter(x => x !== g.id) : [...o, g.id])}>{expanded ? <ChevronDown size={13}/> : <ChevronRight size={13}/>}</button>
-                <button className="system-name" onClick={() => setOpen(o => expanded ? o.filter(x => x !== g.id) : [...o, g.id])} aria-expanded={expanded}><span className="system-dot" style={{background: '#8aa0ad'}}/><span lang="en">{g.en}<small lang="zh-Hant">{g.zh}</small></span><span className="system-count">{g.parts.length}</span></button>
-                <Switch checked={!hidden} onCheckedChange={() => toggleGroup(g.id)} aria-label={`${hidden ? '顯示' : '隱藏'}${g.zh}`}/>
-              </div>
-              {expanded && <ul>{g.parts.map(p => <li key={p.id} className="organ-part-row">
-                <button aria-pressed={view.selectedIds.includes(p.id)} onClick={() => choose(p.id)}><span lang="en">{displayEn(p)}</span><small lang="zh-Hant">{p.zh}{p.schematic ? '　〔示意〕' : ''}</small></button>
-                <button className="organ-eye" aria-label={`${view.hiddenParts.includes(p.id) ? '顯示' : '隱藏'}${displayEn(p)}`} onClick={() => togglePart(p.id)}>{view.hiddenParts.includes(p.id) ? <EyeOff size={14}/> : <Eye size={14}/>}</button>
-              </li>)}</ul>}
-            </div>;
-          })}
+          {tree.map(n => renderNode(n, 0))}
           {regionGroups.length > 0 && <div className="organ-notes-list">
             <h3>構造資訊卡<small>「模型未有」者只有資訊卡</small></h3>
             {regionGroups.map(r => {
@@ -194,6 +208,7 @@ export default function BrainDetail() {
             <h2 className="organ-info-title" lang="en">{displayEn(selected)}</h2>
             <p className="organ-info-zh" lang="zh-Hant">{selected.zh || '（尚無中文名稱）'}</p>
             <p lang="zh-Hant">分區：{BRAIN_GROUPS.find(g => g.id === selected.group)?.zh}｜{SIDE_ZH[selected.side]}{selected.region && selected.region !== selected.cat ? `｜${selected.region}` : ''}</p>
+            {relatedLobes(selected) && <p lang="zh-Hant">相關腦葉：{relatedLobes(selected)}</p>}
             {selected.schematic ? <p className="organ-info-en" lang="zh-Hant"><b>示意模型</b>：位置與大小依周圍真實構造估算，不是實測形狀。</p> : <p className="organ-info-en" lang="en">Group: {BRAIN_GROUPS.find(g => g.id === selected.group)?.en}</p>}
             <div className="organ-actions" role="group" aria-label="選取動作">
               <button onClick={() => go('fit', [selected.id])}>Focus</button>

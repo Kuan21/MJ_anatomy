@@ -9,6 +9,8 @@ export interface BrainPart {
   cat: string;
   region: string;
   group: string;
+  /** inside a lobe: gyri (including poles and lobules) or sulci and fissures */
+  sub?: 'gyri' | 'sulci';
   /** peel order of the group: 0 = outermost layer, -1 = never peeled (vessels, nerves) */
   layer: number;
   /** a schematic (示意) structure built by the viewer, not a mesh of the Brain Project model */

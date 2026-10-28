@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import {quizModule} from './quiz-modules.mjs';
 
-const {describeBrainNode, BRAIN_GROUPS, displayEn} = await quizModule('app/organ/brain-catalogue.ts');
+const {describeBrainNode, BRAIN_GROUPS, displayEn, buildBrainTree} = await quizModule('app/organ/brain-catalogue.ts');
 const {voxelize, LABEL, classFields, partField, GREY_MM, CLASS_COUNT} = await quizModule('app/organ/brain-voxels.ts');
 const {CSF_STEPS} = await quizModule('app/organ/csf-scene.ts');
 const {SCHEMATIC, SCHEMATIC_NAMES} = await quizModule('app/organ/brain-schematic.ts');
@@ -23,6 +23,25 @@ assert.ok(!parts.some(p => /spinal artery|spinal cord/i.test(p.en)), 'spinal par
 const noZh = parts.filter(p => !p.zh);
 assert.equal(noZh.length, 0, `Chinese name missing: ${[...new Set(noZh.map(p => p.en))].join(', ')}`);
 assert.ok(!parts.some(p => /ventric/i.test(p.en) && /心室/.test(p.zh)), 'brain ventricles are 腦室, not 心室');
+// ---- the nested list: lobes (gyri, then sulci and fissures) first, then the other regions; every structure sits in exactly one leaf
+assert.ok(!parts.some(p => p.group === 'cortex-other'), 'every cortical structure belongs to a lobe');
+{
+  const tree = buildBrainTree(parts), seen = new Map();
+  const walk = n => {for (const p of n.leaf) {assert.ok(!seen.has(p.id), `${p.en} appears twice (${seen.get(p.id)} and ${n.id})`); seen.set(p.id, n.id);} n.children.forEach(walk);};
+  tree.forEach(walk);
+  assert.equal(seen.size, parts.length, 'every structure is listed');
+  assert.deepEqual(tree.slice(0, 1).map(n => n.id), ['lobes']);
+  assert.deepEqual(tree[0].children.map(n => n.id), ['frontal', 'parietal', 'temporal', 'occipital', 'limbic', 'insula']);
+  for (const lobe of tree[0].children) {
+    const ids = lobe.children.map(c => c.id.split('-')[1]);
+    assert.ok(ids[0] === 'gyri' && (ids.length === 1 || ids[1] === 'sulci'), `${lobe.id}: gyri before sulci`);
+    for (const c of lobe.children) for (const p of c.leaf) assert.equal(p.sub, c.id.endsWith('-sulci') ? 'sulci' : 'gyri', p.en);
+  }
+  const after = tree.slice(1).map(n => n.id);
+  for (const id of ['diencephalon', 'basal', 'brainstem', 'cerebellum', 'ventricles', 'white', 'meninges', 'vessels']) assert.ok(after.includes(id), id);
+  const central = tree[0].children.flatMap(l => l.children).flatMap(c => c.leaf).find(p => p.en === 'Central sulcus');
+  assert.equal(central.sub, 'sulci');
+}
 const central = parts.find(p => p.en === 'Central sulcus' && p.side === 'left');
 assert.equal(displayEn(central), 'Left Central sulcus');
 assert.equal(central.group, 'frontal'.replace('frontal', central.group), 'central sulcus has a lobe');
