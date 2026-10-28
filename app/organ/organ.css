@@ -7,7 +7,17 @@
 .organ-brand{font-size:18px;font-weight:680;letter-spacing:-.6px;white-space:nowrap}
 .organ-brand>span{font-size:11px;letter-spacing:1.5px;margin-left:10px;padding-left:12px;border-left:1px solid #18253630;color:#456674}
 .organ-tag{font-size:11px;letter-spacing:2px;color:var(--muted)}
-.organ-layout{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 380px}
+.organ-layout{flex:1;min-height:0;display:grid;grid-template-columns:300px minmax(0,1fr) 380px}
+.organ-left{overflow:auto;padding:14px 12px;background:#ffffffe0;border-right:1px solid var(--line)}
+.organ-left .system-row{display:flex;align-items:center;gap:6px;min-height:36px}
+.organ-left .system-name{flex:1;min-width:0;display:flex;align-items:center;gap:8px;text-align:left;background:none;border:0;padding:0 5px;color:#8a949e;font-size:13px}
+.organ-left .enabled .system-name{color:#394957}
+.organ-left .system-name small{display:block;font-size:11px;color:#8a949e}
+.organ-left .system-dot{width:7px;height:7px;border-radius:50%;flex:none}
+.organ-left .system-count{margin-left:auto;font-size:10px;font-variant-numeric:tabular-nums;color:#6b7782;background:#eef1f3;border-radius:8px;padding:1px 6px}
+.organ-left .row-arrow{width:22px;height:28px;display:grid;place-items:center;background:none;border:0;color:#7b8794;flex:none}
+.organ-left .organ-search{display:block;margin:8px 0}
+.organ-left .organ-search input{width:100%}
 .organ-stage{position:relative;min-height:0;background:linear-gradient(180deg,#cbd2d6 0%,#cbd2d6 60%,#dfe4e7 100%)}
 .organ-canvas{position:absolute;inset:0}.organ-canvas canvas{display:block;width:100%;height:100%}
 .organ-views{position:absolute;top:18px;right:18px;display:flex;gap:3px;background:#ffffffd9;border:1px solid var(--line);padding:4px;border-radius:10px;backdrop-filter:blur(10px)}
@@ -55,7 +65,7 @@
 .organ-clear{background:#eef1f3;border-radius:8px;padding:7px 12px;font-size:12px;color:var(--accent);min-height:36px}
 .organ-note p{margin:0 0 8px;font-size:12px;line-height:1.75;color:#4f5b66}
 .organ-source{font-size:11px!important;color:var(--muted)!important}
-@media(max-width:900px){.organ-app{height:auto;min-height:100dvh;overflow:auto}.organ-layout{grid-template-columns:1fr;grid-template-rows:62vh auto}.organ-stage{min-height:420px}.organ-panel{border-left:0;border-top:1px solid var(--line)}.organ-header{padding:0 16px;height:56px}.organ-brand{font-size:16px}.organ-brand>span{display:none}}
+@media(max-width:900px){.organ-stage{order:1}.organ-left{order:2;border-right:0;border-top:1px solid var(--line);max-height:50vh}.organ-panel{order:3}.organ-app{height:auto;min-height:100dvh;overflow:auto}.organ-layout{grid-template-columns:1fr;grid-template-rows:62vh auto auto}.organ-stage{min-height:420px}.organ-panel{border-left:0;border-top:1px solid var(--line)}.organ-header{padding:0 16px;height:56px}.organ-brand{font-size:16px}.organ-brand>span{display:none}}
 @media(prefers-reduced-motion:reduce){.organ-spinner{animation:none}}
 .organ-info{position:sticky;top:0;z-index:2;box-shadow:0 6px 16px #1825361c;max-height:46vh;overflow:auto}
 @media(max-width:900px){.organ-info{position:static;max-height:none;box-shadow:none}}
@@ -127,3 +137,7 @@
 .note-field h3{margin:6px 0 2px;font-size:11px;letter-spacing:1px;color:var(--muted)}.note-field ul{margin:0;padding-left:16px}.note-field li{margin:2px 0}.note-field li small{margin-left:4px;color:var(--muted);font-size:11px}
 .note-links{margin-top:8px}.note-links h3{margin:0 0 4px;font-size:11px;letter-spacing:1px;color:var(--muted)}.note-links button{display:flex;flex-direction:column;align-items:flex-start;width:100%;text-align:left;padding:4px 0}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.organ-left .organ-group li .organ-eye{width:36px;min-height:0;flex:none}
+.organ-left .organ-group li .organ-part-row>button:first-child,.organ-left .organ-part-row>button:first-child{flex:1;min-width:0;width:auto}
+.organ-left .organ-group ul{padding-left:20px}
+.organ-left .system-name>span:not(.system-dot):not(.system-count){flex:1;font-size:13px;font-weight:560;text-align:left}
