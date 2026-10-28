@@ -1298,3 +1298,12 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 .space-detail{display:grid;gap:8px}.space-detail>div{display:grid;gap:3px}.space-hint{margin:0;font-size:11px;color:#51606c}
 .dissection-sides{margin:4px 0 8px}
 .space-detail .bn-row{justify-content:flex-start;text-align:left;gap:8px}
+
+/* Region tabs: picking 上肢 / 下肢 folds the other tabs away and puts the side buttons on the same row (about 200 ms) */
+.top-region-nav button,.top-region-nav .tab-sides{transition:max-width .2s ease,opacity .2s ease,padding .2s ease,margin .2s ease}
+.top-region-nav .tab-hidden{max-width:0!important;min-width:0!important;padding-left:0!important;padding-right:0!important;margin:0!important;opacity:0;overflow:hidden;pointer-events:none;border-width:0}
+.top-region-nav .tab-back{max-width:0;min-width:0!important;padding:0!important;opacity:0;overflow:hidden;pointer-events:none}
+.top-region-nav.limb-picked .tab-back{max-width:44px;min-width:36px!important;padding:8px 10px!important;opacity:1;pointer-events:auto}
+.top-region-nav .tab-sides{display:flex;gap:4px;max-width:260px;overflow:hidden}
+.top-region-nav .side-fade-toggle{display:flex;align-items:center;gap:4px;font-size:12px;color:#44515c;white-space:nowrap;padding:0 6px;cursor:pointer}
+.top-region-nav .side-fade-toggle input{accent-color:#263b48}
