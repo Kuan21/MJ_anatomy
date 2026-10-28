@@ -400,7 +400,7 @@ const PAOKAO=paokaoCards as unknown as Record<string,PaokaoCard>;
 const paokaoByName=new Map(Object.values(PAOKAO).map(c=>[c.name.toLowerCase(),c]));
 /** Course-summary structures built by scripts/prepare-paokao.mjs: the Chinese name and the bilingual data card come from app/mj-paokao.json. */
 export function paokaoZh(name:string){return paokaoByName.get(name.toLowerCase())?.zh;}
-const KIND_LABEL:Record<string,[string,string]>={artery:['Artery','動脈'],vein:['Vein','靜脈'],nerve:['Nerve','神經'],vessel:['Lymphatic vessel','淋巴管'],ligament:['Ligament','韌帶'],fascia:['Fascia','筋膜'],retinaculum:['Retinaculum','支持帶'],aponeurosis:['Aponeurosis','腱膜'],membrane:['Membrane','膜'],sheath:['Sheath','鞘'],ganglion:['Ganglion','神經節'],plexus:['Plexus','神經叢'],space:['Space','間隙'],landmark:['Bone landmark','骨性標誌'],muscle:['Muscle','肌肉'],surface:['Surface mark','表面標記'],gland:['Gland','腺體'],organ:['Organ','器官']};
+const KIND_LABEL:Record<string,[string,string]>={artery:['Artery','動脈'],vein:['Vein','靜脈'],nerve:['Nerve','神經'],vessel:['Lymphatic vessel','淋巴管'],ligament:['Ligament','韌帶'],tendon:['Tendon','肌腱'],fascia:['Fascia','筋膜'],retinaculum:['Retinaculum','支持帶'],aponeurosis:['Aponeurosis','腱膜'],membrane:['Membrane','膜'],sheath:['Sheath','鞘'],ganglion:['Ganglion','神經節'],plexus:['Plexus','神經叢'],space:['Space','間隙'],landmark:['Bone landmark','骨性標誌'],muscle:['Muscle','肌肉'],surface:['Surface mark','表面標記'],gland:['Gland','腺體'],organ:['Organ','器官']};
 const SCHEMATIC_NOTE_ZH2='示意模型：公開人體圖譜（BodyParts3D、Z-Anatomy）沒有此構造的三維模型，這裡依教科書走行與位置以簡化形態繪製；粗細、彎曲與分支僅供辨認方向，不是實測形狀。';
 const SCHEMATIC_NOTE_EN2='Schematic model: neither BodyParts3D nor Z-Anatomy has a 3D model of this structure. It is drawn in simplified form from the textbook course and position; calibre, curvature and branching are for orientation only, not measured.';
 function paokaoProfile(rawName:string,system:SystemId,part?:Part):StructureProfile{
@@ -414,6 +414,7 @@ function paokaoProfile(rawName:string,system:SystemId,part?:Part):StructureProfi
  const L=(en:string,zh:string,v?:[string,string])=>{if(v)facts.push({labelEn:en,labelZh:zh,valueEn:v[0],valueZh:v[1]});};
  const k=card.kind,vessel=k==='artery'||k==='vein'||k==='vessel';
  if(k==='muscle'){L('Origin','起點',card.origin);L('Insertion','止點',card.insertion);L('Innervation','神經支配',card.nerve);L('Action','作用',card.action);}
+ else if(k==='tendon'){L('Origin','起點',card.origin);L('Insertion','止點',card.insertion);L('Function','功能',card.action);}
  else if(k==='space'){L('Boundaries','邊界',card.origin);L('Location','位置',card.course);L('Contents','內容物',card.supply);}
  else if(vessel){
   L('Origin','來源',card.origin);L('Course','走向',card.course);

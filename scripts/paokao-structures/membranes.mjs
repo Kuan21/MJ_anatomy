@@ -42,16 +42,7 @@ export default function membranes(U) {
       push(S, 'femoral sheath', '股鞘', 'sheath', 'connective', {tubes: [{pts, r: [.0160, .0120], samples: 20, sides: 14}]},
         ['A funnel of fascia continuous with the transversalis and iliopsoas fasciae, about 3–4 cm long below the inguinal ligament', '與腹橫筋膜、髂腰筋膜相連的漏斗狀筋膜，在腹股溝韌帶下方約 3–4 公分'], ['Encloses the femoral artery, femoral vein and femoral canal (not the femoral nerve, which lies lateral to it)', '包裹股動脈、股靜脈與股管（股神經位於其外側，不在鞘內）']);
     }
-    // ---- Quadriceps tendon and patellar ligament.
-    {
-      const pat = `${S.w} patella`, rf = `${S.w} rectus femoris`, tib = `${S.w} tibia`, ptop = U.extreme(pat, P(0, 1, .2)), pbot = U.extreme(pat, P(0, -1, .2));
-      const rfLow = U.alongMesh(rf, 1, P(0, -1, .5), sx < 0 ? 'x-min' : 'x-min'), top = lowest(rf);
-      const tub = U.extreme(tib, P(0, .3, 1), {y: [.375, .445]});
-      push(S, 'quadriceps tendon', '股四頭肌腱', 'ligament', 'connective', {ribbons: [{pts: [add(top, P(0, .008, .002)), add(lerp(top, ptop, .5), P(0, 0, .004)), add(ptop, P(0, -.002, .0035))], width: .032, thick: .004, hint: P(0, 0, 1)}]},
-        ['The common tendon of the four quadriceps muscles, inserting into the base of the patella', '四條股四頭肌的共同肌腱，止於髕骨底'], ['Extends the knee; a source of tendon grafts and the site of quadriceps tendon rupture', '伸直膝關節；可取作肌腱移植材料，也是股四頭肌腱斷裂的部位']);
-      push(S, 'patellar ligament', '髕韌帶', 'ligament', 'connective', {ribbons: [{pts: [add(pbot, P(0, .004, .0035)), add(lerp(pbot, tub, .5), P(0, 0, .0045)), add(tub, P(0, .001, .0035))], width: .026, thick: .004, hint: P(0, 0, 1)}]},
-        ['From the apex of the patella to the tibial tuberosity; the continuation of the quadriceps tendon', '從髕骨尖到脛骨粗隆，是股四頭肌腱的延續'], ['Transmits quadriceps force to the tibia (the patellar tendon reflex is tested by tapping it)', '把股四頭肌的力量傳到脛骨（敲擊它可引出髕腱反射）']);
-    }
+    // The quadriceps tendon, patellar ligament and patellar retinacula are built in knee.mjs.
     // ---- Retinacula at the ankle.
     {
       const tib = `${S.w} tibia`, fib = `${S.w} fibula`, calc = `${S.w} calcaneus`, tal = `${S.w} talus`;
