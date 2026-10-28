@@ -7,7 +7,7 @@
 | 優先 1｜頭顱內黃色碎塊徹底移除 | 進行中（正在查來源） | 尚未開 | 圖譜冷載入很慢，頭部截圖腳本前兩次逾時；已改以資料掃描加截圖雙路查 |
 | 優先 1｜心臟版面（詳細模式版面比照腦部） | 未開始 | — | — |
 | 優先 1｜Quiz 第二級「看結構寫名稱」 | 已完成（已 merge；題庫與同義名稱表仍待你核對） | [#98](https://github.com/Kuan21/MJ_anatomy/pull/98) | — |
-| 優先 1｜Quiz 鄰近相關構造淡天藍高亮 | 進行中（PR 已開，auto-merge 已由你開啟，等 CI `build`） | [#99](https://github.com/Kuan21/MJ_anatomy/pull/99) | — |
+| 優先 1｜Quiz 鄰近相關構造淡天藍高亮 | 已完成（已 merge） | [#99](https://github.com/Kuan21/MJ_anatomy/pull/99) | — |
 | 主圖譜畫面修正：移除地台與圓圈 | 進行中（程式已改、已 commit 在分支 `mj-atlas-view-fix`，未開 PR） | 尚未開 | 需截圖驗證 |
 | 主圖譜畫面修正：頂部區域列淺色背景、點標題重設 | 進行中（同上，已改程式） | 尚未開 | 需截圖驗證 |
 | 主圖譜畫面修正：全身預設鏡頭置中 | 未開始（等基線截圖量度模型位置） | — | 截圖腳本冷載入逾時 |
@@ -31,8 +31,7 @@
 | REVIEW_LOG 把 #95 移到「已審核」 | 等我審核（待你確認 #95 的核對項） | — | — |
 
 ### 目前 open PR
-- [#99](https://github.com/Kuan21/MJ_anatomy/pull/99)：Quiz 鄰近構造高亮；介面改動；auto-merge 已開；CI `build` 執行中（merge 狀態 blocked，只因 CI 尚未完成）；無衝突。
-- 沒有其他 open PR。
+- 目前沒有 open PR（[#99](https://github.com/Kuan21/MJ_anatomy/pull/99) 已 merge）。
 
 ### 之後的優先次序
 1. 心臟版面、頭顱黃色碎塊、第二級 Quiz（含 #99）
