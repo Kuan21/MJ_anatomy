@@ -58,6 +58,19 @@ for (const [name, zh, pieces, distance] of LAYERS) {
   stream.add({id: `SERO-${++n}`, conceptId: `SERO-${n}`, name, system: 'serous', schematic: true, chineseName: zh}, positions, indices);
   report.push(`${name}: ${indices.length / 3} tris, offset ${distance * 1000} mm`);
 }
+// Pelvic peritoneum (female): the peritoneum covering the uterus and the dome of the bladder, built from the female meshes (prepare-female.mjs runs first) in the
+// same way. The vesicouterine and rectouterine pouches are the recesses between these organs and are written by prepare-female.mjs.
+{
+  const female = JSON.parse(gunzipSync(read('female/female-stream.json.gz')));
+  const femaleGeometry = name => geometry(female.parts.find(p => p.name === name) ?? (() => {throw new Error('missing ' + name);})(), female.chunks, c => read('stream/' + c.url.split('/').pop()));
+  const bladder = femaleGeometry('Urinary bladder');
+  // only the upper half of the bladder is covered by peritoneum (the base and neck lie below the pelvic floor peritoneum)
+  let cy = 0; for (let i = 1; i < bladder.positions.length; i += 3) cy += bladder.positions[i] / (bladder.positions.length / 3);
+  const dome = {positions: bladder.positions, indices: Uint32Array.from((() => {const keep = []; for (let t = 0; t < bladder.indices.length; t += 3) { const y = (bladder.positions[bladder.indices[t] * 3 + 1] + bladder.positions[bladder.indices[t + 1] * 3 + 1] + bladder.positions[bladder.indices[t + 2] * 3 + 1]) / 3; if (y > cy) keep.push(bladder.indices[t], bladder.indices[t + 1], bladder.indices[t + 2]); } return keep;})())};
+  const shell = offsetSurface([femaleGeometry('Body of uterus'), femaleGeometry('Fundus of uterus'), femaleGeometry('Lower uterine segment'), dome], .0015), {positions, indices} = await simplify(shell.positions, shell.indices, 12000, .006);
+  stream.add({id: `SERO-${++n}`, conceptId: `SERO-${n}`, name: 'Pelvic peritoneum', system: 'serous', sex: 'female', schematic: true, chineseName: '盆腔腹膜'}, positions, indices);
+  report.push(`Pelvic peritoneum: ${indices.length / 3} tris, offset 1.5 mm`);
+}
 const info = stream.finish({source: 'Generated for this atlas from organ surfaces (BodyParts3D 4.0 heart walls; BodyParts3D 3.0 lung lobes)', license: 'CC BY-SA 2.1 Japan (derived from BodyParts3D)', attribution: 'Schematic serous-membrane shells built by offsetting BodyParts3D organ surfaces. BodyParts3D, Copyright© The Database Center for Life Science licensed by CC Attribution-Share Alike 2.1 Japan.'}, new URL('serous/serous-stream.json.gz', models));
 console.log(`Serous membranes: ${info.parts} schematic shells in ${info.chunks} packages, ${(info.gzipBytes / 1e6).toFixed(2)} MB compressed.`);
 if (process.argv.includes('--verbose')) console.log(report.join('\n'));

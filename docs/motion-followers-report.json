@@ -1,7 +1,7 @@
 [
  {
   "region": "spine",
-  "belong": 2474,
+  "belong": 2482,
   "still": [],
   "flung": []
  },
@@ -25,13 +25,13 @@
  },
  {
   "region": "leftArm",
-  "belong": 259,
+  "belong": 264,
   "still": [],
   "flung": []
  },
  {
   "region": "rightArm",
-  "belong": 259,
+  "belong": 264,
   "still": [],
   "flung": []
  }

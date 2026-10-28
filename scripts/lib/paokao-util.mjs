@@ -105,7 +105,7 @@ export function makeUtil(w) {
     /** Point on the surface of `name` nearest p, moved `off` along the outward normal. */
     onSurface(name, p, off = 0) { const c = closest(w.mesh(name), p); return add(c.point, mul(c.normal, off)); },
     dist(name, p) { return closest(w.mesh(name), p).d; },
-    tube: (pts, r0, r1 = r0, samples = 24, sides = 6) => tube(pts, r0, r1, samples, sides),
+    tube: (pts, r0, r1 = r0, samples = 24, sides = 12) => tube(pts, r0, r1, samples, sides),
     /** Flat band (ligament, retinaculum) along a path: width across `side`, thickness along the other axis. */
     ribbon(pts, width, thick, hint = [0, 0, 1], samples = 20) {
       const P = []; const n = pts.length;

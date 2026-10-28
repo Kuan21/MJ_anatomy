@@ -46,11 +46,12 @@ function BrainScene({view, exportRef, onReady, onError, onProgress, onPick, onBu
 /** CSF flow as a full-page mode: animation on the left (3/4), step-synchronised lecture notes on the right (1/4), stacked on a portrait phone.
  *  The brain viewer stays mounted underneath, so closing returns to exactly the same view, section and selection. */
 function CsfPage({exportRef, onClose}: {exportRef: {current: (() => CsfSource | null) | null}; onClose: () => void}) {
-  const host = useRef<HTMLDivElement>(null), [step, setStep] = useState(0), [failed, setFailed] = useState(false);
+  const host = useRef<HTMLDivElement>(null), [step, setStep] = useState(0), [failed, setFailed] = useState(false), [follow, setFollow] = useState(false);
+  const csf = useRef<ReturnType<typeof createCsfScene> | null>(null);
   useEffect(() => {
     const source = exportRef.current?.();
     if (!source || !host.current) {setFailed(true); return;}
-    try {const scene = createCsfScene(host.current, source, setStep, {particles: 2600, detail: 1.6, pixelRatio: 2}); return () => scene.dispose();} catch {setFailed(true);}
+    try {const scene = createCsfScene(host.current, source, setStep, {particles: 2600, detail: 1.6, pixelRatio: 2}); csf.current = scene; return () => {scene.dispose(); csf.current = null;};} catch {setFailed(true);}
   }, [exportRef]);
   useEffect(() => {
     const key = (e: KeyboardEvent) => {if (e.key === 'Escape') onClose();};
@@ -60,7 +61,8 @@ function CsfPage({exportRef, onClose}: {exportRef: {current: (() => CsfSource | 
   return <div className="csf-page" role="dialog" aria-label="腦脊髓液流向" lang="zh-Hant">
     <header className="csf-page-head"><strong>CSF 流向<small>Cerebrospinal fluid flow</small></strong><button className="csf-close" onClick={onClose} aria-label="關閉 CSF 流向，回到腦部模式">關閉</button></header>
     <div className="csf-page-body">
-      <section className="csf-canvas" ref={host} aria-label="CSF 流向動畫">{failed && <p className="organ-error">動畫無法啟動（需要先載入腦部模型與 WebGL）。</p>}</section>
+      <section className="csf-canvas" ref={host} aria-label="CSF 流向動畫">{failed && <p className="organ-error">動畫無法啟動（需要先載入腦部模型與 WebGL）。</p>}
+        <div className="csf-tracer-controls" role="group" aria-label="追蹤組"><span className="csf-tracer-dot" aria-hidden="true"/><span>追蹤組｜Tracer</span><button onClick={() => csf.current?.restart()}>Restart｜重新開始</button><label><input type="checkbox" checked={follow} onChange={e => {setFollow(e.target.checked); csf.current?.setFollow(e.target.checked);}}/>鏡頭跟隨</label></div></section>
       <aside className="csf-side" aria-live="polite">
         <ol className="csf-steps" aria-label="流向步驟">{CSF_STEPS.map((s, i) => <li key={s.en} className={i === step ? 'now' : i < step ? 'done' : ''} aria-current={i === step ? 'step' : undefined}><b>{i + 1}</b><span lang="en">{CSF_SHORT[i][0]}</span><small>{CSF_SHORT[i][1]}</small></li>)}</ol>
         <div className="csf-detail">

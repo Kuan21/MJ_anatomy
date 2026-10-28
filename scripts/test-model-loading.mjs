@@ -65,7 +65,15 @@ for(const chunk of streamed.chunks){
 }
 assert.equal(streamed.parts.length,atlas.parts.length);
 for(let i=0;i<atlas.parts.length;i++){
- const before=atlas.parts[i],after=streamed.parts[i];assert.equal(after.id,before.id);assert.equal(after.vertexCount,before.vertexCount);assert.equal(after.indexCount,before.indexCount);
+ const before=atlas.parts[i],after=streamed.parts[i];assert.equal(after.id,before.id);
+ if(after.smoothed){
+  // a limb vessel with one smoothing step: more vertices and triangles, same place (bounding box within 1.5 mm), every index valid
+  assert.ok(['arterial','venous'].includes(before.system)&&after.vertexCount>before.vertexCount&&after.indexCount>before.indexCount,`${before.name}: smoothing`);
+  const pos=new Float32Array(delivered[after.chunk].buffer.slice(delivered[after.chunk].byteOffset+after.positions,delivered[after.chunk].byteOffset+after.positions+after.vertexCount*12)),idx=new Uint32Array(delivered[after.chunk].buffer.slice(delivered[after.chunk].byteOffset+after.indices,delivered[after.chunk].byteOffset+after.indices+after.indexCount*4));
+  for(let k=0;k<3;k++){let lo=Infinity,hi=-Infinity;for(let v=k;v<pos.length;v+=3){lo=Math.min(lo,pos[v]);hi=Math.max(hi,pos[v]);}assert.ok(Math.abs(lo-before.bounds[0][k])<.0015&&Math.abs(hi-before.bounds[1][k])<.0015,`${before.name}: smoothed vessel moved`);}
+  assert.ok(idx.every(v=>v<after.vertexCount),`${before.name}: index out of range`);continue;
+ }
+ assert.equal(after.vertexCount,before.vertexCount);assert.equal(after.indexCount,before.indexCount);
  for(const [key,length] of [['positions',before.vertexCount*12],['normals',before.vertexCount*6],['indices',before.indexCount*4]])assert.deepEqual(delivered[after.chunk].subarray(after[key],after[key]+length),sourceBuffers[before.chunk].subarray(before[key],before[key]+length),`${before.name}: unchanged ${key}`);
 }
-console.log(`PASS: 15 source / ${streamed.chunks.length} immutable packages, all ${atlas.parts.length} tissues byte-identical, bounded downloads, persistent cache, gzip, failure isolation, resume and timeout.`);
+console.log(`PASS: 15 source / ${streamed.chunks.length} immutable packages, all ${atlas.parts.length} tissues byte-identical (limb vessels excepted: one smoothing step, same bounds), bounded downloads, persistent cache, gzip, failure isolation, resume and timeout.`);
