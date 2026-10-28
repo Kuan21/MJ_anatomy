@@ -3,9 +3,10 @@ import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import {quizModule} from './quiz-modules.mjs';
 
-const {describeBrainNode, BRAIN_GROUPS, displayEn} = await quizModule('app/organ/brain-catalogue.ts');
+const {describeBrainNode, BRAIN_GROUPS, displayEn, buildBrainTree} = await quizModule('app/organ/brain-catalogue.ts');
 const {voxelize, LABEL, classFields, partField, GREY_MM, CLASS_COUNT} = await quizModule('app/organ/brain-voxels.ts');
 const {CSF_STEPS} = await quizModule('app/organ/csf-scene.ts');
+const {factOf, BRAIN_FACTS} = await quizModule('app/organ/brain-facts.ts');
 const {SCHEMATIC, SCHEMATIC_NAMES} = await quizModule('app/organ/brain-schematic.ts');
 
 // ---- every named mesh of the model gets a group, a clean name and a Chinese name; spinal parts are left out
@@ -23,6 +24,40 @@ assert.ok(!parts.some(p => /spinal artery|spinal cord/i.test(p.en)), 'spinal par
 const noZh = parts.filter(p => !p.zh);
 assert.equal(noZh.length, 0, `Chinese name missing: ${[...new Set(noZh.map(p => p.en))].join(', ')}`);
 assert.ok(!parts.some(p => /ventric/i.test(p.en) && /心室/.test(p.zh)), 'brain ventricles are 腦室, not 心室');
+// ---- the nested list: lobes (gyri, then sulci and fissures) first, then the other regions; every structure sits in exactly one leaf
+assert.ok(!parts.some(p => p.group === 'cortex-other'), 'every cortical structure belongs to a lobe');
+{
+  const tree = buildBrainTree(parts), seen = new Map();
+  const walk = n => {for (const p of n.leaf) {assert.ok(!seen.has(p.id), `${p.en} appears twice (${seen.get(p.id)} and ${n.id})`); seen.set(p.id, n.id);} n.children.forEach(walk);};
+  tree.forEach(walk);
+  assert.equal(seen.size, parts.length, 'every structure is listed');
+  assert.deepEqual(tree.slice(0, 1).map(n => n.id), ['lobes']);
+  assert.deepEqual(tree[0].children.map(n => n.id), ['frontal', 'parietal', 'temporal', 'occipital', 'limbic', 'insula']);
+  for (const lobe of tree[0].children) {
+    const ids = lobe.children.map(c => c.id.split('-')[1]);
+    assert.ok(ids[0] === 'gyri' && (ids.length === 1 || ids[1] === 'sulci'), `${lobe.id}: gyri before sulci`);
+    for (const c of lobe.children) for (const p of c.leaf) assert.equal(p.sub, c.id.endsWith('-sulci') ? 'sulci' : 'gyri', p.en);
+  }
+  const after = tree.slice(1).map(n => n.id);
+  for (const id of ['diencephalon', 'basal', 'brainstem', 'cerebellum', 'ventricles', 'white', 'meninges', 'vessels']) assert.ok(after.includes(id), id);
+  const central = tree[0].children.flatMap(l => l.children).flatMap(c => c.leaf).find(p => p.en === 'Central sulcus');
+  assert.equal(central.sub, 'sulci');
+}
+// ---- structure cards: position, function, relations, blood supply (and Brodmann area for cortex) for every structure of the model
+{
+  const names = new Set(parts.map(p => p.en.toLowerCase()));
+  for (const p of parts) {
+    const fact = factOf(p);
+    assert.ok(fact, `${p.en}: no card text`);
+    for (const k of ['loc', 'fn', 'blood']) assert.ok(fact[k] && fact[k].length >= 3, `${p.en}: empty ${k}`);
+    assert.ok(fact.rel.length >= 1, `${p.en}: no related structures`);
+    for (const r of fact.rel) { assert.ok(names.has(r.toLowerCase()), `${p.en}: related structure "${r}" is not in the model`); assert.notEqual(r.toLowerCase(), p.en.toLowerCase(), `${p.en} lists itself as related`); }
+    if (['frontal', 'parietal', 'temporal', 'occipital'].includes(p.group) && p.sub === 'gyri') assert.ok(fact.ba, `${p.en}: Brodmann area missing`);
+    assert.ok(!/頁|p\.\d|筆記|共筆|課件/.test(JSON.stringify(fact)), `${p.en}: card must not cite notes`);
+  }
+  assert.ok(BRAIN_FACTS.every(([re]) => parts.some(p => re.test(p.en))), 'every card rule matches a structure of the model');
+  for (const en of new Set(parts.map(p => p.en))) assert.equal(BRAIN_FACTS.filter(([re]) => re.test(en)).length, 1, `${en}: matched by more than one card rule`);
+}
 const central = parts.find(p => p.en === 'Central sulcus' && p.side === 'left');
 assert.equal(displayEn(central), 'Left Central sulcus');
 assert.equal(central.group, 'frontal'.replace('frontal', central.group), 'central sulcus has a lobe');
