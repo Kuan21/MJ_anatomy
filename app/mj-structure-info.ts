@@ -437,6 +437,11 @@ export function structureProfile(rawName:string,system:SystemId,part?:Part):Stru
  const from=part&&(system==='arterial'||system==='venous')?(vesselBranches.parents as Record<string,string>)[part.name]:undefined;
  if(from&&!profile.facts.some(f=>f.labelZh==='來源'||f.labelZh==='回流至'))profile={...profile,facts:[{labelEn:system==='venous'?'Drains into':'Origin',labelZh:system==='venous'?'回流至':'來源',valueEn:from,valueZh:chineseName(from,system)||from},...profile.facts]};
  if(kids?.length&&!profile.facts.some(f=>f.labelEn==='Main branches'))profile={...profile,facts:[...profile.facts,{labelEn:'Main branches',labelZh:'主要分支',valueEn:kids.join(', '),valueZh:kids.map(n=>chineseName(n,system)||n).join('、')}]};
+ // A schematic shell that is not in the course list (the pleura and pericardial layers) says so on its card: the tag sits on the category line.
+ if(part?.schematic&&!(part.id in PAOKAO)&&!profile.category.includes('示意模型')){
+  const pleura=/pleura/i.test(part.name),how=pleura?'由肺表面向外擴生成的薄殼':/pericardium|epicardium/i.test(part.name)?'由心臟壁面向外擴生成的薄殼':'由相鄰構造的表面生成';
+  profile={...profile,category:`${profile.category}（示意模型）`,facts:[...profile.facts,{labelEn:'Model',labelZh:'模型',valueEn:'Schematic model, generated from the surface of the neighbouring organ',valueZh:`示意模型：${how}`}]};
+ }
  if(!part||!(part.id in vesselEnds))return profile;
  return{...profile,facts:[...profile.facts,{labelEn:'Model end',labelZh:'模型末端',valueEn:'Small branches end by thinning out into the surrounding muscle, organ or fascia; the model tapers the end to show this.',valueZh:'細小分支在周圍的肌肉、器官或筋膜內逐漸變細而終止；模型把末端收細表示。'}]};
 }
