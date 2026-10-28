@@ -32,16 +32,19 @@ assert.ok(!parts.some(p => p.group === 'cortex-other'), 'every cortical structur
   tree.forEach(walk);
   assert.equal(seen.size, parts.length, 'every structure is listed');
   assert.deepEqual(tree.slice(0, 1).map(n => n.id), ['lobes']);
-  assert.deepEqual(tree[0].children.map(n => n.id), ['frontal', 'parietal', 'temporal', 'occipital', 'limbic', 'insula']);
-  for (const lobe of tree[0].children) {
+  assert.deepEqual(tree[0].children.map(n => n.id), ['frontal', 'parietal', 'temporal', 'occipital', 'limbic', 'insula', 'interlobar']);
+  for (const lobe of tree[0].children.filter(n => n.id !== 'interlobar')) {
     const ids = lobe.children.map(c => c.id.split('-')[1]);
     assert.ok(ids[0] === 'gyri' && (ids.length === 1 || ids[1] === 'sulci'), `${lobe.id}: gyri before sulci`);
     for (const c of lobe.children) for (const p of c.leaf) assert.equal(p.sub, c.id.endsWith('-sulci') ? 'sulci' : 'gyri', p.en);
   }
   const after = tree.slice(1).map(n => n.id);
   for (const id of ['diencephalon', 'basal', 'brainstem', 'cerebellum', 'ventricles', 'white', 'meninges', 'vessels']) assert.ok(after.includes(id), id);
-  const central = tree[0].children.flatMap(l => l.children).flatMap(c => c.leaf).find(p => p.en === 'Central sulcus');
-  assert.equal(central.sub, 'sulci');
+  // interlobar grooves sit after the lobes, each with a Borders row on its card
+  const inter = tree[0].children.find(n => n.id === 'interlobar').leaf.map(p => p.en);
+  for (const en of ['Central sulcus', 'Lat Fis-post', 'Parieto-occipital sulcus', 'Cingulate sulcus (Marginal part)', 'Collateral sulcus']) assert.ok(inter.includes(en), `${en} is an interlobar groove`);
+  for (const en of ['Lat Fis-ant-Vertical', 'Lat Fis-ant-Horizont']) assert.equal(parts.find(p => p.en === en).group, 'frontal', `${en} belongs to the frontal lobe`);
+  assert.equal(parts.find(p => p.en === 'Base of peduncle').group, 'brainstem');
 }
 // ---- structure cards: position, function, relations, blood supply (and Brodmann area for cortex) for every structure of the model
 {
@@ -53,14 +56,17 @@ assert.ok(!parts.some(p => p.group === 'cortex-other'), 'every cortical structur
     assert.ok(fact.rel.length >= 1, `${p.en}: no related structures`);
     for (const r of fact.rel) { assert.ok(names.has(r.toLowerCase()), `${p.en}: related structure "${r}" is not in the model`); assert.notEqual(r.toLowerCase(), p.en.toLowerCase(), `${p.en} lists itself as related`); }
     if (['frontal', 'parietal', 'temporal', 'occipital'].includes(p.group) && p.sub === 'gyri') assert.ok(fact.ba, `${p.en}: Brodmann area missing`);
-    assert.ok(!/頁|p\.\d|筆記|共筆|課件/.test(JSON.stringify(fact)), `${p.en}: card must not cite notes`);
+    assert.ok(!/頁|p\.\d|筆記|共筆|課件|\bpage \d|textbook|lecture/i.test(JSON.stringify(fact)), `${p.en}: card must not cite notes or books`);
+    if (p.group === 'interlobar') assert.ok(fact.borders && fact.borders.length > 10, `${p.en}: interlobar groove needs a Borders row`); else assert.ok(!fact.borders, `${p.en}: Borders is only for interlobar grooves`);
+    if (fact.ba) assert.ok(['frontal', 'parietal', 'temporal', 'occipital', 'limbic', 'insula'].includes(p.group), `${p.en}: Brodmann area only for cortex`);
+    assert.ok(!/^(none|n\/a|-)$/i.test(fact.ba ?? 'x'), `${p.en}: no placeholder Brodmann area`);
   }
   assert.ok(BRAIN_FACTS.every(([re]) => parts.some(p => re.test(p.en))), 'every card rule matches a structure of the model');
   for (const en of new Set(parts.map(p => p.en))) assert.equal(BRAIN_FACTS.filter(([re]) => re.test(en)).length, 1, `${en}: matched by more than one card rule`);
 }
 const central = parts.find(p => p.en === 'Central sulcus' && p.side === 'left');
 assert.equal(displayEn(central), 'Left Central sulcus');
-assert.equal(central.group, 'frontal'.replace('frontal', central.group), 'central sulcus has a lobe');
+assert.equal(central.group, 'interlobar', 'central sulcus is an interlobar groove');
 
 // ---- voxel cut surface: a hollow brain-sized cube of "cortex" (open on one face, like the real shells) filled, grey rim, white core, a ventricle inside
 const shell = (lo, hi, skipFace) => {

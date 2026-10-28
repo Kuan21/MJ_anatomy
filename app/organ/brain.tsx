@@ -224,18 +224,20 @@ export default function BrainDetail() {
             <p lang="zh-Hant">分區：{BRAIN_GROUPS.find(g => g.id === selected.group)?.zh}｜{SIDE_ZH[selected.side]}{selected.region && selected.region !== selected.cat ? `｜${selected.region}` : ''}</p>
             {(() => {
               const fact = factOf(selected);
-              if (!fact) return <p className="organ-info-empty" lang="zh-Hant">資料待補（此結構尚無位置、功能與血液供應說明）。</p>;
+              if (!fact) return <p className="organ-info-empty" lang="en">Card text not written yet for this structure.</p>;
               const rel = fact.rel.map(en => ({en, part: parts.find(q => q.en.toLowerCase() === en.toLowerCase() && (q.side === selected.side || q.side === 'mid' || selected.side === 'mid')) ?? parts.find(q => q.en.toLowerCase() === en.toLowerCase())}));
-              return <dl className="organ-facts" lang="zh-Hant">
+              return <dl className="organ-facts" lang="en">
                 <dt>Location｜位置</dt><dd>{fact.loc}</dd>
+                {fact.borders && <><dt>Borders｜分界</dt><dd>{fact.borders}</dd></>}
                 <dt>Function｜功能</dt><dd>{fact.fn}</dd>
+                {fact.nuclei && <><dt>Main nuclei｜主要核團</dt><dd><ul className="organ-nuclei">{fact.nuclei.map(n => <li key={n.name}><b>{n.name}</b>: {n.text}</li>)}</ul></dd></>}
                 <dt>Connections / Relations｜連結／毗鄰</dt><dd className="organ-rel">{rel.map(r => r.part ? <button key={r.en} onClick={() => choose(r.part!.id)}><span lang="en">{displayEn(r.part)}</span></button> : <span key={r.en}>{r.en}</span>)}</dd>
                 <dt>Blood supply｜血液供應</dt><dd>{fact.blood}</dd>
                 {fact.ba && <><dt>Brodmann area｜Brodmann 分區</dt><dd>{fact.ba}</dd></>}
-                {fact.shared && <dd className="organ-shared">此卡是同類結構的共用說明，不是針對這一個結構單獨寫的。</dd>}
+                {fact.shared && <dd className="organ-shared">Shared card: it describes a group of similar structures{fact.group ? ` (${fact.group})` : ''}, not this structure alone.</dd>}
               </dl>;
             })()}
-            {relatedLobes(selected) && <p lang="zh-Hant">相關腦葉：{relatedLobes(selected)}</p>}
+            {relatedLobes(selected) && <p lang="en"><b>Related lobes｜相關腦葉:</b> {relatedLobes(selected)}</p>}
             {selected.schematic ? <p className="organ-info-en" lang="zh-Hant"><b>示意模型</b>：位置與大小依周圍真實構造估算，不是實測形狀。</p> : <p className="organ-info-en" lang="en">Group: {BRAIN_GROUPS.find(g => g.id === selected.group)?.en}</p>}
             <div className="organ-actions" role="group" aria-label="選取動作">
               <button onClick={() => go('fit', [selected.id])}>Focus</button>

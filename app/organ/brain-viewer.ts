@@ -1,6 +1,6 @@
 import * as T from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
-import {reshapeFourthVentricle} from './brain-reshape';
+import {fourthVentricleGeometry} from './brain-reshape';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 import {DRACOLoader} from 'three/examples/jsm/loaders/DRACOLoader.js';
 import {mergeGeometries, mergeVertices} from 'three/examples/jsm/utils/BufferGeometryUtils.js';
@@ -24,7 +24,7 @@ interface Callbacks {
 const SCHEMATIC_COLOR = '#d2b25f';
 export const BRAIN_SELECT = {fill: '#5DB89A', edge: '#3E8E74'};
 const GROUP_COLOR: Record<string, string> = {
-  meninges: '#d9c9a3', frontal: '#cdb0a8', parietal: '#c9b4ad', temporal: '#c5aaa3', occipital: '#c1a7a6', limbic: '#c9a9ad', insula: '#c8a8a0', 'cortex-other': '#cbb2ab',
+  meninges: '#d9c9a3', frontal: '#cdb0a8', parietal: '#c9b4ad', temporal: '#c5aaa3', occipital: '#c1a7a6', limbic: '#c9a9ad', insula: '#c8a8a0', interlobar: '#c6aaa4', 'cortex-other': '#cbb2ab',
   cerebellum: '#c39b8f', brainstem: '#d6b79d', white: '#efe6d3', basal: '#b79d9d', diencephalon: '#c9a3ae', ventricles: '#7fb2d6', cranial: '#e4c85a', arteries: '#c4414f', veins: '#4f7fbf',
 };
 /** Groups drawn as translucent shells so what lies inside them can be seen. */
@@ -221,8 +221,7 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
       const part = describeBrainNode({name: node.name, cat: String(x.bx_cat), region: String(x.bx_region ?? ''), label: String(x.bx_label ?? ''), side: String(x.bx_side ?? '')}, list.length);
       if (!part) return true;
       const merged = mergeGeometries(pieces, false)!;
-      const geometry = mergeVertices(merged, 1e-6);
-      if (/^fourth ventricle$/i.test(part.en)) {reshapeFourthVentricle(geometry.getAttribute('position').array as Float32Array); geometry.getAttribute('position').needsUpdate = true;}
+      const geometry = /^fourth ventricle$/i.test(part.en) ? fourthVentricleGeometry(mergeVertices(merged, 1e-6)) : mergeVertices(merged, 1e-6);
       geometry.computeVertexNormals();
       geometry.computeBoundingBox(); geometry.computeBoundingSphere();
       const mesh = new T.Mesh(geometry, new T.MeshStandardMaterial({color: GROUP_COLOR[part.group] ?? '#cfae9a', roughness: .6, metalness: 0, side: T.DoubleSide}));
