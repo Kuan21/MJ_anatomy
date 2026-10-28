@@ -424,7 +424,16 @@ function paokaoProfile(rawName:string,system:SystemId,part?:Part):StructureProfi
  }
  else if(k==='nerve'||k==='ganglion'||k==='plexus'){L(k==='nerve'?'Nerve roots':'Origin',k==='nerve'?'神經根':'來源',card.origin);L('Course','走向',card.course);L('Supply','支配範圍',card.supply);}
  else if(k==='organ'||k==='gland'||k==='surface'){L('Location','位置',card.origin);L('Structure and relations','構造／毗鄰關係',card.course);L('Blood supply and nerves','血液供應／神經',card.supply);}
- else if(k==='landmark'){L('Description','描述',card.origin);L('Attachments','附著構造',card.course);L('Related structures','相關構造',card.supply);}
+ else if(k==='landmark'){
+  // Bone, description, then what is attached to it and what lies next to it. The card holds one sentence group about the role; its parts that speak of an origin, insertion or attachment become Attachments, the rest Related structures.
+  L('Bone','所在骨骼',card.origin);L('Description','描述',card.course);
+  const en=(card.supply?.[0]??'').split(/;\s*/).filter(Boolean),zh=(card.supply?.[1]??'').split(/[；;]\s*/).filter(Boolean),isAttach=(t:string)=>/\b(origin|insertion|attachment|attaches|attach)\b/i.test(t);
+  if(en.length&&en.length===zh.length){
+   const at=en.map((t,i)=>isAttach(t)?i:-1).filter(i=>i>=0),rest=en.map((_,i)=>i).filter(i=>!at.includes(i));
+   if(at.length)L('Attachments','附著構造',[at.map(i=>en[i]).join('; '),at.map(i=>zh[i]).join('；')]);
+   if(rest.length)L('Related structures','相關構造',[rest.map(i=>en[i]).join('; '),rest.map(i=>zh[i]).join('；')]);
+  }else L('Related structures','相關構造',card.supply);
+ }
  else{L('Attachments','附著',card.origin);L('Course and relations','走向／位置關係',card.course);L('Function','功能',card.supply);}
  for(const f of card.extra??[])facts.push({labelEn:f.labelEn,labelZh:f.labelZh,valueEn:f.en,valueZh:f.zh});
  return{english:card.name,chinese:card.zh,category:`${en}｜${zh}（示意模型）`,summaryEn:SCHEMATIC_NOTE_EN2,summaryZh:SCHEMATIC_NOTE_ZH2,facts,source:card.refs?.length?`Schematic model built for this atlas from the textbook course (${card.refs.join('; ')}); landmarks measured on the BodyParts3D atlas meshes.`:'Schematic model built for this atlas from the textbook course; landmarks measured on the BodyParts3D atlas meshes.'};
