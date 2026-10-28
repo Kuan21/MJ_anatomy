@@ -4,7 +4,7 @@ import ts from 'typescript';
 import {Vector3,Matrix4} from 'three';
 const root=new URL('../',import.meta.url),tmp=new URL('.sites-runtime/',root);
 let source=await readFile(new URL('app/biomechanics-v2/body-motion.ts',root),'utf8');
-source=source.replace("import paokaoBindings from './paokao-bindings.json';","const paokaoBindings={body:{},tissue:{}};");
+source=source.replace("import paokaoBindings from './paokao-bindings.json';","const paokaoBindings={body:{},tissue:{}};").replace("import vesselEndBindings from './vessel-end-bindings.json';","const vesselEndBindings={body:{},tissue:{}};");
 source=source.replace("import rawBindings from './body-bindings.json';",`const rawBindings=${await readFile(new URL('app/biomechanics-v2/body-bindings.json',root),'utf8')};`);
 await writeFile(new URL('body-motion.mjs',tmp),ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText);
 const body=await import(new URL('body-motion.mjs',tmp)),soft=await import(new URL('soft-tissue.mjs',tmp));

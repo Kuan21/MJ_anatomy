@@ -3,13 +3,14 @@ import type {Atlas,Part,PartTransform} from '../anatomy';
 import type {SkinBinding,Palette} from './soft-tissue';
 import rawBindings from './body-bindings.json';
 import paokaoBindings from './paokao-bindings.json';
+import vesselEndBindings from './vessel-end-bindings.json';
 export type BodyRegion='head'|'spine'|'leftLeg'|'rightLeg';
 export interface BodyPose {flexion:number;rotation:number;sideBend:number;knee:number;ankle:number}
 export const BODY_NEUTRAL:BodyPose={flexion:0,rotation:0,sideBend:0,knee:0,ankle:0};
 export const BODY_LIMITS={head:{flexion:[-35,40],rotation:[-60,60],sideBend:[-30,30],knee:[0,0],ankle:[0,0]},spine:{flexion:[-25,50],rotation:[-30,30],sideBend:[-20,20],knee:[0,0],ankle:[0,0]},leg:{flexion:[-20,120],rotation:[-20,20],sideBend:[0,35],knee:[0,130],ankle:[-30,20]}} as const;
 export interface BodyBinding {name:string;rig:BodyRegion;frame:number|null}
 // Cervical vessels must blend into the skull, not rotate as entire rigid tubes.
-export const bodyBindings=Object.fromEntries(Object.entries({...rawBindings,...paokaoBindings.body} as typeof rawBindings).map(([id,b])=>[id,b.rig==='head'&&/artery|vein|venous/i.test(b.name)?{...b,frame:null}:b])) as Record<string,BodyBinding>;
+export const bodyBindings=Object.fromEntries(Object.entries({...rawBindings,...paokaoBindings.body,...vesselEndBindings.body} as typeof rawBindings).map(([id,b])=>[id,b.rig==='head'&&/artery|vein|venous/i.test(b.name)?{...b,frame:null}:b])) as Record<string,BodyBinding>;
 /** Facial muscles and the scalp structures that the 4.0 export lacks (epicranial aponeurosis, temporoparietalis, depressor septi nasi) ride on the skull. */
 export const skullAttached=(p:{id:string;name:string})=>p.id.startsWith('BP3-FMA')||(p.id.startsWith('BP3S-')&&/epicranius|temporoparietalis|depressor septi nasi/i.test(p.name));
 /** Nerve meshes that carry no explicit binding follow the limb they lie in: below the hip and near the midline a leg (by side), further out an arm. */
@@ -42,7 +43,7 @@ export function makeBodyRig(atlas:Atlas,region:BodyRegion):BodyRig{
   // Everything anatomically suspended from the upper thorax must inherit the
   // final thoracic frame during trunk motion. Otherwise the ribs bend while
   // the shoulder girdle, arms and head remain behind in world space.
-  const upperChain=/clavicle|scapula|humerus|ulna|radius|carpal|capitate|hamate|lunate|pisiform|scaphoid|trapezium|trapezoid|triquetr|sesamoid bone of (?:left|right) hand|metacarpal|phalanx of .*?(?:finger|thumb)|cervical vertebra|atlas$|axis$|occipital|parietal|frontal bone|temporal bone|sphenoid|ethmoid|mandible|maxilla|zygomatic|nasal bone|lacrimal bone|palatine bone|vomer|inferior nasal concha|hyoid/i;
+  const upperChain=/clavicle|scapula|humerus|ulna|radius|carpal|capitate|hamate|lunate|pisiform|scaphoid|trapezium|trapezoid|triquetr|sesamoid bone of (?:left|right) hand|metacarpal|phalanx of .*?(?:finger|thumb)|cervical vertebra|cricoid|atlas$|axis$|occipital|parietal|frontal bone|temporal bone|sphenoid|ethmoid|mandible|maxilla|zygomatic|nasal bone|lacrimal bone|palatine bone|vomer|inferior nasal concha|hyoid/i;
   const topFrame=framePartIds[framePartIds.length-1];
   const assigned=new Set(framePartIds.flat()),topY=levels[levels.length-1];
   for(const p of atlas.parts){
