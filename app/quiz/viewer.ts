@@ -23,8 +23,8 @@ export interface QuizViewState {
   clarity?: number;
   /** Level 2: show only the target. */
   only?: boolean;
-  /** Level 2: a neighbouring structure the learner clicked in the answer card. */
-  highlightId?: string | null;
+  /** Level 2: the neighbouring structures the learner clicked in the answer card (several at once, each in its own light blue). */
+  highlightIds?: string[];
 }
 interface Callbacks {
   ready: (key: string, value: boolean) => void;
@@ -41,7 +41,19 @@ export const FEEDBACK = {
   wrong: {fill: '#D6304A', edge: '#A8243A'},
   /** Level 2 target: yellow body with a brighter yellow glow around it. */
   target: {fill: '#FBE27A', edge: '#FFEB9E'},
-  neighbour: {fill: '#5AA9E6', edge: '#2F7FC1'},
+};
+/** Neighbouring structures: a pale sky blue laid over the model's own colour and shading, thin blue outline. Several at once take lighter or deeper shades of the same blue, never darker than the yellow target is bright. */
+export const NEIGHBOUR_SHADES = [
+  {fill: '#9CC9F0', edge: '#4F94D2'},
+  {fill: '#B7DAF6', edge: '#6BA8DC'},
+  {fill: '#84BDEB', edge: '#3F86C8'},
+  {fill: '#CBE5F9', edge: '#82B6E2'},
+];
+/** How strongly a neighbour's pale blue replaces the model's colour (the rest stays, so shading and fibre texture show through). */
+const NEIGHBOUR_TINT = .6;
+export const neighbourShade = (highlightIds: string[] | undefined, id: string) => {
+  const i = highlightIds?.indexOf(id) ?? -1;
+  return i < 0 ? undefined : NEIGHBOUR_SHADES[i % NEIGHBOUR_SHADES.length];
 };
 const outlineMaterial = (color: string) => new T.ShaderMaterial({
   uniforms: {color: {value: new T.Color(color)}, width: {value: .0004}}, side: T.BackSide, depthTest: false, depthWrite: false, transparent: true,
@@ -85,13 +97,38 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
   let allowed = new Set<string>(), keyboardId: string | undefined;
   let command = -1, request = 0, commandAtQuestion = -1;
 
+  /** A neighbour that stands between the camera and the yellow target turns half transparent so the target stays visible. */
+  const targetPoints = (): T.Vector3[] => {
+    const points: T.Vector3[] = [];
+    for (const m of meshes.values()) {
+      if (m.userData.structureId !== state?.target.id || !m.visible) continue;
+      const pos = m.geometry.getAttribute('position'), step = Math.max(1, Math.floor(pos.count / 32));
+      for (let i = 0; i < pos.count; i += step) points.push(new T.Vector3().fromBufferAttribute(pos, i).applyMatrix4(m.matrixWorld));
+    }
+    return points;
+  };
+  let cachedPoints: T.Vector3[] | undefined, cachedFor = '';
+  const hidesTarget = (mesh: AnatomyMesh) => {
+    if (cachedFor !== state?.target.id) {scene.updateMatrixWorld(true); cachedPoints = targetPoints(); cachedFor = state?.target.id ?? '';}
+    if (!cachedPoints?.length) return false;
+    const eye = camera.position;
+    let hidden = 0;
+    for (const p of cachedPoints) {
+      const to = p.clone().sub(eye), len = to.length();
+      raycaster.set(eye, to.normalize()); raycaster.far = len - .0005;
+      if (raycaster.intersectObject(mesh, false).length) hidden++;
+    }
+    raycaster.far = Infinity;
+    return hidden / cachedPoints.length > .12;
+  };
+
   const applyAppearance = () => {
     if (!state) return;
     const hidden = new Set(state.hidden), naming = state.mode === 'name', clarity = state.clarity ?? .45;
     for (const mesh of meshes.values()) {
       const structure = byId.get(mesh.userData.structureId)!;
       const isTarget = structure.id === state.target.id;
-      const isNeighbour = naming && !!state.highlightId && structure.id === state.highlightId && !isTarget;
+      const shade = naming && !isTarget ? neighbourShade(state.highlightIds, structure.id) : undefined, isNeighbour = !!shade;
       const isAnswer = !naming && state.answered && isTarget;
       const isWrong = !naming && state.answered && structure.id === state.pickedId && !isAnswer;
       const isContext = structure.system !== state.target.system;
@@ -99,19 +136,22 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
       const base = QUIZ_SYSTEMS.find(s => s.id === structure.system)!.color;
       const material = mesh.material;
       const lit = isAnswer || isWrong || (naming && (isTarget || isNeighbour));
-      const fill = isAnswer ? FEEDBACK.correct.fill : isWrong ? FEEDBACK.wrong.fill : naming && isTarget ? FEEDBACK.target.fill : isNeighbour ? FEEDBACK.neighbour.fill : keyboardId === structure.id ? '#5aa9e6' : base;
-      material.color.set(fill);
+      const fill = isAnswer ? FEEDBACK.correct.fill : isWrong ? FEEDBACK.wrong.fill : naming && isTarget ? FEEDBACK.target.fill : shade ? shade.fill : keyboardId === structure.id ? '#5aa9e6' : base;
+      // A neighbour is a pale blue wash over the structure's own colour, so its light, shade and fibre texture stay visible.
+      if (shade) material.color.set(base).lerp(new T.Color(shade.fill), NEIGHBOUR_TINT); else material.color.set(fill);
       // The emissive term keeps the light and shade of the surface: the yellow is a tint, not a flat fill.
       material.emissive.set(lit ? fill : '#000000');
-      material.emissiveIntensity = naming && isTarget ? .16 : isNeighbour ? .14 : isAnswer || isWrong ? .08 : 0;
-      material.opacity = naming ? (isTarget || isNeighbour ? 1 : isContext ? .06 + .34 * clarity : .12 + .6 * clarity)
+      material.emissiveIntensity = naming && isTarget ? .16 : isNeighbour ? .06 : isAnswer || isWrong ? .08 : 0;
+      material.opacity = naming ? (isNeighbour ? (hidesTarget(mesh) ? .5 : 1) : isTarget ? 1 : isContext ? .06 + .34 * clarity : .12 + .6 * clarity)
         : isAnswer || isWrong ? .85 : isContext ? .2 : state.answered ? .16 : 1;
       // Outline shell around the answer, the wrong pick, the level-2 target and a clicked neighbour (shares the mesh geometry).
       let shell = mesh.userData.outline as T.Mesh<T.BufferGeometry, T.ShaderMaterial> | undefined;
       if (lit) {
         if (!shell) {shell = new T.Mesh(mesh.geometry, outlineMaterial(FEEDBACK.correct.edge)); shell.renderOrder = 3; mesh.add(shell); mesh.userData.outline = shell;}
-        shell.material.uniforms.color.value.set(isAnswer ? FEEDBACK.correct.edge : isWrong ? FEEDBACK.wrong.edge : isNeighbour ? FEEDBACK.neighbour.edge : FEEDBACK.target.edge);
-        shell.material.uniforms.width.value = naming ? .0009 : .0004;
+        shell.material.uniforms.color.value.set(isAnswer ? FEEDBACK.correct.edge : isWrong ? FEEDBACK.wrong.edge : shade ? shade.edge : FEEDBACK.target.edge);
+        shell.material.uniforms.width.value = naming && !isNeighbour ? .0009 : .0004;
+        // A neighbour's thin blue line is depth tested, so it only edges the structure and never paints over its pale surface.
+        shell.material.depthTest = !isNeighbour;
         shell.visible = mesh.visible;
       } else if (shell) shell.visible = false;
       // The feedback meshes join the transparent pass (sorted last by renderOrder) so faint context anatomy never washes their colour out.
@@ -298,6 +338,8 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
   canvas.addEventListener('webglcontextlost', lostContext);
   const markDirty = () => {dirty = true;};
   controls.addEventListener('change', markDirty);
+  // A neighbour turns half transparent only while it stands in front of the target, so the check follows the camera once a drag ends.
+  controls.addEventListener('end', () => {if (state?.highlightIds?.length) {applyAppearance(); markDirty();}});
   const resize = () => {
     const rect = host.getBoundingClientRect();
     renderer.setSize(Math.max(1, rect.width), Math.max(1, rect.height));
