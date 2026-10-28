@@ -85,7 +85,10 @@ export default function thoraxExtra(U) {
     for (let i = 1; i < 11; i++) {
       const vname = `${ORD[i][0].toUpperCase()}${ORD[i].slice(1)} thoracic vertebra`, m = U.mesh(vname), yc = (m.lo[1] + m.hi[1]) / 2 - .008;
       const cord = U.axisAt('White matter of spinal cord', yc, null, .002), fo = add(cord, P(S.sx * .0165, -.001, .0)), mid = add(cord, P(S.sx * .029, -.003, -.024)), med = add(cord, P(S.sx * .016, .0, -.044));
-      const hit = U.rayHit('Skin', add(cord, P(S.sx * .014, 0, -.06)), P(0, 0, -1)), skin = hit ? add(hit.point, P(0, 0, .0006)) : add(cord, P(S.sx * .014, 0, -.075));
+      // The branch is drawn as far as the back surface of the outermost back muscle (trapezius, latissimus dorsi or the erector spinae) where it comes out; the last stretch through the fat to the skin is not drawn, so nothing floats outside the muscles.
+      const from = add(cord, P(S.sx * .014, 0, -.2)); let surf = null;
+      for (const n of [`Ascending part of ${S.l} trapezius`, `Transverse part of ${S.l} trapezius`, `Descending part of ${S.l} trapezius`, `${S.w} latissimus dorsi`, `${S.w} rhomboid major`, `${S.w} rhomboid minor`, `${S.w} longissimus thoracis`, `${S.w} iliocostalis thoracis`, `${S.w} spinalis thoracis`, `${S.w} serratus posterior superior`, `${S.w} serratus posterior inferior`].filter(U.has)) { const h = U.rayHit(n, from, P(0, 0, 1)); if (h && (!surf || h.point[2] < surf[2])) surf = h.point; }
+      const skin = surf ? add(surf, P(0, 0, .0006)) : add(cord, P(S.sx * .014, 0, -.06));
       rami.push({pts: [fo, mid, med], r: [.0011, .0008], samples: 14});
       cutaneous.push({pts: [med, lerp(med, skin, .5), skin], r: [.0006, .0004], samples: 12});
     }
@@ -95,7 +98,7 @@ export default function thoraxExtra(U) {
     });
     out.push({
       name: `${S.w} posterior cutaneous branch of dorsal ramus of thoracic spinal nerve`, zh: `${S.zh}胸脊神經後支的後皮支`, system: 'nervous', kind: 'nerve', tubes: cutaneous,
-      card: {origin: ['Medial (upper thoracic) or lateral (lower thoracic) branch of the dorsal ramus', '後支的內側支（上胸段）或外側支（下胸段）'], course: ['Pierces trapezius or latissimus dorsi near the midline and runs in the superficial fascia of the back', '在中線附近穿過斜方肌或背闊肌，走在背部淺筋膜內'], supply: ['Skin of the back along the vertebral column', '沿脊柱的背部皮膚']}, refs: [GRAYS],
+      card: {origin: ['Medial (upper thoracic) or lateral (lower thoracic) branch of the dorsal ramus', '後支的內側支（上胸段）或外側支（下胸段）'], course: ['Pierces trapezius or latissimus dorsi near the midline and runs in the superficial fascia of the back (drawn only as far as the back surface of the muscle)', '在中線附近穿過斜方肌或背闊肌，走在背部淺筋膜內（此處只畫到肌肉背面）'], supply: ['Skin of the back along the vertebral column', '沿脊柱的背部皮膚']}, refs: [GRAYS],
     });
   }
   return out;
