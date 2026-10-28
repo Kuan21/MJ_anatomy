@@ -423,7 +423,12 @@ function paokaoProfile(rawName:string,system:SystemId,part?:Part):StructureProfi
 
 /** Small vessels whose model end was tapered by scripts/prepare-vessel-ends.mjs say so on their card. */
 export function structureProfile(rawName:string,system:SystemId,part?:Part):StructureProfile{
- const profile=paokaoProfile(rawName,system,part);
+ let profile=paokaoProfile(rawName,system,part);
+ // A schematic shell that is not in the course list (the pleura and pericardial layers) says so on its card: the tag sits on the category line.
+ if(part?.schematic&&!(part.id in PAOKAO)&&!profile.category.includes('示意模型')){
+  const pleura=/pleura/i.test(part.name),how=pleura?'由肺表面向外擴生成的薄殼':/pericardium|epicardium/i.test(part.name)?'由心臟壁面向外擴生成的薄殼':'由相鄰構造的表面生成';
+  profile={...profile,category:`${profile.category}（示意模型）`,facts:[...profile.facts,{labelEn:'Model',labelZh:'模型',valueEn:'Schematic model, generated from the surface of the neighbouring organ',valueZh:`示意模型：${how}`}]};
+ }
  if(!part||!(part.id in vesselEnds))return profile;
  return{...profile,facts:[...profile.facts,{labelEn:'Model end',labelZh:'模型末端',valueEn:'Small branches end by thinning out into the surrounding muscle, organ or fascia; the model tapers the end to show this.',valueZh:'細小分支在周圍的肌肉、器官或筋膜內逐漸變細而終止；模型把末端收細表示。'}]};
 }

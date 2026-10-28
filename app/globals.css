@@ -1279,3 +1279,9 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 .organ-sub-row{display:flex;align-items:center;justify-content:space-between;flex-basis:100%;min-height:28px}
 .organ-sub-row [data-slot=switch]{transform:scale(.7);transform-origin:right center}
 .organ-sub .organ-detail-link[aria-pressed=true]{background:#5DB89A26;color:#2f6f58}
+
+/* Organs list: expand arrow on rows that have sub-items (pleura, pericardial layers, sex of the reproductive organs) */
+.row-arrow{width:22px;min-width:22px;height:28px;padding:0!important;display:grid;place-items:center;color:#7b8794;flex:none}
+.row-arrow svg{transition:transform .15s}
+.row-arrow[aria-expanded=true] svg{transform:rotate(90deg)}
+.row-arrow-spacer{display:inline-block;width:22px;flex:none}
