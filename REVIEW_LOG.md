@@ -2,36 +2,44 @@
 
 最後更新：2026-10-28。規則：只改介面、效能、腳本、文件的 PR 在 `build` 通過後自動 merge；涉及模型、示意模型、解剖內容、名稱、Quiz 資料的 PR 標【需人工審核】，**一律不開 auto-merge**，等你確認。
 
-## 總覽（兩欄）
+## 總覽
 
-| 已自動 merge（不涉及模型，不需你審） | 等你審核（涉及模型／解剖內容，未 merge） |
+最後更新：2026-10-28（#93 合併後）。
+
+### 已 merge（已審核）：你審核後授權合併
+| PR | 內容 |
 | --- | --- |
-| #80 左側面板 Organs 重整 | [#77](https://github.com/Kuan21/MJ_anatomy/pull/77) 資訊卡欄位依結構類型（衝突已處理，CI 重跑中） |
-| #79 區域側別選擇（雙側／左／右＋淡化） | [#81](https://github.com/Kuan21/MJ_anatomy/pull/81) CSF 粒子限制在蛛網膜下腔（CI 已綠） |
-| #78 ROADMAP.md、CLAUDE.md 規則 | [#83](https://github.com/Kuan21/MJ_anatomy/pull/83) 血管：表面平滑、靜脈補齊、血管樹連續性驗證 |
-| #70 左側面板（心包／胸膜） | 分支 `mj-connective-layers`：結締組織六層、掌腱膜／指滑車、骨間膜（**尚未開 PR**，等 #83 merge 後開，避免產生檔衝突） |
-| #69 移除自編 Atlas reference | 女性骨盆（HRA 骨盆骨取代男性髖骨／薦骨／尾骨；`docs/female-pelvis.md`；PR 開出後補連結） |
-| #68 網站不再出現筆記內容與出處 | |
-| #66、#62 文件與 baseline 修正 | |
+| [#87](https://github.com/Kuan21/MJ_anatomy/pull/87) | 女性骨盆器官：膀胱、輸尿管、尿道、腹膜陷凹、器官分色 |
+| [#92](https://github.com/Kuan21/MJ_anatomy/pull/92) | 腦部清單分層、全部構造清單與資訊卡、第四腦室（原版；你的審核意見在 #95） |
+| [#93](https://github.com/Kuan21/MJ_anatomy/pull/93) | 膝部肌腱與韌帶：股四頭肌腱、髕韌帶、髕內／外側支持帶（已知限制：髕韌帶側視與髕骨尖之間有小縫隙、支持帶偏平片；全身肌腱／韌帶盒狀檢查尚未做） |
 
-**介面 PR 等 CI（通過後自動 merge）**：[#82](https://github.com/Kuan21/MJ_anatomy/pull/82) 分層解剖面板（側別三鈕、依部位篩選、特殊區域、雙語）。
+### 已 merge（需人工審核類，合併前我未取得你的審核；請補審）
+- [#83](https://github.com/Kuan21/MJ_anatomy/pull/83) 血管表面平滑與靜脈補齊、[#85](https://github.com/Kuan21/MJ_anatomy/pull/85) 女性骨盆、[#81](https://github.com/Kuan21/MJ_anatomy/pull/81) CSF 粒子限制、[#77](https://github.com/Kuan21/MJ_anatomy/pull/77) 資訊卡欄位依結構類型：已 merge；我沒有開它們的 auto-merge，合併來源請你確認是否已審。
+- [#76](https://github.com/Kuan21/MJ_anatomy/pull/76) 乳房改用 HuBMAP 等；#74、#73、#72、#71：先前輪次已合併，內容待你補審。
 
-**已 merge 但你尚未審核（請補審）**：
-- [#76](https://github.com/Kuan21/MJ_anatomy/pull/76) 乳房改用 HuBMAP、陰阜與大陰唇修正、示意模型清單——因 auto-merge 提前合併，內容待你確認。
-- #74 關節動作所有結構跟隨骨骼；#73 結締組織與背神經修正；#72 腕部支持帶；#71 空間類結構重做（鼻煙盒等）——這四個標了需人工審核；若你尚未逐一看過，請列入待審。
+### 已自動 merge（不涉及模型）
+#94 以外：[#91](https://github.com/Kuan21/MJ_anatomy/pull/91) 區域分頁、[#90](https://github.com/Kuan21/MJ_anatomy/pull/90) CSF 追蹤粒子、[#89](https://github.com/Kuan21/MJ_anatomy/pull/89) 腦部版面、[#88](https://github.com/Kuan21/MJ_anatomy/pull/88) 分頁標題、[#86](https://github.com/Kuan21/MJ_anatomy/pull/86) MOTION_AUDIT、[#84](https://github.com/Kuan21/MJ_anatomy/pull/84) REVIEW_LOG、[#82](https://github.com/Kuan21/MJ_anatomy/pull/82) 分層解剖面板、[#80](https://github.com/Kuan21/MJ_anatomy/pull/80)、[#79](https://github.com/Kuan21/MJ_anatomy/pull/79)、[#78](https://github.com/Kuan21/MJ_anatomy/pull/78)。
 
-**需要你決定**：
-- [#75](https://github.com/Kuan21/MJ_anatomy/pull/75)（草稿，失敗超過一天）：失敗原因是新增的 `test-browser-render.mjs` 在 CI 軟體 WebGL 下完整圖譜載入超過 120 秒逾時（本機同樣要十幾分鐘），不是程式回歸。建議**關閉**，把約 10 行的 GPU 屬性／`highp` 修正另開小 PR（不含該測試）。你同意我再做。
-- #83 的已知問題：左股動脈口徑（3.1 mm）小於左膕動脈（4.5 mm）；4 條生殖器血管未連接。
+### 等你審核（未 merge）
+| PR | 內容 | 請核對 |
+| --- | --- | --- |
+| [#95](https://github.com/Kuan21/MJ_anatomy/pull/95) | 依你的審核意見的腦部修改：腦葉分界溝裂（Borders）、英文資訊卡並依功能拆分、血液供應、Brodmann、第四腦室 | 見下方「待我核對」 |
+| 分支 `mj-connective-layers` | 結締組織六層、掌腱膜／指滑車、骨間膜（尚未開 PR；#83 已 merge，下一步重新生成後開 PR） | — |
 
-## 失敗檢查查明（本輪）
-- #81：CI 曾因 `mkdir work/` 失敗——我誤把本機的 `work` 符號連結 commit 進分支，已移除（`a06ebc4`），重跑全綠。先前我說是 runner 不穩定是錯的，已在 PR 更正。
-- #75：見上。
+### 待我核對（#95）
+- **Brodmann 分區**：你列為待核對的 9–12 與 46（prefrontal）、39（angular gyrus）、40（supramarginal gyrus）、23、24（cingulate gyrus）、28（entorhinal）、20、21（inferior／middle temporal gyrus）、37（occipitotemporal）、38（temporal pole）已加入；另外我在卡片寫了清單以外的 13、14（腦島）、25、27、29、30、31、32、34–36、47，也請核對。
+- **血液供應**：清單以外、我依一般解剖寫的（腦神經、大腦腳底、尾狀核體與尾、視丘各核、垂體、硬腦膜動脈、杏仁核、韁核與松果腺）。
+- **第四腦室**：示意重建；模型腦幹是實心網格，菱形底貼在背面。
+- 模型沒有的結構（Preoccipital notch、Longitudinal fissure、下視丘各核團的獨立網格）沒有可點選卡片。
 
-## 尚未開始的要求
-- 女性生殖系統第二輪（乳房形狀與分色、盆腔器官分色與位置、女性骨盆）與女性骨盆與會陰改善（韌帶、腹膜、骨盆底與會陰、骨盆血管神經、區域選單）：依優先度排在上肢／下肢／背部／胸腔之後，先做女性骨盆。皆需人工審核。
-- `MOTION_AUDIT.md`（上肢動作檢查，只記錄不改）。
+### 需要你決定
+- [#75](https://github.com/Kuan21/MJ_anatomy/pull/75)（已關閉，未合併）：建議的做法是另開小 PR 只修 GPU 屬性精度，不加瀏覽器實際渲染測試（CI 軟體 WebGL 逾時）。
+- 全身肌腱／韌帶／筋膜的盒狀、平板檢查（接 #93）：尚未做，下一項。
+- Actions 列表仍登記 11 個舊的「Temporary … validation」workflow 名稱（log 無筆記內容、檔案已不存在）：只能刪其 runs 才會消失，等你決定是否刪除。
 
+### 流程
+- 「需人工審核」PR 一律不開 auto-merge；這次 #87、#92、#93 是你審核後授權合併，不代表規則改變。
+- 每當有 PR 合併進 main，我檢查所有 open PR 有沒有衝突，有就把 main 合併進分支並重新生成生成檔（不改寫歷史）。
 
 ## 第 0 步查證結果（Human Atlas 的來源與版本）
 
