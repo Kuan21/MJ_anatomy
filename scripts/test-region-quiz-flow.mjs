@@ -17,7 +17,7 @@ const react = {
   useEffect(fn, dependencies) {const i = cursor++; if (!hooks[i] || changed(hooks[i].deps, dependencies)) {const old = hooks[i]; hooks[i] = {deps: dependencies}; effects.push(() => {old?.cleanup?.(); hooks[i].cleanup = fn();});}},
 };
 const jsx = (type, props) => ({type, props: props ?? {}});
-const icons = ['ArrowLeft', 'ArrowRight', 'Check', 'CheckCircle2', 'ChevronRight', 'Eye', 'Layers', 'RotateCcw', 'Target', 'X', 'XCircle'];
+const icons = ['AlertCircle', 'Maximize2', 'Pencil', 'Shuffle', 'Trash2', 'ArrowLeft', 'ArrowRight', 'Check', 'CheckCircle2', 'ChevronRight', 'Eye', 'Layers', 'RotateCcw', 'Target', 'X', 'XCircle'];
 const external = {
   react, 'react/jsx-runtime': {jsx, jsxs: jsx, Fragment: 'fragment'},
   'lucide-react': Object.fromEntries(icons.map(name => [name, name])),

@@ -32,6 +32,120 @@
 - **第四腦室**：示意重建；模型腦幹是實心網格，菱形底貼在背面。
 - 模型沒有的結構（Preoccipital notch、Longitudinal fissure、下視丘各核團的獨立網格）沒有可點選卡片。
 
+### Quiz 第二級「看結構寫名稱」（需人工審核：題庫與同義名稱表）
+- **題庫範圍**：只有「有模型、有中文名、資料卡必填欄位完整、名稱在同一部位內唯一」的構造出題，合計 371 / 1047 個。排除的構造與原因逐項列在 [`docs/quiz-level2-pool.md`](docs/quiz-level2-pool.md)（由 `node scripts/report-quiz-level2.mjs` 產生，`npm run check` 會驗證它沒有過期）。排除最多的原因是資料卡欄位不完整（與 `docs/quiz-card-gaps.md` 一致）；資料補齊後會自動進入題庫。
+- **判分規則**（請核對）：不分大小寫；忽略多餘空白、連字號、標點；忽略 the、muscle(s)；繁簡臺台視為相同；括號內別名與下表同義名稱都算對；英文、中文、不限三種作答語言；左右預設不要求（成對構造的 Left/Right 可省略），設定中可改為必須寫出；差 1–2 個字母（中文名四字以上差 1 字）判「接近正確」，顯示正確拼法並列入錯題；答案漏了「Left／Right」所屬的心房、心室（例如 atrium 對 Left atrium）判錯。
+- **鄰近構造**：依模型邊界框距離，優先同系統，每題 2–3 個，可點擊高亮。
+
+### Quiz 第二級同義名稱表（需人工審核，共 102 列）
+以下是除了構造自己的英文名、中文名與括號內別名以外，額外接受的答案。依跑考摘要的寫法為先，其餘為通行別名；請逐列核對，有誤的告訴我刪改。程式表在 `app/quiz/synonyms.ts`。
+
+| 構造（英文名，小寫，不含左右） | 額外接受的英文 | 額外接受的中文 |
+| --- | --- | --- |
+| right atrioventricular valve | tricuspid valve | 三尖瓣、右房室瓣 |
+| left atrioventricular valve | mitral valve；bicuspid valve | 僧帽瓣、二尖瓣、左房室瓣 |
+| anterior leaflet of right atrioventricular valve | anterior leaflet of tricuspid valve；anterior cusp of tricuspid valve | 三尖瓣前瓣 |
+| inferior leaflet of right atrioventricular valve | posterior leaflet of tricuspid valve；inferior leaflet of tricuspid valve；posterior cusp of tricuspid valve | 三尖瓣後瓣 |
+| septal leaflet of right atrioventricular valve | septal leaflet of tricuspid valve；septal cusp of tricuspid valve | 三尖瓣中隔瓣 |
+| anterior leaflet of left atrioventricular valve | anterior leaflet of mitral valve；anterior cusp of mitral valve | 僧帽瓣前瓣、二尖瓣前瓣 |
+| posterior leaflet of left atrioventricular valve | posterior leaflet of mitral valve；posterior cusp of mitral valve | 僧帽瓣後瓣、二尖瓣後瓣 |
+| left coronary leaflet of aortic valve | left coronary cusp of aortic valve；left coronary cusp | 主動脈瓣左冠狀瓣、左冠狀瓣 |
+| right coronary leaflet of aortic valve | right coronary cusp of aortic valve；right coronary cusp | 主動脈瓣右冠狀瓣、右冠狀瓣 |
+| non-coronary leaflet of aortic valve | non coronary cusp of aortic valve；noncoronary cusp；posterior cusp of aortic valve | 主動脈瓣無冠狀瓣、無冠瓣 |
+| anterior semilunar cusp of pulmonary valve | anterior cusp of pulmonary valve；anterior leaflet of pulmonary valve | 肺動脈瓣前瓣 |
+| left semilunar cusp of pulmonary valve | left cusp of pulmonary valve；left leaflet of pulmonary valve | 肺動脈瓣左瓣 |
+| right semilunar cusp of pulmonary valve | right cusp of pulmonary valve；right leaflet of pulmonary valve | 肺動脈瓣右瓣 |
+| anterior interventricular artery | left anterior descending artery；lad；anterior interventricular branch；lad artery | 前降支、左前降支、前室間動脈 |
+| circumflex artery | left circumflex artery；circumflex branch | 迴旋支、左迴旋支、旋支 |
+| posterior interventricular branch | posterior descending artery；pda；posterior interventricular artery | 後降支、後室間動脈 |
+| right marginal branch | marginal branch of right coronary artery；acute marginal artery | 右緣支、銳緣支 |
+| left marginal branch | obtuse marginal artery；marginal branch of circumflex artery | 左緣支、鈍緣支 |
+| diagonal branches | diagonal arteries；diagonal branch | 對角支 |
+| great cardiac vein | great vein of heart | 心大靜脈 |
+| middle cardiac vein | posterior interventricular vein | 心中靜脈、後室間靜脈 |
+| small cardiac vein | lesser cardiac vein | 心小靜脈 |
+| coronary sinus | cardiac sinus | 冠狀竇、冠狀靜脈竇 |
+| aortic arch | arch of aorta | 主動脈弓 |
+| ascending aorta | aorta ascending part | 升主動脈 |
+| pulmonary trunk | main pulmonary artery | 肺動脈幹、肺動脈主幹 |
+| superior vena cava | svc | 上腔靜脈 |
+| inferior vena cava | ivc | 下腔靜脈 |
+| crista terminalis | terminal crest | 界嵴 |
+| pectinate muscles | musculi pectinati；pectinate muscle | 梳狀肌 |
+| interatrial septum | atrial septum | 心房中隔、房中隔 |
+| interventricular septum | ventricular septum | 室間隔、心室中隔 |
+| fossa ovalis | oval fossa | 卵圓窩 |
+| trabeculae carneae of right ventricle | trabeculae carneae of the right ventricle；trabeculae carneae | 右心室肉柱、肉柱 |
+| trabeculae carneae of left ventricle | trabeculae carneae of the left ventricle | 左心室肉柱 |
+| septomarginal trabecula (moderator band) | moderator band；septomarginal trabecula | 節制索、隔緣肉柱 |
+| supraventricular crest | crista supraventricularis | 室上嵴 |
+| conus arteriosus | infundibulum；right ventricular outflow tract | 動脈圓錐、漏斗部 |
+| aortic vestibule | vestibule of left ventricle | 主動脈前庭 |
+| right auricle | right atrial appendage；auricle of right atrium | 右心耳 |
+| left auricle | left atrial appendage；auricle of left atrium | 左心耳 |
+| fibrous pericardium | pericardium fibrous | 纖維心包、纖維性心包 |
+| pectoralis major | pec major | 胸大肌 |
+| deltoid | deltoideus | 三角肌 |
+| latissimus dorsi | lats | 背闊肌 |
+| trapezius | trapezius muscle | 斜方肌 |
+| biceps brachii | biceps | 肱二頭肌 |
+| triceps brachii | triceps | 肱三頭肌 |
+| brachioradialis | supinator longus | 肱橈肌 |
+| gluteus maximus | glute max | 臀大肌 |
+| quadriceps femoris | quadriceps；quads | 股四頭肌 |
+| rectus femoris | rectus femoris muscle | 股直肌 |
+| tensor fasciae latae | tensor fascia lata | 闊筋膜張肌 |
+| gastrocnemius | calf muscle | 腓腸肌 |
+| tibialis anterior | anterior tibial muscle | 脛前肌 |
+| fibularis longus | peroneus longus | 腓骨長肌 |
+| fibularis brevis | peroneus brevis | 腓骨短肌 |
+| fibularis tertius | peroneus tertius | 第三腓骨肌 |
+| common fibular nerve | common peroneal nerve | 腓總神經 |
+| superficial fibular nerve | superficial peroneal nerve | 腓淺神經 |
+| deep fibular nerve | deep peroneal nerve | 腓深神經 |
+| fibula | fibular bone | 腓骨 |
+| sciatic nerve | ischiadic nerve | 坐骨神經 |
+| saphenous nerve | internal saphenous nerve | 隱神經 |
+| great saphenous vein | long saphenous vein；greater saphenous vein | 大隱靜脈 |
+| small saphenous vein | short saphenous vein；lesser saphenous vein | 小隱靜脈 |
+| popliteal artery | popliteal a | 膕動脈 |
+| radial nerve | n radialis | 橈神經 |
+| median nerve | n medianus | 正中神經 |
+| ulnar nerve | n ulnaris | 尺神經 |
+| musculocutaneous nerve | n musculocutaneus | 肌皮神經 |
+| axillary nerve | circumflex nerve | 腋神經 |
+| long thoracic nerve | nerve to serratus anterior | 胸長神經 |
+| thoracodorsal nerve | nerve to latissimus dorsi；middle subscapular nerve | 胸背神經 |
+| dorsal scapular nerve | nerve to rhomboids | 肩胛背神經 |
+| suprascapular nerve | nerve to supraspinatus | 肩胛上神經 |
+| accessory nerve (xi) | spinal accessory nerve；cranial nerve xi；accessory nerve | 副神經、第十一對腦神經 |
+| vagus nerve (x) | vagus nerve；cranial nerve x | 迷走神經、第十對腦神經 |
+| greater occipital nerve | occipital nerve greater | 枕大神經 |
+| lesser occipital nerve | occipital nerve lesser | 枕小神經 |
+| azygos vein | vena azygos | 奇靜脈 |
+| internal thoracic artery | internal mammary artery；ima | 內胸動脈 |
+| internal thoracic vein | internal mammary vein | 內胸靜脈 |
+| brachiocephalic artery | brachiocephalic trunk；innominate artery | 頭臂動脈、頭臂幹 |
+| brachiocephalic vein | innominate vein | 頭臂靜脈 |
+| descending thoracic aorta | thoracic aorta；descending aorta | 降主動脈、胸主動脈 |
+| xiphoid process | xiphisternum；ensiform process | 劍突 |
+| manubrium | manubrium of sternum；manubrium sterni | 胸骨柄 |
+| body of sternum | sternal body；gladiolus | 胸骨體 |
+| scapula | shoulder blade | 肩胛骨 |
+| clavicle | collarbone | 鎖骨 |
+| patella | kneecap | 髕骨 |
+| sacrum | os sacrum | 薦骨 |
+| coccyx | tailbone | 尾骨 |
+| atlas | c1；first cervical vertebra | 寰椎、第一頸椎 |
+| axis | c2；second cervical vertebra | 軸椎、樞椎、第二頸椎 |
+| diaphragm | thoracic diaphragm | 橫膈、橫膈膜 |
+| splenius capitis | splenius capitis muscle | 頭夾肌 |
+| splenius cervicis | splenius cervicis muscle | 頸夾肌 |
+| levator scapulae | levator scapulae muscle | 提肩胛肌 |
+| rhomboid major | greater rhomboid | 大菱形肌 |
+| rhomboid minor | lesser rhomboid | 小菱形肌 |
+
+
 ### 需要你決定
 - [#75](https://github.com/Kuan21/MJ_anatomy/pull/75)（已關閉，未合併）：建議的做法是另開小 PR 只修 GPU 屬性精度，不加瀏覽器實際渲染測試（CI 軟體 WebGL 逾時）。
 - 全身肌腱／韌帶／筋膜的盒狀、平板檢查（接 #93）：尚未做，下一項。

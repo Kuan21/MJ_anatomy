@@ -5,7 +5,7 @@ import {PointerTap} from '../pointer-tap';
 import {framingDistance} from '../camera-framing';
 import {QUIZ_REGIONS, QUIZ_SYSTEMS, regionSections, sceneStructures, type QuizCatalogue, type QuizSection, type QuizSide, type QuizStructure} from './catalogue';
 
-export type QuizView = 'front' | 'back' | 'side' | 'fit' | 'answer';
+export type QuizView = 'front' | 'back' | 'side' | 'fit' | 'answer' | 'random';
 export interface QuizViewState {
   key: string;
   target: QuizStructure;
@@ -17,6 +17,14 @@ export interface QuizViewState {
   context: boolean;
   peeling: boolean;
   command: {id: number; view: QuizView};
+  /** Level 2 (看結構寫名稱): the target is painted yellow with a glowing outline, nothing can be picked, and the camera chooses a random view where the target can be seen. */
+  mode?: 'find' | 'name';
+  /** Level 2: how clear the surrounding structures are (0 faint … 1 solid). */
+  clarity?: number;
+  /** Level 2: show only the target. */
+  only?: boolean;
+  /** Level 2: a neighbouring structure the learner clicked in the answer card. */
+  highlightId?: string | null;
 }
 interface Callbacks {
   ready: (key: string, value: boolean) => void;
@@ -31,6 +39,9 @@ type AnatomyMesh = T.Mesh<T.BufferGeometry, T.MeshStandardMaterial>;
 export const FEEDBACK = {
   correct: {fill: '#5DB89A', edge: '#3E8E74'},
   wrong: {fill: '#D6304A', edge: '#A8243A'},
+  /** Level 2 target: yellow body with a brighter yellow glow around it. */
+  target: {fill: '#FBE27A', edge: '#FFEB9E'},
+  neighbour: {fill: '#5AA9E6', edge: '#2F7FC1'},
 };
 const outlineMaterial = (color: string) => new T.ShaderMaterial({
   uniforms: {color: {value: new T.Color(color)}, width: {value: .0004}}, side: T.BackSide, depthTest: false, depthWrite: false, transparent: true,
@@ -72,42 +83,87 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
   const raycaster = new T.Raycaster();
   let state: QuizViewState | undefined, disposed = false, ready = false, dirty = true, frame = 0;
   let allowed = new Set<string>(), keyboardId: string | undefined;
-  let command = -1, request = 0;
+  let command = -1, request = 0, commandAtQuestion = -1;
 
   const applyAppearance = () => {
     if (!state) return;
-    const hidden = new Set(state.hidden);
+    const hidden = new Set(state.hidden), naming = state.mode === 'name', clarity = state.clarity ?? .45;
     for (const mesh of meshes.values()) {
       const structure = byId.get(mesh.userData.structureId)!;
-      const isAnswer = state.answered && structure.id === state.target.id;
-      const isWrong = state.answered && structure.id === state.pickedId && !isAnswer;
+      const isTarget = structure.id === state.target.id;
+      const isNeighbour = naming && !!state.highlightId && structure.id === state.highlightId && !isTarget;
+      const isAnswer = !naming && state.answered && isTarget;
+      const isWrong = !naming && state.answered && structure.id === state.pickedId && !isAnswer;
       const isContext = structure.system !== state.target.system;
-      mesh.visible = allowed.has(structure.id) && (state.answered || !hidden.has(structure.id)) && (!isContext || state.context);
+      mesh.visible = allowed.has(structure.id) && (naming ? (!state.only || isTarget || isNeighbour) : (state.answered || !hidden.has(structure.id))) && (!isContext || state.context || isTarget || isNeighbour);
       const base = QUIZ_SYSTEMS.find(s => s.id === structure.system)!.color;
       const material = mesh.material;
-      material.color.set(isAnswer ? FEEDBACK.correct.fill : isWrong ? FEEDBACK.wrong.fill : keyboardId === structure.id ? '#5aa9e6' : base);
-      material.emissive.set(isAnswer ? FEEDBACK.correct.fill : isWrong ? FEEDBACK.wrong.fill : '#000000');
-      material.emissiveIntensity = isAnswer || isWrong ? .08 : 0;
-      material.opacity = isAnswer || isWrong ? .85 : isContext ? .2 : state.answered ? .16 : 1;
-      // Outline shell around the answer and the wrong pick (shares the mesh geometry).
+      const lit = isAnswer || isWrong || (naming && (isTarget || isNeighbour));
+      const fill = isAnswer ? FEEDBACK.correct.fill : isWrong ? FEEDBACK.wrong.fill : naming && isTarget ? FEEDBACK.target.fill : isNeighbour ? FEEDBACK.neighbour.fill : keyboardId === structure.id ? '#5aa9e6' : base;
+      material.color.set(fill);
+      // The emissive term keeps the light and shade of the surface: the yellow is a tint, not a flat fill.
+      material.emissive.set(lit ? fill : '#000000');
+      material.emissiveIntensity = naming && isTarget ? .16 : isNeighbour ? .14 : isAnswer || isWrong ? .08 : 0;
+      material.opacity = naming ? (isTarget || isNeighbour ? 1 : isContext ? .06 + .34 * clarity : .12 + .6 * clarity)
+        : isAnswer || isWrong ? .85 : isContext ? .2 : state.answered ? .16 : 1;
+      // Outline shell around the answer, the wrong pick, the level-2 target and a clicked neighbour (shares the mesh geometry).
       let shell = mesh.userData.outline as T.Mesh<T.BufferGeometry, T.ShaderMaterial> | undefined;
-      if (isAnswer || isWrong) {
+      if (lit) {
         if (!shell) {shell = new T.Mesh(mesh.geometry, outlineMaterial(FEEDBACK.correct.edge)); shell.renderOrder = 3; mesh.add(shell); mesh.userData.outline = shell;}
-        shell.material.uniforms.color.value.set(isAnswer ? FEEDBACK.correct.edge : FEEDBACK.wrong.edge);
+        shell.material.uniforms.color.value.set(isAnswer ? FEEDBACK.correct.edge : isWrong ? FEEDBACK.wrong.edge : isNeighbour ? FEEDBACK.neighbour.edge : FEEDBACK.target.edge);
+        shell.material.uniforms.width.value = naming ? .0009 : .0004;
         shell.visible = mesh.visible;
       } else if (shell) shell.visible = false;
       // The feedback meshes join the transparent pass (sorted last by renderOrder) so faint context anatomy never washes their colour out.
       const transparent = material.opacity < 1 || isAnswer || isWrong, depthWrite = material.opacity === 1 && !isAnswer && !isWrong;
-      // Correct/wrong overlays remain visible even behind an outer muscle.
-      const depthTest = !isAnswer && !isWrong;
+      // Correct/wrong overlays remain visible even behind an outer muscle; the level-2 target keeps its depth, so a view where it is hidden stays hidden.
+      const depthTest = naming || (!isAnswer && !isWrong);
       // Only a change of render state needs the material revalidated; doing it for every mesh on every update made each tap re-check hundreds of programs.
       const stateChanged = material.transparent !== transparent || material.depthWrite !== depthWrite || material.depthTest !== depthTest;
       material.transparent = transparent; material.depthWrite = depthWrite; material.depthTest = depthTest;
-      mesh.renderOrder = isAnswer ? 5 : isWrong ? 4 : isContext ? 0 : 1;
+      mesh.renderOrder = isAnswer || (naming && isTarget) ? 5 : isWrong || isNeighbour ? 4 : isContext ? 0 : 1;
       if (stateChanged) material.needsUpdate = true;
     }
-    canvas.style.cursor = state.peeling ? 'crosshair' : 'grab';
+    canvas.style.cursor = naming ? 'grab' : state.peeling ? 'crosshair' : 'grab';
     dirty = true;
+  };
+
+  /** Level 2: a random direction from which at least half of the target can be seen. Points on the target are tested with rays from the camera; only solid structures hide it. */
+  const chooseDirection = (box: T.Box3): T.Vector3 => {
+    const target = [...meshes.values()].filter(m => m.userData.structureId === state?.target.id && m.visible);
+    const points: T.Vector3[] = [];
+    for (const mesh of target) {
+      const pos = mesh.geometry.getAttribute('position'), step = Math.max(1, Math.floor(pos.count / 48));
+      for (let i = 0; i < pos.count; i += step) points.push(new T.Vector3().fromBufferAttribute(pos, i).applyMatrix4(mesh.matrixWorld));
+    }
+    const centre = box.getCenter(new T.Vector3()), size = box.getSize(new T.Vector3()).length() * .75 + .05;
+    const occluders = [...meshes.values()].filter(m => m.visible && m.userData.structureId !== state?.target.id && (m.material as T.MeshStandardMaterial).opacity >= .8);
+    scene.updateMatrixWorld(true);
+    const directions: T.Vector3[] = [];
+    for (const elevation of [0, 25, -20, 50]) for (let k = 0; k < 12; k++) {
+      const az = (k / 12) * Math.PI * 2 + Math.random() * .4, el = (elevation + (Math.random() - .5) * 14) * Math.PI / 180;
+      directions.push(new T.Vector3(Math.sin(az) * Math.cos(el), Math.sin(el), Math.cos(az) * Math.cos(el)));
+    }
+    for (let i = directions.length - 1; i > 0; i--) {const j = Math.floor(Math.random() * (i + 1)); [directions[i], directions[j]] = [directions[j], directions[i]];}
+    const fraction = (dir: T.Vector3) => {
+      if (!points.length) return 1;
+      const eye = centre.clone().addScaledVector(dir, size);
+      let seen = 0;
+      for (const p of points) {
+        const to = p.clone().sub(eye), len = to.length();
+        raycaster.set(eye, to.normalize()); raycaster.far = len - .0005;
+        if (!occluders.length || !raycaster.intersectObjects(occluders, false).length) seen++;
+      }
+      raycaster.far = Infinity;
+      return seen / points.length;
+    };
+    let best = directions[0], bestScore = -1;
+    for (const dir of directions) {
+      const score = fraction(dir);
+      if (score >= .5) return dir;
+      if (score > bestScore) {best = dir; bestScore = score;}
+    }
+    return best;
   };
 
   const frameModel = (view: QuizView) => {
@@ -122,6 +178,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
     // A structure spanning two sections must still be entirely in the frame.
     if (view !== 'answer') box.union(new T.Box3(new T.Vector3().fromArray(state.target.bounds[0]), new T.Vector3().fromArray(state.target.bounds[1])));
     let direction = camera.position.clone().sub(controls.target).normalize();
+    if (view === 'random') direction = chooseDirection(box);
     if (view === 'front') direction.set(0, .04, 1).normalize();
     if (view === 'back') direction.set(0, .04, -1).normalize();
     if (view === 'side') direction.set(state.target.side === 'right' ? -1 : 1, .03, .02).normalize();
@@ -172,7 +229,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
     const section = next.section === 'all' ? next.target.sections[0] : next.section;
     allowed = new Set(sceneStructures(catalogue, next.target, section, next.side).map(s => s.id));
     if (changedQuestion) {
-      ready = false; keyboardId = undefined;
+      ready = false; keyboardId = undefined; commandAtQuestion = next.command.id;
       callbacks.ready(next.key, false);
       callbacks.error('');
       const ticket = ++request;
@@ -185,6 +242,8 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
         if (disposed || ticket !== request) return;
         if (failed.length) {callbacks.error('部分模型未能載入，題目暫停。請重試，載入完整後先作答。'); return;}
         ready = true; callbacks.ready(next.key, true); dirty = true;
+        // Level 2 opens each question from a random direction, chosen once the structures are in the scene so the target can be tested for visibility.
+        if (state?.mode === 'name' && state.key === next.key && state.command.id === commandAtQuestion) {applyAppearance(); frameModel('random');}
       });
       frameModel(QUIZ_REGIONS[catalogue.region ?? 'lower-limb'].defaultView ?? 'front');
     }
@@ -197,7 +256,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
 
   const selectable = () => [...meshes.values()].filter(m => m.visible && byId.get(m.userData.structureId)!.system === state?.target.system);
   const pickAt = (clientX: number, clientY: number, touch: boolean) => {
-    if (!state || state.answered || !ready) return;
+    if (!state || state.answered || !ready || state.mode === 'name') return;
     const rect = canvas.getBoundingClientRect(), candidates = selectable();
     camera.updateMatrixWorld(); scene.updateMatrixWorld(true);
     // Pixel tolerance assists thin nerves on touch screens; every candidate
@@ -215,7 +274,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
   const up = (e: PointerEvent) => {if (tap.up(e.pointerId, e.clientX, e.clientY)) pickAt(e.clientX, e.clientY, e.pointerType === 'touch');};
   const cancel = (e: PointerEvent) => tap.cancel(e.pointerId);
   const keydown = (e: KeyboardEvent) => {
-    if (!state || state.answered || !ready) return;
+    if (!state || state.answered || !ready || state.mode === 'name') return;
     const ids = [...new Set(selectable().map(m => m.userData.structureId as string))].sort();
     if (!ids.length) return;
     if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
