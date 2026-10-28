@@ -1293,3 +1293,8 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 .space-detail{display:grid;gap:8px}.space-detail>div{display:grid;gap:3px}.space-hint{margin:0;font-size:11px;color:#51606c}
 .dissection-sides{margin:4px 0 8px}
 .space-detail .bn-row{justify-content:flex-start;text-align:left;gap:8px}
+.layer-stepper{margin:2px 0 6px 18px;padding:6px 8px;border:1px solid #18253614;border-radius:9px;background:#ffffff80;display:grid;gap:4px}
+.layer-stepper-row{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600}.layer-stepper-row span{flex:1}
+.layer-stepper-row button{width:26px;height:26px;padding:0;border:1px solid #18253622;border-radius:7px;display:inline-flex;align-items:center;justify-content:center}
+.layer-stepper small{font-size:10.5px;color:#51606c;line-height:1.3}
+.connective-layer-list{display:grid;gap:3px;margin-top:4px}

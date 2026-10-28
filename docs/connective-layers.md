@@ -1,0 +1,213 @@
+# 結締組織分層
+
+依 `app/mj-connective-layers.ts` 的規則歸層（共 192 個結構種類，不分左右；關節模型 285 件）。請核對每層的內容。
+
+## 第 1 層｜Layer 1：Articular cartilage and discs｜關節軟骨與關節盤（13）
+
+- Acetabular labrum
+- Anterior meniscotibial ligament (Lateral meniscus)
+- Anterior meniscotibial ligament (Medial meniscus)
+- Articular disc of acromioclavicular joint
+- Articular disc of distal radio-ulnar joint
+- Articular disc of sternoclavicular joint
+- Articular disc of temporomandibular joint
+- Glenoid labrum
+- Interpubic disc
+- Lateral meniscus
+- Medial meniscus
+- Posterior meniscotibial ligament (Lateral meniscus)
+- Posterior meniscotibial ligament (Medial meniscus)
+
+## 第 2 層｜Layer 2：Joint capsules｜關節囊（17）
+
+- Articular capsule of acromioclavicular joint
+- Articular capsule of elbow joint
+- Articular capsule of glenohumeral joint
+- Articular capsule of hip joint
+- Articular capsule of interphalangeal joint of great toe
+- Articular capsule of knee joint
+- Articular capsule of radiocarpal joint
+- Articular capsule of sternoclavicular joint
+- Articular capsule of superior tibiofibular joint
+- Articular capsule of temporomandibular joint
+- Articular capsules of distal interphalangeal joints
+- Articular capsules of distal interphalangeal joints of foot
+- Articular capsules of metacarpophalangeal joints
+- Articular capsules of metatarsophalangeal joints
+- Articular capsules of proximal interphalangeal joints
+- Articular capsules of proximal interphalangeal joints of foot
+- Frenula capsulae
+
+## 第 3 層｜Layer 3：Ligaments of the large joints and interosseous membranes｜關節內外韌帶與骨間膜（112）
+
+- Anterior cruciate ligament
+- Anterior ligament of fibular head
+- Anterior longitudinal ligament
+- Anterior sacro-iliac ligament
+- Anterior talocalcaneal ligament
+- Anterior tibiofibular ligament
+- Arcuate popliteal ligament
+- Broad ligament of uterus
+- Calcaneocuboid ligament
+- Calcaneonavicular ligament
+- Check ligament of lateral rectus
+- Check ligament of medial rectus
+- Costotransverse ligament
+- Cricopharyngeal ligament
+- Cuneocuboid interosseous ligament
+- Deep part of tibial collateral ligament
+- Descending part of iliofemoral ligament
+- Dorsal carpometacarpal ligaments
+- Dorsal cuneonavicular ligaments
+- Dorsal intercarpal ligaments
+- Dorsal intercuneiform ligaments
+- Dorsal radiocarpal ligament
+- Dorsal scaphotriquetral ligament
+- Dorsal tarsometatarsal ligaments
+- Dorsal ulnocarpal ligament
+- Fibular collateral ligament
+- Hyo-epiglottic ligament
+- Iliolumbar ligament
+- Inferior pubic ligament
+- Intercornual ligament
+- Intercuneiform interosseous ligaments
+- Interosseous membrane of leg
+- Interosseous sacro-iliac ligament
+- Interspinous ligaments
+- Intra-articular ligament of head of rib
+- Ischiofemoral ligament
+- Lateral talocalcaneal ligament
+- Lateral temporomandibular ligament
+- Lateral thyrohyoid ligament
+- Ligament of head of femur
+- Ligamenta flava
+- Ligamentum flavum
+- Long plantar ligament
+- Medial talocalcaneal ligament
+- Median cricothyroid ligament
+- Median thyrohyoid ligament
+- Meniscopatellar ligament
+- Nuchal ligament
+- Oblique popliteal ligament
+- Palmar carpometacarpal ligaments
+- Palmar radio-ulnar ligament
+- Palmar scaphotriquetral ligament
+- Pisotriquetral ligament
+- Plantar calcaneocuboid ligament
+- Plantar cuneocuboid ligament
+- Plantar cuneonavicular ligaments
+- Plantar intercuneiform ligaments
+- Plantar tarsometatarsal ligaments
+- Popliteofibular ligament
+- Posterior cruciate ligament
+- Posterior ligament of fibular head
+- Posterior longitudinal ligament
+- Posterior sacro-iliac ligament
+- Posterior talocalcaneal ligament
+- Posterior tibiofibular ligament
+- Posterior tibiotalar ligament
+- Pubofemoral ligament
+- Radial collateral ligament of wrist joint
+- Radiate carpal ligament
+- Radiate ligament of head of rib
+- Radioscaphocapitate ligament
+- Sacrospinous ligament
+- Sacrotuberous ligament
+- Scaphotrapeziotrapezoidal ligament
+- Sphenomandibular ligament
+- Stylohyoid ligament
+- Stylomandibular ligament
+- Superficial part of tibial collateral ligament
+- Superior pubic ligament
+- Supraspinous ligament
+- Suspensory ligament of lens
+- Talocalcaneal interosseous ligament
+- Talonavicular ligament
+- Thyro-epiglottic ligament
+- Tibiocalcaneal ligament
+- Tibionavicular ligament
+- Transverse acetabular ligament
+- Transverse ligament of knee
+- Transverse part of iliofemoral ligament
+- Transverse tibiofibular ligament
+- Triquetrocapitate ligament
+- Ulnar collateral ligament of wrist joint
+- Ulnocapitate ligament
+- Ulnolunate ligament
+- Ulnotriquetral ligament
+- cardinal ligament of uterus
+- denticulate ligament
+- iliotibial tract
+- inguinal ligament
+- interosseous membrane of forearm
+- lateral thyrohyoid ligament
+- long plantar ligament
+- ovarian ligament
+- patellar ligament
+- pulmonary ligament
+- round ligament of uterus
+- stylohyoid ligament
+- suspensory ligament of breast
+- suspensory ligament of ovary
+- thyrohyoid membrane
+- uterosacral ligament
+- vocal ligament
+
+## 第 4 層｜Layer 4：Ligaments of the small joints of the hand and foot｜指（趾）骨間、掌（蹠）指（趾）關節韌帶（17）
+
+- Collateral interphalangeal ligaments of foot
+- Collateral interphalangeal ligaments of hand
+- Collateral metacarpophalangeal ligaments
+- Collateral metatarsophalangeal ligaments
+- Cuneometatarsal interosseous ligaments
+- Deep transverse metacarpal ligament
+- Deep transverse metatarsal ligament
+- Dorsal metacarpal ligaments
+- Dorsal metatarsal ligaments
+- Interosseous metacarpal ligaments
+- Intersesamoid ligament
+- Metatarsal interosseous ligaments
+- Palmar interphalangeal ligaments
+- Palmar metacarpal ligaments
+- Plantar interphalangeal ligaments
+- Plantar metatarsal ligaments
+- Plantar metatarsophalangeal ligaments
+
+## 第 5 層｜Layer 5：Retinacula, shoulder and elbow ligaments｜支持帶與肩、肘韌帶（23）
+
+- Acromioclavicular ligament
+- Annular ligament of radius
+- Anterior sternoclavicular ligament
+- Conoid ligament
+- Coracohumeral ligament
+- Flexor retinaculum of wrist
+- Inferior glenohumeral ligament
+- Interclavicular ligament
+- Middle glenohumeral ligament
+- Posterior sternoclavicular ligament
+- Radial collateral ligament
+- Superior glenohumeral ligament
+- Transverse humeral ligament
+- Trapezoid ligament
+- Ulnar collateral ligament
+- axillary sheath
+- extensor retinaculum of wrist
+- flexor retinaculum of ankle
+- inferior extensor retinaculum of foot
+- inferior fibular retinaculum
+- superior extensor retinaculum of foot
+- superior fibular retinaculum
+- superior transverse scapular ligament
+
+## 第 6 層｜Layer 6：Palmar and plantar aponeuroses, digital sheaths and pulleys｜掌（蹠）腱膜、指（趾）纖維鞘與滑車（10）
+
+- index finger annular pulleys
+- index finger cruciform pulleys
+- little finger annular pulleys
+- little finger cruciform pulleys
+- middle finger annular pulleys
+- middle finger cruciform pulleys
+- palmar aponeurosis
+- plantar aponeurosis
+- ring finger annular pulleys
+- ring finger cruciform pulleys

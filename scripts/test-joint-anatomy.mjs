@@ -6,7 +6,8 @@ import * as T from 'three';
 const root=new URL('../',import.meta.url),tmp=new URL('.sites-runtime/',root);
 let src=await readFile(new URL('app/biomechanics-v2/joint-anatomy.ts',root),'utf8');
 src=src.replace("import registrationData from './joint-registration.json';",`const registrationData=${await readFile(new URL('app/biomechanics-v2/joint-registration.json',root),'utf8')};`);
-src=src.replace("'../mj-part-regions'","'./mj-part-regions.mjs'").replace("'./soft-tissue'","'./soft-tissue.mjs'").replace("'./body-motion'","'./body-motion.mjs'");
+await writeFile(new URL('mj-connective-layers.mjs',tmp),ts.transpileModule(await readFile(new URL('app/mj-connective-layers.ts',root),'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText);
+src=src.replace("'../mj-connective-layers'","'./mj-connective-layers.mjs'").replace("'../mj-part-regions'","'./mj-part-regions.mjs'").replace("'./soft-tissue'","'./soft-tissue.mjs'").replace("'./body-motion'","'./body-motion.mjs'");
 await writeFile(new URL('joint-anatomy.mjs',tmp),ts.transpileModule(src,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText);
 const {createJointAnatomy,jointKind}=await import(new URL('joint-anatomy.mjs',tmp));
 const {normalizeAtlasSystems}=await import(new URL('mj-system-classifier.mjs',tmp));
@@ -71,5 +72,17 @@ for(const side of ['left','right']){
  const soft=await import(new URL('soft-tissue.mjs',tmp)),rig=soft.makeSoftRig(atlas,side),t=userTransforms[rig.ids[6]],q=new T.Quaternion(...t.quaternion),v=new T.Vector3(...t.translation);
  const out=r.mesh.geometry.attributes.position;
  for(let i=0;i<out.count;i++)assert.ok(new T.Vector3().fromArray(r.base,i*3).applyQuaternion(q).add(v).distanceTo(new T.Vector3().fromBufferAttribute(out,i))<3e-7,'Reported white fragment detached from wrist');
+}
+// connective tissue layers: layers 1…N are shown (capsules are layer 2, the radiocarpal ligaments layer 3, retinacula and shoulder ligaments layer 5, the cartilage patches layer 1)
+{
+ const layers=await import(new URL('mj-connective-layers.mjs',tmp));
+ for(const upTo of [0,1,2,3,5,6]){
+  controller.update({...neutral,connectiveLayer:upTo},0);
+  for(const r of rows)assert.equal(r.mesh.visible,r.layer<=upTo,`${r.mesh.name}: layer ${r.layer} with layers up to ${upTo}`);
+  for(const surf of controller.surfaces)assert.equal(surf.mesh.visible,upTo>=1);
+ }
+ assert.ok(rows.every(r=>r.layer>=1&&r.layer<=6)&&new Set(rows.map(r=>r.layer)).size>=5,'rows spread over the layers');
+ assert.equal(layers.connectiveLayer('Articular capsule of elbow joint'),2);
+ controller.update({...neutral,connectiveLayer:undefined},0);assert.ok(rows.every(r=>r.mesh.visible));
 }
 controller.dispose();

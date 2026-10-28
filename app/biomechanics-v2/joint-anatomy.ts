@@ -2,6 +2,7 @@ import registrationData from './joint-registration.json';
 import * as T from 'three';
 import type {Atlas,Part,SceneState} from '../anatomy';
 import {anatomicalRegion} from '../mj-part-regions';
+import {connectiveLayer} from '../mj-connective-layers';
 import {bindTissue,deformTissue,makePalette,type SkinBinding,type Profile,makeSoftRig} from './soft-tissue';
 import {bindBodyTissue,makeBodyRig,buildBodyMotion,type BodyRegion} from './body-motion';
 
@@ -25,12 +26,30 @@ export function jointProfile(name:string,y:number):Profile{
  if(/elbow|annular|collateral ligament/.test(name)&&y>1)return 'elbowJoint';
  return y<.84?'hand':y<.98?'wristJoint':'path';
 }
+
+/** Closed shell from an open sheet: every vertex is pushed out and in along its normal by `half`, and the open edges are closed with a strip. Closed meshes are left alone. */
+function thickenSheet(g:T.BufferGeometry,half:number){
+ const index=g.index;if(!index)return;
+ const edges=new Map<number,number>(),n=g.getAttribute('position').count,idx=index.array;
+ for(let t=0;t<idx.length;t+=3)for(let k=0;k<3;k++){const a=idx[t+k],b=idx[t+(k+1)%3],key=a*n+b;edges.set(key,(edges.get(key)??0)+1);}
+ const open:[number,number][]=[];
+ for(const key of edges.keys()){const a=Math.floor(key/n),b=key%n;if(!edges.has(b*n+a))open.push([a,b]);}
+ if(!open.length)return;
+ g.computeVertexNormals();
+ const pos=g.getAttribute('position') as T.BufferAttribute,nrm=g.getAttribute('normal') as T.BufferAttribute,out=new Float32Array(n*6),faces=new Uint32Array(idx.length*2+open.length*6);
+ for(let i=0;i<n;i++)for(let k=0;k<3;k++){const p=pos.array[i*3+k],d=nrm.array[i*3+k]*half;out[i*3+k]=p+d;out[(n+i)*3+k]=p-d;}
+ faces.set(idx as ArrayLike<number>,0);
+ for(let t=0;t<idx.length;t+=3){faces[idx.length+t]=idx[t]+n;faces[idx.length+t+1]=idx[t+2]+n;faces[idx.length+t+2]=idx[t+1]+n;}
+ let o=idx.length*2;
+ for(const [a,b] of open){faces[o++]=a;faces[o++]=b+n;faces[o++]=b;faces[o++]=a;faces[o++]=a+n;faces[o++]=b+n;}
+ g.setAttribute('position',new T.BufferAttribute(out,3));g.setIndex(new T.BufferAttribute(faces,1));g.deleteAttribute('normal');g.computeVertexNormals();
+}
 const NO_INPUT=new Float64Array(0);
 const sameInput=(a:Float64Array,b:Float64Array)=>{if(a.length!==b.length)return false;for(let i=0;i<a.length;i++)if(a[i]!==b[i])return false;return true;};
 export function createJointAnatomy(atlas:Atlas,scene:T.Scene){
  const upper={left:makeSoftRig(atlas,'left'),right:makeSoftRig(atlas,'right')};
  const body={head:makeBodyRig(atlas,'head'),spine:makeBodyRig(atlas,'spine'),leftLeg:makeBodyRig(atlas,'leftLeg'),rightLeg:makeBodyRig(atlas,'rightLeg')};
- type Row={mesh:T.Mesh<T.BufferGeometry,T.MeshStandardMaterial>;base:Float32Array;/** what produced the current positions, so an unchanged pose is not re-deformed and re-lit */posed?:{mode:number;input:Float64Array};side:'left'|'right';region:ReturnType<typeof anatomicalRegion>;anchor:Part;skin?:SkinBinding;bodySkin:SkinBinding;spineSkin:SkinBinding;bodyRegion:BodyRegion;rigidId?:string};
+ type Row={/** connective tissue layer (mj-connective-layers.ts) */layer:number;mesh:T.Mesh<T.BufferGeometry,T.MeshStandardMaterial>;base:Float32Array;/** what produced the current positions, so an unchanged pose is not re-deformed and re-lit */posed?:{mode:number;input:Float64Array};side:'left'|'right';region:ReturnType<typeof anatomicalRegion>;anchor:Part;skin?:SkinBinding;bodySkin:SkinBinding;spineSkin:SkinBinding;bodyRegion:BodyRegion;rigidId?:string};
  const rows:Row[]=[];
  const registrations=Object.entries(registrationData).map(([name,r])=>({...r,name,matrix:new T.Matrix4().fromArray(r.matrix),box:new T.Box3(new T.Vector3(...r.sourceBounds[0]),new T.Vector3(...r.sourceBounds[1]))}));
  const surfaces:{mesh:T.Mesh<T.BufferGeometry,T.MeshStandardMaterial>;parent:Part}[]=[];
@@ -66,12 +85,15 @@ export function createJointAnatomy(atlas:Atlas,scene:T.Scene){
    }
    const c=g.boundingBox!.getCenter(new T.Vector3());
    g.computeBoundingBox();g.computeVertexNormals();
-   const base=new Float32Array(pos.array),kind=jointKind(name);
-   const material=new T.MeshStandardMaterial({color:kind==='fibrocartilage'?0x84d8dc:kind==='capsule'?0xc5d9d2:0xd4d3ac,roughness:.6,side:T.DoubleSide,transparent:kind==='capsule',opacity:kind==='capsule'?.26:1,depthWrite:kind!=='capsule'});
+   const kind=jointKind(name);
+   // Ligaments come as open sheets with no thickness: give them one (1 mm), so they read as bands from any side
+   if(kind==='ligament')thickenSheet(g,.0005);
+   const base=new Float32Array((g.getAttribute('position') as T.BufferAttribute).array);
+   const material=new T.MeshStandardMaterial({color:kind==='fibrocartilage'?0xc7d8df:kind==='capsule'?0xdde5e8:0xe2e4e6,roughness:kind==='capsule'?.5:.36,metalness:0,side:T.DoubleSide,transparent:kind==='capsule',opacity:kind==='capsule'?.24:1,depthWrite:kind!=='capsule'});
    const mesh=new T.Mesh(g,material);mesh.name=sourceName;mesh.visible=false;scene.add(mesh);
    const part={...anchor,name,bounds:[g.boundingBox!.min.toArray(),g.boundingBox!.max.toArray()]} as Part;
    const bodyRegion:BodyRegion=region==='lower-limb'?(side==='left'?'leftLeg':'rightLeg'):region==='head-neck'?'head':'spine';
-   const row:Row={mesh,base,side,region,anchor,bodyRegion,bodySkin:bindBodyTissue(body[bodyRegion],base,/temporomandibular|stylohyoid|stylomandibular|sphenomandibular/.test(name),part),spineSkin:bindBodyTissue(body.spine,base,region==='upper-limb'||region==='head-neck',part)};
+   const row:Row={layer:connectiveLayer(name)??3,mesh,base,side,region,anchor,bodyRegion,bodySkin:bindBodyTissue(body[bodyRegion],base,/temporomandibular|stylohyoid|stylomandibular|sphenomandibular/.test(name),part),spineSkin:bindBodyTissue(body.spine,base,region==='upper-limb'||region==='head-neck',part)};
    if(region==='upper-limb'&&rig)row.skin=bindTissue(rig,jointProfile(name,c.y),base,part);
    // Socket rims must remain attached to the socket, not blend toward the head.
    const rigidName=/glenoid labrum/.test(name)?`${side} scapula`:/acetabular labrum|transverse acetabular/.test(name)?`${side} hip bone`:/^(Lateral|Medial) meniscus/i.test(name)?`${side} tibia`:null;
@@ -92,13 +114,13 @@ export function createJointAnatomy(atlas:Atlas,scene:T.Scene){
   const active=s.bodyMotion?buildBodyMotion(body[s.bodyMotion.region],s.bodyMotion.pose):null;
   const focus=s.focusParts?new Set(s.focusParts):null,hidden=new Set(s.hiddenParts??[]);
   for(const {mesh,parent} of surfaces){
-   mesh.visible=s.jointSurfaces!==false&&s.visible.includes('connective')&&!s.isolate&&explode<.01&&s.depthFilter!=='superficial'&&!hidden.has(parent.id)&&(!focus||focus.has(parent.id));
+   mesh.visible=s.jointSurfaces!==false&&s.visible.includes('connective')&&(s.connectiveLayer===undefined||s.connectiveLayer>=1)&&!s.isolate&&explode<.01&&s.depthFilter!=='superficial'&&!hidden.has(parent.id)&&(!focus||focus.has(parent.id));
    const t=s.partTransforms?.[parent.id];mesh.position.set(...(t?.translation??[0,0,0]));mesh.quaternion.set(...(t?.quaternion??[0,0,0,1]));
   }
   // A drag preview moves the rigid surfaces only: stale ligaments and capsules would hang at the old pose, so hide them until the solve lands.
   if(surfacesOnly){for(const r of rows)r.mesh.visible=false;return;}
   for(const r of rows){
-   r.mesh.visible=s.visible.includes('connective')&&!s.isolate&&explode<.01&&s.depthFilter!=='superficial'&&!hidden.has(r.anchor.id)&&(!focus||focus.has(r.anchor.id));
+   r.mesh.visible=s.visible.includes('connective')&&(s.connectiveLayer===undefined||r.layer<=s.connectiveLayer)&&!s.isolate&&explode<.01&&s.depthFilter!=='superficial'&&!hidden.has(r.anchor.id)&&(!focus||focus.has(r.anchor.id));
    // The deformation is a pure function of (mode, input). Skip it, and the normal rebuild, when neither changed:
    // update() runs for every viewer state change, not only for pose changes.
    let mode=0,input:Float64Array=NO_INPUT;
