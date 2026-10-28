@@ -127,3 +127,8 @@
 .note-field h3{margin:6px 0 2px;font-size:11px;letter-spacing:1px;color:var(--muted)}.note-field ul{margin:0;padding-left:16px}.note-field li{margin:2px 0}.note-field li small{margin-left:4px;color:var(--muted);font-size:11px}
 .note-links{margin-top:8px}.note-links h3{margin:0 0 4px;font-size:11px;letter-spacing:1px;color:var(--muted)}.note-links button{display:flex;flex-direction:column;align-items:flex-start;width:100%;text-align:left;padding:4px 0}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.csf-canvas{position:relative}
+.csf-tracer-controls{position:absolute;left:12px;bottom:12px;display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:10px;background:#ffffffe0;border:1px solid var(--line);font-size:12px;color:#394957}
+.csf-tracer-controls button{height:28px;padding:0 10px;border-radius:8px;background:#263b48;color:#fff;font-size:12px}
+.csf-tracer-controls label{display:flex;align-items:center;gap:4px;cursor:pointer}
+.csf-tracer-dot{width:10px;height:10px;border-radius:50%;background:#8a2bdc;box-shadow:0 0 0 3px #8a2bdc30}
