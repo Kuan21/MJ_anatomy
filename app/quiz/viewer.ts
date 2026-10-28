@@ -150,6 +150,8 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
         if (!shell) {shell = new T.Mesh(mesh.geometry, outlineMaterial(FEEDBACK.correct.edge)); shell.renderOrder = 3; mesh.add(shell); mesh.userData.outline = shell;}
         shell.material.uniforms.color.value.set(isAnswer ? FEEDBACK.correct.edge : isWrong ? FEEDBACK.wrong.edge : shade ? shade.edge : FEEDBACK.target.edge);
         shell.material.uniforms.width.value = naming && !isNeighbour ? .0009 : .0004;
+        // A neighbour's thin blue line is depth tested, so it only edges the structure and never paints over its pale surface.
+        shell.material.depthTest = !isNeighbour;
         shell.visible = mesh.visible;
       } else if (shell) shell.visible = false;
       // The feedback meshes join the transparent pass (sorted last by renderOrder) so faint context anatomy never washes their colour out.
