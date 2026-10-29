@@ -11,7 +11,7 @@ import type {OutlineRef,SpaceOutline} from './anatomy';
 const TUBE_SIDES=6,TUBE_RADIUS=.0016,APEX_RADIUS=.0005;
 
 interface Source{mesh:T.Mesh;vertex:number;offset:[number,number,number]}
-interface Line{color:T.Color;radius:number;points:number[]}
+interface Line{color:T.Color;radius:number;points:number[];key?:string}
 interface Build{sources:Source[];lines:Line[];fills:number[][];unresolved:number}
 
 /** Ear clipping of a small, nearly planar polygon given by point indices; positions are read through `at`. */
@@ -44,7 +44,7 @@ function triangulate(loop:number[],at:(i:number)=>T.Vector3):number[][]{
 export function createSpaceOutline(deps:{scene:T.Scene;tubeMaterial:T.Material;fillMaterial:T.Material;pick:(partId:string)=>T.Mesh|undefined;edgeColor:(hex:string)=>T.Color;fillColor:T.Color;fillAlpha:number}){
  const tube=new T.Mesh(new T.BufferGeometry(),deps.tubeMaterial),fill=new T.Mesh(new T.BufferGeometry(),deps.fillMaterial);
  for(const m of [tube,fill]){m.frustumCulled=false;m.visible=false;m.renderOrder=m===fill?3:4;deps.scene.add(m);}
- let current:SpaceOutline[]|undefined,build:Build|null=null,retry=0,tubeCount=0,fillCount=0;
+ let current:SpaceOutline[]|undefined,build:Build|null=null,retry=0,tubeCount=0,fillCount=0,lastPos=new Float32Array(0);
  const tmp=new T.Vector3();
 
  const resolve=(outlines:SpaceOutline[]):Build=>{
@@ -53,7 +53,7 @@ export function createSpaceOutline(deps:{scene:T.Scene;tubeMaterial:T.Material;f
   const merged=(i:number)=>{const s=sources[i]!,g=s.mesh.userData.mergedGeometry as T.BufferGeometry,o=(s.mesh.userData.mergedOffset as number)+s.vertex,a=g.getAttribute('position') as T.BufferAttribute;return tmp.set(a.getX(o)+s.offset[0],a.getY(o)+s.offset[1],a.getZ(o)+s.offset[2]).clone();};
   for(const outline of outlines){
    const chains=outline.chains.map(c=>({color:c.color,pts:c.refs.map(source).filter(i=>i>=0)})).filter(c=>c.pts.length>1);
-   for(const c of chains)lines.push({color:deps.edgeColor(c.color),radius:TUBE_RADIUS,points:c.pts});
+   for(const c of chains)lines.push({color:deps.edgeColor(c.color),radius:TUBE_RADIUS,points:c.pts,key:c.color});
    // the chains meet at the corners of the space; a hair-thin joint closes any gap between the end of one chain and the start of the next
    for(let i=0;i<chains.length&&chains.length>1&&outline.fill==='polygon';i++){
     const a=chains[i]!.pts.at(-1)!,b=chains[(i+1)%chains.length]!.pts[0]!;
@@ -101,6 +101,7 @@ export function createSpaceOutline(deps:{scene:T.Scene;tubeMaterial:T.Material;f
  /** Copy the current vertex data of every source vertex into the outline geometry. */
  const refresh=(b:Build)=>{
   const n=b.sources.length,pos=new Float32Array(n*3),part=new Float32Array(n),mw=new Float32Array(n).fill(1),seg=new Uint8Array(n*4),segW=new Uint16Array(n*4);
+  lastPos=pos;
   const hasSeg=new Uint8Array(n);
   for(let i=0;i<n;i++){
    const s=b.sources[i]!,g=s.mesh.userData.mergedGeometry as T.BufferGeometry,o=(s.mesh.userData.mergedOffset as number)+s.vertex;
@@ -146,6 +147,12 @@ export function createSpaceOutline(deps:{scene:T.Scene;tubeMaterial:T.Material;f
    if(!build||(build.unresolved>0&&retry<120&&++retry%20===0)){build=resolve(outlines);allocate(build);poseChanged=true;}
    if(poseChanged||!tube.visible){refresh(build);tube.visible=true;fill.visible=fillCount>0&&build.fills.length>0;return true;}
    return false;
+  },
+  /** Current position of the middle of the first edge drawn in this colour (the anchor of its label), or null while the outline is not shown. */
+  midpoint(key:string):T.Vector3|null{
+   if(!build||!tube.visible)return null;
+   const line=build.lines.find(l=>l.key===key);if(!line)return null;
+   const i=line.points[Math.floor(line.points.length/2)]!;return new T.Vector3(lastPos[i*3]!,lastPos[i*3+1]!,lastPos[i*3+2]!);
   },
   dispose(){deps.scene.remove(tube);deps.scene.remove(fill);tube.geometry.dispose();fill.geometry.dispose();},
  };

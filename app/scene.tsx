@@ -778,7 +778,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   // Labels of a picked special region: one small label per boundary / content structure, joined by a thin line to the point of the structure nearest the middle of the region.
   const labelLayer=document.createElement('div');labelLayer.className='space-labels';labelLayer.setAttribute('aria-hidden','true');el.appendChild(labelLayer);
   const labelSvg=document.createElementNS('http://www.w3.org/2000/svg','svg');labelSvg.setAttribute('class','space-label-lines');labelLayer.appendChild(labelSvg);
-  type LabelItem={anchor:T.Vector3;centre:T.Vector3;box:HTMLDivElement;line:SVGLineElement;content:boolean};
+  type LabelItem={anchor:T.Vector3;centre:T.Vector3;box:HTMLDivElement;line:SVGLineElement;content:boolean;color?:string};
   let labelKey='',labelItems:LabelItem[]=[],labelMissing=0,labelRetries=0,labelLast=0;
   const nearestPoint=(geometry:T.BufferGeometry,centre:T.Vector3,best:{d:number;p:T.Vector3})=>{const pos=geometry.getAttribute('position');if(!pos)return;const step=Math.max(1,Math.floor(pos.count/6000));for(let i=0;i<pos.count;i+=step){const x=pos.getX(i),y=pos.getY(i),z=pos.getZ(i),d=(x-centre.x)**2+(y-centre.y)**2+(z-centre.z)**2;if(d<best.d){best.d=d;best.p.set(x,y,z);}}};
   const rebuildLabels=(s:SceneState)=>{
@@ -798,7 +798,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     const box=document.createElement('div');box.className='space-label'+(l.content?' is-content':'');box.textContent=l.text;labelLayer.appendChild(box);
     const line=document.createElementNS('http://www.w3.org/2000/svg','line');labelSvg.appendChild(line);
     if(l.color){box.style.borderColor=l.color;box.style.boxShadow=`inset 5px 0 0 ${l.color}`;box.style.paddingLeft='13px';line.style.stroke=l.color;line.style.strokeOpacity='1';line.style.strokeWidth='2';}
-    labelItems.push({anchor:best.p.clone(),centre:centre.clone(),box,line,content:l.content});
+    labelItems.push({anchor:best.p.clone(),centre:centre.clone(),box,line,content:l.content,color:l.color});
    }
   };
   const updateLabels=()=>{
@@ -810,6 +810,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    if(!labelItems.length)return;
    const w=el.clientWidth,h=el.clientHeight;labelSvg.setAttribute('viewBox',`0 0 ${w} ${h}`);
    const proj=(v:T.Vector3)=>{const q=v.clone().project(camera);return{x:(q.x*.5+.5)*w,y:(-q.y*.5+.5)*h,behind:q.z>1};};
+   // a boundary label points at the middle of its coloured edge, which moves with the joint
+   for(const it of labelItems){const live=it.color?spaceOutline.midpoint(it.color):null;if(live)it.anchor.copy(live);}
    const placed=labelItems.map(it=>({it,a:proj(it.anchor),c:proj(it.centre)}));
    // two columns, one at each edge of the free part of the view (between the side panels), stacked in the order of the structures' height on screen so labels never overlap
    const rect=el.getBoundingClientRect(),panelRight=document.querySelector('.left-workspace')?.getBoundingClientRect(),rightEdges=['.right-tool-panel','.right-tool-rail','.detail-sheet'].map(q=>document.querySelector(q)?.getBoundingClientRect()).filter((r):r is DOMRect=>!!r&&r.width>0);
