@@ -1,7 +1,7 @@
 import type {SkinBinding} from './soft-tissue';
 
 /** Rigidly attached vertices are not nailed down completely: when a sheet cannot reach the pose without stretching, a hard anchor makes the solver tear the free vertices away instead of letting the anchor give a little. */
-const ANCHOR_MOBILITY=.05;
+const ANCHOR_MOBILITY=0;
 export interface SurfaceConstraints{edges:Uint32Array;lengths:Float32Array;mobility:Float32Array;seams:Uint32Array}
 /** Rest-edge guard for broad sheets. It limits local stretch after skinning;
  * it is not a collision or physiological muscle solver. Rigid attachments stay put. */
