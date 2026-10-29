@@ -169,13 +169,35 @@ const sources = [...spec.parts.map(part => ({part, geometry: () => {
   const positions = [], indices = []; for (const g of list) {const base = positions.length / 3; for (const v of g.positions) positions.push(v); for (const i of g.indices) indices.push(base + i);}
   return weld({pos: Float32Array.from(positions), idx: Uint32Array.from(indices)});
 }}))];
+// Plane clip of a mesh: keeps the part of the mesh with min <= coordinate[axis] <= max (triangles are cut, not dropped), so the venae cavae end shortly outside the right atrium.
+function clipMesh({positions, indices}, axis, min, max) {
+  const out = [], idx = [], at = i => [positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]];
+  const cut = (poly, keep, edge) => {
+    const res = [];
+    for (let i = 0; i < poly.length; i++) {
+      const a = poly[i], b = poly[(i + 1) % poly.length], ina = keep(a), inb = keep(b);
+      if (ina) res.push(a);
+      if (ina !== inb) {const t = (edge - a[axis]) / (b[axis] - a[axis]); res.push(a.map((v, k) => v + (b[k] - v) * t));}
+    }
+    return res;
+  };
+  for (let i = 0; i < indices.length; i += 3) {
+    let poly = [at(indices[i]), at(indices[i + 1]), at(indices[i + 2])];
+    if (Number.isFinite(max)) poly = cut(poly, v => v[axis] <= max, max);
+    if (poly.length && Number.isFinite(min)) poly = cut(poly, v => v[axis] >= min, min);
+    if (poly.length < 3) continue;
+    const base = out.length / 3; for (const v of poly) out.push(...v);
+    for (let k = 1; k < poly.length - 1; k++) idx.push(base, base + k, base + k + 1);
+  }
+  return weld({pos: Float32Array.from(out), idx: Uint32Array.from(idx)});
+}
 for (const {part, geometry} of sources) {
-  const {positions, indices} = geometry(), normals = normalsOf(positions, indices);
+  const raw = geometry(), {positions, indices} = part.clip ? clipMesh(raw, part.clip.axis, part.clip.min ?? -Infinity, part.clip.max ?? Infinity) : raw, normals = normalsOf(positions, indices);
   const bounds = [[Infinity, Infinity, Infinity], [-Infinity, -Infinity, -Infinity]];
   for (let i = 0; i < positions.length; i += 3) for (let k = 0; k < 3; k++) {bounds[0][k] = Math.min(bounds[0][k], positions[i + k]); bounds[1][k] = Math.max(bounds[1][k], positions[i + k]);}
   const pos = Buffer.from(positions.buffer), nor = Buffer.from(normals.buffer), idx = Buffer.from(indices.buffer);
   if (size && size + pos.length + nor.length + idx.length > 900000) flush();
-  parts.push({id: `HEART-${parts.length + 1}`, name: part.name, chinese: part.zh, group: part.group, system: part.system, description: {zh: part.zhDesc, en: part.enDesc}, node: part.node, ...(part.id || part.match ? {origin: 'BodyParts3D 4.0'} : part.shell ? {origin: 'MJ schematic shell'} : part.build ? {origin: 'MJ 補建'} : {}),
+  parts.push({id: `HEART-${parts.length + 1}`, name: part.name, chinese: part.zh, group: part.group, system: part.system, description: {zh: part.zhDesc, en: part.enDesc}, node: part.node, ...(part.id || part.match ? {origin: 'BodyParts3D 4.0'} : part.shell ? {origin: 'schematic shell'} : part.build ? {origin: '示意構造'} : {}),
     chunk: chunks.length, vertexCount: positions.length / 3, indexCount: indices.length, bounds, positions: append(pos), normals: append(nor), indices: append(idx)});
 }
 flush();

@@ -128,7 +128,7 @@ export default function HeartDetail() {
                 <button className="organ-group-head" onClick={() => toggleGroup(g.id)} aria-pressed={!hidden} aria-label={`${hidden ? '顯示' : '隱藏'}${g.label}`}>{hidden ? <EyeOff size={15}/> : <Eye size={15}/>}<span lang="en">{g.english}<small lang="zh-Hant">{g.label}</small></span><b>{g.parts.length}</b></button>
                 <button className="organ-expand" aria-expanded={expanded} aria-label={`${expanded ? '收合' : '展開'}${g.label}`} onClick={() => setOpenGroups(o => expanded ? o.filter(x => x !== g.id) : [...o, g.id])}>{expanded ? <ChevronDown size={15}/> : <ChevronRight size={15}/>}</button>
               </div>
-              {expanded && <ul>{g.parts.map((p: HeartPart) => <li key={p.id}><button aria-pressed={view.selectedId === p.id} onClick={() => patch({selectedId: view.selectedId === p.id ? null : p.id, hiddenGroups: view.hiddenGroups.filter(x => x !== g.id)})}><span lang="en">{p.name}</span><small lang="zh-Hant">{p.chinese}</small>{p.origin === 'MJ 補建' && <i className="organ-nomodel-tag organ-mj-tag" lang="zh-Hant">MJ 補建</i>}</button></li>)}</ul>}
+              {expanded && <ul>{g.parts.map((p: HeartPart) => <li key={p.id}><button aria-pressed={view.selectedId === p.id} onClick={() => patch({selectedId: view.selectedId === p.id ? null : p.id, hiddenGroups: view.hiddenGroups.filter(x => x !== g.id)})}><span lang="en">{p.name}</span><small lang="zh-Hant">{p.chinese}</small>{p.origin === '示意構造' && <i className="organ-nomodel-tag organ-mj-tag" lang="zh-Hant">示意構造</i>}</button></li>)}</ul>}
             </div>;
           })}
         </section>
@@ -188,7 +188,7 @@ export default function HeartDetail() {
         <section className="organ-block organ-note">
           <h2>模型範圍</h2>
           <p>心腔、房室瓣與半月瓣（房室瓣連同腱索）、乳突肌、冠狀動脈與心臟靜脈、上下腔靜脈、肺靜脈與相連大血管，以及心包膜三層。腱索包含在瓣膜模型中，不能單獨選取。三尖瓣前瓣、僧帽瓣前瓣、左心室前乳突肌，以及右緣支、後室間支、對角支、心小靜脈與心前靜脈取自 BodyParts3D 4.0，並對齊到同一心臟；心包膜三層由心壁向外偏移生成，為示意模型。</p>
-          <p>來源模型沒有、依解剖知識補建的構造（清單中標示「MJ 補建」，位置與形狀為示意）：界嵴、梳狀肌、卵圓窩、心房中隔、左右心耳、室間隔、肉柱、節制索、室上嵴、動脈圓錐、主動脈前庭、竇房結動脈、左緣支、心包橫竇與心包斜竇。卵圓瓣痕跡仍沒有模型，只提供文字說明；傳導系統（竇房結、房室結、希氏束）本模式未收錄。</p>
+          <p>來源模型沒有、依解剖知識補建的構造（清單中標示「示意構造」，位置與形狀為示意）：界嵴、梳狀肌、卵圓窩、心房中隔、左右心耳、室間隔、肉柱、節制索、室上嵴、動脈圓錐、主動脈前庭、竇房結動脈、左緣支、心包橫竇與心包斜竇。卵圓瓣痕跡仍沒有模型，只提供文字說明；傳導系統（竇房結、房室結、希氏束）本模式未收錄。</p>
           <p className="organ-source">來源：{catalogue.source}。{catalogue.attribution}。授權 {catalogue.license}。</p>
         </section>
       </aside>

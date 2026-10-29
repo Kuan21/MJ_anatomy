@@ -1,7 +1,7 @@
 import type {QuizStructure} from './catalogue';
 
 /** Level 1 records the structure that was picked; level 2 records the typed name and how it was judged (a close answer is not scored as correct but is shown with its correct spelling). */
-export type QuizAnswer = {targetId: string; pickedId: string | null; correct: boolean; typed?: string; result?: 'correct' | 'close' | 'wrong' | 'skipped'};
+export type QuizAnswer = {targetId: string; pickedId: string | null; correct: boolean; typed?: string; result?: 'correct' | 'close' | 'wrong' | 'skipped'; relation?: 'typed-part' | 'typed-whole'; relatedName?: string};
 export interface QuizSession {queue: string[]; answers: QuizAnswer[]}
 
 function shuffled<T>(values: readonly T[], random: () => number) {
@@ -30,16 +30,17 @@ export function createSession(pool: QuizStructure[], count: number, random = Mat
 }
 
 /** A double tap, delayed click, or repeated reveal cannot alter a scored answer. */
-export function recordAnswer(session: QuizSession, index: number, pickedId: string | null): QuizSession {
+export function recordAnswer(session: QuizSession, index: number, pickedId: string | null, relation?: 'typed-part' | 'typed-whole'): QuizSession {
   if (index !== session.answers.length || !session.queue[index]) return session;
   const targetId = session.queue[index];
-  return {...session, answers: [...session.answers, {targetId, pickedId, correct: pickedId === targetId}]};
+  // picking a part of the target (or the whole it belongs to) is close, not correct
+  return {...session, answers: [...session.answers, relation ? {targetId, pickedId, correct: false, result: 'close', relation} : {targetId, pickedId, correct: pickedId === targetId}]};
 }
 
 /** A typed answer of level 2. */
-export function recordTyped(session: QuizSession, index: number, typed: string | null, result: 'correct' | 'close' | 'wrong' | 'skipped'): QuizSession {
+export function recordTyped(session: QuizSession, index: number, typed: string | null, result: 'correct' | 'close' | 'wrong' | 'skipped', relation?: 'typed-part' | 'typed-whole', relatedName?: string): QuizSession {
   if (index !== session.answers.length || !session.queue[index]) return session;
-  return {...session, answers: [...session.answers, {targetId: session.queue[index], pickedId: null, correct: result === 'correct', typed: typed ?? undefined, result}]};
+  return {...session, answers: [...session.answers, {targetId: session.queue[index], pickedId: null, correct: result === 'correct', typed: typed ?? undefined, result, relation, relatedName}]};
 }
 
 /** A session made of chosen structures (the saved mistakes), in random order. */

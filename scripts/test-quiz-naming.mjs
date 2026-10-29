@@ -1,7 +1,7 @@
 // Typed-answer judging of the level-2 quiz (看結構寫名稱): case, spacing, hyphens, synonyms, left/right, close answers, languages.
 import assert from 'node:assert/strict';
 import {quizModule} from './quiz-modules.mjs';
-const {judgeName, acceptedNames, normalize, distance} = await quizModule('app/quiz/naming.ts');
+const {judgeName, acceptedNames, normalize, distance, relationOf} = await quizModule('app/quiz/naming.ts');
 const mitral = {name: 'Left atrioventricular valve', chinese: '僧帽瓣', side: 'midline'}, trap = {name: 'Septomarginal trabecula (moderator band)', chinese: '節制索', side: 'midline'};
 const pec = {name: 'Abdominal part of right pectoralis major', chinese: '右胸大肌腹部', side: 'right'}, ratio = {name: 'Posterior interventricular branch', chinese: '後室間支', side: 'midline'}, atrium = {name: 'Left atrium', chinese: '左心房', side: 'midline'};
 const any = {language: 'any', needSide: false}, en = {language: 'en', needSide: false}, zh = {language: 'zh', needSide: false};
@@ -25,4 +25,13 @@ assert.equal(r('atrium', atrium, en), 'wrong', 'left atrium is not just atrium')
 assert.equal(r('', mitral, any), 'wrong'); assert.equal(r('???', mitral, any), 'wrong');
 const names = acceptedNames(pec); assert.ok(names.en.includes('Abdominal part of right pectoralis major') && names.zh.includes('右胸大肌腹部'));
 assert.equal(distance('kitten', 'sitting'), 3); assert.equal(normalize('Left  Atrio-ventricular, valve', false), 'atrioventricularvalve');
-console.log('Quiz naming passed: case, spacing, hyphens, synonyms, brackets, left/right, close answers and answer languages.');
+// part and whole: naming the whole for a part (or a part for the whole) is close, never correct
+{
+  const valve = {name: 'Pulmonary valve', chinese: '肺動脈瓣'}, cusp = {name: 'Anterior semilunar cusp of pulmonary valve', chinese: '肺動脈瓣前瓣'};
+  assert.equal(relationOf(cusp, valve), 'part'); assert.equal(relationOf(valve, cusp), 'whole'); assert.equal(relationOf(valve, valve), null);
+  assert.equal(judgeName('pulmonary valve', cusp, en, [valve]).result, 'close'); assert.equal(judgeName('pulmonary valve', cusp, en, [valve]).relation, 'typed-whole');
+  assert.equal(judgeName('anterior semilunar cusp of pulmonary valve', valve, en, [cusp]).relation, 'typed-part');
+  assert.equal(judgeName('pulmonary valve', cusp, en, []).result, 'wrong', 'without the related structure it stays wrong');
+  assert.equal(judgeName('anterior semilunar cusp of pulmonary valve', cusp, en, [valve]).result, 'correct');
+}
+console.log('Quiz naming passed: case, spacing, hyphens, synonyms, brackets, left/right, close answers, part and whole, and answer languages.');
