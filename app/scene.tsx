@@ -30,6 +30,8 @@ import {GPU_SKIN_NORMAL,GPU_SKIN_PARS,GPU_SKIN_POSITION,PALETTE_WIDTH,clearGpuAt
 import {makeShoulderMuscles,solveShoulderMuscles,SHEET_PROFILES} from './biomechanics-v2/shoulder-muscles';
 import shoulderLandmarks from './biomechanics-v2/shoulder-landmarks.json';
 import bodyNerveData from './biomechanics-v2/body-nerve-bindings.json';
+import blockedOverlay from './biomechanics-v2/blocked-overlay-meshes.json';
+const blockedOverlayMeshes=new Set<string>(blockedOverlay.names);
 import {nerveChunkScene,type NerveCatalogue} from './nerve-stream';
 const bodyNerveBindings=bodyNerveData as Record<string,BodyRegion>;
 export interface AnatomyLoadStatus {loaded:number;total:number;systems:Record<string,number>;failed:string[];busy:boolean;interactive:boolean;supplementaryPending:number}
@@ -152,6 +154,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     // deterministically, and never import central-nervous-system meshes from
     // this legacy overlay (the BodyParts3D atlas already owns the brain/CNS).
     if(/nervous system\s*&\s*sense organs/i.test(exactName))return;
+    // Brain and brain-stem anatomy of this overlay (occipital cortex, vermis, medulla pyramids, nuclei) lies inside the skull: only the brain detail mode shows it.
+    if(blockedOverlayMeshes.has(exactName))return;
     const spinalCordLike=/spinal cord|medulla spinalis/i.test(fullName);
     const cranialNerveLike=/optic nerve|oculomotor|trochlear|trigeminal|abducens|facial nerve|vestibulocochlear|glossopharyngeal|vagus|accessory nerve|hypoglossal|cranial nerve/i.test(fullName);
     if(!nerveBindings[exactName]&&!bodyNerveBindings[exactName]&&!spinalCordLike&&!/nerve|ganglion|ganglia|plexus|ramus|rami|sympathetic trunk/i.test(exactName))return;
