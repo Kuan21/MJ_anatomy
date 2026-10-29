@@ -1,4 +1,5 @@
 import {useEffect, useMemo, useRef, useState} from 'react';
+import {PronounceButton} from '../pronunciation/PronounceButton';
 import {AlertCircle, ArrowLeft, ArrowRight, Check, CheckCircle2, ChevronRight, Eye, Layers, Maximize2, Pencil, RotateCcw, Shuffle, Target, Trash2, X, XCircle} from 'lucide-react';
 import {fetchModelBuffer} from '../model-download';
 import {QUIZ_REGIONS, QUIZ_SYSTEMS, questionPool, type QuizCatalogue, type QuizRegionId, type QuizSettings, type QuizStructure} from './catalogue';
@@ -50,6 +51,7 @@ function AnswerCard({structure}: {structure: QuizStructure}) {
   const blank = card.fields.length === 0;
   return <section className="quiz-info-card" aria-label="構造資料卡" data-system={card.system}>
     <h2 lang="en">{card.english}</h2>
+    <PronounceButton name={card.english}/>
     {card.chinese && <p className="quiz-info-zh" lang="zh-Hant">{card.chinese}</p>}
     <dl>
       {[...card.fields.map(f => ({label: f.label, zh: f.zh, en: f.en})), ...card.missing.map(label => ({label, zh: undefined as string | undefined, en: undefined as string | undefined}))]

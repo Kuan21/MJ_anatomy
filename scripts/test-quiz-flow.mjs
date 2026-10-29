@@ -18,7 +18,7 @@ const react = {
   useEffect(fn, dependencies) {const i = cursor++; if (!hooks[i] || changed(hooks[i].deps, dependencies)) {const old = hooks[i]; hooks[i] = {deps: dependencies}; effects.push(() => {old?.cleanup?.(); hooks[i].cleanup = fn();});}},
 };
 const jsx = (type, props) => ({type, props: props ?? {}});
-const icons = ['AlertCircle', 'Maximize2', 'Pencil', 'Shuffle', 'Trash2', 'ArrowLeft', 'ArrowRight', 'Check', 'CheckCircle2', 'ChevronRight', 'Eye', 'Layers', 'RotateCcw', 'Target', 'X', 'XCircle'];
+const icons = ['AlertCircle', 'Maximize2', 'Pencil', 'Shuffle', 'Trash2', 'ArrowLeft', 'ArrowRight', 'Check', 'CheckCircle2', 'ChevronRight', 'Eye', 'Layers', 'RotateCcw', 'Target', 'X', 'XCircle', 'Volume2'];
 const external = {
   react, 'react/jsx-runtime': {jsx, jsxs: jsx, Fragment: 'fragment'},
   'lucide-react': Object.fromEntries(icons.map(name => [name, name])),
@@ -36,7 +36,7 @@ async function moduleFor(key) {
   }
   cache.set(key, mod); return mod;
 }
-async function link(spec, ref) {let key = spec; if (spec.startsWith('.')) {key = path.resolve(path.dirname(ref.identifier), spec); if (!fs.existsSync(key)) key += '.ts';} return moduleFor(key);}
+async function link(spec, ref) {let key = spec; if (spec.startsWith('.')) {key = path.resolve(path.dirname(ref.identifier), spec); if (!fs.existsSync(key)) key += fs.existsSync(key + '.ts') ? '.ts' : '.tsx';} return moduleFor(key);}
 const main = await moduleFor(path.join(root, 'app/quiz/page.tsx')); await main.link(link); await main.evaluate();
 function render() {let n = 0; while (dirty) {assert.ok(n++ < 20, 'No rerender loop'); dirty = false; cursor = 0; tree = main.namespace.default(); for (const fn of effects.splice(0)) fn();} return tree;}
 function all(node) {if (!arguments.length) node = tree; if (Array.isArray(node)) return node.flatMap(n => all(n)); if (!node || typeof node !== 'object') return []; return [node, ...all(node.props?.children)];}
