@@ -943,6 +943,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     }
     const isVisible=(p:(typeof atlas.parts)[number])=>{
      if(amount<.01&&cervicalVessels.replaced.has(p.id))return false;
+     // A space (axillary fossa, carpal tunnel, quadrangular space …) is not a solid: its boundaries and contents are highlighted by the dissection panel, so the placeholder volume is never drawn as a plate or box.
+     if((p as {kind?:string}).kind==='space')return false;
      if(hidden.has(p.id))return false;
      const cx=(p.bounds[0][0]+p.bounds[1][0])*.5,cy=(p.bounds[0][1]+p.bounds[1][1])*.5,cz=(p.bounds[0][2]+p.bounds[1][2])*.5;
      const intracranialLegacy=p.system==='nervous'&&cy>1.38&&Math.abs(cx)<.36&&Math.abs(cz)<.34&&!/cranial.?nerve|\bnerve\b|tract|root|ganglion/i.test(p.name);
