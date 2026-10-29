@@ -110,8 +110,14 @@ export function pathWeights(rig:SoftRig,x:number,y:number,z:number):number[]{
  const posterior=range(rig.shoulder.z-z,0,.075);
  const medial=1-range(Math.abs(x),Math.abs(rig.shoulder.x)-.025,Math.abs(rig.shoulder.x)+.025);
  const proximal=range(y,rig.elbow.y+.025,rig.elbow.y+.125);
- const humeral=lateral*arm*(1-e),scapular=humeral*posterior*medial*proximal;
- return[1-lateral,lateral*(1-arm)*(1-e),scapular,humeral-scapular,lateral*e*(1-w)*(1-radial),lateral*e*(1-w)*radial,lateral*e*w];
+ const humeralRaw=lateral*arm*(1-e),scapular=humeralRaw*posterior*medial*proximal;
+ // Vessels and nerves of the lateral chest wall (mammary and pectoral branches …) lie beside the arm but belong to the trunk: above the elbow the humeral share fades
+ // with the distance from the humerus axis, so they stay with the ribs instead of being dragged along with the raised arm.
+ const sx=rig.shoulder.x,sy=rig.shoulder.y,sz=rig.shoulder.z,ax=rig.elbow.x-sx,ay=rig.elbow.y-sy,az=rig.elbow.z-sz;
+ const t=Math.min(1,Math.max(0,((x-sx)*ax+(y-sy)*ay+(z-sz)*az)/(ax*ax+ay*ay+az*az+1e-9)));
+ const axisDistance=Math.hypot(x-(sx+ax*t),y-(sy+ay*t),z-(sz+az*t));
+ const humeral=Math.max(scapular,humeralRaw*(y>=rig.elbow.y?1-range(axisDistance,.06,.12):1));
+ return[1-lateral+(humeralRaw-humeral),lateral*(1-arm)*(1-e),scapular,humeral-scapular,lateral*e*(1-w)*(1-radial),lateral*e*(1-w)*radial,lateral*e*w];
 }
 /** Continuous thorax-to-humerus field for axillary nerves/vessels.
  * It depends only on world position, so equal rest points on adjacent source
