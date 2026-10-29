@@ -4,6 +4,7 @@ import {fetchModelBuffer, loadMissingChunks} from '../model-download';
 import {PointerTap} from '../pointer-tap';
 import {framingDistance} from '../camera-framing';
 import {CHAMBERS} from './heart-chambers';
+import {BLOCKER_OPACITY, isKeptVessel} from './heart-vessels';
 import {SECTION_AXES, type HeartCatalogue, type HeartView, type HeartViewState} from './heart-types';
 
 interface Callbacks {
@@ -82,7 +83,7 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
   const coreCentre = core.getCenter(new T.Vector3());
 
   const raycaster = new T.Raycaster();
-  let state: HeartViewState | undefined, disposed = false, dirty = true, frame = 0, command = -1, hoverId: string | null = null, loadedAll = false, lastHoverAt = 0;
+  let state: HeartViewState | undefined, blockers = new Set<string>(), disposed = false, dirty = true, frame = 0, command = -1, hoverId: string | null = null, loadedAll = false, lastHoverAt = 0;
 
   const clipping = () => {
     const s = state?.section;
@@ -94,18 +95,44 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
   };
   const keeps = (point: T.Vector3) => {const planes = clipping(); return !planes.length || planes[0].distanceToPoint(point) >= 0;};
 
+  /** Kept vessels (great vessels, main coronary vessels) that stand between the camera and the wall of the open chamber: they hide the chamber, so they are drawn at 40 %. */
+  const findBlockers = () => {
+    const open = state?.openChamber ? chamberOf(state.openChamber) : undefined, next = new Set<string>();
+    const wall = open ? catalogue.parts.find(p => p.name === open.wall) : undefined;
+    if (open && wall) {
+      camera.updateMatrixWorld();
+      const wallBox = new T.Box3(new T.Vector3().fromArray(wall.bounds[0]), new T.Vector3().fromArray(wall.bounds[1])), wallCentre = wallBox.getCenter(new T.Vector3());
+      const screen = (b: T.Box3) => {
+        const r = {x0: Infinity, x1: -Infinity, y0: Infinity, y1: -Infinity};
+        for (let i = 0; i < 8; i++) {const v = new T.Vector3(i & 1 ? b.max.x : b.min.x, i & 2 ? b.max.y : b.min.y, i & 4 ? b.max.z : b.min.z).project(camera); r.x0 = Math.min(r.x0, v.x); r.x1 = Math.max(r.x1, v.x); r.y0 = Math.min(r.y0, v.y); r.y1 = Math.max(r.y1, v.y);}
+        return r;
+      };
+      const w = screen(wallBox), toWall = camera.position.distanceTo(wallCentre);
+      for (const [id, mesh] of meshes) {
+        const part = parts.get(id)!;
+        if (!mesh.visible || !isKeptVessel(part.group, part.name)) continue;
+        const b = new T.Box3(new T.Vector3().fromArray(part.bounds[0]), new T.Vector3().fromArray(part.bounds[1])), s = screen(b);
+        const overlap = s.x0 < w.x1 && s.x1 > w.x0 && s.y0 < w.y1 && s.y1 > w.y0, nearer = camera.position.distanceTo(b.getCenter(new T.Vector3())) < toWall;
+        if (overlap && nearer) next.add(id);
+      }
+    }
+    const same = next.size === blockers.size && [...next].every(id => blockers.has(id));
+    blockers = next; return !same;
+  };
+
   const apply = () => {
     if (!state) return;
-    const hidden = new Set(state.hiddenGroups), planes = clipping(), lit = new Set(state.highlight), open = state.openChamber ? chamberOf(state.openChamber) : undefined;
+    findBlockers();
+    const hidden = new Set(state.hiddenGroups), hiddenParts = new Set(state.hiddenParts), planes = clipping(), lit = new Set(state.highlight), open = state.openChamber ? chamberOf(state.openChamber) : undefined;
     const insideNames = new Set(open?.inside ?? []), wallName = open?.wall;
     for (const [id, mesh] of meshes) {
       const part = parts.get(id)!, selected = id === state.selectedId || lit.has(id), hovered = id === hoverId && !selected;
-      mesh.visible = !hidden.has(part.group) || insideNames.has(part.name);
+      mesh.visible = (!hidden.has(part.group) || insideNames.has(part.name)) && !(hiddenParts.has(id) && !selected);
       const m = mesh.material;
       m.color.set(selected ? HEART_SELECT.fill : hovered ? HEART_SELECT.hover : COLOR_BY_PART(id, part.group, part.system, part.name));
       m.emissive.set(selected ? HEART_SELECT.fill : '#000000'); m.emissiveIntensity = selected ? .1 : 0;
-      const wall = part.name === wallName, patch = isPatch(part.name) && !selected, ghost = (state.ghostChambers && part.group === 'chambers' && !selected) || wall || patch;
-      m.opacity = wall ? .12 : patch ? (part.group === 'pericardium' ? .22 : .6) : ghost ? .3 : selected ? .85 : 1; m.transparent = ghost || selected; m.depthWrite = !ghost && !selected;
+      const wall = part.name === wallName, patch = isPatch(part.name) && !selected, blocker = !!open && !selected && blockers.has(id), ghost = (state.ghostChambers && part.group === 'chambers' && !selected) || wall || patch || blocker;
+      m.opacity = blocker ? BLOCKER_OPACITY : wall ? .12 : patch ? (part.group === 'pericardium' ? .22 : .6) : ghost ? .3 : selected ? .85 : 1; m.transparent = ghost || selected; m.depthWrite = !ghost && !selected;
       // Selected piece is drawn whole over the pieces it overlaps (polygonOffset), like the main atlas.
       m.polygonOffset = selected; m.polygonOffsetFactor = -4; m.polygonOffsetUnits = -4;
       m.clippingPlanes = planes; m.needsUpdate = true;
@@ -254,7 +281,7 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
   canvas.addEventListener('pointercancel', cancel); canvas.addEventListener('pointerleave', leave);
   const lost = (e: Event) => {e.preventDefault(); callbacks.error('3D 顯示已中斷，請重新載入頁面。');};
   canvas.addEventListener('webglcontextlost', lost);
-  controls.addEventListener('change', () => {dirty = true;});
+  controls.addEventListener('change', () => {dirty = true; if (state?.openChamber && findBlockers()) apply();});
   const resize = () => {
     const rect = host.getBoundingClientRect();
     renderer.setSize(Math.max(1, rect.width), Math.max(1, rect.height));
