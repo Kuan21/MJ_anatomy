@@ -8,6 +8,7 @@
  },
  "before": {
   "upper": {
+   "open": 104,
    "ends": 1229,
    "adjacent": 518,
    "tapered": 345,
@@ -18,6 +19,7 @@
    "diameter": 95
   },
   "lower": {
+   "open": 225,
    "ends": 1475,
    "adjacent": 636,
    "tapered": 396,
@@ -27,11 +29,4617 @@
    "tangent": 192,
    "diameter": 98
   },
-  "note": "Measured with the vessel-ends connectors of origin/main (before the spline bridges)."
+  "note": "Measured with the vessel-ends connectors of origin/main (before the spline bridges).",
+  "gaps": {
+   "upper": [
+    {
+     "id": "FJ2220",
+     "name": "Left cephalic vein",
+     "neighbourId": "FJ2213",
+     "neighbour": "Left anterior circumflex humeral vein",
+     "kind": "junction",
+     "gapMm": 33.34,
+     "diameterMm": 3.39
+    },
+    {
+     "id": "FJ2272",
+     "name": "Right cephalic vein",
+     "neighbourId": "PK-56",
+     "neighbour": "Right lateral brachial vein",
+     "kind": "junction",
+     "gapMm": 32.91,
+     "diameterMm": 4.84
+    },
+    {
+     "id": "FJ2220",
+     "name": "Left cephalic vein",
+     "neighbourId": "PK-60",
+     "neighbour": "Left lateral brachial vein",
+     "kind": "junction",
+     "gapMm": 30.96,
+     "diameterMm": 3.81
+    },
+    {
+     "id": "FJ2232",
+     "name": "Left dorsal scapular artery",
+     "neighbourId": "FJ1975",
+     "neighbour": "Posterior intercostal arteries",
+     "kind": "junction",
+     "gapMm": 26.95,
+     "diameterMm": 2
+    },
+    {
+     "id": "PK-62",
+     "name": "Left posterior interosseous vein",
+     "neighbourId": "PK-61",
+     "neighbour": "Left anterior interosseous vein",
+     "kind": "junction",
+     "gapMm": 25.29,
+     "diameterMm": 2.52
+    },
+    {
+     "id": "FJ2265",
+     "name": "Right anterior circumflex humeral vein",
+     "neighbourId": "PK-42",
+     "neighbour": "Right posterior circumflex humeral vein",
+     "kind": "junction",
+     "gapMm": 24.93,
+     "diameterMm": 2.4
+    },
+    {
+     "id": "FJ2220",
+     "name": "Left cephalic vein",
+     "neighbourId": "FJ2213",
+     "neighbour": "Left anterior circumflex humeral vein",
+     "kind": "junction",
+     "gapMm": 24.9,
+     "diameterMm": 3.54
+    },
+    {
+     "id": "FJ2242",
+     "name": "Left radial artery",
+     "neighbourId": "PK-53",
+     "neighbour": "Left posterior interosseous artery",
+     "kind": "junction",
+     "gapMm": 23.69,
+     "diameterMm": 2.33
+    },
+    {
+     "id": "FJ2213",
+     "name": "Left anterior circumflex humeral vein",
+     "neighbourId": "FJ2220",
+     "neighbour": "Left cephalic vein",
+     "kind": "junction",
+     "gapMm": 23.56,
+     "diameterMm": 2.26
+    },
+    {
+     "id": "FJ2294",
+     "name": "Right radial artery",
+     "neighbourId": "PK-43",
+     "neighbour": "Right posterior interosseous artery",
+     "kind": "junction",
+     "gapMm": 23.32,
+     "diameterMm": 3.93
+    },
+    {
+     "id": "FJ2258",
+     "name": "Left ulnar artery",
+     "neighbourId": "FJ2214",
+     "neighbour": "Left anterior interosseous artery",
+     "kind": "junction",
+     "gapMm": 21.66,
+     "diameterMm": 1.39
+    },
+    {
+     "id": "FJ2265",
+     "name": "Right anterior circumflex humeral vein",
+     "neighbourId": "PK-42",
+     "neighbour": "Right posterior circumflex humeral vein",
+     "kind": "junction",
+     "gapMm": 21.56,
+     "diameterMm": 1.6
+    },
+    {
+     "id": "FJ2250",
+     "name": "Left suprascapular vein",
+     "neighbourId": "FJ2929",
+     "neighbour": "Left posterior segmental vein",
+     "kind": "junction",
+     "gapMm": 20.5,
+     "diameterMm": 1.71
+    },
+    {
+     "id": "FJ2251",
+     "name": "Left suprascapular artery",
+     "neighbourId": "FJ1974",
+     "neighbour": "Left second posterior intercostal artery",
+     "kind": "junction",
+     "gapMm": 19.86,
+     "diameterMm": 1.32
+    },
+    {
+     "id": "FJ2260",
+     "name": "Left ulnar vein",
+     "neighbourId": "FJ2218",
+     "neighbour": "Left basilic vein",
+     "kind": "end-to-end",
+     "gapMm": 19.47,
+     "diameterMm": 3.69
+    },
+    {
+     "id": "FJ2312",
+     "name": "Right ulnar vein",
+     "neighbourId": "FJ2286",
+     "neighbour": "Right median antebrachial vein",
+     "kind": "end-to-end",
+     "gapMm": 19.31,
+     "diameterMm": 3.74
+    },
+    {
+     "id": "FJ2264",
+     "name": "Right anterior circumflex humeral artery",
+     "neighbourId": "FJ2292",
+     "neighbour": "Right posterior circumflex humeral artery",
+     "kind": "junction",
+     "gapMm": 19.16,
+     "diameterMm": 2.41
+    },
+    {
+     "id": "FJ2220",
+     "name": "Left cephalic vein",
+     "neighbourId": "FJ2233",
+     "neighbour": "Left lateral thoracic vein",
+     "kind": "junction",
+     "gapMm": 18.8,
+     "diameterMm": 4.22
+    },
+    {
+     "id": "FJ2242",
+     "name": "Left radial artery",
+     "neighbourId": "PK-53",
+     "neighbour": "Left posterior interosseous artery",
+     "kind": "junction",
+     "gapMm": 18.78,
+     "diameterMm": 1.35
+    },
+    {
+     "id": "FJ2297",
+     "name": "Right recurrent interosseous artery",
+     "neighbourId": "FJ2295",
+     "neighbour": "Right radial recurrent artery",
+     "kind": "junction",
+     "gapMm": 18.64,
+     "diameterMm": 2.68
+    },
+    {
+     "id": "FJ2212",
+     "name": "Left anterior circumflex humeral artery",
+     "neighbourId": "FJ2240",
+     "neighbour": "Left posterior circumflex humeral artery",
+     "kind": "junction",
+     "gapMm": 18.56,
+     "diameterMm": 2.49
+    },
+    {
+     "id": "FJ2310",
+     "name": "Right ulnar artery",
+     "neighbourId": "FJ2266",
+     "neighbour": "Right anterior interosseous artery",
+     "kind": "junction",
+     "gapMm": 18.51,
+     "diameterMm": 3.97
+    },
+    {
+     "id": "FJ2234",
+     "name": "Left median antebrachial vein",
+     "neighbourId": "FJ2218",
+     "neighbour": "Left basilic vein",
+     "kind": "junction",
+     "gapMm": 18.44,
+     "diameterMm": 3.39
+    },
+    {
+     "id": "FJ2310",
+     "name": "Right ulnar artery",
+     "neighbourId": "FJ2266",
+     "neighbour": "Right anterior interosseous artery",
+     "kind": "junction",
+     "gapMm": 18.42,
+     "diameterMm": 3.97
+    },
+    {
+     "id": "FJ2242",
+     "name": "Left radial artery",
+     "neighbourId": "FJ2248",
+     "neighbour": "Left superficial palmar arterial arch",
+     "kind": "junction",
+     "gapMm": 17.91,
+     "diameterMm": 1.6
+    },
+    {
+     "id": "FJ2294",
+     "name": "Right radial artery",
+     "neighbourId": "PK-43",
+     "neighbour": "Right posterior interosseous artery",
+     "kind": "junction",
+     "gapMm": 17.86,
+     "diameterMm": 2.2
+    },
+    {
+     "id": "FJ2232",
+     "name": "Left dorsal scapular artery",
+     "neighbourId": "FJ1975",
+     "neighbour": "Posterior intercostal arteries",
+     "kind": "junction",
+     "gapMm": 17.79,
+     "diameterMm": 0.91
+    },
+    {
+     "id": "FJ2302",
+     "name": "Right suprascapular vein",
+     "neighbourId": "FJ2274",
+     "neighbour": "Right circumflex scapular vein",
+     "kind": "junction",
+     "gapMm": 17.45,
+     "diameterMm": 1.78
+    },
+    {
+     "id": "FJ2294",
+     "name": "Right radial artery",
+     "neighbourId": "PK-43",
+     "neighbour": "Right posterior interosseous artery",
+     "kind": "junction",
+     "gapMm": 16.76,
+     "diameterMm": 3.66
+    },
+    {
+     "id": "FJ2272",
+     "name": "Right cephalic vein",
+     "neighbourId": "FJ2296",
+     "neighbour": "Right radial vein",
+     "kind": "end-to-end",
+     "gapMm": 16.73,
+     "diameterMm": 4.34
+    },
+    {
+     "id": "FJ2228",
+     "name": "Dorsal venous network of left hand",
+     "neighbourId": "FJ2319",
+     "neighbour": "Proper palmar digital vein of left little finger",
+     "kind": "junction",
+     "gapMm": 16.67,
+     "diameterMm": 3.27
+    },
+    {
+     "id": "FJ2218",
+     "name": "Left basilic vein",
+     "neighbourId": "PK-60",
+     "neighbour": "Left lateral brachial vein",
+     "kind": "end-to-end",
+     "gapMm": 16.3,
+     "diameterMm": 5.33
+    },
+    {
+     "id": "FJ2220",
+     "name": "Left cephalic vein",
+     "neighbourId": "FJ2217",
+     "neighbour": "Left axillary vein",
+     "kind": "junction",
+     "gapMm": 16.03,
+     "diameterMm": 5.32
+    },
+    {
+     "id": "FJ2312",
+     "name": "Right ulnar vein",
+     "neighbourId": "FJ2286",
+     "neighbour": "Right median antebrachial vein",
+     "kind": "end-to-end",
+     "gapMm": 15.75,
+     "diameterMm": 3.92
+    },
+    {
+     "id": "FJ2274",
+     "name": "Right circumflex scapular vein",
+     "neighbourId": "PK-42",
+     "neighbour": "Right posterior circumflex humeral vein",
+     "kind": "junction",
+     "gapMm": 15.25,
+     "diameterMm": 1.65
+    },
+    {
+     "id": "FJ2234",
+     "name": "Left median antebrachial vein",
+     "neighbourId": "FJ2260",
+     "neighbour": "Left ulnar vein",
+     "kind": "end-to-end",
+     "gapMm": 15.18,
+     "diameterMm": 2.98
+    },
+    {
+     "id": "FJ2284",
+     "name": "Right dorsal scapular artery",
+     "neighbourId": "FJ1961",
+     "neighbour": "Posterior intercostal arteries",
+     "kind": "junction",
+     "gapMm": 15.12,
+     "diameterMm": 1.34
+    },
+    {
+     "id": "FJ2242",
+     "name": "Left radial artery",
+     "neighbourId": "FJ2243",
+     "neighbour": "Left radial recurrent artery",
+     "kind": "end-to-end",
+     "gapMm": 15.06,
+     "diameterMm": 4.11
+    },
+    {
+     "id": "FJ2243",
+     "name": "Left radial recurrent artery",
+     "neighbourId": "FJ2242",
+     "neighbour": "Left radial artery",
+     "kind": "end-to-end",
+     "gapMm": 15.03,
+     "diameterMm": 3.54
+    },
+    {
+     "id": "FJ2232",
+     "name": "Left dorsal scapular artery",
+     "neighbourId": "FJ1975",
+     "neighbour": "Posterior intercostal arteries",
+     "kind": "junction",
+     "gapMm": 15.01,
+     "diameterMm": 0.87
+    },
+    {
+     "id": "FJ2296",
+     "name": "Right radial vein",
+     "neighbourId": "FJ2272",
+     "neighbour": "Right cephalic vein",
+     "kind": "junction",
+     "gapMm": 14.85,
+     "diameterMm": 2.42
+    },
+    {
+     "id": "FJ2220",
+     "name": "Left cephalic vein",
+     "neighbourId": "FJ2244",
+     "neighbour": "Left radial vein",
+     "kind": "junction",
+     "gapMm": 14.73,
+     "diameterMm": 2.96
+    },
+    {
+     "id": "PK-61",
+     "name": "Left anterior interosseous vein",
+     "neighbourId": "FJ2234",
+     "neighbour": "Left median antebrachial vein",
+     "kind": "junction",
+     "gapMm": 14.6,
+     "diameterMm": 1.36
+    },
+    {
+     "id": "PK-57",
+     "name": "Right anterior interosseous vein",
+     "neighbourId": "FJ2286",
+     "neighbour": "Right median antebrachial vein",
+     "kind": "junction",
+     "gapMm": 14.5,
+     "diameterMm": 1.36
+    },
+    {
+     "id": "FJ2243",
+     "name": "Left radial recurrent artery",
+     "neighbourId": "FJ2245",
+     "neighbour": "Left recurrent interosseous artery",
+     "kind": "end-to-end",
+     "gapMm": 14.46,
+     "diameterMm": 3.47
+    },
+    {
+     "id": "FJ2272",
+     "name": "Right cephalic vein",
+     "neighbourId": "FJ2287",
+     "neighbour": "Right median cubital vein",
+     "kind": "end-to-end",
+     "gapMm": 14.16,
+     "diameterMm": 3.57
+    },
+    {
+     "id": "FJ2348",
+     "name": "Set of dorsal metacarpal arteries",
+     "neighbourId": "FJ2237",
+     "neighbour": "Left palmar metacarpal artery",
+     "kind": "junction",
+     "gapMm": 13.82,
+     "diameterMm": 1.46
+    },
+    {
+     "id": "FJ2250",
+     "name": "Left suprascapular vein",
+     "neighbourId": "FJ3486",
+     "neighbour": "Left subclavian vein",
+     "kind": "junction",
+     "gapMm": 13.62,
+     "diameterMm": 1.76
+    },
+    {
+     "id": "FJ2258",
+     "name": "Left ulnar artery",
+     "neighbourId": "FJ2214",
+     "neighbour": "Left anterior interosseous artery",
+     "kind": "junction",
+     "gapMm": 13.49,
+     "diameterMm": 3.96
+    },
+    {
+     "id": "FJ2260",
+     "name": "Left ulnar vein",
+     "neighbourId": "FJ2218",
+     "neighbour": "Left basilic vein",
+     "kind": "junction",
+     "gapMm": 13.49,
+     "diameterMm": 2.25
+    },
+    {
+     "id": "FJ2228",
+     "name": "Dorsal venous network of left hand",
+     "neighbourId": "FJ2326",
+     "neighbour": "Proper palmar digital vein of left middle finger",
+     "kind": "end-to-end",
+     "gapMm": 13.26,
+     "diameterMm": 3.45
+    },
+    {
+     "id": "FJ2277",
+     "name": "Right deep brachial artery",
+     "neighbourId": "FJ2271",
+     "neighbour": "Right brachial artery",
+     "kind": "junction",
+     "gapMm": 13.26,
+     "diameterMm": 2.4
+    },
+    {
+     "id": "FJ2342",
+     "name": "Right arteria radialis indicis",
+     "neighbourId": "FJ2346",
+     "neighbour": "Set of dorsal digital arteries",
+     "kind": "junction",
+     "gapMm": 13.24,
+     "diameterMm": 1.78
+    },
+    {
+     "id": "FJ2269",
+     "name": "Right axillary vein",
+     "neighbourId": "PK-56",
+     "neighbour": "Right lateral brachial vein",
+     "kind": "end-to-end",
+     "gapMm": 13.19,
+     "diameterMm": 3.8
+    },
+    {
+     "id": "FJ2373",
+     "name": "Right superior ulnar collateral artery",
+     "neighbourId": "FJ2293",
+     "neighbour": "Right posterior ulnar recurrent artery",
+     "kind": "junction",
+     "gapMm": 12.99,
+     "diameterMm": 1.44
+    },
+    {
+     "id": "FJ2249",
+     "name": "Left superficial palmar venous arch",
+     "neighbourId": "FJ2229",
+     "neighbour": "Left deep palmar venous arch",
+     "kind": "junction",
+     "gapMm": 12.94,
+     "diameterMm": 1.67
+    },
+    {
+     "id": "FJ2361",
+     "name": "Pectoral branch of right thoraco-acromial artery",
+     "neighbourId": "FJ1938",
+     "neighbour": "Right lateral thoracic artery",
+     "kind": "end-to-end",
+     "gapMm": 12.91,
+     "diameterMm": 4.11
+    },
+    {
+     "id": "FJ2312",
+     "name": "Right ulnar vein",
+     "neighbourId": "FJ2286",
+     "neighbour": "Right median antebrachial vein",
+     "kind": "end-to-end",
+     "gapMm": 12.74,
+     "diameterMm": 3.35
+    },
+    {
+     "id": "FJ2267",
+     "name": "Right inferior ulnar collateral artery",
+     "neighbourId": "FJ2271",
+     "neighbour": "Right brachial artery",
+     "kind": "junction",
+     "gapMm": 12.64,
+     "diameterMm": 1.56
+    },
+    {
+     "id": "FJ2268",
+     "name": "Right axillary artery",
+     "neighbourId": "FJ2291",
+     "neighbour": "Right posterior circumflex humeral artery",
+     "kind": "end-to-end",
+     "gapMm": 12.39,
+     "diameterMm": 3.54
+    },
+    {
+     "id": "FJ2373",
+     "name": "Right superior ulnar collateral artery",
+     "neighbourId": "FJ2271",
+     "neighbour": "Right brachial artery",
+     "kind": "junction",
+     "gapMm": 12.19,
+     "diameterMm": 2.57
+    },
+    {
+     "id": "FJ2218",
+     "name": "Left basilic vein",
+     "neighbourId": "PK-60",
+     "neighbour": "Left lateral brachial vein",
+     "kind": "end-to-end",
+     "gapMm": 12.01,
+     "diameterMm": 4.02
+    },
+    {
+     "id": "FJ2319",
+     "name": "Proper palmar digital vein of left little finger",
+     "neighbourId": "FJ2321",
+     "neighbour": "Proper palmar digital vein of left little finger",
+     "kind": "junction",
+     "gapMm": 12,
+     "diameterMm": 1.74
+    },
+    {
+     "id": "FJ2221",
+     "name": "Left circumflex scapular artery",
+     "neighbourId": "FJ2239",
+     "neighbour": "Left posterior circumflex humeral artery",
+     "kind": "junction",
+     "gapMm": 11.96,
+     "diameterMm": 1.84
+    },
+    {
+     "id": "FJ2265",
+     "name": "Right anterior circumflex humeral vein",
+     "neighbourId": "PK-42",
+     "neighbour": "Right posterior circumflex humeral vein",
+     "kind": "junction",
+     "gapMm": 11.91,
+     "diameterMm": 3.81
+    },
+    {
+     "id": "FJ2268",
+     "name": "Right axillary artery",
+     "neighbourId": "FJ2305",
+     "neighbour": "Right thoracodorsal artery",
+     "kind": "end-to-end",
+     "gapMm": 11.83,
+     "diameterMm": 5.6
+    },
+    {
+     "id": "FJ2264",
+     "name": "Right anterior circumflex humeral artery",
+     "neighbourId": "FJ2292",
+     "neighbour": "Right posterior circumflex humeral artery",
+     "kind": "end-to-end",
+     "gapMm": 11.57,
+     "diameterMm": 1.94
+    },
+    {
+     "id": "FJ2228",
+     "name": "Dorsal venous network of left hand",
+     "neighbourId": "FJ2340",
+     "neighbour": "Proper palmar digital vein of left middle finger",
+     "kind": "end-to-end",
+     "gapMm": 11.39,
+     "diameterMm": 3.27
+    },
+    {
+     "id": "FJ2213",
+     "name": "Left anterior circumflex humeral vein",
+     "neighbourId": "FJ2220",
+     "neighbour": "Left cephalic vein",
+     "kind": "end-to-end",
+     "gapMm": 11.32,
+     "diameterMm": 4.86
+    },
+    {
+     "id": "FJ2270",
+     "name": "Right basilic vein",
+     "neighbourId": "FJ2341",
+     "neighbour": "Right medial brachial vein",
+     "kind": "junction",
+     "gapMm": 11.17,
+     "diameterMm": 4.65
+    },
+    {
+     "id": "FJ2330",
+     "name": "Pectoral branch of left thoraco-acromial artery",
+     "neighbourId": "FJ1976",
+     "neighbour": "Left lateral thoracic artery",
+     "kind": "end-to-end",
+     "gapMm": 10.78,
+     "diameterMm": 4.11
+    },
+    {
+     "id": "FJ2348",
+     "name": "Set of dorsal metacarpal arteries",
+     "neighbourId": "FJ2318",
+     "neighbour": "Set of dorsal digital arteries",
+     "kind": "junction",
+     "gapMm": 10.78,
+     "diameterMm": 1.95
+    },
+    {
+     "id": "FJ2329",
+     "name": "Proper palmar digital vein of left little finger",
+     "neighbourId": "FJ2328",
+     "neighbour": "Proper palmar digital vein of left ring finger",
+     "kind": "junction",
+     "gapMm": 10.6,
+     "diameterMm": 0.96
+    },
+    {
+     "id": "PK-60",
+     "name": "Left lateral brachial vein",
+     "neighbourId": "FJ2218",
+     "neighbour": "Left basilic vein",
+     "kind": "end-to-end",
+     "gapMm": 10.31,
+     "diameterMm": 4.19
+    },
+    {
+     "id": "FJ2265",
+     "name": "Right anterior circumflex humeral vein",
+     "neighbourId": "FJ2269",
+     "neighbour": "Right axillary vein",
+     "kind": "junction",
+     "gapMm": 10.1,
+     "diameterMm": 4.53
+    },
+    {
+     "id": "FJ2235",
+     "name": "Left median cubital vein",
+     "neighbourId": "FJ2220",
+     "neighbour": "Left cephalic vein",
+     "kind": "end-to-end",
+     "gapMm": 10.07,
+     "diameterMm": 2.57
+    },
+    {
+     "id": "FJ2280",
+     "name": "Dorsal venous network of right hand",
+     "neighbourId": "FJ2351",
+     "neighbour": "Proper palmar digital vein of right little finger",
+     "kind": "end-to-end",
+     "gapMm": 10.07,
+     "diameterMm": 2.14
+    },
+    {
+     "id": "FJ2216",
+     "name": "Left axillary artery",
+     "neighbourId": "PKC-313",
+     "neighbour": "Deltoid branch of left thoraco-acromial artery",
+     "kind": "end-to-end",
+     "gapMm": 9.92,
+     "diameterMm": 5.65
+    },
+    {
+     "id": "FJ2326",
+     "name": "Proper palmar digital vein of left middle finger",
+     "neighbourId": "FJ2325",
+     "neighbour": "Proper palmar digital vein of left index finger",
+     "kind": "junction",
+     "gapMm": 9.89,
+     "diameterMm": 1.35
+    },
+    {
+     "id": "FJ2212",
+     "name": "Left anterior circumflex humeral artery",
+     "neighbourId": "FJ2240",
+     "neighbour": "Left posterior circumflex humeral artery",
+     "kind": "end-to-end",
+     "gapMm": 9.72,
+     "diameterMm": 1.82
+    },
+    {
+     "id": "FJ2216",
+     "name": "Left axillary artery",
+     "neighbourId": "FJ2221",
+     "neighbour": "Left circumflex scapular artery",
+     "kind": "end-to-end",
+     "gapMm": 9.6,
+     "diameterMm": 4.94
+    },
+    {
+     "id": "FJ2268",
+     "name": "Right axillary artery",
+     "neighbourId": "FJ2263",
+     "neighbour": "Acromial branch of right thoraco-acromial artery",
+     "kind": "end-to-end",
+     "gapMm": 9.52,
+     "diameterMm": 5.26
+    },
+    {
+     "id": "PK-60",
+     "name": "Left lateral brachial vein",
+     "neighbourId": "FJ2313",
+     "neighbour": "Left medial brachial vein",
+     "kind": "junction",
+     "gapMm": 9.4,
+     "diameterMm": 2.9
+    },
+    {
+     "id": "FJ2269",
+     "name": "Right axillary vein",
+     "neighbourId": "PK-42",
+     "neighbour": "Right posterior circumflex humeral vein",
+     "kind": "end-to-end",
+     "gapMm": 9.3,
+     "diameterMm": 3.81
+    },
+    {
+     "id": "FJ2330",
+     "name": "Pectoral branch of left thoraco-acromial artery",
+     "neighbourId": "PK-8",
+     "neighbour": "Left lateral mammary artery",
+     "kind": "junction",
+     "gapMm": 9.16,
+     "diameterMm": 2.14
+    },
+    {
+     "id": "FJ2370",
+     "name": "Right fourth common palmar digital artery",
+     "neighbourId": "FJ2346",
+     "neighbour": "Set of dorsal digital arteries",
+     "kind": "junction",
+     "gapMm": 8.93,
+     "diameterMm": 1.39
+    },
+    {
+     "id": "FJ2296",
+     "name": "Right radial vein",
+     "neighbourId": "FJ2272",
+     "neighbour": "Right cephalic vein",
+     "kind": "junction",
+     "gapMm": 8.92,
+     "diameterMm": 1.41
+    },
+    {
+     "id": "FJ2284",
+     "name": "Right dorsal scapular artery",
+     "neighbourId": "FJ1961",
+     "neighbour": "Posterior intercostal arteries",
+     "kind": "junction",
+     "gapMm": 8.82,
+     "diameterMm": 1.48
+    },
+    {
+     "id": "FJ2261",
+     "name": "Radial collateral branch of left deep brachial artery",
+     "neighbourId": "FJ2331",
+     "neighbour": "Middle collateral branch of left deep brachial artery",
+     "kind": "end-to-end",
+     "gapMm": 8.8,
+     "diameterMm": 3.3
+    },
+    {
+     "id": "FJ2244",
+     "name": "Left radial vein",
+     "neighbourId": "FJ2320",
+     "neighbour": "Left palmar metacarpal vein",
+     "kind": "end-to-end",
+     "gapMm": 8.73,
+     "diameterMm": 1.2
+    },
+    {
+     "id": "FJ2310",
+     "name": "Right ulnar artery",
+     "neighbourId": "FJ2297",
+     "neighbour": "Right recurrent interosseous artery",
+     "kind": "end-to-end",
+     "gapMm": 8.56,
+     "diameterMm": 4.09
+    },
+    {
+     "id": "FJ2331",
+     "name": "Middle collateral branch of left deep brachial artery",
+     "neighbourId": "FJ2243",
+     "neighbour": "Left radial recurrent artery",
+     "kind": "end-to-end",
+     "gapMm": 8.44,
+     "diameterMm": 3.24
+    },
+    {
+     "id": "FJ2356",
+     "name": "Proper palmar digital vein of right middle finger",
+     "neighbourId": "FJ2355",
+     "neighbour": "Proper palmar digital vein of right index finger",
+     "kind": "junction",
+     "gapMm": 8.42,
+     "diameterMm": 1.31
+    },
+    {
+     "id": "FJ2287",
+     "name": "Right median cubital vein",
+     "neighbourId": "FJ2272",
+     "neighbour": "Right cephalic vein",
+     "kind": "end-to-end",
+     "gapMm": 8.32,
+     "diameterMm": 4.08
+    },
+    {
+     "id": "FJ2331",
+     "name": "Middle collateral branch of left deep brachial artery",
+     "neighbourId": "FJ2243",
+     "neighbour": "Left radial recurrent artery",
+     "kind": "end-to-end",
+     "gapMm": 8.32,
+     "diameterMm": 3.2
+    },
+    {
+     "id": "FJ2300",
+     "name": "Right superficial palmar arterial arch",
+     "neighbourId": "FJ2289",
+     "neighbour": "Right palmar metacarpal artery",
+     "kind": "end-to-end",
+     "gapMm": 8.09,
+     "diameterMm": 2.4
+    },
+    {
+     "id": "FJ2301",
+     "name": "Right superficial palmar venous arch",
+     "neighbourId": "FJ2351",
+     "neighbour": "Proper palmar digital vein of right little finger",
+     "kind": "end-to-end",
+     "gapMm": 7.92,
+     "diameterMm": 1.75
+    },
+    {
+     "id": "FJ2277",
+     "name": "Right deep brachial artery",
+     "neighbourId": "PKC-314",
+     "neighbour": "Right deep brachial artery",
+     "kind": "end-to-end",
+     "gapMm": 7.78,
+     "diameterMm": 3.94
+    },
+    {
+     "id": "FJ2221",
+     "name": "Left circumflex scapular artery",
+     "neighbourId": "FJ2216",
+     "neighbour": "Left axillary artery",
+     "kind": "end-to-end",
+     "gapMm": 7.66,
+     "diameterMm": 2.08
+    },
+    {
+     "id": "FJ2237",
+     "name": "Left palmar metacarpal artery",
+     "neighbourId": "FJ2317",
+     "neighbour": "Left third common palmar digital artery",
+     "kind": "end-to-end",
+     "gapMm": 7.61,
+     "diameterMm": 1.52
+    },
+    {
+     "id": "FJ2214",
+     "name": "Left anterior interosseous artery",
+     "neighbourId": "FJ2223",
+     "neighbour": "Left common interosseous artery",
+     "kind": "end-to-end",
+     "gapMm": 7.57,
+     "diameterMm": 2.48
+    },
+    {
+     "id": "FJ2266",
+     "name": "Right anterior interosseous artery",
+     "neighbourId": "FJ2275",
+     "neighbour": "Right common interosseous artery",
+     "kind": "end-to-end",
+     "gapMm": 7.48,
+     "diameterMm": 2.44
+    },
+    {
+     "id": "FJ2235",
+     "name": "Left median cubital vein",
+     "neighbourId": "FJ2218",
+     "neighbour": "Left basilic vein",
+     "kind": "junction",
+     "gapMm": 7.47,
+     "diameterMm": 4.11
+    },
+    {
+     "id": "FJ2280",
+     "name": "Dorsal venous network of right hand",
+     "neighbourId": "FJ2290",
+     "neighbour": "Right palmar metacarpal vein",
+     "kind": "end-to-end",
+     "gapMm": 7.43,
+     "diameterMm": 3.36
+    },
+    {
+     "id": "FJ2287",
+     "name": "Right median cubital vein",
+     "neighbourId": "PK-56",
+     "neighbour": "Right lateral brachial vein",
+     "kind": "end-to-end",
+     "gapMm": 7.34,
+     "diameterMm": 4.14
+    },
+    {
+     "id": "PK-42",
+     "name": "Right posterior circumflex humeral vein",
+     "neighbourId": "FJ2265",
+     "neighbour": "Right anterior circumflex humeral vein",
+     "kind": "junction",
+     "gapMm": 7.23,
+     "diameterMm": 2.47
+    },
+    {
+     "id": "FJ2330",
+     "name": "Pectoral branch of left thoraco-acromial artery",
+     "neighbourId": "FJ2211",
+     "neighbour": "Acromial branch of left thoraco-acromial artery",
+     "kind": "end-to-end",
+     "gapMm": 7.16,
+     "diameterMm": 3.72
+    },
+    {
+     "id": "FJ2326",
+     "name": "Proper palmar digital vein of left middle finger",
+     "neighbourId": "FJ2325",
+     "neighbour": "Proper palmar digital vein of left index finger",
+     "kind": "junction",
+     "gapMm": 6.97,
+     "diameterMm": 1.45
+    },
+    {
+     "id": "FJ2330",
+     "name": "Pectoral branch of left thoraco-acromial artery",
+     "neighbourId": "PK-8",
+     "neighbour": "Left lateral mammary artery",
+     "kind": "junction",
+     "gapMm": 6.92,
+     "diameterMm": 1.49
+    },
+    {
+     "id": "FJ2334",
+     "name": "Lateral proper palmar digital artery of left middle finger",
+     "neighbourId": "FJ2333",
+     "neighbour": "Medial proper palmar digital artery of left index finger",
+     "kind": "junction",
+     "gapMm": 6.84,
+     "diameterMm": 1.47
+    },
+    {
+     "id": "FJ2228",
+     "name": "Dorsal venous network of left hand",
+     "neighbourId": "FJ2238",
+     "neighbour": "Left palmar metacarpal vein",
+     "kind": "junction",
+     "gapMm": 6.76,
+     "diameterMm": 3.26
+    },
+    {
+     "id": "FJ2268",
+     "name": "Right axillary artery",
+     "neighbourId": "FJ2263",
+     "neighbour": "Acromial branch of right thoraco-acromial artery",
+     "kind": "end-to-end",
+     "gapMm": 6.75,
+     "diameterMm": 5.66
+    },
+    {
+     "id": "FJ2313",
+     "name": "Left medial brachial vein",
+     "neighbourId": "FJ2235",
+     "neighbour": "Left median cubital vein",
+     "kind": "end-to-end",
+     "gapMm": 6.68,
+     "diameterMm": 4.9
+    },
+    {
+     "id": "FJ2279",
+     "name": "Right deep palmar arch",
+     "neighbourId": "FJ2289",
+     "neighbour": "Right palmar metacarpal artery",
+     "kind": "junction",
+     "gapMm": 6.67,
+     "diameterMm": 3.12
+    },
+    {
+     "id": "FJ2296",
+     "name": "Right radial vein",
+     "neighbourId": "FJ2272",
+     "neighbour": "Right cephalic vein",
+     "kind": "end-to-end",
+     "gapMm": 6.62,
+     "diameterMm": 2.7
+    },
+    {
+     "id": "FJ2242",
+     "name": "Left radial artery",
+     "neighbourId": "FJ2227",
+     "neighbour": "Left deep palmar arch",
+     "kind": "end-to-end",
+     "gapMm": 6.6,
+     "diameterMm": 2.87
+    },
+    {
+     "id": "FJ2300",
+     "name": "Right superficial palmar arterial arch",
+     "neighbourId": "PK-45",
+     "neighbour": "Right deep palmar branch of ulnar artery",
+     "kind": "end-to-end",
+     "gapMm": 6.6,
+     "diameterMm": 2.84
+    },
+    {
+     "id": "FJ2227",
+     "name": "Left deep palmar arch",
+     "neighbourId": "FJ2248",
+     "neighbour": "Left superficial palmar arterial arch",
+     "kind": "end-to-end",
+     "gapMm": 6.58,
+     "diameterMm": 2.89
+    },
+    {
+     "id": "FJ2242",
+     "name": "Left radial artery",
+     "neighbourId": "FJ2243",
+     "neighbour": "Left radial recurrent artery",
+     "kind": "end-to-end",
+     "gapMm": 6.3,
+     "diameterMm": 4.15
+    },
+    {
+     "id": "FJ2270",
+     "name": "Right basilic vein",
+     "neighbourId": "FJ2287",
+     "neighbour": "Right median cubital vein",
+     "kind": "end-to-end",
+     "gapMm": 6.29,
+     "diameterMm": 5.49
+    },
+    {
+     "id": "FJ2287",
+     "name": "Right median cubital vein",
+     "neighbourId": "FJ2296",
+     "neighbour": "Right radial vein",
+     "kind": "end-to-end",
+     "gapMm": 6.29,
+     "diameterMm": 4.1
+    },
+    {
+     "id": "FJ2342",
+     "name": "Right arteria radialis indicis",
+     "neighbourId": "FJ2363",
+     "neighbour": "Right arteria radialis indicis",
+     "kind": "end-to-end",
+     "gapMm": 6.29,
+     "diameterMm": 1.78
+    },
+    {
+     "id": "FJ2235",
+     "name": "Left median cubital vein",
+     "neighbourId": "FJ2244",
+     "neighbour": "Left radial vein",
+     "kind": "end-to-end",
+     "gapMm": 6.28,
+     "diameterMm": 4.11
+    },
+    {
+     "id": "FJ2238",
+     "name": "Left palmar metacarpal vein",
+     "neighbourId": "FJ2323",
+     "neighbour": "Left palmar metacarpal vein",
+     "kind": "junction",
+     "gapMm": 6.14,
+     "diameterMm": 1.72
+    },
+    {
+     "id": "FJ2220",
+     "name": "Left cephalic vein",
+     "neighbourId": "FJ2217",
+     "neighbour": "Left axillary vein",
+     "kind": "junction",
+     "gapMm": 5.95,
+     "diameterMm": 5.1
+    },
+    {
+     "id": "FJ2242",
+     "name": "Left radial artery",
+     "neighbourId": "PKC-317",
+     "neighbour": "Left posterior ulnar recurrent artery",
+     "kind": "end-to-end",
+     "gapMm": 5.9,
+     "diameterMm": 4.29
+    },
+    {
+     "id": "FJ2287",
+     "name": "Right median cubital vein",
+     "neighbourId": "FJ2312",
+     "neighbour": "Right ulnar vein",
+     "kind": "end-to-end",
+     "gapMm": 5.9,
+     "diameterMm": 4.12
+    },
+    {
+     "id": "FJ2342",
+     "name": "Right arteria radialis indicis",
+     "neighbourId": "FJ2363",
+     "neighbour": "Right arteria radialis indicis",
+     "kind": "end-to-end",
+     "gapMm": 5.54,
+     "diameterMm": 1.76
+    },
+    {
+     "id": "FJ2266",
+     "name": "Right anterior interosseous artery",
+     "neighbourId": "FJ2275",
+     "neighbour": "Right common interosseous artery",
+     "kind": "end-to-end",
+     "gapMm": 5.53,
+     "diameterMm": 2.57
+    },
+    {
+     "id": "FJ2215",
+     "name": "Left inferior ulnar collateral artery",
+     "neighbourId": "FJ2219",
+     "neighbour": "Left brachial artery",
+     "kind": "junction",
+     "gapMm": 5.49,
+     "diameterMm": 2.47
+    },
+    {
+     "id": "PK-43",
+     "name": "Right posterior interosseous artery",
+     "neighbourId": "FJ2266",
+     "neighbour": "Right anterior interosseous artery",
+     "kind": "end-to-end",
+     "gapMm": 5.37,
+     "diameterMm": 1.88
+    },
+    {
+     "id": "FJ2220",
+     "name": "Left cephalic vein",
+     "neighbourId": "FJ2235",
+     "neighbour": "Left median cubital vein",
+     "kind": "junction",
+     "gapMm": 5.34,
+     "diameterMm": 4.26
+    },
+    {
+     "id": "FJ2341",
+     "name": "Right medial brachial vein",
+     "neighbourId": "FJ2287",
+     "neighbour": "Right median cubital vein",
+     "kind": "end-to-end",
+     "gapMm": 5.29,
+     "diameterMm": 5.25
+    },
+    {
+     "id": "FJ2300",
+     "name": "Right superficial palmar arterial arch",
+     "neighbourId": "FJ2342",
+     "neighbour": "Right arteria radialis indicis",
+     "kind": "end-to-end",
+     "gapMm": 5.22,
+     "diameterMm": 2.52
+    },
+    {
+     "id": "FJ2332",
+     "name": "Left arteria radialis indicis",
+     "neighbourId": "FJ2314",
+     "neighbour": "Left arteria radialis indicis",
+     "kind": "end-to-end",
+     "gapMm": 5.18,
+     "diameterMm": 1.21
+    },
+    {
+     "id": "FJ2245",
+     "name": "Left recurrent interosseous artery",
+     "neighbourId": "PK-53",
+     "neighbour": "Left posterior interosseous artery",
+     "kind": "end-to-end",
+     "gapMm": 5.12,
+     "diameterMm": 2.23
+    },
+    {
+     "id": "PK-53",
+     "name": "Left posterior interosseous artery",
+     "neighbourId": "FJ2245",
+     "neighbour": "Left recurrent interosseous artery",
+     "kind": "end-to-end",
+     "gapMm": 5.07,
+     "diameterMm": 3.23
+    },
+    {
+     "id": "FJ2346",
+     "name": "Set of dorsal digital arteries",
+     "neighbourId": "FJ2347",
+     "neighbour": "Set of dorsal metacarpal arteries",
+     "kind": "end-to-end",
+     "gapMm": 5.01,
+     "diameterMm": 1.64
+    },
+    {
+     "id": "FJ2296",
+     "name": "Right radial vein",
+     "neighbourId": "FJ2312",
+     "neighbour": "Right ulnar vein",
+     "kind": "end-to-end",
+     "gapMm": 4.77,
+     "diameterMm": 3.92
+    },
+    {
+     "id": "FJ2235",
+     "name": "Left median cubital vein",
+     "neighbourId": "FJ2218",
+     "neighbour": "Left basilic vein",
+     "kind": "junction",
+     "gapMm": 4.75,
+     "diameterMm": 4.12
+    },
+    {
+     "id": "FJ2290",
+     "name": "Right palmar metacarpal vein",
+     "neighbourId": "FJ2349",
+     "neighbour": "Proper palmar digital vein of right little finger",
+     "kind": "junction",
+     "gapMm": 4.75,
+     "diameterMm": 1.75
+    },
+    {
+     "id": "FJ2364",
+     "name": "Medial proper palmar digital artery of right index finger",
+     "neighbourId": "FJ2343",
+     "neighbour": "Right first common palmar digital artery",
+     "kind": "end-to-end",
+     "gapMm": 4.55,
+     "diameterMm": 1.52
+    },
+    {
+     "id": "FJ2333",
+     "name": "Medial proper palmar digital artery of left index finger",
+     "neighbourId": "FJ2315",
+     "neighbour": "Left first common palmar digital artery",
+     "kind": "end-to-end",
+     "gapMm": 4.52,
+     "diameterMm": 1.61
+    },
+    {
+     "id": "FJ2246",
+     "name": "Left subscapular artery",
+     "neighbourId": "FJ2239",
+     "neighbour": "Left posterior circumflex humeral artery",
+     "kind": "end-to-end",
+     "gapMm": 4.21,
+     "diameterMm": 4.29
+    },
+    {
+     "id": "FJ2217",
+     "name": "Left axillary vein",
+     "neighbourId": "PK-52",
+     "neighbour": "Left posterior circumflex humeral vein",
+     "kind": "end-to-end",
+     "gapMm": 4.14,
+     "diameterMm": 4.69
+    },
+    {
+     "id": "FJ2222",
+     "name": "Left circumflex scapular vein",
+     "neighbourId": "FJ2250",
+     "neighbour": "Left suprascapular vein",
+     "kind": "junction",
+     "gapMm": 4.12,
+     "diameterMm": 1.26
+    },
+    {
+     "id": "FJ2234",
+     "name": "Left median antebrachial vein",
+     "neighbourId": "FJ2218",
+     "neighbour": "Left basilic vein",
+     "kind": "junction",
+     "gapMm": 4.08,
+     "diameterMm": 3.44
+    },
+    {
+     "id": "FJ2290",
+     "name": "Right palmar metacarpal vein",
+     "neighbourId": "FJ2353",
+     "neighbour": "Right palmar metacarpal vein",
+     "kind": "junction",
+     "gapMm": 4.07,
+     "diameterMm": 1.73
+    },
+    {
+     "id": "FJ2216",
+     "name": "Left axillary artery",
+     "neighbourId": "FJ2221",
+     "neighbour": "Left circumflex scapular artery",
+     "kind": "end-to-end",
+     "gapMm": 4.05,
+     "diameterMm": 4.85
+    },
+    {
+     "id": "FJ2228",
+     "name": "Dorsal venous network of left hand",
+     "neighbourId": "FJ2218",
+     "neighbour": "Left basilic vein",
+     "kind": "end-to-end",
+     "gapMm": 4.03,
+     "diameterMm": 3.2
+    },
+    {
+     "id": "FJ2218",
+     "name": "Left basilic vein",
+     "neighbourId": "FJ2235",
+     "neighbour": "Left median cubital vein",
+     "kind": "end-to-end",
+     "gapMm": 3.95,
+     "diameterMm": 5.27
+    },
+    {
+     "id": "FJ2374",
+     "name": "Left superior ulnar collateral artery",
+     "neighbourId": "FJ2219",
+     "neighbour": "Left brachial artery",
+     "kind": "junction",
+     "gapMm": 3.74,
+     "diameterMm": 2.76
+    },
+    {
+     "id": "FJ2277",
+     "name": "Right deep brachial artery",
+     "neighbourId": "PKC-314",
+     "neighbour": "Right deep brachial artery",
+     "kind": "end-to-end",
+     "gapMm": 3.71,
+     "diameterMm": 4.03
+    },
+    {
+     "id": "FJ2216",
+     "name": "Left axillary artery",
+     "neighbourId": "FJ2252",
+     "neighbour": "Trunk of left thoraco-acromial artery",
+     "kind": "end-to-end",
+     "gapMm": 3.69,
+     "diameterMm": 4.14
+    },
+    {
+     "id": "FJ2240",
+     "name": "Left posterior circumflex humeral artery",
+     "neighbourId": "FJ2239",
+     "neighbour": "Left posterior circumflex humeral artery",
+     "kind": "end-to-end",
+     "gapMm": 3.68,
+     "diameterMm": 2.03
+    },
+    {
+     "id": "FJ2235",
+     "name": "Left median cubital vein",
+     "neighbourId": "FJ2218",
+     "neighbour": "Left basilic vein",
+     "kind": "junction",
+     "gapMm": 3.64,
+     "diameterMm": 4.16
+    },
+    {
+     "id": "PK-60",
+     "name": "Left lateral brachial vein",
+     "neighbourId": "FJ2313",
+     "neighbour": "Left medial brachial vein",
+     "kind": "end-to-end",
+     "gapMm": 3.56,
+     "diameterMm": 3.85
+    },
+    {
+     "id": "FJ2265",
+     "name": "Right anterior circumflex humeral vein",
+     "neighbourId": "PK-56",
+     "neighbour": "Right lateral brachial vein",
+     "kind": "end-to-end",
+     "gapMm": 3.52,
+     "diameterMm": 5.04
+    },
+    {
+     "id": "FJ2216",
+     "name": "Left axillary artery",
+     "neighbourId": "FJ2211",
+     "neighbour": "Acromial branch of left thoraco-acromial artery",
+     "kind": "end-to-end",
+     "gapMm": 3.39,
+     "diameterMm": 4
+    },
+    {
+     "id": "FJ2217",
+     "name": "Left axillary vein",
+     "neighbourId": "FJ2233",
+     "neighbour": "Left lateral thoracic vein",
+     "kind": "end-to-end",
+     "gapMm": 3.28,
+     "diameterMm": 4.22
+    },
+    {
+     "id": "FJ2218",
+     "name": "Left basilic vein",
+     "neighbourId": "FJ2313",
+     "neighbour": "Left medial brachial vein",
+     "kind": "end-to-end",
+     "gapMm": 3.22,
+     "diameterMm": 3.85
+    },
+    {
+     "id": "PK-56",
+     "name": "Right lateral brachial vein",
+     "neighbourId": "FJ2287",
+     "neighbour": "Right median cubital vein",
+     "kind": "end-to-end",
+     "gapMm": 3.03,
+     "diameterMm": 4.14
+    },
+    {
+     "id": "FJ2373",
+     "name": "Right superior ulnar collateral artery",
+     "neighbourId": "FJ2271",
+     "neighbour": "Right brachial artery",
+     "kind": "junction",
+     "gapMm": 2.96,
+     "diameterMm": 2.74
+    },
+    {
+     "id": "FJ2294",
+     "name": "Right radial artery",
+     "neighbourId": "FJ2295",
+     "neighbour": "Right radial recurrent artery",
+     "kind": "junction",
+     "gapMm": 2.8,
+     "diameterMm": 2.51
+    },
+    {
+     "id": "FJ2244",
+     "name": "Left radial vein",
+     "neighbourId": "PK-62",
+     "neighbour": "Left posterior interosseous vein",
+     "kind": "end-to-end",
+     "gapMm": 2.76,
+     "diameterMm": 3.99
+    },
+    {
+     "id": "FJ2240",
+     "name": "Left posterior circumflex humeral artery",
+     "neighbourId": "FJ2216",
+     "neighbour": "Left axillary artery",
+     "kind": "end-to-end",
+     "gapMm": 2.64,
+     "diameterMm": 1.89
+    },
+    {
+     "id": "FJ2261",
+     "name": "Radial collateral branch of left deep brachial artery",
+     "neighbourId": "FJ2243",
+     "neighbour": "Left radial recurrent artery",
+     "kind": "end-to-end",
+     "gapMm": 2.63,
+     "diameterMm": 3.25
+    },
+    {
+     "id": "FJ2315",
+     "name": "Left first common palmar digital artery",
+     "neighbourId": "FJ2334",
+     "neighbour": "Lateral proper palmar digital artery of left middle finger",
+     "kind": "end-to-end",
+     "gapMm": 2.58,
+     "diameterMm": 1.76
+    },
+    {
+     "id": "FJ2312",
+     "name": "Right ulnar vein",
+     "neighbourId": "FJ2296",
+     "neighbour": "Right radial vein",
+     "kind": "end-to-end",
+     "gapMm": 2.56,
+     "diameterMm": 2.05
+    },
+    {
+     "id": "FJ2294",
+     "name": "Right radial artery",
+     "neighbourId": "PK-44",
+     "neighbour": "Right superficial palmar branch of radial artery",
+     "kind": "end-to-end",
+     "gapMm": 2.43,
+     "diameterMm": 1.19
+    },
+    {
+     "id": "FJ2331",
+     "name": "Middle collateral branch of left deep brachial artery",
+     "neighbourId": "FJ2245",
+     "neighbour": "Left recurrent interosseous artery",
+     "kind": "junction",
+     "gapMm": 2.41,
+     "diameterMm": 1.73
+    },
+    {
+     "id": "FJ2373",
+     "name": "Right superior ulnar collateral artery",
+     "neighbourId": "FJ2271",
+     "neighbour": "Right brachial artery",
+     "kind": "junction",
+     "gapMm": 2.38,
+     "diameterMm": 2.73
+    },
+    {
+     "id": "FJ2310",
+     "name": "Right ulnar artery",
+     "neighbourId": "PKC-316",
+     "neighbour": "Right posterior ulnar recurrent artery",
+     "kind": "junction",
+     "gapMm": 2.33,
+     "diameterMm": 4.24
+    },
+    {
+     "id": "FJ2225",
+     "name": "Left deep brachial artery",
+     "neighbourId": "FJ2219",
+     "neighbour": "Left brachial artery",
+     "kind": "junction",
+     "gapMm": 2.31,
+     "diameterMm": 3.92
+    },
+    {
+     "id": "FJ2221",
+     "name": "Left circumflex scapular artery",
+     "neighbourId": "FJ2216",
+     "neighbour": "Left axillary artery",
+     "kind": "end-to-end",
+     "gapMm": 2.14,
+     "diameterMm": 2.32
+    },
+    {
+     "id": "FJ2227",
+     "name": "Left deep palmar arch",
+     "neighbourId": "FJ2237",
+     "neighbour": "Left palmar metacarpal artery",
+     "kind": "junction",
+     "gapMm": 2.11,
+     "diameterMm": 2.94
+    },
+    {
+     "id": "PK-60",
+     "name": "Left lateral brachial vein",
+     "neighbourId": "FJ2244",
+     "neighbour": "Left radial vein",
+     "kind": "end-to-end",
+     "gapMm": 2.1,
+     "diameterMm": 4.13
+    },
+    {
+     "id": "FJ2261",
+     "name": "Radial collateral branch of left deep brachial artery",
+     "neighbourId": "FJ2331",
+     "neighbour": "Middle collateral branch of left deep brachial artery",
+     "kind": "end-to-end",
+     "gapMm": 2,
+     "diameterMm": 2.38
+    },
+    {
+     "id": "FJ2240",
+     "name": "Left posterior circumflex humeral artery",
+     "neighbourId": "FJ2212",
+     "neighbour": "Left anterior circumflex humeral artery",
+     "kind": "end-to-end",
+     "gapMm": 1.95,
+     "diameterMm": 1.19
+    },
+    {
+     "id": "FJ2273",
+     "name": "Right circumflex scapular artery",
+     "neighbourId": "FJ2298",
+     "neighbour": "Right subscapular artery",
+     "kind": "end-to-end",
+     "gapMm": 1.92,
+     "diameterMm": 1.52
+    },
+    {
+     "id": "FJ2267",
+     "name": "Right inferior ulnar collateral artery",
+     "neighbourId": "FJ2271",
+     "neighbour": "Right brachial artery",
+     "kind": "junction",
+     "gapMm": 1.83,
+     "diameterMm": 2.69
+    },
+    {
+     "id": "FJ2331",
+     "name": "Middle collateral branch of left deep brachial artery",
+     "neighbourId": "FJ2261",
+     "neighbour": "Radial collateral branch of left deep brachial artery",
+     "kind": "junction",
+     "gapMm": 1.79,
+     "diameterMm": 3.23
+    },
+    {
+     "id": "FJ2370",
+     "name": "Right fourth common palmar digital artery",
+     "neighbourId": "FJ2300",
+     "neighbour": "Right superficial palmar arterial arch",
+     "kind": "junction",
+     "gapMm": 1.68,
+     "diameterMm": 1.65
+    },
+    {
+     "id": "FJ2369",
+     "name": "Medial proper palmar digital artery of right ring finger",
+     "neighbourId": "FJ2346",
+     "neighbour": "Set of dorsal digital arteries",
+     "kind": "junction",
+     "gapMm": 1.67,
+     "diameterMm": 0.8
+    },
+    {
+     "id": "FJ2248",
+     "name": "Left superficial palmar arterial arch",
+     "neighbourId": "PK-55",
+     "neighbour": "Left deep palmar branch of ulnar artery",
+     "kind": "end-to-end",
+     "gapMm": 1.63,
+     "diameterMm": 2.87
+    },
+    {
+     "id": "FJ2300",
+     "name": "Right superficial palmar arterial arch",
+     "neighbourId": "FJ2279",
+     "neighbour": "Right deep palmar arch",
+     "kind": "junction",
+     "gapMm": 1.59,
+     "diameterMm": 2.82
+    },
+    {
+     "id": "FJ2248",
+     "name": "Left superficial palmar arterial arch",
+     "neighbourId": "FJ2237",
+     "neighbour": "Left palmar metacarpal artery",
+     "kind": "end-to-end",
+     "gapMm": 1.57,
+     "diameterMm": 2.85
+    },
+    {
+     "id": "FJ2319",
+     "name": "Proper palmar digital vein of left little finger",
+     "neighbourId": "FJ2322",
+     "neighbour": "Common palmar digital vein",
+     "kind": "end-to-end",
+     "gapMm": 1.49,
+     "diameterMm": 1.76
+    },
+    {
+     "id": "FJ2239",
+     "name": "Left posterior circumflex humeral artery",
+     "neighbourId": "FJ2240",
+     "neighbour": "Left posterior circumflex humeral artery",
+     "kind": "end-to-end",
+     "gapMm": 1.48,
+     "diameterMm": 1.87
+    },
+    {
+     "id": "FJ2240",
+     "name": "Left posterior circumflex humeral artery",
+     "neighbourId": "FJ2239",
+     "neighbour": "Left posterior circumflex humeral artery",
+     "kind": "end-to-end",
+     "gapMm": 1.36,
+     "diameterMm": 1.87
+    },
+    {
+     "id": "FJ2343",
+     "name": "Right first common palmar digital artery",
+     "neighbourId": "FJ2300",
+     "neighbour": "Right superficial palmar arterial arch",
+     "kind": "end-to-end",
+     "gapMm": 1.34,
+     "diameterMm": 1.75
+    },
+    {
+     "id": "FJ2291",
+     "name": "Right posterior circumflex humeral artery",
+     "neighbourId": "FJ2264",
+     "neighbour": "Right anterior circumflex humeral artery",
+     "kind": "end-to-end",
+     "gapMm": 1.25,
+     "diameterMm": 1.35
+    },
+    {
+     "id": "FJ2262",
+     "name": "Radial collateral branch of right deep brachial artery",
+     "neighbourId": "FJ2362",
+     "neighbour": "Middle collateral branch of right deep brachial artery",
+     "kind": "end-to-end",
+     "gapMm": 1.21,
+     "diameterMm": 2.18
+    },
+    {
+     "id": "FJ2262",
+     "name": "Radial collateral branch of right deep brachial artery",
+     "neighbourId": "FJ2362",
+     "neighbour": "Middle collateral branch of right deep brachial artery",
+     "kind": "end-to-end",
+     "gapMm": 1.21,
+     "diameterMm": 2.18
+    },
+    {
+     "id": "FJ2262",
+     "name": "Radial collateral branch of right deep brachial artery",
+     "neighbourId": "FJ2362",
+     "neighbour": "Middle collateral branch of right deep brachial artery",
+     "kind": "end-to-end",
+     "gapMm": 1.21,
+     "diameterMm": 2.18
+    },
+    {
+     "id": "FJ2372",
+     "name": "Right arteria princeps pollicis",
+     "neighbourId": "FJ2346",
+     "neighbour": "Set of dorsal digital arteries",
+     "kind": "junction",
+     "gapMm": 1.19,
+     "diameterMm": 0.8
+    },
+    {
+     "id": "PK-2",
+     "name": "Clavicular branch of right thoraco-acromial artery",
+     "neighbourId": "FJ2268",
+     "neighbour": "Right axillary artery",
+     "kind": "end-to-end",
+     "gapMm": 0.97,
+     "diameterMm": 1.61
+    },
+    {
+     "id": "FJ2345",
+     "name": "Right third common palmar digital artery",
+     "neighbourId": "FJ2289",
+     "neighbour": "Right palmar metacarpal artery",
+     "kind": "junction",
+     "gapMm": 0.86,
+     "diameterMm": 1.7
+    },
+    {
+     "id": "PKC-317",
+     "name": "Left posterior ulnar recurrent artery",
+     "neighbourId": "FJ2258",
+     "neighbour": "Left ulnar artery",
+     "kind": "junction",
+     "gapMm": 0.6,
+     "diameterMm": 1.19
+    }
+   ],
+   "lower": [
+    {
+     "id": "FJ2121",
+     "name": "Left small saphenous vein",
+     "neighbourId": "FJ2107",
+     "neighbour": "Left genicular vein",
+     "kind": "junction",
+     "gapMm": 38.34,
+     "diameterMm": 4.76
+    },
+    {
+     "id": "FJ2193",
+     "name": "Right anterior tibial vein",
+     "neighbourId": "FJ2200",
+     "neighbour": "Right fibular vein",
+     "kind": "junction",
+     "gapMm": 36.86,
+     "diameterMm": 3.32
+    },
+    {
+     "id": "FJ2057",
+     "name": "Descending branch of right lateral circumflex femoral artery",
+     "neighbourId": "FJ2127",
+     "neighbour": "Set of perforating arteries",
+     "kind": "junction",
+     "gapMm": 36.81,
+     "diameterMm": 3.01
+    },
+    {
+     "id": "FJ2201",
+     "name": "Right lateral circumflex femoral vein",
+     "neighbourId": "FJ2135",
+     "neighbour": "Right deep femoral vein",
+     "kind": "junction",
+     "gapMm": 36.22,
+     "diameterMm": 3.9
+    },
+    {
+     "id": "FJ2121",
+     "name": "Left small saphenous vein",
+     "neighbourId": "FJ2107",
+     "neighbour": "Left genicular vein",
+     "kind": "junction",
+     "gapMm": 36.05,
+     "diameterMm": 3.66
+    },
+    {
+     "id": "FJ2151",
+     "name": "Right genicular vein",
+     "neighbourId": "FJ2132",
+     "neighbour": "Right anterior tibial vein",
+     "kind": "junction",
+     "gapMm": 34.78,
+     "diameterMm": 2.63
+    },
+    {
+     "id": "FJ2108",
+     "name": "Left genicular vein",
+     "neighbourId": "FJ2103",
+     "neighbour": "Left great saphenous vein",
+     "kind": "junction",
+     "gapMm": 34.76,
+     "diameterMm": 2.35
+    },
+    {
+     "id": "FJ2176",
+     "name": "Right small saphenous vein",
+     "neighbourId": "FJ2171",
+     "neighbour": "Right popliteal vein",
+     "kind": "junction",
+     "gapMm": 34.73,
+     "diameterMm": 4.76
+    },
+    {
+     "id": "FJ2188",
+     "name": "Left lateral circumflex femoral vein",
+     "neighbourId": "FJ2099",
+     "neighbour": "Left deep femoral vein",
+     "kind": "junction",
+     "gapMm": 31.99,
+     "diameterMm": 3.93
+    },
+    {
+     "id": "FJ2193",
+     "name": "Right anterior tibial vein",
+     "neighbourId": "FJ2200",
+     "neighbour": "Right fibular vein",
+     "kind": "junction",
+     "gapMm": 31.98,
+     "diameterMm": 4.23
+    },
+    {
+     "id": "FJ2130",
+     "name": "Right anterior tibial artery",
+     "neighbourId": "FJ2131",
+     "neighbour": "Right anterior tibial recurrent artery",
+     "kind": "junction",
+     "gapMm": 31.96,
+     "diameterMm": 5.51
+    },
+    {
+     "id": "FJ2065",
+     "name": "Left anterior tibial artery",
+     "neighbourId": "FJ2066",
+     "neighbour": "Left anterior tibial recurrent artery",
+     "kind": "junction",
+     "gapMm": 29.78,
+     "diameterMm": 3.32
+    },
+    {
+     "id": "FJ2077",
+     "name": "Left inferior medial genicular artery",
+     "neighbourId": "FJ2086",
+     "neighbour": "Left popliteal artery",
+     "kind": "junction",
+     "gapMm": 29.52,
+     "diameterMm": 3.19
+    },
+    {
+     "id": "FJ2124",
+     "name": "Left genicular vein",
+     "neighbourId": "FJ2097",
+     "neighbour": "Left anterior tibial vein",
+     "kind": "junction",
+     "gapMm": 28.99,
+     "diameterMm": 2.94
+    },
+    {
+     "id": "FJ2187",
+     "name": "Left fibular vein",
+     "neighbourId": "FJ2118",
+     "neighbour": "Left posterior tibial vein",
+     "kind": "junction",
+     "gapMm": 28.91,
+     "diameterMm": 4.94
+    },
+    {
+     "id": "FJ2065",
+     "name": "Left anterior tibial artery",
+     "neighbourId": "PK-103",
+     "neighbour": "Left fibular artery",
+     "kind": "junction",
+     "gapMm": 28.57,
+     "diameterMm": 4.94
+    },
+    {
+     "id": "FJ2188",
+     "name": "Left lateral circumflex femoral vein",
+     "neighbourId": "FJ2189",
+     "neighbour": "Left medial circumflex femoral vein",
+     "kind": "junction",
+     "gapMm": 28.57,
+     "diameterMm": 2.99
+    },
+    {
+     "id": "FJ2057",
+     "name": "Descending branch of right lateral circumflex femoral artery",
+     "neighbourId": "FJ2127",
+     "neighbour": "Set of perforating arteries",
+     "kind": "junction",
+     "gapMm": 28.26,
+     "diameterMm": 4.57
+    },
+    {
+     "id": "FJ2077",
+     "name": "Left inferior medial genicular artery",
+     "neighbourId": "FJ2066",
+     "neighbour": "Left anterior tibial recurrent artery",
+     "kind": "junction",
+     "gapMm": 28.01,
+     "diameterMm": 2.93
+    },
+    {
+     "id": "FJ2153",
+     "name": "Right genicular vein",
+     "neighbourId": "FJ2132",
+     "neighbour": "Right anterior tibial vein",
+     "kind": "junction",
+     "gapMm": 27.54,
+     "diameterMm": 2.19
+    },
+    {
+     "id": "FJ2201",
+     "name": "Right lateral circumflex femoral vein",
+     "neighbourId": "FJ2202",
+     "neighbour": "Right medial circumflex femoral vein",
+     "kind": "junction",
+     "gapMm": 26.84,
+     "diameterMm": 2.83
+    },
+    {
+     "id": "FJ2130",
+     "name": "Right anterior tibial artery",
+     "neighbourId": "PK-76",
+     "neighbour": "Right fibular artery",
+     "kind": "end-to-end",
+     "gapMm": 26.66,
+     "diameterMm": 5.55
+    },
+    {
+     "id": "FJ2179",
+     "name": "Right superficial medial plantar artery",
+     "neighbourId": "FJ2205",
+     "neighbour": "Set of plantar digital arteries proper",
+     "kind": "junction",
+     "gapMm": 26.5,
+     "diameterMm": 1.97
+    },
+    {
+     "id": "FJ2201",
+     "name": "Right lateral circumflex femoral vein",
+     "neighbourId": "FJ2135",
+     "neighbour": "Right deep femoral vein",
+     "kind": "junction",
+     "gapMm": 26.41,
+     "diameterMm": 4.38
+    },
+    {
+     "id": "FJ2130",
+     "name": "Right anterior tibial artery",
+     "neighbourId": "PK-74",
+     "neighbour": "Right anterior lateral malleolar artery",
+     "kind": "junction",
+     "gapMm": 25.58,
+     "diameterMm": 3
+    },
+    {
+     "id": "FJ2066",
+     "name": "Left anterior tibial recurrent artery",
+     "neighbourId": "PK-99",
+     "neighbour": "Left articular branch of descending genicular artery",
+     "kind": "junction",
+     "gapMm": 25.47,
+     "diameterMm": 2.44
+    },
+    {
+     "id": "FJ2188",
+     "name": "Left lateral circumflex femoral vein",
+     "neighbourId": "FJ2099",
+     "neighbour": "Left deep femoral vein",
+     "kind": "junction",
+     "gapMm": 25.14,
+     "diameterMm": 4.33
+    },
+    {
+     "id": "FJ2201",
+     "name": "Right lateral circumflex femoral vein",
+     "neighbourId": "FJ2135",
+     "neighbour": "Right deep femoral vein",
+     "kind": "junction",
+     "gapMm": 24.85,
+     "diameterMm": 4.23
+    },
+    {
+     "id": "FJ2188",
+     "name": "Left lateral circumflex femoral vein",
+     "neighbourId": "FJ2099",
+     "neighbour": "Left deep femoral vein",
+     "kind": "junction",
+     "gapMm": 24.71,
+     "diameterMm": 4.12
+    },
+    {
+     "id": "FJ2153",
+     "name": "Right genicular vein",
+     "neighbourId": "FJ2145",
+     "neighbour": "Right great saphenous vein",
+     "kind": "junction",
+     "gapMm": 24.45,
+     "diameterMm": 2.35
+    },
+    {
+     "id": "FJ2187",
+     "name": "Left fibular vein",
+     "neighbourId": "FJ2118",
+     "neighbour": "Left posterior tibial vein",
+     "kind": "junction",
+     "gapMm": 24.32,
+     "diameterMm": 4
+    },
+    {
+     "id": "FJ2182",
+     "name": "Right genicular vein",
+     "neighbourId": "FJ2132",
+     "neighbour": "Right anterior tibial vein",
+     "kind": "junction",
+     "gapMm": 23.93,
+     "diameterMm": 1.48
+    },
+    {
+     "id": "FJ2107",
+     "name": "Left genicular vein",
+     "neighbourId": "FJ2097",
+     "neighbour": "Left anterior tibial vein",
+     "kind": "junction",
+     "gapMm": 23.52,
+     "diameterMm": 2.53
+    },
+    {
+     "id": "FJ2125",
+     "name": "Left genicular vein",
+     "neighbourId": "FJ2097",
+     "neighbour": "Left anterior tibial vein",
+     "kind": "junction",
+     "gapMm": 22.93,
+     "diameterMm": 1.94
+    },
+    {
+     "id": "FJ2057",
+     "name": "Descending branch of right lateral circumflex femoral artery",
+     "neighbourId": "PK-68",
+     "neighbour": "Right transverse branch of lateral circumflex femoral artery",
+     "kind": "junction",
+     "gapMm": 22.63,
+     "diameterMm": 5.17
+    },
+    {
+     "id": "FJ2173",
+     "name": "Right posterior tibial vein",
+     "neighbourId": "FJ2200",
+     "neighbour": "Right fibular vein",
+     "kind": "junction",
+     "gapMm": 22.45,
+     "diameterMm": 4.12
+    },
+    {
+     "id": "FJ2175",
+     "name": "Set of plantar digital veins",
+     "neighbourId": "FJ2062",
+     "neighbour": "Dorsal venous arch of right foot",
+     "kind": "junction",
+     "gapMm": 22.41,
+     "diameterMm": 1.86
+    },
+    {
+     "id": "FJ2108",
+     "name": "Left genicular vein",
+     "neighbourId": "FJ2103",
+     "neighbour": "Left great saphenous vein",
+     "kind": "junction",
+     "gapMm": 22.29,
+     "diameterMm": 2.46
+    },
+    {
+     "id": "FJ2163",
+     "name": "Right lateral tarsal artery",
+     "neighbourId": "FJ2133",
+     "neighbour": "Right arcuate artery",
+     "kind": "junction",
+     "gapMm": 22.27,
+     "diameterMm": 3.2
+    },
+    {
+     "id": "FJ2200",
+     "name": "Right fibular vein",
+     "neighbourId": "FJ2173",
+     "neighbour": "Right posterior tibial vein",
+     "kind": "junction",
+     "gapMm": 22.19,
+     "diameterMm": 3.7
+    },
+    {
+     "id": "FJ2182",
+     "name": "Right genicular vein",
+     "neighbourId": "FJ2171",
+     "neighbour": "Right popliteal vein",
+     "kind": "junction",
+     "gapMm": 22.14,
+     "diameterMm": 2.59
+    },
+    {
+     "id": "FJ2163",
+     "name": "Right lateral tarsal artery",
+     "neighbourId": "FJ2055",
+     "neighbour": "Right dorsalis pedis artery",
+     "kind": "junction",
+     "gapMm": 22.05,
+     "diameterMm": 3.24
+    },
+    {
+     "id": "FJ2153",
+     "name": "Right genicular vein",
+     "neighbourId": "FJ2132",
+     "neighbour": "Right anterior tibial vein",
+     "kind": "junction",
+     "gapMm": 21.08,
+     "diameterMm": 2.12
+    },
+    {
+     "id": "PK-66",
+     "name": "Right medial circumflex femoral artery",
+     "neighbourId": "FJ2158",
+     "neighbour": "Right lateral circumflex femoral artery",
+     "kind": "junction",
+     "gapMm": 20.99,
+     "diameterMm": 2.92
+    },
+    {
+     "id": "FJ2087",
+     "name": "Left posterior tibial artery",
+     "neighbourId": "PK-103",
+     "neighbour": "Left fibular artery",
+     "kind": "end-to-end",
+     "gapMm": 20.72,
+     "diameterMm": 3.66
+    },
+    {
+     "id": "FJ2135",
+     "name": "Right deep femoral vein",
+     "neighbourId": "FJ2192",
+     "neighbour": "Set of perforating veins",
+     "kind": "junction",
+     "gapMm": 20.7,
+     "diameterMm": 4.32
+    },
+    {
+     "id": "FJ2067",
+     "name": "Left arcuate artery",
+     "neighbourId": "FJ2081",
+     "neighbour": "Left lateral tarsal artery",
+     "kind": "junction",
+     "gapMm": 20.45,
+     "diameterMm": 2.9
+    },
+    {
+     "id": "FJ2193",
+     "name": "Right anterior tibial vein",
+     "neighbourId": "FJ2200",
+     "neighbour": "Right fibular vein",
+     "kind": "end-to-end",
+     "gapMm": 20.26,
+     "diameterMm": 5.46
+    },
+    {
+     "id": "FJ2133",
+     "name": "Right arcuate artery",
+     "neighbourId": "FJ2163",
+     "neighbour": "Right lateral tarsal artery",
+     "kind": "junction",
+     "gapMm": 20.13,
+     "diameterMm": 2.92
+    },
+    {
+     "id": "FJ2117",
+     "name": "Left popliteal vein",
+     "neighbourId": "FJ2125",
+     "neighbour": "Left genicular vein",
+     "kind": "junction",
+     "gapMm": 20.04,
+     "diameterMm": 3.84
+    },
+    {
+     "id": "FJ2066",
+     "name": "Left anterior tibial recurrent artery",
+     "neighbourId": "FJ2080",
+     "neighbour": "Left lateral superior genicular artery",
+     "kind": "junction",
+     "gapMm": 19.99,
+     "diameterMm": 2.4
+    },
+    {
+     "id": "FJ2087",
+     "name": "Left posterior tibial artery",
+     "neighbourId": "PK-103",
+     "neighbour": "Left fibular artery",
+     "kind": "junction",
+     "gapMm": 19.93,
+     "diameterMm": 3.21
+    },
+    {
+     "id": "FJ2124",
+     "name": "Left genicular vein",
+     "neighbourId": "FJ2117",
+     "neighbour": "Left popliteal vein",
+     "kind": "junction",
+     "gapMm": 19.86,
+     "diameterMm": 3.61
+    },
+    {
+     "id": "FJ2073",
+     "name": "Left dorsalis pedis artery",
+     "neighbourId": "FJ2067",
+     "neighbour": "Left arcuate artery",
+     "kind": "end-to-end",
+     "gapMm": 19.61,
+     "diameterMm": 3.65
+    },
+    {
+     "id": "PK-99",
+     "name": "Left articular branch of descending genicular artery",
+     "neighbourId": "FJ2066",
+     "neighbour": "Left anterior tibial recurrent artery",
+     "kind": "junction",
+     "gapMm": 19.61,
+     "diameterMm": 1.24
+    },
+    {
+     "id": "FJ2152",
+     "name": "Right inferior medial genicular artery",
+     "neighbourId": "FJ2150",
+     "neighbour": "Right inferior lateral genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 19.51,
+     "diameterMm": 3.67
+    },
+    {
+     "id": "FJ2135",
+     "name": "Right deep femoral vein",
+     "neighbourId": "FJ2192",
+     "neighbour": "Set of perforating veins",
+     "kind": "junction",
+     "gapMm": 19.48,
+     "diameterMm": 2.68
+    },
+    {
+     "id": "FJ3616",
+     "name": "Right superior gluteal vein",
+     "neighbourId": "FJ3606",
+     "neighbour": "Right inferior gluteal vein",
+     "kind": "junction",
+     "gapMm": 19.07,
+     "diameterMm": 3.32
+    },
+    {
+     "id": "FJ2200",
+     "name": "Right fibular vein",
+     "neighbourId": "FJ2173",
+     "neighbour": "Right posterior tibial vein",
+     "kind": "junction",
+     "gapMm": 18.86,
+     "diameterMm": 3.71
+    },
+    {
+     "id": "FJ2179",
+     "name": "Right superficial medial plantar artery",
+     "neighbourId": "FJ2205",
+     "neighbour": "Set of plantar digital arteries proper",
+     "kind": "junction",
+     "gapMm": 18.67,
+     "diameterMm": 1.85
+    },
+    {
+     "id": "FJ2117",
+     "name": "Left popliteal vein",
+     "neighbourId": "FJ2107",
+     "neighbour": "Left genicular vein",
+     "kind": "end-to-end",
+     "gapMm": 18.64,
+     "diameterMm": 4.48
+    },
+    {
+     "id": "FJ3606",
+     "name": "Right inferior gluteal vein",
+     "neighbourId": "FJ3571",
+     "neighbour": "Right internal iliac vein",
+     "kind": "junction",
+     "gapMm": 18.63,
+     "diameterMm": 3.29
+    },
+    {
+     "id": "FJ2103",
+     "name": "Left great saphenous vein",
+     "neighbourId": "FJ2108",
+     "neighbour": "Left genicular vein",
+     "kind": "end-to-end",
+     "gapMm": 18.53,
+     "diameterMm": 3.81
+    },
+    {
+     "id": "FJ2173",
+     "name": "Right posterior tibial vein",
+     "neighbourId": "FJ2200",
+     "neighbour": "Right fibular vein",
+     "kind": "end-to-end",
+     "gapMm": 18.47,
+     "diameterMm": 3.39
+    },
+    {
+     "id": "FJ2076",
+     "name": "Left inferior lateral genicular artery",
+     "neighbourId": "FJ2086",
+     "neighbour": "Left popliteal artery",
+     "kind": "junction",
+     "gapMm": 18.42,
+     "diameterMm": 3.4
+    },
+    {
+     "id": "PK-72",
+     "name": "Right articular branch of descending genicular artery",
+     "neighbourId": "FJ2131",
+     "neighbour": "Right anterior tibial recurrent artery",
+     "kind": "junction",
+     "gapMm": 18.37,
+     "diameterMm": 1.24
+    },
+    {
+     "id": "FJ2170",
+     "name": "Right popliteal artery",
+     "neighbourId": "FJ2152",
+     "neighbour": "Right inferior medial genicular artery",
+     "kind": "junction",
+     "gapMm": 18.16,
+     "diameterMm": 4.11
+    },
+    {
+     "id": "FJ2170",
+     "name": "Right popliteal artery",
+     "neighbourId": "FJ2166",
+     "neighbour": "Right medial superior genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 17.8,
+     "diameterMm": 4.16
+    },
+    {
+     "id": "FJ2086",
+     "name": "Left popliteal artery",
+     "neighbourId": "FJ2069",
+     "neighbour": "Left descending genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 17.3,
+     "diameterMm": 3.71
+    },
+    {
+     "id": "FJ2089",
+     "name": "Left superficial medial plantar artery",
+     "neighbourId": "FJ2085",
+     "neighbour": "Left plantar arch",
+     "kind": "junction",
+     "gapMm": 17.27,
+     "diameterMm": 1.95
+    },
+    {
+     "id": "FJ2117",
+     "name": "Left popliteal vein",
+     "neighbourId": "FJ2183",
+     "neighbour": "Left anterior tibial vein",
+     "kind": "end-to-end",
+     "gapMm": 17.24,
+     "diameterMm": 5.78
+    },
+    {
+     "id": "FJ2171",
+     "name": "Right popliteal vein",
+     "neighbourId": "FJ2182",
+     "neighbour": "Right genicular vein",
+     "kind": "end-to-end",
+     "gapMm": 17.07,
+     "diameterMm": 5.12
+    },
+    {
+     "id": "FJ2171",
+     "name": "Right popliteal vein",
+     "neighbourId": "FJ2144",
+     "neighbour": "Right femoral vein",
+     "kind": "junction",
+     "gapMm": 16.91,
+     "diameterMm": 3.98
+    },
+    {
+     "id": "FJ2171",
+     "name": "Right popliteal vein",
+     "neighbourId": "FJ2193",
+     "neighbour": "Right anterior tibial vein",
+     "kind": "junction",
+     "gapMm": 16.78,
+     "diameterMm": 5.95
+    },
+    {
+     "id": "PK-93",
+     "name": "Left medial circumflex femoral artery",
+     "neighbourId": "FJ2074",
+     "neighbour": "Left femoral artery",
+     "kind": "junction",
+     "gapMm": 16.75,
+     "diameterMm": 4.37
+    },
+    {
+     "id": "FJ2152",
+     "name": "Right inferior medial genicular artery",
+     "neighbourId": "FJ2131",
+     "neighbour": "Right anterior tibial recurrent artery",
+     "kind": "end-to-end",
+     "gapMm": 16.17,
+     "diameterMm": 2.44
+    },
+    {
+     "id": "FJ2150",
+     "name": "Right inferior lateral genicular artery",
+     "neighbourId": "FJ2170",
+     "neighbour": "Right popliteal artery",
+     "kind": "end-to-end",
+     "gapMm": 16.11,
+     "diameterMm": 3.59
+    },
+    {
+     "id": "FJ2086",
+     "name": "Left popliteal artery",
+     "neighbourId": "FJ2069",
+     "neighbour": "Left descending genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 15.99,
+     "diameterMm": 5.26
+    },
+    {
+     "id": "FJ2175",
+     "name": "Set of plantar digital veins",
+     "neighbourId": "FJ2129",
+     "neighbour": "Plantar venous arch of right foot",
+     "kind": "junction",
+     "gapMm": 15.96,
+     "diameterMm": 1.99
+    },
+    {
+     "id": "FJ2079",
+     "name": "Left lateral plantar artery",
+     "neighbourId": "FJ2082",
+     "neighbour": "Left medial plantar artery",
+     "kind": "junction",
+     "gapMm": 15.84,
+     "diameterMm": 2.07
+    },
+    {
+     "id": "FJ2086",
+     "name": "Left popliteal artery",
+     "neighbourId": "FJ2077",
+     "neighbour": "Left inferior medial genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 15.53,
+     "diameterMm": 3.11
+    },
+    {
+     "id": "FJ3513",
+     "name": "Left inferior gluteal vein",
+     "neighbourId": "FJ3470",
+     "neighbour": "Left internal iliac vein",
+     "kind": "junction",
+     "gapMm": 15.51,
+     "diameterMm": 3.78
+    },
+    {
+     "id": "FJ3513",
+     "name": "Left inferior gluteal vein",
+     "neighbourId": "FJ3470",
+     "neighbour": "Left internal iliac vein",
+     "kind": "junction",
+     "gapMm": 15.47,
+     "diameterMm": 3.8
+    },
+    {
+     "id": "FJ2069",
+     "name": "Left descending genicular artery",
+     "neighbourId": "PK-99",
+     "neighbour": "Left articular branch of descending genicular artery",
+     "kind": "junction",
+     "gapMm": 15.46,
+     "diameterMm": 3.52
+    },
+    {
+     "id": "FJ2132",
+     "name": "Right anterior tibial vein",
+     "neighbourId": "FJ2181",
+     "neighbour": "Right genicular vein",
+     "kind": "junction",
+     "gapMm": 15.39,
+     "diameterMm": 1.78
+    },
+    {
+     "id": "FJ2108",
+     "name": "Left genicular vein",
+     "neighbourId": "FJ2103",
+     "neighbour": "Left great saphenous vein",
+     "kind": "junction",
+     "gapMm": 15.16,
+     "diameterMm": 2.54
+    },
+    {
+     "id": "FJ2171",
+     "name": "Right popliteal vein",
+     "neighbourId": "FJ2193",
+     "neighbour": "Right anterior tibial vein",
+     "kind": "junction",
+     "gapMm": 14.94,
+     "diameterMm": 3.82
+    },
+    {
+     "id": "FJ2117",
+     "name": "Left popliteal vein",
+     "neighbourId": "FJ2121",
+     "neighbour": "Left small saphenous vein",
+     "kind": "end-to-end",
+     "gapMm": 14.93,
+     "diameterMm": 4.87
+    },
+    {
+     "id": "FJ2117",
+     "name": "Left popliteal vein",
+     "neighbourId": "FJ2125",
+     "neighbour": "Left genicular vein",
+     "kind": "end-to-end",
+     "gapMm": 14.77,
+     "diameterMm": 3.25
+    },
+    {
+     "id": "FJ2171",
+     "name": "Right popliteal vein",
+     "neighbourId": "FJ2144",
+     "neighbour": "Right femoral vein",
+     "kind": "junction",
+     "gapMm": 14.67,
+     "diameterMm": 4.35
+    },
+    {
+     "id": "FJ2087",
+     "name": "Left posterior tibial artery",
+     "neighbourId": "FJ2093",
+     "neighbour": "Set of dorsal digital arteries",
+     "kind": "end-to-end",
+     "gapMm": 14.65,
+     "diameterMm": 3.76
+    },
+    {
+     "id": "FJ2181",
+     "name": "Right genicular vein",
+     "neighbourId": "FJ2171",
+     "neighbour": "Right popliteal vein",
+     "kind": "end-to-end",
+     "gapMm": 14.45,
+     "diameterMm": 3.93
+    },
+    {
+     "id": "FJ2151",
+     "name": "Right genicular vein",
+     "neighbourId": "FJ2171",
+     "neighbour": "Right popliteal vein",
+     "kind": "junction",
+     "gapMm": 14.12,
+     "diameterMm": 3.4
+    },
+    {
+     "id": "FJ2067",
+     "name": "Left arcuate artery",
+     "neighbourId": "FJ2081",
+     "neighbour": "Left lateral tarsal artery",
+     "kind": "junction",
+     "gapMm": 14.06,
+     "diameterMm": 2.81
+    },
+    {
+     "id": "FJ2093",
+     "name": "Set of dorsal digital arteries",
+     "neighbourId": "FJ2087",
+     "neighbour": "Left posterior tibial artery",
+     "kind": "junction",
+     "gapMm": 13.94,
+     "diameterMm": 3.13
+    },
+    {
+     "id": "FJ2182",
+     "name": "Right genicular vein",
+     "neighbourId": "FJ2171",
+     "neighbour": "Right popliteal vein",
+     "kind": "end-to-end",
+     "gapMm": 13.94,
+     "diameterMm": 2.67
+    },
+    {
+     "id": "FJ2086",
+     "name": "Left popliteal artery",
+     "neighbourId": "FJ2080",
+     "neighbour": "Left lateral superior genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 13.89,
+     "diameterMm": 4.93
+    },
+    {
+     "id": "FJ2094",
+     "name": "Set of perforating arteries",
+     "neighbourId": "FJ2090",
+     "neighbour": "Set of perforating arteries",
+     "kind": "junction",
+     "gapMm": 13.84,
+     "diameterMm": 2.81
+    },
+    {
+     "id": "FJ2117",
+     "name": "Left popliteal vein",
+     "neighbourId": "FJ2097",
+     "neighbour": "Left anterior tibial vein",
+     "kind": "end-to-end",
+     "gapMm": 13.79,
+     "diameterMm": 5.91
+    },
+    {
+     "id": "FJ2171",
+     "name": "Right popliteal vein",
+     "neighbourId": "FJ2176",
+     "neighbour": "Right small saphenous vein",
+     "kind": "junction",
+     "gapMm": 13.76,
+     "diameterMm": 3.68
+    },
+    {
+     "id": "FJ2097",
+     "name": "Left anterior tibial vein",
+     "neighbourId": "FJ2107",
+     "neighbour": "Left genicular vein",
+     "kind": "junction",
+     "gapMm": 13.75,
+     "diameterMm": 1.75
+    },
+    {
+     "id": "FJ3606",
+     "name": "Right inferior gluteal vein",
+     "neighbourId": "FJ3571",
+     "neighbour": "Right internal iliac vein",
+     "kind": "junction",
+     "gapMm": 13.72,
+     "diameterMm": 3.56
+    },
+    {
+     "id": "FJ2077",
+     "name": "Left inferior medial genicular artery",
+     "neighbourId": "FJ2066",
+     "neighbour": "Left anterior tibial recurrent artery",
+     "kind": "end-to-end",
+     "gapMm": 13.4,
+     "diameterMm": 2.4
+    },
+    {
+     "id": "FJ2182",
+     "name": "Right genicular vein",
+     "neighbourId": "FJ2132",
+     "neighbour": "Right anterior tibial vein",
+     "kind": "end-to-end",
+     "gapMm": 13.13,
+     "diameterMm": 2.08
+    },
+    {
+     "id": "FJ2170",
+     "name": "Right popliteal artery",
+     "neighbourId": "FJ2162",
+     "neighbour": "Right lateral superior genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 13.09,
+     "diameterMm": 5.21
+    },
+    {
+     "id": "FJ2076",
+     "name": "Left inferior lateral genicular artery",
+     "neighbourId": "FJ2084",
+     "neighbour": "Left middle genicular artery",
+     "kind": "junction",
+     "gapMm": 13,
+     "diameterMm": 2.39
+    },
+    {
+     "id": "FJ2163",
+     "name": "Right lateral tarsal artery",
+     "neighbourId": "FJ2055",
+     "neighbour": "Right dorsalis pedis artery",
+     "kind": "end-to-end",
+     "gapMm": 12.69,
+     "diameterMm": 3.37
+    },
+    {
+     "id": "FJ3606",
+     "name": "Right inferior gluteal vein",
+     "neighbourId": "FJ3572",
+     "neighbour": "Right internal iliac vein",
+     "kind": "junction",
+     "gapMm": 12.61,
+     "diameterMm": 2.85
+    },
+    {
+     "id": "FJ2132",
+     "name": "Right anterior tibial vein",
+     "neighbourId": "FJ2151",
+     "neighbour": "Right genicular vein",
+     "kind": "junction",
+     "gapMm": 12.57,
+     "diameterMm": 1.78
+    },
+    {
+     "id": "FJ2151",
+     "name": "Right genicular vein",
+     "neighbourId": "FJ2132",
+     "neighbour": "Right anterior tibial vein",
+     "kind": "junction",
+     "gapMm": 12.4,
+     "diameterMm": 2.27
+    },
+    {
+     "id": "PK-79",
+     "name": "Right superior gluteal artery",
+     "neighbourId": "PK-80",
+     "neighbour": "Right superficial branch of superior gluteal artery",
+     "kind": "junction",
+     "gapMm": 12.4,
+     "diameterMm": 5.45
+    },
+    {
+     "id": "FJ2121",
+     "name": "Left small saphenous vein",
+     "neighbourId": "FJ2117",
+     "neighbour": "Left popliteal vein",
+     "kind": "end-to-end",
+     "gapMm": 12.35,
+     "diameterMm": 3.21
+    },
+    {
+     "id": "FJ2066",
+     "name": "Left anterior tibial recurrent artery",
+     "neighbourId": "FJ2065",
+     "neighbour": "Left anterior tibial artery",
+     "kind": "junction",
+     "gapMm": 12.34,
+     "diameterMm": 2.24
+    },
+    {
+     "id": "FJ2130",
+     "name": "Right anterior tibial artery",
+     "neighbourId": "PK-75",
+     "neighbour": "Right anterior medial malleolar artery",
+     "kind": "end-to-end",
+     "gapMm": 12.13,
+     "diameterMm": 3.49
+    },
+    {
+     "id": "FJ2117",
+     "name": "Left popliteal vein",
+     "neighbourId": "FJ2125",
+     "neighbour": "Left genicular vein",
+     "kind": "junction",
+     "gapMm": 12.06,
+     "diameterMm": 3.57
+    },
+    {
+     "id": "FJ2124",
+     "name": "Left genicular vein",
+     "neighbourId": "FJ2117",
+     "neighbour": "Left popliteal vein",
+     "kind": "end-to-end",
+     "gapMm": 12.04,
+     "diameterMm": 3.72
+    },
+    {
+     "id": "FJ2203",
+     "name": "Set of perforating arteries",
+     "neighbourId": "PK-70",
+     "neighbour": "Right superficial external pudendal artery",
+     "kind": "end-to-end",
+     "gapMm": 11.95,
+     "diameterMm": 5.68
+    },
+    {
+     "id": "FJ2150",
+     "name": "Right inferior lateral genicular artery",
+     "neighbourId": "FJ2167",
+     "neighbour": "Right middle genicular artery",
+     "kind": "junction",
+     "gapMm": 11.87,
+     "diameterMm": 3.17
+    },
+    {
+     "id": "PK-76",
+     "name": "Right fibular artery",
+     "neighbourId": "FJ2172",
+     "neighbour": "Right posterior tibial artery",
+     "kind": "end-to-end",
+     "gapMm": 11.65,
+     "diameterMm": 3.93
+    },
+    {
+     "id": "PK-93",
+     "name": "Left medial circumflex femoral artery",
+     "neighbourId": "FJ2074",
+     "neighbour": "Left femoral artery",
+     "kind": "junction",
+     "gapMm": 11.47,
+     "diameterMm": 4.49
+    },
+    {
+     "id": "FJ2170",
+     "name": "Right popliteal artery",
+     "neighbourId": "FJ2166",
+     "neighbour": "Right medial superior genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 11.38,
+     "diameterMm": 4.85
+    },
+    {
+     "id": "FJ2107",
+     "name": "Left genicular vein",
+     "neighbourId": "FJ2097",
+     "neighbour": "Left anterior tibial vein",
+     "kind": "end-to-end",
+     "gapMm": 11.37,
+     "diameterMm": 2.2
+    },
+    {
+     "id": "PK-106",
+     "name": "Left superior gluteal artery",
+     "neighbourId": "PK-108",
+     "neighbour": "Left deep branch of superior gluteal artery",
+     "kind": "end-to-end",
+     "gapMm": 11.17,
+     "diameterMm": 5.44
+    },
+    {
+     "id": "FJ2176",
+     "name": "Right small saphenous vein",
+     "neighbourId": "FJ2171",
+     "neighbour": "Right popliteal vein",
+     "kind": "end-to-end",
+     "gapMm": 11.15,
+     "diameterMm": 4.42
+    },
+    {
+     "id": "FJ2132",
+     "name": "Right anterior tibial vein",
+     "neighbourId": "FJ2193",
+     "neighbour": "Right anterior tibial vein",
+     "kind": "junction",
+     "gapMm": 10.97,
+     "diameterMm": 1.34
+    },
+    {
+     "id": "FJ2137",
+     "name": "Right descending genicular artery",
+     "neighbourId": "FJ2166",
+     "neighbour": "Right medial superior genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 10.97,
+     "diameterMm": 2.7
+    },
+    {
+     "id": "PK-91",
+     "name": "Left deep femoral artery",
+     "neighbourId": "FJ2094",
+     "neighbour": "Set of perforating arteries",
+     "kind": "end-to-end",
+     "gapMm": 10.85,
+     "diameterMm": 5.24
+    },
+    {
+     "id": "PK-103",
+     "name": "Left fibular artery",
+     "neighbourId": "FJ2093",
+     "neighbour": "Set of dorsal digital arteries",
+     "kind": "end-to-end",
+     "gapMm": 10.81,
+     "diameterMm": 3.99
+    },
+    {
+     "id": "FJ2065",
+     "name": "Left anterior tibial artery",
+     "neighbourId": "PK-102",
+     "neighbour": "Left anterior medial malleolar artery",
+     "kind": "end-to-end",
+     "gapMm": 10.8,
+     "diameterMm": 3.8
+    },
+    {
+     "id": "PK-79",
+     "name": "Right superior gluteal artery",
+     "neighbourId": "PK-83",
+     "neighbour": "Right internal pudendal artery",
+     "kind": "end-to-end",
+     "gapMm": 10.77,
+     "diameterMm": 5.54
+    },
+    {
+     "id": "FJ2132",
+     "name": "Right anterior tibial vein",
+     "neighbourId": "FJ2151",
+     "neighbour": "Right genicular vein",
+     "kind": "junction",
+     "gapMm": 10.75,
+     "diameterMm": 1.73
+    },
+    {
+     "id": "PK-79",
+     "name": "Right superior gluteal artery",
+     "neighbourId": "PK-82",
+     "neighbour": "Right inferior gluteal artery",
+     "kind": "end-to-end",
+     "gapMm": 10.71,
+     "diameterMm": 5.71
+    },
+    {
+     "id": "FJ2150",
+     "name": "Right inferior lateral genicular artery",
+     "neighbourId": "FJ2167",
+     "neighbour": "Right middle genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 10.63,
+     "diameterMm": 2.24
+    },
+    {
+     "id": "PK-91",
+     "name": "Left deep femoral artery",
+     "neighbourId": "FJ2094",
+     "neighbour": "Set of perforating arteries",
+     "kind": "end-to-end",
+     "gapMm": 10.62,
+     "diameterMm": 5.17
+    },
+    {
+     "id": "FJ2171",
+     "name": "Right popliteal vein",
+     "neighbourId": "FJ2193",
+     "neighbour": "Right anterior tibial vein",
+     "kind": "end-to-end",
+     "gapMm": 10.48,
+     "diameterMm": 3.88
+    },
+    {
+     "id": "PK-106",
+     "name": "Left superior gluteal artery",
+     "neighbourId": "PK-110",
+     "neighbour": "Left internal pudendal artery",
+     "kind": "end-to-end",
+     "gapMm": 10.43,
+     "diameterMm": 5.53
+    },
+    {
+     "id": "FJ2069",
+     "name": "Left descending genicular artery",
+     "neighbourId": "FJ2083",
+     "neighbour": "Left medial superior genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 10.42,
+     "diameterMm": 2.66
+    },
+    {
+     "id": "FJ2069",
+     "name": "Left descending genicular artery",
+     "neighbourId": "FJ2083",
+     "neighbour": "Left medial superior genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 10.4,
+     "diameterMm": 2.64
+    },
+    {
+     "id": "FJ2170",
+     "name": "Right popliteal artery",
+     "neighbourId": "FJ2152",
+     "neighbour": "Right inferior medial genicular artery",
+     "kind": "junction",
+     "gapMm": 10.4,
+     "diameterMm": 3.12
+    },
+    {
+     "id": "FJ2135",
+     "name": "Right deep femoral vein",
+     "neighbourId": "FJ2192",
+     "neighbour": "Set of perforating veins",
+     "kind": "junction",
+     "gapMm": 10.36,
+     "diameterMm": 2.8
+    },
+    {
+     "id": "FJ2176",
+     "name": "Right small saphenous vein",
+     "neighbourId": "FJ2171",
+     "neighbour": "Right popliteal vein",
+     "kind": "end-to-end",
+     "gapMm": 10.29,
+     "diameterMm": 4.57
+    },
+    {
+     "id": "FJ2159",
+     "name": "Right lateral plantar artery",
+     "neighbourId": "FJ2164",
+     "neighbour": "Right medial plantar artery",
+     "kind": "end-to-end",
+     "gapMm": 10.23,
+     "diameterMm": 2.13
+    },
+    {
+     "id": "FJ2066",
+     "name": "Left anterior tibial recurrent artery",
+     "neighbourId": "FJ2076",
+     "neighbour": "Left inferior lateral genicular artery",
+     "kind": "junction",
+     "gapMm": 10.18,
+     "diameterMm": 2.34
+    },
+    {
+     "id": "FJ2057",
+     "name": "Descending branch of right lateral circumflex femoral artery",
+     "neighbourId": "FJ2158",
+     "neighbour": "Right lateral circumflex femoral artery",
+     "kind": "end-to-end",
+     "gapMm": 10.09,
+     "diameterMm": 3.68
+    },
+    {
+     "id": "PK-103",
+     "name": "Left fibular artery",
+     "neighbourId": "FJ2093",
+     "neighbour": "Set of dorsal digital arteries",
+     "kind": "end-to-end",
+     "gapMm": 10.08,
+     "diameterMm": 3.49
+    },
+    {
+     "id": "FJ2115",
+     "name": "Tributary of plantar venous arch",
+     "neighbourId": "FJ2118",
+     "neighbour": "Left posterior tibial vein",
+     "kind": "end-to-end",
+     "gapMm": 9.66,
+     "diameterMm": 2.28
+    },
+    {
+     "id": "FJ3606",
+     "name": "Right inferior gluteal vein",
+     "neighbourId": "FJ3572",
+     "neighbour": "Right internal iliac vein",
+     "kind": "junction",
+     "gapMm": 9.66,
+     "diameterMm": 2.67
+    },
+    {
+     "id": "FJ2086",
+     "name": "Left popliteal artery",
+     "neighbourId": "FJ2076",
+     "neighbour": "Left inferior lateral genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 9.49,
+     "diameterMm": 4.34
+    },
+    {
+     "id": "FJ2203",
+     "name": "Set of perforating arteries",
+     "neighbourId": "PK-64",
+     "neighbour": "Right deep femoral artery",
+     "kind": "end-to-end",
+     "gapMm": 9.49,
+     "diameterMm": 4.86
+    },
+    {
+     "id": "FJ2203",
+     "name": "Set of perforating arteries",
+     "neighbourId": "PK-64",
+     "neighbour": "Right deep femoral artery",
+     "kind": "end-to-end",
+     "gapMm": 9.47,
+     "diameterMm": 4.35
+    },
+    {
+     "id": "PK-106",
+     "name": "Left superior gluteal artery",
+     "neighbourId": "FJ3468",
+     "neighbour": "Left internal iliac artery",
+     "kind": "end-to-end",
+     "gapMm": 9.47,
+     "diameterMm": 5.77
+    },
+    {
+     "id": "FJ2093",
+     "name": "Set of dorsal digital arteries",
+     "neighbourId": "PK-103",
+     "neighbour": "Left fibular artery",
+     "kind": "end-to-end",
+     "gapMm": 9.24,
+     "diameterMm": 5.74
+    },
+    {
+     "id": "FJ2094",
+     "name": "Set of perforating arteries",
+     "neighbourId": "FJ2078",
+     "neighbour": "Left lateral circumflex femoral artery",
+     "kind": "end-to-end",
+     "gapMm": 9.2,
+     "diameterMm": 5.27
+    },
+    {
+     "id": "FJ2085",
+     "name": "Left plantar arch",
+     "neighbourId": "FJ2082",
+     "neighbour": "Left medial plantar artery",
+     "kind": "end-to-end",
+     "gapMm": 9.18,
+     "diameterMm": 2.12
+    },
+    {
+     "id": "FJ2170",
+     "name": "Right popliteal artery",
+     "neighbourId": "FJ2150",
+     "neighbour": "Right inferior lateral genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 9.16,
+     "diameterMm": 3.59
+    },
+    {
+     "id": "FJ2171",
+     "name": "Right popliteal vein",
+     "neighbourId": "FJ2144",
+     "neighbour": "Right femoral vein",
+     "kind": "junction",
+     "gapMm": 9.14,
+     "diameterMm": 3.44
+    },
+    {
+     "id": "FJ2086",
+     "name": "Left popliteal artery",
+     "neighbourId": "FJ2080",
+     "neighbour": "Left lateral superior genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 8.96,
+     "diameterMm": 5.87
+    },
+    {
+     "id": "PK-103",
+     "name": "Left fibular artery",
+     "neighbourId": "FJ2093",
+     "neighbour": "Set of dorsal digital arteries",
+     "kind": "end-to-end",
+     "gapMm": 8.93,
+     "diameterMm": 3.69
+    },
+    {
+     "id": "FJ2200",
+     "name": "Right fibular vein",
+     "neighbourId": "FJ2173",
+     "neighbour": "Right posterior tibial vein",
+     "kind": "end-to-end",
+     "gapMm": 8.9,
+     "diameterMm": 3.38
+    },
+    {
+     "id": "PK-64",
+     "name": "Right deep femoral artery",
+     "neighbourId": "FJ2203",
+     "neighbour": "Set of perforating arteries",
+     "kind": "end-to-end",
+     "gapMm": 8.78,
+     "diameterMm": 4.98
+    },
+    {
+     "id": "PK-64",
+     "name": "Right deep femoral artery",
+     "neighbourId": "FJ2203",
+     "neighbour": "Set of perforating arteries",
+     "kind": "junction",
+     "gapMm": 8.73,
+     "diameterMm": 4.46
+    },
+    {
+     "id": "PK-105",
+     "name": "Left lateral plantar vein",
+     "neighbourId": "FJ2118",
+     "neighbour": "Left posterior tibial vein",
+     "kind": "end-to-end",
+     "gapMm": 8.58,
+     "diameterMm": 3.73
+    },
+    {
+     "id": "PK-78",
+     "name": "Right lateral plantar vein",
+     "neighbourId": "FJ2173",
+     "neighbour": "Right posterior tibial vein",
+     "kind": "end-to-end",
+     "gapMm": 8.56,
+     "diameterMm": 3.73
+    },
+    {
+     "id": "FJ2082",
+     "name": "Left medial plantar artery",
+     "neighbourId": "FJ2087",
+     "neighbour": "Left posterior tibial artery",
+     "kind": "end-to-end",
+     "gapMm": 8.52,
+     "diameterMm": 2.27
+    },
+    {
+     "id": "PK-79",
+     "name": "Right superior gluteal artery",
+     "neighbourId": "PK-81",
+     "neighbour": "Right deep branch of superior gluteal artery",
+     "kind": "end-to-end",
+     "gapMm": 8.48,
+     "diameterMm": 5.81
+    },
+    {
+     "id": "FJ2086",
+     "name": "Left popliteal artery",
+     "neighbourId": "FJ2076",
+     "neighbour": "Left inferior lateral genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 8.44,
+     "diameterMm": 5.71
+    },
+    {
+     "id": "PK-106",
+     "name": "Left superior gluteal artery",
+     "neighbourId": "PK-108",
+     "neighbour": "Left deep branch of superior gluteal artery",
+     "kind": "end-to-end",
+     "gapMm": 8.39,
+     "diameterMm": 5.81
+    },
+    {
+     "id": "FJ2103",
+     "name": "Left great saphenous vein",
+     "neighbourId": "FJ2108",
+     "neighbour": "Left genicular vein",
+     "kind": "end-to-end",
+     "gapMm": 8.32,
+     "diameterMm": 4
+    },
+    {
+     "id": "FJ2172",
+     "name": "Right posterior tibial artery",
+     "neighbourId": "PK-77",
+     "neighbour": "Right circumflex fibular artery",
+     "kind": "end-to-end",
+     "gapMm": 8.25,
+     "diameterMm": 4.01
+    },
+    {
+     "id": "FJ2086",
+     "name": "Left popliteal artery",
+     "neighbourId": "FJ2076",
+     "neighbour": "Left inferior lateral genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 8.2,
+     "diameterMm": 4.26
+    },
+    {
+     "id": "PK-64",
+     "name": "Right deep femoral artery",
+     "neighbourId": "FJ2203",
+     "neighbour": "Set of perforating arteries",
+     "kind": "junction",
+     "gapMm": 8.16,
+     "diameterMm": 4.2
+    },
+    {
+     "id": "FJ2171",
+     "name": "Right popliteal vein",
+     "neighbourId": "FJ2182",
+     "neighbour": "Right genicular vein",
+     "kind": "junction",
+     "gapMm": 8.11,
+     "diameterMm": 3.65
+    },
+    {
+     "id": "PK-91",
+     "name": "Left deep femoral artery",
+     "neighbourId": "FJ2094",
+     "neighbour": "Set of perforating arteries",
+     "kind": "junction",
+     "gapMm": 8.11,
+     "diameterMm": 3.94
+    },
+    {
+     "id": "FJ3527",
+     "name": "Left obturator vein",
+     "neighbourId": "FJ3484",
+     "neighbour": "Left external iliac vein",
+     "kind": "end-to-end",
+     "gapMm": 8.06,
+     "diameterMm": 2.81
+    },
+    {
+     "id": "PK-103",
+     "name": "Left fibular artery",
+     "neighbourId": "FJ2093",
+     "neighbour": "Set of dorsal digital arteries",
+     "kind": "end-to-end",
+     "gapMm": 8.04,
+     "diameterMm": 3.83
+    },
+    {
+     "id": "PK-64",
+     "name": "Right deep femoral artery",
+     "neighbourId": "FJ2203",
+     "neighbour": "Set of perforating arteries",
+     "kind": "end-to-end",
+     "gapMm": 7.92,
+     "diameterMm": 4.79
+    },
+    {
+     "id": "FJ2164",
+     "name": "Right medial plantar artery",
+     "neighbourId": "FJ2172",
+     "neighbour": "Right posterior tibial artery",
+     "kind": "end-to-end",
+     "gapMm": 7.9,
+     "diameterMm": 2.3
+    },
+    {
+     "id": "FJ2169",
+     "name": "Right plantar arch",
+     "neighbourId": "FJ2136",
+     "neighbour": "Right deep plantar artery",
+     "kind": "end-to-end",
+     "gapMm": 7.82,
+     "diameterMm": 2.14
+    },
+    {
+     "id": "FJ2069",
+     "name": "Left descending genicular artery",
+     "neighbourId": "FJ2086",
+     "neighbour": "Left popliteal artery",
+     "kind": "end-to-end",
+     "gapMm": 7.78,
+     "diameterMm": 5.27
+    },
+    {
+     "id": "FJ2170",
+     "name": "Right popliteal artery",
+     "neighbourId": "FJ2167",
+     "neighbour": "Right middle genicular artery",
+     "kind": "junction",
+     "gapMm": 7.78,
+     "diameterMm": 3.79
+    },
+    {
+     "id": "FJ2170",
+     "name": "Right popliteal artery",
+     "neighbourId": "FJ2130",
+     "neighbour": "Right anterior tibial artery",
+     "kind": "junction",
+     "gapMm": 7.76,
+     "diameterMm": 2.83
+    },
+    {
+     "id": "FJ2069",
+     "name": "Left descending genicular artery",
+     "neighbourId": "FJ2083",
+     "neighbour": "Left medial superior genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 7.66,
+     "diameterMm": 3.04
+    },
+    {
+     "id": "FJ2113",
+     "name": "Tributary of plantar venous arch",
+     "neighbourId": "FJ2118",
+     "neighbour": "Left posterior tibial vein",
+     "kind": "end-to-end",
+     "gapMm": 7.66,
+     "diameterMm": 2.12
+    },
+    {
+     "id": "FJ2203",
+     "name": "Set of perforating arteries",
+     "neighbourId": "PK-64",
+     "neighbour": "Right deep femoral artery",
+     "kind": "end-to-end",
+     "gapMm": 7.6,
+     "diameterMm": 5.02
+    },
+    {
+     "id": "FJ3527",
+     "name": "Left obturator vein",
+     "neighbourId": "FJ3484",
+     "neighbour": "Left external iliac vein",
+     "kind": "junction",
+     "gapMm": 7.49,
+     "diameterMm": 1.81
+    },
+    {
+     "id": "FJ2087",
+     "name": "Left posterior tibial artery",
+     "neighbourId": "PK-104",
+     "neighbour": "Left circumflex fibular artery",
+     "kind": "end-to-end",
+     "gapMm": 7.48,
+     "diameterMm": 3.83
+    },
+    {
+     "id": "FJ2057",
+     "name": "Descending branch of right lateral circumflex femoral artery",
+     "neighbourId": "FJ2203",
+     "neighbour": "Set of perforating arteries",
+     "kind": "end-to-end",
+     "gapMm": 7.47,
+     "diameterMm": 3.98
+    },
+    {
+     "id": "FJ2137",
+     "name": "Right descending genicular artery",
+     "neighbourId": "FJ2170",
+     "neighbour": "Right popliteal artery",
+     "kind": "end-to-end",
+     "gapMm": 7.44,
+     "diameterMm": 5.7
+    },
+    {
+     "id": "FJ2193",
+     "name": "Right anterior tibial vein",
+     "neighbourId": "FJ2132",
+     "neighbour": "Right anterior tibial vein",
+     "kind": "end-to-end",
+     "gapMm": 7.35,
+     "diameterMm": 4.29
+    },
+    {
+     "id": "FJ2069",
+     "name": "Left descending genicular artery",
+     "neighbourId": "FJ2083",
+     "neighbour": "Left medial superior genicular artery",
+     "kind": "junction",
+     "gapMm": 7.26,
+     "diameterMm": 3.16
+    },
+    {
+     "id": "FJ2182",
+     "name": "Right genicular vein",
+     "neighbourId": "FJ2132",
+     "neighbour": "Right anterior tibial vein",
+     "kind": "end-to-end",
+     "gapMm": 7.22,
+     "diameterMm": 2.07
+    },
+    {
+     "id": "FJ2174",
+     "name": "Set of perforating veins",
+     "neighbourId": "FJ2207",
+     "neighbour": "Plantar metatarsal vein",
+     "kind": "junction",
+     "gapMm": 7.06,
+     "diameterMm": 1.7
+    },
+    {
+     "id": "FJ2183",
+     "name": "Left anterior tibial vein",
+     "neighbourId": "FJ2118",
+     "neighbour": "Left posterior tibial vein",
+     "kind": "junction",
+     "gapMm": 7.05,
+     "diameterMm": 3.72
+    },
+    {
+     "id": "FJ2121",
+     "name": "Left small saphenous vein",
+     "neighbourId": "FJ2117",
+     "neighbour": "Left popliteal vein",
+     "kind": "end-to-end",
+     "gapMm": 7.03,
+     "diameterMm": 3.56
+    },
+    {
+     "id": "FJ2167",
+     "name": "Right middle genicular artery",
+     "neighbourId": "FJ2170",
+     "neighbour": "Right popliteal artery",
+     "kind": "end-to-end",
+     "gapMm": 7.02,
+     "diameterMm": 3.28
+    },
+    {
+     "id": "FJ2097",
+     "name": "Left anterior tibial vein",
+     "neighbourId": "FJ2107",
+     "neighbour": "Left genicular vein",
+     "kind": "end-to-end",
+     "gapMm": 6.94,
+     "diameterMm": 1.68
+    },
+    {
+     "id": "FJ2119",
+     "name": "Set of perforating veins",
+     "neighbourId": "FJ2191",
+     "neighbour": "Plantar metatarsal vein",
+     "kind": "junction",
+     "gapMm": 6.94,
+     "diameterMm": 1.61
+    },
+    {
+     "id": "PK-64",
+     "name": "Right deep femoral artery",
+     "neighbourId": "FJ2203",
+     "neighbour": "Set of perforating arteries",
+     "kind": "junction",
+     "gapMm": 6.94,
+     "diameterMm": 3.94
+    },
+    {
+     "id": "FJ2117",
+     "name": "Left popliteal vein",
+     "neighbourId": "FJ2107",
+     "neighbour": "Left genicular vein",
+     "kind": "end-to-end",
+     "gapMm": 6.93,
+     "diameterMm": 5.84
+    },
+    {
+     "id": "FJ3606",
+     "name": "Right inferior gluteal vein",
+     "neighbourId": "FJ3572",
+     "neighbour": "Right internal iliac vein",
+     "kind": "junction",
+     "gapMm": 6.93,
+     "diameterMm": 2.33
+    },
+    {
+     "id": "PK-64",
+     "name": "Right deep femoral artery",
+     "neighbourId": "FJ2203",
+     "neighbour": "Set of perforating arteries",
+     "kind": "end-to-end",
+     "gapMm": 6.89,
+     "diameterMm": 5.44
+    },
+    {
+     "id": "FJ2187",
+     "name": "Left fibular vein",
+     "neighbourId": "FJ2118",
+     "neighbour": "Left posterior tibial vein",
+     "kind": "end-to-end",
+     "gapMm": 6.73,
+     "diameterMm": 2.54
+    },
+    {
+     "id": "FJ2080",
+     "name": "Left lateral superior genicular artery",
+     "neighbourId": "FJ2066",
+     "neighbour": "Left anterior tibial recurrent artery",
+     "kind": "junction",
+     "gapMm": 6.68,
+     "diameterMm": 2.01
+    },
+    {
+     "id": "FJ2197",
+     "name": "Set of dorsal digital arteries",
+     "neighbourId": "PK-76",
+     "neighbour": "Right fibular artery",
+     "kind": "end-to-end",
+     "gapMm": 6.65,
+     "diameterMm": 5.46
+    },
+    {
+     "id": "FJ2120",
+     "name": "Set of plantar digital veins",
+     "neighbourId": "FJ2113",
+     "neighbour": "Tributary of plantar venous arch",
+     "kind": "end-to-end",
+     "gapMm": 6.61,
+     "diameterMm": 1.89
+    },
+    {
+     "id": "FJ2207",
+     "name": "Plantar metatarsal vein",
+     "neighbourId": "FJ2175",
+     "neighbour": "Set of plantar digital veins",
+     "kind": "junction",
+     "gapMm": 6.58,
+     "diameterMm": 1.84
+    },
+    {
+     "id": "FJ2073",
+     "name": "Left dorsalis pedis artery",
+     "neighbourId": "FJ2065",
+     "neighbour": "Left anterior tibial artery",
+     "kind": "end-to-end",
+     "gapMm": 6.57,
+     "diameterMm": 4.77
+    },
+    {
+     "id": "FJ2086",
+     "name": "Left popliteal artery",
+     "neighbourId": "FJ2066",
+     "neighbour": "Left anterior tibial recurrent artery",
+     "kind": "end-to-end",
+     "gapMm": 6.51,
+     "diameterMm": 3.43
+    },
+    {
+     "id": "FJ2103",
+     "name": "Left great saphenous vein",
+     "neighbourId": "FJ3533",
+     "neighbour": "Left testicular vein",
+     "kind": "end-to-end",
+     "gapMm": 6.37,
+     "diameterMm": 3.68
+    },
+    {
+     "id": "FJ2203",
+     "name": "Set of perforating arteries",
+     "neighbourId": "PK-64",
+     "neighbour": "Right deep femoral artery",
+     "kind": "end-to-end",
+     "gapMm": 6.13,
+     "diameterMm": 3.21
+    },
+    {
+     "id": "FJ2094",
+     "name": "Set of perforating arteries",
+     "neighbourId": "PK-92",
+     "neighbour": "Left perforating branch of deep femoral artery",
+     "kind": "junction",
+     "gapMm": 6.1,
+     "diameterMm": 4.14
+    },
+    {
+     "id": "FJ2203",
+     "name": "Set of perforating arteries",
+     "neighbourId": "FJ2143",
+     "neighbour": "Right femoral artery",
+     "kind": "junction",
+     "gapMm": 5.94,
+     "diameterMm": 3.57
+    },
+    {
+     "id": "FJ2138",
+     "name": "Set of perforating veins",
+     "neighbourId": "FJ2199",
+     "neighbour": "Right dorsal metatarsal vein",
+     "kind": "junction",
+     "gapMm": 5.93,
+     "diameterMm": 1.69
+    },
+    {
+     "id": "FJ2107",
+     "name": "Left genicular vein",
+     "neighbourId": "FJ2117",
+     "neighbour": "Left popliteal vein",
+     "kind": "end-to-end",
+     "gapMm": 5.8,
+     "diameterMm": 3.92
+    },
+    {
+     "id": "FJ2163",
+     "name": "Right lateral tarsal artery",
+     "neighbourId": "FJ2055",
+     "neighbour": "Right dorsalis pedis artery",
+     "kind": "end-to-end",
+     "gapMm": 5.8,
+     "diameterMm": 3.41
+    },
+    {
+     "id": "FJ2124",
+     "name": "Left genicular vein",
+     "neighbourId": "FJ2121",
+     "neighbour": "Left small saphenous vein",
+     "kind": "end-to-end",
+     "gapMm": 5.77,
+     "diameterMm": 4.75
+    },
+    {
+     "id": "FJ3531",
+     "name": "Left superior gluteal vein",
+     "neighbourId": "FJ3616",
+     "neighbour": "Right superior gluteal vein",
+     "kind": "end-to-end",
+     "gapMm": 5.77,
+     "diameterMm": 4.85
+    },
+    {
+     "id": "FJ2132",
+     "name": "Right anterior tibial vein",
+     "neighbourId": "FJ2151",
+     "neighbour": "Right genicular vein",
+     "kind": "junction",
+     "gapMm": 5.66,
+     "diameterMm": 1.68
+    },
+    {
+     "id": "FJ2132",
+     "name": "Right anterior tibial vein",
+     "neighbourId": "FJ2151",
+     "neighbour": "Right genicular vein",
+     "kind": "junction",
+     "gapMm": 5.66,
+     "diameterMm": 1.68
+    },
+    {
+     "id": "FJ2117",
+     "name": "Left popliteal vein",
+     "neighbourId": "FJ2124",
+     "neighbour": "Left genicular vein",
+     "kind": "end-to-end",
+     "gapMm": 5.52,
+     "diameterMm": 3.6
+    },
+    {
+     "id": "FJ2162",
+     "name": "Right lateral superior genicular artery",
+     "neighbourId": "FJ2170",
+     "neighbour": "Right popliteal artery",
+     "kind": "end-to-end",
+     "gapMm": 5.45,
+     "diameterMm": 2.92
+    },
+    {
+     "id": "FJ2152",
+     "name": "Right inferior medial genicular artery",
+     "neighbourId": "FJ2131",
+     "neighbour": "Right anterior tibial recurrent artery",
+     "kind": "end-to-end",
+     "gapMm": 5.33,
+     "diameterMm": 1.99
+    },
+    {
+     "id": "PK-92",
+     "name": "Left perforating branch of deep femoral artery",
+     "neighbourId": "PK-91",
+     "neighbour": "Left deep femoral artery",
+     "kind": "end-to-end",
+     "gapMm": 5.33,
+     "diameterMm": 2.33
+    },
+    {
+     "id": "PK-66",
+     "name": "Right medial circumflex femoral artery",
+     "neighbourId": "PK-64",
+     "neighbour": "Right deep femoral artery",
+     "kind": "junction",
+     "gapMm": 4.98,
+     "diameterMm": 4.1
+    },
+    {
+     "id": "FJ2083",
+     "name": "Left medial superior genicular artery",
+     "neighbourId": "FJ2069",
+     "neighbour": "Left descending genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 4.95,
+     "diameterMm": 1.36
+    },
+    {
+     "id": "FJ2083",
+     "name": "Left medial superior genicular artery",
+     "neighbourId": "FJ2080",
+     "neighbour": "Left lateral superior genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 4.91,
+     "diameterMm": 2.73
+    },
+    {
+     "id": "FJ2097",
+     "name": "Left anterior tibial vein",
+     "neighbourId": "FJ2108",
+     "neighbour": "Left genicular vein",
+     "kind": "end-to-end",
+     "gapMm": 4.85,
+     "diameterMm": 2.25
+    },
+    {
+     "id": "PK-79",
+     "name": "Right superior gluteal artery",
+     "neighbourId": "PK-82",
+     "neighbour": "Right inferior gluteal artery",
+     "kind": "end-to-end",
+     "gapMm": 4.83,
+     "diameterMm": 5.48
+    },
+    {
+     "id": "FJ2197",
+     "name": "Set of dorsal digital arteries",
+     "neighbourId": "PK-76",
+     "neighbour": "Right fibular artery",
+     "kind": "end-to-end",
+     "gapMm": 4.8,
+     "diameterMm": 3.11
+    },
+    {
+     "id": "FJ2137",
+     "name": "Right descending genicular artery",
+     "neighbourId": "FJ2166",
+     "neighbour": "Right medial superior genicular artery",
+     "kind": "junction",
+     "gapMm": 4.73,
+     "diameterMm": 3.16
+    },
+    {
+     "id": "FJ2130",
+     "name": "Right anterior tibial artery",
+     "neighbourId": "FJ2170",
+     "neighbour": "Right popliteal artery",
+     "kind": "end-to-end",
+     "gapMm": 4.68,
+     "diameterMm": 4.45
+    },
+    {
+     "id": "FJ2083",
+     "name": "Left medial superior genicular artery",
+     "neighbourId": "FJ2069",
+     "neighbour": "Left descending genicular artery",
+     "kind": "junction",
+     "gapMm": 4.63,
+     "diameterMm": 1.82
+    },
+    {
+     "id": "PK-79",
+     "name": "Right superior gluteal artery",
+     "neighbourId": "PK-81",
+     "neighbour": "Right deep branch of superior gluteal artery",
+     "kind": "end-to-end",
+     "gapMm": 4.59,
+     "diameterMm": 5.45
+    },
+    {
+     "id": "PK-91",
+     "name": "Left deep femoral artery",
+     "neighbourId": "PK-92",
+     "neighbour": "Left perforating branch of deep femoral artery",
+     "kind": "end-to-end",
+     "gapMm": 4.59,
+     "diameterMm": 5.65
+    },
+    {
+     "id": "FJ2117",
+     "name": "Left popliteal vein",
+     "neighbourId": "FJ2124",
+     "neighbour": "Left genicular vein",
+     "kind": "junction",
+     "gapMm": 4.57,
+     "diameterMm": 4.26
+    },
+    {
+     "id": "FJ2186",
+     "name": "Left dorsal metatarsal vein",
+     "neighbourId": "FJ2185",
+     "neighbour": "Set of dorsal digital veins",
+     "kind": "junction",
+     "gapMm": 4.51,
+     "diameterMm": 2.68
+    },
+    {
+     "id": "FJ2153",
+     "name": "Right genicular vein",
+     "neighbourId": "FJ2132",
+     "neighbour": "Right anterior tibial vein",
+     "kind": "junction",
+     "gapMm": 4.48,
+     "diameterMm": 1.76
+    },
+    {
+     "id": "FJ2153",
+     "name": "Right genicular vein",
+     "neighbourId": "FJ2145",
+     "neighbour": "Right great saphenous vein",
+     "kind": "end-to-end",
+     "gapMm": 4.47,
+     "diameterMm": 2.71
+    },
+    {
+     "id": "FJ2061",
+     "name": "Dorsal venous arch of right foot",
+     "neighbourId": "FJ2199",
+     "neighbour": "Right dorsal metatarsal vein",
+     "kind": "junction",
+     "gapMm": 4.45,
+     "diameterMm": 2.68
+    },
+    {
+     "id": "FJ2063",
+     "name": "Descending branch of left lateral circumflex femoral artery",
+     "neighbourId": "FJ2094",
+     "neighbour": "Set of perforating arteries",
+     "kind": "end-to-end",
+     "gapMm": 4.44,
+     "diameterMm": 5.29
+    },
+    {
+     "id": "PK-105",
+     "name": "Left lateral plantar vein",
+     "neighbourId": "FJ2120",
+     "neighbour": "Set of plantar digital veins",
+     "kind": "end-to-end",
+     "gapMm": 4.43,
+     "diameterMm": 2.66
+    },
+    {
+     "id": "FJ2137",
+     "name": "Right descending genicular artery",
+     "neighbourId": "FJ2131",
+     "neighbour": "Right anterior tibial recurrent artery",
+     "kind": "junction",
+     "gapMm": 4.4,
+     "diameterMm": 2.56
+    },
+    {
+     "id": "PK-91",
+     "name": "Left deep femoral artery",
+     "neighbourId": "PK-92",
+     "neighbour": "Left perforating branch of deep femoral artery",
+     "kind": "junction",
+     "gapMm": 4.37,
+     "diameterMm": 4.61
+    },
+    {
+     "id": "FJ2171",
+     "name": "Right popliteal vein",
+     "neighbourId": "FJ2181",
+     "neighbour": "Right genicular vein",
+     "kind": "end-to-end",
+     "gapMm": 4.27,
+     "diameterMm": 3.18
+    },
+    {
+     "id": "FJ2066",
+     "name": "Left anterior tibial recurrent artery",
+     "neighbourId": "FJ2065",
+     "neighbour": "Left anterior tibial artery",
+     "kind": "junction",
+     "gapMm": 4.25,
+     "diameterMm": 2.29
+    },
+    {
+     "id": "FJ2066",
+     "name": "Left anterior tibial recurrent artery",
+     "neighbourId": "FJ2065",
+     "neighbour": "Left anterior tibial artery",
+     "kind": "junction",
+     "gapMm": 4.25,
+     "diameterMm": 2.33
+    },
+    {
+     "id": "FJ2187",
+     "name": "Left fibular vein",
+     "neighbourId": "FJ2118",
+     "neighbour": "Left posterior tibial vein",
+     "kind": "end-to-end",
+     "gapMm": 4.25,
+     "diameterMm": 3.61
+    },
+    {
+     "id": "FJ2164",
+     "name": "Right medial plantar artery",
+     "neighbourId": "FJ2179",
+     "neighbour": "Right superficial medial plantar artery",
+     "kind": "end-to-end",
+     "gapMm": 4.21,
+     "diameterMm": 2.1
+    },
+    {
+     "id": "PK-93",
+     "name": "Left medial circumflex femoral artery",
+     "neighbourId": "FJ2074",
+     "neighbour": "Left femoral artery",
+     "kind": "junction",
+     "gapMm": 4.14,
+     "diameterMm": 4.78
+    },
+    {
+     "id": "PK-64",
+     "name": "Right deep femoral artery",
+     "neighbourId": "PK-65",
+     "neighbour": "Right perforating branch of deep femoral artery",
+     "kind": "junction",
+     "gapMm": 4.12,
+     "diameterMm": 5.34
+    },
+    {
+     "id": "FJ2097",
+     "name": "Left anterior tibial vein",
+     "neighbourId": "FJ2108",
+     "neighbour": "Left genicular vein",
+     "kind": "end-to-end",
+     "gapMm": 4.11,
+     "diameterMm": 1.76
+    },
+    {
+     "id": "FJ2117",
+     "name": "Left popliteal vein",
+     "neighbourId": "FJ2107",
+     "neighbour": "Left genicular vein",
+     "kind": "end-to-end",
+     "gapMm": 4.11,
+     "diameterMm": 3.68
+    },
+    {
+     "id": "FJ2130",
+     "name": "Right anterior tibial artery",
+     "neighbourId": "FJ2055",
+     "neighbour": "Right dorsalis pedis artery",
+     "kind": "end-to-end",
+     "gapMm": 4.05,
+     "diameterMm": 3.56
+    },
+    {
+     "id": "FJ3513",
+     "name": "Left inferior gluteal vein",
+     "neighbourId": "FJ3527",
+     "neighbour": "Left obturator vein",
+     "kind": "end-to-end",
+     "gapMm": 4.03,
+     "diameterMm": 2.83
+    },
+    {
+     "id": "FJ2128",
+     "name": "Plantar venous arch of left foot",
+     "neighbourId": "FJ2113",
+     "neighbour": "Tributary of plantar venous arch",
+     "kind": "junction",
+     "gapMm": 3.98,
+     "diameterMm": 2.05
+    },
+    {
+     "id": "FJ2065",
+     "name": "Left anterior tibial artery",
+     "neighbourId": "FJ2066",
+     "neighbour": "Left anterior tibial recurrent artery",
+     "kind": "end-to-end",
+     "gapMm": 3.93,
+     "diameterMm": 4.15
+    },
+    {
+     "id": "FJ2170",
+     "name": "Right popliteal artery",
+     "neighbourId": "FJ2152",
+     "neighbour": "Right inferior medial genicular artery",
+     "kind": "junction",
+     "gapMm": 3.73,
+     "diameterMm": 3.62
+    },
+    {
+     "id": "FJ3606",
+     "name": "Right inferior gluteal vein",
+     "neighbourId": "FJ3572",
+     "neighbour": "Right internal iliac vein",
+     "kind": "end-to-end",
+     "gapMm": 3.71,
+     "diameterMm": 3.03
+    },
+    {
+     "id": "FJ2086",
+     "name": "Left popliteal artery",
+     "neighbourId": "FJ2083",
+     "neighbour": "Left medial superior genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 3.68,
+     "diameterMm": 4.6
+    },
+    {
+     "id": "FJ2131",
+     "name": "Right anterior tibial recurrent artery",
+     "neighbourId": "FJ2057",
+     "neighbour": "Descending branch of right lateral circumflex femoral artery",
+     "kind": "end-to-end",
+     "gapMm": 3.68,
+     "diameterMm": 2
+    },
+    {
+     "id": "FJ2193",
+     "name": "Right anterior tibial vein",
+     "neighbourId": "FJ2173",
+     "neighbour": "Right posterior tibial vein",
+     "kind": "end-to-end",
+     "gapMm": 3.64,
+     "diameterMm": 5.05
+    },
+    {
+     "id": "FJ2171",
+     "name": "Right popliteal vein",
+     "neighbourId": "FJ2193",
+     "neighbour": "Right anterior tibial vein",
+     "kind": "end-to-end",
+     "gapMm": 3.62,
+     "diameterMm": 4.69
+    },
+    {
+     "id": "FJ2129",
+     "name": "Plantar venous arch of right foot",
+     "neighbourId": "FJ2175",
+     "neighbour": "Set of plantar digital veins",
+     "kind": "junction",
+     "gapMm": 3.46,
+     "diameterMm": 2.11
+    },
+    {
+     "id": "FJ2166",
+     "name": "Right medial superior genicular artery",
+     "neighbourId": "FJ2170",
+     "neighbour": "Right popliteal artery",
+     "kind": "end-to-end",
+     "gapMm": 3.41,
+     "diameterMm": 2.7
+    },
+    {
+     "id": "FJ2086",
+     "name": "Left popliteal artery",
+     "neighbourId": "FJ2076",
+     "neighbour": "Left inferior lateral genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 3.34,
+     "diameterMm": 3.49
+    },
+    {
+     "id": "FJ2171",
+     "name": "Right popliteal vein",
+     "neighbourId": "FJ2144",
+     "neighbour": "Right femoral vein",
+     "kind": "junction",
+     "gapMm": 3.34,
+     "diameterMm": 4.48
+    },
+    {
+     "id": "FJ3616",
+     "name": "Right superior gluteal vein",
+     "neighbourId": "FJ3541",
+     "neighbour": "Median sacral vein",
+     "kind": "end-to-end",
+     "gapMm": 3.29,
+     "diameterMm": 5.86
+    },
+    {
+     "id": "FJ2137",
+     "name": "Right descending genicular artery",
+     "neighbourId": "FJ2170",
+     "neighbour": "Right popliteal artery",
+     "kind": "end-to-end",
+     "gapMm": 3.28,
+     "diameterMm": 4.58
+    },
+    {
+     "id": "FJ2077",
+     "name": "Left inferior medial genicular artery",
+     "neighbourId": "FJ2076",
+     "neighbour": "Left inferior lateral genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 3.27,
+     "diameterMm": 4.22
+    },
+    {
+     "id": "FJ2094",
+     "name": "Set of perforating arteries",
+     "neighbourId": "FJ2090",
+     "neighbour": "Set of perforating arteries",
+     "kind": "junction",
+     "gapMm": 3.26,
+     "diameterMm": 5.26
+    },
+    {
+     "id": "FJ2059",
+     "name": "Dorsal venous arch of left foot",
+     "neighbourId": "FJ2186",
+     "neighbour": "Left dorsal metatarsal vein",
+     "kind": "junction",
+     "gapMm": 3.25,
+     "diameterMm": 2.65
+    },
+    {
+     "id": "FJ2065",
+     "name": "Left anterior tibial artery",
+     "neighbourId": "PK-102",
+     "neighbour": "Left anterior medial malleolar artery",
+     "kind": "junction",
+     "gapMm": 3.18,
+     "diameterMm": 5.39
+    },
+    {
+     "id": "FJ2169",
+     "name": "Right plantar arch",
+     "neighbourId": "FJ2136",
+     "neighbour": "Right deep plantar artery",
+     "kind": "end-to-end",
+     "gapMm": 3.17,
+     "diameterMm": 2.02
+    },
+    {
+     "id": "FJ2170",
+     "name": "Right popliteal artery",
+     "neighbourId": "FJ2152",
+     "neighbour": "Right inferior medial genicular artery",
+     "kind": "junction",
+     "gapMm": 3.15,
+     "diameterMm": 3.28
+    },
+    {
+     "id": "FJ2107",
+     "name": "Left genicular vein",
+     "neighbourId": "FJ2097",
+     "neighbour": "Left anterior tibial vein",
+     "kind": "junction",
+     "gapMm": 3.12,
+     "diameterMm": 1.92
+    },
+    {
+     "id": "FJ2193",
+     "name": "Right anterior tibial vein",
+     "neighbourId": "FJ2173",
+     "neighbour": "Right posterior tibial vein",
+     "kind": "junction",
+     "gapMm": 3.12,
+     "diameterMm": 5.71
+    },
+    {
+     "id": "FJ2076",
+     "name": "Left inferior lateral genicular artery",
+     "neighbourId": "FJ2086",
+     "neighbour": "Left popliteal artery",
+     "kind": "end-to-end",
+     "gapMm": 3.08,
+     "diameterMm": 4.02
+    },
+    {
+     "id": "FJ2061",
+     "name": "Dorsal venous arch of right foot",
+     "neighbourId": "FJ2199",
+     "neighbour": "Right dorsal metatarsal vein",
+     "kind": "end-to-end",
+     "gapMm": 3.03,
+     "diameterMm": 2.56
+    },
+    {
+     "id": "FJ3616",
+     "name": "Right superior gluteal vein",
+     "neighbourId": "FJ3657",
+     "neighbour": "Superior rectal vein",
+     "kind": "end-to-end",
+     "gapMm": 3.02,
+     "diameterMm": 5.26
+    },
+    {
+     "id": "FJ2135",
+     "name": "Right deep femoral vein",
+     "neighbourId": "FJ2178",
+     "neighbour": "Right superficial epigastric vein",
+     "kind": "end-to-end",
+     "gapMm": 2.97,
+     "diameterMm": 5.14
+    },
+    {
+     "id": "FJ2077",
+     "name": "Left inferior medial genicular artery",
+     "neighbourId": "FJ2086",
+     "neighbour": "Left popliteal artery",
+     "kind": "end-to-end",
+     "gapMm": 2.94,
+     "diameterMm": 4.34
+    },
+    {
+     "id": "FJ2130",
+     "name": "Right anterior tibial artery",
+     "neighbourId": "FJ2170",
+     "neighbour": "Right popliteal artery",
+     "kind": "junction",
+     "gapMm": 2.93,
+     "diameterMm": 5.13
+    },
+    {
+     "id": "FJ2137",
+     "name": "Right descending genicular artery",
+     "neighbourId": "PK-73",
+     "neighbour": "Right saphenous branch of descending genicular artery",
+     "kind": "junction",
+     "gapMm": 2.92,
+     "diameterMm": 4.15
+    },
+    {
+     "id": "FJ2129",
+     "name": "Plantar venous arch of right foot",
+     "neighbourId": "FJ2207",
+     "neighbour": "Plantar metatarsal vein",
+     "kind": "junction",
+     "gapMm": 2.91,
+     "diameterMm": 2.16
+    },
+    {
+     "id": "FJ2086",
+     "name": "Left popliteal artery",
+     "neighbourId": "FJ2084",
+     "neighbour": "Left middle genicular artery",
+     "kind": "junction",
+     "gapMm": 2.89,
+     "diameterMm": 3.76
+    },
+    {
+     "id": "FJ2061",
+     "name": "Dorsal venous arch of right foot",
+     "neighbourId": "FJ2176",
+     "neighbour": "Right small saphenous vein",
+     "kind": "end-to-end",
+     "gapMm": 2.86,
+     "diameterMm": 2.59
+    },
+    {
+     "id": "FJ2176",
+     "name": "Right small saphenous vein",
+     "neighbourId": "FJ2171",
+     "neighbour": "Right popliteal vein",
+     "kind": "end-to-end",
+     "gapMm": 2.83,
+     "diameterMm": 2.95
+    },
+    {
+     "id": "FJ2069",
+     "name": "Left descending genicular artery",
+     "neighbourId": "FJ2066",
+     "neighbour": "Left anterior tibial recurrent artery",
+     "kind": "junction",
+     "gapMm": 2.78,
+     "diameterMm": 2.5
+    },
+    {
+     "id": "FJ2170",
+     "name": "Right popliteal artery",
+     "neighbourId": "FJ2130",
+     "neighbour": "Right anterior tibial artery",
+     "kind": "end-to-end",
+     "gapMm": 2.69,
+     "diameterMm": 4.36
+    },
+    {
+     "id": "FJ3513",
+     "name": "Left inferior gluteal vein",
+     "neighbourId": "FJ3525",
+     "neighbour": "Left internal pudendal vein",
+     "kind": "end-to-end",
+     "gapMm": 2.6,
+     "diameterMm": 2.95
+    },
+    {
+     "id": "PK-91",
+     "name": "Left deep femoral artery",
+     "neighbourId": "PK-92",
+     "neighbour": "Left perforating branch of deep femoral artery",
+     "kind": "junction",
+     "gapMm": 2.55,
+     "diameterMm": 5.03
+    },
+    {
+     "id": "FJ2171",
+     "name": "Right popliteal vein",
+     "neighbourId": "FJ2193",
+     "neighbour": "Right anterior tibial vein",
+     "kind": "junction",
+     "gapMm": 2.54,
+     "diameterMm": 4.66
+    },
+    {
+     "id": "FJ2128",
+     "name": "Plantar venous arch of left foot",
+     "neighbourId": "FJ2060",
+     "neighbour": "Dorsal venous arch of left foot",
+     "kind": "end-to-end",
+     "gapMm": 2.5,
+     "diameterMm": 2.09
+    },
+    {
+     "id": "FJ3612",
+     "name": "Right obturator vein",
+     "neighbourId": "HRAF-698",
+     "neighbour": "Right uterine vein",
+     "kind": "end-to-end",
+     "gapMm": 2.47,
+     "diameterMm": 4.03
+    },
+    {
+     "id": "FJ2183",
+     "name": "Left anterior tibial vein",
+     "neighbourId": "FJ2097",
+     "neighbour": "Left anterior tibial vein",
+     "kind": "junction",
+     "gapMm": 2.38,
+     "diameterMm": 4.34
+    },
+    {
+     "id": "FJ2118",
+     "name": "Left posterior tibial vein",
+     "neighbourId": "FJ2183",
+     "neighbour": "Left anterior tibial vein",
+     "kind": "end-to-end",
+     "gapMm": 2.35,
+     "diameterMm": 3.33
+    },
+    {
+     "id": "FJ2117",
+     "name": "Left popliteal vein",
+     "neighbourId": "FJ2125",
+     "neighbour": "Left genicular vein",
+     "kind": "end-to-end",
+     "gapMm": 2.27,
+     "diameterMm": 2.91
+    },
+    {
+     "id": "FJ2094",
+     "name": "Set of perforating arteries",
+     "neighbourId": "FJ2063",
+     "neighbour": "Descending branch of left lateral circumflex femoral artery",
+     "kind": "junction",
+     "gapMm": 2.11,
+     "diameterMm": 3.59
+    },
+    {
+     "id": "FJ2170",
+     "name": "Right popliteal artery",
+     "neighbourId": "FJ2167",
+     "neighbour": "Right middle genicular artery",
+     "kind": "junction",
+     "gapMm": 2.11,
+     "diameterMm": 3.6
+    },
+    {
+     "id": "FJ2129",
+     "name": "Plantar venous arch of right foot",
+     "neighbourId": "FJ2062",
+     "neighbour": "Dorsal venous arch of right foot",
+     "kind": "end-to-end",
+     "gapMm": 2.08,
+     "diameterMm": 2.08
+    },
+    {
+     "id": "FJ2170",
+     "name": "Right popliteal artery",
+     "neighbourId": "FJ2167",
+     "neighbour": "Right middle genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 2.01,
+     "diameterMm": 3.32
+    },
+    {
+     "id": "FJ2182",
+     "name": "Right genicular vein",
+     "neighbourId": "FJ2171",
+     "neighbour": "Right popliteal vein",
+     "kind": "junction",
+     "gapMm": 1.95,
+     "diameterMm": 2.81
+    },
+    {
+     "id": "FJ2200",
+     "name": "Right fibular vein",
+     "neighbourId": "FJ2173",
+     "neighbour": "Right posterior tibial vein",
+     "kind": "end-to-end",
+     "gapMm": 1.9,
+     "diameterMm": 3.55
+    },
+    {
+     "id": "FJ2137",
+     "name": "Right descending genicular artery",
+     "neighbourId": "FJ2152",
+     "neighbour": "Right inferior medial genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 1.89,
+     "diameterMm": 2.42
+    },
+    {
+     "id": "FJ2170",
+     "name": "Right popliteal artery",
+     "neighbourId": "FJ2167",
+     "neighbour": "Right middle genicular artery",
+     "kind": "junction",
+     "gapMm": 1.85,
+     "diameterMm": 3.11
+    },
+    {
+     "id": "FJ2206",
+     "name": "Plantar metatarsal artery",
+     "neighbourId": "FJ2169",
+     "neighbour": "Right plantar arch",
+     "kind": "end-to-end",
+     "gapMm": 1.74,
+     "diameterMm": 1.64
+    },
+    {
+     "id": "FJ2170",
+     "name": "Right popliteal artery",
+     "neighbourId": "FJ2166",
+     "neighbour": "Right medial superior genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 1.72,
+     "diameterMm": 3.27
+    },
+    {
+     "id": "FJ2131",
+     "name": "Right anterior tibial recurrent artery",
+     "neighbourId": "FJ2166",
+     "neighbour": "Right medial superior genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 1.57,
+     "diameterMm": 2.53
+    },
+    {
+     "id": "FJ2131",
+     "name": "Right anterior tibial recurrent artery",
+     "neighbourId": "FJ2150",
+     "neighbour": "Right inferior lateral genicular artery",
+     "kind": "end-to-end",
+     "gapMm": 1.4,
+     "diameterMm": 2.66
+    },
+    {
+     "id": "FJ2136",
+     "name": "Right deep plantar artery",
+     "neighbourId": "FJ2055",
+     "neighbour": "Right dorsalis pedis artery",
+     "kind": "junction",
+     "gapMm": 1.2,
+     "diameterMm": 2.05
+    },
+    {
+     "id": "FJ2166",
+     "name": "Right medial superior genicular artery",
+     "neighbourId": "FJ2137",
+     "neighbour": "Right descending genicular artery",
+     "kind": "junction",
+     "gapMm": 1.04,
+     "diameterMm": 1.89
+    },
+    {
+     "id": "FJ2076",
+     "name": "Left inferior lateral genicular artery",
+     "neighbourId": "FJ2084",
+     "neighbour": "Left middle genicular artery",
+     "kind": "junction",
+     "gapMm": 0.46,
+     "diameterMm": 0.88
+    }
+   ]
+  }
  },
  "regions": {
   "upper": {
    "summary": {
+    "open": 86,
     "ends": 1229,
     "adjacent": 466,
     "tapered": 397,
@@ -132,6 +4740,7 @@
   },
   "lower": {
    "summary": {
+    "open": 183,
     "ends": 1475,
     "adjacent": 479,
     "tapered": 572,

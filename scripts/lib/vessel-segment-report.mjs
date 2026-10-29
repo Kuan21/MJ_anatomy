@@ -21,7 +21,7 @@ export async function measure(regions, mode = 'after') {
   }
   return out;
 }
-const summary = m => ({ends: m.stats.ends, adjacent: m.rows.length, tapered: m.stats.tapered, terminal: m.stats.terminal, gaps: m.gaps.length, bridgeableGaps: m.gaps.filter(bridgeable).length, tangent: m.tangent.length, diameter: m.diameter.length});
+const summary = m => ({open: m.stats.open.length, ends: m.stats.ends, adjacent: m.rows.length, tapered: m.stats.tapered, terminal: m.stats.terminal, gaps: m.gaps.length, bridgeableGaps: m.gaps.filter(bridgeable).length, tangent: m.tangent.length, diameter: m.diameter.length});
 const gapLine = r => `${r.name} (${r.id}) → ${r.neighbour} (${r.neighbourId}) | ${r.kind === 'end-to-end' ? '端接端' : '分支入幹'} | ${r.gapMm} | ${r.diameterMm}`;
 
 export async function runSegments(argv) {
@@ -37,7 +37,7 @@ export async function runSegments(argv) {
   }
   const baselineFile = file('docs/vessel-segments-baseline.json');
   if (write && argv.includes('--as-before')) {   // record this measurement as the state before the bridges
-    const cur = JSON.parse(fs.readFileSync(baselineFile, 'utf8')); cur.before = {...cur.before, ...sums, note: 'Measured with the vessel-ends connectors of origin/main (before the spline bridges).'};
+    const cur = JSON.parse(fs.readFileSync(baselineFile, 'utf8')); cur.before = {...cur.before, ...sums, gaps: Object.fromEntries(regions.map(r => [r, res[r].gaps.map(g => ({id: g.id, name: g.name, neighbourId: g.neighbourId, neighbour: g.neighbour, kind: g.kind, gapMm: g.gapMm, diameterMm: g.diameterMm}))])), note: 'Measured with the vessel-ends connectors of origin/main (before the spline bridges).'};
     fs.writeFileSync(baselineFile, JSON.stringify(cur, null, 1)); console.log('Recorded the state before the bridges.'); return;
   }
   if (write) {
@@ -78,8 +78,18 @@ async function writeDocs(res, regions, sums, before) {
     '| 區域 | 末端數 | 有下一段 | 已收成尖端 | 無下一段 | 間隙 > 管徑一半（修正前→後） | 切線誤差 > 45° | 管徑誤差 > 1.5 倍 |', '| --- | ---: | ---: | ---: | ---: | --- | ---: | ---: |',
     ...regions.map(r => { const s = sums[r], b = before?.[r]; return `| ${LABEL[r] ?? r} | ${s.ends} | ${s.adjacent} | ${s.tapered} | ${s.terminal} | ${b ? b.gaps + ' → ' : ''}${s.gaps} | ${b ? b.tangent + ' → ' : ''}${s.tangent} | ${b ? b.diameter + ' → ' : ''}${s.diameter} |`; }), ''];
   for (const r of regions) {
-    md.push(`## ${LABEL[r] ?? r}：間隙大於管徑一半（${res[r].gaps.length}）`, '', '| 血管對（上游 → 下一段） | 類型 | 間隙 (mm) | 管徑 (mm) |', '| --- | --- | ---: | ---: |', ...res[r].gaps.map(g => `| ${gapLine(g).split(' | ').join(' | ')} |`), '');
+    const was = before?.gaps?.[r]; if (!was) continue;
+    const left = new Set(res[r].gaps.map(g => g.id + '|' + g.neighbourId));
+    md.push(`## ${LABEL[r] ?? r}：修正前（origin/main 的連接管）間隙大於管徑一半（${was.length}）`, '', `其中 ${was.filter(g => !left.has(g.id + '|' + g.neighbourId)).length} 個已不再出現（橋接後間隙小於管徑一半，或該末端收成尖端）。`, '', '| 血管對（上游 → 下一段） | 類型 | 間隙 (mm) | 管徑 (mm) | 修正後 |', '| --- | --- | ---: | ---: | --- |',
+      ...was.sort((a, b) => b.gapMm - a.gapMm).map(g => `| ${g.name} (${g.id}) → ${g.neighbour} (${g.neighbourId}) | ${g.kind === 'end-to-end' ? '端接端' : '分支入幹'} | ${g.gapMm} | ${g.diameterMm} | ${left.has(g.id + '|' + g.neighbourId) ? '仍有間隙' : '已解決'} |`), '');
   }
+  for (const r of regions) {
+    md.push(`## ${LABEL[r] ?? r}：修正後仍大於管徑一半（${res[r].gaps.length}）`, '', '| 血管對（上游 → 下一段） | 類型 | 間隙 (mm) | 管徑 (mm) |', '| --- | --- | ---: | ---: |', ...res[r].gaps.map(g => `| ${gapLine(g)} |`), '');
+  }
+  md.push('## 沒有下一段的大血管末端（管徑 ≥ 3 mm，未收成尖端）', '', '這些末端附近找不到同類型的下一段：可能是血管進入組織或器官，也可能是圖譜缺少該段血管。**未新增任何血管模型**，只列出供人工對照。', '',
+    '| 血管 | 部位 | 側 | 管徑 (mm) | 末端位置 (m) |', '| --- | --- | --- | ---: | --- |');
+  for (const r of regions) for (const o of res[r].stats.open.filter(o => o.diameterMm >= 3).sort((a, b) => a.name.localeCompare(b.name))) md.push(`| ${o.name} (${o.id}) | ${o.sub} | ${o.side} | ${o.diameterMm} | ${o.at.join(', ')} |`);
+  md.push('');
   md.push(...await smoothingSection(regions));
   fs.writeFileSync(file('docs/vessel-segments.md'), md.join('\n'));
 }

@@ -98,7 +98,7 @@ export const adjacentMm = diameterMm => Math.min(SEARCH_MM, 3 + 6 * diameterMm);
  *  Ends without one are counted as terminal (`terminal`), ends that the vessel-ends step tapers to a point as `tapered`. */
 export async function analyse({regions = ['upper'], mode = 'after', V} = {}) {
   V ??= await loadVessels({mode});
-  const want = new Set(regions.map(r => REGIONS[r] ?? r)), rows = [], stats = {ends: 0, terminal: 0, tapered: 0, vessels: 0};
+  const want = new Set(regions.map(r => REGIONS[r] ?? r)), rows = [], stats = {ends: 0, terminal: 0, tapered: 0, vessels: 0, open: []};
   const scope = V.bases.filter(p => want.has(V.region(p).region));
   const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
   for (const p of scope) for (let k = 0; k < 3; k++) { lo[k] = Math.min(lo[k], p.bounds[0][k]); hi[k] = Math.max(hi[k], p.bounds[1][k]); }
@@ -136,7 +136,7 @@ export async function analyse({regions = ['upper'], mode = 'after', V} = {}) {
         gap = hit.d; kind = 'junction'; nId = hit.tag.replace(/-END$/, ''); const np = V.byId.get(nId) ?? V.byId.get(hit.tag); nName = np?.name ?? hit.tag;
         const fr = endFrame(V.infoOf(V.byId.has(nId) ? nId : hit.tag).surf, hit.q); nRadius = fr?.radius ?? null; angle = fr ? deg(Math.abs(dot(end.dir, fr.dir))) : null;
         target = {point: hit.q, dir: fr?.dir ?? null, radius: fr?.radius ?? end.radius, inward: fr ? unit(sub(fr.centroid, hit.q)) : unit(sub(hit.q, end.at))};
-      } else { stats.terminal++; continue; }
+      } else { stats.terminal++; if (end.radius >= .0015) stats.open.push({id: p.id, name: p.name, side: rg.side, sub: rg.sub, diameterMm: +(end.radius * 2000).toFixed(1), at: end.at.map(v => +v.toFixed(3))}); continue; }
       // a connector that dives into the next tube ends inside it: overlap, not a gap
       if (gap > 0 && [nId, hit.tag].some(id => id && V.byId.has(id) && pointInside(end.at, V.g(V.byId.get(id))))) gap = 0;
       rows.push({id: p.id, name: p.name, system: p.system, region: rg.region, sub: rg.sub, side: rg.side, at: end.at, diameterMm: +d2.toFixed(2), connector: end.connector,

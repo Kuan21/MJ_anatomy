@@ -4,16 +4,14 @@
 // It has to stay below half the vessel's diameter, or below the rest gap + 1 mm. Pairs that do not are exceptions: a known one is listed in docs/vessel-motion-exceptions.json,
 // a new one fails. Also checked: every connector (vessel-ends piece) carries the binding of its vessel, and its back end moves with the vessel it leaves (within 2 mm).
 //   node scripts/test-vessel-motion.mjs [--write] [--list]     --write refreshes docs/vessel-motion-exceptions.json and docs/vessel-motion.md
-import esbuild from 'esbuild';
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import {fileURLToPath} from 'node:url';
 import {loadVessels, analyse} from './lib/vessel-segments.mjs';
+import {loadPoseModule, createPoser} from './lib/vessel-pose.mjs';
 
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
-fs.mkdirSync(file('.sites-runtime'), {recursive: true});
-await esbuild.build({entryPoints: [file('scripts/lib/vessel-pose-entry.ts')], bundle: true, format: 'esm', platform: 'node', outfile: file('.sites-runtime/vessel-pose.mjs'), loader: {'.json': 'json'}, logLevel: 'error', external: ['three']});
-const m = await import(file('.sites-runtime/vessel-pose.mjs') + '?t=' + Date.now());
+const m = await loadPoseModule();
 const write = process.argv.includes('--write'), list = process.argv.includes('--list');
 const GROW_MM = 1, WEIGHT_MM = 2;
 
@@ -41,30 +39,7 @@ for (const [baseId, end] of V.ends) {
 assert.equal(problems.length, 0, problems.slice(0, 10).join('\n'));
 console.log(`Vessel motion: ${ends} connector pieces carry exactly the binding of their vessel.`);
 
-// ---- posing
-const geo = id => V.g(V.byId.get(id));
-const skins = new Map();
-const rigs = {};
-const armRig = side => rigs['arm' + side] ??= m.makeSoftRig(atlas, side);
-const legRig = region => rigs[region] ??= m.makeBodyRig(atlas, region);
-function skinOf(part, kind, key) {
-  const k = part.id + key; if (skins.has(k)) return skins.get(k);
-  const g = geo(part.id); let s = null;
-  if (kind === 'arm') { const b = m.tissueBindings[part.id]; if (b && b.name === part.name) { try { s = {skin: m.bindTissue(armRig(key), m.resolveNeurovascularProfile(part.name, b.profile), g.pos, part, '', g.idx)}; } catch { s = null; } } }
-  else { const b = m.bodyBindings[part.id]; if (b && b.name === part.name && b.rig === key) s = b.frame === null ? {skin: m.bindBodyTissue(legRig(key), g.pos, false, part)} : {frame: b.frame}; }
-  skins.set(k, s); return s;
-}
-const posedCache = new Map();
-function posed(partId, kind, key, poseKey, ctx) {
-  const ck = partId + '|' + key + '|' + poseKey; if (posedCache.has(ck)) return posedCache.get(ck);
-  const part = V.byId.get(partId), g = geo(partId), s = skinOf(part, kind, key); let out = g.pos;
-  if (s) {
-    out = new Float32Array(g.pos.length);
-    if (s.skin) m.deformTissue(s.skin, g.pos, ctx.palette, out);
-    else for (let i = 0; i < g.pos.length; i += 3) { const v = {x: g.pos[i], y: g.pos[i + 1], z: g.pos[i + 2]}, e = ctx.matrices[s.frame].elements; out[i] = e[0] * v.x + e[4] * v.y + e[8] * v.z + e[12]; out[i + 1] = e[1] * v.x + e[5] * v.y + e[9] * v.z + e[13]; out[i + 2] = e[2] * v.x + e[6] * v.y + e[10] * v.z + e[14]; }
-  }
-  posedCache.set(ck, out); return out;
-}
+const {skinOf, posed, geo, armRig, legRig, context} = createPoser(V, m);
 const nearestVertex = (partIds, point) => {
   let best = {d: Infinity};
   for (const id of partIds) { const p = V.byId.get(id); if (!p) continue; const g = geo(id).pos; for (let i = 0; i < g.length; i += 3) { const d = Math.hypot(g[i] - point[0], g[i + 1] - point[1], g[i + 2] - point[2]); if (d < best.d) best = {d, id, i}; } }
@@ -122,8 +97,9 @@ console.log(`  connector back ends: ${weightRows.length} connector/pose combinat
 // ---- exceptions file
 const key = e => `${e.pose}|${e.side}|${e.id}|${e.neighbourId}|${e.kind}`;
 const excFile = file('docs/vessel-motion-exceptions.json');
+const worstByKey = {}; for (const e of exceptions) worstByKey[key(e)] = Math.max(worstByKey[key(e)] ?? 0, e.posedGapMm);   // several ends of one pair share a key: the worst counts
 if (write) {
-  fs.writeFileSync(excFile, JSON.stringify({note: 'Vessel pairs that open more than half a diameter (and more than 1 mm beyond their rest gap) at a joint pose. Known; a new one fails `npm run check:motion`.', summary, weightExceptions: weightRows.map(w => `${w.pose}|${w.id}`), exceptions: Object.fromEntries(exceptions.map(e => [key(e), e.posedGapMm]))}, null, 1));
+  fs.writeFileSync(excFile, JSON.stringify({note: 'Vessel pairs that open more than half a diameter (and more than 1 mm beyond their rest gap) at a joint pose. Known; a new one fails `npm run check:motion`.', summary, weightExceptions: weightRows.map(w => `${w.pose}|${w.id}`), exceptions: worstByKey}, null, 1));
   const byPose = new Map(); for (const e of exceptions) (byPose.get(e.pose) ?? byPose.set(e.pose, []).get(e.pose)).push(e);
   fs.writeFileSync(file('docs/vessel-motion.md'), ['# 血管在關節極限位置的連續性', '', '由 `node scripts/test-vessel-motion.mjs --write` 產生。相鄰兩段血管（含連接管）以檢視器使用的蒙皮擺姿後，重新量測間隙（間隙 = 靜止間隙 + 兩端點距離的變化）。判準：間隙小於管徑一半，或小於靜止間隙 + 1 mm。', '',
     '| 姿勢 | 量測的血管對 | 例外 | 最大開口 (mm) |', '| --- | ---: | ---: | ---: |', ...Object.entries(summary).map(([k, s]) => `| ${k} | ${s.pairs} | ${s.exceptions} | ${s.worstOpeningMm} |`), '',
