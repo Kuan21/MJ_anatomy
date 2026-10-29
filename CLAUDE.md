@@ -61,3 +61,13 @@
 - 骨性標記（溝、結節、粗隆、窩等）：直接在骨骼表面標示該區域（著色或輪廓），不可另做浮在骨外的模型。
 - 韌帶、肌腱、支持帶：帶狀、有厚度、兩端接在正確附著點、貼合下方結構。
 - 每個新示意模型附截圖，包括關節動作極限角度下的截圖。
+
+### 磁碟清理與截圖（使用者 2026-10-29 指示，長期規則）
+
+- 清理指令：`npm run clean`（`scripts/clean.mjs`）。只清可以重新生成的東西：npm cache、各 worktree 的 `.vite`／`dist`／Playwright 報告、暫存資料夾裡已結束的 build 輸出與超過 7 天的測試截圖，以及「PR 已 merge、工作乾淨、沒有程序在使用」的 worktree 與本機分支。`--dry-run` 只列出不刪；`--report` 列出 repo 內的截圖資料夾與大小（不刪）；`--if-low` 只在剩餘空間低於 2 GB 時才執行；`--verify` 清完跑一次正式 build 確認正常。
+- 自動執行時機：每次開始新任務前、每個 PR merge 之後、每次 build 前（先跑 `npm run clean -- --if-low`，剩餘空間低於 2 GB 就清）。每次清理腳本會印出一行：清了什麼、釋放多少、剩餘空間，並寫入 `~/mj-clean.log`。
+- 永遠不可自動刪除：原始模型資料、生成的模型檔、程式碼、`REVIEW_LOG.md`、`ROADMAP.md`、`CLAUDE.md`、任何未 merge 分支的工作。不確定的檔案列出來問使用者，不要刪。repo 內已有的舊截圖資料夾只列名稱與大小給使用者決定，不自動刪。
+- 截圖：存在 repo 外的暫存資料夾（`/tmp/claude-0/shsh` 之類，或 `.screenshots/`，後者已加入 `.gitignore`）；不要 commit 進工作分支。要放進 PR 說明時，GitHub API 無法直接上傳圖片，只能引用 commit 固定網址的 raw 圖片，所以圖片只推到獨立的 `pr-screenshots` 分支（與工作分支、main 都沒有共同歷史、永遠不 merge；**待使用者確認這個做法**），PR 說明引用那條分支的 commit 網址並確認回應 200；推上去後本機暫存檔就可刪。已經在 repo 內的舊截圖資料夾不動。
+- 新 worktree 要複製 `work/` 與生成檔時，從 `node scripts/clean.mjs --donor` 印出的那個 worktree 複製（主 checkout 沒有這些檔）；清理腳本永遠保留這一個，並且不會刪掉含有「只存在於該 worktree」的 `work/`、`outputs/` 檔案的 worktree。
+- 測試與截圖一律用正式 build（`vite build` + `vite preview`），不用 dev server。
+
