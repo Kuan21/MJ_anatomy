@@ -1330,3 +1330,13 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 @media(max-width:767px){
   .top-region-nav{background:#ffffffe6;border:1px solid #1825361f;box-shadow:0 2px 10px #1825361a;backdrop-filter:blur(10px);z-index:30}
 }
+
+/* Labels of a picked special region: small pills joined by a thin line to the structure's nearest point. */
+.space-labels{position:absolute;inset:0;pointer-events:none;z-index:6;overflow:hidden}
+.space-label-lines{position:absolute;inset:0;width:100%;height:100%}
+.space-label-lines line{stroke:#182536;stroke-opacity:.5;stroke-width:1}
+.space-label{position:absolute;max-width:260px;padding:2px 8px;border:1px solid #1825362e;border-radius:6px;background:#fffffff2;color:#182536;font:600 11px/1.4 system-ui,sans-serif;white-space:nowrap;box-shadow:0 1px 4px #18253618}
+.space-label.is-content{border-color:#d9a400;background:#fff8dc}
+.bn-role{display:block;font-size:10.5px;color:#64748b}
+.space-missing{display:flex;flex-direction:column;gap:2px}
+.space-missing small{color:#8a5a00}
