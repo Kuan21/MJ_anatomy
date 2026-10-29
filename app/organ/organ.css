@@ -174,3 +174,8 @@
 .organ-part-eye[aria-pressed=false]{color:#9aa4ad}
 .organ-part-hidden>button:not(.organ-part-eye){opacity:.55}
 .organ-group li>.organ-part-eye,.organ-group li>.organ-part-eye[aria-pressed=true]{background:transparent;border:0;box-shadow:none;padding:0;min-height:0}
+/* heart detail: the info card keeps its own area at the top of the right panel; the controls below scroll on their own and never run under it */
+.organ-panel-split{overflow:hidden;gap:12px}
+.organ-panel-split>.organ-info{position:static;flex:0 1 auto;max-height:38%;overflow:auto;box-shadow:none;min-height:0}
+.organ-panel-scroll{flex:1 1 0;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:12px;padding-right:2px}
+@media(max-width:900px){.organ-panel-split{overflow:visible}.organ-panel-split>.organ-info{max-height:none}.organ-panel-scroll{overflow:visible;flex:none}}

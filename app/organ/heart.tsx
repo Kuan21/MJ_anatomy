@@ -39,7 +39,7 @@ function HeartScene({catalogue, view, labels, onProgress, onReady, onError, onPi
 
 // Closed heart by default: the outside (chambers as the epicardial surface, coronary vessels, great vessels). Valves, chordae and papillary muscles appear when the heart is opened.
 const INTERNAL = ['papillary', 'valves', 'interior', 'pericardium'];
-const defaults: HeartViewState = {hiddenGroups: INTERNAL, hiddenParts: [], selectedId: null, section: {axis: 'none', offset: .5, flip: true}, ghostChambers: false, openChamber: null, highlight: [], command: {id: 0, view: 'front'}};
+const defaults: HeartViewState = {hiddenGroups: INTERNAL, hiddenParts: [], trunkOnly: false, selectedId: null, section: {axis: 'none', offset: .5, flip: true}, ghostChambers: false, openChamber: null, highlight: [], command: {id: 0, view: 'front'}};
 const OPENED: Partial<HeartViewState> = {openChamber: null, highlight: [], hiddenGroups: ['pericardium'], section: {axis: 'coronal', offset: .5, flip: true}, ghostChambers: true};
 const AXES: SectionAxis[] = ['none', 'coronal', 'sagittal', 'transverse'];
 /** Each cut removes the half facing the camera that looks into it: coronal from the front, sagittal from the body's right, transverse from above. */
@@ -75,14 +75,14 @@ export default function HeartDetail() {
   /** Opening: the fine surface branches and the pericardium are hidden, the great vessels and main coronary vessels stay. */
   const hideFine = (v: HeartViewState): Partial<HeartViewState> => {
     if (!before.current) before.current = {hiddenGroups: v.hiddenGroups, hiddenParts: v.hiddenParts};
-    return {hiddenParts: [...new Set([...v.hiddenParts, ...fineIds])]};
+    return {hiddenParts: [...new Set([...v.hiddenParts, ...fineIds])], trunkOnly: true};
   };
   /** Closing: vessel groups and fine branches go back to what they were before opening (nothing the user had switched off is switched on). */
   const restoreVessels = (v: HeartViewState, base: string[]): Partial<HeartViewState> => {
     const b = before.current; before.current = null;
-    if (!b) return {hiddenGroups: base, hiddenParts: v.hiddenParts.filter(id => !fineIds.includes(id))};
+    if (!b) return {hiddenGroups: base, hiddenParts: v.hiddenParts.filter(id => !fineIds.includes(id)), trunkOnly: false};
     const keep = base.filter(g => !(VESSEL_GROUPS as readonly string[]).includes(g)), vessels = b.hiddenGroups.filter(g => (VESSEL_GROUPS as readonly string[]).includes(g));
-    return {hiddenGroups: [...keep, ...vessels], hiddenParts: b.hiddenParts};
+    return {hiddenGroups: [...keep, ...vessels], hiddenParts: b.hiddenParts, trunkOnly: false};
   };
   const idsOf = (names: string[]) => (catalogue?.parts ?? []).filter(p => names.includes(p.name)).map(p => p.id);
   const openChamber = (id: string | null) => {
@@ -166,7 +166,7 @@ export default function HeartDetail() {
         {error && <div className="organ-error stage" role="alert">{error}</div>}
         <p className="organ-hint">拖曳旋轉 · 滾輪／雙指縮放 · 點選構造查看說明</p>
       </section>
-      <aside className="organ-panel" aria-label="心臟控制與說明">
+      <aside className="organ-panel organ-panel-split" aria-label="心臟控制與說明">
         <section className="organ-block organ-info" aria-live="polite">
           {item && !selected ? <>
             <h2 className="organ-info-title" lang="en">{item.en}</h2>
@@ -183,6 +183,7 @@ export default function HeartDetail() {
             <button className="organ-clear" onClick={() => patch({selectedId: null})}>取消選取</button>
           </> : <p className="organ-info-empty">點選模型或清單中的構造，會顯示名稱與說明。</p>}
         </section>
+        <div className="organ-panel-scroll">
         <section className="organ-block">
           <h2>心臟外觀與內部<small>Outside / inside</small></h2>
           <div className="organ-segmented" role="group" aria-label="外觀或內部">
@@ -215,6 +216,7 @@ export default function HeartDetail() {
           <p>來源模型沒有、依解剖知識補建的構造（清單中標示「示意構造」，位置與形狀為示意）：界嵴、梳狀肌、卵圓窩、心房中隔、左右心耳、室間隔、肉柱、節制索、室上嵴、動脈圓錐、主動脈前庭、竇房結動脈、左緣支、心包橫竇與心包斜竇。卵圓瓣痕跡仍沒有模型，只提供文字說明；傳導系統（竇房結、房室結、希氏束）本模式未收錄。</p>
           <p className="organ-source">來源：{catalogue.source}。{catalogue.attribution}。授權 {catalogue.license}。</p>
         </section>
+        </div>
       </aside>
     </div>}
   </main>;
