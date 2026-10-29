@@ -68,7 +68,8 @@ for(const pose of [...POSES,{name:'left hip flexion 120',kind:'leg',...hip},{nam
  for(let t=0;t<triangles.length;t+=3)for(let k=0;k<3;k++){const a=triangles[t+k],b=triangles[t+(k+1)%3],r=Math.hypot(base[a*3]-base[b*3],base[a*3+1]-base[b*3+1],base[a*3+2]-base[b*3+2]);if(r<1e-5)continue;const d=Math.hypot(posed[a*3]-posed[b*3],posed[a*3+1]-posed[b*3+1],posed[a*3+2]-posed[b*3+2]);edges++;maxStretch=Math.max(maxStretch,d/r);if(d/r>6)torn++;}
  assert.ok(torn/edges<.008,`${pose.name}: skin must not tear (${torn} of ${edges} edges stretched more than 6x, worst ${maxStretch.toFixed(1)}x)`);
  // 3. Every vertex that is rigidly carried by one moving frame lands exactly where that frame puts it (nothing is left in the rest pose).
- let rigidMoved=0;for(let v=0;v<skin.vertexCount;v++){const dom=[0,1,2,3].reduce((b,k)=>weights[v*4+k]>weights[v*4+b]?k:b,0);if(weights[v*4+dom]<.999||indices[v*4+dom]===0)continue;const d=Math.hypot(posed[v*3]-base[v*3],posed[v*3+1]-base[v*3+1],posed[v*3+2]-base[v*3+2]);if(d>.02)rigidMoved++;}
+ // (the hand is split over the finger frames, so its skin is no longer a single pure frame: count vertices carried mainly by one moving frame)
+ let rigidMoved=0;for(let v=0;v<skin.vertexCount;v++){const dom=[0,1,2,3].reduce((b,k)=>weights[v*4+k]>weights[v*4+b]?k:b,0);if(weights[v*4+dom]<.6||indices[v*4+dom]===0)continue;const d=Math.hypot(posed[v*3]-base[v*3],posed[v*3+1]-base[v*3+1],posed[v*3+2]-base[v*3+2]);if(d>.02)rigidMoved++;}
  assert.ok(rigidMoved>(pose.kind==='arm'?300:60),`${pose.name}: skin over the moving segments actually moves (${rigidMoved})`);
  report.push(`${pose.name}: max edge stretch ${maxStretch.toFixed(1)}x, ${rigidMoved} vertices carried by moving bones`);
 }

@@ -66,6 +66,18 @@ for (const side of ['left', 'right']) {
     }
   });
 }
+// 4b. the gestures: pinch / OK bring the thumb tip to the index tip, the fist lays the thumb over the middle phalanges of the index and middle finger
+{
+  const J = joints.sides.left, preset = id => m.HAND_PRESETS.find(h => h.id === id).pose;
+  const tipOf = (pose, digit, bone, point) => apply(m.buildUpperLimbMotion(atlas, 'left', {...m.NEUTRAL_POSE, ...pose}).transforms[J[digit].ids[bone]], point);
+  for (const id of ['pinch', 'ok']) {
+    const gap = tipOf(preset(id), 'thumb', 'dp', J.thumb.tip).distanceTo(tipOf(preset(id), 'index', 'dp', J.index.tip));
+    assert.ok(gap < .012, `${id}: thumb tip meets index tip (${(gap * 1000).toFixed(1)} mm)`);
+  }
+  const f = preset('fist'), mid = a => ['index', 'middle'].map(d => tipOf(f, d, 'mp', J[d].joints.dip)).reduce((x, y) => x.add(y)).multiplyScalar(.5);
+  assert.ok(tipOf(f, 'thumb', 'dp', J.thumb.tip).distanceTo(mid()) < .03, 'fist: the thumb lies over the middle phalanges ('+(tipOf(f, 'thumb', 'dp', J.thumb.tip).distanceTo(mid())*1000).toFixed(0)+' mm)');
+  for (const h of m.HAND_PRESETS) for (const k of m.DIGIT_KEYS) assert.ok(h.pose[k] >= m.DIGIT_LIMITS[k][0] && h.pose[k] <= m.DIGIT_LIMITS[k][1], `${h.id} ${k} within limits`);
+}
 // 5. soft tissue of the hand under a fist and a wide spread: no vertex flies off, no triangle is stretched into a spike
 const MAX_STRETCH = Number(process.env.MAX_STRETCH ?? 6);
 const POSES = {

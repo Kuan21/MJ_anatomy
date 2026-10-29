@@ -22,6 +22,7 @@ import SearchPanel from './search-panel';
 import {normalizeAtlasSystems} from './mj-system-classifier';
 import {anatomicalRegion,anatomicalSide,partsInRegion,topRegionParts} from './mj-part-regions';
 import {resolveArmCollision} from './mj-arm-collision';
+import {HAND_PRESETS} from './mj-hand-presets';
 import {buildUpperLimbMotion,constrainPose,MOTION_LIMITS,NEUTRAL_POSE,type MotionPose,type Side} from './mj-motion';
 import BodyControls from './biomechanics-v2/body-controls';
 import {makeBodyRig,buildBodyMotion,BODY_NEUTRAL,type BodyRegion,type BodyPose} from './biomechanics-v2/body-motion';
@@ -73,13 +74,6 @@ const FINGER_CONTROLS:{key:keyof MotionPose;label:string}[]=[
   {key:`${id}PipFlexion` as keyof MotionPose,label:`${zh}近端指間關節屈曲（＋）`},
   {key:`${id}DipFlexion` as keyof MotionPose,label:`${zh}遠端指間關節屈曲（＋）`}
  ])
-];
-const fingerPose=(values:Partial<Record<keyof MotionPose,number>>)=>values;
-const HAND_PRESETS:{id:string;label:string;pose:Partial<Record<keyof MotionPose,number>>}[]=[
- {id:'open',label:'張開',pose:fingerPose({...Object.fromEntries(FINGER_CONTROLS.map(c=>[c.key,0])),indexMcpAbduction:12,ringMcpAbduction:10,littleMcpAbduction:18,thumbCmcAbduction:40,indexMcpFlexion:-10,middleMcpFlexion:-10,ringMcpFlexion:-10,littleMcpFlexion:-10})},
- {id:'fist',label:'握拳',pose:fingerPose({...Object.fromEntries(FINGER_CONTROLS.map(c=>[c.key,0])),indexMcpFlexion:85,indexPipFlexion:100,indexDipFlexion:65,middleMcpFlexion:85,middlePipFlexion:100,middleDipFlexion:65,ringMcpFlexion:85,ringPipFlexion:100,ringDipFlexion:65,littleMcpFlexion:85,littlePipFlexion:100,littleDipFlexion:65,thumbCmcFlexion:25,thumbCmcAbduction:10,thumbOpposition:30,thumbMcpFlexion:35,thumbIpFlexion:40})},
- {id:'pinch',label:'捏取',pose:fingerPose({...Object.fromEntries(FINGER_CONTROLS.map(c=>[c.key,0])),indexMcpFlexion:40,indexPipFlexion:45,indexDipFlexion:20,middleMcpFlexion:55,middlePipFlexion:60,middleDipFlexion:30,ringMcpFlexion:65,ringPipFlexion:70,ringDipFlexion:35,littleMcpFlexion:70,littlePipFlexion:75,littleDipFlexion:35,thumbCmcFlexion:10,thumbCmcAbduction:30,thumbOpposition:35,thumbMcpFlexion:25,thumbIpFlexion:30})},
- {id:'ok',label:'OK 手勢',pose:fingerPose({...Object.fromEntries(FINGER_CONTROLS.map(c=>[c.key,0])),indexMcpFlexion:40,indexPipFlexion:50,indexDipFlexion:25,middleMcpFlexion:5,ringMcpAbduction:8,littleMcpAbduction:15,thumbCmcFlexion:10,thumbCmcAbduction:30,thumbOpposition:40,thumbMcpFlexion:25,thumbIpFlexion:30})}
 ];
 const REGIONAL_VISIBLE:SystemId[]=['skeletal','muscular','arterial','venous','nervous','connective'];
 const ORGAN_SYSTEM_IDS:SystemId[]=['cardiac','serous','sensory','respiratory','digestive','urinary','lymphatic','endocrine','reproductive'];
@@ -382,7 +376,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
      {UPPER_MOTION_CONTROLS.map(control=><MotionPullControl key={control.key} label={control.label} value={motionPose[control.key]} min={MOTION_LIMITS[control.key][0]} max={MOTION_LIMITS[control.key][1]} disabled={!motionEnabled} onValueChange={value=>{setMotionAction(control.action);setJoint(control.key,value);}}/>)}
     </div>
     <details className="mj-finger-lab"><summary>手指｜Fingers</summary>
-     <div className="mj-hand-presets" role="group" aria-label="手勢預設">{HAND_PRESETS.map(h=><Button key={h.id} variant="ghost" disabled={!motionEnabled} onClick={()=>{setMotionAction('wristExtension');applyMotionPose({...motionTargetRef.current,...h.pose} as MotionPose);}}>{h.label}</Button>)}</div>
+     <div className="mj-hand-presets" role="group" aria-label="手勢預設">{HAND_PRESETS.map(h=><Button key={h.id} variant="ghost" disabled={!motionEnabled} onClick={()=>{setMotionAction('wristExtension');applyMotionPose({...motionTargetRef.current,...h.pose});}}>{h.label}</Button>)}</div>
      <div className="motion-control-stack">
       {FINGER_CONTROLS.map(control=><MotionPullControl key={control.key} label={control.label} value={motionPose[control.key]} min={MOTION_LIMITS[control.key][0]} max={MOTION_LIMITS[control.key][1]} disabled={!motionEnabled} onValueChange={value=>{setMotionAction('wristExtension');setJoint(control.key,value);}}/>)}
      </div>
