@@ -27,7 +27,7 @@ const cache = new Map();
 async function moduleFor(key) {
   if (cache.has(key)) return cache.get(key);
   let mod;
-  const exports = key.endsWith('.json') ? {default: JSON.parse(fs.readFileSync(key, 'utf8'))} : key.endsWith('/viewer.ts') ? {neighbourShade: () => undefined, createQuizViewer() {throw Error('Scene must be tested separately');}} : key.endsWith('.css') ? {} : external[key];
+  const exports = key.endsWith('.json') ? {default: JSON.parse(fs.readFileSync(key, 'utf8'))} : key.endsWith('/viewer.ts') ? {neighbourShade: () => undefined, createQuizViewer() {throw Error('Scene must be tested separately');}} : key.endsWith('/PronounceButton.ts') ? {PronounceButton: () => null} : key.endsWith('.css') ? {} : external[key];
   if (exports) mod = new vm.SyntheticModule(Object.keys(exports), function () {for (const [name, value] of Object.entries(exports)) this.setExport(name, value);});
   else {
     const source = ts.transpileModule(fs.readFileSync(key, 'utf8'), {compilerOptions: {target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext, jsx: ts.JsxEmit.ReactJSX}}).outputText;
