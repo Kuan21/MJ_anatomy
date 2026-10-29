@@ -390,7 +390,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   ];
   const pelvicTone=(p:{name:string;system:string})=>PELVIC_TONES.find(t=>t[4]===p.system&&t[0].test(p.name));
   const shellOf=(p:{name:string;system:string;kind?:string})=>p.system==='serous'&&PERITONEUM_KEYS.includes(serousLayerKey(p.name))?'serous:peritoneum':pelvicTone(p)?'pelvic:'+pelvicTone(p)![1]:p.kind==='space'||p.kind==='sheath'?'connective:space':p.kind==='fascia'||p.kind==='aponeurosis'?'connective:fascia':p.kind==='surface'?'respiratory:mark':isShellSurface(p.name)?p.system+':shell':p.system;
-  mats.set('respiratory:shell',materialFor('respiratory',.32));mats.set('serous:shell',materialFor('serous',.28));
+  {const lungMat=materialFor('respiratory',.32);lungMat.color.set('#d9a29d');lungMat.roughness=.62;lungMat.metalness=0;mats.set('respiratory:shell',lungMat);}mats.set('serous:shell',materialFor('serous',.28));
   {const pm=materialFor('serous',.3);pm.color.set('#e8b7c0');mats.set('serous:peritoneum',pm);for(const [,key,color,opacity,sys] of PELVIC_TONES){const m=materialFor(sys,opacity);m.color.set(color);mats.set('pelvic:'+key,m);}}
   // Course-summary structures: spaces and sheaths are faint volumes, fasciae thin translucent sheets, lung surface marks a deeper tint of the lung colour.
   mats.set('connective:space',materialFor('connective',.2));mats.set('connective:fascia',materialFor('connective',.62));{const mark=materialFor('respiratory');mark.color.set('#c97b8b');mats.set('respiratory:mark',mark);}
@@ -873,6 +873,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
   const clock=new T.Clock();let lastExtent=-1;
   const animate=()=>{
    if(disposed)return;frame=requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05),s=poseForFrame(latest.current);
+   // the lung lobes are solid and lit by default; they turn translucent only when the opacity slider is moved
+   {const lm=mats.get('respiratory:shell'),o=latest.current.lungOpacity??1;if(lm){const t=o<.995;if(lm.opacity!==o||lm.transparent!==t){lm.opacity=o;lm.transparent=t;lm.depthWrite=!t;lm.needsUpdate=true;dirty=true;}}}
    {const pm=mats.get('serous:peritoneum'),o=latest.current.peritoneumOpacity??.3;if(pm&&pm.opacity!==o){pm.opacity=o;dirty=true;}}
    if(focusTarget&&focusPosition){const a=1-Math.exp(-8*dt);controls.target.lerp(focusTarget,a);camera.position.lerp(focusPosition,a);dirty=true;if(controls.target.distanceToSquared(focusTarget)<1e-7&&camera.position.distanceToSquared(focusPosition)<1e-7){controls.target.copy(focusTarget);camera.position.copy(focusPosition);focusTarget=null;focusPosition=null;}}
    const changed=lastState?.jointSurfaces!==s.jointSurfaces||lastState?.visible!==s.visible||lastState?.selected!==s.selected||lastState?.hiddenParts!==s.hiddenParts||lastState?.fadedParts!==s.fadedParts||autoFadeDirty||lastState?.highlightNerves!==s.highlightNerves||lastState?.depthFilter!==s.depthFilter||lastState?.muscleLayer!==s.muscleLayer||lastState?.faceMuscleLayer!==s.faceMuscleLayer||lastState?.focusParts!==s.focusParts||lastState?.isolate!==s.isolate||lastState?.partTransforms!==s.partTransforms||lastState?.bodyMotion!==s.bodyMotion;
