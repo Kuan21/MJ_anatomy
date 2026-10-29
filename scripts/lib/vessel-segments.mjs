@@ -152,6 +152,7 @@ export const bigGaps = rows => rows.filter(r => r.gapMm > r.diameterMm * GAP_FAC
 /** Which gaps the vessel-ends step bridges with a connector: a continuation (end facing end) within reach, or a branch that runs into its trunk within a few diameters.
  *  Small branches that stop short of a trunk are left alone: they end in muscle or fascia, and joining them would invent anatomy. */
 export function bridgeable(r) {
+  if (r.sub === 'hand') return false;   // the hand and fingers have their own digit rig (finger motion): connectors there would not follow the phalanges, so those ends keep their original connector and are listed instead
   if (r.gapMm <= r.diameterMm * GAP_FACTOR) return false;
   if (r.kind === 'end-to-end') return r.tangentDeg <= 120 && r.gapMm <= adjacentMm(r.diameterMm);
   return (r.diameterMm > 3.6 || r.gapMm <= 1.5 * r.diameterMm + 1) && r.gapMm <= 2 + 3 * r.diameterMm;

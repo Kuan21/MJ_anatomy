@@ -8,10 +8,10 @@
 
 | 區域 | 末端數 | 間隙 > 管徑一半：修正前（origin/main） → 修正後 | 切線誤差 > 45°（端接端） | 管徑誤差 > 1.5 倍（端接端） |
 | --- | ---: | --- | --- | --- |
-| 上肢 | 1229 | 199 → 87 | 172 → 127 | 95 → 64 |
+| 上肢 | 1229 | 199 → 105 | 172 → 134 | 95 → 67 |
 | 下肢 | 1475 | 312 → 106 | 192 → 105 | 98 → 64 |
 
-- **怎麼補**：沿用 `public/models/vessel-ends` 的末端機制（`scripts/prepare-vessel-ends.mjs`）。上肢與下肢中，間隙大於管徑一半、且下一段是「它面對的端」（距離不超過 3 mm + 6 倍管徑），或是「它匯入的主幹」（不超過 2 mm + 3 倍管徑，且管徑 > 3.6 mm 或間隙 ≤ 1.5 倍管徑 + 1 mm）的末端，加一條 Hermite 樣條連接管：起點沿本段軸向、終點沿下一段軸向，半徑由本段漸變到下一段，12 邊圓形斷面、沿管長平滑法線，取代同一末端原本的簡單連接管。不夠格的小分支維持原狀（真實解剖上它們止於肌肉或筋膜，硬接會**新增解剖**）。這一步共 ? 條橋接管。
+- **怎麼補**：沿用 `public/models/vessel-ends` 的末端機制（`scripts/prepare-vessel-ends.mjs`）。上肢與下肢中，間隙大於管徑一半、且下一段是「它面對的端」（距離不超過 3 mm + 6 倍管徑），或是「它匯入的主幹」（不超過 2 mm + 3 倍管徑，且管徑 > 3.6 mm 或間隙 ≤ 1.5 倍管徑 + 1 mm）的末端，加一條 Hermite 樣條連接管：起點沿本段軸向、終點沿下一段軸向，半徑由本段漸變到下一段，12 邊圓形斷面、沿管長平滑法線，取代同一末端原本的簡單連接管。手與手指的末端（`hand` 部位）不橋接：手指有自己的指關節綁定，連接管不會跟著指骨動（指骨動作測試會失敗），這些末端維持原本的簡單連接管並列在下表；不夠格的小分支維持原狀（真實解剖上它們止於肌肉或筋膜，硬接會**新增解剖**）。這一步共 ? 條橋接管。
 - **連接管跟著骨骼動**：每條連接管複製所屬血管的手臂（`tissue-bindings`）與下肢（`body-bindings`）綁定（`vessel-end-bindings.json`），新增的 `scripts/test-vessel-motion.mjs` 逐一檢查連接管與血管綁定相同。
 - **圓滑**：上肢、下肢 ≤ 3000 個三角形的血管本來就在建置模型串流時 Loop 細分並計算平滑法線（先前的血管 PR）；本 PR 沒有改動它們，只新增橋接／漸細管（12 邊）。未圓滑者（> 3000 個三角形，或形狀被動作資料綁死）數量見 `docs/vessel-segments.md`。
 - **沒有新增任何血管模型**。圖譜缺少的血管（沒有下一段、管徑 ≥ 3 mm 的末端）列在 `docs/vessel-segments.md` 的「沒有下一段的大血管末端」：上肢 86 個、下肢 186 個末端（管徑 ≥ 1.5 mm）；哪些是進入組織、哪些是圖譜缺少，需要你對照課本判斷。
@@ -22,14 +22,14 @@
 
 | 姿勢 | 量測對數 | 例外 |
 | --- | ---: | ---: |
-| shoulder abduction 90 | 470 | 39 |
-| shoulder flexion 90 | 470 | 38 |
-| elbow flexion 90 | 470 | 8 |
-| shoulder abduction 180 (limit) | 470 | 44 |
-| shoulder flexion 180 (limit) | 470 | 49 |
-| elbow flexion 140 (limit) | 470 | 12 |
-| wrist flexion 80 (limit) | 470 | 0 |
-| wrist flexion -70 (limit) | 470 | 12 |
+| shoulder abduction 90 | 471 | 39 |
+| shoulder flexion 90 | 471 | 38 |
+| elbow flexion 90 | 471 | 8 |
+| shoulder abduction 180 (limit) | 471 | 44 |
+| shoulder flexion 180 (limit) | 471 | 49 |
+| elbow flexion 140 (limit) | 471 | 12 |
+| wrist flexion 80 (limit) | 471 | 0 |
+| wrist flexion -70 (limit) | 471 | 14 |
 | hip flexion 90 | 481 | 48 |
 | knee flexion 90 | 481 | 24 |
 | hip flexion 120 + knee 130 (limit) | 481 | 75 |
@@ -41,11 +41,11 @@
 
 例外幾乎都是下一段沒有綁定在同一個關節鏈上：上肢的軀幹血管（腋、鎖骨下、胸肩峰、肩胛周圍）在肩動作時不跟著動，下肢的骨盆血管（髂內、臀、腹壁）在髖動作時不跟著動，以及圖譜歸類為手的「足背趾靜脈」這類被誤判的構造。這些是綁定資料的缺口，不是連接管的問題；本 PR 沒有改動綁定規則。連接管背端與所屬血管分離超過 2 mm 的組合共 13 個，列在同一個檔案。
 
-### 修正後仍大於管徑一半的間隙（上肢 87、下肢 106；完整列在這裡）
+### 修正後仍大於管徑一半的間隙（上肢 105、下肢 106；完整列在這裡）
 
-未修的原因：(a) 小分支（管徑 < 3 mm）停在主幹旁但距離超過連接範圍，真實解剖上多半止於肌肉，硬接會新增解剖；(b) 較大的血管（≥ 3 mm）下一段距離過遠或下一段不是它的解剖延續（例如頭靜脈上端最近的是外側肱靜脈，相距 33 mm），需要人工對照課本；(c) 20 個已加橋接但量測仍超過管徑一半。
+未修的原因：(a) 小分支（管徑 < 3 mm）停在主幹旁但距離超過連接範圍，真實解剖上多半止於肌肉，硬接會新增解剖；(b) 較大的血管（≥ 3 mm）下一段距離過遠或下一段不是它的解剖延續（例如頭靜脈上端最近的是外側肱靜脈，相距 33 mm），需要人工對照課本；(c) 18 個已加橋接但量測仍超過管徑一半。
 
-<details><summary>上肢 87 筆（血管對 | 類型 | 間隙 mm | 管徑 mm）</summary>
+<details><summary>上肢 105 筆（血管對 | 類型 | 間隙 mm | 管徑 mm）</summary>
 
 | 血管對（上游 → 下一段） | 類型 | 間隙 (mm) | 管徑 (mm) |
 | --- | --- | ---: | ---: |
@@ -87,55 +87,73 @@
 | Right median antebrachial vein (FJ2286) → Right ulnar vein (FJ2312) | 分支入幹 | 13.77 | 2.08 |
 | Left suprascapular vein (FJ2250) → Left subclavian vein (FJ3486) | 分支入幹 | 13.62 | 1.76 |
 | Left ulnar vein (FJ2260) → Left basilic vein (FJ2218) | 分支入幹 | 13.49 | 2.25 |
+| Dorsal venous network of left hand (FJ2228) → Proper palmar digital vein of left middle finger (FJ2326) | 端接端 | 13.26 | 3.45 |
 | Right deep brachial artery (FJ2277) → Right brachial artery (FJ2271) | 分支入幹 | 13.26 | 2.4 |
 | Right arteria radialis indicis (FJ2342) → Set of dorsal digital arteries (FJ2346) | 分支入幹 | 13.24 | 1.78 |
 | Right superior ulnar collateral artery (FJ2373) → Right posterior ulnar recurrent artery (FJ2293) | 分支入幹 | 12.99 | 1.44 |
 | Left superficial palmar venous arch (FJ2249) → Left deep palmar venous arch (FJ2229) | 分支入幹 | 12.94 | 1.67 |
 | Right inferior ulnar collateral artery (FJ2267) → Right brachial artery (FJ2271) | 分支入幹 | 12.64 | 1.56 |
-| Set of dorsal metacarpal arteries (FJ2347) → Set of dorsal digital arteries (FJ2346) | 分支入幹 | 12.53 | 2.09 |
 | Right superior ulnar collateral artery (FJ2373) → Right brachial artery (FJ2271) | 分支入幹 | 12.19 | 2.57 |
 | Proper palmar digital vein of left little finger (FJ2319) → Proper palmar digital vein of left little finger (FJ2321) | 分支入幹 | 12 | 1.74 |
 | Left ulnar vein (FJ2260) → Left median antebrachial vein (FJ2234) | 分支入幹 | 11.72 | 2.37 |
+| Dorsal venous network of left hand (FJ2228) → Proper palmar digital vein of left middle finger (FJ2340) | 端接端 | 11.36 | 3.27 |
 | Set of dorsal metacarpal arteries (FJ2348) → Set of dorsal digital arteries (FJ2318) | 分支入幹 | 10.78 | 1.95 |
 | Proper palmar digital vein of left little finger (FJ2329) → Proper palmar digital vein of left ring finger (FJ2328) | 分支入幹 | 10.56 | 1.03 |
 | Right radial vein (FJ2296) → Right cephalic vein (FJ2272) | 分支入幹 | 10.23 | 2.24 |
+| Dorsal venous network of right hand (FJ2280) → Proper palmar digital vein of right little finger (FJ2351) | 端接端 | 10.07 | 2.14 |
 | Pectoral branch of left thoraco-acromial artery (FJ2330) → Left lateral thoracic artery (FJ1976) | 分支入幹 | 9.93 | 1.23 |
+| Proper palmar digital vein of left middle finger (FJ2326) → Proper palmar digital vein of left index finger (FJ2325) | 分支入幹 | 9.89 | 1.35 |
 | Pectoral branch of right thoraco-acromial artery (FJ2361) → Right lateral thoracic artery (FJ1938) | 分支入幹 | 9.62 | 1.24 |
 | Left basilic vein (FJ2218) → Left ulnar vein (FJ2260) | 分支入幹 | 9.42 | 2.19 |
 | Left lateral brachial vein (PK-60) → Left medial brachial vein (FJ2313) | 分支入幹 | 9.4 | 2.9 |
 | Pectoral branch of left thoraco-acromial artery (FJ2330) → Left lateral mammary artery (PK-8) | 分支入幹 | 9.16 | 2.14 |
 | Right fourth common palmar digital artery (FJ2370) → Set of dorsal digital arteries (FJ2346) | 分支入幹 | 8.93 | 1.39 |
 | Right radial vein (FJ2296) → Right cephalic vein (FJ2272) | 分支入幹 | 8.92 | 1.41 |
+| Proper palmar digital vein of right middle finger (FJ2356) → Proper palmar digital vein of right index finger (FJ2355) | 分支入幹 | 8.42 | 1.31 |
 | Left axillary artery (FJ2216) → Deltoid branch of left thoraco-acromial artery (FJ2230) | 分支入幹 | 8.25 | 1.63 |
+| Right superficial palmar arterial arch (FJ2300) → Right palmar metacarpal artery (FJ2289) | 端接端 | 8.09 | 2.4 |
+| Right superficial palmar venous arch (FJ2301) → Proper palmar digital vein of right little finger (FJ2351) | 端接端 | 7.92 | 1.75 |
+| Left palmar metacarpal artery (FJ2237) → Left third common palmar digital artery (FJ2317) | 端接端 | 7.61 | 1.52 |
 | Right posterior circumflex humeral vein (PK-42) → Right anterior circumflex humeral vein (FJ2265) | 分支入幹 | 7.22 | 2.47 |
 | Right radial artery (FJ2294) → Right radial recurrent artery (FJ2295) | 分支入幹 | 7.11 | 3.25 |
+| Proper palmar digital vein of left middle finger (FJ2326) → Proper palmar digital vein of left index finger (FJ2325) | 分支入幹 | 6.97 | 1.45 |
 | Pectoral branch of left thoraco-acromial artery (FJ2330) → Left lateral mammary artery (PK-8) | 分支入幹 | 6.92 | 1.49 |
+| Lateral proper palmar digital artery of left middle finger (FJ2334) → Medial proper palmar digital artery of left index finger (FJ2333) | 分支入幹 | 6.84 | 1.47 |
 | Dorsal venous network of left hand (FJ2228) → Left palmar metacarpal vein (FJ2238) | 分支入幹 | 6.76 | 3.26 |
 | Right deep palmar arch (FJ2279) → Right palmar metacarpal artery (FJ2289) | 分支入幹 | 6.67 | 3.12 |
-| Lateral proper palmar digital artery of left middle finger (FJ2334) → Medial proper palmar digital artery of left index finger (FJ2333) | 分支入幹 | 6.55 | 1.47 |
+| Right arteria radialis indicis (FJ2342) → Right arteria radialis indicis (FJ2363) | 端接端 | 6.29 | 1.78 |
 | Right radial artery (FJ2294) → Right radial recurrent artery (FJ2295) | 分支入幹 | 6.2 | 2.77 |
 | Left palmar metacarpal vein (FJ2238) → Left palmar metacarpal vein (FJ2323) | 分支入幹 | 6.14 | 1.72 |
 | Pectoral branch of right thoraco-acromial artery (FJ2361) → Right lateral mammary artery (PK-3) | 分支入幹 | 5.95 | 1.36 |
 | Pectoral branch of left thoraco-acromial artery (FJ2330) → Left second posterior intercostal artery (FJ1974) | 分支入幹 | 5.94 | 1.48 |
+| Right arteria radialis indicis (FJ2342) → Right arteria radialis indicis (FJ2363) | 端接端 | 5.54 | 1.76 |
 | Left inferior ulnar collateral artery (FJ2215) → Left brachial artery (FJ2219) | 分支入幹 | 5.49 | 2.47 |
 | Proper palmar digital vein of left little finger (FJ2321) → Proper palmar digital vein of left little finger (FJ2329) | 分支入幹 | 5.35 | 0.8 |
+| Right superficial palmar arterial arch (FJ2300) → Right arteria radialis indicis (FJ2342) | 端接端 | 5.22 | 2.52 |
+| Set of dorsal digital arteries (FJ2346) → Set of dorsal metacarpal arteries (FJ2347) | 端接端 | 5.01 | 1.64 |
 | Left circumflex scapular artery (FJ2221) → Left axillary artery (FJ2216) | 分支入幹 | 4.88 | 1.84 |
+| Right palmar metacarpal vein (FJ2290) → Proper palmar digital vein of right little finger (FJ2349) | 分支入幹 | 4.75 | 1.75 |
 | Right radial artery (FJ2294) → Right superficial palmar branch of radial artery (PK-44) | 端接端 | 4.64 | 1.01 |
-| Medial proper palmar digital artery of left index finger (FJ2333) → Set of dorsal digital arteries (FJ2318) | 分支入幹 | 4.6 | 0.93 |
+| Medial proper palmar digital artery of right index finger (FJ2364) → Right first common palmar digital artery (FJ2343) | 端接端 | 4.55 | 1.52 |
+| Medial proper palmar digital artery of left index finger (FJ2333) → Left first common palmar digital artery (FJ2315) | 端接端 | 4.52 | 1.61 |
 | Proper palmar digital vein of left middle finger (FJ2340) → Proper palmar digital vein of left middle finger (FJ2326) | 分支入幹 | 4.34 | 0.8 |
 | Right radial vein (FJ2296) → Right cephalic vein (FJ2272) | 分支入幹 | 4.22 | 2.93 |
 | Left median cubital vein (FJ2235) → Left medial brachial vein (FJ2313) | 分支入幹 | 4.15 | 3.92 |
 | Left circumflex scapular vein (FJ2222) → Left suprascapular vein (FJ2250) | 分支入幹 | 4.12 | 0.98 |
 | Right palmar metacarpal vein (FJ2290) → Right palmar metacarpal vein (FJ2353) | 分支入幹 | 4.07 | 1.73 |
-| Proper palmar digital vein of right middle finger (FJ2356) → Dorsal venous network of right hand (FJ2280) | 分支入幹 | 3.91 | 1.31 |
-| Proper palmar digital vein of left middle finger (FJ2326) → Dorsal venous network of left hand (FJ2228) | 分支入幹 | 3.72 | 1.35 |
 | Left cephalic vein (FJ2220) → Left anterior circumflex humeral vein (FJ2213) | 分支入幹 | 3.45 | 3.54 |
 | Left ulnar vein (FJ2260) → Left median antebrachial vein (FJ2234) | 分支入幹 | 3.12 | 1.08 |
 | Deltoid branch of left thoraco-acromial artery (FJ2230) → Left axillary artery (FJ2216) | 分支入幹 | 2.83 | 2.2 |
 | Left median cubital vein (FJ2235) → Left medial brachial vein (FJ2313) | 分支入幹 | 2.27 | 4.15 |
+| Right fourth common palmar digital artery (FJ2370) → Right superficial palmar arterial arch (FJ2300) | 分支入幹 | 1.68 | 1.65 |
+| Medial proper palmar digital artery of right ring finger (FJ2369) → Set of dorsal digital arteries (FJ2346) | 分支入幹 | 1.67 | 0.8 |
+| Right superficial palmar arterial arch (FJ2300) → Right deep palmar arch (FJ2279) | 分支入幹 | 1.59 | 2.82 |
+| Left superficial palmar arterial arch (FJ2248) → Left palmar metacarpal artery (FJ2237) | 端接端 | 1.57 | 2.85 |
+| Proper palmar digital vein of left little finger (FJ2319) → Common palmar digital vein (FJ2322) | 端接端 | 1.49 | 1.76 |
+| Right first common palmar digital artery (FJ2343) → Right superficial palmar arterial arch (FJ2300) | 端接端 | 1.34 | 1.75 |
+| Right arteria princeps pollicis (FJ2372) → Set of dorsal digital arteries (FJ2346) | 分支入幹 | 1.19 | 0.8 |
 | Right third common palmar digital artery (FJ2345) → Right palmar metacarpal artery (FJ2289) | 分支入幹 | 0.86 | 1.7 |
 | Left median cubital vein (FJ2235) → Left lateral brachial vein (PK-60) | 分支入幹 | 0.75 | 1.4 |
-| Proper palmar digital vein of right ring finger (FJ2358) → Proper palmar digital vein of right middle finger (FJ2357) | 分支入幹 | 0.68 | 1.19 |
 
 </details>
 

@@ -4,14 +4,14 @@
 
 | 姿勢 | 量測的血管對 | 例外 | 最大開口 (mm) |
 | --- | ---: | ---: | ---: |
-| shoulder abduction 90 | 470 | 39 | 95.8 |
-| shoulder flexion 90 | 470 | 38 | 122.5 |
-| elbow flexion 90 | 470 | 8 | 5.4 |
-| shoulder abduction 180 (limit) | 470 | 44 | 205.6 |
-| shoulder flexion 180 (limit) | 470 | 49 | 218.5 |
-| elbow flexion 140 (limit) | 470 | 12 | 8.9 |
-| wrist flexion 80 (limit) | 470 | 0 | 0.2 |
-| wrist flexion -70 (limit) | 470 | 12 | 6.1 |
+| shoulder abduction 90 | 471 | 39 | 95.8 |
+| shoulder flexion 90 | 471 | 38 | 122.5 |
+| elbow flexion 90 | 471 | 8 | 5.4 |
+| shoulder abduction 180 (limit) | 471 | 44 | 205.6 |
+| shoulder flexion 180 (limit) | 471 | 49 | 218.5 |
+| elbow flexion 140 (limit) | 471 | 12 | 8.9 |
+| wrist flexion 80 (limit) | 471 | 0 | 0.2 |
+| wrist flexion -70 (limit) | 471 | 14 | 6.1 |
 | hip flexion 90 | 481 | 48 | 1231.7 |
 | knee flexion 90 | 481 | 24 | 617.4 |
 | hip flexion 120 + knee 130 (limit) | 481 | 75 | 720.8 |
@@ -243,19 +243,21 @@
 | Middle collateral branch of right deep brachial artery (FJ2362) → Right recurrent interosseous artery (FJ2297) | right | 0 | 1.4 | 2.43 |  |
 | Left recurrent interosseous artery (FJ2245) → Middle collateral branch of left deep brachial artery (FJ2331) | left | 0 | 1.1 | 0.84 |  |
 
-## wrist flexion -70 (limit)（12 個例外）
+## wrist flexion -70 (limit)（14 個例外）
 
 | 血管對 | 側 | 靜止間隙 (mm) | 擺姿後 (mm) | 管徑 (mm) | 備註 |
 | --- | --- | ---: | ---: | ---: | --- |
 | Right ulnar artery (FJ2310) → Right dorsal carpal branch of ulnar artery (FJ2288) | right | 20.96 | 27.1 | 2.22 |  |
 | Left radial artery (FJ2242) → Left superficial palmar arterial arch (FJ2248) | left | 17.91 | 19.7 | 1.6 |  |
 | Left superficial palmar venous arch (FJ2249) → Left deep palmar venous arch (FJ2229) | left | 12.94 | 14.5 | 1.67 |  |
+| Right superficial palmar arterial arch (FJ2300) → Right palmar metacarpal artery (FJ2289) | right | 8.09 | 9.8 | 2.4 |  |
+| Left superficial palmar arterial arch (FJ2248) → Left palmar metacarpal artery (FJ2237) | left | 1.57 | 3.5 | 2.85 |  |
 | Right superficial palmar arterial arch (FJ2300) → Right deep palmar branch of ulnar artery (PK-45) | right | 1.29 | 2.8 | 2.86 |  |
-| Left palmar metacarpal artery (FJ2237) → Left superficial palmar arterial arch (FJ2248) | left | 0 | 2.4 | 1.44 |  |
-| Right deep palmar arch (FJ2279) → Right superficial palmar arterial arch (FJ2300) | right | 0 | 2.4 | 2.74 |  |
+| Right deep palmar arch (FJ2279) → Right superficial palmar arterial arch (FJ2300) | right | 0 | 2.6 | 2.74 |  |
 | Right deep palmar venous arch (PKC-323) → Right radial vein (FJ2296) | right | 0 | 2.4 | 1.37 |  |
 | Left deep palmar venous arch (PKC-324) → Left radial vein (FJ2244) | left | 0.07 | 2.2 | 1.33 |  |
-| Right palmar metacarpal artery (FJ2289) → Right superficial palmar arterial arch (FJ2300) | right | 0 | 2 | 1.41 |  |
+| Right palmar metacarpal artery (FJ2289) → Right superficial palmar arterial arch (FJ2300) | right | 0 | 2.2 | 1.41 |  |
+| Left palmar metacarpal artery (FJ2237) → Left superficial palmar arterial arch (FJ2248) | left | 0 | 1.9 | 1.44 |  |
 | Left palmar metacarpal vein (FJ2320) → Left radial vein (FJ2244) | left | 0 | 1.8 | 1.23 |  |
 | Right deep palmar branch of ulnar artery (PK-45) → Right superficial palmar arterial arch (FJ2300) | right | 0 | 1.5 | 2.2 |  |
 | Left palmar metacarpal vein (FJ2320) → Left radial vein (FJ2244) | left | 0 | 1.2 | 1.64 |  |

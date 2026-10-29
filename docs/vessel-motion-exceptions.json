@@ -2,43 +2,43 @@
  "note": "Vessel pairs that open more than half a diameter (and more than 1 mm beyond their rest gap) at a joint pose. Known; a new one fails `npm run check:motion`.",
  "summary": {
   "shoulder abduction 90": {
-   "pairs": 470,
+   "pairs": 471,
    "exceptions": 39,
    "worstOpeningMm": 95.8
   },
   "shoulder flexion 90": {
-   "pairs": 470,
+   "pairs": 471,
    "exceptions": 38,
    "worstOpeningMm": 122.5
   },
   "elbow flexion 90": {
-   "pairs": 470,
+   "pairs": 471,
    "exceptions": 8,
    "worstOpeningMm": 5.4
   },
   "shoulder abduction 180 (limit)": {
-   "pairs": 470,
+   "pairs": 471,
    "exceptions": 44,
    "worstOpeningMm": 205.6
   },
   "shoulder flexion 180 (limit)": {
-   "pairs": 470,
+   "pairs": 471,
    "exceptions": 49,
    "worstOpeningMm": 218.5
   },
   "elbow flexion 140 (limit)": {
-   "pairs": 470,
+   "pairs": 471,
    "exceptions": 12,
    "worstOpeningMm": 8.9
   },
   "wrist flexion 80 (limit)": {
-   "pairs": 470,
+   "pairs": 471,
    "exceptions": 0,
    "worstOpeningMm": 0.2
   },
   "wrist flexion -70 (limit)": {
-   "pairs": 470,
-   "exceptions": 12,
+   "pairs": 471,
+   "exceptions": 14,
    "worstOpeningMm": 6.1
   },
   "hip flexion 90": {
@@ -267,13 +267,15 @@
   "elbow flexion 140 (limit)|right|FJ2362|FJ2297|junction": 1.4,
   "elbow flexion 140 (limit)|right|FJ2373|FJ2293|junction": 21.9,
   "elbow flexion 140 (limit)|right|PK-58|FJ2296|end-to-end": 1.5,
-  "wrist flexion -70 (limit)|left|FJ2237|FJ2248|end-to-end": 2.4,
+  "wrist flexion -70 (limit)|left|FJ2237|FJ2248|end-to-end": 1.9,
   "wrist flexion -70 (limit)|left|FJ2242|FJ2248|junction": 19.7,
+  "wrist flexion -70 (limit)|left|FJ2248|FJ2237|end-to-end": 3.5,
   "wrist flexion -70 (limit)|left|FJ2249|FJ2229|junction": 14.5,
   "wrist flexion -70 (limit)|left|FJ2320|FJ2244|end-to-end": 1.8,
   "wrist flexion -70 (limit)|left|PKC-324|FJ2244|end-to-end": 2.2,
-  "wrist flexion -70 (limit)|right|FJ2279|FJ2300|end-to-end": 2.4,
-  "wrist flexion -70 (limit)|right|FJ2289|FJ2300|end-to-end": 2,
+  "wrist flexion -70 (limit)|right|FJ2279|FJ2300|end-to-end": 2.6,
+  "wrist flexion -70 (limit)|right|FJ2289|FJ2300|end-to-end": 2.2,
+  "wrist flexion -70 (limit)|right|FJ2300|FJ2289|end-to-end": 9.8,
   "wrist flexion -70 (limit)|right|FJ2300|PK-45|end-to-end": 2.8,
   "wrist flexion -70 (limit)|right|FJ2310|FJ2288|junction": 27.1,
   "wrist flexion -70 (limit)|right|PK-45|FJ2300|end-to-end": 1.5,
