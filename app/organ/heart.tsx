@@ -3,6 +3,7 @@ import {ArrowLeft, ChevronDown, ChevronRight, Eye, EyeOff, RotateCcw} from 'luci
 import {fetchModelBuffer} from '../model-download';
 import {createHeartViewer} from './heart-viewer';
 import {CHAMBERS, chamberView, type ChamberItem} from './heart-chambers';
+import {VESSEL_GROUPS, isFineBranch} from './heart-vessels';
 import {SECTION_AXES, type HeartCatalogue, type HeartPart, type HeartView, type HeartViewState, type SectionAxis} from './heart-types';
 import './organ.css';
 
@@ -38,7 +39,7 @@ function HeartScene({catalogue, view, labels, onProgress, onReady, onError, onPi
 
 // Closed heart by default: the outside (chambers as the epicardial surface, coronary vessels, great vessels). Valves, chordae and papillary muscles appear when the heart is opened.
 const INTERNAL = ['papillary', 'valves', 'interior', 'pericardium'];
-const defaults: HeartViewState = {hiddenGroups: INTERNAL, selectedId: null, section: {axis: 'none', offset: .5, flip: true}, ghostChambers: false, openChamber: null, highlight: [], command: {id: 0, view: 'front'}};
+const defaults: HeartViewState = {hiddenGroups: INTERNAL, hiddenParts: [], selectedId: null, section: {axis: 'none', offset: .5, flip: true}, ghostChambers: false, openChamber: null, highlight: [], command: {id: 0, view: 'front'}};
 const OPENED: Partial<HeartViewState> = {openChamber: null, highlight: [], hiddenGroups: ['pericardium'], section: {axis: 'coronal', offset: .5, flip: true}, ghostChambers: true};
 const AXES: SectionAxis[] = ['none', 'coronal', 'sagittal', 'transverse'];
 /** Each cut removes the half facing the camera that looks into it: coronal from the front, sagittal from the body's right, transverse from above. */
@@ -68,12 +69,35 @@ export default function HeartDetail() {
   const go = (name: HeartView) => setView(v => ({...v, command: {id: v.command.id + 1, view: name}}));
   const toggleGroup = (id: string) => patch({hiddenGroups: view.hiddenGroups.includes(id) ? view.hiddenGroups.filter(g => g !== id) : [...view.hiddenGroups, id]});
   const chamber = CHAMBERS.find(c => c.id === view.openChamber);
+  /** Vessel visibility before the heart was opened: closing the chamber (or the heart) puts the vessels back as the user had them. */
+  const before = useRef<{hiddenGroups: string[]; hiddenParts: string[]} | null>(null);
+  const fineIds = useMemo(() => (catalogue?.parts ?? []).filter(p => isFineBranch(p.name)).map(p => p.id), [catalogue]);
+  /** Opening: the fine surface branches and the pericardium are hidden, the great vessels and main coronary vessels stay. */
+  const hideFine = (v: HeartViewState): Partial<HeartViewState> => {
+    if (!before.current) before.current = {hiddenGroups: v.hiddenGroups, hiddenParts: v.hiddenParts};
+    return {hiddenParts: [...new Set([...v.hiddenParts, ...fineIds])]};
+  };
+  /** Closing: vessel groups and fine branches go back to what they were before opening (nothing the user had switched off is switched on). */
+  const restoreVessels = (v: HeartViewState, base: string[]): Partial<HeartViewState> => {
+    const b = before.current; before.current = null;
+    if (!b) return {hiddenGroups: base, hiddenParts: v.hiddenParts.filter(id => !fineIds.includes(id))};
+    const keep = base.filter(g => !(VESSEL_GROUPS as readonly string[]).includes(g)), vessels = b.hiddenGroups.filter(g => (VESSEL_GROUPS as readonly string[]).includes(g));
+    return {hiddenGroups: [...keep, ...vessels], hiddenParts: b.hiddenParts};
+  };
   const idsOf = (names: string[]) => (catalogue?.parts ?? []).filter(p => names.includes(p.name)).map(p => p.id);
   const openChamber = (id: string | null) => {
     setItem(null);
-    const c = CHAMBERS.find(x => x.id === id);
-    setView(v => ({...v, ...defaults, command: {id: v.command.id + 1, view: c ? chamberView(c) : 'front', look: c?.look, focus: c?.wall}, openChamber: c ? c.id : null}));
+    const c = CHAMBERS.find(x => x.id === id), v = view;
+    const base = {...v, ...defaults, command: {id: v.command.id + 1, view: c ? chamberView(c) : 'front', look: c?.look, focus: c?.wall}, openChamber: c ? c.id : null} as HeartViewState;
+    if (c) {
+      // the vessel groups the user switched off stay off while the chamber is open
+      const keepOff = v.hiddenGroups.filter(g => (VESSEL_GROUPS as readonly string[]).includes(g) && g !== 'pericardium');
+      setView({...base, hiddenGroups: [...new Set([...defaults.hiddenGroups, ...keepOff])], ...hideFine(v)});
+    } else setView({...base, ...restoreVessels(v, defaults.hiddenGroups)});
   };
+  /** 打開心臟（內部）／閉合（外表）: same vessel handling as opening a chamber. */
+  const openHeart = () => setView({...view, ...OPENED, ...hideFine(view)});
+  const closeHeart = () => setView({...view, ...defaults, selectedId: view.selectedId, ...restoreVessels(view, defaults.hiddenGroups)});
   const chooseItem = (next: ChamberItem) => {
     const same = item?.en === next.en;
     setItem(same ? null : next);
@@ -128,7 +152,7 @@ export default function HeartDetail() {
                 <button className="organ-group-head" onClick={() => toggleGroup(g.id)} aria-pressed={!hidden} aria-label={`${hidden ? '顯示' : '隱藏'}${g.label}`}>{hidden ? <EyeOff size={15}/> : <Eye size={15}/>}<span lang="en">{g.english}<small lang="zh-Hant">{g.label}</small></span><b>{g.parts.length}</b></button>
                 <button className="organ-expand" aria-expanded={expanded} aria-label={`${expanded ? '收合' : '展開'}${g.label}`} onClick={() => setOpenGroups(o => expanded ? o.filter(x => x !== g.id) : [...o, g.id])}>{expanded ? <ChevronDown size={15}/> : <ChevronRight size={15}/>}</button>
               </div>
-              {expanded && <ul>{g.parts.map((p: HeartPart) => <li key={p.id}><button aria-pressed={view.selectedId === p.id} onClick={() => patch({selectedId: view.selectedId === p.id ? null : p.id, hiddenGroups: view.hiddenGroups.filter(x => x !== g.id)})}><span lang="en">{p.name}</span><small lang="zh-Hant">{p.chinese}</small>{p.origin === '示意構造' && <i className="organ-nomodel-tag organ-mj-tag" lang="zh-Hant">示意構造</i>}</button></li>)}</ul>}
+              {expanded && <ul>{g.parts.map((p: HeartPart) => <li key={p.id} className={view.hiddenParts.includes(p.id) ? 'organ-part-hidden' : undefined}><button className="organ-part-eye" aria-pressed={!view.hiddenParts.includes(p.id)} aria-label={`${view.hiddenParts.includes(p.id) ? '顯示' : '隱藏'}${p.chinese}`} title={view.hiddenParts.includes(p.id) ? '已隱藏（打開心腔時隱藏的細分支）；按一下顯示' : '按一下隱藏'} onClick={() => patch({hiddenParts: view.hiddenParts.includes(p.id) ? view.hiddenParts.filter(x => x !== p.id) : [...view.hiddenParts, p.id]})}>{view.hiddenParts.includes(p.id) ? <EyeOff size={13}/> : <Eye size={13}/>}</button><button aria-pressed={view.selectedId === p.id} onClick={() => patch({selectedId: view.selectedId === p.id ? null : p.id, hiddenGroups: view.hiddenGroups.filter(x => x !== g.id), hiddenParts: view.hiddenParts.filter(x => x !== p.id)})}><span lang="en">{p.name}</span><small lang="zh-Hant">{p.chinese}</small>{p.origin === '示意構造' && <i className="organ-nomodel-tag organ-mj-tag" lang="zh-Hant">示意構造</i>}</button></li>)}</ul>}
             </div>;
           })}
         </section>
@@ -137,7 +161,7 @@ export default function HeartDetail() {
         <HeartScene catalogue={catalogue} view={view} labels={labelSpecs} onProgress={(loaded, total) => setLoad({loaded, total})} onReady={() => setReady(true)} onError={setError}
           onPick={id => patch({selectedId: id})}/>
         <div className="organ-views" aria-label="視角">{([['front', '前面'], ['back', '後面'], ['left', '左側'], ['right', '右側'], ['top', '上面']] as const).map(([id, label]) => <button key={id} onClick={() => go(id)}>{label}</button>)}
-          <button onClick={() => {setView(v => ({...defaults, command: {id: v.command.id + 1, view: 'front'}}));}} aria-label="還原預設" title="還原預設"><RotateCcw size={15}/></button></div>
+          <button onClick={() => {before.current = null; setView(v => ({...defaults, command: {id: v.command.id + 1, view: 'front'}}));}} aria-label="還原預設" title="還原預設"><RotateCcw size={15}/></button></div>
         {!ready && !error && <div className="organ-progress" role="status"><span className="organ-spinner"/><strong>載入心臟模型</strong><small>{load.loaded} / {load.total || '…'} 個模型套件</small></div>}
         {error && <div className="organ-error stage" role="alert">{error}</div>}
         <p className="organ-hint">拖曳旋轉 · 滾輪／雙指縮放 · 點選構造查看說明</p>
@@ -162,8 +186,8 @@ export default function HeartDetail() {
         <section className="organ-block">
           <h2>心臟外觀與內部<small>Outside / inside</small></h2>
           <div className="organ-segmented" role="group" aria-label="外觀或內部">
-            <button aria-pressed={view.hiddenGroups.length > 0 || view.section.axis === 'none'} onClick={() => patch({...defaults, selectedId: view.selectedId})}>閉合（外表）</button>
-            <button aria-pressed={view.hiddenGroups.length === 0 && view.section.axis !== 'none'} onClick={() => patch(OPENED)}>打開心臟（內部）</button>
+            <button aria-pressed={view.hiddenGroups.length > 0 || view.section.axis === 'none'} onClick={closeHeart}>閉合（外表）</button>
+            <button aria-pressed={view.hiddenGroups.length === 0 && view.section.axis !== 'none'} onClick={openHeart}>打開心臟（內部）</button>
           </div>
           <small>預設只顯示外表；打開後顯示瓣膜、腱索與乳突肌，也可用下方切面與各組構造開關逐層查看。</small>
         </section>
@@ -177,7 +201,7 @@ export default function HeartDetail() {
         </section>
         <section className="organ-block">
           <h2>切面<small>Section</small></h2>
-          <div className="organ-segmented" role="group" aria-label="切面方向">{AXES.map(axis => <button key={axis} aria-pressed={view.section.axis === axis} onClick={() => axis === 'none' ? patch({section: {...view.section, axis}, openChamber: null, highlight: []}) : setView(v => ({...v, openChamber: null, highlight: [], hiddenGroups: v.openChamber ? INTERNAL : v.hiddenGroups, section: {axis, offset: .5, flip: CUT[axis].flip}, command: {id: v.command.id + 1, view: CUT[axis].view}}))}>{axis === 'none' ? '完整' : SECTION_AXES[axis].label.slice(0, 2)}</button>)}</div>
+          <div className="organ-segmented" role="group" aria-label="切面方向">{AXES.map(axis => <button key={axis} aria-pressed={view.section.axis === axis} onClick={() => axis === 'none' ? setView(v => ({...v, section: {...v.section, axis}, openChamber: null, highlight: [], ...(v.openChamber ? restoreVessels(v, INTERNAL) : {})})) : setView(v => ({...v, openChamber: null, highlight: [], ...(v.openChamber ? restoreVessels(v, INTERNAL) : {}), section: {axis, offset: .5, flip: CUT[axis].flip}, command: {id: v.command.id + 1, view: CUT[axis].view}}))}>{axis === 'none' ? '完整' : SECTION_AXES[axis].label.slice(0, 2)}</button>)}</div>
           {view.section.axis !== 'none' && <>
             <label className="organ-slider"><span>{SECTION_AXES[view.section.axis].label} · 位置 {Math.round(view.section.offset * 100)}%</span>
               <input type="range" min={0} max={100} value={Math.round(view.section.offset * 100)} aria-label="切面位置" onChange={e => patch({section: {...view.section, offset: +e.target.value / 100}})}/></label>
