@@ -34,7 +34,7 @@ async function moduleFor(key) {
   else mod = new vm.SourceTextModule(ts.transpileModule(fs.readFileSync(key, 'utf8'), {compilerOptions: {target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext, jsx: ts.JsxEmit.ReactJSX}}).outputText, {identifier: key});
   cache.set(key, mod); return mod;
 }
-const link = async (spec, ref) => {let key = spec; if (spec.startsWith('.')) {key = path.resolve(path.dirname(ref.identifier), spec); if (!fs.existsSync(key)) key += '.ts';} return moduleFor(key);};
+const link = async (spec, ref) => {let key = spec; if (spec.startsWith('.')) {key = path.resolve(path.dirname(ref.identifier), spec); if (!fs.existsSync(key)) key += fs.existsSync(key + '.ts') ? '.ts' : '.tsx';} return moduleFor(key);};
 const hub = await moduleFor(path.join(root, 'app/quiz/hub.tsx')); await hub.link(link); await hub.evaluate();
 const tree = hub.namespace.default();
 const all = n => Array.isArray(n) ? n.flatMap(all) : !n || typeof n !== 'object' ? [] : [n, ...all(n.props?.children)];
