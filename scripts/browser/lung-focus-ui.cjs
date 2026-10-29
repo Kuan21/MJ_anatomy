@@ -34,6 +34,13 @@ const results=[];const ok=(name,pass,info='')=>{results.push({name,pass,info});c
  const bx=await p.locator(sel.slider).boundingBox();
  await p.mouse.click(bx.x+bx.width*0.3,bx.y+bx.height/2);await p.waitForTimeout(3000);
  const v=+(await p.locator(sel.slider).inputValue());ok('opacity slider moves with a real click',v<60,'value '+v);await shot('6-opacity');
+ // the slider auto-switches both toggles on; each switch must then turn off and on again with a real click
+ for(const [label,name] of [['顯示支氣管樹','bronchial tree'],['顯示肺血管','pulmonary vessels']]){
+  const sw=`.lung-focus [aria-label="${label}"]`;const state=()=>p.locator(sw).getAttribute('aria-checked');
+  ok(name+' switch on after lowering opacity',(await state())==='true');
+  await real(sw);await p.waitForTimeout(3000);ok(name+' switch turns off with a real click',(await state())==='false');await shot('7-'+name.replace(' ','-')+'-off');
+  await real(sw);await p.waitForTimeout(3000);ok(name+' switch turns on again',(await state())==='true');await shot('8-'+name.replace(' ','-')+'-on');
+ }
  await p.screenshot({path:`${out}/${tag}-final.png`});
  const extra=process.env.EXTRA_TOGGLES?process.env.EXTRA_TOGGLES.split(','):[];
  for(const t of extra){const l=p.locator('.lung-focus label,.lung-focus button',{hasText:t}).first();ok('toggle '+t+' present',await l.count()>0);if(await l.count()){await l.click();await p.waitForTimeout(3000);await shot('7-'+t);}}
