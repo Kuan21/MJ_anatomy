@@ -5,7 +5,7 @@ export interface HeartPart {
   group: string;
   system: 'cardiac' | 'arterial' | 'venous';
   description: {zh: string; en: string};
-  /** where the geometry comes from when not the Z-Anatomy export itself: 'BodyParts3D 4.0', 'MJ schematic shell' or 'MJ 補建' */
+  /** where the geometry comes from when not the Z-Anatomy export itself: 'BodyParts3D 4.0', 'schematic shell' or '示意構造' */
   origin?: string;
   chunk: number;
   vertexCount: number;

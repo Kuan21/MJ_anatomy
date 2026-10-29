@@ -21,8 +21,8 @@ const PV = {
   'Right inferior pulmonary vein': ['Right inferior pulmonary vein', '右下肺靜脈開口', 'Opening of the right inferior pulmonary vein', '右下肺靜脈開口於左心房後壁的右下角。'],
 } as const;
 
-const MJ = '（MJ 補建，位置與形狀為示意。）';
-const MJ_EN = ' (MJ-built; position and shape are schematic.)';
+const MJ = '（示意構造，位置與形狀為示意。）';
+const MJ_EN = ' (schematic; position and shape are schematic.)';
 const noModel = (en: string, zh: string, zhDesc: string, enDesc: string): ChamberItem => ({en, zh, parts: [], zhDesc, enDesc});
 const RA_VALVE_LEAFLETS = ['Anterior leaflet of right atrioventricular valve', 'Inferior leaflet of right atrioventricular valve', 'Septal leaflet of right atrioventricular valve'];
 const LV_VALVE_LEAFLETS = ['Anterior leaflet of left atrioventricular valve', 'Posterior leaflet of left atrioventricular valve'];

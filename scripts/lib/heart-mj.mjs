@@ -1,4 +1,4 @@
-// Heart structures that neither Z-Anatomy nor BodyParts3D models, built on the Z-Anatomy chambers from textbook anatomy ("MJ 補建").
+// Heart structures that neither Z-Anatomy nor BodyParts3D models, built on the Z-Anatomy chambers from textbook anatomy ("示意構造").
 // Everything here is derived from the chamber, valve and vessel meshes at build time: ridges follow the inside of the wall, patches are
 // pieces of the chamber surface, and the pericardial sinuses are schematic spaces. They are marked as MJ-made in the UI.
 import {meshOf, ray, closest, wallPoint, patch, tubeThrough, merge, sub, add, mul, unit, len, lerp, dot, cross} from './heart-geom.mjs';
