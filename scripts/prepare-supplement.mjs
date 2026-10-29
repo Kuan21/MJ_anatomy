@@ -7,6 +7,7 @@ import {createHash} from 'node:crypto';
 import {gzipSync} from 'node:zlib';
 import {MeshoptSimplifier} from 'meshoptimizer';
 import {LUNG_LOBES, carveFissures} from './lib/lung-fissures.mjs';
+import {taubin, angleWeightedNormals} from './lib/lung-mesh.mjs';
 await MeshoptSimplifier.ready;
 const pin = process.argv.includes('--pin');
 const specUrl = new URL('./supplement-parts.json', import.meta.url), spec = JSON.parse(fs.readFileSync(specUrl, 'utf8'));
@@ -37,6 +38,9 @@ const toAtlas = (x, y, z) => {
   return [(SCALE * u[0] + OFFSET_MM[0] + d[0]) / 1000, (SCALE * u[1] + OFFSET_MM[1] + d[1]) / 1000, (SCALE * u[2] + OFFSET_MM[2] + d[2]) / 1000];
 };
 const MAX_TRIANGLES = 16000;
+// Lung lobes: smoothed at full resolution (Taubin, the voxel staircase of the segmentation goes, the volume stays) before they are simplified, then simplified to a finer budget so the
+// mediastinal impressions and the cardiac notch keep their shape; the fissures are carved afterwards and the carved surface gets a light second pass.
+const LUNG_FMAS = new Set(Object.values(LUNG_LOBES).flat()), LUNG_TRIANGLES = 24000, LUNG_SMOOTH = 30, LUNG_CARVED_SMOOTH = 4;
 
 async function source(part) {
   const file = new URL(`${part.fma}.stl`, cache);
@@ -92,6 +96,7 @@ function normalsOf(positions, indices) {
   return out;
 }
 
+const packNormals = n => Int16Array.from(n, v => Math.round(v * 32767));
 const chunks = [], parts = []; let slices = [], size = 0; const report = [];
 const append = data => { const padding = (4 - size % 4) % 4; if (padding) { slices.push(Buffer.alloc(padding)); size += padding; } const start = size; slices.push(data); size += data.length; return start; };
 const flush = () => {
@@ -103,7 +108,9 @@ const flush = () => {
 // Everything up to the packed positions of one part: weld, simplify, compact.
 async function prepared(part) {
   const bytes = await source(part), {positions: fullPositions, indices: fullIndices} = weld(bytes);
-  const [simplified, error] = MeshoptSimplifier.simplify(fullIndices, fullPositions, 3, Math.min(fullIndices.length, MAX_TRIANGLES * 3), .004);
+  const lung = LUNG_FMAS.has(part.fma);
+  if (lung) taubin(fullPositions, fullIndices, {iterations: LUNG_SMOOTH});
+  const [simplified, error] = MeshoptSimplifier.simplify(fullIndices, fullPositions, 3, Math.min(fullIndices.length, (lung ? LUNG_TRIANGLES : MAX_TRIANGLES) * 3), lung ? .002 : .004);
   const [remap, vertexCount] = MeshoptSimplifier.compactMesh(simplified);
   const positions = new Float32Array(vertexCount * 3);
   for (let old = 0; old < remap.length; old++) { const k = remap[old]; if (k !== 0xffffffff) positions.set(fullPositions.subarray(old * 3, old * 3 + 3), k * 3); }
@@ -114,10 +121,11 @@ const carved = new Map();
 for (const [side, fmas] of Object.entries(LUNG_LOBES)) {
   const lobes = []; for (const fma of fmas) {const part = spec.parts.find(p => p.fma === fma); if (!part) throw new Error(`lung lobe ${fma} is not in supplement-parts.json`); const g = await prepared(part); carved.set(fma, g); lobes.push({positions: g.positions, indices: g.simplified});}
   report.push(`${side} lung fissures: ${carveFissures(lobes).join(' / ')} vertices moved inward`);
+  for (const lobe of lobes) taubin(lobe.positions, lobe.indices, {iterations: LUNG_CARVED_SMOOTH});
 }
 for (const part of spec.parts) {
   const {positions, simplified, vertexCount, error, fullIndices} = carved.get(part.fma) ?? await prepared(part);
-  const normals = normalsOf(positions, simplified);
+  const normals = LUNG_FMAS.has(part.fma) ? packNormals(angleWeightedNormals(positions, simplified)) : normalsOf(positions, simplified);
   const bounds = [[Infinity, Infinity, Infinity], [-Infinity, -Infinity, -Infinity]];
   for (let i = 0; i < positions.length; i += 3) for (let k = 0; k < 3; k++) { bounds[0][k] = Math.min(bounds[0][k], positions[i + k]); bounds[1][k] = Math.max(bounds[1][k], positions[i + k]); }
   const pos = Buffer.from(positions.buffer), nor = Buffer.from(normals.buffer), idx = Buffer.from(simplified.buffer, simplified.byteOffset, simplified.byteLength);

@@ -1375,7 +1375,7 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 .pronounce-note{margin:4px 0 0;color:#b42318}
 
 /* Thorax focus view (肺 button): panel on the right with the lung layers, opacity and side */
-.lung-focus{position:absolute;top:196px;right:14px;z-index:7;width:268px;padding:12px 14px;border-radius:14px;display:flex;flex-direction:column;gap:10px;font:500 12px/1.4 system-ui,sans-serif;color:#182536}
+.lung-focus{position:absolute;top:91px;right:30px;z-index:18;width:300px;padding:12px 14px;border-radius:14px;display:flex;flex-direction:column;gap:10px;font:500 12px/1.4 system-ui,sans-serif;color:#182536}
 .lung-focus h3{margin:0;font-size:14px}
 .lung-focus .lung-focus-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .lung-focus .lung-focus-sides{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
@@ -1383,4 +1383,7 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 .lung-focus .lung-focus-sides button[aria-pressed=true]{background:#182536;color:#fff}
 .lung-focus .layer-buttons{display:inline-flex;gap:4px}
 .lung-focus .layer-buttons button{min-width:30px;padding:2px 8px;border:1px solid #1825362e;border-radius:8px;background:#fff}
-@media(max-width:767px){.lung-focus{top:auto;bottom:12px;right:12px;left:12px;width:auto}}
+/* The right workspace (view and tool rail, joint panel) is a full-height column above the scene; its transparent area used to sit over this panel and swallow every click. It steps aside while the thorax view is open. */
+.studio:has(.lung-focus) .right-workspace{display:none!important}
+.lung-focus .lung-focus-row .organ-range{width:130px}
+@media(max-width:767px){.lung-focus{top:auto;bottom:12px;right:12px;left:12px;width:auto;max-height:46vh;overflow-y:auto}}

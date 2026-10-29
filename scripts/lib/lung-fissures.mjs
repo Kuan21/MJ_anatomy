@@ -2,7 +2,7 @@
 // (right: upper/middle/lower, left: upper/lower) its surface is moved inward along the vertex normal by up to `DEPTH` (smooth fall-off), so each fissure opens as a clear V-shaped
 // slit 2-3 mm wide between two lobes: the horizontal fissure (right upper/middle) and the oblique fissures (right middle/lower and upper/lower, left upper/lower).
 export const LUNG_LOBES = {right: ['FMA7333', 'FMA7383', 'FMA7337'], left: ['FMA7370', 'FMA7371']};
-export const REACH = .005, DEPTH = .0018, CELL = .005, SMOOTHING = 3;
+export const REACH = .005, DEPTH = .0018, CELL = .005, SMOOTHING = 10;
 const smooth = t => t * t * (3 - 2 * t);
 function vertexNormals(pos, idx) {
   const n = new Float64Array(pos.length);
@@ -22,11 +22,21 @@ function nearest(h, pos, x, y, z) {
 }
 /** `lobes`: [{positions: Float32Array, indices}] of one lung. Moves the positions in place; returns how many vertices of each lobe were moved. */
 export function carveFissures(lobes) {
-  const hashes = lobes.map(l => hashOf(l.positions)), normals = lobes.map(l => vertexNormals(l.positions, l.indices)), source = lobes.map(l => Float32Array.from(l.positions));
+  // Distances are measured to the surface of the other lobe, not only to its vertices: triangle centres and edge midpoints are sampled too, so the depth does not wobble with the vertex spacing.
+  const samples = lobes.map(l => {
+    const s = Array.from(l.positions), P = i => [l.positions[i * 3], l.positions[i * 3 + 1], l.positions[i * 3 + 2]];
+    for (let t = 0; t < l.indices.length; t += 3) {
+      const [a, b, c] = [P(l.indices[t]), P(l.indices[t + 1]), P(l.indices[t + 2])];
+      s.push((a[0] + b[0] + c[0]) / 3, (a[1] + b[1] + c[1]) / 3, (a[2] + b[2] + c[2]) / 3);
+      for (const [u, v] of [[a, b], [b, c], [c, a]]) s.push((u[0] + v[0]) / 2, (u[1] + v[1]) / 2, (u[2] + v[2]) / 2);
+    }
+    return Float32Array.from(s);
+  });
+  const hashes = samples.map(hashOf), normals = lobes.map(l => vertexNormals(l.positions, l.indices)), source = lobes.map(l => Float32Array.from(l.positions));
   return lobes.map((lobe, a) => {
     const n = source[a].length / 3, depth = new Float32Array(n);
     for (let i = 0; i < n; i++) {
-      let d = Infinity; lobes.forEach((other, b) => {if (b !== a) d = Math.min(d, nearest(hashes[b], source[b], source[a][i * 3], source[a][i * 3 + 1], source[a][i * 3 + 2]));});
+      let d = Infinity; lobes.forEach((other, b) => {if (b !== a) d = Math.min(d, nearest(hashes[b], samples[b], source[a][i * 3], source[a][i * 3 + 1], source[a][i * 3 + 2]));});
       if (d < REACH) depth[i] = DEPTH * (1 - smooth(d / REACH));
     }
     // average the depth over each vertex's neighbours a few times, so the slit edge is a smooth curve and not a row of spikes

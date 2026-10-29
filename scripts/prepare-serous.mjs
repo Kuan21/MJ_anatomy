@@ -5,6 +5,8 @@
 import fs from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {createStream, simplify, weldByPosition} from './lib/stream-writer.mjs';
+import {taubin} from './lib/lung-mesh.mjs';
+import {envelope} from './lib/lung-envelope.mjs';
 
 const root = new URL('../', import.meta.url), models = new URL('public/models/', root), out = new URL('stream/', models);
 const read = f => fs.readFileSync(new URL(f, models));
@@ -56,22 +58,9 @@ let n = 0;
  * recess), the apex raised above the first rib (cupula), then cut into costal, mediastinal, diaphragmatic and cervical parts by normal direction. */
 const smooth = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
 async function parietalPleura(side, names) {
-  const sign = side === 'Left' ? 1 : -1, pieces = names.map(supplementGeometry), cell = .004, grid = new Map();
-  const key = (x, y, z) => `${Math.floor(x / cell)},${Math.floor(y / cell)},${Math.floor(z / cell)}`;
-  pieces.forEach((piece, id) => { for (let i = 0; i < piece.positions.length; i += 3) { const k = key(piece.positions[i], piece.positions[i + 1], piece.positions[i + 2]); (grid.get(k) ?? grid.set(k, []).get(k)).push(id); } });
-  const near = (x, y, z, own) => { const cx = Math.floor(x / cell), cy = Math.floor(y / cell), cz = Math.floor(z / cell); for (let a = -1; a <= 1; a++) for (let b = -1; b <= 1; b++) for (let c = -1; c <= 1; c++) for (const id of grid.get(`${cx + a},${cy + b},${cz + c}`) ?? []) if (id !== own) return true; return false; };
-  const positions = [], indices = [], owners = [];
-  // outer faces only: drop triangles that touch a neighbouring lobe
-  pieces.forEach((piece, id) => {
-    const keep = [];
-    for (let t = 0; t < piece.indices.length; t += 3) {
-      let touch = false;
-      for (let k = 0; k < 3 && !touch; k++) { const v = piece.indices[t + k] * 3; touch = near(piece.positions[v], piece.positions[v + 1], piece.positions[v + 2], id); }
-      if (!touch) keep.push(piece.indices[t], piece.indices[t + 1], piece.indices[t + 2]);
-    }
-    owners.push({positions: piece.positions, indices: Uint32Array.from(keep)});
-  });
-  const shell = offsetSurface(owners, .005);
+  const sign = side === 'Left' ? 1 : -1, pieces = names.map(supplementGeometry);
+  // one watertight envelope 5 mm outside the closed lung (the fissures bridged), see lib/lung-envelope.mjs
+  const shell = envelope(pieces, {offset: .005});
   const p = shell.positions, ix = shell.indices, nv = p.length / 3, nrm = new Float32Array(p.length);
   for (let t = 0; t < ix.length; t += 3) {
     const [a, b, c] = [ix[t], ix[t + 1], ix[t + 2]];
@@ -93,12 +82,32 @@ async function parietalPleura(side, names) {
     const rise = .018 * smooth(top - .05, top - .005, y) * (1 - medial);
     p[i * 3 + 1] = y - drop + rise;
   }
+  // The shell was cut triangle by triangle where the lobes touch and bent by the recess and the cupula: smooth it (open borders included) so the edges are curves, not steps.
+  taubin(p, ix, {iterations: 12, pinBorder: false});
   const cervicalY = top - .03, parts = {costal: [], mediastinal: [], diaphragmatic: [], cervical: []};
+  const labels = [];
   for (let t = 0; t < ix.length; t += 3) {
     let nx = 0, ny = 0, y = 0; for (let k = 0; k < 3; k++) { nx += normals[ix[t + k] * 3] / 3; ny += normals[ix[t + k] * 3 + 1] / 3; y += p[ix[t + k] * 3 + 1] / 3; }
     const group = ny > .2 && y > cervicalY ? 'cervical' : ny < -.45 ? 'diaphragmatic' : -sign * nx > .55 ? 'mediastinal' : 'costal';
     parts[group].push(ix[t], ix[t + 1], ix[t + 2]);
+    labels.push(group);
   }
+  // Majority filter on the triangle labels: a triangle whose edge neighbours mostly belong to another part joins it, so the borders between costal, mediastinal, diaphragmatic and cervical parts run smoothly.
+  const edgeTris = new Map();
+  for (let t = 0; t < ix.length; t += 3) for (let k = 0; k < 3; k++) {const a = ix[t + k], b = ix[t + (k + 1) % 3], key = a < b ? a * nv + b : b * nv + a; (edgeTris.get(key) ?? edgeTris.set(key, []).get(key)).push(t / 3);}
+  const adjacent = Array.from({length: ix.length / 3}, () => []);
+  for (const pair of edgeTris.values()) if (pair.length === 2) {adjacent[pair[0]].push(pair[1]); adjacent[pair[1]].push(pair[0]);}
+  for (let round = 0; round < 6; round++) {
+    const next = labels.slice();
+    for (let t = 0; t < labels.length; t++) {
+      const votes = {}; for (const q of adjacent[t]) votes[labels[q]] = (votes[labels[q]] ?? 0) + 1;
+      const [best, n] = Object.entries(votes).sort((a, b) => b[1] - a[1])[0] ?? [labels[t], 0];
+      if (best !== labels[t] && n >= 2 && (votes[labels[t]] ?? 0) < n) next[t] = best;
+    }
+    for (let t = 0; t < labels.length; t++) labels[t] = next[t];
+  }
+  for (const g of Object.keys(parts)) parts[g] = [];
+  labels.forEach((g, t) => parts[g].push(ix[t * 3], ix[t * 3 + 1], ix[t * 3 + 2]));
   return {parts, positions: p};
 }
 const PLEURA_PARTS = [['costal', 'Costal part of', '肋部'], ['mediastinal', 'Mediastinal part of', '縱隔部'], ['diaphragmatic', 'Diaphragmatic part of', '膈部'], ['cervical', 'Cervical part (cupula) of', '頂（胸膜頂部）']];
@@ -106,13 +115,14 @@ for (const [side, names] of Object.entries(lungs)) {
   const {parts, positions: pp} = await parietalPleura(side, names);
   for (const [group, en, zh] of PLEURA_PARTS) {
     const ixs = parts[group]; if (!ixs.length) continue;
-    const {positions, indices} = await simplify(pp, Uint32Array.from(ixs), 5000, .004);
+    const {positions, indices} = await simplify(pp, Uint32Array.from(ixs), 7000, .002);
     stream.add({id: `SERO-${++n}`, conceptId: `SERO-${n}`, name: `${en} ${side.toLowerCase()} parietal pleura`, system: 'serous', schematic: true, chineseName: `${side === 'Left' ? '左' : '右'}壁層胸膜${zh}`}, positions, indices);
     report.push(`${en} ${side.toLowerCase()} parietal pleura: ${indices.length / 3} tris`);
   }
 }
 for (const [name, zh, pieces, distance] of LAYERS) {
-  const shell = offsetSurface(pieces, distance), {positions, indices} = await simplify(shell.positions, shell.indices, 9000, .006);
+  const shell = offsetSurface(pieces, distance), lung = /pleura/i.test(name), {positions, indices} = await simplify(shell.positions, shell.indices, lung ? 14000 : 9000, lung ? .002 : .006);
+  if (lung) taubin(positions, indices, {iterations: 6, pinBorder: false});
   stream.add({id: `SERO-${++n}`, conceptId: `SERO-${n}`, name, system: 'serous', schematic: true, chineseName: zh}, positions, indices);
   report.push(`${name}: ${indices.length / 3} tris, offset ${distance * 1000} mm`);
 }
