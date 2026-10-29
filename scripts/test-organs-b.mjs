@@ -17,8 +17,9 @@ assert.equal(lobes.filter(p => /left lung/i.test(p.name)).length, 2);
 for (const p of lobes) assert.equal(p.system, 'respiratory');
 
 // serous membranes: every layer exists, is schematic, and the layer key maps onto the switch list
-// 7 thoracic layers + the female pelvic peritoneum (the two pouches are in the female stream)
-assert.equal(serous.length, 8);
+// 2 visceral pleurae + 8 parietal pleura parts (costal, mediastinal, diaphragmatic, cervical per side) + 3 pericardial layers + the female pelvic peritoneum (the two pouches are in the female stream)
+assert.equal(serous.length, 14);
+assert.equal(serous.filter(p => /parietal pleura/i.test(p.name)).length, 8);
 const keys = new Set(SEROUS_LAYERS.map(l => l.key));
 for (const p of serous) { assert.equal(p.system, 'serous'); assert.ok(p.schematic, p.name); assert.ok(keys.has(serousLayerKey(p.name)), p.name); }
 const pouches = female.filter(p => p.system === 'serous');
