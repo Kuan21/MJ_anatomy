@@ -781,7 +781,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    if(key===labelKey){if(!key)labelMissing=0;return;}labelKey=key;labelMissing=0;
    for(const it of labelItems){it.box.remove();it.line.remove();}labelItems=[];
    if(!key)return;
-   const centres=s.spaceRange!.map(r=>new T.Vector3(...r.c));
+   // with both sides shown, only the first side (the one the camera looks at) is labelled
+   const centres=s.spaceRange!.slice(0,1).map(r=>new T.Vector3(...r.c));
    for(const l of s.spaceLabels!){
     const best={d:Infinity,p:new T.Vector3()};let centre=centres[0];
     for(const c of centres){const here={d:Infinity,p:new T.Vector3()};
