@@ -59,7 +59,7 @@ export const SPACES:SpaceDef[]=[
   contents:[radialNerve('深層'),m('Biceps brachii (tendon)','肱二頭肌（肌腱）',/of \w+ biceps brachii$/),m('Brachial artery','肱動脈',/^(?:left |right )brachial artery$/),medianNerve(),m('Median cubital vein','肘正中靜脈',/median cubital vein/)],
   missing:['Bicipital aponeurosis 肱二頭肌腱膜（頂；模型沒有）','Lateral epicondyle of humerus 肱骨外上髁（模型沒有此骨性標記）']},
  {id:'snuffbox',en:'Anatomical snuffbox',zh:'解剖鼻煙盒',group:'hand',part:'anatomical snuffbox',r:.03,look:[.8,.1,-.6],
-  boundaries:[m('Extensor pollicis longus','拇長伸肌',/extensor pollicis longus/,'尺側界'),m('Abductor pollicis longus','拇長展肌',/abductor pollicis longus/,'橈側界'),m('Extensor pollicis brevis','拇短伸肌',/extensor pollicis brevis/,'橈側界'),m('Scaphoid','舟狀骨',/^(?:left |right )scaphoid$/,'底'),m('Trapezium','大多角骨',/^(?:left |right )trapezium$/,'底')],
+  boundaries:[m('Extensor pollicis longus','拇長伸肌',/extensor pollicis longus/,'尺側界'),m('Abductor pollicis longus','拇長展肌',/abductor pollicis longus/,'橈側界'),m('Extensor pollicis brevis','拇短伸肌',/extensor pollicis brevis/,'橈側界'),m('Radius (styloid process)','橈骨（莖突）',/^(?:left |right )?radius$/,'近側界'),m('Scaphoid','舟狀骨',/^(?:left |right )scaphoid$/,'底'),m('Trapezium','大多角骨',/^(?:left |right )trapezium$/,'底')],
   contents:[m('Radial artery','橈動脈',/^(?:left |right )radial artery$/)]},
  {id:'carpal-tunnel',en:'Carpal tunnel',zh:'腕隧道',group:'hand',part:'carpal tunnel',r:.035,look:[0,.2,1],
   boundaries:[m('Flexor retinaculum (wrist)','屈肌支持帶（腕）',/flexor retinaculum of \w+ wrist/,'頂'),m('Carpal bones','腕骨',/^(?:left |right )(?:scaphoid|lunate|triquetrum|pisiform|trapezium|trapezoid|capitate|hamate)$/,'底（腕骨溝）')],

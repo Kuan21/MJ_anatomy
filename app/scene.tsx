@@ -26,6 +26,7 @@ import {isLinearBinding,lbsSkin,linearSkin,makeSoftRig,bindTissue,makePalette,de
 import {makeBodyRig,buildBodyMotion,bindBodyTissue,bindSpineCarrier,cranialNerveRigid,inferredLimb,type BodyRegion} from './biomechanics-v2/body-motion';
 import {bindBodyPart,bodyPartRule} from './biomechanics-v2/body-part';
 import {makeSurfaceConstraints,constrainSurface} from './biomechanics-v2/surface-constraints';
+import {createSpaceOutline} from './space-outline';
 import {GPU_SKIN_NORMAL,GPU_SKIN_PARS,GPU_SKIN_POSITION,PALETTE_WIDTH,clearGpuAttributes,gpuBinding,gpuSkinNormal,skinMode,writeGpuAttributes,writePalette,slotSkin,type GpuBinding} from './biomechanics-v2/gpu-skinning';
 import {makeShoulderMuscles,solveShoulderMuscles,SHEET_PROFILES} from './biomechanics-v2/shoulder-muscles';
 import shoulderLandmarks from './biomechanics-v2/shoulder-landmarks.json';
@@ -365,7 +366,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    return best;
   };
   const smoothFade=!constrainedDevice;
-  const materialFor=(system:string,shellOpacity?:number)=>{
+  const materialFor=(system:string,shellOpacity?:number,overlay=false)=>{
    const m=new T.MeshStandardMaterial({color:SYSTEMS.find(s=>s.id===system)?.color??'#aebbb8',metalness:.08,roughness:.53,side:T.DoubleSide,transparent:system==='integumentary'||shellOpacity!==undefined,opacity:shellOpacity??(system==='integumentary'?.1:1),depthWrite:system!=='integumentary'&&shellOpacity===undefined});
    m.alphaToCoverage=smoothFade&&!m.transparent;
    m.onBeforeCompile=shader=>{
@@ -380,6 +381,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     shader.fragmentShader=shader.fragmentShader.replace('#include <dithering_fragment>','#include <dithering_fragment>\n{ if (selOn > 0.5) { gl_FragColor.rgb = mix(gl_FragColor.rgb, selCol, 0.85 * selAmt); if (selCode < 250.0) { float rimN = 1.0 - abs(dot(normalize(vNormal), normalize(vViewPosition))); gl_FragColor.rgb = mix(gl_FragColor.rgb, vec3(1.0), pow(rimN, 3.0) * 0.55 * selAmt); } gl_FragColor.a = 1.0; } else if (partHovered > 0.5) { gl_FragColor.rgb = mix(gl_FragColor.rgb, vec3(0.655, 0.863, 0.796), 0.7); } }'+(smoothFade?'\n// A faded part is a smooth 30 % translucent surface: alpha-to-coverage on the multisampled buffer blends it without a dot pattern and keeps depth order exact.\nif (partFaded > 0.5) gl_FragColor.a = 0.3;':''));
     // A selected part is pulled slightly towards the camera (the shader equivalent of polygonOffset) so it shows whole where it overlaps neighbouring meshes.
     shader.vertexShader=shader.vertexShader.replace('#include <project_vertex>','#include <project_vertex>\nvRangePos = transformed;\nif (partSelected > 0.5) gl_Position.z -= 0.002 * gl_Position.w;');
+    // The outline of a special region (spaceOutline) is made of vertices that carry the skin of the boundary meshes; it moves with them but takes no part in selection, hover or fade.
+    if(overlay)shader.vertexShader=shader.vertexShader.replace('partSelected = texture2D(selectionState, stateUv).r; partHovered = texture2D(selectionState, stateUv).g; partFaded = texture2D(selectionState, stateUv).b; partLimited = texture2D(selectionState, stateUv).a;','partSelected = 0.0; partHovered = 0.0; partFaded = 0.0; partLimited = 0.0;');
 
    };materials.push(m);return m;
   };
@@ -794,6 +797,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     if(!isFinite(best.d)){labelMissing++;continue;}
     const box=document.createElement('div');box.className='space-label'+(l.content?' is-content':'');box.textContent=l.text;labelLayer.appendChild(box);
     const line=document.createElementNS('http://www.w3.org/2000/svg','line');labelSvg.appendChild(line);
+    if(l.color){box.style.borderColor=l.color;box.style.boxShadow=`inset 5px 0 0 ${l.color}`;box.style.paddingLeft='13px';line.style.stroke=l.color;line.style.strokeOpacity='1';line.style.strokeWidth='2';}
     labelItems.push({anchor:best.p.clone(),centre:centre.clone(),box,line,content:l.content});
    }
   };
@@ -933,6 +937,15 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    let found=front?.kind==='part'?front.index:-1;const rect=renderer.domElement.getBoundingClientRect();if(found<0&&amount>.45)found=findTarget(e.clientX-rect.left,e.clientY-rect.top,e.pointerType==='touch'?24:16);if(found>=0){hover.hidden=true;select.current(atlas.parts[found].id);}
   };
   renderer.domElement.addEventListener('pointerdown',down,true);renderer.domElement.addEventListener('pointermove',move);renderer.domElement.addEventListener('pointerleave',()=>setHover(-1,null));renderer.domElement.addEventListener('pointerup',up);renderer.domElement.addEventListener('pointercancel',cancel);
+  // ?mjview=1 exposes the camera for the screenshot scripts (view a structure from a chosen side and distance); nothing in the app uses it.
+  if(typeof location!=='undefined'&&new URLSearchParams(location.search).has('mjview'))(window as unknown as {__mjView:unknown}).__mjView={look:(target:[number,number,number],dir:[number,number,number],distance:number)=>{controls.target.set(...target);camera.clearViewOffset();camera.position.set(target[0]+dir[0]*distance,target[1]+dir[1]*distance,target[2]+dir[2]*distance);controls.update();dirty=true;}};
+  // Outline of the picked special region (edges as tubes, opening as a pale fill); its vertices are copies of boundary-mesh vertices, see space-outline.ts.
+  const partIndexById=new Map(atlas.parts.map((p,i)=>[p.id,i]));
+  const outlineTube=materialFor('overlay',undefined,true),outlineFill=materialFor('overlay',1,true);
+  for(const m of [outlineTube,outlineFill]){m.vertexColors=true;m.color.set('#ffffff');m.roughness=.5;m.metalness=0;}
+  outlineTube.depthTest=false;outlineFill.depthTest=false;outlineFill.depthWrite=false;outlineFill.polygonOffset=true;outlineFill.polygonOffsetFactor=-1;outlineFill.polygonOffsetUnits=-1;
+  const spaceOutline=createSpaceOutline({scene,tubeMaterial:outlineTube,fillMaterial:outlineFill,pick:id=>{const i=partIndexById.get(id);return i===undefined?undefined:pickers[i];},edgeColor:hex=>new T.Color(hex),fillColor:new T.Color('#ffe8a3'),fillAlpha:.3});
+  let outlineSeen:SceneState|null=null;
   const clock=new T.Clock();let lastExtent=-1;
   const animate=()=>{
    if(disposed)return;frame=requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05),s=poseForFrame(latest.current);
@@ -945,6 +958,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    // Head view: everything below the collarbones is cut away, including vessels and muscles that run on into the chest.
    {const want=ctx.bodyArea==='head'&&!s.bodyMotion;if(want!==!!renderer.clippingPlanes?.length){renderer.clippingPlanes=want?[headCut]:[];dirty=true;}}
    if(primaryAtlasReady&&s.visible.includes('nervous')&&(ctx.bodyArea==='head'||s.bodyMotion?.region==='head'||s.bodyMotion?.region==='spine'||!s.visible.includes('skeletal')||(s.hiddenParts?.length??0)>0))ensureBrain();
+   if(spaceOutline.update(s.spaceOutlines,!outlineSeen||outlineSeen.partTransforms!==s.partTransforms||outlineSeen.bodyMotion!==s.bodyMotion||outlineSeen.tissueMotion!==s.tissueMotion||outlineSeen.previewMotion!==s.previewMotion||outlineSeen.spaceOutlines!==s.spaceOutlines||tissueChanged)){dirty=true;}
+   outlineSeen=s;
    {const ranges=s.spaceRange??[],a=ranges[0],b=ranges[1];rangeU.rangeN.value=ranges.length;if(a)rangeU.rangeA.value.set(a.c[0],a.c[1],a.c[2],a.r);if(b)rangeU.rangeB.value.set(b.c[0],b.c[1],b.c[2],b.r);}
    if(nerveMeshes.length){
     const nervesOn=s.visible.includes('nervous')&&(!s.isolate||!!selectedNerve.current);

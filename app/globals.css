@@ -1340,3 +1340,5 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 .bn-role{display:block;font-size:10.5px;color:#64748b}
 .space-missing{display:flex;flex-direction:column;gap:2px}
 .space-missing small{color:#8a5a00}
+
+.edge-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:7px;vertical-align:-1px}
