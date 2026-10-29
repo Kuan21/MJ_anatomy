@@ -4,12 +4,12 @@ import {performance} from 'node:perf_hooks';
 import ts from 'typescript';
 import {Vector3,Quaternion,Matrix4} from 'three';
 const root=new URL('../',import.meta.url),tmp=new URL('.sites-runtime/',root);await mkdir(tmp,{recursive:true});
-for(const file of ['biomechanics-v2/skeleton','biomechanics-v2/soft-tissue','mj-motion','mj-regions','mj-dissection','mj-system-classifier']){
+for(const file of ['biomechanics-v2/skeleton','biomechanics-v2/digits','biomechanics-v2/soft-tissue','mj-motion','mj-regions','mj-dissection','mj-system-classifier']){
  let source=await readFile(new URL(`app/${file}.ts`,root),'utf8');
  for(const match of [...source.matchAll(/import (\w+) from '([^']+\.json)';/g)]){
   const data=await readFile(new URL(match[2],new URL(`app/${file}.ts`,root)),'utf8');source=source.replace(match[0],`const ${match[1]}=${data};`);
  }
- source=source.replace("from './skeleton'","from './skeleton.mjs'").replace("from './mj-regions'","from './mj-regions.mjs'");
+ source=source.replace("from './skeleton'","from './skeleton.mjs'").replace("from './mj-regions'","from './mj-regions.mjs'").replace("from './digits'","from './digits.mjs'").replace("from './biomechanics-v2/digits'","from './digits.mjs'");
  const js=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;
  await writeFile(new URL(`${file.split('/').pop()}.mjs`,tmp),js);
 }

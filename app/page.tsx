@@ -23,6 +23,7 @@ import SearchPanel from './search-panel';
 import {normalizeAtlasSystems} from './mj-system-classifier';
 import {anatomicalRegion,anatomicalSide,partsInRegion,topRegionParts} from './mj-part-regions';
 import {resolveArmCollision} from './mj-arm-collision';
+import {HAND_PRESETS} from './mj-hand-presets';
 import {buildUpperLimbMotion,constrainPose,MOTION_LIMITS,NEUTRAL_POSE,type MotionPose,type Side} from './mj-motion';
 import BodyControls from './biomechanics-v2/body-controls';
 import {makeBodyRig,buildBodyMotion,BODY_NEUTRAL,type BodyRegion,type BodyPose} from './biomechanics-v2/body-motion';
@@ -62,6 +63,21 @@ const UPPER_MOTION_CONTROLS:{key:keyof MotionPose;label:string;action:UpperMotio
  {key:'forearmRotation',label:'前臂旋前（＋）／旋後（－）',action:'forearmRotation'},
  {key:'wristFlexion',label:'腕屈曲（＋）／伸展（－）',action:'wristExtension'},
  {key:'wristDeviation',label:'腕尺偏（＋）／橈偏（－）',action:'wristExtension'},
+];
+// Fingers: five digits, each with its own joints (MCP＝掌指關節, PIP＝近端指間關節, DIP＝遠端指間關節; thumb CMC＝腕掌關節, IP＝指間關節).
+const FINGER_NAMES:[string,string][]=[['index','食指'],['middle','中指'],['ring','無名指'],['little','小指']];
+const FINGER_CONTROLS:{key:keyof MotionPose;label:string}[]=[
+ {key:'thumbCmcFlexion',label:'拇指腕掌關節屈曲（＋）／伸展（－）'},
+ {key:'thumbCmcAbduction',label:'拇指外展（＋）'},
+ {key:'thumbOpposition',label:'拇指對掌（＋）'},
+ {key:'thumbMcpFlexion',label:'拇指掌指關節屈曲（＋）'},
+ {key:'thumbIpFlexion',label:'拇指指間關節屈曲（＋）／伸展（－）'},
+ ...FINGER_NAMES.flatMap(([id,zh])=>[
+  {key:`${id}McpFlexion` as keyof MotionPose,label:`${zh}掌指關節屈曲（＋）／伸展（－）`},
+  {key:`${id}McpAbduction` as keyof MotionPose,label:`${zh}外展（＋）／內收（－）`},
+  {key:`${id}PipFlexion` as keyof MotionPose,label:`${zh}近端指間關節屈曲（＋）`},
+  {key:`${id}DipFlexion` as keyof MotionPose,label:`${zh}遠端指間關節屈曲（＋）`}
+ ])
 ];
 const REGIONAL_VISIBLE:SystemId[]=['skeletal','muscular','arterial','venous','nervous','connective'];
 const ORGAN_SYSTEM_IDS:SystemId[]=['cardiac','serous','sensory','respiratory','digestive','urinary','lymphatic','endocrine','reproductive'];
@@ -401,6 +417,12 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
     <div className="motion-control-stack">
      {UPPER_MOTION_CONTROLS.map(control=><MotionPullControl key={control.key} label={control.label} value={motionPose[control.key]} min={MOTION_LIMITS[control.key][0]} max={MOTION_LIMITS[control.key][1]} disabled={!motionEnabled} onValueChange={value=>{setMotionAction(control.action);setJoint(control.key,value);}}/>)}
     </div>
+    <details className="mj-finger-lab"><summary>手指｜Fingers</summary>
+     <div className="mj-hand-presets" role="group" aria-label="手勢預設">{HAND_PRESETS.map(h=><Button key={h.id} variant="ghost" disabled={!motionEnabled} onClick={()=>{setMotionAction('wristExtension');applyMotionPose({...motionTargetRef.current,...h.pose});}}>{h.label}</Button>)}</div>
+     <div className="motion-control-stack">
+      {FINGER_CONTROLS.map(control=><MotionPullControl key={control.key} label={control.label} value={motionPose[control.key]} min={MOTION_LIMITS[control.key][0]} max={MOTION_LIMITS[control.key][1]} disabled={!motionEnabled} onValueChange={value=>{setMotionAction('wristExtension');setJoint(control.key,value);}}/>)}
+     </div>
+    </details>
     <small className="mj-motion-note">0° 為人體放鬆中立位；正負角度代表相反方向。所有角度都可以直接拖動，毋須先選動作。</small>
     <MotionAnatomyPanel anatomy={UPPER_ACTION_ANATOMY[motionAction]} onInspect={inspectMotionStructure}/>
    </section>}
