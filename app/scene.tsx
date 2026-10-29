@@ -43,7 +43,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
  const host=useRef<HTMLDivElement>(null),latest=useRef(state),select=useRef(onSelect),selectNerve=useRef(onSelectNerve),selectedNerve=useRef<string|null>(selectedExternalNerve),jointDrag=useRef(onJointDrag),viewerContext=useRef({region,focusSide,motionActive,jointMotionEnabled,bodyArea});
  latest.current=state;select.current=onSelect;selectNerve.current=onSelectNerve;selectedNerve.current=selectedExternalNerve;jointDrag.current=onJointDrag;viewerContext.current={region,focusSide,motionActive,jointMotionEnabled,bodyArea};
  useEffect(()=>{
-  const el=host.current!;let disposed=false,frame=0,dirty=true,ready=false,lastView='',lastReset=-1,lastIsolate='',layoutKey='',amount=0,lastCameraFocus=-1;
+  const el=host.current!;let disposed=false,frame=0,dirty=true,ready=false,lastView='',lastReset=-1,lastIsolate='',layoutKey='',amount=0,lastCameraFocus=-1,autoFade:Set<string>|null=null,autoFadeDirty=false,nerveFocusWait=0;
   let lastState:SceneState|null=null;
   const abort=new AbortController();
   let workerAvailable=typeof Worker!=='undefined';
@@ -873,7 +873,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    if(disposed)return;frame=requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05),s=poseForFrame(latest.current);
    {const pm=mats.get('serous:peritoneum'),o=latest.current.peritoneumOpacity??.3;if(pm&&pm.opacity!==o){pm.opacity=o;dirty=true;}}
    if(focusTarget&&focusPosition){const a=1-Math.exp(-8*dt);controls.target.lerp(focusTarget,a);camera.position.lerp(focusPosition,a);dirty=true;if(controls.target.distanceToSquared(focusTarget)<1e-7&&camera.position.distanceToSquared(focusPosition)<1e-7){controls.target.copy(focusTarget);camera.position.copy(focusPosition);focusTarget=null;focusPosition=null;}}
-   const changed=lastState?.jointSurfaces!==s.jointSurfaces||lastState?.visible!==s.visible||lastState?.selected!==s.selected||lastState?.hiddenParts!==s.hiddenParts||lastState?.fadedParts!==s.fadedParts||lastState?.highlightNerves!==s.highlightNerves||lastState?.depthFilter!==s.depthFilter||lastState?.muscleLayer!==s.muscleLayer||lastState?.faceMuscleLayer!==s.faceMuscleLayer||lastState?.focusParts!==s.focusParts||lastState?.isolate!==s.isolate||lastState?.partTransforms!==s.partTransforms||lastState?.bodyMotion!==s.bodyMotion;
+   const changed=lastState?.jointSurfaces!==s.jointSurfaces||lastState?.visible!==s.visible||lastState?.selected!==s.selected||lastState?.hiddenParts!==s.hiddenParts||lastState?.fadedParts!==s.fadedParts||autoFadeDirty||lastState?.highlightNerves!==s.highlightNerves||lastState?.depthFilter!==s.depthFilter||lastState?.muscleLayer!==s.muscleLayer||lastState?.faceMuscleLayer!==s.faceMuscleLayer||lastState?.focusParts!==s.focusParts||lastState?.isolate!==s.isolate||lastState?.partTransforms!==s.partTransforms||lastState?.bodyMotion!==s.bodyMotion;
    const tissueChanged=!lastState||lastState.partTransforms!==s.partTransforms||lastState.tissueMotion!==s.tissueMotion||lastState.previewMotion!==s.previewMotion||lastState.bodyMotion!==s.bodyMotion||lastState.visible!==s.visible||lastState.focusParts!==s.focusParts||lastState.hiddenParts!==s.hiddenParts;
    if(tissueChanged){updateTissueMotion(s);updateNerveMotion(s);updateBrainMotion(s);}
    const ctx=viewerContext.current;
@@ -881,7 +881,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    {const want=ctx.bodyArea==='head'&&!s.bodyMotion;if(want!==!!renderer.clippingPlanes?.length){renderer.clippingPlanes=want?[headCut]:[];dirty=true;}}
    if(primaryAtlasReady&&s.visible.includes('nervous')&&(ctx.bodyArea==='head'||s.bodyMotion?.region==='head'||s.bodyMotion?.region==='spine'||!s.visible.includes('skeletal')||(s.hiddenParts?.length??0)>0))ensureBrain();
    if(nerveMeshes.length){
-    const nervesOn=s.visible.includes('nervous')&&!s.isolate;
+    const nervesOn=s.visible.includes('nervous')&&(!s.isolate||!!selectedNerve.current);
     // Schematic veins (suboccipital plexus) live in the nerve mesh group but belong to the Veins system.
     const veinsOn=s.visible.includes('venous')&&!s.isolate;
     nerveRoot.visible=(nervesOn||veinsOn)&&nervesReady();
@@ -899,6 +899,10 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      else if(ctx.motionActive)o.visible=sideOk&&!!nerveBindings[name]&&nerveMatchesRegion(name,ctx.region,false);
      else o.visible=sideOk&&nerveMatchesRegion(name,ctx.region,false);
      const isSelectedNerve=(!!selectedNerve.current&&name===selectedNerve.current)||(!!s.highlightNerves?.length&&s.highlightNerves.some(h=>h.replace(/\.001$/,'')===name.replace(/\.001$/,'')));
+     // a nerve picked from search, a list or a card is always shown (whatever region, side or system filter is active) unless it was hidden on purpose; with Isolate only that nerve stays
+     if(selectedNerve.current&&name===selectedNerve.current&&!s.hiddenNerves?.includes(name))o.visible=true;
+     else if(s.isolate&&selectedNerve.current)o.visible=false;
+     if(s.hiddenNerves?.includes(name))o.visible=false;
      const isHoverNerve=!isSelectedNerve&&hoverNerve===name;
      const isVein=!!o.userData.mjVein,targetColor=isSelectedNerve?SELECT_COLOR:isHoverNerve?HOVER_COLOR:isVein?0x3f7bd0:0xf1cb4f,targetEmissive=isSelectedNerve?SELECT_COLOR:isHoverNerve?HOVER_COLOR:isVein?0x0f2c5c:0x6b5100,targetIntensity=isSelectedNerve?.4:isHoverNerve?.3:.28;
      {const nm=(o as T.Mesh).material as T.MeshStandardMaterial,lift=isSelectedNerve;if(nm.polygonOffset!==lift){nm.polygonOffset=lift;nm.polygonOffsetFactor=-4;nm.polygonOffsetUnits=-4;nm.needsUpdate=true;}}
@@ -911,7 +915,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
    if(moving){amount=T.MathUtils.damp(amount,s.explode,8,dt);dirty=true;}
    if(changed||moving||tissueChanged||lastExtent<0){
     supplementaryJoints.update(s,amount,!!s.previewMotion);cervicalVessels.update(s,amount);
-    const visible=new Set(s.visible),selection=new Set(s.selected),hidden=new Set(s.hiddenParts??[]),focus=s.focusParts?new Set(s.focusParts):null;const fadedSet=s.fadedParts?.length?new Set(s.fadedParts):null;
+    const visible=new Set(s.visible),selection=new Set(s.selected),hidden=new Set(s.hiddenParts??[]),focus=s.focusParts?new Set(s.focusParts):null;const fadedSet=s.fadedParts?.length||autoFade?.size?new Set([...(s.fadedParts??[]),...(autoFade??[])]):null;
     const cranialVault=/^(frontal bone|left parietal bone|right parietal bone|left temporal bone|right temporal bone|occipital bone|sphenoid bone|ethmoid)$/i;
     const intracranial=/brain|cerebr|cerebell|\bgyrus\b|lobule|\blobe\b|hemisphere|white matter|gray matter|cortex|insula|midbrain|pons|medulla oblongata|thalam|hypothalam|fornix|ventricle|choroid plexus|corpus callosum|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|commissure|colliculus|geniculate|habenula|mammillary|stria terminalis|stria medullaris|septum of telencephalon|tuber cinereum|interpeduncular fossa|lamina terminalis|optic chiasm|optic tract|peduncle of midbrain|cerebral aqueduct|pineal|pituitary|cerebral artery|cerebellar artery|basilar artery|callosomarginal artery|pericallosal artery|pontine artery|thalamogeniculate artery|thalamoperforating artery/i;
     const baseVisible=(p:(typeof atlas.parts)[number])=>{
@@ -1004,9 +1008,12 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     }else if(lastIsolate){camera.clearViewOffset();fit(s.view,amount);}
     lastIsolate=isolateKey;
    }
-   if((s.cameraFocusNonce??0)!==lastCameraFocus&&s.cameraFocusParts?.length){
+   if(autoFadeDirty)autoFadeDirty=false;
+   if(!s.selected.length&&!selectedNerve.current&&!s.highlightNerves?.length&&autoFade){autoFade=null;autoFadeDirty=true;dirty=true;}
+   if((s.cameraFocusNonce??0)!==lastCameraFocus&&(s.cameraFocusParts?.length||s.cameraFocusNerve)){
     const wanted=new Set(s.cameraFocusParts),box=new T.Box3();
     atlas.parts.forEach((p,i)=>{if(!wanted.has(p.id))return;const replacement=s.visible.includes(p.system)&&!(s.hiddenParts??[]).includes(p.id)&&(!s.focusParts||s.focusParts.includes(p.id))&&(cervicalVessels.replaced.has(p.id)||brainPickers.some(m=>m.visible&&m.userData.mjAtlasId===p.id));if(data[i*4+3]<.5&&!replacement)return;const mesh=pickers[i];box.union(mesh?(mesh.geometry.boundingBox??bounds[i]).clone().applyMatrix4(mesh.matrixWorld):bounds[i].clone());});
+    if(s.cameraFocusNerve)for(const o of nerveMeshes){if(((o.userData.mjExactName as string|undefined)||o.name)===s.cameraFocusNerve){o.updateWorldMatrix(true,false);box.union(new T.Box3().setFromObject(o));}}
     if(!box.isEmpty()){
      const center=box.getCenter(new T.Vector3()),dir=camera.position.clone().sub(controls.target).normalize();
      const rect=el.getBoundingClientRect(),w=el.clientWidth,h=el.clientHeight;
@@ -1019,8 +1026,15 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      const focusScale=T.MathUtils.clamp(s.cameraFocusScale??1,.62,1.15);
      const distance=framingDistance(box,dir,camera.fov,camera.aspect,availableWidth/w,availableHeight/h)*focusScale;
      focusTarget=center.clone();focusPosition=center.clone().addScaledVector(dir.lengthSq()>.5?dir:new T.Vector3(.3,.1,1).normalize(),distance);dirty=true;
+     // Whatever stands between the camera and the structure is drawn see-through, so the structure is found even when buried; it goes back to normal when the selection is cleared.
+     {const eye=focusPosition,size=box.getSize(new T.Vector3()),samples=[center,...[[-1,-1,-1],[1,1,1],[-1,1,1],[1,-1,-1],[1,-1,1]].map(([a,b,c])=>new T.Vector3(center.x+a*size.x*.35,center.y+b*size.y*.35,center.z+c*size.z*.35))];
+      const ray=new T.Raycaster(),hits=new Set<string>(),box3=new T.Box3(),dirv=new T.Vector3();
+      for(const target of samples){dirv.copy(target).sub(eye);const dist=dirv.length();if(dist<1e-4)continue;dirv.normalize();ray.set(eye,dirv);ray.far=dist-.004;
+       atlas.parts.forEach((p,i)=>{const mesh=pickers[i];if(!mesh||wanted.has(p.id)||data[i*4+3]<.5||p.system==='integumentary'||hits.has(p.id))return;box3.copy(mesh.geometry.boundingBox??bounds[i]).applyMatrix4(mesh.matrixWorld);if(!ray.ray.intersectsBox(box3))return;if(ray.intersectObject(mesh,false).length)hits.add(p.id);});}
+      autoFade=hits.size?hits:null;autoFadeDirty=true;}
     }
-    lastCameraFocus=s.cameraFocusNonce??0;
+    // the nerve streams in after its layer is switched on: keep trying (up to about half a minute) until its mesh exists
+    if(s.cameraFocusNerve&&box.isEmpty()&&nerveFocusWait++<1800)dirty=true;else{lastCameraFocus=s.cameraFocusNonce??0;nerveFocusWait=0;}
    }
    controls.enableRotate=!jointGesture;controls.enablePan=!jointGesture;controls.mouseButtons.RIGHT=T.MOUSE.ROTATE;controls.touches.TWO=T.TOUCH.DOLLY_ROTATE;markers.visible=amount>.75;controls.autoRotate=s.rotate&&!s.isolate&&amount<.4&&!jointGesture;controls.autoRotateSpeed=.65;controls.update();if(controls.autoRotate)dirty=true;
    if(dirty){renderer.render(scene,camera);targets=[];if(amount>.45){const hasSolid=atlas.parts.some((p,i)=>p.system!=='integumentary'&&data[i*4+3]>.5);atlas.parts.forEach((p,i)=>{if(data[i*4+3]<.5||(hasSolid&&p.system==='integumentary'))return;let left=Infinity,right=-Infinity,top=Infinity,bottom=-Infinity;for(let corner=0;corner<8;corner++){projected.set(p.bounds[(corner&1)?1:0][0]+data[i*4],p.bounds[(corner&2)?1:0][1]+data[i*4+1],p.bounds[(corner&4)?1:0][2]+data[i*4+2]).project(camera);const x=(projected.x+1)*el.clientWidth/2,y=(1-projected.y)*el.clientHeight/2;left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y);}projected.copy(centers[i]).add(new T.Vector3(data[i*4],data[i*4+1],data[i*4+2])).project(camera);if(projected.z< -1||projected.z>1)return;targets.push({index:i,x:(projected.x+1)*el.clientWidth/2,y:(1-projected.y)*el.clientHeight/2,left,right,top,bottom});});}dirty=false;}
