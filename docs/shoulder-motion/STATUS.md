@@ -6,6 +6,6 @@
 - **肌肉撕成條狀**：`surface-constraints.ts` 的「剛性錨點完全不動」讓求解器把自由頂點拉斷；改為錨點可動 5 %、10 次迭代，前鋸肌不再套用該限制。離線稽核：前鋸肌最大邊拉伸 8.0 倍 → 2.8 倍，大圓肌 3.2 倍 → 正常。畫面上前鋸肌指狀束仍呈長條，截圖前後差異不大。
 
 ## 未完成
-- `npm run check:motion` 目前失敗（一個 `==` 斷言，尚未查原因；懷疑與錨點改動或 pathWeights 改動有關）。`npm run check` 通過。
+- `npm run check:motion` 目前失敗：「Abdominal part of right pectoralis major: attachment collar vertex 1 must stay on its bone」。原因就是錨點可動 5 %（surface-constraints.ts）讓骨附著領口離開骨頭；下一步改成只對有拉斷風險的邊放鬆錨點，或把此限制只套在前鋸肌以外而錨點維持 0。`npm run check` 通過。
 - 仍有 150–200 mm 相接分開的血管（見上）；前鋸肌、背闊肌、胸小肌的條狀仍在；沒有真正的正上方視角截圖（「上方」是把鏡頭向上拖）。
 - 尚未做外展 180° 的前後對照整理、PR 與 REVIEW_LOG 條目。
