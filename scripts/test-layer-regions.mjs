@@ -23,7 +23,8 @@ const offered=new Set(Object.values(layers.LAYER_REGIONS_BY_PART).flat());
 for(const r of layers.MUSCLE_LAYER_REGIONS)assert.ok(offered.has(r.id),`layer region ${r.id} is offered under no body part`);
 // spaces
 const missing=[];
-for(const sd of ['left','right'])for(const def of spaces.SPACES){const h=spaces.resolveSpace(parts,def,sd);if(!h.spaceIds.length)missing.push(`${sd} ${def.id}: space part not found`);for(const x of [...h.boundaries,...h.contents])if(!x.ids.length&&!x.nerves.length)missing.push(`${sd} ${def.id}: ${x.item.en}`);}
+for(const sd of ['left','right'])for(const def of spaces.SPACES){const h=spaces.resolveSpace(parts,def,sd);// a space has no mesh of its own (nothing is drawn for it): only its boundaries and contents must resolve
+ for(const x of [...h.boundaries,...h.contents])if(!x.ids.length&&!x.nerves.length)missing.push(`${sd} ${def.id}: ${x.item.en}`);}
 fs.mkdirSync(root+'docs',{recursive:true});
 fs.writeFileSync(root+'docs/layer-region-check.md',`# 分層解剖：部位歸類檢查\n\n檢查 ${checked} 個肌肉結構是否落在該分層區域所屬的身體部位。\n\n${bad.length?'| 區域 | 條目 | 結構 | 判定部位 |\\n| --- | --- | --- | --- |\\n'+bad.map(l=>'| '+l.split('\\t').join(' | ')+' |').join('\\n'):'全部相符。'}\n\n特殊區域對不到結構：${missing.length?'\\n'+missing.map(x=>'- '+x).join('\\n'):'無'}\n`);
 console.log(`layer regions: ${checked} structures checked, ${bad.length} misplaced, ${missing.length} space items unresolved`);
