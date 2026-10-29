@@ -59,7 +59,9 @@ function bind(id, s) {
   const host = s.parent && atlasByName.get(s.parent), hostWord = host && /humerus|scapula|clavicle|radius|ulna/.exec(host.name)?.[0];
   const cy = (part.bounds[0][1] + part.bounds[1][1]) / 2;
   // A landmark on a bone of the shoulder girdle or arm follows that bone, whatever band of the body its centre falls in.
-  if ((region === 'upper-limb' || hostWord) && (side === 'left' || side === 'right')) {
+  // Branches of the axillary artery that run on the chest wall belong to the trunk by position but must still stretch with their parent when the arm is raised.
+  const axillaryBranch = /superior thoracic artery|lateral mammary artery/i.test(s.name);
+  if ((region === 'upper-limb' || hostWord || axillaryBranch) && (side === 'left' || side === 'right')) {
     bindings.tissue[id] = {name: s.name, side, profile: ARM_PROFILE[hostWord] ?? 'path'};
   } else if (region === 'lower-limb' && (side === 'left' || side === 'right')) {
     const hostBinding = host && bodyJson[host.id];

@@ -255,6 +255,84 @@
 ### 其餘部位（本 PR 沒做，之後另開 PR；工具已可用 `--regions` 指定）
 
 - 胸部（含肺門血管）、背部、頭頸、腹部與骨盆：`scripts/lib/vessel-segments.mjs` 的 `REGIONS` 已列 `thorax`、`head`（對應 `trunk`、`head-neck`），但橋接規則、綁定檢查與動作檢查都還沒針對這些部位驗證。
+## 任務狀態表（2026-10-29 晚；包括你交過的全部任務）
+
+部署：`67cac88`（含 #112、#115、#108、#114、#109、#116、#117、#118、#119、#121）正式站部署成功。#120 的合併提交 `9748a3c` 的部署顯示「已取消」，沒有後續部署紀錄，所以 #120 的內容目前不能確定已上線；原因我還沒查出來，也沒有重跑部署。
+
+| 任務 | 狀態（進行中 / 已完成 / 等我審核 / 未開始 / 卡住） | PR 編號 | 備註 |
+| --- | --- | --- | --- |
+| 第二級 Quiz（黃色高亮、輸入名稱、同義詞、答題後資料卡、錯題） | 已完成（已部署） | #98 | 題庫與同義表另需你審核過的部分已 merge |
+| 肺部總整合 第一階段 PR 1：聚焦視圖修正（按鈕無反應、白斑與破洞、顏色統一、平滑化、支氣管樹／肺血管開關、胸廓平滑半透明、預設層數） | 進行中（背景，分支 mj-lung-focus-fix） | — | 需人工審核，不開 auto-merge |
+| 肺部 第二階段 PR 2：內側面標籤與肺門 | 未開始 | — | PR 1 merge 後才開始 |
+| 肺部 第二階段 PR 3：肺段（支氣管肺段） | 未開始 | — | PR 1 merge 後才開始；左肺合併或分開計算要你決定 |
+| 肺部 第二階段 PR 4：肺淋巴引流（較低優先） | 未開始 | — | PR 1 merge 後才開始 |
+| 肺 PR A／PR B（葉間裂、胸膜分部、肋膈隱窩、左肺食道壓跡、下腔靜脈溝） | 已完成 | #112、#115 | 肋縱隔隱窩形狀、專屬截圖未做，併入肺 PR 1／2 |
+| 肩關節屈曲／外展 180°（鎖骨項目失敗修正） | 已 merge（你在網頁上合的，與「先不要 merge」不一致，請確認）；證據截圖重拍中 | #120 | `check:motion` 通過；畫面上沒有可見的改善，前一組截圖被你退回；重拍的證據會用新的文件 PR 補上 |
+| 手指活動（四指、拇指、手勢預設、第二輪修改） | 已完成（已 merge） | #109 | — |
+| 手指活動修正（指尖碎片、DIP／PIP 連動、皮膚與肌腱重疊、捏取指尖相貼） | 進行中（背景，分支 mj-fingers-2） | — | 需人工審核；先重現問題再修 |
+| 特殊區域邊界線與開口形狀（含三邊孔、四邊孔） | 已完成（已 merge；你已審核） | #108 | 已知限制：四邊孔角點不完全重合，兩條邊之間有一小段細灰線；肘窩因模型沒有肱骨外上髁，頂邊只是細灰線 |
+| 特殊區域 Quiz 題型（找出此區域、屬於哪個區域的內容物） | 未開始 | — | 依你指定次序排在血管、肺之後 |
+| 血管連續性與平滑化（先上肢、下肢） | 進行中（背景，分支 mj-vessel-continuity） | — | 需人工審核；胸部含肺門、背部、頭頸、腹盆之後另開 PR |
+| 心臟：打開心腔時隱藏表面細血管 | 已完成（已 merge） | #119 | 分類清單在下方，有兩項歸類請你核對 |
+| 心臟：二尖瓣名稱（僧帽瓣 → 二尖瓣；三尖瓣、同義詞） | 已完成（你已審核並 merge） | #118 | 部署確認中 |
+| 心臟 PR1：腔內構造重做（階梯邊緣、卵圓窩、梳狀肌等） | 未開始 | — | 需人工審核 |
+| 心臟 PR2：光影與顏色 | 未開始 | — | 介面，可自動 merge |
+| 心臟 PR3：Quiz 判定與用語 | 已完成（部分判定、去「MJ 補建」、上下腔靜脈縮短已在 #111） | #111 | — |
+| 腦部：腦神經檢查表（CN I–XII）、腦神經根預設顯示、搜尋修正 | 已完成（已 merge） | #117 | 4 個問題等你決定，見下方 |
+| 腦部：內側面（左右分開）視角 | 未開始 | — | 模型處理需人工審核；缺少的結構要列清單，不補假模型 |
+| 腦部詳細模式其餘指引（CSF 差距、切面、突出顯示、補結構七批）、CSF 粒子限制與腦幹-脊髓接順 | 未開始 | — | — |
+| 底部按鈕改腦／心／肺（眼、耳暫時隱藏） | 已完成（已 merge、已部署） | #116 | 獨立的肺詳細模式併入肺部總整合 |
+| 頭顱內黃色碎塊移除 | 已完成（已部署） | #100 | — |
+| 枕下靜脈叢分類（神經 → 靜脈）、區域（眼眶 → 枕下區） | 已完成 | 較早輪次 | 全站分類錯誤的完整掃描尚未做 |
+| 淡化效果：點狀花紋改平滑半透明 | 已完成（已 merge） | #110 | 手機與低記憶體裝置沒有多重取樣，仍保留點狀圖樣 |
+| 頭部左側浮出身體外的黃色神經 | 卡住 | — | 我掃過神經網格沒發現超出頭部範圍的，也沒能重現；需要你當時的視角或截圖 |
+| 改為私人網站（Cloudflare Pages ＋ Access） | 未開始（卡住：需要你的帳號操作） | — | ROADMAP 第 52 行；我提供逐步教學，但無法替你登入帳號 |
+| 英文發音（發音鈕、IPA、已校對狀態） | 已完成（介面＋資料） | #113、#114 | 新增的肺部結構名稱隨各 PR 補 |
+| 選取結構時自動顯示、鏡頭轉向、擋住的半透明 | 已完成 | #107 | — |
+| 移除錯誤的空間示意模型、骨性標記資訊卡欄位、Workflow 固定 ubuntu-24.04 | 已完成 | #103、#104、#105 | — |
+| 跑考範圍：足部神經、踝伸肌支持帶、子宮韌帶重做 | 未開始 | — | 需人工審核 |
+| 上肢內旋 48° + 肘屈 140° 米色翼狀物 | **未解決**：重拍的 before 與 after 都有（肩下方、圖左下的一片米色大平面，疑似結締組織層，尚未確認） | — | 我還沒查成因；之後另開 PR，需人工審核 |
+| 結締組織 PR1–3（分層、顏色質感、背部與頭頸） | 未開始 | — | 需人工審核（顏色可自動 merge） |
+| 乳房兩層、女性生殖第二輪、女性骨盆 | 未開始（女性骨盆之前有部分進度） | — | 需人工審核 |
+| Undo（Ctrl/⌘+Z）、ROADMAP 第 0 步 | 未開始 | — | Undo 介面可自動 merge |
+| 神經解剖共筆匯入與資訊卡、最終審核（全模型位置合理性、資訊卡不可空白）、Quiz 資料完整性＋旋肱前動脈位置 | 未開始 | — | — |
+| 效能（按系統分開載入、大分類預設收起）、Zoom-to-cursor、Source & credits 全面更新、最小二乘對齊與穿模修正、器官＋供應血管 | 未開始 | — | 之前路線圖的 S3–S8 |
+| 本狀態表更新 | 已完成（#121）；本次再更新 | #121 | 只改文件 |
+
+### 正在進行中的工作（預估時間是我的粗估；三個子 agent 的輸出檔已超過 1.5 小時沒更新，但它們的本地工作目錄都有新提交，所以仍在做事，只是遠端還沒有任何提交）
+- **肺 PR 1**（mj-lung-focus-fix）：本地有 2 個提交、最近一個約 15 分鐘前，尚未推送、尚未開 PR；預估再 1–2 小時。
+- **肩 180° 證據重拍**：before（main）與 after 兩個 build 的截圖鏈還在跑（腋鞘點選前後，再重拍全部姿勢，等 150 秒讓血管載入完）；預估約 30 分鐘後完成，之後合成紅圈對照圖，開新的文件 PR。上一次 after 圖有些在血管層載入前拍下，所以「外展 180° 的血管不見了」只是載入時間造成的假象，不能當作退步。
+- **手指修正**（mj-fingers-2）：本地有 7 個未提交的檔案，沒有提交；預估再 2 小時以上。
+- **血管連續性（上肢、下肢）**（mj-vessel-continuity）：本地有 1 個提交（約 44 分鐘前）和 9 個未提交檔案，尚未推送；預估再 3–4 小時。
+- 磁碟約 1.3 GB，仍緊。
+
+### 需要你做的事
+**等你審核的 PR**
+- 目前沒有開啟中的 PR。之後會有：肺 PR 1（看白斑與破洞是否消失、四個按鈕是否有反應、顏色是否統一）、手指修正（看握拳與捏取截圖，指尖是否相貼）、血管連續性（看上下肢動脈靜脈前後對照與間隙清單）、肩 180° 證據補充（看紅圈位置與米色翼狀物是否仍在）。
+
+**等你決定的問題**
+1. 腦神經：右側延髓補不補、VIII 與 IX 要不要帶進腦部模式、「外旋神經」是否改「外展神經」、「顏面神經」是否改「面神經」。
+2. 肺段：左肺 S1+2、S7+8 合併（8 段）還是分開（10 段）；repo 裡沒有跑考對這點的文字。
+3. 心臟隱藏細血管的分類：左右緣支、竇房結動脈我歸為細分支，請核對。
+4. 是否相連的血管：等血管 PR 列出間隙超過半個管徑的清單後，請你判斷哪些該相連。
+5. #120：你合併了，我需要確認這是你的意思（我先前的理解是等重拍後再審核）；如果不是，我可以開 revert PR，你同意才動。
+6. #120 的部署顯示已取消：要不要我重跑部署，確保上線。
+7. 磁碟：哪些舊 worktree 可以刪（之前刪除被權限拒絕，我沒有繞過）。
+
+**等你提供的資料**
+- 肺段：跑考頁面的肺段寫法。
+- 頭部左側浮出的黃色神經：你當時的視角或截圖。
+- 缺少模型時的參考圖：目前還沒有具體要求。
+- 私人網站：Cloudflare 帳號操作（我提供逐步教學）。
+
+### 卡住或重複失敗
+- 肩 180° 截圖：第一組手臂被切掉、前後差異太小，被你退回；第二組因血管層晚載入而有一組不可用，現在用 150 秒等待重拍；負責重拍的子 agent 被截斷了五次，我已改成自己接手。
+- 米色翼狀物：還沒查成因，也還沒修。
+- 子 agent 的輸出檔長時間沒更新，我無法從遠端判斷它們做到哪裡（只能看本地目錄）。
+- 頭部左側浮出的黃色神經：我兩次都無法重現，缺你的截圖。
+- `test-scene-loading` 在多個瀏覽器同時跑時逾時：單獨重跑可過，CI 沒這問題。
+- GitHub 連線：MCP 工具偶爾斷線，我改用 REST API；GraphQL 被擋。
+- Cloudflare 私人網站：卡在需要你的帳號操作。
 
 ## 腦神經檢查（CN I–XII；先回報，沒有補任何假模型）
 
@@ -291,6 +369,14 @@
 - 「肺」：主圖譜內的胸腔聚焦視圖，只顯示呼吸系統與胸廓骨骼（半透明），胸膜預設關閉；右側面板有左右肺選擇、層數 ＋／－、透明度滑桿與「返回」（回到點擊前的狀態）。獨立的肺詳細模式（切面、逐葉打開、動畫）尚未做，另開 PR。
 - 限制：胸廓骨骼取肋骨、胸骨、胸椎、鎖骨；喉部軟骨屬呼吸系統，也會顯示在氣管上方。
 
+## 心臟詳細模式：打開心腔時細血管仍顯示（#119 的修正）
+
+- 原因：#119 只把 12 個「整個構造」標成細分支隱藏，但來源模型把右冠狀動脈、前室間支、迴旋支、心大靜脈這四個「主要」構造各存成「主幹＋側枝」多段不相連的管（例如右冠狀動脈 14 段、迴旋支 6 段），側枝跟主幹同屬一個構造，無法整個隱藏。名稱清單與目錄完全相符，隱藏邏輯也有生效（被隱藏的構造確實不畫），只是畫面上的細分支其實來自保留的主要構造。
+- 修正（只改顯示，不改任何模型資料）：打開心腔或心臟時，這四個主要構造只畫「最長的那一段（主幹）」，同一構造內較短的相連段（側枝）不畫；關閉時恢復完整。自動測試 `scripts/test-heart-vessels.mjs` 用真實資料檢查這四個構造的主幹確實少於 60 % 三角形。
+- 限制：「主幹」以每段相連網格的包圍盒對角線最長者判定，不是依解剖命名；若你覺得某條側枝該保留或某段主幹被誤隱藏，請告訴我是哪一段。打開心腔時無法單獨再顯示這些側枝（清單的眼睛鈕只控制整個構造）。
+- 瀏覽器測試：`npm run test:heart-open -- <網址> <前綴> <截圖資料夾>`（需正式版建置與真實資料，約 2–3 分鐘）。
+- 右側面板版面：資訊卡原本固定（sticky）在可捲動的面板頂端，會蓋住下方「心臟外觀與內部」「切面」等面板的文字。現在資訊卡有自己的區域（最高 38 %，內容多時卡片內捲動），下方控制面板獨立捲動；窄螢幕（≤900px）改回自然往下排列。
+
 ## 心臟詳細模式：打開心腔時隱藏表面細血管（介面改動，CI 綠後自動 merge）
 
 - 用「逐個心腔打開」選任一心腔，或按「打開心臟（內部）」時：保留大血管與主要冠狀血管，隱藏其餘表面細分支與心包膜（三層＋兩個心包竇）。保留的血管若擋在被打開的心腔前面（由鏡頭視角判斷，視角轉動時即時更新），自動變成約 40 % 透明，不會完全隱藏。
@@ -309,38 +395,6 @@
 - 心包膜（Pericardium 組 5 個）：Fibrous pericardium 纖維心包、Parietal layer of serous pericardium 漿膜心包壁層、Visceral layer of serous pericardium (epicardium) 漿膜心包臟層（心外膜）、Transverse pericardial sinus 心包橫竇、Oblique pericardial sinus 心包斜竇。
 
 需要你決定的：模型沒有獨立的「鈍緣支／銳緣支」命名，只有 Left marginal branch／Right marginal branch，我照此歸為細分支；Sinoatrial nodal artery 竇房結動脈依「其餘細小分支」歸為細分支。
-
-## 任務狀態表（2026-10-29，依你指定的優先次序排列）
-
-| 任務 | 狀態（進行中 / 已完成 / 等我審核 / 未開始 / 卡住） | PR 編號 | 卡住原因 |
-| --- | --- | --- | --- |
-| **優先 1** 第二級 Quiz（黃色高亮結構、輸入名稱） | 已完成（已部署） | #98 | — |
-| **優先 1** 頭顱內黃色碎塊移除（原始資料、生成檔、黑名單檢查） | 已完成（已部署；`check:no-intracranial` 併入 `npm run check`）。正式站上我看過頭部（只開神經系統）前、側、上視角，沒有不規則黃色塊；腦在載入完成前會先顯示舊的金黃色腦，載入後換成整合的粉紅腦，我沒有等到載入完成再拍。 | #100 | — |
-| 心臟詳細模式版面改為三欄 | 已完成（已部署） | #102 | — |
-| 主圖譜介面（移除地台、頂部列、點標題重設） | 已完成 | #101 | — |
-| Quiz「鄰近相關構造」改淡藍色、不可蓋過黃色目標 | 已完成 | #99 | — |
-| **優先 2** 肩關節屈曲／外展 180°（撕裂、浮空血管碎段、灰色盒狀物） | 進行中（背景處理，分支 mj-shoulder-flex 已有進度，尚未開 PR） | — | — |
-| **優先 2** 手指活動 | 等我審核（已知限制：手指之間沒有碰撞；握拳時指尖有零碎肌腱；遠端指間關節未與近端連動；拇指軸為近似） | #109 | — |
-| 淡化效果改為平滑半透明（不用點狀花紋） | 已完成（已 merge；手機與低記憶體裝置沒有多重取樣，仍保留點狀圖樣） | #110 | — |
-| Suboccipital venous plexus 分類（神經 → 靜脈）、區域（眼眶 → 枕下區） | 已完成（較早輪次；現為靜脈系統、枕下區）。全站分類錯誤檢查：只有 validate-atlas 的部分檢查，尚未做完整的全站掃描 | 較早輪次 | — |
-| 頭部左側浮出身體外的黃色神經 | 卡住：我用神經網格的位置掃過頭部，沒有發現超出頭部範圍的網格，也沒能重現 | — | 需要你當時的視角或截圖（哪個系統開著、哪個視角） |
-| Quiz 部分與整體判定、移除「MJ 補建」等內部用語 | 已完成（已 merge） | #111 | — |
-| 上／下腔靜脈在心臟模式與 Quiz 中縮短 | 已完成（已 merge） | #111 | — |
-| 特殊區域：邊界線＋開口輪廓（取代圓形漸變）、股三角／內收肌管／膕窩、肌肉分部資訊卡 | 等我審核（已依意見改為邊界線＋開口，綁定邊界網格頂點，含關節活動截圖） | #108 | — |
-| **最優先** 肺 PR A（葉間裂、胸膜分部、肋膈隱窩、層數 ＋／－） | 等我審核（PR B：切跡／壓痕卡、肺門排列、肺韌帶、肋縱隔隱窩未做） | #112 | — |
-| 英文發音（聽發音鈕、Wikimedia Commons／Web Speech、IPA、已校對狀態） | 未開始（排在肺之後） | — | — |
-| 選取結構時自動顯示、鏡頭轉向、擋住的半透明；神經卡 Focus／Isolate／Hide | 已完成 | #107 | — |
-| 移除錯誤的空間示意模型 | 已完成 | #103 | — |
-| 骨性標記資訊卡欄位 | 已完成 | #104 | — |
-| Workflow 固定 ubuntu-24.04 | 已完成 | #105 | — |
-| 特殊區域 Quiz 題型（找出此區域、屬於哪個區域的內容物） | 未開始 | — | — |
-| **優先 4** 跑考範圍：足部神經、踝伸肌支持帶、子宮韌帶重做 | 未開始 | — | — |
-| **優先 4** 上肢內旋 48° + 肘屈 140° 撕裂與米色翼狀物 | 未開始（與肩關節項目相關，先看其結果） | — | — |
-| **優先 5** 心臟 PR1（腔內構造）／PR2（光影顏色） | 未開始 | — | — |
-| **優先 5** 結締組織 PR1–3（分層、顏色質感、背部與頭頸） | 未開始 | — | — |
-| **優先 5** 乳房兩層、Undo（Ctrl/⌘+Z）、ROADMAP 第 0 步、女性骨盆、頭頸、腦部、傳導路徑 | 未開始 | — | — |
-
-開啟中的 PR：#108（特殊區域，等你審核）、#109（手指活動，等你審核）、#112（肺 PR A，等你審核）。#110、#111 已 merge。
 
 ## 特殊區域 #108 修改：改成「邊界線＋開口」（需人工審核，不自動 merge）
 
@@ -416,6 +470,26 @@
 - **目前資料**（2026-10-29 抓取）：考試範圍名稱共 293 個不同的字，193 個字有 Wiktionary 詞條資料，其中 187 個有 IPA，49 個有 Commons 免費錄音（授權：CC0 16、CC BY-SA 4.0 20、CC BY-SA 3.0 10、CC BY 3.0 4、CC BY 2.5 1）。多數解剖拉丁字（如 latissimus、pectoralis、brachii）在 Wiktionary 沒有英文詞條或沒有音標，這些名稱一律「發音待校對」，缺漏的字列在 `docs/pronunciation-words.md`。我沒有試聽或核對任何一筆音標與錄音（錄音網址來自 Commons API，因環境被 Wikimedia 限流，沒能下載檔案確認可播放），請你抽查。
 
 - **你怎麼標已校對**：把英文名稱（例如 `Latissimus dorsi`）加進 `app/pronunciation/reviewed.json` 的 `reviewed` 清單，或回覆我名單由我加入。
+
+## 名稱修改：僧帽瓣 → 二尖瓣（需人工審核，不自動 merge）
+
+**畫面一律顯示「二尖瓣」；「僧帽瓣」留為同義名稱，搜尋與 Quiz 作答都接受。**
+
+| 項目 | 主要名稱（畫面顯示） | 同義名稱（搜尋與 Quiz 作答接受） |
+| --- | --- | --- |
+| 左房室瓣（整體） | Mitral valve｜二尖瓣 | Left atrioventricular valve、Bicuspid valve｜僧帽瓣、左房室瓣 |
+| 二尖瓣前瓣 | Anterior leaflet of mitral valve｜二尖瓣前瓣 | Anterior leaflet of left atrioventricular valve、Anterior leaflet of bicuspid valve、Anterior cusp of mitral valve｜僧帽瓣前瓣、僧帽瓣前葉、二尖瓣前葉 |
+| 二尖瓣後瓣 | Posterior leaflet of mitral valve｜二尖瓣後瓣 | 同上（Posterior） |
+| 右房室瓣（整體） | Tricuspid valve｜三尖瓣 | Right atrioventricular valve｜右房室瓣 |
+| 三尖瓣前／下（後）／隔瓣 | Anterior / Inferior / Septal leaflet of tricuspid valve｜三尖瓣前瓣／後瓣／中隔瓣 | 原本的 "…of right atrioventricular valve"、Posterior leaflet of tricuspid valve（下瓣）、Cusp 寫法 |
+
+範圍：心臟詳細模式（資料卡、清單、標籤、說明文字、腱索與乳突肌的描述）、主圖譜（圖譜零件的中文名「二尖瓣前葉／後葉」）、搜尋（`app/mj-search.ts`：僧帽瓣→二尖瓣、mitral↔left atrioventricular／bicuspid、tricuspid↔right atrioventricular）、Quiz 題庫與同義表（`app/quiz/synonyms.ts`、`test-quiz-naming.mjs`）、名稱對照表（`docs/naming-report.md` 重新產生）。3D 網格對應鍵（`node`）沒有改。
+
+### 與跑考摘要用詞不同之處（請你決定）
+- `docs/heart-checklist.json`（跑考摘要第 17 頁）原本寫「僧帽瓣前瓣／後瓣」；本 PR 依你的指示把清單的畫面名稱改為「二尖瓣前瓣／後瓣」，原始跑考用詞保留在各項目的 `paokaoZh` 欄位。
+- `docs/curriculum-terms.json`（課程名詞）寫「Rt. atrioventricular orifice Tricuspid valves」「Left atrioventricular orifice」（房室口），未動。
+- 英文：跑考清單寫「Anterior leaflet of the mitral valve」（含 the），畫面維持不加 the 的「Anterior leaflet of mitral valve」，與圖譜零件名一致。
+- 三尖瓣的後（下）瓣：模型的名稱是 Inferior leaflet，跑考／BodyParts3D 用 Posterior leaflet；我把 Inferior 當主要名稱、Posterior 當同義名稱。要反過來請告訴我。
 
 ## 最新進度（2026-10-29）
 
@@ -601,13 +675,13 @@
 
 | 構造（英文名，小寫，不含左右） | 額外接受的英文 | 額外接受的中文 |
 | --- | --- | --- |
-| right atrioventricular valve | tricuspid valve | 三尖瓣、右房室瓣 |
-| left atrioventricular valve | mitral valve；bicuspid valve | 僧帽瓣、二尖瓣、左房室瓣 |
-| anterior leaflet of right atrioventricular valve | anterior leaflet of tricuspid valve；anterior cusp of tricuspid valve | 三尖瓣前瓣 |
-| inferior leaflet of right atrioventricular valve | posterior leaflet of tricuspid valve；inferior leaflet of tricuspid valve；posterior cusp of tricuspid valve | 三尖瓣後瓣 |
-| septal leaflet of right atrioventricular valve | septal leaflet of tricuspid valve；septal cusp of tricuspid valve | 三尖瓣中隔瓣 |
-| anterior leaflet of left atrioventricular valve | anterior leaflet of mitral valve；anterior cusp of mitral valve | 僧帽瓣前瓣、二尖瓣前瓣 |
-| posterior leaflet of left atrioventricular valve | posterior leaflet of mitral valve；posterior cusp of mitral valve | 僧帽瓣後瓣、二尖瓣後瓣 |
+| tricuspid valve | right atrioventricular valve | 右房室瓣 |
+| mitral valve | left atrioventricular valve；bicuspid valve | 僧帽瓣、左房室瓣 |
+| anterior leaflet of tricuspid valve | anterior leaflet of right atrioventricular valve；anterior cusp of tricuspid valve | 三尖瓣前葉 |
+| inferior leaflet of tricuspid valve | inferior leaflet of right atrioventricular valve；posterior leaflet of tricuspid valve；posterior cusp of tricuspid valve | 三尖瓣後瓣、三尖瓣下瓣 |
+| septal leaflet of tricuspid valve | septal leaflet of right atrioventricular valve；septal cusp of tricuspid valve | 三尖瓣隔瓣 |
+| anterior leaflet of mitral valve | anterior leaflet of left atrioventricular valve；anterior leaflet of bicuspid valve；anterior cusp of mitral valve | 僧帽瓣前瓣、僧帽瓣前葉、二尖瓣前葉 |
+| posterior leaflet of mitral valve | posterior leaflet of left atrioventricular valve；posterior leaflet of bicuspid valve；posterior cusp of mitral valve | 僧帽瓣後瓣、僧帽瓣後葉、二尖瓣後葉 |
 | left coronary leaflet of aortic valve | left coronary cusp of aortic valve；left coronary cusp | 主動脈瓣左冠狀瓣、左冠狀瓣 |
 | right coronary leaflet of aortic valve | right coronary cusp of aortic valve；right coronary cusp | 主動脈瓣右冠狀瓣、右冠狀瓣 |
 | non-coronary leaflet of aortic valve | non coronary cusp of aortic valve；noncoronary cusp；posterior cusp of aortic valve | 主動脈瓣無冠狀瓣、無冠瓣 |
@@ -795,3 +869,12 @@
 
 ### 其他
 - `public/models/cmu-course-notes-v4.json` 的 git 歷史要不要清除：等專案完成後由你決定，Claude 不會動。
+
+## 肩屈曲／外展 180°：鎖骨項目失敗原因與修正（#120 已 merge；補上證據）
+
+- **失敗原因：** `check:motion` 的鎖骨項目要求權重 ≥ .995 的剛性頂點在動作前後完全不動；`ANCHOR_MOBILITY` 為 .05，讓附著點錨定的頂點在 180° 時仍被拉動。
+- **修正：** `ANCHOR_MOBILITY` 改為 0。`check:motion` 與 `scripts/test-shoulder-sheets.mjs` 現在通過。
+- **畫面證據（`docs/shoulder-180-evidence/`，before＝main、after＝#120，血管層等 150 秒載入完才拍）：** 前後差異只有 6 到 1997 個像素（每張約 142 萬像素），肉眼看不出分別。屈曲 180° 前、後、上方，兩邊都沒有紅色血管碎段浮在肩上或左側；外展 168°、180° 兩邊都沒有撕裂碎片或灰白大平面張開。也就是說這組圖**證明不了畫面有改善**，只能說明 after 沒有退步；#120 能證明的是 `check:motion` 通過。
+- **未解決：內旋 48° + 肘屈 140° 的米色翼狀物** 在 before 與 after 都有（肩下方一片米色大平面，範圍前後完全相同，約 15500 像素），沒有被 #120 修好。成因未確認，疑似結締組織層；之後另開 PR，需人工審核。
+- **腋鞘：** 點選後 before 與 after 都畫出米白色弧形，位置形狀幾乎一樣；未點選時（屈曲 180°）兩邊都沒有拱形。所以沒有「#120 讓腋鞘只在點選時出現」的前後差異證據（`scene.tsx` 本來就只在點選時畫示意血管鞘）。
+- **限制：** 上肢模式在身體中線切開模型，胸壁只看得到左側肌肉；全身模式下鏡頭設定被覆寫，無法拍。

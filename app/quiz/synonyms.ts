@@ -4,13 +4,13 @@
 export interface Synonym {en?: string[]; zh?: string[]}
 export const SYNONYMS: Record<string, Synonym> = {
   // heart
-  'right atrioventricular valve': {en: ['tricuspid valve'], zh: ['三尖瓣', '右房室瓣']},
-  'left atrioventricular valve': {en: ['mitral valve', 'bicuspid valve'], zh: ['僧帽瓣', '二尖瓣', '左房室瓣']},
-  'anterior leaflet of right atrioventricular valve': {en: ['anterior leaflet of tricuspid valve', 'anterior cusp of tricuspid valve'], zh: ['三尖瓣前瓣']},
-  'inferior leaflet of right atrioventricular valve': {en: ['posterior leaflet of tricuspid valve', 'inferior leaflet of tricuspid valve', 'posterior cusp of tricuspid valve'], zh: ['三尖瓣後瓣']},
-  'septal leaflet of right atrioventricular valve': {en: ['septal leaflet of tricuspid valve', 'septal cusp of tricuspid valve'], zh: ['三尖瓣中隔瓣']},
-  'anterior leaflet of left atrioventricular valve': {en: ['anterior leaflet of mitral valve', 'anterior cusp of mitral valve'], zh: ['僧帽瓣前瓣', '二尖瓣前瓣']},
-  'posterior leaflet of left atrioventricular valve': {en: ['posterior leaflet of mitral valve', 'posterior cusp of mitral valve'], zh: ['僧帽瓣後瓣', '二尖瓣後瓣']},
+  'tricuspid valve': {en: ['right atrioventricular valve'], zh: ['右房室瓣']},
+  'mitral valve': {en: ['left atrioventricular valve', 'bicuspid valve'], zh: ['僧帽瓣', '左房室瓣']},
+  'anterior leaflet of tricuspid valve': {en: ['anterior leaflet of right atrioventricular valve', 'anterior cusp of tricuspid valve'], zh: ['三尖瓣前葉']},
+  'inferior leaflet of tricuspid valve': {en: ['inferior leaflet of right atrioventricular valve', 'posterior leaflet of tricuspid valve', 'posterior cusp of tricuspid valve'], zh: ['三尖瓣後瓣', '三尖瓣下瓣']},
+  'septal leaflet of tricuspid valve': {en: ['septal leaflet of right atrioventricular valve', 'septal cusp of tricuspid valve'], zh: ['三尖瓣隔瓣']},
+  'anterior leaflet of mitral valve': {en: ['anterior leaflet of left atrioventricular valve', 'anterior leaflet of bicuspid valve', 'anterior cusp of mitral valve'], zh: ['僧帽瓣前瓣', '僧帽瓣前葉', '二尖瓣前葉']},
+  'posterior leaflet of mitral valve': {en: ['posterior leaflet of left atrioventricular valve', 'posterior leaflet of bicuspid valve', 'posterior cusp of mitral valve'], zh: ['僧帽瓣後瓣', '僧帽瓣後葉', '二尖瓣後葉']},
   'left coronary leaflet of aortic valve': {en: ['left coronary cusp of aortic valve', 'left coronary cusp'], zh: ['主動脈瓣左冠狀瓣', '左冠狀瓣']},
   'right coronary leaflet of aortic valve': {en: ['right coronary cusp of aortic valve', 'right coronary cusp'], zh: ['主動脈瓣右冠狀瓣', '右冠狀瓣']},
   'non-coronary leaflet of aortic valve': {en: ['non coronary cusp of aortic valve', 'noncoronary cusp', 'posterior cusp of aortic valve'], zh: ['主動脈瓣無冠狀瓣', '無冠瓣']},

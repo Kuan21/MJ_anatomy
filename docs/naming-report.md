@@ -1616,7 +1616,7 @@
 | anterior cusp of pulmonary valve | 台灣解剖學名詞（程式內建對照表） | 肺動脈瓣前尖 |
 | Anterolateral head of lateral papillary muscle of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室外側乳突肌前外側頭 |
 | Anterior papillary muscle of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室前乳突肌 |
-| Anterior leaflet of mitral valve | 台灣解剖學名詞（程式內建對照表） | 僧帽瓣前葉 |
+| Anterior leaflet of mitral valve | 台灣解剖學名詞（程式內建對照表） | 二尖瓣前葉 |
 | Anterior leaflet of tricuspid valve | 台灣解剖學名詞（程式內建對照表） | 三尖瓣前葉 |
 | Cavity of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室腔 |
 | Cavity of atrium | 台灣解剖學名詞（程式內建對照表） | 心房腔 |
@@ -1625,7 +1625,7 @@
 | Wall of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室壁 |
 | Lateral papillary muscle of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室外側乳突肌 |
 | Posterior papillary muscle of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室後乳突肌 |
-| Posterior leaflet of mitral valve | 台灣解剖學名詞（程式內建對照表） | 僧帽瓣後葉 |
+| Posterior leaflet of mitral valve | 台灣解剖學名詞（程式內建對照表） | 二尖瓣後葉 |
 | Posterior leaflet of tricuspid valve | 台灣解剖學名詞（程式內建對照表） | 三尖瓣後葉 |
 | Anterior cusp of aortic valve | 台灣解剖學名詞（程式內建對照表） | 主動脈瓣前尖 |
 | Septal leaflet of tricuspid valve | 台灣解剖學名詞（程式內建對照表） | 三尖瓣隔葉 |
