@@ -1331,6 +1331,7 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
   .top-region-nav{background:#ffffffe6;border:1px solid #1825361f;box-shadow:0 2px 10px #1825361a;backdrop-filter:blur(10px);z-index:30}
 }
 
+
 /* Labels of a picked special region: small pills joined by a thin line to the structure's nearest point. */
 .space-labels{position:absolute;inset:0;pointer-events:none;z-index:6;overflow:hidden}
 .space-label-lines{position:absolute;inset:0;width:100%;height:100%}
