@@ -26,6 +26,8 @@ export interface HeartViewState {
   hiddenGroups: string[];
   /** single catalogue ids hidden on their own (the fine vessel branches while a chamber is open); a user can switch them on again from the list */
   hiddenParts: string[];
+  /** the main coronary vessels and the great cardiac vein are drawn as their trunk only (the fine side branches stored in the same part are left out) */
+  trunkOnly: boolean;
   selectedId: string | null;
   section: SectionState;
   ghostChambers: boolean;

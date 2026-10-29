@@ -8,8 +8,8 @@ import {SECTION_AXES, type HeartCatalogue, type HeartPart, type HeartView, type 
 import './organ.css';
 
 const LEAFLET_LABEL: Record<string, string> = {
-  'Anterior leaflet of right atrioventricular valve': 'Tricuspid · anterior', 'Inferior leaflet of right atrioventricular valve': 'Tricuspid · posterior', 'Septal leaflet of right atrioventricular valve': 'Tricuspid · septal',
-  'Anterior leaflet of left atrioventricular valve': 'Mitral · anterior', 'Posterior leaflet of left atrioventricular valve': 'Mitral · posterior',
+  'Anterior leaflet of tricuspid valve': 'Tricuspid · anterior', 'Inferior leaflet of tricuspid valve': 'Tricuspid · posterior', 'Septal leaflet of tricuspid valve': 'Tricuspid · septal',
+  'Anterior leaflet of mitral valve': 'Mitral · anterior', 'Posterior leaflet of mitral valve': 'Mitral · posterior',
   'Left coronary leaflet of aortic valve': 'Aortic · left coronary', 'Right coronary leaflet of aortic valve': 'Aortic · right coronary', 'Non-coronary leaflet of aortic valve': 'Aortic · non-coronary',
   'Anterior semilunar cusp of pulmonary valve': 'Pulmonary · anterior', 'Left semilunar cusp of pulmonary valve': 'Pulmonary · left', 'Right semilunar cusp of pulmonary valve': 'Pulmonary · right',
 };
@@ -39,7 +39,7 @@ function HeartScene({catalogue, view, labels, onProgress, onReady, onError, onPi
 
 // Closed heart by default: the outside (chambers as the epicardial surface, coronary vessels, great vessels). Valves, chordae and papillary muscles appear when the heart is opened.
 const INTERNAL = ['papillary', 'valves', 'interior', 'pericardium'];
-const defaults: HeartViewState = {hiddenGroups: INTERNAL, hiddenParts: [], selectedId: null, section: {axis: 'none', offset: .5, flip: true}, ghostChambers: false, openChamber: null, highlight: [], command: {id: 0, view: 'front'}};
+const defaults: HeartViewState = {hiddenGroups: INTERNAL, hiddenParts: [], trunkOnly: false, selectedId: null, section: {axis: 'none', offset: .5, flip: true}, ghostChambers: false, openChamber: null, highlight: [], command: {id: 0, view: 'front'}};
 const OPENED: Partial<HeartViewState> = {openChamber: null, highlight: [], hiddenGroups: ['pericardium'], section: {axis: 'coronal', offset: .5, flip: true}, ghostChambers: true};
 const AXES: SectionAxis[] = ['none', 'coronal', 'sagittal', 'transverse'];
 /** Each cut removes the half facing the camera that looks into it: coronal from the front, sagittal from the body's right, transverse from above. */
@@ -75,14 +75,14 @@ export default function HeartDetail() {
   /** Opening: the fine surface branches and the pericardium are hidden, the great vessels and main coronary vessels stay. */
   const hideFine = (v: HeartViewState): Partial<HeartViewState> => {
     if (!before.current) before.current = {hiddenGroups: v.hiddenGroups, hiddenParts: v.hiddenParts};
-    return {hiddenParts: [...new Set([...v.hiddenParts, ...fineIds])]};
+    return {hiddenParts: [...new Set([...v.hiddenParts, ...fineIds])], trunkOnly: true};
   };
   /** Closing: vessel groups and fine branches go back to what they were before opening (nothing the user had switched off is switched on). */
   const restoreVessels = (v: HeartViewState, base: string[]): Partial<HeartViewState> => {
     const b = before.current; before.current = null;
-    if (!b) return {hiddenGroups: base, hiddenParts: v.hiddenParts.filter(id => !fineIds.includes(id))};
+    if (!b) return {hiddenGroups: base, hiddenParts: v.hiddenParts.filter(id => !fineIds.includes(id)), trunkOnly: false};
     const keep = base.filter(g => !(VESSEL_GROUPS as readonly string[]).includes(g)), vessels = b.hiddenGroups.filter(g => (VESSEL_GROUPS as readonly string[]).includes(g));
-    return {hiddenGroups: [...keep, ...vessels], hiddenParts: b.hiddenParts};
+    return {hiddenGroups: [...keep, ...vessels], hiddenParts: b.hiddenParts, trunkOnly: false};
   };
   const idsOf = (names: string[]) => (catalogue?.parts ?? []).filter(p => names.includes(p.name)).map(p => p.id);
   const openChamber = (id: string | null) => {
@@ -108,8 +108,8 @@ export default function HeartDetail() {
     const idsOf2 = (names: string[]) => catalogue.parts.filter(p => names.includes(p.name)).map(p => p.id);
     const list: LabelSpec[] = [];
     if (labelOn.valves) for (const [id, en, zh, names] of [
-      ['v-tri', 'Tricuspid valve', '三尖瓣', CHAMBERS[1].inside.filter(n => /right atrioventricular valve/.test(n))],
-      ['v-mit', 'Mitral valve', '僧帽瓣', CHAMBERS[3].inside.filter(n => /left atrioventricular valve/.test(n))],
+      ['v-tri', 'Tricuspid valve', '三尖瓣', CHAMBERS[1].inside.filter(n => /tricuspid valve/.test(n))],
+      ['v-mit', 'Mitral valve', '二尖瓣', CHAMBERS[3].inside.filter(n => /mitral valve/.test(n))],
       ['v-aor', 'Aortic valve', '主動脈瓣', CHAMBERS[3].inside.filter(n => /aortic valve/.test(n))],
       ['v-pul', 'Pulmonary valve', '肺動脈瓣', CHAMBERS[1].inside.filter(n => /pulmonary valve/.test(n))],
     ] as [string, string, string, string[]][]) list.push({id, en, zh, ids: idsOf2(names)});
@@ -166,7 +166,7 @@ export default function HeartDetail() {
         {error && <div className="organ-error stage" role="alert">{error}</div>}
         <p className="organ-hint">拖曳旋轉 · 滾輪／雙指縮放 · 點選構造查看說明</p>
       </section>
-      <aside className="organ-panel" aria-label="心臟控制與說明">
+      <aside className="organ-panel organ-panel-split" aria-label="心臟控制與說明">
         <section className="organ-block organ-info" aria-live="polite">
           {item && !selected ? <>
             <h2 className="organ-info-title" lang="en">{item.en}</h2>
@@ -183,6 +183,7 @@ export default function HeartDetail() {
             <button className="organ-clear" onClick={() => patch({selectedId: null})}>取消選取</button>
           </> : <p className="organ-info-empty">點選模型或清單中的構造，會顯示名稱與說明。</p>}
         </section>
+        <div className="organ-panel-scroll">
         <section className="organ-block">
           <h2>心臟外觀與內部<small>Outside / inside</small></h2>
           <div className="organ-segmented" role="group" aria-label="外觀或內部">
@@ -211,10 +212,11 @@ export default function HeartDetail() {
         </section>
         <section className="organ-block organ-note">
           <h2>模型範圍</h2>
-          <p>心腔、房室瓣與半月瓣（房室瓣連同腱索）、乳突肌、冠狀動脈與心臟靜脈、上下腔靜脈、肺靜脈與相連大血管，以及心包膜三層。腱索包含在瓣膜模型中，不能單獨選取。三尖瓣前瓣、僧帽瓣前瓣、左心室前乳突肌，以及右緣支、後室間支、對角支、心小靜脈與心前靜脈取自 BodyParts3D 4.0，並對齊到同一心臟；心包膜三層由心壁向外偏移生成，為示意模型。</p>
+          <p>心腔、房室瓣與半月瓣（房室瓣連同腱索）、乳突肌、冠狀動脈與心臟靜脈、上下腔靜脈、肺靜脈與相連大血管，以及心包膜三層。腱索包含在瓣膜模型中，不能單獨選取。三尖瓣前瓣、二尖瓣前瓣、左心室前乳突肌，以及右緣支、後室間支、對角支、心小靜脈與心前靜脈取自 BodyParts3D 4.0，並對齊到同一心臟；心包膜三層由心壁向外偏移生成，為示意模型。</p>
           <p>來源模型沒有、依解剖知識補建的構造（清單中標示「示意構造」，位置與形狀為示意）：界嵴、梳狀肌、卵圓窩、心房中隔、左右心耳、室間隔、肉柱、節制索、室上嵴、動脈圓錐、主動脈前庭、竇房結動脈、左緣支、心包橫竇與心包斜竇。卵圓瓣痕跡仍沒有模型，只提供文字說明；傳導系統（竇房結、房室結、希氏束）本模式未收錄。</p>
           <p className="organ-source">來源：{catalogue.source}。{catalogue.attribution}。授權 {catalogue.license}。</p>
         </section>
+        </div>
       </aside>
     </div>}
   </main>;
