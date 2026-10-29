@@ -13,7 +13,7 @@ const geom = p => {const ab = buf(p.chunk); return {pos: new Float32Array(ab, p.
 const isVessel = p => p.system === 'arterial' || p.system === 'venous';
 const TISSUE = p => ['muscular', 'skeletal', 'digestive', 'respiratory', 'urinary', 'reproductive', 'endocrine', 'lymphatic', 'connective', 'sensory', 'cardiac'].includes(p.system) || (p.system === 'nervous' && /brain|cerebr|spinal cord/i.test(p.name));
 const CELL = .008;
-class Grid {
+export class Grid {
   constructor() {this.cells = new Map(); this.tris = [];}
   add(tag, a, b, c) {
     const id = this.tris.length; this.tris.push([a, b, c, tag]);
@@ -26,12 +26,12 @@ class Grid {
     let best = {d: Infinity, tag: null, q: null};
     for (let x = cx - r; x <= cx + r; x++) for (let y = cy - r; y <= cy + r; y++) for (let z = cz - r; z <= cz + r; z++) {
       const l = this.cells.get(`${x},${y},${z}`); if (!l) continue;
-      for (const id of l) { const t = this.tris[id]; if (t[3] === self) continue; const d = triDist(p, t[0], t[1], t[2]); if (d < best.d) best = {d, tag: t[3], q: triDist.q}; }
+      for (const id of l) { const t = this.tris[id]; if (self instanceof Set ? self.has(t[3]) : t[3] === self) continue; const d = triDist(p, t[0], t[1], t[2]); if (d < best.d) best = {d, tag: t[3], q: triDist.q}; }
     }
     return best;
   }
 }
-function triDist(p, a, b, c) {
+export function triDist(p, a, b, c) {
   const ab = [b[0] - a[0], b[1] - a[1], b[2] - a[2]], ac = [c[0] - a[0], c[1] - a[1], c[2] - a[2]], ap = [p[0] - a[0], p[1] - a[1], p[2] - a[2]];
   const dot = (u, v) => u[0] * v[0] + u[1] * v[1] + u[2] * v[2], d1 = dot(ab, ap), d2 = dot(ac, ap);
   let q;

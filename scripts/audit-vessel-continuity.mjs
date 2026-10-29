@@ -3,12 +3,20 @@
 //   end caps   pieces of fewer than 12 vertices (single triangles and small fans the source left at cut branch openings); counted for information only
 // Known floating pieces are listed in docs/vessel-continuity-baseline.json so a new one fails `npm run check`; fix them rather than adding to the list.
 // docs/vessel-continuity.md is written with --write.
+//
+// Segments mode (node scripts/audit-vessel-continuity.mjs --segments [--regions upper,lower] [--write] [--ends <manifest>] [--list]):
+//   for every artery and vein of a region, each end is paired with the next segment (the end cap it faces, or the trunk it runs into), and three things are measured:
+//   gap (end cap to the other segment's surface, 0 when they overlap), tangent mismatch (angle between the two axes at an end-to-end joint, 0 = straight on)
+//   and diameter mismatch (ratio of the two diameters). A gap larger than half the vessel's diameter is listed; docs/vessel-segments-baseline.json holds the known ones,
+//   and a new one, or a known one that grows by more than 1 mm, fails. Regions: upper, lower (done); thorax, head, trunk are not covered yet.
+//   --write refreshes docs/vessel-segments.md and the baseline, --ends measures with another vessel-ends manifest (e.g. the one before the bridges), --list prints the gaps.
 import fs from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {loadWorld} from './lib/paokao-world.mjs';
 import {closest} from './lib/heart-geom.mjs';
 
 const root = new URL('../', import.meta.url), TOL = .003, MIN = 12, C = TOL;
+if (process.argv.includes('--segments')) { const {runSegments} = await import('./lib/vessel-segment-report.mjs'); await runSegments(process.argv.slice(2)); process.exit(0); }
 const w = loadWorld({paokao: true});
 const pieces = [];
 function split(name, id, pos, idx, side) {

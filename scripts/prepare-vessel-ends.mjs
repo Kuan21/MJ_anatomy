@@ -11,51 +11,32 @@ import {fileURLToPath} from 'node:url';
 import {createStream} from './lib/stream-writer.mjs';
 import {tube} from './lib/nerve-schematics.mjs';
 import {auditEnds, atlas, geom} from './audit-vessel-ends.mjs';
+import {weldSurface, endFrame as endFrameOf, bridgePath, sub, add, len, unit} from './lib/vessel-frames.mjs';
+import {loadFullAtlas, STREAMS} from './lib/full-atlas.mjs';
+import {loadVessels, analyse, bridgeable, regionTools} from './lib/vessel-segments.mjs';
 
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 const stamp = file('work/vessel-ends.stamp'), out = new URL('public/models/stream/', root), manifest = file('public/models/vessel-ends/vessel-ends-stream.json.gz');
-const inputs = ['scripts/prepare-vessel-ends.mjs', 'scripts/audit-vessel-ends.mjs', 'scripts/lib/nerve-schematics.mjs', 'public/models/atlas.json'];
+const inputs = ['scripts/prepare-vessel-ends.mjs', 'scripts/audit-vessel-ends.mjs', 'scripts/lib/nerve-schematics.mjs', 'scripts/lib/vessel-frames.mjs', 'scripts/lib/vessel-segments.mjs', 'scripts/lib/tube-tips.mjs', 'scripts/lib/region-entry.ts', 'app/mj-part-regions.ts', 'public/models/atlas.json', 'app/anatomy-source-overrides.json', ...STREAMS.filter(s => !s.startsWith('vessel-ends')).map(s => 'public/models/' + s)];
 const hash = createHash('sha256').update(inputs.map(f => fs.readFileSync(file(f))).join('')).digest('hex');
 try { if (fs.readFileSync(stamp, 'utf8') === hash && fs.existsSync(manifest)) { console.log('Vessel ends: up to date.'); process.exit(0); } } catch {}
 
-const GAP_MM = 12, FADE_RADIUS = .0018, MIN_RADIUS = .0004;
-const sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]], add = (a, b, s = 1) => [a[0] + b[0] * s, a[1] + b[1] * s, a[2] + b[2] * s], len = a => Math.hypot(...a), unit = a => { const l = len(a) || 1; return [a[0] / l, a[1] / l, a[2] / l]; };
+const GAP_MM = 12, FADE_RADIUS = .0018;
 
 const rows = auditEnds(), parts = new Map(atlas.parts.map(p => [p.id, p])), cache = new Map();
-/** Welded surface graph of a vessel mesh (cached): vertex positions and neighbour lists. */
+/** Welded surface graph of a vessel mesh (cached). */
 function surface(id) {
-  if (cache.has(id)) return cache.get(id);
-  const g = geom(parts.get(id)), key = new Map(), pts = [], remap = new Uint32Array(g.pos.length / 3);
-  for (let i = 0; i < remap.length; i++) {
-    const k = `${Math.round(g.pos[i * 3] * 1e5)},${Math.round(g.pos[i * 3 + 1] * 1e5)},${Math.round(g.pos[i * 3 + 2] * 1e5)}`;
-    let v = key.get(k); if (v === undefined) { v = pts.length; key.set(k, v); pts.push([g.pos[i * 3], g.pos[i * 3 + 1], g.pos[i * 3 + 2]]); } remap[i] = v;
-  }
-  const adj = pts.map(() => new Set());
-  for (let i = 0; i < g.idx.length; i += 3) for (let k = 0; k < 3; k++) { const a = remap[g.idx[i + k]], b = remap[g.idx[i + (k + 1) % 3]]; if (a !== b) { adj[a].add(b); adj[b].add(a); } }
-  const entry = {pts, adj}; cache.set(id, entry); return entry;
+  if (!cache.has(id)) { const g = geom(parts.get(id)); cache.set(id, weldSurface(g.pos, g.idx)); }
+  return cache.get(id);
 }
-/** Direction (pointing out of the tube) and radius of a tube end: the surface vertices connected to the tip within 5 mm give a principal axis and the RMS distance from it. */
-function endFrame(id, tip) {
-  const {pts, adj} = surface(id);
-  let start = -1, best = Infinity;
-  pts.forEach((v, i) => { const d = Math.hypot(v[0] - tip[0], v[1] - tip[1], v[2] - tip[2]); if (d < best) { best = d; start = i; } });
-  const seen = new Set([start]), queue = [start], set = [];
-  while (queue.length) {
-    const v = queue.pop(); set.push(pts[v]);
-    for (const u of adj[v]) if (!seen.has(u) && Math.hypot(pts[u][0] - tip[0], pts[u][1] - tip[1], pts[u][2] - tip[2]) < .005) { seen.add(u); queue.push(u); }
-  }
-  if (set.length < 8) return null;
-  const c = set.reduce((s, v) => add(s, v, 1 / set.length), [0, 0, 0]), cov = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
-  for (const v of set) { const d = sub(v, c); for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) cov[i][j] += d[i] * d[j] / set.length; }
-  let axis = unit(sub(tip, c));
-  for (let k = 0; k < 24; k++) axis = unit([0, 1, 2].map(i => cov[i][0] * axis[0] + cov[i][1] * axis[1] + cov[i][2] * axis[2]));
-  const dir = axis[0] * (tip[0] - c[0]) + axis[1] * (tip[1] - c[1]) + axis[2] * (tip[2] - c[2]) < 0 ? axis.map(x => -x) : axis;
-  let r2 = 0; for (const v of set) { const d = sub(v, c), along = d[0] * dir[0] + d[1] * dir[1] + d[2] * dir[2]; r2 += (len(d) ** 2 - along ** 2) / set.length; }
-  return {dir, radius: Math.max(MIN_RADIUS, Math.min(Math.sqrt(r2) * 1.2, .008))};
-}
+const endFrame = (id, tip) => endFrameOf(surface(id), tip);
 
-const byPart = new Map(), report = [];
-const piece = (id, geometry) => { if (!byPart.has(id)) byPart.set(id, []); byPart.get(id).push(geometry); };
+const report = [];
+const pieces = [];   // {id, tip, action, geometry}
+const piece = (id, geometry, tip, action) => pieces.push({id, tip, action, geometry});
+// Limb vessels get round connectors (12 sides); the rest keep the light 5-sided pieces.
+const {anatomicalRegion} = await regionTools(), limbIds = new Set(atlas.parts.filter(p => ['upper-limb', 'lower-limb'].includes(anatomicalRegion(p))).map(p => p.id));
+const sides = id => limbIds.has(id) ? 12 : 5;
 for (const row of rows) {
   const frame = row.kind === 'joined' ? null : endFrame(row.id, row.at);
   let action = row.kind === 'joined' ? 'joined' : 'enters';
@@ -65,24 +46,50 @@ for (const row of rows) {
       action = 'gap';
       const d = row.toSameMm / 1000, target = row.closest, chord = unit(sub(target, row.at));
       const bend = add(row.at, chord, d * .5), mid = add(bend, frame.dir, d * .18), through = add(target, chord, .001);
-      piece(row.id, tube([add(row.at, frame.dir, -.0015), row.at, mid, through], frame.radius * .95, frame.radius * .75, 6, 5));
+      piece(row.id, tube([add(row.at, frame.dir, -.0015), row.at, mid, through], frame.radius * .95, frame.radius * .75, limbIds.has(row.id) ? 12 : 6, sides(row.id)), row.at, 'gap');
     } else if (frame.radius <= FADE_RADIUS) {
       action = 'fade';
       const L = Math.min(.008, .003 + 3 * frame.radius);
-      piece(row.id, tube([add(row.at, frame.dir, -.001), add(row.at, frame.dir, L / 2), add(row.at, frame.dir, L)], frame.radius * .95, frame.radius * .1, 2, 5));
+      piece(row.id, tube([add(row.at, frame.dir, -.001), add(row.at, frame.dir, L / 2), add(row.at, frame.dir, L)], frame.radius * .95, frame.radius * .1, limbIds.has(row.id) ? 4 : 2, sides(row.id)), row.at, 'fade');
     } else if (!inTissue && row.kind === 'dangling') action = 'enters';
   }
   report.push({id: row.id, name: row.name, system: row.system, action, at: row.at, radiusMm: frame ? +(frame.radius * 1000).toFixed(1) : null, toSameMm: row.toSameMm, toTissueMm: row.toTissueMm, nearest: row.nearestSame});
 }
 
+// Bridges (upper and lower limb): every end whose next segment lies further away than half the vessel's diameter gets a spline connector that tapers from its own
+// diameter to the next segment's, replacing the simple connector of the same end. The measurement is the one scripts/audit-vessel-continuity.mjs uses (scripts/lib/vessel-segments.mjs).
+const source = loadFullAtlas({streams: STREAMS.filter(s => !s.startsWith('vessel-ends'))});   // the vessels the viewer shows, without the pieces this step makes
+const {rows: gapRows} = await analyse({regions: ['upper', 'lower'], mode: 'before', V: await loadVessels({mode: 'before', source})});
+const planned = gapRows.filter(bridgeable), mutual = new Set();
+let bridged = 0;
+for (const r of planned) {
+  if (r.kind === 'end-to-end') { // two ends facing each other would get two tubes: keep one
+    const twin = planned.find(o => o !== r && o.id === r.neighbourId && o.neighbourId === r.id && len(sub(o.capAt, r.target.point)) < .002 && len(sub(r.capAt, o.target.point)) < .002);
+    if (twin && (mutual.has(twin) || r.id > twin.id)) continue; mutual.add(r);
+  }
+  const t = r.target, to = r.kind === 'end-to-end' ? add(t.point, t.dir, -.001) : add(t.point, t.inward, Math.min(.0006 + t.radius * .5, .002));
+  const travel = r.kind === 'end-to-end' ? t.dir.map(v => -v) : unit(sub(to, r.capAt));
+  const r1 = r.kind === 'end-to-end' ? Math.min(t.radius, r.radius * 2.2) : r.radius * .85;
+  const path = bridgePath(r.capAt, r.dir, to, travel);
+  const near = pieces.filter(q => q.id === r.id && q.action === 'gap' && len(sub(q.tip, r.tipAt)) < .004);
+  for (const q of near) pieces.splice(pieces.indexOf(q), 1);
+  const far = pieces.filter(q => q.id === r.id && q.action === 'fade' && len(sub(q.tip, r.tipAt)) < .004);
+  for (const q of far) pieces.splice(pieces.indexOf(q), 1);
+  const samples = Math.max(16, Math.ceil((r.gapMm / 1.2) / (path.length - 1)) * (path.length - 1));
+  piece(r.id, tube(path, r.radius * .95, r1 * .97, samples, 12), r.tipAt, 'bridge'); bridged++;
+  const hit = report.find(x => x.id === r.id && len(sub(x.at, r.tipAt)) < .004); if (hit) hit.action = 'bridge';
+}
+console.log(`Vessel ends: ${bridged} limb bridges planned from ${gapRows.length} adjacent-segment ends.`);
+const byPart = new Map(); for (const q of pieces) { if (!byPart.has(q.id)) byPart.set(q.id, []); byPart.get(q.id).push(q.geometry); }
+
 fs.mkdirSync(out, {recursive: true}); fs.mkdirSync(new URL('public/models/vessel-ends/', root), {recursive: true}); fs.mkdirSync(new URL('work/', root), {recursive: true});
 const stream = createStream(out, 'vessel-ends');
 // Each end piece moves exactly like the vessel it finishes: it copies that vessel's arm (tissue) and body-rig bindings.
-const tissueJson = JSON.parse(fs.readFileSync(file('app/biomechanics-v2/tissue-bindings.json'), 'utf8')), bodyJson = JSON.parse(fs.readFileSync(file('app/biomechanics-v2/body-bindings.json'), 'utf8')), endBindings = {tissue: {}, body: {}};
+const paokaoJson = JSON.parse(fs.readFileSync(file('app/biomechanics-v2/paokao-bindings.json'), 'utf8')), tissueJson = {...JSON.parse(fs.readFileSync(file('app/biomechanics-v2/tissue-bindings.json'), 'utf8')), ...paokaoJson.tissue}, bodyJson = {...JSON.parse(fs.readFileSync(file('app/biomechanics-v2/body-bindings.json'), 'utf8')), ...paokaoJson.body}, endBindings = {tissue: {}, body: {}};
 for (const [id, list] of byPart) {
   const positions = [], indices = [];
   for (const g of list) { const base = positions.length / 3; positions.push(...g.positions); for (const i of g.indices) indices.push(i + base); }
-  const parent = parts.get(id);
+  const parent = parts.get(id) ?? source.atlas.parts.find(q => q.id === id);
   if (tissueJson[id]) endBindings.tissue[`${id}-END`] = {...tissueJson[id]};
   if (bodyJson[id]) endBindings.body[`${id}-END`] = {...bodyJson[id]};
   stream.add({id: `${id}-END`, conceptId: parent.conceptId, name: parent.name, system: parent.system, schematic: true}, Float32Array.from(positions), Uint32Array.from(indices));
@@ -101,6 +108,7 @@ for (const r of report.filter(r => r.action === 'gap' || r.action === 'enters'))
 const md = [`# 血管末端審核`, '', `共檢查 ${report.length} 個血管末端（動脈與靜脈；每個血管網格的各分支尖端）。`, '', '| 處理 | 數量 | 說明 |', '| --- | ---: | --- |',
   `| 原本已相連 | ${count('joined')} | 末端接到同類型的上游或分支血管，不處理 |`,
   `| 補接（connector） | ${count('gap')} | 12 mm 內有同類型血管，加一條細而彎的連接管，接回母血管 |`,
+  `| 樣條橋接（bridge） | ${count('bridge')} | 上肢與下肢：下一段血管距離大於本段管徑一半者，加一條口徑漸變的樣條連接管（半徑由本段漸變到下一段），取代簡單連接管 |`,
   `| 漸細（fade） | ${count('fade')} | 半徑 1.8 mm 以下的小血管，真實解剖上止於肌肉、器官或筋膜；末端收成尖端，資料卡註明「末端逐漸變細，進入周圍組織」 |`,
   `| 進入器官／其他（enters） | ${count('enters')} | 較大的血管進入器官或骨（如主動脈根部、肝靜脈進入肝），不改形狀，列在下方供人工複查 |`, '',
   '## 補接與未處理清單', '', '| 血管 | 處理（末端數） | 最大半徑 (mm) | 最近同類血管 (mm) | 最近組織 (mm) |', '| --- | --- | ---: | ---: | ---: |',
