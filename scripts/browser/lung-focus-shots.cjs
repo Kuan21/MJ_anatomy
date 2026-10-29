@@ -26,9 +26,10 @@ const PLAN=[ // side, opacity %, views
  const press=async sel=>{if(real){const bx=await p.locator(sel).boundingBox();await p.mouse.click(bx.x+bx.width/2,bx.y+bx.height/2);}else await p.evaluate(s=>document.querySelector(s).click(),sel);};
  await press('.detail-atlas-shortcuts button:nth-child(3)');await p.waitForTimeout(3000);
  await p.waitForFunction(()=>{const a=window.__mjView.partsState('lobe of (right|left) lung');return a.length===5&&a.every(x=>x.picker);},null,{timeout:900000,polling:3000});await p.waitForTimeout(5000);
+ if(process.env.DUMP_VISIBLE){console.log('VISIBLE '+JSON.stringify([...new Set((await p.evaluate(()=>window.__mjView.partsState('.').filter(x=>x.visible>.5).map(x=>x.name))).filter(n=>!/rib$|vertebra|costal cartilage/i.test(n)))]));}
  const sideSel={both:1,left:2,right:3};
- const setOpacity=async v=>{const s='.lung-focus input[type=range]';if(real){const bx=await p.locator(s).boundingBox();await p.mouse.click(bx.x+bx.width*((v-10)/90),bx.y+bx.height/2);}else await p.evaluate(v=>{const e=document.querySelector('.lung-focus input[type=range]');Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(e,String(v));e.dispatchEvent(new Event('input',{bubbles:true}));},v);await p.waitForTimeout(2500);};
- for(const [side,op,views] of PLAN){
+ const setOpacity=async v=>{const s='.lung-focus input[type=range]';if(real){const bx=await p.locator(s).boundingBox();await p.mouse.click(Math.min(bx.x+bx.width-4,bx.x+4+(bx.width-8)*((v-10)/90)),bx.y+bx.height/2);}else await p.evaluate(v=>{const e=document.querySelector('.lung-focus input[type=range]');Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(e,String(v));e.dispatchEvent(new Event('input',{bubbles:true}));},v);await p.waitForTimeout(2500);};
+ for(const [side,op,views] of PLAN.filter(r=>(!process.env.ONLY_OPACITY||r[1]===+process.env.ONLY_OPACITY)&&(!process.env.ONLY_SIDES||process.env.ONLY_SIDES.split(',').includes(r[0])))){
   await press(`.lung-focus-sides button:nth-child(${sideSel[side]})`);await p.waitForTimeout(4000);
   await setOpacity(op);
   for(const v of views){const [dir,dist]=VIEWS[v];await p.evaluate(([c,d,r])=>window.__mjView.look(c,d,r),[C,dir,dist]);await p.waitForTimeout(9000);
