@@ -22,7 +22,7 @@ import {matchesSex} from './mj-sex';
 import {serousLayerKey,PERITONEUM_KEYS} from './mj-serous';
 import {matchesDepth} from './mj-depth';
 import {anatomicalRegion,anatomicalSide,isMotionQuarantined} from './mj-part-regions';
-import {isLinearBinding,lbsSkin,linearSkin,makeSoftRig,bindTissue,makePalette,deformTissue,deformPoint,followDeltoidSurface,setDeltoidFollowers,registerNerveRest,resolveNeurovascularProfile,tissueBindings,nerveBindings,type SkinBinding,type Profile,type DeltoidFollowers} from './biomechanics-v2/soft-tissue';
+import {isLinearBinding,alignEndPiece,lbsSkin,linearSkin,makeSoftRig,bindTissue,makePalette,deformTissue,deformPoint,followDeltoidSurface,setDeltoidFollowers,registerNerveRest,resolveNeurovascularProfile,tissueBindings,nerveBindings,type SkinBinding,type Profile,type DeltoidFollowers} from './biomechanics-v2/soft-tissue';
 import {makeBodyRig,buildBodyMotion,bindBodyTissue,bindSpineCarrier,cranialNerveRigid,inferredLimb,type BodyRegion} from './biomechanics-v2/body-motion';
 import {bindBodyPart,bodyPartRule} from './biomechanics-v2/body-part';
 import {makeSurfaceConstraints,constrainSurface} from './biomechanics-v2/surface-constraints';
@@ -559,6 +559,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      const profile=(p.system==='arterial'||p.system==='venous')?resolveNeurovascularProfile(p.name,binding.profile):binding.profile;
      pick.userData.skin=bindTissue(rig,profile,ensureMotionBase(),p,'',g.index!.array);
      pick.userData.tissueSide=bindingSide;
+     // vessel-end pieces take the weights of their vessel where they touch it (the end stream is appended after the atlas, so the vessel is bound first)
+     if(p.id.endsWith('-END')){const mainIndex=atlas.parts.findIndex(q=>q.id===p.id.slice(0,-4)),mainPick=mainIndex>=0?pickers[mainIndex]:undefined,mainSkin=mainPick?.userData.skin as ReturnType<typeof bindTissue>|undefined,mainBase=mainPick?.userData.baseMotionPositions as Float32Array|undefined;if(mainSkin&&mainBase)alignEndPiece(pick.userData.skin,ensureMotionBase(),mainSkin,mainBase);}
     }
     if(!pick.userData.skin&&p.system==='connective'&&canonicalRegion==='upper-limb'&&!isMotionQuarantined(p)){
      const side=canonicalSide==='midline'?connectiveSide(p.name):canonicalSide,profile=connectiveProfile(p.name),jointRig=side?softRigs[side]:null;
@@ -1037,6 +1039,8 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
      if(amount<.01&&cervicalVessels.replaced.has(p.id))return false;
      // A space (axillary fossa, carpal tunnel, quadrangular space …) is not a solid: its boundaries and contents are highlighted by the dissection panel, so the placeholder volume is never drawn as a plate or box.
      if((p as {kind?:string}).kind==='space')return false;
+     // A schematic sheath (axillary, femoral) is a thin tube drawn translucent: with the arm raised it folds into a grey arch above the shoulder, so it is only drawn when it is picked (from the dissection panel).
+     if((p as {kind?:string}).kind==='sheath'&&!selection.has(p.id))return false;
      if(hidden.has(p.id))return false;
      const cx=(p.bounds[0][0]+p.bounds[1][0])*.5,cy=(p.bounds[0][1]+p.bounds[1][1])*.5,cz=(p.bounds[0][2]+p.bounds[1][2])*.5;
      const intracranialLegacy=p.system==='nervous'&&cy>1.38&&Math.abs(cx)<.36&&Math.abs(cz)<.34&&!/cranial.?nerve|\bnerve\b|tract|root|ganglion/i.test(p.name);
