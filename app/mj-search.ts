@@ -1,4 +1,5 @@
 import type {Concept} from './anatomy';
+import {cranialNumberOf,cranialQuery,matchesCranial,singularQuery} from './mj-cranial-search';
 
 // Chinese search accepts the Taiwan form the viewer shows plus the Hong Kong and mainland spellings people also type
 // (背闊肌 / 背阔肌 for 闊背肌, simplified characters in general).
@@ -66,6 +67,18 @@ export function buildSearchIndex(sources: SearchSource[]): SearchEntry[] {
 export function querySearchIndex(index: SearchEntry[], query: string, limit = 50): SearchEntry[] {
   const q = query.trim();
   if (!q) return [];
+  // "cranial nerve", 腦神經, "CN III", 第三對腦神經: the cranial nerves in order, left before right
+  const cranial = cranialQuery(q);
+  if (cranial) {
+    const hits = index.filter(e => matchesCranial(e.english, cranial)).sort((a, b) => cranialNumberOf(a.english, true) - cranialNumberOf(b.english, true) || a.english.localeCompare(b.english));
+    return hits.slice(0, limit);
+  }
+  const found = searchIndex(index, q, limit);
+  // plural / singular: "nerves" finds "nerve"
+  if (!found.length) {const one = singularQuery(q); if (one && one !== q) return searchIndex(index, one, limit);}
+  return found;
+}
+function searchIndex(index: SearchEntry[], q: string, limit: number): SearchEntry[] {
   const lower = q.toLowerCase(), flat = squashSide(q), simple = simplify(q), hits: {entry: SearchEntry; rank: number}[] = [];
   for (const entry of index) {
     const at = entry.hay.indexOf(lower);

@@ -6,6 +6,7 @@ import {gunzipSync} from 'node:zlib';
 import {quizModule} from './quiz-modules.mjs';
 
 const {buildSearchIndex, querySearchIndex, conceptMatches} = await quizModule('app/mj-search.ts');
+const {cranialQuery, matchesCranial, CRANIAL_NERVES} = await quizModule('app/mj-cranial-search.ts');
 const {structureProfile} = await quizModule('app/mj-structure-info.ts');
 const {normalizeAtlasSystems} = await quizModule('app/mj-system-classifier.ts');
 const {mergeAtlasStreams} = await quizModule('app/mj-facial-atlas.ts');
@@ -38,6 +39,33 @@ for (const q of ['闊背肌', '背阔肌', '背闊肌']) assert.ok(querySearchIn
 assert.deepEqual(querySearchIndex(index, '   '), []);
 // best match first: the shortest name that matches comes first
 {const top = querySearchIndex(index, 'femur')[0].english; assert.ok(/femur/i.test(top) && top.length <= 12, `best match for femur: ${top}`);}
+
+// cranial nerves: the category, plural, Chinese, numbering in the ways people type it, and the plural of an ordinary word
+{
+  const roman = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'], names = ['olfactory', 'optic', 'oculomotor', 'trochlear', 'trigeminal', 'abducens', 'facial', 'vestibul', 'glossopharyngeal', 'vagus', 'accessory', 'hypoglossal'];
+  for (const q of ['cranial nerve', 'cranial nerves', 'Cranial Nerve', '腦神經', '顱神經', 'cranial']) {
+    const got = querySearchIndex(index, q, 100);
+    assert.ok(got.length >= 12, `"${q}" finds the cranial nerves (${got.length})`);
+    for (const n of names) assert.ok(got.some(e => e.english.toLowerCase().includes(n)), `"${q}" finds ${n}`);
+  }
+  roman.forEach((r, i) => {
+    for (const q of [`CN ${r}`, `cn ${i + 1}`, `cranial nerve ${i + 1}`, `Cranial nerve ${r}`, `CN${r}`, `第${'一二三四五六七八九十'[i] ?? (i === 10 ? '十一' : '十二')}對腦神經`, `第${i + 1}對腦神經`]) {
+      const got = querySearchIndex(index, q, 100);
+      assert.ok(got.length > 0, `"${q}" finds nerve ${r}`);
+      assert.ok(got.some(e => e.english.toLowerCase().includes(names[i])), `"${q}" finds the ${names[i]} nerve`);
+    }
+  });
+  // brain detail mode filters its own parts with the same predicate: the brain model's nerve names (labels like "Oculomotor nerve (III)", sides as .l / .r)
+  {
+    const b = fs.readFileSync(new URL('brain.glb', models)), g = JSON.parse(b.toString('utf8', 20, 20 + b.readUInt32LE(12)));
+    const labels = new Set(g.nodes.filter(n => n.extras?.bx_cat === 'cranial_nerves').map(n => n.extras.bx_label));
+    const all = cranialQuery('cranial nerves');
+    for (const c of CRANIAL_NERVES) { const name = [...labels].find(l => c.trunk.test(l.toLowerCase().replace(/\\((?:i|ii|iii|iv|v|vi|vii|viii|ix|x|xi|xii)\\)/g, '').trim())); if (name) assert.ok(matchesCranial(name, all) && matchesCranial(name, cranialQuery(`CN ${c.n}`)), `brain part ${name}`); }
+    assert.ok(matchesCranial('Oculomotor nerve (III)', cranialQuery('cn iii')) && !matchesCranial('Facial nerve (VII)', cranialQuery('cn iii')));
+  }
+  assert.ok(querySearchIndex(index, 'nerves').length > 0, '"nerves" finds nerve names');
+  assert.ok(querySearchIndex(index, 'oculomotor').length > 0 && querySearchIndex(index, '動眼神經').length > 0, 'nerve names still found');
+}
 // speed: a query over the whole index
 const queries = ['l', 'la', 'lat', 'latissimus', 'm', 'me', 'med', '正', '正中', '正中神經', '闊', '闊背', '闊背肌'];
 const times = [];

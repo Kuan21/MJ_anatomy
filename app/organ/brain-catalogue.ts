@@ -19,7 +19,7 @@ export const BRAIN_GROUPS: BrainGroup[] = [
   {id: 'basal', en: 'Basal nuclei & deep grey matter', zh: '基底核與深部灰質', layer: 4, on: false},
   {id: 'diencephalon', en: 'Diencephalon', zh: '間腦', layer: 5, on: false},
   {id: 'ventricles', en: 'Ventricles & choroid plexus', zh: '腦室與脈絡叢', layer: 6, on: false},
-  {id: 'cranial', en: 'Cranial nerves (roots)', zh: '腦神經（根部）', layer: -1, on: false},
+  {id: 'cranial', en: 'Cranial nerves (roots)', zh: '腦神經（根部）', layer: -1, on: true},
   {id: 'arteries', en: 'Cerebral arteries (incl. circle of Willis)', zh: '腦動脈（含 Willis 環）', layer: -1, on: false},
   {id: 'veins', en: 'Venous sinuses & veins', zh: '靜脈竇與靜脈', layer: -1, on: false},
 ];

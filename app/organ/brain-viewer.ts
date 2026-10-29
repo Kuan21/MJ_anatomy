@@ -25,10 +25,12 @@ const SCHEMATIC_COLOR = '#d2b25f';
 export const BRAIN_SELECT = {fill: '#5DB89A', edge: '#3E8E74'};
 const GROUP_COLOR: Record<string, string> = {
   meninges: '#d9c9a3', frontal: '#cdb0a8', parietal: '#c9b4ad', temporal: '#c5aaa3', occipital: '#c1a7a6', limbic: '#c9a9ad', insula: '#c8a8a0', interlobar: '#c6aaa4', 'cortex-other': '#cbb2ab',
-  cerebellum: '#c39b8f', brainstem: '#d6b79d', white: '#efe6d3', basal: '#b79d9d', diencephalon: '#c9a3ae', ventricles: '#7fb2d6', cranial: '#e4c85a', arteries: '#c4414f', veins: '#4f7fbf',
+  cerebellum: '#c39b8f', brainstem: '#d6b79d', white: '#efe6d3', basal: '#b79d9d', diencephalon: '#c9a3ae', ventricles: '#7fb2d6', cranial: '#f2c200', arteries: '#c4414f', veins: '#4f7fbf',
 };
 /** Groups drawn as translucent shells so what lies inside them can be seen. */
 const TRANSLUCENT: Record<string, number> = {meninges: .32, ventricles: .55};
+/** Vessels shown together with the cranial nerve roots are drawn translucent, so a root running behind an artery or vein stays visible. */
+const VESSEL_OVER_NERVES = .4;
 const BODY_GROUPS = /^(frontal|parietal|temporal|occipital|limbic|insula|cortex-other|cerebellum)$/, CORTEX_GROUPS = /^(frontal|parietal|temporal|occipital|limbic|insula|cortex-other)$/;
 const DRACO_PATH = `${import.meta.env.BASE_URL}draco/`;
 
@@ -153,7 +155,7 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
     for (const [id, mesh] of meshes) {
       const part = parts.get(id)!, on = selected.has(id);
       mesh.visible = visibleIn(part);
-      const m = mesh.material, translucent = TRANSLUCENT[part.group];
+      const m = mesh.material, translucent = (part.group === 'arteries' || part.group === 'veins') && !state.hiddenGroups.includes('cranial') ? VESSEL_OVER_NERVES : TRANSLUCENT[part.group];
       m.color.set(on ? BRAIN_SELECT.fill : part.schematic ? SCHEMATIC_COLOR : GROUP_COLOR[part.group] ?? '#cfae9a');
       m.emissive.set(on ? BRAIN_SELECT.fill : '#000000'); m.emissiveIntensity = on ? .12 : 0;
       m.transparent = translucent !== undefined && !on; m.opacity = translucent !== undefined && !on ? translucent : 1; m.depthWrite = !m.transparent;
