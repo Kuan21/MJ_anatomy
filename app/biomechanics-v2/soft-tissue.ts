@@ -90,7 +90,8 @@ export function makeSoftRig(atlas:Atlas,side:Side):SoftRig|null{
  const digitalLandmarks=fingers.map((finger,i)=>{const p=atlas.parts.find(p=>p.name===`Distal phalanx of ${side} ${finger}`);if(!p)throw new Error(`Missing distal landmark: ${side} ${finger}`);return{source:new Vector3(sign*sourceTips[i][0],sourceTips[i][1],sourceTips[i][2]),target:new Vector3((p.bounds[0][0]+p.bounds[1][0])*.5,p.bounds[0][1]-.001,p.bounds[1][2]-.002)};});
  const ribs=new Box3();for(const p of atlas.parts)if(p.system==='skeletal'&&/ rib$/i.test(p.name))ribs.union(new Box3(new Vector3().fromArray(p.bounds[0]),new Vector3().fromArray(p.bounds[1])));
  const thorax={centerZ:(ribs.min.z+ribs.max.z)/2,radiusX:Math.max(Math.abs(ribs.min.x),Math.abs(ribs.max.x)),radiusZ:(ribs.max.z-ribs.min.z)/2};
- return{side,digitalLandmarks,thorax,ids:[undefined,...['clavicle','scapula','humerus','ulna','radius','hand'].map(id=>node(id).partIds[0]),...digitBoneIds(side)],shoulder:node('humerus').pivot.clone(),elbow:node('ulna').pivot.clone(),wrist:node('carpus').pivot.clone(),groups,handTipY:Math.min(...atlas.parts.filter(p=>node('hand').partIds.includes(p.id)).map(p=>p.bounds[0][1])),radius:center('radius'),ulna:center('ulna')};
+ return{side,digitalLandmarks,thorax,// the hand frame is carried by a carpal bone: it moves with the wrist only (the first bone of the 'hand' group is a distal phalanx, which now has a pose of its own)
+ ids:[undefined,...['clavicle','scapula','humerus','ulna','radius','carpus'].map(id=>node(id).partIds[0]),...digitBoneIds(side)],shoulder:node('humerus').pivot.clone(),elbow:node('ulna').pivot.clone(),wrist:node('carpus').pivot.clone(),groups,handTipY:Math.min(...atlas.parts.filter(p=>node('hand').partIds.includes(p.id)).map(p=>p.bounds[0][1])),radius:center('radius'),ulna:center('ulna')};
 }
 const clamp=(x:number)=>Math.max(0,Math.min(1,x));
 const smooth=(x:number)=>{x=clamp(x);return x*x*(3-2*x);};
