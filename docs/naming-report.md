@@ -11,14 +11,14 @@
 
 ## 一、結果摘要
 
-- 涵蓋結構名稱（去除左右後）：1527 個
+- 涵蓋結構名稱（去除左右後）：1523 個
 - 採用來源 1（muscle-layers.json）改名：33 個；來源 2（跑考摘要）：14 個；來源 3（其他筆記）：25 個
 - 全站固定修正：「背闊肌」→「闊背肌」
 - 仍缺中文名或含英文：0 個
 
 | 來源 | 結構數 |
 |---|---|
-| 台灣解剖學名詞（程式內建對照表） | 1330 |
+| 台灣解剖學名詞（程式內建對照表） | 1326 |
 | muscle-layers.json | 88 |
 | glossary.json（其他筆記） | 75 |
 | glossary.json（跑考摘要） | 34 |
@@ -1052,7 +1052,7 @@
 |---|---|
 | 動眼神經 | Inferior branch of oculomotor nerve；Superior branch of oculomotor nerve；nucleus of oculomotor nerve；accessory nucleus of oculomotor nerve |
 | 鼻睫神經 | nasociliary nerve；Communicating branch of nasociliary nerve with ciliary ganglion |
-| 滑車 | Trochlea of superior oblique；trochlear nerve (IV)；nucleus of trochlear nerve |
+| 滑車 | Trochlea of superior oblique；trochlear nerve (IV) |
 | 拇收肌斜頭 | Oblique head of adductor hallucis；Oblique head of adductor pollicis |
 | 拇收肌橫頭 | Transverse head of adductor hallucis；Transverse head of adductor pollicis |
 | 中腦導水管 | Cerebral aqueduct；aqueduct of midbrain |
@@ -1074,7 +1074,7 @@
 
 ## 五、全部結構命名一覽
 
-<details><summary>展開 1527 項</summary>
+<details><summary>展開 1523 項</summary>
 
 | 結構 | 使用來源 | 中文名 |
 |---|---|---|
@@ -2098,20 +2098,6 @@
 | Superior phrenic vein | 台灣解剖學名詞（程式內建對照表） | 膈上靜脈 |
 | Superior rectal artery | glossary.json（其他筆記） | 上直腸動脈 |
 | Superior rectal vein | 台灣解剖學名詞（程式內建對照表） | 直腸上靜脈 |
-| choroid plexus | 台灣解剖學名詞（程式內建對照表） | 脈絡叢 |
-| occipital pole | 台灣解剖學名詞（程式內建對照表） | 枕極 |
-| parieto-occipital sulcus | 台灣解剖學名詞（程式內建對照表） | 頂枕溝 |
-| anterior occipital sulcus | 台灣解剖學名詞（程式內建對照表） | 枕前溝 |
-| inferior occipital gyrus and sulcus | 台灣解剖學名詞（程式內建對照表） | 枕下回及溝 |
-| lateral occipital gyrus (Middle occipital gyrus) | 台灣解剖學名詞（程式內建對照表） | 枕外側回（枕中回） |
-| superior occipital gyri | 台灣解剖學名詞（程式內建對照表） | 枕上回 |
-| transverse occipital sulcus | 台灣解剖學名詞（程式內建對照表） | 枕橫溝 |
-| nucleus of oculomotor nerve | 台灣解剖學名詞（程式內建對照表） | 動眼神經 |
-| accessory nucleus of oculomotor nerve | 台灣解剖學名詞（程式內建對照表） | 動眼神經 |
-| nucleus of abducens nerve | 台灣解剖學名詞（程式內建對照表） | 外旋神經核 |
-| motor nucleus of facial nerve | 台灣解剖學名詞（程式內建對照表） | 顏面神經運動核 |
-| pyramid of medulla oblongata | 台灣解剖學名詞（程式內建對照表） | 延腦錐體 |
-| nucleus of accessory nerve | 台灣解剖學名詞（程式內建對照表） | 副神經核 |
 | olfactory nerve (I) | 台灣解剖學名詞（程式內建對照表） | 嗅神經（第一對腦神經） |
 | optic nerve (II) | 台灣解剖學名詞（程式內建對照表） | 視神經（第二對腦神經） |
 | oculomotor nerve (III) | 台灣解剖學名詞（程式內建對照表） | 動眼神經（第三對腦神經） |
@@ -2223,10 +2209,6 @@
 | sympathetic nerves | 台灣解剖學名詞（程式內建對照表） | 交感神經 |
 | ganglia of sympathetic trunk | 台灣解剖學名詞（程式內建對照表） | 交感幹神經節 |
 | sympathetic trunk | 台灣解剖學名詞（程式內建對照表） | 交感幹 |
-| pyramis of vermis | 台灣解剖學名詞（程式內建對照表） | 蚓錐 |
-| nucleus of trochlear nerve | 台灣解剖學名詞（程式內建對照表） | 滑車 |
-| posterior nucleus of vagus nerve | 台灣解剖學名詞（程式內建對照表） | 迷走神經背核 |
-| nucleus of hypoglossal nerve | 台灣解剖學名詞（程式內建對照表） | 舌下神經核 |
 | white matter of spinal cord | 台灣解剖學名詞（程式內建對照表） | 脊髓白質 |
 | posterior horn of spinal cord | 台灣解剖學名詞（程式內建對照表） | 脊髓後角 |
 | anterior horn of spinal cord | 台灣解剖學名詞（程式內建對照表） | 脊髓前角 |
@@ -2474,12 +2456,16 @@
 | temporal branches of middle cerebral artery | 台灣解剖學名詞（程式內建對照表） | 大腦中動脈顳支 |
 | transverse sinus | 台灣解剖學名詞（程式內建對照表） | 橫竇 |
 | falx cerebri | 台灣解剖學名詞（程式內建對照表） | 大腦鐮 |
+| choroid plexus | 台灣解剖學名詞（程式內建對照表） | 脈絡叢 |
 | temporal pole | 台灣解剖學名詞（程式內建對照表） | 顳極 |
+| occipital pole | 台灣解剖學名詞（程式內建對照表） | 枕極 |
 | central sulcus | 台灣解剖學名詞（程式內建對照表） | 中央溝 |
+| parieto-occipital sulcus | 台灣解剖學名詞（程式內建對照表） | 頂枕溝 |
 | subparietal sulcus | 台灣解剖學名詞（程式內建對照表） | 頂下溝 |
 | cingulate sulcus (Marginal part) | 台灣解剖學名詞（程式內建對照表） | 扣帶溝（邊緣部） |
 | circular sulcus of insula | 台灣解剖學名詞（程式內建對照表） | 腦島環溝 |
 | collateral sulcus | 台灣解剖學名詞（程式內建對照表） | 側副溝 |
+| anterior occipital sulcus | 台灣解剖學名詞（程式內建對照表） | 枕前溝 |
 | opercular part of inferior frontal gyrus | 台灣解剖學名詞（程式內建對照表） | 額下回蓋部 |
 | orbital part of inferior frontal gyrus | 台灣解剖學名詞（程式內建對照表） | 額下回眶部 |
 | triangular part of inferior frontal gyrus | 台灣解剖學名詞（程式內建對照表） | 額下回三角部 |
@@ -2500,10 +2486,14 @@
 | postcentral sulcus | 台灣解剖學名詞（程式內建對照表） | 中央後溝 |
 | precuneus | 台灣解剖學名詞（程式內建對照表） | 楔前葉 |
 | intraparietal sulcus | 台灣解剖學名詞（程式內建對照表） | 頂內溝 |
+| inferior occipital gyrus and sulcus | 台灣解剖學名詞（程式內建對照表） | 枕下回及溝 |
 | lingual gyrus | 台灣解剖學名詞（程式內建對照表） | 舌回 |
+| lateral occipital gyrus (Middle occipital gyrus) | 台灣解剖學名詞（程式內建對照表） | 枕外側回（枕中回） |
 | calcarine sulcus | 台灣解剖學名詞（程式內建對照表） | 距狀溝 |
 | cuneus | 台灣解剖學名詞（程式內建對照表） | 楔葉 |
+| superior occipital gyri | 台灣解剖學名詞（程式內建對照表） | 枕上回 |
 | lunate sulcus | 台灣解剖學名詞（程式內建對照表） | 月狀溝 |
+| transverse occipital sulcus | 台灣解剖學名詞（程式內建對照表） | 枕橫溝 |
 | transverse temporal gyri | 台灣解剖學名詞（程式內建對照表） | 顳橫回 |
 | temporal plane | 台灣解剖學名詞（程式內建對照表） | 顳平面 |
 | superior temporal gyrus (Lateral part) | 台灣解剖學名詞（程式內建對照表） | 顳上回（外側部） |
@@ -2529,10 +2519,15 @@
 | stria medullaris thalami | 台灣解剖學名詞（程式內建對照表） | 視丘髓紋 |
 | mamillary body | 台灣解剖學名詞（程式內建對照表） | 乳頭體 |
 | base of peduncle | 台灣解剖學名詞（程式內建對照表） | 大腦腳底 |
+| nucleus of oculomotor nerve | 台灣解剖學名詞（程式內建對照表） | 動眼神經 |
+| accessory nucleus of oculomotor nerve | 台灣解剖學名詞（程式內建對照表） | 動眼神經 |
 | red nucleus | 台灣解剖學名詞（程式內建對照表） | 紅核 |
 | aqueduct of midbrain | 台灣解剖學名詞（程式內建對照表） | 中腦導水管 |
 | vestibular nuclei | 台灣解剖學名詞（程式內建對照表） | 前庭神經核 |
+| nucleus of abducens nerve | 台灣解剖學名詞（程式內建對照表） | 外旋神經核 |
+| motor nucleus of facial nerve | 台灣解剖學名詞（程式內建對照表） | 顏面神經運動核 |
 | superior salivatory nucleus | 台灣解剖學名詞（程式內建對照表） | 上泌涎核 |
+| pyramid of medulla oblongata | 台灣解剖學名詞（程式內建對照表） | 延腦錐體 |
 | olive | 台灣解剖學名詞（程式內建對照表） | 橄欖體 |
 | wing of central lobule | 台灣解剖學名詞（程式內建對照表） | 中央小葉翼 |
 | uvula of vermis | 台灣解剖學名詞（程式內建對照表） | 蚓垂 |
@@ -2540,6 +2535,7 @@
 | tonsil of cerebellum | 台灣解剖學名詞（程式內建對照表） | 小腦扁桃體 |
 | superior semilunar lobule | 台灣解剖學名詞（程式內建對照表） | 上半月小葉 |
 | superior cerebellar peduncle | 台灣解剖學名詞（程式內建對照表） | 上小腦腳 |
+| pyramis of vermis | 台灣解剖學名詞（程式內建對照表） | 蚓錐 |
 | posterior quadrangular lobule | 台灣解剖學名詞（程式內建對照表） | 後四角小葉 |
 | peduncle of flocculus | 台灣解剖學名詞（程式內建對照表） | 絨球腳 |
 | nodule of vermis | 台灣解剖學名詞（程式內建對照表） | 蚓小結 |
