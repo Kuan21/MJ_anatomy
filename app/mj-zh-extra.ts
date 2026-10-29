@@ -45,7 +45,7 @@ const EXACT:Record<string,string>={
  'superior colliculus':'上丘','superior frontal gyrus':'額上回','superior parietal lobule':'頂上小葉','supramarginal gyrus':'緣上回','tentorium cerebelli':'小腦幕','thalamus':'視丘','tuber cinereum':'灰結節','white matter of cerebral hemisphere':'大腦半球白質',
  // lung lobes, serous membranes and female reproductive organs (side is added in front)
  'upper lobe of lung':'肺上葉','middle lobe of lung':'肺中葉','lower lobe of lung':'肺下葉',
- 'visceral pleura':'臟層胸膜','parietal pleura':'壁層胸膜','fibrous pericardium':'纖維心包','visceral layer of serous pericardium':'漿膜心包臟層（心外膜）','parietal layer of serous pericardium':'漿膜心包壁層',
+ 'visceral pleura':'臟層胸膜','parietal pleura':'壁層胸膜','costal part of parietal pleura':'壁層胸膜肋部','mediastinal part of parietal pleura':'壁層胸膜縱隔部','diaphragmatic part of parietal pleura':'壁層胸膜膈部','cervical part (cupula) of parietal pleura':'壁層胸膜頂（胸膜頂部）','fibrous pericardium':'纖維心包','visceral layer of serous pericardium':'漿膜心包臟層（心外膜）','parietal layer of serous pericardium':'漿膜心包壁層',
  'vagina':'陰道','cervicovaginal junction':'子宮頸陰道交界','ampulla of uterine tube':'輸卵管壺腹','isthmus of uterine tube':'輸卵管峽部','fimbriae of uterine tube':'輸卵管繖','infundibulum of uterine tube':'輸卵管漏斗',
  'round ligament of uterus':'子宮圓韌帶','uterosacral ligament':'子宮骶韌帶','cardinal ligament of uterus':'子宮主韌帶（子宮頸橫韌帶）','suspensory ligament of ovary':'卵巢懸韌帶','ovarian ligament':'卵巢韌帶','broad ligament of uterus':'子宮闊韌帶','mesovarium':'卵巢繫膜',
  'trigone of urinary bladder':'膀胱三角','vesicouterine pouch':'膀胱子宮陷凹','rectouterine pouch':'直腸子宮陷凹','uterine cornua':'子宮角','mesosalpinx':'輸卵管繫膜','female urethra':'女性尿道','pelvic peritoneum':'盆腔腹膜',

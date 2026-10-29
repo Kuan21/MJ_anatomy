@@ -11,4 +11,4 @@ export const SEROUS_LAYERS=[
  {key:'rectouterine pouch',zh:'直腸子宮陷凹',en:'Rectouterine pouch'}
 ] as const;
 export const PERITONEUM_KEYS:string[]=['pelvic peritoneum','vesicouterine pouch','rectouterine pouch'];
-export const serousLayerKey=(name:string)=>name.toLowerCase().replace(/\b(left|right)\b/g,'').replace(/\s+/g,' ').trim();
+export const serousLayerKey=(name:string)=>/parietal pleura/i.test(name)?'parietal pleura':name.toLowerCase().replace(/\b(left|right)\b/g,'').replace(/\s+/g,' ').trim();
