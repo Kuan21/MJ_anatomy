@@ -1,7 +1,7 @@
 PASS panel appears
-PASS hit-test both reaches the control  group/button inline-flex shrink-0 items-center jus<BUTTON>
-PASS hit-test left reaches the control  group/button inline-flex shrink-0 items-center jus<BUTTON>
-PASS hit-test right reaches the control  group/button inline-flex shrink-0 items-center jus<BUTTON>
+PASS hit-test both reaches the control  bn-en<SPAN>
+PASS hit-test left reaches the control  bn-en<SPAN>
+PASS hit-test right reaches the control  bn-en<SPAN>
 PASS hit-test minus reaches the control  layer-buttons<SPAN>
 PASS hit-test plus reaches the control  group/button inline-flex shrink-0 items-center jus<BUTTON>
 PASS hit-test slider reaches the control  organ-range<INPUT>

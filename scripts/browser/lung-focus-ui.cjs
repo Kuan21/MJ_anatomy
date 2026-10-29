@@ -28,7 +28,7 @@ const results=[];const ok=(name,pass,info='')=>{results.push({name,pass,info});c
  await real(sel.left);await p.waitForTimeout(3000);ok('left lung button -> pressed',(await pressed(sel.left))==='true');await shot('1-left');
  await real(sel.right);await p.waitForTimeout(3000);ok('right lung button -> pressed',(await pressed(sel.right))==='true'&&(await pressed(sel.left))==='false');await shot('2-right');
  await real(sel.both);await p.waitForTimeout(3000);ok('both button -> pressed',(await pressed(sel.both))==='true');await shot('3-both');
- const layerText=()=>p.locator('.lung-focus .bn-en').first().innerText();
+ const layerText=()=>p.locator('.lung-focus .lung-focus-row .bn-en', {hasText:'Layer'}).first().innerText();
  await real(sel.plus);await p.waitForTimeout(3000);ok('plus -> layer 2',/Layer 2/.test(await layerText()),await layerText());await p.waitForFunction(()=>window.__mjView.partsState('pleura').every(x=>x.picker),null,{timeout:600000,polling:3000});await shot('4-layer2');
  await real(sel.minus);await p.waitForTimeout(3000);ok('minus -> layer 1',/Layer 1/.test(await layerText()),await layerText());await shot('5-layer1');
  const bx=await p.locator(sel.slider).boundingBox();
