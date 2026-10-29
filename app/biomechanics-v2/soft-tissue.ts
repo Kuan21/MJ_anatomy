@@ -10,6 +10,7 @@ import rawSerratusAttachments from './serratus-attachments.json';
 import rawThoracicCables from './thoracic-cables.json';
 import rawScapularBranches from './scapular-branches.json';
 import rawPectoralFollowers from './pectoral-followers.json';
+import {DIGIT_FRAMES,digitBoneIds,withDigitWeights,digitClearanceOf,posedChain,keepOnBone,type DigitClearance} from './digits';
 export type DeltoidFollowers=Record<string,{side:string;vertexCount:number;positionHash:number;progress:number[];hostWeights:number[][];nodes:number[];samples:[string,number][];patches:[number,number][][]}>;
 let deltoidFollowers:DeltoidFollowers={};
 // Loaded with the peripheral nerves, not duplicated in the entry and worker.
@@ -65,8 +66,8 @@ export function resolveMuscleProfile(name:string,fallback:Profile):Profile{
  if(/pectoralis major/.test(n))return 'pectoralPath';
  return fallback;
 }
-// Common frame palette: trunk, clavicle, scapula, humerus, ulna, radius, hand.
-export const FRAMES=['root','clavicle','scapula','humerus','ulna','radius','hand'] as const;
+// Common frame palette: trunk, clavicle, scapula, humerus, ulna, radius, hand, then one frame per moving digit bone (thumb metacarpal and phalanges, finger phalanges; see digits.ts).
+export const FRAMES=['root','clavicle','scapula','humerus','ulna','radius','hand',...DIGIT_FRAMES] as readonly string[];
 export interface ThoraxWrap {centerZ:number;radiusX:number;radiusZ:number}
 export interface SoftRig {side:Side;ids:(string|undefined)[];shoulder:Vector3;elbow:Vector3;wrist:Vector3;groups:Record<string,Box3>;radius:Vector3;ulna:Vector3;thorax:ThoraxWrap;handTipY:number;digitalLandmarks:{source:Vector3;target:Vector3}[]}
 export interface FibreGuide {centres:Vector3[];indices:Uint8Array;weights:Float32Array;coordinates:Float32Array;axis:Vector3;origin:Vector3;length:number}
@@ -75,7 +76,9 @@ export interface SkinBinding {follower?:{parent:SkinBinding;progress:number[]}}
 interface CableSource {side:string;vertexCount:number;positionHash:number;nodes:number[][];stations:number[];edges:number[][];vertexEdges:number[];fractions:number[]}
 interface CableGuide {source:CableSource;centres:Vector3[];rootWeights:number[];parentIndices:Uint8Array;parentWeights:Float32Array;lengths:number[];freeNodes:number[];freeIndex:Int32Array;factor:Float64Array}
 const thoracicCables=rawThoracicCables.parts as Record<string,CableSource>;
-export interface SkinBinding {cable?:CableGuide;wrap?:ThoraxWrap;fibre?:FibreGuide;indices:Uint8Array;weights:Float32Array;belly:Float32Array;radial:Float32Array;longitudinal?:Float32Array;restAxis?:Vector3;sheetOriginFrame?:number;origin:Vector3;insertion:Vector3;originWeights:number[];insertionWeights:number[];restLength:number;profile:Profile;fan?:{originFrame:number;insertionFrame:number;tip:Vector3;minX:number;spanX:number}}
+/** `clear`: vertices that ride on a digit, with the digit and their rest distance from its bone line (see keepOnBone in digits.ts). */
+export interface DigitClearanceSet{side:Side;index:Uint32Array;items:DigitClearance[]}
+export interface SkinBinding {clear?:DigitClearanceSet;cable?:CableGuide;wrap?:ThoraxWrap;fibre?:FibreGuide;indices:Uint8Array;weights:Float32Array;belly:Float32Array;radial:Float32Array;longitudinal?:Float32Array;restAxis?:Vector3;sheetOriginFrame?:number;origin:Vector3;insertion:Vector3;originWeights:number[];insertionWeights:number[];restLength:number;profile:Profile;fan?:{originFrame:number;insertionFrame:number;tip:Vector3;minX:number;spanX:number}}
 export function makeSoftRig(atlas:Atlas,side:Side):SoftRig|null{
  const rig=createSkeletonRig(atlas,side);if(!rig.valid)return null;
  const node=(id:string)=>rig.nodes.find(n=>n.id===id)!;
@@ -89,7 +92,8 @@ export function makeSoftRig(atlas:Atlas,side:Side):SoftRig|null{
  const digitalLandmarks=fingers.map((finger,i)=>{const p=atlas.parts.find(p=>p.name===`Distal phalanx of ${side} ${finger}`);if(!p)throw new Error(`Missing distal landmark: ${side} ${finger}`);return{source:new Vector3(sign*sourceTips[i][0],sourceTips[i][1],sourceTips[i][2]),target:new Vector3((p.bounds[0][0]+p.bounds[1][0])*.5,p.bounds[0][1]-.001,p.bounds[1][2]-.002)};});
  const ribs=new Box3();for(const p of atlas.parts)if(p.system==='skeletal'&&/ rib$/i.test(p.name))ribs.union(new Box3(new Vector3().fromArray(p.bounds[0]),new Vector3().fromArray(p.bounds[1])));
  const thorax={centerZ:(ribs.min.z+ribs.max.z)/2,radiusX:Math.max(Math.abs(ribs.min.x),Math.abs(ribs.max.x)),radiusZ:(ribs.max.z-ribs.min.z)/2};
- return{side,digitalLandmarks,thorax,ids:[undefined,...['clavicle','scapula','humerus','ulna','radius','hand'].map(id=>node(id).partIds[0])],shoulder:node('humerus').pivot.clone(),elbow:node('ulna').pivot.clone(),wrist:node('carpus').pivot.clone(),groups,handTipY:Math.min(...atlas.parts.filter(p=>node('hand').partIds.includes(p.id)).map(p=>p.bounds[0][1])),radius:center('radius'),ulna:center('ulna')};
+ return{side,digitalLandmarks,thorax,// the hand frame is carried by a carpal bone: it moves with the wrist only (the first bone of the 'hand' group is a distal phalanx, which now has a pose of its own)
+ ids:[undefined,...['clavicle','scapula','humerus','ulna','radius','carpus'].map(id=>node(id).partIds[0]),...digitBoneIds(side)],shoulder:node('humerus').pivot.clone(),elbow:node('ulna').pivot.clone(),wrist:node('carpus').pivot.clone(),groups,handTipY:Math.min(...atlas.parts.filter(p=>node('hand').partIds.includes(p.id)).map(p=>p.bounds[0][1])),radius:center('radius'),ulna:center('ulna')};
 }
 const clamp=(x:number)=>Math.max(0,Math.min(1,x));
 const smooth=(x:number)=>{x=clamp(x);return x*x*(3-2*x);};
@@ -139,7 +143,11 @@ export function registerNerveRest(rig:SoftRig,positions:Float32Array):void{
   positions[i]+=t*dx/total;positions[i+1]+=t*dy/total;positions[i+2]+=t*dz/total;
  }
 }
+/** Frame weights of a point: the arm weighting (trunk … hand), with the hand's share handed on to the digit frames where the point lies in a finger. */
 export function weightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''):number[]{
+ return withDigitWeights(rig.side,armWeightsAt(rig,profile,p,box,name),p.x,p.y,p.z,FRAMES.length,name);
+}
+function armWeightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''):number[]{
  const c=box.getCenter(new Vector3()),size=box.getSize(new Vector3());
  const down=clamp((box.max.y-p.y)/Math.max(.01,size.y));
  const lateral=clamp((Math.abs(p.x)-Math.min(Math.abs(box.min.x),Math.abs(box.max.x)))/Math.max(.01,size.x));
@@ -235,7 +243,7 @@ export function weightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''
 /** One weight-smoothing pass over the mesh. Each free vertex's frame weights are blended with the mean of its surface
  * neighbours (duplicated normal-seam vertices count as one), then renormalised to the best four. A vertex whose
  * dominant bone weight is already >= .995 is an attachment collar and stays exactly on its bone. */
-export function smoothSkinWeights(positions:ArrayLike<number>,triangles:ArrayLike<number>,indices:Uint8Array,weights:Float32Array,frames=7,amount=.5,passes=1){
+export function smoothSkinWeights(positions:ArrayLike<number>,triangles:ArrayLike<number>,indices:Uint8Array,weights:Float32Array,frames=FRAMES.length,amount=.5,passes=1){
  const count=weights.length/4,node=new Uint32Array(count),keys=new Map<string,number>();
  for(let i=0;i<count;i++){const key=`${positions[i*3]},${positions[i*3+1]},${positions[i*3+2]}`,first=keys.get(key);if(first===undefined){keys.set(key,i);node[i]=i;}else node[i]=first;}
  const neighbours:Set<number>[]=Array.from({length:count},()=>new Set<number>());
@@ -360,9 +368,22 @@ export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<numbe
   parent.fan={...source.fan,tip:new Vector3().fromArray(source.fan.tip)};
   follower={parent,progress:source.progress};
  }
- return{follower,cable,wrap,fibre,indices,weights,belly,radial,longitudinal,restAxis,sheetOriginFrame,fan,origin,insertion,originWeights:weightsAt(rig,effectiveProfile,origin,box,name),insertionWeights:weightsAt(rig,effectiveProfile,insertion,box,name),restLength,profile:effectiveProfile};
+ const clear=digitClearanceSet(rig.side,positions,indices,weights,count);
+ return{clear,follower,cable,wrap,fibre,indices,weights,belly,radial,longitudinal,restAxis,sheetOriginFrame,fan,origin,insertion,originWeights:weightsAt(rig,effectiveProfile,origin,box,name),insertionWeights:weightsAt(rig,effectiveProfile,insertion,box,name),restLength,profile:effectiveProfile};
 }
 
+/** The vertices of a binding that ride on a digit (null when none does). */
+function digitClearanceSet(side:Side,positions:ArrayLike<number>,indices:Uint8Array,weights:Float32Array,count:number):DigitClearanceSet|undefined{
+ const index:number[]=[],items:DigitClearance[]=[],frameWeights=new Array<number>(FRAMES.length).fill(0),p=new Vector3();
+ for(let i=0;i<count;i++){
+  let any=false;frameWeights.fill(0);
+  for(let k=0;k<4;k++){const f=indices[i*4+k],w=weights[i*4+k];if(w>0){frameWeights[f]+=w;if(f>=7)any=true;}}
+  if(!any||weights[i*4]>.999999)continue; // a vertex carried by one frame alone is already rigid with its bone
+  const c=digitClearanceOf(side,p.set(positions[i*3],positions[i*3+1],positions[i*3+2]),frameWeights);
+  if(c){index.push(i);items.push(c);}
+ }
+ return index.length?{side,index:Uint32Array.from(index),items}:undefined;
+}
 // Selected thoracic tubes have rib-attached distal courses, not humeral ones.
 // Solve a connected centreline and carry the original cross-sections with it.
 // Dorsal scapular branches use source-topology skinning above, not the nearest
@@ -421,8 +442,8 @@ function deformCable(binding:SkinBinding,base:Float32Array,palette:Palette,out:F
 }
 export type Palette=Float64Array;
 export function makePalette(rig:SoftRig,transforms:Record<string,PartTransform>):Palette{
- const out=new Float64Array(7*8);
- for(let i=0;i<7;i++){
+ const out=new Float64Array(FRAMES.length*8);
+ for(let i=0;i<FRAMES.length;i++){
   const t=rig.ids[i]?transforms[rig.ids[i]!]:undefined,q=t?new Quaternion(...t.quaternion).normalize():new Quaternion(),v=t?new Vector3(...t.translation):new Vector3();
   const d=new Quaternion(v.x,v.y,v.z,0).multiply(q);
   out.set([q.x,q.y,q.z,q.w,d.x*.5,d.y*.5,d.z*.5,d.w*.5],i*8);
@@ -457,7 +478,7 @@ function transform(x:number,y:number,z:number,q:Float64Array,out:ArrayLike<numbe
  * muscle group or belly section change. Such bindings are skinned on the GPU
  * (gpu-skinning.ts) instead of being re-solved and re-uploaded for every pose. */
 export function isLinearBinding(b:SkinBinding){
- return !b.follower&&!b.cable&&!b.wrap&&!b.fibre&&!b.fan&&!['chest','pectoralPath','scapular','deltoid','cuff'].includes(b.profile)&&!b.belly.some(x=>x!==0);
+ return !b.clear&&!b.follower&&!b.cable&&!b.wrap&&!b.fibre&&!b.fan&&!['chest','pectoralPath','scapular','deltoid','cuff'].includes(b.profile)&&!b.belly.some(x=>x!==0);
 }
 /** CPU twin of the GPU stage for linear bindings (picking, tests). */
 export function linearSkin(b:Pick<SkinBinding,'indices'|'weights'>,base:ArrayLike<number>,palette:Palette,out:Float32Array){
@@ -482,6 +503,21 @@ export function deformPoint(p:Vector3,weights:number[],palette:Palette):Vector3{
  blended(palette,pairs.map(p=>p.i),pairs.map(p=>p.w/sum),0,q);transform(p.x,p.y,p.z,q,v,0);return new Vector3(...v);
 }
 export function deformTissue(binding:SkinBinding,base:Float32Array,palette:Palette,out:Float32Array):number{
+ const result=deformTissueCore(binding,base,palette,out);
+ const set=binding.clear;
+ if(set){
+  const lines=new Map<number,Vector3[]>(),moved=new Vector3(),carried=new Vector3(),t=new Float64Array(3);
+  const carry=(frame:number,p:Vector3)=>{transform(p.x,p.y,p.z,palette.subarray(frame*8,frame*8+8),t,0);return carried.set(t[0],t[1],t[2]).clone();};
+  for(let k=0;k<set.index.length;k++){
+   const i=set.index[k],item=set.items[k];
+   let line=lines.get(item.chain);if(!line){line=posedChain(set.side,item.chain,carry);lines.set(item.chain,line);}
+   moved.set(out[i*3],out[i*3+1],out[i*3+2]);keepOnBone(set.side,item,line,moved);
+   out[i*3]=moved.x;out[i*3+1]=moved.y;out[i*3+2]=moved.z;
+  }
+ }
+ return result;
+}
+function deformTissueCore(binding:SkinBinding,base:Float32Array,palette:Palette,out:Float32Array):number{
  if(binding.follower){
   const {parent,progress}=binding.follower;
   deformTissue(parent,base,palette,out);
@@ -525,7 +561,7 @@ export function deformTissue(binding:SkinBinding,base:Float32Array,palette:Palet
    const t=binding.fibre.coordinates[i];
    // Smoothly restore rigid digital tendons: a binary hand-weight test
    // would create a discontinuity across the last wrist blend section.
-   let handWeight=0;if(binding.profile==='forearm')for(let k=0;k<4;k++)if(binding.indices[i*4+k]===6)handWeight+=binding.weights[i*4+k];
+   let handWeight=0;if(binding.profile==='forearm')for(let k=0;k<4;k++)if(binding.indices[i*4+k]>=6)handWeight+=binding.weights[i*4+k];
    const collar=Math.max(range(handWeight,.5,1),1-range(Math.min(t,1-t),0,.25));if(!collar)continue;
    blended(palette,binding.indices,binding.weights,i*4,q);
    transform(base[i*3],base[i*3+1],base[i*3+2],q,p,0);

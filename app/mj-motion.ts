@@ -4,9 +4,10 @@ import boneBindings from './biomechanics-v2/bone-bindings.json';
 import shoulderLandmarks from './biomechanics-v2/shoulder-landmarks.json';
 import forearmLandmarks from './biomechanics-v2/forearm-landmarks.json';
 import scapularContact from './biomechanics-v2/scapular-contact.json';
+import {DIGIT_LIMITS,DIGIT_NEUTRAL,constrainDigits,digitTransforms,type DigitPose} from './biomechanics-v2/digits';
 
 export type Side='left'|'right';
-export interface MotionPose{
+export interface MotionPose extends DigitPose{
  shoulderAbduction:number;
  shoulderFlexion:number;
  shoulderRotation:number;
@@ -22,7 +23,8 @@ export const NEUTRAL_POSE:MotionPose={
  elbowFlexion:0,
  forearmRotation:0,
  wristFlexion:0,
- wristDeviation:0
+ wristDeviation:0,
+ ...DIGIT_NEUTRAL
 };
 
 // These limits intentionally stay a little conservative. The web atlas is a
@@ -35,7 +37,8 @@ export const MOTION_LIMITS={
  elbowFlexion:[-5,140],
  forearmRotation:[-80,80],
  wristFlexion:[-70,80],
- wristDeviation:[-30,20]
+ wristDeviation:[-30,20],
+ ...DIGIT_LIMITS
 } as const;
 
 const norm=(s:string)=>s.trim().toLowerCase();
@@ -103,6 +106,7 @@ export function constrainPose(input:MotionPose):MotionPose{
   forearmRotation:clamp(input.forearmRotation,MOTION_LIMITS.forearmRotation),
   wristFlexion:clamp(input.wristFlexion,MOTION_LIMITS.wristFlexion),
   wristDeviation:clamp(input.wristDeviation,MOTION_LIMITS.wristDeviation),
+  ...constrainDigits(input),
  };
  // A conservative combined-motion envelope, not independent maximum axes.
  // Keep the displayed pose identical to the pose used by bones and soft tissue.
@@ -273,6 +277,8 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  const transforms:Record<string,PartTransform>={};
  const matrices={clavicle:clavicleM,scapula:scapulaM,humerus:shoulderM,ulna:elbowM,radius:forearmM,carpus:wristM,hand:wristM};
  for(const bone of st.bones)transforms[bone.id]=rigid(matrices[bone.group as keyof typeof matrices]);
+ // Fingers: each moving digit bone (thumb metacarpal, every phalanx) turns about its own joint on top of the wrist; the soft tissue follows through its own frame.
+ Object.assign(transforms,digitTransforms(side,p,wristM));
  const warnings=st.warnings.slice();
  return{transforms,warnings};
 }

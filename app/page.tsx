@@ -23,6 +23,7 @@ import SearchPanel from './search-panel';
 import {normalizeAtlasSystems} from './mj-system-classifier';
 import {anatomicalRegion,anatomicalSide,partsInRegion,topRegionParts} from './mj-part-regions';
 import {resolveArmCollision} from './mj-arm-collision';
+import {HAND_PRESETS} from './mj-hand-presets';
 import {buildUpperLimbMotion,constrainPose,MOTION_LIMITS,NEUTRAL_POSE,type MotionPose,type Side} from './mj-motion';
 import BodyControls from './biomechanics-v2/body-controls';
 import {makeBodyRig,buildBodyMotion,BODY_NEUTRAL,type BodyRegion,type BodyPose} from './biomechanics-v2/body-motion';
@@ -62,6 +63,21 @@ const UPPER_MOTION_CONTROLS:{key:keyof MotionPose;label:string;action:UpperMotio
  {key:'forearmRotation',label:'前臂旋前（＋）／旋後（－）',action:'forearmRotation'},
  {key:'wristFlexion',label:'腕屈曲（＋）／伸展（－）',action:'wristExtension'},
  {key:'wristDeviation',label:'腕尺偏（＋）／橈偏（－）',action:'wristExtension'},
+];
+// Fingers: five digits, each with its own joints (MCP＝掌指關節, PIP＝近端指間關節, DIP＝遠端指間關節; thumb CMC＝腕掌關節, IP＝指間關節).
+const FINGER_NAMES:[string,string][]=[['index','食指'],['middle','中指'],['ring','無名指'],['little','小指']];
+const FINGER_CONTROLS:{key:keyof MotionPose;label:string}[]=[
+ {key:'thumbCmcFlexion',label:'拇指腕掌關節屈曲（＋）／伸展（－）'},
+ {key:'thumbCmcAbduction',label:'拇指外展（＋）'},
+ {key:'thumbOpposition',label:'拇指對掌（＋）'},
+ {key:'thumbMcpFlexion',label:'拇指掌指關節屈曲（＋）'},
+ {key:'thumbIpFlexion',label:'拇指指間關節屈曲（＋）／伸展（－）'},
+ ...FINGER_NAMES.flatMap(([id,zh])=>[
+  {key:`${id}McpFlexion` as keyof MotionPose,label:`${zh}掌指關節屈曲（＋）／伸展（－）`},
+  {key:`${id}McpAbduction` as keyof MotionPose,label:`${zh}外展（＋）／內收（－）`},
+  {key:`${id}PipFlexion` as keyof MotionPose,label:`${zh}近端指間關節屈曲（＋）`},
+  {key:`${id}DipFlexion` as keyof MotionPose,label:`${zh}遠端指間關節屈曲（＋）`}
+ ])
 ];
 const REGIONAL_VISIBLE:SystemId[]=['skeletal','muscular','arterial','venous','nervous','connective'];
 const ORGAN_SYSTEM_IDS:SystemId[]=['cardiac','serous','sensory','respiratory','digestive','urinary','lymphatic','endocrine','reproductive'];
@@ -125,6 +141,16 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  // Respiratory has two layers: 1 = lobes, trachea, main bronchi and hilum; 2 = the pleura laid over the lungs. Switching Respiratory on shows layer 1; ＋ adds the pleura, － takes it away.
  const PLEURA_KEYS=SEROUS_LAYERS.slice(0,2).map(l=>l.key) as string[];
  const lungLayer=state.visible.includes('serous')&&PLEURA_KEYS.some(k=>!(state.hiddenSerous??[]).includes(k))?2:1;
+ // Eye and ear detail atlases are unfinished: their entry buttons are hidden for now (code and data stay, see ROADMAP.md); the atlas never shows while the entry is off.
+ const MICRO_ATLAS_ENTRY=false;
+ useEffect(()=>{if(!MICRO_ATLAS_ENTRY&&microAtlas)setMicroAtlas(null);},[microAtlas]);// eslint-disable-line react-hooks/exhaustive-deps
+ // Thorax focus view (肺 button): the respiratory system, the pleura (off until layer 2) and the rib cage drawn see-through, camera on the front of the chest; 返回 restores what was shown before.
+ const THORAX_BONE=/^(?:left |right )?(?:\d+(?:st|nd|rd|th) )?rib\b|\brib\b|costal cartilage|sternum|manubrium|xiphoid|thoracic vertebra|^(?:left |right )?clavicle$/i;
+ const [lungView,setLungView]=useState<null|{prev:SceneState;topRegion:TopRegion;studySide:'both'|Side;rightTool:typeof rightTool;motionEnabled:boolean}>(null),[lungSide,setLungSide]=useState<'both'|Side>('both');
+ const lungViewIds=(side:'both'|Side)=>{if(!atlas)return{lung:[] as string[],bone:[] as string[]};const ok=(p:(typeof atlas.parts)[number])=>side==='both'||anatomicalSide(p)===side||anatomicalSide(p)==='midline';return{lung:atlas.parts.filter(p=>(p.system==='respiratory'||(p.system==='serous'&&/pleura/i.test(p.name)))&&ok(p)).map(p=>p.id),bone:atlas.parts.filter(p=>p.system==='skeletal'&&THORAX_BONE.test(p.name)&&ok(p)).map(p=>p.id)};};
+ const aimLungView=(side:'both'|Side,first:boolean)=>{const {lung,bone}=lungViewIds(side),all=SEROUS_LAYERS.map(l=>l.key) as string[];setState(s=>({...s,visible:first?['respiratory','skeletal','serous']:s.visible,hiddenSerous:first?all:s.hiddenSerous,hiddenParts:[],selected:[],isolate:false,explode:0,rotate:false,bodyMotion:undefined,partTransforms:undefined,focusParts:[...lung,...bone],fadedParts:bone,cameraFocusParts:[...lung.filter(id=>parts.get(id)?.system==='respiratory'),...bone],cameraFocusNerve:undefined,cameraFocusRange:undefined,spaceRange:undefined,cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:.7}));};
+ const enterLungView=()=>{if(!atlas||lungView)return;setLungView({prev:state,topRegion,studySide,rightTool,motionEnabled});setMicroAtlas(null);setMotionEdit(false);setMotionEnabled(false);setDetails(false);setPanel(null);setChosen(null);setExternalNerve(null);setSpaceId(null);setSpaceItem(null);setTopRegion('whole');setStudySide('both');setRightTool(null);setLungSide('both');aimLungView('both',true);};
+ const exitLungView=()=>{if(!lungView)return;const v=lungView;setLungView(null);setTopRegion(v.topRegion);setStudySide(v.studySide);setRightTool(v.rightTool);setMotionEnabled(v.motionEnabled);setState(s=>({...v.prev,reset:v.prev.cameraFocusParts?s.reset:s.reset+1,cameraFocusNonce:v.prev.cameraFocusParts?(s.cameraFocusNonce??0)+1:v.prev.cameraFocusNonce}));};
  const toggleOrganRow=(id:SystemId)=>setState(v=>{const keys=(SEROUS_OF[id]??[]).map(l=>l.key) as string[],on=v.visible.includes(id);const base:SceneState={...v,isolate:false,selected:[],visible:on?v.visible.filter(x=>x!==id):[...v.visible,id]};return keys.length?setSerousGroup(base,keys,!on&&id!=='respiratory'):base;});
  const organPieceCount=organSystems.reduce((sum,s)=>sum+(counts[s.id]??0),0);
  const anyOrganVisible=organSystems.some(s=>state.visible.includes(s.id));
@@ -186,7 +212,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const restorePart=(id:string)=>setState(s=>({...s,hiddenParts:(s.hiddenParts??[]).filter(x=>x!==id)}));
 
  const toggle=(id:SystemId)=>{setDetails(false);setState(s=>({...s,selected:[],isolate:false,visible:s.visible.includes(id)?s.visible.filter(x=>x!==id):[...s.visible,id]}));};
- const reset=()=>{stopMotionAnimation();setMicroAtlas(null);setState(s=>({...initial,visible:DEFAULT_VISIBLE,reset:s.reset+1}));setTopRegion('whole');setStudySide('both');setRightTool(null);setChosen(null);setExternalNerve(null);setDetails(false);setPanel(null);setRegion('whole-body');setDissectionStage(0);setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;motionTargetRef.current=NEUTRAL_POSE;setMotionEdit(false);setMotionEnabled(false);};
+ const reset=()=>{stopMotionAnimation();setMicroAtlas(null);setLungView(null);setState(s=>({...initial,visible:DEFAULT_VISIBLE,reset:s.reset+1}));setTopRegion('whole');setStudySide('both');setRightTool(null);setChosen(null);setExternalNerve(null);setDetails(false);setPanel(null);setRegion('whole-body');setDissectionStage(0);setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;motionTargetRef.current=NEUTRAL_POSE;setMotionEdit(false);setMotionEnabled(false);};
  const openPanel=(next:'layers'|'search')=>{setDetails(false);setPanel(p=>p===next?null:next);};
  const currentRegion=regionById(region);
  const profile=externalNerve?structureProfile(extras.find(x=>(x.raw??x.n)===externalNerve)?.n??externalNerve,externalSystem):chosen&&selected?structureProfile(chosen.name,selected.system,selected):null;
@@ -349,13 +375,20 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
    <div className="detail-atlas-shortcuts" aria-label="Detail atlases">
     <Button variant="ghost" onClick={()=>{window.location.hash='#/organ/brain';}}>腦</Button>
     <Button variant="ghost" onClick={()=>{window.location.hash='#/organ/heart';}}>心</Button>
-    <Button variant="ghost" onClick={()=>openMicroAtlas('eye')}>眼</Button>
-    <Button variant="ghost" onClick={()=>openMicroAtlas('ear')}>耳</Button>
+    <Button variant="ghost" onClick={enterLungView} aria-pressed={!!lungView}>肺</Button>
+    {MICRO_ATLAS_ENTRY&&<><Button variant="ghost" onClick={()=>openMicroAtlas('eye')}>眼</Button><Button variant="ghost" onClick={()=>openMicroAtlas('ear')}>耳</Button></>}
    </div>
    <div className="panel-foot"><span>{visibleCount.toLocaleString()} pieces visible{((state.hiddenParts?.length??0)+(state.hiddenNerves?.length??0))>0&&<small> · {(state.hiddenParts?.length??0)+(state.hiddenNerves?.length??0)} hidden</small>}</span><div className="panel-foot-actions">{((state.hiddenParts?.length??0)+(state.hiddenNerves?.length??0))>0&&<Button variant="ghost" onClick={restoreHidden}><Undo2 size={14}/> Restore hidden</Button>}<Button variant="ghost" onClick={()=>setState(s=>({...s,visible:[],selected:[],isolate:false}))}>Hide all</Button><Button variant="ghost" onClick={reset}><RotateCcw size={14}/> Reset</Button></div></div>{((state.hiddenParts?.length??0)+(state.hiddenNerves?.length??0))>0&&<details className="hidden-structures"><summary>Hidden structures｜已隱藏 <span>{state.hiddenParts?.length}</span></summary><div>{(state.hiddenParts??[]).slice(0,24).map(id=>{const hp=profileForPart(id);return <Button variant="ghost" key={id} onClick={()=>restorePart(id)}><span>{hp?.english??parts.get(id)?.name??id}{hp?.chinese&&<small>{hp.chinese}</small>}</span><Undo2 size={13}/></Button>})}</div></details>}
   </section>
   <footer className="studio-footer workspace-credit"><Button variant="ghost" onClick={()=>{setDetails(false);setPanel(null);setAbout(true);}}>Source & credits <ArrowUpRight size={12}/></Button></footer>
   </aside>
+  {lungView&&<aside className="lung-focus glass" aria-label="肺部聚焦">
+   <div className="lung-focus-row"><h3>肺｜Lungs</h3><Button variant="ghost" className="lung-focus-back" onClick={exitLungView} aria-label="返回">返回</Button></div>
+   <div className="lung-focus-sides" role="group" aria-label="左右肺">{([['both','雙側'],['left','左肺'],['right','右肺']] as ['both'|Side,string][]).map(([id,label])=><Button key={id} variant="ghost" aria-pressed={lungSide===id} onClick={()=>{setLungSide(id);aimLungView(id,false);}}>{label}</Button>)}</div>
+   <div className="lung-focus-row"><span className="bn-stack"><span className="bn-en">Layer {lungLayer} / 2</span><small className="bn-zh">{lungLayer===1?'第 1 層：肺葉、氣管、主支氣管、肺門':'第 2 層：胸膜（半透明）'}</small></span><span className="layer-buttons"><Button variant="ghost" aria-label="減少一層（隱藏胸膜）" disabled={lungLayer<=1} onClick={()=>setState(v=>setSerousGroup(v,PLEURA_KEYS,false))}>－</Button><Button variant="ghost" aria-label="增加一層（顯示胸膜）" disabled={lungLayer>=2} onClick={()=>setState(v=>setSerousGroup(v,PLEURA_KEYS,true))}>＋</Button></span></div>
+   <label className="lung-focus-row"><span className="bn-stack"><span className="bn-en">Lung opacity</span><small className="bn-zh">肺透明度（預設不透明）</small></span><input type="range" className="organ-range" min={10} max={100} step={5} value={Math.round((state.lungOpacity??1)*100)} onChange={e=>{const value=Number(e.target.value)/100;setState(v=>({...v,lungOpacity:value}));}} aria-label="肺透明度"/></label>
+   <small>只顯示呼吸系統與胸廓骨骼（半透明）；胸膜預設關閉，按「＋」加開。</small>
+  </aside>}
   {panel==='search'&&<SearchPanel index={searchIndex} onChoose={choose} onClose={()=>setPanel(null)}/>}
   <aside id="motion-workspace" className={`right-workspace ${mobileMotionOpen?'mobile-motion-open':''}`} aria-label="模型檢視與關節動作">
    <Button variant="ghost" className="mobile-only motion-close" onClick={()=>setMobileMotionOpen(false)} aria-label="關閉動作面板">收起動作 <X size={18}/></Button>
@@ -384,6 +417,12 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
     <div className="motion-control-stack">
      {UPPER_MOTION_CONTROLS.map(control=><MotionPullControl key={control.key} label={control.label} value={motionPose[control.key]} min={MOTION_LIMITS[control.key][0]} max={MOTION_LIMITS[control.key][1]} disabled={!motionEnabled} onValueChange={value=>{setMotionAction(control.action);setJoint(control.key,value);}}/>)}
     </div>
+    <details className="mj-finger-lab"><summary>手指｜Fingers</summary>
+     <div className="mj-hand-presets" role="group" aria-label="手勢預設">{HAND_PRESETS.map(h=><Button key={h.id} variant="ghost" disabled={!motionEnabled} onClick={()=>{setMotionAction('wristExtension');applyMotionPose({...motionTargetRef.current,...h.pose});}}>{h.label}</Button>)}</div>
+     <div className="motion-control-stack">
+      {FINGER_CONTROLS.map(control=><MotionPullControl key={control.key} label={control.label} value={motionPose[control.key]} min={MOTION_LIMITS[control.key][0]} max={MOTION_LIMITS[control.key][1]} disabled={!motionEnabled} onValueChange={value=>{setMotionAction('wristExtension');setJoint(control.key,value);}}/>)}
+     </div>
+    </details>
     <small className="mj-motion-note">0° 為人體放鬆中立位；正負角度代表相反方向。所有角度都可以直接拖動，毋須先選動作。</small>
     <MotionAnatomyPanel anatomy={UPPER_ACTION_ANATOMY[motionAction]} onInspect={inspectMotionStructure}/>
    </section>}

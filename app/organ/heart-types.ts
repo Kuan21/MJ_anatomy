@@ -24,6 +24,8 @@ export interface SectionState {axis: SectionAxis; offset: number; flip: boolean}
 export type HeartView = 'front' | 'back' | 'left' | 'right' | 'top' | 'fit';
 export interface HeartViewState {
   hiddenGroups: string[];
+  /** single catalogue ids hidden on their own (the fine vessel branches while a chamber is open); a user can switch them on again from the list */
+  hiddenParts: string[];
   selectedId: string | null;
   section: SectionState;
   ghostChambers: boolean;

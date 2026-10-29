@@ -167,3 +167,10 @@
 /* Heart detail: same three columns as the brain mode — chamber and structure lists on the left, model in the middle, controls and notes on the right */
 .organ-left-heart{display:flex;flex-direction:column;gap:12px}
 .organ-left-heart .organ-block{flex:none}
+
+.organ-group li{display:flex;align-items:stretch;gap:2px}
+.organ-group li>button:not(.organ-part-eye){flex:1;min-width:0}
+.organ-part-eye{flex:0 0 28px;display:flex;align-items:center;justify-content:center;background:transparent;color:#5f6d78}
+.organ-part-eye[aria-pressed=false]{color:#9aa4ad}
+.organ-part-hidden>button:not(.organ-part-eye){opacity:.55}
+.organ-group li>.organ-part-eye,.organ-group li>.organ-part-eye[aria-pressed=true]{background:transparent;border:0;box-shadow:none;padding:0;min-height:0}
