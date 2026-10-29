@@ -78,3 +78,8 @@ next-env.d.ts
 
 # Names of structures outside the atlas concepts, generated for search
 /public/models/search-extras.json.gz
+
+# Screenshots are kept outside the repo (see CLAUDE.md); a local scratch folder is ignored just in case
+/.screenshots/
+/test-results/
+/playwright-report/
