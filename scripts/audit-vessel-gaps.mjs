@@ -1,3 +1,5 @@
+// Pairs of arteries/veins that touch at rest and come apart when the left shoulder is moved (default: flexion 180): a vessel torn into pieces floating beside the arm.
+// Usage: node scripts/audit-vessel-gaps.mjs [shoulderFlexion|shoulderAbduction] [angle]
 import {build} from 'esbuild';
 import {loadFullAtlas} from './lib/full-atlas.mjs';
 const root='/home/user/mj-shoulder/';
@@ -25,5 +27,3 @@ rows.forEach((r,ri)=>{for(let i=0;i<r.rest.length/3;i+=3){const x=r.rest[i*3],y=
 const out=[...worst.entries()].filter(([,g])=>g>.008).sort((a,b)=>b[1]-a[1]);
 console.log(rows.length,'vessels near shoulder;',out.length,'touching pairs that come apart >8mm');
 for(const [k,g] of out.slice(0,40)){const [a,b]=k.split('|').map(Number);console.log((g*1000).toFixed(0)+'mm',rows[a].p.name,rows[a].bound?'':'[unbound]','<->',rows[b].p.name,rows[b].bound?'':'[unbound]');}
-console.log('--- parts named lateral thoracic');
-for(const r of rows)if(/lateral thoracic/i.test(r.p.name)){console.log(r.p.id,r.p.name,r.p.system,r.p.kind||'',r.p.stream||'',r.bound,r.rest.length/3,'bbox y',r.p.bounds[0][1].toFixed(2),r.p.bounds[1][1].toFixed(2));}
