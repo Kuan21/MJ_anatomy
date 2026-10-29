@@ -6,6 +6,7 @@ import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import {gzipSync} from 'node:zlib';
 import {MeshoptSimplifier} from 'meshoptimizer';
+import {LUNG_LOBES, carveFissures} from './lib/lung-fissures.mjs';
 await MeshoptSimplifier.ready;
 const pin = process.argv.includes('--pin');
 const specUrl = new URL('./supplement-parts.json', import.meta.url), spec = JSON.parse(fs.readFileSync(specUrl, 'utf8'));
@@ -91,7 +92,7 @@ function normalsOf(positions, indices) {
   return out;
 }
 
-const chunks = [], parts = []; let slices = [], size = 0, report = [];
+const chunks = [], parts = []; let slices = [], size = 0; const report = [];
 const append = data => { const padding = (4 - size % 4) % 4; if (padding) { slices.push(Buffer.alloc(padding)); size += padding; } const start = size; slices.push(data); size += data.length; return start; };
 const flush = () => {
   if (!size) return;
@@ -99,12 +100,23 @@ const flush = () => {
   fs.writeFileSync(new URL(name, out), data); fs.writeFileSync(new URL(name + '.gz', out), gzip);
   chunks.push({url: '/models/stream/' + name, gzip: '/models/stream/' + name + '.gz', bytes: data.length, gzipBytes: gzip.length}); slices = []; size = 0;
 };
-for (const part of spec.parts) {
+// Everything up to the packed positions of one part: weld, simplify, compact.
+async function prepared(part) {
   const bytes = await source(part), {positions: fullPositions, indices: fullIndices} = weld(bytes);
   const [simplified, error] = MeshoptSimplifier.simplify(fullIndices, fullPositions, 3, Math.min(fullIndices.length, MAX_TRIANGLES * 3), .004);
   const [remap, vertexCount] = MeshoptSimplifier.compactMesh(simplified);
   const positions = new Float32Array(vertexCount * 3);
   for (let old = 0; old < remap.length; old++) { const k = remap[old]; if (k !== 0xffffffff) positions.set(fullPositions.subarray(old * 3, old * 3 + 3), k * 3); }
+  return {positions, simplified, vertexCount, error, fullIndices};
+}
+// The lung lobes of one lung are carved together so that each fissure opens as a slit between two lobes (scripts/lib/lung-fissures.mjs).
+const carved = new Map();
+for (const [side, fmas] of Object.entries(LUNG_LOBES)) {
+  const lobes = []; for (const fma of fmas) {const part = spec.parts.find(p => p.fma === fma); if (!part) throw new Error(`lung lobe ${fma} is not in supplement-parts.json`); const g = await prepared(part); carved.set(fma, g); lobes.push({positions: g.positions, indices: g.simplified});}
+  report.push(`${side} lung fissures: ${carveFissures(lobes).join(' / ')} vertices moved inward`);
+}
+for (const part of spec.parts) {
+  const {positions, simplified, vertexCount, error, fullIndices} = carved.get(part.fma) ?? await prepared(part);
   const normals = normalsOf(positions, simplified);
   const bounds = [[Infinity, Infinity, Infinity], [-Infinity, -Infinity, -Infinity]];
   for (let i = 0; i < positions.length; i += 3) for (let k = 0; k < 3; k++) { bounds[0][k] = Math.min(bounds[0][k], positions[i + k]); bounds[1][k] = Math.max(bounds[1][k], positions[i + k]); }

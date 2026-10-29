@@ -35,7 +35,7 @@ const requests=[],failedPath='/models/body-14.bin',failOnce=process.argv.include
 const nerveFail=process.argv.includes('--nerve-fail');
 const nerveCatalogue=JSON.parse(fs.readFileSync(path.join(root,'public/models/nerve-stream.json'),'utf8'));
 const failedNervePath=nerveCatalogue.chunks[0].url;
-globalThis.window=globalThis;globalThis.document={createElement:element,querySelector(){return null;}};
+globalThis.window=globalThis;globalThis.document={createElement:element,createElementNS:(_ns,tag)=>element(tag),querySelector(){return null;}};
 Object.defineProperty(globalThis,'navigator',{value:{userAgent:'masked WKWebView',platform:'unknown',maxTouchPoints:5},configurable:true});
 globalThis.matchMedia=()=>({matches:true});globalThis.devicePixelRatio=2;globalThis.innerWidth=1024;
 globalThis.ResizeObserver=class{constructor(fn){this.fn=fn;}observe(){this.fn();}disconnect(){}};
