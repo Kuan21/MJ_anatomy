@@ -4,11 +4,11 @@
 
 | 處理 | 數量 | 說明 |
 | --- | ---: | --- |
-| 原本已相連 | 3374 | 末端接到同類型的上游或分支血管，不處理 |
-| 補接（connector） | 681 | 12 mm 內有同類型血管，加一條細而彎的連接管，接回母血管 |
-| 樣條橋接（bridge） | 438 | 上肢與下肢：下一段血管距離大於本段管徑一半者，加一條口徑漸變的樣條連接管（半徑由本段漸變到下一段），取代簡單連接管 |
+| 原本已相連 | 3404 | 末端接到同類型的上游或分支血管，不處理 |
+| 補接（connector） | 683 | 12 mm 內有同類型血管，加一條細而彎的連接管，接回母血管 |
+| 樣條橋接（bridge） | 407 | 上肢與下肢：下一段血管距離大於本段管徑一半者，加一條口徑漸變的樣條連接管（半徑由本段漸變到下一段），取代簡單連接管 |
 | 漸細（fade） | 2653 | 半徑 1.8 mm 以下的小血管，真實解剖上止於肌肉、器官或筋膜；末端收成尖端，資料卡註明「末端逐漸變細，進入周圍組織」 |
-| 進入器官／其他（enters） | 3227 | 較大的血管進入器官或骨（如主動脈根部、肝靜脈進入肝），不改形狀，列在下方供人工複查 |
+| 進入器官／其他（enters） | 3226 | 較大的血管進入器官或骨（如主動脈根部、肝靜脈進入肝），不改形狀，列在下方供人工複查 |
 
 ## 補接與未處理清單
 
@@ -148,6 +148,8 @@
 | Left lateral circumflex femoral artery (FJ2078) | enters × 2 | 0 | 4.2 | 1.2 |
 | Left lateral plantar artery (FJ2079) | enters × 1 | 0 | 2.7 | 2.7 |
 | Left lateral superior genicular artery (FJ2080) | enters × 3 | 1.8 | 5.9 | 0 |
+| Left medial superior genicular artery (FJ2083) | gap × 1 | 1 | 3.3 | 5.2 |
+| Left middle genicular artery (FJ2084) | gap × 1 | 1.7 | 2.6 | 5.1 |
 | Left middle genicular artery (FJ2084) | enters × 1 | 1.9 | 8.2 | 1 |
 | Left popliteal artery (FJ2086) | gap × 5 | 2.2 | 2.7 | 6.4 |
 | Left popliteal artery (FJ2086) | enters × 9 | 2.9 | 5 | 0.2 |
@@ -195,15 +197,16 @@
 | Right inferior lateral genicular artery (FJ2150) | enters × 1 | 2 | 11.2 | 2.3 |
 | Right genicular vein (FJ2151) | gap × 1 | 1 | 8.3 | 4.4 |
 | Right genicular vein (FJ2151) | enters × 1 | 1.9 | 11.3 | 1.1 |
-| Right inferior medial genicular artery (FJ2152) | enters × 4 | 2.2 | 2.6 | 0.4 |
+| Right inferior medial genicular artery (FJ2152) | enters × 3 | 2.2 | 2.6 | 0.4 |
 | Right lateral circumflex femoral artery (FJ2158) | enters × 2 | 0 | 3.9 | 0.1 |
 | Right lateral plantar artery (FJ2159) | enters × 2 | 0 | 3.3 | 1.7 |
 | Tributary of plantar venous arch (FJ2160) | enters × 2 | 0 | 2.6 | 0.2 |
 | Right lateral superior genicular artery (FJ2162) | enters × 3 | 2.1 | 3.4 | 0.3 |
+| Right medial superior genicular artery (FJ2166) | gap × 1 | 1 | 3.3 | 5.4 |
 | Right medial superior genicular artery (FJ2166) | enters × 2 | 0 | 5.3 | 0.8 |
 | Right middle genicular artery (FJ2167) | enters × 1 | 2.1 | 6 | 2.5 |
 | Right popliteal artery (FJ2170) | enters × 9 | 2.8 | 2.5 | 0.2 |
-| Right popliteal artery (FJ2170) | gap × 8 | 2.4 | 2.7 | 4.3 |
+| Right popliteal artery (FJ2170) | gap × 7 | 2.4 | 2.7 | 4.3 |
 | Right popliteal vein (FJ2171) | enters × 13 | 2.8 | 2.6 | 0 |
 | Right popliteal vein (FJ2171) | gap × 2 | 2.2 | 4.6 | 4.5 |
 | Right posterior tibial artery (FJ2172) | enters × 20 | 2 | 5.8 | 0 |
