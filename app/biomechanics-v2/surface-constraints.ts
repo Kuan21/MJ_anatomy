@@ -1,11 +1,13 @@
 import type {SkinBinding} from './soft-tissue';
 
+/** Rigidly attached vertices are not nailed down completely: when a sheet cannot reach the pose without stretching, a hard anchor makes the solver tear the free vertices away instead of letting the anchor give a little. */
+const ANCHOR_MOBILITY=0;
 export interface SurfaceConstraints{edges:Uint32Array;lengths:Float32Array;mobility:Float32Array;seams:Uint32Array}
 /** Rest-edge guard for broad sheets. It limits local stretch after skinning;
  * it is not a collision or physiological muscle solver. Rigid attachments stay put. */
 export function makeSurfaceConstraints(base:Float32Array,triangles:ArrayLike<number>,skin:SkinBinding):SurfaceConstraints{
  const edges:number[]=[],lengths:number[]=[],seen=new Set<string>(),mobility=new Float32Array(base.length/3),nodes=new Uint32Array(base.length/3),seams:number[]=[],coincident=new Map<string,number>();
- for(let i=0;i<mobility.length;i++)mobility[i]=Math.max(...skin.weights.subarray(i*4,i*4+4))>=.995?0:1;
+ for(let i=0;i<mobility.length;i++)mobility[i]=Math.max(...skin.weights.subarray(i*4,i*4+4))>=.995?ANCHOR_MOBILITY:1;
  // Exported normal seams duplicate a surface vertex. Solving those copies
  // independently tears an otherwise closed muscle along its shading seams.
  for(let i=0;i<nodes.length;i++){
@@ -21,7 +23,7 @@ export function makeSurfaceConstraints(base:Float32Array,triangles:ArrayLike<num
  }
  return{edges:new Uint32Array(edges),lengths:new Float32Array(lengths),mobility,seams:new Uint32Array(seams)};
 }
-export function constrainSurface(c:SurfaceConstraints,positions:Float32Array,passes=6):void{
+export function constrainSurface(c:SurfaceConstraints,positions:Float32Array,passes=10):void{
  for(let pass=0;pass<passes;pass++)for(let k=pass%2?c.lengths.length-1:0;pass%2?k>=0:k<c.lengths.length;k+=pass%2?-1:1){
   const a=c.edges[k*2],b=c.edges[k*2+1],ma=c.mobility[a],mb=c.mobility[b],sum=ma+mb;if(!sum)continue;
   const i=a*3,j=b*3,dx=positions[j]-positions[i],dy=positions[j+1]-positions[i+1],dz=positions[j+2]-positions[i+2],length=Math.hypot(dx,dy,dz),max=c.lengths[k]*1.45;

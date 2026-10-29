@@ -4,7 +4,7 @@ import {fetchModelBuffer, loadMissingChunks} from '../model-download';
 import {PointerTap} from '../pointer-tap';
 import {framingDistance} from '../camera-framing';
 import {CHAMBERS} from './heart-chambers';
-import {BLOCKER_OPACITY, isKeptVessel} from './heart-vessels';
+import {BLOCKER_OPACITY, isKeptVessel, isTrunkPart, trunkTriangles} from './heart-vessels';
 import {SECTION_AXES, type HeartCatalogue, type HeartView, type HeartViewState} from './heart-types';
 
 interface Callbacks {
@@ -128,6 +128,15 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
     for (const [id, mesh] of meshes) {
       const part = parts.get(id)!, selected = id === state.selectedId || lit.has(id), hovered = id === hoverId && !selected;
       mesh.visible = (!hidden.has(part.group) || insideNames.has(part.name)) && !(hiddenParts.has(id) && !selected);
+      if (isTrunkPart(part.group, part.name)) {
+        // opened heart: only the trunk piece of the main coronary vessels is drawn (index buffer swap; the geometry itself is untouched)
+        const trunk = state.trunkOnly && !selected;
+        if (mesh.userData.trunkDrawn !== trunk) {
+          mesh.userData.full ??= mesh.geometry.index;
+          mesh.userData.trunk ??= new T.BufferAttribute(trunkTriangles(mesh.geometry.getAttribute('position').array, mesh.userData.full.array), 1);
+          mesh.geometry.setIndex(trunk ? mesh.userData.trunk : mesh.userData.full); mesh.userData.trunkDrawn = trunk;
+        }
+      }
       const m = mesh.material;
       m.color.set(selected ? HEART_SELECT.fill : hovered ? HEART_SELECT.hover : COLOR_BY_PART(id, part.group, part.system, part.name));
       m.emissive.set(selected ? HEART_SELECT.fill : '#000000'); m.emissiveIntensity = selected ? .1 : 0;
@@ -148,6 +157,9 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
         (s2.material as T.MeshBasicMaterial).clippingPlanes = planes; s2.visible = mesh.visible;
       } else if (shell) shell.visible = false;
     }
+    // read by the browser test: names of the drawn parts and of those drawn as trunk only
+    host.dataset.visibleParts = JSON.stringify([...meshes].filter(([, m]) => m.visible).map(([id]) => parts.get(id)!.name));
+    host.dataset.trunkParts = JSON.stringify([...meshes].filter(([, m]) => m.userData.trunkDrawn).map(([id]) => parts.get(id)!.name));
     dirty = true;
   };
 
