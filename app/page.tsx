@@ -14,7 +14,7 @@ import {fetchModelBuffer} from './model-download';
 import MicroAtlasScene,{MICRO_ATLASES,type MicroAtlasId} from './micro-atlas';
 import MotionPullControl from './motion-pull-control';
 import MotionAnatomyPanel,{UPPER_ACTION_ANATOMY} from './motion-anatomy';
-import {DEFAULT_VISIBLE,SYSTEMS,EXPLANATIONS,explanation,type Atlas,type Concept,type SceneState,type SystemId,type View} from './anatomy';
+import {DEFAULT_VISIBLE,SYSTEMS,EXPLANATIONS,explanation,type Atlas,type OutlineRef,type Concept,type SceneState,type SystemId,type View} from './anatomy';
 import {ANATOMY_REGIONS,regionById,type RegionId} from './mj-regions';
 import {resolveDissection} from './mj-dissection';
 import {structureProfile} from './mj-structure-info';
@@ -23,11 +23,15 @@ import SearchPanel from './search-panel';
 import {normalizeAtlasSystems} from './mj-system-classifier';
 import {anatomicalRegion,anatomicalSide,partsInRegion,topRegionParts} from './mj-part-regions';
 import {resolveArmCollision} from './mj-arm-collision';
+import {HAND_PRESETS} from './mj-hand-presets';
 import {buildUpperLimbMotion,constrainPose,MOTION_LIMITS,NEUTRAL_POSE,type MotionPose,type Side} from './mj-motion';
 import BodyControls from './biomechanics-v2/body-controls';
 import {makeBodyRig,buildBodyMotion,BODY_NEUTRAL,type BodyRegion,type BodyPose} from './biomechanics-v2/body-motion';
 import {JOINT_TYPES} from './mj-joints';
 import {matchesMuscleLayer,MUSCLE_LAYER_REGIONS,MUSCLE_LAYER_SOURCE,layerOrders,layerMembers,partsForLayerMuscles,layerRegionsFor,layerRegionLabel,layerGroupLabel,LAYER_GROUP_OF,type MuscleLayer} from './mj-muscle-layers';
+import SPACE_RANGES from './space-ranges.json';
+import SPACE_SHAPE_DATA from './space-shapes.json';
+import {SPACE_SHAPES,SHAPE_COLORS} from './mj-space-shapes';
 import {SPACES,resolveSpace,spacesForGroups,type SpaceDef,type SpaceGroup,type SpaceHit,type SpaceItemHit} from './mj-spaces';
 import {anatomyDepth,matchesDepth,type TissueDepth} from './mj-depth';
 import {augmentAtlasWithFacial} from './mj-facial-atlas';
@@ -59,6 +63,21 @@ const UPPER_MOTION_CONTROLS:{key:keyof MotionPose;label:string;action:UpperMotio
  {key:'forearmRotation',label:'前臂旋前（＋）／旋後（－）',action:'forearmRotation'},
  {key:'wristFlexion',label:'腕屈曲（＋）／伸展（－）',action:'wristExtension'},
  {key:'wristDeviation',label:'腕尺偏（＋）／橈偏（－）',action:'wristExtension'},
+];
+// Fingers: five digits, each with its own joints (MCP＝掌指關節, PIP＝近端指間關節, DIP＝遠端指間關節; thumb CMC＝腕掌關節, IP＝指間關節).
+const FINGER_NAMES:[string,string][]=[['index','食指'],['middle','中指'],['ring','無名指'],['little','小指']];
+const FINGER_CONTROLS:{key:keyof MotionPose;label:string}[]=[
+ {key:'thumbCmcFlexion',label:'拇指腕掌關節屈曲（＋）／伸展（－）'},
+ {key:'thumbCmcAbduction',label:'拇指外展（＋）'},
+ {key:'thumbOpposition',label:'拇指對掌（＋）'},
+ {key:'thumbMcpFlexion',label:'拇指掌指關節屈曲（＋）'},
+ {key:'thumbIpFlexion',label:'拇指指間關節屈曲（＋）／伸展（－）'},
+ ...FINGER_NAMES.flatMap(([id,zh])=>[
+  {key:`${id}McpFlexion` as keyof MotionPose,label:`${zh}掌指關節屈曲（＋）／伸展（－）`},
+  {key:`${id}McpAbduction` as keyof MotionPose,label:`${zh}外展（＋）／內收（－）`},
+  {key:`${id}PipFlexion` as keyof MotionPose,label:`${zh}近端指間關節屈曲（＋）`},
+  {key:`${id}DipFlexion` as keyof MotionPose,label:`${zh}遠端指間關節屈曲（＋）`}
+ ])
 ];
 const REGIONAL_VISIBLE:SystemId[]=['skeletal','muscular','arterial','venous','nervous','connective'];
 const ORGAN_SYSTEM_IDS:SystemId[]=['cardiac','serous','sensory','respiratory','digestive','urinary','lymphatic','endocrine','reproductive'];
@@ -122,6 +141,16 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  // Respiratory has two layers: 1 = lobes, trachea, main bronchi and hilum; 2 = the pleura laid over the lungs. Switching Respiratory on shows layer 1; ＋ adds the pleura, － takes it away.
  const PLEURA_KEYS=SEROUS_LAYERS.slice(0,2).map(l=>l.key) as string[];
  const lungLayer=state.visible.includes('serous')&&PLEURA_KEYS.some(k=>!(state.hiddenSerous??[]).includes(k))?2:1;
+ // Eye and ear detail atlases are unfinished: their entry buttons are hidden for now (code and data stay, see ROADMAP.md); the atlas never shows while the entry is off.
+ const MICRO_ATLAS_ENTRY=false;
+ useEffect(()=>{if(!MICRO_ATLAS_ENTRY&&microAtlas)setMicroAtlas(null);},[microAtlas]);// eslint-disable-line react-hooks/exhaustive-deps
+ // Thorax focus view (肺 button): the respiratory system, the pleura (off until layer 2) and the rib cage drawn see-through, camera on the front of the chest; 返回 restores what was shown before.
+ const THORAX_BONE=/^(?:left |right )?(?:\d+(?:st|nd|rd|th) )?rib\b|\brib\b|costal cartilage|sternum|manubrium|xiphoid|thoracic vertebra|^(?:left |right )?clavicle$/i;
+ const [lungView,setLungView]=useState<null|{prev:SceneState;topRegion:TopRegion;studySide:'both'|Side;rightTool:typeof rightTool;motionEnabled:boolean}>(null),[lungSide,setLungSide]=useState<'both'|Side>('both');
+ const lungViewIds=(side:'both'|Side)=>{if(!atlas)return{lung:[] as string[],bone:[] as string[]};const ok=(p:(typeof atlas.parts)[number])=>side==='both'||anatomicalSide(p)===side||anatomicalSide(p)==='midline';return{lung:atlas.parts.filter(p=>(p.system==='respiratory'||(p.system==='serous'&&/pleura/i.test(p.name)))&&ok(p)).map(p=>p.id),bone:atlas.parts.filter(p=>p.system==='skeletal'&&THORAX_BONE.test(p.name)&&ok(p)).map(p=>p.id)};};
+ const aimLungView=(side:'both'|Side,first:boolean)=>{const {lung,bone}=lungViewIds(side),all=SEROUS_LAYERS.map(l=>l.key) as string[];setState(s=>({...s,visible:first?['respiratory','skeletal','serous']:s.visible,hiddenSerous:first?all:s.hiddenSerous,hiddenParts:[],selected:[],isolate:false,explode:0,rotate:false,bodyMotion:undefined,partTransforms:undefined,focusParts:[...lung,...bone],fadedParts:bone,cameraFocusParts:[...lung.filter(id=>parts.get(id)?.system==='respiratory'),...bone],cameraFocusNerve:undefined,cameraFocusRange:undefined,spaceRange:undefined,cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:.7}));};
+ const enterLungView=()=>{if(!atlas||lungView)return;setLungView({prev:state,topRegion,studySide,rightTool,motionEnabled});setMicroAtlas(null);setMotionEdit(false);setMotionEnabled(false);setDetails(false);setPanel(null);setChosen(null);setExternalNerve(null);setSpaceId(null);setSpaceItem(null);setTopRegion('whole');setStudySide('both');setRightTool(null);setLungSide('both');aimLungView('both',true);};
+ const exitLungView=()=>{if(!lungView)return;const v=lungView;setLungView(null);setTopRegion(v.topRegion);setStudySide(v.studySide);setRightTool(v.rightTool);setMotionEnabled(v.motionEnabled);setState(s=>({...v.prev,reset:v.prev.cameraFocusParts?s.reset:s.reset+1,cameraFocusNonce:v.prev.cameraFocusParts?(s.cameraFocusNonce??0)+1:v.prev.cameraFocusNonce}));};
  const toggleOrganRow=(id:SystemId)=>setState(v=>{const keys=(SEROUS_OF[id]??[]).map(l=>l.key) as string[],on=v.visible.includes(id);const base:SceneState={...v,isolate:false,selected:[],visible:on?v.visible.filter(x=>x!==id):[...v.visible,id]};return keys.length?setSerousGroup(base,keys,!on&&id!=='respiratory'):base;});
  const organPieceCount=organSystems.reduce((sum,s)=>sum+(counts[s.id]??0),0);
  const anyOrganVisible=organSystems.some(s=>state.visible.includes(s.id));
@@ -142,6 +171,8 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
   const concepts=atlas.concepts;
   for(let i=0;i<concepts.length;i+=150)queue.push(()=>{for(const c of concepts.slice(i,i+150)){const p=c.elements.map(id=>parts.get(id)).find(Boolean),profile=p?structureProfile(c.name,p.system,p):undefined;sources.push({concept:c,english:profile?.english??c.name,chinese:profile?.chinese});}});
   for(let i=0;i<extras.length;i+=150)queue.push(()=>{for(const x of extras.slice(i,i+150)){const profile=structureProfile(x.n,x.s);sources.push({concept:{id:`extra:${x.k}:${x.raw??x.n}`,name:x.n,elements:[] as string[]},english:profile.english??x.n,chinese:profile.chinese,kind:x.k});}});
+  // spaces that have no mesh of their own in the atlas (femoral triangle, adductor canal, popliteal fossa) are found by search too; they open in the dissection panel
+  queue.push(()=>{for(const d of SPACES){const re=new RegExp(`^(?:left |right )?${d.part}$`,'i');if(atlas.parts.some(q=>re.test(q.name)&&q.system!=='muscular'))continue;sources.push({concept:{id:`space:${d.id}`,name:d.en,elements:[] as string[]},english:d.en,chinese:d.zh,kind:'space'});}});
   const idle=(fn:()=>void)=>'requestIdleCallback' in window?(window as unknown as {requestIdleCallback:(f:()=>void,o?:{timeout:number})=>number}).requestIdleCallback(fn,{timeout:400}):setTimeout(fn,16);
   const step=()=>{if(cancelled)return;const job=queue.shift();if(job){job();idle(step);}else setSearchIndex(buildSearchIndex(sources));};
   idle(step);
@@ -149,7 +180,9 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  },[atlas,parts,extras]);
  // Anything picked from search, a list or a related-structure chip is brought into view: its system is switched on, it is un-hidden and every filter that would keep it out of the scene is lifted.
  const revealState=(s:SceneState,ids:string[]):SceneState=>{const picked=ids.map(id=>parts.get(id)).filter((p):p is NonNullable<typeof p>=>!!p);return{...s,hiddenParts:(s.hiddenParts??[]).filter(x=>!ids.includes(x)),visible:[...new Set([...s.visible,...picked.map(p=>p.system)])],muscleLayer:picked.some(p=>p.system==='muscular')?'all':s.muscleLayer,depthFilter:'all',focusParts:s.focusParts?[...new Set([...s.focusParts,...ids])]:s.focusParts,cameraFocusNerve:undefined};};
- const choose=(c:Concept)=>{const x=extraOf(c);if(x){chooseExtra(x);return;}setExternalNerve(null);setChosen(c);setState(s=>({...revealState(s,c.elements),selected:c.elements,cameraFocusParts:c.elements,cameraFocusNonce:(s.cameraFocusNonce??0)+1,isolate:false,rotate:false}));setDetails(true);setPanel(null);};
+ // A special region (axillary fossa, carpal tunnel …) found by search or opened from a card is shown the way the dissection panel shows it: its boundaries and contents highlighted near the region, nothing drawn for the space itself.
+ const spaceOfParts=(ids:string[])=>{const p=ids.length?parts.get(ids[0]):undefined;return p?SPACES.find(d=>new RegExp(`^(?:left |right )?${d.part}$`,'i').test(p.name)&&p.system!=='muscular'):undefined;};
+ const choose=(c:Concept)=>{if(c.id.startsWith('space:')){const d=SPACES.find(x=>c.id===`space:${x.id}`);if(d){setRightTool('dissection');setPanel(null);setDetails(false);pickSpaceRef.current(d);return;}}const x=extraOf(c);if(x){chooseExtra(x);return;}const sp=spaceOfParts(c.elements);if(sp){setRightTool('dissection');setPanel(null);setDetails(false);pickSpaceRef.current(sp);return;}setExternalNerve(null);setChosen(c);setState(s=>({...revealState(s,c.elements),selected:c.elements,cameraFocusParts:c.elements,cameraFocusNonce:(s.cameraFocusNonce??0)+1,isolate:false,rotate:false}));setDetails(true);setPanel(null);};
  useEffect(()=>{if(!atlas)return;return registerAtlasTools(atlas,c=>flushSync(()=>choose(c)));},[atlas]);
  const [layerPicked,setLayerPicked]=useState<string|null>(null);
  // A space picked in the dissection panel (e.g. the quadrangular space): its boundary structures and contents are highlighted, everything else of the region is faded.
@@ -163,7 +196,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
   // shallower layers of the region that cover the muscle are peeled away so it can be seen
   setState(s=>({...s,muscleLayer:order>1?order:s.muscleLayer,hiddenParts:(s.hiddenParts??[]).filter(x=>!ids.includes(x)),selected:ids,cameraFocusParts:ids,cameraFocusNonce:(s.cameraFocusNonce??0)+1,isolate:false,rotate:false}));
  };
- const choosePart=(id:string)=>{const p=parts.get(id);if(!p)return;setExternalNerve(null);setChosen({id:p.conceptId,name:p.name,elements:[id]});setState(s=>({...revealState(s,[id]),selected:[id],cameraFocusParts:[id],cameraFocusNonce:(s.cameraFocusNonce??0)+1,isolate:false,rotate:false}));setDetails(true);setPanel(null);};
+ const choosePart=(id:string)=>{const p=parts.get(id);if(!p)return;const sp=spaceOfParts([id]);if(sp){setRightTool('dissection');setPanel(null);pickSpaceRef.current(sp);return;}setExternalNerve(null);setChosen({id:p.conceptId,name:p.name,elements:[id]});setState(s=>({...revealState(s,[id]),selected:[id],cameraFocusParts:[id],cameraFocusNonce:(s.cameraFocusNonce??0)+1,isolate:false,rotate:false}));setDetails(true);setPanel(null);};
  const chooseExtra=(x:Extra)=>{
   // Make sure its layer is on, then show it: nerves are highlighted in the scene by mesh name, the others open their detail card.
   setMicroAtlas(x.k==='brain'?'brain':null);setExternalSystem(x.s);setExternalNerve(x.raw??x.n);setChosen(null);
@@ -179,7 +212,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const restorePart=(id:string)=>setState(s=>({...s,hiddenParts:(s.hiddenParts??[]).filter(x=>x!==id)}));
 
  const toggle=(id:SystemId)=>{setDetails(false);setState(s=>({...s,selected:[],isolate:false,visible:s.visible.includes(id)?s.visible.filter(x=>x!==id):[...s.visible,id]}));};
- const reset=()=>{stopMotionAnimation();setMicroAtlas(null);setState(s=>({...initial,visible:DEFAULT_VISIBLE,reset:s.reset+1}));setTopRegion('whole');setStudySide('both');setRightTool(null);setChosen(null);setExternalNerve(null);setDetails(false);setPanel(null);setRegion('whole-body');setDissectionStage(0);setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;motionTargetRef.current=NEUTRAL_POSE;setMotionEdit(false);setMotionEnabled(false);};
+ const reset=()=>{stopMotionAnimation();setMicroAtlas(null);setLungView(null);setState(s=>({...initial,visible:DEFAULT_VISIBLE,reset:s.reset+1}));setTopRegion('whole');setStudySide('both');setRightTool(null);setChosen(null);setExternalNerve(null);setDetails(false);setPanel(null);setRegion('whole-body');setDissectionStage(0);setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;motionTargetRef.current=NEUTRAL_POSE;setMotionEdit(false);setMotionEnabled(false);};
  const openPanel=(next:'layers'|'search')=>{setDetails(false);setPanel(p=>p===next?null:next);};
  const currentRegion=regionById(region);
  const profile=externalNerve?structureProfile(extras.find(x=>(x.raw??x.n)===externalNerve)?.n??externalNerve,externalSystem):chosen&&selected?structureProfile(chosen.name,selected.system,selected):null;
@@ -254,25 +287,38 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const spaceSides:Side[]=studySide==='both'?['left','right']:[studySide];
  const spaceHits=useMemo<SpaceHit[]>(()=>{const def=SPACES.find(x=>x.id===spaceId);return atlas&&def?spaceSides.map(sd=>resolveSpace(atlas.parts,def,sd)):[];},[atlas,spaceId,studySide]);// eslint-disable-line react-hooks/exhaustive-deps
  const spaceItems=useMemo(()=>{const def=SPACES.find(x=>x.id===spaceId);if(!def)return null;const merge=(key:'boundaries'|'contents')=>def[key].map((item,i)=>({item,ids:spaceHits.flatMap(h=>h[key][i].ids),nerves:spaceHits.flatMap(h=>h[key][i].nerves)}));return{def,boundaries:merge('boundaries'),contents:merge('contents')};},[spaceId,spaceHits]);
+ // the sphere (centre from the real meshes, radius from the space's definition) of each side shown
+ const rangesOf=(def:SpaceDef,sides:Side[])=>sides.map(sd=>{const e=(SPACE_RANGES as unknown as Record<string,{r:number;left?:{c:[number,number,number]};right?:{c:[number,number,number]}}>)[def.id]?.[sd];return e?{c:e.c,r:def.r}:null;}).filter((x):x is {c:[number,number,number];r:number}=>!!x);
+ const contentRangesOf=(def:SpaceDef,sides:Side[])=>rangesOf(def,sides).map(r=>({...r,r:r.r*1.7}));
+ /** outline of a space on each side shown: its edges as vertex references, coloured like the labels of the boundaries that form them */
+ const outlinesOf=(def:SpaceDef,sides:Side[])=>{const shape=SPACE_SHAPES[def.id],data=(SPACE_SHAPE_DATA as unknown as Record<string,Partial<Record<Side,{chains:{edge:number;refs:OutlineRef[]}[];apex?:OutlineRef}>>>)[def.id];if(!shape||!data)return undefined;const out=sides.map(sd=>{const d=data[sd];return d?{fill:shape.fill,chains:d.chains.map(c=>({color:SHAPE_COLORS[shape.edges[c.edge]!.color],refs:c.refs})),apex:d.apex}:null;}).filter((x):x is NonNullable<typeof x>=>!!x);return out.length?out:undefined;};
+ const edgeColorOf=(def:SpaceDef,en:string)=>{const shape=SPACE_SHAPES[def.id],edge=shape?.edges.find(e=>e.items.includes(en));return edge?SHAPE_COLORS[edge.color]:undefined;};
+ const lookOf=(def:SpaceDef,sd:Side):[number,number,number]=>[def.look[0]*(sd==='left'?1:-1),def.look[1],def.look[2]];
  const spaceView=useMemo(()=>{
   if(!atlas||!spaceItems)return null;
   const all=[...spaceItems.boundaries,...spaceItems.contents],picked=all.find(x=>x.item.en===spaceItem&&x.item.zh);
   const full=[...new Set(spaceHits.flatMap(h=>h.highlight))],fullNerves=[...new Set(spaceHits.flatMap(h=>h.nerves))];
   const ids=picked?picked.ids:full,nerves=picked?picked.nerves:fullNerves;
-  const anchor=spaceHits.flatMap(h=>h.spaceIds)[0]?parts.get(spaceHits.flatMap(h=>h.spaceIds)[0]):undefined;
+  const regionSeed=[...spaceItems.boundaries,...spaceItems.contents].flatMap(x=>x.ids)[0];
+  const anchor=regionSeed?parts.get(regionSeed):undefined;
   const bodyRegion=anchor?anatomicalRegion(anchor):undefined;
   const scope=bodyRegion?atlas.parts.filter(p=>anatomicalRegion(p)===bodyRegion&&(studySide==='both'||anatomicalSide(p)===studySide||anatomicalSide(p)==='midline')&&REGIONAL_VISIBLE.includes(p.system)).map(p=>p.id):full;
   const focus=[...new Set([...scope,...full])];
-  return{ids,nerves,focus,faded:focus.filter(id=>!full.includes(id)||(!!picked&&!ids.includes(id))),systems:[...new Set(full.map(id=>parts.get(id)?.system).filter(Boolean))] as SystemId[]};
+  const contentIds=[...new Set(spaceItems.contents.flatMap(x=>x.ids))],range=contentRangesOf(spaceItems.def,spaceSides),outlines=outlinesOf(spaceItems.def,spaceSides);
+  const label=(x:{item:{en:string;zh:string;role?:string};ids:string[];nerves:string[]},content:boolean)=>({key:x.item.en,text:`${x.item.en} ${x.item.zh}${x.item.role?` — ${x.item.role}`:''}`,ids:x.ids,nerves:x.nerves,content,color:content?undefined:edgeColorOf(spaceItems.def,x.item.en)});
+  const labels=[...spaceItems.boundaries.map(x=>label(x,false)),...spaceItems.contents.map(x=>label(x,true))].filter(l=>l.ids.length||l.nerves.length);
+  return{ids,nerves,focus,faded:focus.filter(id=>!full.includes(id)||(!!picked&&!ids.includes(id))),systems:[...new Set(full.map(id=>parts.get(id)?.system).filter(Boolean))] as SystemId[],range,rangeIds:contentIds,contentIds,labels,outlines};
  },[atlas,spaceItems,spaceItem,spaceHits,studySide,parts]);
+ const pickSpaceRef=useRef<(def:SpaceDef)=>void>(()=>{});
  const pickSpace=(def:SpaceDef)=>{
   if(spaceId===def.id){setSpaceId(null);setSpaceItem(null);setChosen(null);setDetails(false);setExternalNerve(null);setState(s=>({...s,selected:[],focusParts:topRegion==='whole'?undefined:s.focusParts,isolate:false}));return;}
   if(!atlas)return;
-  const hits=spaceSides.map(sd=>resolveSpace(atlas.parts,def,sd)),full=[...new Set(hits.flatMap(h=>h.highlight))],anchor=hits.flatMap(h=>h.spaceIds);
-  if(!anchor.length)return;
+  const hits=spaceSides.map(sd=>resolveSpace(atlas.parts,def,sd)),full=[...new Set(hits.flatMap(h=>h.highlight))],range=rangesOf(def,spaceSides),contentIds=[...new Set(hits.flatMap(h=>h.contents.flatMap(c=>c.ids)))];
+  if(!full.length||!range.length)return;
   setSpaceId(def.id);setSpaceItem(null);setLayerPicked(null);setChosen(null);setDetails(false);setExternalNerve(null);
-  setState(s=>({...s,selected:full,hiddenParts:(s.hiddenParts??[]).filter(x=>!full.includes(x)),visible:[...new Set([...s.visible,...REGIONAL_VISIBLE])],muscleLayer:'all',cameraFocusParts:anchor.length&&full.length>40?anchor:full,cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:1.15,view:def.view,reset:s.reset+1,isolate:false,rotate:false}));
+  setState(s=>({...s,selected:contentIds,hiddenParts:(s.hiddenParts??[]).filter(x=>!full.includes(x)),visible:[...new Set([...s.visible,...REGIONAL_VISIBLE])],muscleLayer:'all',cameraFocusParts:undefined,cameraFocusNerve:undefined,cameraFocusRange:{c:range[0].c,r:range[0].r,dir:lookOf(def,spaceSides[0])},cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:.85,isolate:false,rotate:false}));
  };
+ pickSpaceRef.current=pickSpace;
  const pickSpaceItem=(key:string,hit:{item:{en:string};ids:string[];nerves:string[]})=>{
   if(spaceItem===key){setSpaceItem(null);setChosen(null);setDetails(false);setExternalNerve(null);setState(s=>({...s,selected:[...new Set(spaceHits.flatMap(h=>h.highlight))]}));return;}
   setSpaceItem(key);
@@ -291,7 +337,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  // With 另一側淡化 the hidden side stays in the scene, faded: the scene draws the ids in fadedParts see-through. Nerves and schematic veins of the other side stay hidden.
  const fadedSide=useMemo(()=>{if(!atlas||!fadeOther||studySide==='both'||(topRegion!=='upper'&&topRegion!=='lower')||!state.focusParts)return null;const other=studySide==='left'?'right':'left';return motionRegionIds(topRegion).filter(id=>{const p=parts.get(id);return !!p&&p.system!=='integumentary'&&anatomicalSide(p)===other;});},[atlas,fadeOther,studySide,topRegion,!!state.focusParts]);// eslint-disable-line react-hooks/exhaustive-deps
  const mergedFocus=useMemo(()=>fadedSide&&state.focusParts?[...state.focusParts,...fadedSide]:state.focusParts,[fadedSide,state.focusParts]);
- const sceneState=spaceView?{...state,focusParts:spaceView.focus,fadedParts:spaceView.faded,highlightNerves:spaceView.nerves,visible:[...new Set([...state.visible,...REGIONAL_VISIBLE])]}:fadedSide?{...state,focusParts:mergedFocus,fadedParts:fadedSide}:state;
+ const sceneState=spaceView?{...state,focusParts:spaceView.focus,fadedParts:spaceView.faded,highlightNerves:spaceView.nerves,spaceRange:spaceView.range,spaceRangeIds:spaceView.rangeIds,spaceOutlines:spaceView.outlines,spaceContentIds:spaceView.contentIds,spaceLabels:spaceView.labels,visible:[...new Set([...state.visible,...REGIONAL_VISIBLE])]}:fadedSide?{...state,focusParts:mergedFocus,fadedParts:fadedSide}:state;
  return <main className="studio">
   {microAtlas?<MicroAtlasScene atlasId={microAtlas} onExit={()=>setMicroAtlas(null)}/>:atlas&&<AnatomyScene atlas={atlas} state={{...sceneState,inspectorOpen:details&&(selectedParts.length>0||!!externalNerve)}} onSelect={choosePart} onSelectNerve={chooseNerve} onProgress={setProgress} onLoadStatus={setLoadStatus} retryNonce={retryNonce} onError={setError} onJointDrag={nudgeJoint} region={region} focusSide={state.focusParts?studySide:'both'} motionActive={motionEdit&&!!state.focusParts} jointMotionEnabled={motionEnabled} selectedExternalNerve={externalNerve} bodyArea={topRegion}/>}
   <div className="vignette"/>
@@ -329,13 +375,20 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
    <div className="detail-atlas-shortcuts" aria-label="Detail atlases">
     <Button variant="ghost" onClick={()=>{window.location.hash='#/organ/brain';}}>腦</Button>
     <Button variant="ghost" onClick={()=>{window.location.hash='#/organ/heart';}}>心</Button>
-    <Button variant="ghost" onClick={()=>openMicroAtlas('eye')}>眼</Button>
-    <Button variant="ghost" onClick={()=>openMicroAtlas('ear')}>耳</Button>
+    <Button variant="ghost" onClick={enterLungView} aria-pressed={!!lungView}>肺</Button>
+    {MICRO_ATLAS_ENTRY&&<><Button variant="ghost" onClick={()=>openMicroAtlas('eye')}>眼</Button><Button variant="ghost" onClick={()=>openMicroAtlas('ear')}>耳</Button></>}
    </div>
    <div className="panel-foot"><span>{visibleCount.toLocaleString()} pieces visible{((state.hiddenParts?.length??0)+(state.hiddenNerves?.length??0))>0&&<small> · {(state.hiddenParts?.length??0)+(state.hiddenNerves?.length??0)} hidden</small>}</span><div className="panel-foot-actions">{((state.hiddenParts?.length??0)+(state.hiddenNerves?.length??0))>0&&<Button variant="ghost" onClick={restoreHidden}><Undo2 size={14}/> Restore hidden</Button>}<Button variant="ghost" onClick={()=>setState(s=>({...s,visible:[],selected:[],isolate:false}))}>Hide all</Button><Button variant="ghost" onClick={reset}><RotateCcw size={14}/> Reset</Button></div></div>{((state.hiddenParts?.length??0)+(state.hiddenNerves?.length??0))>0&&<details className="hidden-structures"><summary>Hidden structures｜已隱藏 <span>{state.hiddenParts?.length}</span></summary><div>{(state.hiddenParts??[]).slice(0,24).map(id=>{const hp=profileForPart(id);return <Button variant="ghost" key={id} onClick={()=>restorePart(id)}><span>{hp?.english??parts.get(id)?.name??id}{hp?.chinese&&<small>{hp.chinese}</small>}</span><Undo2 size={13}/></Button>})}</div></details>}
   </section>
   <footer className="studio-footer workspace-credit"><Button variant="ghost" onClick={()=>{setDetails(false);setPanel(null);setAbout(true);}}>Source & credits <ArrowUpRight size={12}/></Button></footer>
   </aside>
+  {lungView&&<aside className="lung-focus glass" aria-label="肺部聚焦">
+   <div className="lung-focus-row"><h3>肺｜Lungs</h3><Button variant="ghost" className="lung-focus-back" onClick={exitLungView} aria-label="返回">返回</Button></div>
+   <div className="lung-focus-sides" role="group" aria-label="左右肺">{([['both','雙側'],['left','左肺'],['right','右肺']] as ['both'|Side,string][]).map(([id,label])=><Button key={id} variant="ghost" aria-pressed={lungSide===id} onClick={()=>{setLungSide(id);aimLungView(id,false);}}>{label}</Button>)}</div>
+   <div className="lung-focus-row"><span className="bn-stack"><span className="bn-en">Layer {lungLayer} / 2</span><small className="bn-zh">{lungLayer===1?'第 1 層：肺葉、氣管、主支氣管、肺門':'第 2 層：胸膜（半透明）'}</small></span><span className="layer-buttons"><Button variant="ghost" aria-label="減少一層（隱藏胸膜）" disabled={lungLayer<=1} onClick={()=>setState(v=>setSerousGroup(v,PLEURA_KEYS,false))}>－</Button><Button variant="ghost" aria-label="增加一層（顯示胸膜）" disabled={lungLayer>=2} onClick={()=>setState(v=>setSerousGroup(v,PLEURA_KEYS,true))}>＋</Button></span></div>
+   <label className="lung-focus-row"><span className="bn-stack"><span className="bn-en">Lung opacity</span><small className="bn-zh">肺透明度（預設不透明）</small></span><input type="range" className="organ-range" min={10} max={100} step={5} value={Math.round((state.lungOpacity??1)*100)} onChange={e=>{const value=Number(e.target.value)/100;setState(v=>({...v,lungOpacity:value}));}} aria-label="肺透明度"/></label>
+   <small>只顯示呼吸系統與胸廓骨骼（半透明）；胸膜預設關閉，按「＋」加開。</small>
+  </aside>}
   {panel==='search'&&<SearchPanel index={searchIndex} onChoose={choose} onClose={()=>setPanel(null)}/>}
   <aside id="motion-workspace" className={`right-workspace ${mobileMotionOpen?'mobile-motion-open':''}`} aria-label="模型檢視與關節動作">
    <Button variant="ghost" className="mobile-only motion-close" onClick={()=>setMobileMotionOpen(false)} aria-label="關閉動作面板">收起動作 <X size={18}/></Button>
@@ -345,7 +398,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
     {(topRegion==='upper'||topRegion==='lower')&&<div className="mj-motion-sides dissection-sides" role="group" aria-label="Side｜側別">{sideButtons}</div>}
     {topRegion==='upper'?<div className="mj-region-tabs">{ANATOMY_REGIONS.filter(r=>r.id!=='whole-body').map(r=><Button variant="ghost" key={r.id} className={region===r.id?'active':''} aria-pressed={region===r.id} onClick={()=>changeRegion(r.id)}>{r.name}</Button>)}</div>:topRegion==='head'?<p>頭面部肌肉可按解剖深度逐層剝離；每塊肌肉仍可單獨 Hide 或 Isolate。</p>:topRegion==='lower'?<p>下肢可在下方的「肌肉分層」選擇區域（臀部、大腿前／內側／後、小腿、足部），逐層剝離。</p>:<p>選擇上肢或下肢後，可逐區進行分層解剖。其他區域可用「組織深度」篩選。</p>}
     <div className="muscle-layer-filter"><strong>Muscle layers｜肌肉分層</strong><select className="muscle-region-select" aria-label="分層區域" value={state.muscleRegion??''} onChange={e=>setMuscleRegion(e.target.value||undefined)}><option value="">Select region｜選擇區域…</option>{(topRegion==='whole'||topRegion==='organs'?[...new Set(layerChoices.map(r=>LAYER_GROUP_OF[r.id]?.en))]:[undefined]).map(g=>g?<optgroup key={g} label={`${g}｜${layerChoices.find(r=>LAYER_GROUP_OF[r.id]?.en===g)&&LAYER_GROUP_OF[layerChoices.find(r=>LAYER_GROUP_OF[r.id]?.en===g)!.id].zh}`}>{layerChoices.filter(r=>LAYER_GROUP_OF[r.id]?.en===g).map(r=><option key={r.id} value={r.id}>{layerRegionLabel(r)}</option>)}</optgroup>:layerChoices.map(r=><option key={r.id} value={r.id}>{layerRegionLabel(r)}</option>))}</select>{state.muscleRegion&&<div className="depth-filter-buttons"><Button variant="ghost" aria-pressed={!state.muscleLayer||state.muscleLayer==='all'} onClick={()=>setMuscleLayer('all')}>All｜全部</Button>{layerOrders(state.muscleRegion).map(o=><Button variant="ghost" key={o} aria-pressed={state.muscleLayer===o} onClick={()=>setMuscleLayer(o)}>Peel to layer {o}｜剝至第{o}層</Button>)}</div>}{state.muscleRegion&&(()=>{const shown=state.muscleLayer&&state.muscleLayer!=='all'?[state.muscleLayer]:layerOrders(state.muscleRegion);return <details className="muscle-layer-members" open>{<summary>{layerRegionLabel(MUSCLE_LAYER_REGIONS.find(r=>r.id===state.muscleRegion)!)}</summary>}{shown.flatMap(o=>layerMembers(state.muscleRegion!,o).map((g,gi)=><div key={o+'-'+gi}><p><b>Layer {o}｜第{o}層</b> <Button variant="ghost" className="layer-group" aria-pressed={layerPicked===`group:${o}:${gi}`} onClick={()=>pickLayerMuscles(`group:${o}:${gi}`,g.muscles.map(m=>m.en),g.order)}>{layerGroupLabel(g.label)}</Button></p>{g.muscles.map(m=><Button key={m.en} variant="ghost" className="bn-row layer-muscle" aria-pressed={layerPicked===m.en} onClick={()=>pickLayerMuscles(m.en,[m.en],g.order)}><span className="bn-en">{m.en}</span><small className="bn-zh">{m.zh}</small></Button>)}{g.note&&<small>{g.note}</small>}</div>))}</details>;})()}</div>
-    <div className="muscle-layer-filter space-filter"><strong>Spaces｜特殊區域</strong>{(()=>{const list=spacesForGroups(spaceGroups);return list.length?<><div className="space-list">{list.map(d=><Button key={d.id} variant="ghost" className="space-pick" aria-pressed={spaceId===d.id} onClick={()=>pickSpace(d)}>{d.en}｜{d.zh}</Button>)}</div>{spaceItems?<div className="space-detail"><p className="space-hint">Boundary and passing structures are highlighted, the rest of the region is faded.｜邊界與通過的結構已高亮，其餘淡化。</p><div><b>Boundaries｜邊界</b>{spaceItems.boundaries.map(b=><Button key={b.item.en} variant="ghost" className="bn-row layer-muscle" disabled={!b.ids.length&&!b.nerves.length} aria-pressed={spaceItem===b.item.en} onClick={()=>pickSpaceItem(b.item.en,b)}><span className="bn-en">{b.item.en}</span><small className="bn-zh">{b.item.zh}</small></Button>)}</div><div><b>Contents｜內容物</b>{spaceItems.contents.map(b=><Button key={b.item.en} variant="ghost" className="bn-row layer-muscle" disabled={!b.ids.length&&!b.nerves.length} aria-pressed={spaceItem===b.item.en} onClick={()=>pickSpaceItem(b.item.en,b)}><span className="bn-en">{b.item.en}</span><small className="bn-zh">{b.item.zh}</small></Button>)}</div></div>:<small>Pick a space to see what bounds it and what passes through it.｜選一個區域，查看它的邊界與通過的結構。</small>}</>:<small>No listed spaces for this part.｜此部位沒有列出的特殊區域。</small>;})()}</div>
+    <div className="muscle-layer-filter space-filter"><strong>Spaces｜特殊區域</strong>{(()=>{const list=spacesForGroups(spaceGroups);return list.length?<><div className="space-list">{list.map(d=><Button key={d.id} variant="ghost" className="space-pick" aria-pressed={spaceId===d.id} onClick={()=>pickSpace(d)}>{d.en}｜{d.zh}</Button>)}</div>{spaceItems?<div className="space-detail"><p className="space-hint">The space is drawn as an outline: each coloured line is the margin of a boundary structure that forms one side, the pale fill is the opening; contents pass through it.｜以輪廓顯示空間形狀：每條彩色線是構成一邊的邊界結構的邊緣，淡色填色為開口，內容物從中穿過。</p><div><b>Boundaries｜邊界</b>{spaceItems.boundaries.map(b=><Button key={b.item.en} variant="ghost" className="bn-row layer-muscle" disabled={!b.ids.length&&!b.nerves.length} aria-pressed={spaceItem===b.item.en} onClick={()=>pickSpaceItem(b.item.en,b)}><span className="bn-en">{edgeColorOf(spaceItems.def,b.item.en)&&<i className="edge-dot" style={{background:edgeColorOf(spaceItems.def,b.item.en)}}/>}{b.item.en}</span><small className="bn-zh">{b.item.zh}</small>{b.item.role&&<small className="bn-role">{b.item.role}</small>}</Button>)}</div><div><b>Contents｜內容物</b>{spaceItems.contents.map(b=><Button key={b.item.en} variant="ghost" className="bn-row layer-muscle" disabled={!b.ids.length&&!b.nerves.length} aria-pressed={spaceItem===b.item.en} onClick={()=>pickSpaceItem(b.item.en,b)}><span className="bn-en">{b.item.en}</span><small className="bn-zh">{b.item.zh}</small>{b.item.role&&<small className="bn-role">{b.item.role}</small>}</Button>)}</div>{spaceItems.def.related?.length?<div><b>Related spaces｜相關區域</b><div className="space-list">{spaceItems.def.related.map(id=>{const r=SPACES.find(x=>x.id===id);return r?<Button key={id} variant="ghost" className="space-pick" onClick={()=>pickSpace(r)}>{r.en}｜{r.zh}</Button>:null;})}</div></div>:null}{spaceItems.def.missing?.length?<div className="space-missing"><b>Not in the model｜模型沒有</b>{spaceItems.def.missing.map(t=><small key={t}>{t}</small>)}</div>:null}</div>:<small>Pick a space to see what bounds it and what passes through it.｜選一個區域，查看它的邊界與通過的結構。</small>}</>:<small>No listed spaces for this part.｜此部位沒有列出的特殊區域。</small>;})()}</div>
     {topRegion==='head'&&<div className="muscle-layer-filter"><strong>頭面肌肉五層</strong><div className="depth-filter-buttons"><Button variant="ghost" aria-pressed={!state.faceMuscleLayer||state.faceMuscleLayer==='all'} onClick={()=>setFaceMuscleLayer('all')}>全部</Button>{FACIAL_MUSCLE_LAYERS.map(layer=><Button variant="ghost" key={layer.id} title={layer.depth} aria-pressed={state.faceMuscleLayer===layer.id} onClick={()=>setFaceMuscleLayer(layer.id)}>{layer.label}</Button>)}</div>{state.faceMuscleLayer&&state.faceMuscleLayer!=='all'&&<details className="muscle-layer-members" open><summary>{FACIAL_MUSCLE_LAYERS.find(x=>x.id===state.faceMuscleLayer)?.depth}</summary>{FACIAL_MUSCLE_LAYERS.find(x=>x.id===state.faceMuscleLayer)?.muscles.map(name=><p key={name}>{name}</p>)}</details>}<small>由深至淺的教學式分層；不同面區的筋膜與肌肉重疊並非完全平行。</small></div>}
     {region!=='whole-body'&&<div className="mj-dissection-control"><div><span className="eyebrow">{currentRegion.subtitle}</span><strong>{currentRegion.stages[dissectionStage]?.label}</strong><small>{currentRegion.stages[dissectionStage]?.description}</small></div><div className="mj-dissection-side"><Button variant="ghost" className={studySide==='both'?'active':''} onClick={()=>focusSide('both')}>Both</Button><Button variant="ghost" className={studySide==='left'?'active':''} onClick={()=>focusSide('left')}>Left focus</Button><Button variant="ghost" className={studySide==='right'?'active':''} onClick={()=>focusSide('right')}>Right focus</Button></div><div className="mj-dissection-actions"><Button variant="ghost" disabled={dissectionStage===0} onClick={()=>dissect(dissectionStage-1)}>Layer back｜上一層</Button><Button variant="ghost" disabled={dissectionStage>=currentRegion.stages.length-1} onClick={()=>dissect(dissectionStage+1)}>Dissect deeper｜向深層</Button></div></div>}
    </section>}
@@ -364,6 +417,12 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
     <div className="motion-control-stack">
      {UPPER_MOTION_CONTROLS.map(control=><MotionPullControl key={control.key} label={control.label} value={motionPose[control.key]} min={MOTION_LIMITS[control.key][0]} max={MOTION_LIMITS[control.key][1]} disabled={!motionEnabled} onValueChange={value=>{setMotionAction(control.action);setJoint(control.key,value);}}/>)}
     </div>
+    <details className="mj-finger-lab"><summary>手指｜Fingers</summary>
+     <div className="mj-hand-presets" role="group" aria-label="手勢預設">{HAND_PRESETS.map(h=><Button key={h.id} variant="ghost" disabled={!motionEnabled} onClick={()=>{setMotionAction('wristExtension');applyMotionPose({...motionTargetRef.current,...h.pose});}}>{h.label}</Button>)}</div>
+     <div className="motion-control-stack">
+      {FINGER_CONTROLS.map(control=><MotionPullControl key={control.key} label={control.label} value={motionPose[control.key]} min={MOTION_LIMITS[control.key][0]} max={MOTION_LIMITS[control.key][1]} disabled={!motionEnabled} onValueChange={value=>{setMotionAction('wristExtension');setJoint(control.key,value);}}/>)}
+     </div>
+    </details>
     <small className="mj-motion-note">0° 為人體放鬆中立位；正負角度代表相反方向。所有角度都可以直接拖動，毋須先選動作。</small>
     <MotionAnatomyPanel anatomy={UPPER_ACTION_ANATOMY[motionAction]} onInspect={inspectMotionStructure}/>
    </section>}

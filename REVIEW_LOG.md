@@ -2,6 +2,97 @@
 
 最後更新：2026-10-29。規則：只改介面、效能、腳本、文件的 PR 在 `build` 通過後自動 merge；涉及模型、示意模型、解剖內容、名稱、Quiz 資料的 PR 標【需人工審核】，**一律不開 auto-merge**，等你確認。
 
+## 左側面板底部按鈕：腦、心、肺（介面，疊在 #112 上）
+
+- 眼、耳按鈕暫時隱藏（只隱藏入口，`MICRO_ATLAS_ENTRY=false`；程式與資料保留；`#/organ/eye`、`#/organ/ear` 回到主圖譜；ROADMAP.md 記為「未完成，暫時隱藏」）。
+- 底部三個按鈕：腦、心、肺，平均分佈。
+- 「肺」：主圖譜內的胸腔聚焦視圖，只顯示呼吸系統與胸廓骨骼（半透明），胸膜預設關閉；右側面板有左右肺選擇、層數 ＋／－、透明度滑桿與「返回」（回到點擊前的狀態）。獨立的肺詳細模式（切面、逐葉打開、動畫）尚未做，另開 PR。
+- 限制：胸廓骨骼取肋骨、胸骨、胸椎、鎖骨；喉部軟骨屬呼吸系統，也會顯示在氣管上方。
+
+## 心臟詳細模式：打開心腔時隱藏表面細血管（介面改動，CI 綠後自動 merge）
+
+- 用「逐個心腔打開」選任一心腔，或按「打開心臟（內部）」時：保留大血管與主要冠狀血管，隱藏其餘表面細分支與心包膜（三層＋兩個心包竇）。保留的血管若擋在被打開的心腔前面（由鏡頭視角判斷，視角轉動時即時更新），自動變成約 40 % 透明，不會完全隱藏。
+- 關閉心腔（再按一次同一心腔、按「閉合（外表）」、改選切面或按還原）時，血管組與細分支恢復成打開前的狀態；使用者原本關掉的血管組、細分支不會被自動打開。
+- 左側「構造」清單展開後，每個構造多一顆眼睛鈕：被隱藏的細分支顯示為已隱藏（灰色眼睛、文字變淡），按一下可手動顯示；點構造名稱選取時也會顯示該構造。
+- 驗證：`scripts/test-heart-vessels.mjs`（併入 `npm run check`）檢查下列清單與模型目錄一致、冠狀動脈與心靜脈兩組的每個構造不是「主要」就是「細分支」。
+
+### 分類清單（請核對，名稱為目錄中的構造名稱）
+**主要（打開心腔時保留）**
+- 大血管（Great vessels 組，全部 12 個）：Ascending aorta 升主動脈、Aortic arch 主動脈弓、Pulmonary trunk 肺動脈幹、Bifurcation of pulmonary trunk 肺動脈幹分叉、Left / Right pulmonary artery 左／右肺動脈、Superior / Inferior vena cava 上／下腔靜脈、左右上下肺靜脈（4 條）。
+- 主要冠狀血管（6 個）：Right coronary artery 右冠狀動脈、Left coronary artery 左冠狀動脈（主幹）、Anterior interventricular artery 前室間支（LAD）、Circumflex artery 迴旋支、Coronary sinus 冠狀竇、Great cardiac vein 心大靜脈。
+
+**細分支（打開心腔時隱藏，共 12 個，另加心包膜 5 個）**
+- 動脈（7）：Right inferolateral branch of right coronary artery 右冠狀動脈右下外側支、Septal branches of anterior interventricular artery 前室間支的間隔支、Right marginal branch 右緣支（銳緣支）、Posterior interventricular branch 後室間支、Diagonal branches 對角支、Sinoatrial nodal artery 竇房結動脈、Left marginal branch 左緣支（鈍緣支）。
+- 靜脈（5）：Middle cardiac vein 心中靜脈、Inferior vein of left ventricle 左心室下靜脈、Posterior vein of left ventricle 左心室後靜脈、Small cardiac vein 心小靜脈、Anterior cardiac veins 心前靜脈。
+- 心包膜（Pericardium 組 5 個）：Fibrous pericardium 纖維心包、Parietal layer of serous pericardium 漿膜心包壁層、Visceral layer of serous pericardium (epicardium) 漿膜心包臟層（心外膜）、Transverse pericardial sinus 心包橫竇、Oblique pericardial sinus 心包斜竇。
+
+需要你決定的：模型沒有獨立的「鈍緣支／銳緣支」命名，只有 Left marginal branch／Right marginal branch，我照此歸為細分支；Sinoatrial nodal artery 竇房結動脈依「其餘細小分支」歸為細分支。
+
+## 任務狀態表（2026-10-29，依你指定的優先次序排列）
+
+| 任務 | 狀態（進行中 / 已完成 / 等我審核 / 未開始 / 卡住） | PR 編號 | 卡住原因 |
+| --- | --- | --- | --- |
+| **優先 1** 第二級 Quiz（黃色高亮結構、輸入名稱） | 已完成（已部署） | #98 | — |
+| **優先 1** 頭顱內黃色碎塊移除（原始資料、生成檔、黑名單檢查） | 已完成（已部署；`check:no-intracranial` 併入 `npm run check`）。正式站上我看過頭部（只開神經系統）前、側、上視角，沒有不規則黃色塊；腦在載入完成前會先顯示舊的金黃色腦，載入後換成整合的粉紅腦，我沒有等到載入完成再拍。 | #100 | — |
+| 心臟詳細模式版面改為三欄 | 已完成（已部署） | #102 | — |
+| 主圖譜介面（移除地台、頂部列、點標題重設） | 已完成 | #101 | — |
+| Quiz「鄰近相關構造」改淡藍色、不可蓋過黃色目標 | 已完成 | #99 | — |
+| **優先 2** 肩關節屈曲／外展 180°（撕裂、浮空血管碎段、灰色盒狀物） | 進行中（背景處理，分支 mj-shoulder-flex 已有進度，尚未開 PR） | — | — |
+| **優先 2** 手指活動 | 等我審核（已知限制：手指之間沒有碰撞；握拳時指尖有零碎肌腱；遠端指間關節未與近端連動；拇指軸為近似） | #109 | — |
+| 淡化效果改為平滑半透明（不用點狀花紋） | 已完成（已 merge；手機與低記憶體裝置沒有多重取樣，仍保留點狀圖樣） | #110 | — |
+| Suboccipital venous plexus 分類（神經 → 靜脈）、區域（眼眶 → 枕下區） | 已完成（較早輪次；現為靜脈系統、枕下區）。全站分類錯誤檢查：只有 validate-atlas 的部分檢查，尚未做完整的全站掃描 | 較早輪次 | — |
+| 頭部左側浮出身體外的黃色神經 | 卡住：我用神經網格的位置掃過頭部，沒有發現超出頭部範圍的網格，也沒能重現 | — | 需要你當時的視角或截圖（哪個系統開著、哪個視角） |
+| Quiz 部分與整體判定、移除「MJ 補建」等內部用語 | 已完成（已 merge） | #111 | — |
+| 上／下腔靜脈在心臟模式與 Quiz 中縮短 | 已完成（已 merge） | #111 | — |
+| 特殊區域：邊界線＋開口輪廓（取代圓形漸變）、股三角／內收肌管／膕窩、肌肉分部資訊卡 | 等我審核（已依意見改為邊界線＋開口，綁定邊界網格頂點，含關節活動截圖） | #108 | — |
+| **最優先** 肺 PR A（葉間裂、胸膜分部、肋膈隱窩、層數 ＋／－） | 等我審核（PR B：切跡／壓痕卡、肺門排列、肺韌帶、肋縱隔隱窩未做） | #112 | — |
+| 英文發音（聽發音鈕、Wikimedia Commons／Web Speech、IPA、已校對狀態） | 未開始（排在肺之後） | — | — |
+| 選取結構時自動顯示、鏡頭轉向、擋住的半透明；神經卡 Focus／Isolate／Hide | 已完成 | #107 | — |
+| 移除錯誤的空間示意模型 | 已完成 | #103 | — |
+| 骨性標記資訊卡欄位 | 已完成 | #104 | — |
+| Workflow 固定 ubuntu-24.04 | 已完成 | #105 | — |
+| 特殊區域 Quiz 題型（找出此區域、屬於哪個區域的內容物） | 未開始 | — | — |
+| **優先 4** 跑考範圍：足部神經、踝伸肌支持帶、子宮韌帶重做 | 未開始 | — | — |
+| **優先 4** 上肢內旋 48° + 肘屈 140° 撕裂與米色翼狀物 | 未開始（與肩關節項目相關，先看其結果） | — | — |
+| **優先 5** 心臟 PR1（腔內構造）／PR2（光影顏色） | 未開始 | — | — |
+| **優先 5** 結締組織 PR1–3（分層、顏色質感、背部與頭頸） | 未開始 | — | — |
+| **優先 5** 乳房兩層、Undo（Ctrl/⌘+Z）、ROADMAP 第 0 步、女性骨盆、頭頸、腦部、傳導路徑 | 未開始 | — | — |
+
+開啟中的 PR：#108（特殊區域，等你審核）、#109（手指活動，等你審核）、#112（肺 PR A，等你審核）。#110、#111 已 merge。
+
+## 特殊區域 #108 修改：改成「邊界線＋開口」（需人工審核，不自動 merge）
+
+原本的圓形範圍漸變著色已移除。新的顯示方式：
+
+- **邊界線**：每個邊界結構構成邊界的那一條邊緣畫一條粗線，每條邊不同顏色（橘、紫、青、桃紅、綠、藍），與標籤、右側清單的色點一致。
+- **開口**：邊界線圍成的範圍填極淡半透明（約 30%）；肘窩、股三角等開口向一側的，兩條邊交會於尖端，頂邊以細灰線連接。
+- **內容物**（動脈紅、靜脈藍、神經黃）仍沿用原本的有色高亮，範圍放大為邊界範圍的 1.7 倍；邊界結構本身不再著色。
+- **綁定模型**：輪廓的每個點都取自邊界結構網格的頂點（再加一個小偏移，使線條平滑），寫在 `app/space-shapes.json`；畫面上這些點與該頂點用同一組蒙皮權重（`app/space-outline.ts`），所以關節活動時一起變形。產生方式與角點座標：`node scripts/compute-space-shapes.mjs` → `docs/space-shapes.md`（各邊兩端座標，單位公尺）。`npm run check` 會檢查檔案為最新、每條邊都找得到頂點。
+- **邊的定義**：`app/mj-space-shapes.ts`（哪個結構的哪個邊緣、沿哪個軸取樣）。
+- **鏡頭**：`cameraFocusScale` 由 .95 改為 .85，對著空間的開口方向（`look`）。
+
+### 各空間形狀（模型取得的邊）
+| 空間 | 形狀 | 邊 |
+| --- | --- | --- |
+| 四邊孔 | 四邊形 | 小圓肌下緣／肱骨外科頸／大圓肌上緣／肱三頭肌長頭外側緣 |
+| 三邊孔 | 三角形 | 小圓肌下緣／肱三頭肌長頭內側緣／大圓肌上緣 |
+| 三頭肌間隙 | 三角形 | 大圓肌下緣／肱三頭肌長頭外側緣／肱三頭肌外側頭與肱骨幹 |
+| 鎖骨胸大肌三角 | 三角形 | 鎖骨／三角肌前緣／胸大肌鎖骨部上緣 |
+| 腋窩 | 四邊形（腋窩底）＋四壁向頂端收窄 | 胸大肌下緣（腋前襞）／上臂（肱骨）／背闊肌與大圓肌下緣（腋後襞）／前鋸肌（胸壁）；細線連到鎖骨上的頂端點 |
+| 肘窩 | 倒三角形 | 旋前圓肌外側緣／肱橈肌內側緣；頂邊（兩上髁連線）為連線。**模型沒有肱骨外上髁**，所以頂邊只是兩條邊上端之間的細灰線 |
+| 解剖鼻煙盒 | 三角形 | 拇長伸肌腱橈側緣／橈骨（莖突）／拇長展肌與拇短伸肌腱尺側緣（新增「橈骨（莖突）」為邊界項目） |
+| 股三角 | 倒三角形 | 腹股溝韌帶／縫匠肌內側緣／內收長肌內側緣 |
+| 膕窩 | 菱形 | 股二頭肌／腓腸肌外側頭／腓腸肌內側頭／半膜肌與半腱肌 |
+| 內收肌管 | 隧道 | 縫匠肌／股內側肌／內收長肌與內收大肌三條線，之間填色 |
+| 內收肌裂孔 | 裂隙 | 內收大肌裂孔邊緣／股骨 |
+| 腕隧道 | 四邊形 | 屈肌支持帶橈側、尺側附著緣／腕骨 |
+| 跗管 | 四邊形 | 屈肌支持帶上、下緣／內踝、距骨、跟骨 |
+
+### 已知限制
+- 自動取邊：低面數網格上取到的邊緣偏鋸齒，已平滑；少數空間（四邊孔）的角點不完全重合，兩條邊之間會多一小段細灰線。
+- 輪廓用「從邊界頂點偏移」的點，與頂點蒙皮權重相同，位置與關節運動接近但不是逐點精確；各動作下的視覺檢查請見 PR 截圖。
+- 輪廓一律畫在最上層（不受遮擋），這是為了讓形狀一眼看得出來。
+
 ## 肺 PR B（需人工審核，不自動 merge；疊在 PR A #112 上）
 
 - 肺表面的切跡、壓跡與溝在先前的跑考第 18 頁清單輪次已用「肺葉表面緊貼鄰近構造的那一片」標出（不是浮空模型，各自是肺葉表面的子網格，可點選、有資訊卡）：左肺心切跡、左肺舌葉、左右肺心壓跡、主動脈弓溝、降主動脈溝、左右鎖骨下動脈溝、左頭臂靜脈溝、右頭臂靜脈溝、上腔靜脈溝、奇靜脈溝、右肺食道溝，以及左右肺門與左右肺韌帶。PR A 刻出葉間裂後，這些區塊已用新的肺葉網格重新產生。
@@ -40,6 +131,8 @@
 - **不使用**牛津、劍橋、韋氏字典的內容，「查字典」只是開新分頁的連結（Oxford Learner’s、Cambridge）。
 - **狀態**：已校對＝名稱在 `app/pronunciation/reviewed.json`（由你核對後加入），或你在這個瀏覽器勾選「我已核對」（只存在瀏覽器），或每個字都有 Wiktionary 音標＋真人錄音。其餘（由瀏覽器語音朗讀、或有字缺音標）一律「發音待校對」。
 - **資料**：`public/pronunciation.json`，由 `node scripts/fetch-pronunciation.mjs` 產生（只抓上肢、下肢、背部、胸腔四個考試範圍的名稱，批次請求並遵守 Retry-After）；缺 IPA／缺錄音的字列在 `docs/pronunciation-words.md`；`npm run check`（`scripts/check-pronunciation.mjs`）檢查授權、網址來源與格式。
+- **目前資料**（2026-10-29 抓取）：考試範圍名稱共 293 個不同的字，193 個字有 Wiktionary 詞條資料，其中 187 個有 IPA，49 個有 Commons 免費錄音（授權：CC0 16、CC BY-SA 4.0 20、CC BY-SA 3.0 10、CC BY 3.0 4、CC BY 2.5 1）。多數解剖拉丁字（如 latissimus、pectoralis、brachii）在 Wiktionary 沒有英文詞條或沒有音標，這些名稱一律「發音待校對」，缺漏的字列在 `docs/pronunciation-words.md`。我沒有試聽或核對任何一筆音標與錄音（錄音網址來自 Commons API，因環境被 Wikimedia 限流，沒能下載檔案確認可播放），請你抽查。
+
 - **你怎麼標已校對**：把英文名稱（例如 `Latissimus dorsi`）加進 `app/pronunciation/reviewed.json` 的 `reviewed` 清單，或回覆我名單由我加入。
 
 ## 最新進度（2026-10-29）
@@ -48,19 +141,143 @@
 | PR | 內容 |
 | --- | --- |
 | [#101](https://github.com/Kuan21/MJ_anatomy/pull/101) | 主圖譜：移除腳下圓台、頂部區域列淺色背景、點標題重設 |
-| [#102](https://github.com/Kuan21/MJ_anatomy/pull/102) | 頭顱內黃色碎塊移除（黑名單檢查 `check:no-intracranial`；粉紅整合腦保留） |
+| [#100](https://github.com/Kuan21/MJ_anatomy/pull/100) | 頭顱內黃色碎塊移除（黑名單檢查 `check:no-intracranial`；粉紅整合腦保留） |
+| [#102](https://github.com/Kuan21/MJ_anatomy/pull/102) | 心臟詳細模式版面改為三欄（比照腦部） |
 | [#103](https://github.com/Kuan21/MJ_anatomy/pull/103) | 移除錯誤的空間示意模型（不再畫出錯誤的空間體積） |
 | [#104](https://github.com/Kuan21/MJ_anatomy/pull/104) | 骨性標記資訊卡欄位：所在骨骼／描述／附著構造／相關構造 |
 
 ### 已自動 merge（不涉及模型）
+- [#107](https://github.com/Kuan21/MJ_anatomy/pull/107) 選取結構時自動顯示、鏡頭轉向並放大、擋住的結構半透明；神經資訊卡新增 Focus／Isolate／Hide；下肢分層解剖說明文字。
+- [#106](https://github.com/Kuan21/MJ_anatomy/pull/106) REVIEW_LOG 更新。
 - #105 Workflow `runs-on` 固定為 `ubuntu-24.04`（main 部署已確認成功，build 與 deploy 均在 ubuntu-24.04 執行）。
 - Quiz 第二級、鄰近構造淡天藍、心臟詳細模式版面（先前 PR）。
 
+### 等你審核（未 merge，需人工審核）
+- [#108](https://github.com/Kuan21/MJ_anatomy/pull/108) 特殊區域改為局部高亮、新增股三角／內收肌管／膕窩、肌肉分部資訊卡（見下方「特殊區域與肌肉分部」）。
+- 肩關節屈曲／外展 180° 的撕裂、浮空血管碎段與灰色盒狀物：處理中，完成後另開 PR。
+
 ### 仍待做
-- 特殊區域高亮（只亮形成空間的邊界、內容物一起亮、鏡頭自動轉角度）：新 PR，需人工審核。
+- 特殊區域 Quiz 題庫（找出此區域、此結構屬於哪個區域的內容物），資料完整的區域才出題。
 - 跑考範圍：子宮韌帶示意模型重做、足部神經與踝伸肌支持帶。
 - 上肢關節動作（肩外展 168°、內旋 48° + 肘屈 140° 撕裂）。
 - 心臟 PR1–3、結締組織 PR1–3、乳房、Undo、ROADMAP 第 0 步。
+
+## 手指活動（需人工審核，請核對）
+
+「關節系統與動作 → 上肢」新增可展開的「手指｜Fingers」：每隻手指的掌指關節（MCP）屈曲／外展、近端指間關節（PIP）、遠端指間關節（DIP），拇指的腕掌關節（CMC）屈曲、外展、對掌，以及拇指掌指關節（MCP）、指間關節（IP）；另有四個手勢預設：張開、握拳、捏取、OK 手勢。每根手指骨、拇指掌骨都是真實網格，依關節中心轉動；手部的肌肉、肌腱、血管、神經、結締組織與皮膚經由同一套蒙皮跟著各指節移動。
+
+**關節中心**由骨骼網格求得（相鄰兩骨關節端的中點，`scripts/fit-digit-joints.mjs` → `app/biomechanics-v2/digit-joints.json`，`npm run check` 會驗證沒有過期）。左手各指關節中心（公尺）：
+
+| 指 | 關節中心 (x, y, z) |
+| --- | --- |
+| thumb | cmc (0.278, 0.872, 0.026)；mcp (0.305, 0.843, 0.049)；ip (0.315, 0.818, 0.062) |
+| index | cmc (0.267, 0.863, 0.023)；mcp (0.287, 0.799, 0.038)；pip (0.298, 0.766, 0.054)；dip (0.306, 0.751, 0.071) |
+| middle | cmc (0.263, 0.862, 0.014)；mcp (0.266, 0.800, 0.039)；pip (0.272, 0.764, 0.061)；dip (0.276, 0.742, 0.080) |
+| ring | cmc (0.249, 0.861, 0.022)；mcp (0.247, 0.805, 0.038)；pip (0.249, 0.770, 0.060)；dip (0.249, 0.750, 0.080) |
+| little | cmc (0.241, 0.863, 0.026)；mcp (0.230, 0.812, 0.041)；pip (0.226, 0.783, 0.058)；dip (0.223, 0.766, 0.070) |
+
+**轉動軸與符號**（請核對）：
+- 食指、中指、無名指、小指：屈曲繞內外側軸（正值＝指尖向掌側／前方彎），外展繞前後軸（正值＝遠離中指，中指的正值＝朝拇指側）；PIP、DIP 只有屈曲。外展先於屈曲施加，屈曲後外展軸隨指骨轉動。
+- 拇指：腕掌關節屈曲＝拇指橫過手掌向尺側移動；外展＝拇指向前（離開手掌平面）；對掌＝外展 0.55×、屈曲 0.4×、再繞掌骨長軸轉 0.6× 的合成動作；掌指與指間關節屈曲繞垂直於該節且指向內側的軸。這是近似，並非真正的鞍狀關節運動。
+
+**角度範圍**（沿用 `articulation-registry.ts`）：手指 MCP 屈曲 −15～90°、外展 −20～20°，PIP 0～105°，DIP 0～80°；拇指 CMC 屈曲 −15～45°、外展 0～55°、對掌 0～50°，MCP 0～55°，IP −10～80°。超出範圍會被限制。
+
+**手勢**：捏取與 OK 手勢的拇指與食指角度是用優化解出的，使拇指尖與食指尖相距小於 12 mm；握拳使拇指蓋在食指與中指的中節上。`scripts/test-digits.mjs`（併入 `npm run check:motion`）檢查：中立位完全不動、各軸方向、角度限制、各指節自己的框架占主導、掌骨與手掌留在手部框架、三個姿勢下手部所有軟組織沒有飛走或拉成尖刺（最大邊長伸長 < 6 倍），以及上述手勢。
+
+**蒙皮**：每根可動手指骨（拇指掌骨與兩節指骨、四指各三節指骨，共 15 個）各有一個調色盤框架；手部框架原本的權重依頂點在休止姿勢的位置，按距離該指骨折線的遠近分給各指節（關節處 ±6 mm 漸變，手指起點前約 1 cm 開始過渡），手掌與掌骨區仍留在手部框架。皮膚、淋巴與未綁定的結締組織由建置時的 `prepare-skin-weights.mjs` 依最近骨骼自動分配到新的指節框架。
+
+**第二輪修改（回應 #109 意見，需人工審核）**
+
+1. **軸向與收攏**：四指的屈曲軸不再互相平行，向橈側傾斜（`FINGER_CONVERGENCE`：食指 0°、中指 2.5°、無名指 6°、小指 10°），握拳時指尖向舟狀骨結節方向收攏，不在同一平面。握拳角度：食指 MCP 82°／PIP 98°／DIP 70°，中指 86／100／74，無名指 90／102／76，小指 90／105／80（小指、無名指較大，食指較小，呈階梯；DIP 上限 80°）。
+2. **拇指**：握拳時 CMC 屈曲 −15°、外展 14°、MCP 30°、IP 80°，覆在食指與中指中節背面（與食指、中指骨的最近距離 5.6／6.0 mm，沒有穿入）。捏取：對掌 30°、CMC 屈曲 −15°、MCP 11°、IP 3°，其他三指自然微屈（中 45／50／25、無名 55／58／28、小 62／62／30），拇指與食指遠節骨尖相距約 8 mm（指腹相貼的厚度），兩骨最近 4.0 mm。OK 手勢同樣重新解出（2.8 mm）。數值由 `scripts` 內的優化程式解出後寫入 `app/mj-hand-presets.ts`。
+3. **指間碰撞**：`constrainDigits` 現在會把相鄰兩指的側向角度差限制在 −1° 以上（兩指只能一起偏、或分開，不能互相壓入）。新增 `scripts/test-digit-collision.mjs`（已併入 `npm run check:motion`）：用真實指骨網格取點，檢查相鄰指骨表面距離——三個手勢、每個關節各在最大／最小角度、全部最大／全部最小、再加 120 組固定亂數姿勢（左右手），任何一組都不得小於 3.5 mm（拇指對手指 1.5 mm）。靜止時相鄰指骨間距約 6 mm，握拳時 5.3–6.1 mm。
+4. **軟組織跟隨**：查明長肌腱（屈指深淺肌、伸指肌等）原本在指節處是以「肌纖維收縮」變形，而不是跟著指骨，握拳時離開指骨 14–17 mm，並在指尖變成零碎、鋸齒狀碎片（先前的已知限制）。原因是「手部權重 > 0.5 才還原剛體跟隨」這個判斷沒有把轉移到指節框架的權重算進去（`soft-tissue.ts`）。已改正：肌腱在指骨旁的頂點與其指骨的偏差降到 1–3 mm。另外，位於指骨旁的肌腱／血管／神經頂點加上「與指骨軸線保持原本距離」的修正（`keepOnBone`，彎曲關節內側的兩節指骨混合時會把肌腱擠進骨頭），不會穿進骨頭（最近距離 ≥ 0.78 倍骨半徑）、也不會離骨超過約 3.4 mm（沒有拉成直線）。蚓狀肌、骨間肌、魚際肌與小魚際肌（以平均偏差檢查）、指動脈與指神經、手掌靜脈同樣跟隨（`scripts/test-digits.mjs` 第 6 項，左右手各三個姿勢）。
+5. **手背靜脈網**：手背靜脈網與掌淺／深弓的遠端切口剛好落在指關節線上，原本被「手指起點前 10 mm 開始過渡」的權重拉進近節指骨，指彎曲時切口被拖著繞圈。這幾條改為留在手部框架（`HAND_ONLY`，`digits.ts`）。模型裡沒有手部的背側指靜脈。
+6. **截圖**（張開、握拳、捏取 × 掌面、側面、背面；分「只開骨骼＋肌肉（含肌腱）」與「全部系統」兩組）：`docs/finger-motion/v2/`（共 18 張）。
+
+**已知限制（更新）**：
+- 模型沒有掌腱膜、指伸肌擴張部、屈肌腱鞘與滑車（`Palmar aponeurosis` 等沒有網格），所以這幾項只能列為缺漏，我沒有自行補建；屈肌腱的貼骨是上述剛體跟隨＋保持距離，不是真正的腱鞘滑車。
+- 指尖仍有少量細小的深紅色殘片（屈指深肌腱末端網格的形狀本身是裂開的碎片），握拳時在指尖可見。
+- 指間碰撞用骨骼表面距離（≥ 3.5 mm）判斷，沒有計算皮膚與肌腱的實際厚度；手指的皮膚、掌心肌肉彼此仍可能輕微重疊。拇指在隨機姿勢中不做碰撞限制（只檢查三個手勢與各關節極值）。
+- 拇指軸向仍是近似，CMC 不是真正的鞍狀關節；DIP 與 PIP 沒有連動。
+- 前臂長肌腱的長度變化沒有按力學計算。
+
+## 特殊區域與肌肉分部（需人工審核，請核對）
+
+### 1. 特殊區域：局部高亮（不畫任何假模型）
+選擇特殊區域時，只高亮落在「空間範圍球」內的邊界與內容物，球邊緣柔和漸變；範圍外的邊界維持原色，其餘結構淡化。邊界為薄荷綠、內容物依種類著色（動脈紅、靜脈藍、神經黃，並有發光輪廓）。每個邊界與內容物附小標籤（含位置，例如「Teres minor 小圓肌 — 上界」），以細線連到最靠近區域中心的位置。鏡頭自動轉到指定角度並放大到範圍。預設與取消選擇時，模型上不顯示任何與特殊區域有關的東西。
+
+**範圍球的數值**（單位公尺；中心由真實網格找出各邊界與內容物最靠近的交會處，`reach` 為中心到最遠一條結構的距離；半徑 `r` 為我設定的值，請核對是否合適）。完整表（含右側）見 [`docs/space-ranges.md`](docs/space-ranges.md)，由 `node scripts/compute-space-ranges.mjs` 產生，`npm run check` 會驗證沒有過期。
+
+| 區域 | 半徑 r | 左側中心 (x, y, z) | reach |
+| --- | --- | --- | --- |
+| 四邊孔（quadrangular） | 0.04 | 0.1602, 1.3637, -0.0325 | 0.0094 |
+| 三邊孔（triangular） | 0.03 | 0.148, 1.3648, -0.0362 | 0.0108 |
+| 三頭肌間隙（triangular-interval） | 0.035 | 0.1629, 1.2988, -0.0275 | 0.0256 |
+| 鎖骨胸大肌三角（clavipectoral） | 0.04 | 0.1076, 1.404, 0.0084 | 0.0208 |
+| 腋窩（axillary-fossa） | 0.075 | 0.1442, 1.3515, -0.0195 | 0.0216 |
+| 肘窩（cubital） | 0.05 | 0.211, 1.1228, -0.0153 | 0.0306 |
+| 解剖鼻煙盒（snuffbox） | 0.03 | 0.2774, 0.876, 0.0193 | 0.0072 |
+| 腕隧道（carpal-tunnel） | 0.035 | 0.2568, 0.8826, 0.0288 | 0.0066 |
+| 跗隧道（tarsal-tunnel） | 0.04 | 0.0533, 0.0657, -0.0386 | 0.0146 |
+| 股三角（femoral-triangle） | 0.08 | 0.0522, 0.8531, 0.0325 | 0.0384 |
+| 內收肌管（adductor-canal） | 0.075 | 0.0545, 0.6022, 0.0074 | 0.0163 |
+| 內收肌裂孔（adductor-hiatus） | 0.03 | 0.071, 0.5586, -0.0121 | 0.0085 |
+| 膕窩（popliteal-fossa） | 0.07 | 0.0711, 0.4999, -0.0404 | 0.0361 |
+| 枕下三角（suboccipital） | 0.03 | 0.0242, 1.5558, -0.0408 | 0.0207 |
+| 主動脈裂孔（aortic-hiatus） | 0.04 | -0.0075, 1.1546, -0.0019 | 0.01 |
+
+**模型沒有、因此沒有高亮的邊界／內容物**（不以假模型代替；補上後會自動出現）：
+- 鎖骨胸大肌三角：胸肩峰動脈
+- 腋窩：腋淋巴結
+- 肘窩：肱二頭肌腱膜（頂）、肱骨外上髁（骨性標記）
+- 股三角：闊筋膜（含篩筋膜）、股管與其淋巴結
+- 膕窩：膕斜韌帶與膝關節囊後面、股骨膕面（暫以股骨代替）、膕筋膜、膕淋巴結
+- 另外「股內側肌神經」目前是示意神經（MJ 補建），不是真實網格，請一併核對。
+- 股三角、內收肌管、膕窩沒有對應的示意空間網格，因此搜尋框搜不到這三項，只能從「分層解剖 → Spaces｜特殊區域」選擇（搜尋支援待做）。
+
+**本次邊界／內容物的依據**：採用你提供的清單；有取捨的地方：解剖鼻煙盒內容物只保留橈動脈（原有的橈神經淺支、頭靜脈已移除，以符合你的清單）；腋窩邊界改為胸大肌、背闊肌、大圓肌、前鋸肌、肱骨（移除胸小肌、肩胛下肌）。
+
+### 2. 肌肉分部資訊卡（起點、止點、作用不再抄整條肌肉）
+共 35 個分部（斜方肌降／橫／升部、三角肌前／中／後部、胸大肌鎖骨／胸肋／腹部、肱二頭肌長／短頭、肱三頭肌長／外側／內側頭、腓腸肌內／外側頭、股二頭肌長／短頭、旋前圓肌與尺側屈腕肌兩頭、拇內收肌與拇趾內收肌兩頭、拇短屈肌與拇趾短屈肌兩頭、咬肌淺／深部、外翼肌上／下頭、眼輪匝肌眶部／瞼部）。`npm run check` 會檢查每一個這類分部都有自己的資料，沒有就失敗。完整表（含神經與血供）見 [`docs/muscle-part-facts.md`](docs/muscle-part-facts.md)。起點、止點、作用如下，請逐列核對：
+
+| 分部 | 中文 | 起點 | 止點 | 作用 |
+| --- | --- | --- | --- | --- |
+| abdominal part of pectoralis major | 胸大肌腹部 | Aponeurosis of the external oblique | Lateral lip of the intertubercular sulcus of the humerus | Depresses the shoulder; extends the flexed arm |
+| acromial part of deltoid | 三角肌肩峰部（中部） | Lateral margin and superior surface of the acromion | Deltoid tuberosity of the humerus | Abducts the arm (from about 15° to 90°, after supraspinatus has started the movement) |
+| ascending part of trapezius | 斜方肌升部 | Spinous processes of T4–T12 and the supraspinous ligaments | Tubercle at the medial end of the spine of the scapula (via an aponeurosis) | Depresses the scapula; with the descending part rotates the scapula upward |
+| clavicular part of deltoid | 三角肌鎖骨部（前部） | Lateral third of the anterior border of the clavicle | Deltoid tuberosity of the humerus | Flexes and medially rotates the arm |
+| clavicular part of pectoralis major | 胸大肌鎖骨部 | Medial half of the clavicle | Lateral lip of the intertubercular sulcus of the humerus | Flexes the arm (from the extended position); adducts and medially rotates the arm |
+| deep part of masseter | 咬肌深部 | Medial surface of the zygomatic arch and the posterior third of its inferior border | Superior half of the ramus of the mandible and the lateral surface of the coronoid process | Elevates and retracts the mandible |
+| descending part of trapezius | 斜方肌降部 | Medial third of superior nuchal line, external occipital protuberance, nuchal ligament | Posterior border of lateral third of clavicle | Elevates the scapula (shrug); with the ascending part rotates the scapula upward; extends and rotates the head and neck |
+| humeral head of flexor carpi ulnaris | 尺側屈腕肌肱骨頭 | Medial epicondyle of the humerus (common flexor tendon) | Pisiform, hook of the hamate and base of the fifth metacarpal | Flexes and adducts (ulnar deviation) the wrist |
+| humeral head of pronator teres | 旋前圓肌肱骨頭 | Medial epicondyle of the humerus (common flexor tendon) | Middle of the lateral surface of the radius (pronator tuberosity) | Pronates the forearm; weakly flexes the elbow |
+| lateral head of flexor hallucis brevis | 拇趾短屈肌外側頭 | Cuboid and lateral cuneiform | Lateral side of the base of the proximal phalanx of the great toe (via the lateral sesamoid) | Flexes the metatarsophalangeal joint of the great toe |
+| lateral head of gastrocnemius | 腓腸肌外側頭 | Lateral surface of the lateral condyle of the femur | Posterior surface of the calcaneus via the calcaneal tendon | Plantarflexes the ankle; flexes the knee |
+| lateral head of triceps brachii | 肱三頭肌外側頭 | Posterior surface of the humerus, above the radial groove | Proximal end of the olecranon of the ulna (common tendon) | Extends the elbow (the strong head for powerful extension) |
+| long head of biceps brachii | 肱二頭肌長頭 | Supraglenoid tubercle of the scapula | Radial tuberosity and, via the bicipital aponeurosis, the deep fascia of the forearm | Flexes the elbow and supinates the forearm; helps hold the humeral head in the glenoid |
+| long head of biceps femoris | 股二頭肌長頭 | Inferomedial part of the ischial tuberosity | Head of the fibula (lateral side); lateral condyle of the tibia | Flexes the knee, extends the hip and laterally rotates the flexed knee |
+| long head of triceps brachii | 肱三頭肌長頭 | Infraglenoid tubercle of the scapula | Proximal end of the olecranon of the ulna (common tendon) | Extends the elbow; extends and adducts the arm at the shoulder |
+| lower head of lateral pterygoid | 外翼肌下頭 | Lateral surface of the lateral plate of the pterygoid process | Pterygoid fovea on the neck of the mandible | Protrudes and depresses the mandible (opens the mouth); acting alone on one side moves the jaw to the opposite side |
+| medial head of flexor hallucis brevis | 拇趾短屈肌內側頭 | Medial cuneiform and the tendon of tibialis posterior | Medial side of the base of the proximal phalanx of the great toe (via the medial sesamoid) | Flexes the metatarsophalangeal joint of the great toe |
+| medial head of gastrocnemius | 腓腸肌內側頭 | Popliteal surface of the femur, above the medial condyle | Posterior surface of the calcaneus via the calcaneal tendon | Plantarflexes the ankle; flexes the knee |
+| medial head of triceps brachii | 肱三頭肌內側頭 | Posterior surface of the humerus, below the radial groove, and the medial and lateral intermuscular septa | Proximal end of the olecranon of the ulna (common tendon) | Extends the elbow (the constant, weaker head) |
+| oblique head of adductor hallucis | 拇趾內收肌斜頭 | Bases of metatarsals 2–4 and the sheath of the tendon of fibularis longus | Lateral side of the base of the proximal phalanx of the great toe (via the lateral sesamoid) | Adducts the great toe; helps maintain the transverse arch of the foot |
+| oblique head of adductor pollicis | 拇內收肌斜頭 | Bases of the second and third metacarpals, capitate and adjacent carpal bones | Medial side of the base of the proximal phalanx of the thumb (via the sesamoid) | Adducts the thumb |
+| orbital part of orbicularis oculi | 眼輪匝肌眶部 | Nasal part of the frontal bone, frontal process of the maxilla and the medial palpebral ligament | Loops round the orbit and returns to the medial side, blending with the surrounding muscles | Closes the eyelids tightly (forced closure) |
+| palpebral part of orbicularis oculi | 眼輪匝肌瞼部 | Medial palpebral ligament and the adjacent bone | Lateral palpebral raphe | Closes the eyelids gently (blinking) |
+| short head of biceps brachii | 肱二頭肌短頭 | Apex of the coracoid process of the scapula | Radial tuberosity and, via the bicipital aponeurosis, the deep fascia of the forearm | Flexes the elbow and supinates the forearm; weakly flexes and adducts the arm at the shoulder |
+| short head of biceps femoris | 股二頭肌短頭 | Lateral lip of the linea aspera and the lateral supracondylar line of the femur | Head of the fibula (lateral side); lateral condyle of the tibia | Flexes the knee and laterally rotates the flexed knee (does not act on the hip) |
+| spinal part of deltoid | 三角肌肩胛棘部（後部） | Inferior lip of the crest of the spine of the scapula | Deltoid tuberosity of the humerus | Extends and laterally rotates the arm |
+| sternocostal part of pectoralis major | 胸大肌胸肋部 | Anterior surface of the sternum and the costal cartilages of ribs 1–6 | Lateral lip of the intertubercular sulcus of the humerus | Adducts and medially rotates the arm; extends the flexed arm |
+| superficial head of flexor pollicis brevis | 拇短屈肌淺頭 | Flexor retinaculum and tubercle of the trapezium | Lateral side of the base of the proximal phalanx of the thumb (via the lateral sesamoid) | Flexes the metacarpophalangeal joint of the thumb |
+| superficial part of masseter | 咬肌淺部 | Zygomatic process of the maxilla and the anterior two thirds of the inferior border of the zygomatic arch | Angle and inferior half of the lateral surface of the ramus of the mandible | Elevates and protrudes the mandible |
+| transverse head of adductor hallucis | 拇趾內收肌橫頭 | Capsules of the metatarsophalangeal joints 3–5 and the deep transverse metatarsal ligament | Lateral side of the base of the proximal phalanx of the great toe (via the lateral sesamoid) | Adducts the great toe; helps maintain the transverse arch of the foot |
+| transverse head of adductor pollicis | 拇內收肌橫頭 | Anterior surface of the shaft of the third metacarpal | Medial side of the base of the proximal phalanx of the thumb (via the sesamoid) | Adducts the thumb |
+| transverse part of trapezius | 斜方肌橫部 | Spinous processes of C7–T3 and the supraspinous ligament | Medial margin of the acromion and the superior lip of the crest of the spine of the scapula | Retracts the scapula (draws it towards the vertebral column) |
+| ulnar head of flexor carpi ulnaris | 尺側屈腕肌尺骨頭 | Olecranon and posterior border of the ulna (via an aponeurosis) | Pisiform, hook of the hamate and base of the fifth metacarpal | Flexes and adducts (ulnar deviation) the wrist |
+| ulnar head of pronator teres | 旋前圓肌尺骨頭 | Medial border of the coronoid process of the ulna | Middle of the lateral surface of the radius (pronator tuberosity) | Pronates the forearm |
+| upper head of lateral pterygoid | 外翼肌上頭 | Infratemporal surface and infratemporal crest of the greater wing of the sphenoid | Articular disc and capsule of the temporomandibular joint | Steadies the articular disc during closing of the mouth |
 
 ## 總覽
 

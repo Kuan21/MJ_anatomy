@@ -60,7 +60,7 @@ for (const region of Object.keys(poses)) {
 {
   const solveArm = m.createShoulderSolver(atlas), U = m.MOTION_LIMITS;
   for (const side of ['left', 'right']) {
-    const pose = {...m.NEUTRAL_POSE, shoulderAbduction: U.shoulderAbduction[1], elbowFlexion: U.elbowFlexion[1], forearmRotation: U.forearmRotation[1], wristFlexion: U.wristFlexion[1]};
+    const pose = {...m.NEUTRAL_POSE, shoulderAbduction: U.shoulderAbduction[1], elbowFlexion: U.elbowFlexion[1], forearmRotation: U.forearmRotation[1], wristFlexion: U.wristFlexion[1], ...Object.fromEntries(Object.keys(U).filter(k => /^(thumb|index|middle|ring|little)/.test(k)).map(k => [k, U[k][1]]))}; // every finger joint at its limit too
     const {transforms} = m.buildUpperLimbMotion(atlas, side, pose), gpu = [];
     const results = solveArm(inputs, transforms, gpu), solved = new Set([...results.map(r => r.id), ...gpu.map(g => g.id)]);
     const mine = inputs.filter(i => m.anatomicalRegion(i.part) === 'upper-limb' && m.anatomicalSide(i.part) === side && !m.isMotionQuarantined(i.part));

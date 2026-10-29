@@ -21,6 +21,8 @@ function App() {
     window.addEventListener('hashchange', change);
     return () => window.removeEventListener('hashchange', change);
   }, []);
+  // The eye and ear detail atlases are hidden for now (ROADMAP.md): a link to one returns to the atlas.
+  useEffect(() => { if (/^#\/(?:organ\/|micro\/)?(?:eye|ear)\b/.test(hash)) { history.replaceState(null, '', location.pathname + location.search); setHash(''); } }, [hash]);
   const quiz = regionOfHash(hash), hub = isQuizHub(hash);
   // The tab title follows the screen; going back to the atlas (also with the browser's back and forward buttons) must restore the main title.
   useEffect(() => {
