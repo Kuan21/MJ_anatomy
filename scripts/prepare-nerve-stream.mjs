@@ -12,6 +12,7 @@ fs.mkdirSync(out,{recursive:true});fs.mkdirSync(new URL('.sites-runtime/',root),
 fs.copyFileSync(new URL('public/draco/draco_wasm_wrapper.js',root),new URL('.sites-runtime/nerve-draco.cjs',root));
 const draco=await createRequire(import.meta.url)(new URL('.sites-runtime/nerve-draco.cjs',root).pathname)({wasmBinary:fs.readFileSync(new URL('public/draco/draco_decoder.wasm',root))});
 const bytes=fs.readFileSync(new URL('public/models/nervous.glb',root)),n=bytes.readUInt32LE(12),gltf=JSON.parse(bytes.subarray(20,20+n)),bin=bytes.subarray(28+n);
+const blocked=new Set(JSON.parse(fs.readFileSync(new URL('app/biomechanics-v2/blocked-overlay-meshes.json',root))).names);
 const bindings={...JSON.parse(fs.readFileSync(new URL('app/biomechanics-v2/nerve-bindings.json',root))),...JSON.parse(fs.readFileSync(new URL('app/biomechanics-v2/body-nerve-bindings.json',root)))};
 const parents=new Map(),world=[];gltf.nodes.forEach((node,i)=>(node.children??[]).forEach(c=>parents.set(c,i)));
 function matrix(i){if(world[i])return world[i];const node=gltf.nodes[i],m=node.matrix?new Matrix4().fromArray(node.matrix):new Matrix4().compose(new Vector3(...(node.translation??[0,0,0])),new Quaternion(...(node.rotation??[0,0,0,1])),new Vector3(...(node.scale??[1,1,1])));return world[i]=parents.has(i)?matrix(parents.get(i)).clone().multiply(m):m;}
@@ -21,6 +22,7 @@ for(const [i,node] of gltf.nodes.entries()){
  if(node.mesh===undefined)continue;
  const ancestry=[];for(let p=parents.get(i);p!==undefined;p=parents.get(p))ancestry.push(gltf.nodes[p].name??'');
  const name=node.name??'',fullName=[name,...ancestry].join(' '),spinal=/spinal cord|medulla spinalis/i.test(fullName);
+ if(blocked.has(name))continue;
  if(!bindings[name]&&!spinal&&!/nerve|ganglion|ganglia|plexus|ramus|rami|sympathetic trunk/i.test(name))continue;
  if(ancestry.some(s=>/central nervous system/i.test(s))&&!spinal)continue;
  for(const primitive of gltf.meshes[node.mesh].primitives){

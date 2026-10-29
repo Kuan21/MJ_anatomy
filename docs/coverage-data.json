@@ -1,9 +1,9 @@
 {
  "totals": {
   "terms": 3816,
-  "have": 1204,
+  "have": 1213,
   "findability": 0,
-  "missing": 1136,
+  "missing": 1127,
   "landmark": 263,
   "noise": 650
  },
@@ -4381,7 +4381,7 @@
      "zh": "顏面運動核",
      "kind": "exact",
      "model": "Motor nucleus of facial nerve",
-     "source": "nerve",
+     "source": "brain",
      "system": "nervous"
     },
     {
@@ -4421,14 +4421,6 @@
      "zh": "合形成一條副神經",
      "kind": "exact",
      "model": "Accessory nerve (XI)",
-     "source": "nerve",
-     "system": "nervous"
-    },
-    {
-     "term": "Hypoglossal nucleus",
-     "zh": null,
-     "kind": "exact",
-     "model": "Nucleus of hypoglossal nerve",
      "source": "nerve",
      "system": "nervous"
     },
@@ -4477,7 +4469,7 @@
      "zh": "運動",
      "kind": "contained",
      "model": "Motor nucleus of facial nerve",
-     "source": "nerve",
+     "source": "brain",
      "system": "nervous"
     },
     {
@@ -4532,7 +4524,7 @@
      "term": "oculomotor",
      "zh": "動眼神經核",
      "kind": "exact",
-     "model": "Nucleus of oculomotor nerve",
+     "model": "Oculomotor nerve (III)",
      "source": "nerve",
      "system": "nervous"
     },
@@ -4641,6 +4633,10 @@
     },
     {
      "term": "Formed from a cranial root",
+     "zh": null
+    },
+    {
+     "term": "Hypoglossal nucleus",
      "zh": null
     },
     {
@@ -4973,6 +4969,14 @@
      "system": "muscular"
     },
     {
+     "term": "recto-uterine pouch",
+     "zh": null,
+     "kind": "exact",
+     "model": "Rectouterine pouch",
+     "source": "female",
+     "system": "serous"
+    },
+    {
      "term": "Mammary gland",
      "zh": null,
      "kind": "exact",
@@ -4987,6 +4991,22 @@
      "model": "Gracile lobule",
      "source": "brain",
      "system": "nervous"
+    },
+    {
+     "term": "Lactiferous ducts",
+     "zh": "放射排列的輸乳管",
+     "kind": "exact",
+     "model": "Right lactiferous ducts",
+     "source": "paokao",
+     "system": "reproductive"
+    },
+    {
+     "term": "Lactiferous sinus",
+     "zh": "方有稍微膨大的輸乳竇",
+     "kind": "contained",
+     "model": "Right lactiferous sinuses",
+     "source": "paokao",
+     "system": "reproductive"
     },
     {
      "term": "pituitary gland",
@@ -5089,6 +5109,14 @@
      "zh": "子宮擴韌帶",
      "kind": "exact",
      "model": "Broad ligament of uterus",
+     "source": "female",
+     "system": "reproductive"
+    },
+    {
+     "term": "mesosalpinx",
+     "zh": "輸卵管繫膜",
+     "kind": "exact",
+     "model": "Left mesosalpinx",
      "source": "female",
      "system": "reproductive"
     },
@@ -5216,24 +5244,12 @@
      "zh": null
     },
     {
-     "term": "recto-uterine pouch",
-     "zh": null
-    },
-    {
      "term": "Modified sweat gland",
      "zh": "皮膚系統的特化汗腺"
     },
     {
      "term": "Tubuloalveolar exocrine gland",
      "zh": "泡狀的複合式外分泌腺"
-    },
-    {
-     "term": "Lactiferous ducts",
-     "zh": "放射排列的輸乳管"
-    },
-    {
-     "term": "Lactiferous sinus",
-     "zh": "方有稍微膨大的輸乳竇"
     },
     {
      "term": "vocal cord",
@@ -5310,10 +5326,6 @@
     {
      "term": "mesometrium",
      "zh": "子宮繫膜"
-    },
-    {
-     "term": "mesosalpinx",
-     "zh": "輸卵管繫膜"
     },
     {
      "term": "mesovarian",
@@ -9029,6 +9041,14 @@
      "system": "venous"
     },
     {
+     "term": "Thoracoepigastric v",
+     "zh": null,
+     "kind": "exact",
+     "model": "Right thoracoepigastric vein",
+     "source": "paokao",
+     "system": "venous"
+    },
+    {
      "term": "Sup. epigastric v",
      "zh": null,
      "kind": "exact",
@@ -9253,10 +9273,6 @@
     },
     {
      "term": "Paraumbilical v",
-     "zh": null
-    },
-    {
-     "term": "Thoracoepigastric v",
      "zh": null
     },
     {
@@ -10269,6 +10285,22 @@
      "system": "reproductive"
     },
     {
+     "term": "lactiferous duct",
+     "zh": "葉分泌乳汁經由乳腺管",
+     "kind": "exact",
+     "model": "Right lactiferous ducts",
+     "source": "paokao",
+     "system": "reproductive"
+    },
+    {
+     "term": "lactiferous sinus",
+     "zh": "匯集輸乳竇",
+     "kind": "contained",
+     "model": "Right lactiferous sinuses",
+     "source": "paokao",
+     "system": "reproductive"
+    },
+    {
      "term": "subclavian artery",
      "zh": "鎖骨下動脈",
      "kind": "exact",
@@ -10642,14 +10674,6 @@
     {
      "term": "pectoralis fascia",
      "zh": null
-    },
-    {
-     "term": "lactiferous duct",
-     "zh": "葉分泌乳汁經由乳腺管"
-    },
-    {
-     "term": "lactiferous sinus",
-     "zh": "匯集輸乳竇"
     },
     {
      "term": "axillary lymph node",
@@ -14425,6 +14449,22 @@
      "system": "muscular"
     },
     {
+     "term": "Vesicouterine pouch",
+     "zh": "膀胱子宮陷凹",
+     "kind": "exact",
+     "model": "Vesicouterine pouch",
+     "source": "female",
+     "system": "serous"
+    },
+    {
+     "term": "Rectouterine pouch",
+     "zh": "直腸子宮陷凹",
+     "kind": "exact",
+     "model": "Rectouterine pouch",
+     "source": "female",
+     "system": "serous"
+    },
+    {
      "term": "Superior rectal a",
      "zh": "上直腸動脈",
      "kind": "exact",
@@ -14825,6 +14865,22 @@
      "system": "reproductive"
     },
     {
+     "term": "peritoneum",
+     "zh": "脹大的膀胱會將腹膜",
+     "kind": "contained",
+     "model": "Pelvic peritoneum",
+     "source": "serous",
+     "system": "serous"
+    },
+    {
+     "term": "trigone",
+     "zh": "膀胱三角",
+     "kind": "contained",
+     "model": "Trigone of urinary bladder",
+     "source": "female",
+     "system": "urinary"
+    },
+    {
      "term": "ureter",
      "zh": "方的兩個頂點為輸尿管",
      "kind": "exact",
@@ -14839,6 +14895,14 @@
      "model": "Urethra",
      "source": "atlas",
      "system": "urinary"
+    },
+    {
+     "term": "mesosalpinx",
+     "zh": "分別為輸卵管繫膜",
+     "kind": "exact",
+     "model": "Left mesosalpinx",
+     "source": "female",
+     "system": "reproductive"
     },
     {
      "term": "mesovarium",
@@ -15004,16 +15068,8 @@
      "zh": "直腸膀胱陷凹"
     },
     {
-     "term": "Vesicouterine pouch",
-     "zh": "膀胱子宮陷凹"
-    },
-    {
      "term": "broad and round ligaments",
      "zh": null
-    },
-    {
-     "term": "Rectouterine pouch",
-     "zh": "直腸子宮陷凹"
     },
     {
      "term": "Ovarian a",
@@ -15260,10 +15316,6 @@
      "zh": "約肌"
     },
     {
-     "term": "peritoneum",
-     "zh": "脹大的膀胱會將腹膜"
-    },
-    {
      "term": "serosa",
      "zh": "漿膜層"
     },
@@ -15278,10 +15330,6 @@
     {
      "term": "intraureteric fold",
      "zh": "膀胱褶"
-    },
-    {
-     "term": "trigone",
-     "zh": "膀胱三角"
     },
     {
      "term": "intramural part",
@@ -15374,10 +15422,6 @@
     {
      "term": "germinal epithelium",
      "zh": "外面由一層生殖上皮"
-    },
-    {
-     "term": "mesosalpinx",
-     "zh": "分別為輸卵管繫膜"
     },
     {
      "term": "mesometrium",
