@@ -17,6 +17,7 @@
 - **不使用**牛津、劍橋、韋氏字典的內容，「查字典」只是開新分頁的連結（Oxford Learner’s、Cambridge）。
 - **狀態**：已校對＝名稱在 `app/pronunciation/reviewed.json`（由你核對後加入），或你在這個瀏覽器勾選「我已核對」（只存在瀏覽器），或每個字都有 Wiktionary 音標＋真人錄音。其餘（由瀏覽器語音朗讀、或有字缺音標）一律「發音待校對」。
 - **資料**：`public/pronunciation.json`，由 `node scripts/fetch-pronunciation.mjs` 產生（只抓上肢、下肢、背部、胸腔四個考試範圍的名稱，批次請求並遵守 Retry-After）；缺 IPA／缺錄音的字列在 `docs/pronunciation-words.md`；`npm run check`（`scripts/check-pronunciation.mjs`）檢查授權、網址來源與格式。
+- **目前資料**（2026-10-29 抓取）：考試範圍名稱共 293 個不同的字，193 個字有 Wiktionary 詞條資料，其中 187 個有 IPA，49 個有 Commons 免費錄音（授權：CC0 16、CC BY-SA 4.0 20、CC BY-SA 3.0 10、CC BY 3.0 4、CC BY 2.5 1）。多數解剖拉丁字（如 latissimus、pectoralis、brachii）在 Wiktionary 沒有英文詞條或沒有音標，這些名稱一律「發音待校對」，缺漏的字列在 `docs/pronunciation-words.md`。我沒有試聽或核對任何一筆音標與錄音（錄音網址來自 Commons API，因環境被 Wikimedia 限流，沒能下載檔案確認可播放），請你抽查。
 - **你怎麼標已校對**：把英文名稱（例如 `Latissimus dorsi`）加進 `app/pronunciation/reviewed.json` 的 `reviewed` 清單，或回覆我名單由我加入。
 
 ## 最新進度（2026-10-29）
