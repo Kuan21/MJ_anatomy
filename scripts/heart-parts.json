@@ -43,8 +43,8 @@
   },
   {
    "id": "interior",
-   "label": "腔內構造（MJ 補建）",
-   "english": "Internal structures (MJ-built)"
+   "label": "腔內構造（示意構造）",
+   "english": "Internal structures (schematic)"
   }
  ],
  "parts": [
@@ -361,7 +361,11 @@
    "group": "vessels",
    "system": "venous",
    "zhDesc": "收集頭頸、上肢與胸壁上部的缺氧血，向下開口於右心房的上部。",
-   "enDesc": "Collects deoxygenated blood from the head, neck, upper limbs and upper thoracic wall and opens into the upper part of the right atrium."
+   "enDesc": "Collects deoxygenated blood from the head, neck, upper limbs and upper thoracic wall and opens into the upper part of the right atrium.",
+   "clip": {
+    "axis": 1,
+    "max": 1.362
+   }
   },
   {
    "node": "Inferior vena cava (thoracic part)",
@@ -370,7 +374,11 @@
    "group": "vessels",
    "system": "venous",
    "zhDesc": "收集橫膈以下身體的缺氧血，穿過橫膈的腔靜脈孔，開口於右心房的下部。",
-   "enDesc": "Collects deoxygenated blood from the body below the diaphragm, passes through the caval opening of the diaphragm and opens into the lower part of the right atrium."
+   "enDesc": "Collects deoxygenated blood from the body below the diaphragm, passes through the caval opening of the diaphragm and opens into the lower part of the right atrium.",
+   "clip": {
+    "axis": 1,
+    "min": 1.222
+   }
   },
   {
    "node": "Left superior pulmonary vein",
@@ -543,8 +551,8 @@
    "build": [
     "Crista terminalis"
    ],
-   "zhDesc": "右心房內壁的垂直肌嵴，從上腔靜脈開口前方走到下腔靜脈開口前方，分隔光滑的腔靜脈竇與有梳狀肌的固有心房，外表對應界溝。（MJ 補建：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
-   "enDesc": "A vertical muscular ridge on the inside of the right atrium from in front of the opening of the superior vena cava to in front of the inferior vena cava; it separates the smooth sinus venarum from the pectinate part and matches the sulcus terminalis outside. (MJ-built: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+   "zhDesc": "右心房內壁的垂直肌嵴，從上腔靜脈開口前方走到下腔靜脈開口前方，分隔光滑的腔靜脈竇與有梳狀肌的固有心房，外表對應界溝。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "A vertical muscular ridge on the inside of the right atrium from in front of the opening of the superior vena cava to in front of the inferior vena cava; it separates the smooth sinus venarum from the pectinate part and matches the sulcus terminalis outside. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
   },
   {
    "name": "Pectinate muscles",
@@ -554,8 +562,8 @@
    "build": [
     "Pectinate muscles"
    ],
-   "zhDesc": "右心房前外側壁與右心耳內的平行肌肉嵴，由界嵴向前伸出，使內壁呈梳齒狀。（MJ 補建：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
-   "enDesc": "Parallel muscular ridges on the anterolateral wall of the right atrium and in the right auricle; they arise from the crista terminalis and run forward, giving the wall a comb-like look. (MJ-built: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+   "zhDesc": "右心房前外側壁與右心耳內的平行肌肉嵴，由界嵴向前伸出，使內壁呈梳齒狀。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "Parallel muscular ridges on the anterolateral wall of the right atrium and in the right auricle; they arise from the crista terminalis and run forward, giving the wall a comb-like look. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
   },
   {
    "name": "Interatrial septum",
@@ -565,8 +573,8 @@
    "build": [
     "Interatrial septum"
    ],
-   "zhDesc": "分隔左、右心房的薄壁，右側有卵圓窩。（MJ 補建：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
-   "enDesc": "The thin wall between the right and left atria; the fossa ovalis lies on its right side. (MJ-built: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+   "zhDesc": "分隔左、右心房的薄壁，右側有卵圓窩。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "The thin wall between the right and left atria; the fossa ovalis lies on its right side. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
   },
   {
    "name": "Fossa ovalis",
@@ -577,8 +585,8 @@
     "Fossa ovalis",
     "Fossa ovalis rim"
    ],
-   "zhDesc": "心房中隔右側、下腔靜脈開口上方的橢圓凹窩，邊緣隆起（卵圓窩緣），是胎兒期卵圓孔閉合後的痕跡。（MJ 補建：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
-   "enDesc": "An oval depression on the right side of the interatrial septum above the opening of the inferior vena cava, with a raised rim (limbus); it is the remnant of the foramen ovale of the fetus. (MJ-built: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+   "zhDesc": "心房中隔右側、下腔靜脈開口上方的橢圓凹窩，邊緣隆起（卵圓窩緣），是胎兒期卵圓孔閉合後的痕跡。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "An oval depression on the right side of the interatrial septum above the opening of the inferior vena cava, with a raised rim (limbus); it is the remnant of the foramen ovale of the fetus. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
   },
   {
    "name": "Right auricle",
@@ -588,8 +596,8 @@
    "build": [
     "Right auricle"
    ],
-   "zhDesc": "右心房向前突出的三角形小囊，覆蓋升主動脈根部，內壁有梳狀肌。（MJ 補建：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
-   "enDesc": "The triangular pouch projecting forward from the right atrium over the root of the ascending aorta; its inner wall carries pectinate muscles. (MJ-built: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+   "zhDesc": "右心房向前突出的三角形小囊，覆蓋升主動脈根部，內壁有梳狀肌。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "The triangular pouch projecting forward from the right atrium over the root of the ascending aorta; its inner wall carries pectinate muscles. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
   },
   {
    "name": "Left auricle",
@@ -599,8 +607,8 @@
    "build": [
     "Left auricle"
    ],
-   "zhDesc": "左心房向前突出的細長小囊，位於肺動脈幹左側，內壁有梳狀肌；心房顫動時血栓好發於此。（MJ 補建：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
-   "enDesc": "The narrow pouch projecting forward from the left atrium beside the pulmonary trunk; its wall has pectinate muscles and thrombus forms here in atrial fibrillation. (MJ-built: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+   "zhDesc": "左心房向前突出的細長小囊，位於肺動脈幹左側，內壁有梳狀肌；心房顫動時血栓好發於此。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "The narrow pouch projecting forward from the left atrium beside the pulmonary trunk; its wall has pectinate muscles and thrombus forms here in atrial fibrillation. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
   },
   {
    "name": "Interventricular septum",
@@ -610,8 +618,8 @@
    "build": [
     "Interventricular septum"
    ],
-   "zhDesc": "分隔左、右心室的厚壁，大部分為肌部，上方靠近主動脈瓣下的一小塊為膜部。（MJ 補建：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
-   "enDesc": "The thick wall between the ventricles, mostly muscular; a small membranous part lies just below the aortic valve. (MJ-built: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+   "zhDesc": "分隔左、右心室的厚壁，大部分為肌部，上方靠近主動脈瓣下的一小塊為膜部。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "The thick wall between the ventricles, mostly muscular; a small membranous part lies just below the aortic valve. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
   },
   {
    "name": "Trabeculae carneae of right ventricle",
@@ -621,8 +629,8 @@
    "build": [
     "Trabeculae carneae of right ventricle"
    ],
-   "zhDesc": "右心室內壁粗大而不規則的肌肉隆起，分為嵴狀、橋狀與乳突肌三型；右心室壁約為左心室的三分之一厚。（MJ 補建：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
-   "enDesc": "Coarse, irregular muscular ridges on the inner wall of the right ventricle (ridges, bridges and papillary muscles); the right ventricular wall is about one third as thick as the left. (MJ-built: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+   "zhDesc": "右心室內壁粗大而不規則的肌肉隆起，分為嵴狀、橋狀與乳突肌三型；右心室壁約為左心室的三分之一厚。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "Coarse, irregular muscular ridges on the inner wall of the right ventricle (ridges, bridges and papillary muscles); the right ventricular wall is about one third as thick as the left. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
   },
   {
    "name": "Septomarginal trabecula (moderator band)",
@@ -632,8 +640,8 @@
    "build": [
     "Septomarginal trabecula"
    ],
-   "zhDesc": "由室間隔下部橫過右心室腔，連到前乳突肌基部的肌肉柱，內有右束支通過，使右心室不致過度擴張。（MJ 補建：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
-   "enDesc": "A muscular band from the lower interventricular septum across the right ventricle to the base of the anterior papillary muscle; it carries the right bundle branch and helps prevent overdistension. (MJ-built: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+   "zhDesc": "由室間隔下部橫過右心室腔，連到前乳突肌基部的肌肉柱，內有右束支通過，使右心室不致過度擴張。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "A muscular band from the lower interventricular septum across the right ventricle to the base of the anterior papillary muscle; it carries the right bundle branch and helps prevent overdistension. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
   },
   {
    "name": "Supraventricular crest",
@@ -643,8 +651,8 @@
    "build": [
     "Supraventricular crest"
    ],
-   "zhDesc": "位於右房室口與肺動脈口之間的弓形肌嵴，分隔粗糙的流入部與平滑的動脈圓錐。（MJ 補建：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
-   "enDesc": "The arched muscular ridge between the tricuspid and pulmonary orifices that separates the rough inflow part from the smooth conus arteriosus. (MJ-built: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+   "zhDesc": "位於右房室口與肺動脈口之間的弓形肌嵴，分隔粗糙的流入部與平滑的動脈圓錐。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "The arched muscular ridge between the tricuspid and pulmonary orifices that separates the rough inflow part from the smooth conus arteriosus. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
   },
   {
    "name": "Conus arteriosus",
@@ -654,8 +662,8 @@
    "build": [
     "Conus arteriosus"
    ],
-   "zhDesc": "右心室通往肺動脈口的光滑漏斗狀流出道，又稱漏斗部。（MJ 補建：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
-   "enDesc": "The smooth, funnel-shaped outflow tract of the right ventricle leading to the pulmonary orifice (infundibulum). (MJ-built: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+   "zhDesc": "右心室通往肺動脈口的光滑漏斗狀流出道，又稱漏斗部。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "The smooth, funnel-shaped outflow tract of the right ventricle leading to the pulmonary orifice (infundibulum). (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
   },
   {
    "name": "Trabeculae carneae of left ventricle",
@@ -665,8 +673,8 @@
    "build": [
     "Trabeculae carneae of left ventricle"
    ],
-   "zhDesc": "左心室內壁的肌肉隆起，比右心室細密；左心室壁約為右心室的三倍厚。（MJ 補建：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
-   "enDesc": "The muscular ridges of the left ventricular wall, finer and denser than on the right; the left ventricular wall is about three times as thick as the right. (MJ-built: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+   "zhDesc": "左心室內壁的肌肉隆起，比右心室細密；左心室壁約為右心室的三倍厚。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "The muscular ridges of the left ventricular wall, finer and denser than on the right; the left ventricular wall is about three times as thick as the right. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
   },
   {
    "name": "Aortic vestibule",
@@ -676,8 +684,8 @@
    "build": [
     "Aortic vestibule"
    ],
-   "zhDesc": "左心室內僧帽瓣前瓣與室間隔之間、通往主動脈口的光滑流出道。（MJ 補建：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
-   "enDesc": "The smooth outflow part of the left ventricle between the anterior mitral leaflet and the septum, leading to the aortic orifice. (MJ-built: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+   "zhDesc": "左心室內僧帽瓣前瓣與室間隔之間、通往主動脈口的光滑流出道。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "The smooth outflow part of the left ventricle between the anterior mitral leaflet and the septum, leading to the aortic orifice. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
   },
   {
    "name": "Sinoatrial nodal artery",
@@ -687,8 +695,8 @@
    "build": [
     "Sinoatrial nodal artery"
    ],
-   "zhDesc": "多數人起自右冠狀動脈，沿右心房前壁向上到上腔靜脈根部，並繞過上腔靜脈供應竇房結。（MJ 補建：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
-   "enDesc": "In most people it arises from the right coronary artery, runs up the front of the right atrium to the root of the superior vena cava and round it to supply the sinoatrial node. (MJ-built: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+   "zhDesc": "多數人起自右冠狀動脈，沿右心房前壁向上到上腔靜脈根部，並繞過上腔靜脈供應竇房結。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "In most people it arises from the right coronary artery, runs up the front of the right atrium to the root of the superior vena cava and round it to supply the sinoatrial node. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
   },
   {
    "name": "Left marginal branch",
@@ -698,8 +706,8 @@
    "build": [
     "Left marginal branch"
    ],
-   "zhDesc": "迴旋支沿左心室鈍緣向心尖走行的分支，供應左心室側壁。（MJ 補建：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
-   "enDesc": "A branch of the circumflex artery running down the obtuse margin of the left ventricle to supply its lateral wall. (MJ-built: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+   "zhDesc": "迴旋支沿左心室鈍緣向心尖走行的分支，供應左心室側壁。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "A branch of the circumflex artery running down the obtuse margin of the left ventricle to supply its lateral wall. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
   },
   {
    "name": "Transverse pericardial sinus",
@@ -709,8 +717,8 @@
    "build": [
     "Transverse pericardial sinus"
    ],
-   "zhDesc": "心包腔內位於主動脈與肺動脈幹後方、上腔靜脈與左心房前方的橫向通道，手術時可由此穿過鉗夾大動脈。（MJ 補建：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
-   "enDesc": "The passage of the pericardial cavity behind the aorta and pulmonary trunk and in front of the superior vena cava and left atrium; a clamp can be passed through it to occlude the great arteries. (MJ-built: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+   "zhDesc": "心包腔內位於主動脈與肺動脈幹後方、上腔靜脈與左心房前方的橫向通道，手術時可由此穿過鉗夾大動脈。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "The passage of the pericardial cavity behind the aorta and pulmonary trunk and in front of the superior vena cava and left atrium; a clamp can be passed through it to occlude the great arteries. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
   },
   {
    "name": "Oblique pericardial sinus",
@@ -720,8 +728,8 @@
    "build": [
     "Oblique pericardial sinus"
    ],
-   "zhDesc": "心包腔內左心房後方、被肺靜脈與下腔靜脈的漿膜反折圍成的盲囊。（MJ 補建：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
-   "enDesc": "A blind pouch of the pericardial cavity behind the left atrium, bounded by the serous reflections around the pulmonary veins and the inferior vena cava. (MJ-built: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+   "zhDesc": "心包腔內左心房後方、被肺靜脈與下腔靜脈的漿膜反折圍成的盲囊。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "A blind pouch of the pericardial cavity behind the left atrium, bounded by the serous reflections around the pulmonary veins and the inferior vena cava. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
   }
  ]
 }
