@@ -2,84 +2,277 @@
 
 最後更新：2026-10-29。規則：只改介面、效能、腳本、文件的 PR 在 `build` 通過後自動 merge；涉及模型、示意模型、解剖內容、名稱、Quiz 資料的 PR 標【需人工審核】，**一律不開 auto-merge**，等你確認。
 
-## 任務狀態表（2026-10-29 晚；包括你交過的全部任務）
+## 血管連續性與圓滑（上肢、下肢；【需人工審核】）
 
-部署：`67cac88`（含 #112、#115、#108、#114、#109、#116、#117、#118、#119、#121）正式站部署成功。#120 的合併提交 `9748a3c` 的部署顯示「已取消」，沒有後續部署紀錄，所以 #120 的內容目前不能確定已上線；原因我還沒查出來，也沒有重跑部署。
+方法：`node scripts/audit-vessel-continuity.mjs --segments`（`scripts/lib/vessel-segments.mjs`）。每個動脈／靜脈網格是一段；每個末端與「下一段」配對（它面對的末端，或它匯入的主幹），量測**間隙**（末端中心到下一段表面，重疊為 0）、**切線誤差**（端接端時兩軸夾角）、**管徑誤差**（兩段管徑比）。間隙大於本段管徑一半者列出；完整表格（修正前與修正後）在 `docs/vessel-segments.md`。
 
-| 任務 | 狀態（進行中 / 已完成 / 等我審核 / 未開始 / 卡住） | PR 編號 | 備註 |
-| --- | --- | --- | --- |
-| 第二級 Quiz（黃色高亮、輸入名稱、同義詞、答題後資料卡、錯題） | 已完成（已部署） | #98 | 題庫與同義表另需你審核過的部分已 merge |
-| 肺部總整合 第一階段 PR 1：聚焦視圖修正（按鈕無反應、白斑與破洞、顏色統一、平滑化、支氣管樹／肺血管開關、胸廓平滑半透明、預設層數） | 進行中（背景，分支 mj-lung-focus-fix） | — | 需人工審核，不開 auto-merge |
-| 肺部 第二階段 PR 2：內側面標籤與肺門 | 未開始 | — | PR 1 merge 後才開始 |
-| 肺部 第二階段 PR 3：肺段（支氣管肺段） | 未開始 | — | PR 1 merge 後才開始；左肺合併或分開計算要你決定 |
-| 肺部 第二階段 PR 4：肺淋巴引流（較低優先） | 未開始 | — | PR 1 merge 後才開始 |
-| 肺 PR A／PR B（葉間裂、胸膜分部、肋膈隱窩、左肺食道壓跡、下腔靜脈溝） | 已完成 | #112、#115 | 肋縱隔隱窩形狀、專屬截圖未做，併入肺 PR 1／2 |
-| 肩關節屈曲／外展 180°（鎖骨項目失敗修正） | 已 merge（你在網頁上合的，與「先不要 merge」不一致，請確認）；證據截圖重拍中 | #120 | `check:motion` 通過；畫面上沒有可見的改善，前一組截圖被你退回；重拍的證據會用新的文件 PR 補上 |
-| 手指活動（四指、拇指、手勢預設、第二輪修改） | 已完成（已 merge） | #109 | — |
-| 手指活動修正（指尖碎片、DIP／PIP 連動、皮膚與肌腱重疊、捏取指尖相貼） | 進行中（背景，分支 mj-fingers-2） | — | 需人工審核；先重現問題再修 |
-| 特殊區域邊界線與開口形狀（含三邊孔、四邊孔） | 已完成（已 merge；你已審核） | #108 | 已知限制：四邊孔角點不完全重合，兩條邊之間有一小段細灰線；肘窩因模型沒有肱骨外上髁，頂邊只是細灰線 |
-| 特殊區域 Quiz 題型（找出此區域、屬於哪個區域的內容物） | 未開始 | — | 依你指定次序排在血管、肺之後 |
-| 血管連續性與平滑化（先上肢、下肢） | 進行中（背景，分支 mj-vessel-continuity） | — | 需人工審核；胸部含肺門、背部、頭頸、腹盆之後另開 PR |
-| 心臟：打開心腔時隱藏表面細血管 | 已完成（已 merge） | #119 | 分類清單在下方，有兩項歸類請你核對 |
-| 心臟：二尖瓣名稱（僧帽瓣 → 二尖瓣；三尖瓣、同義詞） | 已完成（你已審核並 merge） | #118 | 部署確認中 |
-| 心臟 PR1：腔內構造重做（階梯邊緣、卵圓窩、梳狀肌等） | 未開始 | — | 需人工審核 |
-| 心臟 PR2：光影與顏色 | 未開始 | — | 介面，可自動 merge |
-| 心臟 PR3：Quiz 判定與用語 | 已完成（部分判定、去「MJ 補建」、上下腔靜脈縮短已在 #111） | #111 | — |
-| 腦部：腦神經檢查表（CN I–XII）、腦神經根預設顯示、搜尋修正 | 已完成（已 merge） | #117 | 4 個問題等你決定，見下方 |
-| 腦部：內側面（左右分開）視角 | 未開始 | — | 模型處理需人工審核；缺少的結構要列清單，不補假模型 |
-| 腦部詳細模式其餘指引（CSF 差距、切面、突出顯示、補結構七批）、CSF 粒子限制與腦幹-脊髓接順 | 未開始 | — | — |
-| 底部按鈕改腦／心／肺（眼、耳暫時隱藏） | 已完成（已 merge、已部署） | #116 | 獨立的肺詳細模式併入肺部總整合 |
-| 頭顱內黃色碎塊移除 | 已完成（已部署） | #100 | — |
-| 枕下靜脈叢分類（神經 → 靜脈）、區域（眼眶 → 枕下區） | 已完成 | 較早輪次 | 全站分類錯誤的完整掃描尚未做 |
-| 淡化效果：點狀花紋改平滑半透明 | 已完成（已 merge） | #110 | 手機與低記憶體裝置沒有多重取樣，仍保留點狀圖樣 |
-| 頭部左側浮出身體外的黃色神經 | 卡住 | — | 我掃過神經網格沒發現超出頭部範圍的，也沒能重現；需要你當時的視角或截圖 |
-| 改為私人網站（Cloudflare Pages ＋ Access） | 未開始（卡住：需要你的帳號操作） | — | ROADMAP 第 52 行；我提供逐步教學，但無法替你登入帳號 |
-| 英文發音（發音鈕、IPA、已校對狀態） | 已完成（介面＋資料） | #113、#114 | 新增的肺部結構名稱隨各 PR 補 |
-| 選取結構時自動顯示、鏡頭轉向、擋住的半透明 | 已完成 | #107 | — |
-| 移除錯誤的空間示意模型、骨性標記資訊卡欄位、Workflow 固定 ubuntu-24.04 | 已完成 | #103、#104、#105 | — |
-| 跑考範圍：足部神經、踝伸肌支持帶、子宮韌帶重做 | 未開始 | — | 需人工審核 |
-| 上肢內旋 48° + 肘屈 140° 米色翼狀物 | **未解決**：重拍的 before 與 after 都有（肩下方、圖左下的一片米色大平面，疑似結締組織層，尚未確認） | — | 我還沒查成因；之後另開 PR，需人工審核 |
-| 結締組織 PR1–3（分層、顏色質感、背部與頭頸） | 未開始 | — | 需人工審核（顏色可自動 merge） |
-| 乳房兩層、女性生殖第二輪、女性骨盆 | 未開始（女性骨盆之前有部分進度） | — | 需人工審核 |
-| Undo（Ctrl/⌘+Z）、ROADMAP 第 0 步 | 未開始 | — | Undo 介面可自動 merge |
-| 神經解剖共筆匯入與資訊卡、最終審核（全模型位置合理性、資訊卡不可空白）、Quiz 資料完整性＋旋肱前動脈位置 | 未開始 | — | — |
-| 效能（按系統分開載入、大分類預設收起）、Zoom-to-cursor、Source & credits 全面更新、最小二乘對齊與穿模修正、器官＋供應血管 | 未開始 | — | 之前路線圖的 S3–S8 |
-| 本狀態表更新 | 已完成（#121）；本次再更新 | #121 | 只改文件 |
+| 區域 | 末端數 | 間隙 > 管徑一半：修正前（origin/main） → 修正後 | 切線誤差 > 45°（端接端） | 管徑誤差 > 1.5 倍（端接端） |
+| --- | ---: | --- | --- | --- |
+| 上肢 | 1229 | 199 → 105 | 172 → 134 | 95 → 67 |
+| 下肢 | 1475 | 312 → 106 | 192 → 105 | 98 → 64 |
 
-### 正在進行中的工作（預估時間是我的粗估；三個子 agent 的輸出檔已超過 1.5 小時沒更新，但它們的本地工作目錄都有新提交，所以仍在做事，只是遠端還沒有任何提交）
-- **肺 PR 1**（mj-lung-focus-fix）：本地有 2 個提交、最近一個約 15 分鐘前，尚未推送、尚未開 PR；預估再 1–2 小時。
-- **肩 180° 證據重拍**：before（main）與 after 兩個 build 的截圖鏈還在跑（腋鞘點選前後，再重拍全部姿勢，等 150 秒讓血管載入完）；預估約 30 分鐘後完成，之後合成紅圈對照圖，開新的文件 PR。上一次 after 圖有些在血管層載入前拍下，所以「外展 180° 的血管不見了」只是載入時間造成的假象，不能當作退步。
-- **手指修正**（mj-fingers-2）：本地有 7 個未提交的檔案，沒有提交；預估再 2 小時以上。
-- **血管連續性（上肢、下肢）**（mj-vessel-continuity）：本地有 1 個提交（約 44 分鐘前）和 9 個未提交檔案，尚未推送；預估再 3–4 小時。
-- 磁碟約 1.3 GB，仍緊。
+- **怎麼補**：沿用 `public/models/vessel-ends` 的末端機制（`scripts/prepare-vessel-ends.mjs`）。上肢與下肢中，間隙大於管徑一半、且下一段是「它面對的端」（距離不超過 3 mm + 6 倍管徑），或是「它匯入的主幹」（不超過 2 mm + 3 倍管徑，且管徑 > 3.6 mm 或間隙 ≤ 1.5 倍管徑 + 1 mm）的末端，加一條 Hermite 樣條連接管：起點沿本段軸向、終點沿下一段軸向，半徑由本段漸變到下一段，12 邊圓形斷面、沿管長平滑法線，取代同一末端原本的簡單連接管。手與手指的末端（`hand` 部位）不橋接：手指有自己的指關節綁定，連接管不會跟著指骨動（指骨動作測試會失敗），這些末端維持原本的簡單連接管並列在下表；不夠格的小分支維持原狀（真實解剖上它們止於肌肉或筋膜，硬接會**新增解剖**）。這一步共 ? 條橋接管。
+- **連接管跟著骨骼動**：每條連接管複製所屬血管的手臂（`tissue-bindings`）與下肢（`body-bindings`）綁定（`vessel-end-bindings.json`），新增的 `scripts/test-vessel-motion.mjs` 逐一檢查連接管與血管綁定相同。
+- **圓滑**：上肢、下肢 ≤ 3000 個三角形的血管本來就在建置模型串流時 Loop 細分並計算平滑法線（先前的血管 PR）；本 PR 沒有改動它們，只新增橋接／漸細管（12 邊）。未圓滑者（> 3000 個三角形，或形狀被動作資料綁死）數量見 `docs/vessel-segments.md`。
+- **沒有新增任何血管模型**。圖譜缺少的血管（沒有下一段、管徑 ≥ 3 mm 的末端）列在 `docs/vessel-segments.md` 的「沒有下一段的大血管末端」：上肢 86 個、下肢 186 個末端（管徑 ≥ 1.5 mm）；哪些是進入組織、哪些是圖譜缺少，需要你對照課本判斷。
 
-### 需要你做的事
-**等你審核的 PR**
-- 目前沒有開啟中的 PR。之後會有：肺 PR 1（看白斑與破洞是否消失、四個按鈕是否有反應、顏色是否統一）、手指修正（看握拳與捏取截圖，指尖是否相貼）、血管連續性（看上下肢動脈靜脈前後對照與間隙清單）、肩 180° 證據補充（看紅圈位置與米色翼狀物是否仍在）。
+### 關節極限位置（`npm run check:motion` 新增 `test-vessel-motion.mjs`）
 
-**等你決定的問題**
-1. 腦神經：右側延髓補不補、VIII 與 IX 要不要帶進腦部模式、「外旋神經」是否改「外展神經」、「顏面神經」是否改「面神經」。
-2. 肺段：左肺 S1+2、S7+8 合併（8 段）還是分開（10 段）；repo 裡沒有跑考對這點的文字。
-3. 心臟隱藏細血管的分類：左右緣支、竇房結動脈我歸為細分支，請核對。
-4. 是否相連的血管：等血管 PR 列出間隙超過半個管徑的清單後，請你判斷哪些該相連。
-5. #120：你合併了，我需要確認這是你的意思（我先前的理解是等重拍後再審核）；如果不是，我可以開 revert PR，你同意才動。
-6. #120 的部署顯示已取消：要不要我重跑部署，確保上線。
-7. 磁碟：哪些舊 worktree 可以刪（之前刪除被權限拒絕，我沒有繞過）。
+相鄰兩段（含連接管）以檢視器使用的蒙皮擺姿（肩外展 90°、肩屈曲 90°、肘屈曲 90°、髖屈曲 90°、膝屈曲 90°，以及肩 180°、肘 140°、腕 80°／−70°、髖 120°／−20°、膝 130°、踝 ±、髖外展 35°、髖旋轉 20° 的極限）後重新量測；判準：間隙小於管徑一半，或小於靜止間隙 + 1 mm。結果是**有例外**，已知例外列在 `docs/vessel-motion-exceptions.json`（新增例外會讓檢查失敗），詳表在 `docs/vessel-motion.md`：
 
-**等你提供的資料**
-- 肺段：跑考頁面的肺段寫法。
-- 頭部左側浮出的黃色神經：你當時的視角或截圖。
-- 缺少模型時的參考圖：目前還沒有具體要求。
-- 私人網站：Cloudflare 帳號操作（我提供逐步教學）。
+| 姿勢 | 量測對數 | 例外 |
+| --- | ---: | ---: |
+| shoulder abduction 90 | 471 | 39 |
+| shoulder flexion 90 | 471 | 38 |
+| elbow flexion 90 | 471 | 8 |
+| shoulder abduction 180 (limit) | 471 | 44 |
+| shoulder flexion 180 (limit) | 471 | 49 |
+| elbow flexion 140 (limit) | 471 | 12 |
+| wrist flexion 80 (limit) | 471 | 0 |
+| wrist flexion -70 (limit) | 471 | 14 |
+| hip flexion 90 | 481 | 48 |
+| knee flexion 90 | 481 | 24 |
+| hip flexion 120 + knee 130 (limit) | 481 | 75 |
+| hip extension -20 (limit) | 481 | 29 |
+| ankle dorsiflexion 20 (limit) | 481 | 4 |
+| ankle plantar flexion -30 (limit) | 481 | 3 |
+| hip abduction 35 (limit) | 481 | 28 |
+| hip rotation 20 (limit) | 481 | 35 |
 
-### 卡住或重複失敗
-- 肩 180° 截圖：第一組手臂被切掉、前後差異太小，被你退回；第二組因血管層晚載入而有一組不可用，現在用 150 秒等待重拍；負責重拍的子 agent 被截斷了五次，我已改成自己接手。
-- 米色翼狀物：還沒查成因，也還沒修。
-- 子 agent 的輸出檔長時間沒更新，我無法從遠端判斷它們做到哪裡（只能看本地目錄）。
-- 頭部左側浮出的黃色神經：我兩次都無法重現，缺你的截圖。
-- `test-scene-loading` 在多個瀏覽器同時跑時逾時：單獨重跑可過，CI 沒這問題。
-- GitHub 連線：MCP 工具偶爾斷線，我改用 REST API；GraphQL 被擋。
-- Cloudflare 私人網站：卡在需要你的帳號操作。
+例外幾乎都是下一段沒有綁定在同一個關節鏈上：上肢的軀幹血管（腋、鎖骨下、胸肩峰、肩胛周圍）在肩動作時不跟著動，下肢的骨盆血管（髂內、臀、腹壁）在髖動作時不跟著動，以及圖譜歸類為手的「足背趾靜脈」這類被誤判的構造。這些是綁定資料的缺口，不是連接管的問題；本 PR 沒有改動綁定規則。連接管背端與所屬血管分離超過 2 mm 的組合共 13 個，列在同一個檔案。
+
+### 修正後仍大於管徑一半的間隙（上肢 105、下肢 106；完整列在這裡）
+
+未修的原因：(a) 小分支（管徑 < 3 mm）停在主幹旁但距離超過連接範圍，真實解剖上多半止於肌肉，硬接會新增解剖；(b) 較大的血管（≥ 3 mm）下一段距離過遠或下一段不是它的解剖延續（例如頭靜脈上端最近的是外側肱靜脈，相距 33 mm），需要人工對照課本；(c) 18 個已加橋接但量測仍超過管徑一半。
+
+<details><summary>上肢 105 筆（血管對 | 類型 | 間隙 mm | 管徑 mm）</summary>
+
+| 血管對（上游 → 下一段） | 類型 | 間隙 (mm) | 管徑 (mm) |
+| --- | --- | ---: | ---: |
+| Right cephalic vein (FJ2272) → Right lateral brachial vein (PK-56) | 分支入幹 | 32.91 | 4.84 |
+| Left cephalic vein (FJ2220) → Left lateral brachial vein (PK-60) | 分支入幹 | 30.96 | 3.81 |
+| Left cephalic vein (FJ2220) → Left anterior circumflex humeral vein (FJ2213) | 分支入幹 | 29.09 | 3.39 |
+| Left dorsal scapular artery (FJ2232) → Posterior intercostal arteries (FJ1975) | 分支入幹 | 26.95 | 2 |
+| Left posterior interosseous vein (PK-62) → Left anterior interosseous vein (PK-61) | 分支入幹 | 25.29 | 2.52 |
+| Right cephalic vein (FJ2272) → Right axillary vein (FJ2269) | 分支入幹 | 24.64 | 3.41 |
+| Left radial artery (FJ2242) → Left posterior interosseous artery (PK-53) | 分支入幹 | 23.69 | 2.33 |
+| Left anterior circumflex humeral vein (FJ2213) → Left cephalic vein (FJ2220) | 分支入幹 | 23.5 | 2.26 |
+| Right radial artery (FJ2294) → Right posterior interosseous artery (PK-43) | 分支入幹 | 23.32 | 3.93 |
+| Right anterior circumflex humeral vein (FJ2265) → Right posterior circumflex humeral vein (PK-42) | 分支入幹 | 21.56 | 1.6 |
+| Right anterior circumflex humeral vein (FJ2265) → Right posterior circumflex humeral vein (PK-42) | 分支入幹 | 21.52 | 1.29 |
+| Right ulnar artery (FJ2310) → Right dorsal carpal branch of ulnar artery (FJ2288) | 分支入幹 | 20.96 | 2.22 |
+| Left suprascapular vein (FJ2250) → Left posterior segmental vein (FJ2929) | 分支入幹 | 20.5 | 1.71 |
+| Left suprascapular artery (FJ2251) → Left second posterior intercostal artery (FJ1974) | 分支入幹 | 19.86 | 1.32 |
+| Left basilic vein (FJ2218) → Left ulnar vein (FJ2260) | 分支入幹 | 19.77 | 1.8 |
+| Right anterior circumflex humeral artery (FJ2264) → Right posterior circumflex humeral artery (FJ2292) | 分支入幹 | 19.16 | 2.41 |
+| Left superior ulnar collateral artery (FJ2374) → Left brachial artery (FJ2219) | 分支入幹 | 18.92 | 1.22 |
+| Left cephalic vein (FJ2220) → Left lateral thoracic vein (FJ2233) | 分支入幹 | 18.8 | 4.22 |
+| Left radial artery (FJ2242) → Left posterior interosseous artery (PK-53) | 分支入幹 | 18.68 | 1.05 |
+| Right recurrent interosseous artery (FJ2297) → Right radial recurrent artery (FJ2295) | 分支入幹 | 18.64 | 2.68 |
+| Left anterior circumflex humeral artery (FJ2212) → Left posterior circumflex humeral artery (FJ2240) | 分支入幹 | 18.56 | 2.49 |
+| Right ulnar artery (FJ2310) → Right anterior interosseous artery (FJ2266) | 分支入幹 | 18.51 | 3.97 |
+| Right ulnar artery (FJ2310) → Right anterior interosseous artery (FJ2266) | 分支入幹 | 18.42 | 3.97 |
+| Left median antebrachial vein (FJ2234) → Left ulnar vein (FJ2260) | 分支入幹 | 18.41 | 1.22 |
+| Left radial artery (FJ2242) → Left superficial palmar arterial arch (FJ2248) | 分支入幹 | 17.91 | 1.6 |
+| Right radial artery (FJ2294) → Right posterior interosseous artery (PK-43) | 分支入幹 | 17.86 | 2.2 |
+| Right suprascapular vein (FJ2302) → Right circumflex scapular vein (FJ2274) | 分支入幹 | 17.45 | 1.78 |
+| Right radial artery (FJ2294) → Right posterior interosseous artery (PK-43) | 分支入幹 | 16.76 | 3.66 |
+| Left cephalic vein (FJ2220) → Left anterior circumflex humeral vein (FJ2213) | 分支入幹 | 15.57 | 5.03 |
+| Right circumflex scapular vein (FJ2274) → Right posterior circumflex humeral vein (PK-42) | 分支入幹 | 15.25 | 1.65 |
+| Right dorsal scapular artery (FJ2284) → Posterior intercostal arteries (FJ1961) | 分支入幹 | 15.12 | 1.34 |
+| Left dorsal scapular artery (FJ2232) → Posterior intercostal arteries (FJ1975) | 分支入幹 | 15.03 | 1.12 |
+| Right radial vein (FJ2296) → Right cephalic vein (FJ2272) | 分支入幹 | 14.85 | 2.42 |
+| Left anterior interosseous vein (PK-61) → Left median antebrachial vein (FJ2234) | 分支入幹 | 14.6 | 1.36 |
+| Right anterior interosseous vein (PK-57) → Right median antebrachial vein (FJ2286) | 分支入幹 | 14.5 | 1.36 |
+| Right median antebrachial vein (FJ2286) → Right ulnar vein (FJ2312) | 分支入幹 | 13.77 | 2.08 |
+| Left suprascapular vein (FJ2250) → Left subclavian vein (FJ3486) | 分支入幹 | 13.62 | 1.76 |
+| Left ulnar vein (FJ2260) → Left basilic vein (FJ2218) | 分支入幹 | 13.49 | 2.25 |
+| Dorsal venous network of left hand (FJ2228) → Proper palmar digital vein of left middle finger (FJ2326) | 端接端 | 13.26 | 3.45 |
+| Right deep brachial artery (FJ2277) → Right brachial artery (FJ2271) | 分支入幹 | 13.26 | 2.4 |
+| Right arteria radialis indicis (FJ2342) → Set of dorsal digital arteries (FJ2346) | 分支入幹 | 13.24 | 1.78 |
+| Right superior ulnar collateral artery (FJ2373) → Right posterior ulnar recurrent artery (FJ2293) | 分支入幹 | 12.99 | 1.44 |
+| Left superficial palmar venous arch (FJ2249) → Left deep palmar venous arch (FJ2229) | 分支入幹 | 12.94 | 1.67 |
+| Right inferior ulnar collateral artery (FJ2267) → Right brachial artery (FJ2271) | 分支入幹 | 12.64 | 1.56 |
+| Right superior ulnar collateral artery (FJ2373) → Right brachial artery (FJ2271) | 分支入幹 | 12.19 | 2.57 |
+| Proper palmar digital vein of left little finger (FJ2319) → Proper palmar digital vein of left little finger (FJ2321) | 分支入幹 | 12 | 1.74 |
+| Left ulnar vein (FJ2260) → Left median antebrachial vein (FJ2234) | 分支入幹 | 11.72 | 2.37 |
+| Dorsal venous network of left hand (FJ2228) → Proper palmar digital vein of left middle finger (FJ2340) | 端接端 | 11.36 | 3.27 |
+| Set of dorsal metacarpal arteries (FJ2348) → Set of dorsal digital arteries (FJ2318) | 分支入幹 | 10.78 | 1.95 |
+| Proper palmar digital vein of left little finger (FJ2329) → Proper palmar digital vein of left ring finger (FJ2328) | 分支入幹 | 10.56 | 1.03 |
+| Right radial vein (FJ2296) → Right cephalic vein (FJ2272) | 分支入幹 | 10.23 | 2.24 |
+| Dorsal venous network of right hand (FJ2280) → Proper palmar digital vein of right little finger (FJ2351) | 端接端 | 10.07 | 2.14 |
+| Pectoral branch of left thoraco-acromial artery (FJ2330) → Left lateral thoracic artery (FJ1976) | 分支入幹 | 9.93 | 1.23 |
+| Proper palmar digital vein of left middle finger (FJ2326) → Proper palmar digital vein of left index finger (FJ2325) | 分支入幹 | 9.89 | 1.35 |
+| Pectoral branch of right thoraco-acromial artery (FJ2361) → Right lateral thoracic artery (FJ1938) | 分支入幹 | 9.62 | 1.24 |
+| Left basilic vein (FJ2218) → Left ulnar vein (FJ2260) | 分支入幹 | 9.42 | 2.19 |
+| Left lateral brachial vein (PK-60) → Left medial brachial vein (FJ2313) | 分支入幹 | 9.4 | 2.9 |
+| Pectoral branch of left thoraco-acromial artery (FJ2330) → Left lateral mammary artery (PK-8) | 分支入幹 | 9.16 | 2.14 |
+| Right fourth common palmar digital artery (FJ2370) → Set of dorsal digital arteries (FJ2346) | 分支入幹 | 8.93 | 1.39 |
+| Right radial vein (FJ2296) → Right cephalic vein (FJ2272) | 分支入幹 | 8.92 | 1.41 |
+| Proper palmar digital vein of right middle finger (FJ2356) → Proper palmar digital vein of right index finger (FJ2355) | 分支入幹 | 8.42 | 1.31 |
+| Left axillary artery (FJ2216) → Deltoid branch of left thoraco-acromial artery (FJ2230) | 分支入幹 | 8.25 | 1.63 |
+| Right superficial palmar arterial arch (FJ2300) → Right palmar metacarpal artery (FJ2289) | 端接端 | 8.09 | 2.4 |
+| Right superficial palmar venous arch (FJ2301) → Proper palmar digital vein of right little finger (FJ2351) | 端接端 | 7.92 | 1.75 |
+| Left palmar metacarpal artery (FJ2237) → Left third common palmar digital artery (FJ2317) | 端接端 | 7.61 | 1.52 |
+| Right posterior circumflex humeral vein (PK-42) → Right anterior circumflex humeral vein (FJ2265) | 分支入幹 | 7.22 | 2.47 |
+| Right radial artery (FJ2294) → Right radial recurrent artery (FJ2295) | 分支入幹 | 7.11 | 3.25 |
+| Proper palmar digital vein of left middle finger (FJ2326) → Proper palmar digital vein of left index finger (FJ2325) | 分支入幹 | 6.97 | 1.45 |
+| Pectoral branch of left thoraco-acromial artery (FJ2330) → Left lateral mammary artery (PK-8) | 分支入幹 | 6.92 | 1.49 |
+| Lateral proper palmar digital artery of left middle finger (FJ2334) → Medial proper palmar digital artery of left index finger (FJ2333) | 分支入幹 | 6.84 | 1.47 |
+| Dorsal venous network of left hand (FJ2228) → Left palmar metacarpal vein (FJ2238) | 分支入幹 | 6.76 | 3.26 |
+| Right deep palmar arch (FJ2279) → Right palmar metacarpal artery (FJ2289) | 分支入幹 | 6.67 | 3.12 |
+| Right arteria radialis indicis (FJ2342) → Right arteria radialis indicis (FJ2363) | 端接端 | 6.29 | 1.78 |
+| Right radial artery (FJ2294) → Right radial recurrent artery (FJ2295) | 分支入幹 | 6.2 | 2.77 |
+| Left palmar metacarpal vein (FJ2238) → Left palmar metacarpal vein (FJ2323) | 分支入幹 | 6.14 | 1.72 |
+| Pectoral branch of right thoraco-acromial artery (FJ2361) → Right lateral mammary artery (PK-3) | 分支入幹 | 5.95 | 1.36 |
+| Pectoral branch of left thoraco-acromial artery (FJ2330) → Left second posterior intercostal artery (FJ1974) | 分支入幹 | 5.94 | 1.48 |
+| Right arteria radialis indicis (FJ2342) → Right arteria radialis indicis (FJ2363) | 端接端 | 5.54 | 1.76 |
+| Left inferior ulnar collateral artery (FJ2215) → Left brachial artery (FJ2219) | 分支入幹 | 5.49 | 2.47 |
+| Proper palmar digital vein of left little finger (FJ2321) → Proper palmar digital vein of left little finger (FJ2329) | 分支入幹 | 5.35 | 0.8 |
+| Right superficial palmar arterial arch (FJ2300) → Right arteria radialis indicis (FJ2342) | 端接端 | 5.22 | 2.52 |
+| Set of dorsal digital arteries (FJ2346) → Set of dorsal metacarpal arteries (FJ2347) | 端接端 | 5.01 | 1.64 |
+| Left circumflex scapular artery (FJ2221) → Left axillary artery (FJ2216) | 分支入幹 | 4.88 | 1.84 |
+| Right palmar metacarpal vein (FJ2290) → Proper palmar digital vein of right little finger (FJ2349) | 分支入幹 | 4.75 | 1.75 |
+| Right radial artery (FJ2294) → Right superficial palmar branch of radial artery (PK-44) | 端接端 | 4.64 | 1.01 |
+| Medial proper palmar digital artery of right index finger (FJ2364) → Right first common palmar digital artery (FJ2343) | 端接端 | 4.55 | 1.52 |
+| Medial proper palmar digital artery of left index finger (FJ2333) → Left first common palmar digital artery (FJ2315) | 端接端 | 4.52 | 1.61 |
+| Proper palmar digital vein of left middle finger (FJ2340) → Proper palmar digital vein of left middle finger (FJ2326) | 分支入幹 | 4.34 | 0.8 |
+| Right radial vein (FJ2296) → Right cephalic vein (FJ2272) | 分支入幹 | 4.22 | 2.93 |
+| Left median cubital vein (FJ2235) → Left medial brachial vein (FJ2313) | 分支入幹 | 4.15 | 3.92 |
+| Left circumflex scapular vein (FJ2222) → Left suprascapular vein (FJ2250) | 分支入幹 | 4.12 | 0.98 |
+| Right palmar metacarpal vein (FJ2290) → Right palmar metacarpal vein (FJ2353) | 分支入幹 | 4.07 | 1.73 |
+| Left cephalic vein (FJ2220) → Left anterior circumflex humeral vein (FJ2213) | 分支入幹 | 3.45 | 3.54 |
+| Left ulnar vein (FJ2260) → Left median antebrachial vein (FJ2234) | 分支入幹 | 3.12 | 1.08 |
+| Deltoid branch of left thoraco-acromial artery (FJ2230) → Left axillary artery (FJ2216) | 分支入幹 | 2.83 | 2.2 |
+| Left median cubital vein (FJ2235) → Left medial brachial vein (FJ2313) | 分支入幹 | 2.27 | 4.15 |
+| Right fourth common palmar digital artery (FJ2370) → Right superficial palmar arterial arch (FJ2300) | 分支入幹 | 1.68 | 1.65 |
+| Medial proper palmar digital artery of right ring finger (FJ2369) → Set of dorsal digital arteries (FJ2346) | 分支入幹 | 1.67 | 0.8 |
+| Right superficial palmar arterial arch (FJ2300) → Right deep palmar arch (FJ2279) | 分支入幹 | 1.59 | 2.82 |
+| Left superficial palmar arterial arch (FJ2248) → Left palmar metacarpal artery (FJ2237) | 端接端 | 1.57 | 2.85 |
+| Proper palmar digital vein of left little finger (FJ2319) → Common palmar digital vein (FJ2322) | 端接端 | 1.49 | 1.76 |
+| Right first common palmar digital artery (FJ2343) → Right superficial palmar arterial arch (FJ2300) | 端接端 | 1.34 | 1.75 |
+| Right arteria princeps pollicis (FJ2372) → Set of dorsal digital arteries (FJ2346) | 分支入幹 | 1.19 | 0.8 |
+| Right third common palmar digital artery (FJ2345) → Right palmar metacarpal artery (FJ2289) | 分支入幹 | 0.86 | 1.7 |
+| Left median cubital vein (FJ2235) → Left lateral brachial vein (PK-60) | 分支入幹 | 0.75 | 1.4 |
+
+</details>
+
+<details><summary>下肢 106 筆（血管對 | 類型 | 間隙 mm | 管徑 mm）</summary>
+
+| 血管對（上游 → 下一段） | 類型 | 間隙 (mm) | 管徑 (mm) |
+| --- | --- | ---: | ---: |
+| Right anterior tibial artery (FJ2130) → Right posterior tibial artery (FJ2172) | 分支入幹 | 42.38 | 2.45 |
+| Left small saphenous vein (FJ2121) → Left genicular vein (FJ2107) | 分支入幹 | 38.27 | 4.76 |
+| Right anterior tibial vein (FJ2193) → Right fibular vein (FJ2200) | 分支入幹 | 36.86 | 3.32 |
+| Right lateral circumflex femoral vein (FJ2201) → Right deep femoral vein (FJ2135) | 分支入幹 | 36.18 | 3.9 |
+| Left small saphenous vein (FJ2121) → Left genicular vein (FJ2107) | 分支入幹 | 36.09 | 3.66 |
+| Right genicular vein (FJ2151) → Right anterior tibial vein (FJ2132) | 分支入幹 | 34.78 | 2.63 |
+| Right small saphenous vein (FJ2176) → Right genicular vein (FJ2151) | 分支入幹 | 34.7 | 4.76 |
+| Right anterior tibial vein (FJ2193) → Right fibular vein (FJ2200) | 分支入幹 | 31.98 | 4.23 |
+| Left genicular vein (FJ2108) → Left great saphenous vein (FJ2103) | 分支入幹 | 31.92 | 1.39 |
+| Right anterior tibial artery (FJ2130) → Right anterior tibial recurrent artery (FJ2131) | 分支入幹 | 31.9 | 5.51 |
+| Left lateral circumflex femoral vein (FJ2188) → Left deep femoral vein (FJ2099) | 分支入幹 | 31.34 | 3.93 |
+| Right posterior tibial artery (FJ2172) → Set of dorsal digital arteries (FJ2197) | 分支入幹 | 30.05 | 1.42 |
+| Left anterior tibial artery (FJ2065) → Left anterior tibial recurrent artery (FJ2066) | 分支入幹 | 29.7 | 3.32 |
+| Left fibular vein (FJ2187) → Left posterior tibial vein (FJ2118) | 分支入幹 | 28.91 | 4.94 |
+| Left anterior tibial artery (FJ2065) → Left fibular artery (PK-103) | 分支入幹 | 28.57 | 4.94 |
+| Left lateral circumflex femoral vein (FJ2188) → Left medial circumflex femoral vein (FJ2189) | 分支入幹 | 28.45 | 2.99 |
+| Descending branch of right lateral circumflex femoral artery (FJ2057) → Set of perforating arteries (FJ2127) | 分支入幹 | 28.26 | 4.57 |
+| Left inferior medial genicular artery (FJ2077) → Left anterior tibial recurrent artery (FJ2066) | 分支入幹 | 28.01 | 2.93 |
+| Right fibular vein (FJ2200) → Right anterior tibial vein (FJ2193) | 分支入幹 | 27.73 | 5.64 |
+| Right genicular vein (FJ2153) → Right anterior tibial vein (FJ2132) | 分支入幹 | 27.54 | 2.19 |
+| Right lateral circumflex femoral vein (FJ2201) → Right medial circumflex femoral vein (FJ2202) | 分支入幹 | 26.72 | 2.83 |
+| Right superficial medial plantar artery (FJ2179) → Set of plantar digital arteries proper (FJ2205) | 分支入幹 | 26.5 | 1.97 |
+| Right lateral circumflex femoral vein (FJ2201) → Right deep femoral vein (FJ2135) | 分支入幹 | 26.39 | 4.38 |
+| Right anterior tibial artery (FJ2130) → Right anterior lateral malleolar artery (PK-74) | 分支入幹 | 25.58 | 3 |
+| Left anterior tibial recurrent artery (FJ2066) → Left articular branch of descending genicular artery (PK-99) | 分支入幹 | 25.47 | 2.44 |
+| Left lateral circumflex femoral vein (FJ2188) → Left deep femoral vein (FJ2099) | 分支入幹 | 25.03 | 4.33 |
+| Right lateral circumflex femoral vein (FJ2201) → Right deep femoral vein (FJ2135) | 分支入幹 | 24.77 | 4.23 |
+| Right genicular vein (FJ2153) → Right great saphenous vein (FJ2145) | 分支入幹 | 24.45 | 2.35 |
+| Left lateral circumflex femoral vein (FJ2188) → Left deep femoral vein (FJ2099) | 分支入幹 | 24.4 | 4.12 |
+| Left fibular vein (FJ2187) → Left posterior tibial vein (FJ2118) | 分支入幹 | 24.32 | 4 |
+| Right genicular vein (FJ2182) → Right anterior tibial vein (FJ2132) | 分支入幹 | 24.31 | 1.14 |
+| Right lateral tarsal artery (FJ2163) → Right arcuate artery (FJ2133) | 分支入幹 | 22.97 | 3.2 |
+| Left genicular vein (FJ2125) → Left anterior tibial vein (FJ2097) | 分支入幹 | 22.93 | 1.94 |
+| Right posterior tibial vein (FJ2173) → Right anterior tibial vein (FJ2193) | 分支入幹 | 22.74 | 4.12 |
+| Descending branch of right lateral circumflex femoral artery (FJ2057) → Right transverse branch of lateral circumflex femoral artery (PK-68) | 分支入幹 | 22.63 | 5.17 |
+| Set of plantar digital veins (FJ2175) → Dorsal venous arch of right foot (FJ2062) | 分支入幹 | 22.41 | 1.86 |
+| Right genicular vein (FJ2153) → Right anterior tibial vein (FJ2132) | 分支入幹 | 21.08 | 2.12 |
+| Right medial circumflex femoral artery (PK-66) → Right lateral circumflex femoral artery (FJ2158) | 分支入幹 | 21 | 2.92 |
+| Right deep femoral vein (FJ2135) → Set of perforating veins (FJ2192) | 分支入幹 | 20.7 | 4.32 |
+| Left arcuate artery (FJ2067) → Left lateral tarsal artery (FJ2081) | 分支入幹 | 20.29 | 2.9 |
+| Right arcuate artery (FJ2133) → Right lateral tarsal artery (FJ2163) | 分支入幹 | 20.13 | 2.92 |
+| Left anterior tibial recurrent artery (FJ2066) → Left lateral superior genicular artery (FJ2080) | 分支入幹 | 19.99 | 2.4 |
+| Left popliteal vein (FJ2117) → Left genicular vein (FJ2125) | 分支入幹 | 19.97 | 3.84 |
+| Left posterior tibial artery (FJ2087) → Left fibular artery (PK-103) | 分支入幹 | 19.93 | 3.21 |
+| Left articular branch of descending genicular artery (PK-99) → Left anterior tibial recurrent artery (FJ2066) | 分支入幹 | 19.62 | 1.24 |
+| Right deep femoral vein (FJ2135) → Set of perforating veins (FJ2192) | 分支入幹 | 19.48 | 2.68 |
+| Right superficial medial plantar artery (FJ2179) → Set of plantar digital arteries proper (FJ2205) | 分支入幹 | 18.67 | 1.85 |
+| Left genicular vein (FJ2107) → Left anterior tibial vein (FJ2097) | 分支入幹 | 18.65 | 2.53 |
+| Left lateral superior genicular artery (FJ2080) → Left popliteal artery (FJ2086) | 分支入幹 | 18.64 | 3.69 |
+| Right inferior gluteal vein (FJ3606) → Right internal iliac vein (FJ3571) | 分支入幹 | 18.63 | 3.29 |
+| Left lateral superior genicular artery (FJ2080) → Left popliteal artery (FJ2086) | 分支入幹 | 18.39 | 3.73 |
+| Right articular branch of descending genicular artery (PK-72) → Right anterior tibial recurrent artery (FJ2131) | 分支入幹 | 18.37 | 1.24 |
+| Right genicular vein (FJ2182) → Right popliteal vein (FJ2171) | 分支入幹 | 18.28 | 2.59 |
+| Right lateral superior genicular artery (FJ2162) → Right popliteal artery (FJ2170) | 分支入幹 | 18.17 | 3.68 |
+| Right popliteal artery (FJ2170) → Right inferior medial genicular artery (FJ2152) | 分支入幹 | 18.16 | 4.11 |
+| Left anterior tibial recurrent artery (FJ2066) → Left inferior medial genicular artery (FJ2077) | 分支入幹 | 17.62 | 1.39 |
+| Dorsal venous arch of left foot (FJ2059) → Left small saphenous vein (FJ2121) | 分支入幹 | 17.26 | 1.45 |
+| Right medial superior genicular artery (FJ2166) → Right popliteal artery (FJ2170) | 分支入幹 | 17.22 | 2.51 |
+| Left superficial medial plantar artery (FJ2089) → Left plantar arch (FJ2085) | 分支入幹 | 17.1 | 1.95 |
+| Right popliteal vein (FJ2171) → Right femoral vein (FJ2144) | 分支入幹 | 16.91 | 3.98 |
+| Left medial circumflex femoral artery (PK-93) → Left femoral artery (FJ2074) | 分支入幹 | 16.75 | 4.37 |
+| Left lateral plantar artery (FJ2079) → Left medial plantar artery (FJ2082) | 分支入幹 | 16.16 | 2.07 |
+| Set of plantar digital veins (FJ2175) → Plantar venous arch of right foot (FJ2129) | 分支入幹 | 15.79 | 1.99 |
+| Left inferior lateral genicular artery (FJ2076) → Left inferior medial genicular artery (FJ2077) | 分支入幹 | 15.55 | 3.4 |
+| Left inferior gluteal vein (FJ3513) → Left internal iliac vein (FJ3470) | 分支入幹 | 15.51 | 3.78 |
+| Left inferior gluteal vein (FJ3513) → Left internal iliac vein (FJ3470) | 分支入幹 | 15.47 | 3.8 |
+| Left descending genicular artery (FJ2069) → Left articular branch of descending genicular artery (PK-99) | 分支入幹 | 15.46 | 3.52 |
+| Left genicular vein (FJ2108) → Left great saphenous vein (FJ2103) | 分支入幹 | 15.39 | 2.46 |
+| Right anterior tibial vein (FJ2132) → Right genicular vein (FJ2181) | 分支入幹 | 15.39 | 1.78 |
+| Right popliteal vein (FJ2171) → Right anterior tibial vein (FJ2193) | 分支入幹 | 14.94 | 3.82 |
+| Left arcuate artery (FJ2067) → Left lateral tarsal artery (FJ2081) | 分支入幹 | 13.97 | 2.81 |
+| Set of perforating arteries (FJ2094) → Set of perforating arteries (FJ2090) | 分支入幹 | 13.84 | 2.81 |
+| Set of dorsal digital arteries (FJ2093) → Left posterior tibial artery (FJ2087) | 分支入幹 | 13.09 | 2.99 |
+| Right popliteal vein (FJ2171) → Right small saphenous vein (FJ2176) | 分支入幹 | 12.83 | 3.68 |
+| Right fibular vein (FJ2200) → Right anterior tibial vein (FJ2193) | 分支入幹 | 12.75 | 3.7 |
+| Right inferior gluteal vein (FJ3606) → Right internal iliac vein (FJ3572) | 分支入幹 | 12.61 | 2.85 |
+| Right anterior tibial vein (FJ2132) → Right genicular vein (FJ2151) | 分支入幹 | 12.57 | 1.78 |
+| Right genicular vein (FJ2151) → Right anterior tibial vein (FJ2132) | 分支入幹 | 12.42 | 2.27 |
+| Left anterior tibial recurrent artery (FJ2066) → Left anterior tibial artery (FJ2065) | 分支入幹 | 12.34 | 2.24 |
+| Left popliteal vein (FJ2117) → Left genicular vein (FJ2125) | 分支入幹 | 11.91 | 3.57 |
+| Right fibular vein (FJ2200) → Right anterior tibial vein (FJ2193) | 分支入幹 | 11.08 | 3.71 |
+| Right anterior tibial vein (FJ2132) → Right genicular vein (FJ2151) | 分支入幹 | 10.66 | 1.73 |
+| Right popliteal artery (FJ2170) → Right inferior medial genicular artery (FJ2152) | 分支入幹 | 10.4 | 3.12 |
+| Left anterior tibial recurrent artery (FJ2066) → Left inferior lateral genicular artery (FJ2076) | 分支入幹 | 10.18 | 2.34 |
+| Right inferior gluteal vein (FJ3606) → Right internal iliac vein (FJ3572) | 分支入幹 | 9.66 | 2.67 |
+| Right popliteal artery (FJ2170) → Right anterior tibial artery (FJ2130) | 分支入幹 | 7.76 | 2.83 |
+| Left obturator vein (FJ3527) → Left external iliac vein (FJ3484) | 分支入幹 | 7.49 | 1.81 |
+| Set of perforating veins (FJ2174) → Plantar metatarsal vein (FJ2207) | 分支入幹 | 7.06 | 1.7 |
+| Set of perforating veins (FJ2119) → Plantar metatarsal vein (FJ2191) | 分支入幹 | 6.94 | 1.61 |
+| Set of dorsal digital veins (FJ2185) → Set of plantar digital veins (FJ2120) | 分支入幹 | 6.93 | 0.8 |
+| Right inferior gluteal vein (FJ3606) → Right internal iliac vein (FJ3572) | 分支入幹 | 6.93 | 2.33 |
+| Plantar metatarsal vein (FJ2207) → Set of plantar digital veins (FJ2175) | 分支入幹 | 6.58 | 1.84 |
+| Left lateral superior genicular artery (FJ2080) → Left anterior tibial recurrent artery (FJ2066) | 分支入幹 | 6.49 | 2.01 |
+| Set of perforating veins (FJ2138) → Right dorsal metatarsal vein (FJ2199) | 分支入幹 | 5.93 | 1.69 |
+| Left genicular vein (FJ2124) → Left popliteal vein (FJ2117) | 分支入幹 | 5.78 | 3.61 |
+| Right anterior tibial vein (FJ2132) → Right genicular vein (FJ2151) | 分支入幹 | 5.66 | 1.68 |
+| Right anterior tibial vein (FJ2132) → Right genicular vein (FJ2151) | 分支入幹 | 5.66 | 1.68 |
+| Plantar venous arch of left foot (FJ2128) → Set of perforating veins (FJ2119) | 端接端 | 5.28 | 1.18 |
+| Left dorsal metatarsal vein (FJ2186) → Set of perforating veins (FJ2100) | 分支入幹 | 5.22 | 1.26 |
+| Left anterior tibial vein (FJ2097) → Left genicular vein (FJ2107) | 分支入幹 | 4.93 | 1.75 |
+| Right genicular vein (FJ2153) → Right anterior tibial vein (FJ2132) | 分支入幹 | 4.48 | 1.76 |
+| Left deep branch of superior gluteal artery (PK-108) → Left superior gluteal artery (PK-106) | 分支入幹 | 4.06 | 4.82 |
+| Right fibular vein (FJ2200) → Right posterior tibial vein (FJ2173) | 分支入幹 | 3.27 | 1.92 |
+| Left popliteal vein (FJ2117) → Left genicular vein (FJ2107) | 分支入幹 | 3.17 | 5.75 |
+| Left anterior tibial vein (FJ2183) → Left anterior tibial vein (FJ2097) | 分支入幹 | 2.23 | 4.34 |
+| Left inferior lateral genicular artery (FJ2076) → Left middle genicular artery (FJ2084) | 分支入幹 | 0.51 | 0.94 |
+
+</details>
+
+### 其餘部位（本 PR 沒做，之後另開 PR；工具已可用 `--regions` 指定）
+
+- 胸部（含肺門血管）、背部、頭頸、腹部與骨盆：`scripts/lib/vessel-segments.mjs` 的 `REGIONS` 已列 `thorax`、`head`（對應 `trunk`、`head-neck`），但橋接規則、綁定檢查與動作檢查都還沒針對這些部位驗證。
 
 ## 腦神經檢查（CN I–XII；先回報，沒有補任何假模型）
 
