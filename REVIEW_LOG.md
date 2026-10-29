@@ -9,6 +9,25 @@
 - 「肺」：主圖譜內的胸腔聚焦視圖，只顯示呼吸系統與胸廓骨骼（半透明），胸膜預設關閉；右側面板有左右肺選擇、層數 ＋／－、透明度滑桿與「返回」（回到點擊前的狀態）。獨立的肺詳細模式（切面、逐葉打開、動畫）尚未做，另開 PR。
 - 限制：胸廓骨骼取肋骨、胸骨、胸椎、鎖骨；喉部軟骨屬呼吸系統，也會顯示在氣管上方。
 
+## 心臟詳細模式：打開心腔時隱藏表面細血管（介面改動，CI 綠後自動 merge）
+
+- 用「逐個心腔打開」選任一心腔，或按「打開心臟（內部）」時：保留大血管與主要冠狀血管，隱藏其餘表面細分支與心包膜（三層＋兩個心包竇）。保留的血管若擋在被打開的心腔前面（由鏡頭視角判斷，視角轉動時即時更新），自動變成約 40 % 透明，不會完全隱藏。
+- 關閉心腔（再按一次同一心腔、按「閉合（外表）」、改選切面或按還原）時，血管組與細分支恢復成打開前的狀態；使用者原本關掉的血管組、細分支不會被自動打開。
+- 左側「構造」清單展開後，每個構造多一顆眼睛鈕：被隱藏的細分支顯示為已隱藏（灰色眼睛、文字變淡），按一下可手動顯示；點構造名稱選取時也會顯示該構造。
+- 驗證：`scripts/test-heart-vessels.mjs`（併入 `npm run check`）檢查下列清單與模型目錄一致、冠狀動脈與心靜脈兩組的每個構造不是「主要」就是「細分支」。
+
+### 分類清單（請核對，名稱為目錄中的構造名稱）
+**主要（打開心腔時保留）**
+- 大血管（Great vessels 組，全部 12 個）：Ascending aorta 升主動脈、Aortic arch 主動脈弓、Pulmonary trunk 肺動脈幹、Bifurcation of pulmonary trunk 肺動脈幹分叉、Left / Right pulmonary artery 左／右肺動脈、Superior / Inferior vena cava 上／下腔靜脈、左右上下肺靜脈（4 條）。
+- 主要冠狀血管（6 個）：Right coronary artery 右冠狀動脈、Left coronary artery 左冠狀動脈（主幹）、Anterior interventricular artery 前室間支（LAD）、Circumflex artery 迴旋支、Coronary sinus 冠狀竇、Great cardiac vein 心大靜脈。
+
+**細分支（打開心腔時隱藏，共 12 個，另加心包膜 5 個）**
+- 動脈（7）：Right inferolateral branch of right coronary artery 右冠狀動脈右下外側支、Septal branches of anterior interventricular artery 前室間支的間隔支、Right marginal branch 右緣支（銳緣支）、Posterior interventricular branch 後室間支、Diagonal branches 對角支、Sinoatrial nodal artery 竇房結動脈、Left marginal branch 左緣支（鈍緣支）。
+- 靜脈（5）：Middle cardiac vein 心中靜脈、Inferior vein of left ventricle 左心室下靜脈、Posterior vein of left ventricle 左心室後靜脈、Small cardiac vein 心小靜脈、Anterior cardiac veins 心前靜脈。
+- 心包膜（Pericardium 組 5 個）：Fibrous pericardium 纖維心包、Parietal layer of serous pericardium 漿膜心包壁層、Visceral layer of serous pericardium (epicardium) 漿膜心包臟層（心外膜）、Transverse pericardial sinus 心包橫竇、Oblique pericardial sinus 心包斜竇。
+
+需要你決定的：模型沒有獨立的「鈍緣支／銳緣支」命名，只有 Left marginal branch／Right marginal branch，我照此歸為細分支；Sinoatrial nodal artery 竇房結動脈依「其餘細小分支」歸為細分支。
+
 ## 任務狀態表（2026-10-29，依你指定的優先次序排列）
 
 | 任務 | 狀態（進行中 / 已完成 / 等我審核 / 未開始 / 卡住） | PR 編號 | 卡住原因 |
@@ -112,6 +131,8 @@
 - **不使用**牛津、劍橋、韋氏字典的內容，「查字典」只是開新分頁的連結（Oxford Learner’s、Cambridge）。
 - **狀態**：已校對＝名稱在 `app/pronunciation/reviewed.json`（由你核對後加入），或你在這個瀏覽器勾選「我已核對」（只存在瀏覽器），或每個字都有 Wiktionary 音標＋真人錄音。其餘（由瀏覽器語音朗讀、或有字缺音標）一律「發音待校對」。
 - **資料**：`public/pronunciation.json`，由 `node scripts/fetch-pronunciation.mjs` 產生（只抓上肢、下肢、背部、胸腔四個考試範圍的名稱，批次請求並遵守 Retry-After）；缺 IPA／缺錄音的字列在 `docs/pronunciation-words.md`；`npm run check`（`scripts/check-pronunciation.mjs`）檢查授權、網址來源與格式。
+- **目前資料**（2026-10-29 抓取）：考試範圍名稱共 293 個不同的字，193 個字有 Wiktionary 詞條資料，其中 187 個有 IPA，49 個有 Commons 免費錄音（授權：CC0 16、CC BY-SA 4.0 20、CC BY-SA 3.0 10、CC BY 3.0 4、CC BY 2.5 1）。多數解剖拉丁字（如 latissimus、pectoralis、brachii）在 Wiktionary 沒有英文詞條或沒有音標，這些名稱一律「發音待校對」，缺漏的字列在 `docs/pronunciation-words.md`。我沒有試聽或核對任何一筆音標與錄音（錄音網址來自 Commons API，因環境被 Wikimedia 限流，沒能下載檔案確認可播放），請你抽查。
+
 - **你怎麼標已校對**：把英文名稱（例如 `Latissimus dorsi`）加進 `app/pronunciation/reviewed.json` 的 `reviewed` 清單，或回覆我名單由我加入。
 
 ## 最新進度（2026-10-29）
