@@ -59,6 +59,28 @@ const UPPER_MOTION_CONTROLS:{key:keyof MotionPose;label:string;action:UpperMotio
  {key:'wristFlexion',label:'腕屈曲（＋）／伸展（－）',action:'wristExtension'},
  {key:'wristDeviation',label:'腕尺偏（＋）／橈偏（－）',action:'wristExtension'},
 ];
+// Fingers: five digits, each with its own joints (MCP＝掌指關節, PIP＝近端指間關節, DIP＝遠端指間關節; thumb CMC＝腕掌關節, IP＝指間關節).
+const FINGER_NAMES:[string,string][]=[['index','食指'],['middle','中指'],['ring','無名指'],['little','小指']];
+const FINGER_CONTROLS:{key:keyof MotionPose;label:string}[]=[
+ {key:'thumbCmcFlexion',label:'拇指腕掌關節屈曲（＋）／伸展（－）'},
+ {key:'thumbCmcAbduction',label:'拇指外展（＋）'},
+ {key:'thumbOpposition',label:'拇指對掌（＋）'},
+ {key:'thumbMcpFlexion',label:'拇指掌指關節屈曲（＋）'},
+ {key:'thumbIpFlexion',label:'拇指指間關節屈曲（＋）／伸展（－）'},
+ ...FINGER_NAMES.flatMap(([id,zh])=>[
+  {key:`${id}McpFlexion` as keyof MotionPose,label:`${zh}掌指關節屈曲（＋）／伸展（－）`},
+  {key:`${id}McpAbduction` as keyof MotionPose,label:`${zh}外展（＋）／內收（－）`},
+  {key:`${id}PipFlexion` as keyof MotionPose,label:`${zh}近端指間關節屈曲（＋）`},
+  {key:`${id}DipFlexion` as keyof MotionPose,label:`${zh}遠端指間關節屈曲（＋）`}
+ ])
+];
+const fingerPose=(values:Partial<Record<keyof MotionPose,number>>)=>values;
+const HAND_PRESETS:{id:string;label:string;pose:Partial<Record<keyof MotionPose,number>>}[]=[
+ {id:'open',label:'張開',pose:fingerPose({...Object.fromEntries(FINGER_CONTROLS.map(c=>[c.key,0])),indexMcpAbduction:12,ringMcpAbduction:10,littleMcpAbduction:18,thumbCmcAbduction:40,indexMcpFlexion:-10,middleMcpFlexion:-10,ringMcpFlexion:-10,littleMcpFlexion:-10})},
+ {id:'fist',label:'握拳',pose:fingerPose({...Object.fromEntries(FINGER_CONTROLS.map(c=>[c.key,0])),indexMcpFlexion:85,indexPipFlexion:100,indexDipFlexion:65,middleMcpFlexion:85,middlePipFlexion:100,middleDipFlexion:65,ringMcpFlexion:85,ringPipFlexion:100,ringDipFlexion:65,littleMcpFlexion:85,littlePipFlexion:100,littleDipFlexion:65,thumbCmcFlexion:25,thumbCmcAbduction:10,thumbOpposition:30,thumbMcpFlexion:35,thumbIpFlexion:40})},
+ {id:'pinch',label:'捏取',pose:fingerPose({...Object.fromEntries(FINGER_CONTROLS.map(c=>[c.key,0])),indexMcpFlexion:40,indexPipFlexion:45,indexDipFlexion:20,middleMcpFlexion:55,middlePipFlexion:60,middleDipFlexion:30,ringMcpFlexion:65,ringPipFlexion:70,ringDipFlexion:35,littleMcpFlexion:70,littlePipFlexion:75,littleDipFlexion:35,thumbCmcFlexion:10,thumbCmcAbduction:30,thumbOpposition:35,thumbMcpFlexion:25,thumbIpFlexion:30})},
+ {id:'ok',label:'OK 手勢',pose:fingerPose({...Object.fromEntries(FINGER_CONTROLS.map(c=>[c.key,0])),indexMcpFlexion:40,indexPipFlexion:50,indexDipFlexion:25,middleMcpFlexion:5,ringMcpAbduction:8,littleMcpAbduction:15,thumbCmcFlexion:10,thumbCmcAbduction:30,thumbOpposition:40,thumbMcpFlexion:25,thumbIpFlexion:30})}
+];
 const REGIONAL_VISIBLE:SystemId[]=['skeletal','muscular','arterial','venous','nervous','connective'];
 const ORGAN_SYSTEM_IDS:SystemId[]=['cardiac','serous','sensory','respiratory','digestive','urinary','lymphatic','endocrine','reproductive'];
 // The three pericardial layers belong to the heart: they start hidden here and are shown in the heart detail mode (心).
@@ -359,6 +381,12 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
     <div className="motion-control-stack">
      {UPPER_MOTION_CONTROLS.map(control=><MotionPullControl key={control.key} label={control.label} value={motionPose[control.key]} min={MOTION_LIMITS[control.key][0]} max={MOTION_LIMITS[control.key][1]} disabled={!motionEnabled} onValueChange={value=>{setMotionAction(control.action);setJoint(control.key,value);}}/>)}
     </div>
+    <details className="mj-finger-lab"><summary>手指｜Fingers</summary>
+     <div className="mj-hand-presets" role="group" aria-label="手勢預設">{HAND_PRESETS.map(h=><Button key={h.id} variant="ghost" disabled={!motionEnabled} onClick={()=>{setMotionAction('wristExtension');applyMotionPose({...motionTargetRef.current,...h.pose} as MotionPose);}}>{h.label}</Button>)}</div>
+     <div className="motion-control-stack">
+      {FINGER_CONTROLS.map(control=><MotionPullControl key={control.key} label={control.label} value={motionPose[control.key]} min={MOTION_LIMITS[control.key][0]} max={MOTION_LIMITS[control.key][1]} disabled={!motionEnabled} onValueChange={value=>{setMotionAction('wristExtension');setJoint(control.key,value);}}/>)}
+     </div>
+    </details>
     <small className="mj-motion-note">0° 為人體放鬆中立位；正負角度代表相反方向。所有角度都可以直接拖動，毋須先選動作。</small>
     <MotionAnatomyPanel anatomy={UPPER_ACTION_ANATOMY[motionAction]} onInspect={inspectMotionStructure}/>
    </section>}

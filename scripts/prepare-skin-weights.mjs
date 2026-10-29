@@ -12,7 +12,7 @@ import {quizModule} from './quiz-modules.mjs';
 const root = new URL('../', import.meta.url), models = new URL('public/models/', root);
 // The result depends only on these inputs; skip the minute-long solve when nothing changed.
 const inputHash = createHash('sha256');
-for (const file of ['scripts/prepare-skin-weights.mjs', 'public/models/atlas.json', 'app/biomechanics-v2/bone-bindings.json', 'app/biomechanics-v2/body-bindings.json', 'app/biomechanics-v2/tissue-bindings.json', 'app/biomechanics-v2/gpu-skinning.ts', 'app/mj-part-regions.ts', 'app/mj-system-classifier.ts', 'app/anatomy-source-overrides.json']) inputHash.update(fs.readFileSync(new URL(file, root)));
+for (const file of ['scripts/prepare-skin-weights.mjs', 'public/models/atlas.json', 'app/biomechanics-v2/bone-bindings.json', 'app/biomechanics-v2/digit-joints.json', 'app/biomechanics-v2/body-bindings.json', 'app/biomechanics-v2/tissue-bindings.json', 'app/biomechanics-v2/gpu-skinning.ts', 'app/mj-part-regions.ts', 'app/mj-system-classifier.ts', 'app/anatomy-source-overrides.json']) inputHash.update(fs.readFileSync(new URL(file, root)));
 for (const k of ['SKIN_SIGMA_ROOT', 'SKIN_SIGMA_SCALE', 'SKIN_SMOOTH', 'SKIN_GEO_LIMIT']) inputHash.update(`${k}=${process.env[k] ?? ''}`);
 const stamp = inputHash.digest('hex').slice(0, 24);
 const stampFile = new URL('../../work/skin-weights.stamp', models);
@@ -35,6 +35,14 @@ export const positionHash = positions => {let hash = 2166136261; for (let i = 0;
 const ARM_FRAME = {clavicle: 1, scapula: 2, humerus: 3, ulna: 4, radius: 5, carpus: 6, hand: 6};
 const slotOfBone = new Map();
 for (const side of ['left', 'right']) for (const [group, entries] of Object.entries(boneBindings[side])) for (const e of entries) slotOfBone.set(e.id, gpu.SIDE_BASE[side] + ARM_FRAME[group]);
+// every moving digit bone (thumb metacarpal, phalanges) has a frame of its own after the seven arm frames, in digits.ts DIGIT_FRAMES order
+const digitJoints = JSON.parse(fs.readFileSync(new URL('app/biomechanics-v2/digit-joints.json', root), 'utf8'));
+const DIGITS = ['thumb', 'index', 'middle', 'ring', 'little'];
+const digitSlot = (side, digit, k) => gpu.SIDE_BASE[side] + 7 + DIGITS.indexOf(digit) * 3 + k;
+for (const side of ['left', 'right']) for (const digit of DIGITS) {
+  const ids = digitJoints.sides[side][digit].ids, order = digit === 'thumb' ? ['mc', 'pp', 'dp'] : ['pp', 'mp', 'dp'];
+  order.forEach((key, k) => slotOfBone.set(ids[key], digitSlot(side, digit, k)));
+}
 for (const [id, b] of Object.entries(bodyBindings)) {
   if ((b.rig === 'leftLeg' || b.rig === 'rightLeg') && b.frame !== null && b.frame >= 1) slotOfBone.set(id, gpu.LEG_BASE[b.rig === 'leftLeg' ? 'left' : 'right'] + b.frame - 1);
 }
@@ -57,6 +65,7 @@ const links = [];
 for (const side of ['left', 'right']) {
   const a = gpu.SIDE_BASE[side], l = gpu.LEG_BASE[side];
   links.push([0, a + 1], [0, a + 2], [a + 1, a + 2], [a + 1, a + 3], [a + 2, a + 3], [a + 3, a + 4], [a + 3, a + 5], [a + 4, a + 5], [a + 4, a + 6], [a + 5, a + 6]);
+  for (let d = 0; d < 5; d++) links.push([a + 6, a + 7 + d * 3], [a + 7 + d * 3, a + 8 + d * 3], [a + 8 + d * 3, a + 9 + d * 3]);
   links.push([0, l], [l, l + 1], [l + 1, l + 2], [l, l + 3], [l + 1, l + 3]);
 }
 const hops = new Map();
@@ -78,12 +87,12 @@ const targets = atlas.parts.filter(p => {
 
 // Metres of extra distance that cut a segment's influence to 1/e. Girdle and proximal-limb segments blend over a wide band, so the
 // axilla and groin stretch gradually (a skin web) instead of tearing; distal segments blend over a narrow band so fingers and toes stay crisp.
-const SIGMA_BY_FRAME = {arm: [0, .03, .03, .03, .02, .02, .012], leg: [0, .03, .022, .012, .03]};
+const SIGMA_BY_FRAME = {arm: [0, .03, .03, .03, .02, .02, .012, ...Array(15).fill(.007)], leg: [0, .03, .022, .012, .03]};
 const SIGMA_ROOT = Number(process.env.SKIN_SIGMA_ROOT ?? .012);
 const sigmaOfSlot = slot => {
   if (slot === 0) return SIGMA_ROOT;
   for (const side of ['left', 'right']) {
-    if (slot >= gpu.SIDE_BASE[side] && slot < gpu.SIDE_BASE[side] + 7) return SIGMA_BY_FRAME.arm[slot - gpu.SIDE_BASE[side]] * Number(process.env.SKIN_SIGMA_SCALE ?? 1);
+    if (slot >= gpu.SIDE_BASE[side] && slot < gpu.SIDE_BASE[side] + gpu.FRAME_COUNT) return SIGMA_BY_FRAME.arm[slot - gpu.SIDE_BASE[side]] * Number(process.env.SKIN_SIGMA_SCALE ?? 1);
     if (slot >= gpu.LEG_BASE[side] && slot < gpu.LEG_BASE[side] + 4) return SIGMA_BY_FRAME.leg[slot - gpu.LEG_BASE[side] + 1] * Number(process.env.SKIN_SIGMA_SCALE ?? 1);
   }
   return SIGMA_ROOT;

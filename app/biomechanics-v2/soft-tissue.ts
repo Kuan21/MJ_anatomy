@@ -10,6 +10,7 @@ import rawSerratusAttachments from './serratus-attachments.json';
 import rawThoracicCables from './thoracic-cables.json';
 import rawScapularBranches from './scapular-branches.json';
 import rawPectoralFollowers from './pectoral-followers.json';
+import {DIGIT_FRAMES,digitBoneIds,withDigitWeights} from './digits';
 export type DeltoidFollowers=Record<string,{side:string;vertexCount:number;positionHash:number;progress:number[];hostWeights:number[][];nodes:number[];samples:[string,number][];patches:[number,number][][]}>;
 let deltoidFollowers:DeltoidFollowers={};
 // Loaded with the peripheral nerves, not duplicated in the entry and worker.
@@ -65,8 +66,8 @@ export function resolveMuscleProfile(name:string,fallback:Profile):Profile{
  if(/pectoralis major/.test(n))return 'pectoralPath';
  return fallback;
 }
-// Common frame palette: trunk, clavicle, scapula, humerus, ulna, radius, hand.
-export const FRAMES=['root','clavicle','scapula','humerus','ulna','radius','hand'] as const;
+// Common frame palette: trunk, clavicle, scapula, humerus, ulna, radius, hand, then one frame per moving digit bone (thumb metacarpal and phalanges, finger phalanges; see digits.ts).
+export const FRAMES=['root','clavicle','scapula','humerus','ulna','radius','hand',...DIGIT_FRAMES] as readonly string[];
 export interface ThoraxWrap {centerZ:number;radiusX:number;radiusZ:number}
 export interface SoftRig {side:Side;ids:(string|undefined)[];shoulder:Vector3;elbow:Vector3;wrist:Vector3;groups:Record<string,Box3>;radius:Vector3;ulna:Vector3;thorax:ThoraxWrap;handTipY:number;digitalLandmarks:{source:Vector3;target:Vector3}[]}
 export interface FibreGuide {centres:Vector3[];indices:Uint8Array;weights:Float32Array;coordinates:Float32Array;axis:Vector3;origin:Vector3;length:number}
@@ -89,7 +90,7 @@ export function makeSoftRig(atlas:Atlas,side:Side):SoftRig|null{
  const digitalLandmarks=fingers.map((finger,i)=>{const p=atlas.parts.find(p=>p.name===`Distal phalanx of ${side} ${finger}`);if(!p)throw new Error(`Missing distal landmark: ${side} ${finger}`);return{source:new Vector3(sign*sourceTips[i][0],sourceTips[i][1],sourceTips[i][2]),target:new Vector3((p.bounds[0][0]+p.bounds[1][0])*.5,p.bounds[0][1]-.001,p.bounds[1][2]-.002)};});
  const ribs=new Box3();for(const p of atlas.parts)if(p.system==='skeletal'&&/ rib$/i.test(p.name))ribs.union(new Box3(new Vector3().fromArray(p.bounds[0]),new Vector3().fromArray(p.bounds[1])));
  const thorax={centerZ:(ribs.min.z+ribs.max.z)/2,radiusX:Math.max(Math.abs(ribs.min.x),Math.abs(ribs.max.x)),radiusZ:(ribs.max.z-ribs.min.z)/2};
- return{side,digitalLandmarks,thorax,ids:[undefined,...['clavicle','scapula','humerus','ulna','radius','hand'].map(id=>node(id).partIds[0])],shoulder:node('humerus').pivot.clone(),elbow:node('ulna').pivot.clone(),wrist:node('carpus').pivot.clone(),groups,handTipY:Math.min(...atlas.parts.filter(p=>node('hand').partIds.includes(p.id)).map(p=>p.bounds[0][1])),radius:center('radius'),ulna:center('ulna')};
+ return{side,digitalLandmarks,thorax,ids:[undefined,...['clavicle','scapula','humerus','ulna','radius','hand'].map(id=>node(id).partIds[0]),...digitBoneIds(side)],shoulder:node('humerus').pivot.clone(),elbow:node('ulna').pivot.clone(),wrist:node('carpus').pivot.clone(),groups,handTipY:Math.min(...atlas.parts.filter(p=>node('hand').partIds.includes(p.id)).map(p=>p.bounds[0][1])),radius:center('radius'),ulna:center('ulna')};
 }
 const clamp=(x:number)=>Math.max(0,Math.min(1,x));
 const smooth=(x:number)=>{x=clamp(x);return x*x*(3-2*x);};
@@ -139,7 +140,11 @@ export function registerNerveRest(rig:SoftRig,positions:Float32Array):void{
   positions[i]+=t*dx/total;positions[i+1]+=t*dy/total;positions[i+2]+=t*dz/total;
  }
 }
+/** Frame weights of a point: the arm weighting (trunk … hand), with the hand's share handed on to the digit frames where the point lies in a finger. */
 export function weightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''):number[]{
+ return withDigitWeights(rig.side,armWeightsAt(rig,profile,p,box,name),p.x,p.y,p.z,FRAMES.length);
+}
+function armWeightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''):number[]{
  const c=box.getCenter(new Vector3()),size=box.getSize(new Vector3());
  const down=clamp((box.max.y-p.y)/Math.max(.01,size.y));
  const lateral=clamp((Math.abs(p.x)-Math.min(Math.abs(box.min.x),Math.abs(box.max.x)))/Math.max(.01,size.x));
@@ -235,7 +240,7 @@ export function weightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''
 /** One weight-smoothing pass over the mesh. Each free vertex's frame weights are blended with the mean of its surface
  * neighbours (duplicated normal-seam vertices count as one), then renormalised to the best four. A vertex whose
  * dominant bone weight is already >= .995 is an attachment collar and stays exactly on its bone. */
-export function smoothSkinWeights(positions:ArrayLike<number>,triangles:ArrayLike<number>,indices:Uint8Array,weights:Float32Array,frames=7,amount=.5,passes=1){
+export function smoothSkinWeights(positions:ArrayLike<number>,triangles:ArrayLike<number>,indices:Uint8Array,weights:Float32Array,frames=FRAMES.length,amount=.5,passes=1){
  const count=weights.length/4,node=new Uint32Array(count),keys=new Map<string,number>();
  for(let i=0;i<count;i++){const key=`${positions[i*3]},${positions[i*3+1]},${positions[i*3+2]}`,first=keys.get(key);if(first===undefined){keys.set(key,i);node[i]=i;}else node[i]=first;}
  const neighbours:Set<number>[]=Array.from({length:count},()=>new Set<number>());
@@ -421,8 +426,8 @@ function deformCable(binding:SkinBinding,base:Float32Array,palette:Palette,out:F
 }
 export type Palette=Float64Array;
 export function makePalette(rig:SoftRig,transforms:Record<string,PartTransform>):Palette{
- const out=new Float64Array(7*8);
- for(let i=0;i<7;i++){
+ const out=new Float64Array(FRAMES.length*8);
+ for(let i=0;i<FRAMES.length;i++){
   const t=rig.ids[i]?transforms[rig.ids[i]!]:undefined,q=t?new Quaternion(...t.quaternion).normalize():new Quaternion(),v=t?new Vector3(...t.translation):new Vector3();
   const d=new Quaternion(v.x,v.y,v.z,0).multiply(q);
   out.set([q.x,q.y,q.z,q.w,d.x*.5,d.y*.5,d.z*.5,d.w*.5],i*8);
