@@ -18,7 +18,7 @@ export const HEART_SELECT = {fill: '#5DB89A', edge: '#3E8E74', hover: '#A7DCCB'}
 const GROUP_COLOR: Record<string, string> = {
   chambers: '#d98a85', papillary: '#c97a5a', valves: '#f0dfa3', coronary: '#b0313f', veins: '#4f86bf', vessels: '#c9a8a0', interior: '#c9785f', pericardium: '#d9c9a3',
 };
-/** MJ-built surface patches and spaces are drawn as tinted, translucent regions so they read as areas, not as ridges. */
+/** schematic surface patches and spaces are drawn as tinted, translucent regions so they read as areas, not as ridges. */
 const PATCH_COLOR: Record<string, string> = {
   'Interatrial septum': '#8fb8e6', 'Fossa ovalis': '#f0e3a8', 'Right auricle': '#e8a15a', 'Left auricle': '#e8a15a', 'Interventricular septum': '#86c08a', 'Conus arteriosus': '#b98ad6', 'Aortic vestibule': '#5fb0dc',
   'Transverse pericardial sinus': '#69b96a', 'Oblique pericardial sinus': '#69b96a',
