@@ -6,9 +6,9 @@
 
 | 類別 | 不重複詞數 | 意思 |
 |---|---|---|
-| 一、已有 | 1204 | 模型有，而且可以用搜尋／圖層揀到 |
+| 一、已有 | 1213 | 模型有，而且可以用搜尋／圖層揀到 |
 | 二、模型有但 UI 搵唔到 | 0 | 模型有幾何，但搜尋唔到（見下面清單；已修好者會喺「修復」一節列明） |
-| 三、模型冇 | 1136 | 交俾第 2 部分補模型 |
+| 三、模型冇 | 1127 | 交俾第 2 部分補模型 |
 | 骨性標誌 | 263 | 結節、窩、切跡等，屬已有骨件嘅表面特徵，模型唔另外分件 |
 | 雜訊（已略去） | 650 | 唔係解剖結構 |
 
@@ -95,7 +95,7 @@
 
 ## 神經系統　`20250321_解剖_神經系統__W5_2`
 
-已有 40　·　UI 搵唔到 0　·　模型冇 70　·　骨標誌 12　·　雜訊 26
+已有 39　·　UI 搵唔到 0　·　模型冇 71　·　骨標誌 12　·　雜訊 26
 
 **三、模型冇**
 
@@ -119,6 +119,7 @@
 - Dorsal motor nucleus
 - amibguus nucleus
 - Formed from a cranial root
+- Hypoglossal nucleus
 - Meningeal branches
 - Communicating branches
 - Preganglionic neuron Automatic ganglion
@@ -172,7 +173,7 @@
 
 ## 生殖系統＋喉　`20250411_解剖_生殖系統_曾__喉部_陳___W8`
 
-已有 33　·　UI 搵唔到 0　·　模型冇 65　·　骨標誌 6　·　雜訊 17
+已有 37　·　UI 搵唔到 0　·　模型冇 61　·　骨標誌 6　·　雜訊 17
 
 **三、模型冇**
 
@@ -188,11 +189,8 @@
 - Ejaculatory Duct
 - bulbo-urethral glands
 - spiral artery
-- recto-uterine pouch
 - Modified sweat gland（皮膚系統的特化汗腺）
 - Tubuloalveolar exocrine gland（泡狀的複合式外分泌腺）
-- Lactiferous ducts（放射排列的輸乳管）
-- Lactiferous sinus（方有稍微膨大的輸乳竇）
 - vocal cord
 - aryepiglottic ligament
 - vestibular ligament
@@ -212,7 +210,6 @@
 - ductus deferens（輸精管）
 - primordial follicle（內有許多原始濾泡）
 - mesometrium（子宮繫膜）
-- mesosalpinx（輸卵管繫膜）
 - mesovarian（卵巢繫膜）
 - fimbirae（前方伸出輸卵管繖）
 - isthmus of uterus（子宮峽）
@@ -487,7 +484,7 @@
 
 ## 腹部 I　`Med_Abdomen_I_20250519_14ba0910260399815d92ca495866ae39`
 
-已有 46　·　UI 搵唔到 0　·　模型冇 54　·　骨標誌 21　·　雜訊 57
+已有 47　·　UI 搵唔到 0　·　模型冇 53　·　骨標誌 21　·　雜訊 57
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -514,7 +511,6 @@
 - intercostal a. Subcostal a
 - Superficial circumflex iliac v
 - Paraumbilical v
-- Thoracoepigastric v
 - Deep circumflex iliac v
 - Superficial inguinal nodes
 - Parasternal nodes
@@ -620,7 +616,7 @@
 
 ## 胸部 I（胸壁、乳房）　`解剖_0908-3`
 
-已有 50　·　UI 搵唔到 0　·　模型冇 59　·　骨標誌 27　·　雜訊 28
+已有 52　·　UI 搵唔到 0　·　模型冇 57　·　骨標誌 27　·　雜訊 28
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -635,8 +631,6 @@
 - sebaceous glands（含有數條皮脂腺）
 - retromammary space（乳房後間隙）
 - pectoralis fascia
-- lactiferous duct（葉分泌乳汁經由乳腺管）
-- lactiferous sinus（匯集輸乳竇）
 - axillary lymph node（腋淋巴結）
 - subclavian lymphatic trunk（帶回鎖骨下淋巴幹）
 - parasternal lymph node（胸骨旁淋巴結）
@@ -1008,7 +1002,7 @@
 
 ## 骨盆會陰 I　`解剖_1110`
 
-已有 80　·　UI 搵唔到 0　·　模型冇 128　·　骨標誌 18　·　雜訊 33
+已有 85　·　UI 搵唔到 0　·　模型冇 123　·　骨標誌 18　·　雜訊 33
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -1037,9 +1031,7 @@
 - External urethral orifice（尿道外口）
 - Paraurethral glands
 - Rectovesical pouch（直腸膀胱陷凹）
-- Vesicouterine pouch（膀胱子宮陷凹）
 - broad and round ligaments
-- Rectouterine pouch（直腸子宮陷凹）
 - Ovarian a（卵巢動脈）
 - Median sacral a（正中薦動脈）
 - Umbilical a（臍動脈）
@@ -1101,12 +1093,10 @@
 - digestive system（消化系統）
 - sigmoid colon（部分乙狀結腸）
 - internal urethral sphincter（約肌）
-- peritoneum（脹大的膀胱會將腹膜）
 - serosa（漿膜層）
 - mucosa（黏膜上皮）
 - submucosa（組織所構成的黏膜下層）
 - intraureteric fold（膀胱褶）
-- trigone（膀胱三角）
 - intramural part（間質肌部）
 - uvula of bladder（膀胱懸壅垂）
 - prostatic urethra（前列腺尿道）
@@ -1130,7 +1120,6 @@
 - middle transverse rectal fold（中橫褶）
 - inferior transverse rectal fold（下橫褶）
 - germinal epithelium（外面由一層生殖上皮）
-- mesosalpinx（分別為輸卵管繫膜）
 - mesometrium（子宮繫膜）
 - peritoneal reflections（腹膜反摺）
 - ureteric fold（輸尿管褶）

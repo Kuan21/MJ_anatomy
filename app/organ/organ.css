@@ -163,3 +163,7 @@
 .organ-all li button:hover{background:#eef1f3}
 .organ-all li button[aria-pressed=true]{background:#e3f4ec;box-shadow:inset 0 0 0 1px #5db89a}
 .organ-nuclei{margin:0;padding-left:16px}.organ-nuclei li{margin:2px 0}
+
+/* Heart detail: same three columns as the brain mode — chamber and structure lists on the left, model in the middle, controls and notes on the right */
+.organ-left-heart{display:flex;flex-direction:column;gap:12px}
+.organ-left-heart .organ-block{flex:none}
