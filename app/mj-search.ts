@@ -4,7 +4,7 @@ import type {Concept} from './anatomy';
 // (背闊肌 / 背阔肌 for 闊背肌, simplified characters in general).
 import paokaoAliases from '../docs/paokao-aliases.json';
 const SIMPLIFIED:Record<string,string>={闊:'阔',橫:'横',內:'内',豎:'竖',頭:'头',臟:'脏',腸:'肠',韌:'韧',節:'节',動:'动',靜:'静',脈:'脉',經:'经',頸:'颈',腦:'脑',膽:'胆',腎:'肾',頰:'颊',顳:'颞',顱:'颅',臍:'脐',臀:'臀',膈:'膈',關:'关',體:'体',龍:'龙',側:'侧',縫:'缝',線:'线',環:'环',間:'间',骨:'骨',膜:'膜',腱:'腱',髖:'髋',踝:'踝',趾:'趾'};
-const ALIASES:Record<string,string[]>={闊背肌:['背闊肌','背阔肌']};
+const ALIASES:Record<string,string[]>={闊背肌:['背闊肌','背阔肌'],二尖瓣:['僧帽瓣']};
 /** Papillary muscle is 乳突肌 in the course summary (跑考摘要); the older textbook form 乳頭肌 stays searchable. 胸鎖乳突肌 is the mastoid muscle and is left alone. */
 const PAPILLARY=/(?<!胸鎖)乳突肌/;
 const aliasForms=(chinese:string)=>{
@@ -18,7 +18,10 @@ const simplify=(s:string)=>[...s].map(c=>SIMPLIFIED[c]??c).join('');
 const baseName=(n:string)=>n.toLowerCase().replace(/\.[lr](\.\d+)?$/,'').replace(/\b(left|right)\b/g,' ').replace(/[^a-z0-9]+/g,' ').trim();
 const ALT:Map<string,string[]>=new Map();
 for(const [note,models] of Object.entries(paokaoAliases as Record<string,string[]>))for(const m of models){const k=baseName(m);ALT.set(k,[...(ALT.get(k)??[]),note]);}
-const altNames=(name:string)=>ALT.get(baseName(name))??[];
+/** The two atrioventricular valves have older names that stay searchable: mitral = left atrioventricular = bicuspid, tricuspid = right atrioventricular. */
+const VALVE_SYNONYMS:[string,string[]][]=[['mitral valve',['left atrioventricular valve','bicuspid valve']],['tricuspid valve',['right atrioventricular valve']]];
+const valveNames=(name:string)=>{const n=name.toLowerCase();return VALVE_SYNONYMS.flatMap(([canonical,others])=>n.includes(canonical)?others.map(o=>n.replace(canonical,o)):[]);};
+const altNames=(name:string)=>[...(ALT.get(baseName(name))??[]),...valveNames(name)];
 
 /** Does a Chinese structure name match what the user typed? */
 export function chineseMatches(chinese:string|undefined,query:string){

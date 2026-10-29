@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import {quizModule} from './quiz-modules.mjs';
 const {judgeName, acceptedNames, normalize, distance, relationOf} = await quizModule('app/quiz/naming.ts');
-const mitral = {name: 'Left atrioventricular valve', chinese: '僧帽瓣', side: 'midline'}, trap = {name: 'Septomarginal trabecula (moderator band)', chinese: '節制索', side: 'midline'};
+const mitral = {name: 'Mitral valve', chinese: '二尖瓣', side: 'midline'}, leaflet = {name: 'Anterior leaflet of mitral valve', chinese: '二尖瓣前瓣', side: 'midline'}, tricuspid = {name: 'Tricuspid valve', chinese: '三尖瓣', side: 'midline'}, trap = {name: 'Septomarginal trabecula (moderator band)', chinese: '節制索', side: 'midline'};
 const pec = {name: 'Abdominal part of right pectoralis major', chinese: '右胸大肌腹部', side: 'right'}, ratio = {name: 'Posterior interventricular branch', chinese: '後室間支', side: 'midline'}, atrium = {name: 'Left atrium', chinese: '左心房', side: 'midline'};
 const any = {language: 'any', needSide: false}, en = {language: 'en', needSide: false}, zh = {language: 'zh', needSide: false};
 const r = (t, s, o) => judgeName(t, s, o).result;
@@ -10,6 +10,8 @@ const r = (t, s, o) => judgeName(t, s, o).result;
 assert.equal(r('Mitral valve', mitral, en), 'correct'); assert.equal(r('  bicuspid   VALVE ', mitral, en), 'correct'); assert.equal(r('mitral-valve', mitral, en), 'correct');
 assert.equal(r('二尖瓣', mitral, zh), 'correct'); assert.equal(r('僧帽瓣', mitral, any), 'correct'); assert.equal(r('Mitral valve', mitral, zh), 'wrong', 'English is not accepted when the language is Chinese');
 assert.equal(r('Left atrioventricular valve', mitral, en), 'correct');
+assert.equal(r('僧帽瓣前瓣', leaflet, zh), 'correct'); assert.equal(r('二尖瓣前瓣', leaflet, zh), 'correct'); assert.equal(r('Anterior leaflet of left atrioventricular valve', leaflet, en), 'correct'); assert.equal(r('anterior leaflet of bicuspid valve', leaflet, en), 'correct');
+assert.equal(r('Right atrioventricular valve', tricuspid, en), 'correct'); assert.equal(r('三尖瓣', tricuspid, zh), 'correct'); assert.equal(r('右房室瓣', tricuspid, zh), 'correct');
 // brackets give two more accepted names
 assert.equal(r('moderator band', trap, en), 'correct'); assert.equal(r('septomarginal trabecula', trap, en), 'correct');
 // left/right: ignored unless the setting asks for it; a muscle part keeps its side word where the name has it

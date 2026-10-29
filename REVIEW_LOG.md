@@ -19,6 +19,26 @@
 - **資料**：`public/pronunciation.json`，由 `node scripts/fetch-pronunciation.mjs` 產生（只抓上肢、下肢、背部、胸腔四個考試範圍的名稱，批次請求並遵守 Retry-After）；缺 IPA／缺錄音的字列在 `docs/pronunciation-words.md`；`npm run check`（`scripts/check-pronunciation.mjs`）檢查授權、網址來源與格式。
 - **你怎麼標已校對**：把英文名稱（例如 `Latissimus dorsi`）加進 `app/pronunciation/reviewed.json` 的 `reviewed` 清單，或回覆我名單由我加入。
 
+## 名稱修改：僧帽瓣 → 二尖瓣（需人工審核，不自動 merge）
+
+**畫面一律顯示「二尖瓣」；「僧帽瓣」留為同義名稱，搜尋與 Quiz 作答都接受。**
+
+| 項目 | 主要名稱（畫面顯示） | 同義名稱（搜尋與 Quiz 作答接受） |
+| --- | --- | --- |
+| 左房室瓣（整體） | Mitral valve｜二尖瓣 | Left atrioventricular valve、Bicuspid valve｜僧帽瓣、左房室瓣 |
+| 二尖瓣前瓣 | Anterior leaflet of mitral valve｜二尖瓣前瓣 | Anterior leaflet of left atrioventricular valve、Anterior leaflet of bicuspid valve、Anterior cusp of mitral valve｜僧帽瓣前瓣、僧帽瓣前葉、二尖瓣前葉 |
+| 二尖瓣後瓣 | Posterior leaflet of mitral valve｜二尖瓣後瓣 | 同上（Posterior） |
+| 右房室瓣（整體） | Tricuspid valve｜三尖瓣 | Right atrioventricular valve｜右房室瓣 |
+| 三尖瓣前／下（後）／隔瓣 | Anterior / Inferior / Septal leaflet of tricuspid valve｜三尖瓣前瓣／後瓣／中隔瓣 | 原本的 "…of right atrioventricular valve"、Posterior leaflet of tricuspid valve（下瓣）、Cusp 寫法 |
+
+範圍：心臟詳細模式（資料卡、清單、標籤、說明文字、腱索與乳突肌的描述）、主圖譜（圖譜零件的中文名「二尖瓣前葉／後葉」）、搜尋（`app/mj-search.ts`：僧帽瓣→二尖瓣、mitral↔left atrioventricular／bicuspid、tricuspid↔right atrioventricular）、Quiz 題庫與同義表（`app/quiz/synonyms.ts`、`test-quiz-naming.mjs`）、名稱對照表（`docs/naming-report.md` 重新產生）。3D 網格對應鍵（`node`）沒有改。
+
+### 與跑考摘要用詞不同之處（請你決定）
+- `docs/heart-checklist.json`（跑考摘要第 17 頁）原本寫「僧帽瓣前瓣／後瓣」；本 PR 依你的指示把清單的畫面名稱改為「二尖瓣前瓣／後瓣」，原始跑考用詞保留在各項目的 `paokaoZh` 欄位。
+- `docs/curriculum-terms.json`（課程名詞）寫「Rt. atrioventricular orifice Tricuspid valves」「Left atrioventricular orifice」（房室口），未動。
+- 英文：跑考清單寫「Anterior leaflet of the mitral valve」（含 the），畫面維持不加 the 的「Anterior leaflet of mitral valve」，與圖譜零件名一致。
+- 三尖瓣的後（下）瓣：模型的名稱是 Inferior leaflet，跑考／BodyParts3D 用 Posterior leaflet；我把 Inferior 當主要名稱、Posterior 當同義名稱。要反過來請告訴我。
+
 ## 最新進度（2026-10-29）
 
 ### 已 merge（你已確認，squash）
@@ -79,13 +99,13 @@
 
 | 構造（英文名，小寫，不含左右） | 額外接受的英文 | 額外接受的中文 |
 | --- | --- | --- |
-| right atrioventricular valve | tricuspid valve | 三尖瓣、右房室瓣 |
-| left atrioventricular valve | mitral valve；bicuspid valve | 僧帽瓣、二尖瓣、左房室瓣 |
-| anterior leaflet of right atrioventricular valve | anterior leaflet of tricuspid valve；anterior cusp of tricuspid valve | 三尖瓣前瓣 |
-| inferior leaflet of right atrioventricular valve | posterior leaflet of tricuspid valve；inferior leaflet of tricuspid valve；posterior cusp of tricuspid valve | 三尖瓣後瓣 |
-| septal leaflet of right atrioventricular valve | septal leaflet of tricuspid valve；septal cusp of tricuspid valve | 三尖瓣中隔瓣 |
-| anterior leaflet of left atrioventricular valve | anterior leaflet of mitral valve；anterior cusp of mitral valve | 僧帽瓣前瓣、二尖瓣前瓣 |
-| posterior leaflet of left atrioventricular valve | posterior leaflet of mitral valve；posterior cusp of mitral valve | 僧帽瓣後瓣、二尖瓣後瓣 |
+| tricuspid valve | right atrioventricular valve | 右房室瓣 |
+| mitral valve | left atrioventricular valve；bicuspid valve | 僧帽瓣、左房室瓣 |
+| anterior leaflet of tricuspid valve | anterior leaflet of right atrioventricular valve；anterior cusp of tricuspid valve | 三尖瓣前葉 |
+| inferior leaflet of tricuspid valve | inferior leaflet of right atrioventricular valve；posterior leaflet of tricuspid valve；posterior cusp of tricuspid valve | 三尖瓣後瓣、三尖瓣下瓣 |
+| septal leaflet of tricuspid valve | septal leaflet of right atrioventricular valve；septal cusp of tricuspid valve | 三尖瓣隔瓣 |
+| anterior leaflet of mitral valve | anterior leaflet of left atrioventricular valve；anterior leaflet of bicuspid valve；anterior cusp of mitral valve | 僧帽瓣前瓣、僧帽瓣前葉、二尖瓣前葉 |
+| posterior leaflet of mitral valve | posterior leaflet of left atrioventricular valve；posterior leaflet of bicuspid valve；posterior cusp of mitral valve | 僧帽瓣後瓣、僧帽瓣後葉、二尖瓣後葉 |
 | left coronary leaflet of aortic valve | left coronary cusp of aortic valve；left coronary cusp | 主動脈瓣左冠狀瓣、左冠狀瓣 |
 | right coronary leaflet of aortic valve | right coronary cusp of aortic valve；right coronary cusp | 主動脈瓣右冠狀瓣、右冠狀瓣 |
 | non-coronary leaflet of aortic valve | non coronary cusp of aortic valve；noncoronary cusp；posterior cusp of aortic valve | 主動脈瓣無冠狀瓣、無冠瓣 |

@@ -72,7 +72,7 @@
    "zh": "左心房",
    "group": "chambers",
    "system": "cardiac",
-   "zhDesc": "接受四條肺靜脈的充氧血，經左房室瓣（僧帽瓣）流入左心室。",
+   "zhDesc": "接受四條肺靜脈的充氧血，經左房室瓣（二尖瓣）流入左心室。",
    "enDesc": "Receives oxygenated blood from the four pulmonary veins and passes it through the left atrioventricular (mitral) valve into the left ventricle."
   },
   {
@@ -117,12 +117,12 @@
    "zh": "左心室後乳突肌",
    "group": "papillary",
    "system": "cardiac",
-   "zhDesc": "位於左心室下壁，以腱索連至左房室瓣（僧帽瓣）。",
+   "zhDesc": "位於左心室下壁，以腱索連至左房室瓣（二尖瓣）。",
    "enDesc": "Arises from the inferior wall of the left ventricle; its chordae tendineae attach to the left atrioventricular (mitral) valve."
   },
   {
    "node": "Inferior leaflet of right atrioventricular valve",
-   "name": "Inferior leaflet of right atrioventricular valve",
+   "name": "Inferior leaflet of tricuspid valve",
    "zh": "三尖瓣後瓣",
    "group": "valves",
    "system": "cardiac",
@@ -131,7 +131,7 @@
   },
   {
    "node": "Septal leaflet of right atrioventricular valve",
-   "name": "Septal leaflet of right atrioventricular valve",
+   "name": "Septal leaflet of tricuspid valve",
    "zh": "三尖瓣中隔瓣",
    "group": "valves",
    "system": "cardiac",
@@ -140,11 +140,11 @@
   },
   {
    "node": "Posterior leaflet of left atrioventricular valve",
-   "name": "Posterior leaflet of left atrioventricular valve",
-   "zh": "僧帽瓣後瓣",
+   "name": "Posterior leaflet of mitral valve",
+   "zh": "二尖瓣後瓣",
    "group": "valves",
    "system": "cardiac",
-   "zhDesc": "左房室瓣（僧帽瓣）的後尖；模型中連同其腱索一併呈現。",
+   "zhDesc": "左房室瓣（二尖瓣）的後尖；模型中連同其腱索一併呈現。",
    "enDesc": "The posterior leaflet of the left atrioventricular (mitral) valve; the model includes its chordae tendineae."
   },
   {
@@ -442,7 +442,7 @@
  "bodyparts3d": [
   {
    "id": "FJ2421",
-   "name": "Anterior leaflet of right atrioventricular valve",
+   "name": "Anterior leaflet of tricuspid valve",
    "zh": "三尖瓣前瓣",
    "group": "valves",
    "system": "cardiac",
@@ -451,11 +451,11 @@
   },
   {
    "id": "FJ2420",
-   "name": "Anterior leaflet of left atrioventricular valve",
-   "zh": "僧帽瓣前瓣",
+   "name": "Anterior leaflet of mitral valve",
+   "zh": "二尖瓣前瓣",
    "group": "valves",
    "system": "cardiac",
-   "zhDesc": "僧帽瓣的前瓣，較大，位於主動脈前庭旁，與左心室流出道相鄰。",
+   "zhDesc": "二尖瓣的前瓣，較大，位於主動脈前庭旁，與左心室流出道相鄰。",
    "enDesc": "The larger, anterior leaflet of the mitral valve; it lies beside the aortic vestibule next to the left ventricular outflow tract."
   },
   {
@@ -464,7 +464,7 @@
    "zh": "左心室前乳突肌",
    "group": "papillary",
    "system": "cardiac",
-   "zhDesc": "左心室兩條乳突肌之一，位於前外側壁，以腱索連接僧帽瓣前、後兩片瓣葉。",
+   "zhDesc": "左心室兩條乳突肌之一，位於前外側壁，以腱索連接二尖瓣前、後兩片瓣葉。",
    "enDesc": "One of the two papillary muscles of the left ventricle, on the anterolateral wall; its chordae tendineae attach to both mitral leaflets."
   },
   {
@@ -684,7 +684,7 @@
    "build": [
     "Aortic vestibule"
    ],
-   "zhDesc": "左心室內僧帽瓣前瓣與室間隔之間、通往主動脈口的光滑流出道。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "zhDesc": "左心室內二尖瓣前瓣與室間隔之間、通往主動脈口的光滑流出道。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
    "enDesc": "The smooth outflow part of the left ventricle between the anterior mitral leaflet and the septum, leading to the aortic orifice. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
   },
   {
