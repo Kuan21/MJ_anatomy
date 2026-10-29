@@ -9,6 +9,16 @@
 - **用語**：畫面、資料卡、Quiz 清單與檢查腳本中的「MJ 補建」「MJ-built」一律改為「示意構造」「schematic」。
 - **上、下腔靜脈縮短**（心臟詳細模式與 Quiz 同一份模型）：上腔靜脈只保留到心房上緣上方約 1.7 公分（y ≤ 1.362），下腔靜脈只保留到心房下緣下方約 2.4 公分（y ≥ 1.222）。切口數值請核對。
 
+## 英文發音（聽發音）
+
+- **按鈕**：資訊卡與 Quiz 答案卡的英文名稱下方有「聽發音」鈕、英式／美式切換、狀態標籤（已校對／發音待校對）、「音標／查字典」展開區。
+- **聲音來源順序**：① 維基共享資源（Wikimedia Commons）的真人錄音（只收 CC0、CC BY、CC BY-SA、公有領域；作者與授權顯示在展開區，Source & credits 有總說明）；② 沒有錄音的字改用瀏覽器語音（Web Speech API，可選英式 en-GB／美式 en-US）。名稱逐字處理：每個字用錄音或瀏覽器語音，整個名稱的錄音要每個字都有才用錄音。
+- **音標**：英文維基詞典（Wiktionary，CC BY-SA 4.0）詞條上寫的 IPA，逐字相接；沒有詞條或沒有 IPA 的字留空，不猜、不補。
+- **不使用**牛津、劍橋、韋氏字典的內容，「查字典」只是開新分頁的連結（Oxford Learner’s、Cambridge）。
+- **狀態**：已校對＝名稱在 `app/pronunciation/reviewed.json`（由你核對後加入），或你在這個瀏覽器勾選「我已核對」（只存在瀏覽器），或每個字都有 Wiktionary 音標＋真人錄音。其餘（由瀏覽器語音朗讀、或有字缺音標）一律「發音待校對」。
+- **資料**：`public/pronunciation.json`，由 `node scripts/fetch-pronunciation.mjs` 產生（只抓上肢、下肢、背部、胸腔四個考試範圍的名稱，批次請求並遵守 Retry-After）；缺 IPA／缺錄音的字列在 `docs/pronunciation-words.md`；`npm run check`（`scripts/check-pronunciation.mjs`）檢查授權、網址來源與格式。
+- **你怎麼標已校對**：把英文名稱（例如 `Latissimus dorsi`）加進 `app/pronunciation/reviewed.json` 的 `reviewed` 清單，或回覆我名單由我加入。
+
 ## 最新進度（2026-10-29）
 
 ### 已 merge（你已確認，squash）
