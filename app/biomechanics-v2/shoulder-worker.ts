@@ -34,7 +34,8 @@ export function createShoulderSolver(atlas:Atlas){
    if(linear)continue;
    const positions=input.base.slice(),geometry=new BufferGeometry();
    geometry.setAttribute('position',new BufferAttribute(positions,3));geometry.setAttribute('normal',new BufferAttribute(input.normals.slice(),3,true));geometry.setIndex(new BufferAttribute(input.triangles,1));prepareSurfaceNormals(geometry);
-   const guard=['chest','scapular'].includes(skin.profile)?makeSurfaceConstraints(input.base,input.triangles,skin):undefined;
+   // serratus anterior wraps the ribcage on its own guide; a rest-length guard only drags it apart
+   const guard=['chest','scapular'].includes(skin.profile)&&!skin.wrap?makeSurfaceConstraints(input.base,input.triangles,skin):undefined;
    members.set(input.part.id,{...input,side:binding.side,skin,positions,geometry,guard});
   }
   const results:ShoulderResult[]=[];
