@@ -3,12 +3,14 @@ import {UPPER_MUSCLE_FACTS} from './mj-muscle-facts-upper';
 import {LOWER_MUSCLE_FACTS} from './mj-muscle-facts-lower';
 import {HEAD_NECK_MUSCLE_FACTS} from './mj-muscle-facts-head-neck';
 import {TRUNK_MUSCLE_FACTS} from './mj-muscle-facts-trunk';
+import {MUSCLE_PART_FACTS} from './mj-muscle-facts-parts';
 
 export const MUSCLE_FACTS:Record<string,MuscleFacts>={
  ...UPPER_MUSCLE_FACTS,
  ...LOWER_MUSCLE_FACTS,
  ...HEAD_NECK_MUSCLE_FACTS,
- ...TRUNK_MUSCLE_FACTS
+ ...TRUNK_MUSCLE_FACTS,
+ ...MUSCLE_PART_FACTS
 };
 
 const aliases:Record<string,string>={
