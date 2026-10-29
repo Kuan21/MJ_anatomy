@@ -350,8 +350,7 @@ export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<numbe
    for(let k=0;k<4;k++){indices[i*4+k]=entries[k].j;weights[i*4+k]=entries[k].w/sum;}
   }
  }
- const cable=effectiveProfile==='path'&&thoracicCables[name]?bindCable(rig,thoracicCables[name],positions,indices,weights):undefined;
- let follower:SkinBinding['follower'];
+ const cable=effectiveProfile==='path'&&thoracicCables[name]?bindCable(rig,thoracicCables[name],positions,indices,weights):undefined; let follower:SkinBinding['follower'];
  const source=effectiveProfile==='path'?pectoralFollowers[name]:undefined;
  if(source){
   let hash=2166136261;for(let i=0;i<positions.length;i++)hash=Math.imul(hash^Math.round(positions[i]*1e7),16777619);
@@ -367,6 +366,22 @@ export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<numbe
 // Solve a connected centreline and carry the original cross-sections with it.
 // Dorsal scapular branches use source-topology skinning above, not the nearest
 // centreline embedding below. Thoracodorsal structures retain the shared field.
+/** A vessel-end piece (`…-END`) shares its vessel's name but is a separate mesh: where it touches the main mesh it takes the main mesh's skin weights, so the two
+ * move as one (otherwise the end piece follows its own rule while the vessel follows a cable, a follower or a branch field, and they tear apart). Returns how many vertices were matched. */
+export function alignEndPiece(end:SkinBinding,endPositions:ArrayLike<number>,main:SkinBinding,mainPositions:ArrayLike<number>,reach=.006):number{
+ const cell=reach,grid=new Map<string,number[]>(),key=(x:number,y:number,z:number)=>`${Math.floor(x/cell)},${Math.floor(y/cell)},${Math.floor(z/cell)}`;
+ for(let i=0;i<mainPositions.length/3;i++){const k=key(mainPositions[i*3],mainPositions[i*3+1],mainPositions[i*3+2]);const a=grid.get(k);if(a)a.push(i);else grid.set(k,[i]);}
+ let matched=0;
+ for(let i=0;i<endPositions.length/3;i++){
+  const x=endPositions[i*3],y=endPositions[i*3+1],z=endPositions[i*3+2];let best=-1,bestD=reach*reach;
+  const kx=Math.floor(x/cell),ky=Math.floor(y/cell),kz=Math.floor(z/cell);
+  for(let dx=-1;dx<=1;dx++)for(let dy=-1;dy<=1;dy++)for(let dz=-1;dz<=1;dz++)for(const j of grid.get(`${kx+dx},${ky+dy},${kz+dz}`)??[]){const d=(x-mainPositions[j*3])**2+(y-mainPositions[j*3+1])**2+(z-mainPositions[j*3+2])**2;if(d<bestD){bestD=d;best=j;}}
+  if(best<0)continue;
+  for(let k=0;k<4;k++){end.indices[i*4+k]=main.indices[best*4+k];end.weights[i*4+k]=main.weights[best*4+k];}
+  matched++;
+ }
+ return matched;
+}
 function bindCable(rig:SoftRig,source:CableSource,positions:ArrayLike<number>,indices:Uint8Array,weights:Float32Array):CableGuide{
  let hash=2166136261;for(let i=0;i<positions.length;i++)hash=Math.imul(hash^Math.round(positions[i]*1e7),16777619);
  if(source.side!==rig.side||source.vertexCount*3!==positions.length||source.positionHash!==(hash>>>0))throw new Error('Thoracic cable/source mismatch');
