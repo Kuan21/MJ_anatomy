@@ -304,8 +304,14 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
     const offsets = [[0, 0], ...[4, 8, ...(touch ? [12] : [])].flatMap(d => [[d, 0], [-d, 0], [0, d], [0, -d]])];
     for (const [dx, dy] of offsets) {
       raycaster.setFromCamera(new T.Vector2(((clientX + dx - rect.left) / rect.width) * 2 - 1, 1 - ((clientY + dy - rect.top) / rect.height) * 2), camera);
-      const hit = raycaster.intersectObjects(candidates, false)[0];
-      if (hit) {callbacks.pick(hit.object.userData.structureId); return;}
+      const hits = raycaster.intersectObjects(candidates, false);
+      if (hits.length) {
+        // Where structures overlap on the ray the smallest one within 1.2 cm of the nearest surface wins, so a leaflet or a papillary muscle can be picked inside the chamber or valve that surrounds it.
+        const near = hits.filter(h => h.distance <= hits[0].distance + .012);
+        const volume = (id: string) => {const b = byId.get(id)!.bounds; return Math.max((b[1][0] - b[0][0]) * (b[1][1] - b[0][1]) * (b[1][2] - b[0][2]), 1e-12);};
+        const best = near.reduce((a, h) => volume(h.object.userData.structureId) < volume(a.object.userData.structureId) ? h : a, near[0]);
+        callbacks.pick(best.object.userData.structureId); return;
+      }
     }
     callbacks.miss();
   };

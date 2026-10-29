@@ -3,7 +3,7 @@ import {AlertCircle, ArrowLeft, ArrowRight, Check, CheckCircle2, ChevronRight, E
 import {fetchModelBuffer} from '../model-download';
 import {QUIZ_REGIONS, QUIZ_SYSTEMS, questionPool, type QuizCatalogue, type QuizRegionId, type QuizSettings, type QuizStructure} from './catalogue';
 import {createSession, recordAnswer, recordTyped, retryMistakes, sessionOf, type QuizSession} from './engine';
-import {acceptedNames, judgeName, preferredName, type AnswerLanguage} from './naming';
+import {acceptedNames, judgeName, preferredName, relationOf, type AnswerLanguage} from './naming';
 import {namingPool, neighbours} from './level2';
 import {addMistakes, clearMistakes, loadMistakes, scopeOf} from './mistakes';
 import {structureCard} from './card';
@@ -125,7 +125,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
 
   // Papillary muscles and valve leaflets sit inside the chambers, so the heart quiz opens those questions with the chambers already moved aside.
   const openingHidden = (t?: QuizStructure) => regionId === 'heart' && t && (t.sections.includes('papillary') || t.sections.includes('valves') || t.sections.includes('interior')) ? (catalogue?.structures ?? []).filter(x => x.sections.includes('chambers')).map(x => x.id) : [];
-  // The MJ-built interior and the pericardium would crowd every other question: they are drawn only when the question is about them.
+  // The schematic interior and the pericardium would crowd every other question: they are drawn only when the question is about them.
   const autoHidden = useMemo(() => regionId === 'heart' && target ? (catalogue?.structures ?? []).filter(x => (x.sections.includes('interior') && !target.sections.includes('interior')) || (x.sections.includes('pericardium') && !target.sections.includes('pericardium'))).map(x => x.id) : [], [regionId, target, catalogue]);
   const clearQuestion = (t?: QuizStructure) => {setHidden(openingHidden(t)); setPeeling(false); setMessage(''); setError(''); setTyped(''); setHighlightIds([]); setOnly(false);};
   const begin = (next: QuizSession) => {
@@ -136,8 +136,9 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
   /** Level 2: judge the typed name; a close answer is shown with its correct spelling and goes to the mistakes. */
   const submit = () => {
     if (!target || answer || !ready || phase !== 'playing' || !typed.trim()) return;
-    const verdict = judgeName(typed, target, {language, needSide});
-    setSession(sn => recordTyped(sn, index, typed.trim(), verdict.result)); remember(target.id, verdict.result === 'correct');
+    const related = [...structures.values()].filter(s => s.id !== target.id && s.system === target.system && relationOf(s, target));
+    const verdict = judgeName(typed, target, {language, needSide}, related);
+    setSession(sn => recordTyped(sn, index, typed.trim(), verdict.result, verdict.relation, verdict.relatedName)); remember(target.id, verdict.result === 'correct');
   };
   const giveUp = () => {if (!target || answer || !ready) return; setSession(sn => recordTyped(sn, index, null, 'skipped')); remember(target.id, false);};
   const choose = (id: string) => {
@@ -146,7 +147,9 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
     if (!structure || structure.system !== target.system) return;
     setMessage('');
     if (peeling) {setHidden(ids => ids.includes(id) ? ids : [...ids, id]); return;}
-    setSession(s => recordAnswer(s, index, id)); setHidden([]); setPeeling(false); remember(target.id, id === target.id);
+    // a part of the target, or the whole the target belongs to, is close: shown as such and kept in the mistakes
+    const rel = id === target.id ? null : relationOf(structure, target);
+    setSession(s => recordAnswer(s, index, id, rel ? (rel === 'part' ? 'typed-part' : 'typed-whole') : undefined)); setHidden([]); setPeeling(false); remember(target.id, id === target.id);
   };
   const reveal = () => {if (!ready || answer || !target) return; setSession(s => recordAnswer(s, index, null)); setHidden([]); setPeeling(false); setMessage(''); remember(target.id, false);};
   const nextQuestion = () => {
@@ -246,7 +249,8 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
           </form> : <div className={`quiz-feedback is-${result === 'correct' ? 'correct' : result === 'close' ? 'close' : 'wrong'}`} role="status" aria-live="polite" aria-atomic="true">
             <div className="quiz-feedback-title">{result === 'correct' ? <CheckCircle2 size={21}/> : result === 'close' ? <AlertCircle size={21}/> : result === 'skipped' ? <Eye size={21}/> : <XCircle size={21}/>}<strong>{result === 'correct' ? '正確！' : result === 'close' ? '接近正確，請留意拼法。' : result === 'skipped' ? '已顯示答案，列入錯題。' : '答錯了。'}</strong></div>
             {result !== 'correct' && <div className="quiz-compare"><div><span>你的答案</span><b>{answer.typed || '（未作答）'}</b></div><div><span>正確答案</span><b><Name structure={target}/></b></div></div>}
-            {result === 'close' && <p className="quiz-close-note">正確拼法：<b lang={/[\u3400-\u9fff]/.test(answer.typed ?? '') ? 'zh-Hant' : 'en'}>{preferredName(target, answer.typed ?? '', language)}</b>。此題列入錯題。</p>}
+            {result === 'close' && answer.relation && <p className="quiz-close-note">{answer.relation === 'typed-part' ? '你寫的是題目的其中一部分，題目要的是整體。' : '你寫的是整體，題目要的是其中一部分。'}此題列入錯題。</p>}
+            {result === 'close' && !answer.relation && <p className="quiz-close-note">正確拼法：<b lang={/[\u3400-\u9fff]/.test(answer.typed ?? '') ? 'zh-Hant' : 'en'}>{preferredName(target, answer.typed ?? '', language)}</b>。此題列入錯題。</p>}
             {result === 'correct' && <div className="quiz-answer-name"><span><i className="correct-dot"/>名稱</span><b><Name structure={target}/></b></div>}
             {(() => {const names = acceptedNames(target), primary = new Set([target.name.toLowerCase(), target.chinese ?? '']), extra = [...names.en, ...names.zh].filter(n => !primary.has(n.toLowerCase()) && n !== target.name); return extra.length > 0 ? <p className="quiz-synonyms">也接受：{[...new Set(extra)].join('、')}</p> : null;})()}
             <button data-slot="quiz-button" className="quiz-text-button" onClick={() => changeView('answer')}><Maximize2 size={15}/>放大至目標</button>
@@ -254,8 +258,8 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
         </> : <>
         <h1 className="quiz-target" ref={title} tabIndex={-1}><Name structure={target}/></h1>
 
-        {answer ? <div className={`quiz-feedback ${answer.correct ? 'is-correct' : 'is-wrong'}`} role="status" aria-live="polite" aria-atomic="true">
-          <div className="quiz-feedback-title">{answer.correct ? <CheckCircle2 size={21}/> : answer.pickedId ? <XCircle size={21}/> : <Eye size={21}/>}<strong>{answer.correct ? '答對了！就是這個。' : answer.pickedId ? '答錯了，請對照正確位置。' : '本題已查看答案，之後可再練習。'}</strong></div>
+        {answer ? <div className={`quiz-feedback ${answer.correct ? 'is-correct' : answer.result === 'close' ? 'is-close' : 'is-wrong'}`} role="status" aria-live="polite" aria-atomic="true">
+          <div className="quiz-feedback-title">{answer.correct ? <CheckCircle2 size={21}/> : answer.result === 'close' ? <AlertCircle size={21}/> : answer.pickedId ? <XCircle size={21}/> : <Eye size={21}/>}<strong>{answer.correct ? '答對了！就是這個。' : answer.result === 'close' ? (answer.relation === 'typed-part' ? '接近了：你點選的是題目的其中一部分。' : '接近了：你點選的是題目所屬的整體。') : answer.pickedId ? '答錯了，請對照正確位置。' : '本題已查看答案，之後可再練習。'}</strong></div>
           {picked && !answer.correct && <div className="quiz-answer-name"><span><i className="wrong-dot"/>你點選的是</span><b><Name structure={picked}/></b></div>}
           <div className="quiz-answer-name"><span><i className="correct-dot"/>{answer.correct ? '綠色顯示' : '正確位置用綠色顯示'}</span><b><Name structure={target}/></b></div>
           <button data-slot="quiz-button" className="quiz-text-button" onClick={() => changeView('answer')}><Target size={15}/>放大正確位置</button>

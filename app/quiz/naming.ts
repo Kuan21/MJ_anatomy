@@ -59,8 +59,20 @@ function closeLimit(expected: string) {
   return isChinese(expected) ? (expected.length >= 4 ? 1 : 0) : expected.length > 8 ? 2 : expected.length >= 4 ? 1 : 0;
 }
 
+/**
+ * Part and whole by name: "anterior cusp of pulmonary valve" is a part of "pulmonary valve". `part`: a is a part of b; `whole`: b is a part of a. A part named instead of its whole
+ * (or the whole instead of a part) is close, not wrong, and is never scored as correct.
+ */
+export function relationOf(a: {name: string}, b: {name: string}): 'part' | 'whole' | null {
+  const ka = cleanKey(a.name), kb = cleanKey(b.name);
+  if (!ka || !kb || ka === kb) return null;
+  const partOf = (x: string, y: string) => x.endsWith(` of ${y}`) || x.includes(` of ${y} `);
+  return partOf(ka, kb) ? 'part' : partOf(kb, ka) ? 'whole' : null;
+}
+export type NameRelation = 'typed-part' | 'typed-whole';
+
 /** `correct`: equals an accepted name. `close`: within the limit of one. Anything else is `wrong`. */
-export function judgeName(typed: string, structure: Pick<QuizStructure, 'name' | 'chinese'> & {side?: string}, options: NameOptions): {result: NameResult; best?: string} {
+export function judgeName(typed: string, structure: Pick<QuizStructure, 'name' | 'chinese'> & {side?: string}, options: NameOptions, related: Array<Pick<QuizStructure, 'name' | 'chinese'> & {side?: string}> = []): {result: NameResult; best?: string; relation?: NameRelation; relatedName?: string} {
   // Only a laterality word of a paired structure may be left out; "left atrium" is a different structure from "right atrium".
   const keepSide = options.needSide || !(structure.side === 'left' || structure.side === 'right');
   const input = normalize(typed, keepSide);
@@ -79,7 +91,13 @@ export function judgeName(typed: string, structure: Pick<QuizStructure, 'name' |
     const d = distance(input, expected);
     if (d <= closeLimit(expected) && d < bestDistance) {best = name; bestDistance = d;}
   }
-  return best ? {result: 'close', best} : {result: 'wrong'};
+  if (best) return {result: 'close', best};
+  // The name of a part of the target (or of the whole it belongs to) is close, but never right.
+  for (const other of related) {
+    const rel = relationOf(other, structure);
+    if (rel && judgeName(typed, other, options).result === 'correct') return {result: 'close', relation: rel === 'part' ? 'typed-part' : 'typed-whole', relatedName: other.name};
+  }
+  return {result: 'wrong'};
 }
 
 /** The spelling to show after a close answer: the accepted name in the language the learner was typing. */
