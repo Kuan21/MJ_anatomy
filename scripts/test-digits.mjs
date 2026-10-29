@@ -26,7 +26,7 @@ for (const side of ['left', 'right']) {
 {
   const p = m.constrainPose({...m.NEUTRAL_POSE, indexMcpFlexion: 999, indexPipFlexion: -50, thumbOpposition: 999, littleMcpAbduction: -999, thumbIpFlexion: 999});
   for (const k of m.DIGIT_KEYS) assert.ok(p[k] >= m.DIGIT_LIMITS[k][0] && p[k] <= m.DIGIT_LIMITS[k][1], 'clamped ' + k);
-  assert.equal(p.indexMcpFlexion, 90); assert.equal(p.indexPipFlexion, 0); assert.equal(p.thumbOpposition, 50); assert.equal(p.littleMcpAbduction, -20); assert.equal(p.thumbIpFlexion, 80);
+  assert.equal(p.indexMcpFlexion, 90); assert.equal(p.indexPipFlexion, 0); assert.equal(p.thumbOpposition, 50); assert.equal(p.thumbIpFlexion, 80);
 }
 // 3. directions: flexion brings the tip forward (+z, towards the palm); spreading moves index/middle towards the thumb and ring/little away from it
 for (const side of ['left', 'right']) {
@@ -116,4 +116,82 @@ for (const side of ['left', 'right']) {
   }
 }
 console.table(report);
+// 6. tissue follows its phalanx: every soft vertex that lies beside the shaft of a phalanx (clear of the joints) ends up where that bone carries it, in the gesture presets and
+//    with the fingers at their limits (no tendon bowstringing away from the bone or staying behind, no tendon, vessel or nerve pulled through the bone)
+{
+  const tol = .005, maxFlex = Object.fromEntries(m.DIGIT_KEYS.map(k => [k, m.DIGIT_LIMITS[k][1]]));
+  const poseList = {...Object.fromEntries(m.HAND_PRESETS.filter(h => h.id !== 'open' && h.id !== 'ok').map(h => [h.id, h.pose])), 'max flexion': {...maxFlex, thumbCmcAbduction: 0, thumbOpposition: 0, indexMcpAbduction: 0, middleMcpAbduction: 0, ringMcpAbduction: 0, littleMcpAbduction: 0}};
+  const groups = [['flexor tendons', /flexor digitorum|flexor pollicis longus/i], ['extensor tendons', /extensor (digitorum|indicis|digiti minimi|pollicis)|extensor expansion|dorsal digital expansion/i], ['palmar aponeurosis / sheaths', /palmar aponeurosis|fibrous (digital )?sheath|annular|cruciate|pulley/i], ['thenar / hypothenar', /pollicis (brevis|longus)|opponens|adductor pollicis|abductor digiti minimi|flexor digiti minimi/i], ['interossei / lumbricals', /interosse|lumbrical/i], ['digital arteries / nerves', /digital (artery|nerve)|arteria princeps|radialis indicis/i], ['digital / hand veins', /digital vein|venous network|palmar venous/i], ['other soft tissue', /./]];
+  const result = [], late = [];
+  for (const side of ['left', 'right']) {
+    const rig = m.makeSoftRig(atlas, side), wristY = rig.wrist.y, J = joints.sides[side], box = new Box3(new Vector3(-1, -1, -1), new Vector3(1, 1, 1));
+    const hand = atlas.parts.filter(p => m.tissueBindings[p.id]?.name === p.name && m.tissueBindings[p.id].side === side && (p.bounds[0][1] < .80 || /pollicis (brevis|longus)|opponens|adductor pollicis|digiti minimi/i.test(p.name)) && p.bounds[1][1] < 1.0 && p.system !== 'skeletal'); // everything that reaches a finger (the long tendons start in the forearm)
+    // phalanx shafts: [bone transform id, from joint, to joint, radius] with a 8 mm margin at each joint
+    const shafts = [];
+    for (const digit of m.DIGITS) { const d = J[digit], pts = digit === 'thumb' ? [d.joints.mcp, d.joints.ip, d.tip] : [d.joints.mcp, d.joints.pip, d.joints.dip, d.tip], ids = digit === 'thumb' ? [d.ids.pp, d.ids.dp] : [d.ids.pp, d.ids.mp, d.ids.dp];
+      ids.forEach((id, k) => shafts.push({digit, id, a: new Vector3(...pts[k]), b: new Vector3(...pts[k + 1]), r: d.radius}));
+      if (digit === 'thumb') shafts.push({digit, id: d.ids.mc, a: new Vector3(...d.joints.cmc), b: new Vector3(...d.joints.mcp), r: d.radius * 1.4}); } // the thumb metacarpal moves too (thenar muscles attach to it)
+    for (const [pname, pose] of Object.entries(poseList)) {
+      const transforms = m.buildUpperLimbMotion(atlas, side, {...m.NEUTRAL_POSE, ...pose}).transforms, palette = m.makePalette(rig, transforms);
+      for (const [gname, re] of groups) {
+        let checked = 0, worst = 0, worstPart = '', sum = 0;
+        for (const part of hand.filter(p => gname === 'other soft tissue' ? !groups.slice(0, -1).some(([, r]) => r.test(p.name)) : re.test(p.name))) {
+          const g = geometry(part), base = g.positions, binding = m.bindTissue(rig, m.tissueBindings[part.id].profile, base, part, '', g.indices), out = new Float32Array(base.length);
+          m.deformTissue(binding, base, palette, out);
+          for (let i = 0; i < base.length / 3; i++) {
+            const v = new Vector3(base[i * 3], base[i * 3 + 1], base[i * 3 + 2]);
+            for (const sh of shafts) {
+              const ab = sh.b.clone().sub(sh.a), len = ab.length(), t = v.clone().sub(sh.a).dot(ab) / (len * len);
+              if (t * len < .008 || t * len > len - .008) continue;
+              if (v.distanceTo(sh.a.clone().addScaledVector(ab, t)) > sh.r + (gname === 'thenar / hypothenar' ? .012 : .002)) continue;
+              checked++; const want = apply(transforms[sh.id], [v.x, v.y, v.z]), dev = want.distanceTo(new Vector3(out[i * 3], out[i * 3 + 1], out[i * 3 + 2]));
+              sum += dev; if (dev > worst) { worst = dev; worstPart = part.name; } break;
+            }
+          }
+        }
+        const measure = gname === 'thenar / hypothenar' ? sum / Math.max(1, checked) : worst; // muscle bellies deform, so the thenar group is judged by the mean
+        result.push({side, pose: pname, group: gname, vertices: checked, [gname === 'thenar / hypothenar' ? 'meanMm' : 'worstMm']: +(measure * 1000).toFixed(1), worstPart});
+        if (measure >= (gname === 'thenar / hypothenar' ? .006 : tol)) late.push(`${side} ${pname} ${gname}: tissue beside a phalanx follows it (${(measure * 1000).toFixed(1)} mm, worst part ${worstPart})`);
+      }
+    }
+  }
+  // 6b. tendons, vessels and nerves stay against the bone (no bowstring) and never pass through it: distance to the digit's bone line before and after the pose
+  {
+    const clearance = [], bad = [];
+    for (const side of ['left', 'right']) {
+      const rig = m.makeSoftRig(atlas, side), J = joints.sides[side], wristY = rig.wrist.y;
+      const hand = atlas.parts.filter(p => m.tissueBindings[p.id]?.name === p.name && m.tissueBindings[p.id].side === side && p.bounds[0][1] < .80 && p.bounds[1][1] < 1.0 && p.system !== 'skeletal' && p.system !== 'muscular' || /flexor digitorum|extensor (digitorum|indicis|digiti)|flexor pollicis longus/i.test(p.name) && m.tissueBindings[p.id]?.side === side);
+      const lines = m.DIGITS.map(digit => { const d = J[digit], pts = digit === 'thumb' ? [d.joints.mcp, d.joints.ip, d.tip] : [d.joints.mcp, d.joints.pip, d.joints.dip, d.tip], ids = digit === 'thumb' ? [d.ids.pp, d.ids.dp] : [d.ids.pp, d.ids.mp, d.ids.dp]; return {digit, pts: pts.map(a => new Vector3(...a)), ids, r: d.radius}; });
+      const near = (pts, v) => { let best = {d: 1e9, k: 0, t: 0}; for (let k = 0; k + 1 < pts.length; k++) { const ab = pts[k + 1].clone().sub(pts[k]), t = Math.max(0, Math.min(1, v.clone().sub(pts[k]).dot(ab) / ab.lengthSq())), d = v.distanceTo(pts[k].clone().addScaledVector(ab, t)); if (d < best.d) best = {d, k, t}; } return best; };
+      for (const [pname, pose] of Object.entries({fist: m.HAND_PRESETS.find(h => h.id === 'fist').pose, pinch: m.HAND_PRESETS.find(h => h.id === 'pinch').pose, 'max flexion': Object.fromEntries(m.DIGIT_KEYS.map(k => [k, k.includes('Abduction') ? 0 : m.DIGIT_LIMITS[k][1]]))})) {
+        const transforms = m.buildUpperLimbMotion(atlas, side, {...m.NEUTRAL_POSE, ...pose}).transforms, palette = m.makePalette(rig, transforms);
+        const posed = lines.map(l => ({...l, pts: l.pts.map((q, i) => apply(transforms[l.ids[Math.max(0, i - 1)]], q.toArray()))}));
+        let gain = 0, gainPart = '', sunk = 1, sunkPart = '', count = 0;
+        for (const part of hand) {
+          const g = geometry(part), base = g.positions, binding = m.bindTissue(rig, m.tissueBindings[part.id].profile, base, part, '', g.indices), out = new Float32Array(base.length);
+          m.deformTissue(binding, base, palette, out);
+          for (let i = 0; i < base.length / 3; i++) {
+            const v = new Vector3(base[i * 3], base[i * 3 + 1], base[i * 3 + 2]), w = new Vector3(out[i * 3], out[i * 3 + 1], out[i * 3 + 2]);
+            lines.forEach((l, li) => {
+              const n0 = near(l.pts, v), along = v.clone().sub(l.pts[0]).dot(l.pts[l.pts.length - 1].clone().sub(l.pts[0]).normalize());
+              if (n0.d > l.r + .006 || along < .004 || along > l.pts[0].distanceTo(l.pts[l.pts.length - 1]) - .004) return; // beside the shaft of this digit, clear of the knuckle and the tip
+              count++; const n1 = near(posed[li].pts, w);
+              if (n1.d - n0.d > gain) { gain = n1.d - n0.d; gainPart = part.name; }
+              if (n0.d > l.r * .8 && n1.d / l.r < sunk) { sunk = n1.d / l.r; sunkPart = part.name; if (process.env.DIAG) console.log('sunk', side, pname, part.name, l.digit, 'seg', n0.k, 't', n0.t.toFixed(2), 'rest d mm', (n0.d * 1000).toFixed(1), 'posed d mm', (n1.d * 1000).toFixed(1), 'r', (l.r * 1000).toFixed(1), 'clear', JSON.stringify((() => { const k = binding.clear?.index.indexOf(i); return k >= 0 ? binding.clear.items[k] : null; })()), 'w', [...binding.indices.slice(i * 4, i * 4 + 4)].join(','), [...binding.weights.slice(i * 4, i * 4 + 4)].map(x => x.toFixed(2)).join(',')); }
+            });
+          }
+        }
+        clearance.push({side, pose: pname, vertices: count, leavesBoneMm: +(gain * 1000).toFixed(1), leavesPart: gainPart, closestToAxisOverRadius: +sunk.toFixed(2), closestPart: sunkPart});
+        if (gain > .004) bad.push(`${side} ${pname}: ${gainPart} lifts ${(gain * 1000).toFixed(1)} mm off the bone (bowstringing)`);
+        if (sunk < .5) bad.push(`${side} ${pname}: ${sunkPart} passes through the bone (${sunk.toFixed(2)} × radius from the axis)`);
+      }
+    }
+    console.table(clearance.filter(r => r.side === 'left'));
+    if (bad.length) console.log(bad.join('\n'));
+    assert.equal(bad.length, 0, 'tendons and vessels stay against the bone and do not pass through it');
+  }
+  console.table(result.filter(r => r.side === 'left'));
+  if (late.length) console.log(late.join('\n'));
+  assert.equal(late.length, 0, 'tissue beside a phalanx follows it');
+}
 console.log('PASS finger motion');

@@ -31,7 +31,27 @@ export const DIGIT_KEYS=Object.keys(DIGIT_LIMITS) as DigitKey[];
 export const DIGIT_NEUTRAL=Object.fromEntries(DIGIT_KEYS.map(k=>[k,0])) as DigitPose;
 
 const clampDeg=(v:number,[lo,hi]:readonly [number,number])=>Math.max(lo,Math.min(hi,Number.isFinite(v)?v:0));
-export const constrainDigits=(pose:Partial<DigitPose>):DigitPose=>Object.fromEntries(DIGIT_KEYS.map(k=>[k,clampDeg(pose[k]??0,DIGIT_LIMITS[k])])) as DigitPose;
+const clampedDigits=(pose:Partial<DigitPose>):DigitPose=>Object.fromEntries(DIGIT_KEYS.map(k=>[k,clampDeg(pose[k]??0,DIGIT_LIMITS[k])])) as DigitPose;
+/** Sideways angle of a finger in the hand, positive towards the little-finger side (spreading moves the index and middle finger towards the thumb, the ring and little finger away from it). */
+const ULNAR_SIGN={index:-1,middle:-1,ring:1,little:1} as const;
+/** Neighbouring fingers lie against each other at rest, so they can only move together or apart: the angle between two neighbours may not drop below this (degrees). */
+const MIN_FINGER_GAP_ANGLE=-1;
+/** Clamps every joint to its range, then spreads neighbouring fingers apart where one would be driven into the next (no finger passes through another). */
+export const constrainDigits=(pose:Partial<DigitPose>):DigitPose=>{
+ const out=clampedDigits(pose),key=(f:(typeof FINGERS)[number])=>`${f}McpAbduction` as DigitKey;
+ const lateral=(f:(typeof FINGERS)[number])=>out[key(f)]*ULNAR_SIGN[f];
+ /** Moves a finger sideways by `delta` degrees (positive = towards the little-finger side) as far as its limits allow; returns the movement that was possible. */
+ const shift=(f:(typeof FINGERS)[number],delta:number)=>{const [lo,hi]=DIGIT_LIMITS[key(f)],before=lateral(f),target=before+delta,raw=target*ULNAR_SIGN[f],clamped=Math.max(lo,Math.min(hi,raw));out[key(f)]=clamped;return clamped*ULNAR_SIGN[f]-before;};
+ for(let pass=0;pass<4;pass++)for(let k=0;k+1<FINGERS.length;k++){
+  const a=FINGERS[k],b=FINGERS[k+1],short=MIN_FINGER_GAP_ANGLE-(lateral(b)-lateral(a));
+  if(short<=0)continue;
+  // each takes half; what a finger at its limit cannot give is taken from its neighbour
+  const gotB=shift(b,short/2),gotA=-shift(a,-short/2);
+  const left=short-gotB-gotA;
+  if(left>1e-9){const more=shift(b,left);if(left-more>1e-9)shift(a,-(left-more));}
+ }
+ return out;
+};
 
 interface DigitData{ids:Record<string,string>;joints:Record<string,number[]>;tip:number[];radius:number}
 const data=(side:Side,digit:Digit)=>(joints.sides[side] as unknown as Record<Digit,DigitData>)[digit];
@@ -48,6 +68,11 @@ export function digitBoneIds(side:Side):string[]{
 }
 
 const Z=new T.Vector3(0,0,1),FLEX=new T.Vector3(-1,0,0);
+/**
+ * Convergence: the flexion axes of the four fingers are not parallel. They lean (degrees, positive = towards the thumb side) so that, in a fist, the fingertips close
+ * in on the tubercle of the scaphoid instead of curling in one plane: nothing for the index finger, more for each finger further out.
+ */
+export const FINGER_CONVERGENCE:Record<(typeof FINGERS)[number],number>={index:0,middle:2.5,ring:6,little:10};
 /** Rigid transforms of every moving digit bone for a pose, composed on top of the hand (wrist) matrix: M_bone = M_parent · R_joint(rest pivot, rest axis). */
 export function digitTransforms(side:Side,input:Partial<DigitPose>,hand:T.Matrix4):Record<string,PartTransform>{
  const p=constrainDigits(input),out:Record<string,PartTransform>={},s=side==='left'?1:-1;
@@ -71,9 +96,11 @@ export function digitTransforms(side:Side,input:Partial<DigitPose>,hand:T.Matrix
   // spreading moves the finger away from the middle finger: radial for index and middle, ulnar for ring and little
   const away=digit==='index'||digit==='middle'?s:-s;
   const key=(k:string)=>p[`${digit}${k}` as DigitKey];
-  const m1=hand.clone().multiply(about(mcp,FLEX,key('McpFlexion'))).multiply(about(mcp,Z,key('McpAbduction')*away));
-  const m2=m1.clone().multiply(about(pip,FLEX,key('PipFlexion')));
-  const m3=m2.clone().multiply(about(dip,FLEX,key('DipFlexion')));
+  // the leaning axis (in the rest hand) turns the fingertip towards the radial side as the finger curls; it is the axis of all three joints of the finger
+  const axis=FLEX.clone().applyAxisAngle(Z,T.MathUtils.degToRad(-s*FINGER_CONVERGENCE[digit as (typeof FINGERS)[number]]));
+  const m1=hand.clone().multiply(about(mcp,axis,key('McpFlexion'))).multiply(about(mcp,Z,key('McpAbduction')*away));
+  const m2=m1.clone().multiply(about(pip,axis,key('PipFlexion')));
+  const m3=m2.clone().multiply(about(dip,axis,key('DipFlexion')));
   out[d.ids.pp]=rigid(m1);out[d.ids.mp]=rigid(m2);out[d.ids.dp]=rigid(m3);
  }
  return out;
@@ -81,6 +108,8 @@ export function digitTransforms(side:Side,input:Partial<DigitPose>,hand:T.Matrix
 
 // ---- skinning weights -------------------------------------------------------------------------------------------------------------------------
 
+/** Structures that stay on the hand frame however the fingers move (see withDigitWeights). */
+const HAND_ONLY=/dorsal venous network|palmar (?:venous |arterial )?arch|dorsal carpal (?:venous|arterial) (?:network|arch)/i;
 const clamp01=(x:number)=>Math.max(0,Math.min(1,x));
 const smooth=(x:number)=>{x=clamp01(x);return x*x*(3-2*x);};
 const step=(x:number,a:number,b:number)=>smooth((x-a)/Math.max(1e-9,b-a));
@@ -113,9 +142,12 @@ function nearest(points:T.Vector3[],p:T.Vector3){
  * distal to its first joint) it goes to the phalanx frames, blended across each joint over ±6 mm; elsewhere it stays on the hand. `weights` is the
  * 7-entry (or longer) result of the arm weighting; the return value has one entry per frame.
  */
-export function withDigitWeights(side:Side,weights:number[],x:number,y:number,z:number,frameCount:number):number[]{
+export function withDigitWeights(side:Side,weights:number[],x:number,y:number,z:number,frameCount:number,name=''):number[]{
  const out=weights.slice(0,frameCount);while(out.length<frameCount)out.push(0);
  const hand=out[6];if(!(hand>1e-6))return out;
+ // The dorsal venous network and the palmar arches end at the knuckle line, a few millimetres before the first finger joint. They belong to the back and the palm of the hand;
+ // letting the start of a finger take them (the blend begins 10 mm before the joint) dragged their cut ends round the proximal phalanges into loops when the fingers curled.
+ if(HAND_ONLY.test(name))return out;
  const p=new T.Vector3(x,y,z),parts:{chain:Chain;amount:number;f:[number,number,number]}[]=[];
  let total=0;
  for(const chain of chainsOf(side)){
@@ -136,4 +168,47 @@ export function withDigitWeights(side:Side,weights:number[],x:number,y:number,z:
  }
  out[6]=hand-moved;
  return out;
+}
+
+// ---- clearance from the bones ------------------------------------------------------------------------------------------------------------------
+
+/** For a soft vertex lying beside the shaft of a digit that carries it: which digit chain, and how far it lies from the digit's bone line in the rest pose (metres). */
+export interface DigitClearance{chain:number;rest:number;/** share of the vertex weight carried by the digit's own frames: the correction fades in from 0.45 to 0.8 */carried:number}
+export function digitClearanceOf(side:Side,p:T.Vector3,weights:ArrayLike<number>):DigitClearance|null{
+ let best:DigitClearance|null=null,bestScore=Infinity;
+ chainsOf(side).forEach((chain,index)=>{
+  const {distance}=nearest(chain.points,p),along=p.clone().sub(chain.origin).dot(chain.axis);
+  if(distance>chain.radius+.009||along<.004)return;
+  const carried=chain.frames.reduce((s,f)=>s+(weights[f]??0),0);
+  if(carried<.45||distance>=bestScore)return;
+  best={chain:index,rest:distance,carried};bestScore=distance;
+ });
+ return best;
+}
+/** The bone line of a digit in the current pose: joint centres and tip carried by the frame of the bone that ends there (`carry` applies a frame's transform to a point). */
+export function posedChain(side:Side,chain:number,carry:(frame:number,p:T.Vector3)=>T.Vector3):T.Vector3[]{
+ const c=chainsOf(side)[chain],owner=[0,0,1,2];
+ return c.points.map((pt,i)=>carry(c.frames[owner[i]],pt));
+}
+/**
+ * Keeps a vertex that rides on a digit at its rest distance from the bone line: tendons, vessels and nerves are neither pulled through the bone on the inside of a
+ * bent joint (where blending two segments squeezes them against it) nor lifted away from it. `w` is moved along the line from the nearest bone point.
+ */
+export function keepOnBone(side:Side,clearance:DigitClearance,line:T.Vector3[],w:T.Vector3){
+ const radius=chainsOf(side)[clearance.chain].radius,fade=smooth((clearance.carried-.45)/.35),from=w.clone();
+ // inside the bone: out to the rest distance (but at least the bone surface); lifted off it by more than 1.5 mm: back to within 1.5 mm of the rest distance.
+ // On the inside of a bent joint the two neighbouring segments both press on the vertex, so the push is repeated until the nearest segment changes no more.
+ const floor=Math.min(clearance.rest,Math.max(clearance.rest*.95,radius*.8)),ceiling=Math.max(clearance.rest+.0015,floor),x=w.clone();
+ for(let pass=0;pass<4;pass++){
+  let best=Infinity,q=line[0];
+  for(let k=0;k+1<line.length;k++){
+   const a=line[k],ab=line[k+1].clone().sub(a),t=clamp01(x.clone().sub(a).dot(ab)/Math.max(1e-12,ab.lengthSq())),c=a.clone().addScaledVector(ab,t),d=c.distanceTo(x);
+   if(d<best){best=d;q=c;}
+  }
+  const target=Math.min(Math.max(best,floor),ceiling);
+  if(Math.abs(target-best)<2e-5)break;
+  const dir=x.clone().sub(q);if(dir.lengthSq()<1e-12)break;
+  x.copy(q).addScaledVector(dir.normalize(),target);
+ }
+ w.copy(from).lerp(x,fade);
 }

@@ -10,7 +10,7 @@ import rawSerratusAttachments from './serratus-attachments.json';
 import rawThoracicCables from './thoracic-cables.json';
 import rawScapularBranches from './scapular-branches.json';
 import rawPectoralFollowers from './pectoral-followers.json';
-import {DIGIT_FRAMES,digitBoneIds,withDigitWeights} from './digits';
+import {DIGIT_FRAMES,digitBoneIds,withDigitWeights,digitClearanceOf,posedChain,keepOnBone,type DigitClearance} from './digits';
 export type DeltoidFollowers=Record<string,{side:string;vertexCount:number;positionHash:number;progress:number[];hostWeights:number[][];nodes:number[];samples:[string,number][];patches:[number,number][][]}>;
 let deltoidFollowers:DeltoidFollowers={};
 // Loaded with the peripheral nerves, not duplicated in the entry and worker.
@@ -76,7 +76,9 @@ export interface SkinBinding {follower?:{parent:SkinBinding;progress:number[]}}
 interface CableSource {side:string;vertexCount:number;positionHash:number;nodes:number[][];stations:number[];edges:number[][];vertexEdges:number[];fractions:number[]}
 interface CableGuide {source:CableSource;centres:Vector3[];rootWeights:number[];parentIndices:Uint8Array;parentWeights:Float32Array;lengths:number[];freeNodes:number[];freeIndex:Int32Array;factor:Float64Array}
 const thoracicCables=rawThoracicCables.parts as Record<string,CableSource>;
-export interface SkinBinding {cable?:CableGuide;wrap?:ThoraxWrap;fibre?:FibreGuide;indices:Uint8Array;weights:Float32Array;belly:Float32Array;radial:Float32Array;longitudinal?:Float32Array;restAxis?:Vector3;sheetOriginFrame?:number;origin:Vector3;insertion:Vector3;originWeights:number[];insertionWeights:number[];restLength:number;profile:Profile;fan?:{originFrame:number;insertionFrame:number;tip:Vector3;minX:number;spanX:number}}
+/** `clear`: vertices that ride on a digit, with the digit and their rest distance from its bone line (see keepOnBone in digits.ts). */
+export interface DigitClearanceSet{side:Side;index:Uint32Array;items:DigitClearance[]}
+export interface SkinBinding {clear?:DigitClearanceSet;cable?:CableGuide;wrap?:ThoraxWrap;fibre?:FibreGuide;indices:Uint8Array;weights:Float32Array;belly:Float32Array;radial:Float32Array;longitudinal?:Float32Array;restAxis?:Vector3;sheetOriginFrame?:number;origin:Vector3;insertion:Vector3;originWeights:number[];insertionWeights:number[];restLength:number;profile:Profile;fan?:{originFrame:number;insertionFrame:number;tip:Vector3;minX:number;spanX:number}}
 export function makeSoftRig(atlas:Atlas,side:Side):SoftRig|null{
  const rig=createSkeletonRig(atlas,side);if(!rig.valid)return null;
  const node=(id:string)=>rig.nodes.find(n=>n.id===id)!;
@@ -143,7 +145,7 @@ export function registerNerveRest(rig:SoftRig,positions:Float32Array):void{
 }
 /** Frame weights of a point: the arm weighting (trunk … hand), with the hand's share handed on to the digit frames where the point lies in a finger. */
 export function weightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''):number[]{
- return withDigitWeights(rig.side,armWeightsAt(rig,profile,p,box,name),p.x,p.y,p.z,FRAMES.length);
+ return withDigitWeights(rig.side,armWeightsAt(rig,profile,p,box,name),p.x,p.y,p.z,FRAMES.length,name);
 }
 function armWeightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''):number[]{
  const c=box.getCenter(new Vector3()),size=box.getSize(new Vector3());
@@ -366,9 +368,22 @@ export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<numbe
   parent.fan={...source.fan,tip:new Vector3().fromArray(source.fan.tip)};
   follower={parent,progress:source.progress};
  }
- return{follower,cable,wrap,fibre,indices,weights,belly,radial,longitudinal,restAxis,sheetOriginFrame,fan,origin,insertion,originWeights:weightsAt(rig,effectiveProfile,origin,box,name),insertionWeights:weightsAt(rig,effectiveProfile,insertion,box,name),restLength,profile:effectiveProfile};
+ const clear=digitClearanceSet(rig.side,positions,indices,weights,count);
+ return{clear,follower,cable,wrap,fibre,indices,weights,belly,radial,longitudinal,restAxis,sheetOriginFrame,fan,origin,insertion,originWeights:weightsAt(rig,effectiveProfile,origin,box,name),insertionWeights:weightsAt(rig,effectiveProfile,insertion,box,name),restLength,profile:effectiveProfile};
 }
 
+/** The vertices of a binding that ride on a digit (null when none does). */
+function digitClearanceSet(side:Side,positions:ArrayLike<number>,indices:Uint8Array,weights:Float32Array,count:number):DigitClearanceSet|undefined{
+ const index:number[]=[],items:DigitClearance[]=[],frameWeights=new Array<number>(FRAMES.length).fill(0),p=new Vector3();
+ for(let i=0;i<count;i++){
+  let any=false;frameWeights.fill(0);
+  for(let k=0;k<4;k++){const f=indices[i*4+k],w=weights[i*4+k];if(w>0){frameWeights[f]+=w;if(f>=7)any=true;}}
+  if(!any||weights[i*4]>.999999)continue; // a vertex carried by one frame alone is already rigid with its bone
+  const c=digitClearanceOf(side,p.set(positions[i*3],positions[i*3+1],positions[i*3+2]),frameWeights);
+  if(c){index.push(i);items.push(c);}
+ }
+ return index.length?{side,index:Uint32Array.from(index),items}:undefined;
+}
 // Selected thoracic tubes have rib-attached distal courses, not humeral ones.
 // Solve a connected centreline and carry the original cross-sections with it.
 // Dorsal scapular branches use source-topology skinning above, not the nearest
@@ -463,7 +478,7 @@ function transform(x:number,y:number,z:number,q:Float64Array,out:ArrayLike<numbe
  * muscle group or belly section change. Such bindings are skinned on the GPU
  * (gpu-skinning.ts) instead of being re-solved and re-uploaded for every pose. */
 export function isLinearBinding(b:SkinBinding){
- return !b.follower&&!b.cable&&!b.wrap&&!b.fibre&&!b.fan&&!['chest','pectoralPath','scapular','deltoid','cuff'].includes(b.profile)&&!b.belly.some(x=>x!==0);
+ return !b.clear&&!b.follower&&!b.cable&&!b.wrap&&!b.fibre&&!b.fan&&!['chest','pectoralPath','scapular','deltoid','cuff'].includes(b.profile)&&!b.belly.some(x=>x!==0);
 }
 /** CPU twin of the GPU stage for linear bindings (picking, tests). */
 export function linearSkin(b:Pick<SkinBinding,'indices'|'weights'>,base:ArrayLike<number>,palette:Palette,out:Float32Array){
@@ -488,6 +503,21 @@ export function deformPoint(p:Vector3,weights:number[],palette:Palette):Vector3{
  blended(palette,pairs.map(p=>p.i),pairs.map(p=>p.w/sum),0,q);transform(p.x,p.y,p.z,q,v,0);return new Vector3(...v);
 }
 export function deformTissue(binding:SkinBinding,base:Float32Array,palette:Palette,out:Float32Array):number{
+ const result=deformTissueCore(binding,base,palette,out);
+ const set=binding.clear;
+ if(set){
+  const lines=new Map<number,Vector3[]>(),moved=new Vector3(),carried=new Vector3(),t=new Float64Array(3);
+  const carry=(frame:number,p:Vector3)=>{transform(p.x,p.y,p.z,palette.subarray(frame*8,frame*8+8),t,0);return carried.set(t[0],t[1],t[2]).clone();};
+  for(let k=0;k<set.index.length;k++){
+   const i=set.index[k],item=set.items[k];
+   let line=lines.get(item.chain);if(!line){line=posedChain(set.side,item.chain,carry);lines.set(item.chain,line);}
+   moved.set(out[i*3],out[i*3+1],out[i*3+2]);keepOnBone(set.side,item,line,moved);
+   out[i*3]=moved.x;out[i*3+1]=moved.y;out[i*3+2]=moved.z;
+  }
+ }
+ return result;
+}
+function deformTissueCore(binding:SkinBinding,base:Float32Array,palette:Palette,out:Float32Array):number{
  if(binding.follower){
   const {parent,progress}=binding.follower;
   deformTissue(parent,base,palette,out);
@@ -531,7 +561,7 @@ export function deformTissue(binding:SkinBinding,base:Float32Array,palette:Palet
    const t=binding.fibre.coordinates[i];
    // Smoothly restore rigid digital tendons: a binary hand-weight test
    // would create a discontinuity across the last wrist blend section.
-   let handWeight=0;if(binding.profile==='forearm')for(let k=0;k<4;k++)if(binding.indices[i*4+k]===6)handWeight+=binding.weights[i*4+k];
+   let handWeight=0;if(binding.profile==='forearm')for(let k=0;k<4;k++)if(binding.indices[i*4+k]>=6)handWeight+=binding.weights[i*4+k];
    const collar=Math.max(range(handWeight,.5,1),1-range(Math.min(t,1-t),0,.25));if(!collar)continue;
    blended(palette,binding.indices,binding.weights,i*4,q);
    transform(base[i*3],base[i*3+1],base[i*3+2],q,p,0);
