@@ -44,15 +44,73 @@ function offsetSurface(pieces, distance) {
 const lungs = {Right: ['Upper lobe of right lung', 'Middle lobe of right lung', 'Lower lobe of right lung'], Left: ['Upper lobe of left lung', 'Lower lobe of left lung']};
 const heart = ['Wall of ventricle', 'Wall of left atrium', 'Wall of right atrium'];
 const LAYERS = [ // [name, zh, source pieces, offset, side]
-  ...Object.entries(lungs).flatMap(([side, names]) => [
-    [`${side} visceral pleura`, `${side === 'Left' ? '左' : '右'}臟層胸膜`, names.map(supplementGeometry), .0005],
-    [`${side} parietal pleura`, `${side === 'Left' ? '左' : '右'}壁層胸膜`, names.map(supplementGeometry), .005]]),
+  ...Object.entries(lungs).map(([side, names]) => [`${side} visceral pleura`, `${side === 'Left' ? '左' : '右'}臟層胸膜`, names.map(supplementGeometry), .0005]),
   ['Visceral layer of serous pericardium', '漿膜心包臟層（心外膜）', heart.map(atlasGeometry), .0006],
   ['Parietal layer of serous pericardium', '漿膜心包壁層', heart.map(atlasGeometry), .0045],
   ['Fibrous pericardium', '纖維心包', heart.map(atlasGeometry), .0075],
 ];
 const stream = createStream(out, 'serous'), report = [];
 let n = 0;
+/** Parietal pleura of one lung: the 5 mm shell around the lobes (faces between lobes dropped, the pleura does not enter the fissures), with the costal margin
+ * pushed down so the lower border lies two ribs below the lung (ribs 8 / 10 / 12 at the mid-clavicular / mid-axillary / paravertebral lines, the costodiaphragmatic
+ * recess), the apex raised above the first rib (cupula), then cut into costal, mediastinal, diaphragmatic and cervical parts by normal direction. */
+const smooth = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+async function parietalPleura(side, names) {
+  const sign = side === 'Left' ? 1 : -1, pieces = names.map(supplementGeometry), cell = .004, grid = new Map();
+  const key = (x, y, z) => `${Math.floor(x / cell)},${Math.floor(y / cell)},${Math.floor(z / cell)}`;
+  pieces.forEach((piece, id) => { for (let i = 0; i < piece.positions.length; i += 3) { const k = key(piece.positions[i], piece.positions[i + 1], piece.positions[i + 2]); (grid.get(k) ?? grid.set(k, []).get(k)).push(id); } });
+  const near = (x, y, z, own) => { const cx = Math.floor(x / cell), cy = Math.floor(y / cell), cz = Math.floor(z / cell); for (let a = -1; a <= 1; a++) for (let b = -1; b <= 1; b++) for (let c = -1; c <= 1; c++) for (const id of grid.get(`${cx + a},${cy + b},${cz + c}`) ?? []) if (id !== own) return true; return false; };
+  const positions = [], indices = [], owners = [];
+  // outer faces only: drop triangles that touch a neighbouring lobe
+  pieces.forEach((piece, id) => {
+    const keep = [];
+    for (let t = 0; t < piece.indices.length; t += 3) {
+      let touch = false;
+      for (let k = 0; k < 3 && !touch; k++) { const v = piece.indices[t + k] * 3; touch = near(piece.positions[v], piece.positions[v + 1], piece.positions[v + 2], id); }
+      if (!touch) keep.push(piece.indices[t], piece.indices[t + 1], piece.indices[t + 2]);
+    }
+    owners.push({positions: piece.positions, indices: Uint32Array.from(keep)});
+  });
+  const shell = offsetSurface(owners, .005);
+  const p = shell.positions, ix = shell.indices, nv = p.length / 3, nrm = new Float32Array(p.length);
+  for (let t = 0; t < ix.length; t += 3) {
+    const [a, b, c] = [ix[t], ix[t + 1], ix[t + 2]];
+    const ux = p[b * 3] - p[a * 3], uy = p[b * 3 + 1] - p[a * 3 + 1], uz = p[b * 3 + 2] - p[a * 3 + 2], vx = p[c * 3] - p[a * 3], vy = p[c * 3 + 1] - p[a * 3 + 1], vz = p[c * 3 + 2] - p[a * 3 + 2];
+    const nx = uy * vz - uz * vy, ny = uz * vx - ux * vz, nz = ux * vy - uy * vx;
+    for (const k of [a, b, c]) { nrm[k * 3] += nx; nrm[k * 3 + 1] += ny; nrm[k * 3 + 2] += nz; }
+  }
+  let cx = 0, cy = 0, cz = 0; for (let i = 0; i < nv; i++) { cx += p[i * 3] / nv; cy += p[i * 3 + 1] / nv; cz += p[i * 3 + 2] / nv; }
+  let out = 0; for (let i = 0; i < nv; i++) out += (p[i * 3] - cx) * nrm[i * 3] + (p[i * 3 + 1] - cy) * nrm[i * 3 + 1] + (p[i * 3 + 2] - cz) * nrm[i * 3 + 2];
+  const flip = out < 0 ? -1 : 1, normals = new Float32Array(p.length);
+  let top = -Infinity; for (let i = 0; i < nv; i++) top = Math.max(top, p[i * 3 + 1]);
+  for (let i = 0; i < nv; i++) {
+    const l = Math.hypot(nrm[i * 3], nrm[i * 3 + 1], nrm[i * 3 + 2]) || 1;
+    for (let k = 0; k < 3; k++) normals[i * 3 + k] = flip * nrm[i * 3 + k] / l;
+    const y = p[i * 3 + 1], z = p[i * 3 + 2], medial = smooth(.3, .8, -sign * normals[i * 3]);
+    // costodiaphragmatic recess: drop 20 mm in front (rib 6 -> 8), 35 mm at the side (rib 8 -> 10), 40 mm behind (rib 10 -> 12); fades out above the lower lobe's base
+    const drop = (.02 + .02 * smooth(.0, -.08, z) + .015 * smooth(.09, -.02, z)) * (1 - medial) * smooth(1.27, 1.2, y);
+    // cupula: the apex projects above the first rib
+    const rise = .018 * smooth(top - .05, top - .005, y) * (1 - medial);
+    p[i * 3 + 1] = y - drop + rise;
+  }
+  const cervicalY = top - .03, parts = {costal: [], mediastinal: [], diaphragmatic: [], cervical: []};
+  for (let t = 0; t < ix.length; t += 3) {
+    let nx = 0, ny = 0, y = 0; for (let k = 0; k < 3; k++) { nx += normals[ix[t + k] * 3] / 3; ny += normals[ix[t + k] * 3 + 1] / 3; y += p[ix[t + k] * 3 + 1] / 3; }
+    const group = ny > .2 && y > cervicalY ? 'cervical' : ny < -.45 ? 'diaphragmatic' : -sign * nx > .55 ? 'mediastinal' : 'costal';
+    parts[group].push(ix[t], ix[t + 1], ix[t + 2]);
+  }
+  return {parts, positions: p};
+}
+const PLEURA_PARTS = [['costal', 'Costal part of', '肋部'], ['mediastinal', 'Mediastinal part of', '縱隔部'], ['diaphragmatic', 'Diaphragmatic part of', '膈部'], ['cervical', 'Cervical part (cupula) of', '頂（胸膜頂部）']];
+for (const [side, names] of Object.entries(lungs)) {
+  const {parts, positions: pp} = await parietalPleura(side, names);
+  for (const [group, en, zh] of PLEURA_PARTS) {
+    const ixs = parts[group]; if (!ixs.length) continue;
+    const {positions, indices} = await simplify(pp, Uint32Array.from(ixs), 5000, .004);
+    stream.add({id: `SERO-${++n}`, conceptId: `SERO-${n}`, name: `${en} ${side.toLowerCase()} parietal pleura`, system: 'serous', schematic: true, chineseName: `${side === 'Left' ? '左' : '右'}壁層胸膜${zh}`}, positions, indices);
+    report.push(`${en} ${side.toLowerCase()} parietal pleura: ${indices.length / 3} tris`);
+  }
+}
 for (const [name, zh, pieces, distance] of LAYERS) {
   const shell = offsetSurface(pieces, distance), {positions, indices} = await simplify(shell.positions, shell.indices, 9000, .006);
   stream.add({id: `SERO-${++n}`, conceptId: `SERO-${n}`, name, system: 'serous', schematic: true, chineseName: zh}, positions, indices);
