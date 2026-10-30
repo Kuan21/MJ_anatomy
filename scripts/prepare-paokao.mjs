@@ -18,7 +18,7 @@ const hash = createHash('sha256').update(inputs.map(f => fs.readFileSync(file(f)
 try { if (fs.readFileSync(stamp, 'utf8') === hash && fs.existsSync(manifest) && fs.existsSync(file('app/mj-paokao.json')) && fs.existsSync(file('app/biomechanics-v2/paokao-bindings.json'))) { console.log('Paokao structures: up to date.'); process.exit(0); } } catch {}
 
 fs.mkdirSync(out, {recursive: true}); fs.mkdirSync(dir, {recursive: true}); fs.mkdirSync(file('work'), {recursive: true});
-const {built, w, U} = buildAll(), stream = createStream(out, 'paokao'), cards = {};
+const {built, late, w, U} = buildAll(), stream = createStream(out, 'paokao'), cards = {};
 // Topology: every branch in scripts/topology-spec.mjs must touch its parent. A branch of the atlas that does not gets a thin connector part (same name and concept as the branch,
 // so it is selected and hidden with it); a new structure that does not is a bug in its spec and stops the build.
 for (const b of built) w.addExtra(b.name, b.system, b.geometry);
@@ -38,6 +38,8 @@ for (const rel of [...expand(ARTERIES, 'artery'), ...expand(VEINS, 'vein')]) {
   }
   topology.push(row);
 }
+// The lung surface areas of the name labels come last, after the connectors, so the ids of everything built before stay as they were.
+for (const b of late) { w.addExtra(b.name, b.system, b.geometry); built.push(b); }
 fs.writeFileSync(file('docs/topology-report.json'), JSON.stringify(topology, null, 1));
 // Main branches of every vessel, from the same parent/child relations the model is checked against (shown on the vessel data cards).
 { const kids = {}, parents = {}; for (const r of topology) { (kids[r.parent] ??= []).push(r.child); parents[r.child] = r.parent; } fs.writeFileSync(file('app/mj-vessel-branches.json'), JSON.stringify({branches: kids, parents})); }
