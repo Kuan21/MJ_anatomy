@@ -18,6 +18,10 @@ PR [#139](https://github.com/Kuan21/MJ_anatomy/pull/139)。關節組織可高亮
 
 PR [#135](https://github.com/Kuan21/MJ_anatomy/pull/135)。`isShellSurface` 的 `/pericardi/` 誤中 pericardiophrenic 血管，整包 61 個示意結構（膈神經、喉返神經、內臟神經、迷走神經幹、臂神經叢內外側束等）從未載入成功，載入條停在 98%。改為整詞比對、材質退回系統材質、`test-scene-loading --full` 改為合併全部六個資料包。程式不改模型資料，但這 61 個示意模型是第一次出現在網站上，請你看過畫面再合併。
 
+## 保密檢查補強與腦部卡片別名清理（Bug Audit P0-01、P2-27；【需人工審核】，不自動 merge）
+
+PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的別名先過濾（圖說、比較列、句子片段不再寫進卡片），19 筆別名從 `neuro-cards.json` 移除（清單在 PR）；抄寫比對改逐字並涵蓋 CSF、心臟、腦部、資訊卡、Quiz、示意卡文字；`check-no-notes` 補禁用字；規則集中在 `scripts/lib/notes-leak.mjs`。請核對移除的 19 筆別名。
+
 ## 肺部聚焦視圖修正（「肺 | Lungs」，需人工審核，不自動 merge）
 
 截圖：`docs/lung-focus/`（左：修正前，右：修正後，標題與變動像素比例寫在圖上）。驗證：`node scripts/test-lung-focus.mjs`（已併入 `npm run check`）；瀏覽器端用真實滑鼠逐一點擊每個控制項：`node scripts/browser/lung-focus-ui.cjs <port> <輸出資料夾> <標籤>`（需要 Playwright，手動執行，CI 沒有）。
@@ -403,6 +407,7 @@ PR [#135](https://github.com/Kuan21/MJ_anatomy/pull/135)。`isShellSurface` 的 
 | Bug Audit 修正 3：搜尋韌帶／頸部血管／腦構造後 3D 有反應 | CI 綠後自動 merge | #139 | 介面程式，不改模型 |
 | 全站 Bug Audit（只報告） | 已完成報告；修正等你審核後分批開 PR | #133 | `docs/BUG_AUDIT.md`；最優先 P0-01 腦部別名、P1-01 示意包載入失敗 |
 | Bug Audit 修正 1：示意模型資料包載入失敗 | 等我審核 | #135 | 61 個示意模型第一次顯示，請看畫面 |
+| Bug Audit 修正 2：保密檢查補強、腦部卡片別名清理 | 等我審核 | #136 | 19 筆別名移除，請核對 |
 | 修正部署：臉部肌肉來源檔上游 404，改用 `vendor/` 內雜湊相同的備份 | 已 merge（你審核過） | #129 | 16 MB 第三方資料（CC BY-SA 2.1 Japan）放在 `vendor/`，不發布到網站；部署確認中 |
 | 第二級 Quiz | 已完成（已部署） | #98 | — |
 | **肺 PR 1：聚焦視圖修正**（按鈕、白斑、顏色、平滑、支氣管樹／肺血管開關、胸廓半透明、面板中英分行） | 已 merge（你審核過）；**因部署失敗尚未上線** | #127 | 已知限制：左肺下緣鋸齒、肋縱隱窩模型沒有、腋中線壁層胸膜下緣偏高約一條肋、臟層胸膜在肺裂處有折線、肺裂尾端約 3 mm 穿透縫 |

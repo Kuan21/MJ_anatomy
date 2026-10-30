@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const root = new URL('../', import.meta.url).pathname, problems = [];
-const FORBIDDEN = /[0-9]{4} ?p\.[0-9]|共筆|筆記|跑考|課堂|講義|Course notes|cmu-course|neuro-notes|M65×CM57|出處：神經解剖|CMU|中國醫藥大學|課件|上課/;
+const FORBIDDEN = /[0-9]{4} ?p\.[0-9]|共筆|筆記|跑考|課堂|講義|Course notes|cmu-course|neuro-notes|M65×CM57|出處：神經解剖|CMU|中國醫藥大學|課件|上課|下圖|上圖|圖中|老師|師說|勘誤|學長|學姐|考古|[Ll]ecture[- ]notes?|課程摘要/;
 const TEXT = /\.(json|md|txt|html|js|css|ts|tsx|mjs|svg)$/;
 function* walk(dir) {
   if (!fs.existsSync(dir)) return;
