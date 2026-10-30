@@ -173,7 +173,7 @@ export default function HeartDetail() {
             <p className="organ-info-zh" lang="zh-Hant">{item.zh}</p>
             <p lang="zh-Hant">{item.zhDesc}</p>
             <p className="organ-info-en" lang="en">{item.enDesc}</p>
-            {item.parts.length === 0 && <p className="organ-nomodel" lang="zh-Hant">此構造在目前使用的開源模型（Z-Anatomy、BodyParts3D）中沒有對應的三維網格，因此無法在模型上高亮，只提供文字說明。</p>}
+            {item.parts.length === 0 && <p className="organ-nomodel" lang="zh-Hant">此構造在目前的模型中沒有對應的三維網格，因此無法在模型上高亮，只提供文字說明。</p>}
             <button className="organ-clear" onClick={() => {setItem(null); patch({highlight: []});}}>取消選取</button>
           </> : selected ? <>
             <h2 className="organ-info-title" lang="en">{selected.name}</h2>
@@ -212,9 +212,9 @@ export default function HeartDetail() {
         </section>
         <section className="organ-block organ-note">
           <h2>模型範圍</h2>
-          <p>心腔、房室瓣與半月瓣（房室瓣連同腱索）、乳突肌、冠狀動脈與心臟靜脈、上下腔靜脈、肺靜脈與相連大血管，以及心包膜三層。腱索包含在瓣膜模型中，不能單獨選取。三尖瓣前瓣、二尖瓣前瓣、左心室前乳突肌，以及右緣支、後室間支、對角支、心小靜脈與心前靜脈取自 BodyParts3D 4.0，並對齊到同一心臟；心包膜三層由心壁向外偏移生成，為示意模型。</p>
+          <p>心腔、房室瓣與半月瓣（房室瓣連同腱索）、乳突肌、冠狀動脈與心臟靜脈、上下腔靜脈、肺靜脈與相連大血管，以及心包膜三層。腱索包含在瓣膜模型中，不能單獨選取。三尖瓣前瓣、二尖瓣前瓣、左心室前乳突肌，以及右緣支、後室間支、對角支、心小靜脈與心前靜脈取自另一公開圖譜並對齊到同一心臟；心包膜三層由心壁向外偏移生成，為示意模型。</p>
           <p>來源模型沒有、依解剖知識補建的構造（清單中標示「示意構造」，位置與形狀為示意）：界嵴、梳狀肌、卵圓窩、心房中隔、左右心耳、室間隔、肉柱、節制索、室上嵴、動脈圓錐、主動脈前庭、竇房結動脈、左緣支、心包橫竇與心包斜竇。卵圓瓣痕跡仍沒有模型，只提供文字說明；傳導系統（竇房結、房室結、希氏束）本模式未收錄。</p>
-          <p className="organ-source">來源：{catalogue.source}。{catalogue.attribution}。授權 {catalogue.license}。</p>
+          <p className="organ-source">模型來源與授權見圖譜首頁的 Source & credits。</p>
         </section>
         </div>
       </aside>

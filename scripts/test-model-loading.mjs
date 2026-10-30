@@ -11,7 +11,7 @@ assert.deepEqual(new Uint8Array(await decodeModelResponse(new Response(data),8,t
 let cursor=0;
 const split=new ReadableStream({pull(c){if(cursor===gz.length)c.close();else c.enqueue(gz.subarray(cursor,++cursor));}});
 assert.deepEqual(new Uint8Array(await decodeModelResponse(new Response(split),8,true)),data,'gzip header split across packets');
-await assert.rejects(decodeModelResponse(new Response(data),9,false),/incomplete/);
+await assert.rejects(decodeModelResponse(new Response(data),9,false),/不完整/);
 await assert.rejects(decodeModelResponse(new Response('not found',{status:404}),8,false));
 const signal=new AbortController().signal,loaded=new Set(),calls=[],failures=[];
 const load=async i=>{calls.push(i);if(i===3)throw new Error('offline');loaded.add(i);};

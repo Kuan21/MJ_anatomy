@@ -253,10 +253,10 @@ export default function BrainDetail() {
             {relatedLobes(selected) && <p lang="en"><b>Related lobes｜相關腦葉:</b> {relatedLobes(selected)}</p>}
             {selected.schematic ? <p className="organ-info-en" lang="zh-Hant"><b>示意模型</b>：位置與大小依周圍真實構造估算，不是實測形狀。</p> : <p className="organ-info-en" lang="en">Group: {BRAIN_GROUPS.find(g => g.id === selected.group)?.en}</p>}
             <div className="organ-actions" role="group" aria-label="選取動作">
-              <button onClick={() => go('fit', [selected.id])}>Focus</button>
-              <button aria-pressed={!!view.isolate} onClick={() => patch({isolate: view.isolate ? null : [selected.id]})}>Isolate</button>
-              <button onClick={() => patch({hiddenParts: [...view.hiddenParts, selected.id], selectedIds: []})}>Hide</button>
-              <button onClick={() => patch({selectedIds: [], isolate: null})}>Clear</button>
+              <button onClick={() => go('fit', [selected.id])}>Focus｜放大</button>
+              <button aria-pressed={!!view.isolate} onClick={() => patch({isolate: view.isolate ? null : [selected.id]})}>Isolate｜單獨顯示</button>
+              <button onClick={() => patch({hiddenParts: [...view.hiddenParts, selected.id], selectedIds: []})}>Hide｜隱藏</button>
+              <button onClick={() => patch({selectedIds: [], isolate: null})}>Clear｜清除</button>
             </div>
             {partNotes.length > 0 && <div className="note-links"><h3>相關資訊卡</h3>{partNotes.map(c => <button key={c.id} onClick={() => openNote(c)}><span lang="en">{c.en}</span><small lang="zh-Hant">{c.zh}</small></button>)}</div>}
           </> : view.selectedIds.length > 1 ? <p>已選取 {view.selectedIds.length} 個構造。<button className="organ-clear" onClick={() => patch({selectedIds: []})}>取消選取</button></p>
@@ -275,15 +275,15 @@ export default function BrainDetail() {
         <section className="organ-block">
           <h2>逐層剝離<small>Layers</small></h2>
           <div className="organ-segmented" role="group" aria-label="逐層剝離">
-            <button disabled={view.peel <= 0} onClick={() => patch({peel: Math.max(0, view.peel - 1)})}>Layer back</button>
-            <button disabled={view.peel >= MAX_PEEL} onClick={() => patch({peel: Math.min(MAX_PEEL, view.peel + 1)})}>Peel deeper</button>
+            <button disabled={view.peel <= 0} onClick={() => patch({peel: Math.max(0, view.peel - 1)})}>Layer back｜回上一層</button>
+            <button disabled={view.peel >= MAX_PEEL} onClick={() => patch({peel: Math.min(MAX_PEEL, view.peel + 1)})}>Peel deeper｜再剝一層</button>
           </div>
           <small>由外而內：腦膜 → 皮質與小腦 → 腦幹 → 白質 → 基底核 → 間腦 → 腦室。目前已剝除 {view.peel} 層；血管與腦神經不受影響。</small>
         </section>
         <section className="organ-block organ-note">
           <h2>模型範圍</h2>
           <p>皮質各葉、腦溝與腦迴、小腦、腦幹、白質纖維束、基底核、間腦、腦室與脈絡叢、腦神經根部、腦動脈（含 Willis 環）、靜脈竇與硬腦膜反摺。已移除脊髓與脊神經等不屬於腦的構造。</p>
-          <p className="organ-source">來源：Brain Project（Z-Anatomy / BodyParts3D），CC BY-SA 4.0。切面灰白質分界為依皮質表面向內約 2.4 mm 產生的示意（體素 0.9 mm，以平滑場取等值面）。</p>
+          <p className="organ-source">切面灰白質分界為依皮質表面向內約 2.4 mm 產生的示意（體素 0.9 mm，以平滑場取等值面）。模型來源與授權見圖譜首頁的 Source & credits。</p>
         </section>
       </aside>
     </div>
