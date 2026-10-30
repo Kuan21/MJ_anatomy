@@ -134,7 +134,7 @@ export default function HeartDetail() {
             {CHAMBERS.map(c => <button key={c.id} aria-pressed={view.openChamber === c.id} onClick={() => openChamber(view.openChamber === c.id ? null : c.id)}><span lang="en">{c.en}</span><small lang="zh-Hant">{c.zh}</small></button>)}
           </div>
           {chamber ? <>
-            <small>只將{chamber.zh}的外壁變成近乎透明，其他部分保持原狀，鏡頭已轉到適合看入內部的角度。再按一次同一個心腔可還原。</small>
+            <small>只切開{chamber.zh}面向鏡頭的那一側外壁（其餘外壁保持完整），鏡頭已轉到適合看入內部的角度；轉動模型時，切開的位置會跟著鏡頭移動。腔內構造不透明並有補光；選取構造時，擋在前面的構造會變半透明，被擋住的部分以虛線外框顯示。再按一次同一個心腔可還原。</small>
             <ul className="organ-chamber-items" aria-label={`${chamber.zh}內的構造`}>{chamber.items.map(it => <li key={it.en}>
               <button aria-pressed={item?.en === it.en} onClick={() => chooseItem(it)}><span lang="en">{it.en}</span><small lang="zh-Hant">{it.zh}</small>{it.parts.length === 0 && <i className="organ-nomodel-tag" lang="zh-Hant">無模型</i>}</button></li>)}</ul>
           </> : <small>選擇一個心腔，只打開該心腔的外壁，並列出腔內構造；點選清單可在模型上高亮。</small>}
