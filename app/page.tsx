@@ -114,7 +114,10 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
   return()=>abort.abort();
  },[]);
  useEffect(()=>{if(panel!=='search'||extras.length)return;const abort=new AbortController();void fetchModelBuffer(`${import.meta.env.BASE_URL}models/search-extras.json.gz`,0,true,abort.signal).then(b=>{if(!abort.signal.aborted)setExtras(JSON.parse(new TextDecoder().decode(b)) as Extra[]);}).catch(e=>{if(!abort.signal.aborted)console.warn('Search index extras unavailable',e);});return()=>abort.abort();},[panel,extras.length]);
- useEffect(()=>{const key=(e:KeyboardEvent)=>{if(e.key==='/'&&!(e.target instanceof HTMLInputElement)&&!(e.target instanceof HTMLTextAreaElement)){e.preventDefault();setPanel('search');setDetails(false);}};window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key);},[]);
+ // Esc closes the topmost layer: an open panel, then the about sheet, then the structure card.
+ const escRef=useRef({panel,details,about});escRef.current={panel,details,about};
+ useEffect(()=>{const key=(e:KeyboardEvent)=>{if(e.key==='/'&&!(e.target instanceof HTMLInputElement)&&!(e.target instanceof HTMLTextAreaElement)){e.preventDefault();setPanel('search');setDetails(false);}
+  if(e.key==='Escape'){const u=escRef.current;if(u.panel)setPanel(null);else if(u.about)setAbout(false);else if(u.details){setDetails(false);setExternalNerve(null);}}};window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key);},[]);
  const parts=useMemo(()=>new Map(atlas?.parts.map(p=>[p.id,p])),[atlas]);
  const extraOf=(c:Concept)=>c.id.startsWith('extra:')?extras.find(x=>c.id===`extra:${x.k}:${x.raw??x.n}`):undefined;
  const profileForConcept=(c:Concept)=>{const x=extraOf(c);if(x)return structureProfile(x.n,x.s);const p=c.elements.map(id=>parts.get(id)).find(Boolean);return p?structureProfile(c.name,p.system,p):undefined;};
@@ -217,7 +220,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const restorePart=(id:string)=>setState(s=>({...s,hiddenParts:(s.hiddenParts??[]).filter(x=>x!==id)}));
 
  const toggle=(id:SystemId)=>{setDetails(false);setState(s=>({...s,selected:[],isolate:false,visible:s.visible.includes(id)?s.visible.filter(x=>x!==id):[...s.visible,id]}));};
- const reset=()=>{stopMotionAnimation();setMicroAtlas(null);setLungView(null);setRegionPrev(null);setRegionSub(undefined);setFadeOther(false);setState(s=>({...initial,visible:DEFAULT_VISIBLE,reset:s.reset+1}));setTopRegion('whole');setStudySide('both');setRightTool(null);setChosen(null);setExternalNerve(null);setDetails(false);setPanel(null);setRegion('whole-body');setDissectionStage(0);setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;motionTargetRef.current=NEUTRAL_POSE;setMotionEdit(false);setMotionEnabled(false);};
+ const reset=()=>{stopMotionAnimation();setMicroAtlas(null);setLungView(null);setRegionPrev(null);setRegionSub(undefined);setFadeOther(false);setSpaceId(null);setSpaceItem(null);setLayerPicked(null);setError('');setAbout(false);setMobileMotionOpen(false);setState(s=>({...initial,visible:DEFAULT_VISIBLE,reset:s.reset+1}));setTopRegion('whole');setStudySide('both');setRightTool(null);setChosen(null);setExternalNerve(null);setDetails(false);setPanel(null);setRegion('whole-body');setDissectionStage(0);setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;motionTargetRef.current=NEUTRAL_POSE;setMotionEdit(false);setMotionEnabled(false);};
  const openPanel=(next:'layers'|'search')=>{setDetails(false);setPanel(p=>p===next?null:next);};
  const currentRegion=regionById(region);
  const profile=externalNerve?structureProfile(extras.find(x=>(x.raw??x.n)===externalNerve)?.n??externalNerve,externalSystem):chosen&&selected?structureProfile(chosen.name,selected.system,selected):null;

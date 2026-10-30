@@ -325,7 +325,7 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
    }
   };
 
-  camera.position.set(1.4,1.05,3.6);controls.target.set(0,.85,0);controls.enableDamping=true;controls.dampingFactor=.085;controls.enablePan=true;controls.screenSpacePanning=true;controls.panSpeed=1;controls.zoomSpeed=1;controls.minDistance=.04;controls.maxDistance=40;controls.maxPolarAngle=Math.PI*.96;controls.mouseButtons.LEFT=T.MOUSE.PAN;controls.mouseButtons.RIGHT=T.MOUSE.ROTATE;controls.touches.ONE=T.TOUCH.PAN;controls.touches.TWO=T.TOUCH.DOLLY_ROTATE;let focusTarget:T.Vector3|null=null,focusPosition:T.Vector3|null=null;controls.addEventListener('start',()=>{focusTarget=null;focusPosition=null;});controls.addEventListener('change',()=>{dirty=true;});
+  camera.position.set(1.4,1.05,3.6);controls.target.set(0,.85,0);controls.enableDamping=true;controls.dampingFactor=.085;controls.enablePan=true;controls.screenSpacePanning=true;controls.panSpeed=1;controls.zoomSpeed=1;controls.minDistance=.04;controls.maxDistance=40;controls.maxPolarAngle=Math.PI*.96;controls.mouseButtons.LEFT=T.MOUSE.PAN;controls.mouseButtons.RIGHT=T.MOUSE.ROTATE;controls.touches.ONE=T.TOUCH.PAN;controls.touches.TWO=T.TOUCH.DOLLY_ROTATE;let focusTarget:T.Vector3|null=null,focusPosition:T.Vector3|null=null;let userMoved=false;controls.addEventListener('start',()=>{userMoved=true;focusTarget=null;focusPosition=null;});controls.addEventListener('change',()=>{dirty=true;});
   const pmrem=new T.PMREMGenerator(renderer),room=new RoomEnvironment(),env=pmrem.fromScene(room,.04);scene.environment=env.texture;room.dispose();pmrem.dispose();
   scene.add(new T.HemisphereLight(0xffffff,0xa7acb2,1.05));
   const key=new T.DirectionalLight(0xfffaf4,2.3);key.position.set(-2,4,3);scene.add(key);
@@ -785,13 +785,15 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
    }
   };
   const fit=(view:string,extent=0)=>{
+   focusTarget=null;focusPosition=null;// a running focus animation must not pull the camera back after Reset or a view button
    const aspect=camera.aspect,mobile=el.clientWidth<768,normalDistance=mobile?Math.max(4.5,1.8*el.clientHeight/Math.max(160,el.clientHeight-350)/(2*Math.tan(T.MathUtils.degToRad(camera.fov/2)))):4.2;
    const reservedHeight=mobile?350:270;const availableAspect=Math.max(.35,(el.clientWidth-(mobile?40:340))/Math.max(160,el.clientHeight-reservedHeight));const atlasDistance=Math.max(packingHeight,packingWidth/availableAspect)/(2*Math.tan(T.MathUtils.degToRad(camera.fov/2)))*(el.clientHeight/Math.max(160,el.clientHeight-reservedHeight))*1.08;
    const distance=T.MathUtils.lerp(normalDistance,Math.max(.2,atlasDistance),extent);if(extent>.8)view='front';
    const direction=view==='front'?new T.Vector3(0,.02,1):view==='back'?new T.Vector3(0,.02,-1):view==='side'?new T.Vector3(1,.02,0):new T.Vector3(.35,.06,1).normalize();
    controls.target.set(extent>.1&&el.clientWidth>767?-packingWidth*.12:0,extent>.1||mobile?.85:.93,0);camera.position.copy(controls.target).addScaledVector(direction,distance);controls.update();dirty=true;
   };
-  const resize=()=>{layoutKey='';lastState=null;lastCameraFocus=-1;camera.clearViewOffset();renderer.setPixelRatio(Math.min(devicePixelRatio,constrainedDevice?1:el.clientWidth<768||el.clientHeight<600?1.5:2));camera.aspect=el.clientWidth/el.clientHeight;camera.updateProjectionMatrix();renderer.setSize(el.clientWidth,el.clientHeight);fit(latest.current.view,amount);};const observer=new ResizeObserver(resize);observer.observe(el);
+  // A resize (device rotation, window, keyboard) keeps the view the user set up; only an untouched default view is framed again.
+  const resize=()=>{layoutKey='';lastState=null;renderer.setPixelRatio(Math.min(devicePixelRatio,constrainedDevice?1:el.clientWidth<768||el.clientHeight<600?1.5:2));camera.aspect=el.clientWidth/el.clientHeight;camera.updateProjectionMatrix();renderer.setSize(el.clientWidth,el.clientHeight);if(!userMoved&&!latest.current.selected.length&&!selectedNerve.current){lastCameraFocus=-1;camera.clearViewOffset();fit(latest.current.view,amount);}else dirty=true;};const observer=new ResizeObserver(resize);observer.observe(el);
   // Labels of a picked special region: one small label per boundary / content structure, joined by a thin line to the point of the structure nearest the middle of the region.
   const labelLayer=document.createElement('div');labelLayer.className='space-labels';labelLayer.setAttribute('aria-hidden','true');el.appendChild(labelLayer);
   const labelSvg=document.createElementNS('http://www.w3.org/2000/svg','svg');labelSvg.setAttribute('class','space-label-lines');labelLayer.appendChild(labelSvg);
@@ -1186,7 +1188,7 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
      if(data[i*4+3]>.5){const marker=mesh?(mesh.geometry.boundingBox??bounds[i]).getCenter(softP).clone().applyMatrix4(mesh.matrixWorld):c.clone().add(new T.Vector3(dx,dy,dz));markerPositions.set([marker.x,marker.y,marker.z],i*3);}else markerPositions.set([10000,10000,10000],i*3);
     });updateVisibleBatches();partTexture.needsUpdate=true;selectionTexture.needsUpdate=true;motionTexture.needsUpdate=true;rotationTexture.needsUpdate=true;anchorMotionTexture.needsUpdate=true;anchorRotationTexture.needsUpdate=true;markerGeometry.attributes.position.needsUpdate=true;lastState=s;lastExtent=amount;dirty=true;
    }
-   if(s.view!==lastView||s.reset!==lastReset){camera.clearViewOffset();lastCameraFocus=-1;fit(s.view,amount);lastView=s.view;lastReset=s.reset;}
+   if(s.view!==lastView||s.reset!==lastReset){camera.clearViewOffset();lastCameraFocus=-1;if(s.reset!==lastReset)userMoved=false;fit(s.view,amount);lastView=s.view;lastReset=s.reset;}
    if(moving&&!s.isolate)fit(amount>.5?'front':s.view,Math.max(0,(amount-.3)/.7));
    const isolateKey=s.isolate?s.selected.join(',')+':'+s.reset+':'+s.inspectorOpen+':'+camera.aspect:'';
    if(isolateKey!==lastIsolate||(s.isolate&&moving)){
