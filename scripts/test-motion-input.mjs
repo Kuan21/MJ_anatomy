@@ -8,9 +8,9 @@ const declarations=[];
 function visit(node){if(ts.isVariableDeclaration(node)&&names.includes(node.name.getText(file)))declarations.push('const '+node.getText(file)+';');ts.forEachChild(node,visit);}visit(file);
 assert.equal(declarations.length,names.length);
 const code=ts.transpileModule(declarations.join('\n'),{compilerOptions:{target:ts.ScriptTarget.ES2022}}).outputText;
-const frames=new Map(),motionTargetRef={current:{shoulderAbduction:0}},motionInputSide={current:'right'},motionPoseRef={current:{}},smoothMotionFrame={current:null};
+const frames=new Map(),motionTargetRef={current:{shoulderAbduction:0}},motionInputSide={current:'right'},motionPoseRef={current:{}},smoothMotionFrame={current:null},gestureFrame={current:null};
 let number=0,displayed,side='right';const focus=['shoulder'];let state={cameraFocusNonce:17,focusParts:focus};
-const context={atlas:{},motionEnabled:true,studySide:'right',motionTargetRef,motionInputSide,motionPoseRef,smoothMotionFrame,
+const context={atlas:{},motionEnabled:true,studySide:'right',motionTargetRef,motionInputSide,motionPoseRef,smoothMotionFrame,gestureFrame,
  useRef:v=>({current:v}),resolveArmCollision:(_atlas,_side,pose)=>({pose,limited:false}),setMotionBlock(){},
  buildUpperLimbMotion(_atlas,shown,pose){return{transforms:{[shown]:pose},warnings:[]};},constrainPose:p=>p,
  setMotionPose:p=>{displayed=p;},setMotionEdit(){},setError(){},setTopRegion(){},setMotionSide(){},setStudySide:s=>{side=s;},

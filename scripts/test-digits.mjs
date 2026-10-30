@@ -78,6 +78,13 @@ for (const side of ['left', 'right']) {
   assert.ok(tipOf(f, 'thumb', 'dp', J.thumb.tip).distanceTo(mid()) < .03, 'fist: the thumb lies over the middle phalanges ('+(tipOf(f, 'thumb', 'dp', J.thumb.tip).distanceTo(mid())*1000).toFixed(0)+' mm)');
   for (const h of m.HAND_PRESETS) for (const k of m.DIGIT_KEYS) assert.ok(h.pose[k] >= m.DIGIT_LIMITS[k][0] && h.pose[k] <= m.DIGIT_LIMITS[k][1], `${h.id} ${k} within limits`);
 }
+// 4c. the panel offers exactly these five gestures; half fist: MCP about 45, PIP about 60, DIP about 30 degrees
+{
+  assert.deepEqual(m.HAND_PRESETS.map(h => h.id), ['open', 'half', 'fist', 'pinch', 'ok']);
+  const h = m.HAND_PRESETS.find(g => g.id === 'half').pose;
+  for (const f of ['index', 'middle', 'ring', 'little']) { assert.ok(Math.abs(h[f + 'McpFlexion'] - 45) <= 8 && Math.abs(h[f + 'PipFlexion'] - 60) <= 6 && Math.abs(h[f + 'DipFlexion'] - 30) <= 6, 'half fist ' + f); }
+  assert.ok(h.thumbMcpFlexion > 0 && h.thumbIpFlexion > 0, 'half fist: thumb slightly flexed');
+}
 // 5. soft tissue of the hand under a fist and a wide spread: no vertex flies off, no triangle is stretched into a spike
 const MAX_STRETCH = Number(process.env.MAX_STRETCH ?? 6);
 const POSES = {
@@ -120,7 +127,7 @@ console.table(report);
 //    with the fingers at their limits (no tendon bowstringing away from the bone or staying behind, no tendon, vessel or nerve pulled through the bone)
 {
   const tol = .005, maxFlex = Object.fromEntries(m.DIGIT_KEYS.map(k => [k, m.DIGIT_LIMITS[k][1]]));
-  const poseList = {...Object.fromEntries(m.HAND_PRESETS.filter(h => h.id !== 'open' && h.id !== 'ok').map(h => [h.id, h.pose])), 'max flexion': {...maxFlex, thumbCmcAbduction: 0, thumbOpposition: 0, indexMcpAbduction: 0, middleMcpAbduction: 0, ringMcpAbduction: 0, littleMcpAbduction: 0}};
+  const poseList = {...Object.fromEntries(m.HAND_PRESETS.map(h => [h.id, h.pose])), 'max flexion': {...maxFlex, thumbCmcAbduction: 0, thumbOpposition: 0, indexMcpAbduction: 0, middleMcpAbduction: 0, ringMcpAbduction: 0, littleMcpAbduction: 0}};
   const groups = [['flexor tendons', /flexor digitorum|flexor pollicis longus/i], ['extensor tendons', /extensor (digitorum|indicis|digiti minimi|pollicis)|extensor expansion|dorsal digital expansion/i], ['palmar aponeurosis / sheaths', /palmar aponeurosis|fibrous (digital )?sheath|annular|cruciate|pulley/i], ['thenar / hypothenar', /pollicis (brevis|longus)|opponens|adductor pollicis|abductor digiti minimi|flexor digiti minimi/i], ['interossei / lumbricals', /interosse|lumbrical/i], ['digital arteries / nerves', /digital (artery|nerve)|arteria princeps|radialis indicis/i], ['digital / hand veins', /digital vein|venous network|palmar venous/i], ['other soft tissue', /./]];
   const result = [], late = [];
   for (const side of ['left', 'right']) {
