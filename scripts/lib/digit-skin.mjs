@@ -62,5 +62,13 @@ const KNUCKLE = .014;
     const ta = thickness(pa, dir, ia), tb = thickness(pb, dir.map(v => -v), ib);
     return {boneGap: best, padA: ta, padB: tb, gap: best - ta - tb};
   }
-  return {pose, overlap, padGap, radius, assign, base, assigned: DIGITS.map((_, i) => assign.reduce((c, a) => c + (a === i), 0))};
+  /** Closest approach of the skin of two digits (vertex to vertex over the posed hand skin): the surfaces of the two finger pads touch when this is about 1 mm or less. */
+  function skinGap(state, da = 'thumb', db = 'index') {
+    const ia = DIGITS.indexOf(da), ib = DIGITS.indexOf(db), A = [], B = [];
+    for (let v = 0; v < n; v++) { if (assign[v] === ia) A.push(v); else if (assign[v] === ib) B.push(v); }
+    let best = Infinity;
+    for (const a of A) for (const b of B) { const d = Math.hypot(state.posed[a * 3] - state.posed[b * 3], state.posed[a * 3 + 1] - state.posed[b * 3 + 1], state.posed[a * 3 + 2] - state.posed[b * 3 + 2]); if (d < best) best = d; }
+    return best;
+  }
+  return {pose, overlap, padGap, skinGap, radius, assign, base, assigned: DIGITS.map((_, i) => assign.reduce((c, a) => c + (a === i), 0))};
 }
