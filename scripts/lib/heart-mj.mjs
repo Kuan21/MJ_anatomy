@@ -1,7 +1,9 @@
 // Heart structures that neither Z-Anatomy nor BodyParts3D models, built on the Z-Anatomy chambers from textbook anatomy ("示意構造").
 // Everything here is derived from the chamber, valve and vessel meshes at build time: ridges follow the inside of the wall, patches are
 // pieces of the chamber surface, and the pericardial sinuses are schematic spaces. They are marked as MJ-made in the UI.
-import {meshOf, ray, closest, wallPoint, patch, tubeThrough, merge, sub, add, mul, unit, len, lerp, dot, cross} from './heart-geom.mjs';
+import {meshOf, ray, closest, wallPoint, patch, patchField, pillow, finger, surfaceNear, tubeThrough as tubeRaw, merge, sub, add, mul, unit, len, lerp, dot, cross} from './heart-geom.mjs';
+// every ridge is drawn with 12+ facets so it shades round, not faceted
+const tubeThrough = (points, r0, r1 = r0, samples = 40, sides = 8) => tubeRaw(points, r0, r1, samples, Math.max(12, sides * 2));
 
 const seeded = seed => { let a = seed >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; }; };
 const ellipsoid = (c, r, seg = 18) => {
@@ -38,26 +40,36 @@ export function buildMjHeart(mesh) {
   }
   out['Pectinate muscles'] = merge(pectinate);
   // Interatrial septum: the part of the right atrial wall that lies against the left atrium.
-  const nearLA = tr => closest(LA, tr.mid).d < .0035;
-  const septumRA = patch(RA, tr => nearLA(tr), -.0004);
-  out['Interatrial septum'] = septumRA;
+  // Patches are cut along the zero level of a smooth distance field (patchField), so their borders are smooth curves, not rows of whole triangles.
+  const nearLA = tr => closest(LA, tr.mid).d < .0035, nearLAf = p => .0035 - closest(LA, p).d;
+  out['Interatrial septum'] = patchField(RA, nearLAf, -.0004);
   // Fossa ovalis: an oval depression in the septum above the opening of the inferior vena cava, with a raised rim (limbus).
   const sc = (() => { let s = [0, 0, 0], n = 0; for (const tr of RA.tris) if (nearLA(tr)) { s = add(s, tr.mid); n++; } return n ? mul(s, 1 / n) : RA.centre; })();
   const fc = (() => { const c = lerp(sc, [sc[0], IVCt[1] + .02, sc[2]], .35); const h = closest(RA, c); return h ? h.point : c; })();
   const toward = unit(sub(LA.centre, fc)), up = [0, 1, 0], sideways = unit(cross(up, toward));
   const inOval = (p, a = .0075, b = .0105) => { const d = sub(p, fc), u = dot(d, sideways) / a, v = dot(d, up) / b; return u * u + v * v < 1; };
-  out['Fossa ovalis'] = patch(RA, tr => nearLA(tr) && inOval(tr.mid), -.0014);
+  const ovalField = p => { const d = sub(p, fc), u = dot(d, sideways) / .0075, v = dot(d, up) / .0105; return (1 - Math.hypot(u, v)) * .004; };
+  out['Fossa ovalis'] = patchField(RA, p => Math.min(nearLAf(p), ovalField(p)), -.0014);
+  void inOval;
   const rim = []; for (let k = 0; k <= 28; k++) { const a = k / 28 * Math.PI * 2, p = add(fc, add(mul(sideways, Math.cos(a) * .0085), mul(up, Math.sin(a) * .0115))), h = closest(RA, p); rim.push(h ? sub(h.point, mul(h.normal, .0012)) : p); }
   out['Fossa ovalis rim'] = tubeThrough(rim, .0011, .0011, 60, 6);
   // Auricles: the pouch of the atrium that points forward beside the root of the great arteries.
   const aorticRoot = M['Ascending aorta'].centre, trunk = M['Pulmonary trunk'].centre;
-  out['Right auricle'] = patch(RA, tr => tr.mid[2] > RA.hi[2] - .019 && tr.mid[1] > RA.centre[1] + .012 && tr.mid[0] < RA.centre[0] + .008, -.0004);
-  out['Left auricle'] = patch(LA, tr => tr.mid[0] > LA.hi[0] - .02 && tr.mid[2] > LA.centre[2] + .004 && tr.mid[1] > LA.centre[1] - .002, -.0004);
+  // Right auricle: a broad triangular sac on the anterosuperior wall of the right atrium that spreads medially over the right side of the root of the ascending aorta.
+  // Left auricle: a finger / hook that leaves the left atrium, runs forward along the left side of the pulmonary trunk, curls round its front and has a notched margin.
+  // Both are separate closed bodies lying on the source meshes (the Z-Anatomy atria only carry a smooth bulge where the auricles are); they are drawn lighter than the atria.
+  const AO = M['Ascending aorta'], PT = M['Pulmonary trunk'];
+  {
+    const s0 = surfaceNear([RA], [-.016, 1.327, RA.hi[2] - .012]), n0 = unit(s0.normal), toAorta = sub([AO.centre[0] - .004, AO.centre[1] + .004, AO.hi[2] + .002], s0.point);
+    const e1 = unit(sub(toAorta, mul(n0, dot(toAorta, n0)))), e2 = unit(cross(n0, e1));
+    out['Right auricle'] = pillow([RA, AO], s0.point, e1, e2, [[-.014, -.0165], [-.014, .0165], [.021, 0]], {height: .0095});
+  }
+  out['Left auricle'] = finger([LA, PT], [[LA.hi[0] - .016, LA.hi[1] - .024, LA.hi[2] - .036], [LA.hi[0] - .008, LA.hi[1] - .021, LA.hi[2] - .024], [LA.hi[0] - .008, LA.hi[1] - .016, LA.hi[2] - .010], [LA.hi[0] - .016, LA.hi[1] - .011, LA.hi[2] + .001], [PT.hi[0] - .004, PT.centre[1] + .002, PT.hi[2] - .001]], {width: .0078, thick: .0052, notches: [.34, .52, .70], outward: [1, 0, 0]});
   // Interventricular septum: the part of the left ventricular wall that lies against the right ventricle.
-  out['Interventricular septum'] = patch(LV, tr => closest(RV, tr.mid).d < .0045 && dot(tr.n, sub(RV.centre, tr.mid)) > 0, -.0004);
+  out['Interventricular septum'] = patchField(LV, (p, n) => Math.min(.0045 - closest(RV, p).d, dot(n, unit(sub(RV.centre, p))) * .004), -.0004);
   // Conus arteriosus: the smooth funnel of the right ventricle below the pulmonary valve.
   const pv = M['Pulmonary trunk'].lo, pvc = [trunk[0], pv[1] - .012, trunk[2]];
-  out['Conus arteriosus'] = patch(RV, tr => len(sub(tr.mid, pvc)) < .0185 && tr.mid[1] > RV.centre[1] + .006, -.0004);
+  out['Conus arteriosus'] = patchField(RV, p => Math.min(.0185 - len(sub(p, pvc)), p[1] - (RV.centre[1] + .006)), -.0004);
   // Supraventricular crest: an arched ridge on the roof of the right ventricle between the tricuspid and pulmonary orifices.
   const tvc = [(RV.lo[0] + RV.centre[0]) / 2, RV.hi[1] - .028, RV.centre[2] - .008];
   const crestPts = []; for (let k = 0; k <= 6; k++) { const t = k / 6, base = lerp(tvc, [pvc[0] - .004, pvc[1] - .004, pvc[2] - .012], t), p = wallPoint(RV, [base[0], base[1] - .02, base[2]], [0, 1, 0], .0022); if (p) crestPts.push([p[0], p[1], p[2]]); }
@@ -92,7 +104,7 @@ export function buildMjHeart(mesh) {
   out['Trabeculae carneae of left ventricle'] = trabeculae(LV, 80, .0006, 9, lowerLateral, .9);
   // Aortic vestibule: the smooth, non-muscular outflow part of the left ventricle just below the aortic valve.
   const av = [aorticRoot[0], M['Ascending aorta'].lo[1] - .014, aorticRoot[2] - .004];
-  out['Aortic vestibule'] = patch(LV, tr => len(sub(tr.mid, av)) < .0185 && tr.mid[1] > LV.centre[1] + .008, -.0004);
+  out['Aortic vestibule'] = patchField(LV, p => Math.min(.0185 - len(sub(p, av)), p[1] - (LV.centre[1] + .008)), -.0004);
 
   // Sinoatrial nodal artery: from the right coronary artery up the front of the right atrium to the root of the superior vena cava, then round it.
   const rca = M['Right coronary artery'], nearRoot = (() => { let best = null; for (let i = 0; i < rca.positions.length; i += 3) { const p = [rca.positions[i], rca.positions[i + 1], rca.positions[i + 2]]; if (p[1] > rca.hi[1] - .012 && (!best || p[0] < best[0])) best = p; } return best ?? rca.centre; })();

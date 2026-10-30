@@ -7,6 +7,12 @@ export interface Chamber {
   en: string; zh: string;
   /** catalogue part whose wall is removed (drawn almost transparent) when the chamber is opened */
   wall: string;
+  /** the auricle of an atrium: cut open together with the wall (it is part of the same chamber) */
+  auricle?: string;
+  /** how deep the cut goes, as a share of the chamber's depth along the line of sight (default .5; the left atrium is shallow and its auricle lengthens the bounding depth) */
+  cutDepth?: number;
+  /** great veins that open into this chamber: they stay opaque (they are what the view looks at) when the chamber is opened */
+  openings?: string[];
   /** direction the camera looks from, in atlas axes (+x body left, +y up, +z anterior) */
   look: [number, number, number];
   /** catalogue parts shown only while this chamber is open (valves, papillary muscles; the other chambers keep them hidden) */
@@ -31,7 +37,7 @@ const AORTIC_CUSPS = ['Left coronary leaflet of aortic valve', 'Right coronary l
 
 const RA_ITEMS: ChamberItem[] = [
   {en: 'Right auricle', zh: '右心耳', parts: ['Right auricle'], zhDesc: '右心房向前突出的三角形小囊，覆蓋升主動脈根部，內壁有梳狀肌。' + MJ, enDesc: 'The triangular pouch projecting forward from the right atrium over the root of the ascending aorta; its inner wall carries pectinate muscles.' + MJ_EN},
-  {en: 'Left auricle', zh: '左心耳', parts: ['Left auricle'], zhDesc: '左心房向前突出的細長小囊，位於肺動脈幹左側，內壁有梳狀肌。' + MJ, enDesc: 'The narrow pouch projecting forward from the left atrium beside the pulmonary trunk; its wall carries pectinate muscles.' + MJ_EN},
+  {en: 'Left auricle', zh: '左心耳', parts: ['Left auricle'], zhDesc: '左心房向前突出的手指狀（鉤狀）小囊，沿肺動脈幹左側貼附，邊緣有淺缺口，內壁有梳狀肌。' + MJ, enDesc: 'The finger- or hook-shaped pouch projecting forward from the left atrium along the left side of the pulmonary trunk, with a notched margin; its wall carries pectinate muscles.' + MJ_EN},
   {en: 'Interatrial septum', zh: '心房中隔', parts: ['Interatrial septum'], zhDesc: '分隔左、右心房的薄壁，右側有卵圓窩。' + MJ, enDesc: 'The thin wall between the right and left atria; the fossa ovalis lies on its right side.' + MJ_EN},
   {en: 'Pectinate muscles', zh: '梳狀肌', parts: ['Pectinate muscles'], zhDesc: '右心房前外側壁與右心耳內的平行肌肉嵴，由界嵴向前伸出，使內壁呈梳齒狀。' + MJ, enDesc: 'Parallel muscular ridges on the anterolateral wall of the right atrium and in the right auricle, running forward from the crista terminalis.' + MJ_EN},
   {en: 'Fossa ovalis', zh: '卵圓窩', parts: ['Fossa ovalis'], zhDesc: '心房中隔右側、下腔靜脈開口上方的橢圓凹窩，邊緣隆起，是胎兒期卵圓孔閉合後的痕跡。' + MJ, enDesc: 'An oval depression on the right side of the interatrial septum above the opening of the inferior vena cava, with a raised rim; the remnant of the fetal foramen ovale.' + MJ_EN},
@@ -44,8 +50,8 @@ const RA_ITEMS: ChamberItem[] = [
 const PV_ITEMS: ChamberItem[] = Object.values(PV).map(([part, zh, en, zhDesc]) => ({en, zh, parts: [part], zhDesc, enDesc: `${en} into the posterior wall of the left atrium.`}));
 
 export const CHAMBERS: Chamber[] = [
-  {id: 'ra', en: 'Right atrium', zh: '右心房', wall: 'Right atrium', look: [-1, .15, .45], inside: ['Crista terminalis', 'Pectinate muscles', 'Interatrial septum', 'Fossa ovalis', 'Right auricle', 'Left auricle'], items: RA_ITEMS},
-  {id: 'rv', en: 'Right ventricle', zh: '右心室', wall: 'Right ventricle', look: [.1, .75, .65], inside: [...RA_VALVE_LEAFLETS, 'Anterior papillary muscle of right ventricle', 'Inferior papillary muscle of right ventricle', 'Septal papillary muscle of right ventricle', ...PULMONARY_CUSPS, 'Interventricular septum', 'Trabeculae carneae of right ventricle', 'Septomarginal trabecula (moderator band)', 'Supraventricular crest', 'Conus arteriosus'],
+  {id: 'ra', en: 'Right atrium', zh: '右心房', wall: 'Right atrium', auricle: 'Right auricle', openings: ['Superior vena cava', 'Inferior vena cava', 'Coronary sinus'], look: [-.8, .14, .62], inside: ['Crista terminalis', 'Pectinate muscles', 'Interatrial septum', 'Fossa ovalis', 'Right auricle', 'Left auricle'], items: RA_ITEMS},
+  {id: 'rv', en: 'Right ventricle', zh: '右心室', wall: 'Right ventricle', look: [.04, .22, 1], inside: [...RA_VALVE_LEAFLETS, 'Anterior papillary muscle of right ventricle', 'Inferior papillary muscle of right ventricle', 'Septal papillary muscle of right ventricle', ...PULMONARY_CUSPS, 'Interventricular septum', 'Trabeculae carneae of right ventricle', 'Septomarginal trabecula (moderator band)', 'Supraventricular crest', 'Conus arteriosus'],
     items: [
       {en: 'Anterior leaflet of the tricuspid valve', zh: '三尖瓣前瓣', parts: ['Anterior leaflet of tricuspid valve'], zhDesc: '三尖瓣最大的一片瓣葉，位於前方。', enDesc: 'The largest leaflet of the tricuspid valve, lying anteriorly.'},
       {en: 'Posterior (inferior) leaflet of the tricuspid valve', zh: '三尖瓣後瓣', parts: ['Inferior leaflet of tricuspid valve'], zhDesc: '三尖瓣位於後下方的瓣葉（下瓣）。', enDesc: 'The leaflet of the tricuspid valve lying posteroinferiorly.'},
@@ -61,14 +67,14 @@ export const CHAMBERS: Chamber[] = [
       {en: 'Pulmonary valve', zh: '肺動脈瓣', parts: PULMONARY_CUSPS, zhDesc: '位於肺動脈口的三片半月瓣（前、左、右半月瓣），防止血液由肺動脈幹倒流。', enDesc: 'Three semilunar cusps (anterior, left and right) at the pulmonary orifice that stop blood flowing back from the pulmonary trunk.'},
       {en: 'Interventricular septum', zh: '室間隔', parts: ['Interventricular septum'], zhDesc: '分隔左、右心室的厚壁，大部分為肌部，靠近主動脈瓣下的一小塊為膜部。' + MJ, enDesc: 'The thick wall between the ventricles, mostly muscular; a small membranous part lies just below the aortic valve.' + MJ_EN},
     ]},
-  {id: 'la', en: 'Left atrium', zh: '左心房', wall: 'Left atrium', look: [.2, .35, -1], inside: ['Left auricle', 'Interatrial septum'],
+  {id: 'la', en: 'Left atrium', zh: '左心房', wall: 'Left atrium', auricle: 'Left auricle', cutDepth: .3, openings: ['Left superior pulmonary vein', 'Left inferior pulmonary vein', 'Right superior pulmonary vein', 'Right inferior pulmonary vein'], look: [.08, .22, -1], inside: ['Left auricle', 'Interatrial septum'],
     items: [
       ...PV_ITEMS,
-      {en: 'Left auricle', zh: '左心耳', parts: ['Left auricle'], zhDesc: '左心房向前突出的細長小囊，位於肺動脈幹左側，內壁有梳狀肌；心房顫動時血栓好發於此。' + MJ, enDesc: 'The narrow pouch projecting forward from the left atrium beside the pulmonary trunk; thrombus forms here in atrial fibrillation.' + MJ_EN},
+      {en: 'Left auricle', zh: '左心耳', parts: ['Left auricle'], zhDesc: '左心房向前突出的手指狀（鉤狀）小囊，沿肺動脈幹左側貼附，邊緣有淺缺口，內壁有梳狀肌；心房顫動時血栓好發於此。' + MJ, enDesc: 'The finger- or hook-shaped pouch projecting forward from the left atrium along the left side of the pulmonary trunk, with a notched margin; thrombus forms here in atrial fibrillation.' + MJ_EN},
       {en: 'Interatrial septum', zh: '心房中隔', parts: ['Interatrial septum'], zhDesc: '分隔左、右心房的薄壁。' + MJ, enDesc: 'The thin wall between the right and left atria.' + MJ_EN},
       noModel('Valve of the foramen ovale (remnant)', '卵圓瓣痕跡', '位於心房中隔左側，是胎兒卵圓孔瓣閉合後的痕跡；兩側未癒合時形成卵圓孔未閉。', 'On the left side of the interatrial septum, the remnant of the valve of the foramen ovale; if it does not fuse, a patent foramen ovale results.'),
     ]},
-  {id: 'lv', en: 'Left ventricle', zh: '左心室', wall: 'Left ventricle', look: [1, .15, .55], inside: [...LV_VALVE_LEAFLETS, 'Anterolateral papillary muscle of left ventricle', 'Inferior papillary muscle of left ventricle', ...AORTIC_CUSPS, 'Interventricular septum', 'Trabeculae carneae of left ventricle', 'Aortic vestibule'],
+  {id: 'lv', en: 'Left ventricle', zh: '左心室', wall: 'Left ventricle', look: [.85, .12, .55], inside: [...LV_VALVE_LEAFLETS, 'Anterolateral papillary muscle of left ventricle', 'Inferior papillary muscle of left ventricle', ...AORTIC_CUSPS, 'Interventricular septum', 'Trabeculae carneae of left ventricle', 'Aortic vestibule'],
     items: [
       {en: 'Anterior leaflet of the mitral valve', zh: '二尖瓣前瓣', parts: ['Anterior leaflet of mitral valve'], zhDesc: '二尖瓣較大的前瓣，位於主動脈前庭旁。', enDesc: 'The larger, anterior leaflet of the mitral valve beside the aortic vestibule.'},
       {en: 'Posterior leaflet of the mitral valve', zh: '二尖瓣後瓣', parts: ['Posterior leaflet of mitral valve'], zhDesc: '二尖瓣較小的後瓣，沿房室口後緣附著。', enDesc: 'The smaller, posterior leaflet of the mitral valve, attached along the back of the atrioventricular orifice.'},
@@ -85,5 +91,5 @@ export const CHAMBERS: Chamber[] = [
     ]},
 ];
 
-/** Camera direction for a chamber: the closest named view the viewer already understands. */
+/** Camera direction for a chamber: the closest named view the viewer already understands (the exact direction is `look`: right atrium from the right-anterolateral side, right ventricle from the front, left atrium from behind, left ventricle from the left-anterolateral side). */
 export const chamberView = (chamber: Chamber): HeartView => chamber.id === 'la' ? 'back' : chamber.id === 'lv' ? 'left' : chamber.id === 'ra' ? 'right' : 'front';
