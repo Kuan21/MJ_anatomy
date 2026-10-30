@@ -402,9 +402,11 @@ const paokaoByName=new Map(Object.values(PAOKAO).map(c=>[c.name.toLowerCase(),c]
 /** The card of a course-summary structure by name; a leading Left/Right added by the quiz to a side-less name is dropped when the full name is not found. */
 export function paokaoCardByName(name:string){const k=name.toLowerCase();return paokaoByName.get(k)??paokaoByName.get(k.replace(/^(?:left|right) /,''));}
 export function paokaoZh(name:string){return paokaoByName.get(name.toLowerCase())?.zh;}
-const KIND_LABEL:Record<string,[string,string]>={artery:['Artery','動脈'],vein:['Vein','靜脈'],nerve:['Nerve','神經'],vessel:['Lymphatic vessel','淋巴管'],ligament:['Ligament','韌帶'],tendon:['Tendon','肌腱'],fascia:['Fascia','筋膜'],retinaculum:['Retinaculum','支持帶'],aponeurosis:['Aponeurosis','腱膜'],membrane:['Membrane','膜'],sheath:['Sheath','鞘'],ganglion:['Ganglion','神經節'],plexus:['Plexus','神經叢'],space:['Space','間隙'],landmark:['Bone landmark','骨性標誌'],muscle:['Muscle','肌肉'],surface:['Surface mark','表面標記'],gland:['Gland','腺體'],organ:['Organ','器官']};
+const KIND_LABEL:Record<string,[string,string]>={artery:['Artery','動脈'],vein:['Vein','靜脈'],nerve:['Nerve','神經'],vessel:['Lymphatic vessel','淋巴管'],ligament:['Ligament','韌帶'],tendon:['Tendon','肌腱'],fascia:['Fascia','筋膜'],retinaculum:['Retinaculum','支持帶'],aponeurosis:['Aponeurosis','腱膜'],membrane:['Membrane','膜'],sheath:['Sheath','鞘'],ganglion:['Ganglion','神經節'],plexus:['Plexus','神經叢'],space:['Space','間隙'],landmark:['Bone landmark','骨性標誌'],muscle:['Muscle','肌肉'],surface:['Surface mark','表面標記'],segment:['Bronchopulmonary segment','肺段'],gland:['Gland','腺體'],organ:['Organ','器官']};
 const SCHEMATIC_NOTE_ZH2='示意模型：公開人體圖譜（BodyParts3D、Z-Anatomy）沒有此構造的三維模型，這裡依教科書走行與位置以簡化形態繪製；粗細、彎曲與分支僅供辨認方向，不是實測形狀。';
 const SCHEMATIC_NOTE_EN2='Schematic model: neither BodyParts3D nor Z-Anatomy has a 3D model of this structure. It is drawn in simplified form from the textbook course and position; calibre, curvature and branching are for orientation only, not measured.';
+const SEGMENT_NOTE_EN='Schematic partition: the atlas has the segmental bronchus as a model but no model of the segment itself. The coloured area on the lobe surface is drawn by giving each part of the surface to the nearest segmental bronchus, so its borders are approximate, and the inside of the segment is not drawn.';
+const SEGMENT_NOTE_ZH='示意分區：圖譜有段支氣管的模型，但沒有肺段本身的模型。肺葉表面上的色塊，是把表面各處分給最近的段支氣管畫出來的，邊界為近似值，肺段內部沒有繪出。';
 function paokaoProfile(rawName:string,system:SystemId,part?:Part):StructureProfile{
  const card=part?PAOKAO[part.id]:undefined;
  if(!card)return baseStructureProfile(rawName,system,part);
@@ -425,6 +427,7 @@ function paokaoProfile(rawName:string,system:SystemId,part?:Part):StructureProfi
   L(k==='vein'?'Tributary area':'Territory',k==='vein'?'引流範圍':'供應範圍',card.supply);
  }
  else if(k==='nerve'||k==='ganglion'||k==='plexus'){L(k==='nerve'?'Nerve roots':'Origin',k==='nerve'?'神經根':'來源',card.origin);L('Course','走向',card.course);L('Supply','支配範圍',card.supply);}
+ else if(k==='segment'){/* the card's own fields (lobe, segment, segmental bronchus, main relations, clinical note) are in card.extra */}
  else if(k==='organ'||k==='gland'||k==='surface'){L('Location','位置',card.origin);L('Structure and relations','構造／毗鄰關係',card.course);L('Blood supply and nerves','血液供應／神經',card.supply);}
  else if(k==='landmark'){
   // Bone, description, then what is attached to it and what lies next to it. The card holds one sentence group about the role; its parts that speak of an origin, insertion or attachment become Attachments, the rest Related structures.
@@ -438,6 +441,7 @@ function paokaoProfile(rawName:string,system:SystemId,part?:Part):StructureProfi
  }
  else{L('Attachments','附著',card.origin);L('Course and relations','走向／位置關係',card.course);L('Function','功能',card.supply);}
  for(const f of card.extra??[])facts.push({labelEn:f.labelEn,labelZh:f.labelZh,valueEn:f.en,valueZh:f.zh});
+ if(k==='segment')return{english:card.name,chinese:card.zh,category:`${en}｜${zh}（示意分區）`,summaryEn:SEGMENT_NOTE_EN,summaryZh:SEGMENT_NOTE_ZH,facts,source:'The segmental bronchus is a model of the atlas; the surface territory was generated for this atlas by assigning each part of the lobe surface to the nearest segmental bronchus.'};
  return{english:card.name,chinese:card.zh,category:`${en}｜${zh}（示意模型）`,summaryEn:SCHEMATIC_NOTE_EN2,summaryZh:SCHEMATIC_NOTE_ZH2,facts,source:card.refs?.length?`Schematic model built for this atlas from the textbook course (${card.refs.join('; ')}); landmarks measured on the BodyParts3D atlas meshes.`:'Schematic model built for this atlas from the textbook course; landmarks measured on the BodyParts3D atlas meshes.'};
 }
 

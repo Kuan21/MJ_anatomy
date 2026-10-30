@@ -1,6 +1,7 @@
 import {structureProfile, paokaoCardByName, type BilingualFact} from '../mj-structure-info';
 import type {SystemId} from '../anatomy';
 import {CARD_EXTRAS, type CardExtra} from './card-data';
+import {lungSegmentByName} from '../mj-lung-segments';
 import type {QuizStructure, QuizSystem} from './catalogue';
 
 export interface CardField {label: string; zh?: string; en?: string}
@@ -47,6 +48,19 @@ function lungMark(name: string, label: string) {
 
 export function structureCard(structure: Pick<QuizStructure, 'name' | 'chinese' | 'system' | 'description'>): StructureCard {
   const system = structure.system;
+  // A bronchopulmonary segment (schematic territory) has its own fields: lobe, segment, segmental bronchus, main relations and, where there is a standard one, a clinical note.
+  const seg = system === 'respiratory' ? lungSegmentByName(structure.name) : undefined;
+  if (seg) {
+    const side = seg.side === 'left' ? ['left', '左'] : ['right', '右'], lobe = {upper: ['upper lobe', '上葉'], middle: ['middle lobe', '中葉'], lower: ['lower lobe', '下葉']}[seg.lobe];
+    const fields: CardField[] = [
+      {label: '肺葉', zh: `${side[1]}肺${lobe[1]}`, en: `${lobe[0][0].toUpperCase()}${lobe[0].slice(1)} of the ${side[0]} lung`},
+      {label: '肺段', zh: `${seg.number}，${seg.zh.replace(/^[左右]肺[上中下]葉/, '')}`, en: `${seg.number}, ${seg.en.replace(/ of (?:left|right) lung$/, '')}`},
+      {label: '段支氣管', zh: seg.bronchus[1], en: seg.bronchus[0]},
+      {label: '主要毗鄰', zh: seg.relations[1], en: seg.relations[0]},
+      ...(seg.clinical ? [{label: '臨床備註', zh: seg.clinical[1], en: seg.clinical[0]}] : []),
+    ];
+    return {english: structure.name, chinese: structure.chinese ?? seg.zh, system, fields, missing: []};
+  }
   const profile = structureProfile(structure.name, system as SystemId);
   // Paired structures are keyed without left/right; names where "left"/"right" belongs to the name itself (left atrium, left pulmonary artery…) are keyed in full.
   const extra: CardExtra | undefined = CARD_EXTRAS[structure.name.toLowerCase()] ?? CARD_EXTRAS[clean(structure.name)];

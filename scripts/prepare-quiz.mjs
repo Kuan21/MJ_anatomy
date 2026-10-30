@@ -100,13 +100,13 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
     const pk = JSON.parse(gunzipSync(fs.readFileSync(new URL('paokao/paokao-stream.json.gz', models))));
     const pkChunks = pk.chunks.map(c => fs.readFileSync(new URL('public' + c.url, root)));
     for (const part of pk.parts) {
-      if (!((part.kind === 'surface' && part.system === 'respiratory') || /pulmonary ligament/i.test(part.name))) continue;
+      if (!((part.kind === 'surface' && part.system === 'respiratory') || part.kind === 'segment' || /pulmonary ligament/i.test(part.name))) continue;
       const side = lungSide(part.name, part.bounds);
       // a side-less name (Groove for aortic arch) gets its side in front, with 左／右 in front of the Chinese name, as every other region does
       const sided = /\b(left|right)\b/i.test(part.name), name = sided ? part.name : `${side === 'left' ? 'Left' : 'Right'} ${lc(part.name)}`;
       const zh = paokaoZh(part.name) ?? undefined, chinese = zh && !sided && !/^[左右]/.test(zh) ? (side === 'left' ? '左' : '右') + zh : zh;
       const raw = pkChunks[part.chunk];
-      add({id: part.id, name, chinese, system: 'respiratory', side, bounds: part.bounds, source: 'Lung surface areas',
+      add({id: part.id, name, chinese, system: 'respiratory', side, bounds: part.bounds, source: part.kind === 'segment' ? 'Lung segments' : 'Lung surface areas',
         positions: raw.subarray(part.positions, part.positions + part.vertexCount * 12), normals: raw.subarray(part.normals, part.normals + part.vertexCount * 6), indices: raw.subarray(part.indices, part.indices + part.indexCount * 4)});
     }
   }

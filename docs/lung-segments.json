@@ -1,0 +1,128 @@
+[
+ {
+  "key": "R1",
+  "name": "Apical segment of right lung",
+  "lobe": "Upper lobe of right lung",
+  "triangles": 6073,
+  "surfaceShareOfLobe": 0.193
+ },
+ {
+  "key": "R2",
+  "name": "Posterior segment of right lung",
+  "lobe": "Upper lobe of right lung",
+  "triangles": 4968,
+  "surfaceShareOfLobe": 0.255
+ },
+ {
+  "key": "R3",
+  "name": "Anterior segment of right lung",
+  "lobe": "Upper lobe of right lung",
+  "triangles": 12959,
+  "surfaceShareOfLobe": 0.552
+ },
+ {
+  "key": "R4",
+  "name": "Lateral segment of right lung",
+  "lobe": "Middle lobe of right lung",
+  "triangles": 6651,
+  "surfaceShareOfLobe": 0.456
+ },
+ {
+  "key": "R5",
+  "name": "Medial segment of right lung",
+  "lobe": "Middle lobe of right lung",
+  "triangles": 16827,
+  "surfaceShareOfLobe": 0.544
+ },
+ {
+  "key": "R6",
+  "name": "Superior segment of right lung",
+  "lobe": "Lower lobe of right lung",
+  "triangles": 3572,
+  "surfaceShareOfLobe": 0.167
+ },
+ {
+  "key": "R7",
+  "name": "Medial basal segment of right lung",
+  "lobe": "Lower lobe of right lung",
+  "triangles": 4893,
+  "surfaceShareOfLobe": 0.107
+ },
+ {
+  "key": "R8",
+  "name": "Anterior basal segment of right lung",
+  "lobe": "Lower lobe of right lung",
+  "triangles": 3778,
+  "surfaceShareOfLobe": 0.281
+ },
+ {
+  "key": "R9",
+  "name": "Lateral basal segment of right lung",
+  "lobe": "Lower lobe of right lung",
+  "triangles": 3505,
+  "surfaceShareOfLobe": 0.204
+ },
+ {
+  "key": "R10",
+  "name": "Posterior basal segment of right lung",
+  "lobe": "Lower lobe of right lung",
+  "triangles": 8252,
+  "surfaceShareOfLobe": 0.241
+ },
+ {
+  "key": "L12",
+  "name": "Apicoposterior segment of left lung",
+  "lobe": "Upper lobe of left lung",
+  "triangles": 6376,
+  "surfaceShareOfLobe": 0.254
+ },
+ {
+  "key": "L3",
+  "name": "Anterior segment of left lung",
+  "lobe": "Upper lobe of left lung",
+  "triangles": 9050,
+  "surfaceShareOfLobe": 0.326
+ },
+ {
+  "key": "L4",
+  "name": "Superior lingular segment of left lung",
+  "lobe": "Upper lobe of left lung",
+  "triangles": 1214,
+  "surfaceShareOfLobe": 0.09
+ },
+ {
+  "key": "L5",
+  "name": "Inferior lingular segment of left lung",
+  "lobe": "Upper lobe of left lung",
+  "triangles": 7360,
+  "surfaceShareOfLobe": 0.329
+ },
+ {
+  "key": "L6",
+  "name": "Superior segment of left lung",
+  "lobe": "Lower lobe of left lung",
+  "triangles": 3746,
+  "surfaceShareOfLobe": 0.189
+ },
+ {
+  "key": "L78",
+  "name": "Anteromedial basal segment of left lung",
+  "lobe": "Lower lobe of left lung",
+  "triangles": 11236,
+  "surfaceShareOfLobe": 0.416
+ },
+ {
+  "key": "L9",
+  "name": "Lateral basal segment of left lung",
+  "lobe": "Lower lobe of left lung",
+  "triangles": 2547,
+  "surfaceShareOfLobe": 0.145
+ },
+ {
+  "key": "L10",
+  "name": "Posterior basal segment of left lung",
+  "lobe": "Lower lobe of left lung",
+  "triangles": 6469,
+  "surfaceShareOfLobe": 0.25
+ }
+]

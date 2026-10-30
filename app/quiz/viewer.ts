@@ -1,3 +1,4 @@
+import {lungSegmentByName} from '../mj-lung-segments';
 import * as T from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import {fetchModelBuffer, loadMissingChunks} from '../model-download';
@@ -133,7 +134,8 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
       const isWrong = !naming && state.answered && structure.id === state.pickedId && !isAnswer;
       const isContext = structure.system !== state.target.system;
       mesh.visible = allowed.has(structure.id) && (naming ? (!state.only || isTarget || isNeighbour) : (state.answered || !hidden.has(structure.id))) && (!isContext || state.context || isTarget || isNeighbour);
-      const base = QUIZ_SYSTEMS.find(s => s.id === structure.system)!.color;
+      // a segment territory is drawn in its segment colour, so that the borders between the segments can be seen (the colour does not say which segment it is)
+      const base = (structure.source === 'Lung segments' ? lungSegmentByName(structure.name)?.color : undefined) ?? QUIZ_SYSTEMS.find(s => s.id === structure.system)!.color;
       const material = mesh.material;
       const lit = isAnswer || isWrong || (naming && (isTarget || isNeighbour));
       const fill = isAnswer ? FEEDBACK.correct.fill : isWrong ? FEEDBACK.wrong.fill : naming && isTarget ? FEEDBACK.target.fill : shade ? shade.fill : keyboardId === structure.id ? '#5aa9e6' : base;

@@ -21,6 +21,7 @@ import {clavicleLevel} from './mj-part-regions';
 import {matchesSex} from './mj-sex';
 import {serousLayerKey,PERITONEUM_KEYS} from './mj-serous';
 import {matchesDepth} from './mj-depth';
+import {LUNG_SEGMENTS,LUNG_SEGMENT_KIND,lungSegmentKey} from './mj-lung-segments';
 import {anatomicalRegion,anatomicalSide,isMotionQuarantined} from './mj-part-regions';
 import {isLinearBinding,alignEndPiece,lbsSkin,linearSkin,makeSoftRig,bindTissue,makePalette,deformTissue,deformPoint,followDeltoidSurface,setDeltoidFollowers,registerNerveRest,resolveNeurovascularProfile,tissueBindings,nerveBindings,type SkinBinding,type Profile,type DeltoidFollowers} from './biomechanics-v2/soft-tissue';
 import {makeBodyRig,buildBodyMotion,bindBodyTissue,bindSpineCarrier,cranialNerveRigid,inferredLimb,type BodyRegion} from './biomechanics-v2/body-motion';
@@ -405,7 +406,8 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
    [/^rectum$/i,'rectum','#c7a27c',undefined,'digestive']
   ];
   const pelvicTone=(p:{name:string;system:string})=>PELVIC_TONES.find(t=>t[4]===p.system&&t[0].test(p.name));
-  const shellOf=(p:{name:string;system:string;kind?:string})=>p.system==='serous'&&PERITONEUM_KEYS.includes(serousLayerKey(p.name))?'serous:peritoneum':pelvicTone(p)?'pelvic:'+pelvicTone(p)![1]:p.kind==='space'||p.kind==='sheath'?'connective:space':p.kind==='fascia'||p.kind==='aponeurosis'?'connective:fascia':p.kind==='surface'?'respiratory:mark':isShellSurface(p.name)?p.system+':shell':p.system;
+  const shellOf=(p:{name:string;system:string;kind?:string})=>{const sk=lungSegmentKey(p);return sk?(p.kind===LUNG_SEGMENT_KIND?'lungseg-surf:':'lungseg-tree:')+sk:shellOfBase(p);};
+  const shellOfBase=(p:{name:string;system:string;kind?:string})=>p.system==='serous'&&PERITONEUM_KEYS.includes(serousLayerKey(p.name))?'serous:peritoneum':pelvicTone(p)?'pelvic:'+pelvicTone(p)![1]:p.kind==='space'||p.kind==='sheath'?'connective:space':p.kind==='fascia'||p.kind==='aponeurosis'?'connective:fascia':p.kind==='surface'?'respiratory:mark':isShellSurface(p.name)?p.system+':shell':p.system;
   // The lung lobes: one pink, one material for every lobe. Matte (roughness 1, weak reflections of the room) because a glossy surface turned the upper lobes, which face the key light, into pure white glare;
   // closed meshes seen from outside, so front faces only (the back faces drawn through a see-through lobe made it patchy).
   {const lungMat=materialFor('respiratory',.32);lungMat.color.set('#c98f8a');lungMat.roughness=1;lungMat.metalness=0;lungMat.envMapIntensity=.35;lungMat.side=T.FrontSide;mats.set('respiratory:shell',lungMat);}mats.set('serous:shell',materialFor('serous',.28));
@@ -414,6 +416,13 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
   mats.set('connective:space',materialFor('connective',.2));mats.set('connective:fascia',materialFor('connective',.62));// Lung surface marks (fissures, impressions, grooves, hilum) are patches of the lobe surface: the same pink and matte finish as the lobe, pulled slightly towards the camera (polygon offset) so they never fight the lobe underneath;
   // they show only when selected or hovered, and the lobes stay one colour.
   {const mark=materialFor('respiratory');mark.color.set('#c98f8a');mark.roughness=1;mark.metalness=0;mark.envMapIntensity=.35;mark.side=T.FrontSide;mark.polygonOffset=true;mark.polygonOffsetFactor=-2;mark.polygonOffsetUnits=-2;mats.set('respiratory:mark',mark);}
+  // Bronchopulmonary segments: each segment has two materials, one for its segmental bronchial tree and one for its territory on the lobe surface. They start in the colour of the
+  // thing they replace (the bronchial tree's system colour, the lobe pink) and take the segment colour only while the segment display is on (see the frame loop).
+  const segMats=new Map<string,{mat:T.MeshStandardMaterial;plain:T.Color;seg:T.Color;surface:boolean}>();
+  for(const sg of LUNG_SEGMENTS){
+   const tree=materialFor('respiratory');mats.set('lungseg-tree:'+sg.key,tree);segMats.set('lungseg-tree:'+sg.key,{mat:tree,plain:tree.color.clone(),seg:new T.Color(sg.color),surface:false});
+   const surf=materialFor('respiratory');surf.color.set('#c98f8a');surf.roughness=1;surf.metalness=0;surf.envMapIntensity=.35;surf.side=T.FrontSide;surf.polygonOffset=true;surf.polygonOffsetFactor=-4;surf.polygonOffsetUnits=-4;mats.set('lungseg-surf:'+sg.key,surf);segMats.set('lungseg-surf:'+sg.key,{mat:surf,plain:surf.color.clone(),seg:new T.Color(sg.color),surface:true});
+  }
   const renderBatches:{mesh:T.Mesh;fade:T.Mesh;parts:{index:number;offset:number;geometry:T.BufferGeometry}[];mask:string}[]=[];
   // Faded parts (the other side of a limb, the rib cage in the lung view, whatever hides a focused structure) are drawn by a twin of each batch with a see-through material: a smooth 30 % blend, not a dot pattern.
   const fadeMats=new Map<T.Material,T.MeshStandardMaterial>();
@@ -1046,7 +1055,8 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
   const animate=()=>{
    if(disposed)return;frame=requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05),s=poseForFrame(latest.current);
    // the lung lobes are solid and lit by default; they turn translucent only when the opacity slider is moved
-   {const o=latest.current.lungOpacity??1,t=o<.995;for(const lm of [mats.get('respiratory:shell'),mats.get('respiratory:mark')]){if(lm&&(lm.opacity!==o||lm.transparent!==t)){lm.opacity=o;lm.transparent=t;lm.depthWrite=!t;lm.needsUpdate=true;dirty=true;}}}
+   {const on=!!latest.current.lungSegments;for(const e of segMats.values()){const c=on?e.seg:e.plain;if(!e.mat.color.equals(c)){e.mat.color.copy(c);dirty=true;}}}
+   {const o=latest.current.lungOpacity??1,t=o<.995;for(const lm of [mats.get('respiratory:shell'),mats.get('respiratory:mark'),...[...segMats.values()].filter(e=>e.surface).map(e=>e.mat)]){if(lm&&(lm.opacity!==o||lm.transparent!==t)){lm.opacity=o;lm.transparent=t;lm.depthWrite=!t;lm.needsUpdate=true;dirty=true;}}}
    {const pm=mats.get('serous:peritoneum'),o=latest.current.peritoneumOpacity??.3;if(pm&&pm.opacity!==o){pm.opacity=o;dirty=true;}}
    if(focusTarget&&focusPosition){const a=1-Math.exp(-8*dt);controls.target.lerp(focusTarget,a);camera.position.lerp(focusPosition,a);dirty=true;if(controls.target.distanceToSquared(focusTarget)<1e-7&&camera.position.distanceToSquared(focusPosition)<1e-7){controls.target.copy(focusTarget);camera.position.copy(focusPosition);focusTarget=null;focusPosition=null;}}
    const changed=lastState?.jointSurfaces!==s.jointSurfaces||lastState?.visible!==s.visible||lastState?.selected!==s.selected||lastState?.hiddenParts!==s.hiddenParts||lastState?.fadedParts!==s.fadedParts||lastState?.nerveFilter!==s.nerveFilter||lastState?.spaceRange!==s.spaceRange||lastState?.spaceRangeIds!==s.spaceRangeIds||lastState?.spaceContentIds!==s.spaceContentIds||autoFadeDirty||lastState?.highlightNerves!==s.highlightNerves||lastState?.depthFilter!==s.depthFilter||lastState?.muscleLayer!==s.muscleLayer||lastState?.faceMuscleLayer!==s.faceMuscleLayer||lastState?.focusParts!==s.focusParts||lastState?.isolate!==s.isolate||lastState?.partTransforms!==s.partTransforms||lastState?.bodyMotion!==s.bodyMotion;
@@ -1132,6 +1142,9 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
      if(amount<.01&&cervicalVessels.replaced.has(p.id))return false;
      // A space (axillary fossa, carpal tunnel, quadrangular space …) is not a solid: its boundaries and contents are highlighted by the dissection panel, so the placeholder volume is never drawn as a plate or box.
      if((p as {kind?:string}).kind==='space')return false;
+     // The segment territories cover the whole lobe surface: they are drawn only while the segment display is on (or when one is picked, e.g. from search), and then the plain surface marks give way to them.
+     if((p as {kind?:string}).kind===LUNG_SEGMENT_KIND&&!s.lungSegments&&!selection.has(p.id))return false;
+     if((p as {kind?:string}).kind==='surface'&&s.lungSegments&&!selection.has(p.id))return false;
      // A schematic sheath (axillary, femoral) is a thin tube drawn translucent: with the arm raised it folds into a grey arch above the shoulder, so it is only drawn when it is picked (from the dissection panel).
      if((p as {kind?:string}).kind==='sheath'&&!selection.has(p.id))return false;
      if(hidden.has(p.id))return false;

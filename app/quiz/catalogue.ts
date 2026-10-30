@@ -83,7 +83,7 @@ export const QUIZ_CATEGORIES: {id: QuizCategory; label: string; english: string;
   {id: 'vein', label: '靜脈', english: 'Veins', color: '#6399bc', note: ''},
   {id: 'ligament', label: '韌帶與筋膜', english: 'Ligaments and fasciae', color: '#c9b98a', note: ''},
   {id: 'space', label: '特殊空間與孔', english: 'Spaces and openings', color: '#8fa7a0', note: '四邊孔、三邊孔、解剖鼻煙盒、跗管'},
-  {id: 'organ', label: '器官結構', english: 'Organ structures', color: '#d98a85', note: '心臟內部、肺的壓跡與肺門'},
+  {id: 'organ', label: '器官結構', english: 'Organ structures', color: '#d98a85', note: '心臟內部、肺的壓跡、肺門與肺段'},
 ];
 const SPACE_NAME = /quadrangular space|quadrilateral space|triangular space|triangular interval|anatomical snuffbox|snuff ?box|tarsal tunnel|carpal tunnel|cubital fossa|popliteal fossa|femoral triangle|adductor canal|axilla\b|foramen|hiatus|canal\b/i;
 const LIGAMENT_NAME = /ligament|fascia|retinaculum|aponeurosis|membrane|septum|raphe|capsule/i;
@@ -147,11 +147,12 @@ const LUNG_SECTIONS: QuizSectionDef[] = [
   {id: 'impressions', label: '壓跡與溝', english: 'Impressions, grooves and contact areas', range: [1.15, 1.45]},
   {id: 'features', label: '尖、緣、面、裂、切跡與舌葉', english: 'Apex, borders, surfaces, fissures, notch and lingula', range: [1.15, 1.45]},
   {id: 'hilum', label: '肺門', english: 'Hilum', range: [1.15, 1.45]},
+  {id: 'segments', label: '肺段（示意分區）', english: 'Bronchopulmonary segments (schematic)', range: [1.15, 1.45]},
 ];
 QUIZ_REGIONS.lung = {
   id: 'lung', label: '肺', english: 'Lungs', tag: '肺篇', file: 'quiz-lung.json', hash: '#/quiz/lung', atlasHash: '#/atlas/whole',
-  headline: ['看名稱，', '點出位置。'], description: ['由肺的壓跡、溝、緣、裂到肺門，在 3D 肺模型上練習辨認。', '每答一題，立即顯示正確位置與資料卡。'],
-  scope: '題目只涵蓋模型中真正有的肺表面面片（由肺葉表面依相鄰構造切出，邊界為近似）與肺門構造（主支氣管、肺動脈、肺靜脈、支氣管動脈）。右上葉支氣管、中間支氣管、肺門淋巴結與肺門處的胸膜返折模型沒有，不出題；肺內的支氣管樹與肺血管不在範圍內。',
+  headline: ['看名稱，', '點出位置。'], description: ['由肺的壓跡、溝、緣、裂、肺門到肺段，在 3D 肺模型上練習辨認。', '每答一題，立即顯示正確位置與資料卡。'],
+  scope: '題目只涵蓋模型中真正有的肺表面面片（由肺葉表面依相鄰構造切出，邊界為近似）與肺門構造（主支氣管、肺動脈、肺靜脈、支氣管動脈）。右上葉支氣管、中間支氣管、肺門淋巴結與肺門處的胸膜返折模型沒有，不出題；肺內的支氣管樹與肺血管不在範圍內。「肺段」為示意分區：模型有真實的段支氣管，但沒有肺段本身，肺葉表面依最近的段支氣管分區，邊界為近似；右肺 10 段，左肺依尖後段、前內基底段合併計為 8 段，回答時用合併名稱或拆開的 S1／S2、S7／S8 都算對。',
   defaultView: 'medial', defaultSide: 'right', systems: ['respiratory', 'arterial', 'venous'],
   frame: {x: .13, z: [-.1, .11]}, sections: LUNG_SECTIONS,
 };
@@ -170,7 +171,7 @@ export interface QuizStructure {
   sections: Exclude<QuizSection, 'all'>[];
   meshIds: string[];
   bounds: Bounds;
-  source: 'BodyParts3D' | 'Nervous supplement' | 'Lung surface areas' | 'Z-Anatomy' | `Z-Anatomy / ${string}`;
+  source: 'BodyParts3D' | 'Nervous supplement' | 'Lung surface areas' | 'Lung segments' | 'Z-Anatomy' | `Z-Anatomy / ${string}`;
   /** Short bilingual description (heart quiz), shown on the answer card. */
   description?: {zh: string; en: string};
 }
@@ -391,6 +392,7 @@ export function backSections(name: string, system?: QuizSystem): SectionList {
 export function lungSections(name: string): Exclude<QuizSection, 'all'>[] {
   const n = name.toLowerCase();
   if (/\blobe of\b.*\blung\b/.test(n)) return [];
+  if (/\bsegment of\b.*\blung\b/.test(n)) return ['segments'];
   if (/groove|impression|contact area/.test(n) && !/cardiac notch/.test(n)) return ['impressions'];
   if (/hilum|bronchus|pulmonary (artery|vein|ligament)|bronchial artery/.test(n)) return ['hilum'];
   return ['features'];
@@ -411,7 +413,10 @@ export function questionPool(catalogue: QuizCatalogue, settings: QuizSettings): 
 /** Same-system regional anatomy stays available as distractors and for peeling. */
 export function sceneStructures(catalogue: QuizCatalogue, target: QuizStructure, section: QuizSection, side: QuizSide) {
   const range = (regionSections(catalogue.region).find(s => s.id === section) ?? regionSections(catalogue.region)[0]).range;
-  return catalogue.structures.filter(s => (side === 'both' || s.side === 'midline' || s.side === side)
+  // Lung quiz: the segment territories cover the whole lobe surface, so they appear only in a question about a segment, and then the surface marks stay out of the picture.
+  const segmentQuestion = catalogue.region === 'lung' && target.sections.includes('segments');
+  const lungScene = (s: QuizStructure) => catalogue.region !== 'lung' || (segmentQuestion ? s.sections.includes('segments') || s.sections.length === 0 : !s.sections.includes('segments'));
+  return catalogue.structures.filter(s => lungScene(s) && (side === 'both' || s.side === 'midline' || s.side === side)
     && (catalogue.region === 'heart' || catalogue.region === 'lung' || s.system === target.system || s.system === 'skeletal')
     && (s.id === target.id || section === 'all' || s.sections.includes(section)
       || (s.bounds[0][1] < range[1] && s.bounds[1][1] > range[0])));

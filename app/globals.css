@@ -1431,3 +1431,18 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
   .top-region-nav.region-bar{left:12px!important;right:12px!important;transform:none!important;width:auto!important;max-width:none!important;min-width:0!important}
   .top-region-nav.region-bar button{padding:0 10px!important;font-size:12px!important}
 }
+
+/* Lung focus: bronchopulmonary segment legend (colour chip = the colour of the segmental bronchus and of its surface territory) */
+.lung-focus{max-height:calc(100vh - 110px);overflow-y:auto}
+.lung-focus .lung-seg{display:flex;flex-direction:column;gap:6px}
+.lung-focus .lung-seg-views{display:grid;grid-template-columns:repeat(2,1fr);gap:4px}
+.lung-focus .lung-seg-views button{min-height:30px;border-radius:8px;background:#f1f4f5;color:#344054;font-size:12px;height:auto;padding:3px 6px}
+.lung-focus .lung-seg-views button:disabled{opacity:.45}
+.lung-focus .lung-seg-views .bn-stack{align-items:center;text-align:center}
+.lung-focus .lung-seg-group{display:flex;flex-direction:column;gap:2px}
+.lung-focus .lung-seg-group h4{margin:2px 0;font-size:12px}
+.lung-focus .lung-seg-row{display:flex;align-items:center;gap:8px;width:100%;padding:3px 6px;border:1px solid transparent;border-radius:8px;background:transparent;color:#182536;text-align:left;cursor:pointer}
+.lung-focus .lung-seg-row:hover{background:#f1f4f5}
+.lung-focus .lung-seg-row[aria-pressed=true]{border-color:#5db89a;background:#eef8f4}
+.lung-focus .lung-seg-chip{flex:none;width:14px;height:14px;border-radius:4px;box-shadow:inset 0 0 0 1px #18253626}
+.lung-focus .lung-seg-no{flex:none;min-width:34px;font:600 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:#475467}

@@ -1,3 +1,4 @@
+import {LUNG_SEGMENTS} from '../mj-lung-segments';
 /** Accepted alternative names for the typed-answer quiz (level 2), keyed by the structure name in lower case without left/right.
  * Wording follows the course checklist first; every row is listed in REVIEW_LOG.md for the owner to check. The structure's own English and Chinese names, and
  * any name in brackets (such as "Septomarginal trabecula (moderator band)"), are accepted without a row here. */
@@ -135,3 +136,11 @@ export const SYNONYMS: Record<string, Synonym> = {
   'main bronchus proper': {en: ['right main bronchus', 'right primary bronchus', 'main bronchus'], zh: ['主支氣管', '右主支氣管']},
   'bronchial artery': {en: ['bronchial arteries'], zh: []},
 };
+
+// Bronchopulmonary segments (lung quiz): the rows come from app/mj-lung-segments.json, where each segment lists its accepted names. The left lung asks the merged segments
+// (apicoposterior S1+2, anteromedial basal S7+8); the split names (S1, S2, S7, S8) are accepted for them too. Rows shared by the two sides (anterior, superior, lateral basal,
+// posterior basal) are the union of both.
+for (const s of LUNG_SEGMENTS) {
+  const key = s.en.toLowerCase().replace(/\b(?:left|right)\b/g, '').replace(/\s+/g, ' ').trim(), row = SYNONYMS[key] ?? (SYNONYMS[key] = {en: [], zh: []});
+  row.en = [...new Set([...(row.en ?? []), ...s.aliases.en])]; row.zh = [...new Set([...(row.zh ?? []), ...s.aliases.zh])];
+}

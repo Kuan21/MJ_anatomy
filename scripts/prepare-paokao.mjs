@@ -6,13 +6,14 @@ import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {createStream, simplify, weldByPosition} from './lib/stream-writer.mjs';
 import {buildAll} from './lib/paokao-build.mjs';
+import {segmentReport} from './paokao-structures/lung-segments.mjs';
 import {quizModule} from './quiz-modules.mjs';
 import {expand, attachment, originLevel, bridge, TOLERANCE} from './lib/topology.mjs';
 import {ARTERIES, VEINS} from './topology-spec.mjs';
 
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 const out = new URL('public/models/stream/', root), dir = new URL('public/models/paokao/', root), manifest = new URL('paokao-stream.json.gz', dir);
-const inputs = ['scripts/prepare-paokao.mjs', 'scripts/lib/topology.mjs', 'scripts/lib/tube-tips.mjs', 'scripts/topology-spec.mjs', 'app/biomechanics-v2/tissue-bindings.json', 'app/biomechanics-v2/body-bindings.json', 'app/mj-part-regions.ts', 'scripts/lib/paokao-build.mjs', 'scripts/lib/paokao-util.mjs', 'scripts/lib/paokao-world.mjs', 'scripts/lib/nerve-schematics.mjs', 'public/models/atlas.json', 'public/models/nerve-stream.json',
+const inputs = ['scripts/prepare-paokao.mjs', 'scripts/lib/topology.mjs', 'scripts/lib/tube-tips.mjs', 'scripts/topology-spec.mjs', 'app/biomechanics-v2/tissue-bindings.json', 'app/biomechanics-v2/body-bindings.json', 'app/mj-part-regions.ts', 'scripts/lib/paokao-build.mjs', 'app/mj-lung-segments.json', 'scripts/lib/paokao-util.mjs', 'scripts/lib/paokao-world.mjs', 'scripts/lib/nerve-schematics.mjs', 'public/models/atlas.json', 'public/models/nerve-stream.json',
   'public/models/supplement/supplement-stream.json.gz', 'public/models/serous/serous-stream.json.gz', ...fs.readdirSync(file('scripts/paokao-structures')).map(f => 'scripts/paokao-structures/' + f)];
 const hash = createHash('sha256').update(inputs.map(f => fs.readFileSync(file(f))).join('')).digest('hex'), stamp = file('work/paokao.stamp');
 try { if (fs.readFileSync(stamp, 'utf8') === hash && fs.existsSync(manifest) && fs.existsSync(file('app/mj-paokao.json')) && fs.existsSync(file('app/biomechanics-v2/paokao-bindings.json'))) { console.log('Paokao structures: up to date.'); process.exit(0); } } catch {}
@@ -41,6 +42,8 @@ for (const rel of [...expand(ARTERIES, 'artery'), ...expand(VEINS, 'vein')]) {
 // The lung surface areas of the name labels come last, after the connectors, so the ids of everything built before stay as they were.
 for (const b of late) { w.addExtra(b.name, b.system, b.geometry); built.push(b); }
 fs.writeFileSync(file('docs/topology-report.json'), JSON.stringify(topology, null, 1));
+// Share of each lobe surface that every bronchopulmonary segment territory takes (schematic partition, see scripts/paokao-structures/lung-segments.mjs).
+fs.writeFileSync(file('docs/lung-segments.json'), JSON.stringify(segmentReport, null, 1) + '\n');
 // Main branches of every vessel, from the same parent/child relations the model is checked against (shown on the vessel data cards).
 { const kids = {}, parents = {}; for (const r of topology) { (kids[r.parent] ??= []).push(r.child); parents[r.child] = r.parent; } fs.writeFileSync(file('app/mj-vessel-branches.json'), JSON.stringify({branches: kids, parents})); }
 // Motion bindings: the new parts must follow the limb they sit on exactly like the atlas parts beside them. Parts in the arm region get a soft arm binding, parts in the leg
