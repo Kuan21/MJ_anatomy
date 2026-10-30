@@ -16,13 +16,15 @@ import neckBreastVulva from '../paokao-structures/neck-breast-vulva.mjs';
 
 export function buildAll() {
   const w = loadWorld(), U = makeUtil(w), specs = [...thorax(U), ...thoraxNerves(U), ...upperLimb(U), ...limbVeins(U), ...lowerLimb(U), ...thoraxExtra(U), ...landmarks(U), ...membranes(U), ...knee(U), ...spacesMuscles(U), ...lungs(U), ...neckBreastVulva(U)], built = [];
-  for (const s of specs) {
+  const lateSpecs = lungs(U, 'late'), late = [];
+  for (const s of [...specs, ...lateSpecs]) {
     const pieces = [];
     for (const t of s.tubes ?? []) pieces.push(U.tube(t.pts, t.r[0], t.r[1] ?? t.r[0], t.samples ?? 24, t.sides ?? 12));
     for (const r of s.ribbons ?? []) pieces.push(U.ribbon(r.pts, r.width, r.thick, r.hint));
     for (const g of s.geometry ?? []) pieces.push(g);
     if (!pieces.length) throw new Error(`paokao: ${s.name} has no geometry`);
-    built.push({...s, geometry: merge(pieces)});
+    (lateSpecs.includes(s) ? late : built).push({...s, geometry: merge(pieces)});
   }
-  return {built, w, U};
+  // `late` (the lung surface areas of the name labels) is appended to `built` after the connectors, so no earlier structure changes its id
+  return {built, late, w, U};
 }

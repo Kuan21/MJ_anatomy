@@ -2,7 +2,7 @@
 // Writes docs/schematic-models.md (for review) and docs/schematic-models.json.   node scripts/report-schematic-models.mjs
 import fs from 'node:fs';
 import {buildAll} from './lib/paokao-build.mjs';
-const {built, U} = buildAll();
+const {built: base, late, U} = buildAll(), built = [...base, ...late];
 const rows = [];
 for (const s of built) {
   const p = s.geometry.positions, lo = [1e9, 1e9, 1e9], hi = [-1e9, -1e9, -1e9];
