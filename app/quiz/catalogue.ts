@@ -1,5 +1,5 @@
-export type QuizSystem = 'skeletal' | 'muscular' | 'nervous' | 'arterial' | 'venous' | 'cardiac';
-export type QuizRegionId = 'lower-limb' | 'upper-limb' | 'thorax' | 'back' | 'heart';
+export type QuizSystem = 'skeletal' | 'muscular' | 'nervous' | 'arterial' | 'venous' | 'cardiac' | 'respiratory';
+export type QuizRegionId = 'lower-limb' | 'upper-limb' | 'thorax' | 'back' | 'heart' | 'lung';
 /** Section ids are region specific ('hip', 'thigh'… for the leg; 'shoulder', 'arm'… for the arm; 'cage', 'wall'… for the thorax). */
 export type QuizSection = string;
 export type QuizSide = 'right' | 'left' | 'both';
@@ -15,6 +15,8 @@ export const QUIZ_SYSTEMS: {id: QuizSystem; label: string; english: string; colo
   {id: 'venous', label: '靜脈', english: 'Veins', color: '#6399bc'},
   // Heart quiz only: chambers, papillary muscles and valve leaflets.
   {id: 'cardiac', label: '心臟構造', english: 'Heart structures', color: '#d98a85'},
+  // Lung quiz only: the surface marks of the lungs, the lobes and the main bronchi.
+  {id: 'respiratory', label: '肺表面與氣道', english: 'Lung surface and airway', color: '#c98a8f'},
 ];
 export interface QuizSectionDef {id: string; label: string; english: string; range: [number, number]}
 export interface QuizRegionDef {
@@ -31,10 +33,10 @@ export interface QuizRegionDef {
   description: [string, string];
   scope: string;
   /** View the model opens in; the back quiz starts from behind. */
-  defaultView?: 'front' | 'back';
+  defaultView?: 'front' | 'back' | 'medial';
   /** Side selected when the setup page opens (the back is symmetric, so both sides). */
   defaultSide?: QuizSide;
-  /** Systems offered on the setup page; omitted = the five body-system chips (not the heart structures). */
+  /** Systems offered on the setup page; omitted = the five body-system chips (not the heart or lung structures). */
   systems?: QuizSystem[];
   /** Framing of the section box: half-width in x (per side) and the z range in metres. */
   frame: {x: number; z: [number, number]; footZ?: number};
@@ -116,6 +118,19 @@ QUIZ_REGIONS.heart = {
   defaultView: 'front', defaultSide: 'both', systems: ['cardiac', 'arterial', 'venous'],
   frame: {x: .075, z: [-.06, .09]}, sections: HEART_SECTIONS,
 };
+const LUNG_SECTIONS: QuizSectionDef[] = [
+  {id: 'all', label: '全部肺表面與肺門', english: 'Lung surface and hilum', range: [1.15, 1.45]},
+  {id: 'impressions', label: '壓跡與溝', english: 'Impressions, grooves and contact areas', range: [1.15, 1.45]},
+  {id: 'features', label: '尖、緣、面、裂、切跡與舌葉', english: 'Apex, borders, surfaces, fissures, notch and lingula', range: [1.15, 1.45]},
+  {id: 'hilum', label: '肺門', english: 'Hilum', range: [1.15, 1.45]},
+];
+QUIZ_REGIONS.lung = {
+  id: 'lung', label: '肺', english: 'Lungs', tag: '肺篇', file: 'quiz-lung.json', hash: '#/quiz/lung', atlasHash: '#/atlas/whole',
+  headline: ['看名稱，', '點出位置。'], description: ['由肺的壓跡、溝、緣、裂到肺門，在 3D 肺模型上練習辨認。', '每答一題，立即顯示正確位置與資料卡。'],
+  scope: '題目只涵蓋模型中真正有的肺表面面片（由肺葉表面依相鄰構造切出，邊界為近似）與肺門構造（主支氣管、肺動脈、肺靜脈、支氣管動脈）。右上葉支氣管、中間支氣管、肺門淋巴結與肺門處的胸膜返折模型沒有，不出題；肺內的支氣管樹與肺血管不在範圍內。',
+  defaultView: 'medial', defaultSide: 'right', systems: ['respiratory', 'arterial', 'venous'],
+  frame: {x: .13, z: [-.1, .11]}, sections: LUNG_SECTIONS,
+};
 export const QUIZ_REGION_IDS = Object.keys(QUIZ_REGIONS) as QuizRegionId[];
 export const isQuizHub = (hash: string) => hash === '#/quiz' || hash === '#/quiz/';
 export const regionOfHash = (hash: string): QuizRegionId | undefined => QUIZ_REGION_IDS.find(id => QUIZ_REGIONS[id].hash === hash);
@@ -131,7 +146,7 @@ export interface QuizStructure {
   sections: Exclude<QuizSection, 'all'>[];
   meshIds: string[];
   bounds: Bounds;
-  source: 'BodyParts3D' | 'Nervous supplement' | 'Z-Anatomy' | `Z-Anatomy / ${string}`;
+  source: 'BodyParts3D' | 'Nervous supplement' | 'Lung surface areas' | 'Z-Anatomy' | `Z-Anatomy / ${string}`;
   /** Short bilingual description (heart quiz), shown on the answer card. */
   description?: {zh: string; en: string};
 }
@@ -291,6 +306,7 @@ export const THORAX_NERVES: Record<string, {zh: string; sections: SectionList}> 
   'sympathetic nerves': {zh: '交感神經', sections: ['vessels']},
 };
 export const THORAX_INCLUDE: Record<QuizSystem, RegExp> = {
+  respiratory: /(?!)/,
   skeletal: /^(?:(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth) rib|manubrium|body of sternum|xiphoid process|(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth) thoracic vertebra|costal cartilages?|intervertebral discs?)$/,
   muscular: /intercostal|transversus thoracis|levatores costarum|serratus posterior|^diaphragm$|spinalis thoracis|iliocostalis thoracis|longissimus thoracis|semispinalis thoracis|interspinalis thoracis|thoracic rotator|subcostal/,
   nervous: /^$/,
@@ -323,6 +339,7 @@ export const BACK_NERVES: Record<string, {zh: string; sections: SectionList; sys
   'suboccipital venous plexus': {zh: '枕下靜脈叢', sections: ['suboccipital', 'neurovascular'], system: 'venous', schematic: true},
 };
 export const BACK_INCLUDE: Record<QuizSystem, RegExp> = {
+  respiratory: /(?!)/,
   skeletal: /^(?:(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth) (?:cervical|thoracic|lumbar) vertebra|atlas|axis|sacrum|coccyx|occipital bone|scapula)$/,
   muscular: /^(?:(?:descending|transverse|ascending) part of trapezius|latissimus dorsi|levator scapulae|rhomboid (?:major|minor)|serratus posterior (?:superior|inferior)|splenius (?:capitis|cervicis)|iliocostalis (?:cervicis|thoracis|lumborum)|longissimus (?:capitis|cervicis|thoracis)|spinalis(?: thoracis| cervicis)?|semispinalis (?:capitis|cervicis|thoracis)|multifidus|(?:cervical|thoracic|lumbar) rotator|rectus capitis posterior (?:major|minor)|obliquus capitis (?:superior|inferior))$/,
   nervous: /^$/,
@@ -344,13 +361,23 @@ export function backSections(name: string, system?: QuizSystem): SectionList {
   return ['deep'];
 }
 
+/** Lung quiz: the lobes only give context (no section, never asked); everything else belongs to one of the three sections. */
+export function lungSections(name: string): Exclude<QuizSection, 'all'>[] {
+  const n = name.toLowerCase();
+  if (/\blobe of\b.*\blung\b/.test(n)) return [];
+  if (/groove|impression|contact area/.test(n) && !/cardiac notch/.test(n)) return ['impressions'];
+  if (/hilum|bronchus|pulmonary (artery|vein|ligament)|bronchial artery/.test(n)) return ['hilum'];
+  return ['features'];
+}
+
 export function classifySections(region: QuizRegionId, name: string, bounds: Bounds, system?: QuizSystem): SectionList {
+  if (region === 'lung') return lungSections(name);
   if (region === 'back') return backSections(name, system);
   return region === 'upper-limb' ? upperSections(name, bounds) : region === 'thorax' ? thoraxSections(name, bounds, system) : lowerSections(name, bounds);
 }
 
 export function questionPool(catalogue: QuizCatalogue, settings: QuizSettings): QuizStructure[] {
-  return catalogue.structures.filter(s => settings.systems.includes(s.system)
+  return catalogue.structures.filter(s => settings.systems.includes(s.system) && s.sections.length > 0
     && (settings.side === 'both' || s.side === 'midline' || settings.side === s.side)
     && (settings.section === 'all' || s.sections.includes(settings.section)));
 }
@@ -359,7 +386,7 @@ export function questionPool(catalogue: QuizCatalogue, settings: QuizSettings): 
 export function sceneStructures(catalogue: QuizCatalogue, target: QuizStructure, section: QuizSection, side: QuizSide) {
   const range = (regionSections(catalogue.region).find(s => s.id === section) ?? regionSections(catalogue.region)[0]).range;
   return catalogue.structures.filter(s => (side === 'both' || s.side === 'midline' || s.side === side)
-    && (catalogue.region === 'heart' || s.system === target.system || s.system === 'skeletal')
+    && (catalogue.region === 'heart' || catalogue.region === 'lung' || s.system === target.system || s.system === 'skeletal')
     && (s.id === target.id || section === 'all' || s.sections.includes(section)
       || (s.bounds[0][1] < range[1] && s.bounds[1][1] > range[0])));
 }

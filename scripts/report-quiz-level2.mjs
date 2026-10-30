@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import {quizModule} from './quiz-modules.mjs';
 const {exclusionOf, nameCounts, neighbours} = await quizModule('app/quiz/level2.ts'), {SYNONYMS} = await quizModule('app/quiz/synonyms.ts');
-const regions = [['lower', '下肢'], ['upper', '上肢'], ['thorax', '胸腔'], ['back', '背部'], ['heart', '心臟']];
+const regions = [['lower', '下肢'], ['upper', '上肢'], ['thorax', '胸腔'], ['back', '背部'], ['heart', '心臟'], ['lung', '肺']];
 const reasons = {'no-chinese-name': '缺中文名', 'card-incomplete': '資料卡欄位不完整', 'name-not-unique': '名稱與同範圍其他構造重複'};
 const lines = ['# Quiz 第二級（看結構寫名稱）題庫範圍', '', '此檔由 `node scripts/report-quiz-level2.mjs` 產生，請勿手改。只有同時符合下列條件的構造會出題：有模型、有中文名、資料卡必填欄位完整、名稱在同一部位內不與其他構造重複（打出名稱只有一個正確答案）。其餘排除並列於下。', ''];
 let total = 0, kept = 0;

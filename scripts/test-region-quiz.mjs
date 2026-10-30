@@ -21,6 +21,7 @@ const native = new Map(atlas.parts.map(p => [p.id, p]));
 const nerves = JSON.parse(fs.readFileSync('public/models/nerve-stream.json'));
 const nerveMeshes = new Map(nerves.chunks.flatMap(c => c.meshes.map(m => [m.name, {mesh: m, chunk: c}])));
 const heart = JSON.parse(gunzipSync(fs.readFileSync('public/models/heart/heart-detail.json.gz')));
+const paokao = JSON.parse(gunzipSync(fs.readFileSync('public/models/paokao/paokao-stream.json.gz')));
 const buffers = new Map();
 const read = (file, gzip = false) => {if (!buffers.has(file)) buffers.set(file, gzip ? gunzipSync(fs.readFileSync(file)) : fs.readFileSync(file)); return buffers.get(file);};
 
@@ -42,7 +43,11 @@ const expected = {
     count: [100, 150],
     names: ['First rib', 'Twelfth rib', 'Third thoracic vertebra', 'Intercostal nerves', 'Posterior intercostal arteries', 'Internal thoracic artery', 'Subcostal artery', 'Vagus nerve (X)'],
     plain: ['Manubrium', 'Body of sternum', 'Xiphoid process', 'Diaphragm', 'Ascending aorta', 'Arch of aorta', 'Descending thoracic aorta', 'Superior vena cava', 'Inferior vena cava', 'Azygos vein', 'Brachiocephalic artery', 'Pulmonary trunk'],
-  },  heart: {
+  },  lung: {
+    count: [45, 60],
+    plain: ['Bronchial artery'],
+  },
+  heart: {
     count: [60, 80],
     plain: ['Right atrium', 'Right ventricle', 'Left atrium', 'Left ventricle', 'Right coronary artery', 'Left coronary artery', 'Anterior interventricular artery', 'Circumflex artery', 'Great cardiac vein', 'Middle cardiac vein', 'Coronary sinus', 'Superior vena cava', 'Inferior vena cava', 'Pulmonary trunk', 'Ascending aorta', 'Anterior papillary muscle of right ventricle', 'Inferior papillary muscle of left ventricle'],
   },
@@ -65,7 +70,7 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
   const def = QUIZ_REGIONS[regionId], catalogue = JSON.parse(fs.readFileSync('public/models/' + def.file));
   assert.equal(catalogue.region ?? 'lower-limb', regionId);
   assert.equal(regionOfHash(def.hash), regionId);
-  const regionSystems = (def.systems ?? QUIZ_SYSTEMS.filter(s => s.id !== 'cardiac').map(s => s.id)).map(id => QUIZ_SYSTEMS.find(s => s.id === id));
+  const regionSystems = (def.systems ?? QUIZ_SYSTEMS.filter(s => s.id !== 'cardiac' && s.id !== 'respiratory').map(s => s.id)).map(id => QUIZ_SYSTEMS.find(s => s.id === id));
   const structures = new Map(catalogue.structures.map(s => [s.id, s]));
   assert.equal(structures.size, catalogue.structures.length, `${regionId}: no repeated anatomical answers`);
   if (expected[regionId]) assert.ok(catalogue.structures.length >= expected[regionId].count[0] && catalogue.structures.length <= expected[regionId].count[1], `${regionId}: ${catalogue.structures.length} structures`);
@@ -90,6 +95,11 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
         const original = read('public' + atlas.chunks[source.chunk].url);
         assert.deepEqual(positions, original.subarray(source.positions, source.positions + source.vertexCount * 12), 'Unchanged original position data');
         assert.deepEqual(indices, original.subarray(source.indices, source.indices + source.indexCount * 4), 'Unchanged source triangles');
+      } else if (structure.source === 'Lung surface areas') {
+        const part = paokao.parts.find(p => p.id === mesh.id); assert.ok(part, mesh.id);
+        const original = read('public' + paokao.chunks[part.chunk].url);
+        assert.deepEqual(positions, original.subarray(part.positions, part.positions + part.vertexCount * 12), 'Unchanged lung surface position data');
+        assert.deepEqual(indices, original.subarray(part.indices, part.indices + part.indexCount * 4), 'Unchanged lung surface triangles');
       } else if (structure.source.startsWith('Z-Anatomy')) {
         const part = heart.parts.find(p => p.id === mesh.id); assert.ok(part, mesh.id);
         const original = read('public' + heart.chunks[part.chunk].url);
@@ -105,9 +115,10 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
   const sectionIds = new Set(def.sections.map(s => s.id));
   for (const s of catalogue.structures) {
     assert.ok(s.meshIds.length && s.meshIds.every(id => meshes.has(id)), `Renderable geometry: ${s.name}`);
-    assert.ok(s.sections.length && s.sections.every(id => sectionIds.has(id) && id !== 'all'), `${s.name}: valid sections ${s.sections}`);
+    // the lobes of the lung quiz are context only (no section, never asked)
+    assert.ok((s.sections.length || (regionId === 'lung' && /^(?:upper|middle|lower) lobe of/i.test(s.name))) && s.sections.every(id => sectionIds.has(id) && id !== 'all'), `${s.name}: valid sections ${s.sections}`);
     assert.ok(['left', 'right', 'midline'].includes(s.side));
-    if (regionId !== 'thorax' && regionId !== 'back' && regionId !== 'heart') assert.notEqual(s.side, 'midline');
+    if (regionId !== 'thorax' && regionId !== 'back' && regionId !== 'heart' && regionId !== 'lung') assert.notEqual(s.side, 'midline');
     // Every answer shows 中文名 + English name, Taiwan terminology.
     checkChinese(`${regionId} ${s.name}`, s.chinese);
     assert.ok(/[A-Za-z]/.test(s.name), 'English name present');
@@ -145,7 +156,15 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
   assert.ok(catalogue.packages.reduce((n, p) => n + p.gzipBytes, 0) < 8e6, `${regionId}: quiz must not download the whole-body anatomy`);
   total += catalogue.structures.length;
 }
+// The lung quiz asks only what the model really has: no lobe is a question, and nothing the model lacks is listed.
+{
+  const lung = JSON.parse(fs.readFileSync('public/models/quiz-lung.json')), names = lung.structures.map(s => s.name.toLowerCase());
+  assert.deepEqual(lung.structures.filter(s => !s.sections.length).map(s => s.name).sort(), ['Lower lobe of left lung', 'Lower lobe of right lung', 'Middle lobe of right lung', 'Upper lobe of left lung', 'Upper lobe of right lung']);
+  for (const missing of ['eparterial', 'intermedius', 'lymph', 'upper lobe bronchus']) assert.ok(!names.some(n => n.includes(missing)), `the model has no ${missing}: it is not a question`);
+  for (const must of ['cardiac impression of right lung', 'cardiac impression of left lung', 'cardiac notch of left lung', 'lingula of left lung', 'hilum of right lung', 'hilum of left lung', 'left groove for aortic arch', 'right groove for azygos vein', 'left pulmonary artery', 'right superior pulmonary vein']) assert.ok(names.includes(must), `lung quiz has ${must}`);
+  assert.equal(QUIZ_REGIONS.lung.defaultView, 'medial');
+}
 // The data panel and the quiz share one dictionary: spot-check Taiwan forms.
 const expectZh = {'axillary artery': '腋動脈', 'deep palmar arch': '深掌動脈弓', 'superior vena cava': '上腔靜脈', 'common iliac artery': '總髂動脈', 'popliteal artery': '膕動脈', 'distal phalanx of index finger': '食指遠節指骨', 'proximal phalanx of big toe': '拇趾近節趾骨', 'great saphenous vein': '大隱靜脈', 'azygos vein': '奇靜脈', 'arch of aorta': '主動脈弓'};
 for (const [en, zh] of Object.entries(expectZh)) assert.equal(zhAnatomy(en)?.zh, zh, en);
-console.log(`PASS region quizzes: ${total} answers over lower limb, upper limb, thorax, back and heart; every answer has a Taiwan-terminology Chinese name beside its English name; sections, systems, sides, unpaired thoracic answers and scoring all playable.`);
+console.log(`PASS region quizzes: ${total} answers over lower limb, upper limb, thorax, back, heart and lung; every answer has a Taiwan-terminology Chinese name beside its English name; sections, systems, sides, unpaired thoracic answers and scoring all playable.`);

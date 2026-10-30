@@ -12,7 +12,7 @@ const output = new URL('stream/', models);
 fs.mkdirSync(output, {recursive: true});
 const {normalizeAtlasSystems} = await quizModule('app/mj-system-classifier.ts');
 const {anatomicalRegion, anatomicalSide, correctedPartName} = await quizModule('app/mj-part-regions.ts');
-const {structureProfile} = await quizModule('app/mj-structure-info.ts');
+const {structureProfile, paokaoZh} = await quizModule('app/mj-structure-info.ts');
 const {namingOverride, applyZhFixes} = await quizModule('app/mj-naming.ts');
 const {QUIZ_SYSTEMS, QUIZ_REGIONS, LOWER_NERVES, UPPER_NERVES, THORAX_NERVES, THORAX_INCLUDE, BACK_NERVES, BACK_INCLUDE, classifySections} = await quizModule('app/quiz/catalogue.ts');
 const atlas = normalizeAtlasSystems(JSON.parse(fs.readFileSync(new URL('atlas.json', models))));
@@ -28,8 +28,17 @@ const cleanName = name => name.toLowerCase().replace(/\b(left|right)\b/g, '').re
 const PAIRED_THORAX = /\brib\b|intercostal|serratus posterior|levatores costarum|rotator|iliocostalis|longissimus|spinalis|semispinalis|interspinalis|transversus thoracis|subcostal|internal thoracic|musculophrenic|bronchial|pulmonary (?:artery|vein)|superior pulmonary|inferior pulmonary|costocervical|thyrocervical|costal cartilage/i;
 const NERVES = {'lower-limb': LOWER_NERVES, 'upper-limb': UPPER_NERVES, thorax: THORAX_NERVES, back: BACK_NERVES};
 
+// Lung quiz: the lobes (context only, never asked), the main bronchi, the pulmonary arteries and veins and the bronchial artery come from the atlas; the lung surface areas
+// and the pulmonary ligaments come from the course-summary package. Nothing is added that the model does not have.
+const LUNG_ATLAS = /^(?:upper|middle|lower) lobe of (?:right |left )?lung$|^(?:left main bronchus|right main bronchus proper)$|^(?:left|right) pulmonary artery$|^(?:left|right) (?:superior|inferior) pulmonary vein$|^bronchial artery$/i;
+const lungSide = (name, bounds) => /^bronchial artery$/i.test(name) ? 'midline' : (bounds[0][0] + bounds[1][0]) / 2 > 0 ? 'left' : 'right';
+
 /** Which atlas meshes belong to a region's quiz, and on which side (null = leave out). */
 function include(region, part) {
+  if (region === 'lung') {
+    const y = (part.bounds[0][1] + part.bounds[1][1]) / 2;
+    return LUNG_ATLAS.test(part.name) && y > 1.17 && y < 1.45 ? lungSide(part.name, part.bounds) : null;
+  }
   if (region === 'lower-limb') {
     const hip = /\bhip bone\b|\b(?:common|external|internal) iliac (?:artery|vein)\b|glute|obturator|tensor fasciae/i.test(part.name);
     if (anatomicalRegion(part) !== 'lower-limb' && !hip) return null;
@@ -87,6 +96,20 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
         positions: raw.subarray(part.positions, part.positions + part.vertexCount * 12), normals: raw.subarray(part.normals, part.normals + part.vertexCount * 6), indices: raw.subarray(part.indices, part.indices + part.indexCount * 4)});
     }
   }
+  if (region === 'lung') {
+    const pk = JSON.parse(gunzipSync(fs.readFileSync(new URL('paokao/paokao-stream.json.gz', models))));
+    const pkChunks = pk.chunks.map(c => fs.readFileSync(new URL('public' + c.url, root)));
+    for (const part of pk.parts) {
+      if (!((part.kind === 'surface' && part.system === 'respiratory') || /pulmonary ligament/i.test(part.name))) continue;
+      const side = lungSide(part.name, part.bounds);
+      // a side-less name (Groove for aortic arch) gets its side in front, with 左／右 in front of the Chinese name, as every other region does
+      const sided = /\b(left|right)\b/i.test(part.name), name = sided ? part.name : `${side === 'left' ? 'Left' : 'Right'} ${lc(part.name)}`;
+      const zh = paokaoZh(part.name) ?? undefined, chinese = zh && !sided && !/^[左右]/.test(zh) ? (side === 'left' ? '左' : '右') + zh : zh;
+      const raw = pkChunks[part.chunk];
+      add({id: part.id, name, chinese, system: 'respiratory', side, bounds: part.bounds, source: 'Lung surface areas',
+        positions: raw.subarray(part.positions, part.positions + part.vertexCount * 12), normals: raw.subarray(part.normals, part.normals + part.vertexCount * 6), indices: raw.subarray(part.indices, part.indices + part.indexCount * 4)});
+    }
+  }
   for (const part of region === 'heart' ? [] : atlas.parts) {
     if (!QUIZ_SYSTEMS.some(s => s.id === part.system)) continue;
     const side = include(region, part);
@@ -105,7 +128,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
       indices: raw.subarray(part.indices, part.indices + part.indexCount * 4)});
   }
 
-  for (const chunk of region === 'heart' ? [] : nerveStream.chunks) {
+  for (const chunk of region === 'heart' || region === 'lung' ? [] : nerveStream.chunks) {
     let raw;
     for (const [ordinal, mesh] of chunk.meshes.entries()) {
       const match = /^(.*?)\.([lr])(?:\.\d+)?$/i.exec(mesh.name);
@@ -131,7 +154,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
     }
   }
 
-  const packages = [], sides = region === 'thorax' || region === 'back' || region === 'heart' ? ['left', 'right', 'midline'] : ['left', 'right'];
+  const packages = [], sides = region === 'thorax' || region === 'back' || region === 'heart' || region === 'lung' ? ['left', 'right', 'midline'] : ['left', 'right'];
   for (const {id: system} of QUIZ_SYSTEMS) for (const side of sides) {
     let buffers = [], bytes = 0, meshes = [];
     const append = data => {

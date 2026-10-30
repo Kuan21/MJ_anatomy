@@ -117,8 +117,8 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
   const picked = answer?.pickedId ? structures.get(answer.pickedId) : undefined;
   const section = region.sections.find(s => s.id === settings.section)!;
   const system = QUIZ_SYSTEMS.find(s => s.id === target?.system);
-  const systemChips = QUIZ_SYSTEMS.filter(s => region.systems ? region.systems.includes(s.id) : s.id !== 'cardiac');
-  const contextName = regionId === 'heart' ? '其他心臟構造' : '骨骼';
+  const systemChips = QUIZ_SYSTEMS.filter(s => region.systems ? region.systems.includes(s.id) : s.id !== 'cardiac' && s.id !== 'respiratory');
+  const contextName = regionId === 'heart' ? '其他心臟構造' : regionId === 'lung' ? '其他肺構造' : '骨骼';
   const questionKey = `${round}:${index}:${target?.id ?? ''}`;
   const ready = readiness.key === questionKey && readiness.ready && !error;
   const correct = session.answers.filter(a => a.correct).length;
@@ -189,7 +189,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
       </section>
 
       <section className="quiz-setup-card" aria-label={`設定${region.label}測驗`}>
-        <div className="quiz-card-heading"><span className="quiz-kicker">YOUR PRACTICE</span><span>{catalogue ? `${catalogue.structures.length} 個構造` : '載入目錄中…'}</span></div>
+        <div className="quiz-card-heading"><span className="quiz-kicker">YOUR PRACTICE</span><span>{catalogue ? `${catalogue.structures.filter(s => s.sections.length).length} 個構造` : '載入目錄中…'}</span></div>
         <fieldset className="quiz-level"><legend>等級 <small>Level</small></legend>
           <div className="quiz-level-grid">
             <button data-slot="quiz-button" aria-pressed={level === 1} onClick={() => {setLevel(1); setSettings(v => ({...v, count: v.count === 5 ? 10 : v.count}));}}><span><b>第一級</b>給名稱找結構<small>Level 1 · name → structure</small></span>{level === 1 && <Check size={17}/>}</button>
@@ -225,7 +225,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
         <QuizScene key={sceneRetry} catalogue={catalogue} view={{key: questionKey, target, section: settings.section, side: settings.side, answered: !!answer, pickedId: answer?.pickedId ?? null, hidden: autoHidden.length ? [...hidden, ...autoHidden] : hidden, context, peeling, command, mode: naming ? 'name' : 'find', clarity, only, highlightIds}}
           onReady={(key, value) => setReadiness({key, ready: value})} onProgress={(loaded, total) => setLoad({loaded, total})} onError={setError} onPick={choose} onMessage={setMessage}/>
         <div className="quiz-stage-caption"><span>{section.id === 'all' ? region.sections.find(s => s.id === target.sections[0])?.label : section.label}</span><span>{system?.label} · {settings.side === 'both' ? '雙側' : settings.side === 'right' ? '右側' : '左側'}</span></div>
-        <div className="quiz-view-buttons" aria-label="模型視角"><button data-slot="quiz-button" onClick={() => changeView('front')}>前面</button><button data-slot="quiz-button" onClick={() => changeView('back')}>後面</button><button data-slot="quiz-button" onClick={() => changeView('side')}>側面</button><button data-slot="quiz-button" onClick={() => changeView('fit')} aria-label="模型置中"><RotateCcw size={16}/></button>{naming && <><button data-slot="quiz-button" onClick={() => changeView('random')} aria-label="隨機角度"><Shuffle size={15}/>隨機</button><button data-slot="quiz-button" onClick={() => changeView('answer')} aria-label="放大至目標"><Maximize2 size={15}/>放大</button></>}</div>
+        <div className="quiz-view-buttons" aria-label="模型視角"><button data-slot="quiz-button" onClick={() => changeView('front')}>前面</button><button data-slot="quiz-button" onClick={() => changeView('back')}>後面</button><button data-slot="quiz-button" onClick={() => changeView('side')}>側面</button>{regionId === 'lung' && <button data-slot="quiz-button" onClick={() => changeView('medial')}>內側面</button>}<button data-slot="quiz-button" onClick={() => changeView('fit')} aria-label="模型置中"><RotateCcw size={16}/></button>{naming && <><button data-slot="quiz-button" onClick={() => changeView('random')} aria-label="隨機角度"><Shuffle size={15}/>隨機</button><button data-slot="quiz-button" onClick={() => changeView('answer')} aria-label="放大至目標"><Maximize2 size={15}/>放大</button></>}</div>
         {!ready && !error && <div className="quiz-loading" role="status"><span className="quiz-spinner"/><strong>載入本題模型</strong><small>{load.loaded} / {load.total || '…'} 個模型套件</small></div>}
         {error && <div className="quiz-model-error" role="alert"><strong>暫時未能作答</strong><p>{error}</p><button data-slot="quiz-button" className="quiz-primary" onClick={() => {setError(''); setReadiness({key: '', ready: false}); setSceneRetry(n => n + 1);}}>重新載入模型</button></div>}
         <div className="quiz-stage-hint">{naming ? (answer ? '可旋轉模型，對照黃色標示的構造' : '黃色標示的是哪個構造？拖曳旋轉 · 滾輪／雙指縮放') : answer ? '可旋轉模型，對照正確位置' : peeling ? '移開遮擋中：點選構造會暫時隱藏，不計分' : '拖曳旋轉 · 滾輪／雙指縮放 · 點選作答'}</div>
