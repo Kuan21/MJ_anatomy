@@ -30,7 +30,7 @@ const sameInput=(a:Float64Array,b:Float64Array)=>{if(a.length!==b.length)return 
 export function createJointAnatomy(atlas:Atlas,scene:T.Scene){
  const upper={left:makeSoftRig(atlas,'left'),right:makeSoftRig(atlas,'right')};
  const body={head:makeBodyRig(atlas,'head'),spine:makeBodyRig(atlas,'spine'),leftLeg:makeBodyRig(atlas,'leftLeg'),rightLeg:makeBodyRig(atlas,'rightLeg')};
- type Row={mesh:T.Mesh<T.BufferGeometry,T.MeshStandardMaterial>;base:Float32Array;/** what produced the current positions, so an unchanged pose is not re-deformed and re-lit */posed?:{mode:number;input:Float64Array};side:'left'|'right';region:ReturnType<typeof anatomicalRegion>;anchor:Part;skin?:SkinBinding;bodySkin:SkinBinding;spineSkin:SkinBinding;bodyRegion:BodyRegion;rigidId?:string};
+ type Row={mesh:T.Mesh<T.BufferGeometry,T.MeshStandardMaterial>;base:Float32Array;/** what produced the current positions, so an unchanged pose is not re-deformed and re-lit */posed?:{mode:number;input:Float64Array};side:'left'|'right';region:ReturnType<typeof anatomicalRegion>;anchor:Part;skin?:SkinBinding;bodySkin:SkinBinding;spineSkin:SkinBinding;bodyRegion:BodyRegion;rigidId?:string;/** material colour before the selection tint */baseColor?:number};
  const rows:Row[]=[];
  const registrations=Object.entries(registrationData).map(([name,r])=>({...r,name,matrix:new T.Matrix4().fromArray(r.matrix),box:new T.Box3(new T.Vector3(...r.sourceBounds[0]),new T.Vector3(...r.sourceBounds[1]))}));
  const surfaces:{mesh:T.Mesh<T.BufferGeometry,T.MeshStandardMaterial>;parent:Part}[]=[];
@@ -87,7 +87,9 @@ export function createJointAnatomy(atlas:Atlas,scene:T.Scene){
   for(const o of meshes){if(performance.now()-start>budgetMs){await pause();if(cancelled())return;start=performance.now();}addMesh(o);}
  }
  /** `surfacesOnly`: move the rigid articular surfaces but leave the deformed ligaments/capsules where they are (live drag preview). */
- function update(s:SceneState,explode:number,surfacesOnly=false){
+ const SELECT_COLOR=0x5DB89A;
+ /** `selectedName`: the tissue picked or found by search (its mesh name): highlighted, framed by the viewer, and the only row left under Isolate. */
+ function update(s:SceneState,explode:number,surfacesOnly=false,selectedName:string|null=null){
   const palettes={left:upper.left?makePalette(upper.left,s.partTransforms??{}):null,right:upper.right?makePalette(upper.right,s.partTransforms??{}):null};
   const active=s.bodyMotion?buildBodyMotion(body[s.bodyMotion.region],s.bodyMotion.pose):null;
   const focus=s.focusParts?new Set(s.focusParts):null,hidden=new Set(s.hiddenParts??[]);
@@ -98,7 +100,10 @@ export function createJointAnatomy(atlas:Atlas,scene:T.Scene){
   // A drag preview moves the rigid surfaces only: stale ligaments and capsules would hang at the old pose, so hide them until the solve lands.
   if(surfacesOnly){for(const r of rows)r.mesh.visible=false;return;}
   for(const r of rows){
-   r.mesh.visible=s.visible.includes('connective')&&!s.isolate&&explode<.01&&s.depthFilter!=='superficial'&&!hidden.has(r.anchor.id)&&(!focus||focus.has(r.anchor.id));
+   const selected=!!selectedName&&r.mesh.name===selectedName,hiddenByName=(s.hiddenNerves??[]).includes(r.mesh.name);
+   r.mesh.visible=!hiddenByName&&explode<.01&&(selected||(s.visible.includes('connective')&&!s.isolate&&s.depthFilter!=='superficial'&&!hidden.has(r.anchor.id)&&(!focus||focus.has(r.anchor.id))));
+   {const m=r.mesh.material,base=r.baseColor??=m.color.getHex(),color=selected?SELECT_COLOR:base,emissive=selected?SELECT_COLOR:0;
+    if(m.color.getHex()!==color||m.emissive.getHex()!==emissive){m.color.setHex(color);m.emissive.setHex(emissive);m.emissiveIntensity=selected?.35:0;}}
    // The deformation is a pure function of (mode, input). Skip it, and the normal rebuild, when neither changed:
    // update() runs for every viewer state change, not only for pose changes.
    let mode=0,input:Float64Array=NO_INPUT;

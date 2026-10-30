@@ -102,7 +102,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const [atlas,setAtlas]=useState<Atlas|null>(null),[state,setState]=useState(initial),[progress,setProgress]=useState(0),[error,setError]=useState(''),[panel,setPanel]=useState<'layers'|'search'|null>(null),[details,setDetails]=useState(false),[about,setAbout]=useState(false),[chosen,setChosen]=useState<Concept|null>(null),[externalNerve,setExternalNerve]=useState<string|null>(null);
  const [loadStatus,setLoadStatus]=useState<AnatomyLoadStatus|null>(null),[retryNonce,setRetryNonce]=useState(0);
  // Structures the viewer draws that are not atlas concepts (external nerves, joint ligaments, brain, neck vessels): loaded when search first opens.
- type Extra={n:string;s:SystemId;k:'nerve'|'joint'|'brain'|'vessel';raw?:string};
+ type Extra={n:string;s:SystemId;k:'nerve'|'joint'|'brain'|'vessel';raw?:string;/** neck vessel: the atlas part it replaces */p?:string};
  const [extras,setExtras]=useState<Extra[]>([]),[externalSystem,setExternalSystem]=useState<SystemId>('nervous');
  const [fadeOther,setFadeOther]=useState(false);
  const [region,setRegion]=useState<RegionId>('whole-body'),[dissectionStage,setDissectionStage]=useState(0),[studySide,setStudySide]=useState<'both'|Side>('both');
@@ -215,11 +215,13 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  };
  const choosePart=(id:string)=>{const p=parts.get(id);if(!p)return;const sp=spaceOfParts([id]);if(sp){setRightTool('dissection');setPanel(null);pickSpaceRef.current(sp);return;}setExternalNerve(null);setChosen({id:p.conceptId,name:p.name,elements:[id]});setState(s=>({...revealState(s,[id]),selected:[id],cameraFocusParts:[id],cameraFocusNonce:(s.cameraFocusNonce??0)+1,isolate:false,rotate:false}));setDetails(true);setPanel(null);};
  const chooseExtra=(x:Extra)=>{
-  // Make sure its layer is on, then show it: nerves are highlighted in the scene by mesh name, the others open their detail card.
-  setMicroAtlas(x.k==='brain'?'brain':null);setExternalSystem(x.s);setExternalNerve(x.raw??x.n);setChosen(null);
+  // A brain structure opens the brain detail mode on that structure; a neck vessel selects the atlas vessel it replaces; nerves and joint tissues are highlighted and framed in the scene by mesh name.
+  if(x.k==='brain'){window.location.hash=`#/organ/brain?select=${encodeURIComponent(x.n)}`;return;}
+  if(x.k==='vessel'&&x.p&&parts.has(x.p)){choosePart(x.p);return;}
+  setExternalSystem(x.s);setExternalNerve(x.raw??x.n);setChosen(null);
   setState(s=>({...s,selected:[],isolate:false,rotate:false,hiddenParts:s.hiddenParts??[],hiddenNerves:(s.hiddenNerves??[]).filter(n=>n!==(x.raw??x.n)),visible:s.visible.includes(x.s)?s.visible:[...s.visible,x.s],cameraFocusNerve:x.raw??x.n,cameraFocusParts:undefined,cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:.92}));setDetails(true);setPanel(null);
  };
- const chooseNerve=(name:string)=>{setExternalSystem('nervous');setExternalNerve(name);setChosen(null);setState(s=>({...s,selected:[],isolate:false,rotate:false,hiddenNerves:(s.hiddenNerves??[]).filter(n=>n!==name),visible:s.visible.includes('nervous')?s.visible:[...s.visible,'nervous'],cameraFocusNerve:name,cameraFocusParts:undefined,cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:.92}));setDetails(true);setPanel(null);};
+ const chooseNerve=(name:string,system:SystemId='nervous')=>{setExternalSystem(system);setExternalNerve(name);setChosen(null);setState(s=>({...s,selected:[],isolate:false,rotate:false,hiddenNerves:(s.hiddenNerves??[]).filter(n=>n!==name),visible:s.visible.includes(system)?s.visible:[...s.visible,system],cameraFocusNerve:name,cameraFocusParts:undefined,cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:.92}));setDetails(true);setPanel(null);};
  const setMuscleLayer=(muscleLayer:MuscleLayer)=>setState(s=>({...s,muscleLayer,selected:[],isolate:false}));const setMuscleRegion=(muscleRegion:string|undefined)=>setState(s=>({...s,muscleRegion,muscleLayer:'all',selected:[],isolate:false}));
  const setFaceMuscleLayer=(faceMuscleLayer:FacialMuscleLayer)=>setState(s=>({...s,faceMuscleLayer,selected:[],isolate:false}));
  const setDepth=(depth:TissueDepth)=>setState(s=>({...s,depthFilter:depth,selected:[],isolate:false}));

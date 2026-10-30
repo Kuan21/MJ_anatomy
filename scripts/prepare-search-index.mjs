@@ -2,6 +2,8 @@
 // structures and neck vessels — so "Find a structure" can find them too. They used to be reachable only by clicking the right mesh.
 import fs from 'node:fs';
 import {gzipSync, gunzipSync} from 'node:zlib';
+import {quizModule} from './quiz-modules.mjs';
+const {includeJoint} = await quizModule('app/biomechanics-v2/joint-anatomy.ts');
 const models = new URL('../public/models/', import.meta.url), read = f => fs.readFileSync(new URL(f, models));
 const glb = f => {const b = read(f); return JSON.parse(b.toString('utf8', 20, 20 + b.readUInt32LE(12)));};
 const side = s => /\.l(?:\.|$)/i.test(s) ? 'Left ' : /\.r(?:\.|$)/i.test(s) ? 'Right ' : '';
@@ -14,9 +16,11 @@ const nerves = JSON.parse(read('nerve-stream.json'));
 for (const c of nerves.chunks) for (const m of c.meshes) {
   entries.push({n: side(m.name) + lc(clean(m.name)), s: /vein|venous/i.test(m.name) ? 'venous' : 'nervous', k: 'nerve', raw: m.name});
 }
-for (const n of glb('joints.glb').nodes) if (n.name) entries.push({n: side(n.name) + lc(clean(n.name)), s: 'connective', k: 'joint'});
+// joints: only the tissues the viewer draws (includeJoint), named as the scene names their meshes so a search result can be highlighted and framed
+for (const n of glb('joints.glb').nodes) {const raw = String(n.extras?.za_name ?? n.name ?? '').replaceAll('_', ' '); if (raw && includeJoint(raw.toLowerCase())) entries.push({n: side(n.name) + lc(clean(n.name)), s: 'connective', k: 'joint', raw});}
 for (const n of glb('brain.glb').nodes) if (n.extras?.bx_label) entries.push({n: (n.extras.bx_side === 'left' ? 'Left ' : n.extras.bx_side === 'right' ? 'Right ' : '') + lc(n.extras.bx_label.replace(/\*/g, '').trim()), s: 'nervous', k: 'brain'});
-for (const v of JSON.parse(gunzipSync(read('neck-vessels.json.gz'))).vessels) entries.push({n: capSide(side(v.name) + lc(clean(v.name))), s: v.system, k: 'vessel'});
+// neck vessels: the atlas vessel each one replaces, so choosing it selects that atlas structure
+for (const v of JSON.parse(gunzipSync(read('neck-vessels.json.gz'))).vessels) entries.push({n: capSide(side(v.name) + lc(clean(v.name))), s: v.system, k: 'vessel', raw: v.name, p: v.parentId});
 const unique = [...new Map(entries.map(e => [e.k + ':' + (e.raw ?? e.n), e])).values()];
 fs.writeFileSync(new URL('search-extras.json.gz', models), gzipSync(Buffer.from(JSON.stringify(unique)), {level: 9}));
 console.log(`Search index extras: ${unique.length} structures outside the atlas concepts (nerves ${unique.filter(e => e.k === 'nerve').length}, joints ${unique.filter(e => e.k === 'joint').length}, brain ${unique.filter(e => e.k === 'brain').length}, neck vessels ${unique.filter(e => e.k === 'vessel').length}).`);

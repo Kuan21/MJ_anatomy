@@ -23,13 +23,15 @@ function App() {
   }, []);
   // The eye and ear detail atlases are hidden for now (ROADMAP.md): a link to one returns to the atlas.
   useEffect(() => { if (/^#\/(?:organ\/|micro\/)?(?:eye|ear)\b/.test(hash)) { history.replaceState(null, '', location.pathname + location.search); setHash(''); } }, [hash]);
+  // a page may carry a query, e.g. #/organ/brain?select=<structure> from the atlas search
+  const page = hash.split('?')[0];
   const quiz = regionOfHash(hash), hub = isQuizHub(hash);
   // The tab title follows the screen; going back to the atlas (also with the browser's back and forward buttons) must restore the main title.
   useEffect(() => {
-    document.title = hash === '#/organ/heart' ? '心臟詳細模式 · MJ Anatomy' : hash === '#/organ/brain' ? '腦部詳細模式 · MJ Anatomy' : hub ? 'Quiz · MJ Anatomy' : quiz ? `${QUIZ_REGIONS[quiz].label} Quiz · MJ Anatomy` : 'MJ Anatomy｜3D 解剖圖譜';
+    document.title = page === '#/organ/heart' ? '心臟詳細模式 · MJ Anatomy' : page === '#/organ/brain' ? '腦部詳細模式 · MJ Anatomy' : hub ? 'Quiz · MJ Anatomy' : quiz ? `${QUIZ_REGIONS[quiz].label} Quiz · MJ Anatomy` : 'MJ Anatomy｜3D 解剖圖譜';
   }, [hash, hub, quiz]);
   return <Suspense fallback={<div role="status" style={{padding: 32}}>正在載入 MJ Anatomy…</div>}>
-    {hash === '#/organ/heart' ? <HeartDetail/> : hash === '#/organ/brain' ? <BrainDetail/> : hub ? <QuizHub/> : quiz ? <RegionQuiz key={quiz} region={quiz}/> : devLab() ? <SkeletonLab/> : <Home initialRegion={hash === '#/atlas/lower' ? 'lower' : hash === '#/atlas/upper' ? 'upper' : 'whole'}/>}
+    {page === '#/organ/heart' ? <HeartDetail/> : page === '#/organ/brain' ? <BrainDetail/> : hub ? <QuizHub/> : quiz ? <RegionQuiz key={quiz} region={quiz}/> : devLab() ? <SkeletonLab/> : <Home initialRegion={hash === '#/atlas/lower' ? 'lower' : hash === '#/atlas/upper' ? 'upper' : 'whole'}/>}
   </Suspense>;
 }
 createRoot(document.getElementById('root')!).render(<App/>);
