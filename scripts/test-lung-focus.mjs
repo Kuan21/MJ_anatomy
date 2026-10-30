@@ -19,7 +19,7 @@ assert.ok(/\.studio:has\(\.lung-focus\) \.right-workspace\{display:none/.test(cs
 const panel = page.slice(page.indexOf('<aside className="lung-focus'), page.indexOf('</aside>', page.indexOf('<aside className="lung-focus')));
 assert.ok(panel.length > 500, 'lung panel not found');
 for (const [what, re] of [
-  ['side buttons call aimLungView', /setLungSide\(id\);aimLungView\(id,false\)/],
+  ['side buttons go through the region bar (applySide → the lung view)', /onClick=\{\(\)=>applySide\(id\)\}/],
   ['minus button hides the pleura', /減少一層[\s\S]{0,120}?onClick=\{\(\)=>setState\(v=>setSerousGroup\(v,PLEURA_KEYS,false\)\)/],
   ['plus button shows the pleura', /增加一層[\s\S]{0,120}?onClick=\{\(\)=>setState\(v=>setSerousGroup\(v,PLEURA_KEYS,true\)\)/],
   ['opacity slider sets lungOpacity', /type="range"[^>]*onChange=\{e=>\{[^}]*lungOpacity:value/],
@@ -27,6 +27,7 @@ for (const [what, re] of [
   ['pulmonary vessel toggle', /aria-label="顯示肺血管"/],
   ['back button', /onClick=\{exitLungView\}/],
 ]) assert.ok(re.test(panel), `lung panel: ${what}`);
+assert.ok(/setLungSide\(side\);[\s\S]{0,260}aimLungView\(side,false\)/.test(page), '胸腔 → 肺與胸膜 and the 肺 button must share the lung view (same focus logic)');
 assert.ok(/inner\.vessels\?\['arterial','venous'\]/.test(page), 'pulmonary vessels need the arterial and venous systems switched on');
 assert.ok(/lungOpacity\?:number/.test(text('app/anatomy.ts')), 'SceneState.lungOpacity');
 assert.ok(/latest\.current\.lungOpacity\?\?1/.test(scene), 'the scene must read lungOpacity');

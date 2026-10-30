@@ -1393,3 +1393,35 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 .lung-focus .lung-focus-sides .bn-stack,.lung-focus .lung-focus-back.bn-stack{align-items:center;text-align:center}
 .lung-focus .lung-focus-sides button[aria-pressed=true] .bn-zh{color:#d0d5dd}
 .lung-focus h3.bn-stack{margin:0}
+
+/* Top region bar (全身｜頭頸｜上肢｜胸腔｜背部｜腹腔｜骨盆與會陰｜臀區｜下肢): one row that scrolls sideways, never wraps and is never covered */
+.top-region-nav.region-bar{
+  display:flex!important;
+  flex-wrap:nowrap!important;
+  align-items:center;
+  gap:4px!important;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scrollbar-width:thin;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior-x:contain;
+  box-sizing:border-box;
+}
+.top-region-nav.region-bar::-webkit-scrollbar{height:4px}
+.top-region-nav.region-bar::-webkit-scrollbar-thumb{background:#9aa6ae88;border-radius:2px}
+.top-region-nav.region-bar>button,.top-region-nav.region-bar .tab-subs>button,.top-region-nav.region-bar .tab-sides>button{flex:0 0 auto;white-space:nowrap}
+.top-region-nav.region-bar .tab-subs,.top-region-nav.region-bar .tab-sides{display:flex;flex:0 0 auto;gap:4px;max-width:none;overflow:visible}
+.top-region-nav.region-bar .tab-subs{padding-left:4px;margin-left:2px;border-left:1px solid #c7cfd5}
+.top-region-nav.region-bar .tab-sides{padding-left:4px;margin-left:2px;border-left:1px solid #c7cfd5}
+.top-region-nav.region-bar .side-fade-toggle{flex:0 0 auto}
+.top-region-nav.region-bar.limb-picked{width:auto!important;min-width:0!important}
+@media(min-width:1100px){
+  .top-region-nav.region-bar{width:max-content!important;min-width:340px!important;max-width:calc(100vw - 660px)!important}
+}
+@media(min-width:768px) and (max-width:1099px){
+  .top-region-nav.region-bar{left:32px!important;top:116px!important;transform:none!important;width:auto!important;min-width:0!important;max-width:calc(100vw - 390px)!important}
+}
+@media(max-width:767px){
+  .top-region-nav.region-bar{left:12px!important;right:12px!important;transform:none!important;width:auto!important;max-width:none!important;min-width:0!important}
+  .top-region-nav.region-bar button{padding:0 10px!important;font-size:12px!important}
+}

@@ -99,7 +99,7 @@ export function partsForLayerMuscles(parts:Part[],regionId:string,names:string[]
 }
 
 /** Which layer regions the part buttons of the dissection panel offer. `null` lists every region. */
-export type LayerBody='whole'|'upper'|'lower'|'head'|'organs';
+export type LayerBody='whole'|'upper'|'lower'|'head'|'organs'|'chest'|'back'|'abdomen'|'pelvis'|'gluteal';
 export const LAYER_REGIONS_BY_PART:Record<string,string[]>={
  shoulder:['scapular'],
  arm:['arm_anterior','arm_posterior'],
@@ -114,6 +114,10 @@ export function layerRegionsFor(body:LayerBody,part:string):string[]|null{
  if(body==='upper')return LAYER_REGIONS_BY_PART[part]??LAYER_REGIONS_BY_PART.upper;
  if(body==='lower')return LAYER_REGIONS_BY_PART.lower;
  if(body==='head')return LAYER_REGIONS_BY_PART.head;
+ // the top region bar: only the regions of the layer file that lie in the chosen region (the chest, abdomen and pelvis have none)
+ if(body==='back')return LAYER_REGIONS_BY_PART.back;
+ if(body==='gluteal')return ['gluteal'];
+ if(body==='chest'||body==='abdomen'||body==='pelvis')return [];
  return null;
 }
 /** Group titles for the whole-body list. */
