@@ -12,3 +12,6 @@ This separate facial dataset uses a share-alike license. Do not relabel it with 
 
 
 MJ Anatomy streams the binary geometry from the immutable OMFAtlas commit c835665a9ade09ee0b993cee6eee1b25b7f7311b; this metadata and the adapted geometry retain the source CC BY-SA 2.1 Japan terms.
+
+The OMFAtlas repository that hosted that commit is no longer reachable. The same bytes (sha256 7f24687034d706fc08830f617da35f77cb951cd77621a562fa064fa09d5a1b69) are kept in `vendor/facial/facial.bin`, outside `public/`, under the same CC BY-SA 2.1 Japan terms; they were verified against the pinned hash before being added, and the build checks the hash on every use. The data derive from the BodyParts3D 3.0 archive cited above.
+

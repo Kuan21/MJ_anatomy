@@ -15,6 +15,8 @@ const dir=new URL('../public/models/facial/',import.meta.url),out=new URL('../pu
 fs.mkdirSync(cache,{recursive:true});
 const source=new URL('facial.bin',cache),digest=b=>createHash('sha256').update(b).digest('hex');
 let bytes;try{bytes=fs.readFileSync(source);}catch{}
+// The pinned upstream (choxos/OMFAtlas) is gone (HTTP 404), so a copy with the same sha256 is kept in vendor/ (outside public/, never published); it is used before any download.
+if(!bytes||digest(bytes)!==sha256){try{const kept=fs.readFileSync(new URL('../vendor/facial/facial.bin',import.meta.url));if(digest(kept)===sha256){bytes=kept;fs.writeFileSync(source,bytes);}}catch{}}
 if(!bytes||digest(bytes)!==sha256){
  const url=`https://raw.githubusercontent.com/choxos/OMFAtlas/${revision}/public/models/facial/facial.bin`;
  let lastError;
