@@ -300,11 +300,13 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
   const lost = (e: Event) => {e.preventDefault(); callbacks.error('3D 顯示已中斷，請重新載入頁面。');};
   canvas.addEventListener('webglcontextlost', lost);
   controls.addEventListener('change', () => {dirty = true;});
+  let userMoved = false; controls.addEventListener('start', () => {userMoved = true;});
   const resize = () => {
     const rect = host.getBoundingClientRect();
     renderer.setSize(Math.max(1, rect.width), Math.max(1, rect.height));
     camera.aspect = Math.max(1, rect.width) / Math.max(1, rect.height); camera.updateProjectionMatrix();
-    if (loaded) frameModel('fit'); dirty = true;
+    // a resize keeps the view the user set; only an untouched view is framed again
+    if (loaded && !userMoved) frameModel('fit'); dirty = true;
   };
   const observer = new ResizeObserver(resize); observer.observe(host); resize();
   const render = () => {if (disposed) return; frame = requestAnimationFrame(render); controls.update(); if (dirty) {renderer.render(scene, camera); dirty = false;}};

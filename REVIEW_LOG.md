@@ -31,6 +31,10 @@ PR [#148](https://github.com/Kuan21/MJ_anatomy/pull/148)。只改 `app/quiz/nami
 - **中線結構保留左右**：右心室乳突肌不再算「左心室的一部分」；左冠狀動脈題寫右冠狀動脈分支不再判接近。
 - 已知連帶效果：上肢「Flexor pollicis brevis」與「Superficial head of flexor pollicis brevis」都接受「flexor pollicis brevis」；胸腔「Descending aorta」與「Descending thoracic aorta」原本就共用「降主動脈」同義詞（既有，未改）。
 
+## Reset、相機與鍵盤（Bug Audit P2-08、P2-09、P2-10、P3-08；介面，CI 綠後自動 merge）
+
+PR [#144](https://github.com/Kuan21/MJ_anatomy/pull/144)。Reset 一併清除特殊區域、分層選取、錯誤框、關於面板；`fit()` 取消進行中的對焦動畫；主圖譜／心臟／腦部頁縮放視窗保留使用者視角；Esc 依序關面板、關於、資訊卡。不改模型與解剖內容。
+
 ## 介面文字中文化（Bug Audit P2-04、P2-15、P3-01～03；介面，CI 綠後自動 merge）
 
 PR [#141](https://github.com/Kuan21/MJ_anatomy/pull/141)。系統清單加中文名、搜尋面板與面板按鈕中文化、資訊卡與腦部頁按鈕雙語、錯誤訊息與 aria 中文；頁首、性別按鈕、心臟頁與腦部頁不再顯示模型來源名稱（集中在 Source & credits）；取消強制大寫；`lang="zh-Hant-TW"`。不改模型與解剖內容。
@@ -430,6 +434,7 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 | 任務 | 狀態（進行中 / 已完成 / 等我審核 / 未開始 / 卡住） | PR 編號 | 備註 |
 | --- | --- | --- | --- |
 | Bug Audit 修正 7：Quiz 第二級判分放寬（整條肌肉名可答部分題；對立詞不算接近；縮寫、簡體、左側） | 等我審核（需人工審核，不自動 merge） | #148 | 判分規則改變，請核對下方清單 |
+| Bug Audit 修正 5：Reset、相機與鍵盤 | 已自動 merge | #144 | 介面程式，不改模型 |
 | 肌腱與韌帶盤點（Step 1，只盤點、不改模型） | 等我審核（需人工審核，不自動 merge） | #142 | `docs/tendon-ligament-inventory.md`；確認做法後才開始建置 |
 | Bug Audit 修正 4：介面文字中文化 | CI 綠後自動 merge | #141 | 介面與 CSS，不改模型 |
 | Bug Audit 修正 3：搜尋韌帶／頸部血管／腦構造後 3D 有反應 | CI 綠後自動 merge | #139 | 介面程式，不改模型 |
