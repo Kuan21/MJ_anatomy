@@ -38,7 +38,7 @@ const bodyNerveBindings=bodyNerveData as Record<string,BodyRegion>;
 export interface AnatomyLoadStatus {loaded:number;total:number;systems:Record<string,number>;failed:string[];busy:boolean;interactive:boolean;supplementaryPending:number}
 // Selection colours: soft mint (#5DB89A) at 85 % strength; hover is a lighter tint of the same hue.
 const SELECT_COLOR=0x5DB89A,HOVER_COLOR=0xA7DCCB;
-interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;onLabelPick?:(id:string)=>void;onSelectNerve?:(name:string)=>void;onProgress:(n:number)=>void;onLoadStatus?:(status:AnatomyLoadStatus)=>void;retryNonce?:number;onError:(s:string)=>void;onJointDrag?:(side:'left'|'right',joint:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion',delta:number)=>void;region?:'whole-body'|'shoulder'|'arm'|'forearm'|'hand';focusSide?:'both'|'left'|'right';motionActive?:boolean;jointMotionEnabled?:boolean;selectedExternalNerve?:string|null;bodyArea?:'whole'|'upper'|'lower'|'head'|'organs'}
+interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;onLabelPick?:(id:string)=>void;onSelectNerve?:(name:string)=>void;onProgress:(n:number)=>void;onLoadStatus?:(status:AnatomyLoadStatus)=>void;retryNonce?:number;onError:(s:string)=>void;onJointDrag?:(side:'left'|'right',joint:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion',delta:number)=>void;region?:'whole-body'|'shoulder'|'arm'|'forearm'|'hand';focusSide?:'both'|'left'|'right';motionActive?:boolean;jointMotionEnabled?:boolean;selectedExternalNerve?:string|null;bodyArea?:'whole'|'upper'|'lower'|'head'|'organs'|'chest'|'back'|'abdomen'|'pelvis'|'gluteal'}
 export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectNerve,onProgress,onLoadStatus,retryNonce=0,onError,onJointDrag,region='whole-body',focusSide='both',motionActive=false,jointMotionEnabled=false,selectedExternalNerve=null,bodyArea='whole'}:Props){
  const retryLoad=useRef<(()=>void)|null>(null);
  const host=useRef<HTMLDivElement>(null),latest=useRef(state),select=useRef(onSelect),labelPick=useRef(onLabelPick),selectNerve=useRef(onSelectNerve),selectedNerve=useRef<string|null>(selectedExternalNerve),jointDrag=useRef(onJointDrag),viewerContext=useRef({region,focusSide,motionActive,jointMotionEnabled,bodyArea});
@@ -1038,7 +1038,7 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
    {const o=latest.current.lungOpacity??1,t=o<.995;for(const lm of [mats.get('respiratory:shell'),mats.get('respiratory:mark')]){if(lm&&(lm.opacity!==o||lm.transparent!==t)){lm.opacity=o;lm.transparent=t;lm.depthWrite=!t;lm.needsUpdate=true;dirty=true;}}}
    {const pm=mats.get('serous:peritoneum'),o=latest.current.peritoneumOpacity??.3;if(pm&&pm.opacity!==o){pm.opacity=o;dirty=true;}}
    if(focusTarget&&focusPosition){const a=1-Math.exp(-8*dt);controls.target.lerp(focusTarget,a);camera.position.lerp(focusPosition,a);dirty=true;if(controls.target.distanceToSquared(focusTarget)<1e-7&&camera.position.distanceToSquared(focusPosition)<1e-7){controls.target.copy(focusTarget);camera.position.copy(focusPosition);focusTarget=null;focusPosition=null;}}
-   const changed=lastState?.jointSurfaces!==s.jointSurfaces||lastState?.visible!==s.visible||lastState?.selected!==s.selected||lastState?.hiddenParts!==s.hiddenParts||lastState?.fadedParts!==s.fadedParts||lastState?.spaceRange!==s.spaceRange||lastState?.spaceRangeIds!==s.spaceRangeIds||lastState?.spaceContentIds!==s.spaceContentIds||autoFadeDirty||lastState?.highlightNerves!==s.highlightNerves||lastState?.depthFilter!==s.depthFilter||lastState?.muscleLayer!==s.muscleLayer||lastState?.faceMuscleLayer!==s.faceMuscleLayer||lastState?.focusParts!==s.focusParts||lastState?.isolate!==s.isolate||lastState?.partTransforms!==s.partTransforms||lastState?.bodyMotion!==s.bodyMotion;
+   const changed=lastState?.jointSurfaces!==s.jointSurfaces||lastState?.visible!==s.visible||lastState?.selected!==s.selected||lastState?.hiddenParts!==s.hiddenParts||lastState?.fadedParts!==s.fadedParts||lastState?.nerveFilter!==s.nerveFilter||lastState?.spaceRange!==s.spaceRange||lastState?.spaceRangeIds!==s.spaceRangeIds||lastState?.spaceContentIds!==s.spaceContentIds||autoFadeDirty||lastState?.highlightNerves!==s.highlightNerves||lastState?.depthFilter!==s.depthFilter||lastState?.muscleLayer!==s.muscleLayer||lastState?.faceMuscleLayer!==s.faceMuscleLayer||lastState?.focusParts!==s.focusParts||lastState?.isolate!==s.isolate||lastState?.partTransforms!==s.partTransforms||lastState?.bodyMotion!==s.bodyMotion;
    const tissueChanged=!lastState||lastState.partTransforms!==s.partTransforms||lastState.tissueMotion!==s.tissueMotion||lastState.previewMotion!==s.previewMotion||lastState.bodyMotion!==s.bodyMotion||lastState.visible!==s.visible||lastState.focusParts!==s.focusParts||lastState.hiddenParts!==s.hiddenParts;
    if(tissueChanged){updateTissueMotion(s);updateNerveMotion(s);updateBrainMotion(s);}
    const ctx=viewerContext.current;
@@ -1057,10 +1057,11 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
      if(!nervesReady()||(o.userData.mjVein?!veinsOn:!nervesOn)){o.visible=false;return;}
      const name=(o.userData.mjExactName as string|undefined)||o.name,side=nerveSide(name),boundRegion=o.userData.bodyRegion as BodyRegion|undefined;
      const sideOk=ctx.focusSide==='both'||side==='both'||side===ctx.focusSide;
-     if(s.bodyMotion?.region==='spine')o.visible=sideOk;
+     if(s.nerveFilter&&!s.bodyMotion)o.visible=sideOk&&s.nerveFilter(name);
+     else if(s.bodyMotion?.region==='spine')o.visible=sideOk;
      else if(s.bodyMotion?.region==='head')o.visible=sideOk&&boundRegion==='head';
      else if(s.bodyMotion?.region==='leftLeg'||s.bodyMotion?.region==='rightLeg')o.visible=sideOk&&boundRegion===s.bodyMotion.region;
-     else if(ctx.bodyArea==='head')o.visible=boundRegion==='head';
+     else if(ctx.bodyArea==='head')o.visible=sideOk&&boundRegion==='head';
      else if(ctx.bodyArea==='lower')o.visible=sideOk&&(boundRegion==='leftLeg'||boundRegion==='rightLeg');
      else if(ctx.bodyArea==='organs')o.visible=false;
      else if(ctx.bodyArea==='upper'&&ctx.region==='whole-body')o.visible=sideOk&&!!nerveBindings[name];
@@ -1191,7 +1192,7 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
     if(s.cameraFocusRange){const rg=s.cameraFocusRange;box.union(new T.Box3(new T.Vector3(rg.c[0]-rg.r,rg.c[1]-rg.r,rg.c[2]-rg.r),new T.Vector3(rg.c[0]+rg.r,rg.c[1]+rg.r,rg.c[2]+rg.r)));}
     if(s.cameraFocusNerve)for(const o of nerveMeshes){if(((o.userData.mjExactName as string|undefined)||o.name)===s.cameraFocusNerve){o.updateWorldMatrix(true,false);box.union(new T.Box3().setFromObject(o));}}
     if(!box.isEmpty()){
-     const center=box.getCenter(new T.Vector3()),dir=s.cameraFocusRange?new T.Vector3(...s.cameraFocusRange.dir).normalize():camera.position.clone().sub(controls.target).normalize();
+     const center=box.getCenter(new T.Vector3()),dir=s.cameraFocusRange?new T.Vector3(...s.cameraFocusRange.dir).normalize():s.cameraFocusDir?new T.Vector3(...s.cameraFocusDir).normalize():camera.position.clone().sub(controls.target).normalize();
      const rect=el.getBoundingClientRect(),w=el.clientWidth,h=el.clientHeight;
      const panel=document.querySelector('.left-workspace')?.getBoundingClientRect(),nav=document.querySelector('.body-region-nav')?.getBoundingClientRect(),rail=[document.querySelector('.right-tool-rail'),document.querySelector('.lung-focus')].map(q=>q?.getBoundingClientRect()).find(r=>!!r&&r.width>0);
      const left=panel&&panel.width>0?Math.min(w*.48,panel.right-rect.left+18):20;
