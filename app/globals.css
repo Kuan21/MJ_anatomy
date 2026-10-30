@@ -1335,6 +1335,10 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 .mj-finger-lab{margin-top:8px}
 .mj-finger-lab>summary{cursor:pointer;font-weight:600;padding:6px 2px}
 .mj-hand-presets,.mj-hand-speed{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.mj-hand-presets button,.mj-hand-speed button{height:auto;padding:4px 10px}
+.mj-bi{display:flex;flex-direction:column;align-items:center;line-height:1.2}
+.mj-bi b{font-weight:600;font-size:12px}
+.mj-bi small{font-size:11px;opacity:.8}
 
 
 /* Labels of a picked special region: small pills joined by a thin line to the structure's nearest point. */
