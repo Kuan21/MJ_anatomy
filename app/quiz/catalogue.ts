@@ -73,6 +73,30 @@ const BACK_SECTIONS: QuizSectionDef[] = [
   {id: 'suboccipital', label: '枕下區', english: 'Suboccipital region', range: [1.5, 1.68]},
   {id: 'neurovascular', label: '背部神經與血管', english: 'Nerves and vessels of the back', range: [.78, 1.68]},
 ];
+/** Question scope: any combination of these eight categories, crossed freely with region (section) and side. */
+export type QuizCategory = 'bone' | 'muscle' | 'nerve' | 'artery' | 'vein' | 'ligament' | 'space' | 'organ';
+export const QUIZ_CATEGORIES: {id: QuizCategory; label: string; english: string; color: string; note: string}[] = [
+  {id: 'bone', label: '骨', english: 'Bones', color: '#d6c4a4', note: '含骨性標記'},
+  {id: 'muscle', label: '肌肉', english: 'Muscles', color: '#bb7067', note: ''},
+  {id: 'nerve', label: '神經', english: 'Nerves', color: '#e4ba4b', note: ''},
+  {id: 'artery', label: '動脈', english: 'Arteries', color: '#bf5363', note: ''},
+  {id: 'vein', label: '靜脈', english: 'Veins', color: '#6399bc', note: ''},
+  {id: 'ligament', label: '韌帶與筋膜', english: 'Ligaments and fasciae', color: '#c9b98a', note: ''},
+  {id: 'space', label: '特殊空間與孔', english: 'Spaces and openings', color: '#8fa7a0', note: '四邊孔、三邊孔、解剖鼻煙盒、跗管'},
+  {id: 'organ', label: '器官結構', english: 'Organ structures', color: '#d98a85', note: '心臟內部、肺的壓跡與肺門'},
+];
+const SPACE_NAME = /quadrangular space|quadrilateral space|triangular space|triangular interval|anatomical snuffbox|snuff ?box|tarsal tunnel|carpal tunnel|cubital fossa|popliteal fossa|femoral triangle|adductor canal|axilla\b|foramen|hiatus|canal\b/i;
+const LIGAMENT_NAME = /ligament|fascia|retinaculum|aponeurosis|membrane|septum|raphe|capsule/i;
+const SYSTEM_CATEGORY: Record<QuizSystem, QuizCategory> = {skeletal: 'bone', muscular: 'muscle', nervous: 'nerve', arterial: 'artery', venous: 'vein', cardiac: 'organ', respiratory: 'organ'};
+/** One category per structure: spaces and ligaments are recognised by name; every other structure follows its body system. */
+export function categoryOf(structure: {name: string; system: QuizSystem}): QuizCategory {
+  if (structure.system === 'muscular' || structure.system === 'skeletal') {
+    if (SPACE_NAME.test(structure.name) && !/^(?:left |right )?(?:intervertebral|neural) /i.test(structure.name)) return 'space';
+    if (LIGAMENT_NAME.test(structure.name) && !/tensor fasciae|membranous/i.test(structure.name)) return 'ligament';
+  }
+  if (structure.system === 'respiratory' && /ligament/i.test(structure.name)) return 'ligament';
+  return SYSTEM_CATEGORY[structure.system];
+}
 export const QUIZ_REGIONS = {
   'lower-limb': {
     id: 'lower-limb', label: '下肢', english: 'Lower limb', tag: '下肢篇', file: 'quiz-lower.json', hash: '#/quiz/lower-limb', atlasHash: '#/atlas/lower',
@@ -177,6 +201,8 @@ export interface QuizCatalogue {
 export interface QuizSettings {
   section: QuizSection;
   systems: QuizSystem[];
+  /** Scope categories (multi-select, any combination). When set it decides the pool; `systems` is the older body-system filter. */
+  categories?: QuizCategory[];
   side: QuizSide;
   count: number;
 }
@@ -377,7 +403,7 @@ export function classifySections(region: QuizRegionId, name: string, bounds: Bou
 }
 
 export function questionPool(catalogue: QuizCatalogue, settings: QuizSettings): QuizStructure[] {
-  return catalogue.structures.filter(s => settings.systems.includes(s.system) && s.sections.length > 0
+  return catalogue.structures.filter(s => (settings.categories ? settings.categories.includes(categoryOf(s)) : settings.systems.includes(s.system)) && s.sections.length > 0
     && (settings.side === 'both' || s.side === 'midline' || settings.side === s.side)
     && (settings.section === 'all' || s.sections.includes(settings.section)));
 }

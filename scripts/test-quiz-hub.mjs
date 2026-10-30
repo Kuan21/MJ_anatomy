@@ -19,7 +19,13 @@ assert.match(main, /hub \? <QuizHub\/>/, 'the router shows the chooser for #/qui
 assert.match(main, /params\.get\('dev'\) === '1'/, 'Skeleton v2 lab needs ?dev=1');
 const page = fs.readFileSync(path.join(root, 'app/page.tsx'), 'utf8');
 assert.ok(!/skeleton-v2|Skeleton v2/i.test(page), 'no Skeleton v2 link on the home page');
-assert.match(page, /const quizHref='#\/quiz'/, 'the Quiz button always opens the chooser');
+// The Quiz button follows the region chosen in the top bar (app/mj-region-bar.ts quizHrefFor); with nothing chosen it opens the chooser.
+assert.match(page, /const quizHref=quizHrefFor\(topRegion as RegionKey,regionSub\)/, 'the Quiz button takes its scope from the region bar');
+const barSource = fs.readFileSync(path.join(root, 'app/mj-region-bar.ts'), 'utf8');
+assert.match(barSource, /return '#\/quiz';\n\}/, 'whole body (and the regions without a quiz) opens the chooser');
+for (const [needle, id] of [['#/quiz/upper-limb', 'upper-limb'], ['#/quiz/lower-limb', 'lower-limb'], ['#/quiz/heart', 'heart'], ['#/quiz/lung', 'lung'], ['#/quiz/thorax', 'thorax'], ['#/quiz/back', 'back']]) {
+  assert.ok(barSource.includes(needle) && QUIZ_REGIONS[id].hash === needle, `region bar links to ${needle}`);
+}
 
 // ---- the chooser page
 const jsx = (type, props) => ({type, props: props ?? {}});

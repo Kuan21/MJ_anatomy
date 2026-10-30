@@ -21,12 +21,15 @@ const GROUP_COLOR: Record<string, string> = {
 };
 /** schematic surface patches and spaces are drawn as tinted, translucent regions so they read as areas, not as ridges. */
 const PATCH_COLOR: Record<string, string> = {
-  'Interatrial septum': '#8fb8e6', 'Fossa ovalis': '#f0e3a8', 'Right auricle': '#e8a15a', 'Left auricle': '#e8a15a', 'Interventricular septum': '#86c08a', 'Conus arteriosus': '#b98ad6', 'Aortic vestibule': '#5fb0dc',
+  'Interatrial septum': '#8fb8e6', 'Fossa ovalis': '#f0e3a8', 'Interventricular septum': '#86c08a', 'Conus arteriosus': '#b98ad6', 'Aortic vestibule': '#5fb0dc',
   'Transverse pericardial sinus': '#69b96a', 'Oblique pericardial sinus': '#69b96a',
   'Fibrous pericardium': '#d9c9a3', 'Parietal layer of serous pericardium': '#e3d6b4', 'Visceral layer of serous pericardium (epicardium)': '#e8b9ae',
 };
 const isPatch = (name: string) => name in PATCH_COLOR;
+/** The auricles are drawn lighter than the atria they belong to, so atrium and auricle read as two bodies. */
+const AURICLE_COLOR: Record<string, string> = {'Right auricle': '#c4d6f1', 'Left auricle': '#c4d6f1'};
 const COLOR_BY_PART = (id: string, group: string, system: string, name: string) => {
+  if (AURICLE_COLOR[name]) return AURICLE_COLOR[name];
   if (PATCH_COLOR[name]) return PATCH_COLOR[name];
   if (group === 'chambers') return /atrium/i.test(name) ? '#86a8dc' : '#dc8f8a';
   if (group === 'vessels') return system === 'venous' ? '#86a8dc' : /pulmonary/i.test(name) ? '#a9b8e0' : '#d3817c';
@@ -79,11 +82,36 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
   const centre = box.getCenter(new T.Vector3()), size = box.getSize(new T.Vector3());
   // The heart proper (chambers and valves) sets the framing and the section range, not the long vessel stumps.
   const core = new T.Box3();
-  for (const p of catalogue.parts) if (p.group === 'chambers') core.union(new T.Box3(new T.Vector3().fromArray(p.bounds[0]), new T.Vector3().fromArray(p.bounds[1])));
+  for (const p of catalogue.parts) if (p.group === 'chambers' && /^(Right|Left) (atrium|ventricle)$/.test(p.name)) core.union(new T.Box3(new T.Vector3().fromArray(p.bounds[0]), new T.Vector3().fromArray(p.bounds[1])));
   const coreCentre = core.getCenter(new T.Vector3());
 
   const raycaster = new T.Raycaster();
   let state: HeartViewState | undefined, blockers = new Set<string>(), disposed = false, dirty = true, frame = 0, command = -1, hoverId: string | null = null, loadedAll = false, lastHoverAt = 0;
+  /** Parts that stand between the camera and the selected structure (drawn see-through, see refreshSelBlockers), the focus last turned to, and the running camera turn. */
+  let selBlockers = new Set<string>(), focusKey = '', blockTimer = 0;
+  let tween: {t0: number; fromPos: T.Vector3; fromTarget: T.Vector3; toPos: T.Vector3; toTarget: T.Vector3} | null = null;
+  /** Cuts open only the wall of the open chamber that faces the camera: the half-space on the camera side of the chamber centre is removed from that wall. */
+  const cutPlane = new T.Plane(new T.Vector3(0, 0, -1), 0);
+  const headlight = new T.DirectionalLight('#fff3df', 0); scene.add(headlight, headlight.target);
+  /** Parts cut by the plane: the wall (and auricle) of the open chamber, and its schematic wall structures (ridges, septal patches) unless one of them is selected. */
+  const cutApplies = (id: string) => {
+    const open = state?.openChamber ? chamberOf(state.openChamber) : undefined, part = parts.get(id);
+    if (!open || !part) return false;
+    if (part.name === open.wall || part.name === open.auricle) return true;
+    return part.group === 'interior' && open.inside.includes(part.name) && !selectedIds().has(id);
+  };
+  const updateCut = () => {
+    const open = state?.openChamber ? chamberOf(state.openChamber) : undefined, wall = open ? catalogue.parts.find(p => p.name === open.wall) : undefined;
+    headlight.intensity = open ? 2.4 : 0;
+    if (!wall) return;
+    // The plane sits `cutDepth` (default 50 %) of the chamber's depth (along the line of sight) behind its nearest surface: it removes the wall that faces the camera, not half of the chamber.
+    const mesh = meshes.get(wall.id); if (!mesh) return;
+    const c = new T.Box3(new T.Vector3().fromArray(wall.bounds[0]), new T.Vector3().fromArray(wall.bounds[1])).getCenter(new T.Vector3());
+    const toCamera = camera.position.clone().sub(c).normalize(), position = mesh.geometry.getAttribute('position');
+    let near = -Infinity, far = Infinity;
+    for (let i = 0; i < position.count; i++) {const d = position.getX(i) * toCamera.x + position.getY(i) * toCamera.y + position.getZ(i) * toCamera.z; if (d > near) near = d; if (d < far) far = d;}
+    cutPlane.set(toCamera.clone().negate(), near - (open?.cutDepth ?? .5) * (near - far));
+  };
 
   const clipping = () => {
     const s = state?.section;
@@ -110,7 +138,7 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
       const w = screen(wallBox), toWall = camera.position.distanceTo(wallCentre);
       for (const [id, mesh] of meshes) {
         const part = parts.get(id)!;
-        if (!mesh.visible || !isKeptVessel(part.group, part.name)) continue;
+        if (!mesh.visible || !isKeptVessel(part.group, part.name) || open.openings?.includes(part.name)) continue;
         const b = new T.Box3(new T.Vector3().fromArray(part.bounds[0]), new T.Vector3().fromArray(part.bounds[1])), s = screen(b);
         const overlap = s.x0 < w.x1 && s.x1 > w.x0 && s.y0 < w.y1 && s.y1 > w.y0, nearer = camera.position.distanceTo(b.getCenter(new T.Vector3())) < toWall;
         if (overlap && nearer) next.add(id);
@@ -120,13 +148,52 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
     blockers = next; return !same;
   };
 
+  /** The structures drawn as selected: the picked one plus the pieces of a list entry. */
+  const selectedIds = () => new Set([...(state?.highlight ?? []), ...(state?.selectedId ? [state.selectedId] : [])]);
+  /** Hidden-part outline: the selected surface where something nearer covers it is drawn as a dashed contour (depth test inverted, screen-space dashes) with a faint tint. */
+  const dashedMaterial = () => new T.ShaderMaterial({
+    clipping: true, transparent: true, depthWrite: false, depthFunc: T.GreaterDepth, side: T.FrontSide,
+    vertexShader: `#include <clipping_planes_pars_vertex>
+varying vec3 vN; varying vec3 vV;
+void main(){ vec4 mvPosition = modelViewMatrix * vec4(position, 1.0); vN = normalMatrix * normal; vV = -mvPosition.xyz; gl_Position = projectionMatrix * mvPosition; gl_Position.z -= 0.0004 * gl_Position.w;
+#include <clipping_planes_vertex>
+}`,
+    fragmentShader: `#include <clipping_planes_pars_fragment>
+varying vec3 vN; varying vec3 vV;
+void main(){
+#include <clipping_planes_fragment>
+float rim = abs(dot(normalize(vN), normalize(vV)));
+float dash = step(mod(gl_FragCoord.x + gl_FragCoord.y, 14.0), 8.0);
+float edge = (1.0 - smoothstep(0.30, 0.46, rim)) * dash;
+gl_FragColor = vec4(mix(vec3(0.30, 0.78, 0.62), vec3(0.03, 0.36, 0.27), edge), max(0.42, edge));
+}`,
+  });
+  const outlineOf = (id: string, mesh: T.Mesh<T.BufferGeometry, T.MeshStandardMaterial>) => {
+    let o = shells.get(id) as T.Group | undefined;
+    if (o) return o;
+    o = new T.Group();
+    const grow = (material: T.Material, amount: number) => {material.onBeforeCompile = shader => {shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>', `#include <begin_vertex>\ntransformed += normalize(normal) * ${amount.toFixed(4)};`);};};
+    const edge = new T.MeshBasicMaterial({color: HEART_SELECT.edge, side: T.BackSide}); grow(edge, 0.0006);
+    const glow = new T.MeshBasicMaterial({color: '#6af2c6', side: T.BackSide, transparent: true, opacity: .3, depthWrite: false, blending: T.AdditiveBlending}); grow(glow, 0.0026);
+    const edgeMesh = new T.Mesh(mesh.geometry, edge), glowMesh = new T.Mesh(mesh.geometry, glow), hidden = new T.Mesh(mesh.geometry, dashedMaterial());
+    edgeMesh.renderOrder = 1; glowMesh.renderOrder = 4; hidden.renderOrder = 5;
+    o.add(edgeMesh, glowMesh, hidden); mesh.add(o); shells.set(id, o as unknown as T.Mesh);
+    return o;
+  };
+  /** Depth-only copy of a see-through blocker: it hides the selected surface behind it (so the dashed outline takes over there) without being drawn itself. */
+  const depthPrepass = (mesh: T.Mesh<T.BufferGeometry, T.MeshStandardMaterial>) => {
+    let pre = mesh.userData.pre as T.Mesh | undefined;
+    if (!pre) {pre = new T.Mesh(mesh.geometry, new T.MeshBasicMaterial({colorWrite: false, side: T.DoubleSide})); pre.renderOrder = -1; mesh.add(pre); mesh.userData.pre = pre;}
+    return pre;
+  };
+
   const apply = () => {
     if (!state) return;
-    findBlockers();
-    const hidden = new Set(state.hiddenGroups), hiddenParts = new Set(state.hiddenParts), planes = clipping(), lit = new Set(state.highlight), open = state.openChamber ? chamberOf(state.openChamber) : undefined;
+    findBlockers(); updateCut();
+    const hidden = new Set(state.hiddenGroups), hiddenParts = new Set(state.hiddenParts), planes = clipping(), lit = selectedIds(), open = state.openChamber ? chamberOf(state.openChamber) : undefined;
     const insideNames = new Set(open?.inside ?? []), wallName = open?.wall;
     for (const [id, mesh] of meshes) {
-      const part = parts.get(id)!, selected = id === state.selectedId || lit.has(id), hovered = id === hoverId && !selected;
+      const part = parts.get(id)!, selected = lit.has(id), hovered = id === hoverId && !selected;
       mesh.visible = (!hidden.has(part.group) || insideNames.has(part.name)) && !(hiddenParts.has(id) && !selected);
       if (isTrunkPart(part.group, part.name)) {
         // opened heart: only the trunk piece of the main coronary vessels is drawn (index buffer swap; the geometry itself is untouched)
@@ -138,30 +205,76 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
         }
       }
       const m = mesh.material;
-      m.color.set(selected ? HEART_SELECT.fill : hovered ? HEART_SELECT.hover : COLOR_BY_PART(id, part.group, part.system, part.name));
-      m.emissive.set(selected ? HEART_SELECT.fill : '#000000'); m.emissiveIntensity = selected ? .1 : 0;
-      const wall = part.name === wallName, patch = isPatch(part.name) && !selected, blocker = !!open && !selected && blockers.has(id), ghost = (state.ghostChambers && part.group === 'chambers' && !selected) || wall || patch || blocker;
-      m.opacity = blocker ? BLOCKER_OPACITY : wall ? .12 : patch ? (part.group === 'pericardium' ? .22 : .6) : ghost ? .3 : selected ? .85 : 1; m.transparent = ghost || selected; m.depthWrite = !ghost && !selected;
-      // Selected piece is drawn whole over the pieces it overlaps (polygonOffset), like the main atlas.
-      m.polygonOffset = selected; m.polygonOffsetFactor = -4; m.polygonOffsetUnits = -4;
-      m.clippingPlanes = planes; m.needsUpdate = true;
+      const wall = cutApplies(id), inside = !!open && insideNames.has(part.name);
+      const patch = isPatch(part.name) && !selected && !inside, blocker = !!open && !selected && blockers.has(id), seeThrough = !selected && selBlockers.has(id);
+      const ghost = (state.ghostChambers && part.group === 'chambers' && !selected && !wall) || patch || blocker || seeThrough;
+      const base = new T.Color(COLOR_BY_PART(id, part.group, part.system, part.name));
+      m.color.set(selected ? HEART_SELECT.fill : hovered ? HEART_SELECT.hover : base);
+      // The selected structure glows; the structures inside an opened chamber are opaque and lit (a little self-light so no face goes dark).
+      if (selected) {m.emissive.set(HEART_SELECT.fill); m.emissiveIntensity = .28;}
+      else if (inside) {m.emissive.copy(base); m.emissiveIntensity = .22;}
+      else {m.emissive.set('#000000'); m.emissiveIntensity = 0;}
+      m.opacity = seeThrough ? .2 : blocker ? BLOCKER_OPACITY : patch ? (part.group === 'pericardium' ? .22 : .6) : ghost ? .3 : 1; m.transparent = ghost; m.depthWrite = !ghost;
+      m.polygonOffset = false;
+      m.clippingPlanes = wall ? [...planes, cutPlane] : planes; m.needsUpdate = true;
       mesh.renderOrder = ghost ? 2 : selected ? 3 : 1;
-      const shell = shells.get(id);
+      const pre = seeThrough && mesh.visible ? depthPrepass(mesh) : (mesh.userData.pre as T.Mesh | undefined);
+      if (pre) {pre.visible = seeThrough && mesh.visible; (pre.material as T.Material).clippingPlanes = planes;}
+      const outline = shells.get(id) as unknown as T.Group | undefined;
       if (selected) {
-        let s2 = shell;
-        if (!s2) {
-          const material = new T.MeshBasicMaterial({color: HEART_SELECT.edge, side: T.BackSide, depthWrite: false});
-          material.onBeforeCompile = shader => {shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>\ntransformed += normalize(normal) * 0.0003;');};
-          s2 = new T.Mesh(mesh.geometry, material); s2.renderOrder = 0; mesh.add(s2); shells.set(id, s2);
-        }
-        (s2.material as T.MeshBasicMaterial).clippingPlanes = planes; s2.visible = mesh.visible;
-      } else if (shell) shell.visible = false;
+        const o = outlineOf(id, mesh); o.visible = mesh.visible;
+        for (const child of o.children) (child as T.Mesh<T.BufferGeometry, T.Material>).material.clippingPlanes = wall ? [...planes, cutPlane] : planes;
+      } else if (outline) outline.visible = false;
     }
     // read by the browser test: names of the drawn parts and of those drawn as trunk only
     host.dataset.visibleParts = JSON.stringify([...meshes].filter(([, m]) => m.visible).map(([id]) => parts.get(id)!.name));
     host.dataset.trunkParts = JSON.stringify([...meshes].filter(([, m]) => m.userData.trunkDrawn).map(([id]) => parts.get(id)!.name));
+    host.dataset.seeThrough = JSON.stringify([...selBlockers].map(id => parts.get(id)?.name));
     dirty = true;
   };
+
+  /**
+   * Parts between the camera and the selected structure. Rays go from the camera to sample points of the selected surface; every other drawn part that a ray meets
+   * clearly before the sample (and covers at least a quarter of the samples) is a blocker and is drawn see-through, so the selection is never hidden.
+   */
+  const refreshSelBlockers = () => {
+    const lit = selectedIds(), next = new Set<string>();
+    if (lit.size && state) {
+      camera.updateMatrixWorld(); scene.updateMatrixWorld(true);
+      // sample points: vertices of the selected surface that face the camera (the far side of a closed body is hidden by the body itself, not by a blocker)
+      const samples: T.Vector3[] = [], v = new T.Vector3(), nrm = new T.Vector3();
+      for (const id of lit) {
+        const mesh = meshes.get(id); if (!mesh?.visible) continue;
+        const position = mesh.geometry.getAttribute('position'), normal = mesh.geometry.getAttribute('normal'), step = Math.max(1, Math.floor(position.count / 40)), facing: T.Vector3[] = [], all: T.Vector3[] = [];
+        for (let i = 0; i < position.count; i += step) {
+          v.fromBufferAttribute(position, i); nrm.fromBufferAttribute(normal, i);
+          all.push(v.clone()); if (Math.abs(nrm.dot(camera.position.clone().sub(v).normalize())) > .15 && nrm.dot(camera.position.clone().sub(v).normalize()) > 0) facing.push(v.clone());
+        }
+        // thin patches seen edge-on have no camera-facing vertices: use all of them
+        samples.push(...(facing.length >= 4 ? facing : all));
+      }
+      const open = state.openChamber ? chamberOf(state.openChamber) : undefined;
+      const candidates = [...meshes].filter(([id, m]) => m.visible && !lit.has(id)).map(([, m]) => m);
+      const counts = new Map<string, number>(), origin = camera.position;
+      for (const p of samples) {
+        const dir = p.clone().sub(origin), distance = dir.length(); dir.normalize();
+        raycaster.set(origin, dir); raycaster.far = distance - .0035;
+        const seen = new Set<string>();
+        for (const hit of raycaster.intersectObjects(candidates, false)) {
+          const id = hit.object.userData.partId as string, part = parts.get(id)!;
+          if (!keeps(hit.point) || (cutApplies(id) && cutPlane.distanceToPoint(hit.point) < 0)) continue;
+          seen.add(id);
+        }
+        for (const id of seen) counts.set(id, (counts.get(id) ?? 0) + 1);
+      }
+      raycaster.far = Infinity;
+      for (const [id, n] of counts) if (n >= Math.max(2, samples.length * .3)) next.add(id);
+    }
+    const same = next.size === selBlockers.size && [...next].every(id => selBlockers.has(id));
+    selBlockers = next; if (!same) apply();
+    return !same;
+  };
+  const scheduleBlockers = () => {window.clearTimeout(blockTimer); blockTimer = window.setTimeout(() => {if (!disposed) refreshSelBlockers();}, 120);};
 
   const layoutLabels = () => {
     const width = host.clientWidth, height = host.clientHeight;
@@ -247,6 +360,8 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
       geometry.setIndex(new T.BufferAttribute(new Uint32Array(buffer, p.indices, p.indexCount), 1));
       geometry.computeBoundingBox(); geometry.computeBoundingSphere();
       const material = new T.MeshStandardMaterial({color: COLOR_BY_PART(p.id, p.group, p.system, p.name), roughness: .6, metalness: 0, side: T.DoubleSide});
+      // faces seen from inside (the cut wall of an opened chamber) are a little darker, so the cavity reads as a hollow against the structures on its far wall
+      material.onBeforeCompile = shader => {shader.fragmentShader = shader.fragmentShader.replace('#include <color_fragment>', '#include <color_fragment>\ndiffuseColor.rgb *= gl_FrontFacing ? 1.0 : 0.66;');};
       const mesh = new T.Mesh(geometry, material);
       mesh.name = p.id; mesh.userData.partId = p.id; meshes.set(p.id, mesh); scene.add(mesh);
     }
@@ -260,21 +375,53 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
     loadedAll = true; frameModel('front'); apply(); callbacks.ready();
   })();
 
+  /** Turns the camera to look at the selection from outside the heart (the camera stays when it already looks into the opened chamber that holds the selection). */
+  const turnToSelection = () => {
+    const ids = [...selectedIds()].filter(id => meshes.has(id));
+    if (!ids.length) return;
+    const area = new T.Box3();
+    for (const id of ids) {const p = parts.get(id)!; area.union(new T.Box3(new T.Vector3().fromArray(p.bounds[0]), new T.Vector3().fromArray(p.bounds[1])));}
+    const c = area.getCenter(new T.Vector3()), open = state?.openChamber ? chamberOf(state.openChamber) : undefined;
+    const wall = open ? parts.get(catalogue.parts.find(p => p.name === open.wall)?.id ?? '') : undefined;
+    let direction: T.Vector3;
+    if (wall) {
+      const wallBox = new T.Box3(new T.Vector3().fromArray(wall.bounds[0]), new T.Vector3().fromArray(wall.bounds[1])), wc = wallBox.getCenter(new T.Vector3());
+      if (wallBox.clone().expandByScalar(.004).containsPoint(c)) {
+        // inside the opened chamber: keep looking in; when the structure lies on the wall the camera faces (it would hang in the cut), look at it from the opposite side
+        const towardCamera = camera.position.clone().sub(wc).normalize(), side = c.clone().sub(wc).dot(towardCamera);
+        if (side <= .0035) return;
+        direction = wc.clone().sub(c).normalize(); direction.y = Math.max(direction.y, .08); direction.normalize();
+        const distance = Math.max(.07, framingDistance(new T.Box3(area.min.clone().addScalar(-.016), area.max.clone().addScalar(.016)), direction, camera.fov, camera.aspect, .9, .9)) * 1.15;
+        tween = {t0: performance.now(), fromPos: camera.position.clone(), fromTarget: controls.target.clone(), toPos: wc.clone().addScaledVector(direction, distance * 1.1), toTarget: wc.clone().lerp(c, .35)};
+        dirty = true; return;
+      }
+    }
+    // from outside the heart: the way from the heart's centre to the structure, tilted at most ~17 degrees up or down (a view from straight above hides most structures)
+    const outward = c.clone().sub(coreCentre), flat = Math.hypot(outward.x, outward.z), current = camera.position.clone().sub(controls.target).normalize();
+    if (flat > .006) {outward.y = Math.max(-.3 * flat, Math.min(.3 * flat, outward.y)); direction = outward.normalize();}
+    else direction = new T.Vector3(current.x, .15, current.z).normalize();
+    const distance = Math.max(.07, framingDistance(new T.Box3(area.min.clone().addScalar(-.014), area.max.clone().addScalar(.014)), direction, camera.fov, camera.aspect, .9, .9));
+    tween = {t0: performance.now(), fromPos: camera.position.clone(), fromTarget: controls.target.clone(), toPos: c.clone().addScaledVector(direction, distance), toTarget: c};
+    dirty = true;
+  };
   const update = (next: HeartViewState) => {
     state = next;
-    if (command !== next.command.id) {command = next.command.id; if (loadedAll || command >= 0) frameModel(next.command.view, next.command.look, next.command.focus);}
+    if (command !== next.command.id) {command = next.command.id; tween = null; if (loadedAll || command >= 0) frameModel(next.command.view, next.command.look, next.command.focus);}
+    const key = [...selectedIds()].sort().join('|'), moved = key !== focusKey;
+    focusKey = key;
+    if (moved && key && loadedAll) turnToSelection();
     apply();
+    if (key || selBlockers.size) scheduleBlockers();
   };
 
   const pickAt = (clientX: number, clientY: number) => {
     const rect = canvas.getBoundingClientRect();
     camera.updateMatrixWorld(); scene.updateMatrixWorld(true);
     raycaster.setFromCamera(new T.Vector2(((clientX - rect.left) / rect.width) * 2 - 1, 1 - ((clientY - rect.top) / rect.height) * 2), camera);
-    const wallName = state?.openChamber ? chamberOf(state.openChamber)?.wall : undefined;
-    const candidates = [...meshes.values()].filter(m => m.visible && parts.get(m.userData.partId)?.name !== wallName && !(state?.ghostChambers && parts.get(m.userData.partId)?.group === 'chambers' && m.userData.partId !== state.selectedId));
+    const candidates = [...meshes.values()].filter(m => m.visible && !(state?.ghostChambers && parts.get(m.userData.partId)?.group === 'chambers' && m.userData.partId !== state.selectedId));
     // The pericardial shells wrap the whole heart: they are picked only when nothing inside them is hit.
     let shellHit: string | null = null;
-    for (const hit of raycaster.intersectObjects(candidates, false)) if (keeps(hit.point)) {
+    for (const hit of raycaster.intersectObjects(candidates, false)) if (keeps(hit.point) && !(cutApplies(hit.object.userData.partId as string) && cutPlane.distanceToPoint(hit.point) < 0)) {
       const id = hit.object.userData.partId as string;
       if (parts.get(id)?.group !== 'pericardium') return id;
       shellHit ??= id;
@@ -293,7 +440,7 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
   canvas.addEventListener('pointercancel', cancel); canvas.addEventListener('pointerleave', leave);
   const lost = (e: Event) => {e.preventDefault(); callbacks.error('3D 顯示已中斷，請重新載入頁面。');};
   canvas.addEventListener('webglcontextlost', lost);
-  controls.addEventListener('change', () => {dirty = true; if (state?.openChamber && findBlockers()) apply();});
+  controls.addEventListener('change', () => {dirty = true; updateCut(); if (state?.openChamber && findBlockers()) apply(); if (selectedIds().size) scheduleBlockers();});
   const resize = () => {
     const rect = host.getBoundingClientRect();
     renderer.setSize(Math.max(1, rect.width), Math.max(1, rect.height));
@@ -301,7 +448,15 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
     frameModel(loadedAll ? 'fit' : 'front'); dirty = true;
   };
   const observer = new ResizeObserver(resize); observer.observe(host); resize();
-  const render = () => {if (disposed) return; frame = requestAnimationFrame(render); controls.update(); if (dirty) {renderer.render(scene, camera); if (labelSpecs.length) layoutLabels(); dirty = false;}};
+  const render = () => {
+    if (disposed) return; frame = requestAnimationFrame(render);
+    if (tween) {
+      const k = Math.min(1, (performance.now() - tween.t0) / 650), e = k < .5 ? 2 * k * k : 1 - (-2 * k + 2) ** 2 / 2;
+      controls.target.lerpVectors(tween.fromTarget, tween.toTarget, e); camera.position.lerpVectors(tween.fromPos, tween.toPos, e);
+      if (k >= 1) tween = null; dirty = true;
+    }
+    controls.update();
+    if (dirty) {headlight.position.copy(camera.position); headlight.target.position.copy(controls.target); headlight.target.updateMatrixWorld(); renderer.render(scene, camera); if (labelSpecs.length) layoutLabels(); dirty = false;}};
   render();
   void centre; void size;
   const setLabels = (specs: typeof labelSpecs) => {
@@ -315,7 +470,8 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
       canvas.removeEventListener('pointerdown', down); canvas.removeEventListener('pointermove', move); canvas.removeEventListener('pointerup', up);
       canvas.removeEventListener('pointercancel', cancel); canvas.removeEventListener('pointerleave', leave); canvas.removeEventListener('webglcontextlost', lost);
       for (const mesh of meshes.values()) {mesh.geometry.dispose(); mesh.material.dispose();}
-      for (const shell of shells.values()) (shell.material as T.Material).dispose();
+      for (const shell of shells.values()) for (const child of (shell as unknown as T.Group).children) ((child as T.Mesh).material as T.Material).dispose();
+      window.clearTimeout(blockTimer);
       labelLayer.remove(); renderer.dispose(); canvas.remove();
     },
   };

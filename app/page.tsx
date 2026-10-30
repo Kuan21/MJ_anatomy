@@ -23,6 +23,7 @@ import {buildSearchIndex,type SearchEntry,type SearchSource} from './mj-search';
 import SearchPanel from './search-panel';
 import {normalizeAtlasSystems} from './mj-system-classifier';
 import {anatomicalRegion,anatomicalSide,partsInRegion,topRegionParts} from './mj-part-regions';
+import {REGION_BAR,regionDef,buildRegionIndex,regionMembers,regionVisible,regionDirection,regionZoom,regionNerveFilter,quizHrefFor,type RegionKey} from './mj-region-bar';
 import {resolveArmCollision} from './mj-arm-collision';
 import {HAND_PRESETS} from './mj-hand-presets';
 import {buildUpperLimbMotion,constrainPose,MOTION_LIMITS,NEUTRAL_POSE,type MotionPose,type Side} from './mj-motion';
@@ -40,7 +41,9 @@ import {matchesHeartLayer} from './mj-heart-layers';
 import {matchesSex} from './mj-sex';
 import {serousLayerKey} from './mj-serous';
 import {FACIAL_MUSCLE_LAYERS,matchesFacialMuscleLayer,type FacialMuscleLayer} from './mj-facial-layers';
-type TopRegion='whole'|'upper'|'lower'|'head'|'organs';
+type TopRegion='whole'|'upper'|'lower'|'head'|'organs'|'chest'|'back'|'abdomen'|'pelvis'|'gluteal';
+/** regions focused by the region-bar membership (the limbs keep their own views and joint motion) */
+const GENERIC_REGIONS:TopRegion[]=['head','chest','back','abdomen','pelvis','gluteal'];
 type UpperMotionAction='shoulderFlexion'|'shoulderAbduction'|'elbowFlexion'|'forearmRotation'|'wristExtension';
 const UPPER_MOTION_ACTIONS:{id:UpperMotionAction;label:string}[]=[
  {id:'shoulderFlexion',label:'肩前舉'},
@@ -104,6 +107,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const [fadeOther,setFadeOther]=useState(false);
  const [region,setRegion]=useState<RegionId>('whole-body'),[dissectionStage,setDissectionStage]=useState(0),[studySide,setStudySide]=useState<'both'|Side>('both');
  const [topRegion,setTopRegion]=useState<TopRegion>('whole'),[rightTool,setRightTool]=useState<'view'|'dissection'|'depth'|null>(null),[microAtlas,setMicroAtlas]=useState<MicroAtlasId|null>(null);
+ const [regionSub,setRegionSub]=useState<string|undefined>(undefined),[regionPrev,setRegionPrev]=useState<null|{prev:SceneState;topRegion:TopRegion;studySide:'both'|Side;rightTool:typeof rightTool;motionEnabled:boolean}>(null);
  const [jointInfoOpen,setJointInfoOpen]=useState(false),[motionSide,setMotionSide]=useState<Side>('right'),[motionPose,setMotionPose]=useState<MotionPose>(NEUTRAL_POSE),[motionEdit,setMotionEdit]=useState(false),[motionBlock,setMotionBlock]=useState(''),[motionEnabled,setMotionEnabled]=useState(false),[organsOpen,setOrgansOpen]=useState(true),[organRowsOpen,setOrganRowsOpen]=useState<string[]>([]);
  const [mobileMotionOpen,setMobileMotionOpen]=useState(false);
  const [motionAction,setMotionAction]=useState<UpperMotionAction>('shoulderFlexion');
@@ -157,11 +161,13 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const inChest=(p:{bounds:number[][]})=>{const cy=(p.bounds[0][1]+p.bounds[1][1])/2,cx=(p.bounds[0][0]+p.bounds[1][0])/2;return cy>1.17&&cy<1.45&&Math.abs(cx)<.15;};
  const lungViewIds=(side:'both'|Side,inner:{bronchi:boolean;vessels:boolean})=>{if(!atlas)return{lung:[] as string[],bone:[] as string[],core:[] as string[]};const ok=(p:(typeof atlas.parts)[number])=>side==='both'||anatomicalSide(p)===side||anatomicalSide(p)==='midline',onSide=(p:(typeof atlas.parts)[number])=>side==='both'||(side==='left'?p.bounds[0][0]>-.012:p.bounds[1][0]<.012);const core=atlas.parts.filter(p=>p.system==='respiratory'&&LUNG_CORE.test(p.name)&&ok(p)).map(p=>p.id),marks=atlas.parts.filter(p=>p.system==='respiratory'&&(p as {kind?:string}).kind==='surface'&&onSide(p)).map(p=>p.id);return{core,lung:[...core,...marks,...atlas.parts.filter(p=>(ok(p)&&p.system==='serous'&&/pleura/i.test(p.name))||(p.system==='respiratory'&&inner.bronchi&&LUNG_BRONCHI.test(p.name)&&onSide(p))||(inner.vessels&&(p.system==='arterial'||p.system==='venous')&&PULM_VESSEL.test(p.name)&&inChest(p)&&onSide(p))).map(p=>p.id)],bone:atlas.parts.filter(p=>p.system==='skeletal'&&THORAX_BONE.test(p.name)&&ok(p)).map(p=>p.id)};};
  const lungParts=(side:'both'|Side,inner:{bronchi:boolean;vessels:boolean},labels=lungLabels)=>{const {lung,bone}=lungViewIds(side,inner),extra=labels&&side!=='both'&&atlas?resolveLungLabels(atlas,side).flatMap(r=>r.ids):[];return{visible:['respiratory','skeletal','serous',...(inner.vessels||extra.length?['arterial','venous']:[]),...(extra.length?['connective']:[])] as SystemId[],focusParts:[...new Set([...lung,...extra,...bone])],fadedParts:bone};};
- const aimLungView=(side:'both'|Side,first:boolean,inner=lungInner,labels=lungLabels)=>{const {core,bone}=lungViewIds(side,inner),all=SEROUS_LAYERS.map(l=>l.key) as string[],medial=labels&&side!=='both'&&atlas?(()=>{const ps=atlas.parts.filter(p=>core.includes(p.id)),lo=[1,1,1].map((_,k)=>Math.min(...ps.map(p=>p.bounds[0][k]))),hi=[1,1,1].map((_,k)=>Math.max(...ps.map(p=>p.bounds[1][k])));return{c:lo.map((v,k)=>(v+hi[k])/2) as [number,number,number],r:.07,dir:[side==='left'?-1:1,0,0] as [number,number,number]};})():undefined;setState(s=>({...s,...lungParts(side,inner,labels),cameraFocusRange:medial,hiddenSerous:first?all:s.hiddenSerous,hiddenParts:labels&&side!=='both'&&atlas?(()=>{const keep=new Set(resolveLungLabels(atlas,side).flatMap(r=>r.ids));return atlas.parts.filter(p=>p.system==='connective'&&!keep.has(p.id)).map(p=>p.id);})():[],selected:[],isolate:false,explode:0,rotate:false,bodyMotion:undefined,partTransforms:undefined,cameraFocusParts:[...core,...bone],cameraFocusNerve:undefined,spaceRange:undefined,cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:labels&&side!=='both'?1.15:.7}));};
+ const aimLungView=(side:'both'|Side,first:boolean,inner=lungInner,labels=lungLabels)=>{const {core,bone}=lungViewIds(side,inner),all=SEROUS_LAYERS.map(l=>l.key) as string[],medial=labels&&side!=='both'&&atlas?(()=>{const ps=atlas.parts.filter(p=>core.includes(p.id)),lo=[1,1,1].map((_,k)=>Math.min(...ps.map(p=>p.bounds[0][k]))),hi=[1,1,1].map((_,k)=>Math.max(...ps.map(p=>p.bounds[1][k])));return{c:lo.map((v,k)=>(v+hi[k])/2) as [number,number,number],r:.07,dir:[side==='left'?-1:1,0,0] as [number,number,number]};})():undefined;setState(s=>({...s,...lungParts(side,inner,labels),cameraFocusRange:medial,hiddenSerous:first?all:s.hiddenSerous,hiddenParts:labels&&side!=='both'&&atlas?(()=>{const keep=new Set(resolveLungLabels(atlas,side).flatMap(r=>r.ids));return atlas.parts.filter(p=>p.system==='connective'&&!keep.has(p.id)).map(p=>p.id);})():[],selected:[],isolate:false,explode:0,rotate:false,bodyMotion:undefined,partTransforms:undefined,cameraFocusParts:[...core,...bone],cameraFocusDir:regionDirection('chest','lung'),nerveFilter:regionNerveFilter('chest','lung'),cameraFocusNerve:undefined,spaceRange:undefined,cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:labels&&side!=='both'?1.15:.7}));};
  // Bronchial tree / pulmonary vessel toggles; moving the opacity slider down switches both on once (unless the person already chose), because the inside is what the see-through lung is for.
  const setLungInnerParts=(next:{bronchi:boolean;vessels:boolean;touched:boolean})=>{setLungInner(next);setState(s=>({...s,...lungParts(lungSide,next)}));};
- const enterLungView=()=>{if(!atlas||lungView)return;setLungView({prev:state,topRegion,studySide,rightTool,motionEnabled});setMicroAtlas(null);setMotionEdit(false);setMotionEnabled(false);setDetails(false);setPanel(null);setChosen(null);setExternalNerve(null);setSpaceId(null);setSpaceItem(null);setTopRegion('whole');setStudySide('both');setRightTool(null);setLungSide('both');const inner={bronchi:false,vessels:false,touched:false};setLungInner(inner);setLungLabels(false);aimLungView('both',true,inner,false);};
- const exitLungView=()=>{if(!lungView)return;const v=lungView;setLungView(null);setTopRegion(v.topRegion);setStudySide(v.studySide);setRightTool(v.rightTool);setMotionEnabled(v.motionEnabled);setState(s=>({...v.prev,reset:v.prev.cameraFocusParts?s.reset:s.reset+1,cameraFocusNonce:v.prev.cameraFocusParts?(s.cameraFocusNonce??0)+1:v.prev.cameraFocusNonce}));};
+ // The 肺 button is 胸腔 → 肺與胸膜: the same view (and the same focus logic) as choosing it in the region bar. 返回 / ← restores what was shown before.
+ const snapshot=()=>regionPrev??{prev:state,topRegion,studySide,rightTool,motionEnabled};
+ const enterLungView=()=>{if(!atlas||lungView)return;const snap=snapshot();setRegionPrev(snap);setLungView(snap);setMicroAtlas(null);setMotionEdit(false);setMotionEnabled(false);setDetails(false);setPanel(null);setChosen(null);setExternalNerve(null);setSpaceId(null);setSpaceItem(null);setTopRegion('chest');setRegionSub('lung');setStudySide('both');setRightTool(null);setLungSide('both');const inner={bronchi:false,vessels:false,touched:false};setLungInner(inner);setLungLabels(false);aimLungView('both',true,inner,false);};
+ const exitLungView=()=>{const v=lungView;if(!v)return;setLungView(null);setRegionPrev(null);setRegionSub(undefined);setTopRegion(v.topRegion);setStudySide(v.studySide);setRightTool(v.rightTool);setMotionEnabled(v.motionEnabled);setState(s=>({...v.prev,reset:v.prev.cameraFocusParts?s.reset:s.reset+1,cameraFocusNonce:v.prev.cameraFocusParts?(s.cameraFocusNonce??0)+1:v.prev.cameraFocusNonce}));};
  const toggleOrganRow=(id:SystemId)=>setState(v=>{const keys=(SEROUS_OF[id]??[]).map(l=>l.key) as string[],on=v.visible.includes(id);const base:SceneState={...v,isolate:false,selected:[],visible:on?v.visible.filter(x=>x!==id):[...v.visible,id]};return keys.length?setSerousGroup(base,keys,!on&&id!=='respiratory'):base;});
  const organPieceCount=organSystems.reduce((sum,s)=>sum+(counts[s.id]??0),0);
  const anyOrganVisible=organSystems.some(s=>state.visible.includes(s.id));
@@ -170,7 +176,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const selectedParts=state.selected.map(id=>parts.get(id)).filter(p=>!!p),selected=selectedParts[0],inspectedSystem:SystemId|undefined=externalNerve?externalSystem:selected?.system,system=SYSTEMS.find(s=>s.id===inspectedSystem);
 
  // The Quiz button always opens the body-part chooser (#/quiz), from every page.
- const quizHref='#/quiz';
+ const quizHref=quizHrefFor(topRegion as RegionKey,regionSub);
  const hiddenSet=new Set(state.hiddenParts??[]);
  // Counting ~2,300 parts is skipped while only the pose changes (a motion drag re-renders this page every frame).
  const visibleCount=useMemo(()=>atlas?.parts.filter(p=>!hiddenSet.has(p.id)&&(state.selected.includes(p.id)||(matchesDepth(p,state.depthFilter)&&matchesMuscleLayer(p,state.muscleRegion,state.muscleLayer)&&matchesFacialMuscleLayer(p,state.faceMuscleLayer)&&matchesHeartLayer(p,state.heartOpen)&&matchesSex(p,state.sex)&&!(p.system==='serous'&&(state.hiddenSerous??[]).includes(serousLayerKey(p.name)))&&(state.isolate?false:state.focusParts?state.focusParts.includes(p.id)&&state.visible.includes(p.system):state.visible.includes(p.system))))).length??0,[atlas,state.hiddenParts,state.selected,state.depthFilter,state.muscleRegion,state.muscleLayer,state.faceMuscleLayer,state.heartOpen,state.sex,state.hiddenSerous,state.isolate,state.focusParts,state.visible]);
@@ -223,7 +229,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const restorePart=(id:string)=>setState(s=>({...s,hiddenParts:(s.hiddenParts??[]).filter(x=>x!==id)}));
 
  const toggle=(id:SystemId)=>{setDetails(false);setState(s=>({...s,selected:[],isolate:false,visible:s.visible.includes(id)?s.visible.filter(x=>x!==id):[...s.visible,id]}));};
- const reset=()=>{stopMotionAnimation();setMicroAtlas(null);setLungView(null);setState(s=>({...initial,visible:DEFAULT_VISIBLE,reset:s.reset+1}));setTopRegion('whole');setStudySide('both');setRightTool(null);setChosen(null);setExternalNerve(null);setDetails(false);setPanel(null);setRegion('whole-body');setDissectionStage(0);setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;motionTargetRef.current=NEUTRAL_POSE;setMotionEdit(false);setMotionEnabled(false);};
+ const reset=()=>{stopMotionAnimation();setMicroAtlas(null);setLungView(null);setRegionPrev(null);setRegionSub(undefined);setFadeOther(false);setState(s=>({...initial,visible:DEFAULT_VISIBLE,reset:s.reset+1}));setTopRegion('whole');setStudySide('both');setRightTool(null);setChosen(null);setExternalNerve(null);setDetails(false);setPanel(null);setRegion('whole-body');setDissectionStage(0);setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;motionTargetRef.current=NEUTRAL_POSE;setMotionEdit(false);setMotionEnabled(false);};
  const openPanel=(next:'layers'|'search')=>{setDetails(false);setPanel(p=>p===next?null:next);};
  const currentRegion=regionById(region);
  const profile=externalNerve?structureProfile(extras.find(x=>(x.raw??x.n)===externalNerve)?.n??externalNerve,externalSystem):chosen&&selected?structureProfile(chosen.name,selected.system,selected):null;
@@ -259,15 +265,63 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const pullMotion=(value:number)=>applyMotionPose({...motionTargetRef.current,[upperActionKey]:value});
  useEffect(()=>()=>{if(smoothMotionFrame.current!==null)cancelAnimationFrame(smoothMotionFrame.current);},[]);
  const bodyRigs=useMemo(()=>atlas?{head:makeBodyRig(atlas,'head'),spine:makeBodyRig(atlas,'spine'),leftLeg:makeBodyRig(atlas,'leftLeg'),rightLeg:makeBodyRig(atlas,'rightLeg')}:null,[atlas]);
- const topFocusIds=(next:TopRegion)=>atlas?topRegionParts(atlas.parts,next,ORGAN_SYSTEM_IDS):undefined;
+ const topFocusIds=(next:TopRegion)=>atlas?topRegionParts(atlas.parts,next as 'whole'|'upper'|'lower'|'head'|'organs',ORGAN_SYSTEM_IDS):undefined;
  const selectTop=(next:TopRegion)=>{
   setMicroAtlas(null);if(!atlas||!bodyRigs)return;
   if(smoothMotionFrame.current!==null){cancelAnimationFrame(smoothMotionFrame.current);smoothMotionFrame.current=null;}requestedPose.current=null;
-  setTopRegion(next);setStudySide('both');setRegion('whole-body');setDissectionStage(0);setMotionEdit(false);setMotionEnabled(false);
+  setTopRegion(next);setRegionSub(undefined);setLungView(null);setStudySide('both');setRegion('whole-body');setDissectionStage(0);setMotionEdit(false);setMotionEnabled(false);
   setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;motionTargetRef.current=NEUTRAL_POSE;
   setDetails(false);setChosen(null);setExternalNerve(null);
   const ids=topFocusIds(next);
-  setState(s=>({...s,focusParts:ids,cameraFocusParts:ids,cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:1,bodyMotion:undefined,partTransforms:undefined,selected:[],hiddenParts:[],depthFilter:'all',muscleLayer:'all',faceMuscleLayer:'all',isolate:false,explode:0,rotate:false,reset:s.reset+1}));
+  setState(s=>({...s,focusParts:ids,cameraFocusParts:ids,cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:1,cameraFocusDir:undefined,nerveFilter:undefined,fadedParts:undefined,lungOpacity:undefined,bodyMotion:undefined,partTransforms:undefined,selected:[],hiddenParts:[],depthFilter:'all',muscleLayer:'all',faceMuscleLayer:'all',isolate:false,explode:0,rotate:false,reset:s.reset+1}));
+ };
+
+ // ---- top region bar -------------------------------------------------------------------------------------------------------------
+ // Region membership comes from app/mj-region-bar.ts. Choosing a region shows only its structures, turns the camera to it and zooms in; body cavities open on an
+ // internal view (skin and wall muscles are not members, the ribs and sternum are drawn see-through, the organs solid). The left-hand system switches still work, but
+ // only on this region's structures. ← restores what was shown before the first region was chosen.
+ const regionIndex=useMemo(()=>atlas?buildRegionIndex(atlas.parts):null,[atlas]);
+ const regionSets=useMemo(()=>atlas&&regionIndex&&GENERIC_REGIONS.includes(topRegion)&&studySide!=='both'?regionMembers(regionIndex,atlas.parts,topRegion as RegionKey,regionSub,studySide):null,[atlas,regionIndex,topRegion,regionSub,studySide]);
+ const applyRegion=(key:RegionKey,sub:string|undefined,side:'both'|Side,changed=true)=>{
+  if(!atlas||!regionIndex)return;
+  stopMotionAnimation();requestedPose.current=null;
+  const wasLung=!!lungView,snap=regionPrev??{prev:state,topRegion,studySide,rightTool,motionEnabled};
+  if(topRegion==='whole'&&!regionPrev)setRegionPrev(snap);
+  setMicroAtlas(null);setMotionEdit(false);setMotionEnabled(false);setDetails(false);setPanel(null);setChosen(null);setExternalNerve(null);setSpaceId(null);setSpaceItem(null);
+  setRegion('whole-body');setDissectionStage(0);setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;motionTargetRef.current=NEUTRAL_POSE;
+  setTopRegion(key as TopRegion);setRegionSub(sub);setStudySide(side);if(side!=='both')setMotionSide(side);
+  if(key==='chest'&&sub==='lung'){
+   // 肺與胸膜 is the lung view of the 肺 button: same ids, same panel, same camera
+   if(!lungView)setLungView(snap);
+   setRightTool(null);setLungSide(side);
+   if(!wasLung){const inner={bronchi:false,vessels:false,touched:false};setLungInner(inner);setLungLabels(false);aimLungView(side,true,inner,false);}else{const labels=lungLabels&&side!=='both';if(side==='both')setLungLabels(false);aimLungView(side,false,lungInner,labels);}
+   return;
+  }
+  setLungView(null);
+  const set=regionMembers(regionIndex,atlas.parts,key,sub,side);
+  const allSerous=SEROUS_LAYERS.map(l=>l.key) as string[];
+  setState(s=>({...s,
+   focusParts:set.focus,cameraFocusParts:set.camera,cameraFocusDir:regionDirection(key,sub),cameraFocusScale:regionZoom(key,sub),cameraFocusNonce:(s.cameraFocusNonce??0)+1,
+   fadedParts:set.faded.length?set.faded:undefined,nerveFilter:key==='head'?undefined:regionNerveFilter(key,sub),lungOpacity:undefined,
+   visible:changed?regionVisible(key,sub):s.visible,hiddenSerous:changed?allSerous:s.hiddenSerous,
+   hiddenParts:[],selected:[],isolate:false,explode:0,rotate:false,bodyMotion:undefined,partTransforms:undefined,
+   depthFilter:'all',muscleLayer:'all',muscleRegion:undefined,faceMuscleLayer:'all',reset:s.reset}));
+ };
+ const backToWhole=()=>{
+  if(lungView){exitLungView();return;}
+  const prev=regionPrev;
+  if(prev){
+   setRegionPrev(null);setRegionSub(undefined);setTopRegion(prev.topRegion);setStudySide(prev.studySide);setRightTool(prev.rightTool);setMotionEnabled(prev.motionEnabled);setFadeOther(false);setChosen(null);setDetails(false);
+   setState(s=>({...prev.prev,reset:prev.prev.cameraFocusParts?s.reset:s.reset+1,cameraFocusNonce:prev.prev.cameraFocusParts?(s.cameraFocusNonce??0)+1:prev.prev.cameraFocusNonce}));
+   return;
+  }
+  selectTop('whole');
+ };
+ /** a region button of the bar */
+ const chooseRegion=(key:RegionKey)=>{
+  if(key==='whole'){backToWhole();return;}
+  if(key==='upper'||key==='lower'||key==='head'){selectTop(key as TopRegion);return;}
+  applyRegion(key,regionDef(key).subs?.[0]?.id,'both');
  };
  // The body-surface layer (skin) is skinned over the same limb segment chain, so it stays available while a limb moves.
  const skinIds=()=>atlas?.parts.filter(p=>p.system==='integumentary'&&p.name==='Skin').map(p=>p.id)??[];
@@ -286,6 +340,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  /** Side chooser beside the region menu (upper limb and lower limb): shows one limb with the trunk structures that belong to it, camera on it; the other side is hidden or, with 淡化, drawn faded. */
  const sideSplit=(target:'upper'|'lower',side:Side)=>{const other:Side=side==='left'?'right':'left',all=motionRegionIds(target),keep=filterSide(all,side),away=all.filter(id=>{const p=parts.get(id);return !!p&&p.system!=='integumentary'&&anatomicalSide(p)===other;});return{keep,away};};
  const applySide=(side:'both'|Side)=>{
+  if(atlas&&GENERIC_REGIONS.includes(topRegion)){applyRegion(topRegion as RegionKey,regionSub,side,false);return;}
   if(!atlas||(topRegion!=='upper'&&topRegion!=='lower'))return;
   stopMotionAnimation();
   if(side==='both'){if(topRegion==='upper'&&motionEnabled)enterUpperMotion();else selectTop(topRegion);return;}
@@ -337,7 +392,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
   else if(hit.nerves[0]){chooseNerve(hit.nerves[0]);}
  };
  useEffect(()=>{setSpaceId(null);setSpaceItem(null);},[topRegion,region,studySide]);
- const spaceGroups:SpaceGroup[]|null=topRegion==='upper'?(region==='shoulder'?['shoulder']:region==='arm'||region==='forearm'?['arm']:region==='hand'?['hand']:['shoulder','arm','hand']):topRegion==='lower'?['lower']:topRegion==='head'?['head']:null;
+ const spaceGroups:SpaceGroup[]|null=topRegion==='upper'?(region==='shoulder'?['shoulder']:region==='arm'||region==='forearm'?['arm']:region==='hand'?['hand']:['shoulder','arm','hand']):topRegion==='lower'?['lower']:topRegion==='head'?['head']:topRegion==='chest'||topRegion==='abdomen'?['trunk']:topRegion==='back'?['head']:topRegion==='pelvis'||topRegion==='gluteal'?[]:null;
  const layerChoices=useMemo(()=>{const ids=layerRegionsFor(topRegion==='whole'||topRegion==='organs'?'whole':topRegion,region);return ids?MUSCLE_LAYER_REGIONS.filter(r=>ids.includes(r.id)):MUSCLE_LAYER_REGIONS;},[topRegion,region]);
  useEffect(()=>{if(state.muscleRegion&&!layerChoices.some(r=>r.id===state.muscleRegion))setState(s=>({...s,muscleRegion:undefined,muscleLayer:'all',selected:[],isolate:false}));},[layerChoices]);// eslint-disable-line react-hooks/exhaustive-deps
  const sideButtons=<>{([['both','Both｜雙側'],['left','Left｜左側'],['right','Right｜右側']] as ['both'|Side,string][]).map(([id,label])=><Button variant="ghost" key={id} aria-pressed={studySide===id} onClick={()=>applySide(id)}>{label}</Button>)}</>;
@@ -346,9 +401,9 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const changeBody=(bodyRegion:BodyRegion,pose:BodyPose,focus=false)=>{stopMotionAnimation();motionTargetRef.current=NEUTRAL_POSE;setMicroAtlas(null);if(!bodyRigs)return;const rig=bodyRigs[bodyRegion],built=buildBodyMotion(rig,pose);setMotionEdit(false);setRegion('whole-body');setStudySide(bodyRegion==='leftLeg'?'left':bodyRegion==='rightLeg'?'right':'both');setDetails(false);setChosen(null);setExternalNerve(null);setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;const ids=bodyRegion==='head'?motionRegionIds('head'):bodyRegion==='spine'?motionRegionIds('spine'):motionRegionIds(bodyRegion);const scale=bodyRegion==='head'?.76:bodyRegion==='spine'?1:.82;setState(s=>({...s,bodyMotion:{region:bodyRegion,pose:built.pose},partTransforms:built.transforms,focusParts:bodyRegion==='spine'?undefined:ids,cameraFocusParts:ids,cameraFocusNonce:focus||s.bodyMotion?.region!==bodyRegion?(s.cameraFocusNonce??0)+1:s.cameraFocusNonce,cameraFocusScale:scale,selected:[],isolate:false,explode:0,rotate:false}));};
  useEffect(()=>{if(atlas&&(initialRegion==='lower'||initialRegion==='upper'))selectTop(initialRegion);},[atlas,initialRegion]);
  // With 另一側淡化 the hidden side stays in the scene, faded: the scene draws the ids in fadedParts see-through. Nerves and schematic veins of the other side stay hidden.
- const fadedSide=useMemo(()=>{if(!atlas||!fadeOther||studySide==='both'||(topRegion!=='upper'&&topRegion!=='lower')||!state.focusParts)return null;const other=studySide==='left'?'right':'left';return motionRegionIds(topRegion).filter(id=>{const p=parts.get(id);return !!p&&p.system!=='integumentary'&&anatomicalSide(p)===other;});},[atlas,fadeOther,studySide,topRegion,!!state.focusParts]);// eslint-disable-line react-hooks/exhaustive-deps
+ const fadedSide=useMemo(()=>{if(!atlas||!fadeOther||studySide==='both'||!state.focusParts)return null;if(regionSets)return regionSets.other;if(topRegion!=='upper'&&topRegion!=='lower')return null;const other=studySide==='left'?'right':'left';return motionRegionIds(topRegion).filter(id=>{const p=parts.get(id);return !!p&&p.system!=='integumentary'&&anatomicalSide(p)===other;});},[atlas,fadeOther,studySide,topRegion,regionSets,!!state.focusParts]);// eslint-disable-line react-hooks/exhaustive-deps
  const mergedFocus=useMemo(()=>fadedSide&&state.focusParts?[...state.focusParts,...fadedSide]:state.focusParts,[fadedSide,state.focusParts]);
- const baseSceneState=spaceView?{...state,focusParts:spaceView.focus,fadedParts:spaceView.faded,highlightNerves:spaceView.nerves,spaceRange:spaceView.range,spaceRangeIds:spaceView.rangeIds,spaceOutlines:spaceView.outlines,spaceContentIds:spaceView.contentIds,spaceLabels:spaceView.labels,visible:[...new Set([...state.visible,...REGIONAL_VISIBLE])]}:fadedSide?{...state,focusParts:mergedFocus,fadedParts:fadedSide}:state;
+ const baseSceneState=spaceView?{...state,focusParts:spaceView.focus,fadedParts:spaceView.faded,highlightNerves:spaceView.nerves,spaceRange:spaceView.range,spaceRangeIds:spaceView.rangeIds,spaceOutlines:spaceView.outlines,spaceContentIds:spaceView.contentIds,spaceLabels:spaceView.labels,visible:[...new Set([...state.visible,...REGIONAL_VISIBLE])]}:fadedSide?{...state,focusParts:mergedFocus,fadedParts:[...(state.fadedParts??[]),...fadedSide]}:state;
  const sceneState=lungLabelRows.length?{...baseSceneState,partLabels:lungLabelRows.map(r=>{const pr=structureProfile(r.name,r.system as SystemId);return{key:r.key,en:pr.english,zh:pr.chinese??'',ids:r.ids,near:r.near};})}:baseSceneState;
  // a label opens the data card of its structure without moving the camera
  const pickLabel=(id:string)=>{const p=parts.get(id);if(!p)return;setExternalNerve(null);setChosen({id:p.conceptId,name:p.name,elements:[id]});setState(s=>({...s,selected:[id]}));setDetails(true);setPanel(null);};
@@ -356,12 +411,13 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
   {microAtlas?<MicroAtlasScene atlasId={microAtlas} onExit={()=>setMicroAtlas(null)}/>:atlas&&<AnatomyScene atlas={atlas} state={{...sceneState,inspectorOpen:details&&(selectedParts.length>0||!!externalNerve)}} onSelect={choosePart} onLabelPick={pickLabel} onSelectNerve={chooseNerve} onProgress={setProgress} onLoadStatus={setLoadStatus} retryNonce={retryNonce} onError={setError} onJointDrag={nudgeJoint} region={region} focusSide={state.focusParts?studySide:'both'} motionActive={motionEdit&&!!state.focusParts} jointMotionEnabled={motionEnabled} selectedExternalNerve={externalNerve} bodyArea={topRegion}/>}
   <div className="vignette"/>
   <header className="identity"><div className="eyebrow"><span className="status-dot"/> INTERACTIVE ANATOMY ATLAS</div><h1><button type="button" className="title-reset" title="Reset to default｜回到初始設定" aria-label="Reset to default｜回到初始設定" onClick={reset}>MJ Anatomy</button><Badge variant="outline" className="edition">3D</Badge></h1><div className="identity-meta">{atlas?atlas.parts.length.toLocaleString():'2,234'} structures <span>·</span> BodyParts3D <span>·</span> Human Atlas adapted</div></header>
-  {(()=>{const limb=(topRegion==='upper'||topRegion==='lower')&&!microAtlas;
-   return <nav className={`body-region-nav top-region-nav ${limb?'limb-picked':''}`} aria-label="身體區域">
-   <Button variant="ghost" className="tab-back" aria-label="返回全部區域" tabIndex={limb?0:-1} onClick={()=>selectTop('whole')}>←</Button>
-   {([['whole','全身'],['upper','上肢'],['lower','下肢'],['head','頭部']] as [TopRegion,string][]).map(([id,label])=><Button variant="ghost" key={id} className={limb&&topRegion!==id?'tab-hidden':''} aria-hidden={limb&&topRegion!==id} tabIndex={limb&&topRegion!==id?-1:0} aria-pressed={topRegion===id&&!microAtlas} onClick={()=>selectTop(limb&&topRegion===id?'whole':id)}>{label}</Button>)}
-   <span className={`tab-sides ${limb?'':'tab-hidden'}`} role="group" aria-label={topRegion==='lower'?'下肢側別':'上肢側別'}>{([['both','雙側'],['left','左側'],['right','右側']] as ['both'|Side,string][]).map(([id,label])=><Button variant="ghost" key={id} tabIndex={limb?0:-1} aria-pressed={studySide===id} onClick={()=>applySide(id)}>{label}</Button>)}</span>
-   {limb&&studySide!=='both'&&<label className="side-fade-toggle"><input type="checkbox" checked={fadeOther} onChange={e=>setFadeOther(e.target.checked)}/>淡化另一側</label>}
+  {(()=>{const picked=topRegion!=='whole'&&topRegion!=='organs'&&!microAtlas,def=regionDef(topRegion==='organs'?'whole':topRegion as RegionKey);
+   return <nav className={`body-region-nav top-region-nav region-bar ${picked?'limb-picked':''}`} aria-label="身體區域">
+   <Button variant="ghost" className="tab-back" aria-label="返回上一層" tabIndex={picked?0:-1} onClick={backToWhole}>←</Button>
+   {REGION_BAR.map(r=>{const hide=picked&&topRegion!==r.key;return <Button variant="ghost" key={r.key} className={hide?'tab-hidden':''} aria-hidden={hide} tabIndex={hide?-1:0} aria-pressed={topRegion===r.key&&!microAtlas} onClick={()=>picked&&topRegion===r.key?backToWhole():chooseRegion(r.key)}>{r.label}</Button>;})}
+   {picked&&def.subs&&<span className="tab-subs" role="group" aria-label={`${def.label}的深度`}>{def.subs.map(sub=><Button variant="ghost" key={sub.id} aria-pressed={regionSub===sub.id} onClick={()=>applyRegion(topRegion as RegionKey,sub.id,studySide)}>{sub.label}</Button>)}</span>}
+   {picked&&def.paired&&<span className="tab-sides" role="group" aria-label={`${def.label}側別`}>{([['both','雙側'],['left','左側'],['right','右側']] as ['both'|Side,string][]).map(([id,label])=><Button variant="ghost" key={id} aria-pressed={studySide===id} onClick={()=>applySide(id)}>{label}</Button>)}</span>}
+   {picked&&def.paired&&studySide!=='both'&&<label className="side-fade-toggle"><input type="checkbox" checked={fadeOther} onChange={e=>setFadeOther(e.target.checked)}/>淡化另一側</label>}
   </nav>;})()}
   <nav className="top-actions" aria-label="Explorer panels"><a className="top-link quiz-link" href={quizHref} aria-label="開啟 Quiz，先選擇部位" title="Quiz"><GraduationCap size={18}/><span>Quiz</span></a><Button variant="ghost" className={panel==='search'?'active':''} onClick={()=>openPanel('search')} aria-label="Search anatomy"><Search size={18}/><span>Find a structure</span><kbd>/</kbd></Button><Button variant="ghost" className="icon-button" aria-label="About this atlas" onClick={()=>{setDetails(false);setPanel(null);setAbout(true);}}><Info size={18}/></Button></nav>
   <aside className={`left-workspace ${panel==='layers'?'mobile-open':''}`}>
@@ -398,7 +454,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
   </aside>
   {lungView&&<aside className="lung-focus glass" aria-label="肺部聚焦">
    <div className="lung-focus-row"><h3 className="bn-stack"><span className="bn-en">Lungs</span><small className="bn-zh">肺</small></h3><Button variant="ghost" className="lung-focus-back bn-stack" onClick={exitLungView} aria-label="返回"><span className="bn-en">Back</span><small className="bn-zh">返回</small></Button></div>
-   <div className="lung-focus-sides" role="group" aria-label="左右肺">{([['both','Both','雙側'],['left','Left','左肺'],['right','Right','右肺']] as ['both'|Side,string,string][]).map(([id,en,label])=><Button key={id} variant="ghost" aria-pressed={lungSide===id} onClick={()=>{const labels=lungLabels&&id!=='both';if(id==='both')setLungLabels(false);setLungSide(id);aimLungView(id,false,lungInner,labels);}}><span className="bn-stack"><span className="bn-en">{en}</span><small className="bn-zh">{label}</small></span></Button>)}</div>
+   <div className="lung-focus-sides" role="group" aria-label="左右肺">{([['both','Both','雙側'],['left','Left','左肺'],['right','Right','右肺']] as ['both'|Side,string,string][]).map(([id,en,label])=><Button key={id} variant="ghost" aria-pressed={lungSide===id} onClick={()=>applySide(id)}><span className="bn-stack"><span className="bn-en">{en}</span><small className="bn-zh">{label}</small></span></Button>)}</div>
    <div className="lung-focus-row"><span className="bn-stack"><span className="bn-en">Layer {lungLayer} / 2</span><small className="bn-zh">{lungLayer===1?'第 1 層：肺葉、氣管、主支氣管、肺門':'第 2 層：胸膜（半透明）'}</small></span><span className="layer-buttons"><Button variant="ghost" aria-label="減少一層（隱藏胸膜）" disabled={lungLayer<=1} onClick={()=>setState(v=>setSerousGroup(v,PLEURA_KEYS,false))}>－</Button><Button variant="ghost" aria-label="增加一層（顯示胸膜）" disabled={lungLayer>=2} onClick={()=>setState(v=>setSerousGroup(v,PLEURA_KEYS,true))}>＋</Button></span></div>
    <label className="lung-focus-row"><span className="bn-stack"><span className="bn-en">Lung opacity</span><small className="bn-zh">肺透明度（預設不透明）</small></span><input type="range" className="organ-range" min={10} max={100} step={5} value={Math.round((state.lungOpacity??1)*100)} onChange={e=>{const value=Number(e.target.value)/100;setState(v=>({...v,lungOpacity:value}));if(value<1&&!lungInner.touched&&!(lungInner.bronchi&&lungInner.vessels)){const next={...lungInner,bronchi:true,vessels:true};setLungInner(next);setState(v=>({...v,lungOpacity:value,...lungParts(lungSide,next)}));}}} aria-label="肺透明度"/></label>
    <label className="lung-focus-row"><span className="bn-stack"><span className="bn-en">Bronchial tree</span><small className="bn-zh">支氣管樹（肺內分支）</small></span><Switch checked={lungInner.bronchi} onCheckedChange={on=>setLungInnerParts({...lungInner,bronchi:!!on,touched:true})} aria-label="顯示支氣管樹"/></label>
