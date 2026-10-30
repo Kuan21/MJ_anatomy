@@ -80,6 +80,6 @@ click('只練錯題'); assert.equal(scene().props.view.target.id, firstTarget);
 view = scene().props.view; scene().props.onReady(view.key, true); render(); scene().props.onPick(view.target.id); render(); click('下一題');
 assert.equal(scene().props.view.target.id, skippedTarget, 'Mistake review contains exactly wrong and skipped targets');
 click('結束測驗'); assert.match(text(tree), /完成 1 \/ 2 題/);
-click('重新選擇部位'); click('骨骼Bones'); assert.ok(button('開始測驗').props.disabled, 'Empty system selection cannot start');
+click('重新選擇範圍'); click('全部取消'); assert.ok(button('開始測驗').props.disabled, 'Empty scope cannot start'); assert.match(text(tree), /此範圍暫無題目/, 'Empty scope says so'); click('全選'); assert.match(text(tree), /此範圍共 \d+ 題/, 'Scope shows its question count'); click('骨Bones'); click('肌肉Muscles'); click('神經Nerves'); click('動脈Arteries'); click('靜脈Veins'); assert.ok(button('開始測驗').props.disabled, 'No category selected cannot start');
 for (const h of hooks) h?.cleanup?.();
 console.log('Quiz React flow passed: section/system setup, readiness, peel/restore, immutable first attempt, correct/wrong/reveal, next, early finish and exact mistake replay.');

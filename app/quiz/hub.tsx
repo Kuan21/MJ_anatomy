@@ -26,7 +26,7 @@ export default function QuizHub() {
       <section className="quiz-intro quiz-hub-intro">
         <div className="quiz-kicker"><Target size={15}/> FIND THE STRUCTURE</div>
         <h1 tabIndex={-1}>想練習哪個部位？</h1>
-        <p>選擇部位後，可再依系統（骨骼、肌肉、神經、動脈、靜脈）與左右側設定題目。每答一題，都會顯示正確位置與資料卡。</p>
+        <p>選擇部位後，可再自由組合題目範圍（骨、肌肉、神經、動脈、靜脈、韌帶與筋膜、特殊空間與孔、器官結構）與左右側。每答一題，都會顯示正確位置與資料卡。</p>
       </section>
       <section aria-label="部位" className="quiz-hub-grid">
         {PARTS.map(part => {

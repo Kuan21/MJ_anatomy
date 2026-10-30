@@ -82,7 +82,7 @@ for (const [id, file, label, tag, labels] of [['upper-limb', 'upper', '上肢', 
   // Practising either side keeps unpaired thoracic answers in the pool.
   if (id === 'thorax') {
     if (all().some(n => n.type === 'button' && /結束測驗/.test(text(n)))) click('結束測驗');
-    click('重新選擇部位'); click('全部胸腔'); click('左側');
+    click('重新選擇範圍'); click('全部胸腔'); click('左側');
     click('開始測驗'); const left = scene().props.view; assert.equal(left.side, 'left');
   }
   for (const h of hooks) h?.cleanup?.();
