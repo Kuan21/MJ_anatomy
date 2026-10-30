@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import {gzipSync, gunzipSync} from 'node:zlib';
 import {BufferGeometry, BufferAttribute} from 'three';
+import {planCuts, atlasParts} from './lib/tendon-set.mjs';
 import {quizModule} from './quiz-modules.mjs';
 
 const root = new URL('../', import.meta.url);
@@ -18,6 +19,8 @@ const {QUIZ_SYSTEMS, QUIZ_REGIONS, LOWER_NERVES, UPPER_NERVES, THORAX_NERVES, TH
 const atlas = normalizeAtlasSystems(JSON.parse(fs.readFileSync(new URL('atlas.json', models))));
 // BodyParts3D 3.0 structures the 4.0 export left out (latissimus dorsi, multifidus, spinalis cervicis…) are quiz answers too: their packages are read like the atlas chunks.
 const supplement = JSON.parse(gunzipSync(fs.readFileSync(new URL('supplement/supplement-stream.json.gz', models))));
+// muscles that end at their musculotendinous junction (scripts/tendon/*.mjs) use the cut muscle part, as the viewer does
+const {finals: bellies} = (() => { const a = atlasParts(); return planCuts(a.parts, a.read); })();
 const supplementBase = atlas.chunks.length;
 atlas.chunks.push(...supplement.chunks);
 for (const p of supplement.parts) atlas.parts.push({...p, chunk: p.chunk + supplementBase});
@@ -122,10 +125,24 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
     const chunk = atlas.chunks[part.chunk];
     if (!sourceBuffers.has(part.chunk)) sourceBuffers.set(part.chunk, fs.readFileSync(new URL('public' + chunk.url, root)));
     const raw = sourceBuffers.get(part.chunk);
+    const belly = bellies.get(part.id), buf = a => Buffer.from(a.buffer, a.byteOffset, a.byteLength);
     add({id: part.id, name, chinese, side, system: part.system, bounds: part.bounds, source: 'BodyParts3D',
-      positions: raw.subarray(part.positions, part.positions + part.vertexCount * 12),
-      normals: raw.subarray(part.normals, part.normals + part.vertexCount * 6),
-      indices: raw.subarray(part.indices, part.indices + part.indexCount * 4)});
+      positions: belly ? buf(belly.positions) : raw.subarray(part.positions, part.positions + part.vertexCount * 12),
+      normals: belly ? buf(belly.normals) : raw.subarray(part.normals, part.normals + part.vertexCount * 6),
+      indices: belly ? buf(belly.indices) : raw.subarray(part.indices, part.indices + part.indexCount * 4)});
+  }
+  // Tendons cut off their muscles (parts of the course-summary package): asked in the region they lie in, like any other structure.
+  if (region !== 'heart' && region !== 'lung') {
+    const pk = JSON.parse(gunzipSync(fs.readFileSync(new URL('paokao/paokao-stream.json.gz', models))));
+    const pkChunks = pk.chunks.map(c => fs.readFileSync(new URL('public' + c.url, root)));
+    for (const part of pk.parts) {
+      if (part.system !== 'tendon') continue;
+      const q = {...part, system: 'tendon'}, side = include(region, q);
+      if (!side) continue;
+      const zh = paokaoZh(part.name) ?? undefined, raw = pkChunks[part.chunk];
+      add({id: part.id, name: part.name, chinese: zh, side, system: 'tendon', bounds: part.bounds, source: 'BodyParts3D',
+        positions: raw.subarray(part.positions, part.positions + part.vertexCount * 12), normals: raw.subarray(part.normals, part.normals + part.vertexCount * 6), indices: raw.subarray(part.indices, part.indices + part.indexCount * 4)});
+    }
   }
 
   for (const chunk of region === 'heart' || region === 'lung' ? [] : nerveStream.chunks) {

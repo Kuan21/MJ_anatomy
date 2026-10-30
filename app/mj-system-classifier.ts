@@ -20,6 +20,8 @@ export function displaySystem(part:Part):SystemId{
  // Brain structures whose names contain connective-tissue words (internal capsule is white matter).
  if(/internal capsule/.test(n))return 'nervous';
  if(/tensor fasciae latae/.test(n))return 'muscular';
+ // Tendons are their own category (not ligaments or fasciae); a name with "tendon" but also a sheath, retinaculum or similar stays connective.
+ if(/\btendons?\b/.test(n)&&!/sheath|retinaculum|tendinous|aponeurosis|fascia/.test(n))return 'tendon';
  if(connectiveTerms.some(term=>n.includes(term)))return 'connective';
  if(muscleTerms.some(term=>n.includes(term)))return 'muscular';
  return part.system;

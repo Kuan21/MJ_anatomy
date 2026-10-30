@@ -16,6 +16,7 @@ export interface StructureCard {
 /** Fields each kind of structure shows, in order. Existing repository data fills them; anything not documented stays empty. */
 const FIELDS: Record<QuizSystem, string[]> = {
   muscular: ['起點', '止點', '作用', '神經支配', '血液供應'],
+  tendon: ['起點', '走向與通道', '止點', '功能'],
   nervous: ['來源', '走向', '主要分支', '支配範圍'],
   arterial: ['來源', '走向', '主要分支', '供應範圍'],
   venous: ['來源', '走向', '主要分支', '引流範圍'],
@@ -27,6 +28,7 @@ const FIELDS: Record<QuizSystem, string[]> = {
 /** Existing profile facts (by their Chinese label) that answer a card field. */
 const FROM_PROFILE: Record<QuizSystem, Record<string, string[]>> = {
   muscular: {起點: ['起點'], 止點: ['止點'], 作用: ['作用'], 神經支配: ['神經支配'], 血液供應: ['血液供應']},
+  tendon: {起點: ['起點'], 走向與通道: ['走向與通道'], 止點: ['止點'], 功能: ['功能']},
   nervous: {來源: ['神經根／來源'], 走向: ['走行／關係'], 支配範圍: ['主要功能']},
   arterial: {},
   venous: {},

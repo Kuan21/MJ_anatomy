@@ -183,7 +183,7 @@ const landmarkZh:[string,string][]=[
 ];
 
 const systemZh:Record<SystemId,string>={
- skeletal:'骨骼',serous:'漿膜',muscular:'肌肉',arterial:'動脈',venous:'靜脈',nervous:'神經',digestive:'消化系統',respiratory:'呼吸系統',urinary:'泌尿系統',reproductive:'生殖系統',lymphatic:'淋巴系統',endocrine:'內分泌系統',integumentary:'體表／皮膚',connective:'結締組織',sensory:'感覺器官',cardiac:'心臟'
+ skeletal:'骨骼',serous:'漿膜',muscular:'肌肉',arterial:'動脈',venous:'靜脈',nervous:'神經',digestive:'消化系統',respiratory:'呼吸系統',urinary:'泌尿系統',reproductive:'生殖系統',lymphatic:'淋巴系統',endocrine:'內分泌系統',integumentary:'體表／皮膚',connective:'結締組織',tendon:'肌腱',sensory:'感覺器官',cardiac:'心臟'
 };
 
 const norm=(s:string)=>s.toLowerCase().replace(/[_-]+/g,' ').replace(/\s+/g,' ').trim();
@@ -395,7 +395,7 @@ function baseStructureProfile(rawName:string,system:SystemId,part?:Part):Structu
  },sourceName);
 }
 
-type PaokaoCard={name:string;zh:string;system:string;kind:string;origin?:[string,string];course?:[string,string];supply?:[string,string];insertion?:[string,string];nerve?:[string,string];action?:[string,string];extra?:{labelEn:string;labelZh:string;en:string;zh:string}[];note?:string;refs?:string[];parent?:string};
+type PaokaoCard={name:string;zh:string;system:string;kind:string;model?:string;origin?:[string,string];course?:[string,string];supply?:[string,string];insertion?:[string,string];nerve?:[string,string];action?:[string,string];extra?:{labelEn:string;labelZh:string;en:string;zh:string}[];note?:any;refs?:string[];parent?:string};
 const PAOKAO=paokaoCards as unknown as Record<string,PaokaoCard>;
 const paokaoByName=new Map(Object.values(PAOKAO).map(c=>[c.name.toLowerCase(),c]));
 /** Course-summary structures built by scripts/prepare-paokao.mjs: the Chinese name and the bilingual data card come from app/mj-paokao.json. */
@@ -416,7 +416,8 @@ function paokaoProfile(rawName:string,system:SystemId,part?:Part):StructureProfi
  const L=(en:string,zh:string,v?:[string,string])=>{if(v)facts.push({labelEn:en,labelZh:zh,valueEn:v[0],valueZh:v[1]});};
  const k=card.kind,vessel=k==='artery'||k==='vein'||k==='vessel';
  if(k==='muscle'){L('Origin','起點',card.origin);L('Insertion','止點',card.insertion);L('Innervation','神經支配',card.nerve);L('Action','作用',card.action);}
- else if(k==='tendon'){L('Origin','起點',card.origin);L('Insertion','止點',card.insertion);L('Function','功能',card.action);}
+ else if(k==='tendon'){L('Origin','起點',card.origin);L('Course','走向與通道',card.course);L('Insertion','止點',card.insertion);L('Function','功能',card.action);}
+ else if(card.model==='cut'||card.model==='zanatomy'||card.model==='procedural'){L('Attachments','附著',card.origin);L('Course and relations','走向／位置關係',card.course);if(card.insertion)L('Insertion','止點',card.insertion);L('Function','功能',card.action??card.supply);}
  else if(k==='space'){L('Boundaries','邊界',card.origin);L('Location','位置',card.course);L('Contents','內容物',card.supply);}
  else if(vessel){
   L('Origin','來源',card.origin);L('Course','走向',card.course);
@@ -438,7 +439,8 @@ function paokaoProfile(rawName:string,system:SystemId,part?:Part):StructureProfi
  }
  else{L('Attachments','附著',card.origin);L('Course and relations','走向／位置關係',card.course);L('Function','功能',card.supply);}
  for(const f of card.extra??[])facts.push({labelEn:f.labelEn,labelZh:f.labelZh,valueEn:f.en,valueZh:f.zh});
- return{english:card.name,chinese:card.zh,category:`${en}｜${zh}（示意模型）`,summaryEn:SCHEMATIC_NOTE_EN2,summaryZh:SCHEMATIC_NOTE_ZH2,facts,source:card.refs?.length?`Schematic model built for this atlas from the textbook course (${card.refs.join('; ')}); landmarks measured on the BodyParts3D atlas meshes.`:'Schematic model built for this atlas from the textbook course; landmarks measured on the BodyParts3D atlas meshes.'};
+ const real=card.model==='cut'||card.model==='zanatomy',tag=real?'':'（示意模型）';
+ return{english:card.name,chinese:card.zh,category:`${en}｜${zh}${tag}`,summaryEn:real?(card.note?.[0]??''):card.model==='procedural'?SCHEMATIC_NOTE_EN2:SCHEMATIC_NOTE_EN2,summaryZh:real?(card.note?.[1]??''):SCHEMATIC_NOTE_ZH2,facts,source:card.refs?.length?`Schematic model built for this atlas from the textbook course (${card.refs.join('; ')}); landmarks measured on the BodyParts3D atlas meshes.`:'Schematic model built for this atlas from the textbook course; landmarks measured on the BodyParts3D atlas meshes.'};
 }
 
 /** Small vessels whose model end was tapered by scripts/prepare-vessel-ends.mjs say so on their card. */
