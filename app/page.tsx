@@ -247,10 +247,11 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const setJoint=(key:keyof MotionPose,value:number)=>{applyMotionPose({...motionTargetRef.current,[key]:value});};
  /** Eases the digits from the current pose to a gesture over half a second (the other joints stay as they are). */
  const gestureFrame=useRef<number|null>(null);
+ const [gestureMs,setGestureMs]=useState(500);
  const playGesture=(to:Partial<MotionPose>)=>{
   if(gestureFrame.current!==null)cancelAnimationFrame(gestureFrame.current);
   const from=motionTargetRef.current,t0=performance.now();
-  const step=(now:number)=>{const u=Math.min(1,(now-t0)/500),e=u*u*(3-2*u),digits=Object.fromEntries(DIGIT_KEYS.map(k=>[k,from[k]+((to[k]??0)-from[k])*e]));applyMotionPose({...motionTargetRef.current,...digits});gestureFrame.current=u<1?requestAnimationFrame(step):null;};
+  const step=(now:number)=>{const u=Math.min(1,(now-t0)/gestureMs),e=u*u*(3-2*u),digits=Object.fromEntries(DIGIT_KEYS.map(k=>[k,from[k]+((to[k]??0)-from[k])*e]));applyMotionPose({...motionTargetRef.current,...digits});gestureFrame.current=u<1?requestAnimationFrame(step):null;};
   gestureFrame.current=requestAnimationFrame(step);
  };
  const nudgeJoint=(side:Side,key:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion',delta:number)=>{if(!atlas||!motionEnabled)return;setMotionSide(side);setStudySide(side);const limits=MOTION_LIMITS[key],base=motionTargetRef.current,value=Math.max(limits[0],Math.min(limits[1],base[key]+delta)),pose={...base,[key]:value};applyMotionPose(pose,side);};
@@ -487,6 +488,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
     </div>
     <details className="mj-finger-lab"><summary>手指｜Fingers</summary>
      <div className="mj-hand-presets" role="group" aria-label="手勢預設">{HAND_PRESETS.map(h=><Button key={h.id} variant="ghost" disabled={!motionEnabled} onClick={()=>{setMotionAction('wristExtension');const current=motionTargetRef.current,same=(g:Partial<MotionPose>)=>DIGIT_KEYS.every(k=>Math.abs(current[k]-(g[k]??0))<1);playGesture(h.id==='open'&&same(h.pose)?{}:h.pose);}}>{h.label}</Button>)}</div>
+     <div className="mj-hand-speed" role="group" aria-label="手勢速度">{([['慢',1200],['中',500],['快',250]] as const).map(([name,ms])=><Button key={name} variant="ghost" aria-pressed={gestureMs===ms} onClick={()=>setGestureMs(ms)}>{name}</Button>)}</div>
     </details>
     <small className="mj-motion-note">0° 為人體放鬆中立位；正負角度代表相反方向。所有角度都可以直接拖動，毋須先選動作。</small>
     <MotionAnatomyPanel anatomy={UPPER_ACTION_ANATOMY[motionAction]} onInspect={inspectMotionStructure}/>
