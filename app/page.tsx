@@ -215,11 +215,12 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  };
  const choosePart=(id:string)=>{const p=parts.get(id);if(!p)return;const sp=spaceOfParts([id]);if(sp){setRightTool('dissection');setPanel(null);pickSpaceRef.current(sp);return;}setExternalNerve(null);setChosen({id:p.conceptId,name:p.name,elements:[id]});setState(s=>({...revealState(s,[id]),selected:[id],cameraFocusParts:[id],cameraFocusNonce:(s.cameraFocusNonce??0)+1,isolate:false,rotate:false}));setDetails(true);setPanel(null);};
  const chooseExtra=(x:Extra)=>{
-  // Make sure its layer is on, then show it: nerves are highlighted in the scene by mesh name, the others open their detail card.
-  setMicroAtlas(x.k==='brain'?'brain':null);setExternalSystem(x.s);setExternalNerve(x.raw??x.n);setChosen(null);
+  // A brain structure opens the brain detail mode on that structure; nerves, joint tissues and neck vessels are highlighted and framed in the scene by mesh name.
+  if(x.k==='brain'){window.location.hash=`#/organ/brain?select=${encodeURIComponent(x.n)}`;return;}
+  setExternalSystem(x.s);setExternalNerve(x.raw??x.n);setChosen(null);
   setState(s=>({...s,selected:[],isolate:false,rotate:false,hiddenParts:s.hiddenParts??[],hiddenNerves:(s.hiddenNerves??[]).filter(n=>n!==(x.raw??x.n)),visible:s.visible.includes(x.s)?s.visible:[...s.visible,x.s],cameraFocusNerve:x.raw??x.n,cameraFocusParts:undefined,cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:.92}));setDetails(true);setPanel(null);
  };
- const chooseNerve=(name:string)=>{setExternalSystem('nervous');setExternalNerve(name);setChosen(null);setState(s=>({...s,selected:[],isolate:false,rotate:false,hiddenNerves:(s.hiddenNerves??[]).filter(n=>n!==name),visible:s.visible.includes('nervous')?s.visible:[...s.visible,'nervous'],cameraFocusNerve:name,cameraFocusParts:undefined,cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:.92}));setDetails(true);setPanel(null);};
+ const chooseNerve=(name:string,system:SystemId='nervous')=>{setExternalSystem(system);setExternalNerve(name);setChosen(null);setState(s=>({...s,selected:[],isolate:false,rotate:false,hiddenNerves:(s.hiddenNerves??[]).filter(n=>n!==name),visible:s.visible.includes(system)?s.visible:[...s.visible,system],cameraFocusNerve:name,cameraFocusParts:undefined,cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:.92}));setDetails(true);setPanel(null);};
  const setMuscleLayer=(muscleLayer:MuscleLayer)=>setState(s=>({...s,muscleLayer,selected:[],isolate:false}));const setMuscleRegion=(muscleRegion:string|undefined)=>setState(s=>({...s,muscleRegion,muscleLayer:'all',selected:[],isolate:false}));
  const setFaceMuscleLayer=(faceMuscleLayer:FacialMuscleLayer)=>setState(s=>({...s,faceMuscleLayer,selected:[],isolate:false}));
  const setDepth=(depth:TissueDepth)=>setState(s=>({...s,depthFilter:depth,selected:[],isolate:false}));

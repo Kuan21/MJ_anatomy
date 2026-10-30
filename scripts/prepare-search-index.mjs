@@ -14,9 +14,11 @@ const nerves = JSON.parse(read('nerve-stream.json'));
 for (const c of nerves.chunks) for (const m of c.meshes) {
   entries.push({n: side(m.name) + lc(clean(m.name)), s: /vein|venous/i.test(m.name) ? 'venous' : 'nervous', k: 'nerve', raw: m.name});
 }
-for (const n of glb('joints.glb').nodes) if (n.name) entries.push({n: side(n.name) + lc(clean(n.name)), s: 'connective', k: 'joint'});
+// joints: named as the scene names their meshes (za_name), so a drawn tissue found by search can be highlighted and framed
+for (const n of glb('joints.glb').nodes) if (n.name) entries.push({n: side(n.name) + lc(clean(n.name)), s: 'connective', k: 'joint', raw: String(n.extras?.za_name ?? n.name).replaceAll('_', ' ')});
 for (const n of glb('brain.glb').nodes) if (n.extras?.bx_label) entries.push({n: (n.extras.bx_side === 'left' ? 'Left ' : n.extras.bx_side === 'right' ? 'Right ' : '') + lc(n.extras.bx_label.replace(/\*/g, '').trim()), s: 'nervous', k: 'brain'});
-for (const v of JSON.parse(gunzipSync(read('neck-vessels.json.gz'))).vessels) entries.push({n: capSide(side(v.name) + lc(clean(v.name))), s: v.system, k: 'vessel'});
+// neck vessels: named as the scene names their meshes so a search result can be highlighted and framed
+for (const v of JSON.parse(gunzipSync(read('neck-vessels.json.gz'))).vessels) entries.push({n: capSide(side(v.name) + lc(clean(v.name))), s: v.system, k: 'vessel', raw: v.name});
 const unique = [...new Map(entries.map(e => [e.k + ':' + (e.raw ?? e.n), e])).values()];
 fs.writeFileSync(new URL('search-extras.json.gz', models), gzipSync(Buffer.from(JSON.stringify(unique)), {level: 9}));
 console.log(`Search index extras: ${unique.length} structures outside the atlas concepts (nerves ${unique.filter(e => e.k === 'nerve').length}, joints ${unique.filter(e => e.k === 'joint').length}, brain ${unique.filter(e => e.k === 'brain').length}, neck vessels ${unique.filter(e => e.k === 'vessel').length}).`);

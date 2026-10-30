@@ -105,6 +105,17 @@ export default function BrainDetail() {
     select(id);
     if (!same) go('fit', [id]);
   };
+  // Opened from the atlas search (#/organ/brain?select=<name>): select that structure once the model is ready, then drop the query so a reload does not reselect it.
+  useEffect(() => {
+    if (!ready) return;
+    const wanted = new URLSearchParams(location.hash.split('?')[1] ?? '').get('select');
+    if (!wanted) return;
+    const norm = (s: string) => s.toLowerCase().replace(/\*/g, '').replace(/^(left|right) /, '').replace(/\s+/g, ' ').trim();
+    const side = /^left /i.test(wanted) ? 'left' : /^right /i.test(wanted) ? 'right' : '', target = norm(wanted);
+    const hit = parts.find(p => (!side || p.side === side) && [p.en, displayEn(p)].some(n => norm(n) === target));
+    history.replaceState(null, '', location.pathname + location.search + '#/organ/brain');
+    if (hit) choose(hit.id);
+  }, [ready]); // eslint-disable-line react-hooks/exhaustive-deps
   const cardById = useMemo(() => new Map((notes?.cards ?? []).map(c => [c.id, c])), [notes]);
   const noteCard = noteId ? cardById.get(noteId) : undefined;
   const openNote = (card: NoteCard) => {

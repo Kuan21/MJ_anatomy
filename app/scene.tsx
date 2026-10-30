@@ -13,7 +13,7 @@ import {createAssetQueue} from './asset-queue';
 import {prepareSurfaceNormals,updateSurfaceNormals} from './surface-normals';
 import {PointerTap} from './pointer-tap';
 import {framingDistance} from './camera-framing';
-import {SYSTEMS,type Atlas,type SceneState} from './anatomy';
+import {SYSTEMS,type Atlas,type SceneState,type SystemId} from './anatomy';
 import {matchesMuscleLayer} from './mj-muscle-layers';
 import {matchesFacialMuscleLayer} from './mj-facial-layers';
 import {matchesHeartLayer,isShellSurface} from './mj-heart-layers';
@@ -38,7 +38,7 @@ const bodyNerveBindings=bodyNerveData as Record<string,BodyRegion>;
 export interface AnatomyLoadStatus {loaded:number;total:number;systems:Record<string,number>;failed:string[];busy:boolean;interactive:boolean;supplementaryPending:number}
 // Selection colours: soft mint (#5DB89A) at 85 % strength; hover is a lighter tint of the same hue.
 const SELECT_COLOR=0x5DB89A,HOVER_COLOR=0xA7DCCB;
-interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;onLabelPick?:(id:string)=>void;onSelectNerve?:(name:string)=>void;onProgress:(n:number)=>void;onLoadStatus?:(status:AnatomyLoadStatus)=>void;retryNonce?:number;onError:(s:string)=>void;onJointDrag?:(side:'left'|'right',joint:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion',delta:number)=>void;region?:'whole-body'|'shoulder'|'arm'|'forearm'|'hand';focusSide?:'both'|'left'|'right';motionActive?:boolean;jointMotionEnabled?:boolean;selectedExternalNerve?:string|null;bodyArea?:'whole'|'upper'|'lower'|'head'|'organs'|'chest'|'back'|'abdomen'|'pelvis'|'gluteal'}
+interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;onLabelPick?:(id:string)=>void;onSelectNerve?:(name:string,system?:SystemId)=>void;onProgress:(n:number)=>void;onLoadStatus?:(status:AnatomyLoadStatus)=>void;retryNonce?:number;onError:(s:string)=>void;onJointDrag?:(side:'left'|'right',joint:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion',delta:number)=>void;region?:'whole-body'|'shoulder'|'arm'|'forearm'|'hand';focusSide?:'both'|'left'|'right';motionActive?:boolean;jointMotionEnabled?:boolean;selectedExternalNerve?:string|null;bodyArea?:'whole'|'upper'|'lower'|'head'|'organs'|'chest'|'back'|'abdomen'|'pelvis'|'gluteal'}
 export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectNerve,onProgress,onLoadStatus,retryNonce=0,onError,onJointDrag,region='whole-body',focusSide='both',motionActive=false,jointMotionEnabled=false,selectedExternalNerve=null,bodyArea='whole'}:Props){
  const retryLoad=useRef<(()=>void)|null>(null);
  const host=useRef<HTMLDivElement>(null),latest=useRef(state),select=useRef(onSelect),labelPick=useRef(onLabelPick),selectNerve=useRef(onSelectNerve),selectedNerve=useRef<string|null>(selectedExternalNerve),jointDrag=useRef(onJointDrag),viewerContext=useRef({region,focusSide,motionActive,jointMotionEnabled,bodyArea});
@@ -942,6 +942,13 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
    for(const mesh of nerveMeshes){if(!mesh.visible)continue;const hits=raycaster.intersectObject(mesh,false);if(hits[0]&&hits[0].distance<nearest){nearest=hits[0].distance;found=mesh;}}
    return found?{name:found.name,distance:nearest}:null;
   };
+  const pickJointAt=(clientX:number,clientY:number)=>{
+   if(!selectNerve.current)return null;
+   const rect=renderer.domElement.getBoundingClientRect();pointer.set((clientX-rect.left)/rect.width*2-1,-(clientY-rect.top)/rect.height*2+1);raycaster.setFromCamera(pointer,camera);
+   let nearest=Infinity,found:T.Mesh|null=null;
+   for(const {mesh} of supplementaryJoints.rows){if(!mesh.visible)continue;const hits=raycaster.intersectObject(mesh,false);if(hits[0]&&hits[0].distance<nearest){nearest=hits[0].distance;found=mesh;}}
+   return found?{name:found.name,distance:nearest}:null;
+  };
   const pickBrainAt=(clientX:number,clientY:number)=>{
    if(!brainMotionRoot.visible||!brainLoaded)return null;
    const rect=renderer.domElement.getBoundingClientRect();pointer.set((clientX-rect.left)/rect.width*2-1,-(clientY-rect.top)/rect.height*2+1);raycaster.setFromCamera(pointer,camera);
@@ -951,9 +958,11 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
    return found&&id?{id,distance:nearest,label:String(found.userData.mjBrainLabel??found.name)}:null;
   };
   const frontHit=(clientX:number,clientY:number)=>{
-   const part=pickPartAt(clientX,clientY),nerve=pickNerveAt(clientX,clientY),brain=pickBrainAt(clientX,clientY);
+   const part=pickPartAt(clientX,clientY),nerve=pickNerveAt(clientX,clientY),brain=pickBrainAt(clientX,clientY),joint=pickJointAt(clientX,clientY);
    if(brain&&(!part||brain.distance<=part.distance+.002)&&(!nerve||brain.distance<=nerve.distance+.002))return{kind:'brain' as const,id:brain.id,label:brain.label};
    if(nerve&&(!part||nerve.distance<=part.distance+.002))return{kind:'nerve' as const,name:nerve.name};
+   // ligaments, capsules and labra lie on the bones they attach to: they win over the bone they touch, like a nerve does
+   if(joint&&(!part||joint.distance<=part.distance+.002))return{kind:'joint' as const,name:joint.name};
    return part?{kind:'part' as const,index:part.index}:null;
   };
   type JointGesture={pointerId:number;side:'left'|'right';joint:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion';startX:number;startY:number;lastX:number;lastY:number;hitIndex:number;dragging:boolean};
@@ -1020,7 +1029,7 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
     return;
    }
    const validTap=tap.up(e.pointerId,e.clientX,e.clientY);resetPrimaryGesture();if(!validTap||!ready)return;
-   const front=frontHit(e.clientX,e.clientY);if(front?.kind==='brain'){hover.hidden=true;select.current(front.id);return;}if(front?.kind==='nerve'){hover.hidden=true;selectNerve.current?.(front.name);return;}
+   const front=frontHit(e.clientX,e.clientY);if(front?.kind==='brain'){hover.hidden=true;select.current(front.id);return;}if(front?.kind==='nerve'){hover.hidden=true;selectNerve.current?.(front.name);return;}if(front?.kind==='joint'){hover.hidden=true;selectNerve.current?.(front.name,'connective');return;}
    let found=front?.kind==='part'?front.index:-1;const rect=renderer.domElement.getBoundingClientRect();if(found<0&&amount>.45)found=findTarget(e.clientX-rect.left,e.clientY-rect.top,e.pointerType==='touch'?24:16);if(found>=0){hover.hidden=true;select.current(atlas.parts[found].id);}
   };
   renderer.domElement.addEventListener('pointerdown',down,true);renderer.domElement.addEventListener('pointermove',move);renderer.domElement.addEventListener('pointerleave',()=>setHover(-1,null));renderer.domElement.addEventListener('pointerup',up);renderer.domElement.addEventListener('pointercancel',cancel);
@@ -1087,7 +1096,7 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
    const moving=Math.abs(amount-s.explode)>.0001;
    if(moving){amount=T.MathUtils.damp(amount,s.explode,8,dt);dirty=true;}
    if(changed||moving||tissueChanged||lastExtent<0){
-    supplementaryJoints.update(s,amount,!!s.previewMotion);cervicalVessels.update(s,amount);
+    supplementaryJoints.update(s,amount,!!s.previewMotion,selectedNerve.current);cervicalVessels.update(s,amount,selectedNerve.current);
     const visible=new Set(s.visible),selection=new Set(s.selected),hidden=new Set(s.hiddenParts??[]),focus=s.focusParts?new Set(s.focusParts):null;const rangeIds=new Set(s.spaceRange?.length?s.spaceRangeIds??[]:[]),contentCodes=new Map<string,number>();for(const id of s.spaceContentIds??[]){const sys=atlas.parts.find(q=>q.id===id)?.system;contentCodes.set(id,sys==='arterial'?220:sys==='venous'?190:sys==='nervous'?160:sys==='lymphatic'?130:255);}
     const fadedSet=s.fadedParts?.length||autoFade?.size?new Set([...(s.fadedParts??[]),...(autoFade??[])]):null;
     const cranialVault=/^(frontal bone|left parietal bone|right parietal bone|left temporal bone|right temporal bone|occipital bone|sphenoid bone|ethmoid)$/i;
@@ -1193,6 +1202,7 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
     atlas.parts.forEach((p,i)=>{if(!wanted.has(p.id))return;const replacement=s.visible.includes(p.system)&&!(s.hiddenParts??[]).includes(p.id)&&(!s.focusParts||s.focusParts.includes(p.id))&&(cervicalVessels.replaced.has(p.id)||brainPickers.some(m=>m.visible&&m.userData.mjAtlasId===p.id));if(data[i*4+3]<.5&&!replacement)return;const mesh=pickers[i];box.union(mesh?(mesh.geometry.boundingBox??bounds[i]).clone().applyMatrix4(mesh.matrixWorld):bounds[i].clone());});
     if(s.cameraFocusRange){const rg=s.cameraFocusRange;box.union(new T.Box3(new T.Vector3(rg.c[0]-rg.r,rg.c[1]-rg.r,rg.c[2]-rg.r),new T.Vector3(rg.c[0]+rg.r,rg.c[1]+rg.r,rg.c[2]+rg.r)));}
     if(s.cameraFocusNerve)for(const o of nerveMeshes){if(((o.userData.mjExactName as string|undefined)||o.name)===s.cameraFocusNerve){o.updateWorldMatrix(true,false);box.union(new T.Box3().setFromObject(o));}}
+    if(s.cameraFocusNerve)for(const r of [...supplementaryJoints.rows,...cervicalVessels.rows]){if(r.mesh.name===s.cameraFocusNerve){r.mesh.updateWorldMatrix(true,false);box.union(new T.Box3().setFromObject(r.mesh));}}
     if(!box.isEmpty()){
      const center=box.getCenter(new T.Vector3()),dir=s.cameraFocusRange?new T.Vector3(...s.cameraFocusRange.dir).normalize():s.cameraFocusDir?new T.Vector3(...s.cameraFocusDir).normalize():camera.position.clone().sub(controls.target).normalize();
      const rect=el.getBoundingClientRect(),w=el.clientWidth,h=el.clientHeight;
@@ -1212,8 +1222,9 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
        atlas.parts.forEach((p,i)=>{const mesh=pickers[i];if(!mesh||wanted.has(p.id)||data[i*4+3]<.5||p.system==='integumentary'||hits.has(p.id))return;box3.copy(mesh.geometry.boundingBox??bounds[i]).applyMatrix4(mesh.matrixWorld);if(!ray.ray.intersectsBox(box3))return;if(ray.intersectObject(mesh,false).length)hits.add(p.id);});}
       autoFade=hits.size?hits:null;autoFadeDirty=true;}
     }
-    // the nerve streams in after its layer is switched on: keep trying (up to about half a minute) until its mesh exists
-    if(s.cameraFocusNerve&&box.isEmpty()&&nerveFocusWait++<1800)dirty=true;else{lastCameraFocus=s.cameraFocusNonce??0;nerveFocusWait=0;}
+    // the nerve streams in after its layer is switched on: keep trying while packages are still loading (up to about half a minute) until its mesh exists;
+    // a name no package will ever draw stops here instead of redrawing for 30 seconds
+    if(s.cameraFocusNerve&&box.isEmpty()&&(loadBusy||supplementaryPending>0)&&nerveFocusWait++<1800)dirty=true;else{lastCameraFocus=s.cameraFocusNonce??0;nerveFocusWait=0;}
    }
    controls.enableRotate=!jointGesture;controls.enablePan=!jointGesture;controls.mouseButtons.RIGHT=T.MOUSE.ROTATE;controls.touches.TWO=T.TOUCH.DOLLY_ROTATE;markers.visible=amount>.75;controls.autoRotate=s.rotate&&!s.isolate&&amount<.4&&!jointGesture;controls.autoRotateSpeed=.65;controls.update();if(controls.autoRotate)dirty=true;
    if(dirty){renderer.render(scene,camera);updateLabels();updatePartLabels();targets=[];if(amount>.45){const hasSolid=atlas.parts.some((p,i)=>p.system!=='integumentary'&&data[i*4+3]>.5);atlas.parts.forEach((p,i)=>{if(data[i*4+3]<.5||(hasSolid&&p.system==='integumentary'))return;let left=Infinity,right=-Infinity,top=Infinity,bottom=-Infinity;for(let corner=0;corner<8;corner++){projected.set(p.bounds[(corner&1)?1:0][0]+data[i*4],p.bounds[(corner&2)?1:0][1]+data[i*4+1],p.bounds[(corner&4)?1:0][2]+data[i*4+2]).project(camera);const x=(projected.x+1)*el.clientWidth/2,y=(1-projected.y)*el.clientHeight/2;left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y);}projected.copy(centers[i]).add(new T.Vector3(data[i*4],data[i*4+1],data[i*4+2])).project(camera);if(projected.z< -1||projected.z>1)return;targets.push({index:i,x:(projected.x+1)*el.clientWidth/2,y:(1-projected.y)*el.clientHeight/2,left,right,top,bottom});});}dirty=false;}
