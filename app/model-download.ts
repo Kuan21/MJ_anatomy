@@ -2,7 +2,7 @@
  * Fetch already decodes Content-Encoding; inspect the payload to avoid decoding twice.
  */
 export async function decodeModelResponse(response:Response,expectedBytes:number,compressed:boolean):Promise<ArrayBuffer>{
- if(!response.ok)throw new Error('An anatomy file could not be loaded.');
+ if(!response.ok)throw new Error('解剖資料檔載入失敗。');
  // Peek at one network chunk, then decode the stream. Do not retain the
  // entire compressed file beside its decoded copy on memory-limited WebKit.
  let buffer:ArrayBuffer;
@@ -15,7 +15,7 @@ export async function decodeModelResponse(response:Response,expectedBytes:number
   const body=new Response(stream).body!;
   buffer=await new Response(gzip?body.pipeThrough(new DecompressionStream('gzip')):body).arrayBuffer();
  }else buffer=await response.arrayBuffer();
- if(expectedBytes>0&&buffer.byteLength!==expectedBytes)throw new Error('An anatomy file was incomplete. Please reload the viewer.');
+ if(expectedBytes>0&&buffer.byteLength!==expectedBytes)throw new Error('解剖資料檔不完整，請重新載入檢視器。');
  return buffer;
 }
 
