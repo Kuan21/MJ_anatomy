@@ -18,7 +18,7 @@ await build({entryPoints: [file('scripts/lib/digits-entry.ts')], bundle: true, f
 const m = await import(file('.sites-runtime/digits-test.mjs'));
 const {atlas, geometry} = loadFullAtlas();
 const joints = (await import(file('app/biomechanics-v2/digit-joints.json'), {with: {type: 'json'}})).default;
-const FINGER_MIN = .004, THUMB_MIN = .0015, SKIN_OVERLAP_MAX = .0065, PAD_OVERLAP_MAX = .0015, PAD_GAP_MAX = .003, FINGER_PAIRS = ['index-middle', 'middle-ring', 'ring-little'];
+const FINGER_MIN = .004, THUMB_MIN = .0015, SKIN_OVERLAP_MAX = .0065, PAD_OVERLAP_MAX = .0015, PAD_GAP_MAX = .003, SKIN_TOUCH_MAX = .0015, FINGER_PAIRS = ['index-middle', 'middle-ring', 'ring-little'];
 let seed = 20261029; const rnd = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296;
 const cases = [];
 for (const h of m.HAND_PRESETS) cases.push([`preset ${h.id}`, h.pose, true]);
@@ -49,7 +49,9 @@ for (const side of ['left', 'right']) {
   skinReport.push({side, ...Object.fromEntries(Object.entries(worst).map(([k, v]) => [k + ' overlap mm', +(v.depth * 1000).toFixed(1)]))});
   for (const id of ['pinch', 'ok']) {
     const pad = skin.padGap(skin.pose(m.constrainPose({...m.NEUTRAL_POSE, ...m.HAND_PRESETS.find(h => h.id === id).pose})));
-    skinReport.push({side, case: id, 'bone gap mm': +(pad.boneGap * 1000).toFixed(1), 'thumb skin mm': +(pad.padA * 1000).toFixed(1), 'index skin mm': +(pad.padB * 1000).toFixed(1), 'pad gap mm': +(pad.gap * 1000).toFixed(1)});
+    const tipState = skin.pose(m.constrainPose({...m.NEUTRAL_POSE, ...m.HAND_PRESETS.find(h => h.id === id).pose})), skinGap = skin.skinGap(tipState);
+    skinReport.push({side, case: id, 'bone gap mm': +(pad.boneGap * 1000).toFixed(1), 'thumb skin mm': +(pad.padA * 1000).toFixed(1), 'index skin mm': +(pad.padB * 1000).toFixed(1), 'pad gap mm': +(pad.gap * 1000).toFixed(1), 'skin-to-skin mm': +(skinGap * 1000).toFixed(1)});
+    if (!(skinGap <= SKIN_TOUCH_MAX)) failures.push(`${side} ${id}: the skin of the thumb tip and the index fingertip is ${(skinGap * 1000).toFixed(1)} mm apart (must touch: at most ${SKIN_TOUCH_MAX * 1000} mm)`);
     if (!(pad.gap >= -PAD_OVERLAP_MAX && pad.gap <= PAD_GAP_MAX)) failures.push(`${side} ${id}: thumb and index pads ${(pad.gap * 1000).toFixed(1)} mm apart (must touch: ${-PAD_OVERLAP_MAX * 1000} to ${PAD_GAP_MAX * 1000} mm)`);
   }
 }
