@@ -230,3 +230,9 @@ button.quiz-review-item:hover{background:#f4f7f9}
 .quiz-review-item.is-close em{background:#fdf3d8;color:#8a6100}
 .quiz-review-item.is-wrong em,.quiz-review-item.is-skipped em{background:#fbeaec;color:#a92a41}
 @media(max-width:700px){.quiz-level-grid{grid-template-columns:1fr}.quiz-compare{grid-template-columns:1fr}}
+
+.quiz-category-grid>button:disabled{opacity:.5}
+.quiz-category-tools{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;margin-top:8px;font-size:11px;color:var(--quiz-muted)}
+.quiz-scope-count{font-size:13px;color:#2f4a4d}
+.quiz-scope-count b{font-size:17px;font-variant-numeric:tabular-nums}
+.quiz-scope-count.is-empty{color:#a2453f;font-weight:600}
