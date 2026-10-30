@@ -7,7 +7,7 @@
    "trees": ["Right apical segmental bronchial tree"],
    "bronchus": ["Apical segmental bronchus (B1), the highest of the three branches of the right upper lobe bronchus", "尖段支氣管（B1），右上葉支氣管三個分支中最高的一支"],
    "relations": ["Forms the rounded top of the upper lobe, under the pleural dome in the root of the neck; the posterior segment lies behind it and the anterior segment in front", "構成上葉圓鈍的頂部，位於頸根的胸膜頂下方；後方是後段，前方是前段"],
-   "aliases": {"en": ["apical segment", "apical segment of right upper lobe", "apical segment of upper lobe", "apical", "s1", "segment 1", "segment i", "b1"], "zh": ["尖段", "上葉尖段", "右上葉尖段", "第一肺段", "第1肺段"]}
+   "aliases": {"en": ["apical segment", "apical segment of right upper lobe", "apical segment of upper lobe", "apical", "s1", "segment 1", "segment i"], "zh": ["尖段", "上葉尖段", "右上葉尖段", "第一肺段", "第1肺段"]}
   },
   {
    "key": "R2", "side": "right", "lobe": "upper", "number": "S2", "color": "#d6454f",
@@ -16,7 +16,7 @@
    "bronchus": ["Posterior segmental bronchus (B2), running backwards and outwards from the right upper lobe bronchus", "後段支氣管（B2），由右上葉支氣管向後外方走行"],
    "relations": ["Lies against the back of the upper chest wall, behind the apical and anterior segments; its lower end reaches the upper part of the oblique fissure", "貼靠上胸壁後方，位於尖段與前段的後面；下端接近斜裂上部"],
    "clinical": ["With the superior segment of the lower lobe, a common site for aspirated material in a person lying on the back", "與下葉上段一起，是仰臥時吸入物容易落入的部位"],
-   "aliases": {"en": ["posterior segment", "posterior segment of right upper lobe", "posterior segment of upper lobe", "s2", "segment 2", "segment ii", "b2"], "zh": ["後段", "上葉後段", "右上葉後段", "第二肺段", "第2肺段"]}
+   "aliases": {"en": ["posterior segment", "posterior segment of right upper lobe", "posterior segment of upper lobe", "s2", "segment 2", "segment ii"], "zh": ["後段", "上葉後段", "右上葉後段", "第二肺段", "第2肺段"]}
   },
   {
    "key": "R3", "side": "right", "lobe": "upper", "number": "S3", "color": "#f2b134",
@@ -24,7 +24,7 @@
    "trees": ["Right anterior segmental bronchial tree"],
    "bronchus": ["Anterior segmental bronchus (B3), running forwards from the right upper lobe bronchus", "前段支氣管（B3），由右上葉支氣管向前走行"],
    "relations": ["Lies behind the front of the chest wall; its lower edge is the horizontal fissure, which separates it from the middle lobe", "位於前胸壁後方；下緣是水平裂，與中葉分開"],
-   "aliases": {"en": ["anterior segment", "anterior segment of right upper lobe", "anterior segment of upper lobe", "s3", "segment 3", "segment iii", "b3"], "zh": ["前段", "上葉前段", "右上葉前段", "第三肺段", "第3肺段"]}
+   "aliases": {"en": ["anterior segment", "anterior segment of right upper lobe", "anterior segment of upper lobe", "s3", "segment 3", "segment iii"], "zh": ["前段", "上葉前段", "右上葉前段", "第三肺段", "第3肺段"]}
   },
   {
    "key": "R4", "side": "right", "lobe": "middle", "number": "S4", "color": "#3aa76d",
@@ -33,7 +33,7 @@
    "bronchus": ["Lateral segmental bronchus (B4), one of the two branches of the middle lobe bronchus", "外側段支氣管（B4），中葉支氣管的兩個分支之一"],
    "relations": ["Lies against the lower front and side of the chest wall; the horizontal fissure bounds it above and the oblique fissure behind", "貼靠胸壁前外側下部；上界是水平裂，後界是斜裂"],
    "clinical": ["The middle lobe bronchus is long and narrow and is surrounded by lymph nodes, so the lobe is easily collapsed (middle lobe syndrome)", "中葉支氣管細長且周圍有淋巴結，中葉容易塌陷（中葉症候群）"],
-   "aliases": {"en": ["lateral segment", "lateral segment of right middle lobe", "lateral segment of middle lobe", "lateral segment of right lung", "s4", "segment 4", "segment iv", "b4"], "zh": ["外側段", "中葉外側段", "右中葉外側段", "第四肺段", "第4肺段"]}
+   "aliases": {"en": ["lateral segment", "lateral segment of right middle lobe", "lateral segment of middle lobe", "lateral segment of right lung", "s4", "segment 4", "segment iv"], "zh": ["外側段", "中葉外側段", "右中葉外側段", "第四肺段", "第4肺段"]}
   },
   {
    "key": "R5", "side": "right", "lobe": "middle", "number": "S5", "color": "#8cc152",
@@ -41,7 +41,7 @@
    "trees": ["Medial segmental bronchial tree"],
    "bronchus": ["Medial segmental bronchus (B5), the other branch of the middle lobe bronchus", "內側段支氣管（B5），中葉支氣管的另一分支"],
    "relations": ["Faces the mediastinum and lies against the right border of the heart (right atrium), where the cardiac impression is", "朝向縱隔，貼靠心臟右緣（右心房），即心壓跡所在"],
-   "aliases": {"en": ["medial segment", "medial segment of right middle lobe", "medial segment of middle lobe", "medial segment of right lung", "s5", "segment 5", "segment v", "b5"], "zh": ["內側段", "中葉內側段", "右中葉內側段", "第五肺段", "第5肺段"]}
+   "aliases": {"en": ["medial segment", "medial segment of right middle lobe", "medial segment of middle lobe", "medial segment of right lung", "s5", "segment 5", "segment v"], "zh": ["內側段", "中葉內側段", "右中葉內側段", "第五肺段", "第5肺段"]}
   },
   {
    "key": "R6", "side": "right", "lobe": "lower", "number": "S6", "color": "#4a90d9",
@@ -50,7 +50,7 @@
    "bronchus": ["Superior segmental bronchus (B6), arising from the back of the right lower lobe bronchus just below the origin of the middle lobe bronchus", "上段支氣管（B6），由右下葉支氣管後壁發出，位置在中葉支氣管起點稍下方"],
    "relations": ["Forms the top of the lower lobe, behind the hilum against the back of the chest wall; the basal segments lie below it", "位於下葉頂部、肺門後方，貼靠後胸壁；其下方是各基底段"],
    "clinical": ["With the posterior segment of the upper lobe, a common site for aspirated material in a person lying on the back", "與上葉後段一起，是仰臥時吸入物容易落入的部位"],
-   "aliases": {"en": ["superior segment", "superior segment of right lower lobe", "superior segment of lower lobe", "apical segment of lower lobe", "s6", "segment 6", "segment vi", "b6"], "zh": ["上段", "下葉上段", "右下葉上段", "第六肺段", "第6肺段"]}
+   "aliases": {"en": ["superior segment", "superior segment of right lower lobe", "superior segment of lower lobe", "apical segment of lower lobe", "s6", "segment 6", "segment vi"], "zh": ["上段", "下葉上段", "右下葉上段", "第六肺段", "第6肺段"]}
   },
   {
    "key": "R7", "side": "right", "lobe": "lower", "number": "S7", "color": "#8e5fc7",
@@ -58,7 +58,7 @@
    "trees": ["Right medial basal segmental bronchial tree"],
    "bronchus": ["Medial basal segmental bronchus (B7), the first branch of the basal trunk, running down on the medial side", "內基底段支氣管（B7），基底幹的第一個分支，沿內側下行"],
    "relations": ["Lies on the mediastinal and lower surface of the lower lobe beside the inferior vena cava and the lower part of the right atrium; also called the cardiac segment", "位於下葉縱隔面與下面，鄰近下腔靜脈與右心房下部；又稱心段"],
-   "aliases": {"en": ["medial basal segment", "medial basal segment of right lower lobe", "medial basal segment of lower lobe", "cardiac segment", "s7", "segment 7", "segment vii", "b7"], "zh": ["內基底段", "下葉內基底段", "右下葉內基底段", "心段", "第七肺段", "第7肺段"]}
+   "aliases": {"en": ["medial basal segment", "medial basal segment of right lower lobe", "medial basal segment of lower lobe", "cardiac segment", "s7", "segment 7", "segment vii"], "zh": ["內基底段", "下葉內基底段", "右下葉內基底段", "心段", "第七肺段", "第7肺段"]}
   },
   {
    "key": "R8", "side": "right", "lobe": "lower", "number": "S8", "color": "#20b2c4",
@@ -66,7 +66,7 @@
    "trees": ["Right anterior basal segmental bronchial tree"],
    "bronchus": ["Anterior basal segmental bronchus (B8), a branch of the basal trunk running forwards and down", "前基底段支氣管（B8），基底幹向前下方的分支"],
    "relations": ["Lies on the front and lower side of the lower lobe against the lower chest wall and the diaphragm; the oblique fissure bounds it in front", "位於下葉前下方，貼靠下胸壁與橫膈；前界是斜裂"],
-   "aliases": {"en": ["anterior basal segment", "anterior basal segment of right lower lobe", "anterior basal segment of lower lobe", "s8", "segment 8", "segment viii", "b8"], "zh": ["前基底段", "下葉前基底段", "右下葉前基底段", "第八肺段", "第8肺段"]}
+   "aliases": {"en": ["anterior basal segment", "anterior basal segment of right lower lobe", "anterior basal segment of lower lobe", "s8", "segment 8", "segment viii"], "zh": ["前基底段", "下葉前基底段", "右下葉前基底段", "第八肺段", "第8肺段"]}
   },
   {
    "key": "R9", "side": "right", "lobe": "lower", "number": "S9", "color": "#e05a9c",
@@ -74,7 +74,7 @@
    "trees": ["Right lateral basal segmental bronchial tree"],
    "bronchus": ["Lateral basal segmental bronchus (B9), a branch of the basal trunk running outwards and down", "外基底段支氣管（B9），基底幹向外下方的分支"],
    "relations": ["Lies at the side of the lower lobe against the lower lateral chest wall and the diaphragm, between the anterior and posterior basal segments", "位於下葉外側，貼靠下外側胸壁與橫膈，介於前基底段與後基底段之間"],
-   "aliases": {"en": ["lateral basal segment", "lateral basal segment of right lower lobe", "lateral basal segment of lower lobe", "s9", "segment 9", "segment ix", "b9"], "zh": ["外基底段", "下葉外基底段", "右下葉外基底段", "第九肺段", "第9肺段"]}
+   "aliases": {"en": ["lateral basal segment", "lateral basal segment of right lower lobe", "lateral basal segment of lower lobe", "s9", "segment 9", "segment ix"], "zh": ["外基底段", "下葉外基底段", "右下葉外基底段", "第九肺段", "第9肺段"]}
   },
   {
    "key": "R10", "side": "right", "lobe": "lower", "number": "S10", "color": "#3d4fa8",
@@ -83,7 +83,7 @@
    "bronchus": ["Posterior basal segmental bronchus (B10), the largest branch of the basal trunk, running straight down and back", "後基底段支氣管（B10），基底幹最大的分支，向後下方走行"],
    "relations": ["The largest and lowest segment: it lies behind, against the back of the chest wall and the diaphragm, and fills much of the costodiaphragmatic recess", "最大也最低的肺段，位於後方，貼靠後胸壁與橫膈，占據大部分肋膈隱窩"],
    "clinical": ["In an upright person, aspirated material tends to settle in the posterior basal segment of the lower lobes, most often the right", "直立時，吸入物容易落入下葉後基底段，以右側較常見"],
-   "aliases": {"en": ["posterior basal segment", "posterior basal segment of right lower lobe", "posterior basal segment of lower lobe", "s10", "segment 10", "segment x", "b10"], "zh": ["後基底段", "下葉後基底段", "右下葉後基底段", "第十肺段", "第10肺段"]}
+   "aliases": {"en": ["posterior basal segment", "posterior basal segment of right lower lobe", "posterior basal segment of lower lobe", "s10", "segment 10", "segment x"], "zh": ["後基底段", "下葉後基底段", "右下葉後基底段", "第十肺段", "第10肺段"]}
   },
   {
    "key": "L12", "side": "left", "lobe": "upper", "number": "S1+2", "color": "#e2573f",
@@ -92,7 +92,7 @@
    "bronchus": ["Apicoposterior segmental bronchus (B1+2), a single stem that divides into an apical and a posterior branch", "尖後段支氣管（B1+2），一支共同主幹，再分為尖支與後支"],
    "relations": ["Forms the top and the back of the upper lobe; on the mediastinal side the subclavian artery and the arch of the aorta lie against it", "構成上葉的頂部與後部；縱隔側與鎖骨下動脈、主動脈弓相鄰"],
    "clinical": ["The apical and posterior parts are counted as one segment in this scheme; both names, S1 and S2, are accepted as answers", "此分法把尖部與後部合為一個肺段；以 S1 或 S2 命名也視為正確"],
-   "aliases": {"en": ["apicoposterior segment", "apical posterior segment", "apical-posterior segment", "apical segment of left lung", "posterior segment of left lung", "apical segment", "posterior segment", "apical segment of left upper lobe", "posterior segment of left upper lobe", "apicoposterior segment of left upper lobe", "s1+2", "s1 s2", "s1", "s2", "segment 1+2", "segment 1", "segment 2", "b1+2", "b1", "b2"], "zh": ["尖後段", "上葉尖後段", "左上葉尖後段", "尖段", "後段", "左上葉尖段", "左上葉後段", "第一二肺段", "第1+2肺段", "第1肺段", "第2肺段"]}
+   "aliases": {"en": ["apicoposterior segment", "apical posterior segment", "apical-posterior segment", "apical segment of left lung", "posterior segment of left lung", "apical segment", "posterior segment", "apical segment of left upper lobe", "posterior segment of left upper lobe", "apicoposterior segment of left upper lobe", "s1+2", "s1 s2", "s1", "s2", "segment 1+2", "segment 1", "segment 2"], "zh": ["尖後段", "上葉尖後段", "左上葉尖後段", "尖段", "後段", "左上葉尖段", "左上葉後段", "第一二肺段", "第1+2肺段", "第1肺段", "第2肺段"]}
   },
   {
    "key": "L3", "side": "left", "lobe": "upper", "number": "S3", "color": "#f2b134",
@@ -100,7 +100,7 @@
    "trees": ["Left anterior segmental bronchial tree"],
    "bronchus": ["Anterior segmental bronchus (B3), running forwards from the left upper lobe bronchus", "前段支氣管（B3），由左上葉支氣管向前走行"],
    "relations": ["Lies against the front of the chest wall above the lingula; the oblique fissure bounds the upper lobe behind", "位於前胸壁後方、舌葉上方；上葉後界是斜裂"],
-   "aliases": {"en": ["anterior segment", "anterior segment of left upper lobe", "anterior segment of upper lobe", "s3", "segment 3", "segment iii", "b3"], "zh": ["前段", "上葉前段", "左上葉前段", "第三肺段", "第3肺段"]}
+   "aliases": {"en": ["anterior segment", "anterior segment of left upper lobe", "anterior segment of upper lobe", "s3", "segment 3", "segment iii"], "zh": ["前段", "上葉前段", "左上葉前段", "第三肺段", "第3肺段"]}
   },
   {
    "key": "L4", "side": "left", "lobe": "upper", "number": "S4", "color": "#3aa76d",
@@ -108,7 +108,7 @@
    "trees": ["Superior lingular bronchial tree"],
    "bronchus": ["Superior lingular bronchus (B4), the upper branch of the lingular bronchus", "上舌段支氣管（B4），舌支氣管的上支"],
    "relations": ["The upper part of the lingula, the left counterpart of the right middle lobe; it lies below the cardiac notch region and against the front of the chest wall", "舌葉的上部，相當於右肺中葉；位於心切跡附近，貼靠前胸壁"],
-   "aliases": {"en": ["superior lingular segment", "superior lingula", "superior segment of lingula", "superior lingular segment of left upper lobe", "upper lingular segment", "s4", "segment 4", "segment iv", "b4"], "zh": ["上舌段", "上葉上舌段", "左上葉上舌段", "第四肺段", "第4肺段"]}
+   "aliases": {"en": ["superior lingular segment", "superior lingula", "superior segment of lingula", "superior lingular segment of left upper lobe", "upper lingular segment", "s4", "segment 4", "segment iv"], "zh": ["上舌段", "上葉上舌段", "左上葉上舌段", "第四肺段", "第4肺段"]}
   },
   {
    "key": "L5", "side": "left", "lobe": "upper", "number": "S5", "color": "#8cc152",
@@ -116,7 +116,7 @@
    "trees": ["Inferior lingular bronchial tree"],
    "bronchus": ["Inferior lingular bronchus (B5), the lower branch of the lingular bronchus", "下舌段支氣管（B5），舌支氣管的下支"],
    "relations": ["The lower part of the lingula, lying against the lower front of the chest wall and the apex of the heart; it ends at the lower border of the lung", "舌葉的下部，貼靠前下胸壁與心尖，向下止於肺下緣"],
-   "aliases": {"en": ["inferior lingular segment", "inferior lingula", "inferior segment of lingula", "inferior lingular segment of left upper lobe", "lower lingular segment", "s5", "segment 5", "segment v", "b5"], "zh": ["下舌段", "上葉下舌段", "左上葉下舌段", "第五肺段", "第5肺段"]}
+   "aliases": {"en": ["inferior lingular segment", "inferior lingula", "inferior segment of lingula", "inferior lingular segment of left upper lobe", "lower lingular segment", "s5", "segment 5", "segment v"], "zh": ["下舌段", "上葉下舌段", "左上葉下舌段", "第五肺段", "第5肺段"]}
   },
   {
    "key": "L6", "side": "left", "lobe": "lower", "number": "S6", "color": "#4a90d9",
@@ -125,7 +125,7 @@
    "bronchus": ["Superior segmental bronchus (B6), arising from the back of the left lower lobe bronchus", "上段支氣管（B6），由左下葉支氣管後壁發出"],
    "relations": ["Forms the top of the lower lobe, behind the hilum against the back of the chest wall; the descending aorta lies against its mediastinal side", "位於下葉頂部、肺門後方，貼靠後胸壁；縱隔側鄰近降主動脈"],
    "clinical": ["With the posterior part of the upper lobe, a common site for aspirated material in a person lying on the back", "與上葉後部一起，是仰臥時吸入物容易落入的部位"],
-   "aliases": {"en": ["superior segment", "superior segment of left lower lobe", "superior segment of lower lobe", "apical segment of lower lobe", "s6", "segment 6", "segment vi", "b6"], "zh": ["上段", "下葉上段", "左下葉上段", "第六肺段", "第6肺段"]}
+   "aliases": {"en": ["superior segment", "superior segment of left lower lobe", "superior segment of lower lobe", "apical segment of lower lobe", "s6", "segment 6", "segment vi"], "zh": ["上段", "下葉上段", "左下葉上段", "第六肺段", "第6肺段"]}
   },
   {
    "key": "L78", "side": "left", "lobe": "lower", "number": "S7+8", "color": "#a06ad0",
@@ -134,7 +134,7 @@
    "bronchus": ["Anteromedial basal segmental bronchus (B7+8), a single stem from the basal trunk that divides into medial and anterior basal branches", "前內基底段支氣管（B7+8），基底幹發出的共同主幹，再分為內基底支與前基底支"],
    "relations": ["Lies on the front and lower inner part of the lower lobe against the diaphragm and the pericardium over the heart; the oblique fissure bounds it in front", "位於下葉前下內側，貼靠橫膈與心臟表面的心包；前界是斜裂"],
    "clinical": ["The medial basal and anterior basal parts are counted as one segment in this scheme; both names, S7 and S8, are accepted as answers", "此分法把內基底部與前基底部合為一個肺段；以 S7 或 S8 命名也視為正確"],
-   "aliases": {"en": ["anteromedial basal segment", "anterior medial basal segment", "anteromedial segment", "medial basal segment", "anterior basal segment", "medial basal segment of left lung", "anterior basal segment of left lung", "medial basal segment of left lower lobe", "anterior basal segment of left lower lobe", "anteromedial basal segment of left lower lobe", "s7+8", "s7 s8", "s7", "s8", "segment 7+8", "segment 7", "segment 8", "b7+8", "b7", "b8"], "zh": ["前內基底段", "下葉前內基底段", "左下葉前內基底段", "內基底段", "前基底段", "左下葉內基底段", "左下葉前基底段", "第七八肺段", "第7+8肺段", "第7肺段", "第8肺段"]}
+   "aliases": {"en": ["anteromedial basal segment", "anterior medial basal segment", "anteromedial segment", "medial basal segment", "anterior basal segment", "medial basal segment of left lung", "anterior basal segment of left lung", "medial basal segment of left lower lobe", "anterior basal segment of left lower lobe", "anteromedial basal segment of left lower lobe", "s7+8", "s7 s8", "s7", "s8", "segment 7+8", "segment 7", "segment 8"], "zh": ["前內基底段", "下葉前內基底段", "左下葉前內基底段", "內基底段", "前基底段", "左下葉內基底段", "左下葉前基底段", "第七八肺段", "第7+8肺段", "第7肺段", "第8肺段"]}
   },
   {
    "key": "L9", "side": "left", "lobe": "lower", "number": "S9", "color": "#e05a9c",
@@ -142,7 +142,7 @@
    "trees": ["Left lateral basal segmental bronchial tree"],
    "bronchus": ["Lateral basal segmental bronchus (B9), a branch of the basal trunk running outwards and down", "外基底段支氣管（B9），基底幹向外下方的分支"],
    "relations": ["Lies at the side of the lower lobe against the lower lateral chest wall and the diaphragm, between the anteromedial and posterior basal segments", "位於下葉外側，貼靠下外側胸壁與橫膈，介於前內基底段與後基底段之間"],
-   "aliases": {"en": ["lateral basal segment", "lateral basal segment of left lower lobe", "lateral basal segment of lower lobe", "s9", "segment 9", "segment ix", "b9"], "zh": ["外基底段", "下葉外基底段", "左下葉外基底段", "第九肺段", "第9肺段"]}
+   "aliases": {"en": ["lateral basal segment", "lateral basal segment of left lower lobe", "lateral basal segment of lower lobe", "s9", "segment 9", "segment ix"], "zh": ["外基底段", "下葉外基底段", "左下葉外基底段", "第九肺段", "第9肺段"]}
   },
   {
    "key": "L10", "side": "left", "lobe": "lower", "number": "S10", "color": "#3d4fa8",
@@ -150,7 +150,7 @@
    "trees": ["Left posterior basal segmental bronchial tree"],
    "bronchus": ["Posterior basal segmental bronchus (B10), the largest branch of the basal trunk, running straight down and back", "後基底段支氣管（B10），基底幹最大的分支，向後下方走行"],
    "relations": ["The largest and lowest segment: it lies behind, against the back of the chest wall and the diaphragm, and fills much of the costodiaphragmatic recess", "最大也最低的肺段，位於後方，貼靠後胸壁與橫膈，占據大部分肋膈隱窩"],
-   "aliases": {"en": ["posterior basal segment", "posterior basal segment of left lower lobe", "posterior basal segment of lower lobe", "s10", "segment 10", "segment x", "b10"], "zh": ["後基底段", "下葉後基底段", "左下葉後基底段", "第十肺段", "第10肺段"]}
+   "aliases": {"en": ["posterior basal segment", "posterior basal segment of left lower lobe", "posterior basal segment of lower lobe", "s10", "segment 10", "segment x"], "zh": ["後基底段", "下葉後基底段", "左下葉後基底段", "第十肺段", "第10肺段"]}
   }
  ]
 }

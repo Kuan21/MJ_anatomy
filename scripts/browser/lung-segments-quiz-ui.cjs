@@ -1,0 +1,42 @@
+// Browser check of the lung Quiz section 肺段（示意分區）, real mouse: level 1 (name shown, the territories of the segments drawn in their colours, click the right one) and
+// level 2 (highlighted segment, typed name). Screenshots only, nothing drawn on them. usage: node lung-segments-quiz-ui.cjs <port> <outDir> [tag]   (production build, software GL)
+const {chromium}=require('playwright');
+const fs=require('fs');
+const [port='5613',out='/tmp/lungsegquiz',tag='segquiz']=process.argv.slice(2);
+fs.mkdirSync(out,{recursive:true});
+const ok=(name,pass,info='')=>console.log((pass?'PASS ':'FAIL ')+name+(info?'  '+info:''));
+(async()=>{
+ const b=await chromium.launch({args:['--use-gl=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
+ const p=await b.newPage({viewport:{width:1400,height:900}});p.setDefaultTimeout(240000);
+ p.on('pageerror',e=>console.log('PAGEERR',e.message));
+ await p.goto(`http://127.0.0.1:${port}/#/quiz`);
+ await p.waitForSelector('[data-part="lung"]');
+ await p.locator('[data-part="lung"]').click();
+ await p.waitForSelector('text=肺篇');await p.waitForTimeout(3000);
+ ok('setup page lists the section 肺段',await p.locator('text=肺段（示意分區）').count()>0);
+ await p.locator('button',{hasText:'肺段（示意分區）'}).click();
+ await p.screenshot({path:`${out}/${tag}-1-setup.png`});
+ await p.locator('button',{hasText:'開始測驗'}).click();
+ await p.waitForSelector('h1.quiz-target');
+ const name=await p.locator('h1.quiz-target').innerText();
+ console.log('level 1 target:',name.replace(/\n/g,' / '));
+ ok('level 1 shows a segment name in English and Chinese',/segment/i.test(name)&&/段/.test(name));
+ await p.waitForTimeout(60000);
+ await p.screenshot({path:`${out}/${tag}-2-level1.png`});
+ await p.locator('button',{hasText:'顯示答案'}).first().click().catch(()=>p.locator('button',{hasText:'我不知道'}).first().click());
+ await p.waitForTimeout(15000);
+ const card=await p.locator('.quiz-answer-card, [class*=answer]').first().innerText().catch(()=>'');
+ ok('the answer card has lobe, segment, segmental bronchus and main relations',/肺葉/.test(card)&&/段支氣管/.test(card)&&/主要毗鄰/.test(card),card.slice(0,80).replace(/\n/g,' '));
+ await p.screenshot({path:`${out}/${tag}-3-answer.png`});
+ await p.reload();
+ await p.waitForSelector('[data-part="lung"]');await p.locator('[data-part="lung"]').click();await p.waitForSelector('text=肺篇');
+ await p.locator('button',{hasText:'第二級'}).click();await p.locator('button',{hasText:'肺段（示意分區）'}).click();
+ await p.locator('button',{hasText:'開始測驗'}).click();
+ await p.waitForSelector('input[type=text], input:not([type])');
+ await p.waitForTimeout(60000);
+ await p.screenshot({path:`${out}/${tag}-4-level2.png`});
+ await p.locator('input').first().fill('S1');
+ await p.keyboard.press('Enter');await p.waitForTimeout(15000);
+ await p.screenshot({path:`${out}/${tag}-5-level2-answered.png`});
+ await b.close();
+})().catch(e=>{console.log('FAIL',e.message);process.exit(1);});

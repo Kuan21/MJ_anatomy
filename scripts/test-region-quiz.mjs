@@ -44,7 +44,7 @@ const expected = {
     names: ['First rib', 'Twelfth rib', 'Third thoracic vertebra', 'Intercostal nerves', 'Posterior intercostal arteries', 'Internal thoracic artery', 'Subcostal artery', 'Vagus nerve (X)'],
     plain: ['Manubrium', 'Body of sternum', 'Xiphoid process', 'Diaphragm', 'Ascending aorta', 'Arch of aorta', 'Descending thoracic aorta', 'Superior vena cava', 'Inferior vena cava', 'Azygos vein', 'Brachiocephalic artery', 'Pulmonary trunk'],
   },  lung: {
-    count: [45, 60],
+    count: [60, 80],
     plain: ['Bronchial artery'],
   },
   heart: {
@@ -95,7 +95,7 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
         const original = read('public' + atlas.chunks[source.chunk].url);
         assert.deepEqual(positions, original.subarray(source.positions, source.positions + source.vertexCount * 12), 'Unchanged original position data');
         assert.deepEqual(indices, original.subarray(source.indices, source.indices + source.indexCount * 4), 'Unchanged source triangles');
-      } else if (structure.source === 'Lung surface areas') {
+      } else if (structure.source === 'Lung surface areas' || structure.source === 'Lung segments') {
         const part = paokao.parts.find(p => p.id === mesh.id); assert.ok(part, mesh.id);
         const original = read('public' + paokao.chunks[part.chunk].url);
         assert.deepEqual(positions, original.subarray(part.positions, part.positions + part.vertexCount * 12), 'Unchanged lung surface position data');
@@ -163,6 +163,10 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
   for (const missing of ['eparterial', 'intermedius', 'lymph', 'upper lobe bronchus']) assert.ok(!names.some(n => n.includes(missing)), `the model has no ${missing}: it is not a question`);
   for (const must of ['cardiac impression of right lung', 'cardiac impression of left lung', 'cardiac notch of left lung', 'lingula of left lung', 'hilum of right lung', 'hilum of left lung', 'left groove for aortic arch', 'right groove for azygos vein', 'left pulmonary artery', 'right superior pulmonary vein']) assert.ok(names.includes(must), `lung quiz has ${must}`);
   assert.equal(QUIZ_REGIONS.lung.defaultView, 'medial');
+  // the bronchopulmonary segments (schematic territories): 10 on the right, 8 on the left (merged scheme), each asked in the section 肺段
+  const seg = lung.structures.filter(s => s.sections.includes('segments'));
+  assert.equal(seg.filter(s => s.side === 'right').length, 10); assert.equal(seg.filter(s => s.side === 'left').length, 8);
+  assert.ok(names.includes('apicoposterior segment of left lung') && names.includes('anteromedial basal segment of left lung') && !names.includes('apical segment of left lung'), 'left lung asks the merged segments');
 }
 // The data panel and the quiz share one dictionary: spot-check Taiwan forms.
 const expectZh = {'axillary artery': '腋動脈', 'deep palmar arch': '深掌動脈弓', 'superior vena cava': '上腔靜脈', 'common iliac artery': '總髂動脈', 'popliteal artery': '膕動脈', 'distal phalanx of index finger': '食指遠節指骨', 'proximal phalanx of big toe': '拇趾近節趾骨', 'great saphenous vein': '大隱靜脈', 'azygos vein': '奇靜脈', 'arch of aorta': '主動脈弓'};

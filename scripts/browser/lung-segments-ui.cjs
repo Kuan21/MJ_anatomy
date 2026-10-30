@@ -40,7 +40,7 @@ const ok=(name,pass,info='')=>console.log((pass?'PASS ':'FAIL ')+name+(info?'  '
   const sheet=await p.locator('.detail-sheet').innerText().catch(()=>'');
   ok(side+': legend click opens the segment card (lobe, segment, segmental bronchus, main relations)',/lobe/i.test(sheet)&&/segmental bronchus/i.test(sheet)&&/main relations/i.test(sheet)&&/肺葉/.test(sheet)&&/段支氣管/.test(sheet)&&/主要毗鄰/.test(sheet),sheet.slice(0,80).replace(/\s+/g,' '));
   await p.screenshot({path:`${out}/${tag}-${side}-card.png`});
-  await p.keyboard.press('Escape');await p.waitForTimeout(1500);
+  await p.mouse.click(1441,121);await p.waitForTimeout(2500); // close the card (its X) so that the panel is not covered
  }
  await real(sw);await p.waitForTimeout(4000);
  ok('switch turns the segment legend off',(await p.locator('.lung-seg-row').count())===0);

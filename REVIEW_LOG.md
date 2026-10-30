@@ -138,6 +138,67 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 
 驗證：`node scripts/test-region-quiz.mjs`、`test-region-quiz-flow.mjs`、`test-quiz-hub.mjs`、`report-quiz-level2.mjs --check`、`test-lower-quiz.mjs` 等已更新並通過；瀏覽器截圖見 PR。
 
+## 肺 PR 3：肺段（【需人工審核】，不自動 merge）
+
+入口：左側底部「肺」→ 面板新增「Segments 肺段（示意分區）」開關。打開後：段支氣管樹自動打開、肺轉為半透明（0.55，滑桿仍可調；關掉開關會還原），每一段的**段支氣管與它在肺葉表面的區域用同一個顏色**；面板列出圖例（色塊、編號、英文在上中文在下），點圖例列或直接點肺面／段支氣管，會同時高亮該段的區域與支氣管並打開該段資料卡。單側肺時有「外側面／內側面」兩個視角按鈕。與「名稱標籤」互斥（標籤指向的壓跡面片會被段的顏色蓋住）。
+
+**分法（你的決定）**：右肺通常 10 段；左肺採**合併 8 段**——尖後段（S1+2）、前內基底段（S7+8）。第 1 段到第 10 段在跑考摘要裡沒有逐段列出，所以全部依你的決定。回答時合併名或拆開的 S1／S2、S7／S8 都算對（見下方同義名稱）。
+
+### 什麼是真的、什麼是示意
+| 項目 | 狀態 |
+| --- | --- |
+| 段支氣管 | **真實**：圖譜（BodyParts3D）有每一段的段支氣管樹網格（共 98 個網格，名稱如 `Right apical segmental bronchial tree`，含段內分支）。顏色以外沒有改動 |
+| 肺葉 | 真實（原有） |
+| 肺段本身（含段內體積、段與段的真實交界） | **模型沒有**。肺段是肺內一團組織，沒有自己的壁 |
+| 肺葉表面上每一段的區域 | **示意分區**（資料卡與面板都標「示意分區」）。規則：肺葉表面每個三角形分給「同一肺葉內、段支氣管離它最近」的那一段；只計算段支氣管樹離主支氣管 14 mm 以外的部分（共同短幹不佔表面）；之後做平滑（六次，三個邊鄰居多數決）並把 80 個三角形以下的小島併給相鄰的段。程式：`scripts/paokao-structures/lung-segments.mjs`；每段佔所在肺葉表面的比例在 `docs/lung-segments.json` |
+| 葉支氣管（上葉、中葉、下葉支氣管、舌支氣管、基底幹） | **模型沒有**（只有主支氣管與各段支氣管樹），所以不畫，也不假造 |
+
+### 顏色表（請核對；段支氣管與表面區域同色）
+| 肺 | 肺葉 | 編號 | 中文名 | 英文名 | 顏色 | 段支氣管（模型真實網格） | 佔該肺葉表面 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 右 | 上葉 | S1 | 右肺上葉尖段 | Apical segment of right lung | `#e8743b` | Right apical segmental bronchial tree | 19 % |
+| 右 | 上葉 | S2 | 右肺上葉後段 | Posterior segment of right lung | `#d6454f` | Right posterior segmental bronchial tree | 26 % |
+| 右 | 上葉 | S3 | 右肺上葉前段 | Anterior segment of right lung | `#f2b134` | Right anterior segmental bronchial tree | 55 % |
+| 右 | 中葉 | S4 | 右肺中葉外側段 | Lateral segment of right lung | `#3aa76d` | Lateral segmental bronchial tree | 46 % |
+| 右 | 中葉 | S5 | 右肺中葉內側段 | Medial segment of right lung | `#8cc152` | Medial segmental bronchial tree | 54 % |
+| 右 | 下葉 | S6 | 右肺下葉上段 | Superior segment of right lung | `#4a90d9` | Right superior segmental bronchial tree | 17 % |
+| 右 | 下葉 | S7 | 右肺下葉內基底段 | Medial basal segment of right lung | `#8e5fc7` | Right medial basal segmental bronchial tree | 11 % |
+| 右 | 下葉 | S8 | 右肺下葉前基底段 | Anterior basal segment of right lung | `#20b2c4` | Right anterior basal segmental bronchial tree | 28 % |
+| 右 | 下葉 | S9 | 右肺下葉外基底段 | Lateral basal segment of right lung | `#e05a9c` | Right lateral basal segmental bronchial tree | 20 % |
+| 右 | 下葉 | S10 | 右肺下葉後基底段 | Posterior basal segment of right lung | `#3d4fa8` | Right posterior basal segmental bronchial tree | 24 % |
+| 左 | 上葉 | S1+2 | 左肺上葉尖後段 | Apicoposterior segment of left lung | `#e2573f` | Left apical segmental bronchial tree；Left posterior segmental bronchial tree | 25 % |
+| 左 | 上葉 | S3 | 左肺上葉前段 | Anterior segment of left lung | `#f2b134` | Left anterior segmental bronchial tree | 33 % |
+| 左 | 上葉 | S4 | 左肺上葉上舌段 | Superior lingular segment of left lung | `#3aa76d` | Superior lingular bronchial tree | 9 % |
+| 左 | 上葉 | S5 | 左肺上葉下舌段 | Inferior lingular segment of left lung | `#8cc152` | Inferior lingular bronchial tree | 33 % |
+| 左 | 下葉 | S6 | 左肺下葉上段 | Superior segment of left lung | `#4a90d9` | Left superior segmental bronchial tree | 19 % |
+| 左 | 下葉 | S7+8 | 左肺下葉前內基底段 | Anteromedial basal segment of left lung | `#a06ad0` | Left medial basal segmental bronchial tree；Left anterior basal segmental bronchial tree | 42 % |
+| 左 | 下葉 | S9 | 左肺下葉外基底段 | Lateral basal segment of left lung | `#e05a9c` | Left lateral basal segmental bronchial tree | 14 % |
+| 左 | 下葉 | S10 | 左肺下葉後基底段 | Posterior basal segment of left lung | `#3d4fa8` | Left posterior basal segmental bronchial tree | 25 % |
+
+顏色：右肺與左肺共有的段用同一個顏色；上葉暖色（橘、紅、琥珀）、中葉與舌葉綠色系、下葉藍紫粉系。同一側肺內任兩色的色差（CIE76 ΔE）≥ 18，且與肺葉的粉紅色有差距（`scripts/test-lung-segments.mjs` 檢查）。
+
+### 資料卡（每段，英文在上中文在下）
+肺葉、肺段（編號與名稱）、段支氣管（B 編號與起點）、主要毗鄰、臨床備註（只有教科書有標準說法的才寫：右上葉後段與下葉上段＝仰臥吸入、右中葉＝中葉症候群、下葉後基底段＝直立吸入；其餘不寫）。卡片說明欄寫明「示意分區」及其限制。內容用自己的話寫，未抄圖譜原文，沒有任何來源或頁碼。
+
+### 限制與誠實清單
+- 示意分區只是肺葉**外表面**上的色塊；肺段的內部體積沒有畫，段與段之間真正的交界面（通過段間靜脈）也沒有。依「最近的段支氣管」劃界，邊界是近似值，各段面積比例（上表最後一欄）**沒有對照教科書實測**，只能當辨認用。看起來偏大或偏小的：右上葉前段（55 %）偏大、尖段（19 %）偏小；左上葉上舌段（9 %）偏小（模型中上舌段的支氣管很短）；右下葉內基底段（11 %）多在縱隔面與膈面，從外側看幾乎看不到，要用「內側面」視角。
+- 模型的段支氣管樹到不了肺的最外緣，外緣的歸屬是依最近的分支外推。
+- 左肺因合併，尖支（B1）與後支（B2）、內基底支（B7）與前基底支（B8）是各自的網格，同色顯示；它們的共同主幹（B1+2、B7+8）模型沒有單獨網格。
+- 本 PR **沒有**把肺段動脈、肺段靜脈著色（模型有，使用者說支氣管樹與血管開關優先順序低）；肺內只看得到支氣管樹的顏色。
+- 肺段區域放在示意構造的最後一個資料包，網路慢時會比支氣管樹晚出現（支氣管樹先變色，肺面稍後才變色）。
+- 無法表示的：肺段內部體積、段間真實交界、葉支氣管、左肺 S1／S2 與 S7／S8 分開的呈現（依決定合併；拆開的名稱只作為答案接受）。其餘 18 段（右 10、左 8）每一段都有真實段支氣管＋示意表面區域。
+
+### 同義名稱（Quiz 第二級；新增 14 列，已併入下方總表）
+新增的是上方各段的英文與中文別名，包含 S 編號（S1、S2、S7、S8、S1+2、S7+8）與合併名稱的拆開名稱；請核對「左肺合併段接受拆開名」這一點是否符合你的意思。
+
+### Quiz（已做，沒有留到後續）
+Quiz → 肺 新增區段「肺段（示意分區）」（分類：器官結構；第一級與第二級同一題庫，各 18 題＝右 10、左 8；`node scripts/check-quiz-banks.mjs` 已更新，肺：器官結構 54／54、合計 63／63；`docs/quiz-scope-counts.md`、`docs/quiz-level2-pool.md` 已重新生成）。肺段題的畫面只有肺葉與各段區域（壓跡面片不出現），各段區域用各自的段顏色畫，讓兩段的交界看得見（顏色不透露名稱）；壓跡、溝、肺門題的畫面不變。答題卡用上面的肺段欄位。
+
+### 驗證與重現
+- `node scripts/test-lung-segments.mjs`（資料、模型包、卡片欄位、同義名稱、題庫、面板接線；已併入 `npm run check`）。
+- 瀏覽器：`node scripts/browser/lung-segments-ui.cjs <port> <輸出資料夾>`（Playwright，真實滑鼠；手動執行）。
+- 重現（PR 沒有預覽網址）：`npm run build && npx vite preview`，開啟網站 →左側底部「肺」→ 右側面板「Segments」打開 → 選「Right」或「Left」→ 按「Medial／Lateral」→ 點圖例列。Quiz：`#/quiz/lung`，區段選「肺段（示意分區）」。
+
 ## 血管連續性與圓滑（上肢、下肢；【需人工審核】）
 
 方法：`node scripts/audit-vessel-continuity.mjs --segments`（`scripts/lib/vessel-segments.mjs`）。每個動脈／靜脈網格是一段；每個末端與「下一段」配對（它面對的末端，或它匯入的主幹），量測**間隙**（末端中心到下一段表面，重疊為 0）、**切線誤差**（端接端時兩軸夾角）、**管徑誤差**（兩段管徑比）。間隙大於本段管徑一半者列出；完整表格（修正前與修正後）在 `docs/vessel-segments.md`。
@@ -430,7 +491,7 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 | 肺 PR 2：內側面標籤與肺門 | 已完成（使用者已 merge） | #131 | 沒有：右上葉支氣管與中間支氣管、肺門淋巴結、胸膜返折包圍肺門；第 1 肋溝與左鎖骨下動脈溝內側看不到所以不標 |
 | **肺 Quiz：外表面壓跡、切跡、緣、面、裂與肺門** | 等我審核（需人工審核，不自動 merge；45 題、第一級與第二級、同義名稱 26 列待核對） | #132 | 只出模型真的有的構造；沒有：右上葉支氣管、中間支氣管、肺門淋巴結、肺門處胸膜返折；題庫表與缺的清單在「肺 Quiz」小節 |
 | **Quiz 題目範圍自由組合**（第二級也可只練神經／動脈等；類別 × 部位 × 左右側任意組合；第一級與第二級共用同一題庫，CI 比對） | 等我審核（需人工審核，不自動 merge；介面與邏輯為主，第二級題庫由 429 擴大為與第一級相同的 1097 題） | #137 | 類別：骨、肌肉、神經、動脈、靜脈、韌帶與筋膜、特殊空間與孔、器官結構；韌帶與筋膜只有肺韌帶 2 題，特殊空間與孔 0 題（題庫尚無這類構造，顯示「此範圍暫無題目」，沒有編造）；第二級原本排除的 668 個構造（資料卡欄位未填滿）改為照樣出題，答題後空白欄位顯示「尚無資料」；題數表 `docs/quiz-scope-counts.md`；`node scripts/check-quiz-banks.mjs` 已併入 `npm run check` |
-| 肺 PR 3：肺段 | 未開始 | — | PR 2 之後；左肺合併或分開計算要你決定 |
+| 肺 PR 3：肺段（開關、同色段支氣管與表面分區、資料卡、Quiz） | 等我審核（需人工審核，不自動 merge；PR 編號開出後補） | 見 PR | 右 10 段、左 8 段（合併）；段支氣管是模型真實網格，肺葉表面的區域是**示意分區**（依最近的段支氣管）；沒有：葉支氣管、段內體積與真實段間交界；顏色表與限制見「肺 PR 3」小節 |
 | 肺 PR 4：肺淋巴引流 | 未開始 | — | 較低優先 |
 | 肺 PR A／PR B | 已完成 | #112、#115 | — |
 | 心臟：打開心腔時隱藏細血管（含正式站修正：只畫四條主要冠狀血管的主幹、資訊卡不蓋住面板） | 已完成（已在正式站驗證） | #119、#124 | 主要血管網格內較短的側枝也被藏起來；分類清單在下方請核對 |
@@ -467,7 +528,7 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 
 **等你決定：**
 2. 腦神經：右側延髓補不補、VIII 與 IX 要不要帶進腦部模式、「外旋神經」改不改「外展神經」、「顏面神經」改不改「面神經」。
-3. 肺段：左肺 S1+2、S7+8 合併（8 段）或分開（10 段）。
+3. 肺段：你已決定左肺合併 8 段（已照做，PR 等你審核，見「肺 PR 3」小節的顏色表與限制）。
 4. 心臟細分支分類（左右緣支、竇房結動脈歸為細分支）。
 5. 血管：哪些剩下的間隙該相連（清單在 #125 的 REVIEW_LOG 可展開表）。
 6. 截圖放獨立分支 `pr-screenshots`（與 main 無共同歷史、永不 merge）的做法。
@@ -1013,7 +1074,7 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 - **判分規則**（請核對）：不分大小寫；忽略多餘空白、連字號、標點；忽略 the、muscle(s)；繁簡臺台視為相同；括號內別名與下表同義名稱都算對；英文、中文、不限三種作答語言；左右預設不要求（成對構造的 Left/Right 可省略），設定中可改為必須寫出；差 1–2 個字母（中文名四字以上差 1 字）判「接近正確」，顯示正確拼法並列入錯題；答案漏了「Left／Right」所屬的心房、心室（例如 atrium 對 Left atrium）判錯。
 - **鄰近構造**：依模型邊界框距離，優先同系統，每題 2–3 個，可點擊高亮。
 
-### Quiz 第二級同義名稱表（需人工審核，共 128 列）
+### Quiz 第二級同義名稱表（需人工審核，共 142 列；最後 14 列是肺 PR 3 的肺段）
 以下是除了構造自己的英文名、中文名與括號內別名以外，額外接受的答案。依跑考摘要的寫法為先，其餘為通行別名；請逐列核對，有誤的告訴我刪改。程式表在 `app/quiz/synonyms.ts`。
 
 | 構造（英文名，小寫，不含左右） | 額外接受的英文 | 額外接受的中文 |
@@ -1146,6 +1207,20 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 | main bronchus | primary bronchus；principal bronchus |  |
 | main bronchus proper | right main bronchus；right primary bronchus；main bronchus | 主支氣管、右主支氣管 |
 | bronchial artery | bronchial arteries |  |
+| apical segment of lung | apical segment；apical segment of right upper lobe；apical segment of upper lobe；apical；s1；segment 1；segment i | 尖段、上葉尖段、右上葉尖段、第一肺段、第1肺段 |
+| posterior segment of lung | posterior segment；posterior segment of right upper lobe；posterior segment of upper lobe；s2；segment 2；segment ii | 後段、上葉後段、右上葉後段、第二肺段、第2肺段 |
+| anterior segment of lung | anterior segment；anterior segment of right upper lobe；anterior segment of upper lobe；s3；segment 3；segment iii；anterior segment of left upper lobe | 前段、上葉前段、右上葉前段、第三肺段、第3肺段、左上葉前段 |
+| lateral segment of lung | lateral segment；lateral segment of right middle lobe；lateral segment of middle lobe；lateral segment of right lung；s4；segment 4；segment iv | 外側段、中葉外側段、右中葉外側段、第四肺段、第4肺段 |
+| medial segment of lung | medial segment；medial segment of right middle lobe；medial segment of middle lobe；medial segment of right lung；s5；segment 5；segment v | 內側段、中葉內側段、右中葉內側段、第五肺段、第5肺段 |
+| superior segment of lung | superior segment；superior segment of right lower lobe；superior segment of lower lobe；apical segment of lower lobe；s6；segment 6；segment vi；superior segment of left lower lobe | 上段、下葉上段、右下葉上段、第六肺段、第6肺段、左下葉上段 |
+| medial basal segment of lung | medial basal segment；medial basal segment of right lower lobe；medial basal segment of lower lobe；cardiac segment；s7；segment 7；segment vii | 內基底段、下葉內基底段、右下葉內基底段、心段、第七肺段、第7肺段 |
+| anterior basal segment of lung | anterior basal segment；anterior basal segment of right lower lobe；anterior basal segment of lower lobe；s8；segment 8；segment viii | 前基底段、下葉前基底段、右下葉前基底段、第八肺段、第8肺段 |
+| lateral basal segment of lung | lateral basal segment；lateral basal segment of right lower lobe；lateral basal segment of lower lobe；s9；segment 9；segment ix；lateral basal segment of left lower lobe | 外基底段、下葉外基底段、右下葉外基底段、第九肺段、第9肺段、左下葉外基底段 |
+| posterior basal segment of lung | posterior basal segment；posterior basal segment of right lower lobe；posterior basal segment of lower lobe；s10；segment 10；segment x；posterior basal segment of left lower lobe | 後基底段、下葉後基底段、右下葉後基底段、第十肺段、第10肺段、左下葉後基底段 |
+| apicoposterior segment of lung | apicoposterior segment；apical posterior segment；apical-posterior segment；apical segment of left lung；posterior segment of left lung；apical segment；posterior segment；apical segment of left upper lobe；posterior segment of left upper lobe；apicoposterior segment of left upper lobe；s1+2；s1 s2；s1；s2；segment 1+2；segment 1；segment 2 | 尖後段、上葉尖後段、左上葉尖後段、尖段、後段、左上葉尖段、左上葉後段、第一二肺段、第1+2肺段、第1肺段、第2肺段 |
+| superior lingular segment of lung | superior lingular segment；superior lingula；superior segment of lingula；superior lingular segment of left upper lobe；upper lingular segment；s4；segment 4；segment iv | 上舌段、上葉上舌段、左上葉上舌段、第四肺段、第4肺段 |
+| inferior lingular segment of lung | inferior lingular segment；inferior lingula；inferior segment of lingula；inferior lingular segment of left upper lobe；lower lingular segment；s5；segment 5；segment v | 下舌段、上葉下舌段、左上葉下舌段、第五肺段、第5肺段 |
+| anteromedial basal segment of lung | anteromedial basal segment；anterior medial basal segment；anteromedial segment；medial basal segment；anterior basal segment；medial basal segment of left lung；anterior basal segment of left lung；medial basal segment of left lower lobe；anterior basal segment of left lower lobe；anteromedial basal segment of left lower lobe；s7+8；s7 s8；s7；s8；segment 7+8；segment 7；segment 8 | 前內基底段、下葉前內基底段、左下葉前內基底段、內基底段、前基底段、左下葉內基底段、左下葉前基底段、第七八肺段、第7+8肺段、第7肺段、第8肺段 |
 
 
 ### 需要你決定
