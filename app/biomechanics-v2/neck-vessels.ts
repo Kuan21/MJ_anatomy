@@ -20,11 +20,16 @@ export function createNeckVessels(atlas:Atlas,scene:T.Scene){
    rows.push({mesh,parent,system:v.system,base,head:bindBodyTissue(head,base),spine:bindBodyTissue(spine,base,true)});replaced.add(parent.id);
   }
  }
- function update(s:SceneState,explode:number){
+ const SELECT_COLOR=0x5DB89A;
+ /** `selectedName`: the vessel found by search (its mesh name): highlighted and the only row left under Isolate. */
+ function update(s:SceneState,explode:number,selectedName:string|null=null){
   const moving=s.bodyMotion?.region==='head'?buildBodyMotion(head,s.bodyMotion.pose):s.bodyMotion?.region==='spine'?buildBodyMotion(spine,s.bodyMotion.pose):null;
   const focus=s.focusParts?new Set(s.focusParts):null,hidden=new Set(s.hiddenParts??[]),selected=new Set(s.selected);
   for(const r of rows){
-   r.mesh.visible=explode<.01&&!hidden.has(r.parent.id)&&s.visible.includes(r.system)&&(!focus||focus.has(r.parent.id))&&(!s.isolate||selected.has(r.parent.id));
+   const picked=!!selectedName&&r.mesh.name===selectedName,hiddenByName=(s.hiddenNerves??[]).includes(r.mesh.name);
+   r.mesh.visible=!hiddenByName&&explode<.01&&(picked||(!hidden.has(r.parent.id)&&s.visible.includes(r.system)&&(!focus||focus.has(r.parent.id))&&(!s.isolate||selected.has(r.parent.id))));
+   {const m=r.mesh.material,base=r.system==='venous'?0x4485aa:0xbc4447,color=picked?SELECT_COLOR:base,emissive=picked?SELECT_COLOR:0;
+    if(m.color.getHex()!==color||m.emissive.getHex()!==emissive){m.color.setHex(color);m.emissive.setHex(emissive);m.emissiveIntensity=picked?.35:0;}}
    // Deformation is a pure function of (region, palette); update() runs for every viewer state change. A row still at its
    // source shape already has the source normals computed in add().
    const region=moving?s.bodyMotion!.region:'',palette=moving?moving.palette:NO_PALETTE,previous=r.posed;

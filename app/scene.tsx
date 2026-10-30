@@ -1094,7 +1094,7 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
    const moving=Math.abs(amount-s.explode)>.0001;
    if(moving){amount=T.MathUtils.damp(amount,s.explode,8,dt);dirty=true;}
    if(changed||moving||tissueChanged||lastExtent<0){
-    supplementaryJoints.update(s,amount,!!s.previewMotion,selectedNerve.current);cervicalVessels.update(s,amount);
+    supplementaryJoints.update(s,amount,!!s.previewMotion,selectedNerve.current);cervicalVessels.update(s,amount,selectedNerve.current);
     const visible=new Set(s.visible),selection=new Set(s.selected),hidden=new Set(s.hiddenParts??[]),focus=s.focusParts?new Set(s.focusParts):null;const rangeIds=new Set(s.spaceRange?.length?s.spaceRangeIds??[]:[]),contentCodes=new Map<string,number>();for(const id of s.spaceContentIds??[]){const sys=atlas.parts.find(q=>q.id===id)?.system;contentCodes.set(id,sys==='arterial'?220:sys==='venous'?190:sys==='nervous'?160:sys==='lymphatic'?130:255);}
     const fadedSet=s.fadedParts?.length||autoFade?.size?new Set([...(s.fadedParts??[]),...(autoFade??[])]):null;
     const cranialVault=/^(frontal bone|left parietal bone|right parietal bone|left temporal bone|right temporal bone|occipital bone|sphenoid bone|ethmoid)$/i;
@@ -1200,7 +1200,7 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
     atlas.parts.forEach((p,i)=>{if(!wanted.has(p.id))return;const replacement=s.visible.includes(p.system)&&!(s.hiddenParts??[]).includes(p.id)&&(!s.focusParts||s.focusParts.includes(p.id))&&(cervicalVessels.replaced.has(p.id)||brainPickers.some(m=>m.visible&&m.userData.mjAtlasId===p.id));if(data[i*4+3]<.5&&!replacement)return;const mesh=pickers[i];box.union(mesh?(mesh.geometry.boundingBox??bounds[i]).clone().applyMatrix4(mesh.matrixWorld):bounds[i].clone());});
     if(s.cameraFocusRange){const rg=s.cameraFocusRange;box.union(new T.Box3(new T.Vector3(rg.c[0]-rg.r,rg.c[1]-rg.r,rg.c[2]-rg.r),new T.Vector3(rg.c[0]+rg.r,rg.c[1]+rg.r,rg.c[2]+rg.r)));}
     if(s.cameraFocusNerve)for(const o of nerveMeshes){if(((o.userData.mjExactName as string|undefined)||o.name)===s.cameraFocusNerve){o.updateWorldMatrix(true,false);box.union(new T.Box3().setFromObject(o));}}
-    if(s.cameraFocusNerve)for(const r of supplementaryJoints.rows){if(r.mesh.name===s.cameraFocusNerve){r.mesh.updateWorldMatrix(true,false);box.union(new T.Box3().setFromObject(r.mesh));}}
+    if(s.cameraFocusNerve)for(const r of [...supplementaryJoints.rows,...cervicalVessels.rows]){if(r.mesh.name===s.cameraFocusNerve){r.mesh.updateWorldMatrix(true,false);box.union(new T.Box3().setFromObject(r.mesh));}}
     if(!box.isEmpty()){
      const center=box.getCenter(new T.Vector3()),dir=s.cameraFocusRange?new T.Vector3(...s.cameraFocusRange.dir).normalize():s.cameraFocusDir?new T.Vector3(...s.cameraFocusDir).normalize():camera.position.clone().sub(controls.target).normalize();
      const rect=el.getBoundingClientRect(),w=el.clientWidth,h=el.clientHeight;

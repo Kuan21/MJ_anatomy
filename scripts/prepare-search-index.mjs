@@ -19,8 +19,8 @@ for (const c of nerves.chunks) for (const m of c.meshes) {
 // joints: only the tissues the viewer draws (includeJoint), named as the scene names their meshes so a search result can be highlighted and framed
 for (const n of glb('joints.glb').nodes) {const raw = String(n.extras?.za_name ?? n.name ?? '').replaceAll('_', ' '); if (raw && includeJoint(raw.toLowerCase())) entries.push({n: side(n.name) + lc(clean(n.name)), s: 'connective', k: 'joint', raw});}
 for (const n of glb('brain.glb').nodes) if (n.extras?.bx_label) entries.push({n: (n.extras.bx_side === 'left' ? 'Left ' : n.extras.bx_side === 'right' ? 'Right ' : '') + lc(n.extras.bx_label.replace(/\*/g, '').trim()), s: 'nervous', k: 'brain'});
-// neck vessels: the atlas vessel each one replaces, so choosing it selects that atlas structure
-for (const v of JSON.parse(gunzipSync(read('neck-vessels.json.gz'))).vessels) entries.push({n: capSide(side(v.name) + lc(clean(v.name))), s: v.system, k: 'vessel', raw: v.name, p: v.parentId});
+// neck vessels: named as the scene names their meshes so a search result can be highlighted and framed
+for (const v of JSON.parse(gunzipSync(read('neck-vessels.json.gz'))).vessels) entries.push({n: capSide(side(v.name) + lc(clean(v.name))), s: v.system, k: 'vessel', raw: v.name});
 const unique = [...new Map(entries.map(e => [e.k + ':' + (e.raw ?? e.n), e])).values()];
 fs.writeFileSync(new URL('search-extras.json.gz', models), gzipSync(Buffer.from(JSON.stringify(unique)), {level: 9}));
 console.log(`Search index extras: ${unique.length} structures outside the atlas concepts (nerves ${unique.filter(e => e.k === 'nerve').length}, joints ${unique.filter(e => e.k === 'joint').length}, brain ${unique.filter(e => e.k === 'brain').length}, neck vessels ${unique.filter(e => e.k === 'vessel').length}).`);
