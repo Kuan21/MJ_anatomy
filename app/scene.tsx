@@ -57,9 +57,9 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
   const failedSupplementary:SupplementaryTask[]=[];
   let renderer:T.WebGLRenderer;
   const headCut=new T.Plane(new T.Vector3(0,1,0),-clavicleLevel(atlas.parts));
-  try{renderer=new T.WebGLRenderer({antialias:!constrainedDevice,alpha:false,powerPreference:'high-performance'});}catch{onError('This browser could not start the 3D viewer. Please try a browser with WebGL enabled.');return;}
+  try{renderer=new T.WebGLRenderer({antialias:!constrainedDevice,alpha:false,powerPreference:'high-performance'});}catch{onError('這個瀏覽器無法啟動 3D 檢視器，請改用支援 WebGL 的瀏覽器。');return;}
   renderer.setPixelRatio(Math.min(devicePixelRatio,constrainedDevice?1:innerWidth<768?1.5:2));renderer.setClearColor('#cbd2d6');renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;el.appendChild(renderer.domElement);
-  renderer.domElement.setAttribute('aria-label','Interactive human anatomy. Drag to orbit, pinch or scroll to zoom, and tap a structure to inspect it.');
+  renderer.domElement.setAttribute('aria-label','互動式人體解剖：拖曳旋轉、捏合或滾輪縮放、點選構造查看說明。');
   const scene=new T.Scene(),camera=new T.PerspectiveCamera(34,1,.005,100),controls=new OrbitControls(camera,renderer.domElement);
   type NerveMesh=T.Mesh<T.BufferGeometry,T.MeshStandardMaterial>;
   const bodyRigs={head:makeBodyRig(atlas,'head'),spine:makeBodyRig(atlas,'spine'),leftLeg:makeBodyRig(atlas,'leftLeg'),rightLeg:makeBodyRig(atlas,'rightLeg')};
@@ -277,7 +277,7 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
     const scale=Math.min(ts.x/Math.max(ss.x,1e-6),ts.y/Math.max(ss.y,1e-6),ts.z/Math.max(ss.z,1e-6))*.97;
     brainVisualRoot.scale.setScalar(scale);brainVisualRoot.position.copy(tc).addScaledVector(sc,-scale);brainVisualRoot.updateMatrixWorld(true);
     brainLoaded=true;lastState=null;dirty=true;resolve();
-   },undefined,err=>{bi++;if(bi<brainUrls.length)attempt();else reject(err);});attempt();}),()=>onError('腦模型載入失敗，請重新載入頁面。Brain Project model failed to load.'));
+   },undefined,err=>{bi++;if(bi<brainUrls.length)attempt();else reject(err);});attempt();}),()=>onError('腦模型載入失敗，請重新載入頁面。'));
   };
   const updateBrainMotion=(s:SceneState)=>{
    const m=new T.Matrix4();
@@ -1232,7 +1232,7 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
   };animate();
   // ?mjview=1 exposes the camera for the screenshot scripts (view a structure from a chosen side and distance); nothing in the app uses it.
   if(typeof location!=='undefined'&&new URLSearchParams(location.search).has('mjview'))(window as unknown as {__mjView:unknown}).__mjView={look:(target:[number,number,number],dir:[number,number,number],distance:number)=>{controls.target.set(...target);camera.clearViewOffset();focusTarget=null;focusPosition=null;camera.position.set(target[0]+dir[0]*distance,target[1]+dir[1]*distance,target[2]+dir[2]*distance);controls.update();dirty=true;},focusing:()=>!!(focusTarget&&focusPosition),partsState:(rx:string)=>atlas.parts.map((p,i)=>({id:p.id,name:p.name,visible:data[i*4+3],faded:selectedData[i*4+2],picker:!!pickers[i]})).filter(x=>new RegExp(rx,'i').test(x.name))};
-  const contextLost=(e:Event)=>{e.preventDefault();onError('The 3D session was paused by your device. Reload to continue.');};renderer.domElement.addEventListener('webglcontextlost',contextLost);
+  const contextLost=(e:Event)=>{e.preventDefault();onError('裝置已暫停 3D 畫面，請重新載入以繼續。');};renderer.domElement.addEventListener('webglcontextlost',contextLost);
   return()=>{labelLayer.remove();plLayer.remove();disposed=true;shoulderWorker?.terminate();retryLoad.current=null;abort.abort();cancelAnimationFrame(frame);observer.disconnect();controls.dispose();cervicalVessels.dispose();supplementaryJoints.dispose();draco.dispose();geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());scene.traverse(o=>{if(o instanceof T.Mesh&&!geometries.includes(o.geometry)){o.geometry.dispose();const ms=Array.isArray(o.material)?o.material:[o.material];ms.forEach(m=>m.dispose());}});env.dispose();partTexture.dispose();selectionTexture.dispose();motionTexture.dispose();rotationTexture.dispose();anchorMotionTexture.dispose();anchorRotationTexture.dispose();paletteTexture.dispose();markerGeometry.dispose();markerMaterial.dispose();hover.remove();renderer.dispose();renderer.domElement.remove();};
  },[atlas]);
  useEffect(()=>{if(retryNonce>0)retryLoad.current?.();},[retryNonce]);
