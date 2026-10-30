@@ -28,6 +28,7 @@ import {resolveArmCollision} from './mj-arm-collision';
 import {HAND_PRESETS} from './mj-hand-presets';
 import {buildUpperLimbMotion,constrainPose,MOTION_LIMITS,NEUTRAL_POSE,type MotionPose,type Side} from './mj-motion';
 import BodyControls from './biomechanics-v2/body-controls';
+import {DIGIT_KEYS} from './biomechanics-v2/digits';
 import {makeBodyRig,buildBodyMotion,BODY_NEUTRAL,type BodyRegion,type BodyPose} from './biomechanics-v2/body-motion';
 import {JOINT_TYPES} from './mj-joints';
 import {matchesMuscleLayer,MUSCLE_LAYER_REGIONS,MUSCLE_LAYER_SOURCE,layerOrders,layerMembers,partsForLayerMuscles,layerRegionsFor,layerRegionLabel,layerGroupLabel,LAYER_GROUP_OF,type MuscleLayer} from './mj-muscle-layers';
@@ -68,21 +69,7 @@ const UPPER_MOTION_CONTROLS:{key:keyof MotionPose;label:string;action:UpperMotio
  {key:'wristFlexion',label:'腕屈曲（＋）／伸展（－）',action:'wristExtension'},
  {key:'wristDeviation',label:'腕尺偏（＋）／橈偏（－）',action:'wristExtension'},
 ];
-// Fingers: five digits, each with its own joints (MCP＝掌指關節, PIP＝近端指間關節, DIP＝遠端指間關節; thumb CMC＝腕掌關節, IP＝指間關節).
-const FINGER_NAMES:[string,string][]=[['index','食指'],['middle','中指'],['ring','無名指'],['little','小指']];
-const FINGER_CONTROLS:{key:keyof MotionPose;label:string}[]=[
- {key:'thumbCmcFlexion',label:'拇指腕掌關節屈曲（＋）／伸展（－）'},
- {key:'thumbCmcAbduction',label:'拇指外展（＋）'},
- {key:'thumbOpposition',label:'拇指對掌（＋）'},
- {key:'thumbMcpFlexion',label:'拇指掌指關節屈曲（＋）'},
- {key:'thumbIpFlexion',label:'拇指指間關節屈曲（＋）／伸展（－）'},
- ...FINGER_NAMES.flatMap(([id,zh])=>[
-  {key:`${id}McpFlexion` as keyof MotionPose,label:`${zh}掌指關節屈曲（＋）／伸展（－）`},
-  {key:`${id}McpAbduction` as keyof MotionPose,label:`${zh}外展（＋）／內收（－）`},
-  {key:`${id}PipFlexion` as keyof MotionPose,label:`${zh}近端指間關節屈曲（＋）`},
-  {key:`${id}DipFlexion` as keyof MotionPose,label:`${zh}遠端指間關節屈曲（＋）`}
- ])
-];
+// Fingers: no sliders, only the gesture presets (HAND_PRESETS); the joints of the digits are moved together and eased in over half a second.
 const REGIONAL_VISIBLE:SystemId[]=['skeletal','muscular','arterial','venous','nervous','connective'];
 const ORGAN_SYSTEM_IDS:SystemId[]=['cardiac','serous','sensory','respiratory','digestive','urinary','lymphatic','endocrine','reproductive'];
 // The three pericardial layers belong to the heart: they start hidden here and are shown in the heart detail mode (心).
@@ -258,8 +245,16 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const applyMotionPose=(pose:MotionPose,side:'both'|Side=studySide)=>{if(!atlas||!motionEnabled)return;requestedPose.current={pose,side};motionTargetRef.current=constrainPose(pose);motionInputSide.current=side;if(smoothMotionFrame.current!==null)return;smoothMotionFrame.current=requestAnimationFrame(()=>{smoothMotionFrame.current=null;const request=requestedPose.current;requestedPose.current=null;if(!request||!atlas)return;let target=constrainPose(request.pose),block='';for(const arm of request.side==='both'?(['left','right'] as Side[]):[request.side]){const r=resolveArmCollision(atlas,arm,target);target=r.pose;if(r.limited&&r.contact)block=`${r.contact.segment==='hand'?'手':r.contact.segment==='forearm'?'前臂':'上臂'}已碰到${r.contact.body==='head'?'頭部':r.contact.body==='neck'?'頸部':'軀幹'}，角度已依人體活動度限制，避免穿過身體。`;}motionTargetRef.current=target;setMotionBlock(block);setMotionPose(target);commitMotionPose(target,request.side);});};
  const activateMotionSide=(side:Side)=>{if(!atlas||!motionEnabled)return;stopMotionAnimation();setTopRegion('upper');setMotionSide(side);setStudySide(side);motionTargetRef.current=NEUTRAL_POSE;motionPoseRef.current=NEUTRAL_POSE;setMotionPose(NEUTRAL_POSE);setMotionEdit(true);const ids=filterSide(motionRegionIds('upper'),side),built=buildUpperLimbMotion(atlas,side,NEUTRAL_POSE);if(built.warnings.length)setError(built.warnings.join(' '));else setError('');setState(s=>({...s,focusParts:ids,cameraFocusParts:ids,cameraFocusNonce:(s.cameraFocusNonce??0)+1,bodyMotion:undefined,partTransforms:built.transforms,selected:[],isolate:false,explode:0,rotate:false}));};
  const setJoint=(key:keyof MotionPose,value:number)=>{applyMotionPose({...motionTargetRef.current,[key]:value});};
+ /** Eases the digits from the current pose to a gesture over half a second (the other joints stay as they are). */
+ const gestureFrame=useRef<number|null>(null);
+ const playGesture=(to:Partial<MotionPose>)=>{
+  if(gestureFrame.current!==null)cancelAnimationFrame(gestureFrame.current);
+  const from=motionTargetRef.current,t0=performance.now();
+  const step=(now:number)=>{const u=Math.min(1,(now-t0)/500),e=u*u*(3-2*u),digits=Object.fromEntries(DIGIT_KEYS.map(k=>[k,from[k]+((to[k]??0)-from[k])*e]));applyMotionPose({...motionTargetRef.current,...digits});gestureFrame.current=u<1?requestAnimationFrame(step):null;};
+  gestureFrame.current=requestAnimationFrame(step);
+ };
  const nudgeJoint=(side:Side,key:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion',delta:number)=>{if(!atlas||!motionEnabled)return;setMotionSide(side);setStudySide(side);const limits=MOTION_LIMITS[key],base=motionTargetRef.current,value=Math.max(limits[0],Math.min(limits[1],base[key]+delta)),pose={...base,[key]:value};applyMotionPose(pose,side);};
- const neutralMotion=()=>{applyMotionPose(NEUTRAL_POSE);};
+ const neutralMotion=()=>{stopMotionAnimation();applyMotionPose(NEUTRAL_POSE);};
  const chooseMotionAction=(action:UpperMotionAction)=>setMotionAction(action);
  const upperActionKey=UPPER_MOTION_KEY[motionAction],upperActionLimit=MOTION_LIMITS[upperActionKey];
  const pullMotion=(value:number)=>applyMotionPose({...motionTargetRef.current,[upperActionKey]:value});
@@ -334,7 +329,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
   const wantedSide=target==='leftLeg'?'left':'right';
   return [...atlas.parts.filter(p=>anatomicalRegion(p)==='lower-limb'&&(anatomicalSide(p)===wantedSide||anatomicalSide(p)==='midline')).map(p=>p.id),...skinIds()];
  };
- const stopMotionAnimation=()=>{if(smoothMotionFrame.current!==null)cancelAnimationFrame(smoothMotionFrame.current);smoothMotionFrame.current=null;};
+ const stopMotionAnimation=()=>{if(gestureFrame.current!==null){cancelAnimationFrame(gestureFrame.current);gestureFrame.current=null;}if(smoothMotionFrame.current!==null)cancelAnimationFrame(smoothMotionFrame.current);smoothMotionFrame.current=null;};
  const enterUpperMotion=()=>{if(!atlas)return;stopMotionAnimation();setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;motionTargetRef.current=NEUTRAL_POSE;setMicroAtlas(null);setStudySide('both');setTopRegion('upper');setRegion('whole-body');setMotionEdit(true);const ids=motionRegionIds('upper');setState(s=>({...s,bodyMotion:undefined,partTransforms:undefined,focusParts:ids,cameraFocusParts:ids,cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:.82,selected:[],isolate:false,explode:0,rotate:false}));};
  const enterLowerMotion=()=>changeBody('rightLeg',{...BODY_NEUTRAL},true);
  /** Side chooser beside the region menu (upper limb and lower limb): shows one limb with the trunk structures that belong to it, camera on it; the other side is hidden or, with 淡化, drawn faded. */
@@ -491,10 +486,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
      {UPPER_MOTION_CONTROLS.map(control=><MotionPullControl key={control.key} label={control.label} value={motionPose[control.key]} min={MOTION_LIMITS[control.key][0]} max={MOTION_LIMITS[control.key][1]} disabled={!motionEnabled} onValueChange={value=>{setMotionAction(control.action);setJoint(control.key,value);}}/>)}
     </div>
     <details className="mj-finger-lab"><summary>手指｜Fingers</summary>
-     <div className="mj-hand-presets" role="group" aria-label="手勢預設">{HAND_PRESETS.map(h=><Button key={h.id} variant="ghost" disabled={!motionEnabled} onClick={()=>{setMotionAction('wristExtension');applyMotionPose({...motionTargetRef.current,...h.pose});}}>{h.label}</Button>)}</div>
-     <div className="motion-control-stack">
-      {FINGER_CONTROLS.map(control=><MotionPullControl key={control.key} label={control.label} value={motionPose[control.key]} min={MOTION_LIMITS[control.key][0]} max={MOTION_LIMITS[control.key][1]} disabled={!motionEnabled} onValueChange={value=>{setMotionAction('wristExtension');setJoint(control.key,value);}}/>)}
-     </div>
+     <div className="mj-hand-presets" role="group" aria-label="手勢預設">{HAND_PRESETS.map(h=><Button key={h.id} variant="ghost" disabled={!motionEnabled} onClick={()=>{setMotionAction('wristExtension');const current=motionTargetRef.current,same=(g:Partial<MotionPose>)=>DIGIT_KEYS.every(k=>Math.abs(current[k]-(g[k]??0))<1);playGesture(h.id==='open'&&same(h.pose)?{}:h.pose);}}>{h.label}</Button>)}</div>
     </details>
     <small className="mj-motion-note">0° 為人體放鬆中立位；正負角度代表相反方向。所有角度都可以直接拖動，毋須先選動作。</small>
     <MotionAnatomyPanel anatomy={UPPER_ACTION_ANATOMY[motionAction]} onInspect={inspectMotionStructure}/>
