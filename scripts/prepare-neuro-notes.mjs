@@ -8,6 +8,7 @@
 import fs from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {quizModule} from './quiz-modules.mjs';
+import {isAliasName} from './lib/notes-leak.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url)), check = process.argv.includes('--check'), draft = process.argv.includes('--draft') ? process.argv.slice(process.argv.indexOf('--draft') + 1) : null;
 const texts = {};
@@ -52,6 +53,7 @@ const byId = new Map(notes.structures.map(s => [s.id.replace('neuro-', ''), s]))
 const entry = id => cur.entries['neuro-' + id];
 const resolve = id => {const seen = new Set(); let e = entry(id); while (e?.merge) {if (seen.has(id)) throw new Error(`merge loop at ${id}`); seen.add(id); id = e.merge; e = entry(id);} return id;};
 const cards = new Map();
+let droppedAliases = 0;
 for (const [id, s] of byId) {
   const e = entry(id); if (!e) throw new Error(`neuro-${id} is not in the curation`);
   if (e.drop) continue;
@@ -100,7 +102,11 @@ for (const card of cards.values()) {
   card.fields = (texts[card.id] ?? []).map(([label, items]) => ({label, items}));
   delete card.excerpts;
   if (card.fields.length) delete card.noBody;
-  card.aka = card.aka.filter((a, i, all) => (a.en || a.zh) && all.findIndex(b => b.en === a.en && b.zh === a.zh) === i && a.en !== card.en && a.zh !== card.zh);
+  // an alias is another name of the structure: figure references, comparison rows and sentence fragments from the notes' extraction are dropped (counted, never shown)
+  const lower = v => (v ?? '').toLowerCase();
+  card.aka = card.aka.map(a => ({...(a.en && {en: a.en.trim()}), ...(a.zh && {zh: a.zh.trim()})})).filter(a => a.en || a.zh);
+  droppedAliases += card.aka.filter(a => !isAliasName(a)).length;
+  card.aka = card.aka.filter(isAliasName).filter((a, i, all) => all.findIndex(b => lower(b.en) === lower(a.en) && b.zh === a.zh) === i && lower(a.en) !== lower(card.en) && a.zh !== card.zh);
   if (!card.aka.length) delete card.aka;
   if (!card.approx.length) delete card.approx;
   if (!card.mesh.length) delete card.mesh;
@@ -160,4 +166,4 @@ const write = (file, text) => {
 };
 write(root + 'public/models/brain/neuro-cards.json', outText);
 write(root + 'docs/neuro-notes-vs-model.md', table);
-console.log(`Neuro notes: ${total} extracted → ${kept} cards (${withMesh} with a model structure, ${approxOnly} approximate, ${none} note-only; ${empty} without lecture text; ${list.filter(c => c.fields.length).length} texts written); ${merged} merged, ${dropped} dropped.`);
+console.log(`Neuro notes: ${total} extracted → ${kept} cards (${withMesh} with a model structure, ${approxOnly} approximate, ${none} note-only; ${empty} without lecture text; ${list.filter(c => c.fields.length).length} texts written); ${merged} merged, ${dropped} dropped; ${droppedAliases} alias fragments dropped.`);
