@@ -1,16 +1,15 @@
-import {structureCard} from './card';
 import {cleanKey} from './naming';
 /** Left/right belongs to the name of a midline structure (left atrium); for a paired one it is the side. */
 const identity = (s: QuizStructure) => `${s.side === 'midline' ? s.name.toLowerCase().replace(/\s+/g, ' ').trim() : cleanKey(s.name)}|${s.side}`;
 import type {QuizCatalogue, QuizSettings, QuizStructure} from './catalogue';
 import {questionPool} from './catalogue';
 
-/** Level 2 (看結構寫名稱) only asks about a structure that has a model, a Chinese name, a complete data card, and a name no other structure of the region shares
- * (so the typed name has one right answer). Everything else stays out of the pool and is listed in REVIEW_LOG.md. */
-export type Exclusion = 'no-chinese-name' | 'card-incomplete' | 'name-not-unique';
+/** Levels 1 and 2 share ONE question bank (scripts/check-quiz-banks.mjs fails the build when they differ). Level 2 (看結構寫名稱) can ask any structure that has a model,
+ * a Chinese name, and a name no other structure of the region shares (so the typed name has one right answer). A structure whose data card still has empty fields is
+ * asked as well: the answer card then shows 「尚無資料」 for those fields (listed in docs/quiz-card-gaps.md). A structure that cannot be asked is a build failure, not a silent drop. */
+export type Exclusion = 'no-chinese-name' | 'name-not-unique';
 export function exclusionOf(structure: QuizStructure, counts: Map<string, number>): Exclusion | null {
   if (!structure.chinese) return 'no-chinese-name';
-  if (structureCard(structure).missing.length) return 'card-incomplete';
   if ((counts.get(identity(structure)) ?? 0) > 1) return 'name-not-unique';
   return null;
 }

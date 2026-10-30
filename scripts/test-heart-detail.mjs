@@ -75,6 +75,33 @@ assert.ok(heart.parts.filter(p => p.group === 'valves').length === 11 && heart.p
   for (const p of heart.parts.filter(p => p.group === 'valves' || p.group === 'papillary')) assert.ok(owner.has(p.name), `${p.name} is shown when its chamber opens`);
 }
 
+// auricles: separate, closed, outward-facing bodies drawn with the chambers (visible on the closed heart); every schematic surface is smooth (no stair-stepped
+// rows of whole triangles: only a small share of the interior edges may fold by more than 60 degrees)
+{
+  const geometry = p => {const r = raws[p.chunk]; return {pos: new Float32Array(r.buffer.slice(r.byteOffset + p.positions, r.byteOffset + p.positions + p.vertexCount * 12)), idx: new Uint32Array(r.buffer.slice(r.byteOffset + p.indices, r.byteOffset + p.indices + p.indexCount * 4))};};
+  const edges = ({pos, idx}) => {
+    const faces = new Map(), normal = [];
+    for (let t = 0; t < idx.length; t += 3) {
+      const [a, b, c] = [idx[t], idx[t + 1], idx[t + 2]], u = [0, 1, 2].map(k => pos[b * 3 + k] - pos[a * 3 + k]), v = [0, 1, 2].map(k => pos[c * 3 + k] - pos[a * 3 + k]);
+      const n = [u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0]], l = Math.hypot(...n) || 1; normal.push(n.map(x => x / l));
+      for (const [i, j] of [[a, b], [b, c], [c, a]]) {const key = i < j ? `${i}_${j}` : `${j}_${i}`; (faces.get(key) ?? faces.set(key, []).get(key)).push(t / 3);}
+    }
+    return {faces, normal};
+  };
+  const sharp = g => {const {faces, normal} = edges(g); let n = 0, total = 0; for (const f of faces.values()) if (f.length === 2) {total++; const d = normal[f[0]][0] * normal[f[1]][0] + normal[f[0]][1] * normal[f[1]][1] + normal[f[0]][2] * normal[f[1]][2]; if (d < .5) n++;} return total ? n / total : 0;};
+  for (const name of ['Right auricle', 'Left auricle']) {
+    const p = heart.parts.find(q => q.name === name), g = geometry(p), {faces} = edges(g);
+    assert.equal(p.group, 'chambers', `${name}: drawn with the chambers, visible on the closed heart`);
+    assert.ok([...faces.values()].every(f => f.length === 2), `${name}: closed body (every edge shared by two triangles)`);
+    let volume = 0; for (let t = 0; t < g.idx.length; t += 3) {const [a, b, c] = [0, 1, 2].map(k => [0, 1, 2].map(x => g.pos[g.idx[t + k] * 3 + x])); volume += (a[0] * (b[1] * c[2] - b[2] * c[1]) - a[1] * (b[0] * c[2] - b[2] * c[0]) + a[2] * (b[0] * c[1] - b[1] * c[0])) / 6;}
+    assert.ok(volume > 0, `${name}: triangles face outwards`);
+  }
+  for (const p of heart.parts.filter(q => q.origin === '示意構造' && q.group !== 'pericardium' && !/Transverse|Oblique/.test(q.name))) {
+    const share = sharp(geometry(p));
+    assert.ok(share < (/Trabecul|Pectinate|Septomarginal|Crista|crest/.test(p.name) ? .08 : .06), `${p.name}: smooth surface (${(share * 100).toFixed(1)} % of edges fold by more than 60 degrees)`);
+  }
+}
+
 // place in the atlas: the chambers sit on the atlas heart (centre within 25 mm)
 const {normalizeAtlasSystems} = await quizModule('app/mj-system-classifier.ts');
 const atlas = normalizeAtlasSystems(JSON.parse(fs.readFileSync(new URL('atlas.json', models), 'utf8')));

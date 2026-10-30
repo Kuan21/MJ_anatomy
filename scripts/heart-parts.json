@@ -591,7 +591,7 @@
   {
    "name": "Right auricle",
    "zh": "右心耳",
-   "group": "interior",
+   "group": "chambers",
    "system": "cardiac",
    "build": [
     "Right auricle"
@@ -602,13 +602,13 @@
   {
    "name": "Left auricle",
    "zh": "左心耳",
-   "group": "interior",
+   "group": "chambers",
    "system": "cardiac",
    "build": [
     "Left auricle"
    ],
-   "zhDesc": "左心房向前突出的細長小囊，位於肺動脈幹左側，內壁有梳狀肌；心房顫動時血栓好發於此。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
-   "enDesc": "The narrow pouch projecting forward from the left atrium beside the pulmonary trunk; its wall has pectinate muscles and thrombus forms here in atrial fibrillation. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+   "zhDesc": "左心房向前突出的手指狀（鉤狀）小囊，沿肺動脈幹左側貼附、繞向其前方，邊緣有淺缺口，內壁有梳狀肌；心房顫動時血栓好發於此。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "The finger- or hook-shaped pouch projecting forward from the left atrium along the left side of the pulmonary trunk, with a notched margin; its wall has pectinate muscles and thrombus forms here in atrial fibrillation. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
   },
   {
    "name": "Interventricular septum",

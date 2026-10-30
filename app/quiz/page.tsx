@@ -2,7 +2,7 @@ import {useEffect, useMemo, useRef, useState} from 'react';
 import {PronounceButton} from '../pronunciation/PronounceButton';
 import {AlertCircle, ArrowLeft, ArrowRight, Check, CheckCircle2, ChevronRight, Eye, Layers, Maximize2, Pencil, RotateCcw, Shuffle, Target, Trash2, X, XCircle} from 'lucide-react';
 import {fetchModelBuffer} from '../model-download';
-import {QUIZ_REGIONS, QUIZ_SYSTEMS, questionPool, type QuizCatalogue, type QuizRegionId, type QuizSettings, type QuizStructure} from './catalogue';
+import {QUIZ_CATEGORIES, categoryOf, QUIZ_REGIONS, QUIZ_SYSTEMS, questionPool, type QuizCatalogue, type QuizCategory, type QuizRegionId, type QuizSettings, type QuizStructure} from './catalogue';
 import {createSession, recordAnswer, recordTyped, retryMistakes, sessionOf, type QuizSession} from './engine';
 import {acceptedNames, judgeName, preferredName, relationOf, type AnswerLanguage} from './naming';
 import {namingPool, neighbours} from './level2';
@@ -74,13 +74,14 @@ const FIELD_ORDER: Record<string, string[]> = {
 };
 const order = (system: string) => FIELD_ORDER[system] ?? [];
 
-const defaults: QuizSettings = {section: 'all', systems: ['skeletal', 'muscular', 'nervous', 'arterial', 'venous'], side: 'right', count: 10};
+const ALL_CATEGORIES = QUIZ_CATEGORIES.map(c => c.id);
+const defaults: QuizSettings = {section: 'all', systems: ['skeletal', 'muscular', 'nervous', 'arterial', 'venous'], categories: ALL_CATEGORIES, side: 'right', count: 10};
 const LEVEL2_COUNTS = [5, 10, 20];
 
 export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: QuizRegionId} = {}) {
   const region = QUIZ_REGIONS[regionId];
   const [catalogue, setCatalogue] = useState<QuizCatalogue | null>(null), [catalogueError, setCatalogueError] = useState(''), [catalogueRetry, setCatalogueRetry] = useState(0);
-  const [settings, setSettings] = useState<QuizSettings>({...defaults, side: region.defaultSide ?? defaults.side, systems: region.systems ?? defaults.systems}), [phase, setPhase] = useState<'setup' | 'playing' | 'summary' | 'review'>('setup');
+  const [settings, setSettings] = useState<QuizSettings>({...defaults, side: region.defaultSide ?? defaults.side, systems: region.systems ?? defaults.systems, categories: ALL_CATEGORIES}), [phase, setPhase] = useState<'setup' | 'playing' | 'summary' | 'review'>('setup');
   const [session, setSession] = useState<QuizSession>({queue: [], answers: []}), [index, setIndex] = useState(0), [round, setRound] = useState(0);
   const [hidden, setHidden] = useState<string[]>([]), [peeling, setPeeling] = useState(false), [context, setContext] = useState(true);
   const [command, setCommand] = useState<{id: number; view: QuizView}>({id: 0, view: 'front'});
@@ -117,7 +118,8 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
   const picked = answer?.pickedId ? structures.get(answer.pickedId) : undefined;
   const section = region.sections.find(s => s.id === settings.section)!;
   const system = QUIZ_SYSTEMS.find(s => s.id === target?.system);
-  const systemChips = QUIZ_SYSTEMS.filter(s => region.systems ? region.systems.includes(s.id) : s.id !== 'cardiac' && s.id !== 'respiratory');
+  const category = target ? QUIZ_CATEGORIES.find(c => c.id === categoryOf(target)) : undefined;
+  const categories = settings.categories ?? ALL_CATEGORIES;
   const contextName = regionId === 'heart' ? '其他心臟構造' : regionId === 'lung' ? '其他肺構造' : '骨骼';
   const questionKey = `${round}:${index}:${target?.id ?? ''}`;
   const ready = readiness.key === questionKey && readiness.ready && !error;
@@ -179,7 +181,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
         <h1 ref={title} tabIndex={-1}>{region.headline[0]}<br/>{region.headline[1]}</h1>
         <p>{region.description[0]}<br/>{region.description[1]}</p>
         <div className="quiz-how">
-          <span><b>01</b>選擇部位與系統</span>
+          <span><b>01</b>選擇部位與題目範圍</span>
           <span><b>02</b>旋轉模型，點出答案</span>
           <span><b>03</b>對照顏色，再練錯題</span>
         </div>
@@ -199,11 +201,13 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
         <fieldset><legend><b>01</b> {regionId === 'thorax' ? '練習哪一類構造？' : '練習哪個部位？'}</legend>
           <div className="quiz-region-grid">{region.sections.map(r => <button data-slot="quiz-button" key={r.id} aria-pressed={settings.section === r.id} onClick={() => setSettings(s => ({...s, section: r.id}))}><span>{r.label}<small>{r.english}</small></span>{settings.section === r.id ? <Check size={17}/> : <ChevronRight size={15}/>}</button>)}</div>
         </fieldset>
-        <fieldset><legend><b>02</b> 選擇系統 <small>可選多個</small></legend>
-          <div className="quiz-system-grid">{systemChips.map(s => {
-            const count = catalogue ? questionPool(catalogue, {...settings, systems: [s.id]}).length : 0;
-            return <button data-slot="quiz-button" key={s.id} disabled={!!catalogue && !count} aria-pressed={settings.systems.includes(s.id)} onClick={() => setSettings(prev => ({...prev, systems: prev.systems.includes(s.id) ? prev.systems.filter(id => id !== s.id) : [...prev.systems, s.id]}))}><i style={{background: s.color}}/><span>{s.label}<small>{s.english}</small></span><span className="quiz-count">{count}</span><span className="quiz-checkbox">{settings.systems.includes(s.id) && <Check size={12}/>}</span></button>;
+        <fieldset><legend><b>02</b> 題目範圍 <small>可選多個，任意組合</small></legend>
+          <div className="quiz-system-grid quiz-category-grid">{QUIZ_CATEGORIES.map(c => {
+            const count = catalogue ? questionPool(catalogue, {...settings, categories: [c.id]}).length : 0;
+            const on = categories.includes(c.id);
+            return <button data-slot="quiz-button" key={c.id} data-category={c.id} disabled={!!catalogue && !count} aria-pressed={on} onClick={() => setSettings(prev => ({...prev, categories: (prev.categories ?? ALL_CATEGORIES).includes(c.id) ? (prev.categories ?? ALL_CATEGORIES).filter(id => id !== c.id) : [...(prev.categories ?? ALL_CATEGORIES), c.id]}))}><i style={{background: c.color}}/><span>{c.label}<small>{c.english}</small></span><span className="quiz-count">{count}</span><span className="quiz-checkbox">{on && <Check size={12}/>}</span></button>;
           })}</div>
+          <div className="quiz-category-tools"><button type="button" data-slot="quiz-button" className="quiz-text-button" onClick={() => setSettings(s => ({...s, categories: ALL_CATEGORIES}))}>全選</button><button type="button" data-slot="quiz-button" className="quiz-text-button" onClick={() => setSettings(s => ({...s, categories: []}))}>全部取消</button><span>灰色的類別在目前的部位與左右側下暫無題目</span></div>
         </fieldset>
         <div className="quiz-options-row">
           <fieldset><legend><b>03</b> 左右側</legend><div className="quiz-segmented">{([['right', '右側'], ['left', '左側'], ['both', '雙側']] as const).map(([id, label]) => <button data-slot="quiz-button" key={id} aria-pressed={settings.side === id} onClick={() => setSettings(s => ({...s, side: id}))}>{label}</button>)}</div></fieldset>
@@ -213,10 +217,10 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
           <fieldset><legend>作答語言 <small>Language</small></legend><div className="quiz-segmented">{([['en', '英文'], ['zh', '中文'], ['any', '任一']] as const).map(([id, label]) => <button data-slot="quiz-button" key={id} aria-pressed={language === id} onClick={() => setLanguage(id)}>{label}</button>)}</div></fieldset>
           <fieldset><legend>左右側 <small>Side</small></legend><label className="quiz-context-toggle"><input type="checkbox" checked={needSide} onChange={e => setNeedSide(e.target.checked)}/>需要答出左右</label></fieldset>
         </div>}
-        {level === 2 && catalogue && <p className="quiz-pool-note">第二級只出有模型、資料卡完整、名稱不與其他構造重複的構造：本範圍 {allInScope} 個構造中有 {pool.length} 個可出題。</p>}
+        {catalogue && <p className={`quiz-pool-note quiz-scope-count ${pool.length ? '' : 'is-empty'}`} role="status" aria-live="polite" data-count={pool.length}>{pool.length ? <>此範圍共 <b>{pool.length}</b> 題</> : '此範圍暫無題目'}{level === 2 && allInScope !== pool.length && <> （第一級共 {allInScope} 題）</>}</p>}
         {catalogue && savedHere.length > 0 && <div className="quiz-saved-row"><AlertCircle size={15}/><span>錯題本（{level === 1 ? '第一級' : '第二級'}）：{savedHere.length} 題</span><button data-slot="quiz-button" className="quiz-secondary" onClick={() => begin(sessionOf(savedHere))}><RotateCcw size={14}/>只練錯題</button><button data-slot="quiz-button" className="quiz-text-button" onClick={() => {clearMistakes(scope); setSaved([]);}}><Trash2 size={14}/>清除</button></div>}
         {catalogueError && <div className="quiz-error" role="alert">{catalogueError}<button data-slot="quiz-button" onClick={() => setCatalogueRetry(n => n + 1)}>重新載入目錄</button></div>}
-        <div className="quiz-start-row"><p>{!catalogue ? '正在準備題庫…' : !pool.length ? '請選擇有題目的系統。' : `本回 ${Math.min(settings.count, pool.length)} 題 · ${pool.length} 個可練習構造`}</p><button data-slot="quiz-button" className="quiz-primary" disabled={!pool.length} onClick={() => begin(createSession(pool, settings.count))}>開始測驗 <ArrowRight size={18}/></button></div>
+        <div className="quiz-start-row"><p>{!catalogue ? '正在準備題庫…' : !pool.length ? '請調整部位、題目範圍或左右側。' : `本回 ${Math.min(settings.count, pool.length)} 題 · ${pool.length} 個可練習構造`}</p><button data-slot="quiz-button" className="quiz-primary" disabled={!pool.length} onClick={() => begin(createSession(pool, settings.count))}>開始測驗 <ArrowRight size={18}/></button></div>
       </section>
     </div>}
 
@@ -224,7 +228,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
       <section className="quiz-stage" aria-label="點選模型作答">
         <QuizScene key={sceneRetry} catalogue={catalogue} view={{key: questionKey, target, section: settings.section, side: settings.side, answered: !!answer, pickedId: answer?.pickedId ?? null, hidden: autoHidden.length ? [...hidden, ...autoHidden] : hidden, context, peeling, command, mode: naming ? 'name' : 'find', clarity, only, highlightIds}}
           onReady={(key, value) => setReadiness({key, ready: value})} onProgress={(loaded, total) => setLoad({loaded, total})} onError={setError} onPick={choose} onMessage={setMessage}/>
-        <div className="quiz-stage-caption"><span>{section.id === 'all' ? region.sections.find(s => s.id === target.sections[0])?.label : section.label}</span><span>{system?.label} · {settings.side === 'both' ? '雙側' : settings.side === 'right' ? '右側' : '左側'}</span></div>
+        <div className="quiz-stage-caption"><span>{section.id === 'all' ? (naming ? region.label : region.sections.find(s => s.id === target.sections[0])?.label) : section.label}</span><span>{category?.label} · {settings.side === 'both' ? '雙側' : settings.side === 'right' ? '右側' : '左側'}</span></div>
         <div className="quiz-view-buttons" aria-label="模型視角"><button data-slot="quiz-button" onClick={() => changeView('front')}>前面</button><button data-slot="quiz-button" onClick={() => changeView('back')}>後面</button><button data-slot="quiz-button" onClick={() => changeView('side')}>側面</button>{regionId === 'lung' && <button data-slot="quiz-button" onClick={() => changeView('medial')}>內側面</button>}<button data-slot="quiz-button" onClick={() => changeView('fit')} aria-label="模型置中"><RotateCcw size={16}/></button>{naming && <><button data-slot="quiz-button" onClick={() => changeView('random')} aria-label="隨機角度"><Shuffle size={15}/>隨機</button><button data-slot="quiz-button" onClick={() => changeView('answer')} aria-label="放大至目標"><Maximize2 size={15}/>放大</button></>}</div>
         {!ready && !error && <div className="quiz-loading" role="status"><span className="quiz-spinner"/><strong>載入本題模型</strong><small>{load.loaded} / {load.total || '…'} 個模型套件</small></div>}
         {error && <div className="quiz-model-error" role="alert"><strong>暫時未能作答</strong><p>{error}</p><button data-slot="quiz-button" className="quiz-primary" onClick={() => {setError(''); setReadiness({key: '', ready: false}); setSceneRetry(n => n + 1);}}>重新載入模型</button></div>}
@@ -234,7 +238,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
       <aside className="quiz-question-card" aria-label="測驗題目">
         <div className="quiz-progress-label"><span>{region.label}辨認</span><b>{index + 1} <span>/ {session.queue.length}</span></b></div>
         <progress className="quiz-progress" value={session.answers.length} max={session.queue.length} aria-label="已作答題數"/>
-        <div className="quiz-question-heading"><span className="quiz-kicker">{naming ? (answer ? 'ANSWER · 答案' : 'NAME IT · 請寫出名稱') : answer ? 'ANSWER · 答案' : 'FIND IT · 請找出'}</span><span className="quiz-system-label" style={{borderColor: system?.color}}>{system?.label}</span></div>
+        <div className="quiz-question-heading"><span className="quiz-kicker">{naming ? (answer ? 'ANSWER · 答案' : 'NAME IT · 請寫出名稱') : answer ? 'ANSWER · 答案' : 'FIND IT · 請找出'}</span><span className="quiz-system-label" style={{borderColor: category?.color}}>{category?.label}</span></div>
         {naming ? <>
           {!answer ? <form className="quiz-name-form" onSubmit={e => {e.preventDefault(); submit();}}>
             <h1 className="quiz-target quiz-target-hidden" ref={title} tabIndex={-1}>黃色標示的是什麼構造？</h1>
@@ -266,7 +270,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
           <div className="quiz-answer-name"><span><i className="correct-dot"/>{answer.correct ? '綠色顯示' : '正確位置用綠色顯示'}</span><b><Name structure={target}/></b></div>
           <button data-slot="quiz-button" className="quiz-text-button" onClick={() => changeView('answer')}><Target size={15}/>放大正確位置</button>
         </div> : <div className="quiz-answer-tools">
-          <p>請在模型上直接點選你認為正確的{system?.label}。{target.system !== 'skeletal' && `淡色${contextName}僅供定位。`}</p>
+          <p>請在模型上直接點選你認為正確的{category?.label}。{target.system !== 'skeletal' && `淡色${contextName}僅供定位。`}</p>
           <button data-slot="quiz-button" className="quiz-tool-button" aria-pressed={peeling} disabled={!ready} onClick={() => {setPeeling(v => !v); setMessage('');}}><Layers size={17}/><span>{peeling ? '完成移開，返回作答' : '移開遮擋'}<small>{peeling ? '按下此鍵後，再點選模型作答' : '深層構造可先移開表面組織'}</small></span></button>
           {hidden.length > 0 && <button data-slot="quiz-button" className="quiz-text-button" onClick={() => {setHidden([]); setMessage('');}}><RotateCcw size={14}/>還原已移開的 {hidden.length} 個構造</button>}
           {target.system !== 'skeletal' && <label className="quiz-context-toggle"><input type="checkbox" checked={context} onChange={e => setContext(e.target.checked)}/>顯示淡色{contextName}定位</label>}
@@ -288,7 +292,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
       <h1 ref={title} tabIndex={-1}>{session.answers.length === session.queue.length ? '本回練習完成。' : '本回練習到此為止。'}</h1>
       <div className="quiz-result-score"><strong>{correct}</strong><span>/ {session.answers.length}<small>已作答題目中答對的數目</small></span></div>
       <p className="quiz-result-description">{section.label} · 完成 {session.answers.length} / {session.queue.length} 題{mistakes.length > 0 ? `，${mistakes.length} 題可以再練。` : session.answers.length ? '，全部答對。' : '。隨時可以重新開始。'}</p>
-      <div className="quiz-summary-actions">{mistakes.length > 0 && <button data-slot="quiz-button" className="quiz-primary" onClick={() => begin(retryMistakes(session))}><RotateCcw size={17}/>只練錯題（{mistakes.length}）</button>}<button data-slot="quiz-button" className="quiz-secondary" onClick={() => begin(createSession(pool, settings.count))}>再練一回</button><button data-slot="quiz-button" className="quiz-text-button" onClick={() => setPhase('setup')}>重新選擇部位／系統</button></div>
+      <div className="quiz-summary-actions">{mistakes.length > 0 && <button data-slot="quiz-button" className="quiz-primary" onClick={() => begin(retryMistakes(session))}><RotateCcw size={17}/>只練錯題（{mistakes.length}）</button>}<button data-slot="quiz-button" className="quiz-secondary" onClick={() => begin(createSession(pool, settings.count))}>再練一回</button><button data-slot="quiz-button" className="quiz-text-button" onClick={() => setPhase('setup')}>重新選擇範圍</button></div>
       {sessionLevel === 2 && session.answers.length > 0 && <p className="quiz-result-split"><span className="is-correct">答對 {session.answers.filter(a => a.result === 'correct').length}</span><span className="is-close">接近 {session.answers.filter(a => a.result === 'close').length}</span><span className="is-wrong">答錯／不知道 {session.answers.filter(a => a.result === 'wrong' || a.result === 'skipped').length}</span></p>}
       {session.answers.length > 0 && <div className="quiz-review-list"><h2>逐題回顧<small>點選任一題回到該題的構造</small></h2>{session.answers.map((a, i) => {
         const item = structures.get(a.targetId)!;

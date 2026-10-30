@@ -81,17 +81,17 @@ const motionModule=await getModule(path.join(root,'app/mj-motion.ts'));await mot
 const rawAtlas=JSON.parse(fs.readFileSync(path.join(root,`public/models/${stream?'atlas-stream':'atlas'}.json`),'utf8'));
 const classifier=await getModule(path.join(root,'app/mj-system-classifier.ts'));if(classifier.status==='unlinked')await classifier.link(linker);if(classifier.status!=='evaluated')await classifier.evaluate();
 let atlas=stream?classifier.namespace.normalizeAtlasSystems(rawAtlas):rawAtlas;
-// --full: the atlas the viewer really builds (body + 47 facial + BodyParts3D 3.0 supplement), so every counted structure must load and draw.
+// --full: the atlas the viewer really builds (body + facial + supplement + female + serous + vessel ends + schematic structures), so every counted structure must load and draw.
 if(process.argv.includes('--full')){
  const facialAtlas=await getModule(path.join(root,'app/mj-facial-atlas.ts'));if(facialAtlas.status==='unlinked')await facialAtlas.link(linker);if(facialAtlas.status!=='evaluated')await facialAtlas.evaluate();
  const read=f=>JSON.parse(zlib.gunzipSync(fs.readFileSync(path.join(root,'public/models',f))));
- atlas=facialAtlas.namespace.mergeAtlasStreams(atlas,[read('facial/facial-stream.json.gz'),read('supplement/supplement-stream.json.gz')]);
+ atlas=facialAtlas.namespace.mergeAtlasStreams(atlas,['facial/facial-stream','supplement/supplement-stream','female/female-stream','serous/serous-stream','vessel-ends/vessel-ends-stream','paokao/paokao-stream'].map(f=>read(f+'.json.gz')));
 }
 let resolveDone;let done=new Promise(resolve=>{resolveDone=resolve;});
 const state={tissueMotion:true,explode:0,visible:['skeletal','muscular','arterial','venous','nervous','connective'],selected:[],hiddenParts:[],depthFilter:'all',isolate:false,view:'three-quarter',rotate:false,reset:0};
 const props={atlas,state,onSelect(){},onProgress(n){progress.push(n);},onLoadStatus(s){statuses.push(s);if(!s.busy&&(s.loaded===s.total||s.failed.length))resolveDone(s);},onError(e){assert.fail(e);}};
 main.namespace.default(props);for(const fn of effects)cleanups.push(fn());effects=[];
-const timeout=setTimeout(()=>{console.error('Scene loader timed out');process.exit(1);},withWorker?45000:20000);
+const timeout=setTimeout(()=>{const s=statuses.at(-1);console.error('Scene loader timed out',s?`loaded ${s.loaded}/${s.total}, failed ${s.failed.length}, busy ${s.busy}, supplementary ${s.supplementaryPending}`:'(no status yet)');process.exit(1);},withWorker?45000:process.argv.includes('--full')?60000:20000);
 const first=await done;
 assert.ok(first.interactive);assert.equal(first.total,atlas.parts.length);
 if(failOnce){
@@ -122,7 +122,7 @@ for(const system of state.visible){const expected=atlas.parts.filter(p=>p.system
 const rendered=new Set();scene.traverse(o=>{const a=o.geometry?.getAttribute('partIndex');if(a)for(const value of a.array)rendered.add(value);});
 assert.equal(rendered.size,atlas.parts.length,'all catalogue parts have assembled scene geometry');
 assert.equal(new Set(requests.filter(x=>/body-[\da-f]+\.bin\.gz$/.test(x))).size,atlas.chunks.filter(c=>/body-[\da-f]+\.bin/.test(c.url)).length);
-if(process.argv.includes('--full'))for(const c of atlas.chunks.filter(c=>/\/(?:facial|supplement)-/.test(c.url)))assert.ok(requests.includes(c.gzip??c.url),'package requested: '+c.url);
+if(process.argv.includes('--full'))for(const c of atlas.chunks.filter(c=>/\/(?:facial|supplement|female|serous|vessel-ends|paokao)-/.test(c.url)))assert.ok(requests.includes(c.gzip??c.url),'package requested: '+c.url);
 // Exercise the newly lazy motion bindings in the actual scene, including
 // merging updates back into the rendered muscle/vessel/nerve geometry.
 const humerus=atlas.parts.find(p=>/right humerus/i.test(p.name));assert.ok(humerus);
