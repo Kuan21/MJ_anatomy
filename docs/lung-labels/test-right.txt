@@ -1,0 +1,10 @@
+right labels shown: 22 Right apex of lung | Right groove for subclavian artery | Groove for brachiocephalic vein | Groove for superior vena cava | Right contact area for thymus of lung | Right anterior border of lung | Right horizontal fissure of lung | Right oblique fissure of lung | Right cardiac impression of lung | Groove for inferior vena cava | Right contact area for trachea of lung | Groove for esophagus | Groove for azygos vein | Right pulmonary ligament | Right diaphragmatic surface of lung | Right inferior border of lung | Right hilum of lung | Right main bronchus proper | Right pulmonary artery | Right superior pulmonary vein | Right inferior pulmonary vein | Bronchial artery
+right labels hidden: first-rib (faces-away )
+PASS right: switch is on
+PASS right: at least 18 labels shown  22
+PASS right: every label has English on top and Chinese below
+PASS right: boxes inside the view
+PASS right: no two boxes overlap  0
+PASS right: no two arrows cross  0 of 22 arrows
+PASS right: clicking the cardiac impression label opens its card  Surface mark｜表面標記（示意模型） Cardiac Impression Of Right Lung 右肺心
+PASS switch turns the labels off
