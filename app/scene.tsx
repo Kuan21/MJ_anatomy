@@ -592,12 +592,14 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
     if(partOrdinal%12===0)await cooperativeYield();
    }
    groups.forEach((gs,system)=>{const geometry=mergeGeometries(gs,false);if(!geometry)throw new Error('Could not assemble anatomy geometry.');geometries.push(geometry);let vertexOffset=0;
+    // A shell key with no dedicated material falls back to its system's material instead of failing the whole package.
+    const material=mats.get(system as never)??mats.get(system.split(':')[0] as never);if(!material)throw new Error('No material for '+system);
     const parts:{index:number;offset:number;geometry:T.BufferGeometry}[]=[];
     for(const g of gs){const index=g.getAttribute('partIndex').getX(0),pick=pendingPickers.get(index)!;pick.userData.mergedGeometry=geometry;pick.userData.mergedOffset=vertexOffset;parts.push({index,offset:vertexOffset,geometry:g});vertexOffset+=g.getAttribute('position').count;g.deleteAttribute('partIndex');g.deleteAttribute('motionWeight');pickers[index]=pick;}
     geometry.index!.setUsage(T.DynamicDrawUsage);for(const key of ['position','normal'])(geometry.getAttribute(key) as T.BufferAttribute).setUsage(T.DynamicDrawUsage);
-    const mesh=new T.Mesh(geometry,mats.get(system as never));mesh.frustumCulled=false;scene.add(mesh);
+    const mesh=new T.Mesh(geometry,material);mesh.frustumCulled=false;scene.add(mesh);
     const fadeGeometry=new T.BufferGeometry();for(const name of Object.keys(geometry.attributes))fadeGeometry.setAttribute(name,geometry.getAttribute(name));fadeGeometry.setIndex(new T.BufferAttribute(new Uint32Array(geometry.index!.array.length),1).setUsage(T.DynamicDrawUsage));geometries.push(fadeGeometry);
-    const fade=new T.Mesh(fadeGeometry,fadeMatFor(mats.get(system as never)!));fade.frustumCulled=false;fade.renderOrder=-1;fade.visible=false;scene.add(fade);renderBatches.push({mesh,fade,parts,mask:'pending'});});
+    const fade=new T.Mesh(fadeGeometry,fadeMatFor(material));fade.frustumCulled=false;fade.renderOrder=-1;fade.visible=false;scene.add(fade);renderBatches.push({mesh,fade,parts,mask:'pending'});});
    for(const [i,pick] of pendingPickers)if((!workerAvailable&&tissueBindings[atlas.parts[i].id])||(atlas.parts[i].system==='connective'&&anatomicalRegion(atlas.parts[i])==='upper-limb'))warmBindings.push(pick);
    if(warmBindings.length)scheduleWarm();
    loadedChunks.add(ci);failedChunks.delete(ci);lastState=null;ready=true;dirty=true;reportLoading();
