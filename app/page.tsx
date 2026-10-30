@@ -503,8 +503,8 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
      {UPPER_MOTION_CONTROLS.map(control=><MotionPullControl key={control.key} label={control.label} value={motionPose[control.key]} min={MOTION_LIMITS[control.key][0]} max={MOTION_LIMITS[control.key][1]} disabled={!motionEnabled} onValueChange={value=>{setMotionAction(control.action);setJoint(control.key,value);}}/>)}
     </div>
     <details className="mj-finger-lab"><summary>手指｜Fingers</summary>
-     <div className="mj-hand-presets" role="group" aria-label="手勢預設">{HAND_PRESETS.map(h=><Button key={h.id} variant="ghost" disabled={!motionEnabled} onClick={()=>{setMotionAction('wristExtension');const current=motionTargetRef.current,same=(g:Partial<MotionPose>)=>DIGIT_KEYS.every(k=>Math.abs(current[k]-(g[k]??0))<1);playGesture(h.id==='open'&&same(h.pose)?{}:h.pose);}}>{h.label}</Button>)}</div>
-     <div className="mj-hand-speed" role="group" aria-label="手勢速度">{([['慢',1200],['中',500],['快',250]] as const).map(([name,ms])=><Button key={name} variant="ghost" aria-pressed={gestureMs===ms} onClick={()=>setGestureMs(ms)}>{name}</Button>)}</div>
+     <div className="mj-hand-presets" role="group" aria-label="Hand gestures｜手勢預設">{HAND_PRESETS.map(h=><Button key={h.id} variant="ghost" disabled={!motionEnabled} onClick={()=>{setMotionAction('wristExtension');const current=motionTargetRef.current,same=(g:Partial<MotionPose>)=>DIGIT_KEYS.every(k=>Math.abs(current[k]-(g[k]??0))<1);playGesture(h.id==='open'&&same(h.pose)?{}:h.pose);}}><span className="mj-bi"><b>{h.en}</b><small>{h.label}</small></span></Button>)}</div>
+     <div className="mj-hand-speed" role="group" aria-label="Gesture speed｜手勢速度">{([['Slow','慢',1200],['Medium','中',500],['Fast','快',250]] as const).map(([en,name,ms])=><Button key={name} variant="ghost" aria-pressed={gestureMs===ms} onClick={()=>setGestureMs(ms)}><span className="mj-bi"><b>{en}</b><small>{name}</small></span></Button>)}</div>
     </details>
     <small className="mj-motion-note">0° 為人體放鬆中立位；正負角度代表相反方向。所有角度都可以直接拖動，毋須先選動作。</small>
     <MotionAnatomyPanel anatomy={UPPER_ACTION_ANATOMY[motionAction]} onInspect={inspectMotionStructure}/>

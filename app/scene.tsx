@@ -325,7 +325,7 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
    }
   };
 
-  camera.position.set(1.4,1.05,3.6);controls.target.set(0,.85,0);controls.enableDamping=true;controls.dampingFactor=.085;controls.enablePan=true;controls.screenSpacePanning=true;controls.panSpeed=1;controls.zoomSpeed=1;controls.minDistance=.04;controls.maxDistance=40;controls.maxPolarAngle=Math.PI*.96;controls.mouseButtons.LEFT=T.MOUSE.PAN;controls.mouseButtons.RIGHT=T.MOUSE.ROTATE;controls.touches.ONE=T.TOUCH.PAN;controls.touches.TWO=T.TOUCH.DOLLY_ROTATE;let focusTarget:T.Vector3|null=null,focusPosition:T.Vector3|null=null;let userMoved=false;controls.addEventListener('start',()=>{userMoved=true;focusTarget=null;focusPosition=null;});controls.addEventListener('change',()=>{dirty=true;});
+  camera.position.set(1.4,1.05,3.6);controls.target.set(0,.85,0);controls.enableDamping=true;controls.dampingFactor=.085;controls.enablePan=true;controls.screenSpacePanning=true;controls.panSpeed=1;controls.zoomSpeed=1;controls.minDistance=.04;controls.maxDistance=40;controls.maxPolarAngle=Math.PI*.96;controls.mouseButtons.LEFT=T.MOUSE.PAN;controls.mouseButtons.RIGHT=T.MOUSE.ROTATE;controls.touches.ONE=T.TOUCH.PAN;controls.touches.TWO=T.TOUCH.DOLLY_PAN;let focusTarget:T.Vector3|null=null,focusPosition:T.Vector3|null=null;let userMoved=false;controls.addEventListener('start',()=>{userMoved=true;focusTarget=null;focusPosition=null;});controls.addEventListener('change',()=>{dirty=true;});
   const pmrem=new T.PMREMGenerator(renderer),room=new RoomEnvironment(),env=pmrem.fromScene(room,.04);scene.environment=env.texture;room.dispose();pmrem.dispose();
   scene.add(new T.HemisphereLight(0xffffff,0xa7acb2,1.05));
   const key=new T.DirectionalLight(0xfffaf4,2.3);key.position.set(-2,4,3);scene.add(key);
@@ -933,9 +933,13 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
   };
   const pickPartAt=(clientX:number,clientY:number)=>{
    const rect=renderer.domElement.getBoundingClientRect();pointer.set((clientX-rect.left)/rect.width*2-1,-(clientY-rect.top)/rect.height*2+1);raycaster.setFromCamera(pointer,camera);
-   let nearest=Infinity,found=-1;const hasSolid=atlas.parts.some((p,i)=>p.system!=='integumentary'&&data[i*4+3]>.5);
-   pickers.forEach((picker,i)=>{if(!picker||data[i*4+3]<.5||(hasSolid&&atlas.parts[i].system==='integumentary'))return;const mesh=pickTarget(i,picker);worldBox.copy(mesh.geometry.boundingBox??bounds[i]).applyMatrix4(mesh.matrixWorld);if(!raycaster.ray.intersectBox(worldBox,hitPoint))return;const hits=raycaster.intersectObject(mesh,false);if(hits[0]&&hits[0].distance<nearest){nearest=hits[0].distance;found=i;}});
+   let nearest=Infinity,found=-1,softNearest=Infinity,softFound=-1;const hasSolid=atlas.parts.some((p,i)=>p.system!=='integumentary'&&data[i*4+3]>.5);
+   // Faded parts (autoFade, a region's surroundings) and see-through shells (serous membranes, sheaths, fasciae, a translucent lung) are picked only when nothing solid lies on the ray: they must not catch the click meant for what shows through them.
+   const lungSeeThrough=(latest.current.lungOpacity??1)<.995;
+   const soft=(i:number)=>{const p=atlas.parts[i];return selectedData[i*4+2]>.5||p.system==='serous'||p.kind==='space'||p.kind==='sheath'||p.kind==='fascia'||p.kind==='aponeurosis'||(lungSeeThrough&&isShellSurface(p.name));};
+   pickers.forEach((picker,i)=>{if(!picker||data[i*4+3]<.5||(hasSolid&&atlas.parts[i].system==='integumentary'))return;const mesh=pickTarget(i,picker);worldBox.copy(mesh.geometry.boundingBox??bounds[i]).applyMatrix4(mesh.matrixWorld);if(!raycaster.ray.intersectBox(worldBox,hitPoint))return;const hits=raycaster.intersectObject(mesh,false);if(!hits[0])return;if(soft(i)){if(hits[0].distance<softNearest){softNearest=hits[0].distance;softFound=i;}}else if(hits[0].distance<nearest){nearest=hits[0].distance;found=i;}});
    for(const {mesh,parent} of cervicalVessels.rows){if(!mesh.visible)continue;const hit=raycaster.intersectObject(mesh,false)[0];if(hit&&hit.distance<nearest){nearest=hit.distance;found=atlas.parts.findIndex(p=>p.id===parent.id);}}
+   if(found<0&&softFound>=0){found=softFound;nearest=softNearest;}
    return found>=0?{index:found,distance:nearest}:null;
   };
   const pickAt=(clientX:number,clientY:number)=>pickPartAt(clientX,clientY)?.index??-1;
@@ -968,6 +972,12 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
    // ligaments, capsules and labra lie on the bones they attach to: they win over the bone they touch, like a nerve does
    if(joint&&(!part||joint.distance<=part.distance+.002))return{kind:'joint' as const,name:joint.name};
    return part?{kind:'part' as const,index:part.index}:null;
+  };
+  // A click that misses by a few pixels still finds a thin structure: when the exact ray hits nothing, rays on two rings around the pointer are tried (touch gets a wider ring).
+  const frontHitNear=(clientX:number,clientY:number,radius:number)=>{
+   const direct=frontHit(clientX,clientY);if(direct)return direct;
+   for(const r of [radius*.5,radius])for(let k=0;k<8;k++){const a=k*Math.PI/4,hit=frontHit(clientX+Math.cos(a)*r,clientY+Math.sin(a)*r);if(hit)return hit;}
+   return null;
   };
   type JointGesture={pointerId:number;side:'left'|'right';joint:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion';startX:number;startY:number;lastX:number;lastY:number;hitIndex:number;dragging:boolean};
   let jointGesture:JointGesture|null=null;
@@ -1033,7 +1043,7 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
     return;
    }
    const validTap=tap.up(e.pointerId,e.clientX,e.clientY);resetPrimaryGesture();if(!validTap||!ready)return;
-   const front=frontHit(e.clientX,e.clientY);if(front?.kind==='brain'){hover.hidden=true;select.current(front.id);return;}if(front?.kind==='nerve'){hover.hidden=true;selectNerve.current?.(front.name);return;}if(front?.kind==='joint'){hover.hidden=true;selectNerve.current?.(front.name,'connective');return;}
+   const front=frontHitNear(e.clientX,e.clientY,e.pointerType==='touch'?16:8);if(front?.kind==='brain'){hover.hidden=true;select.current(front.id);return;}if(front?.kind==='nerve'){hover.hidden=true;selectNerve.current?.(front.name);return;}if(front?.kind==='joint'){hover.hidden=true;selectNerve.current?.(front.name,'connective');return;}
    let found=front?.kind==='part'?front.index:-1;const rect=renderer.domElement.getBoundingClientRect();if(found<0&&amount>.45)found=findTarget(e.clientX-rect.left,e.clientY-rect.top,e.pointerType==='touch'?24:16);if(found>=0){hover.hidden=true;select.current(atlas.parts[found].id);}
   };
   renderer.domElement.addEventListener('pointerdown',down,true);renderer.domElement.addEventListener('pointermove',move);renderer.domElement.addEventListener('pointerleave',()=>setHover(-1,null));renderer.domElement.addEventListener('pointerup',up);renderer.domElement.addEventListener('pointercancel',cancel);
@@ -1230,7 +1240,7 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
     // a name no package will ever draw stops here instead of redrawing for 30 seconds
     if(s.cameraFocusNerve&&box.isEmpty()&&(loadBusy||supplementaryPending>0)&&nerveFocusWait++<1800)dirty=true;else{lastCameraFocus=s.cameraFocusNonce??0;nerveFocusWait=0;}
    }
-   controls.enableRotate=!jointGesture;controls.enablePan=!jointGesture;controls.mouseButtons.RIGHT=T.MOUSE.ROTATE;controls.touches.TWO=T.TOUCH.DOLLY_ROTATE;markers.visible=amount>.75;controls.autoRotate=s.rotate&&!s.isolate&&amount<.4&&!jointGesture;controls.autoRotateSpeed=.65;controls.update();if(controls.autoRotate)dirty=true;
+   controls.enableRotate=!jointGesture;controls.enablePan=!jointGesture;controls.mouseButtons.RIGHT=T.MOUSE.ROTATE;controls.touches.TWO=T.TOUCH.DOLLY_PAN;markers.visible=amount>.75;controls.autoRotate=s.rotate&&!s.isolate&&amount<.4&&!jointGesture;controls.autoRotateSpeed=.65;controls.update();if(controls.autoRotate)dirty=true;
    if(dirty){renderer.render(scene,camera);updateLabels();updatePartLabels();targets=[];if(amount>.45){const hasSolid=atlas.parts.some((p,i)=>p.system!=='integumentary'&&data[i*4+3]>.5);atlas.parts.forEach((p,i)=>{if(data[i*4+3]<.5||(hasSolid&&p.system==='integumentary'))return;let left=Infinity,right=-Infinity,top=Infinity,bottom=-Infinity;for(let corner=0;corner<8;corner++){projected.set(p.bounds[(corner&1)?1:0][0]+data[i*4],p.bounds[(corner&2)?1:0][1]+data[i*4+1],p.bounds[(corner&4)?1:0][2]+data[i*4+2]).project(camera);const x=(projected.x+1)*el.clientWidth/2,y=(1-projected.y)*el.clientHeight/2;left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y);}projected.copy(centers[i]).add(new T.Vector3(data[i*4],data[i*4+1],data[i*4+2])).project(camera);if(projected.z< -1||projected.z>1)return;targets.push({index:i,x:(projected.x+1)*el.clientWidth/2,y:(1-projected.y)*el.clientHeight/2,left,right,top,bottom});});}dirty=false;}
 
   };animate();
