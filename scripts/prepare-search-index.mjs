@@ -19,6 +19,15 @@ for (const n of glb('joints.glb').nodes) if (n.name) entries.push({n: side(n.nam
 for (const n of glb('brain.glb').nodes) if (n.extras?.bx_label) entries.push({n: (n.extras.bx_side === 'left' ? 'Left ' : n.extras.bx_side === 'right' ? 'Right ' : '') + lc(n.extras.bx_label.replace(/\*/g, '').trim()), s: 'nervous', k: 'brain'});
 // neck vessels: named as the scene names their meshes so a search result can be highlighted and framed
 for (const v of JSON.parse(gunzipSync(read('neck-vessels.json.gz'))).vessels) entries.push({n: capSide(side(v.name) + lc(clean(v.name))), s: v.system, k: 'vessel', raw: v.name});
+// heart detail mode: its structures that the main atlas has no concept for (crista terminalis, fossa ovalis, moderator band, the coronary branches …) open #/organ/heart on that structure
+{
+  const norm = s => s.toLowerCase().replace(/\s*\([^)]*\)/g, '').replace(/\b(left|right)\b/g, ' ').replace(/[^a-z0-9]+/g, ' ').trim();
+  const known = new Set(JSON.parse(gunzipSync(read('atlas-stream.json.gz'))).concepts.map(c => norm(c.name)));
+  for (const f of ['facial/facial-stream.json.gz', 'supplement/supplement-stream.json.gz', 'female/female-stream.json.gz', 'serous/serous-stream.json.gz', 'vessel-ends/vessel-ends-stream.json.gz', 'paokao/paokao-stream.json.gz']) for (const part of JSON.parse(gunzipSync(read(f))).parts) known.add(norm(part.name));
+  const heart = JSON.parse(gunzipSync(read('heart/heart-detail.json.gz')));
+  const systemOf = p => p.group === 'coronary' ? 'arterial' : p.group === 'veins' || /vein|sinus/i.test(p.name) ? 'venous' : p.group === 'vessels' ? 'arterial' : 'cardiac';
+  for (const p of heart.parts) if (!known.has(norm(p.name)) && !known.has(norm(p.name) + 's') && !known.has(norm(p.name).replace(/s$/, ''))) entries.push({n: p.name, s: systemOf(p), k: 'heart', z: p.chinese});
+}
 const unique = [...new Map(entries.map(e => [e.k + ':' + (e.raw ?? e.n), e])).values()];
 fs.writeFileSync(new URL('search-extras.json.gz', models), gzipSync(Buffer.from(JSON.stringify(unique)), {level: 9}));
-console.log(`Search index extras: ${unique.length} structures outside the atlas concepts (nerves ${unique.filter(e => e.k === 'nerve').length}, joints ${unique.filter(e => e.k === 'joint').length}, brain ${unique.filter(e => e.k === 'brain').length}, neck vessels ${unique.filter(e => e.k === 'vessel').length}).`);
+console.log(`Search index extras: ${unique.length} structures outside the atlas concepts (nerves ${unique.filter(e => e.k === 'nerve').length}, joints ${unique.filter(e => e.k === 'joint').length}, brain ${unique.filter(e => e.k === 'brain').length}, neck vessels ${unique.filter(e => e.k === 'vessel').length}, heart ${unique.filter(e => e.k === 'heart').length}).`);

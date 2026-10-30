@@ -1,7 +1,7 @@
 import {SEROUS_LAYERS,PERITONEUM_KEYS} from './mj-serous';
 import {flushSync} from 'react-dom';
 import {registerAtlasTools} from './agent-tools';
-import {Fragment,useEffect,useMemo,useRef,useState} from 'react';
+import {Fragment,useCallback,useEffect,useMemo,useRef,useState} from 'react';
 import {PronounceButton} from './pronunciation/PronounceButton';
 import {Activity,ArrowUpRight,Maximize2,ChevronRight,EyeOff,GraduationCap,Focus,Info,Layers3,Pause,RotateCcw,RotateCw,Search,Undo2,X} from 'lucide-react';
 import {Button} from '@/components/ui/button';
@@ -89,7 +89,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const [atlas,setAtlas]=useState<Atlas|null>(null),[state,setState]=useState(initial),[progress,setProgress]=useState(0),[error,setError]=useState(''),[panel,setPanel]=useState<'layers'|'search'|null>(null),[details,setDetails]=useState(false),[about,setAbout]=useState(false),[chosen,setChosen]=useState<Concept|null>(null),[externalNerve,setExternalNerve]=useState<string|null>(null);
  const [loadStatus,setLoadStatus]=useState<AnatomyLoadStatus|null>(null),[retryNonce,setRetryNonce]=useState(0);
  // Structures the viewer draws that are not atlas concepts (external nerves, joint ligaments, brain, neck vessels): loaded when search first opens.
- type Extra={n:string;s:SystemId;k:'nerve'|'joint'|'brain'|'vessel';raw?:string};
+ type Extra={n:string;s:SystemId;k:'nerve'|'joint'|'brain'|'vessel'|'heart';raw?:string;/** Chinese name carried by the index (heart detail structures) */z?:string};
  const [extras,setExtras]=useState<Extra[]>([]),[externalSystem,setExternalSystem]=useState<SystemId>('nervous');
  const [fadeOther,setFadeOther]=useState(false);
  const [region,setRegion]=useState<RegionId>('whole-body'),[dissectionStage,setDissectionStage]=useState(0),[studySide,setStudySide]=useState<'both'|Side>('both');
@@ -179,7 +179,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
   let cancelled=false;const sources:SearchSource[]=[],queue:(()=>void)[]=[];
   const concepts=atlas.concepts;
   for(let i=0;i<concepts.length;i+=150)queue.push(()=>{for(const c of concepts.slice(i,i+150)){const p=c.elements.map(id=>parts.get(id)).find(Boolean),profile=p?structureProfile(c.name,p.system,p):undefined;sources.push({concept:c,english:profile?.english??c.name,chinese:profile?.chinese});}});
-  for(let i=0;i<extras.length;i+=150)queue.push(()=>{for(const x of extras.slice(i,i+150)){const profile=structureProfile(x.n,x.s);sources.push({concept:{id:`extra:${x.k}:${x.raw??x.n}`,name:x.n,elements:[] as string[]},english:profile.english??x.n,chinese:profile.chinese,kind:x.k});}});
+  for(let i=0;i<extras.length;i+=150)queue.push(()=>{for(const x of extras.slice(i,i+150)){const profile=structureProfile(x.n,x.s);sources.push({concept:{id:`extra:${x.k}:${x.raw??x.n}`,name:x.n,elements:[] as string[]},english:profile.english??x.n,chinese:x.z??profile.chinese,kind:x.k});}});
   // spaces that have no mesh of their own in the atlas (femoral triangle, adductor canal, popliteal fossa) are found by search too; they open in the dissection panel
   queue.push(()=>{for(const d of SPACES){const re=new RegExp(`^(?:left |right )?${d.part}$`,'i');if(atlas.parts.some(q=>re.test(q.name)&&q.system!=='muscular'))continue;sources.push({concept:{id:`space:${d.id}`,name:d.en,elements:[] as string[]},english:d.en,chinese:d.zh,kind:'space'});}});
   const idle=(fn:()=>void)=>'requestIdleCallback' in window?(window as unknown as {requestIdleCallback:(f:()=>void,o?:{timeout:number})=>number}).requestIdleCallback(fn,{timeout:400}):setTimeout(fn,16);
@@ -191,7 +191,12 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const revealState=(s:SceneState,ids:string[]):SceneState=>{const picked=ids.map(id=>parts.get(id)).filter((p):p is NonNullable<typeof p>=>!!p);return{...s,hiddenParts:(s.hiddenParts??[]).filter(x=>!ids.includes(x)),visible:[...new Set([...s.visible,...picked.map(p=>p.system)])],muscleLayer:picked.some(p=>p.system==='muscular')?'all':s.muscleLayer,depthFilter:'all',focusParts:s.focusParts?[...new Set([...s.focusParts,...ids])]:s.focusParts,cameraFocusNerve:undefined};};
  // A special region (axillary fossa, carpal tunnel …) found by search or opened from a card is shown the way the dissection panel shows it: its boundaries and contents highlighted near the region, nothing drawn for the space itself.
  const spaceOfParts=(ids:string[])=>{const p=ids.length?parts.get(ids[0]):undefined;return p?SPACES.find(d=>new RegExp(`^(?:left |right )?${d.part}$`,'i').test(p.name)&&p.system!=='muscular'):undefined;};
- const choose=(c:Concept)=>{if(c.id.startsWith('space:')){const d=SPACES.find(x=>c.id===`space:${x.id}`);if(d){setRightTool('dissection');setPanel(null);setDetails(false);pickSpaceRef.current(d);return;}}const x=extraOf(c);if(x){chooseExtra(x);return;}const sp=spaceOfParts(c.elements);if(sp){setRightTool('dissection');setPanel(null);setDetails(false);pickSpaceRef.current(sp);return;}setExternalNerve(null);setChosen(c);setState(s=>({...revealState(s,c.elements),selected:c.elements,cameraFocusParts:c.elements,cameraFocusNonce:(s.cameraFocusNonce??0)+1,isolate:false,rotate:false}));setDetails(true);setPanel(null);};
+ // In the 頭部 tab the scene is clipped at the clavicles: a structure picked from search below that line would be flown to but not drawn, so the view goes back to 全身 first.
+ const leaveHeadFor=(ids:string[])=>{if(topRegion!=='head')return;if(ids.some(id=>{const p=parts.get(id);return p&&anatomicalRegion(p)!=='head-neck';}))selectTop('whole');};
+ const choose=(c:Concept)=>{if(c.id.startsWith('space:')){const d=SPACES.find(x=>c.id===`space:${x.id}`);if(d){setRightTool('dissection');setPanel(null);setDetails(false);pickSpaceRef.current(d);return;}}const x=extraOf(c);if(x){chooseExtra(x);return;}const sp=spaceOfParts(c.elements);if(sp){setRightTool('dissection');setPanel(null);setDetails(false);pickSpaceRef.current(sp);return;}leaveHeadFor(c.elements);setExternalNerve(null);setChosen(c);setState(s=>({...revealState(s,c.elements),selected:c.elements,cameraFocusParts:c.elements,cameraFocusNonce:(s.cameraFocusNonce??0)+1,isolate:false,rotate:false}));setDetails(true);setPanel(null);};
+ // The search panel is memoised; it gets one stable callback so typing or dragging a joint never re-renders it through a new onChoose.
+ const closePanel=useCallback(()=>setPanel(null),[]);
+ const chooseRef=useRef(choose);chooseRef.current=choose;const chooseStable=useCallback((c:Concept)=>chooseRef.current(c),[]);
  useEffect(()=>{if(!atlas)return;return registerAtlasTools(atlas,c=>flushSync(()=>choose(c)));},[atlas]);
  const [layerPicked,setLayerPicked]=useState<string|null>(null);
  // A space picked in the dissection panel (e.g. the quadrangular space): its boundary structures and contents are highlighted, everything else of the region is faded.
@@ -205,10 +210,12 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
   // shallower layers of the region that cover the muscle are peeled away so it can be seen
   setState(s=>({...s,muscleLayer:order>1?order:s.muscleLayer,hiddenParts:(s.hiddenParts??[]).filter(x=>!ids.includes(x)),selected:ids,cameraFocusParts:ids,cameraFocusNonce:(s.cameraFocusNonce??0)+1,isolate:false,rotate:false}));
  };
- const choosePart=(id:string)=>{const p=parts.get(id);if(!p)return;const sp=spaceOfParts([id]);if(sp){setRightTool('dissection');setPanel(null);pickSpaceRef.current(sp);return;}setExternalNerve(null);setChosen({id:p.conceptId,name:p.name,elements:[id]});setState(s=>({...revealState(s,[id]),selected:[id],cameraFocusParts:[id],cameraFocusNonce:(s.cameraFocusNonce??0)+1,isolate:false,rotate:false}));setDetails(true);setPanel(null);};
+ const choosePart=(id:string)=>{const p=parts.get(id);if(!p)return;const sp=spaceOfParts([id]);if(sp){setRightTool('dissection');setPanel(null);pickSpaceRef.current(sp);return;}leaveHeadFor([id]);setExternalNerve(null);setChosen({id:p.conceptId,name:p.name,elements:[id]});setState(s=>({...revealState(s,[id]),selected:[id],cameraFocusParts:[id],cameraFocusNonce:(s.cameraFocusNonce??0)+1,isolate:false,rotate:false}));setDetails(true);setPanel(null);};
  const chooseExtra=(x:Extra)=>{
   // A brain structure opens the brain detail mode on that structure; nerves, joint tissues and neck vessels are highlighted and framed in the scene by mesh name.
   if(x.k==='brain'){window.location.hash=`#/organ/brain?select=${encodeURIComponent(x.n)}`;return;}
+  // A heart detail structure (crista terminalis, fossa ovalis …) has no mesh in the main atlas: it opens the heart detail mode on that structure.
+  if(x.k==='heart'){window.location.hash=`#/organ/heart?select=${encodeURIComponent(x.n)}`;return;}
   setExternalSystem(x.s);setExternalNerve(x.raw??x.n);setChosen(null);
   setState(s=>({...s,selected:[],isolate:false,rotate:false,hiddenParts:s.hiddenParts??[],hiddenNerves:(s.hiddenNerves??[]).filter(n=>n!==(x.raw??x.n)),visible:s.visible.includes(x.s)?s.visible:[...s.visible,x.s],cameraFocusNerve:x.raw??x.n,cameraFocusParts:undefined,cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:.92}));setDetails(true);setPanel(null);
  };
@@ -464,7 +471,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
    <label className="lung-focus-row"><span className="bn-stack"><span className="bn-en">Name labels</span><small className="bn-zh">名稱標籤（從內側面看一側肺）</small></span><Switch checked={lungLabels} onCheckedChange={on=>{const side=lungSide==='both'?'right':lungSide;setLungSide(side);setLungLabels(on);setDetails(false);aimLungView(side,false,lungInner,on);}} aria-label="名稱標籤"/></label>
    <small className="lung-focus-help"><span>Only the respiratory system and the see-through rib cage are shown; the pleura is off until you press ＋. Lowering the lung opacity switches on the bronchial tree and pulmonary vessels.</span><span>只顯示呼吸系統與胸廓骨骼（半透明）；胸膜預設關閉，按「＋」加開。降低肺透明度會自動打開支氣管樹與肺血管，才看得到肺內構造。</span></small>
   </aside>}
-  {panel==='search'&&<SearchPanel index={searchIndex} onChoose={choose} onClose={()=>setPanel(null)}/>}
+  {panel==='search'&&<SearchPanel index={searchIndex} onChoose={chooseStable} onClose={closePanel}/>}
   <aside id="motion-workspace" className={`right-workspace ${mobileMotionOpen?'mobile-motion-open':''}`} aria-label="模型檢視與關節動作">
    <Button variant="ghost" className="mobile-only motion-close" onClick={()=>setMobileMotionOpen(false)} aria-label="關閉動作面板">收起動作 <X size={18}/></Button>
    <nav className="right-tool-rail glass" aria-label="模型檢視工具">{([['view','體位'],['dissection','分層解剖'],['depth','組織深度']] as const).map(([id,label])=><Button variant="ghost" key={id} aria-expanded={rightTool===id} aria-controls={`tool-${id}`} onClick={()=>setRightTool(v=>v===id?null:id)}>{label}</Button>)}</nav>
