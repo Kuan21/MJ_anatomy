@@ -1,0 +1,5 @@
+PASS setup page lists the three sections
+level 1 target: Right groove for esophagus / 右食道溝
+PASS level 1 shows English and Chinese
+PASS the answer shows a data card  正確位置用綠色顯示 Right groove for esophagus右食道溝
+PASS level 2 judged a wrong typed name

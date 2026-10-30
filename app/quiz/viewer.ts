@@ -5,7 +5,7 @@ import {PointerTap} from '../pointer-tap';
 import {framingDistance} from '../camera-framing';
 import {QUIZ_REGIONS, QUIZ_SYSTEMS, regionSections, sceneStructures, type QuizCatalogue, type QuizSection, type QuizSide, type QuizStructure} from './catalogue';
 
-export type QuizView = 'front' | 'back' | 'side' | 'fit' | 'answer' | 'random';
+export type QuizView = 'front' | 'back' | 'side' | 'medial' | 'fit' | 'answer' | 'random';
 export interface QuizViewState {
   key: string;
   target: QuizStructure;
@@ -221,6 +221,8 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
     if (view === 'random') direction = chooseDirection(box);
     if (view === 'front') direction.set(0, .04, 1).normalize();
     if (view === 'back') direction.set(0, .04, -1).normalize();
+    // lung quiz: the inner (mediastinal) face of the lung the question is about; a structure on both sides follows the side chosen on the setup page
+    if (view === 'medial') direction.set((state.target.side === 'midline' ? state.side === 'left' : state.target.side === 'left') ? -1 : 1, .03, .02).normalize();
     if (view === 'side') direction.set(state.target.side === 'right' ? -1 : 1, .03, .02).normalize();
     if (direction.lengthSq() < .5) direction.set(0, 0, 1);
     controls.target.copy(box.getCenter(new T.Vector3()));

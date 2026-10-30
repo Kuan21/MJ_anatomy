@@ -399,6 +399,8 @@ type PaokaoCard={name:string;zh:string;system:string;kind:string;origin?:[string
 const PAOKAO=paokaoCards as unknown as Record<string,PaokaoCard>;
 const paokaoByName=new Map(Object.values(PAOKAO).map(c=>[c.name.toLowerCase(),c]));
 /** Course-summary structures built by scripts/prepare-paokao.mjs: the Chinese name and the bilingual data card come from app/mj-paokao.json. */
+/** The card of a course-summary structure by name; a leading Left/Right added by the quiz to a side-less name is dropped when the full name is not found. */
+export function paokaoCardByName(name:string){const k=name.toLowerCase();return paokaoByName.get(k)??paokaoByName.get(k.replace(/^(?:left|right) /,''));}
 export function paokaoZh(name:string){return paokaoByName.get(name.toLowerCase())?.zh;}
 const KIND_LABEL:Record<string,[string,string]>={artery:['Artery','動脈'],vein:['Vein','靜脈'],nerve:['Nerve','神經'],vessel:['Lymphatic vessel','淋巴管'],ligament:['Ligament','韌帶'],tendon:['Tendon','肌腱'],fascia:['Fascia','筋膜'],retinaculum:['Retinaculum','支持帶'],aponeurosis:['Aponeurosis','腱膜'],membrane:['Membrane','膜'],sheath:['Sheath','鞘'],ganglion:['Ganglion','神經節'],plexus:['Plexus','神經叢'],space:['Space','間隙'],landmark:['Bone landmark','骨性標誌'],muscle:['Muscle','肌肉'],surface:['Surface mark','表面標記'],gland:['Gland','腺體'],organ:['Organ','器官']};
 const SCHEMATIC_NOTE_ZH2='示意模型：公開人體圖譜（BodyParts3D、Z-Anatomy）沒有此構造的三維模型，這裡依教科書走行與位置以簡化形態繪製；粗細、彎曲與分支僅供辨認方向，不是實測形狀。';

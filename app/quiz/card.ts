@@ -1,4 +1,4 @@
-import {structureProfile, type BilingualFact} from '../mj-structure-info';
+import {structureProfile, paokaoCardByName, type BilingualFact} from '../mj-structure-info';
 import type {SystemId} from '../anatomy';
 import {CARD_EXTRAS, type CardExtra} from './card-data';
 import type {QuizStructure, QuizSystem} from './catalogue';
@@ -21,6 +21,8 @@ const FIELDS: Record<QuizSystem, string[]> = {
   venous: ['來源', '走向', '主要分支', '引流範圍'],
   skeletal: ['主要標誌', '相關關節', '附著肌肉'],
   cardiac: ['說明'],
+  // lung quiz: surface marks and airway; a mark's three fields come from its course-summary card (scripts/paokao-structures/lungs.mjs)
+  respiratory: ['位置', '構造／毗鄰關係', '血液供應／神經'],
 };
 /** Existing profile facts (by their Chinese label) that answer a card field. */
 const FROM_PROFILE: Record<QuizSystem, Record<string, string[]>> = {
@@ -30,10 +32,18 @@ const FROM_PROFILE: Record<QuizSystem, Record<string, string[]>> = {
   venous: {},
   skeletal: {主要標誌: ['重要骨標誌']},
   cardiac: {},
+  respiratory: {位置: ['位置'], '構造／毗鄰關係': ['構造／毗鄰關係'], '血液供應／神經': ['血液供應／神經']},
 };
 
 const clean = (name: string) => name.toLowerCase().replace(/\b(left|right)\b/g, '').replace(/\s+/g, ' ').trim();
 const present = (fact?: BilingualFact) => fact && (fact.valueZh || fact.valueEn) ? {zh: fact.valueZh, en: fact.valueEn} : undefined;
+
+/** A lung surface mark's card fields: its location, structure/relations and blood supply/nerves are the origin, course and supply lines of its course-summary card. */
+function lungMark(name: string, label: string) {
+  const card = paokaoCardByName(name);
+  const line = card ? {位置: card.origin, '構造／毗鄰關係': card.course, '血液供應／神經': card.supply}[label] : undefined;
+  return line ? {zh: line[1], en: line[0]} : undefined;
+}
 
 export function structureCard(structure: Pick<QuizStructure, 'name' | 'chinese' | 'system' | 'description'>): StructureCard {
   const system = structure.system;
@@ -42,7 +52,7 @@ export function structureCard(structure: Pick<QuizStructure, 'name' | 'chinese' 
   const extra: CardExtra | undefined = CARD_EXTRAS[structure.name.toLowerCase()] ?? CARD_EXTRAS[clean(structure.name)];
   const fields: CardField[] = [], missing: string[] = [];
   for (const label of FIELDS[system]) {
-    const fromExtra = extra?.[label];
+    const fromExtra = extra?.[label] ?? (system === 'respiratory' ? lungMark(structure.name, label) : undefined);
     const fact = FROM_PROFILE[system][label]?.map(l => profile.facts.find(f => f.labelZh === l)).find(Boolean);
     // Heart structures carry their own checked description (catalogue), shown as the card's 說明.
     const found = fromExtra ? {zh: fromExtra.zh, en: fromExtra.en} : label === '說明' && structure.description ? structure.description : present(fact);
