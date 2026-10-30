@@ -322,6 +322,8 @@
 
 ### P2-11　手機上資訊卡蓋住剛選的結構（待確認，需真機）
 - `scene.tsx:1127-1133` 對焦取景沒扣除 `.detail-sheet`；手機版卡片 `top:132px`＋`max-height:58dvh`（`workspace-layout.css:447`）。390×844 上結構被放在 y≈460 px，卡片約佔 132–621 px。
+- **實測（390×844 觸控）**：點身體中央後資訊卡位於 y=132、高 490 px（佔 132–622 px，畫面中段）。轉成橫向 844×390 後，資訊卡幾乎蓋滿整個畫面高度。橫向截圖出現整頁水平重複的畫面，這可能是 headless 手機模擬改變視窗大小造成的假象（`scrollWidth`＝844，沒有水平捲動），需真機確認。
+- **截圖**：![手機橫向](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/0f24b701aab6353c2f15307d0dfb4523d07ba1b0/audit-2026-10-30/m-landscape.png)
 - **建議修法**：取景時扣除卡片範圍，或手機版改底部抽屜、預設只露標題列。可自動 merge。
 
 ### P2-12　「頭部」分頁搜尋頸部以下結構會被切掉
@@ -414,7 +416,7 @@
 
 ### P2-30　示意標示與模型說明〔需人工審核〕
 - 15 個接合段（deep brachial、vertebral、femoral、lateral circumflex femoral 等的 PKC 段）`prepare-paokao.mjs:86` 設 `schematic:false`，卡片沒有「示意模型」標示。
-- vessel-ends 示意段顯示「示意模型：由相鄰構造的表面生成」（那是胸膜、心包薄殼的說明）。
+- vessel-ends 示意段顯示「示意模型：由相鄰構造的表面生成」（那是胸膜、心包薄殼的說明）。手機實測點到示意的「Left Dorsal Artery Of Penis」，卡片同樣顯示這句說明，而且還出現「FMA ID FMA20819 · BodyParts3D database」連結（見 P2-11 橫向截圖）。
 - `page.tsx:228` 的 FMA 正則也比中 `FJxxxx-END` 示意段，點選時顯示 FMA ID 與「BodyParts3D database」連結；連結只是資料庫首頁。FMA 標示為「FMA ID」，沒有冒充圖譜頁碼，不算編造編號。
 
 ### P2-31　靜脈卡用詞、共用中文名、缺左右〔需人工審核〕
@@ -493,7 +495,7 @@
 | P3-32 | 待使用者決定的用詞：glossary 把足部肌寫成手部用詞（伸指長肌、屈指長肌…），網站用「趾」字版本（解剖上正確）；deep plantar a.「深趾動脈」vs「深蹠動脈」；trapezium「大菱形骨」vs「大多角骨」；「子宮骶韌帶」的「骶」（全站其他地方用「薦」）；外蹠神經 vs 足底外側神經；胸外側神經 vs 外側胸神經 | 名稱表 | 使用者決定後統一 | 〔需人工審核〕 |
 | P3-33 | 原文提到但清單沒列名的「內蹠靜脈」網站沒有（待確認） | — | 視需要補 | 〔需人工審核〕 |
 | P3-34 | 已 commit 的生成檔 `public/models/paokao/paokao-stream.json.gz` 與 `npm run build` 重新產生的不同：324 個部件中 96 個（肺裂等肺表面標記）頂點數與 bounds 不同。可能是 commit 的檔案過時，或產生過程不穩定（本機 Node 22、CI Node 24，待確認）。部署用的是 CI 重新產生的版本，所以 repo 內的檔案不代表網站實際內容 | `scripts/prepare-paokao.mjs`、`scripts/paokao-structures/lungs.mjs` | 讓產生過程可重現（固定排序／精度），`--check` 模式比對 commit 檔 | 否（生成檔） |
-| P3-35 | 手機（390×844）首頁：標題「INTERACTIVE ANATOMY ATLAS」與右上 Quiz 按鈕重疊；底部「Systems」按鈕只有英文；「3D」標章字級 10px。實測沒有水平捲動 | `app/page.tsx` header、`globals.css` 手機版規則 | 窄螢幕縮短或隱藏 eyebrow 文字；按鈕改中英並列 | 否 |
+| P3-35 | 手機（390×844）首頁（![手機首頁](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/0f24b701aab6353c2f15307d0dfb4523d07ba1b0/audit-2026-10-30/m-home.png)）：標題「INTERACTIVE ANATOMY ATLAS」與右上 Quiz 按鈕重疊；底部「Systems」按鈕只有英文；「3D」標章字級 10px。實測沒有水平捲動 | `app/page.tsx` header、`globals.css` 手機版規則 | 窄螢幕縮短或隱藏 eyebrow 文字；按鈕改中英並列 | 否 |
 
 ---
 
