@@ -5,7 +5,7 @@ import {createHash} from 'node:crypto';
 import {quizModule} from './quiz-modules.mjs';
 
 const {QUIZ_SECTIONS, QUIZ_SYSTEMS, questionPool, sceneStructures} = await quizModule('app/quiz/catalogue.ts');
-const LOWER_SYSTEMS = QUIZ_SYSTEMS.filter(s => s.id !== 'cardiac'); // heart structures only exist in the heart quiz
+const LOWER_SYSTEMS = QUIZ_SYSTEMS.filter(s => s.id !== 'cardiac' && s.id !== 'respiratory'); // heart and lung structures only exist in their own quizzes
 const {createSession, recordAnswer, retryMistakes} = await quizModule('app/quiz/engine.ts');
 const {PointerTap} = await quizModule('app/pointer-tap.ts');
 const {normalizeAtlasSystems} = await quizModule('app/mj-system-classifier.ts');

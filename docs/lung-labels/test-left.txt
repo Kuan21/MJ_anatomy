@@ -1,0 +1,10 @@
+left labels shown: 21 Left apex of lung | Left groove for brachiocephalic vein | Left contact area for trachea of lung | Left contact area for thymus of lung | Left anterior border of lung | Left oblique fissure of lung | Groove for aortic arch | Groove for descending aorta | Left cardiac impression of lung | Left cardiac notch of lung | Left lingula of lung | Left esophageal impression of lung | Left pulmonary ligament | Left diaphragmatic surface of lung | Left inferior border of lung | Left hilum of lung | Left main bronchus | Left pulmonary artery | Left superior pulmonary vein | Left inferior pulmonary vein | Bronchial artery
+left labels hidden: subclavian (faces-away ), first-rib (faces-away )
+PASS left: switch is on
+PASS left: at least 18 labels shown  21
+PASS left: every label has English on top and Chinese below
+PASS left: boxes inside the view
+PASS left: no two boxes overlap  0
+PASS left: no two arrows cross  0 of 21 arrows
+PASS left: clicking the cardiac impression label opens its card  Surface mark｜表面標記（示意模型） Cardiac Impression Of Left Lung 左肺心壓
+PASS switch turns the labels off

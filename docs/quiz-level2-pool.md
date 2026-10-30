@@ -1,7 +1,7 @@
 # Quiz 第二級（看結構寫名稱）題庫範圍
 
 此檔由 `node scripts/report-quiz-level2.mjs` 產生，請勿手改。只有同時符合下列條件的構造會出題：有模型、有中文名、資料卡必填欄位完整、名稱在同一部位內不與其他構造重複（打出名稱只有一個正確答案）。其餘排除並列於下。
-合計：371 / 1047 個構造可出題。
+合計：429 / 1097 個構造可出題。
 
 
 ## 下肢（lower）：104 / 328 可出題
@@ -518,9 +518,9 @@
 - Trunk of left thoraco-acromial artery（左胸肩峰動脈幹） [left]
 - Trunk of right thoraco-acromial artery（右胸肩峰動脈幹） [right]
 
-## 胸腔（thorax）：30 / 124 可出題
+## 胸腔（thorax）：37 / 124 可出題
 
-### 資料卡欄位不完整（94）
+### 資料卡欄位不完整（87）
 
 - Accessory hemiazygos vein（副半奇靜脈）
 - Azygos vein（奇靜脈）
@@ -543,14 +543,12 @@
 - Left fifth rib（左第五肋骨） [left]
 - Left first rib（左第一肋骨） [left]
 - Left fourth rib（左第四肋骨） [left]
-- Left inferior pulmonary vein（左下肺靜脈） [left]
 - Left intercostal nerves（左肋間神經） [left]
 - Left internal thoracic artery（左內胸動脈） [left]
 - Left musculophrenic artery（左肌膈動脈） [left]
 - Left musculophrenic vein（左肌膈靜脈） [left]
 - Left ninth rib（左第九肋骨） [left]
 - Left posterior intercostal arteries（左後肋間動脈） [left]
-- Left pulmonary artery（左肺動脈） [left]
 - Left second rib（左第二肋骨） [left]
 - Left set of anterior intercostal veins（左前肋間靜脈群） [left]
 - Left seventh rib（左第七肋骨） [left]
@@ -561,7 +559,6 @@
 - Left subcostal vein（左肋下靜脈） [left]
 - Left superior intercostal artery（左最上肋間動脈） [left]
 - Left superior intercostal vein（左最上肋間靜脈） [left]
-- Left superior pulmonary vein（左上肺靜脈） [left]
 - Left sympathetic nerves（左交感神經） [left]
 - Left tenth rib（左第十肋骨） [left]
 - Left third rib（左第三肋骨） [left]
@@ -571,14 +568,12 @@
 - Manubrium（胸骨柄）
 - Ninth thoracic vertebra（第九胸椎）
 - Right brachiocephalic vein（右頭臂靜脈） [right]
-- Right bronchial artery（右支氣管動脈） [right]
 - Right common carotid artery（右總頸動脈） [right]
 - Right eighth rib（右第八肋骨） [right]
 - Right eleventh rib（右第十一肋骨） [right]
 - Right fifth rib（右第五肋骨） [right]
 - Right first rib（右第一肋骨） [right]
 - Right fourth rib（右第四肋骨） [right]
-- Right inferior pulmonary vein（右下肺靜脈） [right]
 - Right intercostal nerves（右肋間神經） [right]
 - Right internal thoracic artery（右內胸動脈） [right]
 - Right internal thoracic vein（右內胸靜脈） [right]
@@ -586,7 +581,6 @@
 - Right musculophrenic vein（右肌膈靜脈） [right]
 - Right ninth rib（右第九肋骨） [right]
 - Right posterior intercostal arteries（右後肋間動脈） [right]
-- Right pulmonary artery（右肺動脈） [right]
 - Right second rib（右第二肋骨） [right]
 - Right set of anterior intercostal veins（右前肋間靜脈群） [right]
 - Right seventh rib（右第七肋骨） [right]
@@ -597,7 +591,6 @@
 - Right subcostal vein（右肋下靜脈） [right]
 - Right superior intercostal artery（右最上肋間動脈） [right]
 - Right superior intercostal vein（右最上肋間靜脈） [right]
-- Right superior pulmonary vein（右上肺靜脈） [right]
 - Right sympathetic nerves（右交感神經） [right]
 - Right tenth rib（右第十肋骨） [right]
 - Right third rib（右第三肋骨） [right]
@@ -680,28 +673,32 @@
 - Third thoracic vertebra（第三胸椎）
 - Twelfth thoracic vertebra（第十二胸椎）
 
-## 心臟（heart）：47 / 67 可出題
+## 心臟（heart）：53 / 67 可出題
 
-### 資料卡欄位不完整（20）
+### 資料卡欄位不完整（14）
 
 - Anterior cardiac veins（心前靜脈）
 - Diagonal branches（對角支）
 - Inferior vein of left ventricle（左心室下靜脈）
 - Inferior vena cava（下腔靜脈）
-- Left inferior pulmonary vein（左下肺靜脈）
 - Left marginal branch（左緣支）
-- Left pulmonary artery（左肺動脈）
-- Left superior pulmonary vein（左上肺靜脈）
 - Middle cardiac vein（心中靜脈）
 - Posterior interventricular branch（後室間支）
 - Posterior vein of left ventricle（左心室後靜脈）
-- Right inferior pulmonary vein（右下肺靜脈）
 - Right inferolateral branch of right coronary artery（右冠狀動脈右下外側支）
 - Right marginal branch（右緣支）
-- Right pulmonary artery（右肺動脈）
-- Right superior pulmonary vein（右上肺靜脈）
 - Septal branches of anterior interventricular artery（前室間動脈中隔支）
 - Sinoatrial nodal artery（竇房結動脈）
 - Small cardiac vein（心小靜脈）
 - Superior vena cava（上腔靜脈）
+
+## 肺（lung）：45 / 50 可出題
+
+### 資料卡欄位不完整（5）
+
+- Lower lobe of left lung（左肺下葉） [left]
+- Lower lobe of right lung（右肺下葉） [right]
+- Middle lobe of right lung（右肺中葉） [right]
+- Upper lobe of left lung（左肺上葉） [left]
+- Upper lobe of right lung（右肺上葉） [right]
 

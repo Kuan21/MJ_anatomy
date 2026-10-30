@@ -22,21 +22,87 @@
   - 肺下緣：鎖骨中線＝第 6 肋（右 −13 mm、左 −28 mm，即略低於第 6 肋）、腋中線＝第 8 肋（右 −5、左 −11 mm）、脊柱旁＝第 10–11 肋。與教科書 6 / 8 / 10 相符。
   - 壁層胸膜下緣：鎖骨中線在第 6 肋下 40–55 mm（約第 7.5–8 肋，目標 8，略偏高約半條肋）、腋中線＝第 9 肋（目標 10，**差約一條肋**）、脊柱旁＝第 12 肋（目標 12，相符）。腋中線處胸膜下緣偏高，沒有為了湊數字而調整。
 
-### 肺 PR 2 規劃：縱隔面構造在模型中有／沒有（只列現況，沒有補任何假模型）
-肺表面標記是貼在肺葉上的面片（`scripts/paokao-structures/lungs.mjs`，由肺葉網格切出）。
+### 肺 PR 2：內側面（縱隔面）名稱標籤與肺門（需人工審核，不自動 merge）
+肺聚焦面板新增「名稱標籤」開關：選一側肺，鏡頭轉到內側面，用兩欄標籤加箭頭指向構造，標籤可點，點了打開該構造的資料卡（鏡頭不動）。標籤用英文在上、中文在下。箭頭終點一定落在構造自己的表面上（先取構造中心最近的點；那一點被肺葉擋住時，換成最近的看得到的點，用射線檢查）；從內側看不到的構造不顯示標籤。沒有補任何假模型：新增的 14 個面片全部是肺葉表面的一塊（與既有溝一樣，取離相鄰構造 4.5 mm 內且朝向它的三角形，或沿肺葉邊緣的一條帶），肺門構造用模型原有的網格。
+測試：`node scripts/browser/lung-labels-ui.cjs <port> <輸出資料夾>`（Playwright，真實滑鼠；`SIDES=left` 或 `SIDES=right` 一次只測一側）。
 
 | 構造 | 現況 |
 | --- | --- |
-| 右肺：鎖骨下動脈溝、頭臂靜脈溝、上腔靜脈溝、奇靜脈溝、心壓跡、下腔靜脈溝、食道溝、水平裂、斜裂、肺門 | 有（面片） |
-| 右肺：肺尖、第 1 肋溝、胸腺／前縱隔脂肪接觸區、前緣、氣管接觸區、膈面、下緣 | 沒有面片（肺葉網格有形狀，但沒有命名構造；肺尖／前緣／下緣／膈面可由網格幾何定義，第 1 肋溝與氣管、胸腺接觸區需鄰近構造距離） |
-| 右肺韌帶 | 有（結締組織，帶狀示意） |
-| 右肺門：右上葉支氣管、中間支氣管、右肺動脈、右上／下肺靜脈、支氣管動脈 | 有獨立構造（右主支氣管、段支氣管樹、右肺動脈、肺靜脈、`Bronchial artery`）；「右上葉支氣管（動脈上）」「中間支氣管」模型沒有獨立命名，要由段支氣管樹分組 |
-| 右肺門淋巴結 | 沒有（模型沒有支氣管肺門淋巴結） |
-| 左肺：鎖骨下動脈溝、左頭臂靜脈溝、主動脈弓溝、降主動脈溝、食道壓跡、斜裂、心壓跡、心切跡、舌葉、肺門 | 有（面片）；心壓跡深度用同一面片，沒有「更深」的獨立表示 |
-| 左肺：肺尖、第 1 肋溝、氣管接觸區、胸腺接觸區、前緣、膈面、下緣 | 沒有面片 |
-| 左肺韌帶 | 有 |
-| 左肺門：左肺動脈、左主支氣管、左上／下肺靜脈、支氣管動脈 | 有獨立構造；左肺門淋巴結沒有 |
-| 胸腺 | 有（左、右葉），可用於定義接觸區 |
+| 右肺：肺尖、鎖骨下動脈溝、頭臂靜脈溝、上腔靜脈溝、胸腺接觸區、前緣、水平裂、斜裂、心壓跡、下腔靜脈溝、氣管接觸區、食道溝（＝食道接觸區與溝，同一面片）、奇靜脈溝、膈面、下緣 | 有（肺葉表面面片）；肺尖、第 1 肋溝、胸腺接觸區、氣管接觸區、前緣、膈面、下緣是本 PR 新增 |
+| 右肺：第 1 肋溝 | 有面片，但從內側面看不到（在肺尖外上方），內側視圖不顯示標籤；選取肺尖外側時可見 |
+| 右肺韌帶 | 有（結締組織，帶狀示意）；已標 |
+| 右肺門：右主支氣管、右肺動脈、右上／下肺靜脈、支氣管動脈、肺門面片 | 有（模型原有網格；支氣管動脈是單一網格沿兩側主支氣管走，箭頭指向最近該側肺門的一點）；已標 |
+| 右上葉支氣管（動脈上支氣管，位置最高）、中間支氣管 | 沒有：模型只有「右主支氣管」整條與段支氣管樹，沒有單獨命名的右上葉支氣管與中間支氣管；沒有為了標籤去切分網格，不假造 |
+| 右肺門淋巴結、胸膜返折包圍肺門 | 沒有：模型沒有支氣管肺門淋巴結；胸膜返折只有第 2 層胸膜外殼，沒有肺門處的袖狀返折，不假造 |
+| 左肺：肺尖、鎖骨下動脈溝、左頭臂靜脈溝、氣管接觸區、胸腺接觸區、前緣、斜裂、主動脈弓溝、降主動脈溝、心壓跡、心切跡、舌葉、食道壓跡、膈面、下緣 | 有（肺葉表面面片）；新增的同右肺 |
+| 左肺：第 1 肋溝 | 有面片，內側面看不到時不顯示標籤 |
+| 左肺心壓跡「更深」 | 同一面片，沒有表示深度的獨立構造 |
+| 左肺韌帶 | 有；已標 |
+| 左肺門：左肺動脈、左主支氣管、左上／下肺靜脈、支氣管動脈、肺門面片 | 有（模型原有網格）；已標 |
+| 左肺門淋巴結 | 沒有 |
+| 胸腺 | 模型有左、右葉，用來定義胸腺接觸區 |
+
+英文發音：新結構名稱的單字（apex、area、border、bronchus、cardiac、contact、diaphragmatic、esophagus、fissure、hilum、horizontal、impression、ligament、lingula、notch、surface、thymus、trachea、groove 等）以 `PRON_MERGE=1 node scripts/fetch-pronunciation.mjs` 補進 `public/pronunciation.json`（只新增沒有的單字，既有 193 個單字的內容一個字都沒變；新增 23 個單字有資料）。檔案格式只有一個整體 `fetched` 日期，所以這個日期現在是今天，但只有新增的單字是今天取的。額外名稱放在 `scripts/pronunciation-extra-names.json`。
+
+
+## 肺 Quiz（外表面壓跡、切跡與肺門；第二輪，需人工審核，不自動 merge）
+入口：Quiz 首頁「器官」下的「肺」（`#/quiz/lung`）。第一級（看名稱、點位置）與第二級（看高亮、輸入名稱）都有；答題後顯示資料卡；視角預設「內側面」（縱隔面），另有前面、後面、側面、內側面按鈕。題目只涵蓋模型真的有的構造（共 45 題）：肺表面面片（由肺葉表面依相鄰構造切出，邊界是近似，不是描出來的）與肺門的原有網格。肺葉只當背景（不出題）。肺內的支氣管樹與肺血管不在範圍內（使用者說目前不考）。
+
+**沒有所以不出題：** 右上葉支氣管（動脈上支氣管）、中間支氣管、肺門淋巴結、肺門處的胸膜返折（袖狀）、左肺心壓跡「更深」的獨立構造。第 1 肋溝（左右）有面片但從內側面看不到，題目開啟後要轉到前面或側面才找得到。
+
+**題庫**（請逐列核對英文名、中文名、分類；「兩側」＝兩側肺都可出）：
+
+| 英文名 | 中文名 | 分類 | 側別 |
+| --- | --- | --- | --- |
+| Oblique fissure of right lung | 右肺斜裂 | 尖、緣、面、裂、切跡與舌葉 | 右 |
+| Horizontal fissure of right lung | 右肺水平裂 | 尖、緣、面、裂、切跡與舌葉 | 右 |
+| Oblique fissure of left lung | 左肺斜裂 | 尖、緣、面、裂、切跡與舌葉 | 左 |
+| Lingula of left lung | 左肺舌葉 | 尖、緣、面、裂、切跡與舌葉 | 左 |
+| Cardiac notch of left lung | 左肺心切跡 | 尖、緣、面、裂、切跡與舌葉 | 左 |
+| Cardiac impression of left lung | 左肺心壓跡 | 壓跡與溝 | 左 |
+| Cardiac impression of right lung | 右肺心壓跡 | 壓跡與溝 | 右 |
+| Left groove for aortic arch | 左主動脈弓溝 | 壓跡與溝 | 左 |
+| Left groove for descending aorta | 左降主動脈溝 | 壓跡與溝 | 左 |
+| Left groove for subclavian artery | 左鎖骨下動脈溝 | 壓跡與溝 | 左 |
+| Right groove for subclavian artery | 右鎖骨下動脈溝 | 壓跡與溝 | 右 |
+| Groove for left brachiocephalic vein | 左頭臂靜脈溝 | 壓跡與溝 | 左 |
+| Right groove for brachiocephalic vein | 右頭臂靜脈溝 | 壓跡與溝 | 右 |
+| Right groove for superior vena cava | 右上腔靜脈溝 | 壓跡與溝 | 右 |
+| Right groove for azygos vein | 右奇靜脈溝 | 壓跡與溝 | 右 |
+| Esophageal impression of left lung | 左肺食道壓跡 | 壓跡與溝 | 左 |
+| Right groove for inferior vena cava | 右下腔靜脈溝 | 壓跡與溝 | 右 |
+| Right groove for esophagus | 右食道溝 | 壓跡與溝 | 右 |
+| Hilum of left lung | 左肺門 | 肺門 | 左 |
+| Hilum of right lung | 右肺門 | 肺門 | 右 |
+| Left pulmonary ligament | 左肺韌帶 | 肺門 | 左 |
+| Right pulmonary ligament | 右肺韌帶 | 肺門 | 右 |
+| Apex of right lung | 右肺尖 | 尖、緣、面、裂、切跡與舌葉 | 右 |
+| Groove for first rib of right lung | 右肺第 1 肋溝 | 壓跡與溝 | 右 |
+| Contact area for thymus of right lung | 右肺胸腺接觸區 | 壓跡與溝 | 右 |
+| Contact area for trachea of right lung | 右肺氣管接觸區 | 壓跡與溝 | 右 |
+| Anterior border of right lung | 右肺前緣 | 尖、緣、面、裂、切跡與舌葉 | 右 |
+| Diaphragmatic surface of right lung | 右肺膈面 | 尖、緣、面、裂、切跡與舌葉 | 右 |
+| Inferior border of right lung | 右肺下緣 | 尖、緣、面、裂、切跡與舌葉 | 右 |
+| Apex of left lung | 左肺尖 | 尖、緣、面、裂、切跡與舌葉 | 左 |
+| Groove for first rib of left lung | 左肺第 1 肋溝 | 壓跡與溝 | 左 |
+| Contact area for thymus of left lung | 左肺胸腺接觸區 | 壓跡與溝 | 左 |
+| Contact area for trachea of left lung | 左肺氣管接觸區 | 壓跡與溝 | 左 |
+| Anterior border of left lung | 左肺前緣 | 尖、緣、面、裂、切跡與舌葉 | 左 |
+| Diaphragmatic surface of left lung | 左肺膈面 | 尖、緣、面、裂、切跡與舌葉 | 左 |
+| Inferior border of left lung | 左肺下緣 | 尖、緣、面、裂、切跡與舌葉 | 左 |
+| Bronchial artery | 支氣管動脈 | 肺門 | 兩側 |
+| Left main bronchus | 左主支氣管 | 肺門 | 左 |
+| Right main bronchus proper | 右主支氣管本幹 | 肺門 | 右 |
+| Left pulmonary artery | 左肺動脈 | 肺門 | 左 |
+| Left superior pulmonary vein | 左上肺靜脈 | 肺門 | 左 |
+| Left inferior pulmonary vein | 左下肺靜脈 | 肺門 | 左 |
+| Right pulmonary artery | 右肺動脈 | 肺門 | 右 |
+| Right superior pulmonary vein | 右上肺靜脈 | 肺門 | 右 |
+| Right inferior pulmonary vein | 右下肺靜脈 | 肺門 | 右 |
+
+第二級（輸入名稱）可出題 45 / 50（肺葉 5 個因資料卡不完整排除，本來就不是題目）；範圍清單在 `docs/quiz-level2-pool.md`。同義名稱表的新增 26 列在下方「Quiz 第二級同義名稱表」最後面，請核對（特別是「壓跡」類中文別名，以及「小裂、大裂」「肺底」是否要接受）。資料卡文字：壓跡類取自 PR #131 的面片資料卡；主支氣管與支氣管動脈為新寫的標準解剖內容（支氣管動脈來源寫「常見」），肺動脈與肺靜脈補上「來源」「主要分支」。
+
+驗證：`node scripts/test-region-quiz.mjs`、`test-region-quiz-flow.mjs`、`test-quiz-hub.mjs`、`report-quiz-level2.mjs --check`、`test-lower-quiz.mjs` 等已更新並通過；瀏覽器截圖見 PR。
 
 ## 血管連續性與圓滑（上肢、下肢；【需人工審核】）
 
@@ -321,7 +387,8 @@
 | 修正部署：臉部肌肉來源檔上游 404，改用 `vendor/` 內雜湊相同的備份 | 已 merge（你審核過） | #129 | 16 MB 第三方資料（CC BY-SA 2.1 Japan）放在 `vendor/`，不發布到網站；部署確認中 |
 | 第二級 Quiz | 已完成（已部署） | #98 | — |
 | **肺 PR 1：聚焦視圖修正**（按鈕、白斑、顏色、平滑、支氣管樹／肺血管開關、胸廓半透明、面板中英分行） | 已 merge（你審核過）；**因部署失敗尚未上線** | #127 | 已知限制：左肺下緣鋸齒、肋縱隱窩模型沒有、腋中線壁層胸膜下緣偏高約一條肋、臟層胸膜在肺裂處有折線、肺裂尾端約 3 mm 穿透縫 |
-| **肺 PR 2：內側面標籤與肺門** | 進行中（分支 mj-lung-labels，尚未提交或開 PR；新增的肺表面片、標籤程式、發音資料已寫好，瀏覽器測試還沒有結果） | — | 需人工審核；CI 要等 #129 merge 才會過。缺少的結構見「肺 PR 2 規劃」 |
+| 肺 PR 2：內側面標籤與肺門 | 已完成（使用者已 merge） | #131 | 沒有：右上葉支氣管與中間支氣管、肺門淋巴結、胸膜返折包圍肺門；第 1 肋溝與左鎖骨下動脈溝內側看不到所以不標 |
+| **肺 Quiz：外表面壓跡、切跡、緣、面、裂與肺門** | 等我審核（需人工審核，不自動 merge；45 題、第一級與第二級、同義名稱 26 列待核對） | #132 | 只出模型真的有的構造；沒有：右上葉支氣管、中間支氣管、肺門淋巴結、肺門處胸膜返折；題庫表與缺的清單在「肺 Quiz」小節 |
 | 肺 PR 3：肺段 | 未開始 | — | PR 2 之後；左肺合併或分開計算要你決定 |
 | 肺 PR 4：肺淋巴引流 | 未開始 | — | 較低優先 |
 | 肺 PR A／PR B | 已完成 | #112、#115 | — |
@@ -902,7 +969,7 @@
 - **判分規則**（請核對）：不分大小寫；忽略多餘空白、連字號、標點；忽略 the、muscle(s)；繁簡臺台視為相同；括號內別名與下表同義名稱都算對；英文、中文、不限三種作答語言；左右預設不要求（成對構造的 Left/Right 可省略），設定中可改為必須寫出；差 1–2 個字母（中文名四字以上差 1 字）判「接近正確」，顯示正確拼法並列入錯題；答案漏了「Left／Right」所屬的心房、心室（例如 atrium 對 Left atrium）判錯。
 - **鄰近構造**：依模型邊界框距離，優先同系統，每題 2–3 個，可點擊高亮。
 
-### Quiz 第二級同義名稱表（需人工審核，共 102 列）
+### Quiz 第二級同義名稱表（需人工審核，共 128 列）
 以下是除了構造自己的英文名、中文名與括號內別名以外，額外接受的答案。依跑考摘要的寫法為先，其餘為通行別名；請逐列核對，有誤的告訴我刪改。程式表在 `app/quiz/synonyms.ts`。
 
 | 構造（英文名，小寫，不含左右） | 額外接受的英文 | 額外接受的中文 |
@@ -1009,6 +1076,32 @@
 | levator scapulae | levator scapulae muscle | 提肩胛肌 |
 | rhomboid major | greater rhomboid | 大菱形肌 |
 | rhomboid minor | lesser rhomboid | 小菱形肌 |
+| apex of lung | lung apex；apex |  |
+| groove for first rib of lung | first rib groove；groove for 1st rib；1st rib groove | 第一肋溝、第1肋溝 |
+| contact area for thymus of lung | thymus contact area；thymic impression | 胸腺壓跡、胸腺接觸面 |
+| contact area for trachea of lung | trachea contact area；tracheal impression | 氣管壓跡、氣管接觸面 |
+| anterior border of lung | anterior margin of lung；anterior margin |  |
+| inferior border of lung | inferior margin of lung；inferior margin |  |
+| diaphragmatic surface of lung | base of lung；base of the lung | 肺底、橫膈面 |
+| cardiac impression of lung | cardiac impression |  |
+| cardiac notch of lung | cardiac notch；cardiac incisure | 心切跡、心切痕 |
+| lingula of lung | lingula | 舌葉、舌狀葉 |
+| oblique fissure of lung | oblique fissure；major fissure | 斜裂、大裂 |
+| horizontal fissure of lung | horizontal fissure；transverse fissure；minor fissure | 水平裂、小裂 |
+| esophageal impression of lung | esophageal impression；oesophageal impression | 食道壓跡 |
+| groove for esophagus | esophageal groove；oesophageal groove；groove for oesophagus | 食道壓跡 |
+| groove for subclavian artery | subclavian artery groove；subclavian groove | 鎖骨下動脈壓跡 |
+| groove for brachiocephalic vein | brachiocephalic vein groove | 頭臂靜脈壓跡 |
+| groove for superior vena cava | svc groove；superior vena cava groove | 上腔靜脈壓跡 |
+| groove for azygos vein | azygos groove；azygos vein groove；azygos impression | 奇靜脈壓跡 |
+| groove for inferior vena cava | ivc groove；inferior vena cava groove | 下腔靜脈壓跡 |
+| groove for aortic arch | aortic arch groove；groove for arch of aorta；aortic groove；aortic impression | 主動脈弓壓跡 |
+| groove for descending aorta | descending aorta groove；groove for thoracic aorta | 降主動脈壓跡 |
+| hilum of lung | hilum；hilus of lung；hilum of the lung |  |
+| pulmonary ligament | inferior pulmonary ligament；ligamentum pulmonale | 肺下韌帶 |
+| main bronchus | primary bronchus；principal bronchus |  |
+| main bronchus proper | right main bronchus；right primary bronchus；main bronchus | 主支氣管、右主支氣管 |
+| bronchial artery | bronchial arteries |  |
 
 
 ### 需要你決定

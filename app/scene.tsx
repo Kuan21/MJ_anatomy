@@ -38,11 +38,11 @@ const bodyNerveBindings=bodyNerveData as Record<string,BodyRegion>;
 export interface AnatomyLoadStatus {loaded:number;total:number;systems:Record<string,number>;failed:string[];busy:boolean;interactive:boolean;supplementaryPending:number}
 // Selection colours: soft mint (#5DB89A) at 85 % strength; hover is a lighter tint of the same hue.
 const SELECT_COLOR=0x5DB89A,HOVER_COLOR=0xA7DCCB;
-interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;onSelectNerve?:(name:string)=>void;onProgress:(n:number)=>void;onLoadStatus?:(status:AnatomyLoadStatus)=>void;retryNonce?:number;onError:(s:string)=>void;onJointDrag?:(side:'left'|'right',joint:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion',delta:number)=>void;region?:'whole-body'|'shoulder'|'arm'|'forearm'|'hand';focusSide?:'both'|'left'|'right';motionActive?:boolean;jointMotionEnabled?:boolean;selectedExternalNerve?:string|null;bodyArea?:'whole'|'upper'|'lower'|'head'|'organs'|'chest'|'back'|'abdomen'|'pelvis'|'gluteal'}
-export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgress,onLoadStatus,retryNonce=0,onError,onJointDrag,region='whole-body',focusSide='both',motionActive=false,jointMotionEnabled=false,selectedExternalNerve=null,bodyArea='whole'}:Props){
+interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;onLabelPick?:(id:string)=>void;onSelectNerve?:(name:string)=>void;onProgress:(n:number)=>void;onLoadStatus?:(status:AnatomyLoadStatus)=>void;retryNonce?:number;onError:(s:string)=>void;onJointDrag?:(side:'left'|'right',joint:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion',delta:number)=>void;region?:'whole-body'|'shoulder'|'arm'|'forearm'|'hand';focusSide?:'both'|'left'|'right';motionActive?:boolean;jointMotionEnabled?:boolean;selectedExternalNerve?:string|null;bodyArea?:'whole'|'upper'|'lower'|'head'|'organs'|'chest'|'back'|'abdomen'|'pelvis'|'gluteal'}
+export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectNerve,onProgress,onLoadStatus,retryNonce=0,onError,onJointDrag,region='whole-body',focusSide='both',motionActive=false,jointMotionEnabled=false,selectedExternalNerve=null,bodyArea='whole'}:Props){
  const retryLoad=useRef<(()=>void)|null>(null);
- const host=useRef<HTMLDivElement>(null),latest=useRef(state),select=useRef(onSelect),selectNerve=useRef(onSelectNerve),selectedNerve=useRef<string|null>(selectedExternalNerve),jointDrag=useRef(onJointDrag),viewerContext=useRef({region,focusSide,motionActive,jointMotionEnabled,bodyArea});
- latest.current=state;select.current=onSelect;selectNerve.current=onSelectNerve;selectedNerve.current=selectedExternalNerve;jointDrag.current=onJointDrag;viewerContext.current={region,focusSide,motionActive,jointMotionEnabled,bodyArea};
+ const host=useRef<HTMLDivElement>(null),latest=useRef(state),select=useRef(onSelect),labelPick=useRef(onLabelPick),selectNerve=useRef(onSelectNerve),selectedNerve=useRef<string|null>(selectedExternalNerve),jointDrag=useRef(onJointDrag),viewerContext=useRef({region,focusSide,motionActive,jointMotionEnabled,bodyArea});
+ latest.current=state;select.current=onSelect;labelPick.current=onLabelPick;selectNerve.current=onSelectNerve;selectedNerve.current=selectedExternalNerve;jointDrag.current=onJointDrag;viewerContext.current={region,focusSide,motionActive,jointMotionEnabled,bodyArea};
  useEffect(()=>{
   const el=host.current!;let disposed=false,frame=0,dirty=true,ready=false,lastView='',lastReset=-1,lastIsolate='',layoutKey='',amount=0,lastCameraFocus=-1,autoFade:Set<string>|null=null,autoFadeDirty=false,nerveFocusWait=0;
   let lastState:SceneState|null=null;
@@ -845,6 +845,74 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     }
    }
   };
+  // Name labels of the lung focus view (state.partLabels): clickable boxes in two columns, one at each side of the free view, with an arrow to a point on the structure.
+  // Each column is ordered by the height of its arrows' ends and then untangled pair by pair, and the split between the columns is at the median x of the arrow ends, so no arrows cross.
+  const plLayer=document.createElement('div');plLayer.className='part-labels';el.appendChild(plLayer);
+  const plSvg=document.createElementNS('http://www.w3.org/2000/svg','svg');plSvg.setAttribute('class','part-label-lines');plSvg.setAttribute('aria-hidden','true');plLayer.appendChild(plSvg);
+  type PartLabel={key:string;ids:string[];anchor:T.Vector3;cands:T.Vector3[];normal:T.Vector3|null;vis:boolean;box:HTMLButtonElement;line:SVGLineElement};let plPose='',plMoved=0,plChecked='';const plRay=new T.Raycaster();
+  let plKey='',plItems:PartLabel[]=[],plMissing=0,plRetries=0,plLast=0;
+  const plWorld=(ids:string[],step:number)=>{const pts:{p:T.Vector3;n:T.Vector3|null}[]=[];for(const id of ids){const i=atlas.parts.findIndex(q=>q.id===id),mesh=i>=0?pickers[i]:undefined;if(!mesh)continue;mesh.updateWorldMatrix(true,false);const pos=mesh.geometry.getAttribute('position'),nor=mesh.geometry.getAttribute('normal'),st=Math.max(1,Math.floor(pos.count/step));for(let k=0;k<pos.count;k+=st){const p=new T.Vector3(pos.getX(k),pos.getY(k),pos.getZ(k)).applyMatrix4(mesh.matrixWorld);pts.push({p,n:nor?new T.Vector3(nor.getX(k),nor.getY(k),nor.getZ(k)).transformDirection(mesh.matrixWorld):null});}}return pts;};
+  const plBuild=(s:SceneState)=>{
+   const key=s.partLabels?.length?JSON.stringify(s.partLabels.map(l=>l.key+l.en)):'';
+   const retry=!!key&&key===plKey&&plMissing>0&&plRetries<600&&performance.now()-plLast>1500;
+   if(key===plKey&&!retry)return;
+   if(retry){plRetries++;}else{plRetries=0;}
+   plKey=key;plLast=performance.now();plMissing=0;
+   for(const it of plItems){it.box.remove();it.line.remove();}plItems=[];
+   if(!key)return;
+   for(const l of s.partLabels!){
+    const pts=plWorld(l.ids,5000);if(!pts.length){plMissing++;continue;}
+    const hint=l.near.length?plWorld(l.near,800):[],target=new T.Vector3();
+    for(const q of (hint.length?hint:pts))target.add(q.p);target.divideScalar((hint.length?hint:pts).length);
+    // the arrow ends on the structure itself: its vertex nearest to the middle of the structure (or of the part it should be near)
+    let best=pts[0],bd=Infinity;for(const q of pts){const d=q.p.distanceToSquared(target);if(d<bd){bd=d;best=q;}}
+    const box=document.createElement('button');box.type='button';box.className='part-label';box.dataset.key=l.key;
+    const en=document.createElement('span');en.className='part-label-en';en.textContent=l.en;const zh=document.createElement('span');zh.className='part-label-zh';zh.textContent=l.zh;box.appendChild(en);box.appendChild(zh);
+    box.addEventListener('click',()=>labelPick.current?.(l.ids[0]));plLayer.appendChild(box);
+    const line=document.createElementNS('http://www.w3.org/2000/svg','line');plSvg.appendChild(line);
+    // the side the structure faces: the mean normal of the sample points around the arrow's end (a single vertex of a thin tube can face anywhere)
+    const near=pts.filter(q=>q.n).sort((x,y)=>x.p.distanceToSquared(best.p)-y.p.distanceToSquared(best.p)).slice(0,60),mean=new T.Vector3();for(const q of near)mean.add(q.n!);
+    // other points of the structure, nearest the middle first: when the first one is hidden behind the lung, the arrow ends on the nearest one that is seen
+    const ranked=pts.map(q=>q.p).sort((x,y)=>x.distanceToSquared(target)-y.distanceToSquared(target)),cands=ranked.filter((_,k)=>k%Math.max(1,Math.floor(ranked.length/40))===0).slice(0,40);
+    plItems.push({key:l.key,ids:l.ids,anchor:best.p.clone(),cands:[best.p.clone(),...cands],normal:null,vis:true,box,line});plChecked='';
+   }
+  };
+  const segCross=(a:number[],b:number[])=>{const o=(p:number[],q:number[],r:number[])=>(q[0]-p[0])*(r[1]-p[1])-(q[1]-p[1])*(r[0]-p[0]);const d1=o(a.slice(0,2),a.slice(2),b.slice(0,2)),d2=o(a.slice(0,2),a.slice(2),b.slice(2)),d3=o(b.slice(0,2),b.slice(2),a.slice(0,2)),d4=o(b.slice(0,2),b.slice(2),a.slice(2));return d1*d2<0&&d3*d4<0;};
+  const updatePartLabels=()=>{
+   plBuild(latest.current);
+   if(plMissing)dirty=true;
+   if(!plItems.length)return;
+   const w=el.clientWidth,h=el.clientHeight;plSvg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+   const eye=camera.position;
+   // Is the arrow's end seen? Cast a ray from the camera to it against the lung lobes (a far-side structure is behind a lobe). Done once the camera has been still for a moment, because it costs a few tens of milliseconds.
+   const pose=camera.matrixWorld.elements.map(v=>v.toFixed(4)).join();
+   if(pose!==plPose){plPose=pose;plMoved=performance.now();plChecked='';}
+   if(plChecked!==pose){
+    if(performance.now()-plMoved>250){
+     const lobes:T.Object3D[]=[];atlas.parts.forEach((p,i)=>{const m=pickers[i];if(m&&data[i*4+3]>.5&&/^(?:upper|middle|lower) lobe of (?:right |left )?lung$/i.test(p.name))lobes.push(m);});
+     for(const it of plItems){it.vis=false;for(const c of it.cands){const d=c.clone().sub(eye),dist=d.length();plRay.set(eye.clone(),d.normalize());plRay.far=dist+.01;const hit=plRay.intersectObjects(lobes,false)[0];if(!hit||hit.distance>=dist-.012){it.anchor.copy(c);it.vis=true;break;}}}
+     plChecked=pose;
+    }else{setTimeout(()=>{dirty=true;},300);}
+   }
+   const shown=plItems.map(it=>{const q=it.anchor.clone().project(camera),ids=it.ids.map(id=>atlas.parts.findIndex(p=>p.id===id)),seen=ids.some(i=>i>=0&&data[i*4+3]>.5),front=it.vis;it.box.dataset.why=(seen?'':'hidden ')+(front?'':'faces-away ')+(q.z<1?'':'behind-camera');return{it,x:(q.x*.5+.5)*w,y:(-q.y*.5+.5)*h,ok:seen&&front&&q.z<1};});
+   for(const s of shown){const d=s.ok?'':'none';s.it.box.dataset.shown=s.ok?'1':'0';s.it.box.style.display=d;s.it.line.style.display=d;}
+   const list=shown.filter(s=>s.ok);if(!list.length)return;
+   const rect=el.getBoundingClientRect(),panelRight=document.querySelector('.left-workspace')?.getBoundingClientRect(),rightEdges=['.right-tool-panel','.right-tool-rail','.detail-sheet','.lung-focus'].map(q=>document.querySelector(q)?.getBoundingClientRect()).filter((r):r is DOMRect=>!!r&&r.width>0);
+   const freeLeft=Math.max(12,panelRight&&panelRight.width>0?panelRight.right-rect.left+14:12),freeRight=Math.min(w-12,...rightEdges.map(r=>r.left-rect.left-14));
+   const xs=list.map(s=>s.x).sort((a,b)=>a-b),median=xs[Math.floor(xs.length/2)];
+   const gap=Math.max(36,Math.min(46,(h-140)/Math.max(1,Math.ceil(list.length/2))));
+   for(const right of [false,true]){
+    const col=list.filter(s=>right?s.x>median||(s.x===median&&list.indexOf(s)%2===1):!(s.x>median||(s.x===median&&list.indexOf(s)%2===1))).sort((a,b)=>a.y-b.y);
+    let last=-Infinity;const ly:number[]=[];for(const s of col){const y=Math.max(s.y,last+gap,84);ly.push(y);last=y;}
+    // keep the stack inside the view, shifting it up from the bottom
+    for(let i=ly.length-1;i>=0;i--){const max=h-34-(ly.length-1-i)*gap;if(ly[i]>max)ly[i]=max;}
+    const edgeX=(s:{it:PartLabel})=>{const bw=s.it.box.offsetWidth||180;return right?Math.max(freeLeft,freeRight-bw):freeLeft+bw;};
+    const seg=(i:number)=>[edgeX(col[i]),ly[i],col[i].x,col[i].y];
+    // untangle: swap the heights of two labels whose arrows cross
+    for(let pass=0;pass<30;pass++){let swapped=false;for(let i=0;i<col.length;i++)for(let j=i+1;j<col.length;j++)if(segCross(seg(i),seg(j))){[ly[i],ly[j]]=[ly[j],ly[i]];swapped=true;}if(!swapped)break;}
+    col.forEach((s,i)=>{const bw=s.it.box.offsetWidth||180,lx=right?Math.max(freeLeft,freeRight-bw):freeLeft,edge=right?lx:lx+bw;s.it.box.style.left=`${lx}px`;s.it.box.style.top=`${ly[i]}px`;s.it.line.setAttribute('x1',String(edge));s.it.line.setAttribute('y1',String(ly[i]));s.it.line.setAttribute('x2',String(s.x));s.it.line.setAttribute('y2',String(s.y));});
+   }
+  };
   const raycaster=new T.Raycaster(),pointer=new T.Vector2(),tap=new PointerTap(),worldBox=new T.Box3(),hitPoint=new T.Vector3();
   /** GPU-skinned parts are raycast against their CPU twin (linearSkin) at the displayed pose. */
   const pickProxies=new Map<number,{mesh:T.Mesh;version:number}>();
@@ -1126,7 +1194,7 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     if(!box.isEmpty()){
      const center=box.getCenter(new T.Vector3()),dir=s.cameraFocusRange?new T.Vector3(...s.cameraFocusRange.dir).normalize():s.cameraFocusDir?new T.Vector3(...s.cameraFocusDir).normalize():camera.position.clone().sub(controls.target).normalize();
      const rect=el.getBoundingClientRect(),w=el.clientWidth,h=el.clientHeight;
-     const panel=document.querySelector('.left-workspace')?.getBoundingClientRect(),nav=document.querySelector('.body-region-nav')?.getBoundingClientRect(),rail=document.querySelector('.right-tool-rail')?.getBoundingClientRect();
+     const panel=document.querySelector('.left-workspace')?.getBoundingClientRect(),nav=document.querySelector('.body-region-nav')?.getBoundingClientRect(),rail=[document.querySelector('.right-tool-rail'),document.querySelector('.lung-focus')].map(q=>q?.getBoundingClientRect()).find(r=>!!r&&r.width>0);
      const left=panel&&panel.width>0?Math.min(w*.48,panel.right-rect.left+18):20;
      const right=rail&&rail.width>0?rail.left-rect.left-16:w-20;
      const top=nav?nav.bottom-rect.top+20:160,bottom=h-64;
@@ -1146,13 +1214,13 @@ export default function AnatomyScene({atlas,state,onSelect,onSelectNerve,onProgr
     if(s.cameraFocusNerve&&box.isEmpty()&&nerveFocusWait++<1800)dirty=true;else{lastCameraFocus=s.cameraFocusNonce??0;nerveFocusWait=0;}
    }
    controls.enableRotate=!jointGesture;controls.enablePan=!jointGesture;controls.mouseButtons.RIGHT=T.MOUSE.ROTATE;controls.touches.TWO=T.TOUCH.DOLLY_ROTATE;markers.visible=amount>.75;controls.autoRotate=s.rotate&&!s.isolate&&amount<.4&&!jointGesture;controls.autoRotateSpeed=.65;controls.update();if(controls.autoRotate)dirty=true;
-   if(dirty){renderer.render(scene,camera);updateLabels();targets=[];if(amount>.45){const hasSolid=atlas.parts.some((p,i)=>p.system!=='integumentary'&&data[i*4+3]>.5);atlas.parts.forEach((p,i)=>{if(data[i*4+3]<.5||(hasSolid&&p.system==='integumentary'))return;let left=Infinity,right=-Infinity,top=Infinity,bottom=-Infinity;for(let corner=0;corner<8;corner++){projected.set(p.bounds[(corner&1)?1:0][0]+data[i*4],p.bounds[(corner&2)?1:0][1]+data[i*4+1],p.bounds[(corner&4)?1:0][2]+data[i*4+2]).project(camera);const x=(projected.x+1)*el.clientWidth/2,y=(1-projected.y)*el.clientHeight/2;left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y);}projected.copy(centers[i]).add(new T.Vector3(data[i*4],data[i*4+1],data[i*4+2])).project(camera);if(projected.z< -1||projected.z>1)return;targets.push({index:i,x:(projected.x+1)*el.clientWidth/2,y:(1-projected.y)*el.clientHeight/2,left,right,top,bottom});});}dirty=false;}
+   if(dirty){renderer.render(scene,camera);updateLabels();updatePartLabels();targets=[];if(amount>.45){const hasSolid=atlas.parts.some((p,i)=>p.system!=='integumentary'&&data[i*4+3]>.5);atlas.parts.forEach((p,i)=>{if(data[i*4+3]<.5||(hasSolid&&p.system==='integumentary'))return;let left=Infinity,right=-Infinity,top=Infinity,bottom=-Infinity;for(let corner=0;corner<8;corner++){projected.set(p.bounds[(corner&1)?1:0][0]+data[i*4],p.bounds[(corner&2)?1:0][1]+data[i*4+1],p.bounds[(corner&4)?1:0][2]+data[i*4+2]).project(camera);const x=(projected.x+1)*el.clientWidth/2,y=(1-projected.y)*el.clientHeight/2;left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y);}projected.copy(centers[i]).add(new T.Vector3(data[i*4],data[i*4+1],data[i*4+2])).project(camera);if(projected.z< -1||projected.z>1)return;targets.push({index:i,x:(projected.x+1)*el.clientWidth/2,y:(1-projected.y)*el.clientHeight/2,left,right,top,bottom});});}dirty=false;}
 
   };animate();
   // ?mjview=1 exposes the camera for the screenshot scripts (view a structure from a chosen side and distance); nothing in the app uses it.
   if(typeof location!=='undefined'&&new URLSearchParams(location.search).has('mjview'))(window as unknown as {__mjView:unknown}).__mjView={look:(target:[number,number,number],dir:[number,number,number],distance:number)=>{controls.target.set(...target);camera.clearViewOffset();focusTarget=null;focusPosition=null;camera.position.set(target[0]+dir[0]*distance,target[1]+dir[1]*distance,target[2]+dir[2]*distance);controls.update();dirty=true;},focusing:()=>!!(focusTarget&&focusPosition),partsState:(rx:string)=>atlas.parts.map((p,i)=>({id:p.id,name:p.name,visible:data[i*4+3],faded:selectedData[i*4+2],picker:!!pickers[i]})).filter(x=>new RegExp(rx,'i').test(x.name))};
   const contextLost=(e:Event)=>{e.preventDefault();onError('The 3D session was paused by your device. Reload to continue.');};renderer.domElement.addEventListener('webglcontextlost',contextLost);
-  return()=>{labelLayer.remove();disposed=true;shoulderWorker?.terminate();retryLoad.current=null;abort.abort();cancelAnimationFrame(frame);observer.disconnect();controls.dispose();cervicalVessels.dispose();supplementaryJoints.dispose();draco.dispose();geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());scene.traverse(o=>{if(o instanceof T.Mesh&&!geometries.includes(o.geometry)){o.geometry.dispose();const ms=Array.isArray(o.material)?o.material:[o.material];ms.forEach(m=>m.dispose());}});env.dispose();partTexture.dispose();selectionTexture.dispose();motionTexture.dispose();rotationTexture.dispose();anchorMotionTexture.dispose();anchorRotationTexture.dispose();paletteTexture.dispose();markerGeometry.dispose();markerMaterial.dispose();hover.remove();renderer.dispose();renderer.domElement.remove();};
+  return()=>{labelLayer.remove();plLayer.remove();disposed=true;shoulderWorker?.terminate();retryLoad.current=null;abort.abort();cancelAnimationFrame(frame);observer.disconnect();controls.dispose();cervicalVessels.dispose();supplementaryJoints.dispose();draco.dispose();geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());scene.traverse(o=>{if(o instanceof T.Mesh&&!geometries.includes(o.geometry)){o.geometry.dispose();const ms=Array.isArray(o.material)?o.material:[o.material];ms.forEach(m=>m.dispose());}});env.dispose();partTexture.dispose();selectionTexture.dispose();motionTexture.dispose();rotationTexture.dispose();anchorMotionTexture.dispose();anchorRotationTexture.dispose();paletteTexture.dispose();markerGeometry.dispose();markerMaterial.dispose();hover.remove();renderer.dispose();renderer.domElement.remove();};
  },[atlas]);
  useEffect(()=>{if(retryNonce>0)retryLoad.current?.();},[retryNonce]);
  return <div className="scene" ref={host}/>;

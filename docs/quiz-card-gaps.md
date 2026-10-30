@@ -333,10 +333,9 @@
 - 肋間神經（intercostal nerves）：缺 來源、走向、主要分支、支配範圍
 - 交感神經（sympathetic nerves）：缺 來源、走向、主要分支、支配範圍
 
-### 動脈：4 / 18 項資料完整
+### 動脈：6 / 18 項資料完整
 
 - 胸主動脈（Descending thoracic aorta）：缺 來源、走向、主要分支、供應範圍
-- 支氣管動脈（bronchial artery）：缺 來源、走向、主要分支、供應範圍
 - 食道動脈（Esophageal artery）：缺 來源、走向、主要分支、供應範圍
 - 最上肋間動脈（superior intercostal artery）：缺 來源、走向、主要分支、供應範圍
 - 內胸動脈（internal thoracic artery）：缺 來源、走向、主要分支、供應範圍
@@ -344,13 +343,12 @@
 - 肋下動脈（subcostal artery）：缺 主要分支
 - 肌膈動脈（musculophrenic artery）：缺 來源、走向、主要分支、供應範圍
 - 甲狀頸動脈幹（thyrocervical trunk）：缺 來源、走向、主要分支、供應範圍
-- 肺動脈（pulmonary artery）：缺 主要分支
 - 頭臂動脈（Brachiocephalic artery）：缺 來源、走向、主要分支、供應範圍
 - 降主動脈（Descending aorta）：缺 來源、走向、主要分支、供應範圍
 - 鎖骨下動脈（subclavian artery）：缺 來源、走向、主要分支、供應範圍
 - 總頸動脈（common carotid artery）：缺 來源、走向、主要分支、供應範圍
 
-### 靜脈：0 / 14 項資料完整
+### 靜脈：2 / 14 項資料完整
 
 - 副半奇靜脈（Accessory hemiazygos vein）：缺 來源、走向、主要分支、引流範圍
 - 前肋間靜脈群（set of anterior intercostal veins）：缺 來源、走向、主要分支、引流範圍
@@ -358,8 +356,6 @@
 - 肋下靜脈（subcostal vein）：缺 來源、主要分支
 - 肌膈靜脈（musculophrenic vein）：缺 來源、走向、主要分支、引流範圍
 - 內胸靜脈（internal thoracic vein）：缺 來源、走向、主要分支、引流範圍
-- 上肺靜脈（superior pulmonary vein）：缺 來源、主要分支
-- 下肺靜脈（inferior pulmonary vein）：缺 來源、主要分支
 - 奇靜脈（Azygos vein）：缺 來源、走向、主要分支、引流範圍
 - 半奇靜脈（Hemiazygos vein）：缺 來源、走向、主要分支、引流範圍
 - 下腔靜脈（Inferior vena cava）：缺 來源、走向、主要分支、引流範圍
@@ -428,32 +424,42 @@
 
 ## 心臟（Heart）
 
-### 動脈：7 / 16 項資料完整
+### 動脈：9 / 16 項資料完整
 
 - 右冠狀動脈右下外側支（Right inferolateral branch of right coronary artery）：缺 主要分支
 - 前室間動脈中隔支（Septal branches of anterior interventricular artery）：缺 主要分支
-- 左肺動脈（Left pulmonary artery）：缺 主要分支
-- 右肺動脈（Right pulmonary artery）：缺 主要分支
 - 右緣支（Right marginal branch）：缺 來源、走向、主要分支、供應範圍
 - 後室間支（Posterior interventricular branch）：缺 來源、走向、主要分支、供應範圍
 - 對角支（Diagonal branches）：缺 來源、走向、主要分支、供應範圍
 - 竇房結動脈（Sinoatrial nodal artery）：缺 來源、走向、主要分支、供應範圍
 - 左緣支（Left marginal branch）：缺 來源、走向、主要分支、供應範圍
 
-### 靜脈：2 / 13 項資料完整
+### 靜脈：6 / 13 項資料完整
 
 - 心中靜脈（Middle cardiac vein）：缺 主要分支
 - 左心室下靜脈（Inferior vein of left ventricle）：缺 來源、主要分支
 - 左心室後靜脈（Posterior vein of left ventricle）：缺 來源、主要分支
 - 上腔靜脈（Superior vena cava）：缺 來源、走向、主要分支、引流範圍
 - 下腔靜脈（Inferior vena cava）：缺 來源、走向、主要分支、引流範圍
-- 左上肺靜脈（Left superior pulmonary vein）：缺 來源、主要分支
-- 左下肺靜脈（Left inferior pulmonary vein）：缺 來源、主要分支
-- 右上肺靜脈（Right superior pulmonary vein）：缺 來源、主要分支
-- 右下肺靜脈（Right inferior pulmonary vein）：缺 來源、主要分支
 - 心小靜脈（Small cardiac vein）：缺 來源、走向、主要分支、引流範圍
 - 心前靜脈（Anterior cardiac veins）：缺 來源、走向、主要分支、引流範圍
 
 ### 心臟構造：38 / 38 項資料完整
 
 （全部完整）
+
+## 肺（Lungs）
+
+### 動脈：2 / 2 項資料完整
+
+（全部完整）
+
+### 靜脈：2 / 2 項資料完整
+
+（全部完整）
+
+### 肺表面與氣道：25 / 28 項資料完整
+
+- 肺上葉（Upper lobe of right lung）：缺 位置、構造／毗鄰關係、血液供應／神經
+- 肺中葉（Middle lobe of right lung）：缺 位置、構造／毗鄰關係、血液供應／神經
+- 肺下葉（Lower lobe of right lung）：缺 位置、構造／毗鄰關係、血液供應／神經
