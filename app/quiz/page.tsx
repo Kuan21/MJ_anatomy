@@ -265,7 +265,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
         <h1 className="quiz-target" ref={title} tabIndex={-1}><Name structure={target}/></h1>
 
         {answer ? <div className={`quiz-feedback ${answer.correct ? 'is-correct' : answer.result === 'close' ? 'is-close' : 'is-wrong'}`} role="status" aria-live="polite" aria-atomic="true">
-          <div className="quiz-feedback-title">{answer.correct ? <CheckCircle2 size={21}/> : answer.result === 'close' ? <AlertCircle size={21}/> : answer.pickedId ? <XCircle size={21}/> : <Eye size={21}/>}<strong>{answer.correct ? '答對了！就是這個。' : answer.result === 'close' ? (answer.relation === 'typed-part' ? '接近了：你點選的是題目的其中一部分。' : '接近了：你點選的是題目所屬的整體。') : answer.pickedId ? '答錯了，請對照正確位置。' : '本題已查看答案，之後可再練習。'}</strong></div>
+          <div className="quiz-feedback-title">{answer.correct ? <CheckCircle2 size={21}/> : answer.result === 'close' ? <AlertCircle size={21}/> : answer.pickedId ? <XCircle size={21}/> : <Eye size={21}/>}<strong>{answer.correct ? '答對了！就是這個。' : answer.result === 'close' ? (answer.relation === 'typed-part' ? `接近了：你${answer.typed ? '寫' : '點選'}的是題目的其中一部分。` : `接近了：你${answer.typed ? '寫' : '點選'}的是題目所屬的整體。`) : answer.pickedId ? '答錯了，請對照正確位置。' : '本題已查看答案，之後可再練習。'}</strong></div>
           {picked && !answer.correct && <div className="quiz-answer-name"><span><i className="wrong-dot"/>你點選的是</span><b><Name structure={picked}/></b></div>}
           <div className="quiz-answer-name"><span><i className="correct-dot"/>{answer.correct ? '綠色顯示' : '正確位置用綠色顯示'}</span><b><Name structure={target}/></b></div>
           <button data-slot="quiz-button" className="quiz-text-button" onClick={() => changeView('answer')}><Target size={15}/>放大正確位置</button>

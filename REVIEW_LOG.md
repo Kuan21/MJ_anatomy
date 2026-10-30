@@ -20,6 +20,17 @@
 - **P1-01**：示意模型第 0 包每次載入失敗（`isShellSurface` 的 `/pericardi/` 匹配到 pericardiophrenic），膈神經、喉返神經、內臟神經、迷走神經幹、臂神經叢內外側束等 61 個結構目前看不到。
 - 修正一律等你審核後分批開 PR（報告最後有建議分批）；涉及解剖內容者標【需人工審核】。
 
+## Quiz 第二級判分放寬與容錯（Bug Audit P1-09 部分、P2-34、P2-35、P2-36、P3-28；【需人工審核】，不自動 merge）
+
+PR [#PRNUM](https://github.com/Kuan21/MJ_anatomy/pull/PRNUM)。只改 `app/quiz/naming.ts` 的判分與 `scripts/test-quiz-naming.mjs`；題庫、模型、名稱、同義詞表都沒有改。依你 2026-10-30 的指示：
+
+- **整條肌肉名可答「部分」題（算答對）**：題目是某肌肉的「…part／head of …」時，寫整條肌肉的英文或中文都算對（需要左右時仍要寫左右）。適用 29 種結構（左右各一，共 58 題）：胸大肌腹部／鎖骨頭／胸肋頭、三角肌肩峰部／鎖骨部／肩胛棘部、斜方肌升部／降部／橫部、尺側腕屈肌肱骨頭／尺骨頭、旋前圓肌肱骨頭／尺骨頭、拇收肌斜頭／橫頭（手）、拇收肌斜頭／橫頭（足）、拇短屈肌淺頭（手）、拇短屈肌外側頭／內側頭（足）、腓腸肌外側頭／內側頭。
+- **一定要寫出哪一個頭（寫整條肌肉只算「接近」，列入錯題）**：肱二頭肌長頭／短頭、肱三頭肌長頭／外側頭／內側頭、股二頭肌長頭／短頭（程式表 `HEADS_REQUIRED`，另含 quadriceps femoris 備用；股四頭肌四個頭本來就是獨立名稱）。
+- **對立詞不算拼字接近**：major／minor、longus／brevis、medial／lateral、anterior／posterior、superior／inferior、superficial／deep、internal／external、proximal／distal、ascending／descending、maximus／minimus、大／小、長／短、內／外、前／後、上／下、淺／深、升／降、近／遠。例：題目大菱形肌寫「小菱形肌」現在判錯（之前判接近並顯示「正確拼法」）。
+- **容錯**：左右字位置不限（Left acromial part of deltoid ＝ Acromial part of left deltoid）；「左側／右側」＝「左／右」；縮寫 n.、nn.、a.、aa.、v.、vv.、m.、mm.、lig.、br. 展開；簡體字讀成繁體（107 個解剖常用字對照表，在 `naming.ts`）。
+- **中線結構保留左右**：右心室乳突肌不再算「左心室的一部分」；左冠狀動脈題寫右冠狀動脈分支不再判接近。
+- 已知連帶效果：上肢「Flexor pollicis brevis」與「Superficial head of flexor pollicis brevis」都接受「flexor pollicis brevis」；胸腔「Descending aorta」與「Descending thoracic aorta」原本就共用「降主動脈」同義詞（既有，未改）。
+
 ## 介面文字中文化（Bug Audit P2-04、P2-15、P3-01～03；介面，CI 綠後自動 merge）
 
 PR [#141](https://github.com/Kuan21/MJ_anatomy/pull/141)。系統清單加中文名、搜尋面板與面板按鈕中文化、資訊卡與腦部頁按鈕雙語、錯誤訊息與 aria 中文；頁首、性別按鈕、心臟頁與腦部頁不再顯示模型來源名稱（集中在 Source & credits）；取消強制大寫；`lang="zh-Hant-TW"`。不改模型與解剖內容。
@@ -418,6 +429,7 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 
 | 任務 | 狀態（進行中 / 已完成 / 等我審核 / 未開始 / 卡住） | PR 編號 | 備註 |
 | --- | --- | --- | --- |
+| Bug Audit 修正 7：Quiz 第二級判分放寬（整條肌肉名可答部分題；對立詞不算接近；縮寫、簡體、左側） | 等我審核（需人工審核，不自動 merge） | #PRNUM | 判分規則改變，請核對下方清單 |
 | 肌腱與韌帶盤點（Step 1，只盤點、不改模型） | 等我審核（需人工審核，不自動 merge） | #142 | `docs/tendon-ligament-inventory.md`；確認做法後才開始建置 |
 | Bug Audit 修正 4：介面文字中文化 | CI 綠後自動 merge | #141 | 介面與 CSS，不改模型 |
 | Bug Audit 修正 3：搜尋韌帶／頸部血管／腦構造後 3D 有反應 | CI 綠後自動 merge | #139 | 介面程式，不改模型 |
