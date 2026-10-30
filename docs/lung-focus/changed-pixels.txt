@@ -1,0 +1,14 @@
+both-100-back.png                  changed 45.2%
+both-100-front.png                 changed 39.4%
+both-100-left-lateral.png          changed 34.0%
+both-100-right-lateral.png         changed 33.6%
+both-30-back.png                   changed 41.6%
+both-30-front.png                  changed 38.0%
+left-100-front.png                 changed 24.9%
+left-100-left-lateral.png          changed 33.6%
+left-100-right-lateral.png         changed 25.2%
+left-30-front.png                  changed 24.2%
+right-100-front.png                changed 25.1%
+right-100-left-lateral.png         changed 26.8%
+right-100-right-lateral.png        changed 33.2%
+right-30-front.png                 changed 24.3%

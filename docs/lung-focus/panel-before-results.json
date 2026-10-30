@@ -1,0 +1,67 @@
+[
+ {
+  "name": "panel appears",
+  "pass": true,
+  "info": ""
+ },
+ {
+  "name": "hit-test both reaches the control",
+  "pass": false,
+  "info": "right-workspace <ASIDE>"
+ },
+ {
+  "name": "hit-test left reaches the control",
+  "pass": false,
+  "info": "right-workspace <ASIDE>"
+ },
+ {
+  "name": "hit-test right reaches the control",
+  "pass": false,
+  "info": "right-workspace <ASIDE>"
+ },
+ {
+  "name": "hit-test minus reaches the control",
+  "pass": false,
+  "info": "right-workspace <ASIDE>"
+ },
+ {
+  "name": "hit-test plus reaches the control",
+  "pass": false,
+  "info": "right-workspace <ASIDE>"
+ },
+ {
+  "name": "hit-test slider reaches the control",
+  "pass": false,
+  "info": "right-workspace <ASIDE>"
+ },
+ {
+  "name": "left lung button -> pressed",
+  "pass": false,
+  "info": ""
+ },
+ {
+  "name": "right lung button -> pressed",
+  "pass": false,
+  "info": ""
+ },
+ {
+  "name": "both button -> pressed",
+  "pass": true,
+  "info": ""
+ },
+ {
+  "name": "plus -> layer 2",
+  "pass": false,
+  "info": "Layer 1 / 2"
+ },
+ {
+  "name": "minus -> layer 1",
+  "pass": true,
+  "info": "Layer 1 / 2"
+ },
+ {
+  "name": "opacity slider moves with a real click",
+  "pass": false,
+  "info": "value 100"
+ }
+]
