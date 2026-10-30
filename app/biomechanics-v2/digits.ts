@@ -152,9 +152,15 @@ export function withDigitWeights(side:Side,weights:number[],x:number,y:number,z:
  if(HAND_ONLY.test(name))return out;
  const p=new T.Vector3(x,y,z),parts:{chain:Chain;amount:number;f:[number,number,number]}[]=[];
  let total=0;
- for(const chain of chainsOf(side)){
-  const {distance,arc}=nearest(chain.points,p),sigma=.0075+chain.radius*.55;
-  const lateral=Math.exp(-((Math.max(0,distance-chain.radius)/sigma)**2));
+ // Neighbouring digits compete for a vertex: the lateral falloff alone reaches 10-20 mm, so a digital artery or vein running along the side of one finger kept a
+ // share of the weight of the finger next to it (0.16 of the index finger on the radial artery of the middle finger) and was dragged along when only the neighbour
+ // moved (point: index straight, middle finger curled, 6.8 mm off its phalanx). A vertex beside the shaft of one digit now belongs to that digit alone, while a
+ // vertex in the web between two digits still shares between them.
+ const candidates=chainsOf(side).map(chain=>({chain,...nearest(chain.points,p)}));
+ const closest=Math.min(...candidates.map(c=>Math.max(0,c.distance-c.chain.radius)));
+ for(const {chain,distance,arc} of candidates){
+  const sigma=.0075+chain.radius*.55,excess=Math.max(0,distance-chain.radius);
+  const lateral=Math.exp(-((Math.max(0,excess-.004)/sigma)**2))*(1-step(excess-closest,.002,.007));
   const along=p.clone().sub(chain.origin).dot(chain.axis);
   // the thumb's metacarpal is part of the digit; the fingers' metacarpals belong to the hand, so a finger starts ~10 mm before its MCP joint
   const ramp=chain.digit==='thumb'?step(along,-.012,.004):step(along,-.010,.006);
