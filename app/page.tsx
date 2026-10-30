@@ -117,7 +117,9 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  // Esc closes the topmost layer: an open panel, then the about sheet, then the structure card.
  const escRef=useRef({panel,details,about});escRef.current={panel,details,about};
  useEffect(()=>{const key=(e:KeyboardEvent)=>{if(e.key==='/'&&!(e.target instanceof HTMLInputElement)&&!(e.target instanceof HTMLTextAreaElement)){e.preventDefault();setPanel('search');setDetails(false);}
-  if(e.key==='Escape'){const u=escRef.current;if(u.panel)setPanel(null);else if(u.about)setAbout(false);else if(u.details){setDetails(false);setExternalNerve(null);}}};window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key);},[]);
+  if(e.key==='Escape'){const u=escRef.current;if(u.panel)setPanel(null);else if(u.about)setAbout(false);else if(u.details){setDetails(false);setExternalNerve(null);}}};
+  // capture phase: the card and the search popup stop Escape from bubbling to the window
+  window.addEventListener('keydown',key,true);return()=>window.removeEventListener('keydown',key,true);},[]);
  const parts=useMemo(()=>new Map(atlas?.parts.map(p=>[p.id,p])),[atlas]);
  const extraOf=(c:Concept)=>c.id.startsWith('extra:')?extras.find(x=>c.id===`extra:${x.k}:${x.raw??x.n}`):undefined;
  const profileForConcept=(c:Concept)=>{const x=extraOf(c);if(x)return structureProfile(x.n,x.s);const p=c.elements.map(id=>parts.get(id)).find(Boolean);return p?structureProfile(c.name,p.system,p):undefined;};
