@@ -20,6 +20,10 @@
 - **P1-01**：示意模型第 0 包每次載入失敗（`isShellSurface` 的 `/pericardi/` 匹配到 pericardiophrenic），膈神經、喉返神經、內臟神經、迷走神經幹、臂神經叢內外側束等 61 個結構目前看不到。
 - 修正一律等你審核後分批開 PR（報告最後有建議分批）；涉及解剖內容者標【需人工審核】。
 
+## 點選與觸控（Bug Audit P2-11、P2-12、P2-13；介面，CI 綠後自動 merge）
+
+PR [#146](https://github.com/Kuan21/MJ_anatomy/pull/146)。淡化、漿膜、鞘、筋膜、腱膜與半透明肺葉只在射線上沒有實心結構時才被選到；精確射線沒打中時在指標周圍兩圈再試（滑鼠 4／8 px、觸控 8／16 px）；觸控雙指改為縮放＋平移。不改模型與解剖內容。
+
 ## Reset、相機與鍵盤（Bug Audit P2-08、P2-09、P2-10、P3-08；介面，CI 綠後自動 merge）
 
 PR [#144](https://github.com/Kuan21/MJ_anatomy/pull/144)。Reset 一併清除特殊區域、分層選取、錯誤框、關於面板；`fit()` 取消進行中的對焦動畫；主圖譜／心臟／腦部頁縮放視窗保留使用者視角；Esc 依序關面板、關於、資訊卡。不改模型與解剖內容。
@@ -422,7 +426,8 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 
 | 任務 | 狀態（進行中 / 已完成 / 等我審核 / 未開始 / 卡住） | PR 編號 | 備註 |
 | --- | --- | --- | --- |
-| Bug Audit 修正 5：Reset、相機與鍵盤 | CI 綠後自動 merge | #144 | 介面程式，不改模型 |
+| Bug Audit 修正 6：點選不被淡化／半透明結構搶走、細結構容錯、雙指平移 | CI 綠後自動 merge | #146 | `app/scene.tsx` 點選與觸控，不改模型 |
+| Bug Audit 修正 5：Reset、相機與鍵盤 | 已自動 merge | #144 | 介面程式，不改模型 |
 | 肌腱與韌帶盤點（Step 1，只盤點、不改模型） | 等我審核（需人工審核，不自動 merge） | #142 | `docs/tendon-ligament-inventory.md`；確認做法後才開始建置 |
 | Bug Audit 修正 4：介面文字中文化 | CI 綠後自動 merge | #141 | 介面與 CSS，不改模型 |
 | Bug Audit 修正 3：搜尋韌帶／頸部血管／腦構造後 3D 有反應 | CI 綠後自動 merge | #139 | 介面程式，不改模型 |
