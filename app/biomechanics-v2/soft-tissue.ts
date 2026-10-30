@@ -77,7 +77,9 @@ interface CableSource {side:string;vertexCount:number;positionHash:number;nodes:
 interface CableGuide {source:CableSource;centres:Vector3[];rootWeights:number[];parentIndices:Uint8Array;parentWeights:Float32Array;lengths:number[];freeNodes:number[];freeIndex:Int32Array;factor:Float64Array}
 const thoracicCables=rawThoracicCables.parts as Record<string,CableSource>;
 /** `clear`: vertices that ride on a digit, with the digit and their rest distance from its bone line (see keepOnBone in digits.ts). */
-export interface DigitClearanceSet{side:Side;index:Uint32Array;items:DigitClearance[]}
+export interface DigitClearanceSet{side:Side;index:Uint32Array;items:DigitClearance[];/** with the triangles of the mesh: the corrections are spread over the neighbouring vertices (two rings), see smoothClearance */mesh?:ClearanceMesh}
+/** The vertices around the corrected ones, in CSR form: `vertices[k]` has the neighbours `list[start[k]..start[k+1])` (indices into `vertices`), `of[j]` is the position of set member j in `vertices`. */
+interface ClearanceMesh{vertices:Uint32Array;start:Uint32Array;list:Uint32Array;of:Uint32Array}
 export interface SkinBinding {clear?:DigitClearanceSet;cable?:CableGuide;wrap?:ThoraxWrap;fibre?:FibreGuide;indices:Uint8Array;weights:Float32Array;belly:Float32Array;radial:Float32Array;longitudinal?:Float32Array;restAxis?:Vector3;sheetOriginFrame?:number;origin:Vector3;insertion:Vector3;originWeights:number[];insertionWeights:number[];restLength:number;profile:Profile;fan?:{originFrame:number;insertionFrame:number;tip:Vector3;minX:number;spanX:number}}
 export function makeSoftRig(atlas:Atlas,side:Side):SoftRig|null{
  const rig=createSkeletonRig(atlas,side);if(!rig.valid)return null;
@@ -373,12 +375,12 @@ export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<numbe
   parent.fan={...source.fan,tip:new Vector3().fromArray(source.fan.tip)};
   follower={parent,progress:source.progress};
  }
- const clear=digitClearanceSet(rig.side,positions,indices,weights,count);
+ const clear=digitClearanceSet(rig.side,positions,indices,weights,count,triangles);
  return{clear,follower,cable,wrap,fibre,indices,weights,belly,radial,longitudinal,restAxis,sheetOriginFrame,fan,origin,insertion,originWeights:weightsAt(rig,effectiveProfile,origin,box,name),insertionWeights:weightsAt(rig,effectiveProfile,insertion,box,name),restLength,profile:effectiveProfile};
 }
 
 /** The vertices of a binding that ride on a digit (null when none does). */
-function digitClearanceSet(side:Side,positions:ArrayLike<number>,indices:Uint8Array,weights:Float32Array,count:number):DigitClearanceSet|undefined{
+function digitClearanceSet(side:Side,positions:ArrayLike<number>,indices:Uint8Array,weights:Float32Array,count:number,triangles?:ArrayLike<number>):DigitClearanceSet|undefined{
  const index:number[]=[],items:DigitClearance[]=[],frameWeights=new Array<number>(FRAMES.length).fill(0),p=new Vector3();
  for(let i=0;i<count;i++){
   let any=false;frameWeights.fill(0);
@@ -387,7 +389,37 @@ function digitClearanceSet(side:Side,positions:ArrayLike<number>,indices:Uint8Ar
   const c=digitClearanceOf(side,p.set(positions[i*3],positions[i*3+1],positions[i*3+2]),frameWeights);
   if(c){index.push(i);items.push(c);}
  }
- return index.length?{side,index:Uint32Array.from(index),items}:undefined;
+ if(!index.length)return undefined;
+ return{side,index:Uint32Array.from(index),items,mesh:triangles?clearanceMesh(index,triangles,count):undefined};
+}
+/** The corrected vertices and their neighbours up to two rings out, with the edges between them. */
+function clearanceMesh(set:number[],triangles:ArrayLike<number>,count:number):ClearanceMesh{
+ const neighbours=new Map<number,Set<number>>(),link=(a:number,b:number)=>{if(a===b)return;(neighbours.get(a)??neighbours.set(a,new Set()).get(a)!).add(b);(neighbours.get(b)??neighbours.set(b,new Set()).get(b)!).add(a);};
+ // adjacency only where it is needed: grow two rings from the set
+ const inRegion=new Uint8Array(count);for(const v of set)inRegion[v]=1;
+ for(let ring=0;ring<2;ring++){
+  const grow:number[]=[];
+  for(let t=0;t<triangles.length;t+=3){const a=triangles[t],b=triangles[t+1],c=triangles[t+2];if(inRegion[a]||inRegion[b]||inRegion[c]){if(!inRegion[a])grow.push(a);if(!inRegion[b])grow.push(b);if(!inRegion[c])grow.push(c);}}
+  for(const v of grow)inRegion[v]=1;
+ }
+ for(let t=0;t<triangles.length;t+=3){const a=triangles[t],b=triangles[t+1],c=triangles[t+2];if(inRegion[a]&&inRegion[b])link(a,b);if(inRegion[b]&&inRegion[c])link(b,c);if(inRegion[c]&&inRegion[a])link(c,a);}
+ const vertices:number[]=[],local=new Map<number,number>();for(let v=0;v<count;v++)if(inRegion[v]){local.set(v,vertices.length);vertices.push(v);}
+ const start=new Uint32Array(vertices.length+1),list:number[]=[];
+ vertices.forEach((v,k)=>{for(const n of neighbours.get(v)??[])list.push(local.get(n)!);start[k+1]=list.length;});
+ return{vertices:Uint32Array.from(vertices),start,list:Uint32Array.from(list),of:Uint32Array.from(set.map(v=>local.get(v)!))};
+}
+const SMOOTH_PASSES=2;
+/** Spreads the corrections of keepOnBone over the neighbouring vertices: where every vertex was pushed on its own, the thin ribbons of the long tendons crumpled into slivers at the joints. */
+function smoothClearance(mesh:ClearanceMesh,delta:Float32Array){
+ const n=mesh.vertices.length,next=new Float32Array(delta.length);
+ for(let pass=0;pass<SMOOTH_PASSES;pass++){
+  for(let k=0;k<n;k++){
+   const from=mesh.start[k],to=mesh.start[k+1];let x=delta[k*3],y=delta[k*3+1],z=delta[k*3+2];
+   for(let e=from;e<to;e++){const j=mesh.list[e];x+=delta[j*3];y+=delta[j*3+1];z+=delta[j*3+2];}
+   const w=1/(1+to-from);next[k*3]=x*w;next[k*3+1]=y*w;next[k*3+2]=z*w;
+  }
+  delta.set(next);
+ }
 }
 // Selected thoracic tubes have rib-attached distal courses, not humeral ones.
 // Solve a connected centreline and carry the original cross-sections with it.
@@ -527,13 +559,20 @@ export function deformTissue(binding:SkinBinding,base:Float32Array,palette:Palet
  const result=deformTissueCore(binding,base,palette,out);
  const set=binding.clear;
  if(set){
-  const lines=new Map<number,Vector3[]>(),moved=new Vector3(),carried=new Vector3(),t=new Float64Array(3);
+  const lines=new Map<number,Vector3[]>(),moved=new Vector3(),carried=new Vector3(),t=new Float64Array(3),delta=set.mesh?new Float32Array(set.mesh.vertices.length*3):undefined;
   const carry=(frame:number,p:Vector3)=>{transform(p.x,p.y,p.z,palette.subarray(frame*8,frame*8+8),t,0);return carried.set(t[0],t[1],t[2]).clone();};
   for(let k=0;k<set.index.length;k++){
    const i=set.index[k],item=set.items[k];
    let line=lines.get(item.chain);if(!line){line=posedChain(set.side,item.chain,carry);lines.set(item.chain,line);}
    moved.set(out[i*3],out[i*3+1],out[i*3+2]);keepOnBone(set.side,item,line,moved);
+   if(delta){const j=set.mesh!.of[k]*3;delta[j]=moved.x-out[i*3];delta[j+1]=moved.y-out[i*3+1];delta[j+2]=moved.z-out[i*3+2];continue;}
    out[i*3]=moved.x;out[i*3+1]=moved.y;out[i*3+2]=moved.z;
+  }
+  if(delta){
+   smoothClearance(set.mesh!,delta);const vertices=set.mesh!.vertices;
+   for(let k=0;k<vertices.length;k++){const v=vertices[k];out[v*3]+=delta[k*3];out[v*3+1]+=delta[k*3+1];out[v*3+2]+=delta[k*3+2];}
+   // the smoothing gives up part of the push that kept a vertex out of the bone: whatever is still inside is pushed out (floor only, so nothing is pulled back and crumpled again)
+   for(let k=0;k<set.index.length;k++){const i=set.index[k];moved.set(out[i*3],out[i*3+1],out[i*3+2]);keepOnBone(set.side,set.items[k],lines.get(set.items[k].chain)!,moved,true);out[i*3]=moved.x;out[i*3+1]=moved.y;out[i*3+2]=moved.z;}
   }
  }
  return result;

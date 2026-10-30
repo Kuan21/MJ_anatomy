@@ -110,6 +110,8 @@ export function digitTransforms(side:Side,input:Partial<DigitPose>,hand:T.Matrix
 
 /** Structures that stay on the hand frame however the fingers move (see withDigitWeights). */
 const HAND_ONLY=/dorsal venous network|palmar (?:venous |arterial )?arch|dorsal carpal (?:venous|arterial) (?:network|arch)/i;
+/** Long tendons run past the joints in a thin ribbon: they change over from one phalanx to the next over a longer stretch (±11 mm instead of ±6 mm), so that the ribbon bends instead of folding into slivers. */
+const LONG_TENDON=/flexor digitorum|extensor digitorum|extensor indicis|extensor digiti minimi|flexor pollicis longus|extensor pollicis/i;
 const clamp01=(x:number)=>Math.max(0,Math.min(1,x));
 const smooth=(x:number)=>{x=clamp01(x);return x*x*(3-2*x);};
 const step=(x:number,a:number,b:number)=>smooth((x-a)/Math.max(1e-9,b-a));
@@ -157,7 +159,7 @@ export function withDigitWeights(side:Side,weights:number[],x:number,y:number,z:
   // the thumb's metacarpal is part of the digit; the fingers' metacarpals belong to the hand, so a finger starts ~10 mm before its MCP joint
   const ramp=chain.digit==='thumb'?step(along,-.012,.004):step(along,-.010,.006);
   const amount=lateral*ramp;if(amount<1e-4)continue;
-  const d=.006,f1=1-step(arc,chain.joint[0]-d,chain.joint[0]+d),f3=step(arc,chain.joint[1]-d,chain.joint[1]+d);
+  const d=LONG_TENDON.test(name)?.011:.006,f1=1-step(arc,chain.joint[0]-d,chain.joint[0]+d),f3=step(arc,chain.joint[1]-d,chain.joint[1]+d);
   parts.push({chain,amount,f:[f1,1-f1-f3,f3]});total+=amount;
  }
  if(!parts.length)return out;
@@ -193,12 +195,13 @@ export function posedChain(side:Side,chain:number,carry:(frame:number,p:T.Vector
 /**
  * Keeps a vertex that rides on a digit at its rest distance from the bone line: tendons, vessels and nerves are neither pulled through the bone on the inside of a
  * bent joint (where blending two segments squeezes them against it) nor lifted away from it. `w` is moved along the line from the nearest bone point.
+ * `floorOnly`: only push a vertex out of the bone, never pull it back (the second pass after the corrections have been smoothed over the mesh).
  */
-export function keepOnBone(side:Side,clearance:DigitClearance,line:T.Vector3[],w:T.Vector3){
+export function keepOnBone(side:Side,clearance:DigitClearance,line:T.Vector3[],w:T.Vector3,floorOnly=false){
  const radius=chainsOf(side)[clearance.chain].radius,fade=smooth((clearance.carried-.45)/.35),from=w.clone();
  // inside the bone: out to the rest distance (but at least the bone surface); lifted off it by more than 1.5 mm: back to within 1.5 mm of the rest distance.
  // On the inside of a bent joint the two neighbouring segments both press on the vertex, so the push is repeated until the nearest segment changes no more.
- const floor=Math.min(clearance.rest,Math.max(clearance.rest*.95,radius*.8)),ceiling=Math.max(clearance.rest+.0015,floor),x=w.clone();
+ const floor=Math.min(clearance.rest,Math.max(clearance.rest*.95,radius*.8)),ceiling=floorOnly?Infinity:Math.max(clearance.rest+.0015,floor),x=w.clone();
  for(let pass=0;pass<4;pass++){
   let best=Infinity,q=line[0];
   for(let k=0;k+1<line.length;k++){
