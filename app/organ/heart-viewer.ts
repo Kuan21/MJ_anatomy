@@ -217,7 +217,8 @@ gl_FragColor = vec4(mix(vec3(0.30, 0.78, 0.62), vec3(0.03, 0.36, 0.27), edge), m
       else {m.emissive.set('#000000'); m.emissiveIntensity = 0;}
       m.opacity = seeThrough ? .2 : blocker ? BLOCKER_OPACITY : patch ? (part.group === 'pericardium' ? .22 : .6) : ghost ? .3 : 1; m.transparent = ghost; m.depthWrite = !ghost;
       m.polygonOffset = false;
-      m.clippingPlanes = wall ? [...planes, cutPlane] : planes; m.needsUpdate = true;
+      // a changed number of clipping planes needs a new shader program; colour and opacity changes do not (P3-13)
+      const nextPlanes = wall ? [...planes, cutPlane] : planes; if ((m.clippingPlanes?.length ?? 0) !== nextPlanes.length) m.needsUpdate = true; m.clippingPlanes = nextPlanes;
       mesh.renderOrder = ghost ? 2 : selected ? 3 : 1;
       const pre = seeThrough && mesh.visible ? depthPrepass(mesh) : (mesh.userData.pre as T.Mesh | undefined);
       if (pre) {pre.visible = seeThrough && mesh.visible; (pre.material as T.Material).clippingPlanes = planes;}
