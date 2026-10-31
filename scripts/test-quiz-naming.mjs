@@ -88,4 +88,20 @@ assert.equal(normalize('Left acromial part of deltoid', true), normalize('Acromi
   // a paired structure still drops the side
   assert.equal(relationOf({name: 'Long head of right biceps brachii', side: 'right'}, {name: 'Left biceps brachii', side: 'left'}), 'part');
 }
-console.log('Quiz naming passed: case, spacing, hyphens, synonyms, brackets, left/right, close answers, abbreviations, simplified characters, opposites, whole muscle for a part, part and whole, and answer languages.');
+// the main site's spelling, the checklist's 1:1 aliases, ordinals and vertebra codes; a parent shown on the site is never accepted for a branch; group names are close
+{
+  const r2 = (t, s, o) => judgeName(t, s, o).result;
+  const fa = {name: 'Right flexor accessorius', chinese: '右足底方肌', side: 'right', system: 'muscular'}, hip = {name: 'Right hip bone', chinese: '右髖骨', side: 'right', system: 'skeletal'};
+  const rib = {name: 'Left tenth rib', chinese: '左第十肋骨', side: 'left', system: 'skeletal'}, t10 = {name: 'Tenth thoracic vertebra', chinese: '第十胸椎', side: 'midline', system: 'skeletal'}, lumb = {name: 'First lumbrical of right foot', chinese: '右足第一蚓狀肌', side: 'right', system: 'muscular'};
+  const perf = {name: 'Left set of perforating arteries', chinese: '左穿動脈群', side: 'left', system: 'arterial'}, deep = {name: 'Right deep branch of radial nerve', chinese: '右橈神經深支', side: 'right', system: 'nervous'};
+  const gem = {name: 'Right gemellus inferior', chinese: '右下孖肌', side: 'right', system: 'muscular'}, iliacus = {name: 'Right iliacus', chinese: '右髂肌', side: 'right', system: 'muscular'}, rf = {name: 'Right rectus femoris', chinese: '右股直肌', side: 'right', system: 'muscular'};
+  assert.equal(r2('quadratus plantae', fa, en), 'correct'); assert.equal(r2('coxal bone', hip, en), 'correct'); assert.equal(r2('hip bone', hip, en), 'correct');
+  assert.equal(r2('10th rib', rib, en), 'correct'); assert.equal(r2('tenth rib', rib, en), 'correct'); assert.equal(r2('T10 vertebra', t10, en), 'correct'); assert.equal(r2('t10', t10, en), 'wrong', 'the code alone is not the name');
+  assert.equal(r2('1st lumbrical of foot', lumb, en), 'correct'); assert.equal(r2('perforating arteries', perf, en), 'correct');
+  assert.equal(r2('radial nerve', deep, en), 'wrong', 'the site shows the branch under the nerve, but the nerve is not the branch');
+  assert.equal(r2('inferior gemellus muscle', gem, en), 'correct', 'checklist 1:1 alias');
+  assert.equal(judgeName('iliopsoas muscle', iliacus, en).result, 'close'); assert.equal(judgeName('iliopsoas', iliacus, en).relation, 'typed-whole');
+  assert.equal(judgeName('quadriceps femoris', rf, en).result, 'close', 'a group name is close, never right');
+  assert.equal(normalize('Left tenth rib', false), normalize('Left 10th rib', false)); assert.equal(normalize('L5 vertebra', true), normalize('fifth lumbar vertebra', true));
+}
+console.log('Quiz naming passed: case, spacing, hyphens, synonyms, brackets, left/right, close answers, abbreviations, simplified characters, opposites, whole muscle for a part, site spellings, checklist aliases, ordinals, part and whole, and answer languages.');
