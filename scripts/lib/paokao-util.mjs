@@ -2,7 +2,7 @@
 import {tube} from './nerve-schematics.mjs';
 import {tubeTips} from './tube-tips.mjs';
 import {weldByPosition} from './stream-writer.mjs';
-import {sub, add, mul, unit, len, lerp, dot, cross, closest, patch, merge, meshOf, ray} from './heart-geom.mjs';
+import {sub, add, mul, unit, len, lerp, dot, cross, closest, closestOnTri, patch, merge, meshOf, ray, weldMesh, vertexNormalsOf} from './heart-geom.mjs';
 export {sub, add, mul, unit, len, lerp, dot, cross, merge};
 
 /** Split the triangles of `mesh` that touch `region` into four until no edge is longer than maxEdge (midpoint subdivision, so the surface is unchanged). */
@@ -23,6 +23,74 @@ function refine(mesh, region, maxEdge) {
   const positions = new Float32Array(tris.length * 9), indices = new Uint32Array(tris.length * 3);
   tris.forEach((t, i) => { t.forEach((v, k) => positions.set(v, i * 9 + k * 3)); indices.set([i * 3, i * 3 + 1, i * 3 + 2], i * 3); });
   return meshOf(positions, indices);
+}
+
+
+/**
+ * Exact distance from a point to the surface of `mesh` (closest point on the nearest triangle, grid lookup), capped at `cap`.
+ * The older nearDist only knows the distance to the vertices and triangle centres of the other mesh, which is off by up to half an edge (several mm on the pericardium);
+ * a border drawn from it follows the sampling of that mesh, not the contact.
+ */
+function distanceTo(mesh, cap = .02) {
+  const C = .008, cell = v => Math.floor(v / C), key = (x, y, z) => ((x + 512) * 1024 + (y + 512)) * 1024 + (z + 512), grid = new Map();
+  const lo = [1e9, 1e9, 1e9], hi = [-1e9, -1e9, -1e9];
+  mesh.tris.forEach((t, i) => {
+    const l = [0, 1, 2].map(k => Math.min(t.a[k], t.b[k], t.c[k])), h = [0, 1, 2].map(k => Math.max(t.a[k], t.b[k], t.c[k]));
+    for (let k = 0; k < 3; k++) { lo[k] = Math.min(lo[k], l[k]); hi[k] = Math.max(hi[k], h[k]); }
+    for (let x = cell(l[0]); x <= cell(h[0]); x++) for (let y = cell(l[1]); y <= cell(h[1]); y++) for (let z = cell(l[2]); z <= cell(h[2]); z++) { const k = key(x, y, z); let a = grid.get(k); if (!a) grid.set(k, a = []); a.push(i); }
+  });
+  const rings = Math.ceil(cap / C);
+  return p => {
+    if (p[0] < lo[0] - cap || p[0] > hi[0] + cap || p[1] < lo[1] - cap || p[1] > hi[1] + cap || p[2] < lo[2] - cap || p[2] > hi[2] + cap) return cap;
+    const cx = cell(p[0]), cy = cell(p[1]), cz = cell(p[2]); let best = cap;
+    for (let r = 0; r <= rings; r++) {
+      if (best <= (r - 1) * C) break;
+      for (let x = cx - r; x <= cx + r; x++) for (let y = cy - r; y <= cy + r; y++) for (let z = cz - r; z <= cz + r; z++) {
+        if (r && Math.abs(x - cx) < r && Math.abs(y - cy) < r && Math.abs(z - cz) < r) continue;
+        const list = grid.get(key(x, y, z)); if (!list) continue;
+        for (const i of list) { const t = mesh.tris[i], d = len(sub(closestOnTri(p, t.a, t.b, t.c), p)); if (d < best) best = d; }
+      }
+    }
+    return best;
+  };
+}
+
+/**
+ * A surface patch with a smooth border: the part of mesh `name` where `field(point, normal)` is positive (normal null = only the reach is asked: a loose version for choosing
+ * where to refine). The triangles near the border are split to `maxEdge`, the field is taken at every vertex, lightly smoothed over the neighbouring vertices, and the triangles are
+ * cut along its zero level, so the border is a smooth curve lying on the surface, not a run of whole triangles. The patch is lifted `off` along the vertex normals.
+ */
+function fieldPatch(mesh0, field, {off = .0005, margin = .006, maxEdge = .0014, smooth = 2} = {}) {
+  const welded0 = weldMesh({positions: mesh0.positions, indices: mesh0.indices}), base = meshOf(welded0.positions, welded0.indices);
+  const memo = new Map(), reach = p => { const k = `${Math.round(p[0] * 1e6)},${Math.round(p[1] * 1e6)},${Math.round(p[2] * 1e6)}`; let v = memo.get(k); if (v === undefined) memo.set(k, v = field(p, null) > -margin); return v; };
+  const refined = refine(base, reach, maxEdge), mesh = weldMesh({positions: refined.positions, indices: refined.indices});
+  const P = mesh.positions, I = mesh.indices, nv = P.length / 3, vn = vertexNormalsOf(mesh);
+  let f = new Float64Array(nv).fill(-1);
+  const nbs = Array.from({length: nv}, () => []);
+  const near = new Uint8Array(nv);
+  for (let i = 0; i < nv; i++) if (reach([P[i * 3], P[i * 3 + 1], P[i * 3 + 2]])) { near[i] = 1; f[i] = field([P[i * 3], P[i * 3 + 1], P[i * 3 + 2]], [vn[i * 3], vn[i * 3 + 1], vn[i * 3 + 2]]); }
+  for (let t = 0; t < I.length; t += 3) for (const [a, b] of [[0, 1], [1, 2], [2, 0]]) { nbs[I[t + a]].push(I[t + b]); nbs[I[t + b]].push(I[t + a]); }
+  for (let it = 0; it < smooth; it++) {
+    const g = Float64Array.from(f);
+    for (let v = 0; v < nv; v++) if (near[v] && nbs[v].length) { let s = 0; for (const u of nbs[v]) s += f[u]; g[v] = f[v] * .5 + .5 * s / nbs[v].length; }
+    f = g;
+  }
+  const pos = [], idx = [], vert = i => ({p: [P[i * 3], P[i * 3 + 1], P[i * 3 + 2]], n: [vn[i * 3], vn[i * 3 + 1], vn[i * 3 + 2]], f: f[i]});
+  for (let t = 0; t < I.length; t += 3) {
+    const poly = [vert(I[t]), vert(I[t + 1]), vert(I[t + 2])];
+    if (poly.every(v => v.f <= 0)) continue;
+    const res = [];
+    for (let i = 0; i < 3; i++) {
+      const a = poly[i], b = poly[(i + 1) % 3], ina = a.f > 0, inb = b.f > 0;
+      if (ina) res.push(a);
+      if (ina !== inb) { const s = a.f / (a.f - b.f); res.push({p: lerp(a.p, b.p, s), n: unit(lerp(a.n, b.n, s))}); }
+    }
+    if (res.length < 3) continue;
+    const b0 = pos.length / 3; for (const v of res) pos.push(v.p[0] + v.n[0] * off, v.p[1] + v.n[1] * off, v.p[2] + v.n[2] * off);
+    for (let k = 1; k < res.length - 1; k++) idx.push(b0, b0 + k, b0 + k + 1);
+  }
+  if (!idx.length) return {positions: new Float32Array(0), indices: new Uint32Array(0)};
+  return weldMesh({positions: Float32Array.from(pos), indices: Uint32Array.from(idx)});
 }
 
 const distCache = new Map();
@@ -179,6 +247,10 @@ export function makeUtil(w) {
       for (const list of seen.values()) if (list.length === 1) { const [x, y] = list[0]; indices.push(x, count + x, y, y, count + x, count + y); }
       return {positions: Float32Array.from(positions), indices: Uint32Array.from(indices)};
     },
+    /** Exact distance function to the surface of a mesh (see distanceTo). */
+    distTo(name) { const k = 'exact:' + name; if (!distCache.has(k)) distCache.set(k, distanceTo(w.mesh(name))); return distCache.get(k); },
+    /** Patch of mesh `name` where field(point, normal) > 0, border cut along the zero level (see fieldPatch). */
+    fieldPatch(name, field, opts) { return fieldPatch(w.mesh(name), field, opts); },
     /** Triangles of a mesh whose centre is within `radius` of `c` (or satisfies keep), as a patch lifted `off` off the surface. */
     surfacePatch(name, c, radius, off = .0003, keep) { return U.patchWhere(name, tr => len(sub(tr.mid, c)) <= radius && (!keep || keep(tr)), off, p => len(sub(p, c)) < radius + .006, Math.max(.0007, radius / 5)); },
     /** Triangles of mesh `name` within `d` of another mesh (an impression or groove left by a neighbouring structure). */
