@@ -31,6 +31,10 @@ PR [#148](https://github.com/Kuan21/MJ_anatomy/pull/148)。只改 `app/quiz/nami
 - **中線結構保留左右**：右心室乳突肌不再算「左心室的一部分」；左冠狀動脈題寫右冠狀動脈分支不再判接近。
 - 已知連帶效果：上肢「Flexor pollicis brevis」與「Superficial head of flexor pollicis brevis」都接受「flexor pollicis brevis」；胸腔「Descending aorta」與「Descending thoracic aorta」原本就共用「降主動脈」同義詞（既有，未改）。
 
+## 「只練錯題」另一側題目載入（Bug Audit P1-10；Quiz 流程，CI 綠後自動 merge）
+
+PR [#149](https://github.com/Kuan21/MJ_anatomy/pull/149)。`sceneStructures` 永遠保留題目本身：以左側或雙側答錯後，回到設定（右側）按「只練錯題」，左側題目的 mesh 現在會載入並可點選；其他結構仍依側別設定。取景原本就會把題目範圍併入。不改題庫、模型與解剖內容。
+
 ## 點選與觸控（Bug Audit P2-11、P2-12、P2-13；介面，CI 綠後自動 merge）
 
 PR [#146](https://github.com/Kuan21/MJ_anatomy/pull/146)。淡化、漿膜、鞘、筋膜、腱膜與半透明肺葉只在射線上沒有實心結構時才被選到；精確射線沒打中時在指標周圍兩圈再試（滑鼠 4／8 px、觸控 8／16 px）；觸控雙指改為縮放＋平移。不改模型與解剖內容。
@@ -438,6 +442,7 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 | 任務 | 狀態（進行中 / 已完成 / 等我審核 / 未開始 / 卡住） | PR 編號 | 備註 |
 | --- | --- | --- | --- |
 | Bug Audit 修正 7：Quiz 第二級判分放寬（整條肌肉名可答部分題；對立詞不算接近；縮寫、簡體、左側） | 等我審核（需人工審核，不自動 merge） | #148 | 判分規則改變，請核對下方清單 |
+| Bug Audit 修正 8：「只練錯題」時另一側的題目也會載入 | 已自動 merge | #149 | Quiz 流程程式，不改題庫 |
 | Bug Audit 修正 6：點選不被淡化／半透明結構搶走、細結構容錯、雙指平移 | 已自動 merge | #146 | `app/scene.tsx` 點選與觸控，不改模型 |
 | Bug Audit 修正 5：Reset、相機與鍵盤 | 已自動 merge | #144 | 介面程式，不改模型 |
 | 肌腱與韌帶盤點（Step 1，只盤點、不改模型） | 等我審核（需人工審核，不自動 merge） | #142 | `docs/tendon-ligament-inventory.md`；確認做法後才開始建置 |
