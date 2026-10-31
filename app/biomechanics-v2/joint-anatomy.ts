@@ -13,6 +13,8 @@ export function includeJoint(name:string){
  // is developmental anatomy and does not belong in this adult atlas.
  return !/triradiate|intervertebral disc|nucleus pulposus|membrane|fat pad|pubic symphysis|sacrococcygeal symphysis/i.test(name)&&/ligament|capsul|labrum|meniscus|articular disc|interpubic disc|frenula/i.test(name);
 }
+/** Joint tissues of the spine, ribs and neck: they belong to the trunk, so an arm movement must not carry them even when the nearest registered bone is a shoulder-girdle bone. */
+export const AXIAL_JOINT_TISSUE=/longitudinal ligament|ligamenta flava|interspinous|supraspinous|nuchal|costotransverse|intertransverse|radiate ligament|head of rib|intercornual|cricothyroid|thyrohyoid|cricopharyngeal|stylohyoid|stylomandibular|sphenomandibular|temporomandibular/;
 export function jointProfile(name:string,y:number):Profile{
  name=name.toLowerCase();
  // Name territories take precedence over substrings: scaphotrapeziotrapezoidal
@@ -72,7 +74,7 @@ export function createJointAnatomy(atlas:Atlas,scene:T.Scene){
    const part={...anchor,name,bounds:[g.boundingBox!.min.toArray(),g.boundingBox!.max.toArray()]} as Part;
    const bodyRegion:BodyRegion=region==='lower-limb'?(side==='left'?'leftLeg':'rightLeg'):region==='head-neck'?'head':'spine';
    const row:Row={mesh,base,side,region,anchor,bodyRegion,bodySkin:bindBodyTissue(body[bodyRegion],base,/temporomandibular|stylohyoid|stylomandibular|sphenomandibular/.test(name),part),spineSkin:bindBodyTissue(body.spine,base,region==='upper-limb'||region==='head-neck',part)};
-   if(region==='upper-limb'&&rig)row.skin=bindTissue(rig,jointProfile(name,c.y),base,part);
+   if(region==='upper-limb'&&rig&&!AXIAL_JOINT_TISSUE.test(name))row.skin=bindTissue(rig,jointProfile(name,c.y),base,part);
    // Socket rims must remain attached to the socket, not blend toward the head.
    const rigidName=/glenoid labrum/.test(name)?`${side} scapula`:/acetabular labrum|transverse acetabular/.test(name)?`${side} hip bone`:/^(Lateral|Medial) meniscus/i.test(name)?`${side} tibia`:null;
    if(rigidName)row.rigidId=atlas.parts.find(p=>p.name.toLowerCase()===rigidName)?.id;
@@ -119,5 +121,6 @@ export function createJointAnatomy(atlas:Atlas,scene:T.Scene){
   }
  }
  function dispose(){for(const {mesh} of surfaces){scene.remove(mesh);mesh.geometry.dispose();mesh.material.dispose();}for(const r of rows){scene.remove(r.mesh);r.mesh.geometry.dispose();r.mesh.material.dispose();}}
+ (globalThis as any).__jointRows=rows;(globalThis as any).__jointScene=scene;
  return {add,addSliced,addSurfaces,update,dispose,rows,surfaces};
 }

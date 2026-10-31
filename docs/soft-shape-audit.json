@@ -1,0 +1,532 @@
+[
+ {
+  "name": "Left axillary sheath",
+  "system": "connective",
+  "extentsMm": [
+   100.8,
+   36.8,
+   25.9
+  ],
+  "thicknessMm": 25.85,
+  "bend": 0.235,
+  "triangles": 700,
+  "uniqueVertices": 352,
+  "flags": [
+   "cylinder/rod (round section)"
+  ]
+ },
+ {
+  "name": "Left extensor retinaculum of wrist",
+  "system": "connective",
+  "extentsMm": [
+   55.5,
+   18.6,
+   14.4
+  ],
+  "thicknessMm": 14.36,
+  "bend": 0.221,
+  "triangles": 1932,
+  "uniqueVertices": 968,
+  "flags": [
+   "cylinder/rod (round section)"
+  ]
+ },
+ {
+  "name": "Left femoral sheath",
+  "system": "connective",
+  "extentsMm": [
+   77.3,
+   34.2,
+   31.8
+  ],
+  "thicknessMm": 31.76,
+  "bend": 0.263,
+  "triangles": 588,
+  "uniqueVertices": 296,
+  "flags": [
+   "cylinder/rod (round section)"
+  ]
+ },
+ {
+  "name": "Right axillary sheath",
+  "system": "connective",
+  "extentsMm": [
+   103.2,
+   37.6,
+   26.3
+  ],
+  "thicknessMm": 26.3,
+  "bend": 0.23,
+  "triangles": 700,
+  "uniqueVertices": 352,
+  "flags": [
+   "cylinder/rod (round section)"
+  ]
+ },
+ {
+  "name": "Right extensor retinaculum of wrist",
+  "system": "connective",
+  "extentsMm": [
+   52.3,
+   20.1,
+   14.7
+  ],
+  "thicknessMm": 14.72,
+  "bend": 0.2,
+  "triangles": 1760,
+  "uniqueVertices": 882,
+  "flags": [
+   "cylinder/rod (round section)"
+  ]
+ },
+ {
+  "name": "Right femoral sheath",
+  "system": "connective",
+  "extentsMm": [
+   81.3,
+   38,
+   34.9
+  ],
+  "thicknessMm": 34.92,
+  "bend": 0.24,
+  "triangles": 588,
+  "uniqueVertices": 296,
+  "flags": [
+   "cylinder/rod (round section)"
+  ]
+ },
+ {
+  "name": "Left denticulate ligament",
+  "system": "connective",
+  "extentsMm": [
+   357.6,
+   45.6,
+   7.4
+  ],
+  "thicknessMm": 7.37,
+  "bend": 0.053,
+  "triangles": 348,
+  "uniqueVertices": 176,
+  "flags": []
+ },
+ {
+  "name": "Left flexor retinaculum of ankle",
+  "system": "connective",
+  "extentsMm": [
+   75.7,
+   16.6,
+   10
+  ],
+  "thicknessMm": 9.98,
+  "bend": 0.13,
+  "triangles": 2496,
+  "uniqueVertices": 1250,
+  "flags": []
+ },
+ {
+  "name": "Left inferior extensor retinaculum of foot",
+  "system": "connective",
+  "extentsMm": [
+   51.1,
+   30.8,
+   18.5
+  ],
+  "thicknessMm": 18.48,
+  "bend": 0.125,
+  "triangles": 2496,
+  "uniqueVertices": 1250,
+  "flags": []
+ },
+ {
+  "name": "Left inferior fibular retinaculum",
+  "system": "connective",
+  "extentsMm": [
+   15,
+   8.8,
+   1.7
+  ],
+  "thicknessMm": 1.71,
+  "bend": 0.068,
+  "triangles": 572,
+  "uniqueVertices": 272,
+  "flags": []
+ },
+ {
+  "name": "Left lateral patellar retinaculum",
+  "system": "connective",
+  "extentsMm": [
+   39.4,
+   28.8,
+   8.7
+  ],
+  "thicknessMm": 8.71,
+  "bend": 0.062,
+  "triangles": 216,
+  "uniqueVertices": 140,
+  "flags": []
+ },
+ {
+  "name": "Left medial patellar retinaculum",
+  "system": "connective",
+  "extentsMm": [
+   43.9,
+   39.7,
+   13.1
+  ],
+  "thicknessMm": 13.1,
+  "bend": 0.071,
+  "triangles": 216,
+  "uniqueVertices": 140,
+  "flags": []
+ },
+ {
+  "name": "Left patellar ligament",
+  "system": "connective",
+  "extentsMm": [
+   31.5,
+   21.1,
+   11.9
+  ],
+  "thicknessMm": 11.95,
+  "bend": 0.163,
+  "triangles": 192,
+  "uniqueVertices": 126,
+  "flags": []
+ },
+ {
+  "name": "Left plantar aponeurosis",
+  "system": "connective",
+  "extentsMm": [
+   134,
+   23.4,
+   13
+  ],
+  "thicknessMm": 12.99,
+  "bend": 0.107,
+  "triangles": 2236,
+  "uniqueVertices": 1384,
+  "flags": []
+ },
+ {
+  "name": "Left pulmonary ligament",
+  "system": "connective",
+  "extentsMm": [
+   77.9,
+   12,
+   0.8
+  ],
+  "thicknessMm": 0.8,
+  "bend": 0.033,
+  "triangles": 164,
+  "uniqueVertices": 84,
+  "flags": []
+ },
+ {
+  "name": "Left quadriceps tendon",
+  "system": "connective",
+  "extentsMm": [
+   78.5,
+   48.2,
+   13
+  ],
+  "thicknessMm": 13.03,
+  "bend": 0.069,
+  "triangles": 480,
+  "uniqueVertices": 288,
+  "flags": []
+ },
+ {
+  "name": "Left superior extensor retinaculum of foot",
+  "system": "connective",
+  "extentsMm": [
+   36.6,
+   29.8,
+   11.8
+  ],
+  "thicknessMm": 11.8,
+  "bend": 0.11,
+  "triangles": 1292,
+  "uniqueVertices": 648,
+  "flags": []
+ },
+ {
+  "name": "Left superior fibular retinaculum",
+  "system": "connective",
+  "extentsMm": [
+   29.3,
+   13.2,
+   4.6
+  ],
+  "thicknessMm": 4.62,
+  "bend": 0.078,
+  "triangles": 780,
+  "uniqueVertices": 392,
+  "flags": []
+ },
+ {
+  "name": "Left superior transverse scapular ligament",
+  "system": "connective",
+  "extentsMm": [
+   40.6,
+   4,
+   1.2
+  ],
+  "thicknessMm": 1.2,
+  "bend": 0.15,
+  "triangles": 164,
+  "uniqueVertices": 84,
+  "flags": []
+ },
+ {
+  "name": "Left suspensory ligament of breast",
+  "system": "connective",
+  "extentsMm": [
+   42.3,
+   40.9,
+   24.5
+  ],
+  "thicknessMm": 24.45,
+  "bend": 0.131,
+  "triangles": 5000,
+  "uniqueVertices": 2504,
+  "flags": []
+ },
+ {
+  "name": "Ligamentum flavum",
+  "system": "connective",
+  "extentsMm": [
+   490.7,
+   55.8,
+   35.6
+  ],
+  "thicknessMm": 35.61,
+  "bend": 0.192,
+  "triangles": 2856,
+  "uniqueVertices": 1512,
+  "flags": []
+ },
+ {
+  "name": "rectus sheath",
+  "system": "connective",
+  "extentsMm": [
+   400.8,
+   161.5,
+   37.6
+  ],
+  "thicknessMm": 37.59,
+  "bend": 0.048,
+  "triangles": 74886,
+  "uniqueVertices": 46543,
+  "flags": []
+ },
+ {
+  "name": "Right denticulate ligament",
+  "system": "connective",
+  "extentsMm": [
+   357.6,
+   45.5,
+   7.6
+  ],
+  "thicknessMm": 7.63,
+  "bend": 0.054,
+  "triangles": 348,
+  "uniqueVertices": 176,
+  "flags": []
+ },
+ {
+  "name": "Right flexor retinaculum of ankle",
+  "system": "connective",
+  "extentsMm": [
+   72.5,
+   17.5,
+   9.6
+  ],
+  "thicknessMm": 9.57,
+  "bend": 0.118,
+  "triangles": 2300,
+  "uniqueVertices": 1152,
+  "flags": []
+ },
+ {
+  "name": "Right inferior extensor retinaculum of foot",
+  "system": "connective",
+  "extentsMm": [
+   52,
+   30,
+   18.8
+  ],
+  "thicknessMm": 18.83,
+  "bend": 0.13,
+  "triangles": 2496,
+  "uniqueVertices": 1250,
+  "flags": []
+ },
+ {
+  "name": "Right inferior fibular retinaculum",
+  "system": "connective",
+  "extentsMm": [
+   14.9,
+   8.1,
+   1.7
+  ],
+  "thicknessMm": 1.67,
+  "bend": 0.07,
+  "triangles": 572,
+  "uniqueVertices": 287,
+  "flags": []
+ },
+ {
+  "name": "Right lateral patellar retinaculum",
+  "system": "connective",
+  "extentsMm": [
+   39.6,
+   31.8,
+   10
+  ],
+  "thicknessMm": 9.96,
+  "bend": 0.064,
+  "triangles": 216,
+  "uniqueVertices": 140,
+  "flags": []
+ },
+ {
+  "name": "Right medial patellar retinaculum",
+  "system": "connective",
+  "extentsMm": [
+   45,
+   41.2,
+   13.3
+  ],
+  "thicknessMm": 13.29,
+  "bend": 0.066,
+  "triangles": 216,
+  "uniqueVertices": 140,
+  "flags": []
+ },
+ {
+  "name": "Right patellar ligament",
+  "system": "connective",
+  "extentsMm": [
+   31.5,
+   21.8,
+   12
+  ],
+  "thicknessMm": 12.01,
+  "bend": 0.159,
+  "triangles": 192,
+  "uniqueVertices": 126,
+  "flags": []
+ },
+ {
+  "name": "Right plantar aponeurosis",
+  "system": "connective",
+  "extentsMm": [
+   134,
+   23.4,
+   12.9
+  ],
+  "thicknessMm": 12.94,
+  "bend": 0.108,
+  "triangles": 2255,
+  "uniqueVertices": 1395,
+  "flags": []
+ },
+ {
+  "name": "Right pulmonary ligament",
+  "system": "connective",
+  "extentsMm": [
+   94.7,
+   12,
+   0.8
+  ],
+  "thicknessMm": 0.8,
+  "bend": 0.033,
+  "triangles": 164,
+  "uniqueVertices": 84,
+  "flags": []
+ },
+ {
+  "name": "Right quadriceps tendon",
+  "system": "connective",
+  "extentsMm": [
+   78.3,
+   48.3,
+   12.9
+  ],
+  "thicknessMm": 12.95,
+  "bend": 0.068,
+  "triangles": 480,
+  "uniqueVertices": 288,
+  "flags": []
+ },
+ {
+  "name": "Right superior extensor retinaculum of foot",
+  "system": "connective",
+  "extentsMm": [
+   38.3,
+   29.7,
+   12.1
+  ],
+  "thicknessMm": 12.1,
+  "bend": 0.116,
+  "triangles": 1292,
+  "uniqueVertices": 648,
+  "flags": []
+ },
+ {
+  "name": "Right superior fibular retinaculum",
+  "system": "connective",
+  "extentsMm": [
+   30.5,
+   13.1,
+   4.8
+  ],
+  "thicknessMm": 4.76,
+  "bend": 0.071,
+  "triangles": 780,
+  "uniqueVertices": 392,
+  "flags": []
+ },
+ {
+  "name": "Right superior transverse scapular ligament",
+  "system": "connective",
+  "extentsMm": [
+   35.9,
+   4,
+   1.2
+  ],
+  "thicknessMm": 1.2,
+  "bend": 0.15,
+  "triangles": 164,
+  "uniqueVertices": 84,
+  "flags": []
+ },
+ {
+  "name": "Right suspensory ligament of breast",
+  "system": "connective",
+  "extentsMm": [
+   42.1,
+   39.8,
+   24.1
+  ],
+  "thicknessMm": 24.05,
+  "bend": 0.131,
+  "triangles": 5000,
+  "uniqueVertices": 2504,
+  "flags": []
+ },
+ {
+  "name": "thoracolumbar fascia",
+  "system": "connective",
+  "extentsMm": [
+   224.1,
+   179.1,
+   61.8
+  ],
+  "thicknessMm": 61.76,
+  "bend": 0.049,
+  "triangles": 81232,
+  "uniqueVertices": 46200,
+  "flags": []
+ }
+]
