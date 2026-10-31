@@ -27,7 +27,7 @@ export default function knee(U) {
       const under = [...heads, pat], yTop = ptop[1] + .07, yBot = ptop[1] - .004;
       const g = settle(grid(yTop, yBot, .046, .030, (x, y) => front(under, x, y, ptop[2]) + .0030, 16, 9, s => 1 - .35 * s ** 1.5));
       out.push({
-        name: `${S.w} quadriceps tendon`, zh: `${S.zh}股四頭肌腱`, system: 'connective', kind: 'tendon', geometry: [U.sheet(g, .006)],
+        name: `${S.w} quadriceps tendon`, zh: `${S.zh}股四頭肌腱`, system: 'tendon', kind: 'tendon', geometry: [U.sheet(g, .006)],
         card: {origin: ['The four parts of quadriceps femoris: rectus femoris, vastus medialis, vastus lateralis and vastus intermedius, joined about 7 cm above the patella', '股四頭肌的四個部分：股直肌、股內側肌、股外側肌與股中間肌，在髕骨上方約 7 公分處匯合'],
           insertion: ['Base (upper border) of the patella; fibres continue over the front of the patella into the patellar ligament', '髕骨底（上緣）；部分纖維越過髕骨前面延續為髕韌帶'],
           action: ['Transmits the pull of quadriceps to extend the knee; the commonest site of tendon rupture after the patellar ligament', '把股四頭肌的拉力傳到髕骨以伸直膝關節；斷裂時膝無法主動伸直']},

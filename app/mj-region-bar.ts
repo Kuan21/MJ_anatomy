@@ -45,7 +45,8 @@ const ALL_ABD:RegionTag[]=['abdomen/wall','abdomen/organs','abdomen/retro'];
 
 const RULES:Rule[]=[
  // ---- chest wall (bones are also drawn, see-through, in the two internal views)
- T(ALL_CHEST,CHEST_BONE),
+ // bones and their cartilage and disks only: the lung's surface marks "Groove for first rib of lung" and the like are named after a rib but belong to the lung
+ T(ALL_CHEST,CHEST_BONE,{sys:['skeletal','connective']}),
  T(['chest/wall'],/intercostal|transversus thoracis|levatores? costarum|subcostal muscle|pectoralis|serratus anterior|serratus posterior superior|subclavius|mammary|breast|nipple|areola|lactiferous|internal thoracic|musculophrenic|lateral thoracic|superior thoracic|costocervical|thoracoepigastric|intercostobrachial|thoracic spinal nerve|clavipectoral/),
  T(['chest/wall','abdomen/wall'],/superior epigastric/),
  // ---- diaphragm and other structures that cross cavities

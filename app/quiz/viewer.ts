@@ -3,7 +3,7 @@ import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import {fetchModelBuffer, loadMissingChunks} from '../model-download';
 import {PointerTap} from '../pointer-tap';
 import {framingDistance} from '../camera-framing';
-import {QUIZ_REGIONS, QUIZ_SYSTEMS, regionSections, sceneStructures, type QuizCatalogue, type QuizSection, type QuizSide, type QuizStructure} from './catalogue';
+import {QUIZ_REGIONS, QUIZ_SYSTEMS, ownerMuscleNames, regionSections, sceneStructures, type QuizCatalogue, type QuizSection, type QuizSide, type QuizStructure} from './catalogue';
 
 export type QuizView = 'front' | 'back' | 'side' | 'medial' | 'fit' | 'answer' | 'random';
 export interface QuizViewState {
@@ -132,7 +132,9 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
       const isAnswer = !naming && state.answered && isTarget;
       const isWrong = !naming && state.answered && structure.id === state.pickedId && !isAnswer;
       const isContext = structure.system !== state.target.system;
-      mesh.visible = allowed.has(structure.id) && (naming ? (!state.only || isTarget || isNeighbour) : (state.answered || !hidden.has(structure.id))) && (!isContext || state.context || isTarget || isNeighbour);
+      // the muscle a tendon was cut from is always drawn with it (faint, like the other context), so the tendon is never a loose fragment
+      const isOwner = state.target.system === 'tendon' && structure.system === 'muscular' && ownerMuscleNames(state.target.name).includes(structure.name);
+      mesh.visible = allowed.has(structure.id) && (naming ? (!state.only || isTarget || isNeighbour || isOwner) : (state.answered || !hidden.has(structure.id) || isOwner)) && (!isContext || state.context || isTarget || isNeighbour || isOwner);
       const base = QUIZ_SYSTEMS.find(s => s.id === structure.system)!.color;
       const material = mesh.material;
       const lit = isAnswer || isWrong || (naming && (isTarget || isNeighbour));

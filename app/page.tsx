@@ -14,7 +14,7 @@ import {fetchModelBuffer} from './model-download';
 import MicroAtlasScene,{MICRO_ATLASES,type MicroAtlasId} from './micro-atlas';
 import MotionPullControl from './motion-pull-control';
 import MotionAnatomyPanel,{UPPER_ACTION_ANATOMY} from './motion-anatomy';
-import {DEFAULT_VISIBLE,SYSTEMS,EXPLANATIONS,explanation,type Atlas,type OutlineRef,type Concept,type SceneState,type SystemId,type View} from './anatomy';
+import {DEFAULT_VISIBLE,SYSTEMS,EXPLANATIONS,explanation,type Atlas,type Part,type OutlineRef,type Concept,type SceneState,type SystemId,type View} from './anatomy';
 import {ANATOMY_REGIONS,regionById,type RegionId} from './mj-regions';
 import {resolveDissection} from './mj-dissection';
 import {structureProfile} from './mj-structure-info';
@@ -38,6 +38,7 @@ import SPACE_SHAPE_DATA from './space-shapes.json';
 import {SPACE_SHAPES,SHAPE_COLORS} from './mj-space-shapes';
 import {SPACES,resolveSpace,spacesForGroups,type SpaceDef,type SpaceGroup,type SpaceHit,type SpaceItemHit} from './mj-spaces';
 import {anatomyDepth,matchesDepth,type TissueDepth} from './mj-depth';
+import {buildOwners,ruleParts,ownerSwitchesOn,referenceMuscles} from './mj-owners';
 import {augmentAtlasWithFacial} from './mj-facial-atlas';
 import {matchesHeartLayer} from './mj-heart-layers';
 import {matchesSex} from './mj-sex';
@@ -138,7 +139,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const counts=useMemo(()=>Object.fromEntries(SYSTEMS.map(s=>[s.id,atlas?.parts.filter(p=>p.system===s.id&&matchesSex(p,state.sex)).length??0])),[atlas,state.sex]);
  const activeSystems=SYSTEMS.filter(s=>counts[s.id]>0);
  const organSystems=activeSystems.filter(s=>ORGAN_SYSTEM_IDS.includes(s.id));
- const primarySystems=activeSystems.filter(s=>!ORGAN_SYSTEM_IDS.includes(s.id));
+ const primarySystems=(()=>{const list=activeSystems.filter(s=>!ORGAN_SYSTEM_IDS.includes(s.id)),t=list.find(s=>s.id==='tendon');if(!t)return list;const rest=list.filter(s=>s!==t),i=rest.findIndex(s=>s.id==='muscular');rest.splice(i<0?rest.length:i+1,0,t);return rest;})();
  const serousRow=(l:typeof SEROUS_LAYERS[number])=>{const off=(state.hiddenSerous??[]).includes(l.key);return <label key={l.key} className="organ-sub-row"><span className="bn-stack"><span className="bn-en">{l.en}</span><small className="bn-zh">{l.zh}</small></span><Switch checked={state.visible.includes('serous')&&!off} onCheckedChange={()=>setState(v=>{const hidden=v.hiddenSerous??[];const vis=v.visible.includes('serous');const nowOff=hidden.includes(l.key);if(!vis)return{...v,visible:[...v.visible,'serous'],hiddenSerous:SEROUS_LAYERS.map(x=>x.key).filter(k=>k!==l.key)};return{...v,hiddenSerous:nowOff?hidden.filter(k=>k!==l.key):[...hidden,l.key]}})} aria-label={l.en}/></label>;};
  // Organs, top to bottom: heart, respiratory, digestive, urinary, reproductive, endocrine, lymphatic, sensory organs. The serous membranes belong to their organ: pleura to Respiratory, the three pericardial layers to the heart.
  const ORGAN_ORDER:SystemId[]=['cardiac','respiratory','digestive','urinary','reproductive','endocrine','lymphatic','sensory'];
@@ -185,7 +186,11 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const quizHref=quizHrefFor(topRegion as RegionKey,regionSub);
  const hiddenSet=new Set(state.hiddenParts??[]);
  // Counting ~2,300 parts is skipped while only the pose changes (a motion drag re-renders this page every frame).
- const visibleCount=useMemo(()=>atlas?.parts.filter(p=>!hiddenSet.has(p.id)&&(state.selected.includes(p.id)||(matchesDepth(p,state.depthFilter)&&matchesMuscleLayer(p,state.muscleRegion,state.muscleLayer)&&matchesFacialMuscleLayer(p,state.faceMuscleLayer)&&matchesHeartLayer(p,state.heartOpen)&&matchesSex(p,state.sex)&&!(p.system==='serous'&&(state.hiddenSerous??[]).includes(serousLayerKey(p.name)))&&(state.isolate?false:state.focusParts?state.focusParts.includes(p.id)&&state.visible.includes(p.system):state.visible.includes(p.system))))).length??0,[atlas,state.hiddenParts,state.selected,state.depthFilter,state.muscleRegion,state.muscleLayer,state.faceMuscleLayer,state.heartOpen,state.sex,state.hiddenSerous,state.isolate,state.focusParts,state.visible]);
+ const owners=useMemo(()=>atlas?buildOwners(atlas.parts):null,[atlas]);
+ const visibleCount=useMemo(()=>{if(!atlas)return 0;const on=new Set(state.visible),focus=state.focusParts?new Set(state.focusParts):null,sel=new Set(state.selected),refs=owners?referenceMuscles(owners,sel):new Set<string>();
+  const passes=(q:Part,p:Part)=>!hiddenSet.has(q.id)&&matchesDepth(q,state.depthFilter)&&matchesMuscleLayer(q,state.muscleRegion,state.muscleLayer)&&matchesFacialMuscleLayer(q,state.faceMuscleLayer)&&matchesHeartLayer(q,state.heartOpen)&&matchesSex(q,state.sex)&&!(q.system==='serous'&&(state.hiddenSerous??[]).includes(serousLayerKey(q.name)))&&(state.isolate?false:focus?focus.has(q.id)&&on.has(q.system):on.has(q.system))&&(q===p||on.has(p.system));
+  return atlas.parts.filter(p=>!hiddenSet.has(p.id)&&(sel.has(p.id)||refs.has(p.id)||(owners?ownerSwitchesOn(owners,p,on)&&ruleParts(owners,p).some(q=>passes(q,p)):passes(p,p)))).length;
+ },[atlas,owners,state.hiddenParts,state.selected,state.depthFilter,state.muscleRegion,state.muscleLayer,state.faceMuscleLayer,state.heartOpen,state.sex,state.hiddenSerous,state.isolate,state.focusParts,state.visible]);
  // Search index: built once in idle slices after the atlas is ready (and again when the extra names arrive), then queried per keystroke by the search panel.
  const [searchIndex,setSearchIndex]=useState<SearchEntry[]|null>(null);
  useEffect(()=>{
@@ -202,7 +207,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
   return()=>{cancelled=true;};
  },[atlas,parts,extras]);
  // Anything picked from search, a list or a related-structure chip is brought into view: its system is switched on, it is un-hidden and every filter that would keep it out of the scene is lifted.
- const revealState=(s:SceneState,ids:string[]):SceneState=>{const picked=ids.map(id=>parts.get(id)).filter((p):p is NonNullable<typeof p>=>!!p);return{...s,hiddenParts:(s.hiddenParts??[]).filter(x=>!ids.includes(x)),visible:[...new Set([...s.visible,...picked.map(p=>p.system)])],muscleLayer:picked.some(p=>p.system==='muscular')?'all':s.muscleLayer,depthFilter:'all',focusParts:s.focusParts?[...new Set([...s.focusParts,...ids])]:s.focusParts,cameraFocusNerve:undefined};};
+ const revealState=(s:SceneState,ids:string[]):SceneState=>{const picked=ids.map(id=>parts.get(id)).filter((p):p is NonNullable<typeof p>=>!!p);return{...s,hiddenParts:(s.hiddenParts??[]).filter(x=>!ids.includes(x)),visible:[...new Set([...s.visible,...picked.map(p=>p.system),...picked.flatMap(p=>{const o=owners?.organ.get(p.id);return o?[o]:[];})])],muscleLayer:picked.some(p=>p.system==='muscular')?'all':s.muscleLayer,depthFilter:'all',focusParts:s.focusParts?[...new Set([...s.focusParts,...ids])]:s.focusParts,cameraFocusNerve:undefined};};
  // A special region (axillary fossa, carpal tunnel …) found by search or opened from a card is shown the way the dissection panel shows it: its boundaries and contents highlighted near the region, nothing drawn for the space itself.
  const spaceOfParts=(ids:string[])=>{const p=ids.length?parts.get(ids[0]):undefined;return p?SPACES.find(d=>new RegExp(`^(?:left |right )?${d.part}$`,'i').test(p.name)&&p.system!=='muscular'):undefined;};
  // In the 頭部 tab the scene is clipped at the clavicles: a structure picked from search below that line would be flown to but not drawn, so the view goes back to 全身 first.
@@ -455,7 +460,10 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
   <section className={`layers-panel glass ${panel==='layers'?'mobile-open':''}`} aria-label="Anatomical layers">
    <Button variant="ghost" className="mobile-only close-systems" onClick={()=>setPanel(null)} aria-label="Close systems"><X size={18}/></Button>
    <div className="system-list">
-    {primarySystems.map(s=><div className={`system-row ${state.visible.includes(s.id)?'enabled':''}`} key={s.id}><Button variant="ghost" className="system-name" title={`只顯示${s.zh}｜Show only ${s.name.toLowerCase()}`} onClick={()=>setState(v=>({...v,visible:[s.id],isolate:false,selected:[]}))}><span className="system-dot" style={{background:s.color}}/><span className="system-en">{s.name}</span><small className="system-zh">{s.zh}</small><span className="system-count">{counts[s.id]}</span></Button><Switch checked={state.visible.includes(s.id)} onCheckedChange={()=>toggle(s.id)} aria-label={`Show ${s.name.toLowerCase()}`} /></div>)}
+    {primarySystems.map(s=>{
+     // Tendons are a child of Muscles: shown under it, greyed out and locked (and never drawn) while Muscles is off
+     const child=s.id==='tendon',musclesOn=state.visible.includes('muscular'),on=state.visible.includes(s.id)&&(!child||musclesOn);
+     return <div className={`system-row ${on?'enabled':''} ${child?'system-child':''} ${child&&!musclesOn?'locked':''}`} key={s.id}><Button variant="ghost" className="system-name" title={child?(musclesOn?'只顯示肌肉與肌腱｜Show muscles with their tendons only':'肌腱跟著肌肉顯示：先開啟肌肉｜Tendons follow Muscles: turn Muscles on first'):`只顯示${s.zh}｜Show only ${s.name.toLowerCase()}`} onClick={()=>setState(v=>({...v,visible:child?['muscular','tendon']:[s.id],isolate:false,selected:[]}))}><span className="system-dot" style={{background:s.color}}/><span className="system-en">{s.name}</span><small className="system-zh">{s.zh}</small><span className="system-count">{counts[s.id]}</span></Button><Switch checked={on} disabled={child&&!musclesOn} onCheckedChange={()=>toggle(s.id)} aria-label={`Show ${s.name.toLowerCase()}`} /></div>;})}
     {organSystems.length>0&&<div className={`organ-layer ${organsOpen?'open':''}`}>
      <div className={`system-row organ-parent ${anyOrganVisible?'enabled':''}`}>
       <Button variant="ghost" className="system-name organ-expand" aria-expanded={organsOpen} onClick={()=>setOrgansOpen(v=>!v)}><ChevronRight size={13}/><span className="system-dot organ-dot"/><span>Organs</span><span className="system-count">{organPieceCount}</span></Button>
