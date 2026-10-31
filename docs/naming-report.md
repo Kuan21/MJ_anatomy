@@ -2375,7 +2375,7 @@
 | Nuchal ligament | 台灣解剖學名詞（程式內建對照表） | 項韌帶 |
 | Posterior longitudinal ligament | 台灣解剖學名詞（程式內建對照表） | 後縱韌帶 |
 | Supraspinous ligament | 台灣解剖學名詞（程式內建對照表） | 棘上韌帶 |
-| quadrangular membrane | 台灣解剖學名詞（程式內建對照表） | 四角膜 |
+| quadrangular membrane | 台灣解剖學名詞（程式內建對照表） | 方形膜 |
 | cricopharyngeal ligament | 台灣解剖學名詞（程式內建對照表） | 環咽韌帶 |
 | external intercostal membrane | 台灣解剖學名詞（程式內建對照表） | 外肋間膜 |
 | internal intercostal membrane | 台灣解剖學名詞（程式內建對照表） | 內肋間膜 |
