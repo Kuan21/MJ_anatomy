@@ -852,12 +852,13 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 /* Structure detail card (.detail-sheet) — one block for every layout (Bug Audit P3-15).
    The Sheet component's Tailwind utilities live in @layer utilities, so these unlayered rules win without !important.
    Desktop: fixed card top-right, content-sized, capped to the viewport. Phones (<768px): full width; portrait anchors it to the
-   lower part of the screen so the structure just picked stays visible above it. Short landscape phones keep it under the header. */
-.detail-sheet{position:fixed;left:auto;top:92px;right:30px;bottom:auto;width:min(390px,35vw);max-width:420px;height:fit-content;max-height:calc(100dvh - 8px);min-height:0;display:flex;flex-direction:column;gap:10px;padding:18px;overflow:hidden;border-radius:16px;box-shadow:0 15px 70px #2433440a}
+   lower part of the screen so the structure just picked stays visible above it (a little shorter once the structure is isolated).
+   Short landscape phones keep it under the header. */
+.detail-sheet{position:fixed;left:auto;top:92px;right:30px;bottom:auto;width:min(390px,35vw);max-width:420px;height:fit-content;max-height:calc(100dvh - 8px);min-height:0;display:flex;flex-direction:column;gap:10px;padding:18px;overflow:hidden;border-radius:16px}
 @media(min-width:768px) and (min-height:700px){.detail-sheet{max-height:calc(100dvh - 112px)}}
 @media(min-width:768px) and (max-width:1100px){.detail-sheet{right:20px;width:min(360px,37vw)}}
 @media(max-width:767px){.detail-sheet{top:132px;left:12px;right:12px;width:auto;max-width:none;max-height:58dvh;gap:12px;padding:16px;background:#fffffff5}}
-@media(max-width:767px) and (orientation:portrait){.detail-sheet{top:auto;bottom:calc(78px + env(safe-area-inset-bottom));height:auto}}
+@media(max-width:767px) and (orientation:portrait){.detail-sheet{top:auto;bottom:calc(78px + env(safe-area-inset-bottom));height:auto}.detail-sheet.is-isolated{max-height:50dvh}}
 .detail-header{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-start;gap:7px;height:auto;min-height:0;padding:0 40px 10px 0;overflow:visible}
 .detail-scroll{flex:1 1 auto;min-height:0;max-height:calc(100dvh - 390px);display:flex;flex-direction:column;gap:10px;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y;padding:0 6px 18px 0;scrollbar-gutter:stable;scrollbar-width:thin;scrollbar-color:#b9c3cc transparent}
 @media(max-width:767px){.detail-scroll{gap:12px;max-height:calc(100dvh - 410px)}}
@@ -866,10 +867,10 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 @media(max-width:767px){.structure-title{font-size:21px;line-height:1.22;padding-right:18px}.structure-title-zh{margin-left:0}}
 /* Focus / Isolate / Hide / Clear: four compact buttons in one row, kept small on touch layouts too. */
 .detail-actions{position:relative;z-index:9;flex:0 0 auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;margin-top:0;padding:6px 8px;border-top:1px solid #18253618;background:rgba(255,255,255,.98)}
-.detail-actions button{width:100%;min-width:0;height:27px;min-height:27px;padding:3px 7px;border-radius:7px;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:3px;font-size:9.25px;font-weight:600;line-height:1;white-space:nowrap}
+.detail-actions button{width:100%;min-width:0;height:27px;min-height:27px;padding:3px 7px;border-radius:7px;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:6px;font-size:9.25px;font-weight:600;line-height:1;white-space:nowrap}
 .detail-actions button svg{width:11px;height:11px;flex:0 0 auto}
 @media(min-width:768px){.detail-actions button span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
-@media(max-width:767px){.detail-actions button{font-weight:500}}
+@media(max-width:767px){.detail-actions button{gap:3px;font-weight:500}}
 @media(min-width:768px){
   .detail-scroll .bilingual-fact{
     padding:8px 0!important;
@@ -1110,7 +1111,7 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 .space-labels{position:absolute;inset:0;pointer-events:none;z-index:6;overflow:hidden}
 .space-label-lines{position:absolute;inset:0;width:100%;height:100%}
 .space-label-lines line{stroke:#182536;stroke-opacity:.5;stroke-width:1}
-.space-label{position:absolute;max-width:260px;padding:2px 8px;border:1px solid #1825362e;border-radius:6px;background:#fffffff2;color:#182536;font:600 11px/1.4 system-ui,sans-serif;white-space:normal;overflow-wrap:anywhere;box-shadow:0 1px 4px #18253618}
+.space-label{position:absolute;width:max-content;max-width:260px;padding:2px 8px;border:1px solid #1825362e;border-radius:6px;background:#fffffff2;color:#182536;font:600 11px/1.4 system-ui,sans-serif;white-space:normal;overflow-wrap:anywhere;box-shadow:0 1px 4px #18253618}
 .space-label.is-content{border-color:#d9a400;background:#fff8dc}
 .bn-role{display:block;font-size:10.5px;color:#64748b}
 .space-missing{display:flex;flex-direction:column;gap:2px}
