@@ -149,6 +149,30 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
   scheduleSupplementary(()=>new Promise<void>((resolve,reject)=>loader.load(`${import.meta.env.BASE_URL}models/joints.glb`,gltf=>{if(disposed){resolve();return;}supplementaryJoints.addSliced(gltf.scene,cooperativeYield,()=>disposed).then(()=>{if(!disposed){supplementaryJoints.update(latest.current,amount);dirty=true;}resolve();},reject);},undefined,reject)),()=>onError('關節組織模型載入失敗，請重新整理。'));
   // A nerve package holds dozens of meshes; installing them in one task froze the page for ~2 s, so the work yields
   // to input and rendering every ~12 ms. The result is the same set of meshes.
+  // Nerve materials are shared (Bug Audit P3-11): one MeshStandardMaterial per look (base / vein / spinal cord / selected / hovered) × drag-preview flag × special-region flag ×
+  // lifted-when-selected, instead of one per nerve mesh. The shader needs the two flags as uniforms, and a uniform belongs to the material, so each flag value is its own material;
+  // a mesh switches material when its state changes (a swap, not a per-mesh clone). All variants compile to the same program.
+  type NerveLook={color:number;emissive:number;intensity:number;lift:boolean;preview:0|1;range:0|1};
+  const nerveMaterials=new Map<string,T.MeshStandardMaterial>();
+  const nerveMaterialFor=(look:NerveLook)=>{
+   const key=`${look.color}|${look.emissive}|${look.intensity}|${look.lift?1:0}|${look.preview}|${look.range}`;let material=nerveMaterials.get(key);if(material)return material;
+   const {preview,range}=look;
+   material=new T.MeshStandardMaterial({color:look.color,metalness:0,roughness:.42,emissive:look.emissive,emissiveIntensity:look.intensity,depthTest:true,depthWrite:true,transparent:false,opacity:1,polygonOffset:look.lift,polygonOffsetFactor:look.lift?-4:0,polygonOffsetUnits:look.lift?-4:0});
+   material.customProgramCacheKey=()=>'mj-nerve';
+   material.onBeforeCompile=shader=>{shader.uniforms.paletteState={value:paletteTexture};shader.uniforms.paletteWidth={value:PALETTE_WIDTH};shader.uniforms.nervePreview={value:preview};Object.assign(shader.uniforms,rangeU,{rangeSel:{value:range}});
+      // inside a special region's sphere a picked nerve glows with a bright outline; outside it fades back to pale
+      shader.vertexShader='varying vec3 vRangePos;\n'+shader.vertexShader;
+      shader.vertexShader=shader.vertexShader.replace('#include <project_vertex>','#include <project_vertex>\nvRangePos = transformed;');
+      shader.fragmentShader='varying vec3 vRangePos; uniform float rangeSel;\n'+RANGE_FRAG+shader.fragmentShader;
+      shader.fragmentShader=shader.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\nfloat rangeM = rangeSel>0.5 ? rangeMask(vRangePos) : 1.0; diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.80,0.78,0.72), rangeSel*(1.0-rangeM)*0.65);');
+      shader.fragmentShader=shader.fragmentShader.replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\ntotalEmissiveRadiance += vec3(1.0,0.78,0.1)*0.5*rangeSel*rangeM;');
+      shader.fragmentShader=shader.fragmentShader.replace('#include <dithering_fragment>','#include <dithering_fragment>\n{ float rimN = 1.0-abs(dot(normalize(vNormal),normalize(vViewPosition))); gl_FragColor.rgb += vec3(1.0,0.86,0.25)*pow(rimN,2.0)*0.55*rangeSel*rangeM; }');
+      shader.vertexShader=GPU_SKIN_PARS+'uniform float nervePreview;\n'+shader.vertexShader;
+      shader.vertexShader=shader.vertexShader.replace('#include <beginnormal_vertex>','#include <beginnormal_vertex>\n'+gpuSkinNormal('nervePreview'));
+      shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n'+GPU_SKIN_POSITION);};
+   materials.push(material);nerveMaterials.set(key,material);return material;
+  };
+  const nerveBaseLook=(spinalCordLike:boolean,vein:boolean):Pick<NerveLook,'color'|'emissive'|'intensity'>=>spinalCordLike?{color:0xe8d9b8,emissive:0x493f2d,intensity:.10}:vein?{color:0x3f7bd0,emissive:0x0f2c5c,intensity:.28}:{color:0xf1cb4f,emissive:0x6b5100,intensity:.28};
   const installNerves=async(root:T.Group)=>{if(disposed)return;root.updateMatrixWorld(true);const sources:T.Mesh[]=[];root.traverse(o=>{if(o instanceof T.Mesh)sources.push(o);});
    let sliceStart=performance.now();
    for(const o of sources){
@@ -176,10 +200,10 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
     // broad intracranial sheets by geometry as well, while retaining slender
     // cranial/peripheral nerves. The integrated brain model owns this volume.
     if(!nerveBindings[exactName]&&!bodyNerveBindings[exactName]&&geoCenter.y>1.46&&Math.abs(geoCenter.x)<.22&&!cranialNerveLike&&!spinalCordLike&&(geoSize.x>.028||geoSize.z>.028))return;
-    geometry.boundingSphere=new T.Sphere(new T.Vector3(0,.9,0),2.5);const position=geometry.getAttribute('position');if(!position)return;const material=new T.MeshStandardMaterial({color:spinalCordLike?0xe8d9b8:0xf1cb4f,metalness:0,roughness:.42,emissive:spinalCordLike?0x493f2d:0x6b5100,emissiveIntensity:spinalCordLike?.10:.28,depthTest:true,depthWrite:true,transparent:false,opacity:1});geometry.computeBoundingBox();const nerveCenter=geometry.boundingBox?.getCenter(new T.Vector3())??new T.Vector3();
+    geometry.boundingSphere=new T.Sphere(new T.Vector3(0,.9,0),2.5);const position=geometry.getAttribute('position');if(!position)return;const material=nerveMaterialFor({...nerveBaseLook(spinalCordLike,/vein|venous/i.test(exactName)),lift:false,preview:0,range:0});geometry.computeBoundingBox();const nerveCenter=geometry.boundingBox?.getCenter(new T.Vector3())??new T.Vector3();
     const binding=nerveBindings[exactName];
     const mesh=new T.Mesh(geometry,material);mesh.name=exactName||fullName;mesh.frustumCulled=false;mesh.renderOrder=0;
-    mesh.userData.mjNerve=true;mesh.userData.mjExactName=exactName;mesh.userData.mjVein=/vein|venous/i.test(exactName);mesh.userData.mjSide=binding?.side??nerveSide(exactName);
+    mesh.userData.mjNerve=true;mesh.userData.mjExactName=exactName;mesh.userData.mjVein=/vein|venous/i.test(exactName);mesh.userData.mjSpinalCordLike=spinalCordLike;mesh.userData.mjSide=binding?.side??nerveSide(exactName);
     if(binding&&softRigs[binding.side]){registerNerveRest(softRigs[binding.side]!,position.array as Float32Array);position.needsUpdate=true;geometry.computeVertexNormals();geometry.computeBoundingBox();}
     else geometry.computeVertexNormals();// once, and only for meshes that survived the filters above
     mesh.userData.basePositions=new Float32Array(position.array as ArrayLike<number>);
@@ -188,19 +212,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
     {const count=position.count,slots=new Uint8Array(count*4),weights=new Uint16Array(count*4);clearGpuAttributes(slots,weights,0,count);
      if(mesh.userData.skin&&binding)writeGpuAttributes(gpuBinding(binding.side,mesh.userData.skin),slots,weights,0);
      geometry.setAttribute('segIndex',new T.BufferAttribute(slots,4));geometry.setAttribute('segWeight',new T.BufferAttribute(weights,4,true));
-     const flag={value:0};mesh.userData.previewFlag=flag;mesh.userData.baseNormals=new Float32Array(geometry.getAttribute('normal').array as ArrayLike<number>);
-     const rangeFlag={value:0};mesh.userData.rangeFlag=rangeFlag;
-     material.onBeforeCompile=shader=>{shader.uniforms.paletteState={value:paletteTexture};shader.uniforms.paletteWidth={value:PALETTE_WIDTH};shader.uniforms.nervePreview=flag;Object.assign(shader.uniforms,rangeU,{rangeSel:rangeFlag});
-      // inside a special region's sphere a picked nerve glows with a bright outline; outside it fades back to pale
-      shader.vertexShader='varying vec3 vRangePos;\n'+shader.vertexShader;
-      shader.vertexShader=shader.vertexShader.replace('#include <project_vertex>','#include <project_vertex>\nvRangePos = transformed;');
-      shader.fragmentShader='varying vec3 vRangePos; uniform float rangeSel;\n'+RANGE_FRAG+shader.fragmentShader;
-      shader.fragmentShader=shader.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\nfloat rangeM = rangeSel>0.5 ? rangeMask(vRangePos) : 1.0; diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.80,0.78,0.72), rangeSel*(1.0-rangeM)*0.65);');
-      shader.fragmentShader=shader.fragmentShader.replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\ntotalEmissiveRadiance += vec3(1.0,0.78,0.1)*0.5*rangeSel*rangeM;');
-      shader.fragmentShader=shader.fragmentShader.replace('#include <dithering_fragment>','#include <dithering_fragment>\n{ float rimN = 1.0-abs(dot(normalize(vNormal),normalize(vViewPosition))); gl_FragColor.rgb += vec3(1.0,0.86,0.25)*pow(rimN,2.0)*0.55*rangeSel*rangeM; }');
-      shader.vertexShader=GPU_SKIN_PARS+'uniform float nervePreview;\n'+shader.vertexShader;
-      shader.vertexShader=shader.vertexShader.replace('#include <beginnormal_vertex>','#include <beginnormal_vertex>\n'+gpuSkinNormal('nervePreview'));
-      shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n'+GPU_SKIN_POSITION);};}
+     const flag={value:0};mesh.userData.previewFlag=flag;mesh.userData.baseNormals=new Float32Array(geometry.getAttribute('normal').array as ArrayLike<number>);}
     const inferredHeadNerve=/cervical|vagus|phrenic|hypoglossal|accessory|glossopharyngeal|ansa cervicalis|sympathetic trunk|superior cervical|middle cervical|inferior cervical/i.test(exactName);
     const limb=inferredLimb(geoCenter),bodyRegion=spinalCordLike?'head':bodyNerveBindings[exactName]??(inferredHeadNerve?'head':limb==='leftLeg'||limb==='rightLeg'?limb:undefined);
     if(bodyRegion){mesh.userData.bodyRegion=bodyRegion;mesh.userData.bodySkin=bindBodyTissue(bodyRigs[bodyRegion],mesh.userData.basePositions,spinalCordLike?false:cranialNerveRigid(exactName));}
@@ -246,7 +258,8 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
    }
    return bestId;
   };
-  const brainMaterials=new Map<string,T.MeshStandardMaterial>();
+  const brainMaterials=new Map<string,T.MeshStandardMaterial>(),brainSelectedMaterials=new Map<string,T.MeshStandardMaterial>();
+  const brainSelectedMaterial=(key:string)=>{let m=brainSelectedMaterials.get(key);if(m)return m;const base=brainMaterials.get(key);if(!base)return undefined;m=base.clone();m.color.setHex(SELECT_COLOR);m.emissive.setHex(SELECT_COLOR);m.emissiveIntensity=.35;m.opacity=1;materials.push(m);brainSelectedMaterials.set(key,m);return m;};
   const brainAppearance=(label:string,category:string)=>{
    const s=(label+' '+category).toLowerCase();
    if(/ventricle|aqueduct/.test(s))return{key:'ventricle',color:0x99bdc7,transparent:true,opacity:.22};
@@ -271,9 +284,8 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
      const geometry=o.geometry.clone();geometry.applyMatrix4(o.matrixWorld);geometry.computeBoundingBox();geometry.computeVertexNormals();
      const appearance=brainAppearance(label,category);
      let material=brainMaterials.get(appearance.key);
-     if(!material){material=new T.MeshStandardMaterial({color:appearance.color,roughness:.72,metalness:0,side:T.FrontSide,transparent:appearance.transparent,opacity:appearance.opacity,depthWrite:!appearance.transparent});brainMaterials.set(appearance.key,material);}
-     const meshMaterial=material.clone();materials.push(meshMaterial);
-     const mesh=new T.Mesh(geometry,meshMaterial);mesh.name='Brain Project · '+label;mesh.frustumCulled=false;mesh.userData.mjBrainProject=true;mesh.userData.mjBrainLabel=label;mesh.userData.mjAtlasId=brainAtlasIdFor(label,category);mesh.userData.mjBrainBaseColor=appearance.color;mesh.userData.mjBrainBaseOpacity=appearance.opacity;brainVisualRoot.add(mesh);brainPickers.push(mesh);added.push(mesh);
+     if(!material){material=new T.MeshStandardMaterial({color:appearance.color,roughness:.72,metalness:0,side:T.FrontSide,transparent:appearance.transparent,opacity:appearance.opacity,depthWrite:!appearance.transparent});brainMaterials.set(appearance.key,material);materials.push(material);}
+     const mesh=new T.Mesh(geometry,material);mesh.userData.mjBrainKey=appearance.key;mesh.name='Brain Project · '+label;mesh.frustumCulled=false;mesh.userData.mjBrainProject=true;mesh.userData.mjBrainLabel=label;mesh.userData.mjAtlasId=brainAtlasIdFor(label,category);mesh.userData.mjBrainBaseColor=appearance.color;mesh.userData.mjBrainBaseOpacity=appearance.opacity;brainVisualRoot.add(mesh);brainPickers.push(mesh);added.push(mesh);
      if(geometry.boundingBox)sourceBox.union(geometry.boundingBox);
     });
     if(sourceBox.isEmpty()||brainTargetBox.isEmpty()||!added.length){brainVisualRoot.clear();brainPickers.length=0;resolve();return;}
@@ -1073,7 +1085,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
   };
   renderer.domElement.addEventListener('pointerdown',down,true);renderer.domElement.addEventListener('pointermove',move);renderer.domElement.addEventListener('pointerleave',()=>setHover(-1,null));renderer.domElement.addEventListener('pointerup',up);renderer.domElement.addEventListener('pointercancel',cancel);
   // ?mjview=1 exposes the camera for the screenshot scripts (view a structure from a chosen side and distance); nothing in the app uses it.
-  if(typeof location!=='undefined'&&new URLSearchParams(location.search).has('mjview'))(window as unknown as {__mjView:unknown}).__mjView={look:(target:[number,number,number],dir:[number,number,number],distance:number)=>{controls.target.set(...target);camera.clearViewOffset();focusTarget=null;focusPosition=null;camera.position.set(target[0]+dir[0]*distance,target[1]+dir[1]*distance,target[2]+dir[2]*distance);controls.update();dirty=true;},focusing:()=>!!(focusTarget&&focusPosition),camera:()=>[...camera.position.toArray(),...controls.target.toArray()],jointsState:()=>supplementaryJoints.rows.filter(r=>r.mesh.visible).map(r=>[r.mesh.name,r.anchor.name]),partsState:(rx:string)=>atlas.parts.map((p,i)=>({id:p.id,name:p.name,visible:data[i*4+3],faded:selectedData[i*4+2],picker:!!pickers[i]})).filter(x=>new RegExp(rx,'i').test(x.name))};
+  if(typeof location!=='undefined'&&new URLSearchParams(location.search).has('mjview'))(window as unknown as {__mjView:unknown}).__mjView={look:(target:[number,number,number],dir:[number,number,number],distance:number)=>{controls.target.set(...target);camera.clearViewOffset();focusTarget=null;focusPosition=null;camera.position.set(target[0]+dir[0]*distance,target[1]+dir[1]*distance,target[2]+dir[2]*distance);controls.update();dirty=true;},focusing:()=>!!(focusTarget&&focusPosition),renderStats:()=>{const mats=new Set<T.Material>();let meshes=0;scene.traverse(o=>{if(o instanceof T.Mesh&&o.visible){meshes++;mats.add(o.material as T.Material);}});const t=performance.now();renderer.render(scene,camera);return {ms:performance.now()-t,calls:renderer.info.render.calls,triangles:renderer.info.render.triangles,programs:renderer.info.programs?.length??0,materials:mats.size,meshes};},camera:()=>[...camera.position.toArray(),...controls.target.toArray()],jointsState:()=>supplementaryJoints.rows.filter(r=>r.mesh.visible).map(r=>[r.mesh.name,r.anchor.name]),partsState:(rx:string)=>atlas.parts.map((p,i)=>({id:p.id,name:p.name,visible:data[i*4+3],faded:selectedData[i*4+2],picker:!!pickers[i]})).filter(x=>new RegExp(rx,'i').test(x.name))};
   // Outline of the picked special region (edges as tubes, opening as a pale fill); its vertices are copies of boundary-mesh vertices, see space-outline.ts.
   const partIndexById=new Map(atlas.parts.map((p,i)=>[p.id,i]));
   const outlineTube=materialFor('overlay',undefined,true),outlineFill=materialFor('overlay',1,true);
@@ -1120,17 +1132,15 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
      else o.visible=sideOk&&nerveMatchesRegion(name,ctx.region,false);
      const inHighlight=!!s.highlightNerves?.length&&s.highlightNerves.some(h=>h.replace(/\.001$/,'')===name.replace(/\.001$/,'')),ranged=!!s.spaceRange?.length&&inHighlight;
      const isSelectedNerve=!ranged&&((!!selectedNerve.current&&name===selectedNerve.current)||inHighlight);
-     {const rf=o.userData.rangeFlag as {value:number}|undefined;if(rf&&rf.value!==(ranged?1:0)){rf.value=ranged?1:0;dirty=true;}}
-     // a nerve picked from search, a list or a card is always shown (whatever region, side or system filter is active) unless it was hidden on purpose; with Isolate only that nerve stays
+      // a nerve picked from search, a list or a card is always shown (whatever region, side or system filter is active) unless it was hidden on purpose; with Isolate only that nerve stays
      if((ranged||(selectedNerve.current&&name===selectedNerve.current))&&!s.hiddenNerves?.includes(name))o.visible=true;
      else if(s.isolate&&selectedNerve.current)o.visible=false;
      if(s.hiddenNerves?.includes(name))o.visible=false;
      const isHoverNerve=!isSelectedNerve&&hoverNerve===name;
-     const isVein=!!o.userData.mjVein,targetColor=isSelectedNerve?SELECT_COLOR:isHoverNerve?HOVER_COLOR:isVein?0x3f7bd0:0xf1cb4f,targetEmissive=isSelectedNerve?SELECT_COLOR:isHoverNerve?HOVER_COLOR:isVein?0x0f2c5c:0x6b5100,targetIntensity=isSelectedNerve?.4:isHoverNerve?.3:.28;
-     {const nm=(o as T.Mesh).material as T.MeshStandardMaterial,lift=isSelectedNerve;if(nm.polygonOffset!==lift){nm.polygonOffset=lift;nm.polygonOffsetFactor=-4;nm.polygonOffsetUnits=-4;nm.needsUpdate=true;}}
-     if(o.material.color.getHex()!==targetColor||o.material.emissive.getHex()!==targetEmissive||o.material.emissiveIntensity!==targetIntensity||!o.material.depthTest||o.material.opacity!==1){
-      o.material.color.setHex(targetColor);o.material.emissive.setHex(targetEmissive);o.material.emissiveIntensity=targetIntensity;o.material.depthTest=true;o.material.depthWrite=true;o.material.transparent=false;o.material.opacity=1;o.material.needsUpdate=true;
-     }
+     const isVein=!!o.userData.mjVein,base=nerveBaseLook(!!o.userData.mjSpinalCordLike,isVein);
+     const look:NerveLook=isSelectedNerve?{color:SELECT_COLOR,emissive:SELECT_COLOR,intensity:.4,lift:true,preview:0,range:0}:isHoverNerve?{color:HOVER_COLOR,emissive:HOVER_COLOR,intensity:.3,lift:false,preview:0,range:0}:{...base,lift:false,preview:0,range:0};
+     look.preview=(o.userData.previewFlag as {value:number}|undefined)?.value?1:0;look.range=ranged?1:0;
+     const want=nerveMaterialFor(look);if((o as T.Mesh).material!==want){(o as T.Mesh).material=want;dirty=true;}
     });
    }
    const moving=Math.abs(amount-s.explode)>.0001;
@@ -1171,11 +1181,9 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
     for(const mesh of brainPickers){
      const atlasId=mesh.userData.mjAtlasId as string|undefined,selected=!!atlasId&&selection.has(atlasId);
      mesh.visible=brainMotionRoot.visible&&(!s.isolate||selected);
-     const mat=mesh.material as T.MeshStandardMaterial,baseColor=mesh.userData.mjBrainBaseColor as number|undefined,baseOpacity=mesh.userData.mjBrainBaseOpacity as number|undefined;
-     const targetColor=selected?SELECT_COLOR:(baseColor??0xc9857d),targetEmissive=selected?SELECT_COLOR:0x000000,targetIntensity=selected?.35:0;
-     if(mat.color.getHex()!==targetColor||mat.emissive.getHex()!==targetEmissive||mat.emissiveIntensity!==targetIntensity){
-      mat.color.setHex(targetColor);mat.emissive.setHex(targetEmissive);mat.emissiveIntensity=targetIntensity;mat.opacity=selected?1:(baseOpacity??1);mat.needsUpdate=true;
-     }
+     // shared materials (Bug Audit P3-11): the base look per appearance and one selected look per appearance, swapped per mesh instead of 400+ private clones
+     const key=mesh.userData.mjBrainKey as string,want=selected?brainSelectedMaterial(key):brainMaterials.get(key);
+     if(want&&mesh.material!==want){mesh.material=want;dirty=true;}
     }
     const isVisible=(p:(typeof atlas.parts)[number])=>{
      if(amount<.01&&cervicalVessels.replaced.has(p.id))return false;
@@ -1285,7 +1293,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
 
   };animate();
   // ?mjview=1 exposes the camera for the screenshot scripts (view a structure from a chosen side and distance); nothing in the app uses it.
-  if(typeof location!=='undefined'&&new URLSearchParams(location.search).has('mjview'))(window as unknown as {__mjView:unknown}).__mjView={look:(target:[number,number,number],dir:[number,number,number],distance:number)=>{controls.target.set(...target);camera.clearViewOffset();focusTarget=null;focusPosition=null;camera.position.set(target[0]+dir[0]*distance,target[1]+dir[1]*distance,target[2]+dir[2]*distance);controls.update();dirty=true;},focusing:()=>!!(focusTarget&&focusPosition),camera:()=>[...camera.position.toArray(),...controls.target.toArray()],jointsState:()=>supplementaryJoints.rows.filter(r=>r.mesh.visible).map(r=>[r.mesh.name,r.anchor.name]),partsState:(rx:string)=>atlas.parts.map((p,i)=>({id:p.id,name:p.name,visible:data[i*4+3],faded:selectedData[i*4+2],picker:!!pickers[i]})).filter(x=>new RegExp(rx,'i').test(x.name))};
+  if(typeof location!=='undefined'&&new URLSearchParams(location.search).has('mjview'))(window as unknown as {__mjView:unknown}).__mjView={look:(target:[number,number,number],dir:[number,number,number],distance:number)=>{controls.target.set(...target);camera.clearViewOffset();focusTarget=null;focusPosition=null;camera.position.set(target[0]+dir[0]*distance,target[1]+dir[1]*distance,target[2]+dir[2]*distance);controls.update();dirty=true;},focusing:()=>!!(focusTarget&&focusPosition),renderStats:()=>{const mats=new Set<T.Material>();let meshes=0;scene.traverse(o=>{if(o instanceof T.Mesh&&o.visible){meshes++;mats.add(o.material as T.Material);}});const t=performance.now();renderer.render(scene,camera);return {ms:performance.now()-t,calls:renderer.info.render.calls,triangles:renderer.info.render.triangles,programs:renderer.info.programs?.length??0,materials:mats.size,meshes};},camera:()=>[...camera.position.toArray(),...controls.target.toArray()],jointsState:()=>supplementaryJoints.rows.filter(r=>r.mesh.visible).map(r=>[r.mesh.name,r.anchor.name]),partsState:(rx:string)=>atlas.parts.map((p,i)=>({id:p.id,name:p.name,visible:data[i*4+3],faded:selectedData[i*4+2],picker:!!pickers[i]})).filter(x=>new RegExp(rx,'i').test(x.name))};
   const contextLost=(e:Event)=>{e.preventDefault();onError('裝置已暫停 3D 畫面，請重新載入以繼續。');};renderer.domElement.addEventListener('webglcontextlost',contextLost);
   return()=>{labelLayer.remove();plLayer.remove();disposed=true;shoulderWorker?.terminate();retryLoad.current=null;abort.abort();cancelAnimationFrame(frame);observer.disconnect();controls.dispose();cervicalVessels.dispose();supplementaryJoints.dispose();draco.dispose();geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());scene.traverse(o=>{if(o instanceof T.Mesh&&!geometries.includes(o.geometry)){o.geometry.dispose();const ms=Array.isArray(o.material)?o.material:[o.material];ms.forEach(m=>m.dispose());}});env.dispose();partTexture.dispose();selectionTexture.dispose();motionTexture.dispose();rotationTexture.dispose();anchorMotionTexture.dispose();anchorRotationTexture.dispose();paletteTexture.dispose();markerGeometry.dispose();markerMaterial.dispose();hover.remove();renderer.dispose();renderer.domElement.remove();};
  },[atlas]);
