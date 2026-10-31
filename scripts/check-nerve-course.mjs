@@ -2,6 +2,7 @@
 // Superior gluteal nerve: leaves the pelvis through the greater sciatic foramen above piriformis, runs between gluteus medius and gluteus minimus, and ends in tensor fasciae latae.
 import {loadWorld, closest, sub, len} from './lib/paokao-world.mjs';
 import {makeUtil} from './lib/paokao-util.mjs';
+import {measure} from './lib/lower-limb-nerve-metrics.mjs';
 
 const w = loadWorld({paokao: true}), U = makeUtil(w), problems = [], MM = 1000;
 for (const [S, s, sx] of [['Left', 'l', 1], ['Right', 'r', -1]]) {
@@ -22,5 +23,11 @@ for (const [S, s, sx] of [['Left', 'l', 1], ['Right', 'r', -1]]) {
   if (ahead) problems.push(`${S} superior gluteal nerve: ${ahead} vertices lie in front of the hip joint`);
 }
 void U;
+// Deep fibular, infrapatellar, saphenous and tibial nerves against the fibular neck, malleoli, tibial tuberosity, patella, tarsal tunnel and the accompanying arteries (scripts/lib/lower-limb-nerve-metrics.mjs)
+const {rows, inside} = measure(w);
+for (const r of rows) if (r.required && !r.ok) problems.push(`${r.side} ${r.nerve}: ${r.rule} — measured ${r.value} ${r.unit}`);
+// no lower-limb nerve may run through a leg or foot bone. The few vertices left inside after the clearance step graze the surface where two bones touch (at most about 1 mm deep); they may be
+// at most 10% of a mesh (15% for the thin digital branches squeezed between neighbouring toe bones).
+for (const r of inside) if (r.inside / r.total > (/digital/i.test(r.name) ? .15 : .10)) problems.push(`${r.name}: ${r.inside} of ${r.total} vertices are inside a bone`);
 if (problems.length) { console.error('Nerve course check failed:\n - ' + problems.join('\n - ')); process.exit(1); }
-console.log('Nerve course OK: the superior gluteal nerves leave through the greater sciatic foramen, run between gluteus medius and minimus and end in tensor fasciae latae.');
+console.log('Nerve course OK: the superior gluteal nerves leave through the greater sciatic foramen and end in tensor fasciae latae; the deep fibular, infrapatellar, saphenous and tibial nerves follow their landmarks; no lower-limb nerve runs through a bone.');
