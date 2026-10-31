@@ -43,5 +43,12 @@ export async function augmentAtlasWithFacial(base:Atlas,signal?:AbortSignal):Pro
  // the muscles/ligaments the 4.0 export left out, such as latissimus dorsi) into small, gzip-compressed, immutable same-origin
  // packages, so these pieces load in stages beside the body.
  const abort=signal??new AbortController().signal;
- return mergeAtlasStreams(base,await Promise.all([streamOf('facial/facial-stream.json.gz',abort),streamOf('supplement/supplement-stream.json.gz',abort),streamOf('female/female-stream.json.gz',abort),streamOf('serous/serous-stream.json.gz',abort),streamOf('vessel-ends/vessel-ends-stream.json.gz',abort),streamOf('paokao/paokao-stream.json.gz',abort)]));
+ // One package that fails to download must not take the whole atlas down: the others are merged and the missing ones are reported (Atlas.unavailable).
+ const packages:[string,string][]=[['facial/facial-stream.json.gz','臉部肌肉'],['supplement/supplement-stream.json.gz','補充肌肉與韌帶'],['female/female-stream.json.gz','女性器官'],['serous/serous-stream.json.gz','漿膜'],['vessel-ends/vessel-ends-stream.json.gz','血管末端'],['paokao/paokao-stream.json.gz','示意結構']];
+ const results=await Promise.allSettled(packages.map(([file])=>streamOf(file,abort)));
+ if(abort.aborted)throw abort.reason??new DOMException('Aborted','AbortError');
+ const streams:FacialStream[]=[],unavailable:string[]=[];
+ results.forEach((result,i)=>{if(result.status==='fulfilled')streams.push(result.value);else{unavailable.push(packages[i][1]);console.error(`補充資料包未載入：${packages[i][1]}（${packages[i][0]}）`,result.reason);}});
+ const merged=mergeAtlasStreams(base,streams);
+ return unavailable.length?{...merged,unavailable}:merged;
 }
