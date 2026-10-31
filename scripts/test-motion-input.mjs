@@ -13,7 +13,7 @@ let number=0,displayed,side='right';const focus=['shoulder'];let state={cameraFo
 const context={atlas:{},motionEnabled:true,studySide:'right',motionTargetRef,motionInputSide,motionPoseRef,smoothMotionFrame,gestureFrame,
  useRef:v=>({current:v}),resolveArmCollision:(_atlas,_side,pose)=>({pose,limited:false}),setMotionBlock(){},
  buildUpperLimbMotion(_atlas,shown,pose){return{transforms:{[shown]:pose},warnings:[]};},constrainPose:p=>p,
- setMotionPose:p=>{displayed=p;},setMotionEdit(){},setError(){},setTopRegion(){},setMotionSide(){},setStudySide:s=>{side=s;},
+ setMotionPose:p=>{displayed=p;},setMotionEdit(){},setError(){},setTopRegion(){},setMotionSide(){},setNotice(){},setStudySide:s=>{side=s;},
  setState:update=>{state=update(state);},MOTION_LIMITS:{shoulderAbduction:[-20,180]},
  requestAnimationFrame:fn=>{const id=++number;frames.set(id,fn);return id;},cancelAnimationFrame:id=>frames.delete(id)
 };

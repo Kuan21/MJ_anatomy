@@ -237,13 +237,10 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
       const pack = catalogue.packages[index];
       const url = (path: string) => import.meta.env.BASE_URL + path.replace(/^\//, '');
       let buffer: ArrayBuffer;
-      if (typeof DecompressionStream === 'undefined') buffer = await fetchModelBuffer(url(pack.url), pack.bytes, false, controller.signal);
-      else {
-        try {buffer = await fetchModelBuffer(url(pack.gzip), pack.bytes, true, controller.signal);}
-        catch (error) {
-          if (controller.signal.aborted) throw error;
-          buffer = await fetchModelBuffer(url(pack.url), pack.bytes, false, controller.signal);
-        }
+      try {buffer = await fetchModelBuffer(url(pack.gzip), pack.bytes, true, controller.signal);}
+      catch (error) {
+        if (controller.signal.aborted) throw error;
+        buffer = await fetchModelBuffer(url(pack.url), pack.bytes, false, controller.signal);
       }
       if (disposed) return;
       for (const part of pack.meshes) {
