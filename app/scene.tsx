@@ -872,9 +872,10 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
    const freeLeft=Math.max(12,panelRight&&panelRight.width>0?panelRight.right-rect.left+14:12),freeRight=Math.min(w-12,...rightEdges.map(r=>r.left-rect.left-14));
    const centreX=placed.length?placed.reduce((sum,p)=>sum+p.c.x,0)/placed.length:w/2;
    for(const right of [true,false]){
-    const group=placed.filter(p=>(p.a.x>=centreX)===right).sort((x,y)=>x.a.y-y.a.y);let lastY=-Infinity;
+    const group=placed.filter(p=>(p.a.x>=centreX)===right).sort((x,y)=>x.a.y-y.a.y);let lastY=-Infinity,lastH=0;
     for(const p of group){
-     const ly=Math.min(h-30,Math.max(p.a.y,lastY+27,80));lastY=ly;
+     // labels may wrap onto two lines, so the stack spacing follows the real box heights
+     const bh=p.it.box.offsetHeight||22,ly=Math.min(h-30,Math.max(p.a.y,lastY+Math.max(27,(lastH+bh)/2+5),80));lastY=ly;lastH=bh;
      const bw=p.it.box.offsetWidth||180,lx=right?Math.max(freeLeft,freeRight-bw):freeLeft,edge=right?lx:lx+bw;
      const visible=!p.a.behind;
      p.it.box.style.display=visible?'':'none';p.it.line.style.display=visible?'':'none';
