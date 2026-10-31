@@ -50,6 +50,28 @@
 - 足第四蚓狀肌（Fourth lumbrical of right foot）：缺 起點、止點、作用、神經支配、血液供應
 - 闊筋膜張肌（tensor fasciae latae）：缺 起點、止點、作用、神經支配、血液供應
 
+### 肌腱：0 / 19 項資料完整
+
+- 跟腱（calcaneal tendon）：缺 起點、走向與通道、止點、功能
+- 股四頭肌腱（quadriceps tendon）：缺 起點、走向與通道、止點、功能
+- 股二頭肌腱（tendon of biceps femoris）：缺 起點、走向與通道、止點、功能
+- 半腱肌腱（tendon of semitendinosus）：缺 起點、走向與通道、止點、功能
+- 半膜肌腱（tendon of semimembranosus）：缺 起點、走向與通道、止點、功能
+- 縫匠肌腱（tendon of sartorius）：缺 起點、走向與通道、止點、功能
+- 股薄肌腱（tendon of gracilis）：缺 起點、走向與通道、止點、功能
+- 髂腰肌腱（tendon of iliopsoas）：缺 起點、走向與通道、止點、功能
+- 膕肌腱（tendon of popliteus）：缺 起點、走向與通道、止點、功能
+- 脛前肌腱（tendon of tibialis anterior）：缺 起點、走向與通道、止點、功能
+- 脛後肌腱（tendon of tibialis posterior）：缺 起點、走向與通道、止點、功能
+- 屈趾長肌腱（tendon of flexor digitorum longus）：缺 起點、走向與通道、止點、功能
+- 屈拇趾長肌腱（tendon of flexor hallucis longus）：缺 起點、走向與通道、止點、功能
+- 伸拇趾長肌腱（tendon of extensor hallucis longus）：缺 起點、走向與通道、止點、功能
+- 伸趾長肌腱（tendons of extensor digitorum longus）：缺 起點、走向與通道、止點、功能
+- 腓長肌腱（tendon of fibularis longus）：缺 起點、走向與通道、止點、功能
+- 腓短肌腱（tendon of fibularis brevis）：缺 起點、走向與通道、止點、功能
+- 第三腓骨肌腱（tendon of fibularis tertius）：缺 起點、走向與通道、止點、功能
+- 蹠肌腱（tendon of plantaris）：缺 起點、走向與通道、止點、功能
+
 ### 神經：0 / 16 項資料完整
 
 - 隱神經（saphenous nerve）：缺 來源、走向、主要分支、支配範圍
@@ -171,6 +193,28 @@
 ### 肌肉：61 / 61 項資料完整
 
 （全部完整）
+
+### 肌腱：0 / 19 項資料完整
+
+- 肱二頭肌長頭腱（tendon of long head of biceps brachii）：缺 起點、走向與通道、止點、功能
+- 肱二頭肌遠端腱（distal tendon of biceps brachii）：缺 起點、走向與通道、止點、功能
+- 肱三頭肌腱（tendon of triceps brachii）：缺 起點、走向與通道、止點、功能
+- 肱橈肌腱（tendon of brachioradialis）：缺 起點、走向與通道、止點、功能
+- 橈側屈腕肌腱（tendon of flexor carpi radialis）：缺 起點、走向與通道、止點、功能
+- 掌長肌腱（tendon of palmaris longus）：缺 起點、走向與通道、止點、功能
+- 尺側屈腕肌腱（tendon of flexor carpi ulnaris）：缺 起點、走向與通道、止點、功能
+- 屈指淺肌腱（tendons of flexor digitorum superficialis）：缺 起點、走向與通道、止點、功能
+- 屈指深肌腱（tendons of flexor digitorum profundus）：缺 起點、走向與通道、止點、功能
+- 屈拇長肌腱（tendon of flexor pollicis longus）：缺 起點、走向與通道、止點、功能
+- 橈側伸腕長肌腱（tendon of extensor carpi radialis longus）：缺 起點、走向與通道、止點、功能
+- 橈側伸腕短肌腱（tendon of extensor carpi radialis brevis）：缺 起點、走向與通道、止點、功能
+- 伸指肌腱（tendons of extensor digitorum）：缺 起點、走向與通道、止點、功能
+- 伸小指肌腱（tendon of extensor digiti minimi）：缺 起點、走向與通道、止點、功能
+- 尺側伸腕肌腱（tendon of extensor carpi ulnaris）：缺 起點、走向與通道、止點、功能
+- 外展拇長肌腱（tendon of abductor pollicis longus）：缺 起點、走向與通道、止點、功能
+- 伸拇短肌腱（tendon of extensor pollicis brevis）：缺 起點、走向與通道、止點、功能
+- 伸拇長肌腱（tendon of extensor pollicis longus）：缺 起點、走向與通道、止點、功能
+- 伸食指肌腱（tendon of extensor indicis）：缺 起點、走向與通道、止點、功能
 
 ### 神經：0 / 44 項資料完整
 

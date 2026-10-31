@@ -15,7 +15,7 @@ for (const c of nerves.chunks) for (const m of c.meshes) {
   entries.push({n: side(m.name) + lc(clean(m.name)), s: /vein|venous/i.test(m.name) ? 'venous' : 'nervous', k: 'nerve', raw: m.name});
 }
 // joints: named as the scene names their meshes (za_name), so a drawn tissue found by search can be highlighted and framed
-for (const n of glb('joints.glb').nodes) if (n.name) entries.push({n: side(n.name) + lc(clean(n.name)), s: 'connective', k: 'joint', raw: String(n.extras?.za_name ?? n.name).replaceAll('_', ' ')});
+for (const n of glb('joints.glb').nodes) if (n.name && !/^fibular collateral ligament/i.test(String(n.extras?.za_name ?? n.name).replaceAll('_', ' '))) entries.push({n: side(n.name) + lc(clean(n.name)), s: 'connective', k: 'joint', raw: String(n.extras?.za_name ?? n.name).replaceAll('_', ' ')});
 for (const n of glb('brain.glb').nodes) if (n.extras?.bx_label) entries.push({n: (n.extras.bx_side === 'left' ? 'Left ' : n.extras.bx_side === 'right' ? 'Right ' : '') + lc(n.extras.bx_label.replace(/\*/g, '').trim()), s: 'nervous', k: 'brain'});
 // neck vessels: named as the scene names their meshes so a search result can be highlighted and framed
 for (const v of JSON.parse(gunzipSync(read('neck-vessels.json.gz'))).vessels) entries.push({n: capSide(side(v.name) + lc(clean(v.name))), s: v.system, k: 'vessel', raw: v.name});

@@ -12,7 +12,7 @@ import {ARTERIES, VEINS} from './topology-spec.mjs';
 
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 const out = new URL('public/models/stream/', root), dir = new URL('public/models/paokao/', root), manifest = new URL('paokao-stream.json.gz', dir);
-const inputs = ['scripts/prepare-paokao.mjs', 'scripts/lib/topology.mjs', 'scripts/lib/tube-tips.mjs', 'scripts/topology-spec.mjs', 'app/biomechanics-v2/tissue-bindings.json', 'app/biomechanics-v2/body-bindings.json', 'app/mj-part-regions.ts', 'scripts/lib/paokao-build.mjs', 'scripts/lib/tendon-cut.mjs', 'scripts/lib/tendon-build.mjs', 'scripts/lib/tendon-set.mjs', 'scripts/tendon/upper-limb-cuts.mjs', 'scripts/data/zanatomy-upper-limb.json.gz', 'scripts/paokao-structures/zanatomy-upper-limb.mjs', 'app/biomechanics-v2/tissue-bindings.json', 'scripts/lib/paokao-util.mjs', 'scripts/lib/paokao-world.mjs', 'scripts/lib/nerve-schematics.mjs', 'public/models/atlas.json', 'public/models/nerve-stream.json',
+const inputs = ['scripts/prepare-paokao.mjs', 'scripts/lib/topology.mjs', 'scripts/lib/tube-tips.mjs', 'scripts/topology-spec.mjs', 'app/biomechanics-v2/tissue-bindings.json', 'app/biomechanics-v2/body-bindings.json', 'app/mj-part-regions.ts', 'scripts/lib/paokao-build.mjs', 'scripts/lib/tendon-cut.mjs', 'scripts/lib/tendon-build.mjs', 'scripts/lib/tendon-set.mjs', 'scripts/tendon/upper-limb-cuts.mjs', 'scripts/tendon/lower-limb-cuts.mjs', 'scripts/data/zanatomy-upper-limb.json.gz', 'scripts/data/zanatomy-lower-limb.json.gz', 'scripts/paokao-structures/zanatomy-upper-limb.mjs', 'app/biomechanics-v2/tissue-bindings.json', 'scripts/lib/paokao-util.mjs', 'scripts/lib/paokao-world.mjs', 'scripts/lib/nerve-schematics.mjs', 'public/models/atlas.json', 'public/models/nerve-stream.json',
   'public/models/supplement/supplement-stream.json.gz', 'public/models/serous/serous-stream.json.gz', ...fs.readdirSync(file('scripts/paokao-structures')).map(f => 'scripts/paokao-structures/' + f)];
 const hash = createHash('sha256').update(inputs.map(f => fs.readFileSync(file(f))).join('')).digest('hex'), stamp = file('work/paokao.stamp');
 try { if (fs.readFileSync(stamp, 'utf8') === hash && fs.existsSync(manifest) && fs.existsSync(file('app/mj-paokao.json')) && fs.existsSync(file('app/biomechanics-v2/paokao-bindings.json')) && fs.existsSync(file('app/biomechanics-v2/tendon-bindings.json'))) { console.log('Paokao structures: up to date.'); process.exit(0); } } catch {}
@@ -53,7 +53,7 @@ const boundsOf = g => { const lo = [1e9, 1e9, 1e9], hi = [-1e9, -1e9, -1e9]; for
 const ARM_PROFILE = {humerus: 'arm', scapula: 'scapular', clavicle: 'clavicular', radius: 'forearm', ulna: 'forearm'};
 function bind(id, s) {
   // A tendon cut from a muscle carries the binding of that muscle part (profile, and the box of the whole muscle).
-  if (s.binding) { bindings.tissue[id] = {...s.binding}; return; }
+  if (s.binding) { (s.binding.rig ? bindings.body : bindings.tissue)[id] = {...s.binding}; return; }
   if (s.connector) {
     const host = w.find(s.name).find(e => !/^(extra:|PK)/.test(e.id)); if (!host) return;
     if (tissueJson[host.id]) bindings.tissue[id] = {...tissueJson[host.id]}; if (bodyJson[host.id]) bindings.body[id] = {...bodyJson[host.id]};

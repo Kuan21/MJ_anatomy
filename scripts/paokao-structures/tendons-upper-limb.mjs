@@ -12,7 +12,7 @@ const MODEL_NOTE = {
 export default function tendonsUpperLimb() {
   const {parts, read} = atlasParts(), {results} = planCuts(parts, read), out = [];
   for (const r of results) {
-    const spec = TENDON_SPECS.find(s => s.key === r.spec), S = SIDES.find(x => x.w === r.side);
+    const spec = TENDON_SPECS.find(s => s.key === r.spec), S = SIDES.find(x => x.w === r.side); if (spec.lower) continue;
     const bind = (piece, name) => { const b = tissue[piece.id]; if (!b) throw new Error(`tendon ${spec.key}: ${piece.id} has no tissue binding`); return {name: name ?? b.name, side: b.side, profile: b.profile, box: piece.bounds}; };
     const tendonName = `${S.w} ${spec.title}`;
     const card = {origin: spec.origin, course: spec.course, insertion: spec.insertion, action: spec.action};

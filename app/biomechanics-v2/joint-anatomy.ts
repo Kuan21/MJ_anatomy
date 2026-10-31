@@ -11,7 +11,8 @@ export function jointKind(name:string){return /labrum|meniscus|articular disc|in
 export function includeJoint(name:string){
  // Existing atlas owns intervertebral discs and membranes. Triradiate cartilage
  // is developmental anatomy and does not belong in this adult atlas.
- return !/triradiate|intervertebral disc|nucleus pulposus|membrane|fat pad|pubic symphysis|sacrococcygeal symphysis/i.test(name)&&/ligament|capsul|labrum|meniscus|articular disc|interpubic disc|frenula/i.test(name);
+ // The fibular collateral ligament of this file is a 240-vertex prism: the tendon batch draws it as a rounded cord between measured attachment points (scripts/paokao-structures/ligaments-lower-limb.mjs).
+ return !/triradiate|intervertebral disc|nucleus pulposus|membrane|fat pad|pubic symphysis|sacrococcygeal symphysis|^fibular collateral ligament/i.test(name)&&/ligament|capsul|labrum|meniscus|articular disc|interpubic disc|frenula/i.test(name);
 }
 export function jointProfile(name:string,y:number):Profile{
  name=name.toLowerCase();

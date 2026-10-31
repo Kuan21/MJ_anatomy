@@ -43,7 +43,7 @@ function include(region, part) {
     return LUNG_ATLAS.test(part.name) && y > 1.17 && y < 1.45 ? lungSide(part.name, part.bounds) : null;
   }
   if (region === 'lower-limb') {
-    const hip = /\bhip bone\b|\b(?:common|external|internal) iliac (?:artery|vein)\b|glute|obturator|tensor fasciae/i.test(part.name);
+    const hip = /\bhip bone\b|\b(?:common|external|internal) iliac (?:artery|vein)\b|glute|obturator|tensor fasciae|iliopsoas/i.test(part.name);
     if (anatomicalRegion(part) !== 'lower-limb' && !hip) return null;
   } else if (region === 'upper-limb') {
     if (anatomicalRegion(part) !== 'upper-limb') return null;
@@ -115,8 +115,8 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
   }
   for (const part of region === 'heart' ? [] : atlas.parts) {
     if (!QUIZ_SYSTEMS.some(s => s.id === part.system)) continue;
-    // tendons are asked per region once a region has enough of them (the upper limb now; the other regions follow in later batches)
-    if (part.system === 'tendon' && region !== 'upper-limb') continue;
+    // tendons are asked per region once a region has enough of them (the limbs now; the other regions follow in later batches)
+    if (part.system === 'tendon' && region !== 'upper-limb' && region !== 'lower-limb') continue;
     const side = include(region, part);
     if (!side) continue;
     let name = correctedPartName(part);
@@ -138,7 +138,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
     const pk = JSON.parse(gunzipSync(fs.readFileSync(new URL('paokao/paokao-stream.json.gz', models))));
     const pkChunks = pk.chunks.map(c => fs.readFileSync(new URL('public' + c.url, root)));
     for (const part of pk.parts) {
-      if (part.system !== 'tendon' || region !== 'upper-limb') continue;
+      if (part.system !== 'tendon' || (region !== 'upper-limb' && region !== 'lower-limb')) continue;
       const q = {...part, system: 'tendon'}, side = include(region, q);
       if (!side) continue;
       const zh = paokaoZh(part.name) ?? undefined, raw = pkChunks[part.chunk];
