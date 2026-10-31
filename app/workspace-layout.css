@@ -284,49 +284,6 @@
  opacity:.42;
 }
 
-/* Structure-description reading surface. Long anatomical names wrap at a
- * stable reading size; the header grows downward instead of shrinking text. */
-.detail-sheet{
- display:flex!important;
- flex-direction:column;
- max-height:calc(100dvh - 8px)!important;
- overflow:hidden!important;
-}
-.detail-header{
- flex:0 0 auto!important;
- height:auto!important;
- min-height:0!important;
- align-items:flex-start!important;
- padding-right:40px!important;
- padding-bottom:10px!important;
-}
-.detail-sheet .structure-title{
- display:block!important;
- width:100%!important;
- max-width:100%!important;
- height:auto!important;
- max-height:none!important;
- overflow:visible!important;
- white-space:normal!important;
- text-overflow:clip!important;
- overflow-wrap:anywhere!important;
- word-break:normal!important;
- font-size:22px!important;
- line-height:1.18!important;
-}
-.detail-sheet .structure-title-zh{
- display:block!important;
- margin-top:6px!important;
- white-space:normal!important;
- font-size:15px!important;
- line-height:1.28!important;
-}
-.detail-scroll{
- flex:1 1 auto!important;
- min-height:0!important;
- overflow-y:auto!important;
-}
-
 /* Course material is grouped by anatomical relationship. Filenames and Drive
  * plumbing are deliberately not shown in the learner-facing description. */
 .course-note-details{
@@ -398,71 +355,6 @@
 }
 .description-footnote .zh-copy{margin-top:5px}
 
-/* Focus / Isolate / Hide / Clear are ~1/3 smaller to leave more reading room. */
-.detail-actions{
- flex:0 0 auto!important;
- gap:4px!important;
- padding:6px 8px!important;
-}
-.detail-actions button{
- min-height:27px!important;
- height:27px!important;
- padding:3px 6px!important;
- border-radius:7px!important;
- font-size:9.25px!important;
- line-height:1!important;
- gap:3px!important;
-}
-.detail-actions button svg{width:11px!important;height:11px!important}
-.detail-actions .primary-action,
-.detail-actions .hide-structure-action,
-.detail-actions .secondary-action{min-height:27px!important}
-
-@media(max-width:767px){
- .detail-sheet .structure-title{font-size:20px!important}
- .detail-sheet .structure-title-zh{font-size:14px!important}
-}
-
-
-/* 2026-09 note/readability pass: preserve title size even for long named
- * structures and give the inspector more vertical room instead of compressing
- * the heading. */
-@media(min-width:768px) and (min-height:700px){
- .detail-sheet{
-  bottom:64px!important;
-  max-height:calc(100dvh - 112px)!important;
- }
-}
-.detail-sheet .structure-title{
- font-size:23px!important;
- line-height:1.2!important;
- text-wrap:pretty;
-}
-.detail-sheet .structure-title-zh{
- font-size:15.5px!important;
- line-height:1.32!important;
-}
-.detail-header{overflow:visible!important}
-@media(max-width:767px){
- .detail-sheet{max-height:58dvh!important}
- .detail-sheet .structure-title{font-size:21px!important;line-height:1.22!important}
- .detail-sheet .structure-title-zh{font-size:14.5px!important}
-}
-
-/* Keep Focus / Isolate / Hide / Clear about one-third smaller, including on
- * touch layouts where the global stylesheet otherwise restores large targets. */
-.detail-actions{gap:4px!important;padding:6px 8px!important}
-.detail-actions button,
-.detail-actions .primary-action,
-.detail-actions .hide-structure-action,
-.detail-actions .secondary-action{
- min-height:27px!important;
- height:27px!important;
- padding:3px 7px!important;
- font-size:9.25px!important;
- border-radius:7px!important;
-}
-.detail-actions button svg{width:11px!important;height:11px!important}
 
 
 /* Netter-English / CMU-Chinese labels in search and structure lists. */
@@ -531,7 +423,6 @@
 .system-row .organ-detail-link:hover{background:#dcefe3}
 
 /* One name layout everywhere: English large and dark, Chinese small and light grey beneath. */
-.detail-sheet .structure-title-zh{color:#7b8793!important;font-weight:400!important;font-size:13px!important}
 .search-result-name>small,.member-list button span>small,.hidden-structures button span>small{color:#7b8793;font-size:11.5px;font-weight:400}
 .muscle-layer-members .bn-row{margin:6px 0;line-height:1.3}
 .muscle-layer-members .bn-en{display:block;font-size:14px;color:#1f2a35}
