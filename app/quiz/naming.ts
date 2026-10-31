@@ -1,12 +1,15 @@
 import {SYNONYMS} from './synonyms';
 import type {QuizStructure} from './catalogue';
+import {structureProfile} from '../mj-structure-info';
+import type {SystemId} from '../anatomy';
+import paokaoAliases from '../../docs/paokao-aliases.json';
 
 /** How a typed name is judged for the level-2 quiz (看結構寫名稱). Pure functions: the page, the tests and the REVIEW_LOG table all use these. */
 export type AnswerLanguage = 'en' | 'zh' | 'any';
 export type NameResult = 'correct' | 'close' | 'wrong';
 export interface NameOptions {language: AnswerLanguage; needSide: boolean}
 export interface Accepted {en: string[]; zh: string[]}
-type Named = Pick<QuizStructure, 'name' | 'chinese'> & {side?: string};
+type Named = Pick<QuizStructure, 'name' | 'chinese'> & {side?: string; system?: string};
 
 const SIDE_EN = /\b(left|right)\b/g, SIDE_WORD = /\b(left|right)\b/;
 /** "Septomarginal trabecula (moderator band)" → ["septomarginal trabecula (moderator band)", "septomarginal trabecula", "moderator band"] */
@@ -35,6 +38,27 @@ export function wholeMuscleOf(structure: Named): WholeMuscle | null {
   return {en: side ? `${side} ${muscle}` : muscle, zh, muscle: muscle.toLowerCase(), headsRequired: HEADS_REQUIRED.has(muscle.toLowerCase())};
 }
 
+/** The course checklist writes some structures differently from the model (docs/paokao-aliases.json: note name → model name(s)). A row that names one structure is an accepted name for it;
+ * a group name (iliopsoas, quadriceps femoris, thenar muscles, plantar interossei) names several structures and is only close for any one of them. */
+const ALIAS_ROWS = Object.entries(paokaoAliases as Record<string, string[]>);
+export function checklistAliases(structure: Named): {exact: string[]; group: string[]} {
+  const key = cleanKey(structure.name), exact: string[] = [], group: string[] = [];
+  for (const [note, models] of ALIAS_ROWS) if (models.some(m => cleanKey(m) === key)) (models.length === 1 ? exact : group).push(note);
+  return {exact, group};
+}
+const partOfName = (x: string, y: string) => x.endsWith(` of ${y}`) || x.includes(` of ${y} `) || x.endsWith(` of the ${y}`) || x.includes(` of the ${y} `);
+/** The name the main site shows for this structure (the Netter-style spelling: quadratus plantae for flexor accessorius, 1st rib for first rib, coxal bone for hip bone), when it is another spelling
+ * of the same structure. The site shows the branches of a nerve under the nerve's own name; that is a parent, not a spelling, and is never accepted here. */
+export function siteName(structure: Named): {en?: string; zh?: string} {
+  if (!structure.system) return {};
+  const profile = structureProfile(structure.name, structure.system as SystemId);
+  const paired = isPaired(structure), key = (n: string) => paired ? cleanKey(n) : n.toLowerCase().replace(/\s+/g, ' ').trim();
+  const out: {en?: string; zh?: string} = {};
+  if (profile.english) {const a = key(profile.english), b = key(structure.name); if (a && a !== b && !partOfName(b, a) && !partOfName(a, b)) out.en = profile.english;}
+  if (profile.chinese && structure.chinese && profile.chinese !== structure.chinese && !structure.chinese.includes(profile.chinese.replace(/^[左右]/, ''))) out.zh = profile.chinese;
+  return out;
+}
+
 /** Every name that is right for a structure: its own English and Chinese names, names in brackets, the rows of the synonym table, and for a part of a muscle the whole muscle. */
 export function acceptedNames(structure: Named): Accepted {
   const paired = isPaired(structure);
@@ -42,13 +66,14 @@ export function acceptedNames(structure: Named): Accepted {
   const row = SYNONYMS[structure.name.toLowerCase()] ?? SYNONYMS[cleanKey(structure.name)];
   const whole = wholeMuscleOf(structure);
   const wholeEn = whole && !whole.headsRequired ? [whole.en] : [], wholeZh = whole && !whole.headsRequired && whole.zh ? [whole.zh] : [];
-  const en = [...withBrackets(structure.name), ...(row?.en ?? []), ...wholeEn];
-  const zh = [...(structure.chinese ? withBrackets(structure.chinese) : []), ...(row?.zh ?? []), ...wholeZh];
+  const site = siteName(structure), aliases = checklistAliases(structure).exact;
+  const en = [...withBrackets(structure.name), ...(row?.en ?? []), ...wholeEn, ...(site.en ? [site.en] : [])];
+  const zh = [...(structure.chinese ? withBrackets(structure.chinese) : []), ...(row?.zh ?? []), ...wholeZh, ...(site.zh ? [site.zh] : [])];
   // Paired structures carry their side in the name ("…of right pectoralis major"); a synonym row applies to both sides, so the side words are put back where the name has them.
   const side = paired ? structure.name.match(SIDE_WORD)?.[1]?.toLowerCase() : undefined;
   const zhSide = paired ? (structure.chinese?.startsWith('左') ? '左' : structure.chinese?.startsWith('右') ? '右' : '') : '';
   const sided = (names: string[], text: string | undefined) => names.map(n => text && !SIDE_WORD.test(n) ? `${text} ${n}` : n);
-  return {en: unique([...en, ...sided(row?.en ?? [], side)]), zh: unique([...zh, ...(row?.zh ?? []).map(n => zhSide && !/^[左右]/.test(n) ? zhSide + n : n)])};
+  return {en: unique([...en, ...sided([...(row?.en ?? []), ...aliases], side)]), zh: unique([...zh, ...(row?.zh ?? []).map(n => zhSide && !/^[左右]/.test(n) ? zhSide + n : n)])};
 }
 
 /** Simplified characters that occur in anatomical names, mapped to the traditional form the quiz uses. */
@@ -56,6 +81,9 @@ const SIMPLIFIED: Record<string, string> = Object.fromEntries('侧側 内內 剑
 /** Abbreviations of the course handouts: "radial n." = radial nerve, "brachial a." = brachial artery, "cephalic v." = cephalic vein, "lig." = ligament, "br." = branch. */
 const ABBREVIATIONS: Array<[RegExp, string]> = [[/\bnn\.(?=\s|$)/g, ' nerves '], [/\bn\.(?=\s|$)|\bn$/g, ' nerve '], [/\baa\.(?=\s|$)/g, ' arteries '], [/\ba\.(?=\s|$)|\ba$/g, ' artery '], [/\bvv\.(?=\s|$)/g, ' veins '], [/\bv\.(?=\s|$)|\bv$/g, ' vein '], [/\bmm\.(?=\s|$)/g, ' muscles '], [/\bm\.(?=\s|$)|\bm$/g, ' muscle '], [/\bligg?\.(?=\s|$)/g, ' ligament '], [/\bbr\.(?=\s|$)/g, ' branch ']];
 
+const ORDINALS: Record<string, string> = {first: '1st', second: '2nd', third: '3rd', fourth: '4th', fifth: '5th', sixth: '6th', seventh: '7th', eighth: '8th', ninth: '9th', tenth: '10th', eleventh: '11th', twelfth: '12th'};
+const VERTEBRA: Record<string, string> = {c: 'cervical', t: 'thoracic', l: 'lumbar', s: 'sacral'};
+const nth = (n: string) => n + (n === '1' ? 'st' : n === '2' ? 'nd' : n === '3' ? 'rd' : 'th');
 /**
  * Letters, digits and Chinese characters only; lower case; "the", "muscle(s)", hyphens, brackets and spaces ignored; 臺 = 台; simplified characters read as traditional; n./a./v./m./lig. expanded.
  * The side word is taken out of the name; when it must be kept it goes to the front, so "Left acromial part of deltoid" and "Acromial part of left deltoid" (and 左側／左) read the same.
@@ -63,6 +91,10 @@ const ABBREVIATIONS: Array<[RegExp, string]> = [[/\bnn\.(?=\s|$)/g, ' nerves '],
 export function normalize(text: string, keepSide: boolean): string {
   let t = text.normalize('NFKC').toLowerCase().replace(/臺/g, '台').replace(/[㐀-鿿]/g, c => SIMPLIFIED[c] ?? c);
   for (const [pattern, word] of ABBREVIATIONS) t = t.replace(pattern, word);
+  // "first rib" = "1st rib", "T10 vertebra" = "tenth thoracic vertebra", "set of perforating arteries" = "perforating arteries": the two spellings the site and the model use for the same thing
+  t = t.replace(/\b(first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth)\b/g, m => ORDINALS[m]);
+  t = t.replace(/\b([ctls])(\d{1,2})\b(?=\s+vertebra)/g, (_, level: string, n: string) => `${nth(n)} ${VERTEBRA[level]}`);
+  t = t.replace(/\bset of\b/g, ' ');
   t = t.replace(/\b(the|of the)\b/g, ' ').replace(/\bmuscles?\b/g, ' ');
   const side = t.match(SIDE_WORD)?.[1] ?? (/[左右]/.exec(t)?.[0] ?? '');
   t = t.replace(SIDE_EN, ' ').replace(/[左右]側?/g, '');
@@ -136,6 +168,8 @@ export function judgeName(typed: string, structure: Named, options: NameOptions,
     const wholeNames = options.language === 'en' ? [whole.en] : options.language === 'zh' ? [whole.zh ?? ''] : [whole.en, whole.zh ?? ''];
     if (wholeNames.some(n => n && normalize(n, keepSide) === input)) return {result: 'close', relation: 'typed-whole', relatedName: whole.en};
   }
+  // A checklist group name that includes this structure (iliopsoas for iliacus, quadriceps femoris for rectus femoris, thenar muscles for opponens pollicis) is close, never right.
+  if (options.language !== 'zh') for (const group of checklistAliases(structure).group) if (normalize(group, false) === normalize(typed, false)) return {result: 'close', relation: 'typed-whole', relatedName: group};
   // The name of a part of the target (or of the whole it belongs to) is close, but never right.
   for (const other of related) {
     const rel = relationOf(other, structure);

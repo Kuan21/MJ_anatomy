@@ -29,6 +29,14 @@
 - **P1-01**：示意模型第 0 包每次載入失敗（`isShellSurface` 的 `/pericardi/` 匹配到 pericardiophrenic），膈神經、喉返神經、內臟神經、迷走神經幹、臂神經叢內外側束等 61 個結構目前看不到。
 - 修正一律等你審核後分批開 PR（報告最後有建議分批）；涉及解剖內容者標【需人工審核】。
 
+## Quiz 第二級接受主網站寫法、課程清單別名、序數與椎骨代號（Bug Audit P1-09；【需人工審核】，不自動 merge）
+
+PR [#PRNUM](https://github.com/Kuan21/MJ_anatomy/pull/PRNUM)。第二級之前只接受題庫原名（BodyParts3D 寫法）；主網站資訊卡顯示的 Netter 式名稱與課程清單的寫法會被判錯。現在：
+- **主網站顯示名稱算對**（quadratus plantae／flexor accessorius、coxal bone／hip bone、profunda brachii／deep brachial artery、triquetrum／triquetral、1st rib／first rib、T10 vertebra／tenth thoracic vertebra、perforating arteries／set of perforating arteries 等）。神經分支在主網站顯示為母神經名（P0-03 的既有問題），這種「母結構名」**不**接受。
+- **課程清單 1:1 別名算對**（`docs/paokao-aliases.json` 中對應單一結構的 22 列：inferior gemellus、lateral cutaneous nerve of forearm、transverse thoracic muscle、aortic arch 等）；**群名只算接近**（iliopsoas、quadriceps femoris、thenar muscles、plantar interossei、thoracic splanchnic nerve）。
+- **序數與椎骨代號**：first＝1st、tenth＝10th，C7／T10／L5／S1 vertebra＝第幾節頸／胸／腰／薦椎；「set of」可省。
+- 完整清單（184 個構造，左右只列一側）由 `scripts/report-quiz-accepted-names.mjs` 產生在 `docs/quiz-level2-accepted-names.md`，已加入 `npm run check`（過期即失敗）。請核對該檔；有不該接受的告訴我。
+
 ## 全站顯示問題 A（選取外框、肺面片、骨性標記貼花、淡化；【需人工審核】，你已確認合併）
 
 PR [#152](https://github.com/Kuan21/MJ_anatomy/pull/152)（另一個 session 開的）。選取外框改細、肺面片與骨性標記改貼花、材質 program 快取鍵、淡化不再變白。你 2026-10-31 回覆「152 ok」後以 squash 合併。PR 說明寫明未在真實 GPU 上確認脛骨點狀問題，請在你的裝置看一次。
@@ -462,6 +470,7 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 
 | 任務 | 狀態（進行中 / 已完成 / 等我審核 / 未開始 / 卡住） | PR 編號 | 備註 |
 | --- | --- | --- | --- |
+| Bug Audit 修正 13：Quiz 第二級接受主網站寫法、課程清單 1:1 別名、序數與椎骨代號 | 等我審核（需人工審核，不自動 merge） | #PRNUM | 完整清單在 docs/quiz-level2-accepted-names.md |
 | 全站顯示問題 A：選取外框、肺面片、骨性標記貼花、淡化 | 已合併（你 2026-10-31 確認「152 ok」） | #152 | 顯示程式，另一 session 開的 PR |
 | Bug Audit 修正 7：Quiz 第二級判分放寬（整條肌肉名可答部分題；對立詞不算接近；縮寫、簡體、左側） | 已合併（你 2026-10-31 確認） | #148 | 判分規則改變，請核對下方清單 |
 | Bug Audit 修正 10：搜尋體驗（無結果提示、心臟頁構造可搜、類型字與簡體容錯、頭部分頁選到頸以下自動回全身） | 已自動 merge | #151 | 搜尋與介面程式，不改模型 |
