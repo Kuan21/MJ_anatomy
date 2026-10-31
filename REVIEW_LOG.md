@@ -14,6 +14,7 @@
 6. **後乳突肌英文名**：Posterior papillary muscle of right ventricle 與 Posterior papillary muscle of left ventricle（原左側為 Posteromedial papillary muscle of left ventricle）；「Posteromedial papillary muscle」留作別名（搜尋與 Quiz 都收）。中文名不變，資訊卡、標籤、Quiz 題庫、同義字表、檢查清單與命名報告已更新。
 
 **待你決定（維持現狀）：** 基底動脈（目前：經過）、睫狀神經與睫狀神經節（經過）、腎神經節（經過）；腕背六個伸肌間隔是否算腱鞘（目前：算，跟肌肉）；足底腱膜是否也跟肌肉（目前：不跟，你只提到掌腱膜）。
+
 ## 下肢神經與骨骼 PR D（腓深神經、隱神經髕下支、碎片、穿骨與標誌稽核；【需人工審核】，不自動 merge）
 
 
