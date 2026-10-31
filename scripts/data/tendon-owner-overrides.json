@@ -1,0 +1,5 @@
+{
+ "_note": "Owner muscle of whole-mesh tendons that have neither a cut spec nor a name that gives the muscle (see scripts/prepare-tendon-owners.mjs). Keep this list as short as possible.",
+ "Right intermediate tendon": ["Right digastric"],
+ "Left intermediate tendon": ["Left digastric"]
+}

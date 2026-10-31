@@ -36,6 +36,7 @@ import blockedOverlay from './biomechanics-v2/blocked-overlay-meshes.json';
 const blockedOverlayMeshes=new Set<string>(blockedOverlay.names);
 import {nerveChunkScene,type NerveCatalogue} from './nerve-stream';
 import {LUNG_CATEGORY,type LungCategoryKey} from './mj-lung-categories';
+import {buildOwners,ruleParts,ownerSwitchesOn,referenceMuscles} from './mj-owners';
 const bodyNerveBindings=bodyNerveData as Record<string,BodyRegion>;
 export interface AnatomyLoadStatus {loaded:number;total:number;systems:Record<string,number>;failed:string[];busy:boolean;interactive:boolean;supplementaryPending:number}
 // Selection colours: soft mint (#5DB89A) at 85 % strength; hover is a lighter tint of the same hue.
@@ -122,6 +123,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
   const forearmNerve=/median nerve|ulnar nerve|radial nerve|antebrachial cutaneous nerve|interosseous nerve|superficial branch of radial nerve|deep branch of radial nerve|dorsal branch of ulnar nerve|palmar branch of (median|ulnar) nerve/i;
   const handNerve=/median nerve|ulnar nerve|radial nerve|palmar digital|dorsal digital|deep branch of ulnar nerve|superficial branch of ulnar nerve|palmar branch of (median|ulnar) nerve/i;
   const upperLimbNerve=new RegExp([shoulderNerve.source,armNerve.source,forearmNerve.source,handNerve.source].join('|'),'i');
+  const owners=buildOwners(atlas.parts);
   const nerveSide=(name:string)=>/\.r(?:\.|$)/i.test(name)?'right':/\.l(?:\.|$)/i.test(name)?'left':'both';
   // GLTFLoader sanitizes spaces/dots in Object3D.name. Preserve the source
   // node metadata for exact anatomical identity and laterality instead.
@@ -703,6 +705,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
    }
    const touched=new Set<T.Mesh>(),normalsReady=new Set<T.Mesh>();
    const enabled=new Set(s.visible),focused=s.focusParts?new Set(s.focusParts):null,hidden=new Set(s.hiddenParts??[]);
+   const refMotion=referenceMuscles(owners,s.selected);
    const body=s.bodyMotion?buildBodyMotion(bodyRigs[s.bodyMotion.region],s.bodyMotion.pose):null;
    const palettes={left:softRigs.left?makePalette(softRigs.left,s.partTransforms??{}):null,right:softRigs.right?makePalette(softRigs.right,s.partTransforms??{}):null};
    // The palette carries the displayed pose: the worker-completed one, or the live drag pose while previewing.
@@ -711,7 +714,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
    for(const [index,mesh] of pickers.entries()){
     const part=atlas.parts[index];
     if(!mesh)continue;
-    if(!enabled.has(part.system)&&!(enabled.has('nervous')&&tissueBindings[part.id]?.profile==='deltoid')){mesh.userData.gpuSkinned=false;mesh.userData.skinMode=0;continue;}
+    if(!enabled.has(part.system)&&!refMotion.has(part.id)&&!(enabled.has('nervous')&&tissueBindings[part.id]?.profile==='deltoid')){mesh.userData.gpuSkinned=false;mesh.userData.skinMode=0;continue;}
     // Linear bindings: one dual-quaternion blend per vertex, done by the shader (gpu-skinning.ts).
     const localSkin=mesh.userData.skin as SkinBinding|undefined;
     if(!s.bodyMotion&&!gpuBindings.has(part.id)&&localSkin&&mesh.userData.tissueSide&&isLinearBinding(localSkin))gpuBindings.set(part.id,gpuBinding(mesh.userData.tissueSide,localSkin));
@@ -1069,7 +1072,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
   };
   renderer.domElement.addEventListener('pointerdown',down,true);renderer.domElement.addEventListener('pointermove',move);renderer.domElement.addEventListener('pointerleave',()=>setHover(-1,null));renderer.domElement.addEventListener('pointerup',up);renderer.domElement.addEventListener('pointercancel',cancel);
   // ?mjview=1 exposes the camera for the screenshot scripts (view a structure from a chosen side and distance); nothing in the app uses it.
-  if(typeof location!=='undefined'&&new URLSearchParams(location.search).has('mjview'))(window as unknown as {__mjView:unknown}).__mjView={look:(target:[number,number,number],dir:[number,number,number],distance:number)=>{controls.target.set(...target);camera.clearViewOffset();focusTarget=null;focusPosition=null;camera.position.set(target[0]+dir[0]*distance,target[1]+dir[1]*distance,target[2]+dir[2]*distance);controls.update();dirty=true;},focusing:()=>!!(focusTarget&&focusPosition),camera:()=>[...camera.position.toArray(),...controls.target.toArray()],partsState:(rx:string)=>atlas.parts.map((p,i)=>({id:p.id,name:p.name,visible:data[i*4+3],faded:selectedData[i*4+2],picker:!!pickers[i]})).filter(x=>new RegExp(rx,'i').test(x.name))};
+  if(typeof location!=='undefined'&&new URLSearchParams(location.search).has('mjview'))(window as unknown as {__mjView:unknown}).__mjView={look:(target:[number,number,number],dir:[number,number,number],distance:number)=>{controls.target.set(...target);camera.clearViewOffset();focusTarget=null;focusPosition=null;camera.position.set(target[0]+dir[0]*distance,target[1]+dir[1]*distance,target[2]+dir[2]*distance);controls.update();dirty=true;},focusing:()=>!!(focusTarget&&focusPosition),camera:()=>[...camera.position.toArray(),...controls.target.toArray()],jointsState:()=>supplementaryJoints.rows.filter(r=>r.mesh.visible).map(r=>[r.mesh.name,r.anchor.name]),partsState:(rx:string)=>atlas.parts.map((p,i)=>({id:p.id,name:p.name,visible:data[i*4+3],faded:selectedData[i*4+2],picker:!!pickers[i]})).filter(x=>new RegExp(rx,'i').test(x.name))};
   // Outline of the picked special region (edges as tubes, opening as a pale fill); its vertices are copies of boundary-mesh vertices, see space-outline.ts.
   const partIndexById=new Map(atlas.parts.map((p,i)=>[p.id,i]));
   const outlineTube=materialFor('overlay',undefined,true),outlineFill=materialFor('overlay',1,true);
@@ -1086,7 +1089,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
    if(focusTarget&&focusPosition){const a=1-Math.exp(-8*dt);controls.target.lerp(focusTarget,a);camera.position.lerp(focusPosition,a);dirty=true;if(controls.target.distanceToSquared(focusTarget)<1e-7&&camera.position.distanceToSquared(focusPosition)<1e-7){controls.target.copy(focusTarget);camera.position.copy(focusPosition);focusTarget=null;focusPosition=null;}}
    {const tk=s.lungTint?.length?JSON.stringify(s.lungTint.map(t=>t.color+t.ids.join())):'';if(tk!==lastTintKey){lastTintKey=tk;tintData.fill(0);const idx=new Map(atlas.parts.map((q,k)=>[q.id,k] as [string,number]));for(const t of s.lungTint??[]){const c=new T.Color(t.color);for(const id of t.ids){const k=idx.get(id);if(k!==undefined)tintData.set([c.r,c.g,c.b,1],k*4);}}tintTexture.needsUpdate=true;dirty=true;}}
    const changed=lastState?.jointSurfaces!==s.jointSurfaces||lastState?.visible!==s.visible||lastState?.selected!==s.selected||lastState?.hiddenParts!==s.hiddenParts||lastState?.fadedParts!==s.fadedParts||lastState?.nerveFilter!==s.nerveFilter||lastState?.spaceRange!==s.spaceRange||lastState?.spaceRangeIds!==s.spaceRangeIds||lastState?.spaceContentIds!==s.spaceContentIds||autoFadeDirty||lastState?.highlightNerves!==s.highlightNerves||lastState?.depthFilter!==s.depthFilter||lastState?.muscleLayer!==s.muscleLayer||lastState?.faceMuscleLayer!==s.faceMuscleLayer||lastState?.focusParts!==s.focusParts||lastState?.isolate!==s.isolate||lastState?.partTransforms!==s.partTransforms||lastState?.bodyMotion!==s.bodyMotion;
-   const tissueChanged=!lastState||lastState.partTransforms!==s.partTransforms||lastState.tissueMotion!==s.tissueMotion||lastState.previewMotion!==s.previewMotion||lastState.bodyMotion!==s.bodyMotion||lastState.visible!==s.visible||lastState.focusParts!==s.focusParts||lastState.hiddenParts!==s.hiddenParts;
+   const tissueChanged=!lastState||lastState.partTransforms!==s.partTransforms||lastState.tissueMotion!==s.tissueMotion||lastState.previewMotion!==s.previewMotion||lastState.bodyMotion!==s.bodyMotion||lastState.visible!==s.visible||lastState.focusParts!==s.focusParts||lastState.hiddenParts!==s.hiddenParts||(lastState.selected!==s.selected&&(referenceMuscles(owners,lastState.selected).size>0||referenceMuscles(owners,s.selected).size>0));
    if(tissueChanged){updateTissueMotion(s);updateNerveMotion(s);updateBrainMotion(s);}
    const ctx=viewerContext.current;
    // Head view: everything below the collarbones is cut away, including vessels and muscles that run on into the chest.
@@ -1134,14 +1137,23 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
    if(changed||moving||tissueChanged||lastExtent<0){
     supplementaryJoints.update(s,amount,!!s.previewMotion,selectedNerve.current);cervicalVessels.update(s,amount,selectedNerve.current);
     const visible=new Set(s.visible),selection=new Set(s.selected),hidden=new Set(s.hiddenParts??[]),focus=s.focusParts?new Set(s.focusParts):null;const rangeIds=new Set(s.spaceRange?.length?s.spaceRangeIds??[]:[]),contentCodes=new Map<string,number>();for(const id of s.spaceContentIds??[]){const sys=atlas.parts.find(q=>q.id===id)?.system;contentCodes.set(id,sys==='arterial'?220:sys==='venous'?190:sys==='nervous'?160:sys==='respiratory'?140:sys==='lymphatic'?130:255);}
-    const fadedSet=s.fadedParts?.length||autoFade?.size?new Set([...(s.fadedParts??[]),...(autoFade??[])]):null;
+    const refMuscles=referenceMuscles(owners,selection);
+    const fadedSet=s.fadedParts?.length||autoFade?.size||refMuscles.size?new Set([...(s.fadedParts??[]),...(autoFade??[]),...refMuscles]):null;
     const cranialVault=/^(frontal bone|left parietal bone|right parietal bone|left temporal bone|right temporal bone|occipital bone|sphenoid bone|ethmoid)$/i;
     const intracranial=/brain|cerebr|cerebell|\bgyrus\b|lobule|\blobe\b|hemisphere|white matter|gray matter|cortex|insula|midbrain|pons|medulla oblongata|thalam|hypothalam|fornix|ventricle|choroid plexus|corpus callosum|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|commissure|colliculus|geniculate|habenula|mammillary|stria terminalis|stria medullaris|septum of telencephalon|tuber cinereum|interpeduncular fossa|lamina terminalis|optic chiasm|optic tract|peduncle of midbrain|cerebral aqueduct|pineal|pituitary|cerebral artery|cerebellar artery|basilar artery|callosomarginal artery|pericallosal artery|pontine artery|thalamogeniculate artery|thalamoperforating artery/i;
-    const baseVisible=(p:(typeof atlas.parts)[number])=>{
+    // Owner structures (app/mj-owners.ts): a tendon is shown by exactly the rules of its muscle (region, side, layer and depth filters, Hide, Isolate) and needs Muscles and Tendons on;
+    // a vessel or nerve inside an organ needs its organ switch as well as its own system.
+    const ruleVisible=(p:(typeof atlas.parts)[number],viaTendon=false)=>{
      if(hidden.has(p.id))return false;
      if(!matchesDepth(p,s.depthFilter)||!matchesMuscleLayer(p,s.muscleRegion,s.muscleLayer)||!matchesFacialMuscleLayer(p,s.faceMuscleLayer)||!matchesHeartLayer(p,s.heartOpen)||!matchesSex(p,s.sex)||(p.system==='serous'&&(s.hiddenSerous??[]).includes(serousLayerKey(p.name))))return false;
-     if(s.isolate)return false;
+     if(s.isolate)return viaTendon&&selection.has(p.id)&&visible.has(p.system);
      return focus?focus.has(p.id)&&visible.has(p.system):visible.has(p.system);
+    };
+    const baseVisible=(p:(typeof atlas.parts)[number])=>{
+     if(hidden.has(p.id))return false;
+     if(!ownerSwitchesOn(owners,p,visible))return false;
+     if(owners.muscleOf.has(p.id))return visible.has(p.system)&&ruleParts(owners,p).some(m=>m!==p&&ruleVisible(m,true));
+     return ruleVisible(p);
     };
     // In the intact-body view the cranial vault should visually contain the
     // brain, just like a real head. BodyParts3D contains separately rendered
@@ -1177,6 +1189,8 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
      const lungLobe=/\blobe of (?:right |left )?lung$/i.test(p.name);
      const replacedBrain=!lungLobe&&brainLoaded&&(legacyBrainParenchyma.test(p.name)||intracranialLegacy);
      if(selection.has(p.id)&&!replacedBrain&&(!cranialVaultVisible||!intracranial.test(p.name)||s.isolate))return true;
+     // the muscle of a selected tendon stays on screen (faded) as a reference, whatever the Muscles switch and the filters say
+     if(refMuscles.has(p.id))return true;
      if(!baseVisible(p))return false;
      if(cranialVaultVisible&&!lungLobe&&intracranial.test(p.name))return false;
      if(replacedBrain)return false;
@@ -1270,7 +1284,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
 
   };animate();
   // ?mjview=1 exposes the camera for the screenshot scripts (view a structure from a chosen side and distance); nothing in the app uses it.
-  if(typeof location!=='undefined'&&new URLSearchParams(location.search).has('mjview'))(window as unknown as {__mjView:unknown}).__mjView={look:(target:[number,number,number],dir:[number,number,number],distance:number)=>{controls.target.set(...target);camera.clearViewOffset();focusTarget=null;focusPosition=null;camera.position.set(target[0]+dir[0]*distance,target[1]+dir[1]*distance,target[2]+dir[2]*distance);controls.update();dirty=true;},focusing:()=>!!(focusTarget&&focusPosition),camera:()=>[...camera.position.toArray(),...controls.target.toArray()],partsState:(rx:string)=>atlas.parts.map((p,i)=>({id:p.id,name:p.name,visible:data[i*4+3],faded:selectedData[i*4+2],picker:!!pickers[i]})).filter(x=>new RegExp(rx,'i').test(x.name))};
+  if(typeof location!=='undefined'&&new URLSearchParams(location.search).has('mjview'))(window as unknown as {__mjView:unknown}).__mjView={look:(target:[number,number,number],dir:[number,number,number],distance:number)=>{controls.target.set(...target);camera.clearViewOffset();focusTarget=null;focusPosition=null;camera.position.set(target[0]+dir[0]*distance,target[1]+dir[1]*distance,target[2]+dir[2]*distance);controls.update();dirty=true;},focusing:()=>!!(focusTarget&&focusPosition),camera:()=>[...camera.position.toArray(),...controls.target.toArray()],jointsState:()=>supplementaryJoints.rows.filter(r=>r.mesh.visible).map(r=>[r.mesh.name,r.anchor.name]),partsState:(rx:string)=>atlas.parts.map((p,i)=>({id:p.id,name:p.name,visible:data[i*4+3],faded:selectedData[i*4+2],picker:!!pickers[i]})).filter(x=>new RegExp(rx,'i').test(x.name))};
   const contextLost=(e:Event)=>{e.preventDefault();onError('裝置已暫停 3D 畫面，請重新載入以繼續。');};renderer.domElement.addEventListener('webglcontextlost',contextLost);
   return()=>{labelLayer.remove();plLayer.remove();disposed=true;shoulderWorker?.terminate();retryLoad.current=null;abort.abort();cancelAnimationFrame(frame);observer.disconnect();controls.dispose();cervicalVessels.dispose();supplementaryJoints.dispose();draco.dispose();geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());scene.traverse(o=>{if(o instanceof T.Mesh&&!geometries.includes(o.geometry)){o.geometry.dispose();const ms=Array.isArray(o.material)?o.material:[o.material];ms.forEach(m=>m.dispose());}});env.dispose();partTexture.dispose();selectionTexture.dispose();motionTexture.dispose();rotationTexture.dispose();anchorMotionTexture.dispose();anchorRotationTexture.dispose();paletteTexture.dispose();markerGeometry.dispose();markerMaterial.dispose();hover.remove();renderer.dispose();renderer.domElement.remove();};
  },[atlas]);

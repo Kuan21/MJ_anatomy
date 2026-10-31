@@ -1,3 +1,4 @@
+import {TENDON_OWNERS} from '../mj-tendon-owners';
 export type QuizSystem = 'skeletal' | 'muscular' | 'tendon' | 'nervous' | 'arterial' | 'venous' | 'cardiac' | 'respiratory';
 export type QuizRegionId = 'lower-limb' | 'upper-limb' | 'thorax' | 'back' | 'heart' | 'lung';
 /** Section ids are region specific ('hip', 'thigh'… for the leg; 'shoulder', 'arm'… for the arm; 'cage', 'wall'… for the thorax). */
@@ -417,10 +418,13 @@ export function questionPool(catalogue: QuizCatalogue, settings: QuizSettings): 
 }
 
 /** Same-system regional anatomy stays available as distractors and for peeling. */
+/** Atlas names of the muscle parts a tendon was cut from (app/mj-tendon-owners.json, derived from the tendon cut specs): a tendon question is always drawn with its muscle. */
+export const ownerMuscleNames = (tendonName: string): string[] => TENDON_OWNERS[tendonName] ?? [];
 export function sceneStructures(catalogue: QuizCatalogue, target: QuizStructure, section: QuizSection, side: QuizSide) {
+  const owners = target.system === 'tendon' ? ownerMuscleNames(target.name) : [];
   const range = (regionSections(catalogue.region).find(s => s.id === section) ?? regionSections(catalogue.region)[0]).range;
   // The target is always drawn: a mistake from the other side (錯題本 after the side setting changed) must still be answerable; the frame unions its bounds.
-  return catalogue.structures.filter(s => s.id === target.id || ((side === 'both' || s.side === 'midline' || s.side === side)
+  return catalogue.structures.filter(s => s.id === target.id || (s.system === 'muscular' && owners.includes(s.name)) || ((side === 'both' || s.side === 'midline' || s.side === side)
     && (catalogue.region === 'heart' || catalogue.region === 'lung' || s.system === target.system || s.system === 'skeletal')
     && (section === 'all' || s.sections.includes(section)
       || (s.bounds[0][1] < range[1] && s.bounds[1][1] > range[0]))));
