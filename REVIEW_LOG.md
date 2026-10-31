@@ -2,6 +2,50 @@
 
 最後更新：2026-10-30。規則：只改介面、效能、腳本、文件的 PR 在 `build` 通過後自動 merge；涉及模型、示意模型、解剖內容、名稱、Quiz 資料的 PR 標【需人工審核】，**一律不開 auto-merge**，等你確認。
 
+## 顯示規則修正：器官內血管跟器官開關、肌腱跟肌肉、肌腱改為肌肉的子項（【需人工審核】，不自動 merge）
+
+截圖（`-before` 修正前、`-after` 修正後）在 `pr-screenshots` 分支 `visibility-2026-10-31/`（commit `819a771`；網址 `https://raw.githubusercontent.com/Kuan21/MJ_anatomy/819a771e907b7529e1f19ad96572bdfea38d3870/visibility-2026-10-31/<檔名>`，21 張皆回應 200；第 13 張肺面板血管截圖在 commit `5232555`）。本機重現：`npm run build`，`npx vite preview`，開 `/?mjview=1`。
+
+**(I) 器官內的血管與神經跟器官開關**
+- 原因：血管只受「動脈／靜脈／神經」系統開關與區域名單控制，沒有「所屬器官」；縱隔區名單裡有冠狀動脈與心臟靜脈，所以心臟關掉後冠狀血管網仍浮在畫面上。
+- 修法：新增歸屬表 `app/mj-organ-owners.ts`（名稱規則加高度帶，區分肺與腎的同名肺段／腎段動脈）。顯示規則 `app/mj-owners.ts`：器官內的血管神經要「自己的系統開關」與「所屬器官開關」都開才顯示；與肌腱跟肌肉共用同一組「歸屬結構」邏輯。心臟詳細模式（`#/organ/heart`）是獨立檢視器；肺自己的面板（支氣管樹、肺血管）用的視圖本來就開肺，兩者沒有改動。選到器官內的血管（搜尋、列表）時一併打開所屬器官。
+- 清單：`docs/organ-owners.md`（器官內／經過／邊界案例，由 `scripts/list-organ-owners.mjs` 產生並檢查）。器官內共 1004 個網格：心 191（冠狀動脈與分支、心靜脈、冠狀竇）、肺 359（葉、段動脈與靜脈、支氣管動脈）、消化 164（肝內分支與肝靜脈、胃腸系膜分支、食道叢）、腦 260（大腦、小腦、胼胝體周圍等分支，跟「神經系統」開關）、泌尿 18（腎節段支）、生殖 12。模型裡沒有心表面或肺門內的神經分支（心叢、肺叢），所以沒有需要隨心肺隱藏的神經；外部神經網格（迷走、交感幹、肋間、膈神經等）全部屬經過。
+- 逐區檢查：`docs/owner-visibility-audit.md`（每個區域與子區域，逐一關閉器官開關後消失與留下的血管神經；`npm run check` 會檢查「器官關閉後沒有器官內血管留下」）。
+
+**(II) 肌腱跟肌肉**
+- 兩個米色三角形：是肺的表面標記「Groove for first rib of lung」（左右各一，`PK-326`、`PK-333`，位置在肺尖、鎖骨下方，x ±0.035 至 0.07 m、y 1.38 至 1.43 m，米色是「骨性壓跡」類的顏色）。原因：區域規則把名稱含「rib」的構造一律當肋骨，使這兩片肺面片被排進胸腔三個子區域；已改成只有骨與軟骨適用該規則。目前 main 因 #152 已不繪肺面片（只在點選、懸停或上色時繪出），所以現在的縱隔畫面看不到它們，我在目前版本的畫面上沒有重現米色三角形（沒有舊版 build 可對照），歸因依據是資料（名稱、位置、顏色分類、區域名單）。**不是**上肢內旋 48° 加肘屈 140° 的米色翼狀物：那是動作姿勢才出現的大片平面，這是靜止的小面片。翼狀物仍未解決。
+- 全身只開骨骼加肌腱時懸在小腿下的白色碎片：是 BodyParts3D 原有的「跟腱」（Calcaneal tendon）左右各一，整條網格，沒有肌腱切分規格，被名稱規則歸入肌腱，但沒有肌肉屬它（同理：二腹肌中間腱、提上眼瞼肌腱各一）。
+- 修法：肌腱的所屬肌肉寫在 `app/mj-tendon-owners.ts`（`scripts/prepare-tendon-owners.mjs` 產生，每次 check／build 重寫）：切分肌腱由切分規格（`scripts/tendon/*.mjs`，下肢第 2 批新增的規格會自動納入，不用手設）推得；整條網格的肌腱由名稱（「X 的肌腱」）或緊貼的肌肉（4 mm 內）推得；只有二腹肌中間腱手設（`scripts/data/tendon-owner-overrides.json`）。清單：`docs/tendon-owners.md`。肌腱用與肌肉完全相同的規則顯示：分區與子區域、左右與淡化另一側、分層解剖、組織深度、隱藏、單獨顯示（選到肌肉時它的肌腱一起留下）。
+- 左側面板：「肌腱」移到「肌肉」下方成為子項。肌肉關閉時肌腱一律不畫，子項開關變灰、不可點；肌肉開啟時肌腱預設顯示，可單獨關掉只看肌腹。點肌腱名稱＝只顯示肌肉與肌腱。
+- 選到肌腱：它的肌肉以淡化顯示當參照（肌肉關閉時也顯示），動作姿勢下一起跟著動。Quiz 的「肌腱」類別保留；肌腱題一律連同它的肌肉（淡色）一起畫。
+- 不受影響：韌帶、支持帶、關節囊、腱鞘、掌腱膜仍是結締組織，肌肉關閉時可以只看骨加韌帶。
+
+**肌腱與韌帶歸類清單（請確認）**
+- 肌腱群組原本 52 件（面板計數）：切分肌腱 48 件（上肢 24 條，全是肌腱）、跟腱 2、二腹肌中間腱 1、提上眼瞼肌腱 1。群組裡沒有韌帶。
+- 移進肌腱：左右股四頭肌腱（原在結締組織，名稱與 `kind` 都是肌腱），現在群組為 54 件。
+- 留在結締組織：髕韌帶（韌帶）、腱鞘四條（屈肌總腱鞘、屈拇長肌腱鞘、橈側屈腕肌腱鞘、結節間腱鞘）、掌腱膜、屈肌與伸肌支持帶。腱鞘與掌腱膜是否也要跟肌肉，請你決定（目前不跟）。
+
+**誠實的限制**
+- 動作姿勢下「選到肌腱時淡化的肌肉」與肌腱的跟隨，只依程式邏輯（肌肉與肌腱走同一組蒙皮），沒有在 3D 畫面做關節極限角度的截圖。
+- 腦血管歸「神經系統」開關（腦沒有獨立開關）；肺門、腎門、肝門處的主幹歸「經過」，邊界案例與理由在 `docs/organ-owners.md`。
+- 米色三角形在目前版本無法在畫面上重現（見上）。
+
+## 心臟 PR C：心臟詳細模式修正（【需人工審核】，不自動 merge）
+
+每項先寫原因再寫處理；截圖（修正前後）在 `pr-screenshots` 分支 `heart-detail-2026-10-31/`（網址在 PR 說明）。
+
+| 項目 | 原因（修正前） | 處理 |
+| --- | --- | --- |
+| 1 心中靜脈旁的碎片 | 逐件檢查：心中靜脈 13 個分離片全在後室間溝的心表面（離心表 ≤ 0.4 mm），主圖譜 14 個 BodyParts3D 片也都在低處（y ≤ 1286 mm，肺動脈幹在 y ≥ 1324 mm）；選取前後逐像素差異只在被淡化的心室，肺動脈幹旁沒有變化。**資料裡找不到被誤分的網格**；上一輪選取外框改細（#152）前的版本有白色外框碎片。 | 加入 `test-heart-valves.mjs` 的零件稽核（每個冠狀動脈／心靜脈的分離片必須貼在心表面、任何構造不得有少於 12 個三角形的碎屑），並清掉真正的碎屑：心包膜三層 6 片（8～28 三角形）、動脈圓錐 3 三角形、左心室前乳突肌 22 三角形。**若你仍看到該碎片，請給我視角與操作步驟或截圖。** |
+| 2 腱索 | 瓣膜網格（Z-Anatomy）由一圈淺的瓣葉環加上一排排等粗直桿組成，像撐開的傘 | 腱索改為獨立可選取的構造（二尖瓣、三尖瓣各一）：由乳突肌頂端發出較粗主幹（半徑約 0.9→0.6 mm），分叉成較細分支（0.5→0.3 mm）接到瓣葉游離緣，約三分之一再分岔，另有接到瓣葉心室面（粗糙區）與後瓣／中隔瓣由心室壁連到基底的短索；各乳突肌只連最近的瓣葉。程序生成，端點取自房室環、乳突肌頂端與瓣葉位置，標示示意構造。 |
+| 3 乳突肌 | 來源肌肉是貼牆的團塊加數條指狀突起 | 重建為圓錐形肌肉柱：基部嵌入心室壁（位置由來源肌肉貼壁的頂點求得），頂端圓鈍，帶淺縱嵴；左室 2 條（前外側、後內側），右室 3 條（前、後、中隔）。長度取來源長度，上限 15～30 mm。 |
+| 4 瓣膜附著 | 房室瓣的瓣葉是環帶加直桿，前葉（BodyParts3D）與後葉（Z-Anatomy）來源不同，沒有共用的環；主動脈瓣瓣葉中心偏離瓣環 3.7 mm | 房室環取心房殼與心室殼共用的邊界環（二尖瓣 68 點、三尖瓣 70 點）；瓣葉改為由環上弧段（各瓣葉的弧段由來源瓣葉的位置決定）垂下的薄片，游離緣向內收成漏斗，後葉有淺扇形缺口。測試：環上每一點離瓣葉 < 0.6 mm（二尖瓣最差 0.56 mm、三尖瓣 0.47 mm）。主動脈瓣整組在瓣環平面內移動 3.7 mm 對正；肺動脈瓣離環心 1.4 mm，不動。瓣葉數：三尖瓣 3、二尖瓣 2、主動脈瓣 3、肺動脈瓣 3。 |
+| 5 名稱 | 英文為 Mitral valve／leaflet | 零件名改為 Anterior／Posterior cusp of bicuspid valve、Anterior／Posterior／Septal cusp of tricuspid valve（原 Inferior leaflet 改 Posterior cusp）；左室乳突肌 Anterolateral／Posteromedial、右室 Anterior／Posterior／Septal；新增 Chordae tendineae of bicuspid／tricuspid valve。Mitral valve、Left atrioventricular valve、舊的 leaflet／Inferior 寫法留作搜尋與 Quiz 同義詞（同義表新增 11 列，見上方）。已更新：資訊卡、標籤、清單、Quiz 範圍說明與輸入提示、搜尋（`app/mj-search.ts`）、主圖譜顯示名（`mj-netter-terminology.ts`）、跑考對照清單 `docs/heart-checklist.json`、名稱對照表、`public/models/heart/ATTRIBUTION.md`。中文名不變（二尖瓣前瓣等）。 |
+
+**與跑考摘要用詞的差異：** 摘要寫「前／後／中隔乳突肌」「腱索」，英文零件名 Posterior papillary muscle of right ventricle（摘要的「後」）與 Posteromedial papillary muscle of left ventricle 為依課本補上的寫法；主動脈瓣零件名仍是「leaflet」（Left/Right coronary leaflet of aortic valve），本 PR 未改，需要統一請告訴我。
+
+**示意與缺少：** 瓣葉、乳突肌、腱索皆為示意構造（位置依環與來源肌肉，形狀為示意）；沒有乳突肌的多頭分裂、腱索的實際條數（約 30 條端點）與肉柱連接，主動脈瓣與肺動脈瓣仍用來源瓣葉。**驗證：** 正式 build（`vite build`＋`vite preview`）的 Playwright 截圖；新增 `scripts/test-heart-valves.mjs`（併入 `npm run check`）。
+
 ## 肺標籤修正 PR B（肺門、資訊卡欄位、分類、分類上色；【需人工審核】，不自動 merge）
 
 截圖（左：修正前，右：修正後）在 `pr-screenshots` 分支 `lung-labels-2026-10-31/`（commit `c8c55fa`；網址 `https://raw.githubusercontent.com/Kuan21/MJ_anatomy/c8c55faaba70c80aede5802917c364e79fbd532e/lung-labels-2026-10-31/<檔名>`，檔名 1-left-labels 至 12-right-labels-light-after，皆回應 200）。本機重現：`npm run build`，`npx vite preview`，開 `/?mjview=1`，底部按鈕「肺」，選左肺或右肺，開「名稱標籤」；截圖腳本 `NODE_PATH=<playwright> node scripts/browser/lung-shots.cjs <port> <輸出資料夾> <標籤> [before|after|dark]`。
@@ -20,6 +64,38 @@
 - **跑考摘要用詞差異：** 肺尖、第 1 肋溝、胸腺接觸區、氣管接觸區、前緣、下緣、膈面、肺門、上腔靜脈溝、下腔靜脈溝、食道溝不在摘要的肺清單裡（摘要「可以多不可以少」，這些是為標籤加的）；名稱沿用既有，請核對。
 - **沒有（不假造）：** 右上葉支氣管、中間支氣管、肺門淋巴結、胸膜返折袖套（同肺 PR 2）。
 - **驗證：** `node scripts/test-lung-categories.mjs`（併入 `npm run check`）。畫面確認：截圖為正式 build（`vite build` + `vite preview`）。
+
+## 肌腱與韌帶 第 2 批：下肢（【需人工審核】，不自動 merge）
+
+PR 編號：#160。沿用第 1 批的系統、切分工具與 Z-Anatomy 備份流程；Quiz 下肢篇新增「肌腱」類別（第 1、2 級共用題庫，`check-quiz-banks` 通過）。
+
+**新增的結構（左右各一）**
+| 結構 | 來源 |
+| --- | --- |
+| 股四頭肌腱（股直肌＋三條股肌）、髕韌帶（取代原本的平板示意版，名稱沿用，舊平板不再顯示） | 從肌肉網格切分 |
+| 股二頭肌腱、半腱肌腱、半膜肌腱、縫匠肌腱、股薄肌腱、髂腰肌腱、膕肌腱、蹠肌腱 | 從肌肉網格切分 |
+| 脛前肌腱、脛後肌腱、屈趾長肌腱、屈拇趾長肌腱、伸拇趾長肌腱、伸趾長肌腱、腓長肌腱、腓短肌腱、第三腓骨肌腱 | 從肌肉網格切分 |
+| 伸肌上支持帶、伸肌下支持帶（Y 形）、足底腱膜（延伸到趾）、髕內側與外側支持帶 | Z-Anatomy（取代原本的薄片） |
+| 踝屈肌支持帶、腓骨肌上支持帶、腓骨肌下支持帶 | 程序生成的片，貼在骨與肌腱上（示意） |
+| 前距腓韌帶、後距腓韌帶、跟腓韌帶、脛距前韌帶、跟舟足底韌帶（彈簧韌帶）、腓側副韌帶（重做，取代 240 頂點的稜柱）、比目魚肌腱弓、鵝足 | 程序生成（示意：附著點在骨網格上實測，寬度與厚度為典型值） |
+| 跟腱、髂脛束、薦結節韌帶、薦棘韌帶、腹股溝韌帶 | 沿用原有網格（已檢查，未改） |
+
+鵝足三條肌腱（縫匠肌腱、股薄肌腱、半腱肌腱）各自可單獨選取；鵝足本身是貼在脛骨內側面的薄纖維擴張部（示意）。
+
+**共用改進**
+- 肌腱穿入骨頭：原網格有 10–46 % 的肌腱頂點在骨內，新增 `clearBones` 把肌腱整段移出骨面（保持厚度，切口環不動），現在各肌腱 ≤ 15 %（多為切口附近 1–3 mm 的淡出區），`node scripts/audit-tendon-collisions.mjs` 可重現。肌腱止點離骨 3–8 mm 的（縫匠肌、股薄肌、伸拇趾長肌）用 `reachBone` 接到骨上。
+- 動作：下肢肌腱用整條肌肉的包圍盒取肌肉的兩端權重（與肌肉完全一致，接合處不裂開）；韌帶與支持帶用「兩端各自的骨框架＋沿附著點連線平滑過渡」，兩端留在自己的骨上（`app/biomechanics-v2/body-motion.ts`）。`check:motion` 相關檢查（followers 稽核）通過。
+- 截圖腳本：`scripts/browser/lower-limb-tendon-shots.cjs`（正式 build、用頁面上的動作滑桿設定膝、踝、髖角度後截圖）。
+
+**還缺的（誠實清單）**
+- 腱鞘（Z-Anatomy 的腱鞘與本圖譜肌腱位置差數毫米，不包住肌腱，所以沒有放進來）、閉孔內肌腱（肌肉橫走，不能沿垂直方向切）、股四頭肌腱越過髕骨前面的纖維（原網格穿進髕骨，只保留到髕骨底）、股筋膜與髂脛束到臀大肌、闊筋膜張肌的連續性（沿用原網格，未改）、三角韌帶其他三個部分沿用 joints.glb 的原樣（未合併成一個「三角韌帶」）。
+- 原網格的肌腱形狀偶爾仍偏粗（股四頭肌腱約 2 cm 厚、髕韌帶呈三角形），未重塑。
+
+**誠實的限制**
+- 切點由面積比例或手動高度決定（`scripts/tendon/lower-limb-cuts.mjs`），是解剖判斷，請你看截圖審核。
+- Z-Anatomy 的兩片網格名稱與位置不符（Y 形帶被標成「腓骨肌上支持帶」，另一片橫帶位置不對應任何支持帶），本批依位置命名，只取三片；與骨骼的對位殘差約 4 mm。
+- 踝屈肌支持帶與腓骨肌支持帶是貼在肌肉網格上的示意片，與肌腱的包覆關係我只在離線渲染看過。
+- 動作：右下肢在正式 build 以頁面滑桿設定膝屈 120°、踝背屈 20°、踝蹠屈 45°、髖屈 90° 的截圖在 `pr-screenshots` 分支 `tendon-lower-limb-2026-10-31/`（見 PR 說明）。髖屈 90° 那張鏡頭沒跟著腿，肢體移出畫面，未取得有效影像；左側下肢沒有拍。
 
 ## 肌腱與韌帶 第 1 批：上肢（【需人工審核】，不自動 merge）
 
@@ -78,6 +154,22 @@ PR 編號：#147。依 `docs/tendon-ligament-inventory.md` 與你「照建議做
 - **P0-02～P0-07**：名稱比對用子字串造成的錯誤（上頜神經→腋神經、神經分支變母神經、Netter 名稱搬動左右字、更正側別後中文未跟著改、足部肌用手部名稱、「滑車」）。
 - **P1-01**：示意模型第 0 包每次載入失敗（`isShellSurface` 的 `/pericardi/` 匹配到 pericardiophrenic），膈神經、喉返神經、內臟神經、迷走神經幹、臂神經叢內外側束等 61 個結構目前看不到。
 - 修正一律等你審核後分批開 PR（報告最後有建議分批）；涉及解剖內容者標【需人工審核】。
+
+## Quiz 第二級接受主網站寫法、課程清單別名、序數與椎骨代號（Bug Audit P1-09；【需人工審核】，不自動 merge）
+
+PR [#156](https://github.com/Kuan21/MJ_anatomy/pull/156)。第二級之前只接受題庫原名（BodyParts3D 寫法）；主網站資訊卡顯示的 Netter 式名稱與課程清單的寫法會被判錯。現在：
+- **主網站顯示名稱算對**（quadratus plantae／flexor accessorius、coxal bone／hip bone、profunda brachii／deep brachial artery、triquetrum／triquetral、1st rib／first rib、T10 vertebra／tenth thoracic vertebra、perforating arteries／set of perforating arteries 等）。神經分支在主網站顯示為母神經名（P0-03 的既有問題），這種「母結構名」**不**接受。
+- **課程清單 1:1 別名算對**（`docs/paokao-aliases.json` 中對應單一結構的 22 列：inferior gemellus、lateral cutaneous nerve of forearm、transverse thoracic muscle、aortic arch 等）；**群名只算接近**（iliopsoas、quadriceps femoris、thenar muscles、plantar interossei、thoracic splanchnic nerve）。
+- **序數與椎骨代號**：first＝1st、tenth＝10th，C7／T10／L5／S1 vertebra＝第幾節頸／胸／腰／薦椎；「set of」可省。
+- 完整清單（184 個構造，左右只列一側）由 `scripts/report-quiz-accepted-names.mjs` 產生在 `docs/quiz-level2-accepted-names.md`，已加入 `npm run check`（過期即失敗）。請核對該檔；有不該接受的告訴我。
+
+## 關節資料的膜、聯合與脂肪墊（Bug Audit P2-19 的 64 個未繪出關節節點；【需人工審核】，不自動 merge）
+
+PR [#157](https://github.com/Kuan21/MJ_anatomy/pull/157)。`joints.glb` 有 64 個節點之前被 `includeJoint` 排除，卻仍列在搜尋裡（選了 3D 沒有東西）。處理：**改為畫出**肋間外膜、肋間內膜、閉孔膜、方形膜（左右各一）、恥骨聯合、薦尾聯合、髕下脂肪墊（左右）共 12 個（跑考清單有 external intercostal membrane）；**從搜尋移除**椎間盤 23、髓核 23、前臂與小腿骨間膜 4（主圖譜本身已有這些）與三放射軟骨 2。篩選規則移到 `app/biomechanics-v2/joint-filter.ts`，檢視器與搜尋索引共用。膜用較淺的片狀色、脂肪墊淡黃、聯合用纖維軟骨色。模型本身是 Z-Anatomy 既有網格（CC BY-SA 4.0，已在 ATTRIBUTION），沒有新造形狀。
+
+## 手機特殊區域面板、中英次序、檢視器材質更新（Bug Audit P2-13、P3-14、P3-13；介面，CI 綠後自動 merge）
+
+PR [#158](https://github.com/Kuan21/MJ_anatomy/pull/158)。手機上從搜尋選到特殊區域（腋窩、肘窩、跗管等）時自動打開右側工具面板，看得到邊界與內容物；該按鈕由「動作」改為「Tools｜工具」（面板內容是體位、分層解剖、組織深度）。心臟頁與腦部頁的區塊小標題、上肢分區選單與分層標籤統一英文在前、中文在後。心臟與腦部檢視器只在切面數改變時重新編譯材質，拖切面與切換狀態不再每格重編。不改模型與解剖內容。
 
 ## 懸停名稱、點空白取消選取、手機資訊卡與標題（Bug Audit P3-05、P3-06、P2-11、P3-35；介面，CI 綠後自動 merge）
 
@@ -515,8 +607,18 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 
 | 任務 | 狀態（進行中 / 已完成 / 等我審核 / 未開始 / 卡住） | PR 編號 | 備註 |
 | --- | --- | --- | --- |
+| **心臟 PR C：腱索、乳突肌、瓣膜附著環、Bicuspid／Tricuspid 更名、心中靜脈碎片稽核** | 等我審核（【需人工審核】，不自動 merge） | #159 | 見上方「心臟 PR C」；心中靜脈資料裡找不到誤分網格，需你給重現步驟 |
+| Bug Audit 修正 14：手機從搜尋選特殊區域時自動打開工具面板；器官頁小標題與分區選單改英文在前；心臟／腦部檢視器只在切面數改變時重編材質 | CI 綠後自動 merge | #158 | 介面程式，不改模型 |
+| Bug Audit 修正 12：關節資料的膜、聯合、脂肪墊改為真的畫出來；椎間盤／髓核／三放射軟骨從搜尋移除 | 等我審核（需人工審核，不自動 merge） | #157 | 新增 12 個可點選結構，請看截圖 |
+| Bug Audit 修正 13：Quiz 第二級接受主網站寫法、課程清單 1:1 別名、序數與椎骨代號 | 等我審核（需人工審核，不自動 merge） | #156 | 完整清單在 docs/quiz-level2-accepted-names.md |
+| Bug Audit 修正 13：Quiz 第二級接受主網站寫法、課程清單 1:1 別名、序數與椎骨代號 | 已合併（你 2026-10-31 確認） | #156 | 完整清單在 docs/quiz-level2-accepted-names.md |
+| Bug Audit 修正 12：關節資料的膜、聯合、脂肪墊改為真的畫出來；椎間盤／髓核／三放射軟骨從搜尋移除 | 已合併（你 2026-10-31 看過截圖後確認） | #157 | 新增 12 個可點選結構，請看截圖 |
+| **顯示規則修正：器官內血管跟器官開關、肌腱跟肌肉、肌腱改為肌肉的子項（跟腱碎片、肺尖面片誤入胸腔）** | 已合併（你 2026-10-31 確認） | #162 | 內容見「顯示規則修正」；歸屬表在 `docs/organ-owners.md`、`docs/tendon-owners.md`，邊界案例請核對 |
+| Bug Audit 修正 11：滑鼠懸停顯示中英名稱、點空白取消選取、手機資訊卡不蓋住選取結構、手機標題不與按鈕重疊 | 已自動 merge | #154 | 介面程式與 CSS，不改模型 |
+| Bug Audit 修正 14：手機從搜尋選特殊區域時自動打開工具面板；器官頁小標題與分區選單改英文在前；心臟／腦部檢視器只在切面數改變時重編材質 | 已自動 merge | #158 | 介面程式，不改模型 |
 | Bug Audit 修正 11：滑鼠懸停顯示中英名稱、點空白取消選取、手機資訊卡不蓋住選取結構、手機標題不與按鈕重疊 | CI 綠後自動 merge | #154 | 介面程式與 CSS，不改模型 |
 | **肺標籤修正 PR B：肺門單一區域、資訊卡欄位依類型、分類（壓跡／肺葉部分／肺的結構）、移除左肺氣管接觸區、分類上色與圖例** | 等我審核（【需人工審核】，不自動 merge；CI 結果見 PR） | #155 | 內容見「肺標籤修正 PR B」小節；Quiz 45 → 44 題；深色主題網站目前沒有，請你決定 |
+| 肌腱與韌帶 第 2 批：下肢 | 已合併（你 2026-10-31 確認） | #160 | 見上方「肌腱與韌帶 第 2 批」 |
 | 肌腱與韌帶 第 1 批：上肢 | 等我審核（需人工審核，不自動 merge） | #147 | 見上方「肌腱與韌帶 第 1 批」；下肢、胸腔、背部各由之後的 PR 接續 |
 | 全站顯示問題 A：選取外框、肺面片、骨性標記貼花、淡化 | 已合併（你 2026-10-31 確認「152 ok」） | #152 | 顯示程式，另一 session 開的 PR |
 | Bug Audit 修正 7：Quiz 第二級判分放寬（整條肌肉名可答部分題；對立詞不算接近；縮寫、簡體、左側） | 已合併（你 2026-10-31 確認） | #148 | 判分規則改變，請核對下方清單 |
@@ -1134,6 +1236,17 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 | --- | --- | --- |
 | tricuspid valve | right atrioventricular valve | 右房室瓣 |
 | mitral valve | left atrioventricular valve；bicuspid valve | 僧帽瓣、左房室瓣 |
+| bicuspid valve | mitral valve；left atrioventricular valve | 僧帽瓣、左房室瓣 |
+| anterior cusp of tricuspid valve | anterior leaflet of tricuspid valve；anterior leaflet of right atrioventricular valve | 三尖瓣前葉 |
+| posterior cusp of tricuspid valve | inferior cusp／leaflet of tricuspid valve；posterior leaflet of tricuspid valve；posterior leaflet of right atrioventricular valve | 三尖瓣後葉、三尖瓣下瓣 |
+| septal cusp of tricuspid valve | septal leaflet of tricuspid valve；septal leaflet of right atrioventricular valve | 三尖瓣隔瓣 |
+| anterior cusp of bicuspid valve | anterior cusp of mitral valve；anterior leaflet of mitral／bicuspid／left atrioventricular valve | 僧帽瓣前瓣、僧帽瓣前葉、二尖瓣前葉 |
+| posterior cusp of bicuspid valve | posterior cusp of mitral valve；posterior leaflet of mitral／bicuspid／left atrioventricular valve | 僧帽瓣後瓣、僧帽瓣後葉、二尖瓣後葉 |
+| chordae tendineae of bicuspid valve | chordae tendineae of mitral valve；chordae tendineae of left atrioventricular valve；chordae tendineae | 腱索、僧帽瓣腱索 |
+| chordae tendineae of tricuspid valve | chordae tendineae of right atrioventricular valve；chordae tendineae | 腱索、右房室瓣腱索 |
+| anterolateral papillary muscle of left ventricle | anterior papillary muscle of left ventricle；anterolateral papillary muscle | 前乳突肌、前外側乳突肌、左心室前乳突肌 |
+| posteromedial papillary muscle of left ventricle | inferior／posterior papillary muscle of left ventricle；posteromedial papillary muscle | 後乳突肌、後內側乳突肌、左心室後乳突肌 |
+| posterior papillary muscle of right ventricle | inferior papillary muscle of right ventricle | 右心室下乳突肌 |
 | anterior leaflet of tricuspid valve | anterior leaflet of right atrioventricular valve；anterior cusp of tricuspid valve | 三尖瓣前葉 |
 | inferior leaflet of tricuspid valve | inferior leaflet of right atrioventricular valve；posterior leaflet of tricuspid valve；posterior cusp of tricuspid valve | 三尖瓣後瓣、三尖瓣下瓣 |
 | septal leaflet of tricuspid valve | septal leaflet of right atrioventricular valve；septal cusp of tricuspid valve | 三尖瓣隔瓣 |

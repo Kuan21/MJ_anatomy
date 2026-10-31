@@ -7,6 +7,7 @@ import {gzipSync, gunzipSync} from 'node:zlib';
 import {createRequire} from 'node:module';
 import * as T from 'three';
 import {buildMjHeart} from './lib/heart-mj.mjs';
+import {buildValveApparatus, semilunarShift} from './lib/heart-valves.mjs';
 
 const root = new URL('../', import.meta.url);
 const spec = JSON.parse(fs.readFileSync(new URL('scripts/heart-parts.json', root), 'utf8'));
@@ -15,7 +16,7 @@ for (const d of [cache, out, dir]) fs.mkdirSync(d, {recursive: true});
 const digest = b => createHash('sha256').update(b).digest('hex');
 
 // Building the MJ structures takes ~30 s, so the package is rebuilt only when an input changed (spec, builders, atlas, serous shells) or an output is missing.
-const stampFile = new URL('heart.stamp', cache), stampInputs = ['scripts/heart-parts.json', 'scripts/prepare-heart.mjs', 'scripts/lib/heart-mj.mjs', 'scripts/lib/heart-geom.mjs', 'scripts/lib/nerve-schematics.mjs', 'public/models/atlas-stream.json.gz', 'public/models/serous/serous-stream.json.gz'];
+const stampFile = new URL('heart.stamp', cache), stampInputs = ['scripts/heart-parts.json', 'scripts/prepare-heart.mjs', 'scripts/lib/heart-mj.mjs', 'scripts/lib/heart-valves.mjs', 'scripts/lib/heart-geom.mjs', 'scripts/lib/nerve-schematics.mjs', 'public/models/atlas-stream.json.gz', 'public/models/serous/serous-stream.json.gz'];
 const stamp = digest(Buffer.concat(stampInputs.map(f => fs.readFileSync(new URL(f, root)))));
 try {
   const previous = fs.readFileSync(stampFile, 'utf8').split('\n');
@@ -142,8 +143,18 @@ for (const pair of spec.alignWith) {
 console.log('BodyParts3D -> Z-Anatomy heart offset (mm):', offset.map(v => (v * 1000).toFixed(1)).join(', '));
 
 // MJ-made structures, built once on the Z-Anatomy chambers (see scripts/lib/heart-mj.mjs).
-const zNode = name => {const part = spec.parts.find(p => p.name === name); if (!part) throw new Error(`MJ builder needs ${name}`); return byName.get(part.node);};
-const mjGeometry = buildMjHeart(name => weld(decode(zNode(name))));
+// A builder asks for a source mesh by catalogue name: a shown Z-Anatomy part, or a reference piece (spec.references: Z-Anatomy node or BodyParts3D piece moved into the Z-Anatomy frame) that is not shown itself.
+const sourceMesh = name => {
+  const part = spec.parts.find(p => p.name === name), ref = (spec.references ?? []).find(r => r.name === name);
+  if (part) return weld(decode(byName.get(part.node)));
+  if (!ref) throw new Error(`MJ builder needs ${name}`);
+  if (ref.node) return weld(decode(byName.get(ref.node)));
+  const g = atlasGeometry(ref.id), moved = new Float32Array(g.positions.length);
+  for (let i = 0; i < moved.length; i += 3) for (let k = 0; k < 3; k++) moved[i + k] = g.positions[i + k] + offset[k];
+  return weld({pos: moved, idx: g.indices});
+};
+const mjGeometry = buildMjHeart(sourceMesh);
+{ const apparatus = buildValveApparatus(sourceMesh); for (const r of apparatus.__report) if (process.env.HEART_REPORT) console.log(JSON.stringify(r)); delete apparatus.__report; Object.assign(mjGeometry, apparatus); }
 
 const sources = [...spec.parts.map(part => ({part, geometry: () => {
   const nodeIndex = byName.get(part.node);
@@ -163,12 +174,20 @@ const sources = [...spec.parts.map(part => ({part, geometry: () => {
 }})),...(spec.serous ?? []).map(part => ({part: {...part, node: part.shell}, geometry: () => {
   const g = serousGeometry(part.shell), moved = new Float32Array(g.positions.length);
   for (let i = 0; i < moved.length; i += 3) for (let k = 0; k < 3; k++) moved[i + k] = g.positions[i + k] + offset[k];
-  return weld({pos: moved, idx: g.indices});
+  return dropStrays(weld({pos: moved, idx: g.indices}));
 }})),...(spec.mj ?? []).map(part => ({part: {...part, node: part.build.join('+')}, geometry: () => {
   const list = part.build.map(k => {const g = mjGeometry[k]; if (!g) throw new Error(`MJ builder produced nothing for ${k}`); return g;});
   const positions = [], indices = []; for (const g of list) {const base = positions.length / 3; for (const v of g.positions) positions.push(v); for (const i of g.indices) indices.push(base + i);}
-  return weld({pos: Float32Array.from(positions), idx: Uint32Array.from(indices)});
+  return dropStrays(weld({pos: Float32Array.from(positions), idx: Uint32Array.from(indices)}));
 }}))];
+// Connected pieces of fewer than 12 triangles are cut-off slivers (a patch field that touches a triangle only at a corner): they are dropped so that a structure only holds real pieces.
+function dropStrays({positions, indices}, minTriangles = 12) {
+  const parent = new Int32Array(positions.length / 3).map((_, i) => i), find = x => { while (parent[x] !== x) { parent[x] = parent[parent[x]]; x = parent[x]; } return x; };
+  for (let i = 0; i < indices.length; i += 3) { const a = find(indices[i]); parent[find(indices[i + 1])] = a; parent[find(indices[i + 2])] = a; }
+  const count = new Map(); for (let i = 0; i < indices.length; i += 3) { const r = find(indices[i]); count.set(r, (count.get(r) ?? 0) + 1); }
+  const keep = []; for (let i = 0; i < indices.length; i += 3) if (count.get(find(indices[i])) >= minTriangles) keep.push(indices[i], indices[i + 1], indices[i + 2]);
+  return keep.length === indices.length ? {positions, indices} : weld({pos: positions, idx: Uint32Array.from(keep)});
+}
 // Plane clip of a mesh: keeps the part of the mesh with min <= coordinate[axis] <= max (triangles are cut, not dropped), so the venae cavae end shortly outside the right atrium.
 function clipMesh({positions, indices}, axis, min, max) {
   const out = [], idx = [], at = i => [positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]];
@@ -191,8 +210,16 @@ function clipMesh({positions, indices}, axis, min, max) {
   }
   return weld({pos: Float32Array.from(out), idx: Uint32Array.from(idx)});
 }
+// Semilunar cusps that sit off the centre of their valve ring are moved (as a group) in the ring plane (spec.semilunarAlign).
+const shiftOf = new Map();
+for (const group of spec.semilunarAlign ?? []) {
+  const shift = semilunarShift(sourceMesh(group.chamber), group.loopNear, group.cusps.map(n => sourceMesh(n)));
+  console.log(`${group.valve} cusps shifted ${(Math.hypot(...shift) * 1000).toFixed(1)} mm onto the valve ring`);
+  for (const n of group.cusps) shiftOf.set(n, shift);
+}
 for (const {part, geometry} of sources) {
-  const raw = geometry(), {positions, indices} = part.clip ? clipMesh(raw, part.clip.axis, part.clip.min ?? -Infinity, part.clip.max ?? Infinity) : raw, normals = normalsOf(positions, indices);
+  const raw = geometry(), shift = shiftOf.get(part.name); if (shift) for (let i = 0; i < raw.positions.length; i += 3) for (let k = 0; k < 3; k++) raw.positions[i + k] += shift[k];
+  const {positions, indices} = part.clip ? clipMesh(raw, part.clip.axis, part.clip.min ?? -Infinity, part.clip.max ?? Infinity) : raw, normals = normalsOf(positions, indices);
   const bounds = [[Infinity, Infinity, Infinity], [-Infinity, -Infinity, -Infinity]];
   for (let i = 0; i < positions.length; i += 3) for (let k = 0; k < 3; k++) {bounds[0][k] = Math.min(bounds[0][k], positions[i + k]); bounds[1][k] = Math.max(bounds[1][k], positions[i + k]);}
   const pos = Buffer.from(positions.buffer), nor = Buffer.from(normals.buffer), idx = Buffer.from(indices.buffer);

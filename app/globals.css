@@ -1488,3 +1488,6 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
  .detail-sheet,.detail-sheet.is-isolated{top:auto!important;bottom:calc(78px + env(safe-area-inset-bottom))!important;height:auto!important;max-height:50dvh!important;min-height:0!important}
  .identity{max-width:calc(100vw - 190px)}.identity h1{font-size:26px;letter-spacing:-1px}.identity h1 .edition{display:none}.identity-meta{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 }
+
+/* Tendons are a child of Muscles in the left panel: indented under it, and locked while Muscles is off */
+.system-row.system-child{margin-left:14px;position:relative}.system-row.system-child::before{content:'';position:absolute;left:-8px;top:0;bottom:50%;width:6px;border-left:1px solid #18253630;border-bottom:1px solid #18253630;border-radius:0 0 0 4px;pointer-events:none}.system-row.system-child.locked{opacity:.45}.system-row.system-child.locked [data-slot=switch]{cursor:not-allowed}

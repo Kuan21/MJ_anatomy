@@ -1,3 +1,4 @@
+import {TENDON_OWNERS} from '../mj-tendon-owners';
 export type QuizSystem = 'skeletal' | 'muscular' | 'tendon' | 'nervous' | 'arterial' | 'venous' | 'cardiac' | 'respiratory';
 export type QuizRegionId = 'lower-limb' | 'upper-limb' | 'thorax' | 'back' | 'heart' | 'lung';
 /** Section ids are region specific ('hip', 'thigh'… for the leg; 'shoulder', 'arm'… for the arm; 'cage', 'wall'… for the thorax). */
@@ -105,8 +106,8 @@ export const QUIZ_REGIONS = {
     headline: ['看名稱，', '點出位置。'], description: ['由臀部到足部，在 3D 模型上練習辨認。', '每答一題，立即顯示正確位置與資料卡。'],
     scope: '採用現有圖譜的固定解剖姿勢。題目只涵蓋已有模型的構造；神經、動脈與靜脈可以獨立練習。',
     frame: {x: .19, z: [-.13, .09], footZ: .19}, sections: LOWER_SECTIONS,
-    // tendons are asked in the upper limb for now; the other regions get them in later batches
-    systems: ['skeletal', 'muscular', 'nervous', 'arterial', 'venous'],
+    // tendons are asked in the upper and lower limb; the thorax and back get them in later batches
+    systems: ['skeletal', 'muscular', 'tendon', 'nervous', 'arterial', 'venous'],
   },
   'upper-limb': {
     id: 'upper-limb', label: '上肢', english: 'Upper limb', tag: '上肢篇', file: 'quiz-upper.json', hash: '#/quiz/upper-limb', atlasHash: '#/atlas/upper',
@@ -134,7 +135,7 @@ const HEART_SECTIONS: QuizSectionDef[] = [
   {id: 'all', label: '全部心臟', english: 'Heart', range: [1.2, 1.42]},
   {id: 'chambers', label: '心腔', english: 'Chambers', range: [1.2, 1.42]},
   {id: 'papillary', label: '乳突肌', english: 'Papillary muscles', range: [1.2, 1.42]},
-  {id: 'valves', label: '瓣膜（含腱索）', english: 'Valves with chordae tendineae', range: [1.2, 1.42]},
+  {id: 'valves', label: '瓣膜與腱索', english: 'Valves and chordae tendineae', range: [1.2, 1.42]},
   {id: 'coronary', label: '冠狀動脈', english: 'Coronary arteries', range: [1.2, 1.42]},
   {id: 'veins', label: '心臟靜脈', english: 'Cardiac veins', range: [1.2, 1.42]},
   {id: 'vessels', label: '相連大血管', english: 'Great vessels', range: [1.2, 1.42]},
@@ -144,7 +145,7 @@ const HEART_SECTIONS: QuizSectionDef[] = [
 QUIZ_REGIONS.heart = {
   id: 'heart', label: '心臟', english: 'Heart', tag: '心臟篇', file: 'quiz-heart.json', hash: '#/quiz/heart', atlasHash: '#/organ/heart',
   headline: ['看名稱，', '點出位置。'], description: ['由心腔、瓣膜、乳突肌到冠狀動脈，在 3D 心臟模型上練習辨認。', '每答一題，立即顯示正確位置與說明。'],
-  scope: '採用心臟詳細模型。瓣膜（房室瓣）連同腱索一併呈現，腱索不能單獨作答；乳突肌與瓣膜位於心腔內，題目開始時心腔已先移開，可用「移開遮擋」再調整。腔內構造（界嵴、梳狀肌、卵圓窩、節制索、室上嵴、肉柱等）與兩個心包竇是依解剖知識補建的示意模型，資料卡標示「示意構造」。傳導系統不在範圍內，不會出題。',
+  scope: '採用心臟詳細模型。房室瓣（二尖瓣、三尖瓣）的瓣葉、乳突肌與腱索是依房室環與來源模型位置生成的示意模型，腱索可單獨作答；乳突肌與瓣膜位於心腔內，題目開始時心腔已先移開，可用「移開遮擋」再調整。腔內構造（界嵴、梳狀肌、卵圓窩、節制索、室上嵴、肉柱等）與兩個心包竇是依解剖知識補建的示意模型，資料卡標示「示意構造」。傳導系統不在範圍內，不會出題。',
   defaultView: 'front', defaultSide: 'both', systems: ['cardiac', 'arterial', 'venous'],
   frame: {x: .075, z: [-.06, .09]}, sections: HEART_SECTIONS,
 };
@@ -417,10 +418,13 @@ export function questionPool(catalogue: QuizCatalogue, settings: QuizSettings): 
 }
 
 /** Same-system regional anatomy stays available as distractors and for peeling. */
+/** Atlas names of the muscle parts a tendon was cut from (app/mj-tendon-owners.json, derived from the tendon cut specs): a tendon question is always drawn with its muscle. */
+export const ownerMuscleNames = (tendonName: string): string[] => TENDON_OWNERS[tendonName] ?? [];
 export function sceneStructures(catalogue: QuizCatalogue, target: QuizStructure, section: QuizSection, side: QuizSide) {
+  const owners = target.system === 'tendon' ? ownerMuscleNames(target.name) : [];
   const range = (regionSections(catalogue.region).find(s => s.id === section) ?? regionSections(catalogue.region)[0]).range;
   // The target is always drawn: a mistake from the other side (錯題本 after the side setting changed) must still be answerable; the frame unions its bounds.
-  return catalogue.structures.filter(s => s.id === target.id || ((side === 'both' || s.side === 'midline' || s.side === side)
+  return catalogue.structures.filter(s => s.id === target.id || (s.system === 'muscular' && owners.includes(s.name)) || ((side === 'both' || s.side === 'midline' || s.side === side)
     && (catalogue.region === 'heart' || catalogue.region === 'lung' || s.system === target.system || s.system === 'skeletal')
     && (section === 'all' || s.sections.includes(section)
       || (s.bounds[0][1] < range[1] && s.bounds[1][1] > range[0]))));

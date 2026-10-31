@@ -8,7 +8,9 @@ export type BodyRegion='head'|'spine'|'leftLeg'|'rightLeg';
 export interface BodyPose {flexion:number;rotation:number;sideBend:number;knee:number;ankle:number}
 export const BODY_NEUTRAL:BodyPose={flexion:0,rotation:0,sideBend:0,knee:0,ankle:0};
 export const BODY_LIMITS={head:{flexion:[-35,40],rotation:[-60,60],sideBend:[-30,30],knee:[0,0],ankle:[0,0]},spine:{flexion:[-25,50],rotation:[-30,30],sideBend:[-20,20],knee:[0,0],ankle:[0,0]},leg:{flexion:[-20,120],rotation:[-20,20],sideBend:[0,35],knee:[0,130],ankle:[-30,20]}} as const;
-export interface BodyBinding {name:string;rig:BodyRegion;frame:number|null}
+/** `box`: a tendon cut from a leg muscle takes the collar anchors of the WHOLE muscle (the box is the bounds of the muscle part), so that muscle and tendon blend with identical weights and the join never opens.
+ * `ends`/`a`/`b`: a ligament or retinaculum between two bones is anchored by its attachment points: the frames (1 thigh, 2 shank, 3 foot, 4 patella) that move the bone at `a` and the bone at `b`; the weight changes smoothly along the line a→b. */
+export interface BodyBinding {name:string;rig:BodyRegion;frame:number|null;box?:[number[],number[]];ends?:[number,number];a?:number[];b?:number[]}
 // Cervical vessels must blend into the skull, not rotate as entire rigid tubes.
 export const bodyBindings=Object.fromEntries(Object.entries({...rawBindings,...paokaoBindings.body,...vesselEndBindings.body} as typeof rawBindings).map(([id,b])=>[id,b.rig==='head'&&/artery|vein|venous/i.test(b.name)?{...b,frame:null}:b])) as Record<string,BodyBinding>;
 /** Facial muscles and the scalp structures that the 4.0 export lacks (epicranial aponeurosis, temporoparietalis, depressor septi nasi) ride on the skull. */
@@ -201,6 +203,15 @@ export function bindBodyTissue(rig:BodyRig,positions:ArrayLike<number>,skull=fal
   // A leg muscle is anchored at its own two attachments, not only by height: its proximal and distal collars stay on the bone
   // they attach to (pelvis, thigh, shank or foot); the belly between them follows the shared hip/knee/ankle field.
   if((rig.region==='leftLeg'||rig.region==='rightLeg')&&part?.system==='muscular')w=legMuscleWeights(rig,part,y,w);
+  // A tendon cut from a leg muscle: the same collars as the muscle, taken from the bounds of the whole muscle.
+  const own=part&&bodyBindings[part.id];
+  if((rig.region==='leftLeg'||rig.region==='rightLeg')&&part?.system==='tendon'&&own?.box)w=legMuscleWeights(rig,{bounds:own.box},y,w);
+  // A ligament or retinaculum between two bones: both ends stay on their bone, the part between follows a smooth blend of the two bone frames along the line a→b.
+  if((rig.region==='leftLeg'||rig.region==='rightLeg')&&own?.ends&&own.a&&own.b){
+   const ax=own.a,ab=[own.b[0]-ax[0],own.b[1]-ax[1],own.b[2]-ax[2]],len2=ab[0]*ab[0]+ab[1]*ab[1]+ab[2]*ab[2]||1;
+   const t=Math.max(0,Math.min(1,((positions[i*3]-ax[0])*ab[0]+(positions[i*3+1]-ax[1])*ab[1]+(positions[i*3+2]-ax[2])*ab[2])/len2)),s=smooth(t);
+   w=Array(rig.pivots.length).fill(0);w[own.ends[0]]+=1-s;w[own.ends[1]]+=s;
+  }
   // Strongest influence first: the solver and the DQ hemisphere reference both read the dominant frame from slot 0.
   const entries=w.map((w,j)=>({w,j})).filter(e=>e.w>0).sort((a,b)=>b.w-a.w).slice(0,4);entries.forEach((e,k)=>{indices[i*4+k]=e.j;weights[i*4+k]=e.w;});
  }

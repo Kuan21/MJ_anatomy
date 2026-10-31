@@ -51,7 +51,7 @@ const expected = {
   },
   heart: {
     count: [60, 80],
-    plain: ['Right atrium', 'Right ventricle', 'Left atrium', 'Left ventricle', 'Right coronary artery', 'Left coronary artery', 'Anterior interventricular artery', 'Circumflex artery', 'Great cardiac vein', 'Middle cardiac vein', 'Coronary sinus', 'Superior vena cava', 'Inferior vena cava', 'Pulmonary trunk', 'Ascending aorta', 'Anterior papillary muscle of right ventricle', 'Inferior papillary muscle of left ventricle'],
+    plain: ['Right atrium', 'Right ventricle', 'Left atrium', 'Left ventricle', 'Right coronary artery', 'Left coronary artery', 'Anterior interventricular artery', 'Circumflex artery', 'Great cardiac vein', 'Middle cardiac vein', 'Coronary sinus', 'Superior vena cava', 'Inferior vena cava', 'Pulmonary trunk', 'Ascending aorta', 'Anterior papillary muscle of right ventricle', 'Posteromedial papillary muscle of left ventricle'],
   },
   back: {
     count: [100, 130],
@@ -155,7 +155,7 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
         if (other) {
           const visible = sceneStructures(catalogue, other, section.id === 'all' ? other.sections[0] : section.id, side);
           assert.ok(visible.some(s => s.id === other.id), `${regionId}: a mistake from the ${otherSide} side is drawn in a ${side}-side scene`);
-          assert.ok(visible.every(s => s.id === other.id || s.side === 'midline' || s.side === side), 'only the target crosses the side setting');
+          assert.ok(visible.every(s => s.id === other.id || s.side === 'midline' || s.side === side || (other.system === 'tendon' && s.system === 'muscular' && s.side === otherSide)), 'only the target (and the muscle of a tendon target) crosses the side setting');
         }
       }
     }
