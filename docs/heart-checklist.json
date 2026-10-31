@@ -204,23 +204,23 @@
    "items": [
     {
      "zh": "三尖瓣前瓣",
-     "en": "Anterior leaflet of the tricuspid valve",
+     "en": "Anterior cusp of the tricuspid valve",
      "parts": [
-      "Anterior leaflet of tricuspid valve"
+      "Anterior cusp of tricuspid valve"
      ]
     },
     {
      "zh": "三尖瓣後瓣",
-     "en": "Posterior (inferior) leaflet of the tricuspid valve",
+     "en": "Posterior (inferior) cusp of the tricuspid valve",
      "parts": [
-      "Inferior leaflet of tricuspid valve"
+      "Posterior cusp of tricuspid valve"
      ]
     },
     {
      "zh": "三尖瓣中隔瓣",
-     "en": "Septal leaflet of the tricuspid valve",
+     "en": "Septal cusp of the tricuspid valve",
      "parts": [
-      "Septal leaflet of tricuspid valve"
+      "Septal cusp of tricuspid valve"
      ]
     },
     {
@@ -234,7 +234,7 @@
      "zh": "後乳突肌",
      "en": "Posterior (inferior) papillary muscle",
      "parts": [
-      "Inferior papillary muscle of right ventricle"
+      "Posterior papillary muscle of right ventricle"
      ]
     },
     {
@@ -248,9 +248,7 @@
      "zh": "腱索",
      "en": "Chordae tendineae",
      "parts": [
-      "Anterior leaflet of tricuspid valve",
-      "Inferior leaflet of tricuspid valve",
-      "Septal leaflet of tricuspid valve"
+      "Chordae tendineae of tricuspid valve"
      ]
     },
     {
@@ -307,17 +305,17 @@
     {
      "zh": "二尖瓣前瓣",
      "paokaoZh": "僧帽瓣前瓣",
-     "en": "Anterior leaflet of the mitral valve",
+     "en": "Anterior cusp of the bicuspid valve",
      "parts": [
-      "Anterior leaflet of mitral valve"
+      "Anterior cusp of bicuspid valve"
      ]
     },
     {
      "zh": "二尖瓣後瓣",
      "paokaoZh": "僧帽瓣後瓣",
-     "en": "Posterior leaflet of the mitral valve",
+     "en": "Posterior cusp of the bicuspid valve",
      "parts": [
-      "Posterior leaflet of mitral valve"
+      "Posterior cusp of bicuspid valve"
      ]
     },
     {
@@ -331,15 +329,14 @@
      "zh": "後乳突肌",
      "en": "Posterior (posteromedial) papillary muscle",
      "parts": [
-      "Inferior papillary muscle of left ventricle"
+      "Posteromedial papillary muscle of left ventricle"
      ]
     },
     {
      "zh": "腱索",
      "en": "Chordae tendineae",
      "parts": [
-      "Anterior leaflet of mitral valve",
-      "Posterior leaflet of mitral valve"
+      "Chordae tendineae of bicuspid valve"
      ]
     },
     {

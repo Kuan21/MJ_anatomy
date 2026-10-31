@@ -2,6 +2,22 @@
 
 最後更新：2026-10-30。規則：只改介面、效能、腳本、文件的 PR 在 `build` 通過後自動 merge；涉及模型、示意模型、解剖內容、名稱、Quiz 資料的 PR 標【需人工審核】，**一律不開 auto-merge**，等你確認。
 
+## 心臟 PR C：心臟詳細模式修正（【需人工審核】，不自動 merge）
+
+每項先寫原因再寫處理；截圖（修正前後）在 `pr-screenshots` 分支 `heart-detail-2026-10-31/`（網址在 PR 說明）。
+
+| 項目 | 原因（修正前） | 處理 |
+| --- | --- | --- |
+| 1 心中靜脈旁的碎片 | 逐件檢查：心中靜脈 13 個分離片全在後室間溝的心表面（離心表 ≤ 0.4 mm），主圖譜 14 個 BodyParts3D 片也都在低處（y ≤ 1286 mm，肺動脈幹在 y ≥ 1324 mm）；選取前後逐像素差異只在被淡化的心室，肺動脈幹旁沒有變化。**資料裡找不到被誤分的網格**；上一輪選取外框改細（#152）前的版本有白色外框碎片。 | 加入 `test-heart-valves.mjs` 的零件稽核（每個冠狀動脈／心靜脈的分離片必須貼在心表面、任何構造不得有少於 12 個三角形的碎屑），並清掉真正的碎屑：心包膜三層 6 片（8～28 三角形）、動脈圓錐 3 三角形、左心室前乳突肌 22 三角形。**若你仍看到該碎片，請給我視角與操作步驟或截圖。** |
+| 2 腱索 | 瓣膜網格（Z-Anatomy）由一圈淺的瓣葉環加上一排排等粗直桿組成，像撐開的傘 | 腱索改為獨立可選取的構造（二尖瓣、三尖瓣各一）：由乳突肌頂端發出較粗主幹（半徑約 0.9→0.6 mm），分叉成較細分支（0.5→0.3 mm）接到瓣葉游離緣，約三分之一再分岔，另有接到瓣葉心室面（粗糙區）與後瓣／中隔瓣由心室壁連到基底的短索；各乳突肌只連最近的瓣葉。程序生成，端點取自房室環、乳突肌頂端與瓣葉位置，標示示意構造。 |
+| 3 乳突肌 | 來源肌肉是貼牆的團塊加數條指狀突起 | 重建為圓錐形肌肉柱：基部嵌入心室壁（位置由來源肌肉貼壁的頂點求得），頂端圓鈍，帶淺縱嵴；左室 2 條（前外側、後內側），右室 3 條（前、後、中隔）。長度取來源長度，上限 15～30 mm。 |
+| 4 瓣膜附著 | 房室瓣的瓣葉是環帶加直桿，前葉（BodyParts3D）與後葉（Z-Anatomy）來源不同，沒有共用的環；主動脈瓣瓣葉中心偏離瓣環 3.7 mm | 房室環取心房殼與心室殼共用的邊界環（二尖瓣 68 點、三尖瓣 70 點）；瓣葉改為由環上弧段（各瓣葉的弧段由來源瓣葉的位置決定）垂下的薄片，游離緣向內收成漏斗，後葉有淺扇形缺口。測試：環上每一點離瓣葉 < 0.6 mm（二尖瓣最差 0.56 mm、三尖瓣 0.47 mm）。主動脈瓣整組在瓣環平面內移動 3.7 mm 對正；肺動脈瓣離環心 1.4 mm，不動。瓣葉數：三尖瓣 3、二尖瓣 2、主動脈瓣 3、肺動脈瓣 3。 |
+| 5 名稱 | 英文為 Mitral valve／leaflet | 零件名改為 Anterior／Posterior cusp of bicuspid valve、Anterior／Posterior／Septal cusp of tricuspid valve（原 Inferior leaflet 改 Posterior cusp）；左室乳突肌 Anterolateral／Posteromedial、右室 Anterior／Posterior／Septal；新增 Chordae tendineae of bicuspid／tricuspid valve。Mitral valve、Left atrioventricular valve、舊的 leaflet／Inferior 寫法留作搜尋與 Quiz 同義詞（同義表新增 11 列，見上方）。已更新：資訊卡、標籤、清單、Quiz 範圍說明與輸入提示、搜尋（`app/mj-search.ts`）、主圖譜顯示名（`mj-netter-terminology.ts`）、跑考對照清單 `docs/heart-checklist.json`、名稱對照表、`public/models/heart/ATTRIBUTION.md`。中文名不變（二尖瓣前瓣等）。 |
+
+**與跑考摘要用詞的差異：** 摘要寫「前／後／中隔乳突肌」「腱索」，英文零件名 Posterior papillary muscle of right ventricle（摘要的「後」）與 Posteromedial papillary muscle of left ventricle 為依課本補上的寫法；主動脈瓣零件名仍是「leaflet」（Left/Right coronary leaflet of aortic valve），本 PR 未改，需要統一請告訴我。
+
+**示意與缺少：** 瓣葉、乳突肌、腱索皆為示意構造（位置依環與來源肌肉，形狀為示意）；沒有乳突肌的多頭分裂、腱索的實際條數（約 30 條端點）與肉柱連接，主動脈瓣與肺動脈瓣仍用來源瓣葉。**驗證：** 正式 build（`vite build`＋`vite preview`）的 Playwright 截圖；新增 `scripts/test-heart-valves.mjs`（併入 `npm run check`）。
+
 ## 肺標籤修正 PR B（肺門、資訊卡欄位、分類、分類上色；【需人工審核】，不自動 merge）
 
 截圖（左：修正前，右：修正後）在 `pr-screenshots` 分支 `lung-labels-2026-10-31/`（commit `c8c55fa`；網址 `https://raw.githubusercontent.com/Kuan21/MJ_anatomy/c8c55faaba70c80aede5802917c364e79fbd532e/lung-labels-2026-10-31/<檔名>`，檔名 1-left-labels 至 12-right-labels-light-after，皆回應 200）。本機重現：`npm run build`，`npx vite preview`，開 `/?mjview=1`，底部按鈕「肺」，選左肺或右肺，開「名稱標籤」；截圖腳本 `NODE_PATH=<playwright> node scripts/browser/lung-shots.cjs <port> <輸出資料夾> <標籤> [before|after|dark]`。
@@ -110,6 +126,14 @@ PR 編號：#147。依 `docs/tendon-ligament-inventory.md` 與你「照建議做
 - **P0-02～P0-07**：名稱比對用子字串造成的錯誤（上頜神經→腋神經、神經分支變母神經、Netter 名稱搬動左右字、更正側別後中文未跟著改、足部肌用手部名稱、「滑車」）。
 - **P1-01**：示意模型第 0 包每次載入失敗（`isShellSurface` 的 `/pericardi/` 匹配到 pericardiophrenic），膈神經、喉返神經、內臟神經、迷走神經幹、臂神經叢內外側束等 61 個結構目前看不到。
 - 修正一律等你審核後分批開 PR（報告最後有建議分批）；涉及解剖內容者標【需人工審核】。
+
+## Quiz 第二級接受主網站寫法、課程清單別名、序數與椎骨代號（Bug Audit P1-09；【需人工審核】，不自動 merge）
+
+PR [#156](https://github.com/Kuan21/MJ_anatomy/pull/156)。第二級之前只接受題庫原名（BodyParts3D 寫法）；主網站資訊卡顯示的 Netter 式名稱與課程清單的寫法會被判錯。現在：
+- **主網站顯示名稱算對**（quadratus plantae／flexor accessorius、coxal bone／hip bone、profunda brachii／deep brachial artery、triquetrum／triquetral、1st rib／first rib、T10 vertebra／tenth thoracic vertebra、perforating arteries／set of perforating arteries 等）。神經分支在主網站顯示為母神經名（P0-03 的既有問題），這種「母結構名」**不**接受。
+- **課程清單 1:1 別名算對**（`docs/paokao-aliases.json` 中對應單一結構的 22 列：inferior gemellus、lateral cutaneous nerve of forearm、transverse thoracic muscle、aortic arch 等）；**群名只算接近**（iliopsoas、quadriceps femoris、thenar muscles、plantar interossei、thoracic splanchnic nerve）。
+- **序數與椎骨代號**：first＝1st、tenth＝10th，C7／T10／L5／S1 vertebra＝第幾節頸／胸／腰／薦椎；「set of」可省。
+- 完整清單（184 個構造，左右只列一側）由 `scripts/report-quiz-accepted-names.mjs` 產生在 `docs/quiz-level2-accepted-names.md`，已加入 `npm run check`（過期即失敗）。請核對該檔；有不該接受的告訴我。
 
 ## 關節資料的膜、聯合與脂肪墊（Bug Audit P2-19 的 64 個未繪出關節節點；【需人工審核】，不自動 merge）
 
@@ -555,7 +579,12 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 
 | 任務 | 狀態（進行中 / 已完成 / 等我審核 / 未開始 / 卡住） | PR 編號 | 備註 |
 | --- | --- | --- | --- |
+| **心臟 PR C：腱索、乳突肌、瓣膜附著環、Bicuspid／Tricuspid 更名、心中靜脈碎片稽核** | 等我審核（【需人工審核】，不自動 merge） | #159 | 見上方「心臟 PR C」；心中靜脈資料裡找不到誤分網格，需你給重現步驟 |
+| Bug Audit 修正 14：手機從搜尋選特殊區域時自動打開工具面板；器官頁小標題與分區選單改英文在前；心臟／腦部檢視器只在切面數改變時重編材質 | CI 綠後自動 merge | #158 | 介面程式，不改模型 |
 | Bug Audit 修正 12：關節資料的膜、聯合、脂肪墊改為真的畫出來；椎間盤／髓核／三放射軟骨從搜尋移除 | 等我審核（需人工審核，不自動 merge） | #157 | 新增 12 個可點選結構，請看截圖 |
+| Bug Audit 修正 13：Quiz 第二級接受主網站寫法、課程清單 1:1 別名、序數與椎骨代號 | 等我審核（需人工審核，不自動 merge） | #156 | 完整清單在 docs/quiz-level2-accepted-names.md |
+| Bug Audit 修正 13：Quiz 第二級接受主網站寫法、課程清單 1:1 別名、序數與椎骨代號 | 已合併（你 2026-10-31 確認） | #156 | 完整清單在 docs/quiz-level2-accepted-names.md |
+| Bug Audit 修正 12：關節資料的膜、聯合、脂肪墊改為真的畫出來；椎間盤／髓核／三放射軟骨從搜尋移除 | 已合併（你 2026-10-31 看過截圖後確認） | #157 | 新增 12 個可點選結構，請看截圖 |
 | Bug Audit 修正 11：滑鼠懸停顯示中英名稱、點空白取消選取、手機資訊卡不蓋住選取結構、手機標題不與按鈕重疊 | 已自動 merge | #154 | 介面程式與 CSS，不改模型 |
 | Bug Audit 修正 14：手機從搜尋選特殊區域時自動打開工具面板；器官頁小標題與分區選單改英文在前；心臟／腦部檢視器只在切面數改變時重編材質 | 已自動 merge | #158 | 介面程式，不改模型 |
 | Bug Audit 修正 11：滑鼠懸停顯示中英名稱、點空白取消選取、手機資訊卡不蓋住選取結構、手機標題不與按鈕重疊 | CI 綠後自動 merge | #154 | 介面程式與 CSS，不改模型 |
@@ -1178,6 +1207,17 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 | --- | --- | --- |
 | tricuspid valve | right atrioventricular valve | 右房室瓣 |
 | mitral valve | left atrioventricular valve；bicuspid valve | 僧帽瓣、左房室瓣 |
+| bicuspid valve | mitral valve；left atrioventricular valve | 僧帽瓣、左房室瓣 |
+| anterior cusp of tricuspid valve | anterior leaflet of tricuspid valve；anterior leaflet of right atrioventricular valve | 三尖瓣前葉 |
+| posterior cusp of tricuspid valve | inferior cusp／leaflet of tricuspid valve；posterior leaflet of tricuspid valve；posterior leaflet of right atrioventricular valve | 三尖瓣後葉、三尖瓣下瓣 |
+| septal cusp of tricuspid valve | septal leaflet of tricuspid valve；septal leaflet of right atrioventricular valve | 三尖瓣隔瓣 |
+| anterior cusp of bicuspid valve | anterior cusp of mitral valve；anterior leaflet of mitral／bicuspid／left atrioventricular valve | 僧帽瓣前瓣、僧帽瓣前葉、二尖瓣前葉 |
+| posterior cusp of bicuspid valve | posterior cusp of mitral valve；posterior leaflet of mitral／bicuspid／left atrioventricular valve | 僧帽瓣後瓣、僧帽瓣後葉、二尖瓣後葉 |
+| chordae tendineae of bicuspid valve | chordae tendineae of mitral valve；chordae tendineae of left atrioventricular valve；chordae tendineae | 腱索、僧帽瓣腱索 |
+| chordae tendineae of tricuspid valve | chordae tendineae of right atrioventricular valve；chordae tendineae | 腱索、右房室瓣腱索 |
+| anterolateral papillary muscle of left ventricle | anterior papillary muscle of left ventricle；anterolateral papillary muscle | 前乳突肌、前外側乳突肌、左心室前乳突肌 |
+| posteromedial papillary muscle of left ventricle | inferior／posterior papillary muscle of left ventricle；posteromedial papillary muscle | 後乳突肌、後內側乳突肌、左心室後乳突肌 |
+| posterior papillary muscle of right ventricle | inferior papillary muscle of right ventricle | 右心室下乳突肌 |
 | anterior leaflet of tricuspid valve | anterior leaflet of right atrioventricular valve；anterior cusp of tricuspid valve | 三尖瓣前葉 |
 | inferior leaflet of tricuspid valve | inferior leaflet of right atrioventricular valve；posterior leaflet of tricuspid valve；posterior cusp of tricuspid valve | 三尖瓣後瓣、三尖瓣下瓣 |
 | septal leaflet of tricuspid valve | septal leaflet of right atrioventricular valve；septal cusp of tricuspid valve | 三尖瓣隔瓣 |
