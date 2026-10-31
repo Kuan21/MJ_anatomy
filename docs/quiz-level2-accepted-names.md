@@ -1,7 +1,7 @@
 # Quiz 第二級額外接受的答案
 
 此檔由 `node scripts/report-quiz-accepted-names.mjs` 產生，請勿手改。除了構造自己的英文名、中文名、括號內別名與同義詞表（`app/quiz/synonyms.ts`，列在 REVIEW_LOG）之外，第二級還接受下列寫法；群名只算「接近」並列入錯題。左右兩側同一規則，只列一側。
-合計 185 個構造有額外接受的寫法。
+合計 188 個構造有額外接受的寫法。
 
 
 ## 下肢（lower）：35 個構造
@@ -167,16 +167,10 @@
 | Right accessory nerve (XI) | 右副神經 | 右副神經（第十一對腦神經） |  |
 | Right thoracodorsal nerve | 右胸背神經 | middle subscapular nerve |  |
 
-## 心臟（heart）：36 個構造
+## 心臟（heart）：39 個構造
 
 | 題目 | 中文 | 也接受 | 只算接近 |
 | --- | --- | --- | --- |
-| Anterior papillary muscle of right ventricle | 右心室前乳突肌 | Right anterior papillary muscle of ventricle |  |
-| Inferior papillary muscle of right ventricle | 右心室後乳突肌 | Right inferior papillary muscle of ventricle、右下乳突肌、posteromedial papillary muscle of left ventricle |  |
-| Septal papillary muscle of right ventricle | 右心室中隔乳突肌 | Right septal papillary muscle of ventricle、右心室隔側乳突肌 |  |
-| Inferior leaflet of tricuspid valve | 三尖瓣後瓣 | Inferior leaflet of tricuspid valve |  |
-| Septal leaflet of tricuspid valve | 三尖瓣中隔瓣 | 三尖瓣隔葉 |  |
-| Posterior leaflet of mitral valve | 二尖瓣後瓣 | 二尖瓣後葉 |  |
 | Left coronary leaflet of aortic valve | 主動脈瓣左冠狀瓣 | 左主動脈瓣冠狀瓣 |  |
 | Non-coronary leaflet of aortic valve | 主動脈瓣無冠狀瓣 | 主動脈瓣無冠瓣 |  |
 | Left semilunar cusp of pulmonary valve | 肺動脈瓣左半月瓣 | 左肺動脈瓣半月瓣 |  |
@@ -185,9 +179,6 @@
 | Septal branches of anterior interventricular artery | 前室間動脈中隔支 | 前室間動脈隔支 |  |
 | Inferior vein of left ventricle | 左心室下靜脈 | Left inferior vein of ventricle |  |
 | Posterior vein of left ventricle | 左心室後靜脈 | Left posterior vein of ventricle |  |
-| Anterior leaflet of tricuspid valve | 三尖瓣前瓣 | 三尖瓣前葉 |  |
-| Anterior leaflet of mitral valve | 二尖瓣前瓣 | 二尖瓣前葉 |  |
-| Anterolateral papillary muscle of left ventricle | 左心室前乳突肌 | Left anterolateral papillary muscle of ventricle、左Anterolateral papillary muscle of ventricle |  |
 | Right marginal branch | 右緣支 | 右marginal branch、left marginal branch of circumflex artery |  |
 | Posterior interventricular branch | 後室間支 | Posterior interventricular branch |  |
 | Diagonal branches | 對角支 | Diagonal branches |  |
@@ -207,6 +198,18 @@
 | Sinoatrial nodal artery | 竇房結動脈 | Sinoatrial nodal artery |  |
 | Transverse pericardial sinus | 心包橫竇 | Transverse pericardial sinus |  |
 | Oblique pericardial sinus | 心包斜竇 | Oblique pericardial sinus |  |
+| Anterior cusp of bicuspid valve | 二尖瓣前瓣 | Anterior cusp of bicuspid valve |  |
+| Posterior cusp of bicuspid valve | 二尖瓣後瓣 | Posterior cusp of bicuspid valve |  |
+| Anterior cusp of tricuspid valve | 三尖瓣前瓣 | Anterior cusp of tricuspid valve |  |
+| Posterior cusp of tricuspid valve | 三尖瓣後瓣 | Posterior cusp of tricuspid valve |  |
+| Septal cusp of tricuspid valve | 三尖瓣中隔瓣 | Septal cusp of tricuspid valve |  |
+| Anterolateral papillary muscle of left ventricle | 左心室前乳突肌 | Left anterolateral papillary muscle of ventricle、左Anterolateral papillary muscle of ventricle |  |
+| Posteromedial papillary muscle of left ventricle | 左心室後乳突肌 | Left posteromedial papillary muscle of ventricle、左Posteromedial papillary muscle of ventricle |  |
+| Anterior papillary muscle of right ventricle | 右心室前乳突肌 | Right anterior papillary muscle of ventricle |  |
+| Posterior papillary muscle of right ventricle | 右心室後乳突肌 | Right posterior papillary muscle of ventricle |  |
+| Septal papillary muscle of right ventricle | 右心室中隔乳突肌 | Right septal papillary muscle of ventricle、右心室隔側乳突肌 |  |
+| Chordae tendineae of bicuspid valve | 二尖瓣腱索 | Chordae tendineae of bicuspid valve |  |
+| Chordae tendineae of tricuspid valve | 三尖瓣腱索 | Chordae tendineae of tricuspid valve |  |
 
 ## 肺（lung）：6 個構造
 
