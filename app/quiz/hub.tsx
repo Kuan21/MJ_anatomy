@@ -44,7 +44,7 @@ export default function QuizHub() {
       <h2 className="quiz-hub-subhead">器官 <small>Organs</small></h2>
       <section aria-label="器官" className="quiz-hub-grid quiz-hub-organs">
         <a className="quiz-hub-card" href={QUIZ_REGIONS.heart.hash} data-part="heart">
-          <span className="quiz-hub-text"><b>心臟</b><small>Heart</small><em>心腔、瓣膜（含腱索）、乳突肌、冠狀動脈與心臟靜脈</em></span><ChevronRight size={18}/>
+          <span className="quiz-hub-text"><b>心臟</b><small>Heart</small><em>心腔、瓣膜、腱索、乳突肌、冠狀動脈與心臟靜脈</em></span><ChevronRight size={18}/>
         </a>
         <a className="quiz-hub-card" href={QUIZ_REGIONS.lung.hash} data-part="lung">
           <span className="quiz-hub-text"><b>肺</b><small>Lungs</small><em>肺的壓跡與溝、尖、緣、面、裂、心切跡、舌葉，以及肺門的支氣管、肺動脈、肺靜脈</em></span><ChevronRight size={18}/>
