@@ -14,6 +14,26 @@
 6. **後乳突肌英文名**：Posterior papillary muscle of right ventricle 與 Posterior papillary muscle of left ventricle（原左側為 Posteromedial papillary muscle of left ventricle）；「Posteromedial papillary muscle」留作別名（搜尋與 Quiz 都收）。中文名不變，資訊卡、標籤、Quiz 題庫、同義字表、檢查清單與命名報告已更新。
 
 **待你決定（維持現狀）：** 基底動脈（目前：經過）、睫狀神經與睫狀神經節（經過）、腎神經節（經過）；腕背六個伸肌間隔是否算腱鞘（目前：算，跟肌肉）；足底腱膜是否也跟肌肉（目前：不跟，你只提到掌腱膜）。
+## 下肢神經與骨骼 PR D（腓深神經、隱神經髕下支、碎片、穿骨與標誌稽核；【需人工審核】，不自動 merge）
+
+
+截圖（`before-`／`after-`，`nerves-` 只有骨加神經、`vessels-` 再加動脈靜脈；front、back、lateral、medial、leg-、knee-、ankle-、neck-）在 `pr-screenshots` 分支 `lower-limb-nerves-2026-10-31/`，網址 `https://raw.githubusercontent.com/Kuan21/MJ_anatomy/04d06d50256334bbcf97d8f79dbaddfdc77d87d8/lower-limb-nerves-2026-10-31/<檔名>.png`（72 張）。
+
+| 項目 | 原因（修正前，單位 mm） | 處理 |
+| --- | --- | --- |
+| 1 右腓深神經 | 中段貼在腓骨外側前緣，距腓骨 2 至 5 mm、距脛前動脈 15 至 20 mm，且遠端在脛骨前面下端內 | 路徑改為：繞腓骨頸（外側再前面）、在前室走在骨間膜前面、伴脛前動脈（上、下三分之一在外側，中段在前）、踝前在內外踝之間、脛骨與距骨前方 4 mm。路徑由骨與動脈量得（`scripts/fit-lower-limb-nerves.mjs`），左右各自量，左右對稱 |
+| 2 右隱神經髕下支 | 在 y 347–359，離髕骨尖約 85 mm，46% 頂點在脛骨裡 | 改為從隱神經繞過脛骨內髁，橫過膝前、髕骨尖下方約 10 mm、脛骨粗隆與髕韌帶前方 |
+| 3 黃色分叉、鉤狀尖端的神經 | 無法由描述唯一確定。符合的候選：隱神經主幹連同兩條側支（在脛骨前內側分叉；主幹原本在脛骨裡），其次是腓深神經外側肌支（踝前分出、原本貼在脛骨前面下端裡）。兩者已移到骨外並跟著主幹 | 隱神經主幹沿脛骨內側緣、骨外 4.5 mm，側支跟隨主幹；肌支跟著腓深神經。請你確認是不是這條 |
+| 4 脛骨前白色碎片 | 縫匠肌腱、股薄肌腱各留有 4 與 10 個頂點的孤立碎片（y 355–362、貼脛骨前內側），其他下肢肌腱也有 6–28 個頂點的碎片 | 肌腱切分後，少於 30 個頂點的孤立碎片丟棄（不是髕骨，髕骨正常） |
+| 5a 左右 | 下肢神經左右互為鏡像（平均差 0.0 mm），沒有左右用錯或內外側對調；只有右腓靜脈與左側差異大（最大 480 mm，疑似多出一段，未改） | — |
+| 5b 穿骨 | 下肢神經 29 條穿過骨（足背、足底、腓腸、坐骨、臀上、梨狀肌、股方肌神經等；足底外側神經 55% 在跟骨裡） | 新增 `scripts/lib/nerve-bone-clearance.mjs`：頂點由最近的骨表面推出 1.2 mm，推移沿神經擴散，建置時執行；剩餘 735 個（5%）擦著骨面（深度不到約 1 mm，兩骨相接處）。血管清單見下 |
+| 5c 標誌 | 脛神經在小腿下段離脛後動脈約 25 mm、離跗骨隧道 9 mm | 脛神經下段貼脛後動脈、通過跗骨隧道，足底內外側神經與腓深神經肌支跟著位移。全表：`docs/lower-limb-nerves.md`（`npm run check` 的 `check-nerve-course` 強制必要項目） |
+
+**未修、需你決定：** 脛後動脈中段在內側偏離約 20 mm（動脈的問題，脛神經在此離它 26 mm）；穿骨的血管（見 `docs/lower-limb-nerves.md` 沒有；修正前量測最多的有外踝前動脈 70%、內踝前動脈 57%、腓動脈 38%、脛前動脈 27%、跖弓與足背靜脈弓約 8–9%、臀上動脈、旋股內動脈等）未動；陰部神經、閉孔神經是否通過閉孔管、坐骨小孔無對應標誌，無法驗證；足趾背側與足底趾神經仍有擦骨頂點。
+
+**與跑考摘要用詞：** 名稱與摘要一致（fibular，不用 peroneal）；「隱神經髕下支」不在摘要，是額外的。
+
+**驗證：** 正式 build（`vite build`＋`vite preview`）截圖，左右鏡像、動作姿勢下未做新截圖；`check-nerve-course`、`check-topology`、血管連續性與 `check:zh` 在本機通過；`check:motion` 在本機因缺少 `.sites-runtime/mj-part-regions.mjs`（環境）中途停止，前段通過，以 CI 為準。本機重現：`npm run predev`、`npm run build`、`npm run preview`，勾選骨骼與神經（與動靜脈），選「下肢」。
 
 ## 顯示規則修正：器官內血管跟器官開關、肌腱跟肌肉、肌腱改為肌肉的子項（【需人工審核】，不自動 merge）
 
@@ -179,6 +199,10 @@ PR [#156](https://github.com/Kuan21/MJ_anatomy/pull/156)。第二級之前只接
 ## 關節資料的膜、聯合與脂肪墊（Bug Audit P2-19 的 64 個未繪出關節節點；【需人工審核】，不自動 merge）
 
 PR [#157](https://github.com/Kuan21/MJ_anatomy/pull/157)。`joints.glb` 有 64 個節點之前被 `includeJoint` 排除，卻仍列在搜尋裡（選了 3D 沒有東西）。處理：**改為畫出**肋間外膜、肋間內膜、閉孔膜、方形膜（左右各一）、恥骨聯合、薦尾聯合、髕下脂肪墊（左右）共 12 個（跑考清單有 external intercostal membrane）；**從搜尋移除**椎間盤 23、髓核 23、前臂與小腿骨間膜 4（主圖譜本身已有這些）與三放射軟骨 2。篩選規則移到 `app/biomechanics-v2/joint-filter.ts`，檢視器與搜尋索引共用。膜用較淺的片狀色、脂肪墊淡黃、聯合用纖維軟骨色。模型本身是 Z-Anatomy 既有網格（CC BY-SA 4.0，已在 ATTRIBUTION），沒有新造形狀。
+
+## 相機對焦 300 ms 補間（Bug Audit P3-04；相機動畫程式，CI 綠後自動 merge）
+
+PR [#167](https://github.com/Kuan21/MJ_anatomy/pull/167)。Focus、搜尋選取、單獨顯示的相機移動由指數追趕（約 1.2 s 才停、低幀率更慢、畫面先橫移再滑動）改為 300 ms 固定時長的 easeOutCubic 補間，相機位置、注視點與視角偏移一起補間（`app/camera-tween.ts`，新測試 `scripts/test-camera-tween.mjs` 已加入 `npm run check`）。拖曳、Reset、視角按鈕仍立刻取消補間；`prefers-reduced-motion` 直接到位。誠實的限制：headless 軟體渲染每格數秒，只能確認起點與終點正確，中間滑順度未在真機確認。不改模型與解剖內容。
 
 ## 資訊卡 CSS 合併與特殊區域標籤換行（Bug Audit P3-15；介面 CSS，CI 綠後自動 merge）
 
@@ -624,8 +648,10 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 
 | 任務 | 狀態（進行中 / 已完成 / 等我審核 / 未開始 / 卡住） | PR 編號 | 備註 |
 | --- | --- | --- | --- |
+| **下肢神經與骨骼 PR D：腓深神經路徑、隱神經髕下支、脛骨前碎片、穿骨與標誌稽核** | 等我審核（【需人工審核】，不自動 merge） | 見 PR | 見上方「下肢神經與骨骼 PR D」 |
 | **心臟 PR C：腱索、乳突肌、瓣膜附著環、Bicuspid／Tricuspid 更名、心中靜脈碎片稽核** | 等我審核（【需人工審核】，不自動 merge） | #159 | 見上方「心臟 PR C」；心中靜脈資料裡找不到誤分網格，需你給重現步驟 |
-| Bug Audit 修正 15：資訊卡 CSS 合併（移除互相 !important 覆蓋的規則，外觀不變）；特殊區域標籤可換行 | CI 綠後自動 merge | #166 | 只改 CSS 與標籤排版程式，不改模型 |
+| Bug Audit 修正 16：相機對焦改為 300 ms 固定時長補間，視角偏移一起補間 | CI 綠後自動 merge | #167 | 相機動畫程式，不改模型 |
+| Bug Audit 修正 15：資訊卡 CSS 合併（移除互相 !important 覆蓋的規則，外觀不變）；特殊區域標籤可換行 | 已自動 merge | #166 | 只改 CSS 與標籤排版程式，不改模型 |
 | Bug Audit 修正 14：手機從搜尋選特殊區域時自動打開工具面板；器官頁小標題與分區選單改英文在前；心臟／腦部檢視器只在切面數改變時重編材質 | 已自動 merge | #158 | 介面程式，不改模型 |
 | Bug Audit 修正 12：關節資料的膜、聯合、脂肪墊改為真的畫出來；椎間盤／髓核／三放射軟骨從搜尋移除 | 等我審核（需人工審核，不自動 merge） | #157 | 新增 12 個可點選結構，請看截圖 |
 | Bug Audit 修正 13：Quiz 第二級接受主網站寫法、課程清單 1:1 別名、序數與椎骨代號 | 等我審核（需人工審核，不自動 merge） | #156 | 完整清單在 docs/quiz-level2-accepted-names.md |
