@@ -167,6 +167,10 @@ PR [#156](https://github.com/Kuan21/MJ_anatomy/pull/156)。第二級之前只接
 
 PR [#157](https://github.com/Kuan21/MJ_anatomy/pull/157)。`joints.glb` 有 64 個節點之前被 `includeJoint` 排除，卻仍列在搜尋裡（選了 3D 沒有東西）。處理：**改為畫出**肋間外膜、肋間內膜、閉孔膜、方形膜（左右各一）、恥骨聯合、薦尾聯合、髕下脂肪墊（左右）共 12 個（跑考清單有 external intercostal membrane）；**從搜尋移除**椎間盤 23、髓核 23、前臂與小腿骨間膜 4（主圖譜本身已有這些）與三放射軟骨 2。篩選規則移到 `app/biomechanics-v2/joint-filter.ts`，檢視器與搜尋索引共用。膜用較淺的片狀色、脂肪墊淡黃、聯合用纖維軟骨色。模型本身是 Z-Anatomy 既有網格（CC BY-SA 4.0，已在 ATTRIBUTION），沒有新造形狀。
 
+## 相機對焦 300 ms 補間（Bug Audit P3-04；相機動畫程式，CI 綠後自動 merge）
+
+PR [#167](https://github.com/Kuan21/MJ_anatomy/pull/167)。Focus、搜尋選取、單獨顯示的相機移動由指數追趕（約 1.2 s 才停、低幀率更慢、畫面先橫移再滑動）改為 300 ms 固定時長的 easeOutCubic 補間，相機位置、注視點與視角偏移一起補間（`app/camera-tween.ts`，新測試 `scripts/test-camera-tween.mjs` 已加入 `npm run check`）。拖曳、Reset、視角按鈕仍立刻取消補間；`prefers-reduced-motion` 直接到位。誠實的限制：headless 軟體渲染每格數秒，只能確認起點與終點正確，中間滑順度未在真機確認。不改模型與解剖內容。
+
 ## 資訊卡 CSS 合併與特殊區域標籤換行（Bug Audit P3-15；介面 CSS，CI 綠後自動 merge）
 
 PR [#166](https://github.com/Kuan21/MJ_anatomy/pull/166)。`app/globals.css` 與 `app/workspace-layout.css` 裡散落十多組、互相用 `!important` 覆蓋的資訊卡規則（`.detail-sheet`、`.detail-header`、`.detail-scroll`、`.detail-actions`、`.structure-title`）合併成一組，依每個版面目前實際生效的值寫成，不再用 `!important`（Sheet 元件的 Tailwind 工具類別在 `@layer utilities`，未分層的規則本來就會贏）。驗證方式：修改前後各用正式 build 在 11 種視窗大小（桌機、平板、直式與橫式手機、矮桌機視窗）加「單獨顯示」狀態讀取資訊卡各元素的電腦樣式與位置，全部相同（只有與排版無關的推導值 `bottom` 不同）。特殊區域的邊界／內容物標籤（例如「Pectoralis major, clavicular part 胸大肌鎖骨部 — 內側界」）原本不換行、超出 260 px 框外，改為可換行，標籤堆疊間距改依實際高度計算，不會互相蓋住。不改模型與解剖內容。
@@ -612,7 +616,8 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 | 任務 | 狀態（進行中 / 已完成 / 等我審核 / 未開始 / 卡住） | PR 編號 | 備註 |
 | --- | --- | --- | --- |
 | **心臟 PR C：腱索、乳突肌、瓣膜附著環、Bicuspid／Tricuspid 更名、心中靜脈碎片稽核** | 等我審核（【需人工審核】，不自動 merge） | #159 | 見上方「心臟 PR C」；心中靜脈資料裡找不到誤分網格，需你給重現步驟 |
-| Bug Audit 修正 15：資訊卡 CSS 合併（移除互相 !important 覆蓋的規則，外觀不變）；特殊區域標籤可換行 | CI 綠後自動 merge | #166 | 只改 CSS 與標籤排版程式，不改模型 |
+| Bug Audit 修正 16：相機對焦改為 300 ms 固定時長補間，視角偏移一起補間 | CI 綠後自動 merge | #167 | 相機動畫程式，不改模型 |
+| Bug Audit 修正 15：資訊卡 CSS 合併（移除互相 !important 覆蓋的規則，外觀不變）；特殊區域標籤可換行 | 已自動 merge | #166 | 只改 CSS 與標籤排版程式，不改模型 |
 | Bug Audit 修正 14：手機從搜尋選特殊區域時自動打開工具面板；器官頁小標題與分區選單改英文在前；心臟／腦部檢視器只在切面數改變時重編材質 | 已自動 merge | #158 | 介面程式，不改模型 |
 | Bug Audit 修正 12：關節資料的膜、聯合、脂肪墊改為真的畫出來；椎間盤／髓核／三放射軟骨從搜尋移除 | 等我審核（需人工審核，不自動 merge） | #157 | 新增 12 個可點選結構，請看截圖 |
 | Bug Audit 修正 13：Quiz 第二級接受主網站寫法、課程清單 1:1 別名、序數與椎骨代號 | 等我審核（需人工審核，不自動 merge） | #156 | 完整清單在 docs/quiz-level2-accepted-names.md |
