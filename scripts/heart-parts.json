@@ -86,7 +86,7 @@
   },
   {
    "node": "Left coronary leaflet",
-   "name": "Left coronary leaflet of aortic valve",
+   "name": "Left coronary cusp of aortic valve",
    "zh": "主動脈瓣左冠狀瓣",
    "group": "valves",
    "system": "cardiac",
@@ -95,7 +95,7 @@
   },
   {
    "node": "Right coronary leaflet",
-   "name": "Right coronary leaflet of aortic valve",
+   "name": "Right coronary cusp of aortic valve",
    "zh": "主動脈瓣右冠狀瓣",
    "group": "valves",
    "system": "cardiac",
@@ -104,7 +104,7 @@
   },
   {
    "node": "Non-coronary leaflet",
-   "name": "Non-coronary leaflet of aortic valve",
+   "name": "Non-coronary cusp of aortic valve",
    "zh": "主動脈瓣無冠狀瓣",
    "group": "valves",
    "system": "cardiac",
@@ -708,12 +708,12 @@
    "enDesc": "One of the two papillary muscles of the left ventricle: a conical muscular column rising from the anterolateral wall; its chordae go to the lateral halves of both bicuspid-valve cusps. (schematic: built on the atrioventricular ring and the positions in the source models; shape is schematic.)"
   },
   {
-   "name": "Posteromedial papillary muscle of left ventricle",
+   "name": "Posterior papillary muscle of left ventricle",
    "zh": "左心室後乳突肌",
    "group": "papillary",
    "system": "cardiac",
    "build": [
-    "Posteromedial papillary muscle of left ventricle"
+    "Posterior papillary muscle of left ventricle"
    ],
    "zhDesc": "左心室兩條乳突肌之一，圓錐形肌肉柱，由後內側壁（近下壁）升起，頂端發出腱索，連到二尖瓣前、後兩瓣的內側半。（示意構造：依房室環與來源模型的位置生成，形狀為示意。）",
    "enDesc": "One of the two papillary muscles of the left ventricle: a conical muscular column rising from the posteromedial (inferior) wall; its chordae go to the medial halves of both bicuspid-valve cusps. (schematic: built on the atrioventricular ring and the positions in the source models; shape is schematic.)"
@@ -821,9 +821,9 @@
   {
    "valve": "aortic",
    "cusps": [
-    "Left coronary leaflet of aortic valve",
-    "Right coronary leaflet of aortic valve",
-    "Non-coronary leaflet of aortic valve"
+    "Left coronary cusp of aortic valve",
+    "Right coronary cusp of aortic valve",
+    "Non-coronary cusp of aortic valve"
    ],
    "chamber": "Left ventricle",
    "loopNear": [
