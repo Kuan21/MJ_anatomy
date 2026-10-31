@@ -142,7 +142,7 @@ export default function HeartDetail() {
     {catalogue && <div className="organ-layout">
       <aside className="organ-left organ-left-heart" aria-label="心臟構造清單">
         <section className="organ-block">
-          <h2>逐個心腔打開<small>Open one chamber</small></h2>
+          <h2>Open one chamber<small>逐個心腔打開</small></h2>
           <div className="organ-segmented organ-chambers" role="group" aria-label="選擇心腔">
             {CHAMBERS.map(c => <button key={c.id} aria-pressed={view.openChamber === c.id} onClick={() => openChamber(view.openChamber === c.id ? null : c.id)}><span lang="en">{c.en}</span><small lang="zh-Hant">{c.zh}</small></button>)}
           </div>
@@ -153,7 +153,7 @@ export default function HeartDetail() {
           </> : <small>選擇一個心腔，只打開該心腔的外壁，並列出腔內構造；點選清單可在模型上高亮。</small>}
         </section>
         <section className="organ-block">
-          <h2>構造<small>Structures</small></h2>
+          <h2>Structures<small>構造</small></h2>
           <div className="organ-segmented" role="group" aria-label="全部開關">
             <button onClick={() => patch({hiddenGroups: []})}>全部顯示</button>
             <button onClick={() => patch({hiddenGroups: grouped.map(g => g.id)})}>全部隱藏</button>
@@ -198,7 +198,7 @@ export default function HeartDetail() {
         </section>
         <div className="organ-panel-scroll">
         <section className="organ-block">
-          <h2>心臟外觀與內部<small>Outside / inside</small></h2>
+          <h2>Outside / inside<small>心臟外觀與內部</small></h2>
           <div className="organ-segmented" role="group" aria-label="外觀或內部">
             <button aria-pressed={view.hiddenGroups.length > 0 || view.section.axis === 'none'} onClick={closeHeart}>閉合（外表）</button>
             <button aria-pressed={view.hiddenGroups.length === 0 && view.section.axis !== 'none'} onClick={openHeart}>打開心臟（內部）</button>
@@ -206,7 +206,7 @@ export default function HeartDetail() {
           <small>預設只顯示外表；打開後顯示瓣膜、腱索與乳突肌，也可用下方切面與各組構造開關逐層查看。</small>
         </section>
         <section className="organ-block">
-          <h2>名稱標籤<small>Labels</small></h2>
+          <h2>Labels<small>名稱標籤</small></h2>
           <div className="organ-segmented" role="group" aria-label="名稱標籤">
             <button aria-pressed={labelOn.valves} onClick={() => setLabelOn(v => ({...v, valves: !v.valves}))}><span lang="en">Valves</span><small lang="zh-Hant">瓣膜</small></button>
             <button aria-pressed={labelOn.leaflets} onClick={() => setLabelOn(v => ({...v, leaflets: !v.leaflets}))}><span lang="en">Leaflets</span><small lang="zh-Hant">瓣葉</small></button>
@@ -214,7 +214,7 @@ export default function HeartDetail() {
           <small>標籤放在畫面左右兩側，以細線連到構造，隨構造轉動；只標示目前可見的瓣膜或瓣葉（瓣膜預設在心腔內，需先打開心腔）。</small>
         </section>
         <section className="organ-block">
-          <h2>切面<small>Section</small></h2>
+          <h2>Section<small>切面</small></h2>
           <div className="organ-segmented" role="group" aria-label="切面方向">{AXES.map(axis => <button key={axis} aria-pressed={view.section.axis === axis} onClick={() => axis === 'none' ? setView(v => ({...v, section: {...v.section, axis}, openChamber: null, highlight: [], ...(v.openChamber ? restoreVessels(v, INTERNAL) : {})})) : setView(v => ({...v, openChamber: null, highlight: [], ...(v.openChamber ? restoreVessels(v, INTERNAL) : {}), section: {axis, offset: .5, flip: CUT[axis].flip}, command: {id: v.command.id + 1, view: CUT[axis].view}}))}>{axis === 'none' ? '完整' : SECTION_AXES[axis].label.slice(0, 2)}</button>)}</div>
           {view.section.axis !== 'none' && <>
             <label className="organ-slider"><span>{SECTION_AXES[view.section.axis].label} · 位置 {Math.round(view.section.offset * 100)}%</span>

@@ -263,7 +263,7 @@ export default function BrainDetail() {
             : <p className="organ-info-empty">點選模型或清單中的構造，會顯示名稱與分區。</p>}
         </section>
         <section className="organ-block">
-          <h2>切面<small>Section</small></h2>
+          <h2>Section<small>切面</small></h2>
           <div className="organ-segmented" role="group" aria-label="切面方向">{AXES.map(axis => <button key={axis} aria-pressed={section.axis === axis} onClick={() => chooseAxis(axis)}>{axis === 'none' ? '不切' : SECTION_AXES[axis].zh}</button>)}</div>
           {section.axis !== 'none' && <>
             <label className="organ-slider"><span lang="en">{SECTION_AXES[section.axis].en}</span> · {SECTION_AXES[section.axis].cut} · 位置 {Math.round(section.offset * 100)}%
@@ -273,7 +273,7 @@ export default function BrainDetail() {
           </>}
         </section>
         <section className="organ-block">
-          <h2>逐層剝離<small>Layers</small></h2>
+          <h2>Layers<small>逐層剝離</small></h2>
           <div className="organ-segmented" role="group" aria-label="逐層剝離">
             <button disabled={view.peel <= 0} onClick={() => patch({peel: Math.max(0, view.peel - 1)})}>Layer back｜回上一層</button>
             <button disabled={view.peel >= MAX_PEEL} onClick={() => patch({peel: Math.min(MAX_PEEL, view.peel + 1)})}>Peel deeper｜再剝一層</button>

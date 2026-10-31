@@ -160,7 +160,7 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
       m.emissive.set(on ? BRAIN_SELECT.fill : '#000000'); m.emissiveIntensity = on ? .12 : 0;
       m.transparent = translucent !== undefined && !on; m.opacity = translucent !== undefined && !on ? translucent : 1; m.depthWrite = !m.transparent;
       m.polygonOffset = on; m.polygonOffsetFactor = -3; m.polygonOffsetUnits = -3;
-      m.clippingPlanes = cutting ? [plane] : []; m.needsUpdate = true;
+      const nextPlanes = cutting ? [plane] : []; if ((m.clippingPlanes?.length ?? 0) !== nextPlanes.length) m.needsUpdate = true; m.clippingPlanes = nextPlanes;
       if (maskData) {
         // the cut shows every tissue class; structures of the deep groups appear on it even while their surfaces are switched off
         const i = (Number(id.slice(1)) + 1) * 4, shown = state.isolate ? state.isolate.includes(id) : !state.hiddenParts.includes(id) && (INTERNAL.has(part.group) || visibleIn(part));
