@@ -504,6 +504,6 @@
 
 ### 肺表面與氣道：25 / 28 項資料完整
 
-- 肺上葉（Upper lobe of right lung）：缺 位置、構造／毗鄰關係、血液供應／神經
-- 肺中葉（Middle lobe of right lung）：缺 位置、構造／毗鄰關係、血液供應／神經
-- 肺下葉（Lower lobe of right lung）：缺 位置、構造／毗鄰關係、血液供應／神經
+- 肺上葉（Upper lobe of right lung）：缺 構造／毗鄰關係、血液供應／神經
+- 肺中葉（Middle lobe of right lung）：缺 構造／毗鄰關係、血液供應／神經
+- 肺下葉（Lower lobe of right lung）：缺 構造／毗鄰關係、血液供應／神經
