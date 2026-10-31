@@ -8,7 +8,7 @@ import {GLTFLoader,type GLTF} from 'three/examples/jsm/loaders/GLTFLoader.js';
 import {DRACOLoader} from 'three/examples/jsm/loaders/DRACOLoader.js';
 import {mergeGeometries} from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import {createExplosionLayout} from './explosion-layout';
-import {fetchModelBuffer,loadMissingChunks} from './model-download';
+import {fetchModelBuffer,loadMissingChunks,pruneModelCache} from './model-download';
 import {createAssetQueue} from './asset-queue';
 import {prepareSurfaceNormals,updateSurfaceNormals} from './surface-normals';
 import {PointerTap} from './pointer-tap';
@@ -473,6 +473,8 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
    return 1;
   };
   const resolveModelUrl=(url:string)=>url.startsWith('/')?`${import.meta.env.BASE_URL}${url.slice(1)}`:url;
+  // Packages of earlier builds stay in Cache Storage forever otherwise (P2-14); every package this catalogue can ask for is kept.
+  void pruneModelCache(atlas.chunks.flatMap(c=>[resolveModelUrl(c.url),...(c.gzip?[resolveModelUrl(c.gzip)]:[])]));
   const loadedChunks=new Set<number>(),loadingChunks=new Set<number>(),failedChunks=new Map<number,string>();
   const warmBindings:T.Mesh[]=[];let warmHandle:number|undefined;
   const warmNext=()=>{
@@ -524,7 +526,7 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
    try{
    // Streaming decompression avoids keeping two full files in memory and
    // halves the transfer size, including on iPad. Raw remains the fallback.
-   const compressed=!!chunk.gzip&&typeof DecompressionStream!=='undefined';
+   const compressed=!!chunk.gzip;
    let buffer:ArrayBuffer;
    try{buffer=await fetchModelBuffer(resolveModelUrl(compressed?chunk.gzip!:chunk.url),chunk.bytes,compressed,abort.signal);}
    catch(firstError){
@@ -612,7 +614,7 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
    if(loadBusy||disposed)return;
    loadBusy=true;reportLoading();
    const missing=[...requestedChunks].filter(ci=>!loadedChunks.has(ci));
-   await loadMissingChunks(missing,loadChunk,abort.signal,(ci,error)=>{failedChunks.set(ci,`組織包 ${ci+1}: ${error instanceof Error?error.message:'載入失敗'}`);reportLoading();},constrainedDevice?2:3);
+   await loadMissingChunks(missing,loadChunk,abort.signal,(ci,error)=>{failedChunks.set(ci,`組織包 ${ci+1}: ${error instanceof Error?error.message:'載入失敗'}`);console.error(`組織包 ${ci+1} 載入失敗（${atlas.chunks[ci].gzip??atlas.chunks[ci].url}）`,error);reportLoading();},constrainedDevice?2:3);
    if(disposed)return;
    primaryAtlasReady=orderedChunks.every(ci=>loadedChunks.has(ci));
    if(!supplementaryReleased){supplementaryReleased=true;supplementaryQueue.start();}

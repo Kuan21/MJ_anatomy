@@ -20,7 +20,7 @@ export const SYSTEMS: {id:SystemId;name:string;/** Taiwan Chinese name shown und
 ];
 export interface Part {id:string;name:string;conceptId:string;system:SystemId;chunk:number;positions:number;normals:number;indices:number;vertexCount:number;indexCount:number;bounds:[number[],number[]];sex?:'female';schematic?:boolean;kind?:string;model?:string}
 export interface Concept {id:string;name:string;elements:string[]}
-export interface Atlas {version:string;sex?:'male';source?:string;scope?:string;parts:Part[];concepts:Concept[];chunks:{url:string;bytes:number;gzip?:string;gzipBytes?:number;deferUntil?:'head'}[];triangles:number}
+export interface Atlas {version:string;sex?:'male';source?:string;scope?:string;parts:Part[];concepts:Concept[];chunks:{url:string;bytes:number;gzip?:string;gzipBytes?:number;deferUntil?:'head'}[];triangles:number;/** supplementary packages whose catalogue could not be fetched (their structures are missing until the page is reloaded) */unavailable?:string[]}
 export type View = 'three-quarter'|'front'|'back'|'side';
 export interface PartTransform {translation:[number,number,number];quaternion:[number,number,number,number];anchorTranslation?:[number,number,number];anchorQuaternion?:[number,number,number,number]}
 /** Outline of a special region on one side: the edges as vertex references into the boundary meshes (app/space-shapes.json), see space-outline.ts. */

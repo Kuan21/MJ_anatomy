@@ -12,7 +12,7 @@ if(typeof window!=='undefined')(window as unknown as {__mjSearchMetrics:typeof s
 const keep=(list:number[],value:number)=>{list.push(value);if(list.length>400)list.shift();};
 const SUGGESTIONS=['heart','brain','liver','stomach','spleen','pancreas','urinary bladder','trachea'];
 /** What a result outside the atlas concepts is: the search index marks nerves, joint tissues, brain structures, neck vessels and special regions. */
-const KIND_ZH:Record<string,string>={nerve:'神經',joint:'關節組織',brain:'腦',vessel:'血管',space:'特殊區域'};
+const KIND_ZH:Record<string,string>={nerve:'神經',joint:'關節組織',brain:'腦',vessel:'血管',space:'特殊區域',heart:'心臟'};
 
 interface Props{index:SearchEntry[]|null;onChoose:(concept:Concept)=>void;onClose:()=>void}
 
@@ -43,6 +43,6 @@ function SearchPanel({index,onChoose,onClose}:Props){
    <ComboboxContent className="anatomy-search-results"><ComboboxEmpty>{index?'找不到符合的構造，請換個寫法或輸入更少的字。':'正在建立搜尋索引…'}</ComboboxEmpty>
     <ComboboxList>{(e:SearchEntry)=><ComboboxItem key={e.concept.id} value={e}><span className="search-result-name">{e.english}{e.chinese&&<small>{e.chinese}</small>}</span><span className="small-number">{e.kind?KIND_ZH[e.kind]??e.kind:`${e.concept.elements.length} 件`}</span></ComboboxItem>}</ComboboxList>
    </ComboboxContent></Combobox>
-  <p className="search-note">{query?`最多顯示 ${SEARCH_LIMIT} 筆；輸入更多字可找到較小的構造。`:'可先搜尋主要器官，或輸入任何構造的中文或英文名稱。'}</p></section>;
+  <p className="search-note" role="status">{index&&deferred.trim()&&!items.length?'找不到符合的構造。可以試試英文名、中文名、不加左右，或輸入更少的字；腦部構造請在腦部詳細模式搜尋。':query?`最多顯示 ${SEARCH_LIMIT} 筆；輸入更多字可找到較小的構造。`:'可先搜尋主要器官，或輸入任何構造的中文或英文名稱。'}</p></section>;
 }
 export default memo(SearchPanel);
