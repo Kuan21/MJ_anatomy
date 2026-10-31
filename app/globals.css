@@ -1396,7 +1396,7 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 .lung-focus .lung-focus-help{display:flex;flex-direction:column;gap:2px;font-size:11px;line-height:1.35;color:#475467}
 @media(max-width:767px){.lung-focus{top:auto;bottom:12px;right:12px;left:12px;width:auto;max-height:46vh;overflow-y:auto}}
 /* Tablet width: the layer list steps aside while the lungs are studied, so the labels have room between the view's edge and the Lungs panel (as with the structure card). */
-@media(min-width:768px) and (max-width:1100px){body:has(.lung-focus) .layers-panel{display:none}}
+@media(min-width:768px) and (max-width:1100px){body:has(.lung-focus) .left-workspace .layers-panel{display:none!important}}
 .lung-focus .lung-focus-sides button,.lung-focus .lung-focus-back{height:auto;padding:3px 6px}
 .lung-focus .lung-focus-sides .bn-stack,.lung-focus .lung-focus-back.bn-stack{align-items:center;text-align:center}
 .lung-focus .lung-focus-sides button[aria-pressed=true] .bn-zh{color:#d0d5dd}
