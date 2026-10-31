@@ -78,9 +78,9 @@ for (const side of ['left', 'right']) {
   assert.ok(tipOf(f, 'thumb', 'dp', J.thumb.tip).distanceTo(mid()) < .03, 'fist: the thumb lies over the middle phalanges ('+(tipOf(f, 'thumb', 'dp', J.thumb.tip).distanceTo(mid())*1000).toFixed(0)+' mm)');
   for (const h of m.HAND_PRESETS) for (const k of m.DIGIT_KEYS) assert.ok(h.pose[k] >= m.DIGIT_LIMITS[k][0] && h.pose[k] <= m.DIGIT_LIMITS[k][1], `${h.id} ${k} within limits`);
 }
-// 4c. the panel offers exactly these five gestures; half fist: MCP about 45, PIP about 60, DIP about 30 degrees
+// 4c. the panel offers exactly these six gestures; half fist: MCP about 45, PIP about 60, DIP about 30 degrees
 {
-  assert.deepEqual(m.HAND_PRESETS.map(h => h.id), ['open', 'half', 'fist', 'pinch', 'ok']);
+  assert.deepEqual(m.HAND_PRESETS.map(h => h.id), ['open', 'half', 'fist', 'point', 'pinch', 'ok']);
   const h = m.HAND_PRESETS.find(g => g.id === 'half').pose;
   for (const f of ['index', 'middle', 'ring', 'little']) { assert.ok(Math.abs(h[f + 'McpFlexion'] - 45) <= 8 && Math.abs(h[f + 'PipFlexion'] - 60) <= 6 && Math.abs(h[f + 'DipFlexion'] - 30) <= 6, 'half fist ' + f); }
   assert.ok(h.thumbMcpFlexion > 0 && h.thumbIpFlexion > 0, 'half fist: thumb slightly flexed');
@@ -170,7 +170,7 @@ console.table(report);
       const hand = atlas.parts.filter(p => m.tissueBindings[p.id]?.name === p.name && m.tissueBindings[p.id].side === side && p.bounds[0][1] < .80 && p.bounds[1][1] < 1.0 && p.system !== 'skeletal' && p.system !== 'muscular' || /flexor digitorum|extensor (digitorum|indicis|digiti)|flexor pollicis longus/i.test(p.name) && m.tissueBindings[p.id]?.side === side);
       const lines = m.DIGITS.map(digit => { const d = J[digit], pts = digit === 'thumb' ? [d.joints.mcp, d.joints.ip, d.tip] : [d.joints.mcp, d.joints.pip, d.joints.dip, d.tip], ids = digit === 'thumb' ? [d.ids.pp, d.ids.dp] : [d.ids.pp, d.ids.mp, d.ids.dp]; return {digit, pts: pts.map(a => new Vector3(...a)), ids, r: d.radius}; });
       const near = (pts, v) => { let best = {d: 1e9, k: 0, t: 0}; for (let k = 0; k + 1 < pts.length; k++) { const ab = pts[k + 1].clone().sub(pts[k]), t = Math.max(0, Math.min(1, v.clone().sub(pts[k]).dot(ab) / ab.lengthSq())), d = v.distanceTo(pts[k].clone().addScaledVector(ab, t)); if (d < best.d) best = {d, k, t}; } return best; };
-      for (const [pname, pose] of Object.entries({fist: m.HAND_PRESETS.find(h => h.id === 'fist').pose, pinch: m.HAND_PRESETS.find(h => h.id === 'pinch').pose, 'max flexion': Object.fromEntries(m.DIGIT_KEYS.map(k => [k, k.includes('Abduction') ? 0 : m.DIGIT_LIMITS[k][1]]))})) {
+      for (const [pname, pose] of Object.entries({...Object.fromEntries(m.HAND_PRESETS.filter(h => h.id !== 'open').map(h => [h.id, h.pose])), 'max flexion': Object.fromEntries(m.DIGIT_KEYS.map(k => [k, k.includes('Abduction') ? 0 : m.DIGIT_LIMITS[k][1]]))})) {
         const transforms = m.buildUpperLimbMotion(atlas, side, {...m.NEUTRAL_POSE, ...pose}).transforms, palette = m.makePalette(rig, transforms);
         const posed = lines.map(l => ({...l, pts: l.pts.map((q, i) => apply(transforms[l.ids[Math.max(0, i - 1)]], q.toArray()))}));
         let gain = 0, gainPart = '', sunk = 1, sunkPart = '', count = 0;

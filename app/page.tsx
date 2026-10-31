@@ -114,7 +114,12 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
   return()=>abort.abort();
  },[]);
  useEffect(()=>{if(panel!=='search'||extras.length)return;const abort=new AbortController();void fetchModelBuffer(`${import.meta.env.BASE_URL}models/search-extras.json.gz`,0,true,abort.signal).then(b=>{if(!abort.signal.aborted)setExtras(JSON.parse(new TextDecoder().decode(b)) as Extra[]);}).catch(e=>{if(!abort.signal.aborted)console.warn('Search index extras unavailable',e);});return()=>abort.abort();},[panel,extras.length]);
- useEffect(()=>{const key=(e:KeyboardEvent)=>{if(e.key==='/'&&!(e.target instanceof HTMLInputElement)&&!(e.target instanceof HTMLTextAreaElement)){e.preventDefault();setPanel('search');setDetails(false);}};window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key);},[]);
+ // Esc closes the topmost layer: an open panel, then the about sheet, then the structure card.
+ const escRef=useRef({panel,details,about});escRef.current={panel,details,about};
+ useEffect(()=>{const key=(e:KeyboardEvent)=>{if(e.key==='/'&&!(e.target instanceof HTMLInputElement)&&!(e.target instanceof HTMLTextAreaElement)){e.preventDefault();setPanel('search');setDetails(false);}
+  if(e.key==='Escape'){const u=escRef.current;if(u.panel)setPanel(null);else if(u.about)setAbout(false);else if(u.details){setDetails(false);setExternalNerve(null);}}};
+  // capture phase: the card and the search popup stop Escape from bubbling to the window
+  window.addEventListener('keydown',key,true);return()=>window.removeEventListener('keydown',key,true);},[]);
  const parts=useMemo(()=>new Map(atlas?.parts.map(p=>[p.id,p])),[atlas]);
  const extraOf=(c:Concept)=>c.id.startsWith('extra:')?extras.find(x=>c.id===`extra:${x.k}:${x.raw??x.n}`):undefined;
  const profileForConcept=(c:Concept)=>{const x=extraOf(c);if(x)return structureProfile(x.n,x.s);const p=c.elements.map(id=>parts.get(id)).find(Boolean);return p?structureProfile(c.name,p.system,p):undefined;};
@@ -217,7 +222,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const restorePart=(id:string)=>setState(s=>({...s,hiddenParts:(s.hiddenParts??[]).filter(x=>x!==id)}));
 
  const toggle=(id:SystemId)=>{setDetails(false);setState(s=>({...s,selected:[],isolate:false,visible:s.visible.includes(id)?s.visible.filter(x=>x!==id):[...s.visible,id]}));};
- const reset=()=>{stopMotionAnimation();setMicroAtlas(null);setLungView(null);setRegionPrev(null);setRegionSub(undefined);setFadeOther(false);setState(s=>({...initial,visible:DEFAULT_VISIBLE,reset:s.reset+1}));setTopRegion('whole');setStudySide('both');setRightTool(null);setChosen(null);setExternalNerve(null);setDetails(false);setPanel(null);setRegion('whole-body');setDissectionStage(0);setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;motionTargetRef.current=NEUTRAL_POSE;setMotionEdit(false);setMotionEnabled(false);};
+ const reset=()=>{stopMotionAnimation();setMicroAtlas(null);setLungView(null);setRegionPrev(null);setRegionSub(undefined);setFadeOther(false);setSpaceId(null);setSpaceItem(null);setLayerPicked(null);setError('');setAbout(false);setMobileMotionOpen(false);setState(s=>({...initial,visible:DEFAULT_VISIBLE,reset:s.reset+1}));setTopRegion('whole');setStudySide('both');setRightTool(null);setChosen(null);setExternalNerve(null);setDetails(false);setPanel(null);setRegion('whole-body');setDissectionStage(0);setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;motionTargetRef.current=NEUTRAL_POSE;setMotionEdit(false);setMotionEnabled(false);};
  const openPanel=(next:'layers'|'search')=>{setDetails(false);setPanel(p=>p===next?null:next);};
  const currentRegion=regionById(region);
  const profile=externalNerve?structureProfile(extras.find(x=>(x.raw??x.n)===externalNerve)?.n??externalNerve,externalSystem):chosen&&selected?structureProfile(chosen.name,selected.system,selected):null;
@@ -488,8 +493,8 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
      {UPPER_MOTION_CONTROLS.map(control=><MotionPullControl key={control.key} label={control.label} value={motionPose[control.key]} min={MOTION_LIMITS[control.key][0]} max={MOTION_LIMITS[control.key][1]} disabled={!motionEnabled} onValueChange={value=>{setMotionAction(control.action);setJoint(control.key,value);}}/>)}
     </div>
     <details className="mj-finger-lab"><summary>手指｜Fingers</summary>
-     <div className="mj-hand-presets" role="group" aria-label="手勢預設">{HAND_PRESETS.map(h=><Button key={h.id} variant="ghost" disabled={!motionEnabled} onClick={()=>{setMotionAction('wristExtension');const current=motionTargetRef.current,same=(g:Partial<MotionPose>)=>DIGIT_KEYS.every(k=>Math.abs(current[k]-(g[k]??0))<1);playGesture(h.id==='open'&&same(h.pose)?{}:h.pose);}}>{h.label}</Button>)}</div>
-     <div className="mj-hand-speed" role="group" aria-label="手勢速度">{([['慢',1200],['中',500],['快',250]] as const).map(([name,ms])=><Button key={name} variant="ghost" aria-pressed={gestureMs===ms} onClick={()=>setGestureMs(ms)}>{name}</Button>)}</div>
+     <div className="mj-hand-presets" role="group" aria-label="Hand gestures｜手勢預設">{HAND_PRESETS.map(h=><Button key={h.id} variant="ghost" disabled={!motionEnabled} onClick={()=>{setMotionAction('wristExtension');const current=motionTargetRef.current,same=(g:Partial<MotionPose>)=>DIGIT_KEYS.every(k=>Math.abs(current[k]-(g[k]??0))<1);playGesture(h.id==='open'&&same(h.pose)?{}:h.pose);}}><span className="mj-bi"><b>{h.en}</b><small>{h.label}</small></span></Button>)}</div>
+     <div className="mj-hand-speed" role="group" aria-label="Gesture speed｜手勢速度">{([['Slow','慢',1200],['Medium','中',500],['Fast','快',250]] as const).map(([en,name,ms])=><Button key={name} variant="ghost" aria-pressed={gestureMs===ms} onClick={()=>setGestureMs(ms)}><span className="mj-bi"><b>{en}</b><small>{name}</small></span></Button>)}</div>
     </details>
     <small className="mj-motion-note">0° 為人體放鬆中立位；正負角度代表相反方向。所有角度都可以直接拖動，毋須先選動作。</small>
     <MotionAnatomyPanel anatomy={UPPER_ACTION_ANATOMY[motionAction]} onInspect={inspectMotionStructure}/>
