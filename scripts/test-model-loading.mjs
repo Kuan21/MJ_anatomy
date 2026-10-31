@@ -73,6 +73,14 @@ for(let i=0;i<atlas.parts.length;i++){
   for(let k=0;k<3;k++){let lo=Infinity,hi=-Infinity;for(let v=k;v<pos.length;v+=3){lo=Math.min(lo,pos[v]);hi=Math.max(hi,pos[v]);}assert.ok(Math.abs(lo-before.bounds[0][k])<.0015&&Math.abs(hi-before.bounds[1][k])<.0015,`${before.name}: smoothed vessel moved`);}
   assert.ok(idx.every(v=>v<after.vertexCount),`${before.name}: index out of range`);continue;
  }
+ if(after.tendonCut){
+  // a muscle that ends at its musculotendinous junction (scripts/tendon/*.mjs): its distal end was cut off into a tendon part, so it has other vertices but keeps its id, name, bounds and
+  // lies inside its original bounds; every index is valid
+  assert.equal(before.system,'muscular',`${before.name}: tendon cut`);
+  const d=delivered[after.chunk],pos=new Float32Array(d.buffer.slice(d.byteOffset+after.positions,d.byteOffset+after.positions+after.vertexCount*12)),idx=new Uint32Array(d.buffer.slice(d.byteOffset+after.indices,d.byteOffset+after.indices+after.indexCount*4));
+  for(let k=0;k<3;k++){let lo=Infinity,hi=-Infinity;for(let v=k;v<pos.length;v+=3){lo=Math.min(lo,pos[v]);hi=Math.max(hi,pos[v]);}assert.ok(lo>=before.bounds[0][k]-.0005&&hi<=before.bounds[1][k]+.0005,`${before.name}: cut muscle left its bounds`);}
+  assert.ok(idx.every(v=>v<after.vertexCount),`${before.name}: index out of range`);continue;
+ }
  assert.equal(after.vertexCount,before.vertexCount);assert.equal(after.indexCount,before.indexCount);
  for(const [key,length] of [['positions',before.vertexCount*12],['normals',before.vertexCount*6],['indices',before.indexCount*4]])assert.deepEqual(delivered[after.chunk].subarray(after[key],after[key]+length),sourceBuffers[before.chunk].subarray(before[key],before[key]+length),`${before.name}: unchanged ${key}`);
 }

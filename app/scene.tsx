@@ -416,6 +416,8 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
   {const lungMat=materialFor('respiratory',.32);lungMat.color.set('#c98f8a');lungMat.roughness=1;lungMat.metalness=0;lungMat.envMapIntensity=.35;lungMat.side=T.FrontSide;mats.set('respiratory:shell',lungMat);}mats.set('serous:shell',materialFor('serous',.28));
   {const pm=materialFor('serous',.3);pm.color.set('#e8b7c0');mats.set('serous:peritoneum',pm);for(const [,key,color,opacity,sys] of PELVIC_TONES){const m=materialFor(sys,opacity);m.color.set(color);mats.set('pelvic:'+key,m);}}
   // Course-summary structures: spaces and sheaths are faint volumes, fasciae thin translucent sheets, lung surface marks a deeper tint of the lung colour.
+  // Tendons: white with a silver sheen (smoother and more reflective than muscle, clearly paler than the grey-green ligaments).
+  {const tm=mats.get('tendon');if(tm){tm.color.set('#f4f4f1');tm.roughness=.28;tm.metalness=.35;tm.envMapIntensity=1.2;}}
   mats.set('connective:space',materialFor('connective',.2));mats.set('connective:fascia',materialFor('connective',.62));// Lung surface marks (fissures, impressions, grooves, hilum) are patches of the lobe surface: the same pink and matte finish as the lobe, pulled slightly towards the camera (polygon offset) so they never fight the lobe underneath;
   // they show only when selected or hovered, and the lobes stay one colour.
   {const mark=materialFor('respiratory');mark.color.set('#c98f8a');mark.roughness=1;mark.metalness=0;mark.envMapIntensity=.35;mark.side=T.FrontSide;mark.polygonOffset=true;mark.polygonOffsetFactor=-2;mark.polygonOffsetUnits=-2;mark.userData.mjDecal=true;mats.set('respiratory:mark',mark);}
@@ -502,7 +504,7 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
   const eagerChunks=atlas.chunks.map((_,i)=>i).filter(i=>!atlas.chunks[i].deferUntil);
   // Start with the supporting skeleton, then cover missing tissue systems.
   // A muscle-only first package must never masquerade as a complete atlas.
-  const initialSystems=['skeletal','muscular','arterial','venous','nervous','connective'];
+  const initialSystems=['skeletal','muscular','arterial','venous','nervous','connective','tendon'];
   const orderedChunks:number[]=[],coveredSystems=new Set<string>();
   while(eagerChunks.length){
    eagerChunks.sort((a,b)=>{

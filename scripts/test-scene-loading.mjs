@@ -118,7 +118,7 @@ const nerveNames=[];scene.traverse(o=>{if(o.userData.mjNerve)nerveNames.push(o.u
 const exactBindings=JSON.parse(fs.readFileSync(path.join(root,'app/biomechanics-v2/nerve-bindings.json'),'utf8'));
 for(const name of Object.keys(exactBindings))assert.equal(nerveNames.filter(n=>n===name).length,1,'Missing or duplicated nerve in actual scene: '+name);
 assert.ok(!requests.some(url=>url.endsWith('/nervous.glb')),'Nerve rendering must not depend on browser GLB/Draco decode');
-for(const system of state.visible){const expected=atlas.parts.filter(p=>p.system===system).length;assert.equal(final.systems[system],expected,`${system} complete`);}
+for(const system of state.visible){const expected=atlas.parts.filter(p=>p.system===system).length;assert.equal(final.systems[system]??0,expected,`${system} complete`);}
 const rendered=new Set();scene.traverse(o=>{const a=o.geometry?.getAttribute('partIndex');if(a)for(const value of a.array)rendered.add(value);});
 assert.equal(rendered.size,atlas.parts.length,'all catalogue parts have assembled scene geometry');
 assert.equal(new Set(requests.filter(x=>/body-[\da-f]+\.bin\.gz$/.test(x))).size,atlas.chunks.filter(c=>/body-[\da-f]+\.bin/.test(c.url)).length);
