@@ -22,7 +22,8 @@ const structures=new Map();   // key -> {name, system, where:Set}
 const add=(name,system,where)=>{const k=naming.namingKey(name);if(!k)return;const e=structures.get(k)??{name,system,where:new Set()};e.where.add(where);structures.set(k,e);};
 const atlas=read('public/models/atlas.json'),stream=read('public/models/atlas-stream.json');
 for(const p of [...atlas.parts,...(stream.parts??[])])add(p.name,p.system,'圖譜');
-for(const x of JSON.parse(zlib.gunzipSync(fs.readFileSync(root+'public/models/search-extras.json.gz'))))add(x.n,x.s,'圖譜（延後載入）');
+// heart detail structures carry their own Chinese name from the heart catalogue (scripts/heart-parts.json) and are not in the atlas name table
+for(const x of JSON.parse(zlib.gunzipSync(fs.readFileSync(root+'public/models/search-extras.json.gz'))))if(x.k!=='heart')add(x.n,x.s,'圖譜（延後載入）');
 const sideless=zh=>zh.replace(/^[左右]/,'');
 const baseline=new Map();
 for(const [k,e] of structures)baseline.set(k,sideless(info.structureProfile(e.name,e.system).chinese??''));

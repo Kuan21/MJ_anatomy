@@ -411,8 +411,9 @@ export function questionPool(catalogue: QuizCatalogue, settings: QuizSettings): 
 /** Same-system regional anatomy stays available as distractors and for peeling. */
 export function sceneStructures(catalogue: QuizCatalogue, target: QuizStructure, section: QuizSection, side: QuizSide) {
   const range = (regionSections(catalogue.region).find(s => s.id === section) ?? regionSections(catalogue.region)[0]).range;
-  return catalogue.structures.filter(s => (side === 'both' || s.side === 'midline' || s.side === side)
+  // The target is always drawn: a mistake from the other side (錯題本 after the side setting changed) must still be answerable; the frame unions its bounds.
+  return catalogue.structures.filter(s => s.id === target.id || ((side === 'both' || s.side === 'midline' || s.side === side)
     && (catalogue.region === 'heart' || catalogue.region === 'lung' || s.system === target.system || s.system === 'skeletal')
-    && (s.id === target.id || section === 'all' || s.sections.includes(section)
-      || (s.bounds[0][1] < range[1] && s.bounds[1][1] > range[0])));
+    && (section === 'all' || s.sections.includes(section)
+      || (s.bounds[0][1] < range[1] && s.bounds[1][1] > range[0]))));
 }

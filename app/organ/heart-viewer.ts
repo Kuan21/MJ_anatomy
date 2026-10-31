@@ -348,11 +348,8 @@ gl_FragColor = vec4(mix(vec3(0.30, 0.78, 0.62), vec3(0.03, 0.36, 0.27), edge), m
     const chunk = catalogue.chunks[index];
     const url = (path: string) => import.meta.env.BASE_URL + path.replace(/^\//, '');
     let buffer: ArrayBuffer;
-    if (typeof DecompressionStream === 'undefined') buffer = await fetchModelBuffer(url(chunk.url), chunk.bytes, false, controller.signal);
-    else {
-      try {buffer = await fetchModelBuffer(url(chunk.gzip), chunk.bytes, true, controller.signal);}
-      catch (error) {if (controller.signal.aborted) throw error; buffer = await fetchModelBuffer(url(chunk.url), chunk.bytes, false, controller.signal);}
-    }
+    try {buffer = await fetchModelBuffer(url(chunk.gzip), chunk.bytes, true, controller.signal);}
+    catch (error) {if (controller.signal.aborted) throw error; buffer = await fetchModelBuffer(url(chunk.url), chunk.bytes, false, controller.signal);}
     if (disposed) return;
     for (const p of catalogue.parts.filter(part => part.chunk === index)) {
       const geometry = new T.BufferGeometry();
@@ -442,11 +439,13 @@ gl_FragColor = vec4(mix(vec3(0.30, 0.78, 0.62), vec3(0.03, 0.36, 0.27), edge), m
   const lost = (e: Event) => {e.preventDefault(); callbacks.error('3D 顯示已中斷，請重新載入頁面。');};
   canvas.addEventListener('webglcontextlost', lost);
   controls.addEventListener('change', () => {dirty = true; updateCut(); if (state?.openChamber && findBlockers()) apply(); if (selectedIds().size) scheduleBlockers();});
+  let userMoved = false; controls.addEventListener('start', () => {userMoved = true;});
   const resize = () => {
     const rect = host.getBoundingClientRect();
     renderer.setSize(Math.max(1, rect.width), Math.max(1, rect.height));
     camera.aspect = Math.max(1, rect.width) / Math.max(1, rect.height); camera.updateProjectionMatrix();
-    frameModel(loadedAll ? 'fit' : 'front'); dirty = true;
+    // a resize keeps the view the user set; only an untouched view is framed again
+    if (!userMoved) frameModel(loadedAll ? 'fit' : 'front'); dirty = true;
   };
   const observer = new ResizeObserver(resize); observer.observe(host); resize();
   const render = () => {

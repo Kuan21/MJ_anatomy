@@ -98,6 +98,19 @@ export default function HeartDetail() {
   /** 打開心臟（內部）／閉合（外表）: same vessel handling as opening a chamber. */
   const openHeart = () => setView({...view, ...OPENED, ...hideFine(view)});
   const closeHeart = () => setView({...view, ...defaults, selectedId: view.selectedId, ...restoreVessels(view, defaults.hiddenGroups)});
+  // Opened from the atlas search (#/organ/heart?select=<name>): select that structure once the model is ready (opening the heart when it lies inside), then drop the query so a reload does not reselect it.
+  useEffect(() => {
+    if (!ready || !catalogue) return;
+    const wanted = new URLSearchParams(location.hash.split('?')[1] ?? '').get('select');
+    if (!wanted) return;
+    const norm = (s: string) => s.toLowerCase().replace(/\s*\([^)]*\)/g, '').replace(/\s+/g, ' ').trim();
+    const hit = catalogue.parts.find(p => norm(p.name) === norm(wanted));
+    history.replaceState(null, '', location.pathname + location.search + '#/organ/heart');
+    if (!hit) return;
+    setItem(null);
+    const inside = ['interior', 'papillary', 'valves'].includes(hit.group);
+    setView(v => inside && !v.ghostChambers ? {...v, ...OPENED, ...hideFine(v), selectedId: hit.id, command: {id: v.command.id + 1, view: 'fit'}} : {...v, selectedId: hit.id, highlight: [], command: {id: v.command.id + 1, view: 'fit'}});
+  }, [ready, catalogue]);
   const chooseItem = (next: ChamberItem) => {
     const same = item?.en === next.en;
     setItem(same ? null : next);
