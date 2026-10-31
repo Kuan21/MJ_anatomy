@@ -1,10 +1,10 @@
 {
  "totals": {
   "terms": 3816,
-  "have": 1213,
+  "have": 1215,
   "findability": 0,
-  "missing": 1127,
-  "landmark": 263,
+  "missing": 1126,
+  "landmark": 262,
   "noise": 650
  },
  "lectures": [
@@ -9701,6 +9701,14 @@
      "system": "arterial"
     },
     {
+     "term": "Mediastinal branch",
+     "zh": null,
+     "kind": "contained",
+     "model": "Mediastinal part of right parietal pleura",
+     "source": "serous",
+     "system": "serous"
+    },
+    {
      "term": "Subcostal artery",
      "zh": null,
      "kind": "exact",
@@ -10160,10 +10168,6 @@
      "zh": null
     },
     {
-     "term": "Mediastinal branch",
-     "zh": null
-    },
-    {
      "term": "Posterior intercostal arteries-intercostal space",
      "zh": null
     },
@@ -10597,6 +10601,14 @@
      "system": "venous"
     },
     {
+     "term": "lower anterior border of the right lung",
+     "zh": "右肺下緣",
+     "kind": "specific",
+     "model": "Anterior border of right lung",
+     "source": "paokao",
+     "system": "respiratory"
+    },
+    {
      "term": "breast",
      "zh": "乳房",
      "kind": "contained",
@@ -10968,10 +10980,6 @@
     {
      "term": "surface anatomy",
      "zh": "表面解剖學"
-    },
-    {
-     "term": "lower anterior border of the right lung",
-     "zh": "右肺下緣"
     },
     {
      "term": "infrasternal/subcostal angle",
@@ -17472,9 +17480,9 @@
      "term": "Parietal plexus",
      "zh": "動脈周壁神經叢",
      "kind": "contained",
-     "model": "Right parietal pleura",
-     "source": "serous",
-     "system": "serous"
+     "model": "Left superior parietal lobule",
+     "source": "atlas",
+     "system": "nervous"
     },
     {
      "term": "Sacrotuberous ligaments",

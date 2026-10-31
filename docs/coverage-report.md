@@ -6,10 +6,10 @@
 
 | 類別 | 不重複詞數 | 意思 |
 |---|---|---|
-| 一、已有 | 1213 | 模型有，而且可以用搜尋／圖層揀到 |
+| 一、已有 | 1215 | 模型有，而且可以用搜尋／圖層揀到 |
 | 二、模型有但 UI 搵唔到 | 0 | 模型有幾何，但搜尋唔到（見下面清單；已修好者會喺「修復」一節列明） |
-| 三、模型冇 | 1127 | 交俾第 2 部分補模型 |
-| 骨性標誌 | 263 | 結節、窩、切跡等，屬已有骨件嘅表面特徵，模型唔另外分件 |
+| 三、模型冇 | 1126 | 交俾第 2 部分補模型 |
+| 骨性標誌 | 262 | 結節、窩、切跡等，屬已有骨件嘅表面特徵，模型唔另外分件 |
 | 雜訊（已略去） | 650 | 唔係解剖結構 |
 
 ## 闊背肌（Latissimus dorsi）點解搵唔到
@@ -551,7 +551,7 @@
 
 ## 心臟／大血管　`heart-115醫中上課_bc42d7386f0985d8632eb5dd2feacf1f`
 
-已有 60　·　UI 搵唔到 0　·　模型冇 49　·　骨標誌 8　·　雜訊 26
+已有 61　·　UI 搵唔到 0　·　模型冇 48　·　骨標誌 8　·　雜訊 26
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -604,7 +604,6 @@
 - Ascending aorta Branches
 - Aortic arch Brachiocephalic trunk Branches
 - common carotid Left subclavian artery
-- Mediastinal branch
 - Posterior intercostal arteries-intercostal space
 - diaphragm Aortic arch
 - Brachiocephalic trunk
@@ -616,13 +615,14 @@
 
 ## 胸部 I（胸壁、乳房）　`解剖_0908-3`
 
-已有 52　·　UI 搵唔到 0　·　模型冇 57　·　骨標誌 27　·　雜訊 28
+已有 53　·　UI 搵唔到 0　·　模型冇 57　·　骨標誌 26　·　雜訊 28
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
 - superior costotransverse ligament → Costotransverse ligament［specific］
 - lateral costotransverse ligament → Costotransverse ligament［specific］
 - external and internal intercostal muscles → external intercostal muscle［specific］
+- lower anterior border of the right lung → Anterior border of right lung［specific］
 
 **三、模型冇**
 
