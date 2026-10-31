@@ -4,7 +4,8 @@ import {cranialNumberOf,cranialQuery,matchesCranial,singularQuery} from './mj-cr
 // Chinese search accepts the Taiwan form the viewer shows plus the Hong Kong and mainland spellings people also type
 // (背闊肌 / 背阔肌 for 闊背肌, simplified characters in general).
 import paokaoAliases from '../docs/paokao-aliases.json';
-const SIMPLIFIED:Record<string,string>={闊:'阔',橫:'横',內:'内',豎:'竖',頭:'头',臟:'脏',腸:'肠',韌:'韧',節:'节',動:'动',靜:'静',脈:'脉',經:'经',頸:'颈',腦:'脑',膽:'胆',腎:'肾',頰:'颊',顳:'颞',顱:'颅',臍:'脐',臀:'臀',膈:'膈',關:'关',體:'体',龍:'龙',側:'侧',縫:'缝',線:'线',環:'环',間:'间',骨:'骨',膜:'膜',腱:'腱',髖:'髋',踝:'踝',趾:'趾'};
+const SIMPLIFIED:Record<string,string>={闊:'阔',橫:'横',內:'内',豎:'竖',頭:'头',臟:'脏',腸:'肠',韌:'韧',節:'节',動:'动',靜:'静',脈:'脉',經:'经',頸:'颈',腦:'脑',膽:'胆',腎:'肾',頰:'颊',顳:'颞',顱:'颅',臍:'脐',關:'关',體:'体',龍:'龙',側:'侧',縫:'缝',線:'线',環:'环',間:'间',髖:'髋',
+ 帶:'带',結:'结',葉:'叶',輸:'输',額:'额',鎖:'锁',門:'门',竇:'窦',緣:'缘',總:'总',纖:'纤',網:'网',維:'维',層:'层',屬:'属',壓:'压',區:'区',劍:'剑',圓:'圆',夾:'夹',對:'对',張:'张',後:'后',恥:'耻',樞:'枢',橈:'桡',氣:'气',淺:'浅',溝:'沟',漿:'浆',無:'无',狀:'状',脛:'胫',膕:'腘',與:'与',薦:'荐',觸:'触',貴:'贵',跡:'迹',蹠:'跖',軸:'轴',迴:'回',遠:'远',鈍:'钝',鉤:'钩',銳:'锐',鋸:'锯',錐:'锥',長:'长',閉:'闭',隱:'隐',髕:'髌',魚:'鱼',窩:'窝',齒:'齿',顎:'颚',轉:'转',術:'术',發:'发',組:'组',織:'织',叢:'丛',幹:'干',項:'项',過:'过',邊:'边',連:'连',導:'导',聽:'听',視:'视',塊:'块',兩:'两',雙:'双',單:'单',桿:'杆',樑:'梁',櫛:'栉',頂:'顶',顏:'颜',頷:'颔',頜:'颌',蝶:'蝶',篩:'筛',軟:'软',骶:'骶',髂:'髂',膀:'膀',腺:'腺',臥:'卧',胸:'胸',脊:'脊'};
 const ALIASES:Record<string,string[]>={闊背肌:['背闊肌','背阔肌'],二尖瓣:['僧帽瓣']};
 /** Papillary muscle is 乳突肌 in the course summary (跑考摘要); the older textbook form 乳頭肌 stays searchable. 胸鎖乳突肌 is the mastoid muscle and is left alone. */
 const PAPILLARY=/(?<!胸鎖)乳突肌/;
@@ -77,9 +78,14 @@ export function querySearchIndex(index: SearchEntry[], query: string, limit = 50
     return hits.slice(0, limit);
   }
   const found = searchIndex(index, q, limit);
+  if (found.length) return found;
   // plural / singular: "nerves" finds "nerve"
-  if (!found.length) {const one = singularQuery(q); if (one && one !== q) return searchIndex(index, one, limit);}
-  return found;
+  const one = singularQuery(q);
+  if (one && one !== q) {const again = searchIndex(index, one, limit); if (again.length) return again;}
+  // the course summaries write "deltoid muscle", "biceps brachii m.", "radial n.", "brachial a.": the type word is dropped when the name alone finds something
+  const bare = q.replace(/\s+(?:muscles?|m\.|nerves?|n\.|arter(?:y|ies)|a\.|veins?|v\.|ligaments?|lig\.)\s*$/i, '').trim();
+  if (bare && bare !== q) return searchIndex(index, bare, limit);
+  return [];
 }
 function searchIndex(index: SearchEntry[], q: string, limit: number): SearchEntry[] {
   const lower = q.toLowerCase(), flat = squashSide(q), simple = simplify(q), hits: {entry: SearchEntry; rank: number}[] = [];

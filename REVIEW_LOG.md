@@ -31,6 +31,10 @@ PR [#148](https://github.com/Kuan21/MJ_anatomy/pull/148)。只改 `app/quiz/nami
 - **中線結構保留左右**：右心室乳突肌不再算「左心室的一部分」；左冠狀動脈題寫右冠狀動脈分支不再判接近。
 - 已知連帶效果：上肢「Flexor pollicis brevis」與「Superficial head of flexor pollicis brevis」都接受「flexor pollicis brevis」；胸腔「Descending aorta」與「Descending thoracic aorta」原本就共用「降主動脈」同義詞（既有，未改）。
 
+## 搜尋體驗（Bug Audit P2-19 部分、P2-20、P2-12、P3-09；介面，CI 綠後自動 merge）
+
+PR [#151](https://github.com/Kuan21/MJ_anatomy/pull/151)。搜尋無結果時顯示提示文字；心臟詳細模式才有的 37 個構造（界嵴、卵圓窩、節制索、室上嵴、冠狀動脈分支等）可在主搜尋找到，選取後開啟心臟詳細模式並選中；搜尋可寫 deltoid muscle、biceps brachii m.、radial n.、brachial a. 等課本寫法與複數；簡體字對照表補上 帶結葉輸額鎖門 等約 100 字；「頭部」分頁搜尋到頸部以下的構造時自動回到全身視圖；搜尋面板的回呼改為穩定參照，打字與拖動關節不再重繪面板。不改模型與解剖內容；心臟頁構造與主圖譜同名異寫（如 Aortic arch／Arch of aorta）的合併屬名稱資料，另案處理。
+
 ## 載入穩健性（Bug Audit P2-02 部分、P2-03、P2-14、P2-16、P3-10、P3-12；介面與載入程式，CI 綠後自動 merge）
 
 PR [#150](https://github.com/Kuan21/MJ_anatomy/pull/150)。載入失敗時顯示「部分結構未載入（N 組）· 重試」文字並 `console.error` 原因；沒有 `DecompressionStream` 的瀏覽器改用 fflate 解壓；補充資料包其中一包失敗不再讓整個圖譜失敗（列出缺的包並提供重新載入）；逾時改為「60 秒沒有收到資料」才算；載入目錄後清掉 Cache Storage 中舊版本的資料包；切換畫面時 chunk 已被新部署刪除（`vite:preloadError`）或畫面出錯時顯示重新載入提示而不是白頁；動作警告改為可關閉的提示，不再顯示致命錯誤框。不改模型與解剖內容。
@@ -446,6 +450,7 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 | 任務 | 狀態（進行中 / 已完成 / 等我審核 / 未開始 / 卡住） | PR 編號 | 備註 |
 | --- | --- | --- | --- |
 | Bug Audit 修正 7：Quiz 第二級判分放寬（整條肌肉名可答部分題；對立詞不算接近；縮寫、簡體、左側） | 等我審核（需人工審核，不自動 merge） | #148 | 判分規則改變，請核對下方清單 |
+| Bug Audit 修正 10：搜尋體驗（無結果提示、心臟頁構造可搜、類型字與簡體容錯、頭部分頁選到頸以下自動回全身） | 已自動 merge | #151 | 搜尋與介面程式，不改模型 |
 | Bug Audit 修正 9：載入穩健性（失敗提示、無 DecompressionStream 備援、閒置逾時、快取清理、路由錯誤邊界） | 已自動 merge | #150 | 載入與介面程式，不改模型 |
 | Bug Audit 修正 8：「只練錯題」時另一側的題目也會載入 | 已自動 merge | #149 | Quiz 流程程式，不改題庫 |
 | Bug Audit 修正 6：點選不被淡化／半透明結構搶走、細結構容錯、雙指平移 | 已自動 merge | #146 | `app/scene.tsx` 點選與觸控，不改模型 |
