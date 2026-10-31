@@ -14,7 +14,7 @@ const base = normalizeAtlasSystems(stream('atlas-stream.json.gz')), facial = str
 const atlas = mergeAtlasStreams(base, [facial, supplement]);
 
 assert.equal(atlas.parts.length, base.parts.length + facial.parts.length + supplement.parts.length);
-assert.equal(base.parts.length + facial.parts.length, 2279, '2,232 body + 47 facial = 2,279 structures before the supplement');
+assert.equal(base.parts.length + facial.parts.length, 2277, '2,230 body + 47 facial = 2,277 structures before the supplement');
 assert.equal(new Set(atlas.parts.map(p => p.id)).size, atlas.parts.length, 'part ids are unique');
 
 // every part resolves to bytes inside a real, correctly sized package

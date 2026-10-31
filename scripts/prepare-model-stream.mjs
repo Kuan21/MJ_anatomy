@@ -7,6 +7,7 @@ import {createHash} from 'node:crypto';
 import {gzipSync} from 'node:zlib';
 import {smoothTube} from './lib/mesh-smooth.mjs';
 import {quizModule} from './quiz-modules.mjs';
+import {planCuts} from './lib/tendon-set.mjs';
 const {anatomicalRegion}=await quizModule('app/mj-part-regions.ts');
 /** Limb vessels of a few thousand triangles or fewer: the arm and leg trees, not the aorta or the venae cavae. */
 // Some motion data files are fitted to the exact source mesh (vertex count and position hash): a vessel named there must keep its source geometry.
@@ -21,6 +22,10 @@ const dir=new URL('../public/models/',import.meta.url),out=new URL('stream/',dir
 fs.mkdirSync(out,{recursive:true});
 const atlas=JSON.parse(fs.readFileSync(new URL('atlas.json',dir)));
 const originals=atlas.chunks.map(c=>fs.readFileSync(new URL('../'+c.url.replace(/^\//,''),dir)));
+// Tendons cut off their muscle (scripts/tendon/*.mjs): the muscle part keeps its id and name but ends at the musculotendinous junction; the tendon part is added by prepare-paokao.
+// The muscle part keeps its original bounds (the motion binding fits the whole muscle, see app/biomechanics-v2/tendon-bindings.json).
+const {finals:bellies}=planCuts(atlas.parts,part=>{const b=originals[part.chunk];return{positions:new Float32Array(b.buffer.slice(b.byteOffset+part.positions,b.byteOffset+part.positions+part.vertexCount*12)),indices:new Uint32Array(b.buffer.slice(b.byteOffset+part.indices,b.byteOffset+part.indices+part.indexCount*4))};});
+let cutMuscles=0;
 const chunks=[];let slices=[],bytes=0;
 const append=data=>{const padding=(4-bytes%4)%4;if(padding){slices.push(Buffer.alloc(padding));bytes+=padding;}const start=bytes;slices.push(data);bytes+=data.length;return start;};
 const flush=()=>{
@@ -31,7 +36,9 @@ const flush=()=>{
 };
 for(const part of atlas.parts){
  const source=originals[part.chunk];let positions=source.subarray(part.positions,part.positions+part.vertexCount*12),normals=source.subarray(part.normals,part.normals+part.vertexCount*6),indices=source.subarray(part.indices,part.indices+part.indexCount*4);
- if(smoothed(part)){
+ const belly=bellies.get(part.id);
+ if(belly){positions=Buffer.from(belly.positions.buffer,belly.positions.byteOffset,belly.positions.byteLength);normals=Buffer.from(belly.normals.buffer,belly.normals.byteOffset,belly.normals.byteLength);indices=Buffer.from(belly.indices.buffer,belly.indices.byteOffset,belly.indices.byteLength);part.vertexCount=belly.positions.length/3;part.indexCount=belly.indices.length;part.tendonCut=true;cutMuscles++;}
+ else if(smoothed(part)){
   const f32=new Float32Array(positions.buffer.slice(positions.byteOffset,positions.byteOffset+positions.length)),u32=new Uint32Array(indices.buffer.slice(indices.byteOffset,indices.byteOffset+indices.length));
   const m=smoothTube(f32,u32);
   // a vessel whose surface the step would move by more than 1.5 mm (odd or non-manifold source) stays as it is
@@ -47,4 +54,5 @@ flush();atlas.chunks=chunks;atlas.triangles=triangles;atlas.smoothedVessels=smoo
 const manifest=Buffer.from(JSON.stringify(atlas));
 fs.writeFileSync(new URL('atlas-stream.json',dir),manifest);fs.writeFileSync(new URL('atlas-stream.json.gz',dir),gzipSync(manifest,{level:9}));
 if(skippedParts.length)console.log(`Left unsmoothed (surface would move more than 1.5 mm): ${skippedParts.join(', ')}`);
+console.log(`${cutMuscles} muscle parts end at their musculotendinous junction (tendon parts are added by prepare-paokao).`);
 console.log(`Prepared ${chunks.length} immutable packages; ${atlas.parts.length} tissues (${smoothedParts} limb vessels smoothed, ${triangles} triangles), ${(chunks.reduce((sum,c)=>sum+c.gzipBytes,0)/1e6).toFixed(1)} MB compressed.`);

@@ -309,6 +309,27 @@
       ],
       "why_schematic": "Not present in BodyParts3D 3.0/4.0 or in LluisV/Z-Anatomy@6c7f9016bd5899ac8edafd31b9900c151df42ed6 (CC BY-SA 4.0; searched NervousSystem100.fbx, CardioVascular41.fbx, MuscularSystem100.fbx and the Definitions text files, which describe the structures but ship no mesh).",
       "ui_label": "示意模型"
+    },
+    {
+      "id": "z-anatomy-muscular-limb",
+      "files": [
+        "scripts/data/zanatomy-upper-limb.json.gz",
+        "models/paokao/*"
+      ],
+      "license": "CC BY-SA 4.0 (Z-Anatomy), with the BodyParts3D credit CC BY-SA 2.1 Japan",
+      "origin": "Z-Anatomy MuscularSystem100.fbx and SkeletalSystem100.fbx: wrist retinacula, dorsal compartments, flexor and intertubercular tendon sheaths of the upper limb",
+      "url": "https://github.com/LluisV/Z-Anatomy",
+      "pinned_by": "commit 6c7f9016bd5899ac8edafd31b9900c151df42ed6; meshes vendored by scripts/extract-zanatomy-limb.mjs (file sha256 in the vendored data)"
+    },
+    {
+      "id": "bodyparts3d-4.0-tendons",
+      "files": [
+        "models/paokao/*",
+        "models/stream/*"
+      ],
+      "license": "CC BY 4.0",
+      "origin": "Tendon parts cut from BodyParts3D 4.0 muscle meshes by scripts/lib/tendon-cut.mjs (derived, no other source)",
+      "url": "https://dbarchive.biosciencedbc.jp/en/bodyparts3d/desc.html"
     }
   ],
   "checked_not_used": [
