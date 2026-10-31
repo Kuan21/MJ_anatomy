@@ -11,14 +11,14 @@
 
 ## 一、結果摘要
 
-- 涵蓋結構名稱（去除左右後）：1523 個
+- 涵蓋結構名稱（去除左右後）：1476 個
 - 採用來源 1（muscle-layers.json）改名：33 個；來源 2（跑考摘要）：14 個；來源 3（其他筆記）：25 個
 - 全站固定修正：「背闊肌」→「闊背肌」
 - 仍缺中文名或含英文：0 個
 
 | 來源 | 結構數 |
 |---|---|
-| 台灣解剖學名詞（程式內建對照表） | 1326 |
+| 台灣解剖學名詞（程式內建對照表） | 1279 |
 | muscle-layers.json | 88 |
 | glossary.json（其他筆記） | 75 |
 | glossary.json（跑考摘要） | 34 |
@@ -1074,7 +1074,7 @@
 
 ## 五、全部結構命名一覽
 
-<details><summary>展開 1523 項</summary>
+<details><summary>展開 1476 項</summary>
 
 | 結構 | 使用來源 | 中文名 |
 |---|---|---|
@@ -2304,7 +2304,6 @@
 | interpubic disc | 台灣解剖學名詞（程式內建對照表） | 恥骨間盤 |
 | superior pubic ligament | glossary.json（其他筆記） | 恥骨上韌帶 |
 | pubic symphysis | 台灣解剖學名詞（程式內建對照表） | 恥骨聯合 |
-| triradiate cartilage | 台灣解剖學名詞（程式內建對照表） | Y 形軟骨 |
 | iliolumbar ligament | 台灣解剖學名詞（程式內建對照表） | 髂腰韌帶 |
 | obturator membrane | 台灣解剖學名詞（程式內建對照表） | 閉孔膜 |
 | sacrospinous ligament | glossary.json（其他筆記） | 薦棘韌帶 |
@@ -2368,52 +2367,6 @@
 | articular disc of sternoclavicular joint | 台灣解剖學名詞（程式內建對照表） | 胸鎖關節盤 |
 | interclavicular ligament | 台灣解剖學名詞（程式內建對照表） | 鎖骨間韌帶 |
 | posterior sternoclavicular ligament | 台灣解剖學名詞（程式內建對照表） | 後胸鎖韌帶 |
-| intervertebral disc C2-C3 | 台灣解剖學名詞（程式內建對照表） | C2–C3 椎間盤 |
-| intervertebral disc C3-C4 | 台灣解剖學名詞（程式內建對照表） | C3–C4 椎間盤 |
-| intervertebral disc C4-C5 | 台灣解剖學名詞（程式內建對照表） | C4–C5 椎間盤 |
-| intervertebral disc C5-C6 | 台灣解剖學名詞（程式內建對照表） | C5–C6 椎間盤 |
-| intervertebral disc C6-C7 | 台灣解剖學名詞（程式內建對照表） | C6–C7 椎間盤 |
-| intervertebral disc C7-T1 | 台灣解剖學名詞（程式內建對照表） | C7–T1 椎間盤 |
-| intervertebral disc L1-L2 | 台灣解剖學名詞（程式內建對照表） | L1–L2 椎間盤 |
-| intervertebral disc L2-L3 | 台灣解剖學名詞（程式內建對照表） | L2–L3 椎間盤 |
-| intervertebral disc L3-L4 | 台灣解剖學名詞（程式內建對照表） | L3–L4 椎間盤 |
-| intervertebral disc L4-L5 | 台灣解剖學名詞（程式內建對照表） | L4–L5 椎間盤 |
-| intervertebral disc L5-S1 | 台灣解剖學名詞（程式內建對照表） | L5–S1 椎間盤 |
-| intervertebral disc T1-T2 | 台灣解剖學名詞（程式內建對照表） | T1–T2 椎間盤 |
-| intervertebral disc T2-T3 | 台灣解剖學名詞（程式內建對照表） | T2–T3 椎間盤 |
-| intervertebral disc T3-T4 | 台灣解剖學名詞（程式內建對照表） | T3–T4 椎間盤 |
-| intervertebral disc T4-T5 | 台灣解剖學名詞（程式內建對照表） | T4–T5 椎間盤 |
-| intervertebral disc T5-T6 | 台灣解剖學名詞（程式內建對照表） | T5–T6 椎間盤 |
-| intervertebral disc T6-T7 | 台灣解剖學名詞（程式內建對照表） | T6–T7 椎間盤 |
-| intervertebral disc T7-T8 | 台灣解剖學名詞（程式內建對照表） | T7–T8 椎間盤 |
-| intervertebral disc T8-T9 | 台灣解剖學名詞（程式內建對照表） | T8–T9 椎間盤 |
-| intervertebral disc T9-T10 | 台灣解剖學名詞（程式內建對照表） | T9–T10 椎間盤 |
-| intervertebral disc T10-T11 | 台灣解剖學名詞（程式內建對照表） | T10–T11 椎間盤 |
-| intervertebral disc T11-T12 | 台灣解剖學名詞（程式內建對照表） | T11–T12 椎間盤 |
-| intervertebral disc T12-L1 | 台灣解剖學名詞（程式內建對照表） | T12–L1 椎間盤 |
-| nucleus pulposus C2-C3 | 台灣解剖學名詞（程式內建對照表） | C2–C3 髓核 |
-| nucleus pulposus C3-C4 | 台灣解剖學名詞（程式內建對照表） | C3–C4 髓核 |
-| nucleus pulposus C4-C5 | 台灣解剖學名詞（程式內建對照表） | C4–C5 髓核 |
-| nucleus pulposus C5-C6 | 台灣解剖學名詞（程式內建對照表） | C5–C6 髓核 |
-| nucleus pulposus C6-C7 | 台灣解剖學名詞（程式內建對照表） | C6–C7 髓核 |
-| nucleus pulposus C7-T1 | 台灣解剖學名詞（程式內建對照表） | C7–T1 髓核 |
-| nucleus pulposus L1-L2 | 台灣解剖學名詞（程式內建對照表） | L1–L2 髓核 |
-| nucleus pulposus L2-L3 | 台灣解剖學名詞（程式內建對照表） | L2–L3 髓核 |
-| nucleus pulposus L3-L4 | 台灣解剖學名詞（程式內建對照表） | L3–L4 髓核 |
-| nucleus pulposus L4-L5 | 台灣解剖學名詞（程式內建對照表） | L4–L5 髓核 |
-| nucleus pulposus L5-S1 | 台灣解剖學名詞（程式內建對照表） | L5–S1 髓核 |
-| nucleus pulposus T1-T2 | 台灣解剖學名詞（程式內建對照表） | T1–T2 髓核 |
-| nucleus pulposus T2-T3 | 台灣解剖學名詞（程式內建對照表） | T2–T3 髓核 |
-| nucleus pulposus T3-T4 | 台灣解剖學名詞（程式內建對照表） | T3–T4 髓核 |
-| nucleus pulposus T4-T5 | 台灣解剖學名詞（程式內建對照表） | T4–T5 髓核 |
-| nucleus pulposus T5-T6 | 台灣解剖學名詞（程式內建對照表） | T5–T6 髓核 |
-| nucleus pulposus T6-T7 | 台灣解剖學名詞（程式內建對照表） | T6–T7 髓核 |
-| nucleus pulposus T7-T8 | 台灣解剖學名詞（程式內建對照表） | T7–T8 髓核 |
-| nucleus pulposus T8-T9 | 台灣解剖學名詞（程式內建對照表） | T8–T9 髓核 |
-| nucleus pulposus T9-T10 | 台灣解剖學名詞（程式內建對照表） | T9–T10 髓核 |
-| nucleus pulposus T10-T11 | 台灣解剖學名詞（程式內建對照表） | T10–T11 髓核 |
-| nucleus pulposus T11-T12 | 台灣解剖學名詞（程式內建對照表） | T11–T12 髓核 |
-| nucleus pulposus T12-L1 | 台灣解剖學名詞（程式內建對照表） | T12–L1 髓核 |
 | sacrococcygeal symphysis | 台灣解剖學名詞（程式內建對照表） | 薦尾聯合 |
 | anterior longitudinal ligament | 台灣解剖學名詞（程式內建對照表） | 前縱韌帶 |
 | intercornual ligament | 台灣解剖學名詞（程式內建對照表） | 角間韌帶 |
