@@ -46,7 +46,7 @@ function button(label) {const result = all().find(n => n.type === 'button' && te
 function click(label) {const node = button(label); assert.ok(!node.props.disabled, `Enabled: ${label}`); node.props.onClick(); render();}
 const scene = () => all().find(n => typeof n.type === 'function' && n.type.name === 'QuizScene');
 const settle = async () => {render(); await new Promise(resolve => setTimeout(resolve, 0)); render();};
-for (const [id, file, label, tag, labels] of [['upper-limb', 'upper', '上肢', '上肢篇', ['肩帶・肩', '上臂', '前臂', '腕・手']], ['thorax', 'thorax', '胸腔', '胸腔篇', ['胸廓骨架', '胸壁・呼吸肌', '縱膈・大血管']], ['back', 'back', '背部', '背部篇', ['淺層背肌', '中層背肌', '深層固有背肌', '枕下區', '背部神經與血管']], ['heart', 'heart', '心臟', '心臟篇', ['心腔', '乳突肌', '瓣膜（含腱索）', '冠狀動脈', '心臟靜脈', '相連大血管']], ['lung', 'lung', '肺', '肺篇', ['壓跡與溝', '尖、緣、面、裂、切跡與舌葉', '肺門']]]) {
+for (const [id, file, label, tag, labels] of [['upper-limb', 'upper', '上肢', '上肢篇', ['肩帶・肩', '上臂', '前臂', '腕・手']], ['thorax', 'thorax', '胸腔', '胸腔篇', ['胸廓骨架', '胸壁・呼吸肌', '縱膈・大血管']], ['back', 'back', '背部', '背部篇', ['淺層背肌', '中層背肌', '深層固有背肌', '枕下區', '背部神經與血管']], ['heart', 'heart', '心臟', '心臟篇', ['心腔', '乳突肌', '瓣膜與腱索', '冠狀動脈', '心臟靜脈', '相連大血管']], ['lung', 'lung', '肺', '肺篇', ['壓跡與溝', '尖、緣、面、裂、切跡與舌葉', '肺門']]]) {
   hooks = []; cursor = 0; effects = []; dirty = true; region = id;
   const catalogue = JSON.parse(catalogues[file]);
   await settle();

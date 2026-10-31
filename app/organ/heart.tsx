@@ -8,8 +8,9 @@ import {SECTION_AXES, type HeartCatalogue, type HeartPart, type HeartView, type 
 import './organ.css';
 
 const LEAFLET_LABEL: Record<string, string> = {
-  'Anterior leaflet of tricuspid valve': 'Tricuspid · anterior', 'Inferior leaflet of tricuspid valve': 'Tricuspid · posterior', 'Septal leaflet of tricuspid valve': 'Tricuspid · septal',
-  'Anterior leaflet of mitral valve': 'Mitral · anterior', 'Posterior leaflet of mitral valve': 'Mitral · posterior',
+  'Anterior cusp of tricuspid valve': 'Tricuspid · anterior', 'Posterior cusp of tricuspid valve': 'Tricuspid · posterior', 'Septal cusp of tricuspid valve': 'Tricuspid · septal',
+  'Anterior cusp of bicuspid valve': 'Bicuspid · anterior', 'Posterior cusp of bicuspid valve': 'Bicuspid · posterior',
+  'Chordae tendineae of tricuspid valve': 'Chordae · tricuspid', 'Chordae tendineae of bicuspid valve': 'Chordae · bicuspid',
   'Left coronary leaflet of aortic valve': 'Aortic · left coronary', 'Right coronary leaflet of aortic valve': 'Aortic · right coronary', 'Non-coronary leaflet of aortic valve': 'Aortic · non-coronary',
   'Anterior semilunar cusp of pulmonary valve': 'Pulmonary · anterior', 'Left semilunar cusp of pulmonary valve': 'Pulmonary · left', 'Right semilunar cusp of pulmonary valve': 'Pulmonary · right',
 };
@@ -121,8 +122,8 @@ export default function HeartDetail() {
     const idsOf2 = (names: string[]) => catalogue.parts.filter(p => names.includes(p.name)).map(p => p.id);
     const list: LabelSpec[] = [];
     if (labelOn.valves) for (const [id, en, zh, names] of [
-      ['v-tri', 'Tricuspid valve', '三尖瓣', CHAMBERS[1].inside.filter(n => /tricuspid valve/.test(n))],
-      ['v-mit', 'Mitral valve', '二尖瓣', CHAMBERS[3].inside.filter(n => /mitral valve/.test(n))],
+      ['v-tri', 'Tricuspid valve', '三尖瓣', CHAMBERS[1].inside.filter(n => /tricuspid valve/.test(n) && !/^Chordae/.test(n))],
+      ['v-mit', 'Bicuspid valve', '二尖瓣', CHAMBERS[3].inside.filter(n => /bicuspid valve/.test(n) && !/^Chordae/.test(n))],
       ['v-aor', 'Aortic valve', '主動脈瓣', CHAMBERS[3].inside.filter(n => /aortic valve/.test(n))],
       ['v-pul', 'Pulmonary valve', '肺動脈瓣', CHAMBERS[1].inside.filter(n => /pulmonary valve/.test(n))],
     ] as [string, string, string, string[]][]) list.push({id, en, zh, ids: idsOf2(names)});
@@ -209,9 +210,9 @@ export default function HeartDetail() {
           <h2>Labels<small>名稱標籤</small></h2>
           <div className="organ-segmented" role="group" aria-label="名稱標籤">
             <button aria-pressed={labelOn.valves} onClick={() => setLabelOn(v => ({...v, valves: !v.valves}))}><span lang="en">Valves</span><small lang="zh-Hant">瓣膜</small></button>
-            <button aria-pressed={labelOn.leaflets} onClick={() => setLabelOn(v => ({...v, leaflets: !v.leaflets}))}><span lang="en">Leaflets</span><small lang="zh-Hant">瓣葉</small></button>
+            <button aria-pressed={labelOn.leaflets} onClick={() => setLabelOn(v => ({...v, leaflets: !v.leaflets}))}><span lang="en">Cusps</span><small lang="zh-Hant">瓣葉與腱索</small></button>
           </div>
-          <small>標籤放在畫面左右兩側，以細線連到構造，隨構造轉動；只標示目前可見的瓣膜或瓣葉（瓣膜預設在心腔內，需先打開心腔）。</small>
+          <small>標籤放在畫面左右兩側，以細線連到構造，隨構造轉動；只標示目前可見的瓣膜、瓣葉與腱索（瓣膜預設在心腔內，需先打開心腔）。</small>
         </section>
         <section className="organ-block">
           <h2>Section<small>切面</small></h2>
@@ -225,8 +226,8 @@ export default function HeartDetail() {
         </section>
         <section className="organ-block organ-note">
           <h2>模型範圍</h2>
-          <p>心腔、房室瓣與半月瓣（房室瓣連同腱索）、乳突肌、冠狀動脈與心臟靜脈、上下腔靜脈、肺靜脈與相連大血管，以及心包膜三層。腱索包含在瓣膜模型中，不能單獨選取。三尖瓣前瓣、二尖瓣前瓣、左心室前乳突肌，以及右緣支、後室間支、對角支、心小靜脈與心前靜脈取自另一公開圖譜並對齊到同一心臟；心包膜三層由心壁向外偏移生成，為示意模型。</p>
-          <p>來源模型沒有、依解剖知識補建的構造（清單中標示「示意構造」，位置與形狀為示意）：界嵴、梳狀肌、卵圓窩、心房中隔、左右心耳、室間隔、肉柱、節制索、室上嵴、動脈圓錐、主動脈前庭、竇房結動脈、左緣支、心包橫竇與心包斜竇。卵圓瓣痕跡仍沒有模型，只提供文字說明；傳導系統（竇房結、房室結、希氏束）本模式未收錄。</p>
+          <p>心腔、房室瓣（二尖瓣、三尖瓣）與半月瓣、腱索、乳突肌、冠狀動脈與心臟靜脈、上下腔靜脈、肺靜脈與相連大血管，以及心包膜三層。房室瓣的瓣葉、乳突肌與腱索皆為依房室環與來源模型位置生成的示意構造，腱索可單獨選取。右緣支、後室間支、對角支、心小靜脈與心前靜脈取自另一公開圖譜並對齊到同一心臟；心包膜三層由心壁向外偏移生成，為示意模型。</p>
+          <p>來源模型沒有、依解剖知識補建的構造（清單中標示「示意構造」，位置與形狀為示意）：二尖瓣與三尖瓣的瓣葉、乳突肌、腱索、界嵴、梳狀肌、卵圓窩、心房中隔、左右心耳、室間隔、肉柱、節制索、室上嵴、動脈圓錐、主動脈前庭、竇房結動脈、左緣支、心包橫竇與心包斜竇。卵圓瓣痕跡仍沒有模型，只提供文字說明；傳導系統（竇房結、房室結、希氏束）本模式未收錄。</p>
           <p className="organ-source">模型來源與授權見圖譜首頁的 Source & credits。</p>
         </section>
         </div>

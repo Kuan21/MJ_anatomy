@@ -11,6 +11,18 @@ assert.equal(r('Mitral valve', mitral, en), 'correct'); assert.equal(r('  bicusp
 assert.equal(r('二尖瓣', mitral, zh), 'correct'); assert.equal(r('僧帽瓣', mitral, any), 'correct'); assert.equal(r('Mitral valve', mitral, zh), 'wrong', 'English is not accepted when the language is Chinese');
 assert.equal(r('Left atrioventricular valve', mitral, en), 'correct');
 assert.equal(r('僧帽瓣前瓣', leaflet, zh), 'correct'); assert.equal(r('二尖瓣前瓣', leaflet, zh), 'correct'); assert.equal(r('Anterior leaflet of left atrioventricular valve', leaflet, en), 'correct'); assert.equal(r('anterior leaflet of bicuspid valve', leaflet, en), 'correct');
+// the names shown are Bicuspid valve / Tricuspid valve; Mitral valve (and the older wordings) are still accepted as answers
+{
+  const bicuspid = {name: 'Bicuspid valve', chinese: '二尖瓣', side: 'midline'}, cusp = {name: 'Anterior cusp of bicuspid valve', chinese: '二尖瓣前瓣', side: 'midline'}, back = {name: 'Posterior cusp of tricuspid valve', chinese: '三尖瓣後瓣', side: 'midline'};
+  const pm = {name: 'Posteromedial papillary muscle of left ventricle', chinese: '左心室後乳突肌', side: 'midline'}, chordae = {name: 'Chordae tendineae of bicuspid valve', chinese: '二尖瓣腱索', side: 'midline'};
+  for (const answer of ['Bicuspid valve', 'Mitral valve', 'mitral-valve', 'Left atrioventricular valve']) assert.equal(r(answer, bicuspid, en), 'correct', answer);
+  for (const answer of ['Anterior cusp of bicuspid valve', 'Anterior cusp of mitral valve', 'Anterior leaflet of mitral valve', 'anterior leaflet of bicuspid valve']) assert.equal(r(answer, cusp, en), 'correct', answer);
+  for (const answer of ['二尖瓣前瓣', '僧帽瓣前瓣', '二尖瓣前葉']) assert.equal(r(answer, cusp, zh), 'correct', answer);
+  for (const answer of ['Posterior cusp of tricuspid valve', 'Inferior leaflet of tricuspid valve', 'posterior leaflet of tricuspid valve']) assert.equal(r(answer, back, en), 'correct', answer);
+  for (const answer of ['Posteromedial papillary muscle of left ventricle', 'Inferior papillary muscle of left ventricle', 'posterior papillary muscle of left ventricle']) assert.equal(r(answer, pm, en), 'correct', answer);
+  for (const answer of ['Chordae tendineae of bicuspid valve', 'Chordae tendineae of mitral valve', 'Chordae tendineae']) assert.equal(r(answer, chordae, en), 'correct', answer);
+  assert.equal(r('腱索', chordae, zh), 'correct');
+}
 assert.equal(r('Right atrioventricular valve', tricuspid, en), 'correct'); assert.equal(r('三尖瓣', tricuspid, zh), 'correct'); assert.equal(r('右房室瓣', tricuspid, zh), 'correct');
 // brackets give two more accepted names
 assert.equal(r('moderator band', trap, en), 'correct'); assert.equal(r('septomarginal trabecula', trap, en), 'correct');

@@ -134,7 +134,7 @@ const HEART_SECTIONS: QuizSectionDef[] = [
   {id: 'all', label: '全部心臟', english: 'Heart', range: [1.2, 1.42]},
   {id: 'chambers', label: '心腔', english: 'Chambers', range: [1.2, 1.42]},
   {id: 'papillary', label: '乳突肌', english: 'Papillary muscles', range: [1.2, 1.42]},
-  {id: 'valves', label: '瓣膜（含腱索）', english: 'Valves with chordae tendineae', range: [1.2, 1.42]},
+  {id: 'valves', label: '瓣膜與腱索', english: 'Valves and chordae tendineae', range: [1.2, 1.42]},
   {id: 'coronary', label: '冠狀動脈', english: 'Coronary arteries', range: [1.2, 1.42]},
   {id: 'veins', label: '心臟靜脈', english: 'Cardiac veins', range: [1.2, 1.42]},
   {id: 'vessels', label: '相連大血管', english: 'Great vessels', range: [1.2, 1.42]},
@@ -144,7 +144,7 @@ const HEART_SECTIONS: QuizSectionDef[] = [
 QUIZ_REGIONS.heart = {
   id: 'heart', label: '心臟', english: 'Heart', tag: '心臟篇', file: 'quiz-heart.json', hash: '#/quiz/heart', atlasHash: '#/organ/heart',
   headline: ['看名稱，', '點出位置。'], description: ['由心腔、瓣膜、乳突肌到冠狀動脈，在 3D 心臟模型上練習辨認。', '每答一題，立即顯示正確位置與說明。'],
-  scope: '採用心臟詳細模型。瓣膜（房室瓣）連同腱索一併呈現，腱索不能單獨作答；乳突肌與瓣膜位於心腔內，題目開始時心腔已先移開，可用「移開遮擋」再調整。腔內構造（界嵴、梳狀肌、卵圓窩、節制索、室上嵴、肉柱等）與兩個心包竇是依解剖知識補建的示意模型，資料卡標示「示意構造」。傳導系統不在範圍內，不會出題。',
+  scope: '採用心臟詳細模型。房室瓣（二尖瓣、三尖瓣）的瓣葉、乳突肌與腱索是依房室環與來源模型位置生成的示意模型，腱索可單獨作答；乳突肌與瓣膜位於心腔內，題目開始時心腔已先移開，可用「移開遮擋」再調整。腔內構造（界嵴、梳狀肌、卵圓窩、節制索、室上嵴、肉柱等）與兩個心包竇是依解剖知識補建的示意模型，資料卡標示「示意構造」。傳導系統不在範圍內，不會出題。',
   defaultView: 'front', defaultSide: 'both', systems: ['cardiac', 'arterial', 'venous'],
   frame: {x: .075, z: [-.06, .09]}, sections: HEART_SECTIONS,
 };
