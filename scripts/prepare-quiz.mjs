@@ -115,6 +115,8 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
   }
   for (const part of region === 'heart' ? [] : atlas.parts) {
     if (!QUIZ_SYSTEMS.some(s => s.id === part.system)) continue;
+    // tendons are asked per region once a region has enough of them (the upper limb now; the other regions follow in later batches)
+    if (part.system === 'tendon' && region !== 'upper-limb') continue;
     const side = include(region, part);
     if (!side) continue;
     let name = correctedPartName(part);
@@ -136,7 +138,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
     const pk = JSON.parse(gunzipSync(fs.readFileSync(new URL('paokao/paokao-stream.json.gz', models))));
     const pkChunks = pk.chunks.map(c => fs.readFileSync(new URL('public' + c.url, root)));
     for (const part of pk.parts) {
-      if (part.system !== 'tendon') continue;
+      if (part.system !== 'tendon' || region !== 'upper-limb') continue;
       const q = {...part, system: 'tendon'}, side = include(region, q);
       if (!side) continue;
       const zh = paokaoZh(part.name) ?? undefined, raw = pkChunks[part.chunk];

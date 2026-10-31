@@ -13,19 +13,20 @@ export default function tendonsUpperLimb() {
   const {parts, read} = atlasParts(), {results} = planCuts(parts, read), out = [];
   for (const r of results) {
     const spec = TENDON_SPECS.find(s => s.key === r.spec), S = SIDES.find(x => x.w === r.side);
-    const bind = piece => { const b = tissue[piece.id]; if (!b) throw new Error(`tendon ${spec.key}: ${piece.id} has no tissue binding`); return {name: b.name, side: b.side, profile: b.profile, box: piece.bounds}; };
+    const bind = (piece, name) => { const b = tissue[piece.id]; if (!b) throw new Error(`tendon ${spec.key}: ${piece.id} has no tissue binding`); return {name: name ?? b.name, side: b.side, profile: b.profile, box: piece.bounds}; };
+    const tendonName = `${S.w} ${spec.title}`;
     const card = {origin: spec.origin, course: spec.course, insertion: spec.insertion, action: spec.action};
     const first = r.pieces[0];
     out.push({
       name: `${S.w} ${spec.title}`, zh: `${S.zh}${spec.zh}`, system: 'tendon', kind: 'tendon', model: 'cut', cap: 1e9,
-      geometry: [first.tendon], binding: bind(first), card, note: MODEL_NOTE.cut,
-      siblings: r.pieces.slice(1).map(p => ({geometry: [p.tendon], binding: bind(p)})),
+      geometry: [first.tendon], binding: bind(first, tendonName), card, note: MODEL_NOTE.cut,
+      siblings: r.pieces.slice(1).map(p => ({geometry: [p.tendon], binding: bind(p, tendonName)})),
       bellies: r.pieces.map(p => ({id: p.id, ...bind(p)})),
     });
     const apoPiece = r.pieces.find(p => p.apo);
     if (apoPiece) out.push({
       name: `${S.w} palmar aponeurosis`, zh: `${S.zh}掌腱膜`, system: 'connective', kind: 'aponeurosis', model: 'cut', cap: 1e9,
-      geometry: [apoPiece.apo], binding: bind(apoPiece),
+      geometry: [apoPiece.apo], binding: bind(apoPiece, `${S.w} palmar aponeurosis`),
       card: {origin: ['Tendon of palmaris longus and the flexor retinaculum', '掌長肌腱與屈肌支持帶'],
         course: ['A triangular fibrous sheet in the palm that splits into four bands, one to each finger, and lies over the long flexor tendons, the vessels and the nerves of the palm', '位於手掌的三角形纖維膜，分成四條縱帶各到一根手指，覆蓋在掌內屈指肌腱、血管與神經的前方'],
         insertion: ['Fibrous sheaths of the flexor tendons of the fingers and the skin of the palm', '各指屈肌腱的纖維鞘與手掌皮膚'],

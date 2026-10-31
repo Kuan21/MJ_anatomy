@@ -105,6 +105,8 @@ export const QUIZ_REGIONS = {
     headline: ['看名稱，', '點出位置。'], description: ['由臀部到足部，在 3D 模型上練習辨認。', '每答一題，立即顯示正確位置與資料卡。'],
     scope: '採用現有圖譜的固定解剖姿勢。題目只涵蓋已有模型的構造；神經、動脈與靜脈可以獨立練習。',
     frame: {x: .19, z: [-.13, .09], footZ: .19}, sections: LOWER_SECTIONS,
+    // tendons are asked in the upper limb for now; the other regions get them in later batches
+    systems: ['skeletal', 'muscular', 'nervous', 'arterial', 'venous'],
   },
   'upper-limb': {
     id: 'upper-limb', label: '上肢', english: 'Upper limb', tag: '上肢篇', file: 'quiz-upper.json', hash: '#/quiz/upper-limb', atlasHash: '#/atlas/upper',
@@ -117,6 +119,7 @@ export const QUIZ_REGIONS = {
     headline: ['看名稱，', '點出位置。'], description: ['由胸廓骨架到縱膈大血管，在 3D 模型上練習辨認。', '每答一題，立即顯示正確位置與資料卡。'],
     scope: '採用現有圖譜的固定解剖姿勢。題目只涵蓋胸腔內外已有模型的主要構造（不含器官內部分支）；神經、動脈與靜脈可以獨立練習。',
     frame: {x: .24, z: [-.13, .15]}, sections: THORAX_SECTIONS,
+    systems: ['skeletal', 'muscular', 'nervous', 'arterial', 'venous'],
   },
 } as Record<QuizRegionId, QuizRegionDef>;
 QUIZ_REGIONS.back = {
@@ -125,6 +128,7 @@ QUIZ_REGIONS.back = {
   scope: '採用現有圖譜的固定解剖姿勢，預設由後方觀看。題目涵蓋斜方肌、闊背肌、提肩胛肌、大小菱形肌、後上下鋸肌、夾肌、豎脊肌群、橫棘肌群、枕下肌群，以及模型中已有的相關神經與血管；枕下神經、枕大神經、第三枕神經、枕小神經、耳大神經與枕下靜脈叢因公開模型沒有，為沿教科書走行建立的示意管狀模型（資料卡標示「示意模型」）；胸椎以下的背支神經未收錄，不會出題。',
   defaultView: 'back', defaultSide: 'both',
   frame: {x: .26, z: [-.17, .12]}, sections: BACK_SECTIONS,
+  systems: ['skeletal', 'muscular', 'nervous', 'arterial', 'venous'],
 };
 const HEART_SECTIONS: QuizSectionDef[] = [
   {id: 'all', label: '全部心臟', english: 'Heart', range: [1.2, 1.42]},
