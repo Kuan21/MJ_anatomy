@@ -172,6 +172,28 @@
 
 （全部完整）
 
+### 肌腱：0 / 19 項資料完整
+
+- 肱二頭肌長頭腱（tendon of long head of biceps brachii）：缺 起點、走向與通道、止點、功能
+- 肱二頭肌遠端腱（distal tendon of biceps brachii）：缺 起點、走向與通道、止點、功能
+- 肱三頭肌腱（tendon of triceps brachii）：缺 起點、走向與通道、止點、功能
+- 肱橈肌腱（tendon of brachioradialis）：缺 起點、走向與通道、止點、功能
+- 橈側屈腕肌腱（tendon of flexor carpi radialis）：缺 起點、走向與通道、止點、功能
+- 掌長肌腱（tendon of palmaris longus）：缺 起點、走向與通道、止點、功能
+- 尺側屈腕肌腱（tendon of flexor carpi ulnaris）：缺 起點、走向與通道、止點、功能
+- 屈指淺肌腱（tendons of flexor digitorum superficialis）：缺 起點、走向與通道、止點、功能
+- 屈指深肌腱（tendons of flexor digitorum profundus）：缺 起點、走向與通道、止點、功能
+- 屈拇長肌腱（tendon of flexor pollicis longus）：缺 起點、走向與通道、止點、功能
+- 橈側伸腕長肌腱（tendon of extensor carpi radialis longus）：缺 起點、走向與通道、止點、功能
+- 橈側伸腕短肌腱（tendon of extensor carpi radialis brevis）：缺 起點、走向與通道、止點、功能
+- 伸指肌腱（tendons of extensor digitorum）：缺 起點、走向與通道、止點、功能
+- 伸小指肌腱（tendon of extensor digiti minimi）：缺 起點、走向與通道、止點、功能
+- 尺側伸腕肌腱（tendon of extensor carpi ulnaris）：缺 起點、走向與通道、止點、功能
+- 外展拇長肌腱（tendon of abductor pollicis longus）：缺 起點、走向與通道、止點、功能
+- 伸拇短肌腱（tendon of extensor pollicis brevis）：缺 起點、走向與通道、止點、功能
+- 伸拇長肌腱（tendon of extensor pollicis longus）：缺 起點、走向與通道、止點、功能
+- 伸食指肌腱（tendon of extensor indicis）：缺 起點、走向與通道、止點、功能
+
 ### 神經：0 / 44 項資料完整
 
 - 臂神經叢上幹（superior trunk of brachial plexus）：缺 來源、走向、主要分支、支配範圍
@@ -460,6 +482,6 @@
 
 ### 肺表面與氣道：25 / 28 項資料完整
 
-- 肺上葉（Upper lobe of right lung）：缺 位置、構造／毗鄰關係、血液供應／神經
-- 肺中葉（Middle lobe of right lung）：缺 位置、構造／毗鄰關係、血液供應／神經
-- 肺下葉（Lower lobe of right lung）：缺 位置、構造／毗鄰關係、血液供應／神經
+- 肺上葉（Upper lobe of right lung）：缺 構造／毗鄰關係、血液供應／神經
+- 肺中葉（Middle lobe of right lung）：缺 構造／毗鄰關係、血液供應／神經
+- 肺下葉（Lower lobe of right lung）：缺 構造／毗鄰關係、血液供應／神經

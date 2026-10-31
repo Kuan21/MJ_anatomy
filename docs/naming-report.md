@@ -1229,7 +1229,7 @@
 | Clavicular part of deltoid | 台灣解剖學名詞（程式內建對照表） | 三角肌鎖骨部 |
 | flexor pollicis brevis | muscle-layers.json（hand） | 屈拇短肌 |
 | Flexor digiti minimi brevis of hand | muscle-layers.json（hand） | 屈小指短肌 |
-| Flexor retinaculum of wrist | 台灣解剖學名詞（程式內建對照表） | 屈肌支持帶（腕） |
+| Flexor retinaculum of wrist | 台灣解剖學名詞（程式內建對照表） | 腕屈肌支持帶 |
 | extensor carpi ulnaris | muscle-layers.json（forearm_extensor） | 尺側伸腕肌 |
 | Humeral head of flexor carpi ulnaris | 台灣解剖學名詞（程式內建對照表） | 尺側腕屈肌肱骨頭 |
 | Humeral head of pronator teres | 台灣解剖學名詞（程式內建對照表） | 旋前圓肌肱骨頭 |

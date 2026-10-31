@@ -6,7 +6,7 @@ const {QUIZ_CATEGORIES, questionPool, categoryOf} = await quizModule('app/quiz/c
 const {namingPool} = await quizModule('app/quiz/level2.ts');
 const load = f => JSON.parse(fs.readFileSync(`public/models/quiz-${f}.json`, 'utf8'));
 const lower = load('lower'), heart = load('heart');
-assert.deepEqual(QUIZ_CATEGORIES.map(c => c.id), ['bone', 'muscle', 'nerve', 'artery', 'vein', 'ligament', 'space', 'organ']);
+assert.deepEqual(QUIZ_CATEGORIES.map(c => c.id), ['bone', 'muscle', 'tendon', 'nerve', 'artery', 'vein', 'ligament', 'space', 'organ']);
 const scope = (categories, side = 'both', section = 'all') => ({section, systems: [], categories, side, count: 10});
 for (const pool of [questionPool, namingPool]) {
   const nerves = pool(lower, scope(['nerve'], 'right'));

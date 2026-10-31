@@ -1,4 +1,6 @@
 // Upper-limb and thorax quizzes (and the Chinese-name rules shared with the lower-limb quiz): catalogue integrity against the
+import {planCuts, atlasParts} from './lib/tendon-set.mjs';
+const cutMuscles = new Set(planCuts(atlasParts().parts, atlasParts().read).finals.keys());
 // untouched source meshes, complete 中文名 + English names in Taiwan terminology, every section/system/side playable, scoring.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -90,7 +92,10 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
       const positions = raw.subarray(mesh.positions, mesh.positions + mesh.vertexCount * 12), indices = raw.subarray(mesh.indices, mesh.indices + mesh.indexCount * 4);
       for (const x of new Float32Array(positions.buffer, positions.byteOffset, mesh.vertexCount * 3)) assert.ok(Number.isFinite(x));
       for (const i of new Uint32Array(indices.buffer, indices.byteOffset, mesh.indexCount)) assert.ok(i < mesh.vertexCount);
-      if (structure.source === 'BodyParts3D') {
+      // muscles that end at their musculotendinous junction and the tendon parts cut from them are derived from the atlas meshes, not byte copies (scripts/tendon/*.mjs)
+      if (structure.source === 'BodyParts3D' && (structure.system === 'tendon' || cutMuscles.has(mesh.id))) {
+        // checked above: finite positions and valid indices
+      } else if (structure.source === 'BodyParts3D') {
         const source = native.get(mesh.id); assert.ok(source, mesh.id);
         const original = read('public' + atlas.chunks[source.chunk].url);
         assert.deepEqual(positions, original.subarray(source.positions, source.positions + source.vertexCount * 12), 'Unchanged original position data');

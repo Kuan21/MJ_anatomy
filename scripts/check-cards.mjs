@@ -17,7 +17,7 @@ for (const p of atlas.parts) {
 // space: boundaries / location / contents) and no card shows an empty field.
 {
   const zlib = await import('node:zlib'), stream = JSON.parse(zlib.gunzipSync(fs.readFileSync(new URL('../public/models/paokao/paokao-stream.json.gz', import.meta.url)))), cards = JSON.parse(fs.readFileSync(new URL('../app/mj-paokao.json', import.meta.url), 'utf8'));
-  const LABELS = {muscle: ['起點', '止點', '神經支配', '作用'], tendon: ['起點', '止點', '功能'], artery: ['來源', '走向', '主要分支', '供應範圍'], vein: ['來源', '走向', '主要分支', '引流範圍'], nerve: ['神經根', '走向', '支配範圍'], space: ['邊界', '位置', '內容物'], organ: ['位置', '構造／毗鄰關係', '血液供應／神經'], gland: ['位置', '構造／毗鄰關係', '血液供應／神經'], landmark: ['所在骨骼', '描述', '附著構造', '相關構造']};
+  const LABELS = {muscle: ['起點', '止點', '神經支配', '作用'], tendon: ['起點', '走向與通道', '止點', '功能'], artery: ['來源', '走向', '主要分支', '供應範圍'], vein: ['來源', '走向', '主要分支', '引流範圍'], nerve: ['神經根', '走向', '支配範圍'], space: ['邊界', '位置', '內容物'], organ: ['位置', '構造／毗鄰關係', '血液供應／神經'], gland: ['位置', '構造／毗鄰關係', '血液供應／神經'], landmark: ['所在骨骼', '描述', '附著構造', '相關構造']};
   for (const part of stream.parts) {
     const card = cards[part.id]; if (!card || !LABELS[card.kind]) continue;
     const profile = structureProfile(card.name, part.system, part), got = profile.facts.map(f => f.labelZh);

@@ -3,8 +3,9 @@
   "skeletal": 232,
   "sensory": 39,
   "nervous": 146,
-  "connective": 95,
+  "connective": 89,
   "muscular": 430,
+  "tendon": 4,
   "arterial": 637,
   "endocrine": 4,
   "venous": 395,
@@ -16,8 +17,8 @@
   "reproductive": 12,
   "urinary": 6
  },
- "searchExtras": 541,
- "have": 1215,
+ "searchExtras": 557,
+ "have": 1216,
  "missing": [
   "a-p axis",
   "abdomen pei-ling hsieh",
@@ -184,7 +185,6 @@
   "costal joints and ligaments",
   "costal margins",
   "costochondral joints",
-  "costoclavicular ligament",
   "costotransverse joints",
   "costovertebral joints",
   "covered with articular cartilage",
@@ -1148,7 +1148,7 @@
  ],
  "lectures": {
   "115-1_第一次跑考摘要": 442,
-  "20250228_解剖_上肢__W2": 49,
+  "20250228_解剖_上肢__W2": 50,
   "20250321_解剖_神經系統__W5_2": 39,
   "20250411_解剖_生殖系統_曾__喉部_陳___W8": 37,
   "20250513_解剖_背部II_魏___W13": 23,

@@ -16,6 +16,7 @@ export interface StructureCard {
 /** Fields each kind of structure shows, in order. Existing repository data fills them; anything not documented stays empty. */
 const FIELDS: Record<QuizSystem, string[]> = {
   muscular: ['起點', '止點', '作用', '神經支配', '血液供應'],
+  tendon: ['起點', '走向與通道', '止點', '功能'],
   nervous: ['來源', '走向', '主要分支', '支配範圍'],
   arterial: ['來源', '走向', '主要分支', '供應範圍'],
   venous: ['來源', '走向', '主要分支', '引流範圍'],
@@ -27,6 +28,7 @@ const FIELDS: Record<QuizSystem, string[]> = {
 /** Existing profile facts (by their Chinese label) that answer a card field. */
 const FROM_PROFILE: Record<QuizSystem, Record<string, string[]>> = {
   muscular: {起點: ['起點'], 止點: ['止點'], 作用: ['作用'], 神經支配: ['神經支配'], 血液供應: ['血液供應']},
+  tendon: {起點: ['起點'], 走向與通道: ['走向與通道'], 止點: ['止點'], 功能: ['功能']},
   nervous: {來源: ['神經根／來源'], 走向: ['走行／關係'], 支配範圍: ['主要功能']},
   arterial: {},
   venous: {},
@@ -51,6 +53,9 @@ export function structureCard(structure: Pick<QuizStructure, 'name' | 'chinese' 
   // Paired structures are keyed without left/right; names where "left"/"right" belongs to the name itself (left atrium, left pulmonary artery…) are keyed in full.
   const extra: CardExtra | undefined = CARD_EXTRAS[structure.name.toLowerCase()] ?? CARD_EXTRAS[clean(structure.name)];
   const fields: CardField[] = [], missing: string[] = [];
+  // A lung surface structure (impression, hilum, lobe part …) shows the fields of its own type, as on the atlas data card; fields without content are not listed.
+  const lungCard = system === 'respiratory' ? paokaoCardByName(structure.name) : undefined;
+  if (lungCard?.lung) return {english: structure.name, chinese: structure.chinese ?? lungCard.zh, system, fields: (lungCard.extra ?? []).map(f => ({label: f.labelZh, zh: f.zh, en: f.en})), missing: []};
   for (const label of FIELDS[system]) {
     const fromExtra = extra?.[label] ?? (system === 'respiratory' ? lungMark(structure.name, label) : undefined);
     const fact = FROM_PROFILE[system][label]?.map(l => profile.facts.find(f => f.labelZh === l)).find(Boolean);

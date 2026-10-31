@@ -1,4 +1,5 @@
 import type {Atlas} from './anatomy';
+import {lungCategoryOf,type LungCategoryKey} from './mj-lung-categories';
 
 /**
  * Name labels for the medial (mediastinal) view of one lung.
@@ -40,7 +41,6 @@ export const LUNG_LABELS:Record<'left'|'right',LungLabelDef[]>={
   {key:'subclavian',names:['Left groove for subclavian artery']},
   {key:'brachiocephalic',names:['Groove for left brachiocephalic vein']},
   {key:'first-rib',names:['Groove for first rib of left lung']},
-  {key:'trachea',names:['Contact area for trachea of left lung']},
   {key:'thymus',names:['Contact area for thymus of left lung']},
   {key:'anterior-border',names:['Anterior border of left lung']},
   {key:'oblique-fissure',names:['Oblique fissure of left lung']},
@@ -62,7 +62,7 @@ export const LUNG_LABELS:Record<'left'|'right',LungLabelDef[]>={
  ],
 };
 
-export interface ResolvedLungLabel{key:string;name:string;system:string;ids:string[];near:string[]}
+export interface ResolvedLungLabel{key:string;name:string;system:string;ids:string[];near:string[];cat:LungCategoryKey|null}
 /** The labels of one lung with the atlas parts they point to; labels whose parts the atlas does not have are dropped (and counted by the caller). */
 export function resolveLungLabels(atlas:Atlas,side:'left'|'right'):ResolvedLungLabel[]{
  const onSide=(p:Atlas['parts'][number])=>{const cx=(p.bounds[0][0]+p.bounds[1][0])/2;return side==='left'?cx>0:cx<0;};
@@ -72,7 +72,14 @@ export function resolveLungLabels(atlas:Atlas,side:'left'|'right'):ResolvedLungL
   const hit=atlas.parts.filter(p=>def.names.includes(p.name)&&chest(p)&&(def.near?true:onSide(p)));
   if(!hit.length)continue;
   const near=def.near?atlas.parts.filter(p=>p.name===def.near).map(p=>p.id):[];
-  out.push({key:def.key,name:hit[0].name,system:hit[0].system,ids:hit.map(p=>p.id),near});
+  out.push({key:def.key,name:hit[0].name,system:hit[0].system,ids:hit.map(p=>p.id),near,cat:lungCategoryOf(hit[0].name)});
  }
  return out;
+}
+
+/** The real meshes that enter the hilum of one lung (main bronchus, pulmonary artery, superior and inferior pulmonary veins), for the "relation at the hilum" highlight. */
+export function lungHilumRoot(atlas:Atlas,side:'left'|'right'){
+ const w=side==='left'?'Left':'Right',names={bronchus:side==='left'?'Left main bronchus':'Right main bronchus proper',artery:`${w} pulmonary artery`,veins:[`${w} superior pulmonary vein`,`${w} inferior pulmonary vein`]};
+ const pick=(n:string)=>atlas.parts.filter(p=>p.name===n&&(p.bounds[0][1]+p.bounds[1][1])/2>1.17&&(p.bounds[0][1]+p.bounds[1][1])/2<1.45).map(p=>p.id);
+ return{bronchus:pick(names.bronchus),artery:pick(names.artery),veins:names.veins.flatMap(pick)};
 }

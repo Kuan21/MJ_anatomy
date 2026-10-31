@@ -1,9 +1,9 @@
 {
  "totals": {
   "terms": 3816,
-  "have": 1215,
+  "have": 1216,
   "findability": 0,
-  "missing": 1126,
+  "missing": 1125,
   "landmark": 262,
   "noise": 650
  },
@@ -2962,7 +2962,7 @@
      "kind": "exact",
      "model": "Right calcaneal tendon",
      "source": "atlas",
-     "system": "connective"
+     "system": "tendon"
     },
     {
      "term": "Plantaris m",
@@ -3544,9 +3544,9 @@
      "term": "biceps brachii",
      "zh": "橈骨粗隆",
      "kind": "contained",
-     "model": "Long head of right biceps brachii",
-     "source": "atlas",
-     "system": "muscular"
+     "model": "Right distal tendon of biceps brachii",
+     "source": "paokao",
+     "system": "tendon"
     }
    ],
    "findability": [],
@@ -3770,6 +3770,14 @@
      "kind": "exact",
      "model": "Interclavicular ligament",
      "source": "joints",
+     "system": "connective"
+    },
+    {
+     "term": "Costoclavicular ligament",
+     "zh": "肋鎖韌帶",
+     "kind": "exact",
+     "model": "Right costoclavicular ligament",
+     "source": "paokao",
      "system": "connective"
     },
     {
@@ -4119,10 +4127,10 @@
     {
      "term": "triceps brachii",
      "zh": "肱三頭肌",
-     "kind": "contained",
-     "model": "Lateral head of right triceps brachii",
-     "source": "atlas",
-     "system": "muscular"
+     "kind": "exact",
+     "model": "Right tendon of triceps brachii",
+     "source": "paokao",
+     "system": "tendon"
     },
     {
      "term": "anconeus",
@@ -4143,10 +4151,6 @@
    ],
    "findability": [],
    "missing": [
-    {
-     "term": "Costoclavicular ligament",
-     "zh": "肋鎖韌帶"
-    },
     {
      "term": "Pyramidal space",
      "zh": "錐形空間"
@@ -6475,10 +6479,10 @@
     {
      "term": "flexor carpi ulnaris",
      "zh": "尺側屈腕肌",
-     "kind": "contained",
-     "model": "Humeral head of right flexor carpi ulnaris",
-     "source": "atlas",
-     "system": "muscular"
+     "kind": "exact",
+     "model": "Right tendon of flexor carpi ulnaris",
+     "source": "paokao",
+     "system": "tendon"
     },
     {
      "term": "flexor",

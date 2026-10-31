@@ -3,6 +3,7 @@ import type {Atlas,Part,PartTransform} from '../anatomy';
 import {createSkeletonRig,type Side} from './skeleton';
 import rawBindings from './tissue-bindings.json';
 import paokaoBindings from './paokao-bindings.json';
+import tendonBindings from './tendon-bindings.json';
 import vesselEndBindings from './vessel-end-bindings.json';
 import rawNerves from './nerve-bindings.json';
 import rawShoulderAttachments from './shoulder-attachments.json';
@@ -44,8 +45,9 @@ const scapularBranches=rawScapularBranches.parts as Record<string,{side:string;v
 const shoulderAttachments={...rawShoulderAttachments.parts,...rawSerratusAttachments.parts} as Record<string,{name:string;vertexCount:number;positionHash:number;originFrame:number;insertionFrame?:number;weight:number[]}>;
 
 export type Profile='pectoralPath'|'axillaryCable'|'path'|'trunk'|'humeral'|'sheetMuscle'|'deltoid'|'chest'|'cuff'|'biceps'|'triceps'|'arm'|'coraco'|'forearm'|'hand'|'scapular'|'clavicular'|'shoulderJoint'|'elbowJoint'|'wristJoint';
-export interface TissueBinding {name:string;side:Side;profile:Profile}
-export const tissueBindings={...rawBindings,...paokaoBindings.tissue,...vesselEndBindings.tissue} as Record<string,TissueBinding>;
+/** `box`: for a muscle that was cut into muscle and tendon parts (scripts/tendon/*.mjs), the bounds of the WHOLE muscle; every part is skinned with the weights the single mesh had, so the join never opens. */
+export interface TissueBinding {name:string;side:Side;profile:Profile;box?:[number[],number[]]}
+export const tissueBindings={...rawBindings,...tendonBindings.tissue,...paokaoBindings.tissue,...vesselEndBindings.tissue} as unknown as Record<string,TissueBinding>;
 export const nerveBindings=rawNerves as Record<string,{side:Side;profile:'path'}>;
 
 /** One rest-space carrier for connected upper-limb branches. Names determine
@@ -86,7 +88,7 @@ export function makeSoftRig(atlas:Atlas,side:Side):SoftRig|null{
  const node=(id:string)=>rig.nodes.find(n=>n.id===id)!;
  const groups:Record<string,Box3>={};
  for(const p of atlas.parts){const b=tissueBindings[p.id];if(!b||b.name!==p.name||b.side!==side)continue;
-  const key=b.profile;groups[key]??=new Box3();groups[key].union(new Box3(new Vector3().fromArray(p.bounds[0]),new Vector3().fromArray(p.bounds[1])));
+  const key=b.profile,bb=b.box??p.bounds;groups[key]??=new Box3();groups[key].union(new Box3(new Vector3().fromArray(bb[0]),new Vector3().fromArray(bb[1])));
  }
  const center=(id:string)=>{const p=atlas.parts.find(p=>p.id===node(id).partIds[0])!;return new Vector3().fromArray(p.bounds[0]).add(new Vector3().fromArray(p.bounds[1])).multiplyScalar(.5);};
  const sourceTips=[[.23294473,.72658675,.07827127],[.2544531,.7137407,.08966618],[.28421846,.70268024,.09161239],[.31737652,.71126334,.08250995],[.32835086,.77373981,.06288589]];
@@ -285,6 +287,9 @@ const SMOOTHED_PROFILES:Profile[]=['chest','scapular','clavicular','coraco'];
 export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<number>,part?:Part,sourceName='',triangles?:ArrayLike<number>):SkinBinding{
  const count=positions.length/3,indices=new Uint8Array(count*4),weights=new Float32Array(count*4),belly=new Float32Array(count),radial=new Float32Array(count*3),longitudinal=new Float32Array(count);
  const own=new Box3();for(let i=0;i<count;i++)own.expandByPoint(new Vector3(positions[i*3],positions[i*3+1],positions[i*3+2]));
+ // A part cut from a muscle is bound with the box of the whole muscle (see TissueBinding.box).
+ const whole=part?tissueBindings[part.id]?.box:undefined,boxed=!!whole;
+ if(whole){own.min.fromArray(whole[0]);own.max.fromArray(whole[1]);}
  // A vessel-end piece shares its vessel's name but not its source mesh: keep it out of the lookups keyed by exact source name (cables, scapular branches, ...).
  const name=part?(part.id?.endsWith('-END')?part.name+' (end)':part.name):sourceName,effectiveProfile=resolveMuscleProfile(name,profile);
  // Each triceps head has its own attachment extent. A union puts shorter
@@ -340,7 +345,7 @@ export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<numbe
   fan={originFrame:/clavicular part/i.test(name)?1:0,insertionFrame:3,tip,minX,spanX:Math.max(.001,maxX-minX)};
  }
  const useForearmFibres=effectiveProfile==='forearm'&&!/pronator quadratus|supinator|anconeus/i.test(name);
- const fibre=part?.system==='muscular'&&(['biceps','triceps','arm'].includes(effectiveProfile)||useForearmFibres)?bindFibreGuide(rig,effectiveProfile,positions,box,name):undefined;
+ const fibre=(part?.system==='muscular'||boxed)&&(['biceps','triceps','arm'].includes(effectiveProfile)||useForearmFibres)?bindFibreGuide(rig,effectiveProfile,positions,box,name):undefined;
  const sheetOriginFrame=effectiveProfile==='sheetMuscle'&&/clavicular part/i.test(name)?1:effectiveProfile==='sheetMuscle'?0:undefined;
  const wrap=fitted&&/serratus anterior/i.test(name)?rig.thorax:undefined;
  const branch=effectiveProfile==='path'?scapularBranches[name]:undefined;
