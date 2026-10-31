@@ -29,6 +29,17 @@
 - **P1-01**：示意模型第 0 包每次載入失敗（`isShellSurface` 的 `/pericardi/` 匹配到 pericardiophrenic），膈神經、喉返神經、內臟神經、迷走神經幹、臂神經叢內外側束等 61 個結構目前看不到。
 - 修正一律等你審核後分批開 PR（報告最後有建議分批）；涉及解剖內容者標【需人工審核】。
 
+## Quiz 第二級判分放寬與容錯（Bug Audit P1-09 部分、P2-34、P2-35、P2-36、P3-28；【需人工審核】，不自動 merge）
+
+PR [#148](https://github.com/Kuan21/MJ_anatomy/pull/148)。只改 `app/quiz/naming.ts` 的判分與 `scripts/test-quiz-naming.mjs`；題庫、模型、名稱、同義詞表都沒有改。依你 2026-10-30 的指示：
+
+- **整條肌肉名可答「部分」題（算答對）**：題目是某肌肉的「…part／head of …」時，寫整條肌肉的英文或中文都算對（需要左右時仍要寫左右）。適用 29 種結構（左右各一，共 58 題）：胸大肌腹部／鎖骨頭／胸肋頭、三角肌肩峰部／鎖骨部／肩胛棘部、斜方肌升部／降部／橫部、尺側腕屈肌肱骨頭／尺骨頭、旋前圓肌肱骨頭／尺骨頭、拇收肌斜頭／橫頭（手）、拇收肌斜頭／橫頭（足）、拇短屈肌淺頭（手）、拇短屈肌外側頭／內側頭（足）、腓腸肌外側頭／內側頭。
+- **一定要寫出哪一個頭（寫整條肌肉只算「接近」，列入錯題）**：肱二頭肌長頭／短頭、肱三頭肌長頭／外側頭／內側頭、股二頭肌長頭／短頭（程式表 `HEADS_REQUIRED`，另含 quadriceps femoris 備用；股四頭肌四個頭本來就是獨立名稱）。
+- **對立詞不算拼字接近**：major／minor、longus／brevis、medial／lateral、anterior／posterior、superior／inferior、superficial／deep、internal／external、proximal／distal、ascending／descending、maximus／minimus、大／小、長／短、內／外、前／後、上／下、淺／深、升／降、近／遠。例：題目大菱形肌寫「小菱形肌」現在判錯（之前判接近並顯示「正確拼法」）。
+- **容錯**：左右字位置不限（Left acromial part of deltoid ＝ Acromial part of left deltoid）；「左側／右側」＝「左／右」；縮寫 n.、nn.、a.、aa.、v.、vv.、m.、mm.、lig.、br. 展開；簡體字讀成繁體（107 個解剖常用字對照表，在 `naming.ts`）。
+- **中線結構保留左右**：右心室乳突肌不再算「左心室的一部分」；左冠狀動脈題寫右冠狀動脈分支不再判接近。
+- 已知連帶效果：上肢「Flexor pollicis brevis」與「Superficial head of flexor pollicis brevis」都接受「flexor pollicis brevis」；胸腔「Descending aorta」與「Descending thoracic aorta」原本就共用「降主動脈」同義詞（既有，未改）。
+
 ## 搜尋體驗（Bug Audit P2-19 部分、P2-20、P2-12、P3-09；介面，CI 綠後自動 merge）
 
 PR [#151](https://github.com/Kuan21/MJ_anatomy/pull/151)。搜尋無結果時顯示提示文字；心臟詳細模式才有的 37 個構造（界嵴、卵圓窩、節制索、室上嵴、冠狀動脈分支等）可在主搜尋找到，選取後開啟心臟詳細模式並選中；搜尋可寫 deltoid muscle、biceps brachii m.、radial n.、brachial a. 等課本寫法與複數；簡體字對照表補上 帶結葉輸額鎖門 等約 100 字；「頭部」分頁搜尋到頸部以下的構造時自動回到全身視圖；搜尋面板的回呼改為穩定參照，打字與拖動關節不再重繪面板。不改模型與解剖內容；心臟頁構造與主圖譜同名異寫（如 Aortic arch／Arch of aorta）的合併屬名稱資料，另案處理。
@@ -447,7 +458,8 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 
 | 任務 | 狀態（進行中 / 已完成 / 等我審核 / 未開始 / 卡住） | PR 編號 | 備註 |
 | --- | --- | --- | --- |
-| Bug Audit 修正 10：搜尋體驗（無結果提示、心臟頁構造可搜、類型字與簡體容錯、頭部分頁選到頸以下自動回全身） | CI 綠後自動 merge | #151 | 搜尋與介面程式，不改模型 |
+| Bug Audit 修正 7：Quiz 第二級判分放寬（整條肌肉名可答部分題；對立詞不算接近；縮寫、簡體、左側） | 等我審核（需人工審核，不自動 merge） | #148 | 判分規則改變，請核對下方清單 |
+| Bug Audit 修正 10：搜尋體驗（無結果提示、心臟頁構造可搜、類型字與簡體容錯、頭部分頁選到頸以下自動回全身） | 已自動 merge | #151 | 搜尋與介面程式，不改模型 |
 | Bug Audit 修正 9：載入穩健性（失敗提示、無 DecompressionStream 備援、閒置逾時、快取清理、路由錯誤邊界） | 已自動 merge | #150 | 載入與介面程式，不改模型 |
 | Bug Audit 修正 8：「只練錯題」時另一側的題目也會載入 | 已自動 merge | #149 | Quiz 流程程式，不改題庫 |
 | Bug Audit 修正 6：點選不被淡化／半透明結構搶走、細結構容錯、雙指平移 | 已自動 merge | #146 | `app/scene.tsx` 點選與觸控，不改模型 |
