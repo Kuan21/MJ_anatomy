@@ -20,9 +20,16 @@ const simplify=(s:string)=>[...s].map(c=>SIMPLIFIED[c]??c).join('');
 const baseName=(n:string)=>n.toLowerCase().replace(/\.[lr](\.\d+)?$/,'').replace(/\b(left|right)\b/g,' ').replace(/[^a-z0-9]+/g,' ').trim();
 const ALT:Map<string,string[]>=new Map();
 for(const [note,models] of Object.entries(paokaoAliases as Record<string,string[]>))for(const m of models){const k=baseName(m);ALT.set(k,[...(ALT.get(k)??[]),note]);}
-/** The two atrioventricular valves have older names that stay searchable: mitral = left atrioventricular = bicuspid, tricuspid = right atrioventricular. */
-const VALVE_SYNONYMS:[string,string[]][]=[['mitral valve',['left atrioventricular valve','bicuspid valve']],['tricuspid valve',['right atrioventricular valve']]];
-const valveNames=(name:string)=>{const n=name.toLowerCase();return VALVE_SYNONYMS.flatMap(([canonical,others])=>n.includes(canonical)?others.map(o=>n.replace(canonical,o)):[]);};
+/** The two atrioventricular valves go by several names: bicuspid (the name shown) = mitral = left atrioventricular; tricuspid = right atrioventricular. Cusp and leaflet are the same word for searching. */
+const VALVE_NAMES:string[][]=[['bicuspid valve','mitral valve','left atrioventricular valve'],['tricuspid valve','right atrioventricular valve']];
+const valveNames=(name:string)=>{
+ const n=name.toLowerCase(),out=new Set<string>();
+ for(const v of [n,n.replace(/\bleaflet\b/,'cusp'),n.replace(/\bcusp\b/,'leaflet')]){
+  if(v!==n)out.add(v);
+  for(const group of VALVE_NAMES)for(const from of group)if(v.includes(from))for(const to of group)if(to!==from)out.add(v.replace(from,to));
+ }
+ return [...out];
+};
 const altNames=(name:string)=>[...(ALT.get(baseName(name))??[]),...valveNames(name)];
 
 /** Does a Chinese structure name match what the user typed? */

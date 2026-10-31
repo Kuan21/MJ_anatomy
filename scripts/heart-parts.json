@@ -18,8 +18,8 @@
   },
   {
    "id": "valves",
-   "label": "瓣膜（含腱索）",
-   "english": "Valves (with chordae tendineae)"
+   "label": "瓣膜與腱索",
+   "english": "Valves and chordae tendineae"
   },
   {
    "id": "coronary",
@@ -83,69 +83,6 @@
    "system": "cardiac",
    "zhDesc": "將充氧血經主動脈瓣射入升主動脈；心壁在四個心腔中最厚。",
    "enDesc": "Pumps oxygenated blood through the aortic valve into the ascending aorta; its wall is the thickest of the four chambers."
-  },
-  {
-   "node": "Anterior papillary muscle of right ventricle",
-   "name": "Anterior papillary muscle of right ventricle",
-   "zh": "右心室前乳突肌",
-   "group": "papillary",
-   "system": "cardiac",
-   "zhDesc": "右心室最大的乳突肌，以腱索連至右房室瓣的尖瓣。",
-   "enDesc": "The largest papillary muscle of the right ventricle; its chordae tendineae attach to leaflets of the right atrioventricular valve."
-  },
-  {
-   "node": "Inferior papillary muscle of right ventricle",
-   "name": "Inferior papillary muscle of right ventricle",
-   "zh": "右心室後乳突肌",
-   "group": "papillary",
-   "system": "cardiac",
-   "zhDesc": "位於右心室下壁，以腱索連至右房室瓣的尖瓣。",
-   "enDesc": "Arises from the inferior wall of the right ventricle; its chordae tendineae attach to leaflets of the right atrioventricular valve."
-  },
-  {
-   "node": "Septal papillary muscle of right ventricle",
-   "name": "Septal papillary muscle of right ventricle",
-   "zh": "右心室中隔乳突肌",
-   "group": "papillary",
-   "system": "cardiac",
-   "zhDesc": "起自室間隔的右側面，以腱索連至右房室瓣的尖瓣。",
-   "enDesc": "Arises from the right side of the interventricular septum; its chordae tendineae attach to leaflets of the right atrioventricular valve."
-  },
-  {
-   "node": "Inferior papillary muscle of left ventricle",
-   "name": "Inferior papillary muscle of left ventricle",
-   "zh": "左心室後乳突肌",
-   "group": "papillary",
-   "system": "cardiac",
-   "zhDesc": "位於左心室下壁，以腱索連至左房室瓣（二尖瓣）。",
-   "enDesc": "Arises from the inferior wall of the left ventricle; its chordae tendineae attach to the left atrioventricular (mitral) valve."
-  },
-  {
-   "node": "Inferior leaflet of right atrioventricular valve",
-   "name": "Inferior leaflet of tricuspid valve",
-   "zh": "三尖瓣後瓣",
-   "group": "valves",
-   "system": "cardiac",
-   "zhDesc": "右房室瓣（三尖瓣）的尖瓣之一；模型中連同其腱索一併呈現。",
-   "enDesc": "One of the leaflets of the right atrioventricular (tricuspid) valve; the model includes its chordae tendineae."
-  },
-  {
-   "node": "Septal leaflet of right atrioventricular valve",
-   "name": "Septal leaflet of tricuspid valve",
-   "zh": "三尖瓣中隔瓣",
-   "group": "valves",
-   "system": "cardiac",
-   "zhDesc": "右房室瓣（三尖瓣）靠近室間隔的尖瓣；模型中連同其腱索一併呈現。",
-   "enDesc": "The leaflet of the right atrioventricular (tricuspid) valve next to the interventricular septum; the model includes its chordae tendineae."
-  },
-  {
-   "node": "Posterior leaflet of left atrioventricular valve",
-   "name": "Posterior leaflet of mitral valve",
-   "zh": "二尖瓣後瓣",
-   "group": "valves",
-   "system": "cardiac",
-   "zhDesc": "左房室瓣（二尖瓣）的後尖；模型中連同其腱索一併呈現。",
-   "enDesc": "The posterior leaflet of the left atrioventricular (mitral) valve; the model includes its chordae tendineae."
   },
   {
    "node": "Left coronary leaflet",
@@ -441,33 +378,6 @@
  ],
  "bodyparts3d": [
   {
-   "id": "FJ2421",
-   "name": "Anterior leaflet of tricuspid valve",
-   "zh": "三尖瓣前瓣",
-   "group": "valves",
-   "system": "cardiac",
-   "zhDesc": "三尖瓣三片瓣葉中最大的一片，位於前方，以腱索連接前乳突肌。",
-   "enDesc": "The largest of the three leaflets of the tricuspid valve, lying anteriorly; its chordae tendineae attach to the anterior papillary muscle."
-  },
-  {
-   "id": "FJ2420",
-   "name": "Anterior leaflet of mitral valve",
-   "zh": "二尖瓣前瓣",
-   "group": "valves",
-   "system": "cardiac",
-   "zhDesc": "二尖瓣的前瓣，較大，位於主動脈前庭旁，與左心室流出道相鄰。",
-   "enDesc": "The larger, anterior leaflet of the mitral valve; it lies beside the aortic vestibule next to the left ventricular outflow tract."
-  },
-  {
-   "id": "FJ2418",
-   "name": "Anterolateral papillary muscle of left ventricle",
-   "zh": "左心室前乳突肌",
-   "group": "papillary",
-   "system": "cardiac",
-   "zhDesc": "左心室兩條乳突肌之一，位於前外側壁，以腱索連接二尖瓣前、後兩片瓣葉。",
-   "enDesc": "One of the two papillary muscles of the left ventricle, on the anterolateral wall; its chordae tendineae attach to both mitral leaflets."
-  },
-  {
    "match": "^Marginal branch of right coronary artery$",
    "name": "Right marginal branch",
    "zh": "右緣支",
@@ -730,6 +640,198 @@
    ],
    "zhDesc": "心包腔內左心房後方、被肺靜脈與下腔靜脈的漿膜反折圍成的盲囊。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
    "enDesc": "A blind pouch of the pericardial cavity behind the left atrium, bounded by the serous reflections around the pulmonary veins and the inferior vena cava. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+  },
+  {
+   "name": "Anterior cusp of bicuspid valve",
+   "zh": "二尖瓣前瓣",
+   "group": "valves",
+   "system": "cardiac",
+   "build": [
+    "Anterior cusp of bicuspid valve"
+   ],
+   "zhDesc": "二尖瓣（左房室瓣）較大的前瓣，附著在左房室環靠近主動脈的一側，與主動脈瓣相鄰；游離緣與粗糙區有腱索附著。（示意構造：依房室環與來源模型的位置生成，形狀為示意。）",
+   "enDesc": "The larger, anterior cusp of the bicuspid (mitral, left atrioventricular) valve; it hangs from the part of the left atrioventricular ring next to the aortic valve, and chordae tendineae attach to its free margin and rough zone. (schematic: built on the atrioventricular ring and the positions in the source models; shape is schematic.)"
+  },
+  {
+   "name": "Posterior cusp of bicuspid valve",
+   "zh": "二尖瓣後瓣",
+   "group": "valves",
+   "system": "cardiac",
+   "build": [
+    "Posterior cusp of bicuspid valve"
+   ],
+   "zhDesc": "二尖瓣（左房室瓣）較窄但附著弧較長的後瓣，附著在左房室環的後外側，游離緣有淺缺口，腱索附著在游離緣、粗糙區與基底部。（示意構造：依房室環與來源模型的位置生成，形狀為示意。）",
+   "enDesc": "The posterior cusp of the bicuspid (mitral, left atrioventricular) valve, narrower but attached along a longer arc of the ring; its free margin is scalloped, and chordae attach to the margin, rough zone and base. (schematic: built on the atrioventricular ring and the positions in the source models; shape is schematic.)"
+  },
+  {
+   "name": "Anterior cusp of tricuspid valve",
+   "zh": "三尖瓣前瓣",
+   "group": "valves",
+   "system": "cardiac",
+   "build": [
+    "Anterior cusp of tricuspid valve"
+   ],
+   "zhDesc": "三尖瓣最大的一片瓣葉，附著在右房室環的前方，腱索連到前乳突肌與中隔乳突肌。（示意構造：依房室環與來源模型的位置生成，形狀為示意。）",
+   "enDesc": "The largest cusp of the tricuspid (right atrioventricular) valve, hanging from the front of the right atrioventricular ring; its chordae go to the anterior and septal papillary muscles. (schematic: built on the atrioventricular ring and the positions in the source models; shape is schematic.)"
+  },
+  {
+   "name": "Posterior cusp of tricuspid valve",
+   "zh": "三尖瓣後瓣",
+   "group": "valves",
+   "system": "cardiac",
+   "build": [
+    "Posterior cusp of tricuspid valve"
+   ],
+   "zhDesc": "三尖瓣位於後下方的瓣葉（下瓣），附著在右房室環的後下緣，腱索連到前乳突肌與後乳突肌。（示意構造：依房室環與來源模型的位置生成，形狀為示意。）",
+   "enDesc": "The cusp of the tricuspid (right atrioventricular) valve on the posteroinferior side (inferior cusp); its chordae go to the anterior and posterior papillary muscles. (schematic: built on the atrioventricular ring and the positions in the source models; shape is schematic.)"
+  },
+  {
+   "name": "Septal cusp of tricuspid valve",
+   "zh": "三尖瓣中隔瓣",
+   "group": "valves",
+   "system": "cardiac",
+   "build": [
+    "Septal cusp of tricuspid valve"
+   ],
+   "zhDesc": "三尖瓣貼近室間隔的瓣葉，附著在右房室環靠中隔的一側，腱索連到後乳突肌與中隔乳突肌，並有直接來自室間隔的短腱索。（示意構造：依房室環與來源模型的位置生成，形狀為示意。）",
+   "enDesc": "The cusp of the tricuspid (right atrioventricular) valve next to the interventricular septum; its chordae go to the posterior and septal papillary muscles, and short cords arise directly from the septum. (schematic: built on the atrioventricular ring and the positions in the source models; shape is schematic.)"
+  },
+  {
+   "name": "Anterolateral papillary muscle of left ventricle",
+   "zh": "左心室前乳突肌",
+   "group": "papillary",
+   "system": "cardiac",
+   "build": [
+    "Anterolateral papillary muscle of left ventricle"
+   ],
+   "zhDesc": "左心室兩條乳突肌之一，圓錐形肌肉柱，由前外側壁升起，頂端發出腱索，連到二尖瓣前、後兩瓣的外側半。（示意構造：依房室環與來源模型的位置生成，形狀為示意。）",
+   "enDesc": "One of the two papillary muscles of the left ventricle: a conical muscular column rising from the anterolateral wall; its chordae go to the lateral halves of both bicuspid-valve cusps. (schematic: built on the atrioventricular ring and the positions in the source models; shape is schematic.)"
+  },
+  {
+   "name": "Posteromedial papillary muscle of left ventricle",
+   "zh": "左心室後乳突肌",
+   "group": "papillary",
+   "system": "cardiac",
+   "build": [
+    "Posteromedial papillary muscle of left ventricle"
+   ],
+   "zhDesc": "左心室兩條乳突肌之一，圓錐形肌肉柱，由後內側壁（近下壁）升起，頂端發出腱索，連到二尖瓣前、後兩瓣的內側半。（示意構造：依房室環與來源模型的位置生成，形狀為示意。）",
+   "enDesc": "One of the two papillary muscles of the left ventricle: a conical muscular column rising from the posteromedial (inferior) wall; its chordae go to the medial halves of both bicuspid-valve cusps. (schematic: built on the atrioventricular ring and the positions in the source models; shape is schematic.)"
+  },
+  {
+   "name": "Anterior papillary muscle of right ventricle",
+   "zh": "右心室前乳突肌",
+   "group": "papillary",
+   "system": "cardiac",
+   "build": [
+    "Anterior papillary muscle of right ventricle"
+   ],
+   "zhDesc": "右心室最大的乳突肌，由前壁升起，頂端的腱索連到三尖瓣前瓣與後瓣。（示意構造：依房室環與來源模型的位置生成，形狀為示意。）",
+   "enDesc": "The largest papillary muscle of the right ventricle, rising from the anterior wall; its chordae go to the anterior and posterior cusps of the tricuspid valve. (schematic: built on the atrioventricular ring and the positions in the source models; shape is schematic.)"
+  },
+  {
+   "name": "Posterior papillary muscle of right ventricle",
+   "zh": "右心室後乳突肌",
+   "group": "papillary",
+   "system": "cardiac",
+   "build": [
+    "Posterior papillary muscle of right ventricle"
+   ],
+   "zhDesc": "由右心室下（後）壁升起的乳突肌，腱索連到三尖瓣後瓣與中隔瓣。（示意構造：依房室環與來源模型的位置生成，形狀為示意。）",
+   "enDesc": "Rises from the inferior (posterior) wall of the right ventricle; its chordae go to the posterior and septal cusps of the tricuspid valve. (schematic: built on the atrioventricular ring and the positions in the source models; shape is schematic.)"
+  },
+  {
+   "name": "Septal papillary muscle of right ventricle",
+   "zh": "右心室中隔乳突肌",
+   "group": "papillary",
+   "system": "cardiac",
+   "build": [
+    "Septal papillary muscle of right ventricle"
+   ],
+   "zhDesc": "細小，直接由室間隔右側面升起，腱索連到三尖瓣前瓣與中隔瓣。（示意構造：依房室環與來源模型的位置生成，形狀為示意。）",
+   "enDesc": "Small; rises directly from the right side of the interventricular septum; its chordae go to the anterior and septal cusps of the tricuspid valve. (schematic: built on the atrioventricular ring and the positions in the source models; shape is schematic.)"
+  },
+  {
+   "name": "Chordae tendineae of bicuspid valve",
+   "zh": "二尖瓣腱索",
+   "group": "valves",
+   "system": "cardiac",
+   "build": [
+    "Chordae tendineae of bicuspid valve"
+   ],
+   "zhDesc": "由兩條乳突肌頂端發出的纖維索，先分成較粗的主幹，再分出較細的分支，附著在二尖瓣前、後瓣的游離緣、粗糙區，以及由心室壁連到後瓣基底的短索，防止心室收縮時瓣葉翻入左心房。（示意構造：依房室環與來源模型的位置生成，形狀為示意。）",
+   "enDesc": "Fibrous cords from the tips of the two papillary muscles: thicker stems that branch into finer cords attaching to the free margin and rough zone of the anterior and posterior cusps, plus short basal cords from the wall to the posterior cusp; they keep the cusps from prolapsing into the left atrium. (schematic: built on the atrioventricular ring and the positions in the source models; shape is schematic.)"
+  },
+  {
+   "name": "Chordae tendineae of tricuspid valve",
+   "zh": "三尖瓣腱索",
+   "group": "valves",
+   "system": "cardiac",
+   "build": [
+    "Chordae tendineae of tricuspid valve"
+   ],
+   "zhDesc": "由三條乳突肌頂端發出的纖維索，先分成較粗的主幹，再分出較細的分支，附著在三尖瓣三片瓣葉的游離緣與粗糙區，後瓣與中隔瓣另有由心室壁連到基底的短索，防止心室收縮時瓣葉翻入右心房。（示意構造：依房室環與來源模型的位置生成，形狀為示意。）",
+   "enDesc": "Fibrous cords from the tips of the three papillary muscles: thicker stems that branch into finer cords attaching to the free margin and rough zone of the three cusps, plus short basal cords from the wall to the posterior and septal cusps; they keep the cusps from prolapsing into the right atrium. (schematic: built on the atrioventricular ring and the positions in the source models; shape is schematic.)"
   }
- ]
+ ],
+ "references": [
+  {
+   "name": "Anterior papillary muscle of right ventricle",
+   "node": "Anterior papillary muscle of right ventricle"
+  },
+  {
+   "name": "Inferior papillary muscle of right ventricle",
+   "node": "Inferior papillary muscle of right ventricle"
+  },
+  {
+   "name": "Septal papillary muscle of right ventricle",
+   "node": "Septal papillary muscle of right ventricle"
+  },
+  {
+   "name": "Inferior papillary muscle of left ventricle",
+   "node": "Inferior papillary muscle of left ventricle"
+  },
+  {
+   "name": "Inferior leaflet of tricuspid valve",
+   "node": "Inferior leaflet of right atrioventricular valve"
+  },
+  {
+   "name": "Septal leaflet of tricuspid valve",
+   "node": "Septal leaflet of right atrioventricular valve"
+  },
+  {
+   "name": "Posterior leaflet of mitral valve",
+   "node": "Posterior leaflet of left atrioventricular valve"
+  },
+  {
+   "name": "Anterior leaflet of tricuspid valve",
+   "id": "FJ2421"
+  },
+  {
+   "name": "Anterior leaflet of mitral valve",
+   "id": "FJ2420"
+  },
+  {
+   "name": "Anterolateral papillary muscle of left ventricle",
+   "id": "FJ2418"
+  }
+ ],
+ "references_note": "Source pieces used only as references by scripts/lib/heart-valves.mjs (where each cusp lies along the annulus, where each papillary muscle sits); they are not shown.",
+ "semilunarAlign": [
+  {
+   "valve": "aortic",
+   "cusps": [
+    "Left coronary leaflet of aortic valve",
+    "Right coronary leaflet of aortic valve",
+    "Non-coronary leaflet of aortic valve"
+   ],
+   "chamber": "Left ventricle",
+   "loopNear": [
+    0.012,
+    1.316,
+    0.024
+   ]
+  }
+ ],
+ "semilunarAlign_note": "The aortic cusps are moved in the plane of the left ventricular aortic orifice so that their centre sits on the orifice (the source cusps lie about 4 mm off its centre). The pulmonary cusps are within 1.5 mm of the pulmonary ring and stay as they are."
 }
