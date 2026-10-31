@@ -1,7 +1,7 @@
 # Quiz 第二級額外接受的答案
 
 此檔由 `node scripts/report-quiz-accepted-names.mjs` 產生，請勿手改。除了構造自己的英文名、中文名、括號內別名與同義詞表（`app/quiz/synonyms.ts`，列在 REVIEW_LOG）之外，第二級還接受下列寫法；群名只算「接近」並列入錯題。左右兩側同一規則，只列一側。
-合計 184 個構造有額外接受的寫法。
+合計 185 個構造有額外接受的寫法。
 
 
 ## 下肢（lower）：35 個構造
@@ -44,7 +44,7 @@
 | Navicular bone of left foot | 左足舟骨 | Left navicular bone |  |
 | Right posterior femoral cutaneous nerve | 右股後皮神經 | posterior cutaneous nerve of thigh |  |
 
-## 上肢（upper）：51 個構造
+## 上肢（upper）：52 個構造
 
 | 題目 | 中文 | 也接受 | 只算接近 |
 | --- | --- | --- | --- |
@@ -93,6 +93,7 @@
 | Left trapezium | 左大菱形骨 | Left trapezium bone |  |
 | Left trapezoid | 左小菱形骨 | Left trapezoid bone |  |
 | Left triquetral | 左三角骨 | Left triquetrum bone |  |
+| Right tendon of long head of biceps brachii | 右肱二頭肌長頭腱 |  | biceps brachii（整條肌肉，必須寫頭） |
 | Right lateral antebrachial cutaneous nerve | 右外側前臂皮神經 | lateral cutaneous nerve of forearm |  |
 | Right posterior interosseous nerve of forearm | 右後骨間神經 | Right posterior interosseous nerve |  |
 | Right medial antebrachial cutaneous nerve | 右內側前臂皮神經 | medial cutaneous nerve of forearm |  |
