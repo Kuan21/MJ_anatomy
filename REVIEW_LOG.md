@@ -1245,19 +1245,19 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 | chordae tendineae of bicuspid valve | chordae tendineae of mitral valve；chordae tendineae of left atrioventricular valve；chordae tendineae | 腱索、僧帽瓣腱索 |
 | chordae tendineae of tricuspid valve | chordae tendineae of right atrioventricular valve；chordae tendineae | 腱索、右房室瓣腱索 |
 | anterolateral papillary muscle of left ventricle | anterior papillary muscle of left ventricle；anterolateral papillary muscle | 前乳突肌、前外側乳突肌、左心室前乳突肌 |
-| posteromedial papillary muscle of left ventricle | inferior／posterior papillary muscle of left ventricle；posteromedial papillary muscle | 後乳突肌、後內側乳突肌、左心室後乳突肌 |
+| posterior papillary muscle of left ventricle | inferior papillary muscle of left ventricle；posteromedial papillary muscle of left ventricle；posteromedial papillary muscle | 後乳突肌、後內側乳突肌、左心室後乳突肌 |
 | posterior papillary muscle of right ventricle | inferior papillary muscle of right ventricle | 右心室下乳突肌 |
 | anterior leaflet of tricuspid valve | anterior leaflet of right atrioventricular valve；anterior cusp of tricuspid valve | 三尖瓣前葉 |
 | inferior leaflet of tricuspid valve | inferior leaflet of right atrioventricular valve；posterior leaflet of tricuspid valve；posterior cusp of tricuspid valve | 三尖瓣後瓣、三尖瓣下瓣 |
 | septal leaflet of tricuspid valve | septal leaflet of right atrioventricular valve；septal cusp of tricuspid valve | 三尖瓣隔瓣 |
 | anterior leaflet of mitral valve | anterior leaflet of left atrioventricular valve；anterior leaflet of bicuspid valve；anterior cusp of mitral valve | 僧帽瓣前瓣、僧帽瓣前葉、二尖瓣前葉 |
 | posterior leaflet of mitral valve | posterior leaflet of left atrioventricular valve；posterior leaflet of bicuspid valve；posterior cusp of mitral valve | 僧帽瓣後瓣、僧帽瓣後葉、二尖瓣後葉 |
-| left coronary leaflet of aortic valve | left coronary cusp of aortic valve；left coronary cusp | 主動脈瓣左冠狀瓣、左冠狀瓣 |
-| right coronary leaflet of aortic valve | right coronary cusp of aortic valve；right coronary cusp | 主動脈瓣右冠狀瓣、右冠狀瓣 |
-| non-coronary leaflet of aortic valve | non coronary cusp of aortic valve；noncoronary cusp；posterior cusp of aortic valve | 主動脈瓣無冠狀瓣、無冠瓣 |
-| anterior semilunar cusp of pulmonary valve | anterior cusp of pulmonary valve；anterior leaflet of pulmonary valve | 肺動脈瓣前瓣 |
-| left semilunar cusp of pulmonary valve | left cusp of pulmonary valve；left leaflet of pulmonary valve | 肺動脈瓣左瓣 |
-| right semilunar cusp of pulmonary valve | right cusp of pulmonary valve；right leaflet of pulmonary valve | 肺動脈瓣右瓣 |
+| left coronary cusp of aortic valve | left coronary leaflet of aortic valve；left coronary leaflet；left coronary cusp | 主動脈瓣左冠狀瓣、左冠狀瓣 |
+| right coronary cusp of aortic valve | right coronary leaflet of aortic valve；right coronary leaflet；right coronary cusp | 主動脈瓣右冠狀瓣、右冠狀瓣 |
+| non-coronary cusp of aortic valve | non-coronary leaflet of aortic valve；non coronary cusp of aortic valve；noncoronary cusp；non-coronary cusp；non-coronary leaflet；posterior cusp of aortic valve | 主動脈瓣無冠狀瓣、無冠瓣 |
+| anterior semilunar cusp of pulmonary valve | anterior cusp of pulmonary valve；anterior leaflet of pulmonary valve；anterior semilunar leaflet of pulmonary valve；anterior semilunar cusp | 肺動脈瓣前瓣 |
+| left semilunar cusp of pulmonary valve | left cusp of pulmonary valve；left leaflet of pulmonary valve；left semilunar leaflet of pulmonary valve；left semilunar cusp | 肺動脈瓣左瓣 |
+| right semilunar cusp of pulmonary valve | right cusp of pulmonary valve；right leaflet of pulmonary valve；right semilunar leaflet of pulmonary valve；right semilunar cusp | 肺動脈瓣右瓣 |
 | anterior interventricular artery | left anterior descending artery；lad；anterior interventricular branch；lad artery | 前降支、左前降支、前室間動脈 |
 | circumflex artery | left circumflex artery；circumflex branch | 迴旋支、左迴旋支、旋支 |
 | posterior interventricular branch | posterior descending artery；pda；posterior interventricular artery | 後降支、後室間動脈 |

@@ -6,14 +6,48 @@ export const TENDON_OWNERS: Record<string, string[]> = {
   "Left plantaris",
   "Medial head of left gastrocnemius"
  ],
+ "Left common flexor tendon sheath": [
+  "Left flexor digitorum superficialis",
+  "Left flexor digitorum profundus"
+ ],
  "Left distal tendon of biceps brachii": [
   "Long head of left biceps brachii"
+ ],
+ "Left fifth dorsal compartment of wrist": [
+  "Left extensor digiti minimi"
+ ],
+ "Left first dorsal compartment of wrist": [
+  "Left abductor pollicis longus",
+  "Left extensor pollicis brevis"
+ ],
+ "Left flexor carpi radialis tendon sheath": [
+  "Left flexor carpi radialis"
+ ],
+ "Left flexor pollicis longus tendon sheath": [
+  "Left flexor pollicis longus"
+ ],
+ "Left fourth dorsal compartment of wrist": [
+  "Left extensor digitorum",
+  "Left extensor indicis"
+ ],
+ "Left intertubercular tendon sheath": [
+  "Long head of left biceps brachii"
+ ],
+ "Left palmar aponeurosis": [
+  "Left palmaris longus"
  ],
  "Left quadriceps tendon": [
   "Left rectus femoris",
   "Left vastus lateralis",
   "Left vastus medialis",
   "Left vastus intermedius"
+ ],
+ "Left second dorsal compartment of wrist": [
+  "Left extensor carpi radialis longus",
+  "Left extensor carpi radialis brevis"
+ ],
+ "Left sixth dorsal compartment of wrist": [
+  "Left extensor carpi ulnaris"
  ],
  "Left tendon of abductor pollicis longus": [
   "Left abductor pollicis longus"
@@ -125,23 +159,60 @@ export const TENDON_OWNERS: Record<string, string[]> = {
  "Left tendons of flexor digitorum superficialis": [
   "Left flexor digitorum superficialis"
  ],
+ "Left third dorsal compartment of wrist": [
+  "Left extensor pollicis longus"
+ ],
  "Right calcaneal tendon": [
   "Right plantaris",
   "Right soleus",
   "Lateral head of right gastrocnemius",
   "Medial head of right gastrocnemius"
  ],
+ "Right common flexor tendon sheath": [
+  "Right flexor digitorum superficialis",
+  "Right flexor digitorum profundus"
+ ],
  "Right distal tendon of biceps brachii": [
   "Long head of right biceps brachii"
  ],
+ "Right fifth dorsal compartment of wrist": [
+  "Right extensor digiti minimi"
+ ],
+ "Right first dorsal compartment of wrist": [
+  "Right abductor pollicis longus",
+  "Right extensor pollicis brevis"
+ ],
+ "Right flexor carpi radialis tendon sheath": [
+  "Right flexor carpi radialis"
+ ],
+ "Right flexor pollicis longus tendon sheath": [
+  "Right flexor pollicis longus"
+ ],
+ "Right fourth dorsal compartment of wrist": [
+  "Right extensor digitorum",
+  "Right extensor indicis"
+ ],
  "Right intermediate tendon": [
   "Right digastric"
+ ],
+ "Right intertubercular tendon sheath": [
+  "Long head of right biceps brachii"
+ ],
+ "Right palmar aponeurosis": [
+  "Right palmaris longus"
  ],
  "Right quadriceps tendon": [
   "Right rectus femoris",
   "Right vastus lateralis",
   "Right vastus medialis",
   "Right vastus intermedius"
+ ],
+ "Right second dorsal compartment of wrist": [
+  "Right extensor carpi radialis longus",
+  "Right extensor carpi radialis brevis"
+ ],
+ "Right sixth dorsal compartment of wrist": [
+  "Right extensor carpi ulnaris"
  ],
  "Right tendon of abductor pollicis longus": [
   "Right abductor pollicis longus"
@@ -252,6 +323,9 @@ export const TENDON_OWNERS: Record<string, string[]> = {
  ],
  "Right tendons of flexor digitorum superficialis": [
   "Right flexor digitorum superficialis"
+ ],
+ "Right third dorsal compartment of wrist": [
+  "Right extensor pollicis longus"
  ],
  "Tendon of right levator palpebrae superioris": [
   "Right levator palpebrae superioris"

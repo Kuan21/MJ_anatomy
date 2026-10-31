@@ -55,7 +55,7 @@ const EXACT:Record<string,string>={
  'anterior cusp of aortic valve':'主動脈瓣前尖','posterior cusp of aortic valve':'主動脈瓣後尖','anterior cusp of pulmonary valve':'肺動脈瓣前尖','posterior cusp of pulmonary valve':'肺動脈瓣後尖',
  'anterior leaflet of mitral valve':'二尖瓣前葉','posterior leaflet of mitral valve':'二尖瓣後葉','anterior leaflet of tricuspid valve':'三尖瓣前葉','posterior leaflet of tricuspid valve':'三尖瓣後葉','septal leaflet of tricuspid valve':'三尖瓣隔葉',
  'atrium':'心房','ventricle':'心室','inferior papillary muscle of ventricle':'下乳突肌','inferior leaflet of atrioventricular valve':'房室瓣下葉','septal leaflet of atrioventricular valve':'房室瓣隔葉','posterior leaflet of atrioventricular valve':'房室瓣後葉',
- 'coronary leaflet of aortic valve':'主動脈瓣冠狀瓣','non-coronary leaflet of aortic valve':'主動脈瓣無冠瓣','anterior semilunar cusp of pulmonary valve':'肺動脈瓣前半月瓣','semilunar cusp of pulmonary valve':'肺動脈瓣半月瓣',
+ 'coronary cusp of aortic valve':'主動脈瓣冠狀瓣','non-coronary cusp of aortic valve':'主動脈瓣無冠瓣','anterior semilunar cusp of pulmonary valve':'肺動脈瓣前半月瓣','semilunar cusp of pulmonary valve':'肺動脈瓣半月瓣',
  'inferolateral branch of coronary artery':'冠狀動脈下外側支','circumflex artery':'迴旋支','inferior vein of ventricle':'心室下靜脈','aortic arch':'主動脈弓','bifurcation of pulmonary trunk':'肺動脈幹分叉',
  'suboccipital nerve':'枕下神經','greater occipital nerve':'枕大神經','third occipital nerve':'第三枕神經','lesser occipital nerve':'枕小神經','great auricular nerve':'耳大神經','suboccipital venous plexus':'枕下靜脈叢',
  'coronary sinus':'冠狀竇','celiac trunk':'腹腔動脈幹','celiac artery':'腹腔動脈幹','basilar artery':'基底動脈','anterior communicating artery':'前交通動脈','common hepatic artery':'總肝動脈','hepatic artery proper':'固有肝動脈',

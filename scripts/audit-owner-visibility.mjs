@@ -1,6 +1,6 @@
 // Writes docs/owner-visibility-audit.md: for every region and subregion of the top bar, (1) what stays on screen when each organ switch is turned off in turn (vessels, nerves, connective
 // tissue) and (2) which tendons, fasciae, aponeuroses, retinacula and sheaths appear when Muscles is off. Display rules: app/mj-owners.ts. `--check` fails when the file is stale
-// or when an in-organ vessel/nerve stays on screen with its organ off, or a tendon stays with its muscles off.
+// or when an in-organ vessel/nerve stays on screen with its organ off, or a tendon, tendon sheath or palmar aponeurosis stays with its muscles off.
 import fs from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import ts from 'typescript';
@@ -40,15 +40,15 @@ for (const def of bar.REGION_BAR.filter(r => r.key !== 'whole')) for (const sub 
   const noOrgans = new Set(systems.filter(s => !ORGANS.includes(s))), rest = vessels(shown(noOrgans));
   md += `- 全部器官關閉：仍顯示 ${rest.length} 個網格（經過、沿著的構造）：${names(rest).join('；') || '無'}\n`;
   const noMuscle = new Set(systems.filter(s => s !== 'muscular')), left = shown(noMuscle);
-  const tendons = left.filter(id => owners.byId.get(id).system === 'tendon'), conn = left.filter(id => { const p = owners.byId.get(id); return p.system === 'connective' && LIKE.test(p.name); });
+  const tendons = left.filter(id => owners.byId.get(id).system === 'tendon' || owners.muscleOf.has(id)), conn = left.filter(id => { const p = owners.byId.get(id); return p.system === 'connective' && LIKE.test(p.name); });
   bad += tendons.length;
-  md += `- 肌肉關閉：肌腱 ${tendons.length} 個網格；結締組織中肌腱樣、筋膜樣、韌帶樣構造 ${conn.length} 個網格${conn.length ? '：' + names(conn).join('；') : ''}\n\n`;
+  md += `- 肌肉關閉：肌腱、腱鞘與掌腱膜（跟著肌肉的）${tendons.length} 個網格；其餘結締組織中肌腱樣、筋膜樣、韌帶樣構造 ${conn.length} 個網格${conn.length ? '：' + names(conn).join('；') : ''}\n\n`;
 }
 const out = fileURLToPath(new URL('docs/owner-visibility-audit.md', root));
 if (process.argv.includes('--check')) {
   if (bad) { console.error(`${bad} owner visibility problem(s)`); process.exit(1); }
   let old = ''; try { old = fs.readFileSync(out, 'utf8'); } catch {}
   if (old !== md) { console.error('docs/owner-visibility-audit.md is out of date: run node scripts/audit-owner-visibility.mjs'); process.exit(1); }
-  console.log('Owner visibility audit OK: no in-organ vessel stays with its organ off, no tendon stays with Muscles off.'); process.exit(0);
+  console.log('Owner visibility audit OK: no in-organ vessel stays with its organ off, no tendon, sheath or palmar aponeurosis stays with Muscles off.'); process.exit(0);
 }
 fs.writeFileSync(out, md); console.log(`docs/owner-visibility-audit.md written (${bad} problems).`);

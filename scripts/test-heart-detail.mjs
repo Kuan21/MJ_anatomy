@@ -43,7 +43,7 @@ for (const p of heart.parts) {
   assert.ok(p.bounds[0][1] > 1.0 && p.bounds[1][1] < 1.45, `${p.name}: inside the thorax`);
 }
 const names = new Set(heart.parts.map(p => p.name));
-for (const required of ['Right atrium', 'Right ventricle', 'Left atrium', 'Left ventricle', 'Anterior papillary muscle of right ventricle', 'Posteromedial papillary muscle of left ventricle', 'Posterior cusp of bicuspid valve', 'Septal cusp of tricuspid valve', 'Chordae tendineae of bicuspid valve', 'Chordae tendineae of tricuspid valve', 'Right coronary artery', 'Great cardiac vein', 'Coronary sinus']) assert.ok(names.has(required), required);
+for (const required of ['Right atrium', 'Right ventricle', 'Left atrium', 'Left ventricle', 'Anterior papillary muscle of right ventricle', 'Posterior papillary muscle of left ventricle', 'Posterior cusp of bicuspid valve', 'Septal cusp of tricuspid valve', 'Chordae tendineae of bicuspid valve', 'Chordae tendineae of tricuspid valve', 'Right coronary artery', 'Great cardiac vein', 'Coronary sinus']) assert.ok(names.has(required), required);
 assert.ok(heart.parts.filter(p => p.group === 'valves').length === 13 && heart.parts.filter(p => p.group === 'papillary').length === 5);
 
 // the great veins join their atrium: venae cavae to the right atrium, the four pulmonary veins to the left atrium (surfaces within 1 mm)
