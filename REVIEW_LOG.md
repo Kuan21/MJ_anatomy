@@ -2,7 +2,21 @@
 
 最後更新：2026-10-31。規則：只改介面、效能、腳本、文件的 PR 在 `build` 通過後自動 merge；涉及模型、示意模型、解剖內容、名稱、Quiz 資料的 PR 標【需人工審核】，**一律不開 auto-merge**，等你確認。
 
+## 歸屬與命名決定（六項，【需人工審核】，不自動 merge）
+
+截圖（`-before` 修改前、`-after` 修改後）在 `pr-screenshots` 分支 `decisions-2026-10-31/`（網址在 PR 說明）。本機重現：`npm run predev`、`npm run build`、`npx vite preview`，網址加 `?mjview=1`。
+
+1. **肺門的肺動脈、肺靜脈跟著肺**：現況是左右肺動脈與上、下肺靜脈歸「經過」（模型網格從肺門再進入肺內約 2 cm）。改為歸「肺」（`app/mj-organ-owners.ts` 新規則）：要「動脈／靜脈」與「呼吸」兩個開關都開才顯示；肺動脈幹仍是經過。肺面板的血管開關與肺詳細檢視會把呼吸打開，所以仍看得到。器官內網格 359 增為 375（肺）。清單：`docs/organ-owners.md`、逐區檢查 `docs/owner-visibility-audit.md`。
+2. **腱鞘與掌腱膜跟著肌肉**：腱鞘四條（屈肌總腱鞘、屈拇長肌腱鞘、橈側屈腕肌腱鞘、結節間腱鞘）、腕背六個伸肌間隔（同為包肌腱的滑膜通道，我一併歸入；若你只要四條腱鞘請告訴我）與掌腱膜，共 22 個網格（左右各 11）。歸屬由產生器從「它包住的肌腱」推得（`scripts/data/tendon-owner-overrides.json` 的 `sheathTendons` 只列肌腱名稱，肌肉來自切分規格；結果在 `docs/tendon-owners.md`）：屈肌總腱鞘→屈指淺肌與屈指深肌；屈拇長肌腱鞘→屈拇長肌；橈側屈腕肌腱鞘→橈側屈腕肌；結節間腱鞘→肱二頭肌長頭；掌腱膜→掌長肌。支持帶、韌帶、關節囊、血管鞘（腋鞘、股鞘）、腹直肌鞘、足底腱膜仍不跟肌肉；下肢沒有腱鞘網格。顯示規則與肌腱相同（分區、左右、淡化、分層、單獨顯示、隱藏），且肌肉關閉時一律不畫。左側面板：它們仍列在「結締組織」下（沒有新增子項），結締組織開著、肌肉關閉時這些網格消失、其餘結締組織（支持帶、韌帶）留下；結締組織列的提示文字說明這件事。選到腱鞘時，所屬肌肉以淡化顯示當參照。
+3. **瓣膜 leaflet 改 cusp**：主動脈瓣三片改為 Left／Right coronary cusp of aortic valve、Non-coronary cusp of aortic valve；肺動脈瓣本來就是 Anterior／Left／Right semilunar cusp of pulmonary valve，不用改。「leaflet」寫法保留為別名：搜尋與 Quiz 輸入答案兩種都收（cusp = leaflet），同義字表、資訊卡、標籤、檢查清單、命名報告、Quiz 題庫都已更新，中文名不變。二尖瓣、三尖瓣的 leaflet／cusp 別名沿用原狀。
+4. **肝、腎、脾門的主幹一律顯示**：已確認 #162 的歸類就是「經過」（腎動脈與靜脈到腎門、肝總動脈、肝固有動脈與門靜脈到肝門、脾動脈與脾靜脈到脾門），不隨器官開關隱藏；沒有改歸屬，只在 `docs/organ-owners.md` 邊界表寫明「一律顯示」，並加測試（`scripts/test-owners.mjs`）固定下來。
+5. **腦血管不另設「腦」開關**：維持跟「神經系統」開關，不改程式，只記錄決定（邊界表已註明）。
+6. **後乳突肌英文名**：Posterior papillary muscle of right ventricle 與 Posterior papillary muscle of left ventricle（原左側為 Posteromedial papillary muscle of left ventricle）；「Posteromedial papillary muscle」留作別名（搜尋與 Quiz 都收）。中文名不變，資訊卡、標籤、Quiz 題庫、同義字表、檢查清單與命名報告已更新。
+
+**待你決定（維持現狀）：** 基底動脈（目前：經過）、睫狀神經與睫狀神經節（經過）、腎神經節（經過）；腕背六個伸肌間隔是否算腱鞘（目前：算，跟肌肉）；足底腱膜是否也跟肌肉（目前：不跟，你只提到掌腱膜）。
+
 ## 下肢神經與骨骼 PR D（腓深神經、隱神經髕下支、碎片、穿骨與標誌稽核；【需人工審核】，不自動 merge）
+
 
 截圖（`before-`／`after-`，`nerves-` 只有骨加神經、`vessels-` 再加動脈靜脈；front、back、lateral、medial、leg-、knee-、ankle-、neck-）在 `pr-screenshots` 分支 `lower-limb-nerves-2026-10-31/`，網址 `https://raw.githubusercontent.com/Kuan21/MJ_anatomy/04d06d50256334bbcf97d8f79dbaddfdc77d87d8/lower-limb-nerves-2026-10-31/<檔名>.png`（72 張）。
 
@@ -663,6 +677,7 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 | Bug Audit 修正 13：Quiz 第二級接受主網站寫法、課程清單 1:1 別名、序數與椎骨代號 | 已合併（你 2026-10-31 確認） | #156 | 完整清單在 docs/quiz-level2-accepted-names.md |
 | Bug Audit 修正 12：關節資料的膜、聯合、脂肪墊改為真的畫出來；椎間盤／髓核／三放射軟骨從搜尋移除 | 已合併（你 2026-10-31 看過截圖後確認） | #157 | 新增 12 個可點選結構，請看截圖 |
 | **顯示規則修正：器官內血管跟器官開關、肌腱跟肌肉、肌腱改為肌肉的子項（跟腱碎片、肺尖面片誤入胸腔）** | 已合併（你 2026-10-31 確認） | #162 | 內容見「顯示規則修正」；歸屬表在 `docs/organ-owners.md`、`docs/tendon-owners.md`，邊界案例請核對 |
+| **歸屬與命名決定：肺門肺血管跟肺、腱鞘與掌腱膜跟肌肉、瓣膜 leaflet 改 cusp、後乳突肌更名** | 等我審核（【需人工審核】，不自動 merge） | 見 PR 說明 | 內容見上方「歸屬與命名決定」；待你決定的邊界項目列在該節 |
 | Bug Audit 修正 11：滑鼠懸停顯示中英名稱、點空白取消選取、手機資訊卡不蓋住選取結構、手機標題不與按鈕重疊 | 已自動 merge | #154 | 介面程式與 CSS，不改模型 |
 | Bug Audit 修正 14：手機從搜尋選特殊區域時自動打開工具面板；器官頁小標題與分區選單改英文在前；心臟／腦部檢視器只在切面數改變時重編材質 | 已自動 merge | #158 | 介面程式，不改模型 |
 | Bug Audit 修正 11：滑鼠懸停顯示中英名稱、點空白取消選取、手機資訊卡不蓋住選取結構、手機標題不與按鈕重疊 | CI 綠後自動 merge | #154 | 介面程式與 CSS，不改模型 |
@@ -1295,19 +1310,19 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 | chordae tendineae of bicuspid valve | chordae tendineae of mitral valve；chordae tendineae of left atrioventricular valve；chordae tendineae | 腱索、僧帽瓣腱索 |
 | chordae tendineae of tricuspid valve | chordae tendineae of right atrioventricular valve；chordae tendineae | 腱索、右房室瓣腱索 |
 | anterolateral papillary muscle of left ventricle | anterior papillary muscle of left ventricle；anterolateral papillary muscle | 前乳突肌、前外側乳突肌、左心室前乳突肌 |
-| posteromedial papillary muscle of left ventricle | inferior／posterior papillary muscle of left ventricle；posteromedial papillary muscle | 後乳突肌、後內側乳突肌、左心室後乳突肌 |
+| posterior papillary muscle of left ventricle | inferior papillary muscle of left ventricle；posteromedial papillary muscle of left ventricle；posteromedial papillary muscle | 後乳突肌、後內側乳突肌、左心室後乳突肌 |
 | posterior papillary muscle of right ventricle | inferior papillary muscle of right ventricle | 右心室下乳突肌 |
 | anterior leaflet of tricuspid valve | anterior leaflet of right atrioventricular valve；anterior cusp of tricuspid valve | 三尖瓣前葉 |
 | inferior leaflet of tricuspid valve | inferior leaflet of right atrioventricular valve；posterior leaflet of tricuspid valve；posterior cusp of tricuspid valve | 三尖瓣後瓣、三尖瓣下瓣 |
 | septal leaflet of tricuspid valve | septal leaflet of right atrioventricular valve；septal cusp of tricuspid valve | 三尖瓣隔瓣 |
 | anterior leaflet of mitral valve | anterior leaflet of left atrioventricular valve；anterior leaflet of bicuspid valve；anterior cusp of mitral valve | 僧帽瓣前瓣、僧帽瓣前葉、二尖瓣前葉 |
 | posterior leaflet of mitral valve | posterior leaflet of left atrioventricular valve；posterior leaflet of bicuspid valve；posterior cusp of mitral valve | 僧帽瓣後瓣、僧帽瓣後葉、二尖瓣後葉 |
-| left coronary leaflet of aortic valve | left coronary cusp of aortic valve；left coronary cusp | 主動脈瓣左冠狀瓣、左冠狀瓣 |
-| right coronary leaflet of aortic valve | right coronary cusp of aortic valve；right coronary cusp | 主動脈瓣右冠狀瓣、右冠狀瓣 |
-| non-coronary leaflet of aortic valve | non coronary cusp of aortic valve；noncoronary cusp；posterior cusp of aortic valve | 主動脈瓣無冠狀瓣、無冠瓣 |
-| anterior semilunar cusp of pulmonary valve | anterior cusp of pulmonary valve；anterior leaflet of pulmonary valve | 肺動脈瓣前瓣 |
-| left semilunar cusp of pulmonary valve | left cusp of pulmonary valve；left leaflet of pulmonary valve | 肺動脈瓣左瓣 |
-| right semilunar cusp of pulmonary valve | right cusp of pulmonary valve；right leaflet of pulmonary valve | 肺動脈瓣右瓣 |
+| left coronary cusp of aortic valve | left coronary leaflet of aortic valve；left coronary leaflet；left coronary cusp | 主動脈瓣左冠狀瓣、左冠狀瓣 |
+| right coronary cusp of aortic valve | right coronary leaflet of aortic valve；right coronary leaflet；right coronary cusp | 主動脈瓣右冠狀瓣、右冠狀瓣 |
+| non-coronary cusp of aortic valve | non-coronary leaflet of aortic valve；non coronary cusp of aortic valve；noncoronary cusp；non-coronary cusp；non-coronary leaflet；posterior cusp of aortic valve | 主動脈瓣無冠狀瓣、無冠瓣 |
+| anterior semilunar cusp of pulmonary valve | anterior cusp of pulmonary valve；anterior leaflet of pulmonary valve；anterior semilunar leaflet of pulmonary valve；anterior semilunar cusp | 肺動脈瓣前瓣 |
+| left semilunar cusp of pulmonary valve | left cusp of pulmonary valve；left leaflet of pulmonary valve；left semilunar leaflet of pulmonary valve；left semilunar cusp | 肺動脈瓣左瓣 |
+| right semilunar cusp of pulmonary valve | right cusp of pulmonary valve；right leaflet of pulmonary valve；right semilunar leaflet of pulmonary valve；right semilunar cusp | 肺動脈瓣右瓣 |
 | anterior interventricular artery | left anterior descending artery；lad；anterior interventricular branch；lad artery | 前降支、左前降支、前室間動脈 |
 | circumflex artery | left circumflex artery；circumflex branch | 迴旋支、左迴旋支、旋支 |
 | posterior interventricular branch | posterior descending artery；pda；posterior interventricular artery | 後降支、後室間動脈 |

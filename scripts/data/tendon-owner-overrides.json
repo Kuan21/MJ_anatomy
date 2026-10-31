@@ -1,5 +1,49 @@
 {
  "_note": "Owner muscle of whole-mesh tendons that have neither a cut spec nor a name that gives the muscle (see scripts/prepare-tendon-owners.mjs). Keep this list as short as possible.",
- "Right intermediate tendon": ["Right digastric"],
- "Left intermediate tendon": ["Left digastric"]
+ "Right intermediate tendon": [
+  "Right digastric"
+ ],
+ "Left intermediate tendon": [
+  "Left digastric"
+ ],
+ "_sheaths": "Tendon sheaths, the dorsal compartments of the wrist and the palmar aponeurosis follow the muscle whose tendon they enclose. Key = structure name without Right/Left (lower case), value = the tendons (names without Right/Left); the owner muscles are those of the listed tendons (app/mj-tendon-owners.ts). Retinacula, ligaments, capsules and the vessel sheaths do not follow muscles.",
+ "sheathTendons": {
+  "common flexor tendon sheath": [
+   "tendons of flexor digitorum superficialis",
+   "tendons of flexor digitorum profundus"
+  ],
+  "flexor pollicis longus tendon sheath": [
+   "tendon of flexor pollicis longus"
+  ],
+  "flexor carpi radialis tendon sheath": [
+   "tendon of flexor carpi radialis"
+  ],
+  "intertubercular tendon sheath": [
+   "tendon of long head of biceps brachii"
+  ],
+  "first dorsal compartment of wrist": [
+   "tendon of abductor pollicis longus",
+   "tendon of extensor pollicis brevis"
+  ],
+  "second dorsal compartment of wrist": [
+   "tendon of extensor carpi radialis longus",
+   "tendon of extensor carpi radialis brevis"
+  ],
+  "third dorsal compartment of wrist": [
+   "tendon of extensor pollicis longus"
+  ],
+  "fourth dorsal compartment of wrist": [
+   "tendons of extensor digitorum",
+   "tendon of extensor indicis"
+  ],
+  "fifth dorsal compartment of wrist": [
+   "tendon of extensor digiti minimi"
+  ],
+  "sixth dorsal compartment of wrist": [
+   "tendon of extensor carpi ulnaris"
+  ],
+  "palmar aponeurosis": [
+   "tendon of palmaris longus"
+  ]
+ }
 }

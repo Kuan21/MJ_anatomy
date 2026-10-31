@@ -207,10 +207,10 @@ export function buildValveApparatus(mesh) {
   const M = name => meshOf(mesh(name).positions, mesh(name).indices);
   const specs = [
     {side: 'left', chamber: 'Left ventricle', atrium: 'Left atrium', ringHint: null, valve: 'bicuspid',
-      cusps: [{name: 'Anterior cusp of bicuspid valve', ref: 'Anterior leaflet of mitral valve', D0: .022, Dc: .010, scallops: 0, basal: 0, muscles: ['Anterolateral papillary muscle of left ventricle', 'Posteromedial papillary muscle of left ventricle'], margin: 7, rough: 4},
-              {name: 'Posterior cusp of bicuspid valve', ref: 'Posterior leaflet of mitral valve', D0: .014, Dc: .010, scallops: 3, basal: 4, muscles: ['Anterolateral papillary muscle of left ventricle', 'Posteromedial papillary muscle of left ventricle'], margin: 9, rough: 5}],
+      cusps: [{name: 'Anterior cusp of bicuspid valve', ref: 'Anterior leaflet of mitral valve', D0: .022, Dc: .010, scallops: 0, basal: 0, muscles: ['Anterolateral papillary muscle of left ventricle', 'Posterior papillary muscle of left ventricle'], margin: 7, rough: 4},
+              {name: 'Posterior cusp of bicuspid valve', ref: 'Posterior leaflet of mitral valve', D0: .014, Dc: .010, scallops: 3, basal: 4, muscles: ['Anterolateral papillary muscle of left ventricle', 'Posterior papillary muscle of left ventricle'], margin: 9, rough: 5}],
       muscles: [{name: 'Anterolateral papillary muscle of left ventricle', ref: 'Anterolateral papillary muscle of left ventricle', cap: .028, rBase: .0052, rTip: .0026, seed: 3},
-                {name: 'Posteromedial papillary muscle of left ventricle', ref: 'Inferior papillary muscle of left ventricle', cap: .030, rBase: .0052, rTip: .0026, seed: 4}],
+                {name: 'Posterior papillary muscle of left ventricle', ref: 'Inferior papillary muscle of left ventricle', cap: .030, rBase: .0052, rTip: .0026, seed: 4}],
       chordae: 'Chordae tendineae of bicuspid valve', seed: 11},
     {side: 'right', chamber: 'Right ventricle', atrium: 'Right atrium', valve: 'tricuspid',
       cusps: [{name: 'Anterior cusp of tricuspid valve', ref: 'Anterior leaflet of tricuspid valve', D0: .021, Dc: .010, scallops: 0, basal: 0, muscles: ['Anterior papillary muscle of right ventricle', 'Septal papillary muscle of right ventricle'], margin: 7, rough: 4},
