@@ -347,11 +347,8 @@ gl_FragColor = vec4(mix(vec3(0.30, 0.78, 0.62), vec3(0.03, 0.36, 0.27), edge), m
     const chunk = catalogue.chunks[index];
     const url = (path: string) => import.meta.env.BASE_URL + path.replace(/^\//, '');
     let buffer: ArrayBuffer;
-    if (typeof DecompressionStream === 'undefined') buffer = await fetchModelBuffer(url(chunk.url), chunk.bytes, false, controller.signal);
-    else {
-      try {buffer = await fetchModelBuffer(url(chunk.gzip), chunk.bytes, true, controller.signal);}
-      catch (error) {if (controller.signal.aborted) throw error; buffer = await fetchModelBuffer(url(chunk.url), chunk.bytes, false, controller.signal);}
-    }
+    try {buffer = await fetchModelBuffer(url(chunk.gzip), chunk.bytes, true, controller.signal);}
+    catch (error) {if (controller.signal.aborted) throw error; buffer = await fetchModelBuffer(url(chunk.url), chunk.bytes, false, controller.signal);}
     if (disposed) return;
     for (const p of catalogue.parts.filter(part => part.chunk === index)) {
       const geometry = new T.BufferGeometry();
