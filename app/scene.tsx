@@ -14,6 +14,7 @@ import {structureProfile} from './mj-structure-info';
 import {prepareSurfaceNormals,updateSurfaceNormals} from './surface-normals';
 import {PointerTap} from './pointer-tap';
 import {framingDistance} from './camera-framing';
+import {CAMERA_TWEEN_MS,tweenProgress} from './camera-tween';
 import {SYSTEMS,type Atlas,type SceneState,type SystemId} from './anatomy';
 import {matchesMuscleLayer} from './mj-muscle-layers';
 import {matchesFacialMuscleLayer} from './mj-facial-layers';
@@ -340,14 +341,14 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
   /** Glide the camera to `position` looking at `target`; `offset` is the view offset to end at (null clears it). */
   const moveCamera=(target:T.Vector3,position:T.Vector3,offset:[number,number]|null,w:number,h:number)=>{
    if(reducedMotion){controls.target.copy(target);camera.position.copy(position);if(offset)camera.setViewOffset(w,h,offset[0],offset[1],w,h);else camera.clearViewOffset();cameraTween=null;dirty=true;return;}
-   cameraTween={start:performance.now(),duration:300,p0:camera.position.clone(),p1:position.clone(),c0:controls.target.clone(),c1:target.clone(),o0:currentViewOffset(),o1:offset,w,h};dirty=true;
+   cameraTween={start:performance.now(),duration:CAMERA_TWEEN_MS,p0:camera.position.clone(),p1:position.clone(),c0:controls.target.clone(),c1:target.clone(),o0:currentViewOffset(),o1:offset,w,h};dirty=true;
   };
   const stepCameraTween=()=>{
-   if(!cameraTween)return;const tw=cameraTween,k=Math.min(1,(performance.now()-tw.start)/tw.duration),e=1-(1-k)**3;
+   if(!cameraTween)return;const tw=cameraTween,{e,done}=tweenProgress(tw.start,performance.now(),tw.duration);
    camera.position.lerpVectors(tw.p0,tw.p1,e);controls.target.lerpVectors(tw.c0,tw.c1,e);
    const o1=tw.o1??[0,0];if(tw.o0[0]!==o1[0]||tw.o0[1]!==o1[1]||tw.o1)camera.setViewOffset(tw.w,tw.h,T.MathUtils.lerp(tw.o0[0],o1[0],e),T.MathUtils.lerp(tw.o0[1],o1[1],e),tw.w,tw.h);
    dirty=true;
-   if(k>=1){camera.position.copy(tw.p1);controls.target.copy(tw.c1);if(!tw.o1)camera.clearViewOffset();cameraTween=null;}
+   if(done){camera.position.copy(tw.p1);controls.target.copy(tw.c1);if(!tw.o1)camera.clearViewOffset();cameraTween=null;}
   };controls.addEventListener('start',()=>{userMoved=true;cameraTween=null;});controls.addEventListener('change',()=>{dirty=true;});
   const pmrem=new T.PMREMGenerator(renderer),room=new RoomEnvironment(),env=pmrem.fromScene(room,.04);scene.environment=env.texture;room.dispose();pmrem.dispose();
   scene.add(new T.HemisphereLight(0xffffff,0xa7acb2,1.05));
