@@ -1553,3 +1553,18 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 - **歸屬與命名：** 腕背六個伸肌間隔算腱鞘、跟肌肉；足底腱膜不跟肌肉；基底動脈、睫狀神經與睫狀神經節、腎神經節歸「經過」（已不再是待決定）；肝腎脾門部血管一直顯示；腦血管跟「神經系統」開關；肺動脈與肺靜脈跟肺，呼吸關閉時肺門血管一併消失。
 - **解剖核對的參考資料：** 只用 Gray's Anatomy 1918（公有領域）與 OpenStax Anatomy and Physiology（CC BY 4.0）；其他開放授權資料先列出來源與授權給使用者確認；不可下載、使用或存放受版權保護書籍的掃描檔或 PDF；最後的解剖核對由使用者人工進行。規則已寫入 CLAUDE.md。
 - **下肢錯誤（使用者 2026-10-31）：** 肌腱仍未跟隨肌肉（Hide 無效、方塊狀肌腱）立即處理；下肢動脈與靜脈重建先盤點、等使用者確認才開始（股動脈系統、膕動脈、脛前脛後腓動脈、足部、靜脈；之後上肢、胸腔、背部）。
+
+## 舊 worktree 清理紀錄（2026-10-31，依使用者指示）
+
+| 資料夾 | 處理 | 備份分支 |
+| --- | --- | --- |
+| mj-wrist | 備份後刪除（動作稽核截圖與匯出腳本） | `archive/mj-wrist` |
+| mj-motion | 備份後刪除（肩動作稽核檔與腳本、`joint-anatomy.ts` 變更） | `archive/mj-motion` |
+| mj-fingers2 | 備份後刪除（1 個不在 main 的 commit） | `archive/mj-fingers2` |
+| mj-heartopen | 備份後刪除（1 個不在 main 的 commit；被刪除的生成檔已還原後捨棄） | `archive/mj-heartopen` |
+| mj-spaces-before | 備份後刪除（detached，7 個不在 main 的 commit） | `archive/mj-spaces-before` |
+| mj-trace | 備份後刪除（腦與 CSF 的程式變更；生成檔變更捨棄） | `archive/mj-trace` |
+| mj-beige | 備份後刪除（無額外內容，備份指向原 HEAD；米色翼狀物調查恢復時由此取回） | `archive/mj-beige` |
+| mj-shoulder、mj-sh-before、mj-lung-before、mj-before、mj-mainb | 直接刪除（commit 已在 main；只有建置輸出或生成檔變更） | — |
+| **mj-cut** | **保留，未刪除、未推送**：commit 內含神經筆記整理檔（`docs/neuro-notes-curation.json`、`docs/neuro-notes-vs-model.md`、`public/models/brain/neuro-cards.json`、`scripts/prepare-neuro-notes.mjs`），依規則等使用者確認 | — |
+| mj-lung-seg、mj-pelvis | 依使用者指示保留（進行中） | — |
