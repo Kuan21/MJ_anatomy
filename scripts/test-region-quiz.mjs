@@ -144,6 +144,15 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
         assert.ok(visible.some(s => s.id === id), 'Target always belongs to the displayed scene');
         assert.ok(visible.every(s => side === 'both' || s.side === 'midline' || s.side === side));
       }
+      // 錯題本 after the side setting changed: a target of the other side is still drawn, and nothing else of that side comes with it.
+      if (side !== 'both') {
+        const otherSide = side === 'right' ? 'left' : 'right', other = questionPool(catalogue, {section: section.id, side: otherSide, systems, count: 10}).find(s => s.side === otherSide);
+        if (other) {
+          const visible = sceneStructures(catalogue, other, section.id === 'all' ? other.sections[0] : section.id, side);
+          assert.ok(visible.some(s => s.id === other.id), `${regionId}: a mistake from the ${otherSide} side is drawn in a ${side}-side scene`);
+          assert.ok(visible.every(s => s.id === other.id || s.side === 'midline' || s.side === side), 'only the target crosses the side setting');
+        }
+      }
     }
   }
   // Each system has at least one question in the whole-region quiz.
