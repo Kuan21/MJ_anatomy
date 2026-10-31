@@ -70,7 +70,7 @@ const UPPER_MOTION_CONTROLS:{key:keyof MotionPose;label:string;action:UpperMotio
  {key:'wristDeviation',label:'腕尺偏（＋）／橈偏（－）',action:'wristExtension'},
 ];
 // Fingers: no sliders, only the gesture presets (HAND_PRESETS); the joints of the digits are moved together and eased in over half a second.
-const REGIONAL_VISIBLE:SystemId[]=['skeletal','muscular','arterial','venous','nervous','connective'];
+const REGIONAL_VISIBLE:SystemId[]=['skeletal','muscular','arterial','venous','nervous','connective','tendon'];
 const ORGAN_SYSTEM_IDS:SystemId[]=['cardiac','serous','sensory','respiratory','digestive','urinary','lymphatic','endocrine','reproductive'];
 // The three pericardial layers belong to the heart: they start hidden here and are shown in the heart detail mode (心).
 const initial:SceneState={hiddenSerous:SEROUS_LAYERS.slice(2).map(l=>l.key),tissueMotion:true,explode:0,visible:DEFAULT_VISIBLE,selected:[],hiddenParts:[],depthFilter:'all',isolate:false,view:'three-quarter',rotate:false,reset:0};

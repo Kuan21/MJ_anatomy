@@ -20,7 +20,7 @@ const index = bar.buildRegionIndex(parts);
 const LABEL = {head: '頭頸', upper: '上肢', lower: '下肢', back: '背部', gluteal: '臀區'};
 const sections = [];
 const base = n => n.replace(/\b(?:left|right)\b ?/gi, '').replace(/\s+/g, ' ').trim();
-const SYS = {skeletal: '骨', muscular: '肌肉', arterial: '動脈', venous: '靜脈', nervous: '神經', connective: '結締組織', cardiac: '心臟', respiratory: '呼吸', digestive: '消化', urinary: '泌尿', reproductive: '生殖', lymphatic: '淋巴', endocrine: '內分泌', serous: '漿膜', sensory: '感覺器', integumentary: '體表'};
+const SYS = {skeletal: '骨', muscular: '肌肉', arterial: '動脈', venous: '靜脈', nervous: '神經', connective: '結締組織', tendon: '肌腱', cardiac: '心臟', respiratory: '呼吸', digestive: '消化', urinary: '泌尿', reproductive: '生殖', lymphatic: '淋巴', endocrine: '內分泌', serous: '漿膜', sensory: '感覺器', integumentary: '體表'};
 function list(key, sub) {
   const set = bar.regionMembers(index, parts, key, sub, 'both');
   const groups = new Map();

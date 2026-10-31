@@ -121,7 +121,7 @@ export function anatomicalRegion(part:Part):AnatomicalRegion{
  if((HEAD.test(n)&&y>.98)||(y>=1.48&&ax<=.36))return 'head-neck';
  if((NECK.test(n)&&y>.95)||(y>=1.10&&y<1.50&&ax<=.20&&NECK.test(n)))return 'head-neck';
 
- const regionalSystem=['skeletal','muscular','arterial','venous','nervous','connective','integumentary'].includes(part.system);
+ const regionalSystem=['skeletal','muscular','arterial','venous','nervous','connective','tendon','integumentary'].includes(part.system);
  if(regionalSystem){
   if(spatialUpper)return 'upper-limb';
   if(spatialLower)return 'lower-limb';

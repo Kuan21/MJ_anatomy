@@ -14,7 +14,7 @@ const deepNeurovascular=/brachial plexus|subscapular|suprascapular|circumflex|in
 export function anatomyDepth(part:Part):Exclude<TissueDepth,'all'> {
  const name=n(part);
  if(part.system==='integumentary')return 'superficial';
- if(part.system==='skeletal'||part.system==='connective')return 'deep';
+ if(part.system==='skeletal'||part.system==='connective'||part.system==='tendon')return 'deep';
  if(part.system==='muscular'){
   if(deepMuscle.test(name))return 'deep';
   if(intermediateMuscle.test(name))return 'intermediate';

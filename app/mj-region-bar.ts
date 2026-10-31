@@ -156,7 +156,7 @@ export function regionMembers(index:RegionIndex,parts:Part[],key:RegionKey,sub:s
 
 /** Systems switched on when a region opens (the left panel still toggles them; only this region's structures can appear). */
 export function regionVisible(key:RegionKey,sub?:string):SystemId[]{
- const base:SystemId[]=['skeletal','muscular','arterial','venous','nervous','connective'];
+ const base:SystemId[]=['skeletal','muscular','arterial','venous','nervous','connective','tendon'];
  if(key==='chest'&&sub==='mediastinum')return[...base,'cardiac','respiratory','serous','lymphatic','digestive'];
  if(key==='chest'&&sub==='lung')return['skeletal','respiratory','serous'];
  if(key==='chest')return[...base,'reproductive'];
