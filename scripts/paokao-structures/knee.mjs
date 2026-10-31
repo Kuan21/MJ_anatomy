@@ -27,7 +27,7 @@ export default function knee(U) {
       const under = [...heads, pat], yTop = ptop[1] + .07, yBot = ptop[1] - .004;
       const g = settle(grid(yTop, yBot, .046, .030, (x, y) => front(under, x, y, ptop[2]) + .0030, 16, 9, s => 1 - .35 * s ** 1.5));
       out.push({
-        name: `${S.w} quadriceps tendon`, zh: `${S.zh}股四頭肌腱`, system: 'connective', kind: 'tendon', geometry: [U.sheet(g, .006)],
+        name: `${S.w} quadriceps tendon`, zh: `${S.zh}股四頭肌腱`, system: 'connective', kind: 'tendon', retired: true, geometry: [U.sheet(g, .006)],
         card: {origin: ['The four parts of quadriceps femoris: rectus femoris, vastus medialis, vastus lateralis and vastus intermedius, joined about 7 cm above the patella', '股四頭肌的四個部分：股直肌、股內側肌、股外側肌與股中間肌，在髕骨上方約 7 公分處匯合'],
           insertion: ['Base (upper border) of the patella; fibres continue over the front of the patella into the patellar ligament', '髕骨底（上緣）；部分纖維越過髕骨前面延續為髕韌帶'],
           action: ['Transmits the pull of quadriceps to extend the knee; the commonest site of tendon rupture after the patellar ligament', '把股四頭肌的拉力傳到髕骨以伸直膝關節；斷裂時膝無法主動伸直']},
@@ -39,7 +39,7 @@ export default function knee(U) {
       const zTop = front([pat], pbot[0], pbot[1] + .006, pbot[2]), zBot = front([tib], tub[0], tub[1], tub[2]);
       const g = grid(pbot[1] + .003, tub[1] + .001, .034, .022, (x, y, s) => lerp([0, 0, zTop], [0, 0, zBot], s)[2] + .0035 + .004 * Math.sin(Math.PI * s), 9, 7, s => .82 + .18 * Math.sin(Math.PI * Math.min(1, s * 1.15 + .05)));
       out.push({
-        name: `${S.w} patellar ligament`, zh: `${S.zh}髕韌帶`, system: 'connective', kind: 'ligament', geometry: [U.sheet(g, .007)],
+        name: `${S.w} patellar ligament`, zh: `${S.zh}髕韌帶`, system: 'connective', kind: 'ligament', retired: true, geometry: [U.sheet(g, .007)],
         card: {origin: ['Apex and adjoining lower border of the patella', '髕骨尖與其鄰近的下緣'], course: ['Passes straight down in front of the joint line to the tibial tuberosity; the infrapatellar fat pad lies behind it', '垂直向下，走在關節線前方，止於脛骨粗隆；後面是髕下脂肪墊'], supply: ['Carries the force of quadriceps from the patella to the tibia (the patellar tendon reflex is tested by tapping it)', '把股四頭肌的力量從髕骨傳到脛骨（敲擊可引出髕腱反射）']},
         refs: [REF],
       });
@@ -62,7 +62,7 @@ export default function knee(U) {
       }
       const gs = settle(g);
       out.push({
-        name: `${S.w} ${side} patellar retinaculum`, zh: `${S.zh}髕${zh}支持帶`, system: 'connective', kind: 'retinaculum', geometry: [U.sheet(gs, .0016)],
+        name: `${S.w} ${side} patellar retinaculum`, zh: `${S.zh}髕${zh}支持帶`, system: 'connective', kind: 'retinaculum', retired: true, geometry: [U.sheet(gs, .0016)],
         card: {origin: [`${en} border of the patella and the edge of the quadriceps tendon (from vastus ${side === 'medial' ? 'medialis' : 'lateralis'})`, `髕骨${zh}緣與股四頭肌腱邊緣（自股${zh}肌）`],
           course: [`A thin layer that passes beside the patella to the ${side} tibial condyle and the ${side} epicondyle of the femur`, `薄層，走在髕骨${zh}方，連到脛骨${zh}髁與股骨${zh}上髁`], supply: ['Holds the patella in the trochlear groove; the lateral one is released surgically when the patella is pulled laterally', '把髕骨固定在股骨滑車溝內；髕骨向外側脫位時，外側支持帶過緊可手術鬆解']},
         refs: [REF],

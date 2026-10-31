@@ -76,7 +76,8 @@ for(let i=0;i<atlas.parts.length;i++){
  if(after.tendonCut){
   // a muscle that ends at its musculotendinous junction (scripts/tendon/*.mjs): its distal end was cut off into a tendon part, so it has other vertices but keeps its id, name, bounds and
   // lies inside its original bounds; every index is valid
-  assert.equal(before.system,'muscular',`${before.name}: tendon cut`);
+  // the raw atlas files a few leg muscles (fibularis, tibialis) as bones; the viewer corrects that
+  assert.ok(before.system==='muscular'||(before.system==='skeletal'&&/fibularis|tibialis/.test(before.name)),`${before.name}: tendon cut`);
   const d=delivered[after.chunk],pos=new Float32Array(d.buffer.slice(d.byteOffset+after.positions,d.byteOffset+after.positions+after.vertexCount*12)),idx=new Uint32Array(d.buffer.slice(d.byteOffset+after.indices,d.byteOffset+after.indices+after.indexCount*4));
   for(let k=0;k<3;k++){let lo=Infinity,hi=-Infinity;for(let v=k;v<pos.length;v+=3){lo=Math.min(lo,pos[v]);hi=Math.max(hi,pos[v]);}assert.ok(lo>=before.bounds[0][k]-.0005&&hi<=before.bounds[1][k]+.0005,`${before.name}: cut muscle left its bounds`);}
   assert.ok(idx.every(v=>v<after.vertexCount),`${before.name}: index out of range`);continue;

@@ -105,8 +105,8 @@ export const QUIZ_REGIONS = {
     headline: ['看名稱，', '點出位置。'], description: ['由臀部到足部，在 3D 模型上練習辨認。', '每答一題，立即顯示正確位置與資料卡。'],
     scope: '採用現有圖譜的固定解剖姿勢。題目只涵蓋已有模型的構造；神經、動脈與靜脈可以獨立練習。',
     frame: {x: .19, z: [-.13, .09], footZ: .19}, sections: LOWER_SECTIONS,
-    // tendons are asked in the upper limb for now; the other regions get them in later batches
-    systems: ['skeletal', 'muscular', 'nervous', 'arterial', 'venous'],
+    // tendons are asked in the upper and lower limb; the thorax and back get them in later batches
+    systems: ['skeletal', 'muscular', 'tendon', 'nervous', 'arterial', 'venous'],
   },
   'upper-limb': {
     id: 'upper-limb', label: '上肢', english: 'Upper limb', tag: '上肢篇', file: 'quiz-upper.json', hash: '#/quiz/upper-limb', atlasHash: '#/atlas/upper',

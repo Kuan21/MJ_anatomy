@@ -322,6 +322,17 @@
       "pinned_by": "commit 6c7f9016bd5899ac8edafd31b9900c151df42ed6; meshes vendored by scripts/extract-zanatomy-limb.mjs (file sha256 in the vendored data)"
     },
     {
+      "id": "z-anatomy-muscular-leg",
+      "files": [
+        "scripts/data/zanatomy-lower-limb.json.gz",
+        "models/paokao/*"
+      ],
+      "license": "CC BY-SA 4.0 (Z-Anatomy), with the BodyParts3D credit CC BY-SA 2.1 Japan",
+      "origin": "Z-Anatomy MuscularSystem100.fbx and SkeletalSystem100.fbx: superior and inferior extensor retinacula of the ankle, plantar aponeurosis, medial and lateral patellar retinacula",
+      "url": "https://github.com/LluisV/Z-Anatomy",
+      "pinned_by": "commit 6c7f9016bd5899ac8edafd31b9900c151df42ed6; meshes vendored by scripts/extract-zanatomy-leg.mjs (file sha256 in the vendored data); never taken from any other repository"
+    },
+    {
       "id": "bodyparts3d-4.0-tendons",
       "files": [
         "models/paokao/*",

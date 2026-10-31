@@ -57,17 +57,17 @@ export default function membranes(U) {
         const slab = {y: [y0 - .006, y0 + .006]}, mx = U.extreme(tib, P(-sx, 0, 0), slab)[0], x1 = U.extreme(fib, P(sx, 0, 0), slab)[0], z = frontZ((mx + x1) / 2, y0);
         return U.conformingSheet([P(mx, y0 + h + tilt, z - .006), P(x1, y0 + h, z - .006), P(x1, y0 - h, z - .006), P(mx, y0 - h + tilt, z - .006)], under, .0012, .0012, .0025, P(0, 0, .02));
       };
-      push(S, 'superior extensor retinaculum of foot', '伸肌上支持帶', 'retinaculum', 'connective', {geometry: [bandFront(.125, .014, 0)]},
+      push(S, 'superior extensor retinaculum of foot', '伸肌上支持帶', 'retinaculum', 'connective', {geometry: [bandFront(.125, .014, 0)], retired: true},
         ['A transverse band across the lower ends of the tibia and fibula, just above the ankle', '橫跨脛骨與腓骨下端、位於踝關節上方的橫帶'], ['Binds down the tendons of tibialis anterior, extensor hallucis longus, extensor digitorum longus and fibularis tertius', '把脛前肌、伸拇長肌、伸趾長肌與第三腓骨肌的肌腱固定在原位']);
-      push(S, 'inferior extensor retinaculum of foot', '伸肌下支持帶', 'retinaculum', 'connective', {geometry: [bandFront(.082, .010, -.004)]},
+      push(S, 'inferior extensor retinaculum of foot', '伸肌下支持帶', 'retinaculum', 'connective', {geometry: [bandFront(.082, .010, -.004)], retired: true},
         ['A Y-shaped band over the front of the ankle and dorsum of the foot, attached laterally to the calcaneus', '位於踝前與足背、外側附著於跟骨的 Y 形帶'], ['Holds the extensor tendons close to the ankle and foot', '把伸肌腱固定在踝與足背']);
       const mm = add(medM, P(-sx * .004, -.002, -.004)), calM = U.extreme(calc, P(-sx, 0, -.3), {y: [.02, .06]});
-      push(S, 'flexor retinaculum of ankle', '踝屈肌支持帶', 'retinaculum', 'connective', {geometry: [U.conformingSheet([add(mm, P(0, .013, 0)), add(calM, P(0, .019, 0)), add(calM, P(0, -.007, 0)), add(mm, P(0, -.013, 0))], [tib, tal, calc, ...['Tibialis posterior', 'Flexor digitorum longus', 'Flexor hallucis longus'].map(n => `${S.w} ${n.toLowerCase()}`)].filter(U.has), .0012, .0012, .0025, P(-sx * .014, 0, -.004))]},
+      push(S, 'flexor retinaculum of ankle', '踝屈肌支持帶', 'retinaculum', 'connective', {geometry: [U.conformingSheet([add(mm, P(0, .013, 0)), add(calM, P(0, .019, 0)), add(calM, P(0, -.007, 0)), add(mm, P(0, -.013, 0))], [tib, tal, calc, ...['Tibialis posterior', 'Flexor digitorum longus', 'Flexor hallucis longus'].map(n => `${S.w} ${n.toLowerCase()}`)].filter(U.has), .0012, .0012, .0025, P(-sx * .014, 0, -.004))], retired: true},
         ['A band from the medial malleolus to the medial surface of the calcaneus, roofing the tarsal tunnel', '由內踝連到跟骨內側面、構成跗隧道頂部的帶'], ['Holds the tendons of tibialis posterior, flexor digitorum longus and flexor hallucis longus and the tibial nerve and posterior tibial vessels against the ankle', '把脛後肌、屈趾長肌、屈拇長肌肌腱及脛神經、脛後血管固定在踝後內側']);
       const latCal = U.extreme(calc, P(sx, 0, -.2), {y: [.02, .06]}), lm = add(latM, P(sx * .004, .0, -.004));
-      push(S, 'superior fibular retinaculum', '腓骨肌上支持帶', 'retinaculum', 'connective', {geometry: [U.conformingSheet([add(lm, P(0, .007, 0)), add(latCal, P(0, .019, 0)), add(latCal, P(0, .005, 0)), add(lm, P(0, -.007, 0))], [fib, calc, tal, ...['Fibularis longus', 'Fibularis brevis'].map(n => `${S.w} ${n.toLowerCase()}`)].filter(U.has), .0012, .0012, .0025, P(sx * .012, 0, -.004))]},
+      push(S, 'superior fibular retinaculum', '腓骨肌上支持帶', 'retinaculum', 'connective', {geometry: [U.conformingSheet([add(lm, P(0, .007, 0)), add(latCal, P(0, .019, 0)), add(latCal, P(0, .005, 0)), add(lm, P(0, -.007, 0))], [fib, calc, tal, ...['Fibularis longus', 'Fibularis brevis'].map(n => `${S.w} ${n.toLowerCase()}`)].filter(U.has), .0012, .0012, .0025, P(sx * .012, 0, -.004))], retired: true},
         ['A band from the back of the lateral malleolus to the lateral surface of the calcaneus', '由外踝後方連到跟骨外側面的帶'], ['Holds the tendons of fibularis longus and brevis behind the lateral malleolus', '把腓骨長肌與短肌腱固定在外踝後方']);
-      push(S, 'inferior fibular retinaculum', '腓骨肌下支持帶', 'retinaculum', 'connective', {geometry: [U.conformingSheet([add(latCal, P(0, .016, .004)), add(latCal, P(0, .016, .030)), add(latCal, P(0, .004, .030)), add(latCal, P(0, .004, .004))], [calc], .0012, .0012, .0025)]},
+      push(S, 'inferior fibular retinaculum', '腓骨肌下支持帶', 'retinaculum', 'connective', {geometry: [U.conformingSheet([add(latCal, P(0, .016, .004)), add(latCal, P(0, .016, .030)), add(latCal, P(0, .004, .030)), add(latCal, P(0, .004, .004))], [calc], .0012, .0012, .0025)], retired: true},
         ['A band on the lateral surface of the calcaneus, continuous above with the inferior extensor retinaculum', '位於跟骨外側面，上方與伸肌下支持帶相連'], ['Binds the fibularis tendons to the calcaneus below the lateral malleolus', '把腓骨肌腱固定在外踝下方的跟骨上']);
     }
   }
@@ -86,7 +86,7 @@ export default function membranes(U) {
       ['The aponeuroses of the three flat abdominal muscles enclose rectus abdominis; the anterior wall is drawn here', '三層腹壁扁肌的腱膜包住腹直肌；此處畫出前壁'], ['Encloses rectus abdominis and the superior and inferior epigastric vessels; fused in the midline as the linea alba', '包裹腹直肌與腹壁上、下動脈；在中線融合成白線'], ['Aponeuroses of external oblique, internal oblique and transversus abdominis', '腹外斜肌、腹內斜肌與腹橫肌的腱膜']);
     push(null, 'thoracolumbar fascia', '胸腰筋膜', 'fascia', 'connective', {geometry: [geo(back)]},
       ['The deep fascia of the back over the erector spinae, thickest in the lumbar region', '覆蓋豎脊肌的背部深筋膜，腰部最厚'], ['Encloses the erector spinae; gives origin to latissimus dorsi and transversus abdominis (shown here as its posterior layer)', '包裹豎脊肌；是背闊肌與腹橫肌的起點（此處畫出後層）']);
-    for (const S of SIDES) push(S, 'plantar aponeurosis', '足底腱膜', 'aponeurosis', 'connective', {geometry: [geo(sole[S.w])]},
+    for (const S of SIDES) push(S, 'plantar aponeurosis', '足底腱膜', 'aponeurosis', 'connective', {geometry: [geo(sole[S.w])], retired: true},
       ['A thick fibrous sheet covering the central and medial parts of the sole, from the calcaneal tuberosity to the toes', '覆蓋足底中央與內側的厚纖維膜，由跟骨粗隆到趾'], ['Supports the longitudinal arch and protects the plantar muscles, vessels and nerves', '支撐縱弓，保護足底肌肉、血管與神經']);
   }
   return out;

@@ -11,7 +11,7 @@
 
 ## 一、結果摘要
 
-- 涵蓋結構名稱（去除左右後）：1476 個
+- 涵蓋結構名稱（去除左右後）：1475 個
 - 採用來源 1（muscle-layers.json）改名：33 個；來源 2（跑考摘要）：14 個；來源 3（其他筆記）：25 個
 - 全站固定修正：「背闊肌」→「闊背肌」
 - 仍缺中文名或含英文：0 個
@@ -21,7 +21,7 @@
 | 台灣解剖學名詞（程式內建對照表） | 1279 |
 | muscle-layers.json | 88 |
 | glossary.json（其他筆記） | 75 |
-| glossary.json（跑考摘要） | 34 |
+| glossary.json（跑考摘要） | 33 |
 
 ## 二、已改名（前後對照）
 
@@ -1074,7 +1074,7 @@
 
 ## 五、全部結構命名一覽
 
-<details><summary>展開 1476 項</summary>
+<details><summary>展開 1475 項</summary>
 
 | 結構 | 使用來源 | 中文名 |
 |---|---|---|
@@ -2285,7 +2285,6 @@
 | arcuate popliteal ligament | 台灣解剖學名詞（程式內建對照表） | 弓狀膕韌帶 |
 | articular capsule of knee joint | 台灣解剖學名詞（程式內建對照表） | 膝關節囊 |
 | deep part of tibial collateral ligament | 台灣解剖學名詞（程式內建對照表） | 脛側副韌帶深部 |
-| fibular collateral ligament | glossary.json（跑考摘要） | 腓側副韌帶 |
 | infrapatellar fat pad | 台灣解剖學名詞（程式內建對照表） | 髕下脂肪墊 |
 | lateral meniscus | 台灣解剖學名詞（程式內建對照表） | 外側半月板 |
 | medial meniscus | 台灣解剖學名詞（程式內建對照表） | 內側半月板 |
