@@ -10,6 +10,7 @@ import {mergeGeometries} from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import {createExplosionLayout} from './explosion-layout';
 import {fetchModelBuffer,loadMissingChunks,pruneModelCache} from './model-download';
 import {createAssetQueue} from './asset-queue';
+import {structureProfile} from './mj-structure-info';
 import {prepareSurfaceNormals,updateSurfaceNormals} from './surface-normals';
 import {PointerTap} from './pointer-tap';
 import {framingDistance} from './camera-framing';
@@ -38,11 +39,11 @@ const bodyNerveBindings=bodyNerveData as Record<string,BodyRegion>;
 export interface AnatomyLoadStatus {loaded:number;total:number;systems:Record<string,number>;failed:string[];busy:boolean;interactive:boolean;supplementaryPending:number}
 // Selection colours: soft mint (#5DB89A) at 85 % strength; hover is a lighter tint of the same hue.
 const SELECT_COLOR=0x5DB89A,HOVER_COLOR=0xA7DCCB;
-interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;onLabelPick?:(id:string)=>void;onSelectNerve?:(name:string,system?:SystemId)=>void;onProgress:(n:number)=>void;onLoadStatus?:(status:AnatomyLoadStatus)=>void;retryNonce?:number;onError:(s:string)=>void;onJointDrag?:(side:'left'|'right',joint:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion',delta:number)=>void;region?:'whole-body'|'shoulder'|'arm'|'forearm'|'hand';focusSide?:'both'|'left'|'right';motionActive?:boolean;jointMotionEnabled?:boolean;selectedExternalNerve?:string|null;bodyArea?:'whole'|'upper'|'lower'|'head'|'organs'|'chest'|'back'|'abdomen'|'pelvis'|'gluteal'}
-export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectNerve,onProgress,onLoadStatus,retryNonce=0,onError,onJointDrag,region='whole-body',focusSide='both',motionActive=false,jointMotionEnabled=false,selectedExternalNerve=null,bodyArea='whole'}:Props){
+interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;/** a tap on empty background (nothing under the pointer) */onClear?:()=>void;onLabelPick?:(id:string)=>void;onSelectNerve?:(name:string,system?:SystemId)=>void;onProgress:(n:number)=>void;onLoadStatus?:(status:AnatomyLoadStatus)=>void;retryNonce?:number;onError:(s:string)=>void;onJointDrag?:(side:'left'|'right',joint:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion',delta:number)=>void;region?:'whole-body'|'shoulder'|'arm'|'forearm'|'hand';focusSide?:'both'|'left'|'right';motionActive?:boolean;jointMotionEnabled?:boolean;selectedExternalNerve?:string|null;bodyArea?:'whole'|'upper'|'lower'|'head'|'organs'|'chest'|'back'|'abdomen'|'pelvis'|'gluteal'}
+export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,onSelectNerve,onProgress,onLoadStatus,retryNonce=0,onError,onJointDrag,region='whole-body',focusSide='both',motionActive=false,jointMotionEnabled=false,selectedExternalNerve=null,bodyArea='whole'}:Props){
  const retryLoad=useRef<(()=>void)|null>(null);
- const host=useRef<HTMLDivElement>(null),latest=useRef(state),select=useRef(onSelect),labelPick=useRef(onLabelPick),selectNerve=useRef(onSelectNerve),selectedNerve=useRef<string|null>(selectedExternalNerve),jointDrag=useRef(onJointDrag),viewerContext=useRef({region,focusSide,motionActive,jointMotionEnabled,bodyArea});
- latest.current=state;select.current=onSelect;labelPick.current=onLabelPick;selectNerve.current=onSelectNerve;selectedNerve.current=selectedExternalNerve;jointDrag.current=onJointDrag;viewerContext.current={region,focusSide,motionActive,jointMotionEnabled,bodyArea};
+ const host=useRef<HTMLDivElement>(null),latest=useRef(state),select=useRef(onSelect),clearSel=useRef(onClear),labelPick=useRef(onLabelPick),selectNerve=useRef(onSelectNerve),selectedNerve=useRef<string|null>(selectedExternalNerve),jointDrag=useRef(onJointDrag),viewerContext=useRef({region,focusSide,motionActive,jointMotionEnabled,bodyArea});
+ latest.current=state;select.current=onSelect;clearSel.current=onClear;labelPick.current=onLabelPick;selectNerve.current=onSelectNerve;selectedNerve.current=selectedExternalNerve;jointDrag.current=onJointDrag;viewerContext.current={region,focusSide,motionActive,jointMotionEnabled,bodyArea};
  useEffect(()=>{
   const el=host.current!;let disposed=false,frame=0,dirty=true,ready=false,lastView='',lastReset=-1,lastIsolate='',layoutKey='',amount=0,lastCameraFocus=-1,autoFade:Set<string>|null=null,autoFadeDirty=false,nerveFocusWait=0;
   let lastState:SceneState|null=null;
@@ -333,7 +334,7 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
   const width=T.MathUtils.ceilPowerOfTwo(atlas.parts.length),data=new Float32Array(width*4),partTexture=new T.DataTexture(data,width,1,T.RGBAFormat,T.FloatType);partTexture.needsUpdate=true;
   const selectedData=new Uint8Array(width*4),selectionTexture=new T.DataTexture(selectedData,width,1);selectionTexture.needsUpdate=true;
   // Pointer hover: the part under the cursor gets a lighter mint of the selection green (channel G of the selection texture).
-  let hoverIndex=-1,hoverNerve:string|null=null,lastHoverAt=0;
+  let hoverIndex=-1,hoverNerve:string|null=null,lastHoverAt=0,hoverText='';
   const setHover=(index:number,nerve:string|null)=>{
    if(index===hoverIndex&&nerve===hoverNerve)return;
    if(hoverIndex>=0)selectedData[hoverIndex*4+1]=0;
@@ -1034,8 +1035,13 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
     if(Math.abs(delta)>.05)jointDrag.current?.(jointGesture.side,jointGesture.joint,delta);
     jointGesture.lastX=e.clientX;jointGesture.lastY=e.clientY;e.preventDefault();return;
    }
-   tap.move(e.pointerId,e.clientX,e.clientY);if(e.buttons||amount<.5||e.pointerType==='touch'){hover.hidden=true;setHover(-1,null);return;}
-   {const now=performance.now();if(now-lastHoverAt>50){lastHoverAt=now;const f=ready?frontHit(e.clientX,e.clientY):null;setHover(f?.kind==='part'?f.index:-1,f?.kind==='nerve'?f.name:null);}}const rect=el.getBoundingClientRect(),x=e.clientX-rect.left,y=e.clientY-rect.top,index=findTarget(x,y,12);hover.hidden=index<0;renderer.domElement.style.cursor=index<0?'move':'grab';if(index>=0){hover.textContent=atlas.parts[index].name;hover.style.left=`${Math.max(8,Math.min(x+14,el.clientWidth-260))}px`;hover.style.top=`${Math.max(8,Math.min(y+18,el.clientHeight-55))}px`;}
+   tap.move(e.pointerId,e.clientX,e.clientY);if(e.buttons||e.pointerType==='touch'){hover.hidden=true;setHover(-1,null);return;}
+   // Hover highlight and a bilingual name tip for whatever is under the pointer (part, nerve, joint tissue); throttled to one ray cast per 50 ms.
+   {const now=performance.now();if(now-lastHoverAt>50){lastHoverAt=now;const f=ready?frontHit(e.clientX,e.clientY):null;setHover(f?.kind==='part'?f.index:-1,f?.kind==='nerve'?f.name:null);
+    if(f?.kind==='part'){const part=atlas.parts[f.index],profile=structureProfile(part.name,part.system,part);hoverText=profile.chinese?`${profile.english??part.name}\n${profile.chinese}`:profile.english??part.name;}
+    else if(f?.kind==='nerve'||f?.kind==='joint'){const profile=structureProfile(f.name,f.kind==='nerve'?'nervous':'connective');hoverText=profile.chinese?`${profile.english??f.name}\n${profile.chinese}`:profile.english??f.name;}
+    else hoverText='';}}
+   const rect=el.getBoundingClientRect(),x=e.clientX-rect.left,y=e.clientY-rect.top;hover.hidden=!hoverText;renderer.domElement.style.cursor=hoverText?'pointer':'move';if(hoverText){hover.textContent=hoverText;hover.style.left=`${Math.max(8,Math.min(x+14,el.clientWidth-260))}px`;hover.style.top=`${Math.max(8,Math.min(y+18,el.clientHeight-64))}px`;}
   };
   const resetPrimaryGesture=()=>{controls.enabled=true;controls.enableRotate=true;controls.enablePan=true;controls.mouseButtons.LEFT=T.MOUSE.PAN;controls.touches.ONE=T.TOUCH.PAN;renderer.domElement.style.cursor='move';};
   const cancel=(e:PointerEvent)=>{touchPointers.delete(e.pointerId);if(jointGesture?.pointerId===e.pointerId)jointGesture=null;tap.cancel(e.pointerId);resetPrimaryGesture();};
@@ -1049,6 +1055,8 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
    const validTap=tap.up(e.pointerId,e.clientX,e.clientY);resetPrimaryGesture();if(!validTap||!ready)return;
    const front=frontHitNear(e.clientX,e.clientY,e.pointerType==='touch'?16:8);if(front?.kind==='brain'){hover.hidden=true;select.current(front.id);return;}if(front?.kind==='nerve'){hover.hidden=true;selectNerve.current?.(front.name);return;}if(front?.kind==='joint'){hover.hidden=true;selectNerve.current?.(front.name,'connective');return;}
    let found=front?.kind==='part'?front.index:-1;const rect=renderer.domElement.getBoundingClientRect();if(found<0&&amount>.45)found=findTarget(e.clientX-rect.left,e.clientY-rect.top,e.pointerType==='touch'?24:16);if(found>=0){hover.hidden=true;select.current(atlas.parts[found].id);}
+   // nothing under the tap (no part, nerve, joint tissue or brain piece): a tap on the background clears the selection
+   else if(!front)clearSel.current?.();
   };
   renderer.domElement.addEventListener('pointerdown',down,true);renderer.domElement.addEventListener('pointermove',move);renderer.domElement.addEventListener('pointerleave',()=>setHover(-1,null));renderer.domElement.addEventListener('pointerup',up);renderer.domElement.addEventListener('pointercancel',cancel);
   // ?mjview=1 exposes the camera for the screenshot scripts (view a structure from a chosen side and distance); nothing in the app uses it.
@@ -1227,7 +1235,9 @@ export default function AnatomyScene({atlas,state,onSelect,onLabelPick,onSelectN
      const panel=document.querySelector('.left-workspace')?.getBoundingClientRect(),nav=document.querySelector('.body-region-nav')?.getBoundingClientRect(),rail=[document.querySelector('.right-tool-rail'),document.querySelector('.lung-focus')].map(q=>q?.getBoundingClientRect()).find(r=>!!r&&r.width>0);
      const left=panel&&panel.width>0?Math.min(w*.48,panel.right-rect.left+18):20;
      const right=rail&&rail.width>0?rail.left-rect.left-16:w-20;
-     const top=nav?nav.bottom-rect.top+20:160,bottom=h-64;
+     const top=nav?nav.bottom-rect.top+20:160;let bottom=h-64;
+     // On a phone the information sheet rises from the bottom and would cover the structure just picked: the free area ends where the sheet begins (P2-11).
+     if(w<768&&s.inspectorOpen){const sheet=document.querySelector('.detail-sheet')?.getBoundingClientRect();bottom=Math.min(bottom,(sheet&&sheet.height>0?sheet.top-rect.top:h*.52-139)-16);}
      const availableWidth=Math.max(100,right-left),availableHeight=Math.max(100,bottom-top);
      camera.setViewOffset(w,h,w/2-(left+right)/2,h/2-(top+bottom)/2,w,h);
      const focusScale=T.MathUtils.clamp(s.cameraFocusScale??1,.62,1.15);
