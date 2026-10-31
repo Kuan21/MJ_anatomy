@@ -2,6 +2,7 @@
 // and the grooves left by the aortic arch, descending aorta, subclavian artery, brachiocephalic veins, azygos vein, superior vena cava and oesophagus.
 // A groove is the part of the lobe surface that lies within a few millimetres of the neighbouring structure and faces it.
 import {sub, add, mul, unit, len, lerp, dot} from '../lib/paokao-util.mjs';
+import {lungCard} from './lung-cards.mjs';
 
 const REF = 'Gray’s Anatomy for Students, 4th ed. (Drake et al.), ch. 3 Thorax; Moore’s Clinically Oriented Anatomy, 8th ed.';
 
@@ -63,7 +64,8 @@ export default function lungs(U, part = 'base') {
         card: {origin: [`Surface of the ${side} lung`, `${z}肺表面`], course: ['A faint shallow mark near the apex where the first rib lies against the lung', '肺尖附近、第 1 肋貼靠肺的淺痕'], supply: [`Left by the ${side} first rib`, `由${z}側第 1 肋壓出`]}, refs: [REF]});
       late.push({name: `Contact area for thymus of ${side} lung`, zh: `${z}肺胸腺接觸區`, system: 'respiratory', kind: 'surface', parent: top, geometry: [facing(top, `${w} lobe of thymus`, side === 'right' ? .008 : .007)],
         card: {origin: [`Anterior part of the mediastinal surface of the ${side} lung`, `${z}肺縱隔面前部`], course: ['The part of the mediastinal surface that lies against the thymus (or its fatty remnant) in front of the great vessels', '縱隔面上貼靠胸腺（或其脂肪殘餘）的部分，位於大血管前方'], supply: [`Lies beside the ${side} lobe of the thymus`, `鄰接${z}側胸腺葉`]}, refs: [REF]});
-      late.push({name: `Contact area for trachea of ${side} lung`, zh: `${z}肺氣管接觸區`, system: 'respiratory', kind: 'surface', parent: top, geometry: [facing(top, 'Trachea', side === 'right' ? .009 : .013)],
+      // The left lung has no tracheal contact area (the aortic arch lies between the trachea and the left lung); only the right lung has one.
+      if (side === 'right') late.push({name: `Contact area for trachea of ${side} lung`, zh: `${z}肺氣管接觸區`, system: 'respiratory', kind: 'surface', parent: top, geometry: [facing(top, 'Trachea', side === 'right' ? .009 : .013)],
         card: {origin: [`Mediastinal surface of the ${side} upper lobe`, `${z}肺上葉縱隔面`], course: ['The part of the mediastinal surface above the hilum that lies beside the trachea', '肺門上方、貼靠氣管的縱隔面部分'], supply: ['The pleura separates it from the trachea', '以胸膜與氣管相隔']}, refs: [REF]});
       const zmax = Math.max(...upper.map(l => U.mesh(l).hi[2]));
       late.push({name: `Anterior border of ${side} lung`, zh: `${z}肺前緣`, system: 'respiratory', kind: 'surface', parent: top, geometry: upper.map(l => band(l, tr => tr.mid[2] > zmax - .016 && tr.mid[0] * (side === 'right' ? -1 : 1) > .004)),
@@ -75,11 +77,17 @@ export default function lungs(U, part = 'base') {
         card: {origin: [`Lower edge of the ${side} lung`, `${z}肺下方的邊緣`], course: ['The sharp edge that separates the diaphragmatic surface from the costal and mediastinal surfaces', '分隔膈面與肋面、縱隔面的銳緣'], supply: ['Reaches the 6th rib at the midclavicular line and the 8th rib at the midaxillary line', '在鎖骨中線處達第 6 肋，在腋中線處達第 8 肋']}, refs: [REF]});
     }
   }
-  // Hilum of each lung: where the main bronchus, pulmonary artery and pulmonary veins enter the mediastinal surface.
-  lobes('left', 'Hilum of left lung', '左肺門', [[LL, 'Left main bronchus', .014], [LU, 'Left main bronchus', .014], [LL, 'Left pulmonary artery', .014], [LU, 'Left pulmonary artery', .014], [LL, 'Left inferior pulmonary vein', .012], [LU, 'Left superior pulmonary vein', .012]],
-    ['A triangular depression on the mediastinal surface where the bronchus, pulmonary artery and two pulmonary veins enter and leave', '縱隔面上的三角形凹陷，支氣管、肺動脈與兩條肺靜脈由此出入'], ['The pulmonary artery lies above and in front, the veins below and in front, the bronchus behind (left lung); the pleura reflects onto these at the root', '左肺：肺動脈在上方，肺靜脈在前下方，支氣管在後；胸膜在肺根處反折']);
-  lobes('right', 'Hilum of right lung', '右肺門', [[RL, 'Right main bronchus proper', .014], [RU, 'Right main bronchus proper', .014], [RL, 'Right pulmonary artery', .014], [RU, 'Right pulmonary artery', .014], [RL, 'Right inferior pulmonary vein', .012], [RM, 'Right superior pulmonary vein', .012]],
-    ['A depression on the mediastinal surface where the bronchus, pulmonary artery and two pulmonary veins enter and leave', '縱隔面上的凹陷，支氣管、肺動脈與兩條肺靜脈由此出入'], ['From above down the order is bronchus, artery, veins on the right (the eparterial bronchus runs above the artery); the pleura reflects onto these at the root', '右肺由上到下為支氣管、肺動脈、肺靜脈（上葉支氣管在動脈上方）；胸膜在肺根處反折']);
+  // Hilum of each lung: ONE region at the centre of the mediastinal surface where the root of the lung enters.
+  // Its centre is the mean of the points where the main bronchus, the pulmonary artery and the two pulmonary veins touch the lobes (for each of them the lobe triangle nearest to it);
+  // the region is the part of the lobe surface within a radius that just covers those four points and faces the mediastinum. The root structures themselves are the real atlas meshes.
+  for (const [side, w, lobes_, sx, root] of [['left', 'Left', [LU, LL], 1, ['Left main bronchus', 'Left pulmonary artery', 'Left superior pulmonary vein', 'Left inferior pulmonary vein']], ['right', 'Right', [RU, RM, RL], -1, ['Right main bronchus proper', 'Right pulmonary artery', 'Right superior pulmonary vein', 'Right inferior pulmonary vein']]]) {
+    const hits = root.map(r => { let best = null; for (const l of lobes_) { const d = U.nearDist(l, r), m = U.mesh(l); m.tris.forEach((t, i) => { if ((!best || d[i] < best.d) && t.n[0] * sx < -.3) best = {d: d[i], p: t.mid}; }); } return best.p; });
+    const c = hits.reduce((a, p) => add(a, mul(p, 1 / hits.length)), P(0, 0, 0)), R = Math.min(.034, Math.max(.02, Math.max(...hits.map(p => len(sub(p, c)))) + .008));
+    const pieces = lobes_.map(l => U.surfacePatch(l, c, R, .0005, tr => tr.n[0] * sx < -.3)).filter(g => g.indices.length);
+    if (!pieces.length) throw new Error(`hilum of ${side} lung: nothing within reach`);
+    out.push({name: `Hilum of ${side} lung`, zh: `${side === 'left' ? '左' : '右'}肺門`, system: 'respiratory', kind: 'surface', parent: lobes_[0], geometry: [U.merge(pieces)], refs: [REF]});
+  }
+
   // Pulmonary ligament: the double fold of pleura hanging below the root from the mediastinal surface of the lower lobe towards the diaphragm.
   for (const [side, w, LOBE, sx] of [['left', 'Left', LL, 1], ['right', 'Right', RL, -1]]) {
     const m = U.mesh(LOBE), h = m.hi[1] - m.lo[1];
@@ -88,5 +96,7 @@ export default function lungs(U, part = 'base') {
     out.push({name: `${w} pulmonary ligament`, zh: `${side === 'left' ? '左' : '右'}肺韌帶`, system: 'connective', kind: 'ligament', ribbons: [{pts: [a, lerp(a, b, .5), b], width: .012, thick: .0008, hint: P(1, 0, 0)}],
       card: {origin: ['Mediastinal surface of the lower lobe, below the root of the lung', '下葉縱隔面、肺根下方'], course: ['A fold of pleura running down from the root of the lung to the diaphragm and mediastinum', '由肺根向下延伸到橫膈與縱隔的胸膜皺褶'], supply: ['Lets the lung root move with breathing; the inferior pulmonary vein lies at its upper end and the ligament is cut in lung surgery', '讓肺根隨呼吸移動；下肺靜脈在其上端，肺葉手術時需切開']}, refs: [REF]});
   }
+  // Data cards by type of structure (see lung-cards.mjs): the fields of the impressions, hilum, lobe parts and other structures differ.
+  for (const s of [...out, ...late]) { const c = lungCard(s.name); if (c) s.card = c; }
   return part === 'late' ? late : out;
 }
