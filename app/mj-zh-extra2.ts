@@ -36,7 +36,7 @@ const EXACT:Record<string,string>={
  'articular capsule of acromioclavicular joint':'肩鎖關節囊','articular capsule of elbow joint':'肘關節囊','articular capsule of glenohumeral joint':'盂肱關節囊','articular capsule of radiocarpal joint':'橈腕關節囊','articular capsule of sternoclavicular joint':'胸鎖關節囊',
  'articular capsules of metacarpophalangeal joints':'掌指關節囊','articular capsules of proximal interphalangeal joints':'近端指間關節囊','articular capsules of distal interphalangeal joints':'遠端指間關節囊','articular disc of acromioclavicular joint':'肩鎖關節盤',
  'articular disc of distal radio-ulnar joint':'遠端橈尺關節盤','articular disc of sternoclavicular joint':'胸鎖關節盤','articular capsule of temporomandibular joint':'顳顎關節囊','articular disc of temporomandibular joint':'顳顎關節盤',
- 'lateral temporomandibular ligament':'顳顎外側韌帶','sphenomandibular ligament':'蝶下頷韌帶','stylomandibular ligament':'莖突下頷韌帶','cricopharyngeal ligament':'環咽韌帶','quadrangular membrane':'四角膜','frenula capsulae':'關節囊繫帶',
+ 'lateral temporomandibular ligament':'顳顎外側韌帶','sphenomandibular ligament':'蝶下頷韌帶','stylomandibular ligament':'莖突下頷韌帶','cricopharyngeal ligament':'環咽韌帶','quadrangular membrane':'方形膜','frenula capsulae':'關節囊繫帶',
  // hip, knee, ankle, foot
  'articular capsule of hip joint':'髖關節囊','articular capsule of knee joint':'膝關節囊','articular capsule of superior tibiofibular joint':'上脛腓關節囊','articular capsule of interphalangeal joint of great toe':'拇趾趾間關節囊','articular capsules of metatarsophalangeal joints':'蹠趾關節囊',
  'articular capsules of proximal interphalangeal joints of foot':'足近端趾間關節囊','articular capsules of distal interphalangeal joints of foot':'足遠端趾間關節囊','acetabular labrum':'髖臼唇','transverse acetabular ligament':'髖臼橫韌帶','ligament of head of femur':'股骨頭韌帶',
