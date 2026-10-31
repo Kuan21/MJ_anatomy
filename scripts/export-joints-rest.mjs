@@ -10,7 +10,8 @@ const root=new URL('../',import.meta.url),tmp=new URL('.sites-runtime/',root);
 
 let src=await readFile(new URL('app/biomechanics-v2/joint-anatomy.ts',root),'utf8');
 src=src.replace("import registrationData from './joint-registration.json';",`const registrationData=${await readFile(new URL('app/biomechanics-v2/joint-registration.json',root),'utf8')};`);
-src=src.replace("'../mj-part-regions'","'./mj-part-regions.mjs'").replace("'./soft-tissue'","'./soft-tissue.mjs'").replace("'./body-motion'","'./body-motion.mjs'");
+src=src.replace("'./joint-filter'","'./joint-filter.mjs'").replace("'../mj-part-regions'","'./mj-part-regions.mjs'").replace("'./soft-tissue'","'./soft-tissue.mjs'").replace("'./body-motion'","'./body-motion.mjs'");
+await writeFile(new URL('joint-filter.mjs',tmp),ts.transpileModule(await readFile(new URL('app/biomechanics-v2/joint-filter.ts',root),'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText);
 await writeFile(new URL('joint-anatomy.mjs',tmp),ts.transpileModule(src,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText);
 const {createJointAnatomy,jointKind}=await import(new URL('joint-anatomy.mjs',tmp));
 const {normalizeAtlasSystems}=await import(new URL('mj-system-classifier.mjs',tmp));
