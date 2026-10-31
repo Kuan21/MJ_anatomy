@@ -11,12 +11,16 @@ export const TENDON_OWNERS: Record<string, string[]> = {
  ],
  "Left quadriceps tendon": [
   "Left rectus femoris",
+  "Left vastus lateralis",
   "Left vastus medialis",
-  "Left vastus intermedius",
-  "Left vastus lateralis"
+  "Left vastus intermedius"
  ],
  "Left tendon of abductor pollicis longus": [
   "Left abductor pollicis longus"
+ ],
+ "Left tendon of biceps femoris": [
+  "Long head of left biceps femoris",
+  "Short head of left biceps femoris"
  ],
  "Left tendon of brachioradialis": [
   "Left brachioradialis"
@@ -33,6 +37,9 @@ export const TENDON_OWNERS: Record<string, string[]> = {
  "Left tendon of extensor digiti minimi": [
   "Left extensor digiti minimi"
  ],
+ "Left tendon of extensor hallucis longus": [
+  "Left extensor hallucis longus"
+ ],
  "Left tendon of extensor indicis": [
   "Left extensor indicis"
  ],
@@ -42,6 +49,15 @@ export const TENDON_OWNERS: Record<string, string[]> = {
  "Left tendon of extensor pollicis longus": [
   "Left extensor pollicis longus"
  ],
+ "Left tendon of fibularis brevis": [
+  "Left fibularis brevis"
+ ],
+ "Left tendon of fibularis longus": [
+  "Left fibularis longus"
+ ],
+ "Left tendon of fibularis tertius": [
+  "Left fibularis tertius"
+ ],
  "Left tendon of flexor carpi radialis": [
   "Left flexor carpi radialis"
  ],
@@ -49,14 +65,48 @@ export const TENDON_OWNERS: Record<string, string[]> = {
   "Humeral head of left flexor carpi ulnaris",
   "Ulnar head of left flexor carpi ulnaris"
  ],
+ "Left tendon of flexor digitorum longus": [
+  "Left flexor digitorum longus"
+ ],
+ "Left tendon of flexor hallucis longus": [
+  "Left flexor hallucis longus"
+ ],
  "Left tendon of flexor pollicis longus": [
   "Left flexor pollicis longus"
+ ],
+ "Left tendon of gracilis": [
+  "Left gracilis"
+ ],
+ "Left tendon of iliopsoas": [
+  "Left psoas major",
+  "Left iliacus"
  ],
  "Left tendon of long head of biceps brachii": [
   "Long head of left biceps brachii"
  ],
  "Left tendon of palmaris longus": [
   "Left palmaris longus"
+ ],
+ "Left tendon of plantaris": [
+  "Left plantaris"
+ ],
+ "Left tendon of popliteus": [
+  "Left popliteus"
+ ],
+ "Left tendon of sartorius": [
+  "Left sartorius"
+ ],
+ "Left tendon of semimembranosus": [
+  "Left semimembranosus"
+ ],
+ "Left tendon of semitendinosus": [
+  "Left semitendinosus"
+ ],
+ "Left tendon of tibialis anterior": [
+  "Left tibialis anterior"
+ ],
+ "Left tendon of tibialis posterior": [
+  "Left tibialis posterior"
  ],
  "Left tendon of triceps brachii": [
   "Long head of left triceps brachii",
@@ -65,6 +115,9 @@ export const TENDON_OWNERS: Record<string, string[]> = {
  ],
  "Left tendons of extensor digitorum": [
   "Left extensor digitorum"
+ ],
+ "Left tendons of extensor digitorum longus": [
+  "Left extensor digitorum longus"
  ],
  "Left tendons of flexor digitorum profundus": [
   "Left flexor digitorum profundus"
@@ -86,12 +139,16 @@ export const TENDON_OWNERS: Record<string, string[]> = {
  ],
  "Right quadriceps tendon": [
   "Right rectus femoris",
+  "Right vastus lateralis",
   "Right vastus medialis",
-  "Right vastus intermedius",
-  "Right vastus lateralis"
+  "Right vastus intermedius"
  ],
  "Right tendon of abductor pollicis longus": [
   "Right abductor pollicis longus"
+ ],
+ "Right tendon of biceps femoris": [
+  "Long head of right biceps femoris",
+  "Short head of right biceps femoris"
  ],
  "Right tendon of brachioradialis": [
   "Right brachioradialis"
@@ -108,6 +165,9 @@ export const TENDON_OWNERS: Record<string, string[]> = {
  "Right tendon of extensor digiti minimi": [
   "Right extensor digiti minimi"
  ],
+ "Right tendon of extensor hallucis longus": [
+  "Right extensor hallucis longus"
+ ],
  "Right tendon of extensor indicis": [
   "Right extensor indicis"
  ],
@@ -117,6 +177,15 @@ export const TENDON_OWNERS: Record<string, string[]> = {
  "Right tendon of extensor pollicis longus": [
   "Right extensor pollicis longus"
  ],
+ "Right tendon of fibularis brevis": [
+  "Right fibularis brevis"
+ ],
+ "Right tendon of fibularis longus": [
+  "Right fibularis longus"
+ ],
+ "Right tendon of fibularis tertius": [
+  "Right fibularis tertius"
+ ],
  "Right tendon of flexor carpi radialis": [
   "Right flexor carpi radialis"
  ],
@@ -124,14 +193,48 @@ export const TENDON_OWNERS: Record<string, string[]> = {
   "Humeral head of right flexor carpi ulnaris",
   "Ulnar head of right flexor carpi ulnaris"
  ],
+ "Right tendon of flexor digitorum longus": [
+  "Right flexor digitorum longus"
+ ],
+ "Right tendon of flexor hallucis longus": [
+  "Right flexor hallucis longus"
+ ],
  "Right tendon of flexor pollicis longus": [
   "Right flexor pollicis longus"
+ ],
+ "Right tendon of gracilis": [
+  "Right gracilis"
+ ],
+ "Right tendon of iliopsoas": [
+  "Right psoas major",
+  "Right iliacus"
  ],
  "Right tendon of long head of biceps brachii": [
   "Long head of right biceps brachii"
  ],
  "Right tendon of palmaris longus": [
   "Right palmaris longus"
+ ],
+ "Right tendon of plantaris": [
+  "Right plantaris"
+ ],
+ "Right tendon of popliteus": [
+  "Right popliteus"
+ ],
+ "Right tendon of sartorius": [
+  "Right sartorius"
+ ],
+ "Right tendon of semimembranosus": [
+  "Right semimembranosus"
+ ],
+ "Right tendon of semitendinosus": [
+  "Right semitendinosus"
+ ],
+ "Right tendon of tibialis anterior": [
+  "Right tibialis anterior"
+ ],
+ "Right tendon of tibialis posterior": [
+  "Right tibialis posterior"
  ],
  "Right tendon of triceps brachii": [
   "Long head of right triceps brachii",
@@ -140,6 +243,9 @@ export const TENDON_OWNERS: Record<string, string[]> = {
  ],
  "Right tendons of extensor digitorum": [
   "Right extensor digitorum"
+ ],
+ "Right tendons of extensor digitorum longus": [
+  "Right extensor digitorum longus"
  ],
  "Right tendons of flexor digitorum profundus": [
   "Right flexor digitorum profundus"

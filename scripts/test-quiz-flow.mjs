@@ -47,7 +47,7 @@ const scene = () => all().find(n => typeof n.type === 'function' && n.type.name 
 render(); await new Promise(resolve => setTimeout(resolve, 0)); render();
 assert.match(text(tree), /\d{3} 個構造/);
 click('膝');
-for (const system of ['肌肉Muscles', '神經Nerves', '動脈Arteries', '靜脈Veins']) click(system);
+for (const system of ['肌肉Muscles', '肌腱Tendons', '神經Nerves', '動脈Arteries', '靜脈Veins']) click(system);
 assert.match(text(tree), /本回 4 題/);
 click('開始測驗');
 let view = scene().props.view;
@@ -80,6 +80,6 @@ click('只練錯題'); assert.equal(scene().props.view.target.id, firstTarget);
 view = scene().props.view; scene().props.onReady(view.key, true); render(); scene().props.onPick(view.target.id); render(); click('下一題');
 assert.equal(scene().props.view.target.id, skippedTarget, 'Mistake review contains exactly wrong and skipped targets');
 click('結束測驗'); assert.match(text(tree), /完成 1 \/ 2 題/);
-click('重新選擇範圍'); click('全部取消'); assert.ok(button('開始測驗').props.disabled, 'Empty scope cannot start'); assert.match(text(tree), /此範圍暫無題目/, 'Empty scope says so'); click('全選'); assert.match(text(tree), /此範圍共 \d+ 題/, 'Scope shows its question count'); click('骨Bones'); click('肌肉Muscles'); click('神經Nerves'); click('動脈Arteries'); click('靜脈Veins'); assert.ok(button('開始測驗').props.disabled, 'No category selected cannot start');
+click('重新選擇範圍'); click('全部取消'); assert.ok(button('開始測驗').props.disabled, 'Empty scope cannot start'); assert.match(text(tree), /此範圍暫無題目/, 'Empty scope says so'); click('全選'); assert.match(text(tree), /此範圍共 \d+ 題/, 'Scope shows its question count'); click('骨Bones'); click('肌肉Muscles'); click('肌腱Tendons'); click('神經Nerves'); click('動脈Arteries'); click('靜脈Veins'); assert.ok(button('開始測驗').props.disabled, 'No category selected cannot start');
 for (const h of hooks) h?.cleanup?.();
 console.log('Quiz React flow passed: section/system setup, readiness, peel/restore, immutable first attempt, correct/wrong/reveal, next, early finish and exact mistake replay.');
