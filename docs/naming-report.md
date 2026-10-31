@@ -2115,7 +2115,7 @@
 | motor root of trigeminal nerve | 台灣解剖學名詞（程式內建對照表） | 三叉神經運動根 |
 | facial nerve (VII) | 台灣解剖學名詞（程式內建對照表） | 顏面神經（第七對腦神經） |
 | vestibular nerve | 台灣解剖學名詞（程式內建對照表） | 前庭神經 |
-| cochlear nerve | 台灣解剖學名詞（程式內建對照表） | 耳蝸神經 |
+| Cochlear nerve | 台灣解剖學名詞（程式內建對照表） | 耳蝸神經 |
 | vestibulocochlear nerve (VIII) | 台灣解剖學名詞（程式內建對照表） | 前庭耳蝸神經（第八對腦神經） |
 | glossopharyngeal nerve (IX) | 台灣解剖學名詞（程式內建對照表） | 舌咽神經（第九對腦神經） |
 | vagus nerve (X) | 台灣解剖學名詞（程式內建對照表） | 迷走神經 |
@@ -2205,13 +2205,13 @@
 | medial plantar nerve | glossary.json（跑考摘要） | 內蹠神經 |
 | common fibular nerve | glossary.json（跑考摘要） | 總腓神經 |
 | proper plantar digital branches of lateral plantar nerve | 台灣解剖學名詞（程式內建對照表） | 外蹠神經蹠側固有趾支 |
-| common plantar digital branches of medial plantar nerve | 台灣解剖學名詞（程式內建對照表） | 內蹠神經蹠側總趾支 |
+| Common plantar digital branches of medial plantar nerve | 台灣解剖學名詞（程式內建對照表） | 內蹠神經蹠側總趾支 |
 | sympathetic nerves | 台灣解剖學名詞（程式內建對照表） | 交感神經 |
 | ganglia of sympathetic trunk | 台灣解剖學名詞（程式內建對照表） | 交感幹神經節 |
 | sympathetic trunk | 台灣解剖學名詞（程式內建對照表） | 交感幹 |
-| white matter of spinal cord | 台灣解剖學名詞（程式內建對照表） | 脊髓白質 |
-| posterior horn of spinal cord | 台灣解剖學名詞（程式內建對照表） | 脊髓後角 |
-| anterior horn of spinal cord | 台灣解剖學名詞（程式內建對照表） | 脊髓前角 |
+| White matter of spinal cord | 台灣解剖學名詞（程式內建對照表） | 脊髓白質 |
+| Posterior horn of spinal cord | 台灣解剖學名詞（程式內建對照表） | 脊髓後角 |
+| Anterior horn of spinal cord | 台灣解剖學名詞（程式內建對照表） | 脊髓前角 |
 | spinal ganglion | 台灣解剖學名詞（程式內建對照表） | 脊神經節 |
 | posterior root of spinal nerve | 台灣解剖學名詞（程式內建對照表） | 脊神經後根 |
 | anterior root of spinal nerve | 台灣解剖學名詞（程式內建對照表） | 脊神經前根 |
@@ -2300,10 +2300,10 @@
 | anterior ligament of fibular head | 台灣解剖學名詞（程式內建對照表） | 腓骨頭前韌帶 |
 | articular capsule of superior tibiofibular joint | 台灣解剖學名詞（程式內建對照表） | 上脛腓關節囊 |
 | posterior ligament of fibular head | 台灣解剖學名詞（程式內建對照表） | 腓骨頭後韌帶 |
-| inferior pubic ligament | 台灣解剖學名詞（程式內建對照表） | 恥骨下韌帶 |
-| interpubic disc | 台灣解剖學名詞（程式內建對照表） | 恥骨間盤 |
-| superior pubic ligament | glossary.json（其他筆記） | 恥骨上韌帶 |
-| pubic symphysis | 台灣解剖學名詞（程式內建對照表） | 恥骨聯合 |
+| Inferior pubic ligament | 台灣解剖學名詞（程式內建對照表） | 恥骨下韌帶 |
+| Interpubic disc | 台灣解剖學名詞（程式內建對照表） | 恥骨間盤 |
+| Superior pubic ligament | glossary.json（其他筆記） | 恥骨上韌帶 |
+| Pubic symphysis | 台灣解剖學名詞（程式內建對照表） | 恥骨聯合 |
 | iliolumbar ligament | 台灣解剖學名詞（程式內建對照表） | 髂腰韌帶 |
 | obturator membrane | 台灣解剖學名詞（程式內建對照表） | 閉孔膜 |
 | sacrospinous ligament | glossary.json（其他筆記） | 薦棘韌帶 |
@@ -2367,20 +2367,20 @@
 | articular disc of sternoclavicular joint | 台灣解剖學名詞（程式內建對照表） | 胸鎖關節盤 |
 | interclavicular ligament | 台灣解剖學名詞（程式內建對照表） | 鎖骨間韌帶 |
 | posterior sternoclavicular ligament | 台灣解剖學名詞（程式內建對照表） | 後胸鎖韌帶 |
-| sacrococcygeal symphysis | 台灣解剖學名詞（程式內建對照表） | 薦尾聯合 |
-| anterior longitudinal ligament | 台灣解剖學名詞（程式內建對照表） | 前縱韌帶 |
+| Sacrococcygeal symphysis | 台灣解剖學名詞（程式內建對照表） | 薦尾聯合 |
+| Anterior longitudinal ligament | 台灣解剖學名詞（程式內建對照表） | 前縱韌帶 |
 | intercornual ligament | 台灣解剖學名詞（程式內建對照表） | 角間韌帶 |
-| interspinous ligaments | 台灣解剖學名詞（程式內建對照表） | 棘間韌帶 |
-| ligamenta flava | 台灣解剖學名詞（程式內建對照表） | 黃韌帶 |
-| nuchal ligament | 台灣解剖學名詞（程式內建對照表） | 項韌帶 |
-| posterior longitudinal ligament | 台灣解剖學名詞（程式內建對照表） | 後縱韌帶 |
-| supraspinous ligament | 台灣解剖學名詞（程式內建對照表） | 棘上韌帶 |
+| Interspinous ligaments | 台灣解剖學名詞（程式內建對照表） | 棘間韌帶 |
+| Ligamenta flava | 台灣解剖學名詞（程式內建對照表） | 黃韌帶 |
+| Nuchal ligament | 台灣解剖學名詞（程式內建對照表） | 項韌帶 |
+| Posterior longitudinal ligament | 台灣解剖學名詞（程式內建對照表） | 後縱韌帶 |
+| Supraspinous ligament | 台灣解剖學名詞（程式內建對照表） | 棘上韌帶 |
 | quadrangular membrane | 台灣解剖學名詞（程式內建對照表） | 四角膜 |
 | cricopharyngeal ligament | 台灣解剖學名詞（程式內建對照表） | 環咽韌帶 |
 | external intercostal membrane | 台灣解剖學名詞（程式內建對照表） | 外肋間膜 |
 | internal intercostal membrane | 台灣解剖學名詞（程式內建對照表） | 內肋間膜 |
 | costotransverse ligament | 台灣解剖學名詞（程式內建對照表） | 肋橫突韌帶 |
-| intra-articular ligament of head of rib | 台灣解剖學名詞（程式內建對照表） | 肋頭關節內韌帶 |
+| Intra-articular ligament of head of rib | 台灣解剖學名詞（程式內建對照表） | 肋頭關節內韌帶 |
 | radiate ligament of head of rib | 台灣解剖學名詞（程式內建對照表） | 肋頭輻狀韌帶 |
 | basilar venous plexus | 台灣解剖學名詞（程式內建對照表） | 基底靜脈叢 |
 | cavernous sinus | 台灣解剖學名詞（程式內建對照表） | 海綿竇 |
