@@ -9,3 +9,15 @@ export const positionsOf = (buf, part) => {
 export const indicesOf = (buf, part) => part.u16
   ? new Uint16Array(buf.buffer.slice(buf.byteOffset + part.indices, buf.byteOffset + part.indices + part.indexCount * 2))
   : new Uint32Array(buf.buffer.slice(buf.byteOffset + part.indices, buf.byteOffset + part.indices + part.indexCount * 4));
+/** Normals as normalised Int16 triples: decoded from the octahedral Int16 pairs when `n2`, else the stored triples. */
+export const normalsOf = (buf, part) => {
+  const count = part.vertexCount;
+  if (!part.n2) return new Int16Array(buf.buffer.slice(buf.byteOffset + part.normals, buf.byteOffset + part.normals + count * 6));
+  const o = new Int16Array(buf.buffer.slice(buf.byteOffset + part.normals, buf.byteOffset + part.normals + count * 4)), out = new Int16Array(count * 3);
+  for (let i = 0; i < count; i++) {
+    let x = o[i * 2] / 32767, y = o[i * 2 + 1] / 32767, z = 1 - Math.abs(x) - Math.abs(y);
+    if (z < 0) {const ox = x, oy = y; x = (1 - Math.abs(oy)) * (ox >= 0 ? 1 : -1); y = (1 - Math.abs(ox)) * (oy >= 0 ? 1 : -1);}
+    const l = Math.hypot(x, y, z) || 1; out[i * 3] = Math.round(x / l * 32767); out[i * 3 + 1] = Math.round(y / l * 32767); out[i * 3 + 2] = Math.round(z / l * 32767);
+  }
+  return out;
+};

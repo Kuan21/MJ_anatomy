@@ -29,7 +29,8 @@ for (const p of atlas.parts) {
   const size = packages[p.chunk];
   assert.ok(size !== undefined, `${p.name}: chunk ${p.chunk} exists`);
   assert.ok(p.positions % 4 === 0 && p.indices % 4 === 0, `${p.name}: aligned`);
-  assert.ok(p.positions + p.vertexCount * 12 <= size && p.normals + p.vertexCount * 6 <= size && p.indices + p.indexCount * 4 <= size, `${p.name}: bytes inside its package`);
+  // compact encoding flags (app/stream-geometry.ts): quantised positions 6 bytes a vertex, octahedral normals 4, Uint16 indices 2
+  assert.ok(p.positions + p.vertexCount * (p.pq ? 6 : 12) <= size && p.normals + p.vertexCount * (p.n2 ? 4 : 6) <= size && p.indices + p.indexCount * (p.u16 ? 2 : 4) <= size, `${p.name}: bytes inside its package`);
   assert.ok(p.bounds.flat().every(Number.isFinite), `${p.name}: finite bounds`);
 }
 
