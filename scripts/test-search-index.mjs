@@ -19,7 +19,7 @@ const sources = atlas.concepts.map(c => {
 });
 for (const x of read('search-extras.json.gz')) {
   const profile = structureProfile(x.n, x.s);
-  sources.push({concept: {id: `extra:${x.k}:${x.raw ?? x.n}`, name: x.n, elements: []}, english: profile.english ?? x.n, chinese: profile.chinese, kind: x.k});
+  sources.push({concept: {id: `extra:${x.k}:${x.raw ?? x.n}`, name: x.n, elements: []}, english: profile.english ?? x.n, chinese: x.z ?? profile.chinese, kind: x.k});
 }
 let t = performance.now();
 const index = buildSearchIndex(sources);
@@ -65,6 +65,15 @@ assert.deepEqual(querySearchIndex(index, '   '), []);
   }
   assert.ok(querySearchIndex(index, 'nerves').length > 0, '"nerves" finds nerve names');
   assert.ok(querySearchIndex(index, 'oculomotor').length > 0 && querySearchIndex(index, '動眼神經').length > 0, 'nerve names still found');
+}
+// heart detail structures without an atlas mesh are found and marked (they open the heart detail mode); ones the atlas already has are not duplicated
+for (const [q, name] of [['crista terminalis', /crista terminalis/i], ['fossa ovalis', /fossa ovalis/i], ['moderator band', /septomarginal/i], ['卵圓窩', /fossa ovalis/i], ['supraventricular crest', /supraventricular/i]]) {
+  const got = querySearchIndex(index, q); assert.ok(got.some(e => e.kind === 'heart' && name.test(e.english)), `"${q}" finds the heart structure`);
+}
+assert.ok(!index.some(e => e.kind === 'heart' && /^(left|right) (atrium|ventricle)$/i.test(e.english)), 'chambers the atlas has are not duplicated');
+// the type word of the course summaries is dropped when needed, plural too; simplified characters beyond the old table
+for (const [q, name] of [['deltoid muscle', /deltoid/i], ['biceps brachii m.', /biceps brachii/i], ['radial n.', /radial nerve/i], ['brachial a.', /brachial artery/i], ['posterior intercostal arteries', /posterior intercostal arter/i], ['锁骨', /clavicle/i], ['韧带', /ligament/i], ['桡神经', /radial nerve/i]]) {
+  const got = querySearchIndex(index, q); assert.ok(got.some(e => name.test(e.english)), `"${q}" finds ${name}`);
 }
 // speed: a query over the whole index
 const queries = ['l', 'la', 'lat', 'latissimus', 'm', 'me', 'med', '正', '正中', '正中神經', '闊', '闊背', '闊背肌'];
