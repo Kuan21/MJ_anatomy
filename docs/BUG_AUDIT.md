@@ -38,7 +38,7 @@
 | P0-10 | P0 | 側別（待確認） | 咽中縮肌、腰升靜脈、上丘臂原始 mesh 左右對調未更正；背部 Quiz 腰升靜脈標錯側 | 〔需人工審核〕 |
 | P0-11 | P0 | 模型（待確認） | 「Left fibular vein」包含一段位於大腿高度的 mesh（FJ2190） | 〔需人工審核〕 |
 | P1-01 | P1 | 載入 | 示意模型第 0 包每次都載入失敗：膈神經、喉返神經、內臟神經、迷走神經幹、臂神經叢內／外側束等 61 個結構不會出現；載入條永遠停在 98% 琥珀色 | 程式修正；修好後多出 61 個示意模型，建議人工看畫面 |
-| P1-02 | P1 | 名稱 | 心臟英文名仍是「Mitral valve」，未改為使用者要求的「Bicuspid valve」 | 〔需人工審核〕 |
+| P1-02 | P1 | 名稱 | 心臟英文名仍是「Mitral valve」，未改為使用者要求的「Bicuspid valve」 | 〔需人工審核〕（已在心臟 PR C 處理，等你審核） |
 | P1-03 | P1 | 缺漏 | 跑考摘要結構真正缺少：枕動脈、動脈韌帶、足背側骨間肌、肋間外／內膜（稽核腳本誤配成「已有」） | 〔需人工審核〕 |
 | P1-04 | P1 | 互動 | 韌帶／關節（349）、頸部血管、腦構造從搜尋選取後 3D 無反應；按 Focus／Isolate 畫面全空 | 可自動 merge（介面程式） |
 | P1-05 | P1 | 互動 | 從主搜尋選腦構造，整個 3D 圖譜卸載後重新載入、視角重設 | 可自動 merge |
@@ -184,7 +184,7 @@
 - **建議修法**：`isShellSurface` 改為 `/pericardium|pleura/`（或排除 pericardiophrenic），並讓 `shellOf` 在沒有對應材質時退回 `p.system`；`test-scene-loading.mjs` 加上「所有 stream 的每包都能組裝」的測試；載入失敗時在 console 與畫面說明缺哪一組（見 P2-16）。
 - **涉及解剖內容**：修正本身是渲染程式，不改模型資料；但修好後會多顯示 61 個示意模型，建議人工看畫面確認位置。
 
-### P1-02　心臟英文名仍是「Mitral valve」〔需人工審核〕
+### P1-02　心臟英文名仍是「Mitral valve」〔需人工審核〕（已在心臟 PR C 處理：零件名改為 Bicuspid／Tricuspid valve 的 cusp，Mitral 與 Left atrioventricular 留作同義詞）
 - **重現**：心臟詳細模式 → 名稱標籤 → Valves 顯示「Mitral valve」；Leaflets 顯示「Mitral · anterior／posterior」；左心室清單說明「…leaflet of the mitral valve」；Quiz 輸入框提示「e.g. Mitral valve」；主圖譜 FJ2420／FJ2432「Anterior/Posterior leaflet of mitral valve」。Tricuspid、Aortic、Pulmonary valve 正確。
 - **位置**：`app/organ/heart.tsx:12,112`、`app/organ/heart-chambers.ts:73-79`、`scripts/heart-parts.json:76,121,143,148,454,459,468,688`（產生 `heart-detail.json.gz` 與心臟 Quiz）、`app/quiz/page.tsx:242`；連帶要改 `app/mj-search.ts:8,22-23`、`app/quiz/synonyms.ts:7-13`、`scripts/test-quiz-naming.mjs:9-13`、`docs/heart-checklist.json:308-342`。
 - **建議修法**：用顯示名稱對照表（零件 key 不變），主名改「Bicuspid valve」，Mitral、Left atrioventricular valve 列為同義詞；中文「二尖瓣」不變。
