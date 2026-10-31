@@ -1,7 +1,7 @@
-// Typed-answer judging of the level-2 quiz (看結構寫名稱): case, spacing, hyphens, synonyms, left/right, close answers, languages.
+// Typed-answer judging of the level-2 quiz (看結構寫名稱): case, spacing, hyphens, synonyms, left/right, close answers, languages, whole muscle for a part, opposites, abbreviations, simplified characters.
 import assert from 'node:assert/strict';
 import {quizModule} from './quiz-modules.mjs';
-const {judgeName, acceptedNames, normalize, distance, relationOf} = await quizModule('app/quiz/naming.ts');
+const {judgeName, acceptedNames, normalize, distance, relationOf, wholeMuscleOf, opposed} = await quizModule('app/quiz/naming.ts');
 const mitral = {name: 'Mitral valve', chinese: '二尖瓣', side: 'midline'}, leaflet = {name: 'Anterior leaflet of mitral valve', chinese: '二尖瓣前瓣', side: 'midline'}, tricuspid = {name: 'Tricuspid valve', chinese: '三尖瓣', side: 'midline'}, trap = {name: 'Septomarginal trabecula (moderator band)', chinese: '節制索', side: 'midline'};
 const pec = {name: 'Abdominal part of right pectoralis major', chinese: '右胸大肌腹部', side: 'right'}, ratio = {name: 'Posterior interventricular branch', chinese: '後室間支', side: 'midline'}, atrium = {name: 'Left atrium', chinese: '左心房', side: 'midline'};
 const any = {language: 'any', needSide: false}, en = {language: 'en', needSide: false}, zh = {language: 'zh', needSide: false};
@@ -18,6 +18,9 @@ assert.equal(r('moderator band', trap, en), 'correct'); assert.equal(r('septomar
 assert.equal(r('abdominal part of pectoralis major', pec, en), 'correct'); assert.equal(r('Abdominal part of left pectoralis major', pec, en), 'correct');
 assert.equal(r('abdominal part of pectoralis major', pec, {...en, needSide: true}), 'wrong'); assert.equal(r('abdominal part of right pectoralis major', pec, {...en, needSide: true}), 'correct');
 assert.equal(r('胸大肌腹部', pec, zh), 'correct'); assert.equal(r('胸大肌腹部', pec, {...zh, needSide: true}), 'wrong'); assert.equal(r('右胸大肌腹部', pec, {...zh, needSide: true}), 'correct');
+// the side word may sit anywhere in the name (the main site writes "Right abdominal part of pectoralis major"); 左側 = 左
+assert.equal(r('Right abdominal part of pectoralis major', pec, {...en, needSide: true}), 'correct'); assert.equal(r('Left abdominal part of pectoralis major', pec, {...en, needSide: true}), 'wrong');
+assert.equal(r('右側胸大肌腹部', pec, {...zh, needSide: true}), 'correct'); assert.equal(r('左側胸大肌腹部', pec, {...zh, needSide: true}), 'wrong'); assert.equal(r('右側胸大肌腹部', pec, zh), 'correct');
 // close: one slip in a short name, two in a long one; Chinese: one character in a name of four or more
 assert.equal(r('mitral valv', mitral, en), 'close');
 assert.equal(r('mitrel valve', mitral, en), 'close'); assert.equal(r('posterior interventricular brnch', ratio, en), 'close'); assert.equal(r('posterior interventricuar brnch', ratio, en), 'close');
@@ -27,6 +30,48 @@ assert.equal(r('atrium', atrium, en), 'wrong', 'left atrium is not just atrium')
 assert.equal(r('', mitral, any), 'wrong'); assert.equal(r('???', mitral, any), 'wrong');
 const names = acceptedNames(pec); assert.ok(names.en.includes('Abdominal part of right pectoralis major') && names.zh.includes('右胸大肌腹部'));
 assert.equal(distance('kitten', 'sitting'), 3); assert.equal(normalize('Left  Atrio-ventricular, valve', false), 'atrioventricularvalve');
+assert.equal(normalize('Left acromial part of deltoid', true), normalize('Acromial part of left deltoid', true)); assert.equal(normalize('左側三角肌肩峰部', true), normalize('左三角肌肩峰部', true));
+// abbreviations of the handouts: n. a. v. m. lig.
+{
+  const radial = {name: 'Right radial nerve', chinese: '右橈神經', side: 'right'}, brachial = {name: 'Right brachial artery', chinese: '右肱動脈', side: 'right'}, cephalic = {name: 'Right cephalic vein', chinese: '右頭靜脈', side: 'right'}, deltoid = {name: 'Right deltoid', chinese: '右三角肌', side: 'right'};
+  assert.equal(r('radial n.', radial, en), 'correct'); assert.equal(r('radial n', radial, en), 'correct'); assert.equal(r('brachial a.', brachial, en), 'correct'); assert.equal(r('cephalic v.', cephalic, en), 'correct'); assert.equal(r('deltoid m.', deltoid, en), 'correct');
+  assert.equal(r('radial a.', radial, en), 'wrong', 'the wrong abbreviation is a wrong answer');
+}
+// simplified characters are read as traditional
+{
+  const radial = {name: 'Right radial nerve', chinese: '右橈神經', side: 'right'}, longHead = {name: 'Long head of right biceps brachii', chinese: '右肱二頭肌長頭', side: 'right'};
+  assert.equal(r('桡神经', radial, zh), 'correct'); assert.equal(r('橈神经', radial, zh), 'correct'); assert.equal(r('肱二头肌长头', longHead, zh), 'correct'); assert.equal(r('肱二頭肌長頭', longHead, zh), 'correct');
+}
+// opposites are different structures, never a slip of the pen
+{
+  const rhomboidMajor = {name: 'Right rhomboid major', chinese: '右大菱形肌', side: 'right'}, peroneusLongus = {name: 'Right fibularis longus', chinese: '右腓骨長肌', side: 'right'}, vastusLateralis = {name: 'Right vastus lateralis', chinese: '右股外側肌', side: 'right'}, aion = {name: 'Right anterior interosseous nerve', chinese: '右前骨間神經', side: 'right'};
+  assert.ok(opposed('rhomboidminor', 'rhomboidmajor') && opposed('小菱形肌', '大菱形肌') && !opposed('rhomboidmajr', 'rhomboidmajor'));
+  assert.equal(r('rhomboid minor', rhomboidMajor, en), 'wrong'); assert.equal(r('小菱形肌', rhomboidMajor, zh), 'wrong'); assert.equal(r('rhomboid majr', rhomboidMajor, en), 'close');
+  assert.equal(r('腓骨短肌', peroneusLongus, zh), 'wrong'); assert.equal(r('股內側肌', vastusLateralis, zh), 'wrong'); assert.equal(r('後骨間神經', aion, zh), 'wrong'); assert.equal(r('posterior interosseous nerve', aion, en), 'wrong');
+}
+// a part of a muscle: the whole muscle is right, unless the muscle is learned by its heads (biceps brachii, triceps brachii, biceps femoris)
+{
+  const clav = {name: 'Clavicular part of right pectoralis major', chinese: '右胸大肌鎖骨頭', side: 'right'}, acromial = {name: 'Acromial part of left deltoid', chinese: '左三角肌肩峰部', side: 'left'}, trapAsc = {name: 'Ascending part of right trapezius', chinese: '右斜方肌升部（下部纖維）', side: 'right'};
+  const fcu = {name: 'Humeral head of right flexor carpi ulnaris', chinese: '右尺側腕屈肌肱骨頭', side: 'right'}, gastroc = {name: 'Medial head of left gastrocnemius', chinese: '左腓腸肌內側頭', side: 'left'}, fpb = {name: 'Superficial head of right flexor pollicis brevis', chinese: '右拇短屈肌淺頭', side: 'right'};
+  const longHead = {name: 'Long head of right biceps brachii', chinese: '右肱二頭肌長頭', side: 'right'}, lateralHead = {name: 'Lateral head of left triceps brachii', chinese: '左肱三頭肌外側頭', side: 'left'}, bfShort = {name: 'Short head of right biceps femoris', chinese: '右股二頭肌短頭', side: 'right'};
+  assert.deepEqual(wholeMuscleOf(clav), {en: 'right pectoralis major', zh: '右胸大肌', muscle: 'pectoralis major', headsRequired: false});
+  assert.deepEqual(wholeMuscleOf(trapAsc), {en: 'right trapezius', zh: '右斜方肌', muscle: 'trapezius', headsRequired: false});
+  assert.equal(wholeMuscleOf(longHead).headsRequired, true); assert.equal(wholeMuscleOf(mitral), null); assert.equal(wholeMuscleOf(leaflet), null, 'a valve leaflet is not a muscle part');
+  assert.equal(r('pectoralis major', clav, en), 'correct'); assert.equal(r('Pectoralis Major muscle', clav, en), 'correct'); assert.equal(r('胸大肌', clav, zh), 'correct'); assert.equal(r('右胸大肌', clav, zh), 'correct');
+  assert.equal(r('clavicular part of pectoralis major', clav, en), 'correct', 'the part name stays right');
+  assert.equal(r('pectoralis major', clav, {...en, needSide: true}), 'wrong', 'the side is still needed when asked for'); assert.equal(r('right pectoralis major', clav, {...en, needSide: true}), 'correct'); assert.equal(r('left pectoralis major', clav, {...en, needSide: true}), 'wrong');
+  assert.equal(r('右胸大肌', clav, {...zh, needSide: true}), 'correct'); assert.equal(r('胸大肌', clav, {...zh, needSide: true}), 'wrong');
+  assert.equal(r('deltoid', acromial, en), 'correct'); assert.equal(r('三角肌', acromial, zh), 'correct'); assert.equal(r('trapezius', trapAsc, en), 'correct'); assert.equal(r('斜方肌', trapAsc, zh), 'correct');
+  assert.equal(r('flexor carpi ulnaris', fcu, en), 'correct'); assert.equal(r('尺側腕屈肌', fcu, zh), 'correct'); assert.equal(r('gastrocnemius', gastroc, en), 'correct'); assert.equal(r('腓腸肌', gastroc, zh), 'correct'); assert.equal(r('flexor pollicis brevis', fpb, en), 'correct');
+  assert.equal(r('pectoralis minor', clav, en), 'wrong', 'a different muscle stays wrong'); assert.equal(r('pectoralis majr', clav, en), 'close');
+  assert.ok(acceptedNames(clav).en.includes('right pectoralis major') && acceptedNames(clav).zh.includes('右胸大肌'));
+  // biceps, triceps and biceps femoris: the head has to be named; the whole muscle is close (typed-whole), not right
+  for (const [typed, s, o] of [['biceps brachii', longHead, en], ['肱二頭肌', longHead, zh], ['triceps brachii', lateralHead, en], ['肱三頭肌', lateralHead, zh], ['biceps femoris', bfShort, en], ['股二頭肌', bfShort, zh]]) {
+    const v = judgeName(typed, s, o); assert.equal(v.result, 'close', `${typed} is close for ${s.name}`); assert.equal(v.relation, 'typed-whole');
+  }
+  assert.equal(r('long head of biceps brachii', longHead, en), 'correct'); assert.equal(r('short head of biceps brachii', longHead, en), 'wrong'); assert.equal(r('肱二頭肌短頭', longHead, zh), 'wrong');
+  assert.ok(!acceptedNames(longHead).en.includes('right biceps brachii'), 'the whole is not listed as accepted for a head that has to be named');
+}
 // part and whole: naming the whole for a part (or a part for the whole) is close, never correct
 {
   const valve = {name: 'Pulmonary valve', chinese: '肺動脈瓣'}, cusp = {name: 'Anterior semilunar cusp of pulmonary valve', chinese: '肺動脈瓣前瓣'};
@@ -35,5 +80,12 @@ assert.equal(distance('kitten', 'sitting'), 3); assert.equal(normalize('Left  At
   assert.equal(judgeName('anterior semilunar cusp of pulmonary valve', valve, en, [cusp]).relation, 'typed-part');
   assert.equal(judgeName('pulmonary valve', cusp, en, []).result, 'wrong', 'without the related structure it stays wrong');
   assert.equal(judgeName('anterior semilunar cusp of pulmonary valve', cusp, en, [valve]).result, 'correct');
+  // midline structures keep left/right: the papillary muscles of the right ventricle are not part of the left ventricle
+  const lv = {name: 'Left ventricle', chinese: '左心室', side: 'midline'}, rv = {name: 'Right ventricle', chinese: '右心室', side: 'midline'}, rvPap = {name: 'Anterior papillary muscle of right ventricle', chinese: '右心室前乳突肌', side: 'midline'};
+  assert.equal(relationOf(rvPap, lv), null); assert.equal(relationOf(rvPap, rv), 'part'); assert.equal(relationOf(lv, rvPap), null);
+  const lca = {name: 'Left coronary artery', chinese: '左冠狀動脈', side: 'midline'}, rcaBranch = {name: 'Right marginal branch of right coronary artery', chinese: '右冠狀動脈右緣支', side: 'midline'};
+  assert.equal(relationOf(rcaBranch, lca), null);
+  // a paired structure still drops the side
+  assert.equal(relationOf({name: 'Long head of right biceps brachii', side: 'right'}, {name: 'Left biceps brachii', side: 'left'}), 'part');
 }
-console.log('Quiz naming passed: case, spacing, hyphens, synonyms, brackets, left/right, close answers, part and whole, and answer languages.');
+console.log('Quiz naming passed: case, spacing, hyphens, synonyms, brackets, left/right, close answers, abbreviations, simplified characters, opposites, whole muscle for a part, part and whole, and answer languages.');

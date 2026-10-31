@@ -165,7 +165,7 @@ void main(){
 float rim = abs(dot(normalize(vN), normalize(vV)));
 float dash = step(mod(gl_FragCoord.x + gl_FragCoord.y, 14.0), 8.0);
 float edge = (1.0 - smoothstep(0.30, 0.46, rim)) * dash;
-gl_FragColor = vec4(mix(vec3(0.30, 0.78, 0.62), vec3(0.03, 0.36, 0.27), edge), max(0.42, edge));
+gl_FragColor = vec4(mix(vec3(0.30, 0.78, 0.62), vec3(0.03, 0.36, 0.27), edge), max(0.16, edge * 0.9));
 }`,
   });
   const outlineOf = (id: string, mesh: T.Mesh<T.BufferGeometry, T.MeshStandardMaterial>) => {
@@ -173,8 +173,9 @@ gl_FragColor = vec4(mix(vec3(0.30, 0.78, 0.62), vec3(0.03, 0.36, 0.27), edge), m
     if (o) return o;
     o = new T.Group();
     const grow = (material: T.Material, amount: number) => {material.onBeforeCompile = shader => {shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>', `#include <begin_vertex>\ntransformed += normalize(normal) * ${amount.toFixed(4)};`);};};
-    const edge = new T.MeshBasicMaterial({color: HEART_SELECT.edge, side: T.BackSide}); grow(edge, 0.0006);
-    const glow = new T.MeshBasicMaterial({color: '#6af2c6', side: T.BackSide, transparent: true, opacity: .3, depthWrite: false, blending: T.AdditiveBlending}); grow(glow, 0.0026);
+    // Thin outline: a deep-mint hull 0.4 mm wide and a soft mint halo 1.2 mm wide. Both are plain alpha blends (an additive halo turned white on the pale epicardium) and sit behind the surfaces (positive polygon offset), so where the hull meets a neighbouring surface it never shows jagged light fragments.
+    const edge = new T.MeshBasicMaterial({color: HEART_SELECT.edge, side: T.BackSide, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1}); grow(edge, 0.0004);
+    const glow = new T.MeshBasicMaterial({color: HEART_SELECT.fill, side: T.BackSide, transparent: true, opacity: .32, depthWrite: false, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1}); grow(glow, 0.0012);
     const edgeMesh = new T.Mesh(mesh.geometry, edge), glowMesh = new T.Mesh(mesh.geometry, glow), hidden = new T.Mesh(mesh.geometry, dashedMaterial());
     edgeMesh.renderOrder = 1; glowMesh.renderOrder = 4; hidden.renderOrder = 5;
     o.add(edgeMesh, glowMesh, hidden); mesh.add(o); shells.set(id, o as unknown as T.Mesh);
