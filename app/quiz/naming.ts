@@ -51,6 +51,8 @@ const partOfName = (x: string, y: string) => x.endsWith(` of ${y}`) || x.include
  * of the same structure. The site shows the branches of a nerve under the nerve's own name; that is a parent, not a spelling, and is never accepted here. */
 export function siteName(structure: Named): {en?: string; zh?: string} {
   if (!structure.system) return {};
+  // A part of a muscle (clavicular part of pectoralis major, spinal part of deltoid) is answered with the muscle's name (wholeMuscleOf), not with the site's other wording of the part.
+  if (wholeMuscleOf(structure)) return {};
   const profile = structureProfile(structure.name, structure.system as SystemId);
   const paired = isPaired(structure), key = (n: string) => paired ? cleanKey(n) : n.toLowerCase().replace(/\s+/g, ' ').trim();
   const out: {en?: string; zh?: string} = {};

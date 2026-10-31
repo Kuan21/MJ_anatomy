@@ -49,8 +49,8 @@
 | 題目 | 中文 | 也接受 | 只算接近 |
 | --- | --- | --- | --- |
 | Abdominal part of right pectoralis major | 右胸大肌腹部 | right pectoralis major／右胸大肌（整條肌肉） |  |
-| Clavicular part of right pectoralis major | 右胸大肌鎖骨頭 | Right clavicular head of pectoralis major、right pectoralis major／右胸大肌（整條肌肉） |  |
-| Sternocostal part of right pectoralis major | 右胸大肌胸肋頭 | Right sternocostal head of pectoralis major、right pectoralis major／右胸大肌（整條肌肉） |  |
+| Clavicular part of right pectoralis major | 右胸大肌鎖骨頭 | right pectoralis major／右胸大肌（整條肌肉） |  |
+| Sternocostal part of right pectoralis major | 右胸大肌胸肋頭 | right pectoralis major／右胸大肌（整條肌肉） |  |
 | Acromial part of right deltoid | 右三角肌肩峰部 | right deltoid／右三角肌（整條肌肉） |  |
 | Clavicular part of right deltoid | 右三角肌鎖骨部 | right deltoid／右三角肌（整條肌肉） |  |
 | Right flexor pollicis brevis | 右屈拇短肌 |  | thenar muscles |
@@ -67,7 +67,7 @@
 | Set of dorsal interossei of right hand | 右手背側骨間肌群 | dorsal interosseous muscle |  |
 | Set of palmar interossei of right hand | 右手掌側骨間肌群 | palmar interosseous muscle |  |
 | Short head of right biceps brachii | 右肱二頭肌短頭 |  | right biceps brachii（整條肌肉，必須寫頭） |
-| Spinal part of right deltoid | 右三角肌肩胛棘部 | Right spinous part of deltoid、right deltoid／右三角肌（整條肌肉） |  |
+| Spinal part of right deltoid | 右三角肌肩胛棘部 | right deltoid／右三角肌（整條肌肉） |  |
 | Superficial head of right flexor pollicis brevis | 右拇短屈肌淺頭 | right flexor pollicis brevis／右拇短屈肌（整條肌肉） |  |
 | Transverse head of right adductor pollicis | 右拇收肌橫頭 | right adductor pollicis／右拇收肌（整條肌肉） |  |
 | Ulnar head of right pronator teres | 右旋前圓肌尺骨頭 | right pronator teres／右旋前圓肌（整條肌肉） |  |
