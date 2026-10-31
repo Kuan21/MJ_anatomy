@@ -51,6 +51,9 @@ export function structureCard(structure: Pick<QuizStructure, 'name' | 'chinese' 
   // Paired structures are keyed without left/right; names where "left"/"right" belongs to the name itself (left atrium, left pulmonary artery…) are keyed in full.
   const extra: CardExtra | undefined = CARD_EXTRAS[structure.name.toLowerCase()] ?? CARD_EXTRAS[clean(structure.name)];
   const fields: CardField[] = [], missing: string[] = [];
+  // A lung surface structure (impression, hilum, lobe part …) shows the fields of its own type, as on the atlas data card; fields without content are not listed.
+  const lungCard = system === 'respiratory' ? paokaoCardByName(structure.name) : undefined;
+  if (lungCard?.lung) return {english: structure.name, chinese: structure.chinese ?? lungCard.zh, system, fields: (lungCard.extra ?? []).map(f => ({label: f.labelZh, zh: f.zh, en: f.en})), missing: []};
   for (const label of FIELDS[system]) {
     const fromExtra = extra?.[label] ?? (system === 'respiratory' ? lungMark(structure.name, label) : undefined);
     const fact = FROM_PROFILE[system][label]?.map(l => profile.facts.find(f => f.labelZh === l)).find(Boolean);

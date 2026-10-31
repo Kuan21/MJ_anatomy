@@ -395,13 +395,23 @@ function baseStructureProfile(rawName:string,system:SystemId,part?:Part):Structu
  },sourceName);
 }
 
-type PaokaoCard={name:string;zh:string;system:string;kind:string;origin?:[string,string];course?:[string,string];supply?:[string,string];insertion?:[string,string];nerve?:[string,string];action?:[string,string];extra?:{labelEn:string;labelZh:string;en:string;zh:string}[];note?:string;refs?:string[];parent?:string};
+type PaokaoCard={lung?:string;name:string;zh:string;system:string;kind:string;origin?:[string,string];course?:[string,string];supply?:[string,string];insertion?:[string,string];nerve?:[string,string];action?:[string,string];extra?:{labelEn:string;labelZh:string;en:string;zh:string}[];note?:string;refs?:string[];parent?:string};
 const PAOKAO=paokaoCards as unknown as Record<string,PaokaoCard>;
 const paokaoByName=new Map(Object.values(PAOKAO).map(c=>[c.name.toLowerCase(),c]));
 /** Course-summary structures built by scripts/prepare-paokao.mjs: the Chinese name and the bilingual data card come from app/mj-paokao.json. */
 /** The card of a course-summary structure by name; a leading Left/Right added by the quiz to a side-less name is dropped when the full name is not found. */
 export function paokaoCardByName(name:string){const k=name.toLowerCase();return paokaoByName.get(k)??paokaoByName.get(k.replace(/^(?:left|right) /,''));}
 export function paokaoZh(name:string){return paokaoByName.get(name.toLowerCase())?.zh;}
+/** Category line of the lung cards by type of structure. */
+const LUNG_CARD_CATEGORY:Record<string,[string,string]>={impression:['Impression','壓跡'],hilum:['Lung structure','肺的結構'],structure:['Lung structure','肺的結構'],'lobe-part':['Part of lobe','肺葉部分']};
+/** The five lobes: location, segments and boundaries. */
+const LOBES:Record<string,{loc:[string,string];seg:[string,string];bound:[string,string]}>={
+ 'upper lobe of right lung':{loc:['Upper part of the right lung, above the horizontal fissure','右肺上部，水平裂以上'],seg:['Apical, posterior and anterior segments','尖段、後段、前段'],bound:['Horizontal fissure below and in front, oblique fissure behind','前下方以水平裂、後方以斜裂為界']},
+ 'middle lobe of right lung':{loc:['Wedge-shaped lower front part of the right lung, between the two fissures','右肺前下部的楔形區，夾在兩條裂之間'],seg:['Lateral and medial segments','外側段、內側段'],bound:['Horizontal fissure above, oblique fissure below and behind','上方以水平裂、後下方以斜裂為界']},
+ 'lower lobe of right lung':{loc:['Lower and back part of the right lung, behind the oblique fissure; its base rests on the diaphragm','右肺後下部，斜裂之後；底部貼在橫膈上'],seg:['Superior, medial basal, anterior basal, lateral basal and posterior basal segments','上段、內側基底段、前基底段、外側基底段、後基底段'],bound:['Oblique fissure in front','前方以斜裂為界']},
+ 'upper lobe of left lung':{loc:['Upper part of the left lung, above and in front of the oblique fissure, including the lingula','左肺上部，斜裂之前上方，含舌葉'],seg:['Apicoposterior, anterior, superior lingular and inferior lingular segments','尖後段、前段、上舌段、下舌段'],bound:['Oblique fissure behind; cardiac notch on the front edge','後方以斜裂為界；前緣有心切跡']},
+ 'lower lobe of left lung':{loc:['Lower and back part of the left lung, behind the oblique fissure; its base rests on the diaphragm','左肺後下部，斜裂之後；底部貼在橫膈上'],seg:['Superior, anteromedial basal, lateral basal and posterior basal segments','上段、前內基底段、外側基底段、後基底段'],bound:['Oblique fissure in front','前方以斜裂為界']},
+};
 const KIND_LABEL:Record<string,[string,string]>={artery:['Artery','動脈'],vein:['Vein','靜脈'],nerve:['Nerve','神經'],vessel:['Lymphatic vessel','淋巴管'],ligament:['Ligament','韌帶'],tendon:['Tendon','肌腱'],fascia:['Fascia','筋膜'],retinaculum:['Retinaculum','支持帶'],aponeurosis:['Aponeurosis','腱膜'],membrane:['Membrane','膜'],sheath:['Sheath','鞘'],ganglion:['Ganglion','神經節'],plexus:['Plexus','神經叢'],space:['Space','間隙'],landmark:['Bone landmark','骨性標誌'],muscle:['Muscle','肌肉'],surface:['Surface mark','表面標記'],gland:['Gland','腺體'],organ:['Organ','器官']};
 const SCHEMATIC_NOTE_ZH2='示意模型：公開人體圖譜（BodyParts3D、Z-Anatomy）沒有此構造的三維模型，這裡依教科書走行與位置以簡化形態繪製；粗細、彎曲與分支僅供辨認方向，不是實測形狀。';
 const SCHEMATIC_NOTE_EN2='Schematic model: neither BodyParts3D nor Z-Anatomy has a 3D model of this structure. It is drawn in simplified form from the textbook course and position; calibre, curvature and branching are for orientation only, not measured.';
@@ -409,6 +419,12 @@ function paokaoProfile(rawName:string,system:SystemId,part?:Part):StructureProfi
  const card=part?PAOKAO[part.id]:undefined;
  if(!card)return baseStructureProfile(rawName,system,part);
  const [en,zh]=KIND_LABEL[card.kind]??['Structure','構造'];
+
+ // Lung structures: the category and the fields follow the type of structure (see scripts/paokao-structures/lung-cards.mjs); fields without content are not shown.
+ if(card.lung){
+  const [cEn,cZh]=LUNG_CARD_CATEGORY[card.lung]??['Lung structure','肺的結構'];
+  return{english:card.name,chinese:card.zh,category:`${cEn}｜${cZh}（示意模型）`,summaryEn:SCHEMATIC_NOTE_EN2,summaryZh:SCHEMATIC_NOTE_ZH2,facts:(card.extra??[]).map(f=>({labelEn:f.labelEn,labelZh:f.labelZh,valueEn:f.en,valueZh:f.zh})),source:'Surface area marked on the lobe of the BodyParts3D atlas from the textbook position of the neighbouring structure.'};
+ }
  const facts:BilingualFact[]=[];
  // Field names follow the kind of structure: muscles give origin / insertion / innervation / action; vessels origin / course / main branches / territory; nerves roots / course /
  // supply; spaces boundaries / location / contents; organs and glands location / structure and relations / blood supply and nerves; ligaments, fasciae and the like attachments /
@@ -444,6 +460,8 @@ function paokaoProfile(rawName:string,system:SystemId,part?:Part):StructureProfi
 /** Small vessels whose model end was tapered by scripts/prepare-vessel-ends.mjs say so on their card. */
 export function structureProfile(rawName:string,system:SystemId,part?:Part):StructureProfile{
  let profile=paokaoProfile(rawName,system,part);
+ const lobe=LOBES[(part?.name??rawName).toLowerCase()];
+ if(lobe&&system==='respiratory')return{...profile,category:'Lobe of lung｜肺葉',facts:[{labelEn:'Location',labelZh:'位置',valueEn:lobe.loc[0],valueZh:lobe.loc[1]},{labelEn:'Segments',labelZh:'包含的肺段',valueEn:lobe.seg[0],valueZh:lobe.seg[1]},{labelEn:'Boundaries',labelZh:'邊界',valueEn:lobe.bound[0],valueZh:lobe.bound[1]}]};
  // An atlas vessel lists the branches the model joins to it (the same relations the build checks).
  const kids=part&&(system==='arterial'||system==='venous')?(vesselBranches.branches as Record<string,string[]>)[part.name]:undefined;
  const from=part&&(system==='arterial'||system==='venous')?(vesselBranches.parents as Record<string,string>)[part.name]:undefined;
