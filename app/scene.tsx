@@ -901,7 +901,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
   // Each column is ordered by the height of its arrows' ends and then untangled pair by pair, and the split between the columns is at the median x of the arrow ends, so no arrows cross.
   const plLayer=document.createElement('div');plLayer.className='part-labels';el.appendChild(plLayer);
   const plSvg=document.createElementNS('http://www.w3.org/2000/svg','svg');plSvg.setAttribute('class','part-label-lines');plSvg.setAttribute('aria-hidden','true');plLayer.appendChild(plSvg);
-  type PartLabel={key:string;cat:string;ids:string[];anchor:T.Vector3;cands:T.Vector3[];normal:T.Vector3|null;vis:boolean;box:HTMLButtonElement;line:SVGLineElement};let plPose='',plMoved=0,plChecked='';const plRay=new T.Raycaster();
+  type PartLabel={key:string;cat:string;ids:string[];anchor:T.Vector3;cands:T.Vector3[];normal:T.Vector3|null;vis:boolean;box:HTMLButtonElement;line:SVGLineElement;maxW:number};let plPose='',plMoved=0,plChecked='';const plRay=new T.Raycaster();
   let plKey='',plItems:PartLabel[]=[],plMissing=0,plRetries=0,plLast=0;
   const plWorld=(ids:string[],step:number)=>{const pts:{p:T.Vector3;n:T.Vector3|null}[]=[];for(const id of ids){const i=atlas.parts.findIndex(q=>q.id===id),mesh=i>=0?pickers[i]:undefined;if(!mesh)continue;mesh.updateWorldMatrix(true,false);const pos=mesh.geometry.getAttribute('position'),nor=mesh.geometry.getAttribute('normal'),st=Math.max(1,Math.floor(pos.count/step));for(let k=0;k<pos.count;k+=st){const p=new T.Vector3(pos.getX(k),pos.getY(k),pos.getZ(k)).applyMatrix4(mesh.matrixWorld);pts.push({p,n:nor?new T.Vector3(nor.getX(k),nor.getY(k),nor.getZ(k)).transformDirection(mesh.matrixWorld):null});}}return pts;};
   const plBuild=(s:SceneState)=>{
@@ -926,7 +926,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
     const near=pts.filter(q=>q.n).sort((x,y)=>x.p.distanceToSquared(best.p)-y.p.distanceToSquared(best.p)).slice(0,60),mean=new T.Vector3();for(const q of near)mean.add(q.n!);
     // other points of the structure, nearest the middle first: when the first one is hidden behind the lung, the arrow ends on the nearest one that is seen
     const ranked=pts.map(q=>q.p).sort((x,y)=>x.distanceToSquared(target)-y.distanceToSquared(target)),cands=ranked.filter((_,k)=>k%Math.max(1,Math.floor(ranked.length/40))===0).slice(0,40);
-    plItems.push({key:l.key,cat:l.cat??'',ids:l.ids,anchor:best.p.clone(),cands:[best.p.clone(),...cands],normal:null,vis:true,box,line});plChecked='';
+    plItems.push({key:l.key,cat:l.cat??'',ids:l.ids,anchor:best.p.clone(),cands:[best.p.clone(),...cands],normal:null,vis:true,box,line,maxW:0});plChecked='';
    }
   };
   const segCross=(a:number[],b:number[])=>{const o=(p:number[],q:number[],r:number[])=>(q[0]-p[0])*(r[1]-p[1])-(q[1]-p[1])*(r[0]-p[0]);const d1=o(a.slice(0,2),a.slice(2),b.slice(0,2)),d2=o(a.slice(0,2),a.slice(2),b.slice(2)),d3=o(b.slice(0,2),b.slice(2),a.slice(0,2)),d4=o(b.slice(0,2),b.slice(2),a.slice(2));return d1*d2<0&&d3*d4<0;};
@@ -949,23 +949,29 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
    const shown=plItems.map(it=>{const q=it.anchor.clone().project(camera),ids=it.ids.map(id=>atlas.parts.findIndex(p=>p.id===id)),seen=ids.some(i=>i>=0&&data[i*4+3]>.5),front=it.vis;it.box.dataset.why=(seen?'':'hidden ')+(front?'':'faces-away ')+(q.z<1?'':'behind-camera');return{it,x:(q.x*.5+.5)*w,y:(-q.y*.5+.5)*h,ok:seen&&front&&q.z<1};});
    for(const s of shown){const d=s.ok?'':'none';s.it.box.dataset.shown=s.ok?'1':'0';s.it.box.style.display=d;s.it.line.style.display=d;}
    const list=shown.filter(s=>s.ok);if(!list.length)return;
-   const rect=el.getBoundingClientRect(),panelRight=document.querySelector('.left-workspace')?.getBoundingClientRect(),rightEdges=['.right-tool-panel','.right-tool-rail','.detail-sheet','.lung-focus'].map(q=>document.querySelector(q)?.getBoundingClientRect()).filter((r):r is DOMRect=>!!r&&r.width>0);
+   const rect=el.getBoundingClientRect(),panelRight=document.querySelector('.left-workspace .layers-panel')?.getBoundingClientRect(),panels=['.right-tool-panel','.right-tool-rail','.detail-sheet','.lung-focus'].map(q=>document.querySelector(q)?.getBoundingClientRect()).filter((r):r is DOMRect=>!!r&&r.width>0);
+   // A panel that spans most of the view (the bottom sheet of a phone) limits the labels from below; any other panel limits them from the side.
+   const sheets=panels.filter(r=>r.width>w*.6),rightEdges=panels.filter(r=>r.width<=w*.6),hLim=Math.min(h,...sheets.map(r=>r.top-rect.top-8));
    const freeLeft=Math.max(12,panelRight&&panelRight.width>0?panelRight.right-rect.left+14:12),freeRight=Math.min(w-12,...rightEdges.map(r=>r.left-rect.left-14));
    const xs=list.map(s=>s.x).sort((a,b)=>a-b),median=xs[Math.floor(xs.length/2)];
-   const gap=Math.max(36,Math.min(46,(h-140)/Math.max(1,Math.ceil(list.length/2))));
+   // A box is as wide as its text up to `colMax` (the free width shared by the two columns, at most 260 px); a longer English name wraps onto a second line, with the Chinese name below it.
+   const colMax=Math.max(110,Math.min(260,Math.floor((freeRight-freeLeft)/2)-8));
+   for(const s of list)if(s.it.maxW!==colMax){s.it.box.style.setProperty('--label-max',`${colMax}px`);s.it.maxW=colMax;}
    for(const right of [false,true]){
     const col=list.filter(s=>right?s.x>median||(s.x===median&&list.indexOf(s)%2===1):!(s.x>median||(s.x===median&&list.indexOf(s)%2===1))).sort((a,b)=>a.y-b.y);
-    let last=-Infinity;const ly:number[]=[];for(const s of col){const y=Math.max(s.y,last+gap,84);ly.push(y);last=y;}
-    // keep the stack inside the view, shifting it up from the bottom
-    for(let i=ly.length-1;i>=0;i--){const max=h-34-(ly.length-1-i)*gap;if(ly[i]>max)ly[i]=max;}
+    const ly:number[]=col.map(s=>s.y),hOf=(i:number)=>col[i].it.box.offsetHeight||34;
+    // Boxes keep their order by height and are spaced by their own heights (a wrapped name is taller); the stack is shifted up from the bottom to stay inside the view
+    const stack=()=>{const ord=col.map((_,i)=>i).sort((a,b)=>ly[a]-ly[b]);let prev=-1;for(const k of ord){const hk=hOf(k);ly[k]=Math.max(ly[k],Math.min(84,hLim/3),prev<0?-Infinity:ly[prev]+(hOf(prev)+hk)/2+6);prev=k;}
+     for(let q=ord.length-1;q>=0;q--){const k=ord[q],max=q===ord.length-1?hLim-16-hOf(k)/2:ly[ord[q+1]]-(hOf(ord[q+1])+hOf(k))/2-6;if(ly[k]>max)ly[k]=max;}};
+    stack();
     const edgeX=(s:{it:PartLabel})=>{const bw=s.it.box.offsetWidth||180;return right?Math.max(freeLeft,freeRight-bw):freeLeft+bw;};
     const seg=(i:number)=>[edgeX(col[i]),ly[i],col[i].x,col[i].y];
     // untangle: swap the heights of two labels whose arrows cross
-    for(let pass=0;pass<30;pass++){let swapped=false;for(let i=0;i<col.length;i++)for(let j=i+1;j<col.length;j++)if(segCross(seg(i),seg(j))){[ly[i],ly[j]]=[ly[j],ly[i]];swapped=true;}if(!swapped)break;}
+    for(let pass=0;pass<30;pass++){let swapped=false;for(let i=0;i<col.length;i++)for(let j=i+1;j<col.length;j++)if(segCross(seg(i),seg(j))){[ly[i],ly[j]]=[ly[j],ly[i]];stack();swapped=true;}if(!swapped)break;}
     // group labels of one category: swap the heights of two labels when that gives fewer runs of one category down the column and no more crossings
     {const nCross=()=>{let n=0;for(let i=0;i<col.length;i++)for(let j=i+1;j<col.length;j++)if(segCross(seg(i),seg(j)))n++;return n;};
      const runs=()=>{const o=col.map((_,i)=>i).sort((a,b)=>ly[a]-ly[b]);let n=0;o.forEach((k,i)=>{if(i===0||col[k].it.cat!==col[o[i-1]].it.cat||!col[k].it.cat)n++;});return n;};
-     for(let pass=0;pass<3;pass++){let moved=false;for(let i=0;i<col.length;i++)for(let j=i+1;j<col.length;j++){if(!col[i].it.cat||!col[j].it.cat||col[i].it.cat===col[j].it.cat)continue;const c0=nCross(),r0=runs();[ly[i],ly[j]]=[ly[j],ly[i]];if(nCross()<=c0&&runs()<r0)moved=true;else[ly[i],ly[j]]=[ly[j],ly[i]];}if(!moved)break;}}
+     for(let pass=0;pass<3;pass++){let moved=false;for(let i=0;i<col.length;i++)for(let j=i+1;j<col.length;j++){if(!col[i].it.cat||!col[j].it.cat||col[i].it.cat===col[j].it.cat)continue;const c0=nCross(),r0=runs(),keep=ly.slice();[ly[i],ly[j]]=[ly[j],ly[i]];stack();if(nCross()<=c0&&runs()<r0)moved=true;else ly.splice(0,ly.length,...keep);}if(!moved)break;}}
     col.forEach((s,i)=>{const bw=s.it.box.offsetWidth||180,lx=right?Math.max(freeLeft,freeRight-bw):freeLeft,edge=right?lx:lx+bw;s.it.box.style.left=`${lx}px`;s.it.box.style.top=`${ly[i]}px`;s.it.line.setAttribute('x1',String(edge));s.it.line.setAttribute('y1',String(ly[i]));s.it.line.setAttribute('x2',String(s.x));s.it.line.setAttribute('y2',String(s.y));});
    }
   };
