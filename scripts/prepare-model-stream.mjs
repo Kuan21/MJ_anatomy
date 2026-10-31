@@ -9,6 +9,8 @@ import {smoothTube} from './lib/mesh-smooth.mjs';
 import {quizModule} from './quiz-modules.mjs';
 import {planCuts} from './lib/tendon-set.mjs';
 const {anatomicalRegion}=await quizModule('app/mj-part-regions.ts');
+const {encodeOctNormals,quantisePositions}=await quizModule('app/stream-geometry.ts');
+let exactParts=0;
 /** Limb vessels of a few thousand triangles or fewer: the arm and leg trees, not the aorta or the venae cavae. */
 // Some motion data files are fitted to the exact source mesh (vertex count and position hash): a vessel named there must keep its source geometry.
 const hashBound=new Set();
@@ -47,6 +49,12 @@ for(const part of atlas.parts){
   else skippedParts.push(part.name);
  }
  triangles+=part.indexCount/3;
+ // Bug Audit P2-01, compact encoding (decoded by app/stream-geometry.ts and scripts/lib/stream-geometry.mjs):
+ // indices as Uint16 (every part has at most 65 535 vertices), normals as octahedral Int16 pairs, positions quantised to Uint16 on the part's box
+ // (6 µm at most). A part whose motion data is fitted to the exact source positions (positionHash) keeps Float32 positions.
+ if(part.vertexCount<=65535){const u32=new Uint32Array(indices.buffer.slice(indices.byteOffset,indices.byteOffset+indices.length));indices=Buffer.from(Uint16Array.from(u32).buffer);part.u16=true;}else delete part.u16;
+ {const n16=new Int16Array(normals.buffer.slice(normals.byteOffset,normals.byteOffset+normals.length));normals=Buffer.from(encodeOctNormals(n16,part.vertexCount).buffer);part.n2=true;}
+ if(!hashBound.has(part.id)&&!hashBound.has(part.name)){const f32=new Float32Array(positions.buffer.slice(positions.byteOffset,positions.byteOffset+positions.length));const {q,pq}=quantisePositions(f32,part.vertexCount);positions=Buffer.from(q.buffer);part.pq=pq;}else{delete part.pq;exactParts++;}
  if(bytes&&bytes+positions.length+normals.length+indices.length>750000)flush();
  part.chunk=chunks.length;part.positions=append(positions);part.normals=append(normals);part.indices=append(indices);
 }
@@ -55,4 +63,5 @@ const manifest=Buffer.from(JSON.stringify(atlas));
 fs.writeFileSync(new URL('atlas-stream.json',dir),manifest);fs.writeFileSync(new URL('atlas-stream.json.gz',dir),gzipSync(manifest,{level:9}));
 if(skippedParts.length)console.log(`Left unsmoothed (surface would move more than 1.5 mm): ${skippedParts.join(', ')}`);
 console.log(`${cutMuscles} muscle parts end at their musculotendinous junction (tendon parts are added by prepare-paokao).`);
+console.log(`${exactParts} parts keep exact Float32 positions (motion data fitted to the source mesh).`);
 console.log(`Prepared ${chunks.length} immutable packages; ${atlas.parts.length} tissues (${smoothedParts} limb vessels smoothed, ${triangles} triangles), ${(chunks.reduce((sum,c)=>sum+c.gzipBytes,0)/1e6).toFixed(1)} MB compressed.`);

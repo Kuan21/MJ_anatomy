@@ -3,7 +3,7 @@ import {fetchModelBuffer} from './model-download';
 
 type FacialSourcePart={
  id:string;conceptId:string;name:string;system:Part['system'];vertexCount:number;indexCount:number;
- bounds:[number[],number[]];positions:number;normals:number;indices:number;chunk:number;sex?:'female';schematic?:boolean;kind?:string;
+ bounds:[number[],number[]];positions:number;normals:number;indices:number;pq?:number[];n2?:boolean;u16?:boolean;chunk:number;sex?:'female';schematic?:boolean;kind?:string;
 };
 
 export type FacialStream={parts:FacialSourcePart[];chunks:Atlas['chunks']};
@@ -17,7 +17,7 @@ export function mergeAtlasStreams(base:Atlas,streams:FacialStream[]):Atlas{
  for(const stream of streams){
   for(const p of stream.parts)added.push({
    id:p.id,name:p.name,conceptId:p.conceptId,system:p.system,chunk:offset+p.chunk,
-   positions:p.positions,normals:p.normals,indices:p.indices,
+   positions:p.positions,normals:p.normals,indices:p.indices,...(p.u16?{u16:true}:{}),...(p.n2?{n2:true}:{}),...(p.pq?{pq:p.pq}:{}),
    vertexCount:p.vertexCount,indexCount:p.indexCount,bounds:p.bounds,
    ...(p.sex?{sex:p.sex}:{}),...(p.schematic?{schematic:true}:{}),...(p.kind?{kind:p.kind}:{})
   });

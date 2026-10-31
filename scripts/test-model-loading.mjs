@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {gzipSync} from 'node:zlib';
 import ts from 'typescript';
+import {indicesOf, positionsOf} from './lib/stream-geometry.mjs';
 const source=fs.readFileSync(new URL('../app/model-download.ts',import.meta.url),'utf8');
 const code=ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext}}).outputText;
 const {decodeModelResponse,fetchModelBuffer,loadMissingChunks}=await import(`data:text/javascript;base64,${Buffer.from(code).toString('base64')}`);
@@ -69,7 +70,7 @@ for(let i=0;i<atlas.parts.length;i++){
  if(after.smoothed){
   // a limb vessel with one smoothing step: more vertices and triangles, same place (bounding box within 1.5 mm), every index valid
   assert.ok(['arterial','venous'].includes(before.system)&&after.vertexCount>before.vertexCount&&after.indexCount>before.indexCount,`${before.name}: smoothing`);
-  const pos=new Float32Array(delivered[after.chunk].buffer.slice(delivered[after.chunk].byteOffset+after.positions,delivered[after.chunk].byteOffset+after.positions+after.vertexCount*12)),idx=new Uint32Array(delivered[after.chunk].buffer.slice(delivered[after.chunk].byteOffset+after.indices,delivered[after.chunk].byteOffset+after.indices+after.indexCount*4));
+  const pos=positionsOf(delivered[after.chunk],after),idx=indicesOf(delivered[after.chunk],after);
   for(let k=0;k<3;k++){let lo=Infinity,hi=-Infinity;for(let v=k;v<pos.length;v+=3){lo=Math.min(lo,pos[v]);hi=Math.max(hi,pos[v]);}assert.ok(Math.abs(lo-before.bounds[0][k])<.0015&&Math.abs(hi-before.bounds[1][k])<.0015,`${before.name}: smoothed vessel moved`);}
   assert.ok(idx.every(v=>v<after.vertexCount),`${before.name}: index out of range`);continue;
  }
@@ -78,7 +79,7 @@ for(let i=0;i<atlas.parts.length;i++){
   // lies inside its original bounds; every index is valid
   // the raw atlas files a few leg muscles (fibularis, tibialis) as bones; the viewer corrects that
   assert.ok(before.system==='muscular'||(before.system==='skeletal'&&/fibularis|tibialis/.test(before.name)),`${before.name}: tendon cut`);
-  const d=delivered[after.chunk],pos=new Float32Array(d.buffer.slice(d.byteOffset+after.positions,d.byteOffset+after.positions+after.vertexCount*12)),idx=new Uint32Array(d.buffer.slice(d.byteOffset+after.indices,d.byteOffset+after.indices+after.indexCount*4));
+  const d=delivered[after.chunk],pos=positionsOf(d,after),idx=indicesOf(d,after);
   for(let k=0;k<3;k++){let lo=Infinity,hi=-Infinity;for(let v=k;v<pos.length;v+=3){lo=Math.min(lo,pos[v]);hi=Math.max(hi,pos[v]);}assert.ok(lo>=before.bounds[0][k]-.0005&&hi<=before.bounds[1][k]+.0005,`${before.name}: cut muscle left its bounds`);}
   assert.ok(idx.every(v=>v<after.vertexCount),`${before.name}: index out of range`);continue;
  }

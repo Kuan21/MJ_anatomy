@@ -8,6 +8,7 @@ import {createRequire} from 'node:module';
 import * as T from 'three';
 import {buildMjHeart} from './lib/heart-mj.mjs';
 import {buildValveApparatus, semilunarShift} from './lib/heart-valves.mjs';
+import {indicesOf, positionsOf} from './lib/stream-geometry.mjs';
 
 const root = new URL('../', import.meta.url);
 const spec = JSON.parse(fs.readFileSync(new URL('scripts/heart-parts.json', root), 'utf8'));
@@ -120,8 +121,8 @@ const atlasGeometry = id => {
   const p = atlasById.get(id); if (!p) throw new Error(`BodyParts3D piece not in the atlas: ${id}`);
   let raw = atlasChunk.get(p.chunk);
   if (!raw) {raw = fs.readFileSync(new URL('public' + atlas.chunks[p.chunk].url, root)); atlasChunk.set(p.chunk, raw);}
-  const positions = new Float32Array(raw.buffer.slice(raw.byteOffset + p.positions, raw.byteOffset + p.positions + p.vertexCount * 12));
-  const indices = new Uint32Array(raw.buffer.slice(raw.byteOffset + p.indices, raw.byteOffset + p.indices + p.indexCount * 4));
+  const positions = positionsOf(raw, p);
+  const indices = indicesOf(raw, p);
   return {p, positions, indices};
 };
 // The pericardial layers come from the schematic shells of the serous-membrane package (offsets of the BodyParts3D heart walls), moved by the same offset.
