@@ -11,14 +11,14 @@
 
 ## 一、結果摘要
 
-- 涵蓋結構名稱（去除左右後）：1554 個
+- 涵蓋結構名稱（去除左右後）：1523 個
 - 採用來源 1（muscle-layers.json）改名：33 個；來源 2（跑考摘要）：14 個；來源 3（其他筆記）：25 個
 - 全站固定修正：「背闊肌」→「闊背肌」
-- 仍缺中文名或含英文：19 個
+- 仍缺中文名或含英文：0 個
 
 | 來源 | 結構數 |
 |---|---|
-| 台灣解剖學名詞（程式內建對照表） | 1357 |
+| 台灣解剖學名詞（程式內建對照表） | 1326 |
 | muscle-layers.json | 88 |
 | glossary.json（其他筆記） | 75 |
 | glossary.json（跑考摘要） | 34 |
@@ -1031,28 +1031,6 @@
 
 </details>
 
-### 4.0 仍缺中文名
-
-- Inferior leaflet of tricuspid valve（Inferior leaflet of tricuspid valve）
-- Anterolateral papillary muscle of left ventricle（Anterolateral papillary muscle of ventricle）
-- Right marginal branch（marginal branch）
-- Posterior interventricular branch（Posterior interventricular branch）
-- Diagonal branches（Diagonal branches）
-- Crista terminalis（Crista terminalis）
-- Pectinate muscles（Pectinate muscles）
-- Interatrial septum（Interatrial septum）
-- Fossa ovalis（Fossa ovalis）
-- Right auricle（auricle）
-- Interventricular septum（Interventricular septum）
-- Trabeculae carneae of right ventricle（Trabeculae carneae of ventricle）
-- Septomarginal trabecula (moderator band)（Septomarginal trabecula (moderator band)）
-- Supraventricular crest（Supraventricular crest）
-- Conus arteriosus（Conus arteriosus）
-- Aortic vestibule（Aortic vestibule）
-- Sinoatrial nodal artery（Sinoatrial nodal artery）
-- Transverse pericardial sinus（Transverse pericardial sinus）
-- Oblique pericardial sinus（Oblique pericardial sinus）
-
 ### 4.2 來源 1 與 glossary 不一致
 
 | 結構 | muscle-layers.json（採用） | glossary.json |
@@ -1084,8 +1062,6 @@
 | 眶回 | Orbital gyrus；orbital gyri |
 | 腹腔動脈幹 | Celiac artery；Celiac trunk |
 | 結腸邊緣動脈 | Marginal colic artery；Marginal artery of colon |
-| 前室間動脈隔支 | Septal branch of anterior interventricular artery；Septal branches of anterior interventricular artery |
-| 主動脈弓 | Arch of aorta；Aortic arch |
 | 腋神經 | maxillary nerve；meningeal branch of maxillary nerve；axillary nerve |
 | 正中神經 | communicating branch of median nerve with ulnar nerve；median nerve |
 | 大腦中動脈（M3 段） | middle cerebral artery (M3 segment)；middle cerebral artery (M3-segment) |
@@ -1098,7 +1074,7 @@
 
 ## 五、全部結構命名一覽
 
-<details><summary>展開 1554 項</summary>
+<details><summary>展開 1523 項</summary>
 
 | 結構 | 使用來源 | 中文名 |
 |---|---|---|
@@ -2625,36 +2601,5 @@
 | superior thalamic radiation | 台灣解剖學名詞（程式內建對照表） | 上視丘輻射 |
 | uncinate fasciculus | 台灣解剖學名詞（程式內建對照表） | 鉤束 |
 | external carotid artery | glossary.json（其他筆記） | 外頸動脈 |
-| Inferior papillary muscle of ventricle | 台灣解剖學名詞（程式內建對照表） | 下乳突肌 |
-| Inferior leaflet of tricuspid valve | 台灣解剖學名詞（程式內建對照表） | Inferior leaflet of tricuspid valve |
-| coronary leaflet of aortic valve | 台灣解剖學名詞（程式內建對照表） | 主動脈瓣冠狀瓣 |
-| Non-coronary leaflet of aortic valve | 台灣解剖學名詞（程式內建對照表） | 主動脈瓣無冠瓣 |
-| Anterior semilunar cusp of pulmonary valve | 台灣解剖學名詞（程式內建對照表） | 肺動脈瓣前半月瓣 |
-| semilunar cusp of pulmonary valve | 台灣解剖學名詞（程式內建對照表） | 肺動脈瓣半月瓣 |
-| inferolateral branch of coronary artery | 台灣解剖學名詞（程式內建對照表） | 冠狀動脈下外側支 |
-| Anterior interventricular artery | 台灣解剖學名詞（程式內建對照表） | 前室間動脈 |
-| Septal branches of anterior interventricular artery | 台灣解剖學名詞（程式內建對照表） | 前室間動脈隔支 |
-| Circumflex artery | 台灣解剖學名詞（程式內建對照表） | 迴旋支 |
-| Inferior vein of ventricle | 台灣解剖學名詞（程式內建對照表） | 心室下靜脈 |
-| Aortic arch | 台灣解剖學名詞（程式內建對照表） | 主動脈弓 |
-| Bifurcation of pulmonary trunk | 台灣解剖學名詞（程式內建對照表） | 肺動脈幹分叉 |
-| Anterolateral papillary muscle of ventricle | 台灣解剖學名詞（程式內建對照表） | Anterolateral papillary muscle of ventricle |
-| marginal branch | 台灣解剖學名詞（程式內建對照表） | marginal branch |
-| Posterior interventricular branch | 台灣解剖學名詞（程式內建對照表） | Posterior interventricular branch |
-| Diagonal branches | 台灣解剖學名詞（程式內建對照表） | Diagonal branches |
-| Crista terminalis | 台灣解剖學名詞（程式內建對照表） | Crista terminalis |
-| Pectinate muscles | 台灣解剖學名詞（程式內建對照表） | Pectinate muscles |
-| Interatrial septum | 台灣解剖學名詞（程式內建對照表） | Interatrial septum |
-| Fossa ovalis | 台灣解剖學名詞（程式內建對照表） | Fossa ovalis |
-| auricle | 台灣解剖學名詞（程式內建對照表） | auricle |
-| Interventricular septum | 台灣解剖學名詞（程式內建對照表） | Interventricular septum |
-| Trabeculae carneae of ventricle | 台灣解剖學名詞（程式內建對照表） | Trabeculae carneae of ventricle |
-| Septomarginal trabecula (moderator band) | 台灣解剖學名詞（程式內建對照表） | Septomarginal trabecula (moderator band) |
-| Supraventricular crest | 台灣解剖學名詞（程式內建對照表） | Supraventricular crest |
-| Conus arteriosus | 台灣解剖學名詞（程式內建對照表） | Conus arteriosus |
-| Aortic vestibule | 台灣解剖學名詞（程式內建對照表） | Aortic vestibule |
-| Sinoatrial nodal artery | 台灣解剖學名詞（程式內建對照表） | Sinoatrial nodal artery |
-| Transverse pericardial sinus | 台灣解剖學名詞（程式內建對照表） | Transverse pericardial sinus |
-| Oblique pericardial sinus | 台灣解剖學名詞（程式內建對照表） | Oblique pericardial sinus |
 
 </details>
