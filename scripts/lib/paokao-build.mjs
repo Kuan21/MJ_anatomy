@@ -20,6 +20,8 @@ import tendonsLowerLimb from '../paokao-structures/tendons-lower-limb.mjs';
 import zanatomyLowerLimb from '../paokao-structures/zanatomy-lower-limb.mjs';
 import ligamentsLowerLimb from '../paokao-structures/ligaments-lower-limb.mjs';
 
+import {clearBones} from './nerve-bone-clearance.mjs';
+
 export function buildAll() {
   const w = loadWorld(), U = makeUtil(w), specs = [...thorax(U), ...thoraxNerves(U), ...upperLimb(U), ...limbVeins(U), ...lowerLimb(U), ...thoraxExtra(U), ...landmarks(U), ...membranes(U), ...knee(U), ...spacesMuscles(U), ...lungs(U), ...neckBreastVulva(U)], built = [];
   const lateSpecs = [...lungs(U, 'late'), ...tendonsUpperLimb(U, w), ...zanatomyUpperLimb(), ...ligamentsUpperLimb(U), ...tendonsLowerLimb(), ...zanatomyLowerLimb(U), ...ligamentsLowerLimb(U)], late = [];
@@ -29,7 +31,10 @@ export function buildAll() {
     for (const r of s.ribbons ?? []) pieces.push(U.ribbon(r.pts, r.width, r.thick, r.hint));
     for (const g of s.geometry ?? []) pieces.push(g);
     if (!pieces.length) throw new Error(`paokao: ${s.name} has no geometry`);
-    (lateSpecs.includes(s) ? late : built).push({...s, geometry: merge(pieces)});
+    const geometry = merge(pieces);
+    // nerve tubes that cross a leg or foot bone (the straight branches on the dorsum of the foot) are moved out through the bone surface, like the nerves of the nerve stream
+    if (s.system === 'nervous' && s.kind === 'nerve' && geometry.indices.length) clearBones(geometry.positions, geometry.indices);
+    (lateSpecs.includes(s) ? late : built).push({...s, geometry});
     // further parts of the same structure (a tendon cut from several muscle meshes): same name, card and concept, their own geometry and motion binding
     for (const sib of s.siblings ?? []) late.push({...s, siblings: undefined, bellies: undefined, geometry: merge(sib.geometry), binding: sib.binding, sibling: true});
   }

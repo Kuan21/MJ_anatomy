@@ -7,6 +7,7 @@ import {Matrix4,Quaternion,Vector3} from 'three';
 import {fileURLToPath} from 'node:url';
 import {buildSchematics} from './lib/nerve-schematics.mjs';
 import {correctNerve} from './lib/nerve-corrections.mjs';
+import {clearBones} from './lib/nerve-bone-clearance.mjs';
 const root=new URL('../',import.meta.url),out=new URL('public/models/stream/',root);
 fs.mkdirSync(out,{recursive:true});fs.mkdirSync(new URL('.sites-runtime/',root),{recursive:true});
 fs.copyFileSync(new URL('public/draco/draco_wasm_wrapper.js',root),new URL('.sites-runtime/nerve-draco.cjs',root));
@@ -16,7 +17,7 @@ const blocked=new Set(JSON.parse(fs.readFileSync(new URL('app/biomechanics-v2/bl
 const bindings={...JSON.parse(fs.readFileSync(new URL('app/biomechanics-v2/nerve-bindings.json',root))),...JSON.parse(fs.readFileSync(new URL('app/biomechanics-v2/body-nerve-bindings.json',root)))};
 const parents=new Map(),world=[];gltf.nodes.forEach((node,i)=>(node.children??[]).forEach(c=>parents.set(c,i)));
 function matrix(i){if(world[i])return world[i];const node=gltf.nodes[i],m=node.matrix?new Matrix4().fromArray(node.matrix):new Matrix4().compose(new Vector3(...(node.translation??[0,0,0])),new Quaternion(...(node.rotation??[0,0,0,1])),new Vector3(...(node.scale??[1,1,1])));return world[i]=parents.has(i)?matrix(parents.get(i)).clone().multiply(m):m;}
-const chunks=[];let records=[],buffers=[],size=0,total=0;
+const cleared=[],chunks=[];let records=[],buffers=[],size=0,total=0;
 function flush(){if(!records.length)return;const raw=Buffer.concat(buffers),hash=createHash('sha256').update(raw).digest('hex').slice(0,20),url=`/models/stream/nerves-${hash}.bin.gz`;fs.writeFileSync(new URL('public'+url,root),gzipSync(raw));chunks.push({url,bytes:raw.length,meshes:records});records=[];buffers=[];size=0;}
 for(const [i,node] of gltf.nodes.entries()){
  if(node.mesh===undefined)continue;
@@ -33,9 +34,10 @@ for(const [i,node] of gltf.nodes.entries()){
   decoder.GetAttributeFloatForAllPoints(mesh,attribute,values);
   const positions=new Float32Array(mesh.num_points()*3),v=new Vector3();
   for(let k=0;k<mesh.num_points();k++){v.set(values.GetValue(k*3),values.GetValue(k*3+1),values.GetValue(k*3+2)).applyMatrix4(matrix(i));positions.set(v.toArray(),k*3);}
-  correctNerve(name,positions);
   const indices=new Uint32Array(mesh.num_faces()*3),face=new draco.DracoInt32Array();
   for(let k=0;k<mesh.num_faces();k++){decoder.GetFaceFromMesh(mesh,k,face);for(let j=0;j<3;j++)indices[k*3+j]=face.GetValue(j);}
+  correctNerve(name,positions,indices);
+  {const c=clearBones(positions,indices);if(c.inside)cleared.push({name,...c});}
   if(size+positions.byteLength+indices.byteLength>384*1024)flush();
   records.push({name,ancestry:ancestry.join(' '),positions:size,vertexCount:positions.length/3,indices:size+positions.byteLength,indexCount:indices.length});
   buffers.push(Buffer.from(positions.buffer),Buffer.from(indices.buffer));size+=positions.byteLength+indices.byteLength;total++;
@@ -51,4 +53,6 @@ for(const t of buildSchematics(fileURLToPath(root))){
 }
 flush();
 fs.writeFileSync(new URL('public/models/nerve-stream.json',root),JSON.stringify({source:'nervous.glb',sourceSha256:createHash('sha256').update(bytes).digest('hex'),meshCount:total,chunks}));
+if(process.env.NERVE_CLEARANCE_REPORT)for(const c of cleared)console.log(`  clearance ${c.name}: ${c.inside} vertices were inside a bone, largest move ${c.moved.toFixed(1)} mm, still inside ${c.left}`);
+console.log(`Nerve clearance: ${cleared.length} nerve meshes moved out of bones (${cleared.reduce((a,c)=>a+c.inside,0)} vertices, ${cleared.reduce((a,c)=>a+c.left,0)} still inside).`);
 console.log(`Nerve stream: ${total} original meshes in ${chunks.length} independently retriable packages`);
