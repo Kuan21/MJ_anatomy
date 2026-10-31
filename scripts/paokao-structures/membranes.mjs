@@ -5,6 +5,7 @@ import {sub, add, mul, unit, len, lerp, cross} from '../lib/paokao-util.mjs';
 const REF = 'Gray’s Anatomy for Students, 4th ed. (Drake et al.); Moore’s Clinically Oriented Anatomy, 8th ed.';
 const SIDES = [{w: 'Right', l: 'right', sx: -1, zh: '右', s: 'r'}, {w: 'Left', l: 'left', sx: 1, zh: '左', s: 'l'}];
 
+// `retired` structures are still built (so the ids of everything after them stay as they were) but not packaged: the tendon batch replaced them (scripts/paokao-structures/tendons-upper-limb.mjs).
 export default function membranes(U) {
   const out = [], P = (x, y, z) => [x, y, z];
   const push = (S, name, zh, kind, system, spec, where, role, origin = ['', '']) => out.push({name: S ? `${S.w} ${name}` : name, zh: `${S ? S.zh : ''}${zh}`, system, kind, ...spec, card: {origin, course: where, supply: role}, refs: [REF]});
@@ -18,7 +19,7 @@ export default function membranes(U) {
       const rr = U.extreme(rad, P(sx, 0, -.15), {y: [y0 - .008, y0 + .008]}), ur = U.extreme(uln, P(-sx, 0, -.15), {y: [y0 - .008, y0 + .008]});
       const tendons = [`${S.w} extensor digitorum`, `${S.w} extensor carpi radialis longus`, `${S.w} extensor carpi radialis brevis`, `${S.w} extensor carpi ulnaris`, `${S.w} extensor pollicis longus`, `${S.w} extensor pollicis brevis`, `${S.w} abductor pollicis longus`, `${S.w} extensor indicis`].filter(n => U.has(n));
       const g = U.conformingSheet([add(rr, P(0, .009, 0)), add(ur, P(0, .009, 0)), add(ur, P(0, -.009, 0)), add(rr, P(0, -.009, 0))], [...tendons, rad, uln], .0013, .0012, .0025, P(0, 0, -.014));
-      push(S, 'extensor retinaculum of wrist', '腕伸肌支持帶', 'retinaculum', 'connective', {geometry: [g]},
+      push(S, 'extensor retinaculum of wrist', '腕伸肌支持帶', 'retinaculum', 'connective', {geometry: [g], retired: true},
         ['A broad band across the back of the wrist, from the lateral edge of the radius to the ulnar styloid, triquetrum and pisiform', '橫跨腕背的寬帶，由橈骨外側緣連到尺骨莖突、三角骨與豌豆骨'], ['Binds down the extensor tendons in six compartments so they do not bowstring when the wrist extends', '把伸肌腱固定在六個腔室內，伸腕時不致弓弦狀突起'],
         ['Radial side: lateral margin of the distal radius; ulnar side: styloid process of the ulna, triquetrum and pisiform', '橈側：橈骨遠端外側緣；尺側：尺骨莖突、三角骨與豌豆骨']);
     }
@@ -27,7 +28,7 @@ export default function membranes(U) {
       const sc = `${S.w} scapula`, rim = (x0, x1) => U.extreme(sc, P(0, 1, 0), {x: sx < 0 ? [-x1, -x0] : [x0, x1], y: [1.395, 1.44]});
       // The notch is the dip in the upper border of the scapula (x about 10 cm from the midline on this atlas); the band joins its medial and lateral rims.
       const a = add(rim(.086, .093), P(0, .0015, 0)), b = add(rim(.106, .112), P(0, .0015, 0));
-      push(S, 'superior transverse scapular ligament', '肩胛上橫韌帶', 'ligament', 'connective', {ribbons: [{pts: [a, lerp(a, b, .5), b], width: .004, thick: .0012, hint: P(0, 0, 1)}]},
+      push(S, 'superior transverse scapular ligament', '肩胛上橫韌帶', 'ligament', 'connective', {ribbons: [{pts: [a, lerp(a, b, .5), b], width: .004, thick: .0012, hint: P(0, 0, 1)}], retired: true},
         ['A thin band across the suprascapular notch, from its medial edge to the base of the coracoid process', '橫跨肩胛上切跡的薄帶，由切跡內緣連到喙突基部'], ['Converts the notch into a foramen: the suprascapular nerve passes below it and the suprascapular artery above it', '把切跡變成孔：肩胛上神經走在其下方，肩胛上動脈走在其上方']);
     }
     // ---- Axillary sheath: fascial tube round the axillary artery, vein and the cords of the brachial plexus.

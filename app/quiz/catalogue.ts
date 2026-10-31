@@ -1,4 +1,4 @@
-export type QuizSystem = 'skeletal' | 'muscular' | 'nervous' | 'arterial' | 'venous' | 'cardiac' | 'respiratory';
+export type QuizSystem = 'skeletal' | 'muscular' | 'tendon' | 'nervous' | 'arterial' | 'venous' | 'cardiac' | 'respiratory';
 export type QuizRegionId = 'lower-limb' | 'upper-limb' | 'thorax' | 'back' | 'heart' | 'lung';
 /** Section ids are region specific ('hip', 'thigh'… for the leg; 'shoulder', 'arm'… for the arm; 'cage', 'wall'… for the thorax). */
 export type QuizSection = string;
@@ -10,6 +10,7 @@ export type Bounds = [number[], number[]];
 export const QUIZ_SYSTEMS: {id: QuizSystem; label: string; english: string; color: string}[] = [
   {id: 'skeletal', label: '骨骼', english: 'Bones', color: '#d6c4a4'},
   {id: 'muscular', label: '肌肉', english: 'Muscles', color: '#bb7067'},
+  {id: 'tendon', label: '肌腱', english: 'Tendons', color: '#d9d9d0'},
   {id: 'nervous', label: '神經', english: 'Nerves', color: '#e4ba4b'},
   {id: 'arterial', label: '動脈', english: 'Arteries', color: '#bf5363'},
   {id: 'venous', label: '靜脈', english: 'Veins', color: '#6399bc'},
@@ -73,11 +74,12 @@ const BACK_SECTIONS: QuizSectionDef[] = [
   {id: 'suboccipital', label: '枕下區', english: 'Suboccipital region', range: [1.5, 1.68]},
   {id: 'neurovascular', label: '背部神經與血管', english: 'Nerves and vessels of the back', range: [.78, 1.68]},
 ];
-/** Question scope: any combination of these eight categories, crossed freely with region (section) and side. */
-export type QuizCategory = 'bone' | 'muscle' | 'nerve' | 'artery' | 'vein' | 'ligament' | 'space' | 'organ';
+/** Question scope: any combination of these nine categories, crossed freely with region (section) and side. */
+export type QuizCategory = 'bone' | 'muscle' | 'tendon' | 'nerve' | 'artery' | 'vein' | 'ligament' | 'space' | 'organ';
 export const QUIZ_CATEGORIES: {id: QuizCategory; label: string; english: string; color: string; note: string}[] = [
   {id: 'bone', label: '骨', english: 'Bones', color: '#d6c4a4', note: '含骨性標記'},
   {id: 'muscle', label: '肌肉', english: 'Muscles', color: '#bb7067', note: ''},
+  {id: 'tendon', label: '肌腱', english: 'Tendons', color: '#d9d9d0', note: ''},
   {id: 'nerve', label: '神經', english: 'Nerves', color: '#e4ba4b', note: ''},
   {id: 'artery', label: '動脈', english: 'Arteries', color: '#bf5363', note: ''},
   {id: 'vein', label: '靜脈', english: 'Veins', color: '#6399bc', note: ''},
@@ -87,7 +89,7 @@ export const QUIZ_CATEGORIES: {id: QuizCategory; label: string; english: string;
 ];
 const SPACE_NAME = /quadrangular space|quadrilateral space|triangular space|triangular interval|anatomical snuffbox|snuff ?box|tarsal tunnel|carpal tunnel|cubital fossa|popliteal fossa|femoral triangle|adductor canal|axilla\b|foramen|hiatus|canal\b/i;
 const LIGAMENT_NAME = /ligament|fascia|retinaculum|aponeurosis|membrane|septum|raphe|capsule/i;
-const SYSTEM_CATEGORY: Record<QuizSystem, QuizCategory> = {skeletal: 'bone', muscular: 'muscle', nervous: 'nerve', arterial: 'artery', venous: 'vein', cardiac: 'organ', respiratory: 'organ'};
+const SYSTEM_CATEGORY: Record<QuizSystem, QuizCategory> = {skeletal: 'bone', muscular: 'muscle', tendon: 'tendon', nervous: 'nerve', arterial: 'artery', venous: 'vein', cardiac: 'organ', respiratory: 'organ'};
 /** One category per structure: spaces and ligaments are recognised by name; every other structure follows its body system. */
 export function categoryOf(structure: {name: string; system: QuizSystem}): QuizCategory {
   if (structure.system === 'muscular' || structure.system === 'skeletal') {
@@ -103,6 +105,8 @@ export const QUIZ_REGIONS = {
     headline: ['看名稱，', '點出位置。'], description: ['由臀部到足部，在 3D 模型上練習辨認。', '每答一題，立即顯示正確位置與資料卡。'],
     scope: '採用現有圖譜的固定解剖姿勢。題目只涵蓋已有模型的構造；神經、動脈與靜脈可以獨立練習。',
     frame: {x: .19, z: [-.13, .09], footZ: .19}, sections: LOWER_SECTIONS,
+    // tendons are asked in the upper limb for now; the other regions get them in later batches
+    systems: ['skeletal', 'muscular', 'nervous', 'arterial', 'venous'],
   },
   'upper-limb': {
     id: 'upper-limb', label: '上肢', english: 'Upper limb', tag: '上肢篇', file: 'quiz-upper.json', hash: '#/quiz/upper-limb', atlasHash: '#/atlas/upper',
@@ -115,6 +119,7 @@ export const QUIZ_REGIONS = {
     headline: ['看名稱，', '點出位置。'], description: ['由胸廓骨架到縱膈大血管，在 3D 模型上練習辨認。', '每答一題，立即顯示正確位置與資料卡。'],
     scope: '採用現有圖譜的固定解剖姿勢。題目只涵蓋胸腔內外已有模型的主要構造（不含器官內部分支）；神經、動脈與靜脈可以獨立練習。',
     frame: {x: .24, z: [-.13, .15]}, sections: THORAX_SECTIONS,
+    systems: ['skeletal', 'muscular', 'nervous', 'arterial', 'venous'],
   },
 } as Record<QuizRegionId, QuizRegionDef>;
 QUIZ_REGIONS.back = {
@@ -123,6 +128,7 @@ QUIZ_REGIONS.back = {
   scope: '採用現有圖譜的固定解剖姿勢，預設由後方觀看。題目涵蓋斜方肌、闊背肌、提肩胛肌、大小菱形肌、後上下鋸肌、夾肌、豎脊肌群、橫棘肌群、枕下肌群，以及模型中已有的相關神經與血管；枕下神經、枕大神經、第三枕神經、枕小神經、耳大神經與枕下靜脈叢因公開模型沒有，為沿教科書走行建立的示意管狀模型（資料卡標示「示意模型」）；胸椎以下的背支神經未收錄，不會出題。',
   defaultView: 'back', defaultSide: 'both',
   frame: {x: .26, z: [-.17, .12]}, sections: BACK_SECTIONS,
+  systems: ['skeletal', 'muscular', 'nervous', 'arterial', 'venous'],
 };
 const HEART_SECTIONS: QuizSectionDef[] = [
   {id: 'all', label: '全部心臟', english: 'Heart', range: [1.2, 1.42]},
@@ -333,6 +339,7 @@ export const THORAX_NERVES: Record<string, {zh: string; sections: SectionList}> 
 };
 export const THORAX_INCLUDE: Record<QuizSystem, RegExp> = {
   respiratory: /(?!)/,
+  tendon: /(?!)/,
   skeletal: /^(?:(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth) rib|manubrium|body of sternum|xiphoid process|(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth) thoracic vertebra|costal cartilages?|intervertebral discs?)$/,
   muscular: /intercostal|transversus thoracis|levatores costarum|serratus posterior|^diaphragm$|spinalis thoracis|iliocostalis thoracis|longissimus thoracis|semispinalis thoracis|interspinalis thoracis|thoracic rotator|subcostal/,
   nervous: /^$/,
@@ -366,6 +373,7 @@ export const BACK_NERVES: Record<string, {zh: string; sections: SectionList; sys
 };
 export const BACK_INCLUDE: Record<QuizSystem, RegExp> = {
   respiratory: /(?!)/,
+  tendon: /(?!)/,
   skeletal: /^(?:(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth) (?:cervical|thoracic|lumbar) vertebra|atlas|axis|sacrum|coccyx|occipital bone|scapula)$/,
   muscular: /^(?:(?:descending|transverse|ascending) part of trapezius|latissimus dorsi|levator scapulae|rhomboid (?:major|minor)|serratus posterior (?:superior|inferior)|splenius (?:capitis|cervicis)|iliocostalis (?:cervicis|thoracis|lumborum)|longissimus (?:capitis|cervicis|thoracis)|spinalis(?: thoracis| cervicis)?|semispinalis (?:capitis|cervicis|thoracis)|multifidus|(?:cervical|thoracic|lumbar) rotator|rectus capitis posterior (?:major|minor)|obliquus capitis (?:superior|inferior))$/,
   nervous: /^$/,

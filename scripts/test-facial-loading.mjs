@@ -31,5 +31,5 @@ for(const p of facial.parts){
 }
 const total=facial.chunks.reduce((n,c)=>n+c.gzipBytes,0),rawTotal=facial.chunks.reduce((n,c)=>n+c.bytes,0);
 assert.ok(total<rawTotal*.65,'compressed');
-assert.equal(normalizeAtlasSystems(base).parts.length+facial.parts.length,2279,'2,232 body + 47 facial = 2,279 structures');
+assert.equal(normalizeAtlasSystems(base).parts.length+facial.parts.length,2277,'2,230 body (the two flexor retinacula of the wrist now come from the tendon batch) + 47 facial = 2,277 structures');
 console.log(`PASS facial loading: ${facial.parts.length} pieces, ${vertices.toLocaleString()} vertices, ${facial.chunks.length} same-origin packages (${(rawTotal/1e6).toFixed(1)} MB → ${(total/1e6).toFixed(1)} MB gzip), byte-identical to the pinned source.`);
