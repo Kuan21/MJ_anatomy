@@ -25,9 +25,18 @@
     "FJ1469M": {
       "name": "Left flexor pollicis brevis",
       "conceptId": "FMA37389"
+    },
+    "FJ2093": {
+      "name": "Left fibular artery",
+      "conceptId": "MJ-FIBULAR-ARTERY"
+    },
+    "FJ2197": {
+      "name": "Right fibular artery",
+      "conceptId": "MJ-FIBULAR-ARTERY"
     }
   },
   "concepts": {
-    "MJ-DORSAL-METATARSAL-VEIN": "Dorsal metatarsal vein"
+    "MJ-DORSAL-METATARSAL-VEIN": "Dorsal metatarsal vein",
+    "MJ-FIBULAR-ARTERY": "Fibular artery"
   }
 }

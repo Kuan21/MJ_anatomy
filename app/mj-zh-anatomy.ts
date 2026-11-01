@@ -43,7 +43,7 @@ const STANDARD:Record<string,string>={
  'circumflex scapular vein':'旋肩胛靜脈','subscapular vein':'肩胛下靜脈','suprascapular vein':'肩胛上靜脈','common palmar digital vein':'掌側總指靜脈',
  'deep palmar venous arch':'深掌靜脈弓','superficial palmar venous arch':'淺掌靜脈弓','dorsal venous network of hand':'手背靜脈網','palmar metacarpal vein':'掌側掌骨靜脈',
  // lower-limb arteries
- 'common iliac artery':'總髂動脈','external iliac artery':'髂外動脈','internal iliac artery':'髂內動脈','femoral artery':'股動脈','popliteal artery':'膕動脈','anterior tibial artery':'脛前動脈','posterior tibial artery':'脛後動脈',
+ 'common iliac artery':'總髂動脈','external iliac artery':'髂外動脈','internal iliac artery':'髂內動脈','femoral artery':'股動脈','popliteal artery':'膕動脈','fibular artery':'腓動脈','anterior tibial artery':'脛前動脈','posterior tibial artery':'脛後動脈',
  'dorsalis pedis artery':'足背動脈','arcuate artery':'弓狀動脈','lateral plantar artery':'足底外側動脈','medial plantar artery':'足底內側動脈','deep plantar artery':'足底深動脈','plantar arch':'足底動脈弓',
  'lateral tarsal artery':'外側跗動脈','anterior tibial recurrent artery':'脛前返動脈','descending genicular artery':'膝降動脈','middle genicular artery':'膝中動脈','lateral circumflex femoral artery':'旋股外側動脈',
  // lower-limb veins

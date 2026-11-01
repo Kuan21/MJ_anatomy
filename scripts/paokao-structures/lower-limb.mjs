@@ -86,13 +86,14 @@ export default function lowerLimb(U) {
         [{pts: [o, add(lerp(o, med, .5), P(0, 0, .006)), add(med, P(-S.sx * .001, .008, .0045))], r: [.0010, .0006], samples: 16}]);
     }
     // Fibular artery and its circumflex fibular branch (from the posterior tibial artery).
+    // The fibular artery itself is retired (id kept): BodyParts3D has the real vessel, labelled "Set of dorsal digital arteries" at source and renamed in app/anatomy-source-overrides.json.
     {
       const pt = `${S.w} posterior tibial artery`, fib = `${S.w} fibula`, calc = `${S.w} calcaneus`;
       const o = axis(pt, .335, P(S.sx * .055, .335, -.020));
       const along = y => { const c = axis(fib, y, P(S.sx * .102, y, -.035)); return add(c, P(-S.sx * .0075, 0, -.003)); };
       const end = U.onSurface(calc, P(S.sx * .095, .030, -.050), .0015);
       art(S, pt, 'fibular artery', '腓動脈', ['Posterior tibial artery, 2–3 cm below the lower border of popliteus', '脛後動脈（膕肌下緣下方 2–3 公分）'], ['Descends along the medial side of the fibula (under flexor hallucis longus) to the lateral side of the calcaneus', '沿腓骨內側（屈拇長肌深面）下行，到跟骨外側'],
-        ['Lateral and posterior compartments of the leg, the fibula and the lateral side of the heel', '小腿外側與後區、腓骨與足跟外側'], [{pts: [o, along(.300), along(.250), along(.200), along(.150), along(.100), add(lerp(along(.100), end, .6), P(0, 0, -.004)), end], r: [.0024, .0010], samples: 44}]);
+        ['Lateral and posterior compartments of the leg, the fibula and the lateral side of the heel', '小腿外側與後區、腓骨與足跟外側'], [{pts: [o, along(.300), along(.250), along(.200), along(.150), along(.100), add(lerp(along(.100), end, .6), P(0, 0, -.004)), end], r: [.0024, .0010], samples: 44}], {retired: true});
       const neck = U.onSurface(fib, P(S.sx * .110, .385, -.030), .003), o2 = axis(pt, .360, P(S.sx * .060, .360, -.030));
       art(S, pt, 'circumflex fibular artery', '腓旋動脈', ['Posterior tibial artery, near its origin (sometimes the anterior tibial artery)', '脛後動脈起始處附近（有時來自脛前動脈）'], ['Winds round the neck of the fibula under soleus and joins the genicular anastomosis', '在比目魚肌深面繞過腓骨頸，與膝關節網吻合'],
         ['Head and neck of the fibula and the proximal tibiofibular joint', '腓骨頭、頸與脛腓近側關節'], [{pts: [o2, add(lerp(o2, neck, .5), P(0, 0, -.006)), neck], r: [.0010, .0006], samples: 16}]);
