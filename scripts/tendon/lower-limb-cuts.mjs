@@ -7,7 +7,7 @@
 const T = 0.2, ANKLE = .075;
 export const LOWER_LIMB_TENDONS = [
   {key: 'quadriceps', lower: true, title: 'quadriceps tendon', zh: '股四頭肌腱', parts: ['Right rectus femoris', 'Right vastus lateralis', 'Right vastus medialis', 'Right vastus intermedius'], end: 'distal', tau: T, independent: true, yByPart: {'Right rectus femoris': .57}, trim: {y: .4795, only: ['Right rectus femoris', 'Right vastus lateralis', 'Right vastus medialis', 'Right vastus intermedius']},
-    split: {y: .442, only: ['Right rectus femoris'], key: 'patellar-ligament', title: 'patellar ligament', zh: '髕韌帶', kind: 'ligament',
+    flat: {thickness: .006}, split: {y: .442, only: ['Right rectus femoris'], flat: {thickness: .005, evenWidth: .7}, key: 'patellar-ligament', title: 'patellar ligament', zh: '髕韌帶', kind: 'ligament',
       origin: ['Apex and the adjoining lower border of the patella; the superficial fibres are continuous with the quadriceps tendon over the front of the patella', '髕骨尖與其鄰近的下緣；淺層纖維越過髕骨前面，與股四頭肌腱相連續'],
       course: ['Runs straight down in front of the knee joint as a thick flat band; the infrapatellar fat pad and the deep infrapatellar bursa lie behind it, and the patellar retinacula lie on both sides', '以厚而扁的帶垂直下行，位於膝關節前方；後方有髕下脂肪墊與髕下深囊，兩側是髕支持帶'],
       insertion: ['Tibial tuberosity', '脛骨粗隆'],
