@@ -3,6 +3,9 @@
  * any name in brackets (such as "Septomarginal trabecula (moderator band)"), are accepted without a row here. */
 export interface Synonym {en?: string[]; zh?: string[]}
 export const SYNONYMS: Record<string, Synonym> = {
+  // special spaces of the shoulder
+  'triangular interval': {zh: ['三頭肌間隙', '三角間隙']},
+  'clavipectoral triangle': {zh: ['鎖胸三角', '鎖骨胸大肌三角']},
   // heart
   'tricuspid valve': {en: ['right atrioventricular valve'], zh: ['右房室瓣']},
   'mitral valve': {en: ['left atrioventricular valve', 'bicuspid valve'], zh: ['僧帽瓣', '左房室瓣']},
