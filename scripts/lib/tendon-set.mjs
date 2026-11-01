@@ -9,11 +9,12 @@ import {meshOf} from './heart-geom.mjs';
 import {weld, splitMesh, planeOf, volume} from './tendon-cut.mjs';
 import {UPPER_LIMB_TENDONS} from '../tendon/upper-limb-cuts.mjs';
 import {LOWER_LIMB_TENDONS} from '../tendon/lower-limb-cuts.mjs';
+import {planReshapes} from './muscle-reshape.mjs';
 
 const root = new URL('../../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 export const TENDON_SPECS = [...UPPER_LIMB_TENDONS, ...LOWER_LIMB_TENDONS];
 export const SIDES = [{w: 'Right', l: 'right', zh: '右', mirror: false}, {w: 'Left', l: 'left', zh: '左', mirror: true}];
-export const SOURCE_FILES = ['scripts/lib/tendon-cut.mjs', 'scripts/lib/tendon-build.mjs', 'scripts/lib/tendon-set.mjs', 'scripts/tendon/upper-limb-cuts.mjs', 'scripts/tendon/lower-limb-cuts.mjs', 'public/models/atlas.json'];
+export const SOURCE_FILES = ['scripts/lib/tendon-cut.mjs', 'scripts/lib/tendon-build.mjs', 'scripts/lib/tendon-set.mjs', 'scripts/tendon/upper-limb-cuts.mjs', 'scripts/tendon/lower-limb-cuts.mjs', 'scripts/lib/muscle-reshape.mjs', 'public/models/atlas.json'];
 // The bones a lower-limb tendon is lifted out of (left and right named alike); built once per side.
 const LOWER_BONES = /^(Left|Right) (femur|tibia|fibula|patella|talus|calcaneus|cuboid bone|(medial|intermediate|lateral) cuneiform bone|(first|second|third|fourth|fifth) metatarsal bone)$|phalanx of (left|right) .*toe|navicular bone of (left|right) foot/;
 const median = a => { const s = [...a].sort((x, y) => x - y); return s[Math.floor(s.length / 2)]; };
@@ -75,6 +76,8 @@ export function planCuts(parts, read) {
   }
   // the final muscle parts: what is left after every cut of the same part
   const finals = new Map(); for (const [id, g] of current) finals.set(id, g);
+  // muscles whose drawn shape is repaired (trapezius, gluteus maximus; scripts/lib/muscle-reshape.mjs): same id, name and side, new geometry and bounds
+  for (const [id, g] of planReshapes(parts, read, current)) finals.set(id, g);
   const out = {results, finals};
   try { fs.mkdirSync(file('work'), {recursive: true}); fs.writeFileSync(cacheFile, v8.serialize({hash, results: out})); } catch {}
   return out;
