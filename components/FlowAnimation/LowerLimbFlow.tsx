@@ -6,7 +6,7 @@ import {lowerLimbPathways} from '../../lib/pathways/lower-limb';
 import type {Atlas} from '../../app/anatomy';
 
 /** 下肢神經與血管走向動畫（神經 11 步、血管 11 步），背景使用網站的人體模型 */
-export default function LowerLimbFlow({atlas,onClose,initialMode,initialStep}:{atlas:Atlas;onClose:()=>void;initialMode?:number;initialStep?:number}){
+export default function LowerLimbFlow({atlas,onClose,initialMode,initialStep,highlight}:{atlas:Atlas;onClose:()=>void;initialMode?:number;initialStep?:number;highlight?:string[]}){
  const [body,setBody]=useState<LoadedBody|null>(null),[error,setError]=useState('');
  useEffect(()=>{
   const ac=new AbortController();
@@ -17,5 +17,5 @@ export default function LowerLimbFlow({atlas,onClose,initialMode,initialStep}:{a
   <p>{error?`模型載入失敗：${error}`:'載入人體模型中…'}</p>
   <button type="button" onClick={onClose}>關閉 Close</button>
  </div>;
- return <FlowAnimation data={lowerLimbPathways} buildModel={body.model} map={body.map} unit={body.unit} onClose={onClose} initialMode={initialMode} initialStep={initialStep} label="下肢神經與血管走向動畫"/>;
+ return <FlowAnimation data={lowerLimbPathways} buildModel={body.model} map={body.map} unit={body.unit} onClose={onClose} initialMode={initialMode} initialStep={initialStep} highlight={highlight} label="下肢神經與血管走向動畫"/>;
 }

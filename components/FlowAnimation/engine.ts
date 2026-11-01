@@ -15,6 +15,8 @@ export interface FlowOptions{
  map?:(p:Pt)=>Pt;
  /** 模型座標相對原型座標的大小（路徑粗細、光點、鏡頭距離都乘上這個比例） */
  unit?:number;
+ /** 從資訊卡進來時要高亮的路徑 id（只在起始的那一步生效；該步驟其他路徑稍微淡化） */
+ highlight?:string[];
 }
 export interface FlowEngine{setMode:(m:number,step?:number)=>void;dispose:()=>void}
 
@@ -140,6 +142,7 @@ export function createFlowEngine(opt:FlowOptions):FlowEngine{
 
  const clock=new THREE.Clock(),tmp=new THREE.Vector3();
  setMode(opt.mode??0,opt.step??0);
+ const hl=opt.highlight?.length?new Set(opt.highlight):null,hlMode=opt.mode??0,hlStep=opt.step??0;
  let raf=0,alive=true;
  function frame(){
   if(!alive)return;
@@ -168,14 +171,16 @@ export function createFlowEngine(opt:FlowOptions):FlowEngine{
     if(n.fade>.01&&n.p<1)setGrow(n,1);
     if(n.fade<=.01&&n.p>0){setGrow(n,0);}
     n.head.visible=false;
-    n.mesh.material.opacity=.6*n.fade;n.mesh.material.emissiveIntensity=.2;
+    const hv=!!hl&&mode===hlMode&&stepIdx===hlStep&&hl.has(id);
+    n.mesh.material.opacity=hv?Math.max(.6*n.fade,n.fade>.5?.9:0):.6*n.fade;n.mesh.material.emissiveIntensity=hv?.7+.3*Math.sin(clock.elapsedTime*5):.2;
     const fo=a.state==='active'&&n.fade>.5;
     n.flow.forEach((f,i)=>{f.visible=fo;if(fo){const u=(tm*0.7/n.len+f.userData.o+i/n.flow.length)%1;f.position.copy(n.curve.getPointAt(u));f.material.opacity=.7*n.fade;}});
     continue;}
    const on=n.state==='active',done=n.state==='done',ctx=n.state==='ctx';
    if((done||ctx)&&n.p<1)setGrow(n,1);
-   n.mesh.material.opacity=on?1:(done?.45:(ctx?.3:0));
-   n.mesh.material.emissiveIntensity=on?.45:.12;
+   const hv=!!hl&&mode===hlMode&&stepIdx===hlStep,mine=hv&&hl!.has(id);
+   n.mesh.material.opacity=mine?1:(on?(hv?.5:1):(done?.45:(ctx?.3:0)));
+   n.mesh.material.emissiveIntensity=mine?.7+.3*Math.sin(clock.elapsedTime*5):(on?.45:.12);
    const flowOn=on&&n.p>=1;
    n.flow.forEach((f,i)=>{f.visible=flowOn;if(flowOn){const u=(tm*0.9/n.len+f.userData.o+i/n.flow.length)%1;f.position.copy(n.curve.getPointAt(u));}});
   }
