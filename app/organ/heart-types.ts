@@ -37,6 +37,8 @@ export interface HeartViewState {
   highlight: string[];
   /** `look` is an explicit camera direction (atlas axes), `focus` a catalogue id whose bounds the camera frames */
   command: {id: number; view: HeartView; look?: [number, number, number]; focus?: string};
+  /** raised by the Focus button of the info card: the camera turns to the selection (selecting itself never moves the camera) */
+  focusNonce?: number;
 }
 /** Atlas axes: +x is the body's left, +y up, +z anterior. A coronal cut moves along z, a sagittal cut along x, a transverse cut along y. */
 export const SECTION_AXES: Record<Exclude<SectionAxis, 'none'>, {index: 0 | 1 | 2; label: string; english: string}> = {

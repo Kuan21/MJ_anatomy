@@ -88,7 +88,7 @@ export function createHeartViewer(host: HTMLDivElement, catalogue: HeartCatalogu
   const raycaster = new T.Raycaster();
   let state: HeartViewState | undefined, blockers = new Set<string>(), disposed = false, dirty = true, frame = 0, command = -1, hoverId: string | null = null, loadedAll = false, lastHoverAt = 0;
   /** Parts that stand between the camera and the selected structure (drawn see-through, see refreshSelBlockers), the focus last turned to, and the running camera turn. */
-  let selBlockers = new Set<string>(), focusKey = '', blockTimer = 0;
+  let selBlockers = new Set<string>(), focusKey = '', focusSeen = 0, blockTimer = 0;
   let tween: {t0: number; fromPos: T.Vector3; fromTarget: T.Vector3; toPos: T.Vector3; toTarget: T.Vector3} | null = null;
   /** Cuts open only the wall of the open chamber that faces the camera: the half-space on the camera side of the chamber centre is removed from that wall. */
   const cutPlane = new T.Plane(new T.Vector3(0, 0, -1), 0);
@@ -406,9 +406,11 @@ gl_FragColor = vec4(mix(vec3(0.30, 0.78, 0.62), vec3(0.03, 0.36, 0.27), edge), m
   const update = (next: HeartViewState) => {
     state = next;
     if (command !== next.command.id) {command = next.command.id; tween = null; if (loadedAll || command >= 0) frameModel(next.command.view, next.command.look, next.command.focus);}
-    const key = [...selectedIds()].sort().join('|'), moved = key !== focusKey;
+    const key = [...selectedIds()].sort().join('|');
     focusKey = key;
-    if (moved && key && loadedAll) turnToSelection();
+    // Selecting never moves the camera; only the Focus button of the info card does (focusNonce).
+    const nonce = next.focusNonce ?? 0;
+    if (nonce !== focusSeen) {focusSeen = nonce; if (nonce > 0 && key && loadedAll) {tween = null; turnToSelection();}}
     apply();
     if (key || selBlockers.size) scheduleBlockers();
   };
@@ -457,7 +459,7 @@ gl_FragColor = vec4(mix(vec3(0.30, 0.78, 0.62), vec3(0.03, 0.36, 0.27), edge), m
       if (k >= 1) tween = null; dirty = true;
     }
     controls.update();
-    if (dirty) {headlight.position.copy(camera.position); headlight.target.position.copy(controls.target); headlight.target.updateMatrixWorld(); renderer.render(scene, camera); if (labelSpecs.length) layoutLabels(); dirty = false;}};
+    if (dirty) {headlight.position.copy(camera.position); headlight.target.position.copy(controls.target); headlight.target.updateMatrixWorld(); renderer.render(scene, camera); host.dataset.camera = [...camera.position.toArray(), ...controls.target.toArray()].map(v => v.toFixed(5)).join(','); if (labelSpecs.length) layoutLabels(); dirty = false;}};
   render();
   void centre; void size;
   const setLabels = (specs: typeof labelSpecs) => {
