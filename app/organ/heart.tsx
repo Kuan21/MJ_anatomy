@@ -11,7 +11,7 @@ const LEAFLET_LABEL: Record<string, string> = {
   'Anterior cusp of tricuspid valve': 'Tricuspid · anterior', 'Posterior cusp of tricuspid valve': 'Tricuspid · posterior', 'Septal cusp of tricuspid valve': 'Tricuspid · septal',
   'Anterior cusp of bicuspid valve': 'Bicuspid · anterior', 'Posterior cusp of bicuspid valve': 'Bicuspid · posterior',
   'Chordae tendineae of tricuspid valve': 'Chordae · tricuspid', 'Chordae tendineae of bicuspid valve': 'Chordae · bicuspid',
-  'Left coronary leaflet of aortic valve': 'Aortic · left coronary', 'Right coronary leaflet of aortic valve': 'Aortic · right coronary', 'Non-coronary leaflet of aortic valve': 'Aortic · non-coronary',
+  'Left coronary cusp of aortic valve': 'Aortic · left coronary', 'Right coronary cusp of aortic valve': 'Aortic · right coronary', 'Non-coronary cusp of aortic valve': 'Aortic · non-coronary',
   'Anterior semilunar cusp of pulmonary valve': 'Pulmonary · anterior', 'Left semilunar cusp of pulmonary valve': 'Pulmonary · left', 'Right semilunar cusp of pulmonary valve': 'Pulmonary · right',
 };
 interface LabelSpec {id: string; en: string; zh: string; ids: string[]}

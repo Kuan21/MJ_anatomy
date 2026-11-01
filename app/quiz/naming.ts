@@ -64,7 +64,7 @@ export function siteName(structure: Named): {en?: string; zh?: string} {
 /** Every name that is right for a structure: its own English and Chinese names, names in brackets, the rows of the synonym table, and for a part of a muscle the whole muscle. */
 export function acceptedNames(structure: Named): Accepted {
   const paired = isPaired(structure);
-  // Left/right is part of the identity of a midline structure (left atrium, left coronary leaflet), so its row is keyed with the word; paired structures are keyed without it.
+  // Left/right is part of the identity of a midline structure (left atrium, left coronary cusp), so its row is keyed with the word; paired structures are keyed without it.
   const row = SYNONYMS[structure.name.toLowerCase()] ?? SYNONYMS[cleanKey(structure.name)];
   const whole = wholeMuscleOf(structure);
   const wholeEn = whole && !whole.headsRequired ? [whole.en] : [], wholeZh = whole && !whole.headsRequired && whole.zh ? [whole.zh] : [];

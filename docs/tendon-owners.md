@@ -1,12 +1,22 @@
-# 肌腱的所屬肌肉
+# 肌腱、腱鞘與掌腱膜的所屬肌肉
 
-由 `node scripts/prepare-tendon-owners.mjs` 產生。肌腱跟著所屬肌肉顯示（分區、左右、分層、組織深度、隱藏、單獨顯示）；歸屬由切分規格自動推得，沒有逐條手設。
+由 `node scripts/prepare-tendon-owners.mjs` 產生。肌腱、腱鞘（含腕背伸肌間隔）與掌腱膜跟著所屬肌肉顯示（分區、左右、分層、組織深度、隱藏、單獨顯示）；歸屬由切分規格自動推得，沒有逐條手設。
 
-| 肌腱 | 所屬肌肉（模型名稱） | 來源 |
+| 結構 | 所屬肌肉（模型名稱） | 來源 |
 | --- | --- | --- |
 | Left calcaneal tendon | Lateral head of left gastrocnemius；Left soleus；Left plantaris；Medial head of left gastrocnemius | proximity (0.6 mm, 0.7 mm, 0.8 mm, 0.9 mm) |
+| Left common flexor tendon sheath | Left flexor digitorum superficialis；Left flexor digitorum profundus | follows tendon: tendons of flexor digitorum superficialis, tendons of flexor digitorum profundus |
 | Left distal tendon of biceps brachii | Long head of left biceps brachii | cut spec |
+| Left fifth dorsal compartment of wrist | Left extensor digiti minimi | follows tendon: tendon of extensor digiti minimi |
+| Left first dorsal compartment of wrist | Left abductor pollicis longus；Left extensor pollicis brevis | follows tendon: tendon of abductor pollicis longus, tendon of extensor pollicis brevis |
+| Left flexor carpi radialis tendon sheath | Left flexor carpi radialis | follows tendon: tendon of flexor carpi radialis |
+| Left flexor pollicis longus tendon sheath | Left flexor pollicis longus | follows tendon: tendon of flexor pollicis longus |
+| Left fourth dorsal compartment of wrist | Left extensor digitorum；Left extensor indicis | follows tendon: tendons of extensor digitorum, tendon of extensor indicis |
+| Left intertubercular tendon sheath | Long head of left biceps brachii | follows tendon: tendon of long head of biceps brachii |
+| Left palmar aponeurosis | Left palmaris longus | follows tendon: tendon of palmaris longus |
 | Left quadriceps tendon | Left rectus femoris；Left vastus lateralis；Left vastus medialis；Left vastus intermedius | cut spec |
+| Left second dorsal compartment of wrist | Left extensor carpi radialis longus；Left extensor carpi radialis brevis | follows tendon: tendon of extensor carpi radialis longus, tendon of extensor carpi radialis brevis |
+| Left sixth dorsal compartment of wrist | Left extensor carpi ulnaris | follows tendon: tendon of extensor carpi ulnaris |
 | Left tendon of abductor pollicis longus | Left abductor pollicis longus | cut spec |
 | Left tendon of biceps femoris | Long head of left biceps femoris；Short head of left biceps femoris | cut spec |
 | Left tendon of brachioradialis | Left brachioradialis | cut spec |
@@ -42,10 +52,21 @@
 | Left tendons of extensor digitorum longus | Left extensor digitorum longus | cut spec |
 | Left tendons of flexor digitorum profundus | Left flexor digitorum profundus | cut spec |
 | Left tendons of flexor digitorum superficialis | Left flexor digitorum superficialis | cut spec |
+| Left third dorsal compartment of wrist | Left extensor pollicis longus | follows tendon: tendon of extensor pollicis longus |
 | Right calcaneal tendon | Right plantaris；Right soleus；Lateral head of right gastrocnemius；Medial head of right gastrocnemius | proximity (0.2 mm, 0.6 mm, 0.6 mm, 0.9 mm) |
+| Right common flexor tendon sheath | Right flexor digitorum superficialis；Right flexor digitorum profundus | follows tendon: tendons of flexor digitorum superficialis, tendons of flexor digitorum profundus |
 | Right distal tendon of biceps brachii | Long head of right biceps brachii | cut spec |
+| Right fifth dorsal compartment of wrist | Right extensor digiti minimi | follows tendon: tendon of extensor digiti minimi |
+| Right first dorsal compartment of wrist | Right abductor pollicis longus；Right extensor pollicis brevis | follows tendon: tendon of abductor pollicis longus, tendon of extensor pollicis brevis |
+| Right flexor carpi radialis tendon sheath | Right flexor carpi radialis | follows tendon: tendon of flexor carpi radialis |
+| Right flexor pollicis longus tendon sheath | Right flexor pollicis longus | follows tendon: tendon of flexor pollicis longus |
+| Right fourth dorsal compartment of wrist | Right extensor digitorum；Right extensor indicis | follows tendon: tendons of extensor digitorum, tendon of extensor indicis |
 | Right intermediate tendon | Right digastric | override |
+| Right intertubercular tendon sheath | Long head of right biceps brachii | follows tendon: tendon of long head of biceps brachii |
+| Right palmar aponeurosis | Right palmaris longus | follows tendon: tendon of palmaris longus |
 | Right quadriceps tendon | Right rectus femoris；Right vastus lateralis；Right vastus medialis；Right vastus intermedius | cut spec |
+| Right second dorsal compartment of wrist | Right extensor carpi radialis longus；Right extensor carpi radialis brevis | follows tendon: tendon of extensor carpi radialis longus, tendon of extensor carpi radialis brevis |
+| Right sixth dorsal compartment of wrist | Right extensor carpi ulnaris | follows tendon: tendon of extensor carpi ulnaris |
 | Right tendon of abductor pollicis longus | Right abductor pollicis longus | cut spec |
 | Right tendon of biceps femoris | Long head of right biceps femoris；Short head of right biceps femoris | cut spec |
 | Right tendon of brachioradialis | Right brachioradialis | cut spec |
@@ -81,4 +102,5 @@
 | Right tendons of extensor digitorum longus | Right extensor digitorum longus | cut spec |
 | Right tendons of flexor digitorum profundus | Right flexor digitorum profundus | cut spec |
 | Right tendons of flexor digitorum superficialis | Right flexor digitorum superficialis | cut spec |
+| Right third dorsal compartment of wrist | Right extensor pollicis longus | follows tendon: tendon of extensor pollicis longus |
 | Tendon of right levator palpebrae superioris | Right levator palpebrae superioris | name |

@@ -1,7 +1,7 @@
 # Quiz 第二級額外接受的答案
 
 此檔由 `node scripts/report-quiz-accepted-names.mjs` 產生，請勿手改。除了構造自己的英文名、中文名、括號內別名與同義詞表（`app/quiz/synonyms.ts`，列在 REVIEW_LOG）之外，第二級還接受下列寫法；群名只算「接近」並列入錯題。左右兩側同一規則，只列一側。
-合計 188 個構造有額外接受的寫法。
+合計 187 個構造有額外接受的寫法。
 
 
 ## 下肢（lower）：35 個構造
@@ -167,12 +167,12 @@
 | Right accessory nerve (XI) | 右副神經 | 右副神經（第十一對腦神經） |  |
 | Right thoracodorsal nerve | 右胸背神經 | middle subscapular nerve |  |
 
-## 心臟（heart）：39 個構造
+## 心臟（heart）：38 個構造
 
 | 題目 | 中文 | 也接受 | 只算接近 |
 | --- | --- | --- | --- |
-| Left coronary leaflet of aortic valve | 主動脈瓣左冠狀瓣 | 左主動脈瓣冠狀瓣 |  |
-| Non-coronary leaflet of aortic valve | 主動脈瓣無冠狀瓣 | 主動脈瓣無冠瓣 |  |
+| Left coronary cusp of aortic valve | 主動脈瓣左冠狀瓣 | 左主動脈瓣冠狀瓣 |  |
+| Non-coronary cusp of aortic valve | 主動脈瓣無冠狀瓣 | 主動脈瓣無冠瓣 |  |
 | Left semilunar cusp of pulmonary valve | 肺動脈瓣左半月瓣 | 左肺動脈瓣半月瓣 |  |
 | Right inferolateral branch of right coronary artery | 右冠狀動脈右下外側支 | Right inferolateral branch of coronary artery、右冠狀動脈下外側支 |  |
 | Anterior interventricular artery | 前室間支（前降支） | 前室間動脈 |  |
@@ -204,9 +204,8 @@
 | Posterior cusp of tricuspid valve | 三尖瓣後瓣 | Posterior cusp of tricuspid valve |  |
 | Septal cusp of tricuspid valve | 三尖瓣中隔瓣 | Septal cusp of tricuspid valve |  |
 | Anterolateral papillary muscle of left ventricle | 左心室前乳突肌 | Left anterolateral papillary muscle of ventricle、左Anterolateral papillary muscle of ventricle |  |
-| Posteromedial papillary muscle of left ventricle | 左心室後乳突肌 | Left posteromedial papillary muscle of ventricle、左Posteromedial papillary muscle of ventricle |  |
+| Posterior papillary muscle of left ventricle | 左心室後乳突肌 | Left posterior papillary muscle of ventricle |  |
 | Anterior papillary muscle of right ventricle | 右心室前乳突肌 | Right anterior papillary muscle of ventricle |  |
-| Posterior papillary muscle of right ventricle | 右心室後乳突肌 | Right posterior papillary muscle of ventricle |  |
 | Septal papillary muscle of right ventricle | 右心室中隔乳突肌 | Right septal papillary muscle of ventricle、右心室隔側乳突肌 |  |
 | Chordae tendineae of bicuspid valve | 二尖瓣腱索 | Chordae tendineae of bicuspid valve |  |
 | Chordae tendineae of tricuspid valve | 三尖瓣腱索 | Chordae tendineae of tricuspid valve |  |

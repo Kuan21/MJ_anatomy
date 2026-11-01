@@ -329,7 +329,7 @@
      "zh": "後乳突肌",
      "en": "Posterior (posteromedial) papillary muscle",
      "parts": [
-      "Posteromedial papillary muscle of left ventricle"
+      "Posterior papillary muscle of left ventricle"
      ]
     },
     {
@@ -357,30 +357,30 @@
      "zh": "主動脈瓣",
      "en": "Aortic valve",
      "parts": [
-      "Left coronary leaflet of aortic valve",
-      "Right coronary leaflet of aortic valve",
-      "Non-coronary leaflet of aortic valve"
+      "Left coronary cusp of aortic valve",
+      "Right coronary cusp of aortic valve",
+      "Non-coronary cusp of aortic valve"
      ]
     },
     {
      "zh": "主動脈瓣右冠狀瓣",
      "en": "Right coronary cusp of the aortic valve",
      "parts": [
-      "Right coronary leaflet of aortic valve"
+      "Right coronary cusp of aortic valve"
      ]
     },
     {
      "zh": "主動脈瓣左冠狀瓣",
      "en": "Left coronary cusp of the aortic valve",
      "parts": [
-      "Left coronary leaflet of aortic valve"
+      "Left coronary cusp of aortic valve"
      ]
     },
     {
      "zh": "主動脈瓣無冠狀瓣",
      "en": "Non-coronary cusp of the aortic valve",
      "parts": [
-      "Non-coronary leaflet of aortic valve"
+      "Non-coronary cusp of aortic valve"
      ]
     }
    ]

@@ -39,7 +39,7 @@ export function ray(mesh, o, d) {
 }
 
 /** Closest point on a triangle (Ericson) to p. */
-function closestOnTri(p, a, b, c) {
+export function closestOnTri(p, a, b, c) {
   const ab = sub(b, a), ac = sub(c, a), ap = sub(p, a), d1 = dot(ab, ap), d2 = dot(ac, ap);
   if (d1 <= 0 && d2 <= 0) return a;
   const bp = sub(p, b), d3 = dot(ab, bp), d4 = dot(ac, bp); if (d3 >= 0 && d4 <= d3) return b;

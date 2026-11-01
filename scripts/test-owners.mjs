@@ -36,8 +36,22 @@ for (const t of tendons) {
 const t0 = tendons[0], ref = O.referenceMuscles(owners, [t0.id]);
 ok(ref.size === owners.muscleOf.get(t0.id).length, 'reference muscles of a selected tendon');
 ok(O.referenceMuscles(owners, [t0.id, ...owners.muscleOf.get(t0.id)]).size === 0, 'a muscle that is selected itself is not a faded reference');
-// ligaments, retinacula, capsules and sheaths do not follow Muscles
-for (const p of parts.filter(q => q.system === 'connective')) ok(O.ownerSwitchesOn(owners, p, on('connective')), `connective ${p.name} needs Muscles`);
+// tendon sheaths, the dorsal compartments of the wrist and the palmar aponeurosis follow their muscle; ligaments, retinacula, capsules and vessel sheaths do not
+const followers = /tendon sheath|dorsal compartment of wrist|palmar aponeurosis/i;
+const fol = parts.filter(q => q.system === 'connective' && followers.test(q.name));
+ok(fol.length === 22, `expected 22 sheaths, compartments and palmar aponeuroses, found ${fol.length}`);
+for (const p of fol) {
+  const m = owners.muscleOf.get(p.id); ok(m && m.length > 0, `sheath without an owner muscle: ${p.name}`);
+  const side = /\bleft\b/i.test(p.name) ? 'left' : 'right';
+  for (const id of m ?? []) { const mp = owners.byId.get(id); ok(mp.system === 'muscular' && new RegExp(`\\b${side}\\b`, 'i').test(mp.name), `owner of ${p.name} is wrong: ${mp.name}`); }
+  ok(!O.ownerSwitchesOn(owners, p, on('connective')), `${p.name} is shown with Muscles off`);
+  ok(O.ownerSwitchesOn(owners, p, on('muscular', 'connective')), `${p.name} is hidden with Muscles on`);
+}
+const ownerOf = n => (owners.muscleOf.get(parts.find(q => q.name === n)?.id) ?? []).map(id => owners.byId.get(id).name).filter((n, i, a) => a.indexOf(n) === i).sort().join(' | ');
+ok(ownerOf('Right common flexor tendon sheath') === 'Right flexor digitorum profundus | Right flexor digitorum superficialis', 'common flexor sheath owners: ' + ownerOf('Right common flexor tendon sheath'));
+ok(ownerOf('Left intertubercular tendon sheath') === 'Long head of left biceps brachii', 'intertubercular sheath owner');
+ok(ownerOf('Right palmar aponeurosis') === 'Right palmaris longus', 'palmar aponeurosis owner');
+for (const p of parts.filter(q => q.system === 'connective' && !followers.test(q.name))) ok(!owners.muscleOf.has(p.id) && O.ownerSwitchesOn(owners, p, on('connective')), `connective ${p.name} must not follow Muscles`);
 
 // ---- organs
 const strip = n => n.toLowerCase().replace(/\b(?:left|right) /g, '');
@@ -49,7 +63,7 @@ for (const [n, o] of [
   ['Superior segmental branch of renal artery', 'urinary'], ['uterine artery', 'reproductive'],
   // passing structures: never hidden with an organ
   ['Ascending aorta', null], ['Arch of aorta', null], ['Descending thoracic aorta', null], ['Superior vena cava', null], ['Inferior vena cava', null], ['Brachiocephalic vein', null], ['Azygos vein', null],
-  ['Hemiazygos vein', null], ['Pulmonary trunk', null], ['pulmonary artery', null], ['Superior pulmonary vein', null], ['phrenic nerve', null], ['recurrent laryngeal nerve', null],
+  ['Hemiazygos vein', null], ['Pulmonary trunk', null], ['pulmonary artery', 'respiratory'], ['Superior pulmonary vein', 'respiratory'], ['Inferior pulmonary vein', 'respiratory'], ['Renal artery', null], ['Renal vein', null], ['Common hepatic artery', null], ['Trunk of hepatic artery', null], ['Trunk of portal vein', null], ['Hepatic portal vein', null], ['Splenic artery', null], ['Splenic vein', null], ['phrenic nerve', null], ['recurrent laryngeal nerve', null],
   ['Anterior vagal trunk', null], ['Posterior vagal trunk', null], ['Posterior intercostal arteries', null], ['pericardiophrenic artery', null], ['Thoracic duct', null], ['Splenic artery', null],
   ['Hepatic artery proper', null], ['Trunk of renal artery', null], ['Celiac trunk', null], ['Superior mesenteric artery', null], ['Axillary artery', null], ['Femoral artery', null],
 ]) ok(owner(n) === o, `${n}: owner ${owner(n)} (expected ${o})`);

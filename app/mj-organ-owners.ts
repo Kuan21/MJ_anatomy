@@ -19,9 +19,10 @@ export const ORGAN_RULES:OrganRule[]=[
  R('digestive',/segmental (?:hepatic artery|branch of portal vein|tributary)|lobe branch of (?:hepatic artery|portal vein)|hepatovenous|tributary of (?:middle |right |left )?hepatic vein|^(?:middle |right |left )?hepatic vein$/),
  // ---- kidney: segmental branches inside the renal sinus (the renal artery and vein pass to the hilum); the name rule comes before the lung's height-band rule
  R('urinary',/segmental (?:branch of renal|artery of kidney)|renal segmental/),
- // ---- lung: branches inside the lung (lobar, lingular and segmental vessels, the bronchial arteries). The pulmonary trunk, the right and left pulmonary arteries and the
- // superior and inferior pulmonary veins run to the hilum and are not owned (see the boundary list in docs/organ-owners.md).
+ // ---- lung: branches inside the lung (lobar, lingular and segmental vessels, the bronchial arteries) and, by the owner's decision, the right and left pulmonary arteries and the
+ // superior and inferior pulmonary veins (their meshes run about 2 cm into the lung from the hilum). Only the pulmonary trunk stays "passing" (see docs/organ-owners.md).
  R('respiratory',/bronchial (?:artery|vein|branch)/),
+ R('respiratory',/^pulmonary artery$|^(?:superior|inferior) pulmonary vein$/,{sys:['arterial','venous']}),
  R('respiratory',/lobar (?:artery|vein)|lingular (?:artery|vein)|segmental|\bbasal\b/,{sys:['arterial','venous'],y:LUNG_Y}),
  R('urinary',/segmental/,{sys:['arterial','venous'],y:KIDNEY_Y}),
  // ---- gut: the branches that run in the mesenteries to the stomach, intestines and pancreas, and the plexus on the oesophagus
