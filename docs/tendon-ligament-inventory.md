@@ -72,7 +72,7 @@
 
 | 英文<br>中文 | 層級 | 現況 | 目前的模型 | 說明 | 建議做法 |
 | --- | :---: | :---: | --- | --- | --- |
-| Thoracolumbar fascia<br>胸腰筋膜 | A | (b) | PK-186 示意薄殼（13,914 頂點，左右合併成 1 件） | 只有後層；由豎脊肌表面抬起 1.4 mm，不分前、中、後三層，也不是貼在棘突與髂嵴的真實形狀 | I：Z-Anatomy 三層（480–939 頂點）；或 III |
+| Thoracolumbar fascia<br>胸腰筋膜 | A | (b) | PK-186 示意薄殼（7,540 頂點，左右合併成 1 件連續薄片；背部與臀區 PR 重做） | 只有後層；由豎脊肌背面抬起 1.4 mm（沿肌肉背面取，跨過中線），不分前、中、後三層，也不是貼在棘突與髂嵴的真實形狀（修正前由逐個三角形切出的碎片組成，顯示成細條） | I：Z-Anatomy 三層（480–939 頂點）；或 III |
 | Ligamenta flava (ligamentum flavum)<br>黃韌帶 | A | (a) | joints.glb「Ligamenta flava」（14,184 頂點） | 另有 PK-222 示意版（434 頂點）與它重複，建議建置階段移除示意版 | 保留；移除重複 |
 | Anterior longitudinal ligament<br>前縱韌帶 | A | (a) | joints.glb（14,784 頂點） |  | 保留 |
 | Posterior longitudinal ligament<br>後縱韌帶 | A | (a) | joints.glb（22,608 頂點） |  | 保留 |
@@ -326,7 +326,7 @@
 
 **示意支持帶（16）：** Right extensor retinaculum of wrist (387)；Right superior extensor retinaculum of foot (352)；Right inferior extensor retinaculum of foot (362)；Right flexor retinaculum of ankle (352)；Right superior fibular retinaculum (352)；Right inferior fibular retinaculum (288)；Left extensor retinaculum of wrist (463)；Left superior extensor retinaculum of foot (352)；Left inferior extensor retinaculum of foot (427)；Left flexor retinaculum of ankle (352)；Left superior fibular retinaculum (352)；Left inferior fibular retinaculum (288)；Right medial patellar retinaculum (140)；Right lateral patellar retinaculum (140)；Left medial patellar retinaculum (140)；Left lateral patellar retinaculum (140)
 
-**示意鞘、筋膜、腱膜（8）：** Right axillary sheath (352)；Right femoral sheath (296)；Left axillary sheath (352)；Left femoral sheath (296)；rectus sheath (24217)；thoracolumbar fascia (13914)；Right plantar aponeurosis (1395)；Left plantar aponeurosis (1384)
+**示意鞘、筋膜、腱膜（8）：** Right axillary sheath (352)；Right femoral sheath (296)；Left axillary sheath (352)；Left femoral sheath (296)；rectus sheath (24217)；thoracolumbar fascia (7540)；Right plantar aponeurosis (1395)；Left plantar aponeurosis (1384)
 
 **BodyParts3D 3.0 補充（2）：** Right inguinal ligament (6114)；Left inguinal ligament (5894)
 
