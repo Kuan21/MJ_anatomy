@@ -10,6 +10,7 @@ import {fileURLToPath,pathToFileURL} from 'node:url';
 import {Worker as NodeWorker} from 'node:worker_threads';
 import ts from 'typescript';
 import * as THREE from 'three';
+import {positionsOf} from './lib/stream-geometry.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url)),stream=process.argv.includes('--stream'),withWorker=process.argv.includes('--worker');
 let pendingWorker=0,peakWorker=0,workerReplies=0,workerResults=[],workerCreated=0;
 if(withWorker){
@@ -222,7 +223,7 @@ if(withWorker){
 refCursor=0;main.namespace.default(props);await settle();
 scene.traverse(o=>{if(o.userData.mjNerve)assert.deepEqual(o.geometry.getAttribute('position').array,o.userData.basePositions,'nerve reset '+o.name);});
 const sourceBuffers=atlas.chunks.map(c=>fs.readFileSync(path.join(root,'public',c.url)));
-scene.traverse(o=>{const p=o.geometry?.getAttribute('partIndex'),positions=o.geometry?.getAttribute('position');if(!p)return;for(let i=0;i<p.count;){const part=atlas.parts[p.getX(i)],buffer=sourceBuffers[part.chunk],base=new Float32Array(buffer.buffer,buffer.byteOffset+part.positions,part.vertexCount*3);assert.ok(base.every((v,j)=>positions.array[i*3+j]===v),'exact reset after mixed motion: '+part.name);i+=part.vertexCount;}});
+scene.traverse(o=>{const p=o.geometry?.getAttribute('partIndex'),positions=o.geometry?.getAttribute('position');if(!p)return;for(let i=0;i<p.count;){const part=atlas.parts[p.getX(i)],buffer=sourceBuffers[part.chunk],base=positionsOf(buffer,part);assert.ok(base.every((v,j)=>positions.array[i*3+j]===v),'exact reset after mixed motion: '+part.name);i+=part.vertexCount;}});
 console.log(spineNerves,'loaded nerves: trunk bindings, reported poses and exact reset PASS');
 cleanups[0]();clearTimeout(timeout);
 console.log(`PASS actual scene: ${rendered.size} geometries, all 6 systems, valid normals through 90°, GPU indices match focus${failOnce?', missing vessels resumed':''}${withWorker?', real shoulder worker and atomic poses':''}. GPU drawing was stubbed. Maximum CPU frame ${Math.max(...frameTimes).toFixed(0)} ms.`);
