@@ -7,14 +7,14 @@ import {gunzipSync} from 'node:zlib';
 import {createStream, simplify, weldByPosition} from './lib/stream-writer.mjs';
 import {taubin} from './lib/lung-mesh.mjs';
 import {envelope} from './lib/lung-envelope.mjs';
+import {indicesOf, positionsOf} from './lib/stream-geometry.mjs';
 
 const root = new URL('../', import.meta.url), models = new URL('public/models/', root), out = new URL('stream/', models);
 const read = f => fs.readFileSync(new URL(f, models));
 const supplement = JSON.parse(gunzipSync(read('supplement/supplement-stream.json.gz'))), atlas = JSON.parse(read('atlas-stream.json'));
 const geometry = (part, chunks, loadChunk) => {
   const b = loadChunk(chunks[part.chunk]);
-  const f32 = (o, n) => new Float32Array(b.buffer.slice(b.byteOffset + o, b.byteOffset + o + n * 4)), u32 = (o, n) => new Uint32Array(b.buffer.slice(b.byteOffset + o, b.byteOffset + o + n * 4));
-  return {positions: f32(part.positions, part.vertexCount * 3), indices: u32(part.indices, part.indexCount)};
+  return {positions: positionsOf(b, part), indices: indicesOf(b, part)};
 };
 const supplementGeometry = name => geometry(supplement.parts.find(p => p.name === name) ?? (() => {throw new Error('missing ' + name);})(), supplement.chunks, c => read('stream/' + c.url.split('/').pop()));
 const atlasGeometry = name => geometry(atlas.parts.find(p => p.name === name) ?? (() => {throw new Error('missing ' + name);})(), atlas.chunks, c => read(c.url.replace(/^\/models\//, '')));
