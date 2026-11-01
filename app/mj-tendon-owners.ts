@@ -30,11 +30,20 @@ export const TENDON_OWNERS: Record<string, string[]> = {
   "Left extensor digitorum",
   "Left extensor indicis"
  ],
+ "Left iliotibial tract": [
+  "Left tensor fasciae latae",
+  "Left gluteus maximus"
+ ],
  "Left intertubercular tendon sheath": [
   "Long head of left biceps brachii"
  ],
  "Left palmar aponeurosis": [
   "Left palmaris longus"
+ ],
+ "Left pes anserinus": [
+  "Left sartorius",
+  "Left gracilis",
+  "Left semitendinosus"
  ],
  "Left quadriceps tendon": [
   "Left rectus femoris",
@@ -192,6 +201,10 @@ export const TENDON_OWNERS: Record<string, string[]> = {
   "Right extensor digitorum",
   "Right extensor indicis"
  ],
+ "Right iliotibial tract": [
+  "Right tensor fasciae latae",
+  "Right gluteus maximus"
+ ],
  "Right intermediate tendon": [
   "Right digastric"
  ],
@@ -200,6 +213,11 @@ export const TENDON_OWNERS: Record<string, string[]> = {
  ],
  "Right palmar aponeurosis": [
   "Right palmaris longus"
+ ],
+ "Right pes anserinus": [
+  "Right sartorius",
+  "Right gracilis",
+  "Right semitendinosus"
  ],
  "Right quadriceps tendon": [
   "Right rectus femoris",
@@ -329,5 +347,110 @@ export const TENDON_OWNERS: Record<string, string[]> = {
  ],
  "Tendon of right levator palpebrae superioris": [
   "Right levator palpebrae superioris"
+ ]
+};
+// tendon part id -> the one muscle part (atlas id) a piece of a multi-muscle tendon was cut from
+export const TENDON_PART_OWNERS: Record<string, string[]> = {
+ "PK-342": [
+  "FJ1479"
+ ],
+ "PK-343": [
+  "FJ1477"
+ ],
+ "PK-344": [
+  "FJ1480"
+ ],
+ "PK-345": [
+  "FJ1479M"
+ ],
+ "PK-346": [
+  "FJ1477M"
+ ],
+ "PK-347": [
+  "FJ1480M"
+ ],
+ "PK-356": [
+  "FJ1473"
+ ],
+ "PK-357": [
+  "FJ1518"
+ ],
+ "PK-358": [
+  "FJ1473M"
+ ],
+ "PK-359": [
+  "FJ1518M"
+ ],
+ "PK-360": [
+  "FJ1475"
+ ],
+ "PK-361": [
+  "FJ1499"
+ ],
+ "PK-362": [
+  "FJ1475M"
+ ],
+ "PK-363": [
+  "FJ1499M"
+ ],
+ "PK-376": [
+  "FJ1472"
+ ],
+ "PK-377": [
+  "FJ1517"
+ ],
+ "PK-378": [
+  "FJ1472M"
+ ],
+ "PK-379": [
+  "FJ1517M"
+ ],
+ "PK-420": [
+  "FJ1441"
+ ],
+ "PK-421": [
+  "FJ1442"
+ ],
+ "PK-422": [
+  "FJ1443"
+ ],
+ "PK-423": [
+  "FJ1441"
+ ],
+ "PK-425": [
+  "FJ1433M"
+ ],
+ "PK-426": [
+  "FJ1442M"
+ ],
+ "PK-427": [
+  "FJ1443M"
+ ],
+ "PK-428": [
+  "FJ1441M"
+ ],
+ "PK-430": [
+  "FJ1395"
+ ],
+ "PK-431": [
+  "FJ1444"
+ ],
+ "PK-432": [
+  "FJ1395M"
+ ],
+ "PK-433": [
+  "FJ1444M"
+ ],
+ "PK-442": [
+  "FJ1431"
+ ],
+ "PK-443": [
+  "FJ1422"
+ ],
+ "PK-444": [
+  "FJ1431M"
+ ],
+ "PK-445": [
+  "FJ1422M"
  ]
 };

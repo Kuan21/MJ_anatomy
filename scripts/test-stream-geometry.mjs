@@ -13,7 +13,7 @@ const packages = new Map(), pkg = i => {if (!packages.has(i)) packages.set(i, fs
 const byId = new Map(original.parts.map(p => [p.id, p]));
 let checked = 0, exact = 0, maxPos = 0, maxAngle = 0, quantised = 0;
 for (const part of stream.parts) {
-  const src = byId.get(part.id); if (!src || part.tendonCut || part.smoothed) continue; // cut or smoothed parts differ from the source on purpose
+  const src = byId.get(part.id); if (!src || part.tendonCut || part.reshaped || part.smoothed) continue; // cut, repaired or smoothed parts differ from the source on purpose
   const sb = originals[src.chunk], pb = pkg(part.chunk), ab = pb.buffer.slice(pb.byteOffset, pb.byteOffset + pb.length);
   const srcPos = new Float32Array(sb.buffer.slice(sb.byteOffset + src.positions, sb.byteOffset + src.positions + src.vertexCount * 12));
   const srcIdx = new Uint32Array(sb.buffer.slice(sb.byteOffset + src.indices, sb.byteOffset + src.indices + src.indexCount * 4));
@@ -33,6 +33,6 @@ for (const part of stream.parts) {
   }
   checked++;
 }
-assert.ok(checked > 1800, `checked ${checked} parts`); // 2234 parts minus the 92 cut muscles and about 250 smoothed vessels
+assert.ok(checked > 1800, `checked ${checked} parts`); // 2234 parts minus the 92 cut and 8 repaired muscles and about 250 smoothed vessels
 assert.ok(exact > 0, 'the hash-bound parts keep exact positions');
 console.log(`stream geometry: ${checked} parts decode back to the source (${quantised} quantised, ${exact} exact); max position error ${(maxPos * 1e6).toFixed(1)} µm, max normal error ${maxAngle.toFixed(4)}°`);
