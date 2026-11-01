@@ -1,14 +1,14 @@
-# Pathways: Lower-limb nerves
-# 走向路徑：下肢神經（第 1 批，審核文件）
+# Pathways: Lower-limb nerves and vessels, thorax and back
+# 走向路徑：下肢神經與血管、胸部與背部（審核文件）
 
-狀態：**待使用者審核。** 本文件只列路徑規格，不含程式、不改模型、不做動畫。核准後才依此建立「走向動畫」系統與路徑資料檔。本檔放在 `docs/`，不部署。
+狀態：**待使用者審核。** 本文件只列路徑規格，不含程式、不改模型、不做動畫。第一版只有下肢神經；現已擴充為**神經＋血管**（含胸部與背部），並加入與內部對照資料的差異表（第 2.5 節）。核准後才依此建立「走向動畫」系統與路徑資料檔。本檔放在 `docs/`，不部署。
 
 ## 0. 怎麼讀這份文件
 
 ### 0.1 範圍
 
-- 第 1 批只做**神經**：腰神經叢（L1–L4）、股神經、閉孔神經、薦神經叢（L4–S4）、坐骨神經（脛神經與總腓神經）、腓腸神經，以及必備結構清單（`docs/paokao-checklist.json`）裡其餘的下肢神經。
-- 動脈（由近到遠）與靜脈（由遠到心）留待第 2、3 批。本文件只在必要處提到血管，作為神經的伴行參照。
+- 原定第 1 批為**神經**（建議仍最先做，分批見第 6 節）：腰神經叢（L1–L4）、股神經、閉孔神經、薦神經叢（L4–S4）、坐骨神經（脛神經與總腓神經）、腓腸神經，以及必備結構清單（`docs/paokao-checklist.json`）裡其餘的下肢神經。
+- 動脈（由近到遠）與靜脈（由遠到心）：下肢與骨盆見 4.8、4.9；胸部與背部（血管與神經）見 4.10。
 - 每條路徑固定欄位：起點、經過結構（含孔、管）、要高亮的標誌、分支點與分支順序、各階段支配的肌肉、終點、皮膚感覺區、簡短臨床提示。
 
 ### 0.2 狀態標記（對應模型現況）
@@ -28,7 +28,7 @@
 
 ### 0.4 來源與核對聲明
 
-- 解剖走向以我既有的解剖學知識，用自己的話寫成，並**以公開來源核對**：Gray's Anatomy 1918 版插圖（公有領域，Wikimedia Commons）與 OpenStax Anatomy and Physiology（CC BY 4.0）。
+- 解剖走向以我既有的解剖學知識，用自己的話寫成，並**以公開來源核對**；另以使用者提供的兩份內部對照資料交叉檢查位置關係（只用來核對，內容不抄錄，差異列在 2.5）：Gray's Anatomy 1918 版插圖（公有領域，Wikimedia Commons）與 OpenStax Anatomy and Physiology（CC BY 4.0）。
 - 聲明格式：**「走向已對照公開來源（Gray 1918／OpenStax）檢查，待使用者核對。」** 不宣稱「已對照某某課本驗證」。
 - 本次**沒有下載任何書籍、掃描檔或 PDF**，沒有使用其他來源。凡無法由我已知的公開資料確認的細節，標「待核」並彙整於第 7 節。
 - 若之後想引用公開來源以外的圖譜，必須先把來源與授權列給使用者確認。
@@ -44,8 +44,10 @@
 ```
 app/data/pathways/
   schema.md                    欄位說明（簡短）
-  lower-limb-nerves.json       本批所有神經路徑
-  (之後) lower-limb-arteries.json、lower-limb-veins.json
+  lower-limb-nerves.json       下肢神經路徑
+  lower-limb-arteries.json     下肢與骨盆動脈（含臀、陰部、閉孔）
+  lower-limb-veins.json        下肢靜脈
+  thorax-back.json             胸部與背部血管與神經
 scripts/check-pathways.mjs     建置期檢查（見 1.3）
 docs/pathways-lower-limb.md    本審核文件（不部署）
 ```
@@ -58,7 +60,7 @@ docs/pathways-lower-limb.md    本審核文件（不部署）
 {
   "id": "femoral-nerve",
   "en": "Femoral nerve", "zh": "股神經",
-  "system": "nerve", "bilateral": true,
+  "system": "nerve | artery | vein", "bilateral": true,
   "root": "L2–L4",
   "direction": "root-to-periphery",
   "steps": [
@@ -79,6 +81,7 @@ docs/pathways-lower-limb.md    本審核文件（不部署）
 }
 ```
 
+- 血管路徑多兩個欄位：`system` 為 `nerve`／`artery`／`vein`；`direction` 為 `root-to-periphery`（神經）、`proximal-to-distal`（動脈）、`distal-to-heart`（靜脈）。靜脈的 `branches` 欄位改稱 `tributaries`（匯入），順序由遠到近。
 - `kind=branch` 的步驟停約 1 秒，並列出分支名稱與順序；子路徑可接著播放。
 - `meshes`：高亮「這一段」的網格（整條神經網格很長時，之後可加 `range: [t0, t1]` 沿網格長度只亮一段，由頂點順序決定；細節留待動畫階段）。
 - `highlight`：標誌或周圍結構（其他淡化）。
@@ -115,6 +118,46 @@ docs/pathways-lower-limb.md    本審核文件（不部署）
 
 ---
 
+## 2.5 與內部對照資料的差異表（神經與位置關係）
+
+我把本文件的路徑與兩份內部對照資料交叉檢查，資料只用來核對，文字均用自己的話改寫。**一致的項目不再重列**（例如：隱神經入內收肌管而股神經不入、閉孔神經前支在內收短肌淺面且後支在深面、股後皮神經在坐骨神經內側伴行、梨狀肌下方四條神經由外到內的順序、坐骨小孔只通過陰部神經、陰部內血管、閉孔內肌肌腱與閉孔內肌神經、梨狀肌上方只有臀上神經與血管、大隱靜脈與隱神經在小腿內側伴行、腓腸神經與小隱靜脈伴行、深腓神經與脛前動脈伴行、跗隧道由前到後的順序、股三角由外到內為神經－動脈－靜脈－淋巴管、內收肌管內容、膕窩由淺到深為神經－靜脈－動脈）。以下只列**不同或有疑義**之處，**我不自行裁決，一律標「待核」**，請使用者決定。
+
+| # | 項目 | 本文件現寫法（標準解剖或你已定） | 對照資料的說法 | 狀態 |
+| --- | --- | --- | --- | --- |
+| D1 | 腰神經叢分支相對腰大肌的位置 | 髂腹下、髂腹股溝、外股皮、**股神經**由腰大肌**外側緣**穿出（股神經走在腰大肌與髂肌之間的溝）；閉孔神經由**內側緣**穿出；生殖股神經由**前面**穿出 | 「外側四條、內側兩條」：外側列肋下、髂腹下、髂腹股溝、外股皮；內側列股神經與閉孔神經；生殖股在腰大肌淺層。股神經被歸在內側，與本文件不同；另外把肋下神經（T12，不屬腰叢）算進外側四條 | 待核 |
+| D2 | 髂腹下與髂腹股溝神經的相對位置 | 髂腹股溝在髂腹下**下方**（偏內下），並進腹股溝管 | 髂腹下在外側、髂腹股溝在內側並穿進腹股溝管 | 一致（只是說法不同；內外側請以上下理解） |
+| D3 | 腹股溝管內的神經 | 髂腹股溝神經經淺環出管，生殖股神經生殖支經深環入管，兩者都在精索附近 | 髂腹股溝神經在精索**外側**，生殖支在精索**內**（隨精索） | 待核：精索「外側」是指在管內貼精索外面（標準說法為在精索前外側表面），動畫以「貼精索外面」呈現 |
+| D4 | 一條「臀褶下最大兩條」神經 | 臀褶下最粗的兩條是坐骨神經與**股後皮神經** | 一份資料把其中第二條記成外股皮神經 | 待核：外股皮神經在髂前上棘附近入大腿，不在臀褶下，推測是筆誤；本文件維持股後皮神經 |
+| D5 | 臀下神經的位置 | 梨狀肌下緣出口，位置待核（你的順序沒列它） | 只說在梨狀肌下方、直接進臀大肌；也沒有排序 | 待核（兩邊都沒有定案） |
+| D6 | 閉孔內肌神經的位置 | 梨狀肌下緣出骨盆，繞坐骨棘，經坐骨小孔再入骨盆，末端進閉孔內肌 | 描述的是末端：在閉孔內肌與上雙子肌之間出現 | 一致（兩者描述同一條路的不同段）；仍請確認動畫畫到哪一段 |
+| D7 | 股方肌神經的位置 | 在雙子肌與閉孔內肌肌腱**深面**，貼髖關節囊 | 描述的是末端：在下雙子肌與股方肌之間進入股方肌 | 一致（末端段）；動畫末端加「由下雙子肌與股方肌之間進入」 |
+| D8 | 陰部神經與陰部內血管的內外關係 | 在坐骨棘處神經在最內側、血管在外側 | 一份資料：血管在神經**外側**伴行；另一份：血管「與下臀動脈同走向、在其前方」，並說它們「穿過薦結節韌帶」 | 待核：「穿過薦結節韌帶」我解讀為經坐骨小孔（在薦結節韌帶與薦棘韌帶之間繞回），與你的標準一致 |
+| D9 | 脛神經、脛後動脈在小腿的位置 | 你已定：在脛後肌後方、屈趾長肌與屈拇長肌之間（走在脛後肌表面） | 兩份資料都記成：夾在屈趾長肌與**脛後肌**這一對 | 待核（兩邊不同：夾在哪兩條肌肉之間）。肌肉由內到外為屈趾長肌、脛後肌、屈拇長肌；神經血管走在脛後肌「後面」，所以可以同時說它在屈趾長肌外緣與屈拇長肌內緣之間。請決定動畫採用哪種說法 |
+| D10 | 腓動脈的位置 | 由脛後動脈分出向外，在脛後肌與屈拇長肌之間、貼腓骨（深在屈拇長肌內） | 同左 | 一致 |
+| D11 | 深腓神經夾在哪兩條肌肉之間 | 脛前肌與伸拇長肌之間（與脛前動脈同行） | 三處寫脛前肌與伸拇長肌；一處記成穿出於屈趾長肌與脛前肌之間 | 待核：後者應是筆誤（屈趾長肌在後區），本文件用脛前肌與伸拇長肌 |
+| D12 | 腓腸神經的組成與會合位置 | 內側腓腸皮神經（脛神經）＋腓腸交通支（總腓神經），在小腿中下部會合 | 一份：內側腓腸皮神經與腓腸交通支會合；另一份：**內側與外側**腓腸皮神經在足跟附近會合 | 待核：（a）總腓神經的哪一支參與（外側腓腸皮神經或腓腸交通支）；（b）會合位置在小腿中下部或近足跟 |
+| D13 | 股神經的分支數 | 前股（皮支、縫匠肌、恥骨肌）與後股（四頭肌各頭、隱神經、關節支） | 「只有三組：前皮支、肌支、隱神經」 | 一致（歸類方式不同） |
+| D14 | 內側與外側蹠神經、動脈的分出位置 | 在跗隧道內或近端分出 | 在內踝處分出 | 一致（內踝處） |
+| D15 | 隱神經與股內側肌神經 | 兩者都入內收肌管；股內側肌神經鑽入股內側肌即止；隱神經繼續下行 | 同左 | 一致 |
+| D16 | 內收肌三層順序 | 內收長肌在最前、內收短肌其次、內收大肌最深 | 同左（前壓後） | 一致 |
+| D17 | 上、下臀動脈在骨盆內的穿行 | 本版先前沒寫 | 上臀動脈穿過腰薦幹與第一薦神經之間；下臀動脈穿過第二與第三薦神經之間；內陰動脈走向同下臀動脈、在其前方 | 新增到 4.8.5；標準解剖大致相同，細節待核 |
+| D18 | 上臀動脈的分支 | 先前沒寫 | 淺支入臀大肌，深支走臀中肌與臀小肌之間 | 新增到 4.8.5（模型有兩個分支網格，為示意） |
+| D19 | 股二頭肌與半腱、半膜肌的認法 | 半腱肌在半膜肌淺層 | 半膜肌會把半腱肌「包住」 | 待核：兩種說法的前後關係不同（淺層或被包住），請以你的標準決定為準（半腱肌淺於半膜肌），資料的「包住」可能是指半膜肌腱膜較寬 |
+| D20 | 股深動脈起始高度 | 股動脈起端下方約 3–5 cm | 只寫「從股動脈分出」 | 一致（無衝突） |
+| D21 | 旋股內側動脈 | 起自股深動脈，繞股骨頸內側，在恥骨肌與髂腰肌之間，位置較高 | 同左 | 一致 |
+| D22 | 鎖骨下動脈與腋動脈的分界（胸部） | 以第一肋外緣為界 | 以**鎖骨**為界（鎖骨上方叫鎖骨下動脈，下方叫腋動脈）；鎖骨下靜脈與腋靜脈同理 | 待核：鎖骨是好用的外表標誌，標準分界是第一肋外緣；動畫文字可兩者都寫 |
+| D23 | 內胸動脈終末分叉高度 | 約在第六肋間隙分成肌膈動脈與上腹上動脈 | 約在第七肋處 | 待核（第六肋間隙與第七肋軟骨處接近，可能是同一位置的不同說法） |
+| D24 | 副半奇靜脈收納的肋間靜脈 | 左側第四到第八後肋間靜脈 | 左側第五到第八 | 待核（細節；模型只有一個網格，不影響動畫） |
+| D25 | 內側、外側胸神經 | 內側胸神經穿過胸小肌並支配胸小肌與胸大肌；外側胸神經支配胸大肌，不穿胸小肌，由其內側緣旁繞過 | 同左（資料稱「內胸、外胸神經」） | 一致；中文建議用「內側胸神經、外側胸神經」 |
+| D26 | 橫頸動脈與副神經 | 副神經沿斜方肌深面下行；橫頸動脈淺支沿斜方肌深面偏橫向走 | 同左（橫頸動脈較短、偏橫；副神經較長、偏下） | 一致 |
+| D27 | 右、左喉返神經的位置 | 右側繞右鎖骨下動脈（位置較高）；左側繞主動脈弓（較低） | 同左 | 一致 |
+| D28 | 枕下神經與枕大神經的出口 | 枕下神經（C1）由枕下三角出，枕大神經（C2）由下斜肌下方出 | 同左 | 一致 |
+| D29 | 模型中「枕動脈」 | 模型的覆蓋資料把「枕動脈」對到 `Lateral occipital artery`（大腦的血管） | 資料裡的枕動脈是外頸動脈的分支，在頭上斜肌外上方（枕下區） | 待核：目前把兩者視為不同；外頸動脈的枕動脈**缺**（見 5.5）。這是現有覆蓋資料的疑似誤對，建議另案確認 |
+
+說明：差異表中標「一致」的列只是讓你知道我已核對過；真正需要你回答的是標「待核」的列，已彙整在第 7 節。
+
+---
+
 ## 3. 模型現況摘要（與路徑直接相關）
 
 - 神經網格（`nervous.glb`，BodyParts3D 加補充）已有：腰神經叢（含前、後部分支）、薦神經叢、腰薦神經叢；髂腹下神經、髂腹股溝神經（模型名 `Ilio-inguinal nerve`）、生殖股神經與生殖支、股支；外股皮神經；股神經與股神經前皮支；隱神經、隱神經髕下支、隱神經小腿內側皮支；閉孔神經與前、後支；臀上神經；梨狀肌神經；股方肌神經；股後皮神經（含前、後根）；陰部神經；坐骨神經；脛神經；內蹠神經、外蹠神經與蹠側總趾支、固有趾支；總腓神經、腓深神經與肌支、背側趾支；腓淺神經與背側趾支、足內側背側皮神經、足中間背側皮神經；內側腓腸皮神經、腓腸交通支、腓腸神經。
@@ -141,6 +184,8 @@ docs/pathways-lower-limb.md    本審核文件（不部署）
 | --- | --- | --- | --- | --- |
 | P0-1 | 腰脊神經前支 L1–L4<br>Anterior rami of L1–L4 | `Anterior rami of lumbar nerves`（無側別，整體） | 有（整體；個別 L1–L4 缺） | 高亮腰椎 `First lumbar vertebra`～`Fourth lumbar vertebra` |
 | P0-2 | 腰神經叢<br>Lumbar plexus | `Lumbar plexus`、`Branches of anterior part of lumbar plexus`、`Branches of posterior part of lumbar plexus` | 有 | 在腰大肌 `Psoas major` 內、橫突前方；高亮腰大肌 |
+
+位置關係（相對腰大肌）：髂腹下、髂腹股溝、外股皮、股神經由外側緣穿出，生殖股由前面穿出，閉孔由內側緣穿出；內部對照資料把股神經歸在內側，與此不同，見差異表 D1（待核）。
 
 腰神經叢前部分支：髂腹下、髂腹股溝、生殖股、閉孔；後部分支：外股皮、股神經（概念上「前、後部」只作動畫分組，不改網格）。
 
@@ -251,7 +296,7 @@ docs/pathways-lower-limb.md    本審核文件（不部署）
 | 3 | 在管內自股動脈**外側**跨到**前面**再到內側 | `Femoral artery` | 有 | 提示：此時隱神經**不**伴大隱靜脈 |
 | 4 | 在管的下端離開股血管（血管穿內收肌裂孔往後），隱神經與膝降動脈隱支一起穿出，在縫匠肌與股薄肌肌腱之間穿深筋膜 | `Right adductor hiatus`／`Left adductor hiatus`（內收肌裂孔空間，示意）、`Gracilis`、`Sartorius` | 有 | 標誌：內收肌裂孔、縫匠肌與股薄肌之間 |
 | 5 | 分支點（膝內側）：髕下支 → 繞脛骨內髁向前橫越髕韌帶前方 | `Infrapatellar branch of saphenous nerve` | 有 | 標誌：`Right tibial tuberosity`（右脛骨粗隆；左側待核）、髕韌帶 `Right patellar ligament` |
-| 6 | 主幹在膝內側以下**開始與大隱靜脈同行**，沿脛骨內側緣下行 | `Great saphenous vein`（大隱靜脈）、`Tibia` | 有 | 兩者此後伴行；模型量測：主幹離脛骨內緣約 4.5 mm（骨外） |
+| 6 | 主幹在膝內側以下**開始與大隱靜脈同行**（大隱靜脈路徑見 4.9.1），沿脛骨內側緣下行 | `Great saphenous vein`（大隱靜脈）、`Tibia` | 有 | 兩者此後伴行；模型量測：主幹離脛骨內緣約 4.5 mm（骨外） |
 | 7 | 小腿內側皮支 | `Medial crural cutaneous branches of saphenous nerve` | 有 | 小腿前內側皮膚 |
 | 8 | 經內踝前方（標誌：內踝） | 內踝 Medial malleolus | 缺（無標誌；為脛骨一部分） | 提案：在 `Tibia` 表面著色標示內踝區 |
 | 9 | 終點：沿足內側緣到第一蹠趾關節附近 | （無足部延伸網格，主幹止於足內側） | 有；足內側延伸待核 | 皮區：足內緣至大趾基部 |
@@ -363,7 +408,7 @@ docs/pathways-lower-limb.md    本審核文件（不部署）
 | 1 | 起點：L5–S2 前股 | `Nerve to obturator internus` | 示意 | |
 | 2 | 經大坐骨孔梨狀肌下緣，位於陰部神經外側 | `Piriformis` | 示意 | 梨狀肌下緣出口由外到內的第三位（標準決定 4） |
 | 3 | 繞坐骨棘，經**坐骨小孔**回到骨盆外下方 | 坐骨小孔 Lesser sciatic foramen | 缺（無標誌） | 邊界：`Sacrospinous ligament`、`Sacrotuberous ligament`；標準決定 5：此孔只通過陰部神經、陰部內血管、閉孔內肌肌腱與閉孔內肌神經 |
-| 4 | 終點：閉孔內肌（盆腔內面）；上雙子肌 | `Obturator internus`、`Gemellus superior` | 有 | 點亮 |
+| 4 | 末端：在閉孔內肌肌腱與上雙子肌之間出現，進入閉孔內肌（盆腔內面）並支配上雙子肌 | `Obturator internus`、`Gemellus superior` | 有 | 點亮 |
 
 注意：標準解剖一般把這條神經描述為「由梨狀肌下方出骨盆後，繞坐骨棘，經坐骨小孔再入骨盆支配閉孔內肌」。此為使用者決定的標準，已採用。
 
@@ -376,7 +421,7 @@ docs/pathways-lower-limb.md    本審核文件（不部署）
 | 2 | 經梨狀肌下緣，在**坐骨神經深面** | `Sciatic nerve`、`Piriformis` | 有 | |
 | 3 | 下行，位於上雙子肌、閉孔內肌肌腱、下雙子肌的**深面**，貼髖關節囊後面（標準決定 2） | `Gemellus superior`、`Obturator internus`、`Gemellus inferior`、`Articular capsule of hip joint` | 有 | 淡化其他，高亮髖關節囊；模型有 27 個頂點貼骨面的情形（左側較多），顯示時屬正常誤差 |
 | 4 | 分支：下雙子肌支、髖關節支 | 個別分支缺 | 缺 | 文字帶過 |
-| 5 | 終點：股方肌 | `Quadratus femoris` | 有 | 點亮 |
+| 5 | 末端：由下雙子肌與股方肌之間進入股方肌 | `Gemellus inferior`、`Quadratus femoris` | 有 | 點亮（差異表 D7） |
 
 #### 4.4.7 Pudendal nerve (S2–S4)
 #### 陰部神經（S2–S4）
@@ -418,7 +463,7 @@ docs/pathways-lower-limb.md    本審核文件（不部署）
 | 2 | 進入**膕窩**，是膕窩內神經血管束中最淺者（神經在靜脈與動脈後方偏淺） | 膕窩 Popliteal fossa（空間缺）、`Popliteal vein`、`Popliteal artery` | 缺（空間）／有（血管） | 邊界：`Long head of biceps femoris`、`Semimembranosus`、`Semitendinosus`、`Lateral head of gastrocnemius`、`Medial head of gastrocnemius` |
 | 3 | **分支點（膕窩內）**：內側腓腸皮神經（見 4.6）、膝關節支、肌支（腓腸肌兩頭、蹠肌、比目魚肌、膕肌） | `Medial sural cutaneous nerve`；肌肉 `Medial head of gastrocnemius`、`Lateral head of gastrocnemius`（模型以內、外側頭兩個網格呈現，名稱含 left／right 在中間，如 `Medial head of right gastrocnemius`）、`Plantaris`、`Soleus`、`Popliteus` | 有（皮神經）／缺（肌支與關節支） | 點亮腓腸肌兩頭、蹠肌、比目魚肌、膕肌 |
 | 4 | 由比目魚肌腱弓深面進入小腿後區深層 | 比目魚肌腱弓 | 缺（無標誌） | `Soleus` 淡化 |
-| 5 | 在脛後肌後面下行，位於屈趾長肌與屈拇長肌之間，與脛後動脈同行（標準決定 1） | `Tibialis posterior`、`Flexor digitorum longus`、`Flexor hallucis longus`、`Posterior tibial artery`（待核名稱） | 有 | 肌支：脛後肌、屈趾長肌、屈拇長肌（個別肌支缺）；模型小腿中段脛神經離動脈約 26 mm（已知，動脈偏內） |
+| 5 | 在脛後肌後面下行，位於屈趾長肌與屈拇長肌之間，與脛後動脈同行（標準決定 1；內部對照資料夾在的肌肉組合不同，見 D9 待核） | `Tibialis posterior`、`Flexor digitorum longus`、`Flexor hallucis longus`、`Posterior tibial artery`（待核名稱） | 有 | 肌支：脛後肌、屈趾長肌、屈拇長肌（個別肌支缺）；模型小腿中段脛神經離動脈約 26 mm（已知，動脈偏內） |
 | 6 | 經內踝後方，進入**跗隧道**（屈肌支持帶下）；隧道內由前到後：脛後肌腱 → 屈趾長肌腱 → 脛後動脈 → 脛後靜脈（兩條） → 脛神經 → 屈拇長肌腱 | `Right tarsal tunnel`／`Left tarsal tunnel`（空間示意）、`Right flexor retinaculum of ankle`／`Left flexor retinaculum of ankle`、`Right tendon of tibialis posterior`、`Right tendon of flexor digitorum longus`、`Right tendon of flexor hallucis longus`（左側同名） | 有 | 模型量測脛神經貼近跗隧道 0.3 mm（強制檢查）；標誌：內踝（缺標誌）；跗隧道內脛後靜脈是否為兩條，待核 |
 | 7 | **分支點（隧道內或近端）**：內側跟骨支（跟內側皮膚）；終支：內蹠神經、外蹠神經 | 內側跟骨支缺；`Medial plantar nerve`、`Lateral plantar nerve` | 缺（跟骨支）／有 | 停約 1 秒 |
 
@@ -474,7 +519,7 @@ docs/pathways-lower-limb.md    本審核文件（不部署）
 | --- | --- | --- | --- | --- |
 | 1 | 起點：總腓神經，腓骨頸處 | `Deep fibular nerve`（起端） | 有 | |
 | 2 | 繞腓骨頸，穿腓骨長肌與前肌間隔入小腿前區 | 腓骨頸（缺）、`Fibularis longus` | 有／缺 | |
-| 3 | 在小腿前區，走在骨間膜前面，與脛前動脈同行（上、下三分之一在其外側，中段在前） | `Interosseous membrane of leg`、`Anterior tibial artery`（待核名稱） | 有 | 模型量測貼骨間膜前 19 mm、離脛前動脈 7 mm |
+| 3 | 在小腿前區，走在骨間膜前面、脛前肌與伸拇長肌之間，與脛前動脈同行（上、下三分之一在其外側，中段在前）；見 D11 | `Interosseous membrane of leg`、`Anterior tibial artery`（待核名稱） | 有 | 模型量測貼骨間膜前 19 mm、離脛前動脈 7 mm |
 | 4 | 肌支：脛前肌、伸拇長肌、趾長伸肌、第三腓骨肌 | `Muscular branches of deep fibular nerve`（模型只有一個網格，為踝前外側肌支） | 有（一個）；個別缺 | 點亮：`Tibialis anterior`、`Extensor hallucis longus`、`Extensor digitorum longus`、`Fibularis tertius` |
 | 5 | 在伸肌支持帶下通過踝前，位於內、外踝之間 | `Right superior extensor retinaculum of foot`、`Right inferior extensor retinaculum of foot` | 有 | 模型量測在內外踝之間；標誌：內踝、外踝（缺標誌） |
 | 6 | **終端分支點（踝前）**：外側支、內側支 | `Lateral branch of deep fibular nerve`、`Medial branch of deep fibular nerve` | 示意 | 停約 1 秒 |
@@ -493,8 +538,8 @@ docs/pathways-lower-limb.md    本審核文件（不部署）
 | 1a | 起點一：脛神經在膕窩的皮支 → 內側腓腸皮神經 | `Medial sural cutaneous nerve` | 有 | |
 | 1b | 起點二：總腓神經 → 外側腓腸皮神經與腓腸交通支 | `Lateral sural cutaneous nerve`、`Sural communicating branch of common fibular nerve` | 示意（外側腓腸皮神經）／有 | |
 | 2 | 內側腓腸皮神經沿腓腸肌兩頭之間的溝下行，在小腿中部穿出深筋膜 | `Medial head of gastrocnemius`、`Lateral head of gastrocnemius` | 有 | 小腿筋膜缺 |
-| 3 | **會合點**：腓腸交通支與內側腓腸皮神經在小腿中下部會合成腓腸神經 | `Sural nerve` | 有 | 停約 1 秒 |
-| 4 | 在跟腱外側下行，與小隱靜脈同行 | `Calcaneal tendon`（跟腱）、`Small saphenous vein` | 有 | |
+| 3 | **會合點**：腓腸交通支與內側腓腸皮神經在小腿中下部會合成腓腸神經（會合位置與參與的總腓神經分支見 D12，待核） | `Sural nerve` | 有 | 停約 1 秒 |
+| 4 | 在跟腱外側下行，與小隱靜脈同行（小隱靜脈見 4.9.2；腓淺神經沒有動脈伴行，與此區分） | `Calcaneal tendon`（跟腱）、`Small saphenous vein` | 有 | |
 | 5 | 經外踝後方（模型量測在外踝後緣約 8 mm） | 外踝 Lateral malleolus | 缺（無標誌） | 提案：在 `Fibula` 表面著色外踝區 |
 | 6 | 終點：足背外側皮神經 → 足外側緣與小趾外側 | `Lateral dorsal cutaneous nerve` | 示意 | 皮區：小腿後外側下部、足外側緣、小趾外側 |
 
@@ -519,6 +564,205 @@ docs/pathways-lower-limb.md    本審核文件（不部署）
 | 腓深神經、外側支、內側支；腓淺神經；足內側、中間、外側背側皮神經 | 4.5.2 | 有／示意 |
 | 內蹠、外蹠神經 | 4.5.1 | 有 |
 | 清單上的 articular branches、「nerve to XXX m」、「post. cutaneous nerve」 | 分別併入對應神經的分支步驟 | 缺（見第 5 節） |
+
+---
+
+### 4.8 Lower-limb arteries (proximal → distal)
+### 下肢與骨盆動脈（由近到遠）
+
+通則：動脈路徑資料 `system: "artery"`、`direction: "proximal-to-distal"`；每個分支點停約 1 秒，列出分支順序。血管網格在模型裡多以左右各一個、連續的管狀網格呈現；有些分支只有「示意」版（`Right deep femoral artery` 等為示意，位置依標誌量測）。本批的**位置關係**是路徑重點（伴行神經、夾在哪兩條肌肉之間）。
+
+#### 4.8.1 Femoral artery → deep femoral artery → popliteal artery
+#### 股動脈 → 股深動脈 → 膕動脈
+
+| 步驟 | 結構 | 模型名稱 | 狀態 | 備註 |
+| --- | --- | --- | --- | --- |
+| 1 | 起點：外髂動脈，在腹股溝韌帶深面（約髂前上棘與恥骨聯合中點）改名股動脈 | `External iliac artery`、`Femoral artery`、`Inguinal ligament` | 有 | 標誌：腹股溝韌帶 |
+| 2 | 進入股三角，位於股神經內側、股靜脈外側，有彈性；股鞘包住動脈與靜脈 | `Femoral artery`、`Femoral vein`、`Femoral nerve`、`Right femoral sheath`／`Left femoral sheath`（左右各一） | 有 | 股三角邊界：腹股溝韌帶、縫匠肌、內收長肌（空間缺） |
+| 3 | 淺分支（腹股溝韌帶下方起始，向淺層）：淺腹壁動脈（向上）、淺旋髂動脈（向外朝髂前上棘）、淺外陰動脈（向內） | `Superficial epigastric artery`、`Superficial circumflex iliac artery`、`Superficial external pudendal artery` | 有／示意（淺旋髂與淺外陰為示意） | 停約 1 秒 |
+| 4 | 深外陰動脈（向內，在大隱靜脈深面） | `Deep external pudendal artery` | 示意 | 與淺外陰動脈以大隱靜脈區分前後（不是絕對） |
+| 5 | **主要分支點（腹股溝韌帶下方約 3–5 cm）：股深動脈**，粗，向後外側深入 | `Deep femoral artery` | 示意 | 停約 1 秒 |
+| 6a | 股深動脈第一組分支：旋股內側動脈（位置較高，在恥骨肌與髂腰肌之間繞股骨頸內側） | `Medial circumflex femoral artery` | 示意 | 標誌：股骨頸（骨表面著色） |
+| 6b | 旋股外側動脈（向外）→ 升支、橫支、降支 | `Lateral circumflex femoral artery`、`Ascending branch of lateral circumflex femoral artery`、`Transverse branch of lateral circumflex femoral artery`、`Descending branch of lateral circumflex femoral artery` | 有（主幹與降支）／示意（升支、橫支） | |
+| 6c | 穿通支：穿過內收大肌（三到四支）到後區供應膕繩肌；末支即第四穿通支 | `Perforating branch of deep femoral artery`、`Set of perforating arteries`、`Distal perforating artery` | 示意（穿通支）／有（Set、Distal 兩個 BodyParts3D 網格，與示意重疊，見問題） | 標誌：內收大肌；與坐骨神經在後區相遇 |
+| 7 | 股動脈主幹進入內收肌管（與股靜脈、隱神經、股內側肌神經同在） | `Femoral artery`、`Saphenous nerve`、`Nerve to vastus medialis` | 有／示意 | 內收肌管空間缺，用邊界高亮（縫匠肌、股內側肌、內收長肌與內收大肌） |
+| 8 | 管內分出降膝動脈 → 關節支（向髕）、隱支（與隱神經同行） | `Descending genicular artery`、`Articular branch of descending genicular artery`、`Saphenous branch of descending genicular artery` | 有（主幹）／示意（兩支） | 停約 1 秒 |
+| 9 | 穿過**內收肌裂孔**，由前轉到後，改名膕動脈 | `Right adductor hiatus`／`Left adductor hiatus`（空間示意）、`Popliteal artery` | 有 | |
+
+- 臨床提示：股動脈在腹股溝韌帶下可摸到脈搏，是導管檢查的常用入口；內收肌裂孔是動脈受壓處；股深動脈與旋股動脈提供股骨頭、頸的血液（股骨頸骨折有缺血風險）。
+
+#### 4.8.2 Popliteal artery
+#### 膕動脈
+
+| 步驟 | 結構 | 模型名稱 | 狀態 | 備註 |
+| --- | --- | --- | --- | --- |
+| 1 | 起點：內收肌裂孔，進入膕窩，是膕窩內最深的結構 | `Popliteal artery`、`Popliteal vein`、`Tibial nerve` | 有 | 由淺到深：脛神經、膕靜脈（包在動脈淺面）、膕動脈；膕窩空間缺（以股二頭肌、半腱肌、半膜肌、腓腸肌兩頭高亮） |
+| 2 | 膝動脈五條：外上、外下、內上、內下、中膝動脈 | `Lateral superior genicular artery`、`Inferior lateral genicular artery`、`Medial superior genicular artery`、`Inferior medial genicular artery`、`Middle genicular artery` | 有 | 停約 1 秒；命名：先上下再內外；上下以股骨髁與腓腸肌起點為界 |
+| 3 | 在膕肌下緣分成脛前動脈（向前）與脛後動脈 | `Popliteus`、`Anterior tibial artery`、`Posterior tibial artery` | 有 | 停約 1 秒；標誌：膕肌下緣 |
+
+#### 4.8.3 Anterior tibial artery → dorsalis pedis artery
+#### 脛前動脈 → 足背動脈
+
+| 步驟 | 結構 | 模型名稱 | 狀態 | 備註 |
+| --- | --- | --- | --- | --- |
+| 1 | 起點：膕動脈，在膕肌下緣；穿過骨間膜上方的缺口進入小腿前區 | `Anterior tibial artery`、`Interosseous membrane of leg` | 有 | 標誌：骨間膜上緣 |
+| 2 | 在前區下行，貼骨間膜前面，走在脛前肌與伸拇長肌之間（下方伸趾長肌也靠近），與腓深神經同行 | `Tibialis anterior`、`Extensor hallucis longus`、`Deep fibular nerve` | 有 | 腓淺神經**沒有**動脈伴行（與此區分） |
+| 3 | 返支（向上到膝）：脛前返動脈 | `Anterior tibial recurrent artery` | 有 | 停約 1 秒 |
+| 4 | 踝前分支：前外踝動脈、前內踝動脈 | `Anterior lateral malleolar artery`、`Anterior medial malleolar artery` | 示意 | 標誌：外踝、內踝（缺標誌）；已知這兩條穿骨比例較高（`docs/lower-limb-nerves.md` 前後記錄） |
+| 5 | 越過踝關節前方，在伸肌支持帶下，改名足背動脈 | `Dorsalis pedis artery`、`Right superior extensor retinaculum of foot`、`Right inferior extensor retinaculum of foot`（左側同名） | 有 | 足背動脈在伸拇長肌肌腱外側可摸到 |
+| 6 | 足背動脈在第一、二蹠骨間穿入足底，成深蹠動脈，與足底弓吻合 | `Deep plantar artery`、`Plantar arch` | 有 | 停約 1 秒；吻合在足底，見 4.8.4 |
+
+#### 4.8.4 Posterior tibial artery → medial and lateral plantar arteries; fibular artery
+#### 脛後動脈 → 內、外側蹠動脈；腓動脈
+
+| 步驟 | 結構 | 模型名稱 | 狀態 | 備註 |
+| --- | --- | --- | --- | --- |
+| 1 | 起點：膕動脈在膕肌下緣的終末分支 | `Posterior tibial artery` | 有 | |
+| 2 | 先分出旋腓動脈（繞腓骨頸，不易開出） | `Circumflex fibular artery` | 示意 | 停約 1 秒 |
+| 3 | **分支點：腓動脈**，由脛後動脈向外分出，走在脛後肌與屈拇長肌之間，貼腓骨 | `Fibular artery`、`Tibialis posterior`、`Flexor hallucis longus`、`Fibula` | 示意 | 停約 1 秒 |
+| 4 | 主幹在小腿後區深層下行，與脛神經同行，位置見差異表 D9（待核）；越下越靠近脛骨內後方 | `Tibial nerve`、`Flexor digitorum longus`、`Tibialis posterior` | 有 | 模型小腿中段脛後動脈偏內側約 20 mm（已知問題），動畫在此段與脛神經不會貼在一起 |
+| 5 | 跟骨支（至足跟） | `Set of calcaneal branches of posterior tibial artery` | 有 | |
+| 6 | 經內踝後方進入跗隧道：脛後肌腱 → 屈趾長肌腱 → **脛後動脈** → 脛後靜脈（兩條夾著動脈）→ 脛神經 → 屈拇長肌腱 | `Right tarsal tunnel`／`Left tarsal tunnel`、`Right flexor retinaculum of ankle`／`Left flexor retinaculum of ankle`、`Posterior tibial vein` | 有（空間示意） | |
+| 7 | **分支點（內踝處）**：內側蹠動脈（淺支、深支）與外側蹠動脈 | `Medial plantar artery`、`Superficial medial plantar artery`、`Lateral plantar artery` | 有 | 停約 1 秒 |
+| 8 | 外側蹠動脈斜向外側，在屈趾短肌與蹠方肌之間，最後轉向內側形成足底弓（深蹠弓） | `Lateral plantar artery`、`Plantar arch`、`Flexor digitorum brevis` | 有 | 蹠方肌名稱待核（已提交清單查不到） |
+| 9 | 足底弓與足背動脈的深蹠動脈吻合；發出蹠側蹠動脈、趾動脈 | `Plantar arch`、`Deep plantar artery` | 有（趾動脈缺） | 終點：足趾尖（趾動脈缺，文字帶過） |
+
+- 臨床提示：足背動脈與脛後動脈搏動用來評估下肢灌流；腓動脈為腓骨與小腿外側肌的血液來源，常用於骨移植（腓骨皮瓣）。
+
+#### 4.8.5 Gluteal and pelvic arteries: superior and inferior gluteal, internal pudendal, obturator
+#### 臀部與骨盆動脈：臀上、臀下、陰部內動脈、閉孔動脈
+
+| 步驟 | 結構 | 模型名稱 | 狀態 | 備註 |
+| --- | --- | --- | --- | --- |
+| 1 | 起點：內髂動脈（分前、後幹） | `Internal iliac artery`、`Common iliac artery` | 有 | 標誌：骨盆緣，髂總動脈在薦髂關節前分叉 |
+| 2 | **臀上動脈**：後幹，向後穿過腰薦幹與第一薦神經之間，**經梨狀肌上緣**出骨盆，與臀上神經同行 | `Superior gluteal artery`、`Superior gluteal vein`、`Piriformis`、`Superior gluteal nerve` | 示意（動脈）／有（靜脈、神經） | 梨狀肌上方只有臀上神經與血管；停約 1 秒 |
+| 2a | 臀上動脈**淺支**入臀大肌；**深支**走在臀中肌與臀小肌之間 | `Superficial branch of superior gluteal artery`、`Deep branch of superior gluteal artery`、`Gluteus maximus`、`Gluteus medius`、`Gluteus minimus` | 示意 | 神經與動脈的區別：神經實心；動脈有管腔，兩者伴行須分清 |
+| 3 | **臀下動脈**：穿過第二與第三薦神經之間，**經梨狀肌下緣**出骨盆，與臀下神經同行入臀大肌 | `Inferior gluteal artery`、`Inferior gluteal vein`、`Inferior gluteal nerve`、`Gluteus maximus` | 示意（動脈、神經）／有（靜脈） | |
+| 4 | **陰部內動脈**：走向同臀下動脈、在其前方；經梨狀肌下緣出大坐骨孔，繞坐骨棘與薦棘韌帶，經**坐骨小孔**回到會陰；在坐骨棘處位於陰部神經外側 | `Internal pudendal artery`、`Internal pudendal vein`、`Pudendal nerve`、`Sacrospinous ligament`、`Sacrotuberous ligament`、`Right spine of ischium` | 示意（動脈）／有（靜脈、神經） | 坐骨小孔只通過這兩條血管神經加閉孔內肌肌腱與其神經；差異表 D8 |
+| 5 | **閉孔動脈**：自內髂動脈（前幹）發出，沿骨盆側壁與閉孔神經同行，經閉孔管出骨盆，分前支、後支 | **缺**（模型只有 `Obturator vein`；`Obturator nerve` 有） | 缺 | 見 5.5：以 `Obturator vein` 與 `Obturator nerve` 作旁證，不畫動脈線 |
+
+- 臨床提示：臀部注射位置偏內下可傷到臀下與陰部內血管神經；骨盆骨折可損傷臀上動脈引起大出血。
+
+### 4.9 Lower-limb veins (distal → heart)
+### 下肢靜脈（由遠到心）
+
+通則：靜脈路徑 `system: "vein"`、`direction: "distal-to-heart"`；動畫的發光點由足部末梢向心行進。
+
+#### 4.9.1 Great saphenous vein
+#### 大隱靜脈
+
+| 步驟 | 結構 | 模型名稱 | 狀態 | 備註 |
+| --- | --- | --- | --- | --- |
+| 1 | 起點：足背靜脈弓內側端（足背皮下靜脈） | `Dorsal venous arch of foot` | 有 | |
+| 2 | 經內踝**前方**，進入小腿內側皮下 | `Great saphenous vein`、`Tibia` | 有 | 標誌：內踝（缺標誌，骨表面著色） |
+| 3 | 沿小腿內側皮下上行，**開始與隱神經伴行**（兩者在膝內側以下伴行） | `Great saphenous vein`、`Saphenous nerve` | 有 | 隱神經在大腿**不**與大隱靜脈同行（它在內收肌管內） |
+| 4 | 經膝內側（股骨內髁後方）上行 | `Great saphenous vein` | 有 | |
+| 5 | 沿大腿內側皮下上行，在大腿表層 | `Great saphenous vein` | 有 | 與隱神經分開 |
+| 6 | 在**隱靜脈裂孔**穿過闊筋膜與篩筋膜，注入股靜脈；注入前收納淺腹壁、淺旋髂、淺外陰靜脈等 | `Great saphenous vein`、`Femoral vein`、`Superficial epigastric vein` | 有（隱靜脈裂孔缺） | 停約 1 秒；股靜脈位於股三角最內側（V）；淺外陰、淺旋髂靜脈網格待核 |
+| 7 | 終點：股靜脈 → 外髂靜脈（腹股溝韌帶深面） | `Femoral vein`、`External iliac vein` | 有 | |
+
+- 臨床提示：大隱靜脈是靜脈曲張與冠狀動脈繞道取材的主要靜脈；穿通靜脈瓣膜失效是曲張原因。
+
+#### 4.9.2 Small saphenous vein
+#### 小隱靜脈
+
+| 步驟 | 結構 | 模型名稱 | 狀態 | 備註 |
+| --- | --- | --- | --- | --- |
+| 1 | 起點：足背靜脈弓外側端（足外側緣） | `Dorsal venous arch of foot` | 有 | |
+| 2 | 經外踝**後方**，進入小腿後面皮下 | `Small saphenous vein`、`Fibula` | 有 | 標誌：外踝（缺標誌） |
+| 3 | 沿小腿後面中線上行，**與腓腸神經伴行** | `Small saphenous vein`、`Sural nerve` | 有 | |
+| 4 | 在小腿上部**穿過深筋膜**，從腓腸肌兩頭之間進入膕窩 | `Medial head of gastrocnemius`、`Lateral head of gastrocnemius` | 有 | 小腿筋膜缺；標誌：兩頭之間的溝 |
+| 5 | 終點：注入膕靜脈 | `Popliteal vein` | 有 | 停約 1 秒；膕靜脈在膕窩內包在膕動脈淺面 |
+
+#### 4.9.3 Deep veins: tibial, popliteal and femoral veins
+#### 深靜脈：脛、膕、股靜脈
+
+| 步驟 | 結構 | 模型名稱 | 狀態 | 備註 |
+| --- | --- | --- | --- | --- |
+| 1 | 起點：足底內、外側蹠靜脈（外側蹠靜脈為示意；內側蹠靜脈在已提交清單查不到） | `Lateral plantar vein`、`Plantar venous arch of foot` | 示意／有／缺（內側） | |
+| 2 | 脛後靜脈：兩條夾著脛後動脈上行，經跗隧道；腓靜脈匯入脛後靜脈 | `Posterior tibial vein`、`Fibular vein` | 有 | 模型右側腓靜脈較左側長 480 mm（已知，疑似多出一段，未改） |
+| 3 | 脛前靜脈：與脛前動脈伴行，穿骨間膜上方進入膕窩 | `Anterior tibial vein` | 有 | |
+| 4 | 兩者在膕肌下緣會合成膕靜脈，在膕窩內位於脛神經深面、膕動脈淺面；小隱靜脈在此匯入 | `Popliteal vein`、`Small saphenous vein` | 有 | 停約 1 秒 |
+| 5 | 穿內收肌裂孔改名股靜脈，在內收肌管內伴股動脈；在股三角最內側 | `Femoral vein`、`Deep femoral vein`、`Right adductor hiatus`／`Left adductor hiatus` | 有 | 股深靜脈與大隱靜脈在股三角匯入；停約 1 秒 |
+| 6 | 終點：腹股溝韌帶深面接外髂靜脈 | `Femoral vein`、`External iliac vein`、`Inguinal ligament` | 有 | |
+
+- 臨床提示：深層靜脈血栓好發於小腿深靜脈與膕靜脈，膕窩處的觸診要考慮膕動脈瘤。
+
+### 4.10 Thorax and back: arteries, veins and nerves
+### 胸部與背部：動脈、靜脈與神經
+
+這一節列出對照資料裡胸、背部的血管與神經。路徑格式與下肢相同，但本批建議**最後才做**（見第 6 節分批）。
+
+#### 4.10.1 Internal thoracic artery
+#### 內胸動脈（動脈，近到遠）
+
+| 步驟 | 結構 | 模型名稱 | 狀態 | 備註 |
+| --- | --- | --- | --- | --- |
+| 1 | 起點：鎖骨下動脈（第一段） | `Subclavian artery`、`Internal thoracic artery` | 有 | |
+| 2 | 在肋軟骨後面、距胸骨外緣一指寬下行，在胸橫肌前面 | `Internal thoracic artery`、`Body of sternum`、`transversus thoracis` | 有 | 標誌：胸骨體兩側 |
+| 3 | 沿途前肋間動脈（向肋骨走）、穿通支、心包膈動脈 | `anterior intercostal arteries`、`pericardiophrenic artery` | 示意／有 | 停約 1 秒 |
+| 4 | 在第六肋間隙附近（資料說約第七肋）**終末分叉**：肌膈動脈（向外下）、上腹上動脈（向下入腹直肌鞘） | `Musculophrenic artery`、`Superior epigastric artery` | 有 | 停約 1 秒；差異表 D23 |
+| 5 | 終點：上腹上動脈在腹直肌後與下腹壁動脈吻合 | `Superior epigastric artery`、`Inferior epigastric artery` | 有 | |
+
+#### 4.10.2 Aortic arch branches and descending thoracic aorta
+#### 主動脈弓分支與胸主動脈
+
+| 步驟 | 結構 | 模型名稱 | 狀態 | 備註 |
+| --- | --- | --- | --- | --- |
+| 1 | 起點：升主動脈 → 主動脈弓 | `Ascending aorta`、`Arch of aorta` | 有 | |
+| 2 | 弓上三條分支（由右到左）：頭臂動脈幹（分右總頸動脈、右鎖骨下動脈）、左總頸動脈、左鎖骨下動脈 | `Brachiocephalic artery`、`Common carotid artery`、`Subclavian artery` | 有 | 停約 1 秒 |
+| 3 | 降主動脈（胸主動脈）：在脊柱左前方下行，最粗 | `Descending thoracic aorta`、`Descending aorta` | 有 | 兩個網格重疊，見問題 |
+| 4 | 分支：食道支、支氣管支、後肋間動脈（成對）、上膈動脈 | `Set of oesophageal branches of thoracic aorta`、`Bronchial branch of arch of aorta`（弓處）、`Posterior intercostal arteries`、`Superior phrenic artery` | 有／示意 | 停約 1 秒 |
+| 5 | 終點：穿過主動脈裂孔成為腹主動脈 | `Aortic hiatus`（示意）、`Abdominal aorta` | 有 | |
+
+#### 4.10.3 Subclavian → axillary artery → thoracoacromial artery
+#### 鎖骨下動脈 → 腋動脈 → 胸肩峰動脈
+
+| 步驟 | 結構 | 模型名稱 | 狀態 | 備註 |
+| --- | --- | --- | --- | --- |
+| 1 | 起點：右側頭臂動脈幹／左側主動脈弓 | `Subclavian artery` | 有 | |
+| 2 | 越過第一肋，以第一肋外緣改名腋動脈（資料以鎖骨為界，見 D22） | `Subclavian artery`、`Axillary artery` | 有 | 停約 1 秒 |
+| 3 | 腋動脈第二段（胸小肌後）：發出胸肩峰動脈幹 | `Trunk of thoraco-acromial artery`、`pectoralis minor` | 有 | |
+| 4 | 胸肩峰動脈四個分支：肩峰支、鎖骨支、三角肌支、胸肌支 | `Acromial branch of thoraco-acromial artery`、`Clavicular branch of thoraco-acromial artery`、`Deltoid branch of thoraco-acromial artery`、`Pectoral branch of thoraco-acromial artery` | 有／示意（鎖骨支） | 停約 1 秒 |
+| 5 | 另：外側胸動脈（與長胸神經伴行）、胸背動脈（與胸背神經伴行） | `Lateral thoracic artery`、`Thoracodorsal artery`、`Long thoracic nerve`、`Thoracodorsal nerve` | 有 | 其餘腋動脈分支不在本批 |
+
+#### 4.10.4 Venous return: superior vena cava, brachiocephalic veins, cephalic vein; azygos system
+#### 靜脈：上腔靜脈、頭臂靜脈、頭靜脈；奇靜脈系統（靜脈，遠到心）
+
+| 步驟 | 結構 | 模型名稱 | 狀態 | 備註 |
+| --- | --- | --- | --- | --- |
+| 1 | 頭靜脈：起自手背靜脈網外側，沿上臂外側、**走在三角肌與胸大肌之間（三角胸肌溝）**，穿鎖胸筋膜注入腋靜脈 | `cephalic vein`、`Axillary vein` | 有 | 標誌：三角胸肌溝（缺，以三角肌與胸大肌邊界高亮） |
+| 2 | 腋靜脈 → 鎖骨下靜脈（第一肋外緣；資料以鎖骨為界） | `Axillary vein`、`Subclavian vein` | 有 | 停約 1 秒 |
+| 3 | 鎖骨下靜脈與頸內靜脈會合成頭臂靜脈（左側較長，斜越過主動脈弓分支前方） | `Subclavian vein`、`Internal jugular vein`、`Brachiocephalic vein` | 有 | 停約 1 秒 |
+| 4 | 左、右頭臂靜脈會合成上腔靜脈 | `Brachiocephalic vein`、`Superior vena cava` | 有 | 終點：右心房 |
+| 5 | **奇靜脈**（右側）：收納右側後肋間靜脈，在食道右後方上行，繞右肺根上方注入上腔靜脈 | `Azygos vein`、`posterior intercostal veins`、`Superior vena cava` | 有 | 要把食道向左上拉開才看得到；標誌：右肺根 |
+| 6 | **半奇靜脈**（左下，收納左側第九到第十一後肋間靜脈）與**副半奇靜脈**（左上，收納左側上部後肋間靜脈，差異表 D24）：越過中線注入奇靜脈 | `Hemiazygos vein`、`Accessory hemiazygos vein`、`Azygos vein` | 有 | 要把食道向右上拉開才看得到；停約 1 秒 |
+
+#### 4.10.5 Nerves of the thorax
+#### 胸部神經
+
+| 神經 | 路徑要點 | 模型名稱 | 狀態 |
+| --- | --- | --- | --- |
+| 膈神經（C3–C5） | 在縱隔內單獨走在心包與縱隔胸膜之間，**騰空**（資料特別提醒：不要與交感幹混淆），伴心包膈血管，終點膈肌 | `phrenic nerve`、`pericardiophrenic artery`、`pericardiophrenic vein`、`Diaphragm` | 示意／有 |
+| 迷走神經 | 在頸部走在頸內靜脈與總頸動脈之間，進胸腔，在食道周圍形成食道叢，分出喉返神經；不分支、頗粗 | `Vagus nerve (X)`、`Esophageal plexus` | 有 |
+| 右喉返神經 | 右迷走神經在右鎖骨下動脈前方分出，繞其下後方上行（位置較高） | `recurrent laryngeal nerve`、`Subclavian artery` | 示意 |
+| 左喉返神經 | 左迷走神經在主動脈弓處分出，繞弓下後方上行（位置較低） | `recurrent laryngeal nerve`、`Arch of aorta` | 示意 |
+| 長胸神經 | 由臂叢神經根（C5–C7）發出，沿胸廓側壁下行，伴外側胸動脈，終點前鋸肌 | `Long thoracic nerve`、`Lateral thoracic artery` | 有 |
+| 內側胸神經 | 由臂叢內側束發出，穿胸小肌，支配胸小肌與胸大肌 | `Medial pectoral nerve`、`pectoralis minor` | 有 |
+| 外側胸神經 | 由臂叢外側束發出，支配胸大肌，**不穿胸小肌**，由其內側緣旁繞過；與內側胸神經在胸肌間形成連結（胸襻） | `Lateral pectoral nerve`、`pectoralis minor` | 有（胸襻缺） |
+| 交感神經幹 | 在後胸壁脊柱兩旁，像一串珠子；由上而下依序分出大、小、最小內臟神經 | `Sympathetic trunk`、`Ganglia of sympathetic trunk`、`greater splanchnic nerve`、`lesser splanchnic nerve`、`least splanchnic nerve` | 有／示意 |
+
+#### 4.10.6 Back and neck: transverse cervical artery with accessory nerve; suboccipital region
+#### 背與頸：橫頸動脈與副神經；枕下區
+
+| 步驟 | 結構 | 模型名稱 | 狀態 | 備註 |
+| --- | --- | --- | --- | --- |
+| 1 | 副神經（CN XI）：出頸靜脈孔，橫過頸後三角，進入斜方肌深面，沿深面下行（較長、偏向下） | `Accessory nerve (XI)`、`Trapezius`（模型名稱待核，實際為分部：`Descending part of trapezius`、`Transverse part of trapezius`、`Ascending part of trapezius`）、`Jugular foramen` | 有（頸靜脈孔為標誌） | 副神經同時支配胸鎖乳突肌 |
+| 2 | 橫頸動脈（甲狀頸幹分支）：與副神經在斜方肌深面伴行，淺支較短、偏橫行 | `transverse cervical artery`、`thyrocervical trunk`、`superficial cervical artery` | 有（淺支個別缺） | 橫頸動脈在肩胛上動脈上方 |
+| 3 | 椎動脈：進入枕下三角，在枕下三角內橫過寰椎後弓上方，再向上穿入枕骨大孔（不像枕下神經那樣真的鑽出） | `vertebral artery`、`obliquus capitis superior`、`obliquus capitis inferior`、`rectus capitis posterior major`、`Right suboccipital triangle`／`Left suboccipital triangle` | 有（空間示意） | 枕下三角三邊：頭上斜肌、頭下斜肌、大後頭直肌；屋頂為頭半棘肌 |
+| 4 | 枕下神經（C1後支）：由枕下三角鑽出 | `Suboccipital nerve` | 示意（覆蓋資料記為示意模型；網格在建置產生的資料包，已提交清單查不到，待核） | |
+| 5 | 枕大神經（C2後支）：由頭下斜肌下方穿出，向上到頭皮後部 | `Greater occipital nerve`、`obliquus capitis inferior` | 示意（同上，待核） | |
+| 6 | 枕動脈（外頸動脈分支）：在頭上斜肌外上方，被二腹肌後腹覆蓋；與耳後動脈區分 | **缺**（覆蓋資料把「枕動脈」對到大腦的 `Lateral occipital artery`，疑似誤對，見 D29） | 缺 | 見 5.5；耳後動脈缺（待核） |
 
 ---
 
@@ -579,29 +823,71 @@ docs/pathways-lower-limb.md    本審核文件（不部署）
 
 ---
 
-## 6. 動畫階段的共通規格（供審核；核准後才實作）
+### 5.5 缺漏的血管、神經與標誌（血管與胸背部）
 
-- 發光點沿神經由根到末梢移動；相機跟隨；每個「分支點」停約 1 秒，並依序列出分支名稱。
-- 每個步驟高亮其標誌，其餘結構淡化；肌肉點亮；終點顯示皮區（見 5.3）。
+| 結構 | 為什麼缺／現況 | 建議處理 |
+| --- | --- | --- |
+| 閉孔動脈 Obturator artery | 模型只有閉孔靜脈與閉孔神經 | 不畫動脈線；高亮閉孔神經與閉孔靜脈，文字說明動脈與神經同行。若要補，需有閉孔管標誌（見 5.2），以示意模型接在內髂動脈與閉孔之間 |
+| 外頸動脈的枕動脈、耳後動脈 | 沒有；覆蓋資料把「枕動脈」對到 `Lateral occipital artery`（大腦血管），疑似誤對 | 路徑中以文字帶過；建議另案更正覆蓋資料（需人工審核） |
+| 內側蹠靜脈 | 已提交清單查不到（外側蹠靜脈為示意） | 文字帶過，用足底靜脈弓代替 |
+| 趾動脈、蹠側蹠動脈 | 沒有；足底弓有 | 終點以足底弓為止，趾端用文字 |
+| 股深動脈、旋股動脈、穿通支、淺旋髂、淺外陰、深外陰動脈 | 已有示意 | 沿用；動畫標「示意」 |
+| 穿通支 | 示意版（`Perforating branch of deep femoral artery`）與 BodyParts3D 的 `Set of perforating arteries`、`Distal perforating artery` 並存 | 待核：動畫用哪一組（見問題） |
+| 脛後動脈中段偏離（已知） | 動脈偏內側約 20 mm | 動畫在此段允許神經與動脈不貼合，或先修動脈（另案） |
+| 腓骨皮瓣相關 | 不需要 | — |
+| 隱靜脈裂孔、卵圓窩 | 缺 | 以闊筋膜張肌、縫匠肌、內收長肌邊界與股靜脈高亮，文字說明；不做空間 |
+| 三角胸肌溝 | 缺 | 以三角肌與胸大肌邊界高亮 |
+| 胸襻（內外側胸神經間連結） | 缺 | 文字帶過 |
+| 前肋間動脈、後肋間動脈 | 前肋間動脈（示意）、後肋間動脈（BodyParts3D，成組網格）有；個別肋間的對應待核 | 路徑用成組網格 |
+| 降主動脈 | `Descending thoracic aorta` 與 `Descending aorta` 兩個網格 | 待核：是否重複，動畫用其一 |
+| 副半奇、半奇靜脈與肋間靜脈之連接 | 肋間靜脈為成組示意 | 路徑止於注入奇靜脈 |
+
+## 6. 動畫階段的共通規格與分批建議（供審核；核准後才實作）
+
+### 6.1 共通規格
+
+- 發光點沿路徑移動：神經由根到末梢，動脈由近到遠，靜脈由遠到心；相機跟隨。
+- 每個「分支點」（動脈與靜脈的匯入點也算）停約 1 秒，並依序列出分支名稱。
+- 每個步驟高亮其標誌，其餘結構淡化；肌肉點亮；神經終點顯示皮區（見 5.3）。
 - 側面板逐步文字：英文在上，中文在下；用台灣醫學用語；全部為自己撰寫。
 - 左右兩側都可播放；兩側資料同一份路徑，由 `side` 展開。
 - 缺的步驟：以文字顯示，不畫線，鏡頭停在前後兩個真實標誌之間。
 - 動畫不改模型，也不改動作姿勢（沿用靜止姿勢）。
 
+### 6.2 建議分批
+
+| 批次 | 內容 | 理由 |
+| --- | --- | --- |
+| 1 | 下肢神經（4.1–4.6） | 模型最完整；皮區資料另案 |
+| 2 | 下肢與骨盆動脈（4.8） | 神經批次完成後，伴行關係已建立；缺閉孔動脈、趾動脈 |
+| 3 | 下肢靜脈（4.9） | 全部是現有網格；只缺少隱靜脈裂孔等標誌 |
+| 4 | 胸部與背部（4.10） | 結構多、網格名稱需逐一核對；列為最後 |
+
+每批各一個 PR，皆標【需人工審核】。動畫系統本體（播放器、資料讀取、檢查腳本）先隨第 1 批建立，之後各批只加資料檔。
+
 ---
 
-## 7. 待使用者核對與決定
+## 7. 待使用者回答的問題（白話、精簡）
 
-1. 標準解剖決定第 2 節 9 條加我補充的 4 條，是否都照用？
-2. **腰方肌、腹橫肌、腹內斜肌、提睪肌、伸趾短肌、蹠方肌、骨間肌（足）、臀上動脈、脛前動脈與脛後動脈的確切模型名稱**，我無法由已提交資料確認，標「待核」；請在實作階段用搜尋索引核對，或告訴我正確名稱。
-3. **臀下神經位置**：我知道常見說法是它靠近坐骨神經，在梨狀肌下緣出口的外側部。你定的由外到內順序（坐骨神經 → 股後皮神經 → 閉孔內肌神經 → 陰部神經）未列臀下神經，請決定它放在哪（建議：坐骨神經與股後皮神經之間，內側靠近股後皮神經；待核）。
-4. 本批只含神經，但腰神經叢路徑含髂腹下、髂腹股溝兩條（軀幹神經），因你的清單列了；若只要下肢，可刪。
-5. 腓深神經：`Muscular branches of deep fibular nerve`（BodyParts3D）與示意的內側支、外側支是否同時顯示？建議路徑用 BodyParts3D 主幹，加外側支（伸趾短肌）與內側支（第一趾蹼）作為終端分支，肌支網格只用於高亮。
-6. 皮膚感覺區（5.3）是否同意以 `Skin` 網格表面著色、另開 PR 建置？核准前終點只顯示文字。
-7. 缺漏標誌（5.2）是否同意以骨表面著色、邊界結構高亮、必要時貼合邊界半透明立體處理？是否要先補齊左側標誌（髂嵴、坐骨結節、坐骨棘、恥骨結節、脛骨粗隆）？
-8. 陰部神經完整路徑（直腸下、會陰、陰莖背神經）要不要列入第 1 批？目前只做到分支點。
-9. 路徑資料位置採 `app/data/pathways/` 是否同意？
-10. 隱神經足部延伸：模型主幹止於哪一點需在實作時量測，若止於踝前，足內緣段以文字說明。
-11. 副閉孔神經不納入，是否同意？
+**位置關係（差異表標「待核」的，請你決定採哪一種）**
 
-走向已對照公開來源（Gray 1918／OpenStax）檢查，待使用者核對。本文件未使用其他來源。
+1. **股神經**從腰大肌的外側還是內側出來？（標準：外側緣，走在腰大肌與髂肌之間；對照資料把它歸在內側。）D1
+2. **脛神經與脛後動脈**在小腿夾在哪兩條肌肉之間？你定的是屈趾長肌與屈拇長肌之間（在脛後肌後面）；對照資料是屈趾長肌與脛後肌這一對。動畫文字要用哪一種？D9
+3. **腓腸神經**由哪兩支組成、在哪裡會合？（內側腓腸皮神經＋腓腸交通支，在小腿中下部；或內、外側腓腸皮神經在足跟附近。）D12
+4. **臀下神經**在梨狀肌下的順序放哪？建議放在坐骨神經與股後皮神經之間，但兩邊資料都沒定。D5
+5. **鎖骨下動脈、腋動脈**的分界：用第一肋外緣（標準）還是鎖骨（資料用）？動畫文字兩者都寫可以嗎？D22
+6. **內胸動脈**終末分叉在第六肋間隙還是第七肋？D23
+
+**缺漏與做法**
+
+7. 皮膚感覺區（5.3）是否同意在 `Skin` 網格上著色、另開 PR 做？核准前終點只顯示文字。
+8. 缺的標誌（5.2）是否同意用「骨表面著色＋邊界結構高亮，必要時貼合邊界的半透明立體」？是否先補左側標誌？
+9. **閉孔動脈**與**枕動脈（外頸動脈）**模型沒有，是否同意先不畫、用文字帶過？覆蓋資料把枕動脈對到大腦的血管，要不要另案改正？
+10. **穿通支**有兩組網格（示意與 BodyParts3D）、**降主動脈**有兩個網格，動畫各用哪一組？
+11. 陰部神經完整路徑（直腸下、會陰、陰莖背神經）要不要列入第 1 批？目前只做到分支點。
+12. 髂腹下與髂腹股溝神經（軀幹）要保留嗎？副閉孔神經不納入可以嗎？
+13. 資料位置 `app/data/pathways/` 與分批順序（下肢神經→下肢動脈→下肢靜脈→胸背）是否同意？
+
+標「待核」的模型名稱（腰方肌、腹橫肌、腹內斜肌、提睪肌、伸趾短肌、蹠方肌、足骨間肌、胸骨、內側蹠靜脈等）在實作時用搜尋索引核對，不需要你回答。
+
+走向已對照公開來源（Gray 1918／OpenStax）檢查，待使用者核對；位置關係另以內部對照資料交叉檢查，差異見 2.5。本文件未使用其他來源。
