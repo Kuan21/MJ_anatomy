@@ -175,13 +175,11 @@ export function regionDirection(key:RegionKey,sub?:string):[number,number,number
  if(key==='pelvis'&&sub==='wall')return[.15,.12,1];
  return[0,.06,1];
 }
-/** how tight the camera frames the region (smaller = closer) */
-export function regionZoom(key:RegionKey,sub?:string):number{
- if(key==='chest')return sub==='lung'?.7:.66;
- if(key==='abdomen'||key==='pelvis')return .68;
- if(key==='back')return .9;
- if(key==='gluteal')return 1;
- return .82;
+/** How tight the camera frames the region, as a multiple of the distance that fits the whole camera set inside the free area of the screen (focusFrame).
+ * Always 1: a value below 1 (the old .66 for the chest, .68 for the abdomen and pelvis, .82 elsewhere) put the camera closer than the fit, so the top of the region
+ * was cut off behind the region bar and the model looked pushed to the top. */
+export function regionZoom(_key:RegionKey,_sub?:string):number{
+ return 1;
 }
 
 // ---- external nerves (separate meshes, not atlas parts): which ones a region shows
