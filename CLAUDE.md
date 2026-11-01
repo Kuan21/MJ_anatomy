@@ -84,6 +84,16 @@
   - 對應的 PR 已 merge 或關閉超過 30 天後，可以清掉該 PR 的截圖（清除時要寫明清掉哪個資料夾；這是此分支唯一允許的刪除）。
   - 已經在 repo 內的舊截圖資料夾不動。
 - **新 worktree 的生成檔一律用真正的複本（`cp -rL`），不可建符號連結**（符號連結會讓重新產生的資料寫穿到別的 worktree）；只有 `node_modules` 可以用連結。
+- **舊 worktree 的備份與清理（使用者 2026-10-31 指示，長期規則，以後不用再問）：**
+  - 判斷一律逐個 worktree 檢查它的 commit 是否已在 main，用 `git cherry origin/main HEAD`（`+` 開頭的行代表不在 main 的 commit）或 `git branch --merged`，**不要只靠 PR 名稱配對**。
+  - commit 已在 main，而且沒有未提交變更：直接刪除（`git worktree remove`）。
+  - commit 已在 main，但有未提交變更：只是建置輸出、快取、截圖、暫存檔（例如被刪掉或重新產生的 `public/models/**`、`*.json.gz` 生成檔）就直接刪除；有程式、文件或資料的改動就先備份再刪。
+  - 有 commit 不在 main（含 detached HEAD）：先備份再刪。
+  - 備份做法：未提交的變更先做一個 WIP commit（排除 `work/`、`outputs/`、生成檔）；推到 GitHub 的 `archive/<資料夾名>` 分支（例如 `archive/mj-beige`），**只作備份，不開 PR、不 merge**；用 `git ls-remote origin refs/heads/archive/<資料夾名>` 確認遠端分支存在且與本機相同後，才刪除本機 worktree。沒有任何未推送或未提交內容的可以直接刪除。
+  - **推送前一定要掃描**：不可推送任何課程筆記、共筆、課本內容、考古題或 PDF（含筆記整理檔，例如 `neuro-notes*`、`neuro-cards*`）。發現這類檔案就**不要推送，也不要刪除該 worktree**，把路徑列出來問使用者。
+  - 超過 7 天沒有活動、而且沒有對應開放 PR 的 worktree：依上面方法備份到 `archive/` 分支後刪除，並在 `REVIEW_LOG.md` 列出。狀態表標示「進行中」的工作、正在執行的 agent 使用的 worktree、提供 `node_modules` 連結的捐贈者 worktree（`node scripts/clean.mjs --donor`）不受此規則影響。
+  - 完成後回報表格：資料夾、有沒有未推送內容、備份分支名稱、是否已刪除、釋放空間與目前剩餘空間。
+  - 米色翼狀物調查（原 `mj-beige`）之後恢復時，由 `archive/mj-beige` 取回。
 - 新 worktree 要複製 `work/` 與生成檔時，從 `node scripts/clean.mjs --donor` 印出的那個 worktree 複製（主 checkout 沒有這些檔）；清理腳本永遠保留這一個，並且不會刪掉含有「只存在於該 worktree」的 `work/`、`outputs/` 檔案的 worktree。
 - 測試與截圖一律用正式 build（`vite build` + `vite preview`），不用 dev server。
 

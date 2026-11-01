@@ -9,11 +9,12 @@ import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {loadWorld} from './lib/paokao-world.mjs';
 import {meshOf, closest} from './lib/heart-geom.mjs';
+import {positionsOf, indicesOf} from './lib/stream-geometry.mjs';
 
 const root = new URL('../', import.meta.url), problems = [], MM = 1000;
 const stream = JSON.parse(fs.readFileSync(new URL('public/models/atlas-stream.json', root))), raw = new Map();
 const chunk = i => { if (!raw.has(i)) raw.set(i, fs.readFileSync(new URL('public' + stream.chunks[i].url, root))); return raw.get(i); };
-const shown = id => { const p = stream.parts.find(q => q.id === id), b = chunk(p.chunk); return {part: p, positions: new Float32Array(b.buffer.slice(b.byteOffset + p.positions, b.byteOffset + p.positions + p.vertexCount * 12)), indices: new Uint32Array(b.buffer.slice(b.byteOffset + p.indices, b.byteOffset + p.indices + p.indexCount * 4))}; };
+const shown = id => { const p = stream.parts.find(q => q.id === id), b = chunk(p.chunk); return {part: p, positions: positionsOf(b, p), indices: Uint32Array.from(indicesOf(b, p))}; };
 /** Sizes of the connected pieces of a mesh, vertices at the same place counted as one (the creased normals split them). */
 function pieces(positions, indices) {
   const key = new Map(), id = new Int32Array(positions.length / 3);

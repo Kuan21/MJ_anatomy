@@ -5,10 +5,11 @@
 import fs from 'node:fs';
 import {loadFullAtlas} from './lib/full-atlas.mjs';
 import {meshOf, closest} from './lib/heart-geom.mjs';
+import {positionsOf, indicesOf} from './lib/stream-geometry.mjs';
 
 const root = new URL('../', import.meta.url), {atlas, geometry} = loadFullAtlas();
 const stream = JSON.parse(fs.readFileSync(new URL('public/models/atlas-stream.json', root))), chunks = new Map();
-const shown = p => { if (!chunks.has(p.chunk)) chunks.set(p.chunk, fs.readFileSync(new URL('public' + stream.chunks[p.chunk].url, root))); const b = chunks.get(p.chunk); return {positions: new Float32Array(b.buffer.slice(b.byteOffset + p.positions, b.byteOffset + p.positions + p.vertexCount * 12)), indices: new Uint32Array(b.buffer.slice(b.byteOffset + p.indices, b.byteOffset + p.indices + p.indexCount * 4))}; };
+const shown = p => { if (!chunks.has(p.chunk)) chunks.set(p.chunk, fs.readFileSync(new URL('public' + stream.chunks[p.chunk].url, root))); const b = chunks.get(p.chunk); return {positions: positionsOf(b, p), indices: Uint32Array.from(indicesOf(b, p))}; };
 const streamPart = new Map(stream.parts.map(p => [p.id, p]));
 
 const muscles = [];

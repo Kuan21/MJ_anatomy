@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {gzipSync} from 'node:zlib';
 import ts from 'typescript';
+import {indicesOf, normalsOf, positionsOf} from './lib/stream-geometry.mjs';
 const source=fs.readFileSync(new URL('../app/model-download.ts',import.meta.url),'utf8');
 const code=ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ESNext}}).outputText;
 const {decodeModelResponse,fetchModelBuffer,loadMissingChunks}=await import(`data:text/javascript;base64,${Buffer.from(code).toString('base64')}`);
@@ -69,7 +70,7 @@ for(let i=0;i<atlas.parts.length;i++){
  if(after.smoothed){
   // a limb vessel with one smoothing step: more vertices and triangles, same place (bounding box within 1.5 mm), every index valid
   assert.ok(['arterial','venous'].includes(before.system)&&after.vertexCount>before.vertexCount&&after.indexCount>before.indexCount,`${before.name}: smoothing`);
-  const pos=new Float32Array(delivered[after.chunk].buffer.slice(delivered[after.chunk].byteOffset+after.positions,delivered[after.chunk].byteOffset+after.positions+after.vertexCount*12)),idx=new Uint32Array(delivered[after.chunk].buffer.slice(delivered[after.chunk].byteOffset+after.indices,delivered[after.chunk].byteOffset+after.indices+after.indexCount*4));
+  const pos=positionsOf(delivered[after.chunk],after),idx=indicesOf(delivered[after.chunk],after);
   for(let k=0;k<3;k++){let lo=Infinity,hi=-Infinity;for(let v=k;v<pos.length;v+=3){lo=Math.min(lo,pos[v]);hi=Math.max(hi,pos[v]);}assert.ok(Math.abs(lo-before.bounds[0][k])<.0015&&Math.abs(hi-before.bounds[1][k])<.0015,`${before.name}: smoothed vessel moved`);}
   assert.ok(idx.every(v=>v<after.vertexCount),`${before.name}: index out of range`);continue;
  }
@@ -78,7 +79,7 @@ for(let i=0;i<atlas.parts.length;i++){
   // lies inside its original bounds; every index is valid
   // the raw atlas files a few leg muscles (fibularis, tibialis) as bones; the viewer corrects that
   assert.ok(before.system==='muscular'||(before.system==='skeletal'&&/fibularis|tibialis/.test(before.name)),`${before.name}: tendon cut`);
-  const d=delivered[after.chunk],pos=new Float32Array(d.buffer.slice(d.byteOffset+after.positions,d.byteOffset+after.positions+after.vertexCount*12)),idx=new Uint32Array(d.buffer.slice(d.byteOffset+after.indices,d.byteOffset+after.indices+after.indexCount*4));
+  const d=delivered[after.chunk],pos=positionsOf(d,after),idx=indicesOf(d,after);
   for(let k=0;k<3;k++){let lo=Infinity,hi=-Infinity;for(let v=k;v<pos.length;v+=3){lo=Math.min(lo,pos[v]);hi=Math.max(hi,pos[v]);}assert.ok(lo>=before.bounds[0][k]-.0005&&hi<=before.bounds[1][k]+.0005,`${before.name}: cut muscle left its bounds`);}
   assert.ok(idx.every(v=>v<after.vertexCount),`${before.name}: index out of range`);continue;
  }
@@ -86,11 +87,19 @@ for(let i=0;i<atlas.parts.length;i++){
   // a muscle whose drawn shape is repaired (scripts/lib/muscle-reshape.mjs): same id and name, new geometry that stays within 3 mm of the source's bounds (it is only trimmed and smoothed),
   // every index valid, and the part's bounds are the bounds of the delivered vertices
   assert.equal(before.system,'muscular',`${before.name}: reshaped`);
-  const d=delivered[after.chunk],pos=new Float32Array(d.buffer.slice(d.byteOffset+after.positions,d.byteOffset+after.positions+after.vertexCount*12)),idx=new Uint32Array(d.buffer.slice(d.byteOffset+after.indices,d.byteOffset+after.indices+after.indexCount*4));
-  for(let k=0;k<3;k++){let lo=Infinity,hi=-Infinity;for(let v=k;v<pos.length;v+=3){lo=Math.min(lo,pos[v]);hi=Math.max(hi,pos[v]);}assert.ok(lo>=before.bounds[0][k]-.003&&hi<=before.bounds[1][k]+.003,`${before.name}: reshaped muscle left its source bounds`);assert.ok(Math.abs(lo-after.bounds[0][k])<1e-6&&Math.abs(hi-after.bounds[1][k])<1e-6,`${before.name}: bounds do not match the geometry`);}
+  const d=delivered[after.chunk],pos=positionsOf(d,after),idx=indicesOf(d,after);
+  for(let k=0;k<3;k++){let lo=Infinity,hi=-Infinity;for(let v=k;v<pos.length;v+=3){lo=Math.min(lo,pos[v]);hi=Math.max(hi,pos[v]);}assert.ok(lo>=before.bounds[0][k]-.003&&hi<=before.bounds[1][k]+.003,`${before.name}: reshaped muscle left its source bounds`);assert.ok(Math.abs(lo-after.bounds[0][k])<1e-4&&Math.abs(hi-after.bounds[1][k])<1e-4,`${before.name}: bounds do not match the geometry`);}
   assert.ok(idx.every(v=>v<after.vertexCount),`${before.name}: index out of range`);continue;
  }
  assert.equal(after.vertexCount,before.vertexCount);assert.equal(after.indexCount,before.indexCount);
- for(const [key,length] of [['positions',before.vertexCount*12],['normals',before.vertexCount*6],['indices',before.indexCount*4]])assert.deepEqual(delivered[after.chunk].subarray(after[key],after[key]+length),sourceBuffers[before.chunk].subarray(before[key],before[key]+length),`${before.name}: unchanged ${key}`);
+ // compact encoding (P2-01): the decoded geometry is the source geometry — indices identical, positions within the quantisation step (exact when the part keeps Float32), normals within 0.01°
+ {const d=delivered[after.chunk],s=sourceBuffers[before.chunk];
+  const srcPos=new Float32Array(s.buffer.slice(s.byteOffset+before.positions,s.byteOffset+before.positions+before.vertexCount*12)),srcNrm=new Int16Array(s.buffer.slice(s.byteOffset+before.normals,s.byteOffset+before.normals+before.vertexCount*6)),srcIdx=new Uint32Array(s.buffer.slice(s.byteOffset+before.indices,s.byteOffset+before.indices+before.indexCount*4));
+  const pos=positionsOf(d,after),nrm=normalsOf(d,after),idx=indicesOf(d,after);
+  assert.deepEqual(Array.from(idx),Array.from(srcIdx),`${before.name}: unchanged indices`);
+  const tol=after.pq?Math.max(after.pq[3],after.pq[4],after.pq[5])*.5000001+3e-7:0;
+  for(let v=0;v<pos.length;v++)if(Math.abs(pos[v]-srcPos[v])>tol)assert.fail(`${before.name}: position ${v} off by ${Math.abs(pos[v]-srcPos[v])} m`);
+  for(let v=0;v<nrm.length;v+=3){const la=Math.hypot(srcNrm[v],srcNrm[v+1],srcNrm[v+2]);if(la<1)continue;const lb=Math.hypot(nrm[v],nrm[v+1],nrm[v+2])||1,ang=Math.acos(Math.min(1,(srcNrm[v]*nrm[v]+srcNrm[v+1]*nrm[v+1]+srcNrm[v+2]*nrm[v+2])/(la*lb)))*180/Math.PI;if(ang>.01)assert.fail(`${before.name}: normal ${v/3} off by ${ang.toFixed(4)}°`);}
+ }
 }
-console.log(`PASS: 15 source / ${streamed.chunks.length} immutable packages, all ${atlas.parts.length} tissues byte-identical (limb vessels excepted: one smoothing step, same bounds; the tendon-cut and repaired muscles keep their ids), bounded downloads, persistent cache, gzip, failure isolation, resume and timeout.`);
+console.log(`PASS: 15 source / ${streamed.chunks.length} immutable packages, all ${atlas.parts.length} tissues decode to the source geometry (compact encoding; limb vessels excepted: one smoothing step, same bounds; the tendon-cut and repaired muscles keep their ids), bounded downloads, persistent cache, gzip, failure isolation, resume and timeout.`);
