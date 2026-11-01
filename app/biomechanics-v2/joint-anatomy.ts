@@ -96,7 +96,7 @@ export function createJointAnatomy(atlas:Atlas,scene:T.Scene){
   if(surfacesOnly){for(const r of rows)r.mesh.visible=false;return;}
   for(const r of rows){
    const selected=!!selectedName&&r.mesh.name===selectedName,hiddenByName=(s.hiddenNerves??[]).includes(r.mesh.name);
-   r.mesh.visible=!hiddenByName&&explode<.01&&(selected||(s.visible.includes('connective')&&!s.isolate&&s.depthFilter!=='superficial'&&!hidden.has(r.anchor.id)&&(!focus||focus.has(r.anchor.id))));
+   r.mesh.visible=!hiddenByName&&explode<.01&&s.visible.includes('connective')&&(selected||(!s.isolate&&s.depthFilter!=='superficial'&&!hidden.has(r.anchor.id)&&(!focus||focus.has(r.anchor.id))));
    {const m=r.mesh.material,base=r.baseColor??=m.color.getHex(),color=selected?SELECT_COLOR:base,emissive=selected?SELECT_COLOR:0;
     if(m.color.getHex()!==color||m.emissive.getHex()!==emissive){m.color.setHex(color);m.emissive.setHex(emissive);m.emissiveIntensity=selected?.35:0;}}
    // The deformation is a pure function of (mode, input). Skip it, and the normal rebuild, when neither changed:
