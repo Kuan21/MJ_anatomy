@@ -3050,7 +3050,7 @@
     "frame": null
   },
   "FJ2093": {
-    "name": "Set of dorsal digital arteries",
+    "name": "Left fibular artery",
     "rig": "leftLeg",
     "frame": null
   },
@@ -3290,7 +3290,7 @@
     "frame": null
   },
   "FJ2197": {
-    "name": "Set of dorsal digital arteries",
+    "name": "Right fibular artery",
     "rig": "rightLeg",
     "frame": null
   },
@@ -4596,6 +4596,16 @@
   },
   "BP3S-FMA51143": {
     "name": "Left extensor digitorum brevis",
+    "rig": "leftLeg",
+    "frame": null
+  },
+  "FJ2195": {
+    "name": "Right ascending and transverse branches of lateral circumflex femoral artery",
+    "rig": "rightLeg",
+    "frame": null
+  },
+  "FJ2091": {
+    "name": "Left ascending and transverse branches of lateral circumflex femoral artery",
     "rig": "leftLeg",
     "frame": null
   }

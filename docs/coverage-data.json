@@ -1,9 +1,9 @@
 {
  "totals": {
   "terms": 3816,
-  "have": 1216,
+  "have": 1217,
   "findability": 0,
-  "missing": 1125,
+  "missing": 1124,
   "landmark": 262,
   "noise": 650
  },
@@ -1981,6 +1981,14 @@
      "system": "cardiac"
     },
     {
+     "term": "chordae tendineae",
+     "zh": null,
+     "kind": "contained",
+     "model": "Chordae tendineae of bicuspid valve",
+     "source": "heart",
+     "system": "cardiac"
+    },
+    {
      "term": "papillary m",
      "zh": null,
      "kind": "contained",
@@ -2314,7 +2322,7 @@
      "kind": "exact",
      "model": "Right quadriceps tendon",
      "source": "paokao",
-     "system": "connective"
+     "system": "tendon"
     },
     {
      "term": "Rectus femoris m",
@@ -2808,8 +2816,8 @@
      "term": "fibular collateral lig",
      "zh": null,
      "kind": "exact",
-     "model": "Fibular collateral ligament",
-     "source": "joints",
+     "model": "Right fibular collateral ligament",
+     "source": "paokao",
      "system": "connective"
     },
     {
@@ -3040,8 +3048,8 @@
      "term": "Fibular a",
      "zh": null,
      "kind": "exact",
-     "model": "Right fibular artery",
-     "source": "paokao",
+     "model": "Left fibular artery",
+     "source": "atlas",
      "system": "arterial"
     },
     {
@@ -3673,10 +3681,6 @@
     },
     {
      "term": "auricle B. Interatrial septum",
-     "zh": null
-    },
-    {
-     "term": "chordae tendineae",
      "zh": null
     },
     {
@@ -7538,7 +7542,7 @@
      "kind": "exact",
      "model": "Right quadriceps tendon",
      "source": "paokao",
-     "system": "connective"
+     "system": "tendon"
     },
     {
      "term": "obturator externus",
@@ -9601,6 +9605,14 @@
      "system": "cardiac"
     },
     {
+     "term": "Chordae tendineae",
+     "zh": null,
+     "kind": "contained",
+     "model": "Chordae tendineae of bicuspid valve",
+     "source": "heart",
+     "system": "cardiac"
+    },
+    {
      "term": "Supraventricular crest",
      "zh": null,
      "kind": "exact",
@@ -10109,10 +10121,6 @@
     },
     {
      "term": "Posterior and septal papillary muscles",
-     "zh": null
-    },
-    {
-     "term": "Chordae tendineae",
      "zh": null
     },
     {
@@ -14408,8 +14416,8 @@
      "term": "Tendinous arch",
      "zh": "腱弓",
      "kind": "contained",
-     "model": "tendinous arch of levator ani",
-     "source": "atlas",
+     "model": "Right tendinous arch of soleus",
+     "source": "paokao",
      "system": "connective"
     },
     {

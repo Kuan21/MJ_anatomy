@@ -40,10 +40,12 @@ const REGION_OVERRIDES:Record<string,{region:AnatomicalRegion;subregion:Anatomic
  FJ1521M:{region:'upper-limb',subregion:'shoulder',side:'left'}
 };
 
-// These BodyParts3D elements have names that are irreconcilable with their
-// geometry. Keep them in the full atlas for source traceability, but exclude
-// them from regional motion/focus until a corrected source mesh is substituted.
-const MOTION_QUARANTINE=new Set(['FJ2091','FJ2195']);
+// Source elements whose names are irreconcilable with their geometry can be
+// kept in the full atlas for traceability yet excluded from regional
+// motion/focus here. The lateral circumflex femoral branch sets (FJ2091/FJ2195)
+// used to sit here under a wrong source name; they are now renamed through
+// app/anatomy-source-overrides.json and move with the legs, so the set is empty.
+const MOTION_QUARANTINE=new Set<string>([]);
 
 export const partCenter=(part:Part):[number,number,number]=>[
  (part.bounds[0][0]+part.bounds[1][0])*.5,

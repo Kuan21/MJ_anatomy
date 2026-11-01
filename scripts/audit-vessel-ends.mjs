@@ -8,6 +8,10 @@ import fs from 'node:fs';
 import {fileURLToPath} from 'node:url';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const atlas = JSON.parse(fs.readFileSync(root + 'public/models/atlas.json', 'utf8'));
+// The viewer drops the source meshes listed in app/anatomy-source-overrides.json (mislabelled or misplaced pieces) and renames a few: audit the same set, so that no
+// end piece is ever built for a vessel the viewer does not draw (three such pieces used to float at hip height and in the opposite thigh).
+{const over = JSON.parse(fs.readFileSync(root + 'app/anatomy-source-overrides.json', 'utf8')), excluded = new Set(over.exclude);
+ atlas.parts = atlas.parts.filter(p => !excluded.has(p.id)).map(p => ({...p, ...(over.parts[p.id] || {})}));}
 const buffers = new Map(), buf = c => {if (!buffers.has(c)) {const b = fs.readFileSync(root + 'public' + atlas.chunks[c].url); buffers.set(c, b.buffer.slice(b.byteOffset, b.byteOffset + b.length));} return buffers.get(c);};
 const geom = p => {const ab = buf(p.chunk); return {pos: new Float32Array(ab, p.positions, p.vertexCount * 3), idx: new Uint32Array(ab, p.indices, p.indexCount)};};
 const isVessel = p => p.system === 'arterial' || p.system === 'venous';

@@ -72,24 +72,6 @@
   "y": 0.908
  },
  {
-  "id": "FJ2091-END",
-  "name": "Set of calcaneal branches of posterior tibial artery",
-  "system": "arterial",
-  "stream": "vessel-ends",
-  "region": "lower-limb",
-  "side": "left",
-  "y": 0.873
- },
- {
-  "id": "FJ2195-END",
-  "name": "Set of calcaneal branches of posterior tibial artery",
-  "system": "arterial",
-  "stream": "vessel-ends",
-  "region": "lower-limb",
-  "side": "right",
-  "y": 0.877
- },
- {
   "id": "PK-141",
   "name": "Right iliac crest",
   "system": "skeletal",
