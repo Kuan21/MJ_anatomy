@@ -1,0 +1,73 @@
+/* 走向動畫（上下肢共用）。樣式限定在 .flow-anim 內，不影響網站其他畫面。淺色為預設，深色跟隨系統或網站的 .dark。 */
+.flow-anim{
+  --fa-stage:#cdd5da;--fa-panel:#ffffff;--fa-ink:#1e2a33;--fa-muted:#5c6b76;--fa-line:#e3e8eb;
+  --fa-accent:#2f8a66;--fa-accent-soft:#e6f3ee;--fa-tag:#ffffff;--fa-tag-ink:#1e2a33;
+  color-scheme:light;
+  position:fixed;inset:0;z-index:200;display:flex;overflow:hidden;box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  background:var(--fa-panel);color:var(--fa-ink);
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  .flow-anim:not([data-theme="light"]){--fa-stage:#2a3238;--fa-panel:#1b2126;--fa-ink:#e7ecef;--fa-muted:#9aa7b0;--fa-line:#2e373d;--fa-accent:#5cc79d;--fa-accent-soft:#1f3a30;--fa-tag:#232b31;--fa-tag-ink:#e7ecef;color-scheme:dark}
+}
+.dark .flow-anim,.flow-anim[data-theme="dark"]{--fa-stage:#2a3238;--fa-panel:#1b2126;--fa-ink:#e7ecef;--fa-muted:#9aa7b0;--fa-line:#2e373d;--fa-accent:#5cc79d;--fa-accent-soft:#1f3a30;--fa-tag:#232b31;--fa-tag-ink:#e7ecef;color-scheme:dark}
+.flow-anim *,.flow-anim *::before,.flow-anim *::after{box-sizing:border-box}
+.flow-anim .fa-stage{position:relative;flex:3 1 0;min-width:0;background:var(--fa-stage);overflow:hidden}
+.flow-anim .fa-stage canvas{display:block;width:100%;height:100%;touch-action:none;cursor:default}
+.flow-anim .fa-tags{position:absolute;inset:0;pointer-events:none}
+.flow-anim .fa-leaders{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.flow-anim .fa-hint{position:absolute;left:14px;bottom:12px;font-size:12px;color:var(--fa-muted)}
+.flow-anim .fa-legend{position:absolute;left:14px;top:12px;display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12.5px;color:var(--fa-ink);max-width:calc(100% - 150px)}
+.flow-anim .fa-legend span{display:inline-flex;align-items:center;gap:6px}
+.flow-anim .fa-legend i{display:inline-block;width:18px;height:5px;border-radius:3px}
+.flow-anim .fa-tag{position:absolute;left:0;top:0;background:var(--fa-tag);color:var(--fa-tag-ink);font-size:13px;font-weight:500;line-height:1.25;padding:4px 8px;border-radius:6px;border-left:3px solid var(--c,#999);box-shadow:0 1px 4px rgba(0,0,0,.18);white-space:nowrap;transition:opacity .4s;will-change:transform}
+.flow-anim .fa-tag small{display:block;color:var(--fa-muted);font-size:11px;font-weight:400}
+.flow-anim button.fa-close{position:absolute;right:12px;top:10px;z-index:3;display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 12px;border:1px solid var(--fa-line);border-radius:10px;background:var(--fa-panel);color:var(--fa-ink);font-size:13px;font-weight:500;box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.flow-anim button.fa-close:hover{background:var(--fa-accent-soft);color:var(--fa-ink)}
+.flow-anim button:focus-visible{outline:2px solid var(--fa-accent);outline-offset:2px}
+.flow-anim .fa-panel{flex:1 1 0;min-width:290px;max-width:440px;border-left:1px solid var(--fa-line);display:flex;flex-direction:column;overflow:hidden}
+.flow-anim .fa-panel header{padding:18px 20px 12px;border-bottom:1px solid var(--fa-line)}
+.flow-anim .fa-h1{font-size:17px;margin:0 0 2px;font-weight:700;line-height:normal}
+.flow-anim .fa-sub{font-size:13px;color:var(--fa-muted)}
+.flow-anim .fa-modes{display:flex;gap:0;margin:12px 0 0;background:var(--fa-line);border-radius:8px;padding:3px}
+.flow-anim .fa-modes button{flex:1;font:inherit;font-size:14px;border:0;background:transparent;color:var(--fa-muted);padding:6px 0;min-height:36px;border-radius:6px;cursor:pointer}
+.flow-anim .fa-modes button:hover{background:transparent;color:var(--fa-ink)}
+.flow-anim .fa-modes button[aria-pressed="true"]{background:var(--fa-panel);color:var(--fa-ink);font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.flow-anim .fa-steps{list-style:none;margin:12px 0 0;padding:0;display:flex;gap:4px}
+.flow-anim .fa-steps li{flex:1;height:4px;border-radius:2px;background:var(--fa-line);position:relative;overflow:hidden}
+.flow-anim .fa-steps li.done{background:var(--fa-accent);opacity:.45}
+.flow-anim .fa-steps li span{position:absolute;inset:0;background:var(--fa-accent);transform-origin:left;transform:scaleX(0)}
+.flow-anim .fa-steps li:not(.now) span{display:none}
+.flow-anim .fa-body{padding:16px 20px 24px;overflow-y:auto;flex:1;transition:opacity .35s;overscroll-behavior:contain}
+.flow-anim .fa-body.fade{opacity:0}
+.flow-anim .fa-count{font-size:13px;color:var(--fa-muted)}
+.flow-anim .fa-title{font-size:22px;font-weight:700;margin:4px 0 0;line-height:1.3}
+.flow-anim .fa-en{font-size:14px;color:var(--fa-muted);margin-bottom:14px}
+.flow-anim .fa-sec{margin:0 0 14px}
+.flow-anim .fa-sec h3{font-size:13px;font-weight:700;color:var(--fa-accent);margin:0 0 4px}
+.flow-anim .fa-sec p{font-size:14.5px;line-height:1.75;margin:0}
+.flow-anim .fa-clin{background:var(--fa-accent-soft);border-radius:8px;padding:10px 12px}
+@media (max-width:760px),(orientation:portrait) and (max-width:1000px){
+  .flow-anim{flex-direction:column}
+  .flow-anim .fa-stage{flex:none;height:56%}
+  .flow-anim .fa-panel{flex:1;max-width:none;min-width:0;border-left:none;border-top:1px solid var(--fa-line)}
+  .flow-anim .fa-panel header{padding:10px 14px 8px}
+  .flow-anim .fa-h1{font-size:15px}
+  .flow-anim .fa-sub,.flow-anim .fa-hint{display:none}
+  .flow-anim .fa-modes{margin-top:8px}
+  .flow-anim .fa-modes button{font-size:13px;padding:5px 0}
+  .flow-anim .fa-steps{margin-top:8px}
+  .flow-anim .fa-body{padding:12px 14px 20px}
+  .flow-anim .fa-title{font-size:19px}
+  .flow-anim .fa-en{margin-bottom:10px}
+  .flow-anim .fa-sec p{font-size:14px;line-height:1.7}
+  .flow-anim .fa-legend{font-size:11px;gap:4px 10px;top:8px;left:10px;max-width:calc(100% - 130px)}
+  .flow-anim .fa-tag{font-size:12px;padding:3px 7px}
+  .flow-anim .fa-tag small{font-size:10px}
+  .flow-anim button.fa-close{right:8px;top:6px;padding:0 10px}
+}
+@media (prefers-reduced-motion:reduce){.flow-anim .fa-body,.flow-anim .fa-tag{transition:none}}
+.flow-anim.flow-loading{flex-direction:column;align-items:center;justify-content:center;gap:16px;font-size:15px}
+.flow-anim.flow-loading p{margin:0}
+.flow-anim.flow-loading button{min-height:44px;padding:0 18px;border:1px solid var(--fa-line);border-radius:10px;background:var(--fa-panel);color:var(--fa-ink)}
