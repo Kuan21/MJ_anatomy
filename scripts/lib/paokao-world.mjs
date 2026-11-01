@@ -11,9 +11,10 @@ export function loadWorld({paokao = false} = {}) {
   const entries = [];   // {name, system, positions, indices} (lazy)
   const bufs = new Map(), buffer = (url, gz) => { if (!bufs.has(url)) { const b = read(url.replace(/^\/models\//, '')); bufs.set(url, gz ? gunzipSync(b) : b); } return bufs.get(url); };
   const atlas = JSON.parse(read('atlas.json'));
-  // The same source corrections the viewer applies (app/anatomy-source-overrides.json): excluded meshes are not in the world, renamed ones carry the viewer's name.
-  {const over = JSON.parse(fs.readFileSync(new URL('../../app/anatomy-source-overrides.json', import.meta.url), 'utf8')), ex = new Set(over.exclude);
-   atlas.parts = atlas.parts.filter(p => !ex.has(p.id)).map(p => ({...p, ...(over.parts[p.id] || {})}));}
+  // Renamed source meshes carry the viewer's name (app/anatomy-source-overrides.json), so a spec or check can refer to a vessel by the name the viewer shows.
+  // Excluded meshes stay in the world: some are still landmarks for building schematic structures (e.g. the source flexor retinacula of the wrist).
+  {const over = JSON.parse(fs.readFileSync(new URL('../../app/anatomy-source-overrides.json', import.meta.url), 'utf8'));
+   atlas.parts = atlas.parts.map(p => ({...p, ...(over.parts[p.id] || {})}));}
   for (const p of atlas.parts) entries.push({name: p.name, id: p.id, concept: p.conceptId, system: p.system, load: () => { const b = buffer(atlas.chunks[p.chunk].url); return {positions: f32(b, p.positions, p.vertexCount * 3), indices: u32(b, p.indices, p.indexCount)}; }});
   for (const f of ['supplement/supplement-stream.json.gz', 'serous/serous-stream.json.gz', 'female/female-stream.json.gz']) {
     const m = JSON.parse(gunzipSync(read(f)));
