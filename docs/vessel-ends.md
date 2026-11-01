@@ -1,14 +1,14 @@
 # 血管末端審核
 
-共檢查 10373 個血管末端（動脈與靜脈；每個血管網格的各分支尖端）。
+共檢查 10328 個血管末端（動脈與靜脈；每個血管網格的各分支尖端）。
 
 | 處理 | 數量 | 說明 |
 | --- | ---: | --- |
-| 原本已相連 | 3411 | 末端接到同類型的上游或分支血管，不處理 |
-| 補接（connector） | 683 | 12 mm 內有同類型血管，加一條細而彎的連接管，接回母血管 |
+| 原本已相連 | 3402 | 末端接到同類型的上游或分支血管，不處理 |
+| 補接（connector） | 681 | 12 mm 內有同類型血管，加一條細而彎的連接管，接回母血管 |
 | 樣條橋接（bridge） | 369 | 上肢與下肢：下一段血管距離大於本段管徑一半者，加一條口徑漸變的樣條連接管（半徑由本段漸變到下一段），取代簡單連接管 |
-| 漸細（fade） | 2684 | 半徑 1.8 mm 以下的小血管，真實解剖上止於肌肉、器官或筋膜；末端收成尖端，資料卡註明「末端逐漸變細，進入周圍組織」 |
-| 進入器官／其他（enters） | 3226 | 較大的血管進入器官或骨（如主動脈根部、肝靜脈進入肝），不改形狀，列在下方供人工複查 |
+| 漸細（fade） | 2669 | 半徑 1.8 mm 以下的小血管，真實解剖上止於肌肉、器官或筋膜；末端收成尖端，資料卡註明「末端逐漸變細，進入周圍組織」 |
+| 進入器官／其他（enters） | 3207 | 較大的血管進入器官或骨（如主動脈根部、肝靜脈進入肝），不改形狀，列在下方供人工複查 |
 
 ## 補接與未處理清單
 
@@ -131,10 +131,9 @@
 | Right dorsalis pedis artery (FJ2055) | enters × 4 | 2.4 | 2.5 | 0 |
 | Right dorsalis pedis artery (FJ2055) | gap × 1 | 1.7 | 3 | 4.6 |
 | Deep dorsal vein of penis (FJ2056) | enters × 2 | 0 | 4.5 | 0.6 |
-| Descending branch of right lateral circumflex femoral artery (FJ2057) | enters × 32 | 2.6 | 22.9 | 0.1 |
+| Descending branch of right lateral circumflex femoral artery (FJ2057) | enters × 33 | 2.6 | 3.9 | 0.1 |
 | Dorsal venous arch of right foot (FJ2061) | enters × 1 | 0 | 15 | 7.5 |
-| Descending branch of left lateral circumflex femoral artery (FJ2063) | enters × 33 | 2.5 | 15.3 | 0 |
-| Descending branch of left lateral circumflex femoral artery (FJ2063) | gap × 1 | 2.7 | 9.3 | 4.1 |
+| Descending branch of left lateral circumflex femoral artery (FJ2063) | enters × 34 | 2.7 | 15.3 | 0 |
 | Left anterior tibial artery (FJ2065) | enters × 28 | 2.8 | 2.9 | 0.1 |
 | Left anterior tibial recurrent artery (FJ2066) | enters × 1 | 0 | 2.5 | 1.9 |
 | Left descending genicular artery (FJ2069) | gap × 3 | 2.6 | 3.5 | 4.1 |
@@ -145,7 +144,7 @@
 | Left inferior lateral genicular artery (FJ2076) | enters × 1 | 1.9 | 15.5 | 1.4 |
 | Left inferior lateral genicular artery (FJ2076) | gap × 1 | 0.8 | 10.3 | 5 |
 | Left inferior medial genicular artery (FJ2077) | enters × 3 | 2.1 | 5.6 | 0.9 |
-| Left lateral circumflex femoral artery (FJ2078) | enters × 2 | 0 | 4.2 | 1.2 |
+| Left lateral circumflex femoral artery (FJ2078) | enters × 2 | 0 | 12 | 1.2 |
 | Left lateral plantar artery (FJ2079) | enters × 1 | 0 | 2.7 | 2.7 |
 | Left lateral superior genicular artery (FJ2080) | enters × 3 | 1.8 | 5.9 | 0 |
 | Left medial superior genicular artery (FJ2083) | gap × 1 | 1 | 3.3 | 5.2 |
@@ -155,8 +154,6 @@
 | Left popliteal artery (FJ2086) | enters × 9 | 2.9 | 5 | 0.2 |
 | Left posterior tibial artery (FJ2087) | enters × 20 | 1.9 | 5.5 | 0.1 |
 | Set of perforating arteries (FJ2090) | enters × 2 | 0 | 3.7 | 0.9 |
-| Set of calcaneal branches of posterior tibial artery (FJ2091) | enters × 10 | 2.6 | 2.7 | 0.5 |
-| Set of calcaneal branches of posterior tibial artery (FJ2091) | gap × 1 | 2.2 | 6.8 | 5.3 |
 | Set of dorsal digital arteries (FJ2093) | enters × 21 | 2.2 | 5.7 | 0.2 |
 | Set of perforating arteries (FJ2094) | enters × 19 | 2.5 | 2.6 | 0 |
 | Set of perforating arteries (FJ2094) | gap × 2 | 2.5 | 5.8 | 7.1 |
@@ -198,7 +195,7 @@
 | Right genicular vein (FJ2151) | gap × 1 | 1 | 8.3 | 4.4 |
 | Right genicular vein (FJ2151) | enters × 1 | 1.9 | 11.3 | 1.1 |
 | Right inferior medial genicular artery (FJ2152) | enters × 3 | 2.2 | 2.6 | 0.4 |
-| Right lateral circumflex femoral artery (FJ2158) | enters × 2 | 0 | 3.9 | 0.1 |
+| Right lateral circumflex femoral artery (FJ2158) | enters × 2 | 0 | 10.8 | 0.1 |
 | Right lateral plantar artery (FJ2159) | enters × 2 | 0 | 3.3 | 1.7 |
 | Tributary of plantar venous arch (FJ2160) | enters × 2 | 0 | 2.6 | 0.2 |
 | Right lateral superior genicular artery (FJ2162) | enters × 3 | 2.1 | 3.4 | 0.3 |
@@ -222,14 +219,13 @@
 | Left lateral circumflex femoral vein (FJ2188) | gap × 2 | 2.3 | 9.6 | 6 |
 | Left medial circumflex femoral vein (FJ2189) | gap × 2 | 1 | 3.5 | 4.8 |
 | Left medial circumflex femoral vein (FJ2189) | enters × 3 | 0 | 19.4 | 6.1 |
-| Right fibular vein (FJ2190) | enters × 2 | 0 | 5.5 | 0.2 |
+| Left fibular vein (FJ2190) | enters × 2 | 0 | 5.5 | 0.2 |
 | Plantar metatarsal vein (FJ2191) | enters × 1 | 0 | 10.2 | 0.4 |
 | Set of perforating veins (FJ2192) | enters × 1 | 0 | 11.7 | 11.2 |
 | Right anterior tibial vein (FJ2193) | enters × 18 | 2.9 | 4.8 | 0.1 |
-| Set of calcaneal branches of posterior tibial artery (FJ2195) | enters × 11 | 2.6 | 5.2 | 0.2 |
 | Set of dorsal digital arteries (FJ2197) | enters × 23 | 2.1 | 4.6 | 0.1 |
 | Set of dorsal digital veins (FJ2198) | enters × 1 | 0 | 7.8 | 0.9 |
-| Dorsal metacarpal vein (FJ2199) | enters × 4 | 0 | 5.6 | 0.9 |
+| Right dorsal metatarsal vein (FJ2199) | enters × 4 | 0 | 5.6 | 0.9 |
 | Right fibular vein (FJ2200) | enters × 26 | 2.8 | 16.9 | 0.4 |
 | Right lateral circumflex femoral vein (FJ2201) | enters × 12 | 2.5 | 7.1 | 0.1 |
 | Right lateral circumflex femoral vein (FJ2201) | gap × 1 | 1.3 | 9.8 | 6.2 |
