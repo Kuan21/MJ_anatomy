@@ -74,7 +74,7 @@ for (const side of ['Left', 'Right']) {
     assert.ok(catalogue.structures.some(s => s.name === `${side} ${name}`), `Missing ${side} ${name}`);
   }
 }
-assert.ok(!meshes.has('FJ2091') && !meshes.has('FJ2195'), 'Quarantined source identities stay out of the quiz');
+assert.ok(meshes.has('FJ2091') && meshes.has('FJ2195'), 'the lateral circumflex femoral branch sets (once quarantined under their wrong source name) are in the quiz');
 assert.equal(catalogue.structures.find(s => s.meshIds.includes('FJ2186')).system, 'venous');
 assert.equal(catalogue.structures.find(s => s.meshIds.includes('FJ1438')).system, 'muscular');
 assert.equal(new Set(catalogue.structures.filter(s => s.name === 'Left internal iliac vein').flatMap(s => s.meshIds)).size, 3, 'Split source pieces form one answer');

@@ -86,9 +86,16 @@ for(const id of ['FJ2777','FJ2778','FJ2781','FJ2782','FJ2783','FJ2789','FJ2794',
  assert.ok(head.has(id),id+' missing from head-neck focus');
 }
 
-for(const id of ['FJ2091','FJ2195']){
- assert.ok(!byId.has(id),'Excluded source anomaly still exists at runtime: '+id);
- assert.ok(!upper.has(id)&&!lower.has(id)&&!head.has(id),'Excluded source anomaly leaked into focus: '+id);
+// The lateral circumflex femoral branch sets were once quarantined under a
+// wrong source name; renamed, they must be ordinary lower-limb arteries that
+// share the focus membership of the parent artery on each side.
+for(const [id,expected,parentId] of [['FJ2091','Left ascending and transverse branches of lateral circumflex femoral artery','FJ2078'],['FJ2195','Right ascending and transverse branches of lateral circumflex femoral artery','FJ2158']]){
+ const p=requirePart(id);
+ assert.equal(p.name,expected,id+' must carry its corrected runtime name');
+ assert.equal(regions.anatomicalRegion(p),'lower-limb',id+' is a thigh artery');
+ assert.ok(!regions.isMotionQuarantined(p),id+' must no longer be quarantined from motion');
+ assert.equal(lower.has(id),lower.has(parentId),id+' must share lower-limb focus with its parent artery '+parentId);
+ assert.ok(lower.has(id),id+' missing from lower-limb focus');
 }
 
 console.log(`Region/focus regression audit passed: ${upper.size} upper-limb, ${lower.size} lower-limb, ${head.size} head-neck meshes.`);

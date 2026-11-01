@@ -1,10 +1,10 @@
 # Quiz 第二級額外接受的答案
 
 此檔由 `node scripts/report-quiz-accepted-names.mjs` 產生，請勿手改。除了構造自己的英文名、中文名、括號內別名與同義詞表（`app/quiz/synonyms.ts`，列在 REVIEW_LOG）之外，第二級還接受下列寫法；群名只算「接近」並列入錯題。左右兩側同一規則，只列一側。
-合計 187 個構造有額外接受的寫法。
+合計 188 個構造有額外接受的寫法。
 
 
-## 下肢（lower）：35 個構造
+## 下肢（lower）：36 個構造
 
 | 題目 | 中文 | 也接受 | 只算接近 |
 | --- | --- | --- | --- |
@@ -35,6 +35,7 @@
 | Left lateral superior genicular artery | 左膝上外側動脈 | superior lateral genicular artery |  |
 | Left medial superior genicular artery | 左膝上內側動脈 | superior medial genicular artery |  |
 | Left plantar arch | 左足底動脈弓 | deep plantar arch |  |
+| Left ascending and transverse branches of lateral circumflex femoral artery | 左旋股外側動脈升支與橫支 | ascending branch of lateral circumflex femoral artery、transverse branch of lateral circumflex femoral artery |  |
 | Right hip bone | 右髖骨 | Right coxal bone |  |
 | Left first metatarsal bone | 左第一蹠骨 | Left 1st metatarsal bone |  |
 | Left second metatarsal bone | 左第二蹠骨 | Left 2nd metatarsal bone |  |
