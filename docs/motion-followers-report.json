@@ -14,19 +14,13 @@
  {
   "region": "leftLeg",
   "belong": 260,
-  "still": [
-   "FJ2091 Left ascending and transverse branches of lateral circumflex femoral artery",
-   "FJ2091-END Left ascending and transverse branches of lateral circumflex femoral artery"
-  ],
+  "still": [],
   "flung": []
  },
  {
   "region": "rightLeg",
   "belong": 262,
-  "still": [
-   "FJ2195 Right ascending and transverse branches of lateral circumflex femoral artery",
-   "FJ2195-END Right ascending and transverse branches of lateral circumflex femoral artery"
-  ],
+  "still": [],
   "flung": []
  },
  {

@@ -1,23 +1,5 @@
 [
  {
-  "id": "FJ2091",
-  "name": "Left ascending and transverse branches of lateral circumflex femoral artery",
-  "system": "arterial",
-  "stream": "atlas",
-  "region": "lower-limb",
-  "side": "left",
-  "y": 0.877
- },
- {
-  "id": "FJ2195",
-  "name": "Right ascending and transverse branches of lateral circumflex femoral artery",
-  "system": "arterial",
-  "stream": "atlas",
-  "region": "lower-limb",
-  "side": "right",
-  "y": 0.877
- },
- {
   "id": "FJ2815",
   "name": "Pubic hair",
   "system": "integumentary",
