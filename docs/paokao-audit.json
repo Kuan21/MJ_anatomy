@@ -5156,11 +5156,11 @@
    "name": "Ascending branch of lateral circumflex femoral artery",
    "section": "下肢／大腿前區間",
    "status": "have",
-   "via": "contained",
+   "via": "alias",
    "model": "Left ascending and transverse branches of lateral circumflex femoral artery",
    "source": "atlas",
-   "kind": "contained",
-   "findable": false
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 418,
@@ -5168,11 +5168,11 @@
    "name": "Transverse branch of lateral circumflex femoral artery",
    "section": "下肢／大腿前區間",
    "status": "have",
-   "via": "contained",
+   "via": "alias",
    "model": "Left ascending and transverse branches of lateral circumflex femoral artery",
    "source": "atlas",
-   "kind": "contained",
-   "findable": false
+   "kind": "exact",
+   "findable": true
   },
   {
    "index": 419,

@@ -8,7 +8,7 @@ Adjacent segments (gap, tangent and diameter between the end of one vessel and t
 
 None.
 
-## End caps (7618 pieces in 378 vessels): fewer than 12 vertices each, informational
+## End caps (7618 pieces in 379 vessels): fewer than 12 vertices each, informational
 
 - Hepatovenous segment IV: 526
 - Right posterior inferior cerebellar artery: 408

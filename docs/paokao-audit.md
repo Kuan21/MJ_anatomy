@@ -613,8 +613,8 @@
 | 414 | deep external pudendal a | deep external pudendal artery | 新增示意模型 | Right deep external pudendal artery | paokao |
 | 415 | deep femoral a | deep femoral artery | 新增示意模型 | Right deep femoral artery | paokao |
 | 416 | lateral circumflex femoral a | lateral circumflex femoral artery | 已有 | Left lateral circumflex femoral artery | atlas |
-| 417 | Ascending br | Ascending branch of lateral circumflex femoral artery | 已有（contained） | Left ascending and transverse branches of lateral circumflex femoral artery | atlas |
-| 418 | Transverse br | Transverse branch of lateral circumflex femoral artery | 已有（contained） | Left ascending and transverse branches of lateral circumflex femoral artery | atlas |
+| 417 | Ascending br | Ascending branch of lateral circumflex femoral artery | 已有（alias） | Left ascending and transverse branches of lateral circumflex femoral artery | atlas |
+| 418 | Transverse br | Transverse branch of lateral circumflex femoral artery | 已有（alias） | Left ascending and transverse branches of lateral circumflex femoral artery | atlas |
 | 419 | Descending br | Descending branch of lateral circumflex femoral artery | 已有 | Descending branch of right lateral circumflex femoral artery | atlas |
 | 420 | medial circumflex femoral a | medial circumflex femoral artery | 新增示意模型 | Right medial circumflex femoral artery | paokao |
 | 421 | pectineus m | pectineus muscle | 已有 | Right pectineus | atlas |
@@ -846,8 +846,6 @@
 | Pulmonary vein | Left superior pulmonary vein | contained |
 | Cardiac impression | Cardiac impression of left lung | contained |
 | Anterior femoral cutaneous nerve | Anterior cutaneous branches of femoral nerve | contained |
-| Ascending branch of lateral circumflex femoral artery | Left ascending and transverse branches of lateral circumflex femoral artery | contained |
-| Transverse branch of lateral circumflex femoral artery | Left ascending and transverse branches of lateral circumflex femoral artery | contained |
 | Gastrocnemius muscle | Lateral head of right gastrocnemius | contained |
 | genicular artery | Left descending genicular artery | contained |
 | tibial collateral ligament | Deep part of tibial collateral ligament | contained |
