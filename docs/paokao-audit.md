@@ -4,8 +4,8 @@
 
 | 狀態 | 項數 | 說明 |
 | --- | ---: | --- |
-| 已有 | 416 | 模型原本就有（含別名拼法） |
-| 新增示意模型 | 155 | 公開圖譜沒有，依真實解剖位置新做 |
+| 已有 | 418 | 模型原本就有（含別名拼法） |
+| 新增示意模型 | 153 | 公開圖譜沒有，依真實解剖位置新做 |
 | 屬於已有結構的一部分 | 14 | 肌頭、肌腱等，包含在對應肌肉內 |
 | 略過 | 7 | 非結構詞，原因見下 |
 | 缺少 | 0 | 仍缺（build 失敗） |
@@ -144,14 +144,13 @@
 | 413 | superficial external pudendal a | superficial external pudendal artery | 下肢／大腿前區間 | Right superficial external pudendal artery |
 | 414 | deep external pudendal a | deep external pudendal artery | 下肢／大腿前區間 | Right deep external pudendal artery |
 | 415 | deep femoral a | deep femoral artery | 下肢／大腿前區間 | Right deep femoral artery |
-| 417 | Ascending br | Ascending branch of lateral circumflex femoral artery | 下肢／大腿前區間 | Right ascending branch of lateral circumflex femoral artery |
-| 418 | Transverse br | Transverse branch of lateral circumflex femoral artery | 下肢／大腿前區間 | Right transverse branch of lateral circumflex femoral artery |
 | 420 | medial circumflex femoral a | medial circumflex femoral artery | 下肢／大腿前區間 | Right medial circumflex femoral artery |
 | 422 | perforating br | Perforating branch of deep femoral artery | 下肢／大腿前區間 | Right perforating branch of deep femoral artery |
 | 423 | adductor hiatus | Adductor hiatus | 下肢／大腿前區間 | Right adductor hiatus |
 | 441 | perforating br. of deep femoral a | Perforating branch of deep femoral artery | 下肢／大腿後側區間 | Right perforating branch of deep femoral artery |
 | 452 | lateral sural cutaneous n | lateral sural cutaneous nerve | 下肢／膕窩 | Right lateral sural cutaneous nerve |
 | 456 | Patellar lig | Patellar ligament | 下肢／膝關節附近 | Right patellar ligament |
+| 459 | fibular collateral lig | fibular collateral ligament | 下肢／膝關節附近 | Right fibular collateral ligament |
 | 469 | anterior lateral malleolar a | anterior lateral malleolar artery | 下肢／小腿前區間 | Right anterior lateral malleolar artery |
 | 470 | anterior medial malleolar a | anterior medial malleolar artery | 下肢／小腿前區間 | Right anterior medial malleolar artery |
 | 472 | lateral br | Lateral branch of deep fibular nerve | 下肢／小腿前區間 | Right lateral branch of deep fibular nerve |
@@ -161,11 +160,10 @@
 | 481 | Inf. fibular retinaculum | inferior fibular retinaculum | 下肢／小腿外側區間 | Right inferior fibular retinaculum |
 | 490 | tarsal tunnel | Tarsal tunnel | 下肢／小腿後區間 | Right tarsal tunnel |
 | 495 | Circumflex fibular a | Circumflex fibular artery | 下肢／小腿後區間 | Right circumflex fibular artery |
-| 496 | Fibular a | Fibular artery | 下肢／小腿後區間 | Right fibular artery |
 | 497 | flexor retinaculum | Flexor retinaculum of ankle | 下肢／Tarsal tunnel：在內踝由屈肌支持帶  | Right flexor retinaculum of ankle |
 | 506 | sup. extensor retinaculum | Superior extensor retinaculum of foot | 下肢／足背 | Right superior extensor retinaculum of foot |
 | 507 | inf. extensor retinaculum | Inferior extensor retinaculum of foot | 下肢／足背 | Right inferior extensor retinaculum of foot |
-| 509 | plantar aponeurosis | plantar aponeurosis | 下肢／足底：注意分層，但是拇指和小指的部分不用分層也看 | plantar aponeurosis |
+| 509 | plantar aponeurosis | plantar aponeurosis | 下肢／足底：注意分層，但是拇指和小指的部分不用分層也看 | Right plantar aponeurosis |
 | 513 | lat. plantar v | Lateral plantar vein | 下肢／足底：注意分層，但是拇指和小指的部分不用分層也看 | Right lateral plantar vein |
 | 530 | Thoracolumber fascia | Thoracolumbar fascia | Superficial layer （2 | thoracolumbar fascia |
 | 539 | a. Recurrent br. of median n | Recurrent branch of median nerve | 上肢神經 | Right recurrent branch of median nerve |
@@ -537,7 +535,7 @@
 | 341 | Moderator band | Moderator band | 已有（alias） | Septomarginal trabecula (moderator band) | heart |
 | 342 | Supraventricular crest | Supraventricular crest | 已有 | Supraventricular crest | heart |
 | 343 | Post. papillary m | Anterolateral papillary muscle of left ventricle | 已有 | Anterolateral papillary muscle of left ventricle | heart |
-| 343 | Post. papillary m | Posteromedial papillary muscle of left ventricle | 已有（alias） | Inferior papillary muscle of right ventricle | heart |
+| 343 | Post. papillary m | Posterior papillary muscle of left ventricle | 已有 | Posterior papillary muscle of right ventricle | atlas |
 | 344 | Pulmonary v | Pulmonary vein | 已有（contained） | Left superior pulmonary vein | atlas |
 | 345 | C. Pulmonary lig | Pulmonary ligament | 新增示意模型 | Left pulmonary ligament | paokao |
 | 346 | Lingula | Lingula of left lung | 新增示意模型 | Lingula of left lung | paokao |
@@ -615,8 +613,8 @@
 | 414 | deep external pudendal a | deep external pudendal artery | 新增示意模型 | Right deep external pudendal artery | paokao |
 | 415 | deep femoral a | deep femoral artery | 新增示意模型 | Right deep femoral artery | paokao |
 | 416 | lateral circumflex femoral a | lateral circumflex femoral artery | 已有 | Left lateral circumflex femoral artery | atlas |
-| 417 | Ascending br | Ascending branch of lateral circumflex femoral artery | 新增示意模型 | Right ascending branch of lateral circumflex femoral artery | paokao |
-| 418 | Transverse br | Transverse branch of lateral circumflex femoral artery | 新增示意模型 | Right transverse branch of lateral circumflex femoral artery | paokao |
+| 417 | Ascending br | Ascending branch of lateral circumflex femoral artery | 已有（contained） | Left ascending and transverse branches of lateral circumflex femoral artery | atlas |
+| 418 | Transverse br | Transverse branch of lateral circumflex femoral artery | 已有（contained） | Left ascending and transverse branches of lateral circumflex femoral artery | atlas |
 | 419 | Descending br | Descending branch of lateral circumflex femoral artery | 已有 | Descending branch of right lateral circumflex femoral artery | atlas |
 | 420 | medial circumflex femoral a | medial circumflex femoral artery | 新增示意模型 | Right medial circumflex femoral artery | paokao |
 | 421 | pectineus m | pectineus muscle | 已有 | Right pectineus | atlas |
@@ -657,7 +655,7 @@
 | 456 | Patellar lig | Patellar ligament | 新增示意模型 | Right patellar ligament | paokao |
 | 457 | ant. Cruciate lig | anterior Cruciate ligament | 已有 | Anterior cruciate ligament | joints |
 | 458 | post. Cruciate lig | posterior Cruciate ligament | 已有 | Posterior cruciate ligament | joints |
-| 459 | fibular collateral lig | fibular collateral ligament | 已有 | Fibular collateral ligament | joints |
+| 459 | fibular collateral lig | fibular collateral ligament | 新增示意模型 | Right fibular collateral ligament | paokao |
 | 460 | tibial collateral lig | tibial collateral ligament | 已有（contained） | Deep part of tibial collateral ligament | joints |
 | 461 | tendon of popliteus m | Tendon of popliteus muscle | 已有（部分） | Right popliteus | atlas |
 | 462 | lat. meniscus | lateral meniscus | 已有 | Lateral meniscus | joints |
@@ -694,7 +692,7 @@
 | 493 | Popliteus m | Popliteus muscle | 已有 | Right popliteus | atlas |
 | 494 | Posterior tibial a | Posterior tibial artery | 已有 | Left posterior tibial artery | atlas |
 | 495 | Circumflex fibular a | Circumflex fibular artery | 新增示意模型 | Right circumflex fibular artery | paokao |
-| 496 | Fibular a | Fibular artery | 新增示意模型 | Right fibular artery | paokao |
+| 496 | Fibular a | Fibular artery | 已有 | Left fibular artery | atlas |
 | 497 | flexor retinaculum | Flexor retinaculum of ankle | 新增示意模型 | Right flexor retinaculum of ankle | paokao |
 | 498 | tendon of Tibialis Posterior m | Tendon of tibialis posterior muscle | 已有（部分） | Right tibialis posterior | atlas |
 | 499 | tendon of Flexor Digitorum longus m | Tendon of flexor digitorum longus muscle | 已有（部分） | Right flexor digitorum longus | atlas |
@@ -707,7 +705,7 @@
 | 506 | sup. extensor retinaculum | Superior extensor retinaculum of foot | 新增示意模型 | Right superior extensor retinaculum of foot | paokao |
 | 507 | inf. extensor retinaculum | Inferior extensor retinaculum of foot | 新增示意模型 | Right inferior extensor retinaculum of foot | paokao |
 | 508 | deep plantar a | deep plantar artery | 已有 | Left deep plantar artery | atlas |
-| 509 | plantar aponeurosis | plantar aponeurosis | 新增示意模型 | plantar aponeurosis | paokao |
+| 509 | plantar aponeurosis | plantar aponeurosis | 新增示意模型 | Right plantar aponeurosis | paokao |
 | 510 | abductor hallucis m | abductor hallucis muscle | 已有 | Right abductor hallucis | atlas |
 | 511 | flexor digitorum brevis m | flexor digitorum brevis muscle | 已有 | Right flexor digitorum brevis | atlas |
 | 512 | quadratus plantae m | quadratus plantae muscle | 已有 | Right flexor accessorius | atlas |
@@ -781,7 +779,7 @@
 
 ## 血管神經接駁修正
 
-`scripts/topology-spec.mjs` 列出每條分支應由哪一級分出（動脈、靜脈、神經共 111 組以上），`npm run check:topology` 逐組檢查，並檢查全身 1,100+ 條血管每條至少接到另一條同類血管。以下是檢查發現後已修正的接駁（加細管連回上一級；連接管與該血管同名同概念，一起選取、顯示、隱藏）：
+`scripts/topology-spec.mjs` 列出每條分支應由哪一級分出（動脈、靜脈、神經共 159 組以上），`npm run check:topology` 逐組檢查，並檢查全身 1,100+ 條血管每條至少接到另一條同類血管。以下是檢查發現後已修正的接駁（加細管連回上一級；連接管與該血管同名同概念，一起選取、顯示、隱藏）：
 
 | 分支 | 上一級 | 原本斷開（mm） | 修正 |
 | --- | --- | ---: | --- |
@@ -793,9 +791,13 @@
 | Left deep brachial artery | Left brachial artery | 1 | 起點改到 1.298 m 高（大圓肌下緣下方）並沿肱動脈後側連到原有肱深動脈 |
 | Right posterior ulnar recurrent artery | Right ulnar artery | 21.6 | 加連接管 |
 | Left posterior ulnar recurrent artery | Left ulnar artery | 21.6 | 加連接管 |
+| Right arteria radialis indicis | Right radial artery | 28.9 | 加連接管 |
+| Left arteria radialis indicis | Left radial artery | 28.7 | 加連接管 |
 | Left femoral artery | Left external iliac artery | 3 | 加連接管 |
 | Right lateral circumflex femoral artery | Right deep femoral artery | 19.9 | 加連接管 |
 | Left lateral circumflex femoral artery | Left deep femoral artery | 24.2 | 加連接管 |
+| Right deep palmar venous arch | Right radial vein | 11.9 | 加連接管 |
+| Left deep palmar venous arch | Left radial vein | 12.3 | 加連接管 |
 
 新增的示意結構（血管、神經）都在建置時檢查：起點必須落在其上一級的表面，否則 build 失敗。
 
@@ -844,6 +846,8 @@
 | Pulmonary vein | Left superior pulmonary vein | contained |
 | Cardiac impression | Cardiac impression of left lung | contained |
 | Anterior femoral cutaneous nerve | Anterior cutaneous branches of femoral nerve | contained |
+| Ascending branch of lateral circumflex femoral artery | Left ascending and transverse branches of lateral circumflex femoral artery | contained |
+| Transverse branch of lateral circumflex femoral artery | Left ascending and transverse branches of lateral circumflex femoral artery | contained |
 | Gastrocnemius muscle | Lateral head of right gastrocnemius | contained |
 | genicular artery | Left descending genicular artery | contained |
 | tibial collateral ligament | Deep part of tibial collateral ligament | contained |

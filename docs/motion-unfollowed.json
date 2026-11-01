@@ -1,5 +1,23 @@
 [
  {
+  "id": "FJ2091",
+  "name": "Left ascending and transverse branches of lateral circumflex femoral artery",
+  "system": "arterial",
+  "stream": "atlas",
+  "region": "lower-limb",
+  "side": "left",
+  "y": 0.877
+ },
+ {
+  "id": "FJ2195",
+  "name": "Right ascending and transverse branches of lateral circumflex femoral artery",
+  "system": "arterial",
+  "stream": "atlas",
+  "region": "lower-limb",
+  "side": "right",
+  "y": 0.877
+ },
+ {
   "id": "FJ2815",
   "name": "Pubic hair",
   "system": "integumentary",
@@ -73,7 +91,7 @@
  },
  {
   "id": "FJ2091-END",
-  "name": "Set of calcaneal branches of posterior tibial artery",
+  "name": "Left ascending and transverse branches of lateral circumflex femoral artery",
   "system": "arterial",
   "stream": "vessel-ends",
   "region": "lower-limb",
@@ -82,12 +100,12 @@
  },
  {
   "id": "FJ2195-END",
-  "name": "Set of calcaneal branches of posterior tibial artery",
+  "name": "Right ascending and transverse branches of lateral circumflex femoral artery",
   "system": "arterial",
   "stream": "vessel-ends",
   "region": "lower-limb",
   "side": "right",
-  "y": 0.877
+  "y": 0.875
  },
  {
   "id": "PK-141",

@@ -91,7 +91,7 @@
 - 股方肌神經（nerve to quadratus femoris muscle）：缺 來源、走向、主要分支、支配範圍
 - 股後皮神經（posterior femoral cutaneous nerve）：缺 來源、走向、主要分支、支配範圍
 
-### 動脈：0 / 31 項資料完整
+### 動脈：0 / 32 項資料完整
 
 - 足背動脈（dorsalis pedis artery）：缺 來源、走向、主要分支、供應範圍
 - 旋股外側動脈降支（Descending branch of right lateral circumflex femoral artery）：缺 來源、走向、主要分支、供應範圍
@@ -117,8 +117,9 @@
 - 脛後動脈（posterior tibial artery）：缺 來源、走向、主要分支、供應範圍
 - 足底內側淺動脈（superficial medial plantar artery）：缺 來源、走向、主要分支、供應範圍
 - 穿動脈群（set of perforating arteries）：缺 來源、走向、主要分支、供應範圍
+- 旋股外側動脈升支與橫支（ascending and transverse branches of lateral circumflex femoral artery）：缺 來源、走向、主要分支、供應範圍
 - 足底總趾動脈群（set of common plantar digital arteries）：缺 來源、走向、主要分支、供應範圍
-- 背側指（趾）動脈群（set of dorsal digital arteries）：缺 來源、走向、主要分支、供應範圍
+- 腓動脈（fibular artery）：缺 來源、走向、主要分支、供應範圍
 - 足底固有趾動脈群（set of plantar digital arteries proper）：缺 來源、走向、主要分支、供應範圍
 - 足底蹠骨動脈（plantar metatarsal artery）：缺 來源、走向、主要分支、供應範圍
 - 總髂動脈（common iliac artery）：缺 來源、走向、主要分支、供應範圍
