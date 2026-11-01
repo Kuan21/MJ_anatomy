@@ -97,13 +97,15 @@ export default function BrainDetail() {
   const select = (id: string | null) => {
     setNoteId(null);
     if (!id) {patch({selectedIds: []}); return;}
-    const p = byId.get(id);
-    setView(v => ({...v, selectedIds: v.selectedIds.length === 1 && v.selectedIds[0] === id ? [] : [id], hiddenGroups: p ? v.hiddenGroups.filter(g => g !== p.group) : v.hiddenGroups, hiddenParts: v.hiddenParts.filter(x => x !== id)}));
+    setView(v => ({...v, selectedIds: v.selectedIds.length === 1 && v.selectedIds[0] === id ? [] : [id]}));
   };
   const choose = (id: string) => {
-    const same = view.selectedIds.length === 1 && view.selectedIds[0] === id;
+    // Selecting (model, list, search, related-structure link) never moves the camera or switches layers; the Focus button of the info card does both.
     select(id);
-    if (!same) go('fit', [id]);
+  };
+  const focusOn = (id: string) => {
+    const p = byId.get(id);
+    setView(v => ({...v, hiddenGroups: p ? v.hiddenGroups.filter(g => g !== p.group) : v.hiddenGroups, hiddenParts: v.hiddenParts.filter(x => x !== id), command: {id: v.command.id + 1, view: 'fit', focus: [id]}}));
   };
   // Opened from the atlas search (#/organ/brain?select=<name>): select that structure once the model is ready, then drop the query so a reload does not reselect it.
   useEffect(() => {
@@ -232,6 +234,7 @@ export default function BrainDetail() {
       <aside className="organ-panel" aria-label="腦部控制與說明">
         <section className="organ-block organ-info" aria-live="polite">
           {noteCard && notes ? <NoteCardView card={noteCard} data={notes} hasModel={!!noteCard.mesh?.length} approxModel={!noteCard.mesh?.length && !!noteCard.approx?.length} onFocus={() => openNote(noteCard)} onClose={() => setNoteId(null)}/> : selected ? <>
+            {(view.hiddenGroups.includes(selected.group) || view.hiddenParts.includes(selected.id) || (!!view.isolate && !view.isolate.includes(selected.id))) && <p className="organ-out-of-view" role="status" lang="zh-Hant">不在目前視野，按 Focus 查看</p>}
             <h2 className="organ-info-title" lang="en">{displayEn(selected)}</h2>
             <p className="organ-info-zh" lang="zh-Hant">{selected.zh || '（尚無中文名稱）'}</p>
             <p lang="zh-Hant">分區：{BRAIN_GROUPS.find(g => g.id === selected.group)?.zh}｜{SIDE_ZH[selected.side]}{selected.region && selected.region !== selected.cat ? `｜${selected.region}` : ''}</p>
@@ -253,7 +256,7 @@ export default function BrainDetail() {
             {relatedLobes(selected) && <p lang="en"><b>Related lobes｜相關腦葉:</b> {relatedLobes(selected)}</p>}
             {selected.schematic ? <p className="organ-info-en" lang="zh-Hant"><b>示意模型</b>：位置與大小依周圍真實構造估算，不是實測形狀。</p> : <p className="organ-info-en" lang="en">Group: {BRAIN_GROUPS.find(g => g.id === selected.group)?.en}</p>}
             <div className="organ-actions" role="group" aria-label="選取動作">
-              <button onClick={() => go('fit', [selected.id])}>Focus｜放大</button>
+              <button onClick={() => focusOn(selected.id)}>Focus｜放大</button>
               <button aria-pressed={!!view.isolate} onClick={() => patch({isolate: view.isolate ? null : [selected.id]})}>Isolate｜單獨顯示</button>
               <button onClick={() => patch({hiddenParts: [...view.hiddenParts, selected.id], selectedIds: []})}>Hide｜隱藏</button>
               <button onClick={() => patch({selectedIds: [], isolate: null})}>Clear｜清除</button>
