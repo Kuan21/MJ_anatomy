@@ -128,7 +128,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
     if (!sourceBuffers.has(part.chunk)) sourceBuffers.set(part.chunk, fs.readFileSync(new URL('public' + chunk.url, root)));
     const raw = sourceBuffers.get(part.chunk);
     const belly = bellies.get(part.id), buf = a => Buffer.from(a.buffer, a.byteOffset, a.byteLength);
-    add({id: part.id, name, chinese, side, system: part.system, bounds: part.bounds, source: 'BodyParts3D',
+    add({id: part.id, name, chinese, side, system: part.system, bounds: belly?.bounds ?? part.bounds, source: 'BodyParts3D',
       positions: belly ? buf(belly.positions) : raw.subarray(part.positions, part.positions + part.vertexCount * 12),
       normals: belly ? buf(belly.normals) : raw.subarray(part.normals, part.normals + part.vertexCount * 6),
       indices: belly ? buf(belly.indices) : raw.subarray(part.indices, part.indices + part.indexCount * 4)});

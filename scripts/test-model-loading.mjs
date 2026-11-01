@@ -83,6 +83,14 @@ for(let i=0;i<atlas.parts.length;i++){
   for(let k=0;k<3;k++){let lo=Infinity,hi=-Infinity;for(let v=k;v<pos.length;v+=3){lo=Math.min(lo,pos[v]);hi=Math.max(hi,pos[v]);}assert.ok(lo>=before.bounds[0][k]-.0005&&hi<=before.bounds[1][k]+.0005,`${before.name}: cut muscle left its bounds`);}
   assert.ok(idx.every(v=>v<after.vertexCount),`${before.name}: index out of range`);continue;
  }
+ if(after.reshaped){
+  // a muscle whose drawn shape is repaired (scripts/lib/muscle-reshape.mjs): same id and name, new geometry that stays within 3 mm of the source's bounds (it is only trimmed and smoothed),
+  // every index valid, and the part's bounds are the bounds of the delivered vertices
+  assert.equal(before.system,'muscular',`${before.name}: reshaped`);
+  const d=delivered[after.chunk],pos=positionsOf(d,after),idx=indicesOf(d,after);
+  for(let k=0;k<3;k++){let lo=Infinity,hi=-Infinity;for(let v=k;v<pos.length;v+=3){lo=Math.min(lo,pos[v]);hi=Math.max(hi,pos[v]);}assert.ok(lo>=before.bounds[0][k]-.003&&hi<=before.bounds[1][k]+.003,`${before.name}: reshaped muscle left its source bounds`);assert.ok(Math.abs(lo-after.bounds[0][k])<1e-4&&Math.abs(hi-after.bounds[1][k])<1e-4,`${before.name}: bounds do not match the geometry`);}
+  assert.ok(idx.every(v=>v<after.vertexCount),`${before.name}: index out of range`);continue;
+ }
  assert.equal(after.vertexCount,before.vertexCount);assert.equal(after.indexCount,before.indexCount);
  // compact encoding (P2-01): the decoded geometry is the source geometry — indices identical, positions within the quantisation step (exact when the part keeps Float32), normals within 0.01°
  {const d=delivered[after.chunk],s=sourceBuffers[before.chunk];
@@ -94,4 +102,4 @@ for(let i=0;i<atlas.parts.length;i++){
   for(let v=0;v<nrm.length;v+=3){const la=Math.hypot(srcNrm[v],srcNrm[v+1],srcNrm[v+2]);if(la<1)continue;const lb=Math.hypot(nrm[v],nrm[v+1],nrm[v+2])||1,ang=Math.acos(Math.min(1,(srcNrm[v]*nrm[v]+srcNrm[v+1]*nrm[v+1]+srcNrm[v+2]*nrm[v+2])/(la*lb)))*180/Math.PI;if(ang>.01)assert.fail(`${before.name}: normal ${v/3} off by ${ang.toFixed(4)}°`);}
  }
 }
-console.log(`PASS: 15 source / ${streamed.chunks.length} immutable packages, all ${atlas.parts.length} tissues decode to the source geometry (compact encoding; limb vessels excepted: one smoothing step, same bounds), bounded downloads, persistent cache, gzip, failure isolation, resume and timeout.`);
+console.log(`PASS: 15 source / ${streamed.chunks.length} immutable packages, all ${atlas.parts.length} tissues decode to the source geometry (compact encoding; limb vessels excepted: one smoothing step, same bounds; the tendon-cut and repaired muscles keep their ids), bounded downloads, persistent cache, gzip, failure isolation, resume and timeout.`);
