@@ -303,7 +303,7 @@
 | FJ2091-END | Set of calcaneal branches of posterior tibial artery | 530 | 87、835、-24 ～ 148、910、5 |
 | FJ2195-END | Set of calcaneal branches of posterior tibial artery | 558 | -146、842、-51 ～ -95、911、5 |
 
-來源網格 FJ2091／FJ2195 已隔離，但末端串流仍有它們的連接件，位置在髖外側（y 0.84–0.91 m）。是否仍畫在畫面上**未在 3D 畫面確認**（要看應用程式是否以來源編號過濾末端串流）。重建時一併清除。
+來源網格 FJ2091／FJ2195 已隔離，但末端串流仍有它們的連接件，位置在髖外側（y 0.84–0.91 m）。另有 PR #176（等審核，尚未合併）已修正血管末端稽核漏用排除清單的問題，合併後這兩片會消失；本盤點是以目前 main 為準。是否仍畫在畫面上**未在 3D 畫面確認**（要看應用程式是否以來源編號過濾末端串流）。重建時一併清除。
 
 ### 4.6 Meshes that are not named Left/Right
 ### 4.6 名稱沒有 Left／Right 前綴
@@ -422,6 +422,8 @@ Atlas reference 與 View anatomical source 只在確實有真實編號與頁面�
 
 ## 10. Overlap with the pathways document (#171)
 ## 10. 與 #171 走向路徑文件的重疊與差異
+
+另有 `docs/lower-limb-audit-2026-11-01.md`（#177，下肢主要幹線相對骨骼的位置稽核）與本盤點互補：它看主幹位置，本盤點逐網格量間隙、穿骨與缺項。
 
 我讀過 `docs/pathways-lower-limb.md`（未修改）。重複的部分只引用，不再列：它已列出閉孔動脈缺、足底內側靜脈缺、穿動脈與示意重疊、前內外踝動脈穿骨、右腓靜脈較長。本盤點新增的差異：
 
