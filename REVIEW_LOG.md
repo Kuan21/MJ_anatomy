@@ -76,7 +76,7 @@
 
 ## 來源標錯的下肢動脈：腓動脈與旋股外側動脈分支群改名、重複示意管退役（【需人工審核】，不自動 merge）
 
-PR [#184](https://github.com/Kuan21/MJ_anatomy/pull/184)，取代 #176（已關閉）。四個 BodyParts3D 來源網格名稱與幾何不符：FJ2093／FJ2197 來源叫「Set of dorsal digital arteries」，實際是沿腓骨內側下行的腓動脈，改名 Left／Right fibular artery（腓動脈）；FJ2091／FJ2195 來源叫「Set of calcaneal branches of posterior tibial artery」，實際在髖部前外側從旋股外側動脈分出，改名 Left／Right ascending and transverse branches of lateral circumflex femoral artery（旋股外側動脈升支與橫支），並從排除與動作隔離清單移出、跟著腿部動作。與它們重疊的示意腓動脈、示意升支與橫支退役（編號保留，跑考串流 475 → 469）。血管末端稽核與地標世界套用來源改名。搜尋「腓動脈」分別列出左右。下肢段落基準：間隙 106 → 113（移除 3 個假間隙，新增 10 個是改名血管自己的末端，之前被排除不計入），切線不符 105 → 97，直徑不符 64 → 61。名稱依 Gray's 1918 插圖與 OpenStax 核對位置，**請你核對**：四個新名稱（特別是升支與橫支合稱）、截圖位置、退役後小腿後外側是否缺少結構。截圖在 `pr-screenshots` 分支 `fibular-artery-2026-11-01/`。本機 `test-scene-loading --stream --worker` 因機器速度超時（main 亦同），以 CI 為準。
+PR [#184](https://github.com/Kuan21/MJ_anatomy/pull/184)，取代 #176（已關閉）；**已合併（2026-11-01）**。四個 BodyParts3D 來源網格名稱與幾何不符：FJ2093／FJ2197 來源叫「Set of dorsal digital arteries」，實際是沿腓骨內側下行的腓動脈，改名 Left／Right fibular artery（腓動脈）；FJ2091／FJ2195 來源叫「Set of calcaneal branches of posterior tibial artery」，實際在髖部前外側從旋股外側動脈分出，改名 Left／Right ascending and transverse branches of lateral circumflex femoral artery（旋股外側動脈升支與橫支），並從排除與動作隔離清單移出、跟著腿部動作。與它們重疊的示意腓動脈、示意升支與橫支退役（編號保留，跑考串流 475 → 469）。血管末端稽核與地標世界套用來源改名。搜尋「腓動脈」分別列出左右。下肢段落基準：間隙 106 → 113（移除 3 個假間隙，新增 10 個是改名血管自己的末端，之前被排除不計入），切線不符 105 → 97，直徑不符 64 → 61。名稱依 Gray's 1918 插圖與 OpenStax 核對位置，**請你核對**：四個新名稱（特別是升支與橫支合稱）、截圖位置、退役後小腿後外側是否缺少結構。截圖在 `pr-screenshots` 分支 `fibular-artery-2026-11-01/`。本機 `test-scene-loading --stream --worker` 因機器速度超時（main 亦同），以 CI 為準。
 
 ## 肌腱跟肌肉補修：Hide 後肌腱還在、塊狀股四頭肌腱（【需人工審核】，不自動 merge）
 
@@ -748,7 +748,7 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 | **介面修正：選取結構一律不動相機（模型點選、清單、搜尋、資訊卡連結只出資訊卡與細外框；Focus 才移動相機；找出並修正 Focus 構圖）** | CI 綠後由主 session 確認 merge（只改介面，不改模型與解剖內容） | #181 | 見上方「選取不動相機」；不在視野時資訊卡顯示「不在目前視野，按 Focus 查看」 |
 | **走向路徑文件：下肢神經與血管、胸背部（只有文件，不含程式與模型）** | 等我審核（【需人工審核】，不自動 merge） | 見 PR | `docs/pathways-lower-limb.md`；核准後才做走向動畫 |
 | **下肢神經與骨骼 PR D：腓深神經路徑、隱神經髕下支、脛骨前碎片、穿骨與標誌稽核** | 等我審核（【需人工審核】，不自動 merge） | 見 PR | 見上方「下肢神經與骨骼 PR D」 |
-| **來源標錯的下肢動脈：腓動脈與旋股外側動脈分支群改名、重複示意管退役、末端稽核套用排除清單** | 等我審核（【需人工審核】，不自動 merge） | #184 | 見上方同名段落；取代 #176 |
+| **來源標錯的下肢動脈：腓動脈與旋股外側動脈分支群改名、重複示意管退役、末端稽核套用排除清單** | 已合併（你 2026-11-01 確認） | #184 | 見上方同名段落；取代 #176 |
 | 血管末端稽核套用排除清單：移除浮在髖部的兩片「跟骨支」末端示意片 | 已關閉（由 #184 取代；那兩片其實是旋股外側動脈分支群的末端） | #176 | 腳本漏洞修正加重新生成 |
 | 血管末端稽核套用排除清單：移除浮在髖部的兩片「跟骨支」末端示意片 | 等我審核（【需人工審核】，不自動 merge） | #176 | 腳本漏洞修正加重新生成；只少兩片示意片 |
 | 全身血管、神經、肌腱、韌帶稽核報告（含兩支只讀稽核腳本） | 已自動 merge | #185 | `docs/body-audit-2026-11-01.md`；FJ2184／FJ2194、2B、穿骨修正順序等你決定 |
