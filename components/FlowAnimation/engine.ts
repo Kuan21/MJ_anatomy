@@ -24,6 +24,8 @@ const RAW=new THREE.Vector3();
 const col=(hex:number)=>new THREE.Color().setRGB(((hex>>16)&255)/255,((hex>>8)&255)/255,(hex&255)/255,THREE.LinearSRGBColorSpace);
 const COLORS:Record<string,number>={nerve:0xd9a300,artery:0xcc3b36,vein:0x2c5bb5,vcom:0x8db2e6};
 const STEP_DUR=10.5,GROW=4.2,CAM=1.8;
+/** 神經比原型細（原型的粗細是示意；放到真實模型上會顯得太粗） */
+const NERVE_THICKNESS=.6;
 const ease=(t:number)=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
 
 interface PathNode{
@@ -58,6 +60,7 @@ export function createFlowEngine(opt:FlowOptions):FlowEngine{
   const ulen=len/unit,seg=Math.max(24,Math.round(ulen*28)),rad=10;
   let r=data.thickPaths.test(id)?(group==='nerve'?.05:.058):.032;
   if(id==='aorta')r=.11;if(group==='vcom')r=(id==='v_aorta'?.1:(data.thickPaths.test(id.slice(2))?.045:.026));if(id==='sci')r=.065;
+  if(group==='nerve')r*=NERVE_THICKNESS;
   r*=unit;
   const geo=new THREE.TubeGeometry(curve,seg,r,rad,false);
   const c=col(COLORS[group]);
