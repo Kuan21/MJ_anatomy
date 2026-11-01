@@ -385,7 +385,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
   if(topRegion==='lower'&&(motionEnabled||state.bodyMotion)){changeBody(side==='left'?'leftLeg':'rightLeg',{...BODY_NEUTRAL},true);return;}
   setMicroAtlas(null);setMotionEdit(false);setStudySide(side);setMotionSide(side);setChosen(null);setDetails(false);setExternalNerve(null);
   const {keep}=sideSplit(topRegion,side);
-  setState(s=>({...s,focusParts:keep,cameraFocusParts:keep,cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:.82,selected:[],isolate:false,explode:0,rotate:false,bodyMotion:undefined,partTransforms:undefined}));
+  setState(s=>({...s,focusParts:keep,cameraFocusParts:keep,cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:1,selected:[],isolate:false,explode:0,rotate:false,bodyMotion:undefined,partTransforms:undefined}));
  };
  const spaceSides:Side[]=studySide==='both'?['left','right']:[studySide];
  const spaceHits=useMemo<SpaceHit[]>(()=>{const def=SPACES.find(x=>x.id===spaceId);return atlas&&def?spaceSides.map(sd=>resolveSpace(atlas.parts,def,sd)):[];},[atlas,spaceId,studySide]);// eslint-disable-line react-hooks/exhaustive-deps
