@@ -1,6 +1,7 @@
 import {useEffect,useState} from 'react';
 import FlowAnimation from './FlowAnimation';
-import {loadLowerLimbBody,type LoadedBody} from './real-body';
+import {loadLowerLimbBody} from './lower-limb-body';
+import type {LoadedBody} from './body-loader';
 import {lowerLimbPathways} from '../../lib/pathways/lower-limb';
 import type {Atlas} from '../../app/anatomy';
 

@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>上肢神經與血管走向</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --stage:#cdd5da; --panel:#ffffff; --ink:#1e2a33; --muted:#5c6b76; --line:#e3e8eb;
+  --accent:#2f8a66; --accent-soft:#e6f3ee; --nerve:#d29c00; --tag:#ffffff; --tag-ink:#1e2a33;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --stage:#2a3238; --panel:#1b2126; --ink:#e7ecef; --muted:#9aa7b0; --line:#2e373d;
+    --accent:#5cc79d; --accent-soft:#1f3a30; --nerve:#f0c040; --tag:#232b31; --tag-ink:#e7ecef;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --stage:#2a3238; --panel:#1b2126; --ink:#e7ecef; --muted:#9aa7b0; --line:#2e373d;
+  --accent:#5cc79d; --accent-soft:#1f3a30; --nerve:#f0c040; --tag:#232b31; --tag-ink:#e7ecef;
+  color-scheme:dark;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html,body{height:100%;margin:0}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--panel);color:var(--ink);font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;display:flex;overflow:hidden}
+#stage{position:relative;flex:3 1 0;min-width:0;background:var(--stage);overflow:hidden}
+#stage canvas{display:block;width:100%;height:100%}
+#tags{position:absolute;inset:0;pointer-events:none}
+.tag{position:absolute;left:0;top:0;background:var(--tag);color:var(--tag-ink);font-size:13px;font-weight:500;line-height:1.25;padding:4px 8px;border-radius:6px;border-left:3px solid var(--c,#999);box-shadow:0 1px 4px rgba(0,0,0,.18);white-space:nowrap;transition:opacity .4s;will-change:transform}
+#leaders{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+#hint{position:absolute;left:14px;bottom:12px;font-size:12px;color:var(--muted)}
+#legend{position:absolute;left:14px;top:12px;display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12.5px;color:var(--ink);max-width:calc(100% - 28px)}
+#legend span{display:inline-flex;align-items:center;gap:6px}
+#legend i{display:inline-block;width:18px;height:5px;border-radius:3px}
+.tag small{display:block;color:var(--muted);font-size:11px;font-weight:400}
+#panel{flex:1 1 0;min-width:290px;max-width:440px;border-left:1px solid var(--line);display:flex;flex-direction:column;overflow:hidden}
+#panel header{padding:18px 20px 12px;border-bottom:1px solid var(--line)}
+#panel h1{font-size:17px;margin:0 0 2px;font-weight:700}
+#panel .sub{font-size:13px;color:var(--muted)}
+#modes{display:flex;gap:0;margin:12px 0 0;background:var(--line);border-radius:8px;padding:3px}
+#modes button{flex:1;font:inherit;font-size:14px;border:0;background:transparent;color:var(--muted);padding:6px 0;border-radius:6px;cursor:pointer}
+#modes button[aria-pressed="true"]{background:var(--panel);color:var(--ink);font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+#modes button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+#steps{list-style:none;margin:12px 0 0;padding:0;display:flex;gap:4px}
+#steps li{flex:1;height:4px;border-radius:2px;background:var(--line);position:relative;overflow:hidden}
+#steps li.done{background:var(--accent);opacity:.45}
+#steps li.now{background:var(--line)}
+#steps li.now span{position:absolute;inset:0;background:var(--accent);transform-origin:left;transform:scaleX(0)}
+#body{padding:16px 20px 24px;overflow-y:auto;flex:1}
+#count{font-size:13px;color:var(--muted)}
+#title{font-size:22px;font-weight:700;margin:4px 0 0;line-height:1.3}
+#en{font-size:14px;color:var(--muted);margin-bottom:14px}
+.sec{margin:0 0 14px}
+.sec h2{font-size:13px;font-weight:700;color:var(--accent);margin:0 0 4px}
+.sec p{font-size:14.5px;line-height:1.75;margin:0}
+.clin{background:var(--accent-soft);border-radius:8px;padding:10px 12px}
+#body.fade{opacity:0}
+#body{transition:opacity .35s}
+@media (max-width:760px),(orientation:portrait) and (max-width:1000px){
+  body{flex-direction:column}
+  #stage{flex:none;height:56%}
+  #panel{flex:1;max-width:none;min-width:0;border-left:none;border-top:1px solid var(--line)}
+  #panel header{padding:10px 14px 8px}
+  #panel h1{font-size:15px}
+  #panel .sub,#hint{display:none}
+  #modes{margin-top:8px}
+  #modes button{font-size:13px;padding:5px 0}
+  #steps{margin-top:8px}
+  #body{padding:12px 14px 20px}
+  #title{font-size:19px}
+  #en{margin-bottom:10px}
+  .sec p{font-size:14px;line-height:1.7}
+  #legend{font-size:11px;gap:4px 10px;top:8px;left:10px}
+  .tag{font-size:12px;padding:3px 7px}
+  .tag small{font-size:10px}
+}
+</style>
+</head>
+<body>
+<div id="stage"><div id="tags"><svg id="leaders" aria-hidden="true"></svg></div><div id="hint">右上肢示意模型，未依真實比例（Schematic right upper limb）</div><div id="legend"></div></div>
+<aside id="panel">
+  <header>
+    <h1 id="h1">上肢神經走向</h1>
+    <div class="sub">自動播放：神經播完接血管，再由頭開始。可點下面直接跳到某一類。</div>
+    <div id="modes" role="group" aria-label="選擇類別"><button data-m="0">神經 Nerves</button><button data-m="1">血管 Vessels</button></div>
+    <ol id="steps"></ol>
+  </header>
+  <div id="body">
+    <div id="count"></div>
+    <div id="title"></div>
+    <div id="en"></div>
+    <div class="sec"><h2>走向 Course</h2><p id="where"></p></div>
+    <div class="sec" id="brSec"><h2 id="brH">分支與支配</h2><p id="branches"></p></div>
+    <div class="sec clin" id="clSec"><h2>臨床重點 Clinical</h2><p id="clinical"></p></div>
+  </div>
+</aside>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+const V=(x,y,z)=>new THREE.Vector3(x,y,z);
+const stage=document.getElementById('stage');
+const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+stage.prepend(renderer.domElement);
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(38,1,0.1,200);
+scene.add(new THREE.HemisphereLight(0xffffff,0x8a9aa5,0.95));
+const key=new THREE.DirectionalLight(0xffffff,0.7);key.position.set(4,8,6);scene.add(key);
+const back=new THREE.DirectionalLight(0xffffff,0.35);back.position.set(-5,2,-8);scene.add(back);
+
+/* ---------- schematic anatomy ---------- */
+const boneMat=new THREE.MeshStandardMaterial({color:0xe8dcc6,roughness:.8,transparent:true,opacity:.42,depthWrite:false});
+const skinMat=new THREE.MeshStandardMaterial({color:0xe6c4ae,roughness:.9,transparent:true,opacity:.07,depthWrite:false,side:THREE.DoubleSide});
+const ghostMat=new THREE.MeshStandardMaterial({color:0xe6c4ae,roughness:.9,transparent:true,opacity:.04,depthWrite:false,side:THREE.DoubleSide});
+function cyl(a,b,r1,r2,mat){const d=b.clone().sub(a),len=d.length();
+  const m=new THREE.Mesh(new THREE.CylinderGeometry(r2,r1,len,24,1),mat);
+  m.position.copy(a).add(b).multiplyScalar(.5);m.quaternion.setFromUnitVectors(V(0,1,0),d.normalize());scene.add(m);return m;}
+function ball(p,r,mat,s){const m=new THREE.Mesh(new THREE.SphereGeometry(r,24,16),mat);m.position.copy(p);if(s)m.scale.set(s[0],s[1],s[2]);scene.add(m);return m;}
+function box(p,s,mat){const m=new THREE.Mesh(new THREE.BoxGeometry(s[0],s[1],s[2]),mat);m.position.copy(p);scene.add(m);return m;}
+const lmMat=(c,o)=>new THREE.MeshStandardMaterial({color:c,roughness:.6,transparent:true,opacity:o});
+function tube(pts,r,mat,seg){const c=new THREE.CatmullRomCurve3(pts,false,'centripetal');const m=new THREE.Mesh(new THREE.TubeGeometry(c,seg||64,r,10,false),mat);scene.add(m);return m;}
+// cervical / upper thoracic vertebrae
+[3.9,3.6,3.3,3.0,2.7,2.4,2.1].forEach(y=>box(V(0,y,-.5),[.42,.24,.38],boneMat));
+// first rib, clavicle, sternum
+tube([V(-.22,2.7,-.45),V(-.8,2.62,-.35),V(-1.05,2.5,0),V(-.85,2.4,.35),V(-.32,2.33,.45)],.045,boneMat);
+tube([V(-.3,2.55,.45),V(-.9,2.66,.38),V(-1.35,2.72,.18),V(-1.65,2.76,.02)],.06,boneMat);
+box(V(0,1.6,.5),[.35,1.6,.12],boneMat);
+// scapula (posterior), spine, coracoid
+const scap=ball(V(-1.1,1.95,-.6),1,boneMat,[.55,.75,.06]);scap.rotation.z=.12;
+tube([V(-.65,2.3,-.66),V(-1.2,2.5,-.6),V(-1.65,2.72,-.12)],.05,boneMat);
+ball(V(-1.4,2.48,.3),.08,boneMat);
+// humerus
+ball(V(-1.62,2.35,-.05),.2,boneMat);
+cyl(V(-1.68,2.3,0),V(-1.95,-.75,0),.11,.1,boneMat);
+ball(V(-1.71,-.85,-.02),.1,boneMat);ball(V(-2.2,-.85,0),.08,boneMat);
+// radius (lateral) and ulna (medial)
+cyl(V(-2.15,-1.0,.05),V(-2.35,-4.35,.08),.06,.08,boneMat);
+cyl(V(-1.85,-.95,-.05),V(-1.98,-4.35,.02),.08,.05,boneMat);
+// hand
+box(V(-2.15,-4.95,.1),[.72,.85,.16],boneMat);
+[-1.86,-2.02,-2.18,-2.34].forEach((x,i)=>box(V(x,-5.75+(i===2?-.05:0),.08),[.13,.8-(i===0?.15:0),.12],boneMat));
+cyl(V(-2.45,-4.6,.15),V(-2.72,-5.4,.25),.07,.06,boneMat);
+// envelopes
+cyl(V(-1.7,2.35,0),V(-1.95,-.9,0),.48,.38,skinMat);
+cyl(V(-1.95,-.9,0),V(-2.15,-4.3,.05),.38,.24,skinMat);
+ball(V(0,1.3,0),1,ghostMat,[1.15,1.9,.75]);
+// landmarks: scalenes, flexor retinaculum
+const scaleneMat=lmMat(0xb86b5e,.3);
+tube([V(-.32,3.6,-.18),V(-.5,3.1,-.02),V(-.68,2.62,.12)],.07,scaleneMat);
+tube([V(-.36,3.75,-.42),V(-.62,3.1,-.32),V(-.9,2.6,-.2)],.07,scaleneMat);
+tube([V(-1.84,-4.48,.3),V(-2.12,-4.5,.36),V(-2.42,-4.48,.3)],.05,lmMat(0x8f9aa3,.7));
+const muscleDefs={
+  pmaj:{p:V(-.95,2.0,.68),s:[.6,.45,.12],c:0xc9705f},
+  pmin:{p:V(-1.18,2.12,.44),s:[.16,.42,.08],c:0xb56a8a,rz:.55},
+  serr:{p:V(-.98,1.5,.18),s:[.12,.75,.45],c:0x6f8fc4},
+  levr:{p:V(-.55,2.5,-.7),s:[.14,.7,.06],c:0x5aa39a},
+  supra:{p:V(-1.05,2.38,-.62),s:[.36,.12,.1],c:0xd08a5a},
+  infra:{p:V(-1.1,1.85,-.68),s:[.36,.3,.07],c:0xd08a5a},
+  subsc:{p:V(-1.12,1.95,-.48),s:[.36,.45,.06],c:0xb56a8a},
+  lat:{p:V(-1.05,1.15,-.62),s:[.45,.7,.12],c:0xc07a4f},
+  tmaj:{p:V(-1.3,1.55,-.55),s:[.32,.12,.12],c:0xc07a4f,rz:-.5},
+  tmin:{p:V(-1.38,2.02,-.6),s:[.3,.09,.09],c:0xd08a5a,rz:-.4},
+  delt:{p:V(-1.88,2.15,0),s:[.33,.55,.42],c:0xc9705f},
+  cbr:{p:V(-1.6,1.75,.22),s:[.09,.45,.09],c:0x6f8fc4},
+  bic:{p:V(-1.8,.7,.36),s:[.2,1.1,.17],c:0xc9705f},
+  brach:{p:V(-1.92,-.25,.2),s:[.24,.6,.14],c:0xd08a5a},
+  tric:{p:V(-1.82,.6,-.33),s:[.24,1.3,.19],c:0xc07a4f},
+  flex:{p:V(-1.95,-2.2,.26),s:[.3,1.2,.17],c:0xb56a8a},
+  ext:{p:V(-2.15,-2.2,-.22),s:[.3,1.2,.17],c:0x5aa39a},
+  sup:{p:V(-2.2,-1.35,-.05),s:[.13,.25,.13],c:0x6f8fc4},
+  then:{p:V(-2.4,-4.95,.24),s:[.18,.3,.11],c:0xc9705f},
+  hypo:{p:V(-1.9,-4.95,.24),s:[.15,.3,.1],c:0xc9705f}
+};
+const muscles={};
+for(const k in muscleDefs){const d=muscleDefs[k];
+  const mat=new THREE.MeshStandardMaterial({color:d.c,roughness:.7,transparent:true,opacity:.1,depthWrite:false,emissive:d.c,emissiveIntensity:0});
+  muscles[k]=ball(d.p,1,mat,d.s);if(d.rz)muscles[k].rotation.z=d.rz;muscles[k].userData.t=0;}
+
+/* ---------- pathways (points in flow direction) ---------- */
+const N={
+  r5:[V(-.3,3.6,-.3),V(-.55,3.35,-.15),V(-.8,3.1,-.05)],
+  r6:[V(-.3,3.3,-.3),V(-.55,3.2,-.15),V(-.8,3.1,-.05)],
+  r7:[V(-.3,3.0,-.3),V(-.55,2.95,-.15),V(-.85,2.9,-.05)],
+  r8:[V(-.3,2.75,-.3),V(-.55,2.75,-.15),V(-.85,2.7,-.08)],
+  rt1:[V(-.25,2.5,-.3),V(-.55,2.6,-.2),V(-.85,2.7,-.08)],
+  dsn:[V(-.45,3.45,-.22),V(-.6,3.3,-.45),V(-.66,2.6,-.72),V(-.6,1.6,-.74)],
+  ltn:[V(-.48,3.15,-.2),V(-.75,2.6,-.28),V(-.95,1.9,.12),V(-.98,1.15,.25)],
+  ut:[V(-.8,3.1,-.05),V(-1.05,2.9,0),V(-1.15,2.78,.05)],
+  mt:[V(-.85,2.9,-.05),V(-1.1,2.72,.02),V(-1.18,2.66,.05)],
+  lt:[V(-.85,2.7,-.08),V(-1.1,2.58,0),V(-1.2,2.55,.03)],
+  ssn:[V(-1.0,2.95,-.02),V(-1.05,2.6,-.42),V(-1.2,2.38,-.64),V(-1.42,2.15,-.64),V(-1.22,1.85,-.7)],
+  ut_a:[V(-1.15,2.78,.05),V(-1.35,2.55,.2),V(-1.5,2.3,.22)],
+  mt_a:[V(-1.18,2.66,.05),V(-1.38,2.48,.2),V(-1.5,2.3,.22)],
+  lt_a:[V(-1.2,2.55,.03),V(-1.3,2.4,.08),V(-1.38,2.25,.1)],
+  ut_p:[V(-1.15,2.78,.05),V(-1.32,2.55,-.02),V(-1.45,2.3,-.05)],
+  mt_p:[V(-1.18,2.66,.05),V(-1.33,2.48,-.03),V(-1.45,2.3,-.05)],
+  lt_p:[V(-1.2,2.55,.03),V(-1.35,2.42,-.04),V(-1.45,2.3,-.05)],
+  lc:[V(-1.5,2.3,.22),V(-1.56,2.1,.24),V(-1.6,1.95,.22)],
+  mc:[V(-1.38,2.25,.1),V(-1.42,2.05,.12),V(-1.48,1.92,.14)],
+  pc:[V(-1.45,2.3,-.05),V(-1.5,2.1,-.06),V(-1.55,1.95,-.06)],
+  lpn:[V(-1.52,2.28,.23),V(-1.3,2.4,.45),V(-1.05,2.3,.64)],
+  mpn:[V(-1.4,2.2,.11),V(-1.2,2.14,.42),V(-1.0,2.08,.66)],
+  mcna:[V(-1.42,2.05,.12),V(-1.38,1.5,.1),V(-1.45,.5,.05)],
+  icbn:[V(-.85,2.05,.36),V(-1.15,1.82,.18),V(-1.4,1.6,.09)],
+  mcnf:[V(-1.46,1.95,.15),V(-1.58,.6,.26),V(-1.72,-.8,.32),V(-1.82,-2.6,.31),V(-1.9,-4.0,.3)],
+  musc:[V(-1.6,1.95,.22),V(-1.62,1.7,.26),V(-1.8,.6,.27),V(-1.98,-.6,.28),V(-2.15,-1.0,.33),V(-2.3,-3.0,.26),V(-2.4,-4.2,.2)],
+  med_l:[V(-1.6,1.95,.22),V(-1.58,1.86,.21),V(-1.55,1.78,.2)],
+  med_m:[V(-1.48,1.92,.14),V(-1.52,1.85,.17),V(-1.55,1.78,.2)],
+  median:[V(-1.55,1.78,.2),V(-1.72,.9,.26),V(-1.66,0,.27),V(-1.76,-.85,.31),V(-1.9,-1.4,.28),V(-2.0,-2.8,.22),V(-2.12,-4.45,.3),V(-2.15,-4.82,.3)],
+  ain:[V(-1.92,-1.6,.26),V(-2.0,-2.5,.08),V(-2.05,-4.0,.06)],
+  mrec:[V(-2.15,-4.82,.3),V(-2.35,-4.8,.33),V(-2.45,-4.95,.3)],
+  md1:[V(-2.15,-4.82,.3),V(-2.55,-5.2,.3),V(-2.75,-5.5,.28)],
+  md2:[V(-2.15,-4.82,.3),V(-2.3,-5.4,.25),V(-2.36,-6.05,.2)],
+  md3:[V(-2.15,-4.82,.3),V(-2.18,-5.5,.25),V(-2.18,-6.2,.2)],
+  md4:[V(-2.15,-4.82,.3),V(-2.06,-5.4,.25),V(-2.08,-6.05,.2)],
+  ulnar:[V(-1.48,1.92,.14),V(-1.5,1.0,0),V(-1.55,.2,-.2),V(-1.68,-.85,-.15),V(-1.8,-2.0,.15),V(-1.85,-3.8,.22),V(-1.88,-4.5,.37),V(-1.9,-4.8,.33)],
+  ud1:[V(-1.9,-4.8,.33),V(-1.85,-5.4,.25),V(-1.84,-5.95,.2)],
+  ud2:[V(-1.9,-4.8,.33),V(-1.97,-5.5,.25),V(-2.0,-6.05,.2)],
+  udp:[V(-1.9,-4.8,.33),V(-2.1,-4.95,.15),V(-2.35,-4.95,.12)],
+  uss:[V(-1.47,2.25,-.06),V(-1.35,2.15,-.32),V(-1.2,2.05,-.44)],
+  tdn:[V(-1.5,2.1,-.06),V(-1.35,1.7,-.4),V(-1.15,1.05,-.6)],
+  lss:[V(-1.52,2.0,-.06),V(-1.32,1.62,-.45),V(-1.3,1.5,-.55)],
+  axn:[V(-1.55,1.95,-.06),V(-1.65,2.0,-.32),V(-1.86,2.06,-.26),V(-2.02,2.12,0)],
+  axn_tm:[V(-1.65,2.0,-.32),V(-1.5,2.02,-.5),V(-1.38,2.04,-.6)],
+  radial:[V(-1.55,1.95,-.06),V(-1.63,1.65,-.12),V(-1.68,1.35,-.3),V(-1.86,.9,-.22),V(-2.02,.3,-.1),V(-2.12,-.5,.12),V(-2.15,-.95,.15)],
+  rad_s:[V(-2.15,-.95,.15),V(-2.3,-2.0,.18),V(-2.38,-3.8,.1),V(-2.45,-4.4,-.05),V(-2.4,-5.0,-.12)],
+  rad_d:[V(-2.15,-.95,.15),V(-2.23,-1.35,0),V(-2.18,-1.7,-.22),V(-2.15,-3.0,-.24),V(-2.15,-4.2,-.16)]
+};
+const A={
+  bct:[V(-.1,1.95,.25),V(-.18,2.2,.3),V(-.25,2.45,.3)],
+  rsca:[V(-.25,2.45,.3),V(-.6,2.74,.05),V(-1.0,2.6,.05)],
+  tcs:[V(-.55,2.7,.08),V(-.7,2.95,-.35),V(-.6,3.05,-.75)],
+  ssa:[V(-.55,2.68,.06),V(-.95,2.66,-.28),V(-1.05,2.64,-.45),V(-1.25,2.32,-.66),V(-1.25,1.9,-.72)],
+  dsa:[V(-.95,2.62,0),V(-.78,2.6,-.5),V(-.7,1.8,-.75)],
+  axa:[V(-1.0,2.6,.05),V(-1.25,2.42,.15),V(-1.42,2.2,.18),V(-1.55,1.95,.16),V(-1.6,1.75,.15)],
+  sta:[V(-1.12,2.52,.1),V(-.95,2.45,.35),V(-.7,2.5,.45)],
+  taa:[V(-1.32,2.32,.2),V(-1.3,2.45,.38)],
+  taa_p:[V(-1.3,2.45,.38),V(-1.15,2.3,.55),V(-1.0,2.15,.62)],
+  taa_a:[V(-1.3,2.45,.38),V(-1.45,2.58,.3),V(-1.62,2.66,.18)],
+  taa_c:[V(-1.3,2.45,.38),V(-1.15,2.6,.4),V(-1.0,2.64,.38)],
+  taa_d:[V(-1.3,2.45,.38),V(-1.5,2.38,.44),V(-1.72,2.28,.4)],
+  lta:[V(-1.4,2.22,.18),V(-1.15,1.9,.32),V(-1.0,1.3,.3)],
+  subsa:[V(-1.5,2.02,.15),V(-1.45,1.92,-.05),V(-1.4,1.9,-.2)],
+  csa:[V(-1.4,1.9,-.2),V(-1.4,1.95,-.46),V(-1.2,1.85,-.72)],
+  tda:[V(-1.4,1.9,-.2),V(-1.3,1.5,-.45),V(-1.18,1.0,-.58)],
+  acha:[V(-1.55,1.95,.16),V(-1.75,2.0,.22),V(-1.88,2.05,.06)],
+  pcha:[V(-1.55,1.95,.16),V(-1.58,1.98,-.1),V(-1.66,2.0,-.3),V(-1.86,2.06,-.22),V(-2.0,2.12,.02)],
+  braa:[V(-1.6,1.75,.15),V(-1.66,.6,.2),V(-1.88,-.85,.3),V(-1.9,-1.05,.3)],
+  pba:[V(-1.62,1.5,.15),V(-1.63,1.42,-.1),V(-1.67,1.32,-.28),V(-1.86,.8,-.22)],
+  mca:[V(-1.86,.8,-.22),V(-1.95,-.4,-.3),V(-2.0,-.9,-.25)],
+  rca:[V(-1.86,.8,-.22),V(-2.08,0,-.05),V(-2.18,-.75,.1)],
+  suca:[V(-1.64,1.0,.17),V(-1.56,.3,-.1),V(-1.66,-.8,-.18)],
+  iuca:[V(-1.72,.1,.22),V(-1.66,-.5,.2),V(-1.65,-.85,.1)],
+  rada:[V(-1.9,-1.05,.3),V(-2.2,-1.6,.3),V(-2.3,-3.0,.25),V(-2.35,-4.25,.25),V(-2.48,-4.45,0),V(-2.38,-4.7,.08)],
+  rra:[V(-2.08,-1.25,.31),V(-2.2,-.95,.2),V(-2.2,-.65,.1)],
+  spbr:[V(-2.35,-4.25,.25),V(-2.38,-4.6,.32),V(-2.3,-4.95,.37)],
+  dpar:[V(-2.38,-4.7,.08),V(-2.15,-4.76,.12),V(-1.92,-4.72,.14)],
+  ula:[V(-1.9,-1.05,.3),V(-1.82,-1.8,.2),V(-1.82,-3.0,.18),V(-1.85,-4.2,.3),V(-1.88,-4.5,.37),V(-1.92,-4.8,.38)],
+  aura:[V(-1.86,-1.3,.28),V(-1.73,-1.0,.25),V(-1.7,-.8,.12)],
+  pura:[V(-1.84,-1.42,.25),V(-1.72,-1.1,-.05),V(-1.68,-.85,-.16)],
+  cia:[V(-1.83,-1.5,.22),V(-1.95,-1.7,.05)],
+  aia:[V(-1.95,-1.7,.05),V(-2.02,-2.8,.07),V(-2.05,-4.0,.06)],
+  pia:[V(-1.95,-1.7,.05),V(-2.05,-1.95,-.2),V(-2.12,-3.2,-.25),V(-2.15,-4.1,-.19)],
+  iora:[V(-2.05,-1.95,-.2),V(-2.04,-1.4,-.27),V(-2.0,-.95,-.28)],
+  spa:[V(-1.92,-4.8,.38),V(-2.1,-5.0,.4),V(-2.3,-4.95,.37)],
+  dpbu:[V(-1.88,-4.6,.35),V(-1.9,-4.68,.2),V(-1.92,-4.72,.14)],
+  cpd1:[V(-1.98,-4.95,.39),V(-2.0,-5.2,.33),V(-2.02,-5.4,.3)],
+  cpd2:[V(-2.12,-5.0,.4),V(-2.15,-5.2,.33),V(-2.18,-5.4,.3)],
+  cpd3:[V(-2.25,-4.97,.38),V(-2.28,-5.2,.33),V(-2.3,-5.4,.3)],
+  ppd1:[V(-2.02,-5.4,.3),V(-2.0,-5.75,.24),V(-1.99,-6.05,.2)],
+  ppd2:[V(-2.18,-5.4,.3),V(-2.18,-5.8,.24),V(-2.18,-6.2,.2)],
+  ppd3:[V(-2.3,-5.4,.3),V(-2.32,-5.75,.24),V(-2.33,-6.05,.2)]
+};
+const W={
+  dvn_l:[V(-2.15,-5.0,-.12),V(-2.38,-4.75,-.1),V(-2.45,-4.4,-.02)],
+  dvn_m:[V(-2.15,-5.0,-.12),V(-1.95,-4.75,-.1),V(-1.85,-4.4,-.02)],
+  ceph:[V(-2.45,-4.4,-.02),V(-2.42,-3.6,.12),V(-2.35,-2.6,.26),V(-2.12,-.9,.42),V(-2.05,.5,.36),V(-1.78,1.85,.5),V(-1.48,2.38,.42),V(-1.28,2.45,.23)],
+  bas:[V(-1.85,-4.4,-.02),V(-1.78,-3.4,.12),V(-1.75,-2.5,.22),V(-1.7,-.9,.3),V(-1.6,.3,.26),V(-1.55,1.0,.2),V(-1.55,1.75,.2)],
+  mcv:[V(-2.12,-.88,.43),V(-1.92,-.72,.41),V(-1.72,-.55,.31)]
+};
+const COLORS={nerve:0xd9a300,artery:0xcc3b36,vein:0x2c5bb5,vcom:0x8db2e6};
+function glow(rgb){const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d');const r=g.createRadialGradient(32,32,0,32,32,32);
+  r.addColorStop(0,'rgba(255,255,255,1)');r.addColorStop(.35,'rgba('+rgb+',.8)');r.addColorStop(1,'rgba('+rgb+',0)');g.fillStyle=r;g.fillRect(0,0,64,64);return new THREE.CanvasTexture(c);}
+const GLOW={nerve:glow('255,200,40'),artery:glow('235,70,60'),vein:glow('60,110,220'),vcom:glow('140,180,240')};
+const paths={};
+const thick=/^(ut|mt|lt|lc|mc|pc|median|ulnar|radial|musc|bct|rsca|axa|braa|rada|ula|ceph|bas)$/;
+function make(id,pts,group,extra){
+  const curve=new THREE.CatmullRomCurve3(pts,false,'centripetal');const len=curve.getLength();
+  const seg=Math.max(24,Math.round(len*28)),rad=10;
+  let r=thick.test(id)?(group==='nerve'?.05:.058):.032;
+  if(group==='vcom')r=thick.test(id.slice(2))?.045:.026;
+  const geo=new THREE.TubeGeometry(curve,seg,r,rad,false);
+  const col=COLORS[group];
+  const mat=new THREE.MeshStandardMaterial({color:col,emissive:col,emissiveIntensity:.3,roughness:.45,transparent:true,opacity:1,depthWrite:group!=='vcom'});
+  const mesh=new THREE.Mesh(geo,mat);mesh.visible=false;scene.add(mesh);
+  const head=new THREE.Sprite(new THREE.SpriteMaterial({map:GLOW[group],depthWrite:false,transparent:true}));head.scale.set(.42,.42,1);head.visible=false;scene.add(head);
+  const flow=[];for(let i=0;i<Math.max(2,Math.round(len*1.3));i++){const s=new THREE.Sprite(new THREE.SpriteMaterial({map:GLOW[group],depthWrite:false,transparent:true,opacity:.85}));s.scale.set(group==='vcom'?.15:.2,group==='vcom'?.15:.2,1);s.visible=false;s.userData.o=Math.random();scene.add(s);flow.push(s);}
+  paths[id]=Object.assign({id,group,curve,len,mesh,geo,total:geo.index.count,unit:rad*6,head,flow,p:0,state:'hidden',fade:0},extra||{});
+}
+for(const id in N)make(id,N[id],'nerve');
+for(const id in A){make(id,A[id],'artery');
+  // same-name accompanying vein: offset, reversed (flows back toward the heart)
+  const off=V(.065,0,-.03);
+  const pts=A[id].map(p=>p.clone().add(off)).reverse();
+  make('v_'+id,pts,'vcom',{of:id});}
+for(const id in W)make(id,W[id],'vein');
+function setGrow(n,p){n.p=p;n.mesh.visible=p>0;n.geo.setDrawRange(0,Math.floor(n.total*p/n.unit)*n.unit);
+  n.head.visible=p>0&&p<1;if(n.head.visible)n.head.position.copy(n.curve.getPointAt(p));}
+
+/* ---------- steps ---------- */
+const Y='#d29c00',R='#cc3b36',B='#2c5bb5',LB='#6f98d8',G='#8a96a0',M='#c9705f';
+const NSTEPS=[
+ {t:'臂神經叢的神經根',en:'Roots of brachial plexus（C5–T1）',cam:[V(1.4,3.1,5.4),V(-.6,2.95,-.2)],ph:[['r5','r6','r7','r8','rt1'],['dsn','ltn']],ctx:['rsca'],mus:['levr','serr'],
+  tags:[['C5','',V(-.28,3.62,-.3),G],['T1','',V(-.24,2.48,-.3),G],['前斜角肌','Anterior scalene m.',V(-.5,3.1,0),'#b86b5e'],['肩胛背神經','Dorsal scapular n.',V(-.62,2.9,-.62),Y],['胸長神經','Long thoracic n.',V(-.96,1.6,.2),Y]],
+  where:'臂神經叢由 C5–T1 脊神經前支組成。神經根在前斜角肌（anterior scalene m.）後面、中斜角肌（middle scalene m.）前面穿出（斜角肌間隙），與鎖骨下動脈一起走向腋窩。',
+  br:'由神經根直接發出：肩胛背神經（dorsal scapular n.，C5），支配提肩胛肌、大小菱形肌；胸長神經（long thoracic n.，C5–C7），緊貼外側胸壁，走在前鋸肌表面並支配它。',
+  cl:'胸長神經受損時前鋸肌無力，出現翼狀肩胛（winged scapula）。'},
+ {t:'神經幹與分股',en:'Trunks & Divisions',cam:[V(.6,3.2,5.0),V(-1.0,2.7,-.1)],ph:[['ut','mt','lt'],['ut_a','mt_a','lt_a','ut_p','mt_p','lt_p','ssn']],mus:['supra','infra'],
+  tags:[['上幹','Superior trunk（C5+C6）',V(-1.0,2.95,0),Y],['中幹','Middle trunk（C7）',V(-1.08,2.74,.02),Y],['下幹','Inferior trunk（C8+T1）',V(-1.1,2.58,0),Y],['肩胛上神經','Suprascapular n.',V(-1.05,2.6,-.42),Y]],
+  where:'C5、C6 合成上幹（superior trunk），C7 單獨成為中幹（middle trunk），C8、T1 合成下幹（inferior trunk）。三幹在鎖骨後方各自分成前股（anterior division）及後股（posterior division）。',
+  br:'上幹發出肩胛上神經（suprascapular n.）及至鎖骨下肌神經（nerve to subclavius）。肩胛上神經走在肩胛上橫韌帶（sup. transverse scapular lig.）下方穿過肩胛上切跡，支配棘上肌及棘下肌。',
+  cl:'肩胛上動脈走在韌帶上方，神經走在下方。記法：a 是第一個字母，所以動脈走上面。'},
+ {t:'三條神經索',en:'Lateral, Medial & Posterior cords',cam:[V(.2,2.6,5.2),V(-1.4,2.2,.1)],ph:[['lc','mc','pc']],ctx:['axa'],mus:['pmin'],
+  tags:[['外側索','Lateral cord',V(-1.58,2.1,.26),Y],['內側索','Medial cord',V(-1.4,2.08,.13),Y],['後索','Posterior cord',V(-1.5,2.12,-.07),Y],['胸小肌','Pectoralis minor m.',V(-1.1,1.9,.5),'#b56a8a'],['腋動脈','Axillary a.',V(-1.42,2.22,.2),R]],
+  where:'上、中幹的前股合成外側索（lateral cord）；下幹的前股成為內側索（medial cord）；三條後股合成後索（posterior cord）。三索在胸小肌後方，包圍腋動脈第二段。',
+  br:'三索按它們與腋動脈的位置命名：外側索在外側、內側索在內側、後索在後方。',
+  cl:'三索及其終末分支組成「M」字形（俗稱麥當勞神經）：肌皮神經、正中神經、尺神經。'},
+ {t:'外側索與內側索的分支',en:'Branches of lateral & medial cords',cam:[V(.4,2.0,5.6),V(-1.2,1.7,.25)],ph:[['lpn','mpn'],['mcna','icbn','mcnf']],mus:['pmaj','pmin'],
+  tags:[['外側胸神經','Lat. pectoral n.',V(-1.2,2.4,.5),Y],['內側胸神經','Med. pectoral n.',V(-1.18,2.1,.46),Y],['上臂內側皮神經','Med. cutaneous n. of arm',V(-1.42,1.1,.08),Y],['肋間臂神經','Intercostobrachial n.',V(-1.05,1.9,.26),Y],['前臂內側皮神經','Med. cutaneous n. of forearm',V(-1.7,-.6,.32),Y]],
+  where:'外側胸神經（lat. pectoral n.）由外側索發出，繞過胸小肌內側緣到胸大肌深層，只支配胸大肌。內側胸神經（med. pectoral n.）由內側索發出，穿過胸小肌本身再到胸大肌，支配胸大肌及胸小肌。',
+  br:'內側索另發出上臂內側皮神經（med. cutaneous n. of arm），與第二肋間來的肋間臂神經（intercostobrachial n.）會合成 Y 字；以及前臂內側皮神經（med. cutaneous n. of forearm），往前臂皮膚走。',
+  cl:'前臂內側皮神經在尺神經上方淺層，容易被誤認成尺神經：往遠端追，進皮膚的是皮神經。名稱注意：神經用 pectoral（med./lat.），動脈用 thoracic。'},
+ {t:'肌皮神經',en:'Musculocutaneous n.',cam:[V(.6,.6,6.6),V(-1.8,.4,.2)],ph:[['musc']],mus:['cbr','bic','brach'],
+  tags:[['肌皮神經','Musculocutaneous n.',V(-1.8,.9,.28),Y],['喙肱肌','Coracobrachialis m.',V(-1.58,1.95,.32),'#6f98d8'],['肱二頭肌','Biceps brachii m.',V(-1.92,.3,.5),M],['前臂外側皮神經','Lat. cutaneous n. of forearm',V(-2.3,-2.8,.28),Y]],
+  where:'外側索的終末支。發出後穿過喙肱肌（coracobrachialis m.），走在肱二頭肌（biceps brachii m.）與肱肌（brachialis m.）之間，在肘部外側穿出成為前臂外側皮神經（lat. cutaneous n. of forearm）。',
+  br:'支配上臂前側肌群：喙肱肌、肱二頭肌、肱肌（屈肘、前臂旋後）。',
+  cl:'受損時屈肘及旋後無力，前臂外側皮膚感覺減退。'},
+ {t:'正中神經',en:'Median n.',cam:[V(.2,-1.6,8.4),V(-1.95,-2.0,.25)],ph:[['med_l','med_m'],['median'],['ain','mrec','md1','md2','md3','md4']],ctx:['braa'],mus:['flex','then'],
+  tags:[['內、外側根','Lat. & med. roots',V(-1.56,1.82,.22),Y],['肱動脈','Brachial a.',V(-1.66,.6,.22),R],['旋前圓肌兩頭之間','Between heads of pronator teres',V(-1.9,-1.4,.3),G],['前骨間神經','Ant. interosseous n.',V(-2.02,-2.9,.08),Y],['腕隧道','Carpal tunnel',V(-2.12,-4.48,.34),G]],
+  where:'由外側索的外側根及內側索的內側根合成，與肱動脈一起走到肘窩。在上臂沒有分支。在前臂穿過旋前圓肌（pronator teres m.）兩頭之間，走在屈指淺肌與屈指深肌之間，經腕隧道（carpal tunnel）進入手掌。',
+  br:'前臂：前骨間神經（ant. interosseous n.），與同名動脈伴行，走在屈指深肌與屈拇長肌之間。手掌：正中神經回返支（recurrent br. of median n.）支配大魚際肌；第 1、2 蚓狀肌；總掌指神經及固有掌指神經到拇指至環指外側半。',
+  cl:'腕隧道症候群：正中神經受壓，拇指至環指外側半麻痛、大魚際肌萎縮。由 2–4 指分出的應寫 common / proper palmar digital br. of median n.。'},
+ {t:'尺神經',en:'Ulnar n.',cam:[V(1.8,-1.4,7.8),V(-1.8,-2.0,.1)],ph:[['ulnar'],['ud1','ud2','udp']],mus:['flex','hypo'],
+  tags:[['尺神經','Ulnar n.',V(-1.5,1.0,.02),Y],['內上髁後方','Behind medial epicondyle',V(-1.68,-.85,-.17),G],['Guyon 管','Guyon’s canal',V(-1.88,-4.5,.4),G],['深支','Deep br.',V(-2.15,-4.95,.15),Y]],
+  where:'內側索的終末支。在上臂沒有分支，沿內側下行後轉到後方，繞過肱骨內上髁後面進入前臂。在前臂與尺動脈伴行，走在尺側屈腕肌（flexor carpi ulnaris m.）與屈指肌之間，經 Guyon 管進入手掌。',
+  br:'支配尺側屈腕肌及第 4、5 指的屈指深肌；手掌大部分小肌肉（小魚際肌、骨間肌、第 3、4 蚓狀肌、內收拇肌）。皮支到小指及環指內側半。',
+  cl:'內上髁後方位置表淺（俗稱「麻筋」），受傷時出現爪形手（claw hand）。由 4、5 指分出的應寫 common / proper palmar digital br. of ulnar n.。'},
+ {t:'後索的分支',en:'Branches of posterior cord',cam:[V(-1.6,1.9,-5.0),V(-1.3,1.7,-.4)],ph:[['uss','tdn','lss']],ctx:['tda'],mus:['subsc','lat','tmaj'],
+  tags:[['上肩胛下神經','Upper subscapular n.',V(-1.28,2.12,-.4),Y],['胸背神經','Thoracodorsal n.',V(-1.3,1.45,-.5),Y],['下肩胛下神經','Lower subscapular n.',V(-1.38,1.62,-.5),Y],['闊背肌','Latissimus dorsi m.',V(-1.0,.9,-.72),'#c07a4f']],
+  where:'後索發出三條肩胛下神經，靠支配的肌肉及近遠端位置分辨：上肩胛下神經（upper subscapular n.）最短，只到肩胛下肌；中肩胛下神經即胸背神經（thoracodorsal n.），與胸背動脈伴行，支配闊背肌；下肩胛下神經（lower subscapular n.）往遠端分兩叉，支配肩胛下肌及大圓肌。',
+  br:'後索的兩條終末支是腋神經及橈神經。',
+  cl:'胸背神經不支配肩胛下肌。'},
+ {t:'腋神經',en:'Axillary n.',cam:[V(-2.4,2.2,-4.6),V(-1.6,2.0,-.25)],ph:[['axn','axn_tm']],ctx:['pcha'],mus:['delt','tmin'],
+  tags:[['腋神經','Axillary n.',V(-1.6,1.98,-.2),Y],['四邊孔','Quadrangular space',V(-1.66,2.0,-.34),G],['後旋肱動脈','Post. circumflex humeral a.',V(-1.86,2.08,-.24),R],['三角肌','Deltoid m.',V(-2.05,2.3,.1),M]],
+  where:'後索的終末支，不跨過闊背肌肌腱。與後旋肱動脈一起穿過四邊孔（quadrangular space）到肱骨後方，繞外科頸。',
+  br:'支配小圓肌及三角肌，並分出上臂上外側皮神經。',
+  cl:'肱骨外科頸骨折或肩關節脫位容易傷及腋神經，三角肌無力，肩外側一小片皮膚感覺減退。'},
+ {t:'橈神經',en:'Radial n.',cam:[V(-3.6,-.4,-5.2),V(-2.0,-.6,-.1)],ph:[['radial'],['rad_s','rad_d']],ctx:['pba'],mus:['tric','ext','sup'],
+  tags:[['三角間隙','Triangular interval',V(-1.68,1.35,-.32),G],['橈神經溝','Radial groove',V(-1.9,.8,-.22),G],['淺支','Superficial br.',V(-2.32,-2.4,.2),Y],['後骨間神經','Post. interosseous n.',V(-2.15,-2.8,-.26),Y],['旋後肌','Supinator m.',V(-2.24,-1.35,-.1),'#6f98d8']],
+  where:'後索的終末支。走在闊背肌肌腱上方，跨過後與深肱動脈一起經三角間隙（triangular interval）到肱骨後方，沿橈神經溝到下外側，走在肱橈肌與肱肌之間，在肘窩附近分成淺支及深支。',
+  br:'淺支（superficial br.）與橈動脈伴行，走在肱橈肌下方，到手背鼻煙壺。深支（deep br.）穿進旋後肌，穿出後成為後骨間神經（post. interosseous n.），是前臂後側唯一可見的神經主幹。支配肱三頭肌、肘肌及前臂全部伸肌。',
+  cl:'肱骨幹骨折容易在橈神經溝傷及橈神經，造成垂腕（wrist drop）。'},
+ {t:'神經總覽',en:'Overview of upper limb nerves',cam:[V(3.5,-.8,11),V(-1.4,-1.2,0)],ph:[],orbit:true,
+  tags:[['肌皮神經','Musculocutaneous n.',V(-1.8,.9,.28),Y],['正中神經','Median n.',V(-1.72,.9,.26),Y],['尺神經','Ulnar n.',V(-1.5,1.0,0),Y],['橈神經','Radial n.',V(-1.86,.9,-.22),Y]],
+  where:'外側索：肌皮神經、正中神經外側根。內側索：尺神經、正中神經內側根。後索：腋神經、橈神經。',
+  br:'上臂前側靠肌皮神經；上臂及前臂後側全部靠橈神經家族；前臂前側大部分靠正中神經，尺側一部分靠尺神經；手掌小肌肉大部分靠尺神經，大魚際肌靠正中神經。',
+  cl:'垂腕：橈神經。爪形手：尺神經。大魚際萎縮：正中神經。翼狀肩胛：胸長神經。'}
+];
+const VSTEPS=[
+ {t:'鎖骨下動脈到腋動脈',en:'Subclavian a. → Axillary a.（3 parts）',cam:[V(.6,2.6,5.4),V(-.9,2.3,.1)],ph:[['bct'],['rsca'],['axa']],mus:['pmin'],
+  tags:[['頭臂動脈幹','Brachiocephalic trunk',V(-.16,2.15,.3),R],['鎖骨下動脈','Subclavian a.',V(-.6,2.74,.08),R],['第一肋外緣','Lat. border of 1st rib',V(-1.02,2.5,.02),G],['胸小肌','Pectoralis minor m.',V(-1.15,1.85,.5),'#b56a8a'],['腋動脈','Axillary a.',V(-1.42,2.2,.2),R]],
+  where:'右鎖骨下動脈來自頭臂動脈幹，左鎖骨下動脈直接來自主動脈弓。鎖骨下動脈越過第一肋外緣後改稱腋動脈（axillary a.），過大圓肌下緣後改稱肱動脈。',
+  br:'腋動脈以胸小肌為界分成三段：第一段在胸小肌內側（1 條分支）；第二段被胸小肌蓋住（2 條分支）；第三段在胸小肌外側（3 條分支）。淺藍色是與動脈同名的伴行靜脈（如腋靜脈），血流方向相反。',
+  cl:'腋靜脈走在腋動脈前內側。實習時分支變異多，以走到哪個位置來認。'},
+ {t:'肩胛周圍的動脈',en:'Arteries around the scapula',cam:[V(-1.0,2.6,-5.2),V(-.95,2.2,-.4)],ph:[['rsca'],['tcs','ssa','dsa']],ctx:['ssn'],mus:['supra','infra','levr'],
+  tags:[['肩胛上動脈','Suprascapular a.',V(-1.25,2.3,-.7),R],['肩胛上神經','Suprascapular n.',V(-1.2,2.38,-.64),Y],['背肩胛動脈','Dorsal scapular a.',V(-.75,2.1,-.75),R],['橫頸動脈淺支','Superficial br. of transverse cervical a.',V(-.66,3.0,-.62),R]],
+  where:'肩胛上動脈（suprascapular a.）由鎖骨下動脈的分支發出，走在肩胛上橫韌帶上方，到棘上窩及棘下窩。背肩胛動脈（dorsal scapular a.）沿肩胛骨內側緣下行。橫頸動脈淺支到斜方肌。',
+  br:'背肩胛動脈有人直接由鎖骨下動脈第三段發出，有人由橫頸動脈深支而來，答 dorsal scapular a. 即可。它與肩胛背神經伴行，支配提肩胛肌及大小菱形肌。',
+  cl:'肩胛骨周圍動脈網與旋肩胛動脈吻合，腋動脈近端阻塞時可作側支循環。'},
+ {t:'腋動脈第一、二段',en:'Branches of 1st & 2nd parts',cam:[V(.2,2.4,5.0),V(-1.2,2.2,.3)],ph:[['axa'],['sta','taa','lta'],['taa_p','taa_a','taa_c','taa_d']],ctx:['ltn'],mus:['pmaj','serr'],
+  tags:[['上胸動脈','Sup. thoracic a.',V(-.9,2.46,.38),R],['胸肩峰動脈','Thoracoacromial a.',V(-1.3,2.47,.4),R],['三角肌支','Deltoid br.',V(-1.66,2.3,.44),R],['胸肌支','Pectoral br.',V(-1.05,2.2,.6),R],['外胸動脈','Lat. thoracic a.',V(-1.08,1.6,.32),R]],
+  where:'第一段：上胸動脈（sup. thoracic a.），進入並供應第一肋間。第二段：胸肩峰動脈（thoracoacromial a.），在胸小肌上緣，主幹很短，立即分出四支；外胸動脈（lat. thoracic a.），沿胸小肌下緣供應外側胸壁，與胸長神經伴行。',
+  br:'胸肩峰動脈四支：胸肌支（pectoral br.，往胸大、胸小肌）、肩峰支（acromial br.，往肩峰）、鎖骨支（clavicular br.，往鎖骨下方）、三角肌支（deltoid br.，常與頭靜脈伴行）。外胸動脈在女性發出乳腺支（mammary br.）。',
+  cl:'外胸動脈有時由胸背動脈發出。動脈用 thoracic，神經用 pectoral，名稱不可混用。'},
+ {t:'腋動脈第三段',en:'Branches of 3rd part',cam:[V(-1.4,2.0,-5.0),V(-1.45,1.85,-.2)],ph:[['axa'],['subsa','acha','pcha'],['csa','tda']],ctx:['axn','tdn'],mus:['subsc','lat','tmaj','tmin'],
+  tags:[['肩胛下動脈','Subscapular a.',V(-1.46,1.95,-.05),R],['旋肩胛動脈（三角孔）','Circumflex scapular a.（Triangular space）',V(-1.38,1.95,-.48),R],['胸背動脈','Thoracodorsal a.',V(-1.28,1.45,-.48),R],['後旋肱動脈（四邊孔）','Post. circumflex humeral a.（Quadrangular space）',V(-1.7,2.02,-.32),R],['前旋肱動脈','Ant. circumflex humeral a.',V(-1.78,2.02,.22),R]],
+  where:'肩胛下動脈（subscapular a.）分成旋肩胛動脈（circumflex scapular a.，由前往後穿過三角孔到肩胛骨後方）及胸背動脈（thoracodorsal a.，往下到闊背肌，有同名神經伴行）。',
+  br:'前旋肱動脈（ant. circumflex humeral a.）很細，在外科頸前方，沒有東西伴行，不進四邊孔。後旋肱動脈（post. circumflex humeral a.）較粗，與腋神經一起穿過四邊孔到肱骨後方。',
+  cl:'三個空間：四邊孔（腋神經、後旋肱動脈）；三角間隙（橈神經、深肱動脈）；三角孔（旋肩胛動脈）。'},
+ {t:'肱動脈',en:'Brachial a. & its branches',cam:[V(.8,.6,6.8),V(-1.75,.4,0)],ph:[['braa'],['pba','suca','iuca'],['mca','rca']],ctx:['radial','ulnar'],mus:['bic','tric'],
+  tags:[['肱動脈','Brachial a.',V(-1.66,.9,.22),R],['深肱動脈','Profunda brachii a.',V(-1.66,1.33,-.3),R],['中副動脈','Middle collateral a.',V(-1.97,-.3,-.32),R],['橈側副動脈','Radial collateral a.',V(-2.1,-.1,-.05),R],['上尺側副動脈','Sup. ulnar collateral a.',V(-1.56,.3,-.12),R]],
+  where:'腋動脈過大圓肌下緣改稱肱動脈（brachial a.），兩旁有成對肱靜脈伴行。深肱動脈（profunda brachii a.）由前往後與橈神經一起穿過三角間隙，在肱骨後方分出中副動脈（middle collateral a.）及橈側副動脈（radial collateral a.）。',
+  br:'上尺側副動脈（sup. ulnar collateral a.）與尺神經伴行；下尺側副動脈（inf. ulnar collateral a.）很短。這些副動脈在肘部與前臂的迴返支吻合。',
+  cl:'肘窩內摸到肱動脈脈搏，量血壓時聽診器放在這裡。'},
+ {t:'橈動脈',en:'Radial a.',cam:[V(-2.4,-2.4,7.2),V(-2.25,-2.6,.2)],ph:[['braa'],['rada'],['rra','spbr','dpar']],ctx:['rad_s'],mus:['flex'],
+  tags:[['橈動脈','Radial a.',V(-2.3,-2.8,.27),R],['橈動脈迴返支','Radial recurrent a.',V(-2.2,-.9,.22),R],['淺掌支','Superficial palmar br.',V(-2.38,-4.6,.35),R],['鼻煙壺','Snuff box',V(-2.48,-4.45,0),G],['深掌弓','Deep palmar arch',V(-2.15,-4.76,.12),R]],
+  where:'肱動脈在肘窩分成橈動脈及尺動脈。橈動脈（radial a.）沿前臂外側在肱橈肌下方下行，與橈神經淺支伴行，在腕部發出淺掌支（superficial palmar br.），主幹經鼻煙壺轉到手背，再穿到手掌形成深掌弓（deep palmar arch）。',
+  br:'橈動脈迴返支（radial recurrent a.）在肘關節處與橈側副動脈吻合。深掌弓由橈動脈與尺動脈深掌支組成。',
+  cl:'腕部外側最常量脈搏的位置（radial pulse），也是動脈抽血及導管常用位置。'},
+ {t:'尺動脈與骨間動脈',en:'Ulnar a. & Interosseous arteries',cam:[V(1.8,-2.2,7.0),V(-1.9,-2.3,.1)],ph:[['braa'],['ula'],['aura','pura','cia'],['aia','pia','iora']],ctx:['ulnar'],mus:['flex','ext'],
+  tags:[['尺動脈','Ulnar a.',V(-1.82,-2.6,.2),R],['前尺側迴返動脈','Ant. ulnar recurrent a.',V(-1.72,-.95,.25),R],['總骨間動脈','Common interosseous a.',V(-1.9,-1.62,.12),R],['前骨間動脈','Ant. interosseous a.',V(-2.03,-3.2,.07),R],['後骨間動脈','Post. interosseous a.',V(-2.12,-3.0,-.26),R]],
+  where:'尺動脈（ulnar a.）沿前臂內側下行，與尺神經伴行，經 Guyon 管進入手掌。上段發出前尺側迴返動脈（ant. ulnar recurrent a.，在內上髁前方）及後尺側迴返動脈（post. ulnar recurrent a.），與上臂的尺側副動脈吻合。',
+  br:'總骨間動脈（common interosseous a.）分成前骨間動脈（ant. interosseous a.，與前骨間神經伴行）、後骨間動脈（post. interosseous a.，與後骨間神經伴行）及骨間迴返動脈（interosseous recurrent a.，與中副動脈吻合）。',
+  cl:'肘部周圍的副動脈與迴返動脈構成側支循環，肱動脈在肘部受阻時仍可供血到前臂。'},
+ {t:'掌部動脈弓',en:'Palmar arches',cam:[V(-1.6,-4.6,4.4),V(-2.12,-5.2,.25)],ph:[['ula'],['spa','dpbu'],['cpd1','cpd2','cpd3'],['ppd1','ppd2','ppd3']],mus:['then','hypo'],
+  tags:[['淺掌弓','Superficial palmar arch',V(-2.1,-5.0,.42),R],['深掌弓','Deep palmar arch',V(-2.15,-4.76,.12),R],['總掌指動脈','Common palmar digital a.',V(-2.16,-5.22,.34),R],['固有掌指動脈','Proper palmar digital a.',V(-2.18,-5.9,.24),R]],
+  where:'淺掌弓（superficial palmar arch）主要由尺動脈與橈動脈淺掌支組成；深掌弓（deep palmar arch）由橈動脈與尺動脈深掌支（deep palmar br. of ulnar a.）組成，位置更深、更近腕部。',
+  br:'淺掌弓往手指發出總掌指動脈（common palmar digital a.），再分成固有掌指動脈（proper palmar digital a.），沿手指兩側走到指尖。',
+  cl:'拼字要全部拼對才有分：palmar、digital。'},
+ {t:'頭靜脈',en:'Cephalic v.',cam:[V(-3.2,-.2,6.4),V(-2.0,-.4,.2)],ph:[['dvn_l'],['ceph']],ctx:['taa_d','axa'],
+  tags:[['手背靜脈網','Dorsal venous network',V(-2.2,-5.0,-.14),B],['頭靜脈','Cephalic v.',V(-2.06,.5,.38),B],['胸三角','Deltopectoral triangle',V(-1.5,2.36,.44),G],['匯入腋靜脈','Into axillary v.',V(-1.28,2.45,.25),G]],
+  where:'上肢淺靜脈由手背開始，再轉到前側回流。頭靜脈（cephalic v.）由手背靜脈網外側開始，沿前臂及上臂外側上行，在三角肌與胸大肌之間的胸三角（deltopectoral triangle）穿入深層，匯入腋靜脈。',
+  br:'深藍色是有自己名字的淺靜脈；淺藍色是與動脈同名的伴行靜脈。頭靜脈在胸三角處常與胸肩峰動脈的三角肌支伴行。',
+  cl:'頭靜脈在肩前方位置固定，可作心律調節器導線的入路。'},
+ {t:'貴要靜脈與肘正中靜脈',en:'Basilic v. & Median cubital v.',cam:[V(1.6,-1.0,6.6),V(-1.8,-.8,.2)],ph:[['dvn_m'],['bas','mcv']],ctx:['axa'],mus:['tmaj'],
+  tags:[['貴要靜脈','Basilic v.',V(-1.6,.3,.28),B],['肘正中靜脈','Median cubital v.',V(-1.92,-.72,.43),B],['大圓肌下緣','Lower border of teres major',V(-1.55,1.75,.22),G],['腋靜脈','Axillary v.',V(-1.4,2.25,.22),LB]],
+  where:'貴要靜脈（basilic v.）由手背靜脈網內側開始，沿前臂及上臂內側上行，過大圓肌下緣後改稱腋靜脈（axillary v.）。肘正中靜脈（median cubital v.）位於肘窩正中，斜向連接頭靜脈與貴要靜脈。',
+  br:'腋靜脈一開始走在腋動脈前內側，後來走在前下方，收集腋動脈各分支的同名靜脈。',
+  cl:'肘正中靜脈是最常用的抽血及打針位置。'},
+ {t:'血管總覽',en:'Overview of upper limb vessels',cam:[V(3.5,-.8,11),V(-1.4,-1.2,0)],ph:[],orbit:true,
+  tags:[['腋動脈','Axillary a.',V(-1.42,2.2,.2),R],['肱動脈脈搏','Brachial pulse',V(-1.88,-.85,.32),R],['橈動脈脈搏','Radial pulse',V(-2.35,-4.25,.27),R],['頭靜脈','Cephalic v.',V(-2.06,.5,.38),B]],
+  where:'動脈主幹：鎖骨下動脈 → 腋動脈（以胸小肌分三段）→ 肱動脈 → 橈動脈及尺動脈 → 掌淺弓、掌深弓 → 指動脈。',
+  br:'深靜脈與動脈同名伴行（淺藍色）；淺靜脈有頭靜脈（外側）、貴要靜脈（內側）及肘正中靜脈（深藍色）。',
+  cl:'可摸脈搏的位置：腋動脈、肱動脈（肘窩）、橈動脈（腕外側）、尺動脈（腕內側）。'}
+];
+const MODES=[{groups:['nerve'],name:'上肢神經走向',brH:'分支與支配 Branches',steps:NSTEPS,
+  legend:[['神經 Nerve','#d29c00']]},
+ {groups:['artery','vein'],name:'上肢血管走向',brH:'分支與重點 Branches',steps:VSTEPS,
+  legend:[['動脈 Artery','#cc3b36'],['同名伴行靜脈 Accompanying vein','#8db2e6'],['頭、貴要、肘正中靜脈 Named superficial veins','#2c5bb5']]}];
+const STEP_DUR=10.5, GROW=4.2, CAM=1.8;
+
+/* ---------- UI ---------- */
+const leaders=document.getElementById('leaders');
+const stepsEl=document.getElementById('steps'),bodyEl=document.getElementById('body'),tagLayer=document.getElementById('tags'),legendEl=document.getElementById('legend');
+const modeBtns=[...document.querySelectorAll('#modes button')];
+let tagEls=[];
+function buildBars(){stepsEl.innerHTML='';MODES[mode].steps.forEach(()=>{const li=document.createElement('li');li.innerHTML='<span></span>';stepsEl.appendChild(li);});
+  legendEl.innerHTML='';MODES[mode].legend.forEach(([t,c])=>{const s=document.createElement('span');const i=document.createElement('i');i.style.background=c;s.appendChild(i);s.appendChild(document.createTextNode(t));legendEl.appendChild(s);});}
+function showStep(){
+  const s=MODES[mode].steps[stepIdx];
+  [...stepsEl.children].forEach((li,k)=>{li.className=k<stepIdx?'done':(k===stepIdx?'now':'');});
+  bodyEl.classList.add('fade');
+  setTimeout(()=>{
+    document.getElementById('count').textContent=(stepIdx+1)+' / '+MODES[mode].steps.length;
+    document.getElementById('title').textContent=s.t;
+    document.getElementById('en').textContent=s.en;
+    document.getElementById('where').textContent=s.where;
+    document.getElementById('branches').textContent=s.br;
+    document.getElementById('brH').textContent=MODES[mode].brH;
+    document.getElementById('clinical').textContent=s.cl;
+    bodyEl.scrollTop=0;bodyEl.classList.remove('fade');
+  },300);
+  tagEls.forEach(e=>{e.el.remove();e.line.remove();e.dot.remove();});
+  const NS='http://www.w3.org/2000/svg';
+  tagEls=s.tags.map(([zh,en,p,c])=>{const el=document.createElement('div');el.className='tag';el.appendChild(document.createTextNode(zh));
+    if(en){const sm=document.createElement('small');sm.textContent=en;el.appendChild(sm);}
+    el.style.setProperty('--c',c);el.style.opacity=0;tagLayer.appendChild(el);
+    const line=document.createElementNS(NS,'line');line.setAttribute('stroke',c);line.setAttribute('stroke-width','1.2');line.style.transition='opacity .4s';
+    const dot=document.createElementNS(NS,'circle');dot.setAttribute('r','3');dot.setAttribute('fill',c);dot.style.transition='opacity .4s';
+    leaders.appendChild(line);leaders.appendChild(dot);
+    return{el,p,line,dot,w:0,h:0};});
+}
+
+/* ---------- timeline ---------- */
+let mode=0,stepIdx=-1,stepT=0,growPhases=[],camFrom=[V(3.2,1.6,8.5),V(-.6,.9,-.3)],camNow=[V(3.2,1.6,8.5),V(-.6,.9,-.3)];
+const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+function resetAll(){for(const id in paths){const n=paths[id];setGrow(n,0);n.state='hidden';n.fade=0;n.flow.forEach(f=>f.visible=false);}}
+function setMode(m){mode=m;resetAll();buildBars();
+  document.getElementById('h1').textContent=MODES[m].name;
+  modeBtns.forEach((b,k)=>b.setAttribute('aria-pressed',k===m?'true':'false'));
+  startStep(0);}
+function startStep(i){
+  const st=MODES[mode].steps[i];
+  for(const id in paths){const n=paths[id];if(n.group==='vcom')continue;
+    if(n.state==='active')n.state='done';
+    else if(n.state==='ctx'){n.state=n.wasDone?'done':'hidden';if(n.state==='hidden')setGrow(n,0);}}
+  st.ph.flat().forEach(id=>{paths[id].state='active';});
+  (st.ctx||[]).forEach(id=>{const n=paths[id];if(n.state!=='active'){n.wasDone=n.state==='done';n.state='ctx';setGrow(n,1);}});
+  if(st.orbit)for(const id in paths){const n=paths[id];if(MODES[mode].groups.includes(n.group)){n.state='active';setGrow(n,1);}}
+  growPhases=st.ph.filter(ph=>ph.some(id=>paths[id].p<1));
+  camFrom=[camNow[0].clone(),camNow[1].clone()];
+  stepIdx=i;stepT=0;showStep();
+}
+modeBtns.forEach((b,k)=>b.addEventListener('click',()=>setMode(k)));
+let camScale=1;
+function resize(){const w=stage.clientWidth,h=stage.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.fov=w/h<0.8?50:40;camScale=w<520?1.5:(w<820?1.25:1);camera.updateProjectionMatrix();tagEls.forEach(t=>t.w=0);}
+window.addEventListener('resize',resize);resize();
+
+const clock=new THREE.Clock(),tmp=new THREE.Vector3();
+setMode(0);
+function frame(){
+  requestAnimationFrame(frame);
+  if(document.hidden)return;
+  const dt=Math.min(clock.getDelta(),.05);
+  stepT+=dt;
+  if(stepT>STEP_DUR){if(stepIdx+1<MODES[mode].steps.length)startStep(stepIdx+1);else setMode((mode+1)%MODES.length);}
+  const s=MODES[mode].steps[stepIdx];
+  const ct=ease(Math.min(stepT/CAM,1));
+  const tgt=s.cam[1].clone();let pos=s.cam[0].clone();
+  if(s.orbit){const off=pos.clone().sub(tgt);off.applyAxisAngle(V(0,1,0),stepT*.33);pos=tgt.clone().add(off);}
+  else pos.x+=Math.sin(stepT*.4)*.25;
+  pos=tgt.clone().add(pos.clone().sub(tgt).multiplyScalar(camScale));
+  camNow[0].copy(camFrom[0]).lerp(pos,ct);camNow[1].copy(camFrom[1]).lerp(tgt,ct);
+  camera.position.copy(camNow[0]);camera.lookAt(camNow[1]);
+  const gt=Math.max(0,stepT-CAM*.6);
+  const per=GROW/Math.max(growPhases.length,1);
+  growPhases.forEach((ph,k)=>{const p=ease(Math.min(Math.max((gt-k*per)/per,0),1));ph.forEach(id=>setGrow(paths[id],p));});
+  const tm=clock.elapsedTime;
+  for(const id in paths){const n=paths[id];
+    if(n.group==='vcom'){
+      const a=paths[n.of];
+      const target=(a.p>=1&&a.state!=='hidden')?(a.state==='active'?1:(a.state==='ctx'?.45:.6)):0;
+      n.fade+=(target-n.fade)*Math.min(dt*2.5,1);
+      if(n.fade>.01&&n.p<1)setGrow(n,1);
+      if(n.fade<=.01&&n.p>0){setGrow(n,0);}
+      n.head.visible=false;
+      n.mesh.material.opacity=.6*n.fade;n.mesh.material.emissiveIntensity=.2;
+      const fo=a.state==='active'&&n.fade>.5;
+      n.flow.forEach((f,i)=>{f.visible=fo;if(fo){const u=(tm*0.7/n.len+f.userData.o+i/n.flow.length)%1;f.position.copy(n.curve.getPointAt(u));f.material.opacity=.7*n.fade;}});
+      continue;}
+    const on=n.state==='active',done=n.state==='done',ctx=n.state==='ctx';
+    if((done||ctx)&&n.p<1)setGrow(n,1);
+    n.mesh.material.opacity=on?1:(done?.45:(ctx?.3:0));
+    n.mesh.material.emissiveIntensity=on?.45:.12;
+    const flowOn=on&&n.p>=1;
+    n.flow.forEach((f,i)=>{f.visible=flowOn;if(flowOn){const u=(tm*0.9/n.len+f.userData.o+i/n.flow.length)%1;f.position.copy(n.curve.getPointAt(u));}});
+  }
+  for(const k in muscles){const m=muscles[k];const want=(s.mus||[]).includes(k)?1:0;
+    m.userData.t+=(want-m.userData.t)*Math.min(dt*3,1);
+    m.material.opacity=.08+m.userData.t*.42;m.material.emissiveIntensity=m.userData.t*.25;}
+  renderer.render(scene,camera);
+  const w=stage.clientWidth,h=stage.clientHeight;
+  // label layout: place each tag above its anchor, then push apart so none overlap
+  const boxes=[];
+  tagEls.forEach((t,i)=>{tmp.copy(t.p).project(camera);
+    const ax=(tmp.x*.5+.5)*w,ay=(-tmp.y*.5+.5)*h;
+    const vis=tmp.z<1&&stepT>CAM*.7+i*.4;
+    if(!t.w){t.w=t.el.offsetWidth;t.h=t.el.offsetHeight;}
+    let x=Math.min(Math.max(ax-t.w/2,6),w-t.w-6),y=ay-t.h-18;
+    boxes.push({t,ax,ay,x,y,vis});});
+  boxes.sort((a,b)=>a.y-b.y);
+  for(let it=0;it<6;it++){for(let i=0;i<boxes.length;i++)for(let j=i+1;j<boxes.length;j++){
+    const a=boxes[i],b=boxes[j];
+    const ox=Math.min(a.x+a.t.w,b.x+b.t.w)-Math.max(a.x,b.x),oy=Math.min(a.y+a.t.h,b.y+b.t.h)-Math.max(a.y,b.y);
+    if(ox>0&&oy>0){const d=(oy+4)/2;a.y-=d;b.y+=d;}}}
+  boxes.forEach(b=>{b.y=Math.min(Math.max(b.y,legendEl.offsetHeight+14),h-b.t.h-6);
+    b.t.el.style.transform='translate('+b.x.toFixed(1)+'px,'+b.y.toFixed(1)+'px)';
+    b.t.el.style.opacity=b.vis?1:0;
+    const cx=Math.min(Math.max(b.ax,b.x+6),b.x+b.t.w-6),cy=b.y+(b.ay>b.y?b.t.h:0);
+    b.t.line.setAttribute('x1',b.ax);b.t.line.setAttribute('y1',b.ay);b.t.line.setAttribute('x2',cx);b.t.line.setAttribute('y2',cy);
+    b.t.dot.setAttribute('cx',b.ax);b.t.dot.setAttribute('cy',b.ay);
+    b.t.line.style.opacity=b.t.dot.style.opacity=b.vis?.9:0;});
+  const now=stepsEl.children[stepIdx];if(now)now.firstChild.style.transform='scaleX('+Math.min(stepT/STEP_DUR,1)+')';
+}
+frame();
+})();
+</script>
+</body>
+</html>

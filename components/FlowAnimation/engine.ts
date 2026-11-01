@@ -71,7 +71,7 @@ export function createFlowEngine(opt:FlowOptions):FlowEngine{
  const posterior=new RegExp('^('+data.posteriorArteries.join('|')+')$');
  for(const id in data.arteries){make(id,data.arteries[id],'artery');
   // 同名伴行靜脈：由動脈資料自動產生（偏移＋反向，血流回心臟）
-  const off=posterior.test(id)?[0,0,-.085]:[.075,0,-.03];
+  const off=posterior.test(id)?[0,0,-.085]:(data.veinOffset??[.075,0,-.03]);
   const pts=data.arteries[id].map(p=>[p[0]+off[0],p[1]+off[1],p[2]+off[2]] as Pt).reverse();
   make('v_'+id,pts,'vcom',{of:id});}
  for(const id in data.veins)make(id,data.veins[id],'vein');
