@@ -39,7 +39,8 @@ import SPACE_SHAPE_DATA from './space-shapes.json';
 import {SPACE_SHAPES,SHAPE_COLORS} from './mj-space-shapes';
 import {SPACES,resolveSpace,spacesForGroups,type SpaceDef,type SpaceGroup,type SpaceHit,type SpaceItemHit} from './mj-spaces';
 import {anatomyDepth,matchesDepth,type TissueDepth} from './mj-depth';
-import {buildOwners,ruleParts,ownerSwitchesOn,referenceMuscles} from './mj-owners';
+import {buildOwners} from './mj-owners';
+import {partVisibility} from './mj-part-visibility';
 import {augmentAtlasWithFacial} from './mj-facial-atlas';
 import {matchesHeartLayer} from './mj-heart-layers';
 import {matchesSex} from './mj-sex';
@@ -189,9 +190,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const hiddenSet=new Set(state.hiddenParts??[]);
  // Counting ~2,300 parts is skipped while only the pose changes (a motion drag re-renders this page every frame).
  const owners=useMemo(()=>atlas?buildOwners(atlas.parts):null,[atlas]);
- const visibleCount=useMemo(()=>{if(!atlas)return 0;const on=new Set(state.visible),focus=state.focusParts?new Set(state.focusParts):null,sel=new Set(state.selected),refs=owners?referenceMuscles(owners,sel):new Set<string>();
-  const passes=(q:Part,p:Part)=>!hiddenSet.has(q.id)&&matchesDepth(q,state.depthFilter)&&matchesMuscleLayer(q,state.muscleRegion,state.muscleLayer)&&matchesFacialMuscleLayer(q,state.faceMuscleLayer)&&matchesHeartLayer(q,state.heartOpen)&&matchesSex(q,state.sex)&&!(q.system==='serous'&&(state.hiddenSerous??[]).includes(serousLayerKey(q.name)))&&(state.isolate?false:focus?focus.has(q.id)&&on.has(q.system):on.has(q.system))&&(q===p||on.has(p.system));
-  return atlas.parts.filter(p=>!hiddenSet.has(p.id)&&(sel.has(p.id)||refs.has(p.id)||(owners?ownerSwitchesOn(owners,p,on)&&ruleParts(owners,p).some(q=>passes(q,p)):passes(p,p)))).length;
+ const visibleCount=useMemo(()=>{if(!atlas||!owners)return 0;const v=partVisibility(owners,state);return atlas.parts.filter(p=>!v.hidden.has(p.id)&&(v.selection.has(p.id)||v.refMuscles.has(p.id)||v.base(p))).length;
  },[atlas,owners,state.hiddenParts,state.selected,state.depthFilter,state.muscleRegion,state.muscleLayer,state.faceMuscleLayer,state.heartOpen,state.sex,state.hiddenSerous,state.isolate,state.focusParts,state.visible]);
  // Search index: built once in idle slices after the atlas is ready (and again when the extra names arrive), then queried per keystroke by the search panel.
  const [searchIndex,setSearchIndex]=useState<SearchEntry[]|null>(null);
