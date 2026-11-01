@@ -18,7 +18,7 @@ export const SYSTEMS: {id:SystemId;name:string;/** Taiwan Chinese name shown und
  {id:'tendon',name:'Tendons',zh:'肌腱',color:'#c9cdd3',description:'Tendons are tough white cords or bands that join a muscle to a bone. They transmit the pull of the muscle to the skeleton and glide inside sheaths, grooves and tunnels where they cross joints.'},
  {id:'connective',name:'Connective tissue',zh:'結締',color:'#aec3bb',description:'Cartilage, ligaments, and other connective tissues support, connect, and separate structures. Their roles include stabilizing joints and distributing mechanical loads.'},
 ];
-export interface Part {id:string;name:string;conceptId:string;system:SystemId;chunk:number;positions:number;normals:number;indices:number;vertexCount:number;indexCount:number;bounds:[number[],number[]];sex?:'female';schematic?:boolean;kind?:string;model?:string}
+export interface Part {id:string;name:string;conceptId:string;system:SystemId;chunk:number;positions:number;normals:number;indices:number;/** compact package encoding flags, see app/stream-geometry.ts */pq?:number[];n2?:boolean;u16?:boolean;vertexCount:number;indexCount:number;bounds:[number[],number[]];sex?:'female';schematic?:boolean;kind?:string;model?:string}
 export interface Concept {id:string;name:string;elements:string[]}
 export interface Atlas {version:string;sex?:'male';source?:string;scope?:string;parts:Part[];concepts:Concept[];chunks:{url:string;bytes:number;gzip?:string;gzipBytes?:number;deferUntil?:'head'}[];triangles:number;/** supplementary packages whose catalogue could not be fetched (their structures are missing until the page is reloaded) */unavailable?:string[]}
 export type View = 'three-quarter'|'front'|'back'|'side';

@@ -14,6 +14,7 @@ import {structureProfile} from './mj-structure-info';
 import {prepareSurfaceNormals,updateSurfaceNormals} from './surface-normals';
 import {PointerTap} from './pointer-tap';
 import {framingDistance} from './camera-framing';
+import {indexArray,normalArray,positionArray} from './stream-geometry';
 import {CAMERA_TWEEN_MS,tweenProgress} from './camera-tween';
 import {SYSTEMS,type Atlas,type SceneState,type SystemId} from './anatomy';
 import {matchesMuscleLayer} from './mj-muscle-layers';
@@ -579,9 +580,9 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
    if(disposed)return;
    const groups=new Map<string,T.BufferGeometry[]>(),pendingPickers=new Map<number,T.Mesh>();let partOrdinal=0;
    for(const {p,i} of chunkParts[ci]){
-    const g=new T.BufferGeometry();g.setAttribute('position',new T.BufferAttribute(new Float32Array(buffer,p.positions,p.vertexCount*3),3));
+    const g=new T.BufferGeometry();g.setAttribute('position',new T.BufferAttribute(positionArray(buffer,p),3));
     // GPU normalized signed-short normals keep the complete atlas compact in memory.
-    g.setAttribute('normal',new T.BufferAttribute(new Int16Array(buffer,p.normals,p.vertexCount*3),3,true));g.setIndex(new T.BufferAttribute(new Uint32Array(buffer,p.indices,p.indexCount),1));
+    g.setAttribute('normal',new T.BufferAttribute(normalArray(buffer,p),3,true));g.setIndex(new T.BufferAttribute(indexArray(buffer,p),1));
     const position=g.getAttribute('position') as T.BufferAttribute,weights=new Float32Array(p.vertexCount);let variableWeights=false;
     for(let vi=0;vi<p.vertexCount;vi++){const weight=vertexMotionWeight(p,position.getX(vi),position.getY(vi),position.getZ(vi));weights[vi]=weight;if(weight<.999)variableWeights=true;}
     g.setAttribute('motionWeight',new T.BufferAttribute(weights,1));
@@ -700,7 +701,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
      if(bodyMotion?!bodyPartRule(part,bodyRigs[bodyMotion.region]):(!binding||binding.name!==part.name||isMotionQuarantined(part)||!['upper-limb','trunk'].includes(anatomicalRegion(part))))return;
      mesh.userData.baseMotionPositions??=(mesh.geometry.getAttribute('position').array as Float32Array).slice();
      mesh.userData.baseMotionNormals??=(mesh.geometry.getAttribute('normal').array as Int16Array).slice();
-     inputs.push({part,base:mesh.userData.baseMotionPositions.slice(),normals:mesh.userData.baseMotionNormals.slice(),triangles:(mesh.geometry.index!.array as Uint32Array).slice()});workerParts.add(part.id);
+     inputs.push({part,base:mesh.userData.baseMotionPositions.slice(),normals:mesh.userData.baseMotionNormals.slice(),triangles:Uint32Array.from(mesh.geometry.index!.array)});workerParts.add(part.id);
     });
     shoulderWorker!.onmessage=event=>{
      workerBusy=false;if(disposed)return;
