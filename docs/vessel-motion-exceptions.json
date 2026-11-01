@@ -42,49 +42,47 @@
    "worstOpeningMm": 6.1
   },
   "hip flexion 90": {
-   "pairs": 481,
-   "exceptions": 48,
-   "worstOpeningMm": 1231.7
+   "pairs": 478,
+   "exceptions": 47,
+   "worstOpeningMm": 64
   },
   "knee flexion 90": {
-   "pairs": 481,
-   "exceptions": 24,
-   "worstOpeningMm": 617.4
+   "pairs": 478,
+   "exceptions": 21,
+   "worstOpeningMm": 6.5
   },
   "hip flexion 120 + knee 130 (limit)": {
-   "pairs": 481,
+   "pairs": 478,
    "exceptions": 75,
-   "worstOpeningMm": 720.8
+   "worstOpeningMm": 83.6
   },
   "hip extension -20 (limit)": {
-   "pairs": 481,
-   "exceptions": 29,
-   "worstOpeningMm": 301.9
+   "pairs": 478,
+   "exceptions": 26,
+   "worstOpeningMm": 14.4
   },
   "ankle dorsiflexion 20 (limit)": {
-   "pairs": 481,
-   "exceptions": 4,
-   "worstOpeningMm": 43
+   "pairs": 478,
+   "exceptions": 1,
+   "worstOpeningMm": 2.7
   },
   "ankle plantar flexion -30 (limit)": {
-   "pairs": 481,
-   "exceptions": 3,
-   "worstOpeningMm": 63.9
+   "pairs": 478,
+   "exceptions": 0,
+   "worstOpeningMm": 0.8
   },
   "hip abduction 35 (limit)": {
-   "pairs": 481,
-   "exceptions": 28,
-   "worstOpeningMm": 520.1
+   "pairs": 478,
+   "exceptions": 25,
+   "worstOpeningMm": 9
   },
   "hip rotation 20 (limit)": {
-   "pairs": 481,
-   "exceptions": 35,
-   "worstOpeningMm": 41.6
+   "pairs": 478,
+   "exceptions": 32,
+   "worstOpeningMm": 12.3
   }
  },
  "weightExceptions": [
-  "hip flexion 90|FJ2190-END",
-  "hip flexion 120 + knee 130 (limit)|FJ2190-END",
   "shoulder abduction 90|FJ2232-END",
   "shoulder flexion 90|FJ2232-END",
   "shoulder abduction 90|FJ2284-END",
@@ -92,10 +90,7 @@
   "shoulder abduction 90|FJ2330-END",
   "shoulder flexion 90|FJ2330-END",
   "shoulder abduction 90|FJ2361-END",
-  "shoulder flexion 90|FJ2361-END",
-  "hip flexion 90|FJ2186-END",
-  "knee flexion 90|FJ2186-END",
-  "hip flexion 120 + knee 130 (limit)|FJ2186-END"
+  "shoulder flexion 90|FJ2361-END"
  ],
  "exceptions": {
   "shoulder abduction 90|left|FJ2211|FJ2252|end-to-end": 2.5,
@@ -284,9 +279,6 @@
   "hip flexion 90|left|FJ2099|FJ2122|junction": 39.5,
   "hip flexion 90|left|FJ2099|FJ2122|end-to-end": 45.1,
   "hip flexion 90|left|FJ2099|FJ3530|end-to-end": 45.3,
-  "hip flexion 90|left|FJ2185|FJ2186|junction": 1211.5,
-  "hip flexion 90|left|FJ2186|FJ2100|junction": 1222.3,
-  "hip flexion 90|left|FJ2186|FJ2185|junction": 1231.7,
   "hip flexion 90|left|FJ2188|FJ2099|junction": 26.4,
   "hip flexion 90|left|FJ3513|FJ3525|junction": 21.1,
   "hip flexion 90|left|FJ3513|FJ3525|end-to-end": 15.6,
@@ -300,6 +292,7 @@
   "hip flexion 90|left|PK-109|PK-110|junction": 34.9,
   "hip flexion 90|left|PKC-320|FJ3511|end-to-end": 16,
   "hip flexion 90|right|FJ2145|PK-59|end-to-end": 65,
+  "hip flexion 90|right|FJ2195|FJ2057|junction": 21.8,
   "hip flexion 90|right|FJ2201|FJ2135|junction": 25.9,
   "hip flexion 90|right|FJ2203|FJ3567|junction": 29.7,
   "hip flexion 90|right|FJ2203|PK-71|end-to-end": 26.6,
@@ -322,9 +315,6 @@
   "knee flexion 90|left|FJ2121|FJ2107|junction": 40.4,
   "knee flexion 90|left|FJ2124|FJ2097|end-to-end": 5.6,
   "knee flexion 90|left|FJ2125|FJ2097|junction": 27.3,
-  "knee flexion 90|left|FJ2185|FJ2186|junction": 594.7,
-  "knee flexion 90|left|FJ2186|FJ2100|junction": 612.6,
-  "knee flexion 90|left|FJ2186|FJ2185|junction": 617.5,
   "knee flexion 90|left|PK-99|FJ2066|junction": 22.9,
   "knee flexion 90|right|FJ2132|FJ2151|junction": 19.1,
   "knee flexion 90|right|FJ2132|FJ2181|junction": 17,
@@ -347,9 +337,6 @@
   "hip flexion 120 + knee 130 (limit)|left|FJ2121|FJ2107|junction": 42.2,
   "hip flexion 120 + knee 130 (limit)|left|FJ2124|FJ2097|end-to-end": 8.4,
   "hip flexion 120 + knee 130 (limit)|left|FJ2125|FJ2097|junction": 29,
-  "hip flexion 120 + knee 130 (limit)|left|FJ2185|FJ2186|junction": 720.8,
-  "hip flexion 120 + knee 130 (limit)|left|FJ2186|FJ2100|junction": 720.3,
-  "hip flexion 120 + knee 130 (limit)|left|FJ2186|FJ2185|junction": 717.3,
   "hip flexion 120 + knee 130 (limit)|left|FJ2188|FJ2099|junction": 26.9,
   "hip flexion 120 + knee 130 (limit)|left|FJ3513|FJ3525|junction": 27.3,
   "hip flexion 120 + knee 130 (limit)|left|FJ3513|FJ3525|end-to-end": 19.7,
@@ -371,6 +358,7 @@
   "hip flexion 120 + knee 130 (limit)|right|FJ2162|FJ2150|end-to-end": 4.7,
   "hip flexion 120 + knee 130 (limit)|right|FJ2176|FJ2151|junction": 37,
   "hip flexion 120 + knee 130 (limit)|right|FJ2182|FJ2132|junction": 30.1,
+  "hip flexion 120 + knee 130 (limit)|right|FJ2195|FJ2057|junction": 25.6,
   "hip flexion 120 + knee 130 (limit)|right|FJ2201|FJ2135|junction": 37.5,
   "hip flexion 120 + knee 130 (limit)|right|FJ2203|FJ3567|junction": 38.6,
   "hip flexion 120 + knee 130 (limit)|right|FJ2203|PK-71|end-to-end": 48,
@@ -390,9 +378,6 @@
   "hip extension -20 (limit)|left|FJ2099|FJ2122|junction": 7.9,
   "hip extension -20 (limit)|left|FJ2099|FJ2122|end-to-end": 9.2,
   "hip extension -20 (limit)|left|FJ2099|FJ3530|end-to-end": 12.1,
-  "hip extension -20 (limit)|left|FJ2185|FJ2186|junction": 296.4,
-  "hip extension -20 (limit)|left|FJ2186|FJ2100|junction": 304.9,
-  "hip extension -20 (limit)|left|FJ2186|FJ2185|junction": 301.9,
   "hip extension -20 (limit)|left|FJ3513|FJ3525|junction": 4.6,
   "hip extension -20 (limit)|left|FJ3513|FJ3470|junction": 16.7,
   "hip extension -20 (limit)|left|FJ3513|FJ3525|end-to-end": 3.1,
@@ -406,19 +391,10 @@
   "hip extension -20 (limit)|right|FJ3606|FJ3610|junction": 2.3,
   "hip extension -20 (limit)|right|PK-82|PK-83|junction": 7.5,
   "ankle dorsiflexion 20 (limit)|left|FJ2093|FJ2087|junction": 15.7,
-  "ankle dorsiflexion 20 (limit)|left|FJ2185|FJ2186|junction": 36,
-  "ankle dorsiflexion 20 (limit)|left|FJ2186|FJ2100|junction": 40.8,
-  "ankle dorsiflexion 20 (limit)|left|FJ2186|FJ2185|junction": 43.1,
-  "ankle plantar flexion -30 (limit)|left|FJ2185|FJ2186|junction": 52.4,
-  "ankle plantar flexion -30 (limit)|left|FJ2186|FJ2100|junction": 59.4,
-  "ankle plantar flexion -30 (limit)|left|FJ2186|FJ2185|junction": 64,
   "hip abduction 35 (limit)|left|FJ2099|FJ3484|junction": 4.8,
   "hip abduction 35 (limit)|left|FJ2099|FJ2122|junction": 3.6,
   "hip abduction 35 (limit)|left|FJ2099|FJ2122|end-to-end": 5.4,
   "hip abduction 35 (limit)|left|FJ2099|FJ3530|end-to-end": 6.2,
-  "hip abduction 35 (limit)|left|FJ2185|FJ2186|junction": 512,
-  "hip abduction 35 (limit)|left|FJ2186|FJ2100|junction": 518.5,
-  "hip abduction 35 (limit)|left|FJ2186|FJ2185|junction": 520.1,
   "hip abduction 35 (limit)|left|FJ3513|FJ3525|junction": 5,
   "hip abduction 35 (limit)|left|FJ3513|FJ3525|end-to-end": 4.1,
   "hip abduction 35 (limit)|left|FJ3513|FJ3471|junction": 4.1,
@@ -439,9 +415,6 @@
   "hip rotation 20 (limit)|left|FJ2099|FJ2122|junction": 5.2,
   "hip rotation 20 (limit)|left|FJ2099|FJ2122|end-to-end": 10.1,
   "hip rotation 20 (limit)|left|FJ2099|FJ3530|end-to-end": 8.9,
-  "hip rotation 20 (limit)|left|FJ2185|FJ2186|junction": 34.9,
-  "hip rotation 20 (limit)|left|FJ2186|FJ2100|junction": 36.6,
-  "hip rotation 20 (limit)|left|FJ2186|FJ2185|junction": 41.6,
   "hip rotation 20 (limit)|left|FJ2188|FJ2099|junction": 32.8,
   "hip rotation 20 (limit)|left|FJ3513|FJ3525|junction": 3.6,
   "hip rotation 20 (limit)|left|FJ3513|FJ3525|end-to-end": 2.9,
