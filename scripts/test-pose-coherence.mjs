@@ -7,6 +7,7 @@ import fs from 'node:fs';
 import zlib from 'node:zlib';
 import {fileURLToPath} from 'node:url';
 import {runnerImport} from 'vite';
+import {positionsOf} from './lib/stream-geometry.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url)),load=async f=>(await runnerImport(root+f)).module;
 const [body,rules,reg,classifier]=await Promise.all(['app/biomechanics-v2/body-motion.ts','app/biomechanics-v2/body-part.ts','app/mj-part-regions.ts','app/mj-system-classifier.ts'].map(load));
 const read=f=>JSON.parse(fs.readFileSync(root+f,'utf8')),gz=f=>JSON.parse(zlib.gunzipSync(fs.readFileSync(root+f)));
@@ -63,7 +64,7 @@ for(const [region,list] of Object.entries(poses)){
  for(const c of stream.chunks){
   let raw=fs.readFileSync(root+'public'+c.url);if(raw[0]===0x1f&&raw[1]===0x8b)raw=zlib.gunzipSync(raw);const ab=raw.buffer.slice(raw.byteOffset,raw.byteOffset+raw.length);
   for(const m of c.meshes){
-   const pos=new Float32Array(ab,m.positions,m.vertexCount*3);let lo=[1e9,1e9,1e9],hi=[-1e9,-1e9,-1e9];for(let i=0;i<pos.length;i+=3)for(let k=0;k<3;k++){lo[k]=Math.min(lo[k],pos[i+k]);hi[k]=Math.max(hi[k],pos[i+k]);}
+   const pos=positionsOf(new Uint8Array(ab),m);let lo=[1e9,1e9,1e9],hi=[-1e9,-1e9,-1e9];for(let i=0;i<pos.length;i+=3)for(let k=0;k<3;k++){lo[k]=Math.min(lo[k],pos[i+k]);hi[k]=Math.max(hi[k],pos[i+k]);}
    const centre={x:(lo[0]+hi[0])/2,y:(lo[1]+hi[1])/2},limb=body.inferredLimb(centre);
    if(bound[m.name]){continue;}
    if(centre.y<body.HIP_LEVEL&&Math.abs(centre.x)<body.ARM_X){assert.equal(limb,centre.x>=0?'leftLeg':'rightLeg',`${m.name} (leg nerve) follows the leg`);legs++;}

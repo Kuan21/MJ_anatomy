@@ -3,11 +3,12 @@
 // usage: node scripts/measure-lung-ribs.mjs
 import fs from 'node:fs';
 import {gunzipSync} from 'node:zlib';
+import {positionsOf} from './lib/stream-geometry.mjs';
 const models = new URL('../public/models/', import.meta.url);
 const atlas = JSON.parse(fs.readFileSync(new URL('atlas-stream.json', models)));
 const load = (manifest, part) => {
   const b = fs.readFileSync(new URL('..' + '/public' + manifest.chunks[part.chunk].url, import.meta.url));
-  return new Float32Array(b.buffer.slice(b.byteOffset + part.positions, b.byteOffset + part.positions + part.vertexCount * 12));
+  return positionsOf(b, part);
 };
 const sup = JSON.parse(gunzipSync(fs.readFileSync(new URL('supplement/supplement-stream.json.gz', models)))), ser = JSON.parse(gunzipSync(fs.readFileSync(new URL('serous/serous-stream.json.gz', models))));
 const ORD = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth', 'eleventh', 'twelfth'];
