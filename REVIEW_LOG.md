@@ -4,7 +4,7 @@
 
 ## 背部與臀區 PR E（斜方肌、背部浮動神經、胸腰筋膜、臀大肌、臀下靜脈、米色橢圓；【需人工審核】，不自動 merge）
 
-**需人工審核，未合併。** 截圖（`before-`／`after-`，皆為正式 build＋`vite preview`）在 `pr-screenshots` 分支 `back-glute-2026-10-31/`，網址 `@@BASE@@<檔名>`。詳細說明與量測：`docs/back-glute.md`；檢查：`scripts/check-back-glute.mjs`（已併入 `npm run check`）。重現：`npm run build` 後 `vite preview`，打開骨骼＋肌肉從背面看（沒有 PR 預覽網址）。必要的三張：背面 `before/after-muscles-back`、臀區背面 `before/after-muscles-glute-back`、斜方肌選取特寫 `before/after-sel-transverse-part-of-right-trapezius-trap-right-back`。
+**需人工審核，未合併。** 截圖（`before-`／`after-`／`compare-`并排，皆為正式 build＋`vite preview`；拍攝時樹尚未併入後來 main 的肺部變更，背部與臀區畫面不受影響）在 `pr-screenshots` 分支 `back-glute-2026-10-31/`，網址 `https://raw.githubusercontent.com/Kuan21/MJ_anatomy/4c611159b91f1d063b9c289660818773ff964b0b/back-glute-2026-10-31/<檔名>`。詳細說明與量測：`docs/back-glute.md`；檢查：`scripts/check-back-glute.mjs`（已併入 `npm run check`）。重現：`npm run build` 後 `vite preview`，打開骨骼＋肌肉從背面看（沒有 PR 預覽網址）。必要的三張：背面 `before/after-muscles-back`、臀區背面 `before/after-muscles-glute-back`、斜方肌選取特寫 `before/after-sel-transverse-part-of-right-trapezius-trap-right-back`。
 
 | 項目 | 原因（修正前，單位 mm） | 處理 |
 | --- | --- | --- |
