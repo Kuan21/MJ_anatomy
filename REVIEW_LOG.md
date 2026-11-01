@@ -749,6 +749,10 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 
 只出文件與量測腳本，不改模型。文件：`docs/lower-limb-vessel-inventory.md`（對照使用者清單 a、b 的有／缺／重複、已知問題出在哪些網格、血管樹資料結構草案、連續性與碰撞自動檢查設計、資訊卡欄位、分批計畫、需你決定的問題）；數字：`docs/lower-limb-vessel-inventory.json`；腳本：`node scripts/inventory-leg-vessels.mjs --write`（唯讀，不在 `npm run check`）。**所有數字來自網格座標計算，未在 3D 畫面確認**，沒有做截圖。重點：196 個血管網格；清單 a 缺 6 項、清單 b 缺 4 項；穿動脈有三組重複來源且其中兩個是 345–358 mm 長條；末端間隙超過半個管徑 133 處；39 個網格穿骨 12 mm 以上（脛前動脈主幹約 20 cm 在脛骨內）；2 個孤兒連接件；膝以下沒有「兩條伴行靜脈夾動脈」；股深動脈等 16 張資訊卡漏列分支。
 
+## 示意卡出處行不寫書名（【需人工審核】，不自動 merge）
+
+示意結構（約 460 筆）資訊卡的出處行原本寫「依教科書走向建立（書名、版次）」，違反「只可用 Gray's 1918 與 OpenStax」的規則。改為統一一句：「Schematic model, positioned on landmarks measured on the BodyParts3D atlas meshes｜示意模型，位置依標誌量測」（`app/mj-structure-info.ts` 的 `SCHEMATIC_CARD_SOURCE`）。只改顯示的字；Atlas reference 與 View anatomical source 的邏輯沒動；模型資料來源仍集中在 Source & credits（`public/ATTRIBUTION.md`）。**尚未處理（請決定）：** 示意資料檔 `app/mj-paokao.json` 的 refs 欄與生成腳本內仍有書名（不顯示在畫面，需重新生成才能移除）；一般結構卡的出處行與命名來源行寫著 Netter 的書名（`GROSS_SOURCE`、`NETTER_TERMINOLOGY_SOURCE`）。
+
 ## 任務狀態表（2026-10-30；包括你交過的全部任務）
 
 **部署：** 最後一次成功的是 `32a250d`（#125）。#127 merge 後的部署（`7143655`）因臉部肌肉來源檔的上游 404 失敗；#129（改用 `vendor/` 備份）你已 merge，修正後的部署（`c90ec91`，包含 #127 的肺修正）在更新本表時還在跑，我確認成功後才算上線。
@@ -757,6 +761,7 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 
 | 任務 | 狀態（進行中 / 已完成 / 等我審核 / 未開始 / 卡住） | PR 編號 | 備註 |
 | --- | --- | --- | --- |
+| **示意卡出處行改為只寫「示意模型，位置依標誌量測」（不寫書名版次）** | 等我審核（【需人工審核】，不自動 merge） | 見 PR | 見上方同名段落；refs 欄與 Netter 出處行待你決定 |
 | **肺模式跟隨系統開關（Skeleton 關閉不再顯示胸廓）、胸廓參照開關、選取不再無視開關、標籤避開頂部區域列** | 已自動 merge | #190 | 介面程式與測試，不改模型 |
 | **介面修正：區域視圖（頭頸、胸、腹、骨盆、背、臀、上肢、下肢，含左右）整個框進可用區域，不再被區域列切掉** | CI 綠後由主 session 確認 merge（只改介面，不改模型與解剖內容） | #183 | 見上方「區域視圖取景」 |
 | **上下肢走向動畫：下肢神經 11 步、血管 11 步（使用網站人體模型）** | 等我審核（【需人工審核】，不自動 merge） | 見 PR | 原型照搬；背景改用網站的骨骼與肌肉，路徑依骨骼對應點變形；上肢待原型 |
