@@ -41,17 +41,18 @@ export default function lowerLimb(U) {
     }
     // Lateral circumflex femoral artery → ascending and transverse branches.
     {
+      // The ascending and transverse branches are retired (ids kept): BodyParts3D has them as one branch set per side, labelled "Set of calcaneal branches of posterior tibial artery" at source and renamed in app/anatomy-source-overrides.json.
       const lc = `${S.w} lateral circumflex femoral artery`, tipHi = U.tips(lc, .008).reduce((a, t) => t[0] * S.sx < a[0] * S.sx ? t : a);
       const o = U.cen(lc, add(tipHi, P(S.sx * -.008, .0, .0)), .004), asis = U.extreme(`${S.w} hip bone`, P(0, 0, 1), {y: [.95, 1.05]});
       art(S, lc, 'ascending branch of lateral circumflex femoral artery', '旋股外側動脈升支',
         ['Lateral circumflex femoral artery', '旋股外側動脈'], ['Ascends laterally beneath sartorius and rectus femoris, towards the anterior superior iliac spine', '在縫匠肌與股直肌深面向外上走，朝髂前上棘'],
         ['Tensor fasciae latae and the muscles round the hip (anastomoses with the superior gluteal artery)', '闊筋膜張肌與髖周肌肉（與臀上動脈吻合）'],
-        [{pts: [o, add(lerp(o, asis, .45), P(S.sx * .006, 0, -.006)), add(asis, P(S.sx * .008, -.012, -.014))], r: [.0014, .0008], samples: 20}]);
+        [{pts: [o, add(lerp(o, asis, .45), P(S.sx * .006, 0, -.006)), add(asis, P(S.sx * .008, -.012, -.014))], r: [.0014, .0008], samples: 20}], {retired: true});
       const t = U.onSurface(`${S.w} vastus lateralis`, P(S.sx * .125, .835, .0), -.003);
       art(S, lc, 'transverse branch of lateral circumflex femoral artery', '旋股外側動脈橫支',
         ['Lateral circumflex femoral artery', '旋股外側動脈'], ['Runs laterally through vastus lateralis and winds round the femur below the greater trochanter', '向外側穿過股外側肌，繞過大轉子下方的股骨'],
         ['Vastus lateralis and the cruciate anastomosis of the thigh', '股外側肌與大腿的十字吻合'],
-        [{pts: [o, add(lerp(o, t, .5), P(0, -.004, -.006)), t], r: [.0012, .0007], samples: 16}]);
+        [{pts: [o, add(lerp(o, t, .5), P(0, -.004, -.006)), t], r: [.0012, .0007], samples: 16}], {retired: true});
     }
     // Superficial branches of the femoral artery just below the inguinal ligament.
     {

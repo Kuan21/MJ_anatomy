@@ -1,7 +1,5 @@
 {
   "exclude": [
-    "FJ2091",
-    "FJ2195",
     "FJ1471",
     "FJ1471M"
   ],
@@ -33,10 +31,19 @@
     "FJ2197": {
       "name": "Right fibular artery",
       "conceptId": "MJ-FIBULAR-ARTERY"
+    },
+    "FJ2195": {
+      "name": "Right ascending and transverse branches of lateral circumflex femoral artery",
+      "conceptId": "MJ-LCFA-BRANCHES"
+    },
+    "FJ2091": {
+      "name": "Left ascending and transverse branches of lateral circumflex femoral artery",
+      "conceptId": "MJ-LCFA-BRANCHES"
     }
   },
   "concepts": {
     "MJ-DORSAL-METATARSAL-VEIN": "Dorsal metatarsal vein",
-    "MJ-FIBULAR-ARTERY": "Fibular artery"
+    "MJ-FIBULAR-ARTERY": "Fibular artery",
+    "MJ-LCFA-BRANCHES": "Ascending and transverse branches of lateral circumflex femoral artery"
   }
 }
