@@ -27,7 +27,7 @@ export function createNeckVessels(atlas:Atlas,scene:T.Scene){
   const focus=s.focusParts?new Set(s.focusParts):null,hidden=new Set(s.hiddenParts??[]),selected=new Set(s.selected);
   for(const r of rows){
    const picked=!!selectedName&&r.mesh.name===selectedName,hiddenByName=(s.hiddenNerves??[]).includes(r.mesh.name);
-   r.mesh.visible=!hiddenByName&&explode<.01&&(picked||(!hidden.has(r.parent.id)&&s.visible.includes(r.system)&&(!focus||focus.has(r.parent.id))&&(!s.isolate||selected.has(r.parent.id))));
+   r.mesh.visible=!hiddenByName&&explode<.01&&s.visible.includes(r.system)&&(picked||(!hidden.has(r.parent.id)&&s.visible.includes(r.system)&&(!focus||focus.has(r.parent.id))&&(!s.isolate||selected.has(r.parent.id))));
    {const m=r.mesh.material,base=r.system==='venous'?0x4485aa:0xbc4447,color=picked?SELECT_COLOR:base,emissive=picked?SELECT_COLOR:0;
     if(m.color.getHex()!==color||m.emissive.getHex()!==emissive){m.color.setHex(color);m.emissive.setHex(emissive);m.emissiveIntensity=picked?.35:0;}}
    // Deformation is a pure function of (region, palette); update() runs for every viewer state change. A row still at its
