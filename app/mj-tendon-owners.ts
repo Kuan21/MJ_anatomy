@@ -433,7 +433,7 @@ export const TENDON_PART_OWNERS: Record<string, string[]> = {
   "FJ1395"
  ],
  "PK-431": [
-  "FJ1444"
+  "FJ1395"
  ],
  "PK-432": [
   "FJ1395M"
