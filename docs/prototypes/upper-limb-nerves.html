@@ -284,7 +284,8 @@ const W={
   dvn_m:[V(-2.15,-5.0,-.12),V(-1.95,-4.75,-.1),V(-1.85,-4.4,-.02)],
   ceph:[V(-2.45,-4.4,-.02),V(-2.42,-3.6,.12),V(-2.35,-2.6,.26),V(-2.12,-.9,.42),V(-2.05,.5,.36),V(-1.78,1.85,.5),V(-1.48,2.38,.42),V(-1.28,2.45,.23)],
   bas:[V(-1.85,-4.4,-.02),V(-1.78,-3.4,.12),V(-1.75,-2.5,.22),V(-1.7,-.9,.3),V(-1.6,.3,.26),V(-1.55,1.0,.2),V(-1.55,1.75,.2)],
-  mcv:[V(-2.12,-.88,.43),V(-1.92,-.72,.41),V(-1.72,-.55,.31)]
+  mcv:[V(-2.12,-.88,.43),V(-1.92,-.72,.41),V(-1.72,-.55,.31)],
+  mav:[V(-2.12,-4.55,.36),V(-2.06,-3.2,.35),V(-1.98,-1.8,.38),V(-1.86,-.68,.38)]
 };
 const COLORS={nerve:0xd9a300,artery:0xcc3b36,vein:0x2c5bb5,vcom:0x8db2e6};
 function glow(rgb){const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d');const r=g.createRadialGradient(32,32,0,32,32,32);
@@ -420,21 +421,21 @@ const VSTEPS=[
   where:'上肢淺靜脈由手背開始，再轉到前側回流。頭靜脈（cephalic v.）由手背靜脈網外側開始，沿前臂及上臂外側上行，在三角肌與胸大肌之間的胸三角（deltopectoral triangle）穿入深層，匯入腋靜脈。',
   br:'深藍色是有自己名字的淺靜脈；淺藍色是與動脈同名的伴行靜脈。頭靜脈在胸三角處常與胸肩峰動脈的三角肌支伴行。',
   cl:'頭靜脈在肩前方位置固定，可作心律調節器導線的入路。'},
- {t:'貴要靜脈與肘正中靜脈',en:'Basilic v. & Median cubital v.',cam:[V(1.6,-1.0,6.6),V(-1.8,-.8,.2)],ph:[['dvn_m'],['bas','mcv']],ctx:['axa'],mus:['tmaj'],
-  tags:[['貴要靜脈','Basilic v.',V(-1.6,.3,.28),B],['肘正中靜脈','Median cubital v.',V(-1.92,-.72,.43),B],['大圓肌下緣','Lower border of teres major',V(-1.55,1.75,.22),G],['腋靜脈','Axillary v.',V(-1.4,2.25,.22),LB]],
-  where:'貴要靜脈（basilic v.）由手背靜脈網內側開始，沿前臂及上臂內側上行，過大圓肌下緣後改稱腋靜脈（axillary v.）。肘正中靜脈（median cubital v.）位於肘窩正中，斜向連接頭靜脈與貴要靜脈。',
+ {t:'貴要靜脈與肘正中靜脈',en:'Basilic v. & Median cubital v.',cam:[V(1.6,-1.0,6.6),V(-1.8,-.8,.2)],ph:[['dvn_m'],['bas','mcv','mav']],ctx:['axa'],mus:['tmaj'],
+  tags:[['貴要靜脈','Basilic v.',V(-1.6,.3,.28),B],['肘正中靜脈','Median cubital v.',V(-1.92,-.72,.43),B],['前臂正中靜脈','Median antebrachial v.',V(-2.04,-2.8,.36),B],['大圓肌下緣','Lower border of teres major',V(-1.55,1.75,.22),G],['腋靜脈','Axillary v.',V(-1.4,2.25,.22),LB]],
+  where:'貴要靜脈（basilic v.）由手背靜脈網內側開始，沿前臂及上臂內側上行，過大圓肌下緣後改稱腋靜脈（axillary v.）。肘正中靜脈（median cubital v.）位於肘窩正中，斜向連接頭靜脈與貴要靜脈。前臂正中靜脈（median antebrachial v.）由手掌淺靜脈網沿前臂前側中線上行，在肘窩匯入肘正中靜脈或貴要靜脈。',
   br:'腋靜脈一開始走在腋動脈前內側，後來走在前下方，收集腋動脈各分支的同名靜脈。',
   cl:'肘正中靜脈是最常用的抽血及打針位置。'},
  {t:'血管總覽',en:'Overview of upper limb vessels',cam:[V(3.5,-.8,11),V(-1.4,-1.2,0)],ph:[],orbit:true,
   tags:[['腋動脈','Axillary a.',V(-1.42,2.2,.2),R],['肱動脈脈搏','Brachial pulse',V(-1.88,-.85,.32),R],['橈動脈脈搏','Radial pulse',V(-2.35,-4.25,.27),R],['頭靜脈','Cephalic v.',V(-2.06,.5,.38),B]],
   where:'動脈主幹：鎖骨下動脈 → 腋動脈（以胸小肌分三段）→ 肱動脈 → 橈動脈及尺動脈 → 掌淺弓、掌深弓 → 指動脈。',
-  br:'深靜脈與動脈同名伴行（淺藍色）；淺靜脈有頭靜脈（外側）、貴要靜脈（內側）及肘正中靜脈（深藍色）。',
+  br:'深靜脈與動脈同名伴行（淺藍色）；淺靜脈有頭靜脈（外側）、貴要靜脈（內側）、肘正中靜脈及前臂正中靜脈（深藍色）。',
   cl:'可摸脈搏的位置：腋動脈、肱動脈（肘窩）、橈動脈（腕外側）、尺動脈（腕內側）。'}
 ];
 const MODES=[{groups:['nerve'],name:'上肢神經走向',brH:'分支與支配 Branches',steps:NSTEPS,
   legend:[['神經 Nerve','#d29c00']]},
  {groups:['artery','vein'],name:'上肢血管走向',brH:'分支與重點 Branches',steps:VSTEPS,
-  legend:[['動脈 Artery','#cc3b36'],['同名伴行靜脈 Accompanying vein','#8db2e6'],['頭、貴要、肘正中靜脈 Named superficial veins','#2c5bb5']]}];
+  legend:[['動脈 Artery','#cc3b36'],['同名伴行靜脈 Accompanying vein','#8db2e6'],['有名稱的淺靜脈 Named superficial veins','#2c5bb5']]}];
 const STEP_DUR=10.5, GROW=4.2, CAM=1.8;
 
 /* ---------- UI ---------- */

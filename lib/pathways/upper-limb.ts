@@ -104,6 +104,7 @@ const veins:Record<string,Pt[]>={
  ceph:[[-2.45,-4.4,-0.02],[-2.42,-3.6,0.12],[-2.35,-2.6,0.26],[-2.12,-0.9,0.42],[-2.05,0.5,0.36],[-1.78,1.85,0.5],[-1.48,2.38,0.42],[-1.28,2.45,0.23]],
  bas:[[-1.85,-4.4,-0.02],[-1.78,-3.4,0.12],[-1.75,-2.5,0.22],[-1.7,-0.9,0.3],[-1.6,0.3,0.26],[-1.55,1,0.2],[-1.55,1.75,0.2]],
  mcv:[[-2.12,-0.88,0.43],[-1.92,-0.72,0.41],[-1.72,-0.55,0.31]],
+ mav:[[-2.12,-4.55,0.36],[-2.06,-3.2,0.35],[-1.98,-1.8,0.38],[-1.86,-0.68,0.38]],
 };
 
 const nerveSteps:Step[]=[
@@ -305,11 +306,11 @@ const vesselSteps:Step[]=[
   {t:"貴要靜脈與肘正中靜脈",
    en:"Basilic v. & Median cubital v.",
    cam:[[1.6,-1,6.6],[-1.8,-0.8,0.2]],
-   ph:[["dvn_m"],["bas","mcv"]],
+   ph:[["dvn_m"],["bas","mcv","mav"]],
    ctx:["axa"],
    mus:["tmaj"],
-   tags:[["貴要靜脈","Basilic v.",[-1.6,0.3,0.28],"#2c5bb5"],["肘正中靜脈","Median cubital v.",[-1.92,-0.72,0.43],"#2c5bb5"],["大圓肌下緣","Lower border of teres major",[-1.55,1.75,0.22],"#8a96a0"],["腋靜脈","Axillary v.",[-1.4,2.25,0.22],"#6f98d8"]],
-   where:"貴要靜脈（basilic v.）由手背靜脈網內側開始，沿前臂及上臂內側上行，過大圓肌下緣後改稱腋靜脈（axillary v.）。肘正中靜脈（median cubital v.）位於肘窩正中，斜向連接頭靜脈與貴要靜脈。",
+   tags:[["貴要靜脈","Basilic v.",[-1.6,0.3,0.28],"#2c5bb5"],["肘正中靜脈","Median cubital v.",[-1.92,-0.72,0.43],"#2c5bb5"],["前臂正中靜脈","Median antebrachial v.",[-2.04,-2.8,0.36],"#2c5bb5"],["大圓肌下緣","Lower border of teres major",[-1.55,1.75,0.22],"#8a96a0"],["腋靜脈","Axillary v.",[-1.4,2.25,0.22],"#6f98d8"]],
+   where:"貴要靜脈（basilic v.）由手背靜脈網內側開始，沿前臂及上臂內側上行，過大圓肌下緣後改稱腋靜脈（axillary v.）。肘正中靜脈（median cubital v.）位於肘窩正中，斜向連接頭靜脈與貴要靜脈。前臂正中靜脈（median antebrachial v.）由手掌淺靜脈網沿前臂前側中線上行，在肘窩匯入肘正中靜脈或貴要靜脈。",
    br:"腋靜脈一開始走在腋動脈前內側，後來走在前下方，收集腋動脈各分支的同名靜脈。",
    cl:"肘正中靜脈是最常用的抽血及打針位置。"},
   {t:"血管總覽",
@@ -319,7 +320,7 @@ const vesselSteps:Step[]=[
    orbit:true,
    tags:[["腋動脈","Axillary a.",[-1.42,2.2,0.2],"#cc3b36"],["肱動脈脈搏","Brachial pulse",[-1.88,-0.85,0.32],"#cc3b36"],["橈動脈脈搏","Radial pulse",[-2.35,-4.25,0.27],"#cc3b36"],["頭靜脈","Cephalic v.",[-2.06,0.5,0.38],"#2c5bb5"]],
    where:"動脈主幹：鎖骨下動脈 → 腋動脈（以胸小肌分三段）→ 肱動脈 → 橈動脈及尺動脈 → 掌淺弓、掌深弓 → 指動脈。",
-   br:"深靜脈與動脈同名伴行（淺藍色）；淺靜脈有頭靜脈（外側）、貴要靜脈（內側）及肘正中靜脈（深藍色）。",
+   br:"深靜脈與動脈同名伴行（淺藍色）；淺靜脈有頭靜脈（外側）、貴要靜脈（內側）、肘正中靜脈及前臂正中靜脈（深藍色）。",
    cl:"可摸脈搏的位置：腋動脈、肱動脈（肘窩）、橈動脈（腕外側）、尺動脈（腕內側）。"}
 ];
 
@@ -331,6 +332,6 @@ export const upperLimbPathways:PathwayDataset={
  thickPaths:/^(ut|mt|lt|lc|mc|pc|median|ulnar|radial|musc|bct|rsca|axa|braa|rada|ula|ceph|bas)$/,
  modes:[
   {groups:["nerve"],name:"上肢神經走向",brH:"分支與支配 Branches",steps:nerveSteps,legend:[["神經 Nerve","#d29c00"]]},
-  {groups:["artery","vein"],name:"上肢血管走向",brH:"分支與重點 Branches",steps:vesselSteps,legend:[["動脈 Artery","#cc3b36"],["同名伴行靜脈 Accompanying vein","#8db2e6"],["頭、貴要、肘正中靜脈 Named superficial veins","#2c5bb5"]]}
+  {groups:["artery","vein"],name:"上肢血管走向",brH:"分支與重點 Branches",steps:vesselSteps,legend:[["動脈 Artery","#cc3b36"],["同名伴行靜脈 Accompanying vein","#8db2e6"],["有名稱的淺靜脈 Named superficial veins","#2c5bb5"]]}
  ]
 };
