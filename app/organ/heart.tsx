@@ -98,6 +98,16 @@ export default function HeartDetail() {
   };
   /** 打開心臟（內部）／閉合（外表）: same vessel handling as opening a chamber. */
   const openHeart = () => setView({...view, ...OPENED, ...hideFine(view)});
+  // Selecting never moves the camera. Focus (info card) brings the selection into view (opens the heart for a structure inside it, switches its group on) and turns the camera to it.
+  const focusSelection = () => {
+    if (!selected) return;
+    const inside = ['interior', 'papillary', 'valves'].includes(selected.group);
+    setView(v => {
+      const base = inside && !v.ghostChambers ? {...v, ...OPENED, ...hideFine(v)} : v;
+      return {...base, hiddenGroups: base.hiddenGroups.filter(g => g !== selected.group), hiddenParts: base.hiddenParts.filter(x => x !== selected.id), focusNonce: (v.focusNonce ?? 0) + 1};
+    });
+  };
+  const selectedHidden = !!selected && (view.hiddenGroups.includes(selected.group) || view.hiddenParts.includes(selected.id));
   const closeHeart = () => setView({...view, ...defaults, selectedId: view.selectedId, ...restoreVessels(view, defaults.hiddenGroups)});
   // Opened from the atlas search (#/organ/heart?select=<name>): select that structure once the model is ready (opening the heart when it lies inside), then drop the query so a reload does not reselect it.
   useEffect(() => {
@@ -166,7 +176,7 @@ export default function HeartDetail() {
                 <button className="organ-group-head" onClick={() => toggleGroup(g.id)} aria-pressed={!hidden} aria-label={`${hidden ? '顯示' : '隱藏'}${g.label}`}>{hidden ? <EyeOff size={15}/> : <Eye size={15}/>}<span lang="en">{g.english}<small lang="zh-Hant">{g.label}</small></span><b>{g.parts.length}</b></button>
                 <button className="organ-expand" aria-expanded={expanded} aria-label={`${expanded ? '收合' : '展開'}${g.label}`} onClick={() => setOpenGroups(o => expanded ? o.filter(x => x !== g.id) : [...o, g.id])}>{expanded ? <ChevronDown size={15}/> : <ChevronRight size={15}/>}</button>
               </div>
-              {expanded && <ul>{g.parts.map((p: HeartPart) => <li key={p.id} className={view.hiddenParts.includes(p.id) ? 'organ-part-hidden' : undefined}><button className="organ-part-eye" aria-pressed={!view.hiddenParts.includes(p.id)} aria-label={`${view.hiddenParts.includes(p.id) ? '顯示' : '隱藏'}${p.chinese}`} title={view.hiddenParts.includes(p.id) ? '已隱藏（打開心腔時隱藏的細分支）；按一下顯示' : '按一下隱藏'} onClick={() => patch({hiddenParts: view.hiddenParts.includes(p.id) ? view.hiddenParts.filter(x => x !== p.id) : [...view.hiddenParts, p.id]})}>{view.hiddenParts.includes(p.id) ? <EyeOff size={13}/> : <Eye size={13}/>}</button><button aria-pressed={view.selectedId === p.id} onClick={() => patch({selectedId: view.selectedId === p.id ? null : p.id, hiddenGroups: view.hiddenGroups.filter(x => x !== g.id), hiddenParts: view.hiddenParts.filter(x => x !== p.id)})}><span lang="en">{p.name}</span><small lang="zh-Hant">{p.chinese}</small>{p.origin === '示意構造' && <i className="organ-nomodel-tag organ-mj-tag" lang="zh-Hant">示意構造</i>}</button></li>)}</ul>}
+              {expanded && <ul>{g.parts.map((p: HeartPart) => <li key={p.id} className={view.hiddenParts.includes(p.id) ? 'organ-part-hidden' : undefined}><button className="organ-part-eye" aria-pressed={!view.hiddenParts.includes(p.id)} aria-label={`${view.hiddenParts.includes(p.id) ? '顯示' : '隱藏'}${p.chinese}`} title={view.hiddenParts.includes(p.id) ? '已隱藏（打開心腔時隱藏的細分支）；按一下顯示' : '按一下隱藏'} onClick={() => patch({hiddenParts: view.hiddenParts.includes(p.id) ? view.hiddenParts.filter(x => x !== p.id) : [...view.hiddenParts, p.id]})}>{view.hiddenParts.includes(p.id) ? <EyeOff size={13}/> : <Eye size={13}/>}</button><button aria-pressed={view.selectedId === p.id} onClick={() => patch({selectedId: view.selectedId === p.id ? null : p.id})}><span lang="en">{p.name}</span><small lang="zh-Hant">{p.chinese}</small>{p.origin === '示意構造' && <i className="organ-nomodel-tag organ-mj-tag" lang="zh-Hant">示意構造</i>}</button></li>)}</ul>}
             </div>;
           })}
         </section>
@@ -190,10 +200,12 @@ export default function HeartDetail() {
             {item.parts.length === 0 && <p className="organ-nomodel" lang="zh-Hant">此構造在目前的模型中沒有對應的三維網格，因此無法在模型上高亮，只提供文字說明。</p>}
             <button className="organ-clear" onClick={() => {setItem(null); patch({highlight: []});}}>取消選取</button>
           </> : selected ? <>
+            {selectedHidden && <p className="organ-out-of-view" role="status" lang="zh-Hant">不在目前視野，按 Focus 查看</p>}
             <h2 className="organ-info-title" lang="en">{selected.name}</h2>
             <p className="organ-info-zh" lang="zh-Hant">{selected.chinese}</p>
             <p lang="zh-Hant">{selected.description.zh}</p>
             <p className="organ-info-en" lang="en">{selected.description.en}</p>
+            <button className="organ-focus" onClick={focusSelection}>Focus｜放大</button>
             <button className="organ-clear" onClick={() => patch({selectedId: null})}>取消選取</button>
           </> : <p className="organ-info-empty">點選模型或清單中的構造，會顯示名稱與說明。</p>}
         </section>
