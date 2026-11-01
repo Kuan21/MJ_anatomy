@@ -38,7 +38,8 @@ import blockedOverlay from './biomechanics-v2/blocked-overlay-meshes.json';
 const blockedOverlayMeshes=new Set<string>(blockedOverlay.names);
 import {nerveChunkScene,type NerveCatalogue} from './nerve-stream';
 import {LUNG_CATEGORY,type LungCategoryKey} from './mj-lung-categories';
-import {buildOwners,ruleParts,ownerSwitchesOn,referenceMuscles} from './mj-owners';
+import {buildOwners,referenceMuscles} from './mj-owners';
+import {partVisibility} from './mj-part-visibility';
 const bodyNerveBindings=bodyNerveData as Record<string,BodyRegion>;
 export interface AnatomyLoadStatus {loaded:number;total:number;systems:Record<string,number>;failed:string[];busy:boolean;interactive:boolean;supplementaryPending:number}
 // Selection colours: soft mint (#5DB89A) at 85 % strength; hover is a lighter tint of the same hue.
@@ -1247,20 +1248,8 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
     const fadedSet=s.fadedParts?.length||autoFade?.size||refMuscles.size?new Set([...(s.fadedParts??[]),...(autoFade??[]),...refMuscles]):null;
     const cranialVault=/^(frontal bone|left parietal bone|right parietal bone|left temporal bone|right temporal bone|occipital bone|sphenoid bone|ethmoid)$/i;
     const intracranial=/brain|cerebr|cerebell|\bgyrus\b|lobule|\blobe\b|hemisphere|white matter|gray matter|cortex|insula|midbrain|pons|medulla oblongata|thalam|hypothalam|fornix|ventricle|choroid plexus|corpus callosum|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|commissure|colliculus|geniculate|habenula|mammillary|stria terminalis|stria medullaris|septum of telencephalon|tuber cinereum|interpeduncular fossa|lamina terminalis|optic chiasm|optic tract|peduncle of midbrain|cerebral aqueduct|pineal|pituitary|cerebral artery|cerebellar artery|basilar artery|callosomarginal artery|pericallosal artery|pontine artery|thalamogeniculate artery|thalamoperforating artery/i;
-    // Owner structures (app/mj-owners.ts): a tendon is shown by exactly the rules of its muscle (region, side, layer and depth filters, Hide, Isolate) and needs Muscles and Tendons on;
-    // a vessel or nerve inside an organ needs its organ switch as well as its own system.
-    const ruleVisible=(p:(typeof atlas.parts)[number],viaTendon=false)=>{
-     if(hidden.has(p.id))return false;
-     if(!matchesDepth(p,s.depthFilter)||!matchesMuscleLayer(p,s.muscleRegion,s.muscleLayer)||!matchesFacialMuscleLayer(p,s.faceMuscleLayer)||!matchesHeartLayer(p,s.heartOpen)||!matchesSex(p,s.sex)||(p.system==='serous'&&(s.hiddenSerous??[]).includes(serousLayerKey(p.name))))return false;
-     if(s.isolate)return viaTendon&&selection.has(p.id)&&visible.has(p.system);
-     return focus?focus.has(p.id)&&visible.has(p.system):visible.has(p.system);
-    };
-    const baseVisible=(p:(typeof atlas.parts)[number])=>{
-     if(hidden.has(p.id))return false;
-     if(!ownerSwitchesOn(owners,p,visible))return false;
-     if(owners.muscleOf.has(p.id))return visible.has(p.system)&&ruleParts(owners,p).some(m=>m!==p&&ruleVisible(m,true));
-     return ruleVisible(p);
-    };
+    // Display rules (app/mj-part-visibility.ts): the same function the part counter and the display test use. A tendon follows its muscle, an in-organ vessel its organ.
+    const {base:baseVisible}=partVisibility(owners,s);
     // In the intact-body view the cranial vault should visually contain the
     // brain, just like a real head. BodyParts3D contains separately rendered
     // intracranial meshes that can protrude through tiny gaps in the skull, so

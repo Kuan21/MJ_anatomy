@@ -12,8 +12,10 @@
 | Left flexor carpi radialis tendon sheath | Left flexor carpi radialis | follows tendon: tendon of flexor carpi radialis |
 | Left flexor pollicis longus tendon sheath | Left flexor pollicis longus | follows tendon: tendon of flexor pollicis longus |
 | Left fourth dorsal compartment of wrist | Left extensor digitorum；Left extensor indicis | follows tendon: tendons of extensor digitorum, tendon of extensor indicis |
+| Left iliotibial tract | Left tensor fasciae latae；Left gluteus maximus | connective owner (overrides) |
 | Left intertubercular tendon sheath | Long head of left biceps brachii | follows tendon: tendon of long head of biceps brachii |
 | Left palmar aponeurosis | Left palmaris longus | follows tendon: tendon of palmaris longus |
+| Left pes anserinus | Left sartorius；Left gracilis；Left semitendinosus | follows tendon: tendon of sartorius, tendon of gracilis, tendon of semitendinosus |
 | Left quadriceps tendon | Left rectus femoris；Left vastus lateralis；Left vastus medialis；Left vastus intermedius | cut spec |
 | Left second dorsal compartment of wrist | Left extensor carpi radialis longus；Left extensor carpi radialis brevis | follows tendon: tendon of extensor carpi radialis longus, tendon of extensor carpi radialis brevis |
 | Left sixth dorsal compartment of wrist | Left extensor carpi ulnaris | follows tendon: tendon of extensor carpi ulnaris |
@@ -61,9 +63,11 @@
 | Right flexor carpi radialis tendon sheath | Right flexor carpi radialis | follows tendon: tendon of flexor carpi radialis |
 | Right flexor pollicis longus tendon sheath | Right flexor pollicis longus | follows tendon: tendon of flexor pollicis longus |
 | Right fourth dorsal compartment of wrist | Right extensor digitorum；Right extensor indicis | follows tendon: tendons of extensor digitorum, tendon of extensor indicis |
+| Right iliotibial tract | Right tensor fasciae latae；Right gluteus maximus | connective owner (overrides) |
 | Right intermediate tendon | Right digastric | override |
 | Right intertubercular tendon sheath | Long head of right biceps brachii | follows tendon: tendon of long head of biceps brachii |
 | Right palmar aponeurosis | Right palmaris longus | follows tendon: tendon of palmaris longus |
+| Right pes anserinus | Right sartorius；Right gracilis；Right semitendinosus | follows tendon: tendon of sartorius, tendon of gracilis, tendon of semitendinosus |
 | Right quadriceps tendon | Right rectus femoris；Right vastus lateralis；Right vastus medialis；Right vastus intermedius | cut spec |
 | Right second dorsal compartment of wrist | Right extensor carpi radialis longus；Right extensor carpi radialis brevis | follows tendon: tendon of extensor carpi radialis longus, tendon of extensor carpi radialis brevis |
 | Right sixth dorsal compartment of wrist | Right extensor carpi ulnaris | follows tendon: tendon of extensor carpi ulnaris |

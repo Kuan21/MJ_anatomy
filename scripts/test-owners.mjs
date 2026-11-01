@@ -37,9 +37,9 @@ const t0 = tendons[0], ref = O.referenceMuscles(owners, [t0.id]);
 ok(ref.size === owners.muscleOf.get(t0.id).length, 'reference muscles of a selected tendon');
 ok(O.referenceMuscles(owners, [t0.id, ...owners.muscleOf.get(t0.id)]).size === 0, 'a muscle that is selected itself is not a faded reference');
 // tendon sheaths, the dorsal compartments of the wrist and the palmar aponeurosis follow their muscle; ligaments, retinacula, capsules and vessel sheaths do not
-const followers = /tendon sheath|dorsal compartment of wrist|palmar aponeurosis/i;
+const followers = /tendon sheath|dorsal compartment of wrist|palmar aponeurosis|pes anserinus|iliotibial tract/i;
 const fol = parts.filter(q => q.system === 'connective' && followers.test(q.name));
-ok(fol.length === 22, `expected 22 sheaths, compartments and palmar aponeuroses, found ${fol.length}`);
+ok(fol.length === 26, `expected 26 sheaths, compartments, palmar aponeuroses, pes anserinus and iliotibial tracts, found ${fol.length}`);
 for (const p of fol) {
   const m = owners.muscleOf.get(p.id); ok(m && m.length > 0, `sheath without an owner muscle: ${p.name}`);
   const side = /\bleft\b/i.test(p.name) ? 'left' : 'right';
