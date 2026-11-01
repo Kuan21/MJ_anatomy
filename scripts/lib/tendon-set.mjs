@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import v8 from 'node:v8';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
-import {cutMuscle, mirrorName, reachBone, clearBones} from './tendon-build.mjs';
+import {loftBand, cutMuscle, mirrorName, reachBone, clearBones} from './tendon-build.mjs';
 import {meshOf} from './heart-geom.mjs';
 import {weld, splitMesh, planeOf, volume} from './tendon-cut.mjs';
 import {UPPER_LIMB_TENDONS} from '../tendon/upper-limb-cuts.mjs';
@@ -55,6 +55,9 @@ export function planCuts(parts, read) {
         const w = weld(tendon.positions, tendon.indices), two = splitMesh(w, planeOf([0, -1, 0], [0, spec.trim.y, 0]));
         if (volume(two.neg.positions, two.neg.indices) > 0) tendon = {positions: Float32Array.from(two.neg.positions), indices: two.neg.indices};
       }
+      // a thick wedge cut out of a bulky muscle is rebuilt as a smooth flat band (the cut ring stays where the muscle part has it); the ligament split off it likewise
+      if (spec.flat && (!spec.flat.only || spec.flat.only.includes(rightName(p)))) loftBand(tendon, {...spec.flat, ringY: cut.y});
+      if (apo && sp?.flat) loftBand(apo, {...sp.flat, ringY: sp.y});
       // a tendon modelled through a bone is lifted out of it (the cut ring stays where the muscle part has it)
       if (spec.lower) {
         bonesOf[side.w] ??= parts.filter(b => b.system === 'skeletal' && LOWER_BONES.test(b.name) && (side.mirror ? /^Left|left/.test(b.name) : /^Right|right/.test(b.name))).map(b => { const g = read(b); return meshOf(g.positions, g.indices); });

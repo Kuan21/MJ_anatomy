@@ -141,3 +141,51 @@ export function clearBones(tendon, bones, {ringY, end = 'distal', fade = .012, c
   return deepest * 1000;
 }
 
+
+/**
+ * Rebuilds a chunky wedge (a tendon cut out of a thick, low-poly muscle mesh) as a smooth flat band, continuous with the muscle: the first section IS the cut ring (the muscle part keeps its edge), and the
+ * sections below it are the same outline, scaled to the width of the original piece and to at most `thickness` metres (front-back, kept against the back surface, which lies on the bone) and rounded
+ * towards an ellipse, so the band has no flat faces or box corners. `evenWidth` (0 to 1) pulls the width towards its mean (a ligament is a band of even width, not a triangle). Distal tendons only.
+ * The mesh is closed (a fan at the ring and at the free end). Returns the thickest section before and after, in millimetres.
+ */
+export function loftBand(tendon, {ringY, thickness = .006, evenWidth = 0, fade = .014, minSlices = 8} = {}) {
+  const P = tendon.positions, n = P.length / 3, BIN = .003;
+  let lo = Infinity; for (let v = 0; v < n; v++) lo = Math.min(lo, P[v * 3 + 1]);
+  const ring = []; for (let v = 0; v < n; v++) if (Math.abs(P[v * 3 + 1] - ringY) < 2e-6) ring.push([P[v * 3], P[v * 3 + 1], P[v * 3 + 2]]);
+  if (ring.length < 6) throw new Error('loftBand: no ring at the cut');
+  const len = ringY - lo; if (len < .004) return {before: 0, after: 0};
+  const rx = ring.map(r => r[0]), rz = ring.map(r => r[2]);
+  const cxm = (Math.min(...rx) + Math.max(...rx)) / 2, czm = (Math.min(...rz) + Math.max(...rz)) / 2, Wr = Math.max(...rx) - Math.min(...rx), Tr = Math.max(...rz) - Math.min(...rz), backr = Math.min(...rz);
+  const cx0 = rx.reduce((a, b) => a + b, 0) / ring.length, cz0 = rz.reduce((a, b) => a + b, 0) / ring.length;
+  ring.sort((a, b) => Math.atan2(a[2] - cz0, a[0] - cx0) - Math.atan2(b[2] - cz0, b[0] - cx0));
+  // the original piece section by section: width, middle and back surface
+  const nb = Math.max(2, Math.ceil(len / BIN)), xmin = new Float64Array(nb).fill(Infinity), xmax = new Float64Array(nb).fill(-Infinity), zmin = new Float64Array(nb).fill(Infinity), zmax = new Float64Array(nb).fill(-Infinity);
+  for (let v = 0; v < n; v++) { const b = Math.min(nb - 1, Math.floor((ringY - P[v * 3 + 1]) / BIN)); if (b < 0) continue; xmin[b] = Math.min(xmin[b], P[v * 3]); xmax[b] = Math.max(xmax[b], P[v * 3]); zmin[b] = Math.min(zmin[b], P[v * 3 + 2]); zmax[b] = Math.max(zmax[b], P[v * 3 + 2]); }
+  for (const a of [xmin, xmax, zmin, zmax]) {
+    for (let b = 0; b < nb; b++) if (!isFinite(a[b])) { let k = 1; while (b - k >= 0 || b + k < nb) { const x = [a[b - k], a[b + k]].find(isFinite); if (x !== undefined) { a[b] = x; break; } k++; } }
+    for (let pass = 0; pass < 3; pass++) { const c = Float64Array.from(a); for (let b = 0; b < nb; b++) a[b] = (c[Math.max(0, b - 1)] + c[b] * 2 + c[Math.min(nb - 1, b + 1)]) / 4; }
+  }
+  let before = 0; for (let b = 0; b < nb; b++) before = Math.max(before, zmax[b] - zmin[b]);
+  const meanW = Array.from(xmax).reduce((a, x, b) => a + x - xmin[b], 0) / nb, at = (a, d) => a[Math.max(0, Math.min(nb - 1, Math.round(d / BIN - .5)))];
+  const K = Math.max(minSlices, Math.ceil(len / .003)), pos = [], idx = [], N = ring.length, ss = t => { t = Math.max(0, Math.min(1, t)); return t * t * (3 - 2 * t); };
+  const fd = Math.min(fade, len * .45);
+  let after = 0;
+  for (let k = 0; k <= K; k++) {
+    const d = len * k / K, y = ringY - d, s = ss(d / fd), e = ss(d / (fd * 1.6));
+    const Wt = (1 - evenWidth) * (at(xmax, d) - at(xmin, d)) + evenWidth * meanW, cxt = (at(xmax, d) + at(xmin, d)) / 2;
+    const Tt = Math.min(zmax[Math.min(nb - 1, Math.round(d / BIN - .5) < 0 ? 0 : Math.round(d / BIN - .5))] - at(zmin, d), thickness), backt = at(zmin, d);
+    const W = Wr + (Wt - Wr) * s, T = Tr + (Math.min(Tt, thickness) - Tr) * s, cx = cxm + (cxt - cxm) * s, back = backr + (backt - backr) * s;
+    after = Math.max(after, T);
+    for (const r of ring) {
+      const u = (r[0] - cxm) / (Wr || 1), v = (r[2] - czm) / (Tr || 1), th = Math.atan2(v, u), eu = .5 * Math.cos(th), ev = .5 * Math.sin(th);
+      pos.push(k === 0 ? r[0] : cx + ((1 - e) * u + e * eu) * W, k === 0 ? r[1] : y, k === 0 ? r[2] : back + T / 2 + ((1 - e) * v + e * ev) * T);
+    }
+  }
+  for (let k = 0; k < K; k++) for (let i = 0; i < N; i++) { const a = k * N + i, b = k * N + (i + 1) % N, c = (k + 1) * N + i, d2 = (k + 1) * N + (i + 1) % N; idx.push(a, c, b, b, c, d2); }
+  const cap = (k, flip) => { const c = pos.length / 3; let sx = 0, sy = 0, sz = 0; for (let i = 0; i < N; i++) { sx += pos[(k * N + i) * 3]; sy += pos[(k * N + i) * 3 + 1]; sz += pos[(k * N + i) * 3 + 2]; } pos.push(sx / N, sy / N, sz / N); for (let i = 0; i < N; i++) { const a = k * N + i, b = k * N + (i + 1) % N; idx.push(...(flip ? [c, b, a] : [c, a, b])); } };
+  cap(0, false); cap(K, true);
+  let positions = Float32Array.from(pos), indices = Uint32Array.from(idx);
+  if (volume(positions, indices) < 0) for (let i = 0; i < indices.length; i += 3) { const t = indices[i + 1]; indices[i + 1] = indices[i + 2]; indices[i + 2] = t; }
+  tendon.positions = positions; tendon.indices = indices;
+  return {before: before * 1000, after: after * 1000};
+}

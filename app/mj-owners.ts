@@ -1,6 +1,6 @@
 import type {Part,SystemId} from './anatomy';
 import {organOwner} from './mj-organ-owners';
-import {TENDON_OWNERS} from './mj-tendon-owners';
+import {TENDON_OWNERS,TENDON_PART_OWNERS} from './mj-tendon-owners';
 
 /**
  * Owner structures: one generic display rule for everything that only makes sense together with another structure.
@@ -27,7 +27,9 @@ export function buildOwners(parts:Part[]):Owners{
  const table=TENDON_OWNERS,muscleOf=new Map<string,string[]>(),tendonsOf=new Map<string,string[]>(),organ=new Map<string,SystemId>();
  for(const p of parts){
   if(p.system==='tendon'||p.system==='connective'){
-   const ids=(table[p.name]??[]).flatMap(n=>(byName.get(n)??[]).filter(q=>q.system==='muscular').map(q=>q.id));
+   // a piece of a multi-muscle tendon belongs to the one muscle it was cut from; everything else to the muscles its structure name lists
+   const own=TENDON_PART_OWNERS[p.id]?.filter(id=>byId.get(id)?.system==='muscular');
+   const ids=own?.length?own:(table[p.name]??[]).flatMap(n=>(byName.get(n)??[]).filter(q=>q.system==='muscular').map(q=>q.id));
    if(ids.length){muscleOf.set(p.id,ids);for(const m of ids){const a=tendonsOf.get(m);if(a)a.push(p.id);else tendonsOf.set(m,[p.id]);}}
   }
   const o=organOwner(p);if(o)organ.set(p.id,o);

@@ -44,6 +44,17 @@
   ],
   "palmar aponeurosis": [
    "tendon of palmaris longus"
+  ],
+  "pes anserinus": [
+   "tendon of sartorius",
+   "tendon of gracilis",
+   "tendon of semitendinosus"
+  ]
+ },
+ "connectiveOwners": {
+  "iliotibial tract": [
+   "tensor fasciae latae",
+   "gluteus maximus"
   ]
  }
 }
