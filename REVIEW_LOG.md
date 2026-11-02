@@ -791,6 +791,12 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 
 只出文件與量測腳本，不改模型。文件：`docs/lower-limb-vessel-inventory.md`（對照使用者清單 a、b 的有／缺／重複、已知問題出在哪些網格、血管樹資料結構草案、連續性與碰撞自動檢查設計、資訊卡欄位、分批計畫、需你決定的問題）；數字：`docs/lower-limb-vessel-inventory.json`；腳本：`node scripts/inventory-leg-vessels.mjs --write`（唯讀，不在 `npm run check`）。**所有數字來自網格座標計算，未在 3D 畫面確認**，沒有做截圖。重點：196 個血管網格；清單 a 缺 6 項、清單 b 缺 4 項；穿動脈有三組重複來源且其中兩個是 345–358 mm 長條；末端間隙超過半個管徑 133 處；39 個網格穿骨 12 mm 以上（脛前動脈主幹約 20 cm 在脛骨內）；2 個孤兒連接件；膝以下沒有「兩條伴行靜脈夾動脈」；股深動脈等 16 張資訊卡漏列分支。
 
+## 示意卡出處行不寫書名（【需人工審核】，不自動 merge）
+
+示意結構（約 460 筆）資訊卡的出處行原本寫「依教科書走向建立（書名、版次）」，違反「只可用 Gray's 1918 與 OpenStax」的規則。改為統一一句：「Schematic model, positioned on landmarks measured on the BodyParts3D atlas meshes｜示意模型，位置依標誌量測」（`app/mj-structure-info.ts` 的 `SCHEMATIC_CARD_SOURCE`）。只改顯示的字；Atlas reference 與 View anatomical source 的邏輯沒動；模型資料來源仍集中在 Source & credits（`public/ATTRIBUTION.md`）。**尚未處理（請決定）：** 示意資料檔 `app/mj-paokao.json` 的 refs 欄與生成腳本內仍有書名（不顯示在畫面，需重新生成才能移除）；一般結構卡的出處行與命名來源行寫著 Netter 的書名（`GROSS_SOURCE`、`NETTER_TERMINOLOGY_SOURCE`）。
+## 下肢血管重建 第 1 批：股動脈系統（【需人工審核】，不自動 merge；新舊並存，尚未替換）
+
+血管樹資料 `app/data/vessel-tree/femoral-system.json`（22 條 × 左右，含起點、走向、主要分支、供應範圍的中英文字），建置 `scripts/lib/leg-vessel-build.mjs`，自動檢查 `scripts/check-leg-vessel-tree.mjs`（已併入 `npm run check` 與 `check:vessels`，基準檔 `docs/leg-vessel-tree-baseline.json` 為空）：樹一致、子血管起點在上一級中心線上（0.5 mm）、單一連通、不比上一級粗、非末端不收細、中心線不在骨內且管壁不入骨、不穿神經、股三角順序。文件 `docs/leg-vessel-tree-batch1.md`（血管表與資訊卡欄位）。**網站上現有血管完全沒動**，整批動脈審核後才一次替換。截圖（含骨＋全部血管、只有血管、只有新動脈；前、後、左、右、腹股溝特寫、臀部特寫）在 `pr-screenshots` 分支 `leg-vessels-batch1-2026-11-01/`（網址在 PR 說明）。
 ## 特殊區域中文名：三邊裂、三角肌胸大肌三角（【需人工審核】，不自動 merge）
 
 Triangular interval 改為「三邊裂」（原「三頭肌間隙」），Clavipectoral triangle 改為「三角肌胸大肌三角」（原「鎖骨胸大肌三角」）。搜尋可用舊名與別名：三頭肌間隙、三角間隙（三邊裂）；鎖胸三角、鎖骨胸大肌三角（三角肌胸大肌三角）；Quiz 第二級同義詞表同步加兩列。必備結構清單只列英文名，沒有中文，所以中文名依你的指定。`npm run check:quiz`、`check:zh`、命名檢查通過。
@@ -803,6 +809,8 @@ Triangular interval 改為「三邊裂」（原「三頭肌間隙」），Clavip
 
 | 任務 | 狀態（進行中 / 已完成 / 等我審核 / 未開始 / 卡住） | PR 編號 | 備註 |
 | --- | --- | --- | --- |
+| **示意卡出處行改為只寫「示意模型，位置依標誌量測」（不寫書名版次）** | 等我審核（【需人工審核】，不自動 merge） | 見 PR | 見上方同名段落；refs 欄與 Netter 出處行待你決定 |
+| **下肢血管重建 第 1 批：股動脈系統（血管樹、自動檢查、資訊卡欄位，新舊並存）** | 等我審核（【需人工審核】，不自動 merge） | 見 PR | 見上方同名段落；第 2 批起待你審核第 1 批 |
 | **特殊區域重做 第 1 批：四邊孔、三邊孔、三邊裂、三角肌胸大肌三角（實色、五種角色、系統顏色）** | 等我審核（【需人工審核】，不自動 merge） | 見 PR | 見上方「特殊區域重做 第 1 批」 |
 | **特殊區域中文名：Triangular interval 三邊裂、Clavipectoral triangle 三角肌胸大肌三角（名稱、搜尋別名、Quiz 同義詞）** | 等我審核（【需人工審核】，不自動 merge） | 見 PR | 見上方同名段落 |
 | **介面：頂部「主動跟隨 Hover labels」開關（預設關，記在 localStorage；只影響滑鼠與觸控筆；Quiz 不顯示名稱提示）** | CI 綠後由主 session 確認 merge（只改介面） | #192 | 見上方「Hover labels 開關」 |
