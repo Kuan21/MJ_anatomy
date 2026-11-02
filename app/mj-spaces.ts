@@ -7,7 +7,7 @@ import {anatomicalSide,correctedPartName} from './mj-part-regions';
  * schematic space). `re` matches atlas part names (lower case, either side); `nerve` is the base name of a mesh of
  * the nerve system, which is not part of the atlas parts.
  */
-export type SpaceGroup='shoulder'|'arm'|'hand'|'lower'|'head'|'trunk';
+export type SpaceGroup='shoulder'|'arm'|'hand'|'lower'|'head'|'trunk'|'pelvis';
 /** `role` is the position of the structure at the space ("上界", "底" …), shown in its label. */
 export interface SpaceItem{en:string;zh:string;re?:RegExp;nerve?:string;role?:string}
 /**
@@ -86,9 +86,18 @@ export const SPACES:SpaceDef[]=[
  {id:'carpal-tunnel',en:'Carpal tunnel',zh:'腕隧道',group:'hand',part:'carpal tunnel',r:.035,look:[0,.2,1],
   boundaries:[m('Flexor retinaculum (wrist)','屈肌支持帶（腕）',/flexor retinaculum of \w+ wrist/,'頂'),m('Carpal bones','腕骨',/^(?:left |right )(?:scaphoid|lunate|triquetrum|pisiform|trapezium|trapezoid|capitate|hamate)$/,'底（腕骨溝）')],
   contents:[medianNerve(),m('Flexor digitorum superficialis','屈指淺肌',/flexor digitorum superficialis/),m('Flexor digitorum profundus','屈指深肌',/flexor digitorum profundus/),m('Flexor pollicis longus','屈拇長肌',/flexor pollicis longus/)]},
- {id:'tarsal-tunnel',en:'Tarsal tunnel',zh:'跗隧道',group:'lower',part:'tarsal tunnel',r:.04,look:[-1,.1,.2],
-  boundaries:[m('Tibia (medial malleolus)','脛骨（內踝）',/^(?:left |right )tibia$/,'前上界'),m('Talus','距骨',/^(?:left |right )talus$/,'外側界'),m('Calcaneus','跟骨',/^(?:left |right )calcaneus$/,'下界'),m('Flexor retinaculum (ankle)','屈肌支持帶（踝）',/flexor retinaculum of (?:left |right )?ankle/,'頂')],
-  contents:[m('Tibialis posterior','脛後肌',/^(?:left |right )tibialis posterior$/),m('Flexor digitorum longus','屈趾長肌',/^(?:left |right )flexor digitorum longus$/),m('Posterior tibial artery','脛後動脈',/^(?:left |right )posterior tibial artery$/),m('Posterior tibial vein','脛後靜脈',/^(?:left |right )posterior tibial vein$/),n('Tibial nerve','脛神經','Tibial nerve'),m('Flexor hallucis longus','屈拇長肌',/^(?:left |right )flexor hallucis longus$/)]},
+ {id:'tarsal-tunnel',en:'Tarsal tunnel',zh:'跗管',group:'lower',part:'tarsal tunnel',r:.04,look:[-1,.1,.2],solid:true,
+  boundaries:[m('Tibia (medial malleolus)','脛骨（內踝）',/^(?:left |right )tibia$/,'前上界')],
+  roof:[m('Flexor retinaculum (ankle)','屈肌支持帶（踝）',/flexor retinaculum of (?:left |right )?ankle/,'頂')],
+  floor:[m('Talus','距骨',/^(?:left |right )talus$/,'底（外側）'),m('Calcaneus','跟骨',/^(?:left |right )calcaneus$/,'底（下界，載距突）')],
+  contents:[m('Tibialis posterior','脛後肌',/^(?:left |right )tibialis posterior$/,'內容物（由前到後第 1）'),m('Flexor digitorum longus','屈趾長肌',/^(?:left |right )flexor digitorum longus$/,'內容物（第 2）'),m('Posterior tibial artery','脛後動脈',/^(?:left |right )posterior tibial artery$/,'內容物（第 3）'),m('Posterior tibial vein','脛後靜脈',/^(?:left |right )posterior tibial vein$/,'內容物（第 4）'),n('Tibial nerve','脛神經','Tibial nerve','內容物（第 5）'),m('Flexor hallucis longus','屈拇長肌',/^(?:left |right )flexor hallucis longus$/,'內容物（第 6）')],
+  relatedStructures:[n('Medial plantar nerve','足底內側神經','Medial plantar nerve','相關結構（脛神經的終支）'),n('Lateral plantar nerve','足底外側神經','Lateral plantar nerve','相關結構（脛神經的終支）')]},
+ {id:'lesser-sciatic-foramen',en:'Lesser sciatic foramen',zh:'坐骨小孔',group:'pelvis',part:'lesser sciatic foramen',r:.04,look:[0,.1,-1],solid:true,
+  boundaries:[m('Spine of ischium','坐骨棘',/spine of ischium/,'上界'),m('Ischial tuberosity','坐骨結節',/ischial tuberosity/,'下界')],
+  floor:[m('Hip bone (ischium)','髖骨（坐骨體後面）',/^(?:left |right )?hip bone$/,'底')],
+  contents:[m('Obturator internus','閉孔內肌',/^(?:left |right )?obturator internus$/,'內容物（肌腱經此出骨盆）'),n('Pudendal nerve','陰部神經','Pudendal nerve'),m('Internal pudendal artery','陰部內動脈',/internal pudendal artery/),m('Internal pudendal vein','陰部內靜脈',/internal pudendal vein/),m('Nerve to obturator internus','閉孔內肌神經',/nerve to obturator internus/)],
+  relatedStructures:[m('Piriformis','梨狀肌',/^(?:left |right )?piriformis$/,'相關結構（經坐骨大孔）'),n('Sciatic nerve','坐骨神經','Sciatic nerve','相關結構（經坐骨大孔）')],
+  missing:['Sacrospinous ligament 薦棘韌帶（前上界；模型沒有獨立網格）','Sacrotuberous ligament 薦結節韌帶（後界；模型沒有獨立網格）']},
  {id:'femoral-triangle',en:'Femoral triangle',zh:'股三角',group:'lower',part:'femoral triangle',r:.08,look:[.15,.55,1],solid:true,
   related:['adductor-canal','adductor-hiatus','popliteal-fossa'],
   boundaries:[m('Inguinal ligament','腹股溝韌帶',/^(?:left |right )?inguinal ligament$/,'上界'),sartorius('外側界（內側緣）'),adductorLongus('內側界（內側緣）')],

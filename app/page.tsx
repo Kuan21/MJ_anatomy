@@ -392,7 +392,9 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
   const {keep}=sideSplit(topRegion,side);
   setState(s=>({...s,focusParts:keep,cameraFocusParts:keep,cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:1,selected:[],isolate:false,explode:0,rotate:false,bodyMotion:undefined,partTransforms:undefined}));
  };
- const spaceSides:Side[]=studySide==='both'?['left','right']:[studySide];
+ // a region seen from the side of the limb (look x ≠ 0) shows one side only when both are chosen: the other limb would stand in front of it
+ const sidesFor=(def?:SpaceDef):Side[]=>studySide==='both'?(def?.solid&&Math.abs(def.look[0])>.5?['left']:['left','right']):[studySide];
+ const spaceSides:Side[]=sidesFor(SPACES.find(x=>x.id===spaceId));
  const spaceHits=useMemo<SpaceHit[]>(()=>{const def=SPACES.find(x=>x.id===spaceId);return atlas&&def?spaceSides.map(sd=>resolveSpace(atlas.parts,def,sd)):[];},[atlas,spaceId,studySide]);// eslint-disable-line react-hooks/exhaustive-deps
  const spaceItems=useMemo(()=>{const def=SPACES.find(x=>x.id===spaceId);if(!def)return null;const merge=(key:'boundaries'|'contents')=>def[key].map((item,i)=>({item,ids:spaceHits.flatMap(h=>h[key][i].ids),nerves:spaceHits.flatMap(h=>h[key][i].nerves)}));const roles=Object.fromEntries((Object.keys(spaceRoleItems(def)) as SpaceRole[]).map(role=>[role,spaceRoleItems(def)[role].map((item,i)=>({item,ids:spaceHits.flatMap(h=>h.roles[role][i]?.ids??[]),nerves:spaceHits.flatMap(h=>h.roles[role][i]?.nerves??[])}))])) as Record<SpaceRole,{item:SpaceItem;ids:string[];nerves:string[]}[]>;return{def,boundaries:merge('boundaries'),contents:merge('contents'),roles};},[spaceId,spaceHits]);
  // the sphere (centre from the real meshes, radius from the space's definition) of each side shown
@@ -412,7 +414,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
    const rows=SPACE_ROLES.flatMap(r=>spaceItems.roles[r.key].map(x=>({role:r.key,...x,system:sysOf(x)})));
    const roofIds=[...new Set(rows.filter(r=>r.role==='roof').flatMap(r=>r.ids))],shown=[...new Set(rows.filter(r=>r.role!=='roof'||spaceRoofOn).flatMap(r=>r.ids))];
    const anchor=parts.get(rows.flatMap(r=>r.ids)[0]??''),bodyRegion=anchor?anatomicalRegion(anchor):undefined;
-   const scope=bodyRegion?atlas.parts.filter(p=>anatomicalRegion(p)===bodyRegion&&(studySide==='both'||anatomicalSide(p)===studySide||anatomicalSide(p)==='midline')&&REGIONAL_VISIBLE.includes(p.system)).map(p=>p.id):[];
+   const scope=bodyRegion?atlas.parts.filter(p=>anatomicalRegion(p)===bodyRegion&&(spaceSides.includes(anatomicalSide(p) as Side)||anatomicalSide(p)==='midline')&&REGIONAL_VISIBLE.includes(p.system)).map(p=>p.id):[];
    const bones=scope.filter(id=>parts.get(id)?.system==='skeletal'),lifted=spaceRoofOn?[]:roofIds;
    const around=spaceSurround?scope.filter(id=>!lifted.includes(id)):[];
    const focus=[...new Set([...shown,...bones,...around])],faded=spaceSurround?around.filter(id=>!shown.includes(id)&&!bones.includes(id)):[];
@@ -438,10 +440,10 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const pickSpace=(def:SpaceDef)=>{
   if(spaceId===def.id){setSpaceId(null);setSpaceItem(null);setChosen(null);setDetails(false);setExternalNerve(null);setState(s=>({...s,selected:[],focusParts:topRegion==='whole'?undefined:s.focusParts,isolate:false}));return;}
   if(!atlas)return;
-  const hits=spaceSides.map(sd=>resolveSpace(atlas.parts,def,sd)),full=[...new Set(hits.flatMap(h=>h.highlight))],range=rangesOf(def,spaceSides),contentIds=[...new Set(hits.flatMap(h=>h.contents.flatMap(c=>c.ids)))];
+  const sides=sidesFor(def),hits=sides.map(sd=>resolveSpace(atlas.parts,def,sd)),full=[...new Set(hits.flatMap(h=>h.highlight))],range=rangesOf(def,sides),contentIds=[...new Set(hits.flatMap(h=>h.contents.flatMap(c=>c.ids)))];
   if(!full.length||!range.length)return;
   setSpaceId(def.id);setSpaceItem(null);setSpaceRoofOn(false);setSpaceSurround(false);setLayerPicked(null);setChosen(null);setDetails(false);setExternalNerve(null);
-  setState(s=>({...s,selected:def.solid?[]:contentIds,hiddenParts:(s.hiddenParts??[]).filter(x=>!full.includes(x)),visible:[...new Set([...s.visible,...REGIONAL_VISIBLE])],muscleLayer:'all',cameraFocusParts:undefined,cameraFocusNerve:undefined,cameraFocusRange:{c:range[0].c,r:range[0].r,dir:lookOf(def,spaceSides[0])},cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:def.solid?.62:.85,isolate:false,rotate:false}));
+  setState(s=>({...s,selected:def.solid?[]:contentIds,hiddenParts:(s.hiddenParts??[]).filter(x=>!full.includes(x)),visible:[...new Set([...s.visible,...REGIONAL_VISIBLE])],muscleLayer:'all',cameraFocusParts:undefined,cameraFocusNerve:undefined,cameraFocusRange:{c:range[0].c,r:range[0].r,dir:lookOf(def,sides[0])},cameraFocusNonce:(s.cameraFocusNonce??0)+1,cameraFocusScale:def.solid?.62:.85,isolate:false,rotate:false}));
  };
  pickSpaceRef.current=pickSpace;
  const pickSpaceItem=(key:string,hit:{item:{en:string};ids:string[];nerves:string[]})=>{
@@ -453,7 +455,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
   else if(hit.nerves[0]){chooseNerve(hit.nerves[0]);}
  };
  useEffect(()=>{setSpaceId(null);setSpaceItem(null);setSpaceRoofOn(false);setSpaceSurround(false);},[topRegion,region,studySide]);
- const spaceGroups:SpaceGroup[]|null=topRegion==='upper'?(region==='shoulder'?['shoulder']:region==='arm'||region==='forearm'?['arm']:region==='hand'?['hand']:['shoulder','arm','hand']):topRegion==='lower'?['lower']:topRegion==='head'?['head']:topRegion==='chest'||topRegion==='abdomen'?['trunk']:topRegion==='back'?['head']:topRegion==='pelvis'||topRegion==='gluteal'?[]:null;
+ const spaceGroups:SpaceGroup[]|null=topRegion==='upper'?(region==='shoulder'?['shoulder']:region==='arm'||region==='forearm'?['arm']:region==='hand'?['hand']:['shoulder','arm','hand']):topRegion==='lower'?['lower']:topRegion==='head'?['head']:topRegion==='chest'||topRegion==='abdomen'?['trunk']:topRegion==='back'?['head']:topRegion==='pelvis'||topRegion==='gluteal'?['pelvis']:null;
  const layerChoices=useMemo(()=>{const ids=layerRegionsFor(topRegion==='whole'||topRegion==='organs'?'whole':topRegion,region);return ids?MUSCLE_LAYER_REGIONS.filter(r=>ids.includes(r.id)):MUSCLE_LAYER_REGIONS;},[topRegion,region]);
  useEffect(()=>{if(state.muscleRegion&&!layerChoices.some(r=>r.id===state.muscleRegion))setState(s=>({...s,muscleRegion:undefined,muscleLayer:'all',selected:[],isolate:false}));},[layerChoices]);// eslint-disable-line react-hooks/exhaustive-deps
  const sideButtons=<>{([['both','Both｜雙側'],['left','Left｜左側'],['right','Right｜右側']] as ['both'|Side,string][]).map(([id,label])=><Button variant="ghost" key={id} aria-pressed={studySide===id} onClick={()=>applySide(id)}>{label}</Button>)}</>;
