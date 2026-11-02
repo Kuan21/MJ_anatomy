@@ -1,0 +1,722 @@
+{
+ "note": "Vessel tree, batch 1: femoral artery system and the pelvic arteries that feed it. Both sides (S = Left or Right). Diameters in mm (start, end). terminal = the only kind of end that may taper. Written for scripts/build-leg-vessels.mjs and scripts/check-leg-vessel-tree.mjs.",
+ "batch": 1,
+ "vessels": [
+  {
+   "id": "common-iliac-artery",
+   "en": "Common iliac artery",
+   "zh": "髂總動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": null,
+   "at": "aortic bifurcation (L4)",
+   "guide": "{S} common iliac artery",
+   "calibreMm": [
+    6.0,
+    5.6
+   ],
+   "terminal": false,
+   "origin": {
+    "en": "Abdominal aorta at its bifurcation, in front of the fourth lumbar vertebra",
+    "zh": "腹主動脈分叉處，位於第四腰椎前方"
+   },
+   "course": {
+    "en": "Runs down and outwards along the medial border of psoas major, in front of the common iliac vein, and divides in front of the sacroiliac joint",
+    "zh": "沿腰大肌內側緣向下外側行，位於髂總靜脈前方，在薦髂關節前方分為內、外兩支"
+   },
+   "supply": {
+    "en": "Pelvis and lower limb, through its two terminal branches",
+    "zh": "經兩條終支供應骨盆與下肢"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 0
+  },
+  {
+   "id": "internal-iliac-artery",
+   "en": "Internal iliac artery",
+   "zh": "髂內動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "common-iliac-artery",
+   "at": "division of the common iliac artery, in front of the sacroiliac joint",
+   "guide": "{S} internal iliac artery",
+   "calibreMm": [
+    4.6,
+    4.0
+   ],
+   "terminal": false,
+   "origin": {
+    "en": "Common iliac artery",
+    "zh": "髂總動脈"
+   },
+   "course": {
+    "en": "Short trunk that runs down into the pelvis in front of the sacroiliac joint and splits into an anterior and a posterior division",
+    "zh": "短幹，在薦髂關節前方向下進入骨盆，分為前幹與後幹"
+   },
+   "supply": {
+    "en": "Pelvic wall and viscera, gluteal region and perineum",
+    "zh": "骨盆壁與盆腔臟器、臀區與會陰"
+   },
+   "relations": [],
+   "keep": [
+    0,
+    0.42
+   ],
+   "mayCross": [],
+   "order": 2
+  },
+  {
+   "id": "external-iliac-artery",
+   "en": "External iliac artery",
+   "zh": "髂外動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "common-iliac-artery",
+   "at": "division of the common iliac artery",
+   "guide": "{S} external iliac artery",
+   "calibreMm": [
+    5.6,
+    5.2
+   ],
+   "terminal": false,
+   "origin": {
+    "en": "Common iliac artery",
+    "zh": "髂總動脈"
+   },
+   "course": {
+    "en": "Runs along the medial border of psoas major to the midpoint between the anterior superior iliac spine and the pubic symphysis, where it passes under the inguinal ligament",
+    "zh": "沿腰大肌內側緣下行，至髂前上棘與恥骨聯合連線中點，經腹股溝韌帶深面"
+   },
+   "supply": {
+    "en": "Lower limb; gives the deep circumflex iliac and inferior epigastric arteries just above the inguinal ligament",
+    "zh": "下肢；在腹股溝韌帶上方分出旋髂深動脈與腹壁下動脈"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 1
+  },
+  {
+   "id": "femoral-artery",
+   "en": "Femoral artery",
+   "zh": "股動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "external-iliac-artery",
+   "at": "deep to the inguinal ligament",
+   "guide": "{S} femoral artery",
+   "calibreMm": [
+    5.2,
+    4.4
+   ],
+   "terminal": false,
+   "origin": {
+    "en": "External iliac artery, at the inguinal ligament",
+    "zh": "外髂動脈，於腹股溝韌帶處"
+   },
+   "course": {
+    "en": "Descends in the femoral triangle (lateral to the femoral vein, medial to the femoral nerve), then in the adductor canal, and passes through the adductor hiatus to become the popliteal artery",
+    "zh": "在股三角內下行（位於股靜脈外側、股神經內側），再入內收肌管，穿內收肌裂孔後改稱膕動脈"
+   },
+   "supply": {
+    "en": "Anterior and medial thigh; continues as the popliteal artery",
+    "zh": "大腿前側與內側；延續為膕動脈"
+   },
+   "relations": [
+    {
+     "with": "femoral-nerve",
+     "rule": "nerve lateral to artery at the femoral triangle"
+    },
+    {
+     "with": "femoral-vein",
+     "rule": "vein medial to artery"
+    }
+   ],
+   "keep": null,
+   "mayCross": [
+    "adductor hiatus"
+   ],
+   "order": 0
+  },
+  {
+   "id": "deep-femoral-artery",
+   "en": "Deep femoral artery",
+   "zh": "股深動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "femoral-artery",
+   "at": "3–5 cm below the inguinal ligament",
+   "guide": "{S} deep femoral artery",
+   "calibreMm": [
+    3.8,
+    2.6
+   ],
+   "terminal": false,
+   "origin": {
+    "en": "Femoral artery, 3–5 cm below the inguinal ligament",
+    "zh": "股動脈，腹股溝韌帶下方 3–5 公分"
+   },
+   "course": {
+    "en": "Runs backwards and laterally behind the femoral vessels and deep to adductor longus, close to the femur, giving the circumflex femoral and perforating arteries; its end is the fourth perforating artery",
+    "zh": "向後外側行經股血管後方、內收長肌深面，貼近股骨，依序分出旋股動脈與穿動脈，終末為第四穿動脈"
+   },
+   "supply": {
+    "en": "Main blood supply of the thigh muscles and the femur",
+    "zh": "大腿肌肉與股骨的主要血液供應"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 1
+  },
+  {
+   "id": "medial-circumflex-femoral-artery",
+   "en": "Medial circumflex femoral artery",
+   "zh": "旋股內側動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "deep-femoral-artery",
+   "at": "deep femoral artery, near its origin",
+   "guide": null,
+   "calibreMm": [
+    2.8,
+    1.6
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Deep femoral artery (sometimes the femoral artery)",
+    "zh": "股深動脈（有時來自股動脈）"
+   },
+   "course": {
+    "en": "Winds backwards round the medial side of the femoral neck between pectineus and iliopsoas, then passes above quadratus femoris to the trochanteric fossa",
+    "zh": "繞股骨頸內側向後，經恥骨肌與髂腰肌之間，再越過股方肌上緣到轉子窩"
+   },
+   "supply": {
+    "en": "Femoral head and neck (retinacular arteries) and neighbouring muscles",
+    "zh": "股骨頭、頸（支持帶動脈）與鄰近肌肉"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 1
+  },
+  {
+   "id": "lateral-circumflex-femoral-artery",
+   "en": "Lateral circumflex femoral artery",
+   "zh": "旋股外側動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "deep-femoral-artery",
+   "at": "deep femoral artery, near its origin",
+   "guide": "{S} lateral circumflex femoral artery",
+   "calibreMm": [
+    3.0,
+    2.2
+   ],
+   "terminal": false,
+   "origin": {
+    "en": "Deep femoral artery",
+    "zh": "股深動脈"
+   },
+   "course": {
+    "en": "Passes laterally between the divisions of the femoral nerve, behind sartorius and rectus femoris, and divides into ascending, transverse and descending branches",
+    "zh": "向外側經股神經分支之間、縫匠肌與股直肌深面，分為升支、橫支與降支"
+   },
+   "supply": {
+    "en": "Muscles of the front and lateral thigh and the hip joint region",
+    "zh": "大腿前側與外側肌肉及髖關節周圍"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 2
+  },
+  {
+   "id": "ascending-branch-of-lateral-circumflex-femoral-artery",
+   "en": "Ascending branch of lateral circumflex femoral artery",
+   "zh": "旋股外側動脈升支",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "lateral-circumflex-femoral-artery",
+   "at": "lateral circumflex femoral artery",
+   "guide": null,
+   "calibreMm": [
+    1.8,
+    1.0
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Lateral circumflex femoral artery",
+    "zh": "旋股外側動脈"
+   },
+   "course": {
+    "en": "Ascends laterally beneath sartorius and rectus femoris towards the anterior superior iliac spine",
+    "zh": "在縫匠肌與股直肌深面向外上走，朝髂前上棘"
+   },
+   "supply": {
+    "en": "Tensor fasciae latae and the muscles round the hip; anastomoses with the superior gluteal artery",
+    "zh": "闊筋膜張肌與髖周肌肉；與臀上動脈吻合"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 1
+  },
+  {
+   "id": "transverse-branch-of-lateral-circumflex-femoral-artery",
+   "en": "Transverse branch of lateral circumflex femoral artery",
+   "zh": "旋股外側動脈橫支",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "lateral-circumflex-femoral-artery",
+   "at": "lateral circumflex femoral artery",
+   "guide": null,
+   "calibreMm": [
+    1.6,
+    0.9
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Lateral circumflex femoral artery",
+    "zh": "旋股外側動脈"
+   },
+   "course": {
+    "en": "Runs laterally through vastus lateralis and winds round the femur below the greater trochanter",
+    "zh": "向外側穿過股外側肌，繞過大轉子下方的股骨"
+   },
+   "supply": {
+    "en": "Vastus lateralis; joins the cruciate anastomosis of the thigh",
+    "zh": "股外側肌；參與大腿十字吻合"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 2
+  },
+  {
+   "id": "descending-branch-of-lateral-circumflex-femoral-artery",
+   "en": "Descending branch of lateral circumflex femoral artery",
+   "zh": "旋股外側動脈降支",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "lateral-circumflex-femoral-artery",
+   "at": "lateral circumflex femoral artery",
+   "guide": "Descending branch of {s} lateral circumflex femoral artery",
+   "calibreMm": [
+    2.0,
+    0.8
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Lateral circumflex femoral artery",
+    "zh": "旋股外側動脈"
+   },
+   "course": {
+    "en": "Descends on the front of the thigh between vastus lateralis and rectus femoris, with the nerve to vastus lateralis, towards the knee",
+    "zh": "沿大腿前面在股外側肌與股直肌之間下行，伴股外側肌神經，朝向膝部"
+   },
+   "supply": {
+    "en": "Vastus lateralis and the lateral side of the knee (anastomoses with the genicular arteries)",
+    "zh": "股外側肌與膝外側（與膝動脈吻合）"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 3
+  },
+  {
+   "id": "superficial-circumflex-iliac-artery",
+   "en": "Superficial circumflex iliac artery",
+   "zh": "旋髂淺動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "femoral-artery",
+   "at": "femoral artery, 1–2 cm below the inguinal ligament",
+   "guide": "{S} superficial circumflex iliac artery",
+   "calibreMm": [
+    1.6,
+    0.8
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Femoral artery, 1–2 cm below the inguinal ligament",
+    "zh": "股動脈，腹股溝韌帶下方 1–2 公分"
+   },
+   "course": {
+    "en": "Runs laterally in the subcutaneous tissue along the inguinal ligament towards the anterior superior iliac spine",
+    "zh": "在皮下沿腹股溝韌帶向外側，朝髂前上棘"
+   },
+   "supply": {
+    "en": "Skin and superficial fascia of the groin and lower abdominal wall",
+    "zh": "腹股溝與下腹壁的皮膚和淺筋膜"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 2
+  },
+  {
+   "id": "deep-circumflex-iliac-artery",
+   "en": "Deep circumflex iliac artery",
+   "zh": "旋髂深動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "external-iliac-artery",
+   "at": "external iliac artery, just above the inguinal ligament",
+   "guide": null,
+   "calibreMm": [
+    2.4,
+    1.0
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "External iliac artery, just above the inguinal ligament",
+    "zh": "外髂動脈，腹股溝韌帶上方"
+   },
+   "course": {
+    "en": "Runs laterally along the inguinal ligament to the anterior superior iliac spine, then along the inner lip of the iliac crest",
+    "zh": "沿腹股溝韌帶向外側至髂前上棘，再沿髂嵴內唇走行"
+   },
+   "supply": {
+    "en": "Iliacus and the muscles of the lower abdominal wall",
+    "zh": "髂肌與下腹壁肌肉"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 3
+  },
+  {
+   "id": "perforating-artery-1",
+   "en": "First perforating artery",
+   "zh": "第一穿動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "deep-femoral-artery",
+   "at": "deep femoral artery",
+   "guide": null,
+   "calibreMm": [
+    1.8,
+    0.9
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Deep femoral artery",
+    "zh": "股深動脈"
+   },
+   "course": {
+    "en": "Pierces adductor brevis and adductor magnus close to the linea aspera and reaches the posterior compartment of the thigh",
+    "zh": "貼近股骨粗線穿過內收短肌與內收大肌，到達大腿後區"
+   },
+   "supply": {
+    "en": "Hamstrings, adductor magnus and the femoral shaft",
+    "zh": "膕繩肌、內收大肌與股骨幹"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [
+    "adductor magnus",
+    "adductor brevis"
+   ],
+   "order": 3
+  },
+  {
+   "id": "perforating-artery-2",
+   "en": "Second perforating artery",
+   "zh": "第二穿動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "deep-femoral-artery",
+   "at": "deep femoral artery",
+   "guide": null,
+   "calibreMm": [
+    1.8,
+    0.9
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Deep femoral artery",
+    "zh": "股深動脈"
+   },
+   "course": {
+    "en": "Pierces adductor brevis and adductor magnus close to the linea aspera and reaches the posterior compartment of the thigh",
+    "zh": "貼近股骨粗線穿過內收短肌與內收大肌，到達大腿後區"
+   },
+   "supply": {
+    "en": "Hamstrings, adductor magnus and the femoral shaft",
+    "zh": "膕繩肌、內收大肌與股骨幹"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [
+    "adductor magnus",
+    "adductor brevis"
+   ],
+   "order": 4
+  },
+  {
+   "id": "perforating-artery-3",
+   "en": "Third perforating artery",
+   "zh": "第三穿動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "deep-femoral-artery",
+   "at": "deep femoral artery",
+   "guide": null,
+   "calibreMm": [
+    1.8,
+    0.9
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Deep femoral artery",
+    "zh": "股深動脈"
+   },
+   "course": {
+    "en": "Pierces adductor brevis and adductor magnus close to the linea aspera and reaches the posterior compartment of the thigh",
+    "zh": "貼近股骨粗線穿過內收短肌與內收大肌，到達大腿後區"
+   },
+   "supply": {
+    "en": "Hamstrings, adductor magnus and the femoral shaft",
+    "zh": "膕繩肌、內收大肌與股骨幹"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [
+    "adductor magnus",
+    "adductor brevis"
+   ],
+   "order": 5
+  },
+  {
+   "id": "perforating-artery-4",
+   "en": "Fourth perforating artery (end of the deep femoral artery)",
+   "zh": "第四穿動脈（股深動脈終末）",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "deep-femoral-artery",
+   "at": "end of the deep femoral artery",
+   "guide": null,
+   "calibreMm": [
+    1.8,
+    0.8
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Terminal part of the deep femoral artery",
+    "zh": "股深動脈終末段"
+   },
+   "course": {
+    "en": "Pierces adductor magnus near the lower end of the linea aspera and ends in the hamstrings",
+    "zh": "在股骨粗線下端附近穿過內收大肌，止於膕繩肌"
+   },
+   "supply": {
+    "en": "Hamstrings; anastomoses with the popliteal branches",
+    "zh": "膕繩肌；與膕動脈分支吻合"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [
+    "adductor magnus"
+   ],
+   "order": 6
+  },
+  {
+   "id": "superior-gluteal-artery",
+   "en": "Superior gluteal artery",
+   "zh": "臀上動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "internal-iliac-artery",
+   "at": "posterior division of the internal iliac artery",
+   "guide": "{S} superior gluteal artery",
+   "calibreMm": [
+    4.0,
+    3.2
+   ],
+   "terminal": false,
+   "origin": {
+    "en": "Posterior division of the internal iliac artery",
+    "zh": "髂內動脈後幹"
+   },
+   "course": {
+    "en": "Passes backwards between the lumbosacral trunk and the first sacral nerve and leaves the pelvis through the greater sciatic foramen above piriformis, then divides into superficial and deep branches",
+    "zh": "向後穿過腰薦幹與第一薦神經之間，經梨狀肌上緣出大坐骨孔，分為淺支與深支"
+   },
+   "supply": {
+    "en": "Gluteal muscles (maximus, medius, minimus) and tensor fasciae latae",
+    "zh": "臀大肌、臀中肌、臀小肌與闊筋膜張肌"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [
+    "greater sciatic foramen"
+   ],
+   "order": 1
+  },
+  {
+   "id": "superficial-branch-of-superior-gluteal-artery",
+   "en": "Superficial branch of superior gluteal artery",
+   "zh": "臀上動脈淺支",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "superior-gluteal-artery",
+   "at": "superior gluteal artery",
+   "guide": "{S} superficial branch of superior gluteal artery",
+   "calibreMm": [
+    2.4,
+    1.0
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Superior gluteal artery",
+    "zh": "臀上動脈"
+   },
+   "course": {
+    "en": "Enters the deep surface of gluteus maximus",
+    "zh": "進入臀大肌深面"
+   },
+   "supply": {
+    "en": "Gluteus maximus and the overlying skin",
+    "zh": "臀大肌與其表面皮膚"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 1
+  },
+  {
+   "id": "deep-branch-of-superior-gluteal-artery",
+   "en": "Deep branch of superior gluteal artery",
+   "zh": "臀上動脈深支",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "superior-gluteal-artery",
+   "at": "superior gluteal artery",
+   "guide": "{S} deep branch of superior gluteal artery",
+   "calibreMm": [
+    2.8,
+    1.0
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Superior gluteal artery",
+    "zh": "臀上動脈"
+   },
+   "course": {
+    "en": "Runs between gluteus medius and gluteus minimus",
+    "zh": "走在臀中肌與臀小肌之間"
+   },
+   "supply": {
+    "en": "Gluteus medius, gluteus minimus and the hip joint",
+    "zh": "臀中肌、臀小肌與髖關節"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 2
+  },
+  {
+   "id": "inferior-gluteal-artery",
+   "en": "Inferior gluteal artery",
+   "zh": "臀下動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "internal-iliac-artery",
+   "at": "anterior division of the internal iliac artery",
+   "guide": "{S} inferior gluteal artery",
+   "calibreMm": [
+    3.6,
+    1.6
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Anterior division of the internal iliac artery",
+    "zh": "髂內動脈前幹"
+   },
+   "course": {
+    "en": "Passes between the second and third sacral nerves and leaves the pelvis below piriformis, then enters gluteus maximus",
+    "zh": "穿過第二與第三薦神經之間，經梨狀肌下緣出骨盆，進入臀大肌"
+   },
+   "supply": {
+    "en": "Gluteus maximus, the upper hamstrings and the sciatic nerve (artery to the sciatic nerve)",
+    "zh": "臀大肌、膕繩肌上部與坐骨神經"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [
+    "greater sciatic foramen"
+   ],
+   "order": 2
+  },
+  {
+   "id": "internal-pudendal-artery",
+   "en": "Internal pudendal artery",
+   "zh": "陰部內動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "internal-iliac-artery",
+   "at": "anterior division of the internal iliac artery",
+   "guide": "{S} internal pudendal artery",
+   "calibreMm": [
+    3.2,
+    1.4
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Anterior division of the internal iliac artery",
+    "zh": "髂內動脈前幹"
+   },
+   "course": {
+    "en": "Leaves the pelvis below piriformis, curves round the ischial spine and returns to the perineum through the lesser sciatic foramen",
+    "zh": "經梨狀肌下緣出骨盆，繞坐骨棘，再經坐骨小孔回到會陰"
+   },
+   "supply": {
+    "en": "Perineum and external genitalia",
+    "zh": "會陰與外生殖器"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [
+    "greater sciatic foramen",
+    "lesser sciatic foramen"
+   ],
+   "order": 3
+  },
+  {
+   "id": "obturator-artery",
+   "en": "Obturator artery",
+   "zh": "閉孔動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "internal-iliac-artery",
+   "at": "anterior division of the internal iliac artery",
+   "guide": null,
+   "calibreMm": [
+    2.6,
+    1.2
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Anterior division of the internal iliac artery",
+    "zh": "髂內動脈前幹"
+   },
+   "course": {
+    "en": "Runs along the lateral wall of the pelvis with the obturator nerve and vein and leaves through the obturator canal, then divides into anterior and posterior branches",
+    "zh": "沿骨盆側壁與閉孔神經、閉孔靜脈同行，經閉孔管出骨盆，分為前支與後支"
+   },
+   "supply": {
+    "en": "Adductor muscles of the thigh and the head of the femur (acetabular branch)",
+    "zh": "大腿內收肌群與股骨頭（髖臼支）"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [
+    "obturator canal"
+   ],
+   "order": 4
+  }
+ ]
+}
