@@ -65,7 +65,8 @@
     0.42
    ],
    "mayCross": [],
-   "order": 2
+   "order": 2,
+   "joinAt": "end"
   },
   {
    "id": "external-iliac-artery",
@@ -96,7 +97,8 @@
    "relations": [],
    "keep": null,
    "mayCross": [],
-   "order": 1
+   "order": 1,
+   "joinAt": "end"
   },
   {
    "id": "femoral-artery",
@@ -138,7 +140,8 @@
    "mayCross": [
     "adductor hiatus"
    ],
-   "order": 0
+   "order": 0,
+   "joinAt": "end"
   },
   {
    "id": "deep-femoral-artery",

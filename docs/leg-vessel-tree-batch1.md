@@ -1,7 +1,7 @@
 # Leg vessel tree, batch 1: femoral artery system
 # 下肢血管樹 第 1 批：股動脈系統
 
-由 `node scripts/build-leg-vessels.mjs --write` 產生，資料在 `app/data/vessel-tree/femoral-system.json`，檢查是 `scripts/check-leg-vessel-tree.mjs`（已併入 `npm run check`）。新血管與網站上現有血管並存，**尚未替換**；經你審核整批動脈後一次替換。畫面確認見 PR 說明與截圖，沒有在 3D 畫面確認的部分列在 PR 說明。
+由 `node scripts/build-leg-vessels.mjs --write` 產生，資料在 `app/data/vessel-tree/`，檢查是 `scripts/check-leg-vessel-tree.mjs`（已併入 `npm run check`）。新血管與網站現有血管並存，**尚未替換**；全部批次完成並經你審核後一次替換。
 
 ## 血管（22 條 × 左右）
 
@@ -32,10 +32,9 @@
 
 ## 建法
 
-1. 每條血管以網站現有網格（圖譜或示意）的中心線為導引，保留位置；穿動脈、旋髂深動脈、旋股外側動脈升支與橫支、閉孔動脈沒有可用的導引，依骨與肌網格上量到的標誌另寫路線（示意）。
-2. 起點移到上一級的中心線上，子血管一定接在上一級上；髂總動脈分叉處與腹股溝韌帶處（外髂動脈到股動脈）接點相同。
-3. 中心線被推出骨外（壁離骨面至少 1.2 mm）並避開神經（距神經表面至少 0.7 倍半徑），再平滑；直徑由起端線性遞減到末端，只有標記為末端的血管才收細。
-4. 股動脈的下端接現有的膕動脈（第 2 批重建）。
+1. 每條血管以網站現有網格（圖譜或示意）的中心線為導引，保留位置；沒有可用導引的，依骨與肌網格上量到的標誌另寫路線（示意）。
+2. 起點移到上一級的中心線上，子血管一定接在上一級上；吻合支的兩端各接在一條血管上。
+3. 中心線被推出骨外（壁離骨面至少 1.2 mm）並避開神經，再平滑；直徑由起端線性遞減到末端，只有標記為末端的血管才收細。
 
 ## 資訊卡欄位（由血管樹產生）
 
@@ -64,7 +63,7 @@
 
 - Origin 起點：External iliac artery, at the inguinal ligament｜外髂動脈，於腹股溝韌帶處
 - Course 走向：Descends in the femoral triangle (lateral to the femoral vein, medial to the femoral nerve), then in the adductor canal, and passes through the adductor hiatus to become the popliteal artery｜在股三角內下行（位於股靜脈外側、股神經內側），再入內收肌管，穿內收肌裂孔後改稱膕動脈
-- Main branches 主要分支：Deep femoral artery（股深動脈）、Superficial circumflex iliac artery（旋髂淺動脈）
+- Main branches 主要分支：Deep femoral artery（股深動脈）、Popliteal artery（膕動脈）、Superficial circumflex iliac artery（旋髂淺動脈）、Descending genicular artery（降膝動脈）
 - Territory 供應範圍：Anterior and medial thigh; continues as the popliteal artery｜大腿前側與內側；延續為膕動脈
 - 位置關係：nerve lateral to artery at the femoral triangle；vein medial to artery
 
