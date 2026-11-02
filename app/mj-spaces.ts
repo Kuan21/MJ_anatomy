@@ -23,7 +23,7 @@ export type SpaceRole='boundary'|'roof'|'floor'|'content'|'related';
 export const SPACE_ROLES:{key:SpaceRole;en:string;zh:string;/** said after the name when the item has no role text of its own */plain:string}[]=[
  {key:'boundary',en:'Boundaries',zh:'邊界',plain:'邊界'},{key:'roof',en:'Roof',zh:'頂',plain:'頂'},{key:'floor',en:'Floor',zh:'底',plain:'底'},
  {key:'content',en:'Contents',zh:'內容物',plain:'內容物'},{key:'related',en:'Related structures',zh:'相關結構',plain:'相關結構'}];
-export interface SpaceDef{id:string;en:string;zh:string;group:SpaceGroup;/** lower-case name of the schematic space part, without side; it is never drawn */part:string;r:number;look:[number,number,number];boundaries:SpaceItem[];contents:SpaceItem[];missing?:string[];related?:string[];/** redesigned display: every structure drawn solid, the unrelated ones hidden (optionally faded), roof lifted off by default */solid?:boolean;roof?:SpaceItem[];floor?:SpaceItem[];relatedStructures?:SpaceItem[]}
+export interface SpaceDef{id:string;en:string;zh:string;group:SpaceGroup;/** lower-case name of the schematic space part, without side; it is never drawn */part:string;r:number;look:[number,number,number];boundaries:SpaceItem[];contents:SpaceItem[];missing?:string[];related?:string[];/** redesigned display: every structure drawn solid, the unrelated ones hidden (optionally faded), roof lifted off by default */solid?:boolean;/** a foramen open at both ends: no roof and no floor */through?:boolean;roof?:SpaceItem[];floor?:SpaceItem[];relatedStructures?:SpaceItem[]}
 
 const m=(en:string,zh:string,re:RegExp,role?:string):SpaceItem=>({en,zh,re,role});
 const n=(en:string,zh:string,nerve:string,role?:string):SpaceItem=>({en,zh,nerve,role});
@@ -42,22 +42,28 @@ const adductorLongus=(role:string)=>m('Adductor longus','內收長肌',/^(?:left
 const adductorMagnus=(role:string)=>m('Adductor magnus','內收大肌',/^(?:left |right )?adductor magnus$/,role);
 
 export const SPACES:SpaceDef[]=[
- {id:'quadrangular',en:'Quadrangular space',zh:'四邊孔',group:'shoulder',part:'quadrangular space',r:.04,look:[0,.12,-1],
+ {id:'quadrangular',en:'Quadrangular space',zh:'四邊孔',group:'shoulder',part:'quadrangular space',r:.04,look:[0,.12,-1],solid:true,through:true,
   related:['triangular','triangular-interval'],
   boundaries:[teresMinor('上界'),teresMajor('下界'),tricepsLong('內側界'),m('Surgical neck of humerus','肱骨外科頸',/surgical neck of/,'外側界')],
-  contents:[n('Axillary nerve','腋神經','Axillary nerve'),m('Posterior circumflex humeral artery','旋肱後動脈',/posterior circumflex humeral artery/),m('Posterior circumflex humeral vein','旋肱後靜脈',/posterior circumflex humeral vein/)]},
- {id:'triangular',en:'Triangular space',zh:'三邊孔',group:'shoulder',part:'triangular space',r:.03,look:[0,.12,-1],
+  contents:[n('Axillary nerve','腋神經','Axillary nerve'),m('Posterior circumflex humeral artery','旋肱後動脈',/posterior circumflex humeral artery/),m('Posterior circumflex humeral vein','旋肱後靜脈',/posterior circumflex humeral vein/)],
+  relatedStructures:[m('Subscapularis','肩胛下肌',/^(?:left |right )?subscapularis$/,'相關結構（前方）')]},
+ {id:'triangular',en:'Triangular space',zh:'三邊孔',group:'shoulder',part:'triangular space',r:.03,look:[0,.12,-1],solid:true,through:true,
   related:['quadrangular','triangular-interval'],
   boundaries:[teresMinor('上界'),teresMajor('下界'),tricepsLong('外側界')],
-  contents:[m('Circumflex scapular artery','旋肩胛動脈',/circumflex scapular artery/),m('Circumflex scapular vein','旋肩胛靜脈',/circumflex scapular vein/)]},
- {id:'triangular-interval',en:'Triangular interval',zh:'三邊裂',group:'shoulder',part:'triangular interval',r:.035,look:[0,.12,-1],
+  contents:[m('Circumflex scapular artery','旋肩胛動脈',/circumflex scapular artery/),m('Circumflex scapular vein','旋肩胛靜脈',/circumflex scapular vein/)],
+  relatedStructures:[m('Subscapular artery','肩胛下動脈',/^(?:left |right )?subscapular artery$/,'相關結構（旋肩胛動脈的來源）')],
+  missing:['Lateral border of scapula 肩胛骨外側緣（模型沒有此骨性標記）']},
+ {id:'triangular-interval',en:'Triangular interval',zh:'三邊裂',group:'shoulder',part:'triangular interval',r:.035,look:[0,.12,-1],solid:true,
   related:['quadrangular','triangular'],
-  boundaries:[teresMajor('上界'),tricepsLong('內側界'),tricepsLateral,humerus('外側界（肱骨幹）')],
+  boundaries:[teresMajor('上界'),tricepsLong('內側界'),tricepsLateral],
+  floor:[humerus('底（橈神經溝）')],
   contents:[radialNerve(),m('Deep brachial artery','肱深動脈',/deep brachial artery/)]},
- {id:'clavipectoral',en:'Clavipectoral triangle',zh:'三角肌胸大肌三角',group:'shoulder',part:'clavipectoral triangle',r:.04,look:[0,.2,1],
+ {id:'clavipectoral',en:'Clavipectoral triangle',zh:'三角肌胸大肌三角',group:'shoulder',part:'clavipectoral triangle',r:.04,look:[0,.2,1],solid:true,
   boundaries:[m('Clavicle','鎖骨',/^(?:left |right )?clavicle$/,'上界'),m('Deltoid','三角肌',/part of \w+ deltoid$/,'外側界'),m('Pectoralis major, clavicular part','胸大肌鎖骨部',/^clavicular part of \w+ pectoralis major$/,'內側界')],
-  contents:[m('Cephalic vein','頭靜脈',/^(?:left |right )cephalic vein$/)],
-  missing:['Thoracoacromial artery 胸肩峰動脈（模型沒有此動脈）']},
+  floor:[m('Pectoralis minor','胸小肌',/^(?:left |right )?pectoralis minor$/,'底（深面）')],
+  contents:[m('Cephalic vein','頭靜脈',/^(?:left |right )cephalic vein$/),m('Thoraco-acromial artery, deltoid branch','胸肩峰動脈（三角肌支）',/deltoid branch of (?:left |right )?thoraco-acromial artery/)],
+  relatedStructures:[m('Axillary vein','腋靜脈',/axillary vein$/,'相關結構（頭靜脈注入處）')],
+  missing:['Clavipectoral fascia 鎖胸筋膜（底；模型沒有）','Skin and superficial fascia 皮膚與淺筋膜（頂；不繪製）']},
  {id:'axillary-fossa',en:'Axillary fossa',zh:'腋窩',group:'shoulder',part:'axillary fossa',r:.075,look:[.35,-.55,.8],
   boundaries:[m('Pectoralis major','胸大肌',/part of \w+ pectoralis major$/,'前壁（腋前襞）'),m('Latissimus dorsi','背闊肌',/latissimus dorsi/,'後壁（腋後襞）'),teresMajor('後壁（腋後襞）'),m('Serratus anterior','前鋸肌',/serratus anterior/,'內側壁'),humerus('外側壁（結節間溝附近）')],
   contents:[m('Axillary artery','腋動脈',/axillary artery$/),m('Axillary vein','腋靜脈',/axillary vein$/),m('Lateral and medial cords of brachial plexus','臂神經叢外側束與內側束',/(?:lateral|medial) cord of brachial plexus/),n('Posterior cord of brachial plexus','臂神經叢後側束','Posterior cord of brachial plexus')],
