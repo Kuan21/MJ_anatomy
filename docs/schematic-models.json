@@ -16,8 +16,8 @@
    1389,
    12
   ],
-  "triangles": 300,
-  "outsideSkinSamples": "0/51",
+  "triangles": 600,
+  "outsideSkinSamples": "0/44",
   "worstOverMm": 0
  },
  {
@@ -30,15 +30,15 @@
   "sizeMm": [
    19,
    8,
-   9
+   10
   ],
   "centreMm": [
    -85,
    1409,
    4
   ],
-  "triangles": 300,
-  "outsideSkinSamples": "0/51",
+  "triangles": 600,
+  "outsideSkinSamples": "0/44",
   "worstOverMm": 0
  },
  {
@@ -58,8 +58,8 @@
    1304,
    45
   ],
-  "triangles": 300,
-  "outsideSkinSamples": "0/51",
+  "triangles": 600,
+  "outsideSkinSamples": "0/44",
   "worstOverMm": 0
  },
  {
@@ -79,7 +79,7 @@
    1324,
    75
   ],
-  "triangles": 900,
+  "triangles": 1800,
   "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
@@ -100,8 +100,8 @@
    1294,
    84
   ],
-  "triangles": 1500,
-  "outsideSkinSamples": "0/40",
+  "triangles": 3000,
+  "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
  {
@@ -121,8 +121,8 @@
    1389,
    12
   ],
-  "triangles": 300,
-  "outsideSkinSamples": "0/51",
+  "triangles": 600,
+  "outsideSkinSamples": "0/44",
   "worstOverMm": 0
  },
  {
@@ -142,8 +142,8 @@
    1409,
    4
   ],
-  "triangles": 300,
-  "outsideSkinSamples": "0/51",
+  "triangles": 600,
+  "outsideSkinSamples": "0/44",
   "worstOverMm": 0
  },
  {
@@ -163,8 +163,8 @@
    1303,
    45
   ],
-  "triangles": 300,
-  "outsideSkinSamples": "0/51",
+  "triangles": 600,
+  "outsideSkinSamples": "0/44",
   "worstOverMm": 0
  },
  {
@@ -184,7 +184,7 @@
    1324,
    75
   ],
-  "triangles": 900,
+  "triangles": 1800,
   "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
@@ -205,8 +205,8 @@
    1294,
    84
   ],
-  "triangles": 1500,
-  "outsideSkinSamples": "0/40",
+  "triangles": 3000,
+  "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
  {
@@ -223,11 +223,11 @@
   ],
   "centreMm": [
    -40,
-   1376,
+   1375,
    11
   ],
-  "triangles": 600,
-  "outsideSkinSamples": "0/44",
+  "triangles": 1200,
+  "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
  {
@@ -247,7 +247,7 @@
    1322,
    27
   ],
-  "triangles": 492,
+  "triangles": 984,
   "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
@@ -268,7 +268,7 @@
    1322,
    29
   ],
-  "triangles": 492,
+  "triangles": 984,
   "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
@@ -289,8 +289,8 @@
    1427,
    -6
   ],
-  "triangles": 552,
-  "outsideSkinSamples": "0/47",
+  "triangles": 1104,
+  "outsideSkinSamples": "0/43",
   "worstOverMm": 0
  },
  {
@@ -301,7 +301,7 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   9,
+   10,
    132,
    83
   ],
@@ -310,8 +310,8 @@
    1226,
    -21
   ],
-  "triangles": 396,
-  "outsideSkinSamples": "0/40",
+  "triangles": 792,
+  "outsideSkinSamples": "0/45",
   "worstOverMm": 0
  },
  {
@@ -331,8 +331,8 @@
    1168,
    -19
   ],
-  "triangles": 396,
-  "outsideSkinSamples": "0/40",
+  "triangles": 792,
+  "outsideSkinSamples": "0/45",
   "worstOverMm": 0
  },
  {
@@ -352,8 +352,8 @@
    1140,
    -19
   ],
-  "triangles": 372,
-  "outsideSkinSamples": "0/47",
+  "triangles": 744,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -448,7 +448,7 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   71,
+   72,
    234,
    50
   ],
@@ -457,8 +457,8 @@
    1368,
    13
   ],
-  "triangles": 600,
-  "outsideSkinSamples": "0/44",
+  "triangles": 1200,
+  "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
  {
@@ -478,7 +478,7 @@
    1315,
    26
   ],
-  "triangles": 492,
+  "triangles": 984,
   "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
@@ -499,7 +499,7 @@
    1323,
    29
   ],
-  "triangles": 492,
+  "triangles": 984,
   "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
@@ -520,8 +520,8 @@
    1413,
    -12
   ],
-  "triangles": 552,
-  "outsideSkinSamples": "0/47",
+  "triangles": 1104,
+  "outsideSkinSamples": "0/43",
   "worstOverMm": 0
  },
  {
@@ -541,8 +541,8 @@
    1226,
    -21
   ],
-  "triangles": 396,
-  "outsideSkinSamples": "0/40",
+  "triangles": 792,
+  "outsideSkinSamples": "0/45",
   "worstOverMm": 0
  },
  {
@@ -558,12 +558,12 @@
    77
   ],
   "centreMm": [
-   9,
+   10,
    1169,
    -16
   ],
-  "triangles": 396,
-  "outsideSkinSamples": "0/40",
+  "triangles": 792,
+  "outsideSkinSamples": "0/45",
   "worstOverMm": 0
  },
  {
@@ -583,8 +583,8 @@
    1140,
    -17
   ],
-  "triangles": 372,
-  "outsideSkinSamples": "0/47",
+  "triangles": 744,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -680,7 +680,7 @@
   "shape": "volume",
   "sizeMm": [
    15,
-   71,
+   72,
    38
   ],
   "centreMm": [
@@ -688,7 +688,7 @@
    1235,
    4
   ],
-  "triangles": 348,
+  "triangles": 696,
   "outsideSkinSamples": "0/44",
   "worstOverMm": 0
  },
@@ -701,7 +701,7 @@
   "shape": "volume",
   "sizeMm": [
    15,
-   71,
+   72,
    38
   ],
   "centreMm": [
@@ -709,7 +709,7 @@
    1235,
    -18
   ],
-  "triangles": 348,
+  "triangles": 696,
   "outsideSkinSamples": "0/44",
   "worstOverMm": 0
  },
@@ -721,7 +721,7 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   32,
+   33,
    101,
    54
   ],
@@ -730,7 +730,7 @@
    1250,
    -5
   ],
-  "triangles": 1836,
+  "triangles": 3672,
   "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
@@ -742,7 +742,7 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   67,
+   68,
    90,
    9
   ],
@@ -751,8 +751,8 @@
    1355,
    -11
   ],
-  "triangles": 732,
-  "outsideSkinSamples": "0/42",
+  "triangles": 1464,
+  "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
  {
@@ -772,8 +772,8 @@
    1387,
    -18
   ],
-  "triangles": 204,
-  "outsideSkinSamples": "0/52",
+  "triangles": 408,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -793,8 +793,8 @@
    1393,
    -11
   ],
-  "triangles": 360,
-  "outsideSkinSamples": "0/46",
+  "triangles": 720,
+  "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
  {
@@ -814,8 +814,8 @@
    1388,
    -19
   ],
-  "triangles": 204,
-  "outsideSkinSamples": "0/52",
+  "triangles": 408,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -835,8 +835,8 @@
    1324,
    -3
   ],
-  "triangles": 408,
-  "outsideSkinSamples": "0/42",
+  "triangles": 816,
+  "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
  {
@@ -856,7 +856,7 @@
    860,
    38
   ],
-  "triangles": 252,
+  "triangles": 504,
   "outsideSkinSamples": "0/43",
   "worstOverMm": 0
  },
@@ -866,7 +866,7 @@
   "system": "venous",
   "kind": "vein",
   "sex": "",
-  "shape": "sheet",
+  "shape": "volume",
   "sizeMm": [
    48,
    4,
@@ -877,8 +877,8 @@
    1370,
    -15
   ],
-  "triangles": 300,
-  "outsideSkinSamples": "0/51",
+  "triangles": 600,
+  "outsideSkinSamples": "0/44",
   "worstOverMm": 0
  },
  {
@@ -898,7 +898,7 @@
    984,
    -21
   ],
-  "triangles": 588,
+  "triangles": 1176,
   "outsideSkinSamples": "0/43",
   "worstOverMm": 0
  },
@@ -919,8 +919,8 @@
    885,
    29
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -940,8 +940,8 @@
    874,
    28
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -952,7 +952,7 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   67,
+   68,
    90,
    9
   ],
@@ -961,8 +961,8 @@
    1355,
    -11
   ],
-  "triangles": 732,
-  "outsideSkinSamples": "0/42",
+  "triangles": 1464,
+  "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
  {
@@ -982,8 +982,8 @@
    1387,
    -18
   ],
-  "triangles": 204,
-  "outsideSkinSamples": "0/52",
+  "triangles": 408,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -1003,8 +1003,8 @@
    1393,
    -11
   ],
-  "triangles": 360,
-  "outsideSkinSamples": "0/46",
+  "triangles": 720,
+  "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
  {
@@ -1024,8 +1024,8 @@
    1388,
    -19
   ],
-  "triangles": 204,
-  "outsideSkinSamples": "0/52",
+  "triangles": 408,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -1045,8 +1045,8 @@
    1324,
    -3
   ],
-  "triangles": 408,
-  "outsideSkinSamples": "0/42",
+  "triangles": 816,
+  "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
  {
@@ -1066,7 +1066,7 @@
    860,
    38
   ],
-  "triangles": 252,
+  "triangles": 504,
   "outsideSkinSamples": "0/43",
   "worstOverMm": 0
  },
@@ -1084,11 +1084,11 @@
   ],
   "centreMm": [
    153,
-   1367,
+   1368,
    -17
   ],
-  "triangles": 300,
-  "outsideSkinSamples": "0/51",
+  "triangles": 600,
+  "outsideSkinSamples": "0/44",
   "worstOverMm": 0
  },
  {
@@ -1108,7 +1108,7 @@
    985,
    -21
   ],
-  "triangles": 588,
+  "triangles": 1176,
   "outsideSkinSamples": "0/43",
   "worstOverMm": 0
  },
@@ -1129,8 +1129,8 @@
    881,
    30
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -1141,7 +1141,7 @@
   "sex": "",
   "shape": "rod",
   "sizeMm": [
-   2,
+   3,
    6,
    8
   ],
@@ -1150,9 +1150,177 @@
    877,
    26
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
+ },
+ {
+  "name": "Right lateral brachial vein",
+  "zh": "右外側肱靜脈",
+  "system": "venous",
+  "kind": "vein",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   67,
+   215,
+   37
+  ],
+  "centreMm": [
+   -183,
+   1210,
+   -21
+  ],
+  "triangles": 1032,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right anterior interosseous vein",
+  "zh": "右前骨間靜脈",
+  "system": "venous",
+  "kind": "vein",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   33,
+   172,
+   35
+  ],
+  "centreMm": [
+   -232,
+   1015,
+   -5
+  ],
+  "triangles": 888,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right posterior interosseous vein",
+  "zh": "右後骨間靜脈",
+  "system": "venous",
+  "kind": "vein",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   35,
+   181,
+   33
+  ],
+  "centreMm": [
+   -229,
+   984,
+   -20
+  ],
+  "triangles": 888,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right thoracoepigastric vein",
+  "zh": "右胸腹壁靜脈",
+  "system": "venous",
+  "kind": "vein",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   120,
+   303,
+   8
+  ],
+  "centreMm": [
+   -98,
+   1024,
+   48
+  ],
+  "triangles": 1536,
+  "outsideSkinSamples": "15/41",
+  "worstOverMm": 22
+ },
+ {
+  "name": "Left lateral brachial vein",
+  "zh": "左外側肱靜脈",
+  "system": "venous",
+  "kind": "vein",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   67,
+   214,
+   35
+  ],
+  "centreMm": [
+   182,
+   1210,
+   -20
+  ],
+  "triangles": 1032,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left anterior interosseous vein",
+  "zh": "左前骨間靜脈",
+  "system": "venous",
+  "kind": "vein",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   33,
+   172,
+   35
+  ],
+  "centreMm": [
+   232,
+   1015,
+   -5
+  ],
+  "triangles": 888,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left posterior interosseous vein",
+  "zh": "左後骨間靜脈",
+  "system": "venous",
+  "kind": "vein",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   32,
+   180,
+   41
+  ],
+  "centreMm": [
+   228,
+   985,
+   -23
+  ],
+  "triangles": 888,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left thoracoepigastric vein",
+  "zh": "左胸腹壁靜脈",
+  "system": "venous",
+  "kind": "vein",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   118,
+   303,
+   7
+  ],
+  "centreMm": [
+   96,
+   1024,
+   48
+  ],
+  "triangles": 1536,
+  "outsideSkinSamples": "16/41",
+  "worstOverMm": 18
  },
  {
   "name": "Right deep femoral artery",
@@ -1163,7 +1331,7 @@
   "shape": "volume",
   "sizeMm": [
    22,
-   233,
+   234,
    30
   ],
   "centreMm": [
@@ -1171,7 +1339,7 @@
    737,
    27
   ],
-  "triangles": 516,
+  "triangles": 1032,
   "outsideSkinSamples": "0/44",
   "worstOverMm": 0
  },
@@ -1192,8 +1360,8 @@
    736,
    -4
   ],
-  "triangles": 612,
-  "outsideSkinSamples": "0/45",
+  "triangles": 1224,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -1213,8 +1381,8 @@
    869,
    -3
   ],
-  "triangles": 372,
-  "outsideSkinSamples": "0/47",
+  "triangles": 744,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -1234,7 +1402,7 @@
    908,
    24
   ],
-  "triangles": 252,
+  "triangles": 504,
   "outsideSkinSamples": "0/43",
   "worstOverMm": 0
  },
@@ -1255,8 +1423,8 @@
    845,
    8
   ],
-  "triangles": 204,
-  "outsideSkinSamples": "0/52",
+  "triangles": 408,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -1276,8 +1444,8 @@
    921,
    40
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -1297,8 +1465,8 @@
    856,
    11
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -1310,7 +1478,7 @@
   "shape": "volume",
   "sizeMm": [
    23,
-   61,
+   62,
    83
   ],
   "centreMm": [
@@ -1318,8 +1486,8 @@
    841,
    0
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -1339,8 +1507,8 @@
    524,
    16
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -1360,8 +1528,8 @@
    499,
    -3
   ],
-  "triangles": 300,
-  "outsideSkinSamples": "0/51",
+  "triangles": 600,
+  "outsideSkinSamples": "0/44",
   "worstOverMm": 0
  },
  {
@@ -1381,8 +1549,8 @@
    88,
    -23
   ],
-  "triangles": 204,
-  "outsideSkinSamples": "0/52",
+  "triangles": 408,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -1399,11 +1567,11 @@
   ],
   "centreMm": [
    -64,
-   97,
+   98,
    -7
   ],
-  "triangles": 204,
-  "outsideSkinSamples": "0/52",
+  "triangles": 408,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -1415,7 +1583,7 @@
   "shape": "volume",
   "sizeMm": [
    30,
-   303,
+   304,
    20
   ],
   "centreMm": [
@@ -1423,8 +1591,8 @@
    184,
    -43
   ],
-  "triangles": 600,
-  "outsideSkinSamples": "0/44",
+  "triangles": 1200,
+  "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
  {
@@ -1444,8 +1612,8 @@
    373,
    -40
   ],
-  "triangles": 204,
-  "outsideSkinSamples": "0/52",
+  "triangles": 408,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -1465,7 +1633,7 @@
    30,
    -8
   ],
-  "triangles": 252,
+  "triangles": 504,
   "outsideSkinSamples": "0/43",
   "worstOverMm": 0
  },
@@ -1482,12 +1650,12 @@
    19
   ],
   "centreMm": [
-   -53,
+   -52,
    935,
    -65
   ],
-  "triangles": 300,
-  "outsideSkinSamples": "0/51",
+  "triangles": 600,
+  "outsideSkinSamples": "0/44",
   "worstOverMm": 0
  },
  {
@@ -1507,8 +1675,8 @@
    961,
    -73
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -1528,8 +1696,8 @@
    966,
    -62
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -1549,8 +1717,8 @@
    911,
    -82
   ],
-  "triangles": 396,
-  "outsideSkinSamples": "0/40",
+  "triangles": 792,
+  "outsideSkinSamples": "0/45",
   "worstOverMm": 0
  },
  {
@@ -1568,10 +1736,10 @@
   "centreMm": [
    -59,
    892,
-   -56
+   -55
   ],
-  "triangles": 372,
-  "outsideSkinSamples": "0/47",
+  "triangles": 744,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -1584,14 +1752,14 @@
   "sizeMm": [
    37,
    11,
-   38
+   37
   ],
   "centreMm": [
    -34,
    919,
    -79
   ],
-  "triangles": 252,
+  "triangles": 504,
   "outsideSkinSamples": "0/43",
   "worstOverMm": 0
  },
@@ -1603,17 +1771,17 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   69,
-   44,
-   37
+   75,
+   48,
+   44
   ],
   "centreMm": [
-   -51,
-   902,
-   -56
+   -53,
+   899,
+   -53
   ],
-  "triangles": 372,
-  "outsideSkinSamples": "0/47",
+  "triangles": 744,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -1624,7 +1792,7 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   11,
+   12,
    189,
    22
   ],
@@ -1633,7 +1801,7 @@
    705,
    30
   ],
-  "triangles": 252,
+  "triangles": 504,
   "outsideSkinSamples": "0/43",
   "worstOverMm": 0
  },
@@ -1654,8 +1822,8 @@
    332,
    -74
   ],
-  "triangles": 300,
-  "outsideSkinSamples": "0/51",
+  "triangles": 600,
+  "outsideSkinSamples": "0/44",
   "worstOverMm": 0
  },
  {
@@ -1668,15 +1836,15 @@
   "sizeMm": [
    14,
    24,
-   29
+   30
   ],
   "centreMm": [
    -128,
    26,
    33
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -1685,20 +1853,20 @@
   "system": "nervous",
   "kind": "nerve",
   "sex": "",
-  "shape": "rod",
+  "shape": "volume",
   "sizeMm": [
-   19,
-   7,
-   14
+   23,
+   16,
+   21
   ],
   "centreMm": [
    -85,
-   46,
-   50
+   42,
+   54
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
-  "worstOverMm": 0
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
+  "worstOverMm": 1
  },
  {
   "name": "Right lateral branch of deep fibular nerve",
@@ -1708,18 +1876,18 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   35,
-   6,
-   21
+   40,
+   16,
+   29
   ],
   "centreMm": [
-   -93,
-   46,
-   47
+   -92,
+   41,
+   51
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
-  "worstOverMm": 0
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
+  "worstOverMm": 3
  },
  {
   "name": "Left deep femoral artery",
@@ -1738,7 +1906,7 @@
    740,
    27
   ],
-  "triangles": 516,
+  "triangles": 1032,
   "outsideSkinSamples": "0/44",
   "worstOverMm": 0
  },
@@ -1751,7 +1919,7 @@
   "shape": "volume",
   "sizeMm": [
    31,
-   115,
+   116,
    60
   ],
   "centreMm": [
@@ -1759,8 +1927,8 @@
    736,
    -2
   ],
-  "triangles": 612,
-  "outsideSkinSamples": "0/45",
+  "triangles": 1224,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -1780,8 +1948,8 @@
    870,
    -3
   ],
-  "triangles": 372,
-  "outsideSkinSamples": "0/47",
+  "triangles": 744,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -1801,7 +1969,7 @@
    908,
    24
   ],
-  "triangles": 252,
+  "triangles": 504,
   "outsideSkinSamples": "0/43",
   "worstOverMm": 0
  },
@@ -1822,8 +1990,8 @@
    845,
    8
   ],
-  "triangles": 204,
-  "outsideSkinSamples": "0/52",
+  "triangles": 408,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -1843,8 +2011,8 @@
    919,
    43
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -1864,8 +2032,8 @@
    855,
    13
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -1885,8 +2053,8 @@
    842,
    -1
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -1906,8 +2074,8 @@
    529,
    13
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -1927,8 +2095,8 @@
    504,
    -7
   ],
-  "triangles": 300,
-  "outsideSkinSamples": "0/51",
+  "triangles": 600,
+  "outsideSkinSamples": "0/44",
   "worstOverMm": 0
  },
  {
@@ -1948,8 +2116,8 @@
    88,
    -22
   ],
-  "triangles": 204,
-  "outsideSkinSamples": "0/52",
+  "triangles": 408,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -1969,8 +2137,8 @@
    97,
    -7
   ],
-  "triangles": 204,
-  "outsideSkinSamples": "0/52",
+  "triangles": 408,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -1990,8 +2158,8 @@
    184,
    -42
   ],
-  "triangles": 600,
-  "outsideSkinSamples": "0/44",
+  "triangles": 1200,
+  "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
  {
@@ -2011,8 +2179,8 @@
    372,
    -39
   ],
-  "triangles": 204,
-  "outsideSkinSamples": "0/52",
+  "triangles": 408,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -2032,7 +2200,7 @@
    30,
    -8
   ],
-  "triangles": 252,
+  "triangles": 504,
   "outsideSkinSamples": "0/43",
   "worstOverMm": 0
  },
@@ -2045,7 +2213,7 @@
   "shape": "rod",
   "sizeMm": [
    42,
-   12,
+   13,
    13
   ],
   "centreMm": [
@@ -2053,8 +2221,8 @@
    944,
    -58
   ],
-  "triangles": 300,
-  "outsideSkinSamples": "0/51",
+  "triangles": 600,
+  "outsideSkinSamples": "0/44",
   "worstOverMm": 0
  },
  {
@@ -2074,8 +2242,8 @@
    961,
    -73
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -2095,8 +2263,8 @@
    966,
    -62
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -2107,7 +2275,7 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   33,
+   34,
    53,
    45
   ],
@@ -2116,8 +2284,8 @@
    918,
    -75
   ],
-  "triangles": 396,
-  "outsideSkinSamples": "0/40",
+  "triangles": 792,
+  "outsideSkinSamples": "0/45",
   "worstOverMm": 0
  },
  {
@@ -2137,8 +2305,8 @@
    899,
    -54
   ],
-  "triangles": 372,
-  "outsideSkinSamples": "0/47",
+  "triangles": 744,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -2151,14 +2319,14 @@
   "sizeMm": [
    37,
    11,
-   38
+   37
   ],
   "centreMm": [
    34,
    919,
    -79
   ],
-  "triangles": 252,
+  "triangles": 504,
   "outsideSkinSamples": "0/43",
   "worstOverMm": 0
  },
@@ -2170,17 +2338,17 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   69,
-   44,
-   37
+   72,
+   45,
+   46
   ],
   "centreMm": [
-   51,
-   902,
-   -56
+   52,
+   901,
+   -51
   ],
-  "triangles": 372,
-  "outsideSkinSamples": "0/47",
+  "triangles": 744,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -2191,7 +2359,7 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   11,
+   12,
    189,
    22
   ],
@@ -2200,7 +2368,7 @@
    705,
    30
   ],
-  "triangles": 252,
+  "triangles": 504,
   "outsideSkinSamples": "0/43",
   "worstOverMm": 0
  },
@@ -2221,8 +2389,8 @@
    332,
    -74
   ],
-  "triangles": 300,
-  "outsideSkinSamples": "0/51",
+  "triangles": 600,
+  "outsideSkinSamples": "0/44",
   "worstOverMm": 0
  },
  {
@@ -2242,8 +2410,8 @@
    26,
    33
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -2252,19 +2420,19 @@
   "system": "nervous",
   "kind": "nerve",
   "sex": "",
-  "shape": "rod",
+  "shape": "volume",
   "sizeMm": [
-   19,
-   6,
-   14
+   23,
+   15,
+   22
   ],
   "centreMm": [
    85,
-   46,
-   50
+   42,
+   54
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -2275,17 +2443,17 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   35,
-   6,
-   21
+   40,
+   16,
+   29
   ],
   "centreMm": [
-   93,
-   46,
-   47
+   92,
+   41,
+   51
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -2296,7 +2464,7 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   38,
+   39,
    364,
    65
   ],
@@ -2305,8 +2473,8 @@
    1266,
    -8
   ],
-  "triangles": 876,
-  "outsideSkinSamples": "0/40",
+  "triangles": 1752,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -2326,7 +2494,7 @@
    1296,
    -50
   ],
-  "triangles": 1440,
+  "triangles": 2880,
   "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
@@ -2347,8 +2515,8 @@
    1422,
    -19
   ],
-  "triangles": 396,
-  "outsideSkinSamples": "0/40",
+  "triangles": 792,
+  "outsideSkinSamples": "0/45",
   "worstOverMm": 0
  },
  {
@@ -2360,7 +2528,7 @@
   "shape": "volume",
   "sizeMm": [
    45,
-   35,
+   36,
    31
   ],
   "centreMm": [
@@ -2368,8 +2536,8 @@
    1202,
    -28
   ],
-  "triangles": 204,
-  "outsideSkinSamples": "0/52",
+  "triangles": 408,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -2389,7 +2557,7 @@
    1299,
    -60
   ],
-  "triangles": 1440,
+  "triangles": 2880,
   "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
@@ -2410,8 +2578,8 @@
    1422,
    -23
   ],
-  "triangles": 396,
-  "outsideSkinSamples": "0/40",
+  "triangles": 792,
+  "outsideSkinSamples": "0/45",
   "worstOverMm": 0
  },
  {
@@ -2431,8 +2599,8 @@
    1202,
    -29
   ],
-  "triangles": 204,
-  "outsideSkinSamples": "0/52",
+  "triangles": 408,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -2452,8 +2620,8 @@
    1275,
    21
   ],
-  "triangles": 156,
-  "outsideSkinSamples": "0/40",
+  "triangles": 312,
+  "outsideSkinSamples": "0/53",
   "worstOverMm": 0
  },
  {
@@ -2464,17 +2632,17 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   15,
-   247,
-   71
+   20,
+   269,
+   78
   ],
   "centreMm": [
-   -23,
-   1291,
-   -81
+   -20,
+   1263,
+   -77
   ],
-  "triangles": 1800,
-  "outsideSkinSamples": "0/40",
+  "triangles": 5040,
+  "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
  {
@@ -2483,19 +2651,19 @@
   "system": "nervous",
   "kind": "nerve",
   "sex": "",
-  "shape": "sheet",
+  "shape": "volume",
   "sizeMm": [
-   4,
-   243,
-   26
+   8,
+   264,
+   33
   ],
   "centreMm": [
-   -15,
-   1293,
-   -103
+   -13,
+   1264,
+   -99
   ],
-  "triangles": 1560,
-  "outsideSkinSamples": "0/40",
+  "triangles": 3120,
+  "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
  {
@@ -2506,17 +2674,17 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   15,
-   247,
-   71
+   22,
+   269,
+   78
   ],
   "centreMm": [
-   23,
-   1291,
-   -81
+   24,
+   1263,
+   -77
   ],
-  "triangles": 1800,
-  "outsideSkinSamples": "0/40",
+  "triangles": 5040,
+  "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
  {
@@ -2525,19 +2693,19 @@
   "system": "nervous",
   "kind": "nerve",
   "sex": "",
-  "shape": "sheet",
+  "shape": "volume",
   "sizeMm": [
-   3,
-   243,
-   26
+   8,
+   264,
+   33
   ],
   "centreMm": [
-   15,
-   1293,
-   -103
+   18,
+   1264,
+   -99
   ],
-  "triangles": 1560,
-  "outsideSkinSamples": "0/40",
+  "triangles": 3120,
+  "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
  {
@@ -2822,16 +2990,16 @@
   "shape": "volume",
   "sizeMm": [
    24,
-   12,
+   14,
    21
   ],
   "centreMm": [
    -50,
-   836,
+   837,
    -54
   ],
-  "triangles": 1007,
-  "outsideSkinSamples": "0/40",
+  "triangles": 1640,
+  "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
  {
@@ -2842,17 +3010,17 @@
   "sex": "",
   "shape": "rod",
   "sizeMm": [
-   10,
-   7,
-   11
+   11,
+   11,
+   6
   ],
   "centreMm": [
-   -41,
+   -45,
    968,
-   -88
+   -101
   ],
-  "triangles": 842,
-  "outsideSkinSamples": "0/41",
+  "triangles": 1328,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -3158,16 +3326,16 @@
   "shape": "volume",
   "sizeMm": [
    24,
-   11,
+   12,
    22
   ],
   "centreMm": [
    48,
-   835,
+   836,
    -52
   ],
-  "triangles": 874,
-  "outsideSkinSamples": "0/41",
+  "triangles": 910,
+  "outsideSkinSamples": "0/43",
   "worstOverMm": 0
  },
  {
@@ -3178,17 +3346,17 @@
   "sex": "",
   "shape": "rod",
   "sizeMm": [
-   11,
-   9,
-   10
+   8,
+   10,
+   6
   ],
   "centreMm": [
-   45,
-   965,
-   -86
+   39,
+   956,
+   -98
   ],
-  "triangles": 1402,
-  "outsideSkinSamples": "0/42",
+  "triangles": 1601,
+  "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
  {
@@ -3402,48 +3570,6 @@
   "worstOverMm": 0
  },
  {
-  "name": "Right quadriceps tendon",
-  "zh": "右股四頭肌腱",
-  "system": "connective",
-  "kind": "ligament",
-  "sex": "",
-  "shape": "volume",
-  "sizeMm": [
-   36,
-   78,
-   11
-  ],
-  "centreMm": [
-   -83,
-   439,
-   13
-  ],
-  "triangles": 164,
-  "outsideSkinSamples": "0/42",
-  "worstOverMm": 0
- },
- {
-  "name": "Right patellar ligament",
-  "zh": "右髕韌帶",
-  "system": "connective",
-  "kind": "ligament",
-  "sex": "",
-  "shape": "volume",
-  "sizeMm": [
-   27,
-   22,
-   8
-  ],
-  "centreMm": [
-   -85,
-   434,
-   15
-  ],
-  "triangles": 164,
-  "outsideSkinSamples": "0/42",
-  "worstOverMm": 0
- },
- {
   "name": "Right superior extensor retinaculum of foot",
   "zh": "右伸肌上支持帶",
   "system": "connective",
@@ -3633,48 +3759,6 @@
   "worstOverMm": 0
  },
  {
-  "name": "Left quadriceps tendon",
-  "zh": "左股四頭肌腱",
-  "system": "connective",
-  "kind": "ligament",
-  "sex": "",
-  "shape": "volume",
-  "sizeMm": [
-   37,
-   78,
-   11
-  ],
-  "centreMm": [
-   83,
-   439,
-   13
-  ],
-  "triangles": 164,
-  "outsideSkinSamples": "0/42",
-  "worstOverMm": 0
- },
- {
-  "name": "Left patellar ligament",
-  "zh": "左髕韌帶",
-  "system": "connective",
-  "kind": "ligament",
-  "sex": "",
-  "shape": "volume",
-  "sizeMm": [
-   28,
-   22,
-   8
-  ],
-  "centreMm": [
-   85,
-   434,
-   15
-  ],
-  "triangles": 164,
-  "outsideSkinSamples": "0/42",
-  "worstOverMm": 0
- },
- {
   "name": "Left superior extensor retinaculum of foot",
   "zh": "左伸肌上支持帶",
   "system": "connective",
@@ -3808,38 +3892,227 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   179,
-   224,
-   57
+   173,
+   228,
+   35
   ],
   "centreMm": [
    0,
-   1091,
-   -71
+   1089,
+   -85
   ],
-  "triangles": 81232,
-  "outsideSkinSamples": "0/40",
+  "triangles": 14592,
+  "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
  {
-  "name": "plantar aponeurosis",
-  "zh": "足底腱膜",
+  "name": "Right plantar aponeurosis",
+  "zh": "右足底腱膜",
   "system": "connective",
   "kind": "aponeurosis",
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   311,
+   95,
    14,
    110
   ],
   "centreMm": [
-   0,
+   -108,
    14,
    -1
   ],
-  "triangles": 4491,
+  "triangles": 2255,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left plantar aponeurosis",
+  "zh": "左足底腱膜",
+  "system": "connective",
+  "kind": "aponeurosis",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   95,
+   14,
+   110
+  ],
+  "centreMm": [
+   108,
+   14,
+   -1
+  ],
+  "triangles": 2236,
   "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right quadriceps tendon",
+  "zh": "右股四頭肌腱",
+  "system": "connective",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   48,
+   76,
+   29
+  ],
+  "centreMm": [
+   -85,
+   512,
+   31
+  ],
+  "triangles": 480,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right patellar ligament",
+  "zh": "右髕韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   32,
+   22,
+   12
+  ],
+  "centreMm": [
+   -85,
+   434,
+   21
+  ],
+  "triangles": 192,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 2
+ },
+ {
+  "name": "Right medial patellar retinaculum",
+  "zh": "右髕內側支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   29,
+   39,
+   29
+  ],
+  "centreMm": [
+   -47,
+   455,
+   -2
+  ],
+  "triangles": 216,
+  "outsideSkinSamples": "0/47",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right lateral patellar retinaculum",
+  "zh": "右髕外側支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   11,
+   39,
+   31
+  ],
+  "centreMm": [
+   -107,
+   455,
+   -8
+  ],
+  "triangles": 216,
+  "outsideSkinSamples": "0/47",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left quadriceps tendon",
+  "zh": "左股四頭肌腱",
+  "system": "connective",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   48,
+   76,
+   29
+  ],
+  "centreMm": [
+   85,
+   512,
+   31
+  ],
+  "triangles": 480,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left patellar ligament",
+  "zh": "左髕韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   32,
+   21,
+   12
+  ],
+  "centreMm": [
+   85,
+   434,
+   21
+  ],
+  "triangles": 192,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 2
+ },
+ {
+  "name": "Left medial patellar retinaculum",
+  "zh": "左髕內側支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   28,
+   38,
+   28
+  ],
+  "centreMm": [
+   47,
+   456,
+   -1
+  ],
+  "triangles": 216,
+  "outsideSkinSamples": "0/47",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left lateral patellar retinaculum",
+  "zh": "左髕外側支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   11,
+   38,
+   28
+  ],
+  "centreMm": [
+   107,
+   456,
+   -7
+  ],
+  "triangles": 216,
+  "outsideSkinSamples": "0/47",
   "worstOverMm": 0
  },
  {
@@ -3886,7 +4159,7 @@
  },
  {
   "name": "Right triangular interval",
-  "zh": "右三頭肌間隙",
+  "zh": "右三邊裂",
   "system": "connective",
   "kind": "space",
   "sex": "",
@@ -3907,7 +4180,7 @@
  },
  {
   "name": "Right clavipectoral triangle",
-  "zh": "右鎖骨胸大肌三角",
+  "zh": "右三角肌胸大肌三角",
   "system": "connective",
   "kind": "space",
   "sex": "",
@@ -4117,7 +4390,7 @@
  },
  {
   "name": "Left triangular interval",
-  "zh": "左三頭肌間隙",
+  "zh": "左三邊裂",
   "system": "connective",
   "kind": "space",
   "sex": "",
@@ -4138,7 +4411,7 @@
  },
  {
   "name": "Left clavipectoral triangle",
-  "zh": "左鎖骨胸大肌三角",
+  "zh": "左三角肌胸大肌三角",
   "system": "connective",
   "kind": "space",
   "sex": "",
@@ -4523,15 +4796,15 @@
   "shape": "volume",
   "sizeMm": [
    110,
-   138,
-   169
+   134,
+   168
   ],
   "centreMm": [
    -69,
-   1289,
-   11
+   1288,
+   12
   ],
-  "triangles": 5428,
+  "triangles": 134761,
   "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
@@ -4543,16 +4816,16 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   114,
-   33,
-   137
+   113,
+   29,
+   134
   ],
   "centreMm": [
    -61,
-   1315,
-   19
+   1314,
+   20
   ],
-  "triangles": 4125,
+  "triangles": 170207,
   "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
@@ -4565,15 +4838,15 @@
   "shape": "volume",
   "sizeMm": [
    99,
-   144,
-   170
+   138,
+   169
   ],
   "centreMm": [
    73,
-   1300,
+   1298,
    15
   ],
-  "triangles": 3252,
+  "triangles": 216980,
   "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
@@ -4585,16 +4858,16 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   110,
-   86,
-   96
+   109,
+   82,
+   89
   ],
   "centreMm": [
-   67,
+   66,
    1273,
-   52
+   56
   ],
-  "triangles": 4247,
+  "triangles": 93528,
   "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
@@ -4607,15 +4880,15 @@
   "shape": "volume",
   "sizeMm": [
    73,
-   65,
+   60,
    56
   ],
   "centreMm": [
-   52,
+   51,
    1281,
-   63
+   64
   ],
-  "triangles": 414,
+  "triangles": 8931,
   "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
@@ -4627,16 +4900,16 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   90,
-   118,
-   131
+   84,
+   116,
+   130
   ],
   "centreMm": [
-   50,
+   47,
    1303,
-   22
+   23
   ],
-  "triangles": 3785,
+  "triangles": 72419,
   "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
@@ -4648,16 +4921,16 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   54,
+   48,
    117,
-   118
+   117
   ],
   "centreMm": [
-   -27,
+   -24,
    1311,
    22
   ],
-  "triangles": 5402,
+  "triangles": 58527,
   "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
@@ -4669,17 +4942,17 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   16,
-   46,
-   79
+   15,
+   44,
+   76
   ],
   "centreMm": [
    25,
-   1378,
+   1377,
    -13
   ],
-  "triangles": 1011,
-  "outsideSkinSamples": "0/42",
+  "triangles": 11613,
+  "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
  {
@@ -4691,15 +4964,15 @@
   "shape": "volume",
   "sizeMm": [
    16,
-   173,
-   39
+   171,
+   37
   ],
   "centreMm": [
    25,
    1296,
    -31
   ],
-  "triangles": 993,
+  "triangles": 14727,
   "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
@@ -4709,19 +4982,19 @@
   "system": "respiratory",
   "kind": "surface",
   "sex": "",
-  "shape": "volume",
+  "shape": "rod",
   "sizeMm": [
-   27,
-   47,
-   17
+   8,
+   8,
+   12
   ],
   "centreMm": [
-   31,
-   1407,
-   -2
+   40,
+   1426,
+   -1
   ],
-  "triangles": 17,
-  "outsideSkinSamples": "0/37",
+  "triangles": 516,
+  "outsideSkinSamples": "0/43",
   "worstOverMm": 0
  },
  {
@@ -4732,17 +5005,17 @@
   "sex": "",
   "shape": "rod",
   "sizeMm": [
-   24,
+   25,
    19,
-   11
+   10
   ],
   "centreMm": [
-   -32,
-   1421,
-   -4
+   -33,
+   1422,
+   -3
   ],
-  "triangles": 54,
-  "outsideSkinSamples": "0/45",
+  "triangles": 1245,
+  "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
  {
@@ -4753,17 +5026,17 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   18,
-   34,
+   17,
+   33,
    21
   ],
   "centreMm": [
-   25,
+   24,
    1411,
    13
   ],
-  "triangles": 155,
-  "outsideSkinSamples": "0/51",
+  "triangles": 651,
+  "outsideSkinSamples": "0/42",
   "worstOverMm": 0
  },
  {
@@ -4774,17 +5047,17 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   13,
-   39,
-   30
+   12,
+   37,
+   28
   ],
   "centreMm": [
-   -22,
+   -21,
    1392,
    20
   ],
-  "triangles": 357,
-  "outsideSkinSamples": "0/45",
+  "triangles": 3643,
+  "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
  {
@@ -4796,15 +5069,15 @@
   "shape": "volume",
   "sizeMm": [
    13,
-   51,
-   34
+   44,
+   32
   ],
   "centreMm": [
    -20,
-   1372,
+   1370,
    15
   ],
-  "triangles": 805,
+  "triangles": 6523,
   "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
@@ -4817,16 +5090,58 @@
   "shape": "volume",
   "sizeMm": [
    5,
-   56,
-   45
+   51,
+   42
   ],
   "centreMm": [
    -16,
    1345,
-   -18
+   -17
   ],
-  "triangles": 379,
-  "outsideSkinSamples": "0/44",
+  "triangles": 2892,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Esophageal impression of left lung",
+  "zh": "左肺食道壓跡",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   4,
+   178,
+   15
+  ],
+  "centreMm": [
+   19,
+   1337,
+   -11
+  ],
+  "triangles": 239,
+  "outsideSkinSamples": "0/48",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Groove for inferior vena cava",
+  "zh": "下腔靜脈溝",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   34,
+   25,
+   38
+  ],
+  "centreMm": [
+   -18,
+   1262,
+   15
+  ],
+  "triangles": 1753,
+  "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
  {
@@ -4837,17 +5152,17 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   12,
-   58,
-   29
+   11,
+   57,
+   28
   ],
   "centreMm": [
-   -7,
-   1264,
-   -18
+   -6,
+   1265,
+   -19
   ],
-  "triangles": 239,
-  "outsideSkinSamples": "0/47",
+  "triangles": 5018,
+  "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
  {
@@ -4858,16 +5173,16 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   72,
-   103,
-   101
+   34,
+   66,
+   64
   ],
   "centreMm": [
-   56,
-   1336,
-   0
+   42,
+   1329,
+   -16
   ],
-  "triangles": 3192,
+  "triangles": 18902,
   "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
@@ -4879,16 +5194,16 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   78,
-   110,
-   65
+   24,
+   66,
+   68
   ],
   "centreMm": [
-   -44,
-   1335,
+   -22,
+   1327,
    -16
   ],
-  "triangles": 4865,
+  "triangles": 17126,
   "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  },
@@ -4900,13 +5215,13 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   20,
-   76,
-   32
+   18,
+   75,
+   30
   ],
   "centreMm": [
-   27,
-   1227,
+   26,
+   1228,
    -53
   ],
   "triangles": 164,
@@ -4921,14 +5236,14 @@
   "sex": "",
   "shape": "volume",
   "sizeMm": [
-   38,
-   79,
+   37,
+   78,
    60
   ],
   "centreMm": [
    -18,
    1225,
-   -25
+   -26
   ],
   "triangles": 164,
   "outsideSkinSamples": "0/42",
@@ -4943,7 +5258,7 @@
   "shape": "rod",
   "sizeMm": [
    29,
-   12,
+   13,
    7
   ],
   "centreMm": [
@@ -4951,8 +5266,8 @@
    1539,
    -24
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -4964,7 +5279,7 @@
   "shape": "rod",
   "sizeMm": [
    29,
-   12,
+   13,
    7
   ],
   "centreMm": [
@@ -4972,8 +5287,8 @@
    1539,
    -25
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -4985,7 +5300,7 @@
   "shape": "rod",
   "sizeMm": [
    23,
-   12,
+   13,
    7
   ],
   "centreMm": [
@@ -4993,8 +5308,8 @@
    1516,
    -21
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -5006,7 +5321,7 @@
   "shape": "rod",
   "sizeMm": [
    23,
-   12,
+   13,
    7
   ],
   "centreMm": [
@@ -5014,8 +5329,8 @@
    1501,
    -18
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -5027,7 +5342,7 @@
   "shape": "rod",
   "sizeMm": [
    23,
-   12,
+   13,
    7
   ],
   "centreMm": [
@@ -5035,8 +5350,8 @@
    1485,
    -18
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -5048,7 +5363,7 @@
   "shape": "rod",
   "sizeMm": [
    23,
-   12,
+   13,
    7
   ],
   "centreMm": [
@@ -5056,8 +5371,8 @@
    1475,
    -19
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -5069,7 +5384,7 @@
   "shape": "rod",
   "sizeMm": [
    23,
-   12,
+   13,
    7
   ],
   "centreMm": [
@@ -5077,8 +5392,8 @@
    1460,
    -23
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -5090,7 +5405,7 @@
   "shape": "rod",
   "sizeMm": [
    23,
-   12,
+   13,
    7
   ],
   "centreMm": [
@@ -5098,8 +5413,8 @@
    1446,
    -29
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -5119,7 +5434,7 @@
    1535,
    -44
   ],
-  "triangles": 180,
+  "triangles": 360,
   "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
@@ -5140,7 +5455,7 @@
    1528,
    -40
   ],
-  "triangles": 180,
+  "triangles": 360,
   "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
@@ -5161,7 +5476,7 @@
    1510,
    -41
   ],
-  "triangles": 180,
+  "triangles": 360,
   "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
@@ -5182,7 +5497,7 @@
    1495,
    -38
   ],
-  "triangles": 180,
+  "triangles": 360,
   "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
@@ -5203,7 +5518,7 @@
    1479,
    -38
   ],
-  "triangles": 180,
+  "triangles": 360,
   "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
@@ -5224,7 +5539,7 @@
    1469,
    -39
   ],
-  "triangles": 180,
+  "triangles": 360,
   "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
@@ -5245,7 +5560,7 @@
    1454,
    -43
   ],
-  "triangles": 180,
+  "triangles": 360,
   "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
@@ -5266,7 +5581,7 @@
    1440,
    -49
   ],
-  "triangles": 180,
+  "triangles": 360,
   "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
@@ -5279,7 +5594,7 @@
   "shape": "rod",
   "sizeMm": [
    29,
-   12,
+   13,
    7
   ],
   "centreMm": [
@@ -5287,8 +5602,8 @@
    1539,
    -24
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -5300,7 +5615,7 @@
   "shape": "rod",
   "sizeMm": [
    29,
-   12,
+   13,
    7
   ],
   "centreMm": [
@@ -5308,8 +5623,8 @@
    1539,
    -25
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -5321,7 +5636,7 @@
   "shape": "rod",
   "sizeMm": [
    23,
-   12,
+   13,
    7
   ],
   "centreMm": [
@@ -5329,8 +5644,8 @@
    1516,
    -21
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -5342,7 +5657,7 @@
   "shape": "rod",
   "sizeMm": [
    23,
-   12,
+   13,
    7
   ],
   "centreMm": [
@@ -5350,8 +5665,8 @@
    1501,
    -18
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -5363,7 +5678,7 @@
   "shape": "rod",
   "sizeMm": [
    23,
-   12,
+   13,
    7
   ],
   "centreMm": [
@@ -5371,8 +5686,8 @@
    1485,
    -18
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -5384,7 +5699,7 @@
   "shape": "rod",
   "sizeMm": [
    23,
-   12,
+   13,
    7
   ],
   "centreMm": [
@@ -5392,8 +5707,8 @@
    1475,
    -19
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -5405,7 +5720,7 @@
   "shape": "rod",
   "sizeMm": [
    23,
-   12,
+   13,
    7
   ],
   "centreMm": [
@@ -5413,8 +5728,8 @@
    1460,
    -23
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -5426,7 +5741,7 @@
   "shape": "rod",
   "sizeMm": [
    23,
-   12,
+   13,
    7
   ],
   "centreMm": [
@@ -5434,8 +5749,8 @@
    1446,
    -29
   ],
-  "triangles": 228,
-  "outsideSkinSamples": "0/58",
+  "triangles": 456,
+  "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
  {
@@ -5455,7 +5770,7 @@
    1535,
    -44
   ],
-  "triangles": 180,
+  "triangles": 360,
   "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
@@ -5476,7 +5791,7 @@
    1529,
    -39
   ],
-  "triangles": 180,
+  "triangles": 360,
   "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
@@ -5497,7 +5812,7 @@
    1510,
    -41
   ],
-  "triangles": 180,
+  "triangles": 360,
   "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
@@ -5518,7 +5833,7 @@
    1495,
    -38
   ],
-  "triangles": 180,
+  "triangles": 360,
   "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
@@ -5539,7 +5854,7 @@
    1479,
    -38
   ],
-  "triangles": 180,
+  "triangles": 360,
   "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
@@ -5560,7 +5875,7 @@
    1469,
    -39
   ],
-  "triangles": 180,
+  "triangles": 360,
   "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
@@ -5581,7 +5896,7 @@
    1454,
    -43
   ],
-  "triangles": 180,
+  "triangles": 360,
   "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
@@ -5602,7 +5917,7 @@
    1440,
    -49
   ],
-  "triangles": 180,
+  "triangles": 360,
   "outsideSkinSamples": "0/46",
   "worstOverMm": 0
  },
@@ -5914,12 +6229,12 @@
   ],
   "centreMm": [
    0,
-   869,
+   870,
    58
   ],
   "triangles": 160,
   "outsideSkinSamples": "1/45",
-  "worstOverMm": 6
+  "worstOverMm": 5
  },
  {
   "name": "Right labium majus",
@@ -5930,16 +6245,16 @@
   "shape": "volume",
   "sizeMm": [
    16,
-   24,
-   117
+   30,
+   105
   ],
   "centreMm": [
    -18,
-   845,
-   21
+   841,
+   28
   ],
   "triangles": 500,
-  "outsideSkinSamples": "3/42",
+  "outsideSkinSamples": "5/42",
   "worstOverMm": 25
  },
  {
@@ -5948,16 +6263,16 @@
   "system": "reproductive",
   "kind": "organ",
   "sex": "female",
-  "shape": "rod",
+  "shape": "volume",
   "sizeMm": [
    9,
-   16,
-   115
+   21,
+   102
   ],
   "centreMm": [
    -8,
-   843,
-   17
+   838,
+   24
   ],
   "triangles": 400,
   "outsideSkinSamples": "0/41",
@@ -5977,8 +6292,8 @@
   ],
   "centreMm": [
    -13,
-   841,
-   -14
+   835,
+   -3
   ],
   "triangles": 160,
   "outsideSkinSamples": "0/45",
@@ -5998,8 +6313,8 @@
   ],
   "centreMm": [
    -14,
-   838,
-   -34
+   831,
+   -21
   ],
   "triangles": 160,
   "outsideSkinSamples": "0/45",
@@ -6014,17 +6329,17 @@
   "shape": "volume",
   "sizeMm": [
    36,
-   16,
-   68
+   12,
+   60
   ],
   "centreMm": [
    -19,
-   847,
-   42
+   844,
+   47
   ],
   "triangles": 304,
   "outsideSkinSamples": "0/52",
-  "worstOverMm": 0
+  "worstOverMm": 1
  },
  {
   "name": "Left labium majus",
@@ -6035,17 +6350,17 @@
   "shape": "volume",
   "sizeMm": [
    16,
-   24,
-   117
+   30,
+   105
   ],
   "centreMm": [
    18,
-   845,
-   21
+   841,
+   28
   ],
   "triangles": 500,
-  "outsideSkinSamples": "5/42",
-  "worstOverMm": 23
+  "outsideSkinSamples": "7/42",
+  "worstOverMm": 24
  },
  {
   "name": "Left labium minus",
@@ -6053,16 +6368,16 @@
   "system": "reproductive",
   "kind": "organ",
   "sex": "female",
-  "shape": "rod",
+  "shape": "volume",
   "sizeMm": [
    9,
-   16,
-   115
+   21,
+   102
   ],
   "centreMm": [
    8,
-   843,
-   17
+   838,
+   24
   ],
   "triangles": 400,
   "outsideSkinSamples": "0/41",
@@ -6082,8 +6397,8 @@
   ],
   "centreMm": [
    13,
-   841,
-   -14
+   835,
+   -3
   ],
   "triangles": 160,
   "outsideSkinSamples": "0/45",
@@ -6103,8 +6418,8 @@
   ],
   "centreMm": [
    14,
-   838,
-   -34
+   831,
+   -21
   ],
   "triangles": 160,
   "outsideSkinSamples": "0/45",
@@ -6119,17 +6434,17 @@
   "shape": "volume",
   "sizeMm": [
    36,
-   16,
-   68
+   12,
+   60
   ],
   "centreMm": [
    19,
-   847,
-   42
+   844,
+   47
   ],
   "triangles": 304,
-  "outsideSkinSamples": "0/52",
-  "worstOverMm": 2
+  "outsideSkinSamples": "1/52",
+  "worstOverMm": 5
  },
  {
   "name": "Clitoris",
@@ -6166,11 +6481,3686 @@
   ],
   "centreMm": [
    0,
-   843,
-   16
+   840,
+   23
   ],
   "triangles": 160,
   "outsideSkinSamples": "0/45",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Apex of right lung",
+  "zh": "右肺尖",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   53,
+   25,
+   72
+  ],
+  "centreMm": [
+   -44,
+   1421,
+   -13
+  ],
+  "triangles": 16855,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Groove for first rib of right lung",
+  "zh": "右肺第 1 肋溝",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   33,
+   44,
+   45
+  ],
+  "centreMm": [
+   -54,
+   1407,
+   9
+  ],
+  "triangles": 6220,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Contact area for thymus of right lung",
+  "zh": "右肺胸腺接觸區",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   15,
+   62,
+   34
+  ],
+  "centreMm": [
+   -19,
+   1371,
+   31
+  ],
+  "triangles": 2422,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Contact area for trachea of right lung",
+  "zh": "右肺氣管接觸區",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   6,
+   53,
+   30
+  ],
+  "centreMm": [
+   -16,
+   1392,
+   -15
+  ],
+  "triangles": 1953,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Anterior border of right lung",
+  "zh": "右肺前緣",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   85,
+   83,
+   17
+  ],
+  "centreMm": [
+   -46,
+   1266,
+   92
+  ],
+  "triangles": 29599,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Diaphragmatic surface of right lung",
+  "zh": "右肺膈面",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   124,
+   91,
+   172
+  ],
+  "centreMm": [
+   -63,
+   1229,
+   14
+  ],
+  "triangles": 143645,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Inferior border of right lung",
+  "zh": "右肺下緣",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   101,
+   11,
+   123
+  ],
+  "centreMm": [
+   -77,
+   1190,
+   -19
+  ],
+  "triangles": 16856,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Apex of left lung",
+  "zh": "左肺尖",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   54,
+   25,
+   66
+  ],
+  "centreMm": [
+   43,
+   1422,
+   -17
+  ],
+  "triangles": 18209,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Groove for first rib of left lung",
+  "zh": "左肺第 1 肋溝",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   30,
+   38,
+   46
+  ],
+  "centreMm": [
+   52,
+   1404,
+   8
+  ],
+  "triangles": 5273,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Contact area for thymus of left lung",
+  "zh": "左肺胸腺接觸區",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   21,
+   50,
+   36
+  ],
+  "centreMm": [
+   18,
+   1357,
+   47
+  ],
+  "triangles": 972,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Anterior border of left lung",
+  "zh": "左肺前緣",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   64,
+   80,
+   17
+  ],
+  "centreMm": [
+   54,
+   1272,
+   92
+  ],
+  "triangles": 22438,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Diaphragmatic surface of left lung",
+  "zh": "左肺膈面",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   104,
+   78,
+   177
+  ],
+  "centreMm": [
+   70,
+   1218,
+   11
+  ],
+  "triangles": 60929,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Inferior border of left lung",
+  "zh": "左肺下緣",
+  "system": "respiratory",
+  "kind": "surface",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   91,
+   11,
+   150
+  ],
+  "centreMm": [
+   79,
+   1185,
+   -5
+  ],
+  "triangles": 14374,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of long head of biceps brachii",
+  "zh": "右肱二頭肌長頭腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   56,
+   99,
+   30
+  ],
+  "centreMm": [
+   -164,
+   1368,
+   -18
+  ],
+  "triangles": 912,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of long head of biceps brachii",
+  "zh": "左肱二頭肌長頭腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   56,
+   99,
+   30
+  ],
+  "centreMm": [
+   164,
+   1368,
+   -18
+  ],
+  "triangles": 944,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right distal tendon of biceps brachii",
+  "zh": "右肱二頭肌遠端腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   26,
+   87,
+   12
+  ],
+  "centreMm": [
+   -217,
+   1116,
+   -14
+  ],
+  "triangles": 712,
+  "outsideSkinSamples": "0/45",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left distal tendon of biceps brachii",
+  "zh": "左肱二頭肌遠端腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   26,
+   87,
+   12
+  ],
+  "centreMm": [
+   217,
+   1116,
+   -14
+  ],
+  "triangles": 712,
+  "outsideSkinSamples": "0/45",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of triceps brachii",
+  "zh": "右肱三頭肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   28,
+   32,
+   14
+  ],
+  "centreMm": [
+   -202,
+   1129,
+   -57
+  ],
+  "triangles": 832,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of triceps brachii",
+  "zh": "右肱三頭肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   12,
+   33,
+   14
+  ],
+  "centreMm": [
+   -213,
+   1129,
+   -55
+  ],
+  "triangles": 688,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of triceps brachii",
+  "zh": "右肱三頭肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   44,
+   38,
+   20
+  ],
+  "centreMm": [
+   -202,
+   1126,
+   -44
+  ],
+  "triangles": 760,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of triceps brachii",
+  "zh": "左肱三頭肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   28,
+   33,
+   14
+  ],
+  "centreMm": [
+   202,
+   1130,
+   -57
+  ],
+  "triangles": 816,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of triceps brachii",
+  "zh": "左肱三頭肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   13,
+   34,
+   14
+  ],
+  "centreMm": [
+   213,
+   1129,
+   -56
+  ],
+  "triangles": 672,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of triceps brachii",
+  "zh": "左肱三頭肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   45,
+   40,
+   20
+  ],
+  "centreMm": [
+   202,
+   1127,
+   -44
+  ],
+  "triangles": 864,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of brachioradialis",
+  "zh": "右肱橈肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   26,
+   120,
+   34
+  ],
+  "centreMm": [
+   -267,
+   948,
+   6
+  ],
+  "triangles": 1648,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of brachioradialis",
+  "zh": "左肱橈肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   27,
+   120,
+   34
+  ],
+  "centreMm": [
+   267,
+   948,
+   6
+  ],
+  "triangles": 1616,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of flexor carpi radialis",
+  "zh": "右橈側屈腕肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   33,
+   79,
+   13
+  ],
+  "centreMm": [
+   -255,
+   899,
+   30
+  ],
+  "triangles": 568,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of flexor carpi radialis",
+  "zh": "左橈側屈腕肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   33,
+   78,
+   13
+  ],
+  "centreMm": [
+   255,
+   898,
+   30
+  ],
+  "triangles": 576,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of palmaris longus",
+  "zh": "右掌長肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   53,
+   143,
+   31
+  ],
+  "centreMm": [
+   -238,
+   934,
+   27
+  ],
+  "triangles": 762,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right palmar aponeurosis",
+  "zh": "右掌腱膜",
+  "system": "connective",
+  "kind": "aponeurosis",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   62,
+   52,
+   12
+  ],
+  "centreMm": [
+   -259,
+   836,
+   43
+  ],
+  "triangles": 4404,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of palmaris longus",
+  "zh": "左掌長肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   54,
+   143,
+   32
+  ],
+  "centreMm": [
+   238,
+   934,
+   27
+  ],
+  "triangles": 792,
+  "outsideSkinSamples": "0/45",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left palmar aponeurosis",
+  "zh": "左掌腱膜",
+  "system": "connective",
+  "kind": "aponeurosis",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   62,
+   51,
+   12
+  ],
+  "centreMm": [
+   259,
+   837,
+   43
+  ],
+  "triangles": 4418,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of flexor carpi ulnaris",
+  "zh": "右尺側屈腕肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   39,
+   110,
+   44
+  ],
+  "centreMm": [
+   -227,
+   916,
+   14
+  ],
+  "triangles": 1408,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of flexor carpi ulnaris",
+  "zh": "右尺側屈腕肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   19,
+   62,
+   29
+  ],
+  "centreMm": [
+   -220,
+   940,
+   2
+  ],
+  "triangles": 928,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of flexor carpi ulnaris",
+  "zh": "左尺側屈腕肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   39,
+   111,
+   44
+  ],
+  "centreMm": [
+   227,
+   916,
+   14
+  ],
+  "triangles": 1368,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of flexor carpi ulnaris",
+  "zh": "左尺側屈腕肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   19,
+   63,
+   29
+  ],
+  "centreMm": [
+   220,
+   940,
+   2
+  ],
+  "triangles": 928,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendons of flexor digitorum superficialis",
+  "zh": "右屈指淺肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   84,
+   189,
+   54
+  ],
+  "centreMm": [
+   -264,
+   848,
+   41
+  ],
+  "triangles": 4656,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendons of flexor digitorum superficialis",
+  "zh": "右屈指淺肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   12,
+   52,
+   21
+  ],
+  "centreMm": [
+   -245,
+   916,
+   23
+  ],
+  "triangles": 2208,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendons of flexor digitorum superficialis",
+  "zh": "左屈指淺肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   84,
+   189,
+   54
+  ],
+  "centreMm": [
+   264,
+   848,
+   41
+  ],
+  "triangles": 4624,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendons of flexor digitorum superficialis",
+  "zh": "左屈指淺肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   12,
+   53,
+   21
+  ],
+  "centreMm": [
+   245,
+   916,
+   22
+  ],
+  "triangles": 576,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendons of flexor digitorum profundus",
+  "zh": "右屈指深肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   86,
+   195,
+   76
+  ],
+  "centreMm": [
+   -264,
+   841,
+   49
+  ],
+  "triangles": 3712,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendons of flexor digitorum profundus",
+  "zh": "左屈指深肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   86,
+   195,
+   76
+  ],
+  "centreMm": [
+   264,
+   841,
+   49
+  ],
+  "triangles": 3664,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of flexor pollicis longus",
+  "zh": "右屈拇長肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   60,
+   114,
+   54
+  ],
+  "centreMm": [
+   -284,
+   871,
+   39
+  ],
+  "triangles": 1256,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of flexor pollicis longus",
+  "zh": "左屈拇長肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   60,
+   114,
+   54
+  ],
+  "centreMm": [
+   284,
+   871,
+   39
+  ],
+  "triangles": 1296,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of extensor carpi radialis longus",
+  "zh": "右橈側伸腕長肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   15,
+   131,
+   37
+  ],
+  "centreMm": [
+   -270,
+   922,
+   2
+  ],
+  "triangles": 1000,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of extensor carpi radialis longus",
+  "zh": "左橈側伸腕長肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   16,
+   141,
+   40
+  ],
+  "centreMm": [
+   270,
+   927,
+   1
+  ],
+  "triangles": 1056,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of extensor carpi radialis brevis",
+  "zh": "右橈側伸腕短肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   18,
+   118,
+   32
+  ],
+  "centreMm": [
+   -264,
+   913,
+   -1
+  ],
+  "triangles": 944,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of extensor carpi radialis brevis",
+  "zh": "左橈側伸腕短肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   18,
+   119,
+   33
+  ],
+  "centreMm": [
+   264,
+   914,
+   -1
+  ],
+  "triangles": 896,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendons of extensor digitorum",
+  "zh": "右伸指肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   82,
+   161,
+   71
+  ],
+  "centreMm": [
+   -264,
+   836,
+   27
+  ],
+  "triangles": 3408,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendons of extensor digitorum",
+  "zh": "左伸指肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   82,
+   159,
+   70
+  ],
+  "centreMm": [
+   264,
+   835,
+   27
+  ],
+  "triangles": 3432,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of extensor digiti minimi",
+  "zh": "右伸小指肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   15,
+   106,
+   46
+  ],
+  "centreMm": [
+   -236,
+   856,
+   21
+  ],
+  "triangles": 584,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of extensor digiti minimi",
+  "zh": "左伸小指肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   15,
+   103,
+   44
+  ],
+  "centreMm": [
+   236,
+   854,
+   21
+  ],
+  "triangles": 568,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of extensor carpi ulnaris",
+  "zh": "右尺側伸腕肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   13,
+   103,
+   44
+  ],
+  "centreMm": [
+   -231,
+   899,
+   5
+  ],
+  "triangles": 1568,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of extensor carpi ulnaris",
+  "zh": "右尺側伸腕肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   12,
+   96,
+   39
+  ],
+  "centreMm": [
+   -231,
+   903,
+   4
+  ],
+  "triangles": 1136,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of extensor carpi ulnaris",
+  "zh": "左尺側伸腕肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   13,
+   106,
+   44
+  ],
+  "centreMm": [
+   231,
+   901,
+   5
+  ],
+  "triangles": 1624,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of extensor carpi ulnaris",
+  "zh": "左尺側伸腕肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   12,
+   99,
+   40
+  ],
+  "centreMm": [
+   231,
+   904,
+   4
+  ],
+  "triangles": 1128,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of abductor pollicis longus",
+  "zh": "右外展拇長肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   34,
+   67,
+   42
+  ],
+  "centreMm": [
+   -272,
+   901,
+   11
+  ],
+  "triangles": 1184,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of abductor pollicis longus",
+  "zh": "左外展拇長肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   34,
+   67,
+   42
+  ],
+  "centreMm": [
+   272,
+   901,
+   11
+  ],
+  "triangles": 1168,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of extensor pollicis brevis",
+  "zh": "右伸拇短肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   48,
+   71,
+   50
+  ],
+  "centreMm": [
+   -287,
+   872,
+   22
+  ],
+  "triangles": 1016,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of extensor pollicis brevis",
+  "zh": "左伸拇短肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   48,
+   71,
+   50
+  ],
+  "centreMm": [
+   287,
+   872,
+   22
+  ],
+  "triangles": 1000,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of extensor pollicis longus",
+  "zh": "右伸拇長肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   71,
+   101,
+   66
+  ],
+  "centreMm": [
+   -284,
+   862,
+   30
+  ],
+  "triangles": 1240,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of extensor pollicis longus",
+  "zh": "左伸拇長肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   71,
+   101,
+   66
+  ],
+  "centreMm": [
+   284,
+   862,
+   30
+  ],
+  "triangles": 1256,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of extensor indicis",
+  "zh": "右伸食指肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   56,
+   141,
+   68
+  ],
+  "centreMm": [
+   -280,
+   817,
+   39
+  ],
+  "triangles": 744,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of extensor indicis",
+  "zh": "左伸食指肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   56,
+   141,
+   68
+  ],
+  "centreMm": [
+   280,
+   817,
+   39
+  ],
+  "triangles": 736,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right extensor retinaculum of wrist",
+  "zh": "右腕伸肌支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   56,
+   39,
+   22
+  ],
+  "centreMm": [
+   -257,
+   884,
+   9
+  ],
+  "triangles": 368,
+  "outsideSkinSamples": "0/47",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Flexor retinaculum of right wrist",
+  "zh": "右腕屈肌支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   58,
+   40,
+   33
+  ],
+  "centreMm": [
+   -255,
+   885,
+   24
+  ],
+  "triangles": 524,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right first dorsal compartment of wrist",
+  "zh": "右腕背第一伸肌間隔",
+  "system": "connective",
+  "kind": "sheath",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   28,
+   48,
+   31
+  ],
+  "centreMm": [
+   -279,
+   888,
+   14
+  ],
+  "triangles": 680,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right second dorsal compartment of wrist",
+  "zh": "右腕背第二伸肌間隔",
+  "system": "connective",
+  "kind": "sheath",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   10,
+   31,
+   13
+  ],
+  "centreMm": [
+   -272,
+   893,
+   9
+  ],
+  "triangles": 2304,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right third dorsal compartment of wrist",
+  "zh": "右腕背第三伸肌間隔",
+  "system": "connective",
+  "kind": "sheath",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   33,
+   40,
+   28
+  ],
+  "centreMm": [
+   -273,
+   881,
+   13
+  ],
+  "triangles": 432,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right fourth dorsal compartment of wrist",
+  "zh": "右腕背第四伸肌間隔",
+  "system": "connective",
+  "kind": "sheath",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   26,
+   47,
+   19
+  ],
+  "centreMm": [
+   -257,
+   884,
+   5
+  ],
+  "triangles": 2368,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right fifth dorsal compartment of wrist",
+  "zh": "右腕背第五伸肌間隔",
+  "system": "connective",
+  "kind": "sheath",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   12,
+   72,
+   28
+  ],
+  "centreMm": [
+   -238,
+   866,
+   14
+  ],
+  "triangles": 592,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right sixth dorsal compartment of wrist",
+  "zh": "右腕背第六伸肌間隔",
+  "system": "connective",
+  "kind": "sheath",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   7,
+   24,
+   17
+  ],
+  "centreMm": [
+   -235,
+   887,
+   9
+  ],
+  "triangles": 960,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right common flexor tendon sheath",
+  "zh": "右屈肌總腱鞘",
+  "system": "connective",
+  "kind": "sheath",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   60,
+   117,
+   34
+  ],
+  "centreMm": [
+   -255,
+   846,
+   44
+  ],
+  "triangles": 6000,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right flexor pollicis longus tendon sheath",
+  "zh": "右屈拇長肌腱鞘",
+  "system": "connective",
+  "kind": "sheath",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   53,
+   84,
+   37
+  ],
+  "centreMm": [
+   -282,
+   869,
+   40
+  ],
+  "triangles": 3136,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right flexor carpi radialis tendon sheath",
+  "zh": "右橈側屈腕肌腱鞘",
+  "system": "connective",
+  "kind": "sheath",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   15,
+   34,
+   11
+  ],
+  "centreMm": [
+   -257,
+   891,
+   32
+  ],
+  "triangles": 1088,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right intertubercular tendon sheath",
+  "zh": "右結節間腱鞘",
+  "system": "connective",
+  "kind": "sheath",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   17,
+   31,
+   9
+  ],
+  "centreMm": [
+   -169,
+   1396,
+   -8
+  ],
+  "triangles": 832,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left extensor retinaculum of wrist",
+  "zh": "左腕伸肌支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   56,
+   39,
+   22
+  ],
+  "centreMm": [
+   257,
+   884,
+   9
+  ],
+  "triangles": 368,
+  "outsideSkinSamples": "0/47",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Flexor retinaculum of left wrist",
+  "zh": "左腕屈肌支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   58,
+   40,
+   33
+  ],
+  "centreMm": [
+   255,
+   885,
+   24
+  ],
+  "triangles": 524,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left first dorsal compartment of wrist",
+  "zh": "左腕背第一伸肌間隔",
+  "system": "connective",
+  "kind": "sheath",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   28,
+   48,
+   31
+  ],
+  "centreMm": [
+   279,
+   888,
+   14
+  ],
+  "triangles": 680,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left second dorsal compartment of wrist",
+  "zh": "左腕背第二伸肌間隔",
+  "system": "connective",
+  "kind": "sheath",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   10,
+   31,
+   13
+  ],
+  "centreMm": [
+   272,
+   893,
+   9
+  ],
+  "triangles": 2304,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left third dorsal compartment of wrist",
+  "zh": "左腕背第三伸肌間隔",
+  "system": "connective",
+  "kind": "sheath",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   33,
+   40,
+   28
+  ],
+  "centreMm": [
+   273,
+   881,
+   13
+  ],
+  "triangles": 432,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left fourth dorsal compartment of wrist",
+  "zh": "左腕背第四伸肌間隔",
+  "system": "connective",
+  "kind": "sheath",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   26,
+   47,
+   19
+  ],
+  "centreMm": [
+   257,
+   884,
+   5
+  ],
+  "triangles": 2368,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left fifth dorsal compartment of wrist",
+  "zh": "左腕背第五伸肌間隔",
+  "system": "connective",
+  "kind": "sheath",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   12,
+   72,
+   28
+  ],
+  "centreMm": [
+   238,
+   866,
+   14
+  ],
+  "triangles": 592,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left sixth dorsal compartment of wrist",
+  "zh": "左腕背第六伸肌間隔",
+  "system": "connective",
+  "kind": "sheath",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   7,
+   24,
+   17
+  ],
+  "centreMm": [
+   235,
+   887,
+   9
+  ],
+  "triangles": 960,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left common flexor tendon sheath",
+  "zh": "左屈肌總腱鞘",
+  "system": "connective",
+  "kind": "sheath",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   60,
+   118,
+   35
+  ],
+  "centreMm": [
+   255,
+   845,
+   44
+  ],
+  "triangles": 864,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left flexor pollicis longus tendon sheath",
+  "zh": "左屈拇長肌腱鞘",
+  "system": "connective",
+  "kind": "sheath",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   53,
+   84,
+   37
+  ],
+  "centreMm": [
+   282,
+   869,
+   40
+  ],
+  "triangles": 3136,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left flexor carpi radialis tendon sheath",
+  "zh": "左橈側屈腕肌腱鞘",
+  "system": "connective",
+  "kind": "sheath",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   15,
+   34,
+   11
+  ],
+  "centreMm": [
+   257,
+   891,
+   32
+  ],
+  "triangles": 1088,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left intertubercular tendon sheath",
+  "zh": "左結節間腱鞘",
+  "system": "connective",
+  "kind": "sheath",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   17,
+   31,
+   9
+  ],
+  "centreMm": [
+   169,
+   1396,
+   -8
+  ],
+  "triangles": 832,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right coraco-acromial ligament",
+  "zh": "右喙肩韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   32,
+   24,
+   32
+  ],
+  "centreMm": [
+   -144,
+   1415,
+   -9
+  ],
+  "triangles": 196,
+  "outsideSkinSamples": "0/50",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right costoclavicular ligament",
+  "zh": "右肋鎖韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   25,
+   17,
+   17
+  ],
+  "centreMm": [
+   -33,
+   1392,
+   34
+  ],
+  "triangles": 196,
+  "outsideSkinSamples": "0/50",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right superior transverse scapular ligament",
+  "zh": "右肩胛上橫韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   25,
+   8,
+   28
+  ],
+  "centreMm": [
+   -99,
+   1411,
+   -46
+  ],
+  "triangles": 196,
+  "outsideSkinSamples": "0/50",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right inferior transverse scapular ligament",
+  "zh": "右肩胛下橫韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   29,
+   53,
+   17
+  ],
+  "centreMm": [
+   -149,
+   1383,
+   -59
+  ],
+  "triangles": 196,
+  "outsideSkinSamples": "0/50",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left coraco-acromial ligament",
+  "zh": "左喙肩韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   32,
+   24,
+   32
+  ],
+  "centreMm": [
+   144,
+   1414,
+   -9
+  ],
+  "triangles": 196,
+  "outsideSkinSamples": "0/50",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left costoclavicular ligament",
+  "zh": "左肋鎖韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   25,
+   19,
+   15
+  ],
+  "centreMm": [
+   32,
+   1394,
+   33
+  ],
+  "triangles": 196,
+  "outsideSkinSamples": "0/50",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left superior transverse scapular ligament",
+  "zh": "左肩胛上橫韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   26,
+   7,
+   33
+  ],
+  "centreMm": [
+   98,
+   1412,
+   -44
+  ],
+  "triangles": 196,
+  "outsideSkinSamples": "0/50",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left inferior transverse scapular ligament",
+  "zh": "左肩胛下橫韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   29,
+   53,
+   16
+  ],
+  "centreMm": [
+   148,
+   1383,
+   -59
+  ],
+  "triangles": 196,
+  "outsideSkinSamples": "0/50",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right quadriceps tendon",
+  "zh": "右股四頭肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   41,
+   90,
+   29
+  ],
+  "centreMm": [
+   -92,
+   525,
+   27
+  ],
+  "triangles": 4992,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right quadriceps tendon",
+  "zh": "右股四頭肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   21,
+   20,
+   35
+  ],
+  "centreMm": [
+   -110,
+   490,
+   5
+  ],
+  "triangles": 3078,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right quadriceps tendon",
+  "zh": "右股四頭肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   36,
+   10,
+   15
+  ],
+  "centreMm": [
+   -69,
+   485,
+   14
+  ],
+  "triangles": 1098,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right quadriceps tendon",
+  "zh": "右股四頭肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   25,
+   37,
+   24
+  ],
+  "centreMm": [
+   -90,
+   498,
+   14
+  ],
+  "triangles": 2184,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right patellar ligament",
+  "zh": "右髕韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   28,
+   52,
+   11
+  ],
+  "centreMm": [
+   -81,
+   417,
+   13
+  ],
+  "triangles": 1692,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left quadriceps tendon",
+  "zh": "左股四頭肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   41,
+   90,
+   29
+  ],
+  "centreMm": [
+   92,
+   525,
+   27
+  ],
+  "triangles": 5184,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left quadriceps tendon",
+  "zh": "左股四頭肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   21,
+   19,
+   35
+  ],
+  "centreMm": [
+   110,
+   489,
+   5
+  ],
+  "triangles": 2970,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left quadriceps tendon",
+  "zh": "左股四頭肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   36,
+   10,
+   15
+  ],
+  "centreMm": [
+   69,
+   485,
+   13
+  ],
+  "triangles": 1224,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left quadriceps tendon",
+  "zh": "左股四頭肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   25,
+   37,
+   24
+  ],
+  "centreMm": [
+   90,
+   498,
+   14
+  ],
+  "triangles": 1960,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left patellar ligament",
+  "zh": "左髕韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   27,
+   52,
+   11
+  ],
+  "centreMm": [
+   81,
+   417,
+   13
+  ],
+  "triangles": 1692,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of biceps femoris",
+  "zh": "右股二頭肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   44,
+   108,
+   31
+  ],
+  "centreMm": [
+   -102,
+   459,
+   -42
+  ],
+  "triangles": 1440,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of biceps femoris",
+  "zh": "右股二頭肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   13,
+   60,
+   24
+  ],
+  "centreMm": [
+   -113,
+   434,
+   -40
+  ],
+  "triangles": 2240,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of biceps femoris",
+  "zh": "左股二頭肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   44,
+   108,
+   31
+  ],
+  "centreMm": [
+   102,
+   459,
+   -42
+  ],
+  "triangles": 1456,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of biceps femoris",
+  "zh": "左股二頭肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   13,
+   60,
+   23
+  ],
+  "centreMm": [
+   112,
+   434,
+   -40
+  ],
+  "triangles": 2208,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of semitendinosus",
+  "zh": "右半腱肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   40,
+   175,
+   62
+  ],
+  "centreMm": [
+   -47,
+   448,
+   -32
+  ],
+  "triangles": 1368,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of semitendinosus",
+  "zh": "左半腱肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   40,
+   176,
+   62
+  ],
+  "centreMm": [
+   47,
+   449,
+   -32
+  ],
+  "triangles": 1360,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of semimembranosus",
+  "zh": "右半膜肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   40,
+   88,
+   58
+  ],
+  "centreMm": [
+   -45,
+   437,
+   -24
+  ],
+  "triangles": 920,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of semimembranosus",
+  "zh": "左半膜肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   41,
+   88,
+   59
+  ],
+  "centreMm": [
+   45,
+   437,
+   -24
+  ],
+  "triangles": 904,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of sartorius",
+  "zh": "右縫匠肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   31,
+   51,
+   17
+  ],
+  "centreMm": [
+   -57,
+   379,
+   5
+  ],
+  "triangles": 928,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 2
+ },
+ {
+  "name": "Left tendon of sartorius",
+  "zh": "左縫匠肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   31,
+   53,
+   18
+  ],
+  "centreMm": [
+   57,
+   378,
+   4
+  ],
+  "triangles": 904,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of gracilis",
+  "zh": "右股薄肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   52,
+   132,
+   39
+  ],
+  "centreMm": [
+   -44,
+   427,
+   -12
+  ],
+  "triangles": 1216,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of gracilis",
+  "zh": "左股薄肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   52,
+   126,
+   38
+  ],
+  "centreMm": [
+   45,
+   424,
+   -11
+  ],
+  "triangles": 1152,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of iliopsoas",
+  "zh": "右髂腰肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   50,
+   90,
+   65
+  ],
+  "centreMm": [
+   -89,
+   855,
+   -15
+  ],
+  "triangles": 816,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of iliopsoas",
+  "zh": "右髂腰肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   21,
+   51,
+   49
+  ],
+  "centreMm": [
+   -90,
+   836,
+   -16
+  ],
+  "triangles": 1304,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of iliopsoas",
+  "zh": "左髂腰肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   50,
+   89,
+   65
+  ],
+  "centreMm": [
+   89,
+   855,
+   -15
+  ],
+  "triangles": 816,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of iliopsoas",
+  "zh": "左髂腰肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   21,
+   51,
+   49
+  ],
+  "centreMm": [
+   90,
+   836,
+   -17
+  ],
+  "triangles": 1288,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of popliteus",
+  "zh": "右膕肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   34,
+   52,
+   20
+  ],
+  "centreMm": [
+   -94,
+   459,
+   -42
+  ],
+  "triangles": 680,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of popliteus",
+  "zh": "左膕肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   35,
+   53,
+   19
+  ],
+  "centreMm": [
+   94,
+   460,
+   -42
+  ],
+  "triangles": 680,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of tibialis anterior",
+  "zh": "右脛前肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   33,
+   144,
+   76
+  ],
+  "centreMm": [
+   -83,
+   112,
+   11
+  ],
+  "triangles": 1528,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of tibialis anterior",
+  "zh": "左脛前肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   33,
+   143,
+   77
+  ],
+  "centreMm": [
+   83,
+   112,
+   10
+  ],
+  "triangles": 1456,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of tibialis posterior",
+  "zh": "右脛後肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   60,
+   133,
+   71
+  ],
+  "centreMm": [
+   -73,
+   102,
+   -5
+  ],
+  "triangles": 5832,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of tibialis posterior",
+  "zh": "左脛後肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   60,
+   133,
+   72
+  ],
+  "centreMm": [
+   73,
+   102,
+   -5
+  ],
+  "triangles": 5776,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of flexor digitorum longus",
+  "zh": "右屈趾長肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   127,
+   92,
+   171
+  ],
+  "centreMm": [
+   -103,
+   52,
+   42
+  ],
+  "triangles": 2824,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of flexor digitorum longus",
+  "zh": "左屈趾長肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   126,
+   92,
+   171
+  ],
+  "centreMm": [
+   103,
+   52,
+   42
+  ],
+  "triangles": 2888,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of flexor hallucis longus",
+  "zh": "右屈拇趾長肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   67,
+   88,
+   173
+  ],
+  "centreMm": [
+   -85,
+   49,
+   37
+  ],
+  "triangles": 1048,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of flexor hallucis longus",
+  "zh": "左屈拇趾長肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   65,
+   88,
+   173
+  ],
+  "centreMm": [
+   84,
+   50,
+   37
+  ],
+  "triangles": 1048,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of extensor hallucis longus",
+  "zh": "右伸拇趾長肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   34,
+   93,
+   133
+  ],
+  "centreMm": [
+   -97,
+   63,
+   52
+  ],
+  "triangles": 816,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of extensor hallucis longus",
+  "zh": "左伸拇趾長肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   33,
+   93,
+   133
+  ],
+  "centreMm": [
+   97,
+   63,
+   52
+  ],
+  "triangles": 856,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendons of extensor digitorum longus",
+  "zh": "右伸趾長肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   76,
+   170,
+   162
+  ],
+  "centreMm": [
+   -128,
+   96,
+   42
+  ],
+  "triangles": 2976,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendons of extensor digitorum longus",
+  "zh": "左伸趾長肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   77,
+   171,
+   163
+  ],
+  "centreMm": [
+   128,
+   96,
+   43
+  ],
+  "triangles": 2960,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of fibularis longus",
+  "zh": "右腓長肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   31,
+   189,
+   92
+  ],
+  "centreMm": [
+   -99,
+   120,
+   -12
+  ],
+  "triangles": 1840,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of fibularis longus",
+  "zh": "左腓長肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   31,
+   189,
+   92
+  ],
+  "centreMm": [
+   99,
+   120,
+   -12
+  ],
+  "triangles": 1824,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of fibularis brevis",
+  "zh": "右腓短肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   37,
+   72,
+   46
+  ],
+  "centreMm": [
+   -101,
+   60,
+   -30
+  ],
+  "triangles": 1128,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of fibularis brevis",
+  "zh": "左腓短肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   37,
+   72,
+   46
+  ],
+  "centreMm": [
+   101,
+   60,
+   -30
+  ],
+  "triangles": 1112,
+  "outsideSkinSamples": "0/43",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of fibularis tertius",
+  "zh": "右第三腓骨肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   31,
+   72,
+   20
+  ],
+  "centreMm": [
+   -107,
+   62,
+   -8
+  ],
+  "triangles": 2096,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of fibularis tertius",
+  "zh": "左第三腓骨肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   32,
+   72,
+   20
+  ],
+  "centreMm": [
+   107,
+   62,
+   -8
+  ],
+  "triangles": 2096,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendon of plantaris",
+  "zh": "右蹠肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   46,
+   369,
+   23
+  ],
+  "centreMm": [
+   -62,
+   209,
+   -53
+  ],
+  "triangles": 1232,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendon of plantaris",
+  "zh": "左蹠肌腱",
+  "system": "tendon",
+  "kind": "tendon",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   46,
+   370,
+   23
+  ],
+  "centreMm": [
+   62,
+   209,
+   -53
+  ],
+  "triangles": 1296,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right superior extensor retinaculum of foot",
+  "zh": "右伸肌上支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   39,
+   33,
+   30
+  ],
+  "centreMm": [
+   -86,
+   126,
+   -19
+  ],
+  "triangles": 260,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 1
+ },
+ {
+  "name": "Right inferior extensor retinaculum of foot",
+  "zh": "右伸肌下支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   60,
+   63,
+   85
+  ],
+  "centreMm": [
+   -78,
+   63,
+   -11
+  ],
+  "triangles": 652,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 2
+ },
+ {
+  "name": "Right plantar aponeurosis",
+  "zh": "右足底腱膜",
+  "system": "connective",
+  "kind": "aponeurosis",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   61,
+   18,
+   136
+  ],
+  "centreMm": [
+   -104,
+   15,
+   10
+  ],
+  "triangles": 406,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right medial patellar retinaculum",
+  "zh": "右髕內側支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   34,
+   14,
+   47
+  ],
+  "centreMm": [
+   -45,
+   464,
+   -6
+  ],
+  "triangles": 184,
+  "outsideSkinSamples": "0/47",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right lateral patellar retinaculum",
+  "zh": "右髕外側支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   14,
+   23,
+   51
+  ],
+  "centreMm": [
+   -108,
+   463,
+   -9
+  ],
+  "triangles": 148,
+  "outsideSkinSamples": "0/76",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left superior extensor retinaculum of foot",
+  "zh": "左伸肌上支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   39,
+   33,
+   30
+  ],
+  "centreMm": [
+   86,
+   126,
+   -19
+  ],
+  "triangles": 260,
+  "outsideSkinSamples": "2/44",
+  "worstOverMm": 11
+ },
+ {
+  "name": "Left inferior extensor retinaculum of foot",
+  "zh": "左伸肌下支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   60,
+   63,
+   85
+  ],
+  "centreMm": [
+   78,
+   63,
+   -11
+  ],
+  "triangles": 652,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 1
+ },
+ {
+  "name": "Left plantar aponeurosis",
+  "zh": "左足底腱膜",
+  "system": "connective",
+  "kind": "aponeurosis",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   61,
+   18,
+   136
+  ],
+  "centreMm": [
+   104,
+   15,
+   10
+  ],
+  "triangles": 406,
+  "outsideSkinSamples": "0/40",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left medial patellar retinaculum",
+  "zh": "左髕內側支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   34,
+   14,
+   47
+  ],
+  "centreMm": [
+   45,
+   464,
+   -6
+  ],
+  "triangles": 184,
+  "outsideSkinSamples": "0/47",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left lateral patellar retinaculum",
+  "zh": "左髕外側支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   14,
+   23,
+   51
+  ],
+  "centreMm": [
+   108,
+   463,
+   -9
+  ],
+  "triangles": 148,
+  "outsideSkinSamples": "0/76",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right anterior talofibular ligament",
+  "zh": "右前距腓韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   8,
+   9,
+   8
+  ],
+  "centreMm": [
+   -93,
+   71,
+   -25
+  ],
+  "triangles": 196,
+  "outsideSkinSamples": "0/50",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right posterior talofibular ligament",
+  "zh": "右後距腓韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   26,
+   16,
+   6
+  ],
+  "centreMm": [
+   -79,
+   63,
+   -49
+  ],
+  "triangles": 196,
+  "outsideSkinSamples": "0/50",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right calcaneofibular ligament",
+  "zh": "右跟腓韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   9,
+   19,
+   13
+  ],
+  "centreMm": [
+   -96,
+   46,
+   -39
+  ],
+  "triangles": 500,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right anterior tibiotalar ligament",
+  "zh": "右脛距前韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   6,
+   21,
+   24
+  ],
+  "centreMm": [
+   -52,
+   68,
+   -21
+  ],
+  "triangles": 196,
+  "outsideSkinSamples": "0/50",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right plantar calcaneonavicular ligament",
+  "zh": "右跟舟足底韌帶（彈簧韌帶）",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   17,
+   5,
+   30
+  ],
+  "centreMm": [
+   -62,
+   50,
+   -1
+  ],
+  "triangles": 196,
+  "outsideSkinSamples": "0/50",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right fibular collateral ligament",
+  "zh": "右腓側副韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   13,
+   55,
+   19
+  ],
+  "centreMm": [
+   -116,
+   447,
+   -29
+  ],
+  "triangles": 500,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right flexor retinaculum of ankle",
+  "zh": "右踝屈肌支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   12,
+   69,
+   35
+  ],
+  "centreMm": [
+   -44,
+   54,
+   -43
+  ],
+  "triangles": 2300,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right superior fibular retinaculum",
+  "zh": "右腓骨肌上支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   7,
+   17,
+   29
+  ],
+  "centreMm": [
+   -102,
+   54,
+   -34
+  ],
+  "triangles": 780,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right inferior fibular retinaculum",
+  "zh": "右腓骨肌下支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   10,
+   21,
+   29
+  ],
+  "centreMm": [
+   -95,
+   44,
+   -1
+  ],
+  "triangles": 572,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right tendinous arch of soleus",
+  "zh": "右比目魚肌腱弓",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   44,
+   53,
+   29
+  ],
+  "centreMm": [
+   -87,
+   401,
+   -33
+  ],
+  "triangles": 196,
+  "outsideSkinSamples": "0/50",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Right pes anserinus",
+  "zh": "右鵝足",
+  "system": "connective",
+  "kind": "aponeurosis",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   15,
+   45,
+   21
+  ],
+  "centreMm": [
+   -68,
+   361,
+   -12
+  ],
+  "triangles": 1292,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left anterior talofibular ligament",
+  "zh": "左前距腓韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   7,
+   6,
+   9
+  ],
+  "centreMm": [
+   92,
+   71,
+   -26
+  ],
+  "triangles": 196,
+  "outsideSkinSamples": "0/50",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left posterior talofibular ligament",
+  "zh": "左後距腓韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   24,
+   21,
+   8
+  ],
+  "centreMm": [
+   77,
+   65,
+   -48
+  ],
+  "triangles": 196,
+  "outsideSkinSamples": "0/50",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left calcaneofibular ligament",
+  "zh": "左跟腓韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   9,
+   21,
+   12
+  ],
+  "centreMm": [
+   97,
+   46,
+   -38
+  ],
+  "triangles": 500,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left anterior tibiotalar ligament",
+  "zh": "左脛距前韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   7,
+   22,
+   25
+  ],
+  "centreMm": [
+   53,
+   67,
+   -20
+  ],
+  "triangles": 196,
+  "outsideSkinSamples": "0/50",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left plantar calcaneonavicular ligament",
+  "zh": "左跟舟足底韌帶（彈簧韌帶）",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   18,
+   6,
+   31
+  ],
+  "centreMm": [
+   62,
+   51,
+   -2
+  ],
+  "triangles": 196,
+  "outsideSkinSamples": "0/50",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left fibular collateral ligament",
+  "zh": "左腓側副韌帶",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   13,
+   54,
+   20
+  ],
+  "centreMm": [
+   116,
+   447,
+   -29
+  ],
+  "triangles": 500,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left flexor retinaculum of ankle",
+  "zh": "左踝屈肌支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   11,
+   72,
+   33
+  ],
+  "centreMm": [
+   44,
+   53,
+   -41
+  ],
+  "triangles": 2496,
+  "outsideSkinSamples": "0/41",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left superior fibular retinaculum",
+  "zh": "左腓骨肌上支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "rod",
+  "sizeMm": [
+   7,
+   16,
+   29
+  ],
+  "centreMm": [
+   102,
+   54,
+   -34
+  ],
+  "triangles": 780,
+  "outsideSkinSamples": "0/44",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left inferior fibular retinaculum",
+  "zh": "左腓骨肌下支持帶",
+  "system": "connective",
+  "kind": "retinaculum",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   11,
+   20,
+   29
+  ],
+  "centreMm": [
+   95,
+   44,
+   -1
+  ],
+  "triangles": 572,
+  "outsideSkinSamples": "0/42",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left tendinous arch of soleus",
+  "zh": "左比目魚肌腱弓",
+  "system": "connective",
+  "kind": "ligament",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   44,
+   66,
+   32
+  ],
+  "centreMm": [
+   87,
+   394,
+   -32
+  ],
+  "triangles": 196,
+  "outsideSkinSamples": "0/50",
+  "worstOverMm": 0
+ },
+ {
+  "name": "Left pes anserinus",
+  "zh": "左鵝足",
+  "system": "connective",
+  "kind": "aponeurosis",
+  "sex": "",
+  "shape": "volume",
+  "sizeMm": [
+   12,
+   47,
+   20
+  ],
+  "centreMm": [
+   65,
+   362,
+   -10
+  ],
+  "triangles": 1292,
+  "outsideSkinSamples": "0/41",
   "worstOverMm": 0
  }
 ]

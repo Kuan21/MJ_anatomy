@@ -787,6 +787,10 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 
 只出文件與量測腳本，不改模型。文件：`docs/lower-limb-vessel-inventory.md`（對照使用者清單 a、b 的有／缺／重複、已知問題出在哪些網格、血管樹資料結構草案、連續性與碰撞自動檢查設計、資訊卡欄位、分批計畫、需你決定的問題）；數字：`docs/lower-limb-vessel-inventory.json`；腳本：`node scripts/inventory-leg-vessels.mjs --write`（唯讀，不在 `npm run check`）。**所有數字來自網格座標計算，未在 3D 畫面確認**，沒有做截圖。重點：196 個血管網格；清單 a 缺 6 項、清單 b 缺 4 項；穿動脈有三組重複來源且其中兩個是 345–358 mm 長條；末端間隙超過半個管徑 133 處；39 個網格穿骨 12 mm 以上（脛前動脈主幹約 20 cm 在脛骨內）；2 個孤兒連接件；膝以下沒有「兩條伴行靜脈夾動脈」；股深動脈等 16 張資訊卡漏列分支。
 
+## 特殊區域中文名：三邊裂、三角肌胸大肌三角（【需人工審核】，不自動 merge）
+
+Triangular interval 改為「三邊裂」（原「三頭肌間隙」），Clavipectoral triangle 改為「三角肌胸大肌三角」（原「鎖骨胸大肌三角」）。搜尋可用舊名與別名：三頭肌間隙、三角間隙（三邊裂）；鎖胸三角、鎖骨胸大肌三角（三角肌胸大肌三角）；Quiz 第二級同義詞表同步加兩列。必備結構清單只列英文名，沒有中文，所以中文名依你的指定。`npm run check:quiz`、`check:zh`、命名檢查通過。
+
 ## 任務狀態表（2026-10-30；包括你交過的全部任務）
 
 **部署：** 最後一次成功的是 `32a250d`（#125）。#127 merge 後的部署（`7143655`）因臉部肌肉來源檔的上游 404 失敗；#129（改用 `vendor/` 備份）你已 merge，修正後的部署（`c90ec91`，包含 #127 的肺修正）在更新本表時還在跑，我確認成功後才算上線。
@@ -795,6 +799,7 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 
 | 任務 | 狀態（進行中 / 已完成 / 等我審核 / 未開始 / 卡住） | PR 編號 | 備註 |
 | --- | --- | --- | --- |
+| **特殊區域中文名：Triangular interval 三邊裂、Clavipectoral triangle 三角肌胸大肌三角（名稱、搜尋別名、Quiz 同義詞）** | 等我審核（【需人工審核】，不自動 merge） | 見 PR | 見上方同名段落 |
 | **介面：頂部「主動跟隨 Hover labels」開關（預設關，記在 localStorage；只影響滑鼠與觸控筆；Quiz 不顯示名稱提示）** | CI 綠後由主 session 確認 merge（只改介面） | #192 | 見上方「Hover labels 開關」 |
 | **肺模式跟隨系統開關（Skeleton 關閉不再顯示胸廓）、胸廓參照開關、選取不再無視開關、標籤避開頂部區域列** | CI 綠後自動 merge | #190 | 介面程式與測試，不改模型 |
 | **肺模式跟隨系統開關（Skeleton 關閉不再顯示胸廓）、胸廓參照開關、選取不再無視開關、標籤避開頂部區域列** | 已自動 merge | #190 | 介面程式與測試，不改模型 |
@@ -1444,11 +1449,13 @@ PR [#136](https://github.com/Kuan21/MJ_anatomy/pull/136)。筆記自動帶入的
 - **判分規則**（請核對）：不分大小寫；忽略多餘空白、連字號、標點；忽略 the、muscle(s)；繁簡臺台視為相同；括號內別名與下表同義名稱都算對；英文、中文、不限三種作答語言；左右預設不要求（成對構造的 Left/Right 可省略），設定中可改為必須寫出；差 1–2 個字母（中文名四字以上差 1 字）判「接近正確」，顯示正確拼法並列入錯題；答案漏了「Left／Right」所屬的心房、心室（例如 atrium 對 Left atrium）判錯。
 - **鄰近構造**：依模型邊界框距離，優先同系統，每題 2–3 個，可點擊高亮。
 
-### Quiz 第二級同義名稱表（需人工審核，共 128 列）
+### Quiz 第二級同義名稱表（需人工審核，共 130 列）
 以下是除了構造自己的英文名、中文名與括號內別名以外，額外接受的答案。依跑考摘要的寫法為先，其餘為通行別名；請逐列核對，有誤的告訴我刪改。程式表在 `app/quiz/synonyms.ts`。
 
 | 構造（英文名，小寫，不含左右） | 額外接受的英文 | 額外接受的中文 |
 | --- | --- | --- |
+| triangular interval | — | 三頭肌間隙、三角間隙 |
+| clavipectoral triangle | — | 鎖胸三角、鎖骨胸大肌三角 |
 | tricuspid valve | right atrioventricular valve | 右房室瓣 |
 | mitral valve | left atrioventricular valve；bicuspid valve | 僧帽瓣、左房室瓣 |
 | bicuspid valve | mitral valve；left atrioventricular valve | 僧帽瓣、左房室瓣 |
