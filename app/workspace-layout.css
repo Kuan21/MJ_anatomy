@@ -409,6 +409,16 @@
 .top-actions .top-link.quiz-link{border-color:#94bfb0;background:#e7f3eb;color:#236e60;font-weight:600}
 .top-actions .top-link.quiz-link:hover{background:#dcefe3;color:#175a4d}
 .top-actions .icon-button{width:42px;min-width:42px;padding:0}
+/* Hover labels switch: same look as the Quiz button while it is on. */
+/* icon only: the label would push the toolbar under the region bar; it shows in full on very wide screens, and as the tooltip and aria-label everywhere */
+.top-actions>button.hover-toggle{width:42px;min-width:42px;padding:0}
+.top-actions>button.hover-toggle span{display:none}
+@media(max-width:767px){.top-actions>button.hover-toggle{width:44px;min-width:44px}}
+/* the toolbar gets one more button: below 1700 px the search button shows its icon only (name stays as aria-label), so the toolbar does not slide under the region bar */
+@media(min-width:768px) and (max-width:1699px){.top-actions>button:not(.icon-button):not(.hover-toggle){width:42px;min-width:42px;padding:0}.top-actions>button:not(.icon-button):not(.hover-toggle) span,.top-actions>button:not(.icon-button):not(.hover-toggle) kbd{display:none}}
+@media(min-width:1800px){.top-actions>button.hover-toggle{width:auto;padding:0 14px}.top-actions>button.hover-toggle span{display:inline}}
+.top-actions>button.hover-toggle[aria-pressed=true]{border-color:#94bfb0;background:#e7f3eb;color:#236e60;font-weight:600}
+.top-actions>button.hover-toggle[aria-pressed=true]:hover{background:#dcefe3;color:#175a4d}
 @media(max-width:767px){
  .top-actions{gap:6px}
  .top-actions .top-link,.top-actions>button,.top-actions>.icon-button{height:44px;min-height:44px;min-width:44px;padding:0 12px;border-radius:12px}
