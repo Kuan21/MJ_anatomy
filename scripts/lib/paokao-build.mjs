@@ -36,7 +36,7 @@ export function buildAll() {
     if (s.system === 'nervous' && s.kind === 'nerve' && geometry.indices.length) clearBones(geometry.positions, geometry.indices);
     (lateSpecs.includes(s) ? late : built).push({...s, geometry});
     // further parts of the same structure (a tendon cut from several muscle meshes): same name, card and concept, their own geometry and motion binding
-    for (const sib of s.siblings ?? []) late.push({...s, siblings: undefined, bellies: undefined, geometry: merge(sib.geometry), binding: sib.binding, sibling: true});
+    for (const sib of s.siblings ?? []) late.push({...s, siblings: undefined, bellies: undefined, geometry: merge(sib.geometry), binding: sib.binding, kind: sib.kind ?? s.kind, sibling: true});
   }
   // `late` (the lung surface areas of the name labels, then the tendons) is appended to `built` after the connectors, so no earlier structure changes its id
   return {built, late, w, U};

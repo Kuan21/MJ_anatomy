@@ -14,6 +14,8 @@ const deepNeurovascular=/brachial plexus|subscapular|suprascapular|circumflex|in
 export function anatomyDepth(part:Part):Exclude<TissueDepth,'all'> {
  const name=n(part);
  if(part.system==='integumentary')return 'superficial';
+ // The thoracolumbar fascia lies with latissimus dorsi in the superficial layer of the back; the other connective tissues are deep.
+ if(/thoracolumbar fascia/.test(name))return 'superficial';
  if(part.system==='skeletal'||part.system==='connective'||part.system==='tendon')return 'deep';
  if(part.system==='muscular'){
   if(deepMuscle.test(name))return 'deep';

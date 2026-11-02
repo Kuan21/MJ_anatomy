@@ -1,37 +1,10 @@
 // Fasciae, sheaths, retinacula, ligaments, aponeuroses and the other membranous structures named in the notes that the atlas lacks. Bands and ligaments are ribbons between
 // landmarks on the bones; fasciae and aponeuroses are thin shells lifted off the muscle surfaces they cover; sheaths are translucent tubes round the vessels they enclose.
 import {sub, add, mul, unit, len, lerp, cross} from '../lib/paokao-util.mjs';
+import {thoracolumbarFascia} from './thoracolumbar-fascia.mjs';
 
 const REF = 'Gray’s Anatomy for Students, 4th ed. (Drake et al.); Moore’s Clinically Oriented Anatomy, 8th ed.';
 const SIDES = [{w: 'Right', l: 'right', sx: -1, zh: '右', s: 'r'}, {w: 'Left', l: 'left', sx: 1, zh: '左', s: 'l'}];
-
-/**
- * The posterior layer of the thoracolumbar fascia as ONE continuous, smooth, thin sheet over both sides of the lumbar and lower thoracic back: its back surface is the back surface of the erector
- * spinae group (found with rays from behind, so it follows the muscle and cannot sink into it), lifted 1.4 mm, and it passes across the midline over the spinous processes. The outline is the
- * footprint of the muscles, smoothed, so the edges are smooth curves and the sheet has no holes or strips (the earlier version was cut triangle by triangle from the muscle surfaces and fell apart into strips).
- */
-function lumbarFascia(U) {
-  const names = ['longissimus thoracis', 'iliocostalis lumborum', 'iliocostalis thoracis', 'spinalis thoracis', 'multifidus'].flatMap(n => SIDES.map(S => `${S.w} ${n}`)).filter(U.has);
-  const Y0 = .975, Y1 = 1.205, DY = .004, DX = .003, COLS = 64, LIFT = .0014;
-  const hit = (x, y) => { let z = null; for (const n of names) { const h = U.rayHit(n, [x, y, -.3], [0, 0, 1]); if (h && (z === null || h.point[2] < z)) z = h.point[2]; } return z; };
-  const rows = [];
-  for (let y = Y0; y <= Y1 + 1e-9; y += DY) {
-    const xs = [], zs = []; for (let x = -.13; x <= .13 + 1e-9; x += DX) { const z = hit(x, y); if (z !== null) { xs.push(x); zs.push(z); } }
-    if (xs.length < 8) continue;
-    rows.push({y, xs, zs, lo: xs[0], hi: xs[xs.length - 1]});
-  }
-  if (rows.length < 20) throw new Error('thoracolumbar fascia: the erector spinae were not found');
-  // smooth outline: moving average of the two edges over the rows
-  const avg = (key, i, w = 3) => { let s = 0, c = 0; for (let k = Math.max(0, i - w); k <= Math.min(rows.length - 1, i + w); k++) { s += rows[k][key]; c++; } return s / c; };
-  const lo = rows.map((_, i) => avg('lo', i)), hi = rows.map((_, i) => avg('hi', i));
-  const zAt = (r, x) => { const {xs, zs} = r; if (x <= xs[0]) return zs[0]; if (x >= xs[xs.length - 1]) return zs[zs.length - 1]; let k = 0; while (xs[k + 1] < x) k++; const t = (x - xs[k]) / (xs[k + 1] - xs[k]); return zs[k] + (zs[k + 1] - zs[k]) * t; };
-  const raw = rows.map((r, i) => Array.from({length: COLS + 1}, (_, j) => { const x = lo[i] + (hi[i] - lo[i]) * j / COLS; return {x, y: r.y, z: zAt(r, x)}; }));
-  // smooth the surface (box filter over the grid, three passes), then keep it behind the muscle: never closer than 0.6 mm to it
-  let z = raw.map(r => r.map(p => p.z));
-  for (let pass = 0; pass < 3; pass++) z = z.map((r, i) => r.map((v, j) => { let s = 0, c = 0; for (let a = -1; a <= 1; a++) for (let b = -1; b <= 1; b++) { const q = z[i + a]?.[j + b]; if (q !== undefined) { s += q; c++; } } return s / c; }));
-  const grid = raw.map((r, i) => r.map((p, j) => [p.x, p.y, Math.min(z[i][j], p.z) - LIFT]));
-  return U.sheet(grid, .0008);
-}
 
 // `retired` structures are still built (so the ids of everything after them stay as they were) but not packaged: the tendon batch replaced them (scripts/paokao-structures/tendons-upper-limb.mjs).
 export default function membranes(U) {
@@ -112,8 +85,14 @@ export default function membranes(U) {
     const geo = list => { const g = U.merge(list); if (!g.indices.length) throw new Error('empty fascial shell'); return g; };
     push(null, 'rectus sheath', '腹直肌鞘', 'sheath', 'connective', {geometry: [geo(rect)]},
       ['The aponeuroses of the three flat abdominal muscles enclose rectus abdominis; the anterior wall is drawn here', '三層腹壁扁肌的腱膜包住腹直肌；此處畫出前壁'], ['Encloses rectus abdominis and the superior and inferior epigastric vessels; fused in the midline as the linea alba', '包裹腹直肌與腹壁上、下動脈；在中線融合成白線'], ['Aponeuroses of external oblique, internal oblique and transversus abdominis', '腹外斜肌、腹內斜肌與腹橫肌的腱膜']);
-    push(null, 'thoracolumbar fascia', '胸腰筋膜', 'fascia', 'connective', {geometry: [lumbarFascia(U)], cap: 20000},
-      ['The deep fascia of the back over the erector spinae, thickest in the lumbar region', '覆蓋豎脊肌的背部深筋膜，腰部最厚'], ['Encloses the erector spinae; gives origin to latissimus dorsi and transversus abdominis (shown here as its posterior layer)', '包裹豎脊肌；是背闊肌與腹橫肌的起點（此處畫出後層）']);
+    // Posterior layer of the thoracolumbar fascia: four pieces of one structure (right and left halves, each a thick lumbar part and a thin thoracic part; scripts/paokao-structures/thoracolumbar-fascia.mjs).
+    {
+      const [first, ...rest] = thoracolumbarFascia(U);
+      push(null, 'thoracolumbar fascia', '胸腰筋膜', first.kind, 'connective', {geometry: [first.geometry], cap: 20000, siblings: rest.map(r => ({geometry: [r.geometry], kind: r.kind}))},
+        ['Posterior layer: a diamond on each side of the back, thin and narrow over the lower thoracic region (medial to the rib angles, deep to the scapula), widest and thickest at L2–L4, narrowing onto the back of the sacrum', '後層：背部每側一片菱形，下胸段窄而薄（在肋骨角內側、肩胛骨深面），L2–L4 最闊最厚，向下收窄到薦骨背面'],
+        ['Encloses the erector spinae; its lateral raphe gives origin to latissimus dorsi, internal oblique and transversus abdominis (only the posterior layer is drawn)', '包裹豎脊肌；外側縫是背闊肌、腹內斜肌與腹橫肌的起點（此處只畫後層）'],
+        ['Medially the spinous processes and supraspinous ligament; below, the back of the sacrum and the posterior iliac crest; laterally the lateral raphe', '內側：棘突與棘上韌帶；下方：薦骨背面與髂嵴後部；外側：外側縫']);
+    }
     for (const S of SIDES) push(S, 'plantar aponeurosis', '足底腱膜', 'aponeurosis', 'connective', {geometry: [geo(sole[S.w])], retired: true},
       ['A thick fibrous sheet covering the central and medial parts of the sole, from the calcaneal tuberosity to the toes', '覆蓋足底中央與內側的厚纖維膜，由跟骨粗隆到趾'], ['Supports the longitudinal arch and protects the plantar muscles, vessels and nerves', '支撐縱弓，保護足底肌肉、血管與神經']);
   }

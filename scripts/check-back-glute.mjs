@@ -3,7 +3,7 @@
 //     transverse part ends on the acromion, gluteus maximus leaves the natal cleft open and does not sink into the hip bone or the sacrum;
 //  2. the inferior gluteal veins lie deep to gluteus maximus (scripts/patch-gluteal-veins.mjs --check);
 //  3. every thoracic dorsal ramus starts at its spinal ganglion (no loose segment beside the vertebra);
-//  4. the thoracolumbar fascia is one continuous sheet over both sides of the back.
+//  4. the thoracolumbar fascia is two halves (lumbar and thoracic pieces each), clear of the midline, the scapula and the bones.
 import fs from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
@@ -67,9 +67,28 @@ for (const [S, s] of [['Right', 'r'], ['Left', 'l']]) {
   for (const [, d] of near) if (d > .0015) problems.push(`${S} dorsal ramus of thoracic spinal nerve: a piece starts ${(d * MM).toFixed(1)} mm from the nearest spinal ganglion`);
 }
 {
-  const fascia = w.mesh('thoracolumbar fascia'), sizes = pieces(fascia.positions, fascia.indices), total = sizes.reduce((a, b) => a + b, 0);
-  if (sizes.length > 2 || sizes[0] + (sizes[1] ?? 0) < total) problems.push(`thoracolumbar fascia: ${sizes.length} separate pieces, it must be one continuous sheet (two skins)`);
-  if (fascia.hi[0] < .08 || fascia.lo[0] > -.08) problems.push('thoracolumbar fascia: does not span both sides of the back');
+  // 4. the thoracolumbar fascia (posterior layer) is two halves, each a closed diamond-shaped sheet in a thick lumbar and a thin thoracic piece: the halves stop short of the
+  // midline so the spinous processes show, the upper angle stays medial to the scapula, the lumbar part is the widest, and no vertex lies inside a bone (the rays that place
+  // the sheet come from behind, so it can only lie behind the surface it covers).
+  const parts = w.entries.filter(e => e.name === 'thoracolumbar fascia');
+  if (parts.length !== 4) problems.push(`thoracolumbar fascia: ${parts.length} pieces, expected 4 (right and left, lumbar and thoracic)`);
+  const bones = ['Fifth thoracic vertebra', 'Sixth thoracic vertebra', 'Seventh thoracic vertebra', 'Eighth thoracic vertebra', 'Ninth thoracic vertebra', 'Tenth thoracic vertebra', 'Eleventh thoracic vertebra', 'Twelfth thoracic vertebra', 'First lumbar vertebra', 'Second lumbar vertebra', 'Third lumbar vertebra', 'Fourth lumbar vertebra', 'Fifth lumbar vertebra', 'Sacrum', 'Right hip bone', 'Left hip bone', 'Right scapula', 'Left scapula', ...['sixth', 'seventh', 'eighth', 'ninth', 'tenth', 'eleventh', 'twelfth'].flatMap(r => [`Right ${r} rib`, `Left ${r} rib`])].filter(w.has).map(n => w.mesh(n));
+  let left = 0, right = 0, lumbar = 0, thoracic = 0;
+  for (const e of parts) {
+    const g = e.load(), sizes = pieces(g.positions, g.indices), total = sizes.reduce((a, b) => a + b, 0);
+    if (sizes.length !== 1 || sizes[0] !== total) problems.push(`thoracolumbar fascia piece: ${sizes.length} separate pieces, each piece must be one closed sheet`);
+    let lo = [9, 9, 9], hi = [-9, -9, -9]; for (let i = 0; i < g.positions.length; i += 3) for (let k = 0; k < 3; k++) { lo[k] = Math.min(lo[k], g.positions[i + k]); hi[k] = Math.max(hi[k], g.positions[i + k]); }
+    if (lo[0] < -.003 && hi[0] > .003) problems.push('thoracolumbar fascia piece crosses the midline: the two halves must leave the spinous processes uncovered');
+    if (lo[0] >= -.003) left++; else right++;
+    const width = hi[0] - lo[0];
+    if (hi[1] > 1.2) { thoracic++; if (width > .07) problems.push(`thoracolumbar fascia thoracic piece is ${(width * MM).toFixed(0)} mm wide: the upper angle must stay medial to the scapula and the rib angles`); }
+    else { lumbar++; if (width < .075) problems.push(`thoracolumbar fascia lumbar piece is only ${(width * MM).toFixed(0)} mm wide: the lumbar part is the widest part`); }
+    // inside a bone: nearest bone surface within 6 mm with the vertex behind its outward normal by more than 0.5 mm
+    let inside = 0;
+    for (let i = 0; i < g.positions.length; i += 3) { const q = [g.positions[i], g.positions[i + 1], g.positions[i + 2]]; for (const m of bones) { if (q[0] < m.lo[0] - .006 || q[0] > m.hi[0] + .006 || q[1] < m.lo[1] - .006 || q[1] > m.hi[1] + .006 || q[2] < m.lo[2] - .006 || q[2] > m.hi[2] + .006) continue; const c = closest(m, q); if (c.d < .006 && (q[0] - c.point[0]) * c.normal[0] + (q[1] - c.point[1]) * c.normal[1] + (q[2] - c.point[2]) * c.normal[2] < -.0005) { inside++; break; } } }
+    if (inside) problems.push(`thoracolumbar fascia piece: ${inside} vertices inside a bone`);
+  }
+  if (parts.length === 4 && (left !== 2 || right !== 2 || lumbar !== 2 || thoracic !== 2)) problems.push(`thoracolumbar fascia: pieces are ${right} right / ${left} left, ${lumbar} lumbar / ${thoracic} thoracic; expected 2 of each`);
 }
 if (problems.length) { console.error('Back and gluteal check failed:\n - ' + problems.join('\n - ')); process.exit(1); }
-console.log('Back and gluteal OK: trapezius and gluteus maximus are single repaired pieces (midline, acromion and natal cleft respected), the inferior gluteal veins lie deep to gluteus maximus, the thoracic dorsal rami start at their spinal ganglia, the thoracolumbar fascia is one sheet.');
+console.log('Back and gluteal OK: trapezius and gluteus maximus are single repaired pieces (midline, acromion and natal cleft respected), the inferior gluteal veins lie deep to gluteus maximus, the thoracic dorsal rami start at their spinal ganglia, the thoracolumbar fascia is two diamond-shaped halves (lumbar and thoracic pieces) clear of the midline, the scapula and every bone.');

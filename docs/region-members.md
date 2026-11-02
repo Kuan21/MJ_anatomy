@@ -74,9 +74,9 @@
 
 ## 背部
 
-165 個網格，109 個名稱。
+168 個網格，109 個名稱。
 
-- **結締組織**（3）：denticulate ligament ×2；Ligamentum flavum；thoracolumbar fascia
+- **結締組織**（3）：denticulate ligament ×2；Ligamentum flavum；thoracolumbar fascia ×4
 - **體表**（1）：Skin
 - **肌肉**（35）：Ascending part of trapezius ×2；cervical rotator ×2；Descending part of trapezius ×2；iliocostalis cervicis ×2；iliocostalis lumborum ×2；iliocostalis thoracis ×2；interspinalis thoracis ×2；lateral lumbar intertransversarius ×2；latissimus dorsi ×2；longissimus capitis ×2；longissimus cervicis ×2；longissimus thoracis ×2；lumbar rotator ×2；medial lumbar intertransversarius ×2；multifidus ×2；rhomboid major ×2；rhomboid minor ×2；semispinalis capitis ×2；semispinalis cervicis ×2；semispinalis thoracis ×2；serratus posterior inferior ×2；serratus posterior superior ×2；set of anterior cervical intertransversarii ×2；set of interspinales cervicis ×2；set of interspinales lumborum ×2；Set of levatores costarum breves ×2；Set of levatores costarum longi ×2；set of posterior cervical intertransversarii ×2；spinalis ×2；spinalis cervicis ×2；spinalis thoracis ×2；splenius capitis ×2；splenius cervicis ×2；thoracic rotator ×2；Transverse part of trapezius ×2
 - **神經**（18）：C1 spinal nerve ×2；C2 spinal nerve ×2；C3 spinal nerve ×2；C4 spinal nerve ×2；C5 spinal nerve ×2；C6 spinal nerve ×2；C7 spinal nerve ×2；C8 spinal nerve ×2；dorsal ramus of C1 spinal nerve ×2；dorsal ramus of C2 spinal nerve ×2；dorsal ramus of C3 spinal nerve ×2；dorsal ramus of C4 spinal nerve ×2；dorsal ramus of C5 spinal nerve ×2；dorsal ramus of C6 spinal nerve ×2；dorsal ramus of C7 spinal nerve ×2；dorsal ramus of C8 spinal nerve ×2；dorsal ramus of thoracic spinal nerve ×2；posterior cutaneous branch of dorsal ramus of thoracic spinal nerve ×2
