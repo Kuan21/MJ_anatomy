@@ -3,7 +3,7 @@ import {flushSync} from 'react-dom';
 import {registerAtlasTools} from './agent-tools';
 import {Fragment,Suspense,lazy,useCallback,useEffect,useMemo,useRef,useState} from 'react';
 import {PronounceButton} from './pronunciation/PronounceButton';
-import {Activity,ArrowUpRight,Maximize2,ChevronRight,EyeOff,GraduationCap,Focus,Info,Layers3,Pause,RotateCcw,RotateCw,Search,Undo2,X} from 'lucide-react';
+import {Activity,ArrowUpRight,Maximize2,ChevronRight,EyeOff,GraduationCap,Focus,Tag,Info,Layers3,Pause,RotateCcw,RotateCw,Search,Undo2,X} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {Badge} from '@/components/ui/badge';
 import {Switch} from '@/components/ui/switch';
@@ -17,6 +17,7 @@ import MotionAnatomyPanel,{UPPER_ACTION_ANATOMY} from './motion-anatomy';
 import {DEFAULT_VISIBLE,SYSTEMS,EXPLANATIONS,explanation,type Atlas,type Part,type OutlineRef,type Concept,type SceneState,type SystemId,type View} from './anatomy';
 import {ANATOMY_REGIONS,regionById,type RegionId} from './mj-regions';
 import {selectOnly,withCameraFocus} from './selection-state';
+import {readHoverLabels,writeHoverLabels} from './hover-labels';
 import {resolveDissection} from './mj-dissection';
 import {structureProfile} from './mj-structure-info';
 import {resolveLungLabels,lungHilumRoot} from './mj-lung-labels';
@@ -100,6 +101,8 @@ function LoadBar({progress,failed,unavailable,busy,onRetry}:{progress:number;fai
 
 export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'upper'|'lower'}){
  const detailTitle=useRef<HTMLHeadingElement>(null);
+ const [hoverLabels,setHoverLabels]=useState(readHoverLabels);
+ const toggleHoverLabels=()=>setHoverLabels(v=>{writeHoverLabels(!v);return !v;});
  const [atlas,setAtlas]=useState<Atlas|null>(null),[state,setState]=useState(initial),[progress,setProgress]=useState(0),[error,setError]=useState(''),[panel,setPanel]=useState<'layers'|'search'|null>(null),[details,setDetails]=useState(false),[about,setAbout]=useState(false),[chosen,setChosen]=useState<Concept|null>(null),[externalNerve,setExternalNerve]=useState<string|null>(null);
  const [loadStatus,setLoadStatus]=useState<AnatomyLoadStatus|null>(null),[retryNonce,setRetryNonce]=useState(0);
  // Motion warnings (a pose the model cannot show) are advice, not a failure: they never show the fatal error box with its reload button (P3-10).
@@ -472,7 +475,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  // a label opens the data card of its structure without moving the camera
  const pickLabel=(id:string)=>{const p=parts.get(id);if(!p)return;setExternalNerve(null);setChosen({id:p.conceptId,name:p.name,elements:[id]});setState(s=>({...s,selected:[id]}));setDetails(true);setPanel(null);};
  return <main className="studio">
-  {microAtlas?<MicroAtlasScene atlasId={microAtlas} onExit={()=>setMicroAtlas(null)}/>:atlas&&<AnatomyScene atlas={atlas} state={{...sceneState,inspectorOpen:details&&(selectedParts.length>0||!!externalNerve)}} onSelect={choosePart} onClear={clearSelection} onLabelPick={pickLabel} onSelectNerve={chooseNerve} onSelectionView={setSelView} onProgress={setProgress} onLoadStatus={setLoadStatus} retryNonce={retryNonce} onError={setError} onJointDrag={nudgeJoint} region={region} focusSide={state.focusParts?studySide:'both'} motionActive={motionEdit&&!!state.focusParts} jointMotionEnabled={motionEnabled} selectedExternalNerve={externalNerve} bodyArea={topRegion}/>}
+  {microAtlas?<MicroAtlasScene atlasId={microAtlas} onExit={()=>setMicroAtlas(null)}/>:atlas&&<AnatomyScene atlas={atlas} state={{...sceneState,inspectorOpen:details&&(selectedParts.length>0||!!externalNerve)}} onSelect={choosePart} onClear={clearSelection} onLabelPick={pickLabel} onSelectNerve={chooseNerve} onSelectionView={setSelView} hoverNames={hoverLabels} onProgress={setProgress} onLoadStatus={setLoadStatus} retryNonce={retryNonce} onError={setError} onJointDrag={nudgeJoint} region={region} focusSide={state.focusParts?studySide:'both'} motionActive={motionEdit&&!!state.focusParts} jointMotionEnabled={motionEnabled} selectedExternalNerve={externalNerve} bodyArea={topRegion}/>}
   <div className="vignette"/>
   <header className="identity"><div className="eyebrow"><span className="status-dot"/> INTERACTIVE ANATOMY ATLAS</div><h1><button type="button" className="title-reset" title="Reset to default｜回到初始設定" aria-label="Reset to default｜回到初始設定" onClick={reset}>MJ Anatomy</button><Badge variant="outline" className="edition">3D</Badge></h1><div className="identity-meta">{atlas?atlas.parts.length.toLocaleString():'…'} structures <span>·</span> 可點選構造</div></header>
   {(()=>{const picked=topRegion!=='whole'&&topRegion!=='organs'&&!microAtlas,def=regionDef(topRegion==='organs'?'whole':topRegion as RegionKey);
@@ -483,7 +486,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
    {picked&&def.paired&&<span className="tab-sides" role="group" aria-label={`${def.label}側別`}>{([['both','雙側'],['left','左側'],['right','右側']] as ['both'|Side,string][]).map(([id,label])=><Button variant="ghost" key={id} aria-pressed={studySide===id} onClick={()=>applySide(id)}>{label}</Button>)}</span>}
    {picked&&def.paired&&studySide!=='both'&&<label className="side-fade-toggle"><input type="checkbox" checked={fadeOther} onChange={e=>setFadeOther(e.target.checked)}/>淡化另一側</label>}
   </nav>;})()}
-  <nav className="top-actions" aria-label="工具列"><a className="top-link quiz-link" href={quizHref} aria-label="開啟 Quiz，先選擇部位" title="Quiz"><GraduationCap size={18}/><span>Quiz</span></a><Button variant="ghost" className={panel==='search'?'active':''} onClick={()=>openPanel('search')} aria-label="搜尋構造"><Search size={18}/><span>Find a structure｜搜尋</span><kbd>/</kbd></Button><Button variant="ghost" className="icon-button" aria-label="關於本圖譜與來源" onClick={()=>{setDetails(false);setPanel(null);setAbout(true);}}><Info size={18}/></Button></nav>
+  <nav className="top-actions" aria-label="工具列"><a className="top-link quiz-link" href={quizHref} aria-label="開啟 Quiz，先選擇部位" title="Quiz"><GraduationCap size={18}/><span>Quiz</span></a><Button variant="ghost" className="hover-toggle" aria-pressed={hoverLabels} onClick={toggleHoverLabels} aria-label="主動跟隨 Hover labels" title="主動跟隨 Hover labels：滑鼠移到構造上時顯示名稱"><Tag size={18}/><span>主動跟隨 Hover labels</span></Button><Button variant="ghost" className={panel==='search'?'active':''} onClick={()=>openPanel('search')} aria-label="搜尋構造"><Search size={18}/><span>Find a structure｜搜尋</span><kbd>/</kbd></Button><Button variant="ghost" className="icon-button" aria-label="關於本圖譜與來源" onClick={()=>{setDetails(false);setPanel(null);setAbout(true);}}><Info size={18}/></Button></nav>
   <aside className={`left-workspace ${panel==='layers'?'mobile-open':''}`}>
   <section className={`layers-panel glass ${panel==='layers'?'mobile-open':''}`} aria-label="Anatomical layers">
    <Button variant="ghost" className="mobile-only close-systems" onClick={()=>setPanel(null)} aria-label="Close systems"><X size={18}/></Button>
