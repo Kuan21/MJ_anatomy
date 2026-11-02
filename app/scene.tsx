@@ -14,6 +14,7 @@ import {structureProfile} from './mj-structure-info';
 import {prepareSurfaceNormals,updateSurfaceNormals} from './surface-normals';
 import {PointerTap} from './pointer-tap';
 import {focusFrame} from './camera-framing';
+import {hoverNameShown} from './hover-labels';
 import {indexArray,normalArray,positionArray} from './stream-geometry';
 import {CAMERA_TWEEN_MS,tweenProgress} from './camera-tween';
 import {SYSTEMS,type Atlas,type SceneState,type SystemId} from './anatomy';
@@ -44,11 +45,11 @@ const bodyNerveBindings=bodyNerveData as Record<string,BodyRegion>;
 export interface AnatomyLoadStatus {loaded:number;total:number;systems:Record<string,number>;failed:string[];busy:boolean;interactive:boolean;supplementaryPending:number}
 // Selection colours: soft mint (#5DB89A) at 85 % strength; hover is a lighter tint of the same hue.
 const SELECT_COLOR=0x5DB89A,HOVER_COLOR=0xA7DCCB;
-interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;/** a tap on empty background (nothing under the pointer) */onClear?:()=>void;onLabelPick?:(id:string)=>void;onSelectNerve?:(name:string,system?:SystemId)=>void;/** tells the page whether the selected structure is drawn and on screen (null: nothing selected); drives the "not in view" hint of the info card */onSelectionView?:(v:{drawn:boolean;inView:boolean}|null)=>void;onProgress:(n:number)=>void;onLoadStatus?:(status:AnatomyLoadStatus)=>void;retryNonce?:number;onError:(s:string)=>void;onJointDrag?:(side:'left'|'right',joint:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion',delta:number)=>void;region?:'whole-body'|'shoulder'|'arm'|'forearm'|'hand';focusSide?:'both'|'left'|'right';motionActive?:boolean;jointMotionEnabled?:boolean;selectedExternalNerve?:string|null;bodyArea?:'whole'|'upper'|'lower'|'head'|'organs'|'chest'|'back'|'abdomen'|'pelvis'|'gluteal'}
-export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,onSelectNerve,onSelectionView,onProgress,onLoadStatus,retryNonce=0,onError,onJointDrag,region='whole-body',focusSide='both',motionActive=false,jointMotionEnabled=false,selectedExternalNerve=null,bodyArea='whole'}:Props){
+interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;/** a tap on empty background (nothing under the pointer) */onClear?:()=>void;onLabelPick?:(id:string)=>void;onSelectNerve?:(name:string,system?:SystemId)=>void;/** tells the page whether the selected structure is drawn and on screen (null: nothing selected); drives the "not in view" hint of the info card */onSelectionView?:(v:{drawn:boolean;inView:boolean}|null)=>void;/** show the bilingual name tip while the mouse or pen is over a structure (the top-bar Hover labels switch); default true for other pages */hoverNames?:boolean;onProgress:(n:number)=>void;onLoadStatus?:(status:AnatomyLoadStatus)=>void;retryNonce?:number;onError:(s:string)=>void;onJointDrag?:(side:'left'|'right',joint:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion',delta:number)=>void;region?:'whole-body'|'shoulder'|'arm'|'forearm'|'hand';focusSide?:'both'|'left'|'right';motionActive?:boolean;jointMotionEnabled?:boolean;selectedExternalNerve?:string|null;bodyArea?:'whole'|'upper'|'lower'|'head'|'organs'|'chest'|'back'|'abdomen'|'pelvis'|'gluteal'}
+export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,onSelectNerve,onSelectionView,hoverNames=true,onProgress,onLoadStatus,retryNonce=0,onError,onJointDrag,region='whole-body',focusSide='both',motionActive=false,jointMotionEnabled=false,selectedExternalNerve=null,bodyArea='whole'}:Props){
  const retryLoad=useRef<(()=>void)|null>(null);
- const host=useRef<HTMLDivElement>(null),latest=useRef(state),select=useRef(onSelect),clearSel=useRef(onClear),labelPick=useRef(onLabelPick),selectNerve=useRef(onSelectNerve),selectionView=useRef(onSelectionView),selectedNerve=useRef<string|null>(selectedExternalNerve),jointDrag=useRef(onJointDrag),viewerContext=useRef({region,focusSide,motionActive,jointMotionEnabled,bodyArea});
- latest.current=state;select.current=onSelect;clearSel.current=onClear;labelPick.current=onLabelPick;selectNerve.current=onSelectNerve;selectionView.current=onSelectionView;selectedNerve.current=selectedExternalNerve;jointDrag.current=onJointDrag;viewerContext.current={region,focusSide,motionActive,jointMotionEnabled,bodyArea};
+ const host=useRef<HTMLDivElement>(null),latest=useRef(state),select=useRef(onSelect),clearSel=useRef(onClear),labelPick=useRef(onLabelPick),selectNerve=useRef(onSelectNerve),selectionView=useRef(onSelectionView),hoverNamesRef=useRef(hoverNames),selectedNerve=useRef<string|null>(selectedExternalNerve),jointDrag=useRef(onJointDrag),viewerContext=useRef({region,focusSide,motionActive,jointMotionEnabled,bodyArea});
+ latest.current=state;select.current=onSelect;clearSel.current=onClear;labelPick.current=onLabelPick;selectNerve.current=onSelectNerve;selectionView.current=onSelectionView;hoverNamesRef.current=hoverNames;selectedNerve.current=selectedExternalNerve;jointDrag.current=onJointDrag;viewerContext.current={region,focusSide,motionActive,jointMotionEnabled,bodyArea};
  useEffect(()=>{
   const el=host.current!;let disposed=false,frame=0,dirty=true,ready=false,lastView='',lastReset=-1,lastIsolate='',layoutKey='',amount=0,lastCameraFocus=-1,lastFocusBox:T.Box3|null=null,autoFade:Set<string>|null=null,autoFadeDirty=false,nerveFocusWait=0;
   let lastState:SceneState|null=null;
@@ -884,6 +885,8 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
   // A resize (device rotation, window, keyboard) keeps the view the user set up; only an untouched default view is framed again.
   const resize=()=>{layoutKey='';lastState=null;renderer.setPixelRatio(Math.min(devicePixelRatio,constrainedDevice?1:el.clientWidth<768||el.clientHeight<600?1.5:2));camera.aspect=el.clientWidth/el.clientHeight;camera.updateProjectionMatrix();renderer.setSize(el.clientWidth,el.clientHeight);if(!userMoved&&!latest.current.selected.length&&!selectedNerve.current){lastCameraFocus=-1;camera.clearViewOffset();fit(latest.current.view,amount);}else dirty=true;};const observer=new ResizeObserver(resize);observer.observe(el);
   // Labels of a picked special region: one small label per boundary / content structure, joined by a thin line to the point of the structure nearest the middle of the region.
+  // Labels start below the region bar and the top toolbar (they used to be laid out from 80 px down and the top label disappeared behind the bar): the lowest edge of those elements, measured in view coordinates, is the upper limit of every label column.
+  const labelTopLimit=(rect:DOMRect,fallback:number)=>{let top=fallback;for(const q of ['.body-region-nav','.top-actions','.identity']){const r=document.querySelector(q)?.getBoundingClientRect();if(r&&r.width>0&&r.height>0)top=Math.max(top,r.bottom-rect.top+10);}return top;};
   const labelLayer=document.createElement('div');labelLayer.className='space-labels';labelLayer.setAttribute('aria-hidden','true');el.appendChild(labelLayer);
   const labelSvg=document.createElementNS('http://www.w3.org/2000/svg','svg');labelSvg.setAttribute('class','space-label-lines');labelLayer.appendChild(labelSvg);
   type LabelItem={anchor:T.Vector3;centre:T.Vector3;box:HTMLDivElement;line:SVGLineElement;content:boolean;color?:string};
@@ -922,14 +925,14 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
    for(const it of labelItems){const live=it.color?spaceOutline.midpoint(it.color):null;if(live)it.anchor.copy(live);}
    const placed=labelItems.map(it=>({it,a:proj(it.anchor),c:proj(it.centre)}));
    // two columns, one at each edge of the free part of the view (between the side panels), stacked in the order of the structures' height on screen so labels never overlap
-   const rect=el.getBoundingClientRect(),panelRight=document.querySelector('.left-workspace')?.getBoundingClientRect(),rightEdges=['.right-tool-panel','.right-tool-rail','.detail-sheet'].map(q=>document.querySelector(q)?.getBoundingClientRect()).filter((r):r is DOMRect=>!!r&&r.width>0);
-   const freeLeft=Math.max(12,panelRight&&panelRight.width>0?panelRight.right-rect.left+14:12),freeRight=Math.min(w-12,...rightEdges.map(r=>r.left-rect.left-14));
+   const rect=el.getBoundingClientRect(),panelRight=document.querySelector('.left-workspace')?.getBoundingClientRect(),rightEdges=['.right-tool-panel','.right-tool-rail','.detail-sheet','.lung-focus'].map(q=>document.querySelector(q)?.getBoundingClientRect()).filter((r):r is DOMRect=>!!r&&r.width>0);
+   const freeLeft=Math.max(12,panelRight&&panelRight.width>0?panelRight.right-rect.left+14:12),freeRight=Math.min(w-12,...rightEdges.map(r=>r.left-rect.left-14)),topLim=labelTopLimit(rect,80);
    const centreX=placed.length?placed.reduce((sum,p)=>sum+p.c.x,0)/placed.length:w/2;
    for(const right of [true,false]){
     const group=placed.filter(p=>(p.a.x>=centreX)===right).sort((x,y)=>x.a.y-y.a.y);let lastY=-Infinity,lastH=0;
     for(const p of group){
      // labels may wrap onto two lines, so the stack spacing follows the real box heights
-     const bh=p.it.box.offsetHeight||22,ly=Math.min(h-30,Math.max(p.a.y,lastY+Math.max(27,(lastH+bh)/2+5),80));lastY=ly;lastH=bh;
+     const bh=p.it.box.offsetHeight||22,ly=Math.min(h-30,Math.max(p.a.y,lastY+Math.max(27,(lastH+bh)/2+5),topLim));lastY=ly;lastH=bh;
      const bw=p.it.box.offsetWidth||180,lx=right?Math.max(freeLeft,freeRight-bw):freeLeft,edge=right?lx:lx+bw;
      const visible=!p.a.behind;
      p.it.box.style.display=visible?'':'none';p.it.line.style.display=visible?'':'none';
@@ -994,7 +997,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
    const rect=el.getBoundingClientRect(),panelRight=document.querySelector('.left-workspace .layers-panel')?.getBoundingClientRect(),panels=['.right-tool-panel','.right-tool-rail','.detail-sheet','.lung-focus'].map(q=>document.querySelector(q)?.getBoundingClientRect()).filter((r):r is DOMRect=>!!r&&r.width>0);
    // A panel that spans most of the view (the bottom sheet of a phone) limits the labels from below; any other panel limits them from the side.
    const sheets=panels.filter(r=>r.width>w*.6),rightEdges=panels.filter(r=>r.width<=w*.6),hLim=Math.min(h,...sheets.map(r=>r.top-rect.top-8));
-   const freeLeft=Math.max(12,panelRight&&panelRight.width>0?panelRight.right-rect.left+14:12),freeRight=Math.min(w-12,...rightEdges.map(r=>r.left-rect.left-14));
+   const freeLeft=Math.max(12,panelRight&&panelRight.width>0?panelRight.right-rect.left+14:12),freeRight=Math.min(w-12,...rightEdges.map(r=>r.left-rect.left-14)),topLim=labelTopLimit(rect,Math.min(84,hLim/3));
    const xs=list.map(s=>s.x).sort((a,b)=>a-b),median=xs[Math.floor(xs.length/2)];
    // A box is as wide as its text up to `colMax` (the free width shared by the two columns, at most 260 px); a longer English name wraps onto a second line, with the Chinese name below it.
    const colMax=Math.max(110,Math.min(260,Math.floor((freeRight-freeLeft)/2)-8));
@@ -1003,7 +1006,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
     const col=list.filter(s=>right?s.x>median||(s.x===median&&list.indexOf(s)%2===1):!(s.x>median||(s.x===median&&list.indexOf(s)%2===1))).sort((a,b)=>a.y-b.y);
     const ly:number[]=col.map(s=>s.y),hOf=(i:number)=>col[i].it.box.offsetHeight||34;
     // Boxes keep their order by height and are spaced by their own heights (a wrapped name is taller); the stack is shifted up from the bottom to stay inside the view
-    const stack=()=>{const ord=col.map((_,i)=>i).sort((a,b)=>ly[a]-ly[b]);let prev=-1;for(const k of ord){const hk=hOf(k);ly[k]=Math.max(ly[k],Math.min(84,hLim/3),prev<0?-Infinity:ly[prev]+(hOf(prev)+hk)/2+6);prev=k;}
+    const stack=()=>{const ord=col.map((_,i)=>i).sort((a,b)=>ly[a]-ly[b]);let prev=-1;for(const k of ord){const hk=hOf(k);ly[k]=Math.max(ly[k],topLim,prev<0?-Infinity:ly[prev]+(hOf(prev)+hk)/2+6);prev=k;}
      for(let q=ord.length-1;q>=0;q--){const k=ord[q],max=q===ord.length-1?hLim-16-hOf(k)/2:ly[ord[q+1]]-(hOf(ord[q+1])+hOf(k))/2-6;if(ly[k]>max)ly[k]=max;}};
     stack();
     const edgeX=(s:{it:PartLabel})=>{const bw=s.it.box.offsetWidth||180;return right?Math.max(freeLeft,freeRight-bw):freeLeft+bw;};
@@ -1135,7 +1138,8 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
    tap.move(e.pointerId,e.clientX,e.clientY);if(e.buttons||e.pointerType==='touch'){hover.hidden=true;setHover(-1,null);return;}
    // Hover highlight and a bilingual name tip for whatever is under the pointer (part, nerve, joint tissue); throttled to one ray cast per 50 ms.
    {const now=performance.now();if(now-lastHoverAt>50){lastHoverAt=now;const f=ready?frontHit(e.clientX,e.clientY):null;setHover(f?.kind==='part'?f.index:-1,f?.kind==='nerve'?f.name:null);
-    if(f?.kind==='part'){const part=atlas.parts[f.index],profile=structureProfile(part.name,part.system,part);hoverText=profile.chinese?`${profile.english??part.name}\n${profile.chinese}`:profile.english??part.name;}
+    if(!hoverNameShown(hoverNamesRef.current,e.pointerType))hoverText='';
+    else if(f?.kind==='part'){const part=atlas.parts[f.index],profile=structureProfile(part.name,part.system,part);hoverText=profile.chinese?`${profile.english??part.name}\n${profile.chinese}`:profile.english??part.name;}
     else if(f?.kind==='nerve'||f?.kind==='joint'){const profile=structureProfile(f.name,f.kind==='nerve'?'nervous':'connective');hoverText=profile.chinese?`${profile.english??f.name}\n${profile.chinese}`:profile.english??f.name;}
     else hoverText='';}}
    const rect=el.getBoundingClientRect(),x=e.clientX-rect.left,y=e.clientY-rect.top;hover.hidden=!hoverText;renderer.domElement.style.cursor=hoverText?'pointer':'move';if(hoverText){hover.textContent=hoverText;hover.style.left=`${Math.max(8,Math.min(x+14,el.clientWidth-260))}px`;hover.style.top=`${Math.max(8,Math.min(y+18,el.clientHeight-64))}px`;}
@@ -1280,9 +1284,10 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
      // The lung lobes are named "… lobe of … lung": the brain-name patterns below must never take them for cerebral lobes (once the brain model had loaded, they were hidden as legacy brain parenchyma and only the surface marks stayed on screen).
      const lungLobe=/\blobe of (?:right |left )?lung$/i.test(p.name);
      const replacedBrain=!lungLobe&&brainLoaded&&(legacyBrainParenchyma.test(p.name)||intracranialLegacy);
-     if(selection.has(p.id)&&!replacedBrain&&(!cranialVaultVisible||!intracranial.test(p.name)||s.isolate))return true;
-     // the muscle of a selected tendon stays on screen (faded) as a reference, whatever the Muscles switch and the filters say
-     if(refMuscles.has(p.id))return true;
+     // A selected structure overrides the region, depth and layer filters, never a system switch that is off: the switches of the left panel decide what is drawn in every mode.
+     if(selection.has(p.id)&&visible.has(p.system)&&!replacedBrain&&(!cranialVaultVisible||!intracranial.test(p.name)||s.isolate))return true;
+     // the muscle of a selected tendon stays on screen (faded) as a reference, whatever the filters say, as long as Muscles is switched on
+     if(refMuscles.has(p.id))return visible.has('muscular');
      if(!baseVisible(p))return false;
      if(cranialVaultVisible&&!lungLobe&&intracranial.test(p.name))return false;
      if(replacedBrain)return false;
