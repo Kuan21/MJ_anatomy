@@ -8,7 +8,8 @@ const VIEWS=[V('back',[0,1.2,-.05],[0,0,-1],1.3),V('torso-back',[0,1.28,-.06],[0
  V('trap-left-back',[.075,1.42,-.08],[0,.15,-1],.38),V('trap-left-top',[.075,1.42,-.08],[0,1,-.12],.38),
  V('glute-back',[0,.93,-.08],[0,0,-1],.62),V('glute-right-lateral',[-.07,.92,-.06],[-1,0,-.15],.55),V('glute-top',[0,.93,-.08],[0,1,-.2],.5),V('glute-oblique',[-.05,.92,-.08],[-.7,.2,-.7],.5),
  V('hip-front-oblique',[0,.93,-.05],[0,0,1],.7),
- V('lumbar-back',[0,1.08,-.07],[0,0,-1],.5),V('nerve-thoracic-back',[-.03,1.3,-.06],[0,0,-1],.32),V('nerve-thoracic-lateral',[-.03,1.3,-.06],[-1,0,-.15],.32),V('glute-cleft',[0,.88,-.09],[0,.15,-1],.3)];
+ V('lumbar-back',[0,1.08,-.07],[0,0,-1],.5),V('nerve-thoracic-back',[-.03,1.3,-.06],[0,0,-1],.32),V('nerve-thoracic-lateral',[-.03,1.3,-.06],[-1,0,-.15],.32),V('glute-cleft',[0,.88,-.09],[0,.15,-1],.3),
+ V('torso-side',[0,1.15,-.06],[-1,.05,-.15],.8),V('lumbar-oblique',[-.03,1.12,-.07],[-.65,.3,-.7],.45),V('lumbar-top',[0,1.12,-.07],[0,1,-.25],.5)];
 const SCENES={
  muscles:['Skeleton','Muscles'],
  tendons:['Skeleton','Muscles','Tendons'],

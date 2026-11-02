@@ -429,7 +429,7 @@ function paokaoProfile(rawName:string,system:SystemId,part?:Part):StructureProfi
  // Field names follow the kind of structure: muscles give origin / insertion / innervation / action; vessels origin / course / main branches / territory; nerves roots / course /
  // supply; spaces boundaries / location / contents; organs and glands location / structure and relations / blood supply and nerves; ligaments, fasciae and the like attachments /
  // course / function; bone landmarks description / attachments / related structures. The card holds three fields (origin, course, supply) that are read as these.
- const L=(en:string,zh:string,v?:[string,string])=>{if(v)facts.push({labelEn:en,labelZh:zh,valueEn:v[0],valueZh:v[1]});};
+ const L=(en:string,zh:string,v?:[string,string])=>{if(v&&(v[0]||v[1]))facts.push({labelEn:en,labelZh:zh,valueEn:v[0],valueZh:v[1]});};
  const k=card.kind,vessel=k==='artery'||k==='vein'||k==='vessel';
  if(k==='muscle'){L('Origin','起點',card.origin);L('Insertion','止點',card.insertion);L('Innervation','神經支配',card.nerve);L('Action','作用',card.action);}
  else if(k==='tendon'){L('Origin','起點',card.origin);L('Course','走向與通道',card.course);L('Insertion','止點',card.insertion);L('Function','功能',card.action);}
@@ -460,7 +460,14 @@ function paokaoProfile(rawName:string,system:SystemId,part?:Part):StructureProfi
 }
 
 /** Small vessels whose model end was tapered by scripts/prepare-vessel-ends.mjs say so on their card. */
+/** A field with no content in either language is not shown on any card. */
+const hasText=(v?:string)=>!!v&&v.trim().length>0;
+export const nonEmptyFacts=<T extends {valueEn?:string;valueZh?:string}>(facts:T[]|undefined):T[]=>(facts??[]).filter(f=>hasText(f.valueEn)||hasText(f.valueZh));
 export function structureProfile(rawName:string,system:SystemId,part?:Part):StructureProfile{
+ const p=structureProfileRaw(rawName,system,part);
+ return p.facts?{...p,facts:nonEmptyFacts(p.facts)}:p;
+}
+function structureProfileRaw(rawName:string,system:SystemId,part?:Part):StructureProfile{
  let profile=paokaoProfile(rawName,system,part);
  const lobe=LOBES[(part?.name??rawName).toLowerCase()];
  if(lobe&&system==='respiratory')return{...profile,category:'Lobe of lung｜肺葉',facts:[{labelEn:'Location',labelZh:'位置',valueEn:lobe.loc[0],valueZh:lobe.loc[1]},{labelEn:'Segments',labelZh:'包含的肺段',valueEn:lobe.seg[0],valueZh:lobe.seg[1]},{labelEn:'Boundaries',labelZh:'邊界',valueEn:lobe.bound[0],valueZh:lobe.bound[1]}]};
