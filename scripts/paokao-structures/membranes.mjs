@@ -17,7 +17,9 @@ function lumbarFascia(U) {
   const ORD = ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth', 'Seventh', 'Eighth', 'Ninth', 'Tenth', 'Eleventh', 'Twelfth'];
   const names = [...side(['longissimus thoracis', 'iliocostalis lumborum', 'iliocostalis thoracis', 'spinalis thoracis', 'multifidus', 'semispinalis thoracis']),
     ...['Sacrum', 'Coccyx', 'Right hip bone', 'Left hip bone'].filter(U.has), ...ORD.map(o => `${o} thoracic vertebra`).filter(U.has), ...ORD.slice(0, 5).map(o => `${o} lumbar vertebra`).filter(U.has)];
-  const Y0 = .93, Y1 = 1.37, DY = .004, DX = .003, XM = .13, COLS = 64, LIFT = .0014, DEPTH = .032, GAP = 2;
+  const Y0 = .93, Y1 = 1.30, DY = .004, DX = .003, XM = .13, COLS = 64, LIFT = .0014, DEPTH = .045, GAP = 2;
+  // Diamond outline: narrow at the thoracic end (T7, medial to the scapula), widest over L2-L4, narrowing to the sacrum at the lower corner
+  const WMAX = .095, WTOP = .025, WLOW = .03, YW = 1.065, halfWidth = y => y >= YW ? WMAX - (y - YW) / (Y1 - YW) * (WMAX - WTOP) : WMAX - (YW - y) / (YW - Y0) * (WMAX - WLOW);
   const hit = (x, y) => { let z = null; for (const n of names) { const h = U.rayHit(n, [x, y, -.3], [0, 0, 1]); if (h && (z === null || h.point[2] < z)) z = h.point[2]; } return z; };
   const nx = Math.round(XM / DX), rows = [];
   for (let y = Y0; y <= Y1 + 1e-9; y += DY) {
@@ -29,7 +31,13 @@ function lumbarFascia(U) {
     const a = run(-1), b = run(1), xs = [], zr = [];
     for (let i = a; i <= b; i++) if (ok[i]) { xs.push((i - nx) * DX); zr.push(zs[i]); }
     if (xs.length < 8) continue;
-    rows.push({y, xs, zs: zr, lo: xs[0], hi: xs[xs.length - 1]});
+    const wy = halfWidth(y), keep = xs.map((x, i) => Math.abs(x) <= wy ? i : -1).filter(i => i >= 0);
+    if (keep.length < 8) continue;
+    const xk = keep.map(i => xs[i]), zk = keep.map(i => zr[i]);
+    // where the diamond is wider than the muscle (L2-L4), the membrane runs on over the lateral raphe, curving gently forward like the flank (up to 3 cm beyond the muscle)
+    const ext = (sign) => { const i = sign < 0 ? 0 : xk.length - 1, edge = Math.abs(xk[i]), to = Math.min(wy, edge + .03); if (to - edge < .004) return; const z0 = zk[i], dx = to - edge; const add = [[sign * (edge + dx * .5), z0 + dx * .5 * .35], [sign * to, z0 + dx * .8]]; if (sign < 0) { xk.unshift(add[1][0], add[0][0]); zk.unshift(add[1][1], add[0][1]); } else { xk.push(add[0][0], add[1][0]); zk.push(add[0][1], add[1][1]); } };
+    ext(-1); ext(1);
+    rows.push({y, xs: xk, zs: zk, lo: xk[0], hi: xk[xk.length - 1]});
   }
   if (rows.length < 20) throw new Error('thoracolumbar fascia: the erector spinae were not found');
   const avg = (key, i, w = 3) => { let s = 0, c = 0; for (let k = Math.max(0, i - w); k <= Math.min(rows.length - 1, i + w); k++) { s += rows[k][key]; c++; } return s / c; };

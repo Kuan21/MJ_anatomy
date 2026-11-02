@@ -70,6 +70,11 @@ for (const [S, s] of [['Right', 'r'], ['Left', 'l']]) {
   const fascia = w.mesh('thoracolumbar fascia'), sizes = pieces(fascia.positions, fascia.indices), total = sizes.reduce((a, b) => a + b, 0);
   if (sizes.length > 2 || sizes[0] + (sizes[1] ?? 0) < total) problems.push(`thoracolumbar fascia: ${sizes.length} separate pieces, it must be one continuous sheet (two skins)`);
   if (fascia.hi[0] < .08 || fascia.lo[0] > -.08) problems.push('thoracolumbar fascia: does not span both sides of the back');
+  // diamond outline: narrow at the thoracic end (medial to the scapula, whose medial border is at |x| 57 mm), widest over L2-L4 (y 1.02-1.12), narrow again at the sacrum
+  const halfAt = (y0, y1) => { let m = 0; for (let i = 0; i < fascia.positions.length; i += 3) { const y = fascia.positions[i + 1]; if (y >= y0 && y <= y1) m = Math.max(m, Math.abs(fascia.positions[i])); } return m; };
+  const top = halfAt(1.2, 1.4), mid = halfAt(1.04, 1.12), low = halfAt(.9, .96);
+  if (top > .057) problems.push(`thoracolumbar fascia: ${(top * 1000).toFixed(0)} mm half-width at the thoracic end, it must stay medial to the scapula (57 mm)`);
+  if (!(mid > top + .03 && mid > low + .03)) problems.push(`thoracolumbar fascia: not a diamond (half-width thoracic ${(top * 1000).toFixed(0)}, L2-L4 ${(mid * 1000).toFixed(0)}, sacral ${(low * 1000).toFixed(0)} mm)`);
 }
 if (problems.length) { console.error('Back and gluteal check failed:\n - ' + problems.join('\n - ')); process.exit(1); }
 console.log('Back and gluteal OK: trapezius and gluteus maximus are single repaired pieces (midline, acromion and natal cleft respected), the inferior gluteal veins lie deep to gluteus maximus, the thoracic dorsal rami start at their spinal ganglia, the thoracolumbar fascia is one sheet.');
