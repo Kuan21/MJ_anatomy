@@ -24,7 +24,7 @@ import {matchesHeartLayer,isShellSurface} from './mj-heart-layers';
 import {clavicleLevel} from './mj-part-regions';
 import {matchesSex} from './mj-sex';
 import {serousLayerKey,PERITONEUM_KEYS} from './mj-serous';
-import {matchesDepth} from './mj-depth';
+import {nerveDepth} from './mj-depth';
 import {anatomicalRegion,anatomicalSide,isMotionQuarantined} from './mj-part-regions';
 import {isLinearBinding,alignEndPiece,lbsSkin,linearSkin,makeSoftRig,bindTissue,makePalette,deformTissue,deformPoint,followDeltoidSurface,setDeltoidFollowers,registerNerveRest,resolveNeurovascularProfile,tissueBindings,nerveBindings,type SkinBinding,type Profile,type DeltoidFollowers} from './biomechanics-v2/soft-tissue';
 import {makeBodyRig,buildBodyMotion,bindBodyTissue,bindSpineCarrier,cranialNerveRigid,inferredLimb,type BodyRegion} from './biomechanics-v2/body-motion';
@@ -1235,6 +1235,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
      else if(ctx.bodyArea==='upper'&&ctx.region==='whole-body')o.visible=sideOk&&!!nerveBindings[name];
      else if(ctx.motionActive)o.visible=sideOk&&!!nerveBindings[name]&&nerveMatchesRegion(name,ctx.region,false);
      else o.visible=sideOk&&nerveMatchesRegion(name,ctx.region,false);
+     {const nd=s.depthFilter&&s.depthFilter!=='all'?nerveDepth(name):undefined;if(nd&&nd!==s.depthFilter&&!(selectedNerve.current&&name===selectedNerve.current))o.visible=false;}
      const inHighlight=!!s.highlightNerves?.length&&s.highlightNerves.some(h=>h.replace(/\.001$/,'')===name.replace(/\.001$/,'')),solid=!!s.spaceSolid,ranged=!solid&&!!s.spaceRange?.length&&inHighlight;
      // a redesigned special region draws its nerves like everything else (own colour, no tint); the nerves of the surroundings show only with 顯示周圍結構
      if(solid&&!inHighlight&&!s.spaceSurround)o.visible=false;
