@@ -61,6 +61,8 @@ const nerve=(chinese:string,rootsEn:string,rootsZh:string,courseEn:string,course
 
 const SCHEMATIC_NOTE_ZH='示意模型：公開人體圖譜（BodyParts3D、Z-Anatomy）均無此構造的三維模型，圖譜中的管狀形態是沿教科書走行以簡化管狀模型繪製，粗細、彎曲與分支僅供學習方位，並非實際解剖形態。';
 const SCHEMATIC_NOTE_EN='Schematic model: neither BodyParts3D nor Z-Anatomy contains a 3D model of this structure. The tube follows the textbook course for orientation only; calibre, curvature and branching are not anatomical.';
+/** Source line of a schematic card: no book titles; the real sources of the model data are listed once in Source & credits. */
+const SCHEMATIC_CARD_SOURCE='Schematic model, positioned on landmarks measured on the BodyParts3D atlas meshes｜示意模型，位置依標誌量測';
 const SCHEMATIC_SOURCE='Schematic tube model built for this atlas along the standard textbook course, placed on landmarks measured from the BodyParts3D atlas meshes (no Z-Anatomy or BodyParts3D geometry exists for this structure)';
 const schematic=(chinese:string,vein:boolean,rootsEn:string,rootsZh:string,courseEn:string,courseZh:string,supplyEn:string,supplyZh:string):ProfileBody=>({
  chinese,category:vein?'Vein｜靜脈（示意模型）':'Nerve｜神經（示意模型）',
@@ -435,7 +437,7 @@ function paokaoProfile(rawName:string,system:SystemId,part?:Part):StructureProfi
  // Field names follow the kind of structure: muscles give origin / insertion / innervation / action; vessels origin / course / main branches / territory; nerves roots / course /
  // supply; spaces boundaries / location / contents; organs and glands location / structure and relations / blood supply and nerves; ligaments, fasciae and the like attachments /
  // course / function; bone landmarks description / attachments / related structures. The card holds three fields (origin, course, supply) that are read as these.
- const L=(en:string,zh:string,v?:[string,string])=>{if(v)facts.push({labelEn:en,labelZh:zh,valueEn:v[0],valueZh:v[1]});};
+ const L=(en:string,zh:string,v?:[string,string])=>{if(v&&(v[0]||v[1]))facts.push({labelEn:en,labelZh:zh,valueEn:v[0],valueZh:v[1]});};
  const k=card.kind,vessel=k==='artery'||k==='vein'||k==='vessel';
  if(k==='muscle'){L('Origin','起點',card.origin);L('Insertion','止點',card.insertion);L('Innervation','神經支配',card.nerve);L('Action','作用',card.action);}
  else if(k==='tendon'){L('Origin','起點',card.origin);L('Course','走向與通道',card.course);L('Insertion','止點',card.insertion);L('Function','功能',card.action);}
@@ -462,11 +464,18 @@ function paokaoProfile(rawName:string,system:SystemId,part?:Part):StructureProfi
  else{L('Attachments','附著',card.origin);L('Course and relations','走向／位置關係',card.course);L('Function','功能',card.supply);}
  for(const f of card.extra??[])facts.push({labelEn:f.labelEn,labelZh:f.labelZh,valueEn:f.en,valueZh:f.zh});
  const real=card.model==='cut'||card.model==='zanatomy',tag=real?'':'（示意模型）';
- return{english:card.name,chinese:card.zh,category:`${en}｜${zh}${tag}`,summaryEn:real?(card.note?.[0]??''):card.model==='procedural'?SCHEMATIC_NOTE_EN2:SCHEMATIC_NOTE_EN2,summaryZh:real?(card.note?.[1]??''):SCHEMATIC_NOTE_ZH2,facts,source:card.refs?.length?`Schematic model built for this atlas from the textbook course (${card.refs.join('; ')}); landmarks measured on the BodyParts3D atlas meshes.`:'Schematic model built for this atlas from the textbook course; landmarks measured on the BodyParts3D atlas meshes.'};
+ return{english:card.name,chinese:card.zh,category:`${en}｜${zh}${tag}`,summaryEn:real?(card.note?.[0]??''):card.model==='procedural'?SCHEMATIC_NOTE_EN2:SCHEMATIC_NOTE_EN2,summaryZh:real?(card.note?.[1]??''):SCHEMATIC_NOTE_ZH2,facts,source:SCHEMATIC_CARD_SOURCE};
 }
 
 /** Small vessels whose model end was tapered by scripts/prepare-vessel-ends.mjs say so on their card. */
+/** A field with no content in either language is not shown on any card. */
+const hasText=(v?:string)=>!!v&&v.trim().length>0;
+export const nonEmptyFacts=<T extends {valueEn?:string;valueZh?:string}>(facts:T[]|undefined):T[]=>(facts??[]).filter(f=>hasText(f.valueEn)||hasText(f.valueZh));
 export function structureProfile(rawName:string,system:SystemId,part?:Part):StructureProfile{
+ const p=structureProfileRaw(rawName,system,part);
+ return p.facts?{...p,facts:nonEmptyFacts(p.facts)}:p;
+}
+function structureProfileRaw(rawName:string,system:SystemId,part?:Part):StructureProfile{
  let profile=paokaoProfile(rawName,system,part);
  const lobe=LOBES[(part?.name??rawName).toLowerCase()];
  if(lobe&&system==='respiratory')return{...profile,category:'Lobe of lung｜肺葉',facts:[{labelEn:'Location',labelZh:'位置',valueEn:lobe.loc[0],valueZh:lobe.loc[1]},{labelEn:'Segments',labelZh:'包含的肺段',valueEn:lobe.seg[0],valueZh:lobe.seg[1]},{labelEn:'Boundaries',labelZh:'邊界',valueEn:lobe.bound[0],valueZh:lobe.bound[1]}]};

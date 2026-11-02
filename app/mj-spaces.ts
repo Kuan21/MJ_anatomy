@@ -15,7 +15,15 @@ export interface SpaceItem{en:string;zh:string;re?:RegExp;nerve?:string;role?:st
  * `look` is the camera direction as [outward, up, front]: outward is towards the side the limb is on, front is +1 from the front and -1 from the back.
  * `missing` lists boundary and content structures the dissection panel names but the model does not have (reported in REVIEW_LOG.md; never replaced by a made-up mesh).
  */
-export interface SpaceDef{id:string;en:string;zh:string;group:SpaceGroup;/** lower-case name of the schematic space part, without side; it is never drawn */part:string;r:number;look:[number,number,number];boundaries:SpaceItem[];contents:SpaceItem[];missing?:string[];related?:string[]}
+/**
+ * The five roles of a structure at a special region (redesigned display, `solid` regions): the structures that bound it, its roof (lifted off by default, dashed outline),
+ * its floor (always drawn), what passes through it, and related structures nearby. The text of `role` ("內上界", "第三段" …) is shown after the name.
+ */
+export type SpaceRole='boundary'|'roof'|'floor'|'content'|'related';
+export const SPACE_ROLES:{key:SpaceRole;en:string;zh:string;/** said after the name when the item has no role text of its own */plain:string}[]=[
+ {key:'boundary',en:'Boundaries',zh:'邊界',plain:'邊界'},{key:'roof',en:'Roof',zh:'頂',plain:'頂'},{key:'floor',en:'Floor',zh:'底',plain:'底'},
+ {key:'content',en:'Contents',zh:'內容物',plain:'內容物'},{key:'related',en:'Related structures',zh:'相關結構',plain:'相關結構'}];
+export interface SpaceDef{id:string;en:string;zh:string;group:SpaceGroup;/** lower-case name of the schematic space part, without side; it is never drawn */part:string;r:number;look:[number,number,number];boundaries:SpaceItem[];contents:SpaceItem[];missing?:string[];related?:string[];/** redesigned display: every structure drawn solid, the unrelated ones hidden (optionally faded), roof lifted off by default */solid?:boolean;roof?:SpaceItem[];floor?:SpaceItem[];relatedStructures?:SpaceItem[]}
 
 const m=(en:string,zh:string,re:RegExp,role?:string):SpaceItem=>({en,zh,re,role});
 const n=(en:string,zh:string,nerve:string,role?:string):SpaceItem=>({en,zh,nerve,role});
@@ -42,11 +50,11 @@ export const SPACES:SpaceDef[]=[
   related:['quadrangular','triangular-interval'],
   boundaries:[teresMinor('上界'),teresMajor('下界'),tricepsLong('外側界')],
   contents:[m('Circumflex scapular artery','旋肩胛動脈',/circumflex scapular artery/),m('Circumflex scapular vein','旋肩胛靜脈',/circumflex scapular vein/)]},
- {id:'triangular-interval',en:'Triangular interval',zh:'三頭肌間隙',group:'shoulder',part:'triangular interval',r:.035,look:[0,.12,-1],
+ {id:'triangular-interval',en:'Triangular interval',zh:'三邊裂',group:'shoulder',part:'triangular interval',r:.035,look:[0,.12,-1],
   related:['quadrangular','triangular'],
   boundaries:[teresMajor('上界'),tricepsLong('內側界'),tricepsLateral,humerus('外側界（肱骨幹）')],
   contents:[radialNerve(),m('Deep brachial artery','肱深動脈',/deep brachial artery/)]},
- {id:'clavipectoral',en:'Clavipectoral triangle',zh:'鎖骨胸大肌三角',group:'shoulder',part:'clavipectoral triangle',r:.04,look:[0,.2,1],
+ {id:'clavipectoral',en:'Clavipectoral triangle',zh:'三角肌胸大肌三角',group:'shoulder',part:'clavipectoral triangle',r:.04,look:[0,.2,1],
   boundaries:[m('Clavicle','鎖骨',/^(?:left |right )?clavicle$/,'上界'),m('Deltoid','三角肌',/part of \w+ deltoid$/,'外側界'),m('Pectoralis major, clavicular part','胸大肌鎖骨部',/^clavicular part of \w+ pectoralis major$/,'內側界')],
   contents:[m('Cephalic vein','頭靜脈',/^(?:left |right )cephalic vein$/)],
   missing:['Thoracoacromial artery 胸肩峰動脈（模型沒有此動脈）']},
@@ -85,9 +93,13 @@ export const SPACES:SpaceDef[]=[
   boundaries:[m('Biceps femoris','股二頭肌',/biceps femoris/,'上外側界'),m('Semimembranosus','半膜肌',/^(?:left |right )?semimembranosus$/,'上內側界'),m('Semitendinosus','半腱肌',/^(?:left |right )?semitendinosus$/,'上內側界'),m('Gastrocnemius, lateral head','腓腸肌外側頭',/^lateral head of \w+ gastrocnemius$/,'下外側界'),m('Plantaris','蹠肌',/^(?:left |right )?plantaris$/,'下外側界'),m('Gastrocnemius, medial head','腓腸肌內側頭',/^medial head of \w+ gastrocnemius$/,'下內側界'),m('Popliteus','膕肌',/^(?:left |right )?popliteus$/,'底'),m('Femur','股骨',/^(?:left |right )?femur$/,'底（膕面）')],
   contents:[n('Tibial nerve','脛神經','Tibial nerve','最淺'),n('Common fibular nerve','腓總神經','Common fibular nerve','沿股二頭肌內側緣向外下'),m('Small saphenous vein','小隱靜脈',/^(?:left |right )small saphenous vein$/,'穿頂注入膕靜脈'),m('Popliteal vein','膕靜脈',/^(?:left |right )popliteal vein$/),m('Popliteal artery','膕動脈',/^(?:left |right )popliteal artery$/,'最深，貼近股骨與關節囊')],
   missing:['Oblique popliteal ligament 膕斜韌帶與膝關節囊後面（模型沒有）','Popliteal surface of femur 股骨膕面（模型沒有此骨性標記，暫以股骨代替）','Popliteal fascia 膕筋膜（頂；模型沒有）','Popliteal lymph nodes 膕淋巴結（模型沒有）']},
- {id:'suboccipital',en:'Suboccipital triangle',zh:'枕下三角',group:'head',part:'suboccipital triangle',r:.03,look:[0,.2,-1],
-  boundaries:[m('Rectus capitis posterior major','頭後大直肌',/rectus capitis posterior major/,'內側界'),m('Obliquus capitis superior','頭上斜肌',/obliquus capitis superior/,'外側界'),m('Obliquus capitis inferior','頭下斜肌',/obliquus capitis inferior/,'下界'),m('Semispinalis capitis','頭半棘肌',/^(?:left |right )?semispinalis capitis$/,'頂'),m('Posterior arch of atlas','寰椎後弓',/posterior arch of atlas/,'底')],
-  contents:[m('Vertebral artery','椎動脈',/^(?:left |right )vertebral artery$/),n('Suboccipital nerve','枕下神經','Suboccipital nerve')]},
+ {id:'suboccipital',en:'Suboccipital triangle',zh:'枕下三角',group:'head',part:'suboccipital triangle',r:.03,look:[0,.2,-1],solid:true,
+  boundaries:[m('Rectus capitis posterior major','頭後大直肌',/rectus capitis posterior major/,'內上界'),m('Obliquus capitis superior','頭上斜肌',/obliquus capitis superior/,'外上界'),m('Obliquus capitis inferior','頭下斜肌',/obliquus capitis inferior/,'下界')],
+  roof:[m('Semispinalis capitis','頭半棘肌',/^(?:left |right )?semispinalis capitis$/,'頂')],
+  floor:[m('Posterior arch of atlas','寰椎後弓',/posterior arch of atlas/,'底')],
+  contents:[m('Vertebral artery','椎動脈',/^(?:left |right )vertebral artery$/,'內容物（第三段）'),n('Suboccipital nerve','枕下神經','Suboccipital nerve','內容物（C1 後支）'),n('Suboccipital venous plexus','枕下靜脈叢','Suboccipital venous plexus')],
+  relatedStructures:[n('Greater occipital nerve','枕大神經','Greater occipital nerve','相關結構（C2 後支）')],
+  missing:['Posterior atlanto-occipital membrane 寰枕後膜（底；模型沒有）']},
  {id:'aortic-hiatus',en:'Aortic hiatus',zh:'主動脈裂孔',group:'trunk',part:'aortic hiatus',r:.04,look:[0,.2,1],
   boundaries:[m('Diaphragm','橫膈',/^diaphragm$/)],
   contents:[m('Aorta','主動脈',/^(?:descending thoracic aorta|abdominal aorta|descending aorta)$/),m('Thoracic duct','胸管',/^thoracic duct$/),m('Azygos vein','奇靜脈',/^azygos vein$/)]}
@@ -95,7 +107,7 @@ export const SPACES:SpaceDef[]=[
 
 export type PartSide='left'|'right';
 export interface SpaceItemHit{item:SpaceItem;ids:string[];nerves:string[]}
-export interface SpaceHit{space:SpaceDef;spaceIds:string[];boundaries:SpaceItemHit[];contents:SpaceItemHit[];/** every atlas part to highlight: the space itself, its boundaries and its contents */highlight:string[];nerves:string[]}
+export interface SpaceHit{space:SpaceDef;spaceIds:string[];boundaries:SpaceItemHit[];contents:SpaceItemHit[];/** the five roles (redesigned regions) */roles:Record<SpaceRole,SpaceItemHit[]>;/** every atlas part to highlight: the space itself, its boundaries and its contents */highlight:string[];nerves:string[]}
 
 const nameOf=(p:Part)=>correctedPartName(p).toLowerCase();
 
@@ -105,10 +117,15 @@ export function resolveSpace(parts:Part[],space:SpaceDef,side:PartSide):SpaceHit
  const spaceRe=new RegExp(`^(?:left |right )?${space.part}$`);
  const spaceIds=parts.filter(p=>ok(p)&&spaceRe.test(nameOf(p))&&p.system!=='muscular').map(p=>p.id);
  const hit=(item:SpaceItem):SpaceItemHit=>({item,ids:item.re?parts.filter(p=>ok(p)&&item.re!.test(nameOf(p))).map(p=>p.id):[],nerves:item.nerve?[`${item.nerve}.${side==='left'?'l':'r'}.001`]:[]});
- const boundaries=space.boundaries.map(hit),contents=space.contents.map(hit);
- const all=[...boundaries,...contents];
- return{space,spaceIds,boundaries,contents,highlight:[...new Set([...spaceIds,...all.flatMap(h=>h.ids)])],nerves:[...new Set(all.flatMap(h=>h.nerves))]};
+ const boundaries=space.boundaries.map(hit),contents=space.contents.map(hit),roof=(space.roof??[]).map(hit),floor=(space.floor??[]).map(hit),related=(space.relatedStructures??[]).map(hit);
+ const all=[...boundaries,...contents,...roof,...floor,...related];
+ return{space,spaceIds,boundaries,contents,roles:{boundary:boundaries,roof,floor,content:contents,related},highlight:[...new Set([...spaceIds,...all.flatMap(h=>h.ids)])],nerves:[...new Set(all.flatMap(h=>h.nerves))]};
 }
 
 /** Which spaces each part of the body shows; the whole-body list shows them all. */
 export const spacesForGroups=(groups:SpaceGroup[]|null)=>SPACES.filter(s=>!groups||groups.includes(s.group));
+
+/** The items of a region in each of the five roles. */
+export const spaceRoleItems=(def:SpaceDef):Record<SpaceRole,SpaceItem[]>=>({boundary:def.boundaries,roof:def.roof??[],floor:def.floor??[],content:def.contents,related:def.relatedStructures??[]});
+/** Text after the name of an item: its own role text, else the plain name of its group ("頭後大直肌 — 內上界", "椎動脈 — 內容物（第三段）"). */
+export const spaceRoleText=(item:SpaceItem,role:SpaceRole)=>item.role??SPACE_ROLES.find(r=>r.key===role)!.plain;
