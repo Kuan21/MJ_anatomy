@@ -2,6 +2,14 @@
 
 最後更新：2026-11-03。規則：只改介面、效能、腳本、文件的 PR 在 `build` 通過後自動 merge；涉及模型、示意模型、解剖內容、名稱、Quiz 資料的 PR 標【需人工審核】，**一律不開 auto-merge**，等你確認。
 
+## 穩定期 第 1 節：自動檢查（【需人工審核】，不自動 merge）
+
+**需人工審核，未合併。** 只加檢查腳本、已知清單與文件，不改模型也不改解剖內容；因為會改變 `npm run check` 的通過條件，依使用者 2026-11-03 穩定期指示，所有穩定期 PR 一律人工審核。
+- `node scripts/check-stability.mjs`（已併入 `npm run check`，也可單跑 `npm run check:stability`）：碎片、穿骨、共面疊層（z-fighting）、直線切口，以及關節極限姿勢下的三角形拉伸與脫離骨骼。CI 與 log 只輸出通過／失敗與數量；`--list` 才列結構名，`--write` 重新產生 `docs/stability-known.json` 與 `docs/stability-baseline.md`（只有結構名與數字）。
+- 目前 main 的既有違規共 1110 條，逐條登記在 `docs/stability-known.json`（含原因）：碎片 53、穿骨 458、共面疊層 93、直線切口 47（含 3 處執行時的 clipping plane）、拉伸 285、脫離骨骼 174。清單只能減少：新違規、變嚴重、或已修好卻沒從清單移除，都會讓檢查失敗。
+- 固定視角截圖：`npm run stability:shots -- --after dist --before <main 的 build>`，產生前後對照；截圖放 `pr-screenshots` 分支，不在 CI 內跑（需要瀏覽器與軟體 WebGL，約 20 分鐘）。
+- **請核對：** 閾值是否合理（見 `docs/stability-baseline.md` 開頭）；清單中哪些要先修（第 2 節 A 到 G 會逐項把對應條目移出清單）。
+
 ## 介面 第 1 批：DPR 自動調整（#216 已自動 merge）、走向動畫轉動與導覽（#217，CI 通過後自動 merge）
 
 - **#216（已 merge）：** iPad 與平板以完整像素比起步（上限 2），手機與低記憶體裝置從 1 起步（上限 1.5）；轉動時依幀間隔每次升降 0.25。**請在你的 iPad 上確認清晰度與流暢度**：閾值（連續 20 幀超過 30 ms 降級、連續 180 幀低於 20 ms 升級）是初始值，沒有在真實裝置實測；低電量模式鎖 30 fps 時會降到 1。
