@@ -14,8 +14,9 @@ const solid = S.SPACES.filter(d => d.solid);
 assert.ok(solid.some(d => d.id === 'suboccipital'), 'the suboccipital triangle is a redesigned region');
 for (const def of solid) {
   const items = S.spaceRoleItems(def);
-  for (const role of ['boundary', 'floor', 'content']) { checks++; assert.ok(items[role].length > 0, `${def.id}: ${role} is defined`); }
-  checks++; assert.ok(items.roof.length > 0, `${def.id}: a roof is defined`);
+  for (const role of ['boundary', 'content']) { checks++; assert.ok(items[role].length > 0, `${def.id}: ${role} is defined`); }
+  // a region with a roof or a floor says so; a foramen open at both ends (through) has neither; every region has at least one of roof, floor or `through`
+  checks++; assert.ok(def.through ? items.roof.length === 0 && items.floor.length === 0 : items.roof.length + items.floor.length > 0, `${def.id}: roof/floor or through`);
   for (const side of ['left', 'right']) {
     const hit = S.resolveSpace(atlas.parts, def, side);
     for (const [role, list] of Object.entries(hit.roles)) for (const h of list) {
