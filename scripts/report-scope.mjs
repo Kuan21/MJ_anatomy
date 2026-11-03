@@ -5,7 +5,7 @@ import {entities} from './lib/coverage-match.mjs';
 import {quizModule} from './quiz-modules.mjs';
 const {scopeOf, scopeName} = await quizModule('app/mj-scope.ts');
 const root = new URL('../', import.meta.url), audit = JSON.parse(fs.readFileSync(new URL('docs/paokao-audit.json', root), 'utf8'));
-const ID_SOURCES = ['atlas', 'facial', 'supplement', 'female', 'serous', 'paokao', 'heart'];
+const ID_SOURCES = ['atlas', 'facial', 'supplement', 'female', 'serous', 'heart'];
 // One structure = one normalised English name within a system (left and right of a paired structure count once); 'meshes' counts every piece the viewer draws.
 const byKey = new Map();
 for (const e of entities) {

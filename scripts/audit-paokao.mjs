@@ -85,8 +85,9 @@ const problems = [
 // The result is app/mj-scope.json, read by the data card, the search panel and the Quiz; `--check` fails when it is out of date (rerun this script without --check).
 const scopeNorm = s => s.toLowerCase().replace(/\.[lr](\.\d+)?$/, '').replace(/\.\d+$/, '').replace(/\b(left|right)\b/g, ' ').replace(/[^a-z0-9]+/g, ' ').trim();
 const scopeIds = new Set(), scopeNames = new Set(), scopeConcepts = new Set();
-for (const e of matched) { if (e.concept) scopeConcepts.add(e.concept); if (['atlas', 'facial', 'supplement', 'female', 'serous', 'paokao', 'heart'].includes(e.source)) scopeIds.add(e.id); for (const n of e.names) scopeNames.add(scopeNorm(n)); }
-for (const p of fullAtlas.parts) if (scopeConcepts.has(p.conceptId)) { scopeIds.add(p.id); scopeNames.add(scopeNorm(p.name)); }
+for (const e of matched) { if (e.concept) scopeConcepts.add(e.concept); if (['atlas', 'facial', 'supplement', 'female', 'serous', 'heart'].includes(e.source)) scopeIds.add(e.id); for (const n of e.names) scopeNames.add(scopeNorm(n)); }
+// Ids of the schematic structures built here (PK-n) move whenever a structure is added, so they are matched by name only.
+for (const p of fullAtlas.parts) if (scopeConcepts.has(p.conceptId) && !p.id.startsWith('PK-')) { scopeIds.add(p.id); scopeNames.add(scopeNorm(p.name)); }
 scopeNames.delete('');
 const scopeJson = JSON.stringify({ids: [...scopeIds].sort(), names: [...scopeNames].sort()}) + '\n';
 const scopeFile = new URL('app/mj-scope.json', root);
