@@ -24,6 +24,8 @@ jobs:
       - run: npm ci
       - run: npm run check
       - run: npm run check:motion
+      - run: npm run check:vessels
+      - run: npm run check:vessels:accept
       - run: npm run build -- --base /MJ_anatomy/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
