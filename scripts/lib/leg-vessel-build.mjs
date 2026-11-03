@@ -26,16 +26,21 @@ function tidy(line) {
   return L;
 }
 
-export function loadTree(file = 'app/data/vessel-tree/femoral-system.json') { return JSON.parse(fs.readFileSync(new URL(file, root), 'utf8')); }
+/** All vessel-tree files (one per batch, in the order of their `batch` number) as one tree. */
+export function loadTree(files) {
+  const dir = new URL('app/data/vessel-tree/', root), names = files ?? fs.readdirSync(dir).filter(f => f.endsWith('.json')).sort();
+  const parts = names.map(f => JSON.parse(fs.readFileSync(new URL(f, dir), 'utf8'))).sort((a, b) => a.batch - b.batch);
+  return {batches: parts.map(t => t.batch), vessels: parts.flatMap(t => t.vessels.map(v => ({...v, batch: t.batch})))};
+}
 
 /** Parents before children. */
 function ordered(vessels) {
   const done = new Set(), out = [];
-  const visit = v => { if (done.has(v.id)) return; if (v.parent) visit(vessels.find(x => x.id === v.parent)); done.add(v.id); out.push(v); };
+  const visit = v => { if (done.has(v.id)) return; if (v.parent) visit(vessels.find(x => x.id === v.parent)); if (v.joinsTo) visit(vessels.find(x => x.id === v.joinsTo)); done.add(v.id); out.push(v); };
   vessels.forEach(visit); return out;
 }
 
-const bonesFor = (w, S) => ['hip bone', 'femur'].map(n => `${S.w} ${n}`).concat(['Sacrum', 'Fifth lumbar vertebra', 'Fourth lumbar vertebra']).filter(n => w.has(n)).map(n => { const m = w.mesh(n); return {name: n, positions: m.positions, indices: m.indices, lo: m.lo, hi: m.hi, mesh: m}; });
+const bonesFor = (w, S) => ['hip bone', 'femur', 'tibia', 'fibula', 'patella'].map(n => `${S.w} ${n}`).concat(['Sacrum', 'Fifth lumbar vertebra', 'Fourth lumbar vertebra']).filter(n => w.has(n)).map(n => { const m = w.mesh(n); return {name: n, positions: m.positions, indices: m.indices, lo: m.lo, hi: m.hi, mesh: m}; });
 
 function guideOf(w, U, v, S) {
   const name = v.guide.replace('{S}', S.w).replace('{s}', S.s);
@@ -58,6 +63,19 @@ function ownCourse(w, U, v, S, built) {
   if (v.id === 'perforating-artery-4') {
     const o = parentPath[parentPath.length - 1], t = U.onSurface(femur, P(sx * .075, o[1] - .02, -.04), .012);
     return [o, lerp(o, t, .5), t];
+  }
+  const along = (id, f) => { const q = built.get(id)?.path; if (!q) throw new Error(`${v.id}: ${id} is not built`); return q[Math.min(q.length - 1, Math.round((q.length - 1) * f))]; };
+  const patella = `${S.w} patella`, onPat = (dir, off) => add(U.extreme(patella, dir), off);
+  if (v.id === 'genicular-anastomosis-superior') return [along('medial-superior-genicular-artery', .85), onPat(P(0, 1, 0), P(0, .008, .008)), along('lateral-superior-genicular-artery', .85)];
+  if (v.id === 'genicular-anastomosis-inferior') return [along('medial-inferior-genicular-artery', .85), onPat(P(0, -1, 0), P(0, -.012, .006)), along('lateral-inferior-genicular-artery', .85)];
+  if (v.id === 'genicular-anastomosis-medial') { const a = along('medial-superior-genicular-artery', .85), b = along('medial-inferior-genicular-artery', .85); return [a, add(lerp(a, b, .5), P(0, 0, .004)), b]; }
+  if (v.id === 'genicular-anastomosis-lateral') { const a = along('lateral-superior-genicular-artery', .85), b = along('lateral-inferior-genicular-artery', .85); return [a, add(lerp(a, b, .5), P(0, 0, .004)), b]; }
+  if (v.id === 'anterior-tibial-recurrent-artery') {
+    // leaves the anterior tibial artery just below the popliteus, climbs through tibialis anterior to the front of the lateral tibial condyle
+    const ata = w.find(`${S.w} anterior tibial artery`).filter(e => !/-END$|^PKC-/.test(e.id)).reduce((a, b) => b.load().positions.length > a.load().positions.length ? b : a), g = ata.load();
+    const line = centrelineOf({positions: g.positions, indices: g.indices}).map(q => q.c), o = line.reduce((a, q) => Math.abs(q[1] - .372) < Math.abs(a[1] - .372) ? q : a, line[0]);
+    const t = U.onSurface(`${S.w} tibia`, P(sx * .042, .425, .030), r + .004);
+    return [o, add(lerp(o, t, .5), P(sx * .004, 0, .004)), t];
   }
   if (v.id === 'medial-circumflex-femoral-artery') {
     // behind and below the femoral neck, between pectineus/iliopsoas and the capsule, to the trochanteric fossa (kept clear of the joint gap)
@@ -99,7 +117,7 @@ export function buildTree(tree = loadTree(), {world, quiet = true, only = null, 
     const bones = bonesFor(w, S), built = new Map();
     for (const v of ordered(tree.vessels)) {
       if (want && !want.has(v.id)) continue;
-      const parent = v.parent ? built.get(v.parent) : null;
+      const parent = v.parent ? built.get(v.parent) : null, joined = v.joinsTo ? built.get(v.joinsTo) : null;
       let line, radii0;
       if (v.guide) {
         const rings = guideOf(w, U, v, S); line = rings.map(q => q.c);
@@ -113,22 +131,30 @@ export function buildTree(tree = loadTree(), {world, quiet = true, only = null, 
       if (v.keep) { const a = Math.floor(line.length * v.keep[0]), b = Math.ceil(line.length * v.keep[1]); line = line.slice(a, b); }
       // start on the parent's centreline
       if (parent) {
-        const atEnd = ['common-iliac-artery', 'external-iliac-artery'].includes(v.parent) && ['external-iliac-artery', 'internal-iliac-artery', 'femoral-artery'].includes(v.id);
+        const atEnd = v.joinAt === 'end';
         const q = atEnd ? parent.path[parent.path.length - 1] : parent.path.reduce((a, p) => len(sub(p, line[0])) < len(sub(a, line[0])) ? p : a, parent.path[0]);
         const off = sub(q, line[0]); let run = 0;
         line = line.map((p, i) => { if (i) run += len(sub(p, line[i - 1])); const wgt = Math.max(0, Math.cos(Math.min(1, run / .015) * Math.PI / 2)); return add(p, mul(off, wgt)); });
         line = [q, ...line.slice(1)];
       }
+      // an anastomosis ends on a second vessel
+      if (joined) {
+        const e = line[line.length - 1], q = joined.path.reduce((a, p) => len(sub(p, e)) < len(sub(a, e)) ? p : a, joined.path[0]), off = sub(q, e); let run = 0;
+        for (let i = line.length - 1; i >= 0; i--) { if (i < line.length - 1) run += len(sub(line[i], line[i + 1])); line[i] = add(line[i], mul(off, Math.max(0, Math.cos(Math.min(1, run / .015) * Math.PI / 2)))); }
+        line[line.length - 1] = q;
+      }
+      // a vessel whose parent is built in a later batch starts at its lower end
+      if (v.parentPending && line[0][1] > line[line.length - 1][1]) line.reverse();
       // radii: linear start -> end
       const n = line.length, r0 = v.calibreMm[0] / 2000, r1 = v.calibreMm[1] / 2000, radii = line.map((_, i) => r0 + (r1 - r0) * (n > 1 ? i / (n - 1) : 0));
       const lo = [0, 1, 2].map(a => Math.min(...line.map(p => p[a])) - .03), hi = [0, 1, 2].map(a => Math.max(...line.map(p => p[a])) + .03);
       const soft = nerveMeshes.filter(n => { const m = nerveOf(n); return m.lo[0] < hi[0] && m.hi[0] > lo[0] && m.lo[1] < hi[1] && m.hi[1] > lo[1] && m.lo[2] < hi[2] && m.hi[2] > lo[2]; }).map(nerveOf);
-      const cleared = clearBones(line, radii, bones, {pin: [0], soft});
+      const cleared = clearBones(line, radii, bones, {pin: joined ? [0, line.length - 1] : [0], soft});
       const path = cleared.line;
       built.set(v.id, {path, radii});
       const pts = path.filter((_, i) => i % 2 === 0 || i === path.length - 1);
       const geo = tube(pts, r0, r1, Math.max(8, Math.round(path.length * 1.0)), 12);
-      out.push({id: v.id, side: S.w, name: `${S.w} ${v.en[0].toLowerCase()}${v.en.slice(1)}`.replace(/^(Left|Right) Fourth perforating artery \(end of the deep femoral artery\)$/, '$1 fourth perforating artery'), path, radii, r0, r1, geometry: geo, terminal: v.terminal, parent: v.parent, rounds: cleared.rounds});
+      out.push({id: v.id, side: S.w, name: `${S.w} ${v.en[0].toLowerCase()}${v.en.slice(1)}`.replace(/^(Left|Right) Fourth perforating artery \(end of the deep femoral artery\)$/, '$1 fourth perforating artery'), path, radii, r0, r1, geometry: geo, terminal: v.terminal, parent: v.parent, joinsTo: v.joinsTo, batch: v.batch, rounds: cleared.rounds});
       if (!quiet) console.log(`${S.w} ${v.id}: ${path.length} points, ${(path.length * STEP * 1000).toFixed(0)} mm, clearance rounds ${cleared.rounds}`);
     }
   }

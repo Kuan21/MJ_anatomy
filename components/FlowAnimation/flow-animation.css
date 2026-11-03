@@ -71,3 +71,5 @@
 .flow-anim.flow-loading{flex-direction:column;align-items:center;justify-content:center;gap:16px;font-size:15px}
 .flow-anim.flow-loading p{margin:0}
 .flow-anim.flow-loading button{min-height:44px;padding:0 18px;border:1px solid var(--fa-line);border-radius:10px;background:var(--fa-panel);color:var(--fa-ink)}
+/* 動畫開著時，資訊卡先藏起來（不關閉，關掉動畫後原樣回來） */
+body:has(.flow-anim) .detail-sheet,body:has(.flow-anim) [data-slot=sheet-overlay]{visibility:hidden}

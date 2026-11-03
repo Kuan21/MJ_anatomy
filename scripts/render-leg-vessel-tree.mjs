@@ -68,8 +68,9 @@ const server = http.createServer((req, res) => {
   await p.goto(`http://127.0.0.1:${port}/`); await p.evaluate(() => window.load());
   // whole pelvis and thigh (y 0.45 - 1.05), then close-ups
   const SHOTS = [
-    ['front', [0, .78, 0], [0, .05, 1], 1.5, 22], ['back', [0, .78, 0], [0, .05, -1], 1.5, 22], ['left', [0, .78, 0], [1, .05, 0], 1.5, 22], ['right', [0, .78, 0], [-1, .05, 0], 1.5, 22],
+    ['front', [0, .68, 0], [0, .05, 1], 2.2, 22], ['back', [0, .68, 0], [0, .05, -1], 2.2, 22], ['left', [0, .68, 0], [1, .05, 0], 2.2, 22], ['right', [0, .68, 0], [-1, .05, 0], 2.2, 22],
     ['groin-front', [.0, .9, .03], [0, .1, 1], .55, 22], ['hip-back', [.0, .93, -.04], [0, .1, -1], .55, 22],
+    ['knee-front', [.0, .45, .03], [0, .1, 1], .5, 22], ['knee-back', [.0, .45, -.03], [0, .1, -1], .5, 22], ['knee-left', [.0, .45, 0], [1, .05, 0], .5, 22],
   ];
   for (const [mode, types] of [['bones', ['bone', 'vein', 'old', 'new']], ['vessels', ['vein', 'old', 'new']], ['new-only', ['new']]]) {
     await p.evaluate(t => window.show(t), types);
