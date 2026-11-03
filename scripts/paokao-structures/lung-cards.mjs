@@ -1,6 +1,6 @@
 // Data cards of the lung surface structures. The fields follow the type of structure (impression, hilum, part of a lobe, other lung structure); a field with nothing to say is left out.
 // Impression: location, the structure that makes it, the impressions next to it.  Hilum: location, contents, arrangement.  Part of a lobe: location, segments, boundaries.
-// Written for this atlas from standard textbook descriptions (Gray's Anatomy for Students, Moore's Clinically Oriented Anatomy); not copied from any figure or note.
+// Written for this atlas from standard anatomical descriptions in our own words; not copied from any figure, book or note.
 const row = (labelEn, labelZh, en, zh) => (en ? {labelEn, labelZh, en, zh} : null);
 const impression = (loc, by, near) => ({lung: 'impression', extra: [row('Location', '位置', ...loc), row('Impressed by', '壓出的構造', ...by), row('Neighbouring impressions', '相鄰壓跡', ...near)].filter(Boolean)});
 const structure = (loc, rel, relLabel = ['Relations', '毗鄰構造']) => ({lung: 'structure', extra: [row('Location', '位置', ...loc), row(relLabel[0], relLabel[1], ...rel)].filter(Boolean)});

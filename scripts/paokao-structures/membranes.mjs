@@ -2,7 +2,6 @@
 // landmarks on the bones; fasciae and aponeuroses are thin shells lifted off the muscle surfaces they cover; sheaths are translucent tubes round the vessels they enclose.
 import {sub, add, mul, unit, len, lerp, cross} from '../lib/paokao-util.mjs';
 
-const REF = 'Gray’s Anatomy for Students, 4th ed. (Drake et al.); Moore’s Clinically Oriented Anatomy, 8th ed.';
 const SIDES = [{w: 'Right', l: 'right', sx: -1, zh: '右', s: 'r'}, {w: 'Left', l: 'left', sx: 1, zh: '左', s: 'l'}];
 
 /**
@@ -46,7 +45,7 @@ function lumbarFascia(U) {
 // `retired` structures are still built (so the ids of everything after them stay as they were) but not packaged: the tendon batch replaced them (scripts/paokao-structures/tendons-upper-limb.mjs).
 export default function membranes(U) {
   const out = [], P = (x, y, z) => [x, y, z];
-  const push = (S, name, zh, kind, system, spec, where, role, origin = ['', '']) => out.push({name: S ? `${S.w} ${name}` : name, zh: `${S ? S.zh : ''}${zh}`, system, kind, ...spec, card: {origin, course: where, supply: role}, refs: [REF]});
+  const push = (S, name, zh, kind, system, spec, where, role, origin = ['', '']) => out.push({name: S ? `${S.w} ${name}` : name, zh: `${S ? S.zh : ''}${zh}`, system, kind, ...spec, card: {origin, course: where, supply: role}, refs: []});
   const lowest = n => U.extreme(n, P(0, -1, 0)), axis = (n, y, near) => U.axisAt(n, y, near, .002);
   for (const S of SIDES) {
     const sx = S.sx;
