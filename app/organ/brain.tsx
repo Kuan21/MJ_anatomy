@@ -84,6 +84,8 @@ function CsfPage({exportRef, onClose}: {exportRef: {current: (() => CsfSource | 
 
 export default function BrainDetail() {
   const [view, setView] = useState<BrainViewState>(defaults);
+  // cranial nerve branches outside the skull or on the dura (face, jaw): drawn in full, but off when the view opens or is reset
+  const peripheral = useRef<string[]>([]);
   const [parts, setParts] = useState<BrainPart[]>([]), [ready, setReady] = useState(false), [error, setError] = useState(''), [percent, setPercent] = useState(0);
   const [open, setOpen] = useState<string[]>([]), [csf, setCsf] = useState(false), [allOpen, setAllOpen] = useState(false), [allSort, setAllSort] = useState<'name' | 'region'>('name'), [cutBusy, setCutBusy] = useState(false);
   const [notes, setNotes] = useState<NoteData | null>(null), [noteId, setNoteId] = useState<string | null>(null), [query, setQuery] = useState(''), [openRegions, setOpenRegions] = useState<string[]>([]);
@@ -171,7 +173,7 @@ export default function BrainDetail() {
     if (axis === 'none') {patch({section: {...section, axis}}); return;}
     setView(v => ({...v, section: {axis, offset: .5, flip: CUT[axis].flip}, command: {id: v.command.id + 1, view: CUT[axis].view}}));
   };
-  const reset = () => setView(v => ({...defaults, command: {id: v.command.id + 1, view: 'front'}}));
+  const reset = () => setView(v => ({...defaults, hiddenParts: peripheral.current, command: {id: v.command.id + 1, view: 'front'}}));
 
   return <main className="organ-app" lang="zh-Hant">
     <header className="organ-header">
@@ -223,7 +225,7 @@ export default function BrainDetail() {
         </div>
       </aside>
       <section className="organ-stage" aria-label="腦部 3D 模型">
-        <BrainScene view={view} exportRef={exportRef} onReady={p => {markSharedFacts(p.map(q => q.en)); setParts(p); setReady(true);}} onError={setError} onProgress={setPercent} onPick={select} onBusy={setCutBusy}/>
+        <BrainScene view={view} exportRef={exportRef} onReady={p => {markSharedFacts(p.map(q => q.en)); peripheral.current = p.filter(q => q.peripheral).map(q => q.id); setView(v => ({...v, hiddenParts: [...new Set([...v.hiddenParts, ...peripheral.current])]})); setParts(p); setReady(true);}} onError={setError} onProgress={setPercent} onPick={select} onBusy={setCutBusy}/>
         <div className="organ-views" aria-label="視角">{([['front', '前面'], ['back', '後面'], ['left', '左側'], ['right', '右側'], ['top', '上面'], ['bottom', '下面']] as const).map(([id, label]) => <button key={id} onClick={() => go(id)}>{label}</button>)}
           <button onClick={reset} aria-label="還原預設" title="還原預設"><RotateCcw size={15}/></button></div>
         {!ready && !error && <div className="organ-progress" role="status"><span className="organ-spinner"/><strong>載入腦部模型</strong><small>{percent ? `${percent}%` : '…'}</small></div>}
