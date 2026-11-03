@@ -10,6 +10,8 @@ export interface BilingualFact {
  labelZh:string;
  valueEn:string;
  valueZh?:string;
+ /** model part names mentioned in the value (an impressing structure, a neighbouring impression): the card shows them as buttons that open that structure */
+ links?:string[];
 }
 export interface StructureProfile {
  english:string;
@@ -18,9 +20,13 @@ export interface StructureProfile {
  summaryEn?:string;
  summaryZh?:string;
  facts:BilingualFact[];
+ /** colour category of a lung surface structure (artery, vein, …): the data card takes its colour and letter from it */
+ lungCategory?:string;
  source:string;
 }
 
+import {lungCategoryOf} from './mj-lung-categories';
+import {lungCardLinks} from './mj-lung-labels';
 import vesselEnds from './mj-vessel-ends.json';
 import paokaoCards from './mj-paokao.json';
 import vesselBranches from './mj-vessel-branches.json';
@@ -425,7 +431,7 @@ function paokaoProfile(rawName:string,system:SystemId,part?:Part):StructureProfi
  // Lung structures: the category and the fields follow the type of structure (see scripts/paokao-structures/lung-cards.mjs); fields without content are not shown.
  if(card.lung){
   const [cEn,cZh]=LUNG_CARD_CATEGORY[card.lung]??['Lung structure','肺的結構'];
-  return{english:card.name,chinese:card.zh,category:`${cEn}｜${cZh}（示意模型）`,summaryEn:SCHEMATIC_NOTE_EN2,summaryZh:SCHEMATIC_NOTE_ZH2,facts:(card.extra??[]).map(f=>({labelEn:f.labelEn,labelZh:f.labelZh,valueEn:f.en,valueZh:f.zh})),source:'Surface area marked on the lobe of the BodyParts3D atlas from the textbook position of the neighbouring structure.'};
+  return{english:card.name,chinese:card.zh,category:`${cEn}｜${cZh}（示意模型）`,summaryEn:SCHEMATIC_NOTE_EN2,summaryZh:SCHEMATIC_NOTE_ZH2,facts:(card.extra??[]).map(f=>({labelEn:f.labelEn,labelZh:f.labelZh,valueEn:f.en,valueZh:f.zh,...(f.labelEn==='Impressed by'?{links:lungCardLinks(card.name).impressors}:f.labelEn==='Neighbouring impressions'?{links:lungCardLinks(card.name).neighbours}:{})})),lungCategory:lungCategoryOf(card.name)??undefined,source:'Surface area marked on the lobe of the BodyParts3D atlas from the textbook position of the neighbouring structure.'};
  }
  const facts:BilingualFact[]=[];
  // Field names follow the kind of structure: muscles give origin / insertion / innervation / action; vessels origin / course / main branches / territory; nerves roots / course /
