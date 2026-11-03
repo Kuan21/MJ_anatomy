@@ -1,0 +1,43 @@
+{
+ "impressors": {
+  "Cardiac impression of left lung": ["Wall of ventricle", "Wall of left atrium"],
+  "Cardiac impression of right lung": ["Wall of right atrium", "Wall of ventricle"],
+  "Groove for aortic arch": ["Arch of aorta"],
+  "Groove for descending aorta": ["Descending thoracic aorta"],
+  "Left groove for subclavian artery": ["Left subclavian artery"],
+  "Right groove for subclavian artery": ["Right subclavian artery"],
+  "Groove for left brachiocephalic vein": ["Left brachiocephalic vein"],
+  "Groove for brachiocephalic vein": ["Right brachiocephalic vein"],
+  "Groove for superior vena cava": ["Superior vena cava"],
+  "Groove for azygos vein": ["Azygos vein"],
+  "Esophageal impression of left lung": ["Esophagus"],
+  "Groove for esophagus": ["Esophagus"],
+  "Groove for inferior vena cava": ["Inferior vena cava"],
+  "Contact area for thymus of left lung": ["Left lobe of thymus"],
+  "Contact area for thymus of right lung": ["Right lobe of thymus"],
+  "Contact area for trachea of right lung": ["Trachea"],
+  "Groove for first rib of left lung": ["Left first rib"],
+  "Groove for first rib of right lung": ["Right first rib"]
+ },
+ "neighbours": {
+  "Cardiac impression of left lung": ["Contact area for thymus of left lung", "Cardiac notch of left lung"],
+  "Cardiac impression of right lung": ["Groove for superior vena cava", "Groove for inferior vena cava"],
+  "Groove for aortic arch": ["Groove for descending aorta", "Left groove for subclavian artery", "Groove for left brachiocephalic vein"],
+  "Groove for descending aorta": ["Groove for aortic arch", "Esophageal impression of left lung"],
+  "Left groove for subclavian artery": ["Groove for aortic arch", "Groove for left brachiocephalic vein"],
+  "Right groove for subclavian artery": ["Groove for brachiocephalic vein"],
+  "Groove for left brachiocephalic vein": ["Left groove for subclavian artery", "Groove for aortic arch", "Contact area for thymus of left lung"],
+  "Groove for brachiocephalic vein": ["Groove for superior vena cava", "Right groove for subclavian artery"],
+  "Groove for superior vena cava": ["Groove for brachiocephalic vein", "Groove for azygos vein", "Cardiac impression of right lung"],
+  "Groove for azygos vein": ["Groove for superior vena cava", "Groove for esophagus"],
+  "Esophageal impression of left lung": ["Groove for descending aorta", "Groove for aortic arch"],
+  "Groove for esophagus": ["Groove for azygos vein", "Groove for inferior vena cava"],
+  "Groove for inferior vena cava": ["Cardiac impression of right lung"],
+  "Contact area for thymus of left lung": ["Cardiac impression of left lung", "Groove for left brachiocephalic vein"],
+  "Contact area for thymus of right lung": ["Groove for superior vena cava", "Groove for brachiocephalic vein"],
+  "Contact area for trachea of right lung": ["Groove for azygos vein", "Right groove for subclavian artery"],
+  "Groove for first rib of left lung": ["Left groove for subclavian artery"],
+  "Groove for first rib of right lung": ["Right groove for subclavian artery"]
+ },
+ "context": ["Trachea", "Esophagus", "Arch of aorta", "Ascending aorta", "Descending thoracic aorta", "Pulmonary trunk", "Superior vena cava", "Inferior vena cava", "Azygos vein", "Left brachiocephalic vein", "Right brachiocephalic vein", "Left subclavian artery", "Right subclavian artery", "Left lobe of thymus", "Right lobe of thymus", "Wall of ventricle", "Wall of left atrium", "Wall of right atrium"]
+}

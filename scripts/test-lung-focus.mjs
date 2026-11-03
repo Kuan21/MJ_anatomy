@@ -29,7 +29,7 @@ for (const [what, re] of [
   ['back button', /onClick=\{exitLungView\}/],
 ]) assert.ok(re.test(panel), `lung panel: ${what}`);
 assert.ok(/setLungSide\(side\);[\s\S]{0,420}aimLungView\(side,false,lungInner,labels\)/.test(page), '胸腔 → 肺與胸膜 and the 肺 button must share the lung view (same focus logic)');
-assert.ok(/inner\.vessels\|\|extra\.length\?\['arterial','venous'\]/.test(page), 'pulmonary vessels need the arterial and venous systems switched on');
+assert.ok(/inner\.vessels\|\|extra\.length\|\|faint\.length\?\['arterial','venous'\]/.test(page), 'pulmonary vessels need the arterial and venous systems switched on');
 assert.ok(/lungOpacity\?:number/.test(text('app/anatomy.ts')), 'SceneState.lungOpacity');
 assert.ok(/latest\.current\.lungOpacity\?\?1/.test(scene), 'the scene must read lungOpacity');
 

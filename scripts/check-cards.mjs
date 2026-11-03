@@ -27,5 +27,13 @@ for (const p of atlas.parts) {
     if (card.kind === 'muscle' && got.length !== 4) bad.push(`${part.id} ${card.name} must show origin, insertion, innervation and action`);
   }
 }
+// No card of any structure of the runtime atlas shows a field without content (in either language): the build of every card drops them.
+{
+  const zlib = await import('node:zlib'), stream = JSON.parse(zlib.gunzipSync(fs.readFileSync(new URL('../public/models/paokao/paokao-stream.json.gz', import.meta.url))));
+  for (const p of [...atlas.parts, ...stream.parts]) {
+    const name = correctedPartName(p), card = structureProfile(name, p.system, {...p, name}), empty = card.facts.filter(f => !(f.valueEn || '').trim() && !(f.valueZh || '').trim());
+    if (empty.length) bad.push(`${p.id} ${name} shows empty field(s): ${empty.map(f => f.labelZh).join('／')}`);
+  }
+}
 if (bad.length) { console.error(`${bad.length} data cards do not match their structure:\n - ${bad.slice(0, 20).join('\n - ')}`); process.exit(1); }
 console.log(`Data cards OK: ${atlas.parts.length} structures show a card of their own kind.`);
