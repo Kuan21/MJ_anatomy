@@ -20,7 +20,7 @@
 | Genicular anastomosis, inferior arc<br>膝關節動脈網下弧 | 膝下內側動脈，終止於膝下外側動脈 | 0.8→0.8 | 接到另一條血管 | L 87／R 81 |
 | Genicular anastomosis, medial link<br>膝關節動脈網內側連結 | 膝上內側動脈，終止於膝下內側動脈 | 0.8→0.8 | 接到另一條血管 | L 51／R 51 |
 | Genicular anastomosis, lateral link<br>膝關節動脈網外側連結 | 膝上外側動脈，終止於膝下外側動脈 | 0.8→0.8 | 接到另一條血管 | L 24／R 24 |
-| Anterior tibial recurrent artery<br>脛前返動脈 | 脛前動脈（之後的批次） | 1.6→0.8 | 末端（收細） | L 87／R 84 |
+| Anterior tibial recurrent artery<br>脛前返動脈 | 脛前動脈 | 1.6→0.8 | 末端（收細） | L 87／R 84 |
 
 ## 建法
 
@@ -55,7 +55,7 @@
 
 - Origin 起點：Femoral artery, at the adductor hiatus｜股動脈，在內收肌裂孔
 - Course 走向：Runs down the popliteal fossa as its deepest structure, behind the popliteal vein and the tibial nerve, and divides at the lower border of popliteus into the anterior and posterior tibial arteries｜在膕窩內下行，位於膕靜脈與脛神經的深面（最深層），在膕肌下緣分為脛前動脈與脛後動脈
-- Main branches 主要分支：Superior medial genicular artery（膝上內側動脈）、Superior lateral genicular artery（膝上外側動脈）、Inferior medial genicular artery（膝下內側動脈）、Inferior lateral genicular artery（膝下外側動脈）、Middle genicular artery（膝中動脈）
+- Main branches 主要分支：Superior medial genicular artery（膝上內側動脈）、Superior lateral genicular artery（膝上外側動脈）、Anterior tibial artery（脛前動脈）、Inferior medial genicular artery（膝下內側動脈）、Posterior tibial artery（脛後動脈）、Inferior lateral genicular artery（膝下外側動脈）、Middle genicular artery（膝中動脈）
 - Territory 供應範圍：Knee joint, the muscles around the knee and, through its terminal branches, the leg and foot｜膝關節、膝周肌肉，並經終支供應小腿與足
 - 位置關係：tibial nerve most superficial, then popliteal vein, then artery (deepest)
 

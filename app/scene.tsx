@@ -61,13 +61,18 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
   const coarseTouchDevice=navigator.maxTouchPoints>1&&(typeof matchMedia!=='function'||matchMedia('(pointer: coarse)').matches||matchMedia('(any-pointer: coarse)').matches);
   const constrainedDevice=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)||coarseTouchDevice||(deviceNavigator.deviceMemory??8)<=4;
   const cooperativeYield=()=>new Promise<void>(resolve=>setTimeout(resolve,0));
+  // Pixel ratio: iPad and Mac-class tablets start at full density (the screen is large and the GPU is strong); phones and low-memory devices start at 1. While the user moves the model the ratio steps down 0.25 at a time when frames are slow and back up when they are fast (see dprStep).
+  const isPad=/iPad/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  const lowPower=/iPhone|iPod/.test(navigator.userAgent)||(deviceNavigator.deviceMemory??8)<=4||(constrainedDevice&&!isPad);
+  const dprCeil=(w:number,h:number)=>Math.min(devicePixelRatio,lowPower?1.5:w<768||h<600?1.5:2);
+  let dprNow=lowPower?1:dprCeil(innerWidth,innerHeight),lastRenderAt=0,slowFrames=0,fastFrames=0;
   let reportLoading=()=>{},supplementaryPending=0;
   type SupplementaryTask={task:()=>Promise<void>;onFailure:()=>void;label:string};
   const failedSupplementary:SupplementaryTask[]=[];
   let renderer:T.WebGLRenderer;
   const headCut=new T.Plane(new T.Vector3(0,1,0),-clavicleLevel(atlas.parts));
-  try{renderer=new T.WebGLRenderer({antialias:!constrainedDevice,alpha:false,powerPreference:'high-performance'});}catch{onError('這個瀏覽器無法啟動 3D 檢視器，請改用支援 WebGL 的瀏覽器。');return;}
-  renderer.setPixelRatio(Math.min(devicePixelRatio,constrainedDevice?1:innerWidth<768?1.5:2));renderer.setClearColor('#cbd2d6');renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;el.appendChild(renderer.domElement);
+  try{renderer=new T.WebGLRenderer({antialias:!lowPower,alpha:false,powerPreference:'high-performance'});}catch{onError('這個瀏覽器無法啟動 3D 檢視器，請改用支援 WebGL 的瀏覽器。');return;}
+  renderer.setPixelRatio(dprNow);renderer.setClearColor('#cbd2d6');renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;el.appendChild(renderer.domElement);
   renderer.domElement.setAttribute('aria-label','互動式人體解剖：拖曳旋轉、捏合或滾輪縮放、點選構造查看說明。');
   const scene=new T.Scene(),camera=new T.PerspectiveCamera(34,1,.005,100),controls=new OrbitControls(camera,renderer.domElement);
   type NerveMesh=T.Mesh<T.BufferGeometry,T.MeshStandardMaterial>;
@@ -892,7 +897,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
    controls.target.set(extent>.1&&el.clientWidth>767?-packingWidth*.12:0,extent>.1||mobile?.85:.93,0);camera.position.copy(controls.target).addScaledVector(direction,distance);controls.update();dirty=true;
   };
   // A resize (device rotation, window, keyboard) keeps the view the user set up; only an untouched default view is framed again.
-  const resize=()=>{layoutKey='';lastState=null;renderer.setPixelRatio(Math.min(devicePixelRatio,constrainedDevice?1:el.clientWidth<768||el.clientHeight<600?1.5:2));camera.aspect=el.clientWidth/el.clientHeight;camera.updateProjectionMatrix();renderer.setSize(el.clientWidth,el.clientHeight);if(!userMoved&&!latest.current.selected.length&&!selectedNerve.current){lastCameraFocus=-1;camera.clearViewOffset();fit(latest.current.view,amount);}else dirty=true;};const observer=new ResizeObserver(resize);observer.observe(el);
+  const resize=()=>{layoutKey='';lastState=null;dprNow=Math.min(dprNow,dprCeil(el.clientWidth,el.clientHeight));renderer.setPixelRatio(dprNow);camera.aspect=el.clientWidth/el.clientHeight;camera.updateProjectionMatrix();renderer.setSize(el.clientWidth,el.clientHeight);if(!userMoved&&!latest.current.selected.length&&!selectedNerve.current){lastCameraFocus=-1;camera.clearViewOffset();fit(latest.current.view,amount);}else dirty=true;};const observer=new ResizeObserver(resize);observer.observe(el);
   // Labels of a picked special region: one small label per boundary / content structure, joined by a thin line to the point of the structure nearest the middle of the region.
   // Labels start below the region bar and the top toolbar (they used to be laid out from 80 px down and the top label disappeared behind the bar): the lowest edge of those elements, measured in view coordinates, is the upper limit of every label column.
   const labelTopLimit=(rect:DOMRect,fallback:number)=>{let top=fallback;for(const q of ['.body-region-nav','.top-actions','.identity']){const r=document.querySelector(q)?.getBoundingClientRect();if(r&&r.width>0&&r.height>0)top=Math.max(top,r.bottom-rect.top+10);}return top;};
@@ -1399,7 +1404,11 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
    {const sig=s.selected.join(',')+'|'+(selectedNerve.current??'')+'|'+((s.hiddenParts??[]).length)+'|'+s.visible.join(',')+'|'+(s.isolate?1:0)+'|'+s.muscleLayer+'|'+(s.depthFilter??'');selectFill.value=s.spaceSolid?0:(s.spaceContentIds?.length||s.spaceRangeIds?.length||s.highlightNerves?.length||s.spaceRange)?1:0;
     if(sig!==selViewKey){selViewKey=sig;reportSelView(null);selViewDue=performance.now()+260;}else if(dirty)selViewDue=performance.now()+260;
     if(selViewDue&&performance.now()>=selViewDue&&!cameraTween&&ready){selViewDue=0;checkSelectionView(s);}}
-   if(dirty){renderer.render(scene,camera);updateLabels();updatePartLabels();targets=[];if(amount>.45){const hasSolid=atlas.parts.some((p,i)=>p.system!=='integumentary'&&data[i*4+3]>.5);atlas.parts.forEach((p,i)=>{if(data[i*4+3]<.5||(hasSolid&&p.system==='integumentary'))return;let left=Infinity,right=-Infinity,top=Infinity,bottom=-Infinity;for(let corner=0;corner<8;corner++){projected.set(p.bounds[(corner&1)?1:0][0]+data[i*4],p.bounds[(corner&2)?1:0][1]+data[i*4+1],p.bounds[(corner&4)?1:0][2]+data[i*4+2]).project(camera);const x=(projected.x+1)*el.clientWidth/2,y=(1-projected.y)*el.clientHeight/2;left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y);}projected.copy(centers[i]).add(new T.Vector3(data[i*4],data[i*4+1],data[i*4+2])).project(camera);if(projected.z< -1||projected.z>1)return;targets.push({index:i,x:(projected.x+1)*el.clientWidth/2,y:(1-projected.y)*el.clientHeight/2,left,right,top,bottom});});}dirty=false;}
+   if(dirty){{const now=performance.now(),dt=now-lastRenderAt;lastRenderAt=now;
+     if(dt<100){if(dt>30){slowFrames++;fastFrames=0;}else if(dt<20){fastFrames++;slowFrames=0;}else{slowFrames=0;fastFrames=0;}
+      const ceil=dprCeil(el.clientWidth,el.clientHeight),next=slowFrames>=20&&dprNow>1?Math.max(1,dprNow-.25):fastFrames>=180&&dprNow<ceil?Math.min(ceil,dprNow+.25):dprNow;
+      if(next!==dprNow){dprNow=next;slowFrames=0;fastFrames=0;renderer.setPixelRatio(dprNow);renderer.setSize(el.clientWidth,el.clientHeight);}}else{slowFrames=0;fastFrames=0;}}
+   renderer.render(scene,camera);updateLabels();updatePartLabels();targets=[];if(amount>.45){const hasSolid=atlas.parts.some((p,i)=>p.system!=='integumentary'&&data[i*4+3]>.5);atlas.parts.forEach((p,i)=>{if(data[i*4+3]<.5||(hasSolid&&p.system==='integumentary'))return;let left=Infinity,right=-Infinity,top=Infinity,bottom=-Infinity;for(let corner=0;corner<8;corner++){projected.set(p.bounds[(corner&1)?1:0][0]+data[i*4],p.bounds[(corner&2)?1:0][1]+data[i*4+1],p.bounds[(corner&4)?1:0][2]+data[i*4+2]).project(camera);const x=(projected.x+1)*el.clientWidth/2,y=(1-projected.y)*el.clientHeight/2;left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y);}projected.copy(centers[i]).add(new T.Vector3(data[i*4],data[i*4+1],data[i*4+2])).project(camera);if(projected.z< -1||projected.z>1)return;targets.push({index:i,x:(projected.x+1)*el.clientWidth/2,y:(1-projected.y)*el.clientHeight/2,left,right,top,bottom});});}dirty=false;}
 
   };animate();
   // ?mjview=1 exposes the camera for the screenshot scripts (view a structure from a chosen side and distance); nothing in the app uses it.

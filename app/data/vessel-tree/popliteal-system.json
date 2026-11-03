@@ -427,7 +427,7 @@
    "zh": "脛前返動脈",
    "kind": "artery",
    "bilateral": true,
-   "parent": null,
+   "parent": "anterior-tibial-artery",
    "at": "anterior tibial artery, just below popliteus",
    "guide": null,
    "calibreMm": [
@@ -450,8 +450,7 @@
    "relations": [],
    "keep": null,
    "mayCross": [],
-   "order": 1,
-   "parentPending": "anterior-tibial-artery"
+   "order": 1
   }
  ]
 }

@@ -1,0 +1,405 @@
+{
+ "note": "Vessel tree, batch 3: anterior tibial, posterior tibial and fibular arteries, the dorsalis pedis artery with the tarsal arteries, and the ankle arteries (malleolar and calcaneal). Both sides. Diameters in mm (start, end). The plantar, arcuate and metatarsal arteries follow in batch 4.",
+ "batch": 3,
+ "vessels": [
+  {
+   "id": "anterior-tibial-artery",
+   "en": "Anterior tibial artery",
+   "zh": "脛前動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "popliteal-artery",
+   "at": "lower border of popliteus",
+   "guide": "{S} anterior tibial artery",
+   "calibreMm": [
+    3.4,
+    2.6
+   ],
+   "terminal": false,
+   "origin": {
+    "en": "Popliteal artery, at the lower border of popliteus",
+    "zh": "膕動脈，在膕肌下緣"
+   },
+   "course": {
+    "en": "Passes forwards above the interosseous membrane into the anterior compartment, runs down on the membrane between tibialis anterior and extensor hallucis longus (extensor digitorum longus below) with the deep fibular nerve, and continues in front of the ankle as the dorsalis pedis artery",
+    "zh": "在骨間膜上緣向前進入小腿前區，沿骨間膜前面下行，位於脛前肌與伸拇長肌之間（下段為伸趾長肌），與腓深神經同行，越過踝前改稱足背動脈"
+   },
+   "supply": {
+    "en": "Muscles of the anterior compartment, the ankle joint and, through the dorsalis pedis artery, the dorsum of the foot",
+    "zh": "小腿前區肌肉、踝關節，並經足背動脈供應足背"
+   },
+   "relations": [
+    {
+     "with": "deep-fibular-nerve",
+     "rule": "deep fibular nerve runs with the artery in the anterior compartment"
+    }
+   ],
+   "keep": null,
+   "mayCross": [],
+   "order": 2,
+   "joinAt": "end",
+   "continuesInto": [
+    "dorsalis-pedis-artery"
+   ]
+  },
+  {
+   "id": "anterior-medial-malleolar-artery",
+   "en": "Anterior medial malleolar artery",
+   "zh": "前內踝動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "anterior-tibial-artery",
+   "at": "anterior tibial artery, above the ankle",
+   "guide": null,
+   "calibreMm": [
+    1.2,
+    0.6
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Anterior tibial artery, above the ankle",
+    "zh": "脛前動脈，踝上方"
+   },
+   "course": {
+    "en": "Passes behind the tendons of extensor hallucis longus and tibialis anterior to the medial malleolus",
+    "zh": "經伸拇長肌腱與脛前肌腱深面，到內踝"
+   },
+   "supply": {
+    "en": "Ankle joint and the skin over the malleolus; joins the malleolar network",
+    "zh": "踝關節與踝部皮膚；參與踝動脈網"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 2
+  },
+  {
+   "id": "anterior-lateral-malleolar-artery",
+   "en": "Anterior lateral malleolar artery",
+   "zh": "前外踝動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "anterior-tibial-artery",
+   "at": "anterior tibial artery, above the ankle",
+   "guide": null,
+   "calibreMm": [
+    1.2,
+    0.6
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Anterior tibial artery, above the ankle",
+    "zh": "脛前動脈，踝上方"
+   },
+   "course": {
+    "en": "Passes behind the tendons of extensor digitorum longus and fibularis tertius to the lateral malleolus",
+    "zh": "經伸趾長肌腱與第三腓骨肌腱深面，到外踝"
+   },
+   "supply": {
+    "en": "Ankle joint and the skin over the malleolus; joins the malleolar network",
+    "zh": "踝關節與踝部皮膚；參與踝動脈網"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 3
+  },
+  {
+   "id": "dorsalis-pedis-artery",
+   "en": "Dorsalis pedis artery",
+   "zh": "足背動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "anterior-tibial-artery",
+   "at": "front of the ankle, under the extensor retinaculum",
+   "guide": "{S} dorsalis pedis artery",
+   "calibreMm": [
+    2.4,
+    1.8
+   ],
+   "terminal": false,
+   "origin": {
+    "en": "Anterior tibial artery, in front of the ankle joint",
+    "zh": "脛前動脈，踝關節前方"
+   },
+   "course": {
+    "en": "Runs forwards on the dorsum of the foot lateral to the tendon of extensor hallucis longus, gives the tarsal arteries, and ends by dipping between the first and second metatarsal bones as the deep plantar artery",
+    "zh": "在足背沿伸拇長肌腱外側向前，分出跗動脈，終末在第一、二蹠骨之間轉入足底，成為深蹠動脈"
+   },
+   "supply": {
+    "en": "Dorsum of the foot, the tarsal joints and the first toe cleft",
+    "zh": "足背、跗關節與第一趾間"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 1,
+   "joinAt": "end",
+   "continuesInto": [
+    "arcuate-artery",
+    "deep-plantar-artery"
+   ]
+  },
+  {
+   "id": "lateral-tarsal-artery",
+   "en": "Lateral tarsal artery",
+   "zh": "跗外側動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "dorsalis-pedis-artery",
+   "at": "dorsalis pedis artery",
+   "guide": "{S} lateral tarsal artery",
+   "calibreMm": [
+    1.4,
+    0.7
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Dorsalis pedis artery",
+    "zh": "足背動脈"
+   },
+   "course": {
+    "en": "Runs laterally under extensor digitorum brevis across the tarsus",
+    "zh": "在伸趾短肌深面橫過跗骨向外側"
+   },
+   "supply": {
+    "en": "Extensor digitorum brevis and the tarsal joints",
+    "zh": "伸趾短肌與跗關節"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 1
+  },
+  {
+   "id": "medial-tarsal-arteries",
+   "en": "Medial tarsal arteries",
+   "zh": "跗內側動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "dorsalis-pedis-artery",
+   "at": "dorsalis pedis artery",
+   "guide": null,
+   "calibreMm": [
+    1.2,
+    0.6
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Dorsalis pedis artery",
+    "zh": "足背動脈"
+   },
+   "course": {
+    "en": "Pass medially over the tarsus to the medial border of the foot",
+    "zh": "經跗骨表面向內側，到足內側緣"
+   },
+   "supply": {
+    "en": "Medial side of the tarsus and the skin of the medial foot",
+    "zh": "跗骨內側與足內側皮膚"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 2
+  },
+  {
+   "id": "posterior-tibial-artery",
+   "en": "Posterior tibial artery",
+   "zh": "脛後動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "popliteal-artery",
+   "at": "lower border of popliteus",
+   "guide": "{S} posterior tibial artery",
+   "calibreMm": [
+    3.2,
+    2.2
+   ],
+   "terminal": false,
+   "origin": {
+    "en": "Popliteal artery, at the lower border of popliteus",
+    "zh": "膕動脈，在膕肌下緣"
+   },
+   "course": {
+    "en": "Runs down the deep posterior compartment behind tibialis posterior, between flexor digitorum longus and flexor hallucis longus, with the tibial nerve, passes behind the medial malleolus through the tarsal tunnel and divides into the medial and lateral plantar arteries",
+    "zh": "在小腿後區深層沿脛後肌後方下行，位於屈趾長肌與屈拇長肌之間，與脛神經同行，經內踝後方的跗隧道，分為足底內側與外側動脈"
+   },
+   "supply": {
+    "en": "Muscles of the posterior and lateral compartments, the tibia, and through its terminal branches the sole of the foot",
+    "zh": "小腿後區與外側區肌肉、脛骨，並經終支供應足底"
+   },
+   "relations": [
+    {
+     "with": "tibial-nerve",
+     "rule": "tibial nerve lateral to the artery in the lower leg"
+    }
+   ],
+   "keep": null,
+   "mayCross": [],
+   "order": 3,
+   "joinAt": "end",
+   "continuesInto": [
+    "medial-plantar-artery",
+    "lateral-plantar-artery"
+   ]
+  },
+  {
+   "id": "circumflex-fibular-artery",
+   "en": "Circumflex fibular artery",
+   "zh": "旋腓動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "posterior-tibial-artery",
+   "at": "posterior tibial artery, near its origin",
+   "guide": "{S} circumflex fibular artery",
+   "calibreMm": [
+    1.4,
+    0.7
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Posterior tibial artery, near its origin",
+    "zh": "脛後動脈起端附近"
+   },
+   "course": {
+    "en": "Winds round the neck of the fibula and joins the knee network",
+    "zh": "繞過腓骨頸，加入膝部動脈網"
+   },
+   "supply": {
+    "en": "Soleus, fibularis longus and the head of the fibula",
+    "zh": "比目魚肌、腓骨長肌與腓骨頭"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 1
+  },
+  {
+   "id": "fibular-artery",
+   "en": "Fibular artery",
+   "zh": "腓動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "posterior-tibial-artery",
+   "at": "posterior tibial artery, 2–3 cm below its origin",
+   "guide": "{S} fibular artery",
+   "calibreMm": [
+    2.2,
+    1.4
+   ],
+   "terminal": false,
+   "origin": {
+    "en": "Posterior tibial artery, 2–3 cm below its origin",
+    "zh": "脛後動脈，起端下方 2–3 公分"
+   },
+   "course": {
+    "en": "Runs down beside the fibula deep to flexor hallucis longus and ends behind the lateral malleolus as lateral calcaneal branches",
+    "zh": "貼腓骨內側、在屈拇長肌深面下行，終末在外踝後方成為外側跟骨支"
+   },
+   "supply": {
+    "en": "Fibula, the lateral and posterior compartment muscles and the lateral ankle",
+    "zh": "腓骨、小腿外側與後區肌肉、外踝周圍"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 2,
+   "continuesInto": [
+    "posterior-lateral-malleolar-artery"
+   ]
+  },
+  {
+   "id": "posterior-medial-malleolar-artery",
+   "en": "Posterior medial malleolar artery",
+   "zh": "後內踝動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "posterior-tibial-artery",
+   "at": "posterior tibial artery, above the ankle",
+   "guide": null,
+   "calibreMm": [
+    1.0,
+    0.5
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Posterior tibial artery, above the ankle",
+    "zh": "脛後動脈，踝上方"
+   },
+   "course": {
+    "en": "Passes behind the medial malleolus beneath the tendons of the tarsal tunnel",
+    "zh": "經內踝後方、跗隧道肌腱深面"
+   },
+   "supply": {
+    "en": "Ankle joint and the skin behind the medial malleolus",
+    "zh": "踝關節與內踝後方皮膚"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 3
+  },
+  {
+   "id": "posterior-lateral-malleolar-artery",
+   "en": "Posterior lateral malleolar artery",
+   "zh": "後外踝動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "fibular-artery",
+   "at": "fibular artery, above the ankle",
+   "guide": null,
+   "calibreMm": [
+    1.0,
+    0.5
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Fibular artery, above the ankle",
+    "zh": "腓動脈，踝上方"
+   },
+   "course": {
+    "en": "Passes behind the lateral malleolus deep to the fibularis tendons",
+    "zh": "經外踝後方、腓骨肌腱深面"
+   },
+   "supply": {
+    "en": "Ankle joint and the skin behind the lateral malleolus",
+    "zh": "踝關節與外踝後方皮膚"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 1
+  },
+  {
+   "id": "calcaneal-branches-of-posterior-tibial-artery",
+   "en": "Calcaneal branches of posterior tibial artery",
+   "zh": "脛後動脈跟骨支",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "posterior-tibial-artery",
+   "at": "posterior tibial artery, behind the medial malleolus",
+   "guide": null,
+   "calibreMm": [
+    1.4,
+    0.6
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Posterior tibial artery, behind the medial malleolus",
+    "zh": "脛後動脈，內踝後方"
+   },
+   "course": {
+    "en": "Runs to the medial side of the heel",
+    "zh": "到足跟內側"
+   },
+   "supply": {
+    "en": "Skin and fat pad of the heel and the calcaneus",
+    "zh": "足跟的皮膚、脂肪墊與跟骨"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 4
+  }
+ ]
+}
