@@ -40,7 +40,7 @@ function ordered(vessels) {
   vessels.forEach(visit); return out;
 }
 
-const bonesFor = (w, S) => ['hip bone', 'femur', 'tibia', 'fibula', 'patella'].map(n => `${S.w} ${n}`).concat(['Sacrum', 'Fifth lumbar vertebra', 'Fourth lumbar vertebra']).filter(n => w.has(n)).map(n => { const m = w.mesh(n); return {name: n, positions: m.positions, indices: m.indices, lo: m.lo, hi: m.hi, mesh: m}; });
+const bonesFor = (w, S) => ['hip bone', 'femur', 'tibia', 'fibula', 'patella', 'talus', 'calcaneus', 'cuboid bone', 'medial cuneiform bone', 'intermediate cuneiform bone', 'lateral cuneiform bone', 'first metatarsal bone'].map(n => `${S.w} ${n}`).concat([`Navicular bone of ${S.s} foot`]).concat(['Sacrum', 'Fifth lumbar vertebra', 'Fourth lumbar vertebra']).filter(n => w.has(n)).map(n => { const m = w.mesh(n); return {name: n, positions: m.positions, indices: m.indices, lo: m.lo, hi: m.hi, mesh: m}; });
 
 function guideOf(w, U, v, S) {
   const name = v.guide.replace('{S}', S.w).replace('{s}', S.s);
@@ -76,6 +76,20 @@ function ownCourse(w, U, v, S, built) {
     const line = centrelineOf({positions: g.positions, indices: g.indices}).map(q => q.c), o = line.reduce((a, q) => Math.abs(q[1] - .372) < Math.abs(a[1] - .372) ? q : a, line[0]);
     const t = U.onSurface(`${S.w} tibia`, P(sx * .042, .425, .030), r + .004);
     return [o, add(lerp(o, t, .5), P(sx * .004, 0, .004)), t];
+  }
+  if (/^(anterior-(medial|lateral)-malleolar|posterior-(medial|lateral)-malleolar)-artery$/.test(v.id)) {
+    const medial = /medial/.test(v.id), front = /^anterior/.test(v.id), bone = medial ? `${S.w} tibia` : `${S.w} fibula`, side = medial ? -sx : sx;
+    const m = U.extreme(bone, P(side, -.3, front ? .5 : -.6), {y: [.04, .12]}), t = U.onSurface(bone, m, r + .004);
+    const src = front ? 'anterior-tibial-artery' : (medial ? 'posterior-tibial-artery' : 'fibular-artery'), q = built.get(src).path, o = q.reduce((a, p) => Math.abs(p[1] - (t[1] + .02)) < Math.abs(a[1] - (t[1] + .02)) ? p : a, q[0]);
+    return [o, add(lerp(o, t, .5), P(side * .003, 0, front ? .003 : -.003)), t];
+  }
+  if (v.id === 'medial-tarsal-arteries') {
+    const q = built.get('dorsalis-pedis-artery').path, o = q[Math.round(q.length * .3)], bn = `${S.w} medial cuneiform bone`, t = U.onSurface(bn, U.extreme(bn, P(-sx, 0, .2)), r + .003);
+    return [o, add(lerp(o, t, .5), P(-sx * .003, 0, .002)), t];
+  }
+  if (v.id === 'calcaneal-branches-of-posterior-tibial-artery') {
+    const q = built.get('posterior-tibial-artery').path, o = q.reduce((a, p) => Math.abs(p[1] - .06) < Math.abs(a[1] - .06) ? p : a, q[0]), bn = `${S.w} calcaneus`, t = U.onSurface(bn, U.extreme(bn, P(-sx * .5, 0, -1)), r + .003);
+    return [o, add(lerp(o, t, .5), P(0, 0, -.003)), t];
   }
   if (v.id === 'medial-circumflex-femoral-artery') {
     // behind and below the femoral neck, between pectineus/iliopsoas and the capsule, to the trochanteric fossa (kept clear of the joint gap)
