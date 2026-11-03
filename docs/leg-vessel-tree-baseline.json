@@ -1,0 +1,4 @@
+{
+ "note": "Known failures of scripts/check-leg-vessel-tree.mjs (vessel|check -> size). A new one, or a bigger one, fails the build. Fix the vessel instead of adding to this list.",
+ "known": {}
+}

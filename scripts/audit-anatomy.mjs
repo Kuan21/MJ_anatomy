@@ -56,7 +56,7 @@ for(const [name,region] of Object.entries(bodyNerves)){
 for(const [id,expected] of Object.entries({FJ2186:'Left dorsal metatarsal vein',FJ2199:'Right dorsal metatarsal vein',FJ2190:'Left fibular vein',FJ1469:'Right flexor pollicis brevis',FJ1469M:'Left flexor pollicis brevis'})){
  const p=byId.get(id);if(!p||p.name!==expected)failures.push(id+': expected corrected runtime identity "'+expected+'"');
 }
-for(const id of ['FJ2091','FJ2195'])if(byId.has(id))failures.push(id+': quarantined source anomaly is still active');
+for(const id of ['FJ2091','FJ2195']){const p=byId.get(id);if(!p||p.system!=='arterial'||!/lateral circumflex femoral artery$/.test(p.name))failures.push(id+': lateral circumflex femoral branch set must be an active, correctly named artery');}
 
 for(const [id,patch] of Object.entries(overrides.parts)){
  const p=byId.get(id);

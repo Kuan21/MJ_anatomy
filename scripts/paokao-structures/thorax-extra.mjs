@@ -1,6 +1,7 @@
 // More thoracic structures the atlas lacks: thoracic duct, posterior intercostal veins, supreme intercostal and superior phrenic arteries, the atrioventricular nodal
 // artery, and typical dorsal rami of the thoracic spinal nerves with their posterior cutaneous branches.
 import {sub, add, mul, unit, len, lerp} from '../lib/paokao-util.mjs';
+import {closest, dot} from '../lib/heart-geom.mjs';
 
 const GRAYS = 'Gray’s Anatomy for Students, 4th ed. (Drake et al.), ch. 1 Back and ch. 3 Thorax';
 const SIDES = [{w: 'Right', l: 'right', sx: -1, zh: '右', s: 'r'}, {w: 'Left', l: 'left', sx: 1, zh: '左', s: 'l'}];
@@ -82,15 +83,24 @@ export default function thoraxExtra(U) {
   // ---- Typical dorsal rami of the thoracic spinal nerves (T2–T11): back from the intervertebral foramen between the transverse processes, then a medial branch whose posterior cutaneous branch pierces trapezius to the skin.
   for (const S of SIDES) {
     const rami = [], cutaneous = [];
+    // The ramus leaves its own spinal ganglion (the real mesh of the nerve model): the ganglia are found as clusters of the mesh along y (C1 … C8, T1 … T12, L1 = 21 of them) and the ramus of
+    // T(n) starts at the lateral pole of ganglion 7 + n, just outside the intervertebral foramen, so the nerve is one continuous course from the ganglion instead of a loose segment beside the vertebra.
+    const gang = U.V(`Spinal ganglion.${S.l[0]}`).slice().sort((a, b) => b[1] - a[1]), clusters = [];
+    for (const v of gang) { const c = clusters.at(-1); if (c && c.at(-1)[1] - v[1] < .0025) c.push(v); else clusters.push([v]); }
+    if (clusters.length !== 21) throw new Error(`thoracic dorsal rami: expected 21 spinal ganglia, found ${clusters.length}`);
     for (let i = 1; i < 11; i++) {
-      const vname = `${ORD[i][0].toUpperCase()}${ORD[i].slice(1)} thoracic vertebra`, m = U.mesh(vname), yc = (m.lo[1] + m.hi[1]) / 2 - .008;
-      const cord = U.axisAt('White matter of spinal cord', yc, null, .002), fo = add(cord, P(S.sx * .0165, -.001, .0)), mid = add(cord, P(S.sx * .029, -.003, -.024)), med = add(cord, P(S.sx * .016, .0, -.044));
+      const g = clusters[7 + i + 1], gc = [0, 1, 2].map(k => g.reduce((t, v) => t + v[k], 0) / g.length), pole = g.reduce((a, v) => Math.abs(v[0]) > Math.abs(a[0]) ? v : a, g[0]);
+      const cord = U.axisAt('White matter of spinal cord', gc[1], null, .002), fo = add(pole, P(-S.sx * .0006, 0, 0)), mid = add(cord, P(S.sx * .029, -.003, -.024)), med = add(cord, P(S.sx * .016, 0, -.044));
       // The branch is drawn as far as the back surface of the outermost back muscle (trapezius, latissimus dorsi or the erector spinae) where it comes out; the last stretch through the fat to the skin is not drawn, so nothing floats outside the muscles.
       const from = add(cord, P(S.sx * .014, 0, -.2)); let surf = null;
       for (const n of [`Ascending part of ${S.l} trapezius`, `Transverse part of ${S.l} trapezius`, `Descending part of ${S.l} trapezius`, `${S.w} latissimus dorsi`, `${S.w} rhomboid major`, `${S.w} rhomboid minor`, `${S.w} longissimus thoracis`, `${S.w} iliocostalis thoracis`, `${S.w} spinalis thoracis`, `${S.w} serratus posterior superior`, `${S.w} serratus posterior inferior`].filter(U.has)) { const h = U.rayHit(n, from, P(0, 0, 1)); if (h && (!surf || h.point[2] < surf[2])) surf = h.point; }
       const skin = surf ? add(surf, P(0, 0, .0006)) : add(cord, P(S.sx * .014, 0, -.06));
-      rami.push({pts: [fo, mid, med], r: [.0011, .0008], samples: 14});
-      cutaneous.push({pts: [med, lerp(med, skin, .5), skin], r: [.0006, .0004], samples: 12});
+      // the way points lie outside the vertebrae and ribs of their level (the nerve passes between the transverse processes, behind the costotransverse joint, not through them)
+      const around = [`${ORD[i]} thoracic vertebra`, `${ORD[i + 1]} thoracic vertebra`, `${S.w} ${ORD[i - 1]} rib`, `${S.w} ${ORD[i]} rib`, `${S.w} ${ORD[i + 1]} rib`].filter(U.has).map(n => U.mesh(n));
+      const clear = p => { for (let pass = 0; pass < 4; pass++) for (const m of around) { const c = closest(m, p); if (dot(sub(p, c.point), c.normal) < .0022 && c.d < .0045) p = add(c.point, mul(c.normal, .0026)); } return p; };
+      const mid2 = clear(mid), med2 = clear(med);
+      rami.push({pts: [fo, lerp(fo, mid2, .5), mid2, lerp(mid2, med2, .5), med2], r: [.0011, .0008], samples: 18});
+      cutaneous.push({pts: [med2, lerp(med2, skin, .5), skin], r: [.0006, .00012], samples: 12});   // the branch thins to a point where it ends in the muscle's back surface (the skin is not drawn)
     }
     out.push({
       name: `${S.w} dorsal ramus of thoracic spinal nerve`, zh: `${S.zh}胸脊神經後支`, system: 'nervous', kind: 'nerve', tubes: rami,

@@ -1,14 +1,14 @@
 # 血管末端審核
 
-共檢查 10373 個血管末端（動脈與靜脈；每個血管網格的各分支尖端）。
+共檢查 10375 個血管末端（動脈與靜脈；每個血管網格的各分支尖端）。
 
 | 處理 | 數量 | 說明 |
 | --- | ---: | --- |
-| 原本已相連 | 3411 | 末端接到同類型的上游或分支血管，不處理 |
-| 補接（connector） | 683 | 12 mm 內有同類型血管，加一條細而彎的連接管，接回母血管 |
-| 樣條橋接（bridge） | 369 | 上肢與下肢：下一段血管距離大於本段管徑一半者，加一條口徑漸變的樣條連接管（半徑由本段漸變到下一段），取代簡單連接管 |
+| 原本已相連 | 3412 | 末端接到同類型的上游或分支血管，不處理 |
+| 補接（connector） | 682 | 12 mm 內有同類型血管，加一條細而彎的連接管，接回母血管 |
+| 樣條橋接（bridge） | 373 | 上肢與下肢：下一段血管距離大於本段管徑一半者，加一條口徑漸變的樣條連接管（半徑由本段漸變到下一段），取代簡單連接管 |
 | 漸細（fade） | 2684 | 半徑 1.8 mm 以下的小血管，真實解剖上止於肌肉、器官或筋膜；末端收成尖端，資料卡註明「末端逐漸變細，進入周圍組織」 |
-| 進入器官／其他（enters） | 3226 | 較大的血管進入器官或骨（如主動脈根部、肝靜脈進入肝），不改形狀，列在下方供人工複查 |
+| 進入器官／其他（enters） | 3224 | 較大的血管進入器官或骨（如主動脈根部、肝靜脈進入肝），不改形狀，列在下方供人工複查 |
 
 ## 補接與未處理清單
 
@@ -131,9 +131,9 @@
 | Right dorsalis pedis artery (FJ2055) | enters × 4 | 2.4 | 2.5 | 0 |
 | Right dorsalis pedis artery (FJ2055) | gap × 1 | 1.7 | 3 | 4.6 |
 | Deep dorsal vein of penis (FJ2056) | enters × 2 | 0 | 4.5 | 0.6 |
-| Descending branch of right lateral circumflex femoral artery (FJ2057) | enters × 32 | 2.6 | 22.9 | 0.1 |
+| Descending branch of right lateral circumflex femoral artery (FJ2057) | enters × 31 | 2.5 | 22.9 | 0.1 |
 | Dorsal venous arch of right foot (FJ2061) | enters × 1 | 0 | 15 | 7.5 |
-| Descending branch of left lateral circumflex femoral artery (FJ2063) | enters × 33 | 2.5 | 15.3 | 0 |
+| Descending branch of left lateral circumflex femoral artery (FJ2063) | enters × 34 | 2.6 | 3.9 | 0 |
 | Descending branch of left lateral circumflex femoral artery (FJ2063) | gap × 1 | 2.7 | 9.3 | 4.1 |
 | Left anterior tibial artery (FJ2065) | enters × 28 | 2.8 | 2.9 | 0.1 |
 | Left anterior tibial recurrent artery (FJ2066) | enters × 1 | 0 | 2.5 | 1.9 |
@@ -153,11 +153,11 @@
 | Left middle genicular artery (FJ2084) | enters × 1 | 1.9 | 8.2 | 1 |
 | Left popliteal artery (FJ2086) | gap × 5 | 2.2 | 2.7 | 6.4 |
 | Left popliteal artery (FJ2086) | enters × 9 | 2.9 | 5 | 0.2 |
-| Left posterior tibial artery (FJ2087) | enters × 20 | 1.9 | 5.5 | 0.1 |
+| Left posterior tibial artery (FJ2087) | enters × 21 | 1.9 | 5.5 | 0.1 |
 | Set of perforating arteries (FJ2090) | enters × 2 | 0 | 3.7 | 0.9 |
-| Set of calcaneal branches of posterior tibial artery (FJ2091) | enters × 10 | 2.6 | 2.7 | 0.5 |
-| Set of calcaneal branches of posterior tibial artery (FJ2091) | gap × 1 | 2.2 | 6.8 | 5.3 |
-| Set of dorsal digital arteries (FJ2093) | enters × 21 | 2.2 | 5.7 | 0.2 |
+| Left ascending and transverse branches of lateral circumflex femoral artery (FJ2091) | enters × 8 | 2.6 | 2.7 | 0.5 |
+| Left ascending and transverse branches of lateral circumflex femoral artery (FJ2091) | gap × 1 | 2.2 | 6.8 | 5.3 |
+| Left fibular artery (FJ2093) | enters × 22 | 2.9 | 5.7 | 0.2 |
 | Set of perforating arteries (FJ2094) | enters × 19 | 2.5 | 2.6 | 0 |
 | Set of perforating arteries (FJ2094) | gap × 2 | 2.5 | 5.8 | 7.1 |
 | Set of plantar digital arteries proper (FJ2095) | enters × 1 | 0 | 4 | 0.5 |
@@ -180,7 +180,7 @@
 | Left genicular vein (FJ2125) | gap × 1 | 0.9 | 3.2 | 4.8 |
 | Set of perforating arteries (FJ2127) | enters × 2 | 1.9 | 6.3 | 0.3 |
 | Plantar venous arch of right foot (FJ2129) | enters × 1 | 0 | 3.8 | 1.6 |
-| Right anterior tibial artery (FJ2130) | enters × 25 | 2.8 | 3 | 0.2 |
+| Right anterior tibial artery (FJ2130) | enters × 26 | 2.8 | 3 | 0.2 |
 | Right anterior tibial recurrent artery (FJ2131) | enters × 3 | 0 | 15.9 | 0 |
 | Right anterior tibial vein (FJ2132) | enters × 5 | 0 | 5.5 | 1.5 |
 | Right anterior tibial vein (FJ2132) | gap × 2 | 0.8 | 3.5 | 4.8 |
@@ -222,14 +222,14 @@
 | Left lateral circumflex femoral vein (FJ2188) | gap × 2 | 2.3 | 9.6 | 6 |
 | Left medial circumflex femoral vein (FJ2189) | gap × 2 | 1 | 3.5 | 4.8 |
 | Left medial circumflex femoral vein (FJ2189) | enters × 3 | 0 | 19.4 | 6.1 |
-| Right fibular vein (FJ2190) | enters × 2 | 0 | 5.5 | 0.2 |
+| Left fibular vein (FJ2190) | enters × 2 | 0 | 5.5 | 0.2 |
 | Plantar metatarsal vein (FJ2191) | enters × 1 | 0 | 10.2 | 0.4 |
 | Set of perforating veins (FJ2192) | enters × 1 | 0 | 11.7 | 11.2 |
 | Right anterior tibial vein (FJ2193) | enters × 18 | 2.9 | 4.8 | 0.1 |
-| Set of calcaneal branches of posterior tibial artery (FJ2195) | enters × 11 | 2.6 | 5.2 | 0.2 |
-| Set of dorsal digital arteries (FJ2197) | enters × 23 | 2.1 | 4.6 | 0.1 |
+| Right ascending and transverse branches of lateral circumflex femoral artery (FJ2195) | enters × 10 | 2.6 | 5.2 | 0.2 |
+| Right fibular artery (FJ2197) | enters × 25 | 2.7 | 4.6 | 0.1 |
 | Set of dorsal digital veins (FJ2198) | enters × 1 | 0 | 7.8 | 0.9 |
-| Dorsal metacarpal vein (FJ2199) | enters × 4 | 0 | 5.6 | 0.9 |
+| Right dorsal metatarsal vein (FJ2199) | enters × 4 | 0 | 5.6 | 0.9 |
 | Right fibular vein (FJ2200) | enters × 26 | 2.8 | 16.9 | 0.4 |
 | Right lateral circumflex femoral vein (FJ2201) | enters × 12 | 2.5 | 7.1 | 0.1 |
 | Right lateral circumflex femoral vein (FJ2201) | gap × 1 | 1.3 | 9.8 | 6.2 |
@@ -682,8 +682,8 @@
 | Left inferior epigastric artery (FJ3511) | enters × 4 | 0 | 30.4 | 1.4 |
 | Left inferior epigastric vein (FJ3512) | enters × 8 | 0 | 32.2 | 0.1 |
 | Left inferior epigastric vein (FJ3512) | gap × 2 | 1.7 | 5.5 | 4 |
-| Left inferior gluteal vein (FJ3513) | enters × 8 | 2.6 | 2.5 | 1.3 |
-| Left inferior gluteal vein (FJ3513) | gap × 2 | 2.2 | 2.8 | 4.1 |
+| Left inferior gluteal vein (FJ3513) | gap × 2 | 1.5 | 8.6 | 4.6 |
+| Left inferior gluteal vein (FJ3513) | enters × 5 | 0 | 9.6 | 1.4 |
 | Left inferior phrenic artery (FJ3514) | gap × 1 | 1.8 | 6.5 | 5.3 |
 | Left inferior phrenic artery (FJ3514) | enters × 3 | 2.1 | 3.9 | 0.8 |
 | Left inferior phrenic artery (FJ3515) | enters × 2 | 0 | 5.5 | 0.7 |
@@ -691,7 +691,7 @@
 | Left inferior phrenic artery (FJ3519) | enters × 1 | 0 | 9.6 | 0.7 |
 | Left external iliac vein (FJ3522) | enters × 2 | 0 | 2.7 | 0.9 |
 | Left internal pudendal vein (FJ3525) | enters × 1 | 1.9 | 4.8 | 1.3 |
-| Left internal pudendal vein (FJ3525) | gap × 3 | 1.8 | 5.7 | 5 |
+| Left internal pudendal vein (FJ3525) | gap × 4 | 1.8 | 5.7 | 4.1 |
 | Left lateral sacral vein (FJ3526) | enters × 3 | 1.9 | 4 | 0.2 |
 | Left lateral sacral vein (FJ3526) | gap × 2 | 1.4 | 6.6 | 4.5 |
 | Left obturator vein (FJ3527) | gap × 2 | 1.2 | 8.3 | 6.2 |
@@ -741,8 +741,8 @@
 | Right inferior epigastric artery (FJ3604) | gap × 3 | 0.9 | 4.1 | 4.7 |
 | Right inferior epigastric vein (FJ3605) | enters × 14 | 0 | 13.5 | 0.1 |
 | Right inferior epigastric vein (FJ3605) | gap × 1 | 1.1 | 9.9 | 5.9 |
-| Right inferior gluteal vein (FJ3606) | gap × 5 | 2.5 | 2.6 | 6.7 |
-| Right inferior gluteal vein (FJ3606) | enters × 4 | 2.2 | 11 | 2.1 |
+| Right inferior gluteal vein (FJ3606) | enters × 3 | 0 | 7.6 | 0.4 |
+| Right inferior gluteal vein (FJ3606) | gap × 3 | 1.9 | 5.5 | 6.1 |
 | Right internal iliac vein (FJ3607) | gap × 1 | 1.9 | 5 | 14.6 |
 | Right internal iliac vein (FJ3609) | enters × 1 | 0 | 3.1 | 6.2 |
 | Right internal pudendal vein (FJ3610) | gap × 5 | 1.9 | 2.7 | 4.2 |

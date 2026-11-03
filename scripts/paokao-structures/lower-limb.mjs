@@ -41,17 +41,18 @@ export default function lowerLimb(U) {
     }
     // Lateral circumflex femoral artery → ascending and transverse branches.
     {
+      // The ascending and transverse branches are retired (ids kept): BodyParts3D has them as one branch set per side, labelled "Set of calcaneal branches of posterior tibial artery" at source and renamed in app/anatomy-source-overrides.json.
       const lc = `${S.w} lateral circumflex femoral artery`, tipHi = U.tips(lc, .008).reduce((a, t) => t[0] * S.sx < a[0] * S.sx ? t : a);
       const o = U.cen(lc, add(tipHi, P(S.sx * -.008, .0, .0)), .004), asis = U.extreme(`${S.w} hip bone`, P(0, 0, 1), {y: [.95, 1.05]});
       art(S, lc, 'ascending branch of lateral circumflex femoral artery', '旋股外側動脈升支',
         ['Lateral circumflex femoral artery', '旋股外側動脈'], ['Ascends laterally beneath sartorius and rectus femoris, towards the anterior superior iliac spine', '在縫匠肌與股直肌深面向外上走，朝髂前上棘'],
         ['Tensor fasciae latae and the muscles round the hip (anastomoses with the superior gluteal artery)', '闊筋膜張肌與髖周肌肉（與臀上動脈吻合）'],
-        [{pts: [o, add(lerp(o, asis, .45), P(S.sx * .006, 0, -.006)), add(asis, P(S.sx * .008, -.012, -.014))], r: [.0014, .0008], samples: 20}]);
+        [{pts: [o, add(lerp(o, asis, .45), P(S.sx * .006, 0, -.006)), add(asis, P(S.sx * .008, -.012, -.014))], r: [.0014, .0008], samples: 20}], {retired: true});
       const t = U.onSurface(`${S.w} vastus lateralis`, P(S.sx * .125, .835, .0), -.003);
       art(S, lc, 'transverse branch of lateral circumflex femoral artery', '旋股外側動脈橫支',
         ['Lateral circumflex femoral artery', '旋股外側動脈'], ['Runs laterally through vastus lateralis and winds round the femur below the greater trochanter', '向外側穿過股外側肌，繞過大轉子下方的股骨'],
         ['Vastus lateralis and the cruciate anastomosis of the thigh', '股外側肌與大腿的十字吻合'],
-        [{pts: [o, add(lerp(o, t, .5), P(0, -.004, -.006)), t], r: [.0012, .0007], samples: 16}]);
+        [{pts: [o, add(lerp(o, t, .5), P(0, -.004, -.006)), t], r: [.0012, .0007], samples: 16}], {retired: true});
     }
     // Superficial branches of the femoral artery just below the inguinal ligament.
     {
@@ -86,13 +87,14 @@ export default function lowerLimb(U) {
         [{pts: [o, add(lerp(o, med, .5), P(0, 0, .006)), add(med, P(-S.sx * .001, .008, .0045))], r: [.0010, .0006], samples: 16}]);
     }
     // Fibular artery and its circumflex fibular branch (from the posterior tibial artery).
+    // The fibular artery itself is retired (id kept): BodyParts3D has the real vessel, labelled "Set of dorsal digital arteries" at source and renamed in app/anatomy-source-overrides.json.
     {
       const pt = `${S.w} posterior tibial artery`, fib = `${S.w} fibula`, calc = `${S.w} calcaneus`;
       const o = axis(pt, .335, P(S.sx * .055, .335, -.020));
       const along = y => { const c = axis(fib, y, P(S.sx * .102, y, -.035)); return add(c, P(-S.sx * .0075, 0, -.003)); };
       const end = U.onSurface(calc, P(S.sx * .095, .030, -.050), .0015);
       art(S, pt, 'fibular artery', '腓動脈', ['Posterior tibial artery, 2–3 cm below the lower border of popliteus', '脛後動脈（膕肌下緣下方 2–3 公分）'], ['Descends along the medial side of the fibula (under flexor hallucis longus) to the lateral side of the calcaneus', '沿腓骨內側（屈拇長肌深面）下行，到跟骨外側'],
-        ['Lateral and posterior compartments of the leg, the fibula and the lateral side of the heel', '小腿外側與後區、腓骨與足跟外側'], [{pts: [o, along(.300), along(.250), along(.200), along(.150), along(.100), add(lerp(along(.100), end, .6), P(0, 0, -.004)), end], r: [.0024, .0010], samples: 44}]);
+        ['Lateral and posterior compartments of the leg, the fibula and the lateral side of the heel', '小腿外側與後區、腓骨與足跟外側'], [{pts: [o, along(.300), along(.250), along(.200), along(.150), along(.100), add(lerp(along(.100), end, .6), P(0, 0, -.004)), end], r: [.0024, .0010], samples: 44}], {retired: true});
       const neck = U.onSurface(fib, P(S.sx * .110, .385, -.030), .003), o2 = axis(pt, .360, P(S.sx * .060, .360, -.030));
       art(S, pt, 'circumflex fibular artery', '腓旋動脈', ['Posterior tibial artery, near its origin (sometimes the anterior tibial artery)', '脛後動脈起始處附近（有時來自脛前動脈）'], ['Winds round the neck of the fibula under soleus and joins the genicular anastomosis', '在比目魚肌深面繞過腓骨頸，與膝關節網吻合'],
         ['Head and neck of the fibula and the proximal tibiofibular joint', '腓骨頭、頸與脛腓近側關節'], [{pts: [o2, add(lerp(o2, neck, .5), P(0, 0, -.006)), neck], r: [.0010, .0006], samples: 16}]);
