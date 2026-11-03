@@ -891,3 +891,97 @@ docs/pathways-lower-limb.md    本審核文件（不部署）
 標「待核」的模型名稱（腰方肌、腹橫肌、腹內斜肌、提睪肌、伸趾短肌、蹠方肌、足骨間肌、胸骨、內側蹠靜脈等）在實作時用搜尋索引核對，不需要你回答。
 
 走向已對照公開來源（Gray 1918／OpenStax）檢查，待使用者核對；位置關係另以內部對照資料交叉檢查，差異見 2.5。本文件未使用其他來源。
+
+
+## 資訊卡「播放走向」對照（下肢）
+
+規則：資訊卡上的結構（只限右側，或沒有左右之分的神經叢）若符合下表的名稱，卡片出現「播放走向」按鈕，進入走向動畫並跳到該步驟，高亮表中的路徑（比動畫更細的結構跳到所屬主幹並高亮主幹）。對照資料在 `lib/pathways/card-map.ts`，`scripts/test-flow-card-map.mjs` 檢查每一筆的步驟與路徑都存在。
+
+| 類別 | 步驟 | 動畫標題 | 資訊卡名稱（去掉 right／left 後，小寫） | 高亮路徑 id |
+|---|---|---|---|---|
+| 神經 | 1 | 下肢神經從哪裡來 | lumbar plexus｜sacral plexus｜lumbosacral plexus｜anterior rami of lumbar nerves | — |
+| 神經 | 2 | 股神經與外股皮神經 | femoral nerve | fem |
+| 神經 | 2 | 股神經與外股皮神經 | lateral femoral cutaneous nerve | lfcn |
+| 神經 | 3 | 股神經的分支 | anterior cutaneous branches of femoral nerve | afc1, afc2 |
+| 神經 | 3 | 股神經的分支 | saphenous nerve｜infrapatellar branch of saphenous nerve｜medial crural cutaneous branches of saphenous nerve | saph |
+| 神經 | 4 | 閉孔神經 | anterior branch of obturator nerve | obt_a |
+| 神經 | 4 | 閉孔神經 | posterior branch of obturator nerve | obt_p |
+| 神經 | 4 | 閉孔神經 | obturator nerve | obt |
+| 神經 | 5 | 臀部的神經 | superior gluteal nerve | sgn |
+| 神經 | 5 | 臀部的神經 | posterior femoral cutaneous nerve | pcnt |
+| 神經 | 5 | 臀部的神經 | nerve to quadratus femoris muscle | nqf |
+| 神經 | 5 | 臀部的神經 | pudendal nerve | pud |
+| 神經 | 6 | 坐骨神經 | sciatic nerve | sci |
+| 神經 | 7 | 膕窩與腓腸神經 | medial sural cutaneous nerve | msc |
+| 神經 | 7 | 膕窩與腓腸神經 | sural communicating branch of common fibular nerve | scb |
+| 神經 | 7 | 膕窩與腓腸神經 | sural nerve | sural |
+| 神經 | 8 | 脛神經到足底 | tibial nerve | tib |
+| 神經 | 8 | 脛神經到足底 | medial plantar nerve｜common plantar digital branches of medial plantar nerve｜proper plantar digital branches of medial plantar nerve | mpl |
+| 神經 | 8 | 脛神經到足底 | lateral plantar nerve｜common plantar digital branches of lateral plantar nerve｜proper plantar digital branches of lateral plantar nerve | lpl |
+| 神經 | 9 | 總腓神經 | common fibular nerve | cfib |
+| 神經 | 10 | 深腓神經與淺腓神經 | deep fibular nerve｜muscular branches of deep fibular nerve｜dorsal digital branches of deep fibular nerve | dfib |
+| 神經 | 10 | 深腓神經與淺腓神經 | superficial fibular nerve｜dorsal digital branches of superficial fibular nerve | sfib |
+| 神經 | 10 | 深腓神經與淺腓神經 | medial dorsal cutaneous nerve of foot | mdcn |
+| 神經 | 10 | 深腓神經與淺腓神經 | intermediate dorsal cutaneous nerve of foot | idcn |
+| 血管 | 1 | 由主動脈到股動脈 | common iliac artery | cil |
+| 血管 | 1 | 由主動脈到股動脈 | external iliac artery | eil |
+| 血管 | 1 | 由主動脈到股動脈 | femoral artery | fa |
+| 血管 | 1 | 由主動脈到股動脈 | femoral vein | v_fa |
+| 血管 | 1 | 由主動脈到股動脈 | common iliac vein | v_cil |
+| 血管 | 1 | 由主動脈到股動脈 | external iliac vein | v_eil |
+| 血管 | 2 | 股動脈近端四條小分支 | superficial epigastric artery | sepa |
+| 血管 | 2 | 股動脈近端四條小分支 | superficial epigastric vein | v_sepa |
+| 血管 | 3 | 股深動脈 | descending branch of lateral circumflex femoral artery | lcfa_d |
+| 血管 | 3 | 股深動脈 | lateral circumflex femoral artery | lcfa |
+| 血管 | 3 | 股深動脈 | lateral circumflex femoral vein | v_lcfa |
+| 血管 | 3 | 股深動脈 | medial circumflex femoral vein | v_mcfa |
+| 血管 | 3 | 股深動脈 | deep femoral vein | v_pfa |
+| 血管 | 4 | 內收肌管與降膝動脈 | descending genicular artery | dga |
+| 血管 | 5 | 膕窩與膝動脈 | lateral｜superior lateral) superior genicular artery$｜^superior lateral genicular artery | gsl |
+| 血管 | 5 | 膕窩與膝動脈 | medial superior｜superior medial) genicular artery | gsm |
+| 血管 | 5 | 膕窩與膝動脈 | inferior lateral genicular artery | gil |
+| 血管 | 5 | 膕窩與膝動脈 | inferior medial genicular artery | gim |
+| 血管 | 5 | 膕窩與膝動脈 | middle genicular artery | gmid |
+| 血管 | 5 | 膕窩與膝動脈 | popliteal artery | popa |
+| 血管 | 5 | 膕窩與膝動脈 | popliteal vein｜genicular vein | v_popa |
+| 血管 | 6 | 臀部的血管 | internal iliac artery | iil |
+| 血管 | 6 | 臀部的血管 | internal iliac vein | v_iil |
+| 血管 | 6 | 臀部的血管 | superior gluteal vein | v_sga |
+| 血管 | 6 | 臀部的血管 | inferior gluteal vein | v_iga |
+| 血管 | 6 | 臀部的血管 | internal pudendal vein | v_ipa |
+| 血管 | 6 | 臀部的血管 | obturator vein | v_obta |
+| 血管 | 7 | 脛前動脈與足背動脈 | anterior tibial artery｜anterior tibial recurrent artery | ata |
+| 血管 | 7 | 脛前動脈與足背動脈 | anterior tibial vein | v_ata |
+| 血管 | 7 | 脛前動脈與足背動脈 | dorsalis pedis artery｜arcuate artery | dpa |
+| 血管 | 7 | 脛前動脈與足背動脈 | deep plantar artery | dpla |
+| 血管 | 8 | 脛後動脈、腓動脈與足底 | posterior tibial artery | pta |
+| 血管 | 8 | 脛後動脈、腓動脈與足底 | posterior tibial vein | v_pta |
+| 血管 | 8 | 脛後動脈、腓動脈與足底 | fibular vein | v_fiba |
+| 血管 | 8 | 脛後動脈、腓動脈與足底 | fibular artery | fiba |
+| 血管 | 8 | 脛後動脈、腓動脈與足底 | medial plantar artery｜superficial medial plantar artery | mpa |
+| 血管 | 8 | 脛後動脈、腓動脈與足底 | lateral plantar artery | lpa |
+| 血管 | 8 | 脛後動脈、腓動脈與足底 | plantar arch | dpar |
+| 血管 | 8 | 脛後動脈、腓動脈與足底 | plantar venous arch of foot | v_dpar |
+| 血管 | 9 | 大隱靜脈 | great saphenous vein | gsv |
+| 血管 | 10 | 小隱靜脈 | small saphenous vein | ssv |
+
+### 目前沒有對應資訊卡的路徑
+
+以下動畫路徑在網站目前沒有同名資訊卡，所以沒有按鈕；之後補結構時一併補資訊卡並加入上表。列出路徑 id 與所在步驟（括號內為該步驟畫面上的標籤名稱，供對照）。
+
+- 神經第 2 步「股神經與外股皮神經」：fem_r2、fem_r3、fem_r4（標籤：股神經、外股皮神經、腹股溝韌帶、股動脈）
+- 神經第 3 步「股神經的分支」：fem_m1、fem_m2、fem_vm（標籤：前股皮神經、股四頭肌、至股內側肌神經、隱神經）
+- 神經第 4 步「閉孔神經」：obt_g（標籤：閉孔神經、前支、後支、股薄肌）
+- 神經第 5 步「臀部的神經」：sci_r4、sci_r5、sci_s1、sci_s2、sci_s3、ign、noi（標籤：臀上神經、梨狀肌、臀下神經、後股皮神經、陰部神經）
+- 神經第 7 步「膕窩與腓腸神經」：lsc、ldcn（標籤：內側腓腸皮神經、外側腓腸皮神經、腓腸交通支、腓腸神經、外側足背皮神經）
+- 神經第 8 步「脛神經到足底」：ppd、cpd1、cpd2、cpd3、lpl_s、lpl_d（標籤：脛神經、跗管、內蹠神經、外蹠神經）
+- 神經第 10 步「深腓神經與淺腓神經」：dfib_m、dfib_l（標籤：淺腓神經、深腓神經、內側足背皮神經、中間足背皮神經）
+- 血管第 1 步「由主動脈到股動脈」：aorta（標籤：髂總動脈、髂外動脈、股動脈、股靜脈、股神經）
+- 血管第 2 步「股動脈近端四條小分支」：scia、sepp、depp（標籤：淺旋髂動脈、淺腹壁動脈、淺外陰動脈、深外陰動脈、大隱靜脈）
+- 血管第 3 步「股深動脈」：lcfa_a、lcfa_t、perf1、perf2、perf3（標籤：股深動脈、外旋股動脈、內旋股動脈、降支、穿通支）
+- 血管第 4 步「內收肌管與降膝動脈」：dga_a、dga_s（標籤：降膝動脈、關節支、隱支、隱神經、內收肌裂孔）
+- 血管第 6 步「臀部的血管」：sga_s、sga_d（標籤：臀上動脈、淺支、深支、臀下動脈、內陰動脈）
+- 血管第 7 步「脛前動脈與足背動脈」：alma、amma（標籤：脛前動脈、前外踝動脈、前內踝動脈、足背動脈、深蹠動脈）
+- 血管第 8 步「脛後動脈、腓動脈與足底」：cfa（標籤：脛後動脈、旋腓動脈、腓動脈、內蹠動脈、深蹠弓）
+- 血管第 9 步「大隱靜脈」：dva_m（標籤：足背靜脈弓、內踝前側、大隱靜脈、隱神經、隱靜脈孔）
+- 血管第 10 步「小隱靜脈」：dva_l（標籤：外踝後側、小隱靜脈、腓腸神經、匯入膕靜脈）
