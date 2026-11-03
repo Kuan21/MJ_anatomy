@@ -1,6 +1,14 @@
 # REVIEW_LOG
 
-最後更新：2026-11-02。規則：只改介面、效能、腳本、文件的 PR 在 `build` 通過後自動 merge；涉及模型、示意模型、解剖內容、名稱、Quiz 資料的 PR 標【需人工審核】，**一律不開 auto-merge**，等你確認。
+最後更新：2026-11-03。規則：只改介面、效能、腳本、文件的 PR 在 `build` 通過後自動 merge；涉及模型、示意模型、解剖內容、名稱、Quiz 資料的 PR 標【需人工審核】，**一律不開 auto-merge**，等你確認。
+
+## 血管合格標準與 CI 數字、網站直觀化次序（文件與腳本，CI 綠後自動 merge）
+
+這個 PR 只有文件、腳本與 CI 步驟，不改模型也不改解剖內容。
+- `ROADMAP.md` 第 4 節新增血管合格標準與待辦清單（取自 2026-11-03 檢視，數字來自既有稽核文件，**未在 3D 畫面確認**）；新增第 11b 節網站直觀化四批次序。
+- `scripts/vessel-acceptance.mjs`（`npm run check:vessels:accept`）：輸出末端間隙、進骨、管徑比、切線誤差四項數字（新血管樹與現有下肢血管網格各一欄），寫進 CI job summary；`--strict` 才要求全部為 0。例外清單 `docs/vessel-acceptance-exclusions.json`，每條要有原因。
+- 既有 Deploy workflow 加兩個步驟（`check:vessels`、`check:vessels:accept`），沒有新增 workflow。
+- **未驗證：** 此環境沒有安裝依賴也沒有生成檔，兩個新步驟與新腳本尚未實際執行，只做了語法檢查；請以 PR 的 CI 結果為準。若 `check:vessels` 在 main 上本來就失敗，會在這個 PR 暴露，不會放寬規則。
 
 ## 特殊區域重做 第 3 批：股三角、內收肌管、膕窩（【需人工審核】，不自動 merge）
 
