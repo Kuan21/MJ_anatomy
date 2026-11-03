@@ -12,12 +12,14 @@ export interface FlowAnimationProps{
  initialMode?:number;initialStep?:number;
  /** 原型座標 → 模型座標，以及模型相對原型的大小 */
  map?:(p:Pt)=>Pt;unit?:number;
+ /** 起始步驟要高亮的路徑 id */
+ highlight?:string[];
  onClose:()=>void;
  label?:string;
 }
 
 /** 全頁走向動畫：桌面左 3/4 動畫、右 1/4 講解；手機直向上方動畫、下方講解。上肢、下肢共用，只換資料與示意模型。 */
-export default function FlowAnimation({data,buildModel,map,unit,initialMode=0,initialStep=0,onClose,label='走向動畫'}:FlowAnimationProps){
+export default function FlowAnimation({data,buildModel,map,unit,highlight,initialMode=0,initialStep=0,onClose,label='走向動畫'}:FlowAnimationProps){
  const root=useRef<HTMLDivElement>(null);
  const refs={stage:useRef<HTMLDivElement>(null),tags:useRef<HTMLDivElement>(null),leaders:useRef<SVGSVGElement>(null),legend:useRef<HTMLDivElement>(null),steps:useRef<HTMLOListElement>(null),body:useRef<HTMLDivElement>(null),
   h1:useRef<HTMLHeadingElement>(null),count:useRef<HTMLDivElement>(null),title:useRef<HTMLDivElement>(null),en:useRef<HTMLDivElement>(null),where:useRef<HTMLParagraphElement>(null),branches:useRef<HTMLParagraphElement>(null),brH:useRef<HTMLHeadingElement>(null),clinical:useRef<HTMLParagraphElement>(null)};
@@ -28,7 +30,7 @@ export default function FlowAnimation({data,buildModel,map,unit,initialMode=0,in
   const engine=createFlowEngine({
    els:{stage:r.stage.current!,tagLayer:r.tags.current!,leaders:r.leaders.current!,legend:r.legend.current!,steps:r.steps.current!,body:r.body.current!,h1:r.h1.current!,
     modeButtons:modeBtns.current.filter(Boolean) as HTMLButtonElement[],count:r.count.current!,title:r.title.current!,en:r.en.current!,where:r.where.current!,branches:r.branches.current!,brH:r.brH.current!,clinical:r.clinical.current!},
-   data,buildModel,map,unit,mode:initialMode,step:initialStep});
+   data,buildModel,map,unit,highlight,mode:initialMode,step:initialStep});
   closeBtn.current?.focus();
   const key=(e:KeyboardEvent)=>{if(e.key==='Escape'){e.stopPropagation();onClose();}};
   window.addEventListener('keydown',key,true);

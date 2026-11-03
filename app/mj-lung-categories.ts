@@ -4,17 +4,17 @@
  * Selection uses the glow outline of the viewer (never one of these colours), so a selected structure can be told from a coloured one.
  */
 export type LungCategoryKey='artery'|'vein'|'tube'|'heart'|'bone'|'part'|'fissure'|'border'|'hilum';
-export interface LungCategory{key:LungCategoryKey;letter:string;en:string;zh:string;hint:string;light:string;dark:string}
+export interface LungCategory{key:LungCategoryKey;letter:string;en:string;zh:string;/** the name of the category on the data card: "A Arterial impression｜動脈壓跡" */cardEn:string;cardZh:string;hint:string;light:string;dark:string}
 export const LUNG_CATEGORIES:LungCategory[]=[
- {key:'artery',letter:'A',en:'Arteries',zh:'動脈',hint:'subclavian, aortic arch, descending aorta, pulmonary, bronchial',light:'#c0392b',dark:'#ff8a7a'},
- {key:'vein',letter:'V',en:'Veins',zh:'靜脈',hint:'SVC, IVC, brachiocephalic, azygos, pulmonary veins',light:'#2f6fd0',dark:'#7fb0ff'},
- {key:'tube',letter:'T',en:'Digestive tube & airway',zh:'消化道與氣道',hint:'oesophagus, trachea, main bronchi',light:'#d9780f',dark:'#ffb066'},
- {key:'heart',letter:'C',en:'Heart & thymus',zh:'心與胸腺',hint:'cardiac impression, cardiac notch, thymus',light:'#7c4dbd',dark:'#c3a2f2'},
- {key:'bone',letter:'R',en:'Bony impression',zh:'骨性壓跡',hint:'first rib',light:'#b09060',dark:'#dcc592'},
- {key:'part',letter:'P',en:'Lung parts & surfaces',zh:'肺的部分與表面',hint:'apex, diaphragmatic surface, lingula',light:'#12908a',dark:'#55d6cc'},
- {key:'fissure',letter:'F',en:'Fissures',zh:'肺裂',hint:'oblique, horizontal',light:'#1f6b3a',dark:'#6fcb8f'},
- {key:'border',letter:'B',en:'Borders',zh:'緣',hint:'anterior, inferior',light:'#5b7a95',dark:'#9db9d1'},
- {key:'hilum',letter:'H',en:'Hilum & ligament',zh:'肺門與韌帶',hint:'hilum, pulmonary ligament',light:'#d1a100',dark:'#f5d452'},
+ {key:'artery',cardEn:'Arterial impression',cardZh:'動脈壓跡',letter:'A',en:'Arteries',zh:'動脈',hint:'subclavian, aortic arch, descending aorta, pulmonary, bronchial',light:'#c0392b',dark:'#ff8a7a'},
+ {key:'vein',cardEn:'Venous impression',cardZh:'靜脈壓跡',letter:'V',en:'Veins',zh:'靜脈',hint:'SVC, IVC, brachiocephalic, azygos, pulmonary veins',light:'#2f6fd0',dark:'#7fb0ff'},
+ {key:'tube',cardEn:'Digestive tube & airway',cardZh:'消化道與氣道',letter:'T',en:'Digestive tube & airway',zh:'消化道與氣道',hint:'oesophagus, trachea, main bronchi',light:'#d9780f',dark:'#ffb066'},
+ {key:'heart',cardEn:'Heart & thymus',cardZh:'心與胸腺',letter:'C',en:'Heart & thymus',zh:'心與胸腺',hint:'cardiac impression, cardiac notch, thymus',light:'#7c4dbd',dark:'#c3a2f2'},
+ {key:'bone',cardEn:'Bony impression',cardZh:'骨性壓跡',letter:'R',en:'Bony impression',zh:'骨性壓跡',hint:'first rib',light:'#b09060',dark:'#dcc592'},
+ {key:'part',cardEn:'Lung part & surface',cardZh:'肺的分部與表面',letter:'P',en:'Lung parts & surfaces',zh:'肺的部分與表面',hint:'apex, diaphragmatic surface, lingula',light:'#12908a',dark:'#55d6cc'},
+ {key:'fissure',cardEn:'Fissure',cardZh:'肺裂',letter:'F',en:'Fissures',zh:'肺裂',hint:'oblique, horizontal',light:'#1f6b3a',dark:'#6fcb8f'},
+ {key:'border',cardEn:'Border',cardZh:'肺緣',letter:'B',en:'Borders',zh:'緣',hint:'anterior, inferior',light:'#5b7a95',dark:'#9db9d1'},
+ {key:'hilum',cardEn:'Hilum & ligament',cardZh:'肺門與肺韌帶',letter:'H',en:'Hilum & ligament',zh:'肺門與韌帶',hint:'hilum, pulmonary ligament',light:'#d1a100',dark:'#f5d452'},
 ];
 export const LUNG_CATEGORY=Object.fromEntries(LUNG_CATEGORIES.map(c=>[c.key,c])) as Record<LungCategoryKey,LungCategory>;
 

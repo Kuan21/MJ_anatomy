@@ -1,5 +1,7 @@
 import type {Atlas} from './anatomy';
 import {lungCategoryOf,type LungCategoryKey} from './mj-lung-categories';
+import links from './mj-lung-links.json';
+const chestCentre=(p:Atlas['parts'][number])=>{const cy=(p.bounds[0][1]+p.bounds[1][1])/2;return cy>1.17&&cy<1.45;};
 
 /**
  * Name labels for the medial (mediastinal) view of one lung.
@@ -83,3 +85,28 @@ export function lungHilumRoot(atlas:Atlas,side:'left'|'right'){
  const pick=(n:string)=>atlas.parts.filter(p=>p.name===n&&(p.bounds[0][1]+p.bounds[1][1])/2>1.17&&(p.bounds[0][1]+p.bounds[1][1])/2<1.45).map(p=>p.id);
  return{bronchus:pick(names.bronchus),artery:pick(names.artery),veins:names.veins.flatMap(pick)};
 }
+
+/** Structures of the chest that can lie between the camera and the mediastinal face of one lung (trachea, oesophagus, heart, great vessels, thymus): drawn faint in the medial view. */
+export function lungContextIds(atlas:Atlas,side:'left'|'right'){
+ const other=side==='left'?/^right /i:/^left /i;
+ return atlas.parts.filter(p=>links.context.includes(p.name)&&!other.test(p.name)&&chestCentre(p)).map(p=>p.id);
+}
+/** The structures that press the grooves, impressions and contact areas of the given lungs, grouped by the category of the groove they make (the colour they take). */
+export function lungImpressors(atlas:Atlas,sides:('left'|'right')[]):{cat:LungCategoryKey;ids:string[]}[]{
+ const by=new Map<LungCategoryKey,Set<string>>(),map=links.impressors as Record<string,string[]>;
+ for(const side of sides)for(const def of LUNG_LABELS[side]){
+  const cat=lungCategoryOf(def.names[0]),names=map[def.names[0]];
+  if(!cat||!names)continue;
+  const other=side==='left'?/^right /i:/^left /i;
+  for(const p of atlas.parts)if(names.includes(p.name)&&!other.test(p.name)&&chestCentre(p)){const set=by.get(cat)??new Set<string>();set.add(p.id);by.set(cat,set);}
+ }
+ return [...by].map(([cat,set])=>({cat,ids:[...set]}));
+}
+/** The model part a data-card link name stands for (a patch or a structure; the chest copy, on the lung's side when there are two). */
+export function lungLinkTarget(atlas:Atlas,name:string,side?:'left'|'right'){
+ const hits=atlas.parts.filter(p=>p.name===name&&chestCentre(p));
+ if(hits.length<=1||!side)return hits[0];
+ return hits.find(p=>{const cx=(p.bounds[0][0]+p.bounds[1][0])/2;return side==='left'?cx>0:cx<0;})??hits[0];
+}
+/** Neighbours and impressing structures of a lung groove for the data card: model part names. */
+export function lungCardLinks(name:string){return{impressors:(links.impressors as Record<string,string[]>)[name]??[],neighbours:(links.neighbours as Record<string,string[]>)[name]??[]};}

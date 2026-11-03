@@ -10,6 +10,8 @@ export interface BilingualFact {
  labelZh:string;
  valueEn:string;
  valueZh?:string;
+ /** model part names mentioned in the value (an impressing structure, a neighbouring impression): the card shows them as buttons that open that structure */
+ links?:string[];
 }
 export interface StructureProfile {
  english:string;
@@ -18,9 +20,13 @@ export interface StructureProfile {
  summaryEn?:string;
  summaryZh?:string;
  facts:BilingualFact[];
+ /** colour category of a lung surface structure (artery, vein, …): the data card takes its colour and letter from it */
+ lungCategory?:string;
  source:string;
 }
 
+import {lungCategoryOf} from './mj-lung-categories';
+import {lungCardLinks} from './mj-lung-labels';
 import vesselEnds from './mj-vessel-ends.json';
 import paokaoCards from './mj-paokao.json';
 import vesselBranches from './mj-vessel-branches.json';
@@ -55,6 +61,8 @@ const nerve=(chinese:string,rootsEn:string,rootsZh:string,courseEn:string,course
 
 const SCHEMATIC_NOTE_ZH='示意模型：公開人體圖譜（BodyParts3D、Z-Anatomy）均無此構造的三維模型，圖譜中的管狀形態是沿教科書走行以簡化管狀模型繪製，粗細、彎曲與分支僅供學習方位，並非實際解剖形態。';
 const SCHEMATIC_NOTE_EN='Schematic model: neither BodyParts3D nor Z-Anatomy contains a 3D model of this structure. The tube follows the textbook course for orientation only; calibre, curvature and branching are not anatomical.';
+/** Source line of a schematic card: no book titles; the real sources of the model data are listed once in Source & credits. */
+const SCHEMATIC_CARD_SOURCE='Schematic model, positioned on landmarks measured on the BodyParts3D atlas meshes｜示意模型，位置依標誌量測';
 const SCHEMATIC_SOURCE='Schematic tube model built for this atlas along the standard textbook course, placed on landmarks measured from the BodyParts3D atlas meshes (no Z-Anatomy or BodyParts3D geometry exists for this structure)';
 const schematic=(chinese:string,vein:boolean,rootsEn:string,rootsZh:string,courseEn:string,courseZh:string,supplyEn:string,supplyZh:string):ProfileBody=>({
  chinese,category:vein?'Vein｜靜脈（示意模型）':'Nerve｜神經（示意模型）',
@@ -423,7 +431,7 @@ function paokaoProfile(rawName:string,system:SystemId,part?:Part):StructureProfi
  // Lung structures: the category and the fields follow the type of structure (see scripts/paokao-structures/lung-cards.mjs); fields without content are not shown.
  if(card.lung){
   const [cEn,cZh]=LUNG_CARD_CATEGORY[card.lung]??['Lung structure','肺的結構'];
-  return{english:card.name,chinese:card.zh,category:`${cEn}｜${cZh}（示意模型）`,summaryEn:SCHEMATIC_NOTE_EN2,summaryZh:SCHEMATIC_NOTE_ZH2,facts:(card.extra??[]).map(f=>({labelEn:f.labelEn,labelZh:f.labelZh,valueEn:f.en,valueZh:f.zh})),source:'Surface area marked on the lobe of the BodyParts3D atlas from the textbook position of the neighbouring structure.'};
+  return{english:card.name,chinese:card.zh,category:`${cEn}｜${cZh}（示意模型）`,summaryEn:SCHEMATIC_NOTE_EN2,summaryZh:SCHEMATIC_NOTE_ZH2,facts:(card.extra??[]).map(f=>({labelEn:f.labelEn,labelZh:f.labelZh,valueEn:f.en,valueZh:f.zh,...(f.labelEn==='Impressed by'?{links:lungCardLinks(card.name).impressors}:f.labelEn==='Neighbouring impressions'?{links:lungCardLinks(card.name).neighbours}:{})})),lungCategory:lungCategoryOf(card.name)??undefined,source:'Surface area marked on the lobe of the BodyParts3D atlas from the textbook position of the neighbouring structure.'};
  }
  const facts:BilingualFact[]=[];
  // Field names follow the kind of structure: muscles give origin / insertion / innervation / action; vessels origin / course / main branches / territory; nerves roots / course /
@@ -456,7 +464,7 @@ function paokaoProfile(rawName:string,system:SystemId,part?:Part):StructureProfi
  else{L('Attachments','附著',card.origin);L('Course and relations','走向／位置關係',card.course);L('Function','功能',card.supply);}
  for(const f of card.extra??[])facts.push({labelEn:f.labelEn,labelZh:f.labelZh,valueEn:f.en,valueZh:f.zh});
  const real=card.model==='cut'||card.model==='zanatomy',tag=real?'':'（示意模型）';
- return{english:card.name,chinese:card.zh,category:`${en}｜${zh}${tag}`,summaryEn:real?(card.note?.[0]??''):card.model==='procedural'?SCHEMATIC_NOTE_EN2:SCHEMATIC_NOTE_EN2,summaryZh:real?(card.note?.[1]??''):SCHEMATIC_NOTE_ZH2,facts,source:card.refs?.length?`Schematic model built for this atlas from the textbook course (${card.refs.join('; ')}); landmarks measured on the BodyParts3D atlas meshes.`:'Schematic model built for this atlas from the textbook course; landmarks measured on the BodyParts3D atlas meshes.'};
+ return{english:card.name,chinese:card.zh,category:`${en}｜${zh}${tag}`,summaryEn:real?(card.note?.[0]??''):card.model==='procedural'?SCHEMATIC_NOTE_EN2:SCHEMATIC_NOTE_EN2,summaryZh:real?(card.note?.[1]??''):SCHEMATIC_NOTE_ZH2,facts,source:SCHEMATIC_CARD_SOURCE};
 }
 
 /** Small vessels whose model end was tapered by scripts/prepare-vessel-ends.mjs say so on their card. */

@@ -24,6 +24,8 @@ export interface PathwayDataset{
  nerves:Record<string,Pt[]>;arteries:Record<string,Pt[]>;veins:Record<string,Pt[]>;
  /** 伴行靜脈位於動脈後方（膕窩一帶）的動脈 id；其餘伴行靜脈偏在動脈內側 */
  posteriorArteries:string[];
+ /** 伴行靜脈相對動脈的偏移（原型座標，預設 [0.075,0,-0.03]） */
+ veinOffset?:Pt;
  /** 較粗的路徑 id */
  thickPaths:RegExp;
  modes:Mode[];
