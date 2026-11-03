@@ -75,7 +75,7 @@ const FIELD_ORDER: Record<string, string[]> = {
 const order = (system: string) => FIELD_ORDER[system] ?? [];
 
 const ALL_CATEGORIES = QUIZ_CATEGORIES.map(c => c.id);
-const defaults: QuizSettings = {section: 'all', systems: ['skeletal', 'muscular', 'nervous', 'arterial', 'venous'], categories: ALL_CATEGORIES, side: 'right', count: 10};
+const defaults: QuizSettings = {section: 'all', systems: ['skeletal', 'muscular', 'nervous', 'arterial', 'venous'], categories: ALL_CATEGORIES, side: 'right', scope: 'all', count: 10};
 const LEVEL2_COUNTS = [5, 10, 20];
 
 export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: QuizRegionId} = {}) {
@@ -211,6 +211,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
         </fieldset>
         <div className="quiz-options-row">
           <fieldset><legend><b>03</b> 左右側</legend><div className="quiz-segmented">{([['right', '右側'], ['left', '左側'], ['both', '雙側']] as const).map(([id, label]) => <button data-slot="quiz-button" key={id} aria-pressed={settings.side === id} onClick={() => setSettings(s => ({...s, side: id}))}>{label}</button>)}</div></fieldset>
+          <fieldset className="quiz-scope-field"><legend>範圍 <small>Scope</small></legend><div className="quiz-segmented">{([['all', '包括延伸', 'Summary and extended'], ['summary', '只考摘要範圍', 'Summary only']] as const).map(([id, label, en]) => <button data-slot="quiz-button" key={id} data-scope={id} aria-pressed={(settings.scope ?? 'all') === id} title={en} onClick={() => setSettings(s => ({...s, scope: id}))}>{label}</button>)}</div></fieldset>
           <fieldset><legend>每回題數</legend><div className="quiz-segmented">{(level === 2 ? LEVEL2_COUNTS : [10, 20, 9999]).map(n => <button data-slot="quiz-button" key={n} aria-pressed={settings.count === n} onClick={() => setSettings(s => ({...s, count: n}))}>{n === 9999 ? '全部' : n}</button>)}</div></fieldset>
         </div>
         {level === 2 && <div className="quiz-options-row quiz-naming-options">

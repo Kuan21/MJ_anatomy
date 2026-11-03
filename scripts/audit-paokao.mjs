@@ -51,18 +51,22 @@ function resolve(name) {
   return null;
 }
 
-const rows = [];
+const rows = [], matched = [];
 for (const it of items) {
   if (it.skip) { rows.push({index: it.index, term: it.term, section: it.section, status: 'skip', reason: it.skip}); continue; }
   for (const name of it.names) {
     const row = {index: it.index, term: it.term, name, section: it.section, note: it.note};
     if (it.partOf) {
       const parent = resolve(it.partOf);
+      if (parent) matched.push(parent.matches[0].m.entity);
       Object.assign(row, parent ? {status: 'part', parent: it.partOf, model: parent.matches[0].m.name, source: parent.matches[0].m.entity.source} : {status: 'missing', reason: `parent ${it.partOf} missing`});
     } else {
       const r = resolve(name);
       if (!r) Object.assign(row, {status: 'missing'});
       else {
+        for (const x of r.matches) matched.push(x.m.entity);
+        // A term that is more general than the model's pieces ("Trapezius" for its ascending, transverse and descending parts) covers every piece of the same system (not the groove a vessel leaves on the lung), not only the best match.
+        if (r.via === 'exact' || r.via === 'contained') for (const x of matchAll(name)) if ((x.kind === 'exact' || x.kind === 'contained') && x.entity.system === r.matches[0].m.entity.system && compatible(name, x.entity)) matched.push(x.entity);
         const first = r.matches[0].m, isNew = r.matches.every(x => x.m.entity.source === 'paokao');
         const find = r.matches.map(x => x.m.entity.source === 'heart' ? true : findable(x.alias ?? name, x.m.entity));
         Object.assign(row, {status: isNew ? 'new' : 'have', via: r.via, model: r.matches.map(x => x.m.name).join('；'), source: [...new Set(r.matches.map(x => x.m.entity.source))].join('+'), kind: first.kind, findable: find.every(Boolean)});
@@ -76,11 +80,23 @@ const problems = [
   ...rows.filter(r => r.status === 'missing').map(r => `缺少：${r.name}（#${r.index} ${r.term}）`),
   ...rows.filter(r => (r.status === 'have' || r.status === 'new') && !r.findable).map(r => `搜尋不到：${r.name} → ${r.model}`),
 ];
+// Scope of every structure ("範圍"): the structures the 115-1 summary names are 摘要, everything else 延伸. A structure is 摘要 when its id, or the id of any part of the same concept
+// as a matched structure, is listed, or when its normalised English name is (nerve, joint, brain and neck-vessel structures have no atlas concept, so they are matched by name).
+// The result is app/mj-scope.json, read by the data card, the search panel and the Quiz; `--check` fails when it is out of date (rerun this script without --check).
+const scopeNorm = s => s.toLowerCase().replace(/\.[lr](\.\d+)?$/, '').replace(/\.\d+$/, '').replace(/\b(left|right)\b/g, ' ').replace(/[^a-z0-9]+/g, ' ').trim();
+const scopeIds = new Set(), scopeNames = new Set(), scopeConcepts = new Set();
+for (const e of matched) { if (e.concept) scopeConcepts.add(e.concept); if (['atlas', 'facial', 'supplement', 'female', 'serous', 'paokao', 'heart'].includes(e.source)) scopeIds.add(e.id); for (const n of e.names) scopeNames.add(scopeNorm(n)); }
+for (const p of fullAtlas.parts) if (scopeConcepts.has(p.conceptId)) { scopeIds.add(p.id); scopeNames.add(scopeNorm(p.name)); }
+scopeNames.delete('');
+const scopeJson = JSON.stringify({ids: [...scopeIds].sort(), names: [...scopeNames].sort()}) + '\n';
+const scopeFile = new URL('app/mj-scope.json', root);
 if (process.argv.includes('--check')) {
+  if (!fs.existsSync(scopeFile) || fs.readFileSync(scopeFile, 'utf8') !== scopeJson) problems.push('app/mj-scope.json is out of date: run node scripts/audit-paokao.mjs');
   if (problems.length) { console.error(`Paokao checklist: ${problems.length} problems\n - ` + problems.slice(0, 40).join('\n - ')); process.exit(1); }
   console.log(`Paokao OK: ${rows.filter(r => r.status === 'have' || r.status === 'new' || r.status === 'part').length} checklist structures exist, are searchable and selectable (${count('new')} added as schematic models); ${rows.filter(r => r.status === 'skip').length} non-structure terms skipped with a reason.`);
   process.exit(0);
 }
+fs.writeFileSync(scopeFile, scopeJson);
 fs.writeFileSync(new URL('docs/paokao-audit.json', root), JSON.stringify({totals: {terms: items.length, rows: rows.length, have: count('have'), new: count('new'), part: count('part'), skip: count('skip'), missing: count('missing')}, rows}, null, 1));
 const md = ['# 跑考摘要完整性審核', '', `來源：\`docs/paokao-checklist.json\`（跑考摘要抽出 ${items.length} 項）。完整名稱修正見 \`docs/paokao-names.json\`，名稱別名見 \`docs/paokao-aliases.json\`。由 \`node scripts/audit-paokao.mjs\` 產生；\`npm run check:paokao\` 在 build 前檢查「每項都存在、搜尋得到、可以點選」。`, '',
   '| 狀態 | 項數 | 說明 |', '| --- | ---: | --- |',

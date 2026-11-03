@@ -44,7 +44,10 @@ const cache = new Map();
 async function moduleFor(key) {
   if (cache.has(key)) return cache.get(key);
   let module;
-  if (key === 'three' || key.includes('OrbitControls')) {
+  if (key.endsWith('.json')) {
+    const data = JSON.parse(fs.readFileSync(key, 'utf8'));
+    module = new vm.SyntheticModule(['default'], function () {this.setExport('default', data);});
+  } else if (key === 'three' || key.includes('OrbitControls')) {
     const exports = key === 'three' ? {...T, WebGLRenderer: Renderer} : {OrbitControls: Controls};
     module = new vm.SyntheticModule(Object.keys(exports), function () {for (const [name, value] of Object.entries(exports)) this.setExport(name, value);});
   } else {
@@ -53,7 +56,7 @@ async function moduleFor(key) {
   }
   cache.set(key, module); return module;
 }
-async function link(spec, ref) {return moduleFor(spec.startsWith('.') ? path.resolve(path.dirname(ref.identifier), spec + '.ts') : spec);}
+async function link(spec, ref) {return moduleFor(spec.startsWith('.') ? path.resolve(path.dirname(ref.identifier), spec.endsWith('.json') ? spec : spec + '.ts') : spec);}
 const module = await moduleFor(path.join(root, 'app/quiz/viewer.ts'));
 await module.link(link); await module.evaluate();
 const {createQuizViewer} = module.namespace;
