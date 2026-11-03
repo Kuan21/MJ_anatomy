@@ -50,17 +50,23 @@ export default function limbVeins(U) {
       }
     }
     // Thoracoepigastric vein: a subcutaneous vein of the side of the trunk that links the lateral thoracic vein (axillary vein) with the superficial epigastric vein
-    // (great saphenous vein), a route between the vena cava systems. Drawn 4 mm under the skin along the anterior axillary line.
+    // (great saphenous vein), a route between the vena cava systems. Drawn 4 mm under the skin: down the flank along the anterior axillary line, then curving forwards
+    // and medially over the lower abdomen to end in the superficial epigastric vein above the saphenous opening (not straight across to the great saphenous vein).
     {
-      const top = low(`${S.w} lateral thoracic vein`), gsv = high(`${S.w} great saphenous vein`), n = 9, pts = [];
-      for (let i = 0; i <= n; i++) {
-        const y = top[1] + (gsv[1] - top[1]) * i / n, z = top[2] + (gsv[2] - top[2]) * i / n, hit = U.rayHit('Skin', P(0, y, z), P(S.sx, 0, 0));
-        pts.push(hit ? add(hit.point, mul(hit.normal, -.004)) : P(S.sx * .16, y, z));
+      const top = low(`${S.w} lateral thoracic vein`), sev = `${S.w} superficial epigastric vein`;
+      const yTurn = 1.02, yEnd = .93, n = 14, pts = [top], smooth = t => t * t * (3 - 2 * t);
+      for (let i = 1; i < n; i++) {
+        // Azimuth around the trunk: 70° (flank) down to the iliac crest, easing to 32° (lower abdomen) at the groin.
+        const y = top[1] + (yEnd - top[1]) * i / n, th = (70 - 38 * smooth(Math.max(0, Math.min(1, (yTurn - y) / (yTurn - yEnd))))) * Math.PI / 180;
+        const hit = U.rayHit('Skin', P(0, y, 0), P(S.sx * Math.sin(th), 0, Math.cos(th)));
+        pts.push(hit ? add(hit.point, mul(hit.normal, -.004)) : P(S.sx * .14 * Math.sin(th), y, .14 * Math.cos(th)));
       }
-      pts[0] = top; pts[n] = add(gsv, P(0, 0, 0));
+      // End at the nearest branch end of the superficial epigastric vein that lies below the last point, so the vein keeps descending into it.
+      const last = pts[pts.length - 1], ends = U.tips(sev, .006).filter(t => t[1] <= last[1] + .002);
+      pts.push((ends.length ? ends : U.tips(sev, .006)).reduce((a, v) => len(sub(v, last)) < len(sub(a, last)) ? v : a));
       out.push({
         name: `${S.w} thoracoepigastric vein`, zh: `${S.zh}胸腹壁靜脈`, system: 'venous', kind: 'vein', parent: `${S.w} lateral thoracic vein`,
-        tubes: [{pts, r: [.0012, .0011], samples: 60}],
+        tubes: [{pts, r: [.0012, .0011], samples: 80}],
         card: {origin: ['Lateral thoracic vein (a tributary of the axillary vein) above; superficial epigastric vein (a tributary of the great saphenous vein) below', '上方為胸外側靜脈（腋靜脈屬支），下方為腹壁淺靜脈（大隱靜脈屬支）'],
           course: ['Runs under the skin along the side of the chest and abdomen from the axilla to the groin, linking the superior and inferior vena cava systems', '沿胸腹側壁皮下由腋窩下行到鼠蹊部，連接上、下腔靜脈系統'],
           supply: ['Drains the skin and subcutaneous tissue of the lateral trunk; enlarges as a collateral route when a vena cava is blocked', '回收側軀幹皮膚與皮下組織；腔靜脈阻塞時成為側枝循環']},
