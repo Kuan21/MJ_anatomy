@@ -295,10 +295,25 @@ gl_FragColor = vec4(mix(vec3(0.30, 0.78, 0.62), vec3(0.03, 0.36, 0.27), edge), m
       active.push({spec, x, y, side: x < centreX ? 'l' : 'r'});
     }
     const placed = new Map<string, number>();
+    // the labels are measured first (a name that wraps is taller), so a column never overlaps whatever its length
+    const heightOf = (a: typeof active[number]) => {
+      let node = labelNodes.get(a.spec.id);
+      if (!node) {
+        node = document.createElement('div');
+        node.style.cssText = 'position:absolute;max-width:24%;padding:3px 7px;border-radius:6px;background:#ffffffe6;box-shadow:0 1px 4px #1825361f;font:11.5px/1.25 system-ui,sans-serif;color:#1f2a35;white-space:normal';
+        const en = document.createElement('div'); en.textContent = a.spec.en; en.style.fontWeight = '600';
+        const zh = document.createElement('div'); zh.textContent = a.spec.zh; zh.style.cssText = 'font-size:10.5px;color:#7b8793';
+        node.appendChild(en); node.appendChild(zh); labelLayer.appendChild(node); labelNodes.set(a.spec.id, node);
+      }
+      if (a.side === 'l') {node.style.left = '10px'; node.style.right = '';} else {node.style.right = '10px'; node.style.left = '';}
+      node.style.display = 'block';
+      return node.offsetHeight || 34;
+    };
     for (const side of ['l', 'r'] as const) {
       const column = active.filter(a => a.side === side).sort((a, b) => a.y - b.y);
-      let last = -Infinity;
-      for (const a of column) {const y = Math.max(a.y, last + 34); placed.set(a.spec.id, y); last = y;}
+      let lastBottom = -Infinity;
+      for (const a of column) {const h = heightOf(a), y = Math.max(a.y, lastBottom + 4 + h / 2); placed.set(a.spec.id, y); lastBottom = y + h / 2;}
+      const last = lastBottom - 17;
       const overflow = last - (height - 24);
       if (overflow > 0) for (const a of column) placed.set(a.spec.id, Math.max(14, placed.get(a.spec.id)! - overflow));
     }

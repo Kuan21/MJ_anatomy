@@ -30,13 +30,13 @@ export function buildMjHeart(mesh) {
   // Crista terminalis: a vertical ridge on the right-anterolateral wall between the front of the SVC opening and the front of the IVC opening.
   const crista = [];
   for (let k = 0; k <= 8; k++) { const t = .06 + .88 * k / 8, p = wallPoint(RA, axis(t), lateralAnterior(.95), .0016); if (p) crista.push(p); }
-  out['Crista terminalis'] = tubeThrough(crista, .0019, .0017, 48);
+  out['Crista terminalis'] = tubeThrough(crista, .0038, .0032, 48);
   // Pectinate muscles: parallel ridges leaving the crista and running forward over the anterior wall towards the tricuspid orifice and the auricle.
   const pectinate = [];
-  for (let k = 0; k < 9; k++) {
-    const t = .1 + .78 * k / 8, pts = [];
+  for (let k = 0; k < 12; k++) {
+    const t = .1 + .78 * k / 11, pts = [];
     for (let j = 0; j <= 6; j++) { const th = .95 + j * .13, p = wallPoint(RA, axis(Math.min(1, t + j * .018)), lateralAnterior(th), .0012); if (p) pts.push(p); }
-    if (pts.length > 3) pectinate.push(tubeThrough(pts, .0009, .0006, 24, 6));
+    if (pts.length > 3) pectinate.push(tubeThrough(pts, .0018, .0011, 24, 6));
   }
   out['Pectinate muscles'] = merge(pectinate);
   // Interatrial septum: the part of the right atrial wall that lies against the left atrium.
@@ -51,8 +51,8 @@ export function buildMjHeart(mesh) {
   const ovalField = p => { const d = sub(p, fc), u = dot(d, sideways) / .0075, v = dot(d, up) / .0105; return (1 - Math.hypot(u, v)) * .004; };
   out['Fossa ovalis'] = patchField(RA, p => Math.min(nearLAf(p), ovalField(p)), -.0014);
   void inOval;
-  const rim = []; for (let k = 0; k <= 28; k++) { const a = k / 28 * Math.PI * 2, p = add(fc, add(mul(sideways, Math.cos(a) * .0085), mul(up, Math.sin(a) * .0115))), h = closest(RA, p); rim.push(h ? sub(h.point, mul(h.normal, .0012)) : p); }
-  out['Fossa ovalis rim'] = tubeThrough(rim, .0011, .0011, 60, 6);
+  const rim = []; for (let k = 0; k <= 28; k++) { const a = k / 28 * Math.PI * 2, p = add(fc, add(mul(sideways, Math.cos(a) * .0085), mul(up, Math.sin(a) * .0115))), h = closest(RA, p); rim.push(h ? sub(h.point, mul(h.normal, .0016)) : p); }
+  out['Fossa ovalis rim'] = tubeThrough(rim, .0021, .0021, 60, 6);
   // Auricles: the pouch of the atrium that points forward beside the root of the great arteries.
   const aorticRoot = M['Ascending aorta'].centre, trunk = M['Pulmonary trunk'].centre;
   // Right auricle: a broad triangular sac on the anterosuperior wall of the right atrium that spreads medially over the right side of the root of the ascending aorta.
