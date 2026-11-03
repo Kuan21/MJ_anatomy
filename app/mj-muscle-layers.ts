@@ -71,7 +71,9 @@ export function muscleLayerOrder(part:Part,regionId:string):number|undefined{
  if(byPart.has(part.id))return byPart.get(part.id);
  let found:number|undefined;
  const name=part.name.toLowerCase();
- if(!NOT_MUSCLE.test(name)||/tensor fasciae latae/.test(name)){
+ // the thoracolumbar fascia is peeled with layer 1 of the extrinsic back (latissimus dorsi arises from it) and lies superficial to every intrinsic layer
+ if(/thoracolumbar fascia/.test(name))found=regionId==='back_superficial'?1:regionId==='back_deep'?0:undefined;
+ else if(!NOT_MUSCLE.test(name)||/tensor fasciae latae/.test(name)){
   for(const entry of compiled.get(regionId)??[])if(entry.res.some(re=>re.test(name))){found=found===undefined?entry.order:Math.min(found,entry.order);}
  }
  byPart.set(part.id,found);return found;
