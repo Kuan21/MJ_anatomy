@@ -4765,8 +4765,8 @@
     "terminal": 430,
     "gaps": 108,
     "bridgeableGaps": 12,
-    "tangent": 98,
-    "diameter": 61
+    "tangent": 97,
+    "diameter": 60
    },
    "gaps": {
     "FJ2130|FJ2172|junction|-91,259,-3": 42.38,

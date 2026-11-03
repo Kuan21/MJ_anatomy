@@ -12,14 +12,14 @@
 | elbow flexion 140 (limit) | 471 | 12 | 8.9 |
 | wrist flexion 80 (limit) | 471 | 0 | 0.2 |
 | wrist flexion -70 (limit) | 471 | 14 | 6.1 |
-| hip flexion 90 | 471 | 45 | 64 |
+| hip flexion 90 | 471 | 44 | 46.8 |
 | knee flexion 90 | 471 | 21 | 6.5 |
-| hip flexion 120 + knee 130 (limit) | 471 | 71 | 83.6 |
-| hip extension -20 (limit) | 471 | 22 | 14.4 |
+| hip flexion 120 + knee 130 (limit) | 471 | 70 | 62.2 |
+| hip extension -20 (limit) | 471 | 21 | 13.6 |
 | ankle dorsiflexion 20 (limit) | 471 | 1 | 2.7 |
 | ankle plantar flexion -30 (limit) | 471 | 0 | 0.8 |
-| hip abduction 35 (limit) | 471 | 24 | 9 |
-| hip rotation 20 (limit) | 471 | 26 | 12.3 |
+| hip abduction 35 (limit) | 471 | 23 | 9 |
+| hip rotation 20 (limit) | 471 | 25 | 8.9 |
 
 連接管背端與所屬血管分離超過 2 mm 的組合：8 個。
 
@@ -262,11 +262,10 @@
 | Right deep palmar branch of ulnar artery (PK-45) → Right superficial palmar arterial arch (FJ2300) | right | 0 | 1.5 | 2.2 |  |
 | Left palmar metacarpal vein (FJ2320) → Left radial vein (FJ2244) | left | 0 | 1.2 | 1.64 |  |
 
-## hip flexion 90（45 個例外）
+## hip flexion 90（44 個例外）
 
 | 血管對 | 側 | 靜止間隙 (mm) | 擺姿後 (mm) | 管徑 (mm) | 備註 |
 | --- | --- | ---: | ---: | ---: | --- |
-| Right great saphenous vein (FJ2145) → Right thoracoepigastric vein (PK-59) | right | 1.03 | 65 | 3.63 | 未綁定：the next segment；下一段在trunk |
 | Left inferior gluteal vein (FJ3513) → Left internal iliac vein (FJ3471) | left | 0 | 46.8 | 1.11 | 未綁定：the next segment；下一段在trunk |
 | Left deep femoral vein (FJ2099) → Left superior epigastric vein (FJ3530) | left | 0 | 45.3 | 5.14 | 未綁定：the next segment；下一段在trunk |
 | Left deep femoral vein (FJ2099) → Left superficial epigastric vein (FJ2122) | left | 1.37 | 45.1 | 4.86 | 未綁定：the next segment；下一段在trunk |
@@ -338,11 +337,10 @@
 | Right lateral superior genicular artery (FJ2162) → Right inferior lateral genicular artery (FJ2150) | right | 0 | 3.1 | 1.01 |  |
 | Left genicular vein (FJ2107) → Left anterior tibial vein (FJ2097) | left | 0.19 | 2.9 | 0.97 |  |
 
-## hip flexion 120 + knee 130 (limit)（71 個例外）
+## hip flexion 120 + knee 130 (limit)（70 個例外）
 
 | 血管對 | 側 | 靜止間隙 (mm) | 擺姿後 (mm) | 管徑 (mm) | 備註 |
 | --- | --- | ---: | ---: | ---: | --- |
-| Right great saphenous vein (FJ2145) → Right thoracoepigastric vein (PK-59) | right | 1.03 | 84.6 | 3.63 | 未綁定：the next segment；下一段在trunk |
 | Left deep femoral vein (FJ2099) → Left superior epigastric vein (FJ3530) | left | 0 | 62.2 | 5.14 | 未綁定：the next segment；下一段在trunk |
 | Left inferior gluteal vein (FJ3513) → Left internal iliac vein (FJ3471) | left | 0 | 62.2 | 1.11 | 未綁定：the next segment；下一段在trunk |
 | Left deep femoral vein (FJ2099) → Left superficial epigastric vein (FJ2122) | left | 1.37 | 59.3 | 4.86 | 未綁定：the next segment；下一段在trunk |
@@ -402,12 +400,12 @@
 | Left genicular vein (FJ2124) → Left anterior tibial vein (FJ2097) | left | 0.06 | 8.4 | 1.64 |  |
 | Left superior gluteal vein (FJ3531) → Left uterine vein (HRAF-697) | left | 1.98 | 8 | 4.41 | 未綁定：the next segment；下一段在trunk |
 | Right inferior gluteal vein (FJ3606) → Right external iliac vein (FJ3568) | right | 0.47 | 7.9 | 4.6 | 未綁定：the next segment；下一段在trunk |
+| Right inferior gluteal vein (FJ3606) → Right internal pudendal vein (FJ3610) | right | 0 | 7.1 | 5.4 | 未綁定：the next segment；下一段在trunk |
 
-## hip extension -20 (limit)（22 個例外）
+## hip extension -20 (limit)（21 個例外）
 
 | 血管對 | 側 | 靜止間隙 (mm) | 擺姿後 (mm) | 管徑 (mm) | 備註 |
 | --- | --- | ---: | ---: | ---: | --- |
-| Right great saphenous vein (FJ2145) → Right thoracoepigastric vein (PK-59) | right | 1.03 | 15.4 | 3.63 | 未綁定：the next segment；下一段在trunk |
 | Set of perforating arteries (FJ2203) → Right deep external pudendal artery (PK-71) | right | 1.81 | 15.4 | 5.2 | 未綁定：the next segment；下一段在trunk |
 | Left deep femoral vein (FJ2099) → Left superior epigastric vein (FJ3530) | left | 0 | 12.1 | 5.14 | 未綁定：the next segment；下一段在trunk |
 | Left inferior gluteal vein (FJ3513) → Left internal iliac vein (FJ3471) | left | 0 | 10.3 | 1.11 | 未綁定：the next segment；下一段在trunk |
@@ -436,13 +434,12 @@
 | --- | --- | ---: | ---: | ---: | --- |
 | Left fibular artery (FJ2093) → Left posterior tibial artery (FJ2087) | left | 13.09 | 15.7 | 2.99 |  |
 
-## hip abduction 35 (limit)（24 個例外）
+## hip abduction 35 (limit)（23 個例外）
 
 | 血管對 | 側 | 靜止間隙 (mm) | 擺姿後 (mm) | 管徑 (mm) | 備註 |
 | --- | --- | ---: | ---: | ---: | --- |
 | Left obturator vein (FJ3527) → Left external iliac vein (FJ3484) | left | 7.49 | 11.6 | 1.81 | 未綁定：the next segment；下一段在trunk |
 | Set of perforating arteries (FJ2203) → Right deep external pudendal artery (PK-71) | right | 1.81 | 10.8 | 5.2 | 未綁定：the next segment；下一段在trunk |
-| Right great saphenous vein (FJ2145) → Right thoracoepigastric vein (PK-59) | right | 1.03 | 9.9 | 3.63 | 未綁定：the next segment；下一段在trunk |
 | Left deep femoral vein (FJ2099) → Left superior epigastric vein (FJ3530) | left | 0 | 6.2 | 5.14 | 未綁定：the next segment；下一段在trunk |
 | Left inferior gluteal vein (FJ3513) → Left internal iliac vein (FJ3471) | left | 0 | 5.9 | 1.11 | 未綁定：the next segment；下一段在trunk |
 | Left deep femoral vein (FJ2099) → Left superficial epigastric vein (FJ2122) | left | 1.37 | 5.4 | 4.86 | 未綁定：the next segment；下一段在trunk |
@@ -465,7 +462,7 @@
 | Left inferior gluteal artery (PK-109) → Left internal pudendal artery (PK-110) | left | 0.56 | 2.5 | 4.74 | 未綁定：the next segment；下一段在trunk |
 | Left obturator vein (FJ3527) → Left external iliac vein (FJ3484) | left | 0 | 2.1 | 1.6 | 未綁定：the next segment；下一段在trunk |
 
-## hip rotation 20 (limit)（26 個例外）
+## hip rotation 20 (limit)（25 個例外）
 
 | 血管對 | 側 | 靜止間隙 (mm) | 擺姿後 (mm) | 管徑 (mm) | 備註 |
 | --- | --- | ---: | ---: | ---: | --- |
@@ -474,7 +471,6 @@
 | Right lateral circumflex femoral vein (FJ2201) → Right deep femoral vein (FJ2135) | right | 26.39 | 27.8 | 4.38 |  |
 | Left lateral circumflex femoral vein (FJ2188) → Left deep femoral vein (FJ2099) | left | 24.4 | 25.6 | 4.12 |  |
 | Right medial circumflex femoral artery (PK-66) → Right lateral circumflex femoral artery (FJ2158) | right | 21 | 22.7 | 2.92 |  |
-| Right great saphenous vein (FJ2145) → Right thoracoepigastric vein (PK-59) | right | 1.03 | 13.4 | 3.63 | 未綁定：the next segment；下一段在trunk |
 | Right inferior gluteal vein (FJ3606) → Right internal iliac vein (FJ3572) | right | 7.12 | 11.8 | 2.33 | 未綁定：the next segment；下一段在trunk |
 | Left deep femoral vein (FJ2099) → Left superficial epigastric vein (FJ2122) | left | 1.37 | 10.1 | 4.86 | 未綁定：the next segment；下一段在trunk |
 | Left deep femoral vein (FJ2099) → Left external iliac vein (FJ3484) | left | 1.98 | 9.8 | 5.36 | 未綁定：the next segment；下一段在trunk |
