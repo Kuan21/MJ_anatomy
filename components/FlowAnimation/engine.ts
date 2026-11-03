@@ -34,7 +34,7 @@ interface PathNode{
  id:string;group:string;curve:THREE.CatmullRomCurve3;len:number;mesh:THREE.Mesh<THREE.TubeGeometry,THREE.MeshStandardMaterial>;geo:THREE.TubeGeometry;
  total:number;unit:number;head:THREE.Sprite;flow:THREE.Sprite[];p:number;state:string;fade:number;of?:string;wasDone?:boolean;
 }
-interface TagEl{el:HTMLDivElement;p:THREE.Vector3;line:SVGLineElement;dot:SVGCircleElement;w:number;h:number}
+interface TagEl{el:HTMLDivElement;p:THREE.Vector3;line:SVGLineElement;dot:SVGCircleElement;w:number;h:number;side?:number}
 
 export function createFlowEngine(opt:FlowOptions):FlowEngine{
  const {els,data}=opt;
@@ -190,26 +190,40 @@ export function createFlowEngine(opt:FlowOptions):FlowEngine{
   if(model.pirifMat)model.pirifMat.opacity=s.pir?.75:.3;
   renderer.render(scene,camera);
   const w=stage.clientWidth,h=stage.clientHeight;
-  // 標籤排版：放在結構上方，再把重疊的推開，並限制在畫面內、不遮住圖例
-  const boxes:{t:TagEl;ax:number;ay:number;x:number;y:number;vis:boolean}[]=[];
+  // 標籤排版：標籤放在畫面左右兩側（模型外面），用細線連到結構上的小圓點，不蓋住結構。
+  // 錨點偏左的放左欄、偏右的放右欄（鏡頭移動期間重新分配，穩定後固定），各欄依高度排序並推開重疊，不遮住圖例與關閉按鈕。
+  const M=8,GAP=6,items:{t:TagEl;ax:number;ay:number;vis:boolean;i:number}[]=[];
   tagEls.forEach((t,i)=>{tmp.copy(t.p).project(camera);
    const ax=(tmp.x*.5+.5)*w,ay=(-tmp.y*.5+.5)*h;
-   const vis=tmp.z<1&&stepT>CAM*.7+i*.4;
    if(!t.w){t.w=t.el.offsetWidth;t.h=t.el.offsetHeight;}
-   const x=Math.min(Math.max(ax-t.w/2,6),w-t.w-6),y=ay-t.h-18;
-   boxes.push({t,ax,ay,x,y,vis});});
-  boxes.sort((a,b)=>a.y-b.y);
-  for(let it=0;it<6;it++){for(let i=0;i<boxes.length;i++)for(let j=i+1;j<boxes.length;j++){
-   const a=boxes[i],b=boxes[j];
-   const ox=Math.min(a.x+a.t.w,b.x+b.t.w)-Math.max(a.x,b.x),oy=Math.min(a.y+a.t.h,b.y+b.t.h)-Math.max(a.y,b.y);
-   if(ox>0&&oy>0){const d=(oy+4)/2;a.y-=d;b.y+=d;}}}
-  boxes.forEach(b=>{b.y=Math.min(Math.max(b.y,legendEl.offsetHeight+14),h-b.t.h-6);
-   b.t.el.style.transform='translate('+b.x.toFixed(1)+'px,'+b.y.toFixed(1)+'px)';
-   b.t.el.style.opacity=b.vis?'1':'0';
-   const cx=Math.min(Math.max(b.ax,b.x+6),b.x+b.t.w-6),cy=b.y+(b.ay>b.y?b.t.h:0);
-   b.t.line.setAttribute('x1',String(b.ax));b.t.line.setAttribute('y1',String(b.ay));b.t.line.setAttribute('x2',String(cx));b.t.line.setAttribute('y2',String(cy));
-   b.t.dot.setAttribute('cx',String(b.ax));b.t.dot.setAttribute('cy',String(b.ay));
-   const o=b.vis?'.9':'0';b.t.line.style.opacity=o;b.t.dot.style.opacity=o;});
+   items.push({t,ax,ay,vis:tmp.z<1&&stepT>CAM*.7+i*.4,i});});
+  if(stepT<CAM+.3){
+   const xs=items.map(o=>o.ax).sort((a,b)=>a-b),med=xs.length?xs[Math.floor((xs.length-1)/2)]:w/2;
+   items.forEach(o=>{o.t.side=items.length===1?(o.ax<w/2?0:1):(o.ax<=med?0:1);});
+   // 一邊空一邊滿時，把最靠中間的移到另一邊，兩欄大致均衡
+   const left=items.filter(o=>o.t.side===0),right=items.filter(o=>o.t.side===1);
+   if(left.length-right.length>1){const m=left.sort((a,b)=>b.ax-a.ax)[0];m.t.side=1;}
+   else if(right.length-left.length>1){const m=right.sort((a,b)=>a.ax-b.ax)[0];m.t.side=0;}
+  }
+  const topLeft=legendEl.offsetHeight+14,topRight=60;
+  for(const side of [0,1]){
+   const col=items.filter(o=>o.t.side===side).sort((a,b)=>a.ay-b.ay);
+   const minY=side===0?topLeft:topRight;
+   const ys=col.map(o=>o.ay-o.t.h/2);
+   for(let k=0;k<col.length;k++){ys[k]=Math.max(ys[k],k?ys[k-1]+col[k-1].t.h+GAP:minY);}
+   // 超出底部時往上推
+   let bottom=side===0?h-34:h-12;
+   for(let k=col.length-1;k>=0;k--){ys[k]=Math.min(ys[k],bottom-col[k].t.h);bottom=ys[k]-GAP;}
+   for(let k=0;k<col.length;k++){ys[k]=Math.max(ys[k],k?ys[k-1]+col[k-1].t.h+GAP:minY);}
+   col.forEach((o,k)=>{
+    const x=side===0?M:w-M-o.t.w,y=ys[k];
+    o.t.el.style.transform='translate('+x.toFixed(1)+'px,'+y.toFixed(1)+'px)';
+    o.t.el.style.opacity=o.vis?'1':'0';
+    const ex=side===0?x+o.t.w:x,ey=y+o.t.h/2;
+    o.t.line.setAttribute('x1',String(o.ax));o.t.line.setAttribute('y1',String(o.ay));o.t.line.setAttribute('x2',String(ex));o.t.line.setAttribute('y2',String(ey));
+    o.t.dot.setAttribute('cx',String(o.ax));o.t.dot.setAttribute('cy',String(o.ay));
+    const op=o.vis?'.9':'0';o.t.line.style.opacity=op;o.t.dot.style.opacity=op;});
+  }
   const now=stepsEl.children[stepIdx] as HTMLElement|undefined;if(now&&now.firstElementChild)(now.firstElementChild as HTMLElement).style.transform='scaleX('+Math.min(stepT/STEP_DUR,1)+')';
  }
  frame();

@@ -63,7 +63,7 @@
   .flow-anim .fa-en{margin-bottom:10px}
   .flow-anim .fa-sec p{font-size:14px;line-height:1.7}
   .flow-anim .fa-legend{font-size:11px;gap:4px 10px;top:8px;left:10px;max-width:calc(100% - 130px)}
-  .flow-anim .fa-tag{font-size:12px;padding:3px 7px}
+  .flow-anim .fa-tag{font-size:12px;padding:3px 7px;white-space:normal;max-width:38%}
   .flow-anim .fa-tag small{font-size:10px}
   .flow-anim button.fa-close{right:8px;top:6px;padding:0 10px}
 }

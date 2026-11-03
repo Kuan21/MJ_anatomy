@@ -40,7 +40,7 @@ function chain(edge, hit, c, side, defaultReach) {
 
 const out = {}, rows = [];
 for (const space of SPACES) {
-  const shape = SPACE_SHAPES[space.id]; if (!shape) continue;
+  const shape = SPACE_SHAPES[space.id]; if (!shape || space.solid) continue; // a redesigned (solid) region draws no outline
   out[space.id] = {};
   for (const side of ['left', 'right']) {
     const hit = resolveSpace(parts, space, side), c = ranges[space.id]?.[side]?.c; if (!c) continue;
