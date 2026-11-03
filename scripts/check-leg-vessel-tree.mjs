@@ -1,6 +1,6 @@
 // Checks the lower-limb vessel tree (app/data/vessel-tree/*.json) and the tubes built from it (scripts/lib/leg-vessel-build.mjs) on the rest pose.
 //   tree          ids unique, every parent exists, no cycles, a child never starts wider than its parent is where the child leaves it
-//   continuity    each child starts on its parent's centreline (<= 0.5 mm), is one connected piece, and its end is wide unless the vessel is marked terminal (end radius >= 60% of start)
+//   continuity    each child starts on its parent's centreline (<= 0.5 mm), an anastomosis ends on the vessel it joins (<= 0.5 mm, not wider than it), is one connected piece, and its end is wide unless the vessel is marked terminal (end radius >= 60% of start)
 //   bones         no centreline point behind the nearest face of a bone, wall at most 0.6 mm into a bone (the bone meshes are coarse); hip bone, femur, sacrum, lowest lumbar vertebrae
 //   nerves        a centreline keeps at least 0.3 * radius (less 0.5 mm, the nerve meshes are approximate) from every nerve surface (side by side is fine, running through a nerve is not)
 //   order         femoral triangle: femoral nerve lateral to the femoral artery, artery lateral to the femoral vein
@@ -25,7 +25,9 @@ for (const v of tree.vessels) {
   if (v.parent && !ids.has(v.parent)) fail(v.id, 'parent', 1, `parent ${v.parent} missing`);
   let p = v, k = 0; while (p?.parent && k++ < 50) p = tree.vessels.find(x => x.id === p.parent); if (k >= 50) fail(v.id, 'cycle', 1, 'cycle');
   if (!v.origin?.en || !v.origin?.zh || !v.course?.en || !v.course?.zh || !v.supply?.en || !v.supply?.zh) fail(v.id, 'card fields', 1, 'origin, course and supply need English and Chinese text');
-  if (!v.terminal && !tree.vessels.some(x => x.parent === v.id)) fail(v.id, 'dead end', 1, 'not terminal and has no child');
+  if (!v.terminal && !v.joinsTo && !v.continuesInto && !tree.vessels.some(x => x.parent === v.id || x.parentPending === v.id)) fail(v.id, 'dead end', 1, 'not terminal and has no child');
+  if (v.joinsTo && !ids.has(v.joinsTo)) fail(v.id, 'joinsTo', 1, `joinsTo ${v.joinsTo} missing`);
+  for (const c of v.continuesInto ?? []) if (ids.has(c) && !tree.vessels.some(x => x.id === c && x.parent === v.id)) fail(v.id, 'continuesInto', 1, `${c} exists but does not name ${v.id} as its parent`);
 }
 const built = buildTree(tree), {world: w} = built;
 
@@ -44,6 +46,12 @@ for (const b of built.vessels) {
     if (gap > .5) fail(label, 'start on parent', +gap.toFixed(1), `starts ${gap.toFixed(1)} mm from its parent's centreline`);
     const j = pb.path.reduce((a, p, i) => len(sub(p, b.path[0])) < len(sub(pb.path[a], b.path[0])) ? i : a, 0), pr = pb.r0 + (pb.r1 - pb.r0) * j / Math.max(1, pb.path.length - 1);
     if (b.r0 > pr * 1.02) fail(label, 'wider than parent', +((b.r0 - pr) * 1000).toFixed(2), `starts ${(b.r0 * 2000).toFixed(1)} mm wide on a ${(pr * 2000).toFixed(1)} mm parent`);
+  }
+  if (b.joinsTo) {
+    const jb = byKey.get(`${b.side}|${b.joinsTo}`), e = b.path[n - 1], gap = Math.min(...jb.path.map(p => len(sub(p, e)))) * 1000;
+    if (gap > .5) fail(label, 'end on joined vessel', +gap.toFixed(1), `ends ${gap.toFixed(1)} mm from the vessel it joins`);
+    const j = jb.path.reduce((a, p, i) => len(sub(p, e)) < len(sub(jb.path[a], e)) ? i : a, 0), jr = jb.r0 + (jb.r1 - jb.r0) * j / Math.max(1, jb.path.length - 1);
+    if (b.r1 > jr * 1.02) fail(label, 'wider than joined vessel', +((b.r1 - jr) * 1000).toFixed(2), 'ends wider than the vessel it joins');
   }
   if (!b.terminal && b.r1 < b.r0 * .6) fail(label, 'taper', +((b.r0 * .6 - b.r1) * 1000).toFixed(2), 'tapers although not terminal');
   // one connected piece
