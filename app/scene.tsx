@@ -21,7 +21,6 @@ import {SYSTEMS,type Atlas,type SceneState,type SystemId} from './anatomy';
 import {matchesMuscleLayer} from './mj-muscle-layers';
 import {matchesFacialMuscleLayer} from './mj-facial-layers';
 import {matchesHeartLayer,isShellSurface} from './mj-heart-layers';
-import {clavicleLevel} from './mj-part-regions';
 import {matchesSex} from './mj-sex';
 import {serousLayerKey,PERITONEUM_KEYS} from './mj-serous';
 import {nerveDepth} from './mj-depth';
@@ -70,7 +69,6 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
   type SupplementaryTask={task:()=>Promise<void>;onFailure:()=>void;label:string};
   const failedSupplementary:SupplementaryTask[]=[];
   let renderer:T.WebGLRenderer;
-  const headCut=new T.Plane(new T.Vector3(0,1,0),-clavicleLevel(atlas.parts));
   try{renderer=new T.WebGLRenderer({antialias:!lowPower,alpha:false,powerPreference:'high-performance'});}catch{onError('這個瀏覽器無法啟動 3D 檢視器，請改用支援 WebGL 的瀏覽器。');return;}
   renderer.setPixelRatio(dprNow);renderer.setClearColor('#cbd2d6');renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;el.appendChild(renderer.domElement);
   renderer.domElement.setAttribute('aria-label','互動式人體解剖：拖曳旋轉、捏合或滾輪縮放、點選構造查看說明。');
@@ -1224,8 +1222,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
    const tissueChanged=!lastState||lastState.partTransforms!==s.partTransforms||lastState.tissueMotion!==s.tissueMotion||lastState.previewMotion!==s.previewMotion||lastState.bodyMotion!==s.bodyMotion||lastState.visible!==s.visible||lastState.focusParts!==s.focusParts||lastState.hiddenParts!==s.hiddenParts||(lastState.selected!==s.selected&&(referenceMuscles(owners,lastState.selected).size>0||referenceMuscles(owners,s.selected).size>0));
    if(tissueChanged){updateTissueMotion(s);updateNerveMotion(s);updateBrainMotion(s);}
    const ctx=viewerContext.current;
-   // Head view: everything below the collarbones is cut away, including vessels and muscles that run on into the chest.
-   {const want=ctx.bodyArea==='head'&&!s.bodyMotion;if(want!==!!renderer.clippingPlanes?.length){renderer.clippingPlanes=want?[headCut]:[];dirty=true;}}
+   // Head view: a structure is shown whole or hidden whole (the region rule in topRegionParts); no mesh is cut along a plane.
    if(primaryAtlasReady&&s.visible.includes('nervous')&&(ctx.bodyArea==='head'||s.bodyMotion?.region==='head'||s.bodyMotion?.region==='spine'||!s.visible.includes('skeletal')||(s.hiddenParts?.length??0)>0))ensureBrain();
    if(roofOutlines.update(s.spaceRoofs))dirty=true;
    if(spaceOutline.update(s.spaceOutlines,!outlineSeen||outlineSeen.partTransforms!==s.partTransforms||outlineSeen.bodyMotion!==s.bodyMotion||outlineSeen.tissueMotion!==s.tissueMotion||outlineSeen.previewMotion!==s.previewMotion||outlineSeen.spaceOutlines!==s.spaceOutlines||tissueChanged)){dirty=true;}
