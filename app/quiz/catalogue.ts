@@ -1,3 +1,4 @@
+import {scopeOf} from '../mj-scope';
 import {TENDON_OWNERS} from '../mj-tendon-owners';
 export type QuizSystem = 'skeletal' | 'muscular' | 'tendon' | 'nervous' | 'arterial' | 'venous' | 'cardiac' | 'respiratory';
 export type QuizRegionId = 'lower-limb' | 'upper-limb' | 'thorax' | 'back' | 'heart' | 'lung';
@@ -211,6 +212,8 @@ export interface QuizSettings {
   /** Scope categories (multi-select, any combination). When set it decides the pool; `systems` is the older body-system filter. */
   categories?: QuizCategory[];
   side: QuizSide;
+  /** 'all' (the default, every question) or 'summary' (only structures in the summary scope, see app/mj-scope.ts). Levels 1 and 2 both read it through questionPool. */
+  scope?: 'all' | 'summary';
   count: number;
 }
 
@@ -412,7 +415,7 @@ export function classifySections(region: QuizRegionId, name: string, bounds: Bou
 }
 
 export function questionPool(catalogue: QuizCatalogue, settings: QuizSettings): QuizStructure[] {
-  return catalogue.structures.filter(s => (settings.categories ? settings.categories.includes(categoryOf(s)) : settings.systems.includes(s.system)) && s.sections.length > 0
+  return catalogue.structures.filter(s => (settings.scope !== 'summary' || scopeOf(s.name, [s.id, ...s.meshIds]) === 'summary') && (settings.categories ? settings.categories.includes(categoryOf(s)) : settings.systems.includes(s.system)) && s.sections.length > 0
     && (settings.side === 'both' || s.side === 'midline' || settings.side === s.side)
     && (settings.section === 'all' || s.sections.includes(settings.section)));
 }
