@@ -118,3 +118,30 @@ export function smoothTube(positions, indices) {
   return {positions: Float32Array.from(pos), indices: s.idx, normals: packedNormals(pos, s.idx)};
 }
 
+
+/**
+ * Smooths a thin connective sheet (membrane, raphe, fibrous ligament) whose surface is crumpled: the source meshes are closed slabs with a noisy surface, which shows as a
+ * wrinkled paper under any light. Taubin smoothing (a shrinking pass and an inflating pass, so the sheet keeps its size) on the welded surface; the triangle structure is unchanged.
+ * Vertices on an open edge stay where they are. Returns {positions, indices, normals, drift}: `drift` is the largest distance (metres) any vertex moved.
+ */
+export function smoothSheet(positions, indices, {iterations = 12, lambda = .5, mu = -.53} = {}) {
+  const w = weld(positions, indices), n = w.pos.length / 3, nb = Array.from({length: n}, () => new Set()), count = new Map();
+  for (let t = 0; t < w.idx.length; t += 3) for (let k = 0; k < 3; k++) {
+    const a = w.idx[t + k], b = w.idx[t + (k + 1) % 3]; nb[a].add(b); nb[b].add(a);
+    const e = a < b ? a * n + b : b * n + a; count.set(e, (count.get(e) ?? 0) + 1);
+  }
+  const fixed = new Uint8Array(n);
+  for (const [e, c] of count) if (c !== 2) { fixed[Math.floor(e / n)] = 1; fixed[e % n] = 1; }
+  let pos = Float64Array.from(w.pos);
+  const pass = f => {
+    const next = Float64Array.from(pos);
+    for (let v = 0; v < n; v++) {
+      if (fixed[v] || !nb[v].size) continue;
+      for (let k = 0; k < 3; k++) { let s = 0; for (const u of nb[v]) s += pos[u * 3 + k]; next[v * 3 + k] = pos[v * 3 + k] + f * (s / nb[v].size - pos[v * 3 + k]); }
+    }
+    pos = next;
+  };
+  for (let i = 0; i < iterations; i++) { pass(lambda); pass(mu); }
+  let drift = 0; for (let v = 0; v < n; v++) drift = Math.max(drift, Math.hypot(pos[v * 3] - w.pos[v * 3], pos[v * 3 + 1] - w.pos[v * 3 + 1], pos[v * 3 + 2] - w.pos[v * 3 + 2]));
+  return {positions: Float32Array.from(pos), indices: w.idx, normals: packedNormals(pos, w.idx), drift};
+}
