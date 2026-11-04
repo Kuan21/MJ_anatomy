@@ -77,6 +77,15 @@ if (write) {
   process.exit(0);
 }
 
+if (flag('shrink')) {   // keep only the entries that still occur, never raise a size: used by the PRs that fix structures
+  const old = JSON.parse(fs.readFileSync(knownFile, 'utf8')), next = {}, inScope = k => only.includes(k.split('|')[0]);
+  for (const [k, v] of Object.entries(old.known)) if (!inScope(k)) next[k] = v;
+  for (const f of findings) { const k = old.known[f.key]; if (k) next[f.key] = {...k, measure: Math.min(k.measure, f.measure)}; }
+  fs.writeFileSync(knownFile, JSON.stringify({note: old.note, known: next}, null, 1));
+  const worse = findings.filter(f => !(f.key in old.known) || f.measure > old.known[f.key].measure);
+  console.log(`Stability: known list shrunk from ${Object.keys(old.known).length} to ${Object.keys(next).length} entries; ${worse.length} new or worse violation(s) remain unregistered.`);
+  process.exit(worse.length ? 1 : 0);
+}
 const known = fs.existsSync(knownFile) ? JSON.parse(fs.readFileSync(knownFile, 'utf8')).known : {};
 const scope = k => only.includes(k.split('|')[0]);
 const bad = findings.filter(f => !(f.key in known) || f.measure > known[f.key].measure + 1e-9);
