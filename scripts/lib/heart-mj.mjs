@@ -18,7 +18,7 @@ const ellipsoid = (c, r, seg = 18) => {
 
 /** `mesh(name)` returns {positions, indices} of a catalogue piece in the Z-Anatomy frame; the result maps each MJ structure's English name to geometry. */
 export function buildMjHeart(mesh) {
-  const M = {}; for (const n of ['Right atrium', 'Right ventricle', 'Left atrium', 'Left ventricle', 'Superior vena cava', 'Inferior vena cava', 'Coronary sinus', 'Ascending aorta', 'Pulmonary trunk', 'Right coronary artery', 'Circumflex artery', 'Anterior papillary muscle of right ventricle']) { const g = mesh(n); M[n] = meshOf(g.positions, g.indices); }
+  const M = {}; for (const n of ['Right atrium', 'Right ventricle', 'Left atrium', 'Left ventricle', 'Superior vena cava', 'Inferior vena cava', 'Coronary sinus', 'Ascending aorta', 'Pulmonary trunk', 'Right coronary artery', 'Circumflex artery', 'Anterior papillary muscle of right ventricle', 'Septal papillary muscle of right ventricle', 'Inferior papillary muscle of right ventricle', 'Anterolateral papillary muscle of left ventricle', 'Inferior papillary muscle of left ventricle']) { const g = mesh(n); M[n] = meshOf(g.positions, g.indices); }
   const RA = M['Right atrium'], RV = M['Right ventricle'], LA = M['Left atrium'], LV = M['Left ventricle'];
   const out = {};
   const centreOf = m => m.centre;
@@ -33,8 +33,8 @@ export function buildMjHeart(mesh) {
   out['Crista terminalis'] = tubeThrough(crista, .0038, .0032, 48);
   // Pectinate muscles: parallel ridges leaving the crista and running forward over the anterior wall towards the tricuspid orifice and the auricle.
   const pectinate = [];
-  for (let k = 0; k < 12; k++) {
-    const t = .1 + .78 * k / 11, pts = [];
+  for (let k = 0; k < 10; k++) {
+    const t = .1 + .78 * k / 9, pts = [];
     for (let j = 0; j <= 6; j++) { const th = .95 + j * .13, p = wallPoint(RA, axis(Math.min(1, t + j * .018)), lateralAnterior(th), .0012); if (p) pts.push(p); }
     if (pts.length > 3) pectinate.push(tubeThrough(pts, .0018, .0011, 24, 6));
   }
@@ -102,6 +102,26 @@ export function buildMjHeart(mesh) {
   const lowerLateral = rnd => unit([.3 + rnd() * .7, -.3 - rnd() * .7, (rnd() - .5) * .9]);
   out['Trabeculae carneae of right ventricle'] = trabeculae(RV, 34, .0010, 5, lowerAnterior, 1.1);
   out['Trabeculae carneae of left ventricle'] = trabeculae(LV, 80, .0006, 9, lowerLateral, .9);
+  // Each papillary muscle rises from the ventricular wall out of a few muscular ridges: trabeculae carneae of the papillary type run from its base along the wall (towards the apex and to the sides), so the muscle is tied
+  // into the ridge pattern of the wall instead of standing alone (textbook: the three types of trabecula are the ridges, the bridges and the papillary muscles, which are continuous with the other trabeculae).
+  const rootRidges = (chamber, names, r, seed) => {
+    const rnd = seeded(seed), list = [];
+    for (const n of names) {
+      const pm = M[n]; if (!pm) continue;
+      const near = []; for (let i = 0; i < pm.positions.length; i += 3) { const q = [pm.positions[i], pm.positions[i + 1], pm.positions[i + 2]], h = closest(chamber, q); if (h && h.d < .0025) near.push(q); }
+      if (!near.length) continue;
+      const base = near.reduce((a, q) => add(a, mul(q, 1 / near.length)), [0, 0, 0]);
+      const out0 = unit(sub(base, chamber.centre));
+      for (const turn of [[0, -1, 0], [.8, -.5, 0], [-.8, -.5, 0]]) {
+        let dir = out0; const pts = [];
+        for (let j = 0; j < 6; j++) { const p = wallPoint(chamber, chamber.centre, dir, r * 1.1); if (!p) break; pts.push(j === 0 ? sub(p, mul(unit(sub(p, chamber.centre)), -.0004)) : p); dir = unit(add(dir, mul(unit(add(turn, [(rnd() - .5) * .3, (rnd() - .5) * .3, (rnd() - .5) * .3])), .09))); }
+        if (pts.length >= 4) list.push(tubeThrough(pts, r * 1.3, r * .55, 10, 5));
+      }
+    }
+    return list;
+  };
+  out['Trabeculae carneae of right ventricle'] = merge([out['Trabeculae carneae of right ventricle'], ...rootRidges(RV, ['Anterior papillary muscle of right ventricle', 'Septal papillary muscle of right ventricle', 'Inferior papillary muscle of right ventricle'], .0010, 21)]);
+  out['Trabeculae carneae of left ventricle'] = merge([out['Trabeculae carneae of left ventricle'], ...rootRidges(LV, ['Anterolateral papillary muscle of left ventricle', 'Inferior papillary muscle of left ventricle'], .0008, 22)]);
   // Aortic vestibule: the smooth, non-muscular outflow part of the left ventricle just below the aortic valve.
   const av = [aorticRoot[0], M['Ascending aorta'].lo[1] - .014, aorticRoot[2] - .004];
   out['Aortic vestibule'] = patchField(LV, p => Math.min(.0185 - len(sub(p, av)), p[1] - (LV.centre[1] + .008)), -.0004);

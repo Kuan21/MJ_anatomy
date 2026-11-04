@@ -50,7 +50,7 @@ const RA_ITEMS: ChamberItem[] = [
 const PV_ITEMS: ChamberItem[] = Object.values(PV).map(([part, zh, en, zhDesc]) => ({en, zh, parts: [part], zhDesc, enDesc: `${en} into the posterior wall of the left atrium.`}));
 
 export const CHAMBERS: Chamber[] = [
-  {id: 'ra', en: 'Right atrium', zh: '右心房', wall: 'Right atrium', auricle: 'Right auricle', openings: ['Superior vena cava', 'Inferior vena cava', 'Coronary sinus'], cutDepth: .85, look: [-.95, .1, .3], inside: ['Crista terminalis', 'Pectinate muscles', 'Interatrial septum', 'Fossa ovalis', 'Right auricle', 'Left auricle'], items: RA_ITEMS},
+  {id: 'ra', en: 'Right atrium', zh: '右心房', wall: 'Right atrium', auricle: 'Right auricle', openings: ['Superior vena cava', 'Inferior vena cava', 'Coronary sinus'], cutDepth: .85, look: [-1, .06, .02], inside: ['Crista terminalis', 'Pectinate muscles', 'Interatrial septum', 'Fossa ovalis', 'Right auricle', 'Left auricle'], items: RA_ITEMS},
   {id: 'rv', en: 'Right ventricle', zh: '右心室', wall: 'Right ventricle', look: [.04, .22, 1], inside: [...RV_VALVE_CUSPS, 'Chordae tendineae of tricuspid valve', 'Anterior papillary muscle of right ventricle', 'Posterior papillary muscle of right ventricle', 'Septal papillary muscle of right ventricle', ...PULMONARY_CUSPS, 'Interventricular septum', 'Trabeculae carneae of right ventricle', 'Septomarginal trabecula (moderator band)', 'Supraventricular crest', 'Conus arteriosus'],
     items: [
       {en: 'Anterior cusp of the tricuspid valve', zh: '三尖瓣前瓣', parts: ['Anterior cusp of tricuspid valve'], zhDesc: '三尖瓣最大的一片瓣葉，位於前方。', enDesc: 'The largest cusp of the tricuspid valve, lying anteriorly.'},

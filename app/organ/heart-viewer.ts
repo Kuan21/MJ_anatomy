@@ -17,11 +17,11 @@ interface Callbacks {
 /** Selection colours shared with the atlas: deep green, outlined; hover is a lighter mint of the same hue. */
 export const HEART_SELECT = {fill: '#5DB89A', edge: '#3E8E74', hover: '#A7DCCB'};
 const GROUP_COLOR: Record<string, string> = {
-  chambers: '#d98a85', papillary: '#c97a5a', valves: '#f0dfa3', coronary: '#b0313f', veins: '#4f86bf', vessels: '#c9a8a0', interior: '#c9785f', pericardium: '#d9c9a3',
+  chambers: '#d98a85', papillary: '#c97a5a', valves: '#f0dfa3', coronary: '#b0313f', veins: '#4f86bf', vessels: '#c9a8a0', interior: '#b5503c', pericardium: '#d9c9a3',
 };
 /** schematic surface patches and spaces are drawn as tinted, translucent regions so they read as areas, not as ridges. */
 const PATCH_COLOR: Record<string, string> = {
-  'Interatrial septum': '#8fb8e6', 'Fossa ovalis': '#f0e3a8', 'Interventricular septum': '#86c08a', 'Conus arteriosus': '#b98ad6', 'Aortic vestibule': '#5fb0dc',
+  'Interatrial septum': '#6f9fe0', 'Fossa ovalis': '#f2cf5c', 'Interventricular septum': '#86c08a', 'Conus arteriosus': '#b98ad6', 'Aortic vestibule': '#5fb0dc',
   'Transverse pericardial sinus': '#69b96a', 'Oblique pericardial sinus': '#69b96a',
   'Fibrous pericardium': '#d9c9a3', 'Parietal layer of serous pericardium': '#e3d6b4', 'Visceral layer of serous pericardium (epicardium)': '#e8b9ae',
 };
@@ -356,7 +356,7 @@ gl_FragColor = vec4(mix(vec3(0.30, 0.78, 0.62), vec3(0.03, 0.36, 0.27), edge), m
     const areaCentre = area.getCenter(new T.Vector3());
     const target = new T.Box3(area.min.clone().addScalar(-.012), area.max.clone().addScalar(.012));
     controls.target.copy(areaCentre);
-    camera.position.copy(areaCentre).addScaledVector(direction, framingDistance(target, direction, camera.fov, camera.aspect, .9, .9));
+    camera.position.copy(areaCentre).addScaledVector(direction, framingDistance(target, direction, camera.fov, camera.aspect, look && focusPart ? 1.3 : .9, look && focusPart ? 1.3 : .9));
     controls.update(); dirty = true;
   };
 
