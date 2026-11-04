@@ -200,6 +200,14 @@ PR [#190](https://github.com/Kuan21/MJ_anatomy/pull/190)，已自動 merge。問
 
 PR [#184](https://github.com/Kuan21/MJ_anatomy/pull/184)，取代 #176（已關閉）；**已合併（2026-11-01）**。四個 BodyParts3D 來源網格名稱與幾何不符：FJ2093／FJ2197 來源叫「Set of dorsal digital arteries」，實際是沿腓骨內側下行的腓動脈，改名 Left／Right fibular artery（腓動脈）；FJ2091／FJ2195 來源叫「Set of calcaneal branches of posterior tibial artery」，實際在髖部前外側從旋股外側動脈分出，改名 Left／Right ascending and transverse branches of lateral circumflex femoral artery（旋股外側動脈升支與橫支），並從排除與動作隔離清單移出、跟著腿部動作。與它們重疊的示意腓動脈、示意升支與橫支退役（編號保留，跑考串流 475 → 469）。血管末端稽核與地標世界套用來源改名。搜尋「腓動脈」分別列出左右。下肢段落基準：間隙 106 → 113（移除 3 個假間隙，新增 10 個是改名血管自己的末端，之前被排除不計入），切線不符 105 → 97，直徑不符 64 → 61。名稱依 Gray's 1918 插圖與 OpenStax 核對位置，**請你核對**：四個新名稱（特別是升支與橫支合稱）、截圖位置、退役後小腿後外側是否缺少結構。截圖在 `pr-screenshots` 分支 `fibular-artery-2026-11-01/`。本機 `test-scene-loading --stream --worker` 因機器速度超時（main 亦同），以 CI 為準。
 
+## 肌肉肌腱平滑 下肢第 1 批：股二頭肌、半腱肌、半膜肌、縫匠肌、股薄肌、髂腰肌（【需人工審核】，不自動 merge）
+
+截圖在 `pr-screenshots` 分支 `tendon-smooth-lower-1-2026-11-03/`（commit `3159727`，8 張皆回應 200，網址 `https://raw.githubusercontent.com/Kuan21/MJ_anatomy/3159727c5d9535f8f16905ce853d3f2bcffee22c/tendon-smooth-lower-1-2026-11-03/<檔名>`）：左腿背面、側面、正面、半腱肌腱選取，以及動作面板的極限角度（膝屈曲 130°、髖屈曲 120° 加膝屈曲 130°、髖伸展）。本機重現：`npm run build`，`npx vite preview`，開 `/?mjview=1`，下肢 → 左側。
+
+- **做了什麼：** 六個肌腱規格加上 `flat`，用共用工具 `loftBand`（`scripts/lib/tendon-build.mjs`）從肌肉切口環放樣成扁帶：第一個截面就是切口環（與肌肉共邊），往下縮成指定厚度（股二頭肌 8 mm、半腱肌 7 mm 且寬度趨勻、半膜肌 6 mm、縫匠肌 4 mm、股薄肌 5 mm、髂腰肌 10 mm）並圓潤成橢圓，仍接上原有的避開骨骼與伸到骨面處理。id、名稱、歸屬、獨立選取、資訊卡、Quiz 名稱都不變；肌腱與肌肉同層的規則沿用 #178（逐項測試在 `scripts/test-owner-display.mjs`）。形狀是依肌肉網格重塑的**示意**。
+- **同時新增：** `loftPath`（沿肌腱自身路徑放樣，以網格上離切口環的距離取中心線，截面垂直於中心線），給足踝肌腱用；這一批還沒啟用它。
+- **誠實的限制：** 沒有修正前的對照截圖（上一輪的 build 已清掉；可對照 #178 的膝部截圖）；只看了膝屈曲 130° 與髖屈曲 120° 的整體，沒有放大逐條檢查接縫；足踝肌腱（屈趾長肌、伸趾長肌、脛後肌、腓骨肌）、上肢、胸腔、背部尚未做。位置只對照公開來源（Gray's Anatomy 1918、OpenStax）的概念，請你自己核對。
+
 ## 肌腱跟肌肉補修：Hide 後肌腱還在、塊狀股四頭肌腱（【需人工審核】，不自動 merge）
 
 截圖（`-before` 修正前、`-after` 修正後）在 `pr-screenshots` 分支 `tendon-follow-2026-11-01/`（commit `6decb12`，8 張皆回應 200）。本機重現：`npm run build`，`npx vite preview`，開 `/?mjview=1`，下肢 → 左側，搜尋「rectus femoris」按 Hide。畫面用的是左腿（搜尋第一筆是左側）；左右用同一條規則與同一份資料，右腿沒有另截圖。
@@ -963,6 +971,7 @@ Triangular interval 改為「三邊裂」（原「三頭肌間隙」），Clavip
 | Bug Audit 修正 13：Quiz 第二級接受主網站寫法、課程清單 1:1 別名、序數與椎骨代號 | 等我審核（需人工審核，不自動 merge） | #156 | 完整清單在 docs/quiz-level2-accepted-names.md |
 | Bug Audit 修正 13：Quiz 第二級接受主網站寫法、課程清單 1:1 別名、序數與椎骨代號 | 已合併（你 2026-10-31 確認） | #156 | 完整清單在 docs/quiz-level2-accepted-names.md |
 | Bug Audit 修正 12：關節資料的膜、聯合、脂肪墊改為真的畫出來；椎間盤／髓核／三放射軟骨從搜尋移除 | 已合併（你 2026-10-31 看過截圖後確認） | #157 | 新增 12 個可點選結構，請看截圖 |
+| **肌肉肌腱平滑 下肢第 1 批（股二頭肌、半腱肌、半膜肌、縫匠肌、股薄肌、髂腰肌腱放樣）** | 等我審核（【需人工審核】，不自動 merge；CI 結果見 PR） | #221 | 內容見「肌肉肌腱平滑 下肢第 1 批」；足踝、上肢、胸腔、背部各一批隨後 |
 | **肌腱跟肌肉補修：Hide 後肌腱還在（歸屬改到部件層級）、塊狀股四頭肌腱與髕韌帶重建、顯示規則集中並逐一測試** | 等我審核（【需人工審核】，不自動 merge；CI 結果見 PR） | #178 | 內容見「肌腱跟肌肉補修」 |
 | **顯示規則修正：器官內血管跟器官開關、肌腱跟肌肉、肌腱改為肌肉的子項（跟腱碎片、肺尖面片誤入胸腔）** | 已合併（你 2026-10-31 確認） | #162 | 內容見「顯示規則修正」；歸屬表在 `docs/organ-owners.md`、`docs/tendon-owners.md`，邊界案例請核對 |
 | **歸屬與命名決定：肺門肺血管跟肺、腱鞘與掌腱膜跟肌肉、瓣膜 leaflet 改 cusp、後乳突肌更名** | 等我審核（【需人工審核】，不自動 merge） | 見 PR 說明 | 內容見上方「歸屬與命名決定」；待你決定的邊界項目列在該節 |
