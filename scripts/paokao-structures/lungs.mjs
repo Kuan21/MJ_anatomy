@@ -22,21 +22,21 @@ export default function lungs(U, part = 'base') {
     'Groove for azygos vein', 'Groove for superior vena cava', 'Groove for brachiocephalic vein', 'Groove for left brachiocephalic vein', 'Right groove for subclavian artery', 'Left groove for subclavian artery',
     'Groove for first rib of right lung', 'Groove for first rib of left lung', 'Hilum of right lung', 'Hilum of left lung', 'Oblique fissure of right lung', 'Horizontal fissure of right lung', 'Oblique fissure of left lung'];
   const lift = name => { const k = STACK.indexOf(name); if (k < 0) throw new Error(`lung patch ${name} has no place in the stacking order`); return .0004 + k * .00003; };
-  /** Contact of lobe `a` with structure `b`: the surface within d of it whose normal faces it. */
-  const facing = (a, b, d, name) => {
+  /** Contact of lobe `a` with structure `b`: the surface within d of it whose normal faces it. With `sx` (+1 left lung, -1 right lung) the mark also stays on the mediastinal side: the surface must face towards the midline, so a groove never runs round onto the front or the back of the lung. */
+  const facing = (a, b, d, name, sx = 0) => {
     const D = U.distTo(b), cb = U.mesh(b).centre;
-    return U.fieldPatch(a, (p, n) => { const s = d - D(p); return n ? Math.min(s, (dot(n, unit(sub(cb, p))) + .2) * ANG) : s; }, {off: lift(name), maxEdge: Math.max(.0008, d / 3.2)});
+    return U.fieldPatch(a, (p, n) => { const s = d - D(p); return n ? Math.min(s, (dot(n, unit(sub(cb, p))) + .2) * ANG, sx ? (-n[0] * sx - .1) * ANG : 1) : s; }, {off: lift(name), maxEdge: Math.max(.0008, d / 3.2)});
   };
-  const lobes = (side, label, zh, list, where, role) => {
-    const parts = list.filter(([lobe]) => lobe).map(([lobe, other, d]) => facing(lobe, other, d, label)).filter(g => g.indices.length);
+  const lobes = (side, label, zh, list, where, role, medial = true) => {
+    const parts = list.filter(([lobe]) => lobe).map(([lobe, other, d]) => facing(lobe, other, d, label, medial ? (side === 'left' ? 1 : -1) : 0)).filter(g => g.indices.length);
     if (!parts.length) throw new Error(`lung feature ${label}: nothing within reach`);
     out.push({name: label, zh, system: 'respiratory', kind: 'surface', parent: list[0][0], geometry: [U.merge(parts)], card: {origin: [`Surface of the ${side} lung`, `${side === 'left' ? '左' : '右'}肺表面`], course: where, supply: role}, refs: [REF]});
   };
   const contact = (a, b, d, name) => { const D = U.distTo(b); return U.fieldPatch(a, p => d - D(p), {off: lift(name), maxEdge: Math.max(.0008, d / 3.2), smooth: 1}); };
   const fissure = (label, zh, side, pairs, where, role) => out.push({name: label, zh, system: 'respiratory', kind: 'surface', parent: pairs[0][0], geometry: [U.merge(pairs.map(([a, b, d]) => contact(a, b, d, label)))], card: {origin: [`Surface of the ${side} lung`, `${side === 'left' ? '左' : '右'}肺表面`], course: where, supply: role}, refs: [REF]});
-  fissure('Oblique fissure of right lung', '右肺斜裂', 'right', [[RU, RL, .0025], [RM, RL, .0025], [RL, RU, .0025], [RL, RM, .0025]], ['A deep cleft running obliquely down and forwards, separating the lower lobe from the upper and middle lobes', '由後上斜向前下的深裂，把下葉與上葉、中葉分開'], ['Lets the lobes slide on each other during breathing; marks the surface of the lobes for surgery', '讓各肺葉在呼吸時互相滑動；是肺葉手術的界標']);
-  fissure('Horizontal fissure of right lung', '右肺水平裂', 'right', [[RU, RM, .0025], [RM, RU, .0025]], ['A shorter cleft running horizontally at the level of the 4th costal cartilage, separating the upper from the middle lobe', '約在第四肋軟骨高度水平走行的較短裂隙，把上葉與中葉分開'], ['Only the right lung has a horizontal fissure (three lobes)', '只有右肺有水平裂（三葉）']);
-  fissure('Oblique fissure of left lung', '左肺斜裂', 'left', [[LU, LL, .0025], [LL, LU, .0025]], ['A deep cleft running obliquely down and forwards, separating the upper from the lower lobe (the left lung has two lobes)', '由後上斜向前下的深裂，把上葉與下葉分開（左肺只有兩葉）'], ['Marks the boundary of the lobes', '肺葉的界線']);
+  fissure('Oblique fissure of right lung', '右肺斜裂', 'right', [[RU, RL, .0012], [RM, RL, .0012], [RL, RU, .0012], [RL, RM, .0012]], ['A deep cleft running obliquely down and forwards, separating the lower lobe from the upper and middle lobes', '由後上斜向前下的深裂，把下葉與上葉、中葉分開'], ['Lets the lobes slide on each other during breathing; marks the surface of the lobes for surgery', '讓各肺葉在呼吸時互相滑動；是肺葉手術的界標']);
+  fissure('Horizontal fissure of right lung', '右肺水平裂', 'right', [[RU, RM, .0012], [RM, RU, .0012]], ['A shorter cleft running horizontally at the level of the 4th costal cartilage, separating the upper from the middle lobe', '約在第四肋軟骨高度水平走行的較短裂隙，把上葉與中葉分開'], ['Only the right lung has a horizontal fissure (three lobes)', '只有右肺有水平裂（三葉）']);
+  fissure('Oblique fissure of left lung', '左肺斜裂', 'left', [[LU, LL, .0012], [LL, LU, .0012]], ['A deep cleft running obliquely down and forwards, separating the upper from the lower lobe (the left lung has two lobes)', '由後上斜向前下的深裂，把上葉與下葉分開（左肺只有兩葉）'], ['Marks the boundary of the lobes', '肺葉的界線']);
   // Lingula and cardiac notch of the left lung
   {
     const m = U.mesh(LU), cut = m.lo[1] + (m.hi[1] - m.lo[1]) * .40, zc = (m.lo[2] + m.hi[2]) / 2;
@@ -54,10 +54,10 @@ export default function lungs(U, part = 'base') {
   lobes('left', 'Groove for descending aorta', '降主動脈溝', [[LL, 'Descending thoracic aorta', .0045], [LU, 'Descending thoracic aorta', .0045]], ['A vertical groove behind the hilum of the left lung', '左肺肺門後方的垂直溝'], ['Left by the descending thoracic aorta', '由胸主動脈壓出']);
   for (const [side, w] of [['left', 'Left'], ['right', 'Right']]) {
     lobes(side, `${w} groove for subclavian artery`, `${side === 'left' ? '左' : '右'}鎖骨下動脈溝`, [[side === 'left' ? LU : RU, `${w} subclavian artery`, .0045]],
-      ['A groove on the upper part of the mediastinal surface, curving up over the apex', '縱隔面上部、向上繞過肺尖的溝'], [`Left by the ${side} subclavian artery`, `由${side === 'left' ? '左' : '右'}鎖骨下動脈壓出`]);
+      ['A groove on the upper part of the mediastinal surface, curving up over the apex', '縱隔面上部、向上繞過肺尖的溝'], [`Left by the ${side} subclavian artery`, `由${side === 'left' ? '左' : '右'}鎖骨下動脈壓出`], false);
   }
-  lobes('left', 'Groove for left brachiocephalic vein', '左頭臂靜脈溝', [[LU, 'Left brachiocephalic vein', .010]], ['A groove in front of the groove for the subclavian artery, at the top of the left lung', '左肺上部、鎖骨下動脈溝前方的溝'], ['Left by the left brachiocephalic vein', '由左頭臂靜脈壓出']);
-  lobes('right', 'Groove for brachiocephalic vein', '頭臂靜脈溝', [[RU, 'Right brachiocephalic vein', .0045]], ['A groove at the top of the mediastinal surface of the right lung, in front of the groove for the subclavian artery', '右肺縱隔面上部、鎖骨下動脈溝前方的溝'], ['Left by the right brachiocephalic vein', '由右頭臂靜脈壓出']);
+  lobes('left', 'Groove for left brachiocephalic vein', '左頭臂靜脈溝', [[LU, 'Left brachiocephalic vein', .010]], ['A groove in front of the groove for the subclavian artery, at the top of the left lung', '左肺上部、鎖骨下動脈溝前方的溝'], ['Left by the left brachiocephalic vein', '由左頭臂靜脈壓出'], false);
+  lobes('right', 'Groove for brachiocephalic vein', '頭臂靜脈溝', [[RU, 'Right brachiocephalic vein', .0045]], ['A groove at the top of the mediastinal surface of the right lung, in front of the groove for the subclavian artery', '右肺縱隔面上部、鎖骨下動脈溝前方的溝'], ['Left by the right brachiocephalic vein', '由右頭臂靜脈壓出'], false);
   lobes('right', 'Groove for superior vena cava', '上腔靜脈溝', [[RU, 'Superior vena cava', .0045]], ['A vertical groove in front of the hilum of the right lung', '右肺肺門前方的垂直溝'], ['Left by the superior vena cava', '由上腔靜脈壓出']);
   lobes('right', 'Groove for azygos vein', '奇靜脈溝', [[RU, 'Azygos vein', .0045]], ['An arching groove above the hilum of the right lung, where the arch of the azygos vein enters the superior vena cava', '右肺肺門上方的弓形溝，奇靜脈弓在此注入上腔靜脈'], ['Left by the arch of the azygos vein', '由奇靜脈弓壓出']);
   lobes('left', 'Esophageal impression of left lung', '左肺食道壓跡', [[LL, 'Esophagus', .010], [LU, 'Esophagus', .010]], ['A shallow impression on the mediastinal surface behind the hilum, below the groove for the aortic arch', '縱隔面肺門後方、主動脈弓溝下方的淺壓跡'], ['Left by the oesophagus', '由食道壓出']);
@@ -80,12 +80,12 @@ export default function lungs(U, part = 'base') {
       if (side === 'right') late.push({name: `Contact area for trachea of ${side} lung`, zh: `${z}肺氣管接觸區`, system: 'respiratory', kind: 'surface', parent: top, geometry: [facing(top, 'Trachea', side === 'right' ? .009 : .013, `Contact area for trachea of ${side} lung`)],
         card: {origin: [`Mediastinal surface of the ${side} upper lobe`, `${z}肺上葉縱隔面`], course: ['The part of the mediastinal surface above the hilum that lies beside the trachea', '肺門上方、貼靠氣管的縱隔面部分'], supply: ['The pleura separates it from the trachea', '以胸膜與氣管相隔']}, refs: [REF]});
       const zmax = Math.max(...upper.map(l => U.mesh(l).hi[2]));
-      late.push({name: `Anterior border of ${side} lung`, zh: `${z}肺前緣`, system: 'respiratory', kind: 'surface', parent: top, geometry: upper.map(l => band(l, p => Math.min(p[2] - (zmax - .016), p[0] * (side === 'right' ? -1 : 1) - .004), `Anterior border of ${side} lung`)),
+      late.push({name: `Anterior border of ${side} lung`, zh: `${z}肺前緣`, system: 'respiratory', kind: 'surface', parent: top, geometry: upper.map(l => band(l, (p, n) => { const s0 = p[0] * (side === 'right' ? -1 : 1) - .004; return n ? Math.min(s0, (n[2] - .3) * ANG, (.07 - Math.abs(n[0])) * ANG) : s0; }, `Anterior border of ${side} lung`)),
         card: {origin: [`Front edge of the ${side} lung`, `${z}肺前方的邊緣`], course: [side === 'left' ? 'A thin sharp edge between the costal and mediastinal surfaces; the lower part bends away to form the cardiac notch' : 'A thin sharp edge between the costal and mediastinal surfaces, running down in front of the root of the lung', '肋面與縱隔面之間的薄銳邊緣' + (side === 'left' ? '，下部彎開形成心切跡' : '，在肺根前方向下延伸')], supply: ['Reaches the front of the pleural sac behind the sternum', '位於胸骨後方的胸膜囊前緣']}, refs: [REF]});
       late.push({name: `Diaphragmatic surface of ${side} lung`, zh: `${z}肺膈面`, system: 'respiratory', kind: 'surface', parent: lower[0], geometry: lower.map(l => facing(l, 'Diaphragm', .0045, `Diaphragmatic surface of ${side} lung`)).filter(g => g.indices.length),
         card: {origin: [`Base of the ${side} lung`, `${z}肺底`], course: ['The concave lower surface of the lung, which rests on the dome of the diaphragm', '肺的凹形下面，貼在橫膈穹窿上'], supply: [side === 'right' ? 'Separated by the diaphragm from the liver; the right dome is higher than the left' : 'Separated by the diaphragm from the stomach and spleen', side === 'right' ? '以橫膈與肝相隔；右側膈穹窿較高' : '以橫膈與胃及脾相隔']}, refs: [REF]});
       const ylo = Math.min(...lower.map(l => U.mesh(l).lo[1]));
-      late.push({name: `Inferior border of ${side} lung`, zh: `${z}肺下緣`, system: 'respiratory', kind: 'surface', parent: lower[0], geometry: lower.map(l => band(l, (p, n) => { const s = ylo + .011 - p[1]; return n ? Math.min(s, (n[1] + .55) * ANG) : s; }, `Inferior border of ${side} lung`)).filter(g => g.indices.length),
+      late.push({name: `Inferior border of ${side} lung`, zh: `${z}肺下緣`, system: 'respiratory', kind: 'surface', parent: lower[0], geometry: lower.map(l => band(l, (p, n) => { const s = ylo + .003 - p[1]; return n ? Math.min(s, (n[1] + .55) * ANG) : s; }, `Inferior border of ${side} lung`)).filter(g => g.indices.length),
         card: {origin: [`Lower edge of the ${side} lung`, `${z}肺下方的邊緣`], course: ['The sharp edge that separates the diaphragmatic surface from the costal and mediastinal surfaces', '分隔膈面與肋面、縱隔面的銳緣'], supply: ['Reaches the 6th rib at the midclavicular line and the 8th rib at the midaxillary line', '在鎖骨中線處達第 6 肋，在腋中線處達第 8 肋']}, refs: [REF]});
     }
   }
