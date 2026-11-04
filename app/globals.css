@@ -1282,3 +1282,9 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 .space-solid .space-role{display:grid;gap:3px;margin-top:4px}
 .space-solid .space-row .bn-en{display:flex;align-items:flex-start}.space-solid .space-row .edge-dot{flex:0 0 10px;margin-top:5px}
 .space-label{overflow-wrap:anywhere}
+/* Scope (範圍) row of the data card and the tag in the search results */
+.scope-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid #18253612;font-size:12px}
+.scope-row span,.scope-row b{display:flex;flex-direction:column;gap:0;font-weight:600}.scope-row small{font-size:11px;font-weight:400;opacity:.75}
+.scope-row b{align-items:flex-end;padding:2px 10px;border-radius:8px;background:#e7eef2;color:#344054}
+.scope-row[data-scope=summary] b{background:#dcebe4;color:#1f5a47}
+.scope-tag{display:inline-block;margin-left:6px;padding:0 6px;border-radius:6px;background:#dcebe4;color:#1f5a47;font:600 10px/16px system-ui,sans-serif;vertical-align:middle}
