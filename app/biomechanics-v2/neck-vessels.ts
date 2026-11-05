@@ -1,8 +1,9 @@
 import * as T from 'three';
+import {joinCarotids} from './carotid-junction';
 import type {Atlas,SceneState,SystemId,Part} from '../anatomy';
 import {makeBodyRig,buildBodyMotion,bindBodyTissue} from './body-motion';
 import {deformTissue,type SkinBinding} from './soft-tissue';
-export interface NeckVesselData {vessels:{name:string;parentId:string;system:SystemId;positions:number[];indices:number[]}[]}
+export interface NeckVesselData {/** set once the carotid joints have been refined, so a second add() of the same data does not move the origins again */joined?:boolean;vessels:{name:string;parentId:string;system:SystemId;positions:number[];indices:number[]}[]}
 const NO_PALETTE=new Float64Array(0);
 const samePalette=(a:Float64Array,b:Float64Array)=>{if(a.length!==b.length)return false;for(let i=0;i<a.length;i++)if(a[i]!==b[i])return false;return true;};
 export function createNeckVessels(atlas:Atlas,scene:T.Scene){
@@ -10,6 +11,7 @@ export function createNeckVessels(atlas:Atlas,scene:T.Scene){
  const rows:{mesh:T.Mesh<T.BufferGeometry,T.MeshStandardMaterial>;parent:Part;system:SystemId;base:Float32Array;head:SkinBinding;spine:SkinBinding;/** what produced the current positions, so an unchanged pose is not re-deformed and re-lit */posed?:{region:string;palette:Float64Array}}[]=[];
  const replaced=new Set<string>();
  function add(data:NeckVesselData){
+  if(!data.joined){joinCarotids(data.vessels);data.joined=true;}
   for(const v of data.vessels){
    const parent=atlas.parts.find(p=>p.id===v.parentId);if(!parent)throw new Error('Missing cervical vessel identity '+v.parentId);
    const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(v.positions,3));g.setIndex(v.indices);g.computeVertexNormals();
