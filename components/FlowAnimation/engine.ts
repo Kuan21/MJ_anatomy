@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import type {PathwayDataset,Pt,Step} from './types';
 
 /** 人體模型提供的東西：每個肌肉群組的材質（引擎依步驟調整透明度），以及（下肢）梨狀肌的材質 */
@@ -17,8 +18,10 @@ export interface FlowOptions{
  unit?:number;
  /** 從資訊卡進來時要高亮的路徑 id（只在起始的那一步生效；該步驟其他路徑稍微淡化） */
  highlight?:string[];
+ /** 暫停狀態改變時通知介面（使用者拖曳或縮放會自動暫停，停在目前這一步） */
+ onPausedChange?:(paused:boolean)=>void;
 }
-export interface FlowEngine{setMode:(m:number,step?:number)=>void;dispose:()=>void}
+export interface FlowEngine{setMode:(m:number,step?:number)=>void;prev:()=>void;next:()=>void;togglePause:()=>void;dispose:()=>void}
 
 const V=(p:Pt)=>new THREE.Vector3(p[0],p[1],p[2]);
 const RAW=new THREE.Vector3();
@@ -48,6 +51,9 @@ export function createFlowEngine(opt:FlowOptions):FlowEngine{
  stage.insertBefore(renderer.domElement,stage.firstChild);
  const scene=new THREE.Scene();
  const camera=new THREE.PerspectiveCamera(38,1,0.1*unit,200*unit);
+ const controls=new OrbitControls(camera,renderer.domElement);
+ controls.enableDamping=true;controls.dampingFactor=.12;controls.minDistance=.25*unit;controls.maxDistance=60*unit;
+ controls.touches={ONE:THREE.TOUCH.ROTATE,TWO:THREE.TOUCH.DOLLY_PAN};
  scene.add(new THREE.HemisphereLight(col(0xffffff),col(0x8a9aa5),0.95));
  const key=new THREE.DirectionalLight(col(0xffffff),0.7);key.position.set(4*unit,8*unit,6*unit);scene.add(key);
  const back=new THREE.DirectionalLight(col(0xffffff),0.35);back.position.set(-5*unit,2*unit,-8*unit);scene.add(back);
@@ -87,7 +93,12 @@ export function createFlowEngine(opt:FlowOptions):FlowEngine{
  const MODES=data.modes;
  const {leaders,steps:stepsEl,body:bodyEl,tagLayer,legend:legendEl,modeButtons}=els;
  let tagEls:TagEl[]=[];
- let mode=0,stepIdx=-1,stepT=0,growPhases:string[][]=[];
+ let mode=0,stepIdx=-1,stepT=0,camT=0,growPhases:string[][]=[];
+ // 使用者隨時可以轉動、縮放：一動就接手鏡頭並停在目前這一步（paused）；按下一步、上一步或播放會把鏡頭平順接回導覽視角。
+ let paused=false,manual=false;
+ function setPaused(v:boolean){if(paused===v)return;paused=v;opt.onPausedChange?.(v);}
+ function resumeGuide(){if(!manual)return;camNow[0].copy(camera.position);camNow[1].copy(controls.target);camFrom=[camNow[0].clone(),camNow[1].clone()];camT=0;manual=false;}
+ controls.addEventListener('start',()=>{if(!manual){controls.target.copy(camNow[1]);manual=true;}setPaused(true);});
  let camFrom:THREE.Vector3[]=[new THREE.Vector3(3.2,1.6,8.5),new THREE.Vector3(-.6,.9,-.3)];
  const camNow:THREE.Vector3[]=[camFrom[0].clone(),camFrom[1].clone()];
  let fadeTimer:ReturnType<typeof setTimeout>|undefined;
@@ -130,8 +141,9 @@ export function createFlowEngine(opt:FlowOptions):FlowEngine{
   (st.ctx||[]).forEach(id=>{const n=paths[id];if(n.state!=='active'){n.wasDone=n.state==='done';n.state='ctx';setGrow(n,1);}});
   if(st.orbit)for(const id in paths){const n=paths[id];if(MODES[mode].groups.includes(n.group)){n.state='active';setGrow(n,1);}}
   growPhases=st.ph.filter(ph=>ph.some(id=>paths[id].p<1));
+  resumeGuide();
   camFrom=[camNow[0].clone(),camNow[1].clone()];
-  stepIdx=i;stepT=0;showStep();
+  stepIdx=i;stepT=0;camT=0;showStep();
  }
  const onMode=modeButtons.map((b,k)=>{const f=()=>setMode(k);b.addEventListener('click',f);return f;});
  let camScale=1;
@@ -149,16 +161,17 @@ export function createFlowEngine(opt:FlowOptions):FlowEngine{
   raf=requestAnimationFrame(frame);
   if(document.hidden){clock.getDelta();return;}
   const dt=Math.min(clock.getDelta(),.05);
-  stepT+=dt;
-  if(stepT>STEP_DUR){if(stepIdx+1<MODES[mode].steps.length)startStep(stepIdx+1);else setMode((mode+1)%MODES.length);}
+  stepT+=dt;camT+=dt;
+  if(stepT>STEP_DUR){if(paused)stepT=STEP_DUR;else if(stepIdx+1<MODES[mode].steps.length)startStep(stepIdx+1);else setMode((mode+1)%MODES.length);}
   const s=MODES[mode].steps[stepIdx];
-  const ct=ease(Math.min(stepT/CAM,1));
+  const ct=ease(Math.min(camT/CAM,1));
  const tgt=W(s.cam[1]);let pos=RAW.copy(V(s.cam[0])).sub(V(s.cam[1])).multiplyScalar(unit).add(tgt).clone();
   if(s.orbit){const off=pos.clone().sub(tgt);off.applyAxisAngle(new THREE.Vector3(0,1,0),stepT*.33);pos=tgt.clone().add(off);}
   else pos.x+=Math.sin(stepT*.4)*.25*unit;
   pos=tgt.clone().add(pos.clone().sub(tgt).multiplyScalar(camScale));
-  camNow[0].copy(camFrom[0]).lerp(pos,ct);camNow[1].copy(camFrom[1]).lerp(tgt,ct);
-  camera.position.copy(camNow[0]);camera.lookAt(camNow[1]);
+  if(manual)controls.update();
+  else{camNow[0].copy(camFrom[0]).lerp(pos,ct);camNow[1].copy(camFrom[1]).lerp(tgt,ct);
+   camera.position.copy(camNow[0]);camera.lookAt(camNow[1]);}
   const gt=Math.max(0,stepT-CAM*.6);
   const per=GROW/Math.max(growPhases.length,1);
   growPhases.forEach((ph,k)=>{const p=ease(Math.min(Math.max((gt-k*per)/per,0),1));ph.forEach(id=>setGrow(paths[id],p));});
@@ -229,7 +242,7 @@ export function createFlowEngine(opt:FlowOptions):FlowEngine{
  frame();
 
  function dispose(){
-  alive=false;cancelAnimationFrame(raf);if(fadeTimer)clearTimeout(fadeTimer);
+  alive=false;cancelAnimationFrame(raf);controls.dispose();if(fadeTimer)clearTimeout(fadeTimer);
   window.removeEventListener('resize',resize);ro?.disconnect();
   modeButtons.forEach((b,k)=>b.removeEventListener('click',onMode[k]));
   tagEls.forEach(e=>{e.el.remove();e.line.remove();e.dot.remove();});
@@ -239,5 +252,12 @@ export function createFlowEngine(opt:FlowOptions):FlowEngine{
   Object.values(GLOW).forEach(t=>t.dispose());
   renderer.dispose();renderer.forceContextLoss();renderer.domElement.remove();
  }
- return {setMode,dispose};
+ const go=(d:number)=>{const n=MODES.length;let i=stepIdx+d;
+  if(i<0){const m=(mode-1+n)%n;setMode(m,MODES[m].steps.length-1);}
+  else if(i>=MODES[mode].steps.length)setMode((mode+1)%n);
+  else if(d>0)startStep(i);
+  else setMode(mode,i);};
+ const prev=()=>go(-1),next=()=>go(1);
+ const togglePause=()=>{if(paused){resumeGuide();setPaused(false);}else setPaused(true);};
+ return {setMode,prev,next,togglePause,dispose};
 }

@@ -27,6 +27,16 @@ for (const [id, def] of Object.entries(QUIZ_REGIONS)) {
     }
     if (category !== 'all') for (const s of one) if (categoryOf(s) !== category) problems.push(`${def.label}: ${s.name} is not in category ${category}`);
   }
+  // Scope (摘要 / 延伸): with 只考摘要範圍 the two levels still hold the same questions, and that pool is part of the full one (the default 包括延伸 is every question as before).
+  for (const section of def.sections) for (const category of [...all, 'all']) for (const side of sides) {
+    const base = {section: section.id, side, systems: [], categories: category === 'all' ? all : [category], count: 9999};
+    const full = questionPool(catalogue, base), fullTwo = namingPool(catalogue, base), one = questionPool(catalogue, {...base, scope: 'summary'}), two = namingPool(catalogue, {...base, scope: 'summary'});
+    if (full.length !== questionPool(catalogue, {...base, scope: 'all'}).length) problems.push(`${def.label}: scope 'all' must be the same pool as no scope`);
+    const inFull = new Set(full.map(x => x.id)), inFullTwo = new Set(fullTwo.map(x => x.id));
+    if (one.length !== two.length) problems.push(`${def.label} / ${section.label} / ${category} / ${side}: scope summary level 1 has ${one.length}, level 2 has ${two.length}`);
+    for (const x of one) if (!inFull.has(x.id)) problems.push(`${def.label}: summary question ${x.name} is not in the full pool`);
+    for (const x of two) if (!inFullTwo.has(x.id)) problems.push(`${def.label}: summary level-2 question ${x.name} is not in the full level-2 pool`);
+  }
   // every structure with a question belongs to exactly one category
   const asked = catalogue.structures.filter(s => s.sections.length);
   const sum = all.reduce((n, c) => n + asked.filter(s => categoryOf(s) === c).length, 0);
