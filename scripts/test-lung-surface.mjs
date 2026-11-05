@@ -80,6 +80,14 @@ for (const f of [page, info, css]) assert.ok(!/出處：神經解剖|共筆/.tes
   }
   assert.deepEqual(problems, [], problems.join('\n'));
 }
+// 5. z-fighting: the marks do not write depth, are drawn after the lobes and in the stacking order of the build; borders and fissures are drawn as lines
+{
+  const {LUNG_STACK, lungStackRank} = await quizModule('app/mj-lung-categories.ts'), src = text('scripts/paokao-structures/lungs.mjs');
+  const stack = [...src.slice(src.indexOf('const STACK = ['), src.indexOf('const lift =')).matchAll(/'([^']+)'/g)].map(m => m[1]);
+  assert.deepEqual(LUNG_STACK, stack, 'LUNG_STACK must equal the STACK of lungs.mjs');
+  assert.ok(lungStackRank('Hilum of left lung') > lungStackRank('Diaphragmatic surface of left lung'));
+  assert.match(scene, /mark\.depthWrite=false/); assert.match(scene, /respiratory:mark'\)mesh\.renderOrder=2/); assert.match(scene, /gs\.sort\(\(a,b\)=>\(a\.userData\.lungRank/);
+}
 const hilumCard = cards.find(c => c.name === 'Hilum of left lung');
 assert.equal(hilumCard.extra[0].zh, '左肺縱隔面');
 console.log(`Lung surface OK: ${Object.keys(links.impressors).length} impressions with impressing structures, ${nImp} impressor meshes, ${links.context.length} context structures, hilum in the middle of the medial face.`);
