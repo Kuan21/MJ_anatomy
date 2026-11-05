@@ -101,11 +101,6 @@
    "measure": 29.9,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
-  "cuts|PK-231": {
-   "name": "Oblique fissure of left lung",
-   "measure": 21.5,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
-  },
   "cuts|PK-232": {
    "name": "Lingula of left lung",
    "measure": 37.6,
@@ -154,11 +149,6 @@
   "cuts|PK-335": {
    "name": "Apex of left lung",
    "measure": 22,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
-  },
-  "cuts|PK-338": {
-   "name": "Anterior border of left lung",
-   "measure": 20.1,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
   "cuts|PK-339": {
@@ -1296,19 +1286,9 @@
    "measure": 21,
    "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
   },
-  "fragments|PK-229": {
-   "name": "Oblique fissure of right lung",
-   "measure": 1,
-   "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
-  },
   "fragments|PK-233": {
    "name": "Cardiac notch of left lung",
    "measure": 3,
-   "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
-  },
-  "fragments|PK-243": {
-   "name": "Groove for azygos vein",
-   "measure": 1,
    "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
   },
   "fragments|PK-244": {
@@ -5496,11 +5476,6 @@
    "measure": 6063,
    "reason": "faces coincide with Anterior border of left lung: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|PK-233|PK-338": {
-   "name": "Cardiac notch of left lung",
-   "measure": 1308,
-   "reason": "faces coincide with Anterior border of left lung: two layers share the same surface; to be offset or one of them removed"
-  },
   "zfight|PK-234|PK-337": {
    "name": "Cardiac impression of left lung",
    "measure": 661,
@@ -5535,21 +5510,6 @@
    "name": "Esophageal impression of left lung",
    "measure": 112,
    "reason": "faces coincide with Apex of left lung: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|PK-332|PK-333": {
-   "name": "Anterior border of right lung",
-   "measure": 2803,
-   "reason": "faces coincide with Diaphragmatic surface of right lung: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|PK-333|PK-334": {
-   "name": "Diaphragmatic surface of right lung",
-   "measure": 2239,
-   "reason": "faces coincide with Inferior border of right lung: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|PK-339|PK-340": {
-   "name": "Diaphragmatic surface of left lung",
-   "measure": 1571,
-   "reason": "faces coincide with Inferior border of left lung: two layers share the same surface; to be offset or one of them removed"
   }
  }
 }
