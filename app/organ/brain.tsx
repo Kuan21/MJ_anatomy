@@ -185,8 +185,12 @@ export default function BrainDetail() {
       <aside className="organ-left" aria-label="腦部構造清單">
         <div className="organ-left-body">
           <div className="organ-segmented" role="group" aria-label="全部開關">
-            <button onClick={() => patch({hiddenGroups: [], hiddenParts: [], isolate: null})}>全部開啟</button>
+            <button onClick={() => patch({hiddenGroups: [], hiddenParts: [], isolate: null, fullNerves: true})}>全部開啟</button>
             <button onClick={() => patch({hiddenGroups: BRAIN_GROUPS.map(g => g.id), isolate: null})}>全部關閉</button>
+          </div>
+          <div className="organ-segmented" role="group" aria-label="腦神經顯示範圍">
+            <button aria-pressed={!view.fullNerves} onClick={() => patch({fullNerves: false})}><span lang="en">Near brain</span><small lang="zh-Hant">腦旁段</small></button>
+            <button aria-pressed={!!view.fullNerves} onClick={() => patch({fullNerves: true})}><span lang="en">Full nerves</span><small lang="zh-Hant">完整神經</small></button>
           </div>
           {parts.some(p => p.schematic) && <div className="organ-segmented" role="group" aria-label="示意構造">
             <button aria-pressed={!!view.isolate && view.isolate.length > 1 && view.isolate.every(id => byId.get(id)?.schematic || DEEP.has(byId.get(id)?.group ?? ''))} onClick={() => {if (view.isolate) {patch({isolate: null}); return;} const ids = parts.filter(p => p.schematic || DEEP.has(p.group)).map(p => p.id); setView(v => ({...v, isolate: ids, command: {id: v.command.id + 1, view: 'fit', focus: ids}}));}}>只看深部與示意構造（{parts.filter(p => p.schematic).length}）</button>

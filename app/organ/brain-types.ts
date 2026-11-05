@@ -26,6 +26,8 @@ export type BrainView = 'front' | 'back' | 'left' | 'right' | 'top' | 'bottom' |
 export interface BrainViewState {
   hiddenGroups: string[];
   hiddenParts: string[];
+  /** Display complete source nerve paths instead of a view crop near the brain. */
+  fullNerves?: boolean;
   /** outer layers already peeled away: groups with a layer number below this are hidden (vessels and nerves are never peeled) */
   peel: number;
   /** structures drawn alone when set (Isolate) */

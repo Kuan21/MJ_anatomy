@@ -90,15 +90,15 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
     [LABEL.cortexGrey]: '#a99390', [LABEL.cortexWhite]: '#f1eadc', [LABEL.cerebellumGrey]: '#b49187', [LABEL.cerebellumWhite]: '#efe3d2', [LABEL.brainstem]: '#d4c0ac',
     [LABEL.basal]: '#9d8685', [LABEL.diencephalon]: '#b59ba3', [LABEL.tract]: '#faf6ee', [LABEL.csf]: '#5f8fb4',
   };
-  /** The geometry as loaded (before smoothing): the cut surface is computed from it. */
-  const coarseOf = (mesh: T.Mesh) => (mesh.userData.coarse as T.BufferGeometry | undefined) ?? mesh.geometry;
+  // Cut surfaces use the same smoothed geometry as the visible tissue.
+  const nerveGeometry = new Map<string, {full: T.BufferGeometry; near: T.BufferGeometry}>();
   const buildCap = () => {
     if (grid || building) return;
     building = true;
     const inputs: VoxelInput[] = [];
     for (const [id, mesh] of meshes) {
       const part = parts.get(id)!, index = Number(id.slice(1));
-      inputs.push({index, group: part.group, hemisphere: mesh.geometry.boundingBox!.getCenter(new T.Vector3()).x >= 0 ? 1 : -1, positions: coarseOf(mesh).getAttribute('position').array, indices: coarseOf(mesh).getIndex()?.array ?? null});
+      inputs.push({index, group: part.group, hemisphere: mesh.geometry.boundingBox!.getCenter(new T.Vector3()).x >= 0 ? 1 : -1, positions: mesh.geometry.getAttribute('position').array, indices: mesh.geometry.getIndex()?.array ?? null});
     }
     grid = voxelize(inputs);
     const volume = (data: Uint8Array, format: T.PixelFormat) => {
@@ -169,6 +169,8 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
     fadedCover.clear();
     for (const [id, mesh] of meshes) {
       const part = parts.get(id)!, on = selected.has(id);
+      const nerve = nerveGeometry.get(id);
+      if (nerve) mesh.geometry = state.fullNerves ? nerve.full : nerve.near;
       mesh.visible = visibleIn(part);
       const m = mesh.material, translucent = (part.group === 'arteries' || part.group === 'veins') && !state.hiddenGroups.includes('cranial') ? VESSEL_OVER_NERVES : fadeCover && !on && COVERING.test(part.group) ? COVER_OPACITY : TRANSLUCENT[part.group];
       if (fadeCover && !on && COVERING.test(part.group)) fadedCover.add(id);
@@ -252,8 +254,8 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
     };
     const walk = (node: T.Object3D) => {if (!take(node)) for (const child of [...node.children]) walk(child);};
     walk(gltf.scene);
-    // Cranial nerves: only the stretch near the brain (before the nerve leaves the skull) belongs to this view. Whole triangles within reach of the brain surface are kept, the rest of
-    // the nerve (neck, face, jaw) is dropped; branches that lie wholly outside are drawn in full but start switched off (peripheral).
+    // Optional view crop near the brain; this distance mask is not an anatomical root boundary.
+    // Keep full source geometry so complete paths can always be restored.
     {
       const clouds: number[][] = [];
       for (const [id, mesh] of meshes) {
@@ -270,7 +272,7 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
         const kept = mesh.geometry.getIndex() ? keepNear(mesh.geometry, mask) : null;
         if (!kept) {part.peripheral = true; continue;}
         kept.computeVertexNormals(); kept.computeBoundingBox(); kept.computeBoundingSphere();
-        mesh.geometry.dispose(); mesh.geometry = kept;
+        nerveGeometry.set(id, {full: mesh.geometry, near: kept}); mesh.geometry = kept;
       }
       whole.makeEmpty(); for (const mesh of meshes.values()) whole.union(mesh.geometry.boundingBox!);
     }
@@ -362,7 +364,11 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
       disposed = true; cancelAnimationFrame(frame); observer.disconnect(); controls.dispose(); draco.dispose();
       canvas.removeEventListener('pointerdown', down); canvas.removeEventListener('pointermove', move); canvas.removeEventListener('pointerup', up);
       canvas.removeEventListener('pointercancel', cancel); canvas.removeEventListener('webglcontextlost', lost);
-      for (const mesh of meshes.values()) {mesh.geometry.dispose(); mesh.material.dispose();}
+      const geometries = new Set<T.BufferGeometry>();
+      for (const mesh of meshes.values()) {geometries.add(mesh.geometry); if (mesh.userData.coarse) geometries.add(mesh.userData.coarse); mesh.material.dispose();}
+      for (const nerve of nerveGeometry.values()) {geometries.add(nerve.full); geometries.add(nerve.near);}
+      for (const geometry of geometries) geometry.dispose();
+      nerveGeometry.clear();
       capMesh?.material instanceof T.Material && capMesh.material.dispose();
       capQuad.dispose(); renderer.dispose(); canvas.remove();
     },

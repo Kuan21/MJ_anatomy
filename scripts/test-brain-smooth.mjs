@@ -35,7 +35,10 @@ assert.equal(keepNear(indexed([.2, 0, 0, .204, 0, 0, .2, .004, 0], [0, 1, 2]), m
 // wiring in the viewer
 const viewer = fs.readFileSync('app/organ/brain-viewer.ts', 'utf8'), page = fs.readFileSync('app/organ/brain.tsx', 'utf8');
 assert.match(viewer, /loopSubdivide\(geometry\)/); assert.match(viewer, /keepNear\(mesh\.geometry, mask\)/); assert.match(viewer, /COVER_OPACITY/);
-assert.match(viewer, /coarseOf\(mesh\)\.getAttribute\('position'\)/, 'the cut surface is computed from the unsmoothed meshes');
+assert.match(viewer, /positions: mesh\.geometry\.getAttribute\('position'\)/, 'the cut surface uses the displayed smoothed mesh');
+assert.match(viewer, /state.fullNerves \? nerve.full : nerve.near/, 'cropping is reversible');
+assert.match(page, /fullNerves: true/, 'show all restores complete nerve paths');
+assert.match(viewer, /geometries.add\(nerve.full\); geometries.add\(nerve.near\)/, 'both versions are disposed');
 assert.match(page, /hiddenParts: \[\.\.\.new Set\(\[\.\.\.v\.hiddenParts, \.\.\.peripheral\.current\]\)\]/, 'peripheral nerve branches start switched off');
 const re = /PERIPHERAL_NERVE = (\/.*\/i);/.exec(viewer); assert.ok(re); const rx = eval(re[1]);
 for (const n of ['Buccal nerve', 'Mental nerve', 'Inferior alveolar nerve', 'Lingual nerve', 'Anterior division of mandibular nerve', 'Posterior division of mandibular nerve', 'Meningeal branch of maxillary nerve']) assert.ok(rx.test(n), n);
