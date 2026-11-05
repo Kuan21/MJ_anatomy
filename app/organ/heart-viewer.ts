@@ -4,6 +4,7 @@ import {fetchModelBuffer, loadMissingChunks} from '../model-download';
 import {PointerTap} from '../pointer-tap';
 import {framingDistance} from '../camera-framing';
 import {CHAMBERS} from './heart-chambers';
+import {layoutLabelColumn} from './label-column';
 import {BLOCKER_OPACITY, isKeptVessel, isTrunkPart, trunkTriangles} from './heart-vessels';
 import {SECTION_AXES, type HeartCatalogue, type HeartView, type HeartViewState} from './heart-types';
 
@@ -294,8 +295,9 @@ gl_FragColor = vec4(mix(vec3(0.30, 0.78, 0.62), vec3(0.03, 0.36, 0.27), edge), m
       const x = (v.x * .5 + .5) * width, y = (-v.y * .5 + .5) * height;
       active.push({spec, x, y, side: x < centreX ? 'l' : 'r'});
     }
-    const placed = new Map<string, number>();
-    // the labels are measured first (a name that wraps is taller), so a column never overlaps whatever its length
+    const placed = new Map<string, {top: number; centre: number}>();
+    const selected = selectedIds();
+    // Measure wrapped names before laying out each column; overflow labels stay in the structure list.
     const heightOf = (a: typeof active[number]) => {
       let node = labelNodes.get(a.spec.id);
       if (!node) {
@@ -311,26 +313,18 @@ gl_FragColor = vec4(mix(vec3(0.30, 0.78, 0.62), vec3(0.03, 0.36, 0.27), edge), m
     };
     for (const side of ['l', 'r'] as const) {
       const column = active.filter(a => a.side === side).sort((a, b) => a.y - b.y);
-      let lastBottom = -Infinity;
-      for (const a of column) {const h = heightOf(a), y = Math.max(a.y, lastBottom + 4 + h / 2); placed.set(a.spec.id, y); lastBottom = y + h / 2;}
-      const last = lastBottom - 17;
-      const overflow = last - (height - 24);
-      if (overflow > 0) for (const a of column) placed.set(a.spec.id, Math.max(14, placed.get(a.spec.id)! - overflow));
+      const positions = layoutLabelColumn(column.map(a => ({id: a.spec.id, anchor: a.y, height: heightOf(a), priority: a.spec.ids.some(id => selected.has(id)) ? 1 : 0})), height);
+      for (const [id, position] of positions) placed.set(id, position);
     }
     const live = new Set<string>();
     let lines = '';
     for (const a of active) {
+      const position = placed.get(a.spec.id);
+      if (!position) continue;
       live.add(a.spec.id);
-      let node = labelNodes.get(a.spec.id);
-      if (!node) {
-        node = document.createElement('div');
-        node.style.cssText = 'position:absolute;max-width:24%;padding:3px 7px;border-radius:6px;background:#ffffffe6;box-shadow:0 1px 4px #1825361f;font:11.5px/1.25 system-ui,sans-serif;color:#1f2a35;white-space:normal';
-        const en = document.createElement('div'); en.textContent = a.spec.en; en.style.fontWeight = '600';
-        const zh = document.createElement('div'); zh.textContent = a.spec.zh; zh.style.cssText = 'font-size:10.5px;color:#7b8793';
-        node.appendChild(en); node.appendChild(zh); labelLayer.appendChild(node); labelNodes.set(a.spec.id, node);
-      }
-      const y = placed.get(a.spec.id)!;
-      node.style.display = 'block'; node.style.top = `${y - 15}px`;
+      const node = labelNodes.get(a.spec.id)!;
+      const y = position.centre;
+      node.style.display = 'block'; node.style.top = `${position.top}px`;
       if (a.side === 'l') {node.style.left = '10px'; node.style.right = ''; node.style.textAlign = 'left';} else {node.style.right = '10px'; node.style.left = ''; node.style.textAlign = 'right';}
       const edge = a.side === 'l' ? 10 + Math.min(node.offsetWidth, width * .24) : width - 10 - Math.min(node.offsetWidth, width * .24);
       lines += `<line x1="${edge}" y1="${y}" x2="${a.x}" y2="${a.y}" stroke="#5a6b78" stroke-width="1"/><circle cx="${a.x}" cy="${a.y}" r="2.6" fill="#fff" stroke="#3e5463" stroke-width="1.2"/>`;
