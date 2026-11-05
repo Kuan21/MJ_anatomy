@@ -263,4 +263,3 @@
 - Course 走向：Runs along the medial dorsal border of the little toe to the middle of the proximal phalanx｜沿小趾內側背緣到近端趾節中部
 - Main branches 主要分支：無（本批範圍內）
 - Territory 供應範圍：Skin of the dorsum of the little toe｜小趾背側皮膚
-
