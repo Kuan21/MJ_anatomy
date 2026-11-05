@@ -6,3 +6,4 @@ export {buildUpperLimbMotion, NEUTRAL_POSE} from '../../app/mj-motion';
 export {anatomicalRegion, anatomicalSide, isMotionQuarantined} from '../../app/mj-part-regions';
 import bodyNerveBindings from '../../app/biomechanics-v2/body-nerve-bindings.json';
 export {bodyNerveBindings};
+export {makeSurfaceConstraints, constrainSurface} from '../../app/biomechanics-v2/surface-constraints';

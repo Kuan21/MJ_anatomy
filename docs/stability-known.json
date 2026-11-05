@@ -236,876 +236,6 @@
    "measure": 1,
    "reason": "renderer clipping plane slices every mesh at a plane in this view; to be replaced by showing or hiding whole structures (stabilisation section 2 B)"
   },
-  "detached|FJ1981-END|shoulder flexion 150": {
-   "name": "Accessory hemiazygos vein",
-   "measure": 17,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ1981|shoulder flexion 150": {
-   "name": "Accessory hemiazygos vein",
-   "measure": 13,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ2066-END|hip flexion 120 knee flexion 130": {
-   "name": "Left anterior tibial recurrent artery",
-   "measure": 29,
-   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ2212-END|shoulder flexion 150": {
-   "name": "Left anterior circumflex humeral artery",
-   "measure": 91,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ2212|shoulder flexion 150": {
-   "name": "Left anterior circumflex humeral artery",
-   "measure": 23,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ2216|shoulder abduction 120": {
-   "name": "Left axillary artery",
-   "measure": 33,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ2216|shoulder flexion 150": {
-   "name": "Left axillary artery",
-   "measure": 29,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ2217|shoulder abduction 120": {
-   "name": "Left axillary vein",
-   "measure": 37,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ2217|shoulder flexion 150": {
-   "name": "Left axillary vein",
-   "measure": 37,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ2221|shoulder abduction 120": {
-   "name": "Left circumflex scapular artery",
-   "measure": 58,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ2222|shoulder abduction 120": {
-   "name": "Left circumflex scapular vein",
-   "measure": 19,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ2245-END|elbow flexion 140": {
-   "name": "Left recurrent interosseous artery",
-   "measure": 74,
-   "reason": "does not follow its bone at elbow flexion 140: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ2250-END|shoulder abduction 120": {
-   "name": "Left suprascapular vein",
-   "measure": 50,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ2251-END|shoulder abduction 120": {
-   "name": "Left suprascapular artery",
-   "measure": 57,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ2251-END|shoulder flexion 150": {
-   "name": "Left suprascapular artery",
-   "measure": 57,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ2268|shoulder abduction 120": {
-   "name": "Right axillary artery",
-   "measure": 37,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ2268|shoulder flexion 150": {
-   "name": "Right axillary artery",
-   "measure": 30,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ2269|shoulder abduction 120": {
-   "name": "Right axillary vein",
-   "measure": 29,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ2269|shoulder flexion 150": {
-   "name": "Right axillary vein",
-   "measure": 29,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ2273|shoulder abduction 120": {
-   "name": "Right circumflex scapular artery",
-   "measure": 58,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ2274|shoulder abduction 120": {
-   "name": "Right circumflex scapular vein",
-   "measure": 20,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ2291-END|shoulder flexion 150": {
-   "name": "Right posterior circumflex humeral artery",
-   "measure": 140,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ2302-END|shoulder abduction 120": {
-   "name": "Right suprascapular vein",
-   "measure": 87,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ2303-END|shoulder abduction 120": {
-   "name": "Right suprascapular artery",
-   "measure": 54,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ2303-END|shoulder flexion 150": {
-   "name": "Right suprascapular artery",
-   "measure": 52,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ3479|shoulder abduction 120": {
-   "name": "Left subclavian artery",
-   "measure": 55,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ3479|shoulder flexion 150": {
-   "name": "Left subclavian artery",
-   "measure": 45,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ3482|shoulder flexion 150": {
-   "name": "Left brachiocephalic vein",
-   "measure": 17,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ3486|shoulder abduction 120": {
-   "name": "Left subclavian vein",
-   "measure": 13,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ3486|shoulder flexion 150": {
-   "name": "Left subclavian vein",
-   "measure": 12,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ3579|shoulder abduction 120": {
-   "name": "Right subclavian artery",
-   "measure": 51,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ3579|shoulder flexion 150": {
-   "name": "Right subclavian artery",
-   "measure": 45,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ3587|shoulder abduction 120": {
-   "name": "Right subclavian vein",
-   "measure": 82,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ3587|shoulder flexion 150": {
-   "name": "Right subclavian vein",
-   "measure": 74,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|FJ3645|shoulder flexion 150": {
-   "name": "Superior vena cava",
-   "measure": 4,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-120|shoulder abduction 120": {
-   "name": "Right supreme intercostal artery",
-   "measure": 24,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-120|shoulder flexion 150": {
-   "name": "Right supreme intercostal artery",
-   "measure": 24,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-200|shoulder abduction 120": {
-   "name": "Right clavipectoral triangle",
-   "measure": 55,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-200|shoulder flexion 150": {
-   "name": "Right clavipectoral triangle",
-   "measure": 55,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-211|shoulder abduction 120": {
-   "name": "Left clavipectoral triangle",
-   "measure": 74,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-211|shoulder flexion 150": {
-   "name": "Left clavipectoral triangle",
-   "measure": 74,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-212|shoulder abduction 120": {
-   "name": "Left axillary fossa",
-   "measure": 4,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-212|shoulder flexion 150": {
-   "name": "Left axillary fossa",
-   "measure": 4,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-2|shoulder abduction 120": {
-   "name": "Clavicular branch of right thoraco-acromial artery",
-   "measure": 234,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-2|shoulder flexion 150": {
-   "name": "Clavicular branch of right thoraco-acromial artery",
-   "measure": 223,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-416|shoulder abduction 120": {
-   "name": "Right costoclavicular ligament",
-   "measure": 27,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-416|shoulder flexion 150": {
-   "name": "Right costoclavicular ligament",
-   "measure": 32,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-417|shoulder abduction 120": {
-   "name": "Right superior transverse scapular ligament",
-   "measure": 18,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-417|shoulder flexion 150": {
-   "name": "Right superior transverse scapular ligament",
-   "measure": 16,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-418|shoulder flexion 150": {
-   "name": "Right inferior transverse scapular ligament",
-   "measure": 7,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-420|shoulder abduction 120": {
-   "name": "Left costoclavicular ligament",
-   "measure": 32,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-420|shoulder flexion 150": {
-   "name": "Left costoclavicular ligament",
-   "measure": 36,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-421|shoulder abduction 120": {
-   "name": "Left superior transverse scapular ligament",
-   "measure": 20,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-421|shoulder flexion 150": {
-   "name": "Left superior transverse scapular ligament",
-   "measure": 14,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-422|shoulder flexion 150": {
-   "name": "Left inferior transverse scapular ligament",
-   "measure": 7,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-428|hip flexion 120 knee flexion 130": {
-   "name": "Left quadriceps tendon",
-   "measure": 3,
-   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-445|hip flexion 120 knee flexion 130": {
-   "name": "Right tendon of iliopsoas",
-   "measure": 106,
-   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-446|hip flexion 120 knee flexion 130": {
-   "name": "Right tendon of iliopsoas",
-   "measure": 56,
-   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-447|hip flexion 120 knee flexion 130": {
-   "name": "Left tendon of iliopsoas",
-   "measure": 96,
-   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-448|hip flexion 120 knee flexion 130": {
-   "name": "Left tendon of iliopsoas",
-   "measure": 62,
-   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-475|hip flexion 120 knee flexion 130": {
-   "name": "Right lateral patellar retinaculum",
-   "measure": 11,
-   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-480|hip flexion 120 knee flexion 130": {
-   "name": "Left lateral patellar retinaculum",
-   "measure": 11,
-   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-7|shoulder abduction 120": {
-   "name": "Clavicular branch of left thoraco-acromial artery",
-   "measure": 220,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|PK-7|shoulder flexion 150": {
-   "name": "Clavicular branch of left thoraco-acromial artery",
-   "measure": 220,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Abducens nerve (VI).l.001|head extension 35": {
-   "name": "Abducens nerve (VI).l",
-   "measure": 104,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Abducens nerve (VI).l.001|head flexion 40": {
-   "name": "Abducens nerve (VI).l",
-   "measure": 113,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Abducens nerve (VI).r.001|head extension 35": {
-   "name": "Abducens nerve (VI).r",
-   "measure": 126,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Abducens nerve (VI).r.001|head flexion 40": {
-   "name": "Abducens nerve (VI).r",
-   "measure": 149,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Anterior division of inferior trunk of brachial plexus.l.001|shoulder abduction 120": {
-   "name": "Anterior division of inferior trunk of brachial plexus.l",
-   "measure": 53,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Anterior division of inferior trunk of brachial plexus.l.001|shoulder flexion 150": {
-   "name": "Anterior division of inferior trunk of brachial plexus.l",
-   "measure": 53,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Anterior division of inferior trunk of brachial plexus.r.001|shoulder abduction 120": {
-   "name": "Anterior division of inferior trunk of brachial plexus.r",
-   "measure": 37,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Anterior division of inferior trunk of brachial plexus.r.001|shoulder flexion 150": {
-   "name": "Anterior division of inferior trunk of brachial plexus.r",
-   "measure": 37,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Anterior division of mandibular nerve.l.001|head extension 35": {
-   "name": "Anterior division of mandibular nerve.l",
-   "measure": 172,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Anterior division of mandibular nerve.l.001|head flexion 40": {
-   "name": "Anterior division of mandibular nerve.l",
-   "measure": 172,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Anterior division of mandibular nerve.r.001|head extension 35": {
-   "name": "Anterior division of mandibular nerve.r",
-   "measure": 329,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Anterior division of mandibular nerve.r.001|head flexion 40": {
-   "name": "Anterior division of mandibular nerve.r",
-   "measure": 305,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Anterior division of middle trunk of brachial plexus.l.001|shoulder abduction 120": {
-   "name": "Anterior division of middle trunk of brachial plexus.l",
-   "measure": 39,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Anterior division of middle trunk of brachial plexus.l.001|shoulder flexion 150": {
-   "name": "Anterior division of middle trunk of brachial plexus.l",
-   "measure": 39,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Anterior division of middle trunk of brachial plexus.r.001|shoulder abduction 120": {
-   "name": "Anterior division of middle trunk of brachial plexus.r",
-   "measure": 33,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Anterior division of middle trunk of brachial plexus.r.001|shoulder flexion 150": {
-   "name": "Anterior division of middle trunk of brachial plexus.r",
-   "measure": 33,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Anterior division of superior trunk of brachial plexus.l.001|shoulder abduction 120": {
-   "name": "Anterior division of superior trunk of brachial plexus.l",
-   "measure": 15,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Anterior division of superior trunk of brachial plexus.l.001|shoulder flexion 150": {
-   "name": "Anterior division of superior trunk of brachial plexus.l",
-   "measure": 15,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Anterior division of superior trunk of brachial plexus.r.001|shoulder abduction 120": {
-   "name": "Anterior division of superior trunk of brachial plexus.r",
-   "measure": 7,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Anterior division of superior trunk of brachial plexus.r.001|shoulder flexion 150": {
-   "name": "Anterior division of superior trunk of brachial plexus.r",
-   "measure": 7,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Cochlear nerve.001|head extension 35": {
-   "name": "Cochlear nerve",
-   "measure": 331,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Cochlear nerve.001|head flexion 40": {
-   "name": "Cochlear nerve",
-   "measure": 348,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Cochlear nerve.l.001|head extension 35": {
-   "name": "Cochlear nerve.l",
-   "measure": 495,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Cochlear nerve.l.001|head flexion 40": {
-   "name": "Cochlear nerve.l",
-   "measure": 455,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Inferior alveolar nerve.l.001|head extension 35": {
-   "name": "Inferior alveolar nerve.l",
-   "measure": 209,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Inferior alveolar nerve.l.001|head flexion 40": {
-   "name": "Inferior alveolar nerve.l",
-   "measure": 177,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Inferior alveolar nerve.r.001|head extension 35": {
-   "name": "Inferior alveolar nerve.r",
-   "measure": 229,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Inferior alveolar nerve.r.001|head flexion 40": {
-   "name": "Inferior alveolar nerve.r",
-   "measure": 212,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Inferior subscapular nerve.l.001|shoulder abduction 120": {
-   "name": "Inferior subscapular nerve.l",
-   "measure": 140,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Inferior subscapular nerve.l.001|shoulder flexion 150": {
-   "name": "Inferior subscapular nerve.l",
-   "measure": 140,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Inferior subscapular nerve.r.001|shoulder abduction 120": {
-   "name": "Inferior subscapular nerve.r",
-   "measure": 134,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Inferior subscapular nerve.r.001|shoulder flexion 150": {
-   "name": "Inferior subscapular nerve.r",
-   "measure": 134,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Inferior trunk of brachial plexus.l.001|shoulder abduction 120": {
-   "name": "Inferior trunk of brachial plexus.l",
-   "measure": 14,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Inferior trunk of brachial plexus.l.001|shoulder flexion 150": {
-   "name": "Inferior trunk of brachial plexus.l",
-   "measure": 14,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Inferior trunk of brachial plexus.r.001|shoulder abduction 120": {
-   "name": "Inferior trunk of brachial plexus.r",
-   "measure": 4,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Inferior trunk of brachial plexus.r.001|shoulder flexion 150": {
-   "name": "Inferior trunk of brachial plexus.r",
-   "measure": 4,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Lingual nerve.l.001|head extension 35": {
-   "name": "Lingual nerve.l",
-   "measure": 227,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Lingual nerve.l.001|head flexion 40": {
-   "name": "Lingual nerve.l",
-   "measure": 188,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Lingual nerve.r.001|head extension 35": {
-   "name": "Lingual nerve.r",
-   "measure": 231,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Lingual nerve.r.001|head flexion 40": {
-   "name": "Lingual nerve.r",
-   "measure": 211,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Long thoracic nerve.l.001|shoulder abduction 120": {
-   "name": "Long thoracic nerve.l",
-   "measure": 12,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Long thoracic nerve.l.001|shoulder flexion 150": {
-   "name": "Long thoracic nerve.l",
-   "measure": 12,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Long thoracic nerve.r.001|shoulder abduction 120": {
-   "name": "Long thoracic nerve.r",
-   "measure": 9,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Long thoracic nerve.r.001|shoulder flexion 150": {
-   "name": "Long thoracic nerve.r",
-   "measure": 9,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Maxillary nerve.l.001|head extension 35": {
-   "name": "Maxillary nerve.l",
-   "measure": 84,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Maxillary nerve.l.001|head flexion 40": {
-   "name": "Maxillary nerve.l",
-   "measure": 86,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Maxillary nerve.r.001|head extension 35": {
-   "name": "Maxillary nerve.r",
-   "measure": 95,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Maxillary nerve.r.001|head flexion 40": {
-   "name": "Maxillary nerve.r",
-   "measure": 97,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Medial pectoral nerve.l.001|shoulder abduction 120": {
-   "name": "Medial pectoral nerve.l",
-   "measure": 24,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Medial pectoral nerve.l.001|shoulder flexion 150": {
-   "name": "Medial pectoral nerve.l",
-   "measure": 24,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Medial pectoral nerve.r.001|shoulder abduction 120": {
-   "name": "Medial pectoral nerve.r",
-   "measure": 20,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Medial pectoral nerve.r.001|shoulder flexion 150": {
-   "name": "Medial pectoral nerve.r",
-   "measure": 20,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Meningeal branch of maxillary nerve.l.001|head extension 35": {
-   "name": "Meningeal branch of maxillary nerve.l",
-   "measure": 47,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Meningeal branch of maxillary nerve.l.001|head flexion 40": {
-   "name": "Meningeal branch of maxillary nerve.l",
-   "measure": 67,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Meningeal branch of maxillary nerve.r.001|head extension 35": {
-   "name": "Meningeal branch of maxillary nerve.r",
-   "measure": 88,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Meningeal branch of maxillary nerve.r.001|head flexion 40": {
-   "name": "Meningeal branch of maxillary nerve.r",
-   "measure": 119,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Nerve to mylohyoid muscle.l.001|head extension 35": {
-   "name": "Nerve to mylohyoid muscle.l",
-   "measure": 209,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Nerve to mylohyoid muscle.l.001|head flexion 40": {
-   "name": "Nerve to mylohyoid muscle.l",
-   "measure": 171,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Nerve to mylohyoid muscle.r.001|head extension 35": {
-   "name": "Nerve to mylohyoid muscle.r",
-   "measure": 210,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Nerve to mylohyoid muscle.r.001|head flexion 40": {
-   "name": "Nerve to mylohyoid muscle.r",
-   "measure": 196,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Oculomotor nerve (III).l.001|head extension 35": {
-   "name": "Oculomotor nerve (III).l",
-   "measure": 129,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Oculomotor nerve (III).l.001|head flexion 40": {
-   "name": "Oculomotor nerve (III).l",
-   "measure": 129,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Oculomotor nerve (III).r.001|head extension 35": {
-   "name": "Oculomotor nerve (III).r",
-   "measure": 121,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Oculomotor nerve (III).r.001|head flexion 40": {
-   "name": "Oculomotor nerve (III).r",
-   "measure": 121,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Olfactory nerve (I).l.001|head extension 35": {
-   "name": "Olfactory nerve (I).l",
-   "measure": 297,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Olfactory nerve (I).l.001|head flexion 40": {
-   "name": "Olfactory nerve (I).l",
-   "measure": 297,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Olfactory nerve (I).r.001|head extension 35": {
-   "name": "Olfactory nerve (I).r",
-   "measure": 295,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Olfactory nerve (I).r.001|head flexion 40": {
-   "name": "Olfactory nerve (I).r",
-   "measure": 295,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Ophthalmic nerve.l.001|head extension 35": {
-   "name": "Ophthalmic nerve.l",
-   "measure": 61,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Ophthalmic nerve.l.001|head flexion 40": {
-   "name": "Ophthalmic nerve.l",
-   "measure": 61,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Ophthalmic nerve.r.001|head extension 35": {
-   "name": "Ophthalmic nerve.r",
-   "measure": 41,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Ophthalmic nerve.r.001|head flexion 40": {
-   "name": "Ophthalmic nerve.r",
-   "measure": 41,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Optic nerve (II).l.001|head extension 35": {
-   "name": "Optic nerve (II).l",
-   "measure": 164,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Optic nerve (II).l.001|head flexion 40": {
-   "name": "Optic nerve (II).l",
-   "measure": 164,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Optic nerve (II).r.001|head extension 35": {
-   "name": "Optic nerve (II).r",
-   "measure": 171,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Optic nerve (II).r.001|head flexion 40": {
-   "name": "Optic nerve (II).r",
-   "measure": 171,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Posterior division of inferior trunk of brachial plexus.l.001|shoulder abduction 120": {
-   "name": "Posterior division of inferior trunk of brachial plexus.l",
-   "measure": 28,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Posterior division of inferior trunk of brachial plexus.l.001|shoulder flexion 150": {
-   "name": "Posterior division of inferior trunk of brachial plexus.l",
-   "measure": 28,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Posterior division of inferior trunk of brachial plexus.r.001|shoulder abduction 120": {
-   "name": "Posterior division of inferior trunk of brachial plexus.r",
-   "measure": 21,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Posterior division of inferior trunk of brachial plexus.r.001|shoulder flexion 150": {
-   "name": "Posterior division of inferior trunk of brachial plexus.r",
-   "measure": 21,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Posterior division of mandibular nerve.l.001|head extension 35": {
-   "name": "Posterior division of mandibular nerve.l",
-   "measure": 145,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Posterior division of mandibular nerve.l.001|head flexion 40": {
-   "name": "Posterior division of mandibular nerve.l",
-   "measure": 145,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Posterior division of mandibular nerve.r.001|head extension 35": {
-   "name": "Posterior division of mandibular nerve.r",
-   "measure": 193,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Posterior division of mandibular nerve.r.001|head flexion 40": {
-   "name": "Posterior division of mandibular nerve.r",
-   "measure": 193,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Posterior division of middle trunk of brachial plexus.l.001|shoulder abduction 120": {
-   "name": "Posterior division of middle trunk of brachial plexus.l",
-   "measure": 36,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Posterior division of middle trunk of brachial plexus.l.001|shoulder flexion 150": {
-   "name": "Posterior division of middle trunk of brachial plexus.l",
-   "measure": 36,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Posterior division of middle trunk of brachial plexus.r.001|shoulder abduction 120": {
-   "name": "Posterior division of middle trunk of brachial plexus.r",
-   "measure": 21,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Posterior division of middle trunk of brachial plexus.r.001|shoulder flexion 150": {
-   "name": "Posterior division of middle trunk of brachial plexus.r",
-   "measure": 21,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Posterior division of superior trunk of brachial plexus.l.001|shoulder abduction 120": {
-   "name": "Posterior division of superior trunk of brachial plexus.l",
-   "measure": 29,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Posterior division of superior trunk of brachial plexus.l.001|shoulder flexion 150": {
-   "name": "Posterior division of superior trunk of brachial plexus.l",
-   "measure": 29,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Posterior division of superior trunk of brachial plexus.r.001|shoulder abduction 120": {
-   "name": "Posterior division of superior trunk of brachial plexus.r",
-   "measure": 11,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Posterior division of superior trunk of brachial plexus.r.001|shoulder flexion 150": {
-   "name": "Posterior division of superior trunk of brachial plexus.r",
-   "measure": 11,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Superior subscapular nerve.l.001|shoulder abduction 120": {
-   "name": "Superior subscapular nerve.l",
-   "measure": 74,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Superior subscapular nerve.r.001|shoulder abduction 120": {
-   "name": "Superior subscapular nerve.r",
-   "measure": 71,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Superior trunk of brachial plexus.l.001|shoulder abduction 120": {
-   "name": "Superior trunk of brachial plexus.l",
-   "measure": 6,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Superior trunk of brachial plexus.l.001|shoulder flexion 150": {
-   "name": "Superior trunk of brachial plexus.l",
-   "measure": 6,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Suprascapular nerve.l.001|shoulder flexion 150": {
-   "name": "Suprascapular nerve.l",
-   "measure": 19,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Suprascapular nerve.r.001|shoulder flexion 150": {
-   "name": "Suprascapular nerve.r",
-   "measure": 14,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Trochlear nerve (IV).l.001|head extension 35": {
-   "name": "Trochlear nerve (IV).l",
-   "measure": 75,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Trochlear nerve (IV).l.001|head flexion 40": {
-   "name": "Trochlear nerve (IV).l",
-   "measure": 98,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Trochlear nerve (IV).r.001|head extension 35": {
-   "name": "Trochlear nerve (IV).r",
-   "measure": 68,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Trochlear nerve (IV).r.001|head flexion 40": {
-   "name": "Trochlear nerve (IV).r",
-   "measure": 110,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Vestibular nerve.l.001|head extension 35": {
-   "name": "Vestibular nerve.l",
-   "measure": 240,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Vestibular nerve.l.001|head flexion 40": {
-   "name": "Vestibular nerve.l",
-   "measure": 266,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Vestibular nerve.r.001|head extension 35": {
-   "name": "Vestibular nerve.r",
-   "measure": 257,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Vestibular nerve.r.001|head flexion 40": {
-   "name": "Vestibular nerve.r",
-   "measure": 296,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Vestibulocochlear nerve (VIII).l.001|head extension 35": {
-   "name": "Vestibulocochlear nerve (VIII).l",
-   "measure": 246,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Vestibulocochlear nerve (VIII).l.001|head flexion 40": {
-   "name": "Vestibulocochlear nerve (VIII).l",
-   "measure": 86,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Vestibulocochlear nerve (VIII).r.001|head extension 35": {
-   "name": "Vestibulocochlear nerve (VIII).r",
-   "measure": 144,
-   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
-  "detached|nerve:Vestibulocochlear nerve (VIII).r.001|head flexion 40": {
-   "name": "Vestibulocochlear nerve (VIII).r",
-   "measure": 81,
-   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
-  },
   "fragments|BP3-FMA49012": {
    "name": "Right medial pterygoid",
    "measure": 1,
@@ -3661,24 +2791,489 @@
    "measure": 4.7,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
+  "zfight|BP3-FMA46759|BP3-FMA55610": {
+   "name": "Right frontalis",
+   "measure": 1855,
+   "reason": "faces coincide with Right procerus: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|BP3-FMA46760|BP3-FMA55611": {
+   "name": "Left frontalis",
+   "measure": 1794,
+   "reason": "faces coincide with Left procerus: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|BP3-FMA46841|BP3S-FMA55608": {
+   "name": "Orbicularis oris",
+   "measure": 763,
+   "reason": "faces coincide with Right depressor septi nasi: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|BP3-FMA46841|BP3S-FMA55609": {
+   "name": "Orbicularis oris",
+   "measure": 712,
+   "reason": "faces coincide with Left depressor septi nasi: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1284|FJ1304": {
+   "name": "Check ligament of left lateral rectus",
+   "measure": 246,
+   "reason": "faces coincide with Left lateral rectus: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1285|FJ1286": {
+   "name": "Left choroid",
+   "measure": 1198,
+   "reason": "faces coincide with Left choroid: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1292|FJ1308": {
+   "name": "Check ligament of left medial rectus",
+   "measure": 144,
+   "reason": "faces coincide with Left medial rectus: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1317|FJ1322": {
+   "name": "Left sclera",
+   "measure": 562,
+   "reason": "faces coincide with Left superior oblique: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1317|FJ1323": {
+   "name": "Left sclera",
+   "measure": 206,
+   "reason": "faces coincide with Left superior rectus: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1334|FJ1355": {
+   "name": "Check ligament of right lateral rectus",
+   "measure": 253,
+   "reason": "faces coincide with Right lateral rectus: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1335|FJ1359": {
+   "name": "Check ligament of right medial rectus",
+   "measure": 160,
+   "reason": "faces coincide with Right medial rectus: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1336|FJ1337": {
+   "name": "Right choroid",
+   "measure": 786,
+   "reason": "faces coincide with Right choroid: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1338|FJ1371": {
+   "name": "Right corona ciliaris",
+   "measure": 683,
+   "reason": "faces coincide with Suspensory ligament of right lens: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1343|FJ1357": {
+   "name": "Tendon of right levator palpebrae superioris",
+   "measure": 917,
+   "reason": "faces coincide with Right levator palpebrae superioris: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1364|FJ1819": {
+   "name": "Right optic nerve",
+   "measure": 114,
+   "reason": "faces coincide with Right optic nerve: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1368|FJ1373": {
+   "name": "Right sclera",
+   "measure": 532,
+   "reason": "faces coincide with Right superior oblique: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1368|FJ1374": {
+   "name": "Right sclera",
+   "measure": 174,
+   "reason": "faces coincide with Right superior rectus: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1411M|PK-468": {
+   "name": "Left fibularis tertius",
+   "measure": 189,
+   "reason": "faces coincide with Left tendon of fibularis tertius: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1411|PK-467": {
+   "name": "Right fibularis tertius",
+   "measure": 193,
+   "reason": "faces coincide with Right tendon of fibularis tertius: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1449M|FJ2542": {
+   "name": "Left coccygeus",
+   "measure": 894,
+   "reason": "faces coincide with Left coccygeus: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1450M|FJ2543": {
+   "name": "External anal sphincter",
+   "measure": 158,
+   "reason": "faces coincide with External anal sphincter: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1450|FJ2548": {
+   "name": "superficial perineal muscle",
+   "measure": 350,
+   "reason": "faces coincide with External anal sphincter: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1453M|FJ2544": {
+   "name": "Left iliococcygeus",
+   "measure": 1042,
+   "reason": "faces coincide with Left iliococcygeus: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1457M|FJ2545": {
+   "name": "Left pubococcygeus",
+   "measure": 1003,
+   "reason": "faces coincide with Left pubococcygeus: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1458M|FJ2546": {
+   "name": "Left puborectalis",
+   "measure": 1040,
+   "reason": "faces coincide with Left puborectalis: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1465M|FJ2552": {
+   "name": "Tendinous arch of levator ani",
+   "measure": 206,
+   "reason": "faces coincide with Tendinous arch of levator ani: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1465|FJ2553": {
+   "name": "tendinous arch of levator ani",
+   "measure": 229,
+   "reason": "faces coincide with Tendinous arch of levator ani: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1475M|PK-365": {
+   "name": "Left flexor digitorum superficialis",
+   "measure": 574,
+   "reason": "faces coincide with Left tendons of flexor digitorum superficialis: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1475|PK-363": {
+   "name": "Right flexor digitorum superficialis",
+   "measure": 568,
+   "reason": "faces coincide with Right tendons of flexor digitorum superficialis: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1484M|PK-384": {
+   "name": "Left abductor pollicis longus",
+   "measure": 155,
+   "reason": "faces coincide with Left tendon of abductor pollicis longus: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1484|PK-383": {
+   "name": "Right abductor pollicis longus",
+   "measure": 159,
+   "reason": "faces coincide with Right tendon of abductor pollicis longus: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1492M|PK-376": {
+   "name": "Left extensor digitorum",
+   "measure": 357,
+   "reason": "faces coincide with Left tendons of extensor digitorum: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1492|PK-375": {
+   "name": "Right extensor digitorum",
+   "measure": 371,
+   "reason": "faces coincide with Right tendons of extensor digitorum: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1494M|PK-386": {
+   "name": "Left extensor pollicis brevis",
+   "measure": 133,
+   "reason": "faces coincide with Left tendon of extensor pollicis brevis: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1494|PK-385": {
+   "name": "Right extensor pollicis brevis",
+   "measure": 132,
+   "reason": "faces coincide with Right tendon of extensor pollicis brevis: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1495M|PK-388": {
+   "name": "Left extensor pollicis longus",
+   "measure": 181,
+   "reason": "faces coincide with Left tendon of extensor pollicis longus: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1495|PK-387": {
+   "name": "Right extensor pollicis longus",
+   "measure": 176,
+   "reason": "faces coincide with Right tendon of extensor pollicis longus: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1497M|PK-368": {
+   "name": "Left flexor digitorum profundus",
+   "measure": 383,
+   "reason": "faces coincide with Left tendons of flexor digitorum profundus: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1497|PK-367": {
+   "name": "Right flexor digitorum profundus",
+   "measure": 388,
+   "reason": "faces coincide with Right tendons of flexor digitorum profundus: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1502M|PK-358": {
+   "name": "Left palmaris longus",
+   "measure": 524,
+   "reason": "faces coincide with Left palmar aponeurosis: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1502|PK-356": {
+   "name": "Right palmaris longus",
+   "measure": 523,
+   "reason": "faces coincide with Right palmar aponeurosis: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1517M|PK-382": {
+   "name": "Left extensor carpi ulnaris",
+   "measure": 132,
+   "reason": "faces coincide with Left tendon of extensor carpi ulnaris: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1517|PK-380": {
+   "name": "Right extensor carpi ulnaris",
+   "measure": 125,
+   "reason": "faces coincide with Right tendon of extensor carpi ulnaris: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1760|FJ1764": {
+   "name": "Hypothalamus",
+   "measure": 68,
+   "reason": "faces coincide with Lamina terminalis: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1764|FJ1812": {
+   "name": "Lamina terminalis",
+   "measure": 66,
+   "reason": "faces coincide with Lamina terminalis: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1808|FJ1812": {
+   "name": "Hypothalamus",
+   "measure": 63,
+   "reason": "faces coincide with Lamina terminalis: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1846|FJ2013": {
+   "name": "Celiac artery",
+   "measure": 238,
+   "reason": "faces coincide with Celiac artery: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1846|FJ3421": {
+   "name": "Celiac artery",
+   "measure": 238,
+   "reason": "faces coincide with Celiac trunk: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1853|FJ3082": {
+   "name": "Hepatic portal vein",
+   "measure": 694,
+   "reason": "faces coincide with Pre-hepatic portal vein: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1858|FJ2823": {
+   "name": "Hepatovenous segment IX",
+   "measure": 1373,
+   "reason": "faces coincide with Hepatovenous segment VIII: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1883|FJ3094": {
+   "name": "Caudate lobe tributary of left hepatic biliary tree",
+   "measure": 334,
+   "reason": "faces coincide with Left duct of caudate lobe of liver: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1895|FJ2629": {
+   "name": "Pancreas",
+   "measure": 2053,
+   "reason": "faces coincide with Parenchyma of pancreas: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1916|FJ2386": {
+   "name": "Caudate lobe branch of right hepatic artery",
+   "measure": 352,
+   "reason": "faces coincide with Caudate lobe branch of right hepatic artery: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1924|FJ2394": {
+   "name": "Right lobe branch of right hepatic artery",
+   "measure": 450,
+   "reason": "faces coincide with Right lobe branch of right hepatic artery: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1924|FJ3116": {
+   "name": "Right lobe branch of right hepatic artery",
+   "measure": 177,
+   "reason": "faces coincide with Posterior superior segmental hepatic artery: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ1928|FJ2011": {
+   "name": "Superior mesenteric artery",
+   "measure": 430,
+   "reason": "faces coincide with Superior mesenteric artery: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ2013|FJ3421": {
+   "name": "Celiac artery",
+   "measure": 238,
+   "reason": "faces coincide with Celiac trunk: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ2025|FJ3534": {
+   "name": "Marginal colic artery",
+   "measure": 718,
+   "reason": "faces coincide with Marginal artery of colon: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ2046|FJ3476": {
+   "name": "Left renal artery",
+   "measure": 105,
+   "reason": "faces coincide with Trunk of left renal artery: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ2122|FJ3530": {
+   "name": "Left superficial epigastric vein",
+   "measure": 193,
+   "reason": "faces coincide with Left superior epigastric vein: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ2178|FJ3615": {
+   "name": "Right superficial epigastric vein",
+   "measure": 199,
+   "reason": "faces coincide with Right superior epigastric vein: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ2268-END|FJ2298-END": {
+   "name": "Right axillary artery",
+   "measure": 107,
+   "reason": "faces coincide with Right subscapular artery: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ2287-END|PK-56-END": {
+   "name": "Right median cubital vein",
+   "measure": 116,
+   "reason": "faces coincide with Right lateral brachial vein: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ2394|FJ3116": {
+   "name": "Right lobe branch of right hepatic artery",
+   "measure": 177,
+   "reason": "faces coincide with Posterior superior segmental hepatic artery: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ2409|FJ2822": {
+   "name": "Hepatovenous segment VII",
+   "measure": 557,
+   "reason": "faces coincide with Hepatovenous segment VI: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ2440|FJ2769": {
+   "name": "Cricoid cartilage",
+   "measure": 1514,
+   "reason": "faces coincide with Cricoid cartilage: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ2772|FJ3201": {
+   "name": "Hyoid bone",
+   "measure": 1036,
+   "reason": "faces coincide with Hyoid bone: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ2777|FJ2788": {
+   "name": "Left conus elasticus",
+   "measure": 85,
+   "reason": "faces coincide with Left vocalis: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ2787|FJ2788": {
+   "name": "Left vocal ligament",
+   "measure": 141,
+   "reason": "faces coincide with Left vocalis: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ2791|FJ2795": {
+   "name": "Right aryepiglotticus",
+   "measure": 44,
+   "reason": "faces coincide with Right cuneiform cartilage: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ2794|FJ2805": {
+   "name": "Right conus elasticus",
+   "measure": 172,
+   "reason": "faces coincide with Right vocal ligament: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ2794|FJ2806": {
+   "name": "Right conus elasticus",
+   "measure": 66,
+   "reason": "faces coincide with Right vocalis: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ2805|FJ2806": {
+   "name": "Right vocal ligament",
+   "measure": 88,
+   "reason": "faces coincide with Right vocalis: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ3073|FJ3122": {
+   "name": "Anterior superior segmental branch of right portal vein",
+   "measure": 87,
+   "reason": "faces coincide with Trunk of right portal vein: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|HRAF-435|HRAF-436": {
+   "name": "Right ampulla of uterine tube",
+   "measure": 513,
+   "reason": "faces coincide with Right isthmus of uterine tube: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|HRAF-436|HRAF-Uterine-cornua": {
+   "name": "Right isthmus of uterine tube",
+   "measure": 178,
+   "reason": "faces coincide with Uterine cornua: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|HRAF-442|HRAF-443": {
+   "name": "Left isthmus of uterine tube",
+   "measure": 1055,
+   "reason": "faces coincide with Left ampulla of uterine tube: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|HRAF-473|HRAF-476": {
+   "name": "Body of uterus",
+   "measure": 736,
+   "reason": "faces coincide with Lower uterine segment: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|HRAF-476|HRAF-479": {
+   "name": "Lower uterine segment",
+   "measure": 494,
+   "reason": "faces coincide with Cervix of uterus: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|PK-140|PK-205": {
+   "name": "Right styloid process of radius",
+   "measure": 131,
+   "reason": "faces coincide with Right anatomical snuffbox: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|PK-232|PK-233": {
+   "name": "Lingula of left lung",
+   "measure": 2894,
+   "reason": "faces coincide with Cardiac notch of left lung: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|PK-232|PK-338": {
+   "name": "Lingula of left lung",
+   "measure": 6063,
+   "reason": "faces coincide with Anterior border of left lung: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|PK-233|PK-338": {
+   "name": "Cardiac notch of left lung",
+   "measure": 1308,
+   "reason": "faces coincide with Anterior border of left lung: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|PK-234|PK-337": {
+   "name": "Cardiac impression of left lung",
+   "measure": 661,
+   "reason": "faces coincide with Contact area for thymus of left lung: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|PK-235|PK-245": {
+   "name": "Cardiac impression of right lung",
+   "measure": 741,
+   "reason": "faces coincide with Groove for inferior vena cava: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|PK-235|PK-246": {
+   "name": "Cardiac impression of right lung",
+   "measure": 909,
+   "reason": "faces coincide with Groove for esophagus: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|PK-235|PK-330": {
+   "name": "Cardiac impression of right lung",
+   "measure": 1042,
+   "reason": "faces coincide with Contact area for thymus of right lung: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|PK-241|PK-242": {
+   "name": "Groove for brachiocephalic vein",
+   "measure": 1695,
+   "reason": "faces coincide with Groove for superior vena cava: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|PK-243|PK-248": {
+   "name": "Groove for azygos vein",
+   "measure": 733,
+   "reason": "faces coincide with Hilum of right lung: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|PK-244|PK-335": {
+   "name": "Esophageal impression of left lung",
+   "measure": 112,
+   "reason": "faces coincide with Apex of left lung: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|PK-332|PK-333": {
+   "name": "Anterior border of right lung",
+   "measure": 2803,
+   "reason": "faces coincide with Diaphragmatic surface of right lung: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|PK-333|PK-334": {
+   "name": "Diaphragmatic surface of right lung",
+   "measure": 2239,
+   "reason": "faces coincide with Inferior border of right lung: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|PK-339|PK-340": {
+   "name": "Diaphragmatic surface of left lung",
+   "measure": 1571,
+   "reason": "faces coincide with Inferior border of left lung: two layers share the same surface; to be offset or one of them removed"
+  },
   "stretch|BP3S-FMA13358|shoulder abduction 120": {
    "name": "Right latissimus dorsi",
-   "measure": 2741,
+   "measure": 1749,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|BP3S-FMA13358|shoulder flexion 150": {
    "name": "Right latissimus dorsi",
-   "measure": 2795,
+   "measure": 2288,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|BP3S-FMA13359|shoulder abduction 120": {
    "name": "Left latissimus dorsi",
-   "measure": 2883,
+   "measure": 1684,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|BP3S-FMA13359|shoulder flexion 150": {
    "name": "Left latissimus dorsi",
-   "measure": 2908,
+   "measure": 2338,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|FJ1395M|hip flexion 120 knee flexion 130": {
@@ -3923,22 +3518,17 @@
   },
   "stretch|FJ1456M|shoulder abduction 120": {
    "name": "Left pectoralis minor",
-   "measure": 4,
+   "measure": 2,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|FJ1456M|shoulder flexion 150": {
    "name": "Left pectoralis minor",
-   "measure": 28,
+   "measure": 16,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
-  },
-  "stretch|FJ1456|shoulder abduction 120": {
-   "name": "Right pectoralis minor",
-   "measure": 4,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|FJ1456|shoulder flexion 150": {
    "name": "Right pectoralis minor",
-   "measure": 26,
+   "measure": 20,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|FJ1459M|shoulder abduction 120": {
@@ -3963,22 +3553,22 @@
   },
   "stretch|FJ1460M|shoulder abduction 120": {
    "name": "Left subclavius",
-   "measure": 10,
+   "measure": 2,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|FJ1460M|shoulder flexion 150": {
    "name": "Left subclavius",
-   "measure": 33,
+   "measure": 4,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|FJ1460|shoulder abduction 120": {
    "name": "Right subclavius",
-   "measure": 11,
+   "measure": 2,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|FJ1460|shoulder flexion 150": {
    "name": "Right subclavius",
-   "measure": 30,
+   "measure": 6,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|FJ1464M|shoulder flexion 150": {
@@ -4008,22 +3598,22 @@
   },
   "stretch|FJ1488M|shoulder abduction 120": {
    "name": "Left coracobrachialis",
-   "measure": 40,
+   "measure": 22,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|FJ1488M|shoulder flexion 150": {
    "name": "Left coracobrachialis",
-   "measure": 31,
+   "measure": 10,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|FJ1488|shoulder abduction 120": {
    "name": "Right coracobrachialis",
-   "measure": 40,
+   "measure": 25,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|FJ1488|shoulder flexion 150": {
    "name": "Right coracobrachialis",
-   "measure": 30,
+   "measure": 8,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|FJ1505M|elbow flexion 140": {
@@ -5086,470 +4676,875 @@
    "measure": 76,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|BP3-FMA46759|BP3-FMA55610": {
-   "name": "Right frontalis",
-   "measure": 1855,
-   "reason": "faces coincide with Right procerus: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ1981-END|shoulder flexion 150": {
+   "name": "Accessory hemiazygos vein",
+   "measure": 17,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|BP3-FMA46760|BP3-FMA55611": {
-   "name": "Left frontalis",
-   "measure": 1794,
-   "reason": "faces coincide with Left procerus: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ1981|shoulder flexion 150": {
+   "name": "Accessory hemiazygos vein",
+   "measure": 13,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|BP3-FMA46841|BP3S-FMA55608": {
-   "name": "Orbicularis oris",
-   "measure": 763,
-   "reason": "faces coincide with Right depressor septi nasi: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ2066-END|hip flexion 120 knee flexion 130": {
+   "name": "Left anterior tibial recurrent artery",
+   "measure": 29,
+   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|BP3-FMA46841|BP3S-FMA55609": {
-   "name": "Orbicularis oris",
-   "measure": 712,
-   "reason": "faces coincide with Left depressor septi nasi: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ2212-END|shoulder flexion 150": {
+   "name": "Left anterior circumflex humeral artery",
+   "measure": 91,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|FJ1284|FJ1304": {
-   "name": "Check ligament of left lateral rectus",
-   "measure": 246,
-   "reason": "faces coincide with Left lateral rectus: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ2212|shoulder flexion 150": {
+   "name": "Left anterior circumflex humeral artery",
+   "measure": 23,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|FJ1285|FJ1286": {
-   "name": "Left choroid",
-   "measure": 1198,
-   "reason": "faces coincide with Left choroid: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ2216|shoulder abduction 120": {
+   "name": "Left axillary artery",
+   "measure": 33,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|FJ1292|FJ1308": {
-   "name": "Check ligament of left medial rectus",
-   "measure": 144,
-   "reason": "faces coincide with Left medial rectus: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ2216|shoulder flexion 150": {
+   "name": "Left axillary artery",
+   "measure": 29,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|FJ1317|FJ1322": {
-   "name": "Left sclera",
-   "measure": 562,
-   "reason": "faces coincide with Left superior oblique: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ2217|shoulder abduction 120": {
+   "name": "Left axillary vein",
+   "measure": 37,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|FJ1317|FJ1323": {
-   "name": "Left sclera",
-   "measure": 206,
-   "reason": "faces coincide with Left superior rectus: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ2217|shoulder flexion 150": {
+   "name": "Left axillary vein",
+   "measure": 37,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|FJ1334|FJ1355": {
-   "name": "Check ligament of right lateral rectus",
-   "measure": 253,
-   "reason": "faces coincide with Right lateral rectus: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ2221|shoulder abduction 120": {
+   "name": "Left circumflex scapular artery",
+   "measure": 58,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|FJ1335|FJ1359": {
-   "name": "Check ligament of right medial rectus",
-   "measure": 160,
-   "reason": "faces coincide with Right medial rectus: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ2222|shoulder abduction 120": {
+   "name": "Left circumflex scapular vein",
+   "measure": 19,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|FJ1336|FJ1337": {
-   "name": "Right choroid",
-   "measure": 786,
-   "reason": "faces coincide with Right choroid: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ2245-END|elbow flexion 140": {
+   "name": "Left recurrent interosseous artery",
+   "measure": 74,
+   "reason": "does not follow its bone at elbow flexion 140: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|FJ1338|FJ1371": {
-   "name": "Right corona ciliaris",
-   "measure": 683,
-   "reason": "faces coincide with Suspensory ligament of right lens: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ2250-END|shoulder abduction 120": {
+   "name": "Left suprascapular vein",
+   "measure": 50,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|FJ1343|FJ1357": {
-   "name": "Tendon of right levator palpebrae superioris",
-   "measure": 917,
-   "reason": "faces coincide with Right levator palpebrae superioris: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ2251-END|shoulder abduction 120": {
+   "name": "Left suprascapular artery",
+   "measure": 57,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|FJ1364|FJ1819": {
-   "name": "Right optic nerve",
-   "measure": 114,
-   "reason": "faces coincide with Right optic nerve: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ2251-END|shoulder flexion 150": {
+   "name": "Left suprascapular artery",
+   "measure": 57,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|FJ1368|FJ1373": {
-   "name": "Right sclera",
-   "measure": 532,
-   "reason": "faces coincide with Right superior oblique: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1368|FJ1374": {
-   "name": "Right sclera",
-   "measure": 174,
-   "reason": "faces coincide with Right superior rectus: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1411M|PK-468": {
-   "name": "Left fibularis tertius",
-   "measure": 189,
-   "reason": "faces coincide with Left tendon of fibularis tertius: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1411|PK-467": {
-   "name": "Right fibularis tertius",
-   "measure": 193,
-   "reason": "faces coincide with Right tendon of fibularis tertius: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1449M|FJ2542": {
-   "name": "Left coccygeus",
-   "measure": 894,
-   "reason": "faces coincide with Left coccygeus: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1450M|FJ2543": {
-   "name": "External anal sphincter",
-   "measure": 158,
-   "reason": "faces coincide with External anal sphincter: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1450|FJ2548": {
-   "name": "superficial perineal muscle",
-   "measure": 350,
-   "reason": "faces coincide with External anal sphincter: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1453M|FJ2544": {
-   "name": "Left iliococcygeus",
-   "measure": 1042,
-   "reason": "faces coincide with Left iliococcygeus: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1457M|FJ2545": {
-   "name": "Left pubococcygeus",
-   "measure": 1003,
-   "reason": "faces coincide with Left pubococcygeus: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1458M|FJ2546": {
-   "name": "Left puborectalis",
-   "measure": 1040,
-   "reason": "faces coincide with Left puborectalis: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1465M|FJ2552": {
-   "name": "Tendinous arch of levator ani",
-   "measure": 206,
-   "reason": "faces coincide with Tendinous arch of levator ani: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1465|FJ2553": {
-   "name": "tendinous arch of levator ani",
-   "measure": 229,
-   "reason": "faces coincide with Tendinous arch of levator ani: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1475M|PK-365": {
-   "name": "Left flexor digitorum superficialis",
-   "measure": 574,
-   "reason": "faces coincide with Left tendons of flexor digitorum superficialis: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1475|PK-363": {
-   "name": "Right flexor digitorum superficialis",
-   "measure": 568,
-   "reason": "faces coincide with Right tendons of flexor digitorum superficialis: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1484M|PK-384": {
-   "name": "Left abductor pollicis longus",
-   "measure": 155,
-   "reason": "faces coincide with Left tendon of abductor pollicis longus: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1484|PK-383": {
-   "name": "Right abductor pollicis longus",
-   "measure": 159,
-   "reason": "faces coincide with Right tendon of abductor pollicis longus: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1492M|PK-376": {
-   "name": "Left extensor digitorum",
-   "measure": 357,
-   "reason": "faces coincide with Left tendons of extensor digitorum: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1492|PK-375": {
-   "name": "Right extensor digitorum",
-   "measure": 371,
-   "reason": "faces coincide with Right tendons of extensor digitorum: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1494M|PK-386": {
-   "name": "Left extensor pollicis brevis",
-   "measure": 133,
-   "reason": "faces coincide with Left tendon of extensor pollicis brevis: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1494|PK-385": {
-   "name": "Right extensor pollicis brevis",
-   "measure": 132,
-   "reason": "faces coincide with Right tendon of extensor pollicis brevis: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1495M|PK-388": {
-   "name": "Left extensor pollicis longus",
-   "measure": 181,
-   "reason": "faces coincide with Left tendon of extensor pollicis longus: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1495|PK-387": {
-   "name": "Right extensor pollicis longus",
-   "measure": 176,
-   "reason": "faces coincide with Right tendon of extensor pollicis longus: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1497M|PK-368": {
-   "name": "Left flexor digitorum profundus",
-   "measure": 383,
-   "reason": "faces coincide with Left tendons of flexor digitorum profundus: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1497|PK-367": {
-   "name": "Right flexor digitorum profundus",
-   "measure": 388,
-   "reason": "faces coincide with Right tendons of flexor digitorum profundus: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1502M|PK-358": {
-   "name": "Left palmaris longus",
-   "measure": 524,
-   "reason": "faces coincide with Left palmar aponeurosis: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1502|PK-356": {
-   "name": "Right palmaris longus",
-   "measure": 523,
-   "reason": "faces coincide with Right palmar aponeurosis: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1517M|PK-382": {
-   "name": "Left extensor carpi ulnaris",
-   "measure": 132,
-   "reason": "faces coincide with Left tendon of extensor carpi ulnaris: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1517|PK-380": {
-   "name": "Right extensor carpi ulnaris",
-   "measure": 125,
-   "reason": "faces coincide with Right tendon of extensor carpi ulnaris: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1760|FJ1764": {
-   "name": "Hypothalamus",
-   "measure": 68,
-   "reason": "faces coincide with Lamina terminalis: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1764|FJ1812": {
-   "name": "Lamina terminalis",
-   "measure": 66,
-   "reason": "faces coincide with Lamina terminalis: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1808|FJ1812": {
-   "name": "Hypothalamus",
-   "measure": 63,
-   "reason": "faces coincide with Lamina terminalis: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1846|FJ2013": {
-   "name": "Celiac artery",
-   "measure": 238,
-   "reason": "faces coincide with Celiac artery: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1846|FJ3421": {
-   "name": "Celiac artery",
-   "measure": 238,
-   "reason": "faces coincide with Celiac trunk: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1853|FJ3082": {
-   "name": "Hepatic portal vein",
-   "measure": 694,
-   "reason": "faces coincide with Pre-hepatic portal vein: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1858|FJ2823": {
-   "name": "Hepatovenous segment IX",
-   "measure": 1373,
-   "reason": "faces coincide with Hepatovenous segment VIII: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1883|FJ3094": {
-   "name": "Caudate lobe tributary of left hepatic biliary tree",
-   "measure": 334,
-   "reason": "faces coincide with Left duct of caudate lobe of liver: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1895|FJ2629": {
-   "name": "Pancreas",
-   "measure": 2053,
-   "reason": "faces coincide with Parenchyma of pancreas: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1916|FJ2386": {
-   "name": "Caudate lobe branch of right hepatic artery",
-   "measure": 352,
-   "reason": "faces coincide with Caudate lobe branch of right hepatic artery: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1924|FJ2394": {
-   "name": "Right lobe branch of right hepatic artery",
-   "measure": 450,
-   "reason": "faces coincide with Right lobe branch of right hepatic artery: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1924|FJ3116": {
-   "name": "Right lobe branch of right hepatic artery",
-   "measure": 177,
-   "reason": "faces coincide with Posterior superior segmental hepatic artery: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1928|FJ2011": {
-   "name": "Superior mesenteric artery",
-   "measure": 430,
-   "reason": "faces coincide with Superior mesenteric artery: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ2013|FJ3421": {
-   "name": "Celiac artery",
-   "measure": 238,
-   "reason": "faces coincide with Celiac trunk: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ2025|FJ3534": {
-   "name": "Marginal colic artery",
-   "measure": 718,
-   "reason": "faces coincide with Marginal artery of colon: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ2046|FJ3476": {
-   "name": "Left renal artery",
-   "measure": 105,
-   "reason": "faces coincide with Trunk of left renal artery: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ2122|FJ3530": {
-   "name": "Left superficial epigastric vein",
-   "measure": 193,
-   "reason": "faces coincide with Left superior epigastric vein: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ2178|FJ3615": {
-   "name": "Right superficial epigastric vein",
-   "measure": 199,
-   "reason": "faces coincide with Right superior epigastric vein: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ2268-END|FJ2298-END": {
+  "detached|FJ2268|shoulder abduction 120": {
    "name": "Right axillary artery",
-   "measure": 107,
-   "reason": "faces coincide with Right subscapular artery: two layers share the same surface; to be offset or one of them removed"
+   "measure": 37,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|FJ2287-END|PK-56-END": {
-   "name": "Right median cubital vein",
-   "measure": 116,
-   "reason": "faces coincide with Right lateral brachial vein: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ2268|shoulder flexion 150": {
+   "name": "Right axillary artery",
+   "measure": 30,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|FJ2394|FJ3116": {
-   "name": "Right lobe branch of right hepatic artery",
-   "measure": 177,
-   "reason": "faces coincide with Posterior superior segmental hepatic artery: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ2269|shoulder abduction 120": {
+   "name": "Right axillary vein",
+   "measure": 29,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|FJ2409|FJ2822": {
-   "name": "Hepatovenous segment VII",
-   "measure": 557,
-   "reason": "faces coincide with Hepatovenous segment VI: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ2269|shoulder flexion 150": {
+   "name": "Right axillary vein",
+   "measure": 29,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|FJ2440|FJ2769": {
-   "name": "Cricoid cartilage",
-   "measure": 1514,
-   "reason": "faces coincide with Cricoid cartilage: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ2273|shoulder abduction 120": {
+   "name": "Right circumflex scapular artery",
+   "measure": 58,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|FJ2772|FJ3201": {
-   "name": "Hyoid bone",
-   "measure": 1036,
-   "reason": "faces coincide with Hyoid bone: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ2274|shoulder abduction 120": {
+   "name": "Right circumflex scapular vein",
+   "measure": 20,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|FJ2777|FJ2788": {
-   "name": "Left conus elasticus",
-   "measure": 85,
-   "reason": "faces coincide with Left vocalis: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ2291-END|shoulder flexion 150": {
+   "name": "Right posterior circumflex humeral artery",
+   "measure": 140,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|FJ2787|FJ2788": {
-   "name": "Left vocal ligament",
-   "measure": 141,
-   "reason": "faces coincide with Left vocalis: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ2791|FJ2795": {
-   "name": "Right aryepiglotticus",
-   "measure": 44,
-   "reason": "faces coincide with Right cuneiform cartilage: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ2794|FJ2805": {
-   "name": "Right conus elasticus",
-   "measure": 172,
-   "reason": "faces coincide with Right vocal ligament: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ2794|FJ2806": {
-   "name": "Right conus elasticus",
-   "measure": 66,
-   "reason": "faces coincide with Right vocalis: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ2805|FJ2806": {
-   "name": "Right vocal ligament",
-   "measure": 88,
-   "reason": "faces coincide with Right vocalis: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ3073|FJ3122": {
-   "name": "Anterior superior segmental branch of right portal vein",
+  "detached|FJ2302-END|shoulder abduction 120": {
+   "name": "Right suprascapular vein",
    "measure": 87,
-   "reason": "faces coincide with Trunk of right portal vein: two layers share the same surface; to be offset or one of them removed"
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|HRAF-435|HRAF-436": {
-   "name": "Right ampulla of uterine tube",
-   "measure": 513,
-   "reason": "faces coincide with Right isthmus of uterine tube: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ2303-END|shoulder abduction 120": {
+   "name": "Right suprascapular artery",
+   "measure": 54,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|HRAF-436|HRAF-Uterine-cornua": {
-   "name": "Right isthmus of uterine tube",
-   "measure": 178,
-   "reason": "faces coincide with Uterine cornua: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ2303-END|shoulder flexion 150": {
+   "name": "Right suprascapular artery",
+   "measure": 52,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|HRAF-442|HRAF-443": {
-   "name": "Left isthmus of uterine tube",
-   "measure": 1055,
-   "reason": "faces coincide with Left ampulla of uterine tube: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ3479|shoulder abduction 120": {
+   "name": "Left subclavian artery",
+   "measure": 55,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|HRAF-473|HRAF-476": {
-   "name": "Body of uterus",
-   "measure": 736,
-   "reason": "faces coincide with Lower uterine segment: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ3479|shoulder flexion 150": {
+   "name": "Left subclavian artery",
+   "measure": 45,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|HRAF-476|HRAF-479": {
-   "name": "Lower uterine segment",
-   "measure": 494,
-   "reason": "faces coincide with Cervix of uterus: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ3482|shoulder flexion 150": {
+   "name": "Left brachiocephalic vein",
+   "measure": 17,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|PK-140|PK-205": {
-   "name": "Right styloid process of radius",
-   "measure": 131,
-   "reason": "faces coincide with Right anatomical snuffbox: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ3486|shoulder abduction 120": {
+   "name": "Left subclavian vein",
+   "measure": 13,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|PK-232|PK-233": {
-   "name": "Lingula of left lung",
-   "measure": 2894,
-   "reason": "faces coincide with Cardiac notch of left lung: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ3486|shoulder flexion 150": {
+   "name": "Left subclavian vein",
+   "measure": 12,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|PK-232|PK-338": {
-   "name": "Lingula of left lung",
-   "measure": 6063,
-   "reason": "faces coincide with Anterior border of left lung: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ3579|shoulder abduction 120": {
+   "name": "Right subclavian artery",
+   "measure": 51,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|PK-233|PK-338": {
-   "name": "Cardiac notch of left lung",
-   "measure": 1308,
-   "reason": "faces coincide with Anterior border of left lung: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ3579|shoulder flexion 150": {
+   "name": "Right subclavian artery",
+   "measure": 45,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|PK-234|PK-337": {
-   "name": "Cardiac impression of left lung",
-   "measure": 661,
-   "reason": "faces coincide with Contact area for thymus of left lung: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ3587|shoulder abduction 120": {
+   "name": "Right subclavian vein",
+   "measure": 82,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|PK-235|PK-245": {
-   "name": "Cardiac impression of right lung",
-   "measure": 741,
-   "reason": "faces coincide with Groove for inferior vena cava: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ3587|shoulder flexion 150": {
+   "name": "Right subclavian vein",
+   "measure": 74,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|PK-235|PK-246": {
-   "name": "Cardiac impression of right lung",
-   "measure": 909,
-   "reason": "faces coincide with Groove for esophagus: two layers share the same surface; to be offset or one of them removed"
+  "detached|FJ3645|shoulder flexion 150": {
+   "name": "Superior vena cava",
+   "measure": 4,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|PK-235|PK-330": {
-   "name": "Cardiac impression of right lung",
-   "measure": 1042,
-   "reason": "faces coincide with Contact area for thymus of right lung: two layers share the same surface; to be offset or one of them removed"
+  "detached|PK-120|shoulder abduction 120": {
+   "name": "Right supreme intercostal artery",
+   "measure": 24,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|PK-241|PK-242": {
-   "name": "Groove for brachiocephalic vein",
-   "measure": 1695,
-   "reason": "faces coincide with Groove for superior vena cava: two layers share the same surface; to be offset or one of them removed"
+  "detached|PK-120|shoulder flexion 150": {
+   "name": "Right supreme intercostal artery",
+   "measure": 24,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|PK-243|PK-248": {
-   "name": "Groove for azygos vein",
-   "measure": 733,
-   "reason": "faces coincide with Hilum of right lung: two layers share the same surface; to be offset or one of them removed"
+  "detached|PK-200|shoulder abduction 120": {
+   "name": "Right clavipectoral triangle",
+   "measure": 55,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|PK-244|PK-335": {
-   "name": "Esophageal impression of left lung",
-   "measure": 112,
-   "reason": "faces coincide with Apex of left lung: two layers share the same surface; to be offset or one of them removed"
+  "detached|PK-200|shoulder flexion 150": {
+   "name": "Right clavipectoral triangle",
+   "measure": 55,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|PK-332|PK-333": {
-   "name": "Anterior border of right lung",
-   "measure": 2803,
-   "reason": "faces coincide with Diaphragmatic surface of right lung: two layers share the same surface; to be offset or one of them removed"
+  "detached|PK-211|shoulder abduction 120": {
+   "name": "Left clavipectoral triangle",
+   "measure": 74,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|PK-333|PK-334": {
-   "name": "Diaphragmatic surface of right lung",
-   "measure": 2239,
-   "reason": "faces coincide with Inferior border of right lung: two layers share the same surface; to be offset or one of them removed"
+  "detached|PK-211|shoulder flexion 150": {
+   "name": "Left clavipectoral triangle",
+   "measure": 74,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   },
-  "zfight|PK-339|PK-340": {
-   "name": "Diaphragmatic surface of left lung",
-   "measure": 1571,
-   "reason": "faces coincide with Inferior border of left lung: two layers share the same surface; to be offset or one of them removed"
+  "detached|PK-212|shoulder abduction 120": {
+   "name": "Left axillary fossa",
+   "measure": 4,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|PK-212|shoulder flexion 150": {
+   "name": "Left axillary fossa",
+   "measure": 4,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|PK-2|shoulder abduction 120": {
+   "name": "Clavicular branch of right thoraco-acromial artery",
+   "measure": 234,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|PK-2|shoulder flexion 150": {
+   "name": "Clavicular branch of right thoraco-acromial artery",
+   "measure": 223,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|PK-416|shoulder abduction 120": {
+   "name": "Right costoclavicular ligament",
+   "measure": 27,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|PK-416|shoulder flexion 150": {
+   "name": "Right costoclavicular ligament",
+   "measure": 32,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|PK-417|shoulder abduction 120": {
+   "name": "Right superior transverse scapular ligament",
+   "measure": 18,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|PK-417|shoulder flexion 150": {
+   "name": "Right superior transverse scapular ligament",
+   "measure": 16,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|PK-418|shoulder flexion 150": {
+   "name": "Right inferior transverse scapular ligament",
+   "measure": 7,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|PK-420|shoulder abduction 120": {
+   "name": "Left costoclavicular ligament",
+   "measure": 32,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|PK-420|shoulder flexion 150": {
+   "name": "Left costoclavicular ligament",
+   "measure": 36,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|PK-421|shoulder abduction 120": {
+   "name": "Left superior transverse scapular ligament",
+   "measure": 20,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|PK-421|shoulder flexion 150": {
+   "name": "Left superior transverse scapular ligament",
+   "measure": 14,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|PK-422|shoulder flexion 150": {
+   "name": "Left inferior transverse scapular ligament",
+   "measure": 7,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|PK-428|hip flexion 120 knee flexion 130": {
+   "name": "Left quadriceps tendon",
+   "measure": 3,
+   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|PK-445|hip flexion 120 knee flexion 130": {
+   "name": "Right tendon of iliopsoas",
+   "measure": 106,
+   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|PK-446|hip flexion 120 knee flexion 130": {
+   "name": "Right tendon of iliopsoas",
+   "measure": 56,
+   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|PK-447|hip flexion 120 knee flexion 130": {
+   "name": "Left tendon of iliopsoas",
+   "measure": 96,
+   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|PK-448|hip flexion 120 knee flexion 130": {
+   "name": "Left tendon of iliopsoas",
+   "measure": 62,
+   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|PK-475|hip flexion 120 knee flexion 130": {
+   "name": "Right lateral patellar retinaculum",
+   "measure": 11,
+   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|PK-480|hip flexion 120 knee flexion 130": {
+   "name": "Left lateral patellar retinaculum",
+   "measure": 11,
+   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|PK-7|shoulder abduction 120": {
+   "name": "Clavicular branch of left thoraco-acromial artery",
+   "measure": 220,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|PK-7|shoulder flexion 150": {
+   "name": "Clavicular branch of left thoraco-acromial artery",
+   "measure": 220,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Abducens nerve (VI).l.001|head extension 35": {
+   "name": "Abducens nerve (VI).l",
+   "measure": 104,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Abducens nerve (VI).l.001|head flexion 40": {
+   "name": "Abducens nerve (VI).l",
+   "measure": 113,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Abducens nerve (VI).r.001|head extension 35": {
+   "name": "Abducens nerve (VI).r",
+   "measure": 126,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Abducens nerve (VI).r.001|head flexion 40": {
+   "name": "Abducens nerve (VI).r",
+   "measure": 149,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Anterior division of inferior trunk of brachial plexus.l.001|shoulder abduction 120": {
+   "name": "Anterior division of inferior trunk of brachial plexus.l",
+   "measure": 53,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Anterior division of inferior trunk of brachial plexus.l.001|shoulder flexion 150": {
+   "name": "Anterior division of inferior trunk of brachial plexus.l",
+   "measure": 53,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Anterior division of inferior trunk of brachial plexus.r.001|shoulder abduction 120": {
+   "name": "Anterior division of inferior trunk of brachial plexus.r",
+   "measure": 37,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Anterior division of inferior trunk of brachial plexus.r.001|shoulder flexion 150": {
+   "name": "Anterior division of inferior trunk of brachial plexus.r",
+   "measure": 37,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Anterior division of mandibular nerve.l.001|head extension 35": {
+   "name": "Anterior division of mandibular nerve.l",
+   "measure": 172,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Anterior division of mandibular nerve.l.001|head flexion 40": {
+   "name": "Anterior division of mandibular nerve.l",
+   "measure": 172,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Anterior division of mandibular nerve.r.001|head extension 35": {
+   "name": "Anterior division of mandibular nerve.r",
+   "measure": 329,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Anterior division of mandibular nerve.r.001|head flexion 40": {
+   "name": "Anterior division of mandibular nerve.r",
+   "measure": 305,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Anterior division of middle trunk of brachial plexus.l.001|shoulder abduction 120": {
+   "name": "Anterior division of middle trunk of brachial plexus.l",
+   "measure": 39,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Anterior division of middle trunk of brachial plexus.l.001|shoulder flexion 150": {
+   "name": "Anterior division of middle trunk of brachial plexus.l",
+   "measure": 39,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Anterior division of middle trunk of brachial plexus.r.001|shoulder abduction 120": {
+   "name": "Anterior division of middle trunk of brachial plexus.r",
+   "measure": 33,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Anterior division of middle trunk of brachial plexus.r.001|shoulder flexion 150": {
+   "name": "Anterior division of middle trunk of brachial plexus.r",
+   "measure": 33,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Anterior division of superior trunk of brachial plexus.l.001|shoulder abduction 120": {
+   "name": "Anterior division of superior trunk of brachial plexus.l",
+   "measure": 15,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Anterior division of superior trunk of brachial plexus.l.001|shoulder flexion 150": {
+   "name": "Anterior division of superior trunk of brachial plexus.l",
+   "measure": 15,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Anterior division of superior trunk of brachial plexus.r.001|shoulder abduction 120": {
+   "name": "Anterior division of superior trunk of brachial plexus.r",
+   "measure": 7,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Anterior division of superior trunk of brachial plexus.r.001|shoulder flexion 150": {
+   "name": "Anterior division of superior trunk of brachial plexus.r",
+   "measure": 7,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Cochlear nerve.001|head extension 35": {
+   "name": "Cochlear nerve",
+   "measure": 331,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Cochlear nerve.001|head flexion 40": {
+   "name": "Cochlear nerve",
+   "measure": 348,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Cochlear nerve.l.001|head extension 35": {
+   "name": "Cochlear nerve.l",
+   "measure": 495,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Cochlear nerve.l.001|head flexion 40": {
+   "name": "Cochlear nerve.l",
+   "measure": 455,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Inferior alveolar nerve.l.001|head extension 35": {
+   "name": "Inferior alveolar nerve.l",
+   "measure": 209,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Inferior alveolar nerve.l.001|head flexion 40": {
+   "name": "Inferior alveolar nerve.l",
+   "measure": 177,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Inferior alveolar nerve.r.001|head extension 35": {
+   "name": "Inferior alveolar nerve.r",
+   "measure": 229,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Inferior alveolar nerve.r.001|head flexion 40": {
+   "name": "Inferior alveolar nerve.r",
+   "measure": 212,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Inferior subscapular nerve.l.001|shoulder abduction 120": {
+   "name": "Inferior subscapular nerve.l",
+   "measure": 140,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Inferior subscapular nerve.l.001|shoulder flexion 150": {
+   "name": "Inferior subscapular nerve.l",
+   "measure": 140,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Inferior subscapular nerve.r.001|shoulder abduction 120": {
+   "name": "Inferior subscapular nerve.r",
+   "measure": 134,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Inferior subscapular nerve.r.001|shoulder flexion 150": {
+   "name": "Inferior subscapular nerve.r",
+   "measure": 134,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Inferior trunk of brachial plexus.l.001|shoulder abduction 120": {
+   "name": "Inferior trunk of brachial plexus.l",
+   "measure": 14,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Inferior trunk of brachial plexus.l.001|shoulder flexion 150": {
+   "name": "Inferior trunk of brachial plexus.l",
+   "measure": 14,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Inferior trunk of brachial plexus.r.001|shoulder abduction 120": {
+   "name": "Inferior trunk of brachial plexus.r",
+   "measure": 4,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Inferior trunk of brachial plexus.r.001|shoulder flexion 150": {
+   "name": "Inferior trunk of brachial plexus.r",
+   "measure": 4,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Lingual nerve.l.001|head extension 35": {
+   "name": "Lingual nerve.l",
+   "measure": 227,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Lingual nerve.l.001|head flexion 40": {
+   "name": "Lingual nerve.l",
+   "measure": 188,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Lingual nerve.r.001|head extension 35": {
+   "name": "Lingual nerve.r",
+   "measure": 231,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Lingual nerve.r.001|head flexion 40": {
+   "name": "Lingual nerve.r",
+   "measure": 211,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Long thoracic nerve.l.001|shoulder abduction 120": {
+   "name": "Long thoracic nerve.l",
+   "measure": 12,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Long thoracic nerve.l.001|shoulder flexion 150": {
+   "name": "Long thoracic nerve.l",
+   "measure": 12,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Long thoracic nerve.r.001|shoulder abduction 120": {
+   "name": "Long thoracic nerve.r",
+   "measure": 9,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Long thoracic nerve.r.001|shoulder flexion 150": {
+   "name": "Long thoracic nerve.r",
+   "measure": 9,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Maxillary nerve.l.001|head extension 35": {
+   "name": "Maxillary nerve.l",
+   "measure": 84,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Maxillary nerve.l.001|head flexion 40": {
+   "name": "Maxillary nerve.l",
+   "measure": 86,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Maxillary nerve.r.001|head extension 35": {
+   "name": "Maxillary nerve.r",
+   "measure": 95,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Maxillary nerve.r.001|head flexion 40": {
+   "name": "Maxillary nerve.r",
+   "measure": 97,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Medial pectoral nerve.l.001|shoulder abduction 120": {
+   "name": "Medial pectoral nerve.l",
+   "measure": 24,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Medial pectoral nerve.l.001|shoulder flexion 150": {
+   "name": "Medial pectoral nerve.l",
+   "measure": 24,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Medial pectoral nerve.r.001|shoulder abduction 120": {
+   "name": "Medial pectoral nerve.r",
+   "measure": 20,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Medial pectoral nerve.r.001|shoulder flexion 150": {
+   "name": "Medial pectoral nerve.r",
+   "measure": 20,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Meningeal branch of maxillary nerve.l.001|head extension 35": {
+   "name": "Meningeal branch of maxillary nerve.l",
+   "measure": 47,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Meningeal branch of maxillary nerve.l.001|head flexion 40": {
+   "name": "Meningeal branch of maxillary nerve.l",
+   "measure": 67,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Meningeal branch of maxillary nerve.r.001|head extension 35": {
+   "name": "Meningeal branch of maxillary nerve.r",
+   "measure": 88,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Meningeal branch of maxillary nerve.r.001|head flexion 40": {
+   "name": "Meningeal branch of maxillary nerve.r",
+   "measure": 119,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Nerve to mylohyoid muscle.l.001|head extension 35": {
+   "name": "Nerve to mylohyoid muscle.l",
+   "measure": 209,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Nerve to mylohyoid muscle.l.001|head flexion 40": {
+   "name": "Nerve to mylohyoid muscle.l",
+   "measure": 171,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Nerve to mylohyoid muscle.r.001|head extension 35": {
+   "name": "Nerve to mylohyoid muscle.r",
+   "measure": 210,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Nerve to mylohyoid muscle.r.001|head flexion 40": {
+   "name": "Nerve to mylohyoid muscle.r",
+   "measure": 196,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Oculomotor nerve (III).l.001|head extension 35": {
+   "name": "Oculomotor nerve (III).l",
+   "measure": 129,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Oculomotor nerve (III).l.001|head flexion 40": {
+   "name": "Oculomotor nerve (III).l",
+   "measure": 129,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Oculomotor nerve (III).r.001|head extension 35": {
+   "name": "Oculomotor nerve (III).r",
+   "measure": 121,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Oculomotor nerve (III).r.001|head flexion 40": {
+   "name": "Oculomotor nerve (III).r",
+   "measure": 121,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Olfactory nerve (I).l.001|head extension 35": {
+   "name": "Olfactory nerve (I).l",
+   "measure": 297,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Olfactory nerve (I).l.001|head flexion 40": {
+   "name": "Olfactory nerve (I).l",
+   "measure": 297,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Olfactory nerve (I).r.001|head extension 35": {
+   "name": "Olfactory nerve (I).r",
+   "measure": 295,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Olfactory nerve (I).r.001|head flexion 40": {
+   "name": "Olfactory nerve (I).r",
+   "measure": 295,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Ophthalmic nerve.l.001|head extension 35": {
+   "name": "Ophthalmic nerve.l",
+   "measure": 61,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Ophthalmic nerve.l.001|head flexion 40": {
+   "name": "Ophthalmic nerve.l",
+   "measure": 61,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Ophthalmic nerve.r.001|head extension 35": {
+   "name": "Ophthalmic nerve.r",
+   "measure": 41,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Ophthalmic nerve.r.001|head flexion 40": {
+   "name": "Ophthalmic nerve.r",
+   "measure": 41,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Optic nerve (II).l.001|head extension 35": {
+   "name": "Optic nerve (II).l",
+   "measure": 164,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Optic nerve (II).l.001|head flexion 40": {
+   "name": "Optic nerve (II).l",
+   "measure": 164,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Optic nerve (II).r.001|head extension 35": {
+   "name": "Optic nerve (II).r",
+   "measure": 171,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Optic nerve (II).r.001|head flexion 40": {
+   "name": "Optic nerve (II).r",
+   "measure": 171,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Posterior division of inferior trunk of brachial plexus.l.001|shoulder abduction 120": {
+   "name": "Posterior division of inferior trunk of brachial plexus.l",
+   "measure": 28,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Posterior division of inferior trunk of brachial plexus.l.001|shoulder flexion 150": {
+   "name": "Posterior division of inferior trunk of brachial plexus.l",
+   "measure": 28,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Posterior division of inferior trunk of brachial plexus.r.001|shoulder abduction 120": {
+   "name": "Posterior division of inferior trunk of brachial plexus.r",
+   "measure": 21,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Posterior division of inferior trunk of brachial plexus.r.001|shoulder flexion 150": {
+   "name": "Posterior division of inferior trunk of brachial plexus.r",
+   "measure": 21,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Posterior division of mandibular nerve.l.001|head extension 35": {
+   "name": "Posterior division of mandibular nerve.l",
+   "measure": 145,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Posterior division of mandibular nerve.l.001|head flexion 40": {
+   "name": "Posterior division of mandibular nerve.l",
+   "measure": 145,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Posterior division of mandibular nerve.r.001|head extension 35": {
+   "name": "Posterior division of mandibular nerve.r",
+   "measure": 193,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Posterior division of mandibular nerve.r.001|head flexion 40": {
+   "name": "Posterior division of mandibular nerve.r",
+   "measure": 193,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Posterior division of middle trunk of brachial plexus.l.001|shoulder abduction 120": {
+   "name": "Posterior division of middle trunk of brachial plexus.l",
+   "measure": 36,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Posterior division of middle trunk of brachial plexus.l.001|shoulder flexion 150": {
+   "name": "Posterior division of middle trunk of brachial plexus.l",
+   "measure": 36,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Posterior division of middle trunk of brachial plexus.r.001|shoulder abduction 120": {
+   "name": "Posterior division of middle trunk of brachial plexus.r",
+   "measure": 21,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Posterior division of middle trunk of brachial plexus.r.001|shoulder flexion 150": {
+   "name": "Posterior division of middle trunk of brachial plexus.r",
+   "measure": 21,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Posterior division of superior trunk of brachial plexus.l.001|shoulder abduction 120": {
+   "name": "Posterior division of superior trunk of brachial plexus.l",
+   "measure": 29,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Posterior division of superior trunk of brachial plexus.l.001|shoulder flexion 150": {
+   "name": "Posterior division of superior trunk of brachial plexus.l",
+   "measure": 29,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Posterior division of superior trunk of brachial plexus.r.001|shoulder abduction 120": {
+   "name": "Posterior division of superior trunk of brachial plexus.r",
+   "measure": 11,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Posterior division of superior trunk of brachial plexus.r.001|shoulder flexion 150": {
+   "name": "Posterior division of superior trunk of brachial plexus.r",
+   "measure": 11,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Superior subscapular nerve.l.001|shoulder abduction 120": {
+   "name": "Superior subscapular nerve.l",
+   "measure": 74,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Superior subscapular nerve.r.001|shoulder abduction 120": {
+   "name": "Superior subscapular nerve.r",
+   "measure": 71,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Superior trunk of brachial plexus.l.001|shoulder abduction 120": {
+   "name": "Superior trunk of brachial plexus.l",
+   "measure": 6,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Superior trunk of brachial plexus.l.001|shoulder flexion 150": {
+   "name": "Superior trunk of brachial plexus.l",
+   "measure": 6,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Suprascapular nerve.l.001|shoulder flexion 150": {
+   "name": "Suprascapular nerve.l",
+   "measure": 19,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Suprascapular nerve.r.001|shoulder flexion 150": {
+   "name": "Suprascapular nerve.r",
+   "measure": 14,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Trochlear nerve (IV).l.001|head extension 35": {
+   "name": "Trochlear nerve (IV).l",
+   "measure": 75,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Trochlear nerve (IV).l.001|head flexion 40": {
+   "name": "Trochlear nerve (IV).l",
+   "measure": 98,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Trochlear nerve (IV).r.001|head extension 35": {
+   "name": "Trochlear nerve (IV).r",
+   "measure": 68,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Trochlear nerve (IV).r.001|head flexion 40": {
+   "name": "Trochlear nerve (IV).r",
+   "measure": 110,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Vestibular nerve.l.001|head extension 35": {
+   "name": "Vestibular nerve.l",
+   "measure": 240,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Vestibular nerve.l.001|head flexion 40": {
+   "name": "Vestibular nerve.l",
+   "measure": 266,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Vestibular nerve.r.001|head extension 35": {
+   "name": "Vestibular nerve.r",
+   "measure": 257,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Vestibular nerve.r.001|head flexion 40": {
+   "name": "Vestibular nerve.r",
+   "measure": 296,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Vestibulocochlear nerve (VIII).l.001|head extension 35": {
+   "name": "Vestibulocochlear nerve (VIII).l",
+   "measure": 246,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Vestibulocochlear nerve (VIII).l.001|head flexion 40": {
+   "name": "Vestibulocochlear nerve (VIII).l",
+   "measure": 86,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Vestibulocochlear nerve (VIII).r.001|head extension 35": {
+   "name": "Vestibulocochlear nerve (VIII).r",
+   "measure": 144,
+   "reason": "does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
+  },
+  "detached|nerve:Vestibulocochlear nerve (VIII).r.001|head flexion 40": {
+   "name": "Vestibulocochlear nerve (VIII).r",
+   "measure": 81,
+   "reason": "does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)"
   }
  }
 }
