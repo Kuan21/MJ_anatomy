@@ -49,7 +49,7 @@ const CUT: Record<Exclude<SectionAxis, 'none'>, {flip: boolean; view: HeartView}
 export default function HeartDetail() {
   const [catalogue, setCatalogue] = useState<HeartCatalogue | null>(null), [catalogueError, setCatalogueError] = useState(''), [retry, setRetry] = useState(0);
   const [view, setView] = useState<HeartViewState>(defaults);
-  const [item, setItem] = useState<ChamberItem | null>(null), [labelOn, setLabelOn] = useState({valves: false, leaflets: false});
+  const [item, setItem] = useState<ChamberItem | null>(null), [labelOn, setLabelOn] = useState({valves: false, leaflets: false, inside: true});
   const [load, setLoad] = useState({loaded: 0, total: 0}), [ready, setReady] = useState(false), [error, setError] = useState(''), [openGroups, setOpenGroups] = useState<string[]>([]);
   useEffect(() => {if (!view.openChamber) setItem(null);}, [view.openChamber]);
   useEffect(() => {document.title = '心臟詳細模式 · MJ Anatomy';}, []);
@@ -138,8 +138,10 @@ export default function HeartDetail() {
       ['v-pul', 'Pulmonary valve', '肺動脈瓣', CHAMBERS[1].inside.filter(n => /pulmonary valve/.test(n))],
     ] as [string, string, string, string[]][]) list.push({id, en, zh, ids: idsOf2(names)});
     if (labelOn.leaflets) for (const p of catalogue.parts) if (p.group === 'valves') list.push({id: p.id, en: LEAFLET_LABEL[p.name] ?? p.name, zh: p.chinese, ids: [p.id]});
+    // the structures of the open chamber (crest, pectinate muscles, fossa ovalis, the openings of the veins, papillary muscles ...): one label each, drawn only while that chamber is open
+    if (labelOn.inside && chamber) for (const it of chamber.items) { const ids = idsOf2(it.parts); if (ids.length && it.parts.length < 4) list.push({id: `in-${chamber.id}-${it.en}`, en: it.en, zh: it.zh, ids}); }
     return list;
-  }, [catalogue, labelOn]);
+  }, [catalogue, labelOn, chamber]);
   const grouped = useMemo(() => catalogue?.groups.map(g => ({...g, parts: catalogue.parts.filter(p => p.group === g.id)})) ?? [], [catalogue]);
 
   return <main className="organ-app" lang="zh-Hant">
@@ -223,8 +225,9 @@ export default function HeartDetail() {
           <div className="organ-segmented" role="group" aria-label="名稱標籤">
             <button aria-pressed={labelOn.valves} onClick={() => setLabelOn(v => ({...v, valves: !v.valves}))}><span lang="en">Valves</span><small lang="zh-Hant">瓣膜</small></button>
             <button aria-pressed={labelOn.leaflets} onClick={() => setLabelOn(v => ({...v, leaflets: !v.leaflets}))}><span lang="en">Cusps</span><small lang="zh-Hant">瓣葉與腱索</small></button>
+            <button aria-pressed={labelOn.inside} onClick={() => setLabelOn(v => ({...v, inside: !v.inside}))}><span lang="en">Inside</span><small lang="zh-Hant">腔內構造</small></button>
           </div>
-          <small>標籤放在畫面左右兩側，以細線連到構造，隨構造轉動；只標示目前可見的瓣膜、瓣葉與腱索（瓣膜預設在心腔內，需先打開心腔）。</small>
+          <small>標籤放在畫面左右兩側，以細線連到構造，隨構造轉動；只標示目前可見的構造；「腔內構造」在打開心腔後標出該腔的界嵴、梳狀肌、卵圓窩、開口與乳突肌等（瓣膜預設在心腔內，需先打開心腔）。</small>
         </section>
         <section className="organ-block">
           <h2>Section<small>切面</small></h2>
