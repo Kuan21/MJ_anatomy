@@ -2,6 +2,17 @@
 
 最後更新：2026-11-03。規則：只改介面、效能、腳本、文件的 PR 在 `build` 通過後自動 merge；涉及模型、示意模型、解剖內容、名稱、Quiz 資料的 PR 標【需人工審核】，**一律不開 auto-merge**，等你確認。
 
+## 2026-11-05 PR #224 基準更新修正
+
+等我審核：已整合 main 並保留 test-scope。`--write`／`--shrink` 共用比對邏輯，只能刪除已修復項目或降低既有數值；新增、惡化、非有限數值或重複 finding 均拒絕寫檔。部分檢查保留其他類別及原有原因。新增 12 組回歸案例；既有 CI 補上以 mj-stability-checks 為 base 的 PR，讓 #226、#228 也會執行檢查。未合併；目前模型基準的變化需依完整檢查處理，不能重設為通過。
+
+## 穩定期 第 1 節：自動檢查（【需人工審核】，不自動 merge）
+
+**需人工審核，未合併。** 只加檢查腳本、已知清單與文件，不改模型也不改解剖內容；因為會改變 `npm run check` 的通過條件，依使用者 2026-11-03 穩定期指示，所有穩定期 PR 一律人工審核。
+- `node scripts/check-stability.mjs`（已併入 `npm run check`，也可單跑 `npm run check:stability`）：碎片、穿骨、共面疊層（z-fighting）、直線切口，以及關節極限姿勢下的三角形拉伸與脫離骨骼。CI 與 log 只輸出通過／失敗與數量；`--list` 才列結構名，`--write` 重新產生 `docs/stability-known.json` 與 `docs/stability-baseline.md`（只有結構名與數字）。
+- 目前 main 的既有違規共 1110 條，逐條登記在 `docs/stability-known.json`（含原因）：碎片 53、穿骨 458、共面疊層 93、直線切口 47（含 3 處執行時的 clipping plane）、拉伸 285、脫離骨骼 174。清單只能減少：新違規、變嚴重、或已修好卻沒從清單移除，都會讓檢查失敗。
+- 固定視角截圖：`npm run stability:shots -- --after dist --before <main 的 build>`，產生前後對照；截圖放 `pr-screenshots` 分支，不在 CI 內跑（需要瀏覽器與軟體 WebGL，約 20 分鐘）。
+- **請核對：** 閾值是否合理（見 `docs/stability-baseline.md` 開頭）；清單中哪些要先修（第 2 節 A 到 G 會逐項把對應條目移出清單）。
 ## 肺上色：噪點、壓跡透出、緣與裂只顯示為線（穩定期第 2 節 C；【需人工審核】，不自動 merge）
 
 **需人工審核，未合併。** 沒有預覽網址；重現：`npm run build`＋`vite preview`，底部「肺」→ Left／Right，用固定視角看（本機截圖腳本用 `__mjView.look`，中心 [0, 1.305, 0.005]、距離 0.55，方向前 [0,0,1]、後 [0,0,-1]、右 [-1,0,0]、左 [1,0,0]）。修改前後左右肺前後左右截圖在 `pr-screenshots` 分支 `lung-color-2026-11-04/`（`before-`／`after-`，另有拼圖與原因查證圖 `cause-hide-grid.png`）。
