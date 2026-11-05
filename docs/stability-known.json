@@ -231,11 +231,6 @@
    "measure": 3,
    "reason": "section plane of the brain or heart detail mode: a cut view on purpose, the cut face is drawn by the viewer"
   },
-  "cuts|runtime:scene.tsx": {
-   "name": "renderer clipping plane in scene.tsx",
-   "measure": 1,
-   "reason": "renderer clipping plane slices every mesh at a plane in this view; to be replaced by showing or hiding whole structures (stabilisation section 2 B)"
-  },
   "detached|FJ1981-END|shoulder flexion 150": {
    "name": "Accessory hemiazygos vein",
    "measure": 17,
