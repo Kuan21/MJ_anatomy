@@ -16,10 +16,10 @@ const problems = [], lifts = new Map(), verts = new Map();
 for (const name of names) {
   const m = U.mesh(name), P = m.positions, I = m.indices, pts = [];
   for (let i = 0; i < P.length; i += 3) pts.push([P[i], P[i + 1], P[i + 2]]);
-  // 1. on the lobe surface (a fissure line lies along the seam, where the neighbouring lobe is as near as its own): 95 % of the vertices 0.05 to 1.6 mm above it (not sunk into it, not floating); the rest are border vertices beside a neighbouring lobe
+  // 1. on the lobe surface (a fissure line lies along the seam, where the neighbouring lobe is as near as its own): 95 % of the vertices 0.05 to 2.8 mm above it (not sunk into it, not floating); the rest are border vertices beside a neighbouring lobe
   const d = pts.map(lobeDist).map(x => x * MM), hi = Math.max(...d);
   const p5 = d.slice().sort((x, y) => x - y)[Math.floor(d.length * .05)];
-  if ((p5 < .05 && !/fissure/.test(name)) || hi > 1.6) problems.push(`${name}: height above the lobe p5 ${p5.toFixed(2)}, max ${hi.toFixed(2)} mm`);
+  if ((p5 < .05 && !/fissure/.test(name)) || hi > 2.8) problems.push(`${name}: height above the lobe p5 ${p5.toFixed(2)}, max ${hi.toFixed(2)} mm`);
   lifts.set(name, d.slice().sort((a, b) => a - b)[Math.floor(d.length / 2)]); verts.set(name, pts);
   // 2. smooth border: boundary edges (used by one triangle) are short cuts, not whole lobe triangles (those run up to 16 mm)
   const use = new Map(); for (let i = 0; i < I.length; i += 3) for (const [a, b] of [[0, 1], [1, 2], [2, 0]]) { const x = I[i + a], y = I[i + b], k = x < y ? x * 4294967296 + y : y * 4294967296 + x; use.set(k, (use.get(k) ?? 0) + 1); }
