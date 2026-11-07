@@ -3,7 +3,7 @@ import {flushSync} from 'react-dom';
 import {registerAtlasTools} from './agent-tools';
 import {Fragment,Suspense,lazy,useCallback,useEffect,useMemo,useRef,useState} from 'react';
 import {PronounceButton} from './pronunciation/PronounceButton';
-import {Activity,ArrowUpRight,Play,Maximize2,ChevronRight,EyeOff,GraduationCap,Focus,Tag,Info,Layers3,Pause,RotateCcw,RotateCw,Search,Undo2,X} from 'lucide-react';
+import {Activity,ArrowUpRight,Play,Maximize2,ChevronRight,EyeOff,GraduationCap,Focus,Tag,Info,Layers3,Pause,RotateCcw,RotateCw,Search,Target,Undo2,X} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {Badge} from '@/components/ui/badge';
 import {Switch} from '@/components/ui/switch';
@@ -17,6 +17,7 @@ import MotionAnatomyPanel,{UPPER_ACTION_ANATOMY} from './motion-anatomy';
 import {DEFAULT_VISIBLE,SYSTEMS,EXPLANATIONS,explanation,type Atlas,type Part,type OutlineRef,type Concept,type SceneState,type SystemId,type View} from './anatomy';
 import {ANATOMY_REGIONS,regionById,type RegionId} from './mj-regions';
 import {flowTargetFor} from '../lib/pathways/card-map';
+import ActiveFilters,{type FilterChip} from './active-filters';
 import {selectOnly,withCameraFocus} from './selection-state';
 import {readHoverLabels,writeHoverLabels} from './hover-labels';
 import {resolveDissection} from './mj-dissection';
@@ -510,6 +511,15 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const sceneState=lungSceneState??baseSceneState;
  // a label opens the data card of its structure without moving the camera
  const pickLabel=(id:string)=>{const p=parts.get(id);if(!p)return;setExternalNerve(null);setChosen({id:p.conceptId,name:p.name,elements:[id]});setState(s=>({...s,selected:[id]}));setDetails(true);setPanel(null);};
+ const DEPTH_LABEL:Record<TissueDepth,string>={all:'全部',superficial:'淺層',intermediate:'中層',deep:'深層'};
+ const hiddenCount=(state.hiddenParts?.length??0)+(state.hiddenNerves?.length??0);
+ const filterChips:FilterChip[]=[
+  ...(state.depthFilter&&state.depthFilter!=='all'?[{id:'depth',label:`組織深度：${DEPTH_LABEL[state.depthFilter]}`,onClear:()=>setDepth('all')}]:[]),
+  ...(state.muscleLayer&&state.muscleLayer!=='all'?[{id:'muscle-layer',label:`肌肉分層：第 ${state.muscleLayer} 層`,onClear:()=>setMuscleLayer('all')}]:[]),
+  ...(state.faceMuscleLayer&&state.faceMuscleLayer!=='all'?[{id:'face-layer',label:`頭面肌肉：第 ${state.faceMuscleLayer} 層`,onClear:()=>setFaceMuscleLayer('all')}]:[]),
+  ...(hiddenCount>0&&!lungView?[{id:'hidden',label:`已隱藏 ${hiddenCount} 件`,onClear:restoreHidden}]:[]),
+  ...(state.isolate?[{id:'isolate',label:'單獨顯示所選結構',onClear:()=>setState(s=>({...s,isolate:false}))}]:[]),
+ ];
  return <main className="studio">
   {microAtlas?<MicroAtlasScene atlasId={microAtlas} onExit={()=>setMicroAtlas(null)}/>:atlas&&<AnatomyScene atlas={atlas} state={{...sceneState,inspectorOpen:details&&(selectedParts.length>0||!!externalNerve)}} onSelect={choosePart} onClear={clearSelection} onLabelPick={pickLabel} onSelectNerve={chooseNerve} onSelectionView={setSelView} hoverNames={hoverLabels} onProgress={setProgress} onLoadStatus={setLoadStatus} retryNonce={retryNonce} onError={setError} onJointDrag={nudgeJoint} region={region} focusSide={state.focusParts?studySide:'both'} motionActive={motionEdit&&!!state.focusParts} jointMotionEnabled={motionEnabled} selectedExternalNerve={externalNerve} bodyArea={topRegion}/>}
   <div className="vignette"/>
@@ -530,7 +540,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
     {primarySystems.map(s=>{
      // Tendons are a child of Muscles: shown under it, greyed out and locked (and never drawn) while Muscles is off
      const child=s.id==='tendon',musclesOn=state.visible.includes('muscular'),on=state.visible.includes(s.id)&&(!child||musclesOn);
-     return <div className={`system-row ${on?'enabled':''} ${child?'system-child':''} ${child&&!musclesOn?'locked':''}`} key={s.id}><Button variant="ghost" className="system-name" title={child?(musclesOn?'只顯示肌肉與肌腱｜Show muscles with their tendons only':'肌腱跟著肌肉顯示：先開啟肌肉｜Tendons follow Muscles: turn Muscles on first'):`只顯示${s.zh}｜Show only ${s.name.toLowerCase()}${s.id==='connective'?'（腱鞘、腕背伸肌間隔與掌腱膜跟著肌肉，肌肉關閉時不顯示｜Tendon sheaths and the palmar aponeurosis follow their muscle)':''}`} onClick={()=>setState(v=>({...v,visible:child?['muscular','tendon']:[s.id],isolate:false,selected:[]}))}><span className="system-dot" style={{background:s.color}}/><span className="system-en">{s.name}</span><small className="system-zh">{s.zh}</small><span className="system-count">{counts[s.id]}</span></Button><Switch checked={on} disabled={child&&!musclesOn} onCheckedChange={()=>toggle(s.id)} aria-label={`Show ${s.name.toLowerCase()}`} /></div>;})}
+     return <div className={`system-row ${on?'enabled':''} ${child?'system-child':''} ${child&&!musclesOn?'locked':''}`} key={s.id}><Button variant="ghost" className="system-name" title={`${on?'隱藏':'顯示'}${s.zh}｜${on?'Hide':'Show'} ${s.name.toLowerCase()}${s.id==='connective'?'（腱鞘、腕背伸肌間隔與掌腱膜跟著肌肉，肌肉關閉時不顯示｜Tendon sheaths and the palmar aponeurosis follow their muscle)':''}`}  onClick={()=>{if(!(child&&!musclesOn))toggle(s.id);}}><span className="system-dot" style={{background:s.color}}/><span className="system-en">{s.name}</span><small className="system-zh">{s.zh}</small><span className="system-count">{counts[s.id]}</span></Button><Button variant="ghost" className="system-solo" disabled={child&&!musclesOn} title={`只顯示${child?'肌肉與肌腱':s.zh}｜Show only ${child?'muscles with tendons':s.name.toLowerCase()}`} aria-label={`只顯示${child?'肌肉與肌腱':s.zh}`} onClick={()=>setState(v=>({...v,visible:child?['muscular','tendon']:[s.id],depthFilter:'all',isolate:false,selected:[]}))}><Target size={13} aria-hidden="true"/></Button><Switch checked={on} disabled={child&&!musclesOn} onCheckedChange={()=>toggle(s.id)} aria-label={`Show ${s.name.toLowerCase()}`} /></div>;})}
     {organSystems.length>0&&<div className={`organ-layer ${organsOpen?'open':''}`}>
      <div className={`system-row organ-parent ${anyOrganVisible?'enabled':''}`}>
       <Button variant="ghost" className="system-name organ-expand" aria-expanded={organsOpen} onClick={()=>setOrgansOpen(v=>!v)}><ChevronRight size={13}/><span className="system-dot organ-dot"/><span>Organs</span><span className="system-count">{organPieceCount}</span></Button>
@@ -575,6 +585,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
    <label className="lung-focus-row"><span className="bn-stack"><span className="bn-en">Pulmonary vessels</span><small className="bn-zh">肺血管（肺動脈、肺靜脈）</small></span><Switch checked={lungInner.vessels&&state.visible.includes('arterial')&&state.visible.includes('venous')} onCheckedChange={on=>setLungInnerParts({...lungInner,vessels:!!on,touched:true})} aria-label="顯示肺血管"/></label>
    <small className="lung-focus-help"><span>Only the respiratory system is shown; the see-through rib cage follows the Skeleton switch (the Rib cage reference switch above is the same switch). The pleura is off until you press ＋. Lowering the lung opacity switches on the bronchial tree and pulmonary vessels.</span><span>只顯示呼吸系統；半透明胸廓跟著 Skeleton 開關（上方的「胸廓參照」就是同一個開關）。胸膜預設關閉，按「＋」加開。降低肺透明度會自動打開支氣管樹與肺血管，才看得到肺內構造。</span></small>
   </aside>}
+  {!microAtlas&&<ActiveFilters chips={filterChips}/>}
   {panel==='search'&&<SearchPanel index={searchIndex} onChoose={chooseStable} onClose={closePanel}/>}
   <aside id="motion-workspace" className={`right-workspace ${mobileMotionOpen?'mobile-motion-open':''}`} aria-label="模型檢視與關節動作">
    <Button variant="ghost" className="mobile-only motion-close" onClick={()=>setMobileMotionOpen(false)} aria-label="關閉動作面板">收起動作 <X size={18}/></Button>
