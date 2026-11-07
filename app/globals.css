@@ -1296,7 +1296,9 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 .active-filters .active-filter-clear{border-style:dashed}
 .active-filters button:hover{background:#eef3f1}
 @media(max-width:767px){.active-filters{max-width:calc(100vw - 24px);bottom:calc(72px + env(safe-area-inset-bottom))}.active-filters button{min-height:36px}}
-.system-solo{flex:none;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;min-width:28px;padding:0;border-radius:7px;color:#8a949e;opacity:.7}
+.system-row .system-solo{margin-left:-4px;margin-right:-2px}
+.system-solo{flex:none;display:inline-flex;align-items:center;justify-content:center;width:24px;height:28px;min-width:24px;padding:0;border-radius:7px;color:#8a949e;opacity:.7}
 .system-solo:hover:not(:disabled){opacity:1;background:#eef3f1;color:#394957}
 .system-solo:disabled{opacity:.3;cursor:default}
 @media(pointer:coarse){.system-solo{width:36px;height:36px;min-width:36px}}
+.layers-panel .system-row{gap:5px}
