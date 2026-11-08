@@ -39,7 +39,7 @@ import bodyNerveData from './biomechanics-v2/body-nerve-bindings.json';
 import blockedOverlay from './biomechanics-v2/blocked-overlay-meshes.json';
 const blockedOverlayMeshes=new Set<string>(blockedOverlay.names);
 import {nerveChunkScene,type NerveCatalogue} from './nerve-stream';
-import {LUNG_CATEGORY,type LungCategoryKey} from './mj-lung-categories';
+import {LUNG_CATEGORY,lungStackRank,type LungCategoryKey} from './mj-lung-categories';
 import {surfaceEdgeDepth} from './mj-surface-edge';
 import {buildOwners,referenceMuscles} from './mj-owners';
 import {partVisibility} from './mj-part-visibility';
@@ -476,7 +476,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
     // Selection (UI rule: picking a structure only outlines it): an ordinary pick keeps the structure's own colour and gets a thin soft mint outline (selectFill 0); a special-region view (selectFill 1, boundaries and contents) still tints the structures. Tint: soft mint (#5DB89A) at 0.85 plus a thin outline (about 2 px, measured with fwidth) in a deeper shade of the same hue; it never turns white, so thin structures that hug a surface do not show light shards. Hover: lighter tint of the same hue. Applied after lighting so it reads on white and on red muscle.
     shader.fragmentShader=shader.fragmentShader.replace('#include <dithering_fragment>','#include <dithering_fragment>\n'+(m.userData.mjLungMark?'if (lungSel > 0.5) { float halo = smoothstep(0.25, 0.7, vEdge) * (1.0 - smoothstep(0.88, 1.0, vEdge)); gl_FragColor.rgb = mix(gl_FragColor.rgb, mix(partTint.rgb, vec3(1.0), 0.62), halo * 0.9); gl_FragColor.a = 1.0; }\n':'')+'{ if (selOn > 0.5) { gl_FragColor.rgb = mix(gl_FragColor.rgb, selCol, 0.85 * selAmt * fillK); float ndv = abs(dot(normalize(vNormal), normalize(vViewPosition))); float edgeW = max(fwidth(ndv), 0.0005); float edge = 1.0 - smoothstep(0.0, (fillK > 0.5 ? 2.2 : 3.4) * edgeW, ndv); gl_FragColor.rgb = mix(gl_FragColor.rgb, selCol * (fillK > 0.5 ? 0.55 : 0.78), edge * (fillK > 0.5 ? 0.7 : 0.92) * selAmt); gl_FragColor.a = 1.0; } else if (partHovered > 0.5) { gl_FragColor.rgb = mix(gl_FragColor.rgb, vec3(0.655, 0.863, 0.796), partTint.a > 0.5 ? 0.25 : 0.7); } }'+(fade?'\n// Faded parts live in their own translucent batch: plain alpha blending.\nif (selOn < 0.5) gl_FragColor.a = partTint.a > 0.5 ? 0.45 : partTint.a > 0.2 ? 0.12 : 0.3;':smoothFade?'\n// A faded part is a smooth 30 % translucent surface: alpha-to-coverage on the multisampled buffer blends it without a dot pattern and keeps depth order exact.\nif (partFaded > 0.5) gl_FragColor.a = partTint.a > 0.5 ? 0.45 : partTint.a > 0.2 ? 0.12 : 0.3;':''));
     // A selected part is moved 8 mm towards the camera along the view ray (a fixed distance in the model, unlike a clip-space offset that grows with the square of the viewing distance and used to reach several centimetres) so it shows whole where it overlaps or lies just under neighbouring surfaces.
-    shader.vertexShader=shader.vertexShader.replace('#include <project_vertex>','#include <project_vertex>\nvRangePos = transformed;\nif ((partSelected > 0.5 || partHovered > 0.5)'+(m.userData.mjLungMark?' && partTint.a < 0.5':'')+') { vec4 liftedView = mvPosition; liftedView.xyz -= normalize(mvPosition.xyz) * (partSelected > 0.5 ? 0.008 : 0.004); gl_Position = projectionMatrix * liftedView; }');
+    shader.vertexShader=shader.vertexShader.replace('#include <project_vertex>','#include <project_vertex>\nvRangePos = transformed;\n'+(m.userData.mjLungMark?'// A lung mark lies 0.4 to 1.3 mm above the lobe; it is also moved 1.5 mm towards the camera along its own view ray (it stays on the same pixels), so the lobe never wins the depth test at single pixels inside a mark (the pale speckles).\n{ vec4 markView = mvPosition; markView.xyz -= normalize(mvPosition.xyz) * 0.0015; gl_Position = projectionMatrix * markView; }\n':'')+'if ((partSelected > 0.5 || partHovered > 0.5)'+(m.userData.mjLungMark?' && partTint.a < 0.5':'')+') { vec4 liftedView = mvPosition; liftedView.xyz -= normalize(mvPosition.xyz) * (partSelected > 0.5 ? 0.008 : 0.004); gl_Position = projectionMatrix * liftedView; }');
     // The outline of a special region (spaceOutline) is made of vertices that carry the skin of the boundary meshes; it moves with them but takes no part in selection, hover or fade.
     if(overlay)shader.vertexShader=shader.vertexShader.replace('partSelected = texture2D(selectionState, stateUv).r; partHovered = texture2D(selectionState, stateUv).g; partFaded = texture2D(selectionState, stateUv).b; partLimited = texture2D(selectionState, stateUv).a;','partSelected = 0.0; partHovered = 0.0; partFaded = 0.0; partLimited = 0.0;');
 
@@ -510,7 +510,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
   mats.set('connective:space',materialFor('connective',.2));mats.set('connective:fascia',materialFor('connective',.62));mats.set('connective:fascia-dense',materialFor('connective',.88));// the thick lumbar part of the thoracolumbar fascia: denser than the thin thoracic part
   // Lung surface marks (fissures, impressions, grooves, hilum) are patches of the lobe surface: the same pink and matte finish as the lobe, pulled slightly towards the camera (polygon offset) so they never fight the lobe underneath;
   // they show only when selected or hovered, and the lobes stay one colour.
-  {const mark=materialFor('respiratory');mark.color.set('#c98f8a');mark.roughness=1;mark.metalness=0;mark.envMapIntensity=.35;mark.side=T.FrontSide;mark.polygonOffset=true;mark.polygonOffsetFactor=-2;mark.polygonOffsetUnits=-2;mark.userData.mjDecal=true;mark.userData.mjLungMark=true;mats.set('respiratory:mark',mark);}
+  {const mark=materialFor('respiratory');mark.color.set('#c98f8a');mark.roughness=1;mark.metalness=0;mark.envMapIntensity=.35;mark.side=T.FrontSide;mark.polygonOffset=true;mark.polygonOffsetFactor=0;mark.polygonOffsetUnits=-4;mark.depthWrite=false;mark.userData.mjDecal=true;mark.userData.mjLungMark=true;mats.set('respiratory:mark',mark);}
   // Bone landmarks (tuberosities, tubercles, crests …) are patches lifted 0.3 mm off their bone and drawn in the bone colour: they get the same polygon offset as the lung marks, otherwise they fight the bone underneath and show as dotted, net-like patches.
   {const mark=materialFor('skeletal');mark.polygonOffset=true;mark.polygonOffsetFactor=-2;mark.polygonOffsetUnits=-2;mark.userData.mjDecal=true;mats.set('skeletal:mark',mark);}
   const renderBatches:{mesh:T.Mesh;fade:T.Mesh;parts:{index:number;offset:number;geometry:T.BufferGeometry}[];mask:string}[]=[];
@@ -689,18 +689,20 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
     pendingPickers.set(i,pick);geometries.push(g);
     g.setAttribute('partIndex',new T.BufferAttribute(new Float32Array(p.vertexCount).fill(i),1));
     // lung surface marks: distance from the border of the patch (1 at the border, 0 three edges inside) for the outline and the recess shadow
-    if(p.kind==='surface')g.setAttribute('edgeD',new T.BufferAttribute(surfaceEdgeDepth(g.index!.array,g.getAttribute('position').count),1));
+    if(p.kind==='surface'){g.setAttribute('edgeD',new T.BufferAttribute(surfaceEdgeDepth(g.index!.array,g.getAttribute('position').count),1));
+     // marks are drawn in their stacking order (see the lung mark material)
+     g.userData.lungRank=lungStackRank(p.name);}
     const key=shellOf(p),list=groups.get(key)??[];list.push(g);groups.set(key,list);
     partOrdinal++;
     if(partOrdinal%12===0)await cooperativeYield();
    }
-   groups.forEach((gs,system)=>{const geometry=mergeGeometries(gs,false);if(!geometry)throw new Error('Could not assemble anatomy geometry.');geometries.push(geometry);let vertexOffset=0;
+   groups.forEach((gs,system)=>{if(system==='respiratory:mark')gs.sort((a,b)=>(a.userData.lungRank??0)-(b.userData.lungRank??0));const geometry=mergeGeometries(gs,false);if(!geometry)throw new Error('Could not assemble anatomy geometry.');geometries.push(geometry);let vertexOffset=0;
     // A shell key with no dedicated material falls back to its system's material instead of failing the whole package.
     const material=mats.get(system as never)??mats.get(system.split(':')[0] as never);if(!material)throw new Error('No material for '+system);
     const parts:{index:number;offset:number;geometry:T.BufferGeometry}[]=[];
     for(const g of gs){const index=g.getAttribute('partIndex').getX(0),pick=pendingPickers.get(index)!;pick.userData.mergedGeometry=geometry;pick.userData.mergedOffset=vertexOffset;parts.push({index,offset:vertexOffset,geometry:g});vertexOffset+=g.getAttribute('position').count;g.deleteAttribute('partIndex');g.deleteAttribute('motionWeight');g.deleteAttribute('edgeD');pickers[index]=pick;}
     geometry.index!.setUsage(T.DynamicDrawUsage);for(const key of ['position','normal'])(geometry.getAttribute(key) as T.BufferAttribute).setUsage(T.DynamicDrawUsage);
-    const mesh=new T.Mesh(geometry,material);mesh.frustumCulled=false;scene.add(mesh);
+    const mesh=new T.Mesh(geometry,material);mesh.frustumCulled=false;if(system==='respiratory:mark')mesh.renderOrder=2;scene.add(mesh);
     const fadeGeometry=new T.BufferGeometry();for(const name of Object.keys(geometry.attributes))fadeGeometry.setAttribute(name,geometry.getAttribute(name));fadeGeometry.setIndex(new T.BufferAttribute(new Uint32Array(geometry.index!.array.length),1).setUsage(T.DynamicDrawUsage));geometries.push(fadeGeometry);
     const fade=new T.Mesh(fadeGeometry,fadeMatFor(material));fade.frustumCulled=false;fade.renderOrder=-1;fade.visible=false;scene.add(fade);renderBatches.push({mesh,fade,parts,mask:'pending'});});
    for(const [i,pick] of pendingPickers)if((!workerAvailable&&tissueBindings[atlas.parts[i].id])||(atlas.parts[i].system==='connective'&&anatomicalRegion(atlas.parts[i])==='upper-limb'))warmBindings.push(pick);
@@ -1214,7 +1216,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
   const animate=()=>{
    if(disposed)return;frame=requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05),s=poseForFrame(latest.current);
    // the lung lobes are solid and lit by default; they turn translucent only when the opacity slider is moved
-   {const o=latest.current.lungOpacity??1,t=o<.995;for(const lm of [mats.get('respiratory:shell'),mats.get('respiratory:mark')]){if(lm&&(lm.opacity!==o||lm.transparent!==t)){lm.opacity=o;lm.transparent=t;lm.depthWrite=!t;lm.needsUpdate=true;dirty=true;}}}
+   {const o=latest.current.lungOpacity??1,t=o<.995;for(const lm of [mats.get('respiratory:shell'),mats.get('respiratory:mark')]){if(lm&&(lm.opacity!==o||lm.transparent!==t)){lm.opacity=o;lm.transparent=t;lm.depthWrite=lm===mats.get('respiratory:mark')?false:!t;lm.needsUpdate=true;dirty=true;}}}
    {const pm=mats.get('serous:peritoneum'),o=latest.current.peritoneumOpacity??.3;if(pm&&pm.opacity!==o){pm.opacity=o;dirty=true;}}
    {const sv=s.cameraSaveNonce??0,bk=s.cameraBackNonce??0;if(sv!==lastCamSave){lastCamSave=sv;savedPose={p:camera.position.clone(),c:controls.target.clone(),o:currentViewOffset()};}
     if(bk!==lastCamBack){lastCamBack=bk;if(savedPose){const o=savedPose.o;moveCamera(savedPose.c,savedPose.p,o[0]||o[1]?o:null,el.clientWidth,el.clientHeight);}}}
