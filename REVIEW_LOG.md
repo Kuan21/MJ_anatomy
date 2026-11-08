@@ -2,6 +2,18 @@
 
 最後更新：2026-11-03。規則：只改介面、效能、腳本、文件的 PR 在 `build` 通過後自動 merge；涉及模型、示意模型、解剖內容、名稱、Quiz 資料的 PR 標【需人工審核】，**一律不開 auto-merge**，等你確認。
 
+## 肺面片的穩定期違規（#225 帶入 8 條；【需人工審核】，不自動 merge）
+
+**需人工審核，未合併。** #225 的 `lungs.mjs` 改動讓 `check:stability` 多出 5 條 fragments 與 3 條 zfight（Horizontal fissure of right lung、Cardiac impression of left lung、Groove for inferior vena cava、Inferior border of right lung、Anterior border of left lung；Cardiac impression of left lung 與 Groove for descending aorta 等三組 zfight）。以 `origin/mj-stability-checks` 的檢查工具（沒有 commit 進這個 PR）重現與驗證。
+
+**根本原因：** (1) 縱隔面與細條限制之後，面片留下離主體 12–20 mm 的孤立小碎片（十到一百多個三角形）。(2) 重疊的面片只差 0.03 mm 高度，檢查（0.15 mm 內算重合）把它們視為同一表面；先前以「各面片高度不同」處理，但門檻其實是 0.15 mm。
+
+**修正（`scripts/paokao-structures/lungs.mjs`，由 `prepare-paokao.mjs` 重新生成，生成檔沒有手改）：** (a) 生成時丟掉「面積小於最大一塊的四分之一，且離任何保留部分超過 3 mm（以頂點距離量）」的孤立碎片。(b) 依疊層順序為每個面片算「層」：比與它重疊（60 個以上三角形）且先畫的面片高 0.2 mm；重疊的面片至少差 0.2 mm，沒有重疊的仍在同一低高度。層只抬高面片內部，邊界頂點不動（形狀與邊緣不變，避免讓「直線切口」檢查變差）。沒有切掉任何一塊面片。`test-lung-patch-edges.mjs` 的貼面上限由 1.6 mm 放寬為 2.8 mm（最高層約 1.4 mm 加原本高度）。
+
+**驗證（`node scripts/check-stability.mjs --only=fragments,zfight,cuts,penetration`）：** 新增或變差 0 條；已修好而可從已知清單移除的有 12 條（fragments 3、zfight 6、cuts 3；清單在檢查輸出，請在 #224 合併後 `--shrink`）。肺的測試（test-lung-patch-edges、test-lung-surface、test-lung-categories、test-lung-focus）通過。
+
+**沒做到或未確認：** 最高層（左肺斜裂、左肺門）離肺葉表面約 2.4 mm，在側面輪廓處可能看得到浮起，沒有在實體 GPU 確認；內側紫色壓跡上仍有網狀淺色紋（邊框陰影的步數計算，上一個 PR 已提到，沒有改）；左肺舌葉與心切跡的長方形直邊仍在（第 1 節 f）。
+
 ## 肺上色：噪點、壓跡透出、緣與裂只顯示為線（穩定期第 2 節 C；【需人工審核】，不自動 merge）
 
 **需人工審核，未合併。** 沒有預覽網址；重現：`npm run build`＋`vite preview`，底部「肺」→ Left／Right，用固定視角看（本機截圖腳本用 `__mjView.look`，中心 [0, 1.305, 0.005]、距離 0.55，方向前 [0,0,1]、後 [0,0,-1]、右 [-1,0,0]、左 [1,0,0]）。修改前後左右肺前後左右截圖在 `pr-screenshots` 分支 `lung-color-2026-11-04/`（`before-`／`after-`，另有拼圖與原因查證圖 `cause-hide-grid.png`）。
@@ -939,6 +951,7 @@ Triangular interval 改為「三邊裂」（原「三頭肌間隙」），Clavip
 
 | 任務 | 狀態（進行中 / 已完成 / 等我審核 / 未開始 / 卡住） | PR 編號 | 備註 |
 | --- | --- | --- | --- |
+| **肺面片穩定期違規：5 條 fragments、3 條 zfight（#225 帶入）** | 等我審核（【需人工審核】，不自動 merge） | #233 | 見上方「肺面片的穩定期違規」；檢查新增或變差 0 條 |
 | **穩定期 2-C 肺上色：疊層噪點、內側壓跡透出、緣與裂只顯示為線** | 等我審核（【需人工審核】，不自動 merge） | #225 | 見上方「肺上色」；舌葉與心切跡的長方形直邊留給第 1 節 f |
 | **結構「範圍」屬性（摘要／延伸）：資訊卡、搜尋標記、Quiz 範圍選項；肺的右肺氣管接觸區等全部保留** | 等我審核（【需人工審核】，不自動 merge） | #213 | 見上方「結構『範圍』屬性」；統計在 `docs/scope-report.md` |
 | **下肢血管重建 第 3 批：脛前、脛後、腓動脈與踝部動脈（新舊並存）** | 等我審核（【需人工審核】，不自動 merge） | 見 PR | 見上方同名段落；第 4 批（足部）待你審核本批 |
