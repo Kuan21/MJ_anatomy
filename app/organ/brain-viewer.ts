@@ -41,6 +41,8 @@ const SMOOTHED = /^(frontal|parietal|temporal|occipital|limbic|insula|cortex-oth
 const NERVE_REACH = .012;
 /** While a deep structure is selected (white matter, basal nuclei, diencephalon, ventricles) the cortex and the meninges in front of it are drawn nearly transparent. */
 const COVERING = /^(frontal|parietal|temporal|occipital|limbic|insula|interlobar|cortex-other|meninges)$/, COVER_OPACITY = .12, DEEP_GROUPS = /^(white|basal|diencephalon|ventricles)$/;
+/** Glass cortex: the cerebral cortex as a smooth translucent shell. Plain alpha blending (back faces, then front faces; no depth writes, no dot pattern), so the deep structures inside stay in view. */
+const GLASS_GROUPS = /^(frontal|parietal|temporal|occipital|limbic|insula|interlobar|cortex-other)$/, GLASS_OPACITY = .26;
 const DRACO_PATH = `${import.meta.env.BASE_URL}draco/`;
 
 /** Isolated viewer for the brain detail mode: sections with solid cut surfaces, layers, picking. It never touches the atlas scene. */
@@ -157,7 +159,9 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
   const visibleIn = (p: BrainPart) => {
     if (!state) return false;
     if (state.isolate) return state.isolate.includes(p.id);
-    if (state.hiddenGroups.includes(p.group) || state.hiddenParts.includes(p.id)) return false;
+    // a selected deep structure is shown even while its layer is switched off, so the selection can be seen (the cortex turns to glass for it); clearing the selection puts the layer back
+    const forced = state.selectedIds.includes(p.id) && DEEP_GROUPS.test(p.group) && !state.hiddenParts.includes(p.id);
+    if ((state.hiddenGroups.includes(p.group) && !forced) || state.hiddenParts.includes(p.id)) return false;
     return p.layer < 0 || p.layer >= state.peel;
   };
   const apply = () => {
@@ -166,17 +170,20 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
     if (cutting) ensureCap();
     // a selected deep structure that is switched on: whatever covers it fades, so the selection can be seen and clicked
     const fadeCover = [...selected].some(id => {const p = parts.get(id); return !!p && DEEP_GROUPS.test(p.group) && visibleIn(p);});
+    // the cortex is a glass shell when the user asks for it or while a deep structure is selected
+    const glass = !!state.glass || fadeCover;
     fadedCover.clear();
     for (const [id, mesh] of meshes) {
       const part = parts.get(id)!, on = selected.has(id);
       const nerve = nerveGeometry.get(id);
       if (nerve) mesh.geometry = state.fullNerves ? nerve.full : nerve.near;
       mesh.visible = visibleIn(part);
-      const m = mesh.material, translucent = (part.group === 'arteries' || part.group === 'veins') && !state.hiddenGroups.includes('cranial') ? VESSEL_OVER_NERVES : fadeCover && !on && COVERING.test(part.group) ? COVER_OPACITY : TRANSLUCENT[part.group];
-      if (fadeCover && !on && COVERING.test(part.group)) fadedCover.add(id);
+      const m = mesh.material, translucent = (part.group === 'arteries' || part.group === 'veins') && !state.hiddenGroups.includes('cranial') ? VESSEL_OVER_NERVES : glass && !on && GLASS_GROUPS.test(part.group) ? GLASS_OPACITY : fadeCover && !on && COVERING.test(part.group) ? COVER_OPACITY : TRANSLUCENT[part.group];
+      if (glass && !on && GLASS_GROUPS.test(part.group) || fadeCover && !on && COVERING.test(part.group)) fadedCover.add(id);
       m.color.set(on ? BRAIN_SELECT.fill : part.schematic ? SCHEMATIC_COLOR : GROUP_COLOR[part.group] ?? '#cfae9a');
       m.emissive.set(on ? BRAIN_SELECT.fill : '#000000'); m.emissiveIntensity = on ? .12 : 0;
       m.transparent = translucent !== undefined && !on; m.opacity = translucent !== undefined && !on ? translucent : 1; m.depthWrite = !m.transparent;
+      m.roughness = glass && GLASS_GROUPS.test(part.group) ? .3 : .6;
       m.polygonOffset = on; m.polygonOffsetFactor = -3; m.polygonOffsetUnits = -3;
       const nextPlanes = cutting ? [plane] : []; if ((m.clippingPlanes?.length ?? 0) !== nextPlanes.length) m.needsUpdate = true; m.clippingPlanes = nextPlanes;
       if (maskData) {
