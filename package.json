@@ -20,6 +20,7 @@
     "zh:wikidata": "node scripts/fetch-zh-wikidata.mjs",
     "check:vessels": "node scripts/audit-vessel-continuity.mjs && node scripts/audit-vessel-continuity.mjs --segments && node scripts/check-vessel-tree.mjs && node scripts/check-leg-vessel-tree.mjs && node scripts/check-nerve-course.mjs && node scripts/check-back-glute.mjs",
     "check:vessels:accept": "node scripts/vessel-acceptance.mjs",
+    "check:geometry": "node scripts/audit-geometry-defects.mjs",
     "check:followers": "node scripts/test-motion-followers.mjs && node scripts/audit-motion-followers.mjs --check",
     "check:model": "node scripts/validate-atlas.mjs && node scripts/validate-model.mjs",
     "check:zh": "node scripts/check-zh.mjs",
