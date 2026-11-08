@@ -10,6 +10,10 @@
 
 **需人工審核，未合併。** `docs/gluteal-ellipse-investigation.md`：兩個米色橢圓是真的髖骨後部（點選回報 Left／Right coxal bone，網格 FJ3288／FJ3152），不是碎片或殘留；外露是因為臀大肌上緣與胸腰筋膜下緣沒有蓋到髂骨後部。建議不刪除，改補軟組織（延伸臀大肌上緣與起點，或讓胸腰筋膜下緣延伸到髂嵴與後上棘）。沒有改任何模型；等你決定。截圖（背面、斜後、側面、上方）在 `pr-screenshots` 分支，腳本 `scripts/browser/glute-ellipse.cjs`。
 
+## 2026-11-05 PR #211 整合修正
+
+等我審核：已合併最新 main 到本分支並保留雙方紀錄，解除文件衝突。未合併到 main；以本次提交 CI 結果為準。
+
 ## 肺面片的穩定期違規（#225 帶入 8 條；【需人工審核】，不自動 merge）
 
 **需人工審核，未合併。** #225 的 `lungs.mjs` 改動讓 `check:stability` 多出 5 條 fragments 與 3 條 zfight（Horizontal fissure of right lung、Cardiac impression of left lung、Groove for inferior vena cava、Inferior border of right lung、Anterior border of left lung；Cardiac impression of left lung 與 Groove for descending aorta 等三組 zfight）。以 `origin/mj-stability-checks` 的檢查工具（沒有 commit 進這個 PR）重現與驗證。
@@ -193,6 +197,10 @@ PR [#190](https://github.com/Kuan21/MJ_anatomy/pull/190)，已自動 merge。問
 - 測試：`scripts/test-select-no-camera.mjs`（已加入 `npm run check`）檢查選取只改 `selected`、各處理函式不含相機要求、Focus 構圖 400 組隨機案例都在可用區域內；`scripts/browser/select-no-camera.cjs` 在正式 build 用真滑鼠驗證（相機位置、目標、視角偏移在模型點選、搜尋、遠處搜尋後完全不變，Focus 後整個構造在可用區域內）。
 
 **沒改、請知道：** 胸壁區域視圖本身（區域列的 `regionZoom` .66）仍會把胸壁上緣切在區域列後面，這是區域取景不是選取，建議另開一個 PR 處理； 特殊區域（腋窩、四邊孔等）從搜尋或解剖區面板打開仍會移動相機（那是區域取景，不是單一構造選取）；神經、腦血管等外部網格選取後仍用原本的綠色提升效果；切面模式（心臟、腦部）本來就不依選取移動，沒有改。`cameraFocusScale` 在區域列的 .82 等縮放沒有動。
+
+## 走向路徑文件：六項決定寫入（只有文件，【需人工審核】，不自動 merge）
+
+`docs/pathways-lower-limb.md`：差異表 D1、D5、D9、D12、D22、D23 標為「已決定」，新增 2.6 節彙整六項決定，並更新受影響的步驟（股神經、脛神經與脛後動脈、腓腸神經、鎖骨下與腋動脈分界、內胸動脈分叉、臀下神經位置與四條神經次序）；第 1.1 節更正資料位置為已實作的 `lib/pathways/`；新增第 8 節，列出此文件與已 merge 的走向動畫資料（`lib/pathways/`）不一致處，未改任何程式與動畫資料。D9 只決定神經與動脈的相對位置，夾在哪兩條肌肉之間仍沿用原標準決定。
 
 ## 走向路徑文件：下肢神經（只有文件，【需人工審核】，不自動 merge）
 
@@ -953,6 +961,8 @@ Triangular interval 改為「三邊裂」（原「三頭肌間隙」），Clavip
 
 | 任務 | 狀態（進行中 / 已完成 / 等我審核 / 未開始 / 卡住） | PR 編號 | 備註 |
 | --- | --- | --- | --- |
+| **走向路徑文件：六項決定寫入（D1、D5、D9、D12、D22、D23）與動畫資料不一致清單** | 等我審核（【需人工審核】，不自動 merge） | 見 PR | `docs/pathways-lower-limb.md` 2.6 與第 8 節 |
+
 | **肺面片穩定期違規：5 條 fragments、3 條 zfight（#225 帶入）** | 等我審核（【需人工審核】，不自動 merge） | #233 | 見上方「肺面片的穩定期違規」；檢查新增或變差 0 條 |
 | **穩定期 2-C 肺上色：疊層噪點、內側壓跡透出、緣與裂只顯示為線** | 等我審核（【需人工審核】，不自動 merge） | #225 | 見上方「肺上色」；舌葉與心切跡的長方形直邊留給第 1 節 f |
 | **結構「範圍」屬性（摘要／延伸）：資訊卡、搜尋標記、Quiz 範圍選項；肺的右肺氣管接觸區等全部保留** | 等我審核（【需人工審核】，不自動 merge） | #213 | 見上方「結構『範圍』屬性」；統計在 `docs/scope-report.md` |
