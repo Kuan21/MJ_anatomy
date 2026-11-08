@@ -1,7 +1,7 @@
 import {useEffect,useRef,useState} from 'react';
 import type * as THREE from 'three';
 import {ChevronLeft,ChevronRight,Pause,Play,X} from 'lucide-react';
-import {createFlowEngine,type FlowEngine,type FlowModel} from './engine';
+import {createFlowEngine,type FlowEngine,type FlowModel,type ViewSide} from './engine';
 import type {PathwayDataset,Pt} from './types';
 import './flow-animation.css';
 
@@ -26,7 +26,8 @@ export default function FlowAnimation({data,buildModel,map,unit,highlight,initia
  const modeBtns=useRef<(HTMLButtonElement|null)[]>([]);
  const closeBtn=useRef<HTMLButtonElement>(null);
  const engineRef=useRef<FlowEngine|null>(null);
- const [paused,setPaused]=useState(false);
+ const [paused,setPaused]=useState(false),[view,setViewState]=useState<ViewSide>('auto');
+ const pickView=(v:ViewSide)=>{setViewState(v);engineRef.current?.setView(v);};
  useEffect(()=>{
   const r=refs;
   const engine=createFlowEngine({
@@ -60,6 +61,11 @@ export default function FlowAnimation({data,buildModel,map,unit,highlight,initia
      <button type="button" onClick={()=>engineRef.current?.prev()} aria-label="上一步 Previous step"><ChevronLeft size={16} aria-hidden="true"/><span>上一步</span></button>
      <button type="button" className="fa-play" onClick={()=>engineRef.current?.togglePause()} aria-pressed={paused} aria-label={paused?'播放 Play':'暫停 Pause'}>{paused?<Play size={16} aria-hidden="true"/>:<Pause size={16} aria-hidden="true"/>}<span>{paused?'播放':'暫停'}</span></button>
      <button type="button" onClick={()=>engineRef.current?.next()} aria-label="下一步 Next step"><span>下一步</span><ChevronRight size={16} aria-hidden="true"/></button>
+    </div>
+    <div className="fa-view" role="group" aria-label="視角 View">
+     <button type="button" aria-pressed={view==='auto'} onClick={()=>pickView('auto')}>導覽<small>Guided</small></button>
+     <button type="button" aria-pressed={view==='front'} onClick={()=>pickView('front')}>前面觀<small>Front</small></button>
+     <button type="button" aria-pressed={view==='back'} onClick={()=>pickView('back')}>後面觀<small>Back</small></button>
     </div>
     <ol className="fa-steps" ref={refs.steps}/>
    </header>
