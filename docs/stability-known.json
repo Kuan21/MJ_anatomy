@@ -93,27 +93,27 @@
   },
   "cuts|PK-229": {
    "name": "Oblique fissure of right lung",
-   "measure": 36.3,
+   "measure": 17.7,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
   "cuts|PK-230": {
    "name": "Horizontal fissure of right lung",
-   "measure": 29.9,
+   "measure": 17.7,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
   "cuts|PK-232": {
    "name": "Lingula of left lung",
-   "measure": 37.6,
+   "measure": 24.6,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
   "cuts|PK-234": {
    "name": "Cardiac impression of left lung",
-   "measure": 21.5,
+   "measure": 16.8,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
   "cuts|PK-235": {
    "name": "Cardiac impression of right lung",
-   "measure": 20.4,
+   "measure": 16.6,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
   "cuts|PK-244": {
@@ -124,11 +124,6 @@
   "cuts|PK-246": {
    "name": "Groove for esophagus",
    "measure": 20.5,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
-  },
-  "cuts|PK-247": {
-   "name": "Hilum of left lung",
-   "measure": 20.8,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
   "cuts|PK-331": {
@@ -143,7 +138,7 @@
   },
   "cuts|PK-334": {
    "name": "Inferior border of right lung",
-   "measure": 39.7,
+   "measure": 22.3,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
   "cuts|PK-335": {
@@ -154,11 +149,6 @@
   "cuts|PK-339": {
    "name": "Diaphragmatic surface of left lung",
    "measure": 18.7,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
-  },
-  "cuts|PK-340": {
-   "name": "Inferior border of left lung",
-   "measure": 22.1,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
   "cuts|PK-473": {
@@ -1284,21 +1274,6 @@
   "fragments|PK-185": {
    "name": "rectus sheath",
    "measure": 21,
-   "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
-  },
-  "fragments|PK-233": {
-   "name": "Cardiac notch of left lung",
-   "measure": 3,
-   "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
-  },
-  "fragments|PK-244": {
-   "name": "Esophageal impression of left lung",
-   "measure": 1,
-   "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
-  },
-  "fragments|PK-337": {
-   "name": "Contact area for thymus of left lung",
-   "measure": 1,
    "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
   },
   "fragments|PK-60-END": {
@@ -5468,47 +5443,12 @@
   },
   "zfight|PK-232|PK-233": {
    "name": "Lingula of left lung",
-   "measure": 2894,
+   "measure": 1106,
    "reason": "faces coincide with Cardiac notch of left lung: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|PK-232|PK-338": {
-   "name": "Lingula of left lung",
-   "measure": 6063,
-   "reason": "faces coincide with Anterior border of left lung: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|PK-234|PK-337": {
-   "name": "Cardiac impression of left lung",
-   "measure": 661,
-   "reason": "faces coincide with Contact area for thymus of left lung: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|PK-235|PK-245": {
-   "name": "Cardiac impression of right lung",
-   "measure": 741,
-   "reason": "faces coincide with Groove for inferior vena cava: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|PK-235|PK-246": {
-   "name": "Cardiac impression of right lung",
-   "measure": 909,
-   "reason": "faces coincide with Groove for esophagus: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|PK-235|PK-330": {
-   "name": "Cardiac impression of right lung",
-   "measure": 1042,
-   "reason": "faces coincide with Contact area for thymus of right lung: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|PK-241|PK-242": {
-   "name": "Groove for brachiocephalic vein",
-   "measure": 1695,
-   "reason": "faces coincide with Groove for superior vena cava: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|PK-243|PK-248": {
-   "name": "Groove for azygos vein",
-   "measure": 733,
-   "reason": "faces coincide with Hilum of right lung: two layers share the same surface; to be offset or one of them removed"
   },
   "zfight|PK-244|PK-335": {
    "name": "Esophageal impression of left lung",
-   "measure": 112,
+   "measure": 57,
    "reason": "faces coincide with Apex of left lung: two layers share the same surface; to be offset or one of them removed"
   }
  }
