@@ -14,16 +14,26 @@ const {LUNG_CATEGORIES, lungCategoryOf} = await quizModule('app/mj-lung-categori
 const {lungImpressors, lungContextIds, lungLinkTarget, LUNG_LABELS} = await quizModule('app/mj-lung-labels.ts');
 const {surfaceEdgeDepth} = await quizModule('app/mj-surface-edge.ts');
 
-// 1. border distance of a patch: a 4 x 4 grid of vertices has border vertices at 1 and the 2 x 2 middle vertices one edge inside (2/3)
+// 1. border fade of a patch: on a strip of a mark (4 x 4 vertices, 1 mm apart) the border vertices are 1; a crack (two triangles that do not share their vertices although the surface goes on) is not a border
 {
-  const n = 4, idx = [], at = (x, y) => y * n + x;
+  const {surfaceBorderFade} = await quizModule('app/mj-surface-edge.ts'), n = 5, pos = [], idx = [], at = (x, y) => y * n + x;
+  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) pos.push(x * .001, y * .001, 0);
   for (let y = 0; y < n - 1; y++) for (let x = 0; x < n - 1; x++) idx.push(at(x, y), at(x + 1, y), at(x + 1, y + 1), at(x, y), at(x + 1, y + 1), at(x, y + 1));
-  const d = surfaceEdgeDepth(idx, n * n);
-  assert.equal(d[at(0, 0)], 1); assert.equal(d[at(2, 0)], 1); assert.ok(Math.abs(d[at(1, 1)] - 2 / 3) < 1e-6); assert.ok(Math.abs(d[at(2, 2)] - 2 / 3) < 1e-6);
-  const closed = surfaceEdgeDepth([0, 1, 2, 0, 2, 3, 0, 3, 1, 1, 3, 2], 4);   // closed tetrahedron: no border at all
-  assert.ok(closed.every(v => v === 0), 'a patch with no border has no outline');
+  const d = surfaceBorderFade(idx, pos, .0025);
+  assert.equal(d[at(0, 0)], 1); assert.equal(d[at(4, 2)], 1); assert.ok(Math.abs(d[at(2, 2)] - 0.2) < 1e-6, 'two millimetres from the border: 1 - 2/2.5');
+  // the same area made of two halves that do not share the vertices of the line where they meet (a crack): that line is not a border
+  const pos2 = [], idx2 = [];
+  for (const x0 of [0, 2]) { const base = pos2.length / 3; for (let y = 0; y < n; y++) for (let x = 0; x < 3; x++) pos2.push((x0 + x) * .001, y * .001, 0); for (let y = 0; y < n - 1; y++) for (let x = 0; x < 2; x++) { const a = base + y * 3 + x; idx2.push(a, a + 1, a + 4, a, a + 4, a + 3); } }
+  const cracked = surfaceBorderFade(idx2, pos2, .0025);
+  assert.ok(Math.abs(cracked[2 * 3 + 2] - 0.2) < 1e-6, 'a vertex on the crack, 2 mm from the outline, is 0.2 and not 1');
+  // normals on both sides of a crack are the same after averaging by place, even when the two halves came with different ones
+  {
+    const {smoothNormalsByPlace} = await quizModule('app/mj-surface-edge.ts'), orig = pos2.map((_, i) => i % 3 === 2 ? 1 : 0), sm = smoothNormalsByPlace(idx2, pos2, orig), a = 2 * 3 + 2, b = 15 + 2 * 3;
+    assert.ok(Math.hypot(sm[a * 3] - sm[b * 3], sm[a * 3 + 1] - sm[b * 3 + 1], sm[a * 3 + 2] - sm[b * 3 + 2]) < 1e-6 && sm[a * 3 + 2] > .99, 'smooth normals across a crack');
+  }
+  const closed = surfaceBorderFade([0, 1, 2, 0, 2, 3, 0, 3, 1, 1, 3, 2], [0, 0, 0, .001, 0, 0, 0, .001, 0, 0, 0, .001], .0025);   // closed tetrahedron: no border at all
+  assert.ok(closed.every(v => v === 0), 'a patch with no border has no shadow');
 }
-
 // 2. every impressing structure, neighbour link and context structure exists in the atlas (chest copy), and every impression with a link has a card field to hang it on
 const names = new Set(atlas.parts.map(p => p.name)), patchNames = new Set(cards.filter(c => c.kind === 'surface').map(c => c.name));
 for (const [patch, list] of Object.entries(links.impressors)) { assert.ok(patchNames.has(patch), `impressor map: ${patch} is not a lung patch`); for (const n of list) assert.ok(names.has(n), `${patch}: impressing structure ${n} is not in the atlas`); assert.ok(lungCategoryOf(patch), `${patch}: no category`); }
