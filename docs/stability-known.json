@@ -3618,22 +3618,22 @@
   },
   "stretch|BP3S-FMA13358|shoulder abduction 120": {
    "name": "Right latissimus dorsi",
-   "measure": 2741,
+   "measure": 1749,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|BP3S-FMA13358|shoulder flexion 150": {
    "name": "Right latissimus dorsi",
-   "measure": 2795,
+   "measure": 2288,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|BP3S-FMA13359|shoulder abduction 120": {
    "name": "Left latissimus dorsi",
-   "measure": 2883,
+   "measure": 1684,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|BP3S-FMA13359|shoulder flexion 150": {
    "name": "Left latissimus dorsi",
-   "measure": 2908,
+   "measure": 2338,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|FJ1395M|hip flexion 120 knee flexion 130": {
@@ -3878,22 +3878,17 @@
   },
   "stretch|FJ1456M|shoulder abduction 120": {
    "name": "Left pectoralis minor",
-   "measure": 4,
+   "measure": 2,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|FJ1456M|shoulder flexion 150": {
    "name": "Left pectoralis minor",
-   "measure": 28,
+   "measure": 16,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
-  },
-  "stretch|FJ1456|shoulder abduction 120": {
-   "name": "Right pectoralis minor",
-   "measure": 4,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|FJ1456|shoulder flexion 150": {
    "name": "Right pectoralis minor",
-   "measure": 26,
+   "measure": 20,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|FJ1459M|shoulder abduction 120": {
@@ -3918,22 +3913,22 @@
   },
   "stretch|FJ1460M|shoulder abduction 120": {
    "name": "Left subclavius",
-   "measure": 10,
+   "measure": 2,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|FJ1460M|shoulder flexion 150": {
    "name": "Left subclavius",
-   "measure": 33,
+   "measure": 4,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|FJ1460|shoulder abduction 120": {
    "name": "Right subclavius",
-   "measure": 11,
+   "measure": 2,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|FJ1460|shoulder flexion 150": {
    "name": "Right subclavius",
-   "measure": 30,
+   "measure": 6,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|FJ1464M|shoulder flexion 150": {
@@ -3963,22 +3958,22 @@
   },
   "stretch|FJ1488M|shoulder abduction 120": {
    "name": "Left coracobrachialis",
-   "measure": 40,
+   "measure": 22,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|FJ1488M|shoulder flexion 150": {
    "name": "Left coracobrachialis",
-   "measure": 31,
+   "measure": 10,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|FJ1488|shoulder abduction 120": {
    "name": "Right coracobrachialis",
-   "measure": 40,
+   "measure": 25,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|FJ1488|shoulder flexion 150": {
    "name": "Right coracobrachialis",
-   "measure": 30,
+   "measure": 8,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)"
   },
   "stretch|FJ1505M|elbow flexion 140": {
