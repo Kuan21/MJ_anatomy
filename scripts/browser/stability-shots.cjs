@@ -48,5 +48,20 @@ const slug=s=>s.replace(/[^a-z0-9]+/gi,'');
   console.log('shot',key);};
  try{await organ('brain','#/organ/brain','canvas',[['',null]]);}catch(e){console.log('SKIP brain',e.message.slice(0,120));}
  try{await organ('heart','#/organ/heart','.organ-chambers button',[['closed',null],...['ra','rv','la','lv'].flatMap((id,i)=>[[id,()=>p.evaluate(n=>document.querySelectorAll('.organ-chambers button')[n].click(),i)],[id+'-open',async()=>{const t=p.locator('button',{hasText:/打開心腔/}).first();if(await t.count())await t.click();await p.waitForTimeout(9000);}]])]);}catch(e){console.log('SKIP heart',e.message.slice(0,120));}
+ // Regression views for translucent surfaces (the dotted screen-door look): the abdominal wall from the front in the default whole-body view, and the right tibia of the lower limb with only bones and nerves on.
+ // They run last because they change the system switches.
+ if(!want||want.has('regress'))try{
+  await p.goto(`http://127.0.0.1:${port}/?mjview=1`);await p.waitForSelector('.region-bar',{timeout:240000});await p.waitForTimeout(+(process.env.LOAD_WAIT||120000));await p.mouse.move(5,5);
+  const setSys=async map=>{for(const [n,on] of Object.entries(map)){const cur=await p.evaluate(n=>[...document.querySelectorAll('.system-row')].find(r=>r.textContent.includes(n))?.querySelector('[data-slot=switch]')?.getAttribute('aria-checked')==='true',n);if(cur!==on){await real(p.locator('.system-row',{hasText:n}).locator('[data-slot=switch]').first());await p.waitForTimeout(1200);}}};
+  const look=async(t,d,r)=>{await p.evaluate(([t,d,r])=>window.__mjView.look(t,d,r),[t,d,r]);await p.waitForTimeout(+(process.env.SETTLE||2500));};
+  await look([0,1.0,0],[0,0,1],3.2);await p.screenshot({path:`${out}/${tag}-regress-abdominal-wall-whole.png`});
+  await look([0,1.08,0],[0,0,1],.5);await p.screenshot({path:`${out}/${tag}-regress-abdominal-wall-close.png`});
+  await real(btn('下肢'));await p.waitForTimeout(3500);
+  await setSys({Skeleton:true,Muscles:false,Arteries:false,Veins:false,'Nervous system':true,'Connective tissue':false});
+  await real(p.locator('button',{hasText:/^右側$/}).first());await p.waitForTimeout(3000);
+  await look([-0.09,0.45,0.02],[0,0,1],.5);await p.screenshot({path:`${out}/${tag}-regress-right-tibia-front.png`});
+  await look([-0.09,0.45,0.02],[-1,0,0],.5);await p.screenshot({path:`${out}/${tag}-regress-right-tibia-side.png`});
+  console.log('shot regress');
+ }catch(e){console.log('SKIP regress',e.message.slice(0,120));}
  await b.close();console.log('done');
 })().catch(e=>{console.log('FAIL',e.message.slice(0,400));process.exit(1);});
