@@ -34,7 +34,9 @@ const STEP_DUR=10.5,GROW=4.2,CAM=1.8;
 /** 流動光點的速度（原型單位／秒）；比原型慢一半，較容易跟著看 */
 const FLOW_SPEED=.45,FLOW_SPEED_VEIN=.35;
 /** 神經比原型細（原型的粗細是示意；放到真實模型上會顯得太粗） */
-const NERVE_THICKNESS=.6;
+const NERVE_THICKNESS=.5,VESSEL_THICKNESS=.8;
+/** 管子的圓周分段數與沿路徑的分段密度（越大越圓滑；三角形數大約同比增加） */
+const TUBE_RADIAL=16,TUBE_SEG_PER_UNIT=34;
 const ease=(t:number)=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
 
 interface PathNode{
@@ -69,10 +71,10 @@ export function createFlowEngine(opt:FlowOptions):FlowEngine{
  const paths:Record<string,PathNode>={};
  function make(id:string,pts:Pt[],group:string,extra?:Partial<PathNode>){
   const curve=new THREE.CatmullRomCurve3(pts.map(W),false,'centripetal');const len=curve.getLength();
-  const ulen=len/unit,seg=Math.max(24,Math.round(ulen*28)),rad=10;
+  const ulen=len/unit,seg=Math.max(32,Math.round(ulen*TUBE_SEG_PER_UNIT)),rad=TUBE_RADIAL;
   let r=data.thickPaths.test(id)?(group==='nerve'?.05:.058):.032;
   if(id==='aorta')r=.11;if(group==='vcom')r=(id==='v_aorta'?.1:(data.thickPaths.test(id.slice(2))?.045:.026));if(id==='sci')r=.065;
-  if(group==='nerve')r*=NERVE_THICKNESS;
+  r*=group==='nerve'?NERVE_THICKNESS:VESSEL_THICKNESS;
   r*=unit;
   const geo=new THREE.TubeGeometry(curve,seg,r,rad,false);
   const c=col(COLORS[group]);
