@@ -39,7 +39,7 @@ import bodyNerveData from './biomechanics-v2/body-nerve-bindings.json';
 import blockedOverlay from './biomechanics-v2/blocked-overlay-meshes.json';
 const blockedOverlayMeshes=new Set<string>(blockedOverlay.names);
 import {nerveChunkScene,type NerveCatalogue} from './nerve-stream';
-import {LUNG_CATEGORY,type LungCategoryKey} from './mj-lung-categories';
+import {LUNG_CATEGORY,lungStackRank,type LungCategoryKey} from './mj-lung-categories';
 import {surfaceEdgeDepth} from './mj-surface-edge';
 import {buildOwners,referenceMuscles} from './mj-owners';
 import {partVisibility} from './mj-part-visibility';
@@ -61,13 +61,18 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
   const coarseTouchDevice=navigator.maxTouchPoints>1&&(typeof matchMedia!=='function'||matchMedia('(pointer: coarse)').matches||matchMedia('(any-pointer: coarse)').matches);
   const constrainedDevice=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)||coarseTouchDevice||(deviceNavigator.deviceMemory??8)<=4;
   const cooperativeYield=()=>new Promise<void>(resolve=>setTimeout(resolve,0));
+  // Pixel ratio: iPad and Mac-class tablets start at full density (the screen is large and the GPU is strong); phones and low-memory devices start at 1. While the user moves the model the ratio steps down 0.25 at a time when frames are slow and back up when they are fast (see dprStep).
+  const isPad=/iPad/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  const lowPower=/iPhone|iPod/.test(navigator.userAgent)||(deviceNavigator.deviceMemory??8)<=4||(constrainedDevice&&!isPad);
+  const dprCeil=(w:number,h:number)=>Math.min(devicePixelRatio,lowPower?1.5:w<768||h<600?1.5:2);
+  let dprNow=lowPower?1:dprCeil(innerWidth,innerHeight),lastRenderAt=0,slowFrames=0,fastFrames=0;
   let reportLoading=()=>{},supplementaryPending=0;
   type SupplementaryTask={task:()=>Promise<void>;onFailure:()=>void;label:string};
   const failedSupplementary:SupplementaryTask[]=[];
   let renderer:T.WebGLRenderer;
   const headCut=new T.Plane(new T.Vector3(0,1,0),-clavicleLevel(atlas.parts));
-  try{renderer=new T.WebGLRenderer({antialias:!constrainedDevice,alpha:false,powerPreference:'high-performance'});}catch{onError('這個瀏覽器無法啟動 3D 檢視器，請改用支援 WebGL 的瀏覽器。');return;}
-  renderer.setPixelRatio(Math.min(devicePixelRatio,constrainedDevice?1:innerWidth<768?1.5:2));renderer.setClearColor('#cbd2d6');renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;el.appendChild(renderer.domElement);
+  try{renderer=new T.WebGLRenderer({antialias:!lowPower,alpha:false,powerPreference:'high-performance'});}catch{onError('這個瀏覽器無法啟動 3D 檢視器，請改用支援 WebGL 的瀏覽器。');return;}
+  renderer.setPixelRatio(dprNow);renderer.setClearColor('#cbd2d6');renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;el.appendChild(renderer.domElement);
   renderer.domElement.setAttribute('aria-label','互動式人體解剖：拖曳旋轉、捏合或滾輪縮放、點選構造查看說明。');
   const scene=new T.Scene(),camera=new T.PerspectiveCamera(34,1,.005,100),controls=new OrbitControls(camera,renderer.domElement);
   type NerveMesh=T.Mesh<T.BufferGeometry,T.MeshStandardMaterial>;
@@ -471,7 +476,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
     // Selection (UI rule: picking a structure only outlines it): an ordinary pick keeps the structure's own colour and gets a thin soft mint outline (selectFill 0); a special-region view (selectFill 1, boundaries and contents) still tints the structures. Tint: soft mint (#5DB89A) at 0.85 plus a thin outline (about 2 px, measured with fwidth) in a deeper shade of the same hue; it never turns white, so thin structures that hug a surface do not show light shards. Hover: lighter tint of the same hue. Applied after lighting so it reads on white and on red muscle.
     shader.fragmentShader=shader.fragmentShader.replace('#include <dithering_fragment>','#include <dithering_fragment>\n'+(m.userData.mjLungMark?'if (lungSel > 0.5) { float halo = smoothstep(0.25, 0.7, vEdge) * (1.0 - smoothstep(0.88, 1.0, vEdge)); gl_FragColor.rgb = mix(gl_FragColor.rgb, mix(partTint.rgb, vec3(1.0), 0.62), halo * 0.9); gl_FragColor.a = 1.0; }\n':'')+'{ if (selOn > 0.5) { gl_FragColor.rgb = mix(gl_FragColor.rgb, selCol, 0.85 * selAmt * fillK); float ndv = abs(dot(normalize(vNormal), normalize(vViewPosition))); float edgeW = max(fwidth(ndv), 0.0005); float edge = 1.0 - smoothstep(0.0, (fillK > 0.5 ? 2.2 : 3.4) * edgeW, ndv); gl_FragColor.rgb = mix(gl_FragColor.rgb, selCol * (fillK > 0.5 ? 0.55 : 0.78), edge * (fillK > 0.5 ? 0.7 : 0.92) * selAmt); gl_FragColor.a = 1.0; } else if (partHovered > 0.5) { gl_FragColor.rgb = mix(gl_FragColor.rgb, vec3(0.655, 0.863, 0.796), partTint.a > 0.5 ? 0.25 : 0.7); } }'+(fade?'\n// Faded parts live in their own translucent batch: plain alpha blending.\nif (selOn < 0.5) gl_FragColor.a = partTint.a > 0.5 ? 0.45 : partTint.a > 0.2 ? 0.12 : 0.3;':smoothFade?'\n// A faded part is a smooth 30 % translucent surface: alpha-to-coverage on the multisampled buffer blends it without a dot pattern and keeps depth order exact.\nif (partFaded > 0.5) gl_FragColor.a = partTint.a > 0.5 ? 0.45 : partTint.a > 0.2 ? 0.12 : 0.3;':''));
     // A selected part is moved 8 mm towards the camera along the view ray (a fixed distance in the model, unlike a clip-space offset that grows with the square of the viewing distance and used to reach several centimetres) so it shows whole where it overlaps or lies just under neighbouring surfaces.
-    shader.vertexShader=shader.vertexShader.replace('#include <project_vertex>','#include <project_vertex>\nvRangePos = transformed;\nif ((partSelected > 0.5 || partHovered > 0.5)'+(m.userData.mjLungMark?' && partTint.a < 0.5':'')+') { vec4 liftedView = mvPosition; liftedView.xyz -= normalize(mvPosition.xyz) * (partSelected > 0.5 ? 0.008 : 0.004); gl_Position = projectionMatrix * liftedView; }');
+    shader.vertexShader=shader.vertexShader.replace('#include <project_vertex>','#include <project_vertex>\nvRangePos = transformed;\n'+(m.userData.mjLungMark?'// A lung mark lies 0.4 to 1.3 mm above the lobe; it is also moved 1.5 mm towards the camera along its own view ray (it stays on the same pixels), so the lobe never wins the depth test at single pixels inside a mark (the pale speckles).\n{ vec4 markView = mvPosition; markView.xyz -= normalize(mvPosition.xyz) * 0.0015; gl_Position = projectionMatrix * markView; }\n':'')+'if ((partSelected > 0.5 || partHovered > 0.5)'+(m.userData.mjLungMark?' && partTint.a < 0.5':'')+') { vec4 liftedView = mvPosition; liftedView.xyz -= normalize(mvPosition.xyz) * (partSelected > 0.5 ? 0.008 : 0.004); gl_Position = projectionMatrix * liftedView; }');
     // The outline of a special region (spaceOutline) is made of vertices that carry the skin of the boundary meshes; it moves with them but takes no part in selection, hover or fade.
     if(overlay)shader.vertexShader=shader.vertexShader.replace('partSelected = texture2D(selectionState, stateUv).r; partHovered = texture2D(selectionState, stateUv).g; partFaded = texture2D(selectionState, stateUv).b; partLimited = texture2D(selectionState, stateUv).a;','partSelected = 0.0; partHovered = 0.0; partFaded = 0.0; partLimited = 0.0;');
 
@@ -494,7 +499,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
    [/^rectum$/i,'rectum','#c7a27c',undefined,'digestive']
   ];
   const pelvicTone=(p:{name:string;system:string})=>PELVIC_TONES.find(t=>t[4]===p.system&&t[0].test(p.name));
-  const shellOf=(p:{name:string;system:string;kind?:string})=>p.system==='serous'&&PERITONEUM_KEYS.includes(serousLayerKey(p.name))?'serous:peritoneum':pelvicTone(p)?'pelvic:'+pelvicTone(p)![1]:p.kind==='space'||p.kind==='sheath'?'connective:space':p.kind==='fascia'||p.kind==='aponeurosis'?'connective:fascia':p.kind==='surface'?'respiratory:mark':p.kind==='landmark'?'skeletal:mark':isShellSurface(p.name)?p.system+':shell':p.system;
+  const shellOf=(p:{name:string;system:string;kind?:string})=>p.system==='serous'&&PERITONEUM_KEYS.includes(serousLayerKey(p.name))?'serous:peritoneum':pelvicTone(p)?'pelvic:'+pelvicTone(p)![1]:p.kind==='space'||p.kind==='sheath'?'connective:space':p.kind==='fascia'||p.kind==='aponeurosis'?'connective:fascia':p.kind==='fascia-dense'?'connective:fascia-dense':p.kind==='surface'?'respiratory:mark':p.kind==='landmark'?'skeletal:mark':isShellSurface(p.name)?p.system+':shell':p.system;
   // The lung lobes: one pink, one material for every lobe. Matte (roughness 1, weak reflections of the room) because a glossy surface turned the upper lobes, which face the key light, into pure white glare;
   // closed meshes seen from outside, so front faces only (the back faces drawn through a see-through lobe made it patchy).
   {const lungMat=materialFor('respiratory',.32);lungMat.color.set('#c98f8a');lungMat.roughness=1;lungMat.metalness=0;lungMat.envMapIntensity=.35;lungMat.side=T.FrontSide;mats.set('respiratory:shell',lungMat);}mats.set('serous:shell',materialFor('serous',.28));
@@ -502,9 +507,10 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
   // Course-summary structures: spaces and sheaths are faint volumes, fasciae thin translucent sheets, lung surface marks a deeper tint of the lung colour.
   // Tendons: white with a silver sheen (smoother and more reflective than muscle, clearly paler than the grey-green ligaments).
   {const tm=mats.get('tendon');if(tm){tm.color.set('#f4f4f1');tm.roughness=.28;tm.metalness=.35;tm.envMapIntensity=1.2;}}
-  mats.set('connective:space',materialFor('connective',.2));mats.set('connective:fascia',materialFor('connective',.62));// Lung surface marks (fissures, impressions, grooves, hilum) are patches of the lobe surface: the same pink and matte finish as the lobe, pulled slightly towards the camera (polygon offset) so they never fight the lobe underneath;
+  mats.set('connective:space',materialFor('connective',.2));mats.set('connective:fascia',materialFor('connective',.62));mats.set('connective:fascia-dense',materialFor('connective',.88));// the thick lumbar part of the thoracolumbar fascia: denser than the thin thoracic part
+  // Lung surface marks (fissures, impressions, grooves, hilum) are patches of the lobe surface: the same pink and matte finish as the lobe, pulled slightly towards the camera (polygon offset) so they never fight the lobe underneath;
   // they show only when selected or hovered, and the lobes stay one colour.
-  {const mark=materialFor('respiratory');mark.color.set('#c98f8a');mark.roughness=1;mark.metalness=0;mark.envMapIntensity=.35;mark.side=T.FrontSide;mark.polygonOffset=true;mark.polygonOffsetFactor=-2;mark.polygonOffsetUnits=-2;mark.userData.mjDecal=true;mark.userData.mjLungMark=true;mats.set('respiratory:mark',mark);}
+  {const mark=materialFor('respiratory');mark.color.set('#c98f8a');mark.roughness=1;mark.metalness=0;mark.envMapIntensity=.35;mark.side=T.FrontSide;mark.polygonOffset=true;mark.polygonOffsetFactor=0;mark.polygonOffsetUnits=-4;mark.depthWrite=false;mark.userData.mjDecal=true;mark.userData.mjLungMark=true;mats.set('respiratory:mark',mark);}
   // Bone landmarks (tuberosities, tubercles, crests …) are patches lifted 0.3 mm off their bone and drawn in the bone colour: they get the same polygon offset as the lung marks, otherwise they fight the bone underneath and show as dotted, net-like patches.
   {const mark=materialFor('skeletal');mark.polygonOffset=true;mark.polygonOffsetFactor=-2;mark.polygonOffsetUnits=-2;mark.userData.mjDecal=true;mats.set('skeletal:mark',mark);}
   const renderBatches:{mesh:T.Mesh;fade:T.Mesh;parts:{index:number;offset:number;geometry:T.BufferGeometry}[];mask:string}[]=[];
@@ -683,18 +689,20 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
     pendingPickers.set(i,pick);geometries.push(g);
     g.setAttribute('partIndex',new T.BufferAttribute(new Float32Array(p.vertexCount).fill(i),1));
     // lung surface marks: distance from the border of the patch (1 at the border, 0 three edges inside) for the outline and the recess shadow
-    if(p.kind==='surface')g.setAttribute('edgeD',new T.BufferAttribute(surfaceEdgeDepth(g.index!.array,g.getAttribute('position').count),1));
+    if(p.kind==='surface'){g.setAttribute('edgeD',new T.BufferAttribute(surfaceEdgeDepth(g.index!.array,g.getAttribute('position').count),1));
+     // marks are drawn in their stacking order (see the lung mark material)
+     g.userData.lungRank=lungStackRank(p.name);}
     const key=shellOf(p),list=groups.get(key)??[];list.push(g);groups.set(key,list);
     partOrdinal++;
     if(partOrdinal%12===0)await cooperativeYield();
    }
-   groups.forEach((gs,system)=>{const geometry=mergeGeometries(gs,false);if(!geometry)throw new Error('Could not assemble anatomy geometry.');geometries.push(geometry);let vertexOffset=0;
+   groups.forEach((gs,system)=>{if(system==='respiratory:mark')gs.sort((a,b)=>(a.userData.lungRank??0)-(b.userData.lungRank??0));const geometry=mergeGeometries(gs,false);if(!geometry)throw new Error('Could not assemble anatomy geometry.');geometries.push(geometry);let vertexOffset=0;
     // A shell key with no dedicated material falls back to its system's material instead of failing the whole package.
     const material=mats.get(system as never)??mats.get(system.split(':')[0] as never);if(!material)throw new Error('No material for '+system);
     const parts:{index:number;offset:number;geometry:T.BufferGeometry}[]=[];
     for(const g of gs){const index=g.getAttribute('partIndex').getX(0),pick=pendingPickers.get(index)!;pick.userData.mergedGeometry=geometry;pick.userData.mergedOffset=vertexOffset;parts.push({index,offset:vertexOffset,geometry:g});vertexOffset+=g.getAttribute('position').count;g.deleteAttribute('partIndex');g.deleteAttribute('motionWeight');g.deleteAttribute('edgeD');pickers[index]=pick;}
     geometry.index!.setUsage(T.DynamicDrawUsage);for(const key of ['position','normal'])(geometry.getAttribute(key) as T.BufferAttribute).setUsage(T.DynamicDrawUsage);
-    const mesh=new T.Mesh(geometry,material);mesh.frustumCulled=false;scene.add(mesh);
+    const mesh=new T.Mesh(geometry,material);mesh.frustumCulled=false;if(system==='respiratory:mark')mesh.renderOrder=2;scene.add(mesh);
     const fadeGeometry=new T.BufferGeometry();for(const name of Object.keys(geometry.attributes))fadeGeometry.setAttribute(name,geometry.getAttribute(name));fadeGeometry.setIndex(new T.BufferAttribute(new Uint32Array(geometry.index!.array.length),1).setUsage(T.DynamicDrawUsage));geometries.push(fadeGeometry);
     const fade=new T.Mesh(fadeGeometry,fadeMatFor(material));fade.frustumCulled=false;fade.renderOrder=-1;fade.visible=false;scene.add(fade);renderBatches.push({mesh,fade,parts,mask:'pending'});});
    for(const [i,pick] of pendingPickers)if((!workerAvailable&&tissueBindings[atlas.parts[i].id])||(atlas.parts[i].system==='connective'&&anatomicalRegion(atlas.parts[i])==='upper-limb'))warmBindings.push(pick);
@@ -891,7 +899,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
    controls.target.set(extent>.1&&el.clientWidth>767?-packingWidth*.12:0,extent>.1||mobile?.85:.93,0);camera.position.copy(controls.target).addScaledVector(direction,distance);controls.update();dirty=true;
   };
   // A resize (device rotation, window, keyboard) keeps the view the user set up; only an untouched default view is framed again.
-  const resize=()=>{layoutKey='';lastState=null;renderer.setPixelRatio(Math.min(devicePixelRatio,constrainedDevice?1:el.clientWidth<768||el.clientHeight<600?1.5:2));camera.aspect=el.clientWidth/el.clientHeight;camera.updateProjectionMatrix();renderer.setSize(el.clientWidth,el.clientHeight);if(!userMoved&&!latest.current.selected.length&&!selectedNerve.current){lastCameraFocus=-1;camera.clearViewOffset();fit(latest.current.view,amount);}else dirty=true;};const observer=new ResizeObserver(resize);observer.observe(el);
+  const resize=()=>{layoutKey='';lastState=null;dprNow=Math.min(dprNow,dprCeil(el.clientWidth,el.clientHeight));renderer.setPixelRatio(dprNow);camera.aspect=el.clientWidth/el.clientHeight;camera.updateProjectionMatrix();renderer.setSize(el.clientWidth,el.clientHeight);if(!userMoved&&!latest.current.selected.length&&!selectedNerve.current){lastCameraFocus=-1;camera.clearViewOffset();fit(latest.current.view,amount);}else dirty=true;};const observer=new ResizeObserver(resize);observer.observe(el);
   // Labels of a picked special region: one small label per boundary / content structure, joined by a thin line to the point of the structure nearest the middle of the region.
   // Labels start below the region bar and the top toolbar (they used to be laid out from 80 px down and the top label disappeared behind the bar): the lowest edge of those elements, measured in view coordinates, is the upper limit of every label column.
   const labelTopLimit=(rect:DOMRect,fallback:number)=>{let top=fallback;for(const q of ['.body-region-nav','.top-actions','.identity']){const r=document.querySelector(q)?.getBoundingClientRect();if(r&&r.width>0&&r.height>0)top=Math.max(top,r.bottom-rect.top+10);}return top;};
@@ -1047,7 +1055,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
    let nearest=Infinity,found=-1,softNearest=Infinity,softFound=-1;const hasSolid=atlas.parts.some((p,i)=>p.system!=='integumentary'&&data[i*4+3]>.5);
    // Faded parts (autoFade, a region's surroundings) and see-through shells (serous membranes, sheaths, fasciae, a translucent lung) are picked only when nothing solid lies on the ray: they must not catch the click meant for what shows through them.
    const lungSeeThrough=(latest.current.lungOpacity??1)<.995;
-   const soft=(i:number)=>{const p=atlas.parts[i];return selectedData[i*4+2]>.5||p.system==='serous'||p.kind==='space'||p.kind==='sheath'||p.kind==='fascia'||p.kind==='aponeurosis'||(lungSeeThrough&&isShellSurface(p.name));};
+   const soft=(i:number)=>{const p=atlas.parts[i];return selectedData[i*4+2]>.5||p.system==='serous'||p.kind==='space'||p.kind==='sheath'||p.kind==='fascia'||p.kind==='fascia-dense'||p.kind==='aponeurosis'||(lungSeeThrough&&isShellSurface(p.name));};
    pickers.forEach((picker,i)=>{if(!picker||data[i*4+3]<.5||(hasSolid&&atlas.parts[i].system==='integumentary'))return;const mesh=pickTarget(i,picker);worldBox.copy(mesh.geometry.boundingBox??bounds[i]).applyMatrix4(mesh.matrixWorld);if(!raycaster.ray.intersectBox(worldBox,hitPoint))return;const hits=raycaster.intersectObject(mesh,false);if(!hits[0])return;if(soft(i)){if(hits[0].distance<softNearest){softNearest=hits[0].distance;softFound=i;}}else if(hits[0].distance<nearest){nearest=hits[0].distance;found=i;}});
    for(const {mesh,parent} of cervicalVessels.rows){if(!mesh.visible)continue;const hit=raycaster.intersectObject(mesh,false)[0];if(hit&&hit.distance<nearest){nearest=hit.distance;found=atlas.parts.findIndex(p=>p.id===parent.id);}}
    if(found<0&&softFound>=0){found=softFound;nearest=softNearest;}
@@ -1208,7 +1216,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
   const animate=()=>{
    if(disposed)return;frame=requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05),s=poseForFrame(latest.current);
    // the lung lobes are solid and lit by default; they turn translucent only when the opacity slider is moved
-   {const o=latest.current.lungOpacity??1,t=o<.995;for(const lm of [mats.get('respiratory:shell'),mats.get('respiratory:mark')]){if(lm&&(lm.opacity!==o||lm.transparent!==t)){lm.opacity=o;lm.transparent=t;lm.depthWrite=!t;lm.needsUpdate=true;dirty=true;}}}
+   {const o=latest.current.lungOpacity??1,t=o<.995;for(const lm of [mats.get('respiratory:shell'),mats.get('respiratory:mark')]){if(lm&&(lm.opacity!==o||lm.transparent!==t)){lm.opacity=o;lm.transparent=t;lm.depthWrite=lm===mats.get('respiratory:mark')?false:!t;lm.needsUpdate=true;dirty=true;}}}
    {const pm=mats.get('serous:peritoneum'),o=latest.current.peritoneumOpacity??.3;if(pm&&pm.opacity!==o){pm.opacity=o;dirty=true;}}
    {const sv=s.cameraSaveNonce??0,bk=s.cameraBackNonce??0;if(sv!==lastCamSave){lastCamSave=sv;savedPose={p:camera.position.clone(),c:controls.target.clone(),o:currentViewOffset()};}
     if(bk!==lastCamBack){lastCamBack=bk;if(savedPose){const o=savedPose.o;moveCamera(savedPose.c,savedPose.p,o[0]||o[1]?o:null,el.clientWidth,el.clientHeight);}}}
@@ -1398,7 +1406,11 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
    {const sig=s.selected.join(',')+'|'+(selectedNerve.current??'')+'|'+((s.hiddenParts??[]).length)+'|'+s.visible.join(',')+'|'+(s.isolate?1:0)+'|'+s.muscleLayer+'|'+(s.depthFilter??'');selectFill.value=s.spaceSolid?0:(s.spaceContentIds?.length||s.spaceRangeIds?.length||s.highlightNerves?.length||s.spaceRange)?1:0;
     if(sig!==selViewKey){selViewKey=sig;reportSelView(null);selViewDue=performance.now()+260;}else if(dirty)selViewDue=performance.now()+260;
     if(selViewDue&&performance.now()>=selViewDue&&!cameraTween&&ready){selViewDue=0;checkSelectionView(s);}}
-   if(dirty){renderer.render(scene,camera);updateLabels();updatePartLabels();targets=[];if(amount>.45){const hasSolid=atlas.parts.some((p,i)=>p.system!=='integumentary'&&data[i*4+3]>.5);atlas.parts.forEach((p,i)=>{if(data[i*4+3]<.5||(hasSolid&&p.system==='integumentary'))return;let left=Infinity,right=-Infinity,top=Infinity,bottom=-Infinity;for(let corner=0;corner<8;corner++){projected.set(p.bounds[(corner&1)?1:0][0]+data[i*4],p.bounds[(corner&2)?1:0][1]+data[i*4+1],p.bounds[(corner&4)?1:0][2]+data[i*4+2]).project(camera);const x=(projected.x+1)*el.clientWidth/2,y=(1-projected.y)*el.clientHeight/2;left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y);}projected.copy(centers[i]).add(new T.Vector3(data[i*4],data[i*4+1],data[i*4+2])).project(camera);if(projected.z< -1||projected.z>1)return;targets.push({index:i,x:(projected.x+1)*el.clientWidth/2,y:(1-projected.y)*el.clientHeight/2,left,right,top,bottom});});}dirty=false;}
+   if(dirty){{const now=performance.now(),dt=now-lastRenderAt;lastRenderAt=now;
+     if(dt<100){if(dt>30){slowFrames++;fastFrames=0;}else if(dt<20){fastFrames++;slowFrames=0;}else{slowFrames=0;fastFrames=0;}
+      const ceil=dprCeil(el.clientWidth,el.clientHeight),next=slowFrames>=20&&dprNow>1?Math.max(1,dprNow-.25):fastFrames>=180&&dprNow<ceil?Math.min(ceil,dprNow+.25):dprNow;
+      if(next!==dprNow){dprNow=next;slowFrames=0;fastFrames=0;renderer.setPixelRatio(dprNow);renderer.setSize(el.clientWidth,el.clientHeight);}}else{slowFrames=0;fastFrames=0;}}
+   renderer.render(scene,camera);updateLabels();updatePartLabels();targets=[];if(amount>.45){const hasSolid=atlas.parts.some((p,i)=>p.system!=='integumentary'&&data[i*4+3]>.5);atlas.parts.forEach((p,i)=>{if(data[i*4+3]<.5||(hasSolid&&p.system==='integumentary'))return;let left=Infinity,right=-Infinity,top=Infinity,bottom=-Infinity;for(let corner=0;corner<8;corner++){projected.set(p.bounds[(corner&1)?1:0][0]+data[i*4],p.bounds[(corner&2)?1:0][1]+data[i*4+1],p.bounds[(corner&4)?1:0][2]+data[i*4+2]).project(camera);const x=(projected.x+1)*el.clientWidth/2,y=(1-projected.y)*el.clientHeight/2;left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y);}projected.copy(centers[i]).add(new T.Vector3(data[i*4],data[i*4+1],data[i*4+2])).project(camera);if(projected.z< -1||projected.z>1)return;targets.push({index:i,x:(projected.x+1)*el.clientWidth/2,y:(1-projected.y)*el.clientHeight/2,left,right,top,bottom});});}dirty=false;}
 
   };animate();
   // ?mjview=1 exposes the camera for the screenshot scripts (view a structure from a chosen side and distance); nothing in the app uses it.

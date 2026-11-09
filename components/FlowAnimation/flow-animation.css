@@ -14,7 +14,7 @@
 .dark .flow-anim,.flow-anim[data-theme="dark"]{--fa-stage:#2a3238;--fa-panel:#1b2126;--fa-ink:#e7ecef;--fa-muted:#9aa7b0;--fa-line:#2e373d;--fa-accent:#5cc79d;--fa-accent-soft:#1f3a30;--fa-tag:#232b31;--fa-tag-ink:#e7ecef;color-scheme:dark}
 .flow-anim *,.flow-anim *::before,.flow-anim *::after{box-sizing:border-box}
 .flow-anim .fa-stage{position:relative;flex:3 1 0;min-width:0;background:var(--fa-stage);overflow:hidden}
-.flow-anim .fa-stage canvas{display:block;width:100%;height:100%;touch-action:none;cursor:default}
+.flow-anim .fa-stage canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
 .flow-anim .fa-tags{position:absolute;inset:0;pointer-events:none}
 .flow-anim .fa-leaders{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .flow-anim .fa-hint{position:absolute;left:14px;bottom:12px;font-size:12px;color:var(--fa-muted)}
@@ -34,6 +34,15 @@
 .flow-anim .fa-modes button{flex:1;font:inherit;font-size:14px;border:0;background:transparent;color:var(--fa-muted);padding:6px 0;min-height:36px;border-radius:6px;cursor:pointer}
 .flow-anim .fa-modes button:hover{background:transparent;color:var(--fa-ink)}
 .flow-anim .fa-modes button[aria-pressed="true"]{background:var(--fa-panel);color:var(--fa-ink);font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.flow-anim .fa-nav{display:flex;gap:6px;margin:10px 0 0}
+.flow-anim .fa-nav button{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:4px;font:inherit;font-size:14px;min-height:40px;padding:0 8px;border:1px solid var(--fa-line);border-radius:8px;background:var(--fa-panel);color:var(--fa-ink);cursor:pointer}
+.flow-anim .fa-nav button:hover{background:var(--fa-accent-soft)}
+.flow-anim .fa-nav button.fa-play[aria-pressed="true"]{background:var(--fa-accent-soft);font-weight:700}
+.flow-anim .fa-view{display:flex;gap:6px;margin:8px 0 0}
+.flow-anim .fa-view button{flex:1;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;font:inherit;font-size:13px;line-height:1.2;min-height:40px;padding:3px 6px;border:1px solid var(--fa-line);border-radius:8px;background:var(--fa-panel);color:var(--fa-muted);cursor:pointer}
+.flow-anim .fa-view button small{font-size:10px;font-weight:400;color:var(--fa-muted)}
+.flow-anim .fa-view button:hover{background:var(--fa-accent-soft);color:var(--fa-ink)}
+.flow-anim .fa-view button[aria-pressed="true"]{background:var(--fa-accent-soft);color:var(--fa-ink);font-weight:700;border-color:var(--fa-accent)}
 .flow-anim .fa-steps{list-style:none;margin:12px 0 0;padding:0;display:flex;gap:4px}
 .flow-anim .fa-steps li{flex:1;height:4px;border-radius:2px;background:var(--fa-line);position:relative;overflow:hidden}
 .flow-anim .fa-steps li.done{background:var(--fa-accent);opacity:.45}

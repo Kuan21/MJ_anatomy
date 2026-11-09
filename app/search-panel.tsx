@@ -3,6 +3,7 @@ import {X} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {Combobox,ComboboxInput,ComboboxContent,ComboboxList,ComboboxItem,ComboboxEmpty} from '@/components/ui/combobox';
 import type {Concept} from './anatomy';
+import {scopeOf} from './mj-scope';
 import {querySearchIndex,type SearchEntry} from './mj-search';
 
 export const SEARCH_LIMIT=50,SEARCH_DEBOUNCE_MS=150;
@@ -41,7 +42,7 @@ function SearchPanel({index,onChoose,onClose}:Props){
    <ComboboxInput autoFocus placeholder="Heart, femur, median nerve, 正中神經…" aria-label="輸入構造的中文或英文名稱" showTrigger={false}
     onCompositionStart={()=>{composing.current=true;clearTimeout(timer.current);}} onCompositionEnd={e=>{composing.current=false;commit((e.target as HTMLInputElement).value);}}/>
    <ComboboxContent className="anatomy-search-results"><ComboboxEmpty>{index?'找不到符合的構造，請換個寫法或輸入更少的字。':'正在建立搜尋索引…'}</ComboboxEmpty>
-    <ComboboxList>{(e:SearchEntry)=><ComboboxItem key={e.concept.id} value={e}><span className="search-result-name">{e.english}{e.chinese&&<small>{e.chinese}</small>}</span><span className="small-number">{e.kind?KIND_ZH[e.kind]??e.kind:`${e.concept.elements.length} 件`}</span></ComboboxItem>}</ComboboxList>
+    <ComboboxList>{(e:SearchEntry)=><ComboboxItem key={e.concept.id} value={e}><span className="search-result-name">{e.english}{e.chinese&&<small>{e.chinese}</small>}</span>{scopeOf(e.concept.name,e.concept.elements)==='summary'&&<span className="scope-tag" title="範圍：摘要">摘要</span>}<span className="small-number">{e.kind?KIND_ZH[e.kind]??e.kind:`${e.concept.elements.length} 件`}</span></ComboboxItem>}</ComboboxList>
    </ComboboxContent></Combobox>
   <p className="search-note" role="status">{index&&deferred.trim()&&!items.length?'找不到符合的構造。可以試試英文名、中文名、不加左右，或輸入更少的字；腦部構造請在腦部詳細模式搜尋。':query?`最多顯示 ${SEARCH_LIMIT} 筆；輸入更多字可找到較小的構造。`:'可先搜尋主要器官，或輸入任何構造的中文或英文名稱。'}</p></section>;
 }

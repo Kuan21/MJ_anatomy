@@ -87,7 +87,7 @@ for (const s of built) {
   for (const b of s.bellies ?? []) bellyBindings[b.id] = {name: b.name, side: b.side, profile: b.profile, box: b.box};
   // Surface patches come out of a locally refined bone mesh with thousands of coplanar triangles: weld, then collapse the flat interior but keep the outline.
   let {positions, indices} = s.geometry;
-  const cap = s.cap ?? (['fascia', 'sheath', 'aponeurosis'].includes(s.kind) ? 2500 : 700);
+  const cap = s.cap ?? (['fascia', 'fascia-dense', 'sheath', 'aponeurosis'].includes(s.kind) ? 2500 : 700);
   if (indices.length / 3 > cap) { const w = weldByPosition(positions, indices); ({positions, indices} = await simplify(w.positions, w.indices, cap, s.error ?? .003, ['LockBorder'])); }
   bind(id, s);
   if (!s.sibling) firstId.set(s.name, id);
