@@ -19,7 +19,7 @@ const deepNeurovascular=/brachial plexus|subscapular|suprascapular|circumflex|in
  * The match is by name, so it holds for every side and every piece of a muscle.
  */
 export const BACK_LAYERS:{depth:Exclude<TissueDepth,'all'>;re:RegExp;systems?:string[]}[]=[
- {depth:'superficial',re:/trapezius|latissimus dorsi|thoracolumbar fascia|accessory nerve|transverse cervical artery|superficial branch of transverse cervical/},
+ {depth:'superficial',re:/trapezius|latissimus dorsi|thoracolumbar fascia|nuchal origin of trapezius|accessory nerve|transverse cervical artery|superficial branch of transverse cervical/},
  {depth:'intermediate',re:/rhomboid|levator scapulae|serratus posterior|dorsal scapular/},
  {depth:'deep',re:/splenius|iliocostalis|longissimus|spinalis|semispinalis|multifidus|rotator|interspinal|intertransvers|levatores costarum|levator costarum|rectus capitis posterior|obliquus capitis|dorsal ramus|posterior cutaneous branch of dorsal ramus|suboccipital|greater occipital|third occipital|vertebral artery|ligamentum flavum|denticulate|spinal nerve|spinal ganglion|root of spinal|posterior rami|spinal ganglia|sympathetic trunk|suboccipital venous|suboccipital plexus/},
 ];
