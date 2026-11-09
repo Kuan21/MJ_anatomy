@@ -70,7 +70,10 @@ export function smoothNormalsByPlace(index:ArrayLike<number>,positions:ArrayLike
  }
  const out=new Float32Array(n*3);
  for(let v=0;v<n;v++){
-  const p=id[v]*3;let x=sum[p],y=sum[p+1],z=sum[p+2];const l=Math.hypot(x,y,z)||1;x/=l;y/=l;z/=l;
+  const p=id[v]*3;let x=sum[p],y=sum[p+1],z=sum[p+2];const l=Math.hypot(x,y,z);
+  // a place no triangle has an area at (a vertex no triangle uses, a sliver) keeps the normal it came with: every normal must stay a unit vector
+  if(l<1e-18){out[v*3]=original[v*3];out[v*3+1]=original[v*3+1];out[v*3+2]=original[v*3+2];continue;}
+  x/=l;y/=l;z/=l;
   if(x*original[v*3]+y*original[v*3+1]+z*original[v*3+2]<0){x=-x;y=-y;z=-z;}
   out[v*3]=x;out[v*3+1]=y;out[v*3+2]=z;
  }

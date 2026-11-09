@@ -29,6 +29,8 @@ const {surfaceEdgeDepth} = await quizModule('app/mj-surface-edge.ts');
   // normals on both sides of a crack are the same after averaging by place, even when the two halves came with different ones
   {
     const {smoothNormalsByPlace} = await quizModule('app/mj-surface-edge.ts'), orig = pos2.map((_, i) => i % 3 === 2 ? 1 : 0), sm = smoothNormalsByPlace(idx2, pos2, orig), a = 2 * 3 + 2, b = 15 + 2 * 3;
+    const lone = smoothNormalsByPlace([0, 1, 2], [0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 5, 5], [0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0]);   // the fourth vertex is used by no triangle
+    assert.ok(Math.abs(Math.hypot(lone[9], lone[10], lone[11]) - 1) < 1e-6, 'every smoothed normal is a unit vector');
     assert.ok(Math.hypot(sm[a * 3] - sm[b * 3], sm[a * 3 + 1] - sm[b * 3 + 1], sm[a * 3 + 2] - sm[b * 3 + 2]) < 1e-6 && sm[a * 3 + 2] > .99, 'smooth normals across a crack');
   }
   const closed = surfaceBorderFade([0, 1, 2, 0, 2, 3, 0, 3, 1, 1, 3, 2], [0, 0, 0, .001, 0, 0, 0, .001, 0, 0, 0, .001], .0025);   // closed tetrahedron: no border at all

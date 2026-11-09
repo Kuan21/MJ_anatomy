@@ -690,7 +690,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
     g.setAttribute('partIndex',new T.BufferAttribute(new Float32Array(p.vertexCount).fill(i),1));
     // lung surface marks: distance from the border of the patch (1 at the border, 0 three edges inside) for the outline and the recess shadow
     if(p.kind==='surface'){g.setAttribute('edgeD',new T.BufferAttribute(surfaceBorderFade(g.index!.array,g.getAttribute('position').array,.0025),1));
-     {const nrm=g.getAttribute('normal');if(nrm)g.setAttribute('normal',new T.BufferAttribute(smoothNormalsByPlace(g.index!.array,g.getAttribute('position').array,nrm.array),3));}
+     {const nrm=g.getAttribute('normal');if(nrm){const was=new Float32Array(nrm.count*3);for(let i=0;i<nrm.count;i++){was[i*3]=nrm.getX(i);was[i*3+1]=nrm.getY(i);was[i*3+2]=nrm.getZ(i);}g.setAttribute('normal',new T.BufferAttribute(smoothNormalsByPlace(g.index!.array,g.getAttribute('position').array,was),3));}}
      // marks are drawn in their stacking order (see the lung mark material)
      g.userData.lungRank=lungStackRank(p.name);}
     const key=shellOf(p),list=groups.get(key)??[];list.push(g);groups.set(key,list);
