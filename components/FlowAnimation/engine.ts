@@ -31,8 +31,8 @@ const RAW=new THREE.Vector3();
 const col=(hex:number)=>new THREE.Color().setRGB(((hex>>16)&255)/255,((hex>>8)&255)/255,(hex&255)/255,THREE.LinearSRGBColorSpace);
 const COLORS:Record<string,number>={nerve:0xd9a300,artery:0xcc3b36,vein:0x2c5bb5,vcom:0x8db2e6};
 const STEP_DUR=10.5,GROW=4.2,CAM=1.8;
-/** 流動光點的速度（原型單位／秒）；比原型慢一半，較容易跟著看 */
-const FLOW_SPEED=.45,FLOW_SPEED_VEIN=.35;
+/** 流動光點的速度（原型單位／秒）；比原型慢很多（約四成），較容易跟著看 */
+const FLOW_SPEED=.22,FLOW_SPEED_VEIN=.18;
 /** 神經比原型細（原型的粗細是示意；放到真實模型上會顯得太粗） */
 const NERVE_THICKNESS=.6;
 const ease=(t:number)=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
