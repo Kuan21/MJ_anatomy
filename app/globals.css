@@ -1288,3 +1288,17 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 .scope-row b{align-items:flex-end;padding:2px 10px;border-radius:8px;background:#e7eef2;color:#344054}
 .scope-row[data-scope=summary] b{background:#dcebe4;color:#1f5a47}
 .scope-tag{display:inline-block;margin-left:6px;padding:0 6px;border-radius:6px;background:#dcebe4;color:#1f5a47;font:600 10px/16px system-ui,sans-serif;vertical-align:middle}
+
+/* 目前篩選：畫面下方中央的小列，列出讓結構看不到的篩選 */
+.active-filters{position:absolute;left:50%;bottom:calc(16px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:4;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px;max-width:min(62vw,720px);padding:6px 10px;border:1px solid var(--border);border-radius:12px;background:#ffffffe6;box-shadow:0 2px 10px rgba(30,42,51,.12);font-size:12px;color:#1e2a33}
+.active-filters-title{font-weight:700;margin-right:2px}
+.active-filters button{display:inline-flex;align-items:center;gap:4px;min-height:32px;padding:0 10px;border:1px solid var(--border);border-radius:999px;background:#fff;color:inherit;font-size:12px}
+.active-filters .active-filter-clear{border-style:dashed}
+.active-filters button:hover{background:#eef3f1}
+@media(max-width:767px){.active-filters{max-width:calc(100vw - 24px);bottom:calc(72px + env(safe-area-inset-bottom))}.active-filters button{min-height:36px}}
+.system-row .system-solo{margin-left:-4px;margin-right:-2px}
+.system-solo{flex:none;display:inline-flex;align-items:center;justify-content:center;width:24px;height:28px;min-width:24px;padding:0;border-radius:7px;color:#8a949e;opacity:.7}
+.system-solo:hover:not(:disabled){opacity:1;background:#eef3f1;color:#394957}
+.system-solo:disabled{opacity:.3;cursor:default}
+@media(pointer:coarse){.system-solo{width:36px;height:36px;min-width:36px}}
+.layers-panel .system-row{gap:5px}
