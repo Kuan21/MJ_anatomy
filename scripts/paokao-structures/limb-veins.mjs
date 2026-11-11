@@ -2,7 +2,6 @@
 // veins (venae comitantes of the interosseous arteries) and the thoracoepigastric vein. Positions follow the atlas meshes they accompany (U.axisAt), so they move with them.
 import {sub, add, mul, unit, len, lerp} from '../lib/paokao-util.mjs';
 
-const GRAYS = 'Gray’s Anatomy for Students, 4th ed. (Drake et al.), ch. 7 Upper Limb and ch. 4 Abdomen';
 const GRAYS_1918 = 'Gray’s Anatomy (1918), the veins of the thorax and abdomen';
 const OPENSTAX = 'OpenStax, Anatomy and Physiology (CC BY 4.0), veins of the thorax and abdomen';
 const SIDES = [{w: 'Right', l: 'right', sx: -1, zh: '右', s: 'r'}, {w: 'Left', l: 'left', sx: 1, zh: '左', s: 'l'}];
@@ -25,7 +24,7 @@ export default function limbVeins(U) {
         card: {origin: ['Radial and ulnar veins, at the elbow (with the medial brachial vein)', '橈靜脈與尺靜脈，在肘部（與內側肱靜脈並行）'],
           course: ['Runs with the brachial artery on its lateral side and joins the axillary vein (the basilic vein usually ends in the medial brachial vein or the axillary vein)', '與肱動脈並行於其外側，注入腋靜脈（貴要靜脈通常注入內側肱靜脈或腋靜脈）'],
           supply: ['Drains the muscles and bone of the arm and the elbow joint, together with the medial brachial vein', '與內側肱靜脈共同回收上臂肌肉、骨與肘關節的血液']},
-        refs: [GRAYS],
+        refs: [],
       });
     }
     // Anterior and posterior interosseous veins: venae comitantes of the interosseous arteries, ending in the ulnar vein.
@@ -47,7 +46,7 @@ export default function limbVeins(U) {
           card: {origin: [`Deep veins of the ${which} forearm`, which === 'anterior' ? '前臂前側深靜脈' : '前臂後側深靜脈'],
             course: [`Runs with the ${which} interosseous artery and ends in the ulnar vein`, `與${zh}骨間動脈並行，注入尺靜脈`],
             supply: ['Drains the deep muscles and bones of the forearm', '回收前臂深層肌肉與骨的血液']},
-          refs: [GRAYS],
+          refs: [],
         });
       }
     }

@@ -3,7 +3,7 @@ import {zhAnatomy} from './mj-zh-anatomy';
 import type {Part,SystemId} from './anatomy';
 import {anatomicalRegionLabel,correctedPartName} from './mj-part-regions';
 import {muscleFactsFor,muscleFactSourceFor} from './mj-muscle-facts';
- import {netterEnglishName,NETTER_TERMINOLOGY_SOURCE} from './mj-netter-terminology';
+ import {displayEnglishName,DISPLAY_TERMINOLOGY_SOURCE} from './mj-display-terminology';
 
 export interface BilingualFact {
  labelEn:string;
@@ -31,8 +31,8 @@ import vesselEnds from './mj-vessel-ends.json';
 import paokaoCards from './mj-paokao.json';
 import vesselBranches from './mj-vessel-branches.json';
 type ProfileBody=Omit<StructureProfile,'english'>;
-const GROSS_SOURCE='Standard gross-anatomy references; terminology cross-checked with Netter, Atlas of Human Anatomy';
-const BONE_SOURCE='Standard skeletal anatomy references; terminology cross-checked with Netter, Atlas of Human Anatomy';
+const GENERAL_SOURCE='Standard gross-anatomy references';
+const BONE_SOURCE='Standard skeletal anatomy references';
 const WEB_SOURCE='Standard anatomical terminology; NCBI Bookshelf / StatPearls';
 
 const muscle=(chinese:string,originEn:string,originZh:string,insertionEn:string,insertionZh:string,nerveEn:string,nerveZh:string,actionEn:string,actionZh:string):ProfileBody=>({
@@ -44,7 +44,7 @@ const muscle=(chinese:string,originEn:string,originZh:string,insertionEn:string,
   {labelEn:'Insertion',labelZh:'止點',valueEn:insertionEn,valueZh:insertionZh},
   {labelEn:'Innervation',labelZh:'神經支配',valueEn:nerveEn,valueZh:nerveZh},
   {labelEn:'Action',labelZh:'作用',valueEn:actionEn,valueZh:actionZh}
- ],source:GROSS_SOURCE
+ ],source:GENERAL_SOURCE
 });
 
 const nerve=(chinese:string,rootsEn:string,rootsZh:string,courseEn:string,courseZh:string,functionEn:string,functionZh:string):ProfileBody=>({
@@ -55,7 +55,7 @@ const nerve=(chinese:string,rootsEn:string,rootsZh:string,courseEn:string,course
   {labelEn:'Nerve roots',labelZh:'神經根',valueEn:rootsEn,valueZh:rootsZh},
   {labelEn:'Course',labelZh:'走向',valueEn:courseEn,valueZh:courseZh},
   {labelEn:'Supply',labelZh:'支配範圍',valueEn:functionEn,valueZh:functionZh}
- ],source:GROSS_SOURCE
+ ],source:GENERAL_SOURCE
 });
 
 
@@ -82,7 +82,7 @@ const bone=(chinese:string,typeEn:string,typeZh:string,roleEn:string,roleZh:stri
   {labelEn:'Type / region',labelZh:'類型／區域',valueEn:typeEn,valueZh:typeZh},
   {labelEn:'Anatomical role',labelZh:'解剖角色',valueEn:roleEn,valueZh:roleZh},
   {labelEn:'Key landmarks',labelZh:'重要骨標誌',valueEn:landmarksEn,valueZh:landmarksZh}
- ],source:GROSS_SOURCE
+ ],source:GENERAL_SOURCE
 });
 
 const detailed:Record<string,ProfileBody>={
@@ -298,7 +298,7 @@ function displayEnglish(name:string,system:SystemId,part?:Part){
    canonical=side+key;
   }
  }
- return netterEnglishName(canonical,system);
+ return displayEnglishName(canonical,system);
 }
 
 function regionOf(name:string,system:SystemId,part?:Part){
@@ -350,7 +350,7 @@ function genericSummary(name:string,system:SystemId,chinese:string|undefined,par
 function sourceFor(name:string,system:SystemId){
  const n=norm(name);
  const upperLimb=/clavicle|scapula|humerus|radius|ulna|carpal|metacarp|phalan|deltoid|pectoralis|serratus|trapezius|rhomboid|supraspinatus|infraspinatus|subscapularis|teres|biceps brachii|triceps brachii|brachialis|coracobrachialis|pronator|supinator|brachioradialis|carpi|digitorum|pollicis|lumbrical|interosse|axillary nerve|musculocutaneous nerve|median nerve|ulnar nerve|radial nerve|suprascapular nerve|long thoracic nerve|thoracodorsal nerve/.test(n);
- if(upperLimb&&(system==='muscular'||system==='nervous'||system==='skeletal'))return GROSS_SOURCE;
+ if(upperLimb&&(system==='muscular'||system==='nervous'||system==='skeletal'))return GENERAL_SOURCE;
  if(system==='skeletal')return BONE_SOURCE+'; '+WEB_SOURCE;
  if(system==='muscular'||system==='nervous')return WEB_SOURCE;
  return 'BodyParts3D naming with general anatomical context';
@@ -359,7 +359,7 @@ function sourceFor(name:string,system:SystemId){
 function withCourseNotes(profile:StructureProfile,name:string):StructureProfile{
  // Lecture-note fragments are no longer attached: they were truncated, often unrelated to the structure, and are not ours to republish.
  void name;
- return{...profile,source:`${profile.source}; ${NETTER_TERMINOLOGY_SOURCE}`};
+ return{...profile,source:`${profile.source}; ${DISPLAY_TERMINOLOGY_SOURCE}`};
 }
 
 function baseStructureProfile(rawName:string,system:SystemId,part?:Part):StructureProfile{
