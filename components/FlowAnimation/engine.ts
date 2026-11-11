@@ -38,9 +38,13 @@ const NERVE_THICKNESS=.58,VESSEL_THICKNESS=.65;
 /** 每一段從頭到尾變細到幾成（分支接在主幹上時，起點粗細不超過主幹在該處的粗細） */
 const TAPER_END=.72;
 /** 光暈（「雲」）與流動光點的大小，以及每個單位長度的光點數 */
-const HEAD_GLOW=.24,FLOW_GLOW=.11,FLOW_GLOW_VEIN=.08,FLOW_PER_UNIT=1;
+const HEAD_GLOW=.14,FLOW_GLOW=.07,FLOW_GLOW_VEIN=.05,FLOW_PER_UNIT=1;
 /** 管子的圓周分段數與沿路徑的分段密度（越大越圓滑；三角形數大約同比增加） */
-const TUBE_RADIAL=12,TUBE_SEG_PER_UNIT=28;
+const TUBE_RADIAL=12,TUBE_RADIAL_THICK=20,TUBE_SEG_PER_UNIT=30;
+/** 較粗的管子（粗的血管、坐骨神經、主動脈）圓周用較多段；以原型單位的半徑為界 */
+const THICK_RADIUS=.03;
+/** 路徑平滑：每個單位取幾個點、做幾輪 1-2-1 平滑（兩端固定），消掉原型控制點造成的轉折稜角 */
+const SMOOTH_PER_UNIT=10,SMOOTH_PASSES=2;
 const ease=(t:number)=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
 
 interface PathNode{
@@ -71,7 +75,7 @@ export function createFlowEngine(opt:FlowOptions):FlowEngine{
  const model=opt.buildModel(scene,col);
 
  function glow(rgb:string){const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d')!;const r=g.createRadialGradient(32,32,0,32,32,32);
-  r.addColorStop(0,'rgba(255,255,255,1)');r.addColorStop(.35,'rgba('+rgb+',.8)');r.addColorStop(1,'rgba('+rgb+',0)');g.fillStyle=r;g.fillRect(0,0,64,64);return new THREE.CanvasTexture(c);}
+  r.addColorStop(0,'rgba(255,255,255,1)');r.addColorStop(.18,'rgba('+rgb+',.85)');r.addColorStop(.5,'rgba('+rgb+',.18)');r.addColorStop(1,'rgba('+rgb+',0)');g.fillStyle=r;g.fillRect(0,0,64,64);return new THREE.CanvasTexture(c);}
  const GLOW:Record<string,THREE.CanvasTexture>={nerve:glow('255,200,40'),artery:glow('235,70,60'),vein:glow('60,110,220'),vcom:glow('140,180,240')};
  const paths:Record<string,PathNode>={};
  /** 路徑定義：先收集全部，再決定「誰接在誰上面」與各段粗細，最後才建模型 */
@@ -82,8 +86,10 @@ export function createFlowEngine(opt:FlowOptions):FlowEngine{
   if(id==='aorta')r=.11;if(group==='vcom')r=(id==='v_aorta'?.1:(data.thickPaths.test(id.slice(2))?.045:.026));if(id==='sci')r=.065;
   return r*(group==='nerve'?NERVE_THICKNESS:VESSEL_THICKNESS)*unit;
  };
+ const smoothPts=(p:THREE.Vector3[],passes:number)=>{let a=p.map(v=>v.clone());for(let k=0;k<passes;k++){const b=a.map(v=>v.clone());for(let i=1;i<a.length-1;i++)b[i].set(0,0,0).addScaledVector(a[i-1],.25).addScaledVector(a[i],.5).addScaledVector(a[i+1],.25);a=b;}return a;};
+ const resmooth=(c:THREE.CatmullRomCurve3)=>{const n=Math.max(6,Math.round(c.getLength()/unit*SMOOTH_PER_UNIT));return new THREE.CatmullRomCurve3(smoothPts(c.getSpacedPoints(n),SMOOTH_PASSES),false,'centripetal');};
  function collect(id:string,pts:Pt[],group:string,extra?:Partial<PathNode>){
-  const curve=new THREE.CatmullRomCurve3(pts.map(W),false,'centripetal');
+  const curve=resmooth(new THREE.CatmullRomCurve3(pts.map(W),false,'centripetal'));
   defs.push({id,group,curve,base:baseRadius(id,group),extra,r0:0,r1:0});
  }
  for(const id in data.nerves)collect(id,data.nerves[id],'nerve');
@@ -108,11 +114,11 @@ export function createFlowEngine(opt:FlowOptions):FlowEngine{
   if(bd&&bp){d.parent=bd.id;d.at=bt;
    const pr=radiusAt(bd,bt);d.r0=Math.min(d.base,pr);d.r1=Math.max(d.r0*TAPER_END,d.base*.4);
    // 起點吸附到主幹上
-   const pts=d.curve.points.map(v=>v.clone());pts[0]=bp.clone();d.curve=new THREE.CatmullRomCurve3(pts,false,'centripetal');}
+   const pts=d.curve.points.map(v=>v.clone());pts[0]=bp.clone();d.curve=new THREE.CatmullRomCurve3(smoothPts(pts,2),false,'centripetal');}
  });
  function make(d:Def){
   const {id,group,curve,extra}=d;const len=curve.getLength();
-  const ulen=len/unit,seg=Math.max(32,Math.round(ulen*TUBE_SEG_PER_UNIT)),rad=TUBE_RADIAL;
+  const ulen=len/unit,seg=Math.max(32,Math.round(ulen*TUBE_SEG_PER_UNIT)),rad=d.base/unit>THICK_RADIUS?TUBE_RADIAL_THICK:TUBE_RADIAL;
   // 先用半徑 1 建管子，再依沿路徑的半徑曲線把每一圈縮放（保留 TubeGeometry 的索引排列，生長用的 drawRange 照常運作）
   const geo=new THREE.TubeGeometry(curve,seg,1,rad,false);
   const pos=geo.getAttribute('position') as THREE.BufferAttribute;
