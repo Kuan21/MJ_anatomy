@@ -6,7 +6,6 @@ import {gunzipSync} from 'node:zlib';
 
 const data = JSON.parse(gunzipSync(fs.readFileSync(new URL('../data/zanatomy-lower-limb.json.gz', import.meta.url))));
 const MODEL = ['The shape follows an open anatomical model of this structure, placed on the bones of this atlas; its attachments are anchored to the bones.', '形狀依開放解剖模型的對應構造，並對位到本圖譜的骨骼；附著處固定在骨上。'];
-const REF = 'Gray’s Anatomy for Students, 4th ed. (Drake et al.); Moore’s Clinically Oriented Anatomy, 8th ed.';
 const P = (...a) => a;
 // [zh, kind, card, how it is anchored: (U, S, side) => {frame} | {ends, a, b}]
 const ITEMS = {
@@ -51,7 +50,7 @@ export default function zanatomyLowerLimb(U) {
       name, zh: `${side === 'left' ? '左' : '右'}${zh}`, system: 'connective', kind, model: 'zanatomy', cap: 1e9,
       geometry: [{positions: f32(m.positions, Float32Array), indices: f32(m.indices, Uint32Array)}],
       binding: {name, rig: side === 'left' ? 'leftLeg' : 'rightLeg', frame: a.frame ?? null, ...(a.ends ? {ends: a.ends, a: a.a, b: a.b} : {})},
-      card: {...card, supply: card.action}, note: MODEL, refs: [REF],
+      card: {...card, supply: card.action}, note: MODEL, refs: [],
     });
   }
   return out;
