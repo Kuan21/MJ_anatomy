@@ -10,7 +10,7 @@ import fs from 'node:fs';
 import zlib from 'node:zlib';
 import {sub, add, mul, unit, cross} from '../lib/paokao-util.mjs';
 
-const STEP = .0015, BOX = {x: [-.076, .076], y: [1.555, 1.628]}, SEED = [0, 1.595], OVERLAP = 3, INNER = .001, MIN_LIFT = .0015, MAX_LIFT = .008;
+const STEP = .0015, BOX = {x: [-.076, .076], y: [1.555, 1.628]}, SEED = [0, 1.595], OVERLAP = 3, INNER = .001, MIN_LIFT = .0025, MAX_LIFT = .008;
 const NX = Math.round((BOX.x[1] - BOX.x[0]) / STEP), NY = Math.round((BOX.y[1] - BOX.y[0]) / STEP);
 const COVER = new Set(['muscular', 'tendon', 'connective']);
 
@@ -66,7 +66,7 @@ function field(U, w) {
 function solid({zs, mask, band, H, known}) {
   const k = (ix, iy) => ix * NY + iy, vid = new Map(), positions = [], indices = [], top = [], bot = [];
   const vertex = (ix, iy) => { const key = k(ix, iy); if (vid.has(key)) return vid.get(key); const id = top.length, x = BOX.x[0] + ix * STEP, y = BOX.y[0] + iy * STEP, near = [[0, 0], [-1, 0], [0, -1], [-1, -1]].map(([a, b]) => k(ix + a, iy + b)).filter(q => mask[q] && Number.isFinite(zs[q]));
-    const z = near.reduce((s, q) => s + zs[q], 0) / near.length, lift = near.reduce((s, q) => s + H[q], 0) / near.length, edge = near.some(q => known[q]) ? .85 : 1;   // under the muscles the sheet is a little lower than their surface: it never fights them
+    const z = near.reduce((s, q) => s + zs[q], 0) / near.length, lift = near.reduce((s, q) => s + H[q], 0) / near.length, edge = near.some(q => known[q]) ? .6 : 1;   // under the muscles the sheet is a little lower than their surface: it never fights them
     top.push([x, y, z - lift * edge]); bot.push([x, y, z - INNER]); vid.set(key, id); return id; };
   const quads = new Map();
   for (let ix = 0; ix < NX; ix++) for (let iy = 0; iy < NY; iy++) if (mask[k(ix, iy)]) { const q = [vertex(ix, iy), vertex(ix + 1, iy), vertex(ix + 1, iy + 1), vertex(ix, iy + 1)]; quads.set(k(ix, iy), q); }
@@ -88,7 +88,7 @@ const REF = 'Gray’s Anatomy for Students, 4th ed. (Drake et al.); Moore’s Cl
 /** The structure spec (see scripts/lib/paokao-build.mjs). Built after everything else, so no earlier structure changes its id. */
 export default function occipitalAponeurosisSpec(U, w) {
   return [{
-    name: 'nuchal origin of trapezius', zh: '斜方肌項線起點部', system: 'muscular', kind: 'muscle', geometry: [occipitalAponeurosis(U, w)],
+    name: 'nuchal origin of trapezius', zh: '斜方肌項線起點部', system: 'muscular', kind: 'muscle', cap: 12000, geometry: [occipitalAponeurosis(U, w)],
     card: {
       origin: ['Medial part of the superior nuchal line, the external occipital protuberance and the nuchal ligament; it continues upwards into the epicranial aponeurosis between the two occipitalis bellies', '上項線內側部、枕外隆凸與項韌帶；向上與兩側枕肌之間的帽狀腱膜相連'],
       course: ['A thin muscular and tendinous layer on the back of the occipital bone in the midline and along the superior nuchal line, from the occipitalis bellies above to the upper ends of trapezius and splenius capitis below; it thins out towards its borders', '貼在枕骨後面、沿上項線與中線的薄層肌腱，上接枕肌，下接斜方肌與頭夾肌的上端，向邊緣逐漸變薄'],
