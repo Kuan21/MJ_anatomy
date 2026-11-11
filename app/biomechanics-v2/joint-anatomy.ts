@@ -40,7 +40,10 @@ export function createJointAnatomy(atlas:Atlas,scene:T.Scene){
    const socketName=/glenoid labrum/.test(name)?'Scapula':/acetabular labrum|transverse acetabular/.test(name)?'Hip bone':/^(lateral|medial) meniscus/.test(name)?'Tibia':null;
    const forced=socketName?registrations.find(r=>r.name===socketName+(side==='left'?'.l':'.r')):undefined;
    const candidates=registrations.filter(r=>r.name.endsWith(side==='left'?'.l':'.r')||!/[.][lr]$/.test(r.name));
-   const closest=forced??candidates.reduce((a,b)=>a.box.distanceToPoint(sourceCenter)<b.box.distanceToPoint(sourceCenter)?a:b);
+   // Nearest registered bone. A tissue whose centre lies inside several boxes (a rib's box is large and also holds the conoid ligament, the sternoclavicular joint …) is at distance 0 from all of them:
+   // the smallest box wins, so a shoulder ligament is anchored to the clavicle or scapula and not to a rib, and follows its own region (it used to be drawn in the chest view as a beige wedge at each shoulder).
+   const boxVolume=(r:{box:T.Box3})=>{const d=r.box.getSize(new T.Vector3());return d.x*d.y*d.z;};
+   const closest=forced??candidates.reduce((a,b)=>{const da=a.box.distanceToPoint(sourceCenter),db=b.box.distanceToPoint(sourceCenter);return Math.abs(da-db)<1e-6?(boxVolume(a)<=boxVolume(b)?a:b):da<db?a:b;});
    const anchor=atlas.parts.find(p=>p.id===closest.parentId)!;
    const region=anatomicalRegion(anchor),rig=upper[side];
    const pos=g.getAttribute('position') as T.BufferAttribute;
@@ -119,5 +122,15 @@ export function createJointAnatomy(atlas:Atlas,scene:T.Scene){
   }
  }
  function dispose(){for(const {mesh} of surfaces){scene.remove(mesh);mesh.geometry.dispose();mesh.material.dispose();}for(const r of rows){scene.remove(r.mesh);r.mesh.geometry.dispose();r.mesh.material.dispose();}}
- return {add,addSliced,addSurfaces,update,dispose,rows,surfaces};
+ /** `shown`: the ids of the atlas parts the viewer draws in this state (region, depth, layer and owner filters all applied). An articular surface is a patch of its bone: with the bone not drawn (another region, the Skeleton layer off) it would hang in the air, so it is drawn only with its bone. */
+ function constrain(shown:Set<string>,faded:Set<string>|null=null){
+  for(const {mesh,parent} of surfaces)if(mesh.visible&&!shown.has(parent.id))mesh.visible=false;
+  // A membrane or ligament drawn with a faded bone (the see-through rib cage of the chest and lung views) is see-through as well: the intercostal membranes were solid white plates between translucent ribs.
+  for(const r of rows){
+   const m=r.mesh.material,capsule=jointKind(r.mesh.name.toLowerCase())==='capsule',fade=!!faded?.has(r.anchor.id);
+   const opacity=capsule?.26:fade?.3:1,transparent=capsule||fade,depthWrite=!(capsule||fade);
+   if(m.opacity!==opacity||m.transparent!==transparent||m.depthWrite!==depthWrite){m.opacity=opacity;m.transparent=transparent;m.depthWrite=depthWrite;}
+  }
+ }
+ return {add,addSliced,addSurfaces,update,constrain,dispose,rows,surfaces};
 }
