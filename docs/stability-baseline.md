@@ -10,7 +10,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 |---|---|
 | Fragments | 48 |
 | Vessel, nerve and tendon walls inside bone | 457 |
-| Coincident faces (z-fighting) | 84 |
+| Coincident faces (z-fighting) | 82 |
 | Straight cuts in meshes | 42 |
 | Triangle stretch over 2x in the limit poses | 284 |
 | Structures that leave their bone in the limit poses | 174 |
@@ -530,7 +530,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Vestibulocochlear nerve (VIII).r | 4.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Vestibulocochlear nerve (VIII).r | 4.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 
-## Coincident faces (z-fighting) (84)
+## Coincident faces (z-fighting) (82)
 
 | structure | size | detail |
 |---|---|---|
@@ -616,8 +616,6 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right styloid process of radius | 131 | faces coincide with Right anatomical snuffbox: two layers share the same surface; to be offset or one of them removed |
 | Lingula of left lung | 1106 | faces coincide with Cardiac notch of left lung: two layers share the same surface; to be offset or one of them removed |
 | Esophageal impression of left lung | 57 | faces coincide with Apex of left lung: two layers share the same surface; to be offset or one of them removed |
-| Sciatic nerve.l | 359 | faces coincide with Right procerus: two layers share the same surface; to be offset or one of them removed Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
-| Sciatic nerve.r | 359 | faces coincide with Right procerus: two layers share the same surface; to be offset or one of them removed Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 
 ## Straight cuts in meshes (42)
 

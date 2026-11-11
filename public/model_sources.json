@@ -107,7 +107,7 @@
         "models/nerve-stream.json"
       ],
       "license": "CC BY-SA 4.0 (Z-Anatomy), with the BodyParts3D credit CC BY-SA 2.1 Japan",
-      "origin": "Z-Anatomy NervousSystem100.fbx from the official repository (commit 6c7f9016bd5899ac8edafd31b9900c151df42ed6), geometry converted from centimetres to metres and Draco-encoded by scripts/extract-zanatomy-nervous.mjs",
+      "origin": "Z-Anatomy NervousSystem100.fbx from the official repository (commit 6c7f9016bd5899ac8edafd31b9900c151df42ed6), geometry converted from centimetres to metres and Draco-encoded by scripts/extract-zanatomy-nervous.mjs; modification: on both sides the anterior root of the posterior femoral cutaneous nerve is moved 0.3 mm inwards where its surface lay on the sciatic nerve's surface",
       "url": "https://github.com/LluisV/Z-Anatomy"
     },
     {
@@ -273,7 +273,7 @@
         "models/nerve-stream.json"
       ],
       "license": "CC BY-SA 4.0 (Z-Anatomy), with the BodyParts3D credit CC BY-SA 2.1 Japan",
-      "origin": "Z-Anatomy NervousSystem100.fbx from the official repository (commit 6c7f9016bd5899ac8edafd31b9900c151df42ed6), geometry converted from centimetres to metres and Draco-encoded by scripts/extract-zanatomy-nervous.mjs",
+      "origin": "Z-Anatomy NervousSystem100.fbx from the official repository (commit 6c7f9016bd5899ac8edafd31b9900c151df42ed6), geometry converted from centimetres to metres and Draco-encoded by scripts/extract-zanatomy-nervous.mjs; modification: on both sides the anterior root of the posterior femoral cutaneous nerve is moved 0.3 mm inwards where its surface lay on the sciatic nerve's surface",
       "url": "https://github.com/LluisV/Z-Anatomy"
     },
     {
