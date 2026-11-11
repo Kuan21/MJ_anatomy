@@ -8,6 +8,11 @@
 - 其他裸露骨處（兩側乳突附近顳骨各約 60 至 76 mm²、軸椎棘突約 52 mm²）只列出，沒有改。
 - `scripts/list-exposed-bone.mjs` 偵測頭頸後方露骨區域；`check-stability` 新增或變差 0。
 
+## 文件：#242 後續——官方神經檔 54 條穩定度變動的檢視（文件類，CI 全綠後自動 merge）
+
+只加 `docs/official-nerve-stability-review.md`，不改模型、基準與檢查規則。結論：54 條裡 50 條不是實際變差（計數隨網格頂點數而變，最遠距離與最差倍率相同或相差 ≤5 mm、穿入差異 ≤0.2 mm），真正有變化的 4 條是左右坐骨神經與股後皮神經前根的 359 面重合、左趾背中間皮神經穿入腓骨第三肌 5.5 → 7.8 mm、右橈神經溝切口 26.5 → 26.9 mm（原因未確認）。另列五項待使用者決定的處理方式。未在 3D 畫面逐條目視確認。
+
+
 ## 神經與關節組織改用 Z-Anatomy 官方檔重新生成（#242，【需人工審核】，使用者 2026-11-11 指示合併）
 
 來源與授權：神經與關節模型改由官方倉庫 `LluisV/Z-Anatomy`（提交 `6c7f901`，CC BY-SA 4.0）的 `NervousSystem100.fbx`、`Joints100.fbx` 以維護者工具（`scripts/extract-zanatomy-nervous.mjs`、`scripts/extract-zanatomy-joints.mjs`）重新生成；來源與檔案雜湊寫在模型檔內與 `public/model_sources.json`、`public/ATTRIBUTION.md`。與原本第三方複本相比，位置中位數差距不到 0.05 mm。
