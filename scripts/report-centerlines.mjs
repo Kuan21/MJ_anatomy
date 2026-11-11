@@ -4,6 +4,7 @@
 import fs from 'node:fs';
 import {loadWorld} from './lib/paokao-world.mjs';
 import {centrelineOf} from './lib/leg-centreline.mjs';
+import {classifyRings} from './lib/centreline-classify.mjs';
 
 const w = loadWorld({paokao: false});
 const entries = w.entries.filter(e => ['arterial', 'venous', 'nervous'].includes(e.system) && !/^extra:/.test(e.id));
@@ -11,13 +12,7 @@ const t0 = Date.now(), bad = [], stats = {arterial: 0, venous: 0, nervous: 0};
 for (const e of entries) {
   let why = null, rings = [];
   try { rings = centrelineOf(e.load()); } catch (err) { why = `no tube shape (${String(err.message).slice(0, 40)})`; }
-  if (!why && rings.length < 2) why = 'fewer than 2 rings';
-  if (!why) {
-    let max = 0, len = 0;
-    for (let i = 1; i < rings.length; i++) { const d = Math.hypot(...rings[i].c.map((v, k) => v - rings[i - 1].c[k])); max = Math.max(max, d); len += d; }
-    if (max > .02) why = `jump of ${(max * 1000).toFixed(0)} mm between rings`;
-    else if (len < .004) why = `length only ${(len * 1000).toFixed(1)} mm`;
-  }
+  if (!why) why = classifyRings(rings);
   if (why) bad.push({id: e.id, name: e.name, system: e.system, why}); else stats[e.system]++;
 }
 if (process.argv.includes('--json')) console.log(JSON.stringify({ok: stats, bad}, null, 1));

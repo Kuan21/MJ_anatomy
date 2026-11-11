@@ -24,6 +24,9 @@
 ## 自動排程已做（分支 `claude/sweet-cerf-v7a90a`／PR #248，全部只加檔，不改模型與網站）
 - 2026-11-11：新增 `scripts/report-centerlines.mjs` 與 `docs/centerline-report.md`（S5 第一階段量測）：1,453 個血管與神經網格，14 秒；成功 1,312、列出 141（多為主幹旁粗分支造成的「jump」、短腦神經根、交感幹神經節）。尚未納入 `npm run check`，未建立基準。
 
+- 2026-11-12：把分類邏輯抽成 `scripts/lib/centreline-classify.mjs`，新增 `scripts/test-centreline-classify.mjs`（合成中心線，不需模型資料；尚未加入 `npm run check`）。`report-centerlines.mjs` 改用同一函式，行為不變。
+  - 本資料夾（主 checkout）沒有 `node_modules`、`work/` 與生成檔，無法在這裡重跑實際量測，所以「jump 是否誤報」尚未查；需在有生成檔的環境（`node scripts/clean.mjs --donor` 指出的位置）跑。
+
 ## 進行中／等審核
 - S2 A–G、S3、S4、S6 相關工作都已有 PR（見上），等使用者審核。
 
