@@ -234,6 +234,11 @@ function armWeightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''):nu
   if(/descending part of .*trapezius/i.test(name))return pair(0,1,range(lateral,.08,.92));
   return pair(0,2,range(lateral,.08,.92));
  }
+ // Latissimus dorsi runs from the lower spine and iliac crest up and out to the humerus. Its change is spread over the whole run along that line (a blend over the last 26 % of |x| had to absorb the whole humeral travel and stretched it 6 to 30 times at 150 degrees of flexion).
+ if(profile==='chest'&&/latissimus/i.test(name)){
+  const ax=Math.min(Math.abs(box.min.x),Math.abs(box.max.x)),bx=Math.max(Math.abs(box.min.x),Math.abs(box.max.x)),dx=bx-ax,dy=box.max.y-box.min.y,len2=Math.max(1e-6,dx*dx+dy*dy);
+  return pair(0,3,range(clamp(((Math.abs(p.x)-ax)*dx+(p.y-box.min.y)*dy)/len2),.08,.97));
+ }
  if(profile==='chest')return pair(name.toLowerCase().includes('clavicular')?1:0,3,range(lateral,.72,.98));
  if(profile==='cuff')return pair(2,3,range(lateral,.30,.95));
  if(profile==='coraco')return pair(2,3,range(down,.1,.85));
@@ -256,8 +261,11 @@ function armWeightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''):nu
 export function smoothSkinWeights(positions:ArrayLike<number>,triangles:ArrayLike<number>,indices:Uint8Array,weights:Float32Array,frames=FRAMES.length,amount=.5,passes=1){
  const count=weights.length/4,node=new Uint32Array(count),keys=new Map<string,number>();
  for(let i=0;i<count;i++){const key=`${positions[i*3]},${positions[i*3+1]},${positions[i*3+2]}`,first=keys.get(key);if(first===undefined){keys.set(key,i);node[i]=i;}else node[i]=first;}
- const neighbours:Set<number>[]=Array.from({length:count},()=>new Set<number>());
+ const neighbours:Set<number>[]=Array.from({length:count},()=>new Set<number>()),reach=new Map<number,number>();
+ // Neighbours count by the inverse of their distance: exported meshes mix 1 mm and 30 mm edges, and a plain mean let one far neighbour drag a vertex's weights away from the vertex 1 mm beside it (an abrupt weight step that stretched the sheet 10-30 times at the joint limit).
+ const share=(a:number,b:number)=>1/(.002+Math.hypot(positions[a*3]-positions[b*3],positions[a*3+1]-positions[b*3+1],positions[a*3+2]-positions[b*3+2]));
  for(let t=0;t<triangles.length;t+=3)for(let k=0;k<3;k++){const a=node[triangles[t+k]],b=node[triangles[t+(k+1)%3]];if(a!==b){neighbours[a].add(b);neighbours[b].add(a);}}
+ for(let i=0;i<count;i++)if(node[i]===i){let s=0;for(const u of neighbours[i])s+=share(i,u);reach.set(i,s);}
  let dense=new Float32Array(count*frames);
  for(let i=0;i<count;i++)for(let k=0;k<4;k++)dense[i*frames+indices[i*4+k]]+=weights[i*4+k];
  const pinned=new Uint8Array(count);
@@ -267,7 +275,7 @@ export function smoothSkinWeights(positions:ArrayLike<number>,triangles:ArrayLik
   for(let i=0;i<count;i++){
    const v=node[i],around=neighbours[v];if(pinned[v]||!around.size)continue;
    let total=0;
-   for(let f=0;f<frames;f++){let mean=0;for(const u of around)mean+=dense[u*frames+f];next[i*frames+f]=(1-amount)*dense[v*frames+f]+amount*mean/around.size;total+=next[i*frames+f];}
+   for(let f=0;f<frames;f++){let mean=0;for(const u of around)mean+=dense[u*frames+f]*share(v,u);next[i*frames+f]=(1-amount)*dense[v*frames+f]+amount*mean/reach.get(v)!;total+=next[i*frames+f];}
    for(let f=0;f<frames;f++)next[i*frames+f]/=total;
   }
   dense=next;

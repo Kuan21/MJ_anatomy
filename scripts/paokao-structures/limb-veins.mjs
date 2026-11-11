@@ -2,6 +2,8 @@
 // veins (venae comitantes of the interosseous arteries) and the thoracoepigastric vein. Positions follow the atlas meshes they accompany (U.axisAt), so they move with them.
 import {sub, add, mul, unit, len, lerp} from '../lib/paokao-util.mjs';
 
+const GRAYS_1918 = 'Gray’s Anatomy (1918), the veins of the thorax and abdomen';
+const OPENSTAX = 'OpenStax, Anatomy and Physiology (CC BY 4.0), veins of the thorax and abdomen';
 const SIDES = [{w: 'Right', l: 'right', sx: -1, zh: '右', s: 'r'}, {w: 'Left', l: 'left', sx: 1, zh: '左', s: 'l'}];
 
 export default function limbVeins(U) {
@@ -48,23 +50,56 @@ export default function limbVeins(U) {
         });
       }
     }
-    // Thoracoepigastric vein: a subcutaneous vein of the side of the trunk that links the lateral thoracic vein (axillary vein) with the superficial epigastric vein
-    // (great saphenous vein), a route between the vena cava systems. Drawn 4 mm under the skin along the anterior axillary line.
+    // Thoracoepigastric veins: a subcutaneous plexus on the side of the trunk, not a single vessel. A main channel runs down the flank along the anterior axillary line, then
+    // eases a little medially to end in the superficial epigastric vein; several small tributaries and cross-links run obliquely over the lateral chest and abdominal wall and
+    // join the lateral thoracic vein above, the superficial epigastric vein below and the periumbilical veins in the middle. Every point lies 4 mm under the skin.
     {
-      const top = low(`${S.w} lateral thoracic vein`), gsv = high(`${S.w} great saphenous vein`), n = 9, pts = [];
-      for (let i = 0; i <= n; i++) {
-        const y = top[1] + (gsv[1] - top[1]) * i / n, z = top[2] + (gsv[2] - top[2]) * i / n, hit = U.rayHit('Skin', P(0, y, z), P(S.sx, 0, 0));
-        pts.push(hit ? add(hit.point, mul(hit.normal, -.004)) : P(S.sx * .16, y, z));
-      }
-      pts[0] = top; pts[n] = add(gsv, P(0, 0, 0));
+      const sev = `${S.w} superficial epigastric vein`, top = low(`${S.w} lateral thoracic vein`);
+      // A point under the skin on the ray from the trunk axis at height y and azimuth th (0 = straight ahead, 90 = the side).
+      const flank = (y, th) => { const t = th * Math.PI / 180, d = P(S.sx * Math.sin(t), 0, Math.cos(t)), h = U.rayHit('Skin', P(0, y, 0), d); return h ? add(h.point, mul(h.normal, -.004)) : P(S.sx * .14 * Math.sin(t), y, .14 * Math.cos(t)); };
+      // The same on the front wall, by lateral position x (m from the midline) and height y: a ray straight back from in front of the body.
+      const front = (x, y) => { const h = U.rayHit('Skin', P(S.sx * x, y, .4), P(0, 0, -1)); return h ? add(h.point, mul(h.normal, -.004)) : P(S.sx * x, y, .09); };
+      const ends = U.tips(sev, .006).filter(t => t[1] > .91 && t[1] < .94), endTip = ends.reduce((a, v) => v[2] > a[2] ? v : a);
+      // Main channel: knots (height, azimuth). The last knot is the superficial epigastric vein's own end near the groin.
+      const knots = [[1.14, 67], [1.08, 65], [1.02, 61], [.97, 54], [.945, 45], [.928, 37]];
+      const trunk = [top, ...knots.map(([y, th]) => flank(y, th)), endTip];
+      const knot = i => trunk[i + 1];
+      const tube = (pts, r, samples = 40) => ({pts, r: [r, r * .9], samples});
+      const tubes = [{pts: trunk, r: [.0013, .0011], samples: 90}];
+      // Tributaries to the lateral thoracic vein: from the main channel up and back over the lateral chest wall (free fine ends).
+      tubes.push(tube([knot(0), flank(1.17, 74), flank(1.22, 80), flank(1.26, 84)], .0008));
+      tubes.push(tube([knot(1), flank(1.11, 72), flank(1.14, 78), flank(1.18, 83)], .0007));
+      // Cross-links over the anterior abdominal wall towards the periumbilical veins (their medial ends are joined by those veins, see below).
+      tubes.push(tube([knot(1), front(.1, 1.075), front(.078, 1.062), front(.062, 1.05), front(.046, 1.043)], .0008, 32));
+      tubes.push(tube([knot(2), front(.098, 1.012), front(.078, 1.016), front(.062, 1.02), front(.048, 1.025)], .0008, 32));
+      tubes.push(tube([knot(3), front(.082, .962), front(.062, .968), front(.05, .978), front(.04, .99)], .0007, 32));
+      // A short anastomosis between the two lower cross-links closes the mesh.
+      tubes.push(tube([front(.078, 1.016), front(.073, .99), front(.082, .962)], .0006, 24));
+      // Oblique tributaries below the waist: one runs laterally along the inguinal ligament towards the iliac crest (the line of the superficial circumflex iliac vein).
+      tubes.push(tube([knot(5), flank(.94, 48), flank(.952, 57), flank(.964, 66), flank(.974, 75)], .0008));
       out.push({
         name: `${S.w} thoracoepigastric vein`, zh: `${S.zh}胸腹壁靜脈`, system: 'venous', kind: 'vein', parent: `${S.w} lateral thoracic vein`,
-        tubes: [{pts, r: [.0012, .0011], samples: 60}],
+        tubes,
         card: {origin: ['Lateral thoracic vein (a tributary of the axillary vein) above; superficial epigastric vein (a tributary of the great saphenous vein) below', '上方為胸外側靜脈（腋靜脈屬支），下方為腹壁淺靜脈（大隱靜脈屬支）'],
-          course: ['Runs under the skin along the side of the chest and abdomen from the axilla to the groin, linking the superior and inferior vena cava systems', '沿胸腹側壁皮下由腋窩下行到鼠蹊部，連接上、下腔靜脈系統'],
+          course: ['A plexus of small subcutaneous veins on the side of the chest and abdomen: a main channel descends from the axilla to the groin, with several fine oblique tributaries and cross-links joining it to the periumbilical veins; it links the superior and inferior vena cava systems', '沿胸腹側壁皮下由腋窩下行到鼠蹊部的一叢細小靜脈：一條主幹加上多條斜行的細小屬支與橫向吻合支，並與臍周靜脈相連；連接上、下腔靜脈系統'],
           supply: ['Drains the skin and subcutaneous tissue of the lateral trunk; enlarges as a collateral route when a vena cava is blocked', '回收側軀幹皮膚與皮下組織；腔靜脈阻塞時成為側枝循環']},
-        refs: [],
+        refs: [GRAYS_1918, OPENSTAX],
       });
+      // Paraumbilical (periumbilical) veins: small subcutaneous veins radiating from the umbilicus; they drain to the thoracoepigastric and superficial epigastric veins and, through
+      // the round ligament of the liver, communicate with the portal system. Drawn as the half of the ring on this side.
+      {
+        const y0 = 1.035, ring = (a, l) => { const r = .008; return [front(r * Math.sin(a) + .004, y0 + r * Math.cos(a)), ...[.33, .66, 1].map(f => front((r + l * f) * Math.sin(a) + .004, y0 + (r + l * f) * Math.cos(a)))]; };
+        const rad = [[20, .045], [65, .05], [105, .045], [155, .04], [-15, .03]].map(([deg, l]) => ring(deg * Math.PI / 180, l));
+        rad[0][3] = front(.046, 1.075); rad[1][3] = front(.046, 1.043); rad[2][3] = front(.048, 1.025); rad[3][3] = front(.04, .99);
+        out.push({
+          name: `${S.w} paraumbilical veins`, zh: `${S.zh}臍旁靜脈`, system: 'venous', kind: 'vein', parent: sev,
+          tubes: rad.map(pts => ({pts, r: [.0007, .0006], samples: 30})),
+          card: {origin: ['Subcutaneous veins around the umbilicus', '臍周皮下的小靜脈'],
+            course: ['Fine veins radiate from the umbilicus over the anterior abdominal wall and join the thoracoepigastric and superficial epigastric veins; along the round ligament of the liver they also communicate with the portal vein', '細小靜脈由臍部向外放射，分布於前腹壁，與胸腹壁靜脈、腹壁淺靜脈相連；並經肝圓韌帶與肝門靜脈相通'],
+            supply: ['Drains the skin and subcutaneous tissue around the umbilicus; a portal-to-systemic collateral route that can dilate when the portal vein is obstructed', '回收臍周皮膚與皮下組織的血液；為門靜脈與體循環之間的側枝，門靜脈阻塞時可擴張']},
+          refs: [GRAYS_1918, OPENSTAX],
+        });
+      }
     }
   }
   return out;
