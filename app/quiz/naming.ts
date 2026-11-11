@@ -47,7 +47,7 @@ export function checklistAliases(structure: Named): {exact: string[]; group: str
   return {exact, group};
 }
 const partOfName = (x: string, y: string) => x.endsWith(` of ${y}`) || x.includes(` of ${y} `) || x.endsWith(` of the ${y}`) || x.includes(` of the ${y} `);
-/** The name the main site shows for this structure (the Netter-style spelling: quadratus plantae for flexor accessorius, 1st rib for first rib, coxal bone for hip bone), when it is another spelling
+/** The name the main site shows for this structure (the standard display spelling: quadratus plantae for flexor accessorius, 1st rib for first rib, coxal bone for hip bone), when it is another spelling
  * of the same structure. The site shows the branches of a nerve under the nerve's own name; that is a parent, not a spelling, and is never accepted here. */
 export function siteName(structure: Named): {en?: string; zh?: string} {
   if (!structure.system) return {};

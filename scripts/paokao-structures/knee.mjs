@@ -2,7 +2,6 @@
 // the patella), the patellar ligament (a thick band from the patella apex to the tibial tuberosity) and the medial and lateral patellar retinacula (thin sheets beside the patella).
 import {sub, add, mul, unit, len, lerp} from '../lib/paokao-util.mjs';
 
-const REF = 'Gray’s Anatomy for Students, 4th ed. (Drake et al.); Moore’s Clinically Oriented Anatomy, 8th ed.';
 const SIDES = [{w: 'Right', sx: -1, zh: '右'}, {w: 'Left', sx: 1, zh: '左'}];
 
 export default function knee(U) {
@@ -31,7 +30,7 @@ export default function knee(U) {
         card: {origin: ['The four parts of quadriceps femoris: rectus femoris, vastus medialis, vastus lateralis and vastus intermedius, joined about 7 cm above the patella', '股四頭肌的四個部分：股直肌、股內側肌、股外側肌與股中間肌，在髕骨上方約 7 公分處匯合'],
           insertion: ['Base (upper border) of the patella; fibres continue over the front of the patella into the patellar ligament', '髕骨底（上緣）；部分纖維越過髕骨前面延續為髕韌帶'],
           action: ['Transmits the pull of quadriceps to extend the knee; the commonest site of tendon rupture after the patellar ligament', '把股四頭肌的拉力傳到髕骨以伸直膝關節；斷裂時膝無法主動伸直']},
-        refs: [REF],
+        refs: [],
       });
     }
     // ---- Patellar ligament: from the apex of the patella to the tibial tuberosity, 30 mm wide, 5 mm thick, running straight in front of the joint line.
@@ -41,7 +40,7 @@ export default function knee(U) {
       out.push({
         name: `${S.w} patellar ligament`, zh: `${S.zh}髕韌帶`, system: 'connective', kind: 'ligament', retired: true, geometry: [U.sheet(g, .007)],
         card: {origin: ['Apex and adjoining lower border of the patella', '髕骨尖與其鄰近的下緣'], course: ['Passes straight down in front of the joint line to the tibial tuberosity; the infrapatellar fat pad lies behind it', '垂直向下，走在關節線前方，止於脛骨粗隆；後面是髕下脂肪墊'], supply: ['Carries the force of quadriceps from the patella to the tibia (the patellar tendon reflex is tested by tapping it)', '把股四頭肌的力量從髕骨傳到脛骨（敲擊可引出髕腱反射）']},
-        refs: [REF],
+        refs: [],
       });
     }
     // ---- Patellar retinacula: thin fibrous sheets from the sides of the patella and quadriceps tendon to the tibial condyles and the epicondyles of the femur. Each is laid on the front
@@ -65,7 +64,7 @@ export default function knee(U) {
         name: `${S.w} ${side} patellar retinaculum`, zh: `${S.zh}髕${zh}支持帶`, system: 'connective', kind: 'retinaculum', retired: true, geometry: [U.sheet(gs, .0016)],
         card: {origin: [`${en} border of the patella and the edge of the quadriceps tendon (from vastus ${side === 'medial' ? 'medialis' : 'lateralis'})`, `髕骨${zh}緣與股四頭肌腱邊緣（自股${zh}肌）`],
           course: [`A thin layer that passes beside the patella to the ${side} tibial condyle and the ${side} epicondyle of the femur`, `薄層，走在髕骨${zh}方，連到脛骨${zh}髁與股骨${zh}上髁`], supply: ['Holds the patella in the trochlear groove; the lateral one is released surgically when the patella is pulled laterally', '把髕骨固定在股骨滑車溝內；髕骨向外側脫位時，外側支持帶過緊可手術鬆解']},
-        refs: [REF],
+        refs: [],
       });
     }
   }

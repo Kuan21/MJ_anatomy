@@ -2,13 +2,12 @@
 // branches of the femoral artery, the ankle and fibular arteries, a few cutaneous and muscular nerves). Textbook courses on landmarks measured on the atlas meshes.
 import {sub, add, mul, unit, len, lerp} from '../lib/paokao-util.mjs';
 
-const GRAYS = 'Gray’s Anatomy for Students, 4th ed. (Drake et al.), ch. 5 Pelvis and Perineum and ch. 6 Lower Limb';
 const SIDES = [{w: 'Right', l: 'right', sx: -1, zh: '右', s: 'r'}, {w: 'Left', l: 'left', sx: 1, zh: '左', s: 'l'}];
 
 export default function lowerLimb(U) {
   const out = [], P = (x, y, z) => [x, y, z];
   const axis = (name, y, near, half = .002) => U.axisAt(name, y, near, half);
-  const art = (S, parent, n, zh, origin, course, supply, tubes, extra = {}) => out.push({name: `${S.w} ${n}`, zh: `${S.zh}${zh}`, system: 'arterial', kind: 'artery', parent, tubes, card: {origin, course, supply}, refs: [GRAYS], ...extra});
+  const art = (S, parent, n, zh, origin, course, supply, tubes, extra = {}) => out.push({name: `${S.w} ${n}`, zh: `${S.zh}${zh}`, system: 'arterial', kind: 'artery', parent, tubes, card: {origin, course, supply}, refs: [], ...extra});
   for (const S of SIDES) {
     const fem = `${S.w} femoral artery`, dfv = `${S.w} deep femoral vein`, femur = `${S.w} femur`;
     const f = (y, dz = 0) => axis(fem, y, P(S.sx * .05, y, .035 + dz));
@@ -104,7 +103,7 @@ export default function lowerLimb(U) {
       const lp = `${S.w} lateral plantar artery`, tips = U.tips(lp, .004), a = tips.reduce((p, t) => t[1] > p[1] ? t : p), b = tips.reduce((p, t) => t[1] < p[1] ? t : p);
       out.push({name: `${S.w} lateral plantar vein`, zh: `${S.zh}足底外側靜脈`, system: 'venous', kind: 'vein', parent: lp,
         tubes: [{pts: [add(a, P(S.sx * .003, .004, -.002)), add(lerp(a, b, .5), P(S.sx * .003, 0, -.003)), add(b, P(S.sx * .003, -.001, -.002))], r: [.0016, .0011], samples: 20}],
-        card: {origin: ['Plantar venous arch', '足底靜脈弓'], course: ['Accompanies the lateral plantar artery and nerve and joins the medial plantar vein behind the medial malleolus to form the posterior tibial vein', '伴隨足底外側動脈與神經，在內踝後方與足底內側靜脈合成脛後靜脈'], supply: ['Drains the lateral plantar region and the plantar muscles', '回收足底外側與足底肌肉的血液']}, refs: [GRAYS]});
+        card: {origin: ['Plantar venous arch', '足底靜脈弓'], course: ['Accompanies the lateral plantar artery and nerve and joins the medial plantar vein behind the medial malleolus to form the posterior tibial vein', '伴隨足底外側動脈與神經，在內踝後方與足底內側靜脈合成脛後靜脈'], supply: ['Drains the lateral plantar region and the plantar muscles', '回收足底外側與足底肌肉的血液']}, refs: []});
     }
     // ---- Gluteal and internal pudendal arteries (branches of the internal iliac artery that leave the pelvis through the greater sciatic foramen).
     {
@@ -132,33 +131,33 @@ export default function lowerLimb(U) {
       const igT = U.onSurface(`${S.w} gluteus maximus`, P(S.sx * .050, .915, -.100), -.004);
       out.push({name: `${S.w} inferior gluteal nerve`, zh: `${S.zh}臀下神經`, system: 'nervous', kind: 'nerve',
         tubes: [{pts: [hi, add(lerp(hi, igT, .5), P(0, -.004, -.008)), igT], r: [.0016, .0010], samples: 20}],
-        card: {origin: ['Sacral plexus (L5–S2)', '薦神經叢（L5–S2）'], course: ['Leaves the pelvis through the greater sciatic foramen below piriformis and enters the deep surface of gluteus maximus', '經坐骨大孔、梨狀肌下緣出骨盆，進入臀大肌深面'], supply: ['Gluteus maximus', '臀大肌']}, refs: [GRAYS]});
+        card: {origin: ['Sacral plexus (L5–S2)', '薦神經叢（L5–S2）'], course: ['Leaves the pelvis through the greater sciatic foramen below piriformis and enters the deep surface of gluteus maximus', '經坐骨大孔、梨狀肌下緣出骨盆，進入臀大肌深面'], supply: ['Gluteus maximus', '臀大肌']}, refs: []});
       const oi = `${S.w} obturator internus`, oiT = U.onSurface(oi, P(S.sx * .045, .905, -.040), .0012), spineP = add(U.alongMesh(`${S.w} piriformis`, .55, P(0, -1, 0), S.sx < 0 ? 'x-max' : 'x-min'), P(0, -.012, .010));
       out.push({name: `${S.w} nerve to obturator internus`, zh: `${S.zh}閉孔內肌神經`, system: 'nervous', kind: 'nerve',
         tubes: [{pts: [hi, add(pirLo, P(S.sx * -.005, -.004, -.010)), spineP, oiT], r: [.0012, .0008], samples: 28}],
-        card: {origin: ['Sacral plexus (L5–S1)', '薦神經叢（L5–S1）'], course: ['Leaves through the greater sciatic foramen, crosses the ischial spine and re-enters the pelvis through the lesser sciatic foramen to obturator internus; gives a branch to gemellus superior', '經坐骨大孔出骨盆，越過坐骨棘，再經坐骨小孔回到閉孔內肌；並分支至上孖肌'], supply: ['Obturator internus and gemellus superior', '閉孔內肌與上孖肌']}, refs: [GRAYS]});
+        card: {origin: ['Sacral plexus (L5–S1)', '薦神經叢（L5–S1）'], course: ['Leaves through the greater sciatic foramen, crosses the ischial spine and re-enters the pelvis through the lesser sciatic foramen to obturator internus; gives a branch to gemellus superior', '經坐骨大孔出骨盆，越過坐骨棘，再經坐骨小孔回到閉孔內肌；並分支至上孖肌'], supply: ['Obturator internus and gemellus superior', '閉孔內肌與上孖肌']}, refs: []});
       const fem = `Femoral nerve.${S.s}`, vm = `${S.w} vastus medialis`, o = U.cen(`Femoral nerve.${S.s}`, P(S.sx * .060, .72, .04), .006), t = U.onSurface(vm, P(S.sx * .052, .610, .020), -.003);
       out.push({name: `${S.w} nerve to vastus medialis`, zh: `${S.zh}股內側肌神經`, system: 'nervous', kind: 'nerve',
         tubes: [{pts: [U.cen(fem, P(S.sx * .060, .80, .04), .006), add(lerp(o, t, .4), P(0, 0, .002)), t], r: [.0010, .0007], samples: 20}],
-        card: {origin: ['Femoral nerve (posterior division)', '股神經（後股）'], course: ['Runs with the saphenous nerve in the adductor canal and enters vastus medialis (it gives off the articular branch to the knee)', '與隱神經一起走在內收肌管內，進入股內側肌（並發出膝關節支）'], supply: ['Vastus medialis and the knee joint', '股內側肌與膝關節']}, refs: [GRAYS]});
+        card: {origin: ['Femoral nerve (posterior division)', '股神經（後股）'], course: ['Runs with the saphenous nerve in the adductor canal and enters vastus medialis (it gives off the articular branch to the knee)', '與隱神經一起走在內收肌管內，進入股內側肌（並發出膝關節支）'], supply: ['Vastus medialis and the knee joint', '股內側肌與膝關節']}, refs: []});
       const sural = `Sural nerve.${S.s}`, cf = `Common fibular nerve.${S.s}`;
       const cfo = U.cen(cf, P(S.sx * .110, .430, -.050), .005), skin = y => U.onSurface(`Lateral head of ${S.l} gastrocnemius`, P(S.sx * .110, y, -.085), .003);
       const l1 = skin(.360), l2 = skin(.290), l3 = skin(.230);
       out.push({name: `${S.w} lateral sural cutaneous nerve`, zh: `${S.zh}腓腸外側皮神經`, system: 'nervous', kind: 'nerve',
         tubes: [{pts: [cfo, l1, l2, l3], r: [.0009, .0006], samples: 24}],
-        card: {origin: ['Common fibular nerve, in the popliteal fossa', '總腓神經（膕窩內）'], course: ['Pierces the deep fascia and descends over the lateral head of gastrocnemius; often gives the sural communicating branch', '穿出深筋膜，沿腓腸肌外側頭表面下行；常發出腓腸交通支'], supply: ['Skin of the lateral side of the leg', '小腿外側皮膚']}, refs: [GRAYS]});
+        card: {origin: ['Common fibular nerve, in the popliteal fossa', '總腓神經（膕窩內）'], course: ['Pierces the deep fascia and descends over the lateral head of gastrocnemius; often gives the sural communicating branch', '穿出深筋膜，沿腓腸肌外側頭表面下行；常發出腓腸交通支'], supply: ['Skin of the lateral side of the leg', '小腿外側皮膚']}, refs: []});
       const sT = U.tips(sural, .006), sLow = sT.reduce((a, t) => t[1] < a[1] ? t : a), fifth = U.onSurface(`${S.w} fifth metatarsal bone`, P(S.sx * .120, .040, .020), .004);
       out.push({name: `${S.w} lateral dorsal cutaneous nerve`, zh: `${S.zh}足背外側皮神經`, system: 'nervous', kind: 'nerve', parent: sural,
         tubes: [{pts: [sLow, add(lerp(sLow, fifth, .55), P(0, 0, .004)), fifth], r: [.0007, .0005], samples: 18}],
-        card: {origin: ['Sural nerve (terminal part)', '腓腸神經（末段）'], course: ['Passes behind and below the lateral malleolus and runs along the lateral border of the foot', '繞過外踝後下方，沿足外側緣前行'], supply: ['Skin of the lateral foot and the little toe', '足外側與小趾皮膚']}, refs: [GRAYS]});
+        card: {origin: ['Sural nerve (terminal part)', '腓腸神經（末段）'], course: ['Passes behind and below the lateral malleolus and runs along the lateral border of the foot', '繞過外踝後下方，沿足外側緣前行'], supply: ['Skin of the lateral foot and the little toe', '足外側與小趾皮膚']}, refs: []});
       const dfn = `Deep fibular nerve.${S.s}`, dT = U.tips(dfn, .006), dLow = dT.reduce((a, t) => t[1] < a[1] ? t : a);
       const first = U.onSurface(`${S.w} first metatarsal bone`, P(S.sx * .060, .050, .050), .004), toe2 = U.onSurface(`${S.w} second metatarsal bone`, P(S.sx * .075, .050, .052), .004), lat = U.onSurface(`${S.w} extensor digitorum brevis`, P(S.sx * .110, .045, .035), -.001);
       out.push({name: `${S.w} medial branch of deep fibular nerve`, zh: `${S.zh}腓深神經內側支`, system: 'nervous', kind: 'nerve', parent: dfn,
         tubes: [{pts: [dLow, lerp(dLow, toe2, .5), toe2], r: [.0009, .0006], samples: 18}],
-        card: {origin: ['Deep fibular nerve, at the ankle', '腓深神經（踝部）'], course: ['Runs on the dorsum of the foot lateral to the dorsalis pedis artery to the cleft between the 1st and 2nd toes', '沿足背走在足背動脈外側，到第一、二趾之間'], supply: ['Skin of the adjacent sides of the great and second toes', '拇趾與第二趾相對面的皮膚']}, refs: [GRAYS]});
+        card: {origin: ['Deep fibular nerve, at the ankle', '腓深神經（踝部）'], course: ['Runs on the dorsum of the foot lateral to the dorsalis pedis artery to the cleft between the 1st and 2nd toes', '沿足背走在足背動脈外側，到第一、二趾之間'], supply: ['Skin of the adjacent sides of the great and second toes', '拇趾與第二趾相對面的皮膚']}, refs: []});
       out.push({name: `${S.w} lateral branch of deep fibular nerve`, zh: `${S.zh}腓深神經外側支`, system: 'nervous', kind: 'nerve', parent: dfn,
         tubes: [{pts: [dLow, add(lerp(dLow, lat, .5), P(0, 0, .002)), lat], r: [.0009, .0006], samples: 18}],
-        card: {origin: ['Deep fibular nerve, at the ankle', '腓深神經（踝部）'], course: ['Passes laterally under extensor digitorum longus and brevis tendons', '向外側走，經伸趾長肌與伸趾短肌腱深面'], supply: ['Extensor digitorum brevis and extensor hallucis brevis, and the tarsal and metatarsophalangeal joints', '伸趾短肌與伸拇短肌，及跗骨、蹠趾關節']}, refs: [GRAYS]});
+        card: {origin: ['Deep fibular nerve, at the ankle', '腓深神經（踝部）'], course: ['Passes laterally under extensor digitorum longus and brevis tendons', '向外側走，經伸趾長肌與伸趾短肌腱深面'], supply: ['Extensor digitorum brevis and extensor hallucis brevis, and the tarsal and metatarsophalangeal joints', '伸趾短肌與伸拇短肌，及跗骨、蹠趾關節']}, refs: []});
     }
   }
   return out;
