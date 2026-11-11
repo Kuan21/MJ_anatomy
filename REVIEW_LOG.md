@@ -6,6 +6,10 @@
 
 原因：「脫離骨骼」數的是點數、「拉伸」數的是三角形數，換網格來源或重新取樣會讓同一個問題的計數上下變動，被誤判為變差（#242 就因此多出 50 條假的變差）。修正：偵測端多輸出 `fraction`（受影響的比例）與 `severity`（最遠距離 mm／最差倍率），已知清單的 458 條脫離與拉伸條目一次性改用這兩個數（`node scripts/check-stability.mjs --write --adopt-metrics`，只能與 `--write` 一起用）；之後只有 severity 超過容許（脫離 2 mm、拉伸 0.1 倍）或 fraction 增加超過 5 個百分點才算變差，原始計數只留作參考。其他檢查（穿入、重合、切口、碎片）規則不變。已知清單總數仍是 1089 條，沒有新增或移除；測試 `scripts/test-stability-baseline.mjs` 由 12 個案例增為 23 個。容許值是我的選擇，請使用者決定是否要調整。
 
+## 神經：坐骨神經與前根重合面處理（#242 後續，【需人工審核】，使用者 2026-11-11 指示）
+
+`scripts/extract-zanatomy-nervous.mjs` 新增一項記錄在案的調整：左右股後皮神經前根與坐骨神經表面重合的面（每側 266 面）內縮 0.3 mm，消除 z-fighting；`nervous.glb` 重新輸出，來源與修改記在 `public/ATTRIBUTION.md`、`public/model_sources.json`、檔內 `asset.extras.adjustments`。穩定度已知清單 1089 → 1087（移除 2 條重合）。趾背中間皮神經這次**沒有移動**：檢查裡的「骨」其實是被歸在骨骼系統的腓骨第三肌，網格面朝向不一致，嘗試移動後穿入反而增加，細節在 `docs/official-nerve-stability-review.md`。位置請使用者依公開資料核對；未在 3D 畫面逐條目視確認。
+
 
 ## 文件：#242 後續——官方神經檔 54 條穩定度變動的檢視（文件類，CI 全綠後自動 merge）
 

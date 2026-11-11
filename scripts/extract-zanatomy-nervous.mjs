@@ -77,6 +77,41 @@ console.log(`Official nervous system: ${official.length} meshes. Container meshe
 if (report.moved.length) console.log(`  ${report.moved.length} meshes differ from the current ones by more than 5 mm (the official one is used): ${report.moved.join('; ')}`);
 if (check) process.exit(0);
 
+// ---- documented deviations from the official geometry (each one is listed in the glb's asset.extras.adjustments and in docs/official-nerve-stability-review.md)
+// 1. The anterior root of the posterior femoral cutaneous nerve starts inside the sciatic nerve and, for the first ~35 mm, its surface lies on the sciatic nerve's surface
+//    (parallel faces within 0.15 mm), so the pair draws as noise (z-fighting). Where its faces coincide with the sciatic nerve's, they are moved 0.3 mm inwards along their own
+//    normals (the root then runs just under the trunk's surface, as the fibres do inside the sciatic sheath); nothing else of the mesh is touched.
+const ADJUSTMENTS = [];
+{
+  const COINCIDE = {gap: .00015, radius: .006, dot: .995}, INWARD = .0003;
+  const facesOf = m => { const out = []; for (let t = 0; t < m.indices.length; t += 3) { const P = m.positions, a = m.indices[t] * 3, b = m.indices[t + 1] * 3, c = m.indices[t + 2] * 3;
+    const ux = P[b] - P[a], uy = P[b + 1] - P[a + 1], uz = P[b + 2] - P[a + 2], vx = P[c] - P[a], vy = P[c + 1] - P[a + 1], vz = P[c + 2] - P[a + 2];
+    let x = uy * vz - uz * vy, y = uz * vx - ux * vz, z = ux * vy - uy * vx; const l = Math.hypot(x, y, z); if (l < 1e-14) continue;
+    out.push({t, c: [(P[a] + P[b] + P[c]) / 3, (P[a + 1] + P[b + 1] + P[c + 1]) / 3, (P[a + 2] + P[b + 2] + P[c + 2]) / 3], n: [x / l, y / l, z / l]}); } return out; };
+  for (const side of ['l', 'r']) {
+    const find = base => official.find(m => keyOfFbx(m.name) === squash(base) + '|' + side);
+    const host = find('Sciatic nerve'), root = find('Anterior root of posterior femoral cutaneous nerve');
+    if (!host || !root) { console.log(`  adjustment 1 (${side}): sciatic nerve or anterior root not found, skipped`); continue; }
+    const fh = facesOf(host), fr = facesOf(root), grid = new Map(), cell = COINCIDE.radius, cellKey = (x, y, z) => `${Math.floor(x / cell)},${Math.floor(y / cell)},${Math.floor(z / cell)}`;
+    for (const f of fh) { const k = cellKey(...f.c); (grid.get(k) ?? grid.set(k, []).get(k)).push(f); }
+    const move = new Map(), key = (P, i) => `${Math.round(P[i] * 1e7)},${Math.round(P[i + 1] * 1e7)},${Math.round(P[i + 2] * 1e7)}`;
+    let faces = 0;
+    for (const f of fr) {
+      const [gx, gy, gz] = f.c.map(v => Math.floor(v / cell)); let hit = false;
+      for (let u = -1; u <= 1 && !hit; u++) for (let v = -1; v <= 1 && !hit; v++) for (let w = -1; w <= 1 && !hit; w++) for (const h of grid.get(`${gx + u},${gy + v},${gz + w}`) ?? []) {
+        const d = [h.c[0] - f.c[0], h.c[1] - f.c[1], h.c[2] - f.c[2]]; if (Math.hypot(...d) > COINCIDE.radius) continue;
+        if (h.n[0] * f.n[0] + h.n[1] * f.n[1] + h.n[2] * f.n[2] < COINCIDE.dot) continue;
+        if (Math.abs(d[0] * f.n[0] + d[1] * f.n[1] + d[2] * f.n[2]) > COINCIDE.gap) continue; hit = true; break; }
+      if (!hit) continue; faces++;
+      for (let k = 0; k < 3; k++) { const i = root.indices[f.t + k] * 3, id = key(root.positions, i); const e = move.get(id) ?? move.set(id, [0, 0, 0, 0]).get(id); e[0] += f.n[0]; e[1] += f.n[1]; e[2] += f.n[2]; e[3]++; }
+    }
+    // every vertex that sits at a moved position moves by the mean normal of the coincident faces at that position (so the seams of the triangle soup stay closed)
+    for (let i = 0; i < root.positions.length; i += 3) { const e = move.get(key(root.positions, i)); if (!e) continue; const l = Math.hypot(e[0], e[1], e[2]) || 1; for (let k = 0; k < 3; k++) root.positions[i + k] -= INWARD * e[k] / l; }
+    ADJUSTMENTS.push({mesh: `Anterior root of posterior femoral cutaneous nerve.${side}`, change: `${faces} faces that coincide with the sciatic nerve moved 0.3 mm inwards`, vertices: move.size});
+    console.log(`  adjustment 1 (${side}): ${faces} root faces coincided with the sciatic nerve; ${move.size} vertex positions moved 0.3 mm inwards`);
+  }
+}
+
 // ---- write the glb: official geometry, current names, materials and node offsets
 globalThis.DracoEncoderModule = req(new URL('.sites-runtime/extract-draco-encoder.cjs', root).pathname);
 const out = JSON.parse(JSON.stringify(gltf)); out.accessors = []; out.bufferViews = []; out.meshes = [];
@@ -101,7 +136,7 @@ for (const node of out.nodes) {
   node.mesh = out.meshes.push({name: node.name, primitives: [{attributes: {POSITION: pos, NORMAL: nor}, indices: ind, material, mode: 4, extensions: {KHR_draco_mesh_compression: {bufferView: view, attributes: {POSITION: 0, NORMAL: 1}}}}]}) - 1;
 }
 out.buffers = [{byteLength: offset}];
-out.asset = {version: '2.0', generator: 'MJ Anatomy scripts/extract-zanatomy-nervous.mjs', extras: {source: 'https://github.com/LluisV/Z-Anatomy', commit: COMMIT, file: FILE, fileSha256: fbxSha, license: 'CC BY-SA 4.0 (Z-Anatomy), with the BodyParts3D credit CC BY-SA 2.1 Japan', note: 'official geometry converted from centimetres to metres and Draco-encoded; names and materials follow the previous container'}};
+out.asset = {version: '2.0', generator: 'MJ Anatomy scripts/extract-zanatomy-nervous.mjs', extras: {source: 'https://github.com/LluisV/Z-Anatomy', commit: COMMIT, file: FILE, fileSha256: fbxSha, adjustments: ADJUSTMENTS, license: 'CC BY-SA 4.0 (Z-Anatomy), with the BodyParts3D credit CC BY-SA 2.1 Japan', note: 'official geometry converted from centimetres to metres and Draco-encoded; names and materials follow the previous container'}};
 const json = Buffer.from(JSON.stringify(out)), jpad = (4 - (json.length % 4)) % 4, body = Buffer.concat(chunks), bpad = (4 - (body.length % 4)) % 4;
 const header = Buffer.alloc(12); header.write('glTF', 0); header.writeUInt32LE(2, 4);
 const jh = Buffer.alloc(8); jh.writeUInt32LE(json.length + jpad, 0); jh.write('JSON', 4); const bh = Buffer.alloc(8); bh.writeUInt32LE(body.length + bpad, 0); bh.writeUInt32LE(0x004e4942, 4);
