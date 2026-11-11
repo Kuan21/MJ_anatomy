@@ -86,6 +86,14 @@ const bone=(chinese:string,typeEn:string,typeZh:string,roleEn:string,roleZh:stri
 });
 
 const detailed:Record<string,ProfileBody>={
+ 'aponeurosis of epicranius':{chinese:'帽狀腱膜',category:'Aponeurosis｜腱膜',
+  summaryEn:'A broad, thin tendinous sheet that covers the vault of the skull between the frontal belly and the occipital belly of occipitofrontalis; it is pale connective tissue, not muscle.',
+  summaryZh:'覆蓋顱頂的寬而薄的腱膜，位於枕額肌的額腹與枕腹之間；是淺色的結締組織，不是肌肉。',
+  facts:[
+   {labelEn:'Location',labelZh:'位置',valueEn:'Over the cranial vault, between the scalp skin and the pericranium, loosely attached to the bone beneath',valueZh:'覆於顱頂，位在頭皮與骨膜之間，與深層顱骨以疏鬆結締組織相連'},
+   {labelEn:'Attachments',labelZh:'附著',valueEn:'Frontalis in front, occipitalis behind, temporoparietalis at the sides',valueZh:'前方連額肌，後方連枕肌，兩側連顳頂肌'},
+   {labelEn:'Function',labelZh:'功能',valueEn:'Transmits the pull of frontalis and occipitalis so that the scalp moves as one layer',valueZh:'傳遞額肌與枕肌的牽拉，使頭皮整層一起移動'}
+  ],source:GROSS_SOURCE},
  'pectoralis major':muscle('胸大肌','Medial half of clavicle; sternum and upper costal cartilages','鎖骨內側半、胸骨及上位肋軟骨','Lateral lip of intertubercular sulcus of humerus','肱骨結節間溝外側唇','Lateral and medial pectoral nerves (C5–T1)','外側與內側胸神經（C5–T1）','Adducts and medially rotates arm; clavicular head assists flexion','內收及內旋手臂；鎖骨部協助屈曲'),
  'subclavius':muscle('鎖骨下肌','1st rib and costal cartilage','第一肋骨與肋軟骨','Inferior surface of middle third of clavicle','鎖骨中三分之一的下表面','Nerve to subclavius (C5–C6)','鎖骨下肌神經（C5–C6）','Anchors and depresses clavicle','固定並下壓鎖骨'),
  'pectoralis minor':muscle('胸小肌','3rd–5th ribs','第3–5肋骨','Coracoid process of scapula','肩胛骨喙突','Medial pectoral nerve (C8–T1)','內側胸神經（C8–T1）','Stabilizes scapula by drawing it anteriorly and inferiorly','將肩胛骨向前、向下拉以協助穩定'),
