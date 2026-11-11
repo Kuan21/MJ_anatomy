@@ -48,7 +48,7 @@ export function createShoulderSolver(atlas:Atlas){
    const palette=makePalette(rig,transforms),groups=new Map<string,(typeof members extends Map<string,infer M>?M:never)[]>();
    for(const m of members.values())if(m.side===side){
     deformTissue(m.skin,m.base,palette,m.positions);
-    if(m.guard)constrainSurface(m.guard,m.positions);
+    if(m.guard)constrainSurface(m.guard,m.positions,100);
     // Broad sheets join the volume solve, except serratus anterior (it wraps the ribcage on its own guide).
     const sheet=SHEET_PROFILES.includes(m.skin.profile)&&!m.skin.wrap&&m.part.system==='muscular';
     if(!m.skin.fibre&&!sheet&&!['deltoid','cuff'].includes(m.skin.profile))continue;
