@@ -15,7 +15,8 @@ import os from 'node:os';
 import path from 'node:path';
 
 const args = process.argv.slice(2), has = f => args.some(a => a === f || a.startsWith(f + '='));
-const DRY = has('--dry-run'), TMP = process.env.MJ_TMP || '/tmp/claude-0', DAY = 864e5;
+const DRY = has('--dry-run') || has('--donor'), // --donor only prints a path, so it must never delete
+   TMP = process.env.MJ_TMP || '/tmp/claude-0', DAY = 864e5;
 const sh = (cmd, a, o = {}) => { try { return execFileSync(cmd, a, {encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'], ...o}).trim(); } catch { return null; } };
 const freeBytes = () => { const s = fs.statfsSync('/'); return s.bavail * s.bsize; };
 const gb = b => (b / 2 ** 30).toFixed(2) + ' GB', mb = b => (b / 2 ** 20).toFixed(0) + ' MB';
