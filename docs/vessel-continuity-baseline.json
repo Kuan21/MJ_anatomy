@@ -1,4 +1,7 @@
 {
  "note": "Vessel pieces (12+ vertices) that touch no other vessel within 3 mm. A new one fails the build; fix it rather than adding it here.",
- "floating": []
+ "floating": [
+  "Left paraumbilical veins [PK-65] 89 vertices at 20, 1066, 103 mm",
+  "Right paraumbilical veins [PK-60] 89 vertices at -20, 1066, 102 mm"
+ ]
 }
