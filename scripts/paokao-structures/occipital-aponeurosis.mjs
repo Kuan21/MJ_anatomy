@@ -84,7 +84,6 @@ function solid({zs, mask, band, H, known}) {
 
 export function occipitalAponeurosis(U, w) { return solid(field(U, w)); }
 
-const REF = 'Gray’s Anatomy for Students, 4th ed. (Drake et al.); Moore’s Clinically Oriented Anatomy, 8th ed.';
 /** The structure spec (see scripts/lib/paokao-build.mjs). Built after everything else, so no earlier structure changes its id. */
 export default function occipitalAponeurosisSpec(U, w) {
   return [{
@@ -94,6 +93,5 @@ export default function occipitalAponeurosisSpec(U, w) {
       course: ['A thin pale tendinous layer on the back of the occipital bone in the midline and along the superior nuchal line, from the occipitalis bellies above to the upper ends of trapezius and splenius capitis below; the red muscle bellies of trapezius begin below it', '貼在枕骨後面、沿上項線與中線的淺色薄腱性層，上接枕肌，下接斜方肌與頭夾肌上端；紅色的斜方肌肌腹從它的下方開始'],
       supply: ['The tendinous origin of the upper trapezius, joined to the epicranial aponeurosis above it; it closes the gap that the separate muscle and aponeurosis meshes leave over the occipital bone, so the bone is covered as in the textbook plates (accessory nerve CN XI and C3–C4 supply the muscle that arises from it)', '上部斜方肌的腱性起點，向上與帽狀腱膜相連；補上肌肉與腱膜各自網格之間露出枕骨的空隙，使骨頭像課本圖譜一樣被蓋住（由它發出的斜方肌受副神經與 C3–C4 支配）'],
     },
-    refs: [REF],
   }];
 }
