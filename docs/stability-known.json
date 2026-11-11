@@ -5435,16 +5435,6 @@
    "name": "Esophageal impression of left lung",
    "measure": 57,
    "reason": "faces coincide with Apex of left lung: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|nerve:Sciatic nerve.l.001|nerve:Anterior root of posterior femoral cutaneous nerve.l.001": {
-   "name": "Sciatic nerve.l",
-   "measure": 359,
-   "reason": "faces coincide with Right procerus: two layers share the same surface; to be offset or one of them removed Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure."
-  },
-  "zfight|nerve:Sciatic nerve.r.001|nerve:Anterior root of posterior femoral cutaneous nerve.r.001": {
-   "name": "Sciatic nerve.r",
-   "measure": 359,
-   "reason": "faces coincide with Right procerus: two layers share the same surface; to be offset or one of them removed Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure."
   }
  }
 }
