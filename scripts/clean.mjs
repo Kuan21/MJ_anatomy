@@ -45,6 +45,8 @@ function remove(p, why) {
   if (!DRY) fs.rmSync(real, {recursive: true, force: true});
 }
 
+const sizeOrNull = f => { try { return fs.statSync(f).size; } catch { return null; } }; // a file may vanish while another process works
+
 // 1. npm cache
 { const c = path.join(os.homedir(), '.npm', '_cacache'); if (fs.existsSync(c)) { log.push(`${DRY ? 'would clear' : 'cleared'} npm cache ${mb(sizeOf(c))}`); if (!DRY) sh('npm', ['cache', 'clean', '--force']); } }
 
@@ -70,7 +72,6 @@ if (fs.existsSync(TMP)) {
 // always stays: the one holding the most such files plus generated model data. A worktree may only be removed when every
 // file of its work/ and outputs/ also exists in the donor with the same size.
 const filesUnder = (d) => { try { return fs.readdirSync(d, {withFileTypes: true}).flatMap(x => x.isDirectory() ? filesUnder(path.join(d, x.name)) : [path.join(d, x.name)]); } catch { return []; } };
-const sizeOrNull = f => { try { return fs.statSync(f).size; } catch { return null; } }; // a file may vanish while another process works
 const localData = w => ['work', 'outputs'].flatMap(k => filesUnder(path.join(w.dir, k)).map(f => [path.relative(w.dir, f), sizeOrNull(f)]).filter(([, sz]) => sz !== null));
 const score = w => localData(w).length * 1e6 + filesUnder(path.join(w.dir, 'public/models/stream')).length;
 const donor = [...worktrees].sort((a, b) => score(b) - score(a))[0];
