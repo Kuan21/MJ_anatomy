@@ -1467,7 +1467,7 @@
 | superior intercostal artery | 台灣解剖學名詞（程式內建對照表） | 最上肋間動脈 |
 | superior epigastric artery | glossary.json（其他筆記） | 上腹壁動脈 |
 | internal thoracic artery | 台灣解剖學名詞（程式內建對照表） | 內胸動脈 |
-| lateral thoracic artery | 台灣解剖學名詞（程式內建對照表） | 外側胸動脈 |
+| lateral thoracic artery | 台灣解剖學名詞（程式內建對照表） | 外胸動脈 |
 | first posterior intercostal artery | 台灣解剖學名詞（程式內建對照表） | 第一後肋間動脈 |
 | second posterior intercostal artery | 台灣解剖學名詞（程式內建對照表） | 第二後肋間動脈 |
 | Posterior intercostal arteries | 台灣解剖學名詞（程式內建對照表） | 後肋間動脈 |
