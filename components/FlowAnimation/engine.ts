@@ -21,7 +21,9 @@ export interface FlowOptions{
  /** 暫停狀態改變時通知介面（使用者拖曳或縮放會自動暫停，停在目前這一步） */
  onPausedChange?:(paused:boolean)=>void;
 }
-export interface FlowEngine{setMode:(m:number,step?:number)=>void;prev:()=>void;next:()=>void;togglePause:()=>void;dispose:()=>void}
+/** 視角：auto = 每一步照導覽預設的角度；front／back = 固定從前面／後面看（高度與距離不變） */
+export type ViewSide='auto'|'front'|'back';
+export interface FlowEngine{setMode:(m:number,step?:number)=>void;prev:()=>void;next:()=>void;togglePause:()=>void;setView:(v:ViewSide)=>void;dispose:()=>void}
 
 const V=(p:Pt)=>new THREE.Vector3(p[0],p[1],p[2]);
 const RAW=new THREE.Vector3();
@@ -29,8 +31,12 @@ const RAW=new THREE.Vector3();
 const col=(hex:number)=>new THREE.Color().setRGB(((hex>>16)&255)/255,((hex>>8)&255)/255,(hex&255)/255,THREE.LinearSRGBColorSpace);
 const COLORS:Record<string,number>={nerve:0xd9a300,artery:0xcc3b36,vein:0x2c5bb5,vcom:0x8db2e6};
 const STEP_DUR=10.5,GROW=4.2,CAM=1.8;
+/** 流動光點的速度（原型單位／秒）；比原型慢很多（約四成），較容易跟著看 */
+const FLOW_SPEED=.22,FLOW_SPEED_VEIN=.18;
 /** 神經比原型細（原型的粗細是示意；放到真實模型上會顯得太粗） */
-const NERVE_THICKNESS=.6;
+const NERVE_THICKNESS=.5,VESSEL_THICKNESS=.8;
+/** 管子的圓周分段數與沿路徑的分段密度（越大越圓滑；三角形數大約同比增加） */
+const TUBE_RADIAL=16,TUBE_SEG_PER_UNIT=34;
 const ease=(t:number)=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
 
 interface PathNode{
@@ -65,10 +71,10 @@ export function createFlowEngine(opt:FlowOptions):FlowEngine{
  const paths:Record<string,PathNode>={};
  function make(id:string,pts:Pt[],group:string,extra?:Partial<PathNode>){
   const curve=new THREE.CatmullRomCurve3(pts.map(W),false,'centripetal');const len=curve.getLength();
-  const ulen=len/unit,seg=Math.max(24,Math.round(ulen*28)),rad=10;
+  const ulen=len/unit,seg=Math.max(32,Math.round(ulen*TUBE_SEG_PER_UNIT)),rad=TUBE_RADIAL;
   let r=data.thickPaths.test(id)?(group==='nerve'?.05:.058):.032;
   if(id==='aorta')r=.11;if(group==='vcom')r=(id==='v_aorta'?.1:(data.thickPaths.test(id.slice(2))?.045:.026));if(id==='sci')r=.065;
-  if(group==='nerve')r*=NERVE_THICKNESS;
+  r*=group==='nerve'?NERVE_THICKNESS:VESSEL_THICKNESS;
   r*=unit;
   const geo=new THREE.TubeGeometry(curve,seg,r,rad,false);
   const c=col(COLORS[group]);
@@ -95,9 +101,10 @@ export function createFlowEngine(opt:FlowOptions):FlowEngine{
  let tagEls:TagEl[]=[];
  let mode=0,stepIdx=-1,stepT=0,camT=0,growPhases:string[][]=[];
  // 使用者隨時可以轉動、縮放：一動就接手鏡頭並停在目前這一步（paused）；按下一步、上一步或播放會把鏡頭平順接回導覽視角。
- let paused=false,manual=false;
+ let paused=false,manual=false,viewSide:ViewSide='auto';
  function setPaused(v:boolean){if(paused===v)return;paused=v;opt.onPausedChange?.(v);}
  function resumeGuide(){if(!manual)return;camNow[0].copy(camera.position);camNow[1].copy(controls.target);camFrom=[camNow[0].clone(),camNow[1].clone()];camT=0;manual=false;}
+ function setView(v:ViewSide){if(viewSide===v)return;viewSide=v;if(manual)resumeGuide();else{camFrom=[camNow[0].clone(),camNow[1].clone()];camT=0;}}
  controls.addEventListener('start',()=>{if(!manual){controls.target.copy(camNow[1]);manual=true;}setPaused(true);});
  let camFrom:THREE.Vector3[]=[new THREE.Vector3(3.2,1.6,8.5),new THREE.Vector3(-.6,.9,-.3)];
  const camNow:THREE.Vector3[]=[camFrom[0].clone(),camFrom[1].clone()];
@@ -166,11 +173,19 @@ export function createFlowEngine(opt:FlowOptions):FlowEngine{
   const s=MODES[mode].steps[stepIdx];
   const ct=ease(Math.min(camT/CAM,1));
  const tgt=W(s.cam[1]);let pos=RAW.copy(V(s.cam[0])).sub(V(s.cam[1])).multiplyScalar(unit).add(tgt).clone();
-  if(s.orbit){const off=pos.clone().sub(tgt);off.applyAxisAngle(new THREE.Vector3(0,1,0),stepT*.33);pos=tgt.clone().add(off);}
-  else pos.x+=Math.sin(stepT*.4)*.25*unit;
+  // 鏡頭不再持續晃動；總覽步驟在「導覽」視角下才繞一圈。選了前面／後面就固定從那一側看。
+  if(viewSide!=='auto'){const off=pos.clone().sub(tgt),r=Math.hypot(off.x,off.z);pos=tgt.clone().add(new THREE.Vector3(0,off.y,viewSide==='front'?r:-r));}
+  else if(s.orbit){const off=pos.clone().sub(tgt);off.applyAxisAngle(new THREE.Vector3(0,1,0),stepT*.33);pos=tgt.clone().add(off);}
   pos=tgt.clone().add(pos.clone().sub(tgt).multiplyScalar(camScale));
   if(manual)controls.update();
-  else{camNow[0].copy(camFrom[0]).lerp(pos,ct);camNow[1].copy(camFrom[1]).lerp(tgt,ct);
+  else{
+   // 鏡頭繞著目標轉過去（方向用球面插值、距離線性插值），切換前後面時不會穿過模型內部
+   camNow[1].copy(camFrom[1]).lerp(tgt,ct);
+   const offF=camFrom[0].clone().sub(camFrom[1]),offT=pos.clone().sub(tgt),lenF=offF.length(),lenT=offT.length();
+   const dF=offF.clone().normalize(),dT=offT.clone().normalize(),q=new THREE.Quaternion();
+   if(dF.dot(dT)<-.9999)q.setFromAxisAngle(new THREE.Vector3(0,1,0),Math.PI);else q.setFromUnitVectors(dF,dT);
+   const qi=new THREE.Quaternion().slerp(q,ct);
+   camNow[0].copy(camNow[1]).add(dF.applyQuaternion(qi).multiplyScalar(lenF+(lenT-lenF)*ct));
    camera.position.copy(camNow[0]);camera.lookAt(camNow[1]);}
   const gt=Math.max(0,stepT-CAM*.6);
   const per=GROW/Math.max(growPhases.length,1);
@@ -187,7 +202,7 @@ export function createFlowEngine(opt:FlowOptions):FlowEngine{
     const hv=!!hl&&mode===hlMode&&stepIdx===hlStep&&hl.has(id);
     n.mesh.material.opacity=hv?Math.max(.6*n.fade,n.fade>.5?.9:0):.6*n.fade;n.mesh.material.emissiveIntensity=hv?.7+.3*Math.sin(clock.elapsedTime*5):.2;
     const fo=a.state==='active'&&n.fade>.5;
-    n.flow.forEach((f,i)=>{f.visible=fo;if(fo){const u=(tm*0.7/n.len+f.userData.o+i/n.flow.length)%1;f.position.copy(n.curve.getPointAt(u));f.material.opacity=.7*n.fade;}});
+    n.flow.forEach((f,i)=>{f.visible=fo;if(fo){const u=(tm*FLOW_SPEED_VEIN/n.len+f.userData.o+i/n.flow.length)%1;f.position.copy(n.curve.getPointAt(u));f.material.opacity=.7*n.fade;}});
     continue;}
    const on=n.state==='active',done=n.state==='done',ctx=n.state==='ctx';
    if((done||ctx)&&n.p<1)setGrow(n,1);
@@ -195,7 +210,7 @@ export function createFlowEngine(opt:FlowOptions):FlowEngine{
    n.mesh.material.opacity=mine?1:(on?(hv?.5:1):(done?.45:(ctx?.3:0)));
    n.mesh.material.emissiveIntensity=mine?.7+.3*Math.sin(clock.elapsedTime*5):(on?.45:.12);
    const flowOn=on&&n.p>=1;
-   n.flow.forEach((f,i)=>{f.visible=flowOn;if(flowOn){const u=(tm*0.9/n.len+f.userData.o+i/n.flow.length)%1;f.position.copy(n.curve.getPointAt(u));}});
+   n.flow.forEach((f,i)=>{f.visible=flowOn;if(flowOn){const u=(tm*FLOW_SPEED/n.len+f.userData.o+i/n.flow.length)%1;f.position.copy(n.curve.getPointAt(u));}});
   }
   for(const k in model.muscleMats){const mat=model.muscleMats[k];const want=(s.mus||[]).includes(k)?1:0;
    const t=(mat.userData.t=(mat.userData.t??0)+(want-(mat.userData.t??0))*Math.min(dt*3,1));
@@ -259,5 +274,5 @@ export function createFlowEngine(opt:FlowOptions):FlowEngine{
   else setMode(mode,i);};
  const prev=()=>go(-1),next=()=>go(1);
  const togglePause=()=>{if(paused){resumeGuide();setPaused(false);}else setPaused(true);};
- return {setMode,prev,next,togglePause,dispose};
+ return {setMode,prev,next,togglePause,setView,dispose};
 }
