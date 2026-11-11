@@ -6,9 +6,9 @@
 
 | 類別 | 不重複詞數 | 意思 |
 |---|---|---|
-| 一、已有 | 1217 | 模型有，而且可以用搜尋／圖層揀到 |
+| 一、已有 | 1219 | 模型有，而且可以用搜尋／圖層揀到 |
 | 二、模型有但 UI 搵唔到 | 0 | 模型有幾何，但搜尋唔到（見下面清單；已修好者會喺「修復」一節列明） |
-| 三、模型冇 | 1124 | 交俾第 2 部分補模型 |
+| 三、模型冇 | 1122 | 交俾第 2 部分補模型 |
 | 骨性標誌 | 262 | 結節、窩、切跡等，屬已有骨件嘅表面特徵，模型唔另外分件 |
 | 雜訊（已略去） | 650 | 唔係解剖結構 |
 
@@ -279,7 +279,7 @@
 
 ## 腹部 III　`20250606_解剖_腹部III_謝___W16`
 
-已有 126　·　UI 搵唔到 0　·　模型冇 127　·　骨標誌 6　·　雜訊 33
+已有 127　·　UI 搵唔到 0　·　模型冇 126　·　骨標誌 6　·　雜訊 33
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -323,7 +323,6 @@
 - Deep circumflex iliac artery（深旋髂動脈）
 - Right gonadal vein（右生殖腺靜脈）
 - Cystic vein（膽囊靜脈）
-- Paraumbilical vein（旁靜脈）
 - Bile duct（膽汁則會由膽管）
 - Middle rectal veins
 - Inferior rectal veins（下直腸靜脈）
@@ -482,7 +481,7 @@
 
 ## 腹部 I　`Med_Abdomen_I_20250519_14ba0910260399815d92ca495866ae39`
 
-已有 47　·　UI 搵唔到 0　·　模型冇 53　·　骨標誌 21　·　雜訊 57
+已有 48　·　UI 搵唔到 0　·　模型冇 52　·　骨標誌 21　·　雜訊 57
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -508,7 +507,6 @@
 - Lower superficial circumflex iliac a
 - intercostal a. Subcostal a
 - Superficial circumflex iliac v
-- Paraumbilical v
 - Deep circumflex iliac v
 - Superficial inguinal nodes
 - Parasternal nodes
