@@ -134,6 +134,17 @@
 - 既有 Deploy workflow 加兩個步驟（`check:vessels`、`check:vessels:accept`），沒有新增 workflow。
 - **未驗證：** 此環境沒有安裝依賴也沒有生成檔，兩個新步驟與新腳本尚未實際執行，只做了語法檢查；請以 PR 的 CI 結果為準。若 `check:vessels` 在 main 上本來就失敗，會在這個 PR 暴露，不會放寬規則。
 
+## 出處清理（【需人工審核】，不自動 merge）
+
+**需人工審核，未合併。** 網站、程式碼與資料檔不再出現任何書名（Netter、Moore、Gray's Anatomy for Students 等），只保留允許的公開來源（Gray's Anatomy 1918、OpenStax）與模型資料授權出處。
+
+- `app/mj-netter-terminology.ts` 改名為 `app/mj-display-terminology.ts`（`displayEnglishName`、`DISPLAY_TERMINOLOGY_SOURCE`，內容改為 Terminologia Anatomica 與台灣解剖名詞）；`test-netter-terminology.mjs` 改名為 `test-display-terminology.mjs` 並第一次併入 `npm run check`（原本沒有在 check 裡）。`GROSS_SOURCE` 改名 `GENERAL_SOURCE`，卡片出處行不再寫「terminology cross-checked with Netter…」。
+- `scripts/paokao-structures/*.mjs` 的書名引用移除，`app/mj-paokao.json` 的 refs 欄：380 筆原本都是 Gray's Anatomy for Students／Moore，改為空（只保留 Human Reference Atlas 乳腺模型的 CC BY 4.0 出處與「位置依男性骨盆估計」兩種非書名說明）。我沒有逐結構核對真實的 Gray's 1918、OpenStax 頁碼或 FMA 編號，依規則不編造，所以留空。refs 本來就沒有顯示在任何資訊卡上。`app/mj-paokao.json` 與 `paokao-stream.json.gz` 用 repo 工具重新生成。
+- `public/ATTRIBUTION.md`、`CLAUDE.md`、`scripts/audit-paokao.mjs`（`docs/paokao-audit.md` 重新生成）、`docs/BUG_AUDIT.md`、`app/quiz/naming.ts`、`app/workspace-layout.css` 的書名或課程名稱字樣改寫。
+- 新增 `scripts/check-deploy-content.mjs`（併入 `npm run check`，也在 `npm run build` 後自動執行；`check-no-notes.mjs` 規則沒有放寬）：已出貨的檔案與 app 字串不得出現書名；app 只能引入 `docs/muscle-layers.json` 與 `docs/paokao-aliases.json` 兩個 docs 檔；筆記與摘要整理檔不得出現在 `public/` 或 `dist/`；vite 只複製 `public/`；Pages 只上傳 `dist/`。
+- `app/mj-paokao.json` 會被打包進網站：它是我們自己寫的示意結構資訊卡資料（網站內容，已不含書名），不是筆記檔。
+- 清單文件 `docs/notes-audit.md`：每個含筆記或摘要內容的檔案的路徑、大小、性質、是否被部署、能否移出；沒有刪除或移動任何檔案。請你決定。移出前要先改 `prepare-*`、`audit-*` 腳本，否則 CI 會失敗。
+
 ## 結構「範圍」屬性（摘要／延伸）與 Quiz 範圍選項（【需人工審核】，不自動 merge）
 
 **需人工審核，未合併。** 沒有預覽網址；重現：`npm run build`＋`vite preview`；搜尋任一結構（例如 trapezius、groove for esophagus）看搜尋結果的「摘要」標記與資訊卡的「Scope 範圍：Summary 摘要／Extended 延伸」；Quiz → 任一部位 → 設定頁「範圍」：「包括延伸」（預設，等於目前全部題目）或「只考摘要範圍」。截圖在 `pr-screenshots` 分支 `scope-2026-11-03/`。
@@ -1043,6 +1054,8 @@ Triangular interval 改為「三邊裂」（原「三頭肌間隙」），Clavip
 
 | 任務 | 狀態（進行中 / 已完成 / 等我審核 / 未開始 / 卡住） | PR 編號 | 備註 |
 | --- | --- | --- | --- |
+| **出處清理：移除書名字串、`mj-paokao.json` refs 清空、部署內容自動檢查、筆記相關檔案清單**（【需人工審核】，不自動 merge） | 等我審核（【需人工審核】，不自動 merge） | #214 | 見上方「出處清理」；清單在 `docs/notes-audit.md`，請決定哪些檔案移出 repo |
+
 | **半透明與深度精度加固（移除網點路徑、近平面隨距離、靜態回歸檢查）** | 等我審核（【需人工審核】，不自動 merge） | 見 PR | 見上方同名段落；根本原因待使用者提供裝置資訊 |
 | **穩定期 G：胸腔（肩旁米黃色三角形、胸骨旁白色實心板）** | 等我審核（【需人工審核】，不自動 merge） | 見 PR | 見上方「穩定期 G」 |
 
