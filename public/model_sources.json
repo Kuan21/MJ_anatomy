@@ -106,17 +106,18 @@
         "models/stream/nerves-*.bin.gz",
         "models/nerve-stream.json"
       ],
-      "license": "CC BY-SA 4.0 (BodyParts3D CC BY-SA 2.1 Japan)",
-      "origin": "Z-Anatomy export (nqwrc/3d-anatomy)",
-      "url": "https://github.com/nqwrc/3d-anatomy"
+      "license": "CC BY-SA 4.0 (Z-Anatomy), with the BodyParts3D credit CC BY-SA 2.1 Japan",
+      "origin": "Z-Anatomy NervousSystem100.fbx from the official repository (commit 6c7f9016bd5899ac8edafd31b9900c151df42ed6), geometry converted from centimetres to metres and Draco-encoded by scripts/extract-zanatomy-nervous.mjs",
+      "url": "https://github.com/LluisV/Z-Anatomy"
     },
     {
       "id": "z-anatomy-joints",
       "files": [
         "models/joints.glb"
       ],
-      "license": "CC BY-SA 4.0 (BodyParts3D CC BY-SA 2.1 Japan)",
-      "origin": "Z-Anatomy export (nqwrc/3d-anatomy)"
+      "license": "CC BY-SA 4.0 (Z-Anatomy), with the BodyParts3D credit CC BY-SA 2.1 Japan",
+      "origin": "Z-Anatomy Joints100.fbx from the official repository (commit 6c7f9016bd5899ac8edafd31b9900c151df42ed6), geometry converted from centimetres to metres, welded and Draco-encoded by scripts/extract-zanatomy-joints.mjs",
+      "url": "https://github.com/LluisV/Z-Anatomy"
     },
     {
       "id": "brain-project",
@@ -271,17 +272,18 @@
         "models/stream/nerves-*.bin.gz",
         "models/nerve-stream.json"
       ],
-      "license": "CC BY-SA 4.0 (BodyParts3D CC BY-SA 2.1 Japan)",
-      "origin": "Z-Anatomy export (nqwrc/3d-anatomy)",
-      "url": "https://github.com/nqwrc/3d-anatomy"
+      "license": "CC BY-SA 4.0 (Z-Anatomy), with the BodyParts3D credit CC BY-SA 2.1 Japan",
+      "origin": "Z-Anatomy NervousSystem100.fbx from the official repository (commit 6c7f9016bd5899ac8edafd31b9900c151df42ed6), geometry converted from centimetres to metres and Draco-encoded by scripts/extract-zanatomy-nervous.mjs",
+      "url": "https://github.com/LluisV/Z-Anatomy"
     },
     {
       "id": "z-anatomy-joints",
       "files": [
         "models/joints.glb"
       ],
-      "license": "CC BY-SA 4.0 (BodyParts3D CC BY-SA 2.1 Japan)",
-      "origin": "Z-Anatomy export (nqwrc/3d-anatomy)"
+      "license": "CC BY-SA 4.0 (Z-Anatomy), with the BodyParts3D credit CC BY-SA 2.1 Japan",
+      "origin": "Z-Anatomy Joints100.fbx from the official repository (commit 6c7f9016bd5899ac8edafd31b9900c151df42ed6), geometry converted from centimetres to metres, welded and Draco-encoded by scripts/extract-zanatomy-joints.mjs",
+      "url": "https://github.com/LluisV/Z-Anatomy"
     },
     {
       "id": "brain-project",

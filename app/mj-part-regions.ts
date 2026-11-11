@@ -153,7 +153,7 @@ export function topRegionParts(parts:Part[],region:'whole'|'upper'|'lower'|'head
  if(region==='organs')return parts.filter(p=>organSystems.includes(p.system)).map(p=>p.id);
  if(region==='upper')return [...partsInRegion(parts,'upper-limb'),...skinIds(parts)];
  if(region==='lower')return [...partsInRegion(parts,'lower-limb'),...skinIds(parts)];
- // Top-level 頭部 shows only what lies above the collarbones (the scene also cuts long vessels and nerves at that level); Motion 頭頸 uses only head-neck.
+ // Top-level 頭部 shows only what lies above the collarbones (a structure is shown whole or not at all; nothing is cut at that level); Motion 頭頸 uses only head-neck.
  const level=clavicleLevel(parts);
  return parts.filter(p=>{
   if(isMotionQuarantined(p))return false;

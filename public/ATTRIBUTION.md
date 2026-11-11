@@ -40,6 +40,10 @@ This is a reference assembly with whole-body surface and selected organs, includ
 
 Separately licensed additions (BodyParts3D 3.0, CC BY-SA 2.1 Japan, not the 4.0 CC BY terms above): the 47 facial/masticatory muscles (`models/facial/ATTRIBUTION.md`) and 28 structures that the 4.0 export omitted, such as latissimus dorsi and rectus abdominis (`models/supplement/ATTRIBUTION.md`).
 
+## Peripheral nerves (Z-Anatomy)
+
+The nerve meshes of the atlas (the peripheral nerves, ganglia, plexuses and the sympathetic trunk) are taken from the official Z-Anatomy nervous system model: [LluisV/Z-Anatomy](https://github.com/LluisV/Z-Anatomy) commit `6c7f9016bd5899ac8edafd31b9900c151df42ed6`, `Resources/Models/FBX/NervousSystem100.fbx`, CC BY-SA 4.0, a derivative of BodyParts3D (The Database Center for Life Science, CC BY-SA 2.1 Japan) as the model's own `License.txt` states. `scripts/extract-zanatomy-nervous.mjs` (a maintainer tool, not run by the build) converts the geometry from centimetres to metres and re-encodes it with Draco into `public/models/nervous.glb`; the file records the source file's SHA-256. Adapted mesh data remains under CC BY-SA 4.0. The course of some nerves is corrected by this project after loading (`scripts/lib/nerve-corrections.mjs`).
+
 ## Schematic nerve and vein models (generated for this atlas)
 
 Six structures of the suboccipital and posterior cervical region have no three-dimensional model in BodyParts3D or in the Z-Anatomy export (checked against [LluisV/Z-Anatomy](https://github.com/LluisV/Z-Anatomy) commit `6c7f9016bd5899ac8edafd31b9900c151df42ed6`, CC BY-SA 4.0: `NervousSystem100.fbx`, `CardioVascular41.fbx`, `MuscularSystem100.fbx` and the 1.0 export list contain only the grouping nodes "Cervical plexus" and "Cervical nerves", the "Occipital artery" and "Occipital vein", and no dorsal ramus, occipital, great auricular or suboccipital venous plexus mesh): suboccipital nerve (C1 dorsal ramus), greater occipital nerve (C2), third occipital nerve (C3), lesser occipital nerve, great auricular nerve and suboccipital venous plexus.
