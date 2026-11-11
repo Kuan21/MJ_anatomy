@@ -41,7 +41,7 @@ export const LOWER_LIMB_TENDONS = [
     course: ['A round cord that passes behind the medial femoral condyle, between the tendons of sartorius (in front) and semitendinosus (behind)', '圓索狀，經股骨內側髁後方，位於縫匠肌腱（前）與半腱肌腱（後）之間'],
     insertion: ['Upper part of the medial surface of the tibia, in the middle of the pes anserinus', '脛骨內側面上部，位於鵝足的中間'],
     action: ['Adducts the thigh, flexes the knee and rotates the flexed leg medially', '使大腿內收、屈膝，並使屈曲的小腿內旋']},
-  {key: 'iliopsoas', lower: true, flat: {thickness: .010}, title: 'tendon of iliopsoas', zh: '髂腰肌腱', parts: ['Right psoas major', 'Right iliacus'], end: 'distal', tau: T, independent: true, yByPart: {'Right psoas major': .9},
+  {key: 'iliopsoas', lower: true, title: 'tendon of iliopsoas', zh: '髂腰肌腱', parts: ['Right psoas major', 'Right iliacus'], end: 'distal', tau: T, independent: true, yByPart: {'Right psoas major': .9},
     origin: ['Psoas major and iliacus, which unite below the inguinal ligament', '腰大肌與髂肌，在腹股溝韌帶下方合併'],
     course: ['Passes over the pelvic brim and in front of the hip joint, separated from the capsule by the iliopsoas bursa, and turns back to the lesser trochanter', '越過骨盆緣、經髖關節前方，與關節囊之間隔著髂腰肌滑液囊，再轉向後下到小轉子'],
     insertion: ['Lesser trochanter of the femur', '股骨小轉子'],

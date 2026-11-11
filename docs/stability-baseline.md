@@ -9,7 +9,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | check | violations |
 |---|---|
 | Fragments | 48 |
-| Vessel, nerve and tendon walls inside bone | 458 |
+| Vessel, nerve and tendon walls inside bone | 457 |
 | Coincident faces (z-fighting) | 82 |
 | Straight cuts in meshes | 42 |
 | Triangle stretch over 2x in the limit poses | 284 |
@@ -68,7 +68,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Muscular branches of ulnar nerve.l | 1 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
 | Muscular branches of ulnar nerve.r | 1 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
 
-## Vessel, nerve and tendon walls inside bone (458)
+## Vessel, nerve and tendon walls inside bone (457)
 
 | structure | size | detail |
 |---|---|---|
@@ -306,7 +306,6 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right posterior circumflex humeral vein | 7.9 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right posterior interosseous artery | 6.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right tendon of biceps femoris | 3.4 | tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint |
-| Right tendon of biceps femoris | 5.2 | tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint |
 | Right posterior interosseous artery | 6.1 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right tendon of tibialis anterior | 4.9 | tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint |
 | Left tendon of tibialis anterior | 4.7 | tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint |
