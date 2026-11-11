@@ -88,14 +88,11 @@ const REF = 'Gray’s Anatomy for Students, 4th ed. (Drake et al.); Moore’s Cl
 /** The structure spec (see scripts/lib/paokao-build.mjs). Built after everything else, so no earlier structure changes its id. */
 export default function occipitalAponeurosisSpec(U, w) {
   return [{
-    name: 'nuchal origin of trapezius', zh: '斜方肌項線起點部', system: 'muscular', kind: 'muscle', cap: 12000, geometry: [occipitalAponeurosis(U, w)],
+    name: 'nuchal origin of trapezius', zh: '斜方肌項線起點部', system: 'connective', kind: 'fascia-dense', cap: 12000, geometry: [occipitalAponeurosis(U, w)],
     card: {
       origin: ['Medial part of the superior nuchal line, the external occipital protuberance and the nuchal ligament; it continues upwards into the epicranial aponeurosis between the two occipitalis bellies', '上項線內側部、枕外隆凸與項韌帶；向上與兩側枕肌之間的帽狀腱膜相連'],
-      course: ['A thin muscular and tendinous layer on the back of the occipital bone in the midline and along the superior nuchal line, from the occipitalis bellies above to the upper ends of trapezius and splenius capitis below; it thins out towards its borders', '貼在枕骨後面、沿上項線與中線的薄層肌腱，上接枕肌，下接斜方肌與頭夾肌的上端，向邊緣逐漸變薄'],
-      supply: ['Closes the gap that the separate trapezius, splenius capitis and occipitalis meshes leave over the occipital bone, so that muscle covers the bone as in the textbook plates', '補上斜方肌、頭夾肌與枕肌各自網格之間露出枕骨的空隙，使肌肉像課本圖譜一樣蓋住骨頭'],
-      insertion: ['Together with the descending part of trapezius: lateral third of the clavicle and the acromion', '與斜方肌降部一起：鎖骨外側三分之一與肩峰'],
-      nerve: ['Accessory nerve (CN XI) with branches of the cervical plexus (C3–C4)', '副神經（CN XI）及頸叢分支（C3–C4）'],
-      action: ['Upper fibres of trapezius: elevate the scapula and help extend and bend the neck to the same side', '斜方肌上部纖維：上提肩胛骨，並協助頸部伸展與向同側側屈'],
+      course: ['A thin pale tendinous layer on the back of the occipital bone in the midline and along the superior nuchal line, from the occipitalis bellies above to the upper ends of trapezius and splenius capitis below; the red muscle bellies of trapezius begin below it', '貼在枕骨後面、沿上項線與中線的淺色薄腱性層，上接枕肌，下接斜方肌與頭夾肌上端；紅色的斜方肌肌腹從它的下方開始'],
+      supply: ['The tendinous origin of the upper trapezius, joined to the epicranial aponeurosis above it; it closes the gap that the separate muscle and aponeurosis meshes leave over the occipital bone, so the bone is covered as in the textbook plates (accessory nerve CN XI and C3–C4 supply the muscle that arises from it)', '上部斜方肌的腱性起點，向上與帽狀腱膜相連；補上肌肉與腱膜各自網格之間露出枕骨的空隙，使骨頭像課本圖譜一樣被蓋住（由它發出的斜方肌受副神經與 C3–C4 支配）'],
     },
     refs: [REF],
   }];
