@@ -23,7 +23,7 @@ export default function upperLimb(U) {
         tubes: [{pts: [dSup, lerp(dSup, e, .5), e], r: [.0016, .0018], samples: 14}, {pts: [dMid, lerp(dMid, e, .5), e], r: [.0016, .0018], samples: 14},
           {pts: [e, add(lerp(e, mcTop, .35), P(S.sx * .006, 0, 0)), add(lerp(e, mcTop, .7), P(S.sx * .003, 0, .002)), mcTop], r: [.0015, .0012], samples: 30}],
         card: {origin: ['Anterior divisions of the upper and middle trunks (C5–C7)', '上幹與中幹的前股（C5–C7）'],
-          course: ['Lies lateral to the axillary artery behind pectoralis minor; gives the lateral pectoral nerve, the musculocutaneous nerve and the lateral root of the median nerve', '在胸小肌深面、腋動脈外側；發出外側胸神經、肌皮神經與正中神經外側根'],
+          course: ['Lies lateral to the axillary artery behind pectoralis minor; gives the lateral pectoral nerve, the musculocutaneous nerve and the lateral root of the median nerve', '在胸小肌深面、腋動脈外側；發出外胸神經、肌皮神經與正中神經外側根'],
           supply: ['Flexor muscles of the arm (through the musculocutaneous nerve) and the lateral part of the median nerve territory', '臂前群屈肌（經肌皮神經）與正中神經外側部分的支配範圍']},
         refs: [GRAYS],
       });
@@ -40,7 +40,7 @@ export default function upperLimb(U) {
         name: `${S.w} medial cord of brachial plexus`, zh: `${S.zh}臂神經叢內側束`, system: 'nervous', kind: 'nerve',
         tubes: [{pts: [dInf, lerp(dInf, e2, .5), e2], r: [.0017, .0017], samples: 14}, {pts: [e2, lerp(e2, ulnTop, .5), ulnTop], r: [.0016, .0013], samples: 14}],
         card: {origin: ['Anterior division of the lower trunk (C8–T1)', '下幹前股（C8–T1）'],
-          course: ['Lies medial to the axillary artery; gives the medial pectoral nerve, the medial brachial and antebrachial cutaneous nerves, the ulnar nerve and the medial root of the median nerve', '位於腋動脈內側；發出內側胸神經、臂內側與前臂內側皮神經、尺神經與正中神經內側根'],
+          course: ['Lies medial to the axillary artery; gives the medial pectoral nerve, the medial brachial and antebrachial cutaneous nerves, the ulnar nerve and the medial root of the median nerve', '位於腋動脈內側；發出內胸神經、臂內側與前臂內側皮神經、尺神經與正中神經內側根'],
           supply: ['Medial forearm and hand muscles (through the ulnar nerve) and medial arm skin', '前臂與手內側肌群（經尺神經）及臂內側皮膚']},
         refs: [GRAYS],
       });
