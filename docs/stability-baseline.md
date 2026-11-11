@@ -11,8 +11,8 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Fragments | 48 |
 | Vessel, nerve and tendon walls inside bone | 458 |
 | Coincident faces (z-fighting) | 82 |
-| Straight cuts in meshes | 43 |
-| Triangle stretch over 2x in the limit poses | 285 |
+| Straight cuts in meshes | 42 |
+| Triangle stretch over 2x in the limit poses | 284 |
 | Structures that leave their bone in the limit poses | 174 |
 
 ## Fragments (48)
@@ -286,8 +286,8 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right dorsal ramus of C4 spinal nerve | 2.8 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right dorsal ramus of C6 spinal nerve | 2.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right dorsal ramus of C8 spinal nerve | 3.9 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Left C3 spinal nerve | 3.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left greater splanchnic nerve | 2.9 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
+| Left C3 spinal nerve | 3.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left C4 spinal nerve | 3.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left C5 spinal nerve | 3.8 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left C6 spinal nerve | 2.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
@@ -299,9 +299,9 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Clavicular branch of right thoraco-acromial artery | 3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right tendon of triceps brachii | 4.1 | tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint |
 | Right tendon of triceps brachii | 6.6 | tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint |
-| Left tendon of triceps brachii | 4.5 | tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint |
 | Posterior vagal trunk | 5.9 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Posterior vagal trunk | 3.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
+| Left tendon of triceps brachii | 4.5 | tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint |
 | Left tendon of triceps brachii | 6.5 | tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint |
 | Right posterior circumflex humeral vein | 7.9 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right posterior interosseous artery | 6.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
@@ -326,8 +326,8 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right anterior lateral malleolar artery | 6.9 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right anterior medial malleolar artery | 2.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right circumflex fibular artery | 4.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Right lateral plantar vein | 2.8 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Clavicular branch of left thoraco-acromial artery | 3.1 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
+| Right lateral plantar vein | 2.8 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right inferior gluteal nerve | 3.2 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left medial circumflex femoral artery | 7.8 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left medial circumflex femoral artery | 6 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
@@ -618,7 +618,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Lingula of left lung | 1106 | faces coincide with Cardiac notch of left lung: two layers share the same surface; to be offset or one of them removed |
 | Esophageal impression of left lung | 57 | faces coincide with Apex of left lung: two layers share the same surface; to be offset or one of them removed |
 
-## Straight cuts in meshes (43)
+## Straight cuts in meshes (42)
 
 | structure | size | detail |
 |---|---|---|
@@ -664,16 +664,15 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | White matter of spinal cord | 95 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
 | renderer clipping plane in organ/brain-viewer.ts | 1 | section plane of the brain or heart detail mode: a cut view on purpose, the cut face is drawn by the viewer |
 | renderer clipping plane in organ/heart-viewer.ts | 3 | section plane of the brain or heart detail mode: a cut view on purpose, the cut face is drawn by the viewer |
-| renderer clipping plane in scene.tsx | 1 | renderer clipping plane slices every mesh at a plane in this view; to be replaced by showing or hiding whole structures (stabilisation section 2 B) |
 
-## Triangle stretch over 2x in the limit poses (285)
+## Triangle stretch over 2x in the limit poses (284)
 
 | structure | size | detail |
 |---|---|---|
-| Right latissimus dorsi | 2741 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right latissimus dorsi | 2795 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left latissimus dorsi | 2883 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left latissimus dorsi | 2908 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right latissimus dorsi | 1749 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right latissimus dorsi | 2288 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left latissimus dorsi | 1684 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left latissimus dorsi | 2338 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Long head of left biceps femoris | 89 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Long head of right biceps femoris | 100 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Medial head of left gastrocnemius | 9 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
@@ -722,27 +721,26 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Abdominal part of left pectoralis major | 2 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Abdominal part of left pectoralis major | 2 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Abdominal part of right pectoralis major | 4 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left pectoralis minor | 4 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left pectoralis minor | 28 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right pectoralis minor | 4 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right pectoralis minor | 26 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left pectoralis minor | 2 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left pectoralis minor | 16 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right pectoralis minor | 20 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left serratus anterior | 32 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left serratus anterior | 208 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right serratus anterior | 16 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right serratus anterior | 203 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left subclavius | 10 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left subclavius | 33 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right subclavius | 11 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right subclavius | 30 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left subclavius | 2 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left subclavius | 4 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right subclavius | 2 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right subclavius | 6 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Sternocostal part of left pectoralis major | 4 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Acromial part of left deltoid | 2 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Acromial part of right deltoid | 2 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left anconeus | 254 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right anconeus | 257 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left coracobrachialis | 40 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left coracobrachialis | 31 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right coracobrachialis | 40 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right coracobrachialis | 30 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left coracobrachialis | 22 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left coracobrachialis | 10 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right coracobrachialis | 25 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right coracobrachialis | 8 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left supinator | 133 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right supinator | 130 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left teres major | 27 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |

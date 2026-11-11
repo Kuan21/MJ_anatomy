@@ -1,9 +1,9 @@
 {
  "totals": {
   "terms": 3816,
-  "have": 1217,
+  "have": 1219,
   "findability": 0,
-  "missing": 1124,
+  "missing": 1122,
   "landmark": 262,
   "noise": 650
  },
@@ -7129,6 +7129,14 @@
      "system": "venous"
     },
     {
+     "term": "Paraumbilical vein",
+     "zh": "旁靜脈",
+     "kind": "exact",
+     "model": "Right paraumbilical veins",
+     "source": "paokao",
+     "system": "venous"
+    },
+    {
      "term": "Hepatic portal vein",
      "zh": "肝門靜脈",
      "kind": "exact",
@@ -7706,10 +7714,6 @@
     {
      "term": "Cystic vein",
      "zh": "膽囊靜脈"
-    },
-    {
-     "term": "Paraumbilical vein",
-     "zh": "旁靜脈"
     },
     {
      "term": "Bile duct",
@@ -9041,6 +9045,14 @@
      "system": "venous"
     },
     {
+     "term": "Paraumbilical v",
+     "zh": null,
+     "kind": "exact",
+     "model": "Right paraumbilical veins",
+     "source": "paokao",
+     "system": "venous"
+    },
+    {
      "term": "Portal v",
      "zh": null,
      "kind": "exact",
@@ -9277,10 +9289,6 @@
     },
     {
      "term": "Superficial circumflex iliac v",
-     "zh": null
-    },
-    {
-     "term": "Paraumbilical v",
      "zh": null
     },
     {
