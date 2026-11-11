@@ -35,6 +35,7 @@ import {createRoofOutlines} from './space-roof-outline';
 import {GPU_SKIN_NORMAL,GPU_SKIN_PARS,GPU_SKIN_POSITION,PALETTE_WIDTH,clearGpuAttributes,gpuBinding,gpuSkinNormal,skinMode,writeGpuAttributes,writePalette,slotSkin,type GpuBinding} from './biomechanics-v2/gpu-skinning';
 import {makeShoulderMuscles,solveShoulderMuscles,SHEET_PROFILES} from './biomechanics-v2/shoulder-muscles';
 import shoulderLandmarks from './biomechanics-v2/shoulder-landmarks.json';
+import paokaoCards from './mj-paokao.json';
 import bodyNerveData from './biomechanics-v2/body-nerve-bindings.json';
 import blockedOverlay from './biomechanics-v2/blocked-overlay-meshes.json';
 const blockedOverlayMeshes=new Set<string>(blockedOverlay.names);
@@ -499,6 +500,11 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
    [/^rectum$/i,'rectum','#c7a27c',undefined,'digestive']
   ];
   const pelvicTone=(p:{name:string;system:string})=>PELVIC_TONES.find(t=>t[4]===p.system&&t[0].test(p.name));
+  // The bone each landmark patch lies on (the `parent` of its data card, built by scripts/paokao-structures/landmarks.mjs).
+  const landmarkHost=new Map<string,(typeof atlas.parts)[number]>();
+  {const parentName=new Map<string,string>();for(const c of Object.values(paokaoCards as Record<string,{name:string;kind?:string;parent?:string}>))if(c.kind==='landmark'&&c.parent)parentName.set(c.name,c.parent);
+   const byName=new Map<string,(typeof atlas.parts)[number]>();for(const q of atlas.parts)if(!byName.has(q.name))byName.set(q.name,q);
+   for(const lm of atlas.parts){const host=(lm as {kind?:string}).kind==='landmark'?byName.get(parentName.get(lm.name)??''):undefined;if(host)landmarkHost.set(lm.id,host);}}
   const shellOf=(p:{name:string;system:string;kind?:string})=>p.system==='serous'&&PERITONEUM_KEYS.includes(serousLayerKey(p.name))?'serous:peritoneum':pelvicTone(p)?'pelvic:'+pelvicTone(p)![1]:p.kind==='space'||p.kind==='sheath'?'connective:space':p.kind==='fascia'||p.kind==='aponeurosis'?'connective:fascia':p.kind==='fascia-dense'?'connective:fascia-dense':p.kind==='surface'?'respiratory:mark':p.kind==='landmark'?'skeletal:mark':isShellSurface(p.name)?p.system+':shell':p.system;
   // The lung lobes: one pink, one material for every lobe. Matte (roughness 1, weak reflections of the room) because a glossy surface turned the upper lobes, which face the key light, into pure white glare;
   // closed meshes seen from outside, so front faces only (the back faces drawn through a see-through lobe made it patchy).
@@ -1297,8 +1303,10 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
       const vis=shown?255:0,sel=selected?255:0;if(brainStateData[k*4]!==vis||brainStateData[k*4+1]!==sel){brainStateData[k*4]=vis;brainStateData[k*4+1]=sel;changed=true;}
       if(brainMotionRoot.visible&&shown&&piece.atlasId)brainVisibleAtlasIds.add(piece.atlasId);}
      if(changed&&brainStateU.value){brainStateU.value.needsUpdate=true;dirty=true;}}
-    const isVisible=(p:(typeof atlas.parts)[number])=>{
+    const isVisible=(p:(typeof atlas.parts)[number]):boolean=>{
      if(amount<.01&&cervicalVessels.replaced.has(p.id))return false;
+     // A bone landmark (coracoid process, tubercle, crest …) is a patch drawn on its bone: when the bone is not shown (another region, another layer) the patch would hang in the air as a beige wedge, so it follows its bone.
+     if((p as {kind?:string}).kind==='landmark'&&!selection.has(p.id)){const host=landmarkHost.get(p.id);if(host!==undefined&&!isVisible(host))return false;}
      // A space (axillary fossa, carpal tunnel, quadrangular space …) is not a solid: its boundaries and contents are highlighted by the dissection panel, so the placeholder volume is never drawn as a plate or box.
      if((p as {kind?:string}).kind==='space')return false;
      // A schematic sheath (axillary, femoral) is a thin tube drawn translucent: with the arm raised it folds into a grey arch above the shoulder, so it is only drawn when it is picked (from the dissection panel).
@@ -1319,6 +1327,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
      return true;
     };
     const visibleParts=atlas.parts.filter(isVisible);
+    supplementaryJoints.constrain(new Set(visibleParts.map(p=>p.id)),fadedSet);
     const nextLayoutKey=visibleParts.map(p=>p.id).join(',')+':'+camera.aspect.toFixed(3);
     if(nextLayoutKey!==layoutKey){const layout=createExplosionLayout(visibleParts,camera.aspect);packingWidth=layout.width;packingHeight=layout.height;atlas.parts.forEach((p,i)=>{const cell=layout.cells.get(p.id);offsets[i]=cell?new T.Vector3(cell.x,cell.y+.85,0):centers[i].clone();});layoutKey=nextLayoutKey;if(amount>.05&&!s.isolate)fit(s.view,Math.max(0,(amount-.3)/.7));}
 
