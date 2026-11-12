@@ -25,14 +25,15 @@ export function createShoulderSolver(atlas:Atlas){
   if(collision&&!collider){collider=makePointCollider(collision);models.clear();}
   if(inputs.length)models.clear();
   const boundSkins=new Map<string,{skin:ReturnType<typeof bindTissue>;base:Float32Array}>();
-  for(const input of inputs){
+  // vessels first, their end pieces after them: an end piece takes its motion from its vessel, wherever the two stand in the atlas (schematic vessels are listed after the end pieces)
+  for(const input of [...inputs.filter(i=>!i.part.id.endsWith('-END')),...inputs.filter(i=>i.part.id.endsWith('-END'))]){
    const binding=tissueBindings[input.part.id];
    if(!binding||binding.name!==input.part.name||isMotionQuarantined(input.part)||!['upper-limb','trunk'].includes(anatomicalRegion(input.part)))continue;
    const profile=['arterial','venous'].includes(input.part.system)?resolveNeurovascularProfile(input.part.name,binding.profile):binding.profile;
    const skin=bindTissue(rigs[binding.side],profile,input.base,input.part,'',input.triangles);
    // an end piece joins its vessel with the vessel's own weights (the atlas lists a vessel before its end piece)
    const main=input.part.id.endsWith('-END')?boundSkins.get(input.part.id.slice(0,-4)):undefined;
-   if(main)alignEndPiece(skin,input.base,main.skin,main.base);else boundSkins.set(input.part.id,{skin,base:input.base});
+   if(main)alignEndPiece(skin,input.base,main.skin,main.base,undefined,input.triangles);else boundSkins.set(input.part.id,{skin,base:input.base});
    const linear=isLinearBinding(skin);
    gpu.push({id:input.part.id,...gpuBinding(binding.side,{indices:skin.indices.slice(),weights:skin.weights.slice()},linear,skin.profile==='chest'||skin.profile==='pectoralPath')});
    if(linear)continue;

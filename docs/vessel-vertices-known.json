@@ -1,0 +1,65 @@
+{
+ "_doc": "Known findings of scripts/test-vessel-vertices.mjs. key = part id | kind. value = worst measured value (spike: mm; swollen: ratio; detached: mm). The list may only shrink.",
+ "known": {
+  "FJ1976-END|spike": {
+   "name": "Left lateral thoracic artery",
+   "pose": "shoulder flexion 97",
+   "value": 7,
+   "reason": "the piece reads its weights on the centreline of each tube, the vessel on its surface (or is moved by a solver): where the field is steep the two slip a few millimetres at the extreme pose. No thorns, the tube keeps its shape."
+  },
+  "FJ2232-END|detached": {
+   "name": "Left dorsal scapular artery",
+   "pose": "shoulder abduction 158",
+   "value": 4.1,
+   "reason": "the piece reads its weights on the centreline of each tube, the vessel on its surface (or is moved by a solver): where the field is steep the two slip a few millimetres at the extreme pose. No thorns, the tube keeps its shape."
+  },
+  "FJ2233-END|detached": {
+   "name": "Left lateral thoracic vein",
+   "pose": "shoulder flexion 73 + abduction 158",
+   "value": 2.5,
+   "reason": "the piece reads its weights on the centreline of each tube, the vessel on its surface (or is moved by a solver): where the field is steep the two slip a few millimetres at the extreme pose. No thorns, the tube keeps its shape."
+  },
+  "FJ2253-END|detached": {
+   "name": "Left thoracodorsal artery",
+   "pose": "shoulder flexion 73 + abduction 158",
+   "value": 2.1,
+   "reason": "the piece reads its weights on the centreline of each tube, the vessel on its surface (or is moved by a solver): where the field is steep the two slip a few millimetres at the extreme pose. No thorns, the tube keeps its shape."
+  },
+  "FJ2268-END|detached": {
+   "name": "Right axillary artery",
+   "pose": "shoulder flexion 73 + abduction 158",
+   "value": 2.6,
+   "reason": "the piece reads its weights on the centreline of each tube, the vessel on its surface (or is moved by a solver): where the field is steep the two slip a few millimetres at the extreme pose. No thorns, the tube keeps its shape."
+  },
+  "FJ2284-END|detached": {
+   "name": "Right dorsal scapular artery",
+   "pose": "shoulder flexion 73 + abduction 158",
+   "value": 2.9,
+   "reason": "the piece reads its weights on the centreline of each tube, the vessel on its surface (or is moved by a solver): where the field is steep the two slip a few millimetres at the extreme pose. No thorns, the tube keeps its shape."
+  },
+  "FJ2285-END|detached": {
+   "name": "Right lateral thoracic vein",
+   "pose": "shoulder flexion 73 + abduction 158",
+   "value": 2.1,
+   "reason": "the piece reads its weights on the centreline of each tube, the vessel on its surface (or is moved by a solver): where the field is steep the two slip a few millimetres at the extreme pose. No thorns, the tube keeps its shape."
+  },
+  "FJ2305-END|detached": {
+   "name": "Right thoracodorsal artery",
+   "pose": "shoulder flexion 73 + abduction 158",
+   "value": 3.1,
+   "reason": "the piece reads its weights on the centreline of each tube, the vessel on its surface (or is moved by a solver): where the field is steep the two slip a few millimetres at the extreme pose. No thorns, the tube keeps its shape."
+  },
+  "FJ2330-END|detached": {
+   "name": "Pectoral branch of left thoraco-acromial artery",
+   "pose": "shoulder flexion 73 + abduction 158",
+   "value": 3.3,
+   "reason": "the piece reads its weights on the centreline of each tube, the vessel on its surface (or is moved by a solver): where the field is steep the two slip a few millimetres at the extreme pose. No thorns, the tube keeps its shape."
+  },
+  "FJ2361-END|detached": {
+   "name": "Pectoral branch of right thoraco-acromial artery",
+   "pose": "shoulder flexion 73 + abduction 158",
+   "value": 4.7,
+   "reason": "the piece reads its weights on the centreline of each tube, the vessel on its surface (or is moved by a solver): where the field is steep the two slip a few millimetres at the extreme pose. No thorns, the tube keeps its shape."
+  }
+ }
+}

@@ -25,6 +25,8 @@ function skinOf(part, kind, key) {
   const g = geo(part.id); let s = null;
   if (kind === 'arm') { const b = m.tissueBindings[part.id]; if (b && b.name === part.name) { try { s = {skin: m.bindTissue(armRig(key), m.resolveNeurovascularProfile(part.name, b.profile), g.pos, part, '', g.idx)}; } catch { s = null; } } }
   else { const b = m.bodyBindings[part.id]; if (b && b.name === part.name && b.rig === key) s = b.frame === null ? {skin: m.bindBodyTissue(legRig(key), g.pos, false, part)} : {frame: b.frame}; }
+  // as in the viewer: a vessel-end piece starts with the weights of its vessel (alignEndPiece)
+  if (kind === 'arm' && s?.skin && part.id.endsWith('-END')) { const main = V.byId.get(part.id.slice(0, -4)), ms = main && skinOf(main, kind, key); if (ms?.skin) m.alignEndPiece(s.skin, g.pos, ms.skin, geo(main.id).pos, undefined, g.idx); }
   skins.set(k, s); return s;
 }
 const posedCache = new Map();

@@ -65,12 +65,12 @@ export function makePoser(m, atlas, geometry, parts, rest) {
         const sidePosed = new Map(); for (const r of results) sidePosed.set(r.id, r.positions);
         // linear bindings are skinned on the GPU in the viewer; the same arithmetic here
         const bound = new Map();
-        for (const input of inputs) {
+        for (const input of [...inputs.filter(i => !i.part.id.endsWith('-END')), ...inputs.filter(i => i.part.id.endsWith('-END'))]) {   // vessels before their end pieces, as in the worker
           const binding = m.tissueBindings[input.part.id];
           if (!binding || binding.name !== input.part.name || binding.side !== side || m.isMotionQuarantined(input.part) || !['upper-limb', 'trunk'].includes(m.anatomicalRegion(input.part))) continue;
           const profile = ['arterial', 'venous'].includes(input.part.system) ? m.resolveNeurovascularProfile(input.part.name, binding.profile) : binding.profile;
           const skin = m.bindTissue(softRigs[side], profile, input.base, input.part, '', input.triangles), mainId = input.part.id.endsWith('-END') ? input.part.id.slice(0, -4) : null, main = mainId && bound.get(mainId);
-          if (main) m.alignEndPiece(skin, input.base, main.skin, main.base); else bound.set(input.part.id, {skin, base: input.base});
+          if (main) m.alignEndPiece(skin, input.base, main.skin, main.base, undefined, input.triangles); else bound.set(input.part.id, {skin, base: input.base});
           if (m.isLinearBinding(skin) && !sidePosed.has(input.part.id)) { const o = new Float32Array(input.base.length); m.deformTissue(skin, input.base, palette, o); sidePosed.set(input.part.id, o); }
         }
         for (const [id, a] of sidePosed) posed.set(id, a);
