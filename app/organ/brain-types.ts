@@ -28,6 +28,8 @@ export interface BrainViewState {
   hiddenParts: string[];
   /** Display complete source nerve paths instead of a view crop near the brain. */
   fullNerves?: boolean;
+  /** Glass cortex: the cerebral cortex is drawn as a smooth translucent shell (alpha blending) so the deep structures inside stay in view. Also on, automatically, while a deep structure is selected. */
+  glass?: boolean;
   /** outer layers already peeled away: groups with a layer number below this are hidden (vessels and nerves are never peeled) */
   peel: number;
   /** structures drawn alone when set (Isolate) */

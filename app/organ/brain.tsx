@@ -86,6 +86,18 @@ export default function BrainDetail() {
   const [view, setView] = useState<BrainViewState>(defaults);
   // cranial nerve branches outside the skull or on the dura (face, jaw): drawn in full, but off when the view opens or is reset
   const peripheral = useRef<string[]>([]);
+  // the groups that were switched off before the glass cortex turned them on (restored when it is turned off)
+  const glassHidden = useRef<string[]>([]);
+  const toggleGlass = () => {
+    const inside = ['white', 'basal', 'diencephalon', 'ventricles'];
+    if (view.glass) {
+      const back = glassHidden.current; glassHidden.current = [];
+      patch({glass: false, hiddenGroups: [...new Set([...view.hiddenGroups, ...back])]});
+    } else {
+      glassHidden.current = inside.filter(g => view.hiddenGroups.includes(g));
+      patch({glass: true, hiddenGroups: view.hiddenGroups.filter(g => !inside.includes(g))});
+    }
+  };
   const [parts, setParts] = useState<BrainPart[]>([]), [ready, setReady] = useState(false), [error, setError] = useState(''), [percent, setPercent] = useState(0);
   const [open, setOpen] = useState<string[]>([]), [csf, setCsf] = useState(false), [allOpen, setAllOpen] = useState(false), [allSort, setAllSort] = useState<'name' | 'region'>('name'), [cutBusy, setCutBusy] = useState(false);
   const [notes, setNotes] = useState<NoteData | null>(null), [noteId, setNoteId] = useState<string | null>(null), [query, setQuery] = useState(''), [openRegions, setOpenRegions] = useState<string[]>([]);
@@ -187,6 +199,9 @@ export default function BrainDetail() {
           <div className="organ-segmented" role="group" aria-label="全部開關">
             <button onClick={() => patch({hiddenGroups: [], hiddenParts: [], isolate: null, fullNerves: true})}>全部開啟</button>
             <button onClick={() => patch({hiddenGroups: BRAIN_GROUPS.map(g => g.id), isolate: null})}>全部關閉</button>
+          </div>
+          <div className="organ-segmented" role="group" aria-label="皮質顯示">
+            <button aria-pressed={!!view.glass} onClick={toggleGlass} title="Glass cortex｜玻璃皮質：皮質半透明，深部核團、腦室、白質束一直可見"><span lang="en">Glass cortex</span><small lang="zh-Hant">玻璃皮質</small></button>
           </div>
           <div className="organ-segmented" role="group" aria-label="腦神經顯示範圍">
             <button aria-pressed={!view.fullNerves} onClick={() => patch({fullNerves: false})}><span lang="en">Near brain</span><small lang="zh-Hant">腦旁段</small></button>
