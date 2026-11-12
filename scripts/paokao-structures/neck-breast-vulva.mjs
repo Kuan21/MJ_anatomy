@@ -48,9 +48,9 @@ export default function neckBreastVulva(U) {
 
   // ---- Breast: Human Reference Atlas (HuBMAP) female mammary gland v1.1, registered onto the chest wall of the atlas. The pieces (fat, lobes, main lactiferous ducts and sinuses, nipple,
   // areola with its tubercles, suspensory ligaments) come from scripts/data/hra-female-breast.json.gz (scripts/extract-hra-breast.mjs). The atlas body is male, so the breast is scaled
-  // (BREAST_SCALE) to span the 2nd–6th rib, its medial edge is put on the border of the sternum and its nipple on the 4th rib level; its back is then sheared onto the front of pectoralis
+  // (BREAST_SCALE; sideways BREAST_WIDTH_SCALE so that the base reaches from the sternal border towards the anterior axillary line, about 12 cm wide) to span the 2nd–6th rib, its medial edge is put on the border of the sternum and its nipple on the 4th rib level; its back is then sheared onto the front of pectoralis
   // major (and the sternum) so it lies on the chest wall instead of hanging in front of a flat plane.
-  const BREAST_SCALE = .55, hra = JSON.parse(zlib.gunzipSync(fs.readFileSync(new URL('../data/hra-female-breast.json.gz', import.meta.url))));
+  const BREAST_SCALE = .55, BREAST_WIDTH_SCALE = .78, hra = JSON.parse(zlib.gunzipSync(fs.readFileSync(new URL('../data/hra-female-breast.json.gz', import.meta.url))));
   const b64 = (t, Type) => { const b = Buffer.from(t, 'base64'); return new Type(b.buffer.slice(b.byteOffset, b.byteOffset + b.length)); };
   const boundsOf = ps => { const lo = [1e9, 1e9, 1e9], hi = [-1e9, -1e9, -1e9]; for (let i = 0; i < ps.length; i += 3) for (let k = 0; k < 3; k++) { lo[k] = Math.min(lo[k], ps[i + k]); hi[k] = Math.max(hi[k], ps[i + k]); } return {lo, hi}; };
   for (const S of SIDES) {
@@ -64,7 +64,7 @@ export default function neckBreastVulva(U) {
     for (let pass = 0; pass < 3; pass++) { const C = Z.map(r => Float64Array.from(r)); for (let i = 1; i < NX - 1; i++) for (let j = 1; j < NY - 1; j++) { let t = 0; for (let di = -1; di <= 1; di++) for (let dj = -1; dj <= 1; dj++) t += C[i + di][j + dj]; Z[i][j] = t / 9; } }
     const chestZ = (x, y) => { const u = Math.max(0, Math.min(NX - 1.001, (x - X0) / DX)), v = Math.max(0, Math.min(NY - 1.001, (y - Y0) / DY)), i = Math.floor(u), j = Math.floor(v), fu = u - i, fv = v - j; return (Z[i][j] * (1 - fu) + Z[i + 1][j] * fu) * (1 - fv) + (Z[i][j + 1] * (1 - fu) + Z[i + 1][j + 1] * fu) * fv; };
     const F = boundsOf(tissue.fat.positions), medial = S.sx > 0 ? F.lo[0] : F.hi[0], N = boundsOf(tissue.nipple.positions), nip0 = [(N.lo[0] + N.hi[0]) / 2, (N.lo[1] + N.hi[1]) / 2];
-    const place = g => { const ps = new Float32Array(g.positions.length); for (let i = 0; i < ps.length; i += 3) { const x = S.sx * .030 + BREAST_SCALE * (g.positions[i] - medial), y = y4 + BREAST_SCALE * (g.positions[i + 1] - nip0[1]); ps[i] = x; ps[i + 1] = y; ps[i + 2] = chestZ(x, y) + .0012 + BREAST_SCALE * (g.positions[i + 2] - F.lo[2]); } return {positions: ps, indices: g.indices}; };
+    const place = g => { const ps = new Float32Array(g.positions.length); for (let i = 0; i < ps.length; i += 3) { const x = S.sx * .030 + BREAST_WIDTH_SCALE * (g.positions[i] - medial), y = y4 + BREAST_SCALE * (g.positions[i + 1] - nip0[1]); ps[i] = x; ps[i + 1] = y; ps[i + 2] = chestZ(x, y) + .0012 + BREAST_SCALE * (g.positions[i + 2] - F.lo[2]); } return {positions: ps, indices: g.indices}; };
     const put = (tissues, name, zh, kind, card, cap) => out.push({name: `${S.w} ${name}`, zh: `${S.zh}${zh}`, system: 'reproductive', kind, sex: 'female', geometry: tissues.map(t => place(tissue[t])), cap, card, refs: ['Human Reference Atlas 3D Reference Organs: mammary gland, female, v1.1 (CC BY 4.0), Kristen Browne and Heidi Schlehlein']});
     put(['mammary_lobes'], 'mammary gland', '乳腺（乳房）', 'gland', {
       origin: ['Modified sweat gland on the front of the chest, lying on the pectoral fascia over pectoralis major (upper two thirds) and serratus anterior, from the 2nd to the 6th rib', '變形的汗腺，位於前胸壁胸肌筋膜上，覆蓋胸大肌（上三分之二）與前鋸肌，由第二到第六肋'],
@@ -104,8 +104,12 @@ export default function neckBreastVulva(U) {
     const I = P(0, introitus[1] - .002, introitus[2] + .004), A = P(0, hair.lo[1] + .008, hair.hi[2] - .006);   // A: anterior commissure, I: posterior part of the vestibule
     const at = (t, dx = 0, dy = 0, dz = 0) => P(dx, A[1] + (I[1] - A[1]) * t + dy, A[2] + (I[2] - A[2]) * t + dz);   // t = 0 at the mons, 1 at the introitus
     // The mound lies under the skin in front of the pubic symphysis: its front surface is put 2 mm behind the skin of the atlas (it used to stand 17 mm out of the body).
-    const m0 = at(-.12, 0, .016, -.004), skinHit = U.rayHit('Skin', P(0, m0[1], .3), P(0, 0, -1)), mons = skinHit ? P(0, m0[1], skinHit.point[2] - .013 - .002) : m0;
-    out.push({name: 'Mons pubis', zh: '陰阜', system: 'reproductive', kind: 'organ', sex: 'female', geometry: [U.ellipsoid(mons, .040, .024, .013)],
+    const m0 = at(-.12, 0, .016, -.004), skinHit = U.rayHit('Skin', P(0, m0[1], .3), P(0, 0, -1));
+    // The female hip bones (Human Reference Atlas) sit further back than the atlas's male ones: the front of their pubic symphysis is where the fat pad of the mound starts. The pad is
+    // put against that bone (3 mm of soft tissue) and its front surface 2 mm behind the skin; the depth is capped so that a thick male soft-tissue layer does not make a 6 cm egg.
+    const symZ = Math.max(...U.find('Left hip bone').concat(U.find('Right hip bone')).filter(e => /^HRAF-bone/.test(e.id ?? '')).flatMap(e => { const g = e.load(); const z = []; for (let i = 0; i < g.positions.length; i += 3) if (Math.abs(g.positions[i]) < .05 && g.positions[i + 1] < .92) z.push(g.positions[i + 2]); return z; }));
+    const monsFront = skinHit ? skinHit.point[2] - .002 : m0[2] + .013, monsHalf = Math.min((monsFront - (symZ + .003)) / 2, .026), mons = P(0, m0[1], monsFront - monsHalf);
+    out.push({name: 'Mons pubis', zh: '陰阜', system: 'reproductive', kind: 'organ', sex: 'female', geometry: [U.ellipsoid(mons, .040, .024, monsHalf)],
       card: {origin: ['The fatty pad over the pubic symphysis and the pubic bones', '恥骨聯合與恥骨上的脂肪墊'], course: ['Covered with pubic hair after puberty; continues into the labia majora', '青春期後長出陰毛，向下延續為大陰唇'], supply: ['Ilio-inguinal and genital branches of the genitofemoral nerve; superficial external pudendal vessels', '髂腹股溝神經與生殖股神經生殖支；淺層陰部外動脈與靜脈']}, refs: []});
     for (const S of SIDES) {
       const x = S.sx;
