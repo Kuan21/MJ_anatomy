@@ -229,7 +229,7 @@
 - 鎖骨下肌神經（subclavian nerve）：缺 來源、走向、主要分支、支配範圍
 - 腋神經（axillary nerve）：缺 來源、走向、主要分支、支配範圍
 - 臂神經叢後束（posterior cord of brachial plexus）：缺 來源、走向、主要分支、支配範圍
-- 外側胸神經（lateral pectoral nerve）：缺 來源、走向、主要分支、支配範圍
+- 外胸神經（lateral pectoral nerve）：缺 來源、走向、主要分支、支配範圍
 - 肌皮神經（musculocutaneous nerve）：缺 來源、走向、主要分支、支配範圍
 - 外側前臂皮神經（lateral antebrachial cutaneous nerve）：缺 來源、走向、主要分支、支配範圍
 - 橈神經深支（deep branch of radial nerve）：缺 來源、走向、主要分支、支配範圍

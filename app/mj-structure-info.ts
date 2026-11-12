@@ -3,7 +3,7 @@ import {zhAnatomy} from './mj-zh-anatomy';
 import type {Part,SystemId} from './anatomy';
 import {anatomicalRegionLabel,correctedPartName} from './mj-part-regions';
 import {muscleFactsFor,muscleFactSourceFor} from './mj-muscle-facts';
- import {netterEnglishName,NETTER_TERMINOLOGY_SOURCE} from './mj-netter-terminology';
+ import {displayEnglishName,DISPLAY_TERMINOLOGY_SOURCE} from './mj-display-terminology';
 
 export interface BilingualFact {
  labelEn:string;
@@ -31,8 +31,8 @@ import vesselEnds from './mj-vessel-ends.json';
 import paokaoCards from './mj-paokao.json';
 import vesselBranches from './mj-vessel-branches.json';
 type ProfileBody=Omit<StructureProfile,'english'>;
-const GROSS_SOURCE='Standard gross-anatomy references; terminology cross-checked with Netter, Atlas of Human Anatomy';
-const BONE_SOURCE='Standard skeletal anatomy references; terminology cross-checked with Netter, Atlas of Human Anatomy';
+const GENERAL_SOURCE='Standard gross-anatomy references';
+const BONE_SOURCE='Standard skeletal anatomy references';
 const WEB_SOURCE='Standard anatomical terminology; NCBI Bookshelf / StatPearls';
 
 const muscle=(chinese:string,originEn:string,originZh:string,insertionEn:string,insertionZh:string,nerveEn:string,nerveZh:string,actionEn:string,actionZh:string):ProfileBody=>({
@@ -44,7 +44,7 @@ const muscle=(chinese:string,originEn:string,originZh:string,insertionEn:string,
   {labelEn:'Insertion',labelZh:'止點',valueEn:insertionEn,valueZh:insertionZh},
   {labelEn:'Innervation',labelZh:'神經支配',valueEn:nerveEn,valueZh:nerveZh},
   {labelEn:'Action',labelZh:'作用',valueEn:actionEn,valueZh:actionZh}
- ],source:GROSS_SOURCE
+ ],source:GENERAL_SOURCE
 });
 
 const nerve=(chinese:string,rootsEn:string,rootsZh:string,courseEn:string,courseZh:string,functionEn:string,functionZh:string):ProfileBody=>({
@@ -55,7 +55,7 @@ const nerve=(chinese:string,rootsEn:string,rootsZh:string,courseEn:string,course
   {labelEn:'Nerve roots',labelZh:'神經根',valueEn:rootsEn,valueZh:rootsZh},
   {labelEn:'Course',labelZh:'走向',valueEn:courseEn,valueZh:courseZh},
   {labelEn:'Supply',labelZh:'支配範圍',valueEn:functionEn,valueZh:functionZh}
- ],source:GROSS_SOURCE
+ ],source:GENERAL_SOURCE
 });
 
 
@@ -82,7 +82,7 @@ const bone=(chinese:string,typeEn:string,typeZh:string,roleEn:string,roleZh:stri
   {labelEn:'Type / region',labelZh:'類型／區域',valueEn:typeEn,valueZh:typeZh},
   {labelEn:'Anatomical role',labelZh:'解剖角色',valueEn:roleEn,valueZh:roleZh},
   {labelEn:'Key landmarks',labelZh:'重要骨標誌',valueEn:landmarksEn,valueZh:landmarksZh}
- ],source:GROSS_SOURCE
+ ],source:GENERAL_SOURCE
 });
 
 const detailed:Record<string,ProfileBody>={
@@ -93,10 +93,10 @@ const detailed:Record<string,ProfileBody>={
    {labelEn:'Location',labelZh:'位置',valueEn:'Over the cranial vault, between the scalp skin and the pericranium, loosely attached to the bone beneath',valueZh:'覆於顱頂，位在頭皮與骨膜之間，與深層顱骨以疏鬆結締組織相連'},
    {labelEn:'Attachments',labelZh:'附著',valueEn:'Frontalis in front, occipitalis behind, temporoparietalis at the sides',valueZh:'前方連額肌，後方連枕肌，兩側連顳頂肌'},
    {labelEn:'Function',labelZh:'功能',valueEn:'Transmits the pull of frontalis and occipitalis so that the scalp moves as one layer',valueZh:'傳遞額肌與枕肌的牽拉，使頭皮整層一起移動'}
-  ],source:GROSS_SOURCE},
- 'pectoralis major':muscle('胸大肌','Medial half of clavicle; sternum and upper costal cartilages','鎖骨內側半、胸骨及上位肋軟骨','Lateral lip of intertubercular sulcus of humerus','肱骨結節間溝外側唇','Lateral and medial pectoral nerves (C5–T1)','外側與內側胸神經（C5–T1）','Adducts and medially rotates arm; clavicular head assists flexion','內收及內旋手臂；鎖骨部協助屈曲'),
+  ],source:GENERAL_SOURCE},
+ 'pectoralis major':muscle('胸大肌','Medial half of clavicle; sternum and upper costal cartilages','鎖骨內側半、胸骨及上位肋軟骨','Lateral lip of intertubercular sulcus of humerus','肱骨結節間溝外側唇','Lateral and medial pectoral nerves (C5–T1)','外側與內胸神經（C5–T1）','Adducts and medially rotates arm; clavicular head assists flexion','內收及內旋手臂；鎖骨部協助屈曲'),
  'subclavius':muscle('鎖骨下肌','1st rib and costal cartilage','第一肋骨與肋軟骨','Inferior surface of middle third of clavicle','鎖骨中三分之一的下表面','Nerve to subclavius (C5–C6)','鎖骨下肌神經（C5–C6）','Anchors and depresses clavicle','固定並下壓鎖骨'),
- 'pectoralis minor':muscle('胸小肌','3rd–5th ribs','第3–5肋骨','Coracoid process of scapula','肩胛骨喙突','Medial pectoral nerve (C8–T1)','內側胸神經（C8–T1）','Stabilizes scapula by drawing it anteriorly and inferiorly','將肩胛骨向前、向下拉以協助穩定'),
+ 'pectoralis minor':muscle('胸小肌','3rd–5th ribs','第3–5肋骨','Coracoid process of scapula','肩胛骨喙突','Medial pectoral nerve (C8–T1)','內胸神經（C8–T1）','Stabilizes scapula by drawing it anteriorly and inferiorly','將肩胛骨向前、向下拉以協助穩定'),
  'serratus anterior':muscle('前鋸肌','External surfaces of ribs 1–8','第1–8肋骨外面','Anterior surface of medial border of scapula','肩胛骨內側緣前面','Long thoracic nerve (C5–C7)','胸長神經（C5–C7）','Protracts and upwardly rotates scapula; holds it against thoracic wall','前引並上旋肩胛骨，使肩胛骨貼住胸壁'),
  'trapezius':muscle('斜方肌','External occipital protuberance, nuchal ligament, spinous processes C7–T12','枕外隆凸、項韌帶、C7–T12棘突','Lateral clavicle, acromion and spine of scapula','鎖骨外側、肩峰及肩胛棘','Accessory nerve (CN XI); C3–C4 for proprioception','副神經（CN XI）；C3–C4提供本體感覺','Elevates, retracts, depresses and upwardly rotates scapula','上提、後縮、下壓及上旋肩胛骨'),
  'levator scapulae':muscle('提肩胛肌','Posterior tubercles of transverse processes C1–C4','C1–C4橫突後結節','Medial border of scapula above root of spine','肩胛棘根部以上的內側緣','Dorsal scapular nerve with C3–C4 contributions','肩胛背神經，並有C3–C4分支','Elevates and assists downward rotation of scapula','上提並協助下旋肩胛骨'),
@@ -160,8 +160,8 @@ const detailed:Record<string,ProfileBody>={
  'thoracodorsal nerve':nerve('胸背神經','Posterior cord, C6–C8','後束，C6–C8','Descends on posterior axillary wall with thoracodorsal vessels','與胸背血管沿腋窩後壁下行','Motor to latissimus dorsi','運動支配闊背肌'),
  'upper subscapular nerve':nerve('上肩胛下神經','Posterior cord, C5–C6','後束，C5–C6','Short branch to upper subscapularis','短支走向肩胛下肌上部','Motor to subscapularis','運動支配肩胛下肌'),
  'lower subscapular nerve':nerve('下肩胛下神經','Posterior cord, C5–C6','後束，C5–C6','Runs to lower subscapularis and teres major','走向肩胛下肌下部與大圓肌','Motor to subscapularis and teres major','運動支配肩胛下肌與大圓肌'),
- 'lateral pectoral nerve':nerve('外側胸神經','Lateral cord, C5–C7','外側束，C5–C7','Crosses anteriorly toward deep surface of pectoralis major','向前走至胸大肌深面','Motor mainly to pectoralis major','主要運動支配胸大肌'),
- 'medial pectoral nerve':nerve('內側胸神經','Medial cord, C8–T1','內側束，C8–T1','Often pierces pectoralis minor before reaching pectoralis major','常穿過胸小肌後到達胸大肌','Motor to pectoralis minor and major','運動支配胸小肌與胸大肌'),
+ 'lateral pectoral nerve':nerve('外胸神經','Lateral cord, C5–C7','外側束，C5–C7','Crosses anteriorly toward deep surface of pectoralis major','向前走至胸大肌深面','Motor mainly to pectoralis major','主要運動支配胸大肌'),
+ 'medial pectoral nerve':nerve('內胸神經','Medial cord, C8–T1','內側束，C8–T1','Often pierces pectoralis minor before reaching pectoralis major','常穿過胸小肌後到達胸大肌','Motor to pectoralis minor and major','運動支配胸小肌與胸大肌'),
  'anterior interosseous nerve':nerve('前骨間神經','Branch of median nerve, C8–T1','正中神經分支，C8–T1','Runs on anterior interosseous membrane with anterior interosseous artery','與前骨間動脈沿前臂骨間膜前面走行','Motor to FPL, pronator quadratus and lateral FDP','運動支配拇長屈肌、旋前方肌及指深屈肌外側半'),
  'posterior interosseous nerve':nerve('後骨間神經','Continuation of deep radial branch, mainly C7–C8','橈神經深支延續，主要C7–C8','Passes through supinator to posterior forearm','穿過旋後肌進入前臂後群','Motor to most posterior forearm extensors','運動支配大部分前臂後群伸肌'),
 
@@ -190,7 +190,7 @@ const muscleZh:Record<string,string>={
 const exactZh:Record<string,string>={
  'clavicle':'鎖骨','scapula':'肩胛骨','humerus':'肱骨','radius':'橈骨','ulna':'尺骨','femur':'股骨','tibia':'脛骨','fibula':'腓骨','patella':'髕骨','hyoid bone':'舌骨','hip bone':'髖骨','clavicular part of pectoralis major':'胸大肌鎖骨頭','sternocostal part of pectoralis major':'胸大肌胸肋頭','abdominal part of pectoralis major':'胸大肌腹部','sternum':'胸骨','body of sternum':'胸骨體','manubrium':'胸骨柄','xiphoid process':'劍突','atlas':'寰椎','axis':'樞椎','sacrum':'薦骨','coccyx':'尾骨','ethmoid':'篩骨','frontal bone':'額骨','occipital bone':'枕骨','sphenoid bone':'蝶骨','vomer':'犁骨','mandible':'下頜骨','maxilla':'上頜骨','nasal bone':'鼻骨','palatine bone':'顎骨','parietal bone':'頂骨','temporal bone':'顳骨','zygomatic bone':'顴骨','calcaneus':'跟骨','talus':'距骨','cuboid bone':'骰骨','navicular bone of foot':'足舟骨','medial cuneiform bone':'內側楔骨','intermediate cuneiform bone':'中間楔骨','lateral cuneiform bone':'外側楔骨','sesamoid bone of foot':'足籽骨','triquetral':'三角骨','gingiva of upper jaw':'上顎牙齦','gingiva of lower jaw':'下顎牙齦',
  'scaphoid':'舟狀骨','lunate':'月狀骨','triquetrum':'三角骨','pisiform':'豆狀骨','trapezium':'大菱形骨','trapezoid':'小菱形骨','capitate':'頭狀骨','hamate':'鉤骨',
- 'axillary nerve':'腋神經','musculocutaneous nerve':'肌皮神經','median nerve':'正中神經','ulnar nerve':'尺神經','radial nerve':'橈神經','suprascapular nerve':'肩胛上神經','dorsal scapular nerve':'肩胛背神經','long thoracic nerve':'胸長神經','thoracodorsal nerve':'胸背神經','lateral pectoral nerve':'外側胸神經','medial pectoral nerve':'內側胸神經','upper subscapular nerve':'上肩胛下神經','lower subscapular nerve':'下肩胛下神經','anterior interosseous nerve':'前骨間神經','posterior interosseous nerve':'後骨間神經','lateral antebrachial cutaneous nerve':'外側前臂皮神經','medial antebrachial cutaneous nerve':'內側前臂皮神經','medial brachial cutaneous nerve':'內側上臂皮神經',
+ 'axillary nerve':'腋神經','musculocutaneous nerve':'肌皮神經','median nerve':'正中神經','ulnar nerve':'尺神經','radial nerve':'橈神經','suprascapular nerve':'肩胛上神經','dorsal scapular nerve':'肩胛背神經','long thoracic nerve':'胸長神經','thoracodorsal nerve':'胸背神經','lateral pectoral nerve':'外胸神經','medial pectoral nerve':'內胸神經','upper subscapular nerve':'上肩胛下神經','lower subscapular nerve':'下肩胛下神經','anterior interosseous nerve':'前骨間神經','posterior interosseous nerve':'後骨間神經','lateral antebrachial cutaneous nerve':'外側前臂皮神經','medial antebrachial cutaneous nerve':'內側前臂皮神經','medial brachial cutaneous nerve':'內側上臂皮神經',
  'optic nerve':'視神經','oculomotor nerve':'動眼神經','trochlear nerve':'滑車神經','ophthalmic nerve':'眼神經','frontal nerve':'額神經','lacrimal nerve':'淚腺神經','nasociliary nerve':'鼻睫神經','supra-orbital nerve':'眶上神經','supratrochlear nerve':'滑車上神經','infratrochlear nerve':'滑車下神經','anterior ethmoidal nerve':'前篩神經','posterior ethmoidal nerve':'後篩神經','long ciliary nerve':'長睫狀神經','short ciliary nerve':'短睫狀神經','ciliary ganglion':'睫狀神經節'
 };
 
@@ -306,7 +306,7 @@ function displayEnglish(name:string,system:SystemId,part?:Part){
    canonical=side+key;
   }
  }
- return netterEnglishName(canonical,system);
+ return displayEnglishName(canonical,system);
 }
 
 function regionOf(name:string,system:SystemId,part?:Part){
@@ -358,7 +358,7 @@ function genericSummary(name:string,system:SystemId,chinese:string|undefined,par
 function sourceFor(name:string,system:SystemId){
  const n=norm(name);
  const upperLimb=/clavicle|scapula|humerus|radius|ulna|carpal|metacarp|phalan|deltoid|pectoralis|serratus|trapezius|rhomboid|supraspinatus|infraspinatus|subscapularis|teres|biceps brachii|triceps brachii|brachialis|coracobrachialis|pronator|supinator|brachioradialis|carpi|digitorum|pollicis|lumbrical|interosse|axillary nerve|musculocutaneous nerve|median nerve|ulnar nerve|radial nerve|suprascapular nerve|long thoracic nerve|thoracodorsal nerve/.test(n);
- if(upperLimb&&(system==='muscular'||system==='nervous'||system==='skeletal'))return GROSS_SOURCE;
+ if(upperLimb&&(system==='muscular'||system==='nervous'||system==='skeletal'))return GENERAL_SOURCE;
  if(system==='skeletal')return BONE_SOURCE+'; '+WEB_SOURCE;
  if(system==='muscular'||system==='nervous')return WEB_SOURCE;
  return 'BodyParts3D naming with general anatomical context';
@@ -367,7 +367,7 @@ function sourceFor(name:string,system:SystemId){
 function withCourseNotes(profile:StructureProfile,name:string):StructureProfile{
  // Lecture-note fragments are no longer attached: they were truncated, often unrelated to the structure, and are not ours to republish.
  void name;
- return{...profile,source:`${profile.source}; ${NETTER_TERMINOLOGY_SOURCE}`};
+ return{...profile,source:`${profile.source}; ${DISPLAY_TERMINOLOGY_SOURCE}`};
 }
 
 function baseStructureProfile(rawName:string,system:SystemId,part?:Part):StructureProfile{

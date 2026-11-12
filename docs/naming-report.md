@@ -1467,7 +1467,7 @@
 | superior intercostal artery | 台灣解剖學名詞（程式內建對照表） | 最上肋間動脈 |
 | superior epigastric artery | glossary.json（其他筆記） | 上腹壁動脈 |
 | internal thoracic artery | 台灣解剖學名詞（程式內建對照表） | 內胸動脈 |
-| lateral thoracic artery | 台灣解剖學名詞（程式內建對照表） | 外側胸動脈 |
+| lateral thoracic artery | 台灣解剖學名詞（程式內建對照表） | 外胸動脈 |
 | first posterior intercostal artery | 台灣解剖學名詞（程式內建對照表） | 第一後肋間動脈 |
 | second posterior intercostal artery | 台灣解剖學名詞（程式內建對照表） | 第二後肋間動脈 |
 | Posterior intercostal arteries | 台灣解剖學名詞（程式內建對照表） | 後肋間動脈 |
@@ -2139,7 +2139,7 @@
 | subclavian nerve | 台灣解剖學名詞（程式內建對照表） | 鎖骨下肌神經 |
 | axillary nerve | 台灣解剖學名詞（程式內建對照表） | 腋神經 |
 | posterior cord of brachial plexus | 台灣解剖學名詞（程式內建對照表） | 臂神經叢後束 |
-| lateral pectoral nerve | 台灣解剖學名詞（程式內建對照表） | 外側胸神經 |
+| lateral pectoral nerve | 台灣解剖學名詞（程式內建對照表） | 外胸神經 |
 | musculocutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 肌皮神經 |
 | lateral antebrachial cutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 外側前臂皮神經 |
 | deep branch of radial nerve | 台灣解剖學名詞（程式內建對照表） | 橈神經深支 |
@@ -2215,7 +2215,7 @@
 | spinal ganglion | 台灣解剖學名詞（程式內建對照表） | 脊神經節 |
 | posterior root of spinal nerve | 台灣解剖學名詞（程式內建對照表） | 脊神經後根 |
 | anterior root of spinal nerve | 台灣解剖學名詞（程式內建對照表） | 脊神經前根 |
-| medial pectoral nerve | 台灣解剖學名詞（程式內建對照表） | 內側胸神經 |
+| medial pectoral nerve | 台灣解剖學名詞（程式內建對照表） | 內胸神經 |
 | superior subscapular nerve | 台灣解剖學名詞（程式內建對照表） | 肩胛下神經（上） |
 | inferior subscapular nerve | 台灣解剖學名詞（程式內建對照表） | 肩胛下神經（下） |
 | thoracodorsal nerve | 台灣解剖學名詞（程式內建對照表） | 胸背神經 |

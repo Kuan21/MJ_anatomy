@@ -2,6 +2,30 @@
 
 最後更新：2026-11-05。規則：只改介面、效能、腳本、文件的 PR 在 `build` 通過後自動 merge；涉及模型、示意模型、解剖內容、名稱、Quiz 資料的 PR 標【需人工審核】，**一律不開 auto-merge**，等你確認。
 
+## 穩定度檢查：脫離骨骼與拉伸改比「比例與嚴重度」（#242 後續第 1 項，【需人工審核】，使用者 2026-11-11 指示）
+
+原因：「脫離骨骼」數的是點數、「拉伸」數的是三角形數，換網格來源或重新取樣會讓同一個問題的計數上下變動，被誤判為變差（#242 就因此多出 50 條假的變差）。修正：偵測端多輸出 `fraction`（受影響的比例）與 `severity`（最遠距離 mm／最差倍率），已知清單的 458 條脫離與拉伸條目一次性改用這兩個數（`node scripts/check-stability.mjs --write --adopt-metrics`，只能與 `--write` 一起用）；之後只有 severity 超過容許（脫離 2 mm、拉伸 0.1 倍）或 fraction 增加超過 5 個百分點才算變差，原始計數只留作參考。其他檢查（穿入、重合、切口、碎片）規則不變。已知清單總數仍是 1089 條，沒有新增或移除；測試 `scripts/test-stability-baseline.mjs` 由 12 個案例增為 23 個。容許值是我的選擇，請使用者決定是否要調整。
+
+## 神經：坐骨神經與前根重合面處理（#242 後續，【需人工審核】，使用者 2026-11-11 指示）
+
+`scripts/extract-zanatomy-nervous.mjs` 新增一項記錄在案的調整：左右股後皮神經前根與坐骨神經表面重合的面（每側 266 面）內縮 0.3 mm，消除 z-fighting；`nervous.glb` 重新輸出，來源與修改記在 `public/ATTRIBUTION.md`、`public/model_sources.json`、檔內 `asset.extras.adjustments`。穩定度已知清單 1089 → 1087（移除 2 條重合）。趾背中間皮神經這次**沒有移動**：檢查裡的「骨」其實是被歸在骨骼系統的腓骨第三肌，網格面朝向不一致，嘗試移動後穿入反而增加，細節在 `docs/official-nerve-stability-review.md`。位置請使用者依公開資料核對；未在 3D 畫面逐條目視確認。
+
+
+## 文件：#242 後續——官方神經檔 54 條穩定度變動的檢視（文件類，CI 全綠後自動 merge）
+
+只加 `docs/official-nerve-stability-review.md`，不改模型、基準與檢查規則。結論：54 條裡 50 條不是實際變差（計數隨網格頂點數而變，最遠距離與最差倍率相同或相差 ≤5 mm、穿入差異 ≤0.2 mm），真正有變化的 4 條是左右坐骨神經與股後皮神經前根的 359 面重合、左趾背中間皮神經穿入腓骨第三肌 5.5 → 7.8 mm、右橈神經溝切口 26.5 → 26.9 mm（原因未確認）。另列五項待使用者決定的處理方式。未在 3D 畫面逐條目視確認。
+
+
+## 神經與關節組織改用 Z-Anatomy 官方檔重新生成（#242，【需人工審核】，使用者 2026-11-11 指示合併）
+
+來源與授權：神經與關節模型改由官方倉庫 `LluisV/Z-Anatomy`（提交 `6c7f901`，CC BY-SA 4.0）的 `NervousSystem100.fbx`、`Joints100.fbx` 以維護者工具（`scripts/extract-zanatomy-nervous.mjs`、`scripts/extract-zanatomy-joints.mjs`）重新生成；來源與檔案雜湊寫在模型檔內與 `public/model_sources.json`、`public/ATTRIBUTION.md`。與原本第三方複本相比，位置中位數差距不到 0.05 mm。
+
+穩定度基準一次性重設（使用者選「選項 1」）：官方神經的網格形狀與原本略有不同，穩定度檢查有 54 條變差——52 條數值微增（貫穿、脫離骨骼、拉伸），2 條新增（左右坐骨神經與股後皮神經前根共面），1 條已知違規消失。這次**一次性**把這 54 條寫回已知清單，並在每條 reason 註明「2026-11-11 換官方檔後數值微增」；總數仍是 1089 條，沒有放寬檢查規則本身。視覺上沒有在 3D 畫面逐條確認。
+
+之後（使用者說「1、2」，我理解為先 1 後 2）：另開工作逐條檢視這 54 條，哪些能把神經位置調回、讓數值降回原值；神經位置要依 Gray's 1918／OpenStax 的描述核對，不憑空移動。
+合併前已再合併最新 main，paokao 串流與相關生成檔已重新產生。
+
+
 ## 2026-11-11 使用者審核後已合併：#238、#212
 
 兩個都是【需人工審核】的 PR，使用者逐一檢查（「212 238 239 242 i checked all fix can run」）並指示合併 #238、#212（#239 因堆疊在 #222 上而不動，#242 因穩定度檢查另待決定）。
@@ -112,6 +136,17 @@
 - `scripts/vessel-acceptance.mjs`（`npm run check:vessels:accept`）：輸出末端間隙、進骨、管徑比、切線誤差四項數字（新血管樹與現有下肢血管網格各一欄），寫進 CI job summary；`--strict` 才要求全部為 0。例外清單 `docs/vessel-acceptance-exclusions.json`，每條要有原因。
 - 既有 Deploy workflow 加兩個步驟（`check:vessels`、`check:vessels:accept`），沒有新增 workflow。
 - **未驗證：** 此環境沒有安裝依賴也沒有生成檔，兩個新步驟與新腳本尚未實際執行，只做了語法檢查；請以 PR 的 CI 結果為準。若 `check:vessels` 在 main 上本來就失敗，會在這個 PR 暴露，不會放寬規則。
+
+## 出處清理（【需人工審核】，不自動 merge）
+
+**需人工審核，未合併。** 網站、程式碼與資料檔不再出現任何書名（Netter、Moore、Gray's Anatomy for Students 等），只保留允許的公開來源（Gray's Anatomy 1918、OpenStax）與模型資料授權出處。
+
+- `app/mj-netter-terminology.ts` 改名為 `app/mj-display-terminology.ts`（`displayEnglishName`、`DISPLAY_TERMINOLOGY_SOURCE`，內容改為 Terminologia Anatomica 與台灣解剖名詞）；`test-netter-terminology.mjs` 改名為 `test-display-terminology.mjs` 並第一次併入 `npm run check`（原本沒有在 check 裡）。`GROSS_SOURCE` 改名 `GENERAL_SOURCE`，卡片出處行不再寫「terminology cross-checked with Netter…」。
+- `scripts/paokao-structures/*.mjs` 的書名引用移除，`app/mj-paokao.json` 的 refs 欄：380 筆原本都是 Gray's Anatomy for Students／Moore，改為空（只保留 Human Reference Atlas 乳腺模型的 CC BY 4.0 出處與「位置依男性骨盆估計」兩種非書名說明）。我沒有逐結構核對真實的 Gray's 1918、OpenStax 頁碼或 FMA 編號，依規則不編造，所以留空。refs 本來就沒有顯示在任何資訊卡上。`app/mj-paokao.json` 與 `paokao-stream.json.gz` 用 repo 工具重新生成。
+- `public/ATTRIBUTION.md`、`CLAUDE.md`、`scripts/audit-paokao.mjs`（`docs/paokao-audit.md` 重新生成）、`docs/BUG_AUDIT.md`、`app/quiz/naming.ts`、`app/workspace-layout.css` 的書名或課程名稱字樣改寫。
+- 新增 `scripts/check-deploy-content.mjs`（併入 `npm run check`，也在 `npm run build` 後自動執行；`check-no-notes.mjs` 規則沒有放寬）：已出貨的檔案與 app 字串不得出現書名；app 只能引入 `docs/muscle-layers.json` 與 `docs/paokao-aliases.json` 兩個 docs 檔；筆記與摘要整理檔不得出現在 `public/` 或 `dist/`；vite 只複製 `public/`；Pages 只上傳 `dist/`。
+- `app/mj-paokao.json` 會被打包進網站：它是我們自己寫的示意結構資訊卡資料（網站內容，已不含書名），不是筆記檔。
+- 清單文件 `docs/notes-audit.md`：每個含筆記或摘要內容的檔案的路徑、大小、性質、是否被部署、能否移出；沒有刪除或移動任何檔案。請你決定。移出前要先改 `prepare-*`、`audit-*` 腳本，否則 CI 會失敗。
 
 ## 結構「範圍」屬性（摘要／延伸）與 Quiz 範圍選項（【需人工審核】，不自動 merge）
 
@@ -1022,6 +1057,9 @@ Triangular interval 改為「三邊裂」（原「三頭肌間隙」），Clavip
 
 | 任務 | 狀態（進行中 / 已完成 / 等我審核 / 未開始 / 卡住） | PR 編號 | 備註 |
 | --- | --- | --- | --- |
+| **清理腳本當機修正**（`scripts/clean.mjs` 的 `sizeOrNull` 在宣告前被呼叫；移動宣告並加冒煙測試；腳本類，穩定期由使用者 merge） | 等我審核 | #262 | 不動模型與解剖內容 |
+| **出處清理：移除書名字串、`mj-paokao.json` refs 清空、部署內容自動檢查、筆記相關檔案清單**（【需人工審核】，不自動 merge） | 等我審核（【需人工審核】，不自動 merge） | #214 | 見上方「出處清理」；清單在 `docs/notes-audit.md`，請決定哪些檔案移出 repo |
+
 | **半透明與深度精度加固（移除網點路徑、近平面隨距離、靜態回歸檢查）** | 等我審核（【需人工審核】，不自動 merge） | 見 PR | 見上方同名段落；根本原因待使用者提供裝置資訊 |
 | **穩定期 G：胸腔（肩旁米黃色三角形、胸骨旁白色實心板）** | 等我審核（【需人工審核】，不自動 merge） | 見 PR | 見上方「穩定期 G」 |
 | **帽狀腱膜改為淺米色結締組織（頭頸雙側視圖顱頂不再是肌肉紅）** | 等我審核（【需人工審核】，不自動 merge） | 見 PR | 顱頂紅色是帽狀腱膜被當成肌肉；額肌本身範圍未動；前後對照截圖在 `pr-screenshots` 分支 `frontalis-galea-2026-11-11/` |
