@@ -37,3 +37,48 @@ next-env.d.ts
 /outputs/
 /work/
 *.tsbuildinfo
+
+# local Sites runtime
+/.sites-runtime/
+
+# Rebuilt from the pinned Three.js package before dev/build
+/public/draco/draco_*
+
+# Pinned Brain Project asset verified and vendored before dev/build
+/public/models/brain.glb
+
+# Pinned Z-Anatomy joint source
+
+/public/models/articular-surfaces.json
+
+/public/models/neck-vessels.json
+
+# Lossless, content-addressed delivery packages generated from the source atlas
+/public/models/stream/
+/public/models/atlas-stream.json*
+/public/models/nerve-stream.json
+/public/models/quiz-*.json
+
+# Pinned facial-muscle source, verified and repackaged before dev/build
+/public/models/facial/facial-stream.json.gz
+
+# BodyParts3D 3.0 structures missing from the 4.0 export, verified and packaged before dev/build
+/public/models/supplement/supplement-stream.json.gz
+
+# Female reproductive organs (HRA, from the committed subset) and serous-membrane shells, generated before dev/build
+/public/models/female/female-stream.json.gz
+/public/models/serous/serous-stream.json.gz
+
+# Heart detail package built from the pinned Z-Anatomy export before dev/build
+/public/models/heart/heart-detail.json.gz
+
+# Skin/fascia weights over the shared segment chain, computed from the atlas before dev/build
+/public/models/skin-weights.json.gz
+
+# Names of structures outside the atlas concepts, generated for search
+/public/models/search-extras.json.gz
+
+# Screenshots are kept outside the repo (see CLAUDE.md); a local scratch folder is ignored just in case
+/.screenshots/
+/test-results/
+/playwright-report/

@@ -1,0 +1,85 @@
+// The search index: every structure is findable by its English name, Chinese name (all accepted spellings), alias and FMA id; at most 50 results;
+// and a query is fast enough that typing never waits on it.
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {gunzipSync} from 'node:zlib';
+import {quizModule} from './quiz-modules.mjs';
+
+const {buildSearchIndex, querySearchIndex, conceptMatches} = await quizModule('app/mj-search.ts');
+const {cranialQuery, matchesCranial, CRANIAL_NERVES} = await quizModule('app/mj-cranial-search.ts');
+const {structureProfile} = await quizModule('app/mj-structure-info.ts');
+const {normalizeAtlasSystems} = await quizModule('app/mj-system-classifier.ts');
+const {mergeAtlasStreams} = await quizModule('app/mj-facial-atlas.ts');
+const models = new URL('../public/models/', import.meta.url), read = f => JSON.parse(gunzipSync(fs.readFileSync(new URL(f, models))));
+const atlas = mergeAtlasStreams(normalizeAtlasSystems(read('atlas-stream.json.gz')), [read('facial/facial-stream.json.gz'), read('supplement/supplement-stream.json.gz')]);
+const parts = new Map(atlas.parts.map(p => [p.id, p]));
+const sources = atlas.concepts.map(c => {
+  const p = c.elements.map(id => parts.get(id)).find(Boolean), profile = p ? structureProfile(c.name, p.system, p) : undefined;
+  return {concept: c, english: profile?.english ?? c.name, chinese: profile?.chinese, profile};
+});
+for (const x of read('search-extras.json.gz')) {
+  const profile = structureProfile(x.n, x.s);
+  sources.push({concept: {id: `extra:${x.k}:${x.raw ?? x.n}`, name: x.n, elements: []}, english: profile.english ?? x.n, chinese: x.z ?? profile.chinese, kind: x.k});
+}
+let t = performance.now();
+const index = buildSearchIndex(sources);
+const buildMs = performance.now() - t;
+assert.ok(index.length > 2500, `index entries: ${index.length}`);
+
+// same matches as the predicate the panel used before (conceptMatches), for a spread of queries
+for (const q of ['latiss', '闊背', '背闊肌', '背阔肌', 'median nerve', '正中神經', 'rectus', '腹直肌', 'femur', '股骨', 'FMA13358', 'vertebral artery', '椎動脈', 'heart', 'ventricle']) {
+  const expected = new Set(sources.filter(s => !s.kind && conceptMatches(s.concept, s.profile, q)).map(s => s.concept.id));
+  const got = querySearchIndex(index, q, 100000);
+  for (const id of expected) assert.ok(got.some(e => e.concept.id === id), `"${q}" finds ${id}`);
+  assert.ok(querySearchIndex(index, q, 50).length <= 50, 'at most 50 results');
+}
+// by FMA id and by alias
+assert.ok(querySearchIndex(index, 'FMA13358').some(e => /latissimus/i.test(e.english)), 'FMA id');
+for (const q of ['闊背肌', '背阔肌', '背闊肌']) assert.ok(querySearchIndex(index, q).some(e => /latissimus/i.test(e.english)), `alias ${q}`);
+assert.deepEqual(querySearchIndex(index, '   '), []);
+// best match first: the shortest name that matches comes first
+{const top = querySearchIndex(index, 'femur')[0].english; assert.ok(/femur/i.test(top) && top.length <= 12, `best match for femur: ${top}`);}
+
+// cranial nerves: the category, plural, Chinese, numbering in the ways people type it, and the plural of an ordinary word
+{
+  const roman = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'], names = ['olfactory', 'optic', 'oculomotor', 'trochlear', 'trigeminal', 'abducens', 'facial', 'vestibul', 'glossopharyngeal', 'vagus', 'accessory', 'hypoglossal'];
+  for (const q of ['cranial nerve', 'cranial nerves', 'Cranial Nerve', '腦神經', '顱神經', 'cranial']) {
+    const got = querySearchIndex(index, q, 100);
+    assert.ok(got.length >= 12, `"${q}" finds the cranial nerves (${got.length})`);
+    for (const n of names) assert.ok(got.some(e => e.english.toLowerCase().includes(n)), `"${q}" finds ${n}`);
+  }
+  roman.forEach((r, i) => {
+    for (const q of [`CN ${r}`, `cn ${i + 1}`, `cranial nerve ${i + 1}`, `Cranial nerve ${r}`, `CN${r}`, `第${'一二三四五六七八九十'[i] ?? (i === 10 ? '十一' : '十二')}對腦神經`, `第${i + 1}對腦神經`]) {
+      const got = querySearchIndex(index, q, 100);
+      assert.ok(got.length > 0, `"${q}" finds nerve ${r}`);
+      assert.ok(got.some(e => e.english.toLowerCase().includes(names[i])), `"${q}" finds the ${names[i]} nerve`);
+    }
+  });
+  // brain detail mode filters its own parts with the same predicate: the brain model's nerve names (labels like "Oculomotor nerve (III)", sides as .l / .r)
+  {
+    const b = fs.readFileSync(new URL('brain.glb', models)), g = JSON.parse(b.toString('utf8', 20, 20 + b.readUInt32LE(12)));
+    const labels = new Set(g.nodes.filter(n => n.extras?.bx_cat === 'cranial_nerves').map(n => n.extras.bx_label));
+    const all = cranialQuery('cranial nerves');
+    for (const c of CRANIAL_NERVES) { const name = [...labels].find(l => c.trunk.test(l.toLowerCase().replace(/\\((?:i|ii|iii|iv|v|vi|vii|viii|ix|x|xi|xii)\\)/g, '').trim())); if (name) assert.ok(matchesCranial(name, all) && matchesCranial(name, cranialQuery(`CN ${c.n}`)), `brain part ${name}`); }
+    assert.ok(matchesCranial('Oculomotor nerve (III)', cranialQuery('cn iii')) && !matchesCranial('Facial nerve (VII)', cranialQuery('cn iii')));
+  }
+  assert.ok(querySearchIndex(index, 'nerves').length > 0, '"nerves" finds nerve names');
+  assert.ok(querySearchIndex(index, 'oculomotor').length > 0 && querySearchIndex(index, '動眼神經').length > 0, 'nerve names still found');
+}
+// heart detail structures without an atlas mesh are found and marked (they open the heart detail mode); ones the atlas already has are not duplicated
+for (const [q, name] of [['crista terminalis', /crista terminalis/i], ['fossa ovalis', /fossa ovalis/i], ['moderator band', /septomarginal/i], ['卵圓窩', /fossa ovalis/i], ['supraventricular crest', /supraventricular/i]]) {
+  const got = querySearchIndex(index, q); assert.ok(got.some(e => e.kind === 'heart' && name.test(e.english)), `"${q}" finds the heart structure`);
+}
+assert.ok(!index.some(e => e.kind === 'heart' && /^(left|right) (atrium|ventricle)$/i.test(e.english)), 'chambers the atlas has are not duplicated');
+// the type word of the course summaries is dropped when needed, plural too; simplified characters beyond the old table
+for (const [q, name] of [['deltoid muscle', /deltoid/i], ['biceps brachii m.', /biceps brachii/i], ['radial n.', /radial nerve/i], ['brachial a.', /brachial artery/i], ['posterior intercostal arteries', /posterior intercostal arter/i], ['锁骨', /clavicle/i], ['韧带', /ligament/i], ['桡神经', /radial nerve/i]]) {
+  const got = querySearchIndex(index, q); assert.ok(got.some(e => name.test(e.english)), `"${q}" finds ${name}`);
+}
+// speed: a query over the whole index
+const queries = ['l', 'la', 'lat', 'latissimus', 'm', 'me', 'med', '正', '正中', '正中神經', '闊', '闊背', '闊背肌'];
+const times = [];
+for (let round = 0; round < 5; round++) for (const q of queries) {t = performance.now(); querySearchIndex(index, q, 50); times.push(performance.now() - t);}
+times.sort((a, b) => a - b);
+const median = times[times.length >> 1], worst = times.at(-1);
+assert.ok(worst < 25, `worst query ${worst.toFixed(1)} ms`);
+console.log(`PASS search index: ${index.length.toLocaleString()} entries built in ${buildMs.toFixed(0)} ms; a query takes ${median.toFixed(2)} ms median, ${worst.toFixed(1)} ms worst; results capped at 50; English, Chinese (背闊肌／闊背肌／背阔肌), FMA id and alias all match.`);

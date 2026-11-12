@@ -1,19 +1,20 @@
 name: Deploy MJ Anatomy Preview
 on:
   push:
-    branches: [main, mj-upper-limb-v1]
+    branches: [main]
+  pull_request:
+    branches: [main, mj-stability-checks]
   workflow_dispatch:
 permissions:
   contents: read
   pages: write
   id-token: write
-# One queue per ref: a branch push must never cancel a main deployment (or another branch's build).
 concurrency:
   group: pages-${{ github.ref }}
   cancel-in-progress: true
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -21,15 +22,16 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npm run validate:upper-limb
       - run: npm run check
+      - run: npm run check:motion
+      - run: npm run check:vessels
+      - run: npm run check:vessels:accept
       - run: npm run build -- --base /MJ_anatomy/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:
           path: dist
   deploy:
-    # The github-pages environment only accepts the default branch; branch pushes stop after a validated build.
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     permissions:
       pages: write
@@ -37,11 +39,9 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: build
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-# Pages source enabled via GitHub Actions

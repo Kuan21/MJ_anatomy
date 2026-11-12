@@ -1,0 +1,4 @@
+{
+ "note": "Vessels that touch no other vessel in the source atlas (checked at 2.5 mm). Each is listed so a new floating vessel fails the build; fix them rather than adding to the list.",
+ "alone": []
+}

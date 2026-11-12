@@ -1,0 +1,34 @@
+{
+ "note": "Similarity transform HRA frame (metres) → BodyParts3D atlas frame, from scripts/fit-female-pelvis.mjs",
+ "scale": 0.833347,
+ "rotation": [
+  [
+   0.999887,
+   -0.003187,
+   -0.014718
+  ],
+  [
+   0.002283,
+   0.998133,
+   -0.061038
+  ],
+  [
+   0.014885,
+   0.060997,
+   0.998027
+  ]
+ ],
+ "translation": [
+  0.007796,
+  0.873257,
+  0.030091
+ ],
+ "fit": {
+  "medianBoneDistanceMm": 6.7,
+  "p90BoneDistanceMm": 12.4,
+  "femoralHeadErrorMm": {
+   "L": 1.6,
+   "R": 2
+  }
+ }
+}

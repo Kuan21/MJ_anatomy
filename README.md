@@ -13,6 +13,14 @@ An interactive 3D anatomy explorer built with React, Three.js, and shadcn/ui. Ta
 - Isolate a selected structure and read its details.
 - Use compact controls and detail panels on mobile.
 
+## Lower-limb quiz
+
+Choose **下肢 → Quiz**, or open `#/quiz/lower-limb`. Practice 326 named
+structures across bones, muscles, nerves, arteries and veins, with regional and
+side filters, red/green answer feedback, peeling and a repeat-mistakes round.
+See [quiz scope and validation](docs/lower-limb-quiz.md). Run its checks with
+`npm run check:quiz`.
+
 ## Run locally
 
 Requires Node.js 22.13 or newer. No API keys or accounts are needed.

@@ -1,0 +1,19 @@
+PASS panel appears
+PASS hit-test both reaches the control  bn-en<SPAN>
+PASS hit-test left reaches the control  bn-en<SPAN>
+PASS hit-test right reaches the control  bn-en<SPAN>
+PASS hit-test minus reaches the control  layer-buttons<SPAN>
+PASS hit-test plus reaches the control  group/button inline-flex shrink-0 items-center jus<BUTTON>
+PASS hit-test slider reaches the control  organ-range<INPUT>
+PASS left lung button -> pressed
+PASS right lung button -> pressed
+PASS both button -> pressed
+PASS plus -> layer 2  Layer 2 / 2
+PASS minus -> layer 1  Layer 1 / 2
+PASS opacity slider moves with a real click  value 35
+PASS bronchial tree switch on after lowering opacity
+PASS bronchial tree switch turns off with a real click
+PASS bronchial tree switch turns on again
+PASS pulmonary vessels switch on after lowering opacity
+PASS pulmonary vessels switch turns off with a real click
+PASS pulmonary vessels switch turns on again

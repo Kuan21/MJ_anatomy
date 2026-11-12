@@ -1,0 +1,7 @@
+{
+  "method": "Area-weighted lower 70% blade-plane fit from source triangles; elliptical thorax guide from rib bounds. Educational approximation, not clinical validation.",
+  "sides": {
+    "left": {"scapulaId":"FJ3279","centre":[0.09870952088228124,1.3325467176896504,-0.0794265947116839],"normal":[-0.5052848492406993,-0.23379281123297546,0.830679325939671],"triangles":1897},
+    "right": {"scapulaId":"FJ3384","centre":[-0.09880138071373747,1.3325287685865321,-0.0793797248757423],"normal":[0.5062789008965272,-0.23312866726807374,0.8302606211333985],"triangles":1768}
+  }
+}

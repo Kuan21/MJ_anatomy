@@ -1,0 +1,113 @@
+import type {Concept} from './anatomy';
+import {cranialNumberOf,cranialQuery,matchesCranial,singularQuery} from './mj-cranial-search';
+
+// Chinese search accepts the Taiwan form the viewer shows plus the Hong Kong and mainland spellings people also type
+// (背闊肌 / 背阔肌 for 闊背肌, simplified characters in general).
+import paokaoAliases from '../docs/paokao-aliases.json';
+const SIMPLIFIED:Record<string,string>={闊:'阔',橫:'横',內:'内',豎:'竖',頭:'头',臟:'脏',腸:'肠',韌:'韧',節:'节',動:'动',靜:'静',脈:'脉',經:'经',頸:'颈',腦:'脑',膽:'胆',腎:'肾',頰:'颊',顳:'颞',顱:'颅',臍:'脐',關:'关',體:'体',龍:'龙',側:'侧',縫:'缝',線:'线',環:'环',間:'间',髖:'髋',
+ 帶:'带',結:'结',葉:'叶',輸:'输',額:'额',鎖:'锁',門:'门',竇:'窦',緣:'缘',總:'总',纖:'纤',網:'网',維:'维',層:'层',屬:'属',壓:'压',區:'区',劍:'剑',圓:'圆',夾:'夹',對:'对',張:'张',後:'后',恥:'耻',樞:'枢',橈:'桡',氣:'气',淺:'浅',溝:'沟',漿:'浆',無:'无',狀:'状',脛:'胫',膕:'腘',與:'与',薦:'荐',觸:'触',貴:'贵',跡:'迹',蹠:'跖',軸:'轴',迴:'回',遠:'远',鈍:'钝',鉤:'钩',銳:'锐',鋸:'锯',錐:'锥',長:'长',閉:'闭',隱:'隐',髕:'髌',魚:'鱼',窩:'窝',齒:'齿',顎:'颚',轉:'转',術:'术',發:'发',組:'组',織:'织',叢:'丛',幹:'干',項:'项',過:'过',邊:'边',連:'连',導:'导',聽:'听',視:'视',塊:'块',兩:'两',雙:'双',單:'单',桿:'杆',樑:'梁',櫛:'栉',頂:'顶',顏:'颜',頷:'颔',頜:'颌',蝶:'蝶',篩:'筛',軟:'软',骶:'骶',髂:'髂',膀:'膀',腺:'腺',臥:'卧',胸:'胸',脊:'脊'};
+const ALIASES:Record<string,string[]>={闊背肌:['背闊肌','背阔肌'],二尖瓣:['僧帽瓣'],三邊裂:['三頭肌間隙','三角間隙','三边裂'],三角肌胸大肌三角:['鎖胸三角','鎖骨胸大肌三角','锁胸三角']};
+/** Papillary muscle is 乳突肌 in the course summary (跑考摘要); the older textbook form 乳頭肌 stays searchable. 胸鎖乳突肌 is the mastoid muscle and is left alone. */
+const PAPILLARY=/(?<!胸鎖)乳突肌/;
+const aliasForms=(chinese:string)=>{
+ const forms:string[]=[];
+ for(const [canonical,others] of Object.entries(ALIASES))if(chinese.includes(canonical))for(const o of others)forms.push(chinese.replace(canonical,o));
+ if(PAPILLARY.test(chinese))for(const o of ['乳頭肌','乳头肌'])forms.push(chinese.replace(PAPILLARY,o));
+ return forms;
+};
+const simplify=(s:string)=>[...s].map(c=>SIMPLIFIED[c]??c).join('');
+// Names the course-summary notes (跑考摘要) use for structures the model spells differently: docs/paokao-aliases.json maps each note name to the model name(s).
+const baseName=(n:string)=>n.toLowerCase().replace(/\.[lr](\.\d+)?$/,'').replace(/\b(left|right)\b/g,' ').replace(/[^a-z0-9]+/g,' ').trim();
+const ALT:Map<string,string[]>=new Map();
+for(const [note,models] of Object.entries(paokaoAliases as Record<string,string[]>))for(const m of models){const k=baseName(m);ALT.set(k,[...(ALT.get(k)??[]),note]);}
+/** The two atrioventricular valves go by several names: bicuspid (the name shown) = mitral = left atrioventricular; tricuspid = right atrioventricular. Cusp and leaflet are the same word for searching. */
+const VALVE_NAMES:string[][]=[['bicuspid valve','mitral valve','left atrioventricular valve'],['tricuspid valve','right atrioventricular valve']];
+const valveNames=(name:string)=>{
+ const n=name.toLowerCase(),out=new Set<string>();
+ for(const v of [n,n.replace(/\bleaflet\b/,'cusp'),n.replace(/\bcusp\b/,'leaflet')]){
+  if(v!==n)out.add(v);
+  for(const group of VALVE_NAMES)for(const from of group)if(v.includes(from))for(const to of group)if(to!==from)out.add(v.replace(from,to));
+ }
+ return [...out];
+};
+const altNames=(name:string)=>[...(ALT.get(baseName(name))??[]),...valveNames(name)];
+
+/** Does a Chinese structure name match what the user typed? */
+export function chineseMatches(chinese:string|undefined,query:string){
+ const q=query.trim();
+ if(!chinese||!q)return false;
+ if(chinese.includes(q))return true;
+ const names=[chinese,...aliasForms(chinese)];
+ const simple=simplify(q);
+ return names.some(n=>n.includes(q)||simplify(n).includes(simple));
+}
+
+/** The Find-a-structure predicate for one atlas concept. */
+/** Hyphens and spaces do not matter when typing: "thoracoacromial" finds "thoraco-acromial artery", and "ligamentum flavum" finds "Ligamentum-flavum". */
+const squash=(s:string)=>s.toLowerCase().replace(/[\s\-–]+/g,'');
+/** The same without left/right: "clavicular branch of thoracoacromial artery" finds "clavicular branch of right thoraco-acromial artery". */
+const squashSide=(s:string)=>squash(s.toLowerCase().replace(/\b(left|right)\b/g,' '));
+export const conceptMatches=(concept:Pick<Concept,'id'|'name'>,profile:{english:string;chinese?:string}|undefined,query:string)=>{
+ const term=query.toLowerCase().trim(),flat=squash(term);
+ const alts=altNames(concept.name);
+ return concept.name.toLowerCase().includes(term)||concept.id.toLowerCase().includes(term)||!!profile?.english.toLowerCase().includes(term)||chineseMatches(profile?.chinese,query)
+  ||(flat.length>=4&&(squashSide(concept.name).includes(squashSide(term))||(!!profile&&squashSide(profile.english).includes(squashSide(term)))))||alts.some(a=>a.includes(term)||(flat.length>=4&&squash(a).includes(flat)));
+};
+
+// ---------------------------------------------------------------------------------------------------------------------------
+// Search index: names (English, Chinese with its alternative spellings), FMA ids, built once and queried per keystroke.
+export interface SearchSource {concept: Concept; english: string; chinese?: string; kind?: string}
+export interface SearchEntry extends SearchSource {
+  /** Lower-case English names and ids, joined for one substring scan. */
+  hay: string;
+  /** Chinese name in every accepted spelling (Taiwan form, Hong Kong / mainland variants), also folded to simplified characters. */
+  zh: string[];
+  zhSimple: string[];
+}
+const zhForms = (chinese?: string) => {
+  if (!chinese) return [] as string[];
+  return [chinese, ...aliasForms(chinese)];
+};
+export function buildSearchIndex(sources: SearchSource[]): SearchEntry[] {
+  return sources.map(source => {
+    const zh = zhForms(source.chinese);
+    return {...source, hay: `${source.concept.name}\n${source.english}\n${source.concept.id}\n${altNames(source.concept.name).join('\n')}\n${squashSide(source.concept.name)}\n${squashSide(source.english)}`.toLowerCase(), zh, zhSimple: zh.map(simplify)};
+  });
+}
+/** Matches for a query, best first (prefix before substring, shorter names before longer), at most `limit`. */
+export function querySearchIndex(index: SearchEntry[], query: string, limit = 50): SearchEntry[] {
+  const q = query.trim();
+  if (!q) return [];
+  // "cranial nerve", 腦神經, "CN III", 第三對腦神經: the cranial nerves in order, left before right
+  const cranial = cranialQuery(q);
+  if (cranial) {
+    const hits = index.filter(e => matchesCranial(e.english, cranial)).sort((a, b) => cranialNumberOf(a.english, true) - cranialNumberOf(b.english, true) || a.english.localeCompare(b.english));
+    return hits.slice(0, limit);
+  }
+  const found = searchIndex(index, q, limit);
+  if (found.length) return found;
+  // plural / singular: "nerves" finds "nerve"
+  const one = singularQuery(q);
+  if (one && one !== q) {const again = searchIndex(index, one, limit); if (again.length) return again;}
+  // the course summaries write "deltoid muscle", "biceps brachii m.", "radial n.", "brachial a.": the type word is dropped when the name alone finds something
+  const bare = q.replace(/\s+(?:muscles?|m\.|nerves?|n\.|arter(?:y|ies)|a\.|veins?|v\.|ligaments?|lig\.)\s*$/i, '').trim();
+  if (bare && bare !== q) return searchIndex(index, bare, limit);
+  return [];
+}
+function searchIndex(index: SearchEntry[], q: string, limit: number): SearchEntry[] {
+  const lower = q.toLowerCase(), flat = squashSide(q), simple = simplify(q), hits: {entry: SearchEntry; rank: number}[] = [];
+  for (const entry of index) {
+    const at = entry.hay.indexOf(lower);
+    let rank = at >= 0 ? (at === 0 || entry.hay[at - 1] === '\n' ? 1 : 2) : -1;
+    if (rank < 0 && flat.length >= 4 && entry.hay.includes(flat)) rank = 2;
+    if (rank < 0) {
+      for (let i = 0; i < entry.zh.length; i++) {
+        const z = entry.zh[i].indexOf(q) >= 0 ? entry.zh[i].indexOf(q) : entry.zhSimple[i].indexOf(simple);
+        if (z >= 0) {rank = z === 0 ? 1 : 2; break;}
+      }
+    }
+    if (rank > 0) hits.push({entry, rank});
+  }
+  hits.sort((a, b) => a.rank - b.rank || a.entry.english.length - b.entry.english.length);
+  return hits.slice(0, limit).map(h => h.entry);
+}

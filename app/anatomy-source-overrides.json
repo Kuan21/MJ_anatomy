@@ -1,0 +1,51 @@
+{
+  "exclude": [
+    "FJ1471",
+    "FJ1471M"
+  ],
+  "parts": {
+    "FJ2186": {
+      "name": "Left dorsal metatarsal vein",
+      "conceptId": "MJ-DORSAL-METATARSAL-VEIN"
+    },
+    "FJ2199": {
+      "name": "Right dorsal metatarsal vein",
+      "conceptId": "MJ-DORSAL-METATARSAL-VEIN"
+    },
+    "FJ2190": {
+      "name": "Left fibular vein",
+      "conceptId": "FMA44886"
+    },
+    "FJ1469": {
+      "name": "Right flexor pollicis brevis",
+      "conceptId": "FMA37388"
+    },
+    "FJ1469M": {
+      "name": "Left flexor pollicis brevis",
+      "conceptId": "FMA37389"
+    },
+    "FJ2093": {
+      "name": "Left fibular artery",
+      "conceptId": "MJ-FIBULAR-ARTERY-L"
+    },
+    "FJ2197": {
+      "name": "Right fibular artery",
+      "conceptId": "MJ-FIBULAR-ARTERY-R"
+    },
+    "FJ2195": {
+      "name": "Right ascending and transverse branches of lateral circumflex femoral artery",
+      "conceptId": "MJ-LCFA-BRANCHES-R"
+    },
+    "FJ2091": {
+      "name": "Left ascending and transverse branches of lateral circumflex femoral artery",
+      "conceptId": "MJ-LCFA-BRANCHES-L"
+    }
+  },
+  "concepts": {
+    "MJ-DORSAL-METATARSAL-VEIN": "Dorsal metatarsal vein",
+    "MJ-FIBULAR-ARTERY-L": "Left fibular artery",
+    "MJ-FIBULAR-ARTERY-R": "Right fibular artery",
+    "MJ-LCFA-BRANCHES-L": "Left ascending and transverse branches of lateral circumflex femoral artery",
+    "MJ-LCFA-BRANCHES-R": "Right ascending and transverse branches of lateral circumflex femoral artery"
+  }
+}

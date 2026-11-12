@@ -1,0 +1,837 @@
+{
+ "repository": "nqwrc/3d-anatomy",
+ "revision": "8ca3b7421bcfbe88b85859eb1983d5cf79f21749",
+ "file": "public/models/cardiovascular.glb",
+ "sha256": "bc94c7b8eb1712f18ee461e064140e54aa817f3614e0f56a45b00e2a829cfb59",
+ "license": "CC-BY-SA-4.0 (Z-Anatomy) derived from BodyParts3D CC-BY-SA-2.1-JP",
+ "note": "Only the heart and its adjoining vessels are taken from the cardiovascular export. The same repository bundles Kidney (CC BY-NC 4.0), Anatomy of the Inner Ear (CC BY-NC-SA 4.0) and Brainder / White matter (licence not stated); none of those pieces is used. Every node below is a Z-Anatomy / BodyParts3D structure.",
+ "groups": [
+  {
+   "id": "chambers",
+   "label": "心腔",
+   "english": "Chambers"
+  },
+  {
+   "id": "papillary",
+   "label": "乳突肌",
+   "english": "Papillary muscles"
+  },
+  {
+   "id": "valves",
+   "label": "瓣膜與腱索",
+   "english": "Valves and chordae tendineae"
+  },
+  {
+   "id": "coronary",
+   "label": "冠狀動脈",
+   "english": "Coronary arteries"
+  },
+  {
+   "id": "veins",
+   "label": "心臟靜脈",
+   "english": "Cardiac veins"
+  },
+  {
+   "id": "vessels",
+   "label": "大血管",
+   "english": "Great vessels"
+  },
+  {
+   "id": "pericardium",
+   "label": "心包膜",
+   "english": "Pericardium"
+  },
+  {
+   "id": "interior",
+   "label": "腔內構造（示意構造）",
+   "english": "Internal structures (schematic)"
+  }
+ ],
+ "parts": [
+  {
+   "node": "Right atrium",
+   "name": "Right atrium",
+   "zh": "右心房",
+   "group": "chambers",
+   "system": "cardiac",
+   "zhDesc": "接受來自上腔靜脈、下腔靜脈與冠狀竇的缺氧血，經右房室瓣（三尖瓣）流入右心室。",
+   "enDesc": "Receives deoxygenated blood from the superior and inferior venae cavae and the coronary sinus and passes it through the right atrioventricular (tricuspid) valve into the right ventricle."
+  },
+  {
+   "node": "Right ventricle",
+   "name": "Right ventricle",
+   "zh": "右心室",
+   "group": "chambers",
+   "system": "cardiac",
+   "zhDesc": "將缺氧血經肺動脈瓣射入肺動脈幹；腔內有乳突肌，並以腱索連接右房室瓣。",
+   "enDesc": "Pumps deoxygenated blood through the pulmonary valve into the pulmonary trunk; its cavity contains papillary muscles linked to the right atrioventricular valve by chordae tendineae."
+  },
+  {
+   "node": "Left atrium",
+   "name": "Left atrium",
+   "zh": "左心房",
+   "group": "chambers",
+   "system": "cardiac",
+   "zhDesc": "接受四條肺靜脈的充氧血，經左房室瓣（二尖瓣）流入左心室。",
+   "enDesc": "Receives oxygenated blood from the four pulmonary veins and passes it through the left atrioventricular (mitral) valve into the left ventricle."
+  },
+  {
+   "node": "Left ventricle",
+   "name": "Left ventricle",
+   "zh": "左心室",
+   "group": "chambers",
+   "system": "cardiac",
+   "zhDesc": "將充氧血經主動脈瓣射入升主動脈；心壁在四個心腔中最厚。",
+   "enDesc": "Pumps oxygenated blood through the aortic valve into the ascending aorta; its wall is the thickest of the four chambers."
+  },
+  {
+   "node": "Left coronary leaflet",
+   "name": "Left coronary cusp of aortic valve",
+   "zh": "主動脈瓣左冠狀瓣",
+   "group": "valves",
+   "system": "cardiac",
+   "zhDesc": "主動脈瓣的半月瓣之一，對應左冠狀竇，左冠狀動脈由此發出。",
+   "enDesc": "A semilunar cusp of the aortic valve facing the left aortic sinus, from which the left coronary artery arises."
+  },
+  {
+   "node": "Right coronary leaflet",
+   "name": "Right coronary cusp of aortic valve",
+   "zh": "主動脈瓣右冠狀瓣",
+   "group": "valves",
+   "system": "cardiac",
+   "zhDesc": "主動脈瓣的半月瓣之一，對應右冠狀竇，右冠狀動脈由此發出。",
+   "enDesc": "A semilunar cusp of the aortic valve facing the right aortic sinus, from which the right coronary artery arises."
+  },
+  {
+   "node": "Non-coronary leaflet",
+   "name": "Non-coronary cusp of aortic valve",
+   "zh": "主動脈瓣無冠狀瓣",
+   "group": "valves",
+   "system": "cardiac",
+   "zhDesc": "主動脈瓣的半月瓣之一，對應沒有冠狀動脈發出的後竇。",
+   "enDesc": "The semilunar cusp of the aortic valve facing the posterior sinus, from which no coronary artery arises."
+  },
+  {
+   "node": "Anterior semilunar leaflet of pulmonary valve",
+   "name": "Anterior semilunar cusp of pulmonary valve",
+   "zh": "肺動脈瓣前半月瓣",
+   "group": "valves",
+   "system": "cardiac",
+   "zhDesc": "肺動脈瓣的三片半月瓣之一，位於前方。",
+   "enDesc": "One of the three semilunar cusps of the pulmonary valve, lying anteriorly."
+  },
+  {
+   "node": "Left semilunar leaflet of pulmonary valve",
+   "name": "Left semilunar cusp of pulmonary valve",
+   "zh": "肺動脈瓣左半月瓣",
+   "group": "valves",
+   "system": "cardiac",
+   "zhDesc": "肺動脈瓣的三片半月瓣之一，位於左側。",
+   "enDesc": "One of the three semilunar cusps of the pulmonary valve, lying on the left."
+  },
+  {
+   "node": "Right semilunar leaflet of pulmonary valve",
+   "name": "Right semilunar cusp of pulmonary valve",
+   "zh": "肺動脈瓣右半月瓣",
+   "group": "valves",
+   "system": "cardiac",
+   "zhDesc": "肺動脈瓣的三片半月瓣之一，位於右側。",
+   "enDesc": "One of the three semilunar cusps of the pulmonary valve, lying on the right."
+  },
+  {
+   "node": "Right coronary artery",
+   "name": "Right coronary artery",
+   "zh": "右冠狀動脈",
+   "group": "coronary",
+   "system": "arterial",
+   "zhDesc": "起自主動脈的右冠狀竇，沿右房室溝行走，供應右心房、右心室及部分左心室。",
+   "enDesc": "Arises from the right aortic sinus and runs in the right atrioventricular groove, supplying the right atrium, right ventricle and part of the left ventricle."
+  },
+  {
+   "node": "Right inferolateral branch of right coronary artery",
+   "name": "Right inferolateral branch of right coronary artery",
+   "zh": "右冠狀動脈右下外側支",
+   "group": "coronary",
+   "system": "arterial",
+   "zhDesc": "右冠狀動脈沿心臟下緣、向心尖方向發出的分支。",
+   "enDesc": "A branch of the right coronary artery running along the inferior border of the heart towards the apex."
+  },
+  {
+   "node": "Left coronary artery",
+   "name": "Left coronary artery",
+   "zh": "左冠狀動脈",
+   "group": "coronary",
+   "system": "arterial",
+   "zhDesc": "起自主動脈的左冠狀竇，短幹之後分為前室間動脈與迴旋支。",
+   "enDesc": "Arises from the left aortic sinus; after a short main stem it divides into the anterior interventricular and circumflex arteries."
+  },
+  {
+   "node": "Anterior interventricular artery",
+   "name": "Anterior interventricular artery",
+   "zh": "前室間支（前降支）",
+   "group": "coronary",
+   "system": "arterial",
+   "zhDesc": "沿前室間溝向心尖下行，供應室間隔前部與左、右心室前壁。",
+   "enDesc": "Descends in the anterior interventricular groove towards the apex, supplying the anterior part of the interventricular septum and the anterior walls of both ventricles."
+  },
+  {
+   "node": "Septal branches of anterior interventricular artery",
+   "name": "Septal branches of anterior interventricular artery",
+   "zh": "前室間動脈中隔支",
+   "group": "coronary",
+   "system": "arterial",
+   "zhDesc": "由前室間動脈穿入室間隔的分支，供應室間隔。",
+   "enDesc": "Branches of the anterior interventricular artery that penetrate the interventricular septum."
+  },
+  {
+   "node": "Circumflex artery of heart",
+   "name": "Circumflex artery",
+   "zh": "迴旋支",
+   "group": "coronary",
+   "system": "arterial",
+   "zhDesc": "左冠狀動脈的分支，沿左房室溝繞向心臟後方，供應左心房與左心室外側壁。",
+   "enDesc": "A branch of the left coronary artery that curves around the left atrioventricular groove to the back of the heart, supplying the left atrium and the lateral wall of the left ventricle."
+  },
+  {
+   "node": "Great cardiac vein",
+   "name": "Great cardiac vein",
+   "zh": "心大靜脈",
+   "group": "veins",
+   "system": "venous",
+   "zhDesc": "伴隨前室間動脈上行，再沿左房室溝注入冠狀竇。",
+   "enDesc": "Ascends beside the anterior interventricular artery, then follows the left atrioventricular groove into the coronary sinus."
+  },
+  {
+   "node": "Middle cardiac vein",
+   "name": "Middle cardiac vein",
+   "zh": "心中靜脈",
+   "group": "veins",
+   "system": "venous",
+   "zhDesc": "沿後室間溝上行，注入冠狀竇。",
+   "enDesc": "Ascends in the posterior interventricular groove and drains into the coronary sinus."
+  },
+  {
+   "node": "Inferior vein of left ventricle",
+   "name": "Inferior vein of left ventricle",
+   "zh": "左心室下靜脈",
+   "group": "veins",
+   "system": "venous",
+   "zhDesc": "收集左心室下壁的血液，注入冠狀竇或心大靜脈。",
+   "enDesc": "Drains the inferior wall of the left ventricle into the coronary sinus or the great cardiac vein."
+  },
+  {
+   "node": "Inferior vein of left ventricle (//Posterior '')",
+   "name": "Posterior vein of left ventricle",
+   "zh": "左心室後靜脈",
+   "group": "veins",
+   "system": "venous",
+   "zhDesc": "收集左心室後壁的血液，注入冠狀竇。",
+   "enDesc": "Drains the posterior wall of the left ventricle into the coronary sinus."
+  },
+  {
+   "node": "Coronary sinus",
+   "name": "Coronary sinus",
+   "zh": "冠狀竇",
+   "group": "veins",
+   "system": "venous",
+   "zhDesc": "位於後方的左房室溝內，匯集心臟的靜脈血，開口於右心房。",
+   "enDesc": "Lies in the posterior atrioventricular groove, collects the cardiac veins and opens into the right atrium."
+  },
+  {
+   "node": "Ascending aorta",
+   "name": "Ascending aorta",
+   "zh": "升主動脈",
+   "group": "vessels",
+   "system": "arterial",
+   "zhDesc": "由左心室經主動脈瓣發出，左、右冠狀動脈於其根部發出。",
+   "enDesc": "Leaves the left ventricle through the aortic valve; the left and right coronary arteries arise from its root."
+  },
+  {
+   "node": "Aortic arch",
+   "name": "Aortic arch",
+   "zh": "主動脈弓",
+   "group": "vessels",
+   "system": "arterial",
+   "zhDesc": "升主動脈向後彎轉的一段，發出頭臂動脈幹、左總頸動脈與左鎖骨下動脈。",
+   "enDesc": "The curved continuation of the ascending aorta, giving off the brachiocephalic trunk, left common carotid and left subclavian arteries."
+  },
+  {
+   "node": "Pulmonary trunk",
+   "name": "Pulmonary trunk",
+   "zh": "肺動脈幹",
+   "group": "vessels",
+   "system": "arterial",
+   "zhDesc": "由右心室經肺動脈瓣發出，向上分為左、右肺動脈。",
+   "enDesc": "Leaves the right ventricle through the pulmonary valve and divides into the left and right pulmonary arteries."
+  },
+  {
+   "node": "Bifurcation of pulmonary trunk",
+   "name": "Bifurcation of pulmonary trunk",
+   "zh": "肺動脈幹分叉處",
+   "group": "vessels",
+   "system": "arterial",
+   "zhDesc": "肺動脈幹分為左、右肺動脈的部位。",
+   "enDesc": "The point where the pulmonary trunk divides into the left and right pulmonary arteries."
+  },
+  {
+   "node": "Left pulmonary artery",
+   "name": "Left pulmonary artery",
+   "zh": "左肺動脈",
+   "group": "vessels",
+   "system": "arterial",
+   "zhDesc": "將缺氧血送往左肺。",
+   "enDesc": "Carries deoxygenated blood to the left lung."
+  },
+  {
+   "node": "Right pulmonary artery",
+   "name": "Right pulmonary artery",
+   "zh": "右肺動脈",
+   "group": "vessels",
+   "system": "arterial",
+   "zhDesc": "將缺氧血送往右肺。",
+   "enDesc": "Carries deoxygenated blood to the right lung."
+  },
+  {
+   "node": "Superior vena cava",
+   "name": "Superior vena cava",
+   "zh": "上腔靜脈",
+   "group": "vessels",
+   "system": "venous",
+   "zhDesc": "收集頭頸、上肢與胸壁上部的缺氧血，向下開口於右心房的上部。",
+   "enDesc": "Collects deoxygenated blood from the head, neck, upper limbs and upper thoracic wall and opens into the upper part of the right atrium.",
+   "clip": {
+    "axis": 1,
+    "max": 1.362
+   }
+  },
+  {
+   "node": "Inferior vena cava (thoracic part)",
+   "name": "Inferior vena cava",
+   "zh": "下腔靜脈",
+   "group": "vessels",
+   "system": "venous",
+   "zhDesc": "收集橫膈以下身體的缺氧血，穿過橫膈的腔靜脈孔，開口於右心房的下部。",
+   "enDesc": "Collects deoxygenated blood from the body below the diaphragm, passes through the caval opening of the diaphragm and opens into the lower part of the right atrium.",
+   "clip": {
+    "axis": 1,
+    "min": 1.222
+   }
+  },
+  {
+   "node": "Left superior pulmonary vein",
+   "name": "Left superior pulmonary vein",
+   "zh": "左上肺靜脈",
+   "group": "vessels",
+   "system": "venous",
+   "zhDesc": "將左肺上部的充氧血送入左心房。",
+   "enDesc": "Carries oxygenated blood from the upper part of the left lung to the left atrium."
+  },
+  {
+   "node": "Left inferior pulmonary vein",
+   "name": "Left inferior pulmonary vein",
+   "zh": "左下肺靜脈",
+   "group": "vessels",
+   "system": "venous",
+   "zhDesc": "將左肺下部的充氧血送入左心房。",
+   "enDesc": "Carries oxygenated blood from the lower part of the left lung to the left atrium."
+  },
+  {
+   "node": "Right superior pulmonary vein",
+   "name": "Right superior pulmonary vein",
+   "zh": "右上肺靜脈",
+   "group": "vessels",
+   "system": "venous",
+   "zhDesc": "將右肺上、中部的充氧血送入左心房。",
+   "enDesc": "Carries oxygenated blood from the upper and middle parts of the right lung to the left atrium."
+  },
+  {
+   "node": "Right inferior pulmonary vein",
+   "name": "Right inferior pulmonary vein",
+   "zh": "右下肺靜脈",
+   "group": "vessels",
+   "system": "venous",
+   "zhDesc": "將右肺下部的充氧血送入左心房。",
+   "enDesc": "Carries oxygenated blood from the lower part of the right lung to the left atrium."
+  }
+ ],
+ "alignWith": [
+  {
+   "node": "Septal papillary muscle of right ventricle",
+   "id": "FJ2437"
+  },
+  {
+   "node": "Anterior papillary muscle of right ventricle",
+   "id": "FJ2419"
+  },
+  {
+   "node": "Septal leaflet of right atrioventricular valve",
+   "id": "FJ2436"
+  },
+  {
+   "node": "Posterior leaflet of left atrioventricular valve",
+   "id": "FJ2432"
+  },
+  {
+   "node": "Inferior papillary muscle of left ventricle",
+   "id": "FJ2429"
+  }
+ ],
+ "bodyparts3d": [
+  {
+   "match": "^Marginal branch of right coronary artery$",
+   "name": "Right marginal branch",
+   "zh": "右緣支",
+   "group": "coronary",
+   "system": "arterial",
+   "zhDesc": "右冠狀動脈沿右心室下緣（銳緣）向左下走行的分支，供應右心室壁。",
+   "enDesc": "A branch of the right coronary artery running along the acute (inferior) margin of the right ventricle to supply its wall."
+  },
+  {
+   "match": "^Posterior interventricular branch of right coronary artery$",
+   "name": "Posterior interventricular branch",
+   "zh": "後室間支",
+   "group": "coronary",
+   "system": "arterial",
+   "zhDesc": "右冠狀動脈（多數人）在後室間溝內向心尖走行的分支，供應室間隔後三分之一與兩側心室的後壁。",
+   "enDesc": "The branch of the right coronary artery (in most people) that runs in the posterior interventricular groove towards the apex and supplies the posterior third of the septum and the adjoining ventricular walls."
+  },
+  {
+   "match": "^Diagonal branch of anterior descending branch of left coronary artery$",
+   "name": "Diagonal branches",
+   "zh": "對角支",
+   "group": "coronary",
+   "system": "arterial",
+   "zhDesc": "前室間支向左側壁發出的斜向分支，供應左心室前外側壁。",
+   "enDesc": "Branches of the anterior interventricular artery that run obliquely across the anterolateral wall of the left ventricle."
+  },
+  {
+   "match": "^Small cardiac vein$",
+   "name": "Small cardiac vein",
+   "zh": "心小靜脈",
+   "group": "veins",
+   "system": "venous",
+   "zhDesc": "沿右心室下緣走在冠狀溝內，注入冠狀竇右端（或直接入右心房）。",
+   "enDesc": "Runs along the inferior margin of the right ventricle in the coronary groove and ends in the right end of the coronary sinus (or directly in the right atrium)."
+  },
+  {
+   "match": "^Anterior cardiac vein$",
+   "name": "Anterior cardiac veins",
+   "zh": "心前靜脈",
+   "group": "veins",
+   "system": "venous",
+   "zhDesc": "引流右心室前壁，越過冠狀溝後直接注入右心房。",
+   "enDesc": "Drain the anterior wall of the right ventricle, cross the coronary groove and open directly into the right atrium."
+  }
+ ],
+ "serous": [
+  {
+   "shell": "Fibrous pericardium",
+   "name": "Fibrous pericardium",
+   "zh": "纖維心包",
+   "group": "pericardium",
+   "system": "cardiac",
+   "zhDesc": "心包最外層堅韌的纖維囊，下方附著於橫膈中心腱，上方與大血管外膜相連，固定心臟並限制過度擴張。",
+   "enDesc": "The tough outer fibrous sac of the pericardium, attached below to the central tendon of the diaphragm and above to the adventitia of the great vessels; it anchors the heart and limits overfilling."
+  },
+  {
+   "shell": "Parietal layer of serous pericardium",
+   "name": "Parietal layer of serous pericardium",
+   "zh": "漿膜心包壁層",
+   "group": "pericardium",
+   "system": "cardiac",
+   "zhDesc": "襯在纖維心包內面的漿膜，在大血管根部反折成臟層。",
+   "enDesc": "The serous membrane lining the inside of the fibrous pericardium; it reflects onto the heart as the visceral layer at the roots of the great vessels."
+  },
+  {
+   "shell": "Visceral layer of serous pericardium",
+   "name": "Visceral layer of serous pericardium (epicardium)",
+   "zh": "漿膜心包臟層（心外膜）",
+   "group": "pericardium",
+   "system": "cardiac",
+   "zhDesc": "緊貼心肌表面的漿膜，即心外膜；與壁層之間為心包腔，內有少量漿液。",
+   "enDesc": "The serous membrane on the surface of the heart muscle, the epicardium; the pericardial cavity with a little serous fluid lies between it and the parietal layer."
+  }
+ ],
+ "mj": [
+  {
+   "name": "Crista terminalis",
+   "zh": "界嵴",
+   "group": "interior",
+   "system": "cardiac",
+   "build": [
+    "Crista terminalis"
+   ],
+   "zhDesc": "右心房內壁的垂直肌嵴，從上腔靜脈開口前方走到下腔靜脈開口前方，分隔光滑的腔靜脈竇與有梳狀肌的固有心房，外表對應界溝。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "A vertical muscular ridge on the inside of the right atrium from in front of the opening of the superior vena cava to in front of the inferior vena cava; it separates the smooth sinus venarum from the pectinate part and matches the sulcus terminalis outside. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+  },
+  {
+   "name": "Pectinate muscles",
+   "zh": "梳狀肌",
+   "group": "interior",
+   "system": "cardiac",
+   "build": [
+    "Pectinate muscles"
+   ],
+   "zhDesc": "右心房前外側壁與右心耳內的平行肌肉嵴，由界嵴向前伸出，使內壁呈梳齒狀。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "Parallel muscular ridges on the anterolateral wall of the right atrium and in the right auricle; they arise from the crista terminalis and run forward, giving the wall a comb-like look. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+  },
+  {
+   "name": "Interatrial septum",
+   "zh": "心房中隔",
+   "group": "interior",
+   "system": "cardiac",
+   "build": [
+    "Interatrial septum"
+   ],
+   "zhDesc": "分隔左、右心房的薄壁，右側有卵圓窩。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "The thin wall between the right and left atria; the fossa ovalis lies on its right side. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+  },
+  {
+   "name": "Fossa ovalis",
+   "zh": "卵圓窩",
+   "group": "interior",
+   "system": "cardiac",
+   "build": [
+    "Fossa ovalis",
+    "Fossa ovalis rim"
+   ],
+   "zhDesc": "心房中隔右側、下腔靜脈開口上方的橢圓凹窩，邊緣隆起（卵圓窩緣），是胎兒期卵圓孔閉合後的痕跡。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "An oval depression on the right side of the interatrial septum above the opening of the inferior vena cava, with a raised rim (limbus); it is the remnant of the foramen ovale of the fetus. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+  },
+  {
+   "name": "Right auricle",
+   "zh": "右心耳",
+   "group": "chambers",
+   "system": "cardiac",
+   "build": [
+    "Right auricle"
+   ],
+   "zhDesc": "右心房向前突出的三角形小囊，覆蓋升主動脈根部，內壁有梳狀肌。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "The triangular pouch projecting forward from the right atrium over the root of the ascending aorta; its inner wall carries pectinate muscles. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+  },
+  {
+   "name": "Left auricle",
+   "zh": "左心耳",
+   "group": "chambers",
+   "system": "cardiac",
+   "build": [
+    "Left auricle"
+   ],
+   "zhDesc": "左心房向前突出的手指狀（鉤狀）小囊，沿肺動脈幹左側貼附、繞向其前方，邊緣有淺缺口，內壁有梳狀肌；心房顫動時血栓好發於此。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "The finger- or hook-shaped pouch projecting forward from the left atrium along the left side of the pulmonary trunk, with a notched margin; its wall has pectinate muscles and thrombus forms here in atrial fibrillation. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+  },
+  {
+   "name": "Interventricular septum",
+   "zh": "室間隔",
+   "group": "interior",
+   "system": "cardiac",
+   "build": [
+    "Interventricular septum"
+   ],
+   "zhDesc": "分隔左、右心室的厚壁，大部分為肌部，上方靠近主動脈瓣下的一小塊為膜部。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "The thick wall between the ventricles, mostly muscular; a small membranous part lies just below the aortic valve. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+  },
+  {
+   "name": "Trabeculae carneae of right ventricle",
+   "zh": "右心室肉柱",
+   "group": "interior",
+   "system": "cardiac",
+   "build": [
+    "Trabeculae carneae of right ventricle"
+   ],
+   "zhDesc": "右心室內壁粗大而不規則的肌肉隆起，分為嵴狀、橋狀與乳突肌三型；右心室壁約為左心室的三分之一厚。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "Coarse, irregular muscular ridges on the inner wall of the right ventricle (ridges, bridges and papillary muscles); the right ventricular wall is about one third as thick as the left. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+  },
+  {
+   "name": "Septomarginal trabecula (moderator band)",
+   "zh": "節制索",
+   "group": "interior",
+   "system": "cardiac",
+   "build": [
+    "Septomarginal trabecula"
+   ],
+   "zhDesc": "由室間隔下部橫過右心室腔，連到前乳突肌基部的肌肉柱，內有右束支通過，使右心室不致過度擴張。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "A muscular band from the lower interventricular septum across the right ventricle to the base of the anterior papillary muscle; it carries the right bundle branch and helps prevent overdistension. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+  },
+  {
+   "name": "Supraventricular crest",
+   "zh": "室上嵴",
+   "group": "interior",
+   "system": "cardiac",
+   "build": [
+    "Supraventricular crest"
+   ],
+   "zhDesc": "位於右房室口與肺動脈口之間的弓形肌嵴，分隔粗糙的流入部與平滑的動脈圓錐。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "The arched muscular ridge between the tricuspid and pulmonary orifices that separates the rough inflow part from the smooth conus arteriosus. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+  },
+  {
+   "name": "Conus arteriosus",
+   "zh": "動脈圓錐",
+   "group": "interior",
+   "system": "cardiac",
+   "build": [
+    "Conus arteriosus"
+   ],
+   "zhDesc": "右心室通往肺動脈口的光滑漏斗狀流出道，又稱漏斗部。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "The smooth, funnel-shaped outflow tract of the right ventricle leading to the pulmonary orifice (infundibulum). (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+  },
+  {
+   "name": "Trabeculae carneae of left ventricle",
+   "zh": "左心室肉柱",
+   "group": "interior",
+   "system": "cardiac",
+   "build": [
+    "Trabeculae carneae of left ventricle"
+   ],
+   "zhDesc": "左心室內壁的肌肉隆起，比右心室細密；左心室壁約為右心室的三倍厚。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "The muscular ridges of the left ventricular wall, finer and denser than on the right; the left ventricular wall is about three times as thick as the right. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+  },
+  {
+   "name": "Aortic vestibule",
+   "zh": "主動脈前庭",
+   "group": "interior",
+   "system": "cardiac",
+   "build": [
+    "Aortic vestibule"
+   ],
+   "zhDesc": "左心室內二尖瓣前瓣與室間隔之間、通往主動脈口的光滑流出道。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "The smooth outflow part of the left ventricle between the anterior mitral leaflet and the septum, leading to the aortic orifice. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+  },
+  {
+   "name": "Sinoatrial nodal artery",
+   "zh": "竇房結動脈",
+   "group": "coronary",
+   "system": "arterial",
+   "build": [
+    "Sinoatrial nodal artery"
+   ],
+   "zhDesc": "多數人起自右冠狀動脈，沿右心房前壁向上到上腔靜脈根部，並繞過上腔靜脈供應竇房結。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "In most people it arises from the right coronary artery, runs up the front of the right atrium to the root of the superior vena cava and round it to supply the sinoatrial node. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+  },
+  {
+   "name": "Left marginal branch",
+   "zh": "左緣支",
+   "group": "coronary",
+   "system": "arterial",
+   "build": [
+    "Left marginal branch"
+   ],
+   "zhDesc": "迴旋支沿左心室鈍緣向心尖走行的分支，供應左心室側壁。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "A branch of the circumflex artery running down the obtuse margin of the left ventricle to supply its lateral wall. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+  },
+  {
+   "name": "Transverse pericardial sinus",
+   "zh": "心包橫竇",
+   "group": "pericardium",
+   "system": "cardiac",
+   "build": [
+    "Transverse pericardial sinus"
+   ],
+   "zhDesc": "心包腔內位於主動脈與肺動脈幹後方、上腔靜脈與左心房前方的橫向通道，手術時可由此穿過鉗夾大動脈。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "The passage of the pericardial cavity behind the aorta and pulmonary trunk and in front of the superior vena cava and left atrium; a clamp can be passed through it to occlude the great arteries. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+  },
+  {
+   "name": "Oblique pericardial sinus",
+   "zh": "心包斜竇",
+   "group": "pericardium",
+   "system": "cardiac",
+   "build": [
+    "Oblique pericardial sinus"
+   ],
+   "zhDesc": "心包腔內左心房後方、被肺靜脈與下腔靜脈的漿膜反折圍成的盲囊。（示意構造：來源模型沒有此構造，依解剖知識建在心腔壁上，位置與形狀為示意。）",
+   "enDesc": "A blind pouch of the pericardial cavity behind the left atrium, bounded by the serous reflections around the pulmonary veins and the inferior vena cava. (schematic: the source models lack this structure, so it was built on the chamber wall from textbook anatomy; position and shape are schematic.)"
+  },
+  {
+   "name": "Anterior cusp of bicuspid valve",
+   "zh": "二尖瓣前瓣",
+   "group": "valves",
+   "system": "cardiac",
+   "build": [
+    "Anterior cusp of bicuspid valve"
+   ],
+   "zhDesc": "二尖瓣（左房室瓣）較大的前瓣，附著在左房室環靠近主動脈的一側，與主動脈瓣相鄰；游離緣與粗糙區有腱索附著。（示意構造：依房室環與來源模型的位置生成，形狀為示意。）",
+   "enDesc": "The larger, anterior cusp of the bicuspid (mitral, left atrioventricular) valve; it hangs from the part of the left atrioventricular ring next to the aortic valve, and chordae tendineae attach to its free margin and rough zone. (schematic: built on the atrioventricular ring and the positions in the source models; shape is schematic.)"
+  },
+  {
+   "name": "Posterior cusp of bicuspid valve",
+   "zh": "二尖瓣後瓣",
+   "group": "valves",
+   "system": "cardiac",
+   "build": [
+    "Posterior cusp of bicuspid valve"
+   ],
+   "zhDesc": "二尖瓣（左房室瓣）較窄但附著弧較長的後瓣，附著在左房室環的後外側，游離緣有淺缺口，腱索附著在游離緣、粗糙區與基底部。（示意構造：依房室環與來源模型的位置生成，形狀為示意。）",
+   "enDesc": "The posterior cusp of the bicuspid (mitral, left atrioventricular) valve, narrower but attached along a longer arc of the ring; its free margin is scalloped, and chordae attach to the margin, rough zone and base. (schematic: built on the atrioventricular ring and the positions in the source models; shape is schematic.)"
+  },
+  {
+   "name": "Anterior cusp of tricuspid valve",
+   "zh": "三尖瓣前瓣",
+   "group": "valves",
+   "system": "cardiac",
+   "build": [
+    "Anterior cusp of tricuspid valve"
+   ],
+   "zhDesc": "三尖瓣最大的一片瓣葉，附著在右房室環的前方，腱索連到前乳突肌與中隔乳突肌。（示意構造：依房室環與來源模型的位置生成，形狀為示意。）",
+   "enDesc": "The largest cusp of the tricuspid (right atrioventricular) valve, hanging from the front of the right atrioventricular ring; its chordae go to the anterior and septal papillary muscles. (schematic: built on the atrioventricular ring and the positions in the source models; shape is schematic.)"
+  },
+  {
+   "name": "Posterior cusp of tricuspid valve",
+   "zh": "三尖瓣後瓣",
+   "group": "valves",
+   "system": "cardiac",
+   "build": [
+    "Posterior cusp of tricuspid valve"
+   ],
+   "zhDesc": "三尖瓣位於後下方的瓣葉（下瓣），附著在右房室環的後下緣，腱索連到前乳突肌與後乳突肌。（示意構造：依房室環與來源模型的位置生成，形狀為示意。）",
+   "enDesc": "The cusp of the tricuspid (right atrioventricular) valve on the posteroinferior side (inferior cusp); its chordae go to the anterior and posterior papillary muscles. (schematic: built on the atrioventricular ring and the positions in the source models; shape is schematic.)"
+  },
+  {
+   "name": "Septal cusp of tricuspid valve",
+   "zh": "三尖瓣中隔瓣",
+   "group": "valves",
+   "system": "cardiac",
+   "build": [
+    "Septal cusp of tricuspid valve"
+   ],
+   "zhDesc": "三尖瓣貼近室間隔的瓣葉，附著在右房室環靠中隔的一側，腱索連到後乳突肌與中隔乳突肌，並有直接來自室間隔的短腱索。（示意構造：依房室環與來源模型的位置生成，形狀為示意。）",
+   "enDesc": "The cusp of the tricuspid (right atrioventricular) valve next to the interventricular septum; its chordae go to the posterior and septal papillary muscles, and short cords arise directly from the septum. (schematic: built on the atrioventricular ring and the positions in the source models; shape is schematic.)"
+  },
+  {
+   "name": "Anterolateral papillary muscle of left ventricle",
+   "zh": "左心室前乳突肌",
+   "group": "papillary",
+   "system": "cardiac",
+   "build": [
+    "Anterolateral papillary muscle of left ventricle"
+   ],
+   "zhDesc": "左心室兩條乳突肌之一，圓錐形肌肉柱，由前外側壁升起，頂端發出腱索，連到二尖瓣前、後兩瓣的外側半。（示意構造：依房室環與來源模型的位置生成，形狀為示意。）",
+   "enDesc": "One of the two papillary muscles of the left ventricle: a conical muscular column rising from the anterolateral wall; its chordae go to the lateral halves of both bicuspid-valve cusps. (schematic: built on the atrioventricular ring and the positions in the source models; shape is schematic.)"
+  },
+  {
+   "name": "Posterior papillary muscle of left ventricle",
+   "zh": "左心室後乳突肌",
+   "group": "papillary",
+   "system": "cardiac",
+   "build": [
+    "Posterior papillary muscle of left ventricle"
+   ],
+   "zhDesc": "左心室兩條乳突肌之一，圓錐形肌肉柱，由後內側壁（近下壁）升起，頂端發出腱索，連到二尖瓣前、後兩瓣的內側半。（示意構造：依房室環與來源模型的位置生成，形狀為示意。）",
+   "enDesc": "One of the two papillary muscles of the left ventricle: a conical muscular column rising from the posteromedial (inferior) wall; its chordae go to the medial halves of both bicuspid-valve cusps. (schematic: built on the atrioventricular ring and the positions in the source models; shape is schematic.)"
+  },
+  {
+   "name": "Anterior papillary muscle of right ventricle",
+   "zh": "右心室前乳突肌",
+   "group": "papillary",
+   "system": "cardiac",
+   "build": [
+    "Anterior papillary muscle of right ventricle"
+   ],
+   "zhDesc": "右心室最大的乳突肌，由前壁升起，頂端的腱索連到三尖瓣前瓣與後瓣。（示意構造：依房室環與來源模型的位置生成，形狀為示意。）",
+   "enDesc": "The largest papillary muscle of the right ventricle, rising from the anterior wall; its chordae go to the anterior and posterior cusps of the tricuspid valve. (schematic: built on the atrioventricular ring and the positions in the source models; shape is schematic.)"
+  },
+  {
+   "name": "Posterior papillary muscle of right ventricle",
+   "zh": "右心室後乳突肌",
+   "group": "papillary",
+   "system": "cardiac",
+   "build": [
+    "Posterior papillary muscle of right ventricle"
+   ],
+   "zhDesc": "由右心室下（後）壁升起的乳突肌，腱索連到三尖瓣後瓣與中隔瓣。（示意構造：依房室環與來源模型的位置生成，形狀為示意。）",
+   "enDesc": "Rises from the inferior (posterior) wall of the right ventricle; its chordae go to the posterior and septal cusps of the tricuspid valve. (schematic: built on the atrioventricular ring and the positions in the source models; shape is schematic.)"
+  },
+  {
+   "name": "Septal papillary muscle of right ventricle",
+   "zh": "右心室中隔乳突肌",
+   "group": "papillary",
+   "system": "cardiac",
+   "build": [
+    "Septal papillary muscle of right ventricle"
+   ],
+   "zhDesc": "細小，直接由室間隔右側面升起，腱索連到三尖瓣前瓣與中隔瓣。（示意構造：依房室環與來源模型的位置生成，形狀為示意。）",
+   "enDesc": "Small; rises directly from the right side of the interventricular septum; its chordae go to the anterior and septal cusps of the tricuspid valve. (schematic: built on the atrioventricular ring and the positions in the source models; shape is schematic.)"
+  },
+  {
+   "name": "Chordae tendineae of bicuspid valve",
+   "zh": "二尖瓣腱索",
+   "group": "valves",
+   "system": "cardiac",
+   "build": [
+    "Chordae tendineae of bicuspid valve"
+   ],
+   "zhDesc": "由兩條乳突肌頂端發出的纖維索，先分成較粗的主幹，再分出較細的分支，附著在二尖瓣前、後瓣的游離緣、粗糙區，以及由心室壁連到後瓣基底的短索，防止心室收縮時瓣葉翻入左心房。（示意構造：依房室環與來源模型的位置生成，形狀為示意。）",
+   "enDesc": "Fibrous cords from the tips of the two papillary muscles: thicker stems that branch into finer cords attaching to the free margin and rough zone of the anterior and posterior cusps, plus short basal cords from the wall to the posterior cusp; they keep the cusps from prolapsing into the left atrium. (schematic: built on the atrioventricular ring and the positions in the source models; shape is schematic.)"
+  },
+  {
+   "name": "Chordae tendineae of tricuspid valve",
+   "zh": "三尖瓣腱索",
+   "group": "valves",
+   "system": "cardiac",
+   "build": [
+    "Chordae tendineae of tricuspid valve"
+   ],
+   "zhDesc": "由三條乳突肌頂端發出的纖維索，先分成較粗的主幹，再分出較細的分支，附著在三尖瓣三片瓣葉的游離緣與粗糙區，後瓣與中隔瓣另有由心室壁連到基底的短索，防止心室收縮時瓣葉翻入右心房。（示意構造：依房室環與來源模型的位置生成，形狀為示意。）",
+   "enDesc": "Fibrous cords from the tips of the three papillary muscles: thicker stems that branch into finer cords attaching to the free margin and rough zone of the three cusps, plus short basal cords from the wall to the posterior and septal cusps; they keep the cusps from prolapsing into the right atrium. (schematic: built on the atrioventricular ring and the positions in the source models; shape is schematic.)"
+  }
+ ],
+ "references": [
+  {
+   "name": "Anterior papillary muscle of right ventricle",
+   "node": "Anterior papillary muscle of right ventricle"
+  },
+  {
+   "name": "Inferior papillary muscle of right ventricle",
+   "node": "Inferior papillary muscle of right ventricle"
+  },
+  {
+   "name": "Septal papillary muscle of right ventricle",
+   "node": "Septal papillary muscle of right ventricle"
+  },
+  {
+   "name": "Inferior papillary muscle of left ventricle",
+   "node": "Inferior papillary muscle of left ventricle"
+  },
+  {
+   "name": "Inferior leaflet of tricuspid valve",
+   "node": "Inferior leaflet of right atrioventricular valve"
+  },
+  {
+   "name": "Septal leaflet of tricuspid valve",
+   "node": "Septal leaflet of right atrioventricular valve"
+  },
+  {
+   "name": "Posterior leaflet of mitral valve",
+   "node": "Posterior leaflet of left atrioventricular valve"
+  },
+  {
+   "name": "Anterior leaflet of tricuspid valve",
+   "id": "FJ2421"
+  },
+  {
+   "name": "Anterior leaflet of mitral valve",
+   "id": "FJ2420"
+  },
+  {
+   "name": "Anterolateral papillary muscle of left ventricle",
+   "id": "FJ2418"
+  }
+ ],
+ "references_note": "Source pieces used only as references by scripts/lib/heart-valves.mjs (where each cusp lies along the annulus, where each papillary muscle sits); they are not shown.",
+ "semilunarAlign": [
+  {
+   "valve": "aortic",
+   "cusps": [
+    "Left coronary cusp of aortic valve",
+    "Right coronary cusp of aortic valve",
+    "Non-coronary cusp of aortic valve"
+   ],
+   "chamber": "Left ventricle",
+   "loopNear": [
+    0.012,
+    1.316,
+    0.024
+   ]
+  }
+ ],
+ "semilunarAlign_note": "The aortic cusps are moved in the plane of the left ventricular aortic orifice so that their centre sits on the orifice (the source cusps lie about 4 mm off its centre). The pulmonary cusps are within 1.5 mm of the pulmonary ring and stay as they are."
+}

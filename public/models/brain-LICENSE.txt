@@ -1,0 +1,12 @@
+Brain Project — Itay Inbar
+Source: https://github.com/itayinbarr/brainproject
+Asset: brain-atlas/models/brain.glb
+Pinned revision: 2929e94f521a8ddceab26bc100a98dc06b0da060
+Git blob: c80dd62202b5cf8a2a43c7a019311781bd95457c
+
+3D assets: Creative Commons Attribution-ShareAlike 4.0 International
+https://creativecommons.org/licenses/by-sa/4.0/
+Derived from Z-Anatomy / BodyParts3D and open imaging atlases.
+The downloaded GLB is unchanged. MJ Anatomy applies display materials and
+uniform registration to the whole-body atlas at runtime.
+See the upstream README and LICENSE for detailed source attribution.

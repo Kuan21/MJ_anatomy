@@ -1,61 +1,446 @@
+import {createNeckVessels,type NeckVesselData} from './biomechanics-v2/neck-vessels';
+import {createJointAnatomy} from './biomechanics-v2/joint-anatomy';
 import {useEffect,useRef} from 'react';
 import * as T from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import {RoomEnvironment} from 'three/examples/jsm/environments/RoomEnvironment.js';
+import {GLTFLoader,type GLTF} from 'three/examples/jsm/loaders/GLTFLoader.js';
+import {DRACOLoader} from 'three/examples/jsm/loaders/DRACOLoader.js';
 import {mergeGeometries} from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import {createExplosionLayout} from './explosion-layout';
-import {decodeModelResponse} from './model-download';
+import {fetchModelBuffer,loadMissingChunks,pruneModelCache} from './model-download';
+import {createAssetQueue} from './asset-queue';
+import {structureProfile} from './mj-structure-info';
+import {prepareSurfaceNormals,updateSurfaceNormals} from './surface-normals';
 import {PointerTap} from './pointer-tap';
-import {SYSTEMS,type Atlas,type SceneState} from './anatomy';
-import {rigFor} from './mj-rig';
-import {SKINNING_NORMAL,SKINNING_PARS,SKINNING_POSITION,SegmentPose,computePartSkin,provisionalSkin,skinKind,skinPositions,type PartSkin} from './mj-skinning';
-import type {SkinReply,SkinRequest} from './skin-worker';
-interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;onProgress:(n:number)=>void;onError:(s:string)=>void}
-export default function AnatomyScene({atlas,state,onSelect,onProgress,onError}:Props){
- const host=useRef<HTMLDivElement>(null),latest=useRef(state),select=useRef(onSelect);
- latest.current=state;select.current=onSelect;
+import {focusFrame} from './camera-framing';
+import {hoverNameShown} from './hover-labels';
+import {indexArray,normalArray,positionArray} from './stream-geometry';
+import {CAMERA_TWEEN_MS,tweenProgress} from './camera-tween';
+import {SYSTEMS,type Atlas,type SceneState,type SystemId} from './anatomy';
+import {matchesMuscleLayer} from './mj-muscle-layers';
+import {matchesFacialMuscleLayer} from './mj-facial-layers';
+import {matchesHeartLayer,isShellSurface} from './mj-heart-layers';
+import {matchesSex} from './mj-sex';
+import {serousLayerKey,PERITONEUM_KEYS} from './mj-serous';
+import {nerveDepth} from './mj-depth';
+import {anatomicalRegion,anatomicalSide,isMotionQuarantined} from './mj-part-regions';
+import {isLinearBinding,alignEndPiece,lbsSkin,linearSkin,makeSoftRig,bindTissue,makePalette,deformTissue,deformPoint,followDeltoidSurface,setDeltoidFollowers,registerNerveRest,resolveNeurovascularProfile,tissueBindings,nerveBindings,type SkinBinding,type Profile,type DeltoidFollowers} from './biomechanics-v2/soft-tissue';
+import {makeBodyRig,buildBodyMotion,bindBodyTissue,bindSpineCarrier,cranialNerveRigid,inferredLimb,type BodyRegion} from './biomechanics-v2/body-motion';
+import {bindBodyPart,bodyPartRule} from './biomechanics-v2/body-part';
+import {makeSurfaceConstraints,constrainSurface} from './biomechanics-v2/surface-constraints';
+import {createSpaceOutline} from './space-outline';
+import {createRoofOutlines} from './space-roof-outline';
+import {GPU_SKIN_NORMAL,GPU_SKIN_PARS,GPU_SKIN_POSITION,PALETTE_WIDTH,clearGpuAttributes,gpuBinding,gpuSkinNormal,skinMode,writeGpuAttributes,writePalette,slotSkin,type GpuBinding} from './biomechanics-v2/gpu-skinning';
+import {makeShoulderMuscles,solveShoulderMuscles,SHEET_PROFILES} from './biomechanics-v2/shoulder-muscles';
+import shoulderLandmarks from './biomechanics-v2/shoulder-landmarks.json';
+import paokaoCards from './mj-paokao.json';
+import bodyNerveData from './biomechanics-v2/body-nerve-bindings.json';
+import blockedOverlay from './biomechanics-v2/blocked-overlay-meshes.json';
+const blockedOverlayMeshes=new Set<string>(blockedOverlay.names);
+import {nerveChunkScene,type NerveCatalogue} from './nerve-stream';
+import {LUNG_CATEGORY,lungStackRank,type LungCategoryKey} from './mj-lung-categories';
+import {surfaceEdgeDepth} from './mj-surface-edge';
+import {buildOwners,referenceMuscles} from './mj-owners';
+import {partVisibility} from './mj-part-visibility';
+const bodyNerveBindings=bodyNerveData as Record<string,BodyRegion>;
+export interface AnatomyLoadStatus {loaded:number;total:number;systems:Record<string,number>;failed:string[];busy:boolean;interactive:boolean;supplementaryPending:number}
+// Selection colours: soft mint (#5DB89A) at 85 % strength; hover is a lighter tint of the same hue.
+const SELECT_COLOR=0x5DB89A,HOVER_COLOR=0xA7DCCB;
+interface Props {atlas:Atlas;state:SceneState;onSelect:(id:string)=>void;/** a tap on empty background (nothing under the pointer) */onClear?:()=>void;onLabelPick?:(id:string)=>void;onSelectNerve?:(name:string,system?:SystemId)=>void;/** tells the page whether the selected structure is drawn and on screen (null: nothing selected); drives the "not in view" hint of the info card */onSelectionView?:(v:{drawn:boolean;inView:boolean}|null)=>void;/** show the bilingual name tip while the mouse or pen is over a structure (the top-bar Hover labels switch); default true for other pages */hoverNames?:boolean;onProgress:(n:number)=>void;onLoadStatus?:(status:AnatomyLoadStatus)=>void;retryNonce?:number;onError:(s:string)=>void;onJointDrag?:(side:'left'|'right',joint:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion',delta:number)=>void;region?:'whole-body'|'shoulder'|'arm'|'forearm'|'hand';focusSide?:'both'|'left'|'right';motionActive?:boolean;jointMotionEnabled?:boolean;selectedExternalNerve?:string|null;bodyArea?:'whole'|'upper'|'lower'|'head'|'organs'|'chest'|'back'|'abdomen'|'pelvis'|'gluteal'}
+export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,onSelectNerve,onSelectionView,hoverNames=true,onProgress,onLoadStatus,retryNonce=0,onError,onJointDrag,region='whole-body',focusSide='both',motionActive=false,jointMotionEnabled=false,selectedExternalNerve=null,bodyArea='whole'}:Props){
+ const retryLoad=useRef<(()=>void)|null>(null);
+ const host=useRef<HTMLDivElement>(null),latest=useRef(state),select=useRef(onSelect),clearSel=useRef(onClear),labelPick=useRef(onLabelPick),selectNerve=useRef(onSelectNerve),selectionView=useRef(onSelectionView),hoverNamesRef=useRef(hoverNames),selectedNerve=useRef<string|null>(selectedExternalNerve),jointDrag=useRef(onJointDrag),viewerContext=useRef({region,focusSide,motionActive,jointMotionEnabled,bodyArea});
+ latest.current=state;select.current=onSelect;clearSel.current=onClear;labelPick.current=onLabelPick;selectNerve.current=onSelectNerve;selectionView.current=onSelectionView;hoverNamesRef.current=hoverNames;selectedNerve.current=selectedExternalNerve;jointDrag.current=onJointDrag;viewerContext.current={region,focusSide,motionActive,jointMotionEnabled,bodyArea};
  useEffect(()=>{
-  const el=host.current!;let disposed=false,frame=0,dirty=true,ready=false,lastView='',lastReset=-1,lastIsolate='',layoutKey='',amount=0;
+  const el=host.current!;let disposed=false,frame=0,dirty=true,ready=false,lastView='',lastReset=-1,lastIsolate='',layoutKey='',amount=0,lastCameraFocus=-1,lastFocusBox:T.Box3|null=null,autoFade:Set<string>|null=null,autoFadeDirty=false,nerveFocusWait=0;
   let lastState:SceneState|null=null;
   const abort=new AbortController();
+  let workerAvailable=typeof Worker!=='undefined';
+  const deviceNavigator=navigator as Navigator&{deviceMemory?:number};
+  const coarseTouchDevice=navigator.maxTouchPoints>1&&(typeof matchMedia!=='function'||matchMedia('(pointer: coarse)').matches||matchMedia('(any-pointer: coarse)').matches);
+  const constrainedDevice=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)||coarseTouchDevice||(deviceNavigator.deviceMemory??8)<=4;
+  const cooperativeYield=()=>new Promise<void>(resolve=>setTimeout(resolve,0));
+  // Pixel ratio: iPad and Mac-class tablets start at full density (the screen is large and the GPU is strong); phones and low-memory devices start at 1. While the user moves the model the ratio steps down 0.25 at a time when frames are slow and back up when they are fast (see dprStep).
+  const isPad=/iPad/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  const lowPower=/iPhone|iPod/.test(navigator.userAgent)||(deviceNavigator.deviceMemory??8)<=4||(constrainedDevice&&!isPad);
+  const dprCeil=(w:number,h:number)=>Math.min(devicePixelRatio,lowPower?1.5:w<768||h<600?1.5:2);
+  let dprNow=lowPower?1:dprCeil(innerWidth,innerHeight),lastRenderAt=0,slowFrames=0,fastFrames=0;
+  let reportLoading=()=>{},supplementaryPending=0;
+  type SupplementaryTask={task:()=>Promise<void>;onFailure:()=>void;label:string};
+  const failedSupplementary:SupplementaryTask[]=[];
   let renderer:T.WebGLRenderer;
-  try{renderer=new T.WebGLRenderer({antialias:true,alpha:false,powerPreference:'high-performance'});}catch{onError('This browser could not start the 3D viewer. Please try a browser with WebGL enabled.');return;}
-  renderer.setPixelRatio(Math.min(devicePixelRatio,innerWidth<768?1.5:2));renderer.setClearColor('#f2f3f3');renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;el.appendChild(renderer.domElement);
-  renderer.domElement.setAttribute('aria-label','Interactive human anatomy. Drag to orbit, pinch or scroll to zoom, and tap a structure to inspect it.');
+  try{renderer=new T.WebGLRenderer({antialias:!lowPower,alpha:false,powerPreference:'high-performance'});}catch{onError('這個瀏覽器無法啟動 3D 檢視器，請改用支援 WebGL 的瀏覽器。');return;}
+  renderer.setPixelRatio(dprNow);renderer.setClearColor('#cbd2d6');renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;el.appendChild(renderer.domElement);
+  renderer.domElement.setAttribute('aria-label','互動式人體解剖：拖曳旋轉、捏合或滾輪縮放、點選構造查看說明。');
   const scene=new T.Scene(),camera=new T.PerspectiveCamera(34,1,.005,100),controls=new OrbitControls(camera,renderer.domElement);
-  camera.position.set(1.4,1.05,3.6);controls.target.set(0,.85,0);controls.enableDamping=true;controls.dampingFactor=.085;controls.minDistance=.07;controls.maxDistance=40;controls.maxPolarAngle=Math.PI*.96;controls.addEventListener('change',()=>{dirty=true;});
+  type NerveMesh=T.Mesh<T.BufferGeometry,T.MeshStandardMaterial>;
+  const bodyRigs={head:makeBodyRig(atlas,'head'),spine:makeBodyRig(atlas,'spine'),leftLeg:makeBodyRig(atlas,'leftLeg'),rightLeg:makeBodyRig(atlas,'rightLeg')};
+  const softRigs={left:makeSoftRig(atlas,'left'),right:makeSoftRig(atlas,'right')};
+  const connectiveSide=(name:string):'left'|'right'|null=>/\bleft\b/i.test(name)?'left':/\bright\b/i.test(name)?'right':null;
+  const connectiveProfile=(name:string):Profile|null=>{
+   const n=name.toLowerCase();
+   if(/glenohumeral|glenoid|labrum|shoulder capsule|acromioclavicular|coracoclavicular|coracoacromial|coracohumeral|transverse humeral/.test(n))return 'shoulderJoint';
+   if(/elbow capsule|annular ligament|radial collateral|ulnar collateral/.test(n))return 'elbowJoint';
+   if(/wrist|radiocarpal|ulnocarpal|intercarpal|carpometacarp|metacarpophalangeal|interphalangeal|retinaculum/.test(n))return 'wristJoint';
+   return null;
+  };
+  // The whole-body atlas is the first useful view. Large supplementary GLBs
+  // used to download and decode beside it, which could push iPad Safari over
+  // its per-tab memory limit before the progress card disappeared.
+  const supplementaryQueue=createAssetQueue(abort.signal,2);
+  // Nerves and veins of the nerve layer are bound to the motion skeleton by weights that arrive in separate packages (skin weights, nerve packages).
+  // Until every one of them has been applied they stay hidden, so a nerve never shows in an unweighted, wrongly placed state.
+  const settling={nerves:0,skin:0};
+  const settlingKey=(label:string):keyof typeof settling|null=>label.startsWith('周邊神經')?'nerves':label==='皮膚權重'?'skin':null;
+  const nervesReady=()=>settling.nerves===0&&settling.skin===0;
+  const scheduleSupplementary=(task:()=>Promise<void>,onFailure:()=>void,label='補充組織')=>{
+   supplementaryPending++;reportLoading();
+   const group=settlingKey(label);if(group)settling[group]++;
+   supplementaryQueue.add(async()=>{
+    if(disposed)return;
+    let error:unknown;
+    for(let attempt=0;attempt<2;attempt++){try{await task();error=undefined;break;}catch(e){error=e;if(disposed)return;}}
+    if(error!==undefined){failedSupplementary.push({task,onFailure,label});console.warn(label+' unavailable',error);}
+    supplementaryPending--;if(group)settling[group]--;lastState=null;dirty=true;reportLoading();await cooperativeYield();
+   });
+  };
+  const fetchSupplementaryJson=async(path:string)=>JSON.parse(new TextDecoder().decode(await fetchModelBuffer(`${import.meta.env.BASE_URL}models/${path}`,0,path.endsWith('.gz'),abort.signal)));
+  const cervicalVessels=createNeckVessels(atlas,scene);
+  scheduleSupplementary(async()=>{const data=await fetchSupplementaryJson('neck-vessels.json.gz');if(disposed)return;cervicalVessels.add(data as NeckVesselData);lastState=null;dirty=true;},()=>onError('頸部血管模型未能載入，請重新整理。'));
+  const supplementaryJoints=createJointAnatomy(atlas,scene);
+  scheduleSupplementary(async()=>{const data=await fetchSupplementaryJson('articular-surfaces.json.gz');if(disposed)return;supplementaryJoints.addSurfaces(data as Parameters<typeof supplementaryJoints.addSurfaces>[0]);supplementaryJoints.update(latest.current,amount);dirty=true;},()=>onError('關節軟骨面載入失敗，請重新整理。'));
+  // Skin (and any unbound fascia/lymphatic mesh in a limb) is weighted at build time over the same segment chain as
+  // the bones, muscles and vessels (scripts/prepare-skin-weights.mjs); the shader blends those absolute palette slots.
+  const surfaceBindings=new Map<string,GpuBinding>();
+  scheduleSupplementary(async()=>{
+   const data=await fetchSupplementaryJson('skin-weights.json.gz') as {parts:Record<string,{vertexCount:number;slots:string;weights:string}>};if(disposed)return;
+   const decode=(text:string)=>Uint8Array.from(atob(text),c=>c.charCodeAt(0));
+   for(const [id,w] of Object.entries(data.parts)){
+    const slots=decode(w.slots),raw=decode(w.weights),values=new Uint16Array(raw.buffer,raw.byteOffset,raw.byteLength/2),weights=new Float32Array(values.length);
+    for(let i=0;i<values.length;i++)weights[i]=values[i]/65535;
+    if(slots.length!==w.vertexCount*4)continue;
+    surfaceBindings.set(id,{side:null,indices:slots,weights,exact:true,lbs:true});
+   }
+   lastState=null;dirty=true;
+  },()=>onError('皮膚權重載入失敗，請重新整理。'),'皮膚權重');
+  // Special region range: boundaries and contents are highlighted only inside up to two spheres (one per side), fading out towards their edge.
+  const rangeU={rangeA:{value:new T.Vector4()},rangeB:{value:new T.Vector4()},rangeN:{value:0}};
+  const RANGE_FRAG='uniform vec4 rangeA; uniform vec4 rangeB; uniform float rangeN;\nfloat rangeMask(vec3 p){ float m=0.0; if(rangeN>0.5){ m=max(m,1.0-smoothstep(rangeA.w*0.55,rangeA.w,distance(p,rangeA.xyz))); } if(rangeN>1.5){ m=max(m,1.0-smoothstep(rangeB.w*0.55,rangeB.w,distance(p,rangeB.xyz))); } return m; }\n';
+  const nerveRoot=new T.Group();nerveRoot.name='MJ external nervous system';scene.add(nerveRoot);const nerveMeshes:NerveMesh[]=[];
+  const shoulderNerve=/brachial plexus|trunk of brachial plexus|division of .*brachial plexus|cord of brachial plexus|roots of brachial plexus|axillary nerve|suprascapular nerve|long thoracic nerve|thoracodorsal nerve|pectoral nerve|subscapular nerve|dorsal scapular nerve|subclavian nerve/i;
+  const armNerve=/musculocutaneous nerve|radial nerve|median nerve|ulnar nerve|brachial cutaneous nerve|antebrachial cutaneous nerve|muscular branches of (radial|axillary|median|ulnar) nerve/i;
+  const forearmNerve=/median nerve|ulnar nerve|radial nerve|antebrachial cutaneous nerve|interosseous nerve|superficial branch of radial nerve|deep branch of radial nerve|dorsal branch of ulnar nerve|palmar branch of (median|ulnar) nerve/i;
+  const handNerve=/median nerve|ulnar nerve|radial nerve|palmar digital|dorsal digital|deep branch of ulnar nerve|superficial branch of ulnar nerve|palmar branch of (median|ulnar) nerve/i;
+  const upperLimbNerve=new RegExp([shoulderNerve.source,armNerve.source,forearmNerve.source,handNerve.source].join('|'),'i');
+  const owners=buildOwners(atlas.parts);
+  const nerveSide=(name:string)=>/\.r(?:\.|$)/i.test(name)?'right':/\.l(?:\.|$)/i.test(name)?'left':'both';
+  // GLTFLoader sanitizes spaces/dots in Object3D.name. Preserve the source
+  // node metadata for exact anatomical identity and laterality instead.
+  const sourceName=(o:T.Object3D)=>typeof o.userData.name==='string'?o.userData.name:o.name;
+  const meshSourceName=(o:T.Object3D)=>{let p:T.Object3D|null=o;while(p){if(typeof p.userData.name==='string')return p.userData.name;p=p.parent;}return o.name;};
+  const nerveName=(o:T.Object3D)=>[sourceName(o),o.parent?sourceName(o.parent):'',o.parent?.parent?sourceName(o.parent.parent):''].filter(Boolean).join(' ');
+  const hasNamedAncestor=(o:T.Object3D,pattern:RegExp)=>{let p:T.Object3D|null=o;while(p){if(pattern.test(sourceName(p)||''))return true;p=p.parent;}return false;};
+  const nerveMatchesRegion=(name:string,r:'whole-body'|'shoulder'|'arm'|'forearm'|'hand',motion:boolean)=>{
+   // Motion Lab is limb-focused: never reveal the rest of the whole-body
+   // nervous system just because the global nervous-system layer is enabled.
+   if(motion)return upperLimbNerve.test(name);
+   if(r==='whole-body')return true;
+   if(r==='shoulder')return shoulderNerve.test(name);
+   if(r==='arm')return armNerve.test(name);
+   if(r==='forearm')return forearmNerve.test(name);
+   return handNerve.test(name);
+  };
+  const draco=new DRACOLoader();draco.setDecoderPath(`${import.meta.env.BASE_URL}draco/`);draco.setWorkerLimit(1);
+  const gltfLoader=new GLTFLoader();gltfLoader.setDRACOLoader(draco);
+  const loader={load(url:string,onLoad:(gltf:GLTF)=>void,_progress:unknown,onFailure:(error:unknown)=>void){
+   void fetchModelBuffer(url,0,false,abort.signal).then(buffer=>gltfLoader.parseAsync(buffer,`${import.meta.env.BASE_URL}models/`)).then(gltf=>{if(!disposed)onLoad(gltf);}).catch(onFailure);
+  }};
+  scheduleSupplementary(()=>new Promise<void>((resolve,reject)=>loader.load(`${import.meta.env.BASE_URL}models/joints.glb`,gltf=>{if(disposed){resolve();return;}supplementaryJoints.addSliced(gltf.scene,cooperativeYield,()=>disposed).then(()=>{if(!disposed){supplementaryJoints.update(latest.current,amount);dirty=true;}resolve();},reject);},undefined,reject)),()=>onError('關節組織模型載入失敗，請重新整理。'));
+  // A nerve package holds dozens of meshes; installing them in one task froze the page for ~2 s, so the work yields
+  // to input and rendering every ~12 ms. The result is the same set of meshes.
+  // Nerve materials are shared (Bug Audit P3-11): one MeshStandardMaterial per look (base / vein / spinal cord / selected / hovered) × drag-preview flag × special-region flag ×
+  // lifted-when-selected, instead of one per nerve mesh. The shader needs the two flags as uniforms, and a uniform belongs to the material, so each flag value is its own material;
+  // a mesh switches material when its state changes (a swap, not a per-mesh clone). All variants compile to the same program.
+  type NerveLook={color:number;emissive:number;intensity:number;lift:boolean;preview:0|1;range:0|1};
+  const nerveMaterials=new Map<string,T.MeshStandardMaterial>();
+  const nerveMaterialFor=(look:NerveLook)=>{
+   const key=`${look.color}|${look.emissive}|${look.intensity}|${look.lift?1:0}|${look.preview}|${look.range}`;let material=nerveMaterials.get(key);if(material)return material;
+   const {preview,range}=look;
+   material=new T.MeshStandardMaterial({color:look.color,metalness:0,roughness:.42,emissive:look.emissive,emissiveIntensity:look.intensity,depthTest:true,depthWrite:true,transparent:false,opacity:1,polygonOffset:look.lift,polygonOffsetFactor:look.lift?-4:0,polygonOffsetUnits:look.lift?-4:0});
+   material.customProgramCacheKey=()=>'mj-nerve';
+   material.onBeforeCompile=shader=>{shader.uniforms.paletteState={value:paletteTexture};shader.uniforms.paletteWidth={value:PALETTE_WIDTH};shader.uniforms.nervePreview={value:preview};Object.assign(shader.uniforms,rangeU,{rangeSel:{value:range}});
+      // inside a special region's sphere a picked nerve glows with a bright outline; outside it fades back to pale
+      shader.vertexShader='varying vec3 vRangePos;\n'+shader.vertexShader;
+      shader.vertexShader=shader.vertexShader.replace('#include <project_vertex>','#include <project_vertex>\nvRangePos = transformed;');
+      shader.fragmentShader='varying vec3 vRangePos; uniform float rangeSel;\n'+RANGE_FRAG+shader.fragmentShader;
+      shader.fragmentShader=shader.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\nfloat rangeM = rangeSel>0.5 ? rangeMask(vRangePos) : 1.0; diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.80,0.78,0.72), rangeSel*(1.0-rangeM)*0.65);');
+      shader.fragmentShader=shader.fragmentShader.replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\ntotalEmissiveRadiance += vec3(1.0,0.78,0.1)*0.5*rangeSel*rangeM;');
+      shader.fragmentShader=shader.fragmentShader.replace('#include <dithering_fragment>','#include <dithering_fragment>\n{ float rimN = 1.0-abs(dot(normalize(vNormal),normalize(vViewPosition))); gl_FragColor.rgb += vec3(1.0,0.86,0.25)*pow(rimN,2.0)*0.55*rangeSel*rangeM; }');
+      shader.vertexShader=GPU_SKIN_PARS+'uniform float nervePreview;\n'+shader.vertexShader;
+      shader.vertexShader=shader.vertexShader.replace('#include <beginnormal_vertex>','#include <beginnormal_vertex>\n'+gpuSkinNormal('nervePreview'));
+      shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n'+GPU_SKIN_POSITION);};
+   materials.push(material);nerveMaterials.set(key,material);return material;
+  };
+  const nerveBaseLook=(spinalCordLike:boolean,vein:boolean):Pick<NerveLook,'color'|'emissive'|'intensity'>=>spinalCordLike?{color:0xe8d9b8,emissive:0x493f2d,intensity:.10}:vein?{color:0x3f7bd0,emissive:0x0f2c5c,intensity:.28}:{color:0xf1cb4f,emissive:0x6b5100,intensity:.28};
+  const installNerves=async(root:T.Group)=>{if(disposed)return;root.updateMatrixWorld(true);const sources:T.Mesh[]=[];root.traverse(o=>{if(o instanceof T.Mesh)sources.push(o);});
+   let sliceStart=performance.now();
+   for(const o of sources){
+    if(performance.now()-sliceStart>12){await cooperativeYield();if(disposed)return;sliceStart=performance.now();}
+    installNerve(o);
+   }
+   lastState=null;dirty=true;};
+  const installNerve=(o:T.Mesh)=>{{
+    const exactName=meshSourceName(o)||'',fullName=nerveName(o);
+    // The source GLB contains a freestanding 3-D title at x≈-0.81. Remove it
+    // deterministically, and never import central-nervous-system meshes from
+    // this legacy overlay (the BodyParts3D atlas already owns the brain/CNS).
+    if(/nervous system\s*&\s*sense organs/i.test(exactName))return;
+    // Brain and brain-stem anatomy of this overlay (occipital cortex, vermis, medulla pyramids, nuclei) lies inside the skull: only the brain detail mode shows it.
+    if(blockedOverlayMeshes.has(exactName))return;
+    const spinalCordLike=/spinal cord|medulla spinalis/i.test(fullName);
+    const cranialNerveLike=/optic nerve|oculomotor|trochlear|trigeminal|abducens|facial nerve|vestibulocochlear|glossopharyngeal|vagus|accessory nerve|hypoglossal|cranial nerve/i.test(fullName);
+    if(!nerveBindings[exactName]&&!bodyNerveBindings[exactName]&&!spinalCordLike&&!/nerve|ganglion|ganglia|plexus|ramus|rami|sympathetic trunk/i.test(exactName))return;
+    if(hasNamedAncestor(o,/central nervous system/i)&&!spinalCordLike)return;
+    if(/brain|cerebr|cerebell|\bgyrus\b|lobule|\blobe\b|hemisphere|white matter|gray matter|cortex|corpus callosum|thalam|hypothalam|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|colliculus|geniculate|midbrain|pons|medulla oblongata|fornix|commissure|ventricle|choroid plexus|optic chiasm|optic tract|pituitary|pineal/i.test(fullName)&&!spinalCordLike)return;
+    const geometry=o.geometry.clone();geometry.applyMatrix4(o.matrixWorld);geometry.computeBoundingBox();const geoCenter=geometry.boundingBox?.getCenter(new T.Vector3())??new T.Vector3(),geoSize=geometry.boundingBox?.getSize(new T.Vector3())??new T.Vector3();
+    // Fallback for the title geometry even if a future exporter renames it.
+    if(geoCenter.x<-.58&&geoCenter.y>.68&&geoCenter.y<1.12)return;
+    // Some legacy CNS children have no useful anatomical node label. Reject
+    // broad intracranial sheets by geometry as well, while retaining slender
+    // cranial/peripheral nerves. The integrated brain model owns this volume.
+    if(!nerveBindings[exactName]&&!bodyNerveBindings[exactName]&&geoCenter.y>1.46&&Math.abs(geoCenter.x)<.22&&!cranialNerveLike&&!spinalCordLike&&(geoSize.x>.028||geoSize.z>.028))return;
+    geometry.boundingSphere=new T.Sphere(new T.Vector3(0,.9,0),2.5);const position=geometry.getAttribute('position');if(!position)return;const material=nerveMaterialFor({...nerveBaseLook(spinalCordLike,/vein|venous/i.test(exactName)),lift:false,preview:0,range:0});geometry.computeBoundingBox();const nerveCenter=geometry.boundingBox?.getCenter(new T.Vector3())??new T.Vector3();
+    const binding=nerveBindings[exactName];
+    const mesh=new T.Mesh(geometry,material);mesh.name=exactName||fullName;mesh.frustumCulled=false;mesh.renderOrder=0;
+    mesh.userData.mjNerve=true;mesh.userData.mjExactName=exactName;mesh.userData.mjVein=/vein|venous/i.test(exactName);mesh.userData.mjSpinalCordLike=spinalCordLike;mesh.userData.mjSide=binding?.side??nerveSide(exactName);
+    if(binding&&softRigs[binding.side]){registerNerveRest(softRigs[binding.side]!,position.array as Float32Array);position.needsUpdate=true;geometry.computeVertexNormals();geometry.computeBoundingBox();}
+    else geometry.computeVertexNormals();// once, and only for meshes that survived the filters above
+    mesh.userData.basePositions=new Float32Array(position.array as ArrayLike<number>);
+    if(binding&&softRigs[binding.side])mesh.userData.skin=bindTissue(softRigs[binding.side]!,resolveNeurovascularProfile(exactName,'path'),mesh.userData.basePositions,undefined,exactName);
+    // Live drag preview: limb nerves carry the same palette weights as the anatomy meshes (other nerves stay on the identity slot).
+    {const count=position.count,slots=new Uint8Array(count*4),weights=new Uint16Array(count*4);clearGpuAttributes(slots,weights,0,count);
+     if(mesh.userData.skin&&binding)writeGpuAttributes(gpuBinding(binding.side,mesh.userData.skin),slots,weights,0);
+     geometry.setAttribute('segIndex',new T.BufferAttribute(slots,4));geometry.setAttribute('segWeight',new T.BufferAttribute(weights,4,true));
+     const flag={value:0};mesh.userData.previewFlag=flag;mesh.userData.baseNormals=new Float32Array(geometry.getAttribute('normal').array as ArrayLike<number>);}
+    const inferredHeadNerve=/cervical|vagus|phrenic|hypoglossal|accessory|glossopharyngeal|ansa cervicalis|sympathetic trunk|superior cervical|middle cervical|inferior cervical/i.test(exactName);
+    const limb=inferredLimb(geoCenter),bodyRegion=spinalCordLike?'head':bodyNerveBindings[exactName]??(inferredHeadNerve?'head':limb==='leftLeg'||limb==='rightLeg'?limb:undefined);
+    if(bodyRegion){mesh.userData.bodyRegion=bodyRegion;mesh.userData.bodySkin=bindBodyTissue(bodyRigs[bodyRegion],mesh.userData.basePositions,spinalCordLike?false:cranialNerveRigid(exactName));}
+    // Include otherwise unbound thoracic roots/rami in trunk motion. Long
+    // head-to-thorax nerves use the continuous spinal field; articulated arm
+    // nerves inherit the upper-thorax carrier.
+    mesh.userData.spineSkin=mesh.userData.skin?bindSpineCarrier(bodyRigs.spine,mesh.userData.basePositions,mesh.userData.skin):bindBodyTissue(bodyRigs.spine,mesh.userData.basePositions,limb==='arm');
+    nerveRoot.add(mesh);nerveMeshes.push(mesh);
+   }};
+  // Keep successful nerve packages when another one fails. No browser Draco
+  // worker or monolithic GLB decode is needed for the peripheral nerve layer.
+  scheduleSupplementary(async()=>{
+   const [catalogue,followers]=await Promise.all([fetchSupplementaryJson('nerve-stream.json') as Promise<NerveCatalogue>,import('./biomechanics-v2/deltoid-nerve-followers.json')]);
+   if(disposed)return;setDeltoidFollowers(followers.default.parts as unknown as DeltoidFollowers);
+   catalogue.chunks.forEach((chunk,i)=>scheduleSupplementary(async()=>{
+    const bytes=await fetchModelBuffer(`${import.meta.env.BASE_URL}${chunk.url.replace(/^\//,'')}`,chunk.bytes,true,abort.signal);
+    const group=nerveChunkScene(chunk,bytes,false);
+    try{await installNerves(group);}finally{group.traverse(o=>{if(o instanceof T.Mesh){o.geometry.dispose();const materials=Array.isArray(o.material)?o.material:[o.material];materials.forEach(m=>m.dispose());}});}
+   },()=>{},`周邊神經 ${i+1}/${catalogue.chunks.length}`));
+  },()=>{},'周邊神經目錄');
+  // The pinned Brain Project asset ships with the site. No runtime CDN or
+  // silent model substitution: a failed load is reported to the user.
+  const brainMotionRoot=new T.Group(),brainVisualRoot=new T.Group(),brainPickers:T.Mesh[]=[];
+  // Bug Audit P3-11: the Brain Project's 376 meshes are merged into one geometry per appearance (cortex, white matter, deep nuclei, brainstem, cerebellum,
+  // ventricles), so the brain costs six draw calls instead of 376. Each vertex carries the index of its piece; a one-row state texture says per piece whether
+  // it is drawn (Isolate) and whether it is selected (the shader tints it mint and lifts it), and picking maps the hit triangle back to its piece.
+  type BrainPiece={label:string;atlasId?:string;mesh:T.Mesh;faceStart:number;faceCount:number};
+  const brainPieces:BrainPiece[]=[],brainPiecesOf=new Map<T.Mesh,BrainPiece[]>(),brainVisibleAtlasIds=new Set<string>();
+  const brainStateU={value:null as T.DataTexture|null},brainStateWidthU={value:1};let brainStateData=new Uint8Array(4);
+  brainMotionRoot.name='MJ integrated Brain Project';brainMotionRoot.matrixAutoUpdate=false;brainMotionRoot.visible=false;brainMotionRoot.add(brainVisualRoot);scene.add(brainMotionRoot);
+  let brainRequested=false,brainLoaded=false;
+  const brainTargetPattern=/cerebr|cerebell|brainstem|midbrain|pons|medulla oblongata|thalam|hypothalam|corpus callosum|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|fornix|ventricle|cortex|gyrus|lobule/i;
+  const brainTargetBox=new T.Box3();
+  atlas.parts.forEach(p=>{if(p.system==='nervous'&&brainTargetPattern.test(p.name))brainTargetBox.union(new T.Box3(new T.Vector3().fromArray(p.bounds[0]),new T.Vector3().fromArray(p.bounds[1])));});
+  const brainAtlasCandidates=atlas.parts.filter(p=>p.system==='nervous'&&brainTargetPattern.test(p.name));
+  const normalizeBrainName=(value:string)=>value.toLowerCase().replace(/brain project|right|left|bilateral|hemisphere|part of/gi,' ').replace(/[^a-z0-9]+/g,' ').trim();
+  const brainAtlasIdFor=(label:string,category:string)=>{
+   const target=normalizeBrainName(label+' '+category);
+   if(!target)return brainAtlasCandidates[0]?.id;
+   const tokens=new Set(target.split(' ').filter(t=>t.length>2));
+   let bestId=brainAtlasCandidates[0]?.id,best=-1;
+   for(const p of brainAtlasCandidates){
+    const n=normalizeBrainName(p.name);
+    let score=n===target?100:n.includes(target)||target.includes(n)?70:0;
+    const pt=n.split(' ').filter(t=>t.length>2);
+    let overlap=0;for(const t of pt)if(tokens.has(t))overlap++;
+    score+=overlap*8-Math.abs(pt.length-tokens.size);
+    if(score>best){best=score;bestId=p.id;}
+   }
+   return bestId;
+  };
+  const brainMaterials=new Map<string,T.MeshStandardMaterial>();
+  const brainMaterialFor=(appearance:{key:string;color:number;transparent:boolean;opacity:number})=>{
+   let m=brainMaterials.get(appearance.key);if(m)return m;
+   m=new T.MeshStandardMaterial({color:appearance.color,roughness:.72,metalness:0,side:T.FrontSide,transparent:appearance.transparent,opacity:appearance.opacity,depthWrite:!appearance.transparent});
+   m.customProgramCacheKey=()=>'mj-brain';
+   m.onBeforeCompile=shader=>{
+    shader.uniforms.brainState=brainStateU;shader.uniforms.brainStateWidth=brainStateWidthU;
+    shader.vertexShader='attribute float pieceIndex; uniform sampler2D brainState; uniform float brainStateWidth; varying float vBrainVis; varying float vBrainSel;\n'+shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n{ vec4 bs = texture2D(brainState, vec2((pieceIndex + 0.5) / brainStateWidth, 0.5)); vBrainVis = bs.r; vBrainSel = bs.g; }');
+    shader.fragmentShader='varying float vBrainVis; varying float vBrainSel;\n'+shader.fragmentShader
+     .replace('#include <clipping_planes_fragment>','#include <clipping_planes_fragment>\nif (vBrainVis < 0.5) discard;')
+     // selected piece: mint, opaque (a ventricle is see-through otherwise) and a little self-lit, as the per-mesh selected material used to be
+     .replace('#include <color_fragment>','#include <color_fragment>\ndiffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.365, 0.722, 0.604), vBrainSel); diffuseColor.a = mix(diffuseColor.a, 1.0, vBrainSel);')
+     .replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\ntotalEmissiveRadiance += vec3(0.365, 0.722, 0.604) * 0.35 * vBrainSel;');
+   };
+   materials.push(m);brainMaterials.set(appearance.key,m);return m;
+  };
+  const brainAppearance=(label:string,category:string)=>{
+   const s=(label+' '+category).toLowerCase();
+   if(/ventricle|aqueduct/.test(s))return{key:'ventricle',color:0x99bdc7,transparent:true,opacity:.22};
+   if(/white matter|capsule|commissure|corpus callosum|fornix/.test(s))return{key:'white',color:0xe7ddd0,transparent:false,opacity:1};
+   if(/cerebell/.test(s))return{key:'cerebellum',color:0xb86f68,transparent:false,opacity:1};
+   if(/brainstem|midbrain|pons|medulla/.test(s))return{key:'brainstem',color:0xd39780,transparent:false,opacity:1};
+   if(/deep|thalam|hypothalam|caudate|putamen|globus|amygdal|hippocamp/.test(s))return{key:'deep',color:0xc58d83,transparent:false,opacity:1};
+   return{key:'cortex',color:0xc9857d,transparent:false,opacity:1};
+  };
+  const ensureBrain=()=>{
+   if(brainRequested)return;brainRequested=true;
+   scheduleSupplementary(()=>new Promise<void>((resolve,reject)=>{const brainUrls=[`${import.meta.env.BASE_URL}models/brain.glb`];let bi=0;
+   const attempt=()=>loader.load(brainUrls[bi],gltf=>{
+    if(disposed){resolve();return;}
+    gltf.scene.updateMatrixWorld(true);
+    const sourceBox=new T.Box3();
+    type Batch={appearance:ReturnType<typeof brainAppearance>;positions:Float32Array[];normals:Float32Array[];indices:Uint32Array[];pieces:{label:string;atlasId?:string;faceCount:number}[];vertices:number;faces:number};
+    const batches=new Map<string,Batch>();let pieceCount=0;
+    gltf.scene.traverse(o=>{
+     if(!(o instanceof T.Mesh))return;
+     const label=String(o.userData?.bx_label||o.name||'Brain structure');
+     const category=String(o.userData?.bx_cat||'');
+     if(/arter|vein|cranial.?nerve|\bnerve\b|tracts?|fibres?/i.test(category+' '+label))return;
+     const geometry=o.geometry.clone();geometry.applyMatrix4(o.matrixWorld);geometry.computeBoundingBox();geometry.computeVertexNormals();
+     const appearance=brainAppearance(label,category);
+     let batch=batches.get(appearance.key);if(!batch){batch={appearance,positions:[],normals:[],indices:[],pieces:[],vertices:0,faces:0};batches.set(appearance.key,batch);}
+     const pos=geometry.getAttribute('position'),nrm=geometry.getAttribute('normal'),src=geometry.index?geometry.index.array:null,count=src?src.length:pos.count;
+     const idx=new Uint32Array(count);for(let k=0;k<count;k++)idx[k]=(src?src[k]:k)+batch.vertices;
+     batch.positions.push(new Float32Array(pos.array as ArrayLike<number>));batch.normals.push(new Float32Array(nrm.array as ArrayLike<number>));batch.indices.push(idx);
+     batch.pieces.push({label,atlasId:brainAtlasIdFor(label,category),faceCount:count/3});batch.vertices+=pos.count;batch.faces+=count/3;pieceCount++;
+     if(geometry.boundingBox)sourceBox.union(geometry.boundingBox);
+     geometry.dispose();
+    });
+    brainStateData=new Uint8Array(Math.max(1,pieceCount)*4).fill(255);for(let k=0;k<pieceCount;k++)brainStateData[k*4+1]=0;
+    const stateTexture=new T.DataTexture(brainStateData,Math.max(1,pieceCount),1,T.RGBAFormat,T.UnsignedByteType);stateTexture.magFilter=T.NearestFilter;stateTexture.minFilter=T.NearestFilter;stateTexture.generateMipmaps=false;stateTexture.needsUpdate=true;
+    brainStateU.value=stateTexture;brainStateWidthU.value=Math.max(1,pieceCount);
+    for(const batch of batches.values()){
+     const positions=new Float32Array(batch.vertices*3),normals=new Float32Array(batch.vertices*3),pieceIndex=new Float32Array(batch.vertices),indices=new Uint32Array(batch.faces*3);
+     const mesh=new T.Mesh(new T.BufferGeometry(),brainMaterialFor(batch.appearance));mesh.name='Brain Project · '+batch.appearance.key;mesh.frustumCulled=false;mesh.userData.mjBrainProject=true;mesh.userData.mjBrainKey=batch.appearance.key;
+     const pieces:BrainPiece[]=[];let v=0,f=0;
+     for(let k=0;k<batch.pieces.length;k++){
+      const n=batch.positions[k].length/3,piece:BrainPiece={...batch.pieces[k],mesh,faceStart:f,faceCount:batch.pieces[k].faceCount};
+      positions.set(batch.positions[k],v*3);normals.set(batch.normals[k],v*3);pieceIndex.fill(brainPieces.length,v,v+n);indices.set(batch.indices[k],f*3);
+      brainPieces.push(piece);pieces.push(piece);v+=n;f+=piece.faceCount;
+     }
+     const g=mesh.geometry;g.setAttribute('position',new T.BufferAttribute(positions,3));g.setAttribute('normal',new T.BufferAttribute(normals,3));g.setAttribute('pieceIndex',new T.BufferAttribute(pieceIndex,1));g.setIndex(new T.BufferAttribute(indices,1));g.computeBoundingBox();g.computeBoundingSphere();
+     brainPiecesOf.set(mesh,pieces);brainVisualRoot.add(mesh);brainPickers.push(mesh);geometries.push(g);
+    }
+    if(sourceBox.isEmpty()||brainTargetBox.isEmpty()||!brainPieces.length){brainVisualRoot.clear();brainPickers.length=0;brainPieces.length=0;brainPiecesOf.clear();resolve();return;}
+    const sc=sourceBox.getCenter(new T.Vector3()),ss=sourceBox.getSize(new T.Vector3()),tc=brainTargetBox.getCenter(new T.Vector3()),ts=brainTargetBox.getSize(new T.Vector3());
+    const scale=Math.min(ts.x/Math.max(ss.x,1e-6),ts.y/Math.max(ss.y,1e-6),ts.z/Math.max(ss.z,1e-6))*.97;
+    brainVisualRoot.scale.setScalar(scale);brainVisualRoot.position.copy(tc).addScaledVector(sc,-scale);brainVisualRoot.updateMatrixWorld(true);
+    brainLoaded=true;lastState=null;dirty=true;resolve();
+   },undefined,err=>{bi++;if(bi<brainUrls.length)attempt();else reject(err);});attempt();}),()=>onError('腦模型載入失敗，請重新載入頁面。'));
+  };
+  const updateBrainMotion=(s:SceneState)=>{
+   const m=new T.Matrix4();
+   if(s.bodyMotion?.region==='head'){const built=buildBodyMotion(bodyRigs.head,s.bodyMotion.pose);m.copy(built.matrices[built.matrices.length-1]);}
+   else if(s.bodyMotion?.region==='spine'){const built=buildBodyMotion(bodyRigs.spine,s.bodyMotion.pose);m.copy(built.matrices[built.matrices.length-1]);}
+   brainMotionRoot.matrix.copy(m);brainMotionRoot.matrixWorldNeedsUpdate=true;
+  };
+  const transformMatrix=(t:NonNullable<SceneState['partTransforms']>[string]|undefined)=>{const m=new T.Matrix4();if(!t)return m.identity();return m.compose(new T.Vector3(...t.translation),new T.Quaternion(...t.quaternion),new T.Vector3(1,1,1));};
+  const updateNerveMotion=(s:SceneState)=>{
+   const hosts=new Map<string,{base:Float32Array;posed:Float32Array}>();
+   if(!s.bodyMotion&&s.tissueMotion)atlas.parts.forEach((part,i)=>{
+    if(tissueBindings[part.id]?.profile!=='deltoid')return;
+    const mesh=pickers[i],base=mesh?.userData.baseMotionPositions as Float32Array|undefined;
+    const solved=s.partTransforms===completedPose?workerPositions.get(part.id):undefined;
+    if(base&&(solved||mesh?.userData.tissuePosed))hosts.set(part.id,{base,posed:solved?.positions??mesh!.geometry.getAttribute('position').array as Float32Array});
+   });
+   const body=s.bodyMotion?buildBodyMotion(bodyRigs[s.bodyMotion.region],s.bodyMotion.pose):null;
+   const palettes={left:softRigs.left?makePalette(softRigs.left,s.partTransforms??{}):null,right:softRigs.right?makePalette(softRigs.right,s.partTransforms??{}):null};
+   for(const mesh of nerveMeshes){
+    const base=mesh.userData.basePositions as Float32Array,skin=mesh.userData.skin as SkinBinding|undefined;
+    const binding=nerveBindings[mesh.name],rig=binding?softRigs[binding.side]:null;
+    const bodyActive=!!(body&&mesh.userData.bodySkin&&mesh.userData.bodyRegion===s.bodyMotion?.region);
+    const spineCarry=!!(body&&s.bodyMotion?.region==='spine'&&mesh.userData.spineSkin);
+    const limbActive=!!(!s.bodyMotion&&s.tissueMotion&&skin&&rig&&s.partTransforms?.[rig.ids[3]!]);
+    // Drag preview: the nerve shader blends the rest shape with the live palette, so restore the rest shape once and stop.
+    const flag=mesh.userData.previewFlag as {value:number}|undefined,previewing=!!(s.previewMotion&&limbActive&&flag);
+    if(flag)flag.value=previewing?1:0;
+    if(previewing){
+     if(mesh.userData.tissuePosed){
+      const attr=mesh.geometry.getAttribute('position') as T.BufferAttribute;(attr.array as Float32Array).set(base);attr.needsUpdate=true;
+      const normal=mesh.geometry.getAttribute('normal') as T.BufferAttribute;(normal.array as Float32Array).set(mesh.userData.baseNormals);normal.needsUpdate=true;mesh.userData.tissuePosed=false;
+     }
+     continue;
+    }
+    const active=bodyActive||spineCarry||limbActive;
+    if(!active&&!mesh.userData.tissuePosed)continue;
+    const attr=mesh.geometry.getAttribute('position') as T.BufferAttribute;
+    if(bodyActive)deformTissue(mesh.userData.bodySkin,base,body!.palette,attr.array as Float32Array);
+    else if(spineCarry)deformTissue(mesh.userData.spineSkin,base,body!.palette,attr.array as Float32Array);
+    else if(limbActive)deformTissue(skin!,base,palettes[binding.side]!,attr.array as Float32Array);
+    else (attr.array as Float32Array).set(base);
+    if(limbActive)followDeltoidSurface(mesh.name,base,attr.array as Float32Array,id=>hosts.get(id));
+    mesh.userData.tissuePosed=active;
+    attr.needsUpdate=true;mesh.geometry.computeVertexNormals();mesh.geometry.computeBoundingBox();mesh.geometry.computeBoundingSphere();
+   }
+  };
+
+  camera.position.set(1.4,1.05,3.6);controls.target.set(0,.85,0);controls.enableDamping=true;controls.dampingFactor=.085;controls.enablePan=true;controls.screenSpacePanning=true;controls.panSpeed=1;controls.zoomSpeed=1;controls.minDistance=.04;controls.maxDistance=40;controls.maxPolarAngle=Math.PI*.96;controls.mouseButtons.LEFT=T.MOUSE.PAN;controls.mouseButtons.RIGHT=T.MOUSE.ROTATE;controls.touches.ONE=T.TOUCH.PAN;controls.touches.TWO=T.TOUCH.DOLLY_PAN;let userMoved=false;
+  // Camera moves that frame a structure (Focus, search, Isolate) run as one 300 ms ease-out tween of the camera, its target and the view
+  // offset together (Bug Audit P3-04): the old exponential chase took about 1.2 s to settle, slowed down further at low frame rates, and
+  // applied the view offset at once so the picture side-stepped before the camera started to glide.
+  type CameraTween={start:number;duration:number;p0:T.Vector3;p1:T.Vector3;c0:T.Vector3;c1:T.Vector3;o0:[number,number];o1:[number,number]|null;w:number;h:number};
+  let cameraTween:CameraTween|null=null;
+  // A saved camera pose (cameraSaveNonce) that cameraBackNonce flies back to: the lung's medial-view button turns the camera only when pressed and gives the old view back when released.
+  let savedPose:{p:T.Vector3;c:T.Vector3;o:[number,number]}|null=null,lastCamSave=latest.current.cameraSaveNonce??0,lastCamBack=latest.current.cameraBackNonce??0;
+  const reducedMotion=typeof matchMedia==='function'&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const currentViewOffset=():[number,number]=>camera.view?.enabled?[camera.view.offsetX,camera.view.offsetY]:[0,0];
+  /** Glide the camera to `position` looking at `target`; `offset` is the view offset to end at (null clears it). */
+  const moveCamera=(target:T.Vector3,position:T.Vector3,offset:[number,number]|null,w:number,h:number)=>{
+   if(reducedMotion){controls.target.copy(target);camera.position.copy(position);if(offset)camera.setViewOffset(w,h,offset[0],offset[1],w,h);else camera.clearViewOffset();cameraTween=null;dirty=true;return;}
+   cameraTween={start:performance.now(),duration:CAMERA_TWEEN_MS,p0:camera.position.clone(),p1:position.clone(),c0:controls.target.clone(),c1:target.clone(),o0:currentViewOffset(),o1:offset,w,h};dirty=true;
+  };
+  const stepCameraTween=()=>{
+   if(!cameraTween)return;const tw=cameraTween,{e,done}=tweenProgress(tw.start,performance.now(),tw.duration);
+   camera.position.lerpVectors(tw.p0,tw.p1,e);controls.target.lerpVectors(tw.c0,tw.c1,e);
+   const o1=tw.o1??[0,0];if(tw.o0[0]!==o1[0]||tw.o0[1]!==o1[1]||tw.o1)camera.setViewOffset(tw.w,tw.h,T.MathUtils.lerp(tw.o0[0],o1[0],e),T.MathUtils.lerp(tw.o0[1],o1[1],e),tw.w,tw.h);
+   dirty=true;
+   if(done){camera.position.copy(tw.p1);controls.target.copy(tw.c1);if(!tw.o1)camera.clearViewOffset();cameraTween=null;}
+  };controls.addEventListener('start',()=>{userMoved=true;cameraTween=null;});controls.addEventListener('change',()=>{dirty=true;});
   const pmrem=new T.PMREMGenerator(renderer),room=new RoomEnvironment(),env=pmrem.fromScene(room,.04);scene.environment=env.texture;room.dispose();pmrem.dispose();
   scene.add(new T.HemisphereLight(0xffffff,0xa7acb2,1.05));
   const key=new T.DirectionalLight(0xfffaf4,2.3);key.position.set(-2,4,3);scene.add(key);
   const rim=new T.DirectionalLight(0xe9f0ff,1.8);rim.position.set(2,2,-3);scene.add(rim);
-  const ground=new T.Mesh(new T.CircleGeometry(30,96),new T.MeshStandardMaterial({color:0xd5d9dc,roughness:1}));ground.rotation.x=-Math.PI/2;ground.position.y=-.019;scene.add(ground);
-  const platform=new T.Mesh(new T.CylinderGeometry(.68,.7,.028,100),new T.MeshStandardMaterial({color:0xeeeeec,metalness:.12,roughness:.67}));platform.position.y=-.016;scene.add(platform);
-  const ring=new T.Mesh(new T.RingGeometry(.63,.632,128),new T.MeshBasicMaterial({color:0x8c969f,transparent:true,opacity:.4,side:T.DoubleSide}));ring.rotation.x=-Math.PI/2;ring.position.y=.001;scene.add(ring);
-  const innerRing=new T.Mesh(new T.RingGeometry(.55,.551,128),new T.MeshBasicMaterial({color:0xa4aeb8,transparent:true,opacity:.16,side:T.DoubleSide}));innerRing.rotation.x=-Math.PI/2;innerRing.position.y=.001;scene.add(innerRing);
   const width=T.MathUtils.ceilPowerOfTwo(atlas.parts.length),data=new Float32Array(width*4),partTexture=new T.DataTexture(data,width,1,T.RGBAFormat,T.FloatType);partTexture.needsUpdate=true;
-  const selectedData=new Uint8Array(width*4),selectionTexture=new T.DataTexture(selectedData,width,1);selectionTexture.needsUpdate=true;
-  // Shared segment chain: one dual quaternion per segment (2 texels) drives every skinned vertex.
-  const rig=rigFor(atlas),pose=new SegmentPose(rig.segments.length),segmentWidth=T.MathUtils.ceilPowerOfTwo(rig.segments.length*2);
-  const segmentData=new Float32Array(segmentWidth*4),segmentTexture=new T.DataTexture(segmentData,segmentWidth,1,T.RGBAFormat,T.FloatType);segmentData.set(pose.data);segmentTexture.needsUpdate=true;
-  // Per-part muscle attachments (row 0: origin xyz+segment, row 1: insertion xyz+segment; segment -1 = not a muscle).
-  const muscleData=new Float32Array(width*2*4).fill(-1),muscleTexture=new T.DataTexture(muscleData,width,2,T.RGBAFormat,T.FloatType);muscleTexture.needsUpdate=true;
-  const skins:(PartSkin|undefined)[]=[],skinnedFor:number[]=[],rest:(T.BufferAttribute|undefined)[]=[],posed:(T.BufferAttribute|undefined)[]=[];let lastSegments:SceneState['segmentTransforms']|null=null;
-  // Where each part's vertices sit inside its merged system mesh, so worker weights can be patched in place.
-  const slots:{geometry:T.BufferGeometry;offset:number}[]=[];
-  const applySkin=(i:number,skin:PartSkin)=>{
-   skins[i]=skin;skinnedFor[i]=-1;const slot=slots[i];
-   if(slot){const index=slot.geometry.attributes.segIndex as T.BufferAttribute,weight=slot.geometry.attributes.segWeight as T.BufferAttribute;(index.array as Uint8Array).set(skin.index,slot.offset*4);(weight.array as Uint16Array).set(skin.weight,slot.offset*4);index.needsUpdate=weight.needsUpdate=true;}
-   if(skin.muscle){muscleData.set([...skin.muscle.o,skin.muscle.origin],i*4);muscleData.set([...skin.muscle.i,skin.muscle.insertion],(width+i)*4);muscleTexture.needsUpdate=true;}
+  const selectFill={value:0};const selectedData=new Uint8Array(width*4),selectionTexture=new T.DataTexture(selectedData,width,1);selectionTexture.needsUpdate=true;
+  // Category colours of the lung view: rgb = colour, a = 1 for a part that is tinted. A tinted surface patch (a decal) is drawn even when it is not selected; a tinted mesh is mixed 55 % towards the colour.
+  const tintData=new Float32Array(width*4),tintTexture=new T.DataTexture(tintData,width,1,T.RGBAFormat,T.FloatType);tintTexture.needsUpdate=true;let lastTintKey='';
+  // Pointer hover: the part under the cursor gets a lighter mint of the selection green (channel G of the selection texture).
+  let hoverIndex=-1,hoverNerve:string|null=null,lastHoverAt=0,hoverText='';
+  const setHover=(index:number,nerve:string|null)=>{
+   if(index===hoverIndex&&nerve===hoverNerve)return;
+   if(hoverIndex>=0)selectedData[hoverIndex*4+1]=0;
+   hoverIndex=index;hoverNerve=nerve;if(index>=0)selectedData[index*4+1]=255;
+   selectionTexture.needsUpdate=true;dirty=true;
   };
-  let worker:Worker|null=null;const pending=new Set<number>();
-  const skinHere=(i:number)=>{const p=atlas.parts[i],g=pickers[i]?.geometry;if(g&&rest[i])applySkin(i,computePartSkin(rig,i,p.name,skinKind(p.system,p.name),rest[i]!.array,p.vertexCount,bounds[i],g.index!.array));};
-  try{
-   worker=new Worker(new URL('./skin-worker.ts',import.meta.url),{type:'module'});worker.postMessage({type:'atlas',atlas});
-   worker.onmessage=(e:MessageEvent<SkinReply>)=>{if(disposed)return;e.data.skins.forEach(({index,skin})=>{pending.delete(index);applySkin(index,skin);});lastState=null;dirty=true;};
-   worker.onerror=()=>{worker?.terminate();worker=null;if(disposed)return;pending.forEach(skinHere);pending.clear();lastState=null;dirty=true;};
-  }catch{worker=null;}
+  const motionData=new Float32Array(width*4),motionTexture=new T.DataTexture(motionData,width,1,T.RGBAFormat,T.FloatType);motionTexture.needsUpdate=true;
+  const rotationData=new Float32Array(width*4);for(let i=0;i<width;i++)rotationData[i*4+3]=1;
+  const rotationTexture=new T.DataTexture(rotationData,width,1,T.RGBAFormat,T.FloatType);rotationTexture.needsUpdate=true;
+  const anchorMotionData=new Float32Array(width*4),anchorMotionTexture=new T.DataTexture(anchorMotionData,width,1,T.RGBAFormat,T.FloatType);anchorMotionTexture.needsUpdate=true;
+  const anchorRotationData=new Float32Array(width*4);for(let i=0;i<width;i++)anchorRotationData[i*4+3]=1;
+  const anchorRotationTexture=new T.DataTexture(anchorRotationData,width,1,T.RGBAFormat,T.FloatType);anchorRotationTexture.needsUpdate=true;
+  // GPU stage of biomechanics-v2 skinning: soft-rig palettes as dual quaternions (see gpu-skinning.ts).
+  const paletteData=new Float32Array(PALETTE_WIDTH*4);writePalette(paletteData,{left:null,right:null});const paletteTexture=new T.DataTexture(paletteData,PALETTE_WIDTH,1,T.RGBAFormat,T.FloatType);paletteTexture.needsUpdate=true;
+  const gpuBindings=new Map<string,GpuBinding>();let skinPalettes:Record<'left'|'right',Float64Array|null>={left:null,right:null},paletteVersion=0;
   const materials:T.Material[]=[],geometries:T.BufferGeometry[]=[],pickers:(T.Mesh|undefined)[]=[],centers=atlas.parts.map(p=>new T.Vector3().fromArray(p.bounds[0]).add(new T.Vector3().fromArray(p.bounds[1])).multiplyScalar(.5));
-  const offsets:T.Vector3[]=[],bounds=atlas.parts.map(p=>new T.Box3(new T.Vector3().fromArray(p.bounds[0]),new T.Vector3().fromArray(p.bounds[1]))),skinnedBounds=bounds.map(b=>b.clone()),skinnedCenters=centers.map(c=>c.clone());
+  const softP=new T.Vector3(),softA=new T.Vector3(),softB=new T.Vector3(),softD=new T.Vector3();
+  const offsets:T.Vector3[]=[],bounds=atlas.parts.map(p=>new T.Box3(new T.Vector3().fromArray(p.bounds[0]),new T.Vector3().fromArray(p.bounds[1])));
   let packingWidth=1,packingHeight=1;
   const markerPositions=new Float32Array(atlas.parts.length*3),markerGeometry=new T.BufferGeometry();markerGeometry.setAttribute('position',new T.BufferAttribute(markerPositions,3));
   const markerMaterial=new T.PointsMaterial({color:0x64748b,size:5,sizeAttenuation:false,transparent:true,opacity:.72,depthTest:false});
@@ -69,80 +454,897 @@ export default function AnatomyScene({atlas,state,onSelect,onProgress,onError}:P
    for(const t of targets){const dx=Math.max(t.left-x,0,x-t.right),dy=Math.max(t.top-y,0,y-t.bottom),distance=Math.hypot(dx,dy);if(distance>radius)continue;const candidate=distance+Math.hypot(t.x-x,t.y-y)*.025;if(candidate<score){score=candidate;best=t.index;}}
    return best;
   };
-  const materialFor=(system:string)=>{
-   const m=new T.MeshStandardMaterial({color:SYSTEMS.find(s=>s.id===system)?.color??'#aebbb8',metalness:.08,roughness:.53,side:T.DoubleSide,transparent:system==='integumentary',opacity:system==='integumentary'?.1:1,depthWrite:system!=='integumentary'});
+    const materialFor=(system:string,shellOpacity?:number,overlay=false,fade=false)=>{
+   const m=new T.MeshStandardMaterial({color:SYSTEMS.find(s=>s.id===system)?.color??'#aebbb8',metalness:.08,roughness:.53,side:T.DoubleSide,transparent:system==='integumentary'||shellOpacity!==undefined,opacity:shellOpacity??(system==='integumentary'?.1:1),depthWrite:system!=='integumentary'&&shellOpacity===undefined});
+   m.userData.mjSystem=system;
+   // The see-through twin of a material (faded parts): real alpha blending, no depth writes, so the surface is smooth and never dotted.
+   if(fade){m.transparent=true;m.depthWrite=false;}
+   // Materials share one program unless their cache keys differ, and the shader text depends on these flags.
+   m.customProgramCacheKey=()=>`mj${m.userData.mjDecal?'D':''}${m.userData.mjLungMark?'L':''}${fade?'F':''}${overlay?'O':''}${system==='arterial'||system==='venous'?'v':system==='muscular'?'m':'x'}`;
    m.onBeforeCompile=shader=>{
-    shader.uniforms.partState={value:partTexture};shader.uniforms.selectionState={value:selectionTexture};shader.uniforms.segmentState={value:segmentTexture};shader.uniforms.segmentWidth={value:segmentWidth};shader.uniforms.muscleState={value:muscleTexture};shader.uniforms.stateWidth={value:width};
-    shader.vertexShader='attribute float partIndex; uniform sampler2D partState; uniform sampler2D selectionState; uniform float stateWidth; varying float partVisible; varying float partSelected;\n'+SKINNING_PARS+shader.vertexShader;
-    shader.vertexShader=shader.vertexShader.replace('#include <beginnormal_vertex>',SKINNING_NORMAL);
-    shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>',SKINNING_POSITION+'\nvec2 stateUv = vec2((partIndex + 0.5) / stateWidth, 0.5); vec4 state = texture2D(partState, stateUv); transformed += state.xyz; partVisible = state.w; partSelected = texture2D(selectionState, stateUv).r;');
-    shader.fragmentShader='varying float partVisible; varying float partSelected;\n'+shader.fragmentShader;
-    shader.fragmentShader=shader.fragmentShader.replace('#include <clipping_planes_fragment>','#include <clipping_planes_fragment>\nif (partVisible < 0.5) discard;');
-    shader.fragmentShader=shader.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\ndiffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.62, 0.98, 0.56), partSelected * 0.86);');
+    shader.uniforms.partState={value:partTexture};shader.uniforms.selectFill=selectFill;shader.uniforms.paletteState={value:paletteTexture};shader.uniforms.paletteWidth={value:PALETTE_WIDTH};shader.uniforms.selectionState={value:selectionTexture};shader.uniforms.tintState={value:tintTexture};shader.uniforms.motionState={value:motionTexture};shader.uniforms.rotationState={value:rotationTexture};shader.uniforms.anchorMotionState={value:anchorMotionTexture};shader.uniforms.anchorRotationState={value:anchorRotationTexture};shader.uniforms.stateWidth={value:width};Object.assign(shader.uniforms,rangeU);shader.uniforms.maxSoftDisplacement={value:system==='arterial'||system==='venous'?.16:system==='muscular'?.24:1.0};
+    shader.vertexShader=GPU_SKIN_PARS+'attribute float partIndex; attribute float motionWeight; uniform sampler2D partState; uniform sampler2D selectionState; uniform sampler2D tintState; varying vec4 partTint; uniform sampler2D motionState; uniform sampler2D rotationState; uniform sampler2D anchorMotionState; uniform sampler2D anchorRotationState; uniform float stateWidth; uniform float maxSoftDisplacement; varying float partVisible; varying float partSelected; varying float partHovered; varying float partFaded; varying float partLimited; varying vec3 vRangePos; vec3 qrot(vec4 q, vec3 v){ return v + 2.0*cross(q.xyz, cross(q.xyz,v)+q.w*v); }\n'+shader.vertexShader;
+    shader.vertexShader=shader.vertexShader.replace('#include <beginnormal_vertex>','#include <beginnormal_vertex>\n'+GPU_SKIN_NORMAL+'\nvec2 normalStateUv = vec2((partIndex + 0.5) / stateWidth, 0.5); vec4 normalRot = normalize(texture2D(rotationState,normalStateUv)); vec4 normalAnchorRot = normalize(texture2D(anchorRotationState,normalStateUv)); if(dot(normalAnchorRot,normalRot)<0.0) normalRot=-normalRot; vec4 normalBlend=normalize(mix(normalAnchorRot,normalRot,motionWeight)); objectNormal=qrot(normalBlend,objectNormal);');
+    shader.vertexShader=shader.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\n'+GPU_SKIN_POSITION+'\nvec2 stateUv = vec2((partIndex + 0.5) / stateWidth, 0.5); vec4 state = texture2D(partState, stateUv); vec3 motion = texture2D(motionState,stateUv).xyz; vec4 rotation = normalize(texture2D(rotationState,stateUv)); vec3 anchorMotion = texture2D(anchorMotionState,stateUv).xyz; vec4 anchorRotation = normalize(texture2D(anchorRotationState,stateUv)); vec3 anchorPosition=qrot(anchorRotation,transformed)+anchorMotion; vec3 movingPosition=qrot(rotation,transformed)+motion; vec3 softDelta=movingPosition-anchorPosition; float softLen=length(softDelta); if(softLen>maxSoftDisplacement) softDelta*=maxSoftDisplacement/softLen; transformed=anchorPosition+softDelta*motionWeight+state.xyz; partVisible = state.w; partSelected = texture2D(selectionState, stateUv).r; partHovered = texture2D(selectionState, stateUv).g; partFaded = texture2D(selectionState, stateUv).b; partLimited = texture2D(selectionState, stateUv).a; partTint = texture2D(tintState, stateUv);');
+    // Lung surface marks carry the distance from the border of their patch (edgeD): the fragment shader draws a thin darker outline and a soft shadow inside it.
+    if(m.userData.mjLungMark){shader.vertexShader='attribute float edgeD; varying float vEdge;\n'+shader.vertexShader.replace('partTint = texture2D(tintState, stateUv);','partTint = texture2D(tintState, stateUv); vEdge = edgeD;');}
+    shader.fragmentShader=(m.userData.mjLungMark?'varying float vEdge;\n':'')+'uniform float selectFill; varying vec4 partTint; varying float partVisible; varying float partSelected; varying float partHovered; varying float partFaded; varying float partLimited; varying vec3 vRangePos;\n'+RANGE_FRAG+shader.fragmentShader;
+    shader.fragmentShader=shader.fragmentShader.replace('#include <clipping_planes_fragment>','#include <clipping_planes_fragment>\nif (partVisible < 0.5) discard;'+(m.userData.mjDecal?'\n// A surface patch (lung mark, bone landmark) is a decal: it is only drawn while picked, hovered or tinted by a category colour. Drawn all the time it is a second, differently shaded skin on the bone or lung and shows as pale, jagged fragments.\nif (partSelected < 0.5 && partHovered < 0.5 && partTint.a < 0.5) discard;':''));
+    shader.fragmentShader=shader.fragmentShader.replace('#include <color_fragment>','#include <color_fragment>\n// The selection colour depends on the code stored in the selection texture: boundaries and tendons mint, arteries red, veins blue, nerves yellow, lymphatics green. A part limited to a special region is coloured only inside the sphere.\n'+(m.userData.mjLungMark?'// Category colour of a lung mark: about 65 % over the lobe colour, a soft shadow just inside the border (the groove looks recessed) and a thin darker outline; a picked mark is deeper and gets a glowing rim (see below).\nfloat lungSel = (partSelected > 0.5 && partTint.a > 0.5) ? 1.0 : 0.0; float recess = vEdge * vEdge; float ring = smoothstep(0.55, 0.95, vEdge); diffuseColor.rgb = mix(diffuseColor.rgb, partTint.rgb, partTint.a * mix(0.68, 0.92, lungSel)); diffuseColor.rgb *= 1.0 - recess * mix(0.30, 0.22, lungSel); diffuseColor.rgb = mix(diffuseColor.rgb, partTint.rgb * 0.5, ring * 0.85 * partTint.a); diffuseColor.rgb *= mix(1.0, 0.82, lungSel);\n':'float lungSel = 0.0; diffuseColor.rgb = mix(diffuseColor.rgb, partTint.rgb, partTint.a * 0.55);')+' float selCode = floor(partSelected * 255.0 + 0.5); float selOn = (partSelected > 0.5 && lungSel < 0.5) ? 1.0 : 0.0; float selM = partLimited > 0.5 ? rangeMask(vRangePos) : 1.0; float selAmt = selOn * selM; vec3 selCol = selCode >= 250.0 ? vec3(0.365, 0.722, 0.604) : selCode >= 215.0 ? vec3(0.85, 0.16, 0.16) : selCode >= 185.0 ? vec3(0.16, 0.42, 0.88) : selCode >= 155.0 ? vec3(0.98, 0.80, 0.12) : selCode >= 135.0 ? vec3(0.95, 0.52, 0.10) : vec3(0.30, 0.70, 0.30);\nfloat fillK = 1.0; diffuseColor.rgb = mix(diffuseColor.rgb, selCol, selAmt * fillK * 0.6); diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.88), partFaded * 0.15);');
+    // Selection: a picked structure is tinted soft mint (and, in a special-region view, in the colour of its system) and gets a thin deeper outline, so it can be told apart at a glance on any colour; the tint is applied per part from the selection texture, never to a shared material, and it wins over category and mastery tints. Tint: soft mint (#5DB89A) at 0.85 plus a thin outline (about 2 px, measured with fwidth) in a deeper shade of the same hue; it never turns white, so thin structures that hug a surface do not show light shards. Hover: lighter tint of the same hue. Applied after lighting so it reads on white and on red muscle.
+    shader.fragmentShader=shader.fragmentShader.replace('#include <dithering_fragment>','#include <dithering_fragment>\n'+(m.userData.mjLungMark?'if (lungSel > 0.5) { float halo = smoothstep(0.25, 0.7, vEdge) * (1.0 - smoothstep(0.88, 1.0, vEdge)); gl_FragColor.rgb = mix(gl_FragColor.rgb, mix(partTint.rgb, vec3(1.0), 0.62), halo * 0.9); gl_FragColor.a = 1.0; }\n':'')+'{ if (selOn > 0.5) { gl_FragColor.rgb = mix(gl_FragColor.rgb, selCol, 0.85 * selAmt * fillK); float ndv = abs(dot(normalize(vNormal), normalize(vViewPosition))); float edgeW = max(fwidth(ndv), 0.0005); float edge = 1.0 - smoothstep(0.0, (fillK > 0.5 ? 2.2 : 3.4) * edgeW, ndv); gl_FragColor.rgb = mix(gl_FragColor.rgb, selCol * (fillK > 0.5 ? 0.55 : 0.78), edge * (fillK > 0.5 ? 0.7 : 0.92) * selAmt); gl_FragColor.a = 1.0; } else if (partHovered > 0.5) { gl_FragColor.rgb = mix(gl_FragColor.rgb, vec3(0.655, 0.863, 0.796), partTint.a > 0.5 ? 0.25 : 0.7); } }'+(fade?'\n// Faded parts live in their own translucent batch: plain alpha blending.\nif (selOn < 0.5) gl_FragColor.a = partTint.a > 0.5 ? 0.45 : partTint.a > 0.2 ? 0.12 : 0.3;':''));
+    // A selected part is moved 8 mm towards the camera along the view ray (a fixed distance in the model, unlike a clip-space offset that grows with the square of the viewing distance and used to reach several centimetres) so it shows whole where it overlaps or lies just under neighbouring surfaces.
+    shader.vertexShader=shader.vertexShader.replace('#include <project_vertex>','#include <project_vertex>\nvRangePos = transformed;\n'+(m.userData.mjLungMark?'// A lung mark lies 0.4 to 1.3 mm above the lobe; it is also moved 1.5 mm towards the camera along its own view ray (it stays on the same pixels), so the lobe never wins the depth test at single pixels inside a mark (the pale speckles).\n{ vec4 markView = mvPosition; markView.xyz -= normalize(mvPosition.xyz) * 0.0015; gl_Position = projectionMatrix * markView; }\n':'')+'if ((partSelected > 0.5 || partHovered > 0.5)'+(m.userData.mjLungMark?' && partTint.a < 0.5':'')+') { vec4 liftedView = mvPosition; liftedView.xyz -= normalize(mvPosition.xyz) * (partSelected > 0.5 ? 0.008 : 0.004); gl_Position = projectionMatrix * liftedView; }');
+    // The outline of a special region (spaceOutline) is made of vertices that carry the skin of the boundary meshes; it moves with them but takes no part in selection, hover or fade.
+    if(overlay)shader.vertexShader=shader.vertexShader.replace('partSelected = texture2D(selectionState, stateUv).r; partHovered = texture2D(selectionState, stateUv).g; partFaded = texture2D(selectionState, stateUv).b; partLimited = texture2D(selectionState, stateUv).a;','partSelected = 0.0; partHovered = 0.0; partFaded = 0.0; partLimited = 0.0;');
+
    };materials.push(m);return m;
   };
-  const mats=new Map(SYSTEMS.map(s=>[s.id,materialFor(s.id)]));
-  let loaded=0;
-  const loadChunk=async(ci:number)=>{
-   const chunk=atlas.chunks[ci],compressed=!!chunk.gzip&&typeof DecompressionStream!=='undefined';const response=await fetch(compressed?chunk.gzip!:chunk.url,{signal:abort.signal});const buffer=await decodeModelResponse(response,chunk.bytes,compressed);if(disposed)return;
-   const groups=new Map<string,T.BufferGeometry[]>(),request:SkinRequest['parts']=[];
-   atlas.parts.forEach((p,i)=>{
-    if(p.chunk!==ci)return;
-    const g=new T.BufferGeometry();g.setAttribute('position',new T.BufferAttribute(new Float32Array(buffer,p.positions,p.vertexCount*3),3));
-    // GPU normalized signed-short normals keep the complete atlas compact in memory.
-    g.setAttribute('normal',new T.BufferAttribute(new Int16Array(buffer,p.normals,p.vertexCount*3),3,true));g.setIndex(new T.BufferAttribute(new Uint32Array(buffer,p.indices,p.indexCount),1));
-    g.boundingBox=bounds[i].clone();g.computeBoundingSphere();const pick=new T.Mesh(g);pick.matrixAutoUpdate=false;pickers[i]=pick;geometries.push(g);
-    g.setAttribute('partIndex',new T.BufferAttribute(new Float32Array(p.vertexCount).fill(i),1));
-    const bone=skinKind(p.system,p.name)==='bone'&&rig.boneSegment.has(i);rest[i]=g.attributes.position as T.BufferAttribute;
-    const skin=worker&&!bone?provisionalSkin(rig,i,p.vertexCount):computePartSkin(rig,i,p.name,skinKind(p.system,p.name),g.attributes.position.array,p.vertexCount,bounds[i],g.index!.array);
-    if(worker&&!bone){pending.add(i);request.push({index:i,positions:(g.attributes.position.array as Float32Array).slice(),indices:(g.index!.array as Uint32Array).slice()});}
-    g.setAttribute('segIndex',new T.BufferAttribute(skin.index,4));g.setAttribute('segWeight',new T.BufferAttribute(skin.weight,4,true));
-    const list=groups.get(p.system)??[];list.push(g);groups.set(p.system,list);applySkin(i,skin);
-   });
-   groups.forEach((gs,system)=>{const geometry=mergeGeometries(gs,false);if(!geometry)throw new Error('Could not assemble anatomy geometry.');geometries.push(geometry);let offset=0;gs.forEach(g=>{const i=(g.attributes.partIndex.array as Float32Array)[0];slots[i]={geometry,offset};offset+=g.attributes.position.count;});const mesh=new T.Mesh(geometry,mats.get(system as never));mesh.frustumCulled=false;scene.add(mesh);});
-   if(worker&&request.length){const message:SkinRequest={type:'chunk',id:ci,parts:request};worker.postMessage(message,request.flatMap(r=>[r.positions.buffer,r.indices.buffer]));}
-   lastState=null;loaded++;onProgress(Math.round(loaded/atlas.chunks.length*100));dirty=true;
+  const mats=new Map<string,T.MeshStandardMaterial>(SYSTEMS.map(s=>[s.id,materialFor(s.id)]));
+  // Organ-surface shells (lung lobes, serous membranes) are drawn translucent so the airways, vessels and heart inside stay visible.
+  // The pelvic organs get one soft tone each, from the same hue family (the reproductive pink-mauve), so that uterus, cervix, ovary, tube, vagina, ligaments and the
+  // external genitalia read apart; the bladder, ureters and urethra are amber and the rectum tan. [name test, key, colour, opacity]
+  const PELVIC_TONES:[RegExp,string,string,number|undefined,string][]=[
+   [/^(?:left |right )?(?:broad ligament|mesosalpinx|mesovarium)/i,'broad','#e9cdd2',.5,'reproductive'],
+   [/ligament/i,'lig','#e4c4bd',undefined,'reproductive'],
+   [/^(?:body|fundus) of uterus|^lower uterine segment|^uterine cornua|^uterus$/i,'uterus','#d79aa8',undefined,'reproductive'],
+   [/^cervi|cervicovaginal/i,'cervix','#bd7a8b',undefined,'reproductive'],
+   [/^vagina$|^vaginal/i,'vagina','#c98c97',undefined,'reproductive'],
+   [/\bovary$/i,'ovary','#eec3c9',undefined,'reproductive'],
+   [/uterine tube|fimbriae|ampulla of|isthmus of|infundibulum of/i,'tube','#dfa49a',undefined,'reproductive'],
+   [/labi|clitor|vestibul|mons pubis|vulva|prepuce of clitoris/i,'vulva','#cf9488',undefined,'reproductive'],
+   [/^urinary bladder$|trigone of urinary bladder|^(?:left |right )?ureter$|^female urethra$|^urethra$/i,'urinary','#dfbd6a',undefined,'urinary'],
+   [/^rectum$/i,'rectum','#c7a27c',undefined,'digestive']
+  ];
+  const pelvicTone=(p:{name:string;system:string})=>PELVIC_TONES.find(t=>t[4]===p.system&&t[0].test(p.name));
+  // The bone each landmark patch lies on (the `parent` of its data card, built by scripts/paokao-structures/landmarks.mjs).
+  const landmarkHost=new Map<string,(typeof atlas.parts)[number]>();
+  {const parentName=new Map<string,string>();for(const c of Object.values(paokaoCards as Record<string,{name:string;kind?:string;parent?:string}>))if(c.kind==='landmark'&&c.parent)parentName.set(c.name,c.parent);
+   const byName=new Map<string,(typeof atlas.parts)[number]>();for(const q of atlas.parts)if(!byName.has(q.name))byName.set(q.name,q);
+   for(const lm of atlas.parts){const host=(lm as {kind?:string}).kind==='landmark'?byName.get(parentName.get(lm.name)??''):undefined;if(host)landmarkHost.set(lm.id,host);}}
+  const shellOf=(p:{name:string;system:string;kind?:string})=>p.system==='serous'&&PERITONEUM_KEYS.includes(serousLayerKey(p.name))?'serous:peritoneum':pelvicTone(p)?'pelvic:'+pelvicTone(p)![1]:p.kind==='space'||p.kind==='sheath'?'connective:space':/^aponeurosis of epicranius$/i.test(p.name)?'connective:galea':p.kind==='fascia'||p.kind==='aponeurosis'?'connective:fascia':p.kind==='fascia-dense'?'connective:fascia-dense':p.kind==='surface'?'respiratory:mark':p.kind==='landmark'?'skeletal:mark':isShellSurface(p.name)?p.system+':shell':p.system;
+  // The lung lobes: one pink, one material for every lobe. Matte (roughness 1, weak reflections of the room) because a glossy surface turned the upper lobes, which face the key light, into pure white glare;
+  // closed meshes seen from outside, so front faces only (the back faces drawn through a see-through lobe made it patchy).
+  {const lungMat=materialFor('respiratory',.32);lungMat.color.set('#c98f8a');lungMat.roughness=1;lungMat.metalness=0;lungMat.envMapIntensity=.35;lungMat.side=T.FrontSide;mats.set('respiratory:shell',lungMat);}mats.set('serous:shell',materialFor('serous',.28));
+  {const pm=materialFor('serous',.3);pm.color.set('#e8b7c0');mats.set('serous:peritoneum',pm);for(const [,key,color,opacity,sys] of PELVIC_TONES){const m=materialFor(sys,opacity);m.color.set(color);mats.set('pelvic:'+key,m);}}
+  // Course-summary structures: spaces and sheaths are faint volumes, fasciae thin translucent sheets, lung surface marks a deeper tint of the lung colour.
+  // Tendons: white with a silver sheen (smoother and more reflective than muscle, clearly paler than the grey-green ligaments).
+  {const tm=mats.get('tendon');if(tm){tm.color.set('#f4f4f1');tm.roughness=.28;tm.metalness=.35;tm.envMapIntensity=1.2;}}
+  mats.set('connective:space',materialFor('connective',.2));mats.set('connective:fascia',materialFor('connective',.62));mats.set('connective:fascia-dense',materialFor('connective',.88));{const gm=materialFor('connective');gm.color.set('#d6caae');gm.roughness=.62;gm.metalness=0;mats.set('connective:galea',gm);}// the epicranial aponeurosis is an opaque pale beige sheet (connective tissue, not the muscle red); the dense fascia above is the thick lumbar part of the thoracolumbar fascia: denser than the thin thoracic part
+  // Lung surface marks (fissures, impressions, grooves, hilum) are patches of the lobe surface: the same pink and matte finish as the lobe, pulled slightly towards the camera (polygon offset) so they never fight the lobe underneath;
+  // they show only when selected or hovered, and the lobes stay one colour.
+  {const mark=materialFor('respiratory');mark.color.set('#c98f8a');mark.roughness=1;mark.metalness=0;mark.envMapIntensity=.35;mark.side=T.FrontSide;mark.polygonOffset=true;mark.polygonOffsetFactor=0;mark.polygonOffsetUnits=-4;mark.depthWrite=false;mark.userData.mjDecal=true;mark.userData.mjLungMark=true;mats.set('respiratory:mark',mark);}
+  // Bone landmarks (tuberosities, tubercles, crests …) are patches lifted 0.3 mm off their bone and drawn in the bone colour: they get the same polygon offset as the lung marks, otherwise they fight the bone underneath and show as dotted, net-like patches.
+  {const mark=materialFor('skeletal');mark.polygonOffset=true;mark.polygonOffsetFactor=-2;mark.polygonOffsetUnits=-2;mark.userData.mjDecal=true;mats.set('skeletal:mark',mark);}
+  const renderBatches:{mesh:T.Mesh;fade:T.Mesh;parts:{index:number;offset:number;geometry:T.BufferGeometry}[];mask:string}[]=[];
+  // Faded parts (the other side of a limb, the rib cage in the lung view, whatever hides a focused structure) are drawn by a twin of each batch with a see-through material: a smooth 30 % blend, not a dot pattern.
+  const fadeMats=new Map<T.Material,T.MeshStandardMaterial>();
+  const fadeMatFor=(base:T.MeshStandardMaterial)=>{let f=fadeMats.get(base);if(!f){f=materialFor(base.userData.mjSystem as string,undefined,false,true);f.userData.mjDecal=base.userData.mjDecal;f.userData.mjLungMark=base.userData.mjLungMark;f.color.copy(base.color);f.roughness=base.roughness;f.metalness=base.metalness;fadeMats.set(base,f);}return f;};
+  const updateVisibleBatches=()=>{
+   for(const batch of renderBatches){
+    const visible=batch.parts.filter(p=>data[p.index*4+3]>.5),faded=visible.filter(p=>selectedData[p.index*4+2]>0&&selectedData[p.index*4]===0),solid=faded.length?visible.filter(p=>!faded.includes(p)):visible,mask=solid.map(p=>p.index).join(',')+'|'+faded.map(p=>p.index).join(',');
+    batch.mesh.visible=solid.length>0;batch.fade.visible=faded.length>0;
+    if(mask===batch.mask)continue;batch.mask=mask;
+    for(const [mesh,list] of [[batch.mesh,solid],[batch.fade,faded]] as [T.Mesh,typeof visible][]){
+     const index=mesh.geometry.index!;let count=0;
+     for(const part of list){const source=part.geometry.index!.array;for(let j=0;j<source.length;j++)index.array[count++]=source[j]+part.offset;}
+     mesh.geometry.setDrawRange(0,count);
+     if(count){index.clearUpdateRanges();index.addUpdateRange(0,count);index.needsUpdate=true;}
+    }
+   }
   };
-  (async()=>{try{let cursor=0;await Promise.all(Array.from({length:3},async()=>{while(cursor<atlas.chunks.length){const i=cursor++;await loadChunk(i);}}));if(!disposed){ready=true;dirty=true;}}catch(e){if(!disposed)onError(e instanceof Error?e.message:'Could not load the anatomy.');}})();
+  
+  const smoothstep=(t:number)=>{const x=T.MathUtils.clamp(t,0,1);return x*x*(3-2*x);};
+  const vertexMotionWeight=(p:(typeof atlas.parts)[number],x:number,y:number,z:number)=>{
+   const name=p.name.toLowerCase(),min=p.bounds[0],max=p.bounds[1],cy=(min[1]+max[1])*.5,dy=Math.max(1e-5,max[1]-min[1]),dx=Math.max(1e-5,max[0]-min[0]);
+   const right=(min[0]+max[0])*.5<0;
+   const lateral=right?(max[0]-x)/dx:(x-min[0])/dx;
+
+   // Blood vessels are blended using shared anatomical height bands rather
+   // than each little mesh's local endpoints. Adjacent arterial/venous pieces
+   // therefore receive compatible motion and no longer look severed.
+   if(p.system==='arterial'||p.system==='venous'){
+    if(cy>1.30)return smoothstep((1.42-y)/.18);      // trunk -> shoulder
+    if(cy>1.08)return smoothstep((1.30-y)/.24);      // shoulder -> elbow
+    if(cy>.88)return smoothstep((1.10-y)/.24);       // elbow -> forearm
+    if(cy>.80)return smoothstep((.88-y)/.10);        // forearm -> hand
+    return 1;
+   }
+
+   // Deltoid and long upper-limb muscles retain their proximal attachment and
+   // increasingly follow the distal insertion. This stops the deltoid from
+   // lifting away as one rigid lump when the arm elevates.
+   if(/deltoid|biceps brachii|triceps brachii|\bbrachialis\b|coracobrachialis|brachioradialis|pronator|supinator|flexor|extensor|palmaris/.test(name)){
+    return smoothstep((((max[1]-y)/dy)-.04)/.92);
+   }
+
+   // Pectoralis major should keep almost all of its broad sternal/rib origin
+   // on the chest. Only the lateral humeral insertion is allowed to travel
+   // strongly with the arm, which keeps the ribs covered during elevation.
+   if(/pectoralis major/.test(name))return smoothstep((lateral-.70)/.24);
+   if(/latissimus dorsi/.test(name))return smoothstep((lateral-.76)/.18);
+
+   // Rotator cuff and scapular muscles blend from their medial/trunk origin to
+   // the lateral scapular/humeral attachment.
+   if(/pectoralis minor|serratus anterior|trapezius|rhomboid|levator scapulae|subclavius|supraspinatus|infraspinatus|subscapularis|teres major|teres minor/.test(name)){
+    return smoothstep((lateral-.12)/.78);
+   }
+   void z;
+   return 1;
+  };
+  const resolveModelUrl=(url:string)=>url.startsWith('/')?`${import.meta.env.BASE_URL}${url.slice(1)}`:url;
+  // Packages of earlier builds stay in Cache Storage forever otherwise (P2-14); every package this catalogue can ask for is kept.
+  void pruneModelCache(atlas.chunks.flatMap(c=>[resolveModelUrl(c.url),...(c.gzip?[resolveModelUrl(c.gzip)]:[])]));
+  const loadedChunks=new Set<number>(),loadingChunks=new Set<number>(),failedChunks=new Map<number,string>();
+  const warmBindings:T.Mesh[]=[];let warmHandle:number|undefined;
+  const warmNext=()=>{
+   warmHandle=undefined;if(disposed)return;
+   // One tissue per idle turn. A first drag should not build a whole limb's
+   // bindings and shading workspace synchronously.
+   warmBindings.shift()?.userData.prepareMotion?.('upper');
+   if(warmBindings.length)scheduleWarm();
+  };
+  const scheduleWarm=()=>{if(warmHandle!==undefined)return;warmHandle=typeof window.requestIdleCallback==='function'?window.requestIdleCallback(warmNext,{timeout:1000}):window.setTimeout(warmNext,0);};
+  const chunkParts=atlas.chunks.map(()=>[] as {p:(typeof atlas.parts)[number];i:number}[]);
+  atlas.parts.forEach((p,i)=>chunkParts[p.chunk]?.push({p,i}));
+  const deltoidCore=/deltoid/i,shoulderMuscle=/supraspinatus|infraspinatus|subscapularis|teres (?:major|minor)/i;
+  const shoulderBone=/\b(?:humerus|scapula|clavicle)\b/i;
+  const chunkPriority=(ci:number)=>chunkParts[ci].reduce((score,{p})=>score+
+   (p.system==='muscular'&&deltoidCore.test(p.name)?50000:0)+
+   (p.system==='muscular'&&shoulderMuscle.test(p.name)?10000:0)+
+   (p.system==='skeletal'&&shoulderBone.test(p.name)?10000:0)+
+   (p.system==='skeletal'?5:p.system==='muscular'?3:0),0);
+  const eagerChunks=atlas.chunks.map((_,i)=>i).filter(i=>!atlas.chunks[i].deferUntil);
+  // Start with the supporting skeleton, then cover missing tissue systems.
+  // A muscle-only first package must never masquerade as a complete atlas.
+  const initialSystems=['skeletal','muscular','arterial','venous','nervous','connective','tendon'];
+  const orderedChunks:number[]=[],coveredSystems=new Set<string>();
+  while(eagerChunks.length){
+   eagerChunks.sort((a,b)=>{
+    const score=(ci:number)=>!orderedChunks.length?chunkParts[ci].filter(({p})=>p.system==='skeletal').length:
+     new Set(chunkParts[ci].filter(({p})=>initialSystems.includes(p.system)&&!coveredSystems.has(p.system)).map(({p})=>p.system)).size*1e6+chunkPriority(ci);
+    return score(b)-score(a);
+   });
+   const ci=eagerChunks.shift()!;orderedChunks.push(ci);chunkParts[ci].forEach(({p})=>coveredSystems.add(p.system));
+  }
+  let primaryAtlasReady=false,loadBusy=false;
+  const requestedChunks=new Set(orderedChunks);
+  reportLoading=()=>{
+   if(disposed)return;
+   const loadedParts=atlas.parts.filter(p=>loadedChunks.has(p.chunk)),primaryCount=loadedParts.filter(p=>requestedChunks.has(p.chunk)).length;
+   const totalPrimary=atlas.parts.filter(p=>requestedChunks.has(p.chunk)).length;
+   const systems:Record<string,number>={};loadedParts.forEach(p=>{systems[p.system]=(systems[p.system]??0)+1;});
+   const failed=[...failedChunks.values(),...failedSupplementary.map(item=>`${item.label} 未完成`)];
+   const complete=primaryCount===totalPrimary&&supplementaryPending===0&&failed.length===0;
+   onProgress(complete?100:Math.min(99,Math.floor(primaryCount/Math.max(1,totalPrimary)*100)));
+   onLoadStatus?.({loaded:primaryCount,total:totalPrimary,systems,failed,busy:loadBusy||supplementaryPending>0,interactive:ready,supplementaryPending});
+  };
+  const loadChunk=async(ci:number)=>{
+   if(loadedChunks.has(ci)||loadingChunks.has(ci))return;
+   loadingChunks.add(ci);
+   const chunk=atlas.chunks[ci];
+   try{
+   // Streaming decompression avoids keeping two full files in memory and
+   // halves the transfer size, including on iPad. Raw remains the fallback.
+   const compressed=!!chunk.gzip;
+   let buffer:ArrayBuffer;
+   try{buffer=await fetchModelBuffer(resolveModelUrl(compressed?chunk.gzip!:chunk.url),chunk.bytes,compressed,abort.signal);}
+   catch(firstError){
+    if(disposed||abort.signal.aborted)throw firstError;
+    if(!compressed)throw firstError;
+    buffer=await fetchModelBuffer(resolveModelUrl(chunk.url),chunk.bytes,false,abort.signal);
+   }
+   if(disposed)return;
+   const groups=new Map<string,T.BufferGeometry[]>(),pendingPickers=new Map<number,T.Mesh>();let partOrdinal=0;
+   for(const {p,i} of chunkParts[ci]){
+    const g=new T.BufferGeometry();g.setAttribute('position',new T.BufferAttribute(positionArray(buffer,p),3));
+    // GPU normalized signed-short normals keep the complete atlas compact in memory.
+    g.setAttribute('normal',new T.BufferAttribute(normalArray(buffer,p),3,true));g.setIndex(new T.BufferAttribute(indexArray(buffer,p),1));
+    const position=g.getAttribute('position') as T.BufferAttribute,weights=new Float32Array(p.vertexCount);let variableWeights=false;
+    for(let vi=0;vi<p.vertexCount;vi++){const weight=vertexMotionWeight(p,position.getX(vi),position.getY(vi),position.getZ(vi));weights[vi]=weight;if(weight<.999)variableWeights=true;}
+    g.setAttribute('motionWeight',new T.BufferAttribute(weights,1));
+    g.boundingBox=bounds[i].clone();g.computeBoundingSphere();const pick=new T.Mesh(g);pick.matrixAutoUpdate=false;pick.userData.partSystem=p.system;
+    const ensureMotionBase=()=>{pick.userData.baseMotionNormals??=(g.getAttribute('normal').array as Int16Array).slice();return pick.userData.baseMotionPositions??(pick.userData.baseMotionPositions=new Float32Array(position.array as ArrayLike<number>));};
+    // Building fibre bindings and sheet constraints is for motion, not for
+    // opening the atlas. Keep the first static view inexpensive and complete.
+    const preparedModes=new Set<string>();
+    const bodyPrepared=new Map<string,ReturnType<typeof bindBodyPart>>();
+    pick.userData.prepareMotion=(mode='upper')=>{
+    if(mode!=='upper'){
+     if(!bodyPrepared.has(mode))bodyPrepared.set(mode,bindBodyPart(p,ensureMotionBase(),bodyRigs[mode as BodyRegion],softRigs));
+     const binding=bodyPrepared.get(mode);
+     pick.userData.bodySkin=binding?.skin;pick.userData.bodyRegion=mode;
+     const guards=pick.userData.bodyGuards??=(new Map());
+     if(binding?.guard&&!guards.has(mode))guards.set(mode,makeSurfaceConstraints(ensureMotionBase(),g.index!.array,binding.skin));
+     pick.userData.bodySurfaceGuard=guards.get(mode);
+     if(binding)prepareSurfaceNormals(g);
+     return;
+    }
+    if(preparedModes.has(mode))return;
+    preparedModes.add(mode);
+    if(variableWeights){ensureMotionBase();pick.userData.motionWeights=weights;}
+    const binding=tissueBindings[p.id];
+    const canonicalRegion=anatomicalRegion(p),canonicalSide=anatomicalSide(p);
+    const bindingSide=binding?(canonicalSide==='midline'?binding.side:canonicalSide):null;
+    const rig=bindingSide?softRigs[bindingSide]:null;
+    // A curated attachment can cross the display-region boundary: subclavian
+    // and thoracic vessels still need their proximal-to-distal blend. Lower
+    // limbs and quarantined source meshes must never enter an arm rig.
+    if(binding?.name===p.name&&rig&&(canonicalRegion==='upper-limb'||canonicalRegion==='trunk')&&!isMotionQuarantined(p)){
+     const profile=(p.system==='arterial'||p.system==='venous')?resolveNeurovascularProfile(p.name,binding.profile):binding.profile;
+     pick.userData.skin=bindTissue(rig,profile,ensureMotionBase(),p,'',g.index!.array);
+     pick.userData.tissueSide=bindingSide;
+     // vessel-end pieces take the weights of their vessel where they touch it (the end stream is appended after the atlas, so the vessel is bound first)
+     if(p.id.endsWith('-END')){const mainIndex=atlas.parts.findIndex(q=>q.id===p.id.slice(0,-4)),mainPick=mainIndex>=0?pickers[mainIndex]:undefined,mainSkin=mainPick?.userData.skin as ReturnType<typeof bindTissue>|undefined,mainBase=mainPick?.userData.baseMotionPositions as Float32Array|undefined;if(mainSkin&&mainBase)alignEndPiece(pick.userData.skin,ensureMotionBase(),mainSkin,mainBase);}
+    }
+    if(!pick.userData.skin&&p.system==='connective'&&canonicalRegion==='upper-limb'&&!isMotionQuarantined(p)){
+     const side=canonicalSide==='midline'?connectiveSide(p.name):canonicalSide,profile=connectiveProfile(p.name),jointRig=side?softRigs[side]:null;
+     if(side&&profile&&jointRig){
+      pick.userData.skin=bindTissue(jointRig,profile,ensureMotionBase(),p);
+      pick.userData.tissueSide=side;pick.userData.mjJointBinding=profile;
+     }
+    }
+
+    if(pick.userData.skin&&['chest','scapular'].includes(pick.userData.skin.profile)&&!pick.userData.surfaceGuard)
+     pick.userData.surfaceGuard=makeSurfaceConstraints(ensureMotionBase(),g.index!.array,pick.userData.skin);
+    if(pick.userData.skin||pick.userData.bodySkin||pick.userData.spineSkin)prepareSurfaceNormals(g);
+    };
+    pendingPickers.set(i,pick);geometries.push(g);
+    g.setAttribute('partIndex',new T.BufferAttribute(new Float32Array(p.vertexCount).fill(i),1));
+    // lung surface marks: distance from the border of the patch (1 at the border, 0 three edges inside) for the outline and the recess shadow
+    if(p.kind==='surface'){g.setAttribute('edgeD',new T.BufferAttribute(surfaceEdgeDepth(g.index!.array,g.getAttribute('position').count),1));
+     // marks are drawn in their stacking order (see the lung mark material)
+     g.userData.lungRank=lungStackRank(p.name);}
+    const key=shellOf(p),list=groups.get(key)??[];list.push(g);groups.set(key,list);
+    partOrdinal++;
+    if(partOrdinal%12===0)await cooperativeYield();
+   }
+   groups.forEach((gs,system)=>{if(system==='respiratory:mark')gs.sort((a,b)=>(a.userData.lungRank??0)-(b.userData.lungRank??0));const geometry=mergeGeometries(gs,false);if(!geometry)throw new Error('Could not assemble anatomy geometry.');geometries.push(geometry);let vertexOffset=0;
+    // A shell key with no dedicated material falls back to its system's material instead of failing the whole package.
+    const material=mats.get(system as never)??mats.get(system.split(':')[0] as never);if(!material)throw new Error('No material for '+system);
+    const parts:{index:number;offset:number;geometry:T.BufferGeometry}[]=[];
+    for(const g of gs){const index=g.getAttribute('partIndex').getX(0),pick=pendingPickers.get(index)!;pick.userData.mergedGeometry=geometry;pick.userData.mergedOffset=vertexOffset;parts.push({index,offset:vertexOffset,geometry:g});vertexOffset+=g.getAttribute('position').count;g.deleteAttribute('partIndex');g.deleteAttribute('motionWeight');g.deleteAttribute('edgeD');pickers[index]=pick;}
+    geometry.index!.setUsage(T.DynamicDrawUsage);for(const key of ['position','normal'])(geometry.getAttribute(key) as T.BufferAttribute).setUsage(T.DynamicDrawUsage);
+    const mesh=new T.Mesh(geometry,material);mesh.frustumCulled=false;if(system==='respiratory:mark')mesh.renderOrder=2;scene.add(mesh);
+    const fadeGeometry=new T.BufferGeometry();for(const name of Object.keys(geometry.attributes))fadeGeometry.setAttribute(name,geometry.getAttribute(name));fadeGeometry.setIndex(new T.BufferAttribute(new Uint32Array(geometry.index!.array.length),1).setUsage(T.DynamicDrawUsage));geometries.push(fadeGeometry);
+    const fade=new T.Mesh(fadeGeometry,fadeMatFor(material));fade.frustumCulled=false;fade.renderOrder=-1;fade.visible=false;scene.add(fade);renderBatches.push({mesh,fade,parts,mask:'pending'});});
+   for(const [i,pick] of pendingPickers)if((!workerAvailable&&tissueBindings[atlas.parts[i].id])||(atlas.parts[i].system==='connective'&&anatomicalRegion(atlas.parts[i])==='upper-limb'))warmBindings.push(pick);
+   if(warmBindings.length)scheduleWarm();
+   loadedChunks.add(ci);failedChunks.delete(ci);lastState=null;ready=true;dirty=true;reportLoading();
+   }finally{loadingChunks.delete(ci);}
+  };
+  let supplementaryReleased=false;
+  const loadAllMissing=async()=>{
+   if(loadBusy||disposed)return;
+   loadBusy=true;reportLoading();
+   const missing=[...requestedChunks].filter(ci=>!loadedChunks.has(ci));
+   await loadMissingChunks(missing,loadChunk,abort.signal,(ci,error)=>{failedChunks.set(ci,`組織包 ${ci+1}: ${error instanceof Error?error.message:'載入失敗'}`);console.error(`組織包 ${ci+1} 載入失敗（${atlas.chunks[ci].gzip??atlas.chunks[ci].url}）`,error);reportLoading();},constrainedDevice?2:3);
+   if(disposed)return;
+   primaryAtlasReady=orderedChunks.every(ci=>loadedChunks.has(ci));
+   if(!supplementaryReleased){supplementaryReleased=true;supplementaryQueue.start();}
+   // Failed packages are retried independently; success never gets discarded.
+   const retryTasks=failedSupplementary.splice(0);retryTasks.forEach(({task,onFailure,label})=>scheduleSupplementary(task,onFailure,label));
+   await supplementaryQueue.drain();
+   loadBusy=false;reportLoading();dirty=true;
+   // A head request can arrive while the baseline is downloading. Finish
+   // that request using the same serialized loader instead of losing it.
+   if([...requestedChunks].some(ci=>!loadedChunks.has(ci)&&!failedChunks.has(ci)))void loadAllMissing();
+  };
+  retryLoad.current=()=>{void loadAllMissing();};
+  void loadAllMissing();
+  const shoulderGroups=new Map<string,{meshes:T.Mesh[];model:ReturnType<typeof makeShoulderMuscles>}>();
+  // Keep the full attachment/volume solve off the pointer/render thread.
+  // At most one solve is in flight; intermediate pointer events are coalesced.
+  // Bones, muscles and neurovascular followers commit the same completed pose.
+  let shoulderWorker:Worker|null=null,workerBusy=false,workerInitialized=false,workerGeneration=0;
+  let submittedPose:SceneState['partTransforms'],submittedCount=0,completedPose:SceneState['partTransforms'],collisionSent=false;
+  let submittedBody:SceneState['bodyMotion'],completedBody:SceneState['bodyMotion'];
+  let workerPositions=new Map<string,import('./biomechanics-v2/shoulder-worker').ShoulderResult>();
+  const workerParts=new Set<string>();
+  // Live preview while a pose is being dragged: bones follow the latest input at once and tissue is skinned on the GPU from
+  // the binding weights the worker handed over. A full solve starts only when no new pose has arrived for PREVIEW_QUIET_MS
+  // (the slider/drag was released) and replaces the preview atomically when it completes.
+  const PREVIEW_QUIET_MS=150;
+  let previewReady=false,lastWantedPose:SceneState['partTransforms'],lastPoseInput=0;
+  const poseForFrame=(wanted:SceneState):SceneState=>{
+   const active=!!(workerAvailable&&(wanted.bodyMotion||(wanted.tissueMotion&&(wanted.visible.includes('muscular')||wanted.visible.includes('nervous'))&&Object.keys(wanted.partTransforms??{}).length)));
+   if(!active){if(completedPose||submittedPose||completedBody||submittedBody){workerGeneration++;completedPose=undefined;submittedPose=undefined;completedBody=undefined;submittedBody=undefined;workerPositions.clear();}return wanted;}
+   if(!shoulderWorker){try{shoulderWorker=new Worker(new URL('./biomechanics-v2/shoulder-worker.ts',import.meta.url),{type:'module'});}catch{workerAvailable=false;return wanted;}}
+   if(wanted.partTransforms!==lastWantedPose){lastWantedPose=wanted.partTransforms;lastPoseInput=performance.now();}
+   const canPreview=previewReady&&!wanted.bodyMotion,quiet=performance.now()-lastPoseInput>=PREVIEW_QUIET_MS;
+   if(!workerBusy&&(!canPreview||quiet)&&(submittedPose!==wanted.partTransforms||submittedBody!==wanted.bodyMotion||submittedCount!==loadedChunks.size)){
+    workerBusy=true;submittedPose=wanted.partTransforms;submittedBody=wanted.bodyMotion;submittedCount=loadedChunks.size;
+    const pose=submittedPose,bodyMotion=submittedBody,generation=workerGeneration;
+    const inputs:import('./biomechanics-v2/shoulder-worker').ShoulderInput[]=[];
+    atlas.parts.forEach((part,i)=>{
+     const binding=tissueBindings[part.id],mesh=pickers[i];
+     if(!mesh||workerParts.has(part.id))return;
+     if(bodyMotion?!bodyPartRule(part,bodyRigs[bodyMotion.region]):(!binding||binding.name!==part.name||isMotionQuarantined(part)||!['upper-limb','trunk'].includes(anatomicalRegion(part))))return;
+     mesh.userData.baseMotionPositions??=(mesh.geometry.getAttribute('position').array as Float32Array).slice();
+     mesh.userData.baseMotionNormals??=(mesh.geometry.getAttribute('normal').array as Int16Array).slice();
+     inputs.push({part,base:mesh.userData.baseMotionPositions.slice(),normals:mesh.userData.baseMotionNormals.slice(),triangles:Uint32Array.from(mesh.geometry.index!.array)});workerParts.add(part.id);
+    });
+    shoulderWorker!.onmessage=event=>{
+     workerBusy=false;if(disposed)return;
+     if(event.data.error){console.warn('Motion worker failed; using local solver',event.data.error);shoulderWorker?.terminate();shoulderWorker=null;workerAvailable=false;previewReady=false;lastState=null;dirty=true;return;}
+     // Linear bindings arrive once and are skinned on the GPU from then on.
+     for(const g of (event.data.gpu??[]) as import('./biomechanics-v2/shoulder-worker').GpuSkinResult[]){gpuBindings.set(g.id,gpuBinding(g.side,g,g.exact,g.lbs));previewReady=true;}
+     if(generation===workerGeneration){completedPose=pose;completedBody=bodyMotion;workerPositions=new Map(event.data.results.map((r:import('./biomechanics-v2/shoulder-worker').ShoulderResult)=>[r.id,r]));dirty=true;}
+    };
+    shoulderWorker!.onerror=()=>{workerBusy=false;shoulderWorker?.terminate();shoulderWorker=null;workerAvailable=false;previewReady=false;lastState=null;dirty=true;};
+    // Once the whole bony thorax is loaded, hand the worker its surface samples so broad shoulder sheets cannot sink into the chest.
+    let collision:Float32Array|undefined;
+    if(!collisionSent){
+     const bony=atlas.parts.map((part,i)=>({part,mesh:pickers[i]})).filter(({part})=>part.system==='skeletal'&&/\b(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth) rib$|manubrium|body of sternum|xiphoid process|thoracic vertebra$/i.test(part.name));
+     if(bony.length>=36&&bony.every(({mesh})=>!!mesh)){
+      const samples:number[]=[];
+      for(const {mesh} of bony){const a=mesh!.geometry.getAttribute('position').array as Float32Array,source=(mesh!.userData.baseMotionPositions??a) as Float32Array;for(let k=0;k<source.length;k+=6)samples.push(source[k],source[k+1],source[k+2]);}
+      collision=Float32Array.from(samples);collisionSent=true;
+     }
+    }
+    shoulderWorker!.postMessage({atlas:workerInitialized?undefined:atlas,inputs,transforms:pose??{},bodyMotion,collision},[...inputs.flatMap(input=>[input.base.buffer,input.normals.buffer,input.triangles.buffer]),...(collision?[collision.buffer]:[])]);workerInitialized=true;
+   }
+   if(canPreview&&!(completedPose===wanted.partTransforms&&completedBody===wanted.bodyMotion))return {...wanted,previewMotion:true};
+   return {...wanted,partTransforms:completedPose,bodyMotion:completedBody};
+  };
+  const updateTissueMotion=(s:SceneState)=>{
+   // Prepare the active limb only. Building every head/leg/spine binding on
+   // the first shoulder input used to block pointer handling for seconds.
+   // A drag preview is all GPU: binding anything on the main thread here would defeat it.
+   if(!s.previewMotion&&(s.bodyMotion||Object.keys(s.partTransforms??{}).length))for(const [i,mesh] of pickers.entries()){
+    const p=atlas.parts[i],binding=tissueBindings[p.id];
+    if(s.partTransforms===completedPose&&s.bodyMotion===completedBody&&workerPositions.has(p.id))continue;
+    if(!s.bodyMotion&&gpuBindings.get(p.id)?.exact)continue;
+    if(s.bodyMotion||s.partTransforms?.[p.id]||(binding&&softRigs[binding.side]&&s.partTransforms?.[softRigs[binding.side]!.ids[3]!]))mesh?.userData.prepareMotion?.(s.bodyMotion?.region??'upper');
+   }
+   const touched=new Set<T.Mesh>(),normalsReady=new Set<T.Mesh>();
+   const enabled=new Set(s.visible),focused=s.focusParts?new Set(s.focusParts):null,hidden=new Set(s.hiddenParts??[]);
+   const refMotion=referenceMuscles(owners,s.selected);
+   const body=s.bodyMotion?buildBodyMotion(bodyRigs[s.bodyMotion.region],s.bodyMotion.pose):null;
+   const palettes={left:softRigs.left?makePalette(softRigs.left,s.partTransforms??{}):null,right:softRigs.right?makePalette(softRigs.right,s.partTransforms??{}):null};
+   // The palette carries the displayed pose: the worker-completed one, or the live drag pose while previewing.
+   const legActive=!!body&&(s.bodyMotion!.region==='leftLeg'||s.bodyMotion!.region==='rightLeg');
+   writePalette(paletteData,palettes,{left:legActive&&s.bodyMotion!.region==='leftLeg'?body!.palette:null,right:legActive&&s.bodyMotion!.region==='rightLeg'?body!.palette:null});paletteTexture.needsUpdate=true;skinPalettes=palettes;paletteVersion++;
+   for(const [index,mesh] of pickers.entries()){
+    const part=atlas.parts[index];
+    if(!mesh)continue;
+    if(!enabled.has(part.system)&&!refMotion.has(part.id)&&!(enabled.has('nervous')&&tissueBindings[part.id]?.profile==='deltoid')){mesh.userData.gpuSkinned=false;mesh.userData.skinMode=0;continue;}
+    // Linear bindings: one dual-quaternion blend per vertex, done by the shader (gpu-skinning.ts).
+    const localSkin=mesh.userData.skin as SkinBinding|undefined;
+    if(!s.bodyMotion&&!gpuBindings.has(part.id)&&localSkin&&mesh.userData.tissueSide&&isLinearBinding(localSkin))gpuBindings.set(part.id,gpuBinding(mesh.userData.tissueSide,localSkin));
+    const live=!!s.previewMotion;
+    const surface=surfaceBindings.get(part.id),gpu=surface??(s.bodyMotion?undefined:gpuBindings.get(part.id)),gpuRig=gpu?.side?softRigs[gpu.side]:null;
+    mesh.userData.gpuSkinned=surface?!!(s.tissueMotion&&(legActive||(!s.bodyMotion&&Object.keys(s.partTransforms??{}).length>0))):!!(gpu&&(gpu.exact||live)&&gpuRig&&s.tissueMotion&&s.partTransforms?.[gpuRig.ids[3]!]&&!s.partTransforms?.[part.id]);
+    mesh.userData.skinMode=skinMode(gpu,mesh.userData.gpuSkinned);
+    if(mesh.userData.gpuSkinned){
+     if(mesh.userData.tissuePosed||mesh.userData.workerPosed){
+      (mesh.geometry.getAttribute('position').array as Float32Array).set(mesh.userData.baseMotionPositions);
+      if(mesh.userData.baseMotionNormals)(mesh.geometry.getAttribute('normal').array as Int16Array).set(mesh.userData.baseMotionNormals);
+      mesh.geometry.boundingBox!.copy(bounds[index]);mesh.geometry.boundingBox!.getBoundingSphere(mesh.geometry.boundingSphere!);
+      mesh.userData.tissuePosed=false;mesh.userData.workerPosed=false;touched.add(mesh);normalsReady.add(mesh);
+     }
+     if(!mesh.userData.gpuWritten){
+      const merged=mesh.userData.mergedGeometry as T.BufferGeometry,offset=mesh.userData.mergedOffset as number;
+      // Created on first use, so loading the atlas pays nothing for the GPU stage. Unset vertices stay on the identity slot.
+      if(!merged.getAttribute('segIndex')){const count=merged.getAttribute('position').count,a=new Uint8Array(count*4),b=new Uint16Array(count*4);clearGpuAttributes(a,b,0,count);merged.setAttribute('segIndex',new T.BufferAttribute(a,4));merged.setAttribute('segWeight',new T.BufferAttribute(b,4,true));}
+      const slots=merged.getAttribute('segIndex') as T.BufferAttribute,weights=merged.getAttribute('segWeight') as T.BufferAttribute;
+      writeGpuAttributes(gpu!,slots.array as Uint8Array,weights.array as Uint16Array,offset);
+      for(const a of [slots,weights]){a.addUpdateRange(offset*4,part.vertexCount*4);a.needsUpdate=true;}
+      mesh.userData.gpuWritten=true;
+     }
+     continue;
+    }
+    const solved=(s.tissueMotion||s.bodyMotion)&&s.partTransforms===completedPose&&s.bodyMotion===completedBody?workerPositions.get(part.id):undefined;
+    if(solved){
+     (mesh.geometry.getAttribute('position').array as Float32Array).set(solved.positions);
+     (mesh.geometry.getAttribute('normal').array as Int16Array).set(solved.normals);
+     mesh.geometry.boundingBox!.set(new T.Vector3().fromArray(solved.bounds[0]),new T.Vector3().fromArray(solved.bounds[1]));
+     mesh.geometry.boundingBox!.getBoundingSphere(mesh.geometry.boundingSphere!);
+     mesh.userData.tissuePosed=true;mesh.userData.workerPosed=true;touched.add(mesh);normalsReady.add(mesh);continue;
+    }
+    if(live)continue;// no GPU binding yet: keep its last shape rather than solving on the main thread mid-drag
+    if(mesh.userData.workerPosed){
+     (mesh.geometry.getAttribute('position').array as Float32Array).set(mesh.userData.baseMotionPositions);
+     (mesh.geometry.getAttribute('normal').array as Int16Array).set(mesh.userData.baseMotionNormals);
+     mesh.geometry.boundingBox!.copy(bounds[index]);mesh.geometry.boundingBox!.getBoundingSphere(mesh.geometry.boundingSphere!);
+     mesh.userData.tissuePosed=false;mesh.userData.workerPosed=false;touched.add(mesh);normalsReady.add(mesh);
+    }
+    const skin=mesh.userData.skin as SkinBinding|undefined;
+    // A hidden shoulder head still participates in its mechanical group.
+    // Visibility/focus controls rendering, not the shape of its neighbours.
+    const shoulderParticipant=!s.bodyMotion&&s.tissueMotion&&skin&&(skin.fibre||['deltoid','cuff'].includes(skin.profile)||(SHEET_PROFILES.includes(skin.profile)&&!skin.wrap&&part.system==='muscular'));
+    if(!shoulderParticipant&&(hidden.has(part.id)||(focused&&!focused.has(part.id))))continue;
+    if(!skin&&!mesh.userData.bodySkin&&!mesh.userData.spineSkin&&!mesh.userData.tissuePosed)continue;
+    const side=mesh.userData.tissueSide as 'left'|'right',rig=softRigs[side];
+    const bodyActive=!!(body&&mesh.userData.bodySkin&&mesh.userData.bodyRegion===s.bodyMotion?.region);
+    const spineCarry=!!(body&&s.bodyMotion?.region==='spine'&&mesh.userData.spineSkin);
+    const active=bodyActive||spineCarry||!!(!s.bodyMotion&&skin&&s.tissueMotion&&rig&&s.partTransforms?.[rig.ids[3]!]);
+    if(!active&&!mesh.userData.tissuePosed)continue;
+    touched.add(mesh);
+    const attr=mesh.geometry.getAttribute('position') as T.BufferAttribute,base=mesh.userData.baseMotionPositions as Float32Array;
+    normalsReady.delete(mesh);
+    if(bodyActive)deformTissue(mesh.userData.bodySkin,base,body!.palette,attr.array as Float32Array);else if(spineCarry)deformTissue(mesh.userData.spineSkin,base,body!.palette,attr.array as Float32Array);else if(active)deformTissue(skin!,base,palettes[side]!,attr.array as Float32Array);else (attr.array as Float32Array).set(base);
+    const guard=bodyActive?mesh.userData.bodySurfaceGuard:active&&!spineCarry?mesh.userData.surfaceGuard:null;if(guard)constrainSurface(guard,attr.array as Float32Array);
+    mesh.userData.tissuePosed=active;
+   }
+   if(!shoulderWorker&&!s.bodyMotion&&s.tissueMotion&&(enabled.has('muscular')||enabled.has('nervous')))for(const side of ['left','right'] as const){
+    const rig=softRigs[side],palette=palettes[side];if(!rig||!palette)continue;
+    const groups=new Map<string,T.Mesh[]>();
+    for(const mesh of pickers){
+     if(!mesh?.userData.tissuePosed||mesh.userData.tissueSide!==side)continue;
+     const profile=mesh.userData.skin?.profile;if(!mesh.userData.skin?.fibre&&!['deltoid','cuff'].includes(profile)&&!(SHEET_PROFILES.includes(profile)&&!mesh.userData.skin?.wrap&&mesh.userData.partSystem==='muscular'))continue;
+     const key=['deltoid','biceps','triceps'].includes(profile)?`${side}:${profile}`:mesh.uuid;
+     const list=groups.get(key)??[];list.push(mesh);groups.set(key,list);
+    }
+    const head=deformPoint(rig.shoulder,[0,0,0,1,0,0,0],palette);
+    for(const [key,meshes] of groups){
+     let entry=shoulderGroups.get(key);
+     if(!entry||entry.meshes.length!==meshes.length||entry.meshes.some((m,i)=>m!==meshes[i])){
+      entry={meshes,model:makeShoulderMuscles(meshes.map(m=>({base:m.userData.baseMotionPositions,triangles:m.geometry.index!.array,skin:m.userData.skin,positions:m.geometry.getAttribute('position').array as Float32Array})),rig.shoulder,shoulderLandmarks.sides[side].headRadius)};
+      shoulderGroups.set(key,entry);
+     }
+     solveShoulderMuscles(entry.model,head);
+    }
+   }
+   for(const mesh of touched){
+    const attr=mesh.geometry.getAttribute('position') as T.BufferAttribute;
+    attr.needsUpdate=true;if(!normalsReady.has(mesh)){updateSurfaceNormals(mesh.geometry);mesh.geometry.computeBoundingBox();mesh.geometry.computeBoundingSphere();}
+    const merged=mesh.userData.mergedGeometry as T.BufferGeometry,offset=mesh.userData.mergedOffset*3;
+    for(const key of ['position','normal']){const to=merged.getAttribute(key) as T.BufferAttribute,source=mesh.geometry.getAttribute(key).array;to.array.set(source,offset);to.addUpdateRange(offset,source.length);to.needsUpdate=true;}
+   }
+  };
   const fit=(view:string,extent=0)=>{
-   const aspect=camera.aspect,mobile=el.clientWidth<768,normalDistance=mobile?Math.max(4.5,1.8*el.clientHeight/Math.max(160,el.clientHeight-350)/(2*Math.tan(T.MathUtils.degToRad(camera.fov/2)))):4;
+   cameraTween=null;// a running focus animation must not pull the camera back after Reset or a view button
+   const aspect=camera.aspect,mobile=el.clientWidth<768,normalDistance=mobile?Math.max(4.5,1.8*el.clientHeight/Math.max(160,el.clientHeight-350)/(2*Math.tan(T.MathUtils.degToRad(camera.fov/2)))):4.2;
    const reservedHeight=mobile?350:270;const availableAspect=Math.max(.35,(el.clientWidth-(mobile?40:340))/Math.max(160,el.clientHeight-reservedHeight));const atlasDistance=Math.max(packingHeight,packingWidth/availableAspect)/(2*Math.tan(T.MathUtils.degToRad(camera.fov/2)))*(el.clientHeight/Math.max(160,el.clientHeight-reservedHeight))*1.08;
    const distance=T.MathUtils.lerp(normalDistance,Math.max(.2,atlasDistance),extent);if(extent>.8)view='front';
    const direction=view==='front'?new T.Vector3(0,.02,1):view==='back'?new T.Vector3(0,.02,-1):view==='side'?new T.Vector3(1,.02,0):new T.Vector3(.35,.06,1).normalize();
-   controls.target.set(extent>.1&&el.clientWidth>767?-packingWidth*.12:0,extent>.1||mobile?.85:.68,0);camera.position.copy(controls.target).addScaledVector(direction,distance);controls.update();dirty=true;
+   controls.target.set(extent>.1&&el.clientWidth>767?-packingWidth*.12:0,extent>.1||mobile?.85:.93,0);camera.position.copy(controls.target).addScaledVector(direction,distance);controls.update();dirty=true;
   };
-  const resize=()=>{layoutKey='';lastState=null;renderer.setPixelRatio(Math.min(devicePixelRatio,el.clientWidth<768||el.clientHeight<600?1.5:2));camera.aspect=el.clientWidth/el.clientHeight;camera.updateProjectionMatrix();renderer.setSize(el.clientWidth,el.clientHeight);fit(latest.current.view,amount);};const observer=new ResizeObserver(resize);observer.observe(el);
+  // A resize (device rotation, window, keyboard) keeps the view the user set up; only an untouched default view is framed again.
+  const resize=()=>{layoutKey='';lastState=null;dprNow=Math.min(dprNow,dprCeil(el.clientWidth,el.clientHeight));renderer.setPixelRatio(dprNow);camera.aspect=el.clientWidth/el.clientHeight;camera.updateProjectionMatrix();renderer.setSize(el.clientWidth,el.clientHeight);if(!userMoved&&!latest.current.selected.length&&!selectedNerve.current){lastCameraFocus=-1;camera.clearViewOffset();fit(latest.current.view,amount);}else dirty=true;};const observer=new ResizeObserver(resize);observer.observe(el);
+  // Labels of a picked special region: one small label per boundary / content structure, joined by a thin line to the point of the structure nearest the middle of the region.
+  // Labels start below the region bar and the top toolbar (they used to be laid out from 80 px down and the top label disappeared behind the bar): the lowest edge of those elements, measured in view coordinates, is the upper limit of every label column.
+  const labelTopLimit=(rect:DOMRect,fallback:number)=>{let top=fallback;for(const q of ['.body-region-nav','.top-actions','.identity']){const r=document.querySelector(q)?.getBoundingClientRect();if(r&&r.width>0&&r.height>0)top=Math.max(top,r.bottom-rect.top+10);}return top;};
+  const labelLayer=document.createElement('div');labelLayer.className='space-labels';labelLayer.setAttribute('aria-hidden','true');el.appendChild(labelLayer);
+  const labelSvg=document.createElementNS('http://www.w3.org/2000/svg','svg');labelSvg.setAttribute('class','space-label-lines');labelLayer.appendChild(labelSvg);
+  type LabelItem={anchor:T.Vector3;centre:T.Vector3;box:HTMLDivElement;line:SVGLineElement;content:boolean;color?:string};
+  let labelKey='',labelItems:LabelItem[]=[],labelMissing=0,labelRetries=0,labelLast=0;
+  const nearestPoint=(geometry:T.BufferGeometry,centre:T.Vector3,best:{d:number;p:T.Vector3})=>{const pos=geometry.getAttribute('position');if(!pos)return;const step=Math.max(1,Math.floor(pos.count/6000));for(let i=0;i<pos.count;i+=step){const x=pos.getX(i),y=pos.getY(i),z=pos.getZ(i),d=(x-centre.x)**2+(y-centre.y)**2+(z-centre.z)**2;if(d<best.d){best.d=d;best.p.set(x,y,z);}}};
+  const rebuildLabels=(s:SceneState)=>{
+   const key=s.spaceLabels?.length&&s.spaceRange?.length?JSON.stringify([s.spaceLabels.map(l=>l.key),s.spaceRange]):'';
+   if(key===labelKey){if(!key)labelMissing=0;return;}labelKey=key;labelMissing=0;
+   for(const it of labelItems){it.box.remove();it.line.remove();}labelItems=[];
+   if(!key)return;
+   // with both sides shown, only the first side (the one the camera looks at) is labelled
+   const centres=s.spaceRange!.slice(0,1).map(r=>new T.Vector3(...r.c));
+   for(const l of s.spaceLabels!){
+    const best={d:Infinity,p:new T.Vector3()};let centre=centres[0];
+    for(const c of centres){const here={d:Infinity,p:new T.Vector3()};
+     for(const id of l.ids){const i=atlas.parts.findIndex(q=>q.id===id),mesh=i>=0?pickers[i]:undefined;if(mesh)nearestPoint(mesh.geometry,c,here);}
+     // the vertebral and carotid arteries of the neck are drawn by their own meshes (the atlas parts are replaced): point at those
+     for(const id of l.ids)for(const r of cervicalVessels.rows)if(r.parent.id===id){r.mesh.updateWorldMatrix(true,false);nearestPoint(r.mesh.geometry,c,here);}
+     for(const name of l.nerves){const base=name.replace(/\.001$/,'');for(const o of nerveMeshes){if(((o.userData.mjExactName as string|undefined)||o.name).replace(/\.001$/,'')===base)nearestPoint(o.geometry,c,here);}}
+     if(here.d<best.d){best.d=here.d;best.p.copy(here.p);centre=c;}}
+    if(!isFinite(best.d)){labelMissing++;continue;}
+    const box=document.createElement('div');box.className='space-label'+(l.content?' is-content':'');box.textContent=l.text;labelLayer.appendChild(box);
+    const line=document.createElementNS('http://www.w3.org/2000/svg','line');labelSvg.appendChild(line);
+    if(l.color){box.style.borderColor=l.color;box.style.boxShadow=`inset 5px 0 0 ${l.color}`;box.style.paddingLeft='13px';line.style.stroke=l.color;line.style.strokeOpacity='1';line.style.strokeWidth='2';}
+    labelItems.push({anchor:best.p.clone(),centre:centre.clone(),box,line,content:l.content,color:l.color});
+   }
+  };
+  const updateLabels=()=>{
+   // structures that are still streaming in have no mesh yet: look again about once a second
+   if(labelMissing&&labelRetries<600&&performance.now()-labelLast>1500){labelKey='';labelRetries++;labelLast=performance.now();}
+   if(!labelMissing&&labelKey)labelRetries=0;
+   rebuildLabels(latest.current);
+   if(labelMissing)dirty=true;
+   if(!labelItems.length)return;
+   const w=el.clientWidth,h=el.clientHeight;labelSvg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+   const proj=(v:T.Vector3)=>{const q=v.clone().project(camera);return{x:(q.x*.5+.5)*w,y:(-q.y*.5+.5)*h,behind:q.z>1};};
+   // a boundary label points at the middle of its coloured edge, which moves with the joint
+   for(const it of labelItems){const live=it.color?spaceOutline.midpoint(it.color):null;if(live)it.anchor.copy(live);}
+   const placed=labelItems.map(it=>({it,a:proj(it.anchor),c:proj(it.centre)}));
+   // two columns, one at each edge of the free part of the view (between the side panels), stacked in the order of the structures' height on screen so labels never overlap
+   const rect=el.getBoundingClientRect(),panelRight=document.querySelector('.left-workspace')?.getBoundingClientRect(),rightEdges=['.right-tool-panel','.right-tool-rail','.detail-sheet','.lung-focus'].map(q=>document.querySelector(q)?.getBoundingClientRect()).filter((r):r is DOMRect=>!!r&&r.width>0);
+   const freeLeft=Math.max(12,panelRight&&panelRight.width>0?panelRight.right-rect.left+14:12),freeRight=Math.min(w-12,...rightEdges.map(r=>r.left-rect.left-14)),topLim=labelTopLimit(rect,80);
+   const centreX=placed.length?placed.reduce((sum,p)=>sum+p.c.x,0)/placed.length:w/2;
+   for(const right of [true,false]){
+    const group=placed.filter(p=>(p.a.x>=centreX)===right).sort((x,y)=>x.a.y-y.a.y);let lastY=-Infinity,lastH=0;
+    for(const p of group){
+     // labels may wrap onto two lines, so the stack spacing follows the real box heights
+     const bh=p.it.box.offsetHeight||22,ly=Math.min(h-30,Math.max(p.a.y,lastY+Math.max(27,(lastH+bh)/2+5),topLim));lastY=ly;lastH=bh;
+     const bw=p.it.box.offsetWidth||180,lx=right?Math.max(freeLeft,freeRight-bw):freeLeft,edge=right?lx:lx+bw;
+     const visible=!p.a.behind;
+     p.it.box.style.display=visible?'':'none';p.it.line.style.display=visible?'':'none';
+     if(!visible)continue;
+     p.it.box.style.left=`${lx}px`;p.it.box.style.top=`${ly}px`;p.it.box.style.transform='translate(0,-50%)';
+     p.it.line.setAttribute('x1',String(edge));p.it.line.setAttribute('y1',String(ly));p.it.line.setAttribute('x2',String(p.a.x));p.it.line.setAttribute('y2',String(p.a.y));
+    }
+   }
+  };
+  // Name labels of the lung focus view (state.partLabels): clickable boxes in two columns, one at each side of the free view, with an arrow to a point on the structure.
+  // Each column is ordered by the height of its arrows' ends and then untangled pair by pair, and the split between the columns is at the median x of the arrow ends, so no arrows cross.
+  const plLayer=document.createElement('div');plLayer.className='part-labels';el.appendChild(plLayer);
+  const plSvg=document.createElementNS('http://www.w3.org/2000/svg','svg');plSvg.setAttribute('class','part-label-lines');plSvg.setAttribute('aria-hidden','true');plLayer.appendChild(plSvg);
+  type PartLabel={key:string;cat:string;ids:string[];anchor:T.Vector3;cands:T.Vector3[];normal:T.Vector3|null;vis:boolean;box:HTMLButtonElement;line:SVGLineElement;maxW:number};let plPose='',plMoved=0,plChecked='';const plRay=new T.Raycaster();
+  let plKey='',plItems:PartLabel[]=[],plMissing=0,plRetries=0,plLast=0;
+  const plWorld=(ids:string[],step:number)=>{const pts:{p:T.Vector3;n:T.Vector3|null}[]=[];for(const id of ids){const i=atlas.parts.findIndex(q=>q.id===id),mesh=i>=0?pickers[i]:undefined;if(!mesh)continue;mesh.updateWorldMatrix(true,false);const pos=mesh.geometry.getAttribute('position'),nor=mesh.geometry.getAttribute('normal'),st=Math.max(1,Math.floor(pos.count/step));for(let k=0;k<pos.count;k+=st){const p=new T.Vector3(pos.getX(k),pos.getY(k),pos.getZ(k)).applyMatrix4(mesh.matrixWorld);pts.push({p,n:nor?new T.Vector3(nor.getX(k),nor.getY(k),nor.getZ(k)).transformDirection(mesh.matrixWorld):null});}}return pts;};
+  const plBuild=(s:SceneState)=>{
+   const key=s.partLabels?.length?JSON.stringify(s.partLabels.map(l=>l.key+l.en+(l.cat??''))):'';
+   const retry=!!key&&key===plKey&&plMissing>0&&plRetries<600&&performance.now()-plLast>1500;
+   if(key===plKey&&!retry)return;
+   if(retry){plRetries++;}else{plRetries=0;}
+   plKey=key;plLast=performance.now();plMissing=0;
+   for(const it of plItems){it.box.remove();it.line.remove();}plItems=[];
+   if(!key)return;
+   for(const l of s.partLabels!){
+    const pts=plWorld(l.ids,5000);if(!pts.length){plMissing++;continue;}
+    const hint=l.near.length?plWorld(l.near,800):[],target=new T.Vector3();
+    for(const q of (hint.length?hint:pts))target.add(q.p);target.divideScalar((hint.length?hint:pts).length);
+    // the arrow ends on the structure itself: its vertex nearest to the middle of the structure (or of the part it should be near)
+    let best=pts[0],bd=Infinity;for(const q of pts){const d=q.p.distanceToSquared(target);if(d<bd){bd=d;best=q;}}
+    const box=document.createElement('button');box.type='button';box.className='part-label';box.dataset.key=l.key;const cat=l.cat?LUNG_CATEGORY[l.cat as LungCategoryKey]:undefined;if(cat){box.dataset.cat=l.cat;box.style.setProperty('--cat',cat.light);box.style.setProperty('--catd',cat.dark);}
+    const en=document.createElement('span');en.className='part-label-en';en.textContent=l.en;const zh=document.createElement('span');zh.className='part-label-zh';zh.textContent=l.zh;if(cat){const lt=document.createElement('i');lt.className='part-label-letter';lt.textContent=cat.letter;lt.setAttribute('aria-hidden','true');box.appendChild(lt);}box.appendChild(en);box.appendChild(zh);if(cat)box.title=`${cat.en}｜${cat.zh}`;
+    box.addEventListener('click',()=>labelPick.current?.(l.ids[0]));plLayer.appendChild(box);
+    const line=document.createElementNS('http://www.w3.org/2000/svg','line');if(cat){line.dataset.cat=l.cat;line.style.setProperty('--cat',cat.light);line.style.setProperty('--catd',cat.dark);}plSvg.appendChild(line);
+    // the side the structure faces: the mean normal of the sample points around the arrow's end (a single vertex of a thin tube can face anywhere)
+    const near=pts.filter(q=>q.n).sort((x,y)=>x.p.distanceToSquared(best.p)-y.p.distanceToSquared(best.p)).slice(0,60),mean=new T.Vector3();for(const q of near)mean.add(q.n!);
+    // other points of the structure, nearest the middle first: when the first one is hidden behind the lung, the arrow ends on the nearest one that is seen
+    const ranked=pts.map(q=>q.p).sort((x,y)=>x.distanceToSquared(target)-y.distanceToSquared(target)),cands=ranked.filter((_,k)=>k%Math.max(1,Math.floor(ranked.length/40))===0).slice(0,40);
+    plItems.push({key:l.key,cat:l.cat??'',ids:l.ids,anchor:best.p.clone(),cands:[best.p.clone(),...cands],normal:null,vis:true,box,line,maxW:0});plChecked='';
+   }
+  };
+  const segCross=(a:number[],b:number[])=>{const o=(p:number[],q:number[],r:number[])=>(q[0]-p[0])*(r[1]-p[1])-(q[1]-p[1])*(r[0]-p[0]);const d1=o(a.slice(0,2),a.slice(2),b.slice(0,2)),d2=o(a.slice(0,2),a.slice(2),b.slice(2)),d3=o(b.slice(0,2),b.slice(2),a.slice(0,2)),d4=o(b.slice(0,2),b.slice(2),a.slice(2));return d1*d2<0&&d3*d4<0;};
+  const updatePartLabels=()=>{
+   plBuild(latest.current);
+   if(plMissing)dirty=true;
+   if(!plItems.length)return;
+   const w=el.clientWidth,h=el.clientHeight;plSvg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+   const eye=camera.position;
+   // Is the arrow's end seen? Cast a ray from the camera to it against the lung lobes (a far-side structure is behind a lobe). Done once the camera has been still for a moment, because it costs a few tens of milliseconds.
+   const pose=camera.matrixWorld.elements.map(v=>v.toFixed(4)).join();
+   if(pose!==plPose){plPose=pose;plMoved=performance.now();plChecked='';}
+   if(plChecked!==pose){
+    if(performance.now()-plMoved>250){
+     const lobes:T.Object3D[]=[];atlas.parts.forEach((p,i)=>{const m=pickers[i];if(m&&data[i*4+3]>.5&&/^(?:upper|middle|lower) lobe of (?:right |left )?lung$/i.test(p.name))lobes.push(m);});
+     for(const it of plItems){it.vis=false;for(const c of it.cands){const d=c.clone().sub(eye),dist=d.length();plRay.set(eye.clone(),d.normalize());plRay.far=dist+.01;const hit=plRay.intersectObjects(lobes,false)[0];if(!hit||hit.distance>=dist-.012){it.anchor.copy(c);it.vis=true;break;}}}
+     plChecked=pose;
+    }else{setTimeout(()=>{dirty=true;},300);}
+   }
+   const shown=plItems.map(it=>{const q=it.anchor.clone().project(camera),ids=it.ids.map(id=>atlas.parts.findIndex(p=>p.id===id)),seen=ids.some(i=>i>=0&&data[i*4+3]>.5),front=it.vis;it.box.dataset.why=(seen?'':'hidden ')+(front?'':'faces-away ')+(q.z<1?'':'behind-camera');return{it,x:(q.x*.5+.5)*w,y:(-q.y*.5+.5)*h,ok:seen&&front&&q.z<1};});
+   for(const s of shown){const d=s.ok?'':'none';s.it.box.dataset.shown=s.ok?'1':'0';s.it.box.style.display=d;s.it.line.style.display=d;}
+   const list=shown.filter(s=>s.ok);if(!list.length)return;
+   const rect=el.getBoundingClientRect(),panelRight=document.querySelector('.left-workspace .layers-panel')?.getBoundingClientRect(),panels=['.right-tool-panel','.right-tool-rail','.detail-sheet','.lung-focus'].map(q=>document.querySelector(q)?.getBoundingClientRect()).filter((r):r is DOMRect=>!!r&&r.width>0);
+   // A panel that spans most of the view (the bottom sheet of a phone) limits the labels from below; any other panel limits them from the side.
+   const sheets=panels.filter(r=>r.width>w*.6),rightEdges=panels.filter(r=>r.width<=w*.6),hLim=Math.min(h,...sheets.map(r=>r.top-rect.top-8));
+   const freeLeft=Math.max(12,panelRight&&panelRight.width>0?panelRight.right-rect.left+14:12),freeRight=Math.min(w-12,...rightEdges.map(r=>r.left-rect.left-14)),topLim=labelTopLimit(rect,Math.min(84,hLim/3));
+   const xs=list.map(s=>s.x).sort((a,b)=>a-b),median=xs[Math.floor(xs.length/2)];
+   // A box is as wide as its text up to `colMax` (the free width shared by the two columns, at most 260 px); a longer English name wraps onto a second line, with the Chinese name below it.
+   const colMax=Math.max(110,Math.min(260,Math.floor((freeRight-freeLeft)/2)-8));
+   for(const s of list)if(s.it.maxW!==colMax){s.it.box.style.setProperty('--label-max',`${colMax}px`);s.it.maxW=colMax;}
+   for(const right of [false,true]){
+    const col=list.filter(s=>right?s.x>median||(s.x===median&&list.indexOf(s)%2===1):!(s.x>median||(s.x===median&&list.indexOf(s)%2===1))).sort((a,b)=>a.y-b.y);
+    const ly:number[]=col.map(s=>s.y),hOf=(i:number)=>col[i].it.box.offsetHeight||34;
+    // Boxes keep their order by height and are spaced by their own heights (a wrapped name is taller); the stack is shifted up from the bottom to stay inside the view
+    const stack=()=>{const ord=col.map((_,i)=>i).sort((a,b)=>ly[a]-ly[b]);let prev=-1;for(const k of ord){const hk=hOf(k);ly[k]=Math.max(ly[k],topLim,prev<0?-Infinity:ly[prev]+(hOf(prev)+hk)/2+6);prev=k;}
+     for(let q=ord.length-1;q>=0;q--){const k=ord[q],max=q===ord.length-1?hLim-16-hOf(k)/2:ly[ord[q+1]]-(hOf(ord[q+1])+hOf(k))/2-6;if(ly[k]>max)ly[k]=max;}};
+    stack();
+    const edgeX=(s:{it:PartLabel})=>{const bw=s.it.box.offsetWidth||180;return right?Math.max(freeLeft,freeRight-bw):freeLeft+bw;};
+    const seg=(i:number)=>[edgeX(col[i]),ly[i],col[i].x,col[i].y];
+    // untangle: swap the heights of two labels whose arrows cross
+    for(let pass=0;pass<30;pass++){let swapped=false;for(let i=0;i<col.length;i++)for(let j=i+1;j<col.length;j++)if(segCross(seg(i),seg(j))){[ly[i],ly[j]]=[ly[j],ly[i]];stack();swapped=true;}if(!swapped)break;}
+    // group labels of one category: swap the heights of two labels when that gives fewer runs of one category down the column and no more crossings
+    {const nCross=()=>{let n=0;for(let i=0;i<col.length;i++)for(let j=i+1;j<col.length;j++)if(segCross(seg(i),seg(j)))n++;return n;};
+     const runs=()=>{const o=col.map((_,i)=>i).sort((a,b)=>ly[a]-ly[b]);let n=0;o.forEach((k,i)=>{if(i===0||col[k].it.cat!==col[o[i-1]].it.cat||!col[k].it.cat)n++;});return n;};
+     for(let pass=0;pass<3;pass++){let moved=false;for(let i=0;i<col.length;i++)for(let j=i+1;j<col.length;j++){if(!col[i].it.cat||!col[j].it.cat||col[i].it.cat===col[j].it.cat)continue;const c0=nCross(),r0=runs(),keep=ly.slice();[ly[i],ly[j]]=[ly[j],ly[i]];stack();if(nCross()<=c0&&runs()<r0)moved=true;else ly.splice(0,ly.length,...keep);}if(!moved)break;}}
+    col.forEach((s,i)=>{const bw=s.it.box.offsetWidth||180,lx=right?Math.max(freeLeft,freeRight-bw):freeLeft,edge=right?lx:lx+bw;s.it.box.style.left=`${lx}px`;s.it.box.style.top=`${ly[i]}px`;s.it.line.setAttribute('x1',String(edge));s.it.line.setAttribute('y1',String(ly[i]));s.it.line.setAttribute('x2',String(s.x));s.it.line.setAttribute('y2',String(s.y));});
+   }
+  };
   const raycaster=new T.Raycaster(),pointer=new T.Vector2(),tap=new PointerTap(),worldBox=new T.Box3(),hitPoint=new T.Vector3();
-  const down=(e:PointerEvent)=>{hover.hidden=true;tap.down(e.pointerId,e.clientX,e.clientY,e.pointerType==='touch'?12:5);};
-  const move=(e:PointerEvent)=>{tap.move(e.pointerId,e.clientX,e.clientY);if(e.buttons||amount<.5||e.pointerType==='touch'){hover.hidden=true;return;}const rect=el.getBoundingClientRect(),x=e.clientX-rect.left,y=e.clientY-rect.top,index=findTarget(x,y,12);hover.hidden=index<0;renderer.domElement.style.cursor=index<0?'grab':'pointer';if(index>=0){hover.textContent=atlas.parts[index].name;hover.style.left=`${Math.max(8,Math.min(x+14,el.clientWidth-260))}px`;hover.style.top=`${Math.max(8,Math.min(y+18,el.clientHeight-55))}px`;}};
-  const cancel=(e:PointerEvent)=>tap.cancel(e.pointerId);
-  const up=(e:PointerEvent)=>{
-   const validTap=tap.up(e.pointerId,e.clientX,e.clientY);if(!validTap||!ready)return;const rect=renderer.domElement.getBoundingClientRect();pointer.set((e.clientX-rect.left)/rect.width*2-1,-(e.clientY-rect.top)/rect.height*2+1);raycaster.setFromCamera(pointer,camera);
-   let nearest=Infinity,found=-1;const hasSolid=atlas.parts.some((p,i)=>p.system!=='integumentary'&&data[i*4+3]>.5);
-   pickers.forEach((mesh,i)=>{if(!mesh||data[i*4+3]<.5||(hasSolid&&atlas.parts[i].system==='integumentary'))return;worldBox.copy(skinnedBounds[i]).applyMatrix4(mesh.matrixWorld);if(!raycaster.ray.intersectBox(worldBox,hitPoint))return;const hits=raycaster.intersectObject(mesh,false);if(hits[0]&&hits[0].distance<nearest){nearest=hits[0].distance;found=i;}});
-   if(found<0&&amount>.45)found=findTarget(e.clientX-rect.left,e.clientY-rect.top,e.pointerType==='touch'?24:16);if(found>=0){hover.hidden=true;select.current(atlas.parts[found].id);}
+  /** GPU-skinned parts are raycast against their CPU twin (linearSkin) at the displayed pose. */
+  const pickProxies=new Map<number,{mesh:T.Mesh;version:number}>();
+  const pickTarget=(i:number,mesh:T.Mesh)=>{
+   const id=atlas.parts[i].id,gpu=mesh.userData.gpuSkinned?surfaceBindings.get(id)??gpuBindings.get(id):undefined,palette=gpu?.side?skinPalettes[gpu.side]:null;
+   if(!gpu||(gpu.side&&!palette))return mesh;
+   const base=(mesh.userData.baseMotionPositions??mesh.geometry.getAttribute('position').array) as Float32Array;
+   let proxy=pickProxies.get(i);const skinOf=gpu.lbs?lbsSkin:linearSkin;
+   if(!proxy){const g=new T.BufferGeometry();g.setAttribute('position',new T.BufferAttribute(new Float32Array(base.length),3));g.setIndex(mesh.geometry.index);proxy={mesh:new T.Mesh(g),version:-1};proxy.mesh.matrixAutoUpdate=false;pickProxies.set(i,proxy);}
+   if(proxy.version!==paletteVersion){const g=proxy.mesh.geometry,a=g.getAttribute('position') as T.BufferAttribute;if(gpu.side)skinOf(gpu,base,palette!,a.array as Float32Array);else slotSkin(gpu,base,paletteData,a.array as Float32Array);a.needsUpdate=true;g.computeBoundingBox();g.computeBoundingSphere();proxy.version=paletteVersion;}
+   proxy.mesh.matrixWorld.copy(mesh.matrixWorld);return proxy.mesh;
   };
-  renderer.domElement.addEventListener('pointerdown',down);renderer.domElement.addEventListener('pointermove',move);renderer.domElement.addEventListener('pointerup',up);renderer.domElement.addEventListener('pointercancel',cancel);
-  /** CPU twin of the shader skinning so picking, markers and framing see the posed surfaces. */
-  const reskin=()=>{
-   skins.forEach((skin,i)=>{
-    const mesh=pickers[i],base=rest[i];if(!skin||!mesh||!base||skinnedFor[i]===pose.version)return;skinnedFor[i]=pose.version;const g=mesh.geometry;
-    if(pose.isRest(skin.segments)){if(g.attributes.position!==base){g.setAttribute('position',base);g.boundingBox=bounds[i].clone();g.computeBoundingSphere();}skinnedBounds[i].copy(bounds[i]);}
-    else{const out=posed[i]??new T.BufferAttribute(new Float32Array(base.count*3),3);posed[i]=out;skinPositions(pose,skin,base.array,base.count,out.array as Float32Array);out.needsUpdate=true;g.setAttribute('position',out);g.computeBoundingBox();g.computeBoundingSphere();skinnedBounds[i].copy(g.boundingBox!);}
-    skinnedBounds[i].getCenter(skinnedCenters[i]);
-   });
+  const pickPartAt=(clientX:number,clientY:number)=>{
+   const rect=renderer.domElement.getBoundingClientRect();pointer.set((clientX-rect.left)/rect.width*2-1,-(clientY-rect.top)/rect.height*2+1);raycaster.setFromCamera(pointer,camera);
+   let nearest=Infinity,found=-1,softNearest=Infinity,softFound=-1;const hasSolid=atlas.parts.some((p,i)=>p.system!=='integumentary'&&data[i*4+3]>.5);
+   // Faded parts (autoFade, a region's surroundings) and see-through shells (serous membranes, sheaths, fasciae, a translucent lung) are picked only when nothing solid lies on the ray: they must not catch the click meant for what shows through them.
+   const lungSeeThrough=(latest.current.lungOpacity??1)<.995;
+   const soft=(i:number)=>{const p=atlas.parts[i];return selectedData[i*4+2]>.5||p.system==='serous'||p.kind==='space'||p.kind==='sheath'||p.kind==='fascia'||p.kind==='fascia-dense'||p.kind==='aponeurosis'||(lungSeeThrough&&isShellSurface(p.name));};
+   pickers.forEach((picker,i)=>{if(!picker||data[i*4+3]<.5||(hasSolid&&atlas.parts[i].system==='integumentary'))return;const mesh=pickTarget(i,picker);worldBox.copy(mesh.geometry.boundingBox??bounds[i]).applyMatrix4(mesh.matrixWorld);if(!raycaster.ray.intersectBox(worldBox,hitPoint))return;const hits=raycaster.intersectObject(mesh,false);if(!hits[0])return;if(soft(i)){if(hits[0].distance<softNearest){softNearest=hits[0].distance;softFound=i;}}else if(hits[0].distance<nearest){nearest=hits[0].distance;found=i;}});
+   for(const {mesh,parent} of cervicalVessels.rows){if(!mesh.visible)continue;const hit=raycaster.intersectObject(mesh,false)[0];if(hit&&hit.distance<nearest){nearest=hit.distance;found=atlas.parts.findIndex(p=>p.id===parent.id);}}
+   if(found<0&&softFound>=0){found=softFound;nearest=softNearest;}
+   return found>=0?{index:found,distance:nearest}:null;
+  };
+  const pickAt=(clientX:number,clientY:number)=>pickPartAt(clientX,clientY)?.index??-1;
+  const pickNerveAt=(clientX:number,clientY:number)=>{
+   if(!nerveRoot.visible||!selectNerve.current)return null;
+   const rect=renderer.domElement.getBoundingClientRect();pointer.set((clientX-rect.left)/rect.width*2-1,-(clientY-rect.top)/rect.height*2+1);raycaster.setFromCamera(pointer,camera);
+   let nearest=Infinity,found:NerveMesh|null=null;
+   for(const mesh of nerveMeshes){if(!mesh.visible)continue;const hits=raycaster.intersectObject(mesh,false);if(hits[0]&&hits[0].distance<nearest){nearest=hits[0].distance;found=mesh;}}
+   return found?{name:found.name,distance:nearest}:null;
+  };
+  const pickJointAt=(clientX:number,clientY:number)=>{
+   if(!selectNerve.current)return null;
+   const rect=renderer.domElement.getBoundingClientRect();pointer.set((clientX-rect.left)/rect.width*2-1,-(clientY-rect.top)/rect.height*2+1);raycaster.setFromCamera(pointer,camera);
+   let nearest=Infinity,found:T.Mesh|null=null;
+   for(const {mesh} of supplementaryJoints.rows){if(!mesh.visible)continue;const hits=raycaster.intersectObject(mesh,false);if(hits[0]&&hits[0].distance<nearest){nearest=hits[0].distance;found=mesh;}}
+   return found?{name:found.name,distance:nearest}:null;
+  };
+  const pickBrainAt=(clientX:number,clientY:number)=>{
+   if(!brainMotionRoot.visible||!brainLoaded)return null;
+   const rect=renderer.domElement.getBoundingClientRect();pointer.set((clientX-rect.left)/rect.width*2-1,-(clientY-rect.top)/rect.height*2+1);raycaster.setFromCamera(pointer,camera);
+   let nearest=Infinity,found:BrainPiece|null=null;
+   for(const mesh of brainPickers){if(!mesh.visible)continue;
+    for(const hit of raycaster.intersectObject(mesh,false)){if(hit.distance>=nearest)break;const pieces=brainPiecesOf.get(mesh)??[],face=hit.faceIndex??0;
+     // the pieces of a merged mesh are stored in face order: binary search for the piece that owns the hit triangle
+     let lo=0,hi=pieces.length-1;while(lo<hi){const mid=(lo+hi+1)>>1;if(pieces[mid].faceStart<=face)lo=mid;else hi=mid-1;}
+     const piece=pieces[lo];if(!piece)break;const k=brainPieces.indexOf(piece);if(brainStateData[k*4]<128)continue;// hidden by Isolate: look at the next hit
+     nearest=hit.distance;found=piece;break;}}
+   return found&&found.atlasId?{id:found.atlasId,distance:nearest,label:found.label}:null;
+  };
+  const frontHit=(clientX:number,clientY:number)=>{
+   const part=pickPartAt(clientX,clientY),nerve=pickNerveAt(clientX,clientY),brain=pickBrainAt(clientX,clientY),joint=pickJointAt(clientX,clientY);
+   if(brain&&(!part||brain.distance<=part.distance+.002)&&(!nerve||brain.distance<=nerve.distance+.002))return{kind:'brain' as const,id:brain.id,label:brain.label};
+   if(nerve&&(!part||nerve.distance<=part.distance+.002))return{kind:'nerve' as const,name:nerve.name};
+   // ligaments, capsules and labra lie on the bones they attach to: they win over the bone they touch, like a nerve does
+   if(joint&&(!part||joint.distance<=part.distance+.002))return{kind:'joint' as const,name:joint.name};
+   return part?{kind:'part' as const,index:part.index}:null;
+  };
+  // A click that misses by a few pixels still finds a thin structure: when the exact ray hits nothing, rays on two rings around the pointer are tried (touch gets a wider ring).
+  const frontHitNear=(clientX:number,clientY:number,radius:number)=>{
+   const direct=frontHit(clientX,clientY);if(direct)return direct;
+   for(const r of [radius*.5,radius])for(let k=0;k<8;k++){const a=k*Math.PI/4,hit=frontHit(clientX+Math.cos(a)*r,clientY+Math.sin(a)*r);if(hit)return hit;}
+   return null;
+  };
+  type JointGesture={pointerId:number;side:'left'|'right';joint:'shoulderAbduction'|'shoulderFlexion'|'elbowFlexion';startX:number;startY:number;lastX:number;lastY:number;hitIndex:number;dragging:boolean};
+  let jointGesture:JointGesture|null=null;
+  const jointForPart=(index:number)=>{
+   if(index<0)return null;
+   const p=atlas.parts[index],cx=(p.bounds[0][0]+p.bounds[1][0])/2,cy=(p.bounds[0][1]+p.bounds[1][1])/2,ax=Math.abs(cx);
+   if(anatomicalRegion(p)!=='upper-limb'||isMotionQuarantined(p))return null;
+   if(ax<.12||cy<.72||cy>1.44)return null;
+   const side: 'left'|'right'=cx<0?'right':'left';
+   if(cy>=1.10)return {side,joint:'shoulderAbduction' as const};
+   return {side,joint:'elbowFlexion' as const};
+  };
+  const touchPointers=new Set<number>();
+  const down=(e:PointerEvent)=>{
+   hover.hidden=true;
+   cameraTween=null;
+   if(e.pointerType==='touch'){
+    touchPointers.add(e.pointerId);
+    if(touchPointers.size>1){jointGesture=null;tap.cancel(e.pointerId);resetPrimaryGesture();return;}
+   }
+   if(e.button===0){
+    const front=ready?frontHit(e.clientX,e.clientY):null;
+    const hit=front?.kind==='part'?front.index:-1,jointInfo=jointForPart(hit);
+    if(viewerContext.current.jointMotionEnabled&&jointInfo&&jointDrag.current){
+     // Treat a press as a possible anatomy tap first. Only convert it into a
+     // joint drag after the pointer actually moves. This keeps muscles, bones
+     // and other visible structures selectable while Motion Lab is active.
+     jointGesture={pointerId:e.pointerId,side:jointInfo.side,joint:jointInfo.joint,startX:e.clientX,startY:e.clientY,lastX:e.clientX,lastY:e.clientY,hitIndex:hit,dragging:false};
+     // OrbitControls still records this pointer, so adding a second finger
+     // can begin a pinch. A single finger is reserved for the joint gesture.
+     controls.enableRotate=false;controls.enablePan=false;renderer.domElement.setPointerCapture?.(e.pointerId);renderer.domElement.style.cursor='grab';e.preventDefault();return;
+    }
+    const onAnatomy=!!front;controls.mouseButtons.LEFT=onAnatomy?T.MOUSE.ROTATE:T.MOUSE.PAN;if(e.pointerType==='touch')controls.touches.ONE=onAnatomy?T.TOUCH.ROTATE:T.TOUCH.PAN;renderer.domElement.style.cursor=onAnatomy?'grabbing':'move';
+   }
+   tap.down(e.pointerId,e.clientX,e.clientY,e.pointerType==='touch'?12:5);
+  };
+  const move=(e:PointerEvent)=>{
+   if(jointGesture&&jointGesture.pointerId===e.pointerId){
+    const total=Math.hypot(e.clientX-jointGesture.startX,e.clientY-jointGesture.startY);
+    if(!jointGesture.dragging&&total<7){e.preventDefault();return;}
+    if(!jointGesture.dragging){
+     if(jointGesture.joint==='shoulderAbduction'&&Math.abs(e.clientY-jointGesture.startY)>Math.abs(e.clientX-jointGesture.startX))jointGesture.joint='shoulderFlexion';
+     jointGesture.dragging=true;
+     jointGesture.lastX=e.clientX;jointGesture.lastY=e.clientY;
+     renderer.domElement.style.cursor=jointGesture.joint==='shoulderAbduction'?'ew-resize':'ns-resize';
+     e.preventDefault();return;
+    }
+    const dx=e.clientX-jointGesture.lastX,dy=e.clientY-jointGesture.lastY;
+    const delta=jointGesture.joint==='shoulderAbduction'?(jointGesture.side==='right'?-dx:dx)*.65:-dy*.65;
+    if(Math.abs(delta)>.05)jointDrag.current?.(jointGesture.side,jointGesture.joint,delta);
+    jointGesture.lastX=e.clientX;jointGesture.lastY=e.clientY;e.preventDefault();return;
+   }
+   tap.move(e.pointerId,e.clientX,e.clientY);if(e.buttons||e.pointerType==='touch'){hover.hidden=true;setHover(-1,null);return;}
+   // Hover highlight and a bilingual name tip for whatever is under the pointer (part, nerve, joint tissue); throttled to one ray cast per 50 ms.
+   {const now=performance.now();if(now-lastHoverAt>50){lastHoverAt=now;const f=ready?frontHit(e.clientX,e.clientY):null;setHover(f?.kind==='part'?f.index:-1,f?.kind==='nerve'?f.name:null);
+    if(!hoverNameShown(hoverNamesRef.current,e.pointerType))hoverText='';
+    else if(f?.kind==='part'){const part=atlas.parts[f.index],profile=structureProfile(part.name,part.system,part);hoverText=profile.chinese?`${profile.english??part.name}\n${profile.chinese}`:profile.english??part.name;}
+    else if(f?.kind==='nerve'||f?.kind==='joint'){const profile=structureProfile(f.name,f.kind==='nerve'?'nervous':'connective');hoverText=profile.chinese?`${profile.english??f.name}\n${profile.chinese}`:profile.english??f.name;}
+    else hoverText='';}}
+   const rect=el.getBoundingClientRect(),x=e.clientX-rect.left,y=e.clientY-rect.top;hover.hidden=!hoverText;renderer.domElement.style.cursor=hoverText?'pointer':'move';if(hoverText){hover.textContent=hoverText;hover.style.left=`${Math.max(8,Math.min(x+14,el.clientWidth-260))}px`;hover.style.top=`${Math.max(8,Math.min(y+18,el.clientHeight-64))}px`;}
+  };
+  const resetPrimaryGesture=()=>{controls.enabled=true;controls.enableRotate=true;controls.enablePan=true;controls.mouseButtons.LEFT=T.MOUSE.PAN;controls.touches.ONE=T.TOUCH.PAN;renderer.domElement.style.cursor='move';};
+  const cancel=(e:PointerEvent)=>{touchPointers.delete(e.pointerId);if(jointGesture?.pointerId===e.pointerId)jointGesture=null;tap.cancel(e.pointerId);resetPrimaryGesture();};
+  const up=(e:PointerEvent)=>{
+   touchPointers.delete(e.pointerId);
+   if(jointGesture?.pointerId===e.pointerId){
+    const gesture=jointGesture;jointGesture=null;renderer.domElement.releasePointerCapture?.(e.pointerId);resetPrimaryGesture();
+    if(!gesture.dragging&&gesture.hitIndex>=0&&ready){hover.hidden=true;select.current(atlas.parts[gesture.hitIndex].id);}
+    return;
+   }
+   const validTap=tap.up(e.pointerId,e.clientX,e.clientY);resetPrimaryGesture();if(!validTap||!ready)return;
+   const front=frontHitNear(e.clientX,e.clientY,e.pointerType==='touch'?16:8);if(front?.kind==='brain'){hover.hidden=true;select.current(front.id);return;}if(front?.kind==='nerve'){hover.hidden=true;selectNerve.current?.(front.name);return;}if(front?.kind==='joint'){hover.hidden=true;selectNerve.current?.(front.name,'connective');return;}
+   let found=front?.kind==='part'?front.index:-1;const rect=renderer.domElement.getBoundingClientRect();if(found<0&&amount>.45)found=findTarget(e.clientX-rect.left,e.clientY-rect.top,e.pointerType==='touch'?24:16);if(found>=0){hover.hidden=true;select.current(atlas.parts[found].id);}
+   // nothing under the tap (no part, nerve, joint tissue or brain piece): a tap on the background clears the selection
+   else if(!front)clearSel.current?.();
+  };
+  renderer.domElement.addEventListener('pointerdown',down,true);renderer.domElement.addEventListener('pointermove',move);renderer.domElement.addEventListener('pointerleave',()=>setHover(-1,null));renderer.domElement.addEventListener('pointerup',up);renderer.domElement.addEventListener('pointercancel',cancel);
+  // ?mjview=1 exposes the camera for the screenshot scripts (view a structure from a chosen side and distance); nothing in the app uses it.
+  if(typeof location!=='undefined'&&new URLSearchParams(location.search).has('mjview'))(window as unknown as {__mjView:unknown}).__mjView={look:(target:[number,number,number],dir:[number,number,number],distance:number)=>{controls.target.set(...target);camera.clearViewOffset();cameraTween=null;camera.position.set(target[0]+dir[0]*distance,target[1]+dir[1]*distance,target[2]+dir[2]*distance);controls.update();dirty=true;},focusing:()=>!!cameraTween,nerveRows:()=>nerveMeshes.map(o=>[(o.userData.mjExactName as string|undefined)||o.name,o.visible]),neckRows:()=>cervicalVessels.rows.map(r=>[r.mesh.name,r.parent.id,r.mesh.visible]),brainPieces:()=>brainPieces.map((piece,k)=>[piece.label,piece.atlasId,brainStateData[k*4],brainStateData[k*4+1]]),renderStats:()=>{const mats=new Set<T.Material>();let meshes=0;scene.traverse(o=>{if(o instanceof T.Mesh&&o.visible){meshes++;mats.add(o.material as T.Material);}});const t=performance.now();renderer.render(scene,camera);return {ms:performance.now()-t,calls:renderer.info.render.calls,triangles:renderer.info.render.triangles,programs:renderer.info.programs?.length??0,materials:mats.size,meshes};},viewOffset:()=>camera.view?.enabled?[camera.view.offsetX,camera.view.offsetY]:null,camera:()=>[...camera.position.toArray(),...controls.target.toArray()],jointsState:()=>supplementaryJoints.rows.filter(r=>r.mesh.visible).map(r=>[r.mesh.name,r.anchor.name]),screenBox:(ids:string[])=>{const w=el.clientWidth,h=el.clientHeight,r=el.getBoundingClientRect(),b=new T.Box3();atlas.parts.forEach((p,i)=>{if(!ids.includes(p.id))return;const mesh=pickers[i];b.union(mesh?(mesh.geometry.boundingBox??bounds[i]).clone().applyMatrix4(mesh.matrixWorld):bounds[i].clone());});if(b.isEmpty())return null;camera.updateMatrixWorld();let l=1e9,rr=-1e9,t=1e9,bt=-1e9;for(let c=0;c<8;c++){const v=new T.Vector3(c&1?b.max.x:b.min.x,c&2?b.max.y:b.min.y,c&4?b.max.z:b.min.z).project(camera);const x=(v.x*.5+.5)*w,y=(-v.y*.5+.5)*h;l=Math.min(l,x);rr=Math.max(rr,x);t=Math.min(t,y);bt=Math.max(bt,y);}return {l,r:rr,t,b:bt,w,h,left:r.left,top:r.top};},zoom:()=>camera.zoom,focusRect:()=>{if(!lastFocusBox)return null;const w=el.clientWidth,h=el.clientHeight,b=lastFocusBox;camera.updateMatrixWorld();let l=1e9,rr=-1e9,t=1e9,bt=-1e9;for(let c=0;c<8;c++){const v=new T.Vector3(c&1?b.max.x:b.min.x,c&2?b.max.y:b.min.y,c&4?b.max.z:b.min.z).project(camera);const x=(v.x*.5+.5)*w,y=(-v.y*.5+.5)*h;l=Math.min(l,x);rr=Math.max(rr,x);t=Math.min(t,y);bt=Math.max(bt,y);}return {l,r:rr,t,b:bt,w,h};},partsState:(rx:string)=>atlas.parts.map((p,i)=>({id:p.id,name:p.name,visible:data[i*4+3],faded:selectedData[i*4+2],picker:!!pickers[i]})).filter(x=>new RegExp(rx,'i').test(x.name))};
+  // Outline of the picked special region (edges as tubes, opening as a pale fill); its vertices are copies of boundary-mesh vertices, see space-outline.ts.
+  const partIndexById=new Map(atlas.parts.map((p,i)=>[p.id,i]));
+  const outlineTube=materialFor('overlay',undefined,true),outlineFill=materialFor('overlay',1,true);
+  for(const m of [outlineTube,outlineFill]){m.vertexColors=true;m.color.set('#ffffff');m.roughness=.5;m.metalness=0;}
+  outlineTube.depthTest=false;outlineFill.depthTest=false;outlineFill.depthWrite=false;outlineFill.polygonOffset=true;outlineFill.polygonOffsetFactor=-1;outlineFill.polygonOffsetUnits=-1;
+  const spaceOutline=createSpaceOutline({scene,tubeMaterial:outlineTube,fillMaterial:outlineFill,pick:id=>{const i=partIndexById.get(id);return i===undefined?undefined:pickers[i];},edgeColor:hex=>new T.Color(hex),fillColor:new T.Color('#ffe8a3'),fillAlpha:.3});
+  const roofOutlines=createRoofOutlines({scene,pick:id=>{const i=partIndexById.get(id);return i===undefined?undefined:pickers[i];}});
+  let outlineSeen:SceneState|null=null;
+  // Is the selected structure drawn, and is it on screen (not behind the info card, not covered by other structures)? Reported to the page for the info-card hint; never touches the camera.
+  let selViewKey='',selViewDue=0,selViewSent='';
+  const reportSelView=(v:{drawn:boolean;inView:boolean}|null)=>{const k=v?`${v.drawn}:${v.inView}`:'';if(k===selViewSent)return;selViewSent=k;selectionView.current?.(v);};
+  const checkSelectionView=(s:SceneState)=>{
+   const nerve=selectedNerve.current;if(!s.selected.length&&!nerve){reportSelView(null);return;}
+   const box=new T.Box3(),wanted=new Set(s.selected);let drawn=false;
+   for(const id of s.selected){const i=partIndexById.get(id);if(i===undefined)continue;const replaced=cervicalVessels.replaced.has(id)||brainPickers.some(m=>m.visible&&m.userData.mjAtlasId===id);if(data[i*4+3]<.5&&!replaced)continue;const mesh=pickers[i];drawn=true;box.union(mesh?(mesh.geometry.boundingBox??bounds[i]).clone().applyMatrix4(mesh.matrixWorld):bounds[i].clone());}
+   if(nerve){for(const o of nerveMeshes){if(((o.userData.mjExactName as string|undefined)||o.name)===nerve&&o.visible){o.updateWorldMatrix(true,false);box.union(new T.Box3().setFromObject(o));drawn=true;}}for(const r of [...supplementaryJoints.rows,...cervicalVessels.rows]){if(r.mesh.name===nerve&&r.mesh.visible){r.mesh.updateWorldMatrix(true,false);box.union(new T.Box3().setFromObject(r.mesh));drawn=true;}}}
+   if(!drawn||box.isEmpty()){reportSelView({drawn:false,inView:false});return;}
+   const w=el.clientWidth,h=el.clientHeight,sheet=document.querySelector('.detail-sheet')?.getBoundingClientRect(),rect=el.getBoundingClientRect();
+   // the part of the canvas the card does not cover: a side card (desktop) cuts off the right, a bottom sheet (phone) the bottom
+   let free={l:0,r:w,t:0,b:h};if(sheet&&sheet.width>0){if(sheet.left-rect.left>w*.4)free.r=Math.min(free.r,sheet.left-rect.left);else if(sheet.top-rect.top>h*.3)free.b=Math.min(free.b,sheet.top-rect.top);}
+   camera.updateMatrixWorld();const size=box.getSize(new T.Vector3()),center=box.getCenter(new T.Vector3());
+   const eye=camera.position,ray=new T.Raycaster(),dirv=new T.Vector3(),box3=new T.Box3(),q=new T.Vector3();
+   const sheetCleared=(x:number,y:number)=>x>=free.l&&x<=free.r&&y>=free.t&&y<=free.b;
+   // Points ON the selected meshes (their own vertices), not points of the bounding box: a thin curved sheet such as a facial muscle has a box whose corners and centre lie inside the head, behind bone and neighbours, so a box test called a muscle in plain view "not in view".
+   const selMeshes:T.Mesh[]=[];for(const id of s.selected){const i=partIndexById.get(id);if(i===undefined||data[i*4+3]<.5)continue;const mesh=pickers[i];if(mesh)selMeshes.push(mesh);}
+   if(!nerve&&selMeshes.length){
+    const points:T.Vector3[]=[];
+    for(const mesh of selMeshes){const pos=mesh.geometry.getAttribute('position');if(!pos||!pos.count)continue;mesh.updateWorldMatrix(true,false);const step=Math.max(1,Math.floor(pos.count/Math.ceil(24/selMeshes.length)));for(let k=0;k<pos.count;k+=step)points.push(new T.Vector3().fromBufferAttribute(pos,k).applyMatrix4(mesh.matrixWorld));}
+    let total=0,seen=0;
+    for(const target of points){
+     total++;q.copy(target).project(camera);if(q.z>1||q.z<-1)continue;const x=(q.x*.5+.5)*w,y=(-q.y*.5+.5)*h;if(!sheetCleared(x,y))continue;
+     dirv.copy(target).sub(eye);const dist=dirv.length();if(dist<1e-4){seen++;continue;}dirv.normalize();ray.set(eye,dirv);ray.far=dist+.02;
+     // the nearest thing the ray meets among everything drawn solid; it is the selection (or within 4 mm of it) when the point can be seen
+     let selDist=Infinity,otherDist=Infinity;
+     for(const mesh of selMeshes){box3.copy(mesh.geometry.boundingBox??new T.Box3().setFromObject(mesh)).applyMatrix4(mesh.matrixWorld);if(!ray.ray.intersectsBox(box3))continue;const hit=ray.intersectObject(mesh,false)[0];if(hit&&hit.distance<selDist)selDist=hit.distance;}
+     if(!Number.isFinite(selDist)||selDist>dist+.02)continue;
+     for(let i=0;i<atlas.parts.length;i++){const p=atlas.parts[i],mesh=pickers[i];if(!mesh||wanted.has(p.id)||data[i*4+3]<.5||selectedData[i*4+2]>0||(p as {kind?:string}).kind==='surface'||(p as {kind?:string}).kind==='landmark'||p.system==='serous')continue;box3.copy(mesh.geometry.boundingBox??bounds[i]).applyMatrix4(mesh.matrixWorld);if(!ray.ray.intersectsBox(box3))continue;const hit=ray.intersectObject(mesh,false)[0];if(hit&&hit.distance<otherDist)otherDist=hit.distance;}
+     if(selDist<=otherDist+.004)seen++;
+    }
+    // on screen when at least a quarter of the surface samples are seen (a long structure mostly below the picture, or one wholly covered, is not)
+    reportSelView({drawn:true,inView:total>0&&seen*4>=total});return;
+   }
+   const samples=[center,...[[-1,-1,-1],[1,1,1],[-1,1,1],[1,-1,-1],[1,-1,1],[-1,-1,1],[1,1,-1],[-1,1,-1]].map(([a,b,c])=>new T.Vector3(center.x+a*size.x*.35,center.y+b*size.y*.35,center.z+c*size.z*.35))];
+   let seenCount=0,centreSeen=false;
+   for(const target of samples){
+    q.copy(target).project(camera);if(q.z>1||q.z<-1)continue;const x=(q.x*.5+.5)*w,y=(-q.y*.5+.5)*h;if(x<free.l||x>free.r||y<free.t||y>free.b)continue;
+    dirv.copy(target).sub(eye);const dist=dirv.length();if(dist<1e-4){seenCount++;continue;}dirv.normalize();ray.set(eye,dirv);ray.far=dist-.004;let blocked=false;
+    for(let i=0;i<atlas.parts.length&&!blocked;i++){const p=atlas.parts[i],mesh=pickers[i];if(!mesh||wanted.has(p.id)||data[i*4+3]<.5||selectedData[i*4+2]>0||(p as {kind?:string}).kind==='surface'||(p as {kind?:string}).kind==='landmark'||p.system==='serous')continue;box3.copy(mesh.geometry.boundingBox??bounds[i]).applyMatrix4(mesh.matrixWorld);if(!ray.ray.intersectsBox(box3))continue;if(ray.intersectObject(mesh,false).length)blocked=true;}
+    if(!blocked){seenCount++;if(target===center)centreSeen=true;}
+   }
+   // on screen when the centre is seen, or at least half of the sample points are (a long structure mostly below the picture is not)
+   reportSelView({drawn:true,inView:centreSeen||seenCount*2>=samples.length});
   };
   const clock=new T.Clock();let lastExtent=-1;
   const animate=()=>{
-   if(disposed)return;frame=requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05),s=latest.current;
-   const changed=lastState?.visible!==s.visible||lastState?.selected!==s.selected||lastState?.isolate!==s.isolate||lastState?.segmentTransforms!==s.segmentTransforms;
+   if(disposed)return;frame=requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05),s=poseForFrame(latest.current);
+   // the lung lobes are solid and lit by default; they turn translucent only when the opacity slider is moved
+   {const o=latest.current.lungOpacity??1,t=o<.995;for(const lm of [mats.get('respiratory:shell'),mats.get('respiratory:mark')]){if(lm&&(lm.opacity!==o||lm.transparent!==t)){lm.opacity=o;lm.transparent=t;lm.depthWrite=lm===mats.get('respiratory:mark')?false:!t;lm.needsUpdate=true;dirty=true;}}}
+   {const pm=mats.get('serous:peritoneum'),o=latest.current.peritoneumOpacity??.3;if(pm&&pm.opacity!==o){pm.opacity=o;dirty=true;}}
+   {const sv=s.cameraSaveNonce??0,bk=s.cameraBackNonce??0;if(sv!==lastCamSave){lastCamSave=sv;savedPose={p:camera.position.clone(),c:controls.target.clone(),o:currentViewOffset()};}
+    if(bk!==lastCamBack){lastCamBack=bk;if(savedPose){const o=savedPose.o;moveCamera(savedPose.c,savedPose.p,o[0]||o[1]?o:null,el.clientWidth,el.clientHeight);}}}
+   stepCameraTween();
+   {const tk=s.lungTint?.length?JSON.stringify(s.lungTint.map(t=>t.color+(t.faint?'f':'')+t.ids.join())):'';if(tk!==lastTintKey){lastTintKey=tk;tintData.fill(0);const idx=new Map(atlas.parts.map((q,k)=>[q.id,k] as [string,number]));for(const t of s.lungTint??[]){const c=new T.Color(t.color);for(const id of t.ids){const k=idx.get(id);if(k!==undefined)tintData.set([c.r,c.g,c.b,t.faint?.4:1],k*4);}}tintTexture.needsUpdate=true;dirty=true;}}
+   const changed=lastState?.jointSurfaces!==s.jointSurfaces||lastState?.visible!==s.visible||lastState?.selected!==s.selected||lastState?.hiddenParts!==s.hiddenParts||lastState?.fadedParts!==s.fadedParts||lastState?.nerveFilter!==s.nerveFilter||lastState?.spaceSolid!==s.spaceSolid||lastState?.spaceSurround!==s.spaceSurround||lastState?.spaceRoofs!==s.spaceRoofs||lastState?.spaceRange!==s.spaceRange||lastState?.spaceRangeIds!==s.spaceRangeIds||lastState?.spaceContentIds!==s.spaceContentIds||autoFadeDirty||lastState?.highlightNerves!==s.highlightNerves||lastState?.depthFilter!==s.depthFilter||lastState?.muscleLayer!==s.muscleLayer||lastState?.faceMuscleLayer!==s.faceMuscleLayer||lastState?.focusParts!==s.focusParts||lastState?.isolate!==s.isolate||lastState?.partTransforms!==s.partTransforms||lastState?.bodyMotion!==s.bodyMotion;
+   const tissueChanged=!lastState||lastState.partTransforms!==s.partTransforms||lastState.tissueMotion!==s.tissueMotion||lastState.previewMotion!==s.previewMotion||lastState.bodyMotion!==s.bodyMotion||lastState.visible!==s.visible||lastState.focusParts!==s.focusParts||lastState.hiddenParts!==s.hiddenParts||(lastState.selected!==s.selected&&(referenceMuscles(owners,lastState.selected).size>0||referenceMuscles(owners,s.selected).size>0));
+   if(tissueChanged){updateTissueMotion(s);updateNerveMotion(s);updateBrainMotion(s);}
+   const ctx=viewerContext.current;
+   // Head view: a structure is shown whole or hidden whole (the region rule in topRegionParts); no mesh is cut along a plane.
+   if(primaryAtlasReady&&s.visible.includes('nervous')&&(ctx.bodyArea==='head'||s.bodyMotion?.region==='head'||s.bodyMotion?.region==='spine'||!s.visible.includes('skeletal')||(s.hiddenParts?.length??0)>0))ensureBrain();
+   if(roofOutlines.update(s.spaceRoofs))dirty=true;
+   if(spaceOutline.update(s.spaceOutlines,!outlineSeen||outlineSeen.partTransforms!==s.partTransforms||outlineSeen.bodyMotion!==s.bodyMotion||outlineSeen.tissueMotion!==s.tissueMotion||outlineSeen.previewMotion!==s.previewMotion||outlineSeen.spaceOutlines!==s.spaceOutlines||tissueChanged)){dirty=true;}
+   outlineSeen=s;
+   {const ranges=s.spaceRange??[],a=ranges[0],b=ranges[1];rangeU.rangeN.value=s.spaceSolid?0:ranges.length;if(a)rangeU.rangeA.value.set(a.c[0],a.c[1],a.c[2],a.r);if(b)rangeU.rangeB.value.set(b.c[0],b.c[1],b.c[2],b.r);}
+   if(nerveMeshes.length){
+    const nervesOn=s.visible.includes('nervous')&&(!s.isolate||!!selectedNerve.current);
+    // Schematic veins (suboccipital plexus) live in the nerve mesh group but belong to the Veins system.
+    const veinsOn=s.visible.includes('venous')&&!s.isolate;
+    nerveRoot.visible=(nervesOn||veinsOn)&&nervesReady();
+    nerveMeshes.forEach(o=>{
+     if(!nervesReady()||(o.userData.mjVein?!veinsOn:!nervesOn)){o.visible=false;return;}
+     const name=(o.userData.mjExactName as string|undefined)||o.name,side=nerveSide(name),boundRegion=o.userData.bodyRegion as BodyRegion|undefined;
+     const sideOk=ctx.focusSide==='both'||side==='both'||side===ctx.focusSide;
+     if(s.nerveFilter&&!s.bodyMotion)o.visible=sideOk&&s.nerveFilter(name);
+     else if(s.bodyMotion?.region==='spine')o.visible=sideOk;
+     else if(s.bodyMotion?.region==='head')o.visible=sideOk&&boundRegion==='head';
+     else if(s.bodyMotion?.region==='leftLeg'||s.bodyMotion?.region==='rightLeg')o.visible=sideOk&&boundRegion===s.bodyMotion.region;
+     else if(ctx.bodyArea==='head')o.visible=sideOk&&boundRegion==='head';
+     else if(ctx.bodyArea==='lower')o.visible=sideOk&&(boundRegion==='leftLeg'||boundRegion==='rightLeg');
+     else if(ctx.bodyArea==='organs')o.visible=false;
+     else if(ctx.bodyArea==='upper'&&ctx.region==='whole-body')o.visible=sideOk&&!!nerveBindings[name];
+     else if(ctx.motionActive)o.visible=sideOk&&!!nerveBindings[name]&&nerveMatchesRegion(name,ctx.region,false);
+     else o.visible=sideOk&&nerveMatchesRegion(name,ctx.region,false);
+     {const nd=s.depthFilter&&s.depthFilter!=='all'?nerveDepth(name):undefined;if(nd&&nd!==s.depthFilter&&!(selectedNerve.current&&name===selectedNerve.current))o.visible=false;}
+     const inHighlight=!!s.highlightNerves?.length&&s.highlightNerves.some(h=>h.replace(/\.001$/,'')===name.replace(/\.001$/,'')),solid=!!s.spaceSolid,ranged=!solid&&!!s.spaceRange?.length&&inHighlight;
+     // a redesigned special region draws its nerves like everything else (own colour, no tint); the nerves of the surroundings show only with 顯示周圍結構
+     if(solid&&!inHighlight&&!s.spaceSurround)o.visible=false;
+     const isSelectedNerve=!ranged&&((!!selectedNerve.current&&name===selectedNerve.current)||(inHighlight&&!solid));
+      // a nerve picked from search, a list or a card is always shown (whatever region, side or system filter is active) unless it was hidden on purpose; with Isolate only that nerve stays
+     if((ranged||(solid&&inHighlight)||(selectedNerve.current&&name===selectedNerve.current))&&!s.hiddenNerves?.includes(name))o.visible=true;
+     else if(s.isolate&&selectedNerve.current)o.visible=false;
+     if(s.hiddenNerves?.includes(name))o.visible=false;
+     const isHoverNerve=!isSelectedNerve&&hoverNerve===name;
+     const isVein=!!o.userData.mjVein,base=nerveBaseLook(!!o.userData.mjSpinalCordLike,isVein);
+     const look:NerveLook=isSelectedNerve?{color:SELECT_COLOR,emissive:SELECT_COLOR,intensity:.4,lift:true,preview:0,range:0}:isHoverNerve?{color:HOVER_COLOR,emissive:HOVER_COLOR,intensity:.3,lift:false,preview:0,range:0}:{...base,lift:false,preview:0,range:0};
+     look.preview=(o.userData.previewFlag as {value:number}|undefined)?.value?1:0;look.range=ranged?1:0;
+     const want=nerveMaterialFor(look);if((o as T.Mesh).material!==want){(o as T.Mesh).material=want;dirty=true;}
+    });
+   }
    const moving=Math.abs(amount-s.explode)>.0001;
    if(moving){amount=T.MathUtils.damp(amount,s.explode,8,dt);dirty=true;}
-   if(changed||moving||lastExtent<0){
-    if(lastSegments!==s.segmentTransforms){pose.set(rig,s.segmentTransforms);segmentData.set(pose.data);segmentTexture.needsUpdate=true;lastSegments=s.segmentTransforms??null;}
-    reskin();
-    const visible=new Set(s.visible),selection=new Set(s.selected);
-    const visibleParts=atlas.parts.filter(p=>s.isolate?selection.has(p.id):visible.has(p.system)||selection.has(p.id));
+   if(changed||moving||tissueChanged||lastExtent<0){
+    supplementaryJoints.update(s,amount,!!s.previewMotion,selectedNerve.current);cervicalVessels.update(s,amount,selectedNerve.current);
+    const visible=new Set(s.visible),selection=new Set(s.selected),hidden=new Set(s.hiddenParts??[]),focus=s.focusParts?new Set(s.focusParts):null;const rangeIds=new Set(s.spaceRange?.length?s.spaceRangeIds??[]:[]),contentCodes=new Map<string,number>();for(const id of s.spaceContentIds??[]){const sys=atlas.parts.find(q=>q.id===id)?.system;contentCodes.set(id,sys==='arterial'?220:sys==='venous'?190:sys==='nervous'?160:sys==='respiratory'?140:sys==='lymphatic'?130:255);}
+    const refMuscles=referenceMuscles(owners,selection);
+    const fadedSet=s.fadedParts?.length||autoFade?.size||refMuscles.size?new Set([...(s.fadedParts??[]),...(autoFade??[]),...refMuscles]):null;
+    const cranialVault=/^(frontal bone|left parietal bone|right parietal bone|left temporal bone|right temporal bone|occipital bone|sphenoid bone|ethmoid)$/i;
+    const intracranial=/brain|cerebr|cerebell|\bgyrus\b|lobule|\blobe\b|hemisphere|white matter|gray matter|cortex|insula|midbrain|pons|medulla oblongata|thalam|hypothalam|fornix|ventricle|choroid plexus|corpus callosum|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|commissure|colliculus|geniculate|habenula|mammillary|stria terminalis|stria medullaris|septum of telencephalon|tuber cinereum|interpeduncular fossa|lamina terminalis|optic chiasm|optic tract|peduncle of midbrain|cerebral aqueduct|pineal|pituitary|cerebral artery|cerebellar artery|basilar artery|callosomarginal artery|pericallosal artery|pontine artery|thalamogeniculate artery|thalamoperforating artery/i;
+    // Display rules (app/mj-part-visibility.ts): the same function the part counter and the display test use. A tendon follows its muscle, an in-organ vessel its organ.
+    const {base:baseVisible}=partVisibility(owners,s);
+    // In the intact-body view the cranial vault should visually contain the
+    // brain, just like a real head. BodyParts3D contains separately rendered
+    // intracranial meshes that can protrude through tiny gaps in the skull, so
+    // keep those deep structures occluded while the cranial bones are present.
+    // They become available again when the skull is hidden/peeled or when an
+    // intracranial structure is explicitly isolated.
+    const vaultParts=atlas.parts.filter(part=>cranialVault.test(part.name));
+    const cranialVaultVisible=vaultParts.length>0&&vaultParts.every(baseVisible);
+    const brainInFocus=!focus||atlas.parts.some(p=>p.system==='nervous'&&brainTargetPattern.test(p.name)&&focus.has(p.id));
+    const legacyBrainParenchyma=/brain|cerebr|cerebell|telenceph|dienceph|mesenceph|metenceph|myelenceph|\bgyrus\b|sulcus|lobule|\blobe\b|hemisphere|white matter|gray matter|cortex|insula|midbrain|pons|medulla oblongata|thalam|hypothalam|fornix|ventricle|choroid plexus|corpus callosum|hippocamp|amygdal|caudate|putamen|globus pallidus|internal capsule|commissure|colliculus|geniculate|habenula|mammillary|stria terminalis|stria medullaris|septum of telencephalon|tuber cinereum|interpeduncular fossa|lamina terminalis|peduncle of midbrain|cerebral aqueduct/i;
+    const selectedBrain=brainAtlasCandidates.some(p=>selection.has(p.id));
+    brainMotionRoot.visible=brainLoaded&&visible.has('nervous')&&brainInFocus&&!cranialVaultVisible&&(!s.isolate||selectedBrain);
+    // per piece: drawn unless Isolate hides it, selected when its atlas structure is; written to the state texture the merged brain shader reads
+    {let changed=false;brainVisibleAtlasIds.clear();
+     for(let k=0;k<brainPieces.length;k++){const piece=brainPieces[k],selected=!!piece.atlasId&&selection.has(piece.atlasId),shown=!s.isolate||selected;
+      const vis=shown?255:0,sel=selected?255:0;if(brainStateData[k*4]!==vis||brainStateData[k*4+1]!==sel){brainStateData[k*4]=vis;brainStateData[k*4+1]=sel;changed=true;}
+      if(brainMotionRoot.visible&&shown&&piece.atlasId)brainVisibleAtlasIds.add(piece.atlasId);}
+     if(changed&&brainStateU.value){brainStateU.value.needsUpdate=true;dirty=true;}}
+    const isVisible=(p:(typeof atlas.parts)[number]):boolean=>{
+     if(amount<.01&&cervicalVessels.replaced.has(p.id))return false;
+     // A bone landmark (coracoid process, tubercle, crest …) is a patch drawn on its bone: when the bone is not shown (another region, another layer) the patch would hang in the air as a beige wedge, so it follows its bone.
+     if((p as {kind?:string}).kind==='landmark'&&!selection.has(p.id)){const host=landmarkHost.get(p.id);if(host!==undefined&&!isVisible(host))return false;}
+     // A space (axillary fossa, carpal tunnel, quadrangular space …) is not a solid: its boundaries and contents are highlighted by the dissection panel, so the placeholder volume is never drawn as a plate or box.
+     if((p as {kind?:string}).kind==='space')return false;
+     // A schematic sheath (axillary, femoral) is a thin tube drawn translucent: with the arm raised it folds into a grey arch above the shoulder, so it is only drawn when it is picked (from the dissection panel).
+     if((p as {kind?:string}).kind==='sheath'&&!selection.has(p.id))return false;
+     if(hidden.has(p.id))return false;
+     const cx=(p.bounds[0][0]+p.bounds[1][0])*.5,cy=(p.bounds[0][1]+p.bounds[1][1])*.5,cz=(p.bounds[0][2]+p.bounds[1][2])*.5;
+     const intracranialLegacy=p.system==='nervous'&&cy>1.38&&Math.abs(cx)<.36&&Math.abs(cz)<.34&&!/cranial.?nerve|\bnerve\b|tract|root|ganglion/i.test(p.name);
+     // The lung lobes are named "… lobe of … lung": the brain-name patterns below must never take them for cerebral lobes (once the brain model had loaded, they were hidden as legacy brain parenchyma and only the surface marks stayed on screen).
+     const lungLobe=/\blobe of (?:right |left )?lung$/i.test(p.name);
+     const replacedBrain=!lungLobe&&brainLoaded&&(legacyBrainParenchyma.test(p.name)||intracranialLegacy);
+     // A selected structure overrides the region, depth and layer filters, never a system switch that is off: the switches of the left panel decide what is drawn in every mode.
+     if(selection.has(p.id)&&visible.has(p.system)&&!replacedBrain&&(!cranialVaultVisible||!intracranial.test(p.name)||s.isolate))return true;
+     // the muscle of a selected tendon stays on screen (faded) as a reference, whatever the filters say, as long as Muscles is switched on
+     if(refMuscles.has(p.id))return visible.has('muscular');
+     if(!baseVisible(p))return false;
+     if(cranialVaultVisible&&!lungLobe&&intracranial.test(p.name))return false;
+     if(replacedBrain)return false;
+     return true;
+    };
+    const visibleParts=atlas.parts.filter(isVisible);
+    supplementaryJoints.constrain(new Set(visibleParts.map(p=>p.id)),fadedSet);
     const nextLayoutKey=visibleParts.map(p=>p.id).join(',')+':'+camera.aspect.toFixed(3);
     if(nextLayoutKey!==layoutKey){const layout=createExplosionLayout(visibleParts,camera.aspect);packingWidth=layout.width;packingHeight=layout.height;atlas.parts.forEach((p,i)=>{const cell=layout.cells.get(p.id);offsets[i]=cell?new T.Vector3(cell.x,cell.y+.85,0):centers[i].clone();});layoutKey=nextLayoutKey;if(amount>.05&&!s.isolate)fit(s.view,Math.max(0,(amount-.3)/.7));}
 
@@ -150,25 +1352,100 @@ export default function AnatomyScene({atlas,state,onSelect,onProgress,onError}:P
      const c=centers[i],destination=offsets[i];let dx=0,dy=0,dz=0;
      if(amount<=.45){const t=amount/.45;const group=SYSTEMS.findIndex(sys=>sys.id===p.system);const angle=group/SYSTEMS.length*Math.PI*2;dx=Math.sin(angle)*t*.48;dy=(c.y-.85)*t*.28;dz=Math.cos(angle)*t*.48;}
      else {const t=(amount-.45)/.55,group=SYSTEMS.findIndex(sys=>sys.id===p.system),angle=group/SYSTEMS.length*Math.PI*2;dx=T.MathUtils.lerp(Math.sin(angle)*.48,destination.x-c.x,t);dy=T.MathUtils.lerp((c.y-.85)*.28,destination.y-c.y,t);dz=T.MathUtils.lerp(Math.cos(angle)*.48,-c.z,t);}
-     const selected=selection.has(p.id);data.set([dx,dy,dz,(s.isolate?selected:visible.has(p.system)||selected)?1:0],i*4);selectedData[i*4]=selected?255:0;
-     const mesh=pickers[i];if(mesh){mesh.position.set(dx,dy,dz);mesh.updateMatrix();mesh.updateMatrixWorld(true);}if(data[i*4+3]>.5){const marker=skinnedCenters[i];markerPositions.set([marker.x+dx,marker.y+dy,marker.z+dz],i*3);}else markerPositions.set([10000,10000,10000],i*3);
-    });partTexture.needsUpdate=true;selectionTexture.needsUpdate=true;markerGeometry.attributes.position.needsUpdate=true;lastState=s;lastExtent=amount;dirty=true;
+     const selected=selection.has(p.id);data.set([dx,dy,dz,isVisible(p)?1:0],i*4);selectedData[i*4]=selected?(contentCodes.get(p.id)??255):0;selectedData[i*4+3]=selected&&rangeIds.has(p.id)?255:0;selectedData[i*4+2]=fadedSet&&fadedSet.has(p.id)?255:0;
+     // CPU skinning already includes the active frame. Never apply it twice.
+     const transform=pickers[i]?.userData.tissuePosed?undefined:s.partTransforms?.[p.id];
+     if(transform){
+      motionData.set([...transform.translation,pickers[i]?.userData.skinMode??0],i*4);rotationData.set(transform.quaternion,i*4);
+      anchorMotionData.set([...(transform.anchorTranslation??transform.translation),0],i*4);anchorRotationData.set(transform.anchorQuaternion??transform.quaternion,i*4);
+     }else{
+      motionData.set([0,0,0,pickers[i]?.userData.skinMode??0],i*4);rotationData.set([0,0,0,1],i*4);anchorMotionData.set([0,0,0,0],i*4);anchorRotationData.set([0,0,0,1],i*4);
+     }
+     const mesh=pickers[i];
+     if(mesh){
+      const isSoft=!!(transform?.anchorTranslation&&transform?.anchorQuaternion),base=mesh.userData.baseMotionPositions as Float32Array|undefined,weights=mesh.userData.motionWeights as Float32Array|undefined,attr=mesh.geometry.getAttribute('position') as T.BufferAttribute;
+      if(isSoft&&base&&weights&&transform){
+       const movingM=transformMatrix(transform),anchorM=transformMatrix({translation:transform.anchorTranslation!,quaternion:transform.anchorQuaternion!});
+       const maxSoft=p.system==='arterial'||p.system==='venous'?.16:p.system==='muscular'?.24:1;
+       for(let vi=0;vi<attr.count;vi++){
+        const w=weights[vi];
+        softP.set(base[vi*3],base[vi*3+1],base[vi*3+2]);
+        softA.copy(softP).applyMatrix4(anchorM);softB.copy(softP).applyMatrix4(movingM);
+        softD.copy(softB).sub(softA);if(softD.length()>maxSoft)softD.setLength(maxSoft);
+        softA.addScaledVector(softD,w);attr.setXYZ(vi,softA.x,softA.y,softA.z);
+       }
+       attr.needsUpdate=true;mesh.geometry.computeBoundingBox();mesh.geometry.computeBoundingSphere();mesh.userData.mjSoftDeformed=true;mesh.quaternion.identity();mesh.position.set(dx,dy,dz);
+      }else{
+       if(mesh.userData.mjSoftDeformed&&base){for(let vi=0;vi<attr.count;vi++)attr.setXYZ(vi,base[vi*3],base[vi*3+1],base[vi*3+2]);attr.needsUpdate=true;mesh.geometry.boundingBox=bounds[i].clone();mesh.geometry.computeBoundingSphere();mesh.userData.mjSoftDeformed=false;}
+       if(transform){mesh.quaternion.set(...transform.quaternion);mesh.position.set(...transform.translation).add(new T.Vector3(dx,dy,dz));}else{mesh.quaternion.identity();mesh.position.set(dx,dy,dz);}
+      }
+      mesh.updateMatrix();mesh.updateMatrixWorld(true);
+     }
+     if(data[i*4+3]>.5){const marker=mesh?(mesh.geometry.boundingBox??bounds[i]).getCenter(softP).clone().applyMatrix4(mesh.matrixWorld):c.clone().add(new T.Vector3(dx,dy,dz));markerPositions.set([marker.x,marker.y,marker.z],i*3);}else markerPositions.set([10000,10000,10000],i*3);
+    });updateVisibleBatches();partTexture.needsUpdate=true;selectionTexture.needsUpdate=true;motionTexture.needsUpdate=true;rotationTexture.needsUpdate=true;anchorMotionTexture.needsUpdate=true;anchorRotationTexture.needsUpdate=true;markerGeometry.attributes.position.needsUpdate=true;lastState=s;lastExtent=amount;dirty=true;
    }
-   if(s.view!==lastView||s.reset!==lastReset){fit(s.view,amount);lastView=s.view;lastReset=s.reset;}
+   if(s.view!==lastView||s.reset!==lastReset){camera.clearViewOffset();lastCameraFocus=-1;if(s.reset!==lastReset)userMoved=false;fit(s.view,amount);lastView=s.view;lastReset=s.reset;}
    if(moving&&!s.isolate)fit(amount>.5?'front':s.view,Math.max(0,(amount-.3)/.7));
    const isolateKey=s.isolate?s.selected.join(',')+':'+s.reset+':'+s.inspectorOpen+':'+camera.aspect:'';
    if(isolateKey!==lastIsolate||(s.isolate&&moving)){
-    if(s.isolate){const box=new T.Box3();atlas.parts.forEach((p,i)=>{if(s.selected.includes(p.id))box.union(skinnedBounds[i].clone().translate(new T.Vector3(data[i*4],data[i*4+1],data[i*4+2])));});
-     if(!box.isEmpty()){const center=box.getCenter(new T.Vector3()),size=box.getSize(new T.Vector3());const w=el.clientWidth,h=el.clientHeight,mobile=w<768,landscape=w>h&&h<=600;let left=20,right=w-20,top=mobile?175:110,bottom=h-170;if(s.inspectorOpen){if(landscape){right=w-335;top=100;bottom=h-125;}else if(mobile){const sheet=document.querySelector('.detail-sheet')?.getBoundingClientRect(),header=document.querySelector('.identity')?.getBoundingClientRect();top=(header?.bottom??94)+16;bottom=(sheet?.top??h*.58-139)-16;}else{right=w-370;left=w>1100?285:25;}}const availableWidth=Math.max(150,right-left),availableHeight=Math.max(40,bottom-top);camera.setViewOffset(w,h,w/2-(left+right)/2,h/2-(top+bottom)/2,w,h);const distance=Math.max(.07,Math.max(size.y*h/availableHeight,size.x*w/availableWidth/camera.aspect,size.z)/(2*Math.tan(T.MathUtils.degToRad(camera.fov/2)))*1.35);controls.maxDistance=Math.max(40,distance*2);controls.target.copy(center);camera.position.copy(center).add(new T.Vector3(.2,.1,1).normalize().multiplyScalar(distance));controls.update();dirty=true;}
+    if(s.isolate){const box=new T.Box3();atlas.parts.forEach((p,i)=>{if(s.selected.includes(p.id)){const mesh=pickers[i];box.union(mesh?(mesh.geometry.boundingBox??bounds[i]).clone().applyMatrix4(mesh.matrixWorld):bounds[i].clone().translate(new T.Vector3(data[i*4],data[i*4+1],data[i*4+2])));}});
+     if(!box.isEmpty()){const center=box.getCenter(new T.Vector3()),size=box.getSize(new T.Vector3());const w=el.clientWidth,h=el.clientHeight,mobile=w<768,landscape=w>h&&h<=600;let left=20,right=w-20,top=mobile?175:110,bottom=h-170;if(s.inspectorOpen){if(landscape){right=w-335;top=100;bottom=h-125;}else if(mobile){const sheet=document.querySelector('.detail-sheet')?.getBoundingClientRect(),header=document.querySelector('.identity')?.getBoundingClientRect();top=(header?.bottom??94)+16;bottom=(sheet?.top??h*.58-139)-16;}else{right=w-370;left=w>1100?285:25;}}const availableWidth=Math.max(150,right-left),availableHeight=Math.max(40,bottom-top);const offset:[number,number]=[w/2-(left+right)/2,h/2-(top+bottom)/2];const distance=Math.max(.07,Math.max(size.y*h/availableHeight,size.x*w/availableWidth/camera.aspect,size.z)/(2*Math.tan(T.MathUtils.degToRad(camera.fov/2)))*1.35);controls.maxDistance=Math.max(40,distance*2);const position=center.clone().add(new T.Vector3(.2,.1,1).normalize().multiplyScalar(distance));if(moving){camera.setViewOffset(w,h,offset[0],offset[1],w,h);controls.target.copy(center);camera.position.copy(position);controls.update();dirty=true;}else moveCamera(center,position,offset,w,h);}
     }else if(lastIsolate){camera.clearViewOffset();fit(s.view,amount);}
     lastIsolate=isolateKey;
    }
-   controls.enableRotate=amount<.8;controls.mouseButtons.LEFT=amount<.8?T.MOUSE.ROTATE:T.MOUSE.PAN;controls.touches.ONE=amount<.8?T.TOUCH.ROTATE:T.TOUCH.PAN;ground.visible=platform.visible=ring.visible=innerRing.visible=amount<.5&&!s.isolate;markers.visible=amount>.75;controls.autoRotate=s.rotate&&!s.isolate&&amount<.4;controls.autoRotateSpeed=.65;controls.update();if(controls.autoRotate)dirty=true;
-   if(dirty){renderer.render(scene,camera);targets=[];if(amount>.45){const hasSolid=atlas.parts.some((p,i)=>p.system!=='integumentary'&&data[i*4+3]>.5);atlas.parts.forEach((p,i)=>{if(data[i*4+3]<.5||(hasSolid&&p.system==='integumentary'))return;let left=Infinity,right=-Infinity,top=Infinity,bottom=-Infinity;const sb=skinnedBounds[i];for(let corner=0;corner<8;corner++){projected.set(((corner&1)?sb.max:sb.min).x+data[i*4],((corner&2)?sb.max:sb.min).y+data[i*4+1],((corner&4)?sb.max:sb.min).z+data[i*4+2]).project(camera);const x=(projected.x+1)*el.clientWidth/2,y=(1-projected.y)*el.clientHeight/2;left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y);}projected.copy(skinnedCenters[i]).add(new T.Vector3(data[i*4],data[i*4+1],data[i*4+2])).project(camera);if(projected.z< -1||projected.z>1)return;targets.push({index:i,x:(projected.x+1)*el.clientWidth/2,y:(1-projected.y)*el.clientHeight/2,left,right,top,bottom});});}dirty=false;}
+   if(autoFadeDirty)autoFadeDirty=false;
+   if(!s.selected.length&&!selectedNerve.current&&!s.highlightNerves?.length&&autoFade){autoFade=null;autoFadeDirty=true;dirty=true;}
+   if((s.cameraFocusNonce??0)!==lastCameraFocus&&(s.cameraFocusParts?.length||s.cameraFocusNerve||s.cameraFocusRange)){
+    const wanted=new Set(s.cameraFocusParts),box=new T.Box3();
+    atlas.parts.forEach((p,i)=>{if(!wanted.has(p.id))return;const replacement=s.visible.includes(p.system)&&!(s.hiddenParts??[]).includes(p.id)&&(!s.focusParts||s.focusParts.includes(p.id))&&(cervicalVessels.replaced.has(p.id)||brainVisibleAtlasIds.has(p.id));if(data[i*4+3]<.5&&!replacement)return;const mesh=pickers[i];box.union(mesh?(mesh.geometry.boundingBox??bounds[i]).clone().applyMatrix4(mesh.matrixWorld):bounds[i].clone());});
+    if(s.cameraFocusRange){const rg=s.cameraFocusRange;box.union(new T.Box3(new T.Vector3(rg.c[0]-rg.r,rg.c[1]-rg.r,rg.c[2]-rg.r),new T.Vector3(rg.c[0]+rg.r,rg.c[1]+rg.r,rg.c[2]+rg.r)));}
+    if(s.cameraFocusNerve)for(const o of nerveMeshes){if(((o.userData.mjExactName as string|undefined)||o.name)===s.cameraFocusNerve){o.updateWorldMatrix(true,false);box.union(new T.Box3().setFromObject(o));}}
+    if(s.cameraFocusNerve)for(const r of [...supplementaryJoints.rows,...cervicalVessels.rows]){if(r.mesh.name===s.cameraFocusNerve){r.mesh.updateWorldMatrix(true,false);box.union(new T.Box3().setFromObject(r.mesh));}}
+    if(!box.isEmpty()){
+     lastFocusBox=box.clone();
+     const center=box.getCenter(new T.Vector3()),dir=s.cameraFocusRange?new T.Vector3(...s.cameraFocusRange.dir).normalize():s.cameraFocusDir?new T.Vector3(...s.cameraFocusDir).normalize():camera.position.clone().sub(controls.target).normalize();
+     const rect=el.getBoundingClientRect(),w=el.clientWidth,h=el.clientHeight;
+     const panel=document.querySelector('.left-workspace')?.getBoundingClientRect(),nav=document.querySelector('.body-region-nav')?.getBoundingClientRect(),rail=[document.querySelector('.right-tool-rail'),document.querySelector('.lung-focus')].map(q=>q?.getBoundingClientRect()).find(r=>!!r&&r.width>0);
+     const left=panel&&panel.width>0?Math.min(w*.48,panel.right-rect.left+18):20;
+     let right=rail&&rail.width>0?rail.left-rect.left-16:w-20;
+     // The info card of a desktop layout stands over the right of the picture: the structure is framed in the part it leaves free (the old code framed it behind the card).
+     const card=document.querySelector('.detail-sheet')?.getBoundingClientRect();if(card&&card.width>0&&w>=768&&card.left-rect.left>w*.4)right=Math.min(right,card.left-rect.left-16);
+     const top=nav?nav.bottom-rect.top+20:160;let bottom=h-64;
+     // On a phone the information sheet rises from the bottom and would cover the structure just picked: the free area ends where the sheet begins (P2-11).
+     if(w<768&&s.inspectorOpen){const sheet=document.querySelector('.detail-sheet')?.getBoundingClientRect();bottom=Math.min(bottom,(sheet&&sheet.height>0?sheet.top-rect.top:h*.52-139)-16);}
+     const focusScale=T.MathUtils.clamp(s.cameraFocusScale??1,.62,1.15);
+     const {distance,offset}=focusFrame(box,dir,camera.fov,camera.aspect,w,h,{left,right,top,bottom},focusScale);
+     const focusPosition=center.clone().addScaledVector(dir.lengthSq()>.5?dir:new T.Vector3(.3,.1,1).normalize(),distance);moveCamera(center,focusPosition,offset,w,h);
+     // Whatever stands between the camera and the structure is drawn see-through, so the structure is found even when buried; it goes back to normal when the selection is cleared.
+     // Only a single structure or a short list is dug out of what covers it; a whole region (many parts, e.g. the lung view or a limb) is already filtered by the region sets, and surface patches / landmarks lie on their parent's surface, so they are never taken for blockers (they used to turn into pale translucent fragments on the lung and bone).
+     if(!s.cameraFocusRange&&wanted.size<=12){const eye=focusPosition,size=box.getSize(new T.Vector3()),samples=[center,...[[-1,-1,-1],[1,1,1],[-1,1,1],[1,-1,-1],[1,-1,1]].map(([a,b,c])=>new T.Vector3(center.x+a*size.x*.35,center.y+b*size.y*.35,center.z+c*size.z*.35))];
+      const ray=new T.Raycaster(),hits=new Set<string>(),box3=new T.Box3(),dirv=new T.Vector3();
+      for(const target of samples){dirv.copy(target).sub(eye);const dist=dirv.length();if(dist<1e-4)continue;dirv.normalize();ray.set(eye,dirv);ray.far=dist-.004;
+       atlas.parts.forEach((p,i)=>{const mesh=pickers[i];if(!mesh||wanted.has(p.id)||data[i*4+3]<.5||p.system==='integumentary'||(p as {kind?:string}).kind==='surface'||(p as {kind?:string}).kind==='landmark'||hits.has(p.id))return;box3.copy(mesh.geometry.boundingBox??bounds[i]).applyMatrix4(mesh.matrixWorld);if(!ray.ray.intersectsBox(box3))return;if(ray.intersectObject(mesh,false).length)hits.add(p.id);});}
+      autoFade=hits.size?hits:null;autoFadeDirty=true;}
+    }
+    // the nerve streams in after its layer is switched on: keep trying while packages are still loading (up to about half a minute) until its mesh exists;
+    // a name no package will ever draw stops here instead of redrawing for 30 seconds
+    if(s.cameraFocusNerve&&box.isEmpty()&&(loadBusy||supplementaryPending>0)&&nerveFocusWait++<1800)dirty=true;else{lastCameraFocus=s.cameraFocusNonce??0;nerveFocusWait=0;}
+   }
+   controls.enableRotate=!jointGesture;controls.enablePan=!jointGesture;controls.mouseButtons.RIGHT=T.MOUSE.ROTATE;controls.touches.TWO=T.TOUCH.DOLLY_PAN;markers.visible=amount>.75;controls.autoRotate=s.rotate&&!s.isolate&&amount<.4&&!jointGesture;controls.autoRotateSpeed=.65;controls.update();if(controls.autoRotate)dirty=true;
+   {const sig=s.selected.join(',')+'|'+(selectedNerve.current??'')+'|'+((s.hiddenParts??[]).length)+'|'+s.visible.join(',')+'|'+(s.isolate?1:0)+'|'+s.muscleLayer+'|'+(s.depthFilter??'');selectFill.value=s.spaceSolid?0:(s.spaceContentIds?.length||s.spaceRangeIds?.length||s.highlightNerves?.length||s.spaceRange)?1:0;
+    if(sig!==selViewKey){selViewKey=sig;reportSelView(null);selViewDue=performance.now()+260;}else if(dirty)selViewDue=performance.now()+260;
+    if(selViewDue&&performance.now()>=selViewDue&&!cameraTween&&ready){selViewDue=0;checkSelectionView(s);}}
+   if(dirty){{const now=performance.now(),dt=now-lastRenderAt;lastRenderAt=now;
+     if(dt<100){if(dt>30){slowFrames++;fastFrames=0;}else if(dt<20){fastFrames++;slowFrames=0;}else{slowFrames=0;fastFrames=0;}
+      const ceil=dprCeil(el.clientWidth,el.clientHeight),next=slowFrames>=20&&dprNow>1?Math.max(1,dprNow-.25):fastFrames>=180&&dprNow<ceil?Math.min(ceil,dprNow+.25):dprNow;
+      if(next!==dprNow){dprNow=next;slowFrames=0;fastFrames=0;renderer.setPixelRatio(dprNow);renderer.setSize(el.clientWidth,el.clientHeight);}}else{slowFrames=0;fastFrames=0;}}
+   // The near plane follows the orbit distance (4 % of it, between 5 and 50 mm): a fixed 5 mm near plane leaves a depth buffer that cannot tell two surfaces a millimetre apart at whole-body distance, and thin layers (sheaths, cartilage, patches) flicker into dots.
+   {const near=Math.min(.05,Math.max(.005,camera.position.distanceTo(controls.target)*.04));if(Math.abs(near-camera.near)>2e-4){camera.near=near;camera.updateProjectionMatrix();}}
+   renderer.render(scene,camera);updateLabels();updatePartLabels();targets=[];if(amount>.45){const hasSolid=atlas.parts.some((p,i)=>p.system!=='integumentary'&&data[i*4+3]>.5);atlas.parts.forEach((p,i)=>{if(data[i*4+3]<.5||(hasSolid&&p.system==='integumentary'))return;let left=Infinity,right=-Infinity,top=Infinity,bottom=-Infinity;for(let corner=0;corner<8;corner++){projected.set(p.bounds[(corner&1)?1:0][0]+data[i*4],p.bounds[(corner&2)?1:0][1]+data[i*4+1],p.bounds[(corner&4)?1:0][2]+data[i*4+2]).project(camera);const x=(projected.x+1)*el.clientWidth/2,y=(1-projected.y)*el.clientHeight/2;left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y);}projected.copy(centers[i]).add(new T.Vector3(data[i*4],data[i*4+1],data[i*4+2])).project(camera);if(projected.z< -1||projected.z>1)return;targets.push({index:i,x:(projected.x+1)*el.clientWidth/2,y:(1-projected.y)*el.clientHeight/2,left,right,top,bottom});});}dirty=false;}
 
   };animate();
-  const contextLost=(e:Event)=>{e.preventDefault();onError('The 3D session was paused by your device. Reload to continue.');};renderer.domElement.addEventListener('webglcontextlost',contextLost);
-  return()=>{disposed=true;abort.abort();cancelAnimationFrame(frame);observer.disconnect();controls.dispose();worker?.terminate();geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());scene.traverse(o=>{if(o instanceof T.Mesh&&!geometries.includes(o.geometry)){o.geometry.dispose();const ms=Array.isArray(o.material)?o.material:[o.material];ms.forEach(m=>m.dispose());}});env.dispose();partTexture.dispose();selectionTexture.dispose();segmentTexture.dispose();muscleTexture.dispose();markerGeometry.dispose();markerMaterial.dispose();hover.remove();renderer.dispose();renderer.domElement.remove();};
+  // ?mjview=1 exposes the camera for the screenshot scripts (view a structure from a chosen side and distance); nothing in the app uses it.
+  if(typeof location!=='undefined'&&new URLSearchParams(location.search).has('mjview'))(window as unknown as {__mjView:unknown}).__mjView={look:(target:[number,number,number],dir:[number,number,number],distance:number)=>{controls.target.set(...target);camera.clearViewOffset();cameraTween=null;camera.position.set(target[0]+dir[0]*distance,target[1]+dir[1]*distance,target[2]+dir[2]*distance);controls.update();dirty=true;},focusing:()=>!!cameraTween,nerveRows:()=>nerveMeshes.map(o=>[(o.userData.mjExactName as string|undefined)||o.name,o.visible]),neckRows:()=>cervicalVessels.rows.map(r=>[r.mesh.name,r.parent.id,r.mesh.visible]),brainPieces:()=>brainPieces.map((piece,k)=>[piece.label,piece.atlasId,brainStateData[k*4],brainStateData[k*4+1]]),renderStats:()=>{const mats=new Set<T.Material>();let meshes=0;scene.traverse(o=>{if(o instanceof T.Mesh&&o.visible){meshes++;mats.add(o.material as T.Material);}});const t=performance.now();renderer.render(scene,camera);return {ms:performance.now()-t,calls:renderer.info.render.calls,triangles:renderer.info.render.triangles,programs:renderer.info.programs?.length??0,materials:mats.size,meshes};},viewOffset:()=>camera.view?.enabled?[camera.view.offsetX,camera.view.offsetY]:null,camera:()=>[...camera.position.toArray(),...controls.target.toArray()],jointsState:()=>supplementaryJoints.rows.filter(r=>r.mesh.visible).map(r=>[r.mesh.name,r.anchor.name]),screenBox:(ids:string[])=>{const w=el.clientWidth,h=el.clientHeight,r=el.getBoundingClientRect(),b=new T.Box3();atlas.parts.forEach((p,i)=>{if(!ids.includes(p.id))return;const mesh=pickers[i];b.union(mesh?(mesh.geometry.boundingBox??bounds[i]).clone().applyMatrix4(mesh.matrixWorld):bounds[i].clone());});if(b.isEmpty())return null;camera.updateMatrixWorld();let l=1e9,rr=-1e9,t=1e9,bt=-1e9;for(let c=0;c<8;c++){const v=new T.Vector3(c&1?b.max.x:b.min.x,c&2?b.max.y:b.min.y,c&4?b.max.z:b.min.z).project(camera);const x=(v.x*.5+.5)*w,y=(-v.y*.5+.5)*h;l=Math.min(l,x);rr=Math.max(rr,x);t=Math.min(t,y);bt=Math.max(bt,y);}return {l,r:rr,t,b:bt,w,h,left:r.left,top:r.top};},zoom:()=>camera.zoom,focusRect:()=>{if(!lastFocusBox)return null;const w=el.clientWidth,h=el.clientHeight,b=lastFocusBox;camera.updateMatrixWorld();let l=1e9,rr=-1e9,t=1e9,bt=-1e9;for(let c=0;c<8;c++){const v=new T.Vector3(c&1?b.max.x:b.min.x,c&2?b.max.y:b.min.y,c&4?b.max.z:b.min.z).project(camera);const x=(v.x*.5+.5)*w,y=(-v.y*.5+.5)*h;l=Math.min(l,x);rr=Math.max(rr,x);t=Math.min(t,y);bt=Math.max(bt,y);}return {l,r:rr,t,b:bt,w,h};},partsState:(rx:string)=>atlas.parts.map((p,i)=>({id:p.id,name:p.name,visible:data[i*4+3],faded:selectedData[i*4+2],picker:!!pickers[i]})).filter(x=>new RegExp(rx,'i').test(x.name))};
+  const contextLost=(e:Event)=>{e.preventDefault();onError('裝置已暫停 3D 畫面，請重新載入以繼續。');};renderer.domElement.addEventListener('webglcontextlost',contextLost);
+  return()=>{labelLayer.remove();plLayer.remove();disposed=true;shoulderWorker?.terminate();retryLoad.current=null;abort.abort();cancelAnimationFrame(frame);observer.disconnect();controls.dispose();cervicalVessels.dispose();supplementaryJoints.dispose();draco.dispose();geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());scene.traverse(o=>{if(o instanceof T.Mesh&&!geometries.includes(o.geometry)){o.geometry.dispose();const ms=Array.isArray(o.material)?o.material:[o.material];ms.forEach(m=>m.dispose());}});env.dispose();partTexture.dispose();selectionTexture.dispose();motionTexture.dispose();rotationTexture.dispose();anchorMotionTexture.dispose();anchorRotationTexture.dispose();paletteTexture.dispose();markerGeometry.dispose();markerMaterial.dispose();hover.remove();renderer.dispose();renderer.domElement.remove();};
  },[atlas]);
+ useEffect(()=>{if(retryNonce>0)retryLoad.current?.();},[retryNonce]);
  return <div className="scene" ref={host}/>;
 }

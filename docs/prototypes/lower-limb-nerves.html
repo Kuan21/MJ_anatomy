@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>下肢神經與血管走向</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --stage:#cdd5da; --panel:#ffffff; --ink:#1e2a33; --muted:#5c6b76; --line:#e3e8eb;
+  --accent:#2f8a66; --accent-soft:#e6f3ee; --nerve:#d29c00; --tag:#ffffff; --tag-ink:#1e2a33;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --stage:#2a3238; --panel:#1b2126; --ink:#e7ecef; --muted:#9aa7b0; --line:#2e373d;
+    --accent:#5cc79d; --accent-soft:#1f3a30; --nerve:#f0c040; --tag:#232b31; --tag-ink:#e7ecef;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --stage:#2a3238; --panel:#1b2126; --ink:#e7ecef; --muted:#9aa7b0; --line:#2e373d;
+  --accent:#5cc79d; --accent-soft:#1f3a30; --nerve:#f0c040; --tag:#232b31; --tag-ink:#e7ecef;
+  color-scheme:dark;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html,body{height:100%;margin:0}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--panel);color:var(--ink);font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;display:flex;overflow:hidden}
+#stage{position:relative;flex:3 1 0;min-width:0;background:var(--stage);overflow:hidden}
+#stage canvas{display:block;width:100%;height:100%}
+#tags{position:absolute;inset:0;pointer-events:none}
+.tag{position:absolute;left:0;top:0;background:var(--tag);color:var(--tag-ink);font-size:13px;font-weight:500;line-height:1.25;padding:4px 8px;border-radius:6px;border-left:3px solid var(--c,#999);box-shadow:0 1px 4px rgba(0,0,0,.18);white-space:nowrap;transition:opacity .4s;will-change:transform}
+#leaders{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+#hint{position:absolute;left:14px;bottom:12px;font-size:12px;color:var(--muted)}
+#legend{position:absolute;left:14px;top:12px;display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12.5px;color:var(--ink);max-width:calc(100% - 28px)}
+#legend span{display:inline-flex;align-items:center;gap:6px}
+#legend i{display:inline-block;width:18px;height:5px;border-radius:3px}
+.tag small{display:block;color:var(--muted);font-size:11px;font-weight:400}
+#panel{flex:1 1 0;min-width:290px;max-width:440px;border-left:1px solid var(--line);display:flex;flex-direction:column;overflow:hidden}
+#panel header{padding:18px 20px 12px;border-bottom:1px solid var(--line)}
+#panel h1{font-size:17px;margin:0 0 2px;font-weight:700}
+#panel .sub{font-size:13px;color:var(--muted)}
+#modes{display:flex;gap:0;margin:12px 0 0;background:var(--line);border-radius:8px;padding:3px}
+#modes button{flex:1;font:inherit;font-size:14px;border:0;background:transparent;color:var(--muted);padding:6px 0;border-radius:6px;cursor:pointer}
+#modes button[aria-pressed="true"]{background:var(--panel);color:var(--ink);font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+#modes button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+#steps{list-style:none;margin:12px 0 0;padding:0;display:flex;gap:4px}
+#steps li{flex:1;height:4px;border-radius:2px;background:var(--line);position:relative;overflow:hidden}
+#steps li.done{background:var(--accent);opacity:.45}
+#steps li.now{background:var(--line)}
+#steps li.now span{position:absolute;inset:0;background:var(--accent);transform-origin:left;transform:scaleX(0)}
+#body{padding:16px 20px 24px;overflow-y:auto;flex:1}
+#count{font-size:13px;color:var(--muted)}
+#title{font-size:22px;font-weight:700;margin:4px 0 0;line-height:1.3}
+#en{font-size:14px;color:var(--muted);margin-bottom:14px}
+.sec{margin:0 0 14px}
+.sec h2{font-size:13px;font-weight:700;color:var(--accent);margin:0 0 4px}
+.sec p{font-size:14.5px;line-height:1.75;margin:0}
+.clin{background:var(--accent-soft);border-radius:8px;padding:10px 12px}
+#body.fade{opacity:0}
+#body{transition:opacity .35s}
+@media (max-width:760px),(orientation:portrait) and (max-width:1000px){
+  body{flex-direction:column}
+  #stage{flex:none;height:56%}
+  #panel{flex:1;max-width:none;min-width:0;border-left:none;border-top:1px solid var(--line)}
+  #panel header{padding:10px 14px 8px}
+  #panel h1{font-size:15px}
+  #panel .sub,#hint{display:none}
+  #modes{margin-top:8px}
+  #modes button{font-size:13px;padding:5px 0}
+  #steps{margin-top:8px}
+  #body{padding:12px 14px 20px}
+  #title{font-size:19px}
+  #en{margin-bottom:10px}
+  .sec p{font-size:14px;line-height:1.7}
+  #legend{font-size:11px;gap:4px 10px;top:8px;left:10px}
+  .tag{font-size:12px;padding:3px 7px}
+  .tag small{font-size:10px}
+}
+</style>
+</head>
+<body>
+<div id="stage"><div id="tags"><svg id="leaders" aria-hidden="true"></svg></div><div id="hint">右下肢示意模型，未依真實比例（Schematic right lower limb）</div><div id="legend"></div></div>
+<aside id="panel">
+  <header>
+    <h1 id="h1">下肢神經走向</h1>
+    <div class="sub">自動播放：神經播完接血管，再由頭開始。可點下面直接跳到某一類。</div>
+    <div id="modes" role="group" aria-label="選擇類別"><button data-m="0">神經 Nerves</button><button data-m="1">血管 Vessels</button></div>
+    <ol id="steps"></ol>
+  </header>
+  <div id="body">
+    <div id="count"></div>
+    <div id="title"></div>
+    <div id="en"></div>
+    <div class="sec"><h2>走向 Course</h2><p id="where"></p></div>
+    <div class="sec" id="brSec"><h2 id="brH">分支與支配</h2><p id="branches"></p></div>
+    <div class="sec clin" id="clSec"><h2>臨床重點 Clinical</h2><p id="clinical"></p></div>
+  </div>
+</aside>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+const V=(x,y,z)=>new THREE.Vector3(x,y,z);
+const stage=document.getElementById('stage');
+const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+stage.prepend(renderer.domElement);
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(38,1,0.1,200);
+scene.add(new THREE.HemisphereLight(0xffffff,0x8a9aa5,0.95));
+const key=new THREE.DirectionalLight(0xffffff,0.7);key.position.set(4,8,6);scene.add(key);
+const back=new THREE.DirectionalLight(0xffffff,0.35);back.position.set(-5,2,-8);scene.add(back);
+
+/* ---------- schematic anatomy ---------- */
+const boneMat=new THREE.MeshStandardMaterial({color:0xe8dcc6,roughness:.8,transparent:true,opacity:.42,depthWrite:false});
+const skinMat=new THREE.MeshStandardMaterial({color:0xe6c4ae,roughness:.9,transparent:true,opacity:.07,depthWrite:false,side:THREE.DoubleSide});
+function cyl(a,b,r1,r2,mat){const d=b.clone().sub(a),len=d.length();
+  const m=new THREE.Mesh(new THREE.CylinderGeometry(r2,r1,len,24,1),mat);
+  m.position.copy(a).add(b).multiplyScalar(.5);m.quaternion.setFromUnitVectors(V(0,1,0),d.normalize());scene.add(m);return m;}
+function ball(p,r,mat,s){const m=new THREE.Mesh(new THREE.SphereGeometry(r,24,16),mat);m.position.copy(p);if(s)m.scale.set(s[0],s[1],s[2]);scene.add(m);return m;}
+function box(p,s,mat){const m=new THREE.Mesh(new THREE.BoxGeometry(s[0],s[1],s[2]),mat);m.position.copy(p);scene.add(m);return m;}
+[3.2,2.75,2.3,1.85,1.4].forEach(y=>box(V(0,y,-0.6),[.55,.32,.45],boneMat));
+const sac=box(V(0,.75,-.82),[.85,1.05,.28],boneMat);sac.rotation.x=.35;
+const ilium=ball(V(-1.2,1.15,-.15),1,boneMat,[.72,.72,.2]);ilium.rotation.y=-.5;
+cyl(V(-.85,.3,.35),V(-.08,.28,.45),.08,.08,boneMat);
+ball(V(-.82,-.2,-.45),.14,boneMat);
+const obtRing=new THREE.Mesh(new THREE.TorusGeometry(.2,.035,10,32),boneMat);obtRing.position.set(-.6,.12,.18);obtRing.rotation.y=-.6;scene.add(obtRing);
+ball(V(-.82,.22,0),.19,boneMat);cyl(V(-.82,.22,0),V(-1.1,.05,0),.1,.1,boneMat);
+ball(V(-1.55,.05,-.12),.15,boneMat);
+cyl(V(-1.15,.05,0),V(-1.2,-4.3,0),.12,.11,boneMat);
+ball(V(-1.2,-4.35,0),.22,boneMat,[1.2,.8,1]);ball(V(-1.2,-4.25,.33),.1,boneMat);
+cyl(V(-1.15,-4.55,.05),V(-1.05,-8.5,.05),.15,.1,boneMat);
+cyl(V(-1.58,-4.75,-.1),V(-1.5,-8.6,-.1),.06,.05,boneMat);
+ball(V(-.92,-8.58,.05),.09,boneMat);ball(V(-1.52,-8.68,-.1),.08,boneMat);
+box(V(-1.18,-8.98,-.15),[.42,.42,.62],boneMat);
+box(V(-1.18,-9.1,1.05),[.82,.22,1.5],boneMat);
+[-0.86,-1.02,-1.18,-1.34,-1.48].forEach((x,i)=>box(V(x,-9.12,2.05-(i>2?(i-2)*.12:0)),[.12,.14,.5],boneMat));
+cyl(V(-1.15,.6,0),V(-1.18,-4.3,0),.78,.5,skinMat);
+cyl(V(-1.18,-4.3,0),V(-1.18,-8.5,0),.52,.3,skinMat);
+const lmMat=(c,o)=>new THREE.MeshStandardMaterial({color:c,roughness:.6,transparent:true,opacity:o});
+function tube(pts,r,mat,seg){const c=new THREE.CatmullRomCurve3(pts,false,'centripetal');const m=new THREE.Mesh(new THREE.TubeGeometry(c,seg||64,r,10,false),mat);scene.add(m);return m;}
+tube([V(-1.85,1.05,.42),V(-1.2,.62,.62),V(-.35,.32,.52)],.03,lmMat(0x8f9aa3,.85));
+const pirifMat=lmMat(0xb86b5e,.3);
+tube([V(-.32,1.02,-.88),V(-.95,.82,-.75),V(-1.55,.18,-.25)],.11,pirifMat);
+const ssLig=tube([V(-.36,.55,-.9),V(-.55,.32,-.75),V(-.62,.2,-.55)],.035,lmMat(0x8f9aa3,.6)); // sacrospinous lig. (schematic)
+const muscleDefs={
+  quad:{p:V(-1.27,-2.0,.36),s:[.55,2.2,.38],c:0xc9705f},
+  sart:{p:V(-1.0,-1.6,.5),s:[.13,2.3,.1],c:0xc9705f},
+  add:{p:V(-.78,-1.3,.05),s:[.33,1.6,.38],c:0xb56a8a},
+  grac:{p:V(-.55,-2.2,.0),s:[.1,2.0,.12],c:0xb56a8a},
+  ham:{p:V(-1.25,-2.2,-.45),s:[.5,2.0,.33],c:0xc07a4f},
+  gmax:{p:V(-1.15,.75,-1.0),s:[.6,.6,.22],c:0xc07a4f},
+  gmed:{p:V(-1.45,1.15,-.55),s:[.45,.4,.2],c:0xd08a5a},
+  calf:{p:V(-1.2,-5.8,-.45),s:[.45,1.5,.34],c:0xc07a4f},
+  tibant:{p:V(-1.36,-6.3,.26),s:[.17,1.8,.16],c:0x6f8fc4},
+  fib:{p:V(-1.64,-6.3,-.04),s:[.14,1.6,.14],c:0x5aa39a}
+};
+const muscles={};
+for(const k in muscleDefs){const d=muscleDefs[k];
+  const mat=new THREE.MeshStandardMaterial({color:d.c,roughness:.7,transparent:true,opacity:.1,depthWrite:false,emissive:d.c,emissiveIntensity:0});
+  muscles[k]=ball(d.p,1,mat,d.s);muscles[k].userData.t=0;}
+
+/* ---------- pathways (points in flow direction) ---------- */
+const N={
+  fem_r2:[V(-.3,2.75,-.55),V(-.55,2.2,-.42),V(-.75,1.6,-.3)],
+  fem_r3:[V(-.3,2.3,-.55),V(-.6,1.95,-.4),V(-.75,1.6,-.3)],
+  fem_r4:[V(-.3,1.85,-.58),V(-.6,1.75,-.4),V(-.75,1.6,-.3)],
+  fem:[V(-.75,1.6,-.3),V(-.95,1.05,.12),V(-1.06,.58,.6),V(-1.12,.2,.56),V(-1.15,-.2,.5)],
+  lfcn:[V(-.3,2.6,-.55),V(-.9,1.9,-.3),V(-1.5,1.3,.2),V(-1.72,.92,.45),V(-1.82,-.5,.3),V(-1.85,-2.0,.15)],
+  afc1:[V(-1.15,-.2,.5),V(-1.25,-.9,.72),V(-1.3,-2.0,.75)],
+  afc2:[V(-1.15,-.2,.5),V(-1.0,-1.0,.7),V(-.92,-2.3,.64)],
+  fem_m1:[V(-1.15,-.2,.5),V(-1.38,-.8,.48),V(-1.48,-1.4,.42)],
+  fem_m2:[V(-1.15,-.2,.5),V(-1.25,-1.0,.55),V(-1.28,-1.8,.55)],
+  fem_vm:[V(-1.15,-.2,.5),V(-1.02,-1.6,.4),V(-.98,-2.9,.32)],
+  saph:[V(-1.15,-.2,.5),V(-.95,-1.5,.3),V(-.85,-3.2,.05),V(-.8,-4.5,-.05),V(-.82,-6.5,.05),V(-.8,-8.5,.22),V(-.78,-8.95,.9)],
+  obt:[V(-.62,1.55,-.38),V(-.5,.9,-.08),V(-.6,.15,.22),V(-.72,-.12,.3)],
+  obt_a:[V(-.72,-.12,.3),V(-.8,-1.2,.26),V(-.85,-2.4,.16)],
+  obt_p:[V(-.72,-.12,.3),V(-.78,-1.0,-.05),V(-.85,-2.6,-.12)],
+  obt_g:[V(-.85,-2.4,.16),V(-.62,-2.8,.05),V(-.56,-3.4,.0)],
+  sci_r4:[V(-.3,1.85,-.62),V(-.55,1.2,-.68),V(-.75,.7,-.75)],
+  sci_r5:[V(-.3,1.4,-.66),V(-.55,1.0,-.72),V(-.75,.7,-.75)],
+  sci_s1:[V(-.38,1.05,-.92),V(-.6,.85,-.82),V(-.75,.7,-.75)],
+  sci_s2:[V(-.38,.75,-.95),V(-.6,.72,-.85),V(-.75,.7,-.75)],
+  sci_s3:[V(-.38,.45,-.92),V(-.6,.55,-.82),V(-.75,.7,-.75)],
+  sgn:[V(-.55,1.3,-.7),V(-.95,1.14,-.9),V(-1.38,1.02,-.8)],
+  ign:[V(-.62,.74,-.86),V(-1.0,.5,-1.02),V(-1.3,.62,-1.08)],
+  sci:[V(-.75,.7,-.75),V(-1.0,.45,-.78),V(-1.2,-.15,-.62),V(-1.22,-1.5,-.52),V(-1.2,-3.0,-.46),V(-1.2,-3.7,-.45)],
+  pcnt:[V(-.7,.66,-.82),V(-.96,.36,-.9),V(-1.08,-1.5,-.74),V(-1.12,-3.5,-.68)],
+  noi:[V(-.68,.62,-.84),V(-.84,.34,-.88),V(-.76,.12,-.7)],
+  pud:[V(-.62,.6,-.86),V(-.72,.32,-.92),V(-.66,.15,-.74),V(-.52,.04,-.42)],
+  nqf:[V(-.74,.6,-.78),V(-.98,.22,-.66),V(-1.05,-.02,-.5)],
+  tib:[V(-1.2,-3.7,-.45),V(-1.15,-4.5,-.46),V(-1.1,-5.5,-.4),V(-1.0,-7.5,-.3),V(-.86,-8.6,-.14),V(-.86,-8.98,.2)],
+  cfib:[V(-1.2,-3.7,-.45),V(-1.45,-4.2,-.4),V(-1.68,-4.85,-.18),V(-1.6,-5.08,.14)],
+  msc:[V(-1.15,-4.5,-.46),V(-1.12,-5.2,-.72),V(-1.25,-6.4,-.76)],
+  lsc:[V(-1.45,-4.2,-.4),V(-1.62,-5.0,-.56),V(-1.66,-6.0,-.46)],
+  scb:[V(-1.55,-4.55,-.48),V(-1.45,-5.6,-.72),V(-1.25,-6.4,-.76)],
+  sural:[V(-1.25,-6.4,-.76),V(-1.45,-7.6,-.6),V(-1.62,-8.7,-.3)],
+  ldcn:[V(-1.62,-8.7,-.3),V(-1.7,-8.95,.6),V(-1.55,-9.0,1.9)],
+  mpl:[V(-.86,-8.98,.2),V(-.86,-9.28,.9),V(-.86,-9.28,1.2)],
+  ppd:[V(-.86,-9.28,1.2),V(-.82,-9.27,1.9),V(-.8,-9.2,2.32)],
+  cpd1:[V(-.86,-9.28,1.2),V(-.96,-9.28,1.8),V(-.99,-9.2,2.25)],
+  cpd2:[V(-.86,-9.28,1.2),V(-1.08,-9.28,1.8),V(-1.14,-9.2,2.2)],
+  cpd3:[V(-.86,-9.28,1.2),V(-1.2,-9.28,1.75),V(-1.3,-9.2,2.12)],
+  lpl:[V(-.86,-8.98,.2),V(-1.2,-9.29,.8),V(-1.4,-9.28,1.2)],
+  lpl_s:[V(-1.4,-9.28,1.2),V(-1.48,-9.27,1.7),V(-1.52,-9.2,2.1)],
+  lpl_d:[V(-1.4,-9.28,1.2),V(-1.3,-9.3,1.45),V(-1.05,-9.3,1.5)],
+  sfib:[V(-1.6,-5.08,.14),V(-1.7,-5.8,.0),V(-1.66,-7.3,.04),V(-1.45,-8.4,.35),V(-1.32,-8.88,.95)],
+  mdcn:[V(-1.32,-8.88,.95),V(-1.05,-8.95,1.5),V(-.85,-8.98,2.15)],
+  idcn:[V(-1.32,-8.88,.95),V(-1.3,-8.97,1.6),V(-1.33,-9.0,2.05)],
+  dfib:[V(-1.6,-5.08,.14),V(-1.46,-5.4,.3),V(-1.33,-7.0,.34),V(-1.22,-8.5,.4),V(-1.12,-8.88,.9)],
+  dfib_m:[V(-1.12,-8.88,.9),V(-1.02,-8.92,1.4),V(-.98,-8.97,1.95)],
+  dfib_l:[V(-1.12,-8.88,.9),V(-1.3,-8.9,1.1),V(-1.42,-8.92,1.2)]
+};
+const A={
+  aorta:[V(.02,3.1,-.25),V(0,2.5,-.25),V(-.1,2.1,-.2)],
+  cil:[V(-.1,2.1,-.2),V(-.3,1.9,-.15),V(-.45,1.7,-.1)],
+  eil:[V(-.45,1.7,-.1),V(-.6,1.15,.3),V(-.84,.58,.62)],
+  fa:[V(-.84,.58,.62),V(-.9,.1,.56),V(-.95,-.4,.5),V(-.98,-1.4,.42),V(-1.02,-3.0,.05),V(-1.08,-3.6,-.25)],
+  scia:[V(-.88,.45,.62),V(-1.3,.62,.6),V(-1.7,.9,.5)],
+  sepa:[V(-.86,.48,.64),V(-.82,.9,.72),V(-.75,1.6,.75)],
+  sepp:[V(-.87,.38,.64),V(-.6,.33,.74),V(-.3,.25,.74)],
+  depp:[V(-.9,.25,.58),V(-.62,.18,.5),V(-.3,.12,.5)],
+  pfa:[V(-.92,0,.55),V(-1.12,-.6,.25),V(-1.18,-1.6,.05),V(-1.2,-2.4,-.05),V(-1.2,-3.0,-.12)],
+  lcfa:[V(-.98,-.25,.5),V(-1.3,-.35,.45)],
+  lcfa_a:[V(-1.3,-.35,.45),V(-1.55,.1,.35),V(-1.7,.55,.3)],
+  lcfa_t:[V(-1.3,-.35,.45),V(-1.65,-.4,.25),V(-1.8,-.35,-.05)],
+  lcfa_d:[V(-1.3,-.35,.45),V(-1.5,-1.5,.4),V(-1.55,-3.4,.25),V(-1.45,-4.1,.2)],
+  mcfa:[V(-.95,-.15,.5),V(-.8,-.25,.2),V(-.85,-.2,-.2),V(-1.1,0,-.35)],
+  perf1:[V(-1.16,-1.0,.15),V(-1.05,-1.1,-.2),V(-1.2,-1.2,-.5)],
+  perf2:[V(-1.18,-1.7,.04),V(-1.07,-1.8,-.25),V(-1.22,-1.9,-.52)],
+  perf3:[V(-1.2,-2.4,-.05),V(-1.08,-2.5,-.3),V(-1.22,-2.6,-.5)],
+  dga:[V(-1.02,-3.1,.02),V(-.9,-3.5,.1)],
+  dga_a:[V(-.9,-3.5,.1),V(-.98,-4.0,.3),V(-1.1,-4.2,.38)],
+  dga_s:[V(-.9,-3.5,.1),V(-.82,-4.4,0),V(-.82,-5.2,.02)],
+  popa:[V(-1.08,-3.6,-.25),V(-1.15,-4.4,-.3),V(-1.12,-5.0,-.3)],
+  gsl:[V(-1.15,-4.0,-.28),V(-1.45,-4.05,-.15),V(-1.5,-4.15,.15)],
+  gil:[V(-1.14,-4.7,-.3),V(-1.45,-4.7,-.15),V(-1.5,-4.6,.15)],
+  gsm:[V(-1.12,-4.0,-.28),V(-.88,-4.05,-.15),V(-.88,-4.15,.15)],
+  gim:[V(-1.13,-4.7,-.3),V(-.88,-4.7,-.15),V(-.9,-4.6,.15)],
+  gmid:[V(-1.15,-4.35,-.31),V(-1.16,-4.35,-.2),V(-1.17,-4.35,-.1)],
+  ata:[V(-1.12,-5.0,-.3),V(-1.32,-5.15,-.05),V(-1.33,-5.5,.22),V(-1.28,-7.0,.27),V(-1.2,-8.45,.33)],
+  alma:[V(-1.22,-8.3,.32),V(-1.45,-8.5,.2),V(-1.55,-8.65,0)],
+  amma:[V(-1.2,-8.3,.33),V(-1.0,-8.5,.25),V(-.9,-8.6,.12)],
+  dpa:[V(-1.2,-8.45,.33),V(-1.1,-8.86,.9),V(-1.02,-8.9,1.4)],
+  dpla:[V(-1.02,-8.9,1.4),V(-1.0,-9.05,1.55),V(-1.02,-9.28,1.55)],
+  pta:[V(-1.12,-5.0,-.3),V(-1.05,-6.0,-.35),V(-.98,-7.6,-.27),V(-.88,-8.62,-.1),V(-.88,-8.98,.25)],
+  cfa:[V(-1.12,-5.05,-.3),V(-1.45,-4.95,-.35),V(-1.65,-4.8,-.15)],
+  fiba:[V(-1.07,-5.6,-.36),V(-1.4,-6.3,-.3),V(-1.48,-8.2,-.2),V(-1.5,-8.7,-.25)],
+  mpa:[V(-.88,-8.98,.25),V(-.88,-9.31,1.0),V(-.86,-9.29,1.9)],
+  lpa:[V(-.88,-8.98,.25),V(-1.3,-9.32,.8),V(-1.45,-9.32,1.3)],
+  dpar:[V(-1.45,-9.32,1.3),V(-1.25,-9.34,1.5),V(-1.02,-9.3,1.55)],
+  iil:[V(-.45,1.7,-.1),V(-.48,1.45,-.4),V(-.5,1.32,-.5)],
+  sga:[V(-.5,1.32,-.5),V(-.68,1.18,-.72),V(-.95,1.08,-.85)],
+  sga_s:[V(-.95,1.08,-.85),V(-1.1,.95,-1.0),V(-1.25,.85,-1.1)],
+  sga_d:[V(-.95,1.08,-.85),V(-1.2,1.12,-.8),V(-1.45,1.1,-.7)],
+  iga:[V(-.5,1.32,-.5),V(-.75,.62,-.82),V(-1.05,.32,-.95)],
+  ipa:[V(-.5,1.32,-.5),V(-.7,.6,-.86),V(-.8,.32,-.92),V(-.73,.15,-.76),V(-.58,.04,-.44)],
+  obta:[V(-.5,1.32,-.5),V(-.55,.7,-.05),V(-.62,.17,.24),V(-.74,-.3,.26)]
+};
+const W={
+  dva_m:[V(-1.15,-8.86,1.5),V(-.98,-8.87,1.3),V(-.82,-8.88,.95)],
+  dva_l:[V(-1.15,-8.86,1.5),V(-1.42,-8.9,1.3),V(-1.6,-8.95,.8)],
+  gsv:[V(-.82,-8.88,.95),V(-.72,-8.5,.32),V(-.72,-6.5,0),V(-.66,-4.5,-.15),V(-.48,-2.5,.05),V(-.55,-.6,.45),V(-.68,-.1,.62),V(-.79,0,.58)],
+  ssv:[V(-1.6,-8.95,.8),V(-1.62,-8.75,-.25),V(-1.42,-7.5,-.64),V(-1.22,-5.8,-.78),V(-1.14,-4.9,-.64),V(-1.12,-4.62,-.4)]
+};
+const COLORS={nerve:0xd9a300,artery:0xcc3b36,vein:0x2c5bb5,vcom:0x8db2e6};
+function glow(rgb){const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d');const r=g.createRadialGradient(32,32,0,32,32,32);
+  r.addColorStop(0,'rgba(255,255,255,1)');r.addColorStop(.35,'rgba('+rgb+',.8)');r.addColorStop(1,'rgba('+rgb+',0)');g.fillStyle=r;g.fillRect(0,0,64,64);return new THREE.CanvasTexture(c);}
+const GLOW={nerve:glow('255,200,40'),artery:glow('235,70,60'),vein:glow('60,110,220'),vcom:glow('140,180,240')};
+const paths={};
+const thick=/^(fem|sci|tib|cfib|obt|aorta|cil|eil|iil|fa|pfa|popa|gsv)$/;
+function make(id,pts,group,extra){
+  const curve=new THREE.CatmullRomCurve3(pts,false,'centripetal');const len=curve.getLength();
+  const seg=Math.max(24,Math.round(len*28)),rad=10;
+  let r=thick.test(id)?(group==='nerve'?.05:.058):.032;
+  if(id==='aorta')r=.11;if(group==='vcom')r=(id==='v_aorta'?.1:(thick.test(id.slice(2))?.045:.026));if(id==='sci')r=.065;
+  const geo=new THREE.TubeGeometry(curve,seg,r,rad,false);
+  const col=COLORS[group];
+  const mat=new THREE.MeshStandardMaterial({color:col,emissive:col,emissiveIntensity:.3,roughness:.45,transparent:true,opacity:1,depthWrite:group!=='vcom'});
+  const mesh=new THREE.Mesh(geo,mat);mesh.visible=false;scene.add(mesh);
+  const head=new THREE.Sprite(new THREE.SpriteMaterial({map:GLOW[group],depthWrite:false,transparent:true}));head.scale.set(.42,.42,1);head.visible=false;scene.add(head);
+  const flow=[];for(let i=0;i<Math.max(2,Math.round(len*1.3));i++){const s=new THREE.Sprite(new THREE.SpriteMaterial({map:GLOW[group],depthWrite:false,transparent:true,opacity:.85}));s.scale.set(group==='vcom'?.15:.2,group==='vcom'?.15:.2,1);s.visible=false;s.userData.o=Math.random();scene.add(s);flow.push(s);}
+  paths[id]=Object.assign({id,group,curve,len,mesh,geo,total:geo.index.count,unit:rad*6,head,flow,p:0,state:'hidden',fade:0},extra||{});
+}
+for(const id in N)make(id,N[id],'nerve');
+for(const id in A){make(id,A[id],'artery');
+  // same-name accompanying vein: offset, reversed (flows back toward the heart)
+  const post=/^(popa|gsl|gil|gsm|gim|gmid)$/.test(id);
+  const off=post?V(0,0,-.085):V(.075,0,-.03);
+  const pts=A[id].map(p=>p.clone().add(off)).reverse();
+  make('v_'+id,pts,'vcom',{of:id});}
+for(const id in W)make(id,W[id],'vein');
+function setGrow(n,p){n.p=p;n.mesh.visible=p>0;n.geo.setDrawRange(0,Math.floor(n.total*p/n.unit)*n.unit);
+  n.head.visible=p>0&&p<1;if(n.head.visible)n.head.position.copy(n.curve.getPointAt(p));}
+
+/* ---------- steps ---------- */
+const Y='#d29c00',R='#cc3b36',B='#2c5bb5',LB='#6f98d8',G='#8a96a0',M='#c9705f';
+const NSTEPS=[
+ {t:'下肢神經從哪裡來',en:'Lumbar plexus & Sacral plexus',cam:[V(3.2,1.6,8.5),V(-.6,.9,-.3)],ph:[],
+  tags:[['腰叢','Lumbar plexus L1–L4',V(-.25,2.4,-.5),Y],['薦叢','Sacral plexus L4–S4',V(-.3,.8,-.95),Y],['L4','',V(.35,1.85,-.6),G]],
+  where:'下肢神經來自兩個神經叢：腰叢（lumbar plexus，L1–L4）位於腰大肌內；薦叢（sacral plexus，L4–S4）位於骨盆後壁、薦骨前方。',
+  br:'腰叢發出股神經（femoral n.）、外股皮神經（lateral femoral cutaneous n.）及閉孔神經（obturator n.）。薦叢發出臀上、臀下神經，坐骨神經（sciatic n.）、後股皮神經及陰部神經等。',
+  cl:'L4 同時參與兩個神經叢：一部分加入腰叢，另一部分與 L5 合成腰薦幹（lumbosacral trunk），下降加入薦叢。'},
+ {t:'股神經與外股皮神經',en:'Femoral n. & Lateral femoral cutaneous n.',cam:[V(-.6,1.3,6.0),V(-1.15,.5,.2)],ph:[['fem_r2','fem_r3','fem_r4'],['fem','lfcn']],ctx:['fa'],mus:['sart'],
+  tags:[['股神經','Femoral n.',V(-1.12,.15,.58),Y],['外股皮神經','Lat. femoral cutaneous n.',V(-1.78,.4,.42),Y],['腹股溝韌帶','Inguinal lig.',V(-1.45,.85,.55),G],['股動脈','Femoral a.',V(-.86,.38,.62),R]],
+  where:'股神經（femoral n.，L2–L4）由腰大肌外側緣穿出，沿髂肌表面下行，經腹股溝韌帶深面入大腿。它不在股鞘（femoral sheath）內，過韌帶後很快散開。外股皮神經（lateral femoral cutaneous n.）是獨立一條，在髂前上棘（ASIS）內側出來，走到大腿外側皮膚。',
+  br:'股三角內由外到內：神經 N、動脈 A、靜脈 V、淋巴 Y。',
+  cl:'外股皮神經在 ASIS 內側受壓（如腰帶過緊），會引致大腿外側麻痛。'},
+ {t:'股神經的分支',en:'Branches of femoral n.',cam:[V(-.2,-2.2,9.0),V(-1.05,-3.6,.15)],ph:[['afc1','afc2','fem_m1','fem_m2','fem_vm'],['saph']],mus:['quad','sart'],
+  tags:[['前股皮神經','Ant. femoral cutaneous n.',V(-1.28,-1.6,.76),Y],['股四頭肌','Quadriceps femoris m.',V(-1.55,-2.2,.55),M],['至股內側肌神經','Nerve to vastus medialis',V(-.98,-2.6,.34),Y],['隱神經','Saphenous n.',V(-.8,-5.4,.02),Y]],
+  where:'股神經散開成前股皮神經（ant. femoral cutaneous n.，到皮膚，不只一條）及各肌肉支（nerve to … m.）。隱神經（saphenous n.）隨股動脈進入內收肌管，之後與降膝動脈的隱支伴行，穿出筋膜沿小腿內緣到內踝前方。',
+  br:'支配股四頭肌（rectus femoris、vastus lateralis、vastus intermedius、vastus medialis）及縫匠肌（sartorius m.），負責伸膝、屈髖。',
+  cl:'至股內側肌神經與隱神經走得很近，容易混淆：往遠端追，進入肌肉的是肌支，一直走到小腿的是隱神經。股神經受損時伸膝無力、膝跳反射減弱。'},
+ {t:'閉孔神經',en:'Obturator n.（L2–L4）',cam:[V(2.8,-.4,5.4),V(-.7,-1.2,.1)],ph:[['obt'],['obt_a','obt_p'],['obt_g']],mus:['add','grac'],
+  tags:[['閉孔神經','Obturator n.',V(-.55,.7,-.05),Y],['前支','Ant. br.',V(-.82,-1.6,.26),Y],['後支','Post. br.',V(-.8,-1.6,-.08),Y],['股薄肌','Gracilis m.',V(-.55,-3.0,.08),'#b56a8a']],
+  where:'在腰大肌內側緣出現，沿骨盆側壁經閉孔管（obturator canal）出骨盆。在大腿內側被內收短肌（adductor brevis m.）分成前支（ant. br.）及後支（post. br.），一前一後夾住內收短肌。',
+  br:'支配大腿內側肌群：恥骨肌部分、內收長肌、內收短肌、內收大肌、股薄肌（gracilis m.，由前支支配）及閉孔外肌。',
+  cl:'辨認時要分前支、後支：以內收短肌為界。受損時大腿內收無力。'},
+ {t:'臀部的神經',en:'Nerves of the gluteal region',cam:[V(-2.6,1.0,-6.0),V(-.85,.45,-.7)],ph:[['sci_r4','sci_r5','sci_s1','sci_s2','sci_s3'],['sgn','ign'],['pcnt','noi','pud','nqf']],ctx:['sci'],mus:['gmax','gmed'],pir:true,
+  tags:[['臀上神經','Sup. gluteal n.',V(-1.25,1.1,-.85),Y],['梨狀肌','Piriformis m.',V(-.7,.92,-.85),'#b86b5e'],['臀下神經','Inf. gluteal n.',V(-1.25,.6,-1.08),Y],['後股皮神經','Post. cutaneous n. of thigh',V(-1.05,-.7,-.82),Y],['陰部神經','Pudendal n.',V(-.55,.08,-.5),Y]],
+  where:'梨狀肌（piriformis m.）把坐骨大孔分成上下兩部分。臀上神經（sup. gluteal n.）在梨狀肌上方出來，走在臀中肌與臀小肌之間；其餘全部在梨狀肌下方出來。臀下神經（inf. gluteal n.）直接進入臀大肌。',
+  br:'梨狀肌下方由外到內：坐骨神經（sciatic n.）、後股皮神經（post. cutaneous n. of thigh）、至閉孔內肌神經（nerve to obturator internus m.，支配閉孔內肌及上孖肌）、陰部神經（pudendal n.，繞過薦棘韌帶進入坐骨小孔，有內陰動靜脈伴行）。至股方肌神經（nerve to quadratus femoris m.）在孖肌及閉孔內肌深層。',
+  cl:'臀上神經受損時臀中肌、臀小肌無力，站單腳時對側骨盆下沉（Trendelenburg sign）。肌肉注射要打在臀部外上象限。'},
+ {t:'坐骨神經',en:'Sciatic n.（L4–S3）',cam:[V(-3.6,-1.0,-6.4),V(-1.1,-1.8,-.5)],ph:[['sci']],mus:['ham'],
+  tags:[['坐骨神經','Sciatic n.',V(-1.22,-1.5,-.55),Y],['膕旁肌群','Hamstrings',V(-1.5,-2.4,-.62),'#c07a4f'],['分成兩支','Division',V(-1.2,-3.7,-.48),G]],
+  where:'人體最粗的神經，一般在梨狀肌下緣穿出，在大轉子與坐骨粗隆之間下行，沿大腿後側到膕窩上方，分成脛神經（tibial n.，偏內側）及總腓神經（common fibular n.，偏外側）。',
+  br:'在大腿支配後側肌群：半腱肌（semitendinosus）、半膜肌（semimembranosus）、股二頭肌長頭及短頭（biceps femoris），以及內收大肌的膕旁部分。',
+  cl:'有變異：可能在臀部已分成兩支，甚至分別從梨狀肌上、下方穿出。'},
+ {t:'膕窩與腓腸神經',en:'Popliteal fossa & Sural n.',cam:[V(-2.2,-5.6,-6.6),V(-1.35,-6.2,-.5)],ph:[['tib','cfib'],['msc','lsc','scb'],['sural'],['ldcn']],ctx:['ssv'],mus:['calf'],
+  tags:[['內側腓腸皮神經','Med. sural cutaneous n.',V(-1.1,-5.3,-.74),Y],['外側腓腸皮神經','Lat. sural cutaneous n.',V(-1.66,-5.6,-.52),Y],['腓腸交通支','Sural communicating br.',V(-1.45,-5.5,-.74),Y],['腓腸神經','Sural n.',V(-1.45,-7.6,-.62),Y],['外側足背皮神經','Lat. dorsal cutaneous n.',V(-1.66,-9.0,1.0),Y]],
+  where:'脛神經（tibial n.）在膕窩發出內側腓腸皮神經（medial sural cutaneous n.）；總腓神經（common fibular n.）發出外側腓腸皮神經（lateral sural cutaneous n.）及腓腸交通支（sural communicating br.）。內側腓腸皮神經與腓腸交通支匯合成腓腸神經（sural n.），走在腓腸肌上方。',
+  br:'腓腸神經與小隱靜脈（small saphenous v.）伴行，經外踝後方，在足外側成為外側足背皮神經（lateral dorsal cutaneous n.），走到小趾外側。',
+  cl:'總腓神經的分支變異很多。腓腸神經常被取作神經移植或作神經切片。'},
+ {t:'脛神經到足底',en:'Tibial n. → Tarsal tunnel → Plantar nn.',cam:[V(2.8,-7.0,-5.6),V(-1.0,-7.8,.3)],ph:[['tib'],['mpl','lpl'],['ppd','cpd1','cpd2','cpd3','lpl_s','lpl_d']],ctx:['pta'],mus:['calf'],
+  tags:[['脛神經','Tibial n.',V(-1.1,-5.8,-.42),Y],['跗管','Tarsal tunnel',V(-.86,-8.55,-.16),G],['內蹠神經','Medial plantar n.',V(-.86,-9.32,.8),Y],['外蹠神經','Lateral plantar n.',V(-1.25,-9.33,.85),Y]],
+  where:'脛神經在小腿後側深淺肌群之間下行，與脛後動脈伴行，經內踝的跗管（tarsal tunnel）轉入足底，分成內蹠神經（medial plantar n.）及外蹠神經（lateral plantar n.）。',
+  br:'內蹠神經分成固有蹠趾神經（proper plantar digital n.，到拇趾內側）及 3 條總蹠趾神經（common plantar digital n.）。外蹠神經分成淺終末支（superficial br.）及深終末支（deep br.）。跗管內容物由前到後：脛後肌腱、屈趾長肌腱、脛後動脈、脛後靜脈、脛神經、屈拇長肌腱。',
+  cl:'跗管受壓迫造成足底麻痛，稱為跗管症候群（tarsal tunnel syndrome）。脛神經受損時無法踮腳、屈趾無力。'},
+ {t:'總腓神經',en:'Common fibular n.',cam:[V(-6.8,-4.3,-1.6),V(-1.45,-4.8,-.1)],ph:[['cfib']],
+  tags:[['總腓神經','Common fibular n.',V(-1.48,-4.2,-.42),Y],['腓骨頸','Neck of fibula',V(-1.66,-4.92,-.12),G]],
+  where:'與脛神經分開後偏外側，沿股二頭肌內側緣往外下走，繞過腓骨頸外側，向前轉到小腿前側，分成深腓神經（deep fibular n.）及淺腓神經（superficial fibular n.）。',
+  br:'繞腓骨頸時位置很表淺，只有皮膚覆蓋。',
+  cl:'下肢最容易受損的神經。腓骨頸骨折、石膏過緊或長時間翹腳都可能壓傷，造成垂足（foot drop）及足背感覺減退。'},
+ {t:'深腓神經與淺腓神經',en:'Deep & Superficial fibular nn.',cam:[V(-4.8,-6.4,6.0),V(-1.25,-7.6,.6)],ph:[['sfib','dfib'],['mdcn','idcn','dfib_m','dfib_l']],ctx:['ata'],mus:['fib','tibant'],
+  tags:[['淺腓神經','Superficial fibular n.',V(-1.7,-6.4,.02),Y],['深腓神經','Deep fibular n.',V(-1.32,-6.8,.36),Y],['內側足背皮神經','Med. dorsal cutaneous n.',V(-.95,-8.95,1.7),Y],['中間足背皮神經','Intermediate dorsal cutaneous n.',V(-1.32,-8.98,1.75),Y]],
+  where:'淺腓神經先走在腓長肌與腓短肌之間，再穿出到表面，在足背分成內側足背皮神經（medial dorsal cutaneous n.）及中間足背皮神經（intermediate dorsal cutaneous n.）。深腓神經與脛前動脈伴行，走在脛前肌與伸拇長肌之間，在足背分成內側支（medial br.，到第一、二趾之間）及外側支（lateral br.，到伸拇短肌、伸趾短肌下面）。',
+  br:'淺腓：腓長肌、腓短肌（足外翻）。深腓：脛前肌、伸拇長肌、伸趾長肌、第三腓骨肌（背屈、伸趾），以及足背的伸拇短肌、伸趾短肌。',
+  cl:'深腓神經受損引致垂足，第一、二趾間感覺減退；淺腓神經受損則外翻無力、足背麻痺。'},
+ {t:'神經總覽',en:'Overview of lower limb nerves',cam:[V(4.5,-2.2,12.5),V(-1.0,-3.9,0)],ph:[],orbit:true,
+  tags:[['股神經','Femoral n.',V(-1.12,.15,.58),Y],['閉孔神經','Obturator n.',V(-.6,.5,0),Y],['坐骨神經','Sciatic n.',V(-1.22,-1.4,-.55),Y]],
+  where:'前面：股神經（伸膝）。內側：閉孔神經（內收）。後面：坐骨神經，下分脛神經（小腿後側、足底）及總腓神經（小腿外側、前側、足背）。',
+  br:'皮膚感覺：大腿外側靠外股皮神經；大腿後側靠後股皮神經；小腿內側靠隱神經；小腿後外側及足外側靠腓腸神經；足背靠淺腓神經；第一、二趾間靠深腓神經；足底靠內、外蹠神經。',
+  cl:'垂足：總腓或深腓神經。不能踮腳：脛神經。不能伸膝：股神經。內收無力：閉孔神經。'}
+];
+const VSTEPS=[
+ {t:'由主動脈到股動脈',en:'Aorta → Iliac arteries → Femoral a.',cam:[V(.8,1.5,6.2),V(-.6,1.0,.2)],ph:[['aorta'],['cil'],['eil'],['fa']],ctx:['fem'],
+  tags:[['髂總動脈','Common iliac a.',V(-.3,1.92,-.15),R],['髂外動脈','External iliac a.',V(-.6,1.15,.32),R],['股動脈','Femoral a.',V(-.92,-.05,.58),R],['股靜脈','Femoral v.',V(-.82,-.3,.52),LB],['股神經','Femoral n.',V(-1.13,.1,.56),Y]],
+  where:'腹主動脈（abdominal aorta）在 L4 分成左右髂總動脈（common iliac a.），再分出髂外動脈（external iliac a.），經腹股溝韌帶中點深面入大腿，改稱股動脈（femoral a.）。',
+  br:'淺藍色是與動脈同名伴行的靜脈（如股靜脈 femoral v.），血液方向相反，流回心臟。股三角由外到內：股神經、股動脈、股靜脈、淋巴。',
+  cl:'腹股溝韌帶中點下方可摸到股動脈脈搏，也是心導管常用的穿刺位置；股靜脈在脈搏內側。'},
+ {t:'股動脈近端四條小分支',en:'Superficial branches of femoral a.',cam:[V(-.4,.6,5.2),V(-.85,.45,.55)],ph:[['fa'],['scia','sepa','sepp','depp']],ctx:['gsv'],
+  tags:[['淺旋髂動脈','Superficial circumflex iliac a.',V(-1.5,.78,.58),R],['淺腹壁動脈','Superficial epigastric a.',V(-.8,1.3,.74),R],['淺外陰動脈','Superficial external pudendal a.',V(-.5,.36,.76),R],['深外陰動脈','Deep external pudendal a.',V(-.48,.08,.48),R],['大隱靜脈','Great saphenous v.',V(-.66,-.35,.58),B]],
+  where:'股動脈剛過腹股溝韌帶就發出四條小分支：淺旋髂動脈（superficial circumflex iliac a.）往外側 ASIS；淺腹壁動脈（superficial epigastric a.）往上到前腹壁；淺外陰動脈及深外陰動脈（superficial / deep external pudendal a.）往內側。',
+  br:'分辨深淺外陰動脈可用大隱靜脈：淺外陰動脈通常走在大隱靜脈淺層，深外陰動脈走在大隱靜脈深層（不是絕對）。',
+  cl:'這四條都很細，靠走向（往外、往上、往內）辨認最快。'},
+ {t:'股深動脈',en:'Deep femoral a. & its branches',cam:[V(-1.8,-.6,6.4),V(-1.2,-1.2,.1)],ph:[['fa'],['pfa'],['lcfa','mcfa'],['lcfa_a','lcfa_t','lcfa_d','perf1','perf2','perf3']],mus:['quad','add','ham'],
+  tags:[['股深動脈','Deep femoral a.',V(-1.18,-1.6,.08),R],['外旋股動脈','Lat. circumflex femoral a.',V(-1.32,-.3,.5),R],['內旋股動脈','Med. circumflex femoral a.',V(-.8,-.28,.15),R],['降支','Descending br.',V(-1.52,-2.4,.36),R],['穿通支','Perforating br.',V(-1.1,-1.85,-.3),R]],
+  where:'股深動脈（deep femoral a.）由股動脈往深處分出，很粗。外旋股動脈（lateral circumflex femoral a.）往外發出，分成上升支（ascending br.，到闊筋膜張肌下）、橫支（transverse br.）及下降支（descending br.，到膝關節）。內旋股動脈（medial circumflex femoral a.）穿進恥骨肌與髂腰肌之間，往股骨頸後方繞。',
+  br:'主幹往下再發出 3–4 條穿通支（perforating br.），穿過內收大肌到大腿後區間。大腿肌肉主要靠股深動脈供血。',
+  cl:'內旋股動脈是股骨頭最重要的血液供應；股骨頸骨折可傷及其分支，導致股骨頭缺血性壞死。'},
+ {t:'內收肌管與降膝動脈',en:'Adductor canal → Descending genicular a. → Adductor hiatus',cam:[V(3.0,-3.4,5.6),V(-.95,-3.8,0)],ph:[['fa'],['dga'],['dga_a','dga_s'],['popa']],ctx:['saph'],
+  tags:[['降膝動脈','Descending genicular a.',V(-.9,-3.5,.12),R],['關節支','Articular br.',V(-1.05,-4.15,.4),R],['隱支','Saphenous br.',V(-.8,-4.9,.04),R],['隱神經','Saphenous n.',V(-.8,-5.6,.06),Y],['內收肌裂孔','Adductor hiatus',V(-1.08,-3.6,-.25),G]],
+  where:'股動脈與隱神經一起進入內收肌管（adductor canal），在進入內收肌裂孔（adductor hiatus）前發出降膝動脈（descending genicular a.），再分成關節支（articular br.，往髕骨）及隱支（saphenous br.，與隱神經伴行）。',
+  br:'股動脈穿過內收肌裂孔轉到膝後，改稱膕動脈（popliteal a.）。',
+  cl:'隱神經與降膝動脈的隱支伴行，沿小腿內緣下行。'},
+ {t:'膕窩與膝動脈',en:'Popliteal a. & Genicular arteries',cam:[V(-.6,-4.0,-6.8),V(-1.15,-4.4,-.2)],ph:[['popa'],['gsl','gsm','gil','gim','gmid']],mus:['calf'],
+  tags:[['膕動脈','Popliteal a.',V(-1.15,-4.2,-.32),R],['膕靜脈','Popliteal v.',V(-1.12,-4.6,-.4),LB],['外上膝動脈','Sup. lat. genicular a.',V(-1.48,-4.08,-.1),R],['內上膝動脈','Sup. med. genicular a.',V(-.88,-4.08,-.1),R],['中膝動脈','Middle genicular a.',V(-1.17,-4.35,-.12),R]],
+  where:'膕動脈（popliteal a.）是膕窩最深層的結構，被壓在膕靜脈（popliteal v.）底下；膕靜脈在淺層包著動脈。膕動脈發出五條膝動脈（genicular a.），都往膝蓋插入。',
+  br:'五條膝動脈：外上（sup. lat.）、外下（inf. lat.）、內上（sup. med.）、內下（inf. med.）及中膝動脈（middle genicular a.）。用大拇趾分內外（大拇趾那邊是內），用股骨內外髁或腓腸肌兩頭的起點分上下。英文先寫上下再寫內外。',
+  cl:'中膝動脈是 middle，不要寫成 median 或 medial。膕窩伴行靜脈容易被誤認為動脈，要追源頭確認。'},
+ {t:'臀部的血管',en:'Gluteal vessels（Internal iliac a.）',cam:[V(-2.6,1.0,-6.0),V(-.85,.6,-.7)],ph:[['cil'],['iil'],['sga','iga','ipa','obta'],['sga_s','sga_d']],ctx:['pud'],mus:['gmax','gmed'],pir:true,
+  tags:[['臀上動脈','Sup. gluteal a.',V(-.8,1.18,-.78),R],['淺支','Superficial br.',V(-1.22,.86,-1.1),R],['深支','Deep br.',V(-1.42,1.12,-.72),R],['臀下動脈','Inf. gluteal a.',V(-1.0,.32,-.96),R],['內陰動脈','Internal pudendal a.',V(-.8,.32,-.94),R]],
+  where:'髂內動脈（internal iliac a.）在骨盆內發出：臀上動脈（sup. gluteal a.）經梨狀肌上方出骨盆，分成淺支（superficial br.，到臀大肌）及深支（deep br.，走在臀中、臀小肌之間）；臀下動脈（inf. gluteal a.）經梨狀肌下方出骨盆；內陰動脈（internal pudendal a.）走在陰部神經外側與其伴行。',
+  br:'閉孔動脈（obturator a.）與閉孔神經一起穿過閉孔管，到大腿內側。各動脈都有同名靜脈伴行。',
+  cl:'梨狀肌是臀部的分界：上方只有臀上神經血管，其餘都從下方出來。'},
+ {t:'脛前動脈與足背動脈',en:'Anterior tibial a. → Dorsalis pedis a.',cam:[V(-4.6,-6.4,5.8),V(-1.2,-7.4,.5)],ph:[['popa'],['ata'],['alma','amma'],['dpa'],['dpla']],ctx:['dfib'],mus:['tibant'],
+  tags:[['脛前動脈','Anterior tibial a.',V(-1.3,-6.6,.3),R],['前外踝動脈','Ant. lat. malleolar a.',V(-1.55,-8.6,.05),R],['前內踝動脈','Ant. med. malleolar a.',V(-.9,-8.6,.15),R],['足背動脈','Dorsalis pedis a.',V(-1.1,-8.86,.95),R],['深蹠動脈','Deep plantar a.',V(-1.0,-9.1,1.55),R]],
+  where:'膕動脈在膕肌下緣分出脛前動脈（anterior tibial a.），往前穿過骨間膜孔進入小腿前區間，夾在脛前肌與伸拇長肌之間，與深腓神經伴行。近腳踝處發出前外踝動脈及前內踝動脈（anterior lateral / medial malleolar a.），轉到足背後改稱足背動脈（dorsalis pedis a.）。',
+  br:'足背動脈在第一、二趾間發出深蹠動脈（deep plantar a.），往足底穿入，與深蹠弓吻合。',
+  cl:'足背動脈脈搏在伸拇長肌腱外側摸到，用來檢查下肢末梢循環。'},
+ {t:'脛後動脈、腓動脈與足底',en:'Posterior tibial a., Fibular a. & Plantar arteries',cam:[V(2.8,-6.8,-5.6),V(-1.05,-7.6,.2)],ph:[['popa'],['pta','cfa'],['fiba','mpa','lpa'],['dpar']],ctx:['tib'],mus:['calf','fib'],
+  tags:[['脛後動脈','Posterior tibial a.',V(-1.0,-7.2,-.3),R],['旋腓動脈','Circumflex fibular a.',V(-1.5,-4.9,-.3),R],['腓動脈','Fibular a.',V(-1.46,-7.4,-.26),R],['內蹠動脈','Medial plantar a.',V(-.88,-9.34,1.3),R],['深蹠弓','Deep plantar arch',V(-1.25,-9.36,1.5),R]],
+  where:'脛後動脈（posterior tibial a.）靠內側，與脛神經伴行，經比目魚肌腱弓進入小腿後側深淺肌群之間，走在屈趾長肌與脛後肌之間。它發出旋腓動脈（circumflex fibular a.）及腓動脈（fibular a.，走在屈拇長肌與脛後肌之間，靠著腓骨）。',
+  br:'脛後動脈經跗管入足底，分成內蹠動脈（medial plantar a.）及外蹠動脈（lateral plantar a.）。外蹠動脈走到外側後穿入深層，在第 3、4 層肌肉之間形成深蹠弓（deep plantar arch），與足背來的深蹠動脈吻合。',
+  cl:'內踝與跟腱之間可摸到脛後動脈脈搏。跗管內脛後靜脈常是兩條夾著一條動脈。'},
+ {t:'大隱靜脈',en:'Great saphenous v.',cam:[V(3.6,-4.2,6.4),V(-.75,-4.4,.2)],ph:[['dva_m'],['gsv']],ctx:['saph','fa'],
+  tags:[['足背靜脈弓','Dorsal venous arch',V(-1.15,-8.84,1.55),B],['內踝前側','Ant. to medial malleolus',V(-.72,-8.5,.32),G],['大隱靜脈','Great saphenous v.',V(-.5,-2.5,.06),B],['隱神經','Saphenous n.',V(-.8,-6.0,.04),Y],['隱靜脈孔','Saphenous opening',V(-.79,0,.6),G]],
+  where:'由足背靜脈弓（dorsal venous arch）內側開始，走內踝前側，沿小腿內側上行（與隱神經伴行），走在膝關節的後內側，再上行到大腿內側，最後在隱靜脈孔（saphenous opening）匯入股靜脈（femoral v.）。',
+  br:'深藍色是有自己名字的淺層靜脈；淺藍色是與動脈同名的伴行靜脈。人體最長的靜脈。',
+  cl:'內踝前側位置固定，可作靜脈切開；冠狀動脈繞道手術常取大隱靜脈作移植。靜脈瓣膜失效時出現靜脈曲張。'},
+ {t:'小隱靜脈',en:'Small saphenous v.',cam:[V(-3.6,-6.2,-6.4),V(-1.3,-6.6,-.4)],ph:[['dva_l'],['ssv']],ctx:['sural','popa'],
+  tags:[['外踝後側','Post. to lateral malleolus',V(-1.62,-8.75,-.25),G],['小隱靜脈','Small saphenous v.',V(-1.22,-5.8,-.8),B],['腓腸神經','Sural n.',V(-1.45,-7.6,-.62),Y],['匯入膕靜脈','Into popliteal v.',V(-1.12,-4.62,-.42),G]],
+  where:'由足背靜脈弓外側開始，走在外踝後側（與腓腸神經伴行），往上走在腓腸肌之上，在腓腸肌兩頭之間匯入膕靜脈（popliteal v.）。',
+  br:'記法：大隱靜脈與隱神經走內側；小隱靜脈與腓腸神經走外側。',
+  cl:'在外踝後方操作時要避開伴行的腓腸神經。'},
+ {t:'血管總覽',en:'Overview of lower limb vessels',cam:[V(4.5,-2.2,12.5),V(-1.0,-3.9,0)],ph:[],orbit:true,
+  tags:[['股動脈脈搏','Femoral pulse',V(-.88,.3,.6),R],['膕動脈脈搏','Popliteal pulse',V(-1.15,-4.4,-.32),R],['脛後動脈脈搏','Post. tibial pulse',V(-.88,-8.62,-.1),R],['足背動脈脈搏','Dorsalis pedis pulse',V(-1.1,-8.86,.95),R]],
+  where:'動脈主幹：髂外動脈 → 股動脈 → 膕動脈 → 脛前動脈（前區間、足背）及脛後動脈（後區間、足底）。臀部由髂內動脈的分支供應。',
+  br:'深靜脈都與動脈同名伴行（淺藍色），方向相反；淺靜脈有大隱靜脈及小隱靜脈（深藍色）。',
+  cl:'下肢四個摸脈搏位置：股動脈、膕動脈、脛後動脈、足背動脈。'}
+];
+const MODES=[{groups:['nerve'],name:'下肢神經走向',brH:'分支與支配 Branches',steps:NSTEPS,
+  legend:[['神經 Nerve','#d29c00']]},
+ {groups:['artery','vein'],name:'下肢血管走向',brH:'分支與重點 Branches',steps:VSTEPS,
+  legend:[['動脈 Artery','#cc3b36'],['同名伴行靜脈 Accompanying vein','#8db2e6'],['大、小隱靜脈 Saphenous veins','#2c5bb5']]}];
+const STEP_DUR=10.5, GROW=4.2, CAM=1.8;
+
+/* ---------- UI ---------- */
+const leaders=document.getElementById('leaders');
+const stepsEl=document.getElementById('steps'),bodyEl=document.getElementById('body'),tagLayer=document.getElementById('tags'),legendEl=document.getElementById('legend');
+const modeBtns=[...document.querySelectorAll('#modes button')];
+let tagEls=[];
+function buildBars(){stepsEl.innerHTML='';MODES[mode].steps.forEach(()=>{const li=document.createElement('li');li.innerHTML='<span></span>';stepsEl.appendChild(li);});
+  legendEl.innerHTML='';MODES[mode].legend.forEach(([t,c])=>{const s=document.createElement('span');const i=document.createElement('i');i.style.background=c;s.appendChild(i);s.appendChild(document.createTextNode(t));legendEl.appendChild(s);});}
+function showStep(){
+  const s=MODES[mode].steps[stepIdx];
+  [...stepsEl.children].forEach((li,k)=>{li.className=k<stepIdx?'done':(k===stepIdx?'now':'');});
+  bodyEl.classList.add('fade');
+  setTimeout(()=>{
+    document.getElementById('count').textContent=(stepIdx+1)+' / '+MODES[mode].steps.length;
+    document.getElementById('title').textContent=s.t;
+    document.getElementById('en').textContent=s.en;
+    document.getElementById('where').textContent=s.where;
+    document.getElementById('branches').textContent=s.br;
+    document.getElementById('brH').textContent=MODES[mode].brH;
+    document.getElementById('clinical').textContent=s.cl;
+    bodyEl.scrollTop=0;bodyEl.classList.remove('fade');
+  },300);
+  tagEls.forEach(e=>{e.el.remove();e.line.remove();e.dot.remove();});
+  const NS='http://www.w3.org/2000/svg';
+  tagEls=s.tags.map(([zh,en,p,c])=>{const el=document.createElement('div');el.className='tag';el.appendChild(document.createTextNode(zh));
+    if(en){const sm=document.createElement('small');sm.textContent=en;el.appendChild(sm);}
+    el.style.setProperty('--c',c);el.style.opacity=0;tagLayer.appendChild(el);
+    const line=document.createElementNS(NS,'line');line.setAttribute('stroke',c);line.setAttribute('stroke-width','1.2');line.style.transition='opacity .4s';
+    const dot=document.createElementNS(NS,'circle');dot.setAttribute('r','3');dot.setAttribute('fill',c);dot.style.transition='opacity .4s';
+    leaders.appendChild(line);leaders.appendChild(dot);
+    return{el,p,line,dot,w:0,h:0};});
+}
+
+/* ---------- timeline ---------- */
+let mode=0,stepIdx=-1,stepT=0,growPhases=[],camFrom=[V(3.2,1.6,8.5),V(-.6,.9,-.3)],camNow=[V(3.2,1.6,8.5),V(-.6,.9,-.3)];
+const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+function resetAll(){for(const id in paths){const n=paths[id];setGrow(n,0);n.state='hidden';n.fade=0;n.flow.forEach(f=>f.visible=false);}}
+function setMode(m){mode=m;resetAll();buildBars();
+  document.getElementById('h1').textContent=MODES[m].name;
+  modeBtns.forEach((b,k)=>b.setAttribute('aria-pressed',k===m?'true':'false'));
+  startStep(0);}
+function startStep(i){
+  const st=MODES[mode].steps[i];
+  for(const id in paths){const n=paths[id];if(n.group==='vcom')continue;
+    if(n.state==='active')n.state='done';
+    else if(n.state==='ctx'){n.state=n.wasDone?'done':'hidden';if(n.state==='hidden')setGrow(n,0);}}
+  st.ph.flat().forEach(id=>{paths[id].state='active';});
+  (st.ctx||[]).forEach(id=>{const n=paths[id];if(n.state!=='active'){n.wasDone=n.state==='done';n.state='ctx';setGrow(n,1);}});
+  if(st.orbit)for(const id in paths){const n=paths[id];if(MODES[mode].groups.includes(n.group)){n.state='active';setGrow(n,1);}}
+  growPhases=st.ph.filter(ph=>ph.some(id=>paths[id].p<1));
+  camFrom=[camNow[0].clone(),camNow[1].clone()];
+  stepIdx=i;stepT=0;showStep();
+}
+modeBtns.forEach((b,k)=>b.addEventListener('click',()=>setMode(k)));
+let camScale=1;
+function resize(){const w=stage.clientWidth,h=stage.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.fov=w/h<0.8?50:40;camScale=w<520?1.5:(w<820?1.25:1);camera.updateProjectionMatrix();tagEls.forEach(t=>t.w=0);}
+window.addEventListener('resize',resize);resize();
+
+const clock=new THREE.Clock(),tmp=new THREE.Vector3();
+setMode(0);
+function frame(){
+  requestAnimationFrame(frame);
+  if(document.hidden)return;
+  const dt=Math.min(clock.getDelta(),.05);
+  stepT+=dt;
+  if(stepT>STEP_DUR){if(stepIdx+1<MODES[mode].steps.length)startStep(stepIdx+1);else setMode((mode+1)%MODES.length);}
+  const s=MODES[mode].steps[stepIdx];
+  const ct=ease(Math.min(stepT/CAM,1));
+  const tgt=s.cam[1].clone();let pos=s.cam[0].clone();
+  if(s.orbit){const off=pos.clone().sub(tgt);off.applyAxisAngle(V(0,1,0),stepT*.33);pos=tgt.clone().add(off);}
+  else pos.x+=Math.sin(stepT*.4)*.25;
+  pos=tgt.clone().add(pos.clone().sub(tgt).multiplyScalar(camScale));
+  camNow[0].copy(camFrom[0]).lerp(pos,ct);camNow[1].copy(camFrom[1]).lerp(tgt,ct);
+  camera.position.copy(camNow[0]);camera.lookAt(camNow[1]);
+  const gt=Math.max(0,stepT-CAM*.6);
+  const per=GROW/Math.max(growPhases.length,1);
+  growPhases.forEach((ph,k)=>{const p=ease(Math.min(Math.max((gt-k*per)/per,0),1));ph.forEach(id=>setGrow(paths[id],p));});
+  const tm=clock.elapsedTime;
+  for(const id in paths){const n=paths[id];
+    if(n.group==='vcom'){
+      const a=paths[n.of];
+      const target=(a.p>=1&&a.state!=='hidden')?(a.state==='active'?1:(a.state==='ctx'?.45:.6)):0;
+      n.fade+=(target-n.fade)*Math.min(dt*2.5,1);
+      if(n.fade>.01&&n.p<1)setGrow(n,1);
+      if(n.fade<=.01&&n.p>0){setGrow(n,0);}
+      n.head.visible=false;
+      n.mesh.material.opacity=.6*n.fade;n.mesh.material.emissiveIntensity=.2;
+      const fo=a.state==='active'&&n.fade>.5;
+      n.flow.forEach((f,i)=>{f.visible=fo;if(fo){const u=(tm*0.7/n.len+f.userData.o+i/n.flow.length)%1;f.position.copy(n.curve.getPointAt(u));f.material.opacity=.7*n.fade;}});
+      continue;}
+    const on=n.state==='active',done=n.state==='done',ctx=n.state==='ctx';
+    if((done||ctx)&&n.p<1)setGrow(n,1);
+    n.mesh.material.opacity=on?1:(done?.45:(ctx?.3:0));
+    n.mesh.material.emissiveIntensity=on?.45:.12;
+    const flowOn=on&&n.p>=1;
+    n.flow.forEach((f,i)=>{f.visible=flowOn;if(flowOn){const u=(tm*0.9/n.len+f.userData.o+i/n.flow.length)%1;f.position.copy(n.curve.getPointAt(u));}});
+  }
+  for(const k in muscles){const m=muscles[k];const want=(s.mus||[]).includes(k)?1:0;
+    m.userData.t+=(want-m.userData.t)*Math.min(dt*3,1);
+    m.material.opacity=.08+m.userData.t*.42;m.material.emissiveIntensity=m.userData.t*.25;}
+  pirifMat.opacity=s.pir?.75:.3;
+  renderer.render(scene,camera);
+  const w=stage.clientWidth,h=stage.clientHeight;
+  // label layout: place each tag above its anchor, then push apart so none overlap
+  const boxes=[];
+  tagEls.forEach((t,i)=>{tmp.copy(t.p).project(camera);
+    const ax=(tmp.x*.5+.5)*w,ay=(-tmp.y*.5+.5)*h;
+    const vis=tmp.z<1&&stepT>CAM*.7+i*.4;
+    if(!t.w){t.w=t.el.offsetWidth;t.h=t.el.offsetHeight;}
+    let x=Math.min(Math.max(ax-t.w/2,6),w-t.w-6),y=ay-t.h-18;
+    boxes.push({t,ax,ay,x,y,vis});});
+  boxes.sort((a,b)=>a.y-b.y);
+  for(let it=0;it<6;it++){for(let i=0;i<boxes.length;i++)for(let j=i+1;j<boxes.length;j++){
+    const a=boxes[i],b=boxes[j];
+    const ox=Math.min(a.x+a.t.w,b.x+b.t.w)-Math.max(a.x,b.x),oy=Math.min(a.y+a.t.h,b.y+b.t.h)-Math.max(a.y,b.y);
+    if(ox>0&&oy>0){const d=(oy+4)/2;a.y-=d;b.y+=d;}}}
+  boxes.forEach(b=>{b.y=Math.min(Math.max(b.y,legendEl.offsetHeight+14),h-b.t.h-6);
+    b.t.el.style.transform='translate('+b.x.toFixed(1)+'px,'+b.y.toFixed(1)+'px)';
+    b.t.el.style.opacity=b.vis?1:0;
+    const cx=Math.min(Math.max(b.ax,b.x+6),b.x+b.t.w-6),cy=b.y+(b.ay>b.y?b.t.h:0);
+    b.t.line.setAttribute('x1',b.ax);b.t.line.setAttribute('y1',b.ay);b.t.line.setAttribute('x2',cx);b.t.line.setAttribute('y2',cy);
+    b.t.dot.setAttribute('cx',b.ax);b.t.dot.setAttribute('cy',b.ay);
+    b.t.line.style.opacity=b.t.dot.style.opacity=b.vis?.9:0;});
+  const now=stepsEl.children[stepIdx];if(now)now.firstChild.style.transform='scaleX('+Math.min(stepT/STEP_DUR,1)+')';
+}
+frame();
+})();
+</script>
+</body>
+</html>

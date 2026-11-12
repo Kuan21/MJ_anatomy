@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git status:*)", "Bash(git diff:*)", "Bash(git log:*)", "Bash(git show:*)", "Bash(git fetch:*)", "Bash(git pull:*)",
+      "Bash(git add:*)", "Bash(git commit:*)", "Bash(git branch:*)", "Bash(git checkout:*)", "Bash(git switch:*)", "Bash(git merge:*)",
+      "Bash(git push:*)", "Bash(git worktree:*)", "Bash(git stash:*)",
+      "Bash(gh pr create:*)", "Bash(gh pr merge:*)", "Bash(gh pr checks:*)", "Bash(gh pr view:*)", "Bash(gh pr list:*)", "Bash(gh pr status:*)", "Bash(gh run view:*)", "Bash(gh run list:*)",
+      "Bash(npm run:*)", "Bash(npm ci:*)", "Bash(npm install:*)", "Bash(npx tsc:*)", "Bash(npx vite:*)", "Bash(node scripts/:*)"
+    ],
+    "deny": [
+      "Bash(git push --force:*)", "Bash(git push -f:*)", "Bash(git push --force-with-lease:*)", "Bash(git push * --force:*)", "Bash(git push * -f:*)",
+      "Bash(git filter-repo:*)", "Bash(git filter-branch:*)", "Bash(git rebase:*)", "Bash(git reset --hard:*)", "Bash(git commit --amend:*)", "Bash(git commit * --amend:*)",
+      "Bash(git reflog expire:*)", "Bash(git gc --prune:*)", "Bash(bfg:*)",
+      "Bash(git rm *cmu-course-notes-v4.json*)", "Bash(rm *cmu-course-notes-v4.json*)",
+      "Edit(**/cmu-course-notes-v4.json)", "Write(**/cmu-course-notes-v4.json)"
+    ]
+  }
+}
