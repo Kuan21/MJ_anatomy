@@ -15,6 +15,8 @@ export interface BrainPart {
   layer: number;
   /** a schematic (示意) structure built by the viewer, not a mesh of the Brain Project model */
   schematic?: boolean;
+  /** a cranial nerve branch that runs outside the skull (face, jaw) or on the dura: drawn in full, but switched off when the viewer opens so the brain view shows only the roots */
+  peripheral?: boolean;
 }
 export interface BrainGroup {id: string; en: string; zh: string; layer: number; /** shown when the viewer opens */ on: boolean}
 
@@ -24,6 +26,10 @@ export type BrainView = 'front' | 'back' | 'left' | 'right' | 'top' | 'bottom' |
 export interface BrainViewState {
   hiddenGroups: string[];
   hiddenParts: string[];
+  /** Display complete source nerve paths instead of a view crop near the brain. */
+  fullNerves?: boolean;
+  /** Glass cortex: the cerebral cortex is drawn as a smooth translucent shell (alpha blending) so the deep structures inside stay in view. Also on, automatically, while a deep structure is selected. */
+  glass?: boolean;
   /** outer layers already peeled away: groups with a layer number below this are hidden (vessels and nerves are never peeled) */
   peel: number;
   /** structures drawn alone when set (Isolate) */
