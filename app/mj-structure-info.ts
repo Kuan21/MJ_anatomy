@@ -29,6 +29,7 @@ import {lungCategoryOf} from './mj-lung-categories';
 import {lungCardLinks} from './mj-lung-labels';
 import vesselEnds from './mj-vessel-ends.json';
 import paokaoCards from './mj-paokao.json';
+import {femaleCards} from './mj-female-cards';
 import vesselBranches from './mj-vessel-branches.json';
 type ProfileBody=Omit<StructureProfile,'english'>;
 const GENERAL_SOURCE='Standard gross-anatomy references';
@@ -86,6 +87,7 @@ const bone=(chinese:string,typeEn:string,typeZh:string,roleEn:string,roleZh:stri
 });
 
 const detailed:Record<string,ProfileBody>={
+ ...femaleCards,
  'aponeurosis of epicranius':{chinese:'帽狀腱膜',category:'Aponeurosis｜腱膜',
   summaryEn:'A broad, thin tendinous sheet that covers the vault of the skull between the frontal belly and the occipital belly of occipitofrontalis; it is pale connective tissue, not muscle.',
   summaryZh:'覆蓋顱頂的寬而薄的腱膜，位於枕額肌的額腹與枕腹之間；是淺色的結締組織，不是肌肉。',

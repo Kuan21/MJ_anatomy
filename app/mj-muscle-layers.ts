@@ -56,7 +56,8 @@ function patternsFor(en:string,regionId=''):RegExp[]{
  return[new RegExp(`^(?:(?:left|right) )?${esc(e)}(?: muscle)?$|^(?:\\w+ (?:part|head) of )${SIDE}${esc(e)}$${suffix}`)];
 }
 
-const NOT_MUSCLE=/artery|vein|nerve|ligament|tendon sheath|bursa|fascia\b(?! lata)/;
+// the pale tendinous origin of trapezius on the back of the skull (a connective-tissue part of the head) is not a muscle of the dissection layers
+const NOT_MUSCLE=/artery|vein|nerve|ligament|tendon sheath|bursa|fascia\b(?! lata)|nuchal origin of trapezius/;
 const compiled=new Map<string,{region:string;order:number;res:RegExp[]}[]>();
 for(const r of MUSCLE_LAYER_REGIONS){
  const list:{region:string;order:number;res:RegExp[]}[]=[];

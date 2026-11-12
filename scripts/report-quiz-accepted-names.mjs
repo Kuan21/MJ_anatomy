@@ -1,4 +1,4 @@
-// Level 2 (看結構寫名稱): every answer accepted beyond the structure's own English and Chinese names and the synonym table — the main site's spelling, the course
+// Levels 2 and 3 (學習關卡、看結構寫名稱): every answer accepted beyond the structure's own English and Chinese names and the synonym table — the main site's spelling, the course
 // checklist's 1:1 aliases, the whole muscle for a part — and the group names that count as close. `node scripts/report-quiz-accepted-names.mjs` writes
 // docs/quiz-level2-accepted-names.md for the owner to check; `--check` fails when the file is stale.
 import fs from 'node:fs';
@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 import {quizModule} from './quiz-modules.mjs';
 const {siteName, checklistAliases, wholeMuscleOf, acceptedNames} = await quizModule('app/quiz/naming.ts');
 const regions = [['lower', '下肢'], ['upper', '上肢'], ['thorax', '胸腔'], ['back', '背部'], ['heart', '心臟'], ['lung', '肺']];
-const lines = ['# Quiz 第二級額外接受的答案', '', '此檔由 `node scripts/report-quiz-accepted-names.mjs` 產生，請勿手改。除了構造自己的英文名、中文名、括號內別名與同義詞表（`app/quiz/synonyms.ts`，列在 REVIEW_LOG）之外，第二級還接受下列寫法；群名只算「接近」並列入錯題。左右兩側同一規則，只列一側。', ''];
+const lines = ['# Quiz 第三級額外接受的答案', '', '此檔由 `node scripts/report-quiz-accepted-names.mjs` 產生，請勿手改。除了構造自己的英文名、中文名、括號內別名與同義詞表（`app/quiz/synonyms.ts`，列在 REVIEW_LOG）之外，第三級與學習關卡還接受下列寫法；群名只算「接近」並列入錯題。左右兩側同一規則，只列一側。', ''];
 let total = 0;
 for (const [id, label] of regions) {
   const catalogue = JSON.parse(fs.readFileSync(`public/models/quiz-${id}.json`, 'utf8')), rows = [], seen = new Set();

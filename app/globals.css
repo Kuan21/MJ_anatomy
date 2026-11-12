@@ -1237,7 +1237,7 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 .part-label{--cat:#182536;--catd:#e6edf3}
 .part-label[data-cat]{border-left:4px solid var(--cat);background:color-mix(in srgb,var(--cat) 13%,#fff);padding-left:6px;position:absolute}
 .part-label[data-cat]:hover,.part-label[data-cat]:focus-visible{background:color-mix(in srgb,var(--cat) 22%,#fff);border-color:var(--cat)}
-.part-label-letter{position:absolute;top:2px;right:4px;min-width:14px;height:14px;padding:0 3px;border-radius:7px;background:var(--cat);color:#fff;font:700 9px/14px system-ui,sans-serif;text-align:center;font-style:normal}
+.part-label-letter{position:absolute;top:2px;right:4px;min-width:14px;height:14px;padding:0 3px;border-radius:7px;background:color-mix(in srgb,var(--cat) 78%,#1f2933);color:#fff;font:700 9px/14px system-ui,sans-serif;text-align:center;font-style:normal}
 .part-label[data-cat] .part-label-en{padding-right:18px}
 .part-label-lines line[data-cat]{stroke:var(--cat);stroke-opacity:.95;stroke-width:1.6}
 .lung-legend{display:flex;flex-direction:column;gap:6px;padding-top:6px;border-top:1px solid #1825361f}
@@ -1247,7 +1247,7 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 .lung-legend-item[aria-pressed=false] .lung-cat-letter{background:#98a2b3}
 .lung-legend-item:disabled{opacity:.45;cursor:default}
 .lung-legend-item .bn-en{font-size:11px;line-height:1.2}.lung-legend-item .bn-zh{font-size:10px}
-.lung-cat-letter{flex:none;width:16px;height:16px;border-radius:8px;background:var(--cat);color:#fff;font:700 10px/16px system-ui,sans-serif;text-align:center;font-style:normal}
+.lung-cat-letter{flex:none;width:16px;height:16px;border-radius:8px;background:color-mix(in srgb,var(--cat) 78%,#1f2933);color:#fff;font:700 10px/16px system-ui,sans-serif;text-align:center;font-style:normal}
 @media(prefers-color-scheme:dark){
  .part-label{background:#1b2431f2;color:#e6edf3;border-color:#ffffff33}.part-label .part-label-en{color:#f1f5f9}.part-label .part-label-zh{color:#b4c0cd}
  .part-label[data-cat]{border-left-color:var(--catd);background:color-mix(in srgb,var(--catd) 20%,#1b2431)}
@@ -1273,7 +1273,7 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 .lung-focus .lung-medial-btn[aria-pressed=true]{background:#182536;color:#fff}.lung-focus .lung-medial-btn[aria-pressed=true] .bn-zh{color:#d0d5dd}
 .lung-focus .lung-medial-btn:disabled{opacity:.5;cursor:default}
 .detail-header[data-lung-cat] .detail-accent{width:100%;height:5px;border-radius:3px}
-.lung-card-cat{display:flex;align-items:center;gap:6px;margin:8px 0 2px;font:600 12px/1.3 system-ui,sans-serif;color:var(--cat)}
+.lung-card-cat{display:flex;align-items:center;gap:6px;margin:8px 0 2px;font:600 12px/1.3 system-ui,sans-serif;color:color-mix(in srgb,var(--cat) 55%,#1f2933)}
 .fact-links{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .fact-link{display:inline-flex;flex-direction:column;align-items:flex-start;gap:0;padding:3px 8px;border:1px solid color-mix(in srgb,var(--cat) 40%,transparent);border-left:4px solid var(--cat);border-radius:6px;background:color-mix(in srgb,var(--cat) 12%,transparent);color:inherit;font:600 12px/1.3 system-ui,sans-serif;text-align:left}
 .fact-link small{font:400 11px/1.3 system-ui,sans-serif;opacity:.8}
