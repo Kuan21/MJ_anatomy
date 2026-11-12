@@ -35,7 +35,7 @@ export function createShoulderSolver(atlas:Atlas){
    const main=input.part.id.endsWith('-END')?boundSkins.get(input.part.id.slice(0,-4)):undefined;
    if(main)alignEndPiece(skin,input.base,main.skin,main.base,undefined,input.triangles);else boundSkins.set(input.part.id,{skin,base:input.base});
    const linear=isLinearBinding(skin);
-   gpu.push({id:input.part.id,...gpuBinding(binding.side,{indices:skin.indices.slice(),weights:skin.weights.slice()},linear,skin.profile==='chest'||skin.profile==='pectoralPath')});
+   const shown=skin.preview??skin;gpu.push({id:input.part.id,...gpuBinding(binding.side,{indices:shown.indices.slice(),weights:shown.weights.slice()},linear,skin.profile==='chest'||skin.profile==='pectoralPath'||!!skin.preview?.lbs)});
    if(linear)continue;
    const positions=input.base.slice(),geometry=new BufferGeometry();
    geometry.setAttribute('position',new BufferAttribute(positions,3));geometry.setAttribute('normal',new BufferAttribute(input.normals.slice(),3,true));geometry.setIndex(new BufferAttribute(input.triangles,1));prepareSurfaceNormals(geometry);

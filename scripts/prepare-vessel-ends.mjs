@@ -34,10 +34,9 @@ const endFrame = (id, tip) => endFrameOf(surface(id), tip);
 const report = [];
 const pieces = [];   // {id, tip, action, geometry}
 const piece = (id, geometry, tip, action) => pieces.push({id, tip, action, geometry});
-// Every connector and taper is a round tube: 12 sides on limb vessels, 8 elsewhere. The pieces outside the limbs used to have 5 sides: on vessels that lie in
-// plain view (abdominal wall, chest wall) they showed as square, jointed stubs where a vessel ends or branches.
+// Limb vessels get round connectors (12 sides); the rest keep the light 5-sided pieces.
 const {anatomicalRegion} = await regionTools(), limbIds = new Set(atlas.parts.filter(p => ['upper-limb', 'lower-limb'].includes(anatomicalRegion(p))).map(p => p.id));
-const sides = id => limbIds.has(id) ? 12 : 8;
+const sides = id => limbIds.has(id) ? 12 : 5;
 for (const row of rows) {
   const frame = row.kind === 'joined' ? null : endFrame(row.id, row.at);
   let action = row.kind === 'joined' ? 'joined' : 'enters';
@@ -47,11 +46,11 @@ for (const row of rows) {
       action = 'gap';
       const d = row.toSameMm / 1000, target = row.closest, chord = unit(sub(target, row.at));
       const bend = add(row.at, chord, d * .5), mid = add(bend, frame.dir, d * .18), through = add(target, chord, .001);
-      piece(row.id, tube([add(row.at, frame.dir, -.0015), row.at, mid, through], frame.radius * .95, frame.radius * .75, limbIds.has(row.id) ? 12 : 8, sides(row.id)), row.at, 'gap');
+      piece(row.id, tube([add(row.at, frame.dir, -.0015), row.at, mid, through], frame.radius * .95, frame.radius * .75, limbIds.has(row.id) ? 12 : 6, sides(row.id)), row.at, 'gap');
     } else if (frame.radius <= FADE_RADIUS) {
       action = 'fade';
       const L = Math.min(.008, .003 + 3 * frame.radius);
-      piece(row.id, tube([add(row.at, frame.dir, -.001), add(row.at, frame.dir, L / 2), add(row.at, frame.dir, L)], frame.radius * .95, frame.radius * .1, limbIds.has(row.id) ? 4 : 3, sides(row.id)), row.at, 'fade');
+      piece(row.id, tube([add(row.at, frame.dir, -.001), add(row.at, frame.dir, L / 2), add(row.at, frame.dir, L)], frame.radius * .95, frame.radius * .1, limbIds.has(row.id) ? 4 : 2, sides(row.id)), row.at, 'fade');
     } else if (!inTissue && row.kind === 'dangling') action = 'enters';
   }
   report.push({id: row.id, name: row.name, system: row.system, action, at: row.at, radiusMm: frame ? +(frame.radius * 1000).toFixed(1) : null, toSameMm: row.toSameMm, toTissueMm: row.toTissueMm, nearest: row.nearestSame});

@@ -75,6 +75,9 @@ export interface SoftRig {side:Side;ids:(string|undefined)[];shoulder:Vector3;el
 export interface FibreGuide {centres:Vector3[];indices:Uint8Array;weights:Float32Array;coordinates:Float32Array;axis:Vector3;origin:Vector3;length:number}
 export interface FibreGuide {alignSections?:boolean}
 export interface SkinBinding {follower?:{parent:SkinBinding;progress:number[]}}
+/** Weights for the coarse live preview (the GPU blend shown while a pose is being dragged and on a side that is not being solved), when the binding's own
+ * weights are not a fair picture of where the solver puts it (a pectoral follower: see bindTissue). */
+export interface SkinBinding {preview?:{indices:Uint8Array;weights:Float32Array;lbs:boolean}}
 /** A vessel-end piece whose vessel is moved by a solver: each tube (`vertices`) rides rigidly on the vessel vertex it starts on (`pin`) and turns with the vessel surface around it (`anchors`). See alignEndPiece. */
 export interface SkinBinding {attach?:{main:SkinBinding;mainBase:Float32Array;posed:Float32Array;field:Pick<SkinBinding,'indices'|'weights'>;components:{vertices:Uint32Array;anchors:Uint32Array;pin:number;along:Float32Array;far:number}[]}}
 interface CableSource {side:string;vertexCount:number;positionHash:number;nodes:number[][];stations:number[];edges:number[][];vertexEdges:number[];fractions:number[]}
@@ -422,7 +425,12 @@ export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<numbe
   follower={parent,progress:source.progress};
  }
  const clear=digitClearanceSet(rig.side,positions,indices,weights,count,triangles);
- return{clear,follower,cable,wrap,fibre,indices,weights,belly,radial,longitudinal,restAxis,sheetOriginFrame,fan,origin,insertion,originWeights:weightsAt(rig,effectiveProfile,origin,box,name),insertionWeights:weightsAt(rig,effectiveProfile,insertion,box,name),restLength,profile:effectiveProfile};
+ // A pectoral follower has no fair weights-only picture (it slides with the pectoral sheet, which itself is solved; its own field weights tear it, and
+ // carried by one arm bone it swings out of the body with the raised arm): in the live preview it stays on the chest wall (thorax frame, slot 0 of the
+ // palette) until the solver has placed it.
+ let preview:SkinBinding['preview'];
+ if(follower){const pi=new Uint8Array(count*4),pw=new Float32Array(count*4);for(let i=0;i<count;i++)pw[i*4]=1;preview={indices:pi,weights:pw,lbs:false};}
+ return{clear,follower,preview,cable,wrap,fibre,indices,weights,belly,radial,longitudinal,restAxis,sheetOriginFrame,fan,origin,insertion,originWeights:weightsAt(rig,effectiveProfile,origin,box,name),insertionWeights:weightsAt(rig,effectiveProfile,insertion,box,name),restLength,profile:effectiveProfile};
 }
 
 /** The vertices of a binding that ride on a digit (null when none does). */
@@ -523,7 +531,9 @@ export function alignEndPiece(end:SkinBinding,endPositions:ArrayLike<number>,mai
    for(const i of vertices){const top=[...now.get(i)!].sort((p,q)=>q[1]-p[1]).slice(0,4),total=top.reduce((sum,x)=>sum+x[1],0)||1;for(let k=0;k<4;k++){end.indices[i*4+k]=top[k]?.[0]??0;end.weights[i*4+k]=top[k]?top[k][1]/total:0;}}
    continue;
   }
-  for(const i of vertices){const j=ring(i)[0];for(let k=0;k<4;k++){end.indices[i*4+k]=main.indices[j*4+k];end.weights[i*4+k]=main.weights[j*4+k];}given++;}
+  // (A solved vessel's tube keeps the centreline field as its weights: they are only the coarse preview shown while a pose is dragged, where the vessel
+  // itself is shown by the same field.) Otherwise every ring takes the weights of the vessel vertex nearest to its centre.
+  if(!solved)for(const i of vertices){const j=ring(i)[0];for(let k=0;k<4;k++){end.indices[i*4+k]=main.indices[j*4+k];end.weights[i*4+k]=main.weights[j*4+k];}given++;}
   if(!solved)continue;
   // the vessel surface the tube starts on: the 24 vessel vertices nearest to the tube's base
   const bx=centres[base*3],by=centres[base*3+1],bz=centres[base*3+2],far=(j:number)=>(bx-mainPositions[j*3])**2+(by-mainPositions[j*3+1])**2+(bz-mainPositions[j*3+2])**2;
@@ -534,7 +544,13 @@ export function alignEndPiece(end:SkinBinding,endPositions:ArrayLike<number>,mai
   for(let k=0;k<along.length;k++)along[k]=length>1e-6?smooth(along[k]/length):0;
   components.push({vertices:Uint32Array.from(vertices),anchors:Uint32Array.from(order.slice(0,Math.min(24,mainCount))),pin,along,far:farthest});
  }
- if(components.length){end.attach={main,mainBase:Float32Array.from(mainPositions),posed:new Float32Array(mainPositions.length),components,field};end.clear=undefined;}
+ if(components.length){
+  end.attach={main,mainBase:Float32Array.from(mainPositions),posed:new Float32Array(mainPositions.length),components,field};end.clear=undefined;
+  // live preview of the piece: every ring is shown with the preview weights of the vessel vertex nearest to its centre (for a follower: the chest wall)
+  const from=main.preview??{indices:main.indices,weights:main.weights,lbs:false},indices=new Uint8Array(count*4),weights=new Float32Array(count*4);
+  for(let i=0;i<count;i++){const j=ring(i)[0];for(let k=0;k<4;k++){indices[i*4+k]=from.indices[j*4+k];weights[i*4+k]=from.weights[j*4+k];}}
+  end.preview={indices,weights,lbs:from.lbs};
+ }
  return given;
 }
 /** Rotation (unit quaternion w,x,y,z) that best takes the rest points `ids` to their posed places about their centroids (Horn's closed form). A thin vessel

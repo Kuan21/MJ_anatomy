@@ -4,6 +4,7 @@
 //   spike     a vertex with an edge longer than SPIKE_MM once posed and more than SPIKE_RATIO times its rest length
 //             (neighbouring vertices went to different bones: the mesh shows thorns that stick out of the body);
 //   swollen   the posed bounding box is more than BOX_RATIO times the rest one (part of the mesh left with another bone);
+//   preview   the same spike test on the weights-only shape the viewer shows while a pose is being dragged (end pieces of solver-driven vessels);
 //   detached  every tube of a vessel-end piece (connector, bridge, taper) must stay on the vessel it starts on.
 // History: commit b5b68ea (PR #120) made the arm weight field fall off with the distance from the humerus. Vessel-end pieces and two schematic arteries
 // read that field vertex by vertex, so at shoulder abduction 158 about 900 vertices were pulled up to 6 cm out of their mesh.
@@ -66,7 +67,9 @@ const findings = {};   // key -> {name, pose, value, detail}
 const add = (key, name, pose, value, detail) => { const old = findings[key]; if (!old || value > old.value) findings[key] = {name, pose, value, detail}; };
 let measured = 0, endTubes = 0;
 for (const pz of POSES) {
-  const {posed} = poser.pose(pz);
+  const {posed, preview} = poser.pose(pz);
+  // the coarse preview shown while a pose is dragged (weights only) must not show thorns either
+  for (const [id, Q] of preview) { const p = byId.get(id); if (!p || !['arterial', 'venous'].includes(p.system)) continue; const g = p.load(), s = spikes(g.positions, Q, g.indices); if (s.n || s.broken) add(`${id}|preview-spike`, p.name, pz.name, Math.round(s.worst * 1000), `live preview: ${s.n} of ${g.positions.length / 3} vertices on edges stretched more than ${SPIKE_RATIO} times, longest ${Math.round(s.worst * 1000)} mm`); }
   for (const p of vessels) {
     const Q = posed.get(p.id); if (!(Q instanceof Float32Array)) continue;
     const g = p.load(), P = g.positions, I = g.indices; measured++;
@@ -96,7 +99,7 @@ if (flag('write')) {
   fs.writeFileSync(knownFile, JSON.stringify({_doc: 'Known findings of scripts/test-vessel-vertices.mjs. key = part id | kind. value = worst measured value (spike: mm; swollen: ratio; detached: mm). The list may only shrink.', known: out}, null, 1) + '\n');
   console.log(`Wrote ${Object.keys(out).length} known findings.`);
 }
-const tolerance = k => k.endsWith('|spike') ? 2 : k.endsWith('|detached') ? 1 : .1;
+const tolerance = k => k.endsWith('spike') ? 2 : k.endsWith('|detached') ? 1 : .1;
 const fresh = Object.keys(findings).filter(k => !known[k]), worse = Object.keys(findings).filter(k => known[k] && findings[k].value > known[k].value + tolerance(k)), gone = Object.keys(known).filter(k => !findings[k]);
 if (flag('list')) for (const k of Object.keys(findings).sort()) console.log(`${fresh.includes(k) ? 'NEW   ' : worse.includes(k) ? 'WORSE ' : 'known '}${k}  ${findings[k].name}  [${findings[k].pose}]  ${findings[k].detail}`);
 console.log(`Vessel vertices: ${vessels.length} artery and vein meshes, ${measured} posed meshes in ${POSES.length} poses, ${endTubes} end-piece tubes checked; ${Object.keys(findings).length} findings (${Object.keys(known).length} known), ${fresh.length} new, ${worse.length} worse, ${gone.length} fixed but still listed.`);
