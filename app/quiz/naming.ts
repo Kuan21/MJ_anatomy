@@ -30,6 +30,8 @@ export const HEADS_REQUIRED = new Set(['biceps brachii', 'triceps brachii', 'bic
 const PART_OF_MUSCLE = /^(.+?) (?:part|head|belly) of (?:(?:right|left) )?(.+)$/i;
 export interface WholeMuscle {en: string; zh?: string; muscle: string; headsRequired: boolean}
 export function wholeMuscleOf(structure: Named): WholeMuscle | null {
+  // "iliofemoral ligament, descending part", "ligament of head of femur": a joint structure is never a part of a muscle, so the bone or ligament named after "of" is not an accepted answer
+  if (structure.system === 'joint') return null;
   const match = structure.name.match(PART_OF_MUSCLE);
   if (!match) return null;
   const muscle = match[2].trim(), side = structure.name.match(SIDE_WORD)?.[1];
@@ -53,7 +55,7 @@ export function siteName(structure: Named): {en?: string; zh?: string} {
   if (!structure.system) return {};
   // A part of a muscle (clavicular part of pectoralis major, spinal part of deltoid) is answered with the muscle's name (wholeMuscleOf), not with the site's other wording of the part.
   if (wholeMuscleOf(structure)) return {};
-  const profile = structureProfile(structure.name, structure.system as SystemId);
+  const profile = structureProfile(structure.name, (structure.system === 'joint' ? 'connective' : structure.system) as SystemId);
   const paired = isPaired(structure), key = (n: string) => paired ? cleanKey(n) : n.toLowerCase().replace(/\s+/g, ' ').trim();
   const out: {en?: string; zh?: string} = {};
   if (profile.english) {const a = key(profile.english), b = key(structure.name); if (a && a !== b && !partOfName(b, a) && !partOfName(a, b)) out.en = profile.english;}

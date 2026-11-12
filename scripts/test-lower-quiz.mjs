@@ -47,7 +47,9 @@ for (const pack of catalogue.packages) {
     for (const i of new Uint32Array(indices.buffer, indices.byteOffset, mesh.indexCount)) assert.ok(i < mesh.vertexCount);
     assert.ok(mesh.normals + mesh.vertexCount * 6 <= raw.length);
     // muscles that end at their musculotendinous junction and the tendon parts cut from them are derived from the atlas meshes, not byte copies (scripts/tendon/*.mjs)
-    if (structure.source === 'BodyParts3D' && !(structure.system === 'tendon' || cutMuscles.has(mesh.id))) {
+    if (structure.system === 'joint') {
+      // registered joint soft tissue (scripts/lib/joint-quiz-source.mjs), not a byte copy: finite positions and valid indices are checked above
+    } else if (structure.source === 'BodyParts3D' && !(structure.system === 'tendon' || cutMuscles.has(mesh.id))) {
       const source = native.get(mesh.id); assert.ok(source);
       const original = read('public' + atlas.chunks[source.chunk].url);
       assert.deepEqual(positions, original.subarray(source.positions, source.positions + source.vertexCount * 12), 'Unchanged original position data');
@@ -87,6 +89,8 @@ for (const section of QUIZ_SECTIONS) for (const side of ['right', 'left', 'both'
     const pool = questionPool(catalogue, settings), session = createSession(pool, 10, random);
     // the hip has no tendon of its own that the model can show apart from the iliopsoas tendon: a tendon-only quiz of that section may be empty (the setup screen then has no tendon questions there)
     if (!pool.length && systems.length === 1 && systems[0] === 'tendon' && section.id === 'hip') continue;
+    // joint soft tissue sits at a joint (hip, knee, ankle & foot): the thigh and leg sections have none of their own
+    if (!pool.length && systems.length === 1 && systems[0] === 'joint' && (section.id === 'thigh' || section.id === 'leg')) continue;
     assert.ok(pool.length, `Playable section/system: ${section.id}/${side}/${systems}`);
     assert.equal(session.queue.length, Math.min(10, pool.length));
     assert.equal(new Set(session.queue).size, session.queue.length);
