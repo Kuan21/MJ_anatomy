@@ -12,3 +12,10 @@ export function atlasPositions(name) {
   const p = atlasPart(name); if (!p) throw new Error(`atlas has no ${name}`);
   const b = chunk(p.chunk); return new Float32Array(b.buffer.slice(b.byteOffset + p.positions, b.byteOffset + p.positions + p.vertexCount * 12));
 }
+
+/** Positions and triangle indices of a BodyParts3D atlas mesh by exact name. */
+export function atlasMesh(name) {
+  const p = atlasPart(name); if (!p) throw new Error(`atlas has no ${name}`);
+  const b = chunk(p.chunk);
+  return {positions: atlasPositions(name), indices: new Uint32Array(b.buffer.slice(b.byteOffset + p.indices, b.byteOffset + p.indices + p.indexCount * 4))};
+}

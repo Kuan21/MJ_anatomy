@@ -25,13 +25,14 @@ const aliases:Record<string,string>={
 
 const norm=(s:string)=>s.toLowerCase().replace(/[_-]+/g,' ').replace(/\s+/g,' ').trim();
 const stripSide=(s:string)=>s.replace(/\b(left|right)\b/gi,'').replace(/(?:^|\.)[lr](?=\.|$)/gi,' ').replace(/[._]+/g,' ').replace(/\s+/g,' ').trim();
-const keys=Object.keys(MUSCLE_FACTS).sort((a,b)=>b.length-a.length);
+// Keys are matched in the same normalised form as the names (hyphens and underscores read as spaces): 'thyro-arytenoid' used to miss "Left thyro-arytenoid" and the laryngeal muscles got the generic card.
+const keys=Object.keys(MUSCLE_FACTS).map(k=>({raw:k,norm:norm(k)})).sort((a,b)=>b.norm.length-a.norm.length);
 
 export function muscleFactsFor(name:string):MuscleFacts|undefined{
  const n=norm(stripSide(name));
  const alias=aliases[n];if(alias)return MUSCLE_FACTS[alias];
- const key=keys.find(k=>n===k||n.includes(k));
- return key?MUSCLE_FACTS[key]:undefined;
+ const key=keys.find(k=>n===k.norm||n.includes(k.norm));
+ return key?MUSCLE_FACTS[key.raw]:undefined;
 }
 
 export const MUSCLE_FACT_SOURCE='Standard gross-anatomy references (origin, insertion, innervation, action and blood supply).';

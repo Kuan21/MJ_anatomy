@@ -540,13 +540,6 @@
    "fraction": 0.358974358974359,
    "severity": 33
   },
-  "detached|PK-430|hip flexion 120 knee flexion 130": {
-   "name": "Left quadriceps tendon",
-   "measure": 3,
-   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.5,
-   "severity": 33
-  },
   "detached|PK-447|hip flexion 120 knee flexion 130": {
    "name": "Right tendon of iliopsoas",
    "measure": 106,
@@ -1466,11 +1459,6 @@
   "fragments|FJ2200-END": {
    "name": "Right fibular vein",
    "measure": 1,
-   "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
-  },
-  "fragments|FJ2219-END": {
-   "name": "Left brachial artery",
-   "measure": 2,
    "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
   },
   "fragments|FJ2242-END": {
@@ -2905,8 +2893,8 @@
   },
   "penetration|PKC-321|FJ3243": {
    "name": "Left arteria radialis indicis",
-   "measure": 3,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+   "measure": 3.1,
+   "reason": "spline connector in the hand rebuilt with more rings and sides (24 x 10 instead of 18 x 6) so it reads smooth; its path passes about 3 mm into the coarse metacarpal surface"
   },
   "penetration|nerve:Abducens nerve (VI).l.001|FJ3309": {
    "name": "Abducens nerve (VI).l",
@@ -4637,9 +4625,9 @@
   },
   "stretch|FJ2216-END|shoulder flexion 150": {
    "name": "Left axillary artery",
-   "measure": 401,
+   "measure": 400,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.10574894514767932,
+   "fraction": 0.10548523206751055,
    "severity": 9.6
   },
   "stretch|FJ2216|shoulder flexion 150": {
@@ -4693,17 +4681,17 @@
   },
   "stretch|FJ2219-END|shoulder abduction 120": {
    "name": "Left brachial artery",
-   "measure": 65,
+   "measure": 61,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.10030864197530864,
-   "severity": 4.2
+   "fraction": 0.05776515151515151,
+   "severity": 3.6
   },
   "stretch|FJ2219-END|shoulder flexion 150": {
    "name": "Left brachial artery",
-   "measure": 100,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.15432098765432098,
-   "severity": 7.5
+   "measure": 166,
+   "reason": "triangles stretch beyond 2x at shoulder flexion 150: the brachial artery now has one more spline bridge (the loose piece is joined, see fragments); the bridge carries the vessel's own stretch, the share of stretched triangles is the same as before and the worst ratio belongs to a few tiny rest edges at its thin end (stabilisation section 2 A)",
+   "fraction": 0.1571969696969697,
+   "severity": 32.8
   },
   "stretch|FJ2219|shoulder flexion 150": {
    "name": "Left brachial artery",
@@ -4808,7 +4796,7 @@
    "measure": 56,
    "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.017543859649122806,
-   "severity": 9.3
+   "severity": 9.2
   },
   "stretch|FJ2242-END|forearm rotation -80": {
    "name": "Left radial artery",
@@ -6171,11 +6159,6 @@
    "measure": 494,
    "reason": "faces coincide with Cervix of uterus: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|PK-142|PK-207": {
-   "name": "Right styloid process of radius",
-   "measure": 131,
-   "reason": "faces coincide with Right anatomical snuffbox: two layers share the same surface; to be offset or one of them removed"
-  },
   "zfight|PK-234|PK-235": {
    "name": "Lingula of left lung",
    "measure": 1106,
@@ -6185,6 +6168,43 @@
    "name": "Esophageal impression of left lung",
    "measure": 57,
    "reason": "faces coincide with Apex of left lung: two layers share the same surface; to be offset or one of them removed"
+  },
+  "penetration|FJ1967-END|FJ3211": {
+   "name": "Right subcostal artery",
+   "measure": 2.6,
+   "reason": "round (12-sided) end piece of a chest-wall vessel that runs in the groove under the rib or beside the disk: the wall dips 2-3 mm into the coarse bone surface (three to seven vertices); the sides were raised so the vessel no longer reads as faceted (abdominal and chest wall vessel smoothing)"
+  },
+  "penetration|FJ1977-END|FJ3227": {
+   "name": "Left subcostal artery",
+   "measure": 2.2,
+   "reason": "round (12-sided) end piece of a chest-wall vessel that runs in the groove under the rib or beside the disk: the wall dips 2-3 mm into the coarse bone surface (three to seven vertices); the sides were raised so the vessel no longer reads as faceted (abdominal and chest wall vessel smoothing)"
+  },
+  "penetration|FJ1985-END|FJ3236": {
+   "name": "Set of anterior intercostal veins",
+   "measure": 2.2,
+   "reason": "round (12-sided) end piece of a chest-wall vessel that runs in the groove under the rib or beside the disk: the wall dips 2-3 mm into the coarse bone surface (three to seven vertices); the sides were raised so the vessel no longer reads as faceted (abdominal and chest wall vessel smoothing)"
+  },
+  "penetration|FJ1987-END|FJ3227": {
+   "name": "Left subcostal vein",
+   "measure": 2.1,
+   "reason": "round (12-sided) end piece of a chest-wall vessel that runs in the groove under the rib or beside the disk: the wall dips 2-3 mm into the coarse bone surface (three to seven vertices); the sides were raised so the vessel no longer reads as faceted (abdominal and chest wall vessel smoothing)"
+  },
+  "penetration|FJ1995-END|FJ3211": {
+   "name": "Right subcostal vein",
+   "measure": 2.6,
+   "reason": "round (12-sided) end piece of a chest-wall vessel that runs in the groove under the rib or beside the disk: the wall dips 2-3 mm into the coarse bone surface (three to seven vertices); the sides were raised so the vessel no longer reads as faceted (abdominal and chest wall vessel smoothing)"
+  },
+  "zfight|FJ3511-END|PKC-322-END": {
+   "name": "Left inferior epigastric artery",
+   "measure": 112,
+   "reason": "two coaxial end pieces on the femoral artery (a vessel end piece and the end of a connector) lie within 0.15 mm after the connector was rebuilt with more rings and sides; they share one tube radius and flicker only where they overlap"
+  },
+  "stretch|PK-434|hip flexion 120 knee flexion 130": {
+   "name": "Left patellar ligament",
+   "measure": 6,
+   "reason": "a few triangles reach 2.0x at hip flexion 120 / knee flexion 130, the limit of the check: a leg vessel smoothed along its centreline with more segments (lower-limb vessel smoothing)",
+   "fraction": 0.0035460992907801418,
+   "severity": 2
   }
  }
 }

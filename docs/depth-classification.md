@@ -129,21 +129,24 @@
 
 ### 淺層
 
-- **肌肉**（7）：Diaphragm〔預設〕；external oblique〔預設〕；internal oblique〔預設〕；latissimus dorsi；pyramidalis〔預設〕；rectus abdominis〔預設〕；transversus abdominis〔預設〕
+- **肌肉**（5）：Diaphragm〔預設〕；external oblique；latissimus dorsi；pyramidalis；rectus abdominis
+- **結締組織**（3）：inguinal ligament；Linea alba；rectus sheath
 
 ### 中層
 
+- **肌肉**（1）：internal oblique
 - **動脈**（4）：inferior epigastric artery〔預設〕；subcostal artery〔預設〕；superficial epigastric artery〔預設〕；superior epigastric artery〔預設〕
 - **靜脈**（4）：inferior epigastric vein〔預設〕；subcostal vein〔預設〕；superficial epigastric vein〔預設〕；superior epigastric vein〔預設〕
 
 ### 深層
 
-- **結締組織**（4）：inguinal ligament〔預設〕；Linea alba〔預設〕；rectus sheath〔預設〕；seventh costal cartilage〔預設〕
+- **肌肉**（1）：transversus abdominis
+- **結締組織**（1）：seventh costal cartilage〔預設〕
 - **動脈**（1）：superficial circumflex iliac artery
 
 ## 歸類可疑、請使用者確認的肌肉
 
-依系統預設歸類（沒有專屬規則）的肌肉共 137 項：
+依系統預設歸類（沒有專屬規則）的肌肉共 132 項：
 
 - 上肢：Abductor digiti minimi of hand → 淺層
 - 上肢：Flexor digiti minimi brevis of hand → 淺層
@@ -276,9 +279,4 @@
 - 胸壁：internal intercostal muscle → 淺層
 - 胸壁：Diaphragm → 淺層
 - 胸壁：subcostal muscles → 淺層
-- 腹壁：external oblique → 淺層
 - 腹壁：Diaphragm → 淺層
-- 腹壁：rectus abdominis → 淺層
-- 腹壁：internal oblique → 淺層
-- 腹壁：transversus abdominis → 淺層
-- 腹壁：pyramidalis → 淺層

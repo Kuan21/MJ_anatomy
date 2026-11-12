@@ -18,7 +18,10 @@ for(const f of fs.readdirSync(new URL('../app/biomechanics-v2/',import.meta.url)
  const data=JSON.parse(fs.readFileSync(new URL('../app/biomechanics-v2/'+f,import.meta.url)));
  for(const [key,entry] of Object.entries(data.parts??{}))if(entry&&typeof entry==='object'&&'positionHash' in entry){hashBound.add(key);if(entry.name)hashBound.add(entry.name);}
 }
-const SMOOTH_MAX_TRIANGLES=3000,smoothed=part=>(part.system==='arterial'||part.system==='venous')&&part.indexCount/3<=SMOOTH_MAX_TRIANGLES&&['upper-limb','lower-limb'].includes(anatomicalRegion(part))&&!hashBound.has(part.id)&&!hashBound.has(part.name);
+// Trunk vessels that run in the abdominal and chest wall (epigastric, circumflex iliac, musculophrenic, intercostal, lumbar, thoracoepigastric) are smoothed like the limb vessels: the source left them as 5- and 6-sided prisms, and
+// they are the vessels in front of the camera when the abdominal wall is looked at. The aorta and the venae cavae stay as they are (the triangle limit).
+const WALL_VESSELS=/epigastric|circumflex iliac|musculophrenic|intercostal|lumbar (?:artery|vein)|thoracoepigastric|subcostal/i;
+const SMOOTH_MAX_TRIANGLES=3000,smoothed=part=>(part.system==='arterial'||part.system==='venous')&&part.indexCount/3<=SMOOTH_MAX_TRIANGLES&&(['upper-limb','lower-limb'].includes(anatomicalRegion(part))||WALL_VESSELS.test(part.name))&&!hashBound.has(part.id)&&!hashBound.has(part.name);
 let smoothedParts=0,triangles=0;const skippedParts=[];
 const dir=new URL('../public/models/',import.meta.url),out=new URL('stream/',dir);
 fs.mkdirSync(out,{recursive:true});

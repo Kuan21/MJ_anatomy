@@ -26,4 +26,9 @@ for (const pz of REPORTED) {
     assert.ok(r.severity <= MAX_EDGE_MM, `${pz.name}: ${r.name} has an edge ${r.severity} mm long`);
   }
 }
+// end pieces must follow their vessel in the other poses that tore them before (shoulder abduction 90 and 158, flexion 180)
+for (const arm of [{shoulderAbduction: 90}, {shoulderAbduction: 158}, {shoulderFlexion: 180}]) {
+  const res = audit({name: JSON.stringify(arm), arm});
+  for (const s of res.seams) { seams++; assert.ok(s.mean <= SEAM_MAX, `${JSON.stringify(arm)}: end piece of ${s.name} is ${(s.mean * 1000).toFixed(1)} mm from its vessel on average (max ${(s.max * 1000).toFixed(0)} mm)`); }
+}
 console.log(`PASS limb tears: ${REPORTED.length} poses, ${seams} end-piece checks, ${tears} stretched structures within their caps (longest edge ${worst} mm).`);
