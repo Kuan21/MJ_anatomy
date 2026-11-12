@@ -1,4 +1,4 @@
-// Typed-answer judging of the level-2 quiz (看結構寫名稱): case, spacing, hyphens, synonyms, left/right, close answers, languages, whole muscle for a part, opposites, abbreviations, simplified characters.
+// Typed-answer judging of the level-3 quiz (also used by the level-2 lessons) (看結構寫名稱): case, spacing, hyphens, synonyms, left/right, close answers, languages, whole muscle for a part, opposites, abbreviations, simplified characters.
 import assert from 'node:assert/strict';
 import {quizModule} from './quiz-modules.mjs';
 const {judgeName, acceptedNames, normalize, distance, relationOf, wholeMuscleOf, opposed} = await quizModule('app/quiz/naming.ts');

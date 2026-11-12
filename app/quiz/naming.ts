@@ -4,7 +4,7 @@ import {structureProfile} from '../mj-structure-info';
 import type {SystemId} from '../anatomy';
 import paokaoAliases from '../../docs/paokao-aliases.json';
 
-/** How a typed name is judged for the level-2 quiz (看結構寫名稱). Pure functions: the page, the tests and the REVIEW_LOG table all use these. */
+/** How a typed name is judged for the level-3 quiz (看結構寫名稱). Pure functions: the page, the tests and the REVIEW_LOG table all use these. */
 export type AnswerLanguage = 'en' | 'zh' | 'any';
 export type NameResult = 'correct' | 'close' | 'wrong';
 export interface NameOptions {language: AnswerLanguage; needSide: boolean}

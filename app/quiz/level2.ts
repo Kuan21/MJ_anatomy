@@ -4,7 +4,7 @@ const identity = (s: QuizStructure) => `${s.side === 'midline' ? s.name.toLowerC
 import type {QuizCatalogue, QuizSettings, QuizStructure} from './catalogue';
 import {questionPool} from './catalogue';
 
-/** Levels 1 and 2 share ONE question bank (scripts/check-quiz-banks.mjs fails the build when they differ). Level 2 (看結構寫名稱) can ask any structure that has a model,
+/** Levels 1, 2 and 3 share ONE question bank (scripts/check-quiz-banks.mjs fails the build when they differ). Level 3 (看結構寫名稱) and the level-2 lessons can ask any structure that has a model,
  * a Chinese name, and a name no other structure of the region shares (so the typed name has one right answer). A structure whose data card still has empty fields is
  * asked as well: the answer card then shows 「尚無資料」 for those fields (listed in docs/quiz-card-gaps.md). A structure that cannot be asked is a build failure, not a silent drop. */
 export type Exclusion = 'no-chinese-name' | 'name-not-unique';
