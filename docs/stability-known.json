@@ -2839,11 +2839,6 @@
    "measure": 3.4,
    "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
   },
-  "penetration|PK-436|FJ3366": {
-   "name": "Right tendon of biceps femoris",
-   "measure": 5.2,
-   "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
-  },
   "penetration|PK-43|FJ3391": {
    "name": "Right posterior interosseous artery",
    "measure": 6.1,

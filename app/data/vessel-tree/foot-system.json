@@ -1,0 +1,992 @@
+{
+ "note": "Vessel tree, batch 4: the arteries of the foot: medial and lateral plantar arteries, deep plantar artery and plantar arch, plantar and dorsal metatarsal arteries, arcuate artery, and the proper plantar and dorsal digital arteries of every toe. Both sides. Diameters in mm (start, end).",
+ "batch": 4,
+ "vessels": [
+  {
+   "id": "medial-plantar-artery",
+   "en": "Medial plantar artery",
+   "zh": "足底內側動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "posterior-tibial-artery",
+   "at": "posterior tibial artery, behind the medial malleolus",
+   "guide": "{S} medial plantar artery",
+   "calibreMm": [
+    2.0,
+    1.4
+   ],
+   "terminal": false,
+   "origin": {
+    "en": "Posterior tibial artery, deep to the flexor retinaculum",
+    "zh": "脛後動脈，屈肌支持帶深面"
+   },
+   "course": {
+    "en": "The smaller terminal branch: runs forwards along the medial side of the sole deep to abductor hallucis and continues along the medial border of the big toe",
+    "zh": "較細的終支，沿足底內側在拇展肌深面向前，延續為大趾內側緣的固有趾足底動脈"
+   },
+   "supply": {
+    "en": "Muscles and skin of the medial sole and the big toe",
+    "zh": "足底內側的肌肉與皮膚、大趾"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 1,
+   "joinAt": "end"
+  },
+  {
+   "id": "lateral-plantar-artery",
+   "en": "Lateral plantar artery",
+   "zh": "足底外側動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "posterior-tibial-artery",
+   "at": "posterior tibial artery, behind the medial malleolus",
+   "guide": "{S} lateral plantar artery",
+   "calibreMm": [
+    2.2,
+    1.6
+   ],
+   "terminal": false,
+   "origin": {
+    "en": "Posterior tibial artery, deep to the flexor retinaculum",
+    "zh": "脛後動脈，屈肌支持帶深面"
+   },
+   "course": {
+    "en": "The larger terminal branch: runs obliquely laterally between flexor digitorum brevis and quadratus plantae to the base of the fifth metatarsal, then curves medially as the plantar arch",
+    "zh": "較粗的終支，在屈趾短肌與蹠方肌之間斜向外側，到第五蹠骨底，再向內彎成足底弓"
+   },
+   "supply": {
+    "en": "Muscles of the lateral and central sole and the little toe",
+    "zh": "足底外側與中央的肌肉、小趾"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 2,
+   "joinAt": "end"
+  },
+  {
+   "id": "deep-plantar-artery",
+   "en": "Deep plantar artery",
+   "zh": "深蹠動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "dorsalis-pedis-artery",
+   "at": "dorsalis pedis artery, first interosseous space",
+   "guide": "{S} deep plantar artery",
+   "calibreMm": [
+    1.8,
+    1.2
+   ],
+   "terminal": false,
+   "origin": {
+    "en": "Dorsalis pedis artery, at the proximal end of the first interosseous space",
+    "zh": "足背動脈，第一蹠骨間隙近端"
+   },
+   "course": {
+    "en": "Dips between the two heads of the first dorsal interosseous muscle into the sole and joins the lateral plantar artery to complete the plantar arch",
+    "zh": "穿過第一背側骨間肌兩頭之間入足底，與足底外側動脈會合成足底弓"
+   },
+   "supply": {
+    "en": "Plantar arch; the first plantar metatarsal territory",
+    "zh": "足底弓；第一蹠區"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 3,
+   "joinAt": "end",
+   "feeds": [
+    "plantar-arch"
+   ]
+  },
+  {
+   "id": "plantar-arch",
+   "en": "Plantar arch",
+   "zh": "足底弓",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "lateral-plantar-artery",
+   "at": "end of the lateral plantar artery",
+   "guide": "{S} plantar arch",
+   "calibreMm": [
+    1.6,
+    1.2
+   ],
+   "terminal": false,
+   "origin": {
+    "en": "Lateral plantar artery (completed medially by the deep plantar artery)",
+    "zh": "足底外側動脈（內側由深蹠動脈接成）"
+   },
+   "course": {
+    "en": "Curves medially across the bases of the metatarsal bones deep to the long flexor tendons and the interossei and joins the deep plantar artery",
+    "zh": "在長屈肌腱與骨間肌深面橫過蹠骨底向內側，與深蹠動脈會合"
+   },
+   "supply": {
+    "en": "Plantar metatarsal arteries and the deep muscles of the sole",
+    "zh": "足底蹠動脈與足底深層肌肉"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 1,
+   "joinAt": "end",
+   "joinsTo": "deep-plantar-artery"
+  },
+  {
+   "id": "plantar-metatarsal-artery-1",
+   "en": "Plantar metatarsal artery 1",
+   "zh": "第一足底蹠動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "plantar-arch",
+   "at": "plantar arch",
+   "guide": null,
+   "calibreMm": [
+    1.2,
+    0.8
+   ],
+   "terminal": false,
+   "origin": {
+    "en": "Plantar arch",
+    "zh": "足底弓"
+   },
+   "course": {
+    "en": "Runs forwards in the first interosseous space on the plantar side of the interossei and divides at the cleft between toes 1 and 2",
+    "zh": "沿第一蹠骨間隙在骨間肌足底側向前，於第1、2趾間分叉"
+   },
+   "supply": {
+    "en": "Interossei and the adjacent sides of two toes",
+    "zh": "骨間肌與相鄰兩趾的相對面"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 5
+  },
+  {
+   "id": "plantar-metatarsal-artery-2",
+   "en": "Plantar metatarsal artery 2",
+   "zh": "第二足底蹠動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "plantar-arch",
+   "at": "plantar arch",
+   "guide": null,
+   "calibreMm": [
+    1.2,
+    0.8
+   ],
+   "terminal": false,
+   "origin": {
+    "en": "Plantar arch",
+    "zh": "足底弓"
+   },
+   "course": {
+    "en": "Runs forwards in the second interosseous space on the plantar side of the interossei and divides at the cleft between toes 2 and 3",
+    "zh": "沿第二蹠骨間隙在骨間肌足底側向前，於第2、3趾間分叉"
+   },
+   "supply": {
+    "en": "Interossei and the adjacent sides of two toes",
+    "zh": "骨間肌與相鄰兩趾的相對面"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 6
+  },
+  {
+   "id": "plantar-metatarsal-artery-3",
+   "en": "Plantar metatarsal artery 3",
+   "zh": "第三足底蹠動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "plantar-arch",
+   "at": "plantar arch",
+   "guide": null,
+   "calibreMm": [
+    1.2,
+    0.8
+   ],
+   "terminal": false,
+   "origin": {
+    "en": "Plantar arch",
+    "zh": "足底弓"
+   },
+   "course": {
+    "en": "Runs forwards in the third interosseous space on the plantar side of the interossei and divides at the cleft between toes 3 and 4",
+    "zh": "沿第三蹠骨間隙在骨間肌足底側向前，於第3、4趾間分叉"
+   },
+   "supply": {
+    "en": "Interossei and the adjacent sides of two toes",
+    "zh": "骨間肌與相鄰兩趾的相對面"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 7
+  },
+  {
+   "id": "plantar-metatarsal-artery-4",
+   "en": "Plantar metatarsal artery 4",
+   "zh": "第四足底蹠動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "plantar-arch",
+   "at": "plantar arch",
+   "guide": null,
+   "calibreMm": [
+    1.2,
+    0.8
+   ],
+   "terminal": false,
+   "origin": {
+    "en": "Plantar arch",
+    "zh": "足底弓"
+   },
+   "course": {
+    "en": "Runs forwards in the fourth interosseous space on the plantar side of the interossei and divides at the cleft between toes 4 and 5",
+    "zh": "沿第四蹠骨間隙在骨間肌足底側向前，於第4、5趾間分叉"
+   },
+   "supply": {
+    "en": "Interossei and the adjacent sides of two toes",
+    "zh": "骨間肌與相鄰兩趾的相對面"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 8
+  },
+  {
+   "id": "proper-plantar-digital-artery-toe1-medial",
+   "en": "Medial proper plantar digital artery of big toe",
+   "zh": "大趾內側固有趾足底動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "medial-plantar-artery",
+   "at": "medial plantar artery",
+   "guide": null,
+   "calibreMm": [
+    0.8,
+    0.4
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Medial plantar artery",
+    "zh": "足底動脈"
+   },
+   "course": {
+    "en": "Runs along the medial plantar border of the big toe to the pulp of the distal phalanx",
+    "zh": "沿大趾內側足底緣到遠端趾節的趾腹"
+   },
+   "supply": {
+    "en": "Skin, nail bed and joints of the medial side of the big toe",
+    "zh": "大趾內側的皮膚、甲床與關節"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 1,
+   "joinAt": "end"
+  },
+  {
+   "id": "proper-plantar-digital-artery-toe1-lateral",
+   "en": "Lateral proper plantar digital artery of big toe",
+   "zh": "大趾外側固有趾足底動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "plantar-metatarsal-artery-1",
+   "at": "plantar metatarsal artery, at the toe cleft",
+   "guide": null,
+   "calibreMm": [
+    0.8,
+    0.4
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Plantar metatarsal artery at the toe cleft",
+    "zh": "足底蹠動脈（趾蹼處）"
+   },
+   "course": {
+    "en": "Runs along the lateral plantar border of the big toe to the pulp of the distal phalanx",
+    "zh": "沿大趾外側足底緣到遠端趾節的趾腹"
+   },
+   "supply": {
+    "en": "Skin, nail bed and joints of the lateral side of the big toe",
+    "zh": "大趾外側的皮膚、甲床與關節"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 2,
+   "joinAt": "end"
+  },
+  {
+   "id": "proper-plantar-digital-artery-toe2-medial",
+   "en": "Medial proper plantar digital artery of second toe",
+   "zh": "第二趾內側固有趾足底動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "plantar-metatarsal-artery-1",
+   "at": "plantar metatarsal artery, at the toe cleft",
+   "guide": null,
+   "calibreMm": [
+    0.8,
+    0.4
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Plantar metatarsal artery at the toe cleft",
+    "zh": "足底蹠動脈（趾蹼處）"
+   },
+   "course": {
+    "en": "Runs along the medial plantar border of the second toe to the pulp of the distal phalanx",
+    "zh": "沿第二趾內側足底緣到遠端趾節的趾腹"
+   },
+   "supply": {
+    "en": "Skin, nail bed and joints of the medial side of the second toe",
+    "zh": "第二趾內側的皮膚、甲床與關節"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 1,
+   "joinAt": "end"
+  },
+  {
+   "id": "proper-plantar-digital-artery-toe2-lateral",
+   "en": "Lateral proper plantar digital artery of second toe",
+   "zh": "第二趾外側固有趾足底動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "plantar-metatarsal-artery-2",
+   "at": "plantar metatarsal artery, at the toe cleft",
+   "guide": null,
+   "calibreMm": [
+    0.8,
+    0.4
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Plantar metatarsal artery at the toe cleft",
+    "zh": "足底蹠動脈（趾蹼處）"
+   },
+   "course": {
+    "en": "Runs along the lateral plantar border of the second toe to the pulp of the distal phalanx",
+    "zh": "沿第二趾外側足底緣到遠端趾節的趾腹"
+   },
+   "supply": {
+    "en": "Skin, nail bed and joints of the lateral side of the second toe",
+    "zh": "第二趾外側的皮膚、甲床與關節"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 2,
+   "joinAt": "end"
+  },
+  {
+   "id": "proper-plantar-digital-artery-toe3-medial",
+   "en": "Medial proper plantar digital artery of third toe",
+   "zh": "第三趾內側固有趾足底動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "plantar-metatarsal-artery-2",
+   "at": "plantar metatarsal artery, at the toe cleft",
+   "guide": null,
+   "calibreMm": [
+    0.8,
+    0.4
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Plantar metatarsal artery at the toe cleft",
+    "zh": "足底蹠動脈（趾蹼處）"
+   },
+   "course": {
+    "en": "Runs along the medial plantar border of the third toe to the pulp of the distal phalanx",
+    "zh": "沿第三趾內側足底緣到遠端趾節的趾腹"
+   },
+   "supply": {
+    "en": "Skin, nail bed and joints of the medial side of the third toe",
+    "zh": "第三趾內側的皮膚、甲床與關節"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 1,
+   "joinAt": "end"
+  },
+  {
+   "id": "proper-plantar-digital-artery-toe3-lateral",
+   "en": "Lateral proper plantar digital artery of third toe",
+   "zh": "第三趾外側固有趾足底動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "plantar-metatarsal-artery-3",
+   "at": "plantar metatarsal artery, at the toe cleft",
+   "guide": null,
+   "calibreMm": [
+    0.8,
+    0.4
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Plantar metatarsal artery at the toe cleft",
+    "zh": "足底蹠動脈（趾蹼處）"
+   },
+   "course": {
+    "en": "Runs along the lateral plantar border of the third toe to the pulp of the distal phalanx",
+    "zh": "沿第三趾外側足底緣到遠端趾節的趾腹"
+   },
+   "supply": {
+    "en": "Skin, nail bed and joints of the lateral side of the third toe",
+    "zh": "第三趾外側的皮膚、甲床與關節"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 2,
+   "joinAt": "end"
+  },
+  {
+   "id": "proper-plantar-digital-artery-toe4-medial",
+   "en": "Medial proper plantar digital artery of fourth toe",
+   "zh": "第四趾內側固有趾足底動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "plantar-metatarsal-artery-3",
+   "at": "plantar metatarsal artery, at the toe cleft",
+   "guide": null,
+   "calibreMm": [
+    0.8,
+    0.4
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Plantar metatarsal artery at the toe cleft",
+    "zh": "足底蹠動脈（趾蹼處）"
+   },
+   "course": {
+    "en": "Runs along the medial plantar border of the fourth toe to the pulp of the distal phalanx",
+    "zh": "沿第四趾內側足底緣到遠端趾節的趾腹"
+   },
+   "supply": {
+    "en": "Skin, nail bed and joints of the medial side of the fourth toe",
+    "zh": "第四趾內側的皮膚、甲床與關節"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 1,
+   "joinAt": "end"
+  },
+  {
+   "id": "proper-plantar-digital-artery-toe4-lateral",
+   "en": "Lateral proper plantar digital artery of fourth toe",
+   "zh": "第四趾外側固有趾足底動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "plantar-metatarsal-artery-4",
+   "at": "plantar metatarsal artery, at the toe cleft",
+   "guide": null,
+   "calibreMm": [
+    0.8,
+    0.4
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Plantar metatarsal artery at the toe cleft",
+    "zh": "足底蹠動脈（趾蹼處）"
+   },
+   "course": {
+    "en": "Runs along the lateral plantar border of the fourth toe to the pulp of the distal phalanx",
+    "zh": "沿第四趾外側足底緣到遠端趾節的趾腹"
+   },
+   "supply": {
+    "en": "Skin, nail bed and joints of the lateral side of the fourth toe",
+    "zh": "第四趾外側的皮膚、甲床與關節"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 2,
+   "joinAt": "end"
+  },
+  {
+   "id": "proper-plantar-digital-artery-toe5-medial",
+   "en": "Medial proper plantar digital artery of little toe",
+   "zh": "小趾內側固有趾足底動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "plantar-metatarsal-artery-4",
+   "at": "plantar metatarsal artery, at the toe cleft",
+   "guide": null,
+   "calibreMm": [
+    0.8,
+    0.4
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Plantar metatarsal artery at the toe cleft",
+    "zh": "足底蹠動脈（趾蹼處）"
+   },
+   "course": {
+    "en": "Runs along the medial plantar border of the little toe to the pulp of the distal phalanx",
+    "zh": "沿小趾內側足底緣到遠端趾節的趾腹"
+   },
+   "supply": {
+    "en": "Skin, nail bed and joints of the medial side of the little toe",
+    "zh": "小趾內側的皮膚、甲床與關節"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 1,
+   "joinAt": "end"
+  },
+  {
+   "id": "proper-plantar-digital-artery-toe5-lateral",
+   "en": "Lateral proper plantar digital artery of little toe",
+   "zh": "小趾外側固有趾足底動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "lateral-plantar-artery",
+   "at": "lateral plantar artery",
+   "guide": null,
+   "calibreMm": [
+    0.8,
+    0.4
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Lateral plantar artery",
+    "zh": "足底動脈"
+   },
+   "course": {
+    "en": "Runs along the lateral plantar border of the little toe to the pulp of the distal phalanx",
+    "zh": "沿小趾外側足底緣到遠端趾節的趾腹"
+   },
+   "supply": {
+    "en": "Skin, nail bed and joints of the lateral side of the little toe",
+    "zh": "小趾外側的皮膚、甲床與關節"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 2
+  },
+  {
+   "id": "arcuate-artery",
+   "en": "Arcuate artery",
+   "zh": "弓狀動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "dorsalis-pedis-artery",
+   "at": "dorsalis pedis artery, over the bases of the metatarsals",
+   "guide": "{S} arcuate artery",
+   "calibreMm": [
+    1.6,
+    1.0
+   ],
+   "terminal": false,
+   "origin": {
+    "en": "Dorsalis pedis artery, over the bases of the metatarsal bones",
+    "zh": "足背動脈，蹠骨底上方"
+   },
+   "course": {
+    "en": "Curves laterally across the bases of the second to fifth metatarsal bones deep to the extensor tendons and gives the second to fourth dorsal metatarsal arteries",
+    "zh": "在伸肌腱深面橫過第二至第五蹠骨底向外側，分出第二至第四蹠背動脈"
+   },
+   "supply": {
+    "en": "Dorsal interossei and the dorsum of the lateral toes",
+    "zh": "背側骨間肌與外側各趾背"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 2
+  },
+  {
+   "id": "dorsal-metatarsal-artery-1",
+   "en": "Dorsal metatarsal artery 1",
+   "zh": "第一蹠背動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "dorsalis-pedis-artery",
+   "at": "dorsalis pedis artery",
+   "guide": null,
+   "calibreMm": [
+    0.9,
+    0.6
+   ],
+   "terminal": false,
+   "origin": {
+    "en": "Dorsalis pedis artery",
+    "zh": "足背動脈"
+   },
+   "course": {
+    "en": "Runs forwards on the dorsal interosseous muscle of the first space and divides at the toe cleft into two dorsal digital arteries",
+    "zh": "沿第一蹠骨間隙的背側骨間肌向前，在趾蹼處分為兩條趾背動脈"
+   },
+   "supply": {
+    "en": "Dorsal interossei and the dorsal sides of two toes",
+    "zh": "背側骨間肌與兩趾的背側"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 3
+  },
+  {
+   "id": "dorsal-metatarsal-artery-2",
+   "en": "Dorsal metatarsal artery 2",
+   "zh": "第二蹠背動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "arcuate-artery",
+   "at": "arcuate artery",
+   "guide": null,
+   "calibreMm": [
+    0.9,
+    0.6
+   ],
+   "terminal": false,
+   "origin": {
+    "en": "Arcuate artery",
+    "zh": "弓狀動脈"
+   },
+   "course": {
+    "en": "Runs forwards on the dorsal interosseous muscle of the second space and divides at the toe cleft into two dorsal digital arteries",
+    "zh": "沿第二蹠骨間隙的背側骨間肌向前，在趾蹼處分為兩條趾背動脈"
+   },
+   "supply": {
+    "en": "Dorsal interossei and the dorsal sides of two toes",
+    "zh": "背側骨間肌與兩趾的背側"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 5
+  },
+  {
+   "id": "dorsal-metatarsal-artery-3",
+   "en": "Dorsal metatarsal artery 3",
+   "zh": "第三蹠背動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "arcuate-artery",
+   "at": "arcuate artery",
+   "guide": null,
+   "calibreMm": [
+    0.9,
+    0.6
+   ],
+   "terminal": false,
+   "origin": {
+    "en": "Arcuate artery",
+    "zh": "弓狀動脈"
+   },
+   "course": {
+    "en": "Runs forwards on the dorsal interosseous muscle of the third space and divides at the toe cleft into two dorsal digital arteries",
+    "zh": "沿第三蹠骨間隙的背側骨間肌向前，在趾蹼處分為兩條趾背動脈"
+   },
+   "supply": {
+    "en": "Dorsal interossei and the dorsal sides of two toes",
+    "zh": "背側骨間肌與兩趾的背側"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 6
+  },
+  {
+   "id": "dorsal-metatarsal-artery-4",
+   "en": "Dorsal metatarsal artery 4",
+   "zh": "第四蹠背動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "arcuate-artery",
+   "at": "arcuate artery",
+   "guide": null,
+   "calibreMm": [
+    0.9,
+    0.6
+   ],
+   "terminal": false,
+   "origin": {
+    "en": "Arcuate artery",
+    "zh": "弓狀動脈"
+   },
+   "course": {
+    "en": "Runs forwards on the dorsal interosseous muscle of the fourth space and divides at the toe cleft into two dorsal digital arteries",
+    "zh": "沿第四蹠骨間隙的背側骨間肌向前，在趾蹼處分為兩條趾背動脈"
+   },
+   "supply": {
+    "en": "Dorsal interossei and the dorsal sides of two toes",
+    "zh": "背側骨間肌與兩趾的背側"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 7
+  },
+  {
+   "id": "dorsal-digital-artery-toe1-lateral",
+   "en": "Lateral dorsal digital artery of big toe",
+   "zh": "大趾外側趾背動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "dorsal-metatarsal-artery-1",
+   "at": "dorsal metatarsal artery, at the toe cleft",
+   "guide": null,
+   "calibreMm": [
+    0.5,
+    0.3
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Dorsal metatarsal artery at the toe cleft",
+    "zh": "蹠背動脈（趾蹼處）"
+   },
+   "course": {
+    "en": "Runs along the lateral dorsal border of the big toe to the middle of the proximal phalanx",
+    "zh": "沿大趾外側背緣到近端趾節中部"
+   },
+   "supply": {
+    "en": "Skin of the dorsum of the big toe",
+    "zh": "大趾背側皮膚"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 1,
+   "joinAt": "end"
+  },
+  {
+   "id": "dorsal-digital-artery-toe2-medial",
+   "en": "Medial dorsal digital artery of second toe",
+   "zh": "第二趾內側趾背動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "dorsal-metatarsal-artery-1",
+   "at": "dorsal metatarsal artery, at the toe cleft",
+   "guide": null,
+   "calibreMm": [
+    0.5,
+    0.3
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Dorsal metatarsal artery at the toe cleft",
+    "zh": "蹠背動脈（趾蹼處）"
+   },
+   "course": {
+    "en": "Runs along the medial dorsal border of the second toe to the middle of the proximal phalanx",
+    "zh": "沿第二趾內側背緣到近端趾節中部"
+   },
+   "supply": {
+    "en": "Skin of the dorsum of the second toe",
+    "zh": "第二趾背側皮膚"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 2,
+   "joinAt": "end"
+  },
+  {
+   "id": "dorsal-digital-artery-toe2-lateral",
+   "en": "Lateral dorsal digital artery of second toe",
+   "zh": "第二趾外側趾背動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "dorsal-metatarsal-artery-2",
+   "at": "dorsal metatarsal artery, at the toe cleft",
+   "guide": null,
+   "calibreMm": [
+    0.5,
+    0.3
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Dorsal metatarsal artery at the toe cleft",
+    "zh": "蹠背動脈（趾蹼處）"
+   },
+   "course": {
+    "en": "Runs along the lateral dorsal border of the second toe to the middle of the proximal phalanx",
+    "zh": "沿第二趾外側背緣到近端趾節中部"
+   },
+   "supply": {
+    "en": "Skin of the dorsum of the second toe",
+    "zh": "第二趾背側皮膚"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 1,
+   "joinAt": "end"
+  },
+  {
+   "id": "dorsal-digital-artery-toe3-medial",
+   "en": "Medial dorsal digital artery of third toe",
+   "zh": "第三趾內側趾背動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "dorsal-metatarsal-artery-2",
+   "at": "dorsal metatarsal artery, at the toe cleft",
+   "guide": null,
+   "calibreMm": [
+    0.5,
+    0.3
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Dorsal metatarsal artery at the toe cleft",
+    "zh": "蹠背動脈（趾蹼處）"
+   },
+   "course": {
+    "en": "Runs along the medial dorsal border of the third toe to the middle of the proximal phalanx",
+    "zh": "沿第三趾內側背緣到近端趾節中部"
+   },
+   "supply": {
+    "en": "Skin of the dorsum of the third toe",
+    "zh": "第三趾背側皮膚"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 2,
+   "joinAt": "end"
+  },
+  {
+   "id": "dorsal-digital-artery-toe3-lateral",
+   "en": "Lateral dorsal digital artery of third toe",
+   "zh": "第三趾外側趾背動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "dorsal-metatarsal-artery-3",
+   "at": "dorsal metatarsal artery, at the toe cleft",
+   "guide": null,
+   "calibreMm": [
+    0.5,
+    0.3
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Dorsal metatarsal artery at the toe cleft",
+    "zh": "蹠背動脈（趾蹼處）"
+   },
+   "course": {
+    "en": "Runs along the lateral dorsal border of the third toe to the middle of the proximal phalanx",
+    "zh": "沿第三趾外側背緣到近端趾節中部"
+   },
+   "supply": {
+    "en": "Skin of the dorsum of the third toe",
+    "zh": "第三趾背側皮膚"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 1,
+   "joinAt": "end"
+  },
+  {
+   "id": "dorsal-digital-artery-toe4-medial",
+   "en": "Medial dorsal digital artery of fourth toe",
+   "zh": "第四趾內側趾背動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "dorsal-metatarsal-artery-3",
+   "at": "dorsal metatarsal artery, at the toe cleft",
+   "guide": null,
+   "calibreMm": [
+    0.5,
+    0.3
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Dorsal metatarsal artery at the toe cleft",
+    "zh": "蹠背動脈（趾蹼處）"
+   },
+   "course": {
+    "en": "Runs along the medial dorsal border of the fourth toe to the middle of the proximal phalanx",
+    "zh": "沿第四趾內側背緣到近端趾節中部"
+   },
+   "supply": {
+    "en": "Skin of the dorsum of the fourth toe",
+    "zh": "第四趾背側皮膚"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 2,
+   "joinAt": "end"
+  },
+  {
+   "id": "dorsal-digital-artery-toe4-lateral",
+   "en": "Lateral dorsal digital artery of fourth toe",
+   "zh": "第四趾外側趾背動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "dorsal-metatarsal-artery-4",
+   "at": "dorsal metatarsal artery, at the toe cleft",
+   "guide": null,
+   "calibreMm": [
+    0.5,
+    0.3
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Dorsal metatarsal artery at the toe cleft",
+    "zh": "蹠背動脈（趾蹼處）"
+   },
+   "course": {
+    "en": "Runs along the lateral dorsal border of the fourth toe to the middle of the proximal phalanx",
+    "zh": "沿第四趾外側背緣到近端趾節中部"
+   },
+   "supply": {
+    "en": "Skin of the dorsum of the fourth toe",
+    "zh": "第四趾背側皮膚"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 1,
+   "joinAt": "end"
+  },
+  {
+   "id": "dorsal-digital-artery-toe5-medial",
+   "en": "Medial dorsal digital artery of little toe",
+   "zh": "小趾內側趾背動脈",
+   "kind": "artery",
+   "bilateral": true,
+   "parent": "dorsal-metatarsal-artery-4",
+   "at": "dorsal metatarsal artery, at the toe cleft",
+   "guide": null,
+   "calibreMm": [
+    0.5,
+    0.3
+   ],
+   "terminal": true,
+   "origin": {
+    "en": "Dorsal metatarsal artery at the toe cleft",
+    "zh": "蹠背動脈（趾蹼處）"
+   },
+   "course": {
+    "en": "Runs along the medial dorsal border of the little toe to the middle of the proximal phalanx",
+    "zh": "沿小趾內側背緣到近端趾節中部"
+   },
+   "supply": {
+    "en": "Skin of the dorsum of the little toe",
+    "zh": "小趾背側皮膚"
+   },
+   "relations": [],
+   "keep": null,
+   "mayCross": [],
+   "order": 2,
+   "joinAt": "end"
+  }
+ ]
+}

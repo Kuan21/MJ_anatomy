@@ -10,7 +10,7 @@ import fs from 'node:fs';
 import zlib from 'node:zlib';
 import {sub, add, mul, unit, cross} from '../lib/paokao-util.mjs';
 
-const STEP = .0015, BOX = {x: [-.076, .076], y: [1.555, 1.628]}, SEED = [0, 1.595], OVERLAP = 3, INNER = .001, MIN_LIFT = .0025, MAX_LIFT = .008;
+const STEP = .0015, BOX = {x: [-.0765, .0765], y: [1.555, 1.628]}, SEED = [0, 1.595], OVERLAP = 3, INNER = .001, MIN_LIFT = .0025, MAX_LIFT = .008, ROUND = 9, ABOVE = .0004;   // ROUND: radius in cells of the disc that rounds the outline; ABOVE: where the sheet rounds a corner over a muscle it lies 0.4 mm above its surface
 const NX = Math.round((BOX.x[1] - BOX.x[0]) / STEP), NY = Math.round((BOX.y[1] - BOX.y[0]) / STEP);
 const COVER = new Set(['muscular', 'tendon', 'connective']);
 
@@ -52,31 +52,45 @@ function field(U, w) {
   if (!bare[k(si, sj)]) throw new Error('occipital aponeurosis: the seed cell is not bare bone (the atlas changed?)');
   const band = new Uint8Array(NX * NY), stack = [k(si, sj)]; band[stack[0]] = 1;
   while (stack.length) { const c = stack.pop(), ix = Math.floor(c / NY), iy = c % NY; for (const [a, b] of NB) { const jx = ix + a, jy = iy + b; if (jx < 0 || jy < 0 || jx >= NX || jy >= NY) continue; const q = k(jx, jy); if (bare[q] && !band[q]) { band[q] = 1; stack.push(q); } } }
-  // the sheet covers the band and runs OVERLAP cells under the muscles around it (not beyond the bone that is in view)
-  const mask = Uint8Array.from(band); for (let r = 0; r < OVERLAP; r++) { const n = Uint8Array.from(mask); for (let ix = 0; ix < NX; ix++) for (let iy = 0; iy < NY; iy++) if (mask[k(ix, iy)]) for (const [a, b] of NB) { const jx = ix + a, jy = iy + b; if (jx >= 0 && jy >= 0 && jx < NX && jy < NY && Number.isFinite(zo[k(jx, jy)])) n[k(jx, jy)] = 1; } mask.set(n); }
-  // height above the bone: the muscle edges around the band give the values, the band takes the smooth fill between them
+  // the outline of the band is the outline of the muscles around it: a square window with ragged teeth. Close it (a morphological closing with a disc of 13.5 mm radius (the occipitalis bellies are about 30 mm across: a larger disc would fill them); a cell is never removed): the square corners and the teeth become
+  // smooth arcs of about 13 mm radius. The cells added this way lie over the edge of a muscle; there the sheet rests 0.4 mm above the muscle surface.
+  const disc = []; for (let a = -ROUND; a <= ROUND; a++) for (let b = -ROUND; b <= ROUND; b++) if (a * a + b * b <= ROUND * ROUND) disc.push([a, b]);
+  // outside the lattice there is nothing to grow from and nothing to block the shrinking
+  const morph = (src, grow) => { const out = new Uint8Array(NX * NY); for (let ix = 0; ix < NX; ix++) for (let iy = 0; iy < NY; iy++) { let hit = grow ? 0 : 1; for (const [a, b] of disc) { const jx = ix + a, jy = iy + b, v = jx >= 0 && jy >= 0 && jx < NX && jy < NY ? src[k(jx, jy)] : grow ? 0 : 1; if (grow ? v : !v) { hit = grow ? 1 : 0; break; } } out[k(ix, iy)] = hit; } return out; };
+  const sym = Uint8Array.from(band); for (let ix = 0; ix < NX; ix++) for (let iy = 0; iy < NY; iy++) if (band[k(NX - 1 - ix, iy)]) sym[k(ix, iy)] = 1;   // the lattice is centred on x = 0: the outline is made left-right symmetric (a cell that is bare bone on one side only is rounded over the muscle on the other)
+  const soft = morph(morph(sym, true), false);   // closing: grow, then shrink, by the same disc
+  const core = Uint8Array.from(band), over = new Uint8Array(NX * NY);
+  for (let i = 0; i < core.length; i++) if (!band[i] && soft[i] && Number.isFinite(zo[i]) && Number.isFinite(zc[i]) && zo[i] - zc[i] > .0008) { core[i] = 1; over[i] = 1; }
+  // the sheet covers the core and runs OVERLAP cells under the muscles around it (not beyond the bone that is in view)
+  const mask = Uint8Array.from(core); for (let r = 0; r < OVERLAP; r++) { const n = Uint8Array.from(mask); for (let ix = 0; ix < NX; ix++) for (let iy = 0; iy < NY; iy++) if (mask[k(ix, iy)]) for (const [a, b] of NB) { const jx = ix + a, jy = iy + b; if (jx >= 0 && jy >= 0 && jx < NX && jy < NY && Number.isFinite(zo[k(jx, jy)])) n[k(jx, jy)] = 1; } mask.set(n); }
+  // height above the bone: the muscle edges around the core give the values (the cells rounded over a muscle rest on its surface), the core takes the smooth fill between them
   const H = new Float64Array(NX * NY), known = new Uint8Array(NX * NY);
-  for (let i = 0; i < H.length; i++) if (mask[i] && !band[i]) { const lift = zo[i] - zc[i]; if (Number.isFinite(lift) && lift > .0008) { H[i] = Math.min(MAX_LIFT, Math.max(MIN_LIFT, lift)); known[i] = 1; } }
+  for (let i = 0; i < H.length; i++) if (over[i]) { H[i] = zs[i] - zc[i] + ABOVE; known[i] = 1; }   // exactly 0.4 mm above the muscle surface (no cap: the muscle can be thicker than the sheet elsewhere)
+  else if (mask[i] && !core[i]) { const lift = zo[i] - zc[i]; if (Number.isFinite(lift) && lift > .0008) { H[i] = Math.min(MAX_LIFT, Math.max(MIN_LIFT, lift)); known[i] = 1; } }
   const free = []; for (let i = 0; i < H.length; i++) if (mask[i] && !known[i]) { free.push(i); H[i] = .003; }
   for (let it = 0; it < 600; it++) for (const i of free) { let s = 0, c = 0; const ix = Math.floor(i / NY), iy = i % NY; for (const [a, b] of NB) { const q = k(ix + a, iy + b); if (mask[q]) { s += H[q]; c++; } } if (c) H[i] = s / c; }
-  return {zs, zb, mask, band, H, known, zo};
+  return {zs, zb, mask, band: core, over, H, known, zo};
 }
 
 /** Closed solid over the masked cells of the lattice: top surface at the lift height, bottom INNER behind the bone surface; one solid piece. */
-function solid({zs, mask, band, H, known}) {
+function solid({zs, mask, band, over, H, known}) {
   const k = (ix, iy) => ix * NY + iy, vid = new Map(), positions = [], indices = [], top = [], bot = [];
   const vertex = (ix, iy) => { const key = k(ix, iy); if (vid.has(key)) return vid.get(key); const id = top.length, x = BOX.x[0] + ix * STEP, y = BOX.y[0] + iy * STEP, near = [[0, 0], [-1, 0], [0, -1], [-1, -1]].map(([a, b]) => k(ix + a, iy + b)).filter(q => mask[q] && Number.isFinite(zs[q]));
-    const z = near.reduce((s, q) => s + zs[q], 0) / near.length, lift = near.reduce((s, q) => s + H[q], 0) / near.length, edge = near.some(q => known[q]) ? .6 : 1;   // under the muscles the sheet is a little lower than their surface: it never fights them
+    const z = near.reduce((s, q) => s + zs[q], 0) / near.length, lift = near.reduce((s, q) => s + H[q], 0) / near.length, edge = near.some(q => known[q]) && !near.some(q => over[q]) ? .6 : 1;   // under the muscles the sheet is a little lower than their surface: it never fights them
     top.push([x, y, z - lift * edge]); bot.push([x, y, z - INNER]); vid.set(key, id); return id; };
   const quads = new Map();
   for (let ix = 0; ix < NX; ix++) for (let iy = 0; iy < NY; iy++) if (mask[k(ix, iy)]) { const q = [vertex(ix, iy), vertex(ix + 1, iy), vertex(ix + 1, iy + 1), vertex(ix, iy + 1)]; quads.set(k(ix, iy), q); }
-  const n = top.length; for (const p of [...top, ...bot]) positions.push(...p);
+  const n = top.length;
   const edges = new Map();
   for (const [a, b, c, d] of quads.values()) {
     indices.push(a, b, c, a, c, d, n + a, n + c, n + b, n + a, n + d, n + c);
     for (const [u, v] of [[a, b], [b, c], [c, d], [d, a]]) { const key = u < v ? `${u},${v}` : `${v},${u}`; (edges.get(key) ?? edges.set(key, []).get(key)).push([u, v]); }
   }
   for (const list of edges.values()) if (list.length === 1) { const [u, v] = list[0]; indices.push(u, n + u, v, v, n + u, n + v); }
+  // the outline of a lattice is a staircase of 1.5 mm steps: smooth the boundary loop of the top surface (and the bottom with it) so the edge is a curve, not steps
+  { const nbr = new Map(); for (const list of edges.values()) if (list.length === 1) { const [u, v] = list[0]; (nbr.get(u) ?? nbr.set(u, []).get(u)).push(v); (nbr.get(v) ?? nbr.set(v, []).get(v)).push(u); }
+    for (let it = 0; it < 8; it++) { const next = new Map(); for (const [u, l] of nbr) if (l.length === 2) next.set(u, [(top[l[0]][0] + top[l[1]][0] + 2 * top[u][0]) / 4, (top[l[0]][1] + top[l[1]][1] + 2 * top[u][1]) / 4]); for (const [u, [x, y]] of next) { top[u][0] = x; top[u][1] = y; bot[u][0] = x; bot[u][1] = y; } } }
+  for (const p of [...top, ...bot]) positions.push(...p);
   let vol = 0; for (let t = 0; t < indices.length; t += 3) { const P = q => positions.slice(indices[t + q] * 3, indices[t + q] * 3 + 3), a = P(0), b = P(1), c = P(2); vol += a[0] * (b[1] * c[2] - b[2] * c[1]) - a[1] * (b[0] * c[2] - b[2] * c[0]) + a[2] * (b[0] * c[1] - b[1] * c[0]); }
   if (vol < 0) for (let t = 0; t < indices.length; t += 3) { const q = indices[t + 1]; indices[t + 1] = indices[t + 2]; indices[t + 2] = q; }
   return {positions: Float32Array.from(positions), indices: Uint32Array.from(indices)};

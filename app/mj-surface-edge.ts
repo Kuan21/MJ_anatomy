@@ -24,3 +24,27 @@ export function surfaceEdgeDepth(index:ArrayLike<number>,vertexCount:number,hops
  for(let v=0;v<vertexCount;v++)out[v]=dist[v]<0?0:1-dist[v]/hops;
  return out;
 }
+
+/**
+ * Edge value of a closed, thin solid (the aponeurosis sheet of the back of the skull): 1 on the rim, falling linearly to 0 at `reachMm` millimetres from it, measured over the surface in the model.
+ * The rim is every vertex of a side-wall triangle, a triangle with two corners at the same x and y (the sheet is built as a top surface and a bottom surface joined by vertical walls).
+ * A mesh with no such triangle (the open sheet of the galea) gets 0 everywhere, so it is not darkened at all.
+ */
+export function solidRimDistance(positions:ArrayLike<number>,index:ArrayLike<number>,reachMm:number):Float32Array{
+ const count=positions.length/3,out=new Float32Array(count),rim:number[]=[],isRim=new Uint8Array(count);
+ const same=(a:number,b:number)=>Math.abs(positions[a*3]-positions[b*3])<1e-6&&Math.abs(positions[a*3+1]-positions[b*3+1])<1e-6;
+ for(let t=0;t+2<index.length;t+=3){
+  const a=index[t],b=index[t+1],c=index[t+2];
+  if(same(a,b)||same(b,c)||same(a,c))for(const v of [a,b,c])if(!isRim[v]){isRim[v]=1;rim.push(v);}
+ }
+ if(!rim.length)return out;
+ // rim vertices on a grid of the reach size, so each vertex only looks at the nearby ones
+ const reach=reachMm/1000,cell=new Map<string,number[]>(),key=(x:number,y:number)=>Math.floor(x/reach)+','+Math.floor(y/reach);
+ for(const v of rim){const k=key(positions[v*3],positions[v*3+1]),l=cell.get(k)??[];l.push(v);cell.set(k,l);}
+ for(let v=0;v<count;v++){
+  const x=positions[v*3],y=positions[v*3+1],z=positions[v*3+2],cx=Math.floor(x/reach),cy=Math.floor(y/reach);let best=reach;
+  for(let i=-1;i<=1;i++)for(let j=-1;j<=1;j++)for(const r of cell.get((cx+i)+','+(cy+j))??[]){const d=Math.hypot(x-positions[r*3],y-positions[r*3+1],z-positions[r*3+2]);if(d<best)best=d;}
+  out[v]=1-best/reach;
+ }
+ return out;
+}
