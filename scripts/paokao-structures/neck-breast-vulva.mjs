@@ -97,14 +97,20 @@ export default function neckBreastVulva(U) {
     out[out.length - 1].system = 'connective';
   }
 
-  // ---- Female external genitalia (vulva). The atlas pelvis is male, so the front of the vulva is placed on the pubic hair patch (mons pubis, on the skin in front of the
-  // pubic symphysis) and the back at the lowest point of the (registered) vagina, in front of the anus; everything lies on the line between these two.
+  // ---- Female external genitalia (vulva). The atlas body is male, but the female pelvis (Human Reference Atlas, registered by scripts/fit-female-pelvis.mjs) is what the vulva belongs to, so it is
+  // anchored on that pelvis, not on the male skin: the mons pubis lies on the front of the pubic symphysis, the glans of the clitoris about 15 mm below the lower border of the symphysis and a little
+  // in front of it, and the vestibule runs back from there to the lowest point of the (registered) vagina, which is the introitus. Everything lies on the line between these two points.
+  // Seen with the skin on, the vulva therefore lies deeper than the male skin; it is the male skin that is in the wrong place for a female body.
   {
-    const introitus = U.extreme('Vagina', P(0, -1, 0), {}), hair = U.mesh('Pubic hair');
-    const I = P(0, introitus[1] - .002, introitus[2] + .004), A = P(0, hair.lo[1] + .008, hair.hi[2] - .006);   // A: anterior commissure, I: posterior part of the vestibule
-    const at = (t, dx = 0, dy = 0, dz = 0) => P(dx, A[1] + (I[1] - A[1]) * t + dy, A[2] + (I[2] - A[2]) * t + dz);   // t = 0 at the mons, 1 at the introitus
-    // The mound lies under the skin in front of the pubic symphysis: its front surface is put 2 mm behind the skin of the atlas (it used to stand 17 mm out of the body).
-    const m0 = at(-.12, 0, .016, -.004), skinHit = U.rayHit('Skin', P(0, m0[1], .3), P(0, 0, -1)), mons = skinHit ? P(0, m0[1], skinHit.point[2] - .013 - .002) : m0;
+    const femaleHip = [...U.find('Left hip bone'), ...U.find('Right hip bone')].filter(e => /^HRAF-bone/.test(e.id ?? ''));
+    let symFront = -1e9, symLow = 1e9;   // front of the pubic symphysis and its lower border, from the female hip bones near the midline
+    for (const e of femaleHip) { const g = e.load(); for (let i = 0; i < g.positions.length; i += 3) if (Math.abs(g.positions[i]) < .02 && g.positions[i + 1] < .92) { symFront = Math.max(symFront, g.positions[i + 2]); symLow = Math.min(symLow, g.positions[i + 1]); } }
+    if (!(symFront > -1) || !(symLow < 2)) throw new Error('vulva: the female pubic symphysis was not found');
+    const introitus = U.extreme('Vagina', P(0, -1, 0), {});
+    const I = P(0, introitus[1] - .002, introitus[2] + .004), A = P(0, symLow - .015, symFront + .012);   // A: anterior commissure (glans of the clitoris), I: posterior part of the vestibule
+    const at = (t, dx = 0, dy = 0, dz = 0) => P(dx, A[1] + (I[1] - A[1]) * t + dy, A[2] + (I[2] - A[2]) * t + dz);   // t = 0 at the clitoris, 1 at the introitus
+    // The mound is the fat pad on the front of the symphysis: its back is 3 mm in front of the bone and its lower edge touches the labia majora.
+    const mons = P(0, symLow + .014, symFront + .003 + .013);
     out.push({name: 'Mons pubis', zh: '陰阜', system: 'reproductive', kind: 'organ', sex: 'female', geometry: [U.ellipsoid(mons, .040, .024, .013)],
       card: {origin: ['The fatty pad over the pubic symphysis and the pubic bones', '恥骨聯合與恥骨上的脂肪墊'], course: ['Covered with pubic hair after puberty; continues into the labia majora', '青春期後長出陰毛，向下延續為大陰唇'], supply: ['Ilio-inguinal and genital branches of the genitofemoral nerve; superficial external pudendal vessels', '髂腹股溝神經與生殖股神經生殖支；淺層陰部外動脈與靜脈']}, refs: []});
     for (const S of SIDES) {
