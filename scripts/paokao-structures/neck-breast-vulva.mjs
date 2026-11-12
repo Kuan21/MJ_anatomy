@@ -104,12 +104,8 @@ export default function neckBreastVulva(U) {
     const I = P(0, introitus[1] - .002, introitus[2] + .004), A = P(0, hair.lo[1] + .008, hair.hi[2] - .006);   // A: anterior commissure, I: posterior part of the vestibule
     const at = (t, dx = 0, dy = 0, dz = 0) => P(dx, A[1] + (I[1] - A[1]) * t + dy, A[2] + (I[2] - A[2]) * t + dz);   // t = 0 at the mons, 1 at the introitus
     // The mound lies under the skin in front of the pubic symphysis: its front surface is put 2 mm behind the skin of the atlas (it used to stand 17 mm out of the body).
-    const m0 = at(-.12, 0, .016, -.004), skinHit = U.rayHit('Skin', P(0, m0[1], .3), P(0, 0, -1));
-    // The female hip bones (Human Reference Atlas) sit further back than the atlas's male ones: the front of their pubic symphysis is where the fat pad of the mound starts. The pad is
-    // put against that bone (3 mm of soft tissue) and its front surface 2 mm behind the skin; the depth is capped so that a thick male soft-tissue layer does not make a 6 cm egg.
-    const symZ = Math.max(...U.find('Left hip bone').concat(U.find('Right hip bone')).filter(e => /^HRAF-bone/.test(e.id ?? '')).flatMap(e => { const g = e.load(); const z = []; for (let i = 0; i < g.positions.length; i += 3) if (Math.abs(g.positions[i]) < .05 && g.positions[i + 1] < .92) z.push(g.positions[i + 2]); return z; }));
-    const monsFront = skinHit ? skinHit.point[2] - .002 : m0[2] + .013, monsHalf = Math.min((monsFront - (symZ + .003)) / 2, .026), mons = P(0, m0[1], monsFront - monsHalf);
-    out.push({name: 'Mons pubis', zh: '陰阜', system: 'reproductive', kind: 'organ', sex: 'female', geometry: [U.ellipsoid(mons, .040, .024, monsHalf)],
+    const m0 = at(-.12, 0, .016, -.004), skinHit = U.rayHit('Skin', P(0, m0[1], .3), P(0, 0, -1)), mons = skinHit ? P(0, m0[1], skinHit.point[2] - .013 - .002) : m0;
+    out.push({name: 'Mons pubis', zh: '陰阜', system: 'reproductive', kind: 'organ', sex: 'female', geometry: [U.ellipsoid(mons, .040, .024, .013)],
       card: {origin: ['The fatty pad over the pubic symphysis and the pubic bones', '恥骨聯合與恥骨上的脂肪墊'], course: ['Covered with pubic hair after puberty; continues into the labia majora', '青春期後長出陰毛，向下延續為大陰唇'], supply: ['Ilio-inguinal and genital branches of the genitofemoral nerve; superficial external pudendal vessels', '髂腹股溝神經與生殖股神經生殖支；淺層陰部外動脈與靜脈']}, refs: []});
     for (const S of SIDES) {
       const x = S.sx;
