@@ -78,7 +78,7 @@ export const CARD_EXTRAS: Record<string, CardExtra> = {
     供應範圍: e('頸後深層肌', 'Deep posterior neck muscles'),
   },
   'dorsal scapular artery': {
-    來源: e('頸橫動脈深支（常見），或直接起自鎖骨下動脈第三段', 'Deep branch of the transverse cervical artery (common), or directly from the third part of the subclavian artery'),
+    來源: e('有變異：起自鎖骨下動脈第三段（有時為第二段），或起自頸橫動脈深支', 'Variable: the third part of the subclavian artery (sometimes the second part), or the deep branch of the transverse cervical artery'),
     走向: e('沿肩胛骨內側緣、菱形肌深面下行', 'Descends along the medial border of the scapula deep to the rhomboids'),
     供應範圍: e('菱形肌、提肩胛肌；與肩胛上動脈、旋肩胛動脈吻合', 'Rhomboids and levator scapulae; anastomoses with the suprascapular and circumflex scapular arteries'),
   },
@@ -96,7 +96,7 @@ export const CARD_EXTRAS: Record<string, CardExtra> = {
   'transverse cervical artery': {
     來源: e('甲狀頸動脈幹', 'Thyrocervical trunk'),
     走向: e('橫越頸後三角，經臂神經叢前方行至斜方肌深面', 'Crosses the posterior triangle in front of the brachial plexus to the deep surface of trapezius'),
-    主要分支: e('淺支（至斜方肌）與深支（常成為肩胛背動脈）', 'Superficial branch (to trapezius) and deep branch (often becomes the dorsal scapular artery)'),
+    主要分支: e('淺支（至斜方肌）與深支（可延續為肩胛背動脈）', 'Superficial branch (to trapezius) and deep branch (which may continue as the dorsal scapular artery)'),
     供應範圍: e('斜方肌、菱形肌與提肩胛肌', 'Trapezius, rhomboids and levator scapulae'),
   },
   'subcostal vein': {

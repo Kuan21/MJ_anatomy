@@ -82,7 +82,9 @@ const thoracicCables=rawThoracicCables.parts as Record<string,CableSource>;
 export interface DigitClearanceSet{side:Side;index:Uint32Array;items:DigitClearance[];/** with the triangles of the mesh: the corrections are spread over the neighbouring vertices (two rings), see smoothClearance */mesh?:ClearanceMesh}
 /** The vertices around the corrected ones, in CSR form: `vertices[k]` has the neighbours `list[start[k]..start[k+1])` (indices into `vertices`), `of[j]` is the position of set member j in `vertices`. */
 interface ClearanceMesh{vertices:Uint32Array;start:Uint32Array;list:Uint32Array;of:Uint32Array}
-export interface SkinBinding {clear?:DigitClearanceSet;cable?:CableGuide;wrap?:ThoraxWrap;fibre?:FibreGuide;indices:Uint8Array;weights:Float32Array;belly:Float32Array;radial:Float32Array;longitudinal?:Float32Array;restAxis?:Vector3;sheetOriginFrame?:number;origin:Vector3;insertion:Vector3;originWeights:number[];insertionWeights:number[];restLength:number;profile:Profile;fan?:{originFrame:number;insertionFrame:number;tip:Vector3;minX:number;spanX:number}}
+/** A vessel-end piece that follows the posed shape of a vessel which is not skinned by plain weights (cable, follower, ...): see alignEndPiece. */
+export interface EndTransfer{main:SkinBinding;mainBase:ArrayLike<number>;/** nearest vertex of the vessel, -1 = none within reach */near:Int32Array;/** 1 at the join, 0 at the far end of the ramp */lambda:Float32Array}
+export interface SkinBinding {endOf?:EndTransfer;clear?:DigitClearanceSet;cable?:CableGuide;wrap?:ThoraxWrap;fibre?:FibreGuide;indices:Uint8Array;weights:Float32Array;belly:Float32Array;radial:Float32Array;longitudinal?:Float32Array;restAxis?:Vector3;sheetOriginFrame?:number;origin:Vector3;insertion:Vector3;originWeights:number[];insertionWeights:number[];restLength:number;profile:Profile;fan?:{originFrame:number;insertionFrame:number;tip:Vector3;minX:number;spanX:number}}
 export function makeSoftRig(atlas:Atlas,side:Side):SoftRig|null{
  const rig=createSkeletonRig(atlas,side);if(!rig.valid)return null;
  const node=(id:string)=>rig.nodes.find(n=>n.id===id)!;
@@ -175,8 +177,12 @@ function armWeightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''):nu
 
  if(profile==='shoulderJoint'){
   const n=name.toLowerCase();
-  if(/coracoacromial/.test(n))return pair(2,2,1);
-  if(/acromioclavicular|coracoclavicular/.test(n))return pair(1,2,range(lateral,.10,.90));
+  if(/coraco-?acromial/.test(n))return pair(2,2,1);
+  // Both transverse scapular ligaments bridge the suprascapular notch / spinoglenoid notch: one bone, the scapula. (Under the generic rule below they were half scapula, half humerus and stretched 12 times at 150 degrees.)
+  if(/transverse scapular|suprascapular/.test(n))return pair(2,2,1);
+  // The costoclavicular ligament joins the first rib to the clavicle: trunk at the rib end, clavicle at the other (the generic rule gave it scapula and humerus, which tore it 18 times).
+  if(/costoclavicular|clavipectoral/.test(n))return pair(0,1,smooth(range(lateral,.15,.85)));
+  if(/acromio-?clavicular|coraco-?clavicular/.test(n))return pair(1,2,range(lateral,.10,.90));
   return pair(2,3,range(lateral,.18,.92));
  }
  if(profile==='elbowJoint'){
@@ -287,6 +293,9 @@ export function smoothSkinWeights(positions:ArrayLike<number>,triangles:ArrayLik
  }
 }
 const SMOOTHED_PROFILES:Profile[]=['chest','scapular','clavicular','coraco'];
+
+
+
 
 /** Store sparse weights once. All deltoid heads use the SAME envelope.
  * Broad sheet muscles use their actual medial/lateral mesh edges as attachment
@@ -440,20 +449,34 @@ function smoothClearance(mesh:ClearanceMesh,delta:Float32Array){
 // centreline embedding below. Thoracodorsal structures retain the shared field.
 /** A vessel-end piece (`…-END`) shares its vessel's name but is a separate mesh: where it touches the main mesh it takes the main mesh's skin weights, so the two
  * move as one (otherwise the end piece follows its own rule while the vessel follows a cable, a follower or a branch field, and they tear apart). Returns how many vertices were matched. */
-export function alignEndPiece(end:SkinBinding,endPositions:ArrayLike<number>,main:SkinBinding,mainPositions:ArrayLike<number>,reach=.006):number{
- const cell=reach,grid=new Map<string,number[]>(),key=(x:number,y:number,z:number)=>`${Math.floor(x/cell)},${Math.floor(y/cell)},${Math.floor(z/cell)}`;
+export function alignEndPiece(end:SkinBinding,endPositions:ArrayLike<number>,main:SkinBinding,mainPositions:ArrayLike<number>,reach=.006,fade=.05):number{
+ const linear=isLinearBinding(main);
+ // A vessel that is posed by more than its weights is surrounded by its end piece's shell (7-9 mm away at the widest), so that end piece counts as lying ON it out to 15 mm.
+ if(!linear)reach=.015;
+ const cell=reach+fade,grid=new Map<string,number[]>(),key=(x:number,y:number,z:number)=>`${Math.floor(x/cell)},${Math.floor(y/cell)},${Math.floor(z/cell)}`;
  for(let i=0;i<mainPositions.length/3;i++){const k=key(mainPositions[i*3],mainPositions[i*3+1],mainPositions[i*3+2]);const a=grid.get(k);if(a)a.push(i);else grid.set(k,[i]);}
- let matched=0;
- for(let i=0;i<endPositions.length/3;i++){
-  const x=endPositions[i*3],y=endPositions[i*3+1],z=endPositions[i*3+2];let best=-1,bestD=reach*reach;
-  const kx=Math.floor(x/cell),ky=Math.floor(y/cell),kz=Math.floor(z/cell);
-  for(let dx=-1;dx<=1;dx++)for(let dy=-1;dy<=1;dy++)for(let dz=-1;dz<=1;dz++)for(const j of grid.get(`${kx+dx},${ky+dy},${kz+dz}`)??[]){const d=(x-mainPositions[j*3])**2+(y-mainPositions[j*3+1])**2+(z-mainPositions[j*3+2])**2;if(d<bestD){bestD=d;best=j;}}
-  if(best<0)continue;
-  for(let k=0;k<4;k++){end.indices[i*4+k]=main.indices[best*4+k];end.weights[i*4+k]=main.weights[best*4+k];}
-  matched++;
+ const count=endPositions.length/3,near=new Int32Array(count).fill(-1),nearD=new Float64Array(count);let matched=0,span=reach;
+ for(let i=0;i<count;i++){
+  const x=endPositions[i*3],y=endPositions[i*3+1],z=endPositions[i*3+2],kx=Math.floor(x/cell),ky=Math.floor(y/cell),kz=Math.floor(z/cell);
+  let nearest=-1,nearestD=(linear?reach:reach+fade)**2;
+  for(let dx=-1;dx<=1;dx++)for(let dy=-1;dy<=1;dy++)for(let dz=-1;dz<=1;dz++)for(const j of grid.get(`${kx+dx},${ky+dy},${kz+dz}`)??[]){const d=(x-mainPositions[j*3])**2+(y-mainPositions[j*3+1])**2+(z-mainPositions[j*3+2])**2;if(d<nearestD){nearestD=d;nearest=j;}}
+  near[i]=nearest;nearD[i]=Math.sqrt(nearestD);if(nearest>=0)span=Math.max(span,nearD[i]);
  }
+ if(linear){
+  // The vessel is skinned by its weights alone, so its end piece takes the weights of the vessel vertex nearest to each of its own vertices where they touch.
+  for(let i=0;i<count;i++){const best=near[i];if(best<0)continue;for(let k=0;k<4;k++){end.indices[i*4+k]=main.indices[best*4+k];end.weights[i*4+k]=main.weights[best*4+k];}matched++;}
+  return matched;
+ }
+ // The vessel is posed by more than its weights (a thoracic cable rod, the pectoral fan follower, ...), so copying its weights does NOT reproduce its pose: the end pieces of the
+ // lateral thoracic vessels and of the pectoral branch of the thoraco-acromial artery lay 30-75 mm (up to 20 cm) from the vessel they continue and flew off as red spikes at 150 degrees
+ // of abduction. Such an end piece follows the vessel's posed shape instead (deformTissueCore, `endOf`): it takes the posed position of its nearest vessel vertex, turned with that
+ // vertex's frame, and hands over to its own field weights. Within `reach` of the vessel the end piece lies ON it and follows it completely; beyond that the hand-over takes `ramp`.
+ const ramp=Math.max(reach,Math.min(fade,span-reach)),lambda=new Float32Array(count);
+ for(let i=0;i<count;i++)if(near[i]>=0){lambda[i]=1-smooth((nearD[i]-reach)/ramp);if(lambda[i]>0)matched++;else near[i]=-1;}
+ end.endOf={main,mainBase:mainPositions,near,lambda};
  return matched;
 }
+
 function bindCable(rig:SoftRig,source:CableSource,positions:ArrayLike<number>,indices:Uint8Array,weights:Float32Array):CableGuide{
  let hash=2166136261;for(let i=0;i<positions.length;i++)hash=Math.imul(hash^Math.round(positions[i]*1e7),16777619);
  if(source.side!==rig.side||source.vertexCount*3!==positions.length||source.positionHash!==(hash>>>0))throw new Error('Thoracic cable/source mismatch');
@@ -544,7 +567,7 @@ function transform(x:number,y:number,z:number,q:Float64Array,out:ArrayLike<numbe
  * muscle group or belly section change. Such bindings are skinned on the GPU
  * (gpu-skinning.ts) instead of being re-solved and re-uploaded for every pose. */
 export function isLinearBinding(b:SkinBinding){
- return !b.clear&&!b.follower&&!b.cable&&!b.wrap&&!b.fibre&&!b.fan&&!['chest','pectoralPath','scapular','deltoid','cuff'].includes(b.profile)&&!b.belly.some(x=>x!==0);
+ return !b.clear&&!b.endOf&&!b.follower&&!b.cable&&!b.wrap&&!b.fibre&&!b.fan&&!['chest','pectoralPath','scapular','deltoid','cuff'].includes(b.profile)&&!b.belly.some(x=>x!==0);
 }
 /** CPU twin of the GPU stage for linear bindings (picking, tests). */
 export function linearSkin(b:Pick<SkinBinding,'indices'|'weights'>,base:ArrayLike<number>,palette:Palette,out:Float32Array){
@@ -591,6 +614,19 @@ export function deformTissue(binding:SkinBinding,base:Float32Array,palette:Palet
  return result;
 }
 function deformTissueCore(binding:SkinBinding,base:Float32Array,palette:Palette,out:Float32Array):number{
+ if(binding.endOf){
+  const {main,mainBase,near,lambda}=binding.endOf,posedMain=new Float32Array(mainBase.length),q=new Float64Array(8),qm=new Float64Array(8),own=new Float64Array(3),turned=new Float64Array(3);
+  deformTissue(main,mainBase as Float32Array,palette,posedMain);
+  for(let i=0;i<base.length/3;i++){
+   const j=near[i],l=lambda[i],o=i*3;
+   blended(palette,binding.indices,binding.weights,i*4,q);transform(base[o],base[o+1],base[o+2],q,own,0);
+   if(j<0||l<=0){out[o]=own[0];out[o+1]=own[1];out[o+2]=own[2];continue;}
+   blended(palette,main.indices,main.weights,j*4,qm);
+   transform(base[o]-mainBase[j*3],base[o+1]-mainBase[j*3+1],base[o+2]-mainBase[j*3+2],qm,turned,0,false);
+   for(let c=0;c<3;c++){const target=posedMain[j*3+c]+turned[c];out[o+c]=own[c]+l*(target-own[c]);}
+  }
+  return 1;
+ }
  if(binding.follower){
   const {parent,progress}=binding.follower;
   deformTissue(parent,base,palette,out);
