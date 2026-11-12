@@ -31,6 +31,8 @@
 
 - 2026-11-12（第三次）：依使用者授權執行 `node scripts/clean.mjs --donor`，指出的就是本資料夾，但缺少 `work/`，且 `public/models/supplement/supplement-stream.json.gz` 不存在，`report-centerlines.mjs` 無法執行（ENOENT）。依指示記錄後跳過「jump 是否誤報」的查證，未下載資料、未改模型。需要該生成檔（或由你指定有它的環境）才能繼續 S5 第二階段。`package-lock.json` 的未提交差異只是 npm 重排 license 欄位，未提交。
 
+- 2026-11-12（第四次）：重新檢查，`work/` 與 `supplement-stream.json.gz` 仍不存在，S5 第二階段仍被擋住；S7 與其他項目依「我的回覆」要求跳過。沒有可做的未完成項目，只更新本檔。
+
 ## 進行中／等審核
 - S2 A–G、S3、S4、S6 相關工作都已有 PR（見上），等使用者審核。
 
