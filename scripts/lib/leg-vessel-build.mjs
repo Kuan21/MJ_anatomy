@@ -14,6 +14,7 @@ import {tube} from './nerve-schematics.mjs';
 const root = new URL('../../', import.meta.url);
 export const SIDES = [{w: 'Left', s: 'left', sx: 1}, {w: 'Right', s: 'right', sx: -1}];
 const STEP = .003;
+const TOES = ['big toe', 'second toe', 'third toe', 'fourth toe', 'little toe'];
 const ang = (a, b) => Math.acos(Math.max(-1, Math.min(1, (a[0] * b[0] + a[1] * b[1] + a[2] * b[2]) / ((len(a) * len(b)) || 1)))) * 180 / Math.PI;
 /** Guide meshes end in a cap whose centre can sit off the axis: drop end points that turn back (a hook), then smooth lightly with both ends fixed. */
 function tidy(line) {
@@ -40,7 +41,7 @@ function ordered(vessels) {
   vessels.forEach(visit); return out;
 }
 
-const bonesFor = (w, S) => ['hip bone', 'femur', 'tibia', 'fibula', 'patella', 'talus', 'calcaneus', 'cuboid bone', 'medial cuneiform bone', 'intermediate cuneiform bone', 'lateral cuneiform bone', 'first metatarsal bone'].map(n => `${S.w} ${n}`).concat([`Navicular bone of ${S.s} foot`]).concat(['Sacrum', 'Fifth lumbar vertebra', 'Fourth lumbar vertebra']).filter(n => w.has(n)).map(n => { const m = w.mesh(n); return {name: n, positions: m.positions, indices: m.indices, lo: m.lo, hi: m.hi, mesh: m}; });
+const bonesFor = (w, S) => ['hip bone', 'femur', 'tibia', 'fibula', 'patella', 'talus', 'calcaneus', 'cuboid bone', 'medial cuneiform bone', 'intermediate cuneiform bone', 'lateral cuneiform bone', 'first metatarsal bone'].map(n => `${S.w} ${n}`).concat([`Navicular bone of ${S.s} foot`], ['second', 'third', 'fourth', 'fifth'].map(n => `${S.w} ${n} metatarsal bone`), TOES.flatMap(t => [`Proximal phalanx of ${S.s} ${t}`, `Middle phalanx of ${S.s} ${t}`, `Distal phalanx of ${S.s} ${t}`])).concat(['Sacrum', 'Fifth lumbar vertebra', 'Fourth lumbar vertebra']).filter(n => w.has(n)).map(n => { const m = w.mesh(n); return {name: n, positions: m.positions, indices: m.indices, lo: m.lo, hi: m.hi, mesh: m}; });
 
 function guideOf(w, U, v, S) {
   const name = v.guide.replace('{S}', S.w).replace('{s}', S.s);
@@ -82,6 +83,29 @@ function ownCourse(w, U, v, S, built) {
     const m = U.extreme(bone, P(side, -.3, front ? .5 : -.6), {y: [.04, .12]}), t = U.onSurface(bone, m, r + .004);
     const src = front ? 'anterior-tibial-artery' : (medial ? 'posterior-tibial-artery' : 'fibular-artery'), q = built.get(src).path, o = q.reduce((a, p) => Math.abs(p[1] - (t[1] + .02)) < Math.abs(a[1] - (t[1] + .02)) ? p : a, q[0]);
     return [o, add(lerp(o, t, .5), P(side * .003, 0, front ? .003 : -.003)), t];
+  }
+  // foot: toe axes and the clefts between the toes (index k = cleft between toe k-1 and toe k, 0-based toes)
+  const toeAt = i => ({B: U.extreme(`Proximal phalanx of ${S.s} ${TOES[i]}`, P(0, 0, -1)), T: U.extreme(`Distal phalanx of ${S.s} ${TOES[i]}`, P(0, 0, 1))});
+  const cleftAt = (k, dy) => add(lerp(toeAt(k - 1).B, toeAt(k).B, .5), P(0, dy, .008));
+  const fr = (id, f) => { const q = built.get(id).path; return q[Math.min(q.length - 1, Math.round((q.length - 1) * f))]; };
+  let m;
+  if ((m = /^plantar-metatarsal-artery-(\d)$/.exec(v.id))) {
+    const k = +m[1], o = fr('plantar-arch', [.85, .65, .45, .25][k - 1]), c = cleftAt(k, -.005);
+    return [o, add(lerp(o, c, .5), P(0, -.003, 0)), c];
+  }
+  if ((m = /^proper-plantar-digital-artery-toe(\d)-(medial|lateral)$/.exec(v.id))) {
+    const t = +m[1] - 1, side = m[2] === 'medial' ? -sx : sx, {B, T} = toeAt(t);
+    const start = m[2] === 'medial' ? (t === 0 ? add(B, P(side * .007, -.005, 0)) : cleftAt(t, -.005)) : (t === 4 ? add(B, P(side * .007, -.005, -.004)) : cleftAt(t + 1, -.005));
+    const end = add(T, P(side * .002, -.004, -.003));
+    return [start, add(lerp(B, T, .5), P(side * .0065, -.005, 0)), end];
+  }
+  if ((m = /^dorsal-metatarsal-artery-(\d)$/.exec(v.id))) {
+    const k = +m[1], o = k === 1 ? fr('dorsalis-pedis-artery', .7) : fr('arcuate-artery', [0, .3, .55, .8][k - 1]), c = cleftAt(k, .006);
+    return [o, add(lerp(o, c, .5), P(0, .004, 0)), c];
+  }
+  if ((m = /^dorsal-digital-artery-toe(\d)-(medial|lateral)$/.exec(v.id))) {
+    const t = +m[1] - 1, side = m[2] === 'medial' ? -sx : sx, {B, T} = toeAt(t), c = cleftAt(m[2] === 'medial' ? t : t + 1, .006), end = add(lerp(B, T, .35), P(side * .005, .004, 0));
+    return [c, lerp(c, end, .5), end];
   }
   if (v.id === 'medial-tarsal-arteries') {
     const q = built.get('dorsalis-pedis-artery').path, o = q[Math.round(q.length * .3)], bn = `${S.w} medial cuneiform bone`, t = U.onSurface(bn, U.extreme(bn, P(-sx, 0, .2)), r + .003);
