@@ -1,6 +1,6 @@
 import type {QuizStructure} from './catalogue';
 
-/** Level 1 records the structure that was picked; level 2 records the typed name and how it was judged (a close answer is not scored as correct but is shown with its correct spelling). */
+/** Level 1 records the structure that was picked; levels 2 and 3 record the typed name and how it was judged (a close answer is not scored as correct but is shown with its correct spelling). */
 export type QuizAnswer = {targetId: string; pickedId: string | null; correct: boolean; typed?: string; result?: 'correct' | 'close' | 'wrong' | 'skipped'; relation?: 'typed-part' | 'typed-whole'; relatedName?: string};
 export interface QuizSession {queue: string[]; answers: QuizAnswer[]}
 
@@ -37,7 +37,7 @@ export function recordAnswer(session: QuizSession, index: number, pickedId: stri
   return {...session, answers: [...session.answers, relation ? {targetId, pickedId, correct: false, result: 'close', relation} : {targetId, pickedId, correct: pickedId === targetId}]};
 }
 
-/** A typed answer of level 2. */
+/** A typed answer of level 2 or 3. */
 export function recordTyped(session: QuizSession, index: number, typed: string | null, result: 'correct' | 'close' | 'wrong' | 'skipped', relation?: 'typed-part' | 'typed-whole', relatedName?: string): QuizSession {
   if (index !== session.answers.length || !session.queue[index]) return session;
   return {...session, answers: [...session.answers, {targetId: session.queue[index], pickedId: null, correct: result === 'correct', typed: typed ?? undefined, result, relation, relatedName}]};
