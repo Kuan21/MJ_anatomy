@@ -357,7 +357,7 @@
 
 
 
-/* Netter-English / CMU-Chinese labels in search and structure lists. */
+/* English and Chinese name labels in search and structure lists. */
 .search-result-name{
  display:flex;
  flex-direction:column;

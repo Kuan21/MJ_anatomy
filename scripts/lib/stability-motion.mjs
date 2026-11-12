@@ -139,7 +139,7 @@ export function detached(parts, posedOf, restBoneGrid, boneRest, movedBones, bon
       if (!q) { q = posedGrid.nearest(x, y, z, .06, o => o !== want); if (!q) q = {d: .06}; }
       if (q.d > h.d + DETACH) { n++; if (q.d - h.d > worst) { worst = q.d - h.d; bone = want; } }
     }
-    if (near >= 3 && n >= 3 && n >= near * .3) out.push({id: p.id, name: p.name, measure: n, detail: `${n} of ${near} points that touched ${boneNames.get(bone)} are up to ${(worst * 1000).toFixed(0)} mm away from it`});
+    if (near >= 3 && n >= 3 && n >= near * .3) out.push({id: p.id, name: p.name, measure: n, fraction: n / near, severity: Math.round(worst * 1000), detail: `${n} of ${near} points that touched ${boneNames.get(bone)} are up to ${(worst * 1000).toFixed(0)} mm away from it`});
   }
   return out;
 }
