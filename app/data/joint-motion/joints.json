@@ -1,0 +1,1191 @@
+{
+ "_doc": {
+  "purpose": "Internal data table of joint movements for the planned muscle animation / joint motion mode. Not shown on the website; do not render the check, note or _doc fields.",
+  "schemaVersion": 1,
+  "frame": "Anatomical reference frame, same as the site (body-motion.ts): x = left-right (+x = subject Left, -x = Right); y = superior-inferior (+y = up); z = anterior-posterior (+z = anterior/front). Right-handed.",
+  "angles": "Every movement has a unit axis and a range [0,max] measured in that movement own direction. A positive angle is a right-hand rotation about axis (flexion axis +x moves a point on the face forward and down; extension is the opposite axis). Translations (unit mm) move along axis. A movement and its opposite share one axis line with the sign flipped.",
+  "signsInCode": "BodyPose in body-motion.ts: flexion + = flexion (rotation about +x), rotation + = turn to the Left (about +y), sideBend + = bend to the Left (about -z). codeMapping records this per movement.",
+  "pivot": "pivot is an [x,y,z] coordinate in atlas units or null. pivotLandmark describes it in words. null = needs landmark.",
+  "muscles": "Names are keys of the site muscle facts (app/mj-muscle-facts*.ts, lower case). side is relative to the movement direction (ipsilateral = same side as the movement, contralateral = opposite side, bilateral = both). Muscles that do not exist in the site facts go in unlistedMuscles.",
+  "approximate": "All ranges are approximate textbook values for teaching, not measurements. The final anatomical check is done by the user.",
+  "check": "Internal citation only: OpenStax A&P (CC BY 4.0) or Gray 1918 as general reference; not rendered."
+ },
+ "joints": [
+  {
+   "id": "tmj",
+   "nameEn": "Temporomandibular joint",
+   "nameZh": "顳下頜關節",
+   "type": "synovial, modified hinge (condylar) with articular disc",
+   "typeZh": "滑液關節，帶關節盤的改良屈戍（髁狀）關節",
+   "paired": true,
+   "proximal": [
+    "Left temporal bone",
+    "Right temporal bone"
+   ],
+   "distal": [
+    "Mandible"
+   ],
+   "bodyRegionInCode": null,
+   "movements": [
+    {
+     "id": "tmj.depression",
+     "nameEn": "Mandibular depression (jaw opening)",
+     "nameZh": "下頜下壓（張口）",
+     "kind": "rotation",
+     "axis": [
+      1,
+      0,
+      0
+     ],
+     "pivot": null,
+     "pivotLandmark": "Mandibular condyle in the mandibular fossa of the temporal bone; needs landmark",
+     "range": {
+      "min": 0,
+      "max": 25,
+      "unit": "deg",
+      "approximate": true
+     },
+     "primeMovers": [
+      {
+       "muscle": "lateral pterygoid",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "digastric",
+       "side": "bilateral"
+      }
+     ],
+     "synergists": [
+      {
+       "muscle": "mylohyoid",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "geniohyoid",
+       "side": "bilateral"
+      }
+     ],
+     "antagonists": [
+      {
+       "muscle": "masseter",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "temporalis",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "medial pterygoid",
+       "side": "bilateral"
+      }
+     ],
+     "unlistedMuscles": [],
+     "check": "OpenStax A&P (general reference, approximate; user to verify)",
+     "note": "Rotation phase only; wide opening adds forward gliding of the condyle (see protrusion)."
+    },
+    {
+     "id": "tmj.elevation",
+     "nameEn": "Mandibular elevation (jaw closing)",
+     "nameZh": "下頜上提（閉口）",
+     "kind": "rotation",
+     "axis": [
+      -1,
+      0,
+      0
+     ],
+     "pivot": null,
+     "pivotLandmark": "Mandibular condyle in the mandibular fossa of the temporal bone; needs landmark",
+     "range": {
+      "min": 0,
+      "max": 25,
+      "unit": "deg",
+      "approximate": true
+     },
+     "primeMovers": [
+      {
+       "muscle": "masseter",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "temporalis",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "medial pterygoid",
+       "side": "bilateral"
+      }
+     ],
+     "synergists": [],
+     "antagonists": [
+      {
+       "muscle": "lateral pterygoid",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "digastric",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "mylohyoid",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "geniohyoid",
+       "side": "bilateral"
+      }
+     ],
+     "unlistedMuscles": [],
+     "check": "OpenStax A&P (general reference, approximate; user to verify)",
+     "note": "Returns the mandible from the open position; range equals the depression range."
+    },
+    {
+     "id": "tmj.protrusion",
+     "nameEn": "Mandibular protrusion",
+     "nameZh": "下頜前伸",
+     "kind": "translation",
+     "axis": [
+      0,
+      0,
+      1
+     ],
+     "pivot": null,
+     "pivotLandmark": "Mandibular condyle in the mandibular fossa of the temporal bone; needs landmark",
+     "range": {
+      "min": 0,
+      "max": 8,
+      "unit": "mm",
+      "approximate": true
+     },
+     "primeMovers": [
+      {
+       "muscle": "lateral pterygoid",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "medial pterygoid",
+       "side": "bilateral"
+      }
+     ],
+     "synergists": [
+      {
+       "muscle": "masseter",
+       "side": "bilateral"
+      }
+     ],
+     "antagonists": [
+      {
+       "muscle": "temporalis",
+       "side": "bilateral"
+      }
+     ],
+     "unlistedMuscles": [],
+     "check": "OpenStax A&P (general reference, approximate; user to verify)",
+     "note": "Condyle and disc glide forward under the articular tubercle."
+    },
+    {
+     "id": "tmj.retrusion",
+     "nameEn": "Mandibular retrusion",
+     "nameZh": "下頜後縮",
+     "kind": "translation",
+     "axis": [
+      0,
+      0,
+      -1
+     ],
+     "pivot": null,
+     "pivotLandmark": "Mandibular condyle in the mandibular fossa of the temporal bone; needs landmark",
+     "range": {
+      "min": 0,
+      "max": 4,
+      "unit": "mm",
+      "approximate": true
+     },
+     "primeMovers": [
+      {
+       "muscle": "temporalis",
+       "side": "bilateral"
+      }
+     ],
+     "synergists": [
+      {
+       "muscle": "masseter",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "digastric",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "geniohyoid",
+       "side": "bilateral"
+      }
+     ],
+     "antagonists": [
+      {
+       "muscle": "lateral pterygoid",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "medial pterygoid",
+       "side": "bilateral"
+      }
+     ],
+     "unlistedMuscles": [],
+     "check": "OpenStax A&P (general reference, approximate; user to verify)",
+     "note": "Posterior temporalis fibres are the main retractors."
+    },
+    {
+     "id": "tmj.lateral-excursion-left",
+     "nameEn": "Mandibular lateral excursion to the left",
+     "nameZh": "下頜向左側移動",
+     "kind": "translation",
+     "axis": [
+      1,
+      0,
+      0
+     ],
+     "pivot": null,
+     "pivotLandmark": "Mandibular condyle in the mandibular fossa of the temporal bone; needs landmark",
+     "range": {
+      "min": 0,
+      "max": 10,
+      "unit": "mm",
+      "approximate": true
+     },
+     "primeMovers": [
+      {
+       "muscle": "lateral pterygoid",
+       "side": "contralateral"
+      },
+      {
+       "muscle": "medial pterygoid",
+       "side": "contralateral"
+      }
+     ],
+     "synergists": [
+      {
+       "muscle": "temporalis",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "masseter",
+       "side": "ipsilateral"
+      }
+     ],
+     "antagonists": [],
+     "unlistedMuscles": [],
+     "check": "OpenStax A&P (general reference, approximate; user to verify)",
+     "note": "Chin moves toward the left; the right (contralateral) condyle glides forward while the left pivots."
+    },
+    {
+     "id": "tmj.lateral-excursion-right",
+     "nameEn": "Mandibular lateral excursion to the right",
+     "nameZh": "下頜向右側移動",
+     "kind": "translation",
+     "axis": [
+      -1,
+      0,
+      0
+     ],
+     "pivot": null,
+     "pivotLandmark": "Mandibular condyle in the mandibular fossa of the temporal bone; needs landmark",
+     "range": {
+      "min": 0,
+      "max": 10,
+      "unit": "mm",
+      "approximate": true
+     },
+     "primeMovers": [
+      {
+       "muscle": "lateral pterygoid",
+       "side": "contralateral"
+      },
+      {
+       "muscle": "medial pterygoid",
+       "side": "contralateral"
+      }
+     ],
+     "synergists": [
+      {
+       "muscle": "temporalis",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "masseter",
+       "side": "ipsilateral"
+      }
+     ],
+     "antagonists": [],
+     "unlistedMuscles": [],
+     "check": "OpenStax A&P (general reference, approximate; user to verify)",
+     "note": "Mirror of the left excursion."
+    }
+   ]
+  },
+  {
+   "id": "atlanto-occipital",
+   "nameEn": "Atlanto-occipital joint",
+   "nameZh": "寰枕關節",
+   "type": "synovial, condyloid (ellipsoid)",
+   "typeZh": "滑液關節，髁狀（橢圓）關節",
+   "paired": true,
+   "proximal": [
+    "Atlas"
+   ],
+   "distal": [
+    "Occipital bone"
+   ],
+   "bodyRegionInCode": "head",
+   "movements": [
+    {
+     "id": "ao.flexion",
+     "nameEn": "Atlanto-occipital flexion (nodding)",
+     "nameZh": "寰枕關節屈曲（點頭）",
+     "kind": "rotation",
+     "axis": [
+      1,
+      0,
+      0
+     ],
+     "pivot": null,
+     "pivotLandmark": "Transverse axis through both occipital condyles above the lateral masses of the atlas; needs landmark",
+     "range": {
+      "min": 0,
+      "max": 10,
+      "unit": "deg",
+      "approximate": true
+     },
+     "primeMovers": [
+      {
+       "muscle": "rectus capitis anterior",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "longus capitis",
+       "side": "bilateral"
+      }
+     ],
+     "synergists": [
+      {
+       "muscle": "sternocleidomastoid",
+       "side": "bilateral"
+      }
+     ],
+     "antagonists": [
+      {
+       "muscle": "rectus capitis posterior major",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "rectus capitis posterior minor",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "obliquus capitis superior",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "semispinalis capitis",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "splenius capitis",
+       "side": "bilateral"
+      }
+     ],
+     "unlistedMuscles": [],
+     "check": "OpenStax A&P (general reference, approximate; user to verify)"
+    },
+    {
+     "id": "ao.extension",
+     "nameEn": "Atlanto-occipital extension",
+     "nameZh": "寰枕關節伸展",
+     "kind": "rotation",
+     "axis": [
+      -1,
+      0,
+      0
+     ],
+     "pivot": null,
+     "pivotLandmark": "Same transverse axis as flexion; needs landmark",
+     "range": {
+      "min": 0,
+      "max": 15,
+      "unit": "deg",
+      "approximate": true
+     },
+     "primeMovers": [
+      {
+       "muscle": "rectus capitis posterior major",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "rectus capitis posterior minor",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "obliquus capitis superior",
+       "side": "bilateral"
+      }
+     ],
+     "synergists": [
+      {
+       "muscle": "semispinalis capitis",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "splenius capitis",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "sternocleidomastoid",
+       "side": "bilateral"
+      }
+     ],
+     "antagonists": [
+      {
+       "muscle": "rectus capitis anterior",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "longus capitis",
+       "side": "bilateral"
+      }
+     ],
+     "unlistedMuscles": [],
+     "check": "OpenStax A&P (general reference, approximate; user to verify)",
+     "note": "Upper fibres of sternocleidomastoid extend the head at this joint."
+    },
+    {
+     "id": "ao.lateral-flexion-left",
+     "nameEn": "Atlanto-occipital lateral flexion to the left",
+     "nameZh": "寰枕關節向左側屈",
+     "kind": "rotation",
+     "axis": [
+      0,
+      0,
+      -1
+     ],
+     "pivot": null,
+     "pivotLandmark": "Sagittal (antero-posterior) axis through the middle of the joint; needs landmark",
+     "range": {
+      "min": 0,
+      "max": 5,
+      "unit": "deg",
+      "approximate": true
+     },
+     "primeMovers": [
+      {
+       "muscle": "rectus capitis lateralis",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "obliquus capitis superior",
+       "side": "ipsilateral"
+      }
+     ],
+     "synergists": [
+      {
+       "muscle": "sternocleidomastoid",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "splenius capitis",
+       "side": "ipsilateral"
+      }
+     ],
+     "antagonists": [
+      {
+       "muscle": "rectus capitis lateralis",
+       "side": "contralateral"
+      },
+      {
+       "muscle": "obliquus capitis superior",
+       "side": "contralateral"
+      }
+     ],
+     "unlistedMuscles": [],
+     "check": "OpenStax A&P (general reference, approximate; user to verify)"
+    },
+    {
+     "id": "ao.lateral-flexion-right",
+     "nameEn": "Atlanto-occipital lateral flexion to the right",
+     "nameZh": "寰枕關節向右側屈",
+     "kind": "rotation",
+     "axis": [
+      0,
+      0,
+      1
+     ],
+     "pivot": null,
+     "pivotLandmark": "Sagittal axis through the middle of the joint; needs landmark",
+     "range": {
+      "min": 0,
+      "max": 5,
+      "unit": "deg",
+      "approximate": true
+     },
+     "primeMovers": [
+      {
+       "muscle": "rectus capitis lateralis",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "obliquus capitis superior",
+       "side": "ipsilateral"
+      }
+     ],
+     "synergists": [
+      {
+       "muscle": "sternocleidomastoid",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "splenius capitis",
+       "side": "ipsilateral"
+      }
+     ],
+     "antagonists": [
+      {
+       "muscle": "rectus capitis lateralis",
+       "side": "contralateral"
+      },
+      {
+       "muscle": "obliquus capitis superior",
+       "side": "contralateral"
+      }
+     ],
+     "unlistedMuscles": [],
+     "check": "OpenStax A&P (general reference, approximate; user to verify)"
+    }
+   ]
+  },
+  {
+   "id": "atlanto-axial",
+   "nameEn": "Atlanto-axial joint",
+   "nameZh": "寰軸關節",
+   "type": "synovial, median pivot (with two lateral plane joints)",
+   "typeZh": "滑液關節，正中車軸關節（另有兩個外側平面關節）",
+   "paired": false,
+   "proximal": [
+    "Axis"
+   ],
+   "distal": [
+    "Atlas"
+   ],
+   "bodyRegionInCode": "head",
+   "movements": [
+    {
+     "id": "aa.rotation-left",
+     "nameEn": "Atlanto-axial rotation to the left",
+     "nameZh": "寰軸關節向左旋轉",
+     "kind": "rotation",
+     "axis": [
+      0,
+      1,
+      0
+     ],
+     "pivot": null,
+     "pivotLandmark": "Vertical axis through the dens of the Axis; needs landmark",
+     "range": {
+      "min": 0,
+      "max": 40,
+      "unit": "deg",
+      "approximate": true
+     },
+     "primeMovers": [
+      {
+       "muscle": "obliquus capitis inferior",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "rectus capitis posterior major",
+       "side": "ipsilateral"
+      }
+     ],
+     "synergists": [
+      {
+       "muscle": "splenius capitis",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "sternocleidomastoid",
+       "side": "contralateral"
+      }
+     ],
+     "antagonists": [],
+     "unlistedMuscles": [],
+     "check": "OpenStax A&P (general reference, approximate; user to verify)",
+     "note": "Atlas and skull rotate together about the dens; this joint supplies about half of total neck rotation."
+    },
+    {
+     "id": "aa.rotation-right",
+     "nameEn": "Atlanto-axial rotation to the right",
+     "nameZh": "寰軸關節向右旋轉",
+     "kind": "rotation",
+     "axis": [
+      0,
+      -1,
+      0
+     ],
+     "pivot": null,
+     "pivotLandmark": "Vertical axis through the dens of the Axis; needs landmark",
+     "range": {
+      "min": 0,
+      "max": 40,
+      "unit": "deg",
+      "approximate": true
+     },
+     "primeMovers": [
+      {
+       "muscle": "obliquus capitis inferior",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "rectus capitis posterior major",
+       "side": "ipsilateral"
+      }
+     ],
+     "synergists": [
+      {
+       "muscle": "splenius capitis",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "sternocleidomastoid",
+       "side": "contralateral"
+      }
+     ],
+     "antagonists": [],
+     "unlistedMuscles": [],
+     "check": "OpenStax A&P (general reference, approximate; user to verify)"
+    }
+   ]
+  },
+  {
+   "id": "cervical-spine",
+   "nameEn": "Cervical spine (overall)",
+   "nameZh": "頸椎（整體）",
+   "type": "series of synovial plane (facet) joints and intervertebral discs",
+   "typeZh": "一系列滑液平面（關節突）關節與椎間盤",
+   "paired": false,
+   "proximal": [
+    "Seventh cervical vertebra"
+   ],
+   "distal": [
+    "Sixth cervical vertebra",
+    "Fifth cervical vertebra",
+    "Fourth cervical vertebra",
+    "Third cervical vertebra",
+    "Axis",
+    "Atlas",
+    "Occipital bone"
+   ],
+   "bodyRegionInCode": "head",
+   "movements": [
+    {
+     "id": "cs.flexion",
+     "nameEn": "Cervical flexion",
+     "nameZh": "頸部屈曲",
+     "kind": "rotation",
+     "axis": [
+      1,
+      0,
+      0
+     ],
+     "pivot": null,
+     "pivotLandmark": "Combined motion of C2-C7 plus the occipito-atlantal segment; the code pivots lie midway between adjacent vertebral centres; needs landmark",
+     "range": {
+      "min": 0,
+      "max": 50,
+      "unit": "deg",
+      "approximate": true
+     },
+     "primeMovers": [
+      {
+       "muscle": "sternocleidomastoid",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "longus colli",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "longus capitis",
+       "side": "bilateral"
+      }
+     ],
+     "synergists": [
+      {
+       "muscle": "scalenus anterior",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "sternohyoid",
+       "side": "bilateral"
+      }
+     ],
+     "antagonists": [
+      {
+       "muscle": "splenius capitis",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "splenius cervicis",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "semispinalis capitis",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "semispinalis cervicis",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "longissimus capitis",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "longissimus cervicis",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "trapezius",
+       "side": "bilateral"
+      }
+     ],
+     "unlistedMuscles": [],
+     "check": "OpenStax A&P (general reference, approximate; user to verify)",
+     "codeMapping": {
+      "limits": "head",
+      "key": "flexion",
+      "sign": 1
+     }
+    },
+    {
+     "id": "cs.extension",
+     "nameEn": "Cervical extension",
+     "nameZh": "頸部伸展",
+     "kind": "rotation",
+     "axis": [
+      -1,
+      0,
+      0
+     ],
+     "pivot": null,
+     "pivotLandmark": "Same transverse axis as flexion; needs landmark",
+     "range": {
+      "min": 0,
+      "max": 60,
+      "unit": "deg",
+      "approximate": true
+     },
+     "primeMovers": [
+      {
+       "muscle": "splenius capitis",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "splenius cervicis",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "semispinalis capitis",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "semispinalis cervicis",
+       "side": "bilateral"
+      }
+     ],
+     "synergists": [
+      {
+       "muscle": "longissimus capitis",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "longissimus cervicis",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "trapezius",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "levator scapulae",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "rectus capitis posterior major",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "rectus capitis posterior minor",
+       "side": "bilateral"
+      }
+     ],
+     "antagonists": [
+      {
+       "muscle": "sternocleidomastoid",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "longus colli",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "longus capitis",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "scalenus anterior",
+       "side": "bilateral"
+      }
+     ],
+     "unlistedMuscles": [
+      "multifidus",
+      "rotatores cervicis",
+      "interspinales cervicis"
+     ],
+     "check": "OpenStax A&P (general reference, approximate; user to verify)",
+     "codeMapping": {
+      "limits": "head",
+      "key": "flexion",
+      "sign": -1
+     }
+    },
+    {
+     "id": "cs.lateral-flexion-left",
+     "nameEn": "Cervical lateral flexion to the left",
+     "nameZh": "頸部向左側屈",
+     "kind": "rotation",
+     "axis": [
+      0,
+      0,
+      -1
+     ],
+     "pivot": null,
+     "pivotLandmark": "Sagittal axis through the centre of the cervical column; needs landmark",
+     "range": {
+      "min": 0,
+      "max": 45,
+      "unit": "deg",
+      "approximate": true
+     },
+     "primeMovers": [
+      {
+       "muscle": "scalenus anterior",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "scalenus medius",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "scalenus posterior",
+       "side": "ipsilateral"
+      }
+     ],
+     "synergists": [
+      {
+       "muscle": "sternocleidomastoid",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "splenius capitis",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "splenius cervicis",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "longissimus capitis",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "longissimus cervicis",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "iliocostalis cervicis",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "levator scapulae",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "trapezius",
+       "side": "ipsilateral"
+      }
+     ],
+     "antagonists": [
+      {
+       "muscle": "scalenus anterior",
+       "side": "contralateral"
+      },
+      {
+       "muscle": "scalenus medius",
+       "side": "contralateral"
+      },
+      {
+       "muscle": "scalenus posterior",
+       "side": "contralateral"
+      },
+      {
+       "muscle": "sternocleidomastoid",
+       "side": "contralateral"
+      }
+     ],
+     "unlistedMuscles": [
+      "intertransversarii cervicis"
+     ],
+     "check": "OpenStax A&P (general reference, approximate; user to verify)",
+     "codeMapping": {
+      "limits": "head",
+      "key": "sideBend",
+      "sign": 1
+     }
+    },
+    {
+     "id": "cs.lateral-flexion-right",
+     "nameEn": "Cervical lateral flexion to the right",
+     "nameZh": "頸部向右側屈",
+     "kind": "rotation",
+     "axis": [
+      0,
+      0,
+      1
+     ],
+     "pivot": null,
+     "pivotLandmark": "Sagittal axis through the centre of the cervical column; needs landmark",
+     "range": {
+      "min": 0,
+      "max": 45,
+      "unit": "deg",
+      "approximate": true
+     },
+     "primeMovers": [
+      {
+       "muscle": "scalenus anterior",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "scalenus medius",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "scalenus posterior",
+       "side": "ipsilateral"
+      }
+     ],
+     "synergists": [
+      {
+       "muscle": "sternocleidomastoid",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "splenius capitis",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "splenius cervicis",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "longissimus capitis",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "longissimus cervicis",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "iliocostalis cervicis",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "levator scapulae",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "trapezius",
+       "side": "ipsilateral"
+      }
+     ],
+     "antagonists": [
+      {
+       "muscle": "scalenus anterior",
+       "side": "contralateral"
+      },
+      {
+       "muscle": "scalenus medius",
+       "side": "contralateral"
+      },
+      {
+       "muscle": "scalenus posterior",
+       "side": "contralateral"
+      },
+      {
+       "muscle": "sternocleidomastoid",
+       "side": "contralateral"
+      }
+     ],
+     "unlistedMuscles": [
+      "intertransversarii cervicis"
+     ],
+     "check": "OpenStax A&P (general reference, approximate; user to verify)",
+     "codeMapping": {
+      "limits": "head",
+      "key": "sideBend",
+      "sign": -1
+     }
+    },
+    {
+     "id": "cs.rotation-left",
+     "nameEn": "Cervical rotation to the left",
+     "nameZh": "頸部向左旋轉",
+     "kind": "rotation",
+     "axis": [
+      0,
+      1,
+      0
+     ],
+     "pivot": null,
+     "pivotLandmark": "Vertical axis; about half occurs at the atlanto-axial joint, the rest is spread over C2-C7; needs landmark",
+     "range": {
+      "min": 0,
+      "max": 80,
+      "unit": "deg",
+      "approximate": true
+     },
+     "primeMovers": [
+      {
+       "muscle": "splenius capitis",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "sternocleidomastoid",
+       "side": "contralateral"
+      }
+     ],
+     "synergists": [
+      {
+       "muscle": "splenius cervicis",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "levator scapulae",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "semispinalis capitis",
+       "side": "contralateral"
+      },
+      {
+       "muscle": "semispinalis cervicis",
+       "side": "contralateral"
+      },
+      {
+       "muscle": "trapezius",
+       "side": "contralateral"
+      }
+     ],
+     "antagonists": [
+      {
+       "muscle": "splenius capitis",
+       "side": "contralateral"
+      },
+      {
+       "muscle": "sternocleidomastoid",
+       "side": "ipsilateral"
+      }
+     ],
+     "unlistedMuscles": [
+      "multifidus",
+      "rotatores cervicis"
+     ],
+     "check": "OpenStax A&P (general reference, approximate; user to verify)",
+     "codeMapping": {
+      "limits": "head",
+      "key": "rotation",
+      "sign": 1
+     }
+    },
+    {
+     "id": "cs.rotation-right",
+     "nameEn": "Cervical rotation to the right",
+     "nameZh": "頸部向右旋轉",
+     "kind": "rotation",
+     "axis": [
+      0,
+      -1,
+      0
+     ],
+     "pivot": null,
+     "pivotLandmark": "Vertical axis; needs landmark",
+     "range": {
+      "min": 0,
+      "max": 80,
+      "unit": "deg",
+      "approximate": true
+     },
+     "primeMovers": [
+      {
+       "muscle": "splenius capitis",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "sternocleidomastoid",
+       "side": "contralateral"
+      }
+     ],
+     "synergists": [
+      {
+       "muscle": "splenius cervicis",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "levator scapulae",
+       "side": "ipsilateral"
+      },
+      {
+       "muscle": "semispinalis capitis",
+       "side": "contralateral"
+      },
+      {
+       "muscle": "semispinalis cervicis",
+       "side": "contralateral"
+      },
+      {
+       "muscle": "trapezius",
+       "side": "contralateral"
+      }
+     ],
+     "antagonists": [
+      {
+       "muscle": "splenius capitis",
+       "side": "contralateral"
+      },
+      {
+       "muscle": "sternocleidomastoid",
+       "side": "ipsilateral"
+      }
+     ],
+     "unlistedMuscles": [
+      "multifidus",
+      "rotatores cervicis"
+     ],
+     "check": "OpenStax A&P (general reference, approximate; user to verify)",
+     "codeMapping": {
+      "limits": "head",
+      "key": "rotation",
+      "sign": -1
+     }
+    }
+   ]
+  }
+ ]
+}
