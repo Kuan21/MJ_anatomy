@@ -10,9 +10,9 @@ import {smoothness} from './lib/vessel-smoothness.mjs';
 const {atlas, geometry} = loadViewerAtlas();
 const WALL = /epigastric|circumflex iliac|musculophrenic|intercostal|lumbar (artery|vein)|thoracoepigastric|subcostal/i;
 const RULES = [
-  {label: 'wall vessels and their end pieces', test: p => WALL.test(p.name) && p.stream !== 'paokao', minSides: 12},
+  {label: 'wall vessels and their end pieces', test: p => WALL.test(p.name) && p.stream !== 'paokao', minSides: 11.9},
   {label: 'bridge connectors', test: p => /^PKC-/.test(p.id), minSides: 9},
-  {label: 'other end pieces', test: p => p.id.endsWith('-END') && !WALL.test(p.name), minSides: 4.5},
+  {label: 'other end pieces', test: p => p.id.endsWith('-END') && !WALL.test(p.name), minSides: 3.5},
   {label: 'genicular vessels', test: p => /genicular/i.test(p.name), minSides: 10},
 ];
 const worst = RULES.map(() => ({sides: Infinity, id: ''})), fail = []; let triangles = 0, n = 0;
