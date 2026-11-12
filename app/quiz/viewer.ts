@@ -1,5 +1,6 @@
 import * as T from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
+import {seededRandom} from './seeded';
 import {fetchModelBuffer, loadMissingChunks} from '../model-download';
 import {PointerTap} from '../pointer-tap';
 import {framingDistance} from '../camera-framing';
@@ -17,7 +18,7 @@ export interface QuizViewState {
   context: boolean;
   peeling: boolean;
   command: {id: number; view: QuizView};
-  /** Level 2 (看結構寫名稱): the target is painted yellow with a glowing outline, nothing can be picked, and the camera chooses a random view where the target can be seen. */
+  /** Levels 2 and 3 (學習關卡, 看結構寫名稱): the target is painted yellow with a glowing outline, nothing can be picked, and the camera chooses a random view where the target can be seen. */
   mode?: 'find' | 'name';
   /** Level 2: how clear the surrounding structures are (0 faint … 1 solid). */
   clarity?: number;
@@ -25,6 +26,8 @@ export interface QuizViewState {
   only?: boolean;
   /** Level 2: the neighbouring structures the learner clicked in the answer card (several at once, each in its own light blue). */
   highlightIds?: string[];
+  /** Level 2 (學習關卡): the opening view is deterministic (the same seed always gives the same direction); `apart` makes it a clearly different direction from the one the seed gives without it (round 3). */
+  lesson?: {seed: string; apart: boolean};
 }
 interface Callbacks {
   ready: (key: string, value: boolean) => void;
@@ -171,7 +174,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
   };
 
   /** Level 2: a random direction from which at least half of the target can be seen. Points on the target are tested with rays from the camera; only solid structures hide it. */
-  const chooseDirection = (box: T.Box3): T.Vector3 => {
+  const chooseDirection = (box: T.Box3, random: () => number = Math.random, avoid?: T.Vector3): T.Vector3 => {
     const target = [...meshes.values()].filter(m => m.userData.structureId === state?.target.id && m.visible);
     const points: T.Vector3[] = [];
     for (const mesh of target) {
@@ -183,10 +186,12 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
     scene.updateMatrixWorld(true);
     const directions: T.Vector3[] = [];
     for (const elevation of [0, 25, -20, 50]) for (let k = 0; k < 12; k++) {
-      const az = (k / 12) * Math.PI * 2 + Math.random() * .4, el = (elevation + (Math.random() - .5) * 14) * Math.PI / 180;
+      const az = (k / 12) * Math.PI * 2 + random() * .4, el = (elevation + (random() - .5) * 14) * Math.PI / 180;
       directions.push(new T.Vector3(Math.sin(az) * Math.cos(el), Math.sin(el), Math.cos(az) * Math.cos(el)));
     }
-    for (let i = directions.length - 1; i > 0; i--) {const j = Math.floor(Math.random() * (i + 1)); [directions[i], directions[j]] = [directions[j], directions[i]];}
+    for (let i = directions.length - 1; i > 0; i--) {const j = Math.floor(random() * (i + 1)); [directions[i], directions[j]] = [directions[j], directions[i]];}
+    // a direction too close to the one to avoid is not offered (round 3 of a lesson looks from somewhere else)
+    if (avoid) for (let i = directions.length - 1; i >= 0; i--) if (directions[i].dot(avoid) > .5) directions.splice(i, 1);
     const fraction = (dir: T.Vector3) => {
       if (!points.length) return 1;
       const eye = centre.clone().addScaledVector(dir, size);
@@ -208,6 +213,12 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
     return best;
   };
 
+  /** Lesson rounds 1 and 2 use the direction of the seed; round 3 uses another seed and refuses directions near the first one, so the same structure is seen from a different side. */
+  const lessonDirection = (box: T.Box3, lesson: {seed: string; apart: boolean}): T.Vector3 => {
+    const first = chooseDirection(box, seededRandom(lesson.seed));
+    return lesson.apart ? chooseDirection(box, seededRandom(`${lesson.seed}#apart`), first) : first;
+  };
+
   const frameModel = (view: QuizView) => {
     if (!state) return;
     const region = QUIZ_REGIONS[catalogue.region ?? 'lower-limb'];
@@ -220,7 +231,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
     // A structure spanning two sections must still be entirely in the frame.
     if (view !== 'answer') box.union(new T.Box3(new T.Vector3().fromArray(state.target.bounds[0]), new T.Vector3().fromArray(state.target.bounds[1])));
     let direction = camera.position.clone().sub(controls.target).normalize();
-    if (view === 'random') direction = chooseDirection(box);
+    if (view === 'random') direction = state.lesson ? lessonDirection(box, state.lesson) : chooseDirection(box);
     if (view === 'front') direction.set(0, .04, 1).normalize();
     if (view === 'back') direction.set(0, .04, -1).normalize();
     // lung quiz: the inner (mediastinal) face of the lung the question is about; a structure on both sides follows the side chosen on the setup page
