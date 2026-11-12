@@ -279,7 +279,7 @@ export const UPPER_NERVES: Record<string, {zh: string; sections: SectionList}> =
   'long thoracic nerve': {zh: '胸長神經', sections: ['shoulder']},
   'suprascapular nerve': {zh: '肩胛上神經', sections: ['shoulder']},
   'subclavian nerve': {zh: '鎖骨下肌神經', sections: ['shoulder']},
-  'lateral pectoral nerve': {zh: '外側胸神經', sections: ['shoulder']},
+  'lateral pectoral nerve': {zh: '外胸神經', sections: ['shoulder']},
   'thoracodorsal nerve': {zh: '胸背神經', sections: ['shoulder']},
   'axillary nerve': {zh: '腋神經', sections: ['shoulder', 'arm']},
   'muscular branches of axillary nerve': {zh: '腋神經肌支', sections: ['shoulder']},
