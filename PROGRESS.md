@@ -1,6 +1,6 @@
 # PROGRESS（自動排程交接檔）
 
-最後更新：2026-11-11。分支：`claude/sweet-cerf-v7a90a`（不推 main、不刪檔）。
+最後更新：2026-11-13。分支：`claude/local-auto`（不推 main、不刪檔）。
 依據：`ROADMAP.md`「穩定期」、`CLAUDE.md`、`git log`、開放 PR 清單。
 
 ## 目前狀態
@@ -33,6 +33,12 @@
 
 - 2026-11-12（第四次）：重新檢查，`work/` 與 `supplement-stream.json.gz` 仍不存在，S5 第二階段仍被擋住；S7 與其他項目依「我的回覆」要求跳過。沒有可做的未完成項目，只更新本檔。
 
+- 2026-11-13（第五次）：
+  - 重新檢查：`node_modules` 已有；`work/` 與 `public/models/supplement/supplement-stream.json.gz` 仍不存在（`serous/`、`female/` 串流也沒有）。`prepare-supplement.mjs` 要先下載 BodyParts3D 原始 STL 才能產生，依指示不下載，所以實際量測與「jump 是否誤報」仍未查。
+  - 新增 `scripts/lib/centreline-continuity.mjs`（S5 連續性檢查要用的純幾何量測：子中心線近端到上一級管壁的距離 `attachGap`、同一結構多件零件首尾距離 `joinGap`）與 `scripts/test-centreline-continuity.mjs`（合成中心線，不需模型資料），已加入 `npm run check`，本機通過。尚未接上實際模型、未建立基準（需生成檔）。
+  - 修正 `scripts/check-no-notes.mjs`、`scripts/check-zh.mjs` 在 Windows 的路徑錯誤（`URL.pathname` 會變成 `/C:/…`）：原本 `check-no-notes` 在本機讀檔失敗、之前的目錄掃描也掃不到任何檔案；改用 `fileURLToPath` 後兩個檢查在本機實際掃描並通過（check:zh 掃 170 個檔）。Linux／CI 行為不變。
+  - 沒有改模型、解剖內容或網站。本機沒有 `gh`，未查開放 PR 是否有變動。
+
 ## 進行中／等審核
 - S2 A–G、S3、S4、S6 相關工作都已有 PR（見上），等使用者審核。
 
@@ -60,7 +66,8 @@
 
 ## 下一步（可與現有 PR 並行、不衝突的工作）
 - S5 第二階段：用中心線做「上一級關係」連續性檢查，採只減不增基準，再納入 CI（先在本分支加腳本與基準檔，不動模型）。需先查「jump」是否為誤報（分支被算進主幹）。
-- 為 `report-centerlines` 補測試（`scripts/test-*.mjs` 風格），確認失敗分類穩定。
+- 為 `report-centerlines` 補測試（`scripts/test-*.mjs` 風格），確認失敗分類穩定。（已完成：`test-centreline-classify.mjs`）
+- 有生成檔後：寫 `check-centreline-continuity.mjs`，用 `centreline-continuity.mjs` 的 `attachGap`／`joinGap` 沿 `topology-spec` 的上一級關係量測，建立只減不增基準。
 - 規則：所有排程工作都放在本分支與 PR #248，不另開分支或 PR。
 
 ## 下一步（舊）
