@@ -2,7 +2,6 @@
 // features (fissures, lingula, cardiac notch, impressions and grooves left by neighbouring structures), marked on the lung lobes the same way.
 import {sub, add, mul, unit, len, lerp} from '../lib/paokao-util.mjs';
 
-const MOORE = 'Moore’s Clinically Oriented Anatomy, 8th ed.; Gray’s Anatomy for Students, 4th ed. (Drake et al.)';
 const SIDES = [{w: 'Right', l: 'right', sx: -1, zh: '右', s: 'r'}, {w: 'Left', l: 'left', sx: 1, zh: '左', s: 'l'}];
 
 export default function landmarks(U) {
@@ -10,7 +9,7 @@ export default function landmarks(U) {
   const mark = (S, name, zh, bone, geometry, where, role, extra = {}) => {
     if (!geometry.indices.length) throw new Error(`landmark ${name}: empty patch on ${bone}`);
     out.push({name: S ? `${S.w} ${name}` : name, zh: `${S ? S.zh : ''}${zh}`, system: 'skeletal', kind: 'landmark', parent: bone, geometry: [geometry],
-      card: {origin: [`On the ${bone.replace(/^(Right|Left) /, '').toLowerCase()}`, extra.zhBone ?? ''], course: [where[0], where[1]], supply: [role[0], role[1]]}, refs: [MOORE], ...extra.spec});
+      card: {origin: [`On the ${bone.replace(/^(Right|Left) /, '').toLowerCase()}`, extra.zhBone ?? ''], course: [where[0], where[1]], supply: [role[0], role[1]]}, refs: [], ...extra.spec});
   };
   const disc = (bone, c, r) => U.surfacePatch(bone, c, r, .0004);
   for (const S of SIDES) {
@@ -48,18 +47,18 @@ export default function landmarks(U) {
   {
     const temporal = 'Right temporal bone', mast = U.extreme(temporal, P(.2, -1, -.35), {z: [-.12, -.03]});
     out.push({name: 'Mastoid process', zh: '乳突', system: 'skeletal', kind: 'landmark', parent: temporal, geometry: [disc(temporal, mast, .0100)],
-      card: {origin: ['On the temporal bone, behind the ear', '顳骨上，耳後方'], course: ['A conical projection behind the external acoustic meatus', '外耳道後方的圓錐形突起'], supply: ['Attachment of sternocleidomastoid, splenius capitis and longissimus capitis', '胸鎖乳突肌、頭夾肌與頭最長肌的附著處']}, refs: [MOORE]});
+      card: {origin: ['On the temporal bone, behind the ear', '顳骨上，耳後方'], course: ['A conical projection behind the external acoustic meatus', '外耳道後方的圓錐形突起'], supply: ['Attachment of sternocleidomastoid, splenius capitis and longissimus capitis', '胸鎖乳突肌、頭夾肌與頭最長肌的附著處']}, refs: []});
     const jv = U.tipNear('Right internal jugular vein', P(-.03, 1.54, -.03), .006), jf = U.onSurface(occ, jv, 0);
     out.push({name: 'Jugular foramen', zh: '頸靜脈孔', system: 'skeletal', kind: 'landmark', parent: occ, geometry: [disc(occ, jf, .0070)],
-      card: {origin: ['Skull base, between the petrous part of the temporal bone and the occipital bone', '顱底，顳骨岩部與枕骨之間'], course: ['Large opening behind the carotid canal', '頸動脈管後方的大孔'], supply: ['Transmits the internal jugular vein and cranial nerves IX, X and XI', '通過內頸靜脈與第九、十、十一對腦神經']}, refs: [MOORE]});
+      card: {origin: ['Skull base, between the petrous part of the temporal bone and the occipital bone', '顱底，顳骨岩部與枕骨之間'], course: ['Large opening behind the carotid canal', '頸動脈管後方的大孔'], supply: ['Transmits the internal jugular vein and cranial nerves IX, X and XI', '通過內頸靜脈與第九、十、十一對腦神經']}, refs: []});
     const nuchal = [-.062, -.040, -.020, 0, .020, .040, .062].map(x => { const y = 1.592 - Math.abs(x) * .22 + (Math.abs(x) < .02 ? .008 : 0); return U.onSurface(occ, P(x, y, -.118), 0); });
     out.push({name: 'Superior nuchal line', zh: '上項線', system: 'skeletal', kind: 'landmark', parent: occ, geometry: [U.patchWhere(occ, U.nearPolyline(nuchal, .0040), .0004, U.nearPolyline(nuchal, .010), .0012)],
-      card: {origin: ['Back of the occipital bone', '枕骨後面'], course: ['A curved ridge running laterally from the external occipital protuberance', '由枕外隆凸向兩側延伸的弧形骨嵴'], supply: ['Attachment of trapezius, sternocleidomastoid, splenius capitis and semispinalis capitis', '斜方肌、胸鎖乳突肌、頭夾肌與頭半棘肌的附著處']}, refs: [MOORE]});
+      card: {origin: ['Back of the occipital bone', '枕骨後面'], course: ['A curved ridge running laterally from the external occipital protuberance', '由枕外隆凸向兩側延伸的弧形骨嵴'], supply: ['Attachment of trapezius, sternocleidomastoid, splenius capitis and semispinalis capitis', '斜方肌、胸鎖乳突肌、頭夾肌與頭半棘肌的附著處']}, refs: []});
     const am = U.mesh(atlas), acz = (am.lo[2] + am.hi[2]) / 2;
     out.push({name: 'Posterior arch of atlas', zh: '寰椎後弓', system: 'skeletal', kind: 'landmark', parent: atlas, geometry: [U.patchWhere(atlas, tr => tr.mid[2] < acz - .0125 && Math.abs(tr.mid[0]) < .028, .0004, p => p[2] < acz - .008, .0015)],
-      card: {origin: ['Atlas (C1)', '寰椎（C1）'], course: ['The curved bar of bone closing the vertebral foramen of the atlas at the back', '在後方封閉寰椎椎孔的弧形骨條'], supply: ['The vertebral artery lies in a groove on its upper surface; rectus capitis posterior minor attaches to its posterior tubercle', '椎動脈位於其上面的溝內；頭後小直肌附著於後結節']}, refs: [MOORE]});
+      card: {origin: ['Atlas (C1)', '寰椎（C1）'], course: ['The curved bar of bone closing the vertebral foramen of the atlas at the back', '在後方封閉寰椎椎孔的弧形骨條'], supply: ['The vertebral artery lies in a groove on its upper surface; rectus capitis posterior minor attaches to its posterior tubercle', '椎動脈位於其上面的溝內；頭後小直肌附著於後結節']}, refs: []});
     out.push({name: 'Spinous process of axis', zh: '樞椎棘突', system: 'skeletal', kind: 'landmark', parent: axis, geometry: [disc(axis, U.extreme(axis, P(0, 0, -1)), .0090)],
-      card: {origin: ['Axis (C2)', '樞椎（C2）'], course: ['Large bifid spinous process, the first palpable spinous process below the skull', '粗大的分叉棘突，是顱骨下方第一個可摸到的棘突'], supply: ['Attachment of obliquus capitis inferior, rectus capitis posterior major and semispinalis cervicis', '頭下斜肌、頭後大直肌與頸半棘肌的附著處']}, refs: [MOORE]});
+      card: {origin: ['Axis (C2)', '樞椎（C2）'], course: ['Large bifid spinous process, the first palpable spinous process below the skull', '粗大的分叉棘突，是顱骨下方第一個可摸到的棘突'], supply: ['Attachment of obliquus capitis inferior, rectus capitis posterior major and semispinalis cervicis', '頭下斜肌、頭後大直肌與頸半棘肌的附著處']}, refs: []});
   }
   return out;
 }

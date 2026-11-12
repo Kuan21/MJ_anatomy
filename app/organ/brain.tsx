@@ -84,6 +84,20 @@ function CsfPage({exportRef, onClose}: {exportRef: {current: (() => CsfSource | 
 
 export default function BrainDetail() {
   const [view, setView] = useState<BrainViewState>(defaults);
+  // cranial nerve branches outside the skull or on the dura (face, jaw): drawn in full, but off when the view opens or is reset
+  const peripheral = useRef<string[]>([]);
+  // the groups that were switched off before the glass cortex turned them on (restored when it is turned off)
+  const glassHidden = useRef<string[]>([]);
+  const toggleGlass = () => {
+    const inside = ['white', 'basal', 'diencephalon', 'ventricles'];
+    if (view.glass) {
+      const back = glassHidden.current; glassHidden.current = [];
+      patch({glass: false, hiddenGroups: [...new Set([...view.hiddenGroups, ...back])]});
+    } else {
+      glassHidden.current = inside.filter(g => view.hiddenGroups.includes(g));
+      patch({glass: true, hiddenGroups: view.hiddenGroups.filter(g => !inside.includes(g))});
+    }
+  };
   const [parts, setParts] = useState<BrainPart[]>([]), [ready, setReady] = useState(false), [error, setError] = useState(''), [percent, setPercent] = useState(0);
   const [open, setOpen] = useState<string[]>([]), [csf, setCsf] = useState(false), [allOpen, setAllOpen] = useState(false), [allSort, setAllSort] = useState<'name' | 'region'>('name'), [cutBusy, setCutBusy] = useState(false);
   const [notes, setNotes] = useState<NoteData | null>(null), [noteId, setNoteId] = useState<string | null>(null), [query, setQuery] = useState(''), [openRegions, setOpenRegions] = useState<string[]>([]);
@@ -171,7 +185,7 @@ export default function BrainDetail() {
     if (axis === 'none') {patch({section: {...section, axis}}); return;}
     setView(v => ({...v, section: {axis, offset: .5, flip: CUT[axis].flip}, command: {id: v.command.id + 1, view: CUT[axis].view}}));
   };
-  const reset = () => setView(v => ({...defaults, command: {id: v.command.id + 1, view: 'front'}}));
+  const reset = () => setView(v => ({...defaults, hiddenParts: peripheral.current, command: {id: v.command.id + 1, view: 'front'}}));
 
   return <main className="organ-app" lang="zh-Hant">
     <header className="organ-header">
@@ -183,8 +197,15 @@ export default function BrainDetail() {
       <aside className="organ-left" aria-label="腦部構造清單">
         <div className="organ-left-body">
           <div className="organ-segmented" role="group" aria-label="全部開關">
-            <button onClick={() => patch({hiddenGroups: [], hiddenParts: [], isolate: null})}>全部開啟</button>
+            <button onClick={() => patch({hiddenGroups: [], hiddenParts: [], isolate: null, fullNerves: true})}>全部開啟</button>
             <button onClick={() => patch({hiddenGroups: BRAIN_GROUPS.map(g => g.id), isolate: null})}>全部關閉</button>
+          </div>
+          <div className="organ-segmented" role="group" aria-label="皮質顯示">
+            <button aria-pressed={!!view.glass} onClick={toggleGlass} title="Glass cortex｜玻璃皮質：皮質半透明，深部核團、腦室、白質束一直可見"><span lang="en">Glass cortex</span><small lang="zh-Hant">玻璃皮質</small></button>
+          </div>
+          <div className="organ-segmented" role="group" aria-label="腦神經顯示範圍">
+            <button aria-pressed={!view.fullNerves} onClick={() => patch({fullNerves: false})}><span lang="en">Near brain</span><small lang="zh-Hant">腦旁段</small></button>
+            <button aria-pressed={!!view.fullNerves} onClick={() => patch({fullNerves: true})}><span lang="en">Full nerves</span><small lang="zh-Hant">完整神經</small></button>
           </div>
           {parts.some(p => p.schematic) && <div className="organ-segmented" role="group" aria-label="示意構造">
             <button aria-pressed={!!view.isolate && view.isolate.length > 1 && view.isolate.every(id => byId.get(id)?.schematic || DEEP.has(byId.get(id)?.group ?? ''))} onClick={() => {if (view.isolate) {patch({isolate: null}); return;} const ids = parts.filter(p => p.schematic || DEEP.has(p.group)).map(p => p.id); setView(v => ({...v, isolate: ids, command: {id: v.command.id + 1, view: 'fit', focus: ids}}));}}>只看深部與示意構造（{parts.filter(p => p.schematic).length}）</button>
@@ -223,7 +244,7 @@ export default function BrainDetail() {
         </div>
       </aside>
       <section className="organ-stage" aria-label="腦部 3D 模型">
-        <BrainScene view={view} exportRef={exportRef} onReady={p => {markSharedFacts(p.map(q => q.en)); setParts(p); setReady(true);}} onError={setError} onProgress={setPercent} onPick={select} onBusy={setCutBusy}/>
+        <BrainScene view={view} exportRef={exportRef} onReady={p => {markSharedFacts(p.map(q => q.en)); peripheral.current = p.filter(q => q.peripheral).map(q => q.id); setView(v => ({...v, hiddenParts: [...new Set([...v.hiddenParts, ...peripheral.current])]})); setParts(p); setReady(true);}} onError={setError} onProgress={setPercent} onPick={select} onBusy={setCutBusy}/>
         <div className="organ-views" aria-label="視角">{([['front', '前面'], ['back', '後面'], ['left', '左側'], ['right', '右側'], ['top', '上面'], ['bottom', '下面']] as const).map(([id, label]) => <button key={id} onClick={() => go(id)}>{label}</button>)}
           <button onClick={reset} aria-label="還原預設" title="還原預設"><RotateCcw size={15}/></button></div>
         {!ready && !error && <div className="organ-progress" role="status"><span className="organ-spinner"/><strong>載入腦部模型</strong><small>{percent ? `${percent}%` : '…'}</small></div>}
