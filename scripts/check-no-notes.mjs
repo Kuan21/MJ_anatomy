@@ -3,8 +3,9 @@
 // or in the strings of the app source, and when a notes file sits under public/. Code comments are not shipped and are not checked.
 import fs from 'node:fs';
 import path from 'node:path';
+import {fileURLToPath} from 'node:url';
 
-const root = new URL('../', import.meta.url).pathname, problems = [];
+const root = fileURLToPath(new URL('../', import.meta.url)), problems = [];   // .pathname gives "/C:/…" on Windows, which silently scans nothing
 const FORBIDDEN = /[0-9]{4} ?p\.[0-9]|共筆|筆記|跑考|課堂|講義|Course notes|cmu-course|neuro-notes|M65×CM57|出處：神經解剖|CMU|中國醫藥大學|課件|上課|下圖|上圖|圖中|老師|師說|勘誤|學長|學姐|考古|[Ll]ecture[- ]notes?|課程摘要/;
 const TEXT = /\.(json|md|txt|html|js|css|ts|tsx|mjs|svg)$/;
 function* walk(dir) {

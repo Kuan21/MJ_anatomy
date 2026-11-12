@@ -4,8 +4,9 @@
 // their written senses (關係, 係數, 邊緣, 邊界, 周邊, 左邊 …); only the colloquial uses are flagged.
 import fs from 'node:fs';
 import path from 'node:path';
+import {fileURLToPath} from 'node:url';
 
-const root = new URL('../', import.meta.url).pathname;
+const root = fileURLToPath(new URL('../', import.meta.url));   // .pathname gives "/C:/…" on Windows
 const SCAN = [
   {dir: 'app', ext: /\.(?:tsx?|json|css)$/},
   {dir: 'web', ext: /\.(?:tsx?|css)$/},
