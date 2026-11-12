@@ -43,4 +43,10 @@ assert.match(page, /hiddenParts: \[\.\.\.new Set\(\[\.\.\.v\.hiddenParts, \.\.\.
 const re = /PERIPHERAL_NERVE = (\/.*\/i);/.exec(viewer); assert.ok(re); const rx = eval(re[1]);
 for (const n of ['Buccal nerve', 'Mental nerve', 'Inferior alveolar nerve', 'Lingual nerve', 'Anterior division of mandibular nerve', 'Posterior division of mandibular nerve', 'Meningeal branch of maxillary nerve']) assert.ok(rx.test(n), n);
 for (const n of ['Facial nerve (VII)', 'Vagus nerve (X)', 'Trigeminal nerve (V)', 'Maxillary nerve', 'Optic nerve (II)', 'Hypoglossal nerve (XII)']) assert.ok(!rx.test(n), `${n} is a root, stays on`);
+// glass cortex: alpha blending only (no dither), the toggle switches the deep groups on and restores them, and the cortex is a pick-through shell
+assert.match(viewer, /GLASS_GROUPS = .*GLASS_OPACITY = /s, 'glass cortex groups and opacity');
+assert.match(viewer, /const glass = !!state\.glass \|\| fadeCover/, 'glass is on when asked for or while a deep structure is selected');
+assert.ok(!/alphaToCoverage|alphaHash|gl_FragCoord/.test(viewer), 'no dot-pattern transparency in the brain viewer');
+assert.match(viewer, /const forced = state\.selectedIds\.includes\(p\.id\) && DEEP_GROUPS\.test\(p\.group\)/, 'a selected deep structure is shown even when its layer is off');
+assert.match(page, /toggleGlass/); assert.match(page, /glassHidden\.current = inside\.filter/, 'the deep groups that were off are remembered'); assert.match(page, /\.\.\.back/, 'and restored when the glass is turned off');
 console.log('Brain detail: Loop smoothing, nerve reach, peripheral branches off and cortex fade checked.');
