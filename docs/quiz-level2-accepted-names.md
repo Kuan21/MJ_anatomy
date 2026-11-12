@@ -1,6 +1,6 @@
-# Quiz 第二級額外接受的答案
+# Quiz 第三級額外接受的答案
 
-此檔由 `node scripts/report-quiz-accepted-names.mjs` 產生，請勿手改。除了構造自己的英文名、中文名、括號內別名與同義詞表（`app/quiz/synonyms.ts`，列在 REVIEW_LOG）之外，第二級還接受下列寫法；群名只算「接近」並列入錯題。左右兩側同一規則，只列一側。
+此檔由 `node scripts/report-quiz-accepted-names.mjs` 產生，請勿手改。除了構造自己的英文名、中文名、括號內別名與同義詞表（`app/quiz/synonyms.ts`，列在 REVIEW_LOG）之外，第三級與學習關卡還接受下列寫法；群名只算「接近」並列入錯題。左右兩側同一規則，只列一側。
 合計 188 個構造有額外接受的寫法。
 
 
