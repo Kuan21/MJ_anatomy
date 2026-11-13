@@ -7,6 +7,7 @@ import {BufferGeometry, BufferAttribute} from 'three';
 import {planCuts, atlasParts} from './lib/tendon-set.mjs';
 import {quizModule} from './quiz-modules.mjs';
 import {loadJointRows} from './lib/joint-quiz-source.mjs';
+import {loadBrainRows} from './lib/brain-quiz-source.mjs';
 
 const root = new URL('../', import.meta.url);
 const models = new URL('public/models/', root);
@@ -17,6 +18,9 @@ const {anatomicalRegion, anatomicalSide, correctedPartName} = await quizModule('
 const {structureProfile, paokaoZh} = await quizModule('app/mj-structure-info.ts');
 const {namingOverride, applyZhFixes} = await quizModule('app/mj-naming.ts');
 const {jointRegion, jointExclusion, jointKey, jointKindOf, JOINT_EXCLUSION_REASONS} = await quizModule('app/quiz/joints.ts');
+const {normalize} = await quizModule('app/quiz/naming.ts');
+const {brainSectionOf, brainLayerOf, brainSystemOf, BRAIN_EXCLUSION_REASONS} = await quizModule('app/quiz/brain.ts');
+const {SCHEMATIC} = await quizModule('app/organ/brain-schematic.ts');
 const {QUIZ_SYSTEMS, QUIZ_REGIONS, LOWER_NERVES, UPPER_NERVES, THORAX_NERVES, THORAX_INCLUDE, BACK_NERVES, BACK_INCLUDE, classifySections} = await quizModule('app/quiz/catalogue.ts');
 const atlas = normalizeAtlasSystems(JSON.parse(fs.readFileSync(new URL('atlas.json', models))));
 // BodyParts3D 3.0 structures the 4.0 export left out (latissimus dorsi, multifidus, spinalis cervicis…) are quiz answers too: their packages are read like the atlas chunks.
@@ -101,11 +105,11 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
   const def = QUIZ_REGIONS[region], short = def.file.replace(/^quiz-|\.json$/g, '');
   const items = [], structures = new Map();
   const groupId = (system, name) => `${system}:${name.toLowerCase().replace(/\s+/g, ' ').trim()}`;
-  function add({id, name, chinese, system, side, bounds, source, positions, normals, indices, sections, description}) {
+  function add({id, name, chinese, system, side, bounds, source, positions, normals, indices, sections, description, layer, cardFields}) {
     const structureId = groupId(system, name);
     let structure = structures.get(structureId);
     if (!structure) {
-      structure = {id: structureId, name, chinese, system, side, sections: sections ?? classifySections(region, name, bounds, system), meshIds: [], bounds: bounds.map(b => [...b]), source, ...(description ? {description} : {})};
+      structure = {id: structureId, name, chinese, system, side, sections: sections ?? classifySections(region, name, bounds, system), meshIds: [], bounds: bounds.map(b => [...b]), source, ...(description ? {description} : {}), ...(layer ? {layer} : {}), ...(cardFields ? {cardFields} : {})};
       structures.set(structureId, structure);
     }
     structure.meshIds.push(id);
@@ -114,6 +118,61 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
       structure.bounds[1][i] = Math.max(structure.bounds[1][i], bounds[1][i]);
     }
     items.push({id, structureId, system, side, positions, normals, indices});
+  }
+
+  // Brain quiz: the structures come from the brain package (public/models/brain.glb, prepared like the brain viewer does). The rules (sections, layers, exclusions) are app/quiz/brain.ts; the report of every
+  // exclusion is written to .sites-runtime/quiz-brain-report.json and turned into docs/quiz-brain-pool.md by scripts/report-quiz-brain.mjs.
+  if (region === 'brain') {
+    const {rows, dropped} = await loadBrainRows();
+    const cardData = JSON.parse(fs.readFileSync(new URL('brain/neuro-cards.json', models), 'utf8')), cardById = new Map(cardData.cards.map(c => [c.id, c]));
+    // The card of a structure: the card whose title is the structure's name (brackets ignored); otherwise the one card that points at the structure's mesh; several candidates and none the same name = no card (listed in docs/quiz-card-gaps.md).
+    const plain = t => t.toLowerCase().replace(/[^a-z0-9]+/g, ''), unbracketed = t => plain(t.replace(/\([^)]*\)/g, ''));
+    const cardOf = en => {
+      const cards = (cardData.partCards[en] ?? []).map(id => cardById.get(id)).filter(Boolean);
+      const same = cards.filter(c => plain(c.en) === plain(en) || unbracketed(c.en) === unbracketed(en));
+      const card = same.length === 1 ? same[0] : cards.length === 1 ? cards[0] : null;
+      if (!card) return {card: null, why: cards.length ? 'ambiguous' : 'none'};
+      return {card, same: same.length === 1};
+    };
+    const candidates = rows.map(r => {
+      const side = r.part.side === 'mid' ? 'midline' : r.part.side, group = r.part.group;
+      const {card, same} = cardOf(r.part.en);
+      const fields = card ? card.fields.map(f => ({label: f.label, zh: f.items.join('；')})) : undefined;
+      // A card for a wider concept (the card of the thalamus for the pulvinar) says so in its first line.
+      const cardFields = fields ? (same ? fields : [{label: '所屬資料卡', zh: `${card.zh}（${card.en}）`}, ...fields]) : undefined;
+      const chinese = r.part.zh || undefined;
+      return {r, side, group, name: r.name, chinese, system: brainSystemOf(group), section: brainSectionOf(group), layer: brainLayerOf(group, r.part.en), cardFields, cardId: card?.id, cardSame: !!same, reason: group === 'meninges' ? 'meninges' : !chinese ? 'no-chinese-name' : null};
+    });
+    // A typed name must have one right answer: structures that share a name once left and right are set aside (a midline and a paired structure, or two different Chinese names the same) are asked by none of them.
+    const idOf = c => `${c.system}:${c.name.toLowerCase().replace(/\s+/g, ' ').trim()}`;
+    const clash = new Map();
+    const note = (key, c) => {const set = clash.get(key) ?? clash.set(key, new Map()).get(key); set.set(idOf(c), c);};
+    for (const c of candidates) if (!c.reason) {note('en:' + normalize(c.name, false), c); note('zh:' + normalize(c.chinese, false), c);}
+    for (const members of clash.values()) {
+      const list = [...members.values()], sides = new Set(list.map(c => c.side));
+      // left + right of one name is the normal pair; anything else that shares a name is a clash
+      if (list.length > 1 && !(list.length === 2 && sides.has('left') && sides.has('right') && sides.size === 2 && new Set(list.map(c => c.system)).size === 1)) for (const c of list) c.reason ??= 'name-not-unique';
+    }
+    const asked = candidates.filter(c => !c.reason);
+    for (const c of asked) {
+      const {r} = c, position = r.geometry.getAttribute('position'), index = r.geometry.getIndex(), normal = r.geometry.getAttribute('normal');
+      const normals = new Int16Array(normal.count * 3);
+      normal.array.forEach((v, i) => {normals[i] = Math.round(v * 32767);});
+      const bb = r.geometry.boundingBox, bounds = [bb.min.toArray(), bb.max.toArray()];
+      add({id: `brain:${r.part.id}`, name: c.name, chinese: c.chinese, system: c.system, side: c.side, bounds, source: 'Brain Project', sections: [c.section], layer: c.layer, cardFields: c.cardFields,
+        positions: Buffer.from(new Float32Array(position.array).buffer), normals: Buffer.from(normals.buffer), indices: Buffer.from(new Uint32Array(index.array).buffer)});
+    }
+    const entry = (name, chinese, group, side, why, extra = {}) => ({name, chinese, group, side, reason: why, ...extra});
+    fs.mkdirSync(new URL('.sites-runtime/', root), {recursive: true});
+    fs.writeFileSync(new URL('.sites-runtime/quiz-brain-report.json', root), JSON.stringify({
+      reasons: BRAIN_EXCLUSION_REASONS,
+      asked: asked.map(c => ({name: c.name, chinese: c.chinese, group: c.group, side: c.side, system: c.system, section: c.section, layer: c.layer, card: c.cardId ?? null, cardSame: c.cardSame})).sort((a, b) => a.name.localeCompare(b.name)),
+      excluded: [
+        ...candidates.filter(c => c.reason).map(c => entry(c.name, c.chinese, c.group, c.side, c.reason)),
+        ...dropped.map(d => entry(d.name ?? d.raw.label, d.part?.zh || undefined, d.part?.group ?? d.raw.cat, d.part ? (d.part.side === 'mid' ? 'midline' : d.part.side) : d.raw.side, d.reason)),
+        ...SCHEMATIC.map(s => entry(`${s.side === 'mid' ? '' : s.side === 'left' ? 'Left ' : 'Right '}${s.en}`, `${s.side === 'left' ? '左' : s.side === 'right' ? '右' : ''}${s.zh}`, s.group, s.side === 'mid' ? 'midline' : s.side, 'schematic')),
+      ].sort((a, b) => a.reason.localeCompare(b.reason) || a.name.localeCompare(b.name)),
+    }, null, 1));
   }
 
   // Heart quiz: the structures come from the heart detail package (Z-Anatomy), not the atlas.
@@ -141,7 +200,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
         positions: raw.subarray(part.positions, part.positions + part.vertexCount * 12), normals: raw.subarray(part.normals, part.normals + part.vertexCount * 6), indices: raw.subarray(part.indices, part.indices + part.indexCount * 4)});
     }
   }
-  for (const part of region === 'heart' ? [] : atlas.parts) {
+  for (const part of region === 'heart' || region === 'brain' ? [] : atlas.parts) {
     if (!QUIZ_SYSTEMS.some(s => s.id === part.system)) continue;
     // tendons are asked per region once a region has enough of them (the limbs now; the other regions follow in later batches)
     if (part.system === 'tendon' && region !== 'upper-limb' && region !== 'lower-limb') continue;
@@ -162,7 +221,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
       indices: belly ? buf(belly.indices) : raw.subarray(part.indices, part.indices + part.indexCount * 4)});
   }
   // Tendons cut off their muscles (parts of the course-summary package): asked in the region they lie in, like any other structure.
-  if (region !== 'heart' && region !== 'lung') {
+  if (region !== 'heart' && region !== 'lung' && region !== 'brain') {
     const pk = JSON.parse(gunzipSync(fs.readFileSync(new URL('paokao/paokao-stream.json.gz', models))));
     const pkChunks = pk.chunks.map(c => fs.readFileSync(new URL('public' + c.url, root)));
     for (const part of pk.parts) {
@@ -175,7 +234,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
     }
   }
 
-  for (const chunk of region === 'heart' || region === 'lung' ? [] : nerveStream.chunks) {
+  for (const chunk of region === 'heart' || region === 'lung' || region === 'brain' ? [] : nerveStream.chunks) {
     let raw;
     for (const [ordinal, mesh] of chunk.meshes.entries()) {
       const match = /^(.*?)\.([lr])(?:\.\d+)?$/i.exec(mesh.name);
@@ -202,7 +261,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
   }
 
   // Joint soft tissue asked in this region (category 關節).
-  for (const c of region === 'heart' || region === 'lung' ? [] : jointCandidates) {
+  for (const c of region === 'heart' || region === 'lung' || region === 'brain' ? [] : jointCandidates) {
     if (c.reason || c.region !== region) continue;
     const geometry = c.mesh.geometry.clone();
     geometry.computeVertexNormals();
@@ -213,7 +272,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
     geometry.dispose();
   }
 
-  const packages = [], sides = region === 'thorax' || region === 'back' || region === 'heart' || region === 'lung' ? ['left', 'right', 'midline'] : ['left', 'right'];
+  const packages = [], sides = region === 'thorax' || region === 'back' || region === 'heart' || region === 'lung' || region === 'brain' ? ['left', 'right', 'midline'] : ['left', 'right'];
   for (const {id: system} of QUIZ_SYSTEMS) for (const side of sides) {
     let buffers = [], bytes = 0, meshes = [];
     const append = data => {

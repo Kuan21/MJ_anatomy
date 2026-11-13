@@ -635,3 +635,90 @@
 - 肺上葉（Upper lobe of right lung）：缺 構造／毗鄰關係、血液供應／神經
 - 肺中葉（Middle lobe of right lung）：缺 構造／毗鄰關係、血液供應／神經
 - 肺下葉（Lower lobe of right lung）：缺 構造／毗鄰關係、血液供應／神經
+
+## 腦（Brain）
+
+### 神經：8 / 15 項資料完整
+
+- 三叉神經感覺根（Sensory root of trigeminal nerve）：缺 資料卡
+- 三叉神經運動根（Motor root of trigeminal nerve）：缺 資料卡
+- 外旋神經（第六對腦神經）（Abducens nerve (VI)）：缺 資料卡
+- 副神經（第十一對腦神經）（Accessory nerve (XI)）：缺 資料卡
+- 上頷神經（Maxillary nerve）：缺 資料卡
+- 嗅神經（第一對腦神經）（Olfactory nerve (I)）：缺 資料卡
+- 眼神經（Ophthalmic nerve）：缺 資料卡
+
+### 動脈：21 / 25 項資料完整
+
+- 胼胝體邊緣動脈（Callosomarginal artery）：缺 資料卡
+- 胼胝體邊緣動脈額支（Frontal branches of callosomarginal artery）：缺 資料卡
+- 大腦前動脈眶額支（Orbitofrontal branches of anterior cerebral artery）：缺 資料卡
+- 胼胝體周動脈（Pericallosal artery）：缺 資料卡
+
+### 靜脈：3 / 12 項資料完整
+
+- 基底靜脈叢（Basilar venous plexus）：缺 資料卡
+- 前海綿間竇（Anterior intercavernous sinus）：缺 資料卡
+- 下矢狀竇（Inferior sagittal sinus）：缺 資料卡
+- 枕竇（Occipital sinus）：缺 資料卡
+- 後海綿間竇（Posterior intercavernous sinus）：缺 資料卡
+- 乙狀竇（Sigmoid sinus）：缺 資料卡
+- 直竇（Straight sinus）：缺 資料卡
+- 上矢狀竇（Superior sagittal sinus）：缺 資料卡
+- 橫竇（Transverse sinus）：缺 資料卡
+
+### 腦構造：120 / 173 項資料完整
+
+- 枕極（Occipital pole）：缺 資料卡
+- 頂枕溝（Parieto-occipital sulcus）：缺 資料卡
+- 頂下溝（Subparietal sulcus）：缺 資料卡
+- 側副溝（Collateral sulcus）：缺 資料卡
+- 枕前溝（Anterior occipital sulcus）：缺 資料卡
+- 眶回（額緣回及溝）（Orbital gyri (Frontomarginal gyrus and sulcus)）：缺 資料卡
+- 中央旁小葉及溝（Paracentral gyrus and sulcus）：缺 資料卡
+- 橫額極回及溝（Transverse frontopolar gyrus and sulcus）：缺 資料卡
+- 額下溝（Inferior frontal sulcus）：缺 資料卡
+- 額上溝（Superior frontal sulcus）：缺 資料卡
+- 中央旁溝（Paracentral sulcus）：缺 資料卡
+- 眶溝（H 形眶溝）（Orbital sulci (H-shaped orbital sulci)）：缺 資料卡
+- 眶溝（外側眶溝）（Orbital sulci (Lateral Orbital sulcus)）：缺 資料卡
+- 中央前溝（下部）（Precentral sulcus (inferior part)）：缺 資料卡
+- 中央前溝（上部）（Precentral sulcus (Superior part)）：缺 資料卡
+- 中央後溝（Postcentral sulcus）：缺 資料卡
+- 楔前葉（Precuneus）：缺 資料卡
+- 頂內溝（Intraparietal sulcus）：缺 資料卡
+- 舌回（Lingual gyrus）：缺 資料卡
+- 距狀溝（Calcarine sulcus）：缺 資料卡
+- 楔葉（Cuneus）：缺 資料卡
+- 月狀溝（Lunate sulcus）：缺 資料卡
+- 枕橫溝（Transverse occipital sulcus）：缺 資料卡
+- 顳橫回（Transverse temporal gyri）：缺 資料卡
+- 外側枕顳回（Lateral occipitotemporal gyrus）：缺 資料卡
+- 顳下溝（Inferior temporal sulcus）：缺 資料卡
+- 顳上溝（Superior temporal sulcus）：缺 資料卡
+- 枕顳溝（外側部）（Occipitotemporal sulcus (Lateral part)）：缺 資料卡
+- 透明中隔（Septum pellucidum）：缺 資料卡
+- 後橫側副溝（Posterior transverse collateral sulcus）：缺 資料卡
+- 中間初級溝（Jensen 溝）（Intermediate primary sulcus (of Jensen)）：缺 資料卡
+- 韁核（Habenula）：缺 資料卡
+- 大腦腳底（Base of peduncle）：缺 資料卡
+- 上泌涎核（Superior salivatory nucleus）：缺 資料卡
+- 小腦扁桃體（Tonsil of cerebellum）：缺 資料卡
+- 絨球腳（Peduncle of flocculus）：缺 資料卡
+- 蚓小結（Nodule of vermis）：缺 資料卡
+- 蒼白球外側部（Globus pallidus external）：缺 資料卡
+- 蒼白球內側部（Globus pallidus internal）：缺 資料卡
+- 視丘前核群（Anterior nuclei of thalamus）：缺 資料卡
+- 背內側核（Mediodorsal nucleus）：缺 資料卡
+- 板內核群及外側後核（Intralaminar and lateral posterior nuclei）：缺 資料卡
+- 基底外側複合體（Basolateral complex）：缺 資料卡
+- 中央核（Central nucleus）：缺 資料卡
+- 皮質內側核群（Corticomedial group）：缺 資料卡
+- 視前下視丘（Preoptic hypothalamus）：缺 資料卡
+- 下視丘前部（Anterior hypothalamus）：缺 資料卡
+- 下視丘外側部（Lateral hypothalamus）：缺 資料卡
+- 下視丘後部（Posterior hypothalamus）：缺 資料卡
+- 松果腺（Pineal gland）：缺 資料卡
+- 皮質紋狀體徑（前）（Corticostriatal tract (anterior)）：缺 資料卡
+- 皮質紋狀體徑（後）（Corticostriatal tract (posterior)）：缺 資料卡
+- 皮質紋狀體徑（上）（Corticostriatal tract (superior)）：缺 資料卡
