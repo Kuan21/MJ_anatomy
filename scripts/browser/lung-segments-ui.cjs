@@ -22,6 +22,7 @@ const ok=(name,pass,info='')=>console.log((pass?'PASS ':'FAIL ')+name+(info?'  '
  const SIDES=(process.env.SIDES||'right,left').split(',');
  await p.screenshot({path:`${out}/${tag}-panel-before.png`});
  for(const [n,side] of SIDES.entries()){
+  await p.locator('.lung-focus').evaluate(e=>{e.scrollTop=0;});await p.waitForTimeout(500);
   await real(`.lung-focus-sides button:nth-child(${side==='left'?2:3})`);await p.waitForTimeout(8000);
   if(n===0||(await p.locator(sw).getAttribute('aria-checked'))!=='true'){await real(sw);}
   // the territories are in the last schematic package: wait until all of them are in the scene
@@ -35,8 +36,11 @@ const ok=(name,pass,info='')=>console.log((pass?'PASS ':'FAIL ')+name+(info?'  '
    await real(`.lung-seg-views button:nth-child(${view==='medial'?2:1})`);await p.waitForTimeout(25000);
    await p.screenshot({path:`${out}/${tag}-${side}-${view}.png`});
   }
+  // see-through lung: the bronchi inside show in the colours of their surface territories
+  const setOpacity=v=>p.locator('.lung-focus input[type=range]').evaluate((e,v)=>{const set=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set;set.call(e,String(v));e.dispatchEvent(new Event('input',{bubbles:true}));},v);
+  await setOpacity(35);await p.waitForTimeout(12000);await p.screenshot({path:`${out}/${tag}-${side}-seethrough.png`});await setOpacity(100);await p.waitForTimeout(6000);
   // a real click on a legend row opens that segment's card
-  const row=p.locator('.lung-seg-row').nth(side==='right'?9:7);await row.click();await p.waitForTimeout(4000);
+  await p.locator('.lung-seg-row').first().scrollIntoViewIfNeeded();const row=p.locator('.lung-seg-row').nth(side==='right'?9:7);await row.click();await p.waitForTimeout(4000);
   const sheet=await p.locator('.detail-sheet').innerText().catch(()=>'');
   ok(side+': legend click opens the segment card (lobe, segment, segmental bronchus, main relations)',/lobe/i.test(sheet)&&/segmental bronchus/i.test(sheet)&&/main relations/i.test(sheet)&&/肺葉/.test(sheet)&&/段支氣管/.test(sheet)&&/主要毗鄰/.test(sheet),sheet.slice(0,80).replace(/\s+/g,' '));
   await p.screenshot({path:`${out}/${tag}-${side}-card.png`});
