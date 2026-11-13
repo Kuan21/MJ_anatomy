@@ -104,13 +104,13 @@ function papillaryColumn(base, tip, intoWall, {rBase, rTip, ridge = .09, seed = 
   // a gentle S-bend so it does not read as a drawn cone
   const side0 = unit(cross(axis, Math.abs(axis[1]) < .9 ? [0, 1, 0] : [1, 0, 0])), side1 = cross(axis, side0), bend = (rnd() - .5) * .12 * L, bend2 = (rnd() - .5) * .08 * L;
   const centre = t => add(add(add(base, mul(axis, t * L)), mul(side0, Math.sin(t * Math.PI) * bend)), mul(side1, Math.sin(t * Math.PI * 2) * bend2));
-  const positions = [], indices = [], lo = -.16; // start inside the wall; the buried end is rounded so it never shows as a flat disc
-  const profile = t => t < 0 ? rBase * 1.15 : rBase + (rTip - rBase) * Math.min(1, t ** .85);
+  const positions = [], indices = [], lo = -.3; // start inside the wall; the buried end is rounded so it never shows as a flat disc
+  const profile = t => t < 0 ? rBase * 1.05 : rBase + (rTip - rBase) * Math.min(1, t ** 1.05);
   const total = rings + 1;
   for (let k = 0; k <= rings; k++) {
     const t = lo + (1 - lo) * k / rings, cut = t > .88 ? Math.sqrt(Math.max(0, 1 - ((t - .88) / .12) ** 2)) : t < -.05 ? Math.sqrt(Math.max(0, 1 - ((-.05 - t) / .11) ** 2)) : 1;
     // the base flares into the wall (r grows 25 % over the first 12 % of the length)
-    const flare = t < .12 ? 1 + .25 * (1 - Math.max(0, t) / .12) ** 2 : 1;
+    const flare = t < .22 ? 1 + .32 * (1 - Math.max(0, t) / .22) ** 2 : 1;
     const c = add(centre(Math.max(0, t)), t < 0 ? mul(intoWall, -t * L * 1.0) : [0, 0, 0]);
     const f0 = unit(cross(axis, Math.abs(axis[1]) < .9 ? [0, 1, 0] : [1, 0, 0])), f1 = cross(axis, f0);
     for (let j = 0; j < sides; j++) {
@@ -174,18 +174,18 @@ function chordae({tips, cusps, wall, seed, perGroup = 3}) {
     groups.forEach((g, gi) => {
       const G = centroidOf(g.map(q => q.p)), reach = len(sub(G, tip.p)), dir = unit(sub(G, tip.p));
       const node = add(add(tip.p, mul(dir, reach * (.5 + rnd() * .2))), mul(unit(cross(dir, [0, 1, 0])), (rnd() - .5) * .002));
-      list.push(cord([tip.p, node], .0009 + rnd() * .00015, .0006, rnd, .03)); nodes.push(node);
+      list.push(cord([tip.p, node], .0012 + rnd() * .0002, .0008, rnd, .09)); nodes.push(node);
       for (const q of g) {
-        list.push(cord([node, q.p], .00052 + rnd() * .0001, .00030, rnd, .06));
+        list.push(cord([node, q.p], .00056 + rnd() * .0001, .00030, rnd, .12));
         // about a third of the margin cords fork near the cusp (a Y: two fine cords on neighbouring points)
-        if (rnd() < .35) { const side = unit(cross(unit(sub(q.p, node)), [0, 1, 0])), p2 = add(q.p, mul(side, (rnd() < .5 ? -1 : 1) * .0016)), fork = lerp3(node, q.p, .72); list.push(cord([fork, p2], .0003, .0002, rnd, .05)); }
+        if (rnd() < .6) { const side = unit(cross(unit(sub(q.p, node)), [0, 1, 0])), p2 = add(q.p, mul(side, (rnd() < .5 ? -1 : 1) * .0016)), fork = lerp3(node, q.p, .72); list.push(cord([fork, p2], .0003, .0002, rnd, .09)); }
       }
       // a rough-zone cord from the same branch point to the nearest rough-zone point
       const near = rough.slice().sort((a, b) => len(sub(a.p, G)) - len(sub(b.p, G)))[0];
-      if (near && gi % 1 === 0) { list.push(cord([node, near.p], .00042, .00026, rnd, .06)); rough.splice(rough.indexOf(near), 1); }
+      if (near && gi % 1 === 0) { list.push(cord([node, near.p], .00044, .00028, rnd, .10)); rough.splice(rough.indexOf(near), 1); }
     });
     // rough-zone points left over hang from the nearest branch point (or straight from the tip when the muscle has no branch)
-    for (const q of rough) { const from = nodes.length ? nodes.slice().sort((a, b) => len(sub(a, q.p)) - len(sub(b, q.p)))[0] : tip.p; list.push(cord([from, q.p], .00036, .00022, rnd, .06)); }
+    for (const q of rough) { const from = nodes.length ? nodes.slice().sort((a, b) => len(sub(a, q.p)) - len(sub(b, q.p)))[0] : tip.p; list.push(cord([from, q.p], .00038, .00024, rnd, .10)); }
   }
   // basal cords: from the wall straight below the cusp base to the ventricular surface of the cusp (posterior and septal cusps only)
   for (const cusp of cusps) {
