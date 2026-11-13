@@ -11,7 +11,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Fragments | 48 |
 | Vessel, nerve and tendon walls inside bone | 456 |
 | Coincident faces (z-fighting) | 82 |
-| Straight cuts in meshes | 42 |
+| Straight cuts in meshes | 43 |
 | Triangle stretch over 2x in the limit poses | 188 |
 | Structures that leave their bone in the limit poses | 173 |
 
@@ -616,7 +616,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Lingula of left lung | 1106 | faces coincide with Cardiac notch of left lung: two layers share the same surface; to be offset or one of them removed |
 | Esophageal impression of left lung | 57 | faces coincide with Apex of left lung: two layers share the same surface; to be offset or one of them removed |
 
-## Straight cuts in meshes (42)
+## Straight cuts in meshes (43)
 
 | structure | size | detail |
 |---|---|---|
@@ -660,6 +660,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Mediastinal part of left parietal pleura | 25.8 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
 | Diaphragmatic part of left parietal pleura | 30.4 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
 | White matter of spinal cord | 95 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
+| renderer clipping plane in micro-atlas.tsx | 1 | section plane of the eye detail mode: a cut view on purpose, switched on by its own button (user decision 2026-11-13) |
 | renderer clipping plane in organ/brain-viewer.ts | 1 | section plane of the brain or heart detail mode: a cut view on purpose, the cut face is drawn by the viewer |
 | renderer clipping plane in organ/heart-viewer.ts | 3 | section plane of the brain or heart detail mode: a cut view on purpose, the cut face is drawn by the viewer |
 
