@@ -29,6 +29,7 @@
     "check:paokao": "node scripts/prepare-paokao.mjs && node scripts/prepare-search-index.mjs && node scripts/audit-paokao.mjs --check && node scripts/check-cards.mjs",
     "check:topology": "node scripts/prepare-paokao.mjs && node scripts/check-topology.mjs",
     "test:heart-open": "node scripts/test-heart-open-browser.mjs",
+    "test:heart-labels": "node scripts/test-heart-labels-browser.mjs",
     "check:heart": "node scripts/prepare-heart.mjs && node scripts/prepare-quiz.mjs && node scripts/check-heart.mjs && node scripts/test-heart-vessels.mjs && node scripts/test-heart-valves.mjs",
     "check:stability": "node scripts/check-stability.mjs",
     "stability:shots": "node scripts/stability-shots.mjs"
