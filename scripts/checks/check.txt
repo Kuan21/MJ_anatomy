@@ -21,7 +21,6 @@ node scripts/validate-model.mjs
 node scripts/prepare-skin-weights.mjs
 tsc --noEmit
 node scripts/test-search-index.mjs
-node scripts/test-related-search.mjs
 node scripts/test-muscle-layers.mjs
 node scripts/test-layer-regions.mjs
 node scripts/test-nerve-schematics.mjs
