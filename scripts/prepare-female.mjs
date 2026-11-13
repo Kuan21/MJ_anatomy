@@ -7,6 +7,7 @@ import {gunzipSync} from 'node:zlib';
 import {createStream, simplify, weldByPosition} from './lib/stream-writer.mjs';
 import {atlasPositions} from './lib/atlas-read.mjs';
 import {thicken} from './lib/female-smooth.mjs';
+import {loftUterus, loftTube} from './lib/female-loft.mjs';
 
 const root = new URL('../', import.meta.url), out = new URL('public/models/stream/', root), dir = new URL('public/models/female/', root);
 fs.mkdirSync(out, {recursive: true}); fs.mkdirSync(dir, {recursive: true});
@@ -52,6 +53,23 @@ for (const piece of source.pieces) {
   items.push({piece, rule, positions: welded.positions, indices: welded.indices, tris: welded.indices.length / 3});
 }
 // Shape clean-up (scripts/lib/female-smooth.mjs): thicken the hair-thin ligament cords to a textbook cord thickness.
+// Continuous uterus and tubes (scripts/lib/female-loft.mjs): the source meshes are separate stacked pieces, so one pear-shaped uterus and one bent tube per side are lofted from their
+// measured axis, cross-sections and radii, then cut back into the same named segments. Position and size come from the source pieces.
+{
+  const pick = re => items.find(it => re.test(it.piece.name)), posOf = it => ({positions: it.positions});
+  const U = {fundus: pick(/^VH_F_fundus_of_uterus$/), body: pick(/^VH_F_body_of_uterus$/), lower: pick(/^VH_F_lower_uterine_segment$/), cervix: pick(/^VH_F_cervix$/)};
+  const ur = loftUterus(Object.entries(U).map(([name, it]) => ({name, ...posOf(it)})));
+  for (const [k, it] of Object.entries(U)) { it.positions = ur.meshes[k].positions; it.indices = ur.meshes[k].indices; }
+  report.push(`loft uterus: axis ${ur.report.axis}, length ${(ur.report.length * 1000).toFixed(1)} mm, max width ${(ur.report.widthMax * 1000).toFixed(1)} mm, max depth ${(ur.report.depthMax * 1000).toFixed(1)} mm, cuts ${ur.report.cut}`);
+  let cx = 0, cy = 0, cz = 0, cn = 0; for (const it of Object.values(U)) for (let i = 0; i < it.positions.length; i += 3) { cx += it.positions[i]; cy += it.positions[i + 1]; cz += it.positions[i + 2]; cn++; }
+  const centre = [cx / cn, cy / cn, cz / cn], uterusPts = []; for (const it of Object.values(U)) for (let i = 0; i < it.positions.length; i += 3 * 3) uterusPts.push([it.positions[i], it.positions[i + 1], it.positions[i + 2]]);
+  for (const side of ['L', 'R']) {
+    const T = {isthmus: pick(new RegExp(`^VH_F_isthmus_of_fallopian_tube_${side}$`)), ampulla: pick(new RegExp(`^VH_F_ampulla_of_uterine_tube_${side}$`)), infundibulum: pick(new RegExp(`^VH_F_uterine_tube_infundibulum_${side}$`))};
+    const tr = loftTube(Object.entries(T).map(([name, it]) => ({name, ...posOf(it)})), centre, uterusPts);
+    for (const [k, it] of Object.entries(T)) { it.positions = tr.meshes[k].positions; it.indices = tr.meshes[k].indices; }
+    report.push(`loft tube ${side}: length ${(tr.report.length * 1000).toFixed(1)} mm, radius ${(tr.report.rMin * 1000).toFixed(1)}–${(tr.report.rMax * 1000).toFixed(1)} mm, from ${tr.report.start.map(v => (v * 1000).toFixed(0))} to ${tr.report.end.map(v => (v * 1000).toFixed(0))}`);
+  }
+}
 const CORDS = [[/round_ligament_of_uterus$/, .0022], [/^VH_F_ovarian_ligament_[LR]$/, .0018], [/^VH_F_suspensory_ligament_of_ovary_[LR]$/, .0025]];
 for (const it of items) for (const [re, radius] of CORDS) if (re.test(it.piece.name)) { const r = thicken(it, radius); report.push(`thicken ${it.piece.name}: radius ${(r.before * 1000).toFixed(2)} → ${(r.after * 1000).toFixed(2)} mm`); }
 for (const it of items) {
