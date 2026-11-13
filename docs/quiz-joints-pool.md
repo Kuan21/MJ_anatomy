@@ -7,17 +7,17 @@
 | 部位 | 關節構造（可出題） | 不出題 |
 | --- | --- | --- |
 | 下肢 | 116 | 22 |
-| 上肢 | 96 | 8 |
+| 上肢 | 96 | 6 |
 | 胸腔 | 6 | 0 |
 | 背部 | 6 | 0 |
-| 骨盆／頭頸／其他（部位尚未開放） | 0 | 41 |
+| 骨盆／頭頸／其他（部位尚未開放） | 0 | 43 |
 
 ## 不出題：不是關節構造（脂肪墊、關節囊繫帶、肋間膜、閉孔膜、方形膜）（6 種，12 個構造）
 
 - External intercostal membrane（外肋間膜） [left/right]，trunk-other
 - Frenula capsulae（關節囊繫帶） [left/right]，lower-limb
 - Infrapatellar fat pad（髕下脂肪墊） [left/right]，lower-limb
-- Internal intercostal membrane（內肋間膜） [left/right]，upper-limb
+- Internal intercostal membrane（內肋間膜） [left/right]，trunk-other
 - Obturator membrane（閉孔膜） [left/right]，lower-limb
 - Quadrangular membrane（方形膜） [left/right]，trunk-other
 
