@@ -2,11 +2,12 @@
 import assert from 'node:assert/strict';
 import {readFile,writeFile} from 'node:fs/promises';
 import {createRequire} from 'node:module';
+import {fileURLToPath} from 'node:url';
 import {Matrix4,Quaternion,Vector3,PropertyBinding} from 'three';
 const root=new URL('../',import.meta.url),tmp=new URL('.sites-runtime/',root);
 const soft=await import(new URL('soft-tissue.mjs',tmp)),motion=await import(new URL('mj-motion.mjs',tmp));
 await writeFile(new URL('draco.cjs',tmp),await readFile(new URL('public/draco/draco_wasm_wrapper.js',root)));
-const factory=createRequire(import.meta.url)(new URL('draco.cjs',tmp).pathname);
+const factory=createRequire(import.meta.url)(fileURLToPath(new URL('draco.cjs',tmp)));
 const draco=await factory({wasmBinary:await readFile(new URL('public/draco/draco_decoder.wasm',root))});
 const bytes=await readFile(new URL('public/models/nervous.glb',root)),jsonLength=bytes.readUInt32LE(12),gltf=JSON.parse(bytes.subarray(20,20+jsonLength).toString()),bin=bytes.subarray(28+jsonLength);
 const atlas=JSON.parse(await readFile(new URL('public/models/atlas.json',root),'utf8'));

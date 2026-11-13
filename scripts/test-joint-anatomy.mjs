@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFile,writeFile} from 'node:fs/promises';
 import {createRequire} from 'node:module';
+import {fileURLToPath} from 'node:url';
 import ts from 'typescript';
 import * as T from 'three';
 const root=new URL('../',import.meta.url),tmp=new URL('.sites-runtime/',root);
@@ -13,7 +14,7 @@ const {createJointAnatomy,jointKind}=await import(new URL('joint-anatomy.mjs',tm
 const {normalizeAtlasSystems}=await import(new URL('mj-system-classifier.mjs',tmp));
 const motion=await import(new URL('mj-motion.mjs',tmp)),body=await import(new URL('body-motion.mjs',tmp));
 const atlas=normalizeAtlasSystems(JSON.parse(await readFile(new URL('public/models/atlas.json',root),'utf8')));
-const factory=createRequire(import.meta.url)(new URL('draco.cjs',tmp).pathname);
+const factory=createRequire(import.meta.url)(fileURLToPath(new URL('draco.cjs',tmp)));
 const draco=await factory({wasmBinary:await readFile(new URL('public/draco/draco_decoder.wasm',root))});
 const b=await readFile(new URL('public/models/joints.glb',root)),n=b.readUInt32LE(12),j=JSON.parse(b.subarray(20,20+n)),bin=b.subarray(28+n);
 const world=[],parents=new Map();j.nodes.forEach((n,i)=>(n.children??[]).forEach(c=>parents.set(c,i)));

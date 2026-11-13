@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import {gzipSync, gunzipSync} from 'node:zlib';
 import {createRequire} from 'node:module';
+import {fileURLToPath} from 'node:url';
 import * as T from 'three';
 import {buildMjHeart} from './lib/heart-mj.mjs';
 import {buildValveApparatus, semilunarShift} from './lib/heart-valves.mjs';
@@ -41,7 +42,7 @@ if (!bytes || digest(bytes) !== spec.sha256) {
 }
 
 fs.writeFileSync(new URL('draco.cjs', cache), fs.readFileSync(new URL('public/draco/draco_wasm_wrapper.js', root)));
-const draco = await createRequire(import.meta.url)(new URL('draco.cjs', cache).pathname)({wasmBinary: fs.readFileSync(new URL('public/draco/draco_decoder.wasm', root))});
+const draco = await createRequire(import.meta.url)(fileURLToPath(new URL('draco.cjs', cache)))({wasmBinary: fs.readFileSync(new URL('public/draco/draco_decoder.wasm', root))});
 const jsonLength = bytes.readUInt32LE(12), gltf = JSON.parse(bytes.subarray(20, 20 + jsonLength)), bin = bytes.subarray(28 + jsonLength);
 const parents = new Map(), world = [];
 gltf.nodes.forEach((n, i) => (n.children ?? []).forEach(c => parents.set(c, i)));

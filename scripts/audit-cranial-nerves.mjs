@@ -3,9 +3,10 @@
 // Run: node scripts/audit-cranial-nerves.mjs [--write]   (--write writes docs/cranial-nerves.md)
 import fs from 'node:fs';
 import {createRequire} from 'node:module';
+import {fileURLToPath} from 'node:url';
 import {Matrix4, Quaternion, Vector3} from 'three';
 const root = new URL('../', import.meta.url);
-const draco = await createRequire(import.meta.url)(new URL('.sites-runtime/nerve-draco.cjs', root).pathname)({wasmBinary: fs.readFileSync(new URL('public/draco/draco_decoder.wasm', root))});
+const draco = await createRequire(import.meta.url)(fileURLToPath(new URL('.sites-runtime/nerve-draco.cjs', root)))({wasmBinary: fs.readFileSync(new URL('public/draco/draco_decoder.wasm', root))});
 const bytes = fs.readFileSync(new URL('public/models/brain.glb', root)), n = bytes.readUInt32LE(12), gltf = JSON.parse(bytes.subarray(20, 20 + n)), bin = bytes.subarray(28 + n);
 const parents = new Map(), world = []; gltf.nodes.forEach((node, i) => (node.children ?? []).forEach(c => parents.set(c, i)));
 const matrix = i => world[i] ?? (world[i] = (() => { const node = gltf.nodes[i], m = node.matrix ? new Matrix4().fromArray(node.matrix) : new Matrix4().compose(new Vector3(...(node.translation ?? [0, 0, 0])), new Quaternion(...(node.rotation ?? [0, 0, 0, 1])), new Vector3(...(node.scale ?? [1, 1, 1]))); const p = parents.get(i); return p === undefined ? m : new Matrix4().multiplyMatrices(matrix(p), m); })());

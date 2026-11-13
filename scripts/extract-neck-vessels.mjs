@@ -1,11 +1,12 @@
 import assert from 'node:assert/strict';
 import {readFile,writeFile} from 'node:fs/promises';
 import {createRequire} from 'node:module';
+import {fileURLToPath} from 'node:url';
 import ts from 'typescript';
 import * as T from 'three';
 const root=new URL('../',import.meta.url),tmp=new URL('.sites-runtime/',root);
 await writeFile(new URL('draco.cjs',tmp),await readFile(new URL('public/draco/draco_wasm_wrapper.js',root)));
-const factory=createRequire(import.meta.url)(new URL('draco.cjs',tmp).pathname);
+const factory=createRequire(import.meta.url)(fileURLToPath(new URL('draco.cjs',tmp)));
 const draco=await factory({wasmBinary:await readFile(new URL('public/draco/draco_decoder.wasm',root))});
 const b=await readFile(new URL('.sites-runtime/joint-source/public/models/cardiovascular.glb',root)),n=b.readUInt32LE(12),j=JSON.parse(b.subarray(20,20+n)),bin=b.subarray(28+n);
 const world=[],parents=new Map();j.nodes.forEach((n,i)=>(n.children??[]).forEach(c=>parents.set(c,i)));
