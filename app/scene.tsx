@@ -681,7 +681,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
      pick.userData.skin=bindTissue(rig,profile,ensureMotionBase(),p,'',g.index!.array);
      pick.userData.tissueSide=bindingSide;
      // vessel-end pieces take the weights of their vessel where they touch it (the end stream is appended after the atlas, so the vessel is bound first)
-     if(p.id.endsWith('-END')){const mainIndex=atlas.parts.findIndex(q=>q.id===p.id.slice(0,-4)),mainPick=mainIndex>=0?pickers[mainIndex]:undefined,mainSkin=mainPick?.userData.skin as ReturnType<typeof bindTissue>|undefined,mainBase=mainPick?.userData.baseMotionPositions as Float32Array|undefined;if(mainSkin&&mainBase)alignEndPiece(pick.userData.skin,ensureMotionBase(),mainSkin,mainBase);}
+     if(p.id.endsWith('-END')){const mainIndex=atlas.parts.findIndex(q=>q.id===p.id.slice(0,-4)),mainPick=mainIndex>=0?pickers[mainIndex]:undefined;if(mainPick&&!mainPick.userData.skin)mainPick.userData.prepareMotion?.('upper');const mainSkin=mainPick?.userData.skin as ReturnType<typeof bindTissue>|undefined,mainBase=mainPick?.userData.baseMotionPositions as Float32Array|undefined;if(mainSkin&&mainBase)alignEndPiece(pick.userData.skin,ensureMotionBase(),mainSkin,mainBase,undefined,g.index!.array);}
     }
     if(!pick.userData.skin&&p.system==='connective'&&canonicalRegion==='upper-limb'&&!isMotionQuarantined(p)){
      const side=canonicalSide==='midline'?connectiveSide(p.name):canonicalSide,profile=connectiveProfile(p.name),jointRig=side?softRigs[side]:null;
