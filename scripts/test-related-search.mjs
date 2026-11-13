@@ -24,7 +24,7 @@ for (const x of read('search-extras.json.gz')) {
 const index = buildSearchIndex(sources), byId = new Map(index.map(e => [e.concept.id, e]));
 
 // data shape and every target exists on the site under the name given
-assert.ok(RELATED_ENTRIES.length >= 7, 'related entries present');
+assert.ok(RELATED_ENTRIES.length >= 9, 'related entries present');
 const seenTerms = new Set();
 for (const e of RELATED_ENTRIES) {
   for (const k of ['en', 'zh', 'reasonZh', 'reasonEn']) assert.ok(typeof e[k] === 'string' && e[k].trim(), `${e.en}: ${k}`);
@@ -40,7 +40,7 @@ for (const e of RELATED_ENTRIES) {
 }
 
 // behaviour: exact name (case / spaces / hyphens ignored), English or Chinese, shows the closest structures
-for (const [q, ids] of [['uvula', ['FMA46733']], ['Uvula', ['FMA46733']], ['懸雍垂', ['FMA46733']], ['懸壅垂', ['FMA46733']], ['aryepiglottic fold', ['FMA46604', 'FMA46605']], ['Lacrimal ducts', ['FMA59555', 'FMA59582']], ['neural layer of retina', ['FMA58607']], ['cranium', ['FMA52734', 'FMA52735']], ['opening of carotid canal', ['FMA52738']], ['cerebral peduncle', ['FMA62394']], ['大腦腳', ['FMA62394']]]) {
+for (const [q, ids] of [['uvula', ['FMA46733']], ['Uvula', ['FMA46733']], ['懸雍垂', ['FMA46733']], ['懸壅垂', ['FMA46733']], ['aryepiglottic fold', ['FMA46604', 'FMA46605']], ['Lacrimal ducts', ['FMA59555', 'FMA59582']], ['neural layer of retina', ['FMA58607']], ['cranium', ['FMA52734', 'FMA52735']], ['opening of carotid canal', ['FMA52738']], ['cerebral peduncle', ['FMA62394']], ['大腦腳', ['FMA62394']], ['soft palate', ['FMA46728', 'FMA46733']], ['軟顎', ['FMA46731']], ['Occipitofrontalis', ['FMA46759', 'FMA46761']], ['額枕肌', ['FMA46760']]]) {
   const r = relatedResults(index, q);
   assert.ok(r, `related result for ${q}`);
   for (const id of ids) assert.ok(r.entries.some(e => e.concept.id === id), `${q} shows ${id}`);
