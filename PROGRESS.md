@@ -39,6 +39,17 @@
   - 修正 `scripts/check-no-notes.mjs`、`scripts/check-zh.mjs` 在 Windows 的路徑錯誤（`URL.pathname` 會變成 `/C:/…`）：原本 `check-no-notes` 在本機讀檔失敗、之前的目錄掃描也掃不到任何檔案；改用 `fileURLToPath` 後兩個檢查在本機實際掃描並通過（check:zh 掃 170 個檔）。Linux／CI 行為不變。
   - 沒有改模型、解剖內容或網站。本機沒有 `gh`，未查開放 PR 是否有變動。
 
+- 2026-11-13（第六次）：
+  - 重新檢查：`work/` 與 supplement／serous／female 三個生成串流仍不存在，完整量測仍做不了；沒有下載資料。
+  - 修正 `scripts/prepare-nerve-stream.mjs` 的 Windows 路徑錯誤（同上次的 `URL.pathname` 問題），本機現在可以由已有的 `nervous.glb` 產生神經串流（生成檔，不提交）。其他腳本還有同類寫法（`prepare-heart`、`decode-joint-source`、`export-joints-rest`、`extract-neck-vessels`、`audit-cranial-nerves`、`test-body-nerves`、`test-joint-anatomy`、`test-nerve-motion`、`lib/stability-static`），這次沒有動。
+  - `report-centerlines.mjs` 新增 `--available`：缺少生成檔時只量本機有的資料（大圖譜與神經），並在輸出與報告中寫明略過哪些檔。這次量了 1,449 個網格（少了三個生成串流的部分）。
+  - **「jump 是否誤報」已查：是誤報，但原因不是之前寫的「粗分支被算進主幹」。** 115 個 jump 全部是網格三角形很長（最長邊 21–132 mm），兩圈之間表面上沒有頂點；每一個的圈距都與沿表面的距離相符（例如左股動脈圈距 85 mm、表面距離 87 mm），管子本身連續。
+  - 依此修改：`centrelineOf` 可選擇回傳沿表面的圈距（預設行為不變，`leg-vessel-build` 不受影響）；`classifyRings` 收到圈距時，解釋得了的不再算 jump；新增 `pieceCount`（網格分離件數）。合成測試已補，`test-centreline-classify`、`test-centreline-continuity`、`check-no-notes`、`check:zh`、`tsc --noEmit` 本機通過；完整 `npm run check` 因缺生成檔沒有跑。
+  - `docs/centerline-report.md` 已用 `--available --write` 重新產生：列出 26 個（很短的腦神經根 18、形狀不是管 6、睫狀神經節 2），另列「網格較粗」115 個與「由多件組成」252 個。**這份報告不含三個缺少的串流**，有生成檔後要重跑。
+  - 量測時發現、尚未處理的兩個限制：（1）252 個網格由多件組成，中心線只沿其中一件走，連續性檢查要逐件處理；（2）主動脈等粗血管量到的半徑只有約 4–5 mm，看來偏小（抽取只取鏈附近 8 mm 的表面點），`attachGap` 會扣上一級半徑，所以粗血管的結果要先修正半徑才可信。原因尚未驗證。
+  - 留下一個未提交的暫存診斷腳本 `scripts/_diag-jumps.mjs`（依「不刪檔」沒有刪），可以由你刪除。
+  - 沒有改模型、解剖內容或網站。本機沒有 `gh`，未查開放 PR 是否有變動。
+
 ## 進行中／等審核
 - S2 A–G、S3、S4、S6 相關工作都已有 PR（見上），等使用者審核。
 
@@ -65,9 +76,10 @@
 - #239：玻璃皮質不透明度與分色是否合意。
 
 ## 下一步（可與現有 PR 並行、不衝突的工作）
-- S5 第二階段：用中心線做「上一級關係」連續性檢查，採只減不增基準，再納入 CI（先在本分支加腳本與基準檔，不動模型）。需先查「jump」是否為誤報（分支被算進主幹）。
+- S5 第二階段：用中心線做「上一級關係」連續性檢查，採只減不增基準，再納入 CI（先在本分支加腳本與基準檔，不動模型）。「jump」已查（2026-11-13 第六次）：是網格較粗造成的誤報。
 - 為 `report-centerlines` 補測試（`scripts/test-*.mjs` 風格），確認失敗分類穩定。（已完成：`test-centreline-classify.mjs`）
 - 有生成檔後：寫 `check-centreline-continuity.mjs`，用 `centreline-continuity.mjs` 的 `attachGap`／`joinGap` 沿 `topology-spec` 的上一級關係量測，建立只減不增基準。
+- 寫連續性檢查前先處理：多件網格逐件抽中心線；粗血管半徑偏小的原因。
 - 規則：所有排程工作都放在本分支與 PR #248，不另開分支或 PR。
 
 ## 下一步（舊）
