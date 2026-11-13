@@ -74,7 +74,7 @@ export interface ThoraxWrap {centerZ:number;radiusX:number;radiusZ:number}
 export interface SoftRig {side:Side;ids:(string|undefined)[];shoulder:Vector3;elbow:Vector3;wrist:Vector3;groups:Record<string,Box3>;radius:Vector3;ulna:Vector3;thorax:ThoraxWrap;handTipY:number;digitalLandmarks:{source:Vector3;target:Vector3}[]}
 export interface FibreGuide {centres:Vector3[];indices:Uint8Array;weights:Float32Array;coordinates:Float32Array;axis:Vector3;origin:Vector3;length:number}
 export interface FibreGuide {alignSections?:boolean}
-export interface SkinBinding {follower?:{parent:SkinBinding;progress:number[]}}
+export interface SkinBinding {follower?:{parent:SkinBinding;progress:number[];blend:[number,number]}}
 /** Latissimus dorsi: a long sheet from the lower back to the humerus. Blending each vertex with its own image under the humeral rotation swings the
  * lower belly (30 cm from the shoulder) through a wide arc and draws the sheet out to three times its length at the end of flexion with abduction.
  * `reach` is the rest position of the humeral insertion: the belly follows the travel of that point, weighted as before. */
@@ -477,7 +477,8 @@ export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<numbe
   if(source.side!==rig.side||source.vertexCount!==count||source.positionHash!==(hash>>>0))throw new Error('Pectoral follower/source mismatch');
   const parent=bindTissue(rig,'pectoralPath',positions);
   parent.fan={...source.fan,tip:new Vector3().fromArray(source.fan.tip)};
-  follower={parent,progress:source.progress};
+  // a nerve (bound without an atlas part) blends over a slightly longer stretch of its length than an artery: its millimetre rings were drawn out to three times their length
+  follower={parent,progress:source.progress,blend:part?[.10,.70]:[.08,.78]};
  }
  const clear=digitClearanceSet(rig.side,positions,indices,weights,count,triangles);
  // A pectoral follower has no fair weights-only picture (it slides with the pectoral sheet, which itself is solved; its own field weights tear it, and
@@ -798,11 +799,11 @@ export function deformTissue(binding:SkinBinding,base:Float32Array,palette:Palet
 function deformTissueCore(binding:SkinBinding,base:Float32Array,palette:Palette,out:Float32Array):number{
  if(binding.attach){deformAttached(binding,base,palette,out);return 1;}
  if(binding.follower){
-  const {parent,progress}=binding.follower;
+  const {parent,progress,blend}=binding.follower;
   deformTissue(parent,base,palette,out);
   const q=new Float64Array(8),v=new Float64Array(3);
   for(let i=0;i<progress.length;i++){
-   const t=range(progress[i],.08,.78);if(t===1)continue;
+   const t=range(progress[i],blend[0],blend[1]);if(t===1)continue;
    blended(palette,binding.indices,binding.weights,i*4,q);transform(base[i*3],base[i*3+1],base[i*3+2],q,v,0);
    for(let k=0;k<3;k++)out[i*3+k]=v[k]+t*(out[i*3+k]-v[k]);
   }
