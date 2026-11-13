@@ -11,7 +11,7 @@ import {clearBones} from './lib/nerve-bone-clearance.mjs';
 const root=new URL('../',import.meta.url),out=new URL('public/models/stream/',root);
 fs.mkdirSync(out,{recursive:true});fs.mkdirSync(new URL('.sites-runtime/',root),{recursive:true});
 fs.copyFileSync(new URL('public/draco/draco_wasm_wrapper.js',root),new URL('.sites-runtime/nerve-draco.cjs',root));
-const draco=await createRequire(import.meta.url)(new URL('.sites-runtime/nerve-draco.cjs',root).pathname)({wasmBinary:fs.readFileSync(new URL('public/draco/draco_decoder.wasm',root))});
+const draco=await createRequire(import.meta.url)(fileURLToPath(new URL('.sites-runtime/nerve-draco.cjs',root)))({wasmBinary:fs.readFileSync(new URL('public/draco/draco_decoder.wasm',root))});
 const bytes=fs.readFileSync(new URL('public/models/nervous.glb',root)),n=bytes.readUInt32LE(12),gltf=JSON.parse(bytes.subarray(20,20+n)),bin=bytes.subarray(28+n);
 const blocked=new Set(JSON.parse(fs.readFileSync(new URL('app/biomechanics-v2/blocked-overlay-meshes.json',root))).names);
 const bindings={...JSON.parse(fs.readFileSync(new URL('app/biomechanics-v2/nerve-bindings.json',root))),...JSON.parse(fs.readFileSync(new URL('app/biomechanics-v2/body-nerve-bindings.json',root)))};
