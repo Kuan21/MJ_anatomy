@@ -10,6 +10,7 @@ import {BRAIN_GROUPS, describeBrainNode} from './brain-catalogue';
 import type {CsfSource} from './csf-scene';
 import {LABEL, classFields, partField, voxelize, type VoxelGrid, type VoxelInput} from './brain-voxels';
 import {SCHEMATIC} from './brain-schematic';
+import {keepNear, loopSubdivide, nearMask} from './brain-smooth';
 import {SECTION_AXES, type BrainPart, type BrainView, type BrainViewState} from './brain-types';
 
 interface Callbacks {
@@ -32,6 +33,20 @@ const TRANSLUCENT: Record<string, number> = {meninges: .32, ventricles: .55};
 /** Vessels shown together with the cranial nerve roots are drawn translucent, so a root running behind an artery or vein stays visible. */
 const VESSEL_OVER_NERVES = .4;
 const BODY_GROUPS = /^(frontal|parietal|temporal|occipital|limbic|insula|cortex-other|cerebellum)$/, CORTEX_GROUPS = /^(frontal|parietal|temporal|occipital|limbic|insula|cortex-other)$/;
+/** Branches of the cranial nerves that belong to the face, jaw and dura, not to the brain: they are switched off when the viewer opens (the roots stay). */
+const PERIPHERAL_NERVE = /^(?:buccal|mental|inferior alveolar|lingual) nerve$|^(?:anterior|posterior) division of mandibular nerve$|^meningeal branch of maxillary nerve$/i;
+/** Smoothed with one Loop subdivision step: the cortex, the cerebellum and the brainstem. */
+const SMOOTHED = /^(frontal|parietal|temporal|occipital|limbic|insula|cortex-other|cerebellum|brainstem)$/;
+/** Cranial nerves are drawn from the brain out to this distance (cube of cells, about 1.2 cm, a little over 2 cm at a corner): the stretch before the nerve leaves the skull. */
+const NERVE_REACH = .012;
+/** While a deep structure is selected (white matter, basal nuclei, diencephalon, ventricles) the cortex and the meninges in front of it are drawn nearly transparent. */
+const COVERING = /^(frontal|parietal|temporal|occipital|limbic|insula|interlobar|cortex-other|meninges)$/, COVER_OPACITY = .12, DEEP_GROUPS = /^(white|basal|diencephalon|ventricles)$/;
+/** A selected deep structure is drawn even when its group is switched off (see `forced` in visibleIn); the info card uses this so it does not say "not in view" for a structure that is on screen. */
+export const drawnWhenSelected = (group: string): boolean => DEEP_GROUPS.test(group);
+/** Glass cortex: the cerebral cortex as a smooth translucent shell. Plain alpha blending (back faces, then front faces; no depth writes, no dot pattern), so the deep structures inside stay in view. */
+const GLASS_GROUPS = /^(frontal|parietal|temporal|occipital|limbic|insula|interlobar|cortex-other)$/, GLASS_OPACITY = .14, GLASS_NERVE_OPACITY = .4, GLASS_WHITE_OPACITY = .22;
+/** In glass mode the deep groups get stronger, distinct colours so they read through the shell. */
+const GLASS_DEEP_COLOR: Record<string, string> = {basal: '#d9a23c', diencephalon: '#a77bd0', white: '#f4efe2', ventricles: '#4f9fe0', brainstem: '#dcb892', cerebellum: '#c8a094'};
 const DRACO_PATH = `${import.meta.env.BASE_URL}draco/`;
 
 /** Isolated viewer for the brain detail mode: sections with solid cut surfaces, layers, picking. It never touches the atlas scene. */
@@ -81,6 +96,8 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
     [LABEL.cortexGrey]: '#a99390', [LABEL.cortexWhite]: '#f1eadc', [LABEL.cerebellumGrey]: '#b49187', [LABEL.cerebellumWhite]: '#efe3d2', [LABEL.brainstem]: '#d4c0ac',
     [LABEL.basal]: '#9d8685', [LABEL.diencephalon]: '#b59ba3', [LABEL.tract]: '#faf6ee', [LABEL.csf]: '#5f8fb4',
   };
+  // Cut surfaces use the same smoothed geometry as the visible tissue.
+  const nerveGeometry = new Map<string, {full: T.BufferGeometry; near: T.BufferGeometry}>();
   const buildCap = () => {
     if (grid || building) return;
     building = true;
@@ -140,25 +157,37 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
     scheduled = true; callbacks.busy?.(true);
     requestAnimationFrame(() => requestAnimationFrame(() => {scheduled = false; if (disposed) return; buildCap(); callbacks.busy?.(false); apply();}));
   };
+  const fadedCover = new Set<string>();
   const INTERNAL = new Set(['white', 'basal', 'diencephalon', 'ventricles']);
 
   const visibleIn = (p: BrainPart) => {
     if (!state) return false;
     if (state.isolate) return state.isolate.includes(p.id);
-    if (state.hiddenGroups.includes(p.group) || state.hiddenParts.includes(p.id)) return false;
+    // a selected deep structure is shown even while its layer is switched off, so the selection can be seen (the cortex turns to glass for it); clearing the selection puts the layer back
+    const forced = state.selectedIds.includes(p.id) && DEEP_GROUPS.test(p.group) && !state.hiddenParts.includes(p.id);
+    if ((state.hiddenGroups.includes(p.group) && !forced) || state.hiddenParts.includes(p.id)) return false;
     return p.layer < 0 || p.layer >= state.peel;
   };
   const apply = () => {
     if (!state) return;
     const cutting = placePlane(), selected = new Set(state.selectedIds);
     if (cutting) ensureCap();
+    // a selected deep structure that is switched on: whatever covers it fades, so the selection can be seen and clicked
+    const fadeCover = [...selected].some(id => {const p = parts.get(id); return !!p && DEEP_GROUPS.test(p.group) && visibleIn(p);});
+    // the cortex is a glass shell when the user asks for it or while a deep structure is selected
+    const glass = !!state.glass || fadeCover;
+    fadedCover.clear();
     for (const [id, mesh] of meshes) {
       const part = parts.get(id)!, on = selected.has(id);
+      const nerve = nerveGeometry.get(id);
+      if (nerve) mesh.geometry = state.fullNerves ? nerve.full : nerve.near;
       mesh.visible = visibleIn(part);
-      const m = mesh.material, translucent = (part.group === 'arteries' || part.group === 'veins') && !state.hiddenGroups.includes('cranial') ? VESSEL_OVER_NERVES : TRANSLUCENT[part.group];
-      m.color.set(on ? BRAIN_SELECT.fill : part.schematic ? SCHEMATIC_COLOR : GROUP_COLOR[part.group] ?? '#cfae9a');
-      m.emissive.set(on ? BRAIN_SELECT.fill : '#000000'); m.emissiveIntensity = on ? .12 : 0;
+      const m = mesh.material, translucent = (part.group === 'arteries' || part.group === 'veins') && !state.hiddenGroups.includes('cranial') ? VESSEL_OVER_NERVES : glass && !on && GLASS_GROUPS.test(part.group) ? GLASS_OPACITY : glass && !on && part.group === 'cranial' ? GLASS_NERVE_OPACITY : glass && !on && part.group === 'white' ? GLASS_WHITE_OPACITY : fadeCover && !on && COVERING.test(part.group) ? COVER_OPACITY : TRANSLUCENT[part.group];
+      if (glass && !on && GLASS_GROUPS.test(part.group) || fadeCover && !on && COVERING.test(part.group)) fadedCover.add(id);
+      m.color.set(on ? BRAIN_SELECT.fill : part.schematic ? SCHEMATIC_COLOR : (glass ? GLASS_DEEP_COLOR[part.group] : undefined) ?? GROUP_COLOR[part.group] ?? '#cfae9a');
+      m.emissive.set(on ? BRAIN_SELECT.fill : '#000000'); m.emissiveIntensity = on ? (glass ? .5 : .12) : 0;
       m.transparent = translucent !== undefined && !on; m.opacity = translucent !== undefined && !on ? translucent : 1; m.depthWrite = !m.transparent;
+      m.roughness = glass && GLASS_GROUPS.test(part.group) ? .3 : .6;
       m.polygonOffset = on; m.polygonOffsetFactor = -3; m.polygonOffsetUnits = -3;
       const nextPlanes = cutting ? [plane] : []; if ((m.clippingPlanes?.length ?? 0) !== nextPlanes.length) m.needsUpdate = true; m.clippingPlanes = nextPlanes;
       if (maskData) {
@@ -223,17 +252,41 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
       const part = describeBrainNode({name: node.name, cat: String(x.bx_cat), region: String(x.bx_region ?? ''), label: String(x.bx_label ?? ''), side: String(x.bx_side ?? '')}, list.length);
       if (!part) return true;
       const merged = mergeGeometries(pieces, false)!;
-      const geometry = /^fourth ventricle$/i.test(part.en) ? fourthVentricleGeometry(mergeVertices(merged, 1e-6)) : mergeVertices(merged, 1e-6);
+      let geometry = /^fourth ventricle$/i.test(part.en) ? fourthVentricleGeometry(mergeVertices(merged, 1e-6)) : mergeVertices(merged, 1e-6);
+      const coarse = geometry;
+      if (SMOOTHED.test(part.group) && geometry.getIndex()) geometry = loopSubdivide(geometry);
       geometry.computeVertexNormals();
       geometry.computeBoundingBox(); geometry.computeBoundingSphere();
       const mesh = new T.Mesh(geometry, new T.MeshStandardMaterial({color: GROUP_COLOR[part.group] ?? '#cfae9a', roughness: .6, metalness: 0, side: T.DoubleSide}));
-      mesh.userData.partId = part.id; list.push(part); parts.set(part.id, part); meshes.set(part.id, mesh); scene.add(mesh);
+      mesh.userData.partId = part.id; mesh.userData.coarse = coarse; list.push(part); parts.set(part.id, part); meshes.set(part.id, mesh); scene.add(mesh);
       whole.union(geometry.boundingBox!);
       if (/^(frontal|parietal|temporal|occipital|limbic|insula|cortex-other|cerebellum|brainstem)$/.test(part.group)) core.union(geometry.boundingBox!);
       return true;
     };
     const walk = (node: T.Object3D) => {if (!take(node)) for (const child of [...node.children]) walk(child);};
     walk(gltf.scene);
+    // Optional view crop near the brain; this distance mask is not an anatomical root boundary.
+    // Keep full source geometry so complete paths can always be restored.
+    {
+      const clouds: number[][] = [];
+      for (const [id, mesh] of meshes) {
+        if (!SMOOTHED.test(parts.get(id)!.group)) continue;
+        const a = (mesh.userData.coarse as T.BufferGeometry).getAttribute('position'), c: number[] = [];
+        for (let i = 0; i < a.count; i++) c.push(a.getX(i), a.getY(i), a.getZ(i));
+        clouds.push(c);
+      }
+      const mask = clouds.length ? nearMask(clouds, .003, NERVE_REACH) : null;
+      if (mask) for (const [id, mesh] of meshes) {
+        const part = parts.get(id)!;
+        if (part.group !== 'cranial') continue;
+        if (PERIPHERAL_NERVE.test(part.en)) {part.peripheral = true; continue;}
+        const kept = mesh.geometry.getIndex() ? keepNear(mesh.geometry, mask) : null;
+        if (!kept) {part.peripheral = true; continue;}
+        kept.computeVertexNormals(); kept.computeBoundingBox(); kept.computeBoundingSphere();
+        nerveGeometry.set(id, {full: mesh.geometry, near: kept}); mesh.geometry = kept;
+      }
+      whole.makeEmpty(); for (const mesh of meshes.values()) whole.union(mesh.geometry.boundingBox!);
+    }
     // schematic structures the notes name but the model lacks
     const SIDE_ZH = {left: '左', right: '右', mid: ''} as const;
     for (const spec of SCHEMATIC) {
@@ -279,7 +332,10 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
     raycaster.setFromCamera(new T.Vector2(((clientX - rect.left) / rect.width) * 2 - 1, 1 - ((clientY - rect.top) / rect.height) * 2), camera);
     const visible = [...meshes.values()].filter(m => m.visible);
     let hitId: string | null = null, hitDistance = Infinity;
-    for (const hit of raycaster.intersectObjects(visible, false)) if (keeps(hit.point)) {hitId = hit.object.userData.partId as string; hitDistance = hit.distance; break;}
+    const hits = raycaster.intersectObjects(visible, false).filter(h => keeps(h.point));
+    // the faded cover is clicked only when nothing behind it is under the pointer
+    const first = hits.find(h => !fadedCover.has(h.object.userData.partId as string)) ?? hits[0];
+    if (first) {hitId = first.object.userData.partId as string; hitDistance = first.distance;}
     if (planeActive() && grid) {
       const point = raycaster.ray.intersectPlane(plane, new T.Vector3());
       if (point && raycaster.ray.origin.distanceTo(point) <= hitDistance + 1e-4) {
@@ -319,7 +375,11 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
       disposed = true; cancelAnimationFrame(frame); observer.disconnect(); controls.dispose(); draco.dispose();
       canvas.removeEventListener('pointerdown', down); canvas.removeEventListener('pointermove', move); canvas.removeEventListener('pointerup', up);
       canvas.removeEventListener('pointercancel', cancel); canvas.removeEventListener('webglcontextlost', lost);
-      for (const mesh of meshes.values()) {mesh.geometry.dispose(); mesh.material.dispose();}
+      const geometries = new Set<T.BufferGeometry>();
+      for (const mesh of meshes.values()) {geometries.add(mesh.geometry); if (mesh.userData.coarse) geometries.add(mesh.userData.coarse); mesh.material.dispose();}
+      for (const nerve of nerveGeometry.values()) {geometries.add(nerve.full); geometries.add(nerve.near);}
+      for (const geometry of geometries) geometry.dispose();
+      nerveGeometry.clear();
       capMesh?.material instanceof T.Material && capMesh.material.dispose();
       capQuad.dispose(); renderer.dispose(); canvas.remove();
     },

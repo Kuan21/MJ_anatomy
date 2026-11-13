@@ -9,11 +9,11 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | check | violations |
 |---|---|
 | Fragments | 48 |
-| Vessel, nerve and tendon walls inside bone | 458 |
+| Vessel, nerve and tendon walls inside bone | 456 |
 | Coincident faces (z-fighting) | 82 |
 | Straight cuts in meshes | 42 |
-| Triangle stretch over 2x in the limit poses | 284 |
-| Structures that leave their bone in the limit poses | 174 |
+| Triangle stretch over 2x in the limit poses | 188 |
+| Structures that leave their bone in the limit poses | 173 |
 
 ## Fragments (48)
 
@@ -68,7 +68,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Muscular branches of ulnar nerve.l | 1 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
 | Muscular branches of ulnar nerve.r | 1 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
 
-## Vessel, nerve and tendon walls inside bone (458)
+## Vessel, nerve and tendon walls inside bone (456)
 
 | structure | size | detail |
 |---|---|---|
@@ -286,7 +286,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right dorsal ramus of C4 spinal nerve | 2.8 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right dorsal ramus of C6 spinal nerve | 2.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right dorsal ramus of C8 spinal nerve | 3.9 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Left greater splanchnic nerve | 2.9 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
+| Left greater splanchnic nerve | 2.8 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left C3 spinal nerve | 3.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left C4 spinal nerve | 3.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left C5 spinal nerve | 3.8 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
@@ -306,7 +306,6 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right posterior circumflex humeral vein | 7.9 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right posterior interosseous artery | 6.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right tendon of biceps femoris | 3.4 | tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint |
-| Right tendon of biceps femoris | 5.2 | tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint |
 | Right posterior interosseous artery | 6.1 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right tendon of tibialis anterior | 4.9 | tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint |
 | Left tendon of tibialis anterior | 4.7 | tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint |
@@ -328,7 +327,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right circumflex fibular artery | 4.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Clavicular branch of left thoraco-acromial artery | 3.1 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right lateral plantar vein | 2.8 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Right inferior gluteal nerve | 3.2 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
+| Right inferior gluteal nerve | 3.3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Left medial circumflex femoral artery | 7.8 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left medial circumflex femoral artery | 6 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left arteria radialis indicis | 3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
@@ -363,7 +362,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Deep branch of radial nerve.l | 2.3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Deep branch of radial nerve.r | 2.3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Deep fibular nerve.l | 4.1 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Deep fibular nerve.l | 7.9 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
+| Deep fibular nerve.l | 7.8 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Deep fibular nerve.r | 4.1 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Deep fibular nerve.r | 7.3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Dorsal branch of ulnar nerve.l | 2.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
@@ -380,7 +379,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Facial nerve (VII).r | 4.1 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Facial nerve (VII).r | 3.2 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Facial nerve (VII).r | 2.2 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Femoral nerve.l | 2.9 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
+| Femoral nerve.l | 3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Femoral nerve.l | 2.2 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Femoral nerve.r | 2.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Genitofemoral nerve.l | 2.2 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
@@ -407,8 +406,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Intercostal nerves.r | 3.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Intercostal nerves.r | 2.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Intercostal nerves.r | 2.1 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Intermediate dorsal cutaneous nerve of foot.l | 5.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Lateral femoral cutaneous nerve.l | 2.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
+| Intermediate dorsal cutaneous nerve of foot.l | 7.8 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Maxillary nerve.l | 4.3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Maxillary nerve.l | 4.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Maxillary nerve.r | 2.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
@@ -431,7 +429,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Nerve to mylohyoid muscle.r | 3.1 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Nerve to quadratus femoris muscle.l | 3.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Nerve to quadratus femoris muscle.r | 4.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Obturator nerve.l | 4.2 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
+| Obturator nerve.l | 4.3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Obturator nerve.r | 5.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Oculomotor nerve (III).l | 3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Oculomotor nerve (III).l | 2.9 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
@@ -457,7 +455,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Posterior root of spinal nerve.l | 3.2 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Posterior root of spinal nerve.l | 2.6 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Posterior root of spinal nerve.l | 6.1 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Posterior root of spinal nerve.r | 2.3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
+| Posterior root of spinal nerve.r | 2.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Posterior root of spinal nerve.r | 2.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Posterior root of spinal nerve.r | 3.9 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Posterior root of spinal nerve.r | 2.8 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
@@ -476,7 +474,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Spinal ganglion.l | 2.3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Spinal ganglion.r | 2.3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Spinal ganglion.r | 2.8 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Spinal ganglion.r | 2.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
+| Spinal ganglion.r | 2.6 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Spinal ganglion.r | 4.6 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Spinal ganglion.r | 2.9 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Spinal ganglion.r | 2.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
@@ -490,10 +488,10 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Superficial branch of ulnar nerve.r | 2.6 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Superficial fibular nerve.l | 6 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Superficial fibular nerve.r | 6 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Superior gluteal nerve.l | 5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Superior gluteal nerve.l | 5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Superior gluteal nerve.r | 2.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Superior gluteal nerve.r | 7.6 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
+| Superior gluteal nerve.l | 4.6 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
+| Superior gluteal nerve.l | 5.1 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Superior gluteal nerve.r | 2.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Superior gluteal nerve.r | 7.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Superior subscapular nerve.l | 4.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Superior subscapular nerve.r | 4.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Suprascapular nerve.l | 5.3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
@@ -516,7 +514,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Trigeminal nerve (V).r | 6 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Trochlear nerve (IV).l | 5.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Trochlear nerve (IV).r | 6.3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Ulnar nerve.l | 2.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
+| Ulnar nerve.l | 2.6 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Ulnar nerve.r | 2.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Vagus nerve (X).l | 2.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Vagus nerve (X).r | 4.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
@@ -630,12 +628,12 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Trigone of urinary bladder | 18.8 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
 | Urinary bladder | 25.1 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
 | Right surgical neck of humerus | 17.2 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
-| Right radial groove | 26.5 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
+| Right radial groove | 26.9 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Right infraspinous fossa | 23.4 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
 | Right iliac crest | 35.8 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
 | Left intertubercular groove | 21.2 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
 | Left surgical neck of humerus | 17.1 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
-| Left radial groove | 41.6 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
+| Left radial groove | 40.2 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
 | Left infraspinous fossa | 25.5 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
 | Left iliac crest | 21.9 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
 | Superior nuchal line | 17.1 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
@@ -665,7 +663,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | renderer clipping plane in organ/brain-viewer.ts | 1 | section plane of the brain or heart detail mode: a cut view on purpose, the cut face is drawn by the viewer |
 | renderer clipping plane in organ/heart-viewer.ts | 3 | section plane of the brain or heart detail mode: a cut view on purpose, the cut face is drawn by the viewer |
 
-## Triangle stretch over 2x in the limit poses (284)
+## Triangle stretch over 2x in the limit poses (188)
 
 | structure | size | detail |
 |---|---|---|
@@ -760,125 +758,33 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right platysma | 6 | triangles stretch beyond 2x at head extension 35: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left internal carotid artery | 4 | triangles stretch beyond 2x at head extension 35: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right internal carotid artery | 4 | triangles stretch beyond 2x at head extension 35: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right lateral thoracic artery | 6 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right lateral thoracic artery | 6 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left lateral thoracic artery | 14 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left lateral thoracic artery | 15 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left anterior tibial recurrent artery | 10 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left anterior tibial recurrent artery | 18 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right anterior tibial recurrent artery | 12 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right anterior tibial recurrent artery | 16 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Acromial branch of left thoraco-acromial artery | 22 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Acromial branch of left thoraco-acromial artery | 44 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left anterior circumflex humeral artery | 30 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left anterior circumflex humeral vein | 2 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left anterior circumflex humeral vein | 63 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left anterior circumflex humeral vein | 8 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left anterior interosseous artery | 24 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left inferior ulnar collateral artery | 24 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left axillary artery | 337 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left axillary artery | 401 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left axillary artery | 74 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left axillary vein | 2 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left axillary vein | 13 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left axillary vein | 27 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left basilic vein | 6 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left basilic vein | 4 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left basilic vein | 37 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left brachial artery | 65 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left brachial artery | 100 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left brachial artery | 109 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left cephalic vein | 13 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left cephalic vein | 17 | triangles stretch beyond 2x at forearm rotation -80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left cephalic vein | 67 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left cephalic vein | 74 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left circumflex scapular artery | 21 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left dorsal scapular artery | 4 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left lateral thoracic vein | 71 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left lateral thoracic vein | 84 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left lateral thoracic vein | 30 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left median cubital vein | 102 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left median cubital vein | 18 | triangles stretch beyond 2x at forearm rotation +80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left median cubital vein | 77 | triangles stretch beyond 2x at forearm rotation -80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left posterior circumflex humeral artery | 33 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left radial artery | 56 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left radial artery | 8 | triangles stretch beyond 2x at forearm rotation -80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left radial recurrent artery | 60 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left radial vein | 10 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left radial vein | 3 | triangles stretch beyond 2x at forearm rotation +80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left recurrent interosseous artery | 268 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left subscapular artery | 8 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left subscapular vein | 18 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left suprascapular vein | 24 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left suprascapular vein | 24 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left suprascapular vein | 15 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left thoracodorsal artery | 15 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left thoracodorsal artery | 68 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left thoracodorsal artery | 51 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left thoracodorsal vein | 52 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left thoracodorsal vein | 81 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left thoracodorsal vein | 133 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left ulnar vein | 5 | triangles stretch beyond 2x at forearm rotation -80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Acromial branch of right thoraco-acromial artery | 36 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Acromial branch of right thoraco-acromial artery | 69 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right anterior circumflex humeral artery | 72 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right anterior circumflex humeral artery | 161 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right anterior circumflex humeral artery | 24 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right anterior circumflex humeral artery | 26 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right anterior circumflex humeral vein | 43 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right anterior circumflex humeral vein | 288 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right anterior circumflex humeral vein | 185 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right anterior circumflex humeral vein | 2 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right anterior interosseous artery | 5 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right axillary artery | 239 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right axillary artery | 160 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right axillary artery | 60 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right axillary vein | 91 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right axillary vein | 180 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right axillary vein | 32 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right axillary vein | 28 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right basilic vein | 24 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right basilic vein | 2 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right brachial artery | 31 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right brachial artery | 37 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right brachial artery | 107 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right cephalic vein | 36 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right cephalic vein | 3 | triangles stretch beyond 2x at forearm rotation -80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right cephalic vein | 11 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right circumflex scapular artery | 8 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right lateral thoracic vein | 15 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right lateral thoracic vein | 23 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right lateral thoracic vein | 23 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right median cubital vein | 139 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right median cubital vein | 94 | triangles stretch beyond 2x at forearm rotation -80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right radial artery | 6 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right radial recurrent artery | 116 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right radial vein | 40 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right radial vein | 2 | triangles stretch beyond 2x at forearm rotation +80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right radial vein | 25 | triangles stretch beyond 2x at forearm rotation -80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right recurrent interosseous artery | 149 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right subscapular artery | 26 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right subscapular vein | 17 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right suprascapular vein | 24 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right suprascapular vein | 48 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right suprascapular vein | 9 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right suprascapular artery | 2 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right thoracodorsal artery | 4 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right thoracodorsal artery | 49 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right thoracodorsal artery | 47 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right thoracodorsal vein | 11 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right thoracodorsal vein | 62 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right thoracodorsal vein | 134 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right ulnar vein | 28 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right ulnar vein | 17 | triangles stretch beyond 2x at forearm rotation -80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left palmar metacarpal vein | 25 | triangles stretch beyond 2x at forearm rotation +80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left palmar metacarpal vein | 24 | triangles stretch beyond 2x at forearm rotation -80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Pectoral branch of left thoraco-acromial artery | 1296 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Pectoral branch of left thoraco-acromial artery | 1551 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Middle collateral branch of left deep brachial artery | 126 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right medial brachial vein | 2 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Pectoral branch of right thoraco-acromial artery | 1183 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Pectoral branch of right thoraco-acromial artery | 1301 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Middle collateral branch of right deep brachial artery | 29 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right superior ulnar collateral artery | 72 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left superior ulnar collateral artery | 24 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left genioglossus | 136 | triangles stretch beyond 2x at head extension 35: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left hyoglossus | 309 | triangles stretch beyond 2x at head extension 35: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left palatopharyngeus | 2 | triangles stretch beyond 2x at head extension 35: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
@@ -911,9 +817,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right tendon of triceps brachii | 2 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right tendon of triceps brachii | 2 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left tendon of triceps brachii | 40 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right lateral cord of brachial plexus | 16 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right lateral mammary artery | 298 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right lateral mammary artery | 306 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right lateral cord of brachial plexus | 18 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Right coraco-acromial ligament | 65 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right coraco-acromial ligament | 94 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right costoclavicular ligament | 152 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
@@ -930,38 +834,36 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Left superior transverse scapular ligament | 78 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left inferior transverse scapular ligament | 8 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left inferior transverse scapular ligament | 80 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left lateral cord of brachial plexus | 12 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left lateral cord of brachial plexus | 10 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right medial patellar retinaculum | 42 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right lateral patellar retinaculum | 43 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left medial patellar retinaculum | 42 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left lateral patellar retinaculum | 48 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right superior gluteal artery | 4 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right inferior gluteal artery | 115 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left lateral mammary artery | 360 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left lateral mammary artery | 362 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Lateral pectoral nerve.l | 208 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Lateral pectoral nerve.l | 340 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Lateral pectoral nerve.l | 336 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Lateral pectoral nerve.r | 208 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Lateral pectoral nerve.r | 340 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Lateral pectoral nerve.r | 342 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Muscular branches of radial nerve.l | 2 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Muscular branches of radial nerve.r | 2 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Pudendal nerve.l | 218 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Pudendal nerve.r | 218 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Pudendal nerve.l | 220 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Pudendal nerve.r | 220 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Superior lateral brachial cutaneous nerve.l | 106 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Superior lateral brachial cutaneous nerve.l | 1053 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Superior lateral brachial cutaneous nerve.l | 1054 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Superior lateral brachial cutaneous nerve.r | 106 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Superior lateral brachial cutaneous nerve.r | 1045 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Suprascapular nerve.l | 74 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Superior lateral brachial cutaneous nerve.r | 1050 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Suprascapular nerve.l | 76 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Suprascapular nerve.r | 76 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 
-## Structures that leave their bone in the limit poses (174)
+## Structures that leave their bone in the limit poses (173)
 
 | structure | size | detail |
 |---|---|---|
 | Accessory hemiazygos vein | 17 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Accessory hemiazygos vein | 13 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left anterior tibial recurrent artery | 29 | does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Left anterior circumflex humeral artery | 91 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Left anterior circumflex humeral artery | 90 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left anterior circumflex humeral artery | 23 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left axillary artery | 33 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left axillary artery | 29 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
@@ -969,7 +871,6 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Left axillary vein | 37 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left circumflex scapular artery | 58 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left circumflex scapular vein | 19 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Left recurrent interosseous artery | 74 | does not follow its bone at elbow flexion 140: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left suprascapular vein | 50 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left suprascapular artery | 57 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left suprascapular artery | 57 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
@@ -981,7 +882,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right circumflex scapular vein | 20 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Right posterior circumflex humeral artery | 140 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Right suprascapular vein | 87 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Right suprascapular artery | 54 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Right suprascapular artery | 52 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Right suprascapular artery | 52 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left subclavian artery | 55 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left subclavian artery | 45 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
@@ -1022,113 +923,113 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Left lateral patellar retinaculum | 11 | does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Clavicular branch of left thoraco-acromial artery | 220 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Clavicular branch of left thoraco-acromial artery | 220 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Abducens nerve (VI).l | 104 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Abducens nerve (VI).l | 113 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Abducens nerve (VI).r | 126 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Abducens nerve (VI).r | 149 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Anterior division of inferior trunk of brachial plexus.l | 53 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Anterior division of inferior trunk of brachial plexus.l | 53 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Anterior division of inferior trunk of brachial plexus.r | 37 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Anterior division of inferior trunk of brachial plexus.r | 37 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Anterior division of mandibular nerve.l | 172 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Anterior division of mandibular nerve.l | 172 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Anterior division of mandibular nerve.r | 329 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Anterior division of mandibular nerve.r | 305 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Anterior division of middle trunk of brachial plexus.l | 39 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Anterior division of middle trunk of brachial plexus.l | 39 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Anterior division of middle trunk of brachial plexus.r | 33 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Anterior division of middle trunk of brachial plexus.r | 33 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Anterior division of superior trunk of brachial plexus.l | 15 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Anterior division of superior trunk of brachial plexus.l | 15 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Anterior division of superior trunk of brachial plexus.r | 7 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Anterior division of superior trunk of brachial plexus.r | 7 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Cochlear nerve | 331 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Cochlear nerve | 348 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Cochlear nerve.l | 495 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Cochlear nerve.l | 455 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Inferior alveolar nerve.l | 209 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Inferior alveolar nerve.l | 177 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Inferior alveolar nerve.r | 229 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Inferior alveolar nerve.r | 212 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Inferior subscapular nerve.l | 140 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Inferior subscapular nerve.l | 140 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Inferior subscapular nerve.r | 134 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Inferior subscapular nerve.r | 134 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Inferior trunk of brachial plexus.l | 14 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Inferior trunk of brachial plexus.l | 14 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Inferior trunk of brachial plexus.r | 4 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Inferior trunk of brachial plexus.r | 4 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Lingual nerve.l | 227 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Lingual nerve.l | 188 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Lingual nerve.r | 231 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Lingual nerve.r | 211 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Long thoracic nerve.l | 12 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Long thoracic nerve.l | 12 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Abducens nerve (VI).l | 107 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Abducens nerve (VI).l | 117 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Abducens nerve (VI).r | 133 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Abducens nerve (VI).r | 154 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Anterior division of inferior trunk of brachial plexus.l | 47 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Anterior division of inferior trunk of brachial plexus.l | 47 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Anterior division of inferior trunk of brachial plexus.r | 32 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Anterior division of inferior trunk of brachial plexus.r | 32 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Anterior division of mandibular nerve.l | 148 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Anterior division of mandibular nerve.l | 148 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Anterior division of mandibular nerve.r | 287 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Anterior division of mandibular nerve.r | 271 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Anterior division of middle trunk of brachial plexus.l | 36 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Anterior division of middle trunk of brachial plexus.l | 36 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Anterior division of middle trunk of brachial plexus.r | 30 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Anterior division of middle trunk of brachial plexus.r | 30 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Anterior division of superior trunk of brachial plexus.l | 13 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Anterior division of superior trunk of brachial plexus.l | 13 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Anterior division of superior trunk of brachial plexus.r | 6 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Anterior division of superior trunk of brachial plexus.r | 6 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Cochlear nerve | 417 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Cochlear nerve | 441 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Cochlear nerve.l | 435 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Cochlear nerve.l | 402 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Inferior alveolar nerve.l | 205 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Inferior alveolar nerve.l | 173 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Inferior alveolar nerve.r | 230 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Inferior alveolar nerve.r | 215 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Inferior subscapular nerve.l | 127 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Inferior subscapular nerve.l | 127 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Inferior subscapular nerve.r | 122 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Inferior subscapular nerve.r | 122 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Inferior trunk of brachial plexus.l | 12 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Inferior trunk of brachial plexus.l | 12 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Inferior trunk of brachial plexus.r | 3 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Inferior trunk of brachial plexus.r | 3 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Lingual nerve.l | 208 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Lingual nerve.l | 170 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Lingual nerve.r | 209 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Lingual nerve.r | 188 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Long thoracic nerve.l | 13 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Long thoracic nerve.l | 13 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Long thoracic nerve.r | 9 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Long thoracic nerve.r | 9 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Maxillary nerve.l | 84 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Maxillary nerve.l | 86 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Maxillary nerve.r | 95 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Maxillary nerve.r | 97 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Medial pectoral nerve.l | 24 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Medial pectoral nerve.l | 24 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Medial pectoral nerve.r | 20 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Medial pectoral nerve.r | 20 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Meningeal branch of maxillary nerve.l | 47 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Meningeal branch of maxillary nerve.l | 67 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Meningeal branch of maxillary nerve.r | 88 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Meningeal branch of maxillary nerve.r | 119 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Nerve to mylohyoid muscle.l | 209 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Nerve to mylohyoid muscle.l | 171 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Nerve to mylohyoid muscle.r | 210 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Nerve to mylohyoid muscle.r | 196 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Oculomotor nerve (III).l | 129 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Oculomotor nerve (III).l | 129 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Oculomotor nerve (III).r | 121 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Oculomotor nerve (III).r | 121 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Olfactory nerve (I).l | 297 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Olfactory nerve (I).l | 297 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Olfactory nerve (I).r | 295 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Olfactory nerve (I).r | 295 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Ophthalmic nerve.l | 61 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Ophthalmic nerve.l | 61 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Ophthalmic nerve.r | 41 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Ophthalmic nerve.r | 41 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Optic nerve (II).l | 164 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Optic nerve (II).l | 164 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Optic nerve (II).r | 171 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Optic nerve (II).r | 171 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Posterior division of inferior trunk of brachial plexus.l | 28 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Posterior division of inferior trunk of brachial plexus.l | 28 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Posterior division of inferior trunk of brachial plexus.r | 21 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Posterior division of inferior trunk of brachial plexus.r | 21 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Posterior division of mandibular nerve.l | 145 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Posterior division of mandibular nerve.l | 145 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Posterior division of mandibular nerve.r | 193 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Posterior division of mandibular nerve.r | 193 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Posterior division of middle trunk of brachial plexus.l | 36 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Posterior division of middle trunk of brachial plexus.l | 36 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Posterior division of middle trunk of brachial plexus.r | 21 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Posterior division of middle trunk of brachial plexus.r | 21 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Posterior division of superior trunk of brachial plexus.l | 29 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Posterior division of superior trunk of brachial plexus.l | 29 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Posterior division of superior trunk of brachial plexus.r | 11 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Posterior division of superior trunk of brachial plexus.r | 11 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Superior subscapular nerve.l | 74 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Superior subscapular nerve.r | 71 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Superior trunk of brachial plexus.l | 6 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Superior trunk of brachial plexus.l | 6 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Suprascapular nerve.l | 19 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Suprascapular nerve.r | 14 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Trochlear nerve (IV).l | 75 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Trochlear nerve (IV).l | 98 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Trochlear nerve (IV).r | 68 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Trochlear nerve (IV).r | 110 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Vestibular nerve.l | 240 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Vestibular nerve.l | 266 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Vestibular nerve.r | 257 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Vestibular nerve.r | 296 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Vestibulocochlear nerve (VIII).l | 246 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Vestibulocochlear nerve (VIII).l | 86 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Vestibulocochlear nerve (VIII).r | 144 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Vestibulocochlear nerve (VIII).r | 81 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Maxillary nerve.l | 81 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Maxillary nerve.l | 83 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Maxillary nerve.r | 93 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Maxillary nerve.r | 96 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Medial pectoral nerve.l | 21 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Medial pectoral nerve.l | 21 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Medial pectoral nerve.r | 16 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Medial pectoral nerve.r | 16 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Meningeal branch of maxillary nerve.l | 46 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Meningeal branch of maxillary nerve.l | 70 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Meningeal branch of maxillary nerve.r | 90 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Meningeal branch of maxillary nerve.r | 113 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Nerve to mylohyoid muscle.l | 229 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Nerve to mylohyoid muscle.l | 193 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Nerve to mylohyoid muscle.r | 228 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Nerve to mylohyoid muscle.r | 212 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Oculomotor nerve (III).l | 134 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Oculomotor nerve (III).l | 134 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Oculomotor nerve (III).r | 127 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Oculomotor nerve (III).r | 127 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Olfactory nerve (I).l | 293 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Olfactory nerve (I).l | 293 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Olfactory nerve (I).r | 294 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Olfactory nerve (I).r | 294 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Ophthalmic nerve.l | 60 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Ophthalmic nerve.l | 60 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Ophthalmic nerve.r | 43 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Ophthalmic nerve.r | 43 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Optic nerve (II).l | 220 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Optic nerve (II).l | 220 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Optic nerve (II).r | 232 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Optic nerve (II).r | 232 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Posterior division of inferior trunk of brachial plexus.l | 25 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Posterior division of inferior trunk of brachial plexus.l | 25 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Posterior division of inferior trunk of brachial plexus.r | 18 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Posterior division of inferior trunk of brachial plexus.r | 18 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Posterior division of mandibular nerve.l | 123 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Posterior division of mandibular nerve.l | 123 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Posterior division of mandibular nerve.r | 168 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Posterior division of mandibular nerve.r | 168 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Posterior division of middle trunk of brachial plexus.l | 32 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Posterior division of middle trunk of brachial plexus.l | 32 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Posterior division of middle trunk of brachial plexus.r | 18 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Posterior division of middle trunk of brachial plexus.r | 18 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Posterior division of superior trunk of brachial plexus.l | 25 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Posterior division of superior trunk of brachial plexus.l | 25 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Posterior division of superior trunk of brachial plexus.r | 9 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Posterior division of superior trunk of brachial plexus.r | 9 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Superior subscapular nerve.l | 138 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Superior subscapular nerve.r | 133 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Superior trunk of brachial plexus.l | 5 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Superior trunk of brachial plexus.l | 5 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Suprascapular nerve.l | 18 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Suprascapular nerve.r | 16 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Trochlear nerve (IV).l | 70 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Trochlear nerve (IV).l | 93 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Trochlear nerve (IV).r | 64 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Trochlear nerve (IV).r | 102 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Vestibular nerve.l | 239 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Vestibular nerve.l | 281 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Vestibular nerve.r | 261 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Vestibular nerve.r | 305 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Vestibulocochlear nerve (VIII).l | 325 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Vestibulocochlear nerve (VIII).l | 116 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Vestibulocochlear nerve (VIII).r | 189 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Vestibulocochlear nerve (VIII).r | 107 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |

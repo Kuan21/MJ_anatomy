@@ -1,8 +1,10 @@
 import * as T from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
+import {seededRandom} from './seeded';
 import {fetchModelBuffer, loadMissingChunks} from '../model-download';
 import {PointerTap} from '../pointer-tap';
 import {framingDistance} from '../camera-framing';
+import {SPACES} from '../mj-spaces';
 import {QUIZ_REGIONS, QUIZ_SYSTEMS, ownerMuscleNames, regionSections, sceneStructures, type QuizCatalogue, type QuizSection, type QuizSide, type QuizStructure} from './catalogue';
 
 export type QuizView = 'front' | 'back' | 'side' | 'medial' | 'fit' | 'answer' | 'random';
@@ -17,7 +19,7 @@ export interface QuizViewState {
   context: boolean;
   peeling: boolean;
   command: {id: number; view: QuizView};
-  /** Level 2 (看結構寫名稱): the target is painted yellow with a glowing outline, nothing can be picked, and the camera chooses a random view where the target can be seen. */
+  /** Levels 2 and 3 (學習關卡, 看結構寫名稱): the target is painted yellow with a glowing outline, nothing can be picked, and the camera chooses a random view where the target can be seen. */
   mode?: 'find' | 'name';
   /** Level 2: how clear the surrounding structures are (0 faint … 1 solid). */
   clarity?: number;
@@ -25,6 +27,8 @@ export interface QuizViewState {
   only?: boolean;
   /** Level 2: the neighbouring structures the learner clicked in the answer card (several at once, each in its own light blue). */
   highlightIds?: string[];
+  /** Level 2 (學習關卡): the opening view is deterministic (the same seed always gives the same direction); `apart` makes it a clearly different direction from the one the seed gives without it (round 3). */
+  lesson?: {seed: string; apart: boolean};
 }
 interface Callbacks {
   ready: (key: string, value: boolean) => void;
@@ -61,6 +65,34 @@ const outlineMaterial = (color: string) => new T.ShaderMaterial({
   fragmentShader: 'uniform vec3 color; void main(){ gl_FragColor = vec4(color, 1.0); }',
 });
 
+/**
+ * A space is a place, not a whole structure: its boundary muscles run on far beyond it. The members of a space question are always drawn whole, in the highlight colour, but the colour is
+ * strongest at the space (the range sphere of the layer panel, app/space-ranges.json) and softens towards the far ends of each member, as the layer panel's highlight does.
+ * It is a position-based colour mix in the member's own material; no geometry is added or removed.
+ */
+interface SpaceFade {centre: T.Vector3; inner: number; outer: number; far: T.Color}
+const FADE_OFF = 1e9;
+function setSpaceFade(material: T.MeshStandardMaterial, fade: SpaceFade | null) {
+  let uniforms = material.userData.spaceFade as {uSC: {value: T.Vector3}; uIn: {value: number}; uOut: {value: number}; uFar: {value: T.Color}} | undefined;
+  if (!uniforms) {
+    if (!fade) return;
+    uniforms = {uSC: {value: new T.Vector3()}, uIn: {value: FADE_OFF}, uOut: {value: FADE_OFF * 2}, uFar: {value: new T.Color()}};
+    material.userData.spaceFade = uniforms;
+    const u = uniforms;
+    material.onBeforeCompile = shader => {
+      Object.assign(shader.uniforms, u);
+      shader.vertexShader = shader.vertexShader.replace('#include <common>', '#include <common>\nvarying vec3 vFadeWP;').replace('#include <project_vertex>', '#include <project_vertex>\nvFadeWP = (modelMatrix * vec4(transformed, 1.0)).xyz;');
+      shader.fragmentShader = shader.fragmentShader.replace('#include <common>', '#include <common>\nvarying vec3 vFadeWP; uniform vec3 uSC; uniform float uIn; uniform float uOut; uniform vec3 uFar; float fadeK;')
+        .replace('#include <color_fragment>', '#include <color_fragment>\nfadeK = 1.0 - smoothstep(uIn, uOut, distance(vFadeWP, uSC)); diffuseColor.rgb = mix(uFar, diffuseColor.rgb, fadeK);')
+        .replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\ntotalEmissiveRadiance *= fadeK;');
+    };
+    material.customProgramCacheKey = () => 'quiz-space-fade';
+    material.needsUpdate = true;
+  }
+  uniforms.uIn.value = fade ? fade.inner : FADE_OFF; uniforms.uOut.value = fade ? fade.outer : FADE_OFF * 2;
+  if (fade) {uniforms.uSC.value.copy(fade.centre); uniforms.uFar.value.copy(fade.far);}
+}
+
 /** A static identification viewer. It never imports or applies motion skinning. */
 export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue, callbacks: Callbacks) {
   const controller = new AbortController(), tap = new PointerTap();
@@ -95,18 +127,32 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
   const raycaster = new T.Raycaster();
   let state: QuizViewState | undefined, disposed = false, ready = false, dirty = true, frame = 0;
   let allowed = new Set<string>(), keyboardId: string | undefined;
+  /** The structures drawn as the target: the structure itself, or for a limb space the structures that bound it and pass through it (it has no mesh of its own). */
+  let targetIds = new Set<string>();
+  const isSpace = () => !!state?.target.space;
   let command = -1, request = 0, commandAtQuestion = -1;
 
-  /** A neighbour that stands between the camera and the yellow target turns half transparent so the target stays visible. */
-  const targetPoints = (): T.Vector3[] => {
-    const points: T.Vector3[] = [];
+  /** Sample points of the target. A space is judged where it is, not along the whole length of its boundary muscles: only vertices within the space box are taken. */
+  const spaceBox = () => {const b = state!.target.bounds; return new T.Box3(new T.Vector3().fromArray(b[0]), new T.Vector3().fromArray(b[1]));};
+  const samplePoints = (perMesh: number): T.Vector3[] => {
+    const points: T.Vector3[] = [], near = isSpace() ? spaceBox() : undefined, v = new T.Vector3();
     for (const m of meshes.values()) {
-      if (m.userData.structureId !== state?.target.id || !m.visible) continue;
-      const pos = m.geometry.getAttribute('position'), step = Math.max(1, Math.floor(pos.count / 32));
-      for (let i = 0; i < pos.count; i += step) points.push(new T.Vector3().fromBufferAttribute(pos, i).applyMatrix4(m.matrixWorld));
+      if (!targetIds.has(m.userData.structureId) || !m.visible) continue;
+      const pos = m.geometry.getAttribute('position');
+      if (near) {
+        const inside: T.Vector3[] = [];
+        for (let i = 0; i < pos.count; i++) {v.fromBufferAttribute(pos, i).applyMatrix4(m.matrixWorld); if (near.containsPoint(v)) inside.push(v.clone());}
+        const step = Math.max(1, Math.floor(inside.length / perMesh));
+        for (let i = 0; i < inside.length; i += step) points.push(inside[i]);
+      } else {
+        const step = Math.max(1, Math.floor(pos.count / perMesh));
+        for (let i = 0; i < pos.count; i += step) points.push(new T.Vector3().fromBufferAttribute(pos, i).applyMatrix4(m.matrixWorld));
+      }
     }
     return points;
   };
+  /** A neighbour that stands between the camera and the yellow target turns half transparent so the target stays visible. */
+  const targetPoints = () => samplePoints(32);
   let cachedPoints: T.Vector3[] | undefined, cachedFor = '';
   const hidesTarget = (mesh: AnatomyMesh) => {
     if (cachedFor !== state?.target.id) {scene.updateMatrixWorld(true); cachedPoints = targetPoints(); cachedFor = state?.target.id ?? '';}
@@ -127,11 +173,12 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
     const hidden = new Set(state.hidden), naming = state.mode === 'name', clarity = state.clarity ?? .45;
     for (const mesh of meshes.values()) {
       const structure = byId.get(mesh.userData.structureId)!;
-      const isTarget = structure.id === state.target.id;
+      const isTarget = targetIds.has(structure.id), space = isSpace();
       const shade = naming && !isTarget ? neighbourShade(state.highlightIds, structure.id) : undefined, isNeighbour = !!shade;
       const isAnswer = !naming && state.answered && isTarget;
       const isWrong = !naming && state.answered && structure.id === state.pickedId && !isAnswer;
-      const isContext = structure.system !== state.target.system;
+      // A space question draws its members and their neighbours alike until the question is answered (a faded neighbour would give the answer away); levels 2 and 3 fade every non-member.
+      const isContext = space ? naming && !isTarget : structure.system !== state.target.system;
       // the muscle a tendon was cut from is always drawn with it (faint, like the other context), so the tendon is never a loose fragment
       const isOwner = state.target.system === 'tendon' && structure.system === 'muscular' && ownerMuscleNames(state.target.name).includes(structure.name);
       mesh.visible = allowed.has(structure.id) && (naming ? (!state.only || isTarget || isNeighbour || isOwner) : (state.answered || !hidden.has(structure.id) || isOwner)) && (!isContext || state.context || isTarget || isNeighbour || isOwner);
@@ -145,7 +192,13 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
       material.emissive.set(lit ? fill : '#000000');
       material.emissiveIntensity = naming && isTarget ? .16 : isNeighbour ? .06 : isAnswer || isWrong ? .08 : 0;
       material.opacity = naming ? (isNeighbour ? (hidesTarget(mesh) ? .5 : 1) : isTarget ? 1 : isContext ? .06 + .34 * clarity : .12 + .6 * clarity)
-        : isAnswer || isWrong ? .85 : isContext ? .2 : state.answered ? .16 : 1;
+        : isAnswer && space ? 1 : isAnswer || isWrong ? .85 : isContext ? .2 : state.answered ? .16 : 1;
+      // The highlight of a space member is strongest near the space (see setSpaceFade); the question itself (nothing answered yet in level 1) shows the members like any other structure.
+      const fades = space && isTarget && (naming || state.answered);
+      if (fades) {
+        const b = state.target.bounds, half = (b[1][0] - b[0][0]) / 2;
+        setSpaceFade(material, {centre: new T.Vector3((b[0][0] + b[1][0]) / 2, (b[0][1] + b[1][1]) / 2, (b[0][2] + b[1][2]) / 2), inner: half * .4, outer: half, far: new T.Color(fill).lerp(new T.Color('#ffffff'), .38)});
+      } else setSpaceFade(material, null);
       // Outline shell around the answer, the wrong pick, the level-2 target and a clicked neighbour (shares the mesh geometry).
       let shell = mesh.userData.outline as T.Mesh<T.BufferGeometry, T.ShaderMaterial> | undefined;
       if (lit) {
@@ -157,9 +210,11 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
         shell.visible = mesh.visible;
       } else if (shell) shell.visible = false;
       // The feedback meshes join the transparent pass (sorted last by renderOrder) so faint context anatomy never washes their colour out.
-      const transparent = material.opacity < 1 || isAnswer || isWrong, depthWrite = material.opacity === 1 && !isAnswer && !isWrong;
+      // The members of a space are solid in the answer (the faded neighbours already let them show), so the boundaries and contents keep their depth order instead of blending into one patch.
+      const solidSpace = isAnswer && space;
+      const transparent = material.opacity < 1 || ((isAnswer && !solidSpace) || isWrong), depthWrite = material.opacity === 1 && (!isAnswer || solidSpace) && !isWrong;
       // Correct/wrong overlays remain visible even behind an outer muscle; the level-2 target keeps its depth, so a view where it is hidden stays hidden.
-      const depthTest = naming || (!isAnswer && !isWrong);
+      const depthTest = naming || solidSpace || (!isAnswer && !isWrong);
       // Only a change of render state needs the material revalidated; doing it for every mesh on every update made each tap re-check hundreds of programs.
       const stateChanged = material.transparent !== transparent || material.depthWrite !== depthWrite || material.depthTest !== depthTest;
       material.transparent = transparent; material.depthWrite = depthWrite; material.depthTest = depthTest;
@@ -171,22 +226,20 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
   };
 
   /** Level 2: a random direction from which at least half of the target can be seen. Points on the target are tested with rays from the camera; only solid structures hide it. */
-  const chooseDirection = (box: T.Box3): T.Vector3 => {
-    const target = [...meshes.values()].filter(m => m.userData.structureId === state?.target.id && m.visible);
-    const points: T.Vector3[] = [];
-    for (const mesh of target) {
-      const pos = mesh.geometry.getAttribute('position'), step = Math.max(1, Math.floor(pos.count / 48));
-      for (let i = 0; i < pos.count; i += step) points.push(new T.Vector3().fromBufferAttribute(pos, i).applyMatrix4(mesh.matrixWorld));
-    }
+  const chooseDirection = (box: T.Box3, random: () => number = Math.random, avoid?: T.Vector3): T.Vector3 => {
+    scene.updateMatrixWorld(true);
+    const points = samplePoints(48);
     const centre = box.getCenter(new T.Vector3()), size = box.getSize(new T.Vector3()).length() * .75 + .05;
-    const occluders = [...meshes.values()].filter(m => m.visible && m.userData.structureId !== state?.target.id && (m.material as T.MeshStandardMaterial).opacity >= .8);
+    const occluders = [...meshes.values()].filter(m => m.visible && !targetIds.has(m.userData.structureId) && (m.material as T.MeshStandardMaterial).opacity >= .8);
     scene.updateMatrixWorld(true);
     const directions: T.Vector3[] = [];
     for (const elevation of [0, 25, -20, 50]) for (let k = 0; k < 12; k++) {
-      const az = (k / 12) * Math.PI * 2 + Math.random() * .4, el = (elevation + (Math.random() - .5) * 14) * Math.PI / 180;
+      const az = (k / 12) * Math.PI * 2 + random() * .4, el = (elevation + (random() - .5) * 14) * Math.PI / 180;
       directions.push(new T.Vector3(Math.sin(az) * Math.cos(el), Math.sin(el), Math.cos(az) * Math.cos(el)));
     }
-    for (let i = directions.length - 1; i > 0; i--) {const j = Math.floor(Math.random() * (i + 1)); [directions[i], directions[j]] = [directions[j], directions[i]];}
+    for (let i = directions.length - 1; i > 0; i--) {const j = Math.floor(random() * (i + 1)); [directions[i], directions[j]] = [directions[j], directions[i]];}
+    // a direction too close to the one to avoid is not offered (round 3 of a lesson looks from somewhere else)
+    if (avoid) for (let i = directions.length - 1; i >= 0; i--) if (directions[i].dot(avoid) > .5) directions.splice(i, 1);
     const fraction = (dir: T.Vector3) => {
       if (!points.length) return 1;
       const eye = centre.clone().addScaledVector(dir, size);
@@ -208,6 +261,12 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
     return best;
   };
 
+  /** Lesson rounds 1 and 2 use the direction of the seed; round 3 uses another seed and refuses directions near the first one, so the same structure is seen from a different side. */
+  const lessonDirection = (box: T.Box3, lesson: {seed: string; apart: boolean}): T.Vector3 => {
+    const first = chooseDirection(box, seededRandom(lesson.seed));
+    return lesson.apart ? chooseDirection(box, seededRandom(`${lesson.seed}#apart`), first) : first;
+  };
+
   const frameModel = (view: QuizView) => {
     if (!state) return;
     const region = QUIZ_REGIONS[catalogue.region ?? 'lower-limb'];
@@ -220,11 +279,16 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
     // A structure spanning two sections must still be entirely in the frame.
     if (view !== 'answer') box.union(new T.Box3(new T.Vector3().fromArray(state.target.bounds[0]), new T.Vector3().fromArray(state.target.bounds[1])));
     let direction = camera.position.clone().sub(controls.target).normalize();
-    if (view === 'random') direction = chooseDirection(box);
+    if (view === 'random') direction = state.lesson ? lessonDirection(box, state.lesson) : chooseDirection(box);
     if (view === 'front') direction.set(0, .04, 1).normalize();
     if (view === 'back') direction.set(0, .04, -1).normalize();
     // lung quiz: the inner (mediastinal) face of the lung the question is about; a structure on both sides follows the side chosen on the setup page
     if (view === 'medial') direction.set((state.target.side === 'midline' ? state.side === 'left' : state.target.side === 'left') ? -1 : 1, .03, .02).normalize();
+    // a space opens its answer from the direction the layer panel looks at it from (SpaceDef.look: outward, up, front), mirrored for the left side
+    if (view === 'answer' && state.target.space) {
+      const look = SPACES.find(d => d.id === state!.target.space!.id)?.look;
+      if (look) direction.set(look[0] * (state.target.side === 'left' ? 1 : -1), look[1], look[2]).normalize();
+    }
     if (view === 'side') direction.set(state.target.side === 'right' ? -1 : 1, .03, .02).normalize();
     if (direction.lengthSq() < .5) direction.set(0, 0, 1);
     controls.target.copy(box.getCenter(new T.Vector3()));
@@ -269,6 +333,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
     state = next;
     const section = next.section === 'all' ? next.target.sections[0] : next.section;
     allowed = new Set(sceneStructures(catalogue, next.target, section, next.side).map(s => s.id));
+    targetIds = new Set([next.target.id, ...(next.target.space?.members.map(m => m.id) ?? [])]);
     if (changedQuestion) {
       ready = false; keyboardId = undefined; commandAtQuestion = next.command.id;
       callbacks.ready(next.key, false);
@@ -295,7 +360,8 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
     applyAppearance();
   };
 
-  const selectable = () => [...meshes.values()].filter(m => m.visible && byId.get(m.userData.structureId)!.system === state?.target.system);
+  // A space question can be answered by tapping any structure of the scene: the members of the space are right, every other structure is wrong.
+  const selectable = () => [...meshes.values()].filter(m => m.visible && (isSpace() || byId.get(m.userData.structureId)!.system === state?.target.system));
   const pickAt = (clientX: number, clientY: number, touch: boolean) => {
     if (!state || state.answered || !ready || state.mode === 'name') return;
     const rect = canvas.getBoundingClientRect(), candidates = selectable();

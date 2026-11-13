@@ -4,7 +4,7 @@ import {structureProfile} from '../mj-structure-info';
 import type {SystemId} from '../anatomy';
 import paokaoAliases from '../../docs/paokao-aliases.json';
 
-/** How a typed name is judged for the level-2 quiz (看結構寫名稱). Pure functions: the page, the tests and the REVIEW_LOG table all use these. */
+/** How a typed name is judged for the level-3 quiz (看結構寫名稱). Pure functions: the page, the tests and the REVIEW_LOG table all use these. */
 export type AnswerLanguage = 'en' | 'zh' | 'any';
 export type NameResult = 'correct' | 'close' | 'wrong';
 export interface NameOptions {language: AnswerLanguage; needSide: boolean}
@@ -30,6 +30,8 @@ export const HEADS_REQUIRED = new Set(['biceps brachii', 'triceps brachii', 'bic
 const PART_OF_MUSCLE = /^(.+?) (?:part|head|belly) of (?:(?:right|left) )?(.+)$/i;
 export interface WholeMuscle {en: string; zh?: string; muscle: string; headsRequired: boolean}
 export function wholeMuscleOf(structure: Named): WholeMuscle | null {
+  // "iliofemoral ligament, descending part", "ligament of head of femur": a joint structure is never a part of a muscle, so the bone or ligament named after "of" is not an accepted answer
+  if (structure.system === 'joint') return null;
   const match = structure.name.match(PART_OF_MUSCLE);
   if (!match) return null;
   const muscle = match[2].trim(), side = structure.name.match(SIDE_WORD)?.[1];
@@ -47,13 +49,13 @@ export function checklistAliases(structure: Named): {exact: string[]; group: str
   return {exact, group};
 }
 const partOfName = (x: string, y: string) => x.endsWith(` of ${y}`) || x.includes(` of ${y} `) || x.endsWith(` of the ${y}`) || x.includes(` of the ${y} `);
-/** The name the main site shows for this structure (the Netter-style spelling: quadratus plantae for flexor accessorius, 1st rib for first rib, coxal bone for hip bone), when it is another spelling
+/** The name the main site shows for this structure (the standard display spelling: quadratus plantae for flexor accessorius, 1st rib for first rib, coxal bone for hip bone), when it is another spelling
  * of the same structure. The site shows the branches of a nerve under the nerve's own name; that is a parent, not a spelling, and is never accepted here. */
 export function siteName(structure: Named): {en?: string; zh?: string} {
   if (!structure.system) return {};
   // A part of a muscle (clavicular part of pectoralis major, spinal part of deltoid) is answered with the muscle's name (wholeMuscleOf), not with the site's other wording of the part.
   if (wholeMuscleOf(structure)) return {};
-  const profile = structureProfile(structure.name, structure.system as SystemId);
+  const profile = structureProfile(structure.name, (structure.system === 'joint' || structure.system === 'space' ? 'connective' : structure.system) as SystemId);
   const paired = isPaired(structure), key = (n: string) => paired ? cleanKey(n) : n.toLowerCase().replace(/\s+/g, ' ').trim();
   const out: {en?: string; zh?: string} = {};
   if (profile.english) {const a = key(profile.english), b = key(structure.name); if (a && a !== b && !partOfName(b, a) && !partOfName(a, b)) out.en = profile.english;}

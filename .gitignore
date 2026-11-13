@@ -48,7 +48,6 @@ next-env.d.ts
 /public/models/brain.glb
 
 # Pinned Z-Anatomy joint source
-/public/models/joints.glb
 
 /public/models/articular-surfaces.json
 

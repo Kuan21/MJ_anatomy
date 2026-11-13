@@ -47,7 +47,9 @@ for (const pack of catalogue.packages) {
     for (const i of new Uint32Array(indices.buffer, indices.byteOffset, mesh.indexCount)) assert.ok(i < mesh.vertexCount);
     assert.ok(mesh.normals + mesh.vertexCount * 6 <= raw.length);
     // muscles that end at their musculotendinous junction and the tendon parts cut from them are derived from the atlas meshes, not byte copies (scripts/tendon/*.mjs)
-    if (structure.source === 'BodyParts3D' && !(structure.system === 'tendon' || cutMuscles.has(mesh.id))) {
+    if (structure.system === 'joint') {
+      // registered joint soft tissue (scripts/lib/joint-quiz-source.mjs), not a byte copy: finite positions and valid indices are checked above
+    } else if (structure.source === 'BodyParts3D' && !(structure.system === 'tendon' || cutMuscles.has(mesh.id))) {
       const source = native.get(mesh.id); assert.ok(source);
       const original = read('public' + atlas.chunks[source.chunk].url);
       assert.deepEqual(positions, original.subarray(source.positions, source.positions + source.vertexCount * 12), 'Unchanged original position data');
@@ -63,6 +65,8 @@ for (const pack of catalogue.packages) {
   }
 }
 for (const s of catalogue.structures) {
+  // a limb space has no mesh of its own: it is drawn as its member structures (scripts/test-quiz-spaces.mjs)
+  if (s.system === 'space') {assert.ok(s.meshIds.length === 0 && s.space.members.every(m => catalogue.structures.some(x => x.id === m.id && x.meshIds.length)), `Space members are renderable: ${s.name}`); continue;}
   assert.ok(s.meshIds.length && s.meshIds.every(id => meshes.has(id)), `Question has renderable geometry: ${s.name}`);
   assert.ok(s.sections.length && s.sections.every(id => QUIZ_SECTIONS.some(r => r.id === id)));
   assert.ok(s.bounds[1][1] < 1.2 && s.bounds[0][1] >= -.01, `No upper-body answer: ${s.name}`);
@@ -87,6 +91,10 @@ for (const section of QUIZ_SECTIONS) for (const side of ['right', 'left', 'both'
     const pool = questionPool(catalogue, settings), session = createSession(pool, 10, random);
     // the hip has no tendon of its own that the model can show apart from the iliopsoas tendon: a tendon-only quiz of that section may be empty (the setup screen then has no tendon questions there)
     if (!pool.length && systems.length === 1 && systems[0] === 'tendon' && section.id === 'hip') continue;
+    // joint soft tissue sits at a joint (hip, knee, ankle & foot): the thigh and leg sections have none of their own
+    if (!pool.length && systems.length === 1 && systems[0] === 'joint' && (section.id === 'thigh' || section.id === 'leg')) continue;
+    // a space sits at one place (femoral triangle in the hip, popliteal fossa at the knee, tarsal tunnel in the foot): sections without a space of their own have none
+    if (!pool.length && systems.length === 1 && systems[0] === 'space') continue;
     assert.ok(pool.length, `Playable section/system: ${section.id}/${side}/${systems}`);
     assert.equal(session.queue.length, Math.min(10, pool.length));
     assert.equal(new Set(session.queue).size, session.queue.length);
@@ -95,7 +103,8 @@ for (const section of QUIZ_SECTIONS) for (const side of ['right', 'left', 'both'
       const target = structures.get(id), displaySection = section.id === 'all' ? target.sections[0] : section.id;
       const visible = sceneStructures(catalogue, target, displaySection, side);
       assert.ok(visible.some(s => s.id === id), 'Target always belongs to the displayed scene');
-      if (target.system !== 'tendon') assert.ok(visible.filter(s => s.system === target.system).length > 1, 'An answer has selectable distractors');
+      if (target.space) assert.ok(target.space.members.every(m => visible.some(s => s.id === m.id)) && visible.some(s => !target.space.members.some(m => m.id === s.id)), 'A space scene holds every member and other structures to choose from');
+      else if (target.system !== 'tendon') assert.ok(visible.filter(s => s.system === target.system).length > 1, 'An answer has selectable distractors');
       assert.ok(visible.every(s => side === 'both' || s.side === side));
     }
   }
