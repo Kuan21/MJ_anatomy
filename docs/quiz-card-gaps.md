@@ -147,6 +147,67 @@
 - 閉孔靜脈（obturator vein）：缺 來源、走向、主要分支、引流範圍
 - 臀上靜脈（superior gluteal vein）：缺 來源、走向、主要分支、引流範圍
 
+### 關節構造：0 / 58 項資料完整
+
+- 前脛腓韌帶（anterior tibiofibular ligament）：缺 所屬關節、附著與連結、功能
+- 後脛腓韌帶（posterior tibiofibular ligament）：缺 所屬關節、附著與連結、功能
+- 脛腓橫韌帶（transverse tibiofibular ligament）：缺 所屬關節、附著與連結、功能
+- 後脛距韌帶（posterior tibiotalar ligament）：缺 所屬關節、附著與連結、功能
+- 脛跟韌帶（tibiocalcaneal ligament）：缺 所屬關節、附著與連結、功能
+- 脛舟韌帶（tibionavicular ligament）：缺 所屬關節、附著與連結、功能
+- 髖臼唇（acetabular labrum）：缺 所屬關節、附著與連結、功能
+- 髖關節囊（articular capsule of hip joint）：缺 所屬關節、附著與連結、功能
+- 髂股韌帶降部（descending part of iliofemoral ligament）：缺 所屬關節、附著與連結、功能
+- 坐股韌帶（ischiofemoral ligament）：缺 所屬關節、附著與連結、功能
+- 股骨頭韌帶（ligament of head of femur）：缺 所屬關節、附著與連結、功能
+- 恥股韌帶（pubofemoral ligament）：缺 所屬關節、附著與連結、功能
+- 髖臼橫韌帶（transverse acetabular ligament）：缺 所屬關節、附著與連結、功能
+- 髂股韌帶橫部（transverse part of iliofemoral ligament）：缺 所屬關節、附著與連結、功能
+- 背側蹠骨韌帶（dorsal metatarsal ligaments）：缺 所屬關節、附著與連結、功能
+- 籽骨間韌帶（intersesamoid ligament）：缺 所屬關節、附著與連結、功能
+- 蹠骨間韌帶（metatarsal interosseous ligaments）：缺 所屬關節、附著與連結、功能
+- 足底蹠骨韌帶（plantar metatarsal ligaments）：缺 所屬關節、附著與連結、功能
+- 拇趾趾間關節囊（articular capsule of interphalangeal joint of great toe）：缺 所屬關節、附著與連結、功能
+- 足趾間關節側副韌帶（collateral interphalangeal ligaments of foot）：缺 所屬關節、附著與連結、功能
+- 足底趾間韌帶（plantar interphalangeal ligaments）：缺 所屬關節、附著與連結、功能
+- 前距跟韌帶（anterior talocalcaneal ligament）：缺 所屬關節、附著與連結、功能
+- 跟骰韌帶（calcaneocuboid ligament）：缺 所屬關節、附著與連結、功能
+- 跟舟韌帶（calcaneonavicular ligament）：缺 所屬關節、附著與連結、功能
+- 楔骰骨間韌帶（cuneocuboid interosseous ligament）：缺 所屬關節、附著與連結、功能
+- 背側楔舟韌帶（dorsal cuneonavicular ligaments）：缺 所屬關節、附著與連結、功能
+- 背側楔間韌帶（dorsal intercuneiform ligaments）：缺 所屬關節、附著與連結、功能
+- 楔間骨間韌帶（intercuneiform interosseous ligaments）：缺 所屬關節、附著與連結、功能
+- 外側距跟韌帶（lateral talocalcaneal ligament）：缺 所屬關節、附著與連結、功能
+- 內側距跟韌帶（medial talocalcaneal ligament）：缺 所屬關節、附著與連結、功能
+- 足底跟骰韌帶（plantar calcaneocuboid ligament）：缺 所屬關節、附著與連結、功能
+- 足底楔骰韌帶（plantar cuneocuboid ligament）：缺 所屬關節、附著與連結、功能
+- 足底楔舟韌帶（plantar cuneonavicular ligaments）：缺 所屬關節、附著與連結、功能
+- 足底楔間韌帶（plantar intercuneiform ligaments）：缺 所屬關節、附著與連結、功能
+- 後距跟韌帶（posterior talocalcaneal ligament）：缺 所屬關節、附著與連結、功能
+- 距跟骨間韌帶（talocalcaneal interosseous ligament）：缺 所屬關節、附著與連結、功能
+- 距舟韌帶（talonavicular ligament）：缺 所屬關節、附著與連結、功能
+- 蹠趾關節側副韌帶（collateral metatarsophalangeal ligaments）：缺 所屬關節、附著與連結、功能
+- 蹠骨深橫韌帶（deep transverse metatarsal ligament）：缺 所屬關節、附著與連結、功能
+- 足底蹠趾韌帶（plantar metatarsophalangeal ligaments）：缺 所屬關節、附著與連結、功能
+- 楔蹠骨間韌帶（cuneometatarsal interosseous ligaments）：缺 所屬關節、附著與連結、功能
+- 背側跗蹠韌帶（dorsal tarsometatarsal ligaments）：缺 所屬關節、附著與連結、功能
+- 足底跗蹠韌帶（plantar tarsometatarsal ligaments）：缺 所屬關節、附著與連結、功能
+- 前十字韌帶（anterior cruciate ligament）：缺 所屬關節、附著與連結、功能
+- 弓狀膕韌帶（arcuate popliteal ligament）：缺 所屬關節、附著與連結、功能
+- 膝關節囊（articular capsule of knee joint）：缺 所屬關節、附著與連結、功能
+- 脛側副韌帶深部（deep part of tibial collateral ligament）：缺 所屬關節、附著與連結、功能
+- 外側半月板（lateral meniscus）：缺 所屬關節、附著與連結、功能
+- 內側半月板（medial meniscus）：缺 所屬關節、附著與連結、功能
+- 半月板髕韌帶（meniscopatellar ligament）：缺 所屬關節、附著與連結、功能
+- 斜膕韌帶（oblique popliteal ligament）：缺 所屬關節、附著與連結、功能
+- 膕腓韌帶（popliteofibular ligament）：缺 所屬關節、附著與連結、功能
+- 後十字韌帶（posterior cruciate ligament）：缺 所屬關節、附著與連結、功能
+- 脛側副韌帶淺部（superficial part of tibial collateral ligament）：缺 所屬關節、附著與連結、功能
+- 膝橫韌帶（transverse ligament of knee）：缺 所屬關節、附著與連結、功能
+- 腓骨頭前韌帶（anterior ligament of fibular head）：缺 所屬關節、附著與連結、功能
+- 上脛腓關節囊（articular capsule of superior tibiofibular joint）：缺 所屬關節、附著與連結、功能
+- 腓骨頭後韌帶（posterior ligament of fibular head）：缺 所屬關節、附著與連結、功能
+
 ## 上肢（Upper limb）
 
 ### 骨骼：0 / 32 項資料完整
@@ -328,6 +389,57 @@
 - 中指掌側固有指靜脈（Proper palmar digital vein of left middle finger）：缺 來源、走向、主要分支、引流範圍
 - 無名指掌側固有指靜脈（Proper palmar digital vein of left ring finger）：缺 來源、走向、主要分支、引流範圍
 
+### 關節構造：0 / 48 項資料完整
+
+- 遠端橈尺關節盤（articular disc of distal radio-ulnar joint）：缺 所屬關節、附著與連結、功能
+- 掌側橈尺韌帶（palmar radio-ulnar ligament）：缺 所屬關節、附著與連結、功能
+- 橈骨環狀韌帶（annular ligament of radius）：缺 所屬關節、附著與連結、功能
+- 肘關節囊（articular capsule of elbow joint）：缺 所屬關節、附著與連結、功能
+- 橈側副韌帶（radial collateral ligament）：缺 所屬關節、附著與連結、功能
+- 尺側副韌帶（ulnar collateral ligament）：缺 所屬關節、附著與連結、功能
+- 盂肱關節囊（articular capsule of glenohumeral joint）：缺 所屬關節、附著與連結、功能
+- 喙肱韌帶（coracohumeral ligament）：缺 所屬關節、附著與連結、功能
+- 盂唇（glenoid labrum）：缺 所屬關節、附著與連結、功能
+- 下盂肱韌帶（inferior glenohumeral ligament）：缺 所屬關節、附著與連結、功能
+- 中盂肱韌帶（middle glenohumeral ligament）：缺 所屬關節、附著與連結、功能
+- 上盂肱韌帶（superior glenohumeral ligament）：缺 所屬關節、附著與連結、功能
+- 肱橫韌帶（transverse humeral ligament）：缺 所屬關節、附著與連結、功能
+- 背側腕掌韌帶（dorsal carpometacarpal ligaments）：缺 所屬關節、附著與連結、功能
+- 掌側腕掌韌帶（palmar carpometacarpal ligaments）：缺 所屬關節、附著與連結、功能
+- 背側舟三角韌帶（dorsal scaphotriquetral ligament）：缺 所屬關節、附著與連結、功能
+- 背側腕間韌帶（dorsal intercarpal ligaments）：缺 所屬關節、附著與連結、功能
+- 背側尺腕韌帶（dorsal ulnocarpal ligament）：缺 所屬關節、附著與連結、功能
+- 掌側舟三角韌帶（palmar scaphotriquetral ligament）：缺 所屬關節、附著與連結、功能
+- 豆三角韌帶（pisotriquetral ligament）：缺 所屬關節、附著與連結、功能
+- 腕橈側副韌帶（radial collateral ligament of wrist joint）：缺 所屬關節、附著與連結、功能
+- 腕輻狀韌帶（radiate carpal ligament）：缺 所屬關節、附著與連結、功能
+- 舟大小多角韌帶（scaphotrapeziotrapezoidal ligament）：缺 所屬關節、附著與連結、功能
+- 三角頭狀韌帶（triquetrocapitate ligament）：缺 所屬關節、附著與連結、功能
+- 腕尺側副韌帶（ulnar collateral ligament of wrist joint）：缺 所屬關節、附著與連結、功能
+- 背側掌骨韌帶（dorsal metacarpal ligaments）：缺 所屬關節、附著與連結、功能
+- 掌骨間韌帶（interosseous metacarpal ligaments）：缺 所屬關節、附著與連結、功能
+- 掌側掌骨韌帶（palmar metacarpal ligaments）：缺 所屬關節、附著與連結、功能
+- 手指間關節側副韌帶（collateral interphalangeal ligaments of hand）：缺 所屬關節、附著與連結、功能
+- 指間關節掌側韌帶（palmar interphalangeal ligaments）：缺 所屬關節、附著與連結、功能
+- 掌指關節側副韌帶（collateral metacarpophalangeal ligaments）：缺 所屬關節、附著與連結、功能
+- 掌骨深橫韌帶（deep transverse metacarpal ligament）：缺 所屬關節、附著與連結、功能
+- 橈腕關節囊（articular capsule of radiocarpal joint）：缺 所屬關節、附著與連結、功能
+- 背側橈腕韌帶（dorsal radiocarpal ligament）：缺 所屬關節、附著與連結、功能
+- 橈舟頭狀韌帶（radioscaphocapitate ligament）：缺 所屬關節、附著與連結、功能
+- 尺頭狀韌帶（ulnocapitate ligament）：缺 所屬關節、附著與連結、功能
+- 尺月韌帶（ulnolunate ligament）：缺 所屬關節、附著與連結、功能
+- 尺三角韌帶（ulnotriquetral ligament）：缺 所屬關節、附著與連結、功能
+- 肩鎖韌帶（acromioclavicular ligament）：缺 所屬關節、附著與連結、功能
+- 肩鎖關節囊（articular capsule of acromioclavicular joint）：缺 所屬關節、附著與連結、功能
+- 肩鎖關節盤（articular disc of acromioclavicular joint）：缺 所屬關節、附著與連結、功能
+- 錐狀韌帶（conoid ligament）：缺 所屬關節、附著與連結、功能
+- 斜方韌帶（trapezoid ligament）：缺 所屬關節、附著與連結、功能
+- 前胸鎖韌帶（anterior sternoclavicular ligament）：缺 所屬關節、附著與連結、功能
+- 胸鎖關節囊（articular capsule of sternoclavicular joint）：缺 所屬關節、附著與連結、功能
+- 胸鎖關節盤（articular disc of sternoclavicular joint）：缺 所屬關節、附著與連結、功能
+- 鎖骨間韌帶（interclavicular ligament）：缺 所屬關節、附著與連結、功能
+- 後胸鎖韌帶（posterior sternoclavicular ligament）：缺 所屬關節、附著與連結、功能
+
 ## 胸腔（Thorax）
 
 ### 骨骼：0 / 27 項資料完整
@@ -400,6 +512,12 @@
 - 鎖骨下靜脈（subclavian vein）：缺 來源、走向、主要分支、引流範圍
 - 上腔靜脈（Superior vena cava）：缺 來源、走向、主要分支、引流範圍
 
+### 關節構造：0 / 3 項資料完整
+
+- 肋橫突韌帶（costotransverse ligament）：缺 所屬關節、附著與連結、功能
+- 肋頭關節內韌帶（intra-articular ligament of head of rib）：缺 所屬關節、附著與連結、功能
+- 肋頭輻狀韌帶（radiate ligament of head of rib）：缺 所屬關節、附著與連結、功能
+
 ## 背部（Back）
 
 ### 骨骼：0 / 27 項資料完整
@@ -458,6 +576,15 @@
 - 胸背靜脈（thoracodorsal vein）：缺 主要分支
 - 腰升靜脈（ascending lumbar vein）：缺 主要分支
 - 枕下靜脈叢（suboccipital venous plexus）：缺 走向、主要分支
+
+### 關節構造：0 / 6 項資料完整
+
+- 前縱韌帶（Anterior longitudinal ligament）：缺 所屬關節、附著與連結、功能
+- 棘間韌帶（Interspinous ligaments）：缺 所屬關節、附著與連結、功能
+- 黃韌帶（Ligamenta flava）：缺 所屬關節、附著與連結、功能
+- 項韌帶（Nuchal ligament）：缺 所屬關節、附著與連結、功能
+- 後縱韌帶（Posterior longitudinal ligament）：缺 所屬關節、附著與連結、功能
+- 棘上韌帶（Supraspinous ligament）：缺 所屬關節、附著與連結、功能
 
 ## 心臟（Heart）
 

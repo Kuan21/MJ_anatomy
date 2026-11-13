@@ -38,7 +38,7 @@ const checkChinese = (label, zh) => {
 
 const expected = {
   'upper-limb': {
-    count: [380, 460],
+    count: [380, 560],
     names: ['Humerus', 'Radius', 'Ulna', 'Clavicle', 'Scapula', 'Deltoid', 'Median nerve', 'Radial nerve', 'Ulnar nerve', 'Axillary nerve', 'Musculocutaneous nerve', 'Axillary artery', 'Brachial artery', 'Radial artery', 'Ulnar artery', 'Cephalic vein', 'Basilic vein', 'Axillary vein'],
   },
   thorax: {
@@ -54,7 +54,7 @@ const expected = {
     plain: ['Right atrium', 'Right ventricle', 'Left atrium', 'Left ventricle', 'Right coronary artery', 'Left coronary artery', 'Anterior interventricular artery', 'Circumflex artery', 'Great cardiac vein', 'Middle cardiac vein', 'Coronary sinus', 'Superior vena cava', 'Inferior vena cava', 'Pulmonary trunk', 'Ascending aorta', 'Anterior papillary muscle of right ventricle', 'Posterior papillary muscle of left ventricle'],
   },
   back: {
-    count: [100, 130],
+    count: [100, 140],
     names: ['Latissimus dorsi', 'Levator scapulae', 'Rhomboid major', 'Rhomboid minor', 'Serratus posterior superior', 'Serratus posterior inferior', 'Splenius capitis', 'Splenius cervicis', 'Iliocostalis thoracis', 'Longissimus thoracis', 'Spinalis thoracis', 'Semispinalis capitis', 'Multifidus', 'Cervical rotator', 'Rectus capitis posterior major', 'Rectus capitis posterior minor', 'Obliquus capitis superior', 'Obliquus capitis inferior', 'Dorsal scapular nerve', 'Thoracodorsal nerve', 'Accessory nerve (XI)', 'Vertebral artery', 'Dorsal scapular artery', 'Transverse cervical artery'],
     plain: ['Atlas', 'Axis', 'Sacrum', 'Occipital bone'],
   },
@@ -93,7 +93,9 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
       for (const x of new Float32Array(positions.buffer, positions.byteOffset, mesh.vertexCount * 3)) assert.ok(Number.isFinite(x));
       for (const i of new Uint32Array(indices.buffer, indices.byteOffset, mesh.indexCount)) assert.ok(i < mesh.vertexCount);
       // muscles that end at their musculotendinous junction and the tendon parts cut from them are derived from the atlas meshes, not byte copies (scripts/tendon/*.mjs)
-      if (structure.source === 'BodyParts3D' && (structure.system === 'tendon' || cutMuscles.has(mesh.id))) {
+      if (structure.system === 'joint') {
+        // joint soft tissue is registered to the atlas bones at build time (scripts/lib/joint-quiz-source.mjs), not a byte copy: finite positions and valid indices are checked above
+      } else if (structure.source === 'BodyParts3D' && (structure.system === 'tendon' || cutMuscles.has(mesh.id))) {
         // checked above: finite positions and valid indices
       } else if (structure.source === 'BodyParts3D') {
         const source = native.get(mesh.id); assert.ok(source, mesh.id);

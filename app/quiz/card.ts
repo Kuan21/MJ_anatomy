@@ -24,6 +24,8 @@ const FIELDS: Record<QuizSystem, string[]> = {
   cardiac: ['說明'],
   // lung quiz: surface marks and airway; a mark's three fields come from its course-summary card (scripts/paokao-structures/lungs.mjs)
   respiratory: ['位置', '構造／毗鄰關係', '血液供應／神經'],
+  // joint soft tissue: the repository documents none of these yet, so the card shows 「尚無資料」 until hand-checked entries are added to card-data.ts
+  joint: ['所屬關節', '附著與連結', '功能'],
 };
 /** Existing profile facts (by their Chinese label) that answer a card field. */
 const FROM_PROFILE: Record<QuizSystem, Record<string, string[]>> = {
@@ -35,6 +37,7 @@ const FROM_PROFILE: Record<QuizSystem, Record<string, string[]>> = {
   skeletal: {主要標誌: ['重要骨標誌']},
   cardiac: {},
   respiratory: {位置: ['位置'], '構造／毗鄰關係': ['構造／毗鄰關係'], '血液供應／神經': ['血液供應／神經']},
+  joint: {},
 };
 
 const clean = (name: string) => name.toLowerCase().replace(/\b(left|right)\b/g, '').replace(/\s+/g, ' ').trim();
@@ -49,7 +52,7 @@ function lungMark(name: string, label: string) {
 
 export function structureCard(structure: Pick<QuizStructure, 'name' | 'chinese' | 'system' | 'description'>): StructureCard {
   const system = structure.system;
-  const profile = structureProfile(structure.name, system as SystemId);
+  const profile = structureProfile(structure.name, (system === 'joint' ? 'connective' : system) as SystemId);
   // Paired structures are keyed without left/right; names where "left"/"right" belongs to the name itself (left atrium, left pulmonary artery…) are keyed in full.
   const extra: CardExtra | undefined = CARD_EXTRAS[structure.name.toLowerCase()] ?? CARD_EXTRAS[clean(structure.name)];
   const fields: CardField[] = [], missing: string[] = [];
