@@ -1,55 +1,6 @@
 {
  "_doc": "Known findings of scripts/test-soft-tissue-vertices.mjs. key = part id | kind. value = worst measured value (thorn: longest stretched edge in mm; swollen: ratio). The list may only shrink.",
  "known": {
-  "BP3S-FMA13358|thorn": {
-   "group": "muscle",
-   "name": "Right latissimus dorsi",
-   "pose": "shoulder flexion 73 + abduction 158",
-   "value": 17,
-   "reason": "a few triangles are stretched at the end of the range (latissimus dorsi next to its spinal attachment at shoulder flexion with abduction; genioglossus between the jaw and the hyoid at neck extension); to be fixed"
-  },
-  "BP3S-FMA13359|thorn": {
-   "group": "muscle",
-   "name": "Left latissimus dorsi",
-   "pose": "shoulder flexion 73 + abduction 158",
-   "value": 14,
-   "reason": "a few triangles are stretched at the end of the range (latissimus dorsi next to its spinal attachment at shoulder flexion with abduction; genioglossus between the jaw and the hyoid at neck extension); to be fixed"
-  },
-  "FJ2738|thorn": {
-   "group": "muscle",
-   "name": "Left genioglossus",
-   "pose": "head extension 35",
-   "value": 7,
-   "reason": "a few triangles are stretched at the end of the range (latissimus dorsi next to its spinal attachment at shoulder flexion with abduction; genioglossus between the jaw and the hyoid at neck extension); to be fixed"
-  },
-  "FJ2750|thorn": {
-   "group": "muscle",
-   "name": "Right genioglossus",
-   "pose": "head extension 35",
-   "value": 8,
-   "reason": "a few triangles are stretched at the end of the range (latissimus dorsi next to its spinal attachment at shoulder flexion with abduction; genioglossus between the jaw and the hyoid at neck extension); to be fixed"
-  },
-  "PK-417|thorn": {
-   "group": "ligament or fascia",
-   "name": "Right coraco-acromial ligament",
-   "pose": "shoulder abduction 158",
-   "value": 36,
-   "reason": "shoulder girdle ligament bound with the glenohumeral rule; being fixed in the upper-limb joint work (PR 269)"
-  },
-  "PK-418|swollen": {
-   "group": "ligament or fascia",
-   "name": "Right costoclavicular ligament",
-   "pose": "shoulder abduction 158",
-   "value": 7.69,
-   "reason": "shoulder girdle ligament bound with the glenohumeral rule; being fixed in the upper-limb joint work (PR 269)"
-  },
-  "PK-418|thorn": {
-   "group": "ligament or fascia",
-   "name": "Right costoclavicular ligament",
-   "pose": "shoulder abduction 158",
-   "value": 111,
-   "reason": "shoulder girdle ligament bound with the glenohumeral rule; being fixed in the upper-limb joint work (PR 269)"
-  },
   "PK-419|swollen": {
    "group": "ligament or fascia",
    "name": "Right superior transverse scapular ligament",
@@ -62,34 +13,6 @@
    "name": "Right superior transverse scapular ligament",
    "pose": "shoulder flexion 73 + abduction 158",
    "value": 29,
-   "reason": "shoulder girdle ligament bound with the glenohumeral rule; being fixed in the upper-limb joint work (PR 269)"
-  },
-  "PK-420|thorn": {
-   "group": "ligament or fascia",
-   "name": "Right inferior transverse scapular ligament",
-   "pose": "shoulder flexion 73 + abduction 158",
-   "value": 10,
-   "reason": "shoulder girdle ligament bound with the glenohumeral rule; being fixed in the upper-limb joint work (PR 269)"
-  },
-  "PK-421|thorn": {
-   "group": "ligament or fascia",
-   "name": "Left coraco-acromial ligament",
-   "pose": "shoulder abduction 158",
-   "value": 37,
-   "reason": "shoulder girdle ligament bound with the glenohumeral rule; being fixed in the upper-limb joint work (PR 269)"
-  },
-  "PK-422|swollen": {
-   "group": "ligament or fascia",
-   "name": "Left costoclavicular ligament",
-   "pose": "shoulder abduction 158",
-   "value": 7.73,
-   "reason": "shoulder girdle ligament bound with the glenohumeral rule; being fixed in the upper-limb joint work (PR 269)"
-  },
-  "PK-422|thorn": {
-   "group": "ligament or fascia",
-   "name": "Left costoclavicular ligament",
-   "pose": "shoulder abduction 158",
-   "value": 136,
    "reason": "shoulder girdle ligament bound with the glenohumeral rule; being fixed in the upper-limb joint work (PR 269)"
   },
   "PK-423|swollen": {
@@ -105,41 +28,6 @@
    "pose": "shoulder flexion 73 + abduction 158",
    "value": 24,
    "reason": "shoulder girdle ligament bound with the glenohumeral rule; being fixed in the upper-limb joint work (PR 269)"
-  },
-  "PK-424|thorn": {
-   "group": "ligament or fascia",
-   "name": "Left inferior transverse scapular ligament",
-   "pose": "shoulder flexion 73 + abduction 158",
-   "value": 8,
-   "reason": "shoulder girdle ligament bound with the glenohumeral rule; being fixed in the upper-limb joint work (PR 269)"
-  },
-  "nerve:Lateral pectoral nerve.l.001|thorn": {
-   "group": "nerve",
-   "name": "Lateral pectoral nerve.l",
-   "pose": "shoulder abduction 158",
-   "value": 5,
-   "reason": "thin tube across a steep part of the arm weight field at shoulder abduction 158: a few rings are stretched just over the limit; to be fixed"
-  },
-  "nerve:Lateral pectoral nerve.r.001|thorn": {
-   "group": "nerve",
-   "name": "Lateral pectoral nerve.r",
-   "pose": "shoulder abduction 158",
-   "value": 5,
-   "reason": "thin tube across a steep part of the arm weight field at shoulder abduction 158: a few rings are stretched just over the limit; to be fixed"
-  },
-  "nerve:Superior lateral brachial cutaneous nerve.l.001|thorn": {
-   "group": "nerve",
-   "name": "Superior lateral brachial cutaneous nerve.l",
-   "pose": "shoulder abduction 158",
-   "value": 7,
-   "reason": "thin tube across a steep part of the arm weight field at shoulder abduction 158: a few rings are stretched just over the limit; to be fixed"
-  },
-  "nerve:Superior lateral brachial cutaneous nerve.r.001|thorn": {
-   "group": "nerve",
-   "name": "Superior lateral brachial cutaneous nerve.r",
-   "pose": "shoulder abduction 158",
-   "value": 7,
-   "reason": "thin tube across a steep part of the arm weight field at shoulder abduction 158: a few rings are stretched just over the limit; to be fixed"
   }
  }
 }

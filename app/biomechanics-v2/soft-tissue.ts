@@ -186,7 +186,13 @@ function armWeightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''):nu
 
  if(profile==='shoulderJoint'){
   const n=name.toLowerCase();
-  if(/coracoacromial/.test(n))return pair(2,2,1);
+  // Both ends on the scapula (coraco-acromial, inferior transverse scapular): the ligament rides on the scapula as one piece.
+  // The superior transverse scapular ligament lies within 3 mm of the clavicle at rest; riding on the scapula alone it is reported as leaving the
+  // clavicle by the stability check (docs/stability-known.json may only shrink), so it keeps the blend below until that is decided.
+  if(/coraco-?acromial|inferior transverse scapular/.test(n))return pair(2,2,1);
+  // First rib and costal cartilage below, clavicle above, 2 cm from the sternoclavicular joint: nothing of it belongs to the scapula or the humerus. A blend
+  // of thorax and clavicle draws this short band out to three times its length at the end of the range, so it stays on the first rib as one piece.
+  if(/costoclavicular/.test(n))return pair(0,0,1);
   if(/acromioclavicular|coracoclavicular/.test(n))return pair(1,2,range(lateral,.10,.90));
   return pair(2,3,range(lateral,.18,.92));
  }
