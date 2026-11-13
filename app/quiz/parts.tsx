@@ -66,6 +66,7 @@ const FIELD_ORDER: Record<string, string[]> = {
   venous: ['來源', '走向', '主要分支', '引流範圍'],
   skeletal: ['主要標誌', '相關關節', '附著肌肉'],
   cardiac: ['說明'],
+  space: ['位置', '邊界', '內容物'],
 };
 const order = (system: string) => FIELD_ORDER[system] ?? [];
 
