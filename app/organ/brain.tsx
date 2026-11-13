@@ -1,7 +1,7 @@
 import {Switch} from '@/components/ui/switch';
 import {useEffect, useMemo, useRef, useState, type ReactNode} from 'react';
 import {ArrowLeft, ChevronDown, ChevronRight, Eye, EyeOff, RotateCcw} from 'lucide-react';
-import {createBrainViewer} from './brain-viewer';
+import {createBrainViewer, drawnWhenSelected} from './brain-viewer';
 import {createCsfScene, CSF_STEPS, type CsfSource} from './csf-scene';
 import {CSF_SHORT, CSF_STEP_NOTES} from './csf-notes';
 import {BRAIN_GROUPS, buildBrainTree, displayEn, relatedLobes, type BrainTreeNode} from './brain-catalogue';
@@ -255,7 +255,7 @@ export default function BrainDetail() {
       <aside className="organ-panel" aria-label="腦部控制與說明">
         <section className="organ-block organ-info" aria-live="polite">
           {noteCard && notes ? <NoteCardView card={noteCard} data={notes} hasModel={!!noteCard.mesh?.length} approxModel={!noteCard.mesh?.length && !!noteCard.approx?.length} onFocus={() => openNote(noteCard)} onClose={() => setNoteId(null)}/> : selected ? <>
-            {(view.hiddenGroups.includes(selected.group) || view.hiddenParts.includes(selected.id) || (!!view.isolate && !view.isolate.includes(selected.id))) && <p className="organ-out-of-view" role="status" lang="zh-Hant">不在目前視野，按 Focus 查看</p>}
+            {((view.hiddenGroups.includes(selected.group) && !drawnWhenSelected(selected.group)) || view.hiddenParts.includes(selected.id) || (!!view.isolate && !view.isolate.includes(selected.id))) && <p className="organ-out-of-view" role="status" lang="zh-Hant">不在目前視野，按 Focus 查看</p>}
             <h2 className="organ-info-title" lang="en">{displayEn(selected)}</h2>
             <p className="organ-info-zh" lang="zh-Hant">{selected.zh || '（尚無中文名稱）'}</p>
             <p lang="zh-Hant">分區：{BRAIN_GROUPS.find(g => g.id === selected.group)?.zh}｜{SIDE_ZH[selected.side]}{selected.region && selected.region !== selected.cat ? `｜${selected.region}` : ''}</p>
