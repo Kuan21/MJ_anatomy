@@ -49,4 +49,7 @@ assert.match(viewer, /const glass = !!state\.glass \|\| fadeCover/, 'glass is on
 assert.ok(!/alphaToCoverage|alphaHash|gl_FragCoord/.test(viewer), 'no dot-pattern transparency in the brain viewer');
 assert.match(viewer, /const forced = state\.selectedIds\.includes\(p\.id\) && DEEP_GROUPS\.test\(p\.group\)/, 'a selected deep structure is shown even when its layer is off');
 assert.match(page, /toggleGlass/); assert.match(page, /glassHidden\.current = inside\.filter/, 'the deep groups that were off are remembered'); assert.match(page, /\.\.\.back/, 'and restored when the glass is turned off');
+// the info card must not say "not in view" for a deep structure that the viewer draws anyway (forced visible while selected)
+assert.match(viewer, /export const drawnWhenSelected = \(group: string\): boolean => DEEP_GROUPS\.test\(group\)/, 'one rule for "drawn although its layer is off"');
+assert.match(page, /hiddenGroups\.includes\(selected\.group\) && !drawnWhenSelected\(selected\.group\)/, 'the out-of-view hint uses the same rule as the viewer');
 console.log('Brain detail: Loop smoothing, nerve reach, peripheral branches off and cortex fade checked.');
