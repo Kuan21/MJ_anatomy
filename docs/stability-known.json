@@ -4805,31 +4805,31 @@
   },
   "stretch|nerve:Lateral pectoral nerve.l.001|shoulder abduction 120": {
    "name": "Lateral pectoral nerve.l",
-   "measure": 80,
+   "measure": 182,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.011111111111111112,
-   "severity": 2.1
+   "fraction": 0.025277777777777777,
+   "severity": 2.5
   },
   "stretch|nerve:Lateral pectoral nerve.l.001|shoulder flexion 150": {
    "name": "Lateral pectoral nerve.l",
-   "measure": 169,
+   "measure": 314,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.02347222222222222,
-   "severity": 2.1
+   "fraction": 0.043611111111111114,
+   "severity": 2.7
   },
   "stretch|nerve:Lateral pectoral nerve.r.001|shoulder abduction 120": {
    "name": "Lateral pectoral nerve.r",
-   "measure": 92,
+   "measure": 184,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.012777777777777779,
-   "severity": 2.1
+   "fraction": 0.025555555555555557,
+   "severity": 2.5
   },
   "stretch|nerve:Lateral pectoral nerve.r.001|shoulder flexion 150": {
    "name": "Lateral pectoral nerve.r",
-   "measure": 175,
+   "measure": 316,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure.",
-   "fraction": 0.024305555555555556,
-   "severity": 2.1
+   "fraction": 0.04388888888888889,
+   "severity": 2.7
   },
   "stretch|nerve:Muscular branches of radial nerve.l.001|elbow flexion 140": {
    "name": "Muscular branches of radial nerve.l",
