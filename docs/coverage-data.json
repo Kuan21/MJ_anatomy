@@ -11034,7 +11034,7 @@
      "kind": "contained",
      "model": "Aponeurosis of epicranius",
      "source": "supplement",
-     "system": "muscular"
+     "system": "connective"
     },
     {
      "term": "Epicranius aponeurosis",
@@ -11042,7 +11042,7 @@
      "kind": "exact",
      "model": "Aponeurosis of epicranius",
      "source": "supplement",
-     "system": "muscular"
+     "system": "connective"
     },
     {
      "term": "sphincter muscle",
