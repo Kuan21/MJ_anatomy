@@ -114,13 +114,33 @@ export default function neckBreastVulva(U) {
     const at = (t, dx = 0, dy = 0, dz = 0) => P(dx, A[1] + (I[1] - A[1]) * t + dy, A[2] + (I[2] - A[2]) * t + dz);   // t = 0 at the clitoris, 1 at the introitus
     // The mound is the fat pad on the front of the symphysis: its back is 3 mm in front of the bone and its lower edge touches the labia majora.
     const mons = P(0, symLow + .014, symFront + .003 + .013);
-    out.push({name: 'Mons pubis', zh: '陰阜', system: 'reproductive', kind: 'organ', sex: 'female', geometry: [U.ellipsoid(mons, .040, .024, .013)],
+    out.push({name: 'Mons pubis', zh: '陰阜', system: 'reproductive', kind: 'organ', sex: 'female', geometry: [U.ellipsoid(mons, .034, .022, .013)],
       card: {origin: ['The fatty pad over the pubic symphysis and the pubic bones', '恥骨聯合與恥骨上的脂肪墊'], course: ['Covered with pubic hair after puberty; continues into the labia majora', '青春期後長出陰毛，向下延續為大陰唇'], supply: ['Ilio-inguinal and genital branches of the genitofemoral nerve; superficial external pudendal vessels', '髂腹股溝神經與生殖股神經生殖支；淺層陰部外動脈與靜脈']}, refs: []});
+    // A soft fold of skin and fat (labium): an elliptical section swept along a path, tall (up-down) and thin (side to side), thickest in the middle and tapering at both ends, closed at the ends.
+    // The shape follows the textbook description (labium majus about 7 cm long and 1.5–2 cm thick; labium minus a thin fold about 2–3 mm thick), not a picture.
+    const fold = (pts, half, samples = 28, sides = 14) => {
+      const n = pts.length, cr = (i) => pts[Math.max(0, Math.min(n - 1, i))], P = [];
+      for (let k = 0; k <= samples; k++) {
+        const u = k / samples * (n - 1), sg = Math.min(Math.floor(u), n - 2), t = u - sg, p0 = cr(sg - 1), p1 = cr(sg), p2 = cr(sg + 1), p3 = cr(sg + 2);
+        P.push([0, 1, 2].map(a => .5 * ((2 * p1[a]) + (-p0[a] + p2[a]) * t + (2 * p0[a] - 5 * p1[a] + 4 * p2[a] - p3[a]) * t * t + (-p0[a] + 3 * p1[a] - 3 * p2[a] + p3[a]) * t ** 3)));
+      }
+      const positions = [], indices = [];
+      P.forEach((q, i) => {
+        const a = P[Math.max(0, i - 1)], b = P[Math.min(samples, i + 1)], tan = unit(sub(b, a));
+        let side = [tan[2], 0, -tan[0]]; if (len(side) < 1e-6) side = [1, 0, 0]; side = unit(side);
+        const up = unit([side[1] * tan[2] - side[2] * tan[1], side[2] * tan[0] - side[0] * tan[2], side[0] * tan[1] - side[1] * tan[0]]), [ha, hb] = half(i / samples);
+        for (let j = 0; j < sides; j++) { const f = 2 * Math.PI * j / sides; positions.push(...add(add(q, mul(side, ha * Math.cos(f))), mul(up, hb * Math.sin(f)))); }
+      });
+      for (let i = 0; i < samples; i++) for (let j = 0; j < sides; j++) { const a = i * sides + j, b = i * sides + (j + 1) % sides, c = (i + 1) * sides + j, d = (i + 1) * sides + (j + 1) % sides; indices.push(a, c, b, b, c, d); }
+      for (let j = 1; j < sides - 1; j++) { indices.push(0, j + 1, j); const r = samples * sides; indices.push(r, r + j, r + j + 1); }
+      return {positions: Float32Array.from(positions), indices: Uint32Array.from(indices)};
+    };
+    const taper = (A, B, lo = .45) => t => { const k = lo + (1 - lo) * Math.sin(Math.PI * Math.min(1, Math.max(0, t))) ** .7; return [A * k, B * k]; };
     for (const S of SIDES) {
       const x = S.sx;
-      out.push({name: `${S.w} labium majus`, zh: `${S.zh}大陰唇`, system: 'reproductive', kind: 'organ', sex: 'female', tubes: [{pts: [at(.02, x * .016), at(.28, x * .021, 0, -.004), at(.62, x * .019), at(.90, x * .014, -.004, -.010)], r: [.0058, .0034], samples: 24, sides: 10}],
+      out.push({name: `${S.w} labium majus`, zh: `${S.zh}大陰唇`, system: 'reproductive', kind: 'organ', sex: 'female', geometry: [fold([at(.02, x * .016), at(.28, x * .021, 0, -.004), at(.62, x * .019), at(.90, x * .014, -.004, -.010)], taper(.0065, .011))],
         card: {origin: ['Fold of skin and fat from the mons pubis to the perineum, on either side of the vulva', '由陰阜延伸到會陰的皮膚與脂肪皺褶，位於外陰兩側'], course: ['Covers the labia minora and the vestibule; contains the end of the round ligament of the uterus', '覆蓋小陰唇與陰道前庭，含子宮圓韌帶的末端'], supply: ['Ilio-inguinal, genitofemoral and perineal nerves; labial branches of the internal and external pudendal arteries', '髂腹股溝神經、生殖股神經與會陰神經；陰部內、外動脈的陰唇支']}, refs: ['Position estimated on a male pelvis (see the note on the vulva)']});
-      out.push({name: `${S.w} labium minus`, zh: `${S.zh}小陰唇`, system: 'reproductive', kind: 'organ', sex: 'female', tubes: [{pts: [at(.06, x * .006, -.004), at(.30, x * .009), at(.66, x * .0095), at(.98, x * .0085, -.002, -.004)], r: [.0028, .0022], samples: 22, sides: 8}],
+      out.push({name: `${S.w} labium minus`, zh: `${S.zh}小陰唇`, system: 'reproductive', kind: 'organ', sex: 'female', geometry: [fold([at(.06, x * .006, -.004), at(.30, x * .009), at(.66, x * .0095), at(.98, x * .0085, -.002, -.004)], taper(.0022, .0065, .55))],
         card: {origin: ['Thin hairless folds of skin inside the labia majora, bounding the vestibule', '大陰唇內側無毛的薄皮膚皺褶，圍成陰道前庭'], course: ['Split in front to enclose the clitoris (prepuce and frenulum) and join behind at the frenulum of the labia', '前方分開包住陰蒂（陰蒂包皮與繫帶），後方在陰唇繫帶會合'], supply: ['Ilio-inguinal and perineal nerves; labial branches of the internal pudendal artery', '髂腹股溝神經與會陰神經；陰部內動脈的陰唇支']}, refs: []});
       out.push({name: `${S.w} bulb of vestibule`, zh: `${S.zh}前庭球`, system: 'reproductive', kind: 'organ', sex: 'female', geometry: [U.ellipsoid(at(.80, x * .0125, 0, .0), .0045, .0055, .0200)],
         card: {origin: ['Erectile tissue on each side of the vaginal orifice, deep to the labia minora', '位於陰道口兩側、小陰唇深面的勃起組織'], course: ['Joined in front by a narrow band under the clitoris; covered by bulbospongiosus', '前方以細帶在陰蒂下方相連；被球海綿體肌覆蓋'], supply: ['Perineal branches of the pudendal nerve; artery of the bulb of the vestibule', '陰部神經會陰支；前庭球動脈']}, refs: []});
