@@ -25,7 +25,18 @@
 - 禁止 force push、改寫 git 歷史（rebase、amend、reset --hard 等）。
 - **待審 PR 數量上限（使用者 2026-11-08）：** 等使用者審核的 PR 同時最多 5 個。達到上限時，先把待審 PR 準備好（修 CI、補截圖、補說明），不要再開新 PR。
 - **PR 描述開頭三行（使用者 2026-11-08）：** 第一行「改了什麼」、第二行「我要看哪裡」、第三行「風險」；之後才是完整說明。
-- **穩定期（2026-11-08 起，見 `ROADMAP.md` 最上方）：** 暫停新功能；所有 PR 標【需人工審核】，Claude 不自行 merge，由使用者 merge。
+- **穩定期（2026-11-08 起，見 `ROADMAP.md` 最上方）：** 暫停新功能；修顯示錯誤依根本原因處理。「所有 PR 標【需人工審核】、Claude 不自行 merge」的部分已由下一條（2026-11-13）取代。
+- **合併規則更新（使用者 2026-11-13，取代上面「可自動 merge／不可自動 merge」兩條與穩定期那條中互相衝突的部分）：**
+  - 只改文件、純資料（名稱、別名、相關搜尋、題庫設定）的 PR：CI `build` 全綠後自動 merge。
+  - 改畫面、模型、動畫、解剖內容的 PR：維持標題加「【需人工審核】」、PR 說明最上方寫「需人工審核，未合併」，附前後截圖，等使用者決定。
+  - 不確定算不算時，當作需人工審核。
+- **預覽部署不做（使用者 2026-11-13）：** 不調查、不修改任何部署流程。若問題只在使用者的機器上出現、在這邊重現不了，先與使用者討論再動手。
+- **審核規則（使用者 2026-11-13，每個 PR 都要照做）：**
+  - 改畫面的 PR：附前後截圖，同一角度、同一設定，桌面與手機尺寸各一組。
+  - 改互動功能（動畫、滑桿、關卡、Quiz、模擬跑考）的 PR：先確認目前環境能不能錄影、轉成 GIF 並上傳到 PR，把結果告訴使用者，**不要先做完才說**。
+    - 做得到：附一個 GIF，10 MB 以內、長度約 10 秒，示範一次完整操作。
+    - 做不到：改為連續 4 張截圖，依序代表操作的開始、中段、結尾與一個特別狀態，每張註明是哪一步。
+    - 上傳後刪除本機暫存，不佔硬碟空間。
 - **更新舊 PR 到最新 main：** 因為禁止 force push 與改寫歷史，一律把 main merge 進該 PR 分支（衝突先解決，生成檔以 repo 工具重新生成，不手改），不用 rebase。
 
 ### 內容依據
@@ -60,6 +71,16 @@
 - 新增模型要更新 `public/ATTRIBUTION.md` 與 `model_sources.json`；動作要符合人體可能的活動範圍。
 - `REVIEW_LOG.md` 分兩欄：「已自動 merge」與「等我審核」；每個 PR 開出或合併後更新。
 - 不要動 `public/models/cmu-course-notes-v4.json` 的 git 歷史（是否清除由使用者在專案完成後決定）。
+
+### 本機驗證與檢查清單（使用者 2026-11-13 指示，長期規則）
+- **推送前必須在本機跑 `npm run ci:local` 並全部通過**：它讀 `.github/workflows/deploy-preview.yml` 的 `build` job，完全照 CI 的步驟與次序跑（`check`、`check:motion`、`check:vessels`、`check:vessels:accept`、`build --base /MJ_anatomy/`）。失敗時它會印出續跑指令（`npm run ci:local -- --from=N`）。
+- **提交前一定先跑 `npm run regen`**：一次過重新生成所有生成檔與自動文件（清單在 `scripts/checks/regen.txt`）。`check-stability --write` 只會縮小已知清單，遇到新增或變差會停下，要人工決定。
+- **檢查清單不再寫在 `package.json` 的一行字串裡**：`npm run check` 與 `npm run check:motion` 由 `scripts/run-checks.mjs` 讀 `scripts/checks/check.txt`、`motion.txt`（每行一個指令）。**新增檢查時不要改這兩個檔，另開一個新檔** `scripts/checks/check.d/<yyyymmdd>-<名稱>.txt`（`motion.d/`、`regen.d/` 同理），檔案依檔名順序在主清單之後執行；不同 PR 各加各的檔案就不會衝突。`npm run check -- --from=N` 可從第 N 步續跑，`--list` 列出全部步驟。
+- **血管動作例外清單（`docs/vessel-motion-exceptions.json`）的登記規則：**
+  - 只有確認兩條血管**解剖上沒有直接相連**，才可以登記例外。
+  - 每個例外要寫原因（例如「最近鄰判定，解剖上不相連」）。
+  - 每次新增例外，PR 說明要列出是哪幾對、同一個原因，讓使用者知道。
+  - 兩條血管解剖上相連（例如分支與主幹）時**不可加例外**，要修 skinning 或連接。
 
 ### Workflow 與 PR 流程補充
 - GitHub Actions 的 workflow 名稱、檔名、log 輸出、分支名稱不可出現課程或筆記名稱，也不可輸出筆記內容（含 `echo`、除錯列印、驗證腳本的失敗訊息）。需要驗證時只輸出通過／失敗與數量。

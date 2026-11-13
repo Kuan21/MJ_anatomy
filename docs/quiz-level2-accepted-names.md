@@ -1,7 +1,7 @@
 # Quiz 第三級額外接受的答案
 
 此檔由 `node scripts/report-quiz-accepted-names.mjs` 產生，請勿手改。除了構造自己的英文名、中文名、括號內別名與同義詞表（`app/quiz/synonyms.ts`，列在 REVIEW_LOG）之外，第三級與學習關卡還接受下列寫法；群名只算「接近」並列入錯題。左右兩側同一規則，只列一側。
-合計 192 個構造有額外接受的寫法。
+合計 194 個構造有額外接受的寫法。
 
 
 ## 下肢（lower）：40 個構造
@@ -106,7 +106,7 @@
 | Right anterior interosseous nerve of forearm | 右前骨間神經 | Right anterior interosseous nerve |  |
 | Right thoracodorsal nerve | 右胸背神經 | middle subscapular nerve |  |
 
-## 胸腔（thorax）：26 個構造
+## 胸腔（thorax）：27 個構造
 
 | 題目 | 中文 | 也接受 | 只算接近 |
 | --- | --- | --- | --- |
@@ -136,8 +136,9 @@
 | Left eighth rib | 左第八肋骨 | Left 8th rib |  |
 | Left ninth rib | 左第九肋骨 | Left 9th rib |  |
 | Arch of aorta | 主動脈弓 | aortic arch |  |
+| Brachiocephalic artery | 頭臂動脈 | brachiocephalic trunk |  |
 
-## 背部（back）：30 個構造
+## 背部（back）：31 個構造
 
 | 題目 | 中文 | 也接受 | 只算接近 |
 | --- | --- | --- | --- |
@@ -171,6 +172,7 @@
 | Right multifidus | 右多裂肌 | mutifidus muscle |  |
 | Right accessory nerve (XI) | 右副神經 | 右副神經（第十一對腦神經） |  |
 | Right thoracodorsal nerve | 右胸背神經 | middle subscapular nerve |  |
+| Left great auricular nerve | 左耳大神經 | greater auricular nerve |  |
 
 ## 心臟（heart）：38 個構造
 
@@ -225,4 +227,9 @@
 | Right groove for azygos vein | 右奇靜脈溝 | 右groove for azygos vein |  |
 | Right groove for inferior vena cava | 右下腔靜脈溝 | 右groove for inferior vena cava |  |
 | Right groove for esophagus | 右食道溝 | 右groove for esophagus |  |
+
+## 腦（brain）：0 個構造
+
+| 題目 | 中文 | 也接受 | 只算接近 |
+| --- | --- | --- | --- |
 

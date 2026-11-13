@@ -12,4 +12,6 @@ export interface BrainFact {
   shared?: boolean;
   /** shared card: which structures it describes, written on the card */
   group?: string;
+  /** an extra labelled line (Note｜說明), English and Chinese */
+  note?: {zh: string; en: string};
 }
