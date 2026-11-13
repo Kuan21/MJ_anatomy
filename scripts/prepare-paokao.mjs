@@ -63,8 +63,9 @@ function bind(id, s) {
   const host = s.parent && atlasByName.get(s.parent), hostWord = host && /humerus|scapula|clavicle|radius|ulna/.exec(host.name)?.[0];
   const cy = (part.bounds[0][1] + part.bounds[1][1]) / 2;
   // A landmark on a bone of the shoulder girdle or arm follows that bone, whatever band of the body its centre falls in.
-  // Branches of the axillary artery that run on the chest wall belong to the trunk by position but must still stretch with their parent when the arm is raised.
-  const axillaryBranch = /superior thoracic artery|lateral mammary artery/i.test(s.name);
+  // The superior thoracic artery leaves the axillary artery at the first rib and stretches with it when the arm is raised. The lateral mammary arteries lie on the
+  // chest wall and stay with the trunk: bound to the arm they were pulled to three times their length and 3 to 4 cm away from the lateral thoracic artery they leave.
+  const axillaryBranch = /superior thoracic artery/i.test(s.name);
   if ((region === 'upper-limb' || hostWord || axillaryBranch) && (side === 'left' || side === 'right')) {
     bindings.tissue[id] = {name: s.name, side, profile: ARM_PROFILE[hostWord] ?? 'path'};
   } else if (region === 'lower-limb' && (side === 'left' || side === 'right')) {

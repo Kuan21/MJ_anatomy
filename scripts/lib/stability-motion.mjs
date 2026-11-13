@@ -56,7 +56,7 @@ export function makePoser(m, atlas, geometry, parts, rest) {
   for (const n of nerves) { const b = m.nerveBindings[n.raw]; if (b && softRigs[b.side]) { const base = nerveRest.get(n.id); nerveArm.set(n.id, {side: b.side, skin: m.bindTissue(softRigs[b.side], m.resolveNeurovascularProfile(n.raw, 'path'), base, undefined, n.raw)}); } }
 
   function* pose(pz) {
-    const posed = new Map(), moved = new Set();
+    const posed = new Map(), moved = new Set(), preview = new Map();
     const transformsOfBones = tr => { for (const [id, t] of Object.entries(tr)) { if (t.anchorTranslation) continue; posed.set(id, t); } };
     if (pz.kind === 'arm') {
       for (const side of ['left', 'right']) {
@@ -65,12 +65,14 @@ export function makePoser(m, atlas, geometry, parts, rest) {
         const sidePosed = new Map(); for (const r of results) sidePosed.set(r.id, r.positions);
         // linear bindings are skinned on the GPU in the viewer; the same arithmetic here
         const bound = new Map();
-        for (const input of inputs) {
+        for (const input of [...inputs.filter(i => !i.part.id.endsWith('-END')), ...inputs.filter(i => i.part.id.endsWith('-END'))]) {   // vessels before their end pieces, as in the worker
           const binding = m.tissueBindings[input.part.id];
           if (!binding || binding.name !== input.part.name || binding.side !== side || m.isMotionQuarantined(input.part) || !['upper-limb', 'trunk'].includes(m.anatomicalRegion(input.part))) continue;
           const profile = ['arterial', 'venous'].includes(input.part.system) ? m.resolveNeurovascularProfile(input.part.name, binding.profile) : binding.profile;
           const skin = m.bindTissue(softRigs[side], profile, input.base, input.part, '', input.triangles), mainId = input.part.id.endsWith('-END') ? input.part.id.slice(0, -4) : null, main = mainId && bound.get(mainId);
-          if (main) m.alignEndPiece(skin, input.base, main.skin, main.base); else bound.set(input.part.id, {skin, base: input.base});
+          if (main) m.alignEndPiece(skin, input.base, main.skin, main.base, undefined, input.triangles); else bound.set(input.part.id, {skin, base: input.base});
+          // a solver-driven vessel and its end piece are solved by the worker; while a pose is dragged the viewer shows their weights only (the coarse preview)
+          if (!m.isLinearBinding(skin) && ['arterial', 'venous'].includes(input.part.system)) { const o = new Float32Array(input.base.length); (skin.preview?.lbs ? m.lbsSkin : m.linearSkin)(skin.preview ?? skin, input.base, palette, o); preview.set(input.part.id, o); }
           if (m.isLinearBinding(skin) && !sidePosed.has(input.part.id)) { const o = new Float32Array(input.base.length); m.deformTissue(skin, input.base, palette, o); sidePosed.set(input.part.id, o); }
         }
         for (const [id, a] of sidePosed) posed.set(id, a);
@@ -86,7 +88,7 @@ export function makePoser(m, atlas, geometry, parts, rest) {
         for (const [id, nb] of nerveBody) if (nb.region === region) { const base = nerveRest.get(id), o = new Float32Array(base.length); m.deformTissue(nb.skin, base, body.palette, o); posed.set(id, o); }
       }
     }
-    yield {pose: pz, posed, moved};
+    yield {pose: pz, posed, moved, preview};
   }
   return {pose: pz => pose(pz).next().value, nerveRest};
 }

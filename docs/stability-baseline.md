@@ -12,8 +12,8 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Vessel, nerve and tendon walls inside bone | 461 |
 | Coincident faces (z-fighting) | 82 |
 | Straight cuts in meshes | 42 |
-| Triangle stretch over 2x in the limit poses | 270 |
-| Structures that leave their bone in the limit poses | 165 |
+| Triangle stretch over 2x in the limit poses | 190 |
+| Structures that leave their bone in the limit poses | 172 |
 
 ## Fragments (47)
 
@@ -667,7 +667,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | renderer clipping plane in organ/brain-viewer.ts | 1 | section plane of the brain or heart detail mode: a cut view on purpose, the cut face is drawn by the viewer |
 | renderer clipping plane in organ/heart-viewer.ts | 3 | section plane of the brain or heart detail mode: a cut view on purpose, the cut face is drawn by the viewer |
 
-## Triangle stretch over 2x in the limit poses (270)
+## Triangle stretch over 2x in the limit poses (190)
 
 | structure | size | detail |
 |---|---|---|
@@ -762,122 +762,33 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right platysma | 6 | triangles stretch beyond 2x at head extension 35: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left internal carotid artery | 4 | triangles stretch beyond 2x at head extension 35: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right internal carotid artery | 4 | triangles stretch beyond 2x at head extension 35: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right lateral thoracic artery | 4 | triangles stretch beyond 2x at shoulder abduction 120: the vessel-end piece now follows the posed shape of its vessel (thoracic cable / pectoral fan), so it carries the vessel's own stretch; before it lay 30-75 mm (up to 20 cm) away from the vessel (scripts/test-limb-tears.mjs). Fewer triangles stretch; the worst ratio belongs to a few 0.05 mm edges that are under 6 mm long once posed (stabilisation section 2 A) |
-| Right lateral thoracic artery | 4 | triangles stretch beyond 2x at shoulder flexion 150: the vessel-end piece now follows the posed shape of its vessel (thoracic cable / pectoral fan), so it carries the vessel's own stretch; before it lay 30-75 mm (up to 20 cm) away from the vessel (scripts/test-limb-tears.mjs). Fewer triangles stretch; the worst ratio belongs to a few 0.05 mm edges that are under 6 mm long once posed (stabilisation section 2 A) |
 | Left anterior tibial recurrent artery | 10 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left anterior tibial recurrent artery | 18 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right anterior tibial recurrent artery | 12 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right anterior tibial recurrent artery | 16 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Acromial branch of left thoraco-acromial artery | 22 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Acromial branch of left thoraco-acromial artery | 44 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left anterior circumflex humeral artery | 30 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left anterior circumflex humeral vein | 2 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left anterior circumflex humeral vein | 63 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left anterior circumflex humeral vein | 8 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left anterior interosseous artery | 24 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left inferior ulnar collateral artery | 24 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left axillary artery | 337 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left axillary artery | 400 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left axillary artery | 74 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left axillary vein | 2 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left axillary vein | 13 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left axillary vein | 27 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left basilic vein | 6 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left basilic vein | 4 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left basilic vein | 37 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left brachial artery | 61 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left brachial artery | 166 | triangles stretch beyond 2x at shoulder flexion 150: the brachial artery now has one more spline bridge (the loose piece is joined, see fragments); the bridge carries the vessel's own stretch, the share of stretched triangles is the same as before and the worst ratio belongs to a few tiny rest edges at its thin end (stabilisation section 2 A) |
 | Left brachial artery | 109 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left cephalic vein | 13 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left cephalic vein | 17 | triangles stretch beyond 2x at forearm rotation -80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left cephalic vein | 67 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left cephalic vein | 74 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left circumflex scapular artery | 21 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left dorsal scapular artery | 4 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left lateral thoracic vein | 27 | triangles stretch beyond 2x at shoulder abduction 120: the vessel-end piece now follows the posed shape of its vessel (thoracic cable / pectoral fan), so it carries the vessel's own stretch; before it lay 30-75 mm (up to 20 cm) away from the vessel (scripts/test-limb-tears.mjs). Fewer triangles stretch; the worst ratio belongs to a few 0.05 mm edges that are under 6 mm long once posed (stabilisation section 2 A) |
-| Left lateral thoracic vein | 31 | triangles stretch beyond 2x at shoulder flexion 150: the vessel-end piece now follows the posed shape of its vessel (thoracic cable / pectoral fan), so it carries the vessel's own stretch; before it lay 30-75 mm (up to 20 cm) away from the vessel (scripts/test-limb-tears.mjs). Fewer triangles stretch; the worst ratio belongs to a few 0.05 mm edges that are under 6 mm long once posed (stabilisation section 2 A) |
 | Left lateral thoracic vein | 30 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left median cubital vein | 102 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left median cubital vein | 18 | triangles stretch beyond 2x at forearm rotation +80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left median cubital vein | 77 | triangles stretch beyond 2x at forearm rotation -80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left posterior circumflex humeral artery | 33 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left radial artery | 56 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left radial artery | 8 | triangles stretch beyond 2x at forearm rotation -80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left radial recurrent artery | 60 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left radial vein | 10 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left radial vein | 3 | triangles stretch beyond 2x at forearm rotation +80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left recurrent interosseous artery | 268 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left subscapular artery | 8 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left subscapular vein | 18 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left suprascapular vein | 24 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left suprascapular vein | 24 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left suprascapular vein | 15 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left thoracodorsal artery | 15 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left thoracodorsal artery | 68 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left thoracodorsal artery | 51 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left thoracodorsal vein | 52 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left thoracodorsal vein | 81 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left thoracodorsal vein | 133 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left ulnar vein | 5 | triangles stretch beyond 2x at forearm rotation -80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Acromial branch of right thoraco-acromial artery | 36 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Acromial branch of right thoraco-acromial artery | 69 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right anterior circumflex humeral artery | 72 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right anterior circumflex humeral artery | 161 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right anterior circumflex humeral artery | 24 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right anterior circumflex humeral artery | 26 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right anterior circumflex humeral vein | 43 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right anterior circumflex humeral vein | 288 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right anterior circumflex humeral vein | 185 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right anterior circumflex humeral vein | 2 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right anterior interosseous artery | 5 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right axillary artery | 239 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right axillary artery | 160 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right axillary artery | 60 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right axillary vein | 91 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right axillary vein | 180 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right axillary vein | 32 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right axillary vein | 28 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right basilic vein | 24 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right basilic vein | 2 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right brachial artery | 31 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right brachial artery | 37 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right brachial artery | 107 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right cephalic vein | 36 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right cephalic vein | 3 | triangles stretch beyond 2x at forearm rotation -80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right cephalic vein | 11 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right circumflex scapular artery | 8 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right lateral thoracic vein | 7 | triangles stretch beyond 2x at shoulder abduction 120: the vessel-end piece now follows the posed shape of its vessel (thoracic cable / pectoral fan), so it carries the vessel's own stretch; before it lay 30-75 mm (up to 20 cm) away from the vessel (scripts/test-limb-tears.mjs). Fewer triangles stretch; the worst ratio belongs to a few 0.05 mm edges that are under 6 mm long once posed (stabilisation section 2 A) |
-| Right lateral thoracic vein | 6 | triangles stretch beyond 2x at shoulder flexion 150: the vessel-end piece now follows the posed shape of its vessel (thoracic cable / pectoral fan), so it carries the vessel's own stretch; before it lay 30-75 mm (up to 20 cm) away from the vessel (scripts/test-limb-tears.mjs). Fewer triangles stretch; the worst ratio belongs to a few 0.05 mm edges that are under 6 mm long once posed (stabilisation section 2 A) |
 | Right lateral thoracic vein | 23 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right median cubital vein | 139 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right median cubital vein | 94 | triangles stretch beyond 2x at forearm rotation -80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right radial artery | 6 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right radial recurrent artery | 116 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right radial vein | 40 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right radial vein | 2 | triangles stretch beyond 2x at forearm rotation +80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right radial vein | 25 | triangles stretch beyond 2x at forearm rotation -80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right recurrent interosseous artery | 149 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right subscapular artery | 26 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right subscapular vein | 17 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right suprascapular vein | 24 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right suprascapular vein | 48 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right suprascapular vein | 9 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right suprascapular artery | 2 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right thoracodorsal artery | 4 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right thoracodorsal artery | 49 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right thoracodorsal artery | 47 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right thoracodorsal vein | 11 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right thoracodorsal vein | 62 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right thoracodorsal vein | 134 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right ulnar vein | 28 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right ulnar vein | 17 | triangles stretch beyond 2x at forearm rotation -80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left palmar metacarpal vein | 25 | triangles stretch beyond 2x at forearm rotation +80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Pectoral branch of left thoraco-acromial artery | 211 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Pectoral branch of left thoraco-acromial artery | 363 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Middle collateral branch of left deep brachial artery | 126 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right medial brachial vein | 2 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Pectoral branch of right thoraco-acromial artery | 244 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Pectoral branch of right thoraco-acromial artery | 417 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Middle collateral branch of right deep brachial artery | 29 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right superior ulnar collateral artery | 72 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left superior ulnar collateral artery | 24 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left genioglossus | 136 | triangles stretch beyond 2x at head extension 35: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left hyoglossus | 309 | triangles stretch beyond 2x at head extension 35: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left palatopharyngeus | 2 | triangles stretch beyond 2x at head extension 35: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
@@ -911,12 +822,22 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right tendon of triceps brachii | 2 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left tendon of triceps brachii | 40 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right lateral cord of brachial plexus | 18 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
-| Right lateral mammary artery | 298 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right lateral mammary artery | 306 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right costoclavicular ligament | 55 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right costoclavicular ligament | 73 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left costoclavicular ligament | 54 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left costoclavicular ligament | 67 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right coraco-acromial ligament | 65 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right coraco-acromial ligament | 94 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right costoclavicular ligament | 152 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right costoclavicular ligament | 134 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right superior transverse scapular ligament | 112 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right superior transverse scapular ligament | 86 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right inferior transverse scapular ligament | 4 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right inferior transverse scapular ligament | 82 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left coraco-acromial ligament | 52 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left coraco-acromial ligament | 93 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left costoclavicular ligament | 161 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left costoclavicular ligament | 140 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left superior transverse scapular ligament | 113 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left superior transverse scapular ligament | 78 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left inferior transverse scapular ligament | 8 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left inferior transverse scapular ligament | 80 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left lateral cord of brachial plexus | 10 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right medial patellar retinaculum | 42 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right lateral patellar retinaculum | 43 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
@@ -924,8 +845,6 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Left lateral patellar retinaculum | 48 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right superior gluteal artery | 4 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right inferior gluteal artery | 115 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left lateral mammary artery | 360 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left lateral mammary artery | 362 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Lateral pectoral nerve.l | 208 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Lateral pectoral nerve.l | 336 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Lateral pectoral nerve.r | 208 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
@@ -940,16 +859,17 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Superior lateral brachial cutaneous nerve.r | 1050 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Suprascapular nerve.l | 76 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Suprascapular nerve.r | 76 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left brachial artery | 6 | six triangles reach 2.1x at shoulder flexion 150: the brachial artery now has one more spline bridge (the loose piece is joined, see fragments); the bridge follows the vessel (end-piece binding of the vessel-end fix) and carries its stretch (stabilisation section 2 A) |
 | Left patellar ligament | 6 | a few triangles reach 2.0x at hip flexion 120 / knee flexion 130, the limit of the check: a leg vessel smoothed along its centreline with more segments (lower-limb vessel smoothing) |
 
-## Structures that leave their bone in the limit poses (165)
+## Structures that leave their bone in the limit poses (172)
 
 | structure | size | detail |
 |---|---|---|
 | Accessory hemiazygos vein | 17 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Accessory hemiazygos vein | 13 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left anterior tibial recurrent artery | 29 | does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Left anterior circumflex humeral artery | 91 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Left anterior circumflex humeral artery | 90 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left anterior circumflex humeral artery | 23 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left axillary artery | 33 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left axillary artery | 29 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
@@ -957,7 +877,6 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Left axillary vein | 37 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left circumflex scapular artery | 58 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left circumflex scapular vein | 19 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Left recurrent interosseous artery | 74 | does not follow its bone at elbow flexion 140: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left suprascapular vein | 50 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left suprascapular artery | 57 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left suprascapular artery | 57 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
@@ -969,7 +888,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right circumflex scapular vein | 20 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Right posterior circumflex humeral artery | 140 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Right suprascapular vein | 87 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Right suprascapular artery | 54 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Right suprascapular artery | 52 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Right suprascapular artery | 52 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left subclavian artery | 55 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left subclavian artery | 45 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
@@ -991,8 +910,16 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Left axillary fossa | 4 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Clavicular branch of right thoraco-acromial artery | 234 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Clavicular branch of right thoraco-acromial artery | 223 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Right superior transverse scapular ligament | 16 | does not follow the clavicle at shoulder flexion 150: the superior transverse scapular ligament spans the suprascapular notch and follows the scapula only (it used to be half scapula, half humerus and stretched 12 times); where it touches the clavicle at rest the clavicle turns away from the scapula by up to 34 mm at 150 degrees (the acromioclavicular joint itself stays closed) (stabilisation section 2 A) |
-| Left superior transverse scapular ligament | 14 | does not follow the clavicle at shoulder flexion 150: the superior transverse scapular ligament spans the suprascapular notch and follows the scapula only (it used to be half scapula, half humerus and stretched 12 times); where it touches the clavicle at rest the clavicle turns away from the scapula by up to 34 mm at 150 degrees (the acromioclavicular joint itself stays closed) (stabilisation section 2 A) |
+| Right costoclavicular ligament | 27 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Right costoclavicular ligament | 32 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Right superior transverse scapular ligament | 18 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Right superior transverse scapular ligament | 16 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Right inferior transverse scapular ligament | 7 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Left costoclavicular ligament | 32 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Left costoclavicular ligament | 36 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Left superior transverse scapular ligament | 20 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Left superior transverse scapular ligament | 14 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Left inferior transverse scapular ligament | 7 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Right tendon of iliopsoas | 106 | does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Right tendon of iliopsoas | 56 | does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left tendon of iliopsoas | 96 | does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |

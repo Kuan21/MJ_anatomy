@@ -234,9 +234,9 @@
   },
   "detached|FJ2212-END|shoulder flexion 150": {
    "name": "Left anterior circumflex humeral artery",
-   "measure": 91,
+   "measure": 90,
    "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.455,
+   "fraction": 0.45,
    "severity": 17
   },
   "detached|FJ2212|shoulder flexion 150": {
@@ -288,13 +288,6 @@
    "fraction": 0.40425531914893614,
    "severity": 17
   },
-  "detached|FJ2245-END|elbow flexion 140": {
-   "name": "Left recurrent interosseous artery",
-   "measure": 74,
-   "reason": "does not follow its bone at elbow flexion 140: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.3231441048034934,
-   "severity": 18
-  },
   "detached|FJ2250-END|shoulder abduction 120": {
    "name": "Left suprascapular vein",
    "measure": 50,
@@ -307,14 +300,14 @@
    "measure": 57,
    "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.43846153846153846,
-   "severity": 19
+   "severity": 18
   },
   "detached|FJ2251-END|shoulder flexion 150": {
    "name": "Left suprascapular artery",
    "measure": 57,
    "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.43846153846153846,
-   "severity": 19
+   "severity": 18
   },
   "detached|FJ2268|shoulder abduction 120": {
    "name": "Right axillary artery",
@@ -370,13 +363,13 @@
    "measure": 87,
    "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.5028901734104047,
-   "severity": 20
+   "severity": 19
   },
   "detached|FJ2303-END|shoulder abduction 120": {
    "name": "Right suprascapular artery",
-   "measure": 54,
+   "measure": 52,
    "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.6206896551724138,
+   "fraction": 0.5977011494252874,
    "severity": 18
   },
   "detached|FJ2303-END|shoulder flexion 150": {
@@ -526,19 +519,75 @@
    "fraction": 0.9529914529914529,
    "severity": 20
   },
+  "detached|PK-418|shoulder abduction 120": {
+   "name": "Right costoclavicular ligament",
+   "measure": 27,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.84375,
+   "severity": 58
+  },
+  "detached|PK-418|shoulder flexion 150": {
+   "name": "Right costoclavicular ligament",
+   "measure": 32,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
+   "fraction": 1,
+   "severity": 60
+  },
+  "detached|PK-419|shoulder abduction 120": {
+   "name": "Right superior transverse scapular ligament",
+   "measure": 18,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.46153846153846156,
+   "severity": 60
+  },
   "detached|PK-419|shoulder flexion 150": {
    "name": "Right superior transverse scapular ligament",
    "measure": 16,
-   "reason": "does not follow the clavicle at shoulder flexion 150: the superior transverse scapular ligament spans the suprascapular notch and follows the scapula only (it used to be half scapula, half humerus and stretched 12 times); where it touches the clavicle at rest the clavicle turns away from the scapula by up to 34 mm at 150 degrees (the acromioclavicular joint itself stays closed) (stabilisation section 2 A)",
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.41025641025641024,
-   "severity": 34
+   "severity": 27
+  },
+  "detached|PK-420|shoulder flexion 150": {
+   "name": "Right inferior transverse scapular ligament",
+   "measure": 7,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.7,
+   "severity": 19
+  },
+  "detached|PK-422|shoulder abduction 120": {
+   "name": "Left costoclavicular ligament",
+   "measure": 32,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.8888888888888888,
+   "severity": 60
+  },
+  "detached|PK-422|shoulder flexion 150": {
+   "name": "Left costoclavicular ligament",
+   "measure": 36,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
+   "fraction": 1,
+   "severity": 60
+  },
+  "detached|PK-423|shoulder abduction 120": {
+   "name": "Left superior transverse scapular ligament",
+   "measure": 20,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.5128205128205128,
+   "severity": 60
   },
   "detached|PK-423|shoulder flexion 150": {
    "name": "Left superior transverse scapular ligament",
    "measure": 14,
-   "reason": "does not follow the clavicle at shoulder flexion 150: the superior transverse scapular ligament spans the suprascapular notch and follows the scapula only (it used to be half scapula, half humerus and stretched 12 times); where it touches the clavicle at rest the clavicle turns away from the scapula by up to 34 mm at 150 degrees (the acromioclavicular joint itself stays closed) (stabilisation section 2 A)",
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.358974358974359,
-   "severity": 33
+   "severity": 28
+  },
+  "detached|PK-424|shoulder flexion 150": {
+   "name": "Left inferior transverse scapular ligament",
+   "measure": 7,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.6363636363636364,
+   "severity": 20
   },
   "detached|PK-447|hip flexion 120 knee flexion 130": {
    "name": "Right tendon of iliopsoas",
@@ -4518,20 +4567,6 @@
    "fraction": 0.009569377990430622,
    "severity": 2.2
   },
-  "stretch|FJ1938-END|shoulder abduction 120": {
-   "name": "Right lateral thoracic artery",
-   "measure": 4,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: the vessel-end piece now follows the posed shape of its vessel (thoracic cable / pectoral fan), so it carries the vessel's own stretch; before it lay 30-75 mm (up to 20 cm) away from the vessel (scripts/test-limb-tears.mjs). Fewer triangles stretch; the worst ratio belongs to a few 0.05 mm edges that are under 6 mm long once posed (stabilisation section 2 A)",
-   "fraction": 0.014814814814814815,
-   "severity": 4.2
-  },
-  "stretch|FJ1938-END|shoulder flexion 150": {
-   "name": "Right lateral thoracic artery",
-   "measure": 4,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: the vessel-end piece now follows the posed shape of its vessel (thoracic cable / pectoral fan), so it carries the vessel's own stretch; before it lay 30-75 mm (up to 20 cm) away from the vessel (scripts/test-limb-tears.mjs). Fewer triangles stretch; the worst ratio belongs to a few 0.05 mm edges that are under 6 mm long once posed (stabilisation section 2 A)",
-   "fraction": 0.014814814814814815,
-   "severity": 4
-  },
   "stretch|FJ2066-END|hip flexion 120 knee flexion 130": {
    "name": "Left anterior tibial recurrent artery",
    "measure": 10,
@@ -4560,40 +4595,12 @@
    "fraction": 0.012012012012012012,
    "severity": 2.1
   },
-  "stretch|FJ2211-END|shoulder abduction 120": {
-   "name": "Acromial branch of left thoraco-acromial artery",
-   "measure": 22,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.04583333333333333,
-   "severity": 2.3
-  },
-  "stretch|FJ2211-END|shoulder flexion 150": {
-   "name": "Acromial branch of left thoraco-acromial artery",
-   "measure": 44,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.09166666666666666,
-   "severity": 2.6
-  },
   "stretch|FJ2212|shoulder flexion 150": {
    "name": "Left anterior circumflex humeral artery",
    "measure": 30,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.04178272980501393,
    "severity": 2.4
-  },
-  "stretch|FJ2213-END|shoulder abduction 120": {
-   "name": "Left anterior circumflex humeral vein",
-   "measure": 2,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.001282051282051282,
-   "severity": 2.3
-  },
-  "stretch|FJ2213-END|shoulder flexion 150": {
-   "name": "Left anterior circumflex humeral vein",
-   "measure": 63,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.04038461538461539,
-   "severity": 6
   },
   "stretch|FJ2213|shoulder flexion 150": {
    "name": "Left anterior circumflex humeral vein",
@@ -4602,54 +4609,12 @@
    "fraction": 0.0110803324099723,
    "severity": 2.1
   },
-  "stretch|FJ2214-END|elbow flexion 140": {
-   "name": "Left anterior interosseous artery",
-   "measure": 24,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.03125,
-   "severity": 3.4
-  },
-  "stretch|FJ2215-END|elbow flexion 140": {
-   "name": "Left inferior ulnar collateral artery",
-   "measure": 24,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.018867924528301886,
-   "severity": 2.8
-  },
-  "stretch|FJ2216-END|shoulder abduction 120": {
-   "name": "Left axillary artery",
-   "measure": 337,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.08887130801687763,
-   "severity": 8.3
-  },
-  "stretch|FJ2216-END|shoulder flexion 150": {
-   "name": "Left axillary artery",
-   "measure": 400,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.10548523206751055,
-   "severity": 9.6
-  },
   "stretch|FJ2216|shoulder flexion 150": {
    "name": "Left axillary artery",
    "measure": 74,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.12052117263843648,
    "severity": 2.5
-  },
-  "stretch|FJ2217-END|shoulder abduction 120": {
-   "name": "Left axillary vein",
-   "measure": 2,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.0024509803921568627,
-   "severity": 3.2
-  },
-  "stretch|FJ2217-END|shoulder flexion 150": {
-   "name": "Left axillary vein",
-   "measure": 13,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.015931372549019607,
-   "severity": 4.1
   },
   "stretch|FJ2217|shoulder flexion 150": {
    "name": "Left axillary vein",
@@ -4658,75 +4623,12 @@
    "fraction": 0.05818965517241379,
    "severity": 2.3
   },
-  "stretch|FJ2218-END|elbow flexion 140": {
-   "name": "Left basilic vein",
-   "measure": 6,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.001953125,
-   "severity": 4.7
-  },
-  "stretch|FJ2218-END|shoulder abduction 120": {
-   "name": "Left basilic vein",
-   "measure": 4,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.0013020833333333333,
-   "severity": 6.4
-  },
-  "stretch|FJ2218-END|shoulder flexion 150": {
-   "name": "Left basilic vein",
-   "measure": 37,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.012044270833333334,
-   "severity": 10.9
-  },
-  "stretch|FJ2219-END|shoulder abduction 120": {
-   "name": "Left brachial artery",
-   "measure": 61,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.05776515151515151,
-   "severity": 3.6
-  },
-  "stretch|FJ2219-END|shoulder flexion 150": {
-   "name": "Left brachial artery",
-   "measure": 166,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: the brachial artery now has one more spline bridge (the loose piece is joined, see fragments); the bridge carries the vessel's own stretch, the share of stretched triangles is the same as before and the worst ratio belongs to a few tiny rest edges at its thin end (stabilisation section 2 A)",
-   "fraction": 0.1571969696969697,
-   "severity": 32.8
-  },
   "stretch|FJ2219|shoulder flexion 150": {
    "name": "Left brachial artery",
    "measure": 109,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.14304461942257218,
    "severity": 2.4
-  },
-  "stretch|FJ2220-END|elbow flexion 140": {
-   "name": "Left cephalic vein",
-   "measure": 13,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.004669540229885058,
-   "severity": 7.3
-  },
-  "stretch|FJ2220-END|forearm rotation -80": {
-   "name": "Left cephalic vein",
-   "measure": 17,
-   "reason": "triangles stretch beyond 2x at forearm rotation -80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.00610632183908046,
-   "severity": 3.3
-  },
-  "stretch|FJ2220-END|shoulder abduction 120": {
-   "name": "Left cephalic vein",
-   "measure": 67,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.024066091954022987,
-   "severity": 6.7
-  },
-  "stretch|FJ2220-END|shoulder flexion 150": {
-   "name": "Left cephalic vein",
-   "measure": 74,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.02658045977011494,
-   "severity": 7.6
   },
   "stretch|FJ2221|shoulder flexion 150": {
    "name": "Left circumflex scapular artery",
@@ -4735,131 +4637,12 @@
    "fraction": 0.04906542056074766,
    "severity": 2.4
   },
-  "stretch|FJ2232-END|shoulder flexion 150": {
-   "name": "Left dorsal scapular artery",
-   "measure": 4,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.002380952380952381,
-   "severity": 2.1
-  },
-  "stretch|FJ2233-END|shoulder abduction 120": {
-   "name": "Left lateral thoracic vein",
-   "measure": 27,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: the vessel-end piece now follows the posed shape of its vessel (thoracic cable / pectoral fan), so it carries the vessel's own stretch; before it lay 30-75 mm (up to 20 cm) away from the vessel (scripts/test-limb-tears.mjs). Fewer triangles stretch; the worst ratio belongs to a few 0.05 mm edges that are under 6 mm long once posed (stabilisation section 2 A)",
-   "fraction": 0.052941176470588235,
-   "severity": 7.4
-  },
-  "stretch|FJ2233-END|shoulder flexion 150": {
-   "name": "Left lateral thoracic vein",
-   "measure": 31,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: the vessel-end piece now follows the posed shape of its vessel (thoracic cable / pectoral fan), so it carries the vessel's own stretch; before it lay 30-75 mm (up to 20 cm) away from the vessel (scripts/test-limb-tears.mjs). Fewer triangles stretch; the worst ratio belongs to a few 0.05 mm edges that are under 6 mm long once posed (stabilisation section 2 A)",
-   "fraction": 0.060784313725490195,
-   "severity": 7.1
-  },
   "stretch|FJ2233|shoulder flexion 150": {
    "name": "Left lateral thoracic vein",
    "measure": 30,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.0375,
    "severity": 2.1
-  },
-  "stretch|FJ2235-END|elbow flexion 140": {
-   "name": "Left median cubital vein",
-   "measure": 102,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.03571428571428571,
-   "severity": 75.1
-  },
-  "stretch|FJ2235-END|forearm rotation +80": {
-   "name": "Left median cubital vein",
-   "measure": 18,
-   "reason": "triangles stretch beyond 2x at forearm rotation +80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.0063025210084033615,
-   "severity": 2.7
-  },
-  "stretch|FJ2235-END|forearm rotation -80": {
-   "name": "Left median cubital vein",
-   "measure": 77,
-   "reason": "triangles stretch beyond 2x at forearm rotation -80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.02696078431372549,
-   "severity": 3.9
-  },
-  "stretch|FJ2240-END|shoulder flexion 150": {
-   "name": "Left posterior circumflex humeral artery",
-   "measure": 33,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.022540983606557378,
-   "severity": 5.9
-  },
-  "stretch|FJ2242-END|elbow flexion 140": {
-   "name": "Left radial artery",
-   "measure": 56,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.017543859649122806,
-   "severity": 9.2
-  },
-  "stretch|FJ2242-END|forearm rotation -80": {
-   "name": "Left radial artery",
-   "measure": 8,
-   "reason": "triangles stretch beyond 2x at forearm rotation -80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.002506265664160401,
-   "severity": 2.3
-  },
-  "stretch|FJ2243-END|elbow flexion 140": {
-   "name": "Left radial recurrent artery",
-   "measure": 60,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.05102040816326531,
-   "severity": 6
-  },
-  "stretch|FJ2244-END|elbow flexion 140": {
-   "name": "Left radial vein",
-   "measure": 10,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.002796420581655481,
-   "severity": 2.3
-  },
-  "stretch|FJ2244-END|forearm rotation +80": {
-   "name": "Left radial vein",
-   "measure": 3,
-   "reason": "triangles stretch beyond 2x at forearm rotation +80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.0008389261744966443,
-   "severity": 2.1
-  },
-  "stretch|FJ2245-END|elbow flexion 140": {
-   "name": "Left recurrent interosseous artery",
-   "measure": 268,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.1830601092896175,
-   "severity": 7.6
-  },
-  "stretch|FJ2246-END|shoulder flexion 150": {
-   "name": "Left subscapular artery",
-   "measure": 8,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.0196078431372549,
-   "severity": 2.5
-  },
-  "stretch|FJ2247-END|shoulder abduction 120": {
-   "name": "Left subscapular vein",
-   "measure": 18,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.019230769230769232,
-   "severity": 3.5
-  },
-  "stretch|FJ2250-END|shoulder abduction 120": {
-   "name": "Left suprascapular vein",
-   "measure": 24,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.06666666666666667,
-   "severity": 3.4
-  },
-  "stretch|FJ2250-END|shoulder flexion 150": {
-   "name": "Left suprascapular vein",
-   "measure": 24,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.06666666666666667,
-   "severity": 3.7
   },
   "stretch|FJ2250|shoulder flexion 150": {
    "name": "Left suprascapular vein",
@@ -4868,40 +4651,12 @@
    "fraction": 0.03456221198156682,
    "severity": 2.2
   },
-  "stretch|FJ2253-END|shoulder abduction 120": {
-   "name": "Left thoracodorsal artery",
-   "measure": 15,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.04838709677419355,
-   "severity": 3.8
-  },
-  "stretch|FJ2253-END|shoulder flexion 150": {
-   "name": "Left thoracodorsal artery",
-   "measure": 68,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.21935483870967742,
-   "severity": 6.1
-  },
   "stretch|FJ2253|shoulder flexion 150": {
    "name": "Left thoracodorsal artery",
    "measure": 51,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.11038961038961038,
    "severity": 2.5
-  },
-  "stretch|FJ2254-END|shoulder abduction 120": {
-   "name": "Left thoracodorsal vein",
-   "measure": 52,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.18571428571428572,
-   "severity": 2.7
-  },
-  "stretch|FJ2254-END|shoulder flexion 150": {
-   "name": "Left thoracodorsal vein",
-   "measure": 81,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.2892857142857143,
-   "severity": 6.4
   },
   "stretch|FJ2254|shoulder flexion 150": {
    "name": "Left thoracodorsal vein",
@@ -4910,40 +4665,12 @@
    "fraction": 0.35945945945945945,
    "severity": 2.4
   },
-  "stretch|FJ2260-END|forearm rotation -80": {
-   "name": "Left ulnar vein",
-   "measure": 5,
-   "reason": "triangles stretch beyond 2x at forearm rotation -80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.0023148148148148147,
-   "severity": 2
-  },
-  "stretch|FJ2263-END|shoulder abduction 120": {
-   "name": "Acromial branch of right thoraco-acromial artery",
-   "measure": 36,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.038461538461538464,
-   "severity": 6.9
-  },
-  "stretch|FJ2263-END|shoulder flexion 150": {
-   "name": "Acromial branch of right thoraco-acromial artery",
-   "measure": 69,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.07371794871794872,
-   "severity": 14.3
-  },
-  "stretch|FJ2264-END|shoulder abduction 120": {
-   "name": "Right anterior circumflex humeral artery",
-   "measure": 72,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.037037037037037035,
-   "severity": 5
-  },
   "stretch|FJ2264-END|shoulder flexion 150": {
    "name": "Right anterior circumflex humeral artery",
-   "measure": 161,
+   "measure": 24,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.08281893004115226,
-   "severity": 10.9
+   "fraction": 0.012345679012345678,
+   "severity": 2.2
   },
   "stretch|FJ2264|shoulder flexion 150": {
    "name": "Right anterior circumflex humeral artery",
@@ -4952,19 +4679,12 @@
    "fraction": 0.03651685393258427,
    "severity": 2.4
   },
-  "stretch|FJ2265-END|shoulder abduction 120": {
-   "name": "Right anterior circumflex humeral vein",
-   "measure": 43,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.019688644688644688,
-   "severity": 4.1
-  },
   "stretch|FJ2265-END|shoulder flexion 150": {
    "name": "Right anterior circumflex humeral vein",
-   "measure": 288,
+   "measure": 185,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.13186813186813187,
-   "severity": 9.3
+   "fraction": 0.08470695970695971,
+   "severity": 2.3
   },
   "stretch|FJ2265|shoulder flexion 150": {
    "name": "Right anterior circumflex humeral vein",
@@ -4973,27 +4693,6 @@
    "fraction": 0.002652519893899204,
    "severity": 2.1
   },
-  "stretch|FJ2266-END|elbow flexion 140": {
-   "name": "Right anterior interosseous artery",
-   "measure": 5,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.0032552083333333335,
-   "severity": 2.1
-  },
-  "stretch|FJ2268-END|shoulder abduction 120": {
-   "name": "Right axillary artery",
-   "measure": 239,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.07779947916666667,
-   "severity": 11.9
-  },
-  "stretch|FJ2268-END|shoulder flexion 150": {
-   "name": "Right axillary artery",
-   "measure": 160,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.052083333333333336,
-   "severity": 12.3
-  },
   "stretch|FJ2268|shoulder flexion 150": {
    "name": "Right axillary artery",
    "measure": 60,
@@ -5001,19 +4700,12 @@
    "fraction": 0.10309278350515463,
    "severity": 2.5
   },
-  "stretch|FJ2269-END|shoulder abduction 120": {
-   "name": "Right axillary vein",
-   "measure": 91,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.059244791666666664,
-   "severity": 8.6
-  },
   "stretch|FJ2269-END|shoulder flexion 150": {
    "name": "Right axillary vein",
-   "measure": 180,
+   "measure": 32,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.1171875,
-   "severity": 16.4
+   "fraction": 0.020833333333333332,
+   "severity": 2.3
   },
   "stretch|FJ2269|shoulder flexion 150": {
    "name": "Right axillary vein",
@@ -5022,61 +4714,12 @@
    "fraction": 0.059322033898305086,
    "severity": 2.3
   },
-  "stretch|FJ2270-END|elbow flexion 140": {
-   "name": "Right basilic vein",
-   "measure": 24,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.009523809523809525,
-   "severity": 3
-  },
-  "stretch|FJ2270-END|shoulder flexion 150": {
-   "name": "Right basilic vein",
-   "measure": 2,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.0007936507936507937,
-   "severity": 3.5
-  },
-  "stretch|FJ2271-END|shoulder abduction 120": {
-   "name": "Right brachial artery",
-   "measure": 31,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.12916666666666668,
-   "severity": 2.7
-  },
-  "stretch|FJ2271-END|shoulder flexion 150": {
-   "name": "Right brachial artery",
-   "measure": 37,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.15416666666666667,
-   "severity": 4.1
-  },
   "stretch|FJ2271|shoulder flexion 150": {
    "name": "Right brachial artery",
    "measure": 107,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.1564327485380117,
    "severity": 2.5
-  },
-  "stretch|FJ2272-END|elbow flexion 140": {
-   "name": "Right cephalic vein",
-   "measure": 36,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.011278195488721804,
-   "severity": 5.2
-  },
-  "stretch|FJ2272-END|forearm rotation -80": {
-   "name": "Right cephalic vein",
-   "measure": 3,
-   "reason": "triangles stretch beyond 2x at forearm rotation -80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.0009398496240601503,
-   "severity": 2.1
-  },
-  "stretch|FJ2272-END|shoulder flexion 150": {
-   "name": "Right cephalic vein",
-   "measure": 11,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.003446115288220551,
-   "severity": 12.5
   },
   "stretch|FJ2273|shoulder flexion 150": {
    "name": "Right circumflex scapular artery",
@@ -5085,110 +4728,12 @@
    "fraction": 0.018604651162790697,
    "severity": 2.1
   },
-  "stretch|FJ2285-END|shoulder abduction 120": {
-   "name": "Right lateral thoracic vein",
-   "measure": 7,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: the vessel-end piece now follows the posed shape of its vessel (thoracic cable / pectoral fan), so it carries the vessel's own stretch; before it lay 30-75 mm (up to 20 cm) away from the vessel (scripts/test-limb-tears.mjs). Fewer triangles stretch; the worst ratio belongs to a few 0.05 mm edges that are under 6 mm long once posed (stabilisation section 2 A)",
-   "fraction": 0.025925925925925925,
-   "severity": 29.4
-  },
-  "stretch|FJ2285-END|shoulder flexion 150": {
-   "name": "Right lateral thoracic vein",
-   "measure": 6,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: the vessel-end piece now follows the posed shape of its vessel (thoracic cable / pectoral fan), so it carries the vessel's own stretch; before it lay 30-75 mm (up to 20 cm) away from the vessel (scripts/test-limb-tears.mjs). Fewer triangles stretch; the worst ratio belongs to a few 0.05 mm edges that are under 6 mm long once posed (stabilisation section 2 A)",
-   "fraction": 0.022222222222222223,
-   "severity": 28.7
-  },
   "stretch|FJ2285|shoulder flexion 150": {
    "name": "Right lateral thoracic vein",
    "measure": 23,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.028678304239401497,
    "severity": 2
-  },
-  "stretch|FJ2287-END|elbow flexion 140": {
-   "name": "Right median cubital vein",
-   "measure": 139,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.03887024608501118,
-   "severity": 6.1
-  },
-  "stretch|FJ2287-END|forearm rotation -80": {
-   "name": "Right median cubital vein",
-   "measure": 94,
-   "reason": "triangles stretch beyond 2x at forearm rotation -80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.026286353467561523,
-   "severity": 4.4
-  },
-  "stretch|FJ2294-END|elbow flexion 140": {
-   "name": "Right radial artery",
-   "measure": 6,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.001984126984126984,
-   "severity": 3.8
-  },
-  "stretch|FJ2295-END|elbow flexion 140": {
-   "name": "Right radial recurrent artery",
-   "measure": 116,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.08192090395480225,
-   "severity": 7.1
-  },
-  "stretch|FJ2296-END|elbow flexion 140": {
-   "name": "Right radial vein",
-   "measure": 40,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.007898894154818325,
-   "severity": 7.4
-  },
-  "stretch|FJ2296-END|forearm rotation +80": {
-   "name": "Right radial vein",
-   "measure": 2,
-   "reason": "triangles stretch beyond 2x at forearm rotation +80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.00039494470774091627,
-   "severity": 4.7
-  },
-  "stretch|FJ2296-END|forearm rotation -80": {
-   "name": "Right radial vein",
-   "measure": 25,
-   "reason": "triangles stretch beyond 2x at forearm rotation -80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.0049368088467614535,
-   "severity": 5.2
-  },
-  "stretch|FJ2297-END|elbow flexion 140": {
-   "name": "Right recurrent interosseous artery",
-   "measure": 149,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.3104166666666667,
-   "severity": 2.7
-  },
-  "stretch|FJ2298-END|shoulder flexion 150": {
-   "name": "Right subscapular artery",
-   "measure": 26,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.06372549019607843,
-   "severity": 6.3
-  },
-  "stretch|FJ2299-END|shoulder abduction 120": {
-   "name": "Right subscapular vein",
-   "measure": 17,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.013888888888888888,
-   "severity": 3.2
-  },
-  "stretch|FJ2302-END|shoulder abduction 120": {
-   "name": "Right suprascapular vein",
-   "measure": 24,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.05,
-   "severity": 3.3
-  },
-  "stretch|FJ2302-END|shoulder flexion 150": {
-   "name": "Right suprascapular vein",
-   "measure": 48,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.1,
-   "severity": 3.7
   },
   "stretch|FJ2302|shoulder flexion 150": {
    "name": "Right suprascapular vein",
@@ -5197,27 +4742,6 @@
    "fraction": 0.020642201834862386,
    "severity": 2.2
   },
-  "stretch|FJ2303-END|shoulder flexion 150": {
-   "name": "Right suprascapular artery",
-   "measure": 2,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.008333333333333333,
-   "severity": 2
-  },
-  "stretch|FJ2305-END|shoulder abduction 120": {
-   "name": "Right thoracodorsal artery",
-   "measure": 4,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.014285714285714285,
-   "severity": 3.1
-  },
-  "stretch|FJ2305-END|shoulder flexion 150": {
-   "name": "Right thoracodorsal artery",
-   "measure": 49,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.175,
-   "severity": 5.4
-  },
   "stretch|FJ2305|shoulder flexion 150": {
    "name": "Right thoracodorsal artery",
    "measure": 47,
@@ -5225,110 +4749,12 @@
    "fraction": 0.10173160173160173,
    "severity": 2.3
   },
-  "stretch|FJ2306-END|shoulder abduction 120": {
-   "name": "Right thoracodorsal vein",
-   "measure": 11,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.05238095238095238,
-   "severity": 2.7
-  },
-  "stretch|FJ2306-END|shoulder flexion 150": {
-   "name": "Right thoracodorsal vein",
-   "measure": 62,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.29523809523809524,
-   "severity": 6.2
-  },
   "stretch|FJ2306|shoulder flexion 150": {
    "name": "Right thoracodorsal vein",
    "measure": 134,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.3602150537634409,
    "severity": 2.4
-  },
-  "stretch|FJ2312-END|elbow flexion 140": {
-   "name": "Right ulnar vein",
-   "measure": 28,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.008393285371702638,
-   "severity": 5.4
-  },
-  "stretch|FJ2312-END|forearm rotation -80": {
-   "name": "Right ulnar vein",
-   "measure": 17,
-   "reason": "triangles stretch beyond 2x at forearm rotation -80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.005095923261390888,
-   "severity": 2.1
-  },
-  "stretch|FJ2320-END|forearm rotation +80": {
-   "name": "Left palmar metacarpal vein",
-   "measure": 25,
-   "reason": "triangles stretch beyond 2x at forearm rotation +80: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.04528985507246377,
-   "severity": 2.6
-  },
-  "stretch|FJ2330-END|shoulder abduction 120": {
-   "name": "Pectoral branch of left thoraco-acromial artery",
-   "measure": 211,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.04995265151515151,
-   "severity": 15.1
-  },
-  "stretch|FJ2330-END|shoulder flexion 150": {
-   "name": "Pectoral branch of left thoraco-acromial artery",
-   "measure": 363,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.0859375,
-   "severity": 26.1
-  },
-  "stretch|FJ2331-END|elbow flexion 140": {
-   "name": "Middle collateral branch of left deep brachial artery",
-   "measure": 126,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.046875,
-   "severity": 5.6
-  },
-  "stretch|FJ2341-END|elbow flexion 140": {
-   "name": "Right medial brachial vein",
-   "measure": 2,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.004901960784313725,
-   "severity": 2.8
-  },
-  "stretch|FJ2361-END|shoulder abduction 120": {
-   "name": "Pectoral branch of right thoraco-acromial artery",
-   "measure": 244,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.0601577909270217,
-   "severity": 16.8
-  },
-  "stretch|FJ2361-END|shoulder flexion 150": {
-   "name": "Pectoral branch of right thoraco-acromial artery",
-   "measure": 417,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.10281065088757396,
-   "severity": 46.7
-  },
-  "stretch|FJ2362-END|elbow flexion 140": {
-   "name": "Middle collateral branch of right deep brachial artery",
-   "measure": 29,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.06041666666666667,
-   "severity": 2.2
-  },
-  "stretch|FJ2373-END|elbow flexion 140": {
-   "name": "Right superior ulnar collateral artery",
-   "measure": 72,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.046875,
-   "severity": 3.2
-  },
-  "stretch|FJ2374-END|elbow flexion 140": {
-   "name": "Left superior ulnar collateral artery",
-   "measure": 24,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.02127659574468085,
-   "severity": 2.2
   },
   "stretch|FJ2738|head extension 35": {
    "name": "Left genioglossus",
@@ -5561,47 +4987,117 @@
    "fraction": 0.025714285714285714,
    "severity": 2.1
   },
-  "stretch|PK-3|shoulder abduction 120": {
-   "name": "Right lateral mammary artery",
-   "measure": 298,
+  "stretch|PK-417|shoulder abduction 120": {
+   "name": "Right coraco-acromial ligament",
+   "measure": 65,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.49666666666666665,
-   "severity": 4.9
+   "fraction": 0.33163265306122447,
+   "severity": 2.5
   },
-  "stretch|PK-3|shoulder flexion 150": {
-   "name": "Right lateral mammary artery",
-   "measure": 306,
+  "stretch|PK-417|shoulder flexion 150": {
+   "name": "Right coraco-acromial ligament",
+   "measure": 94,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.51,
-   "severity": 6.5
+   "fraction": 0.47959183673469385,
+   "severity": 2.8
   },
   "stretch|PK-418|shoulder abduction 120": {
    "name": "Right costoclavicular ligament",
-   "measure": 55,
+   "measure": 152,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.28061224489795916,
-   "severity": 3.9
+   "fraction": 0.7755102040816326,
+   "severity": 16.6
   },
   "stretch|PK-418|shoulder flexion 150": {
    "name": "Right costoclavicular ligament",
-   "measure": 73,
+   "measure": 134,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.37244897959183676,
-   "severity": 4.7
+   "fraction": 0.6836734693877551,
+   "severity": 10.1
+  },
+  "stretch|PK-419|shoulder abduction 120": {
+   "name": "Right superior transverse scapular ligament",
+   "measure": 112,
+   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.5714285714285714,
+   "severity": 8.1
+  },
+  "stretch|PK-419|shoulder flexion 150": {
+   "name": "Right superior transverse scapular ligament",
+   "measure": 86,
+   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.4387755102040816,
+   "severity": 4.4
+  },
+  "stretch|PK-420|shoulder abduction 120": {
+   "name": "Right inferior transverse scapular ligament",
+   "measure": 4,
+   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.02040816326530612,
+   "severity": 2.5
+  },
+  "stretch|PK-420|shoulder flexion 150": {
+   "name": "Right inferior transverse scapular ligament",
+   "measure": 82,
+   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.41836734693877553,
+   "severity": 5.8
+  },
+  "stretch|PK-421|shoulder abduction 120": {
+   "name": "Left coraco-acromial ligament",
+   "measure": 52,
+   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.2653061224489796,
+   "severity": 2.6
+  },
+  "stretch|PK-421|shoulder flexion 150": {
+   "name": "Left coraco-acromial ligament",
+   "measure": 93,
+   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.4744897959183674,
+   "severity": 3
   },
   "stretch|PK-422|shoulder abduction 120": {
    "name": "Left costoclavicular ligament",
-   "measure": 54,
+   "measure": 161,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.2755102040816326,
-   "severity": 3.9
+   "fraction": 0.8214285714285714,
+   "severity": 16.8
   },
   "stretch|PK-422|shoulder flexion 150": {
    "name": "Left costoclavicular ligament",
-   "measure": 67,
+   "measure": 140,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.34183673469387754,
-   "severity": 4.6
+   "fraction": 0.7142857142857143,
+   "severity": 9.3
+  },
+  "stretch|PK-423|shoulder abduction 120": {
+   "name": "Left superior transverse scapular ligament",
+   "measure": 113,
+   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.576530612244898,
+   "severity": 7.6
+  },
+  "stretch|PK-423|shoulder flexion 150": {
+   "name": "Left superior transverse scapular ligament",
+   "measure": 78,
+   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.3979591836734694,
+   "severity": 4.2
+  },
+  "stretch|PK-424|shoulder abduction 120": {
+   "name": "Left inferior transverse scapular ligament",
+   "measure": 8,
+   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.04081632653061224,
+   "severity": 2.6
+  },
+  "stretch|PK-424|shoulder flexion 150": {
+   "name": "Left inferior transverse scapular ligament",
+   "measure": 80,
+   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.40816326530612246,
+   "severity": 5.9
   },
   "stretch|PK-46|shoulder flexion 150": {
    "name": "Left lateral cord of brachial plexus",
@@ -5651,20 +5147,6 @@
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.16428571428571428,
    "severity": 2.5
-  },
-  "stretch|PK-8|shoulder abduction 120": {
-   "name": "Left lateral mammary artery",
-   "measure": 360,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.6,
-   "severity": 5.1
-  },
-  "stretch|PK-8|shoulder flexion 150": {
-   "name": "Left lateral mammary artery",
-   "measure": 362,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.6033333333333334,
-   "severity": 7
   },
   "stretch|nerve:Lateral pectoral nerve.l.001|shoulder abduction 120": {
    "name": "Lateral pectoral nerve.l",
@@ -6198,6 +5680,13 @@
    "name": "Left inferior epigastric artery",
    "measure": 112,
    "reason": "two coaxial end pieces on the femoral artery (a vessel end piece and the end of a connector) lie within 0.15 mm after the connector was rebuilt with more rings and sides; they share one tube radius and flicker only where they overlap"
+  },
+  "stretch|FJ2219-END|shoulder flexion 150": {
+   "name": "Left brachial artery",
+   "measure": 6,
+   "reason": "six triangles reach 2.1x at shoulder flexion 150: the brachial artery now has one more spline bridge (the loose piece is joined, see fragments); the bridge follows the vessel (end-piece binding of the vessel-end fix) and carries its stretch (stabilisation section 2 A)",
+   "fraction": 0.005681818181818182,
+   "severity": 2.1
   },
   "stretch|PK-434|hip flexion 120 knee flexion 130": {
    "name": "Left patellar ligament",
