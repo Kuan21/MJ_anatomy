@@ -3,6 +3,8 @@ export interface BrainPart {
   id: string;
   /** English name without side or mesh suffix, e.g. "Central sulcus" */
   en: string;
+  /** the model's own label when app/organ/brain-overrides.ts gives the structure another name */
+  was?: string;
   zh: string;
   side: 'left' | 'right' | 'mid';
   /** the model's own category (bx_cat) and region (bx_region) */

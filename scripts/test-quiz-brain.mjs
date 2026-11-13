@@ -10,7 +10,9 @@ const {exclusionOf, nameCounts, namingPool} = await quizModule('app/quiz/level2.
 const {normalize, judgeName} = await quizModule('app/quiz/naming.ts');
 const {structureCard} = await quizModule('app/quiz/card.ts');
 const {buildLessons} = await quizModule('app/quiz/lessons.ts');
-const {BRAIN_SECTION_GROUPS, BRAIN_EXCLUSION_REASONS, brainSectionOf, brainLayerOf, coversBrainTarget, brainSystemOf, PERIPHERAL_NERVE} = await quizModule('app/quiz/brain.ts');
+const {BRAIN_SECTION_GROUPS, BRAIN_EXCLUSION_REASONS, brainSectionOf, brainLayerOf, coversBrainTarget, brainSystemOf, PERIPHERAL_NERVE, BRAIN_NAME_CLASHES, brainNameClashes} = await quizModule('app/quiz/brain.ts');
+const {BRAIN_OVERRIDES, DECUSSATION_NOTE, brainOverrideOf} = await quizModule('app/organ/brain-overrides.ts');
+const {askedAtLevel, inLessons, inMockExam} = await quizModule('app/quiz/catalogue.ts');
 const {BRAIN_GROUPS} = await quizModule('app/organ/brain-catalogue.ts');
 const {SCHEMATIC} = await quizModule('app/organ/brain-schematic.ts');
 
@@ -95,16 +97,81 @@ assert.equal(meshes + fromModel.length, nodes, `${nodes} nodes of the model = ${
 assert.equal(report.excluded.filter(e => e.reason === 'schematic').length, SCHEMATIC.length, 'every schematic structure of the brain viewer is listed as not asked');
 assert.equal(report.excluded.filter(e => e.reason === 'meninges').length, 3, 'falx cerebri and the two tentoria');
 assert.ok(report.excluded.filter(e => e.reason === 'peripheral-nerve').every(e => PERIPHERAL_NERVE.test(e.name.replace(/^(Left|Right) /, '').toLowerCase())));
+// ---- name clashes (docs/quiz-brain-pool.md 「同名檢查」): every clash of the model's names is explained, every explanation still applies
+const clashKeys = report.nameClashes.map(k => k.key);
+for (const k of report.nameClashes) assert.ok(BRAIN_NAME_CLASHES[k.key], `unexplained name clash "${k.key}" (${k.members.map(m => m.modelName).join('; ')}): add it to BRAIN_NAME_CLASHES in app/quiz/brain.ts with what to do`);
+for (const key of Object.keys(BRAIN_NAME_CLASHES)) assert.ok(clashKeys.includes(key), `BRAIN_NAME_CLASHES "${key}" no longer clashes: remove the explanation`);
+assert.equal(report.nameClashes.length, Object.keys(BRAIN_NAME_CLASHES).length);
+// the detector itself
+const mk = (name, side, group = 'g', chinese = undefined) => ({name, side, group, cx: 0, chinese});
+assert.equal(brainNameClashes([mk('Left Foo', 'left'), mk('Right Foo', 'right')]).length, 0, 'a left/right pair is no clash');
+assert.ok(brainNameClashes([mk('Left Foo', 'left'), mk('Right Foo', 'right'), mk('Foo', 'midline')]).some(k => k.kinds.some(x => x.startsWith('i '))));
+assert.ok(brainNameClashes([mk('Left Foo', 'left'), mk('Left foo', 'left')]).some(k => k.kinds.some(x => x.startsWith('ii'))));
+assert.ok(brainNameClashes([mk('Foo', 'midline', 'a'), mk('Foo', 'midline', 'b')]).some(k => k.kinds.some(x => x.startsWith('iv'))));
+assert.ok(brainNameClashes([mk('Left Foo (x 1)', 'left'), mk('Right Foo (x-1)', 'right')]).some(k => k.kinds.some(x => x.startsWith('v '))), 'a pair with different spellings');
+assert.ok(brainNameClashes([mk('Foo', 'midline', 'g', '甲'), mk('Bar', 'midline', 'g', '甲')]).some(k => k.kinds.some(x => x.startsWith('iv'))), 'one Chinese name on two structures');
+// ---- the superior cerebellar peduncles: left and right are asked under their own names, the midline mesh is held back until the owner confirms its name
+const scp = n => catalogue.structures.find(s => s.name === n);
+for (const [name, chinese, sign] of [['Left Superior cerebellar peduncle', '左小腦上腳', 1], ['Right Superior cerebellar peduncle', '右小腦上腳', -1]]) {
+  const s = scp(name); assert.ok(s, `${name} is asked`); assert.equal(s.chinese, chinese);
+  assert.ok(Math.sign((s.bounds[0][0] + s.bounds[1][0]) / 2) === sign, `${name} lies on the ${sign > 0 ? 'left (+x)' : 'right (-x)'} of the brain`);
+}
+// the midline mesh: the decussation, asked ONLY at level 3 (not level 1, not the lessons, not the mock exam); availability flag from app/organ/brain-overrides.ts
+const dec = catalogue.structures.find(s => s.name === 'Decussation of superior cerebellar peduncles');
+assert.ok(dec && dec.chinese === '小腦上腳交叉' && dec.side === 'midline', 'the decussation is in the brain catalogue');
+assert.deepEqual(dec.availability, {levels: [3], lessons: false, exam: false});
+assert.ok(!catalogue.structures.some(s => /^superior cerebellar peduncle$/i.test(s.name)), 'no structure keeps the ambiguous model name');
+assert.ok(!report.excluded.some(e => /Decussation of superior/.test(e.name)), 'the decussation is not excluded any more');
+assert.ok(!askedAtLevel(dec, 1) && askedAtLevel(dec, 3) && !inLessons(dec) && !inMockExam(dec));
+const rule = brainOverrideOf('Superior cerebellar peduncle', 'mid');
+assert.equal(rule.note.zh, '示意結構，表示纖維交叉的位置，非真實形狀；位於中腦下丘水平、導水管前方的被蓋內');
+assert.equal(rule.note.en, DECUSSATION_NOTE.en);
+const decCard = structureCard(dec), noteField = decCard.fields.find(f => f.label === '說明 Note');
+assert.ok(noteField && noteField.zh.includes(DECUSSATION_NOTE.zh) && noteField.zh.includes(DECUSSATION_NOTE.en), 'the answer card carries the bilingual note line');
+// only the flagged structures differ between the levels, and only this one is flagged in the brain
+assert.deepEqual(catalogue.structures.filter(s => s.availability).map(s => s.name), ['Decussation of superior cerebellar peduncles']);
+assert.deepEqual(BRAIN_OVERRIDES.filter(o => o.quiz).map(o => o.en), ['Decussation of superior cerebellar peduncles']);
+// ---- the same names on the MAIN site (one shared override table): the brain viewer's parts, its card, the neuro cards and the site search
+{
+  const {describeBrainNode, displayEn} = await quizModule('app/organ/brain-catalogue.ts');
+  const {factOf} = await quizModule('app/organ/brain-facts.ts');
+  const {gunzipSync} = await import('node:zlib');
+  const mk = (label, side, cat = 'tracts', region = '') => describeBrainNode({name: label, cat, region, label, side}, 0);
+  const mid = mk('Superior cerebellar peduncle', 'mid'), left = mk('Superior cerebellar peduncle', 'left', 'cerebellum'), right = mk('Superior cerebellar peduncle', 'right', 'cerebellum');
+  assert.equal(displayEn(mid), 'Decussation of superior cerebellar peduncles'); assert.equal(mid.zh, '小腦上腳交叉');
+  assert.equal(displayEn(left), 'Left Superior cerebellar peduncle'); assert.equal(left.zh, '左小腦上腳'); assert.equal(right.zh, '右小腦上腳');
+  assert.equal(factOf(mid).note.zh, DECUSSATION_NOTE.zh); assert.equal(factOf(mid).note.en, DECUSSATION_NOTE.en);
+  const cards = JSON.parse(fs.readFileSync('public/models/brain/neuro-cards.json', 'utf8')), card = cards.cards.find(c => c.en === 'Decussation of superior cerebellar peduncles');
+  assert.ok(card && card.zh === '小腦上腳交叉' && cards.partCards['Decussation of superior cerebellar peduncles']?.includes(card.id), 'the neuro card of the decussation is linked to its mesh');
+  const note = card.fields.find(f => f.label === '說明 Note');
+  assert.deepEqual(note.items, [DECUSSATION_NOTE.zh, DECUSSATION_NOTE.en], 'the card text and the shared note say the same');
+  assert.equal(cards.cards.find(c => c.id === '0193').zh, '小腦上腳');
+  assert.ok(!('Middle cerebral artery (M3 segment)' in cards.partCards) && !('Insular branches of middle cerebral artery (M2)' in cards.partCards), 'the old M2/M3 spellings are gone from the card links');
+  const extras = JSON.parse(gunzipSync(fs.readFileSync('public/models/search-extras.json.gz'))).filter(e => e.k === 'brain').map(e => e.n.toLowerCase());
+  assert.ok(extras.includes('decussation of superior cerebellar peduncles') && extras.includes('left middle cerebral artery (m3-segment)') && !extras.some(n => /m3 segment|\(m2\)$/.test(n)), 'the site search uses the shared names');
+}
 for (const name of ['Left Buccal nerve', 'Falx cerebri', 'Anterior spinal artery']) assert.ok(report.excluded.some(e => e.name === name), `${name} is listed as excluded`);
 assert.ok(fs.existsSync('docs/quiz-brain-pool.md') && fs.readFileSync('docs/quiz-brain-pool.md', 'utf8').includes('不出題的構造'), 'docs/quiz-brain-pool.md exists');
 
 // ---- pool and scenes through the shared engine
 const all = QUIZ_CATEGORIES.map(c => c.id);
 const base = {section: 'all', side: 'both', systems: [], categories: all, count: 9999};
-assert.equal(questionPool(catalogue, base).length, catalogue.structures.length);
-assert.equal(namingPool(catalogue, base).length, catalogue.structures.length, 'levels 1, 2 and 3 hold the same questions');
+const flagged = catalogue.structures.filter(s => s.availability);
+assert.equal(questionPool(catalogue, base).length, catalogue.structures.length - flagged.length, 'level 1 asks everything except the flagged structures');
+assert.ok(!questionPool(catalogue, base).some(s => s.availability), 'the decussation is not in the level 1 bank');
+assert.equal(namingPool(catalogue, base).length, catalogue.structures.length, 'level 3 asks every structure, the flagged ones included');
+assert.ok(namingPool(catalogue, base).some(s => s.id === dec.id), 'the decussation is in the level 3 bank');
+// the guided lessons: every other structure is in exactly one lesson; the flagged ones are legitimately in no lesson
+const lessonIds = buildLessons(catalogue, base).flatMap(l => l.ids);
+assert.ok(!lessonIds.includes(dec.id), 'the decussation is in no lesson');
+assert.equal(new Set(lessonIds).size, lessonIds.length);
+assert.equal(lessonIds.length, catalogue.structures.length - flagged.length, 'every non-flagged structure is in exactly one lesson; the flagged ones are in none');
+// a question about another structure does not draw the flagged one as context, and its own question does draw it
+const other = catalogue.structures.find(s => s.name === 'Left Red nucleus');
+assert.ok(!sceneStructures(catalogue, other, 'all', 'both').some(s => s.id === dec.id), 'level 1 scenes do not draw the decussation');
+assert.ok(sceneStructures(catalogue, dec, 'all', 'both').some(s => s.id === dec.id));
 for (const section of sectionIds) assert.ok(questionPool(catalogue, {...base, section}).length > 0, `section ${section} has questions`);
-assert.equal(sectionIds.reduce((n, id) => n + questionPool(catalogue, {...base, section: id}).length, 0), catalogue.structures.length, 'the sections partition the pool');
+assert.equal(sectionIds.reduce((n, id) => n + questionPool(catalogue, {...base, section: id}).length, 0), catalogue.structures.length - flagged.length, 'the sections partition the level 1 pool');
 for (const c of ['organ', 'nerve', 'artery', 'vein']) assert.ok(byCategory[c] > 0, `category ${c} has questions`);
 for (const c of ['bone', 'muscle', 'tendon', 'ligament', 'joint', 'space']) assert.equal(byCategory[c] ?? 0, 0, `no ${c} questions in the brain`);
 // a side chosen on the setup page keeps its own structures and the midline ones

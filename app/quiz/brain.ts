@@ -71,3 +71,47 @@ export const BRAIN_EXCLUSION_REASONS: Record<BrainExclusion, string> = {
 
 /** The brain viewer's category of a node, as a quiz system: nerve roots are nerves, vessels are arteries and veins, everything else is a brain structure (category 器官結構). */
 export const brainSystemOf = (group: string): 'nervous' | 'arterial' | 'venous' | 'brain' => group === 'cranial' ? 'nervous' : group === 'arteries' ? 'arterial' : group === 'veins' ? 'venous' : 'brain';
+
+/** Bounding-box centre x (metres, brain package frame) a mesh named in app/organ/brain-overrides.ts must have: left meshes lie at +x, right at -x, a midline mesh within 3 mm of the midline. */
+export const renameSideOk = (rule: {x?: 'positive' | 'negative' | 'near-zero'}, centreX: number) => !rule.x || (rule.x === 'positive' ? centreX > .003 : rule.x === 'negative' ? centreX < -.003 : Math.abs(centreX) < .003);
+
+/**
+ * Name clashes of the brain meshes (docs/quiz-brain-pool.md 「同名檢查」). A base name is the English name without Left/Right, lower case, letters and digits only. A clash is
+ *  (i) the same base name on a left, a right and a midline mesh, (ii) two meshes of the same side, (iii) three or more meshes, (iv) one base name in two groups or one Chinese name
+ *  (without 左/右) on two base names, (v) a left/right pair whose English spellings differ. The ones that exist are listed in BRAIN_NAME_CLASHES with what they are and what to do;
+ *  scripts/test-quiz-brain.mjs fails for a clash that is not listed and for a listed one that is gone.
+ */
+export const BRAIN_NAME_CLASHES: Record<string, string> = {
+  'superior cerebellar peduncle': '模型有三個同名網格（左、右小腦上腳與一個中線白質網格）。左右兩個維持「左小腦上腳」「右小腦上腳」並正常出題；中線網格依位置改名為「小腦上腳交叉」（使用者已確認），只開放第三級。改名表：`app/organ/brain-overrides.ts`。',
+  'middle cerebral artery (m3 segment)': '左右一對的英文寫法不一致（M3 segment／M3-segment）。已統一為 M3-segment（模型裡 M1、M2 也多用連字號），中文名「大腦中動脈（M3 段）」不變；主站與測驗同步。',
+  'insular branches of middle cerebral artery (m2)': '左右一對的英文寫法不一致（M2／M2-segment）。已統一為 M2-segment，中文名統一為「大腦中動脈島支（M2 段）」；主站與測驗同步。',
+};
+
+export interface BrainNameItem {name: string; chinese?: string; side: 'left' | 'right' | 'midline'; group: string; cx: number}
+export interface BrainNameClash<T extends BrainNameItem = BrainNameItem> {key: string; kinds: string[]; members: T[]}
+const plainName = (t: string) => t.toLowerCase().replace(/\b(left|right)\b/g, '').replace(/segment/g, '').replace(/[^a-z0-9]+/g, '');
+const plainZh = (t: string) => t.replace(/[左右]/g, '').replace(/\s+/g, '');
+/** Every name clash among `items` (see BRAIN_NAME_CLASHES for the kinds). Keys: the lower-case base name, or `zh:` + the Chinese name without 左/右 for a Chinese name used by two structures. */
+export function brainNameClashes<T extends BrainNameItem>(items: T[]): BrainNameClash<T>[] {
+  const out: BrainNameClash<T>[] = [], by = new Map<string, T[]>(), zh = new Map<string, T[]>();
+  for (const it of items) {
+    const k = plainName(it.name);
+    if (!by.has(k)) by.set(k, []);
+    by.get(k)!.push(it);
+    if (it.chinese) {const z = plainZh(it.chinese); if (!zh.has(z)) zh.set(z, []); zh.get(z)!.push(it);}
+  }
+  const rawBase = (x: T) => x.name.replace(/\b(Left|Right) /g, '').replace(/\s+/g, ' ').trim().toLowerCase();
+  for (const l of by.values()) {
+    const n = (s: string) => l.filter(x => x.side === s).length, kinds: string[] = [];
+    if (n('left') && n('right') && n('midline')) kinds.push('i 左、右、中線三者同名');
+    if (n('left') > 1 || n('right') > 1 || n('midline') > 1) kinds.push('ii 同側兩個以上同名');
+    if (l.length >= 3) kinds.push('iii 三個以上同名');
+    if (new Set(l.map(x => x.group)).size > 1) kinds.push('iv 同名但分屬不同群組');
+    if (new Set(l.map(rawBase)).size > 1) kinds.push('v 左右一對但英文寫法不一致');
+    if (kinds.length) out.push({key: l.map(rawBase).sort()[0], kinds, members: l});
+  }
+  for (const l of zh.values()) {
+    if (new Set(l.map(x => plainName(x.name))).size > 1) out.push({key: `zh:${l[0].chinese!.replace(/^[左右]/, '')}`, kinds: ['iv 同一中文名用在不同構造'], members: l});
+  }
+  return out;
+}

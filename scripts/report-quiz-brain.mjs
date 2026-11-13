@@ -30,13 +30,25 @@ const lines = ['# Quiz 腦：題庫範圍與排除清單', '',
 const missing = catalogue.structures.filter(s => !s.cardFields?.length), broader = report.asked.filter(a => a.card && !a.cardSame);
 lines.push('## 資料卡', '', `有資料卡：${catalogue.structures.length - missing.length} / ${catalogue.structures.length} 個構造；其中 ${new Set(broader.map(a => key(a))).size} 個名稱對應的是較廣概念的資料卡（例如視丘的卡片對應視丘的各個核），卡片第一行會標明「所屬資料卡」。沒有資料卡的構造在答題後的資料卡顯示「尚無資料」，並列在 \`docs/quiz-card-gaps.md\`。資料卡內容全部來自 \`public/models/brain/neuro-cards.json\`，沒有新增文字。`, '');
 
-const reasons = report.reasons;
+const reasons = report.reasons, limited = report.asked.filter(a => a.availability);
+lines.push('## 只開放部分級別的構造', '', '這些構造在 `app/organ/brain-overrides.ts` 的 `quiz` 旗標指定開放的級別；第一級題庫、學習關卡（第二級）與模擬跑考題庫都不含它們，第三級（看結構寫名稱）才出題。`scripts/check-quiz-banks.mjs` 只容許第一級與第三級題庫相差這一組。', '');
+if (!limited.length) lines.push('沒有。', '');
+else lines.push('| 構造 | 開放級別 | 學習關卡 | 模擬跑考 | 原因 |', '| --- | --- | --- | --- | --- |', ...limited.map(a => `| ${a.name}（${a.chinese}） | ${a.availability.levels.map(l => `第${l === 1 ? '一' : '三'}級`).join('、')} | ${a.availability.lessons ? '收' : '不收'} | ${a.availability.exam ? '收' : '不收'} | ${a.availabilityReason} |`), '');
 lines.push('## 不出題的構造（逐項）', '');
 for (const why of Object.keys(reasons)) {
   const group = report.excluded.filter(e => e.reason === why);
   lines.push(`### ${reasons[why]}（${group.length}）`, '');
   if (!group.length) {lines.push('沒有。', ''); continue;}
   lines.push(...group.map(e => `- ${e.name}${e.chinese ? `（${e.chinese}）` : ''} [${e.group}${e.side === 'midline' ? '' : `, ${e.side}`}]`), '');
+}
+lines.push('## 同名檢查', '',
+  '依模型原本的英文名（去掉 Left／Right、只比字母與數字）與中文名（去掉左／右）逐一比對所有腦網格；符合下列任一種就列出：(i) 左、右與中線三者同名；(ii) 同側兩個以上同名；(iii) 三個以上同名；(iv) 同名卻分屬不同群組，或同一中文名用在不同構造；(v) 左右一對但英文寫法不一致。每一項都要在 `app/quiz/brain.ts` 的 `BRAIN_NAME_CLASHES` 寫明處理方式，測試會在出現沒有說明的新同名時失敗。「中心 x」是網格包圍盒中心的 x（腦檔座標，正值為身體左側）。', '');
+if (!report.nameClashes.length) lines.push('沒有。', '');
+for (const k of report.nameClashes) {
+  lines.push(`### ${k.key.replace(/^zh:/, '')}（${k.members.length} 個網格；${k.kinds.join('；')}）`, '',
+    '| 模型名稱 | 位置 | 群組 | 中心 x | 測驗名稱（中文） | 狀態 |', '| --- | --- | --- | --- | --- | --- |',
+    ...k.members.map(m => `| ${m.modelName} | ${m.side === 'midline' ? '中線' : m.side === 'left' ? '左' : '右'} | ${m.group} | ${m.centreX} | ${m.quizName}${m.quizChinese ? `（${m.quizChinese}）` : ''} | ${m.status === 'asked' ? (limited.find(a => a.name === m.quizName) ? '出題（限第三級）' : '出題') : `不出題：${reasons[m.status]}`} |`), '',
+    `處理：${k.note ?? '（沒有說明）'}`, '');
 }
 assert.ok(report.excluded.every(e => reasons[e.reason]), 'an exclusion has no documented reason');
 const text = lines.join('\n') + '\n', file = 'docs/quiz-brain-pool.md';

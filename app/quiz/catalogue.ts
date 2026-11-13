@@ -222,7 +222,16 @@ export interface QuizStructure {
   cardFields?: {label: string; zh: string}[];
   /** A limb space (system 'space') has no mesh of its own: it is drawn as the structures that bound it, form its floor or roof and pass through it (all of the same catalogue). */
   space?: QuizSpace;
+  /** Where the structure is asked (set from app/organ/brain-overrides.ts); none = every level, the guided lessons and the mock exam. */
+  availability?: QuizAvailability;
 }
+export interface QuizAvailability {levels: (1 | 3)[]; lessons: boolean; exam: boolean}
+/** Level 1 (find the structure) and level 3 (type the name) share one bank except for the structures whose availability leaves a level out (scripts/check-quiz-banks.mjs allows exactly that difference). */
+export const askedAtLevel = (s: {availability?: QuizAvailability}, level: 1 | 3) => !s.availability || s.availability.levels.includes(level);
+/** The guided lessons (level 2) leave a structure out when its availability says lessons: false. */
+export const inLessons = (s: {availability?: QuizAvailability}) => s.availability?.lessons !== false;
+/** The future mock exam pool leaves a structure out when its availability says exam: false. */
+export const inMockExam = (s: {availability?: QuizAvailability}) => s.availability?.exam !== false;
 export type SpaceRole = 'boundary' | 'roof' | 'floor' | 'content';
 export interface QuizSpace {
   /** Id of the region in app/mj-spaces.ts (SPACES). */
@@ -479,8 +488,8 @@ export function classifySections(region: QuizRegionId, name: string, bounds: Bou
   return region === 'upper-limb' ? upperSections(name, bounds) : region === 'thorax' ? thoraxSections(name, bounds, system) : lowerSections(name, bounds);
 }
 
-export function questionPool(catalogue: QuizCatalogue, settings: QuizSettings): QuizStructure[] {
-  return catalogue.structures.filter(s => (settings.scope !== 'summary' || scopeOf(s.name, [s.id, ...s.meshIds]) === 'summary') && (settings.categories ? settings.categories.includes(categoryOf(s)) : settings.systems.includes(s.system)) && s.sections.length > 0
+export function questionPool(catalogue: QuizCatalogue, settings: QuizSettings, level: 1 | 3 = 1): QuizStructure[] {
+  return catalogue.structures.filter(s => askedAtLevel(s, level) && (settings.scope !== 'summary' || scopeOf(s.name, [s.id, ...s.meshIds]) === 'summary') && (settings.categories ? settings.categories.includes(categoryOf(s)) : settings.systems.includes(s.system)) && s.sections.length > 0
     && (settings.side === 'both' || s.side === 'midline' || settings.side === s.side)
     && (settings.section === 'all' || s.sections.includes(settings.section)));
 }
@@ -502,5 +511,7 @@ export function sceneStructures(catalogue: QuizCatalogue, target: QuizStructure,
   return catalogue.structures.filter(s => s.id === target.id || (s.system === 'muscular' && owners.includes(s.name)) || ((side === 'both' || s.side === 'midline' || s.side === side)
     && (catalogue.region === 'heart' || catalogue.region === 'lung' || (catalogue.region === 'brain' ? s.system === 'brain' || s.system === target.system : s.system === target.system || s.system === 'skeletal'))
     && (section === 'all' || s.sections.includes(section)
-      || (s.bounds[0][1] < range[1] && s.bounds[1][1] > range[0]))));
+      || (s.bounds[0][1] < range[1] && s.bounds[1][1] > range[0]))))
+    // a structure that level 1 does not ask (availability) is drawn only when it is the question itself
+    .filter(s => s.id === target.id || askedAtLevel(s, 1));
 }

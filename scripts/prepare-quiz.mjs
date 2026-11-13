@@ -22,8 +22,9 @@ const {SPACE_REGION, resolveSpace, spaceExclusion} = await quizModule('app/quiz/
 const spaceRanges = JSON.parse(fs.readFileSync(new URL('app/space-ranges.json', root), 'utf8'));
 const {jointRegion, jointExclusion, jointKey, jointKindOf, JOINT_EXCLUSION_REASONS} = await quizModule('app/quiz/joints.ts');
 const {normalize} = await quizModule('app/quiz/naming.ts');
-const {brainSectionOf, brainLayerOf, brainSystemOf, BRAIN_EXCLUSION_REASONS} = await quizModule('app/quiz/brain.ts');
+const {brainSectionOf, brainLayerOf, brainSystemOf, BRAIN_EXCLUSION_REASONS, renameSideOk, brainNameClashes, BRAIN_NAME_CLASHES} = await quizModule('app/quiz/brain.ts');
 const {SCHEMATIC} = await quizModule('app/organ/brain-schematic.ts');
+const {brainOverrideOf} = await quizModule('app/organ/brain-overrides.ts');
 const {QUIZ_SYSTEMS, QUIZ_REGIONS, LOWER_NERVES, UPPER_NERVES, THORAX_NERVES, THORAX_INCLUDE, BACK_NERVES, BACK_INCLUDE, classifySections} = await quizModule('app/quiz/catalogue.ts');
 const atlas = normalizeAtlasSystems(JSON.parse(fs.readFileSync(new URL('atlas.json', models))));
 // BodyParts3D 3.0 structures the 4.0 export left out (latissimus dorsi, multifidus, spinalis cervicis…) are quiz answers too: their packages are read like the atlas chunks.
@@ -108,11 +109,11 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
   const def = QUIZ_REGIONS[region], short = def.file.replace(/^quiz-|\.json$/g, '');
   const items = [], structures = new Map();
   const groupId = (system, name) => `${system}:${name.toLowerCase().replace(/\s+/g, ' ').trim()}`;
-  function add({id, name, chinese, system, side, bounds, source, positions, normals, indices, sections, description, layer, cardFields}) {
+  function add({id, name, chinese, system, side, bounds, source, positions, normals, indices, sections, description, layer, cardFields, availability}) {
     const structureId = groupId(system, name);
     let structure = structures.get(structureId);
     if (!structure) {
-      structure = {id: structureId, name, chinese, system, side, sections: sections ?? classifySections(region, name, bounds, system), meshIds: [], bounds: bounds.map(b => [...b]), source, ...(description ? {description} : {}), ...(layer ? {layer} : {}), ...(cardFields ? {cardFields} : {})};
+      structure = {id: structureId, name, chinese, system, side, sections: sections ?? classifySections(region, name, bounds, system), meshIds: [], bounds: bounds.map(b => [...b]), source, ...(description ? {description} : {}), ...(layer ? {layer} : {}), ...(cardFields ? {cardFields} : {}), ...(availability ? {availability} : {})};
       structures.set(structureId, structure);
     }
     structure.meshIds.push(id);
@@ -140,11 +141,14 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
     const candidates = rows.map(r => {
       const side = r.part.side === 'mid' ? 'midline' : r.part.side, group = r.part.group;
       const {card, same} = cardOf(r.part.en);
-      const fields = card ? card.fields.map(f => ({label: f.label, zh: f.items.join('；')})) : undefined;
+      const fields = card ? card.fields.map(f => ({label: f.label, zh: f.items.join(/[㐀-鿿]/.test(f.items[0]) && !/[㐀-鿿]/.test(f.items[f.items.length - 1]) ? '　' : '；')})) : undefined;
       // A card for a wider concept (the card of the thalamus for the pulvinar) says so in its first line.
       const cardFields = fields ? (same ? fields : [{label: '所屬資料卡', zh: `${card.zh}（${card.en}）`}, ...fields]) : undefined;
-      const chinese = r.part.zh || undefined;
-      return {r, side, group, name: r.name, chinese, system: brainSystemOf(group), section: brainSectionOf(group), layer: brainLayerOf(group, r.part.en), cardFields, cardId: card?.id, cardSame: !!same, reason: group === 'meninges' ? 'meninges' : !chinese ? 'no-chinese-name' : null};
+      // names and availability that differ from the model (app/organ/brain-overrides.ts, shared with the main brain viewer); the side of an overridden mesh is checked against its position
+      const chinese = r.part.zh || undefined, name = r.name, bb = r.geometry.boundingBox, cx = (bb.min.x + bb.max.x) / 2, rule = brainOverrideOf(r.part.was ?? r.part.en, r.part.side);
+      if (rule && !renameSideOk(rule, cx)) throw Error(`brain override ${rule.label} (${r.part.side}): the mesh centre x ${cx.toFixed(4)} does not match its side`);
+      const availability = rule?.quiz ? {levels: rule.quiz.levels, lessons: rule.quiz.lessons, exam: rule.quiz.exam} : undefined, availabilityReason = rule?.quiz ? '只開放第三級；不入學習關卡與模擬跑考（大體標本表面看不到）' : undefined;   // written on the pool report (docs only, never shipped)
+      return {r, side, group, name, chinese, cx, availability, availabilityReason, system: brainSystemOf(group), section: brainSectionOf(group), layer: brainLayerOf(group, r.part.en), cardFields, cardId: card?.id, cardSame: !!same, reason: group === 'meninges' ? 'meninges' : !chinese ? 'no-chinese-name' : null};
     });
     // A typed name must have one right answer: structures that share a name once left and right are set aside (a midline and a paired structure, or two different Chinese names the same) are asked by none of them.
     const idOf = c => `${c.system}:${c.name.toLowerCase().replace(/\s+/g, ' ').trim()}`;
@@ -157,19 +161,25 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
       if (list.length > 1 && !(list.length === 2 && sides.has('left') && sides.has('right') && sides.size === 2 && new Set(list.map(c => c.system)).size === 1)) for (const c of list) c.reason ??= 'name-not-unique';
     }
     const asked = candidates.filter(c => !c.reason);
+    // Name clashes of the model's own names (docs/quiz-brain-pool.md 「同名檢查」): every one has to be explained in BRAIN_NAME_CLASHES (checked by scripts/test-quiz-brain.mjs).
+    const nameClashes = brainNameClashes(candidates.map(c => ({name: (c.side === 'left' ? 'Left ' : c.side === 'right' ? 'Right ' : '') + (c.r.part.was ?? c.r.part.en), chinese: c.chinese, side: c.side, group: c.group, cx: c.cx, quizName: c.name, quizChinese: c.chinese, status: c.reason ?? 'asked'}))).map(k => ({
+      key: k.key, kinds: k.kinds, note: BRAIN_NAME_CLASHES[k.key] ?? null,
+      members: k.members.map(m => ({modelName: m.name, modelChinese: m.chinese, side: m.side, group: m.group, centreX: +m.cx.toFixed(4), quizName: m.quizName, quizChinese: m.quizChinese, status: m.status})),
+    })).sort((a, b) => a.key.localeCompare(b.key));
     for (const c of asked) {
       const {r} = c, position = r.geometry.getAttribute('position'), index = r.geometry.getIndex(), normal = r.geometry.getAttribute('normal');
       const normals = new Int16Array(normal.count * 3);
       normal.array.forEach((v, i) => {normals[i] = Math.round(v * 32767);});
       const bb = r.geometry.boundingBox, bounds = [bb.min.toArray(), bb.max.toArray()];
-      add({id: `brain:${r.part.id}`, name: c.name, chinese: c.chinese, system: c.system, side: c.side, bounds, source: 'Brain Project', sections: [c.section], layer: c.layer, cardFields: c.cardFields,
+      add({id: `brain:${r.part.id}`, name: c.name, chinese: c.chinese, system: c.system, side: c.side, bounds, source: 'Brain Project', sections: [c.section], layer: c.layer, cardFields: c.cardFields, availability: c.availability,
         positions: Buffer.from(new Float32Array(position.array).buffer), normals: Buffer.from(normals.buffer), indices: Buffer.from(new Uint32Array(index.array).buffer)});
     }
     const entry = (name, chinese, group, side, why, extra = {}) => ({name, chinese, group, side, reason: why, ...extra});
     fs.mkdirSync(new URL('.sites-runtime/', root), {recursive: true});
     fs.writeFileSync(new URL('.sites-runtime/quiz-brain-report.json', root), JSON.stringify({
       reasons: BRAIN_EXCLUSION_REASONS,
-      asked: asked.map(c => ({name: c.name, chinese: c.chinese, group: c.group, side: c.side, system: c.system, section: c.section, layer: c.layer, card: c.cardId ?? null, cardSame: c.cardSame})).sort((a, b) => a.name.localeCompare(b.name)),
+      nameClashes,
+      asked: asked.map(c => ({name: c.name, chinese: c.chinese, group: c.group, side: c.side, system: c.system, section: c.section, layer: c.layer, card: c.cardId ?? null, cardSame: c.cardSame, ...(c.availability ? {availability: c.availability, availabilityReason: c.availabilityReason} : {})})).sort((a, b) => a.name.localeCompare(b.name)),
       excluded: [
         ...candidates.filter(c => c.reason).map(c => entry(c.name, c.chinese, c.group, c.side, c.reason)),
         ...dropped.map(d => entry(d.name ?? d.raw.label, d.part?.zh || undefined, d.part?.group ?? d.raw.cat, d.part ? (d.part.side === 'mid' ? 'midline' : d.part.side) : d.raw.side, d.reason)),
