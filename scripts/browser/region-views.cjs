@@ -1,5 +1,5 @@
 // Front / side / back screenshots of the lower limb, the gluteal region and the abdominal wall on a built site (vite preview, software GL), plus console errors.
-// usage: node scripts/browser/region-views.cjs <port> <outDir> <tag> [keys]   keys = comma list of: glute, abdwall, lower, knee
+// usage: node scripts/browser/region-views.cjs <port> <outDir> <tag> [keys]   keys = comma list of: glute, abdwall, lower, knee, abdclose, chestclose, kneeclose
 const {chromium}=require('playwright');const fs=require('fs');
 const [port='5800',out='/tmp/region-views',tag='after',only='']=process.argv.slice(2);fs.mkdirSync(out,{recursive:true});
 const want=only?new Set(only.split(',')):null;
@@ -21,5 +21,8 @@ const ANG={front:[0,0,1],left:[1,0,0],back:[0,0,-1],right:[-1,0,0]};
  await run('abdwall','腹腔','腹壁',null,null,['front','left','back']);
  await run('lower','下肢',null,null,null,['front','left','back']);
  await run('knee','下肢',null,[0.09,0.47,0.03],0.55,['front','left','back']);
+ await run('abdclose','腹腔','腹壁',[0.03,1.0,0.09],0.3,['front','left']);
+ await run('chestclose','腹腔','腹壁',[0.0,1.17,0.09],0.3,['front','left']);
+ await run('kneeclose','下肢',null,[0.05,0.5,0.0],0.3,['front','left']);
  fs.writeFileSync(`${out}/${tag}-errors.json`,JSON.stringify(errors,null,1));console.log('errors',errors.length);await b.close();console.log('done');
 })().catch(e=>{console.log('FAIL',e.message.slice(0,400));process.exit(1);});
