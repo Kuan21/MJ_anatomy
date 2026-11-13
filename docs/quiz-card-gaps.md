@@ -658,7 +658,7 @@
 - 嗅神經（第一對腦神經）（Olfactory nerve (I)）：缺 資料卡
 - 眼神經（Ophthalmic nerve）：缺 資料卡
 
-### 動脈：21 / 25 項資料完整
+### 動脈：19 / 23 項資料完整
 
 - 胼胝體邊緣動脈（Callosomarginal artery）：缺 資料卡
 - 胼胝體邊緣動脈額支（Frontal branches of callosomarginal artery）：缺 資料卡
@@ -677,7 +677,7 @@
 - 上矢狀竇（Superior sagittal sinus）：缺 資料卡
 - 橫竇（Transverse sinus）：缺 資料卡
 
-### 腦構造：120 / 173 項資料完整
+### 腦構造：122 / 175 項資料完整
 
 - 枕極（Occipital pole）：缺 資料卡
 - 頂枕溝（Parieto-occipital sulcus）：缺 資料卡
