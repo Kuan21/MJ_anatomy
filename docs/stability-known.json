@@ -3972,185 +3972,94 @@
   },
   "stretch|FJ1395M|hip flexion 120 knee flexion 130": {
    "name": "Long head of left biceps femoris",
-   "measure": 89,
+   "measure": 12,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.0791814946619217,
-   "severity": 8.4
+   "fraction": 0.010676156583629894,
+   "severity": 2
   },
   "stretch|FJ1395|hip flexion 120 knee flexion 130": {
    "name": "Long head of right biceps femoris",
-   "measure": 100,
+   "measure": 4,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.08896797153024912,
-   "severity": 7.7
+   "fraction": 0.0035587188612099642,
+   "severity": 2
   },
   "stretch|FJ1397M|hip flexion 120 knee flexion 130": {
    "name": "Medial head of left gastrocnemius",
-   "measure": 9,
+   "measure": 8,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.010089686098654708,
+   "fraction": 0.008968609865470852,
    "severity": 2
   },
   "stretch|FJ1397|hip flexion 120 knee flexion 130": {
    "name": "Medial head of right gastrocnemius",
-   "measure": 16,
+   "measure": 6,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.018140589569160998,
+   "fraction": 0.006802721088435374,
    "severity": 2
-  },
-  "stretch|FJ1401M|hip flexion 120 knee flexion 130": {
-   "name": "Left adductor brevis",
-   "measure": 18,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.034482758620689655,
-   "severity": 2.2
   },
   "stretch|FJ1401|hip flexion 120 knee flexion 130": {
    "name": "Right adductor brevis",
-   "measure": 18,
+   "measure": 2,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.03409090909090909,
-   "severity": 2.6
-  },
-  "stretch|FJ1402M|hip flexion 120 knee flexion 130": {
-   "name": "Left adductor longus",
-   "measure": 42,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.07317073170731707,
-   "severity": 3.4
+   "fraction": 0.003787878787878788,
+   "severity": 2
   },
   "stretch|FJ1402|hip flexion 120 knee flexion 130": {
    "name": "Right adductor longus",
-   "measure": 46,
+   "measure": 2,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.08013937282229965,
-   "severity": 3
-  },
-  "stretch|FJ1403M|hip flexion 120 knee flexion 130": {
-   "name": "Left adductor magnus",
-   "measure": 70,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.04221954161640531,
-   "severity": 2.8
-  },
-  "stretch|FJ1403|hip flexion 120 knee flexion 130": {
-   "name": "Right adductor magnus",
-   "measure": 59,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.035800970873786406,
-   "severity": 6.1
-  },
-  "stretch|FJ1404M|hip flexion 120 knee flexion 130": {
-   "name": "Left adductor minimus",
-   "measure": 32,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.040100250626566414,
-   "severity": 2.9
-  },
-  "stretch|FJ1404|hip flexion 120 knee flexion 130": {
-   "name": "Right adductor minimus",
-   "measure": 35,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.04408060453400504,
-   "severity": 3
+   "fraction": 0.003484320557491289,
+   "severity": 2
   },
   "stretch|FJ1416M|hip flexion 120 knee flexion 130": {
    "name": "Left gemellus inferior",
-   "measure": 65,
+   "measure": 56,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.1425438596491228,
-   "severity": 3.5
+   "fraction": 0.12280701754385964,
+   "severity": 2.4
   },
   "stretch|FJ1416|hip flexion 120 knee flexion 130": {
    "name": "Right gemellus inferior",
-   "measure": 62,
+   "measure": 59,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.13478260869565217,
-   "severity": 3
-  },
-  "stretch|FJ1417M|hip flexion 120 knee flexion 130": {
-   "name": "Left gemellus superior",
-   "measure": 3,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.00980392156862745,
-   "severity": 2
-  },
-  "stretch|FJ1417|hip flexion 120 knee flexion 130": {
-   "name": "Right gemellus superior",
-   "measure": 5,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.016339869281045753,
-   "severity": 2
+   "fraction": 0.1282608695652174,
+   "severity": 2.4
   },
   "stretch|FJ1418M|hip flexion 120 knee flexion 130": {
    "name": "Left gluteus maximus",
-   "measure": 12,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.00967741935483871,
-   "severity": 2
-  },
-  "stretch|FJ1418|hip flexion 120 knee flexion 130": {
-   "name": "Right gluteus maximus",
-   "measure": 12,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.009708737864077669,
-   "severity": 2
-  },
-  "stretch|FJ1419|hip flexion 120 knee flexion 130": {
-   "name": "Right gluteus medius",
    "measure": 2,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.00145985401459854,
-   "severity": 2
-  },
-  "stretch|FJ1420|hip flexion 120 knee flexion 130": {
-   "name": "Right gluteus minimus",
-   "measure": 2,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.0013966480446927375,
+   "fraction": 0.0016129032258064516,
    "severity": 2
   },
   "stretch|FJ1421M|hip flexion 120 knee flexion 130": {
    "name": "Left gracilis",
-   "measure": 21,
+   "measure": 4,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.03017241379310345,
-   "severity": 2.4
+   "fraction": 0.005747126436781609,
+   "severity": 2
   },
   "stretch|FJ1421|hip flexion 120 knee flexion 130": {
    "name": "Right gracilis",
-   "measure": 24,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.034482758620689655,
-   "severity": 3.1
-  },
-  "stretch|FJ1426M|hip flexion 120 knee flexion 130": {
-   "name": "Left obturator internus",
    "measure": 2,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.001589825119236884,
-   "severity": 2
-  },
-  "stretch|FJ1426|hip flexion 120 knee flexion 130": {
-   "name": "Right obturator internus",
-   "measure": 2,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.0016,
+   "fraction": 0.0028735632183908046,
    "severity": 2
   },
   "stretch|FJ1427M|hip flexion 120 knee flexion 130": {
    "name": "Left pectineus",
-   "measure": 40,
+   "measure": 6,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.05865102639296188,
-   "severity": 3.2
+   "fraction": 0.008797653958944282,
+   "severity": 2
   },
   "stretch|FJ1427|hip flexion 120 knee flexion 130": {
    "name": "Right pectineus",
-   "measure": 32,
+   "measure": 2,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.0471976401179941,
-   "severity": 4
+   "fraction": 0.0029498525073746312,
+   "severity": 2
   },
   "stretch|FJ1429M|hip flexion 120 knee flexion 130": {
    "name": "Left plantaris",
@@ -4161,129 +4070,87 @@
   },
   "stretch|FJ1429|hip flexion 120 knee flexion 130": {
    "name": "Right plantaris",
-   "measure": 6,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.010869565217391304,
-   "severity": 2
-  },
-  "stretch|FJ1431M|hip flexion 120 knee flexion 130": {
-   "name": "Left psoas major",
    "measure": 4,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.0028530670470756064,
+   "fraction": 0.007246376811594203,
    "severity": 2
   },
   "stretch|FJ1432M|hip flexion 120 knee flexion 130": {
    "name": "Left quadratus femoris",
-   "measure": 162,
+   "measure": 68,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.2071611253196931,
-   "severity": 14.8
+   "fraction": 0.08695652173913043,
+   "severity": 2.2
   },
   "stretch|FJ1432|hip flexion 120 knee flexion 130": {
    "name": "Right quadratus femoris",
-   "measure": 165,
+   "measure": 76,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.21153846153846154,
-   "severity": 14.9
+   "fraction": 0.09743589743589744,
+   "severity": 2.3
   },
   "stretch|FJ1433M|hip flexion 120 knee flexion 130": {
    "name": "Left rectus femoris",
-   "measure": 25,
+   "measure": 10,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.02,
-   "severity": 2.1
+   "fraction": 0.008,
+   "severity": 2
   },
   "stretch|FJ1433|hip flexion 120 knee flexion 130": {
    "name": "Right rectus femoris",
-   "measure": 20,
+   "measure": 12,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.016,
-   "severity": 2.1
-  },
-  "stretch|FJ1435M|hip flexion 120 knee flexion 130": {
-   "name": "Left semimembranosus",
-   "measure": 123,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.12130177514792899,
-   "severity": 22.8
+   "fraction": 0.0096,
+   "severity": 2
   },
   "stretch|FJ1435|hip flexion 120 knee flexion 130": {
    "name": "Right semimembranosus",
-   "measure": 127,
+   "measure": 2,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.1252465483234714,
-   "severity": 22.8
-  },
-  "stretch|FJ1436M|hip flexion 120 knee flexion 130": {
-   "name": "Left semitendinosus",
-   "measure": 85,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.14261744966442952,
-   "severity": 29.9
-  },
-  "stretch|FJ1436|hip flexion 120 knee flexion 130": {
-   "name": "Right semitendinosus",
-   "measure": 93,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.15604026845637584,
-   "severity": 27.4
+   "fraction": 0.0019723865877712033,
+   "severity": 2
   },
   "stretch|FJ1441M|hip flexion 120 knee flexion 130": {
    "name": "Left vastus intermedius",
-   "measure": 108,
+   "measure": 2,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.11538461538461539,
-   "severity": 11.1
+   "fraction": 0.002136752136752137,
+   "severity": 2
   },
   "stretch|FJ1441|hip flexion 120 knee flexion 130": {
    "name": "Right vastus intermedius",
-   "measure": 100,
+   "measure": 2,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.10683760683760683,
-   "severity": 11.6
-  },
-  "stretch|FJ1442M|hip flexion 120 knee flexion 130": {
-   "name": "Left vastus lateralis",
-   "measure": 26,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.017687074829931974,
-   "severity": 2.5
-  },
-  "stretch|FJ1442|hip flexion 120 knee flexion 130": {
-   "name": "Right vastus lateralis",
-   "measure": 27,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.018367346938775512,
-   "severity": 2.6
+   "fraction": 0.002136752136752137,
+   "severity": 2
   },
   "stretch|FJ1443M|hip flexion 120 knee flexion 130": {
    "name": "Left vastus medialis",
-   "measure": 81,
+   "measure": 4,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.081,
-   "severity": 33.7
+   "fraction": 0.004,
+   "severity": 2
   },
   "stretch|FJ1443|hip flexion 120 knee flexion 130": {
    "name": "Right vastus medialis",
-   "measure": 78,
+   "measure": 14,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.078,
-   "severity": 29.6
+   "fraction": 0.014,
+   "severity": 2
   },
   "stretch|FJ1444M|hip flexion 120 knee flexion 130": {
    "name": "Short head of left biceps femoris",
-   "measure": 11,
+   "measure": 8,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.022916666666666665,
+   "fraction": 0.016666666666666666,
    "severity": 2
   },
   "stretch|FJ1444|hip flexion 120 knee flexion 130": {
    "name": "Short head of right biceps femoris",
-   "measure": 10,
+   "measure": 9,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.02032520325203252,
-   "severity": 2.1
+   "fraction": 0.018292682926829267,
+   "severity": 2
   },
   "stretch|FJ1446M|shoulder abduction 120": {
    "name": "Abdominal part of left pectoralis major",

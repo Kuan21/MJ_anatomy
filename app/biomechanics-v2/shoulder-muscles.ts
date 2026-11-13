@@ -45,6 +45,15 @@ export function makeShoulderMuscles(members:SurfaceMember[],head:Vector3,radius:
   }));
  }
  members.forEach((m,k)=>group.maps[k].forEach((node,i)=>rest.set(m.base.subarray(i*3,i*3+3),node*3)));
+ // Leg muscles (frames given): the weights of a leg muscle come from height bands, so every vertex outside the hip and knee bands is carried by one bone
+ // and would count as an attachment that cannot move. Then the whole stretch of a deep hip or knee bend has to be taken by the few coarse triangles inside
+ // the band, which tears them (hamstring origins at hip flexion 120). Only the two ends of the muscle are attachments: the belly is free to give, so the
+ // stretch spreads along the muscle.
+ if(frames&&!longitudinal)members.forEach((m,k)=>{
+  let lo=Infinity,hi=-Infinity;for(let i=1;i<m.base.length;i+=3){lo=Math.min(lo,m.base[i]);hi=Math.max(hi,m.base[i]);}
+  const span=Math.max(1e-6,hi-lo);
+  group.maps[k].forEach((node,i)=>{const t=(m.base[i*3+1]-lo)/span;group.constraints.mobility[node]=Math.min(1,Math.min(t,1-t)/.06);});
+ });
  const muscles=members.map((m,member)=>{
   const map=group.maps[member],unique=[...new Set(map)],normals=new Float64Array(rest.length),edges=new Set<string>();
   const links:number[]=[],lengths:number[]=[],axial:number[]=[],stiffness:number[]=[];

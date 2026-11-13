@@ -12,7 +12,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Vessel, nerve and tendon walls inside bone | 456 |
 | Coincident faces (z-fighting) | 82 |
 | Straight cuts in meshes | 42 |
-| Triangle stretch over 2x in the limit poses | 188 |
+| Triangle stretch over 2x in the limit poses | 169 |
 | Structures that leave their bone in the limit poses | 173 |
 
 ## Fragments (48)
@@ -663,7 +663,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | renderer clipping plane in organ/brain-viewer.ts | 1 | section plane of the brain or heart detail mode: a cut view on purpose, the cut face is drawn by the viewer |
 | renderer clipping plane in organ/heart-viewer.ts | 3 | section plane of the brain or heart detail mode: a cut view on purpose, the cut face is drawn by the viewer |
 
-## Triangle stretch over 2x in the limit poses (188)
+## Triangle stretch over 2x in the limit poses (169)
 
 | structure | size | detail |
 |---|---|---|
@@ -671,51 +671,32 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right latissimus dorsi | 2288 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left latissimus dorsi | 1684 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left latissimus dorsi | 2338 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Long head of left biceps femoris | 89 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Long head of right biceps femoris | 100 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Medial head of left gastrocnemius | 9 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Medial head of right gastrocnemius | 16 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left adductor brevis | 18 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right adductor brevis | 18 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left adductor longus | 42 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right adductor longus | 46 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left adductor magnus | 70 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right adductor magnus | 59 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left adductor minimus | 32 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right adductor minimus | 35 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left gemellus inferior | 65 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right gemellus inferior | 62 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left gemellus superior | 3 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right gemellus superior | 5 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left gluteus maximus | 12 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right gluteus maximus | 12 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right gluteus medius | 2 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right gluteus minimus | 2 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left gracilis | 21 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right gracilis | 24 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left obturator internus | 2 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right obturator internus | 2 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left pectineus | 40 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right pectineus | 32 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Long head of left biceps femoris | 12 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Long head of right biceps femoris | 4 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Medial head of left gastrocnemius | 8 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Medial head of right gastrocnemius | 6 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right adductor brevis | 2 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right adductor longus | 2 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left gemellus inferior | 56 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right gemellus inferior | 59 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left gluteus maximus | 2 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left gracilis | 4 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right gracilis | 2 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left pectineus | 6 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right pectineus | 2 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left plantaris | 4 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right plantaris | 6 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left psoas major | 4 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left quadratus femoris | 162 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right quadratus femoris | 165 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left rectus femoris | 25 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right rectus femoris | 20 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left semimembranosus | 123 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right semimembranosus | 127 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left semitendinosus | 85 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right semitendinosus | 93 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left vastus intermedius | 108 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right vastus intermedius | 100 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left vastus lateralis | 26 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right vastus lateralis | 27 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left vastus medialis | 81 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right vastus medialis | 78 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Short head of left biceps femoris | 11 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Short head of right biceps femoris | 10 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right plantaris | 4 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left quadratus femoris | 68 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right quadratus femoris | 76 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left rectus femoris | 10 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right rectus femoris | 12 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right semimembranosus | 2 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left vastus intermedius | 2 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right vastus intermedius | 2 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left vastus medialis | 4 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right vastus medialis | 14 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Short head of left biceps femoris | 8 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Short head of right biceps femoris | 9 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Abdominal part of left pectoralis major | 2 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Abdominal part of left pectoralis major | 2 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Abdominal part of right pectoralis major | 4 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
