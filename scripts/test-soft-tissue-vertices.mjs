@@ -32,7 +32,8 @@ const add = (key, row) => { const old = findings[key]; if (!old || row.value > o
 for (const pz of POSES) {
   const {posed} = poser.pose(pz);
   for (const p of parts) {
-    const g0 = group(p); if (!g0) continue; const Q = posed.get(p.id); if (!(Q instanceof Float32Array)) continue;
+    const g0 = group(p); if (!g0 || p.part?.kind === 'space') continue;   // a space (axillary fossa …) is a placeholder volume the viewer never draws
+    const Q = posed.get(p.id); if (!(Q instanceof Float32Array)) continue;
     const g = p.load(), P = g.positions, I = g.indices; (counted[g0] ??= new Set()).add(p.id);
     const bad = new Uint8Array(P.length / 3); let worst = 0, broken = false;
     for (let t = 0; t < I.length; t += 3) for (let k = 0; k < 3; k++) {

@@ -6,224 +6,140 @@
    "name": "Right latissimus dorsi",
    "pose": "shoulder flexion 73 + abduction 158",
    "value": 17,
-   "reason": "existing when the test was added; to be fixed"
+   "reason": "a few triangles are stretched at the end of the range (latissimus dorsi next to its spinal attachment at shoulder flexion with abduction; genioglossus between the jaw and the hyoid at neck extension); to be fixed"
   },
   "BP3S-FMA13359|thorn": {
    "group": "muscle",
    "name": "Left latissimus dorsi",
    "pose": "shoulder flexion 73 + abduction 158",
    "value": 14,
-   "reason": "existing when the test was added; to be fixed"
-  },
-  "FJ1488M|thorn": {
-   "group": "muscle",
-   "name": "Left coracobrachialis",
-   "pose": "shoulder abduction 158",
-   "value": 19,
-   "reason": "existing when the test was added; to be fixed"
-  },
-  "FJ1488|thorn": {
-   "group": "muscle",
-   "name": "Right coracobrachialis",
-   "pose": "shoulder abduction 158",
-   "value": 19,
-   "reason": "existing when the test was added; to be fixed"
-  },
-  "FJ1505M|thorn": {
-   "group": "muscle",
-   "name": "Left supinator",
-   "pose": "elbow flexion 140",
-   "value": 32,
-   "reason": "existing when the test was added; to be fixed"
-  },
-  "FJ1505|thorn": {
-   "group": "muscle",
-   "name": "Right supinator",
-   "pose": "elbow flexion 140",
-   "value": 32,
-   "reason": "existing when the test was added; to be fixed"
+   "reason": "a few triangles are stretched at the end of the range (latissimus dorsi next to its spinal attachment at shoulder flexion with abduction; genioglossus between the jaw and the hyoid at neck extension); to be fixed"
   },
   "FJ2738|thorn": {
    "group": "muscle",
    "name": "Left genioglossus",
    "pose": "head extension 35",
    "value": 7,
-   "reason": "existing when the test was added; to be fixed"
+   "reason": "a few triangles are stretched at the end of the range (latissimus dorsi next to its spinal attachment at shoulder flexion with abduction; genioglossus between the jaw and the hyoid at neck extension); to be fixed"
   },
   "FJ2750|thorn": {
    "group": "muscle",
    "name": "Right genioglossus",
    "pose": "head extension 35",
    "value": 8,
-   "reason": "existing when the test was added; to be fixed"
-  },
-  "PK-201|swollen": {
-   "group": "ligament or fascia",
-   "name": "Right triangular interval",
-   "pose": "shoulder flexion 73 + abduction 158",
-   "value": 2.21,
-   "reason": "existing when the test was added; to be fixed"
-  },
-  "PK-203|thorn": {
-   "group": "ligament or fascia",
-   "name": "Right axillary fossa",
-   "pose": "shoulder abduction 158",
-   "value": 27,
-   "reason": "existing when the test was added; to be fixed"
-  },
-  "PK-212|swollen": {
-   "group": "ligament or fascia",
-   "name": "Left triangular interval",
-   "pose": "shoulder flexion 73 + abduction 158",
-   "value": 2.21,
-   "reason": "existing when the test was added; to be fixed"
-  },
-  "PK-214|thorn": {
-   "group": "ligament or fascia",
-   "name": "Left axillary fossa",
-   "pose": "shoulder abduction 158",
-   "value": 27,
-   "reason": "existing when the test was added; to be fixed"
+   "reason": "a few triangles are stretched at the end of the range (latissimus dorsi next to its spinal attachment at shoulder flexion with abduction; genioglossus between the jaw and the hyoid at neck extension); to be fixed"
   },
   "PK-417|thorn": {
    "group": "ligament or fascia",
    "name": "Right coraco-acromial ligament",
    "pose": "shoulder abduction 158",
    "value": 36,
-   "reason": "existing when the test was added; to be fixed"
+   "reason": "shoulder girdle ligament bound with the glenohumeral rule; being fixed in the upper-limb joint work (PR 269)"
   },
   "PK-418|swollen": {
    "group": "ligament or fascia",
    "name": "Right costoclavicular ligament",
    "pose": "shoulder abduction 158",
    "value": 7.69,
-   "reason": "existing when the test was added; to be fixed"
+   "reason": "shoulder girdle ligament bound with the glenohumeral rule; being fixed in the upper-limb joint work (PR 269)"
   },
   "PK-418|thorn": {
    "group": "ligament or fascia",
    "name": "Right costoclavicular ligament",
    "pose": "shoulder abduction 158",
    "value": 111,
-   "reason": "existing when the test was added; to be fixed"
+   "reason": "shoulder girdle ligament bound with the glenohumeral rule; being fixed in the upper-limb joint work (PR 269)"
   },
   "PK-419|swollen": {
    "group": "ligament or fascia",
    "name": "Right superior transverse scapular ligament",
    "pose": "shoulder flexion 73 + abduction 158",
    "value": 3.44,
-   "reason": "existing when the test was added; to be fixed"
+   "reason": "shoulder girdle ligament bound with the glenohumeral rule; being fixed in the upper-limb joint work (PR 269)"
   },
   "PK-419|thorn": {
    "group": "ligament or fascia",
    "name": "Right superior transverse scapular ligament",
    "pose": "shoulder flexion 73 + abduction 158",
    "value": 29,
-   "reason": "existing when the test was added; to be fixed"
+   "reason": "shoulder girdle ligament bound with the glenohumeral rule; being fixed in the upper-limb joint work (PR 269)"
   },
   "PK-420|thorn": {
    "group": "ligament or fascia",
    "name": "Right inferior transverse scapular ligament",
    "pose": "shoulder flexion 73 + abduction 158",
    "value": 10,
-   "reason": "existing when the test was added; to be fixed"
+   "reason": "shoulder girdle ligament bound with the glenohumeral rule; being fixed in the upper-limb joint work (PR 269)"
   },
   "PK-421|thorn": {
    "group": "ligament or fascia",
    "name": "Left coraco-acromial ligament",
    "pose": "shoulder abduction 158",
    "value": 37,
-   "reason": "existing when the test was added; to be fixed"
+   "reason": "shoulder girdle ligament bound with the glenohumeral rule; being fixed in the upper-limb joint work (PR 269)"
   },
   "PK-422|swollen": {
    "group": "ligament or fascia",
    "name": "Left costoclavicular ligament",
    "pose": "shoulder abduction 158",
    "value": 7.73,
-   "reason": "existing when the test was added; to be fixed"
+   "reason": "shoulder girdle ligament bound with the glenohumeral rule; being fixed in the upper-limb joint work (PR 269)"
   },
   "PK-422|thorn": {
    "group": "ligament or fascia",
    "name": "Left costoclavicular ligament",
    "pose": "shoulder abduction 158",
    "value": 136,
-   "reason": "existing when the test was added; to be fixed"
+   "reason": "shoulder girdle ligament bound with the glenohumeral rule; being fixed in the upper-limb joint work (PR 269)"
   },
   "PK-423|swollen": {
    "group": "ligament or fascia",
    "name": "Left superior transverse scapular ligament",
    "pose": "shoulder flexion 73 + abduction 158",
    "value": 3.13,
-   "reason": "existing when the test was added; to be fixed"
+   "reason": "shoulder girdle ligament bound with the glenohumeral rule; being fixed in the upper-limb joint work (PR 269)"
   },
   "PK-423|thorn": {
    "group": "ligament or fascia",
    "name": "Left superior transverse scapular ligament",
    "pose": "shoulder flexion 73 + abduction 158",
    "value": 24,
-   "reason": "existing when the test was added; to be fixed"
+   "reason": "shoulder girdle ligament bound with the glenohumeral rule; being fixed in the upper-limb joint work (PR 269)"
   },
   "PK-424|thorn": {
    "group": "ligament or fascia",
    "name": "Left inferior transverse scapular ligament",
    "pose": "shoulder flexion 73 + abduction 158",
    "value": 8,
-   "reason": "existing when the test was added; to be fixed"
-  },
-  "PK-476|thorn": {
-   "group": "ligament or fascia",
-   "name": "Right medial patellar retinaculum",
-   "pose": "hip 120 + knee 130",
-   "value": 16,
-   "reason": "existing when the test was added; to be fixed"
-  },
-  "PK-477|thorn": {
-   "group": "ligament or fascia",
-   "name": "Right lateral patellar retinaculum",
-   "pose": "hip 120 + knee 130",
-   "value": 28,
-   "reason": "existing when the test was added; to be fixed"
-  },
-  "PK-481|thorn": {
-   "group": "ligament or fascia",
-   "name": "Left medial patellar retinaculum",
-   "pose": "hip 120 + knee 130",
-   "value": 15,
-   "reason": "existing when the test was added; to be fixed"
-  },
-  "PK-482|thorn": {
-   "group": "ligament or fascia",
-   "name": "Left lateral patellar retinaculum",
-   "pose": "hip 120 + knee 130",
-   "value": 27,
-   "reason": "existing when the test was added; to be fixed"
+   "reason": "shoulder girdle ligament bound with the glenohumeral rule; being fixed in the upper-limb joint work (PR 269)"
   },
   "nerve:Lateral pectoral nerve.l.001|thorn": {
    "group": "nerve",
    "name": "Lateral pectoral nerve.l",
    "pose": "shoulder abduction 158",
    "value": 5,
-   "reason": "existing when the test was added; to be fixed"
+   "reason": "thin tube across a steep part of the arm weight field at shoulder abduction 158: a few rings are stretched just over the limit; to be fixed"
   },
   "nerve:Lateral pectoral nerve.r.001|thorn": {
    "group": "nerve",
    "name": "Lateral pectoral nerve.r",
    "pose": "shoulder abduction 158",
    "value": 5,
-   "reason": "existing when the test was added; to be fixed"
+   "reason": "thin tube across a steep part of the arm weight field at shoulder abduction 158: a few rings are stretched just over the limit; to be fixed"
   },
   "nerve:Superior lateral brachial cutaneous nerve.l.001|thorn": {
    "group": "nerve",
    "name": "Superior lateral brachial cutaneous nerve.l",
    "pose": "shoulder abduction 158",
    "value": 7,
-   "reason": "existing when the test was added; to be fixed"
+   "reason": "thin tube across a steep part of the arm weight field at shoulder abduction 158: a few rings are stretched just over the limit; to be fixed"
   },
   "nerve:Superior lateral brachial cutaneous nerve.r.001|thorn": {
    "group": "nerve",
    "name": "Superior lateral brachial cutaneous nerve.r",
    "pose": "shoulder abduction 158",
    "value": 7,
-   "reason": "existing when the test was added; to be fixed"
+   "reason": "thin tube across a steep part of the arm weight field at shoulder abduction 158: a few rings are stretched just over the limit; to be fixed"
   }
  }
 }

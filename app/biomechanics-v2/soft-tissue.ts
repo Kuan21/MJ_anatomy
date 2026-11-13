@@ -75,6 +75,7 @@ export interface SoftRig {side:Side;ids:(string|undefined)[];shoulder:Vector3;el
 export interface FibreGuide {centres:Vector3[];indices:Uint8Array;weights:Float32Array;coordinates:Float32Array;axis:Vector3;origin:Vector3;length:number}
 export interface FibreGuide {alignSections?:boolean}
 export interface SkinBinding {follower?:{parent:SkinBinding;progress:number[]}}
+export interface SkinBinding {/** keep the rest edge lengths after skinning (short muscles across a joint band) */relax?:boolean}
 /** Weights for the coarse live preview (the GPU blend shown while a pose is being dragged and on a side that is not being solved), when the binding's own
  * weights are not a fair picture of where the solver puts it (a pectoral follower: see bindTissue). */
 export interface SkinBinding {preview?:{indices:Uint8Array;weights:Float32Array;lbs:boolean}}
@@ -291,6 +292,9 @@ export function smoothSkinWeights(positions:ArrayLike<number>,triangles:ArrayLik
   for(let k=0;k<4;k++){indices[i*4+k]=top[k]?.j??0;weights[i*4+k]=top[k]?top[k].w/sum:0;}
  }
 }
+/** Short muscles that lie right across a joint band: the step of the band falls on a few coarse triangles, which are stretched to three times their
+ * length at the end of the range. They are solved on the CPU with the rest-length guard of the surface constraints (see shoulder-worker). */
+const RELAXED_MUSCLES=/supinator|coracobrachialis/i;
 const SMOOTHED_PROFILES:Profile[]=['chest','scapular','clavicular','coraco'];
 
 /** Store sparse weights once. All deltoid heads use the SAME envelope.
@@ -430,7 +434,7 @@ export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<numbe
  // palette) until the solver has placed it.
  let preview:SkinBinding['preview'];
  if(follower){const pi=new Uint8Array(count*4),pw=new Float32Array(count*4);for(let i=0;i<count;i++)pw[i*4]=1;preview={indices:pi,weights:pw,lbs:false};}
- return{clear,follower,preview,cable,wrap,fibre,indices,weights,belly,radial,longitudinal,restAxis,sheetOriginFrame,fan,origin,insertion,originWeights:weightsAt(rig,effectiveProfile,origin,box,name),insertionWeights:weightsAt(rig,effectiveProfile,insertion,box,name),restLength,profile:effectiveProfile};
+ return{clear,follower,preview,relax:!!(part?.system==='muscular'&&RELAXED_MUSCLES.test(part.name))||undefined,cable,wrap,fibre,indices,weights,belly,radial,longitudinal,restAxis,sheetOriginFrame,fan,origin,insertion,originWeights:weightsAt(rig,effectiveProfile,origin,box,name),insertionWeights:weightsAt(rig,effectiveProfile,insertion,box,name),restLength,profile:effectiveProfile};
 }
 
 /** The vertices of a binding that ride on a digit (null when none does). */
@@ -688,7 +692,7 @@ function transform(x:number,y:number,z:number,q:Float64Array,out:ArrayLike<numbe
  * muscle group or belly section change. Such bindings are skinned on the GPU
  * (gpu-skinning.ts) instead of being re-solved and re-uploaded for every pose. */
 export function isLinearBinding(b:SkinBinding){
- return !b.clear&&!b.follower&&!b.attach&&!b.cable&&!b.wrap&&!b.fibre&&!b.fan&&!['chest','pectoralPath','scapular','deltoid','cuff'].includes(b.profile)&&!b.belly.some(x=>x!==0);
+ return !b.clear&&!b.follower&&!b.attach&&!b.relax&&!b.cable&&!b.wrap&&!b.fibre&&!b.fan&&!['chest','pectoralPath','scapular','deltoid','cuff'].includes(b.profile)&&!b.belly.some(x=>x!==0);
 }
 /** CPU twin of the GPU stage for linear bindings (picking, tests). */
 export function linearSkin(b:Pick<SkinBinding,'indices'|'weights'>,base:ArrayLike<number>,palette:Palette,out:Float32Array){

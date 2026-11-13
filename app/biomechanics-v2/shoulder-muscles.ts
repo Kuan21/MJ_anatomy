@@ -11,6 +11,8 @@ const length3=(x:number,y:number,z:number)=>Math.sqrt(x*x+y*y+z*z);
 /** Which skeleton frames hold a muscle's two attachments (0 trunk, 1 clavicle, 2 scapula, 3 humerus). Broad sheets
  * (pectoralis major, trapezius, rhomboids, levator scapulae, pectoralis minor) are solved like any belly:
  * collars on their bones stay fixed, the belly keeps its volume and cannot fold flat as the girdle moves. */
+/** Share of a leg muscle's length, at each end, over which it is held to its bone: fixed at the very end, free from there on (see makeShoulderMuscles). */
+export const LEG_COLLAR=.06;
 export const SHEET_PROFILES=['chest','pectoralPath','scapular'];
 const SHOULDER_ANCHORS={proximal:[1,2],distal:[3]};
 
@@ -47,12 +49,13 @@ export function makeShoulderMuscles(members:SurfaceMember[],head:Vector3,radius:
  members.forEach((m,k)=>group.maps[k].forEach((node,i)=>rest.set(m.base.subarray(i*3,i*3+3),node*3)));
  // Leg muscles (frames given): the weights of a leg muscle come from height bands, so every vertex outside the hip and knee bands is carried by one bone
  // and would count as an attachment that cannot move. Then the whole stretch of a deep hip or knee bend has to be taken by the few coarse triangles inside
- // the band, which tears them (hamstring origins at hip flexion 120). Only the two ends of the muscle are attachments: the belly is free to give, so the
- // stretch spreads along the muscle.
+ // the band, which tears them (hamstring origins at hip flexion 120). Only the two ends of the muscle are attachments (held over LEG_COLLAR of its length, fixed at the very end): the belly
+ // is free to give, so the stretch spreads along the muscle. (The height bands also put the top of a muscle that arises from the femur, such as the
+ // vasti, on the pelvis; freed, it goes with the rest of the muscle.)
  if(frames&&!longitudinal)members.forEach((m,k)=>{
   let lo=Infinity,hi=-Infinity;for(let i=1;i<m.base.length;i+=3){lo=Math.min(lo,m.base[i]);hi=Math.max(hi,m.base[i]);}
   const span=Math.max(1e-6,hi-lo);
-  group.maps[k].forEach((node,i)=>{const t=(m.base[i*3+1]-lo)/span;group.constraints.mobility[node]=Math.min(1,Math.min(t,1-t)/.06);});
+  group.maps[k].forEach((node,i)=>{const t=(m.base[i*3+1]-lo)/span;group.constraints.mobility[node]=Math.min(1,Math.min(t,1-t)/LEG_COLLAR);});
  });
  const muscles=members.map((m,member)=>{
   const map=group.maps[member],unique=[...new Set(map)],normals=new Float64Array(rest.length),edges=new Set<string>();

@@ -624,20 +624,6 @@
    "fraction": 0.7380952380952381,
    "severity": 55
   },
-  "detached|PK-477|hip flexion 120 knee flexion 130": {
-   "name": "Right lateral patellar retinaculum",
-   "measure": 11,
-   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.5789473684210527,
-   "severity": 21
-  },
-  "detached|PK-482|hip flexion 120 knee flexion 130": {
-   "name": "Left lateral patellar retinaculum",
-   "measure": 11,
-   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.55,
-   "severity": 20
-  },
   "detached|PK-7|shoulder abduction 120": {
    "name": "Clavicular branch of left thoraco-acromial artery",
    "measure": 220,
@@ -4285,48 +4271,6 @@
    "fraction": 0.3929663608562691,
    "severity": 2.3
   },
-  "stretch|FJ1488M|shoulder abduction 120": {
-   "name": "Left coracobrachialis",
-   "measure": 22,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.07971014492753623,
-   "severity": 3
-  },
-  "stretch|FJ1488M|shoulder flexion 150": {
-   "name": "Left coracobrachialis",
-   "measure": 10,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.036231884057971016,
-   "severity": 2.8
-  },
-  "stretch|FJ1488|shoulder abduction 120": {
-   "name": "Right coracobrachialis",
-   "measure": 25,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.08928571428571429,
-   "severity": 3
-  },
-  "stretch|FJ1488|shoulder flexion 150": {
-   "name": "Right coracobrachialis",
-   "measure": 8,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.02857142857142857,
-   "severity": 2.8
-  },
-  "stretch|FJ1505M|elbow flexion 140": {
-   "name": "Left supinator",
-   "measure": 133,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.10374414976599064,
-   "severity": 3.3
-  },
-  "stretch|FJ1505|elbow flexion 140": {
-   "name": "Right supinator",
-   "measure": 130,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.10268562401263823,
-   "severity": 3.3
-  },
   "stretch|FJ1507M|shoulder abduction 120": {
    "name": "Left teres major",
    "measure": 27,
@@ -4984,34 +4928,6 @@
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.014285714285714285,
    "severity": 2
-  },
-  "stretch|PK-476|hip flexion 120 knee flexion 130": {
-   "name": "Right medial patellar retinaculum",
-   "measure": 42,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.22826086956521738,
-   "severity": 4.1
-  },
-  "stretch|PK-477|hip flexion 120 knee flexion 130": {
-   "name": "Right lateral patellar retinaculum",
-   "measure": 43,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.2905405405405405,
-   "severity": 4.8
-  },
-  "stretch|PK-481|hip flexion 120 knee flexion 130": {
-   "name": "Left medial patellar retinaculum",
-   "measure": 42,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.22826086956521738,
-   "severity": 3.9
-  },
-  "stretch|PK-482|hip flexion 120 knee flexion 130": {
-   "name": "Left lateral patellar retinaculum",
-   "measure": 48,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.32432432432432434,
-   "severity": 5
   },
   "stretch|PK-81-END|hip flexion 120 knee flexion 130": {
    "name": "Right superior gluteal artery",
