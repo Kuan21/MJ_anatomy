@@ -126,6 +126,8 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
   }
   const sectionIds = new Set(def.sections.map(s => s.id));
   for (const s of catalogue.structures) {
+    // a limb space has no mesh of its own: it is drawn as its member structures (scripts/test-quiz-spaces.mjs)
+    if (s.system === 'space') {assert.ok(s.meshIds.length === 0 && s.space.members.every(m => catalogue.structures.some(x => x.id === m.id && x.meshIds.length)), `Space members are renderable: ${s.name}`); continue;}
     assert.ok(s.meshIds.length && s.meshIds.every(id => meshes.has(id)), `Renderable geometry: ${s.name}`);
     // the lobes of the lung quiz are context only (no section, never asked)
     assert.ok((s.sections.length || (regionId === 'lung' && /^(?:upper|middle|lower) lobe of/i.test(s.name))) && s.sections.every(id => sectionIds.has(id) && id !== 'all'), `${s.name}: valid sections ${s.sections}`);
@@ -162,7 +164,7 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
         if (other) {
           const visible = sceneStructures(catalogue, other, section.id === 'all' ? other.sections[0] : section.id, side);
           assert.ok(visible.some(s => s.id === other.id), `${regionId}: a mistake from the ${otherSide} side is drawn in a ${side}-side scene`);
-          assert.ok(visible.every(s => s.id === other.id || s.side === 'midline' || s.side === side || (other.system === 'tendon' && s.system === 'muscular' && s.side === otherSide)), 'only the target (and the muscle of a tendon target) crosses the side setting');
+          assert.ok(visible.every(s => s.id === other.id || s.side === 'midline' || s.side === side || (other.system === 'tendon' && s.system === 'muscular' && s.side === otherSide) || (other.system === 'space' && s.side === otherSide)), 'only the target (the muscle of a tendon target, the structures around a space) crosses the side setting');
         }
       }
     }

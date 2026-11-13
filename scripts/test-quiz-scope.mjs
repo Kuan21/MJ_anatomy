@@ -18,7 +18,9 @@ for (const pool of [questionPool, namingPool]) {
   const cardiacArteries = pool(heart, scope(['artery']));
   assert.ok(cardiacArteries.length > 0 && cardiacArteries.every(s => s.system === 'arterial'), 'heart + arteries');
   assert.equal(pool(lower, scope([])).length, 0, 'no category = no questions');
-  assert.equal(pool(lower, scope(['space'])).length, 0, 'a category without structures has no questions (nothing is invented)');
+  assert.equal(pool(heart, scope(['space'])).length, 0, 'a category without structures has no questions (nothing is invented)');
+  assert.equal(pool(lower, scope(['ligament'])).length, 0, 'the lower limb has no ligament questions (nothing is invented)');
+  assert.ok(pool(lower, scope(['space'])).length > 0 && pool(lower, scope(['space'])).every(s => s.system === 'space'), 'the lower-limb spaces are asked (they have no mesh of their own: see scripts/test-quiz-spaces.mjs)');
   assert.ok(pool(lower, scope(['nerve'], 'right', 'foot')).every(s => s.sections.includes('foot')), 'section crosses with category');
 }
 assert.equal(questionPool(lower, scope(['nerve'], 'left')).length, namingPool(lower, scope(['nerve'], 'left')).length, 'both levels hold the same nerves');

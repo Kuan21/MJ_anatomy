@@ -1,7 +1,7 @@
 import {scopeOf} from '../mj-scope';
 import {TENDON_OWNERS} from '../mj-tendon-owners';
 import type {BrainLayer} from './brain';
-export type QuizSystem = 'skeletal' | 'muscular' | 'tendon' | 'nervous' | 'arterial' | 'venous' | 'cardiac' | 'respiratory' | 'brain' | 'joint';
+export type QuizSystem = 'skeletal' | 'muscular' | 'tendon' | 'nervous' | 'arterial' | 'venous' | 'cardiac' | 'respiratory' | 'brain' | 'joint' | 'space';
 export type QuizRegionId = 'lower-limb' | 'upper-limb' | 'thorax' | 'back' | 'heart' | 'lung' | 'brain';
 /** Section ids are region specific ('hip', 'thigh'… for the leg; 'shoulder', 'arm'… for the arm; 'cage', 'wall'… for the thorax). */
 export type QuizSection = string;
@@ -25,6 +25,8 @@ export const QUIZ_SYSTEMS: {id: QuizSystem; label: string; english: string; colo
   {id: 'brain', label: '腦構造', english: 'Brain structures', color: '#cdaaa6'},
   // Joint soft tissue (capsules, labra, menisci, articular discs, joint ligaments); the pool is built by app/quiz/joints.ts.
   {id: 'joint', label: '關節構造', english: 'Joint structures', color: '#8fb4be'},
+  // A special space or opening of a limb (quadrangular space, femoral triangle…): it has no mesh of its own; a question shows the structures that bound it and pass through it (QuizStructure.members).
+  {id: 'space', label: '特殊空間與孔', english: 'Spaces and openings', color: '#8fa7a0'},
 ];
 export interface QuizSectionDef {id: string; label: string; english: string; range: [number, number]}
 export interface QuizRegionDef {
@@ -92,16 +94,17 @@ export const QUIZ_CATEGORIES: {id: QuizCategory; label: string; english: string;
   {id: 'vein', label: '靜脈', english: 'Veins', color: '#6399bc', note: ''},
   {id: 'ligament', label: '韌帶與筋膜', english: 'Ligaments and fasciae', color: '#c9b98a', note: ''},
   {id: 'joint', label: '關節', english: 'Joints', color: '#8fb4be', note: '關節囊、關節盤、半月板、盂唇與關節韌帶'},
-  {id: 'space', label: '特殊空間與孔', english: 'Spaces and openings', color: '#8fa7a0', note: '四邊孔、三邊孔、解剖鼻煙盒、跗管'},
+  {id: 'space', label: '特殊空間與孔', english: 'Spaces and openings', color: '#8fa7a0', note: '四肢的特殊空間：腋窩、四邊孔、肘窩、股三角、膕窩、跗管等'},
   {id: 'organ', label: '器官結構', english: 'Organ structures', color: '#d98a85', note: '心臟內部、肺的壓跡與肺門、腦的皮質與核團等'},
 ];
 const SPACE_NAME = /quadrangular space|quadrilateral space|triangular space|triangular interval|anatomical snuffbox|snuff ?box|tarsal tunnel|carpal tunnel|cubital fossa|popliteal fossa|femoral triangle|adductor canal|axilla\b|foramen|hiatus|canal\b/i;
 const LIGAMENT_NAME = /ligament|fascia|retinaculum|aponeurosis|membrane|septum|raphe|capsule/i;
-const SYSTEM_CATEGORY: Record<QuizSystem, QuizCategory> = {skeletal: 'bone', muscular: 'muscle', tendon: 'tendon', nervous: 'nerve', arterial: 'artery', venous: 'vein', cardiac: 'organ', respiratory: 'organ', brain: 'organ', joint: 'joint'};
+const SYSTEM_CATEGORY: Record<QuizSystem, QuizCategory> = {skeletal: 'bone', muscular: 'muscle', tendon: 'tendon', nervous: 'nerve', arterial: 'artery', venous: 'vein', cardiac: 'organ', respiratory: 'organ', brain: 'organ', joint: 'joint', space: 'space'};
 /** One category per structure: spaces and ligaments are recognised by name; every other structure follows its body system. */
 export function categoryOf(structure: {name: string; system: QuizSystem}): QuizCategory {
   // Joint soft tissue is 'joint' only; the name rules below never reach it, and they never produce 'joint'.
   if (structure.system === 'joint') return 'joint';
+  if (structure.system === 'space') return 'space';
   if (structure.system === 'muscular' || structure.system === 'skeletal') {
     if (SPACE_NAME.test(structure.name) && !/^(?:left |right )?(?:intervertebral|neural) /i.test(structure.name)) return 'space';
     if (LIGAMENT_NAME.test(structure.name) && !/tensor fasciae|membranous/i.test(structure.name)) return 'ligament';
@@ -210,13 +213,23 @@ export interface QuizStructure {
   sections: Exclude<QuizSection, 'all'>[];
   meshIds: string[];
   bounds: Bounds;
-  source: 'BodyParts3D' | 'Nervous supplement' | 'Lung surface areas' | 'Brain Project' | 'Z-Anatomy' | `Z-Anatomy / ${string}`;
+  source: 'BodyParts3D' | 'Special regions' | 'Nervous supplement' | 'Lung surface areas' | 'Brain Project' | 'Z-Anatomy' | `Z-Anatomy / ${string}`;
   /** Short bilingual description (heart quiz), shown on the answer card. */
   description?: {zh: string; en: string};
   /** Brain quiz: what lies in front of the structure (app/quiz/brain.ts), which decides what is drawn as glass while it is the question. */
   layer?: BrainLayer;
   /** Brain quiz: the fields of the structure's information card (from public/models/brain/neuro-cards.json); a structure without a card shows 「尚無資料」. */
   cardFields?: {label: string; zh: string}[];
+  /** A limb space (system 'space') has no mesh of its own: it is drawn as the structures that bound it, form its floor or roof and pass through it (all of the same catalogue). */
+  space?: QuizSpace;
+}
+export type SpaceRole = 'boundary' | 'roof' | 'floor' | 'content';
+export interface QuizSpace {
+  /** Id of the region in app/mj-spaces.ts (SPACES). */
+  id: string;
+  members: {id: string; role: SpaceRole; item: string}[];
+  /** English names of the items of the space (app/mj-spaces.ts) that this question does not draw because the quiz has no structure for them. */
+  notDrawn: string[];
 }
 export interface QuizMesh {
   id: string;
@@ -304,7 +317,7 @@ function overlapSections(region: QuizRegionId, bounds: Bounds): SectionList {
   return [regionSections(region).filter(s => s.id !== 'all').reduce((best, s) => Math.abs((s.range[0] + s.range[1]) / 2 - mid) < Math.abs((best.range[0] + best.range[1]) / 2 - mid) ? s : best).id];
 }
 
-/** Joint soft tissue sits at one joint: the narrowest section whose range holds the centre of the tissue (hip, knee, ankle & foot; shoulder, elbow, wrist & hand), not every section it touches. */
+/** Joint soft tissue (and a limb space) sits at one place: the narrowest section whose range holds the centre of the tissue (hip, knee, ankle & foot; shoulder, elbow, wrist & hand), not every section it touches. */
 function jointSections(region: QuizRegionId, bounds: Bounds): SectionList {
   const mid = (bounds[0][1] + bounds[1][1]) / 2, sections = regionSections(region).filter(s => s.id !== 'all');
   const holding = sections.filter(s => mid >= s.range[0] && mid <= s.range[1]).sort((x, y) => (x.range[1] - x.range[0]) - (y.range[1] - y.range[0]));
@@ -389,6 +402,7 @@ export const THORAX_INCLUDE: Record<QuizSystem, RegExp> = {
   respiratory: /(?!)/,
   brain: /(?!)/,
   joint: /(?!)/,   // joint soft tissue comes from app/quiz/joints.ts, not from the atlas
+  space: /(?!)/,   // limb spaces are composed from the structures of the catalogue (app/quiz/spaces.ts)
   tendon: /(?!)/,
   skeletal: /^(?:(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth) rib|manubrium|body of sternum|xiphoid process|(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth) thoracic vertebra|costal cartilages?|intervertebral discs?)$/,
   muscular: /intercostal|transversus thoracis|levatores costarum|serratus posterior|^diaphragm$|spinalis thoracis|iliocostalis thoracis|longissimus thoracis|semispinalis thoracis|interspinalis thoracis|thoracic rotator|subcostal/,
@@ -426,6 +440,7 @@ export const BACK_INCLUDE: Record<QuizSystem, RegExp> = {
   respiratory: /(?!)/,
   brain: /(?!)/,
   joint: /(?!)/,
+  space: /(?!)/,
   tendon: /(?!)/,
   skeletal: /^(?:(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth) (?:cervical|thoracic|lumbar) vertebra|atlas|axis|sacrum|coccyx|occipital bone|scapula)$/,
   muscular: /^(?:(?:descending|transverse|ascending) part of trapezius|latissimus dorsi|levator scapulae|rhomboid (?:major|minor)|serratus posterior (?:superior|inferior)|splenius (?:capitis|cervicis)|iliocostalis (?:cervicis|thoracis|lumborum)|longissimus (?:capitis|cervicis|thoracis)|spinalis(?: thoracis| cervicis)?|semispinalis (?:capitis|cervicis|thoracis)|multifidus|(?:cervical|thoracic|lumbar) rotator|rectus capitis posterior (?:major|minor)|obliquus capitis (?:superior|inferior))$/,
@@ -459,7 +474,7 @@ export function lungSections(name: string): Exclude<QuizSection, 'all'>[] {
 
 export function classifySections(region: QuizRegionId, name: string, bounds: Bounds, system?: QuizSystem): SectionList {
   if (region === 'lung') return lungSections(name);
-  if (system === 'joint' && (region === 'lower-limb' || region === 'upper-limb')) return jointSections(region, bounds);
+  if ((system === 'joint' || system === 'space') && (region === 'lower-limb' || region === 'upper-limb')) return jointSections(region, bounds);
   if (region === 'back') return backSections(name, system);
   return region === 'upper-limb' ? upperSections(name, bounds) : region === 'thorax' ? thoraxSections(name, bounds, system) : lowerSections(name, bounds);
 }
@@ -473,7 +488,14 @@ export function questionPool(catalogue: QuizCatalogue, settings: QuizSettings): 
 /** Same-system regional anatomy stays available as distractors and for peeling. */
 /** Atlas names of the muscle parts a tendon was cut from (app/mj-tendon-owners.json, derived from the tendon cut specs): a tendon question is always drawn with its muscle. */
 export const ownerMuscleNames = (tendonName: string): string[] => TENDON_OWNERS[tendonName] ?? [];
+/** A space question: the members of the space and the structures of the neighbourhood (bone, muscle, tendon, nerve, artery, vein within 6 cm of the space), so the learner finds the space among its neighbours. */
+export const SPACE_SCENE_MARGIN = .06;
 export function sceneStructures(catalogue: QuizCatalogue, target: QuizStructure, section: QuizSection, side: QuizSide) {
+  if (target.space) {
+    const members = new Set(target.space.members.map(m => m.id)), [lo, hi] = target.bounds;
+    return catalogue.structures.filter(s => s.id === target.id || members.has(s.id) || (s.system !== 'space' && s.system !== 'joint' && (s.side === 'midline' || s.side === target.side)
+      && [0, 1, 2].every(i => s.bounds[0][i] < hi[i] + SPACE_SCENE_MARGIN && s.bounds[1][i] > lo[i] - SPACE_SCENE_MARGIN)));
+  }
   const owners = target.system === 'tendon' ? ownerMuscleNames(target.name) : [];
   const range = (regionSections(catalogue.region).find(s => s.id === section) ?? regionSections(catalogue.region)[0]).range;
   // The target is always drawn: a mistake from the other side (錯題本 after the side setting changed) must still be answerable; the frame unions its bounds.

@@ -1,10 +1,10 @@
 # Quiz 第三級額外接受的答案
 
 此檔由 `node scripts/report-quiz-accepted-names.mjs` 產生，請勿手改。除了構造自己的英文名、中文名、括號內別名與同義詞表（`app/quiz/synonyms.ts`，列在 REVIEW_LOG）之外，第三級與學習關卡還接受下列寫法；群名只算「接近」並列入錯題。左右兩側同一規則，只列一側。
-合計 188 個構造有額外接受的寫法。
+合計 192 個構造有額外接受的寫法。
 
 
-## 下肢（lower）：36 個構造
+## 下肢（lower）：40 個構造
 
 | 題目 | 中文 | 也接受 | 只算接近 |
 | --- | --- | --- | --- |
@@ -44,6 +44,10 @@
 | Left fifth metatarsal bone | 左第五蹠骨 | Left 5th metatarsal bone |  |
 | Navicular bone of left foot | 左足舟骨 | Left navicular bone |  |
 | Right posterior femoral cutaneous nerve | 右股後皮神經 | posterior cutaneous nerve of thigh |  |
+| Left tarsal tunnel | 左跗管 | 左跗隧道 |  |
+| Left femoral triangle | 左股三角 | 左femoral triangle |  |
+| Left adductor canal | 左內收肌管 | 左adductor canal |  |
+| Left popliteal fossa | 左膕窩 | 左popliteal fossa |  |
 
 ## 上肢（upper）：52 個構造
 

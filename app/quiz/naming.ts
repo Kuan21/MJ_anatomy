@@ -58,7 +58,7 @@ export function siteName(structure: Named): {en?: string; zh?: string} {
   if (structure.source === 'Brain Project') return {};
   // A part of a muscle (clavicular part of pectoralis major, spinal part of deltoid) is answered with the muscle's name (wholeMuscleOf), not with the site's other wording of the part.
   if (wholeMuscleOf(structure)) return {};
-  const profile = structureProfile(structure.name, (structure.system === 'joint' ? 'connective' : structure.system) as SystemId);
+  const profile = structureProfile(structure.name, (structure.system === 'joint' || structure.system === 'space' ? 'connective' : structure.system) as SystemId);
   const paired = isPaired(structure), key = (n: string) => paired ? cleanKey(n) : n.toLowerCase().replace(/\s+/g, ' ').trim();
   const out: {en?: string; zh?: string} = {};
   if (profile.english) {const a = key(profile.english), b = key(structure.name); if (a && a !== b && !partOfName(b, a) && !partOfName(a, b)) out.en = profile.english;}

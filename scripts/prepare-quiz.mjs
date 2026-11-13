@@ -17,6 +17,9 @@ const {normalizeAtlasSystems} = await quizModule('app/mj-system-classifier.ts');
 const {anatomicalRegion, anatomicalSide, correctedPartName} = await quizModule('app/mj-part-regions.ts');
 const {structureProfile, paokaoZh} = await quizModule('app/mj-structure-info.ts');
 const {namingOverride, applyZhFixes} = await quizModule('app/mj-naming.ts');
+const {SPACES} = await quizModule('app/mj-spaces.ts');
+const {SPACE_REGION, resolveSpace, spaceExclusion} = await quizModule('app/quiz/spaces.ts');
+const spaceRanges = JSON.parse(fs.readFileSync(new URL('app/space-ranges.json', root), 'utf8'));
 const {jointRegion, jointExclusion, jointKey, jointKindOf, JOINT_EXCLUSION_REASONS} = await quizModule('app/quiz/joints.ts');
 const {normalize} = await quizModule('app/quiz/naming.ts');
 const {brainSectionOf, brainLayerOf, brainSystemOf, BRAIN_EXCLUSION_REASONS} = await quizModule('app/quiz/brain.ts');
@@ -100,7 +103,7 @@ for (const region of ['lower-limb', 'upper-limb', 'thorax', 'back']) {
 fs.mkdirSync(new URL('.sites-runtime/', root), {recursive: true});
 fs.writeFileSync(new URL('.sites-runtime/quiz-joints-report.json', root), JSON.stringify(jointCandidates.map(({mesh, bounds, id, ...c}) => ({...c, bounds: undefined})).sort((a, b) => a.name.localeCompare(b.name)), null, 1));
 
-const summary = [];
+const summary = [], spaceReport = [];
 for (const region of Object.keys(QUIZ_REGIONS)) {
   const def = QUIZ_REGIONS[region], short = def.file.replace(/^quiz-|\.json$/g, '');
   const items = [], structures = new Map();
@@ -272,6 +275,29 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
     geometry.dispose();
   }
 
+  // Limb spaces (category 特殊空間與孔): no mesh of their own; a question draws the structures of this catalogue that the layer panel names as boundary, roof, floor and contents (app/quiz/spaces.ts).
+  // Every special region is in .sites-runtime/quiz-spaces-report.json, asked or not, with its reason (docs/quiz-spaces-pool.md).
+  if (region === 'lower-limb' || region === 'upper-limb') {
+    const candidates = [...structures.values()].map(({id, name, system, side}) => ({id, name, system, side}));
+    const taken = new Set([...structures.values()].map(x => x.name.toLowerCase()));
+    for (const def of SPACES) {
+      const spaceRegion = SPACE_REGION[def.group];
+      if (spaceRegion !== region) continue;
+      for (const side of ['left', 'right']) {
+        const entry = spaceRanges[def.id]?.[side], found = resolveSpace(def, side, candidates);
+        let reason = spaceExclusion(def, spaceRegion, entry?.reach, found);
+        const name = `${side === 'left' ? 'Left' : 'Right'} ${def.en.toLowerCase()}`, chinese = (side === 'left' ? '左' : '右') + def.zh;
+        if (!reason && taken.has(name.toLowerCase())) reason = 'name-not-unique';
+        spaceReport.push({id: def.id, en: def.en, zh: def.zh, side, region, group: def.group, reason, reach: entry?.reach, members: found.members.map(m => ({...m, name: candidates.find(c => c.id === m.id).name})), notDrawn: found.notDrawn});
+        if (reason) continue;
+        const [cx, cy, cz] = entry.c, r = spaceRanges[def.id].r, h = r * 1.6, bounds = [[cx - h, cy - h, cz - h], [cx + h, cy + h, cz + h]];   // the box the quiz frames: the range sphere of the layer panel, a little wider
+        taken.add(name.toLowerCase());
+        const id = `space:${def.id}:${side}`;
+        structures.set(id, {id, name, chinese, system: 'space', side, sections: classifySections(region, name, bounds, 'space'), meshIds: [], bounds, source: 'Special regions', space: {id: def.id, members: found.members, notDrawn: found.notDrawn}});
+      }
+    }
+  }
+
   const packages = [], sides = region === 'thorax' || region === 'back' || region === 'heart' || region === 'lung' || region === 'brain' ? ['left', 'right', 'midline'] : ['left', 'right'];
   for (const {id: system} of QUIZ_SYSTEMS) for (const side of sides) {
     let buffers = [], bytes = 0, meshes = [];
@@ -303,4 +329,6 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
   const missing = catalogue.structures.filter(s => !s.chinese).length;
   summary.push(`${def.english}: ${catalogue.structures.length} named structures, ${items.length} unchanged meshes, ${(packages.reduce((s, p) => s + p.gzipBytes, 0) / 1e6).toFixed(2)} MB${missing ? `, ${missing} without a Chinese name` : ''}`);
 }
+for (const g of ['shoulder', 'arm', 'hand', 'lower', 'pelvis', 'head', 'trunk']) for (const def of SPACES.filter(d => d.group === g && !SPACE_REGION[g])) for (const side of ['left', 'right']) spaceReport.push({id: def.id, en: def.en, zh: def.zh, side, region: null, group: g, reason: 'not-limb', members: [], notDrawn: []});
+fs.writeFileSync(new URL('.sites-runtime/quiz-spaces-report.json', root), JSON.stringify(spaceReport, null, 1));
 console.log('Quiz catalogues — ' + summary.join('; ') + '.');
