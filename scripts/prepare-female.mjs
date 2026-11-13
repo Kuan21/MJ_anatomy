@@ -6,6 +6,7 @@ import fs from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {createStream, simplify, weldByPosition} from './lib/stream-writer.mjs';
 import {atlasPositions} from './lib/atlas-read.mjs';
+import {thicken} from './lib/female-smooth.mjs';
 
 const root = new URL('../', import.meta.url), out = new URL('public/models/stream/', root), dir = new URL('public/models/female/', root);
 fs.mkdirSync(out, {recursive: true}); fs.mkdirSync(dir, {recursive: true});
@@ -40,18 +41,27 @@ const NAMES = [ // [regex on HRA node name, English (without side), Chinese, sys
 // The HRA file labels two round ligaments with the wrong side; laterality here always comes from where the piece lies (+x = the body's left).
 const decode = (text, Type) => {const b = Buffer.from(text, 'base64'); return new Type(b.buffer.slice(b.byteOffset, b.byteOffset + b.length));};
 const stream = createStream(out, 'female'), report = [];
+// First pass: every HRA piece in the atlas frame, welded.
+const items = [];
 for (const piece of source.pieces) {
   const rule = NAMES.find(r => r[0].test(piece.name));
   if (!rule) throw new Error('unmapped HRA piece ' + piece.name);
   const raw = decode(piece.positions, Float32Array), positions = new Float32Array(raw.length);
   for (let i = 0; i < raw.length; i += 3) positions.set(toAtlas(raw[i], raw[i + 1], raw[i + 2]), i);
   const welded = weldByPosition(positions, decode(piece.indices, Uint32Array));
-  const {positions: p, indices: ix} = await simplify(welded.positions, welded.indices, 7000, .004);
+  items.push({piece, rule, positions: welded.positions, indices: welded.indices, tris: welded.indices.length / 3});
+}
+// Shape clean-up (scripts/lib/female-smooth.mjs): thicken the hair-thin ligament cords to a textbook cord thickness.
+const CORDS = [[/round_ligament_of_uterus$/, .0022], [/^VH_F_ovarian_ligament_[LR]$/, .0018], [/^VH_F_suspensory_ligament_of_ovary_[LR]$/, .0025]];
+for (const it of items) for (const [re, radius] of CORDS) if (re.test(it.piece.name)) { const r = thicken(it, radius); report.push(`thicken ${it.piece.name}: radius ${(r.before * 1000).toFixed(2)} → ${(r.after * 1000).toFixed(2)} mm`); }
+for (const it of items) {
+  const {piece, rule} = it;
+  const {positions: p, indices: ix} = await simplify(it.positions, it.indices, 7000, .004);
   let cx = 0; for (let i = 0; i < p.length; i += 3) cx += p[i]; cx /= p.length / 3;
   const side = rule[4] ? (cx > 0 ? 'Left' : 'Right') : '';
   const name = rule[4] ? `${side} ${rule[1][0].toLowerCase()}${rule[1].slice(1)}` : rule[1];
   stream.add({id: `HRAF-${piece.node}`, conceptId: `HRAF-${piece.node}`, name, system: rule[3], sex: 'female', chineseName: (rule[4] ? (side === 'Left' ? '左' : '右') : '') + rule[2], sourceNode: piece.name}, p, ix);
-  report.push(`${name}: ${welded.indices.length / 3} → ${ix.length / 3} tris`);
+  report.push(`${name}: ${it.tris} → ${ix.length / 3} tris`);
 }
 // Pelvic bones: one hip bone per side (ilium + ischium + pubis compact bone), sacrum, coccyx.
 const bonesSource = JSON.parse(gunzipSync(fs.readFileSync(new URL('data/hra-female-pelvis-bones.json.gz', import.meta.url))));
