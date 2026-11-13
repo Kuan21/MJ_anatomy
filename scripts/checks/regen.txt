@@ -1,0 +1,47 @@
+# npm run regen: regenerates every generated file and automatic document, in dependency order. Run it before every commit (the CI `check` steps fail when a generated document is out of date).
+# Stops at the first failure. `check-stability --write` only ever shrinks the known list: it refuses (and regen stops) when a violation is new or worse, which needs a human decision.
+# 1. generated data (the same generators `npm run build` runs first)
+node scripts/prepare-draco.mjs
+node scripts/prepare-nerve-stream.mjs
+node scripts/prepare-brain.mjs
+node scripts/prepare-joints.mjs
+node scripts/prepare-model-stream.mjs
+node scripts/prepare-search-index.mjs
+node scripts/prepare-facial.mjs
+node scripts/prepare-supplement.mjs
+node scripts/prepare-female.mjs
+node scripts/prepare-serous.mjs
+node scripts/prepare-paokao.mjs
+node scripts/prepare-tendon-owners.mjs
+node scripts/prepare-vessel-ends.mjs
+node scripts/prepare-skin-weights.mjs
+node scripts/prepare-heart.mjs
+node scripts/prepare-quiz.mjs
+node scripts/prepare-search-index.mjs
+# 2. automatic documents and derived tables (each script is the --check of the same name without the flag, or with --write)
+node scripts/build-vessel-parents.mjs
+node scripts/fit-female-pelvis.mjs
+node scripts/prepare-naming.mjs
+node scripts/audit-paokao.mjs
+node scripts/audit-coverage.mjs
+node scripts/list-region-members.mjs
+node scripts/report-quiz-level2.mjs
+node scripts/report-quiz-accepted-names.mjs
+node scripts/check-quiz-banks.mjs --write
+node scripts/prepare-neuro-notes.mjs
+node scripts/audit-motion-followers.mjs
+node scripts/check-muscle-parts.mjs
+node scripts/compute-space-ranges.mjs
+node scripts/compute-space-shapes.mjs
+node scripts/fit-digit-joints.mjs
+node scripts/report-space-composition.mjs
+node scripts/report-depth.mjs
+node scripts/list-organ-owners.mjs
+node scripts/audit-owner-visibility.mjs
+node scripts/list-quiz-card-gaps.mjs
+node scripts/test-quiz-joints.mjs --write
+node scripts/test-quiz-spaces.mjs --write
+node scripts/test-vessel-motion.mjs --write
+# `test-vessel-motion --write` refuses (and regen stops) when a new open vessel pair appears: register it only with a written reason, see CLAUDE.md.
+# 3. the stability baseline last (shrink only)
+node scripts/check-stability.mjs --write
