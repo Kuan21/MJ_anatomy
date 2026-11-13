@@ -4,6 +4,7 @@ import {fetchModelBuffer, loadMissingChunks} from '../model-download';
 import {PointerTap} from '../pointer-tap';
 import {framingDistance} from '../camera-framing';
 import {CHAMBERS} from './heart-chambers';
+import {layoutLabelColumn} from './label-column';
 import {BLOCKER_OPACITY, isKeptVessel, isTrunkPart, trunkTriangles} from './heart-vessels';
 import {SECTION_AXES, type HeartCatalogue, type HeartView, type HeartViewState} from './heart-types';
 
@@ -17,11 +18,11 @@ interface Callbacks {
 /** Selection colours shared with the atlas: deep green, outlined; hover is a lighter mint of the same hue. */
 export const HEART_SELECT = {fill: '#5DB89A', edge: '#3E8E74', hover: '#A7DCCB'};
 const GROUP_COLOR: Record<string, string> = {
-  chambers: '#d98a85', papillary: '#c97a5a', valves: '#f0dfa3', coronary: '#b0313f', veins: '#4f86bf', vessels: '#c9a8a0', interior: '#c9785f', pericardium: '#d9c9a3',
+  chambers: '#d98a85', papillary: '#c97a5a', valves: '#f0dfa3', coronary: '#b0313f', veins: '#4f86bf', vessels: '#c9a8a0', interior: '#b5503c', pericardium: '#d9c9a3',
 };
 /** schematic surface patches and spaces are drawn as tinted, translucent regions so they read as areas, not as ridges. */
 const PATCH_COLOR: Record<string, string> = {
-  'Interatrial septum': '#8fb8e6', 'Fossa ovalis': '#f0e3a8', 'Interventricular septum': '#86c08a', 'Conus arteriosus': '#b98ad6', 'Aortic vestibule': '#5fb0dc',
+  'Interatrial septum': '#6f9fe0', 'Fossa ovalis': '#f2cf5c', 'Interventricular septum': '#86c08a', 'Conus arteriosus': '#b98ad6', 'Aortic vestibule': '#5fb0dc',
   'Transverse pericardial sinus': '#69b96a', 'Oblique pericardial sinus': '#69b96a',
   'Fibrous pericardium': '#d9c9a3', 'Parietal layer of serous pericardium': '#e3d6b4', 'Visceral layer of serous pericardium (epicardium)': '#e8b9ae',
 };
@@ -294,18 +295,10 @@ gl_FragColor = vec4(mix(vec3(0.30, 0.78, 0.62), vec3(0.03, 0.36, 0.27), edge), m
       const x = (v.x * .5 + .5) * width, y = (-v.y * .5 + .5) * height;
       active.push({spec, x, y, side: x < centreX ? 'l' : 'r'});
     }
-    const placed = new Map<string, number>();
-    for (const side of ['l', 'r'] as const) {
-      const column = active.filter(a => a.side === side).sort((a, b) => a.y - b.y);
-      let last = -Infinity;
-      for (const a of column) {const y = Math.max(a.y, last + 34); placed.set(a.spec.id, y); last = y;}
-      const overflow = last - (height - 24);
-      if (overflow > 0) for (const a of column) placed.set(a.spec.id, Math.max(14, placed.get(a.spec.id)! - overflow));
-    }
-    const live = new Set<string>();
-    let lines = '';
-    for (const a of active) {
-      live.add(a.spec.id);
+    const placed = new Map<string, {top: number; centre: number}>();
+    const selected = selectedIds();
+    // Measure wrapped names before laying out each column; overflow labels stay in the structure list.
+    const heightOf = (a: typeof active[number]) => {
       let node = labelNodes.get(a.spec.id);
       if (!node) {
         node = document.createElement('div');
@@ -314,8 +307,24 @@ gl_FragColor = vec4(mix(vec3(0.30, 0.78, 0.62), vec3(0.03, 0.36, 0.27), edge), m
         const zh = document.createElement('div'); zh.textContent = a.spec.zh; zh.style.cssText = 'font-size:10.5px;color:#7b8793';
         node.appendChild(en); node.appendChild(zh); labelLayer.appendChild(node); labelNodes.set(a.spec.id, node);
       }
-      const y = placed.get(a.spec.id)!;
-      node.style.display = 'block'; node.style.top = `${y - 15}px`;
+      if (a.side === 'l') {node.style.left = '10px'; node.style.right = '';} else {node.style.right = '10px'; node.style.left = '';}
+      node.style.display = 'block';
+      return node.offsetHeight || 34;
+    };
+    for (const side of ['l', 'r'] as const) {
+      const column = active.filter(a => a.side === side).sort((a, b) => a.y - b.y);
+      const positions = layoutLabelColumn(column.map(a => ({id: a.spec.id, anchor: a.y, height: heightOf(a), priority: a.spec.ids.some(id => selected.has(id)) ? 1 : 0})), height);
+      for (const [id, position] of positions) placed.set(id, position);
+    }
+    const live = new Set<string>();
+    let lines = '';
+    for (const a of active) {
+      const position = placed.get(a.spec.id);
+      if (!position) continue;
+      live.add(a.spec.id);
+      const node = labelNodes.get(a.spec.id)!;
+      const y = position.centre;
+      node.style.display = 'block'; node.style.top = `${position.top}px`;
       if (a.side === 'l') {node.style.left = '10px'; node.style.right = ''; node.style.textAlign = 'left';} else {node.style.right = '10px'; node.style.left = ''; node.style.textAlign = 'right';}
       const edge = a.side === 'l' ? 10 + Math.min(node.offsetWidth, width * .24) : width - 10 - Math.min(node.offsetWidth, width * .24);
       lines += `<line x1="${edge}" y1="${y}" x2="${a.x}" y2="${a.y}" stroke="#5a6b78" stroke-width="1"/><circle cx="${a.x}" cy="${a.y}" r="2.6" fill="#fff" stroke="#3e5463" stroke-width="1.2"/>`;
@@ -341,7 +350,7 @@ gl_FragColor = vec4(mix(vec3(0.30, 0.78, 0.62), vec3(0.03, 0.36, 0.27), edge), m
     const areaCentre = area.getCenter(new T.Vector3());
     const target = new T.Box3(area.min.clone().addScalar(-.012), area.max.clone().addScalar(.012));
     controls.target.copy(areaCentre);
-    camera.position.copy(areaCentre).addScaledVector(direction, framingDistance(target, direction, camera.fov, camera.aspect, .9, .9));
+    camera.position.copy(areaCentre).addScaledVector(direction, framingDistance(target, direction, camera.fov, camera.aspect, look && focusPart ? 1.3 : .9, look && focusPart ? 1.3 : .9));
     controls.update(); dirty = true;
   };
 
