@@ -11,14 +11,14 @@
 
 ## 一、結果摘要
 
-- 涵蓋結構名稱（去除左右後）：1475 個
+- 涵蓋結構名稱（去除左右後）：1474 個
 - 採用來源 1（muscle-layers.json）改名：33 個；來源 2（跑考摘要）：14 個；來源 3（其他筆記）：25 個
 - 全站固定修正：「背闊肌」→「闊背肌」
 - 仍缺中文名或含英文：0 個
 
 | 來源 | 結構數 |
 |---|---|
-| 台灣解剖學名詞（程式內建對照表） | 1279 |
+| 台灣解剖學名詞（程式內建對照表） | 1278 |
 | muscle-layers.json | 88 |
 | glossary.json（其他筆記） | 75 |
 | glossary.json（跑考摘要） | 33 |
@@ -1064,7 +1064,6 @@
 | 結腸邊緣動脈 | Marginal colic artery；Marginal artery of colon |
 | 腋神經 | maxillary nerve；meningeal branch of maxillary nerve；axillary nerve |
 | 正中神經 | communicating branch of median nerve with ulnar nerve；median nerve |
-| 大腦中動脈（M3 段） | middle cerebral artery (M3 segment)；middle cerebral artery (M3-segment) |
 
 （`muscle-layers.json` 本身將 Extensor/Flexor pollicis longus 與 Extensor/Flexor hallucis longus 都寫成「伸拇長肌」「屈拇長肌」，手部與足部同名，請確認是否要改為「伸拇趾長肌」「屈拇趾長肌」。）
 
@@ -1074,7 +1073,7 @@
 
 ## 五、全部結構命名一覽
 
-<details><summary>展開 1475 項</summary>
+<details><summary>展開 1474 項</summary>
 
 | 結構 | 使用來源 | 中文名 |
 |---|---|---|
@@ -2388,12 +2387,10 @@
 | frontal branches of callosomarginal artery | 台灣解剖學名詞（程式內建對照表） | 胼胝體邊緣動脈額支 |
 | inferior petrosal sinus | 台灣解剖學名詞（程式內建對照表） | 下岩竇 |
 | inferior sagittal sinus | 台灣解剖學名詞（程式內建對照表） | 下矢狀竇 |
-| insular branches of middle cerebral artery (M2) | 台灣解剖學名詞（程式內建對照表） | 大腦中動脈島支（M2） |
 | insular branches of middle cerebral artery (M2-segment) | 台灣解剖學名詞（程式內建對照表） | 大腦中動脈島支（M2 段） |
 | lateral pontine branches of basilar artery | 台灣解剖學名詞（程式內建對照表） | 基底動脈橋腦外側支 |
 | medial pontine branches of basilar artery | 台灣解剖學名詞（程式內建對照表） | 基底動脈橋腦內側支 |
 | middle cerebral artery (M1-segment) | 台灣解剖學名詞（程式內建對照表） | 大腦中動脈（M1 段） |
-| middle cerebral artery (M3 segment) | 台灣解剖學名詞（程式內建對照表） | 大腦中動脈（M3 段） |
 | middle cerebral artery (M3-segment) | 台灣解剖學名詞（程式內建對照表） | 大腦中動脈（M3 段） |
 | occipital sinus | 台灣解剖學名詞（程式內建對照表） | 枕竇 |
 | orbitofrontal branches of anterior cerebral artery | 台灣解剖學名詞（程式內建對照表） | 大腦前動脈眶額支 |
@@ -2486,7 +2483,7 @@
 | tuber of vermis | 台灣解剖學名詞（程式內建對照表） | 蚓結節 |
 | tonsil of cerebellum | 台灣解剖學名詞（程式內建對照表） | 小腦扁桃體 |
 | superior semilunar lobule | 台灣解剖學名詞（程式內建對照表） | 上半月小葉 |
-| superior cerebellar peduncle | 台灣解剖學名詞（程式內建對照表） | 上小腦腳 |
+| superior cerebellar peduncle | 台灣解剖學名詞（程式內建對照表） | 小腦上腳 |
 | pyramis of vermis | 台灣解剖學名詞（程式內建對照表） | 蚓錐 |
 | posterior quadrangular lobule | 台灣解剖學名詞（程式內建對照表） | 後四角小葉 |
 | peduncle of flocculus | 台灣解剖學名詞（程式內建對照表） | 絨球腳 |
@@ -2547,6 +2544,7 @@
 | optic radiation | 台灣解剖學名詞（程式內建對照表） | 視放射 |
 | posterior thalamic radiation | 台灣解剖學名詞（程式內建對照表） | 後視丘輻射 |
 | reticulospinal tract | 台灣解剖學名詞（程式內建對照表） | 網狀脊髓徑 |
+| decussation of superior cerebellar peduncles | 台灣解剖學名詞（程式內建對照表） | 小腦上腳交叉 |
 | superior longitudinal fasciculus I | 台灣解剖學名詞（程式內建對照表） | 上縱束 I |
 | superior longitudinal fasciculus II | 台灣解剖學名詞（程式內建對照表） | 上縱束 II |
 | superior longitudinal fasciculus III | 台灣解剖學名詞（程式內建對照表） | 上縱束 III |

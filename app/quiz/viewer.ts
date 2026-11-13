@@ -4,10 +4,11 @@ import {seededRandom} from './seeded';
 import {fetchModelBuffer, loadMissingChunks} from '../model-download';
 import {PointerTap} from '../pointer-tap';
 import {framingDistance} from '../camera-framing';
+import {coversBrainTarget} from './brain';
 import {SPACES} from '../mj-spaces';
 import {QUIZ_REGIONS, QUIZ_SYSTEMS, ownerMuscleNames, regionSections, sceneStructures, type QuizCatalogue, type QuizSection, type QuizSide, type QuizStructure} from './catalogue';
 
-export type QuizView = 'front' | 'back' | 'side' | 'medial' | 'fit' | 'answer' | 'random';
+export type QuizView = 'front' | 'back' | 'side' | 'medial' | 'top' | 'bottom' | 'fit' | 'answer' | 'random';
 export interface QuizViewState {
   key: string;
   target: QuizStructure;
@@ -168,6 +169,10 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
     return hidden / cachedPoints.length > .12;
   };
 
+  /** Brain quiz: a structure that lies in front of a deep target is drawn as faint glass and cannot be picked, so the target is in view (rules: app/quiz/brain.ts). */
+  const isCover = (structure: QuizStructure) => catalogue.region === 'brain' && !!state && structure.id !== state.target.id && coversBrainTarget(state.target, structure);
+  const BRAIN_GLASS = .09;
+
   const applyAppearance = () => {
     if (!state) return;
     const hidden = new Set(state.hidden), naming = state.mode === 'name', clarity = state.clarity ?? .45;
@@ -191,7 +196,8 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
       // The emissive term keeps the light and shade of the surface: the yellow is a tint, not a flat fill.
       material.emissive.set(lit ? fill : '#000000');
       material.emissiveIntensity = naming && isTarget ? .16 : isNeighbour ? .06 : isAnswer || isWrong ? .08 : 0;
-      material.opacity = naming ? (isNeighbour ? (hidesTarget(mesh) ? .5 : 1) : isTarget ? 1 : isContext ? .06 + .34 * clarity : .12 + .6 * clarity)
+      const glass = isCover(structure) && !isNeighbour;
+      material.opacity = glass ? BRAIN_GLASS : naming ? (isNeighbour ? (hidesTarget(mesh) ? .5 : 1) : isTarget ? 1 : isContext ? .06 + .34 * clarity : .12 + .6 * clarity)
         : isAnswer && space ? 1 : isAnswer || isWrong ? .85 : isContext ? .2 : state.answered ? .16 : 1;
       // The highlight of a space member is strongest near the space (see setSpaceFade); the question itself (nothing answered yet in level 1) shows the members like any other structure.
       const fades = space && isTarget && (naming || state.answered);
@@ -218,7 +224,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
       // Only a change of render state needs the material revalidated; doing it for every mesh on every update made each tap re-check hundreds of programs.
       const stateChanged = material.transparent !== transparent || material.depthWrite !== depthWrite || material.depthTest !== depthTest;
       material.transparent = transparent; material.depthWrite = depthWrite; material.depthTest = depthTest;
-      mesh.renderOrder = isAnswer || (naming && isTarget) ? 5 : isWrong || isNeighbour ? 4 : isContext ? 0 : 1;
+      mesh.renderOrder = isAnswer || (naming && isTarget) ? 5 : isWrong || isNeighbour ? 4 : isContext || glass ? 0 : 1;
       if (stateChanged) material.needsUpdate = true;
     }
     canvas.style.cursor = naming ? 'grab' : state.peeling ? 'crosshair' : 'grab';
@@ -284,6 +290,8 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
     if (view === 'back') direction.set(0, .04, -1).normalize();
     // lung quiz: the inner (mediastinal) face of the lung the question is about; a structure on both sides follows the side chosen on the setup page
     if (view === 'medial') direction.set((state.target.side === 'midline' ? state.side === 'left' : state.target.side === 'left') ? -1 : 1, .03, .02).normalize();
+    if (view === 'top') direction.set(0, 1, .02).normalize();
+    if (view === 'bottom') direction.set(0, -1, .02).normalize();
     // a space opens its answer from the direction the layer panel looks at it from (SpaceDef.look: outward, up, front), mirrored for the left side
     if (view === 'answer' && state.target.space) {
       const look = SPACES.find(d => d.id === state!.target.space!.id)?.look;
@@ -361,7 +369,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
   };
 
   // A space question can be answered by tapping any structure of the scene: the members of the space are right, every other structure is wrong.
-  const selectable = () => [...meshes.values()].filter(m => m.visible && (isSpace() || byId.get(m.userData.structureId)!.system === state?.target.system));
+  const selectable = () => [...meshes.values()].filter(m => m.visible && (isSpace() || byId.get(m.userData.structureId)!.system === state?.target.system) && !isCover(byId.get(m.userData.structureId)!));
   const pickAt = (clientX: number, clientY: number, touch: boolean) => {
     if (!state || state.answered || !ready || state.mode === 'name') return;
     const rect = canvas.getBoundingClientRect(), candidates = selectable();
