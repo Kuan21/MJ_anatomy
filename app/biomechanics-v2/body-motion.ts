@@ -179,9 +179,9 @@ export function bindBodyTissue(rig:BodyRig,positions:ArrayLike<number>,skull=fal
    const t=smooth((y-(part.bounds[0][1]+.018))/.10),lateral=smooth((.14-Math.abs(positions[i*3]))/.075),follow=t*lateral;
    w=[1-follow,0,0,0,0,0,0,0,follow];
   }
-  if(!laryngeal&&rig.region==='head'&&part&&rig.hyoid&&/digastric|mylohyoid|geniohyoid|stylohyoid|sternohyoid|omohyoid|thyrohyoid/i.test(part.name)){
+  if(!laryngeal&&rig.region==='head'&&part&&rig.hyoid&&/digastric|mylohyoid|geniohyoid|genioglossus|stylohyoid|sternohyoid|omohyoid|thyrohyoid/i.test(part.name)){
    const h=rig.hyoid,carrier=rig.larynx??h,hw=neckSoftWeights(rig,carrier.y,carrier.z);
-   const supra=/digastric|mylohyoid|geniohyoid|stylohyoid/i.test(part.name);
+   const supra=/digastric|mylohyoid|geniohyoid|genioglossus|stylohyoid/i.test(part.name);
    if(supra){
     // Both digastric bellies meet the same hyoid frame. The anterior belly
     // reaches the mandibular symphysis anteriorly, not at the highest y.
