@@ -25,6 +25,15 @@ The breast (female only) uses the Human Reference Atlas *3D Reference Objects: L
 
 The pleura and pericardium layers are schematic shells written by this project (`scripts/prepare-serous.mjs`): each is an offset of the lung lobe or heart wall surface, not a measured structure. The five lung lobes are BodyParts3D 3.0 meshes (CC BY-SA 2.1 Japan, FMA7333, FMA7383, FMA7337, FMA7370, FMA7371).
 
+## Eye detail atlas
+
+The eye detail atlas (眼) shows one left orbit assembled from two sources and packaged in `models/eye/` by `scripts/build-eye-atlas.mjs`:
+
+- Orbit (48 structures): extraocular muscles and their fascia, tarsal plates, lacrimal apparatus, orbital nerves, ophthalmic artery, optic nerve to superior colliculus, and the bones of the orbit. BodyParts3D 4.0 (as above, CC BY 4.0), copied unchanged from the packaged atlas; the two halves of the optic chiasm are joined into one structure.
+- Globe (23 layered structures): Human Reference Atlas 3D Reference Object Library, *eye-male-left v1.3*, built from the Visible Human male data set (HuBMAP / Human Reference Atlas, Indiana University). CC BY 4.0. https://cdn.humanatlas.io/digital-objects/ref-organ/eye-male-left/v1.3/assets/3d-vh-m-eye-l.glb
+
+Adaptations to the globe: simplified with meshoptimizer from 346,630 to 99,760 triangles (0.4% error limit per structure), normals recomputed, and registered onto the BodyParts3D left eyeball by a uniform scale of 1.087 and a translation so that both share the optical axis and axial length. Colours, transparency, layer grouping, names and descriptions are written for this interface. The abducens nerve, the orbital veins, the central retinal vessels and the individual branches of the ophthalmic artery are not present in either source and are not shown.
+
 ## Historical assets (not included in the current release)
 
 Earlier repository revisions included female reference anatomy: Kristen Browne and Heidi Schlehlein, Human Reference Atlas / HuBMAP, *3D Reference Organ Set for Female v1.5* (2023). CC BY 4.0. Geometry adapted for this viewer.
