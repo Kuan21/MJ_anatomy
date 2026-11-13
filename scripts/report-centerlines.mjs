@@ -9,9 +9,11 @@ import {centrelineOf} from './lib/leg-centreline.mjs';
 import {classifyRings, sparseStep, pieceCount} from './lib/centreline-classify.mjs';
 import {centrelinesOf} from './lib/centreline-pieces.mjs';
 import {joinGap} from './lib/centreline-continuity.mjs';
+import {specNames, structureKind, linkGap} from './lib/centreline-groups.mjs';
 
 const w = loadWorld({paokao: false, allowMissing: process.argv.includes('--available')});
 const entries = w.entries.filter(e => ['arterial', 'venous', 'nervous'].includes(e.system) && !/^extra:/.test(e.id));
+const spec = specNames(), KIND = {spec: '應相接', group: '成組', unknown: '未判定'}, ORDER = ['spec', 'unknown', 'group'];
 const t0 = Date.now(), bad = [], sparse = [], pieces = [], stats = {arterial: 0, venous: 0, nervous: 0};
 for (const e of entries) {
   let why = null, rings = [];
@@ -27,7 +29,9 @@ for (const e of entries) {
     const skipped = [], lines = centrelinesOf(g, .003, skipped);
     let gap = 0;
     if (lines.length > 1) for (const a of lines) gap = Math.max(gap, Math.min(...lines.filter(b => b !== a).map(b => joinGap(a.rings, b.rings))));
-    pieces.push({id: e.id, name: e.name, system: e.system, pieces: n, lines: lines.length, skipped: skipped.length, gapMm: lines.length > 1 ? Math.round(gap * 1000) : null});
+    pieces.push({id: e.id, name: e.name, system: e.system, pieces: n, lines: lines.length, skipped: skipped.length, gapMm: lines.length > 1 ? Math.round(gap * 1000) : null,
+      // kind: one structure by topology-spec, a group by its name, or undecided; link: the gap to bridge to make one connected structure of all the lines (not meaningful for a group).
+      kind: structureKind(e.name, spec), linkMm: lines.length > 1 ? Math.round(linkGap(lines.map(l => l.rings)) * 1000) : null});
   }
 }
 const left = w.missing.length ? `（本次未含：${w.missing.join('、')}，這些生成檔不在本機）` : '';
@@ -39,7 +43,9 @@ else {
 if (process.argv.includes('--write')) {
   const rows = bad.map(b => `| ${b.system} | ${b.name} | ${b.why} |`).join('\n');
   const sparseRows = sparse.sort((a, b) => b.mm - a.mm).map(b => `| ${b.system} | ${b.name} | ${b.mm} mm |`).join('\n');
-  const pieceRows = pieces.sort((a, b) => b.pieces - a.pieces).map(b => `| ${b.system} | ${b.name} | ${b.pieces} | ${b.lines} | ${b.skipped} | ${b.gapMm === null ? '—' : b.gapMm + ' mm'} |`).join('\n');
+  const count = k => pieces.filter(b => b.kind === k).length, apart = k => pieces.filter(b => b.kind === k && b.linkMm > 5).length;
+  const pieceRows = pieces.sort((a, b) => ORDER.indexOf(a.kind) - ORDER.indexOf(b.kind) || (b.linkMm ?? -1) - (a.linkMm ?? -1) || b.pieces - a.pieces)
+    .map(b => `| ${b.system} | ${b.name} | ${KIND[b.kind]} | ${b.pieces} | ${b.lines} | ${b.skipped} | ${b.gapMm === null ? '—' : b.gapMm + ' mm'} | ${b.linkMm === null ? '—' : b.linkMm + ' mm'} |`).join('\n');
   fs.writeFileSync('docs/centerline-report.md', `# 中心線抽取報告（自動產生，勿手動修改）
 
 由 \`node scripts/report-centerlines.mjs --write\` 產生。共 ${entries.length} 個血管與神經網格${left}，抽取成功且通過檢查：動脈 ${stats.arterial}、靜脈 ${stats.venous}、神經 ${stats.nervous}；列出 ${bad.length} 個。
@@ -62,8 +68,10 @@ ${sparseRows}
 
 上面的檢查只沿其中一件走。這裡逐件抽取中心線：「中心線」是抽得出至少兩圈的件數，「略過」是太小或形狀不是管的件數，「最大件距」是各件的中心線端點到最近另一件端點的距離（已扣半徑）當中最大的一個。件距大不一定是缺陷（例如同一名稱下本來就分開的分支，或端點不是相接處），只是提示要看哪些結構。
 
-| 系統 | 結構 | 件數 | 中心線 | 略過 | 最大件距 |
-| --- | --- | --- | --- | --- | --- |
+「分類」只看名稱與 \`scripts/topology-spec.mjs\`，不是解剖判斷：「應相接」是 topology-spec 列為上一級或分支的單一結構（${count('spec')} 個，其中連接距離超過 5 mm 的 ${apart('spec')} 個）；「成組」是名稱本身表示多條的結構（Set of、複數、plexus；${count('group')} 個），各件本來分開，件距沒有意義；「未判定」是單數名稱但 topology-spec 沒有列出（${count('unknown')} 個，其中連接距離超過 5 mm 的 ${apart('unknown')} 個），需要人看。「連接距離」是把所有中心線連成一個整體時必須跨過的最大空隙（端點對端點，或端點到另一件的管壁），0 代表各件相接。表格依分類、再依連接距離排列。
+
+| 系統 | 結構 | 分類 | 件數 | 中心線 | 略過 | 最大件距 | 連接距離 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 ${pieceRows}
 `);
 }
