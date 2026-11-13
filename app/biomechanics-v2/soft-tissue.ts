@@ -77,9 +77,10 @@ export interface FibreGuide {alignSections?:boolean}
 export interface SkinBinding {follower?:{parent:SkinBinding;progress:number[];even?:boolean}}
 /** Latissimus dorsi: a long sheet from the lower back to the humerus. Blending each vertex with its own image under the humeral rotation swings the
  * lower belly (30 cm from the shoulder) through a wide arc and draws the sheet out to three times its length at the end of flexion with abduction.
- * `reach` is the rest position of the humeral insertion: the belly follows the travel of that point, weighted as before. */
+ * `reach` is the rest position of the humeral insertion: the humeral share of the belly is half the travel of that point and half the vertex's own image
+ * (REACH_SHARE). The travel alone lifts the lower border off the lower ribs; the image alone gives the threefold stretch. */
 export interface SkinBinding {reach?:Vector3}
-const REACH_TURN=.8;
+const REACH_TURN=.8,REACH_SHARE=.5;
 export interface SkinBinding {/** keep the rest edge lengths after skinning (short muscles across a joint band) */relax?:boolean}
 /** Weights for the coarse live preview (the GPU blend shown while a pose is being dragged and on a side that is not being solved), when the binding's own
  * weights are not a fair picture of where the solver puts it (a pectoral follower: see bindTissue). */
@@ -886,7 +887,7 @@ function deformTissueCore(binding:SkinBinding,base:Float32Array,palette:Palette,
    for(let k=0;k<4;k++){const w=binding.weights[i*4+k];if(!w)continue;
     const f=binding.indices[i*4+k];transform(base[j],base[j+1],base[j+2],palette.subarray(f*8,f*8+8),v,0);
     // the belly is carried by the travel of the humeral insertion; only the part next to the insertion turns with the humerus (see SkinBinding.reach)
-    if(reach&&f===3){const s=range(w,REACH_TURN,1);v[0]=(base[j]+reach[0])*(1-s)+v[0]*s;v[1]=(base[j+1]+reach[1])*(1-s)+v[1]*s;v[2]=(base[j+2]+reach[2])*(1-s)+v[2]*s;}
+    if(reach&&f===3){const s=1-REACH_SHARE*(1-range(w,REACH_TURN,1));v[0]=(base[j]+reach[0])*(1-s)+v[0]*s;v[1]=(base[j+1]+reach[1])*(1-s)+v[1]*s;v[2]=(base[j+2]+reach[2])*(1-s)+v[2]*s;}
     x+=w*v[0];y+=w*v[1];z+=w*v[2];
    }
    out[j]=x;out[j+1]=y;out[j+2]=z;continue;
