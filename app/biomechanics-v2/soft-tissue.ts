@@ -802,7 +802,7 @@ function deformTissueCore(binding:SkinBinding,base:Float32Array,palette:Palette,
   deformTissue(parent,base,palette,out);
   const q=new Float64Array(8),v=new Float64Array(3);
   for(let i=0;i<progress.length;i++){
-   const t=range(progress[i],.03,.95);if(t===1)continue;
+   const t=range(progress[i],.08,.78);if(t===1)continue;
    blended(palette,binding.indices,binding.weights,i*4,q);transform(base[i*3],base[i*3+1],base[i*3+2],q,v,0);
    for(let k=0;k<3;k++)out[i*3+k]=v[k]+t*(out[i*3+k]-v[k]);
   }
