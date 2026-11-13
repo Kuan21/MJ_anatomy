@@ -1,6 +1,6 @@
 import {scopeOf} from '../mj-scope';
 import {TENDON_OWNERS} from '../mj-tendon-owners';
-export type QuizSystem = 'skeletal' | 'muscular' | 'tendon' | 'nervous' | 'arterial' | 'venous' | 'cardiac' | 'respiratory';
+export type QuizSystem = 'skeletal' | 'muscular' | 'tendon' | 'nervous' | 'arterial' | 'venous' | 'cardiac' | 'respiratory' | 'joint';
 export type QuizRegionId = 'lower-limb' | 'upper-limb' | 'thorax' | 'back' | 'heart' | 'lung';
 /** Section ids are region specific ('hip', 'thigh'… for the leg; 'shoulder', 'arm'… for the arm; 'cage', 'wall'… for the thorax). */
 export type QuizSection = string;
@@ -20,6 +20,8 @@ export const QUIZ_SYSTEMS: {id: QuizSystem; label: string; english: string; colo
   {id: 'cardiac', label: '心臟構造', english: 'Heart structures', color: '#d98a85'},
   // Lung quiz only: the surface marks of the lungs, the lobes and the main bronchi.
   {id: 'respiratory', label: '肺表面與氣道', english: 'Lung surface and airway', color: '#c98a8f'},
+  // Joint soft tissue (capsules, labra, menisci, articular discs, joint ligaments); the pool is built by app/quiz/joints.ts.
+  {id: 'joint', label: '關節構造', english: 'Joint structures', color: '#8fb4be'},
 ];
 export interface QuizSectionDef {id: string; label: string; english: string; range: [number, number]}
 export interface QuizRegionDef {
@@ -77,7 +79,7 @@ const BACK_SECTIONS: QuizSectionDef[] = [
   {id: 'neurovascular', label: '背部神經與血管', english: 'Nerves and vessels of the back', range: [.78, 1.68]},
 ];
 /** Question scope: any combination of these nine categories, crossed freely with region (section) and side. */
-export type QuizCategory = 'bone' | 'muscle' | 'tendon' | 'nerve' | 'artery' | 'vein' | 'ligament' | 'space' | 'organ';
+export type QuizCategory = 'bone' | 'muscle' | 'tendon' | 'nerve' | 'artery' | 'vein' | 'ligament' | 'joint' | 'space' | 'organ';
 export const QUIZ_CATEGORIES: {id: QuizCategory; label: string; english: string; color: string; note: string}[] = [
   {id: 'bone', label: '骨', english: 'Bones', color: '#d6c4a4', note: '含骨性標記'},
   {id: 'muscle', label: '肌肉', english: 'Muscles', color: '#bb7067', note: ''},
@@ -86,14 +88,17 @@ export const QUIZ_CATEGORIES: {id: QuizCategory; label: string; english: string;
   {id: 'artery', label: '動脈', english: 'Arteries', color: '#bf5363', note: ''},
   {id: 'vein', label: '靜脈', english: 'Veins', color: '#6399bc', note: ''},
   {id: 'ligament', label: '韌帶與筋膜', english: 'Ligaments and fasciae', color: '#c9b98a', note: ''},
+  {id: 'joint', label: '關節', english: 'Joints', color: '#8fb4be', note: '關節囊、關節盤、半月板、盂唇與關節韌帶'},
   {id: 'space', label: '特殊空間與孔', english: 'Spaces and openings', color: '#8fa7a0', note: '四邊孔、三邊孔、解剖鼻煙盒、跗管'},
   {id: 'organ', label: '器官結構', english: 'Organ structures', color: '#d98a85', note: '心臟內部、肺的壓跡與肺門'},
 ];
 const SPACE_NAME = /quadrangular space|quadrilateral space|triangular space|triangular interval|anatomical snuffbox|snuff ?box|tarsal tunnel|carpal tunnel|cubital fossa|popliteal fossa|femoral triangle|adductor canal|axilla\b|foramen|hiatus|canal\b/i;
 const LIGAMENT_NAME = /ligament|fascia|retinaculum|aponeurosis|membrane|septum|raphe|capsule/i;
-const SYSTEM_CATEGORY: Record<QuizSystem, QuizCategory> = {skeletal: 'bone', muscular: 'muscle', tendon: 'tendon', nervous: 'nerve', arterial: 'artery', venous: 'vein', cardiac: 'organ', respiratory: 'organ'};
+const SYSTEM_CATEGORY: Record<QuizSystem, QuizCategory> = {skeletal: 'bone', muscular: 'muscle', tendon: 'tendon', nervous: 'nerve', arterial: 'artery', venous: 'vein', cardiac: 'organ', respiratory: 'organ', joint: 'joint'};
 /** One category per structure: spaces and ligaments are recognised by name; every other structure follows its body system. */
 export function categoryOf(structure: {name: string; system: QuizSystem}): QuizCategory {
+  // Joint soft tissue is 'joint' only; the name rules below never reach it, and they never produce 'joint'.
+  if (structure.system === 'joint') return 'joint';
   if (structure.system === 'muscular' || structure.system === 'skeletal') {
     if (SPACE_NAME.test(structure.name) && !/^(?:left |right )?(?:intervertebral|neural) /i.test(structure.name)) return 'space';
     if (LIGAMENT_NAME.test(structure.name) && !/tensor fasciae|membranous/i.test(structure.name)) return 'ligament';
@@ -268,6 +273,14 @@ function overlapSections(region: QuizRegionId, bounds: Bounds): SectionList {
   return [regionSections(region).filter(s => s.id !== 'all').reduce((best, s) => Math.abs((s.range[0] + s.range[1]) / 2 - mid) < Math.abs((best.range[0] + best.range[1]) / 2 - mid) ? s : best).id];
 }
 
+/** Joint soft tissue sits at one joint: the narrowest section whose range holds the centre of the tissue (hip, knee, ankle & foot; shoulder, elbow, wrist & hand), not every section it touches. */
+function jointSections(region: QuizRegionId, bounds: Bounds): SectionList {
+  const mid = (bounds[0][1] + bounds[1][1]) / 2, sections = regionSections(region).filter(s => s.id !== 'all');
+  const holding = sections.filter(s => mid >= s.range[0] && mid <= s.range[1]).sort((x, y) => (x.range[1] - x.range[0]) - (y.range[1] - y.range[0]));
+  if (holding.length) return [holding[0].id];
+  return [sections.reduce((best, s) => Math.abs((s.range[0] + s.range[1]) / 2 - mid) < Math.abs((best.range[0] + best.range[1]) / 2 - mid) ? s : best).id];
+}
+
 // Individually identified upper-limb nerves (brachial plexus and its named branches).
 export const UPPER_NERVES: Record<string, {zh: string; sections: SectionList}> = {
   'roots of brachial plexus': {zh: '臂神經叢神經根', sections: ['shoulder']},
@@ -343,6 +356,7 @@ export const THORAX_NERVES: Record<string, {zh: string; sections: SectionList}> 
 };
 export const THORAX_INCLUDE: Record<QuizSystem, RegExp> = {
   respiratory: /(?!)/,
+  joint: /(?!)/,   // joint soft tissue comes from app/quiz/joints.ts, not from the atlas
   tendon: /(?!)/,
   skeletal: /^(?:(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth) rib|manubrium|body of sternum|xiphoid process|(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth) thoracic vertebra|costal cartilages?|intervertebral discs?)$/,
   muscular: /intercostal|transversus thoracis|levatores costarum|serratus posterior|^diaphragm$|spinalis thoracis|iliocostalis thoracis|longissimus thoracis|semispinalis thoracis|interspinalis thoracis|thoracic rotator|subcostal/,
@@ -355,6 +369,7 @@ export const THORAX_INCLUDE: Record<QuizSystem, RegExp> = {
 export function thoraxSections(name: string, bounds: Bounds, system?: QuizSystem): SectionList {
   const n = cleanName(name);
   if (THORAX_NERVES[n]) return THORAX_NERVES[n].sections;
+  if (system === 'joint') return ['cage'];
   if (system === 'skeletal' || /\brib\b|sternum|manubrium|xiphoid|thoracic vertebra|costal cartilage|intervertebral/.test(n)) return ['cage'];
   if (system === 'muscular') return ['wall'];
   if (/intercostal|internal thoracic|musculophrenic|subcostal|costocervical|thyrocervical|bronchial|esophageal/.test(n)) return ['intercostal'];
@@ -377,6 +392,7 @@ export const BACK_NERVES: Record<string, {zh: string; sections: SectionList; sys
 };
 export const BACK_INCLUDE: Record<QuizSystem, RegExp> = {
   respiratory: /(?!)/,
+  joint: /(?!)/,
   tendon: /(?!)/,
   skeletal: /^(?:(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth) (?:cervical|thoracic|lumbar) vertebra|atlas|axis|sacrum|coccyx|occipital bone|scapula)$/,
   muscular: /^(?:(?:descending|transverse|ascending) part of trapezius|latissimus dorsi|levator scapulae|rhomboid (?:major|minor)|serratus posterior (?:superior|inferior)|splenius (?:capitis|cervicis)|iliocostalis (?:cervicis|thoracis|lumborum)|longissimus (?:capitis|cervicis|thoracis)|spinalis(?: thoracis| cervicis)?|semispinalis (?:capitis|cervicis|thoracis)|multifidus|(?:cervical|thoracic|lumbar) rotator|rectus capitis posterior (?:major|minor)|obliquus capitis (?:superior|inferior))$/,
@@ -410,6 +426,7 @@ export function lungSections(name: string): Exclude<QuizSection, 'all'>[] {
 
 export function classifySections(region: QuizRegionId, name: string, bounds: Bounds, system?: QuizSystem): SectionList {
   if (region === 'lung') return lungSections(name);
+  if (system === 'joint' && (region === 'lower-limb' || region === 'upper-limb')) return jointSections(region, bounds);
   if (region === 'back') return backSections(name, system);
   return region === 'upper-limb' ? upperSections(name, bounds) : region === 'thorax' ? thoraxSections(name, bounds, system) : lowerSections(name, bounds);
 }

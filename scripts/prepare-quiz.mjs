@@ -6,6 +6,7 @@ import {gzipSync, gunzipSync} from 'node:zlib';
 import {BufferGeometry, BufferAttribute} from 'three';
 import {planCuts, atlasParts} from './lib/tendon-set.mjs';
 import {quizModule} from './quiz-modules.mjs';
+import {loadJointRows} from './lib/joint-quiz-source.mjs';
 
 const root = new URL('../', import.meta.url);
 const models = new URL('public/models/', root);
@@ -15,6 +16,7 @@ const {normalizeAtlasSystems} = await quizModule('app/mj-system-classifier.ts');
 const {anatomicalRegion, anatomicalSide, correctedPartName} = await quizModule('app/mj-part-regions.ts');
 const {structureProfile, paokaoZh} = await quizModule('app/mj-structure-info.ts');
 const {namingOverride, applyZhFixes} = await quizModule('app/mj-naming.ts');
+const {jointRegion, jointExclusion, jointKey, jointKindOf, JOINT_EXCLUSION_REASONS} = await quizModule('app/quiz/joints.ts');
 const {QUIZ_SYSTEMS, QUIZ_REGIONS, LOWER_NERVES, UPPER_NERVES, THORAX_NERVES, THORAX_INCLUDE, BACK_NERVES, BACK_INCLUDE, classifySections} = await quizModule('app/quiz/catalogue.ts');
 const atlas = normalizeAtlasSystems(JSON.parse(fs.readFileSync(new URL('atlas.json', models))));
 // BodyParts3D 3.0 structures the 4.0 export left out (latissimus dorsi, multifidus, spinalis cervicis…) are quiz answers too: their packages are read like the atlas chunks.
@@ -67,6 +69,32 @@ function include(region, part) {
   if (region === 'thorax' && !/\b(left|right)\b/i.test(part.name) && !PAIRED_THORAX.test(cleanName(correctedPartName(part)))) return 'midline';
   return side;
 }
+
+// Joint soft tissue (category 關節): the tissues of public/models/joints.glb, registered to the atlas bones exactly as the site draws them (scripts/lib/joint-quiz-source.mjs).
+// Region, exclusions and names come from app/quiz/joints.ts; every tissue that is not asked is listed with its reason in .sites-runtime/quiz-joints-report.json (docs/quiz-joints-pool.md).
+const atlasKeys = new Set(), paokaoParts = JSON.parse(gunzipSync(fs.readFileSync(new URL('paokao/paokao-stream.json.gz', models)))).parts;
+for (const part of atlas.parts) atlasKeys.add(jointKey(correctedPartName(part)));
+for (const part of paokaoParts) atlasKeys.add(jointKey(part.name));
+const jointCandidates = [];
+for (const row of await loadJointRows(atlas)) {
+  const meshName = String(row.mesh.name), suffix = /\.([lr])(?:\.\d+)?$/i.exec(meshName)?.[1]?.toLowerCase();
+  const base = meshName.replace(/\.[lr](?:\.\d+)?$/i, '').replace(/\.00\d$/, '').replace(/^\((.*)\)$/, '$1').trim();
+  const positions = row.mesh.geometry.getAttribute('position'), bounds = (() => {const b = [[Infinity, Infinity, Infinity], [-Infinity, -Infinity, -Infinity]]; for (let i = 0; i < positions.count; i++) for (let k = 0; k < 3; k++) {const v = positions.array[i * 3 + k]; b[0][k] = Math.min(b[0][k], v); b[1][k] = Math.max(b[1][k], v);} return b;})();
+  const x = (bounds[0][0] + bounds[1][0]) / 2;
+  // A few source meshes carry no .l/.r suffix: the midline ones are unpaired (symphyses, spinal ligaments); one lies off the midline and takes its side from its position.
+  const side = suffix ? (suffix === 'l' ? 'left' : 'right') : Math.abs(x) < .012 ? 'midline' : x > 0 ? 'left' : 'right';
+  const name = side === 'midline' ? base : `${side === 'left' ? 'Left' : 'Right'} ${lc(base)}`;
+  const region = jointRegion(base, row.region), chineseRaw = structureProfile(name, 'connective').chinese, chinese = chineseRaw && !/[a-z]/i.test(chineseRaw) ? chineseRaw : undefined;
+  const reason = jointExclusion(base, region, atlasKeys.has(jointKey(base)), chinese);
+  jointCandidates.push({id: `joint:${meshName}:${jointCandidates.length}`, mesh: row.mesh, base, name, side, region, chinese, reason, bounds, kind: jointKindOf(base), anchor: row.anchor.name});
+}
+// Two different tissues of one region with the same Chinese name could not be told apart by a typed answer.
+for (const region of ['lower-limb', 'upper-limb', 'thorax', 'back']) {
+  const seen = new Map();
+  for (const c of jointCandidates.filter(c => !c.reason && c.region === region)) {const key = c.chinese + '|' + c.side, other = seen.get(key); if (other && other !== jointKey(c.base)) c.reason = 'name-not-unique'; else seen.set(key, jointKey(c.base));}
+}
+fs.mkdirSync(new URL('.sites-runtime/', root), {recursive: true});
+fs.writeFileSync(new URL('.sites-runtime/quiz-joints-report.json', root), JSON.stringify(jointCandidates.map(({mesh, bounds, id, ...c}) => ({...c, bounds: undefined})).sort((a, b) => a.name.localeCompare(b.name)), null, 1));
 
 const summary = [];
 for (const region of Object.keys(QUIZ_REGIONS)) {
@@ -171,6 +199,18 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
         system: definition.system ?? 'nervous', side, bounds, source: definition.schematic ? 'Schematic model' : 'Nervous supplement', positions, normals: Buffer.from(normals.buffer), indices});
       geometry.dispose();
     }
+  }
+
+  // Joint soft tissue asked in this region (category 關節).
+  for (const c of region === 'heart' || region === 'lung' ? [] : jointCandidates) {
+    if (c.reason || c.region !== region) continue;
+    const geometry = c.mesh.geometry.clone();
+    geometry.computeVertexNormals();
+    const pos = geometry.getAttribute('position'), index = geometry.index.array, normals = new Int16Array(pos.count * 3);
+    geometry.getAttribute('normal').array.forEach((v, i) => {normals[i] = Math.round(v * 32767);});
+    const positions = Buffer.from(new Float32Array(pos.array).buffer), indices = Buffer.from(new Uint32Array(index).buffer);
+    add({id: c.id, name: c.name, chinese: c.chinese, system: 'joint', side: c.side, bounds: c.bounds, source: 'Z-Anatomy', positions, normals: Buffer.from(normals.buffer), indices});
+    geometry.dispose();
   }
 
   const packages = [], sides = region === 'thorax' || region === 'back' || region === 'heart' || region === 'lung' ? ['left', 'right', 'midline'] : ['left', 'right'];
