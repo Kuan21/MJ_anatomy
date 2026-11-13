@@ -75,6 +75,11 @@ export interface SoftRig {side:Side;ids:(string|undefined)[];shoulder:Vector3;el
 export interface FibreGuide {centres:Vector3[];indices:Uint8Array;weights:Float32Array;coordinates:Float32Array;axis:Vector3;origin:Vector3;length:number}
 export interface FibreGuide {alignSections?:boolean}
 export interface SkinBinding {follower?:{parent:SkinBinding;progress:number[]}}
+/** Latissimus dorsi: a long sheet from the lower back to the humerus. Blending each vertex with its own image under the humeral rotation swings the
+ * lower belly (30 cm from the shoulder) through a wide arc and draws the sheet out to three times its length at the end of flexion with abduction.
+ * `reach` is the rest position of the humeral insertion: the belly follows the travel of that point, weighted as before. */
+export interface SkinBinding {reach?:Vector3}
+const REACH_TURN=.8;
 export interface SkinBinding {/** keep the rest edge lengths after skinning (short muscles across a joint band) */relax?:boolean}
 /** Weights for the coarse live preview (the GPU blend shown while a pose is being dragged and on a side that is not being solved), when the binding's own
  * weights are not a fair picture of where the solver puts it (a pectoral follower: see bindTissue). */
@@ -292,9 +297,46 @@ export function smoothSkinWeights(positions:ArrayLike<number>,triangles:ArrayLik
   for(let k=0;k<4;k++){indices[i*4+k]=top[k]?.j??0;weights[i*4+k]=top[k]?top[k].w/sum:0;}
  }
 }
+/** Weight smoothing for thin tubes (nerves): the same idea as smoothSkinWeights, written for hundreds of meshes at load time. Only the frames the mesh
+ * uses are carried, neighbours count equally (the rings of a tube are evenly spaced) and a mesh that hangs on one frame is left alone. */
+export function smoothTubeWeights(positions:ArrayLike<number>,triangles:ArrayLike<number>,indices:Uint8Array,weights:Float32Array,passes:number){
+ const count=weights.length/4,slot=new Int8Array(256).fill(-1),used:number[]=[];
+ for(let i=0;i<count*4;i++)if(weights[i]>0&&slot[indices[i]]<0){slot[indices[i]]=used.length;used.push(indices[i]);}
+ const frames=used.length;if(frames<2)return;
+ const node=new Uint32Array(count),keys=new Map<string,number>();
+ for(let i=0;i<count;i++){const key=`${positions[i*3]},${positions[i*3+1]},${positions[i*3+2]}`,first=keys.get(key);if(first===undefined){keys.set(key,i);node[i]=i;}else node[i]=first;}
+ const pairs=new Set<number>();
+ for(let t=0;t<triangles.length;t+=3)for(let k=0;k<3;k++){const a=node[triangles[t+k]],b=node[triangles[t+(k+1)%3]];if(a!==b){pairs.add(a*count+b);pairs.add(b*count+a);}}
+ const start=new Uint32Array(count+1);for(const p of pairs)start[Math.floor(p/count)+1]++;
+ for(let i=0;i<count;i++)start[i+1]+=start[i];
+ const fill=start.slice(0,count),list=new Uint32Array(pairs.size);for(const p of pairs){const a=Math.floor(p/count);list[fill[a]++]=p-a*count;}
+ let dense=new Float32Array(count*frames),next=new Float32Array(count*frames);
+ for(let i=0;i<count;i++)for(let k=0;k<4;k++)if(weights[i*4+k]>0)dense[i*frames+slot[indices[i*4+k]]]+=weights[i*4+k];
+ const pinned=new Uint8Array(count);
+ for(let i=0;i<count;i++){let max=0;for(let f=0;f<frames;f++)max=Math.max(max,dense[i*frames+f]);pinned[i]=max>=.995?1:0;}
+ for(let pass=0;pass<passes;pass++){
+  for(let i=0;i<count;i++){
+   const v=node[i],from=start[v],to=start[v+1],n=to-from;
+   if(pinned[v]||!n){for(let f=0;f<frames;f++)next[i*frames+f]=dense[v*frames+f];continue;}
+   let total=0;
+   for(let f=0;f<frames;f++){let mean=0;for(let e=from;e<to;e++)mean+=dense[list[e]*frames+f];const w=.5*dense[v*frames+f]+.5*mean/n;next[i*frames+f]=w;total+=w;}
+   for(let f=0;f<frames;f++)next[i*frames+f]/=total;
+  }
+  const swap=dense;dense=next;next=swap;
+ }
+ const order=new Uint8Array(frames);
+ for(let i=0;i<count;i++){
+  if(pinned[node[i]])continue;
+  for(let f=0;f<frames;f++)order[f]=f;
+  const row=dense.subarray(i*frames,i*frames+frames);order.sort((a,b)=>row[b]-row[a]);
+  let sum=0;for(let k=0;k<4&&k<frames;k++)sum+=row[order[k]];
+  for(let k=0;k<4;k++){const on=k<frames&&row[order[k]]>1e-5;indices[i*4+k]=on?used[order[k]]:0;weights[i*4+k]=on?row[order[k]]/sum:0;}
+ }
+}
 /** Short muscles that lie right across a joint band: the step of the band falls on a few coarse triangles, which are stretched to three times their
  * length at the end of the range. They are solved on the CPU with the rest-length guard of the surface constraints (see shoulder-worker). */
 const RELAXED_MUSCLES=/supinator|coracobrachialis/i;
+const EVEN_NERVES=/^Superior lateral brachial cutaneous nerve/i;
 const SMOOTHED_PROFILES:Profile[]=['chest','scapular','clavicular','coraco'];
 
 /** Store sparse weights once. All deltoid heads use the SAME envelope.
@@ -384,6 +426,9 @@ export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<numbe
  }
  // One weight-smoothing pass for broad shoulder sheets (collars at the bones stay fixed).
  if(triangles&&!fitted&&SMOOTHED_PROFILES.includes(effectiveProfile))smoothSkinWeights(positions,triangles,indices,weights);
+ // A short skin nerve that lies across the edge of the path field: a few of its millimetre rings took the whole lengthening (three to five times their
+ // length at the end of shoulder abduction and flexion). Its weights are spread along the whole tube, so the nerve lengthens evenly.
+ if(triangles&&!part&&effectiveProfile==='path'&&EVEN_NERVES.test(name))smoothTubeWeights(positions,triangles,indices,weights,1000);
  let fan:SkinBinding['fan'];
  if(effectiveProfile==='pectoralPath'){
   const minX=Math.min(Math.abs(own.min.x),Math.abs(own.max.x)),maxX=Math.max(Math.abs(own.min.x),Math.abs(own.max.x));
@@ -434,7 +479,13 @@ export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<numbe
  // palette) until the solver has placed it.
  let preview:SkinBinding['preview'];
  if(follower){const pi=new Uint8Array(count*4),pw=new Float32Array(count*4);for(let i=0;i<count;i++)pw[i*4]=1;preview={indices:pi,weights:pw,lbs:false};}
- return{clear,follower,preview,relax:!!(part?.system==='muscular'&&RELAXED_MUSCLES.test(part.name))||undefined,cable,wrap,fibre,indices,weights,belly,radial,longitudinal,restAxis,sheetOriginFrame,fan,origin,insertion,originWeights:weightsAt(rig,effectiveProfile,origin,box,name),insertionWeights:weightsAt(rig,effectiveProfile,insertion,box,name),restLength,profile:effectiveProfile};
+ let reach:Vector3|undefined;
+ if(effectiveProfile==='chest'&&/latissimus/i.test(name)){
+  reach=new Vector3();let n=0;
+  for(let i=0;i<count;i++){let h=0;for(let k=0;k<4;k++)if(indices[i*4+k]===3)h+=weights[i*4+k];if(h>=.97){reach.x+=positions[i*3];reach.y+=positions[i*3+1];reach.z+=positions[i*3+2];n++;}}
+  if(n)reach.divideScalar(n);else reach=undefined;
+ }
+ return{clear,reach,follower,preview,relax:!!(part?.system==='muscular'&&RELAXED_MUSCLES.test(part.name))||undefined,cable,wrap,fibre,indices,weights,belly,radial,longitudinal,restAxis,sheetOriginFrame,fan,origin,insertion,originWeights:weightsAt(rig,effectiveProfile,origin,box,name),insertionWeights:weightsAt(rig,effectiveProfile,insertion,box,name),restLength,profile:effectiveProfile};
 }
 
 /** The vertices of a binding that ride on a digit (null when none does). */
@@ -745,7 +796,7 @@ function deformTissueCore(binding:SkinBinding,base:Float32Array,palette:Palette,
   deformTissue(parent,base,palette,out);
   const q=new Float64Array(8),v=new Float64Array(3);
   for(let i=0;i<progress.length;i++){
-   const t=range(progress[i],.10,.70);if(t===1)continue;
+   const t=range(progress[i],.03,.95);if(t===1)continue;
    blended(palette,binding.indices,binding.weights,i*4,q);transform(base[i*3],base[i*3+1],base[i*3+2],q,v,0);
    for(let k=0;k<3;k++)out[i*3+k]=v[k]+t*(out[i*3+k]-v[k]);
   }
@@ -817,6 +868,8 @@ function deformTissueCore(binding:SkinBinding,base:Float32Array,palette:Palette,
  // dual-quaternion interpolation increases local expansion at large angles;
  // the surface solver must preserve seams while correcting excess stretch.
 
+ let reach:Float64Array|undefined;
+ if(binding.reach){reach=new Float64Array(3);transform(binding.reach.x,binding.reach.y,binding.reach.z,palette.subarray(24,32),reach,0);reach[0]-=binding.reach.x;reach[1]-=binding.reach.y;reach[2]-=binding.reach.z;}
  for(let i=0;i<base.length/3;i++){
   blended(palette,binding.indices,binding.weights,i*4,q);
   const extra=(radialScale-1)*binding.belly[i],j=i*3;
@@ -824,6 +877,8 @@ function deformTissueCore(binding:SkinBinding,base:Float32Array,palette:Palette,
    let x=0,y=0,z=0;const v=new Float64Array(3);
    for(let k=0;k<4;k++){const w=binding.weights[i*4+k];if(!w)continue;
     const f=binding.indices[i*4+k];transform(base[j],base[j+1],base[j+2],palette.subarray(f*8,f*8+8),v,0);
+    // the belly is carried by the travel of the humeral insertion; only the part next to the insertion turns with the humerus (see SkinBinding.reach)
+    if(reach&&f===3){const s=range(w,REACH_TURN,1);v[0]=(base[j]+reach[0])*(1-s)+v[0]*s;v[1]=(base[j+1]+reach[1])*(1-s)+v[1]*s;v[2]=(base[j+2]+reach[2])*(1-s)+v[2]*s;}
     x+=w*v[0];y+=w*v[1];z+=w*v[2];
    }
    out[j]=x;out[j+1]=y;out[j+2]=z;continue;
