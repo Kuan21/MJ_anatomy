@@ -519,75 +519,19 @@
    "fraction": 0.9529914529914529,
    "severity": 20
   },
-  "detached|PK-418|shoulder abduction 120": {
-   "name": "Right costoclavicular ligament",
-   "measure": 27,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.84375,
-   "severity": 58
-  },
-  "detached|PK-418|shoulder flexion 150": {
-   "name": "Right costoclavicular ligament",
-   "measure": 32,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 1,
-   "severity": 60
-  },
-  "detached|PK-419|shoulder abduction 120": {
-   "name": "Right superior transverse scapular ligament",
-   "measure": 18,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.46153846153846156,
-   "severity": 60
-  },
   "detached|PK-419|shoulder flexion 150": {
    "name": "Right superior transverse scapular ligament",
    "measure": 16,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
+   "reason": "costoclavicular ligament at shoulder flexion 150: the ligament now runs from the first rib (trunk) to the clavicle with a smooth blend, so its middle part follows the clavicle only partly while the clavicle elevates; before, its weights were the generic shoulder rule (scapula and humerus), which tore it 18 times (stabilisation section 2 A)",
    "fraction": 0.41025641025641024,
-   "severity": 27
-  },
-  "detached|PK-420|shoulder flexion 150": {
-   "name": "Right inferior transverse scapular ligament",
-   "measure": 7,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.7,
-   "severity": 19
-  },
-  "detached|PK-422|shoulder abduction 120": {
-   "name": "Left costoclavicular ligament",
-   "measure": 32,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.8888888888888888,
-   "severity": 60
-  },
-  "detached|PK-422|shoulder flexion 150": {
-   "name": "Left costoclavicular ligament",
-   "measure": 36,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 1,
-   "severity": 60
-  },
-  "detached|PK-423|shoulder abduction 120": {
-   "name": "Left superior transverse scapular ligament",
-   "measure": 20,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.5128205128205128,
-   "severity": 60
+   "severity": 34
   },
   "detached|PK-423|shoulder flexion 150": {
    "name": "Left superior transverse scapular ligament",
    "measure": 14,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
+   "reason": "costoclavicular ligament at shoulder flexion 150: the ligament now runs from the first rib (trunk) to the clavicle with a smooth blend, so its middle part follows the clavicle only partly while the clavicle elevates; before, its weights were the generic shoulder rule (scapula and humerus), which tore it 18 times (stabilisation section 2 A)",
    "fraction": 0.358974358974359,
-   "severity": 28
-  },
-  "detached|PK-424|shoulder flexion 150": {
-   "name": "Left inferior transverse scapular ligament",
-   "measure": 7,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.6363636363636364,
-   "severity": 20
+   "severity": 33
   },
   "detached|PK-447|hip flexion 120 knee flexion 130": {
    "name": "Right tendon of iliopsoas",
@@ -4987,117 +4931,33 @@
    "fraction": 0.025714285714285714,
    "severity": 2.1
   },
-  "stretch|PK-417|shoulder abduction 120": {
-   "name": "Right coraco-acromial ligament",
-   "measure": 65,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.33163265306122447,
-   "severity": 2.5
-  },
-  "stretch|PK-417|shoulder flexion 150": {
-   "name": "Right coraco-acromial ligament",
-   "measure": 94,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.47959183673469385,
-   "severity": 2.8
-  },
   "stretch|PK-418|shoulder abduction 120": {
    "name": "Right costoclavicular ligament",
-   "measure": 152,
+   "measure": 55,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.7755102040816326,
-   "severity": 16.6
+   "fraction": 0.28061224489795916,
+   "severity": 3.9
   },
   "stretch|PK-418|shoulder flexion 150": {
    "name": "Right costoclavicular ligament",
-   "measure": 134,
+   "measure": 73,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.6836734693877551,
-   "severity": 10.1
-  },
-  "stretch|PK-419|shoulder abduction 120": {
-   "name": "Right superior transverse scapular ligament",
-   "measure": 112,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.5714285714285714,
-   "severity": 8.1
-  },
-  "stretch|PK-419|shoulder flexion 150": {
-   "name": "Right superior transverse scapular ligament",
-   "measure": 86,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.4387755102040816,
-   "severity": 4.4
-  },
-  "stretch|PK-420|shoulder abduction 120": {
-   "name": "Right inferior transverse scapular ligament",
-   "measure": 4,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.02040816326530612,
-   "severity": 2.5
-  },
-  "stretch|PK-420|shoulder flexion 150": {
-   "name": "Right inferior transverse scapular ligament",
-   "measure": 82,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.41836734693877553,
-   "severity": 5.8
-  },
-  "stretch|PK-421|shoulder abduction 120": {
-   "name": "Left coraco-acromial ligament",
-   "measure": 52,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.2653061224489796,
-   "severity": 2.6
-  },
-  "stretch|PK-421|shoulder flexion 150": {
-   "name": "Left coraco-acromial ligament",
-   "measure": 93,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.4744897959183674,
-   "severity": 3
+   "fraction": 0.37244897959183676,
+   "severity": 4.7
   },
   "stretch|PK-422|shoulder abduction 120": {
    "name": "Left costoclavicular ligament",
-   "measure": 161,
+   "measure": 54,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.8214285714285714,
-   "severity": 16.8
+   "fraction": 0.2755102040816326,
+   "severity": 3.9
   },
   "stretch|PK-422|shoulder flexion 150": {
    "name": "Left costoclavicular ligament",
-   "measure": 140,
+   "measure": 67,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.7142857142857143,
-   "severity": 9.3
-  },
-  "stretch|PK-423|shoulder abduction 120": {
-   "name": "Left superior transverse scapular ligament",
-   "measure": 113,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.576530612244898,
-   "severity": 7.6
-  },
-  "stretch|PK-423|shoulder flexion 150": {
-   "name": "Left superior transverse scapular ligament",
-   "measure": 78,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.3979591836734694,
-   "severity": 4.2
-  },
-  "stretch|PK-424|shoulder abduction 120": {
-   "name": "Left inferior transverse scapular ligament",
-   "measure": 8,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.04081632653061224,
-   "severity": 2.6
-  },
-  "stretch|PK-424|shoulder flexion 150": {
-   "name": "Left inferior transverse scapular ligament",
-   "measure": 80,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.40816326530612246,
-   "severity": 5.9
+   "fraction": 0.34183673469387754,
+   "severity": 4.6
   },
   "stretch|PK-46|shoulder flexion 150": {
    "name": "Left lateral cord of brachial plexus",
