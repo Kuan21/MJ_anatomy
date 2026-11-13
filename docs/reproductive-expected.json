@@ -1,0 +1,454 @@
+{
+ "male": [
+  {
+   "id": "FJ2056",
+   "name": "Deep dorsal vein of penis"
+  },
+  {
+   "id": "FJ2056-END",
+   "name": "Deep dorsal vein of penis"
+  },
+  {
+   "id": "FJ2208",
+   "name": "Superficial dorsal vein of penis"
+  },
+  {
+   "id": "FJ2208-END",
+   "name": "Superficial dorsal vein of penis"
+  },
+  {
+   "id": "FJ3132",
+   "name": "Corpus cavernosum of penis"
+  },
+  {
+   "id": "FJ3133",
+   "name": "Corpus spongiosum of penis"
+  },
+  {
+   "id": "FJ3134",
+   "name": "Glans penis"
+  },
+  {
+   "id": "FJ3135",
+   "name": "Left deferent duct"
+  },
+  {
+   "id": "FJ3136",
+   "name": "Left epididymis"
+  },
+  {
+   "id": "FJ3137",
+   "name": "Left seminal vesicle"
+  },
+  {
+   "id": "FJ3138",
+   "name": "Left testis"
+  },
+  {
+   "id": "FJ3139",
+   "name": "Prostate"
+  },
+  {
+   "id": "FJ3140",
+   "name": "Right deferent duct"
+  },
+  {
+   "id": "FJ3141",
+   "name": "Right epididymis"
+  },
+  {
+   "id": "FJ3142",
+   "name": "Right testis"
+  },
+  {
+   "id": "FJ3143",
+   "name": "Right seminal vesicle"
+  },
+  {
+   "id": "FJ3426",
+   "name": "Left superficial dorsal vein of penis"
+  },
+  {
+   "id": "FJ3426-END",
+   "name": "Left superficial dorsal vein of penis"
+  },
+  {
+   "id": "FJ3496",
+   "name": "Left dorsal artery of penis"
+  },
+  {
+   "id": "FJ3496-END",
+   "name": "Left dorsal artery of penis"
+  },
+  {
+   "id": "FJ3497",
+   "name": "Left dorsal artery of penis"
+  },
+  {
+   "id": "FJ3497-END",
+   "name": "Left dorsal artery of penis"
+  },
+  {
+   "id": "FJ3532",
+   "name": "Left testicular artery"
+  },
+  {
+   "id": "FJ3532-END",
+   "name": "Left testicular artery"
+  },
+  {
+   "id": "FJ3533",
+   "name": "Left testicular vein"
+  },
+  {
+   "id": "FJ3533-END",
+   "name": "Left testicular vein"
+  },
+  {
+   "id": "FJ3592",
+   "name": "Right dorsal artery of penis"
+  },
+  {
+   "id": "FJ3592-END",
+   "name": "Right dorsal artery of penis"
+  },
+  {
+   "id": "FJ3593",
+   "name": "Right dorsal artery of penis"
+  },
+  {
+   "id": "FJ3593-END",
+   "name": "Right dorsal artery of penis"
+  },
+  {
+   "id": "FJ3617",
+   "name": "Right testicular artery"
+  },
+  {
+   "id": "FJ3617-END",
+   "name": "Right testicular artery"
+  },
+  {
+   "id": "FJ3618",
+   "name": "Right testicular vein"
+  },
+  {
+   "id": "FJ3618-END",
+   "name": "Right testicular vein"
+  },
+  {
+   "id": "FJ3637",
+   "name": "Right superficial dorsal vein of penis"
+  },
+  {
+   "id": "FJ3637-END",
+   "name": "Right superficial dorsal vein of penis"
+  }
+ ],
+ "female": [
+  {
+   "id": "HRAF-431",
+   "name": "Vagina"
+  },
+  {
+   "id": "HRAF-432",
+   "name": "Cervicovaginal junction"
+  },
+  {
+   "id": "HRAF-435",
+   "name": "Right ampulla of uterine tube"
+  },
+  {
+   "id": "HRAF-436",
+   "name": "Right isthmus of uterine tube"
+  },
+  {
+   "id": "HRAF-437",
+   "name": "Right fimbriae of uterine tube"
+  },
+  {
+   "id": "HRAF-438",
+   "name": "Right infundibulum of uterine tube"
+  },
+  {
+   "id": "HRAF-440",
+   "name": "Left infundibulum of uterine tube"
+  },
+  {
+   "id": "HRAF-441",
+   "name": "Left fimbriae of uterine tube"
+  },
+  {
+   "id": "HRAF-442",
+   "name": "Left isthmus of uterine tube"
+  },
+  {
+   "id": "HRAF-443",
+   "name": "Left ampulla of uterine tube"
+  },
+  {
+   "id": "HRAF-447",
+   "name": "Left round ligament of uterus"
+  },
+  {
+   "id": "HRAF-448",
+   "name": "Right round ligament of uterus"
+  },
+  {
+   "id": "HRAF-450",
+   "name": "Right uterosacral ligament"
+  },
+  {
+   "id": "HRAF-451",
+   "name": "Left uterosacral ligament"
+  },
+  {
+   "id": "HRAF-453",
+   "name": "Right cardinal ligament of uterus"
+  },
+  {
+   "id": "HRAF-454",
+   "name": "Left cardinal ligament of uterus"
+  },
+  {
+   "id": "HRAF-456",
+   "name": "Right suspensory ligament of ovary"
+  },
+  {
+   "id": "HRAF-457",
+   "name": "Left suspensory ligament of ovary"
+  },
+  {
+   "id": "HRAF-459",
+   "name": "Left ovarian ligament"
+  },
+  {
+   "id": "HRAF-460",
+   "name": "Right ovarian ligament"
+  },
+  {
+   "id": "HRAF-461",
+   "name": "Broad ligament of uterus"
+  },
+  {
+   "id": "HRAF-466",
+   "name": "Right mesovarium"
+  },
+  {
+   "id": "HRAF-467",
+   "name": "Left mesovarium"
+  },
+  {
+   "id": "HRAF-469",
+   "name": "Left ovary"
+  },
+  {
+   "id": "HRAF-470",
+   "name": "Right ovary"
+  },
+  {
+   "id": "HRAF-473",
+   "name": "Body of uterus"
+  },
+  {
+   "id": "HRAF-474",
+   "name": "Fundus of uterus"
+  },
+  {
+   "id": "HRAF-476",
+   "name": "Lower uterine segment"
+  },
+  {
+   "id": "HRAF-479",
+   "name": "Cervix of uterus"
+  },
+  {
+   "id": "HRAF-694",
+   "name": "Left uterine artery"
+  },
+  {
+   "id": "HRAF-695",
+   "name": "Right uterine artery"
+  },
+  {
+   "id": "HRAF-697",
+   "name": "Left uterine vein"
+  },
+  {
+   "id": "HRAF-698",
+   "name": "Right uterine vein"
+  },
+  {
+   "id": "HRAF-bone-Coccyx",
+   "name": "Coccyx"
+  },
+  {
+   "id": "HRAF-bone-Left-hip-bone",
+   "name": "Left hip bone"
+  },
+  {
+   "id": "HRAF-bone-Right-hip-bone",
+   "name": "Right hip bone"
+  },
+  {
+   "id": "HRAF-bone-Sacrum",
+   "name": "Sacrum"
+  },
+  {
+   "id": "HRAF-Female-urethra",
+   "name": "Female urethra"
+  },
+  {
+   "id": "HRAF-Left-mesosalpinx",
+   "name": "Left mesosalpinx"
+  },
+  {
+   "id": "HRAF-Left-ureter",
+   "name": "Left ureter"
+  },
+  {
+   "id": "HRAF-Rectouterine-pouch",
+   "name": "Rectouterine pouch"
+  },
+  {
+   "id": "HRAF-Right-mesosalpinx",
+   "name": "Right mesosalpinx"
+  },
+  {
+   "id": "HRAF-Right-ureter",
+   "name": "Right ureter"
+  },
+  {
+   "id": "HRAF-skin",
+   "name": "Skin"
+  },
+  {
+   "id": "HRAF-Trigone-of-urinary-bladder",
+   "name": "Trigone of urinary bladder"
+  },
+  {
+   "id": "HRAF-Urinary-bladder",
+   "name": "Urinary bladder"
+  },
+  {
+   "id": "HRAF-Uterine-cornua",
+   "name": "Uterine cornua"
+  },
+  {
+   "id": "HRAF-Vesicouterine-pouch",
+   "name": "Vesicouterine pouch"
+  },
+  {
+   "id": "PK-285",
+   "name": "Right mammary gland"
+  },
+  {
+   "id": "PK-286",
+   "name": "Right adipose tissue of breast"
+  },
+  {
+   "id": "PK-287",
+   "name": "Right lactiferous ducts"
+  },
+  {
+   "id": "PK-288",
+   "name": "Right lactiferous sinuses"
+  },
+  {
+   "id": "PK-289",
+   "name": "Right areola"
+  },
+  {
+   "id": "PK-290",
+   "name": "Right nipple"
+  },
+  {
+   "id": "PK-291",
+   "name": "Right suspensory ligament of breast"
+  },
+  {
+   "id": "PK-292",
+   "name": "Left mammary gland"
+  },
+  {
+   "id": "PK-293",
+   "name": "Left adipose tissue of breast"
+  },
+  {
+   "id": "PK-294",
+   "name": "Left lactiferous ducts"
+  },
+  {
+   "id": "PK-295",
+   "name": "Left lactiferous sinuses"
+  },
+  {
+   "id": "PK-296",
+   "name": "Left areola"
+  },
+  {
+   "id": "PK-297",
+   "name": "Left nipple"
+  },
+  {
+   "id": "PK-298",
+   "name": "Left suspensory ligament of breast"
+  },
+  {
+   "id": "PK-299",
+   "name": "Mons pubis"
+  },
+  {
+   "id": "PK-300",
+   "name": "Right labium majus"
+  },
+  {
+   "id": "PK-301",
+   "name": "Right labium minus"
+  },
+  {
+   "id": "PK-302",
+   "name": "Right bulb of vestibule"
+  },
+  {
+   "id": "PK-303",
+   "name": "Right greater vestibular gland"
+  },
+  {
+   "id": "PK-304",
+   "name": "Right crus of clitoris"
+  },
+  {
+   "id": "PK-305",
+   "name": "Left labium majus"
+  },
+  {
+   "id": "PK-306",
+   "name": "Left labium minus"
+  },
+  {
+   "id": "PK-307",
+   "name": "Left bulb of vestibule"
+  },
+  {
+   "id": "PK-308",
+   "name": "Left greater vestibular gland"
+  },
+  {
+   "id": "PK-309",
+   "name": "Left crus of clitoris"
+  },
+  {
+   "id": "PK-310",
+   "name": "Clitoris"
+  },
+  {
+   "id": "PK-311",
+   "name": "Vestibule of vagina"
+  },
+  {
+   "id": "SERO-14",
+   "name": "Pelvic peritoneum"
+  }
+ ]
+}
