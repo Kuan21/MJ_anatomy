@@ -103,7 +103,7 @@ export function loftTube(pieces, uterus, uterusPts, {sides = 16, samples = 70, m
   const cum = [0]; for (let i = 1; i < path.length; i++) cum.push(cum[i - 1] + len(sub(path[i], path[i - 1])));
   const total = cum[cum.length - 1], at = s => { let i = 1; while (i < cum.length - 1 && cum[i] < s) i++; const f = (s - cum[i - 1]) / ((cum[i] - cum[i - 1]) || 1); return [add(mul(path[i - 1], 1 - f), mul(path[i], f)), rad[i - 1] * (1 - f) + rad[i] * f]; };
   let P = [], R = []; for (let k = 0; k < samples; k++) { const [p, r] = at(total * k / (samples - 1)); P.push(p); R.push(r); }
-  P = smooth(P, 8); R = smooth(R, 8).map(r => Math.max(minRadius, r));
+  P = smooth(P, 8); R = smooth(R, 8).map(r => Math.max(minRadius, r * .8));   // 0.8: the tube lies inside the mesosalpinx sheet and must not share its surface
   // the tube leaves the uterus at its upper side corner: start it on the nearest point of the (lofted) uterus, 1.5 mm inside the surface
   { let best = uterusPts[0], bd = Infinity; for (const q of uterusPts) { const dd = len(sub(q, P[0])); if (dd < bd) { bd = dd; best = q; } }
     P[0] = add(best, mul(unit(sub(uterus, best)), .0015)); P = smooth(P, 3); P[0] = add(best, mul(unit(sub(uterus, best)), .0015)); }
