@@ -7,6 +7,8 @@ import fs from 'node:fs';
 import {loadWorld} from './lib/paokao-world.mjs';
 import {centrelineOf} from './lib/leg-centreline.mjs';
 import {classifyRings, sparseStep, pieceCount} from './lib/centreline-classify.mjs';
+import {centrelinesOf} from './lib/centreline-pieces.mjs';
+import {joinGap} from './lib/centreline-continuity.mjs';
 
 const w = loadWorld({paokao: false, allowMissing: process.argv.includes('--available')});
 const entries = w.entries.filter(e => ['arterial', 'venous', 'nervous'].includes(e.system) && !/^extra:/.test(e.id));
@@ -19,7 +21,14 @@ for (const e of entries) {
   if (why) bad.push({id: e.id, name: e.name, system: e.system, why}); else stats[e.system]++;
   // Not faults, but limits of the measurement: rings far apart on a coarse mesh, and meshes made of several pieces (only one piece is followed).
   const s = why ? 0 : sparseStep(rings, info.steps); if (s) sparse.push({id: e.id, name: e.name, system: e.system, mm: Math.round(s * 1000)});
-  const n = pieceCount(g); if (n > 1) pieces.push({id: e.id, name: e.name, system: e.system, pieces: n});
+  const n = pieceCount(g);
+  if (n > 1) {
+    // One centreline per piece; `gap` is the widest distance from a piece's line to the end of the nearest other piece's line (joinGap, less the radius): a hint of how far the pieces are apart.
+    const skipped = [], lines = centrelinesOf(g, .003, skipped);
+    let gap = 0;
+    if (lines.length > 1) for (const a of lines) gap = Math.max(gap, Math.min(...lines.filter(b => b !== a).map(b => joinGap(a.rings, b.rings))));
+    pieces.push({id: e.id, name: e.name, system: e.system, pieces: n, lines: lines.length, skipped: skipped.length, gapMm: lines.length > 1 ? Math.round(gap * 1000) : null});
+  }
 }
 const left = w.missing.length ? `（本次未含：${w.missing.join('、')}，這些生成檔不在本機）` : '';
 if (process.argv.includes('--json')) console.log(JSON.stringify({ok: stats, bad, sparse, pieces, missing: w.missing}, null, 1));
@@ -30,7 +39,7 @@ else {
 if (process.argv.includes('--write')) {
   const rows = bad.map(b => `| ${b.system} | ${b.name} | ${b.why} |`).join('\n');
   const sparseRows = sparse.sort((a, b) => b.mm - a.mm).map(b => `| ${b.system} | ${b.name} | ${b.mm} mm |`).join('\n');
-  const pieceRows = pieces.sort((a, b) => b.pieces - a.pieces).map(b => `| ${b.system} | ${b.name} | ${b.pieces} |`).join('\n');
+  const pieceRows = pieces.sort((a, b) => b.pieces - a.pieces).map(b => `| ${b.system} | ${b.name} | ${b.pieces} | ${b.lines} | ${b.skipped} | ${b.gapMm === null ? '—' : b.gapMm + ' mm'} |`).join('\n');
   fs.writeFileSync('docs/centerline-report.md', `# 中心線抽取報告（自動產生，勿手動修改）
 
 由 \`node scripts/report-centerlines.mjs --write\` 產生。共 ${entries.length} 個血管與神經網格${left}，抽取成功且通過檢查：動脈 ${stats.arterial}、靜脈 ${stats.venous}、神經 ${stats.nervous}；列出 ${bad.length} 個。
@@ -51,10 +60,10 @@ ${sparseRows}
 
 ## 由多件組成的網格（${pieces.length} 個）
 
-中心線抽取只沿其中一件走，其餘各件沒有量到；連續性檢查需要逐件處理。
+上面的檢查只沿其中一件走。這裡逐件抽取中心線：「中心線」是抽得出至少兩圈的件數，「略過」是太小或形狀不是管的件數，「最大件距」是各件的中心線端點到最近另一件端點的距離（已扣半徑）當中最大的一個。件距大不一定是缺陷（例如同一名稱下本來就分開的分支，或端點不是相接處），只是提示要看哪些結構。
 
-| 系統 | 結構 | 件數 |
-| --- | --- | --- |
+| 系統 | 結構 | 件數 | 中心線 | 略過 | 最大件距 |
+| --- | --- | --- | --- | --- | --- |
 ${pieceRows}
 `);
 }
