@@ -25,6 +25,8 @@ const FIELDS: Record<QuizSystem, string[]> = {
   cardiac: ['說明'],
   // lung quiz: surface marks and airway; a mark's three fields come from its course-summary card (scripts/paokao-structures/lungs.mjs)
   respiratory: ['位置', '構造／毗鄰關係', '血液供應／神經'],
+  // brain quiz: every field of the structure's brain information card (their labels depend on the kind of structure); see structureCard
+  brain: [],
   // joint soft tissue: the repository documents none of these yet, so the card shows 「尚無資料」 until hand-checked entries are added to card-data.ts
   joint: ['所屬關節', '附著與連結', '功能'],
   // limb spaces: location from the data card of the space, boundaries and contents from the special-region list of the layer panel (app/mj-spaces.ts)
@@ -40,6 +42,7 @@ const FROM_PROFILE: Record<QuizSystem, Record<string, string[]>> = {
   skeletal: {主要標誌: ['重要骨標誌']},
   cardiac: {},
   respiratory: {位置: ['位置'], '構造／毗鄰關係': ['構造／毗鄰關係'], '血液供應／神經': ['血液供應／神經']},
+  brain: {},
   joint: {},
   space: {},
 };
@@ -68,9 +71,11 @@ function spaceCard(structure: Pick<QuizStructure, 'name' | 'chinese' | 'system' 
   return {english: structure.name, chinese: structure.chinese, system: 'space', fields, missing};
 }
 
-export function structureCard(structure: Pick<QuizStructure, 'name' | 'chinese' | 'system' | 'description' | 'space'>): StructureCard {
+export function structureCard(structure: Pick<QuizStructure, 'name' | 'chinese' | 'system' | 'description' | 'space'> & Partial<Pick<QuizStructure, 'source' | 'cardFields'>>): StructureCard {
   const system = structure.system;
   if (system === 'space') return spaceCard(structure);
+  // Brain quiz: the fields come from the structure's own brain information card (public/models/brain/neuro-cards.json, packed into the catalogue); with no card the card says so.
+  if (structure.source === 'Brain Project') return {english: structure.name, chinese: structure.chinese, system, fields: (structure.cardFields ?? []).map(f => ({label: f.label, zh: f.zh})), missing: structure.cardFields?.length ? [] : ['資料卡']};
   const profile = structureProfile(structure.name, (system === 'joint' ? 'connective' : system) as SystemId);
   // Paired structures are keyed without left/right; names where "left"/"right" belongs to the name itself (left atrium, left pulmonary artery…) are keyed in full.
   const extra: CardExtra | undefined = CARD_EXTRAS[structure.name.toLowerCase()] ?? CARD_EXTRAS[clean(structure.name)];

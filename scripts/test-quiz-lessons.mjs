@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {quizModule} from './quiz-modules.mjs';
 
-const {QUIZ_REGIONS, QUIZ_CATEGORIES, categoryOf} = await quizModule('app/quiz/catalogue.ts');
+const {QUIZ_REGIONS, QUIZ_CATEGORIES, categoryOf, inLessons} = await quizModule('app/quiz/catalogue.ts');
 const {namingPool} = await quizModule('app/quiz/level2.ts');
 const {structureCard} = await quizModule('app/quiz/card.ts');
 const lessonsModule = await quizModule('app/quiz/lessons.ts');
@@ -31,13 +31,14 @@ const empty = [];
 for (const [id, def] of Object.entries(QUIZ_REGIONS)) {
   const catalogue = catalogueOf(def);
   for (const side of ['both', 'right', 'left']) for (const section of def.sections) {
-    const settings = settingsOf(section.id, side), pool = namingPool(catalogue, settings);
+    // structures whose availability leaves the guided lessons out (the decussation of the superior cerebellar peduncles: level 3 only) are legitimately in NO lesson, so the lessons cover the pool minus them
+    const settings = settingsOf(section.id, side), pool = namingPool(catalogue, settings).filter(inLessons);
     const lessons = buildLessons(catalogue, settings);
     // deterministic, and independent of the order of the catalogue file
     assert.deepEqual(buildLessons(catalogue, settings), lessons, `${id}/${section.id}/${side}: not deterministic`);
     const reversed = {...catalogue, structures: [...catalogue.structures].reverse()};
     assert.deepEqual(buildLessons(reversed, settings), lessons, `${id}/${section.id}/${side}: depends on catalogue order`);
-    // every question-able structure is in exactly one lesson, and nothing else is
+    // every question-able structure that the lessons take (availability.lessons is not false) is in exactly one lesson, and nothing else is
     const seen = new Map();
     for (const l of lessons) for (const sid of l.ids) { assert.ok(!seen.has(sid), `${id}/${section.id}/${side}: ${sid} is in two lessons`); seen.set(sid, l.key); }
     assert.deepEqual([...seen.keys()].sort(), pool.map(s => s.id).sort(), `${id}/${section.id}/${side}: lessons do not cover the pool`);
