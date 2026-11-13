@@ -61,6 +61,16 @@
 - `REVIEW_LOG.md` 分兩欄：「已自動 merge」與「等我審核」；每個 PR 開出或合併後更新。
 - 不要動 `public/models/cmu-course-notes-v4.json` 的 git 歷史（是否清除由使用者在專案完成後決定）。
 
+### 本機驗證與檢查清單（使用者 2026-11-13 指示，長期規則）
+- **推送前必須在本機跑 `npm run ci:local` 並全部通過**：它讀 `.github/workflows/deploy-preview.yml` 的 `build` job，完全照 CI 的步驟與次序跑（`check`、`check:motion`、`check:vessels`、`check:vessels:accept`、`build --base /MJ_anatomy/`）。失敗時它會印出續跑指令（`npm run ci:local -- --from=N`）。
+- **提交前一定先跑 `npm run regen`**：一次過重新生成所有生成檔與自動文件（清單在 `scripts/checks/regen.txt`）。`check-stability --write` 只會縮小已知清單，遇到新增或變差會停下，要人工決定。
+- **檢查清單不再寫在 `package.json` 的一行字串裡**：`npm run check` 與 `npm run check:motion` 由 `scripts/run-checks.mjs` 讀 `scripts/checks/check.txt`、`motion.txt`（每行一個指令）。**新增檢查時不要改這兩個檔，另開一個新檔** `scripts/checks/check.d/<yyyymmdd>-<名稱>.txt`（`motion.d/`、`regen.d/` 同理），檔案依檔名順序在主清單之後執行；不同 PR 各加各的檔案就不會衝突。`npm run check -- --from=N` 可從第 N 步續跑，`--list` 列出全部步驟。
+- **血管動作例外清單（`docs/vessel-motion-exceptions.json`）的登記規則：**
+  - 只有確認兩條血管**解剖上沒有直接相連**，才可以登記例外。
+  - 每個例外要寫原因（例如「最近鄰判定，解剖上不相連」）。
+  - 每次新增例外，PR 說明要列出是哪幾對、同一個原因，讓使用者知道。
+  - 兩條血管解剖上相連（例如分支與主幹）時**不可加例外**，要修 skinning 或連接。
+
 ### Workflow 與 PR 流程補充
 - GitHub Actions 的 workflow 名稱、檔名、log 輸出、分支名稱不可出現課程或筆記名稱，也不可輸出筆記內容（含 `echo`、除錯列印、驗證腳本的失敗訊息）。需要驗證時只輸出通過／失敗與數量。
 - 不使用「臨時 workflow」；只保留 Deploy、CI、Preview Check 三個。要一次性驗證就在本機或既有 CI 內跑。
