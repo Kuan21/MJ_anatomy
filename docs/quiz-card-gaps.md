@@ -215,6 +215,12 @@
 - 上脛腓關節囊（articular capsule of superior tibiofibular joint）：缺 所屬關節、附著與連結、功能
 - 腓骨頭後韌帶（posterior ligament of fibular head）：缺 所屬關節、附著與連結、功能
 
+### 特殊空間與孔：2 / 5 項資料完整
+
+- 股三角（femoral triangle）：缺 位置
+- 內收肌管（adductor canal）：缺 位置
+- 膕窩（popliteal fossa）：缺 位置
+
 ## 上肢（Upper limb）
 
 ### 骨骼：0 / 32 項資料完整
@@ -446,6 +452,10 @@
 - 胸鎖關節盤（articular disc of sternoclavicular joint）：缺 所屬關節、附著與連結、功能
 - 鎖骨間韌帶（interclavicular ligament）：缺 所屬關節、附著與連結、功能
 - 後胸鎖韌帶（posterior sternoclavicular ligament）：缺 所屬關節、附著與連結、功能
+
+### 特殊空間與孔：8 / 8 項資料完整
+
+（全部完整）
 
 ## 胸腔（Thorax）
 
