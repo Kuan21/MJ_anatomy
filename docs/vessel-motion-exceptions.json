@@ -1,5 +1,5 @@
 {
- "note": "Vessel pairs that open more than half a diameter (and more than 1 mm beyond their rest gap) at a joint pose. Known; a new one fails `npm run check:motion`.",
+ "note": "Vessel pairs that open more than half a diameter (and more than 1 mm beyond their rest gap) at a joint pose. Known; a new one fails `npm run check:motion`. Only vessels that are not anatomically joined may be listed; `reasons` holds the reason of each pair added since 2026-11-13 (older entries have none).",
  "summary": {
   "shoulder abduction 90": {
    "pairs": 470,
@@ -92,6 +92,12 @@
   "shoulder abduction 90|FJ2361-END",
   "shoulder flexion 90|FJ2361-END"
  ],
+ "reasons": {
+  "shoulder abduction 90|left|FJ2330|FJ1974|junction": "nearest-neighbour match (rest gap 5.9 mm), not anatomically joined: the pectoral branch of the thoraco-acromial artery runs with the pectoral fan, the second posterior intercostal artery stays with the trunk; the same pectoral branch already has the same kind of exception with the lateral thoracic and lateral mammary arteries. Registered 2026-11-13 with the user's approval.",
+  "shoulder flexion 90|left|FJ2330|FJ1974|junction": "nearest-neighbour match (rest gap 5.9 mm), not anatomically joined: the pectoral branch of the thoraco-acromial artery runs with the pectoral fan, the second posterior intercostal artery stays with the trunk; the same pectoral branch already has the same kind of exception with the lateral thoracic and lateral mammary arteries. Registered 2026-11-13 with the user's approval.",
+  "shoulder abduction 180 (limit)|left|FJ2330|FJ1974|junction": "nearest-neighbour match (rest gap 5.9 mm), not anatomically joined: the pectoral branch of the thoraco-acromial artery runs with the pectoral fan, the second posterior intercostal artery stays with the trunk; the same pectoral branch already has the same kind of exception with the lateral thoracic and lateral mammary arteries. Registered 2026-11-13 with the user's approval.",
+  "shoulder flexion 180 (limit)|left|FJ2330|FJ1974|junction": "nearest-neighbour match (rest gap 5.9 mm), not anatomically joined: the pectoral branch of the thoraco-acromial artery runs with the pectoral fan, the second posterior intercostal artery stays with the trunk; the same pectoral branch already has the same kind of exception with the lateral thoracic and lateral mammary arteries. Registered 2026-11-13 with the user's approval."
+ },
  "exceptions": {
   "shoulder abduction 90|left|FJ2211|FJ2252|end-to-end": 2.4,
   "shoulder abduction 90|left|FJ2216|FJ1973|end-to-end": 6.6,

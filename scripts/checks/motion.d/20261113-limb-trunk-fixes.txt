@@ -1,0 +1,3 @@
+# Checks added by the upper-limb and limb-tear fixes (PR #269).
+node scripts/test-limb-tears.mjs
+node scripts/test-motion-limits.mjs
