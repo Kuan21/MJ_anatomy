@@ -62,6 +62,18 @@
   - 新留下一個未提交的暫存診斷腳本 `scripts/_diag-radius.mjs`（依「不刪檔」沒有刪），連同上次的 `scripts/_diag-jumps.mjs` 可以由你刪除。
   - 本機沒有 `gh`，未查開放 PR 是否有變動。
 
+- 2026-11-13（第八次）：只加腳本、測試與報告，沒有改模型、解剖內容或網站。
+  - 重新檢查：`work/` 與 supplement／serous／female 三個生成串流仍不存在；沒有下載資料。
+  - **多件網格分類**：新檔 `scripts/lib/centreline-groups.mjs`。`structureKind` 只看名稱與 `topology-spec`（不是解剖判斷），分成三類：「應相接」＝ topology-spec 列為上一級或分支的單一結構；「成組」＝名稱本身表示多條（Set of、複數如 arteries／branches／roots／ganglia、plexus）；「未判定」＝單數名稱但 topology-spec 沒有列出。
+  - **連接距離**：同一檔的 `pieceGap`（兩件之間：端點對端點，或一件的端點到另一件的管壁，取較小者）與 `linkGap`（把所有件連成一個整體時必須跨過的最大空隙，0 代表全部相接）。原本的「最大件距」只量端點對端點，分支從主幹側面離開時會誤報很大的距離。
+  - 新增 `scripts/test-centreline-groups.mjs`（合成中心線，不需模型資料），已加入 `npm run check`，本機通過。
+  - `report-centerlines.mjs` 的多件表加了「分類」與「連接距離」兩欄，依分類再依連接距離排列；`docs/centerline-report.md` 已用 `--available --write` 重新產生（仍不含三個缺少的串流，約 63 秒）。結果：252 個多件網格中，應相接 4 個（左右坐骨神經、左右腓腸神經，連接距離都是 0 mm；舊欄位寫 34–46 mm，是端點量法的誤報）、成組 65 個、未判定 183 個（其中連接距離超過 5 mm 的 54 個）。
+  - 那 54 個（例如 Marginal colic artery 102 mm、Left fibular vein 69 mm、Superior phrenic vein 68 mm、門靜脈與肝動脈的分支、Lumbar artery／vein、脊神經前後根與神經節）是「單數名稱但含多條分開的結構」還是真的斷開，名稱判斷不了，屬解剖內容，已列入「待我決定」。**連接距離的數值沒有在 3D 畫面確認。**
+  - 其餘八個腳本的 Windows 路徑同類寫法已修（`prepare-heart`、`decode-joint-source`、`export-joints-rest`、`extract-neck-vessels`、`audit-cranial-nerves`、`test-body-nerves`、`test-joint-anatomy`、`test-nerve-motion`：draco 模組路徑改用 `fileURLToPath`，Linux 行為不變）。語法檢查通過；`audit-cranial-nerves` 實際執行確認不再出現路徑錯誤（之後因本機沒有 `brain.glb` 停下）；其他幾個因缺少 `.sites-runtime` 等生成檔，在走到這一行之前就停下，**修正後未能實際執行驗證**。`lib/stability-static.mjs` 的 `pathname` 只用來切出 `/app/` 之後的相對路徑，在 Windows 沒有問題，沒有改。
+  - 本機通過：`test-centreline-groups`、`test-centreline-pieces`、`test-centreline-classify`、`test-centreline-continuity`、`check-no-notes`、`check:zh`、`tsc --noEmit`。完整 `npm run check` 因缺生成檔沒有跑。
+  - 分支處半徑偏大的修正（每圈改用中位數）這次沒有做。
+  - 本機沒有 `gh`，未查開放 PR 是否有變動。
+
 ## 進行中／等審核
 - S2 A–G、S3、S4、S6 相關工作都已有 PR（見上），等使用者審核。
 
@@ -82,6 +94,7 @@
 - S7 模型限制說明（資訊卡與「模型範圍」）的文字屬解剖內容，需你決定要寫哪些結構與措辭；決定前自動排程不動。
 - S5 第二階段需在有生成檔的環境（`node scripts/clean.mjs --donor`）執行，本資料夾無 `node_modules`／`work/`；請決定由你在該環境跑，或授權排程在那裡跑。
 - 待審 PR 已有 10 個，遠超 #234 擬定的上限 5 個；在使用者審核／合併前，自動排程**不新開**涉及模型或解剖內容的 PR，避免再堆積。請決定先審哪幾個。
+- S5 多件網格「未判定」183 個（`docs/centerline-report.md` 多件表，其中 54 個連接距離超過 5 mm）：每一個要當成「成組結構」（各件本來分開，不檢查相接）還是「單一結構」（各件必須相接，列入連續性基準），需你決定；決定前連續性檢查只會涵蓋 topology-spec 已列的結構。
 - #228：枕部缺口要不要補、怎麼補（新增解剖內容）。
 - #242：5 個關節網格位置與舊版差 4–23 mm，保留官方新位置或改回舊位置。
 - #247：「噁心」的配色問題是否就是網紋、斑點、配色三點。
@@ -92,8 +105,9 @@
 - 為 `report-centerlines` 補測試（`scripts/test-*.mjs` 風格），確認失敗分類穩定。（已完成：`test-centreline-classify.mjs`）
 - 有生成檔後：寫 `check-centreline-continuity.mjs`，用 `centreline-continuity.mjs` 的 `attachGap`／`joinGap` 沿 `topology-spec` 的上一級關係量測，建立只減不增基準。
 - 寫連續性檢查前先處理：多件網格逐件抽中心線；粗血管半徑偏小的原因。（已完成，2026-11-13 第七次：`centreline-pieces.mjs`）
-- 下一項（不需生成檔的部分）：讀 `topology-spec`，把多件網格分成「成組結構」（各件本來分開）與「應相接的單一結構」，件距只對後者有意義；分支處半徑偏大的修正（例如每圈改用距離的中位數）。
-- 其他腳本的 Windows 路徑同類寫法（第六次列出的九個）尚未修。
+- 多件網格分成「應相接／成組／未判定」與連接距離。（已完成，2026-11-13 第八次：`centreline-groups.mjs`；「未判定」的歸類等使用者決定）
+- 其他腳本的 Windows 路徑同類寫法。（已完成，2026-11-13 第八次；八個已修，`stability-static` 不需要改）
+- 下一項（不需生成檔的部分）：分支處半徑偏大的修正（例如每圈改用距離的中位數；要在 `centreline-pieces.mjs` 內做，不可改變 `centrelineOf` 的預設行為）；用 `pieceGap`／`attachGap` 沿 `topology-spec` 的上一級關係，先對本機現有資料（大圖譜與神經）試量一次，看結果是否合理，再決定基準格式。
 - 規則：所有排程工作都放在本分支與 PR #248，不另開分支或 PR。
 
 ## 下一步（舊）
