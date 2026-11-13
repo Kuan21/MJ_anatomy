@@ -12,3 +12,7 @@ export function atlasPositions(name) {
   const p = atlasPart(name); if (!p) throw new Error(`atlas has no ${name}`);
   const b = chunk(p.chunk); return new Float32Array(b.buffer.slice(b.byteOffset + p.positions, b.byteOffset + p.positions + p.vertexCount * 12));
 }
+export function atlasIndices(name) {
+  const p = atlasPart(name); if (!p) throw new Error(`atlas has no ${name}`);
+  const b = chunk(p.chunk); return new Uint32Array(b.buffer.slice(b.byteOffset + p.indices, b.byteOffset + p.indices + p.indexCount * 4));
+}

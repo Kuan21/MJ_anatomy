@@ -13,6 +13,13 @@ for (const [label, visible, want] of [['skin off', ['reproductive', 'muscular'],
   const v = V.partVisibility(owners, {...base, visible});
   for (const p of folds) if (v.base(p) !== want) { bad++; console.error(`FAIL ${p.name}: ${label} should be ${want ? 'shown' : 'hidden'}`); }
 }
+// the female view draws the reshaped female skin and not the male one (the penis and scrotum are part of the male skin mesh), the male view the reverse
+const M = await quizModule('app/mj-sex.ts'), maleSkin = parts.find(p => p.id === 'FJ2810'), femSkin = parts.find(p => p.id === 'HRAF-skin');
+if (!maleSkin || !femSkin) { console.error('both skins must exist (FJ2810 and HRAF-skin)'); process.exit(1); }
+for (const [sex, a, b] of [['female', femSkin, maleSkin], ['male', maleSkin, femSkin]]) {
+  if (!M.matchesSex(a, sex)) { bad++; console.error(`FAIL ${sex} view must show ${a.id}`); }
+  if (M.matchesSex(b, sex)) { bad++; console.error(`FAIL ${sex} view must not show ${b.id}`); }
+}
 const clit = parts.find(p => p.name === 'Clitoris');
 if (clit && !V.partVisibility(owners, {...base, visible: ['reproductive']}).base(clit)) { bad++; console.error('FAIL Clitoris must not depend on the skin'); }
 if (bad) process.exit(1);

@@ -5,7 +5,8 @@
 import fs from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {createStream, simplify, weldByPosition} from './lib/stream-writer.mjs';
-import {atlasPositions} from './lib/atlas-read.mjs';
+import {atlasPositions, atlasIndices} from './lib/atlas-read.mjs';
+import {femaleSkin} from './lib/female-skin.mjs';
 import {thicken} from './lib/female-smooth.mjs';
 import {loftUterus, loftTube} from './lib/female-loft.mjs';
 
@@ -80,6 +81,13 @@ for (const it of items) {
   const name = rule[4] ? `${side} ${rule[1][0].toLowerCase()}${rule[1].slice(1)}` : rule[1];
   stream.add({id: `HRAF-${piece.node}`, conceptId: `HRAF-${piece.node}`, name, system: rule[3], sex: 'female', chineseName: (rule[4] ? (side === 'Left' ? '左' : '右') : '') + rule[2], sourceNode: piece.name}, p, ix);
   report.push(`${name}: ${it.tris} → ${ix.length / 3} tris`);
+}
+// Female body surface: the atlas skin is a male mesh (penis and scrotum are part of it), so the female view gets a copy with that part pressed back onto a smooth female groin
+// (scripts/lib/female-skin.mjs). Same vertices and triangles as the male skin, so its skinning weights are the male skin's (scripts/alias-female-skin-weights.mjs).
+{
+  const skinPos = atlasPositions('Skin'), skinIdx = atlasIndices('Skin'), fp = femaleSkin(skinPos, skinIdx);
+  stream.add({id: 'HRAF-skin', conceptId: 'HRAF-skin', name: 'Skin', system: 'integumentary', sex: 'female', chineseName: '皮膚', sourceNode: 'BodyParts3D skin, groin reshaped'}, fp, skinIdx);
+  report.push(`Skin (female): ${skinPos.length / 3} vertices, groin reshaped`);
 }
 // Pelvic bones: one hip bone per side (ilium + ischium + pubis compact bone), sacrum, coccyx.
 const bonesSource = JSON.parse(gunzipSync(fs.readFileSync(new URL('data/hra-female-pelvis-bones.json.gz', import.meta.url))));
