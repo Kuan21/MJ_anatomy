@@ -2,14 +2,14 @@
 
 2026-11-13 建立。範圍：頭頸，含腦、眼、耳。依每區內順序：血管 → 腺體 → 神經分支（含腦神經）→ 骨的細部 → 筋膜與間隙，最後附眼、耳、咽喉口鼻與肌肉。本檔只放在 `docs/`，不可放進 `public/` 或 `dist/`。
 
-## 怎麼核對的
+## 核對方法
 
-- 結構清單：取自 repo 內既有的整理檔（頭、頸、喉、神經系統各單元的詞表、覆蓋比對報告、腦與神經的比對表），去掉非結構詞後，用自己的名稱重新歸類。
-- 站上現況：以目前 main 的結構資料為準（主圖譜網格、面部圖譜、頸部血管、神經串流、關節組織、示意模型、腦資訊卡與名稱表），用英文名規則比對，左右、`.l/.r`、編號後綴先合併。
-- 站上現況分類：**有**＝有可點選的 3D 網格；**缺**＝找不到；**有資訊卡、無 3D**＝只在腦詳細模式清單有卡片，沒有對應網格（計入「缺」）；**缺（只在中文名稱表）**＝名稱表有中文但沒有網格（計入「缺」）；**名稱不同**＝站上有，但英文名或分法不同。
-- 「建議處理」：補建／改名／相關搜尋／已有／需使用者決定。骨性標記一律用骨面標示，不另做浮空模型；筋膜與間隙依「特殊空間」規則（高亮邊界結構，必要時半透明立體）。
-- 本輪只核對，沒有動任何模型。比對靠名稱，沒有逐項在 3D 畫面確認；請使用者以站上實際畫面為準核對。中文用詞差異未逐項比對。
-- 腦詳細模式的網格檔在建置時才下載，本環境沒有，所以腦內結構直接採用 repo 內既有比對表的結果（見第七節），沒有重新比對網格。
+- 以站上目前的結構資料比對英文名稱：主圖譜網格、面部圖譜、頸部血管、神經串流、關節組織、示意模型、腦詳細模式的網格與資訊卡。左右、`.l/.r` 與編號後綴先合併。
+- 站上現況：**有**＝有可點選的 3D 網格；**缺**＝找不到；**有資訊卡、無 3D**＝只在腦詳細模式清單有卡片，沒有網格（計入「缺」）；**缺（只在中文名稱表）**＝名稱表有中文但沒有網格（計入「缺」）；**名稱不同**＝站上有，但英文名或分法不同。
+- 建議處理：補建／改名／相關搜尋／已有／需使用者決定。骨性標記一律用骨面標示，不另做浮空模型；筋膜與間隙依「特殊空間」規則（高亮邊界結構，必要時半透明立體）。
+- 高優先項目已另用 `public/` 與 `app/` 內的結構資料與檔案文字逐項抽查（超過 30 項，含 Middle meningeal artery、Thyroid gland、Parotid gland、Brachiocephalic trunk、Soft palate、Aponeurosis of epicranius 等），本版已更正兩處：帽狀腱膜站上已有；軟顎站上以各軟顎肌呈現。
+- 本輪只核對，沒有動任何模型。比對靠名稱與資料檔，沒有逐項在 3D 畫面確認；中文用詞差異未逐項比對。
+- 眼、耳的結構項目可能還有遺漏，使用者之後在自己的電腦本機核對時補充。
 
 ## 總表（第一至六節，結構逐項）
 
@@ -19,11 +19,9 @@
 | 腺體 | 15 | 5 | 10 | 0 | 1 |
 | 神經分支（含腦神經） | 69 | 36 | 33 | 0 | 0 |
 | 骨的細部 | 37 | 5 | 32 | 0 | 0 |
-| 筋膜與間隙 | 24 | 1 | 23 | 0 | 11 |
-| 其他（眼、耳、咽喉口鼻、肌肉） | 67 | 40 | 26 | 1 | 1 |
-| **合計** | **283** | **94** | **187** | **2** | **18** |
-
-資料不足之處：眼、耳的整理資料偏少（眼來自眼眶與眼球單元；耳只在神經系統整理的耳蝸部分與頭頸單元零星提到），中耳肌、耳殼、外耳道、內耳血管等可能還有漏列，需等使用者補上的神經與其他資料。腦神經在顱外的分支與神經節已逐項核對；腦神經核與傳導路徑見第七節。
+| 筋膜與間隙 | 24 | 2 | 22 | 0 | 11 |
+| 其他（眼、耳、咽喉口鼻、肌肉） | 67 | 40 | 25 | 2 | 1 |
+| **合計** | **283** | **95** | **185** | **3** | **18** |
 
 ## 一、血管（動脈、靜脈、淋巴、血管相關構造）
 
@@ -36,7 +34,7 @@
 | Facial artery | 顏面動脈 | 缺 | 補建 | 高 |
 | Maxillary artery | 上頷動脈 | 缺 | 補建 | 高 |
 | Superficial temporal artery | 淺顳動脈 | 缺 | 補建 | 高 |
-| Brachiocephalic trunk | 頭臂動脈幹 | 名稱不同（站上：brachiocephalic artery） | 改名顯示（站上名稱為 Brachiocephalic artery；建議顯示為「頭臂動脈幹 Brachiocephalic trunk」） | 高 |
+| Brachiocephalic trunk | 頭臂動脈幹 | 名稱不同（站上：Brachiocephalic artery） | 改名顯示（站上名稱為 Brachiocephalic artery；建議顯示為「頭臂動脈幹 Brachiocephalic trunk」） | 高 |
 | Middle meningeal artery | 中腦膜動脈 | 有資訊卡、無 3D（缺模型） | 已有資訊卡；建議補 3D 示意 | 高 |
 | External jugular vein | 外頸靜脈 | 缺 | 補建 | 高 |
 | Facial vein | 顏面靜脈 | 缺 | 補建 | 高 |
@@ -247,7 +245,7 @@
 
 ## 五、筋膜與間隙（含頸部三角、窩、腦膜腔）
 
-核對 24 項：有 1；缺 23（其中只有資訊卡 3、只有中文名稱表 0）；名稱不同 0；需使用者決定 11。
+核對 24 項：有 2；缺 22（其中只有資訊卡 3、只有中文名稱表 0）；名稱不同 0；需使用者決定 11。
 
 | 英文名 | 中文名 | 站上現況 | 建議處理 | 優先級 |
 |---|---|---|---|---|
@@ -263,7 +261,6 @@
 | Pretracheal fascia | 頸深筋膜氣管前層 | 缺 | 需使用者決定（筋膜呈現方式） | 中 |
 | Prevertebral fascia | 頸深筋膜椎前層 | 缺 | 需使用者決定（筋膜呈現方式） | 中 |
 | Parotid sheath / parotid space | 腮腺鞘／腮腺間隙 | 缺 | 需使用者決定（筋膜呈現方式） | 中 |
-| Aponeurosis of epicranius (galea aponeurotica) | 帽狀腱膜 | 缺 | 補建 | 中 |
 | Muscular triangle / anterior triangle | 肌三角／前三角 | 缺 | 空間示意（依特殊空間規則） | 中 |
 | Temporal fossa | 顳窩 | 缺 | 空間示意（依特殊空間規則） | 中 |
 | Danger triangle of the face | 顏面危險三角 | 缺 | 相關搜尋（指向顏面靜脈、眼靜脈、海綿竇） | 中 |
@@ -274,17 +271,18 @@
 | Palatine aponeurosis | 顎腱膜 | 缺 | 補建 | 低 |
 | Cerebellomedullary and suprasellar cisterns | 小腦延髓池、鞍上池 | 有資訊卡、無 3D（缺模型） | 已有資訊卡；3D 部分需使用者決定 | 低 |
 | Retropharyngeal space | 咽後間隙 | 缺 | 需使用者決定 | 低 |
+| Aponeurosis of epicranius (galea aponeurotica) | 帽狀腱膜 | 有 | 已有 | — |
 | Suboccipital triangle | 枕下三角 | 有 | 已有 | — |
 
 ## 六、其他：眼、耳、咽喉口鼻、肌肉（不在每區順序內，一併核對）
 
-核對 67 項：有 40；缺 26（其中只有資訊卡 5、只有中文名稱表 0）；名稱不同 1；需使用者決定 1。
+核對 67 項：有 40；缺 25（其中只有資訊卡 5、只有中文名稱表 0）；名稱不同 2；需使用者決定 1。
 
 | 英文名 | 中文名 | 站上現況 | 建議處理 | 優先級 |
 |---|---|---|---|---|
 | Malleus, incus, stapes | 錘骨、砧骨、鐙骨 | 有資訊卡、無 3D（缺模型） | 已有資訊卡；3D 併入耳／眼詳細模式（#277 之後） | 高 |
 | Pharynx (nasopharynx, oropharynx, laryngopharynx) | 咽（鼻咽、口咽、喉咽） | 缺 | 需使用者決定（空間示意：鼻咽、口咽、喉咽三段是否要建） | 高 |
-| Soft palate | 軟顎 | 缺 | 補建（或以 Levator veli palatini、Tensor veli palatini 為相關搜尋） | 高 |
+| Soft palate | 軟顎 | 名稱不同（站上：Levator veli palatini、Tensor veli palatini、Uvular muscle（軟顎為分組概念，沒有獨立網格）） | 相關搜尋（指向軟顎各肌） | 高 |
 | Paranasal sinuses (maxillary, frontal, ethmoidal, sphenoid) | 鼻竇（上頷、額、篩、蝶） | 缺 | 補建 | 高 |
 | Optic disc (blind spot), macula lutea, fovea centralis | 視神經盤、黃斑、中央小凹 | 缺 | 補建 | 中 |
 | Auricle (pinna) | 耳殼 | 缺 | 補建 | 中 |
@@ -292,7 +290,7 @@
 | Membranous labyrinth: utricle, saccule, cochlear duct | 膜迷路：橢圓囊、球囊、耳蝸管 | 有資訊卡、無 3D（缺模型） | 已有資訊卡；3D 併入耳／眼詳細模式（#277 之後） | 中 |
 | Oval window / round window | 卵圓窗、圓窗 | 有資訊卡、無 3D（缺模型） | 已有資訊卡；3D 併入耳／眼詳細模式（#277 之後） | 中 |
 | Palatoglossal arch / palatopharyngeal arch | 顎舌弓、顎咽弓 | 缺 | 補建 | 中 |
-| Occipitofrontalis (epicranius) | 額枕肌 | 名稱不同（站上：） | 相關搜尋（站上分為 Frontalis 與 Occipitalis） | 中 |
+| Occipitofrontalis (epicranius) | 額枕肌 | 名稱不同（站上：Frontalis 與 Occipitalis（分為兩塊）） | 相關搜尋（站上分為 Frontalis 與 Occipitalis） | 中 |
 | Scalp layers (skin, dense connective tissue, galea, loose areolar tissue, pericranium) | 頭皮層次 | 有資訊卡、無 3D（缺模型） | 已有資訊卡；3D 併入耳／眼詳細模式（#277 之後） | 中 |
 | Nasal cavity | 鼻腔 | 缺 | 補建（空間示意） | 中 |
 | Conjunctiva (palpebral / bulbar) | 結膜（瞼、球） | 缺 | 補建 | 低 |
@@ -350,19 +348,19 @@
 | Tarsal plates and eyelids | 瞼板、眼瞼 | 有 | 已有 | — |
 | Nasal septum (bony and cartilaginous) | 鼻中隔 | 有 | 已有（犁骨與鼻中隔軟骨分開存在，鼻中隔整體名稱無） | — |
 
-## 七、腦與神經系統（既有比對表的結果）
+## 七、腦與神經（腦詳細模式的現況）
 
-既有比對表自動抽出 597 條腦與神經的結構：保留 485 張資訊卡；腦詳細模式有網格 154 項、近似網格 13 項、**沒有網格 317 項**；其餘為併入其他條目或剔除。這 317 項在清單與搜尋仍可找到（標示模型未有）。下表是沒有網格或只有近似網格的 330 項，其中 31 項在主圖譜另有網格。
+腦與神經結構共 597 條，保留 485 張資訊卡：腦詳細模式有網格 154 項、只有近似網格 13 項、**沒有網格 317 項**（清單與搜尋仍可找到，標示模型未有）。下表是沒有網格或只有近似網格的 330 項，其中 31 項在主圖譜另有網格。神經的細項核對由使用者之後在本機進行。
 
 | 類別 | 項數 | 主圖譜另有網格 | 建議處理 |
 |---|---|---|---|
-| 血管 | 29 | 7 | 7 項主圖譜已有網格（可在腦詳細模式連到主圖譜）；其餘為腦深部與脊髓供應小分支，建議列入血管批次示意補建 |
+| 血管 | 29 | 7 | 7 項主圖譜已有網格（可從腦詳細模式連到主圖譜）；其餘為腦深部與脊髓供應的小分支，建議併入血管批次示意補建 |
 | 耳部結構 | 35 | 3 | 大構造（鼓膜、聽小骨、耳蝸、半規管、橢圓囊、球囊、卵圓窗、圓窗）併入耳詳細模式；細胞與膜層級（毛細胞、柱細胞、底膜、覆膜、血管紋等約 18 項）建議只保留資訊卡 |
 | 神經 | 15 | 2 | 舌咽神經上下神經節、螺旋神經節、前庭神經節屬頭頸；內臟神經與腹下神經叢屬腹部與骨盆，移到對應區域核對 |
 | 腦室／腦池／腦膜 | 15 | 2 | 腦膜與腦池為腔隙與膜層，需使用者決定呈現方式（半透明層或只保留資訊卡） |
-| 核團 | 30 | 2 | 核團體積小，建議維持資訊卡；需使用者決定是否要做示意 |
+| 核團 | 30 | 2 | 核團體積小，建議維持資訊卡；是否做示意由使用者決定 |
 | 纖維束／傳導路徑 | 81 | 7 | 傳導路徑以示意線條呈現才有意義，需使用者決定；脊髓束歸脊髓區 |
-| 其他結構 | 111 | 8 | 混合類別（脊髓、馬尾、網狀結構、結節等），需使用者決定；7 項主圖譜另有網格 |
+| 其他結構 | 111 | 8 | 混合類別（脊髓、馬尾、網狀結構、結節等），需使用者決定；8 項主圖譜另有網格 |
 | 皮質／腦迴／腦溝／腦葉 | 14 | 0 | 多為腦迴細分或重複名稱，建議以相關搜尋指向已有的腦迴 |
 
 各類別項目（英文名／中文名；`*` 代表只有近似網格）：
@@ -377,7 +375,7 @@ Tympanic membrane／鼓膜 ; Malleus／錘骨 ; Incus／砧骨 ; Stapes／鐙骨
 
 **神經（15）**
 
-Neuroglia／神經膠細胞 ; Dorsal root ganglion (DRG)／背根神經節 ; Glossopharyngeal nerve (CN IX)／舌咽神經 ; Superior ganglion／上神經節 ; inf. ganglion／下神經節 ; Cardiac and splanchnic nerves／心臟與內臟神經 ; Hypogastric plexus／腹下神經叢 ; lumbar splanchnic nerve／腰內臟神經 ; Thoracic cardiac branches／胸心臟分支 ; least splanchnic nerve／最小內臟神經 ; Spiral ganglion／螺旋神經節 ; Cochlear nerve／耳蝸神經 ; Cochlear br. of vestibulocochlear nerve／耳蝸枝 ; Vestibular ganglion (Scarpa’s ganglion)／前庭神經節（Scarpa 神經節） ; Vestibulocochlear nerve (CN VIII)／前庭耳蝸神經*
+Neuroglia／神經膠細胞 ; Dorsal root ganglion (DRG)／背根神經節 ; Glossopharyngeal nerve (CN IX)／舌咽神經 ; Superior ganglion／上神經節 ; inferior ganglion／下神經節 ; Cardiac and splanchnic nerves／心臟與內臟神經 ; Hypogastric plexus／腹下神經叢 ; lumbar splanchnic nerve／腰內臟神經 ; Thoracic cardiac branches／胸心臟分支 ; least splanchnic nerve／最小內臟神經 ; Spiral ganglion／螺旋神經節 ; Cochlear nerve／耳蝸神經 ; Cochlear br. of vestibulocochlear nerve／耳蝸枝 ; Vestibular ganglion (Scarpa’s ganglion)／前庭神經節（Scarpa 神經節） ; Vestibulocochlear nerve (CN VIII)／前庭耳蝸神經*
 
 **腦室／腦池／腦膜（15）**
 
@@ -393,62 +391,272 @@ Olfactory tract／嗅徑 ; Medial olfactory stria／內側嗅束 ; Lateral olfac
 
 **其他結構（111）**
 
-Olfactory bulb／嗅球 ; Anterior perforated substance／前穿質 ; Posterior perforated substance／後穿質 ; Gray Matter／灰質 ; Conus medullaris／圓錐結節 ; Cauda equina／馬尾 ; Anterior median fissure／前正中裂 ; Posterior median sulcus／後正中溝 ; Posterior horn (dorsal horn)／後角（背角） ; Substantia gelatinosa／膠狀質 ; Lateral horn／側角 ; Thoracolumbar spinal segments (C8–L2)／胸腰髓節（C8–L2） ; Sacral spinal segments (S2–S4)／薦髓節（S2–S4） ; Anterior horn (ventral horn)／前角（腹角） ; Reticular formation／網狀系統 ; Rexed lamination／雷氏分層 ; Intermediate zone／中間帶 ; Columns／灰質柱 ; Funiculi／索 ; Posterior/Dorsal funiculus／背索 ; Anterior/Ventral funiculus／腹索 ; Lateral funiculus／側索 ; Ventral root／腹根 ; Pyramidal cell／錐狀細胞 ; spinal cord／脊髓 ; Posterior cranial fossa／後顱窩 ; Clivus／斜坡 ; Brachium of superior colliculus／上丘臂 ; Brachium of inferior colliculus／下丘臂 ; Rhomboid fossa／菱形窩 ; Gracile tubercle／薄狀結節 ; Cuneate tubercle／楔狀結節 ; Tectum／四疊板 ; Medullary velum／髓帆 ; Sup. medullary velum／上髓帆 ; Inf. medullary velum／下髓帆 ; Striae medullares／髓紋 ; Basal plate／基板 ; Alar plate／翼板 ; Dorsal median sulcus／正中溝 ; sulcus limitans／界溝 ; Tegmentum／背蓋 ; Corona radiata／放射冠 ; Caudal (closed) medulla／延腦尾側（閉鎖部） ; Rostral (open) medulla／延腦吻側（開放部） ; Facial colliculus／顏面丘 ; Trapezoid body／斜方體 ; Substantia nigra, pars compacta／黑質緻密部* ; Substantia nigra, pars reticulata／黑質網狀部* ; Substantia nigra, pars lateralis／黑質外側部* ; Periosteum／外骨膜 ; Cranial bone／顱骨 ; Cervical part (segment 1 of ICA and vertebral artery)／頸段（內頸動脈與椎動脈的第一段） ; Petrous part (ICA segment 2)／內頸動脈岩樣部段 ; Atlantic part (vertebral artery segment 3)／椎動脈寰椎段 ; Cerebral part (ICA segment 4)／內頸動脈大腦段 ; Intracranial part (vertebral artery segment 4)／椎動脈顱內段 ; Optic canal／視神經管 ; Periosteal layer／骨膜層 ; Optic foramen／視神經孔 ; Basilar sulcus／橋腦基底溝 ; Posterolateral sulcus／外側溝 ; Intervertebral foramen／椎間孔 ; Hindbrain (rhombencephalon)／後腦 ; Internal occipital crest／枕內嵴 ; Primary fissure／初級裂 ; Anterior lobe／前葉 ; Cerebellar lobules／小腦小葉 ; Horizontal fissure／水平裂 ; Posterolateral fissure／後外側裂 ; Posterior lobe／後葉 ; Secondary fissure／二級裂 ; Cerebellar folia／小腦葉片 ; Molecular layer／分子層 ; Stellate cells／星狀細胞 ; Basket cells／籃狀細胞 ; Purkinje cell layer／蒲金氏細胞層 ; Purkinje cells／柏金氏細胞 ; Granule cells／顆粒細胞 ; Golgi cells／高基氏細胞 ; Unipolar brush cells／單極刷狀細胞 ; Cerebellar glomerulus／顆粒小球 ; Vestibulocerebellum／前庭小腦 ; Cerebrocerebellum (neocerebellum)／大腦小腦（新小腦） ; Spinocerebellum (paleocerebellum)／脊髓小腦（古小腦） ; juxtarestiform body／近繩狀體 ; Limbic system／邊緣系統 ; Pyramidal cell layer (hippocampus)／海馬錐狀細胞層 ; Polymorphic layer (hippocampus)／海馬多型層 ; Granule cell layer／顆粒細胞層 ; Dorsal intermediate sulcus／背中間溝 ; Meissner’s corpuscle／梅氏小體 ; baroreceptor／壓力接收器 ; Ventrolateral medulla／延腦腹外側區 ; chemoreceptor／化學接受器 ; cranial root／顱根 ; spinal root／脊髓根 ; Auditory system／聽覺系統 ; Vestibular system／前庭系統 ; Pontomedullary junction (caudal pons / rostral medulla)／橋腦延腦交界 ; Inferior vermis／下蚓部 ; Cervical motor neuron／頸髓運動神經元 ; deep gray matter／深層灰質 ; Photoreceptor／眼睛的光受體 ; Watershed area／分水嶺區域 ; Subcortex of cerebrum／大腦皮質下層 ; Scalp／頭皮 ; Pterion／翼點 ; Sella turcica／蝶鞍 ; Anterior clinoid process／前床突 ; Arbor vitae／小腦活樹
+Olfactory bulb／嗅球 ; Anterior perforated substance／前穿質 ; Posterior perforated substance／後穿質 ; Gray Matter／灰質 ; Conus medullaris／圓錐結節 ; Cauda equina／馬尾 ; Anterior median fissure／前正中裂 ; Posterior median sulcus／後正中溝 ; Posterior horn (dorsal horn)／後角（背角） ; Substantia gelatinosa／膠狀質 ; Lateral horn／側角 ; Thoracolumbar spinal segments (C8–L2)／胸腰髓節（C8–L2） ; Sacral spinal segments (S2–S4)／薦髓節（S2–S4） ; Anterior horn (ventral horn)／前角（腹角） ; Reticular formation／網狀系統 ; Rexed lamination／雷氏分層 ; Intermediate zone／中間帶 ; Columns／灰質柱 ; Funiculi／索 ; Posterior/Dorsal funiculus／背索 ; Anterior/Ventral funiculus／腹索 ; Lateral funiculus／側索 ; Ventral root／腹根 ; Pyramidal cell／錐狀細胞 ; spinal cord／脊髓 ; Posterior cranial fossa／後顱窩 ; Clivus／斜坡 ; Brachium of superior colliculus／上丘臂 ; Brachium of inferior colliculus／下丘臂 ; Rhomboid fossa／菱形窩 ; Gracile tubercle／薄狀結節 ; Cuneate tubercle／楔狀結節 ; Tectum／四疊板 ; Medullary velum／髓帆 ; Superior medullary velum／上髓帆 ; Inferior medullary velum／下髓帆 ; Striae medullares／髓紋 ; Basal plate／基板 ; Alar plate／翼板 ; Dorsal median sulcus／正中溝 ; sulcus limitans／界溝 ; Tegmentum／背蓋 ; Corona radiata／放射冠 ; Caudal (closed) medulla／延腦尾側（閉鎖部） ; Rostral (open) medulla／延腦吻側（開放部） ; Facial colliculus／顏面丘 ; Trapezoid body／斜方體 ; Substantia nigra, pars compacta／黑質緻密部* ; Substantia nigra, pars reticulata／黑質網狀部* ; Substantia nigra, pars lateralis／黑質外側部* ; Periosteum／外骨膜 ; Cranial bone／顱骨 ; Cervical part (segment 1 of ICA and vertebral artery)／頸段（內頸動脈與椎動脈的第一段） ; Petrous part (ICA segment 2)／內頸動脈岩樣部段 ; Atlantic part (vertebral artery segment 3)／椎動脈寰椎段 ; Cerebral part (ICA segment 4)／內頸動脈大腦段 ; Intracranial part (vertebral artery segment 4)／椎動脈顱內段 ; Optic canal／視神經管 ; Periosteal layer／骨膜層 ; Optic foramen／視神經孔 ; Basilar sulcus／橋腦基底溝 ; Posterolateral sulcus／外側溝 ; Intervertebral foramen／椎間孔 ; Hindbrain (rhombencephalon)／後腦 ; Internal occipital crest／枕內嵴 ; Primary fissure／初級裂 ; Anterior lobe／前葉 ; Cerebellar lobules／小腦小葉 ; Horizontal fissure／水平裂 ; Posterolateral fissure／後外側裂 ; Posterior lobe／後葉 ; Secondary fissure／二級裂 ; Cerebellar folia／小腦葉片 ; Molecular layer／分子層 ; Stellate cells／星狀細胞 ; Basket cells／籃狀細胞 ; Purkinje cell layer／蒲金氏細胞層 ; Purkinje cells／柏金氏細胞 ; Granule cells／顆粒細胞 ; Golgi cells／高基氏細胞 ; Unipolar brush cells／單極刷狀細胞 ; Cerebellar glomerulus／顆粒小球 ; Vestibulocerebellum／前庭小腦 ; Cerebrocerebellum (neocerebellum)／大腦小腦（新小腦） ; Spinocerebellum (paleocerebellum)／脊髓小腦（古小腦） ; juxtarestiform body／近繩狀體 ; Limbic system／邊緣系統 ; Pyramidal cell layer (hippocampus)／海馬錐狀細胞層 ; Polymorphic layer (hippocampus)／海馬多型層 ; Granule cell layer／顆粒細胞層 ; Dorsal intermediate sulcus／背中間溝 ; Meissner’s corpuscle／梅氏小體 ; baroreceptor／壓力接收器 ; Ventrolateral medulla／延腦腹外側區 ; chemoreceptor／化學接受器 ; cranial root／顱根 ; spinal root／脊髓根 ; Auditory system／聽覺系統 ; Vestibular system／前庭系統 ; Pontomedullary junction (caudal pons / rostral medulla)／橋腦延腦交界 ; Inferior vermis／下蚓部 ; Cervical motor neuron／頸髓運動神經元 ; deep gray matter／深層灰質 ; Photoreceptor／眼睛的光受體 ; Watershed area／分水嶺區域 ; Subcortex of cerebrum／大腦皮質下層 ; Scalp／頭皮 ; Pterion／翼點 ; Sella turcica／蝶鞍 ; Anterior clinoid process／前床突 ; Arbor vitae／小腦活樹
 
 **皮質／腦迴／腦溝／腦葉（14）**
 
 Longitudinal fissure／大腦縱裂 ; Frontal pole／額極* ; Visual cortex／視覺皮質* ; Vestibular area／前庭區 ; Piriform lobe／梨狀葉 ; Primary motor cortex／初級運動皮層* ; Dentate gyrus／齒狀迴 ; Cornu ammonis, CA／羊角區 ; Entorhinal cortex／內嗅皮質 ; Uncus／顳葉鉤 ; Premotor cortex／運動前區 ; Supplementary motor area／運動輔助區 ; Cingulate motor areas／扣帶運動區 ; Associational auditory cortex／聽覺聯絡皮質區*
 
-## 八、需使用者決定的項目（頭頸區）
+## 八、缺項的優先次序（依第二次考試價值）
 
-- Superficial cervical lymph nodes（頸淺淋巴結）：需使用者決定（淋巴示意是否要建）
-- Deep cervical lymph nodes（頸深淋巴結）：需使用者決定（淋巴示意是否要建）
-- Jugular lymphatic trunk（頸淋巴幹）：需使用者決定（淋巴示意是否要建）
-- Right lymphatic duct（右淋巴導管）：需使用者決定（淋巴示意是否要建）
-- Thoracic duct (cervical part)（胸管（頸段））：需使用者決定（站上有胸管，是否延伸到頸部匯入靜脈角需查）
-- Ceruminous glands（耵聹腺）：需使用者決定（組織層級，建議只做資訊卡）
-- Investing layer of deep cervical fascia（頸深筋膜包覆層）：需使用者決定（筋膜呈現方式）
-- Pretracheal fascia（頸深筋膜氣管前層）：需使用者決定（筋膜呈現方式）
-- Prevertebral fascia（頸深筋膜椎前層）：需使用者決定（筋膜呈現方式）
-- Carotid sheath（頸動脈鞘）：需使用者決定（筋膜呈現方式）
-- Pharyngobasilar fascia（咽顱底筋膜）：需使用者決定（筋膜呈現方式）
-- Parotid sheath / parotid space（腮腺鞘／腮腺間隙）：需使用者決定（筋膜呈現方式）
-- Temporalis fascia（顳肌筋膜）：需使用者決定（筋膜呈現方式）
-- Subdural / subarachnoid / epidural spaces（硬腦膜下、蛛網膜下、硬膜外腔）：已有資訊卡；3D 部分需使用者決定
-- Dura mater, arachnoid mater, pia mater（硬腦膜、蛛網膜、軟腦膜）：已有資訊卡；3D 部分需使用者決定
-- Cerebellomedullary and suprasellar cisterns（小腦延髓池、鞍上池）：已有資訊卡；3D 部分需使用者決定
-- Retropharyngeal space（咽後間隙）：需使用者決定
-- Pharynx (nasopharynx, oropharynx, laryngopharynx)（咽（鼻咽、口咽、喉咽））：需使用者決定（空間示意：鼻咽、口咽、喉咽三段是否要建）
-- 腦與神經：核團（30 項）是否做示意，建議維持資訊卡。
-- 腦與神經：傳導路徑（81 項）是否做示意線條，建議先不做，等神經資料補齊。
-- 腦與神經：耳的細胞與膜層級（約 18 項）是否只保留資訊卡，建議是。
-- 腦與神經：腦膜與腦池（約 15 項）要做半透明層還是只保留資訊卡。
-- 腦與神經：血管深部小分支與其他混合類別（約 140 項）要補建哪些，建議等神經資料補齊後再一起決定。
+對象為第一至六節中站上沒有 3D 網格的 185 項（名稱不同的 3 項另計）。分級：**P1**＝考試價值高、先補（47 項）；**P2**＝次要題材，P1 完成後再補（75 項）；**P3**＝只做資訊卡或相關搜尋，不補建（63 項）。每項一句理由，是我的判斷，請使用者核對。
 
-## 九、補建批次規模估計（等使用者決定，本輪不動模型）
+### P1：先補
 
-| 批次 | 內容 | 項數（約） | 方式 |
+| 類別 | 英文名 | 中文名 | 理由 |
 |---|---|---|---|
-| 1 外頸動脈及分支 | 上甲狀腺、舌、顏面（含唇動脈、鼻外側）、升咽、枕、耳後、上頷（含各分支）、淺顳、顏面橫、扁桃體、上喉，以及眼眶內與腦膜相關動脈 | 38 | 示意血管，沿既有外頸動脈連接 |
-| 2 頭頸靜脈 | 外頸、前頸、顏面、下頷後、淺顳、耳後、眼靜脈、眶上與滑車上、甲狀腺靜脈、導靜脈、鞏膜靜脈竇 | 17 | 示意血管，接到內頸靜脈 |
-| 3 腺體與扁桃體 | 腮腺與腮腺管、甲狀腺、副甲狀腺、四種扁桃體、耵聹腺 | 10 | 立體器官（甲狀腺、腮腺為主） |
-| 4 神經分支與神經節 | 上頷與下頷神經分支、顏面神經分支、岩神經、鼓室神經叢、副交感與頸交感神經節、頸叢分支、喉神經、咽叢 | 33 | 示意神經，沿既有腦神經主幹 |
-| 5 骨性標記 | 頭骨各孔、裂、管、突、窩 | 32 | 骨面標示，不新增網格 |
-| 6 筋膜與間隙 | 頸三角各區、翼顎窩、顳下窩、顳窩、頸動脈鞘、筋膜層、腮腺間隙 | 23 | 空間示意（依特殊空間規則），需先決定呈現方式 |
-| 7 眼 | 結膜、視盤與黃斑、鋸齒緣、後房、睫狀突與睫狀肌、上瞼板肌 | 6 | 眼詳細模式（#277 之後） |
-| 8 耳 | 耳殼、外耳道、耳肌、鐙骨肌與鼓膜張肌、聽小骨與內耳的 3D | 約 12 | 耳詳細模式（#277 之後） |
-| 9 咽喉口鼻 | 咽三段、軟顎、顎舌弓與顎咽弓、鼻腔、鼻竇 | 約 8 | 空間示意或立體 |
+| 血管 | Superior thyroid artery | 上甲狀腺動脈 | 外頸動脈的第一條前支，供應甲狀腺上部與喉，頸部血管題的基本題材 |
+| 血管 | Lingual artery | 舌動脈 | 外頸動脈分支，供應舌與口底，和舌骨、舌下神經的位置關係常被問 |
+| 血管 | Facial artery | 顏面動脈 | 外頸動脈分支，繞過下頷骨下緣上到臉部，可在咬肌前緣摸到脈搏，臨床與解剖都常考 |
+| 血管 | Maxillary artery | 上頷動脈 | 外頸動脈終支之一，穿過顳下窩並分出許多分支，是頭部血管最複雜的一段 |
+| 血管 | Superficial temporal artery | 淺顳動脈 | 外頸動脈的另一終支，走在耳前的頭皮，常用來摸脈搏與認識頭皮血供 |
+| 血管 | Middle meningeal artery | 中腦膜動脈 | 經棘孔進入顱內，硬腦膜上血腫的出血處，臨床相關性很高 |
+| 血管 | External jugular vein | 外頸靜脈 | 頸部最表淺的靜脈，走在胸鎖乳突肌表面，是頸部層次的重要標記 |
+| 血管 | Facial vein | 顏面靜脈 | 與眼靜脈、海綿竇相通，是顏面危險三角的解剖基礎 |
+| 血管 | Retromandibular vein | 下頷後靜脈 | 由淺顳靜脈與上頷靜脈匯合並穿過腮腺，與腮腺內結構的前後關係常被問 |
+| 血管 | Pterygoid venous plexus | 翼靜脈叢 | 位於顳下窩，連到海綿竇與顏面靜脈，是感染擴散路徑 |
+| 腺體 | Parotid gland | 腮腺（耳下腺） | 最大的唾液腺，腮腺內有顏面神經與下頷後靜脈通過，是頭頸區最核心的腺體 |
+| 腺體 | Thyroid gland | 甲狀腺 | 頸部最重要的內分泌腺，與喉返神經、甲狀腺動脈的關係是必考 |
+| 腺體 | Parathyroid glands | 副甲狀腺 | 附在甲狀腺後方，手術與血供的解剖關係是必考 |
+| 神經分支 | Trigeminal ganglion | 三叉神經節 | 三叉神經三條分支的共同起點，位於顱中窩，是理解面部感覺的關鍵 |
+| 神經分支 | Auriculotemporal nerve | 耳顳神經 | 下頷神經分支，包住腦膜中動脈並帶腮腺的副交感纖維，常被整合成題 |
+| 神經分支 | Infraorbital nerve | 眶下神經 | 上頷神經的終末支，出眶下孔，是面中部感覺與麻醉的標準路徑 |
+| 神經分支 | Facial nerve branches (temporal, zygomatic, buccal, marginal mandibular, cervical) | 顏面神經分支（顳、顴、頰、下頷緣、頸） | 五個分支穿過腮腺後呈扇形散開，是顏面表情肌的運動支配 |
+| 神經分支 | Superior cervical ganglion | 上頸神經節 | 頭頸部交感神經的節後起點，瞳孔與汗腺的交感路徑要靠它講 |
+| 神經分支 | Ansa cervicalis (superior and inferior roots) | 頸襻（上根、下根） | 支配舌骨下肌群的神經環，位置關係固定，易出題 |
+| 神經分支 | Superior laryngeal nerve (internal and external branches) | 上喉神經（內支、外支） | 迷走神經分支，內支管喉黏膜感覺、外支管環甲肌，與喉返神經成對考 |
+| 骨的細部 | Mental foramen | 頦孔 | 下頷骨上頦神經的出口，臨床麻醉位置 |
+| 骨的細部 | Supraorbital foramen / notch | 眶上孔（切跡） | 眶上神經與血管的出口，與眶下孔、頦孔排成一直線 |
+| 骨的細部 | Infraorbital foramen | 眶下孔 | 眶下神經與血管的出口，面部麻醉與骨折的標記 |
+| 骨的細部 | Stylomastoid foramen | 莖乳突孔 | 顏面神經離開顱骨的出口，周邊性顏面神經麻痺的定位依據 |
+| 骨的細部 | Foramen ovale | 卵圓孔 | 下頷神經離顱的孔，顱底孔中最常被問的之一 |
+| 骨的細部 | Foramen spinosum | 棘孔 | 腦膜中動脈入顱的孔，與卵圓孔相鄰，常一起考 |
+| 骨的細部 | Foramen rotundum | 圓孔 | 上頷神經離顱的孔，顱底孔必背項目 |
+| 骨的細部 | Carotid canal | 頸動脈管 | 內頸動脈入顱的通道，顱底通道題常考 |
+| 骨的細部 | Hypoglossal canal | 舌下神經管 | 舌下神經離顱的通道，位於枕骨髁上方 |
+| 骨的細部 | Optic canal | 視神經管 | 視神經與眼動脈入眶的通道，位於蝶骨小翼 |
+| 骨的細部 | Superior orbital fissure | 眶上裂 | 動眼、滑車、外展神經與眼神經入眶的裂隙，眼眶題的重點 |
+| 骨的細部 | Inferior orbital fissure | 眶下裂 | 上頷神經分支與眶下血管通過，是眼眶與翼顎窩的連通 |
+| 骨的細部 | Mandibular foramen | 下頷孔 | 下齒槽神經入下頷骨的孔，牙科麻醉的標記 |
+| 骨的細部 | Zygomatic arch | 顴弓 | 顴骨與顳骨共同構成，是咬肌起點與觸診標記 |
+| 骨的細部 | Foramen magnum | 枕骨大孔 | 延髓、椎動脈與副神經脊髓根通過，顱底最大的孔 |
+| 筋膜與間隙 | Investing layer of deep cervical fascia | 頸深筋膜包覆層 | 包住頸部所有結構的最外層深筋膜，頸部層次的基礎 |
+| 筋膜與間隙 | Carotid sheath | 頸動脈鞘 | 包住頸總動脈、內頸靜脈與迷走神經，三者的相對位置必考 |
+| 筋膜與間隙 | Occipital triangle (posterior triangle) | 枕三角（後三角） | 後頸三角的後半部，副神經與頸叢分支經過 |
+| 筋膜與間隙 | Supraclavicular triangle | 鎖骨上三角 | 後頸三角的下半部，鎖骨下動脈與臂叢的根部 |
+| 筋膜與間隙 | Carotid triangle | 頸動脈三角 | 頸動脈分叉、舌下神經與迷走神經的所在，頸前三角中最重要的一區 |
+| 筋膜與間隙 | Submental triangle | 頦下三角 | 頦下與舌骨之間，下頷舌骨肌與淋巴結 |
+| 筋膜與間隙 | Submandibular triangle | 下頷下三角 | 下頷下腺、顏面動脈與舌神經等結構的所在 |
+| 筋膜與間隙 | Pterygopalatine fossa | 翼顎窩 | 連通眼眶、鼻腔、口腔與顱中窩的交會處，神經與血管密集 |
+| 筋膜與間隙 | Infratemporal fossa | 顳下窩 | 翼肌、上頷動脈、下頷神經所在的空間，頭部考題的核心區域 |
+| 眼耳咽喉口鼻肌肉 | Malleus, incus, stapes | 錘骨、砧骨、鐙骨 | 中耳聽小骨的順序與連接是基本題，目前只有資訊卡 |
+| 眼耳咽喉口鼻肌肉 | Pharynx (nasopharynx, oropharynx, laryngopharynx) | 咽（鼻咽、口咽、喉咽） | 三段咽腔的界線與開口是基本題，需決定如何呈現 |
+| 眼耳咽喉口鼻肌肉 | Paranasal sinuses (maxillary, frontal, ethmoidal, sphenoid) | 鼻竇（上頷、額、篩、蝶） | 四組鼻竇的開口與位置是臨床常考項目 |
 
-各批次的項數是「缺」的項目計數，同批次內若逐條建需另估；建議每批完成後再做下一批，每批一個 PR，標【需人工審核】。
+### P2：之後補
 
-## 相關搜尋對應（暫列，待使用者核對）
+| 類別 | 英文名 | 中文名 | 理由 |
+|---|---|---|---|
+| 血管 | Ascending pharyngeal artery | 升咽動脈 | 升咽動脈是外頸動脈或眼動脈的分支，起點與供應區域可作為次要題材 |
+| 血管 | Occipital artery | 枕動脈 | 枕動脈是外頸動脈或眼動脈的分支，起點與供應區域可作為次要題材 |
+| 血管 | Posterior auricular artery | 耳後動脈 | 耳後動脈是外頸動脈或眼動脈的分支，起點與供應區域可作為次要題材 |
+| 血管 | Superior labial artery | 上唇動脈 | 上唇動脈是外頸動脈或眼動脈的分支，起點與供應區域可作為次要題材 |
+| 血管 | Inferior labial artery | 下唇動脈 | 下唇動脈是外頸動脈或眼動脈的分支，起點與供應區域可作為次要題材 |
+| 血管 | Ascending palatine artery | 升顎動脈 | 升顎動脈是外頸動脈或眼動脈的分支，起點與供應區域可作為次要題材 |
+| 血管 | Tonsillar artery (branch of facial artery) | 扁桃體動脈 | 扁桃體動脈是外頸動脈或眼動脈的分支，起點與供應區域可作為次要題材 |
+| 血管 | Superior laryngeal artery | 上喉動脈 | 上喉動脈是外頸動脈或眼動脈的分支，起點與供應區域可作為次要題材 |
+| 血管 | Inferior alveolar artery | 下齒槽動脈 | 下齒槽動脈是外頸動脈或眼動脈的分支，起點與供應區域可作為次要題材 |
+| 血管 | Supraorbital artery | 眶上動脈 | 眶上動脈是外頸動脈或眼動脈的分支，起點與供應區域可作為次要題材 |
+| 血管 | Supratrochlear artery | 滑車上動脈 | 滑車上動脈是外頸動脈或眼動脈的分支，起點與供應區域可作為次要題材 |
+| 血管 | Central artery of retina | 視網膜中央動脈 | 視網膜中央動脈是外頸動脈或眼動脈的分支，起點與供應區域可作為次要題材 |
+| 血管 | Labyrinthine artery | 迷路動脈 | 迷路動脈是外頸動脈或眼動脈的分支，起點與供應區域可作為次要題材 |
+| 血管 | Anterior jugular vein | 前頸靜脈 | 前頸靜脈屬頭頸靜脈系統，路徑與回流方向可作為次要題材 |
+| 血管 | Superficial temporal vein | 淺顳靜脈 | 淺顳靜脈屬頭頸靜脈系統，路徑與回流方向可作為次要題材 |
+| 血管 | Posterior auricular vein | 耳後靜脈 | 耳後靜脈屬頭頸靜脈系統，路徑與回流方向可作為次要題材 |
+| 血管 | Supraorbital vein | 眶上靜脈 | 眶上靜脈屬頭頸靜脈系統，路徑與回流方向可作為次要題材 |
+| 血管 | Supratrochlear vein | 滑車上靜脈 | 滑車上靜脈屬頭頸靜脈系統，路徑與回流方向可作為次要題材 |
+| 血管 | Superior ophthalmic vein | 上眼靜脈 | 上眼靜脈屬頭頸靜脈系統，路徑與回流方向可作為次要題材 |
+| 血管 | Inferior ophthalmic vein | 下眼靜脈 | 下眼靜脈屬頭頸靜脈系統，路徑與回流方向可作為次要題材 |
+| 血管 | Emissary veins | 導靜脈 | 導靜脈屬頭頸靜脈系統，路徑與回流方向可作為次要題材 |
+| 血管 | Superior / middle / inferior thyroid veins | 上、中、下甲狀腺靜脈 | 上、中、下甲狀腺靜脈屬頭頸靜脈系統，路徑與回流方向可作為次要題材 |
+| 血管 | Carotid sinus | 頸動脈竇 | 頸動脈竇屬頭頸靜脈系統，路徑與回流方向可作為次要題材 |
+| 血管 | Carotid body | 頸動脈體 | 頸動脈體是外頸動脈或眼動脈的分支，起點與供應區域可作為次要題材 |
+| 腺體 | Parotid duct | 腮腺管（耳下腺管） | 腮腺管（耳下腺管）屬於淋巴組織或細小腺體，可在腺體批次一併處理 |
+| 腺體 | Palatine tonsil | 顎扁桃體 | 顎扁桃體屬於淋巴組織或細小腺體，可在腺體批次一併處理 |
+| 腺體 | Pharyngeal tonsil (adenoid) | 咽扁桃體 | 咽扁桃體屬於淋巴組織或細小腺體，可在腺體批次一併處理 |
+| 腺體 | Lingual tonsil | 舌扁桃體 | 舌扁桃體屬於淋巴組織或細小腺體，可在腺體批次一併處理 |
+| 神經分支 | Deep temporal nerves | 深顳神經 | 深顳神經是腦神經或頸神經的分支，分支次序可作為次要題材 |
+| 神經分支 | Masseteric nerve | 咬肌神經 | 咬肌神經是腦神經或頸神經的分支，分支次序可作為次要題材 |
+| 神經分支 | Zygomatic nerve (zygomaticotemporal / zygomaticofacial) | 顴神經（顴顳、顴面） | 顴神經（顴顳、顴面）是腦神經或頸神經的分支，分支次序可作為次要題材 |
+| 神經分支 | Superior alveolar nerves (posterior / middle / anterior) | 上齒槽神經（後、中、前） | 上齒槽神經（後、中、前）是腦神經或頸神經的分支，分支次序可作為次要題材 |
+| 神經分支 | Nasopalatine nerve | 鼻顎神經 | 鼻顎神經是腦神經或頸神經的分支，分支次序可作為次要題材 |
+| 神經分支 | Greater / lesser palatine nerves | 大、小顎神經 | 大、小顎神經是腦神經或頸神經的分支，分支次序可作為次要題材 |
+| 神經分支 | Greater petrosal nerve | 大岩神經 | 大岩神經是腦神經或頸神經的分支，分支次序可作為次要題材 |
+| 神經分支 | Lesser petrosal nerve | 小岩神經 | 小岩神經是腦神經或頸神經的分支，分支次序可作為次要題材 |
+| 神經分支 | Nerve of pterygoid canal (Vidian nerve) | 翼管神經 | 翼管神經是腦神經或頸神經的分支，分支次序可作為次要題材 |
+| 神經分支 | Pterygopalatine ganglion | 翼顎神經節 | 翼顎神經節是副交感或感覺的中繼站，與所屬腦神經一起學 |
+| 神經分支 | Otic ganglion | 耳神經節 | 耳神經節是副交感或感覺的中繼站，與所屬腦神經一起學 |
+| 神經分支 | Submandibular ganglion | 下頷下神經節 | 下頷下神經節是副交感或感覺的中繼站，與所屬腦神經一起學 |
+| 神經分支 | Middle / inferior cervical ganglia, stellate ganglion | 中、下頸神經節、星狀神經節 | 中、下頸神經節、星狀神經節是副交感或感覺的中繼站，與所屬腦神經一起學 |
+| 神經分支 | Great auricular nerve | 耳大神經 | 耳大神經是腦神經或頸神經的分支，分支次序可作為次要題材 |
+| 神經分支 | Lesser occipital nerve | 枕小神經 | 枕小神經是腦神經或頸神經的分支，分支次序可作為次要題材 |
+| 神經分支 | Greater occipital nerve | 枕大神經 | 枕大神經是腦神經或頸神經的分支，分支次序可作為次要題材 |
+| 神經分支 | Transverse cervical nerve | 頸橫神經 | 頸橫神經是腦神經或頸神經的分支，分支次序可作為次要題材 |
+| 神經分支 | Supraclavicular nerves | 鎖骨上神經 | 鎖骨上神經是腦神經或頸神經的分支，分支次序可作為次要題材 |
+| 神經分支 | Pharyngeal plexus | 咽神經叢 | 咽神經叢是腦神經或頸神經的分支，分支次序可作為次要題材 |
+| 骨的細部 | Foramen lacerum | 破裂孔 | 破裂孔是顱骨表面的標記，屬於孔、裂、管類，需靠骨面標示說明通過的結構 |
+| 骨的細部 | Petrotympanic fissure | 岩鼓裂 | 岩鼓裂是顱骨表面的標記，屬於孔、裂、管類，需靠骨面標示說明通過的結構 |
+| 骨的細部 | Greater / lesser palatine foramina | 大、小顎孔 | 大、小顎孔是顱骨表面的標記，屬於孔、裂、管類，需靠骨面標示說明通過的結構 |
+| 骨的細部 | Sphenopalatine foramen | 蝶顎孔 | 蝶顎孔是顱骨表面的標記，屬於孔、裂、管類，需靠骨面標示說明通過的結構 |
+| 骨的細部 | Pterygoid canal | 翼管 | 翼管是顱骨表面的標記，屬於孔、裂、管類，需靠骨面標示說明通過的結構 |
+| 骨的細部 | Internal acoustic meatus | 內耳道 | 內耳道是顱骨表面的標記，屬於孔、裂、管類，需靠骨面標示說明通過的結構 |
+| 骨的細部 | External acoustic meatus | 外耳道 | 外耳道是顱骨表面的標記，屬於孔、裂、管類，需靠骨面標示說明通過的結構 |
+| 骨的細部 | Pterygomaxillary fissure | 翼上頷裂 | 翼上頷裂是顱骨表面的標記，屬於孔、裂、管類，需靠骨面標示說明通過的結構 |
+| 骨的細部 | Pterygoid process (medial / lateral plates) | 翼突（內、外側板） | 翼突（內、外側板）是顱骨表面的標記，屬於孔、裂、管類，需靠骨面標示說明通過的結構 |
+| 骨的細部 | Coronoid process / condylar process of mandible | 下頷骨冠狀突、髁突 | 下頷骨冠狀突、髁突是顱骨表面的標記，屬於孔、裂、管類，需靠骨面標示說明通過的結構 |
+| 骨的細部 | Ramus and angle of mandible | 下頷枝與下頷角 | 下頷枝與下頷角是顱骨表面的標記，屬於孔、裂、管類，需靠骨面標示說明通過的結構 |
+| 骨的細部 | Mandibular fossa and articular tubercle | 下頷窩、關節結節 | 下頷窩、關節結節是顱骨表面的標記，屬於孔、裂、管類，需靠骨面標示說明通過的結構 |
+| 骨的細部 | Greater wing / lesser wing / body of sphenoid bone | 蝶骨大翼、小翼、體 | 蝶骨大翼、小翼、體是顱骨表面的標記，屬於孔、裂、管類，需靠骨面標示說明通過的結構 |
+| 筋膜與間隙 | Pretracheal fascia | 頸深筋膜氣管前層 | 頸深筋膜氣管前層是頸部或顱部的間隙，需配合邊界結構一起呈現 |
+| 筋膜與間隙 | Prevertebral fascia | 頸深筋膜椎前層 | 頸深筋膜椎前層是頸部或顱部的間隙，需配合邊界結構一起呈現 |
+| 筋膜與間隙 | Parotid sheath / parotid space | 腮腺鞘／腮腺間隙 | 腮腺鞘／腮腺間隙是頸部或顱部的間隙，需配合邊界結構一起呈現 |
+| 筋膜與間隙 | Muscular triangle / anterior triangle | 肌三角／前三角 | 肌三角／前三角是頸部或顱部的間隙，需配合邊界結構一起呈現 |
+| 筋膜與間隙 | Temporal fossa | 顳窩 | 顳窩是頸部或顱部的間隙，需配合邊界結構一起呈現 |
+| 筋膜與間隙 | Subdural / subarachnoid / epidural spaces | 硬腦膜下、蛛網膜下、硬膜外腔 | 硬腦膜下、蛛網膜下、硬膜外腔是頸部或顱部的間隙，需配合邊界結構一起呈現 |
+| 筋膜與間隙 | Dura mater, arachnoid mater, pia mater | 硬腦膜、蛛網膜、軟腦膜 | 硬腦膜、蛛網膜、軟腦膜是頸部或顱部的間隙，需配合邊界結構一起呈現 |
+| 眼耳咽喉口鼻肌肉 | Optic disc (blind spot), macula lutea, fovea centralis | 視神經盤、黃斑、中央小凹 | 視神經盤、黃斑、中央小凹是眼球內部細節，隨眼詳細模式一起處理 |
+| 眼耳咽喉口鼻肌肉 | Auricle (pinna) | 耳殼 | 耳殼是耳的構造，隨耳詳細模式一起處理 |
+| 眼耳咽喉口鼻肌肉 | External acoustic meatus (canal) | 外耳道 | 外耳道是耳的構造，隨耳詳細模式一起處理 |
+| 眼耳咽喉口鼻肌肉 | Membranous labyrinth: utricle, saccule, cochlear duct | 膜迷路：橢圓囊、球囊、耳蝸管 | 膜迷路：橢圓囊、球囊、耳蝸管是耳的構造，隨耳詳細模式一起處理 |
+| 眼耳咽喉口鼻肌肉 | Oval window / round window | 卵圓窗、圓窗 | 卵圓窗、圓窗是耳的構造，隨耳詳細模式一起處理 |
+| 眼耳咽喉口鼻肌肉 | Palatoglossal arch / palatopharyngeal arch | 顎舌弓、顎咽弓 | 顎舌弓、顎咽弓屬咽喉口鼻區，作為次要題材 |
+| 眼耳咽喉口鼻肌肉 | Scalp layers (skin, dense connective tissue, galea, loose areolar tissue, pericranium) | 頭皮層次 | 頭皮層次屬咽喉口鼻區，作為次要題材 |
+| 眼耳咽喉口鼻肌肉 | Nasal cavity | 鼻腔 | 鼻腔屬咽喉口鼻區，作為次要題材 |
+
+### P3：資訊卡或相關搜尋，不補建
+
+| 類別 | 英文名 | 中文名 | 理由 |
+|---|---|---|---|
+| 血管 | Transverse facial artery | 顏面橫動脈 | 顏面橫動脈是細小分支，知道起源動脈即可，先用資訊卡處理 |
+| 血管 | Lateral nasal artery | 鼻外側動脈 | 鼻外側動脈是細小分支，知道起源動脈即可，先用資訊卡處理 |
+| 血管 | Middle thyroid artery / Thyroid ima artery | 中甲狀腺動脈／最下甲狀腺動脈 | 中甲狀腺動脈／最下甲狀腺動脈是細小分支，知道起源動脈即可，先用資訊卡處理 |
+| 血管 | Deep temporal arteries | 深顳動脈 | 深顳動脈是細小分支，知道起源動脈即可，先用資訊卡處理 |
+| 血管 | Deep auricular artery | 深耳動脈 | 深耳動脈是細小分支，知道起源動脈即可，先用資訊卡處理 |
+| 血管 | Anterior tympanic artery | 前鼓室動脈 | 前鼓室動脈是細小分支，知道起源動脈即可，先用資訊卡處理 |
+| 血管 | Accessory meningeal artery | 副腦膜動脈 | 副腦膜動脈是細小分支，知道起源動脈即可，先用資訊卡處理 |
+| 血管 | Masseteric artery | 咬肌動脈 | 咬肌動脈是細小分支，知道起源動脈即可，先用資訊卡處理 |
+| 血管 | Buccal artery | 頰動脈 | 頰動脈是細小分支，知道起源動脈即可，先用資訊卡處理 |
+| 血管 | Posterior superior alveolar artery | 後上齒槽動脈 | 後上齒槽動脈是細小分支，知道起源動脈即可，先用資訊卡處理 |
+| 血管 | Middle superior alveolar artery | 中上齒槽動脈 | 中上齒槽動脈是細小分支，知道起源動脈即可，先用資訊卡處理 |
+| 血管 | Anterior superior alveolar artery | 前上齒槽動脈 | 前上齒槽動脈是細小分支，知道起源動脈即可，先用資訊卡處理 |
+| 血管 | Infraorbital artery | 眶下動脈 | 眶下動脈是細小分支，知道起源動脈即可，先用資訊卡處理 |
+| 血管 | Descending palatine artery | 下行顎動脈 | 下行顎動脈是細小分支，知道起源動脈即可，先用資訊卡處理 |
+| 血管 | Greater palatine artery | 大顎動脈 | 大顎動脈是細小分支，知道起源動脈即可，先用資訊卡處理 |
+| 血管 | Lesser palatine artery | 小顎動脈 | 小顎動脈是細小分支，知道起源動脈即可，先用資訊卡處理 |
+| 血管 | Sphenopalatine artery | 蝶顎動脈 | 蝶顎動脈是細小分支，知道起源動脈即可，先用資訊卡處理 |
+| 血管 | Nasopalatine artery | 鼻顎動脈 | 鼻顎動脈是細小分支，知道起源動脈即可，先用資訊卡處理 |
+| 血管 | Anterior ciliary arteries | 前睫動脈 | 前睫動脈是細小分支，知道起源動脈即可，先用資訊卡處理 |
+| 血管 | Short posterior ciliary arteries | 短後睫動脈 | 短後睫動脈是細小分支，知道起源動脈即可，先用資訊卡處理 |
+| 血管 | Long posterior ciliary arteries | 長後睫動脈 | 長後睫動脈是細小分支，知道起源動脈即可，先用資訊卡處理 |
+| 血管 | Superior and inferior labial veins | 上、下唇靜脈 | 上、下唇靜脈屬頭頸靜脈系統，路徑與回流方向可作為次要題材 |
+| 血管 | Lateral nasal vein | 鼻外側靜脈 | 鼻外側靜脈屬頭頸靜脈系統，路徑與回流方向可作為次要題材 |
+| 血管 | Infraorbital / infratrochlear veins | 眶下、滑車下靜脈 | 眶下、滑車下靜脈屬頭頸靜脈系統，路徑與回流方向可作為次要題材 |
+| 血管 | Scleral venous sinus | 鞏膜靜脈竇 | 鞏膜靜脈竇屬頭頸靜脈系統，路徑與回流方向可作為次要題材 |
+| 血管 | Superficial cervical lymph nodes | 頸淺淋巴結 | 淋巴構造體積小，教學上多用資訊卡帶過 |
+| 血管 | Deep cervical lymph nodes | 頸深淋巴結 | 淋巴構造體積小，教學上多用資訊卡帶過 |
+| 血管 | Jugular lymphatic trunk | 頸淋巴幹 | 淋巴構造體積小，教學上多用資訊卡帶過 |
+| 血管 | Right lymphatic duct | 右淋巴導管 | 淋巴構造體積小，教學上多用資訊卡帶過 |
+| 腺體 | Excretory ducts of lacrimal gland | 淚腺排泄管 | 淚腺排泄管屬於淋巴組織或細小腺體，可在腺體批次一併處理 |
+| 腺體 | Ceruminous glands | 耵聹腺 | 耵聹腺屬於淋巴組織或細小腺體，可在腺體批次一併處理 |
+| 腺體 | Tubal tonsil | 咽鼓管扁桃體 | 咽鼓管扁桃體屬於淋巴組織或細小腺體，可在腺體批次一併處理 |
+| 神經分支 | Deep petrosal nerve | 深岩神經 | 深岩神經是細小分支，先列在相關神經的資訊卡 |
+| 神經分支 | Tympanic plexus / tympanic nerve | 鼓室神經叢 | 鼓室神經叢是細小分支，先列在相關神經的資訊卡 |
+| 神經分支 | Geniculate ganglion | 膝狀神經節 | 膝狀神經節是副交感或感覺的中繼站，與所屬腦神經一起學 |
+| 神經分支 | Superior and inferior ganglia of glossopharyngeal nerve | 舌咽神經上、下神經節 | 舌咽神經上、下神經節是副交感或感覺的中繼站，與所屬腦神經一起學 |
+| 神經分支 | Spiral ganglion | 螺旋神經節 | 螺旋神經節是副交感或感覺的中繼站，與所屬腦神經一起學 |
+| 神經分支 | Vestibular ganglion (Scarpa) | 前庭神經節 | 前庭神經節是副交感或感覺的中繼站，與所屬腦神經一起學 |
+| 神經分支 | Carotid sinus nerve | 頸動脈竇神經 | 頸動脈竇神經是細小分支，先列在相關神經的資訊卡 |
+| 骨的細部 | Palatine canal / palatovaginal canal | 顎管、顎鞘管 | 顎管、顎鞘管是顱骨表面的標記，屬於孔、裂、管類，需靠骨面標示說明通過的結構 |
+| 骨的細部 | Temporal lines (superior / inferior) | 顳線（上、下） | 顳線（上、下）是顱骨表面的標記，屬於孔、裂、管類，需靠骨面標示說明通過的結構 |
+| 骨的細部 | Infratemporal crest | 顳下嵴 | 顳下嵴是顱骨表面的標記，屬於孔、裂、管類，需靠骨面標示說明通過的結構 |
+| 骨的細部 | Carotid tubercle | 頸動脈結節 | 頸動脈結節是顱骨表面的標記，屬於孔、裂、管類，需靠骨面標示說明通過的結構 |
+| 筋膜與間隙 | Pharyngobasilar fascia | 咽顱底筋膜 | 咽顱底筋膜是頸部或顱部的間隙，需配合邊界結構一起呈現 |
+| 筋膜與間隙 | Temporalis fascia | 顳肌筋膜 | 顳肌筋膜是頸部或顱部的間隙，需配合邊界結構一起呈現 |
+| 筋膜與間隙 | Palatine aponeurosis | 顎腱膜 | 顎腱膜是頸部或顱部的間隙，需配合邊界結構一起呈現 |
+| 筋膜與間隙 | Danger triangle of the face | 顏面危險三角 | 顏面危險三角是頸部或顱部的間隙，需配合邊界結構一起呈現 |
+| 筋膜與間隙 | Cerebellomedullary and suprasellar cisterns | 小腦延髓池、鞍上池 | 小腦延髓池、鞍上池是頸部或顱部的間隙，需配合邊界結構一起呈現 |
+| 筋膜與間隙 | Retropharyngeal space | 咽後間隙 | 咽後間隙是頸部或顱部的間隙，需配合邊界結構一起呈現 |
+| 眼耳咽喉口鼻肌肉 | Conjunctiva (palpebral / bulbar) | 結膜（瞼、球） | 結膜（瞼、球）是眼球內部細節，隨眼詳細模式一起處理 |
+| 眼耳咽喉口鼻肌肉 | Ora serrata | 鋸齒緣 | 鋸齒緣是眼球內部細節，隨眼詳細模式一起處理 |
+| 眼耳咽喉口鼻肌肉 | Superior tarsal muscle (Muller) | 上瞼板肌 | 上瞼板肌是眼球內部細節，隨眼詳細模式一起處理 |
+| 眼耳咽喉口鼻肌肉 | Auricular muscles | 耳肌 | 耳肌是耳的構造，隨耳詳細模式一起處理 |
+| 眼耳咽喉口鼻肌肉 | Stapedius, tensor tympani | 鐙骨肌、鼓膜張肌 | 鐙骨肌、鼓膜張肌是耳的構造，隨耳詳細模式一起處理 |
+| 眼耳咽喉口鼻肌肉 | Organ of Corti, basilar membrane, tectorial membrane | 柯氏器、底膜、覆膜 | 柯氏器、底膜、覆膜屬咽喉口鼻區，作為次要題材 |
+| 眼耳咽喉口鼻肌肉 | Salpingopharyngeal fold, pharyngeal recess | 耳咽管咽褶、咽隱窩 | 耳咽管咽褶、咽隱窩屬咽喉口鼻區，作為次要題材 |
+| 眼耳咽喉口鼻肌肉 | Aryepiglottic fold | 杓會厭褶 | 杓會厭褶屬咽喉口鼻區，作為次要題材 |
+| 眼耳咽喉口鼻肌肉 | Retina layers (neural layer / pigment layer) | 視網膜分層（神經層、色素層） | 視網膜分層（神經層、色素層）是眼球內部細節，隨眼詳細模式一起處理 |
+| 眼耳咽喉口鼻肌肉 | Ciliary processes / ciliary muscle | 睫狀突、睫狀肌 | 睫狀突、睫狀肌是眼球內部細節，隨眼詳細模式一起處理 |
+| 眼耳咽喉口鼻肌肉 | Posterior chamber / aqueous humor | 後房、房水 | 後房、房水是眼球內部細節，隨眼詳細模式一起處理 |
+| 眼耳咽喉口鼻肌肉 | Vocal fold / laryngeal ventricle / vestibular fold | 聲帶（聲襞）、喉室、前庭襞 | 聲帶（聲襞）、喉室、前庭襞屬咽喉口鼻區，作為次要題材 |
+| 眼耳咽喉口鼻肌肉 | Uvula | 懸雍垂 | 懸雍垂屬咽喉口鼻區，作為次要題材 |
+| 眼耳咽喉口鼻肌肉 | Middle / superior nasal conchae | 中、上鼻甲 | 中、上鼻甲屬咽喉口鼻區，作為次要題材 |
+
+### 建議實際要做的批次與順序
+
+| 順序 | 內容 | 項數（約） | 方式 |
+|---|---|---|---|
+| 1 | 腺體：腮腺、甲狀腺、副甲狀腺 | 3 | 立體器官，先做最醒目的三個 |
+| 2 | 外頸動脈主分支與頭頸主靜脈（P1 血管） | 10 | 示意血管，沿既有外頸動脈與內頸靜脈連接 |
+| 3 | 神經分支與神經節（P1 神經） | 7 | 示意神經，沿既有腦神經主幹 |
+| 4 | 顱底與面顱骨性標記（P1 骨） | 15 | 骨面標示，不新增網格 |
+| 5 | 頸三角、翼顎窩、顳下窩與頸動脈鞘 | 9 | 空間示意；先決定筋膜呈現方式 |
+| 6 | 咽、鼻竇與耳聽小骨 | 3 | 咽與鼻竇需先決定呈現；聽小骨隨耳詳細模式（#277 之後） |
+| 7 | P2 各批 | 依序：血管、神經、骨、眼耳 | 每批一個 PR，標【需人工審核】 |
+
+每批完成後再開下一批；P3 只在資訊卡或搜尋層處理。眼與耳詳細模式依 ROADMAP 排在腦區域（#277）之後。
+
+## 九、需使用者決定的項目（18 項，每項附建議）
+
+| 項目 | 選項 | 我的建議 |
+|---|---|---|
+| Superficial cervical lymph nodes（頸淺淋巴結） | 做示意淋巴結／不做，只留資訊卡 | 不做；淋巴結體積小、位置不固定，用資訊卡說明引流方向即可 |
+| Deep cervical lymph nodes（頸深淋巴結） | 同上 | 不做，同上 |
+| Jugular lymphatic trunk（頸淋巴幹） | 同上 | 不做，同上 |
+| Right lymphatic duct（右淋巴導管） | 同上 | 不做，同上 |
+| Thoracic duct (cervical part)（胸管（頸段）） | 確認胸管是否畫到頸部匯入靜脈角／維持現狀 | 先確認現有模型終點，若停在胸腔就補一小段頸段，其餘不動 |
+| Ceruminous glands（耵聹腺） | 做模型／只做資訊卡 | 只做資訊卡；耵聹腺是皮膚內的小腺體，無法看得見形狀 |
+| Investing layer of deep cervical fascia（頸深筋膜包覆層） | 半透明薄層包住頸部／只高亮邊界結構／只做資訊卡 | 只做半透明薄層，貼合胸鎖乳突肌與斜方肌表面；其他筋膜層晚點再說 |
+| Pretracheal fascia（頸深筋膜氣管前層） | 同上 | 先只做資訊卡，等包覆層做完、效果確認後再決定 |
+| Prevertebral fascia（頸深筋膜椎前層） | 同上 | 先只做資訊卡，理由同上 |
+| Carotid sheath（頸動脈鞘） | 半透明圓筒包住三條結構／高亮三條結構／只做資訊卡 | 高亮頸總動脈、內頸靜脈與迷走神經，並加淡色半透明套管；三者位置已有，成本低 |
+| Pharyngobasilar fascia（咽顱底筋膜） | 同上 | 只做資訊卡 |
+| Parotid sheath / parotid space（腮腺鞘／腮腺間隙） | 做腮腺鞘半透明包覆／只做資訊卡 | 等腮腺補建後，用半透明包覆腮腺的薄層即可 |
+| Temporalis fascia（顳肌筋膜） | 做薄層／只做資訊卡 | 只做資訊卡；顳肌表面已有顳肌可高亮 |
+| Subdural / subarachnoid / epidural spaces（硬腦膜下、蛛網膜下、硬膜外腔） | 腦膜腔做半透明層／只保留資訊卡 | 只保留資訊卡；腔隙在 3D 上不易區分，三層膜另案決定 |
+| Dura mater, arachnoid mater, pia mater（硬腦膜、蛛網膜、軟腦膜） | 做三層半透明膜／只保留資訊卡 | 先做硬腦膜（含大腦鎌、小腦幕）半透明層，蛛網膜與軟腦膜保留資訊卡 |
+| Cerebellomedullary and suprasellar cisterns（小腦延髓池、鞍上池） | 做腦池示意／只保留資訊卡 | 只保留資訊卡 |
+| Retropharyngeal space（咽後間隙） | 做空間示意／只做資訊卡 | 只做資訊卡，等咽補建後再看 |
+| Pharynx (nasopharynx, oropharynx, laryngopharynx)（咽（鼻咽、口咽、喉咽）） | 咽腔做半透明立體三段／只畫咽壁的肌肉／只做資訊卡 | 做咽腔半透明立體並分鼻咽、口咽、喉咽三段著色；咽縮肌已有，可以疊在外面 |
+
+腦與神經另有 5 項決定：
+
+| 項目 | 選項 | 我的建議 |
+|---|---|---|
+| 核團（30 項） | 做示意／只留資訊卡 | 只留資訊卡 |
+| 傳導路徑（81 項） | 做示意線條／先不做 | 先不做，等神經資料補齊 |
+| 耳的細胞與膜層級（約 18 項） | 只留資訊卡／建模 | 只留資訊卡 |
+| 腦膜與腦池（約 15 項） | 半透明層／只留資訊卡 | 只做硬腦膜，其餘資訊卡 |
+| 血管深部小分支與混合類別（約 140 項） | 逐項補／等神經資料 | 等神經資料補齊後一起決定 |
+
+## 十、相關搜尋對應（暫列，待使用者核對）
 
 | 搜尋詞 | 站上最接近的結構 |
 |---|---|
 | Uvula 懸雍垂 | Uvular muscle 懸雍垂肌 |
+| Soft palate 軟顎 | Levator veli palatini 提顎帆肌、Tensor veli palatini 張顎帆肌、Uvular muscle 懸雍垂肌 |
 | Aryepiglottic fold 杓會厭褶 | Aryepiglotticus 杓會厭肌 |
 | Lacrimal ducts 淚管 | Lacrimal canaliculus 淚小管 |
 | Neural layer of retina 視網膜神經層 | Optic part of retina 視網膜視部 |
 | Occipitofrontalis 額枕肌 | Frontalis 額肌、Occipitalis 枕肌 |
-| Danger triangle 顏面危險三角 | 尚無對應結構，待顏面靜脈與眼靜脈補建後指向它們 |
 | Brachiocephalic trunk 頭臂動脈幹 | Brachiocephalic artery 頭臂動脈 |
+| Danger triangle 顏面危險三角 | 尚無對應結構，待顏面靜脈與眼靜脈補建後指向它們 |
