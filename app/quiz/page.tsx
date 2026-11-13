@@ -86,12 +86,15 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
   const choose = (id: string) => {
     if (!target || answer || !ready || phase !== 'playing') return;
     const structure = structures.get(id);
-    if (!structure || structure.system !== target.system) return;
+    // a space has no mesh of its own: tapping one of the structures that bound it or pass through it is the right answer, any other structure is wrong
+    const ofSpace = !!target.space;
+    if (!structure || (!ofSpace && structure.system !== target.system)) return;
     setMessage('');
     if (peeling) {setHidden(ids => ids.includes(id) ? ids : [...ids, id]); return;}
+    const right = id === target.id || (ofSpace && target.space!.members.some(m => m.id === id));
     // a part of the target, or the whole the target belongs to, is close: shown as such and kept in the mistakes
-    const rel = id === target.id ? null : relationOf(structure, target);
-    setSession(s => recordAnswer(s, index, id, rel ? (rel === 'part' ? 'typed-part' : 'typed-whole') : undefined)); setHidden([]); setPeeling(false); remember(target.id, id === target.id);
+    const rel = right || ofSpace ? null : relationOf(structure, target);
+    setSession(s => recordAnswer(s, index, right ? target.id : id, rel ? (rel === 'part' ? 'typed-part' : 'typed-whole') : undefined)); setHidden([]); setPeeling(false); remember(target.id, right);
   };
   const reveal = () => {if (!ready || answer || !target) return; setSession(s => recordAnswer(s, index, null)); setHidden([]); setPeeling(false); setMessage(''); remember(target.id, false);};
   const nextQuestion = () => {
@@ -206,10 +209,10 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
           <div className="quiz-answer-name"><span><i className="correct-dot"/>{answer.correct ? '綠色顯示' : '正確位置用綠色顯示'}</span><b><Name structure={target}/></b></div>
           <button data-slot="quiz-button" className="quiz-text-button" onClick={() => changeView('answer')}><Target size={15}/>放大正確位置</button>
         </div> : <div className="quiz-answer-tools">
-          <p>請在模型上直接點選你認為正確的{category?.label}。{target.system !== 'skeletal' && `淡色${contextName}僅供定位。`}</p>
+          <p>{target.space ? '空間本身沒有實體：請點選圍成這個空間的邊界構造，或從中通過的構造。作答後，邊界與通過的構造會以綠色顯示。' : <>請在模型上直接點選你認為正確的{category?.label}。{target.system !== 'skeletal' && `淡色${contextName}僅供定位。`}</>}</p>
           <button data-slot="quiz-button" className="quiz-tool-button" aria-pressed={peeling} disabled={!ready} onClick={() => {setPeeling(v => !v); setMessage('');}}><Layers size={17}/><span>{peeling ? '完成移開，返回作答' : '移開遮擋'}<small>{peeling ? '按下此鍵後，再點選模型作答' : '深層構造可先移開表面組織'}</small></span></button>
           {hidden.length > 0 && <button data-slot="quiz-button" className="quiz-text-button" onClick={() => {setHidden([]); setMessage('');}}><RotateCcw size={14}/>還原已移開的 {hidden.length} 個構造</button>}
-          {target.system !== 'skeletal' && <label className="quiz-context-toggle"><input type="checkbox" checked={context} onChange={e => setContext(e.target.checked)}/>顯示淡色{contextName}定位</label>}
+          {target.system !== 'skeletal' && !target.space && <label className="quiz-context-toggle"><input type="checkbox" checked={context} onChange={e => setContext(e.target.checked)}/>顯示淡色{contextName}定位</label>}
           <p className="quiz-message" role="status" aria-live="polite">{message}</p>
         </div>}
 
