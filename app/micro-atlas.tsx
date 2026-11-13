@@ -266,10 +266,10 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
 
   let tween:{start:number;fromPosition:T.Vector3;fromTarget:T.Vector3;toPosition:T.Vector3;toTarget:T.Vector3}|null=null;
   /** Fits everything currently visible into the free part of the canvas. */
-  const frameVisible=(smooth:boolean,direction?:T.Vector3)=>{
+  const frameVisible=(smooth:boolean,direction?:T.Vector3,only?:string[])=>{
    const box=new T.Box3(),part=new T.Box3();
    atlasRoot.updateMatrixWorld(true);
-   for(const r of loaded){if(!r.object.visible)continue;r.object.updateMatrixWorld(true);box.union(part.copy(r.object.geometry.boundingBox!).applyMatrix4(r.object.matrixWorld));}
+   for(const r of loaded){if(!r.object.visible||(only&&!only.includes(r.id)))continue;r.object.updateMatrixWorld(true);box.union(part.copy(r.object.geometry.boundingBox!).applyMatrix4(r.object.matrixWorld));}
    if(box.isEmpty())return;
    const sphere=box.getBoundingSphere(new T.Sphere()),free=freeRegion(),h=Math.max(el.clientHeight,1);
    const tan=Math.tan(T.MathUtils.degToRad(camera.fov/2)),half=Math.atan(tan*Math.min(free.w,free.h)/h);
@@ -280,6 +280,12 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
    invalidate();
   };
   apiRef.current={frame:frameVisible,invalidate,plane};
+  // Review aid (?review=1 only): fixed camera directions and screen positions of structures, for labelled screenshots.
+  const dev=new URLSearchParams(location.search).has('review');
+  if(dev)(window as unknown as {__microAtlas?:unknown}).__microAtlas={
+   view:(x:number,y:number,z:number,only?:string[],back=1)=>{frameVisible(false,new T.Vector3(x,y,z).normalize(),only);camera.position.sub(controls.target).multiplyScalar(back).add(controls.target);controls.update();invalidate();},
+   project:(id:string)=>{const r=loaded.find(v=>v.id===id);if(!r||!r.object.visible)return null;const p=r.center.clone().add(r.object.position).applyMatrix4(atlasRoot.matrixWorld).project(camera);return [(p.x+1)/2*el.clientWidth,(1-p.y)/2*el.clientHeight];},
+  };
 
   const raycaster=new T.Raycaster(),pointer=new T.Vector2();let down:{x:number;y:number}|null=null;
   const pointerDown=(e:PointerEvent)=>{down={x:e.clientX,y:e.clientY};tween=null;};
@@ -305,11 +311,18 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
     if(k>=1)tween=null;dirty=true;
    }
    controls.update();
-   if(dirty){dirty=false;renderer.render(scene,camera);}
+   if(dirty){
+    dirty=false;
+    // Depth range follows the orbit distance, so thin layers lying on one another keep their order when zoomed in.
+    const distance=camera.position.distanceTo(controls.target),near=Math.max(.0005,distance*.02),far=distance*40+10;
+    if(Math.abs(camera.near-near)>near*.05){camera.near=near;camera.far=far;camera.updateProjectionMatrix();}
+    renderer.render(scene,camera);
+   }
   };animate();
   return()=>{
    disposed=true;abort.abort();cancelAnimationFrame(frame);observer.disconnect();controls.dispose();
    renderer.domElement.removeEventListener('pointerdown',pointerDown);renderer.domElement.removeEventListener('pointerup',pointerUp);renderer.domElement.removeEventListener('wheel',wheel);
+   if(dev)delete (window as unknown as {__microAtlas?:unknown}).__microAtlas;
    disposeSource(scene);renderer.dispose();renderer.domElement.remove();recordsRef.current=[];apiRef.current=null;
   };
  },[atlasId]);

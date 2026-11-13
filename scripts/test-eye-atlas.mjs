@@ -42,5 +42,25 @@ else{
  if(Math.hypot(...gap)>g.length*.15)fail('optic nerve does not meet the optic disc');
  const length=cornea[1][2]-sclera[0][2];if(Math.abs(length-g.length)>g.length*.02)fail('globe length differs from the body eyeball');
 }
+// Fit of the orbit onto the globe: rectus insertions behind the corneal margin, nothing below the scleral surface, optic nerve on the disc.
+{
+ const P=id=>{const p=manifest.parts.find(x=>x.id===id);return new Float32Array(bin.buffer,bin.byteOffset+p.positions,p.vertexCount*3);};
+ const C=g.center,BINS=[90,180],radius=new Float32Array(BINS[0]*BINS[1]);
+ const bin2=(x,y,z)=>{const r=Math.hypot(x,y,z)||1,lat=Math.min(BINS[0]-1,Math.floor(Math.acos(Math.max(-1,Math.min(1,z/r)))/Math.PI*BINS[0])),lon=Math.min(BINS[1]-1,Math.floor((Math.atan2(y,x)+Math.PI)/(2*Math.PI)*BINS[1]));return lat*BINS[1]+lon;};
+ for(const id of ['VH_M_sclera_L','VH_M_cornea_L']){const pos=P(id);for(let i=0;i<pos.length;i+=3){const x=pos[i]-C[0],y=pos[i+1]-C[1],z=pos[i+2]-C[2],b=bin2(x,y,z),r=Math.hypot(x,y,z);if(r>radius[b])radius[b]=r;}}
+ const lim=P('VH_M_corneo_scleral_junction_L');let limbus=0;for(let i=0;i<lim.length;i+=3)limbus+=Math.atan2(Math.hypot(lim[i]-C[0],lim[i+1]-C[1]),lim[i+2]-C[2]);limbus/=lim.length/3;
+ const insertion=id=>{const pos=P(id);let first=Infinity;for(let i=0;i<pos.length;i+=3){const x=pos[i]-C[0],y=pos[i+1]-C[1],z=pos[i+2]-C[2],rs=radius[bin2(x,y,z)];if(!rs||Math.hypot(x,y,z)-rs>.004)continue;first=Math.min(first,(Math.atan2(Math.hypot(x,y),z)-limbus)*rs);}return first*1000;};
+ const want={FJ1308:5.5,FJ1295:6.5,FJ1304:6.9,FJ1323:7.7},got=Object.fromEntries(Object.keys(want).map(id=>[id,insertion(id)]));
+ for(const [id,mm] of Object.entries(want))if(Math.abs(got[id]-mm)>.5)fail(`${id}: rectus insertion ${got[id].toFixed(1)} mm behind the corneal margin, expected ${mm}`);
+ if(!(got.FJ1308<got.FJ1295&&got.FJ1295<got.FJ1304&&got.FJ1304<got.FJ1323))fail('rectus insertions are not in the order medial, inferior, lateral, superior');
+ for(const id of ['FJ1323','FJ1295','FJ1308','FJ1304','FJ1322','FJ1294','FJ1306']){const pos=P(id);let below=0;for(let i=0;i<pos.length;i+=3){const x=pos[i]-C[0],y=pos[i+1]-C[1],z=pos[i+2]-C[2],rs=radius[bin2(x,y,z)];if(rs&&Math.hypot(x,y,z)<rs-.0001)below++;}if(below)fail(`${id}: ${below} vertices below the scleral surface`);}
+ const on=P('FJ1313'),d=mid(disc);let near=Infinity;for(let i=0;i<on.length;i+=3)near=Math.min(near,Math.hypot(on[i]-d[0],on[i+1]-d[1],on[i+2]-d[2]));
+ if(near>.0015)fail(`optic nerve ends ${(near*1000).toFixed(1)} mm from the optic disc`);
+ // Obliques: the superior oblique reaches the globe behind the equator on the upper lateral side, the inferior oblique on the lower lateral side.
+ const reach=(id)=>{const pos=P(id),sum=[0,0,0];let n=0;for(let i=0;i<pos.length;i+=3){const x=pos[i]-C[0],y=pos[i+1]-C[1],z=pos[i+2]-C[2],rs=radius[bin2(x,y,z)];if(!rs||Math.hypot(x,y,z)-rs>.001)continue;sum[0]+=x;sum[1]+=y;sum[2]+=z;n++;}return n?sum.map(v=>v/n):null;};// centre of the part lying on the globe
+ const so=reach('FJ1322'),io=reach('FJ1294');
+ if(!so||!(so[2]<0&&so[1]>0&&so[0]*Math.sign(C[0])>0))fail('superior oblique does not reach the upper lateral globe behind the equator');
+ if(!io||!(io[2]<0&&io[1]<0&&io[0]*Math.sign(C[0])>0))fail('inferior oblique does not reach the lower lateral globe behind the equator');
+}
 if(problems.length){console.error(`Eye atlas: ${problems.length} problem(s)`);for(const p of problems.slice(0,20))console.error(' - '+p);process.exit(1);}
-console.log(`Eye atlas ok: ${manifest.parts.length} parts in ${EYE_LAYERS.length} layers, all described in English and Chinese; globe registered on the body orbit.`);
+console.log(`Eye atlas ok: ${manifest.parts.length} parts in ${EYE_LAYERS.length} layers, all described in English and Chinese; globe registered on the body orbit; rectus insertions, oblique insertions, scleral clearance and optic nerve checked.`);
