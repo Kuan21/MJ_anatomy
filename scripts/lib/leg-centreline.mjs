@@ -26,7 +26,8 @@ const sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]], len = a => Math.h
 const lerp = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
 
 /** Centreline of a vessel mesh ({positions, indices}) from its upper (larger y) end to its lower end, as [{c, r}] rings every `bin` metres of the main chain. */
-export function centrelineOf(g, bin = .003) {
+// `info` (optional, for reports) receives {steps}: the distance along the surface chain between each ring and the next, in metres.
+export function centrelineOf(g, bin = .003, info = null) {
   const t = tubeTips({pos: g.positions, idx: g.indices}), n = t.pts.length;
   const run = sources => { const dist = new Float64Array(n).fill(Infinity), prev = new Int32Array(n).fill(-1), lab = new Int32Array(n).fill(-1), heap = []; for (const s of sources) { dist[s] = 0; lab[s] = s; heap.push([0, s]); }
     while (heap.length) { heap.sort((x, y) => y[0] - x[0]); const [d, v] = heap.pop(); if (d > dist[v]) continue; for (const [u, w] of t.adj[v]) if (d + w < dist[u]) { dist[u] = d + w; prev[u] = v; lab[u] = lab[v]; heap.push([d + w, u]); } } return {dist, prev, lab}; };
@@ -34,8 +35,10 @@ export function centrelineOf(g, bin = .003) {
   const chain = []; for (let v = bTip; v >= 0; v = fromA.prev[v]) chain.push(v);
   const near = run(chain), bins = new Map();
   for (let i = 0; i < n; i++) if (near.dist[i] < .008 && near.lab[i] >= 0) { const k = Math.floor(fromA.dist[near.lab[i]] / bin); (bins.get(k) ?? bins.set(k, []).get(k)).push(i); }
-  const rings = [...bins].sort((x, y) => x[0] - y[0]).map(([, vs]) => { const c = [0, 0, 0]; for (const v of vs) for (let a = 0; a < 3; a++) c[a] += t.pts[v][a] / vs.length; let r = 0; for (const v of vs) r += len(sub(t.pts[v], c)) / vs.length; return {c, r}; });
-  if (rings.length > 1 && rings[0].c[1] < rings[rings.length - 1].c[1]) rings.reverse();
+  const sorted = [...bins].sort((x, y) => x[0] - y[0]);
+  const rings = sorted.map(([, vs]) => { const c = [0, 0, 0]; for (const v of vs) for (let a = 0; a < 3; a++) c[a] += t.pts[v][a] / vs.length; let r = 0; for (const v of vs) r += len(sub(t.pts[v], c)) / vs.length; return {c, r}; });
+  if (info) info.steps = sorted.slice(1).map(([k], i) => (k - sorted[i][0]) * bin);
+  if (rings.length > 1 && rings[0].c[1] < rings[rings.length - 1].c[1]) { rings.reverse(); if (info) info.steps.reverse(); }
   return rings;
 }
 

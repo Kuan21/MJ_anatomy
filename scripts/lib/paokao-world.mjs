@@ -7,8 +7,9 @@ const root = new URL('../../', import.meta.url), models = new URL('public/models
 const read = f => fs.readFileSync(new URL(f, models));
 const f32 = (b, o, n) => new Float32Array(b.buffer.slice(b.byteOffset + o, b.byteOffset + o + n * 4)), u32 = (b, o, n) => new Uint32Array(b.buffer.slice(b.byteOffset + o, b.byteOffset + o + n * 4));
 
-export function loadWorld({paokao = false} = {}) {
-  const entries = [];   // {name, system, positions, indices} (lazy)
+// allowMissing: read-only reports may run on a checkout without the generated supplement/serous/female packages; the files left out are listed in world.missing.
+export function loadWorld({paokao = false, allowMissing = false} = {}) {
+  const entries = [], missing = [];   // {name, system, positions, indices} (lazy)
   const bufs = new Map(), buffer = (url, gz) => { if (!bufs.has(url)) { const b = read(url.replace(/^\/models\//, '')); bufs.set(url, gz ? gunzipSync(b) : b); } return bufs.get(url); };
   const atlas = JSON.parse(read('atlas.json'));
   // Renamed source meshes carry the viewer's name (app/anatomy-source-overrides.json), so a spec or check can refer to a vessel by the name the viewer shows.
@@ -17,6 +18,7 @@ export function loadWorld({paokao = false} = {}) {
    atlas.parts = atlas.parts.map(p => ({...p, ...(over.parts[p.id] || {})}));}
   for (const p of atlas.parts) entries.push({name: p.name, id: p.id, concept: p.conceptId, system: p.system, load: () => { const b = buffer(atlas.chunks[p.chunk].url); return {positions: f32(b, p.positions, p.vertexCount * 3), indices: u32(b, p.indices, p.indexCount)}; }});
   for (const f of ['supplement/supplement-stream.json.gz', 'serous/serous-stream.json.gz', 'female/female-stream.json.gz']) {
+    if (allowMissing && !fs.existsSync(new URL(f, models))) { missing.push(f); continue; }
     const m = JSON.parse(gunzipSync(read(f)));
     for (const p of m.parts) entries.push({name: p.name, id: p.id, system: p.system, load: () => { const b = buffer(m.chunks[p.chunk].url); return {positions: f32(b, p.positions, p.vertexCount * 3), indices: u32(b, p.indices, p.indexCount)}; }});
   }
@@ -46,6 +48,6 @@ export function loadWorld({paokao = false} = {}) {
     const m = meshOf(Float32Array.from(pos), Uint32Array.from(idx)); cache.set(name, m); return m;
   }
   const has = name => find(name).length > 0;
-  return {mesh, has, entries, find, addExtra};
+  return {mesh, has, entries, find, addExtra, missing};
 }
 export {closest, sub, add, mul, unit, len, lerp, dot, cross};
