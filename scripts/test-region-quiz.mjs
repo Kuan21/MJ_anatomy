@@ -29,9 +29,12 @@ const read = (file, gzip = false) => {if (!buffers.has(file)) buffers.set(file, 
 
 // Taiwan usage, not Mainland usage or simplified characters.
 const SIMPLIFIED = /[动脉静颈颅脑胆叶气经桡胫髋腘肠]/;
+// The brain quiz keeps the Chinese names the brain viewer shows. Eighteen of them carry a segment or part designator or a person's name in Latin letters (大腦中動脈（M1 段）, 上縱束 II, 中間初級溝（Jensen 溝）,
+// 動眼神經副核（Edinger-Westphal 核）, 眶溝（H 形眶溝）); only those designators are allowed there, any other English word is still an error (listed in docs/quiz-brain.md).
+const BRAIN_DESIGNATORS = /\bM[123]\b|\b(?:I|II|III)\b|\bH\b|Jensen|Edinger-Westphal/g;
 const checkChinese = (label, zh) => {
   assert.ok(zh && /[一-鿿]/.test(zh), `${label}: missing Chinese name`);
-  assert.ok(!/[A-Za-z]/.test(zh), `${label}: Chinese name still contains English: ${zh}`);
+  assert.ok(!/[A-Za-z]/.test(label.startsWith('brain ') ? zh.replace(BRAIN_DESIGNATORS, '') : zh), `${label}: Chinese name still contains English: ${zh}`);
   assert.ok(!SIMPLIFIED.test(zh), `${label}: simplified characters in ${zh}`);
   assert.ok(!/頸總|髂總/.test(zh), `${label}: Mainland term in ${zh}`);
 };
@@ -72,7 +75,7 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
   const def = QUIZ_REGIONS[regionId], catalogue = JSON.parse(fs.readFileSync('public/models/' + def.file));
   assert.equal(catalogue.region ?? 'lower-limb', regionId);
   assert.equal(regionOfHash(def.hash), regionId);
-  const regionSystems = (def.systems ?? QUIZ_SYSTEMS.filter(s => s.id !== 'cardiac' && s.id !== 'respiratory').map(s => s.id)).map(id => QUIZ_SYSTEMS.find(s => s.id === id));
+  const regionSystems = (def.systems ?? QUIZ_SYSTEMS.filter(s => s.id !== 'cardiac' && s.id !== 'respiratory' && s.id !== 'brain').map(s => s.id)).map(id => QUIZ_SYSTEMS.find(s => s.id === id));
   const structures = new Map(catalogue.structures.map(s => [s.id, s]));
   assert.equal(structures.size, catalogue.structures.length, `${regionId}: no repeated anatomical answers`);
   if (expected[regionId]) assert.ok(catalogue.structures.length >= expected[regionId].count[0] && catalogue.structures.length <= expected[regionId].count[1], `${regionId}: ${catalogue.structures.length} structures`);
@@ -102,6 +105,8 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
         const original = read('public' + atlas.chunks[source.chunk].url);
         assert.deepEqual(positions, original.subarray(source.positions, source.positions + source.vertexCount * 12), 'Unchanged original position data');
         assert.deepEqual(indices, original.subarray(source.indices, source.indices + source.indexCount * 4), 'Unchanged source triangles');
+      } else if (structure.source === 'Brain Project') {
+        // brain meshes are decoded and welded at build time (scripts/lib/brain-quiz-source.mjs), as the brain viewer does, not a byte copy: finite positions and valid indices are checked above
       } else if (structure.source === 'Lung surface areas') {
         const part = paokao.parts.find(p => p.id === mesh.id); assert.ok(part, mesh.id);
         const original = read('public' + paokao.chunks[part.chunk].url);
@@ -127,7 +132,7 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
     // the lobes of the lung quiz are context only (no section, never asked)
     assert.ok((s.sections.length || (regionId === 'lung' && /^(?:upper|middle|lower) lobe of/i.test(s.name))) && s.sections.every(id => sectionIds.has(id) && id !== 'all'), `${s.name}: valid sections ${s.sections}`);
     assert.ok(['left', 'right', 'midline'].includes(s.side));
-    if (regionId !== 'thorax' && regionId !== 'back' && regionId !== 'heart' && regionId !== 'lung') assert.notEqual(s.side, 'midline');
+    if (regionId !== 'thorax' && regionId !== 'back' && regionId !== 'heart' && regionId !== 'lung' && regionId !== 'brain') assert.notEqual(s.side, 'midline');
     // Every answer shows 中文名 + English name, Taiwan terminology.
     checkChinese(`${regionId} ${s.name}`, s.chinese);
     assert.ok(/[A-Za-z]/.test(s.name), 'English name present');
@@ -171,7 +176,8 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
   const sample = createSession(catalogue.structures, 3, random), correct = recordAnswer(sample, 0, sample.queue[0]);
   assert.equal(correct.answers[0].correct, true); assert.equal(recordAnswer(correct, 0, 'wrong'), correct);
   assert.deepEqual(retryMistakes(recordAnswer(correct, 1, sample.queue[0])), {queue: [sample.queue[1]], answers: []});
-  assert.ok(catalogue.packages.reduce((n, p) => n + p.gzipBytes, 0) < 8e6, `${regionId}: quiz must not download the whole-body anatomy`);
+  // the brain has about 420 meshes (13 MB compressed in all); a brain question loads one side and only the structures it draws (at most 8 MB, checked in scripts/test-quiz-brain.mjs)
+  assert.ok(catalogue.packages.reduce((n, p) => n + p.gzipBytes, 0) < (regionId === 'brain' ? 14e6 : 8e6), `${regionId}: quiz must not download the whole-body anatomy`);
   total += catalogue.structures.length;
 }
 // The lung quiz asks only what the model really has: no lobe is a question, and nothing the model lacks is listed.
