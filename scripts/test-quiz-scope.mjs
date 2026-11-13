@@ -6,7 +6,7 @@ const {QUIZ_CATEGORIES, questionPool, categoryOf} = await quizModule('app/quiz/c
 const {namingPool} = await quizModule('app/quiz/level2.ts');
 const load = f => JSON.parse(fs.readFileSync(`public/models/quiz-${f}.json`, 'utf8'));
 const lower = load('lower'), heart = load('heart');
-assert.deepEqual(QUIZ_CATEGORIES.map(c => c.id), ['bone', 'muscle', 'tendon', 'nerve', 'artery', 'vein', 'ligament', 'space', 'organ']);
+assert.deepEqual(QUIZ_CATEGORIES.map(c => c.id), ['bone', 'muscle', 'tendon', 'nerve', 'artery', 'vein', 'ligament', 'joint', 'space', 'organ']);
 const scope = (categories, side = 'both', section = 'all') => ({section, systems: [], categories, side, count: 10});
 for (const pool of [questionPool, namingPool]) {
   const nerves = pool(lower, scope(['nerve'], 'right'));
@@ -26,4 +26,5 @@ assert.equal(questionPool(lower, scope(['nerve'], 'left')).length, namingPool(lo
 for (const c of QUIZ_CATEGORIES) assert.ok(c.label && c.english, c.id);
 assert.equal(categoryOf({name: 'Right tensor fasciae latae', system: 'muscular'}), 'muscle');
 assert.equal(categoryOf({name: 'Right long plantar ligament', system: 'skeletal'}), 'ligament');
+assert.equal(categoryOf({name: 'Left anterior cruciate ligament', system: 'joint'}), 'joint');   // joint soft tissue is never also 'ligament'
 console.log('Quiz scope passed: categories combine freely with section and side in both levels; empty scopes have no questions.');

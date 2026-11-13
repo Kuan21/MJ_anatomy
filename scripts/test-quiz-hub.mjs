@@ -80,6 +80,6 @@ const catalogue = JSON.parse(fs.readFileSync(path.join(root, 'public/models/quiz
 for (const s of catalogue.structures) {
   const card = structureCard(s);
   for (const f of card.fields) assert.ok((f.zh || f.en)?.trim(), `${s.name}: ${f.label} is not empty`);
-  assert.equal(card.fields.length + card.missing.length, {muscular: 5, nervous: 4, arterial: 4, venous: 4, skeletal: 3}[s.system]);
+  assert.equal(card.fields.length + card.missing.length, {muscular: 5, nervous: 4, arterial: 4, venous: 4, skeletal: 3, joint: 3}[s.system]);
 }
 console.log('Quiz chooser passed: six body parts in order, parts without content marked 即將推出, organ slot reserved, Quiz button and #/quiz route, Skeleton v2 only with ?dev=1, answer-card fields per structure type with nothing guessed.');
