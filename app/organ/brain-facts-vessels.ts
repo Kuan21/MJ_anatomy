@@ -47,20 +47,18 @@ export const FACTS: [RegExp, BrainFact][] = [
   T(/^Middle cerebral artery \(M1-segment\)$/i, f(
     'Horizontal (sphenoidal) segment: the largest terminal branch of the internal carotid artery, running laterally to the limen insulae.',
     'Gives off the lenticulostriate arteries. Occlusion causes contralateral hemiparesis and sensory loss (face and arm more than leg), with aphasia on the dominant side or neglect on the non-dominant side, and gaze deviation toward the lesion.',
-    ['Internal carotid artery', 'Insular branches of middle cerebral artery (M2)', 'Proximal lateral striate branches', 'Putamen', 'Insula (Subcentral gyrus and ant. and post. sulci)'],
+    ['Internal carotid artery', 'Insular branches of middle cerebral artery (M2-segment)', 'Proximal lateral striate branches', 'Putamen', 'Insula (Subcentral gyrus and ant. and post. sulci)'],
     'Lenticulostriate branches supply the putamen, caudate nucleus and internal capsule; the trunk then divides into the branches that supply most of the lateral hemisphere.')),
   T(/^Insular branches of middle cerebral artery \(M2(-segment)?\)$/i, f(
     'Insular (M2) segment: branches of the middle cerebral artery that run over the insula within the lateral sulcus.',
     'Supply the insula and the surrounding opercula. Occlusion of the superior division gives Broca-type aphasia and face-arm weakness; occlusion of the inferior division gives Wernicke-type aphasia or neglect with visual field loss.',
     ['Middle cerebral artery (M1-segment)', 'Middle cerebral artery (M3-segment)', 'Insula (Subcentral gyrus and ant. and post. sulci)', 'Circular sulcus of insula'],
-    'Insula and the adjacent frontal, parietal and temporal opercula; they continue to the lateral hemisphere surface.',
-    {group: 'Insular branches of middle cerebral artery (M2) and (M2-segment): two names for the same insular segment.'})),
+    'Insula and the adjacent frontal, parietal and temporal opercula; they continue to the lateral hemisphere surface.')),
   T(/^Middle cerebral artery \(M3[ -]segment\)$/i, f(
     'Opercular (M3) segment: branches that leave the lateral sulcus and spread over the lateral surface of the hemisphere.',
     'Supply the lateral cortex; cortical branch occlusion gives focal deficits such as aphasia, contralateral face and arm weakness or sensory loss, or neglect, depending on the branch and side.',
-    ['Insular branches of middle cerebral artery (M2)', 'Parietal branches of middle cerebral artery', 'Temporal branches of middle cerebral artery', 'Precentral gyrus', 'Angular gyrus'],
-    'Most of the lateral surface of the frontal, parietal and temporal lobes, including the Broca and Wernicke areas and the superior and middle temporal gyri; the angular gyrus through the angular artery.',
-    {group: 'Middle cerebral artery (M3 segment) and (M3-segment): two names for the same opercular segment.'})),
+    ['Insular branches of middle cerebral artery (M2-segment)', 'Parietal branches of middle cerebral artery', 'Temporal branches of middle cerebral artery', 'Precentral gyrus', 'Angular gyrus'],
+    'Most of the lateral surface of the frontal, parietal and temporal lobes, including the Broca and Wernicke areas and the superior and middle temporal gyri; the angular gyrus through the angular artery.')),
   T(/^Parietal branches of middle cerebral artery$/i, f(
     'Cortical branches of the middle cerebral artery (M3) that run over the lateral parietal convexity.',
     'Supply the lateral parietal cortex. Occlusion causes contralateral sensory loss and neglect (non-dominant side) or apraxia and language disturbance (dominant side).',
