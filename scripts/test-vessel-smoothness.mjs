@@ -10,10 +10,11 @@ import {smoothness} from './lib/vessel-smoothness.mjs';
 const {atlas, geometry} = loadViewerAtlas();
 const WALL = /epigastric|circumflex iliac|musculophrenic|intercostal|lumbar (artery|vein)|thoracoepigastric|subcostal/i;
 // End pieces of intercostal and subcostal vessels lie beside ribs and discs; as 12-sided prisms they sank 2-3 mm into bone (check-stability), so they stay light (5 sides) like the end pieces elsewhere.
-const BESIDE_BONE_END = p => p.id.endsWith('-END') && /intercostal|subcostal/i.test(p.name);
+// (Also the inferior epigastric and brachial artery end pieces, see LIGHT_ENDS in scripts/prepare-vessel-ends.mjs.)
+const BESIDE_BONE_END = p => p.id.endsWith('-END') && /intercostal|subcostal|inferior epigastric|brachial artery/i.test(p.name);
 const RULES = [
   {label: 'wall vessels and their end pieces', test: p => WALL.test(p.name) && p.stream !== 'paokao' && !BESIDE_BONE_END(p), minSides: 11.9},
-  {label: 'bridge connectors', test: p => /^PKC-/.test(p.id), minSides: 9},
+  {label: 'bridge connectors', test: p => /^PKC-/.test(p.id) && !/radialis indicis/i.test(p.name), minSides: 9},   // (the index finger artery connector stays light: it lies on the second metacarpal, see prepare-paokao.mjs)
   {label: 'other end pieces', test: p => p.id.endsWith('-END') && (!WALL.test(p.name) || BESIDE_BONE_END(p)), minSides: 3.5},
   {label: 'genicular vessels', test: p => /genicular/i.test(p.name), minSides: 10},
 ];

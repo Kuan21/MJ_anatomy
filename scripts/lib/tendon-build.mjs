@@ -168,10 +168,10 @@ export function capLoop(P, I, ringY, tol = 2e-6) {
  * towards an ellipse, so the band has no flat faces or box corners. `evenWidth` (0 to 1) pulls the width towards its mean (a ligament is a band of even width, not a triangle). Distal tendons only.
  * The mesh is closed (a fan at the ring and at the free end). Returns the thickest section before and after, in millimetres.
  */
-export function loftBand(tendon, {ringY, thickness = .006, evenWidth = 0, fade = .014, minSlices = 8} = {}) {
+export function loftBand(tendon, {ringY, thickness = .006, evenWidth = 0, fade = .014, minSlices = 8, legacyRing = false} = {}) {
   const P = tendon.positions, n = P.length / 3, BIN = .003;
   let lo = Infinity; for (let v = 0; v < n; v++) lo = Math.min(lo, P[v * 3 + 1]);
-  const loop = capLoop(P, tendon.indices, ringY), ring = []; for (const v of loop ?? []) ring.push([P[v * 3], P[v * 3 + 1], P[v * 3 + 2]]);
+  const loop = legacyRing ? null : capLoop(P, tendon.indices, ringY), ring = []; for (const v of loop ?? []) ring.push([P[v * 3], P[v * 3 + 1], P[v * 3 + 2]]);
   if (!loop) for (let v = 0; v < n; v++) if (Math.abs(P[v * 3 + 1] - ringY) < 2e-6) ring.push([P[v * 3], P[v * 3 + 1], P[v * 3 + 2]]);
   if (ring.length < 6) throw new Error('loftBand: no ring at the cut');
   const len = ringY - lo; if (len < .004) return {before: 0, after: 0};
