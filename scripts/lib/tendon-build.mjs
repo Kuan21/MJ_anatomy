@@ -143,6 +143,26 @@ export function clearBones(tendon, bones, {ringY, end = 'distal', fade = .012, c
 
 
 /**
+ * The vertices of the outline of the flat cap at height `ringY`, in order along the outline (null when there is no single clean loop). The cut leaves a cap that carries interior vertices as well (the
+ * tendon is subdivided before it is lofted): taking every vertex in the plane and sorting it by angle round the mean threw the interior points into the outline and made the loft zig-zag, so every
+ * section of the band was a pleated polygon (up to 6 times the perimeter of the ellipse it should be: the wrinkled, bunched-up knee tendons).
+ */
+export function capLoop(P, I, ringY, tol = 2e-6) {
+  const on = v => Math.abs(P[v * 3 + 1] - ringY) < tol, uses = new Map();
+  for (let i = 0; i < I.length; i += 3) {
+    const a = I[i], b = I[i + 1], c = I[i + 2]; if (!(on(a) && on(b) && on(c))) continue;
+    for (const [u, w] of [[a, b], [b, c], [c, a]]) { const key = u < w ? u * 4294967296 + w : w * 4294967296 + u; uses.set(key, (uses.get(key) || 0) + 1); }
+  }
+  const next = new Map();
+  for (const [key, count] of uses) if (count === 1) { const u = Math.floor(key / 4294967296), w = key % 4294967296; (next.get(u) || next.set(u, []).get(u)).push(w); (next.get(w) || next.set(w, []).get(w)).push(u); }
+  if (!next.size) return null;
+  for (const l of next.values()) if (l.length !== 2) return null;
+  const start = next.keys().next().value, loop = [start]; let prev = -1, cur = start;
+  for (;;) { const [a, b] = next.get(cur), n = a !== prev ? a : b; if (n === start) break; if (loop.length > next.size) return null; loop.push(n); prev = cur; cur = n; }
+  return loop.length === next.size && loop.length >= 6 ? loop : null;
+}
+
+/**
  * Rebuilds a chunky wedge (a tendon cut out of a thick, low-poly muscle mesh) as a smooth flat band, continuous with the muscle: the first section IS the cut ring (the muscle part keeps its edge), and the
  * sections below it are the same outline, scaled to the width of the original piece and to at most `thickness` metres (front-back, kept against the back surface, which lies on the bone) and rounded
  * towards an ellipse, so the band has no flat faces or box corners. `evenWidth` (0 to 1) pulls the width towards its mean (a ligament is a band of even width, not a triangle). Distal tendons only.
@@ -151,13 +171,14 @@ export function clearBones(tendon, bones, {ringY, end = 'distal', fade = .012, c
 export function loftBand(tendon, {ringY, thickness = .006, evenWidth = 0, fade = .014, minSlices = 8} = {}) {
   const P = tendon.positions, n = P.length / 3, BIN = .003;
   let lo = Infinity; for (let v = 0; v < n; v++) lo = Math.min(lo, P[v * 3 + 1]);
-  const ring = []; for (let v = 0; v < n; v++) if (Math.abs(P[v * 3 + 1] - ringY) < 2e-6) ring.push([P[v * 3], P[v * 3 + 1], P[v * 3 + 2]]);
+  const loop = capLoop(P, tendon.indices, ringY), ring = []; for (const v of loop ?? []) ring.push([P[v * 3], P[v * 3 + 1], P[v * 3 + 2]]);
+  if (!loop) for (let v = 0; v < n; v++) if (Math.abs(P[v * 3 + 1] - ringY) < 2e-6) ring.push([P[v * 3], P[v * 3 + 1], P[v * 3 + 2]]);
   if (ring.length < 6) throw new Error('loftBand: no ring at the cut');
   const len = ringY - lo; if (len < .004) return {before: 0, after: 0};
   const rx = ring.map(r => r[0]), rz = ring.map(r => r[2]);
   const cxm = (Math.min(...rx) + Math.max(...rx)) / 2, czm = (Math.min(...rz) + Math.max(...rz)) / 2, Wr = Math.max(...rx) - Math.min(...rx), Tr = Math.max(...rz) - Math.min(...rz), backr = Math.min(...rz);
   const cx0 = rx.reduce((a, b) => a + b, 0) / ring.length, cz0 = rz.reduce((a, b) => a + b, 0) / ring.length;
-  ring.sort((a, b) => Math.atan2(a[2] - cz0, a[0] - cx0) - Math.atan2(b[2] - cz0, b[0] - cx0));
+  if (!loop) ring.sort((a, b) => Math.atan2(a[2] - cz0, a[0] - cx0) - Math.atan2(b[2] - cz0, b[0] - cx0));
   // the original piece section by section: width, middle and back surface
   const nb = Math.max(2, Math.ceil(len / BIN)), xmin = new Float64Array(nb).fill(Infinity), xmax = new Float64Array(nb).fill(-Infinity), zmin = new Float64Array(nb).fill(Infinity), zmax = new Float64Array(nb).fill(-Infinity);
   for (let v = 0; v < n; v++) { const b = Math.min(nb - 1, Math.floor((ringY - P[v * 3 + 1]) / BIN)); if (b < 0) continue; xmin[b] = Math.min(xmin[b], P[v * 3]); xmax[b] = Math.max(xmax[b], P[v * 3]); zmin[b] = Math.min(zmin[b], P[v * 3 + 2]); zmax[b] = Math.max(zmax[b], P[v * 3 + 2]); }
@@ -198,7 +219,7 @@ export function loftBand(tendon, {ringY, thickness = .006, evenWidth = 0, fade =
  */
 export function loftPath(tendon, {ringY, thickness = .006, evenWidth = 0, fade = .014, minSlices = 8} = {}) {
   const P = tendon.positions, I = tendon.indices, n = P.length / 3, BIN = .003;
-  const ringIdx = []; for (let v = 0; v < n; v++) if (Math.abs(P[v * 3 + 1] - ringY) < 2e-6) ringIdx.push(v);
+  const loopIdx = capLoop(P, I, ringY), ringIdx = loopIdx ? [...loopIdx] : []; if (!loopIdx) for (let v = 0; v < n; v++) if (Math.abs(P[v * 3 + 1] - ringY) < 2e-6) ringIdx.push(v);
   if (ringIdx.length < 6) throw new Error('loftPath: no ring at the cut');
   // distance along the mesh from the ring
   const adj = Array.from({length: n}, () => []);
@@ -239,7 +260,7 @@ export function loftPath(tendon, {ringY, thickness = .006, evenWidth = 0, fade =
   const f0 = frames[0], rpts = ringIdx.map(v => { const d = [P[v * 3] - rc[0], P[v * 3 + 1] - rc[1], P[v * 3 + 2] - rc[2]]; return {x: [P[v * 3], P[v * 3 + 1], P[v * 3 + 2]], w: dot(d, f0.B), q: dot(d, f0.N)}; });
   const rw0 = Math.min(...rpts.map(r => r.w)), rw1 = Math.max(...rpts.map(r => r.w)), rn0 = Math.min(...rpts.map(r => r.q)), rn1 = Math.max(...rpts.map(r => r.q));
   const Wr = rw1 - rw0 || 1e-3, Tr = rn1 - rn0 || 1e-3, wm0 = (rw0 + rw1) / 2, cw = rpts.reduce((a, r) => a + r.w, 0) / rpts.length, cq = rpts.reduce((a, r) => a + r.q, 0) / rpts.length;
-  rpts.sort((a, b) => Math.atan2(a.q - cq, a.w - cw) - Math.atan2(b.q - cq, b.w - cw));
+  if (!loopIdx) rpts.sort((a, b) => Math.atan2(a.q - cq, a.w - cw) - Math.atan2(b.q - cq, b.w - cw));
   const N0 = rpts.length, ss = t => { t = Math.max(0, Math.min(1, t)); return t * t * (3 - 2 * t); }, fd = Math.min(fade, L * .45), pos = [], idx = [];
   for (let k = 0; k <= K; k++) {
     const d = L * k / K, s = ss(d / fd), e = ss(d / (fd * 1.6)), [w0, w1, n0, n1] = ext[k], {N, B} = frames[k], c = centre[k];

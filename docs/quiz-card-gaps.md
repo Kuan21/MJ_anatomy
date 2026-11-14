@@ -39,15 +39,8 @@
 - 小趾近節趾骨（Proximal phalanx of left little toe）：缺 主要標誌、相關關節、附著肌肉
 - 第二趾近節趾骨（Proximal phalanx of right second toe）：缺 主要標誌、相關關節、附著肌肉
 
-### 肌肉：52 / 60 項資料完整
+### 肌肉：59 / 60 項資料完整
 
-- 足第一蚓狀肌（First lumbrical of right foot）：缺 起點、止點、作用、神經支配、血液供應
-- 足第一蹠側骨間肌（First plantar interosseous of right foot）：缺 起點、止點、作用、神經支配、血液供應
-- 足第二蚓狀肌（Second lumbrical of right foot）：缺 起點、止點、作用、神經支配、血液供應
-- 足第二蹠側骨間肌（Second plantar interosseous of right foot）：缺 起點、止點、作用、神經支配、血液供應
-- 足第三蚓狀肌（Third lumbrical of right foot）：缺 起點、止點、作用、神經支配、血液供應
-- 足第三蹠側骨間肌（Third plantar interosseous of right foot）：缺 起點、止點、作用、神經支配、血液供應
-- 足第四蚓狀肌（Fourth lumbrical of right foot）：缺 起點、止點、作用、神經支配、血液供應
 - 闊筋膜張肌（tensor fasciae latae）：缺 起點、止點、作用、神經支配、血液供應
 
 ### 肌腱：0 / 19 項資料完整
@@ -489,10 +482,9 @@
 - 第九肋骨（ninth rib）：缺 主要標誌、相關關節、附著肌肉
 - 胸骨柄（Manubrium）：缺 主要標誌、相關關節、附著肌肉
 
-### 肌肉：13 / 15 項資料完整
+### 肌肉：15 / 15 項資料完整
 
-- 短肋提肌群（Set of right levatores costarum breves）：缺 起點、止點、作用、神經支配、血液供應
-- 長肋提肌群（Set of right levatores costarum longi）：缺 起點、止點、作用、神經支配、血液供應
+（全部完整）
 
 ### 神經：0 / 3 項資料完整
 
@@ -568,9 +560,9 @@
 - 枕骨（Occipital bone）：缺 附著肌肉
 - 薦骨（Sacrum）：缺 附著肌肉
 
-### 肌肉：28 / 29 項資料完整
+### 肌肉：29 / 29 項資料完整
 
-- 多裂肌（multifidus）：缺 血液供應
+（全部完整）
 
 ### 神經：1 / 8 項資料完整
 

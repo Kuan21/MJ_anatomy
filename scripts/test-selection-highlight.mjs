@@ -16,6 +16,7 @@ need(/selectedData\[i\*4\]=selected\?/.test(src), 'selection must be written per
 // 3. a pick never edits a shared material: no emissive / colour writes keyed on the selection outside the nerve look table
 need(!/material\.(color|emissive)\.(set|copy)\([^)]*select/i.test(src), 'a selection must not recolour a shared material');
 // 4. the "not in view" test samples the selected meshes themselves
-need(/selMeshes/.test(src) && /fromBufferAttribute\(pos,k\)/.test(src), 'in-view hint must sample the selected meshes\' own vertices');
+const vis = fs.readFileSync(new URL('../app/selection-visibility.ts', import.meta.url), 'utf8');
+need(/selMeshes/.test(src) && /sampleMeshPoints\(selMeshes/.test(src) && /fromBufferAttribute\(pos!?,i\)/.test(vis), 'in-view hint must sample the selected meshes\' own vertices');
 if (fail.length) { console.error('Selection highlight check failed:\n - ' + fail.join('\n - ')); process.exit(1); }
 console.log('Selection highlight check passed: ordinary picks are tinted per part, the tint wins over category colours, and the in-view hint samples the selection surface.');

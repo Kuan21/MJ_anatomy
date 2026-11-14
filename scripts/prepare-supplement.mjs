@@ -8,6 +8,8 @@ import {gzipSync} from 'node:zlib';
 import {MeshoptSimplifier} from 'meshoptimizer';
 import {LUNG_LOBES, carveFissures} from './lib/lung-fissures.mjs';
 import {taubin, angleWeightedNormals} from './lib/lung-mesh.mjs';
+import {atlasMesh} from './lib/atlas-read.mjs';
+import {layerAbdominalWall} from './lib/abdominal-layers.mjs';
 await MeshoptSimplifier.ready;
 const pin = process.argv.includes('--pin');
 const specUrl = new URL('./supplement-parts.json', import.meta.url), spec = JSON.parse(fs.readFileSync(specUrl, 'utf8'));
@@ -123,8 +125,19 @@ for (const [side, fmas] of Object.entries(LUNG_LOBES)) {
   report.push(`${side} lung fissures: ${carveFissures(lobes).join(' / ')} vertices moved inward`);
   for (const lobe of lobes) taubin(lobe.positions, lobe.indices, {iterations: LUNG_CARVED_SMOOTH});
 }
+// Anterolateral abdominal wall (scripts/lib/abdominal-layers.mjs): internal oblique and transversus abdominis are cut at the semilunar line and stacked behind the external oblique of the atlas.
+const ABDOMINAL_WALL = [{sx: -1, ext: 'Right external oblique', internal: 'FMA13892', transversus: 'FMA22344'}, {sx: 1, ext: 'Left external oblique', internal: 'FMA13893', transversus: 'FMA22345'}];
+const layered = new Map();
+for (const w of ABDOMINAL_WALL) {
+  const ip = spec.parts.find(p => p.fma === w.internal), tp = spec.parts.find(p => p.fma === w.transversus);
+  const [i, t] = [await prepared(ip), await prepared(tp)], mesh = g => ({positions: g.positions, indices: g.simplified});
+  const r = layerAbdominalWall({ext: atlasMesh(w.ext), internal: mesh(i), transversus: mesh(t), sx: w.sx});
+  const repack = (g, m) => { const positions = Float32Array.from(m.positions), indices = Uint32Array.from(m.indices); return {...g, positions, simplified: indices, vertexCount: positions.length / 3}; };
+  layered.set(w.internal, repack(i, r.internal)); layered.set(w.transversus, repack(t, r.transversus));
+  report.push(`${w.ext} wall: internal oblique ${r.moved.internal} and transversus ${r.moved.transversus} vertices moved behind it`);
+}
 for (const part of spec.parts) {
-  const {positions, simplified, vertexCount, error, fullIndices} = carved.get(part.fma) ?? await prepared(part);
+  const {positions, simplified, vertexCount, error, fullIndices} = layered.get(part.fma) ?? carved.get(part.fma) ?? await prepared(part);
   const normals = LUNG_FMAS.has(part.fma) ? packNormals(angleWeightedNormals(positions, simplified)) : normalsOf(positions, simplified);
   const bounds = [[Infinity, Infinity, Infinity], [-Infinity, -Infinity, -Infinity]];
   for (let i = 0; i < positions.length; i += 3) for (let k = 0; k < 3; k++) { bounds[0][k] = Math.min(bounds[0][k], positions[i + k]); bounds[1][k] = Math.max(bounds[1][k], positions[i + k]); }

@@ -823,6 +823,14 @@
       {
        "muscle": "rectus capitis posterior minor",
        "side": "bilateral"
+      },
+      {
+       "muscle": "multifidus",
+       "side": "bilateral"
+      },
+      {
+       "muscle": "interspinales cervicis",
+       "side": "bilateral"
       }
      ],
      "antagonists": [
@@ -844,9 +852,7 @@
       }
      ],
      "unlistedMuscles": [
-      "multifidus",
-      "rotatores cervicis",
-      "interspinales cervicis"
+      "rotatores cervicis"
      ],
      "check": "OpenStax A&P (general reference, approximate; user to verify)",
      "codeMapping": {
@@ -1091,6 +1097,10 @@
       {
        "muscle": "trapezius",
        "side": "contralateral"
+      },
+      {
+       "muscle": "multifidus",
+       "side": "contralateral"
       }
      ],
      "antagonists": [
@@ -1104,7 +1114,6 @@
       }
      ],
      "unlistedMuscles": [
-      "multifidus",
       "rotatores cervicis"
      ],
      "check": "OpenStax A&P (general reference, approximate; user to verify)",
@@ -1162,6 +1171,10 @@
       {
        "muscle": "trapezius",
        "side": "contralateral"
+      },
+      {
+       "muscle": "multifidus",
+       "side": "contralateral"
       }
      ],
      "antagonists": [
@@ -1175,7 +1188,6 @@
       }
      ],
      "unlistedMuscles": [
-      "multifidus",
       "rotatores cervicis"
      ],
      "check": "OpenStax A&P (general reference, approximate; user to verify)",

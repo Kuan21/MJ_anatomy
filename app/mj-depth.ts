@@ -35,8 +35,14 @@ export function anatomyDepthInfo(part:Part):{depth:Layer;by:'rule'|'default'}{
  if(part.system==='integumentary')return rule('superficial');
  const back=part.system==='skeletal'?undefined:backLayer(name);
  if(back)return rule(back);
+ if(part.system==='connective'&&/^rectus sheath$|^linea alba$|inguinal ligament/.test(name))return rule('superficial');
  if(part.system==='skeletal'||part.system==='connective'||part.system==='tendon')return dflt('deep');
  if(part.system==='muscular'){
+  // Anterolateral abdominal wall, outside to inside: external oblique and rectus abdominis (with pyramidalis, rectus sheath, linea alba) are superficial, internal oblique lies behind the
+  // external oblique, transversus abdominis is the deepest of the three flat muscles. (The default for any unlisted muscle is superficial, which put the internal oblique in the surface layer.)
+  if(/external oblique|rectus abdominis|pyramidalis/.test(name))return rule('superficial');
+  if(/internal oblique/.test(name))return rule('intermediate');
+  if(/transversus abdominis/.test(name))return rule('deep');
   if(deepMuscle.test(name))return rule('deep');
   if(intermediateMuscle.test(name))return rule('intermediate');
   if(superficialMuscle.test(name))return rule('superficial');

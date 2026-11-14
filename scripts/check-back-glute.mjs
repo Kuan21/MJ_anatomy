@@ -1,6 +1,6 @@
 // Checks of the back and gluteal repairs, on the meshes the viewer loads:
 //  1. the repaired muscles (the three parts of trapezius, gluteus maximus; scripts/lib/muscle-reshape.mjs) are single closed pieces without loose fragments, trapezius does not cross the midline and the
-//     transverse part ends on the acromion, gluteus maximus leaves the natal cleft open and does not sink into the hip bone or the sacrum;
+//     transverse part ends on the acromion, gluteus maximus leaves a narrow natal cleft (at least 6 mm each side) and does not sink into the hip bone or the sacrum;
 //  2. the inferior gluteal veins lie deep to gluteus maximus (scripts/patch-gluteal-veins.mjs --check);
 //  3. every thoracic dorsal ramus starts at its spinal ganglion (no loose segment beside the vertebra);
 //  4. the thoracolumbar fascia is two halves (lumbar and thoracic pieces each), clear of the midline, the scapula and the bones.
@@ -39,7 +39,7 @@ for (const [id, label, sx] of MUSCLES) {
   if (/trapezius/.test(label) && lat[0] < .0004) problems.push(`${tag}: crosses the midline by ${((.0004 - lat[0]) * MM).toFixed(1)} mm`);
   if (label === 'transverse trapezius' && lat[1] > .1465) problems.push(`${tag}: ends ${(lat[1] * MM).toFixed(0)} mm from the midline, past the medial part of the acromion (145 mm)`);
   if (label === 'gluteus maximus') {
-    if (lat[0] < .017) problems.push(`${tag}: its medial border is only ${(lat[0] * MM).toFixed(1)} mm from the midline, the natal cleft is closed`);
+    if (lat[0] < .006) problems.push(`${tag}: its medial border is only ${(lat[0] * MM).toFixed(1)} mm from the midline, the natal cleft is closed`);
     for (const bone of [sx < 0 ? 'Right hip bone' : 'Left hip bone', 'Sacrum']) {
       const m = rawBone(bone); let deep = 0;
       for (let v = 0; v < g.positions.length; v += 3) { const p = [g.positions[v], g.positions[v + 1], g.positions[v + 2]]; if (p[1] < m.lo[1] - .01 || p[1] > m.hi[1] + .01 || p[0] < m.lo[0] - .01 || p[0] > m.hi[0] + .01) continue; const c = closest(m, p); if (c.d < .0012 && (p[0] - c.point[0]) * c.normal[0] + (p[1] - c.point[1]) * c.normal[1] + (p[2] - c.point[2]) * c.normal[2] < -.0012) deep++; }

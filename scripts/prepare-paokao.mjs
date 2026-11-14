@@ -31,7 +31,7 @@ for (const rel of [...expand(ARTERIES, 'artery'), ...expand(VEINS, 'vein')]) {
   if (needs) {
     if (created.has(rel.child)) throw new Error(`topology: new structure ${rel.child} does not touch ${rel.parent} (${row.gapMm} mm)`);
     const b = bridge(U, w, rel, att); if (!b) continue;
-    const entry = w.find(rel.child).find(e => e.concept), geometry = U.tube(b.pts, b.r0, b.r1, 18, 6);
+    const entry = w.find(rel.child).find(e => e.concept), geometry = U.tube(b.pts, b.r0, b.r1, 24, 10);
     built.push({name: rel.child, connector: true, concept: entry.concept, system: entry.system, kind: 'connector', geometry, parent: rel.parent});
     w.addExtra(rel.child, entry.system, geometry);
     row.originY = level != null ? +level.toFixed(3) : undefined;

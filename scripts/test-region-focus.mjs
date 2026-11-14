@@ -120,3 +120,10 @@ await writeFile(new URL('mj-system-classifier.mjs',tmp),ts.transpileModule(class
 const {normalizeAtlasSystems}=await import(new URL('mj-system-classifier.mjs',tmp));
 const normalized=normalizeAtlasSystems(raw);
 for(const id of ['FJ1438','FJ1438M'])assert.equal(normalized.parts.find(p=>p.id===id).system,'muscular');
+// The dorsal scapular artery runs along the medial border of the scapula: the height bands used to call it "arm" (a 1.35 m centre).
+for(const side of ['Left','Right']){
+ const artery=parts.find(p=>p.name===`${side} dorsal scapular artery`);assert.ok(artery,side+' dorsal scapular artery');
+ assert.equal(regions.anatomicalSubregion(artery),'shoulder',side+' dorsal scapular artery belongs to the shoulder girdle, not the arm');
+ assert.deepEqual(regions.anatomicalRegionLabel(artery),{en:'scapular region / back',zh:'肩胛區／背部'});
+}
+console.log('Dorsal scapular artery region: ok');
