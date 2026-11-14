@@ -59,7 +59,7 @@
 | FJ1313 | Optic nerve | 視神經 | 視神經與視覺路徑 | 已對照神經解剖共筆 |
 | FJ1771 | Optic chiasm | 視交叉 | 視神經與視覺路徑 | 已對照神經解剖共筆 |
 | FJ1773 | Optic tract | 視徑 | 視神經與視覺路徑 | 已對照神經解剖共筆 |
-| FJ1766 | Lateral geniculate body | 外膝狀體 | 視神經與視覺路徑 | 已對照神經解剖共筆 |
+| FJ1766 | Lateral geniculate body | 外側膝狀體 | 視神經與視覺路徑 | 已對照神經解剖共筆 |
 | FJ1735 | Brachium of superior colliculus | 上丘臂 | 視神經與視覺路徑 | 已對照神經解剖共筆 |
 | FJ1779 | Superior colliculus | 上丘 | 視神經與視覺路徑 | 已對照神經解剖共筆 |
 | cornea | Cornea | 角膜 | 纖維層 | 待對照共筆 |
