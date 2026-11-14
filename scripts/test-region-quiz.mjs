@@ -63,9 +63,9 @@ const expected = {
     plain: ['Right atrium', 'Right ventricle', 'Left atrium', 'Left ventricle', 'Right coronary artery', 'Left coronary artery', 'Anterior interventricular artery', 'Circumflex artery', 'Great cardiac vein', 'Middle cardiac vein', 'Coronary sinus', 'Superior vena cava', 'Inferior vena cava', 'Pulmonary trunk', 'Ascending aorta', 'Anterior papillary muscle of right ventricle', 'Posterior papillary muscle of left ventricle'],
   },
   'head-neck': {
-    count: [260, 420],
-    names: ['Frontal bone', 'Maxilla', 'Temporal bone', 'Left sternocleidomastoid', 'Left masseter', 'Right temporalis', 'Right optic nerve', 'Left facial nerve (VII)', 'Right vagus nerve (X)', 'Left external carotid artery', 'Right internal jugular vein', 'Left vertebral artery', 'Left sclera', 'Right lens'],
-    plain: ['Mandible', 'Occipital bone', 'Hyoid bone', 'Atlas', 'Axis', 'Tongue', 'Thyroid cartilage', 'Epiglottis'],
+    count: [380, 520],
+    names: ['Maxilla', 'Temporal bone', 'Sternocleidomastoid', 'Masseter', 'Temporalis', 'Optic nerve (II)', 'Facial nerve (VII)', 'Vagus nerve (X)', 'External carotid artery', 'Internal jugular vein', 'Vertebral artery', 'Sclera', 'Lens'],
+    plain: ['Frontal bone', 'Mandible', 'Occipital bone', 'Hyoid bone', 'Atlas', 'Axis', 'Tongue', 'Thyroid cartilage', 'Epiglottis'],
   },
   back: {
     count: [100, 140],
@@ -189,8 +189,8 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
   const sample = createSession(catalogue.structures, 3, random), correct = recordAnswer(sample, 0, sample.queue[0]);
   assert.equal(correct.answers[0].correct, true); assert.equal(recordAnswer(correct, 0, 'wrong'), correct);
   assert.deepEqual(retryMistakes(recordAnswer(correct, 1, sample.queue[0])), {queue: [sample.queue[1]], answers: []});
-  // the brain has about 420 meshes (13 MB compressed in all); a brain question loads one side and only the structures it draws (at most 8 MB, checked in scripts/test-quiz-brain.mjs)
-  assert.ok(catalogue.packages.reduce((n, p) => n + p.gzipBytes, 0) < (regionId === 'brain' ? 14e6 : 8e6), `${regionId}: quiz must not download the whole-body anatomy`);
+  // the head and neck hold the facial muscles (9 MB compressed) and about 440 structures in all (22 MB; one question loads one system and the skeleton, at most 14 MB, checked in scripts/test-quiz-headneck.mjs); the brain has about 420 meshes (13 MB compressed in all); a brain question loads one side and only the structures it draws (at most 8 MB, checked in scripts/test-quiz-brain.mjs)
+  assert.ok(catalogue.packages.reduce((n, p) => n + p.gzipBytes, 0) < (regionId === 'brain' ? 14e6 : regionId === 'head-neck' ? 24e6 : 8e6), `${regionId}: quiz must not download the whole-body anatomy`);
   total += catalogue.structures.length;
 }
 // The lung quiz asks only what the model really has: no lobe is a question, and nothing the model lacks is listed.

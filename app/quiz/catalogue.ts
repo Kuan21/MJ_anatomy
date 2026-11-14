@@ -219,7 +219,7 @@ QUIZ_REGIONS['head-neck'] = {
   id: 'head-neck', label: '頭頸', english: 'Head and neck', tag: '頭頸篇', file: 'quiz-head-neck.json', hash: '#/quiz/head-neck', atlasHash: '#/atlas/whole',
   headline: ['看名稱，', '點出位置。'], description: ['由顱骨、面部與頸部肌肉、腦神經，到頭頸血管與眼、口、喉的構造，在 3D 模型上練習辨認。', '每答一題，立即顯示正確位置與資料卡。'],
   scope: '採用現有圖譜的固定解剖姿勢，預設由前方觀看。題目只涵蓋主站已有的頭頸構造；腦的構造另有獨立的「腦」Quiz，這裡不重複。模型沒有的構造（例如顏面動脈、腮腺、甲狀腺）不會出題。眼球內部的構造（水晶體、虹膜、玻璃體等）題目開始時，外層的鞏膜與角膜會變成淡色半透明。',
-  defaultView: 'front', defaultSide: 'right', systems: ['skeletal', 'muscular', 'tendon', 'nervous', 'arterial', 'venous', 'headorgan', 'joint', 'space'],
+  defaultView: 'front', defaultSide: 'right', systems: ['skeletal', 'muscular', 'nervous', 'arterial', 'venous', 'headorgan', 'joint', 'space'],
   frame: {x: .11, z: [-.12, .1]}, sections: HEAD_NECK_SECTIONS,
 };
 export const QUIZ_REGION_IDS = Object.keys(QUIZ_REGIONS) as QuizRegionId[];
