@@ -1,0 +1,1 @@
+node scripts/test-related-search.mjs
