@@ -36,9 +36,9 @@
 | Left dorsal scapular artery (FJ2232) → Posterior intercostal arteries (FJ1975) | left | 15.03 | 71 | 1.12 | 未綁定：the next segment；下一段在trunk |
 | Pectoral branch of left thoraco-acromial artery (FJ2330) → Left lateral thoracic artery (FJ1976) | left | 0 | 66.7 | 1.19 | 下一段在trunk |
 | Left suprascapular vein (FJ2250) → Left posterior segmental vein (FJ2929) | left | 20.5 | 66.6 | 1.71 | 未綁定：the next segment；下一段在trunk |
-| Left suprascapular artery (FJ2251) → Left second posterior intercostal artery (FJ1974) | left | 19.83 | 57.1 | 1.32 | 未綁定：the next segment；下一段在trunk |
+| Left suprascapular artery (FJ2251) → Left second posterior intercostal artery (FJ1974) | left | 19.86 | 57.1 | 1.32 | 未綁定：the next segment；下一段在trunk |
 | Left dorsal scapular artery (FJ2232) → Posterior intercostal arteries (FJ1975) | left | 26.95 | 49.7 | 2 | 未綁定：the next segment；下一段在trunk |
-| Pectoral branch of left thoraco-acromial artery (FJ2330) → Left second posterior intercostal artery (FJ1974) | left | 5.94 | 42.2 | 1.48 | 未綁定：the next segment；下一段在trunk |
+| Pectoral branch of left thoraco-acromial artery (FJ2330) → Left second posterior intercostal artery (FJ1974) | left | 5.94 | 40.9 | 1.48 | 未綁定：the next segment；下一段在trunk |
 | Left cephalic vein (FJ2220) → Left anterior circumflex humeral vein (FJ2213) | left | 29.09 | 35 | 3.39 |  |
 | Trunk of left thoraco-acromial artery (FJ2252) → Left second posterior intercostal artery (FJ1974) | left | 0 | 28.3 | 3.46 | 未綁定：the next segment；下一段在trunk |
 | Right cephalic vein (FJ2272) → Right axillary vein (FJ2269) | right | 24.64 | 26.4 | 3.41 |  |
@@ -79,9 +79,9 @@
 | Right dorsal scapular artery (FJ2284) → Posterior intercostal arteries (FJ1961) | right | 15.12 | 65.5 | 1.34 | 未綁定：the next segment；下一段在trunk |
 | Left dorsal scapular artery (FJ2232) → Posterior intercostal arteries (FJ1975) | left | 15.03 | 64.7 | 1.12 | 未綁定：the next segment；下一段在trunk |
 | Left suprascapular vein (FJ2250) → Left posterior segmental vein (FJ2929) | left | 20.5 | 62.9 | 1.71 | 未綁定：the next segment；下一段在trunk |
-| Left suprascapular artery (FJ2251) → Left second posterior intercostal artery (FJ1974) | left | 19.83 | 54.2 | 1.32 | 未綁定：the next segment；下一段在trunk |
+| Left suprascapular artery (FJ2251) → Left second posterior intercostal artery (FJ1974) | left | 19.86 | 54.1 | 1.32 | 未綁定：the next segment；下一段在trunk |
 | Left dorsal scapular artery (FJ2232) → Posterior intercostal arteries (FJ1975) | left | 26.95 | 46.7 | 2 | 未綁定：the next segment；下一段在trunk |
-| Pectoral branch of left thoraco-acromial artery (FJ2330) → Left second posterior intercostal artery (FJ1974) | left | 5.94 | 43.4 | 1.48 | 未綁定：the next segment；下一段在trunk |
+| Pectoral branch of left thoraco-acromial artery (FJ2330) → Left second posterior intercostal artery (FJ1974) | left | 5.94 | 42 | 1.48 | 未綁定：the next segment；下一段在trunk |
 | Left cephalic vein (FJ2220) → Left lateral thoracic vein (FJ2233) | left | 18.8 | 27 | 4.22 | 下一段在trunk |
 | Right cephalic vein (FJ2272) → Right axillary vein (FJ2269) | right | 24.64 | 26.8 | 3.41 |  |
 | Right suprascapular vein (FJ2302) → Right circumflex scapular vein (FJ2274) | right | 17.45 | 25.3 | 1.78 |  |
@@ -136,8 +136,8 @@
 | Right dorsal scapular artery (FJ2284) → Posterior intercostal arteries (FJ1961) | right | 15.12 | 107.7 | 1.34 | 未綁定：the next segment；下一段在trunk |
 | Pectoral branch of left thoraco-acromial artery (FJ2330) → Left lateral thoracic artery (FJ1976) | left | 0 | 104.2 | 1.19 | 下一段在trunk |
 | Left suprascapular vein (FJ2250) → Left posterior segmental vein (FJ2929) | left | 20.5 | 100.5 | 1.71 | 未綁定：the next segment；下一段在trunk |
-| Left suprascapular artery (FJ2251) → Left second posterior intercostal artery (FJ1974) | left | 19.83 | 90.4 | 1.32 | 未綁定：the next segment；下一段在trunk |
-| Pectoral branch of left thoraco-acromial artery (FJ2330) → Left second posterior intercostal artery (FJ1974) | left | 5.94 | 80.9 | 1.48 | 未綁定：the next segment；下一段在trunk |
+| Left suprascapular artery (FJ2251) → Left second posterior intercostal artery (FJ1974) | left | 19.86 | 90.4 | 1.32 | 未綁定：the next segment；下一段在trunk |
+| Pectoral branch of left thoraco-acromial artery (FJ2330) → Left second posterior intercostal artery (FJ1974) | left | 5.94 | 79.2 | 1.48 | 未綁定：the next segment；下一段在trunk |
 | Left dorsal scapular artery (FJ2232) → Posterior intercostal arteries (FJ1975) | left | 26.95 | 62.5 | 2 | 未綁定：the next segment；下一段在trunk |
 | Trunk of left thoraco-acromial artery (FJ2252) → Left second posterior intercostal artery (FJ1974) | left | 0 | 48.2 | 3.46 | 未綁定：the next segment；下一段在trunk |
 | Left cephalic vein (FJ2220) → Left anterior circumflex humeral vein (FJ2213) | left | 29.09 | 42 | 3.39 |  |
@@ -189,8 +189,8 @@
 | Left dorsal scapular artery (FJ2232) → Posterior intercostal arteries (FJ1975) | left | 15.03 | 106.7 | 1.12 | 未綁定：the next segment；下一段在trunk |
 | Right dorsal scapular artery (FJ2284) → Posterior intercostal arteries (FJ1961) | right | 15.12 | 106.3 | 1.34 | 未綁定：the next segment；下一段在trunk |
 | Left suprascapular vein (FJ2250) → Left posterior segmental vein (FJ2929) | left | 20.5 | 86.1 | 1.71 | 未綁定：the next segment；下一段在trunk |
-| Left suprascapular artery (FJ2251) → Left second posterior intercostal artery (FJ1974) | left | 19.83 | 78.9 | 1.32 | 未綁定：the next segment；下一段在trunk |
-| Pectoral branch of left thoraco-acromial artery (FJ2330) → Left second posterior intercostal artery (FJ1974) | left | 5.94 | 67.2 | 1.48 | 未綁定：the next segment；下一段在trunk |
+| Left suprascapular artery (FJ2251) → Left second posterior intercostal artery (FJ1974) | left | 19.86 | 78.9 | 1.32 | 未綁定：the next segment；下一段在trunk |
+| Pectoral branch of left thoraco-acromial artery (FJ2330) → Left second posterior intercostal artery (FJ1974) | left | 5.94 | 65.3 | 1.48 | 未綁定：the next segment；下一段在trunk |
 | Left dorsal scapular artery (FJ2232) → Posterior intercostal arteries (FJ1975) | left | 26.95 | 53.2 | 2 | 未綁定：the next segment；下一段在trunk |
 | Left cephalic vein (FJ2220) → Left anterior circumflex humeral vein (FJ2213) | left | 29.09 | 39.2 | 3.39 |  |
 | Right anterior circumflex humeral vein (FJ2265) → Right lateral brachial vein (PK-56) | right | 0.51 | 36.4 | 4.55 |  |
