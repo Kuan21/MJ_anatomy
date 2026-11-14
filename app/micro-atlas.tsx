@@ -108,10 +108,11 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
  const [isolate,setIsolate]=useState(false);
  const [cut,setCut]=useState(false);
  const [movementId,setMovementId]=useState<string|null>(null);
+ const [movementOpen,setMovementOpen]=useState(false);
  const [loading,setLoading]=useState(0);
  const [error,setError]=useState('');
 
- useEffect(()=>{setRecords([]);setSelected(null);setExplode(0);setHiddenGroups(defaultHidden(atlasId));setOpenGroup(null);setIsolate(false);setCut(false);setMovementId(null);setLoading(0);setError('');framed.current=false;},[atlasId]);
+ useEffect(()=>{setRecords([]);setSelected(null);setExplode(0);setHiddenGroups(defaultHidden(atlasId));setOpenGroup(null);setIsolate(false);setCut(false);setMovementId(null);setMovementOpen(false);setLoading(0);setError('');framed.current=false;},[atlasId]);
 
  useEffect(()=>{
   const el=host.current;if(!el)return;
@@ -465,11 +466,13 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
     </div>;
    })}</div>
    <div className="micro-explode"><Layers3 size={14}/><span id="micro-explode-label">分離</span><Slider aria-labelledby="micro-explode-label" min={0} max={100} step={1} value={[explode]} onValueChange={v=>setExplode(Array.isArray(v)?v[0]:v)}/><output>{explode}%</output></div>
-   {atlasId==='eye'&&records.length>0&&<div className="micro-movement" aria-label="眼球動作">
-    <span className="eyebrow">眼球動作</span>
-    <div className="micro-move-buttons">{EYE_MOVEMENTS.filter(m=>m.kind==='muscle').map(m=><Button variant="ghost" key={m.id} className={movementId===m.id?'active':''} aria-pressed={movementId===m.id} aria-label={m.zh+'的動作'} title={m.name+' '+m.zh} onClick={()=>playMovement(m.id)}><b>{m.label}</b><small lang="zh-Hant">{m.zh}</small></Button>)}</div>
-    <div className="micro-move-buttons palsy">{EYE_MOVEMENTS.filter(m=>m.kind==='palsy').map(m=><Button variant="ghost" key={m.id} className={movementId===m.id?'active':''} aria-pressed={movementId===m.id} aria-label={m.zh+'的眼位'} title={m.name+' '+m.zh} onClick={()=>playMovement(m.id)}><b>{m.label}</b><small lang="zh-Hant">{m.zh.replace('神經麻痺','麻痺')}</small></Button>)}</div>
-    {movement&&<div className="micro-move-info" aria-live="polite"><strong>{movement.name}<em lang="zh-Hant">{movement.zh}</em></strong>{movement.kind==='palsy'&&<p>{movement.text}</p>}<p lang="zh-Hant">{movement.textZh}</p></div>}
+   {atlasId==='eye'&&records.length>0&&<div className={'micro-movement'+(movementOpen?' open':'')}>
+    <Button variant="ghost" className="micro-movement-toggle" aria-expanded={movementOpen} onClick={()=>setMovementOpen(v=>!v)}><span className="eyebrow">眼球動作</span><small lang="zh-Hant">{movement&&!movementOpen?movement.zh:''}</small><ChevronDown size={12} className={movementOpen?'open':''}/></Button>
+    {movementOpen&&<>
+     <div className="micro-move-buttons">{EYE_MOVEMENTS.filter(m=>m.kind==='muscle').map(m=><Button variant="ghost" key={m.id} className={movementId===m.id?'active':''} aria-pressed={movementId===m.id} aria-label={m.zh+'的動作'} title={m.name+' '+m.zh} onClick={()=>playMovement(m.id)}><b>{m.label}</b><small lang="zh-Hant">{m.zh}</small></Button>)}</div>
+     <div className="micro-move-buttons palsy">{EYE_MOVEMENTS.filter(m=>m.kind==='palsy').map(m=><Button variant="ghost" key={m.id} className={movementId===m.id?'active':''} aria-pressed={movementId===m.id} aria-label={m.zh+'的眼位'} title={m.name+' '+m.zh} onClick={()=>playMovement(m.id)}><b>{m.label}</b><small lang="zh-Hant">{m.zh.replace('神經麻痺','麻痺')}</small></Button>)}</div>
+     {movement&&<div className="micro-move-info" aria-live="polite"><strong>{movement.name}<em lang="zh-Hant">{movement.zh}</em></strong>{movement.kind==='palsy'&&<p>{movement.text}</p>}<p lang="zh-Hant">{movement.textZh}</p></div>}
+    </>}
    </div>}
    <div className="micro-selected" aria-live="polite"><span className="eyebrow">已選構造</span><strong>{selectedRecord?.name??'點選模型上的構造，或從上方清單選擇'}</strong>{selectedRecord?.zh&&<em lang="zh-Hant">{selectedRecord.zh}</em>}{selectedRecord&&<small>{selectedRecord.group}{selectedRecord.groupZh&&' · '+selectedRecord.groupZh}</small>}{selectedRecord?.text&&<p>{selectedRecord.text}</p>}{selectedRecord?.textZh&&<p lang="zh-Hant">{selectedRecord.textZh}</p>}</div>
    <div className="micro-selected-actions"><Button className={isolate?'active':''} disabled={!selected} onClick={()=>setIsolate(v=>!v)}><Focus size={13}/>{isolate?'顯示周圍':'單獨顯示'}</Button><Button variant="ghost" className={cut?'active':''} aria-pressed={cut} disabled={isolate&&!!selected} onClick={()=>setCut(v=>!v)}><Scissors size={13}/>{cut?'完整':'切面'}</Button><Button variant="ghost" onClick={reset}><RotateCcw size={13}/>重設</Button></div>
