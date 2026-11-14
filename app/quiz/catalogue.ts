@@ -1,8 +1,9 @@
 import {scopeOf} from '../mj-scope';
 import {TENDON_OWNERS} from '../mj-tendon-owners';
 import type {BrainLayer} from './brain';
-export type QuizSystem = 'skeletal' | 'muscular' | 'tendon' | 'nervous' | 'arterial' | 'venous' | 'cardiac' | 'respiratory' | 'brain' | 'joint' | 'space';
-export type QuizRegionId = 'lower-limb' | 'upper-limb' | 'thorax' | 'back' | 'heart' | 'lung' | 'brain';
+import {headNeckSection, type HeadNeckLayer} from './headneck';
+export type QuizSystem = 'skeletal' | 'muscular' | 'tendon' | 'nervous' | 'arterial' | 'venous' | 'cardiac' | 'respiratory' | 'brain' | 'headorgan' | 'joint' | 'space';
+export type QuizRegionId = 'lower-limb' | 'upper-limb' | 'thorax' | 'back' | 'heart' | 'lung' | 'brain' | 'head-neck';
 /** Section ids are region specific ('hip', 'thigh'… for the leg; 'shoulder', 'arm'… for the arm; 'cage', 'wall'… for the thorax). */
 export type QuizSection = string;
 export type QuizSide = 'right' | 'left' | 'both';
@@ -23,6 +24,8 @@ export const QUIZ_SYSTEMS: {id: QuizSystem; label: string; english: string; colo
   {id: 'respiratory', label: '肺表面與氣道', english: 'Lung surface and airway', color: '#c98a8f'},
   // Brain quiz only: the structures of the brain package that are not vessels or cranial nerve roots (cortex, nuclei, ventricles, white matter, brainstem, cerebellum); see app/quiz/brain.ts.
   {id: 'brain', label: '腦構造', english: 'Brain structures', color: '#cdaaa6'},
+  // Head-and-neck quiz only: the organs of the head and neck that are not bones, muscles, nerves or vessels (eyeball and lacrimal apparatus, tongue, teeth, glands, larynx cartilages, nasal cartilages) and the ligaments and membranes of the larynx, pharynx and orbit.
+  {id: 'headorgan', label: '頭頸器官構造', english: 'Head and neck organ structures', color: '#d9a49a'},
   // Joint soft tissue (capsules, labra, menisci, articular discs, joint ligaments); the pool is built by app/quiz/joints.ts.
   {id: 'joint', label: '關節構造', english: 'Joint structures', color: '#8fb4be'},
   // A special space or opening of a limb (quadrangular space, femoral triangle…): it has no mesh of its own; a question shows the structures that bound it and pass through it (QuizStructure.members).
@@ -95,11 +98,11 @@ export const QUIZ_CATEGORIES: {id: QuizCategory; label: string; english: string;
   {id: 'ligament', label: '韌帶與筋膜', english: 'Ligaments and fasciae', color: '#c9b98a', note: ''},
   {id: 'joint', label: '關節', english: 'Joints', color: '#8fb4be', note: '關節囊、關節盤、半月板、盂唇與關節韌帶'},
   {id: 'space', label: '特殊空間與孔', english: 'Spaces and openings', color: '#8fa7a0', note: '四肢的特殊空間：腋窩、四邊孔、肘窩、股三角、膕窩、跗管等'},
-  {id: 'organ', label: '器官結構', english: 'Organ structures', color: '#d98a85', note: '心臟內部、肺的壓跡與肺門、腦的皮質與核團等'},
+  {id: 'organ', label: '器官結構', english: 'Organ structures', color: '#d98a85', note: '心臟內部、肺的壓跡與肺門、腦的皮質與核團、頭頸的眼、舌、牙、喉軟骨等'},
 ];
-const SPACE_NAME = /quadrangular space|quadrilateral space|triangular space|triangular interval|anatomical snuffbox|snuff ?box|tarsal tunnel|carpal tunnel|cubital fossa|popliteal fossa|femoral triangle|adductor canal|axilla\b|foramen|hiatus|canal\b/i;
+const SPACE_NAME = /quadrangular space|quadrilateral space|triangular space|triangular interval|anatomical snuffbox|snuff ?box|tarsal tunnel|carpal tunnel|cubital fossa|popliteal fossa|femoral triangle|adductor canal|(?<![a-z])axilla\b|foramen|hiatus|canal\b/i;
 const LIGAMENT_NAME = /ligament|fascia|retinaculum|aponeurosis|membrane|septum|raphe|capsule/i;
-const SYSTEM_CATEGORY: Record<QuizSystem, QuizCategory> = {skeletal: 'bone', muscular: 'muscle', tendon: 'tendon', nervous: 'nerve', arterial: 'artery', venous: 'vein', cardiac: 'organ', respiratory: 'organ', brain: 'organ', joint: 'joint', space: 'space'};
+const SYSTEM_CATEGORY: Record<QuizSystem, QuizCategory> = {skeletal: 'bone', muscular: 'muscle', tendon: 'tendon', nervous: 'nerve', arterial: 'artery', venous: 'vein', cardiac: 'organ', respiratory: 'organ', brain: 'organ', headorgan: 'organ', joint: 'joint', space: 'space'};
 /** One category per structure: spaces and ligaments are recognised by name; every other structure follows its body system. */
 export function categoryOf(structure: {name: string; system: QuizSystem}): QuizCategory {
   // Joint soft tissue is 'joint' only; the name rules below never reach it, and they never produce 'joint'.
@@ -110,6 +113,8 @@ export function categoryOf(structure: {name: string; system: QuizSystem}): QuizC
     if (LIGAMENT_NAME.test(structure.name) && !/tensor fasciae|membranous/i.test(structure.name)) return 'ligament';
   }
   if (structure.system === 'respiratory' && /ligament/i.test(structure.name)) return 'ligament';
+  // head and neck: the ligaments, membranes, raphes and aponeurosis among the organ structures (stylohyoid ligament, thyrohyoid membrane, pharyngeal raphe, epicranial aponeurosis…); the check and suspensory ligaments of the eye too
+  if (structure.system === 'headorgan' && LIGAMENT_NAME.test(structure.name)) return 'ligament';
   return SYSTEM_CATEGORY[structure.system];
 }
 export const QUIZ_REGIONS = {
@@ -198,6 +203,25 @@ QUIZ_REGIONS.brain = {
   defaultView: 'side', defaultSide: 'right', systems: ['brain', 'nervous', 'arterial', 'venous'],
   frame: {x: .08, z: [-.11, .1]}, sections: BRAIN_SECTIONS,
 };
+const HN_RANGE: [number, number] = [1.4, 1.72];
+const HEAD_NECK_SECTIONS: QuizSectionDef[] = [
+  {id: 'all', label: '全部頭頸', english: 'Head and neck', range: HN_RANGE},
+  {id: 'skull', label: '顱骨與下頷', english: 'Skull and mandible', range: [1.49, 1.72]},
+  {id: 'cervical', label: '頸椎與舌骨', english: 'Cervical vertebrae and hyoid bone', range: [1.4, 1.58]},
+  {id: 'face', label: '面部與咀嚼肌', english: 'Facial and masticatory muscles', range: [1.49, 1.7]},
+  {id: 'neck', label: '頸部肌肉', english: 'Neck muscles', range: [1.4, 1.58]},
+  {id: 'orbit', label: '眼與眼眶', english: 'Eye and orbit', range: [1.56, 1.64]},
+  {id: 'oral', label: '口、鼻、咽與喉', english: 'Mouth, nose, pharynx and larynx', range: [1.44, 1.6]},
+  {id: 'nerves', label: '腦神經與頸神經', english: 'Cranial and cervical nerves', range: HN_RANGE},
+  {id: 'vessels', label: '頭頸血管', english: 'Vessels of the head and neck', range: HN_RANGE},
+];
+QUIZ_REGIONS['head-neck'] = {
+  id: 'head-neck', label: '頭頸', english: 'Head and neck', tag: '頭頸篇', file: 'quiz-head-neck.json', hash: '#/quiz/head-neck', atlasHash: '#/atlas/whole',
+  headline: ['看名稱，', '點出位置。'], description: ['由顱骨、面部與頸部肌肉、腦神經，到頭頸血管與眼、口、喉的構造，在 3D 模型上練習辨認。', '每答一題，立即顯示正確位置與資料卡。'],
+  scope: '採用現有圖譜的固定解剖姿勢，預設由前方觀看。題目只涵蓋主站已有的頭頸構造；腦的構造另有獨立的「腦」Quiz，這裡不重複。模型沒有的構造（例如顏面動脈、腮腺、甲狀腺）不會出題。眼球內部的構造（水晶體、虹膜、玻璃體等）題目開始時，外層的鞏膜與角膜會變成淡色半透明。',
+  defaultView: 'front', defaultSide: 'right', systems: ['skeletal', 'muscular', 'nervous', 'arterial', 'venous', 'headorgan', 'joint', 'space'],
+  frame: {x: .11, z: [-.12, .1]}, sections: HEAD_NECK_SECTIONS,
+};
 export const QUIZ_REGION_IDS = Object.keys(QUIZ_REGIONS) as QuizRegionId[];
 export const isQuizHub = (hash: string) => hash === '#/quiz' || hash === '#/quiz/';
 export const regionOfHash = (hash: string): QuizRegionId | undefined => QUIZ_REGION_IDS.find(id => QUIZ_REGIONS[id].hash === hash);
@@ -217,11 +241,13 @@ export interface QuizStructure {
   /** Short bilingual description (heart quiz), shown on the answer card. */
   description?: {zh: string; en: string};
   /** Brain quiz: what lies in front of the structure (app/quiz/brain.ts), which decides what is drawn as glass while it is the question. */
-  layer?: BrainLayer;
+  layer?: BrainLayer | HeadNeckLayer;
   /** Brain quiz: the fields of the structure's information card (from public/models/brain/neuro-cards.json); a structure without a card shows 「尚無資料」. */
   cardFields?: {label: string; zh: string}[];
   /** A limb space (system 'space') has no mesh of its own: it is drawn as the structures that bound it, form its floor or roof and pass through it (all of the same catalogue). */
   space?: QuizSpace;
+  /** Head-and-neck nerves and vessels: the name is exact, the main site's word search must not add other spellings (it matches maxillary nerve to axillary nerve). */
+  exactNames?: true;
   /** Where the structure is asked (set from app/organ/brain-overrides.ts); none = every level, the guided lessons and the mock exam. */
   availability?: QuizAvailability;
 }
@@ -410,6 +436,7 @@ export const THORAX_NERVES: Record<string, {zh: string; sections: SectionList}> 
 export const THORAX_INCLUDE: Record<QuizSystem, RegExp> = {
   respiratory: /(?!)/,
   brain: /(?!)/,
+  headorgan: /(?!)/,
   joint: /(?!)/,   // joint soft tissue comes from app/quiz/joints.ts, not from the atlas
   space: /(?!)/,   // limb spaces are composed from the structures of the catalogue (app/quiz/spaces.ts)
   tendon: /(?!)/,
@@ -448,6 +475,7 @@ export const BACK_NERVES: Record<string, {zh: string; sections: SectionList; sys
 export const BACK_INCLUDE: Record<QuizSystem, RegExp> = {
   respiratory: /(?!)/,
   brain: /(?!)/,
+  headorgan: /(?!)/,
   joint: /(?!)/,
   space: /(?!)/,
   tendon: /(?!)/,
@@ -483,6 +511,7 @@ export function lungSections(name: string): Exclude<QuizSection, 'all'>[] {
 
 export function classifySections(region: QuizRegionId, name: string, bounds: Bounds, system?: QuizSystem): SectionList {
   if (region === 'lung') return lungSections(name);
+  if (region === 'head-neck') return [headNeckSection(cleanName(name), system ?? 'skeletal')];
   if ((system === 'joint' || system === 'space') && (region === 'lower-limb' || region === 'upper-limb')) return jointSections(region, bounds);
   if (region === 'back') return backSections(name, system);
   return region === 'upper-limb' ? upperSections(name, bounds) : region === 'thorax' ? thoraxSections(name, bounds, system) : lowerSections(name, bounds);

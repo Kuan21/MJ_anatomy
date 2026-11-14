@@ -201,11 +201,12 @@ export function regionNerveFilter(key:RegionKey,sub?:string):(name:string)=>bool
  return name=>{const n=name.toLowerCase();return rules.some(r=>r.re.test(n));};
 }
 
-/** Which Quiz setup page matches a region (the quiz catalogue has upper limb, lower limb, thorax, back, heart and lung). */
+/** Which Quiz setup page matches a region (the quiz catalogue has head and neck, upper limb, lower limb, thorax, back, heart, lung and brain). */
 export function quizHrefFor(key:RegionKey,sub?:string):string{
  if(key==='upper')return '#/quiz/upper-limb';
  if(key==='lower'||key==='gluteal')return '#/quiz/lower-limb';
  if(key==='chest')return sub==='mediastinum'?'#/quiz/heart':sub==='lung'?'#/quiz/lung':'#/quiz/thorax';
  if(key==='back')return '#/quiz/back';
+ if(key==='head')return '#/quiz/head-neck';
  return '#/quiz';
 }

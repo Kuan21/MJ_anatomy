@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import {quizModule} from './quiz-modules.mjs';
 const {exclusionOf, nameCounts, neighbours} = await quizModule('app/quiz/level2.ts'), {SYNONYMS} = await quizModule('app/quiz/synonyms.ts');
-const regions = [['lower', '下肢'], ['upper', '上肢'], ['thorax', '胸腔'], ['back', '背部'], ['heart', '心臟'], ['lung', '肺'], ['brain', '腦']];
+const regions = [['lower', '下肢'], ['upper', '上肢'], ['thorax', '胸腔'], ['back', '背部'], ['heart', '心臟'], ['lung', '肺'], ['brain', '腦'], ['head-neck', '頭頸']];
 const reasons = {'no-chinese-name': '缺中文名', 'name-not-unique': '名稱與同範圍其他構造重複'};
 const lines = ['# Quiz 第三級（看結構寫名稱）題庫範圍', '', '此檔由 `node scripts/report-quiz-level2.mjs` 產生，請勿手改。第一級、第二級（學習關卡）與第三級共用同一個題庫（`node scripts/check-quiz-banks.mjs` 逐一比對）。第三級要出題需要：有模型、有中文名、名稱在同一部位內不與其他構造重複（打出名稱只有一個正確答案）。資料卡欄位尚有空白的構造照樣出題，答題後空白欄位顯示「尚無資料」（清單見 `docs/quiz-card-gaps.md`）。無法出題的構造列於下，並會讓檢查失敗。', ''];
 let total = 0, kept = 0;

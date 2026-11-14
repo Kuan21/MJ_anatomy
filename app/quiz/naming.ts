@@ -9,7 +9,7 @@ export type AnswerLanguage = 'en' | 'zh' | 'any';
 export type NameResult = 'correct' | 'close' | 'wrong';
 export interface NameOptions {language: AnswerLanguage; needSide: boolean}
 export interface Accepted {en: string[]; zh: string[]}
-type Named = Pick<QuizStructure, 'name' | 'chinese'> & {side?: string; system?: string; source?: string};
+type Named = Pick<QuizStructure, 'name' | 'chinese'> & {side?: string; system?: string; source?: string; exactNames?: boolean};
 
 const SIDE_EN = /\b(left|right)\b/g, SIDE_WORD = /\b(left|right)\b/;
 /** "Septomarginal trabecula (moderator band)" → ["septomarginal trabecula (moderator band)", "septomarginal trabecula", "moderator band"] */
@@ -32,7 +32,7 @@ export interface WholeMuscle {en: string; zh?: string; muscle: string; headsRequ
 export function wholeMuscleOf(structure: Named): WholeMuscle | null {
   // "iliofemoral ligament, descending part", "ligament of head of femur": a joint structure is never a part of a muscle, so the bone or ligament named after "of" is not an accepted answer
   // the brain quiz asks the names of the brain model itself: "opercular part of inferior frontal gyrus" is a part of a gyrus, never of a muscle
-  if (structure.system === 'joint' || structure.system === 'brain') return null;
+  if (structure.system === 'joint' || structure.system === 'brain' || structure.system === 'headorgan') return null;
   const match = structure.name.match(PART_OF_MUSCLE);
   if (!match) return null;
   const muscle = match[2].trim(), side = structure.name.match(SIDE_WORD)?.[1];
@@ -56,9 +56,11 @@ export function siteName(structure: Named): {en?: string; zh?: string} {
   if (!structure.system) return {};
   // the main site's profile search matches by words, which is wrong for the brain model's names (maxillary nerve → axillary nerve); the brain keeps the names of its own model
   if (structure.source === 'Brain Project') return {};
+  // head-and-neck nerves and vessels carry the names of app/quiz/headneck.ts; the site's word search would turn maxillary nerve into axillary nerve
+  if (structure.exactNames) return {};
   // A part of a muscle (clavicular part of pectoralis major, spinal part of deltoid) is answered with the muscle's name (wholeMuscleOf), not with the site's other wording of the part.
   if (wholeMuscleOf(structure)) return {};
-  const profile = structureProfile(structure.name, (structure.system === 'joint' || structure.system === 'space' ? 'connective' : structure.system) as SystemId);
+  const profile = structureProfile(structure.name, (structure.system === 'joint' || structure.system === 'space' ? 'connective' : structure.system === 'headorgan' ? 'sensory' : structure.system) as SystemId);
   const paired = isPaired(structure), key = (n: string) => paired ? cleanKey(n) : n.toLowerCase().replace(/\s+/g, ' ').trim();
   const out: {en?: string; zh?: string} = {};
   if (profile.english) {const a = key(profile.english), b = key(structure.name); if (a && a !== b && !partOfName(b, a) && !partOfName(a, b)) out.en = profile.english;}
