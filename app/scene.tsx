@@ -45,7 +45,7 @@ import {surfaceBorderFade,smoothNormalsByPlace,solidRimDistance} from './mj-surf
 import {GALEA_COLOR,GALEA_EDGE_MM,GALEA_FRAG} from './mj-galea-shader';
 import {APONEUROSIS_COLOR,TENDON_COLOR} from './mj-tissue-colors';
 import {buildOwners,referenceMuscles} from './mj-owners';
-import {partVisibility} from './mj-part-visibility';
+import {partVisibility,visibilityChanged} from './mj-part-visibility';
 const bodyNerveBindings=bodyNerveData as Record<string,BodyRegion>;
 export interface AnatomyLoadStatus {loaded:number;total:number;systems:Record<string,number>;failed:string[];busy:boolean;interactive:boolean;supplementaryPending:number}
 // Selection colours: soft mint (#5DB89A) at 85 % strength; hover is a lighter tint of the same hue.
@@ -1268,7 +1268,7 @@ mats.set('connective:fascia-dense',materialFor('connective',.88));{const gm=mate
    stepCameraTween();
    {const tk=s.lungTint?.length?JSON.stringify(s.lungTint.map(t=>t.color+(t.faint?'f':'')+t.ids.join())):'';if(tk!==lastTintKey){lastTintKey=tk;tintData.fill(0);const idx=new Map(atlas.parts.map((q,k)=>[q.id,k] as [string,number]));for(const t of s.lungTint??[]){const c=new T.Color(t.color);for(const id of t.ids){const k=idx.get(id);if(k!==undefined)tintData.set([c.r,c.g,c.b,t.faint?.4:1],k*4);}}tintTexture.needsUpdate=true;dirty=true;}}
    const pathNow=pathOf(s);
-   const changed=lastState?.jointSurfaces!==s.jointSurfaces||lastState?.visible!==s.visible||lastState?.selected!==s.selected||lastState?.hiddenParts!==s.hiddenParts||lastState?.fadedParts!==s.fadedParts||lastState?.nerveFilter!==s.nerveFilter||lastState?.spaceSolid!==s.spaceSolid||lastState?.spaceSurround!==s.spaceSurround||lastState?.spaceRoofs!==s.spaceRoofs||lastState?.spaceRange!==s.spaceRange||lastState?.spaceRangeIds!==s.spaceRangeIds||lastState?.spaceContentIds!==s.spaceContentIds||autoFadeDirty||lastState?.highlightNerves!==s.highlightNerves||lastState?.depthFilter!==s.depthFilter||lastState?.muscleLayer!==s.muscleLayer||lastState?.faceMuscleLayer!==s.faceMuscleLayer||lastState?.focusParts!==s.focusParts||lastState?.isolate!==s.isolate||lastState?.partTransforms!==s.partTransforms||lastState?.bodyMotion!==s.bodyMotion||pathNow!==lastPathUsed;
+   const changed=lastState?.jointSurfaces!==s.jointSurfaces||visibilityChanged(lastState,s)||lastState?.fadedParts!==s.fadedParts||lastState?.nerveFilter!==s.nerveFilter||lastState?.spaceSolid!==s.spaceSolid||lastState?.spaceSurround!==s.spaceSurround||lastState?.spaceRoofs!==s.spaceRoofs||lastState?.spaceRange!==s.spaceRange||lastState?.spaceRangeIds!==s.spaceRangeIds||lastState?.spaceContentIds!==s.spaceContentIds||autoFadeDirty||lastState?.highlightNerves!==s.highlightNerves||lastState?.depthFilter!==s.depthFilter||lastState?.muscleLayer!==s.muscleLayer||lastState?.faceMuscleLayer!==s.faceMuscleLayer||lastState?.focusParts!==s.focusParts||lastState?.isolate!==s.isolate||lastState?.partTransforms!==s.partTransforms||lastState?.bodyMotion!==s.bodyMotion||pathNow!==lastPathUsed;
    const tissueChanged=!lastState||lastState.partTransforms!==s.partTransforms||lastState.tissueMotion!==s.tissueMotion||lastState.previewMotion!==s.previewMotion||lastState.bodyMotion!==s.bodyMotion||lastState.visible!==s.visible||lastState.focusParts!==s.focusParts||lastState.hiddenParts!==s.hiddenParts||(lastState.selected!==s.selected&&(referenceMuscles(owners,lastState.selected).size>0||referenceMuscles(owners,s.selected).size>0));
    if(tissueChanged){updateTissueMotion(s);updateNerveMotion(s);updateBrainMotion(s);}
    const ctx=viewerContext.current;
