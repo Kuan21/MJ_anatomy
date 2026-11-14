@@ -25,6 +25,25 @@ The breast (female only) uses the Human Reference Atlas *3D Reference Objects: L
 
 The pleura and pericardium layers are schematic shells written by this project (`scripts/prepare-serous.mjs`): each is an offset of the lung lobe or heart wall surface, not a measured structure. The five lung lobes are BodyParts3D 3.0 meshes (CC BY-SA 2.1 Japan, FMA7333, FMA7383, FMA7337, FMA7370, FMA7371).
 
+## Eye detail atlas
+
+The eye detail atlas (眼) shows one left orbit assembled from two sources and packaged in `models/eye/` by `scripts/build-eye-atlas.mjs`.
+
+**Layered eyeball (23 structures)**
+
+- Model: *3D Reference Object Library, eye-male-left, v1.3*, HuBMAP / Human Reference Atlas (Cyberinfrastructure for Network Science Center, Indiana University), built from the Visible Human male data set.
+- License: CC BY 4.0, https://creativecommons.org/licenses/by/4.0/
+- Source file: https://cdn.humanatlas.io/digital-objects/ref-organ/eye-male-left/v1.3/assets/3d-vh-m-eye-l.glb (pinned by sha256 in the build script).
+- Modified: simplified with meshoptimizer from 346,630 to 99,760 triangles (0.4% error limit per structure) and normals recomputed; scaled uniformly by 1.087 and translated so that it shares the optical axis and axial length of the BodyParts3D left eyeball (registration); structures renamed (English and Chinese display names) and given colours, transparency and layer groups for this interface.
+- Not mirrored. The source is a left eye and it is shown as the left eye; this atlas has no right-eye model.
+
+**Orbit (48 structures)**
+
+- Extraocular muscles and their fascia, tarsal plates, lacrimal apparatus, orbital nerves, ophthalmic artery, optic nerve to superior colliculus, and the bones of the orbit: BodyParts3D 4.0 (as above, CC BY 4.0), taken from the packaged atlas.
+- Modified: the two halves of the optic chiasm are joined into one structure. Three corrections where the orbit meets the registered eyeball: (1) the tendons of the four rectus muscles are drawn back so that they end 5.5 mm (medial), 6.5 mm (inferior), 6.9 mm (lateral) and 7.7 mm (superior) behind the corneal margin; (2) the parts of the six extraocular muscles and of levator palpebrae superioris that lay below the scleral surface are lifted onto it; (3) the last 14 mm of the optic nerve are bent by up to 3.8 mm so that it ends on the optic disc. All other geometry is unchanged.
+
+The abducens nerve, the orbital veins, the central retinal vessels and the individual branches of the ophthalmic artery are not present in either source and are not shown.
+
 ## Historical assets (not included in the current release)
 
 Earlier repository revisions included female reference anatomy: Kristen Browne and Heidi Schlehlein, Human Reference Atlas / HuBMAP, *3D Reference Organ Set for Female v1.5* (2023). CC BY 4.0. Geometry adapted for this viewer.

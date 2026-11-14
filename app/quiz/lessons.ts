@@ -1,5 +1,5 @@
 import overrides from '../data/quiz-lessons/overrides.json';
-import {QUIZ_CATEGORIES, QUIZ_REGIONS, categoryOf, type QuizCatalogue, type QuizCategory, type QuizRegionId, type QuizSectionDef, type QuizSettings, type QuizStructure} from './catalogue';
+import {QUIZ_CATEGORIES, QUIZ_REGIONS, categoryOf, inLessons, type QuizCatalogue, type QuizCategory, type QuizRegionId, type QuizSectionDef, type QuizSettings, type QuizStructure} from './catalogue';
 import {namingPool} from './level2';
 export {seededShuffle} from './seeded';
 import {cleanKey, type AnswerLanguage} from './naming';
@@ -60,7 +60,8 @@ function rangeLabel(catalogue: QuizCatalogue, members: QuizStructure[]): {en: st
 export function buildLessons(catalogue: QuizCatalogue, settings: QuizSettings, rules: LessonOverrides = overrides as LessonOverrides): Lesson[] {
   const region = catalogue.region ?? 'lower-limb', target = rules.target ?? DEFAULT_TARGET;
   const all = QUIZ_CATEGORIES.map(c => c.id);
-  const pool = namingPool(catalogue, {...settings, categories: all});
+  // the structures whose availability leaves the lessons out (e.g. the decussation of the superior cerebellar peduncles, level 3 only) are in no lesson
+  const pool = namingPool(catalogue, {...settings, categories: all}).filter(inLessons);
   const shown = settings.categories ?? all;
   const lessons: Lesson[] = [];
   for (const category of QUIZ_CATEGORIES) {

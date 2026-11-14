@@ -53,6 +53,7 @@ export function groupOf(cat: string, region: string): string {
   }
 }
 
+import {brainOverrideOf} from './brain-overrides';
 const SIDE_ZH = {left: '左', right: '右', mid: ''} as const;
 const SIDE_EN = {left: 'Left ', right: 'Right ', mid: ''} as const;
 /** Chinese names the shared glossary lacks for a few labels of this model. */
@@ -89,8 +90,8 @@ export function describeBrainNode(raw: RawBrainNode, index: number): BrainPart |
   if (INTERLOBAR.has(en0.toLowerCase())) group = 'interlobar';
   if (en0 === 'Base of peduncle') group = 'brainstem'; // the model files the cerebral peduncle under the cerebellum
   const layer = BRAIN_GROUPS.find(g => g.id === group)!.layer;
-  const zh = zhOfBrain(en);
-  return {id: `b${index}`, en, zh: zh ? SIDE_ZH[side] + zh : '', side, cat: raw.cat, region: raw.region, group, layer, ...(LOBES.has(group) ? {sub: lobeSub(en)} : {})};
+  const over = brainOverrideOf(en0, side), name = over?.en ?? en, zh = zhOfBrain(name);
+  return {id: `b${index}`, en: name, ...(over?.en ? {was: en0} : {}), zh: zh ? SIDE_ZH[side] + zh : '', side, cat: raw.cat, region: raw.region, group, layer, ...(LOBES.has(group) ? {sub: lobeSub(en)} : {})};
 }
 export const displayEn = (p: BrainPart) => SIDE_EN[p.side] + (RENAME[p.en] ?? p.en);
 

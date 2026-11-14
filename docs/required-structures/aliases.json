@@ -48,7 +48,7 @@
   },
   {
    "id": "RS-0151",
-   "site": "Corneoscleral junction (limbus)",
+   "site": "Corneoscleral junction",
    "kind": "synonym"
   },
   {
@@ -65,11 +65,6 @@
    "id": "RS-0210",
    "site": "Frontalis",
    "kind": "member"
-  },
-  {
-   "id": "RS-0255",
-   "site": "Fovea",
-   "kind": "synonym"
   },
   {
    "id": "RS-0277",
@@ -128,7 +123,7 @@
   },
   {
    "id": "RS-0583",
-   "site": "Upper palpebral conjunctiva",
+   "site": "Palpebral conjunctiva of upper eyelid",
    "kind": "member"
   },
   {
@@ -190,6 +185,11 @@
    "id": "RS-0839",
    "site": "Tarsal plate of upper eyelid",
    "kind": "member"
+  },
+  {
+   "id": "RS-0917",
+   "site": "Vitreous body",
+   "kind": "synonym"
   },
   {
    "id": "RS-0851",

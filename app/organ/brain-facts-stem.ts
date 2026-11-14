@@ -1,4 +1,5 @@
 import type {BrainFact} from './brain-facts-types';
+import {DECUSSATION_NOTE} from './brain-overrides';
 const f = (loc: string, fn: string, rel: string[], blood: string, extra: Partial<BrainFact> = {}): BrainFact => ({loc, fn, rel, blood, ...extra});
 const T = (re: RegExp, fact: BrainFact): [RegExp, BrainFact] => [re, fact];
 
@@ -34,6 +35,12 @@ export const FACTS: [RegExp, BrainFact][] = [
     'Main efferent pathway of the cerebellum: fibres from the dentate and other deep nuclei cross in the caudal midbrain towards the red nucleus and thalamus. It also carries some afferent fibres (anterior spinocerebellar tract). A lesion causes ipsilateral limb ataxia and tremor.',
     ['Dentatorubrothalamic tract', 'Red nucleus', 'Midbrain', 'Fourth ventricle'],
     'Superior cerebellar artery.')),
+  T(/^Decussation of superior cerebellar peduncles$/, f(
+    'The crossing of the two superior cerebellar peduncles in the tegmentum of the caudal midbrain, at the level of the inferior colliculi and in front of the cerebral aqueduct.',
+    'The efferent fibres of the cerebellum (from the dentate and other deep nuclei) cross to the opposite side here on their way to the red nucleus and the ventral lateral nucleus of the thalamus, which relays to the motor cortex.',
+    ['Superior cerebellar peduncle', 'Red nucleus', 'Inferior colliculus', 'Aqueduct of midbrain', 'Dentatorubrothalamic tract'],
+    'Paramedian branches of the basilar tip and the posterior cerebral arteries, with branches of the superior cerebellar artery, supply the lower midbrain tegmentum.',
+    {note: DECUSSATION_NOTE})),
 
   // ---------------- brainstem ----------------
   T(/^Midbrain$/, f(

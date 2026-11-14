@@ -271,6 +271,7 @@ export default function BrainDetail() {
                 <dt>Connections / Relations｜連結／毗鄰</dt><dd className="organ-rel">{rel.map(r => r.part ? <button key={r.en} onClick={() => choose(r.part!.id)}><span lang="en">{displayEn(r.part)}</span></button> : <span key={r.en}>{r.en}</span>)}</dd>
                 <dt>Blood supply｜血液供應</dt><dd>{fact.blood}</dd>
                 {fact.ba && <><dt>Brodmann area｜Brodmann 分區</dt><dd>{fact.ba}</dd></>}
+                {fact.note && <><dt>Note｜說明</dt><dd>{fact.note.en}<br/><span lang="zh-Hant">{fact.note.zh}</span></dd></>}
                 {fact.shared && <dd className="organ-shared">Shared card: it describes a group of similar structures{fact.group ? ` (${fact.group})` : ''}, not this structure alone.</dd>}
               </dl>;
             })()}

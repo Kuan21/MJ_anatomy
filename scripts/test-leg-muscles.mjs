@@ -49,9 +49,21 @@ for(const [region,label,pose] of [['leftLeg','hip flexion 120',{flexion:120}],['
   const rest=volumeOf(base,triangles,rig.pivots[1]),vPlain=volumeOf(plain,triangles,rig.pivots[1])/rest,vSolved=volumeOf(solved,triangles,rig.pivots[1])/rest;
   worstPlain=Math.max(worstPlain,Math.abs(vPlain-1));worstSolved=Math.max(worstSolved,Math.abs(vSolved-1));counted++;if(Math.abs(vPlain-1)>.1)squashedPlain++;if(Math.abs(vSolved-1)>.1)squashedSolved++;
   assert.ok(Math.abs(vSolved-1)<=.06,`${part.name} (${label}): volume ${(vSolved*100).toFixed(0)} % of rest after solving (skinning alone ${(vPlain*100).toFixed(0)} %)`);
-  for(let i=0;i<base.length/3;i++)if(Math.max(...skin.weights.subarray(i*4,i*4+4))>=.995){pinned++;for(let k=0;k<3;k++)assert.ok(Math.abs(solved[i*3+k]-plain[i*3+k])<1e-6,`${part.name} collar vertex ${i} must stay on its bone`);}
+  // Attachments are the two ends of the muscle: the very end stays exactly on its bone and the muscle is held to it over LEG_COLLAR of its length.
+  // The belly may give, so that a deep bend is spread along the muscle instead of tearing the few coarse triangles on the joint band.
+  let lo=Infinity,hi=-Infinity;for(let i=1;i<base.length;i+=3){lo=Math.min(lo,base[i]);hi=Math.max(hi,base[i]);}
+  for(let i=0;i<base.length/3;i++){
+   const t=(base[i*3+1]-lo)/Math.max(1e-6,hi-lo),end=Math.min(t,1-t),moved=Math.hypot(solved[i*3]-plain[i*3],solved[i*3+1]-plain[i*3+1],solved[i*3+2]-plain[i*3+2]);
+   if(end<=1e-9){pinned++;assert.ok(moved<1e-6,`${part.name} end vertex ${i} must stay on its bone`);}
+   else if(end<solverModule.LEG_COLLAR*.25)assert.ok(moved<=.025,`${part.name} (${label}): a vertex at the attachment moved ${(moved*1000).toFixed(0)} mm (allowed 25 mm)`);
+  }
+  // no torn edge: none longer than 4 mm and more than 3 times its rest length
+  for(let t=0;t<triangles.length;t+=3)for(let k=0;k<3;k++){
+   const a=triangles[t+k],b=triangles[t+(k+1)%3],len=P=>Math.hypot(P[a*3]-P[b*3],P[a*3+1]-P[b*3+1],P[a*3+2]-P[b*3+2]),q=len(solved);
+   assert.ok(!(q>.004&&q>3*Math.max(len(base),1e-5)),`${part.name} (${label}): an edge of ${(len(base)*1000).toFixed(0)} mm is stretched to ${(q*1000).toFixed(0)} mm`);
+  }
  }
- assert.ok(pinned>200,'attachment collars exist');
+ assert.ok(pinned>=inputs.length,'every muscle has fixed end vertices');
  const neutral=new Map(solve([],{region,pose:{...body.BODY_NEUTRAL}}).map(r=>[r.id,r]));
  for(const input of inputs)assert.deepEqual([...neutral.get(input.part.id).positions],[...input.base],`${input.part.name} neutral reset`);
  assert.ok(squashedSolved===0,`${region} ${label}: ${squashedSolved} muscles still change volume by more than 10 %`);

@@ -1,0 +1,234 @@
+{
+ "version": 1,
+ "entries": [
+  {
+   "en": "Uvula",
+   "zh": "懸雍垂",
+   "more": [
+    "懸壅垂",
+    "悬雍垂"
+   ],
+   "targets": [
+    {
+     "id": "FMA46733",
+     "name": "Uvular muscle"
+    }
+   ],
+   "reasonZh": "懸雍垂是軟顎後緣向下垂的小突起，站上只繪出構成它核心的懸雍垂肌，兩者位置相同。",
+   "reasonEn": "The uvula is the small tip hanging from the rear edge of the soft palate; the site draws only the uvular muscle that forms its core, at the same place."
+  },
+  {
+   "en": "Aryepiglottic fold",
+   "zh": "杓會厭皺襞",
+   "more": [
+    "杓狀會厭皺襞",
+    "Aryepiglottic folds",
+    "杓會厭褶"
+   ],
+   "targets": [
+    {
+     "id": "FMA46605",
+     "name": "Left aryepiglotticus"
+    },
+    {
+     "id": "FMA46604",
+     "name": "Right aryepiglotticus"
+    }
+   ],
+   "reasonZh": "杓會厭皺襞是喉入口兩側的黏膜皺褶，內含杓會厭肌；站上只繪出該肌肉，沒有黏膜皺襞本身。",
+   "reasonEn": "The aryepiglottic fold is the mucosal ridge on each side of the laryngeal inlet and contains the aryepiglottic muscle; the site draws only the muscle, not the fold."
+  },
+  {
+   "en": "Lacrimal ducts",
+   "zh": "淚管",
+   "more": [
+    "Lacrimal duct",
+    "淚道"
+   ],
+   "targets": [
+    {
+     "id": "FMA59583",
+     "name": "Left lacrimal canaliculus"
+    },
+    {
+     "id": "FMA59582",
+     "name": "Right lacrimal canaliculus"
+    },
+    {
+     "id": "FMA59556",
+     "name": "Left nasolacrimal duct"
+    },
+    {
+     "id": "FMA59555",
+     "name": "Right nasolacrimal duct"
+    }
+   ],
+   "reasonZh": "淚管泛指引流淚液的管道；站上把它分開繪成淚小管與鼻淚管，沒有合稱的單一結構。",
+   "reasonEn": "Lacrimal ducts is a general term for the channels that drain tears; the site draws them as the lacrimal canaliculi and the nasolacrimal duct, with no single combined structure."
+  },
+  {
+   "en": "Neural layer of retina",
+   "zh": "視網膜神經層",
+   "more": [
+    "神經層",
+    "Neural retina"
+   ],
+   "targets": [
+    {
+     "id": "FMA58608",
+     "name": "Left optic part of retina"
+    },
+    {
+     "id": "FMA58607",
+     "name": "Right optic part of retina"
+    }
+   ],
+   "reasonZh": "視網膜神經層屬於視網膜感光的視部；站上以整個視部呈現，沒有再分出神經層與色素上皮層。",
+   "reasonEn": "The neural layer belongs to the light-sensing optic part of the retina; the site shows the optic part as a whole and does not separate the neural layer from the pigment layer."
+  },
+  {
+   "en": "Cranium",
+   "zh": "顱骨",
+   "more": [
+    "Neurocranium"
+   ],
+   "targets": [
+    {
+     "id": "FMA52734",
+     "name": "Frontal bone"
+    },
+    {
+     "id": "FMA52788",
+     "name": "Right parietal bone"
+    },
+    {
+     "id": "FMA52789",
+     "name": "Left parietal bone"
+    },
+    {
+     "id": "FMA52735",
+     "name": "Occipital bone"
+    },
+    {
+     "id": "FMA52738",
+     "name": "Right temporal bone"
+    },
+    {
+     "id": "FMA52739",
+     "name": "Left temporal bone"
+    },
+    {
+     "id": "FMA52736",
+     "name": "Sphenoid bone"
+    },
+    {
+     "id": "FMA52740",
+     "name": "Ethmoid bone"
+    }
+   ],
+   "reasonZh": "顱骨是包住腦的各塊骨頭合稱；站上把它們分塊繪製，這裡列出構成腦顱的各骨。",
+   "reasonEn": "The cranium is the collective name for the bones enclosing the brain; the site draws them one by one, so the bones of the braincase are listed here."
+  },
+  {
+   "en": "Opening of carotid canal",
+   "zh": "頸動脈孔",
+   "more": [
+    "Carotid foramen",
+    "頸動脈管開口"
+   ],
+   "targets": [
+    {
+     "id": "FMA52739",
+     "name": "Left temporal bone"
+    },
+    {
+     "id": "FMA52738",
+     "name": "Right temporal bone"
+    }
+   ],
+   "reasonZh": "頸動脈管穿過顳骨的岩部，開口在顱底；站上尚未在骨面標示這個孔，最接近的是它所在的顳骨。",
+   "reasonEn": "The carotid canal runs through the petrous part of the temporal bone and opens on the skull base; the site does not yet mark this opening, so the temporal bone that holds it is shown."
+  },
+  {
+   "en": "Cerebral peduncle",
+   "zh": "大腦腳",
+   "more": [
+    "Crus cerebri"
+   ],
+   "targets": [
+    {
+     "id": "FMA62394",
+     "name": "Peduncle of midbrain"
+    },
+    {
+     "id": "extra:brain:Left base of peduncle",
+     "name": "Left base of peduncle"
+    },
+    {
+     "id": "extra:brain:Right base of peduncle",
+     "name": "Right base of peduncle"
+    }
+   ],
+   "reasonZh": "大腦腳是中腦腹側的粗大纖維束；站上以中腦腳及其底部（腦部詳細模式）呈現。",
+   "reasonEn": "The cerebral peduncle is the thick fibre bundle on the front of the midbrain; the site shows it as the peduncle of the midbrain and its base, the latter in brain detail mode."
+  },
+  {
+   "en": "Soft palate",
+   "zh": "軟顎",
+   "more": [
+    "軟腭"
+   ],
+   "targets": [
+    {
+     "id": "FMA46729",
+     "name": "Left levator veli palatini"
+    },
+    {
+     "id": "FMA46728",
+     "name": "Right levator veli palatini"
+    },
+    {
+     "id": "FMA46732",
+     "name": "Left tensor veli palatini"
+    },
+    {
+     "id": "FMA46731",
+     "name": "Right tensor veli palatini"
+    },
+    {
+     "id": "FMA46733",
+     "name": "Uvular muscle"
+    }
+   ],
+   "reasonZh": "軟顎是口腔頂後半部的肌肉與黏膜結構；站上沒有整體的軟顎，只繪出構成它的幾條肌肉。",
+   "reasonEn": "The soft palate is the muscular and mucosal back part of the roof of the mouth; the site has no single soft palate, only the muscles that make it up."
+  },
+  {
+   "en": "Occipitofrontalis",
+   "zh": "額枕肌",
+   "more": [
+    "Epicranius"
+   ],
+   "targets": [
+    {
+     "id": "FMA46760",
+     "name": "Left frontalis"
+    },
+    {
+     "id": "FMA46759",
+     "name": "Right frontalis"
+    },
+    {
+     "id": "FMA46762",
+     "name": "Left occipitalis"
+    },
+    {
+     "id": "FMA46761",
+     "name": "Right occipitalis"
+    }
+   ],
+   "reasonZh": "額枕肌由額腹與枕腹兩部分組成，中間以帽狀腱膜相連；站上把兩部分分開繪成額肌與枕肌。",
+   "reasonEn": "The occipitofrontalis has a frontal belly and an occipital belly joined by the galea aponeurotica; the site draws the two bellies separately as frontalis and occipitalis."
+  }
+ ]
+}
