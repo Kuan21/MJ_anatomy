@@ -26,3 +26,16 @@ export function relatedResults(index:SearchEntry[],query:string):{related:Relate
  const entries=related.targets.map(t=>byId.get(t.id)).filter((e):e is SearchEntry=>!!e);
  return entries.length?{related,entries}:undefined;
 }
+
+/** Shown only beside the results of a related search, on structures the brain model files under the cerebellum. */
+export const CEREBELLAR_TAG_ZH='小腦結構';
+export const CEREBELLAR_TAG_EN='Cerebellar structure';
+export const isCerebellar=(e:SearchEntry)=>e.group==='cerebellum';
+/**
+ * The rows of a related search: the closest structures first, then the ordinary matches, and the cerebellar matches last (the name
+ * is shared with a cerebellar structure, e.g. the uvula of the vermis, but it is not what the person meant, so it stays reachable below).
+ */
+export function relatedRows(related:SearchEntry[],items:SearchEntry[],limit:number):SearchEntry[]{
+ const ids=new Set(related.map(e=>e.concept.id)),rest=items.filter(e=>!ids.has(e.concept.id));
+ return [...related,...rest.filter(e=>!isCerebellar(e)),...rest.filter(isCerebellar)].slice(0,limit);
+}
