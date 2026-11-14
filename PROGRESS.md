@@ -86,6 +86,18 @@
   - 新留下一個未提交的暫存診斷腳本 `scripts/_diag-branch.mjs`（依「不刪檔」沒有刪），連同 `_diag-jumps.mjs`、`_diag-radius.mjs` 可以由你刪除。`package-lock.json` 的未提交差異仍未提交。
   - 本機沒有 `gh`，未查開放 PR 是否有變動。
 
+- 2026-11-14（第十次）：只加腳本、測試與報告，沒有改模型、解剖內容或網站。
+  - 重新檢查：`work/` 與 supplement／serous／female 三個生成串流仍不存在；沒有下載資料。
+  - **右股動脈接右髂外動脈 5.6 mm 只出現在單側的原因已查：是量測誤差，不是網格斷開。** 這兩條血管的網格很粗（股動脈左 107、右 118 個頂點，髂外動脈 226、204 個頂點，整條只抽得出 13–22 圈，而且超過一半的圈被判為受干擾），中心線的端點位置不穩；左側其實也量到 2.9 mm，只是剛好在 3 mm 門檻以下。直接量兩個網格的表面距離：右 0.1 mm、左 0.5 mm，表面相接。另外髂外動脈的中心線在接點之後還繼續向前走了一段（股動脈的端點落在它中段，不是末端），看來網格含一段分支；這一點只看數值，沒有在 3D 畫面確認。
+  - **新增表面距離量測**：`scripts/lib/centreline-surface.mjs` 的 `surfaceGap`（兩個網格表面的最短距離，一方的每個頂點對另一方的每個三角形，雙向；不經過中心線）與 `scripts/test-centreline-surface.mjs`。限制（已寫在註解）：兩個表面互相穿過但沒有頂點落在對方表面上時，量到的是最近頂點的距離（略大於 0），不是 0。
+  - **上一級關係量測補測試**：量測邏輯由報告腳本抽到 `scripts/lib/centreline-attach.mjs`（`relationGaps`：子端到上一級管壁、任一方向、表面距離三個數值），新增 `scripts/test-centreline-attach.mjs`（合成管：側枝離管壁 0／4／20 mm、首尾相接、方向寫反、同名多個網格、抽不出中心線）。兩個新測試都已加入 `npm run check`。
+  - `report-centreline-attach.mjs` 與 `docs/centerline-attach-report.md` 多了「表面距離」一欄（重新產生，約 21 秒）。127 個關係中，表面距離超過 3 mm 的 10 個，就是上次列出的前十個（椎動脈、橈食指動脈、尺側返動脈後支、胸肩峰動脈三角肌支、深掌靜脈弓，左右各一），兩種量法的數值相差都在 1.2 mm 以內；中心線超過 3 mm 而表面在 1 mm 以內的只有右股動脈 1 個。沒有「中心線說相接、表面說分開」的情況。**這些數值沒有在 3D 畫面確認，也仍然沒有載入連接管，不能當成缺陷清單。**
+  - 判讀與建議：基準宜同時記錄兩個數值，以表面距離為準判斷「是否相接」，中心線距離只用來指出接在上一級的哪個位置；這樣粗網格不會造成誤報。尚未建立基準（仍要先有含連接管的完整世界）。
+  - 「粗管粗分支旁圈中心仍被拉偏」這次沒有處理；有了表面距離後，它不再影響「是否相接」的判斷，只影響位置。
+  - 本機通過：`test-centreline-attach`、`test-centreline-surface`、`test-centreline-pieces`、`test-centreline-groups`、`test-centreline-continuity`、`test-centreline-classify`、`check-no-notes`、`check:zh`、`tsc --noEmit`。完整 `npm run check` 因缺生成檔沒有跑。
+  - 新留下一個未提交的暫存診斷腳本 `scripts/_diag-femoral.mjs`（依「不刪檔」沒有刪），連同 `_diag-jumps.mjs`、`_diag-radius.mjs`、`_diag-branch.mjs` 可以由你刪除。`package-lock.json` 的未提交差異仍未提交。
+  - 本機沒有 `gh`，未查開放 PR 是否有變動。
+
 ## 進行中／等審核
 - S2 A–G、S3、S4、S6 相關工作都已有 PR（見上），等使用者審核。
 
@@ -122,6 +134,8 @@
 - 下一項（不需生成檔的部分）：分支處半徑偏大的修正（例如每圈改用距離的中位數；要在 `centreline-pieces.mjs` 內做，不可改變 `centrelineOf` 的預設行為）；用 `pieceGap`／`attachGap` 沿 `topology-spec` 的上一級關係，先對本機現有資料（大圖譜與神經）試量一次，看結果是否合理，再決定基準格式。
 - 上一項已完成（2026-11-14 第九次：`robustRings`、`report-centreline-attach.mjs`）。
 - 下一項：（1）建立連續性基準要先有跑考串流與三個生成串流（含連接管的完整世界），本機沒有，等生成檔；（2）不需生成檔可做的：查右股動脈接右髂外動脈 5.6 mm 只出現在單側的原因（量測問題還是網格差異）；粗管粗分支旁圈中心仍被拉偏的限制；為 `report-centreline-attach` 的量測邏輯補合成測試。
+- 上一項的（2）已完成兩件（2026-11-14 第十次：右股動脈為量測誤差；`centreline-attach.mjs` 與測試；另加表面距離 `centreline-surface.mjs`）。
+- 下一項：（1）建立連續性基準仍要等跑考串流與三個生成串流；（2）不需生成檔可做的：把表面距離也用在多件網格的「連接距離」（`centerline-report.md` 多件表目前只用中心線，粗網格可能同樣誤報）；粗管粗分支旁圈中心被拉偏的限制（只影響位置，優先度低）；先寫好 `check-centreline-continuity.mjs` 的基準讀寫與「只減不增」比較邏輯並用合成資料測試，等生成檔到位再產生基準。
 - 規則：所有排程工作都放在本分支與 PR #248，不另開分支或 PR。
 
 ## 下一步（舊）
