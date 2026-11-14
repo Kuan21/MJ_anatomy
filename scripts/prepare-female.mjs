@@ -172,7 +172,8 @@ const tube = (pts, radius, sides = 14) => {
   const frontAt = y => { let z = -Infinity; for (let i = 0; i < vagina.length; i += 3) if (Math.abs(vagina[i + 1] - y) < .003 && Math.abs(vagina[i] - neck[0]) < .012) z = Math.max(z, vagina[i + 2]); return z; };
   let yEnd = Infinity; for (let i = 1; i < vagina.length; i += 3) yEnd = Math.min(yEnd, vagina[i]); yEnd += .001;   // the external orifice: level with the vaginal opening
   const yStart = neck[1] + .005;   // the internal orifice at the top of the bladder neck
-  const pts = []; for (let k = 0; k <= 10; k++) { const y = yStart + (yEnd - yStart) * k / 10, z = k === 0 ? neck[2] : frontAt(y) + .0025; pts.push([neck[0], y, Number.isFinite(z) ? z : neck[2]]); }
+  const pts = []; for (let k = 0; k <= 10; k++) { const y = yStart + (yEnd - yStart) * k / 10, z = frontAt(y) + .0025; pts.push([neck[0], y, Number.isFinite(z) ? z : neck[2]]); }
+  for (let pass = 0; pass < 4; pass++) for (let k = 1; k < pts.length - 1; k++) pts[k][2] = (pts[k - 1][2] + 2 * pts[k][2] + pts[k + 1][2]) / 4;   // no kink where it leaves the bladder neck
   await addMesh({name: 'Female urethra', system: 'urinary', chineseName: '女性尿道', schematic: true}, tube(pts, .003), 1200);
 }
 // Rectouterine pouch: the peritoneal recess between the back of the cervix and uterus and the front of the rectum (a flattened ellipsoid in the gap, schematic).
