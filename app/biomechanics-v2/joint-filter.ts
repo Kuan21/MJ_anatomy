@@ -11,6 +11,8 @@ export function includeJoint(name:string){
  // membranes of forearm and leg (the main atlas draws all of these already, so they would only be duplicates).
  // The fibular collateral ligament of this file is a 240-vertex prism: the tendon batch draws it as a rounded cord between measured attachment points (scripts/paokao-structures/ligaments-lower-limb.mjs).
  if(/triradiate|intervertebral disc|nucleus pulposus|interosseous membrane|^fibular collateral ligament/.test(n))return false;
+ // The atlas already draws the thyrohyoid, median cricothyroid and stylohyoid ligaments (and the two copies of cricoid and hyoid were reduced to one): the joint file's copies would lie on them as a second, crumpled layer.
+ if(/thyrohyoid|median cricothyroid|stylohyoid/.test(n))return false;
  // Drawn: ligaments, capsules, labra, menisci, articular discs, the intercostal, obturator and quadrangular membranes, the pubic and sacrococcygeal symphyses and the infrapatellar fat pad.
  return /ligament|capsul|labrum|meniscus|articular disc|interpubic disc|frenula|membrane|fat pad|symphysis/.test(n);
 }

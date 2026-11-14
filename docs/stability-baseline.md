@@ -10,7 +10,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 |---|---|
 | Fragments | 48 |
 | Vessel, nerve and tendon walls inside bone | 456 |
-| Coincident faces (z-fighting) | 82 |
+| Coincident faces (z-fighting) | 79 |
 | Straight cuts in meshes | 43 |
 | Triangle stretch over 2x in the limit poses | 137 |
 | Structures that leave their bone in the limit poses | 163 |
@@ -529,7 +529,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Vestibulocochlear nerve (VIII).r | 4.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Vestibulocochlear nerve (VIII).r | 4.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 
-## Coincident faces (z-fighting) (82)
+## Coincident faces (z-fighting) (79)
 
 | structure | size | detail |
 |---|---|---|
@@ -598,12 +598,9 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right median cubital vein | 116 | faces coincide with Right lateral brachial vein: two layers share the same surface; to be offset or one of them removed |
 | Right lobe branch of right hepatic artery | 177 | faces coincide with Posterior superior segmental hepatic artery: two layers share the same surface; to be offset or one of them removed |
 | Hepatovenous segment VII | 557 | faces coincide with Hepatovenous segment VI: two layers share the same surface; to be offset or one of them removed |
-| Cricoid cartilage | 1514 | faces coincide with Cricoid cartilage: two layers share the same surface; to be offset or one of them removed |
-| Hyoid bone | 1036 | faces coincide with Hyoid bone: two layers share the same surface; to be offset or one of them removed |
-| Left conus elasticus | 85 | faces coincide with Left vocalis: two layers share the same surface; to be offset or one of them removed |
-| Left vocal ligament | 141 | faces coincide with Left vocalis: two layers share the same surface; to be offset or one of them removed |
-| Right aryepiglotticus | 44 | faces coincide with Right cuneiform cartilage: two layers share the same surface; to be offset or one of them removed |
-| Right conus elasticus | 172 | faces coincide with Right vocal ligament: two layers share the same surface; to be offset or one of them removed |
+| Left conus elasticus | 77 | faces coincide with Left vocalis: two layers share the same surface; to be offset or one of them removed |
+| Left vocal ligament | 132 | faces coincide with Left vocalis: two layers share the same surface; to be offset or one of them removed |
+| Right conus elasticus | 157 | faces coincide with Right vocal ligament: two layers share the same surface; to be offset or one of them removed |
 | Right conus elasticus | 66 | faces coincide with Right vocalis: two layers share the same surface; to be offset or one of them removed |
 | Right vocal ligament | 88 | faces coincide with Right vocalis: two layers share the same surface; to be offset or one of them removed |
 | Anterior superior segmental branch of right portal vein | 87 | faces coincide with Trunk of right portal vein: two layers share the same surface; to be offset or one of them removed |
