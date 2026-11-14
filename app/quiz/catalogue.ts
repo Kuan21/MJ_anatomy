@@ -1,7 +1,8 @@
 import {scopeOf} from '../mj-scope';
 import {TENDON_OWNERS} from '../mj-tendon-owners';
-export type QuizSystem = 'skeletal' | 'muscular' | 'tendon' | 'nervous' | 'arterial' | 'venous' | 'cardiac' | 'respiratory' | 'joint' | 'space';
-export type QuizRegionId = 'lower-limb' | 'upper-limb' | 'thorax' | 'back' | 'heart' | 'lung';
+import type {BrainLayer} from './brain';
+export type QuizSystem = 'skeletal' | 'muscular' | 'tendon' | 'nervous' | 'arterial' | 'venous' | 'cardiac' | 'respiratory' | 'brain' | 'joint' | 'space';
+export type QuizRegionId = 'lower-limb' | 'upper-limb' | 'thorax' | 'back' | 'heart' | 'lung' | 'brain';
 /** Section ids are region specific ('hip', 'thigh'… for the leg; 'shoulder', 'arm'… for the arm; 'cage', 'wall'… for the thorax). */
 export type QuizSection = string;
 export type QuizSide = 'right' | 'left' | 'both';
@@ -20,6 +21,8 @@ export const QUIZ_SYSTEMS: {id: QuizSystem; label: string; english: string; colo
   {id: 'cardiac', label: '心臟構造', english: 'Heart structures', color: '#d98a85'},
   // Lung quiz only: the surface marks of the lungs, the lobes and the main bronchi.
   {id: 'respiratory', label: '肺表面與氣道', english: 'Lung surface and airway', color: '#c98a8f'},
+  // Brain quiz only: the structures of the brain package that are not vessels or cranial nerve roots (cortex, nuclei, ventricles, white matter, brainstem, cerebellum); see app/quiz/brain.ts.
+  {id: 'brain', label: '腦構造', english: 'Brain structures', color: '#cdaaa6'},
   // Joint soft tissue (capsules, labra, menisci, articular discs, joint ligaments); the pool is built by app/quiz/joints.ts.
   {id: 'joint', label: '關節構造', english: 'Joint structures', color: '#8fb4be'},
   // A special space or opening of a limb (quadrangular space, femoral triangle…): it has no mesh of its own; a question shows the structures that bound it and pass through it (QuizStructure.members).
@@ -40,7 +43,7 @@ export interface QuizRegionDef {
   description: [string, string];
   scope: string;
   /** View the model opens in; the back quiz starts from behind. */
-  defaultView?: 'front' | 'back' | 'medial';
+  defaultView?: 'front' | 'back' | 'medial' | 'side';
   /** Side selected when the setup page opens (the back is symmetric, so both sides). */
   defaultSide?: QuizSide;
   /** Systems offered on the setup page; omitted = the five body-system chips (not the heart or lung structures). */
@@ -92,11 +95,11 @@ export const QUIZ_CATEGORIES: {id: QuizCategory; label: string; english: string;
   {id: 'ligament', label: '韌帶與筋膜', english: 'Ligaments and fasciae', color: '#c9b98a', note: ''},
   {id: 'joint', label: '關節', english: 'Joints', color: '#8fb4be', note: '關節囊、關節盤、半月板、盂唇與關節韌帶'},
   {id: 'space', label: '特殊空間與孔', english: 'Spaces and openings', color: '#8fa7a0', note: '四肢的特殊空間：腋窩、四邊孔、肘窩、股三角、膕窩、跗管等'},
-  {id: 'organ', label: '器官結構', english: 'Organ structures', color: '#d98a85', note: '心臟內部、肺的壓跡與肺門'},
+  {id: 'organ', label: '器官結構', english: 'Organ structures', color: '#d98a85', note: '心臟內部、肺的壓跡與肺門、腦的皮質與核團等'},
 ];
 const SPACE_NAME = /quadrangular space|quadrilateral space|triangular space|triangular interval|anatomical snuffbox|snuff ?box|tarsal tunnel|carpal tunnel|cubital fossa|popliteal fossa|femoral triangle|adductor canal|axilla\b|foramen|hiatus|canal\b/i;
 const LIGAMENT_NAME = /ligament|fascia|retinaculum|aponeurosis|membrane|septum|raphe|capsule/i;
-const SYSTEM_CATEGORY: Record<QuizSystem, QuizCategory> = {skeletal: 'bone', muscular: 'muscle', tendon: 'tendon', nervous: 'nerve', arterial: 'artery', venous: 'vein', cardiac: 'organ', respiratory: 'organ', joint: 'joint', space: 'space'};
+const SYSTEM_CATEGORY: Record<QuizSystem, QuizCategory> = {skeletal: 'bone', muscular: 'muscle', tendon: 'tendon', nervous: 'nerve', arterial: 'artery', venous: 'vein', cardiac: 'organ', respiratory: 'organ', brain: 'organ', joint: 'joint', space: 'space'};
 /** One category per structure: spaces and ligaments are recognised by name; every other structure follows its body system. */
 export function categoryOf(structure: {name: string; system: QuizSystem}): QuizCategory {
   // Joint soft tissue is 'joint' only; the name rules below never reach it, and they never produce 'joint'.
@@ -171,6 +174,30 @@ QUIZ_REGIONS.lung = {
   defaultView: 'medial', defaultSide: 'right', systems: ['respiratory', 'arterial', 'venous'],
   frame: {x: .13, z: [-.1, .11]}, sections: LUNG_SECTIONS,
 };
+const BRAIN_RANGE: [number, number] = [1.485, 1.702];
+const BRAIN_SECTIONS: QuizSectionDef[] = [
+  {id: 'all', label: '全部腦', english: 'Brain', range: BRAIN_RANGE},
+  {id: 'frontal', label: '額葉', english: 'Frontal lobe', range: BRAIN_RANGE},
+  {id: 'parietal', label: '頂葉', english: 'Parietal lobe', range: BRAIN_RANGE},
+  {id: 'temporal', label: '顳葉', english: 'Temporal lobe', range: BRAIN_RANGE},
+  {id: 'occipital', label: '枕葉', english: 'Occipital lobe', range: BRAIN_RANGE},
+  {id: 'limbic', label: '邊緣葉、腦島與葉間溝', english: 'Limbic lobe, insula and interlobar sulci', range: BRAIN_RANGE},
+  {id: 'basal', label: '基底核與深部灰質', english: 'Basal nuclei and deep grey matter', range: BRAIN_RANGE},
+  {id: 'diencephalon', label: '間腦（視丘與下視丘）', english: 'Diencephalon', range: BRAIN_RANGE},
+  {id: 'ventricles', label: '腦室與脈絡叢', english: 'Ventricles and choroid plexus', range: BRAIN_RANGE},
+  {id: 'white', label: '白質纖維束與連合', english: 'White-matter tracts and commissures', range: BRAIN_RANGE},
+  {id: 'brainstem', label: '腦幹', english: 'Brainstem', range: BRAIN_RANGE},
+  {id: 'cerebellum', label: '小腦', english: 'Cerebellum', range: BRAIN_RANGE},
+  {id: 'cranial', label: '腦神經根', english: 'Cranial nerve roots', range: BRAIN_RANGE},
+  {id: 'vessels', label: '腦血管', english: 'Cerebral arteries and veins', range: BRAIN_RANGE},
+];
+QUIZ_REGIONS.brain = {
+  id: 'brain', label: '腦', english: 'Brain', tag: '腦篇', file: 'quiz-brain.json', hash: '#/quiz/brain', atlasHash: '#/organ/brain',
+  headline: ['看名稱，', '點出位置。'], description: ['由大腦皮質、深部核團、腦室、白質纖維束、腦幹與小腦，到腦神經根與腦血管，在 3D 腦模型上練習辨認。', '每答一題，立即顯示正確位置與資料卡。'],
+  scope: '採用腦部詳細模型。題目只涵蓋模型中真正有的網格：腦膜、顱外的腦神經分支與主站畫面上的示意形狀不出題。題目是深部構造（基底核、視丘、腦室、白質纖維束、腦幹核團、海馬）時，大腦皮質、小腦與包覆的大塊構造會改為淡色半透明，穿過該構造的纖維束也一併淡化，目標可以直接看見並點選；腦葉的內側面請改選單側，再用「內側面」視角觀看。',
+  defaultView: 'side', defaultSide: 'right', systems: ['brain', 'nervous', 'arterial', 'venous'],
+  frame: {x: .08, z: [-.11, .1]}, sections: BRAIN_SECTIONS,
+};
 export const QUIZ_REGION_IDS = Object.keys(QUIZ_REGIONS) as QuizRegionId[];
 export const isQuizHub = (hash: string) => hash === '#/quiz' || hash === '#/quiz/';
 export const regionOfHash = (hash: string): QuizRegionId | undefined => QUIZ_REGION_IDS.find(id => QUIZ_REGIONS[id].hash === hash);
@@ -186,12 +213,25 @@ export interface QuizStructure {
   sections: Exclude<QuizSection, 'all'>[];
   meshIds: string[];
   bounds: Bounds;
-  source: 'BodyParts3D' | 'Special regions' | 'Nervous supplement' | 'Lung surface areas' | 'Z-Anatomy' | `Z-Anatomy / ${string}`;
+  source: 'BodyParts3D' | 'Special regions' | 'Nervous supplement' | 'Lung surface areas' | 'Brain Project' | 'Z-Anatomy' | `Z-Anatomy / ${string}`;
   /** Short bilingual description (heart quiz), shown on the answer card. */
   description?: {zh: string; en: string};
+  /** Brain quiz: what lies in front of the structure (app/quiz/brain.ts), which decides what is drawn as glass while it is the question. */
+  layer?: BrainLayer;
+  /** Brain quiz: the fields of the structure's information card (from public/models/brain/neuro-cards.json); a structure without a card shows 「尚無資料」. */
+  cardFields?: {label: string; zh: string}[];
   /** A limb space (system 'space') has no mesh of its own: it is drawn as the structures that bound it, form its floor or roof and pass through it (all of the same catalogue). */
   space?: QuizSpace;
+  /** Where the structure is asked (set from app/organ/brain-overrides.ts); none = every level, the guided lessons and the mock exam. */
+  availability?: QuizAvailability;
 }
+export interface QuizAvailability {levels: (1 | 3)[]; lessons: boolean; exam: boolean}
+/** Level 1 (find the structure) and level 3 (type the name) share one bank except for the structures whose availability leaves a level out (scripts/check-quiz-banks.mjs allows exactly that difference). */
+export const askedAtLevel = (s: {availability?: QuizAvailability}, level: 1 | 3) => !s.availability || s.availability.levels.includes(level);
+/** The guided lessons (level 2) leave a structure out when its availability says lessons: false. */
+export const inLessons = (s: {availability?: QuizAvailability}) => s.availability?.lessons !== false;
+/** The future mock exam pool leaves a structure out when its availability says exam: false. */
+export const inMockExam = (s: {availability?: QuizAvailability}) => s.availability?.exam !== false;
 export type SpaceRole = 'boundary' | 'roof' | 'floor' | 'content';
 export interface QuizSpace {
   /** Id of the region in app/mj-spaces.ts (SPACES). */
@@ -369,6 +409,7 @@ export const THORAX_NERVES: Record<string, {zh: string; sections: SectionList}> 
 };
 export const THORAX_INCLUDE: Record<QuizSystem, RegExp> = {
   respiratory: /(?!)/,
+  brain: /(?!)/,
   joint: /(?!)/,   // joint soft tissue comes from app/quiz/joints.ts, not from the atlas
   space: /(?!)/,   // limb spaces are composed from the structures of the catalogue (app/quiz/spaces.ts)
   tendon: /(?!)/,
@@ -406,6 +447,7 @@ export const BACK_NERVES: Record<string, {zh: string; sections: SectionList; sys
 };
 export const BACK_INCLUDE: Record<QuizSystem, RegExp> = {
   respiratory: /(?!)/,
+  brain: /(?!)/,
   joint: /(?!)/,
   space: /(?!)/,
   tendon: /(?!)/,
@@ -446,8 +488,8 @@ export function classifySections(region: QuizRegionId, name: string, bounds: Bou
   return region === 'upper-limb' ? upperSections(name, bounds) : region === 'thorax' ? thoraxSections(name, bounds, system) : lowerSections(name, bounds);
 }
 
-export function questionPool(catalogue: QuizCatalogue, settings: QuizSettings): QuizStructure[] {
-  return catalogue.structures.filter(s => (settings.scope !== 'summary' || scopeOf(s.name, [s.id, ...s.meshIds]) === 'summary') && (settings.categories ? settings.categories.includes(categoryOf(s)) : settings.systems.includes(s.system)) && s.sections.length > 0
+export function questionPool(catalogue: QuizCatalogue, settings: QuizSettings, level: 1 | 3 = 1): QuizStructure[] {
+  return catalogue.structures.filter(s => askedAtLevel(s, level) && (settings.scope !== 'summary' || scopeOf(s.name, [s.id, ...s.meshIds]) === 'summary') && (settings.categories ? settings.categories.includes(categoryOf(s)) : settings.systems.includes(s.system)) && s.sections.length > 0
     && (settings.side === 'both' || s.side === 'midline' || settings.side === s.side)
     && (settings.section === 'all' || s.sections.includes(settings.section)));
 }
@@ -467,7 +509,9 @@ export function sceneStructures(catalogue: QuizCatalogue, target: QuizStructure,
   const range = (regionSections(catalogue.region).find(s => s.id === section) ?? regionSections(catalogue.region)[0]).range;
   // The target is always drawn: a mistake from the other side (錯題本 after the side setting changed) must still be answerable; the frame unions its bounds.
   return catalogue.structures.filter(s => s.id === target.id || (s.system === 'muscular' && owners.includes(s.name)) || ((side === 'both' || s.side === 'midline' || s.side === side)
-    && (catalogue.region === 'heart' || catalogue.region === 'lung' || s.system === target.system || s.system === 'skeletal')
+    && (catalogue.region === 'heart' || catalogue.region === 'lung' || (catalogue.region === 'brain' ? s.system === 'brain' || s.system === target.system : s.system === target.system || s.system === 'skeletal'))
     && (section === 'all' || s.sections.includes(section)
-      || (s.bounds[0][1] < range[1] && s.bounds[1][1] > range[0]))));
+      || (s.bounds[0][1] < range[1] && s.bounds[1][1] > range[0]))))
+    // a structure that level 1 does not ask (availability) is drawn only when it is the question itself
+    .filter(s => s.id === target.id || askedAtLevel(s, 1));
 }

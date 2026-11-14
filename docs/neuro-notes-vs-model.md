@@ -4,10 +4,10 @@
 
 ## 摘要
 
-- 筆記自動抽取的結構：597 條 → 保留成 **485 張資訊卡**；併入其他條目 87 條（名稱保留為別名）；剔除 26 條（不是構造，原因見下表）。
-- 腦部模型（Brain Project）已有 mesh：155 張卡；只有近似 mesh：13 張；**模型未有：317 張**（清單與搜尋仍找得到，標示「模型未有」，點擊可開資訊卡）。
+- 筆記自動抽取的結構：597 條 → 保留成 **486 張資訊卡**；併入其他條目 87 條（名稱保留為別名）；剔除 26 條（不是構造，原因見下表）。
+- 腦部模型（Brain Project）已有 mesh：156 張卡；只有近似 mesh：13 張；**模型未有：317 張**（清單與搜尋仍找得到，標示「模型未有」，點擊可開資訊卡）。
 - 筆記正文未有描述的卡片：0 張（見下表「資訊卡」欄），內容待最終審核時依教科書或圖譜補上。
-- 已用自己的話寫好資訊卡的：485 張；待寫：0 張。
+- 已用自己的話寫好資訊卡的：486 張；待寫：0 張。
 
 | id | 中英名稱 | 類型 | 出處 | 是否有 mesh | 是否可點選 | 資訊卡 |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -201,7 +201,7 @@
 | 0190 | 下丘臂<br>Brachium of inferior colliculus | 其他結構 | 0305 p.6；0424 p.10；0305 p.18 | 模型未有 | 僅清單（模型未有） | 已寫（位置、傳遞內容） |
 | 0191 | 內膝狀體<br>Medial geniculate body | 其他結構 | 0305 p.6；0305 p.18；0424 p.10 | 有：Medial geniculate body | 清單＋模型 | 已寫（位置、傳入、傳出、功能、損傷表現） |
 | 0192 | 菱形窩<br>Rhomboid fossa | 其他結構 | 0305 p.6；0305 p.16 | 模型未有 | 僅清單（模型未有） | 已寫（位置、構造、功能） |
-| 0193 | 上小腦腳<br>Superior cerebellar peduncle | 纖維束／傳導路徑 | 0305 p.6；0324 p.6；0324 p.17 | 有：Superior cerebellar peduncle | 清單＋模型 | 已寫（位置、傳遞內容、損傷表現） |
+| 0193 | 小腦上腳<br>Superior cerebellar peduncle | 纖維束／傳導路徑 | 0305 p.6；0324 p.6；0324 p.17 | 有：Superior cerebellar peduncle | 清單＋模型 | 已寫（位置、傳遞內容、損傷表現） |
 | 0194 | 下小腦腳<br>Inferior cerebellar peduncle (ICP) | 纖維束／傳導路徑 | 0226 p.18；0226 p.19；0305 p.6；0305 p.22；0324 p.7；0324 p.17；0424 p.17 | 有：Inferior cerebellar peduncle | 清單＋模型 | 已寫（位置、傳遞內容、損傷表現） |
 | 0195 | 薄狀結節<br>Gracile tubercle | 其他結構 | 0305 p.6 | 模型未有 | 僅清單（模型未有） | 已寫（位置、構造、功能） |
 | 0196 | 內含薄核<br>Gracile nucleus | 核團 | 0305 p.6；0411 p.10 | 見 0147 | 見 0147 | 併入 0147「薄束核」，名稱保留為別名 |
@@ -272,7 +272,7 @@
 | 0266 | 內頸動脈<br>Internal carotid artery (ICA) | 血管 | 0311 p.3；0311 p.6；0311 p.9；0311 p.11；0430 p.25；0430 p.35 | 有：Internal carotid artery | 清單＋模型 | 已寫（來源、分支、供應範圍、阻塞症狀） |
 | 0267 | 椎動脈<br>Vertebral artery | 血管 | 0311 p.3；0311 p.17；0311 p.18；0311 p.19；0324 p.7；0430 p.30 | 模型未有 | 僅清單（模型未有） | 已寫（來源、分支、供應範圍、阻塞症狀） |
 | 0268 | 前大腦動脈<br>Anterior cerebral artery (ACA) | 血管 | 0311 p.3；0311 p.5；0311 p.6；0311 p.12；0430 p.30；0430 p.31 | 有：Anterior cerebral artery | 清單＋模型 | 已寫（來源、分支、供應範圍、阻塞症狀） |
-| 0269 | 中大腦動脈<br>Middle cerebral artery (MCA) | 血管 | 0311 p.3；0311 p.7；0430 p.30；0430 p.31；0430 p.32；0430 p.35；0430 p.36 | 有：Middle cerebral artery (M1-segment)、Middle cerebral artery (M3 segment)、Middle cerebral artery (M3-segment)…等 7 個 | 清單＋模型 | 已寫（來源、分支、供應範圍、阻塞症狀） |
+| 0269 | 中大腦動脈<br>Middle cerebral artery (MCA) | 血管 | 0311 p.3；0311 p.7；0430 p.30；0430 p.31；0430 p.32；0430 p.35；0430 p.36 | 有：Middle cerebral artery (M1-segment)、Middle cerebral artery (M3-segment)、Insular branches of middle cerebral artery (M2-segment)…等 5 個 | 清單＋模型 | 已寫（來源、分支、供應範圍、阻塞症狀） |
 | 0270 | 威利氏環<br>Circle of Willis | 其他結構 | 0311 p.3；0311 p.5；0311 p.6；0430 p.34；0430 p.33 | 有：Anterior communicating artery、Posterior communicating artery、Anterior cerebral artery…等 5 個 | 清單＋模型 | 已寫（位置、構造、功能、臨床意義） |
 | 0271 | 鎖骨下動脈<br>Subclavian artery | 血管 | 0311 p.3 | 模型未有 | 僅清單（模型未有） | 已寫（來源、分支、供應範圍、阻塞症狀） |
 | 0272 | 基底動脈<br>Basilar artery | 血管 | 0311 p.3；0311 p.17；0311 p.18；0311 p.19；0324 p.7；0430 p.30 | 有：Basilar artery | 清單＋模型 | 已寫（來源、分支、供應範圍、阻塞症狀） |
@@ -363,7 +363,7 @@
 | 0357 | 齒狀核<br>Dentate nucleus | 核團 | 0324 p.6 | 模型未有 | 僅清單（模型未有） | 已寫（位置／所在高度、傳入、傳出、功能、損傷表現） |
 | 0358 | 又稱外側小腦神經核<br>Lateral cerebellar nucleus | 核團 | 0324 p.6 | 見 0357 | 見 0357 | 併入 0357「齒狀核」，名稱保留為別名 |
 | 0359 | 小腦腳<br>Cerebellar peduncles | 其他結構 | 0324 p.6 | 有：Superior cerebellar peduncle、Middle cerebellar peduncle、Inferior cerebellar peduncle | 清單＋模型 | 已寫（位置、構造、功能） |
-| 0360 | 結合臂<br>Brachium conjunctivum | 其他結構 | 0324 p.6 | 見 0193 | 見 0193 | 併入 0193「上小腦腳」，名稱保留為別名 |
+| 0360 | 結合臂<br>Brachium conjunctivum | 其他結構 | 0324 p.6 | 見 0193 | 見 0193 | 併入 0193「小腦上腳」，名稱保留為別名 |
 | 0361 | 爬行纖維<br>Climbing fiber | 纖維束／傳導路徑 | 0324 p.7；0324 p.8；0324 p.12 | 模型未有 | 僅清單（模型未有） | 已寫（起始神經元、交叉位置、終點、傳遞內容） |
 | 0362 | 苔蘚狀纖維<br>Mossy fiber | 纖維束／傳導路徑 | 0324 p.7；0324 p.8；0324 p.11；0402 p.22 | 模型未有 | 僅清單（模型未有） | 已寫（起始神經元、終點、傳遞內容） |
 | 0363 | 分子層<br>Molecular layer | 其他結構 | 0324 p.8；0402 p.22 | 模型未有 | 僅清單（模型未有） | 已寫（位置、構造、功能） |
@@ -609,3 +609,4 @@
 | 0610 | 小腦蚓垂<br>Uvula (of vermis) | 其他結構 | 0324 p.5；0423 p.16 | 有：Uvula of vermis | 清單＋模型 | 已寫（位置、功能） |
 | 0611 | 小腦活樹<br>Arbor vitae | 其他結構 | 0324 p.6 | 模型未有 | 僅清單（模型未有） | 已寫（位置、構造、功能、影像表現） |
 | x001 | 視丘腹後內側核（VPM）<br>Ventral posteromedial nucleus (VPM) | 核團 | 0218 p.14；0218 p.15；0411 p.6；0411 p.13；0411 p.15；0411 p.16 | 有：Ventral posteromedial nucleus (VPM)（示意） | 清單＋模型 | 已寫（位置／所在高度、傳入、傳出、功能、損傷表現） |
+| x002 | 小腦上腳交叉<br>Decussation of superior cerebellar peduncles | 纖維束／傳導路徑 |  | 有：Decussation of superior cerebellar peduncles（示意） | 清單＋模型 | 已寫（位置、傳遞內容、終點、說明 Note） |

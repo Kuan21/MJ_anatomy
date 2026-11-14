@@ -20,7 +20,12 @@ for (const c of nerves.chunks) for (const m of c.meshes) {
 // joints: only the tissues the scene draws (same rule as the viewer: app/biomechanics-v2/joint-filter.ts), named as the scene names their meshes (za_name), so a drawn tissue found by search can be highlighted and framed
 const {includeJoint} = await quizModule('app/biomechanics-v2/joint-filter.ts');
 for (const n of glb('joints.glb').nodes) if (n.name && includeJoint(String(n.extras?.za_name ?? n.name).replaceAll('_', ' '))) entries.push({n: sided(n.name), s: 'connective', k: 'joint', raw: String(n.extras?.za_name ?? n.name).replaceAll('_', ' ')});
-for (const n of glb('brain.glb').nodes) if (n.extras?.bx_label) entries.push({n: (n.extras.bx_side === 'left' ? 'Left ' : n.extras.bx_side === 'right' ? 'Right ' : '') + lc(n.extras.bx_label.replace(/\*/g, '').trim()), s: 'nervous', k: 'brain'});
+// names that the shared override table gives differently from the model (app/organ/brain-overrides.ts) are searched under the new name
+const {brainOverrideOf} = await quizModule('app/organ/brain-overrides.ts');
+for (const n of glb('brain.glb').nodes) if (n.extras?.bx_label) {
+  const label = n.extras.bx_label.replace(/\*/g, '').replace(/\s+/g, ' ').trim(), sideId = n.extras.bx_side === 'left' ? 'left' : n.extras.bx_side === 'right' ? 'right' : 'mid';
+  entries.push({n: (n.extras.bx_side === 'left' ? 'Left ' : n.extras.bx_side === 'right' ? 'Right ' : '') + lc(brainOverrideOf(label, sideId)?.en ?? label), s: 'nervous', k: 'brain'});
+}
 // neck vessels: named as the scene names their meshes so a search result can be highlighted and framed
 for (const v of JSON.parse(gunzipSync(read('neck-vessels.json.gz'))).vessels) entries.push({n: capSide(side(v.name) + lc(clean(v.name))), s: v.system, k: 'vessel', raw: v.name});
 // heart detail mode: its structures that the main atlas has no concept for (crista terminalis, fossa ovalis, moderator band, the coronary branches …) open #/organ/heart on that structure.

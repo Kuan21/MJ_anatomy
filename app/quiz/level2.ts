@@ -2,7 +2,7 @@ import {cleanKey} from './naming';
 /** Left/right belongs to the name of a midline structure (left atrium); for a paired one it is the side. */
 const identity = (s: QuizStructure) => `${s.side === 'midline' ? s.name.toLowerCase().replace(/\s+/g, ' ').trim() : cleanKey(s.name)}|${s.side}`;
 import type {QuizCatalogue, QuizSettings, QuizStructure} from './catalogue';
-import {questionPool} from './catalogue';
+import {questionPool, askedAtLevel} from './catalogue';
 
 /** Levels 1, 2 and 3 share ONE question bank (scripts/check-quiz-banks.mjs fails the build when they differ). Level 3 (看結構寫名稱) and the level-2 lessons can ask any structure that has a model,
  * a Chinese name, and a name no other structure of the region shares (so the typed name has one right answer). A structure whose data card still has empty fields is
@@ -20,7 +20,7 @@ export function nameCounts(catalogue: QuizCatalogue) {
 }
 export function namingPool(catalogue: QuizCatalogue, settings: QuizSettings): QuizStructure[] {
   const counts = nameCounts(catalogue);
-  return questionPool(catalogue, settings).filter(s => !exclusionOf(s, counts));
+  return questionPool(catalogue, settings, 3).filter(s => !exclusionOf(s, counts));
 }
 
 const boxDistance = (a: QuizStructure, b: QuizStructure) => {
@@ -33,7 +33,8 @@ const centre = (s: QuizStructure) => s.bounds[0].map((v, i) => (v + s.bounds[1][
 export function neighbours(catalogue: QuizCatalogue, target: QuizStructure, count = 3): QuizStructure[] {
   const c = centre(target), seen = new Set([cleanKey(target.name)]);
   const near = catalogue.structures
-    .filter(s => s.id !== target.id && (target.side === 'midline' || s.side === 'midline' || s.side === target.side))
+    // a structure only level 3 asks (availability) is not named as a neighbour of one the lessons or level 1 ask
+    .filter(s => s.id !== target.id && (askedAtLevel(s, 1) || !askedAtLevel(target, 1)) && (target.side === 'midline' || s.side === 'midline' || s.side === target.side))
     .map(s => ({s, d: boxDistance(target, s), m: Math.hypot(...centre(s).map((v, i) => v - c[i]))}))
     .sort((a, b) => a.d - b.d || a.m - b.m);
   const out: QuizStructure[] = [];
