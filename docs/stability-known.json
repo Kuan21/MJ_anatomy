@@ -3819,7 +3819,7 @@
   },
   "penetration|nerve:Vagus nerve (X).l.001|FJ3309": {
    "name": "Vagus nerve (X).l",
-   "measure": 4.1,
+   "measure": 2.4,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
   "penetration|nerve:Vagus nerve (X).r.001|FJ3169": {
@@ -3839,7 +3839,7 @@
   },
   "penetration|nerve:Vagus nerve (X).r.001|FJ3309": {
    "name": "Vagus nerve (X).r",
-   "measure": 4.3,
+   "measure": 2.5,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
   "penetration|nerve:Vestibular nerve.l.001|FJ3289": {
