@@ -84,6 +84,16 @@ for (const p of heart.parts.filter(q => q.group === 'papillary')) {
   assert.ok(tip > .003 && tip < .035, `${p.name}: a column of ${(tip * 1000).toFixed(0)} mm that ends inside the cavity`);
   assert.equal(components(geom(p.name)).length, 1, `${p.name} is one piece`);
 }
+// 4b. size ordering and the moderator band
+{
+  const girth = n => { const g = geom(n), lo = [1e9, 1e9, 1e9], hi = [-1e9, -1e9, -1e9]; for (const v of points(g)) for (let k = 0; k < 3; k++) { lo[k] = Math.min(lo[k], v[k]); hi[k] = Math.max(hi[k], v[k]); } const e = hi.map((h, k) => h - lo[k]).sort((a, b) => a - b); return e[1]; };
+  const lv = Math.min(girth('Anterolateral papillary muscle of left ventricle'), girth('Posterior papillary muscle of left ventricle')), rvAnt = girth('Anterior papillary muscle of right ventricle'), rvSep = girth('Septal papillary muscle of right ventricle');
+  assert.ok(lv > rvAnt, `left papillary muscles are thicker than the right ones (${(lv * 1000).toFixed(1)} vs ${(rvAnt * 1000).toFixed(1)} mm)`);
+  assert.ok(rvAnt > girth('Posterior papillary muscle of right ventricle') && rvAnt > rvSep, 'the anterior papillary muscle is the largest of the right ventricle');
+  const band = hashOf(points(geom('Septomarginal trabecula (moderator band)')), .002), apm = points(geom('Anterior papillary muscle of right ventricle'));
+  assert.ok(Math.min(...apm.map(v => nearest(band, v, 3))) < .0015, 'the moderator band ends on the anterior papillary muscle');
+  report.push(`papillary girth left ${(lv * 1000).toFixed(1)} mm > right anterior ${(rvAnt * 1000).toFixed(1)} mm`);
+}
 // 5. chordae tendineae: trees that join a papillary muscle or the wall to a cusp; cords differ in thickness
 for (const [chordae, re, ventricle, label] of [['Chordae tendineae of bicuspid valve', /bicuspid valve/, 'Left ventricle', 'bicuspid'], ['Chordae tendineae of tricuspid valve', /tricuspid valve/, 'Right ventricle', 'tricuspid']]) {
   const g = geom(chordae), comps = components(g);
@@ -99,6 +109,20 @@ for (const [chordae, re, ventricle, label] of [['Chordae tendineae of bicuspid v
     assert.ok(toCusp < .0009, `${label}: every chordae tree reaches a cusp (${(toCusp * 1000).toFixed(2)} mm)`);
     assert.ok(toRoot < .0016, `${label}: every chordae tree starts on a papillary muscle or the wall (${(toRoot * 1000).toFixed(2)} mm)`);
     cuspTouch++; rooted++;
+  }
+  // every papillary muscle sends cords to both of the cusps it serves (left: both leaflets; right: anterior→anterior+posterior, posterior→posterior+septal, septal→anterior+septal)
+  {
+    const served = ventricle === 'Left ventricle' ? {'Anterolateral papillary muscle of left ventricle': ['Anterior', 'Posterior'], 'Posterior papillary muscle of left ventricle': ['Anterior', 'Posterior']}
+      : {'Anterior papillary muscle of right ventricle': ['Anterior', 'Posterior'], 'Posterior papillary muscle of right ventricle': ['Posterior', 'Septal'], 'Septal papillary muscle of right ventricle': ['Anterior', 'Septal']};
+    const muscleHash = Object.fromEntries(Object.keys(served).map(n => [n, hashOf(points(geom(n)), .002)])), cuspHashes = Object.fromEntries(cusps(re).map(c => [c.name.split(' ')[0], hashOf(points(geom(c.name)), .002)]));
+    const reached = new Set();
+    for (const t of trees.values()) {
+      const verts = t.flatMap(c => c.verts).filter((_, k) => k % 2 === 0);
+      const m = Object.keys(served).map(n => [n, Math.min(...verts.map(v => nearest(muscleHash[n], v, 1)))]).sort((a, b) => a[1] - b[1])[0];
+      if (m[1] > .0016) continue;
+      for (const [n, h] of Object.entries(cuspHashes)) if (Math.min(...verts.map(v => nearest(h, v, 1))) < .0009) reached.add(`${m[0]}|${n}`);
+    }
+    for (const [mName, cs] of Object.entries(served)) for (const c of cs) assert.ok(reached.has(`${mName}|${c}`), `${label}: ${mName} sends cords to the ${c.toLowerCase()} cusp`);
   }
   // thickness: cord cross-section radius is read from each piece's shortest bounding extent
   const widths = comps.map(c => { const lo = [1e9, 1e9, 1e9], hi = [-1e9, -1e9, -1e9]; for (const v of c.verts) for (let k = 0; k < 3; k++) { lo[k] = Math.min(lo[k], v[k]); hi[k] = Math.max(hi[k], v[k]); } return Math.min(...hi.map((h, k) => h - lo[k])); });

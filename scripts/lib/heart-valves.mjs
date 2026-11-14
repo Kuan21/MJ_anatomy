@@ -128,7 +128,7 @@ function papillaryColumn(base, tip, intoWall, {rBase, rTip, ridge = .09, seed = 
 }
 
 /** Base (where the muscle meets the wall) and tip of a source papillary muscle: wall-touching vertices give the base, the vertex farthest from it the tip (length capped). */
-function columnEnds(pm, wall, cap) {
+export function columnEnds(pm, wall, cap) {
   const near = [];
   for (let i = 0; i < pm.positions.length; i += 3) { const p = P3(pm.positions, i / 3), h = closest(wall, p); if (h.d < .0025) near.push(p); }
   const base = near.length ? centroidOf(near) : pm.centre;
@@ -166,6 +166,17 @@ function chordae({tips, cusps, wall, seed, perGroup = 3}) {
     let best = null, bd = Infinity;
     for (const m of allowed.get(pt.cusp)) { const tip = tips.find(t => t.name === m); const d = len(sub(pt.p, tip.p)); if (d < bd) { bd = d; best = tip; } }
     owned.get(best.name).push(pt);
+  }
+  // each papillary muscle must send cords to both cusps it serves: when the nearest-tip rule leaves a pair empty, the cusp points nearest to that tip change hands
+  for (const cusp of cusps) for (const mName of cusp.muscles) {
+    for (const zone of ['margin', 'rough']) {
+      if (owned.get(mName).some(q => q.cusp === cusp.name && q.zone === zone)) continue;
+      const tip = tips.find(t => t.name === mName), want = zone === 'margin' ? 3 : 1;
+      const pool = [];
+      for (const [other, list] of owned) if (other !== mName && list.filter(q => q.cusp === cusp.name && q.zone === zone).length > want) pool.push(...list.filter(q => q.cusp === cusp.name && q.zone === zone).map(q => ({q, other})));
+      pool.sort((a, b) => len(sub(a.q.p, tip.p)) - len(sub(b.q.p, tip.p)));
+      for (const {q, other} of pool.slice(0, want)) { owned.set(other, owned.get(other).filter(x => x !== q)); owned.get(mName).push(q); }
+    }
   }
   for (const tip of tips) {
     const mine = owned.get(tip.name).sort((a, b) => a.phi - b.phi), margin = mine.filter(p => p.zone === 'margin'), rough = mine.filter(p => p.zone === 'rough');
@@ -209,16 +220,16 @@ export function buildValveApparatus(mesh) {
     {side: 'left', chamber: 'Left ventricle', atrium: 'Left atrium', ringHint: null, valve: 'bicuspid',
       cusps: [{name: 'Anterior cusp of bicuspid valve', ref: 'Anterior leaflet of mitral valve', D0: .022, Dc: .010, scallops: 0, basal: 0, muscles: ['Anterolateral papillary muscle of left ventricle', 'Posterior papillary muscle of left ventricle'], margin: 7, rough: 4},
               {name: 'Posterior cusp of bicuspid valve', ref: 'Posterior leaflet of mitral valve', D0: .014, Dc: .010, scallops: 3, basal: 4, muscles: ['Anterolateral papillary muscle of left ventricle', 'Posterior papillary muscle of left ventricle'], margin: 9, rough: 5}],
-      muscles: [{name: 'Anterolateral papillary muscle of left ventricle', ref: 'Anterolateral papillary muscle of left ventricle', cap: .028, rBase: .0038, rTip: .0013, seed: 3},
-                {name: 'Posterior papillary muscle of left ventricle', ref: 'Inferior papillary muscle of left ventricle', cap: .030, rBase: .0038, rTip: .0013, seed: 4}],
+      muscles: [{name: 'Anterolateral papillary muscle of left ventricle', ref: 'Anterolateral papillary muscle of left ventricle', cap: .028, rBase: .0072, rTip: .0019, seed: 3},
+                {name: 'Posterior papillary muscle of left ventricle', ref: 'Inferior papillary muscle of left ventricle', cap: .030, rBase: .0072, rTip: .0019, seed: 4}],
       chordae: 'Chordae tendineae of bicuspid valve', seed: 11},
     {side: 'right', chamber: 'Right ventricle', atrium: 'Right atrium', valve: 'tricuspid',
       cusps: [{name: 'Anterior cusp of tricuspid valve', ref: 'Anterior leaflet of tricuspid valve', D0: .021, Dc: .010, scallops: 0, basal: 0, muscles: ['Anterior papillary muscle of right ventricle', 'Septal papillary muscle of right ventricle'], margin: 7, rough: 4},
               {name: 'Posterior cusp of tricuspid valve', ref: 'Inferior leaflet of tricuspid valve', D0: .014, Dc: .010, scallops: 2, basal: 3, muscles: ['Anterior papillary muscle of right ventricle', 'Posterior papillary muscle of right ventricle'], margin: 6, rough: 3},
               {name: 'Septal cusp of tricuspid valve', ref: 'Septal leaflet of tricuspid valve', D0: .015, Dc: .010, scallops: 0, basal: 3, muscles: ['Posterior papillary muscle of right ventricle', 'Septal papillary muscle of right ventricle'], margin: 6, rough: 3}],
-      muscles: [{name: 'Anterior papillary muscle of right ventricle', ref: 'Anterior papillary muscle of right ventricle', cap: .024, rBase: .0056, rTip: .0015, seed: 5},
+      muscles: [{name: 'Anterior papillary muscle of right ventricle', ref: 'Anterior papillary muscle of right ventricle', cap: .024, rBase: .0060, rTip: .0016, seed: 5},
                 {name: 'Posterior papillary muscle of right ventricle', ref: 'Inferior papillary muscle of right ventricle', cap: .018, rBase: .0044, rTip: .0012, seed: 6},
-                {name: 'Septal papillary muscle of right ventricle', ref: 'Septal papillary muscle of right ventricle', cap: .016, rBase: .0032, rTip: .0010, seed: 7}],
+                {name: 'Septal papillary muscle of right ventricle', ref: 'Septal papillary muscle of right ventricle', cap: .016, rBase: .0028, rTip: .0009, seed: 7, ridge: .42}],
       chordae: 'Chordae tendineae of tricuspid valve', seed: 12},
   ];
   const report = [];
@@ -238,7 +249,8 @@ export function buildValveApparatus(mesh) {
       // the column leaves the wall and heads for the valve: the tip is pulled a little towards the annulus so it ends below the cusps, not beside the wall
       const toward = unit(sub(frame.c, ends.base)), tipPoint = add(ends.base, mul(unit(add(mul(unit(sub(ends.tip, ends.base)), .8), mul(toward, .2))), ends.length));
       const wallOut = mul(into, -1);
-      out[m.name] = papillaryColumn(ends.base, tipPoint, wallOut, {rBase: m.rBase, rTip: m.rTip, seed: m.seed});
+      // the small septal muscle is deeply fluted (three fused fine bundles) while the others keep soft ridges
+      out[m.name] = papillaryColumn(ends.base, tipPoint, wallOut, {rBase: m.rBase, rTip: m.rTip, seed: m.seed, ridge: m.ridge, sides: m.ridge ? 36 : 28});
       tips.push({name: m.name, p: add(tipPoint, mul(unit(sub(tipPoint, ends.base)), -.0008))});
       report.push({kind: 'papillary', name: m.name, length: ends.length, base: ends.base, tip: tipPoint});
     }
