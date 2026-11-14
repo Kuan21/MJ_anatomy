@@ -1,0 +1,2 @@
+node scripts/pr-docs.mjs check
+node scripts/test-pr-docs.mjs
