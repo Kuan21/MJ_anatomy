@@ -12,11 +12,12 @@ const VIEWS=vp==='mobile'?ALLV.filter(v=>v[0]!=='close-side'):ALLV;
 (async()=>{
  const b=await chromium.launch({args:['--use-gl=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
  const ctx=await b.newContext({viewport:SIZE,deviceScaleFactor:1,colorScheme:'light'});const p=await ctx.newPage();p.setDefaultTimeout(240000);
+ p.on('console',m=>{if(['error','warning'].includes(m.type()))console.log('CONSOLE',m.type(),m.text().slice(0,160));});
  p.on('pageerror',e=>console.log('PAGEERR',e.message.slice(0,200)));
  const shot=async name=>{await p.screenshot({path:`${out}/${tag}-${vp}-${name}.png`,timeout:240000});console.log('shot',name);};
  const log=[];
  await p.goto(`http://127.0.0.1:${port}/?mjview=1`);
- {const t0=Date.now(),tick=setInterval(async()=>{const v=await p.locator('[data-testid=load-bar]').getAttribute('aria-valuenow').catch(()=>'?');console.log('loading',v,Math.round((Date.now()-t0)/1000)+'s');},120000);
+ {const t0=Date.now(),tick=setInterval(async()=>{const v=await p.locator('[data-testid=load-bar]').getAttribute('aria-valuenow').catch(()=>'?');console.log('loading',v,Math.round((Date.now()-t0)/1000)+'s',await p.locator('[data-testid=load-bar]').evaluate(e=>e.className+' | '+(e.parentElement?.innerText||'').slice(0,100)).catch(()=>''));},120000);
   await p.waitForFunction(()=>document.querySelector('[data-testid=load-bar]')?.getAttribute('aria-valuenow')==='100',null,{timeout:3600000,polling:2000});clearInterval(tick);}
  await sleep(8000);
  const panel=p.locator('.system-list').first();
