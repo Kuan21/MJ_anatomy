@@ -74,6 +74,7 @@
 
 ### 本機驗證與檢查清單（使用者 2026-11-13 指示，長期規則）
 - **推送前必須在本機跑 `npm run ci:local` 並全部通過**：它讀 `.github/workflows/deploy-preview.yml` 的 `build` job，完全照 CI 的步驟與次序跑（`check`、`check:motion`、`check:vessels`、`check:vessels:accept`、`build --base /MJ_anatomy/`）。失敗時它會印出續跑指令（`npm run ci:local -- --from=N`）。
+- **截圖與 `npm run ci:local`（以及 `npm run check`、`check:motion`、`build`）不可同時跑**（使用者 2026-11-14 指示）：瀏覽器截圖與軟體繪圖會吃滿 CPU，`check:motion` 裡有計時測試（例如 `test-arm-collision` 的 25 ms 上限），搶 CPU 會讓它誤判失敗。一次只跑一項重工作；`ci:local` 跑的時候只做不吃 CPU 的事（讀程式碼、寫文件），截圖等它跑完再拍，反之亦然。計時測試單獨重跑能過、同時有負載才失敗時，是環境造成的，等負載消失後重跑，不要放寬測試門檻。
 - **提交前一定先跑 `npm run regen`**：一次過重新生成所有生成檔與自動文件（清單在 `scripts/checks/regen.txt`）。`check-stability --write` 只會縮小已知清單，遇到新增或變差會停下，要人工決定。
 - **檢查清單不再寫在 `package.json` 的一行字串裡**：`npm run check` 與 `npm run check:motion` 由 `scripts/run-checks.mjs` 讀 `scripts/checks/check.txt`、`motion.txt`（每行一個指令）。**新增檢查時不要改這兩個檔，另開一個新檔** `scripts/checks/check.d/<yyyymmdd>-<名稱>.txt`（`motion.d/`、`regen.d/` 同理），檔案依檔名順序在主清單之後執行；不同 PR 各加各的檔案就不會衝突。`npm run check -- --from=N` 可從第 N 步續跑，`--list` 列出全部步驟。
 - **血管動作例外清單（`docs/vessel-motion-exceptions.json`）的登記規則：**
