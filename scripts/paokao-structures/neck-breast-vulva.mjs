@@ -4,6 +4,7 @@
 import fs from 'node:fs';
 import zlib from 'node:zlib';
 import {sub, add, mul, unit, len, lerp} from '../lib/paokao-util.mjs';
+import {fitClitoris} from '../lib/clitoris-place.mjs';
 
 const SIDES = [{w: 'Right', l: 'right', sx: -1, zh: '右', s: 'r'}, {w: 'Left', l: 'left', sx: 1, zh: '左', s: 'l'}];
 const CERVICAL = ['Atlas', 'Axis', 'Third cervical vertebra', 'Fourth cervical vertebra', 'Fifth cervical vertebra', 'Sixth cervical vertebra', 'Seventh cervical vertebra', 'First thoracic vertebra'];
@@ -97,33 +98,29 @@ export default function neckBreastVulva(U) {
     out[out.length - 1].system = 'connective';
   }
 
-  // ---- Female external genitalia (vulva). The atlas pelvis is male, so the front of the vulva is placed on the pubic hair patch (mons pubis, on the skin in front of the
-  // pubic symphysis) and the back at the lowest point of the (registered) vagina, in front of the anus; everything lies on the line between these two.
+  // ---- Female external genitalia. The clitoris and the bulbs of the vestibule are the Clitoris-MRI-2 model (Bioscope / Romain Dewaele, Thingiverse thing:5027449, CC BY-NC-SA; built from an MRI of a woman
+  // without genital cutting, after Abdulcadir et al. 2020, J Sex Med), cut into glans, body, two crura and two bulbs (scripts/extract-clitoris-mri.mjs) and fitted to the female pelvis
+  // (scripts/lib/clitoris-place.mjs): the crura against the ischiopubic rami, the glans under the symphysis, the bulbs beside the vagina. The surface of the vulva (mons pubis, labia, vestibule)
+  // is not built from shapes any more: it belongs to the female body surface (scripts/lib/female-skin.mjs) and its structures are still to be marked on it.
   {
-    const introitus = U.extreme('Vagina', P(0, -1, 0), {}), hair = U.mesh('Pubic hair');
-    const I = P(0, introitus[1] - .002, introitus[2] + .004), A = P(0, hair.lo[1] + .008, hair.hi[2] - .006);   // A: anterior commissure, I: posterior part of the vestibule
-    const at = (t, dx = 0, dy = 0, dz = 0) => P(dx, A[1] + (I[1] - A[1]) * t + dy, A[2] + (I[2] - A[2]) * t + dz);   // t = 0 at the mons, 1 at the introitus
-    // The mound lies under the skin in front of the pubic symphysis: its front surface is put 2 mm behind the skin of the atlas (it used to stand 17 mm out of the body).
-    const m0 = at(-.12, 0, .016, -.004), skinHit = U.rayHit('Skin', P(0, m0[1], .3), P(0, 0, -1)), mons = skinHit ? P(0, m0[1], skinHit.point[2] - .013 - .002) : m0;
-    out.push({name: 'Mons pubis', zh: '陰阜', system: 'reproductive', kind: 'organ', sex: 'female', geometry: [U.ellipsoid(mons, .040, .024, .013)],
-      card: {origin: ['The fatty pad over the pubic symphysis and the pubic bones', '恥骨聯合與恥骨上的脂肪墊'], course: ['Covered with pubic hair after puberty; continues into the labia majora', '青春期後長出陰毛，向下延續為大陰唇'], supply: ['Ilio-inguinal and genital branches of the genitofemoral nerve; superficial external pudendal vessels', '髂腹股溝神經與生殖股神經生殖支；淺層陰部外動脈與靜脈']}, refs: []});
-    for (const S of SIDES) {
-      const x = S.sx;
-      out.push({name: `${S.w} labium majus`, zh: `${S.zh}大陰唇`, system: 'reproductive', kind: 'organ', sex: 'female', tubes: [{pts: [at(.02, x * .016), at(.28, x * .021, 0, -.004), at(.62, x * .019), at(.90, x * .014, -.004, -.010)], r: [.0058, .0034], samples: 24, sides: 10}],
-        card: {origin: ['Fold of skin and fat from the mons pubis to the perineum, on either side of the vulva', '由陰阜延伸到會陰的皮膚與脂肪皺褶，位於外陰兩側'], course: ['Covers the labia minora and the vestibule; contains the end of the round ligament of the uterus', '覆蓋小陰唇與陰道前庭，含子宮圓韌帶的末端'], supply: ['Ilio-inguinal, genitofemoral and perineal nerves; labial branches of the internal and external pudendal arteries', '髂腹股溝神經、生殖股神經與會陰神經；陰部內、外動脈的陰唇支']}, refs: ['Position estimated on a male pelvis (see the note on the vulva)']});
-      out.push({name: `${S.w} labium minus`, zh: `${S.zh}小陰唇`, system: 'reproductive', kind: 'organ', sex: 'female', tubes: [{pts: [at(.06, x * .006, -.004), at(.30, x * .009), at(.66, x * .0095), at(.98, x * .0085, -.002, -.004)], r: [.0028, .0022], samples: 22, sides: 8}],
-        card: {origin: ['Thin hairless folds of skin inside the labia majora, bounding the vestibule', '大陰唇內側無毛的薄皮膚皺褶，圍成陰道前庭'], course: ['Split in front to enclose the clitoris (prepuce and frenulum) and join behind at the frenulum of the labia', '前方分開包住陰蒂（陰蒂包皮與繫帶），後方在陰唇繫帶會合'], supply: ['Ilio-inguinal and perineal nerves; labial branches of the internal pudendal artery', '髂腹股溝神經與會陰神經；陰部內動脈的陰唇支']}, refs: []});
-      out.push({name: `${S.w} bulb of vestibule`, zh: `${S.zh}前庭球`, system: 'reproductive', kind: 'organ', sex: 'female', geometry: [U.ellipsoid(at(.80, x * .0125, 0, .0), .0045, .0055, .0200)],
-        card: {origin: ['Erectile tissue on each side of the vaginal orifice, deep to the labia minora', '位於陰道口兩側、小陰唇深面的勃起組織'], course: ['Joined in front by a narrow band under the clitoris; covered by bulbospongiosus', '前方以細帶在陰蒂下方相連；被球海綿體肌覆蓋'], supply: ['Perineal branches of the pudendal nerve; artery of the bulb of the vestibule', '陰部神經會陰支；前庭球動脈']}, refs: []});
-      out.push({name: `${S.w} greater vestibular gland`, zh: `${S.zh}前庭大腺（巴氏腺）`, system: 'reproductive', kind: 'gland', sex: 'female', geometry: [U.ellipsoid(at(.96, x * .0145, -.001, -.001), .0055, .0055, .0055)],
-        card: {origin: ['Pea-sized gland behind each vestibular bulb, deep to the posterior part of the labium majus', '位於前庭球後方、大陰唇後部深面的豌豆大小腺體'], course: ['Its duct opens in the groove between the hymen and the labium minus, near the middle of the vestibule', '導管開口於處女膜與小陰唇之間的溝，約在前庭中部'], supply: ['Secretes mucus during arousal; blockage causes a Bartholin cyst', '性興奮時分泌黏液；導管阻塞形成巴氏腺囊腫']}, refs: []});
-      out.push({name: `${S.w} crus of clitoris`, zh: `${S.zh}陰蒂腳`, system: 'reproductive', kind: 'organ', sex: 'female', tubes: [{pts: [at(.02, x * .003, -.010, -.004), at(.18, x * .014, -.004, -.003), at(.44, x * .026, .002, -.001), at(.60, x * .034, .008, 0)], r: [.0028, .0032], samples: 18, sides: 8}],
-        card: {origin: ['Ischiopubic ramus, covered by ischiocavernosus', '附著於坐骨恥骨支，被坐骨海綿體肌覆蓋'], course: ['Passes forwards and medially to join its fellow and form the body of the clitoris', '向前內側走行，與對側會合形成陰蒂體'], supply: ['Dorsal nerve of the clitoris (pudendal nerve); deep artery of the clitoris', '陰蒂背神經（陰部神經）；陰蒂深動脈']}, refs: []});
-    }
-    out.push({name: 'Clitoris', zh: '陰蒂', system: 'reproductive', kind: 'organ', sex: 'female', geometry: [U.ellipsoid(at(.04, 0, -.006, -.001), .0036, .0036, .0036), U.tube([at(.04, 0, -.006, -.001), at(.02, 0, .002, -.002), at(-.02, 0, .008, -.004)], .0026, .0030, 14, 8)],
-      card: {origin: ['Erectile organ at the front of the vulva: glans, body and two crura attached to the ischiopubic rami', '外陰前方的勃起器官：陰蒂頭、陰蒂體與附著於坐骨恥骨支的兩個陰蒂腳'], course: ['The body bends sharply down under the pubic symphysis; the glans is covered by the prepuce formed by the labia minora', '陰蒂體在恥骨聯合下方急轉向下；陰蒂頭被小陰唇形成的包皮覆蓋'], supply: ['Dorsal nerve of the clitoris (pudendal nerve, S2–S4); dorsal and deep arteries of the clitoris', '陰蒂背神經（陰部神經，S2–S4）；陰蒂背動脈與深動脈']}, refs: []});
-    out.push({name: 'Vestibule of vagina', zh: '陰道前庭', system: 'reproductive', kind: 'organ', sex: 'female', geometry: [U.ellipsoid(at(.54, 0, -.001, -.001), .0075, .0055, .031)],
-      card: {origin: ['The cleft between the labia minora', '兩側小陰唇之間的裂隙'], course: ['The urethra opens in front and the vagina behind it; the ducts of the greater vestibular glands open at each side', '尿道口在前、陰道口在後；前庭大腺導管開口於兩側'], supply: ['Nerve supply from the pudendal nerve (S2–S4)', '陰部神經（S2–S4）支配']}, refs: []});
+    const cat = es => { const o = []; for (const e of es) o.push(...e.load().positions); return Float64Array.from(o); };
+    const hipAll = [...U.find('Left hip bone'), ...U.find('Right hip bone')].filter(e => /^HRAF-bone/.test(e.id ?? '')), vag = U.find('Vagina').filter(e => /^HRAF-/.test(e.id ?? ''));
+    if (!hipAll.length || !vag.length) throw new Error('vulva: the female hip bones or vagina were not found');
+    const src = JSON.parse(zlib.gunzipSync(fs.readFileSync(new URL('../data/clitoris-mri2.json.gz', import.meta.url)))), parts = {};
+    for (const [k, v] of Object.entries(src.parts)) parts[k] = {positions: b64(v.positions, Float32Array), indices: b64(v.indices, Uint32Array)};
+    const fit = fitClitoris(Object.fromEntries(Object.entries(parts).map(([k, v]) => [k, v.positions])), cat(hipAll), cat(vag));
+    const placed = k => { const ps = new Float32Array(parts[k].positions.length); for (let i = 0; i < ps.length; i += 3) ps.set(fit.place([parts[k].positions[i], parts[k].positions[i + 1], parts[k].positions[i + 2]]), i); return {positions: ps, indices: parts[k].indices}; };
+    const sideOfPart = k => { const g = placed(k); let cx = 0; for (let i = 0; i < g.positions.length; i += 3) cx += g.positions[i] / (g.positions.length / 3); return cx > 0 ? SIDES[1] : SIDES[0]; };   // by where the part ended up (+x = the body's left)
+    const SRC = ['Clitoris-MRI-2 by Bioscope (Romain Dewaele), CC BY-NC-SA, https://www.thingiverse.com/thing:5027449', 'Abdulcadir et al. 2020, J Sex Med 17(9):1590–1602, doi 10.1016/j.jsxm.2020.05.025'];
+    const add = (k, name, zh, card, cap) => out.push({name, zh, system: 'reproductive', kind: 'organ', sex: 'female', geometry: [placed(k)], cap, card, refs: SRC});
+    add('glans', 'Glans of clitoris', '陰蒂頭', {origin: ['The small rounded tip of the clitoris, at the front of the vulva where the labia minora meet', '陰蒂最前端的小圓頭，位於外陰前方、小陰唇會合處'], course: ['Continues backwards into the body of the clitoris; covered by the prepuce formed by the labia minora; very rich in sensory nerve endings', '向後連接陰蒂體；被小陰唇形成的包皮覆蓋，感覺神經末梢非常豐富'], supply: ['Dorsal nerve of the clitoris (pudendal nerve) and the dorsal artery of the clitoris', '陰蒂背神經（陰部神經）與陰蒂背動脈']}, 2500);
+    add('body', 'Body of clitoris', '陰蒂體', {origin: ['The shaft of the clitoris: two corpora cavernosa that lie side by side under the lower border of the pubic symphysis', '陰蒂的主幹：兩條並列的海綿體，位於恥骨聯合下緣下方'], course: ['Runs forwards and bends down under the symphysis to the glans; backwards it divides into the two crura', '向前在恥骨聯合下方彎向下接陰蒂頭；向後分成左右兩個陰蒂腳'], supply: ['Dorsal nerve and dorsal and deep arteries of the clitoris; the suspensory ligament holds it to the symphysis', '陰蒂背神經與陰蒂背動脈、陰蒂深動脈；陰蒂懸韌帶把它固定在恥骨聯合']}, 5000);
+    for (const k of ['crusL', 'crusR']) { const S = sideOfPart(k); add(k, `${S.w} crus of clitoris`, `${S.zh}陰蒂腳`, {origin: ['Attached to the inner surface of the ischiopubic ramus, covered by ischiocavernosus', '附著於坐骨恥骨支內面，被坐骨海綿體肌覆蓋'], course: ['Passes forwards and medially along the ramus to join its fellow and form the body of the clitoris', '沿坐骨恥骨支向前內側走行，與對側會合形成陰蒂體'], supply: ['Dorsal nerve of the clitoris (pudendal nerve); deep artery of the clitoris', '陰蒂背神經（陰部神經）；陰蒂深動脈']}, 5000); }
+    for (const k of ['bulbL', 'bulbR']) { const S = sideOfPart(k); add(k, `${S.w} bulb of vestibule`, `${S.zh}前庭球`, {origin: ['Erectile tissue on each side of the vaginal orifice, deep to the labia minora', '位於陰道口兩側、小陰唇深面的勃起組織'], course: ['Joined in front by a narrow band under the clitoris; covered by bulbospongiosus', '前方以細帶在陰蒂下方相連；被球海綿體肌覆蓋'], supply: ['Perineal branches of the pudendal nerve; artery of the bulb of the vestibule', '陰部神經會陰支；前庭球動脈']}, 5000); }
+    const introitus = U.extreme('Vagina', P(0, -1, 0), {});
+    for (const S of SIDES) out.push({name: `${S.w} greater vestibular gland`, zh: `${S.zh}前庭大腺（巴氏腺）`, system: 'reproductive', kind: 'gland', sex: 'female', geometry: [U.ellipsoid(P(S.sx * .0145, introitus[1] - .003, introitus[2] + .004), .0055, .0055, .0055)],
+      card: {origin: ['Pea-sized gland behind each vestibular bulb, deep to the posterior part of the labium majus', '位於前庭球後方、大陰唇後部深面的豌豆大小腺體'], course: ['Its duct opens in the groove between the hymen and the labium minus, near the middle of the vestibule', '導管開口於處女膜與小陰唇之間的溝，約在前庭中部'], supply: ['Secretes mucus during arousal; blood supply from the internal pudendal artery', '興奮時分泌黏液；血液供應來自陰部內動脈']}, refs: []});
+    fit.report.glansMm = fit.report.glans.map(v => +v.toFixed(1));
   }
   void sub; void mul; void unit; void len;
   return out;

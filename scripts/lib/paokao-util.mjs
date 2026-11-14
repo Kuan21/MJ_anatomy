@@ -114,7 +114,7 @@ export function makeUtil(w) {
   const vcache = new Map(), V = name => (vcache.has(name) ? vcache.get(name) : (vcache.set(name, verts(name)), vcache.get(name)));
   const centroid = list => list.reduce((s, v) => add(s, mul(v, 1 / list.length)), [0, 0, 0]);
   const U = {
-    mesh: n => w.mesh(n), has: n => w.has(n), V,
+    mesh: n => w.mesh(n), has: n => w.has(n), find: n => w.find(n), V,
     /** The first of several candidate names that exists in the atlas. */
     pick: (...names) => { const n = names.find(x => w.has(x)); if (!n) throw new Error(`none of ${names.join(' | ')} exists`); return n; },
     /** Centre of a tube-like mesh near `p`: mean of the vertices within r of the vertex nearest to p. */
