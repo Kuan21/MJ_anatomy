@@ -112,7 +112,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  // Motion warnings (a pose the model cannot show) are advice, not a failure: they never show the fatal error box with its reload button (P3-10).
  const [notice,setNotice]=useState('');
  // Structures the viewer draws that are not atlas concepts (external nerves, joint ligaments, brain, neck vessels): loaded when search first opens.
- type Extra={n:string;s:SystemId;k:'nerve'|'joint'|'brain'|'vessel'|'heart';raw?:string;/** Chinese name carried by the index (heart detail structures) */z?:string};
+ type Extra={n:string;s:SystemId;k:'nerve'|'joint'|'brain'|'vessel'|'heart';raw?:string;/** the brain model's category (cerebellum) */g?:string;/** Chinese name carried by the index (heart detail structures) */z?:string};
  const [extras,setExtras]=useState<Extra[]>([]),[externalSystem,setExternalSystem]=useState<SystemId>('nervous');
  const [fadeOther,setFadeOther]=useState(false);
  const [flowOpen,setFlowOpen]=useState<null|{limb:'upper'|'lower';mode?:number;step?:number;highlight?:string[]}>(null);
@@ -232,7 +232,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
   let cancelled=false;const sources:SearchSource[]=[],queue:(()=>void)[]=[];
   const concepts=atlas.concepts;
   for(let i=0;i<concepts.length;i+=150)queue.push(()=>{for(const c of concepts.slice(i,i+150)){const p=c.elements.map(id=>parts.get(id)).find(Boolean),profile=p?structureProfile(c.name,p.system,p):undefined;sources.push({concept:c,english:profile?.english??c.name,chinese:profile?.chinese});}});
-  for(let i=0;i<extras.length;i+=150)queue.push(()=>{for(const x of extras.slice(i,i+150)){const profile=structureProfile(x.n,x.s);sources.push({concept:{id:`extra:${x.k}:${x.raw??x.n}`,name:x.n,elements:[] as string[]},english:profile.english??x.n,chinese:x.z??profile.chinese,kind:x.k});}});
+  for(let i=0;i<extras.length;i+=150)queue.push(()=>{for(const x of extras.slice(i,i+150)){const profile=structureProfile(x.n,x.s);sources.push({concept:{id:`extra:${x.k}:${x.raw??x.n}`,name:x.n,elements:[] as string[]},english:profile.english??x.n,chinese:x.z??profile.chinese,kind:x.k,group:x.g});}});
   // spaces that have no mesh of their own in the atlas (femoral triangle, adductor canal, popliteal fossa) are found by search too; they open in the dissection panel
   queue.push(()=>{for(const d of SPACES){const re=new RegExp(`^(?:left |right )?${d.part}$`,'i');if(atlas.parts.some(q=>re.test(q.name)&&q.system!=='muscular'))continue;sources.push({concept:{id:`space:${d.id}`,name:d.en,elements:[] as string[]},english:d.en,chinese:d.zh,kind:'space'});}});
   const idle=(fn:()=>void)=>'requestIdleCallback' in window?(window as unknown as {requestIdleCallback:(f:()=>void,o?:{timeout:number})=>number}).requestIdleCallback(fn,{timeout:400}):setTimeout(fn,16);

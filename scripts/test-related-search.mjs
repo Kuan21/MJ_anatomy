@@ -6,7 +6,7 @@ import {gunzipSync} from 'node:zlib';
 import {quizModule} from './quiz-modules.mjs';
 
 const {buildSearchIndex, querySearchIndex} = await quizModule('app/mj-search.ts');
-const {RELATED_ENTRIES, relatedFor, relatedResults, RELATED_NOTE_ZH, RELATED_NOTE_EN} = await quizModule('app/mj-related-search.ts');
+const {RELATED_ENTRIES, relatedFor, relatedResults, RELATED_NOTE_ZH, RELATED_NOTE_EN, relatedRows, isCerebellar, CEREBELLAR_TAG_ZH, CEREBELLAR_TAG_EN} = await quizModule('app/mj-related-search.ts');
 const {structureProfile} = await quizModule('app/mj-structure-info.ts');
 const {normalizeAtlasSystems} = await quizModule('app/mj-system-classifier.ts');
 const {mergeAtlasStreams} = await quizModule('app/mj-facial-atlas.ts');
@@ -19,7 +19,7 @@ const sources = atlas.concepts.map(c => {
 });
 for (const x of read('search-extras.json.gz')) {
   const profile = structureProfile(x.n, x.s);
-  sources.push({concept: {id: `extra:${x.k}:${x.raw ?? x.n}`, name: x.n, elements: []}, english: profile.english ?? x.n, chinese: x.z ?? profile.chinese, kind: x.k});
+  sources.push({concept: {id: `extra:${x.k}:${x.raw ?? x.n}`, name: x.n, elements: []}, english: profile.english ?? x.n, chinese: x.z ?? profile.chinese, kind: x.k, group: x.g});
 }
 const index = buildSearchIndex(sources), byId = new Map(index.map(e => [e.concept.id, e]));
 
@@ -50,6 +50,28 @@ assert.equal(relatedFor('   '), undefined);
 assert.equal(relatedFor('uvu'), undefined, 'exact names only');
 assert.ok(RELATED_NOTE_ZH.includes('站上沒有這個結構本身') && /not modeled on the site/.test(RELATED_NOTE_EN));
 assert.ok(querySearchIndex(index, 'femur').length > 0, 'ordinary search unchanged');
+
+// cerebellar structures: tagged from the brain model's own category, listed after the related results and the ordinary matches
+const rowsFor = q => {const r = relatedResults(index, q); return r && relatedRows(r.entries, querySearchIndex(index, q, 50), 50);};
+const vermis = byId.get([...byId.keys()].find(id => byId.get(id).english.toLowerCase() === 'uvula of vermis'));
+assert.ok(vermis && isCerebellar(vermis), 'Uvula of vermis carries the cerebellum category');
+assert.ok(!isCerebellar(byId.get('FMA46733')), 'Uvular muscle is not cerebellar');
+assert.ok(index.some(e => e.english === 'Base of peduncle' ? !isCerebellar(e) : true), 'base of peduncle is not tagged');
+for (const q of ['uvula', 'Uvula']) {
+  const rows = rowsFor(q), at = rows.findIndex(e => e.concept.id === vermis.concept.id);
+  assert.equal(rows[0].concept.id, 'FMA46733', `${q}: the related structure is first`);
+  assert.ok(at > 0, `${q}: Uvula of vermis is still listed`);
+  assert.ok(rows.slice(0, at).every(e => !isCerebellar(e)), `${q}: nothing cerebellar before the related and ordinary results`);
+  assert.ok(rows.slice(at).every(isCerebellar), `${q}: cerebellar structures come last`);
+}
+assert.equal(CEREBELLAR_TAG_ZH, '小腦結構');
+assert.equal(CEREBELLAR_TAG_EN, 'Cerebellar structure');
+// other searches are unchanged: no related result, so the panel shows the ordinary list without tags
+for (const q of ['femur', 'vermis', 'cerebellum']) assert.equal(relatedResults(index, q), undefined, `${q} is not a related search`);
+const sample = relatedResults(index, 'uvula').entries;
+assert.deepEqual(relatedRows(sample, [], 50), sample);
+const src = fs.readFileSync('app/search-panel.tsx', 'utf8');
+assert.ok(/related&&isCerebellar\(e\)/.test(src), 'the tag is shown only on a related search');
 
 // the data is used only by the search panel: not by the Quiz, the synonym tables, the structure cards or the alias lists
 const usesIt = f => /mj-related-search/.test(fs.readFileSync(f, 'utf8'));

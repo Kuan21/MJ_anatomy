@@ -56,7 +56,7 @@ export const conceptMatches=(concept:Pick<Concept,'id'|'name'>,profile:{english:
 
 // ---------------------------------------------------------------------------------------------------------------------------
 // Search index: names (English, Chinese with its alternative spellings), FMA ids, built once and queried per keystroke.
-export interface SearchSource {concept: Concept; english: string; chinese?: string; kind?: string}
+export interface SearchSource {concept: Concept; english: string; chinese?: string; kind?: string; /** the brain model's own category for a brain structure (only 'cerebellum' is carried) */ group?: string}
 export interface SearchEntry extends SearchSource {
   /** Lower-case English names and ids, joined for one substring scan. */
   hay: string;
