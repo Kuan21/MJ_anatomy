@@ -163,6 +163,7 @@ export function bindBodyTissue(rig:BodyRig,positions:ArrayLike<number>,skull=fal
  // sampling a different neck rotation at each vertex sheared thin membranes.
  const laryngeal=part&&/thyroid cartilage|cricoid cartilage|arytenoid cartilage|corniculate cartilage|cuneiform cartilage|thyrohyoid|cricothyroid|cricoarytenoid|thyroarytenoid|vocal ligament|conus elasticus|hyo-epiglottic|thyro-epiglottic|epiglottic cartilage|hyoid bone|intermediate tendon/i.test(part.name);
  const c=rig.region==='head'&&laryngeal?(rig.larynx??rig.hyoid):rigidThroat?center(part):null;
+ let strapSpan:[number,number,number]|undefined;
  for(let i=0;i<count;i++){
   const y=c?.y??positions[i*3+1],z=c?.z??positions[i*3+2];
   let w=skull&&rig.region==='head'?[0,0,0,0,0,0,0,0,1]:skull&&rig.region==='spine'?Array.from({length:rig.pivots.length},(_,j)=>j===rig.pivots.length-1?1:0):rig.region==='head'&&!spinal?neckSoftWeights(rig,y,z):bodyWeights(rig,y);
@@ -178,9 +179,9 @@ export function bindBodyTissue(rig:BodyRig,positions:ArrayLike<number>,skull=fal
    const t=smooth((y-(part.bounds[0][1]+.018))/.10),lateral=smooth((.14-Math.abs(positions[i*3]))/.075),follow=t*lateral;
    w=[1-follow,0,0,0,0,0,0,0,follow];
   }
-  if(!laryngeal&&rig.region==='head'&&part&&rig.hyoid&&/digastric|mylohyoid|geniohyoid|stylohyoid|sternohyoid|omohyoid|thyrohyoid/i.test(part.name)){
+  if(!laryngeal&&rig.region==='head'&&part&&rig.hyoid&&/digastric|mylohyoid|geniohyoid|genioglossus|stylohyoid|sternohyoid|omohyoid|thyrohyoid/i.test(part.name)){
    const h=rig.hyoid,carrier=rig.larynx??h,hw=neckSoftWeights(rig,carrier.y,carrier.z);
-   const supra=/digastric|mylohyoid|geniohyoid|stylohyoid/i.test(part.name);
+   const supra=/digastric|mylohyoid|geniohyoid|genioglossus|stylohyoid/i.test(part.name);
    if(supra){
     // Both digastric bellies meet the same hyoid frame. The anterior belly
     // reaches the mandibular symphysis anteriorly, not at the highest y.
@@ -209,7 +210,17 @@ export function bindBodyTissue(rig:BodyRig,positions:ArrayLike<number>,skull=fal
   // A ligament or retinaculum between two bones: both ends stay on their bone, the part between follows a smooth blend of the two bone frames along the line a→b.
   if((rig.region==='leftLeg'||rig.region==='rightLeg')&&own?.ends&&own.a&&own.b){
    const ax=own.a,ab=[own.b[0]-ax[0],own.b[1]-ax[1],own.b[2]-ax[2]],len2=ab[0]*ab[0]+ab[1]*ab[1]+ab[2]*ab[2]||1;
-   const t=Math.max(0,Math.min(1,((positions[i*3]-ax[0])*ab[0]+(positions[i*3+1]-ax[1])*ab[1]+(positions[i*3+2]-ax[2])*ab[2])/len2)),s=smooth(t);
+   const along=(k:number)=>Math.max(0,Math.min(1,((positions[k*3]-ax[0])*ab[0]+(positions[k*3+1]-ax[1])*ab[1]+(positions[k*3+2]-ax[2])*ab[2])/len2));
+   // A short band that lies across the line a→b instead of along it (the patellar retinacula: horizontal bands over the joint line, a→b nearly vertical)
+   // is wider across the line than it is long along it, so the blend runs across its width: the knee bend then shears the band to several times its width.
+   // Such a band takes one blend for all its vertices (the one at its middle), so it keeps its shape and rides between the two bones.
+   if(strapSpan===undefined){
+    // extent of the band along a→b and across it (largest distance from the line)
+    let lo=Infinity,hi=-Infinity,across=0;const length=Math.sqrt(len2);
+    for(let k=0;k<count;k++){const dx=positions[k*3]-ax[0],dy=positions[k*3+1]-ax[1],dz=positions[k*3+2]-ax[2],u=(dx*ab[0]+dy*ab[1]+dz*ab[2])/length;lo=Math.min(lo,u);hi=Math.max(hi,u);across=Math.max(across,Math.sqrt(Math.max(0,dx*dx+dy*dy+dz*dz-u*u)));}
+    strapSpan=[lo,hi,across>hi-lo?1:0];
+   }
+   const t=strapSpan[2]?Math.max(0,Math.min(1,(strapSpan[0]+strapSpan[1])/2/Math.sqrt(len2))):along(i),s=smooth(t);
    w=Array(rig.pivots.length).fill(0);w[own.ends[0]]+=1-s;w[own.ends[1]]+=s;
   }
   // Strongest influence first: the solver and the DQ hemisphere reference both read the dominant frame from slot 0.

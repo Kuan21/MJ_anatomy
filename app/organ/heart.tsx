@@ -227,7 +227,7 @@ export default function HeartDetail() {
             <button aria-pressed={labelOn.leaflets} onClick={() => setLabelOn(v => ({...v, leaflets: !v.leaflets}))}><span lang="en">Cusps</span><small lang="zh-Hant">瓣葉與腱索</small></button>
             <button aria-pressed={labelOn.inside} onClick={() => setLabelOn(v => ({...v, inside: !v.inside}))}><span lang="en">Inside</span><small lang="zh-Hant">腔內構造</small></button>
           </div>
-          <small>標籤放在畫面左右兩側，以細線連到構造，隨構造轉動；只標示目前可見的構造；「腔內構造」在打開心腔後標出該腔的界嵴、梳狀肌、卵圓窩、開口與乳突肌等（瓣膜預設在心腔內，需先打開心腔）。</small>
+          <small>標籤放在畫面左右兩側，以細線連到構造表面上看得見的一點，線不交叉、各線落點互不重合，隨構造轉動；只標示目前視角看得到的構造，被擋住或已切開的構造不畫線，改在畫面下方說明，轉動模型或換視角即可看到；「腔內構造」在打開心腔後標出該腔的界嵴、梳狀肌、卵圓窩、開口與乳突肌等（瓣膜預設在心腔內，需先打開心腔）。</small>
         </section>
         <section className="organ-block">
           <h2>Section<small>切面</small></h2>

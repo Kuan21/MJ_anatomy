@@ -220,7 +220,7 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
     if(binding&&softRigs[binding.side]){registerNerveRest(softRigs[binding.side]!,position.array as Float32Array);position.needsUpdate=true;geometry.computeVertexNormals();geometry.computeBoundingBox();}
     else geometry.computeVertexNormals();// once, and only for meshes that survived the filters above
     mesh.userData.basePositions=new Float32Array(position.array as ArrayLike<number>);
-    if(binding&&softRigs[binding.side])mesh.userData.skin=bindTissue(softRigs[binding.side]!,resolveNeurovascularProfile(exactName,'path'),mesh.userData.basePositions,undefined,exactName);
+    if(binding&&softRigs[binding.side])mesh.userData.skin=bindTissue(softRigs[binding.side]!,resolveNeurovascularProfile(exactName,'path'),mesh.userData.basePositions,undefined,exactName,geometry.index?.array);
     // Live drag preview: limb nerves carry the same palette weights as the anatomy meshes (other nerves stay on the identity slot).
     {const count=position.count,slots=new Uint8Array(count*4),weights=new Uint16Array(count*4);clearGpuAttributes(slots,weights,0,count);
      if(mesh.userData.skin&&binding)writeGpuAttributes(gpuBinding(binding.side,mesh.userData.skin),slots,weights,0);
