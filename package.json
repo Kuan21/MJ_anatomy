@@ -31,6 +31,8 @@
     "test:heart-open": "node scripts/test-heart-open-browser.mjs",
     "check:heart": "node scripts/prepare-heart.mjs && node scripts/prepare-quiz.mjs && node scripts/check-heart.mjs && node scripts/test-heart-vessels.mjs && node scripts/test-heart-valves.mjs",
     "check:stability": "node scripts/check-stability.mjs",
+    "build:eye": "node scripts/build-eye-atlas.mjs",
+    "check:eye": "node scripts/test-eye-atlas.mjs",
     "stability:shots": "node scripts/stability-shots.mjs",
     "regen": "node scripts/run-checks.mjs regen",
     "ci:local": "node scripts/ci-local.mjs"
