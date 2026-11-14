@@ -9,6 +9,7 @@ import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import {gzipSync} from 'node:zlib';
 import {readBone, refinePiece, REFINED_NAMES} from './lib/facial-refine.mjs';
+import {download} from './lib/download.mjs';
 const revision='c835665a9ade09ee0b993cee6eee1b25b7f7311b';
 const sha256='7f24687034d706fc08830f617da35f77cb951cd77621a562fa064fa09d5a1b69';
 const dir=new URL('../public/models/facial/',import.meta.url),out=new URL('../public/models/stream/',import.meta.url),cache=new URL('../work/',import.meta.url);
@@ -20,15 +21,8 @@ let bytes;try{bytes=fs.readFileSync(source);}catch{}
 if(!bytes||digest(bytes)!==sha256){try{const kept=fs.readFileSync(new URL('../vendor/facial/facial.bin',import.meta.url));if(digest(kept)===sha256){bytes=kept;fs.writeFileSync(source,bytes);}}catch{}}
 if(!bytes||digest(bytes)!==sha256){
  const url=`https://raw.githubusercontent.com/choxos/OMFAtlas/${revision}/public/models/facial/facial.bin`;
- let lastError;
- for(let attempt=0;attempt<4&&!(bytes&&digest(bytes)===sha256);attempt++){
-  try{
-   const response=await fetch(url,{signal:AbortSignal.timeout(120000)});
-   if(!response.ok)throw new Error(`facial.bin download failed: ${response.status}`);
-   bytes=Buffer.from(await response.arrayBuffer());
-  }catch(e){lastError=e;await new Promise(r=>setTimeout(r,1000*2**attempt));}
- }
- if(!bytes||digest(bytes)!==sha256)throw lastError??new Error('facial.bin checksum mismatch');
+ bytes=await download(url,{label:'facial.bin',timeoutMs:120000});
+ if(digest(bytes)!==sha256)throw new Error('facial.bin checksum mismatch');
  fs.writeFileSync(source,bytes);
 }
 const atlas=JSON.parse(fs.readFileSync(new URL('atlas.json',dir),'utf8'));
