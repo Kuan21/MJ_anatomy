@@ -32,7 +32,7 @@ function slabOf(rings, a, b, capStart, capEnd) { return meshFromRings(rings.slic
 /**
  * Uterus: `pieces` = [{positions, name}] of the four source pieces (fundus, body, lower segment, cervix). Returns {fundus, body, lower, cervix} meshes (same names as keys) and a report.
  */
-export function loftUterus(pieces, {slices = 56, sides = 28, exponent = 2.4} = {}) {
+export function loftUterus(pieces, {slices = 56, sides = 28, exponent = 2.4, cervixExtend = Number(process.env.CERVIX_EXTEND ?? .012)} = {}) {
   const all = verts(pieces.flatMap(p => Array.from(p.positions))), c0 = mean(all);
   const byName = n => pieces.find(p => p.name === n);
   let a = principalAxis(all);
@@ -40,22 +40,28 @@ export function loftUterus(pieces, {slices = 56, sides = 28, exponent = 2.4} = {
   if (dot(a, sub(cf, cc)) < 0) a = mul(a, -1);   // from the cervix towards the fundus
   let l = [1, 0, 0]; l = unit(sub(l, mul(a, dot(l, a))));   // sideways (body's left)
   const d = cross(a, l);                                    // front-to-back; (l, d, a) is right-handed like (n, b, t)
-  const T = all.map(p => dot(sub(p, c0), a)), tmin = Math.min(...T) - .006, tmax = Math.max(...T), dt = (tmax - tmin) / (slices - 1);   // the cervix is carried 6 mm further down: it projects into the vagina, and the source pieces were cut across the tilted axis
+  const T = all.map(p => dot(sub(p, c0), a)), tOrig = Math.min(...T), tmin = tOrig - cervixExtend, tmax = Math.max(...T), dt = (tmax - tmin) / (slices - 1);   // the cervix is carried `cervixExtend` further down: its lower end projects into the upper vagina, and the source pieces were cut across the tilted axis
   const cen = [], hw = [], hd = [];
   for (let k = 0; k < slices; k++) {
     const t = tmin + k * dt; let lo = [1e9, 1e9], hi = [-1e9, -1e9];
     all.forEach((p, i) => { if (Math.abs(T[i] - t) > 1.6 * dt) return; const q = sub(p, c0), x = dot(q, l), y = dot(q, d); lo = [Math.min(lo[0], x), Math.min(lo[1], y)]; hi = [Math.max(hi[0], x), Math.max(hi[1], y)]; });
-    if (lo[0] > hi[0]) { const prev = k ? [cen[k - 1], hw[k - 1], hd[k - 1]] : [[0, 0], 1e-3, 1e-3]; cen.push(prev[0]); hw.push(prev[1]); hd.push(prev[2]); continue; }
+    if (lo[0] > hi[0]) { cen.push(null); hw.push(null); hd.push(null); continue; }
     cen.push([(lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2]); hw.push((hi[0] - lo[0]) / 2); hd.push((hi[1] - lo[1]) / 2);
   }
-  const cenS = smooth(cen, 6, false), hwS = smooth(hw, 6, false), hdS = smooth(hd, 6, false), L = tmax - tmin, domeTop = .16 * L, domeBottom = 1e-9;   // the cervix end stays full width: it projects into the vagina
+  // slices without source points (the carried-down cervix tip) take the nearest measured slice
+  const firstOk = cen.findIndex(x => x), lastOk = cen.length - 1 - [...cen].reverse().findIndex(x => x);
+  for (let k = 0; k < slices; k++) if (!cen[k]) { const j = k < firstOk ? firstOk : lastOk; cen[k] = cen[j]; hw[k] = hw[j]; hd[k] = hd[j]; }
+  // pear shape: from the cervix end up to the widest slice the section only grows (the measured isthmus waist is filled in, so the body narrows smoothly into the cervix instead of a waist followed by a bulb)
+  for (const arr of [hw, hd]) { let peak = 0; arr.forEach((v, k) => { if (v > arr[peak]) peak = k; }); for (let k = 1; k <= peak; k++) arr[k] = Math.max(arr[k], arr[k - 1]); }
+  const cenS = smooth(cen, 6, false), hwS = smooth(hw, 6, false), hdS = smooth(hd, 6, false), L = tmax - tmin, domeTop = .16 * L, domeBottom = .0045;   // the lower end is a blunt dome (the cervical os), 4.5 mm long
   const rings = [];
   for (let k = 0; k < slices; k++) {
     const t = tmin + k * dt; let s = 1;
     const up = (tmax - t) / domeTop, dn = (t - tmin) / domeBottom;   // distance from each end in units of the dome length
     if (up < 1) s = Math.min(s, Math.sqrt(Math.max(0, 1 - (1 - up) ** 2)));
-    s = Math.max(s, .04); void dn;
-    const ring = [], base = add(c0, mul(a, t));
+    if (dn < 1) s = Math.min(s, Math.sqrt(Math.max(0, 1 - (1 - dn) ** 2)));
+    s = Math.max(s, .04);
+    const ring = [], base = t < tOrig ? add(add(c0, mul(a, tOrig)), [0, -(tOrig - t), 0]) : add(c0, mul(a, t));   // below the source cervix the lower end turns straight down into the vagina (the tilted uterine axis would push it through the back wall)
     for (let j = 0; j < sides; j++) {
       const th = 2 * Math.PI * j / sides, cs = Math.cos(th), sn = Math.sin(th), x = Math.sign(cs) * Math.abs(cs) ** (2 / exponent), y = Math.sign(sn) * Math.abs(sn) ** (2 / exponent);
       ring.push(add(add(base, mul(l, cenS[k][0] + s * hwS[k] * x)), mul(d, cenS[k][1] + s * hdS[k] * y)));
@@ -119,4 +125,21 @@ export function loftTube(pieces, uterus, uterusPts, {sides = 16, samples = 70, m
   }
   const out = {}; ['isthmus', 'ampulla', 'infundibulum'].forEach((nme, i) => { out[nme] = slabOf(rings, cutIdx[i], cutIdx[i + 1], i === 0, i === 2); });
   return {meshes: out, report: {length: total, cutIdx, rMin: Math.min(...R), rMax: Math.max(...R), start: P[0], end: P[samples - 1]}};
+}
+
+const triNormals = (positions, indices) => { const o = []; for (let t = 0; t < indices.length; t += 3) { const a = indices[t] * 3, b = indices[t + 1] * 3, c = indices[t + 2] * 3, u = [positions[b] - positions[a], positions[b + 1] - positions[a + 1], positions[b + 2] - positions[a + 2]], v = [positions[c] - positions[a], positions[c + 1] - positions[a + 1], positions[c + 2] - positions[a + 2]]; let n = cross(u, v); const l = len(n); if (l < 1e-12) continue; n = mul(n, 1 / l); o.push({c: [(positions[a] + positions[b] + positions[c]) / 3, (positions[a + 1] + positions[b + 1] + positions[c + 1]) / 3, (positions[a + 2] + positions[b + 2] + positions[c + 2]) / 3], n}); } return o; };
+
+/**
+ * A tube that lies on a sheet (the mesosalpinx) draws on top of it where their faces are parallel and within 0.15 mm (the coincident-face check of scripts/check-stability.mjs).
+ * Tries small shifts of the tube (up to `reach` along each axis) and returns the shift (metres) with the fewest such pairs; ties go to the smaller shift.
+ */
+export function separateFromSheet(tubes, sheet, reach = .001) {
+  const S = triNormals(sheet.positions, sheet.indices), T = tubes.flatMap(t => triNormals(t.positions, t.indices));
+  const count = off => { let h = 0; for (const x of T) { const cx = x.c[0] + off[0], cy = x.c[1] + off[1], cz = x.c[2] + off[2]; for (const y of S) { const dx = y.c[0] - cx; if (dx > .006 || dx < -.006) continue; const dy = y.c[1] - cy, dz = y.c[2] - cz; if (dx * dx + dy * dy + dz * dz > 3.6e-5) continue; if (x.n[0] * y.n[0] + x.n[1] * y.n[1] + x.n[2] * y.n[2] < .995) continue; if (Math.abs(dx * x.n[0] + dy * x.n[1] + dz * x.n[2]) > .00015) continue; h++; } } return h; };
+  let best = [0, 0, 0], bc = count(best);
+  for (const dx of [-1, -.5, 0, .5, 1]) for (const dy of [-1, -.5, 0, .5, 1]) for (const dz of [-1, -.5, 0, .5, 1]) {
+    const off = [dx * reach, dy * reach, dz * reach], c = count(off), size = Math.hypot(dx, dy, dz);
+    if (c < bc || (c === bc && size < Math.hypot(...best) / reach)) { bc = c; best = off; }
+  }
+  return {shift: best, before: count([0, 0, 0]), after: bc};
 }

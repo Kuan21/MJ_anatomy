@@ -6,16 +6,6 @@
    "measure": 20.3,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
-  "cuts|HRAF-473": {
-   "name": "Body of uterus",
-   "measure": 21.2,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
-  },
-  "cuts|HRAF-474": {
-   "name": "Fundus of uterus",
-   "measure": 22.7,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
-  },
   "cuts|HRAF-Left-mesosalpinx": {
    "name": "Left mesosalpinx",
    "measure": 23,
@@ -6312,20 +6302,10 @@
    "measure": 513,
    "reason": "faces coincide with Right isthmus of uterine tube: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|HRAF-436|HRAF-Uterine-cornua": {
-   "name": "Right isthmus of uterine tube",
-   "measure": 178,
-   "reason": "faces coincide with Uterine cornua: two layers share the same surface; to be offset or one of them removed"
-  },
   "zfight|HRAF-442|HRAF-443": {
    "name": "Left isthmus of uterine tube",
    "measure": 1055,
    "reason": "faces coincide with Left ampulla of uterine tube: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|HRAF-473|HRAF-476": {
-   "name": "Body of uterus",
-   "measure": 736,
-   "reason": "faces coincide with Lower uterine segment: two layers share the same surface; to be offset or one of them removed"
   },
   "zfight|HRAF-476|HRAF-479": {
    "name": "Lower uterine segment",

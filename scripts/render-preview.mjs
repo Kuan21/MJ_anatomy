@@ -3,6 +3,7 @@
 //   node scripts/render-preview.mjs <spec.json> <outDir>
 // spec: {"title": "…", "size": [900, 700], "context": [{"match": "regex", "color": "#ccc", "opacity": .25}],
 //        (a group can also carry "id" / "notId" regexes on the part id, e.g. {"id": "^HRAF-"} for the female structures only)
+//        "clip": {"normal": [-1, 0, 0], "constant": 0} (optional: a clipping plane, here keeping x <= 0, so a view from +x is a section),
 //        "focus": [{"match": "regex", "color": "#0a0", "opacity": 1}], "views": [{"name": "front", "eye": [x, y, z], "target": [x, y, z], "fov": 30}]}
 // Coordinates are in metres in the model frame (+x body left, y up, +z anterior). Views can also be {"name", "around": "regex", "dir": [x, y, z], "dist": .25}
 // which looks at the centre of the focus meshes matching `around` from direction `dir`.
@@ -41,14 +42,15 @@ const page = await browser.newPage({viewport: {width: W, height: H}});
 await page.route('**/three.module.js', r => r.fulfill({path: threeFile, contentType: 'text/javascript'}));
 await page.route('**/page.html', r => r.fulfill({contentType: 'text/html', body: '<!doctype html><body style="margin:0"><canvas id=c></canvas>'}));
 await page.goto('http://preview.local/page.html');
-await page.evaluate(async ({meshes, views, W, H, bg}) => {
+await page.evaluate(async ({meshes, views, W, H, bg, clip}) => {
   const T = await import('http://preview.local/three.module.js');
   const canvas = document.getElementById('c'); canvas.width = W; canvas.height = H;
   const renderer = new T.WebGLRenderer({canvas, antialias: true, preserveDrawingBuffer: true}); renderer.setSize(W, H, false); renderer.setClearColor(bg ?? '#eef1f4');
+  renderer.localClippingEnabled = !!clip; const planes = clip ? [new T.Plane(new T.Vector3(...clip.normal), clip.constant ?? 0)] : [];   // clip: {"normal": [-1,0,0], "constant": 0} keeps x <= 0, a section through the middle
   const scene = new T.Scene(); scene.add(new T.HemisphereLight(0xffffff, 0x8899aa, 1.1)); const sun = new T.DirectionalLight(0xffffff, 1.4); scene.add(sun, sun.target);
   for (const m of meshes) {
     const g = new T.BufferGeometry(); g.setAttribute('position', new T.Float32BufferAttribute(m.positions, 3)); g.setIndex(m.indices); g.computeVertexNormals();
-    const mat = new T.MeshStandardMaterial({color: m.color, transparent: m.opacity < 1, opacity: m.opacity, side: T.DoubleSide, roughness: .75, metalness: 0, depthWrite: m.opacity >= .6});
+    const mat = new T.MeshStandardMaterial({color: m.color, transparent: m.opacity < 1, opacity: m.opacity, side: T.DoubleSide, roughness: .75, metalness: 0, depthWrite: m.opacity >= .6, clippingPlanes: planes});
     scene.add(new T.Mesh(g, mat));
   }
   window.__shots = {};
@@ -57,7 +59,7 @@ await page.evaluate(async ({meshes, views, W, H, bg}) => {
     sun.position.set(v.eye[0] + .3, v.eye[1] + .6, v.eye[2] + .4); sun.target.position.set(...v.target);
     renderer.render(scene, cam); window.__shots[v.name] = canvas.toDataURL('image/png');
   }
-}, {meshes, views, W, H, bg: spec.background});
+}, {meshes, views, W, H, bg: spec.background, clip: spec.clip});
 for (const v of views) {
   const data = await page.evaluate(n => window.__shots[n], v.name);
   fs.writeFileSync(path.join(outDir, `${v.name}.png`), Buffer.from(data.split(',')[1], 'base64'));

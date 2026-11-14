@@ -8,7 +8,7 @@ import {createStream, simplify, weldByPosition} from './lib/stream-writer.mjs';
 import {atlasPositions, atlasIndices} from './lib/atlas-read.mjs';
 import {femaleSkin} from './lib/female-skin.mjs';
 import {thicken} from './lib/female-smooth.mjs';
-import {loftUterus, loftTube} from './lib/female-loft.mjs';
+import {loftUterus, loftTube, separateFromSheet} from './lib/female-loft.mjs';
 
 const root = new URL('../', import.meta.url), out = new URL('public/models/stream/', root), dir = new URL('public/models/female/', root);
 fs.mkdirSync(out, {recursive: true}); fs.mkdirSync(dir, {recursive: true});
@@ -57,6 +57,18 @@ for (const piece of source.pieces) {
 // Continuous uterus and tubes (scripts/lib/female-loft.mjs): the source meshes are separate stacked pieces, so one pear-shaped uterus and one bent tube per side are lofted from their
 // measured axis, cross-sections and radii, then cut back into the same named segments. Position and size come from the source pieces.
 {
+  // the mesosalpinx exactly as it is written to the stream later (same transform, welding and simplification), so the shift is measured against what is drawn
+  const mesoSource = JSON.parse(gunzipSync(fs.readFileSync(new URL('data/hra-female-pelvis-viscera.json.gz', import.meta.url)))).pieces.filter(q => /mesosalpinx/.test(q.name));
+  const mesosalpinxOf = async side => {
+    for (const piece of mesoSource) {
+      const raw = decode(piece.positions, Float32Array), p = new Float32Array(raw.length); let cx = 0;
+      for (let i = 0; i < raw.length; i += 3) { p.set(toAtlas(raw[i], raw[i + 1], raw[i + 2]), i); cx += p[i] / (raw.length / 3); }
+      if ((cx > 0 ? 'L' : 'R') !== side) continue;
+      const w = weldByPosition(p, decode(piece.indices, Uint32Array)); return simplify(w.positions, w.indices, 3000, .004);
+    }
+    return null;
+  };
+  const sideKey = it => { let cx = 0; for (let i = 0; i < it.positions.length; i += 3) cx += it.positions[i]; return cx > 0 ? 'L' : 'R'; };
   const pick = re => items.find(it => re.test(it.piece.name)), posOf = it => ({positions: it.positions});
   const U = {fundus: pick(/^VH_F_fundus_of_uterus$/), body: pick(/^VH_F_body_of_uterus$/), lower: pick(/^VH_F_lower_uterine_segment$/), cervix: pick(/^VH_F_cervix$/)};
   const ur = loftUterus(Object.entries(U).map(([name, it]) => ({name, ...posOf(it)})));
@@ -68,6 +80,9 @@ for (const piece of source.pieces) {
     const T = {isthmus: pick(new RegExp(`^VH_F_isthmus_of_fallopian_tube_${side}$`)), ampulla: pick(new RegExp(`^VH_F_ampulla_of_uterine_tube_${side}$`)), infundibulum: pick(new RegExp(`^VH_F_uterine_tube_infundibulum_${side}$`))};
     const tr = loftTube(Object.entries(T).map(([name, it]) => ({name, ...posOf(it)})), centre, uterusPts);
     for (const [k, it] of Object.entries(T)) { it.positions = tr.meshes[k].positions; it.indices = tr.meshes[k].indices; }
+    // the tube lies on the mesosalpinx: shift it by the smallest amount that stops their faces from coinciding
+    const sheet = await mesosalpinxOf(side);
+    if (sheet) { const r = separateFromSheet(Object.values(T), sheet); for (const it of Object.values(T)) for (let i = 0; i < it.positions.length; i += 3) for (let k = 0; k < 3; k++) it.positions[i + k] += r.shift[k]; report.push(`tube ${side}: coincident pairs with the mesosalpinx ${r.before} → ${r.after}, shifted ${r.shift.map(v => (v * 1e3).toFixed(1))} mm`); }
     report.push(`loft tube ${side}: length ${(tr.report.length * 1000).toFixed(1)} mm, radius ${(tr.report.rMin * 1000).toFixed(1)}–${(tr.report.rMax * 1000).toFixed(1)} mm, from ${tr.report.start.map(v => (v * 1000).toFixed(0))} to ${tr.report.end.map(v => (v * 1000).toFixed(0))}`);
   }
 }
@@ -140,7 +155,8 @@ for (const g of vis(/_ureter$/)) {
   await addMesh({name: `${side} ureter`, system: 'urinary', chineseName: `${zhSide(side)}輸尿管`}, {positions: out, indices: g.indices}, 6000);
 }
 
-// Female urethra: a short tube from the bladder neck down the front wall of the vagina, 4 cm long, 6 mm across.
+// Female urethra: a tube from the internal urethral orifice (the top of the bladder neck) down the front wall of the vagina to the external orifice in the vestibule, level with the vaginal opening and in front of it.
+// About 4 cm long in life, which is 33 mm at the scale of this pelvis (registration scale 0.833); 6 mm across; its axis lies 2.5 mm in front of the vaginal front surface, so the tube is partly embedded in the front wall.
 const tube = (pts, radius, sides = 14) => {
   const pos = [], idx = [];
   pts.forEach((c, k) => { const next = pts[Math.min(k + 1, pts.length - 1)], prev = pts[Math.max(k - 1, 0)], d = next.map((v, i) => v - prev[i]), l = Math.hypot(...d) || 1, a = d.map(v => v / l);
@@ -154,8 +170,9 @@ const tube = (pts, radius, sides = 14) => {
 {
   const vagina = mapped(source.pieces.find(q => q.name === 'VH_F_vagina')).positions, neck = centroid(merged(vis(/urinary_bladder_neck/)).positions);
   const frontAt = y => { let z = -Infinity; for (let i = 0; i < vagina.length; i += 3) if (Math.abs(vagina[i + 1] - y) < .003 && Math.abs(vagina[i] - neck[0]) < .012) z = Math.max(z, vagina[i + 2]); return z; };
-  let yEnd = Infinity; for (let i = 1; i < vagina.length; i += 3) yEnd = Math.min(yEnd, vagina[i]); yEnd += .004;
-  const pts = []; for (let k = 0; k <= 8; k++) { const y = neck[1] + (yEnd - neck[1]) * k / 8, z = k === 0 ? neck[2] : Math.max(frontAt(y), -Infinity) + .0045; pts.push([neck[0], y, Number.isFinite(z) ? z : neck[2]]); }
+  let yEnd = Infinity; for (let i = 1; i < vagina.length; i += 3) yEnd = Math.min(yEnd, vagina[i]); yEnd += .001;   // the external orifice: level with the vaginal opening
+  const yStart = neck[1] + .005;   // the internal orifice at the top of the bladder neck
+  const pts = []; for (let k = 0; k <= 10; k++) { const y = yStart + (yEnd - yStart) * k / 10, z = k === 0 ? neck[2] : frontAt(y) + .0025; pts.push([neck[0], y, Number.isFinite(z) ? z : neck[2]]); }
   await addMesh({name: 'Female urethra', system: 'urinary', chineseName: '女性尿道', schematic: true}, tube(pts, .003), 1200);
 }
 // Rectouterine pouch: the peritoneal recess between the back of the cervix and uterus and the front of the rectum (a flattened ellipsoid in the gap, schematic).
