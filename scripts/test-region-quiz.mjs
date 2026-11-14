@@ -19,6 +19,12 @@ const atlas = normalizeAtlasSystems(JSON.parse(fs.readFileSync('public/models/at
   atlas.chunks.push(...supplement.chunks);
   for (const p of supplement.parts) atlas.parts.push({...p, chunk: p.chunk + offset});
 }
+// the facial and masticatory muscles (a package of the main site) are quiz answers of the head-and-neck quiz
+{
+  const facial = JSON.parse(gunzipSync(fs.readFileSync('public/models/facial/facial-stream.json.gz'))), offset = atlas.chunks.length;
+  atlas.chunks.push(...facial.chunks);
+  for (const p of facial.parts) atlas.parts.push({...p, chunk: p.chunk + offset});
+}
 const native = new Map(atlas.parts.map(p => [p.id, p]));
 const nerves = JSON.parse(fs.readFileSync('public/models/nerve-stream.json'));
 const nerveMeshes = new Map(nerves.chunks.flatMap(c => c.meshes.map(m => [m.name, {mesh: m, chunk: c}])));
@@ -56,6 +62,11 @@ const expected = {
     count: [60, 80],
     plain: ['Right atrium', 'Right ventricle', 'Left atrium', 'Left ventricle', 'Right coronary artery', 'Left coronary artery', 'Anterior interventricular artery', 'Circumflex artery', 'Great cardiac vein', 'Middle cardiac vein', 'Coronary sinus', 'Superior vena cava', 'Inferior vena cava', 'Pulmonary trunk', 'Ascending aorta', 'Anterior papillary muscle of right ventricle', 'Posterior papillary muscle of left ventricle'],
   },
+  'head-neck': {
+    count: [260, 420],
+    names: ['Frontal bone', 'Maxilla', 'Temporal bone', 'Left sternocleidomastoid', 'Left masseter', 'Right temporalis', 'Right optic nerve', 'Left facial nerve (VII)', 'Right vagus nerve (X)', 'Left external carotid artery', 'Right internal jugular vein', 'Left vertebral artery', 'Left sclera', 'Right lens'],
+    plain: ['Mandible', 'Occipital bone', 'Hyoid bone', 'Atlas', 'Axis', 'Tongue', 'Thyroid cartilage', 'Epiglottis'],
+  },
   back: {
     count: [100, 140],
     names: ['Latissimus dorsi', 'Levator scapulae', 'Rhomboid major', 'Rhomboid minor', 'Serratus posterior superior', 'Serratus posterior inferior', 'Splenius capitis', 'Splenius cervicis', 'Iliocostalis thoracis', 'Longissimus thoracis', 'Spinalis thoracis', 'Semispinalis capitis', 'Multifidus', 'Cervical rotator', 'Rectus capitis posterior major', 'Rectus capitis posterior minor', 'Obliquus capitis superior', 'Obliquus capitis inferior', 'Dorsal scapular nerve', 'Thoracodorsal nerve', 'Accessory nerve (XI)', 'Vertebral artery', 'Dorsal scapular artery', 'Transverse cervical artery'],
@@ -75,7 +86,7 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
   const def = QUIZ_REGIONS[regionId], catalogue = JSON.parse(fs.readFileSync('public/models/' + def.file));
   assert.equal(catalogue.region ?? 'lower-limb', regionId);
   assert.equal(regionOfHash(def.hash), regionId);
-  const regionSystems = (def.systems ?? QUIZ_SYSTEMS.filter(s => s.id !== 'cardiac' && s.id !== 'respiratory' && s.id !== 'brain').map(s => s.id)).map(id => QUIZ_SYSTEMS.find(s => s.id === id));
+  const regionSystems = (def.systems ?? QUIZ_SYSTEMS.filter(s => s.id !== 'cardiac' && s.id !== 'respiratory' && s.id !== 'brain' && s.id !== 'headorgan').map(s => s.id)).map(id => QUIZ_SYSTEMS.find(s => s.id === id));
   const structures = new Map(catalogue.structures.map(s => [s.id, s]));
   assert.equal(structures.size, catalogue.structures.length, `${regionId}: no repeated anatomical answers`);
   if (expected[regionId]) assert.ok(catalogue.structures.length >= expected[regionId].count[0] && catalogue.structures.length <= expected[regionId].count[1], `${regionId}: ${catalogue.structures.length} structures`);
@@ -98,6 +109,8 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
       // muscles that end at their musculotendinous junction and the tendon parts cut from them are derived from the atlas meshes, not byte copies (scripts/tendon/*.mjs)
       if (structure.system === 'joint') {
         // joint soft tissue is registered to the atlas bones at build time (scripts/lib/joint-quiz-source.mjs), not a byte copy: finite positions and valid indices are checked above
+      } else if (mesh.id.startsWith('neckvessel:')) {
+        // the neck-vessel package (public/models/neck-vessels.json) is read as it is; normals are computed at build time: finite positions and valid indices are checked above
       } else if (structure.source === 'BodyParts3D' && (structure.system === 'tendon' || cutMuscles.has(mesh.id))) {
         // checked above: finite positions and valid indices
       } else if (structure.source === 'BodyParts3D') {
@@ -132,7 +145,7 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
     // the lobes of the lung quiz are context only (no section, never asked)
     assert.ok((s.sections.length || (regionId === 'lung' && /^(?:upper|middle|lower) lobe of/i.test(s.name))) && s.sections.every(id => sectionIds.has(id) && id !== 'all'), `${s.name}: valid sections ${s.sections}`);
     assert.ok(['left', 'right', 'midline'].includes(s.side));
-    if (regionId !== 'thorax' && regionId !== 'back' && regionId !== 'heart' && regionId !== 'lung' && regionId !== 'brain') assert.notEqual(s.side, 'midline');
+    if (regionId !== 'thorax' && regionId !== 'back' && regionId !== 'heart' && regionId !== 'lung' && regionId !== 'brain' && regionId !== 'head-neck') assert.notEqual(s.side, 'midline');
     // Every answer shows 中文名 + English name, Taiwan terminology.
     checkChinese(`${regionId} ${s.name}`, s.chinese);
     assert.ok(/[A-Za-z]/.test(s.name), 'English name present');
