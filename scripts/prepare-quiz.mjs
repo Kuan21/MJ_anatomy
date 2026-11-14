@@ -23,6 +23,7 @@ const spaceRanges = JSON.parse(fs.readFileSync(new URL('app/space-ranges.json', 
 const {jointRegion, jointExclusion, jointKey, jointKindOf, JOINT_EXCLUSION_REASONS} = await quizModule('app/quiz/joints.ts');
 const {normalize} = await quizModule('app/quiz/naming.ts');
 const {brainSectionOf, brainLayerOf, brainSystemOf, BRAIN_EXCLUSION_REASONS, renameSideOk, brainNameClashes, BRAIN_NAME_CLASHES} = await quizModule('app/quiz/brain.ts');
+const {headNeckSystem, HN_EXTRA_MUSCLE, HN_EXCLUSION_REASONS, HEADNECK_NERVES, HEADNECK_NERVE_OTHER, HN_ZH, headNeckLayerOf, headNeckNameClashes} = await quizModule('app/quiz/headneck.ts');
 const {SCHEMATIC} = await quizModule('app/organ/brain-schematic.ts');
 const {brainOverrideOf} = await quizModule('app/organ/brain-overrides.ts');
 const {QUIZ_SYSTEMS, QUIZ_REGIONS, LOWER_NERVES, UPPER_NERVES, THORAX_NERVES, THORAX_INCLUDE, BACK_NERVES, BACK_INCLUDE, classifySections} = await quizModule('app/quiz/catalogue.ts');
@@ -34,12 +35,17 @@ const {finals: bellies} = (() => { const a = atlasParts(); return planCuts(a.par
 const supplementBase = atlas.chunks.length;
 atlas.chunks.push(...supplement.chunks);
 for (const p of supplement.parts) atlas.parts.push({...p, chunk: p.chunk + supplementBase});
+// The facial and masticatory muscles are a package of their own on the main site (BodyParts3D 3.0); the head-and-neck quiz reads them like the supplement.
+const facial = JSON.parse(gunzipSync(fs.readFileSync(new URL('facial/facial-stream.json.gz', models))));
+const facialBase = atlas.chunks.length;
+atlas.chunks.push(...facial.chunks);
+for (const p of facial.parts) atlas.parts.push({...p, chunk: p.chunk + facialBase});
 const nerveStream = JSON.parse(fs.readFileSync(new URL('nerve-stream.json', models)));
 const sourceBuffers = new Map();
 const lc = s => s[0].toLowerCase() + s.slice(1);
 const cleanName = name => name.toLowerCase().replace(/\b(left|right)\b/g, '').replace(/\s+/g, ' ').trim();
 const PAIRED_THORAX = /\brib\b|intercostal|serratus posterior|levatores costarum|rotator|iliocostalis|longissimus|spinalis|semispinalis|interspinalis|transversus thoracis|subcostal|internal thoracic|musculophrenic|bronchial|pulmonary (?:artery|vein)|superior pulmonary|inferior pulmonary|costocervical|thyrocervical|costal cartilage/i;
-const NERVES = {'lower-limb': LOWER_NERVES, 'upper-limb': UPPER_NERVES, thorax: THORAX_NERVES, back: BACK_NERVES};
+const NERVES = {'lower-limb': LOWER_NERVES, 'upper-limb': UPPER_NERVES, thorax: THORAX_NERVES, back: BACK_NERVES, 'head-neck': HEADNECK_NERVES};
 
 // Lung quiz: the lobes (context only, never asked), the main bronchi, the pulmonary arteries and veins and the bronchial artery come from the atlas; the lung surface areas
 // and the pulmonary ligaments come from the course-summary package. Nothing is added that the model does not have.
@@ -97,7 +103,7 @@ for (const row of await loadJointRows(atlas)) {
   jointCandidates.push({id: `joint:${meshName}:${jointCandidates.length}`, mesh: row.mesh, base, name, side, region, chinese, reason, bounds, kind: jointKindOf(base), anchor: row.anchor.name});
 }
 // Two different tissues of one region with the same Chinese name could not be told apart by a typed answer.
-for (const region of ['lower-limb', 'upper-limb', 'thorax', 'back']) {
+for (const region of ['lower-limb', 'upper-limb', 'thorax', 'back', 'head-neck']) {
   const seen = new Map();
   for (const c of jointCandidates.filter(c => !c.reason && c.region === region)) {const key = c.chinese + '|' + c.side, other = seen.get(key); if (other && other !== jointKey(c.base)) c.reason = 'name-not-unique'; else seen.set(key, jointKey(c.base));}
 }
@@ -107,13 +113,14 @@ fs.writeFileSync(new URL('.sites-runtime/quiz-joints-report.json', root), JSON.s
 const summary = [], spaceReport = [];
 for (const region of Object.keys(QUIZ_REGIONS)) {
   const def = QUIZ_REGIONS[region], short = def.file.replace(/^quiz-|\.json$/g, '');
-  const items = [], structures = new Map();
+  const items = [], structures = new Map(), hnExcluded = [];
   const groupId = (system, name) => `${system}:${name.toLowerCase().replace(/\s+/g, ' ').trim()}`;
   function add({id, name, chinese, system, side, bounds, source, positions, normals, indices, sections, description, layer, cardFields, availability}) {
+    const exactNames = region === 'head-neck' && (system === 'nervous' || system === 'arterial' || system === 'venous');
     const structureId = groupId(system, name);
     let structure = structures.get(structureId);
     if (!structure) {
-      structure = {id: structureId, name, chinese, system, side, sections: sections ?? classifySections(region, name, bounds, system), meshIds: [], bounds: bounds.map(b => [...b]), source, ...(description ? {description} : {}), ...(layer ? {layer} : {}), ...(cardFields ? {cardFields} : {}), ...(availability ? {availability} : {})};
+      structure = {id: structureId, name, chinese, system, side, sections: sections ?? classifySections(region, name, bounds, system), meshIds: [], bounds: bounds.map(b => [...b]), source, ...(description ? {description} : {}), ...(layer ? {layer} : {}), ...(cardFields ? {cardFields} : {}), ...(availability ? {availability} : {}), ...(exactNames ? {exactNames: true} : {})};
       structures.set(structureId, structure);
     }
     structure.meshIds.push(id);
@@ -213,7 +220,58 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
         positions: raw.subarray(part.positions, part.positions + part.vertexCount * 12), normals: raw.subarray(part.normals, part.normals + part.vertexCount * 6), indices: raw.subarray(part.indices, part.indices + part.indexCount * 4)});
     }
   }
-  for (const part of region === 'heart' || region === 'brain' ? [] : atlas.parts) {
+  // Head-and-neck quiz: the structures of the head and neck that the main site already draws, from the atlas (with the facial and supplement packages), the nerve overlay, the neck-vessel package and the joint tissues.
+  // The rules (system, section, exclusions) are app/quiz/headneck.ts; every structure that is not asked is in .sites-runtime/quiz-head-neck-report.json (docs/quiz-head-neck-pool.md).
+  if (region === 'head-neck') {
+    const streamKeys = new Set(Object.keys(HEADNECK_NERVES).map(k => k.replace(/\s*\([ivx]+\)$/, '')));
+    const candidates = [];
+    for (const part of atlas.parts) {
+      const raw = correctedPartName(part);
+      if (anatomicalRegion(part) !== 'head-neck' && !HN_EXTRA_MUSCLE.test(raw)) continue;
+      const key = cleanName(raw), cx = (part.bounds[0][0] + part.bounds[1][0]) / 2;
+      let side = anatomicalSide(part);
+      // a few paired structures carry no left/right in the model (short ciliary nerve, the sets of cervical intertransversarii): the side comes from the position of the mesh
+      if (side === 'midline' && /^(?:short ciliary nerve|set of (?:anterior|posterior) cervical intertransversarii)$/.test(key)) side = cx > .012 ? 'left' : cx < -.012 ? 'right' : 'midline';
+      let name = raw;
+      if (side !== 'midline' && !/\b(left|right)\b/i.test(name)) name = `${side === 'left' ? 'Left' : 'Right'} ${lc(name)}`;
+      const decision = headNeckSystem(raw, part.system), excluded = reason => hnExcluded.push({name, chinese: undefined, atlasSystem: part.system, side, reason});
+      if ('exclusion' in decision) {excluded(decision.exclusion); continue;}
+      if (decision.system === 'nervous' && streamKeys.has(key)) {excluded('duplicate-source'); continue;}
+      const profile = structureProfile(name, part.system, {...part, name}), zhBase = HN_ZH[key];
+      const zhRaw = zhBase ? (side === 'left' ? '左' : side === 'right' ? '右' : '') + zhBase : profile.chinese;
+      const chinese = zhRaw && !/[a-z]/i.test(zhRaw) ? zhRaw : undefined;
+      candidates.push({part, name, key, side, system: decision.system, chinese, atlasSystem: part.system});
+    }
+    // a tendon whose pair is missing in the model cannot be told apart by its name
+    for (const c of candidates) if (c.system === 'tendon' && !candidates.some(o => o !== c && o.system === 'tendon' && o.side !== c.side && o.key.replace(/^tendon of /, '') === c.key.replace(/^tendon of /, ''))) c.reason = 'incomplete-pair';
+    for (const c of candidates) {
+      if (!c.chinese && !c.reason) c.reason = 'no-chinese-name';
+      if (c.reason) {hnExcluded.push({name: c.name, chinese: c.chinese, atlasSystem: c.atlasSystem, side: c.side, reason: c.reason}); continue;}
+      const {part} = c, chunk = atlas.chunks[part.chunk];
+      if (!sourceBuffers.has(part.chunk)) sourceBuffers.set(part.chunk, fs.readFileSync(new URL('public' + chunk.url, root)));
+      const raw = sourceBuffers.get(part.chunk);
+      add({id: part.id, name: c.name, chinese: c.chinese, side: c.side, system: c.system, bounds: part.bounds, source: 'BodyParts3D', layer: headNeckLayerOf(c.key),
+        positions: raw.subarray(part.positions, part.positions + part.vertexCount * 12), normals: raw.subarray(part.normals, part.normals + part.vertexCount * 6), indices: raw.subarray(part.indices, part.indices + part.indexCount * 4)});
+    }
+    // The neck-vessel package replaces the atlas meshes of the common and internal carotid arteries and the internal jugular vein on the main site (and holds the external carotid artery); the quiz uses the same meshes.
+    const neckVessels = JSON.parse(fs.readFileSync(new URL('neck-vessels.json', models)));
+    for (const v of neckVessels.vessels) {
+      const m = /^(.*?)\.([lr])$/.exec(v.name), side = m ? (m[2] === 'l' ? 'left' : 'right') : /^left\b/i.test(v.name) ? 'left' : 'right';
+      const name = `${side === 'left' ? 'Left' : 'Right'} ${lc((m ? m[1] : v.name.replace(/^(Left|Right) /i, '')))}`;
+      const zh = structureProfile(name, v.system).chinese, chinese = zh && !/[a-z]/i.test(zh) ? zh : undefined;
+      if (!chinese) {hnExcluded.push({name, atlasSystem: v.system, side, reason: 'no-chinese-name'}); continue;}
+      const geometry = new BufferGeometry();
+      geometry.setAttribute('position', new BufferAttribute(new Float32Array(v.positions), 3));
+      geometry.setIndex(new BufferAttribute(new Uint32Array(v.indices), 1));
+      geometry.computeVertexNormals(); geometry.computeBoundingBox();
+      const normals = new Int16Array(v.positions.length);
+      geometry.getAttribute('normal').array.forEach((x, i) => {normals[i] = Math.round(x * 32767);});
+      add({id: `neckvessel:${v.name}`, name, chinese, system: v.system, side, bounds: [geometry.boundingBox.min.toArray(), geometry.boundingBox.max.toArray()], source: 'Z-Anatomy',
+        positions: Buffer.from(new Float32Array(v.positions).buffer), normals: Buffer.from(normals.buffer), indices: Buffer.from(new Uint32Array(v.indices).buffer)});
+      geometry.dispose();
+    }
+  }
+  for (const part of region === 'heart' || region === 'brain' || region === 'head-neck' ? [] : atlas.parts) {
     if (!QUIZ_SYSTEMS.some(s => s.id === part.system)) continue;
     // tendons are asked per region once a region has enough of them (the limbs now; the other regions follow in later batches)
     if (part.system === 'tendon' && region !== 'upper-limb' && region !== 'lower-limb') continue;
@@ -234,7 +292,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
       indices: belly ? buf(belly.indices) : raw.subarray(part.indices, part.indices + part.indexCount * 4)});
   }
   // Tendons cut off their muscles (parts of the course-summary package): asked in the region they lie in, like any other structure.
-  if (region !== 'heart' && region !== 'lung' && region !== 'brain') {
+  if (region !== 'heart' && region !== 'lung' && region !== 'brain' && region !== 'head-neck') {
     const pk = JSON.parse(gunzipSync(fs.readFileSync(new URL('paokao/paokao-stream.json.gz', models))));
     const pkChunks = pk.chunks.map(c => fs.readFileSync(new URL('public' + c.url, root)));
     for (const part of pk.parts) {
@@ -250,7 +308,17 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
   for (const chunk of region === 'heart' || region === 'lung' || region === 'brain' ? [] : nerveStream.chunks) {
     let raw;
     for (const [ordinal, mesh] of chunk.meshes.entries()) {
-      const match = /^(.*?)\.([lr])(?:\.\d+)?$/i.exec(mesh.name);
+      let match = /^(.*?)\.([lr])(?:\.\d+)?$/i.exec(mesh.name);
+      // One cranial nerve mesh of the model (the right cochlear nerve) has no .l/.r in its name; its side is the side of its position (x < 0 is the right side of the body).
+      if (!match && region === 'head-neck') {
+        const bare = /^(.*?)\.\d+$/.exec(mesh.name);
+        if (bare && NERVES[region][bare[1].toLowerCase()]) {
+          raw ??= gunzipSync(fs.readFileSync(new URL('public' + chunk.url, root)));
+          const xs = new Float32Array(raw.buffer.slice(raw.byteOffset + mesh.positions, raw.byteOffset + mesh.positions + mesh.vertexCount * 12)).filter((_, i) => i % 3 === 0);
+          const middle = (xs.reduce((a, b) => Math.min(a, b)) + xs.reduce((a, b) => Math.max(a, b))) / 2;
+          if (Math.abs(middle) > .012) match = [mesh.name, bare[1], middle > 0 ? 'l' : 'r'];
+        }
+      }
       const definition = match && NERVES[region][match[1].toLowerCase()];
       if (!definition) continue;
       const side = match[2].toLowerCase() === 'l' ? 'left' : 'right';
@@ -264,12 +332,25 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
       geometry.computeVertexNormals();
       geometry.computeBoundingBox();
       const bounds = [geometry.boundingBox.min.toArray(), geometry.boundingBox.max.toArray()];
-      if (region !== 'thorax' && ((side === 'right' && bounds[1][0] > .035) || (side === 'left' && bounds[0][0] < -.035))) throw Error(`Nerve laterality mismatch: ${mesh.name}`);
+      // the vagus nerve runs down to the oesophagus and crosses to the other side of the midline below the neck (the thorax quiz asks it too)
+      if (region !== 'thorax' && !(region === 'head-neck' && /^vagus nerve/i.test(match[1])) && ((side === 'right' && bounds[1][0] > .035) || (side === 'left' && bounds[0][0] < -.035))) throw Error(`Nerve laterality mismatch: ${mesh.name}`);
       const normals = new Int16Array(mesh.vertexCount * 3);
       geometry.getAttribute('normal').array.forEach((x, i) => {normals[i] = Math.round(x * 32767);});
       add({id: `nerve:${mesh.name}:${ordinal}`, name, chinese: applyZhFixes((side === 'left' ? '左' : '右') + (namingOverride(name) ?? definition.zh)),
         system: definition.system ?? 'nervous', side, bounds, source: definition.schematic ? 'Schematic model' : 'Nervous supplement', positions, normals: Buffer.from(normals.buffer), indices});
       geometry.dispose();
+    }
+  }
+
+  if (region === 'head-neck') {
+    // nerve overlay meshes of the neck that are not asked here (sympathetic structures run along the whole body; the brachial plexus is the upper-limb quiz's)
+    const seenOther = new Set();
+    for (const chunk of nerveStream.chunks) for (const mesh of chunk.meshes) {
+      const match = /^(.*?)\.([lr])(?:\.\d+)?$/i.exec(mesh.name);
+      if (!match || !HEADNECK_NERVE_OTHER.test(match[1]) || seenOther.has(match[0])) continue;
+      seenOther.add(match[0]);
+      const side = match[2].toLowerCase() === 'l' ? 'left' : 'right';
+      hnExcluded.push({name: `${side === 'left' ? 'Left' : 'Right'} ${lc(match[1])}`, atlasSystem: 'nervous', side, reason: 'other-region'});
     }
   }
 
@@ -285,9 +366,19 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
     geometry.dispose();
   }
 
+  // Head and neck: a typed name must have one right answer. Structures of one system that share a name once left and right are taken out (or one Chinese name on two English names) are not asked.
+  if (region === 'head-neck') {
+    const clashes = headNeckNameClashes([...structures.values()]), gone = new Set();
+    for (const [, list] of clashes) for (const x of list) if (!gone.has(x.id)) {
+      gone.add(x.id); hnExcluded.push({name: x.name, chinese: x.chinese, atlasSystem: x.system, side: x.side, reason: 'name-not-unique'});
+    }
+    for (const id of gone) structures.delete(id);
+    for (let i = items.length - 1; i >= 0; i--) if (gone.has(items[i].structureId)) items.splice(i, 1);
+  }
+
   // Limb spaces (category 特殊空間與孔): no mesh of their own; a question draws the structures of this catalogue that the layer panel names as boundary, roof, floor and contents (app/quiz/spaces.ts).
   // Every special region is in .sites-runtime/quiz-spaces-report.json, asked or not, with its reason (docs/quiz-spaces-pool.md).
-  if (region === 'lower-limb' || region === 'upper-limb') {
+  if (region === 'lower-limb' || region === 'upper-limb' || region === 'head-neck') {
     const candidates = [...structures.values()].map(({id, name, system, side}) => ({id, name, system, side}));
     const taken = new Set([...structures.values()].map(x => x.name.toLowerCase()));
     for (const def of SPACES) {
@@ -308,7 +399,15 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
     }
   }
 
-  const packages = [], sides = region === 'thorax' || region === 'back' || region === 'heart' || region === 'lung' || region === 'brain' ? ['left', 'right', 'midline'] : ['left', 'right'];
+  if (region === 'head-neck') {
+    fs.mkdirSync(new URL('.sites-runtime/', root), {recursive: true});
+    fs.writeFileSync(new URL('.sites-runtime/quiz-head-neck-report.json', root), JSON.stringify({
+      reasons: HN_EXCLUSION_REASONS,
+      asked: [...structures.values()].map(x => ({name: x.name, chinese: x.chinese, system: x.system, side: x.side, sections: x.sections, source: x.source, ...(x.layer ? {layer: x.layer} : {}), meshes: x.meshIds.length})).sort((a, b) => a.name.localeCompare(b.name)),
+      excluded: [...new Map(hnExcluded.map(e => [`${e.reason}|${e.side}|${e.name}`, e])).values()].sort((a, b) => a.reason.localeCompare(b.reason) || a.name.localeCompare(b.name)),
+    }, null, 1));
+  }
+  const packages = [], sides = region === 'thorax' || region === 'back' || region === 'head-neck' || region === 'heart' || region === 'lung' || region === 'brain' ? ['left', 'right', 'midline'] : ['left', 'right'];
   for (const {id: system} of QUIZ_SYSTEMS) for (const side of sides) {
     let buffers = [], bytes = 0, meshes = [];
     const append = data => {

@@ -1,7 +1,7 @@
 # Quiz 第三級額外接受的答案
 
 此檔由 `node scripts/report-quiz-accepted-names.mjs` 產生，請勿手改。除了構造自己的英文名、中文名、括號內別名與同義詞表（`app/quiz/synonyms.ts`，列在 REVIEW_LOG）之外，第三級與學習關卡還接受下列寫法；群名只算「接近」並列入錯題。左右兩側同一規則，只列一側。
-合計 194 個構造有額外接受的寫法。
+合計 246 個構造有額外接受的寫法。
 
 
 ## 下肢（lower）：40 個構造
@@ -232,4 +232,61 @@
 
 | 題目 | 中文 | 也接受 | 只算接近 |
 | --- | --- | --- | --- |
+
+## 頭頸（head-neck）：52 個構造
+
+| 題目 | 中文 | 也接受 | 只算接近 |
+| --- | --- | --- | --- |
+| Left lower first secondary molar tooth | 左下顎第一恆大臼齒 | Left lower first permanent molar tooth |  |
+| Left lower first secondary premolar tooth | 左下顎第一恆小臼齒 | Left lower first permanent premolar tooth |  |
+| Left lower second secondary molar tooth | 左下顎第二恆大臼齒 | Left lower second permanent molar tooth |  |
+| Left lower second secondary premolar tooth | 左下顎第二恆小臼齒 | Left lower second permanent premolar tooth |  |
+| Left lower central secondary incisor tooth | 左下顎恆中切齒 | Left lower central permanent incisor tooth |  |
+| Left lower lateral secondary incisor tooth | 左下顎恆側切齒 | Left lower lateral permanent incisor tooth |  |
+| Left lower secondary canine tooth | 左下顎恆犬齒 | Left lower permanent canine tooth |  |
+| Left upper first secondary molar tooth | 左上顎第一恆大臼齒 | Left upper first permanent molar tooth |  |
+| Left upper first secondary premolar tooth | 左上顎第一恆小臼齒 | Left upper first permanent premolar tooth |  |
+| Left upper second secondary molar tooth | 左上顎第二恆大臼齒 | Left upper second permanent molar tooth |  |
+| Left upper second secondary premolar tooth | 左上顎第二恆小臼齒 | Left upper second permanent premolar tooth |  |
+| Left upper central secondary incisor tooth | 左上顎恆中切齒 | Left upper central permanent incisor tooth |  |
+| Left upper lateral secondary incisor tooth | 左上顎恆側切齒 | Left upper lateral permanent incisor tooth |  |
+| Left upper secondary canine tooth | 左上顎恆犬齒 | Left upper permanent canine tooth |  |
+| Anterior chamber of left eyeball | 左眼前房 | anterior chamber |  |
+| Inferior branch of left oculomotor nerve | 左動眼神經下支 | inferior division of oculomotor nerve |  |
+| Superior branch of left oculomotor nerve | 左動眼神經上支 | superior division of oculomotor nerve |  |
+| Inferior oblique part of left longus colli | 左頸長肌下斜部 | left longus colli／左頸長肌（整條肌肉） |  |
+| Left scalenus anterior | 左前斜角肌 | anterior scalene muscle |  |
+| Left scalenus medius | 左中斜角肌 | middle scalene muscle |  |
+| Superior oblique part of left longus colli | 左頸長肌上斜部 | left longus colli／左頸長肌（整條肌肉） |  |
+| Vertical intermediate part of left longus colli | 左頸長肌垂直中間部 | left longus colli／左頸長肌（整條肌肉） |  |
+| Left superficial cervical artery | 左頸淺動脈 | superficial branch of transverse cervical artery |  |
+| Left lateral nasal cartilage | 左鼻外側軟骨 | lateral process of septal cartilage |  |
+| Septal nasal cartilage | 鼻中隔軟骨 | septal cartilage |  |
+| Right middle pharyngeal constrictor | 右咽中縮肌 | middle constrictor |  |
+| Hyo-epiglottic ligament | 舌骨會厭韌帶 | Hyoepiglottic ligament |  |
+| Left lateral crico-arytenoid | 左環杓側肌 | Left lateral cricoarytenoid |  |
+| Oblique part of left cricothyroid | 左環甲肌斜部 | left cricothyroid／左環甲肌（整條肌肉） |  |
+| Left posterior crico-arytenoid | 左環杓後肌 | Left posterior cricoarytenoid |  |
+| Straight part of left cricothyroid | 左環甲肌直部 | left cricothyroid／左環甲肌（整條肌肉） |  |
+| Left thyro-arytenoid | 左甲杓肌 | Left thyroarytenoid |  |
+| Median cricothyroid ligament | 環甲正中韌帶 | cricothyroid ligament |  |
+| Thyro-epiglottic ligament | 甲狀會厭韌帶 | Thyroepiglottic ligament |  |
+| Third cervical vertebra | 第三頸椎 | C3 vertebra |  |
+| Fourth cervical vertebra | 第四頸椎 | C4 vertebra |  |
+| Fifth cervical vertebra | 第五頸椎 | C5 vertebra |  |
+| Sixth cervical vertebra | 第六頸椎 | C6 vertebra |  |
+| Seventh cervical vertebra | 第七頸椎 | C7 vertebra |  |
+| Ethmoid | 篩骨 | Ethmoid bone |  |
+| Left maxilla | 左上頜骨 | Left maxillary bone |  |
+| Mandible | 下頜骨 | mandibular bone |  |
+| Aponeurosis of epicranius | 帽狀腱膜 | epicranial aponeurosis |  |
+| Orbital part of right orbicularis oculi | 右眼輪匝肌眶部 | right orbicularis oculi／右眼輪匝肌（整條肌肉） |  |
+| Palpebral part of right orbicularis oculi | 右眼輪匝肌瞼部 | right orbicularis oculi／右眼輪匝肌（整條肌肉） |  |
+| Superficial part of right masseter | 右咬肌淺部 | right masseter／右咬肌（整條肌肉） |  |
+| Deep part of right masseter | 右咬肌深部 | right masseter／右咬肌（整條肌肉） |  |
+| Lower head of right lateral pterygoid | 右外翼肌下頭 | right lateral pterygoid／右外翼肌（整條肌肉） |  |
+| Upper head of right lateral pterygoid | 右外翼肌上頭 | right lateral pterygoid／右外翼肌（整條肌肉） |  |
+| Left great auricular nerve | 左耳大神經 | greater auricular nerve |  |
+| Left articular capsule of temporomandibular joint | 左顳顎關節囊 | tmj capsule |  |
+| Left lateral temporomandibular ligament | 左顳顎外側韌帶 | temporomandibular ligament |  |
 

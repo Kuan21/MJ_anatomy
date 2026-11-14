@@ -1,0 +1,2 @@
+node scripts/test-tissue-colors.mjs
+node scripts/test-occipitofrontalis.mjs

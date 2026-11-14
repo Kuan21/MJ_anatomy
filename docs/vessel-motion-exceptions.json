@@ -1,5 +1,5 @@
 {
- "note": "Vessel pairs that open more than half a diameter (and more than 1 mm beyond their rest gap) at a joint pose. Known; a new one fails `npm run check:motion`.",
+ "note": "Vessel pairs that open more than half a diameter (and more than 1 mm beyond their rest gap) at a joint pose. Known; a new one fails `npm run check:motion`. Only vessels that are not anatomically joined may be listed; `reasons` holds the reason of each pair added since 2026-11-13 (older entries have none).",
  "summary": {
   "shoulder abduction 90": {
    "pairs": 471,
@@ -92,6 +92,7 @@
   "shoulder abduction 90|FJ2361-END",
   "shoulder flexion 90|FJ2361-END"
  ],
+ "reasons": {},
  "exceptions": {
   "shoulder abduction 90|left|FJ2211|FJ2252|end-to-end": 2.5,
   "shoulder abduction 90|left|FJ2216|FJ1973|end-to-end": 6.6,
