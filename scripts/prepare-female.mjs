@@ -5,7 +5,8 @@
 import fs from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {createStream, simplify, weldByPosition} from './lib/stream-writer.mjs';
-import {atlasPositions} from './lib/atlas-read.mjs';
+import {atlasPositions, atlasIndices} from './lib/atlas-read.mjs';
+import {femaleSkin} from './lib/female-skin.mjs';
 
 const root = new URL('../', import.meta.url), out = new URL('public/models/stream/', root), dir = new URL('public/models/female/', root);
 fs.mkdirSync(out, {recursive: true}); fs.mkdirSync(dir, {recursive: true});
@@ -52,6 +53,23 @@ for (const piece of source.pieces) {
   const name = rule[4] ? `${side} ${rule[1][0].toLowerCase()}${rule[1].slice(1)}` : rule[1];
   stream.add({id: `HRAF-${piece.node}`, conceptId: `HRAF-${piece.node}`, name, system: rule[3], sex: 'female', chineseName: (rule[4] ? (side === 'Left' ? '左' : '右') : '') + rule[2], sourceNode: piece.name}, p, ix);
   report.push(`${name}: ${welded.indices.length / 3} → ${ix.length / 3} tris`);
+}
+// Female body surface: the atlas skin is a male mesh (penis and scrotum are part of it), so the female view gets a copy with that part pressed back onto a smooth female groin
+// (scripts/lib/female-skin.mjs). Same vertices and triangles as the male skin, so it is skinned with the male skin's weights (scripts/alias-female-skin-weights.mjs).
+// The pubic hair patch is moved with it: each hair vertex takes the displacement of the nearest skin vertex, so the hair stays on the new surface.
+{
+  const skinPos = atlasPositions('Skin'), skinIdx = atlasIndices('Skin'), fp = femaleSkin(skinPos, skinIdx);
+  stream.add({id: 'HRAF-skin', conceptId: 'HRAF-skin', name: 'Skin', system: 'integumentary', sex: 'female', chineseName: '皮膚', sourceNode: 'BodyParts3D skin, groin reshaped'}, fp, skinIdx);
+  const cell = .006, grid = new Map(), key = (x, y, z) => `${Math.floor(x / cell)},${Math.floor(y / cell)},${Math.floor(z / cell)}`;
+  for (let i = 0; i < skinPos.length; i += 3) { if (skinPos[i + 1] < .7 || skinPos[i + 1] > .98 || skinPos[i + 2] < 0) continue; const k = key(skinPos[i], skinPos[i + 1], skinPos[i + 2]); (grid.get(k) ?? grid.set(k, []).get(k)).push(i); }
+  const hairPos = atlasPositions('Pubic hair'), hairIdx = atlasIndices('Pubic hair'), moved = Float32Array.from(hairPos); let shifted = 0;
+  for (let i = 0; i < hairPos.length; i += 3) {
+    const cx = Math.floor(hairPos[i] / cell), cy = Math.floor(hairPos[i + 1] / cell), cz = Math.floor(hairPos[i + 2] / cell); let best = -1, bd = (2 * cell) ** 2;
+    for (let dx = -2; dx <= 2; dx++) for (let dy = -2; dy <= 2; dy++) for (let dz = -2; dz <= 2; dz++) for (const j of grid.get(`${cx + dx},${cy + dy},${cz + dz}`) ?? []) { const d = (skinPos[j] - hairPos[i]) ** 2 + (skinPos[j + 1] - hairPos[i + 1]) ** 2 + (skinPos[j + 2] - hairPos[i + 2]) ** 2; if (d < bd) { bd = d; best = j; } }
+    if (best >= 0) { for (let k = 0; k < 3; k++) moved[i + k] += fp[best + k] - skinPos[best + k]; shifted++; }
+  }
+  stream.add({id: 'HRAF-pubic-hair', conceptId: 'HRAF-pubic-hair', name: 'Pubic hair', system: 'integumentary', sex: 'female', chineseName: '陰毛', sourceNode: 'BodyParts3D pubic hair, moved with the reshaped groin'}, moved, hairIdx);
+  report.push(`Skin (female): ${skinPos.length / 3} vertices, groin reshaped; pubic hair: ${shifted} of ${hairPos.length / 3} vertices moved`);
 }
 // Pelvic bones: one hip bone per side (ilium + ischium + pubis compact bone), sacrum, coccyx.
 const bonesSource = JSON.parse(gunzipSync(fs.readFileSync(new URL('data/hra-female-pelvis-bones.json.gz', import.meta.url))));
