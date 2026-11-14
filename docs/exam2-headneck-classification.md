@@ -11,11 +11,12 @@
 | 類別 | 定義 | 項數 |
 |---|---|---|
 | A | 有現成、授權清楚的模型，且 repo 內能查證來源確實有該結構（或該結構的承載骨骼網格已在站上） | 36 |
-| B | 沒有現成模型（或來源未確認），需要手作示意結構 | 91 |
+| B | 沒有現成模型（或來源未確認），需要手作示意結構；細分：管狀結構 53、有機形狀 16、待決定 22（第八節） | 91 |
 | C | 考試價值低，建議不建（只做資訊卡或相關搜尋），每項附一句理由 | 58 |
 | 合計 | | 185 |
 
 補充說明：
+- 2026-11-14 更新：新增第七節（C 類 58 項完整清單）、第八節（B 類細分管狀／有機形狀）、第九節（批次 1 重排與 PR 順序）。注意批次 1 沒有 A 類，A 類 36 項在批次 4 與 5。
 - A 的 36 項中，**28 項是骨性標記**（孔、裂、管、突、窩）：承載的骨骼網格（Mandible、Sphenoid bone、Occipital bone、Frontal bone、左右 temporal／maxilla／zygomatic／palatine bone）都已在站上，用骨面標示即可，不新增網格；孔洞在網格上是否清楚尚未在 3D 畫面確認。另 **8 項是「疑似站上已有」**（眼、內耳詳細模式與外耳），見第四節。真正「新引進外部模型」的 A 為 0 項。
 - B 的來源欄位寫「來源未確認」：BodyParts3D 4.0 匯出與 Z-Anatomy 神經模型查無該名稱，但 BodyParts3D 3.0 完整名單、Z-Anatomy 其他 FBX、Human Reference Atlas 其他器官組在 repo 內沒有可核對的清單，所以不能斷言「全世界沒有現成模型」，只能說「repo 內無法證實有」。第五節列出建議使用者確認的來源。
 - 逐項表裡「必備清單 id」欄是 `docs/required-structures/head-neck.json` 的對應編號（只比對名稱，僅供對照）。
@@ -394,3 +395,272 @@ B 類裡面「來源未確認」的結構，若來源查不到，就走手作示
 - 本檔是規劃用的內部清單，**不是進度表**；進度以 `ROADMAP.md` 為準，不在本檔更新。
 - 開始任何批次前：使用者確認該批的來源與授權、第四節的疑似已有項目、C 類是否同意捨去。
 - 每批做完要更新必備清單的 `known-gaps.json`（`node scripts/check-required-structures.mjs --write`），讓缺口只減不增。
+
+## 七、C 類 58 項完整清單（建議不建 3D，請使用者掃一遍）
+
+欄位：序號＝第三節逐項表的編號；理由沿用第三節的判斷，一句話。要救回的項目，請回覆序號，會改列 B 並排進對應批次。
+
+| 序號 | English | 中文 | 分區 | 一句理由 |
+|---|---|---|---|---|
+| 1A13 | Transverse facial artery | 顏面橫動脈 | 1 腦神經與頸外動脈分支 | 細小分支，只需知道起源動脈與供應區，資訊卡即可。 |
+| 1A14 | Lateral nasal artery | 鼻外側動脈 | 1 腦神經與頸外動脈分支 | 細小分支，只需知道起源動脈與供應區，資訊卡即可。 |
+| 1B3 | Deep temporal arteries | 深顳動脈 | 1 腦神經與頸外動脈分支 | 細小分支，只需知道起源動脈與供應區，資訊卡即可。 |
+| 1B4 | Deep auricular artery | 深耳動脈 | 1 腦神經與頸外動脈分支 | 細小分支，只需知道起源動脈與供應區，資訊卡即可。 |
+| 1B5 | Anterior tympanic artery | 前鼓室動脈 | 1 腦神經與頸外動脈分支 | 細小分支，只需知道起源動脈與供應區，資訊卡即可。 |
+| 1B6 | Accessory meningeal artery | 副腦膜動脈 | 1 腦神經與頸外動脈分支 | 細小分支，只需知道起源動脈與供應區，資訊卡即可。 |
+| 1B7 | Masseteric artery | 咬肌動脈 | 1 腦神經與頸外動脈分支 | 細小分支，只需知道起源動脈與供應區，資訊卡即可。 |
+| 1B8 | Buccal artery | 頰動脈 | 1 腦神經與頸外動脈分支 | 細小分支，只需知道起源動脈與供應區，資訊卡即可。 |
+| 1B9 | Posterior superior alveolar artery | 後上齒槽動脈 | 1 腦神經與頸外動脈分支 | 細小分支，只需知道起源動脈與供應區，資訊卡即可。 |
+| 1B10 | Middle superior alveolar artery | 中上齒槽動脈 | 1 腦神經與頸外動脈分支 | 細小分支，只需知道起源動脈與供應區，資訊卡即可。 |
+| 1B11 | Anterior superior alveolar artery | 前上齒槽動脈 | 1 腦神經與頸外動脈分支 | 細小分支，只需知道起源動脈與供應區，資訊卡即可。 |
+| 1B12 | Infraorbital artery | 眶下動脈 | 1 腦神經與頸外動脈分支 | 細小分支，只需知道起源動脈與供應區，資訊卡即可。 |
+| 1B13 | Descending palatine artery | 下行顎動脈 | 1 腦神經與頸外動脈分支 | 細小分支，只需知道起源動脈與供應區，資訊卡即可。 |
+| 1B14 | Greater palatine artery | 大顎動脈 | 1 腦神經與頸外動脈分支 | 細小分支，只需知道起源動脈與供應區，資訊卡即可。 |
+| 1B15 | Lesser palatine artery | 小顎動脈 | 1 腦神經與頸外動脈分支 | 細小分支，只需知道起源動脈與供應區，資訊卡即可。 |
+| 1B16 | Sphenopalatine artery | 蝶顎動脈 | 1 腦神經與頸外動脈分支 | 細小分支，只需知道起源動脈與供應區，資訊卡即可。 |
+| 1B17 | Nasopalatine artery | 鼻顎動脈 | 1 腦神經與頸外動脈分支 | 細小分支，只需知道起源動脈與供應區，資訊卡即可。 |
+| 1C17 | Deep petrosal nerve | 深岩神經 | 1 腦神經與頸外動脈分支 | 細小神經或節，與所屬腦神經一起講述即可，資訊卡即可。 |
+| 1C18 | Geniculate ganglion | 膝狀神經節 | 1 腦神經與頸外動脈分支 | 細小神經或節，與所屬腦神經一起講述即可，資訊卡即可。 |
+| 1D11 | Superior and inferior ganglia of glossopharyngeal nerve | 舌咽神經上、下神經節 | 1 腦神經與頸外動脈分支 | 細小神經或節，與所屬腦神經一起講述即可，資訊卡即可。 |
+| 1D12 | Carotid sinus nerve | 頸動脈竇神經 | 1 腦神經與頸外動脈分支 | 細小神經或節，與所屬腦神經一起講述即可，資訊卡即可。 |
+| 25 | Tubal tonsil | 咽鼓管扁桃體 | 2 喉與咽 | 小型腺體或淋巴組織，體積極小，資訊卡即可。 |
+| 28 | Palatine aponeurosis | 顎腱膜 | 2 喉與咽 | 軟顎內的腱膜，與軟顎肌一起說明，單獨建模價值低。 |
+| 211 | Salpingopharyngeal fold, pharyngeal recess | 耳咽管咽褶、咽隱窩 | 2 喉與咽 | 咽黏膜的小褶與隱窩，改用相關搜尋指向咽鼓管咽肌（站上已有 Salpingopharyngeus）。 |
+| 212 | Aryepiglottic fold | 杓會厭褶 | 2 喉與咽 | 黏膜褶，改用相關搜尋指向杓會厭肌。 |
+| 213 | Vocal fold / laryngeal ventricle / vestibular fold | 聲帶（聲襞）、喉室、前庭襞 | 2 喉與咽 | 黏膜皺襞與腔室，改用相關搜尋指向站上已有的聲帶韌帶與聲帶肌。 |
+| 214 | Uvula | 懸雍垂 | 2 喉與咽 | 站上以懸雍垂肌呈現（BodyParts3D 4.0 概念 FMA55022 uvula 對應的就是這一件 mesh），改用相關搜尋即可。 |
+| 32 | Middle thyroid artery / Thyroid ima artery | 中甲狀腺動脈／最下甲狀腺動脈 | 3 腺體 | 細小分支，只需知道起源動脈與供應區，資訊卡即可。 |
+| 4A8 | Anterior ciliary arteries | 前睫動脈 | 4 眼眶與耳 | 眼球內的細小動脈，只需知道起源（眼動脈）與供應區，資訊卡即可。 |
+| 4A9 | Short posterior ciliary arteries | 短後睫動脈 | 4 眼眶與耳 | 眼球內的細小動脈，只需知道起源（眼動脈）與供應區，資訊卡即可。 |
+| 4A10 | Long posterior ciliary arteries | 長後睫動脈 | 4 眼眶與耳 | 眼球內的細小動脈，只需知道起源（眼動脈）與供應區，資訊卡即可。 |
+| 4A11 | Infraorbital / infratrochlear veins | 眶下、滑車下靜脈 | 4 眼眶與耳 | 屬次要的頭頸靜脈小支，路徑記回流方向即可，資訊卡即可。 |
+| 4A13 | Excretory ducts of lacrimal gland | 淚腺排泄管 | 4 眼眶與耳 | 小型腺體或淋巴組織，體積極小，資訊卡即可。 |
+| 4A17 | Superior tarsal muscle (Muller) | 上瞼板肌 | 4 眼眶與耳 | 眼瞼內極薄的平滑肌，單獨建模價值低，資訊卡即可。 |
+| 4A18 | Retina layers (neural layer / pigment layer) | 視網膜分層（神經層、色素層） | 4 眼眶與耳 | 組織層級的分層，眼詳細模式只有整體視網膜，資訊卡即可。 |
+| 4B2 | Ceruminous glands | 耵聹腺 | 4 眼眶與耳 | 小型腺體或淋巴組織，體積極小，資訊卡即可。 |
+| 4B3 | Tympanic plexus / tympanic nerve | 鼓室神經叢 | 4 眼眶與耳 | 細小神經或節，與所屬腦神經一起講述即可，資訊卡即可。 |
+| 4B4 | Spiral ganglion | 螺旋神經節 | 4 眼眶與耳 | 細小神經或節，與所屬腦神經一起講述即可，資訊卡即可。 |
+| 4B5 | Vestibular ganglion (Scarpa) | 前庭神經節 | 4 眼眶與耳 | 細小神經或節，與所屬腦神經一起講述即可，資訊卡即可。 |
+| 4B11 | Auricular muscles | 耳肌 | 4 眼眶與耳 | 人類耳肌退化、功能小，考題少。 |
+| 4B13 | Organ of Corti, basilar membrane, tectorial membrane | 柯氏器、底膜、覆膜 | 4 眼眶與耳 | 顯微層級構造，資訊卡即可。 |
+| 5B14 | Palatine canal / palatovaginal canal | 顎管、顎鞘管 | 5 顱骨孔道與骨細部 | 顱骨上的細小通道，考題少，資訊卡說明通過的結構即可。 |
+| 5B15 | Temporal lines (superior / inferior) | 顳線（上、下） | 5 顱骨孔道與骨細部 | 顱骨表面的細線標記，考題少，資訊卡即可。 |
+| 5B16 | Infratemporal crest | 顳下嵴 | 5 顱骨孔道與骨細部 | 蝶骨表面的小嵴，考題少，資訊卡即可。 |
+| 5B17 | Carotid tubercle | 頸動脈結節 | 5 顱骨孔道與骨細部 | 頸椎的小結節標記，考題少，資訊卡即可。 |
+| 5B19 | Middle / superior nasal conchae | 中、上鼻甲 | 5 顱骨孔道與骨細部 | 篩骨上的鼻甲，次要題材；資訊卡即可（篩骨在站上已有一件 Ethmoid）。 |
+| 6A12 | Danger triangle of the face | 顏面危險三角 | 6 筋膜與間隙 | 臨床區域用語，答案是顏面靜脈、眼靜脈與海綿竇的連通；待這些血管補建後改用相關搜尋指向它們（必備清單已列為不需 3D）。 |
+| 6A13 | Pharyngobasilar fascia | 咽顱底筋膜 | 6 筋膜與間隙 | 咽壁內的筋膜層，需配合咽肌一起說明，單獨建模價值低。 |
+| 6A14 | Temporalis fascia | 顳肌筋膜 | 6 筋膜與間隙 | 顳肌表面的筋膜，單獨建模價值低，資訊卡即可。 |
+| 6A15 | Retropharyngeal space | 咽後間隙 | 6 筋膜與間隙 | 潛在間隙，無固定形狀；以資訊卡說明邊界與感染擴散路徑，並在頸筋膜呈現時以相關搜尋帶出。 |
+| 6B4 | Subdural / subarachnoid / epidural spaces | 硬腦膜下、蛛網膜下、硬膜外腔 | 6 筋膜與間隙 | 腦膜腔屬潛在間隙，資訊卡即可（蛛網膜下腔已有 CSF 流向頁示意）。 |
+| 6B6 | Cerebellomedullary and suprasellar cisterns | 小腦延髓池、鞍上池 | 6 筋膜與間隙 | 腦池是腦脊液空間，資訊卡搭配既有 CSF 流向頁即可。 |
+| 79 | Superior and inferior labial veins | 上、下唇靜脈 | 其他（靜脈、淋巴、鼻腔） | 屬次要的頭頸靜脈小支，路徑記回流方向即可，資訊卡即可。 |
+| 710 | Lateral nasal vein | 鼻外側靜脈 | 其他（靜脈、淋巴、鼻腔） | 屬次要的頭頸靜脈小支，路徑記回流方向即可，資訊卡即可。 |
+| 711 | Superficial cervical lymph nodes | 頸淺淋巴結 | 其他（靜脈、淋巴、鼻腔） | 淋巴構造體積小、形狀不固定，教學上多用資訊卡帶過（是否要建示意由使用者決定）。 |
+| 712 | Deep cervical lymph nodes | 頸深淋巴結 | 其他（靜脈、淋巴、鼻腔） | 淋巴構造體積小、形狀不固定，教學上多用資訊卡帶過（是否要建示意由使用者決定）。 |
+| 713 | Jugular lymphatic trunk | 頸淋巴幹 | 其他（靜脈、淋巴、鼻腔） | 淋巴構造體積小、形狀不固定，教學上多用資訊卡帶過（是否要建示意由使用者決定）。 |
+| 714 | Right lymphatic duct | 右淋巴導管 | 其他（靜脈、淋巴、鼻腔） | 淋巴構造體積小、形狀不固定，教學上多用資訊卡帶過（是否要建示意由使用者決定）。 |
+
+小計：1 腦神經與頸外動脈分支 21、2 喉與咽 6、3 腺體 1、4 眼眶與耳 13、5 顱骨孔道與骨細部 5、6 筋膜與間隙 6、其他（靜脈、淋巴、鼻腔） 6，合計 58 項。
+
+## 八、B 類 91 項細分：管狀結構／有機形狀
+
+判定依據（使用者指示）：**管狀結構**＝神經、血管、導管，可用程式生成示意結構；**有機形狀**＝腺體、器官、軟組織塊，先搜尋現成授權模型，自行建模兩輪仍不像就停手報告、不硬做。兩類都不適合的（空間、窩、三角、筋膜鞘、膜上開口等）標為**待決定**並寫明原因，不硬歸類。
+
+**計數：管狀 53、有機形狀 16、待決定 22，合計 91。**
+
+| 分區 | 管狀 | 有機形狀 | 待決定 | 合計 |
+|---|---|---|---|---|
+| 1 腦神經與頸外動脈分支 | 32 | 7 | 1 | 40 |
+| 2 喉與咽 | 3 | 4 | 1 | 8 |
+| 3 腺體 | 2 | 3 | 0 | 5 |
+| 4 眼眶與耳 | 8 | 2 | 2 | 12 |
+| 5 顱骨孔道與骨細部 | 0 | 0 | 1 | 1 |
+| 6 筋膜與間隙 | 0 | 0 | 16 | 16 |
+| 其他（靜脈、淋巴、鼻腔） | 8 | 0 | 1 | 9 |
+| 合計 | 53 | 16 | 22 | 91 |
+
+補充：「有機形狀」中的神經節與頸動脈體體積都很小，實際難度可能比腺體低；甲狀腺、腮腺、扁桃體才是需要先搜尋現成模型的主要項目。來源尚未確認，搜尋結果與授權要先列給使用者確認才可使用。
+
+| 序號 | English | 中文 | 型 | 理由 |
+|---|---|---|---|---|
+| 1A1 | Superior thyroid artery | 上甲狀腺動脈 | 管狀 | 動脈，管狀路徑 |
+| 1A2 | Lingual artery | 舌動脈 | 管狀 | 動脈，管狀路徑 |
+| 1A3 | Facial artery | 顏面動脈 | 管狀 | 動脈，管狀路徑 |
+| 1A4 | Maxillary artery | 上頷動脈 | 管狀 | 動脈，管狀路徑 |
+| 1A5 | Superficial temporal artery | 淺顳動脈 | 管狀 | 動脈，管狀路徑 |
+| 1A6 | Ascending pharyngeal artery | 升咽動脈 | 管狀 | 動脈，管狀路徑 |
+| 1A7 | Occipital artery | 枕動脈 | 管狀 | 動脈，管狀路徑 |
+| 1A8 | Posterior auricular artery | 耳後動脈 | 管狀 | 動脈，管狀路徑 |
+| 1A9 | Superior labial artery | 上唇動脈 | 管狀 | 動脈，管狀路徑 |
+| 1A10 | Inferior labial artery | 下唇動脈 | 管狀 | 動脈，管狀路徑 |
+| 1A11 | Ascending palatine artery | 升顎動脈 | 管狀 | 動脈，管狀路徑 |
+| 1A12 | Tonsillar artery (branch of facial artery) | 扁桃體動脈 | 管狀 | 動脈，管狀路徑 |
+| 1B1 | Middle meningeal artery | 中腦膜動脈 | 管狀 | 動脈，管狀路徑 |
+| 1B2 | Inferior alveolar artery | 下齒槽動脈 | 管狀 | 動脈，管狀路徑 |
+| 1C1 | Trigeminal ganglion | 三叉神經節 | 有機 | 神經節，小結節狀；體積小，可先以橢球為底再貼合連接的神經 |
+| 1C2 | Auriculotemporal nerve | 耳顳神經 | 管狀 | 神經（含叢），管狀路徑 |
+| 1C3 | Infraorbital nerve | 眶下神經 | 管狀 | 神經（含叢），管狀路徑 |
+| 1C4 | Facial nerve branches (temporal, zygomatic, buccal, marginal mandibular, cervical) | 顏面神經分支（顳、顴、頰、下頷緣、頸） | 管狀 | 神經（含叢），管狀路徑 |
+| 1C5 | Deep temporal nerves | 深顳神經 | 管狀 | 神經（含叢），管狀路徑 |
+| 1C6 | Masseteric nerve | 咬肌神經 | 管狀 | 神經（含叢），管狀路徑 |
+| 1C7 | Zygomatic nerve (zygomaticotemporal / zygomaticofacial) | 顴神經（顴顳、顴面） | 管狀 | 神經（含叢），管狀路徑 |
+| 1C8 | Superior alveolar nerves (posterior / middle / anterior) | 上齒槽神經（後、中、前） | 管狀 | 神經（含叢），管狀路徑 |
+| 1C9 | Nasopalatine nerve | 鼻顎神經 | 管狀 | 神經（含叢），管狀路徑 |
+| 1C10 | Greater / lesser palatine nerves | 大、小顎神經 | 管狀 | 神經（含叢），管狀路徑 |
+| 1C11 | Greater petrosal nerve | 大岩神經 | 管狀 | 神經（含叢），管狀路徑 |
+| 1C12 | Lesser petrosal nerve | 小岩神經 | 管狀 | 神經（含叢），管狀路徑 |
+| 1C13 | Nerve of pterygoid canal (Vidian nerve) | 翼管神經 | 管狀 | 神經（含叢），管狀路徑 |
+| 1C14 | Pterygopalatine ganglion | 翼顎神經節 | 有機 | 神經節，小結節狀；體積小，可先以橢球為底再貼合連接的神經 |
+| 1C15 | Otic ganglion | 耳神經節 | 有機 | 神經節，小結節狀；體積小，可先以橢球為底再貼合連接的神經 |
+| 1C16 | Submandibular ganglion | 下頷下神經節 | 有機 | 神經節，小結節狀；體積小，可先以橢球為底再貼合連接的神經 |
+| 1D1 | Carotid sinus | 頸動脈竇 | 待決定 | 待決定：頸動脈竇是頸內動脈起始處的局部膨大，可做成既有動脈上的局部標示，也可獨立成形；請使用者選 |
+| 1D2 | Carotid body | 頸動脈體 | 有機 | 小型實體小體，位於頸動脈分叉附近 |
+| 1D3 | Superior cervical ganglion | 上頸神經節 | 有機 | 神經節，小結節狀；體積小，可先以橢球為底再貼合連接的神經 |
+| 1D4 | Ansa cervicalis (superior and inferior roots) | 頸襻（上根、下根） | 管狀 | 神經（含叢），管狀路徑 |
+| 1D5 | Middle / inferior cervical ganglia, stellate ganglion | 中、下頸神經節、星狀神經節 | 有機 | 神經節，小結節狀；體積小，可先以橢球為底再貼合連接的神經 |
+| 1D6 | Great auricular nerve | 耳大神經 | 管狀 | 神經（含叢），管狀路徑 |
+| 1D7 | Lesser occipital nerve | 枕小神經 | 管狀 | 神經（含叢），管狀路徑 |
+| 1D8 | Greater occipital nerve | 枕大神經 | 管狀 | 神經（含叢），管狀路徑 |
+| 1D9 | Transverse cervical nerve | 頸橫神經 | 管狀 | 神經（含叢），管狀路徑 |
+| 1D10 | Supraclavicular nerves | 鎖骨上神經 | 管狀 | 神經（含叢），管狀路徑 |
+| 21 | Superior laryngeal artery | 上喉動脈 | 管狀 | 動脈，管狀路徑 |
+| 22 | Palatine tonsil | 顎扁桃體 | 有機 | 淋巴組織塊，軟組織 |
+| 23 | Pharyngeal tonsil (adenoid) | 咽扁桃體 | 有機 | 淋巴組織塊，軟組織 |
+| 24 | Lingual tonsil | 舌扁桃體 | 有機 | 淋巴組織塊，軟組織 |
+| 26 | Superior laryngeal nerve (internal and external branches) | 上喉神經（內支、外支） | 管狀 | 神經（含叢），管狀路徑 |
+| 27 | Pharyngeal plexus | 咽神經叢 | 管狀 | 神經（含叢），管狀路徑 |
+| 29 | Pharynx (nasopharynx, oropharynx, laryngopharynx) | 咽（鼻咽、口咽、喉咽） | 待決定 | 待決定：咽腔是空間，三段是否分開需先決定 |
+| 210 | Palatoglossal arch / palatopharyngeal arch | 顎舌弓、顎咽弓 | 有機 | 黏膜褶，軟組織 |
+| 31 | Superior / middle / inferior thyroid veins | 上、中、下甲狀腺靜脈 | 管狀 | 靜脈（含叢），管狀路徑 |
+| 33 | Parotid gland | 腮腺（耳下腺） | 有機 | 腺體，軟組織塊 |
+| 34 | Thyroid gland | 甲狀腺 | 有機 | 腺體，軟組織塊 |
+| 35 | Parathyroid glands | 副甲狀腺 | 有機 | 腺體，軟組織塊 |
+| 36 | Parotid duct | 腮腺管（耳下腺管） | 管狀 | 導管，管狀路徑 |
+| 4A1 | Supraorbital artery | 眶上動脈 | 管狀 | 動脈，管狀路徑 |
+| 4A2 | Supratrochlear artery | 滑車上動脈 | 管狀 | 動脈，管狀路徑 |
+| 4A3 | Central artery of retina | 視網膜中央動脈 | 管狀 | 動脈，管狀路徑 |
+| 4A4 | Supraorbital vein | 眶上靜脈 | 管狀 | 靜脈（含叢），管狀路徑 |
+| 4A5 | Supratrochlear vein | 滑車上靜脈 | 管狀 | 靜脈（含叢），管狀路徑 |
+| 4A6 | Superior ophthalmic vein | 上眼靜脈 | 管狀 | 靜脈（含叢），管狀路徑 |
+| 4A7 | Inferior ophthalmic vein | 下眼靜脈 | 管狀 | 靜脈（含叢），管狀路徑 |
+| 4B1 | Labyrinthine artery | 迷路動脈 | 管狀 | 動脈，管狀路徑 |
+| 4B6 | Malleus, incus, stapes | 錘骨、砧骨、鐙骨 | 有機 | 聽小骨，三塊小骨，實體形狀 |
+| 4B8 | External acoustic meatus (canal) | 外耳道 | 待決定 | 待決定：外耳道是管狀空間，且與骨性外耳道同名，需先決定是否合併成一個結構 |
+| 4B10 | Oval window / round window | 卵圓窗、圓窗 | 待決定 | 待決定：窗是膜上的開口，不是管也不是實體塊，可能只做標示 |
+| 4B12 | Stapedius, tensor tympani | 鐙骨肌、鼓膜張肌 | 有機 | 小肌肉，軟組織 |
+| 5B18 | Paranasal sinuses (maxillary, frontal, ethmoidal, sphenoid) | 鼻竇（上頷、額、篩、蝶） | 待決定 | 待決定：竇腔是骨內空間，四個竇是否一併建需先決定 |
+| 6A1 | Investing layer of deep cervical fascia | 頸深筋膜包覆層 | 待決定 | 待決定：筋膜或鞘是薄殼，不是管也不是實體塊；需先決定呈現方式 |
+| 6A2 | Carotid sheath | 頸動脈鞘 | 待決定 | 待決定：筋膜或鞘是薄殼，不是管也不是實體塊；需先決定呈現方式 |
+| 6A3 | Occipital triangle (posterior triangle) | 枕三角（後三角） | 待決定 | 待決定：三角是空間，不是管也不是實體；依 CLAUDE.md 特殊空間規則，以高亮邊界結構呈現，需先決定呈現方式 |
+| 6A4 | Supraclavicular triangle | 鎖骨上三角 | 待決定 | 待決定：三角是空間，不是管也不是實體；依 CLAUDE.md 特殊空間規則，以高亮邊界結構呈現，需先決定呈現方式 |
+| 6A5 | Carotid triangle | 頸動脈三角 | 待決定 | 待決定：三角是空間，不是管也不是實體；依 CLAUDE.md 特殊空間規則，以高亮邊界結構呈現，需先決定呈現方式 |
+| 6A6 | Submental triangle | 頦下三角 | 待決定 | 待決定：三角是空間，不是管也不是實體；依 CLAUDE.md 特殊空間規則，以高亮邊界結構呈現，需先決定呈現方式 |
+| 6A7 | Submandibular triangle | 下頷下三角 | 待決定 | 待決定：三角是空間，不是管也不是實體；依 CLAUDE.md 特殊空間規則，以高亮邊界結構呈現，需先決定呈現方式 |
+| 6A8 | Pretracheal fascia | 頸深筋膜氣管前層 | 待決定 | 待決定：筋膜或鞘是薄殼，不是管也不是實體塊；需先決定呈現方式 |
+| 6A9 | Prevertebral fascia | 頸深筋膜椎前層 | 待決定 | 待決定：筋膜或鞘是薄殼，不是管也不是實體塊；需先決定呈現方式 |
+| 6A10 | Parotid sheath / parotid space | 腮腺鞘／腮腺間隙 | 待決定 | 待決定：筋膜或鞘是薄殼，不是管也不是實體塊；需先決定呈現方式 |
+| 6A11 | Muscular triangle / anterior triangle | 肌三角／前三角 | 待決定 | 待決定：三角是空間，不是管也不是實體；依 CLAUDE.md 特殊空間規則，以高亮邊界結構呈現，需先決定呈現方式 |
+| 6B1 | Pterygopalatine fossa | 翼顎窩 | 待決定 | 待決定：窩是空間，不是管也不是實體；依特殊空間規則高亮邊界結構 |
+| 6B2 | Infratemporal fossa | 顳下窩 | 待決定 | 待決定：窩是空間，不是管也不是實體；依特殊空間規則高亮邊界結構 |
+| 6B3 | Temporal fossa | 顳窩 | 待決定 | 待決定：窩是空間，不是管也不是實體；依特殊空間規則高亮邊界結構 |
+| 6B5 | Dura mater, arachnoid mater, pia mater | 硬腦膜、蛛網膜、軟腦膜 | 待決定 | 待決定：腦膜是薄殼層；硬腦膜可用既有小腦幕與大腦鐮為基礎，其餘兩層以資訊卡 |
+| 6B7 | Scalp layers (skin, dense connective tissue, galea, loose areolar tissue, pericranium) | 頭皮層次 | 待決定 | 待決定：多層薄殼，需與既有帽狀腱膜、枕額肌對齊 |
+| 71 | External jugular vein | 外頸靜脈 | 管狀 | 靜脈（含叢），管狀路徑 |
+| 72 | Facial vein | 顏面靜脈 | 管狀 | 靜脈（含叢），管狀路徑 |
+| 73 | Retromandibular vein | 下頷後靜脈 | 管狀 | 靜脈（含叢），管狀路徑 |
+| 74 | Pterygoid venous plexus | 翼靜脈叢 | 管狀 | 靜脈（含叢），管狀路徑 |
+| 75 | Anterior jugular vein | 前頸靜脈 | 管狀 | 靜脈（含叢），管狀路徑 |
+| 76 | Superficial temporal vein | 淺顳靜脈 | 管狀 | 靜脈（含叢），管狀路徑 |
+| 77 | Posterior auricular vein | 耳後靜脈 | 管狀 | 靜脈（含叢），管狀路徑 |
+| 78 | Emissary veins | 導靜脈 | 管狀 | 靜脈（含叢），管狀路徑 |
+| 715 | Nasal cavity | 鼻腔 | 待決定 | 待決定：鼻腔是空間，貼合既有鼻骨、鼻中隔與鼻甲 |
+
+## 九、批次 1 重排（腦神經及其主要分支＋頸外動脈分支，61 項）
+
+### 9.1 事實：批次 1 沒有 A 類
+
+批次 1 的 61 項是 A 0、B 40、C 21。**A 類 36 項全部在批次 4 與批次 5**：28 項是骨性標記（批次 5：5A 15 項、5B 13 項），8 項是眼、耳詳細模式疑似已有（批次 4：4A 6 項、4B 2 項，見第四節，需先確認）。所以「先 A 後 B」與「從批次 1 開始」兩件事不能同時成立，下面提出一個順序，使用者選。
+
+### 9.2 建議的 PR 順序
+
+| 順序 | 內容 | 項數 | 備註 |
+|---|---|---|---|
+| A-1 | 批次 5A 顱底與眼眶孔、裂、管（骨面標示） | 15 | 不新增網格；孔洞在網格上是否清楚尚未在 3D 畫面確認 |
+| A-2 | 批次 5B 顏面與翼顎區孔、突、窩（骨面標示，只含 A 類 13 項） | 13 | 5B 的 B 項（鼻竇）與 C 項不在這個 PR |
+| A-3 | 批次 4 眼、耳詳細模式疑似已有 8 項的確認 | 8 | 可能只是文件或資料核對（確認已有就從缺項移除），不一定要開模型 PR |
+| B-1 | 批次 1 B 細分第一批 | 20 | 見 9.3 |
+| B-2 | 批次 1 B 細分第二批 | 20 | 見 9.3；第四節的 5 項若確認已有會移除，實際約 15 項 |
+
+若使用者要「先 B 後 A」，A-1 至 A-3 與 B-1、B-2 可互換，彼此沒有相依。
+
+### 9.3 批次 1 的 B（40 項）怎麼切
+
+40 項不可能切成 3 個各 15–20 項（3×15＝45＞40），所以有兩種切法：
+
+| 方案 | 大小 | 優點 | 缺點 |
+|---|---|---|---|
+| X：2×20 | 20、20 | 符合 15–20 的範圍；PR 少，待審上限 5 較不吃緊；第二批有 5 項待確認，確認後可能剩約 15 項，仍在範圍內 | 單一 PR 審核量較大（第一批 20 條管狀結構） |
+| Y：3 批 14／13／13 | 14、13、13 | 每批較小、審核輕鬆 | 略低於 15 的下限；PR 多一個，待審名額占用多 |
+
+**我建議 X（2×20）**：第一批全是管狀結構，可共用同一套程式生成與檢查，審核時看的是同一類東西；第二批混有有機形狀與待決定項，量力而為。若使用者想要更小的 PR，再改 Y。
+
+#### 方案 X、批次 B-1（20 項，全部管狀；先動脈、後神經）
+
+1. Superior thyroid artery（上甲狀腺動脈）〔1A1・管狀〕
+2. Lingual artery（舌動脈）〔1A2・管狀〕
+3. Facial artery（顏面動脈）〔1A3・管狀〕
+4. Maxillary artery（上頷動脈）〔1A4・管狀〕
+5. Superficial temporal artery（淺顳動脈）〔1A5・管狀〕
+6. Ascending pharyngeal artery（升咽動脈）〔1A6・管狀〕
+7. Occipital artery（枕動脈）〔1A7・管狀〕
+8. Posterior auricular artery（耳後動脈）〔1A8・管狀〕
+9. Superior labial artery（上唇動脈）〔1A9・管狀〕
+10. Inferior labial artery（下唇動脈）〔1A10・管狀〕
+11. Ascending palatine artery（升顎動脈）〔1A11・管狀〕
+12. Tonsillar artery (branch of facial artery)（扁桃體動脈）〔1A12・管狀〕
+13. Middle meningeal artery（中腦膜動脈）〔1B1・管狀〕
+14. Inferior alveolar artery（下齒槽動脈）〔1B2・管狀〕
+15. Auriculotemporal nerve（耳顳神經）〔1C2・管狀〕
+16. Infraorbital nerve（眶下神經）〔1C3・管狀〕
+17. Deep temporal nerves（深顳神經）〔1C5・管狀〕
+18. Masseteric nerve（咬肌神經）〔1C6・管狀〕
+19. Zygomatic nerve (zygomaticotemporal / zygomaticofacial)（顴神經（顴顳、顴面））〔1C7・管狀〕
+20. Superior alveolar nerves (posterior / middle / anterior)（上齒槽神經（後、中、前））〔1C8・管狀〕
+
+#### 方案 X、批次 B-2（20 項：管狀 12、有機形狀 7、待決定 1；管狀在前）
+
+1. Facial nerve branches (temporal, zygomatic, buccal, marginal mandibular, cervical)（顏面神經分支（顳、顴、頰、下頷緣、頸））〔1C4・管狀〕
+2. Nasopalatine nerve（鼻顎神經）〔1C9・管狀〕
+3. Greater / lesser palatine nerves（大、小顎神經）〔1C10・管狀〕
+4. Greater petrosal nerve（大岩神經）〔1C11・管狀〕
+5. Lesser petrosal nerve（小岩神經）〔1C12・管狀〕
+6. Nerve of pterygoid canal (Vidian nerve)（翼管神經）〔1C13・管狀〕
+7. Ansa cervicalis (superior and inferior roots)（頸襻（上根、下根））〔1D4・管狀〕
+8. Great auricular nerve（耳大神經）〔1D6・管狀〕
+9. Lesser occipital nerve（枕小神經）〔1D7・管狀〕
+10. Greater occipital nerve（枕大神經）〔1D8・管狀〕
+11. Transverse cervical nerve（頸橫神經）〔1D9・管狀〕
+12. Supraclavicular nerves（鎖骨上神經）〔1D10・管狀〕
+13. Trigeminal ganglion（三叉神經節）〔1C1・有機〕
+14. Pterygopalatine ganglion（翼顎神經節）〔1C14・有機〕
+15. Otic ganglion（耳神經節）〔1C15・有機〕
+16. Submandibular ganglion（下頷下神經節）〔1C16・有機〕
+17. Carotid body（頸動脈體）〔1D2・有機〕
+18. Superior cervical ganglion（上頸神經節）〔1D3・有機〕
+19. Middle / inferior cervical ganglia, stellate ganglion（中、下頸神經節、星狀神經節）〔1D5・有機〕
+20. Carotid sinus（頸動脈竇）〔1D1・待決定〕
+
+#### 方案 Y（供比較，只列分法）
+
+- Y-1（14 項）：頸外動脈主幹與分支 14 條動脈（1A1–1A12、1B1、1B2）。
+- Y-2（13 項）：三叉、顏面神經分支與岩神經等 1C2–1C13，加頸襻 1D4。
+- Y-3（13 項）：頸神經叢皮支 1D6–1D10（其中 1D6–1D8 疑似已有），加神經節與頸動脈體 7 項（1C1、1C14、1C15、1C16、1D2、1D3、1D5），加頸動脈竇 1D1（待決定）。
+
+### 9.4 批次 1 的 C（21 項）
+
+不在上述批次內，清單見第七節；使用者救回哪些，再加進 B-2 或另開小批次。
+
+### 9.5 PR 數量上限
+
+依 CLAUDE.md：等使用者審核的 PR 同時最多 5 個。待審 PR 超過 5 個時，只準備好該批（資料、截圖、說明），**不開新 PR**，等名額空出來再開。

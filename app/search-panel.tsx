@@ -5,7 +5,7 @@ import {Combobox,ComboboxInput,ComboboxContent,ComboboxList,ComboboxItem,Combobo
 import type {Concept} from './anatomy';
 import {scopeOf} from './mj-scope';
 import {querySearchIndex,type SearchEntry} from './mj-search';
-import {relatedResults,RELATED_NOTE_EN,RELATED_NOTE_ZH} from './mj-related-search';
+import {relatedResults,relatedRows,isCerebellar,CEREBELLAR_TAG_EN,CEREBELLAR_TAG_ZH,RELATED_NOTE_EN,RELATED_NOTE_ZH} from './mj-related-search';
 
 export const SEARCH_LIMIT=50,SEARCH_DEBOUNCE_MS=150;
 /** Per-keystroke timings (ms), kept for measurement: echo = key press → typed text on screen, results = key press → results rendered. */
@@ -41,8 +41,7 @@ function SearchPanel({index,onChoose,onClose}:Props){
  const related=useMemo(()=>index&&deferred.trim()?relatedResults(index,deferred):undefined,[index,deferred]);
  const rows=useMemo(()=>{
   if(!related)return items;
-  const ids=new Set(related.entries.map(e=>e.concept.id));
-  return [...related.entries,...items.filter(e=>!ids.has(e.concept.id))].slice(0,SEARCH_LIMIT);
+  return relatedRows(related.entries,items,SEARCH_LIMIT);
  },[related,items]);
  useEffect(()=>{if(resultsAt.current){keep(searchMetrics.results,performance.now()-resultsAt.current);resultsAt.current=0;}},[rows]);
  return <section className="search-panel glass" aria-label="搜尋構造"><div className="panel-heading"><span>Find a structure｜搜尋構造</span><Button variant="ghost" className="icon-button" onClick={onClose} aria-label="關閉搜尋"><X size={18}/></Button></div>
@@ -51,7 +50,7 @@ function SearchPanel({index,onChoose,onClose}:Props){
     onCompositionStart={()=>{composing.current=true;clearTimeout(timer.current);}} onCompositionEnd={e=>{composing.current=false;commit((e.target as HTMLInputElement).value);}}/>
    <ComboboxContent className="anatomy-search-results"><ComboboxEmpty>{index?'找不到符合的構造，請換個寫法或輸入更少的字。':'正在建立搜尋索引…'}</ComboboxEmpty>
     {related&&<div className="search-related-note" role="note"><p>{RELATED_NOTE_ZH}<br/>{RELATED_NOTE_EN}</p><p className="search-related-reason">{related.related.reasonZh}<br/>{related.related.reasonEn}</p></div>}
-    <ComboboxList>{(e:SearchEntry)=><ComboboxItem key={e.concept.id} value={e}><span className="search-result-name">{e.english}{e.chinese&&<small>{e.chinese}</small>}</span>{scopeOf(e.concept.name,e.concept.elements)==='summary'&&<span className="scope-tag" title="範圍：摘要">摘要</span>}<span className="small-number">{e.kind?KIND_ZH[e.kind]??e.kind:`${e.concept.elements.length} 件`}</span></ComboboxItem>}</ComboboxList>
+    <ComboboxList>{(e:SearchEntry)=><ComboboxItem key={e.concept.id} value={e}><span className="search-result-name">{e.english}{e.chinese&&<small>{e.chinese}</small>}</span>{related&&isCerebellar(e)&&<span className="search-region-tag" title={CEREBELLAR_TAG_EN}>{CEREBELLAR_TAG_ZH} {CEREBELLAR_TAG_EN}</span>}{scopeOf(e.concept.name,e.concept.elements)==='summary'&&<span className="scope-tag" title="範圍：摘要">摘要</span>}<span className="small-number">{e.kind?KIND_ZH[e.kind]??e.kind:`${e.concept.elements.length} 件`}</span></ComboboxItem>}</ComboboxList>
    </ComboboxContent></Combobox>
   <p className="search-note" role="status">{index&&deferred.trim()&&!rows.length?'找不到符合的構造。可以試試英文名、中文名、不加左右，或輸入更少的字；腦部構造請在腦部詳細模式搜尋。':query?`最多顯示 ${SEARCH_LIMIT} 筆；輸入更多字可找到較小的構造。`:'可先搜尋主要器官，或輸入任何構造的中文或英文名稱。'}</p></section>;
 }
