@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
+import {REFINED_NAMES} from './lib/facial-refine.mjs';
 import {runnerImport} from 'vite';
 const {normalizeAtlasSystems}=(await runnerImport(fileURLToPath(new URL('../app/mj-system-classifier.ts',import.meta.url)))).module;
 const dir=new URL('../public/models/',import.meta.url);
@@ -21,15 +22,18 @@ const datas=facial.chunks.map(c=>{
  return raw;
 });
 const source=fs.readFileSync(new URL('../../work/facial.bin',dir));
-let vertices=0;
+let vertices=0,reshaped=0;
 for(const p of facial.parts){
  const old=catalogue.parts.find(x=>x.id===p.id);assert.ok(old,'known piece '+p.name);
  const raw=datas[p.chunk];assert.ok(raw,'package exists');
  const same=(a,b,len)=>assert.ok(raw.subarray(a,a+len).equals(source.subarray(b,b+len)),`${p.name}: bytes identical to the pinned source`);
- same(p.positions,old.positions,p.vertexCount*12);same(p.normals,old.normals,p.vertexCount*6);same(p.indices,old.indices,p.indexCount*4);
+ // frontalis and occipitalis are reshaped when packaged (scripts/lib/facial-refine.mjs): same vertices and triangles, edge positions moved; every other piece is byte-identical to the source
+ if(REFINED_NAMES.includes(p.name)){same(p.indices,old.indices,p.indexCount*4);assert.equal(p.vertexCount,old.vertexCount,p.name+': vertex count kept');assert.ok(!raw.subarray(p.positions,p.positions+p.vertexCount*12).equals(source.subarray(old.positions,old.positions+old.vertexCount*12)),p.name+': reshaped');reshaped++;}
+ else{same(p.positions,old.positions,p.vertexCount*12);same(p.normals,old.normals,p.vertexCount*6);same(p.indices,old.indices,p.indexCount*4);}
  assert.equal(p.positions%4,0);assert.equal(p.indices%4,0);vertices+=p.vertexCount;
 }
+assert.equal(reshaped,REFINED_NAMES.length,'the four scalp muscle pieces are reshaped');
 const total=facial.chunks.reduce((n,c)=>n+c.gzipBytes,0),rawTotal=facial.chunks.reduce((n,c)=>n+c.bytes,0);
 assert.ok(total<rawTotal*.65,'compressed');
 assert.equal(normalizeAtlasSystems(base).parts.length+facial.parts.length,2279,'2,232 body (the two flexor retinacula of the wrist now come from the tendon batch; the two lateral circumflex femoral branch sets came back under their real name) + 47 facial');
-console.log(`PASS facial loading: ${facial.parts.length} pieces, ${vertices.toLocaleString()} vertices, ${facial.chunks.length} same-origin packages (${(rawTotal/1e6).toFixed(1)} MB → ${(total/1e6).toFixed(1)} MB gzip), byte-identical to the pinned source.`);
+console.log(`PASS facial loading: ${facial.parts.length} pieces, ${vertices.toLocaleString()} vertices, ${facial.chunks.length} same-origin packages (${(rawTotal/1e6).toFixed(1)} MB → ${(total/1e6).toFixed(1)} MB gzip), the other ${facial.parts.length-reshaped} byte-identical to the pinned source (${reshaped} scalp muscle pieces reshaped, same vertices and triangles).`);
