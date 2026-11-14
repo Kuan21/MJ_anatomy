@@ -65,12 +65,12 @@
 - 資訊卡的 Atlas reference 與 View anatomical source 只在該結構確實有對應的真實編號與頁面時才顯示。
 
 ### 其他
-- **ROADMAP.md 的「總進度清單」是唯一的進度來源（使用者 2026-11-13 指示，長期規則）：** 每次完成、開始或發現新 bug，都要先更新它再 merge；狀態只用 ✅（已完成並 merge）、🟡（做緊或部分完成）、⬜（未開始）、❌（做了但有 bug）、❓（無法確認），並寫相關 PR、最後更新日期與下一步。狀態一律以合併紀錄與實際程式為準，不靠記憶。ROADMAP.md 不發布到網站，也不寫任何筆記、共筆或考古題來源。
+- **ROADMAP.md 的「總進度清單」是唯一的進度來源（使用者 2026-11-13 指示，長期規則）：** 狀態只用 ✅（已完成並 merge）、🟡（做緊或部分完成）、⬜（未開始）、❌（做了但有 bug）、❓（無法確認），並寫相關 PR、最後更新日期與下一步。狀態一律以合併紀錄與實際程式為準，不靠記憶。ROADMAP.md 不發布到網站，也不寫任何筆記、共筆或考古題來源。**一般 PR 不直接改 ROADMAP.md**，改寫 `docs/roadmap-updates/pr-<編號>.md`（見下方「每個 PR 的文件」）。
 - 一個 PR 一個主題；PR 說明用中文，寫清楚：改了什麼、在網站上怎樣找到、哪些模型是示意（示意）、使用哪個圖譜、使用者需要核對什麼；附截圖。
 - 每個 PR 都要通過 `npm run check` 與 `npm run build`（CI 的 `build` job 全綠）。檢查失敗就修，不要跳過或放寬。
 - 英文名在上／大，中文在下／小；中文用台灣醫學用語；所有介面中文用書面語（`npm run check:zh`）。
 - 新增模型要更新 `public/ATTRIBUTION.md` 與 `model_sources.json`；動作要符合人體可能的活動範圍。
-- `REVIEW_LOG.md` 分兩欄：「已自動 merge」與「等我審核」；每個 PR 開出或合併後更新。
+- 審核紀錄：每個 PR 一個檔案 `docs/review-log/pr-<編號>.md`，PR 開出或合併後更新自己的檔案；總表 `docs/review-log/README.md` 由腳本生成，分「等我審核」與「已合併（含自動合併）」。根目錄的 `REVIEW_LOG.md` 是 2026-11-14 以前的紀錄，已凍結：不再新增，也不刪除。
 - 不要動 `public/models/cmu-course-notes-v4.json` 的 git 歷史（是否清除由使用者在專案完成後決定）。
 
 ### 本機驗證與檢查清單（使用者 2026-11-13 指示，長期規則）
@@ -82,6 +82,15 @@
   - 每個例外要寫原因（例如「最近鄰判定，解剖上不相連」）。
   - 每次新增例外，PR 說明要列出是哪幾對、同一個原因，讓使用者知道。
   - 兩條血管解剖上相連（例如分支與主幹）時**不可加例外**，要修 skinning 或連接。
+
+### 每個 PR 的文件（使用者 2026-11-14 指示，長期規則；為了讓 PR 不再在 ROADMAP.md 與 REVIEW_LOG.md 互相衝突）
+- 一般 PR **不可以改** `ROADMAP.md`、`REVIEW_LOG.md`、`docs/review-log/README.md`。只新增或修改自己的兩個檔案（PR 開出、拿到編號後補上）：
+  - `docs/review-log/pr-<編號>.md`：審核紀錄。開頭是 `---` 包住的四行：`pr`、`title`、`status`（`等我審核`、`已合併`、`已自動合併`、`已關閉`）、`date`（YYYY-MM-DD）；之後寫內容：改了什麼、等使用者核對什麼、未完成事項。
+  - `docs/roadmap-updates/pr-<編號>.md`：總進度清單的變化。開頭是 `---` 包住的 `pr`、`date`；之後是一個表格，欄位與總進度清單相同（項目、狀態、相關 PR、最後更新、下一步），**寫這個 PR 合併之後應該呈現的狀態**。「項目」與總進度清單現有的名稱完全相同就會取代該列，否則新增一列。沒有進度變化的 PR 不用寫這個檔案。
+- 這兩個資料夾的規則同 ROADMAP.md：不發布到網站，不寫任何筆記、共筆或考古題來源。
+- `node scripts/pr-docs.mjs check`（在 `npm run check` 內）檢查格式。
+- **統一更新：** `node scripts/pr-docs.mjs sync` 把 main 上的 `docs/roadmap-updates/pr-*.md` 併入 `ROADMAP.md` 的總進度清單、把已併入的檔案移到 `docs/roadmap-updates/applied/`，並重新生成 `docs/review-log/README.md`。更新檔只有在 PR 合併後才會出現在 main，所以 main 上找到的都可以併入。每天最多做一次，或使用者要求時做：開一個只含這些文件的 PR（不含任何程式或模型），CI 全綠後自動合併；同一個 PR 裡把已合併 PR 的 `status` 改成 `已合併` 或 `已自動合併`。有待併入的更新檔時，以更新檔為準，ROADMAP.md 可能還沒反映。
+- 使用者給新的指引、需要改 ROADMAP.md 其他章節時，另開只改文件的 PR，不夾在功能 PR 裡。
 
 ### Workflow 與 PR 流程補充
 - GitHub Actions 的 workflow 名稱、檔名、log 輸出、分支名稱不可出現課程或筆記名稱，也不可輸出筆記內容（含 `echo`、除錯列印、驗證腳本的失敗訊息）。需要驗證時只輸出通過／失敗與數量。
