@@ -243,6 +243,10 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 .micro-movement-toggle svg{color:#9aa3aa;transition:transform .15s}.micro-movement-toggle svg.open{transform:rotate(180deg)}
 .micro-move-buttons{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
 .micro-move-buttons.palsy{grid-template-columns:repeat(3,1fr)}
+.micro-move-buttons.openings{grid-template-columns:repeat(3,1fr)}
+.micro-move-buttons.openings button b{display:flex;align-items:center;gap:4px;font-size:9.5px}
+.micro-move-buttons.openings button i{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.micro-move-info strong .micro-look{margin-left:auto;height:22px;min-height:22px;padding:0 7px;gap:4px;font-size:9.5px;font-weight:500;border:1px solid #18253626;border-radius:6px;color:#31414e}
 .micro-move-buttons button{display:flex;flex-direction:column;gap:1px;height:auto;min-height:34px;padding:4px 2px;border:1px solid #18253618;border-radius:7px;font-size:10px;line-height:1.1;color:#31414e}
 .micro-move-buttons button b{font-weight:600}
 .micro-move-buttons button small{font-size:8.5px;color:#7b8791;white-space:nowrap}

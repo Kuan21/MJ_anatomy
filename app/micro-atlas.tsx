@@ -9,6 +9,7 @@ import {Button} from '@/components/ui/button';
 import {Slider} from '@/components/ui/slider';
 import {decodeModelResponse} from './model-download';
 import {EYE_LAYERS,EYE_PARTS} from './mj-eye-atlas';
+import {EYE_OPENINGS} from './mj-eye-openings';
 import {EYE_MOVEMENTS,EYE_MUSCLE_IDS,followWeight,gazeQuaternion} from './mj-eye-movement';
 
 export type MicroAtlasId='brain'|'eye'|'ear';
@@ -30,12 +31,16 @@ interface Record3D extends RecordInfo {
  color:T.Color;
  opacity:number;
 }
-interface EyeManifest {bytes:number;gzip:string;globe:{center:number[];axis:number[];length:number};parts:{id:string;vertexCount:number;indexCount:number;positions:number;normals:number;indices:number;bounds:[number[],number[]]}[]}
+interface EyeManifest {bytes:number;gzip:string;globe:{center:number[];axis:number[];length:number};openings?:{id:string;center:number[];bones:Record<string,number[]>}[];parts:{id:string;vertexCount:number;indexCount:number;positions:number;normals:number;indices:number;bounds:[number[],number[]]}[]}
 interface SceneApi {frame:(smooth:boolean,direction?:T.Vector3)=>void;invalidate:()=>void;plane:T.Plane;
  /** Eye atlas only: turn the globe to a rotation (quaternion x, y, z, w) and set the pupil size; `smooth` eases into it. */
  pose:(rotation:[number,number,number,number],pupil:number,smooth:boolean)=>void;
  /** Re-applies the current pose after something else has moved the parts. */
- repose:()=>void}
+ repose:()=>void;
+ /** Eye atlas only: colour the bone around the listed openings; `chosen` is drawn at full strength, the others lighter. */
+ mark:(shown:string[],chosen:string|null)=>void;
+ /** Eye atlas only: turn the camera to look into the orbit at an opening. Only ever called from its own button. */
+ lookAt:(opening:string)=>void}
 
 const BRAIN_URLS=[`${import.meta.env.BASE_URL}models/brain.glb`];
 const EYE_MANIFEST=`${import.meta.env.BASE_URL}models/eye/eye-atlas.json`;
@@ -89,6 +94,7 @@ const meshColor=(rank:number)=>[
 ][rank%11];
 const SELECTED_COLOR=new T.Color('#9dfc8f');
 const PARALYSED_COLOR=new T.Color('#a7afb4');
+const OPENING_CONTENT_COLOR=new T.Color('#f0b429');
 const HOME_DIRECTION=new T.Vector3(2.7,1.35,3.35).normalize();
 /** Looks onto the cut face once the lateral half is removed. */
 const SECTION_DIRECTION=new T.Vector3(1,.22,.42).normalize();
@@ -109,10 +115,12 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
  const [cut,setCut]=useState(false);
  const [movementId,setMovementId]=useState<string|null>(null);
  const [movementOpen,setMovementOpen]=useState(false);
+ const [openingsOpen,setOpeningsOpen]=useState(false);
+ const [openingId,setOpeningId]=useState<string|null>(null);
  const [loading,setLoading]=useState(0);
  const [error,setError]=useState('');
 
- useEffect(()=>{setRecords([]);setSelected(null);setExplode(0);setHiddenGroups(defaultHidden(atlasId));setOpenGroup(null);setIsolate(false);setCut(false);setMovementId(null);setMovementOpen(false);setLoading(0);setError('');framed.current=false;},[atlasId]);
+ useEffect(()=>{setRecords([]);setSelected(null);setExplode(0);setHiddenGroups(defaultHidden(atlasId));setOpenGroup(null);setIsolate(false);setCut(false);setMovementId(null);setMovementOpen(false);setOpeningsOpen(false);setOpeningId(null);setLoading(0);setError('');framed.current=false;},[atlasId]);
 
  useEffect(()=>{
   const el=host.current;if(!el)return;
@@ -133,6 +141,23 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
 
   const atlasRoot=new T.Group();scene.add(atlasRoot);
   let eyeRig:{center:T.Vector3;pupil?:Record3D;globe:Record3D[];followers:{record:Record3D;base:Float32Array;weight:Float32Array}[]}|null=null;
+  const openingMarks:{id:string;record:Record3D;indices:number[]}[]=[];
+  // Where each opening is, and a point in front of and lateral to the orbit from which its apex can be seen (atlas-root coordinates).
+  const openingCenters=new Map<string,T.Vector3>(),orbitEntrance=new T.Vector3();
+  const markOpenings=(shown:string[],chosen:string|null)=>{
+   const touched=new Set<T.BufferAttribute>(),tint=new T.Color();
+   for(const mark of openingMarks){const color=mark.record.object.geometry.getAttribute('color') as T.BufferAttribute;if(!touched.has(color)){(color.array as Float32Array).fill(1);touched.add(color);}}
+   for(const mark of openingMarks){
+    if(!shown.includes(mark.id))continue;
+    const opening=EYE_OPENINGS.find(o=>o.id===mark.id);if(!opening)continue;
+    // multiplier that turns the bone colour into the opening colour; unchosen openings are drawn half way
+    const base=mark.record.color,strength=chosen===null||chosen===mark.id?1:.45;tint.set(opening.color);
+    const multiplier=[tint.r/base.r,tint.g/base.g,tint.b/base.b].map(v=>1+(Math.min(v,1.6)-1)*strength);
+    const color=mark.record.object.geometry.getAttribute('color') as T.BufferAttribute;
+    for(const i of mark.indices)color.setXYZ(i,multiplier[0],multiplier[1],multiplier[2]);
+   }
+   touched.forEach(color=>{color.needsUpdate=true;});
+  };
   const gaze=new T.Quaternion();let pupilSize=1;
   let poseTween:{start:number;from:T.Quaternion;to:T.Quaternion;fromPupil:number;toPupil:number}|null=null;
   /** Puts the globe, the muscle insertions and the optic nerve head at the current gaze. Only used while the layers are not separated. */
@@ -274,6 +299,15 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
      record.spread.copy(direction.normalize().multiplyScalar(length*(part.layer===0?1.5:.9)*reach));
     }
    }
+   // Openings are painted on the bone: a per-vertex colour that multiplies the bone colour (white = unchanged).
+   for(const opening of manifest.openings??[])for(const [boneId,indices] of Object.entries(opening.bones)){
+    const record=loaded.find(r=>r.id===boneId);if(!record)continue;
+    const geometry=record.object.geometry;
+    if(!geometry.getAttribute('color')){geometry.setAttribute('color',new T.BufferAttribute(new Float32Array(geometry.getAttribute('position').count*3).fill(1),3));const material=record.object.material as T.MeshStandardMaterial;material.vertexColors=true;material.needsUpdate=true;}
+    openingMarks.push({id:opening.id,record,indices});
+   }
+   for(const opening of manifest.openings??[])openingCenters.set(opening.id,new T.Vector3().fromArray(opening.center));
+   orbitEntrance.copy(globeCenter).addScaledVector(axis,length*3.4).add(new T.Vector3(Math.sign(globeCenter.x)||1,.2,0).multiplyScalar(length*1.5));
    // Rig for eye movements: the globe turns about its centre; the tendons of the six muscles and the front of the optic nerve follow it.
    const REACH=.014,onGlobe=length/2+.003;
    const follower=(record:Record3D,attachment:T.Vector3)=>{
@@ -344,7 +378,14 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
     else{poseTween=null;gaze.copy(to);pupilSize=pupil;applyPose();}
     invalidate();
    },
-   repose:()=>{applyPose();invalidate();}};
+   repose:()=>{applyPose();invalidate();},
+   mark:(shown,chosen)=>{markOpenings(shown,chosen);invalidate();},
+   lookAt:id=>{
+    const center=openingCenters.get(id);if(!center)return;
+    atlasRoot.updateMatrixWorld(true);
+    const toTarget=center.clone().applyMatrix4(atlasRoot.matrixWorld),toPosition=orbitEntrance.clone().applyMatrix4(atlasRoot.matrixWorld);
+    tween={start:performance.now(),fromPosition:camera.position.clone(),fromTarget:controls.target.clone(),toPosition,toTarget};invalidate();
+   }};
   // Review aid (?review=1 only): fixed camera directions and screen positions of structures, for labelled screenshots.
   const dev=new URLSearchParams(location.search).has('review');
   if(dev)(window as unknown as {__microAtlas?:unknown}).__microAtlas={
@@ -407,6 +448,7 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
  const outermost=shown[0],restorable=[...groups].reverse().find(g=>hiddenGroups.has(g.name)&&(!outermost||g.rank<outermost.rank));
  const selectedRecord=records.find(r=>r.id===selected);
  const movement=atlasId==='eye'?EYE_MOVEMENTS.find(m=>m.id===movementId):undefined;
+ const opening=atlasId==='eye'&&openingsOpen?EYE_OPENINGS.find(o=>o.id===openingId):undefined;
 
  useEffect(()=>{
   const api=apiRef.current;
@@ -415,15 +457,22 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
    r.object.visible=isolate&&selected?chosen:!hiddenGroups.has(r.group);
    r.object.position.copy(r.spread).multiplyScalar(explode/100);
    const material=r.object.material as T.MeshStandardMaterial;
-   material.color.copy(chosen?SELECTED_COLOR:movement?.paralysed?.includes(r.id)?PARALYSED_COLOR:r.color);
+   // An opening is shown the way a special region is: its bone and what passes through it stay, everything else fades.
+   const passing=opening?.contents.includes(r.id),faded=!!opening&&!chosen&&!passing&&r.rank!==0;
+   material.color.copy(chosen?SELECTED_COLOR:passing?OPENING_CONTENT_COLOR:movement?.paralysed?.includes(r.id)?PARALYSED_COLOR:r.color);
    material.emissive.set(chosen?'#193b18':'#000000');
-   material.opacity=chosen?Math.max(r.opacity,.9):r.opacity;
+   const opacity=chosen?Math.max(r.opacity,.9):faded?Math.min(r.opacity,.07):r.opacity,transparent=opacity<1;
+   if(material.transparent!==transparent){material.transparent=transparent;material.depthWrite=!transparent;material.needsUpdate=true;}
+   material.opacity=opacity;
    material.clippingPlanes=cut&&api&&!(isolate&&selected)?[api.plane]:null;
   });
   // The loop above puts every part back at its separated position; put the globe back at its gaze.
   if(explode===0)api?.repose();
   api?.invalidate();
- },[explode,hiddenGroups,isolate,selected,records,cut,movement]);
+ },[explode,hiddenGroups,isolate,selected,records,cut,movement,opening]);
+
+ // Openings of the orbit: colour the bone while the section is open; the chosen one at full strength.
+ useEffect(()=>{if(!records.length||atlasId!=='eye')return;apiRef.current?.mark(openingsOpen?EYE_OPENINGS.map(o=>o.id):[],openingsOpen?openingId:null);},[openingsOpen,openingId,records,atlasId]);
 
  // Eye movements: turn the globe to the chosen movement, or back to the primary position. Separating the layers ends the movement.
  useEffect(()=>{if(!records.length||atlasId!=='eye')return;apiRef.current?.pose(movement?gazeQuaternion(movement.rotation):[0,0,0,1],movement?.pupil??1,true);},[movement,records,atlasId]);
@@ -435,7 +484,7 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
  useEffect(()=>{if(records.length&&framed.current)apiRef.current?.frame(false);},[explode]);
  useEffect(()=>{if(records.length&&framed.current)apiRef.current?.frame(true,cut?SECTION_DIRECTION:undefined);},[cut]);
 
- const reset=()=>{setMovementId(null);setExplode(0);setHiddenGroups(defaultHidden(atlasId));setSelected(null);setIsolate(false);setCut(false);setOpenGroup(null);requestAnimationFrame(()=>apiRef.current?.frame(true,HOME_DIRECTION));};
+ const reset=()=>{setMovementId(null);setOpeningId(null);setOpeningsOpen(false);setExplode(0);setHiddenGroups(defaultHidden(atlasId));setSelected(null);setIsolate(false);setCut(false);setOpenGroup(null);requestAnimationFrame(()=>apiRef.current?.frame(true,HOME_DIRECTION));};
  const setGroupHidden=(name:string,hidden:boolean)=>{setIsolate(false);setHiddenGroups(prev=>{const next=new Set(prev);if(hidden)next.add(name);else next.delete(name);return next;});};
  const pick=(r:RecordInfo)=>{setSelected(r.id);if(hiddenGroups.has(r.group))setGroupHidden(r.group,false);};
  const playMovement=(id:string)=>{
@@ -445,6 +494,9 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
   if(next?.kind==='muscle'&&next.muscles){const record=records.find(r=>r.id===next.muscles![0]);if(record)pick(record);}
   else if(next?.kind==='palsy')setSelected(null);
  };
+ // The bones must be on to see an opening; choosing one never moves the camera.
+ const chooseOpening=(id:string)=>{const next=openingId===id?null:id;setOpeningId(next);if(next){setIsolate(false);setSelected(null);setGroupHidden(EYE_LAYERS[0].name,false);}};
+ const toggleOpenings=()=>{const next=!openingsOpen;setOpeningsOpen(next);if(next)setGroupHidden(EYE_LAYERS[0].name,false);};
  const meta=MICRO_ATLASES[atlasId];
 
  return <div className="micro-atlas-shell">
@@ -472,6 +524,13 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
      <div className="micro-move-buttons">{EYE_MOVEMENTS.filter(m=>m.kind==='muscle').map(m=><Button variant="ghost" key={m.id} className={movementId===m.id?'active':''} aria-pressed={movementId===m.id} aria-label={m.zh+'的動作'} title={m.name+' '+m.zh} onClick={()=>playMovement(m.id)}><b>{m.label}</b><small lang="zh-Hant">{m.zh}</small></Button>)}</div>
      <div className="micro-move-buttons palsy">{EYE_MOVEMENTS.filter(m=>m.kind==='palsy').map(m=><Button variant="ghost" key={m.id} className={movementId===m.id?'active':''} aria-pressed={movementId===m.id} aria-label={m.zh+'的眼位'} title={m.name+' '+m.zh} onClick={()=>playMovement(m.id)}><b>{m.label}</b><small lang="zh-Hant">{m.zh.replace('神經麻痺','麻痺')}</small></Button>)}</div>
      {movement&&<div className="micro-move-info" aria-live="polite"><strong>{movement.name}<em lang="zh-Hant">{movement.zh}</em></strong>{movement.kind==='palsy'&&<p>{movement.text}</p>}<p lang="zh-Hant">{movement.textZh}</p></div>}
+    </>}
+   </div>}
+   {atlasId==='eye'&&records.length>0&&<div className={'micro-movement micro-openings'+(openingsOpen?' open':'')}>
+    <Button variant="ghost" className="micro-movement-toggle" aria-expanded={openingsOpen} onClick={toggleOpenings}><span className="eyebrow">眼眶的管與裂</span><small lang="zh-Hant">{opening?opening.zh:''}</small><ChevronDown size={12} className={openingsOpen?'open':''}/></Button>
+    {openingsOpen&&<>
+     <div className="micro-move-buttons openings">{EYE_OPENINGS.map(o=><Button variant="ghost" key={o.id} className={openingId===o.id?'active':''} aria-pressed={openingId===o.id} aria-label={'標示'+o.zh} title={o.name+' '+o.zh} onClick={()=>chooseOpening(o.id)}><b><i style={{background:o.color}}/>{o.label}</b><small lang="zh-Hant">{o.zh}</small></Button>)}</div>
+     {opening&&<div className="micro-move-info" aria-live="polite"><strong>{opening.name}<em lang="zh-Hant">{opening.zh}</em><Button variant="ghost" className="micro-look" onClick={()=>apiRef.current?.lookAt(opening.id)}><Focus size={11}/>對準</Button></strong><p>{opening.text}{opening.absent&&' '+opening.absent}</p><p lang="zh-Hant">{opening.textZh}{opening.absentZh}</p></div>}
     </>}
    </div>}
    <div className="micro-selected" aria-live="polite"><span className="eyebrow">已選構造</span><strong>{selectedRecord?.name??'點選模型上的構造，或從上方清單選擇'}</strong>{selectedRecord?.zh&&<em lang="zh-Hant">{selectedRecord.zh}</em>}{selectedRecord&&<small>{selectedRecord.group}{selectedRecord.groupZh&&' · '+selectedRecord.groupZh}</small>}{selectedRecord?.text&&<p>{selectedRecord.text}</p>}{selectedRecord?.textZh&&<p lang="zh-Hant">{selectedRecord.textZh}</p>}</div>
