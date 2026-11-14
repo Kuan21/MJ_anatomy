@@ -25,7 +25,19 @@
 - 禁止 force push、改寫 git 歷史（rebase、amend、reset --hard 等）。
 - **待審 PR 數量上限（使用者 2026-11-08）：** 等使用者審核的 PR 同時最多 5 個。達到上限時，先把待審 PR 準備好（修 CI、補截圖、補說明），不要再開新 PR。
 - **PR 描述開頭三行（使用者 2026-11-08）：** 第一行「改了什麼」、第二行「我要看哪裡」、第三行「風險」；之後才是完整說明。
-- **穩定期（2026-11-08 起，見 `ROADMAP.md` 最上方）：** 暫停新功能；所有 PR 標【需人工審核】，Claude 不自行 merge，由使用者 merge。
+- **穩定期（2026-11-08 起，見 `ROADMAP.md` 最上方）：** 暫停新功能；修顯示錯誤依根本原因處理。「所有 PR 標【需人工審核】、Claude 不自行 merge」的部分已由下一條（2026-11-13）取代。
+- **合併規則更新（使用者 2026-11-13，取代上面「可自動 merge／不可自動 merge」兩條與穩定期那條中互相衝突的部分）：**
+  - 只改文件、純資料（名稱、別名、相關搜尋、題庫設定）的 PR：CI `build` 全綠後自動 merge。
+  - 改畫面、模型、動畫、解剖內容的 PR：維持標題加「【需人工審核】」、PR 說明最上方寫「需人工審核，未合併」，附前後截圖，等使用者決定。
+  - 不確定算不算時，當作需人工審核。
+- **預覽部署不做（使用者 2026-11-13）：** 不調查、不修改任何部署流程。若問題只在使用者的機器上出現、在這邊重現不了，先與使用者討論再動手。
+- **審核規則（使用者 2026-11-13，每個 PR 都要照做）：**
+  - 改畫面的 PR：附前後截圖，同一角度、同一設定，桌面與手機尺寸各一組。
+  - 改互動功能（動畫、滑桿、關卡、Quiz、模擬跑考）的 PR：先確認目前環境能不能錄影、轉成 GIF 並上傳到 PR，把結果告訴使用者，**不要先做完才說**。
+    - 做得到：附一個 GIF，10 MB 以內、長度約 10 秒，示範一次完整操作。
+    - 做不到：改為連續 4 張截圖，依序代表操作的開始、中段、結尾與一個特別狀態，每張註明是哪一步。
+    - 上傳後刪除本機暫存，不佔硬碟空間。
+- **執行規則（使用者 2026-11-14）：** 同時最多 3 個 agent；**同一時間只准一個 agent 開瀏覽器載入頁面**，其他排隊，避免機器負載過高（用 `mkdir /tmp/claude-0/browser.lock` 取鎖、用完或失敗都 `rm -rf` 釋放；取不到就每 2 分鐘重試）。agent 超過 30 分鐘沒有進展就停掉，回報卡在哪裡再重新開始。完整檢查用 `npm run ci:local`（等同 CI 的 `check` 與 `build`）。
 - **更新舊 PR 到最新 main：** 因為禁止 force push 與改寫歷史，一律把 main merge 進該 PR 分支（衝突先解決，生成檔以 repo 工具重新生成，不手改），不用 rebase。
 
 ### 內容依據
@@ -53,12 +65,33 @@
 - 資訊卡的 Atlas reference 與 View anatomical source 只在該結構確實有對應的真實編號與頁面時才顯示。
 
 ### 其他
+- **ROADMAP.md 的「總進度清單」是唯一的進度來源（使用者 2026-11-13 指示，長期規則）：** 狀態只用 ✅（已完成並 merge）、🟡（做緊或部分完成）、⬜（未開始）、❌（做了但有 bug）、❓（無法確認），並寫相關 PR、最後更新日期與下一步。狀態一律以合併紀錄與實際程式為準，不靠記憶。ROADMAP.md 不發布到網站，也不寫任何筆記、共筆或考古題來源。**一般 PR 不直接改 ROADMAP.md**，改寫 `docs/roadmap-updates/pr-<編號>.md`（見下方「每個 PR 的文件」）。
 - 一個 PR 一個主題；PR 說明用中文，寫清楚：改了什麼、在網站上怎樣找到、哪些模型是示意（示意）、使用哪個圖譜、使用者需要核對什麼；附截圖。
 - 每個 PR 都要通過 `npm run check` 與 `npm run build`（CI 的 `build` job 全綠）。檢查失敗就修，不要跳過或放寬。
 - 英文名在上／大，中文在下／小；中文用台灣醫學用語；所有介面中文用書面語（`npm run check:zh`）。
 - 新增模型要更新 `public/ATTRIBUTION.md` 與 `model_sources.json`；動作要符合人體可能的活動範圍。
-- `REVIEW_LOG.md` 分兩欄：「已自動 merge」與「等我審核」；每個 PR 開出或合併後更新。
+- 審核紀錄：每個 PR 一個檔案 `docs/review-log/pr-<編號>.md`，PR 開出或合併後更新自己的檔案；總表 `docs/review-log/README.md` 由腳本生成，分「等我審核」與「已合併（含自動合併）」。根目錄的 `REVIEW_LOG.md` 是 2026-11-14 以前的紀錄，已凍結：不再新增，也不刪除。
 - 不要動 `public/models/cmu-course-notes-v4.json` 的 git 歷史（是否清除由使用者在專案完成後決定）。
+
+### 本機驗證與檢查清單（使用者 2026-11-13 指示，長期規則）
+- **推送前必須在本機跑 `npm run ci:local` 並全部通過**：它讀 `.github/workflows/deploy-preview.yml` 的 `build` job，完全照 CI 的步驟與次序跑（`check`、`check:motion`、`check:vessels`、`check:vessels:accept`、`build --base /MJ_anatomy/`）。失敗時它會印出續跑指令（`npm run ci:local -- --from=N`）。
+- **截圖與 `npm run ci:local`（以及 `npm run check`、`check:motion`、`build`）不可同時跑**（使用者 2026-11-14 指示）：瀏覽器截圖與軟體繪圖會吃滿 CPU，`check:motion` 裡有計時測試（例如 `test-arm-collision` 的 25 ms 上限），搶 CPU 會讓它誤判失敗。一次只跑一項重工作；`ci:local` 跑的時候只做不吃 CPU 的事（讀程式碼、寫文件），截圖等它跑完再拍，反之亦然。計時測試單獨重跑能過、同時有負載才失敗時，是環境造成的，等負載消失後重跑，不要放寬測試門檻。
+- **提交前一定先跑 `npm run regen`**：一次過重新生成所有生成檔與自動文件（清單在 `scripts/checks/regen.txt`）。`check-stability --write` 只會縮小已知清單，遇到新增或變差會停下，要人工決定。
+- **檢查清單不再寫在 `package.json` 的一行字串裡**：`npm run check` 與 `npm run check:motion` 由 `scripts/run-checks.mjs` 讀 `scripts/checks/check.txt`、`motion.txt`（每行一個指令）。**新增檢查時不要改這兩個檔，另開一個新檔** `scripts/checks/check.d/<yyyymmdd>-<名稱>.txt`（`motion.d/`、`regen.d/` 同理），檔案依檔名順序在主清單之後執行；不同 PR 各加各的檔案就不會衝突。`npm run check -- --from=N` 可從第 N 步續跑，`--list` 列出全部步驟。
+- **血管動作例外清單（`docs/vessel-motion-exceptions.json`）的登記規則：**
+  - 只有確認兩條血管**解剖上沒有直接相連**，才可以登記例外。
+  - 每個例外要寫原因（例如「最近鄰判定，解剖上不相連」）。
+  - 每次新增例外，PR 說明要列出是哪幾對、同一個原因，讓使用者知道。
+  - 兩條血管解剖上相連（例如分支與主幹）時**不可加例外**，要修 skinning 或連接。
+
+### 每個 PR 的文件（使用者 2026-11-14 指示，長期規則；為了讓 PR 不再在 ROADMAP.md 與 REVIEW_LOG.md 互相衝突）
+- 一般 PR **不可以改** `ROADMAP.md`、`REVIEW_LOG.md`、`docs/review-log/README.md`。只新增或修改自己的兩個檔案（PR 開出、拿到編號後補上）：
+  - `docs/review-log/pr-<編號>.md`：審核紀錄。開頭是 `---` 包住的四行：`pr`、`title`、`status`（`等我審核`、`已合併`、`已自動合併`、`已關閉`）、`date`（YYYY-MM-DD）；之後寫內容：改了什麼、等使用者核對什麼、未完成事項。
+  - `docs/roadmap-updates/pr-<編號>.md`：總進度清單的變化。開頭是 `---` 包住的 `pr`、`date`；之後是一個表格，欄位與總進度清單相同（項目、狀態、相關 PR、最後更新、下一步），**寫這個 PR 合併之後應該呈現的狀態**。「項目」與總進度清單現有的名稱完全相同就會取代該列，否則新增一列。沒有進度變化的 PR 不用寫這個檔案。
+- 這兩個資料夾的規則同 ROADMAP.md：不發布到網站，不寫任何筆記、共筆或考古題來源。
+- `node scripts/pr-docs.mjs check`（在 `npm run check` 內）檢查格式。
+- **統一更新：** `node scripts/pr-docs.mjs sync` 把 main 上的 `docs/roadmap-updates/pr-*.md` 併入 `ROADMAP.md` 的總進度清單、把已併入的檔案移到 `docs/roadmap-updates/applied/`，並重新生成 `docs/review-log/README.md`。更新檔只有在 PR 合併後才會出現在 main，所以 main 上找到的都可以併入。每天最多做一次，或使用者要求時做：開一個只含這些文件的 PR（不含任何程式或模型），CI 全綠後自動合併；同一個 PR 裡把已合併 PR 的 `status` 改成 `已合併` 或 `已自動合併`。有待併入的更新檔時，以更新檔為準，ROADMAP.md 可能還沒反映。
+- 使用者給新的指引、需要改 ROADMAP.md 其他章節時，另開只改文件的 PR，不夾在功能 PR 裡。
 
 ### Workflow 與 PR 流程補充
 - GitHub Actions 的 workflow 名稱、檔名、log 輸出、分支名稱不可出現課程或筆記名稱，也不可輸出筆記內容（含 `echo`、除錯列印、驗證腳本的失敗訊息）。需要驗證時只輸出通過／失敗與數量。

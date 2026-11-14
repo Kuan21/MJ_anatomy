@@ -1,0 +1,225 @@
+{
+ "version": 1,
+ "aliases": [
+  {
+   "id": "RS-0018",
+   "site": "Anterior chamber of eyeball",
+   "kind": "synonym"
+  },
+  {
+   "id": "RS-0034",
+   "site": "Scalenus anterior",
+   "kind": "synonym"
+  },
+  {
+   "id": "RS-0074",
+   "site": "Brachiocephalic artery",
+   "kind": "synonym"
+  },
+  {
+   "id": "RS-0086",
+   "site": "Upper permanent canine tooth",
+   "kind": "member"
+  },
+  {
+   "id": "RS-0105",
+   "site": "Circle of Willis",
+   "kind": "synonym"
+  },
+  {
+   "id": "RS-0117",
+   "site": "Seventh cervical vertebra",
+   "kind": "member"
+  },
+  {
+   "id": "RS-0123",
+   "site": "Chorda tympani",
+   "kind": "synonym"
+  },
+  {
+   "id": "RS-0131",
+   "site": "Cerebellomedullary cistern",
+   "kind": "synonym"
+  },
+  {
+   "id": "RS-0147",
+   "site": "Bulbar conjunctiva",
+   "kind": "member"
+  },
+  {
+   "id": "RS-0151",
+   "site": "Corneoscleral junction",
+   "kind": "synonym"
+  },
+  {
+   "id": "RS-0165",
+   "site": "Median cricothyroid ligament",
+   "kind": "synonym"
+  },
+  {
+   "id": "RS-0209",
+   "site": "Aponeurosis of epicranius",
+   "kind": "synonym"
+  },
+  {
+   "id": "RS-0210",
+   "site": "Frontalis",
+   "kind": "member"
+  },
+  {
+   "id": "RS-0277",
+   "site": "Great auricular nerve",
+   "kind": "synonym"
+  },
+  {
+   "id": "RS-0310",
+   "site": "Upper central permanent incisor tooth",
+   "kind": "member"
+  },
+  {
+   "id": "RS-0316",
+   "site": "Inferior branch of oculomotor nerve",
+   "kind": "synonym"
+  },
+  {
+   "id": "RS-0395",
+   "site": "Lateral nasal cartilage",
+   "kind": "synonym"
+  },
+  {
+   "id": "RS-0441",
+   "site": "Mandible",
+   "kind": "synonym"
+  },
+  {
+   "id": "RS-0485",
+   "site": "Middle pharyngeal constrictor",
+   "kind": "synonym"
+  },
+  {
+   "id": "RS-0492",
+   "site": "Scalenus medius",
+   "kind": "synonym"
+  },
+  {
+   "id": "RS-0498",
+   "site": "Upper first permanent molar tooth",
+   "kind": "member"
+  },
+  {
+   "id": "RS-0501",
+   "site": "Nerve to mylohyoid",
+   "kind": "synonym"
+  },
+  {
+   "id": "RS-0534",
+   "site": "Frontalis",
+   "kind": "member"
+  },
+  {
+   "id": "RS-0570",
+   "site": "External ear",
+   "kind": "synonym"
+  },
+  {
+   "id": "RS-0583",
+   "site": "Palpebral conjunctiva of upper eyelid",
+   "kind": "member"
+  },
+  {
+   "id": "RS-0608",
+   "site": "Upper first permanent molar tooth",
+   "kind": "member"
+  },
+  {
+   "id": "RS-0627",
+   "site": "Auditory tube",
+   "kind": "synonym"
+  },
+  {
+   "id": "RS-0632",
+   "site": "Pineal body",
+   "kind": "synonym"
+  },
+  {
+   "id": "RS-0663",
+   "site": "Upper first permanent premolar tooth",
+   "kind": "member"
+  },
+  {
+   "id": "RS-0664",
+   "site": "Upper first permanent premolar tooth",
+   "kind": "member"
+  },
+  {
+   "id": "RS-0695",
+   "site": "First rib",
+   "kind": "member"
+  },
+  {
+   "id": "RS-0709",
+   "site": "Schlemm's canal",
+   "kind": "synonym"
+  },
+  {
+   "id": "RS-0711",
+   "site": "Upper second permanent molar tooth",
+   "kind": "member"
+  },
+  {
+   "id": "RS-0715",
+   "site": "Anterior semicircular duct",
+   "kind": "member"
+  },
+  {
+   "id": "RS-0718",
+   "site": "Septal nasal cartilage",
+   "kind": "synonym"
+  },
+  {
+   "id": "RS-0794",
+   "site": "Superior branch of oculomotor nerve",
+   "kind": "synonym"
+  },
+  {
+   "id": "RS-0839",
+   "site": "Tarsal plate of upper eyelid",
+   "kind": "member"
+  },
+  {
+   "id": "RS-0917",
+   "site": "Vitreous body",
+   "kind": "synonym"
+  },
+  {
+   "id": "RS-0851",
+   "site": "Articular disc of temporomandibular joint",
+   "kind": "member"
+  },
+  {
+   "id": "RS-0852",
+   "site": "Lateral temporomandibular ligament",
+   "kind": "synonym"
+  },
+  {
+   "id": "RS-0869",
+   "site": "Articular capsule of temporomandibular joint",
+   "kind": "synonym"
+  },
+  {
+   "id": "RS-0893",
+   "site": "Trochlea of superior oblique",
+   "kind": "member"
+  },
+  {
+   "id": "RS-0903",
+   "site": "Uvular muscle",
+   "kind": "synonym"
+  },
+  {
+   "id": "RS-0909",
+   "site": "Seventh cervical vertebra",
+   "kind": "synonym"
+  }
+ ]
+}

@@ -9,7 +9,7 @@ export type AnswerLanguage = 'en' | 'zh' | 'any';
 export type NameResult = 'correct' | 'close' | 'wrong';
 export interface NameOptions {language: AnswerLanguage; needSide: boolean}
 export interface Accepted {en: string[]; zh: string[]}
-type Named = Pick<QuizStructure, 'name' | 'chinese'> & {side?: string; system?: string};
+type Named = Pick<QuizStructure, 'name' | 'chinese'> & {side?: string; system?: string; source?: string};
 
 const SIDE_EN = /\b(left|right)\b/g, SIDE_WORD = /\b(left|right)\b/;
 /** "Septomarginal trabecula (moderator band)" → ["septomarginal trabecula (moderator band)", "septomarginal trabecula", "moderator band"] */
@@ -30,6 +30,9 @@ export const HEADS_REQUIRED = new Set(['biceps brachii', 'triceps brachii', 'bic
 const PART_OF_MUSCLE = /^(.+?) (?:part|head|belly) of (?:(?:right|left) )?(.+)$/i;
 export interface WholeMuscle {en: string; zh?: string; muscle: string; headsRequired: boolean}
 export function wholeMuscleOf(structure: Named): WholeMuscle | null {
+  // "iliofemoral ligament, descending part", "ligament of head of femur": a joint structure is never a part of a muscle, so the bone or ligament named after "of" is not an accepted answer
+  // the brain quiz asks the names of the brain model itself: "opercular part of inferior frontal gyrus" is a part of a gyrus, never of a muscle
+  if (structure.system === 'joint' || structure.system === 'brain') return null;
   const match = structure.name.match(PART_OF_MUSCLE);
   if (!match) return null;
   const muscle = match[2].trim(), side = structure.name.match(SIDE_WORD)?.[1];
@@ -51,9 +54,11 @@ const partOfName = (x: string, y: string) => x.endsWith(` of ${y}`) || x.include
  * of the same structure. The site shows the branches of a nerve under the nerve's own name; that is a parent, not a spelling, and is never accepted here. */
 export function siteName(structure: Named): {en?: string; zh?: string} {
   if (!structure.system) return {};
+  // the main site's profile search matches by words, which is wrong for the brain model's names (maxillary nerve → axillary nerve); the brain keeps the names of its own model
+  if (structure.source === 'Brain Project') return {};
   // A part of a muscle (clavicular part of pectoralis major, spinal part of deltoid) is answered with the muscle's name (wholeMuscleOf), not with the site's other wording of the part.
   if (wholeMuscleOf(structure)) return {};
-  const profile = structureProfile(structure.name, structure.system as SystemId);
+  const profile = structureProfile(structure.name, (structure.system === 'joint' || structure.system === 'space' ? 'connective' : structure.system) as SystemId);
   const paired = isPaired(structure), key = (n: string) => paired ? cleanKey(n) : n.toLowerCase().replace(/\s+/g, ' ').trim();
   const out: {en?: string; zh?: string} = {};
   if (profile.english) {const a = key(profile.english), b = key(structure.name); if (a && a !== b && !partOfName(b, a) && !partOfName(a, b)) out.en = profile.english;}

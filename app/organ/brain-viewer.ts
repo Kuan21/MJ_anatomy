@@ -41,6 +41,8 @@ const SMOOTHED = /^(frontal|parietal|temporal|occipital|limbic|insula|cortex-oth
 const NERVE_REACH = .012;
 /** While a deep structure is selected (white matter, basal nuclei, diencephalon, ventricles) the cortex and the meninges in front of it are drawn nearly transparent. */
 const COVERING = /^(frontal|parietal|temporal|occipital|limbic|insula|interlobar|cortex-other|meninges)$/, COVER_OPACITY = .12, DEEP_GROUPS = /^(white|basal|diencephalon|ventricles)$/;
+/** A selected deep structure is drawn even when its group is switched off (see `forced` in visibleIn); the info card uses this so it does not say "not in view" for a structure that is on screen. */
+export const drawnWhenSelected = (group: string): boolean => DEEP_GROUPS.test(group);
 /** Glass cortex: the cerebral cortex as a smooth translucent shell. Plain alpha blending (back faces, then front faces; no depth writes, no dot pattern), so the deep structures inside stay in view. */
 const GLASS_GROUPS = /^(frontal|parietal|temporal|occipital|limbic|insula|interlobar|cortex-other)$/, GLASS_OPACITY = .14, GLASS_NERVE_OPACITY = .4, GLASS_WHITE_OPACITY = .22;
 /** In glass mode the deep groups get stronger, distinct colours so they read through the shell. */

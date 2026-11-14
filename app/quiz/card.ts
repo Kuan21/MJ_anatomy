@@ -2,6 +2,7 @@ import {structureProfile, paokaoCardByName, type BilingualFact} from '../mj-stru
 import type {SystemId} from '../anatomy';
 import {CARD_EXTRAS, type CardExtra} from './card-data';
 import type {QuizStructure, QuizSystem} from './catalogue';
+import {SPACES, type SpaceItem} from '../mj-spaces';
 
 export interface CardField {label: string; zh?: string; en?: string}
 export interface StructureCard {
@@ -24,6 +25,12 @@ const FIELDS: Record<QuizSystem, string[]> = {
   cardiac: ['說明'],
   // lung quiz: surface marks and airway; a mark's three fields come from its course-summary card (scripts/paokao-structures/lungs.mjs)
   respiratory: ['位置', '構造／毗鄰關係', '血液供應／神經'],
+  // brain quiz: every field of the structure's brain information card (their labels depend on the kind of structure); see structureCard
+  brain: [],
+  // joint soft tissue: the repository documents none of these yet, so the card shows 「尚無資料」 until hand-checked entries are added to card-data.ts
+  joint: ['所屬關節', '附著與連結', '功能'],
+  // limb spaces: location from the data card of the space, boundaries and contents from the special-region list of the layer panel (app/mj-spaces.ts)
+  space: ['位置', '邊界', '內容物'],
 };
 /** Existing profile facts (by their Chinese label) that answer a card field. */
 const FROM_PROFILE: Record<QuizSystem, Record<string, string[]>> = {
@@ -35,6 +42,9 @@ const FROM_PROFILE: Record<QuizSystem, Record<string, string[]>> = {
   skeletal: {主要標誌: ['重要骨標誌']},
   cardiac: {},
   respiratory: {位置: ['位置'], '構造／毗鄰關係': ['構造／毗鄰關係'], '血液供應／神經': ['血液供應／神經']},
+  brain: {},
+  joint: {},
+  space: {},
 };
 
 const clean = (name: string) => name.toLowerCase().replace(/\b(left|right)\b/g, '').replace(/\s+/g, ' ').trim();
@@ -47,9 +57,26 @@ function lungMark(name: string, label: string) {
   return line ? {zh: line[1], en: line[0]} : undefined;
 }
 
-export function structureCard(structure: Pick<QuizStructure, 'name' | 'chinese' | 'system' | 'description'>): StructureCard {
+/** A limb space: its boundary, roof, floor and contents as the layer panel lists them. An item the question does not draw (the quiz has no structure for it) says so. */
+function spaceCard(structure: Pick<QuizStructure, 'name' | 'chinese' | 'system' | 'space'>): StructureCard {
+  const def = SPACES.find(d => d.id === structure.space?.id), notDrawn = new Set(structure.space?.notDrawn ?? []);
+  const roleText = (i: SpaceItem) => {const r = i.role?.replace(/^內容物（(.*)）$/, '$1').replace(/（(.*)）/, '，$1'); return r && r !== '內容物' ? `（${r}）` : '';};
+  const list = (items: SpaceItem[]) => ({zh: items.map(i => `${i.zh}${roleText(i)}${notDrawn.has(i.en) ? '（本題未畫出）' : ''}`).join('、'), en: items.map(i => i.en).join(', ')});
+  const fields: CardField[] = [], missing: string[] = [];
+  const where = paokaoCardByName(structure.name)?.course;
+  if (where) fields.push({label: '位置', zh: where[1], en: where[0]}); else missing.push('位置');
+  const walls = def ? [...def.boundaries, ...(def.roof ?? []), ...(def.floor ?? [])] : [];
+  if (walls.length) fields.push({label: '邊界', ...list(walls)}); else missing.push('邊界');
+  if (def?.contents.length) fields.push({label: '內容物', ...list(def.contents)}); else missing.push('內容物');
+  return {english: structure.name, chinese: structure.chinese, system: 'space', fields, missing};
+}
+
+export function structureCard(structure: Pick<QuizStructure, 'name' | 'chinese' | 'system' | 'description' | 'space'> & Partial<Pick<QuizStructure, 'source' | 'cardFields'>>): StructureCard {
   const system = structure.system;
-  const profile = structureProfile(structure.name, system as SystemId);
+  if (system === 'space') return spaceCard(structure);
+  // Brain quiz: the fields come from the structure's own brain information card (public/models/brain/neuro-cards.json, packed into the catalogue); with no card the card says so.
+  if (structure.source === 'Brain Project') return {english: structure.name, chinese: structure.chinese, system, fields: (structure.cardFields ?? []).map(f => ({label: f.label, zh: f.zh})), missing: structure.cardFields?.length ? [] : ['資料卡']};
+  const profile = structureProfile(structure.name, (system === 'joint' ? 'connective' : system) as SystemId);
   // Paired structures are keyed without left/right; names where "left"/"right" belongs to the name itself (left atrium, left pulmonary artery…) are keyed in full.
   const extra: CardExtra | undefined = CARD_EXTRAS[structure.name.toLowerCase()] ?? CARD_EXTRAS[clean(structure.name)];
   const fields: CardField[] = [], missing: string[] = [];
