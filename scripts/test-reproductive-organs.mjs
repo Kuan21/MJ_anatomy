@@ -45,5 +45,13 @@ for (const sex of ['male', 'female']) {
   // a structure of the other sex must not leak in
   for (const e of expected[sex === 'male' ? 'female' : 'male']) { const p = byId.get(e.id); if (p && !(sex === 'female' ? !p.sex : p.sex === 'female') && v.base(p)) fail(`${sex}: ${e.name} (${e.id}) of the other sex is shown`); }
 }
+// the body surface follows the sex too: the atlas skin is a male surface (penis and scrotum are part of its mesh), so the female view draws the reshaped female copy instead
+const maleSkin = byId.get('FJ2810'), femaleSkin = byId.get('HRAF-skin');
+if (!maleSkin || !femaleSkin) fail('both body surfaces must exist (FJ2810 and HRAF-skin)');
+else for (const [sex, a, b] of [['female', femaleSkin, maleSkin], ['male', maleSkin, femaleSkin]]) {
+  checked += 2;
+  if (!S.matchesSex(a, sex)) fail(`${sex} view must show the skin ${a.id}`);
+  if (S.matchesSex(b, sex)) fail(`${sex} view must not show the skin ${b.id}`);
+}
 if (bad) { console.error(`${bad} problem(s) in the reproductive structures (checked ${checked}).`); process.exit(1); }
 console.log(`Reproductive organs OK: ${expected.male.length} male and ${expected.female.length} female structures exist, load valid geometry and are shown for their own sex.`);
