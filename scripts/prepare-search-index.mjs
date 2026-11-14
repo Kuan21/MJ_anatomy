@@ -24,7 +24,8 @@ for (const n of glb('joints.glb').nodes) if (n.name && includeJoint(String(n.ext
 const {brainOverrideOf} = await quizModule('app/organ/brain-overrides.ts');
 for (const n of glb('brain.glb').nodes) if (n.extras?.bx_label) {
   const label = n.extras.bx_label.replace(/\*/g, '').replace(/\s+/g, ' ').trim(), sideId = n.extras.bx_side === 'left' ? 'left' : n.extras.bx_side === 'right' ? 'right' : 'mid';
-  entries.push({n: (n.extras.bx_side === 'left' ? 'Left ' : n.extras.bx_side === 'right' ? 'Right ' : '') + lc(brainOverrideOf(label, sideId)?.en ?? label), s: 'nervous', k: 'brain'});
+  // g: the model's own category, kept only for the cerebellum (the model files the base of the cerebral peduncle there too; the brain catalogue moves it to the brainstem, so it is not tagged)
+  entries.push({n: (n.extras.bx_side === 'left' ? 'Left ' : n.extras.bx_side === 'right' ? 'Right ' : '') + lc(brainOverrideOf(label, sideId)?.en ?? label), s: 'nervous', k: 'brain', ...(n.extras.bx_cat === 'cerebellum' && label !== 'Base of peduncle' ? {g: 'cerebellum'} : {})});
 }
 // neck vessels: named as the scene names their meshes so a search result can be highlighted and framed
 for (const v of JSON.parse(gunzipSync(read('neck-vessels.json.gz'))).vessels) entries.push({n: capSide(side(v.name) + lc(clean(v.name))), s: v.system, k: 'vessel', raw: v.name});
