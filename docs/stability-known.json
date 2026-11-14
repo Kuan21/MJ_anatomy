@@ -126,37 +126,37 @@
    "measure": 20.5,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
-  "cuts|PK-333": {
+  "cuts|PK-328": {
    "name": "Contact area for trachea of right lung",
    "measure": 22,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
-  "cuts|PK-335": {
+  "cuts|PK-330": {
    "name": "Diaphragmatic surface of right lung",
    "measure": 28.7,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
-  "cuts|PK-336": {
+  "cuts|PK-331": {
    "name": "Inferior border of right lung",
    "measure": 22.3,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
-  "cuts|PK-337": {
+  "cuts|PK-332": {
    "name": "Apex of left lung",
    "measure": 22,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
-  "cuts|PK-341": {
+  "cuts|PK-336": {
    "name": "Diaphragmatic surface of left lung",
    "measure": 18.7,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
-  "cuts|PK-475": {
+  "cuts|PK-470": {
    "name": "Right plantar aponeurosis",
    "measure": 38.6,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
-  "cuts|PK-480": {
+  "cuts|PK-475": {
    "name": "Left plantar aponeurosis",
    "measure": 38.9,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
@@ -524,49 +524,49 @@
    "fraction": 0.9529914529914529,
    "severity": 20
   },
-  "detached|PK-419|shoulder flexion 150": {
+  "detached|PK-414|shoulder flexion 150": {
    "name": "Right superior transverse scapular ligament",
    "measure": 16,
    "reason": "Not a detachment: the superior transverse scapular ligament attaches to the scapula at both ends (it bridges the suprascapular notch) and has no attachment on the clavicle; it only lies within 3 mm of the clavicle at rest, so it leaves it when the scapula turns in shoulder flexion 150. Exception added by hand with the user's approval on 2026-11-14 (PR #280); the ligament rides on the scapula as one piece.",
    "fraction": 0.41025641025641024,
    "severity": 34
   },
-  "detached|PK-423|shoulder flexion 150": {
+  "detached|PK-418|shoulder flexion 150": {
    "name": "Left superior transverse scapular ligament",
    "measure": 14,
    "reason": "Not a detachment: the superior transverse scapular ligament attaches to the scapula at both ends (it bridges the suprascapular notch) and has no attachment on the clavicle; it only lies within 3 mm of the clavicle at rest, so it leaves it when the scapula turns in shoulder flexion 150. Exception added by hand with the user's approval on 2026-11-14 (PR #280); the ligament rides on the scapula as one piece.",
    "fraction": 0.358974358974359,
    "severity": 33
   },
-  "detached|PK-430|hip flexion 120 knee flexion 130": {
+  "detached|PK-425|hip flexion 120 knee flexion 130": {
    "name": "Left quadriceps tendon",
    "measure": 3,
    "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.5,
    "severity": 33
   },
-  "detached|PK-447|hip flexion 120 knee flexion 130": {
+  "detached|PK-442|hip flexion 120 knee flexion 130": {
    "name": "Right tendon of iliopsoas",
    "measure": 106,
    "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.9380530973451328,
    "severity": 58
   },
-  "detached|PK-448|hip flexion 120 knee flexion 130": {
+  "detached|PK-443|hip flexion 120 knee flexion 130": {
    "name": "Right tendon of iliopsoas",
    "measure": 56,
    "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.717948717948718,
    "severity": 55
   },
-  "detached|PK-449|hip flexion 120 knee flexion 130": {
+  "detached|PK-444|hip flexion 120 knee flexion 130": {
    "name": "Left tendon of iliopsoas",
    "measure": 96,
    "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.9320388349514563,
    "severity": 57
   },
-  "detached|PK-450|hip flexion 120 knee flexion 130": {
+  "detached|PK-445|hip flexion 120 knee flexion 130": {
    "name": "Left tendon of iliopsoas",
    "measure": 62,
    "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
@@ -2722,12 +2722,12 @@
    "measure": 3,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
-  "penetration|PK-347|FJ3391": {
+  "penetration|PK-342|FJ3391": {
    "name": "Right tendon of triceps brachii",
    "measure": 4.1,
    "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
   },
-  "penetration|PK-349|FJ3391": {
+  "penetration|PK-344|FJ3391": {
    "name": "Right tendon of triceps brachii",
    "measure": 6.6,
    "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
@@ -2742,12 +2742,12 @@
    "measure": 3.4,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
-  "penetration|PK-350|FJ3286": {
+  "penetration|PK-345|FJ3286": {
    "name": "Left tendon of triceps brachii",
    "measure": 4.5,
    "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
   },
-  "penetration|PK-352|FJ3286": {
+  "penetration|PK-347|FJ3286": {
    "name": "Left tendon of triceps brachii",
    "measure": 6.5,
    "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
@@ -2762,7 +2762,7 @@
    "measure": 6.5,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
-  "penetration|PK-436|FJ1410": {
+  "penetration|PK-431|FJ1410": {
    "name": "Right tendon of biceps femoris",
    "measure": 3.4,
    "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
@@ -2772,27 +2772,27 @@
    "measure": 6.1,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
-  "penetration|PK-453|FJ1439": {
+  "penetration|PK-448|FJ1439": {
    "name": "Right tendon of tibialis anterior",
    "measure": 4.9,
    "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
   },
-  "penetration|PK-454|FJ1439M": {
+  "penetration|PK-449|FJ1439M": {
    "name": "Left tendon of tibialis anterior",
    "measure": 4.7,
    "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
   },
-  "penetration|PK-455|FJ1440": {
+  "penetration|PK-450|FJ1440": {
    "name": "Right tendon of tibialis posterior",
    "measure": 3.2,
    "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
   },
-  "penetration|PK-457|FJ1440": {
+  "penetration|PK-452|FJ1440": {
    "name": "Right tendon of flexor digitorum longus",
    "measure": 7.5,
    "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
   },
-  "penetration|PK-465|FJ1410": {
+  "penetration|PK-460|FJ1410": {
    "name": "Right tendon of fibularis longus",
    "measure": 3.7,
    "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
@@ -2887,7 +2887,7 @@
    "measure": 6,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
-  "penetration|PKC-321|FJ3243": {
+  "penetration|PKC-316|FJ3243": {
    "name": "Left arteria radialis indicis",
    "measure": 3,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
@@ -4717,21 +4717,21 @@
    "fraction": 0.16666666666666666,
    "severity": 2.4
   },
-  "stretch|PK-347|elbow flexion 140": {
+  "stretch|PK-342|elbow flexion 140": {
    "name": "Right tendon of triceps brachii",
    "measure": 2,
    "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.002403846153846154,
    "severity": 2
   },
-  "stretch|PK-348|elbow flexion 140": {
+  "stretch|PK-343|elbow flexion 140": {
    "name": "Right tendon of triceps brachii",
    "measure": 2,
    "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.0029069767441860465,
    "severity": 2
   },
-  "stretch|PK-351|elbow flexion 140": {
+  "stretch|PK-346|elbow flexion 140": {
    "name": "Left tendon of triceps brachii",
    "measure": 40,
    "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
@@ -4921,12 +4921,12 @@
    "measure": 174,
    "reason": "faces coincide with Right superior rectus: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1411M|PK-470": {
+  "zfight|FJ1411M|PK-465": {
    "name": "Left fibularis tertius",
    "measure": 189,
    "reason": "faces coincide with Left tendon of fibularis tertius: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1411|PK-469": {
+  "zfight|FJ1411|PK-464": {
    "name": "Right fibularis tertius",
    "measure": 193,
    "reason": "faces coincide with Right tendon of fibularis tertius: two layers share the same surface; to be offset or one of them removed"
@@ -4971,82 +4971,82 @@
    "measure": 229,
    "reason": "faces coincide with Tendinous arch of levator ani: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1475M|PK-367": {
+  "zfight|FJ1475M|PK-362": {
    "name": "Left flexor digitorum superficialis",
    "measure": 574,
    "reason": "faces coincide with Left tendons of flexor digitorum superficialis: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1475|PK-365": {
+  "zfight|FJ1475|PK-360": {
    "name": "Right flexor digitorum superficialis",
    "measure": 568,
    "reason": "faces coincide with Right tendons of flexor digitorum superficialis: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1484M|PK-386": {
+  "zfight|FJ1484M|PK-381": {
    "name": "Left abductor pollicis longus",
    "measure": 155,
    "reason": "faces coincide with Left tendon of abductor pollicis longus: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1484|PK-385": {
+  "zfight|FJ1484|PK-380": {
    "name": "Right abductor pollicis longus",
    "measure": 159,
    "reason": "faces coincide with Right tendon of abductor pollicis longus: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1492M|PK-378": {
+  "zfight|FJ1492M|PK-373": {
    "name": "Left extensor digitorum",
    "measure": 357,
    "reason": "faces coincide with Left tendons of extensor digitorum: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1492|PK-377": {
+  "zfight|FJ1492|PK-372": {
    "name": "Right extensor digitorum",
    "measure": 371,
    "reason": "faces coincide with Right tendons of extensor digitorum: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1494M|PK-388": {
+  "zfight|FJ1494M|PK-383": {
    "name": "Left extensor pollicis brevis",
    "measure": 133,
    "reason": "faces coincide with Left tendon of extensor pollicis brevis: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1494|PK-387": {
+  "zfight|FJ1494|PK-382": {
    "name": "Right extensor pollicis brevis",
    "measure": 132,
    "reason": "faces coincide with Right tendon of extensor pollicis brevis: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1495M|PK-390": {
+  "zfight|FJ1495M|PK-385": {
    "name": "Left extensor pollicis longus",
    "measure": 181,
    "reason": "faces coincide with Left tendon of extensor pollicis longus: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1495|PK-389": {
+  "zfight|FJ1495|PK-384": {
    "name": "Right extensor pollicis longus",
    "measure": 176,
    "reason": "faces coincide with Right tendon of extensor pollicis longus: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1497M|PK-370": {
+  "zfight|FJ1497M|PK-365": {
    "name": "Left flexor digitorum profundus",
    "measure": 383,
    "reason": "faces coincide with Left tendons of flexor digitorum profundus: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1497|PK-369": {
+  "zfight|FJ1497|PK-364": {
    "name": "Right flexor digitorum profundus",
    "measure": 388,
    "reason": "faces coincide with Right tendons of flexor digitorum profundus: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1502M|PK-360": {
+  "zfight|FJ1502M|PK-355": {
    "name": "Left palmaris longus",
    "measure": 524,
    "reason": "faces coincide with Left palmar aponeurosis: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1502|PK-358": {
+  "zfight|FJ1502|PK-353": {
    "name": "Right palmaris longus",
    "measure": 523,
    "reason": "faces coincide with Right palmar aponeurosis: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1517M|PK-384": {
+  "zfight|FJ1517M|PK-379": {
    "name": "Left extensor carpi ulnaris",
    "measure": 132,
    "reason": "faces coincide with Left tendon of extensor carpi ulnaris: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1517|PK-382": {
+  "zfight|FJ1517|PK-377": {
    "name": "Right extensor carpi ulnaris",
    "measure": 125,
    "reason": "faces coincide with Right tendon of extensor carpi ulnaris: two layers share the same surface; to be offset or one of them removed"
@@ -5241,7 +5241,7 @@
    "measure": 1106,
    "reason": "faces coincide with Cardiac notch of left lung: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|PK-246|PK-337": {
+  "zfight|PK-246|PK-332": {
    "name": "Esophageal impression of left lung",
    "measure": 57,
    "reason": "faces coincide with Apex of left lung: two layers share the same surface; to be offset or one of them removed"
