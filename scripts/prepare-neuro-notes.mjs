@@ -66,6 +66,8 @@ for (const [id, s] of byId) {
   const card = cards.get(target);
   if (id !== target) card.aka.push({en: e.en ?? s.en, zh: e.zh ?? s.zh});
   else for (const a of [...(s.zh_alias ?? []), ...(s.alt_en ?? [])]) card.aka.push(/[㐀-鿿]/.test(a) ? {zh: a} : {en: a});
+  // other spellings kept searchable when the curation renames a card: "aka": [{"zh": …} | {"en": …}]
+  if (id === target) for (const a of te.aka ?? []) card.aka.push(a);
   for (const x of s.note_excerpts ?? []) card.excerpts.push({src: x.src, text: x.text});
   for (const src of s.sources ?? []) if (!card.sources.includes(src)) card.sources.push(src);
   if (s.note) card.noBody = true;

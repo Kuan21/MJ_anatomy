@@ -343,6 +343,17 @@
       "license": "CC BY 4.0",
       "origin": "Tendon parts cut from BodyParts3D 4.0 muscle meshes by scripts/lib/tendon-cut.mjs (derived, no other source)",
       "url": "https://dbarchive.biosciencedbc.jp/en/bodyparts3d/desc.html"
+    },
+    {
+      "id": "eye-detail-atlas",
+      "files": [
+        "models/eye/*"
+      ],
+      "license": "CC BY 4.0",
+      "origin": "Eye detail atlas package (left eye only; nothing is mirrored and there is no right-eye model). Globe (23 layered structures): 3D Reference Object Library, eye-male-left v1.3, HuBMAP / Human Reference Atlas (Visible Human male); modified: simplified from 346,630 to 99,760 triangles, scaled by 1.087 and translated onto the BodyParts3D left eyeball, renamed. Orbit (48 structures: extraocular muscles, tarsal plates, lacrimal apparatus, orbital nerves, ophthalmic artery, optic nerve to superior colliculus, orbital bones): BodyParts3D 4.0; modified where it meets the globe: rectus tendons drawn back to their insertion distances, muscle surfaces lifted clear of the sclera, front end of the optic nerve bent to the optic disc; optic chiasm halves joined.",
+      "url": "https://cdn.humanatlas.io/digital-objects/ref-organ/eye-male-left/v1.3/assets/3d-vh-m-eye-l.glb",
+      "pinned_by": "scripts/build-eye-atlas.mjs (sha256)",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/"
     }
   ],
   "checked_not_used": [
