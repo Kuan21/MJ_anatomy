@@ -31,6 +31,18 @@ const nb = Array.from({length: n}, () => new Set());
 for (let t = 0; t < mri.indices.length; t += 3) for (let k = 0; k < 3; k++) { const a = mri.indices[t + k], b = mri.indices[t + (k + 1) % 3]; nb[a].add(b); nb[b].add(a); }
 for (let pass = 0; pass < 6; pass++) { const next = Uint8Array.from(label); for (let i = 0; i < n; i++) { const c = new Array(CAP.length).fill(0); for (const j of nb[i]) c[label[j]]++; c[label[i]] += 1.5; let b = 0; for (let k = 1; k < c.length; k++) if (c[k] > c[b]) b = k; next[i] = b; } label.set(next); }
 
+// Clean-up: every label keeps only its largest connected patch; smaller islands (stray vertices on the border between two parts) go to the neighbouring label they share most edges with.
+for (let round = 0; round < 4; round++) {
+  const comp = new Int32Array(n).fill(-1), comps = [];
+  for (let i = 0; i < n; i++) { if (comp[i] >= 0) continue; const id = comps.length, stack = [i], members = []; comp[i] = id; while (stack.length) { const v = stack.pop(); members.push(v); for (const w of nb[v]) if (comp[w] < 0 && label[w] === label[i]) { comp[w] = id; stack.push(w); } } comps.push({label: label[i], members}); }
+  const biggest = new Map(); for (const c of comps) if (!biggest.has(c.label) || c.members.length > biggest.get(c.label).members.length) biggest.set(c.label, c);
+  let moved = 0;
+  for (const c of comps) { if (biggest.get(c.label) === c) continue; const votes = new Array(CAP.length).fill(0); for (const v of c.members) for (const w of nb[v]) if (label[w] !== c.label) votes[label[w]]++; let b = -1; for (let k = 0; k < votes.length; k++) if (votes[k] > 0 && (b < 0 || votes[k] > votes[b])) b = k; if (b >= 0) { for (const v of c.members) label[v] = b; moved += c.members.length; } }
+  if (!moved) break;
+}
+// a few more majority passes so the borders between parts are short smooth curves
+for (let pass = 0; pass < 8; pass++) { const next = Uint8Array.from(label); for (let i = 0; i < n; i++) { const c = new Array(CAP.length).fill(0); for (const j of nb[i]) c[label[j]]++; c[label[i]] += 1.2; let b = 0; for (let k = 1; k < c.length; k++) if (c[k] > c[b]) b = k; next[i] = b; } label.set(next); }
+
 // one closed piece per label: triangles whose three vertices share the label, plus the triangles on the cut (assigned to the label of two of their vertices, else of the first)
 const parts = {};
 CAP.forEach(([name], j) => {
