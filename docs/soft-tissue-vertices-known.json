@@ -1,33 +1,4 @@
 {
  "_doc": "Known findings of scripts/test-soft-tissue-vertices.mjs. key = part id | kind. value = worst measured value (thorn: longest stretched edge in mm; swollen: ratio). The list may only shrink.",
- "known": {
-  "PK-419|swollen": {
-   "group": "ligament or fascia",
-   "name": "Right superior transverse scapular ligament",
-   "pose": "shoulder flexion 73 + abduction 158",
-   "value": 3.44,
-   "reason": "shoulder girdle ligament bound with the glenohumeral rule; being fixed in the upper-limb joint work (PR 269)"
-  },
-  "PK-419|thorn": {
-   "group": "ligament or fascia",
-   "name": "Right superior transverse scapular ligament",
-   "pose": "shoulder flexion 73 + abduction 158",
-   "value": 29,
-   "reason": "shoulder girdle ligament bound with the glenohumeral rule; being fixed in the upper-limb joint work (PR 269)"
-  },
-  "PK-423|swollen": {
-   "group": "ligament or fascia",
-   "name": "Left superior transverse scapular ligament",
-   "pose": "shoulder flexion 73 + abduction 158",
-   "value": 3.13,
-   "reason": "shoulder girdle ligament bound with the glenohumeral rule; being fixed in the upper-limb joint work (PR 269)"
-  },
-  "PK-423|thorn": {
-   "group": "ligament or fascia",
-   "name": "Left superior transverse scapular ligament",
-   "pose": "shoulder flexion 73 + abduction 158",
-   "value": 24,
-   "reason": "shoulder girdle ligament bound with the glenohumeral rule; being fixed in the upper-limb joint work (PR 269)"
-  }
- }
+ "known": {}
 }

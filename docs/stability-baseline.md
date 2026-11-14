@@ -12,8 +12,8 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Vessel, nerve and tendon walls inside bone | 456 |
 | Coincident faces (z-fighting) | 82 |
 | Straight cuts in meshes | 42 |
-| Triangle stretch over 2x in the limit poses | 141 |
-| Structures that leave their bone in the limit poses | 165 |
+| Triangle stretch over 2x in the limit poses | 137 |
+| Structures that leave their bone in the limit poses | 163 |
 
 ## Fragments (48)
 
@@ -663,7 +663,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | renderer clipping plane in organ/brain-viewer.ts | 1 | section plane of the brain or heart detail mode: a cut view on purpose, the cut face is drawn by the viewer |
 | renderer clipping plane in organ/heart-viewer.ts | 3 | section plane of the brain or heart detail mode: a cut view on purpose, the cut face is drawn by the viewer |
 
-## Triangle stretch over 2x in the limit poses (141)
+## Triangle stretch over 2x in the limit poses (137)
 
 | structure | size | detail |
 |---|---|---|
@@ -791,16 +791,12 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right tendon of triceps brachii | 2 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left tendon of triceps brachii | 40 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right lateral cord of brachial plexus | 18 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
-| Right superior transverse scapular ligament | 112 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right superior transverse scapular ligament | 86 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left superior transverse scapular ligament | 113 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left superior transverse scapular ligament | 78 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left lateral cord of brachial plexus | 10 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right superior gluteal artery | 4 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right inferior gluteal artery | 115 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Lateral pectoral nerve.l | 182 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Lateral pectoral nerve.l | 105 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Lateral pectoral nerve.l | 314 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Lateral pectoral nerve.r | 184 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Lateral pectoral nerve.r | 131 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Lateral pectoral nerve.r | 316 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Muscular branches of radial nerve.l | 2 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Muscular branches of radial nerve.r | 2 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
@@ -809,7 +805,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Suprascapular nerve.l | 76 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Suprascapular nerve.r | 76 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 
-## Structures that leave their bone in the limit poses (165)
+## Structures that leave their bone in the limit poses (163)
 
 | structure | size | detail |
 |---|---|---|
@@ -857,10 +853,8 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Left axillary fossa | 4 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Clavicular branch of right thoraco-acromial artery | 234 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Clavicular branch of right thoraco-acromial artery | 223 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Right superior transverse scapular ligament | 18 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Right superior transverse scapular ligament | 16 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Left superior transverse scapular ligament | 20 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Left superior transverse scapular ligament | 14 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Right superior transverse scapular ligament | 16 | Not a detachment: the superior transverse scapular ligament attaches to the scapula at both ends (it bridges the suprascapular notch) and has no attachment on the clavicle; it only lies within 3 mm of the clavicle at rest, so it leaves it when the scapula turns in shoulder flexion 150. Exception added by hand with the user's approval on 2026-11-14 (PR #280); the ligament rides on the scapula as one piece. |
+| Left superior transverse scapular ligament | 14 | Not a detachment: the superior transverse scapular ligament attaches to the scapula at both ends (it bridges the suprascapular notch) and has no attachment on the clavicle; it only lies within 3 mm of the clavicle at rest, so it leaves it when the scapula turns in shoulder flexion 150. Exception added by hand with the user's approval on 2026-11-14 (PR #280); the ligament rides on the scapula as one piece. |
 | Left quadriceps tendon | 3 | does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Right tendon of iliopsoas | 106 | does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Right tendon of iliopsoas | 56 | does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
