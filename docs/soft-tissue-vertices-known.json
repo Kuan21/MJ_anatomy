@@ -1,0 +1,4 @@
+{
+ "_doc": "Known findings of scripts/test-soft-tissue-vertices.mjs. key = part id | kind. value = worst measured value (thorn: longest stretched edge in mm; swollen: ratio). The list may only shrink.",
+ "known": {}
+}

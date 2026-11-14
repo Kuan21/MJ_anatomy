@@ -53,7 +53,7 @@ export function makePoser(m, atlas, geometry, parts, rest) {
     if (region) nerveBody.set(n.id, {region, skin: m.bindBodyTissue(bodyRigs[region], base, m.cranialNerveRigid(n.raw))});
   }
   const nerveArm = new Map();
-  for (const n of nerves) { const b = m.nerveBindings[n.raw]; if (b && softRigs[b.side]) { const base = nerveRest.get(n.id); nerveArm.set(n.id, {side: b.side, skin: m.bindTissue(softRigs[b.side], m.resolveNeurovascularProfile(n.raw, 'path'), base, undefined, n.raw)}); } }
+  for (const n of nerves) { const b = m.nerveBindings[n.raw]; if (b && softRigs[b.side]) { const base = nerveRest.get(n.id); nerveArm.set(n.id, {side: b.side, skin: m.bindTissue(softRigs[b.side], m.resolveNeurovascularProfile(n.raw, 'path'), base, undefined, n.raw, rest(n).indices)}); } }
 
   function* pose(pz) {
     const posed = new Map(), moved = new Set(), preview = new Map();
