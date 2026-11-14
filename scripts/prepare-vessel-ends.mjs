@@ -38,7 +38,8 @@ const piece = (id, geometry, tip, action) => pieces.push({id, tip, action, geome
 const {anatomicalRegion} = await regionTools(), limbIds = new Set(atlas.parts.filter(p => ['upper-limb', 'lower-limb'].includes(anatomicalRegion(p))).map(p => p.id));
 // Round connectors: 12 sides on limb vessels and on the vessels of the abdominal and chest wall (the ones in front of the camera there), 8 elsewhere. The light 5-sided prisms of the first version read as faceted, segmented
 // vessels where a wall vessel meets its end piece.
-const WALL_VESSELS = /epigastric|circumflex iliac|musculophrenic|intercostal|lumbar (?:artery|vein)|thoracoepigastric|subcostal/i;
+// Intercostal and subcostal vessels end beside ribs and discs: as 12-sided prisms their end pieces sank 2-3 mm into the 9th/12th ribs and the intervertebral disk (stability check), so they keep the light end pieces.
+const WALL_VESSELS = /epigastric|circumflex iliac|musculophrenic|lumbar (?:artery|vein)|thoracoepigastric/i;
 const wallIds = new Set(atlas.parts.filter(p => WALL_VESSELS.test(p.name)).map(p => p.id)), round = id => limbIds.has(id) || wallIds.has(id);
 const sides = id => round(id) ? 12 : 5;
 for (const row of rows) {
