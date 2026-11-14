@@ -122,11 +122,11 @@
 
 ## 骨盆與會陰 → 骨盆器官
 
-70 個網格，42 個名稱；內部視圖中 7 個骨骼半透明。
+69 個網格，41 個名稱；內部視圖中 7 個骨骼半透明。
 
 - **動脈**（3）：Sigmoid artery ×2；Superior rectal artery ×2；uterine artery ×2
 - **消化**（1）：Rectum
-- **生殖**（24）：ampulla of uterine tube ×2；Body of uterus；Broad ligament of uterus；cardinal ligament of uterus ×2；Cervicovaginal junction；Cervix of uterus；deferent duct ×2；fimbriae of uterine tube ×2；Fundus of uterus；infundibulum of uterine tube ×2；isthmus of uterine tube ×2；Lower uterine segment；mesosalpinx ×2；mesovarium ×2；ovarian ligament ×2；ovary ×2；Prostate；round ligament of uterus ×2；seminal vesicle ×2；suspensory ligament of ovary ×2；Uterine cornua；uterosacral ligament ×2；Vagina；Vestibule of vagina
+- **生殖**（23）：ampulla of uterine tube ×2；Body of uterus；Broad ligament of uterus；cardinal ligament of uterus ×2；Cervicovaginal junction；Cervix of uterus；deferent duct ×2；fimbriae of uterine tube ×2；Fundus of uterus；infundibulum of uterine tube ×2；isthmus of uterine tube ×2；Lower uterine segment；mesosalpinx ×2；mesovarium ×2；ovarian ligament ×2；ovary ×2；Prostate；round ligament of uterus ×2；seminal vesicle ×2；suspensory ligament of ovary ×2；Uterine cornua；uterosacral ligament ×2；Vagina
 - **漿膜**（3）：Pelvic peritoneum；Rectouterine pouch；Vesicouterine pouch
 - **骨**（3）：Coccyx；hip bone ×4；Sacrum ×2
 - **泌尿**（5）：Female urethra；Trigone of urinary bladder；ureter ×4；Urethra；Urinary bladder ×2
@@ -146,12 +146,12 @@
 
 ## 骨盆與會陰 → 會陰
 
-58 個網格，29 個名稱。
+53 個網格，26 個名稱。
 
 - **動脈**（4）：deep external pudendal artery ×2；dorsal artery of penis ×8；internal pudendal artery ×2；superficial external pudendal artery ×2
 - **體表**（2）：Pubic hair；Skin
 - **肌肉**（2）：External anal sphincter ×3；superficial perineal muscle
-- **生殖**（15）：bulb of vestibule ×2；Cervicovaginal junction；Clitoris；Corpus cavernosum of penis；Corpus spongiosum of penis；crus of clitoris ×2；epididymis ×2；Glans penis；greater vestibular gland ×2；labium majus ×2；labium minus ×2；Mons pubis；testis ×2；Vagina；Vestibule of vagina
+- **生殖**（12）：Body of clitoris；bulb of vestibule ×2；Cervicovaginal junction；Corpus cavernosum of penis；Corpus spongiosum of penis；crus of clitoris ×2；epididymis ×2；Glans of clitoris；Glans penis；greater vestibular gland ×2；testis ×2；Vagina
 - **骨**（1）：ischial tuberosity ×2
 - **泌尿**（2）：Female urethra；Urethra
 - **靜脈**（3）：Deep dorsal vein of penis ×2；internal pudendal vein ×4；Superficial dorsal vein of penis ×6

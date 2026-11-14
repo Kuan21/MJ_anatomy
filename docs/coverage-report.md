@@ -6,9 +6,9 @@
 
 | 類別 | 不重複詞數 | 意思 |
 |---|---|---|
-| 一、已有 | 1219 | 模型有，而且可以用搜尋／圖層揀到 |
+| 一、已有 | 1217 | 模型有，而且可以用搜尋／圖層揀到 |
 | 二、模型有但 UI 搵唔到 | 0 | 模型有幾何，但搜尋唔到（見下面清單；已修好者會喺「修復」一節列明） |
-| 三、模型冇 | 1122 | 交俾第 2 部分補模型 |
+| 三、模型冇 | 1124 | 交俾第 2 部分補模型 |
 | 骨性標誌 | 262 | 結節、窩、切跡等，屬已有骨件嘅表面特徵，模型唔另外分件 |
 | 雜訊（已略去） | 650 | 唔係解剖結構 |
 
@@ -420,7 +420,7 @@
 
 ## 下肢 I（骨、臀部）　`Anatomy_Lower_Limb_Lin_CH_Part_I_bones_and_gluteal_region_bb15ebc7f24f0b132626748650ed9648_2`
 
-已有 44　·　UI 搵唔到 0　·　模型冇 49　·　骨標誌 40　·　雜訊 42
+已有 43　·　UI 搵唔到 0　·　模型冇 50　·　骨標誌 40　·　雜訊 42
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -436,6 +436,7 @@
 - SI joint
 - mm pubis Pubis Inguinal ligament
 - pubs ischium Gluteal ligaments
+- pubis Bones
 - covered with articular cartilage
 - crescentic plates of cartilage
 - form the knee joint
@@ -1277,7 +1278,7 @@
 
 ## 骨盆會陰 II　`解剖_1201`
 
-已有 69　·　UI 搵唔到 0　·　模型冇 175　·　骨標誌 26　·　雜訊 54
+已有 68　·　UI 搵唔到 0　·　模型冇 176　·　骨標誌 26　·　雜訊 54
 
 **三、模型冇**
 
@@ -1433,6 +1434,7 @@
 - urethral sphincters（尿道外括約肌）
 - episiotomy（外陰切開術）
 - pudendum/vulva（外陰）
+- mons pubis（陰阜）
 - coarse pubic hairs（陰毛）
 - labia majora（大陰唇）
 - scrotum（陰囊）
