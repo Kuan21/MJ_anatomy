@@ -201,6 +201,11 @@
    "measure": 95,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
+  "cuts|runtime:micro-atlas.tsx": {
+   "name": "renderer clipping plane in micro-atlas.tsx",
+   "measure": 1,
+   "reason": "section plane of the eye detail mode: a cut view on purpose, switched on by its own button (user decision 2026-11-13)"
+  },
   "cuts|runtime:organ/brain-viewer.ts": {
    "name": "renderer clipping plane in organ/brain-viewer.ts",
    "measure": 1,
