@@ -56,9 +56,11 @@ for (const p of Object.values(json(new URL('app/mj-paokao.json', root)))) add('p
 for (const p of json(new URL('docs/schematic-models.json', root))) add('schematic', [p.name], {zh: p.zh, system: p.system});
 for (const s of Object.values(SCHEMATIC_NAMES)) add('schematic', [s.en], {zh: s.zh, system: s.system});
 for (const s of SPACES) add('special-region', [s.en], {zh: s.zh});
-// 5. meshes that load at run time: the eye and inner-ear micro-atlas lists (name tables in app/micro-atlas.tsx)
+// 5. detail atlases: the eye atlas (packaged; names in app/mj-eye-atlas.ts) and the inner-ear list (name table in app/micro-atlas.tsx)
+const {EYE_PARTS} = await quizModule('app/mj-eye-atlas.ts');
+for (const p of Object.values(EYE_PARTS)) add('micro-atlas', [p.name.replace(/\s*\(.*\)$/, ''), p.name], {zh: p.zh, system: 'sensory'});
 const micro = fs.readFileSync(new URL('app/micro-atlas.tsx', root), 'utf8');
-for (const [from, to] of [['const EYE_PARTS', '\n};'], ['const EAR_FILES', '] as const']]) {
+for (const [from, to] of [['const EAR_FILES', '] as const']]) {
   const start = micro.indexOf(from), block = micro.slice(start, micro.indexOf(to, start));
   for (const m of block.matchAll(/name:\s*(?:'([^']+)'|"([^"]+)")/g)) add('micro-atlas', (m[1] ?? m[2]).split(/\s+\/\s+|\s+·\s+/), {system: 'nervous'});
 }
