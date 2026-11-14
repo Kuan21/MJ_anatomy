@@ -1,0 +1,35 @@
+{
+  "method": "Centroid of the clavicle vertices within 6 mm of its most medial (sternal) and most lateral (acromial) point, BodyParts3D atlas rest frame. Approximate landmarks; not measured cartilage or clinical validation.",
+  "sides": {
+    "right": {
+      "clavicleId": "FJ3362",
+      "sternalEnd": [
+        -0.012851,
+        1.396789,
+        0.031271
+      ],
+      "sternalVertices": 43,
+      "acromialEnd": [
+        -0.142112,
+        1.427018,
+        -0.030968
+      ],
+      "acromialVertices": 31
+    },
+    "left": {
+      "clavicleId": "FJ3237",
+      "sternalEnd": [
+        0.011467,
+        1.398157,
+        0.031784
+      ],
+      "sternalVertices": 43,
+      "acromialEnd": [
+        0.140952,
+        1.427541,
+        -0.02997
+      ],
+      "acromialVertices": 34
+    }
+  }
+}

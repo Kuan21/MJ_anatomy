@@ -191,9 +191,9 @@ function armWeightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''):nu
   // The superior transverse scapular ligament bridges the suprascapular notch and has no attachment on the clavicle; it only lies within 3 mm of it
   // at rest, so the stability check lists it as leaving the clavicle in flexion (registered in docs/stability-known.json with that reason).
   if(/coraco-?acromial|transverse scapular/.test(n))return pair(2,2,1);
-  // First rib and costal cartilage below, clavicle above, 2 cm from the sternoclavicular joint: nothing of it belongs to the scapula or the humerus. A blend
-  // of thorax and clavicle draws this short band out to three times its length at the end of the range, so it stays on the first rib as one piece.
-  if(/costoclavicular/.test(n))return pair(0,0,1);
+  // First rib and costal cartilage below, clavicle above: the lower end stays on the first rib (thorax), the upper end rides on the clavicle and the
+  // band between them passes evenly from one to the other. Nothing of it belongs to the scapula or the humerus.
+  if(/costoclavicular/.test(n))return pair(0,1,clamp((p.y-box.min.y)/Math.max(1e-6,box.max.y-box.min.y)));
   if(/acromioclavicular|coracoclavicular/.test(n))return pair(1,2,range(lateral,.10,.90));
   return pair(2,3,range(lateral,.18,.92));
  }

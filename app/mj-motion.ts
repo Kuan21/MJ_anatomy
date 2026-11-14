@@ -4,6 +4,7 @@ import boneBindings from './biomechanics-v2/bone-bindings.json';
 import shoulderLandmarks from './biomechanics-v2/shoulder-landmarks.json';
 import forearmLandmarks from './biomechanics-v2/forearm-landmarks.json';
 import scapularContact from './biomechanics-v2/scapular-contact.json';
+import clavicleLandmarks from './biomechanics-v2/clavicle-landmarks.json';
 import {DIGIT_LIMITS,DIGIT_NEUTRAL,constrainDigits,digitTransforms,type DigitPose} from './biomechanics-v2/digits';
 
 export type Side='left'|'right';
@@ -69,21 +70,43 @@ function ribShell(atlas:Atlas){
 // Keep the blade centre on its source thoracic shell while preserving the
 // clavicle length and both joint pivots. This is a geometric guide, not a
 // patient-specific collision or muscle-force simulation.
-function contactGirdle(atlas:Atlas,side:Side,sc:T.Vector3,ac:T.Vector3,up:number,tilt:T.Quaternion,desired:T.Matrix4){
+/** Range of the clavicle at the sternoclavicular joint, in radians from its rest direction. Raising the arm fully lifts the clavicle about 30 degrees
+ * (Inman, Saunders and Abbott 1944); retraction and protraction are about 30 degrees each, depression about 10 (standard goniometry tables).
+ * The costoclavicular ligament is what stops further elevation. */
+export const CLAVICLE_RANGE={elevation:T.MathUtils.degToRad(30),depression:T.MathUtils.degToRad(10),retraction:T.MathUtils.degToRad(30),protraction:T.MathUtils.degToRad(30)};
+function contactGirdle(atlas:Atlas,side:Side,sc:T.Vector3,ac:T.Vector3,up:number,tilt:T.Quaternion,desired:T.Matrix4,clavicleRise:number){
  const fit=scapularContact.sides[side],centre=new T.Vector3(...fit.centre),normal=new T.Vector3(...fit.normal);
  if(!atlas.parts.some(p=>p.id===fit.scapulaId&&p.system==='skeletal'))throw new Error('Scapular contact/source mismatch');
  const {rx,rz,cz}=ribShell(atlas);
  const theta0=Math.atan2((centre.z-cz)/rz,centre.x/rx),rad=Math.hypot(centre.x/rx,(centre.z-cz)/rz),wanted=centre.clone().applyMatrix4(desired);
  const thetaWanted=theta0+Math.atan2(Math.sin(Math.atan2((wanted.z-cz)/rz,wanted.x/rx)-theta0),Math.cos(Math.atan2((wanted.z-cz)/rz,wanted.x/rx)-theta0));
  if(side==='right')normal.negate();
- const local=tilt.clone().multiply(qdeg(normal,up)),restAc=ac.clone().sub(centre),restNormal=new T.Vector3(Math.cos(theta0)/rx,0,Math.sin(theta0)/rz).normalize(),length=sc.distanceTo(ac);
- const candidate=(theta:number)=>{
-  const surfaceNormal=new T.Vector3(Math.cos(theta)/rx,0,Math.sin(theta)/rz).normalize(),rotation=new T.Quaternion().setFromUnitVectors(restNormal,surfaceNormal).multiply(local);
+ const upward=qdeg(normal,up),identity=new T.Quaternion(),restAc=ac.clone().sub(centre),restNormal=new T.Vector3(Math.cos(theta0)/rx,0,Math.sin(theta0)/rz).normalize(),length=sc.distanceTo(ac);
+ const rest=ac.clone().sub(sc),restRise=Math.atan2(rest.y,Math.hypot(rest.x,rest.z)),restYaw=Math.atan2(rest.z,Math.abs(rest.x));
+ // Posterior tilt of the blade carries the acromion back and down, away from the sternal end of the clavicle. Where the full tilt would put the
+ // acromion further from the sternoclavicular joint than the clavicle can reach while it keeps the elevation that goes with this much scapular rotation (`clavicleRise`), the blade keeps only the
+ // share of the tilt that the clavicle allows (found by bisection; the share changes smoothly with the pose).
+ const place=(theta:number,share:number)=>{
+  const surfaceNormal=new T.Vector3(Math.cos(theta)/rx,0,Math.sin(theta)/rz).normalize(),rotation=new T.Quaternion().setFromUnitVectors(restNormal,surfaceNormal).multiply(identity.clone().slerp(tilt,share)).multiply(upward);
   const point=new T.Vector3(rx*rad*Math.cos(theta),0,cz+rz*rad*Math.sin(theta)),offset=restAc.clone().applyQuaternion(rotation),joint=point.clone().add(offset);
-  const height2=length*length-(joint.x-sc.x)**2-(joint.z-sc.z)**2;
+  return{point,rotation,joint,offset,height2:length*length-(joint.x-sc.x)**2-(joint.z-sc.z)**2};
+ };
+ const restHeight2=(length*Math.sin(restRise+clavicleRise))**2;
+ const candidate=(theta:number)=>{
+  let placed=place(theta,1);
+  if(placed.height2<restHeight2){
+   const none=place(theta,0);
+   if(none.height2<restHeight2)placed=none;
+   else{let lo=0,hi=1;for(let i=0;i<20;i++){const mid=(lo+hi)/2;if(place(theta,mid).height2>=restHeight2)lo=mid;else hi=mid;}placed=place(theta,lo);}
+  }
+  const {point,rotation,joint,offset,height2}=placed;
   if(height2<0)return{score:Infinity,point,rotation,joint};
   point.y=sc.y+Math.sqrt(height2)-offset.y;joint.y=sc.y+Math.sqrt(height2);
-  const score=((theta-thetaWanted)*(rx+rz)/2)**2+(point.y-wanted.y)**2;
+  // Sternoclavicular range: the clavicle rises and swings back or forward only so far (CLAVICLE_RANGE). A blade position that needs more is
+  // charged for the excess (as a distance at the acromial end), so the solve settles on the nearest position the clavicle can reach.
+  const dx=Math.abs(joint.x-sc.x),dy=joint.y-sc.y,dz=joint.z-sc.z,rise=Math.atan2(dy,Math.hypot(dx,dz))-restRise,back=restYaw-Math.atan2(dz,dx);
+  const over=Math.max(0,rise-CLAVICLE_RANGE.elevation,-CLAVICLE_RANGE.depression-rise)+Math.max(0,back-CLAVICLE_RANGE.retraction,-CLAVICLE_RANGE.protraction-back);
+  const score=((theta-thetaWanted)*(rx+rz)/2)**2+(point.y-wanted.y)**2+400*(over*length)**2;
   return{score,point,rotation,joint};
  };
  let bestTheta=theta0,best=candidate(theta0);
@@ -163,9 +186,11 @@ function makeArmStatic(atlas:Atlas,side:Side):ArmStatic{
  const superior=shoulder.clone().sub(elbow).normalize();
  const lateral=new T.Vector3(side==='right'?-1:1,0,0);
  const abductionAxis=lateral.clone().cross(superior).normalize();if(abductionAxis.lengthSq()<.5)abductionAxis.set(0,0,side==='right'?-1:1);
- const clavicleEnds=longEndpoints(clavicleBox),clavicleCenter=clavicleBox.getCenter(new T.Vector3());
- const scJoint=nearer(clavicleEnds[0],clavicleEnds[1],new T.Vector3(0,clavicleCenter.y,clavicleCenter.z));
- const acJoint=scJoint===clavicleEnds[0]?clavicleEnds[1]:clavicleEnds[0];
+ // The clavicle turns about its sternal end (sternoclavicular joint) and carries the scapula at its acromial end: both are landmarks of the bone itself
+ // (scripts/fit-clavicle-landmarks.mjs). The ends of its bounding box lay 3 cm from the sternal face, so the sternal end swung off the sternum.
+ const clavicleMark=clavicleLandmarks.sides[side];
+ if(atlas.parts[clavicle[0]]?.id!==clavicleMark.clavicleId)return empty(`Clavicle landmark/source mismatch for ${side} side.`);
+ const scJoint=new T.Vector3().fromArray(clavicleMark.sternalEnd),acJoint=new T.Vector3().fromArray(clavicleMark.acromialEnd);
  const warnings:string[]=[],bones:{group:string;id:string}[]=[];
  for(const [group,entries] of Object.entries(boneBindings[side]))for(const entry of entries){
   const part=atlas.parts.find(p=>p.id===entry.id&&p.name===entry.name&&p.system==='skeletal');
@@ -226,7 +251,7 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  const movedAc=acJoint.clone().applyMatrix4(clavicleM),acShift=movedAc.clone().sub(acJoint);
  const scapulaRotateM=about(acJoint,scapulaQ);
  let scapulaM=new T.Matrix4().makeTranslation(acShift.x,acShift.y,acShift.z).multiply(scapulaRotateM);
- if(scapularUp>0){const contact=contactGirdle(atlas,side,scJoint,acJoint,scapularUp,scapulaTiltQ,scapulaM);scapulaM=contact.scapula;clavicleM=contact.clavicle;}
+ if(scapularUp>0){const contact=contactGirdle(atlas,side,scJoint,acJoint,scapularUp,scapulaTiltQ,scapulaM,T.MathUtils.degToRad(clavicularElevation));scapulaM=contact.scapula;clavicleM=contact.clavicle;}
 
  // The humeral head follows the moving glenoid. Remaining glenohumeral motion
  // is the total requested swing after removing the scapular contribution.
