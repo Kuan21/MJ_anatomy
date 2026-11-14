@@ -9,6 +9,7 @@ import {MeshoptSimplifier} from 'meshoptimizer';
 import {LUNG_LOBES, carveFissures} from './lib/lung-fissures.mjs';
 import {taubin, angleWeightedNormals} from './lib/lung-mesh.mjs';
 import {readBone, refineGalea, GALEA} from './lib/facial-refine.mjs';
+import {download} from './lib/download.mjs';
 await MeshoptSimplifier.ready;
 const pin = process.argv.includes('--pin');
 const specUrl = new URL('./supplement-parts.json', import.meta.url), spec = JSON.parse(fs.readFileSync(specUrl, 'utf8'));
@@ -48,15 +49,7 @@ async function source(part) {
   let bytes; try { bytes = fs.readFileSync(file); } catch {}
   if (!bytes || (!pin && digest(bytes) !== part.sha256)) {
     const url = `https://raw.githubusercontent.com/${spec.repository}/${spec.revision}/assets/BodyParts3D_data/stl/${part.fma}.stl`;
-    let error;
-    for (let attempt = 0; attempt < 4; attempt++) {
-      try {
-        const response = await fetch(url, {signal: AbortSignal.timeout(180000)});
-        if (!response.ok) throw new Error(`${part.fma}.stl download failed: ${response.status}`);
-        bytes = Buffer.from(await response.arrayBuffer()); error = undefined; break;
-      } catch (e) { error = e; await new Promise(r => setTimeout(r, 1000 * 2 ** attempt)); }
-    }
-    if (error) throw error;
+    bytes = await download(url, {label: `${part.fma}.stl`, timeoutMs: 180000});
     fs.writeFileSync(file, bytes);
   }
   if (pin) part.sha256 = digest(bytes);
