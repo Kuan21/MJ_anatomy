@@ -225,5 +225,26 @@ scene.traverse(o=>{if(o.userData.mjNerve)assert.deepEqual(o.geometry.getAttribut
 const sourceBuffers=atlas.chunks.map(c=>fs.readFileSync(path.join(root,'public',c.url)));
 scene.traverse(o=>{const p=o.geometry?.getAttribute('partIndex'),positions=o.geometry?.getAttribute('position');if(!p)return;for(let i=0;i<p.count;){const part=atlas.parts[p.getX(i)],buffer=sourceBuffers[part.chunk],base=positionsOf(buffer,part);assert.ok(base.every((v,j)=>positions.array[i*3+j]===v),'exact reset after mixed motion: '+part.name);i+=part.vertexCount;}});
 console.log(spineNerves,'loaded nerves: trunk bindings, reported poses and exact reset PASS');
+// --full: the reproductive organs of both sexes in the actual scene. Switching 男／女 changes nothing but the sex field (the same switches stay on), and the scene must redraw:
+// every required structure of the chosen sex is drawn, none of the other sex. (Before the fix the scene ignored a change of sex while Reproductive was already on.)
+if(process.argv.includes('--full')){
+ const required=JSON.parse(fs.readFileSync(path.join(root,'scripts/data/reproductive-required.json'),'utf8'));
+ const idx=list=>atlas.parts.map((p,i)=>list.includes(`${p.system}|${p.name}`)?i:-1).filter(i=>i>=0);
+ const maleIdx=idx(required.male),femaleIdx=idx(required.female);
+ assert.ok(maleIdx.length>=required.male.length&&femaleIdx.length>=required.female.length,'every required reproductive structure is in the catalogue');
+ const switches=['reproductive','serous','arterial','venous','connective'];
+ const show=sex=>{refCursor=0;main.namespace.default({...props,state:{...state,visible:switches,hiddenSerous:[],sex}});};
+ const drawnNow=async()=>{await settle();return drawnParts();};
+ show('male');let drawn=await drawnNow();
+ for(const i of maleIdx)assert.ok(drawn.has(i),'male mode draws '+atlas.parts[i].name);
+ for(const i of femaleIdx)assert.ok(!drawn.has(i),'male mode hides '+atlas.parts[i].name);
+ show('female');drawn=await drawnNow();
+ for(const i of femaleIdx)assert.ok(drawn.has(i),'female mode draws '+atlas.parts[i].name);
+ for(const i of maleIdx)assert.ok(!drawn.has(i),'female mode hides '+atlas.parts[i].name);
+ show('male');drawn=await drawnNow();
+ for(const i of maleIdx)assert.ok(drawn.has(i),'back to male mode: '+atlas.parts[i].name);
+ for(const i of femaleIdx)assert.ok(!drawn.has(i),'back to male mode hides '+atlas.parts[i].name);
+ console.log(`PASS scene sex switch: ${maleIdx.length} male / ${femaleIdx.length} female structures drawn and hidden on a sex-only change`);
+}
 cleanups[0]();clearTimeout(timeout);
 console.log(`PASS actual scene: ${rendered.size} geometries, all 6 systems, valid normals through 90°, GPU indices match focus${failOnce?', missing vessels resumed':''}${withWorker?', real shoulder worker and atomic poses':''}. GPU drawing was stubbed. Maximum CPU frame ${Math.max(...frameTimes).toFixed(0)} ms.`);

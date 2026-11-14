@@ -197,9 +197,9 @@
 | 0186 | 內含下橄欖核<br>inf. olivary nucleus | 核團 | 0305 p.5 | 見 0211 | 見 0211 | 併入 0211「下橄欖核」，名稱保留為別名 |
 | 0187 | 四疊體<br>Corpora quadrigemina | 其他結構 | 0305 p.6 | 有：Superior colliculus、Inferior colliculus | 清單＋模型 | 已寫（位置、功能、臨床意義） |
 | 0188 | 上丘臂<br>Brachium of superior colliculus | 其他結構 | 0305 p.6 | 模型未有 | 僅清單（模型未有） | 已寫（位置、傳遞內容） |
-| 0189 | 外膝狀體<br>Lateral geniculate body | 其他結構 | 0305 p.6；0311 p.11 | 有：Lateral geniculate body | 清單＋模型 | 已寫（位置、構造、傳入、傳出、功能、損傷表現） |
+| 0189 | 外側膝狀體<br>Lateral geniculate body | 其他結構 | 0305 p.6；0311 p.11 | 有：Lateral geniculate body | 清單＋模型 | 已寫（位置、構造、傳入、傳出、功能、損傷表現） |
 | 0190 | 下丘臂<br>Brachium of inferior colliculus | 其他結構 | 0305 p.6；0424 p.10；0305 p.18 | 模型未有 | 僅清單（模型未有） | 已寫（位置、傳遞內容） |
-| 0191 | 內膝狀體<br>Medial geniculate body | 其他結構 | 0305 p.6；0305 p.18；0424 p.10 | 有：Medial geniculate body | 清單＋模型 | 已寫（位置、傳入、傳出、功能、損傷表現） |
+| 0191 | 內側膝狀體<br>Medial geniculate body | 其他結構 | 0305 p.6；0305 p.18；0424 p.10 | 有：Medial geniculate body | 清單＋模型 | 已寫（位置、傳入、傳出、功能、損傷表現） |
 | 0192 | 菱形窩<br>Rhomboid fossa | 其他結構 | 0305 p.6；0305 p.16 | 模型未有 | 僅清單（模型未有） | 已寫（位置、構造、功能） |
 | 0193 | 小腦上腳<br>Superior cerebellar peduncle | 纖維束／傳導路徑 | 0305 p.6；0324 p.6；0324 p.17 | 有：Superior cerebellar peduncle | 清單＋模型 | 已寫（位置、傳遞內容、損傷表現） |
 | 0194 | 下小腦腳<br>Inferior cerebellar peduncle (ICP) | 纖維束／傳導路徑 | 0226 p.18；0226 p.19；0305 p.6；0305 p.22；0324 p.7；0324 p.17；0424 p.17 | 有：Inferior cerebellar peduncle | 清單＋模型 | 已寫（位置、傳遞內容、損傷表現） |
@@ -317,7 +317,7 @@
 | 0311 | 骨膜層<br>Periosteal layer | 其他結構 | 0311 p.8 | 模型未有 | 僅清單（模型未有） | 已寫（位置、功能） |
 | 0312 | 硬腦膜固有層<br>Dura mater proper | 腦室／腦池／腦膜 | 0311 p.8 | 模型未有 | 僅清單（模型未有） | 已寫（位置、功能） |
 | 0313 | 視神經孔<br>Optic foramen | 其他結構 | 0311 p.10 | 模型未有 | 僅清單（模型未有） | 已寫（位置、構造、臨床意義） |
-| 0314 | 狀體<br>Lat. Geniculate body | 其他結構 | 0311 p.11 | 見 0189 | 見 0189 | 併入 0189「外膝狀體」，名稱保留為別名 |
+| 0314 | 狀體<br>Lat. Geniculate body | 其他結構 | 0311 p.11 | 見 0189 | 見 0189 | 併入 0189「外側膝狀體」，名稱保留為別名 |
 | 0315 | 後脈絡動脈<br>Posterior choroidal artery | 血管 | 0311 p.11 | 模型未有 | 僅清單（模型未有） | 已寫（來源、分支、供應範圍、阻塞症狀） |
 | 0316 | 皮質支<br>Cortical branches (of cerebral arteries) | 血管 | 0311 p.12 | 模型未有 | 僅清單（模型未有） | 已寫（來源、分支、供應範圍、阻塞症狀） |
 | 0317 | 中央支<br>Central branches (of cerebral arteries) | 血管 | 0311 p.12 | 模型未有 | 僅清單（模型未有） | 已寫（來源、分支、供應範圍、阻塞症狀） |
