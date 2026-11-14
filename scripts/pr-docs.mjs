@@ -11,7 +11,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 
-export const STATUSES = ['等我審核', '已合併', '已自動合併', '已關閉'];
+export const STATUSES = ['等我審核', '延後審核', '已合併', '已自動合併', '已關閉'];
 export const SYMBOLS = ['✅', '🟡', '⬜', '❌', '❓'];
 // ROADMAP.md is not published, but it must not name the course material either (CLAUDE.md).
 const FORBIDDEN = /共筆|筆記|考古|講義|[0-9]{4} ?p\.[0-9]/;
@@ -104,6 +104,7 @@ export function buildIndex(root) {
   return ['# REVIEW_LOG 總表', '',
     '由 `node scripts/pr-docs.mjs sync` 生成，不要手改。每個 PR 的紀錄在本資料夾的 `pr-<編號>.md`；2026-11-14 以前的紀錄在根目錄的 `REVIEW_LOG.md`（已凍結，不再新增）。', '',
     '## 等我審核', '', table(entries.filter(e => e.meta.status === '等我審核')), '',
+    '## 延後審核（已考完範圍，不計入待審上限）', '', table(entries.filter(e => e.meta.status === '延後審核')), '',
     '## 已合併（含自動合併）', '', table(entries.filter(e => e.meta.status === '已合併' || e.meta.status === '已自動合併')), '',
     '## 已關閉', '', table(entries.filter(e => e.meta.status === '已關閉')), ''].join('\n');
 }
