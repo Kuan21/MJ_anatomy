@@ -243,6 +243,11 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 .micro-movement-toggle svg{color:#9aa3aa;transition:transform .15s}.micro-movement-toggle svg.open{transform:rotate(180deg)}
 .micro-move-buttons{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
 .micro-move-buttons.palsy{grid-template-columns:repeat(3,1fr)}
+.micro-move-buttons.openings{grid-template-columns:repeat(3,1fr)}
+.micro-move-buttons.openings button b{display:flex;align-items:center;gap:4px;font-size:9.5px}
+.micro-move-buttons.openings button i{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.micro-look-hint{display:block;margin-top:3px;padding:3px 6px;border-radius:5px;background:#eef3f6;font-size:9.5px;line-height:1.45;color:#3d5564}
+.micro-move-info strong .micro-look{margin-left:auto;height:22px;min-height:22px;padding:0 7px;gap:4px;font-size:9.5px;font-weight:500;border:1px solid #18253626;border-radius:6px;color:#31414e}
 .micro-move-buttons button{display:flex;flex-direction:column;gap:1px;height:auto;min-height:34px;padding:4px 2px;border:1px solid #18253618;border-radius:7px;font-size:10px;line-height:1.1;color:#31414e}
 .micro-move-buttons button b{font-weight:600}
 .micro-move-buttons button small{font-size:8.5px;color:#7b8791;white-space:nowrap}
@@ -462,7 +467,10 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
     width:100%;
     flex:none;
     display:grid!important;
-    grid-template-columns:repeat(3,1fr);
+    /* one row for every tab: the fourth tab (走向動畫, limb views only) used to wrap onto a second row of a three-column grid */
+    grid-template-columns:none;
+    grid-auto-flow:column;
+    grid-auto-columns:minmax(0,1fr);
     gap:3px;
     padding:4px!important;
     border-radius:12px;
@@ -912,6 +920,15 @@ h1 .edition{font-family:inherit;font-weight:500;font-size:10px;letter-spacing:.0
 .detail-actions button svg{width:11px;height:11px;flex:0 0 auto}
 @media(min-width:768px){.detail-actions button span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
 @media(max-width:767px){.detail-actions button{gap:3px;font-weight:500}}
+/* Five actions (Focus, Isolate, Hide, Play pathway, Clear) when a pathway can be played: three on the first row and two, wider, on the second, instead of four plus a lone Clear on a line of its own.
+ * Buttons may grow to two label lines so "Play pathway / 播放走向" is never cut. */
+.detail-actions button{height:auto;min-height:30px}
+.detail-actions.has-flow{grid-template-columns:repeat(6,minmax(0,1fr))}
+.detail-actions.has-flow>:nth-child(-n+3){grid-column:span 2}
+.detail-actions.has-flow>:nth-child(n+4){grid-column:span 3}
+.detail-actions button>span{min-width:0;max-width:100%}
+.detail-sheet .detail-actions button>span{overflow:visible;text-overflow:clip;white-space:normal}
+.detail-sheet .detail-actions button>span>small{white-space:nowrap}
 @media(min-width:768px){
   .detail-scroll .bilingual-fact{
     padding:8px 0!important;

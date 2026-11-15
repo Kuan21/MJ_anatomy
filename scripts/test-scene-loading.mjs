@@ -78,7 +78,7 @@ const linker=async(spec,ref)=>{
  if(spec.startsWith('.')){key=path.resolve(path.dirname(ref.identifier),spec);if(!fs.existsSync(key))key=['.ts','.tsx','.json'].map(ext=>key+ext).find(fs.existsSync);}
  return getModule(key);
 };await main.link(linker);await main.evaluate();
-const motionModule=await getModule(path.join(root,'app/mj-motion.ts'));await motionModule.link(linker);await motionModule.evaluate();const motion=motionModule.namespace;
+const motionModule=await getModule(path.join(root,'app/mj-motion.ts'));if(motionModule.status==='unlinked')await motionModule.link(linker);if(motionModule.status!=='evaluated')await motionModule.evaluate();const motion=motionModule.namespace;
 const rawAtlas=JSON.parse(fs.readFileSync(path.join(root,`public/models/${stream?'atlas-stream':'atlas'}.json`),'utf8'));
 const classifier=await getModule(path.join(root,'app/mj-system-classifier.ts'));if(classifier.status==='unlinked')await classifier.link(linker);if(classifier.status!=='evaluated')await classifier.evaluate();
 let atlas=stream?classifier.namespace.normalizeAtlasSystems(rawAtlas):rawAtlas;

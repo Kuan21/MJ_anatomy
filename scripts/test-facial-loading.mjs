@@ -35,5 +35,5 @@ for(const p of facial.parts){
 assert.equal(reshaped,REFINED_NAMES.length,'the four scalp muscle pieces are reshaped');
 const total=facial.chunks.reduce((n,c)=>n+c.gzipBytes,0),rawTotal=facial.chunks.reduce((n,c)=>n+c.bytes,0);
 assert.ok(total<rawTotal*.65,'compressed');
-assert.equal(normalizeAtlasSystems(base).parts.length+facial.parts.length,2279,'2,232 body (the two flexor retinacula of the wrist now come from the tendon batch; the two lateral circumflex femoral branch sets came back under their real name) + 47 facial');
+assert.equal(normalizeAtlasSystems(base).parts.length+facial.parts.length,2277,'2,230 body (the duplicate copies of the cricoid cartilage FJ2769 and the hyoid bone FJ3201 are excluded in app/anatomy-source-overrides.json; the two flexor retinacula of the wrist now come from the tendon batch; the two lateral circumflex femoral branch sets came back under their real name) + 47 facial');
 console.log(`PASS facial loading: ${facial.parts.length} pieces, ${vertices.toLocaleString()} vertices, ${facial.chunks.length} same-origin packages (${(rawTotal/1e6).toFixed(1)} MB → ${(total/1e6).toFixed(1)} MB gzip), the other ${facial.parts.length-reshaped} byte-identical to the pinned source (${reshaped} scalp muscle pieces reshaped, same vertices and triangles).`);

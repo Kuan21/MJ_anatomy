@@ -58,3 +58,11 @@ export function spaceExclusion(def: SpaceDef, region: QuizRegionId | null, reach
   return null;
 }
 export const LIMB_SPACES = SPACES.filter(def => SPACE_REGION[def.group]);
+
+/** Margin (metres) added around the space when a head-and-neck space question opens, so the neighbouring muscles and bones are in view. */
+export const SPACE_OPENING_MARGIN = .06;
+/** The view a question opens with. A head-and-neck space opens from the direction the layer panel looks at it from (SpaceDef.look), aimed at the space; every other question opens from the region's default view. */
+export function openingView<V extends string>(region: QuizRegionId | undefined, target: {space?: unknown}, defaultView: V | undefined): V | 'front' | 'space' {
+  if (region === 'head-neck' && target.space) return 'space';
+  return defaultView ?? 'front';
+}

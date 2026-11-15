@@ -91,6 +91,12 @@ for(let i=0;i<atlas.parts.length;i++){
   for(let k=0;k<3;k++){let lo=Infinity,hi=-Infinity;for(let v=k;v<pos.length;v+=3){lo=Math.min(lo,pos[v]);hi=Math.max(hi,pos[v]);}assert.ok(lo>=before.bounds[0][k]-.003&&hi<=before.bounds[1][k]+.003,`${before.name}: reshaped muscle left its source bounds`);assert.ok(Math.abs(lo-after.bounds[0][k])<1e-4&&Math.abs(hi-after.bounds[1][k])<1e-4,`${before.name}: bounds do not match the geometry`);}
   assert.ok(idx.every(v=>v<after.vertexCount),`${before.name}: index out of range`);continue;
  }
+ if(after.repaired){
+  // a thin laryngeal sheet repaired by scripts/lib/larynx-repair.mjs: loose shreds dropped, surface smoothed; no vertex is more than 1.5 mm from the source, so the box stays within 2 mm of the source's bounds
+  const d=delivered[after.chunk],pos=positionsOf(d,after),idx=indicesOf(d,after);
+  for(let k=0;k<3;k++){let lo=Infinity,hi=-Infinity;for(let v=k;v<pos.length;v+=3){lo=Math.min(lo,pos[v]);hi=Math.max(hi,pos[v]);}assert.ok(lo>=before.bounds[0][k]-.002&&hi<=before.bounds[1][k]+.002,`${before.name}: repaired sheet left its source bounds`);}
+  assert.ok(idx.every(v=>v<after.vertexCount),`${before.name}: index out of range`);assert.ok(after.indexCount>0&&after.indexCount<=before.indexCount,`${before.name}: repaired triangle count`);continue;
+ }
  assert.equal(after.vertexCount,before.vertexCount);assert.equal(after.indexCount,before.indexCount);
  // compact encoding (P2-01): the decoded geometry is the source geometry — indices identical, positions within the quantisation step (exact when the part keeps Float32), normals within 0.01°
  {const d=delivered[after.chunk],s=sourceBuffers[before.chunk];
