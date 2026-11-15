@@ -5,7 +5,7 @@
 
 ## 目前狀態
 - 專案處於**穩定期**（2026-11-08 起）：暫停新功能，只修顯示錯誤；所有 PR 都要使用者人工審核，不可自行 merge。
-- main 最新：#347（2026-11-16 第十五次查看時）。本分支已合併 main 到 #347。
+- main 最新：#353（2026-11-16 第十六次查看時）。本分支已合併 main 到 #353。
 - **main 已經有中心線連續性檢查**（#281、#328：`scripts/check-centerlines.mjs`、基準 `docs/centerline-known.json` 57 條，已在 `npm run check` 內）。本分支的 `check-centreline-continuity.mjs` 是另一套做法，見「待我決定」。
 - 開放 PR（下列是 2026-11-11 的清單；本機沒有 `gh`，之後沒有再查，main 已合併到 #338，清單很可能已過時）：
   - #223 心臟腔內構造與標籤（部分完成）
@@ -148,6 +148,12 @@
   - 合併後本機通過：七個 `test-centreline-*`（`run-checks --only=test-centreline`，現在是 162 步中的第 151–157 步）、`check-no-notes`、`check:zh`（215 個檔）、`tsc --noEmit`。完整 `npm run check` 因缺生成檔沒有跑。
   - `work/`、supplement／serous／female 三個生成串流與跑考串流二進位檔仍不存在；沒有下載資料。不需生成檔、又不改網站的 S5 工作仍然已做完，其餘等「待我決定」。
   - 未提交的暫存診斷腳本 `_diag-*.mjs` 四個與 `package-lock.json` 差異仍未提交（依「不刪檔」沒有刪）。本機沒有 `gh`，未查 PR #248 的 CI。
+
+- 2026-11-16（第十六次）：只合併 main，沒有改模型、解剖內容、網站或腳本。
+  - main 前進到 #353（#348 模擬考試、#352 頭頸核對報告、#353 登記表），`git merge-tree` 確認無衝突、沒有刪檔後用一般 merge 合併。
+  - 合併後本機通過：七個 `test-centreline-*`（`run-checks check --only=test-centreline`，現在是 163 步中的第 151–157 步）、`check-no-notes`、`check:zh`（219 個檔）、`tsc --noEmit`。
+  - main 新增的 `scripts/test-quiz-exam.mjs` 在本機失敗於「every tier has questions {0,0,0}」：它讀 `public/models/quiz-*.json`（生成檔），本機沒有這些檔，所以真實資料部分量到 0 題；前面不需資料的部分都通過。屬缺生成檔，與本分支無關，沒有改它。完整 `npm run check` 因缺生成檔沒有跑。
+  - 其餘不變：生成檔仍缺、`_diag-*.mjs` 與 `package-lock.json` 差異仍未提交、本機沒有 `gh`。
 
 ## 進行中／等審核
 - S2 A–G、S3、S4、S6 相關工作都已有 PR（見上），等使用者審核。
