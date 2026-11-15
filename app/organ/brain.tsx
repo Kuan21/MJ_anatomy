@@ -7,6 +7,7 @@ import {CSF_SHORT, CSF_STEP_NOTES} from './csf-notes';
 import {BRAIN_GROUPS, buildBrainTree, displayEn, relatedLobes, type BrainTreeNode} from './brain-catalogue';
 import {cardMatches, cardParts, loadNotes, type NoteCard, type NoteData} from './brain-notes';
 import {cranialQuery, matchesCranial, singularQuery} from '../mj-cranial-search';
+import {chineseMatches} from '../mj-search';
 import {factOf, markSharedFacts} from './brain-facts';
 import {NoteCardView} from './brain-note-card';
 import {SECTION_AXES, type BrainPart, type BrainView, type BrainViewState, type SectionAxis} from './brain-types';
@@ -143,7 +144,7 @@ export default function BrainDetail() {
   const partNotes = selected && notes ? (notes.partCards[selected.en] ?? []).map(id => cardById.get(id)).filter((c): c is NoteCard => !!c && c.en.toLowerCase() !== selected.en.toLowerCase() && plain(c.zh) !== plain(selected.zh)) : [];
   const q = query.trim().toLowerCase();
   const cranial = cranialQuery(q);
-  const foundParts = q ? parts.filter(p => cranial ? matchesCranial(p.en, cranial) : p.en.toLowerCase().includes(q) || p.zh.toLowerCase().includes(q) || (singularQuery(q) !== q && (p.en.toLowerCase().includes(singularQuery(q)) || p.zh.toLowerCase().includes(singularQuery(q))))) : [];
+  const foundParts = q ? parts.filter(p => cranial ? matchesCranial(p.en, cranial) : p.en.toLowerCase().includes(q) || p.zh.toLowerCase().includes(q) || chineseMatches(p.zh, query) || (singularQuery(q) !== q && (p.en.toLowerCase().includes(singularQuery(q)) || p.zh.toLowerCase().includes(singularQuery(q))))) : [];
   const foundNotes = q && notes ? notes.cards.filter(c => cardMatches(c, q)) : [];
   const regionGroups = useMemo(() => notes ? Object.entries(notes.regions).map(([id, label]) => ({id, label, cards: notes.cards.filter(c => c.region === id)})).filter(r => r.cards.length) : [], [notes]);
   const noteRow = (c: NoteCard) => <li key={c.id} className="organ-part-row"><button className="note-row" aria-pressed={noteId === c.id} onClick={() => openNote(c)}><span lang="en">{c.en}</span><small lang="zh-Hant">{c.zh}{c.mesh?.length || c.approx?.length ? '' : '　〔模型未有〕'}</small></button></li>;
