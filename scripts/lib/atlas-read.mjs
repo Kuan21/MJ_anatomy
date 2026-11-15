@@ -16,3 +16,8 @@ export function atlasIndices(name) {
   const p = atlasPart(name); if (!p) throw new Error(`atlas has no ${name}`);
   const b = chunk(p.chunk); return new Uint32Array(b.buffer.slice(b.byteOffset + p.indices, b.byteOffset + p.indices + p.indexCount * 4));
 }
+
+/** Positions and triangle indices of a BodyParts3D atlas mesh by exact name. */
+export function atlasMesh(name) {
+  return {positions: atlasPositions(name), indices: atlasIndices(name)};
+}

@@ -5,7 +5,7 @@ import {anatomicalRegion} from '../mj-part-regions';
 import {bindTissue,deformTissue,makePalette,type SkinBinding,type Profile,makeSoftRig} from './soft-tissue';
 import {bindBodyTissue,makeBodyRig,buildBodyMotion,type BodyRegion} from './body-motion';
 
-import {includeJoint,jointKind} from './joint-filter';
+import {includeJoint,jointKind,smoothSheet} from './joint-filter';
 export {includeJoint,jointKind};
 export function jointProfile(name:string,y:number):Profile{
  name=name.toLowerCase();
@@ -13,8 +13,8 @@ export function jointProfile(name:string,y:number):Profile{
  // is a wrist ligament, not the trapezoid component at the shoulder.
  if(/scapho|trapezi|carpal|metacarp|phalange|pisohamate|pisometacarp/.test(name))return 'hand';
  if(/glenoid labrum|transverse humeral/.test(name))return /labrum/.test(name)?'scapular':'humeral';
- if(/sternoclavicular|interclavicular/.test(name))return 'clavicular';
- if(/glenohumeral|coracohumeral|acromioclavicular|coracoacromial|coracoclavicular|\bconoid ligament\b|\btrapezoid ligament\b/.test(name))return 'shoulderJoint';
+ if(/sternoclavicular|interclavicular|costoclavicular/.test(name))return 'clavicular';
+ if(/glenohumeral|coraco-?humeral|acromio-?clavicular|coraco-?acromial|transverse scapular|coraco-?clavicular|\bconoid ligament\b|\btrapezoid ligament\b/.test(name))return 'shoulderJoint';
  if(/wrist|radiocarpal|radio-ulnar|ulnocarpal/.test(name))return 'wristJoint';
  if(/elbow|annular|collateral ligament/.test(name)&&y>1)return 'elbowJoint';
  return y<.84?'hand':y<.98?'wristJoint':'path';
@@ -39,7 +39,10 @@ export function createJointAnatomy(atlas:Atlas,scene:T.Scene){
    const sourceCenter=g.boundingBox!.getCenter(new T.Vector3()),side=sourceCenter.x>=0?'left':'right';
    const socketName=/glenoid labrum/.test(name)?'Scapula':/acetabular labrum|transverse acetabular/.test(name)?'Hip bone':/^(lateral|medial) meniscus/.test(name)?'Tibia':null;
    const forced=socketName?registrations.find(r=>r.name===socketName+(side==='left'?'.l':'.r')):undefined;
-   const candidates=registrations.filter(r=>r.name.endsWith(side==='left'?'.l':'.r')||!/[.][lr]$/.test(r.name));
+   // Chest-wall tissue (intercostal membranes and the costovertebral ligaments) is anchored to ribs, sternum and vertebrae only. Letting it pick the nearest of ALL bones put the upper intercostal
+   // membranes on the clavicle or scapula, so the arm region listed them (floating white and green sheets with no ribs behind them) and the arm rig carried them.
+   const chestWall=/intercostal membrane|costotransverse|radiate ligament of head of rib|intra-articular ligament of head of rib|costovertebral|costal cartilage/.test(name);
+   const candidates=registrations.filter(r=>(r.name.endsWith(side==='left'?'.l':'.r')||!/[.][lr]$/.test(r.name))&&(!chestWall||/\brib\b|sternum|vertebra/i.test(r.name)));
    // Nearest registered bone. A tissue whose centre lies inside several boxes (a rib's box is large and also holds the conoid ligament, the sternoclavicular joint …) is at distance 0 from all of them:
    // the smallest box wins, so a shoulder ligament is anchored to the clavicle or scapula and not to a rib, and follows its own region (it used to be drawn in the chest view as a beige wedge at each shoulder).
    const boxVolume=(r:{box:T.Box3})=>{const d=r.box.getSize(new T.Vector3());return d.x*d.y*d.z;};
@@ -63,7 +66,9 @@ export function createJointAnatomy(atlas:Atlas,scene:T.Scene){
    }
    const c=g.boundingBox!.getCenter(new T.Vector3());
    g.computeBoundingBox();g.computeVertexNormals();
-   const base=new Float32Array(pos.array),kind=jointKind(name);
+   // the cricopharyngeal ligament is a thin crumpled sheet in the source (no other copy of it is drawn): smoothed once, thickness kept
+   const base=/cricopharyngeal/i.test(name)&&g.index?smoothSheet(pos.array as Float32Array,g.index.array,20):new Float32Array(pos.array),kind=jointKind(name);
+   if(base.length&&/cricopharyngeal/i.test(name)){pos.array.set(base);pos.needsUpdate=true;g.computeBoundingBox();g.computeVertexNormals();}
    // membranes (intercostal, obturator, quadrangular) a paler sheet colour than ligaments; the infrapatellar fat pad a pale yellow; symphyses share the fibrocartilage colour
    const material=new T.MeshStandardMaterial({color:kind==='fibrocartilage'?0x84d8dc:kind==='capsule'?0xc5d9d2:kind==='membrane'?0xe6e1cb:kind==='fat pad'?0xe9d79a:0xd4d3ac,roughness:.6,side:T.DoubleSide,transparent:kind==='capsule',opacity:kind==='capsule'?.26:1,depthWrite:kind!=='capsule'});
    const mesh=new T.Mesh(g,material);mesh.name=sourceName;mesh.visible=false;scene.add(mesh);

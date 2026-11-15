@@ -9,8 +9,9 @@ import {meshOf, closest, ray} from './heart-geom.mjs';
 // so the fibres end where the acromion's medial part is (the lateral tip belongs to the deltoid).
 const MIDLINE_GAP = .0008, TRANSVERSE_END_X = .145, ASCENDING_END_X = .14;
 // gluteus maximus arises from the posterior ilium, the lateral dorsal sacrum, the side of the coccyx and the sacrotuberous ligament: the medial border runs along the side
-// of the sacrococcygeal column (half-width 15 mm at the tip) and leaves the natal cleft open.
-const GLUTEAL_CLEFT_X = .021, GLUTEAL_TAPER = .014;
+// of the sacrococcygeal column and leaves only the natal cleft open (half-width 8 mm). It was 21 mm: from behind the two muscles stood 4 cm apart and the sacrum, coccygeus and the pelvic
+// floor showed between them, where the muscle has to lie against the side of the sacrum and coccyx.
+const GLUTEAL_CLEFT_X = .008, GLUTEAL_TAPER = .016;
 
 export const RESHAPES = [
   {id: 'FJ1554', name: 'Transverse part of right trapezius', kind: 'trapezius-transverse', sx: -1},

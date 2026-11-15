@@ -9,6 +9,7 @@ import * as T from 'three';
 import {buildMjHeart} from './lib/heart-mj.mjs';
 import {buildValveApparatus, semilunarShift} from './lib/heart-valves.mjs';
 import {indicesOf, positionsOf} from './lib/stream-geometry.mjs';
+import {download} from './lib/download.mjs';
 
 const root = new URL('../', import.meta.url);
 const spec = JSON.parse(fs.readFileSync(new URL('scripts/heart-parts.json', root), 'utf8'));
@@ -28,15 +29,8 @@ const glbFile = new URL('heart-source.glb', cache);
 let bytes; try {bytes = fs.readFileSync(glbFile);} catch {}
 if (!bytes || digest(bytes) !== spec.sha256) {
   const url = `https://raw.githubusercontent.com/${spec.repository}/${spec.revision}/${spec.file}`;
-  let error;
-  for (let attempt = 0; attempt < 4 && !(bytes && digest(bytes) === spec.sha256); attempt++) {
-    try {
-      const response = await fetch(url, {signal: AbortSignal.timeout(180000)});
-      if (!response.ok) throw new Error(`cardiovascular.glb download failed: ${response.status}`);
-      bytes = Buffer.from(await response.arrayBuffer());
-    } catch (e) {error = e; await new Promise(r => setTimeout(r, 1000 * 2 ** attempt));}
-  }
-  if (!bytes || digest(bytes) !== spec.sha256) throw error ?? new Error('cardiovascular.glb checksum mismatch');
+  bytes = await download(url, {label: 'cardiovascular.glb', timeoutMs: 180000});
+  if (digest(bytes) !== spec.sha256) throw new Error('cardiovascular.glb checksum mismatch');
   fs.writeFileSync(glbFile, bytes);
 }
 
