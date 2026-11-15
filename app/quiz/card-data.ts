@@ -140,12 +140,12 @@ export const CARD_EXTRAS: Record<string, CardExtra> = {
 Object.assign(CARD_EXTRAS, {
   'lingual nerve': {
     來源: e('下頜神經（V3）後股的分支，在顳下窩內發出', 'A branch of the posterior division of the mandibular nerve (V3), given off in the infratemporal fossa'),
-    走向: e('在外翼肌深面下行，位置在下齒槽神經的前方；沿內翼肌與下頜支之間向前下，途中自後方接上鼓索神經；再貼近下頜第三大臼齒內側的骨面進入口腔底，在舌骨舌肌表面前行，從下頜下腺導管的下方由外側繞到內側，分支入舌前部', 'Descends deep to lateral pterygoid, in front of the inferior alveolar nerve; runs between medial pterygoid and the mandibular ramus, is joined from behind by the chorda tympani, passes close to the bone medial to the third lower molar into the floor of the mouth, runs forward on hyoglossus and crosses from lateral to medial beneath the submandibular duct before breaking up in the front of the tongue'),
+    走向: e('在外翼肌深面下行，位置在下齒槽神經的前方；沿內翼肌與下頜支之間向前下，途中自後方接上鼓索神經；再貼近下頜第三大臼齒內側的骨面進入口腔底，在舌骨舌肌表面前行，從下頜下腺管的下方由外側繞到內側，分支入舌前部', 'Descends deep to lateral pterygoid, in front of the inferior alveolar nerve; runs between medial pterygoid and the mandibular ramus, is joined from behind by the chorda tympani, passes close to the bone medial to the third lower molar into the floor of the mouth, runs forward on hyoglossus and crosses from lateral to medial beneath the submandibular duct before breaking up in the front of the tongue'),
     支配範圍: e('舌前三分之二（界溝以前）的一般感覺（觸、壓、冷熱、痛）、口腔底與舌側牙齦的黏膜感覺；加入的鼓索神經另帶來舌前三分之二的味覺，以及到下頜下神經節的副交感節前纖維，再由節後纖維支配下頜下腺與舌下腺；本身沒有運動纖維', 'General sensation (touch, pressure, temperature, pain) of the front two-thirds of the tongue, and of the mucosa of the floor of the mouth and the lingual gingiva; the joined chorda tympani adds taste from the front two-thirds and preganglionic parasympathetic fibres to the submandibular ganglion, whose postganglionic fibres supply the submandibular and sublingual glands; it has no motor fibres of its own'),
   },
   'meningeal branch of maxillary nerve': {
-    來源: e('上頷神經（V2）在進入圓孔之前、仍在中顱窩時發出的細小感覺支', 'A small sensory branch of the maxillary nerve (V2), given off in the middle cranial fossa before the nerve enters the foramen rotundum'),
-    走向: e('是上頷神經中唯一在圓孔之前就分出的分支，向後外方進入中顱窩的硬腦膜，與腦膜中動脈同行', 'The only branch of the maxillary nerve that leaves it before the foramen rotundum; it turns into the dura mater of the middle cranial fossa and accompanies the middle meningeal artery'),
+    來源: e('上頜神經（V2）在進入圓孔之前、仍在中顱窩時發出的細小感覺支', 'A small sensory branch of the maxillary nerve (V2), given off in the middle cranial fossa before the nerve enters the foramen rotundum'),
+    走向: e('是上頜神經中唯一在圓孔之前就分出的分支，向後外方進入中顱窩的硬腦膜，與腦膜中動脈同行', 'The only branch of the maxillary nerve that leaves it before the foramen rotundum; it turns into the dura mater of the middle cranial fossa and accompanies the middle meningeal artery'),
     支配範圍: e('中顱窩的硬腦膜（以前部為主）的一般感覺；純感覺', 'General sensation of the dura mater of the middle cranial fossa, mainly its front part; purely sensory'),
   },
   'lacrimal nerve': {
