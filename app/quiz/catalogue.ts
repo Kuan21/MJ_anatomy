@@ -299,6 +299,8 @@ export interface QuizCatalogue {
 }
 export interface QuizSettings {
   section: QuizSection;
+  /** Several sections at once (the Quiz setup screen); when set it replaces `section` as the pool filter (the scene keeps showing `section`). */
+  sections?: QuizSection[];
   systems: QuizSystem[];
   /** Scope categories (multi-select, any combination). When set it decides the pool; `systems` is the older body-system filter. */
   categories?: QuizCategory[];
@@ -527,7 +529,7 @@ export function classifySections(region: QuizRegionId, name: string, bounds: Bou
 export function questionPool(catalogue: QuizCatalogue, settings: QuizSettings, level: 1 | 3 = 1): QuizStructure[] {
   return catalogue.structures.filter(s => askedAtLevel(s, level) && (settings.scope !== 'summary' || scopeOf(s.name, [s.id, ...s.meshIds]) === 'summary') && (settings.categories ? settings.categories.includes(categoryOf(s)) : settings.systems.includes(s.system)) && s.sections.length > 0
     && (settings.side === 'both' || s.side === 'midline' || settings.side === s.side)
-    && (settings.section === 'all' || s.sections.includes(settings.section)));
+    && (settings.sections?.length ? settings.sections.includes('all') || s.sections.some(x => settings.sections!.includes(x)) : settings.section === 'all' || s.sections.includes(settings.section)));
 }
 
 /** Same-system regional anatomy stays available as distractors and for peeling. */

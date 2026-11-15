@@ -198,6 +198,64 @@ for(const part of orbit){
  }
  if(changed)part.normals=vertexNormals(pos,part.indices);
 }
+
+// ---- infraorbital nerve: the source has no model of it, so it is built here as a tube along the course given by the bones (schematic).
+//   It enters the orbit through the inferior orbital fissure, runs forward on the floor of the orbit (infraorbital groove), sinks into
+//   the maxilla (infraorbital canal) and comes out on the face at the infraorbital foramen, about 1 cm below the infraorbital margin
+//   on the vertical line of the supraorbital notch, where it spreads into inferior palpebral, nasal and superior labial branches.
+const INFRAORBITAL='infraorbital-nerve';
+let infraorbitalExit;
+{
+ const bone=id=>orbit.find(p=>p.id===id),tris=[];
+ for(const id of ['FJ3269','FJ3287']){const b=bone(id),pos=b.positions,ix=b.indices,v=i=>[pos[i*3],pos[i*3+1],pos[i*3+2]];for(let i=0;i<ix.length;i+=3)tris.push([v(ix[i]),v(ix[i+1]),v(ix[i+2])]);}
+ const sub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]],cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+ // distance along the ray to the first triangle of the maxilla or zygomatic bone, or null
+ const hit=(o,d)=>{let best=null;for(const [p,q,r] of tris){const e1=sub(q,p),e2=sub(r,p),h=cross(d,e2),det=dot(e1,h);if(Math.abs(det)<1e-15)continue;const t0=sub(o,p),u=dot(t0,h)/det;if(u<0||u>1)continue;const w=cross(t0,e1),v=dot(d,w)/det;if(v<0||u+v>1)continue;const t=dot(e2,w)/det;if(t>0&&(best===null||t<best))best=t;}return best;};
+ const C=center,nasalX=-Math.sign(C[0])||-1,at=(x,y,z)=>[C[0]+nasalX*x*MM,C[1]+y*MM,C[2]+z*MM];// x: mm toward the nose, y: up, z: forward, from the centre of the globe
+ const floorY=(x,z)=>{const o=at(x,-4,z),t=hit(o,[0,-1,0]);if(t===null)throw new Error('Infraorbital nerve: no orbital floor under the course');return (o[1]-t-C[1])/MM;};
+ const frontZ=(x,y)=>{const o=at(x,y,60),t=hit(o,[0,0,-1]);if(t===null)throw new Error('Infraorbital nerve: no front of the maxilla on the course');return (o[2]-t-C[2])/MM;};
+ // the supraorbital notch gives the vertical line; the infraorbital margin is the highest point of the front of the maxilla on it
+ const supra=orbit.find(p=>p.id==='FJ1325').positions;let sx=0,n=0,zMax=-Infinity;for(let i=2;i<supra.length;i+=3)zMax=Math.max(zMax,supra[i]);
+ for(let i=0;i<supra.length;i+=3)if(supra[i+2]>zMax-6*MM){sx+=supra[i];n++;}
+ const lineX=(sx/n-C[0])/MM*nasalX;
+ let marginY=null;for(let y=-8;y>-30;y-=.5){const o=at(lineX,y,60),t=hit(o,[0,0,-1]);if(t!==null&&(o[2]-t-C[2])/MM>4){marginY=y;break;}}
+ if(marginY===null)throw new Error('Infraorbital nerve: infraorbital margin not found');
+ const exitY=marginY-10,exitZ=frontZ(lineX,exitY),exit=[lineX,exitY,exitZ+.6];
+ // start: the inferior orbital fissure behind the floor; then the groove on the floor, the canal under it, and the foramen
+ const groove=[[-18,2.4],[-13,1.4],[-8,.8]].map(([z,dx])=>[lineX+dx,floorY(lineX+dx,z)+.7,z]);
+ const last=groove[groove.length-1],canal=[.3,.62].map(t=>[last[0]+(exit[0]-last[0])*t,last[1]+(exit[1]-last[1])*t*t-1.2*Math.sin(Math.PI*t),last[2]+(exit[2]-last[2])*t]);
+ infraorbitalExit=at(...exit);
+ const tube=(points,r0,r1)=>{
+  // Catmull-Rom through the points, about 1 mm apart, then rings of 8 vertices on parallel-transported frames
+  const P=[points[0],...points,points[points.length-1]],path=[];
+  for(let i=1;i<P.length-2;i++){const len=Math.hypot(...sub(P[i+1],P[i])),steps=Math.max(2,Math.round(len));for(let s=0;s<steps;s++){const t=s/steps,t2=t*t,t3=t2*t;path.push([0,1,2].map(k=>.5*(2*P[i][k]+(-P[i-1][k]+P[i+1][k])*t+(2*P[i-1][k]-5*P[i][k]+4*P[i+1][k]-P[i+2][k])*t2+(-P[i-1][k]+3*P[i][k]-3*P[i+1][k]+P[i+2][k])*t3)));}}
+  path.push(points[points.length-1]);
+  const SIDES=8,pos=[],idx=[],unit=v=>{const l=Math.hypot(...v)||1;return v.map(x=>x/l);};
+  let normal=null;
+  path.forEach((p,i)=>{
+   const tangent=unit(sub(path[Math.min(i+1,path.length-1)],path[Math.max(i-1,0)]));
+   if(!normal){normal=unit(cross(tangent,Math.abs(tangent[1])<.9?[0,1,0]:[1,0,0]));}
+   else{const d=dot(normal,tangent);normal=unit(normal.map((v,k)=>v-tangent[k]*d));}
+   const binormal=cross(tangent,normal),r=r0+(r1-r0)*i/(path.length-1);
+   for(let k=0;k<SIDES;k++){const a=k/SIDES*Math.PI*2,c=Math.cos(a)*r,sn=Math.sin(a)*r;pos.push(p[0]+normal[0]*c+binormal[0]*sn,p[1]+normal[1]*c+binormal[1]*sn,p[2]+normal[2]*c+binormal[2]*sn);}
+   if(i)for(let k=0;k<SIDES;k++){const a=(i-1)*SIDES+k,b=(i-1)*SIDES+(k+1)%SIDES,c2=i*SIDES+k,d2=i*SIDES+(k+1)%SIDES;idx.push(a,b,c2,b,d2,c2);}
+  });
+  // closed ends
+  for(const [ring,p,flip] of [[0,path[0],true],[(path.length-1)*SIDES,path[path.length-1],false]]){const centre=pos.length/3;pos.push(...p);for(let k=0;k<SIDES;k++){const a=ring+k,b=ring+(k+1)%SIDES;idx.push(...(flip?[centre,b,a]:[centre,a,b]));}}
+  return {pos,idx};
+ };
+ // the fissure end: behind, below and a little to the nasal side of the back of the groove, in the gap between the sphenoid and the maxilla
+ const first=groove[0],start=[first[0]+3.5,first[1]-4.5,first[2]-8.5];
+ const pieces=[tube([start,...groove,...canal,exit],1.15,1.05)];
+ // branches on the face, 1 mm in front of the bone: inferior palpebral (up), external and internal nasal (toward the nose), superior labial (down)
+ const onFace=(x,y)=>[x,y,frontZ(x,y)+1];
+ for(const [targets,r] of [[[[lineX-.5,exitY+4],[lineX-1.5,exitY+8.5]],.55],[[[lineX+1.5,exitY+3.5],[lineX+3,exitY+8]],.5],[[[lineX+4,exitY+1],[lineX+8.5,exitY+2.5]],.55],[[[lineX+4,exitY-2],[lineX+8,exitY-5]],.5],[[[lineX+.5,exitY-5],[lineX+1.5,exitY-10.5]],.6],[[[lineX-2,exitY-4.5],[lineX-3.5,exitY-10]],.55]])
+  pieces.push(tube([exit,...targets.map(t=>onFace(...t))],r+.2,r*.7));
+ const count=pieces.reduce((m,q)=>m+q.pos.length,0),positions=new Float32Array(count),indices=new Uint32Array(pieces.reduce((m,q)=>m+q.idx.length,0));
+ let v=0,i=0;for(const q of pieces){for(let k=0;k<q.pos.length;k+=3){const w=at(q.pos[k],q.pos[k+1],q.pos[k+2]);positions.set(w,v+k);}for(const x of q.idx)indices[i++]=x+v/3;v+=q.pos.length;}
+ orbit.push({id:INFRAORBITAL,positions,normals:vertexNormals(positions,indices),indices});
+ fitted[INFRAORBITAL]={built:'tube along the orbital floor and through the maxilla',marginToForamenMm:10,lineOfSupraorbitalNotchMm:+lineX.toFixed(1)};
+}
 for(const part of [...orbit,...globeParts])add(part.id,part.positions,part.normals,part.indices);
 
 // ---- openings of the orbit, marked on the bone surface (no extra geometry): for each opening, the vertices of the bones around it.
@@ -243,6 +301,8 @@ const supra=pointsOf('FJ1325'),front=Math.max(...supra.map(q=>q[2])),leaving=sup
 openings.push(marked('supraorbital-foramen',leaving.filter(q=>q[1]<low+3*MM),4*MM));
 // the ethmoidal nerves run medially from the nasociliary nerve: the foramen is at their medial end
 const medialEnd=id=>{const list=pointsOf(id),side=Math.sign(center[0])||1,edge=side>0?Math.min(...list.map(q=>q[0])):Math.max(...list.map(q=>q[0]));return list.filter(q=>Math.abs(q[0]-edge)<2*MM);};
+// the infraorbital foramen: the maxilla around the point where the built nerve comes out
+{const picked=around(maxilla,[infraorbitalExit],5*MM);openings.push({id:'infraorbital-foramen',center:infraorbitalExit.map(round),bones:{[MAXILLA]:picked}});}
 openings.push(marked('anterior-ethmoidal-foramen',medialEnd('FJ1283'),4.5*MM),marked('posterior-ethmoidal-foramen',medialEnd('FJ1315'),4.5*MM));
 for(const o of openings)if(!Object.keys(o.bones).length||Object.values(o.bones).reduce((n,list)=>n+list.length,0)<8)throw new Error(`Opening ${o.id} was not found on the bone`);
 
