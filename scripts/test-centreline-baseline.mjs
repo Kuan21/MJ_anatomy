@@ -1,6 +1,6 @@
 // The baseline of the centreline continuity check may only shrink (synthetic rows, no model data needed).
 import assert from 'node:assert/strict';
-import {compareContinuity, firstBaseline, findingsOf, roundUp, keyOf} from './lib/centreline-baseline.mjs';
+import {compareContinuity, firstBaseline, findingsOf, linkFindingsOf, roundUp, keyOf} from './lib/centreline-baseline.mjs';
 
 const row = (child, surfaceMm, attachMm = surfaceMm, parent = 'Trunk') => ({child, parent, surfaceMm, attachMm});
 const rel = (child, parent = 'Trunk') => ({child, parent});
@@ -60,4 +60,34 @@ assert.equal(compareContinuity({limitMm: 3, known: {}, absent: []}, rows, []).ne
 assert.equal(compareContinuity({...base, known: {...base.known, 'attach|Gap|Trunk': {measure: 12.5}}}, rows, absent).next, null, 'an entry without a reason');
 assert.equal(keyOf(rel('A', 'B')), 'attach|A|B');
 assert.deepEqual(base, snapshot, 'comparing does not change the baseline');
+
+// Structures in pieces ('link'): the same rules, beside the relations.
+const link = (name, linkMm) => ({name, linkMm}), links = [link('Near', null), link('Gap', 0), link('Wide', 7.2), link('Trunk', 3)];
+assert.deepEqual(linkFindingsOf(links, 3).map(f => [f.key, f.measure]), [['link|Wide', 7.5]], 'a single piece and pieces within the limit are not findings');
+const lbase = firstBaseline(rows, absent, 3, 'present when the baseline was made', links);
+assert.deepEqual(Object.keys(lbase.known), ['attach|Gap|Trunk', 'attach|Wide|Trunk', 'link|Wide'], 'relations first, then structures');
+assert.deepEqual(lbase.known['link|Wide'], {measure: 7.5, reason: 'present when the baseline was made'});
+assert.deepEqual(firstBaseline(rows, absent, 3, 'x'), firstBaseline(rows, absent, 3, 'x', []), 'without links the baseline is as before');
+assert.throws(() => firstBaseline(rows, absent, 3, 'x', [link('A', NaN)]), 'a link distance that is not a number cannot be recorded');
+assert.throws(() => firstBaseline(rows, absent, 3, 'x', [link('A', 9), link('A', 9)]), 'the same structure twice');
+const lsnap = structuredClone(lbase), again = compareContinuity(lbase, rows, absent, links);
+assert.deepEqual(again.next, lbase, 'an unchanged run reproduces the baseline');
+const swap = (name, mm) => links.map(l => l.name === name ? link(name, mm) : l);
+const apart = compareContinuity(lbase, rows, absent, swap('Gap', 4));
+assert.deepEqual([apart.bad.map(f => f.key), apart.next], [['link|Gap'], null], 'a structure that comes apart fails');
+assert.equal(compareContinuity(lbase, rows, absent, swap('Near', 4)).next, null, 'a single piece that breaks in two fails');
+assert.equal(compareContinuity(lbase, rows, absent, swap('Wide', 7.6)).next, null, 'pieces further apart than recorded fail');
+assert.ok(compareContinuity(lbase, rows, absent, swap('Wide', 7.5)).next, 'same step');
+const closer = compareContinuity(lbase, rows, absent, swap('Wide', 4.1));
+assert.deepEqual([closer.next.known['link|Wide'], closer.next.known['attach|Gap|Trunk']], [{measure: 4.5, reason: 'present when the baseline was made'}, lbase.known['attach|Gap|Trunk']],
+  'pieces closer together: the new upper limit, relations untouched');
+assert.equal(compareContinuity(closer.next, rows, absent, links).next, null, 'and the old distance no longer passes');
+const joined = compareContinuity(lbase, rows, absent, swap('Wide', 0));
+assert.deepEqual([joined.gone, Object.keys(joined.next.known)], [['link|Wide'], ['attach|Gap|Trunk', 'attach|Wide|Trunk']], 'pieces that join leave the list');
+// A structure whose mesh is gone: its relation is lost, and its link is not reported as closed.
+const noWide = compareContinuity(lbase, [row('Near', .4), row('Gap', 12.2, 13)], [...absent, rel('Wide')], links.filter(l => l.name !== 'Wide'));
+assert.deepEqual([noWide.lost, noWide.gone, noWide.next], [['attach|Wide|Trunk'], [], null]);
+assert.equal(compareContinuity(lbase, rows, absent, [...links, link('Wide', 7.2)]).next, null, 'the same structure twice');
+assert.equal(compareContinuity(lbase, rows, absent, swap('Wide', NaN)).next, null, 'a link distance that is not a number');
+assert.deepEqual(lbase, lsnap, 'comparing does not change the baseline');
 console.log('centreline baseline: ok');
