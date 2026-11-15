@@ -45,13 +45,9 @@
 - Sacrotuberous ligament（薦結節韌帶） [left/right]，pelvis
 - Superior pubic ligament（恥骨上韌帶） [midline]，pelvis
 
-## 不出題：圖譜已有同名構造（屬其他系統），不重複出題（5 種，8 個構造）
+## 不出題：圖譜已有同名構造（屬其他系統），不重複出題（1 種，2 個構造）
 
-- Lateral thyrohyoid ligament（甲狀舌骨外側韌帶） [left/right]，head-neck
 - Long plantar ligament（長足底韌帶） [left/right]，lower-limb
-- Median cricothyroid ligament（環甲正中韌帶） [midline]，head-neck
-- Median thyrohyoid ligament（甲狀舌骨正中韌帶） [midline]，head-neck
-- Stylohyoid ligament（莖突舌骨韌帶） [left/right]，head-neck
 
 ## 不出題：名稱括號內是另一構造（半月板）的名稱，輸入答案時會與該構造混淆（前、後脛側半月板韌帶各 2 條）（4 種，8 個構造）
 
