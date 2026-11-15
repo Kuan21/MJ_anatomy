@@ -6,6 +6,9 @@
 //   2. over the next rings the D-section grows into the branch's own round section (smoothstep weights, zero slope at the end, so the tube continues straight into the unchanged rings);
 //   3. the two branches are pushed apart sideways (opposite, equal shares) just enough that their walls no longer cross; the internal carotid goes posterolateral, the external anteromedial,
 //      the push fades to nothing where the source tubes diverge by themselves. Nothing is scaled: every ring keeps its own radius.
+// Before the rebuild the whole bifurcation is raised by a fixed RAISE (raiseBifurcation): the source puts it at the level of C5 (about 11 mm below the upper edge of the thyroid cartilage), a textbook bifurcation lies at the upper
+// edge of the thyroid cartilage (C4). The end of the common carotid is lengthened along its own direction, the first rings of both branches move with it (so the junction stays closed) and the shift fades out to nothing over
+// BRANCH_BLEND (external and internal carotid start segments become shorter); distal ends and every radius stay as they are.
 // Pure functions, no imports, so scripts/test-carotid-bifurcation.mjs runs the same code as the viewer.
 export const RING = 12;
 type V = {name: string; positions: number[]};
@@ -30,7 +33,35 @@ const axisOf = (pos: number[], r: number, rings: number): P3 => unit(sub(centre(
 export const BLEND_HEIGHT = 0.011;   // D-section to round section
 export const PUSH_FROM = 0.0005, PUSH_FULL = 0.012, PUSH_FADE = 0.032;   // sideways separation: starts, complete, gone
 
-export interface BifurcationReport {side: string; blendRings: [number, number]; pushMm: [number, number]}
+/** Fixed upward shift of the bifurcation (m): from y 1487.7/1488.4 mm to about 1500.7/1501.4 mm, 2 mm above the upper edge of the thyroid cartilage (1498.8 mm) in the C4 body (docs/carotid-landmarks.md). */
+export const RAISE = 0.013;
+/** Arc length (m) over which the shift fades out: down the common carotid and up each branch. */
+export const COMMON_BLEND = 0.05, BRANCH_BLEND = 0.045;
+/** Wall-to-wall clearance (m) asked of the two branches in the first 1 to 2 cm above the bifurcation; it fades out between GAP_FADE_FROM and GAP_FADE_TO. */
+export const GAP = 0.0025, GAP_FADE_FROM = 0.025, GAP_FADE_TO = 0.05;
+
+export interface BifurcationReport {side: string; blendRings: [number, number]; pushMm: [number, number]; raisedMm?: number}
+
+/** Raises the bifurcation of one side by `raise` metres (see RAISE): rigid per-ring translation along the end direction of the common carotid, weight 1 at the junction and smoothstep to 0 along the arc length of each tube. Ring shapes and radii do not change. */
+export function raiseBifurcation(common: V, internal: V, external: V, raise = RAISE): number | null {
+  const cn = common.positions.length / (RING * 3), nI = internal.positions.length / (RING * 3), nE = external.positions.length / (RING * 3);
+  if (![cn, nI, nE].every(n => Number.isInteger(n) && n >= 8)) return null;
+  const cs = Array.from({length: cn}, (_, r) => centre(ringPoints(common.positions, r)));
+  // end direction: from the ring 2 cm below the end to the end (a long baseline, so ring noise does not tilt it)
+  let k0 = cn - 1; while (k0 > 0 && len(sub(cs[cn - 1], cs[k0])) < 0.02) k0--;
+  const dir = unit(sub(cs[cn - 1], cs[k0]));
+  if (dir[1] < 0.5) return null;
+  const v = mul(dir, raise / dir[1]);
+  const apply = (t: V, n: number, weightOf: (r: number, arc: number[]) => number) => {
+    const c = Array.from({length: n}, (_, r) => centre(ringPoints(t.positions, r)));
+    const arc = [0]; for (let r = 1; r < n; r++) arc.push(arc[r - 1] + len(sub(c[r], c[r - 1])));
+    for (let r = 0; r < n; r++) { const w = weightOf(r, arc); if (!w) continue; put(t.positions, r, ringPoints(t.positions, r).map(p => add(p, mul(v, w)))); }
+  };
+  apply(common, cn, (r, arc) => 1 - smooth((arc[cn - 1] - arc[r]) / COMMON_BLEND) );
+  apply(internal, nI, (r, arc) => 1 - smooth(arc[r] / BRANCH_BLEND));
+  apply(external, nE, (r, arc) => 1 - smooth(arc[r] / BRANCH_BLEND));
+  return v[1] * 1000;
+}
 
 /** Rebuilds the first rings of both branches of one side. `common`, `internal`, `external` are tubes of 12-vertex rings; the branches are changed in place. Returns null when the shapes are not the expected ones. */
 export function smoothBifurcation(common: V, internal: V, external: V): BifurcationReport | null {
@@ -56,7 +87,8 @@ export function smoothBifurcation(common: V, internal: V, external: V): Bifurcat
       let d = sub(c, o.c); d = sub(d, mul(ax, dot(d, ax)));
       const dist = len(d);
       const ramp = smooth((h - PUSH_FROM) / (PUSH_FULL - PUSH_FROM));   // asked-for separation share; it fades by itself where the source tubes are far apart (the deficit becomes zero)
-      const wanted = (rI + o.r) * ramp, deficit = Math.max(0, wanted - dist);
+      const gap = GAP * (1 - smooth((h - GAP_FADE_FROM) / (GAP_FADE_TO - GAP_FADE_FROM)));
+      const wanted = (rI + o.r + gap) * ramp, deficit = Math.max(0, wanted - dist);
       if (!deficit) continue;
       const dir = unit(add(mul(d, 1), mul(i === 0 ? nVec : mul(nVec, -1), 0.0015)));
       const s = mul(dir, deficit / 2);
@@ -106,7 +138,8 @@ export function smoothCarotids(vessels: V[]) {
   for (const [side, common, internal, external] of [['left', 'Left common carotid artery', 'Internal carotid artery.l', 'External carotid artery.l'], ['right', 'Right common carotid artery', 'Internal carotid artery.r', 'External carotid artery.r']]) {
     const c = by.get(common), i = by.get(internal), e = by.get(external);
     if (!c || !i || !e) continue;
-    const r = smoothBifurcation(c, i, e); if (r) out.push({...r, side});
+    const up = raiseBifurcation(c, i, e);
+    const r = smoothBifurcation(c, i, e); if (r) out.push({...r, side, raisedMm: up ?? 0});
   }
   return out;
 }

@@ -1,0 +1,7 @@
+{
+  "ratios": {"hard": 0.4, "mediumMin": 0.4, "mediumMax": 0.5},
+  "thresholds": {"hard": 4, "medium": 2},
+  "sizeSteps": [[0.02, 3], [0.05, 2], [0.1, 1]],
+  "harderCategories": ["nerve", "artery", "vein", "tendon", "ligament", "joint", "space", "organ"],
+  "overrides": {}
+}
