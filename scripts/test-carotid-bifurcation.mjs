@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import zlib from 'node:zlib';
 import {quizModule} from './quiz-modules.mjs';
 import {measureAll, measureSide, info, SIDES} from './lib/carotid-measure.mjs';
-const {smoothCarotids} = await quizModule('app/biomechanics-v2/carotid-bifurcation.ts');
+const {smoothCarotids, junctionPairs, stitchNormals} = await quizModule('app/biomechanics-v2/carotid-bifurcation.ts');
 const load = () => JSON.parse(zlib.gunzipSync(fs.readFileSync(new URL('../public/models/neck-vessels.json.gz', import.meta.url))));
 const atlasJson = JSON.parse(fs.readFileSync(new URL('../public/models/atlas.json', import.meta.url), 'utf8'));
 const thyroidTop = atlasJson.parts.find(p => p.name === 'Thyroid cartilage').bounds[1][1];
@@ -30,6 +30,9 @@ for (const [side, c, i, e] of SIDES) {
     assert.equal(pa.length, pb.length); assert.deepEqual(get(after, n).indices, get(before, n).indices, 'same triangles');
     for (let j = 12; j < rings; j++) assert.ok(Math.abs(info(get(after, n), j).r / info(get(before, n), j).r - 1) < 1e-4, `${n}: radius of ring ${j} changed`);
     assert.deepEqual(pa.slice(-36), pb.slice(-36), `${n}: distal end moved`);
+    const pairs = junctionPairs(get(after, c).positions, pa); assert.ok(pairs.length >= 7, `${n}: ${pairs.length} seam vertices`);
+    const na = {array: Float32Array.from(get(after, c).positions, () => 0)}, nb = {array: Float32Array.from(pa, () => 0)}; for (const [x, y] of pairs) { na.array[x * 3 + 1] = 1; nb.array[y * 3] = 1; }
+    stitchNormals(na, nb, pairs); for (const [x, y] of pairs) assert.ok(Math.abs(na.array[x * 3] - nb.array[y * 3]) < 1e-9 && Math.abs(Math.hypot(na.array[x * 3], na.array[x * 3 + 1]) - 1) < 1e-6, 'seam normals match');
   }
 }
 // anatomy of the origin (both sides, mirrored): internal carotid behind and outside the external carotid, which lies in front and inside

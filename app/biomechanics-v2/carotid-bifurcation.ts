@@ -110,3 +110,21 @@ export function smoothCarotids(vessels: V[]) {
   }
   return out;
 }
+
+/** Vertex pairs where the first ring of a branch lies on the end ring of the common carotid (same position): [index in common, index in branch]. */
+export function junctionPairs(common: number[] | Float32Array, branch: number[] | Float32Array): [number, number][] {
+  const out: [number, number][] = [], last = common.length / 3 - RING;
+  for (let i = 0; i < RING; i++) for (let k = 0; k < RING; k++) {
+    const a = (last + i) * 3, b = k * 3;
+    if (Math.abs(common[a] - branch[b]) + Math.abs(common[a + 1] - branch[b + 1]) + Math.abs(common[a + 2] - branch[b + 2]) < 1e-6) out.push([last + i, k]);
+  }
+  return out;
+}
+/** Gives both sides of the junction the same (averaged) normal, so the seam between the two meshes is not drawn as a crease. */
+export function stitchNormals(a: {array: ArrayLike<number> & {[i: number]: number}}, b: {array: ArrayLike<number> & {[i: number]: number}}, pairs: [number, number][]) {
+  for (const [i, j] of pairs) {
+    let x = a.array[i * 3] + b.array[j * 3], y = a.array[i * 3 + 1] + b.array[j * 3 + 1], z = a.array[i * 3 + 2] + b.array[j * 3 + 2];
+    const l = Math.hypot(x, y, z) || 1; x /= l; y /= l; z /= l;
+    a.array[i * 3] = b.array[j * 3] = x; a.array[i * 3 + 1] = b.array[j * 3 + 1] = y; a.array[i * 3 + 2] = b.array[j * 3 + 2] = z;
+  }
+}

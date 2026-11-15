@@ -1,5 +1,5 @@
 import * as T from 'three';
-import {smoothCarotids} from './carotid-bifurcation';
+import {smoothCarotids,junctionPairs,stitchNormals} from './carotid-bifurcation';
 import type {Atlas,SceneState,SystemId,Part} from '../anatomy';
 import {makeBodyRig,buildBodyMotion,bindBodyTissue} from './body-motion';
 import {deformTissue,type SkinBinding} from './soft-tissue';
@@ -10,6 +10,8 @@ export function createNeckVessels(atlas:Atlas,scene:T.Scene){
  const head=makeBodyRig(atlas,'head'),spine=makeBodyRig(atlas,'spine');
  const rows:{mesh:T.Mesh<T.BufferGeometry,T.MeshStandardMaterial>;parent:Part;system:SystemId;base:Float32Array;head:SkinBinding;spine:SkinBinding;/** what produced the current positions, so an unchanged pose is not re-deformed and re-lit */posed?:{region:string;palette:Float64Array}}[]=[];
  const replaced=new Set<string>();
+ const stitches:{a:T.BufferGeometry;b:T.BufferGeometry;pairs:[number,number][]}[]=[];
+ const stitch=()=>{for(const t of stitches){const na=t.a.getAttribute('normal') as T.BufferAttribute,nb=t.b.getAttribute('normal') as T.BufferAttribute;stitchNormals(na,nb,t.pairs);na.needsUpdate=true;nb.needsUpdate=true;}};
  function add(data:NeckVesselData){
   if(!data.joined){smoothCarotids(data.vessels);data.joined=true;}
   for(const v of data.vessels){
@@ -21,6 +23,11 @@ export function createNeckVessels(atlas:Atlas,scene:T.Scene){
    // bounding-box or rigid-head rule can pull a bifurcation apart.
    rows.push({mesh,parent,system:v.system,base,head:bindBodyTissue(head,base),spine:bindBodyTissue(spine,base,true)});replaced.add(parent.id);
   }
+  for(const [c,i,e] of [['Left common carotid artery','Internal carotid artery.l','External carotid artery.l'],['Right common carotid artery','Internal carotid artery.r','External carotid artery.r']]){
+   const rc=rows.find(r=>r.mesh.name===c);if(!rc)continue;
+   for(const n of [i,e]){const rb=rows.find(r=>r.mesh.name===n);if(!rb)continue;const pairs=junctionPairs(rc.base,rb.base);if(pairs.length)stitches.push({a:rc.mesh.geometry,b:rb.mesh.geometry,pairs});}
+  }
+  stitch();
  }
  const SELECT_COLOR=0x5DB89A;
  /** `selectedName`: the vessel found by search (its mesh name): highlighted and the only row left under Isolate. */
@@ -41,6 +48,7 @@ export function createNeckVessels(atlas:Atlas,scene:T.Scene){
    attr.needsUpdate=true;r.mesh.geometry.computeVertexNormals();r.mesh.geometry.computeBoundingSphere();
    r.posed={region,palette:moving?Float64Array.from(palette):NO_PALETTE};
   }
+  stitch();
  }
  function dispose(){for(const r of rows){scene.remove(r.mesh);r.mesh.geometry.dispose();r.mesh.material.dispose();}}
  return{add,update,dispose,replaced,rows};

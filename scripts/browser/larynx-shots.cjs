@@ -22,5 +22,10 @@ const VIEWS=[['larynx-front',[0,1.49,0.008],[0,0,1],0.2],['larynx-side',[0,1.49,
  console.log('systems',await p.locator('.system-row.enabled').allTextContents().then(a=>a.map(t=>t.replace(/\s+/g,' ').slice(0,24)).join(' | ')));
  await closePanel();
  for(const [n,t,d,r] of VIEWS){await p.evaluate(([t,d,r])=>window.__mjView.look(t,d,r),[t,d,r]);await sleep(3000);await p.screenshot({path:`${out}/${tag}-${vp}-${n}.png`,timeout:240000});console.log('shot',n);}
+ // arteries only: the bifurcation surface of both sides without the bones, veins and nerves in front of it
+ await openSystems();
+ for(const name of [/Skeleton/,/Veins/,/Nervous/,/Connective/]){await p.locator('.system-row',{hasText:name}).first().locator('button.system-name').click();await sleep(1500);}
+ await closePanel();
+ for(const [n,t,d,r] of [['bif-left-front',[0.031,1.496,-0.005],[0,0,1],0.09],['bif-left-side',[0.031,1.496,-0.005],[1,0,0],0.09],['bif-right-front',[-0.031,1.496,-0.005],[0,0,1],0.09],['bif-right-side',[-0.031,1.496,-0.005],[-1,0,0],0.09]]){await p.evaluate(([t,d,r])=>window.__mjView.look(t,d,r),[t,d,r]);await sleep(3000);await p.screenshot({path:`${out}/${tag}-${vp}-${n}.png`,timeout:240000});console.log('shot',n);}
  await b.close();console.log('done');
 })().catch(e=>{console.log('FAIL',e.message.slice(0,500));process.exit(1);});
