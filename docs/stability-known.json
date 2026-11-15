@@ -5245,6 +5245,13 @@
    "name": "Esophageal impression of left lung",
    "measure": 57,
    "reason": "faces coincide with Apex of left lung: two layers share the same surface; to be offset or one of them removed"
+  },
+  "stretch|FJ2219-END|shoulder flexion 150": {
+   "name": "Left brachial artery",
+   "measure": 6,
+   "reason": "同一條動脈 main 上已登記拉伸 2.4 倍，端段跟隨主體；#269 後由碎片轉為拉伸，2026-11-15 經使用者核准",
+   "fraction": 0.005681818181818182,
+   "severity": 2.1
   }
  }
 }
