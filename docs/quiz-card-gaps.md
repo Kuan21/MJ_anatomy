@@ -758,22 +758,14 @@
 - 蝶骨（Sphenoid bone）：缺 主要標誌、相關關節、附著肌肉
 - 犁骨（Vomer）：缺 主要標誌、相關關節、附著肌肉
 
-### 肌肉：72 / 86 項資料完整
+### 肌肉：80 / 86 項資料完整
 
-- 頸前橫突間肌群（set of anterior cervical intertransversarii）：缺 起點、止點、作用、神經支配、血液供應
-- 頸棘間肌群（set of interspinales cervicis）：缺 起點、止點、作用、神經支配、血液供應
-- 頸後橫突間肌群（set of posterior cervical intertransversarii）：缺 起點、止點、作用、神經支配、血液供應
 - 咽下縮肌（inferior pharyngeal constrictor）：缺 起點、止點、作用、神經支配、血液供應
 - 咽中縮肌（middle pharyngeal constrictor）：缺 起點、止點、作用、神經支配、血液供應
 - 腭咽肌（palatopharyngeus）：缺 起點、止點、作用、神經支配、血液供應
 - 咽鼓管咽肌（salpingopharyngeus）：缺 起點、止點、作用、神經支配、血液供應
 - 莖突咽肌（stylopharyngeus）：缺 起點、止點、作用、神經支配、血液供應
 - 咽上縮肌（superior pharyngeal constrictor）：缺 起點、止點、作用、神經支配、血液供應
-- 環杓側肌（lateral crico-arytenoid）：缺 起點、止點、作用、神經支配、血液供應
-- 環杓後肌（posterior crico-arytenoid）：缺 起點、止點、作用、神經支配、血液供應
-- 甲杓肌（thyro-arytenoid）：缺 起點、止點、作用、神經支配、血液供應
-- 顳頂肌（temporoparietalis）：缺 起點、止點、作用、神經支配、血液供應
-- 降鼻中隔肌（depressor septi nasi）：缺 起點、止點、作用、神經支配、血液供應
 
 ### 神經：1 / 44 項資料完整
 
