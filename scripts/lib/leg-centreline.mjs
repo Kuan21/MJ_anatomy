@@ -25,9 +25,35 @@ export function pointInside(p, {pos, idx}) {
 const sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]], len = a => Math.hypot(a[0], a[1], a[2]);
 const lerp = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
 
-/** Centreline of a vessel mesh ({positions, indices}) from its upper (larger y) end to its lower end, as [{c, r}] rings every `bin` metres of the main chain. */
-export function centrelineOf(g, bin = .003) {
-  const t = tubeTips({pos: g.positions, idx: g.indices}), n = t.pts.length;
+/**
+ * The pieces of a mesh that falls apart into disconnected parts (the vagus nerve is cut into 21 of them, the trunk being one), longest first (diagonal of the bounding box of each piece).
+ * Each entry has the first vertex of the piece (`start`; the piece of vertex 0 starts at 0, the only one tubeTips() sees without a start vertex) and its size (`diag`).
+ */
+function piecesOf(t) {
+  const n = t.pts.length, piece = new Int32Array(n).fill(-1), found = [];
+  for (let i = 0; i < n; i++) if (piece[i] < 0) {
+    const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity], st = [i]; piece[i] = i;
+    while (st.length) { const v = st.pop(), p = t.pts[v]; for (let a = 0; a < 3; a++) { lo[a] = Math.min(lo[a], p[a]); hi[a] = Math.max(hi[a], p[a]); } for (const u of t.adj[v].keys()) if (piece[u] < 0) { piece[u] = i; st.push(u); } }
+    found.push({start: i, diag: Math.hypot(hi[0] - lo[0], hi[1] - lo[1], hi[2] - lo[2])});
+  }
+  return found.sort((x, y) => y.diag - x.diag);
+}
+
+/**
+ * Centrelines of every sizeable piece of a mesh: the longest piece first (the trunk of a nerve whose mesh is cut into pieces), then the piece vertex 0 lies in (what centrelineOf()
+ * alone returns, kept so that nothing that was reached before is lost), then the next longest, up to `max` lines in all. A mesh in one piece gives one line, the same as centrelineOf().
+ */
+export function centrelinesOf(g, bin = .003, max = 8) {
+  const pieces = piecesOf(tubeTips({pos: g.positions, idx: g.indices})), origin = pieces.find(p => p.start === 0);   // the piece of vertex 0 starts at vertex 0
+  const order = [pieces[0], origin, ...pieces.slice(1)].filter((p, i, all) => p && all.indexOf(p) === i).slice(0, max);
+  const lines = [];
+  for (const p of order) { let rings = null; try { rings = centrelineOf(g, bin, {start: p.start}); } catch { rings = null; } if (rings && rings.length >= 2) lines.push(rings); }
+  return lines;
+}
+
+/** Centreline of a vessel mesh ({positions, indices}) from its upper (larger y) end to its lower end, as [{c, r}] rings every `bin` metres of the main chain. `start` is a vertex of the piece to measure (default: the piece of vertex 0). */
+export function centrelineOf(g, bin = .003, {start = 0} = {}) {
+  const t = tubeTips({pos: g.positions, idx: g.indices}, undefined, start), n = t.pts.length;
   const run = sources => { const dist = new Float64Array(n).fill(Infinity), prev = new Int32Array(n).fill(-1), lab = new Int32Array(n).fill(-1), heap = []; for (const s of sources) { dist[s] = 0; lab[s] = s; heap.push([0, s]); }
     while (heap.length) { heap.sort((x, y) => y[0] - x[0]); const [d, v] = heap.pop(); if (d > dist[v]) continue; for (const [u, w] of t.adj[v]) if (d + w < dist[u]) { dist[u] = d + w; prev[u] = v; lab[u] = lab[v]; heap.push([d + w, u]); } } return {dist, prev, lab}; };
   const fromA = run([t.tips[0]]); let bTip = t.tips[1]; for (let i = 0; i < n; i++) if (Number.isFinite(fromA.dist[i]) && fromA.dist[i] > fromA.dist[bTip]) bTip = i;
