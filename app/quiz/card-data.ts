@@ -607,6 +607,91 @@ Object.assign(CARD_EXTRAS, {
 });
 // ===== B04–B05 end =====
 
+// ===== B06 begin: head-and-neck organ structures (eye, lip, tongue, laryngeal cartilages) and arteries (card batch B06). Standard anatomy only; a field we are not sure of stays out. =====
+Object.assign(CARD_EXTRAS, {
+  'choroid': {
+    位置: e('眼球壁中層（血管層）的後大部分，夾在鞏膜與視網膜之間，約覆蓋眼球後方六分之五，範圍與鞏膜相當；向前續為睫狀體', 'Posterior large part of the middle (vascular) coat of the eyeball wall, between the sclera and the retina, covering about the posterior five-sixths of the globe, the same extent as the sclera; it continues forward as the ciliary body'),
+    組成: e('富含血管與色素細胞的疏鬆結締組織，由外向內有血管層與毛細血管層，最內層為薄的玻璃膜；呈深褐色，可吸收進入眼內的散射光', 'Loose connective tissue rich in vessels and pigment cells, with an outer vascular layer and an inner capillary layer, and a thin glassy membrane innermost; its dark brown colour absorbs stray light inside the eye'),
+    毗鄰: e('外面僅隔一層潛在的脈絡膜上腔貼著鞏膜；內面緊貼視網膜的色素上皮，並供給視網膜外層養分；後方有視神經穿出處，前方在鋸齒緣處接睫狀體；睫狀後短動脈與長動脈供血', 'Outside, it lies against the sclera across a potential suprachoroidal space; inside, it is closely applied to the pigment epithelium of the retina and nourishes its outer layers; the optic nerve leaves at its back and the ciliary body begins at the ora serrata in front; it is supplied by the short and long posterior ciliary arteries'),
+  },
+  'lens': {
+    位置: e('眼球前部，虹膜與瞳孔的後方、玻璃體前面的凹窩（髕狀窩）之前', 'Front part of the eyeball, behind the iris and pupil and in front of the hollow (patellar fossa) on the front of the vitreous body'),
+    組成: e('透明、沒有血管與神經的雙凸透鏡；外包彈性的晶體囊，前面內側有一層上皮，內部是排列緊密的晶體纖維，核心較硬、周邊較軟', 'Transparent biconvex body without vessels or nerves; an elastic capsule encloses it, with a layer of epithelium under the front surface and tightly packed lens fibres inside, a firmer core and a softer cortex'),
+    毗鄰: e('前面對著虹膜與後房，後面貼玻璃體；周緣經睫狀小帶（懸韌帶）連到睫狀突，睫狀肌收縮時小帶放鬆、水晶體變厚而看近處，放鬆時小帶拉緊、水晶體變薄而看遠處；養分來自房水與玻璃體', 'Its front faces the iris and posterior chamber and its back rests on the vitreous body; the zonular fibres (suspensory ligament) join its rim to the ciliary processes, so that contraction of the ciliary muscle slackens them and lets the lens thicken for near vision, while relaxation tightens them and flattens the lens for distance; nutrients come from the aqueous humour and vitreous body'),
+  },
+  'iris': {
+    位置: e('眼球中層前方的圓盤狀薄膜，位於角膜與水晶體之間，中央有圓形的瞳孔', 'Thin disc at the front of the middle coat of the eyeball, between the cornea and the lens, with the round pupil at its centre'),
+    組成: e('由含色素細胞與血管的結締組織基質組成，其中有兩種平滑肌：環繞瞳孔的瞳孔括約肌與呈放射狀排列的瞳孔擴張肌；後面覆有色素上皮；色素多寡決定虹膜的顏色', 'A connective tissue stroma with pigment cells and vessels, containing two smooth muscles: the sphincter pupillae ringing the pupil and the radially arranged dilator pupillae; its back is lined by pigmented epithelium, and the amount of pigment gives the iris its colour'),
+    毗鄰: e('周緣（虹膜根部）連於睫狀體，並構成前房的後壁；前面為前房的房水，後面為後房並貼著水晶體前面；副交感纖維使瞳孔縮小，交感纖維使瞳孔放大', 'Its outer edge (the root) joins the ciliary body and forms the back wall of the anterior chamber; in front lies the aqueous humour of the anterior chamber, behind lies the posterior chamber and the front of the lens; parasympathetic fibres narrow the pupil and sympathetic fibres widen it'),
+  },
+  'anterior chamber of eyeball': {
+    位置: e('眼球前部，角膜與虹膜（以及瞳孔區的水晶體前面）之間的腔隙', 'Space in the front of the eyeball between the cornea and the iris (and the front of the lens in the pupil area)'),
+    組成: e('腔內充滿透明的房水，由睫狀突分泌；房水先在後房，經瞳孔流入前房', 'Filled with clear aqueous humour, secreted by the ciliary processes; it passes first through the posterior chamber and reaches the anterior chamber through the pupil'),
+    毗鄰: e('前壁為角膜，後壁為虹膜與瞳孔；周緣的虹膜角膜角（前房角）處有小梁網，房水由此流入鞏膜靜脈竇，再匯入眼靜脈；此流出道受阻時眼壓升高', 'Its front wall is the cornea and its back wall the iris and pupil; at the iridocorneal angle around its edge, aqueous humour drains through the trabecular meshwork into the scleral venous sinus and on to the ocular veins; blockage of this outflow raises the intraocular pressure'),
+  },
+  'lip': {
+    位置: e('口裂周圍的上、下兩片肉質皺襞，構成口腔前壁；上唇與下唇在口角相連', 'Upper and lower fleshy folds around the mouth opening that form the front wall of the oral cavity; they meet at the angles of the mouth'),
+    組成: e('由外向內為皮膚、口輪匝肌（及附著其上的其他表情肌）、黏膜下層（含唇腺）與口腔黏膜；紅唇是表皮薄而透明、血管透出的過渡區', 'From outside to inside: skin, orbicularis oris (with other facial muscles inserting into it), submucosa containing labial glands, and oral mucosa; the red vermilion is a transitional zone with thin, translucent epithelium through which the vessels show'),
+    毗鄰: e('上唇正中有人中，與鼻中隔下方相連；內面以唇繫帶連到牙齦；上、下唇動脈（來自面動脈）在唇緣附近形成動脈弓；感覺由眶下神經（上唇）與頦神經（下唇）供應，運動由顏面神經控制', 'The upper lip carries the philtrum in the midline and is continuous with the area under the nasal septum; a frenulum on its inner surface ties it to the gum; the superior and inferior labial arteries (from the facial artery) form an arcade near the lip margin; sensation comes from the infra-orbital nerve (upper lip) and the mental nerve (lower lip), and movement is controlled by the facial nerve'),
+  },
+  'tongue': {
+    位置: e('口腔底之上，大部分在口腔內（舌體），後部向下形成口咽前壁（舌根）；以 V 形的界溝分隔前方的舌體與後方的舌根', 'Above the floor of the mouth, mostly within the oral cavity (the body), with its back part (the root) forming the front wall of the oropharynx; a V-shaped terminal sulcus separates the body in front from the root behind'),
+    組成: e('以橫紋肌為主的肌性器官，分舌內肌與舌外肌（頦舌肌、舌骨舌肌、莖突舌肌、顎舌肌），表面覆黏膜；背面有絲狀、菌狀、輪廓與葉狀乳頭，其中菌狀、輪廓與葉狀乳頭含味蕾，絲狀乳頭不含味蕾、負責觸覺；中央有舌中隔將兩半分開', 'A muscular organ of mainly striated muscle, made up of intrinsic muscles and extrinsic muscles (genioglossus, hyoglossus, styloglossus, palatoglossus) and covered by mucosa; the dorsum carries filiform, fungiform, vallate and foliate papillae, of which the fungiform, vallate and foliate ones contain taste buds, while the filiform ones have none and serve touch; a median septum divides it into two halves'),
+    毗鄰: e('上方為硬顎與軟顎，下方為口腔底的下頜舌骨肌與舌下腺，後方連接舌骨與會厭；運動由舌下神經（顎舌肌除外，屬迷走神經）支配；前三分之二的一般感覺走舌神經、味覺走鼓索，後三分之一由舌咽神經支配；血供主要來自舌動脈', 'Above lie the hard and soft palate, below the mylohyoid and sublingual gland of the floor of the mouth, and behind it connects to the hyoid bone and epiglottis; movement is by the hypoglossal nerve (palatoglossus is supplied by the vagus), general sensation of the front two-thirds travels in the lingual nerve and taste in the chorda tympani, while the back third is supplied by the glossopharyngeal nerve; the blood supply is mainly the lingual artery'),
+  },
+  'epiglottis': {
+    位置: e('喉的入口前方，位於舌根與舌骨後方，下端以甲狀會厭韌帶附於甲狀軟骨內面交角處', 'At the front of the laryngeal inlet, behind the root of the tongue and the hyoid bone, its lower end fixed by the thyro-epiglottic ligament to the inner angle of the thyroid cartilage'),
+    組成: e('葉片狀的彈性軟骨，上端寬而游離，下端細而成柄；表面覆黏膜，前面黏膜在舌根形成舌會厭正中皺襞，兩側為舌會厭外側皺襞，兩者之間的凹陷為會厭谷', 'Leaf-shaped plate of elastic cartilage, wide and free above and narrowing to a stalk below; it is covered by mucosa, which on the front surface forms the median and lateral glosso-epiglottic folds on the tongue root, with the valleculae between them'),
+    毗鄰: e('前面隔著會厭谷對舌根；後面朝喉前庭；兩側以杓會厭皺襞連到杓狀軟骨，構成喉口邊界；吞嚥時喉上提、舌根後壓，使會厭蓋住喉口，防止食物進入氣道；感覺由喉上神經內支供應', 'In front, the valleculae separate it from the tongue root; behind, it faces the laryngeal vestibule; on each side the aryepiglottic fold runs to the arytenoid cartilage and bounds the laryngeal inlet; in swallowing the larynx rises and the tongue root presses back so that the epiglottis covers the inlet and keeps food out of the airway; its sensation comes from the internal branch of the superior laryngeal nerve'),
+  },
+  'arytenoid cartilage': {
+    位置: e('喉的後部，環狀軟骨板上緣的外側，左右各一', 'Back of the larynx, on the upper border of the lamina of the cricoid cartilage, one on each side'),
+    組成: e('成對的小型三角錐形透明軟骨，有尖端、底、前方的聲帶突與外側的肌突；底部與環狀軟骨形成環杓關節，可滑動與旋轉', 'Paired small pyramid-shaped hyaline cartilage with an apex, a base, a vocal process in front and a muscular process on the side; its base forms the cricoarytenoid joint with the cricoid, allowing gliding and rotation'),
+    毗鄰: e('尖端上承小角軟骨；聲帶突連聲韌帶，肌突供環杓後肌、環杓側肌附著；外緣與會厭之間有杓會厭皺襞；其滑動與旋轉改變聲門裂的開閉與聲帶張力', 'The corniculate cartilage rests on its apex; the vocal process gives attachment to the vocal ligament and the muscular process to posterior and lateral cricoarytenoid; the aryepiglottic fold runs from it to the epiglottis; its gliding and rotation open and close the rima glottidis and alter the tension of the vocal fold'),
+  },
+  'corniculate cartilage': {
+    位置: e('喉的後上部，各位於一側杓狀軟骨的尖端之上', 'Back and upper part of the larynx, each sitting on the apex of the arytenoid cartilage of its side'),
+    組成: e('成對的微小圓錐形彈性軟骨，形成小而尖的小角', 'Paired tiny conical pieces of elastic cartilage, forming a small pointed horn'),
+    毗鄰: e('位在杓會厭皺襞後端，皺襞隆起處稱小角結節；左右兩側靠近喉口後緣，其間為杓間切跡', 'Lies in the back end of the aryepiglottic fold, where it raises the corniculate tubercle; the two sides lie near the posterior margin of the laryngeal inlet with the interarytenoid notch between them'),
+  },
+  'cuneiform cartilage': {
+    位置: e('喉的上部，位於杓會厭皺襞內，在小角軟骨的前外側', 'Upper part of the larynx, within the aryepiglottic fold, in front of and lateral to the corniculate cartilage'),
+    組成: e('成對的細小棒狀（楔形）彈性軟骨，不與其他軟骨形成關節', 'Paired small rod-like (wedge-shaped) pieces of elastic cartilage that do not form a joint with any other cartilage'),
+    毗鄰: e('埋在杓會厭皺襞內，在黏膜下隆起形成楔狀結節；前方鄰近會厭，後方為小角軟骨；它使皺襞保持硬挺，利於維持喉口', 'Embedded in the aryepiglottic fold, raising the cuneiform tubercle under the mucosa; the epiglottis lies in front and the corniculate cartilage behind; it stiffens the fold and helps keep the laryngeal inlet open'),
+  },
+  'common carotid artery': {
+    來源: e('右側起自頭臂動脈幹，左側直接起自主動脈弓', 'On the right from the brachiocephalic trunk, on the left directly from the aortic arch'),
+    走向: e('在頸部沿氣管與食道外側上行，與內頸靜脈、迷走神經同包在頸動脈鞘內，走在胸鎖乳突肌深面；約在第三至第四頸椎（C3–C4）高度，接近甲狀軟骨上緣至舌骨之間，分為內、外頸動脈，分叉處略膨大為頸動脈竇', 'Ascends in the neck beside the trachea and oesophagus, enclosed with the internal jugular vein and vagus nerve in the carotid sheath, deep to sternocleidomastoid; at about the level of C3–C4, between the upper border of the thyroid cartilage and the hyoid bone, it divides into the internal and external carotid arteries, with a slight dilatation at the fork, the carotid sinus'),
+    主要分支: e('通常不發出分支；末端分為內頸動脈與外頸動脈', 'Usually gives off no branches; it ends by dividing into the internal and external carotid arteries'),
+    供應範圍: e('以兩條終末分支供應頭與頸；分叉處的頸動脈竇有壓力感受器，頸動脈體有化學感受器', 'Supplies the head and neck through its two terminal branches; the carotid sinus at the fork holds baroreceptors and the carotid body holds chemoreceptors'),
+  },
+  'external carotid artery': {
+    來源: e('總頸動脈在甲狀軟骨上緣附近分叉的前內側終支', 'The front-medial terminal branch of the common carotid artery, at about the upper border of the thyroid cartilage'),
+    走向: e('起初在內頸動脈前內側，繼而轉到其外側上行，經二腹肌後腹與莖突舌骨肌深面，穿入腮腺；在下頜頸後方分為上頜動脈與淺顳動脈兩終支', 'At first in front of and medial to the internal carotid, it then crosses to its lateral side and ascends deep to the posterior belly of digastric and stylohyoid, entering the parotid gland; behind the neck of the mandible it ends as the maxillary and superficial temporal arteries'),
+    主要分支: e('由下而上依序有上甲狀腺動脈、升咽動脈、舌動脈、面動脈、枕動脈、耳後動脈，終支為上頜動脈與淺顳動脈', 'From below upward: superior thyroid, ascending pharyngeal, lingual, facial, occipital and posterior auricular arteries, ending as the maxillary and superficial temporal arteries'),
+    供應範圍: e('頸前部、甲狀腺與喉、舌與口腔、顏面、頭皮、咽與扁桃體、顱底外面與硬腦膜、上下頜骨與牙齒及鼻腔（頭頸除眼、腦以外的大部分）', 'The front of the neck, thyroid gland and larynx, tongue and mouth, face, scalp, pharynx and tonsil, the outside of the skull base and the dura mater, the jaws and teeth and the nasal cavity (most of the head and neck except the eye and brain)'),
+  },
+  'internal carotid artery': {
+    來源: e('總頸動脈在甲狀軟骨上緣附近分叉的後外側終支', 'The back-lateral terminal branch of the common carotid artery, at about the upper border of the thyroid cartilage'),
+    走向: e('頸部沒有分支，沿咽側壁上行至顱底，經頸動脈管入顱，穿過海綿竇，在視神經外側穿出硬腦膜，分成大腦前動脈與大腦中動脈', 'Gives no branches in the neck; it climbs beside the pharynx to the base of the skull, enters through the carotid canal, passes through the cavernous sinus, pierces the dura lateral to the optic nerve and divides into the anterior and middle cerebral arteries'),
+    主要分支: e('眼動脈、後交通動脈、前脈絡叢動脈，終支為大腦前動脈與大腦中動脈', 'Ophthalmic, posterior communicating and anterior choroidal arteries, ending as the anterior and middle cerebral arteries'),
+    供應範圍: e('眼球與眼眶、大腦前部與大部分大腦半球外側面（並參與組成腦底動脈環）', 'The eye and orbit, the front part of the brain and most of the lateral surface of the cerebral hemisphere (and it contributes to the arterial circle at the base of the brain)'),
+  },
+  'inferior thyroid artery': {
+    來源: e('通常起自鎖骨下動脈的甲狀頸動脈幹；少數可直接由鎖骨下動脈發出', 'Usually from the thyrocervical trunk of the subclavian artery; occasionally directly from the subclavian artery'),
+    走向: e('先向上行，在第六頸椎高度彎向內側，經頸動脈鞘後方（總頸動脈深面）抵達甲狀腺下部的後面，與喉返神經關係密切', 'Rises first, then at about the level of C6 bends medially behind the carotid sheath (deep to the common carotid artery) to reach the back of the lower thyroid gland, closely related to the recurrent laryngeal nerve'),
+    主要分支: e('升支（供應副甲狀腺）、下支，以及到咽、食道、氣管與喉下部的小分支', 'Ascending branch (to the parathyroid glands), inferior branch, and small branches to the pharynx, oesophagus, trachea and lower larynx'),
+    供應範圍: e('甲狀腺下部、副甲狀腺、喉下部、氣管與食道頸段', 'Lower part of the thyroid gland, the parathyroid glands, the lower larynx, and the cervical parts of the trachea and oesophagus'),
+  },
+  'ophthalmic artery': {
+    來源: e('內頸動脈在穿出海綿竇、剛入蛛網膜下腔處發出的第一條主要分支', 'A branch of the internal carotid artery given off just after it leaves the cavernous sinus, where it enters the subarachnoid space'),
+    走向: e('與視神經一同經視神經管入眶，起初在視神經外下方，再越過其上方向內側走，沿眶內側壁前行', 'Enters the orbit with the optic nerve through the optic canal, lying first below and lateral to the nerve, then crossing above it toward the medial side and running forward along the medial wall of the orbit'),
+    主要分支: e('視網膜中央動脈、睫狀後短與長動脈、淚腺動脈、篩前與篩後動脈、眶上動脈、滑車上動脈、鼻背動脈', 'Central artery of the retina, short and long posterior ciliary arteries, lacrimal artery, anterior and posterior ethmoidal arteries, supra-orbital artery, supratrochlear artery and dorsal nasal artery'),
+    供應範圍: e('眼球、眼外肌、淚腺、眼瞼，以及額部皮膚、鼻背與篩竇、鼻腔上部', 'The eyeball, extra-ocular muscles, lacrimal gland and eyelids, plus the skin of the forehead, the nasal dorsum, the ethmoidal sinuses and upper nasal cavity'),
+  },
+});
+// ===== B06 end =====
+
 // Head-and-neck cranial and trigeminal-branch nerves (card batch B01). Standard anatomy only; fields we are not sure of stay out.
 Object.assign(CARD_EXTRAS, {
   'facial nerve (vii)': {

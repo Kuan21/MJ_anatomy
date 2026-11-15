@@ -492,7 +492,7 @@
 - 肋間神經（intercostal nerves）：缺 來源、走向、主要分支、支配範圍
 - 交感神經（sympathetic nerves）：缺 來源、走向、主要分支、支配範圍
 
-### 動脈：6 / 18 項資料完整
+### 動脈：7 / 18 項資料完整
 
 - 胸主動脈（Descending thoracic aorta）：缺 來源、走向、主要分支、供應範圍
 - 食道動脈（Esophageal artery）：缺 來源、走向、主要分支、供應範圍
@@ -505,7 +505,6 @@
 - 頭臂動脈（Brachiocephalic artery）：缺 來源、走向、主要分支、供應範圍
 - 降主動脈（Descending aorta）：缺 來源、走向、主要分支、供應範圍
 - 鎖骨下動脈（subclavian artery）：缺 來源、走向、主要分支、供應範圍
-- 總頸動脈（common carotid artery）：缺 來源、走向、主要分支、供應範圍
 
 ### 靜脈：2 / 14 項資料完整
 
@@ -813,20 +812,15 @@
 - 枕小神經（lesser occipital nerve）：缺 主要分支
 - 耳大神經（great auricular nerve）：缺 主要分支
 
-### 動脈：2 / 8 項資料完整
+### 動脈：7 / 8 項資料完整
 
-- 眼動脈（ophthalmic artery）：缺 來源、走向、主要分支、供應範圍
-- 下甲狀腺動脈（inferior thyroid artery）：缺 來源、走向、主要分支、供應範圍
 - 頸淺動脈（superficial cervical artery）：缺 主要分支
-- 外頸動脈（external carotid artery）：缺 來源、走向、主要分支、供應範圍
-- 內頸動脈（internal carotid artery）：缺 來源、走向、主要分支、供應範圍
-- 總頸動脈（common carotid artery）：缺 來源、走向、主要分支、供應範圍
 
 ### 靜脈：0 / 1 項資料完整
 
 - 內頸靜脈（internal jugular vein）：缺 來源、走向、主要分支、引流範圍
 
-### 頭頸器官構造：28 / 63 項資料完整
+### 頭頸器官構造：38 / 63 項資料完整
 
 - 上顎牙齦（Gingiva of upper jaw）：缺 說明
 - 下顎牙齦（Gingiva of lower jaw）：缺 說明
@@ -844,25 +838,15 @@
 - 上顎恆中切齒（upper central secondary incisor tooth）：缺 說明
 - 上顎恆側切齒（upper lateral secondary incisor tooth）：缺 說明
 - 上顎恆犬齒（upper secondary canine tooth）：缺 說明
-- 眼前房（Anterior chamber of left eyeball）：缺 說明
 - 外直肌制止韌帶（Check ligament of left lateral rectus）：缺 說明
-- 脈絡膜（choroid）：缺 說明
 - 睫狀冠（corona ciliaris）：缺 說明
 - 內直肌制止韌帶（Check ligament of left medial rectus）：缺 說明
-- 虹膜（iris）：缺 說明
 - 淚湖（lacrimal lake）：缺 說明
-- 水晶體（lens）：缺 說明
 - 鼻外側軟骨（lateral nasal cartilage）：缺 說明
-- 舌（Tongue）：缺 說明
-- 會厭（Epiglottis）：缺 說明
 - 舌骨會厭韌帶（Hyo-epiglottic ligament）：缺 說明
-- 楔狀軟骨（cuneiform cartilage）：缺 說明
-- 杓狀軟骨（arytenoid cartilage）：缺 說明
-- 小角軟骨（corniculate cartilage）：缺 說明
 - 彈性圓錐（conus elasticus）：缺 說明
 - 甲狀舌骨正中韌帶（Median thyrohyoid ligament）：缺 說明
 - 甲狀會厭韌帶（Thyro-epiglottic ligament）：缺 說明
-- 唇（Lip）：缺 說明
 
 ### 關節構造：0 / 6 項資料完整
 
