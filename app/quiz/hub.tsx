@@ -1,3 +1,5 @@
+import {ORGAN_IDS} from '../organ/organ-ids';
+import {ORGAN_QUIZ} from './organs';
 import {useEffect} from 'react';
 import {ArrowLeft, ChevronRight, Lock, Target} from 'lucide-react';
 import {QUIZ_REGIONS, type QuizRegionId} from './catalogue';
@@ -51,6 +53,9 @@ export default function QuizHub() {
         <a className="quiz-hub-card" href={QUIZ_REGIONS.brain.hash} data-part="brain">
           <span className="quiz-hub-text"><b>腦</b><small>Brain</small><em>大腦皮質、深部核團、腦室、白質纖維束、腦幹、小腦、腦神經根與腦血管</em></span><ChevronRight size={18}/>
         </a>
+        {ORGAN_IDS.map(id => <a key={id} className="quiz-hub-card" href={QUIZ_REGIONS[id].hash} data-part={id}>
+          <span className="quiz-hub-text"><b>{QUIZ_REGIONS[id].label}</b><small>{QUIZ_REGIONS[id].english}</small><em>{ORGAN_QUIZ[id].blurb}</em></span><ChevronRight size={18}/>
+        </a>)}
         <div className="quiz-hub-card is-soon" aria-disabled="true" data-part="organs">
           <span className="quiz-hub-text"><b>其他器官</b><small>Other organs</small><em>其他器官的 Quiz，之後加入</em></span>
           <span className="quiz-soon"><Lock size={13}/>即將推出</span>

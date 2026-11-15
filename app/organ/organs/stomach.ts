@@ -56,7 +56,7 @@ const parts: OrganPartDef[] = [
       fn: {en: 'Main site of mixing and of acid and pepsinogen secretion; its gastric glands are rich in parietal and chief cells.', zh: '食物混合以及胃酸與胃蛋白酶原分泌的主要處所，胃腺含有豐富的壁細胞與主細胞。'},
       links: ['Fundus', 'Pylorus', 'Angular incisure', 'Greater curvature', 'Lesser curvature']},
   },
-  {key: 'Pylorus', en: 'Pylorus', zh: '幽門（幽門部）', group: 'zones', color: '#9ccf9a', mark: zone([4, 5]),
+  {key: 'Pylorus', en: 'Pylorus', zh: '幽門（幽門部）', group: 'zones', color: '#9ccf9a', mark: zone([4, 5]), quiz: false,
     card: {
       loc: {en: 'The distal, funnel-shaped part from the angular incisure to the pyloric opening. It is divided into the pyloric antrum and the pyloric canal and usually lies on the right of the midline near the transpyloric plane (L1), lower when standing.', zh: '從胃角切跡到幽門口、呈漏斗形的遠端部分，分為幽門竇與幽門管。多在正中線右側，約在幽門平面（L1）附近，站立時位置較低。'},
       rel: {en: 'In front: quadrate lobe of the liver and the anterior abdominal wall. Behind: the neck and head of the pancreas, beyond the lesser sac. The gastroduodenal artery runs behind the first part of the duodenum.', zh: '前方為肝方形葉與前腹壁，後方隔著網膜囊為胰頸與胰頭。胃十二指腸動脈走在十二指腸第一部後方。'},
@@ -164,6 +164,7 @@ const parts: OrganPartDef[] = [
     card: {
       loc: {en: 'A channel between the folds along the lesser curvature, from the cardia towards the pylorus.', zh: '沿胃小彎、位於皺襞之間的通道，從賁門通向幽門。'},
       course: {en: 'A small amount of liquid can slide along it to the pylorus without being held in the rest of the stomach.', zh: '少量液體可沿它直接滑向幽門，不必停留在胃的其他部分。'},
+      fn: {en: 'Lets a small, liquid meal pass quickly towards the duodenum.', zh: '讓少量的流質食物較快通往十二指腸。'},
       links: ['Lesser curvature', 'Gastric rugae']},
   },
 ];

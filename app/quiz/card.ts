@@ -27,6 +27,8 @@ const FIELDS: Record<QuizSystem, string[]> = {
   respiratory: ['位置', '構造／毗鄰關係', '血液供應／神經'],
   // brain quiz: every field of the structure's brain information card (their labels depend on the kind of structure); see structureCard
   brain: [],
+  // organ detail modes: every field of the structure's own card (location, relations, blood supply, nerve supply, function); see structureCard
+  viscera: [],
   // head-and-neck organ structures (eyeball, tongue, teeth, larynx cartilages…): the repository has no card text for them yet, so the card says 「尚無資料」 until a checked description is added to card-data.ts
   headorgan: ['說明'],
   // joint soft tissue: the repository documents none of these yet, so the card shows 「尚無資料」 until hand-checked entries are added to card-data.ts
@@ -45,6 +47,7 @@ const FROM_PROFILE: Record<QuizSystem, Record<string, string[]>> = {
   cardiac: {},
   respiratory: {位置: ['位置'], '構造／毗鄰關係': ['構造／毗鄰關係'], '血液供應／神經': ['血液供應／神經']},
   brain: {},
+  viscera: {},
   headorgan: {},
   joint: {},
   space: {},
@@ -78,7 +81,7 @@ export function structureCard(structure: Pick<QuizStructure, 'name' | 'chinese' 
   const system = structure.system;
   if (system === 'space') return spaceCard(structure);
   // Brain quiz: the fields come from the structure's own brain information card (public/models/brain/neuro-cards.json, packed into the catalogue); with no card the card says so.
-  if (structure.source === 'Brain Project') return {english: structure.name, chinese: structure.chinese, system, fields: (structure.cardFields ?? []).map(f => ({label: f.label, zh: f.zh})), missing: structure.cardFields?.length ? [] : ['資料卡']};
+  if (structure.source === 'Brain Project' || structure.source === 'Organ detail') return {english: structure.name, chinese: structure.chinese, system, fields: (structure.cardFields ?? []).map(f => ({label: f.label, zh: f.zh, ...(f.en ? {en: f.en} : {})})), missing: structure.cardFields?.length ? [] : ['資料卡']};
   const profile = structureProfile(structure.name, (system === 'joint' ? 'connective' : system === 'headorgan' ? 'sensory' : system) as SystemId);
   // Paired structures are keyed without left/right; names where "left"/"right" belongs to the name itself (left atrium, left pulmonary artery…) are keyed in full.
   const extra: CardExtra | undefined = CARD_EXTRAS[structure.name.toLowerCase()] ?? CARD_EXTRAS[clean(structure.name)];

@@ -31,6 +31,10 @@ export interface OrganPartDef {
   mark?: {host: string; channel: 'zone' | 'line'; values: number[]};
   /** Built by us from the shape of the neighbouring structures (shown as 示意). */
   schematic?: boolean;
+  /** Quiz: false = not asked (an aggregate of other markings). */
+  quiz?: false;
+  /** Quiz side of a paired structure (default midline). */
+  side?: 'left' | 'right' | 'midline';
   /** No mesh: the card only. */
   cardOnly?: boolean;
   card?: OrganCard;

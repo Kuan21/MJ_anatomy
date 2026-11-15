@@ -354,6 +354,16 @@
       "url": "https://cdn.humanatlas.io/digital-objects/ref-organ/eye-male-left/v1.3/assets/3d-vh-m-eye-l.glb",
       "pinned_by": "scripts/build-eye-atlas.mjs (sha256)",
       "license_url": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    {
+      "id": "organ-stomach-detail",
+      "files": [
+        "models/organ/stomach/*"
+      ],
+      "license": "CC BY 4.0",
+      "origin": "Stomach, abdominal oesophagus and first part of the duodenum from BodyParts3D 4.0 (already in this viewer), subdivided (Loop, three levels) for a smooth surface and cut with planes; stomach regions (cardia, fundus, body, pyloric antrum, pyloric canal) and markings (greater and lesser curvature, angular incisure, cardial notch, pyloric sphincter band) are labels on the triangles of the same surface, placed by this project (schematic)",
+      "url": "https://dbarchive.biosciencedbc.jp/en/bodyparts3d/desc.html",
+      "pinned_by": "scripts/build-organ-atlas.mjs stomach"
     }
   ],
   "checked_not_used": [

@@ -1,3 +1,4 @@
+import {ORGAN_IDS} from '../organ/organ-ids';
 import {useEffect, useMemo, useRef, useState} from 'react';
 import {AlertCircle, ArrowLeft, ArrowRight, Check, CheckCircle2, ChevronRight, Eye, Layers, Maximize2, Pencil, RotateCcw, Shuffle, Target, Trash2, X, XCircle} from 'lucide-react';
 import {fetchModelBuffer} from '../model-download';
@@ -58,7 +59,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
   const system = QUIZ_SYSTEMS.find(s => s.id === target?.system);
   const category = target ? QUIZ_CATEGORIES.find(c => c.id === categoryOf(target)) : undefined;
   const categories = settings.categories ?? ALL_CATEGORIES;
-  const contextName = regionId === 'heart' ? '其他心臟構造' : regionId === 'lung' ? '其他肺構造' : regionId === 'brain' ? '其他腦構造' : '骨骼';
+  const contextName = regionId === 'heart' ? '其他心臟構造' : regionId === 'lung' ? '其他肺構造' : regionId === 'brain' ? '其他腦構造' : regionId && (ORGAN_IDS as string[]).includes(regionId) ? `其他${QUIZ_REGIONS[regionId].label}構造` : '骨骼';
   const questionKey = `${round}:${index}:${target?.id ?? ''}`;
   const ready = readiness.key === questionKey && readiness.ready && !error;
   const correct = session.answers.filter(a => a.correct).length;

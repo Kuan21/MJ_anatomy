@@ -1,4 +1,4 @@
-// Stomach detail package. No external model: the BodyParts3D stomach (public/models/atlas.json, CC BY-SA 2.1 Japan, already in the repository) is subdivided for a smooth surface and
+// Stomach detail package. No external model: the BodyParts3D stomach (public/models/atlas.json, CC BY 4.0, already in the repository) is subdivided for a smooth surface and
 // its regions are marked on that surface (triangle labels, no new meshes). The abdominal oesophagus and the first part of the duodenum come from the same atlas as context.
 //   zone channel : 1 cardia, 2 fundus, 3 body, 4 pyloric antrum, 5 pyloric canal      (a partition of the stomach surface)
 //   line channel : 1 lesser curvature, 2 greater curvature, 3 angular incisure, 4 pyloric sphincter band, 5 cardial notch (strips and patches laid over the zones)
