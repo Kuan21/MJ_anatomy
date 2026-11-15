@@ -15,6 +15,8 @@
 | 影響使用 | 功能壞、找不到、題目無法作答、缺模型等，但不會教錯 |
 | 外觀小問題 | 排版、大小寫、極小碎片等，不影響學習 |
 
+裝置優先次序（使用者 2026-11-16）：使用者考前主要用 iPad 與電腦，iPad 與電腦的問題優先於手機；手機排版問題維持一般優先，不升級。
+
 ## 進度
 
 | 區域 | 狀態 | 已檢查 | 問題 | 最後更新 |
@@ -42,6 +44,20 @@
 | HN-05 | 腦詳細模式 | Tentorium cerebelli 小腦幕、Anterior spinal artery 脊髓前動脈 | 兩者都是單一構造，但 brain.glb 拆成 `.l`／`.r` 兩半（各以 x = 0 為界）。目前不在 Quiz，點選時名稱是否帶左右待功能測試確認。脊髓前動脈是單一中線動脈；本項要與 HN-03、HN-04 由同一個工作階段一起修（使用者 2026-11-15 決定）。 | brain.glb 節點範圍 | Gray's Anatomy 1918 | 影響使用 | 腦部工作階段（由總管指定），與 HN-03、HN-04 同一批 |
 | HN-10 | 腦／Quiz、腦詳細模式 | Fornix 穹窿 | 只有 Left／Right Fornix 左／右穹窿（brain.glb `Fornix.l/.r`，以 x = 0 為界）。左右穹窿腳保留；穹窿體是中線構造，模型與 Quiz 要有單一「Body of fornix 穹窿體」，不分左右（使用者 2026-11-15 決定）。 | brain.glb 節點範圍；`quiz-brain.json` | Gray's Anatomy 1918；OpenStax Anatomy & Physiology | 會令溫書學錯 | 腦部工作階段（由總管指定），與 HN-03、HN-04 同一批 |
 | HN-11 | 頭頸／名稱 | 中文名與必考清單用詞不同（24 個構造） | 見「9 名稱」表；名稱決定檔與 CLAUDE.md 規則不一致，等使用者決定以哪份為準 | 690 張資訊卡顯示名稱對照必考清單 | FIPAT TA2（名詞對照） | 影響使用 | 總管（決定後分派） |
+| HN-12 | 頭頸 | 主圖譜資訊卡內容 | 98 個必考結構的主圖譜資訊卡沒有內容欄（只有區域、構造類型、選取件數）：骨 16、腦 16、動脈 13、神經 13、韌帶 6、咽部肌肉 6、眼 6、軟骨 6、腺體 4、靜脈 3、淚道 3、其他 6。清單見「13 資訊卡」。 | 690 張資訊卡讀取結果 | — | 影響使用 | 頭頸資訊卡 |
+| HN-13 | 頸部 | Spinalis cervicis 頸棘肌資訊卡 | 起止點寫成整條棘肌的通用附著，不是頸棘肌本身（不在必考清單）。 | 資訊卡「ORIGIN／INSERTION」 | Gray's Anatomy 1918；Kenhub | 會令溫書學錯（非必考） | 頭頸資訊卡 |
+| HN-14 | 喉 | Cricothyroid 環甲肌直部、斜部資訊卡 | 兩部分止點寫法相同，未分開。 | 資訊卡「INSERTION」 | Gray's Anatomy 1918；TeachMeAnatomy | 外觀小問題 | 頭頸資訊卡 |
+| HN-15 | 頭頸／搜尋 | 必考清單寫法搜不到 | 主圖譜搜尋輸入必考清單的中文寫法，6 個完全沒有結果：上咽縮肌、深頸動脈、前大腦動脈、耳咽管咽肌、橫頸動脈、腦橋（網站名為咽上縮肌、頸深動脈、大腦前動脈、咽鼓管咽肌、頸橫動脈、橋腦）。另外 頸內靜脈、SCM 也搜不到。腦垂體、提嘴角肌、淚神經、頜下腺 有別名可搜到。名稱決定檔說必考清單寫法會加作別名，尚未套用。 | 桌面搜尋 40 個詞的結果（見「功能測試」） | — | 影響使用 | 總管（別名資料，`docs/paokao-aliases.json` 等） |
+| HN-16 | 頭頸／資訊卡 | Quiz 資訊卡與主圖譜資訊卡是兩套資料 | #337、#346 寫的卡片文字（`app/quiz/card-data.ts`）只出現在 Quiz 與學習；主圖譜點同一構造（例如咽上縮肌、甲狀軟骨、淚腺）資訊卡仍然沒有內容（HN-12）。請決定兩邊是否共用同一份內容。 | 690 張主圖譜資訊卡讀取（#346 合併後） | — | 影響使用 | 總管 |
+| HN-17 | Quiz | Quiz 記住設定 | 桌面選「雙側」「20 題」開始測驗、提早結束後，重新開啟頭頸 Quiz，設定回到預設「右側」「10 題」，沒有記住。 | 自動測試：同一分頁重新載入後 aria-pressed 狀態 | — | 影響使用 | 總管（Quiz） |
+| HN-18 | 手機版（一般優先） | 主圖譜排版（390×844） | 標題下的「可點選構造」被右上角按鈕遮住；區域列只見「頭頸、雙側、左側」，「右側」要橫向捲動才看到；資訊卡內容區很矮，起止點等欄位要在卡內捲動才看到。頁面本身沒有橫向捲動。 | 截圖 mobile-02、mobile-04 | — | 外觀小問題 | 總管 |
+| HN-19 | 腦詳細模式、CSF 流向 | 網站內部用詞不一致 | CSF 流向頁寫「大腦導水管」「蛛網膜下腔」「蛛網膜顆粒」；腦模型與主圖譜寫「中腦導水管」；必考清單寫「蜘蛛膜」「蜘蛛膜下腔」。同一構造在網站上有兩種寫法。 | CSF 流向頁文字、腦詳細模式清單 | FIPAT TA2（名詞對照） | 影響使用 | 總管（併入 HN-11 一起決定） |
+| HN-20 | Quiz、學習、模擬考試 | 介面文字有廣東話「返去學」 | 共 5 處：`app/quiz/setup-page.tsx` 第 48 行（答錯的「返去學」→ 答錯的「回去學習」）、`app/quiz/page.tsx` 第 247 行（返去學：到{區域}學習地圖 → 回去學習：到{區域}學習地圖）、`app/quiz/exam.tsx` 第 178 行、`app/quiz/run.tsx` 第 32 行（返去學：→ 回去學習：），以及 `app/quiz/run.tsx` 第 10 行註解。另外使用者要求加強 `scripts/check-zh.mjs`（不可放寬）：(1) 加規則捉口語「返」（返去、返嚟、返學、返轉等，「返回」除外）與「撳、搵、攞、嚿、畀、郁、噉、嘥」；(2) 掃描範圍加入 `components/`、`lib/` 與建置時生成、會上網站的名稱與資訊卡資料；(3) 以「返去學」做反向測試，修改前必須失敗。完成後開【需人工審核】PR，附 Quiz 設定頁與結果頁截圖。 | Quiz 結果頁實際顯示「返去學：到頭頸學習地圖」（桌面測試） | — | 影響使用 | 總管（Quiz 與檢查腳本） |
+| HN-21 | 頸部 | 頸動脈鞘上段（頸動脈分叉以上，約 C4–C2，左右） | 頸內靜脈在頸內動脈的內側並偏前；應在外側。分叉後約 1 cm 內頸內、頸外動脈幾乎重疊（x、z 相差 1–2 mm 以內），未分開。分叉以下（頸總動脈段）的關係正確。 | 左側 y 1.51 m：頸內動脈 x 34、z −5 mm；頸內靜脈 x 29、z 0 mm；y 1.49–1.55 m 每一層都如此，右側鏡像相同（neck-vessels 資料逐層斷面）。未在 3D 畫面截圖確認。 | Gray's Anatomy 1918；TeachMeAnatomy；Kenhub | 會令溫書學錯 | 頭頸模型（登記表已有「頸內靜脈中心線調整」排期，建議一併處理） |
+| HN-22 | 面部 | Superficial／Deep part of masseter 咬肌淺部、深部（左右） | 深部在淺部的外側（較淺），應在深面（內側）；疑為兩件名稱對調或位置錯。 | y 1.53 與 1.55 m，以 5 mm 前後分格比較，幾乎每格深部外緣比淺部外緣再外 2–5 mm（例如左側 y 1.55、z 15：淺部 44–50 mm，深部 48–55 mm）。未在 3D 畫面截圖確認。 | Gray's Anatomy 1918；Kenhub | 會令溫書學錯 | 頭頸模型（面部補充模型） |
+| HN-23 | 頸根 | Subclavian artery 鎖骨下動脈與 Scalenus anterior 前斜角肌（左右） | 鎖骨下動脈在前斜角肌的前方；應在其後方（前、中斜角肌之間）。鎖骨下靜脈在前斜角肌前方，正確。 | y 1.425、1.435 m，x 40–52 mm：前斜角肌 z −8～−3，動脈 z −4～+5，中斜角肌 z −25～−14，兩肌之間沒有動脈；右側相同。未在 3D 畫面截圖確認。 | Gray's Anatomy 1918；TeachMeAnatomy；Kenhub | 會令溫書學錯 | 頭頸模型 |
+| HN-24 | 頸部 | Left recurrent laryngeal nerve 左喉返神經 | 頸段在氣管外緣外側約 10 mm，不在氣管食道溝內（右側位置正確）。 | y 1.42–1.44 m：左喉返神經 x 20–22 mm；氣管中心 x 0、半徑約 9 mm。 | Gray's Anatomy 1918；TeachMeAnatomy | 影響使用 | 頭頸模型 |
+| HN-25 | 學習 | 神經類別的黃色標示 | 學習「認識」步驟用黃色標示目標構造，但其他神經本身也是黃色，神經類別很難分出哪一條是目標。 | 學習地圖「神經」第 1 關截圖 | — | 影響使用 | 總管（學習） |
 | HN-06 | 腦／Quiz | 腦 Quiz 英文大小寫 | 416 題中 383 題在 Left／Right 後保留大寫，例如「Left Lateral sulcus」「Right Pons」，與主圖譜寫法（Left lateral…）不一致。 | `quiz-brain.json` | — | 外觀小問題 | 總管（Quiz） |
 | HN-07 | 頭頸／名稱 | 字形「頷／頜」「腭／顎」 | `docs/quiz-head-neck-name-decisions.md` 已決定統一用「頜」「顎」，但網站仍兩種並存：Quiz 中文名「右下頷神經前股、後股」「右上頷神經腦膜支」，#337 資訊卡「下頷神經」「上頷竇」「硬腭」，主圖譜資訊卡「腭咽肌」。 | 已部署資料與資訊卡文字 | FIPAT TA2（名詞對照） | 外觀小問題 | 總管（套用名稱決定） |
 | HN-08 | 頭頸／眼、喉 | 5 個結構的範圍框（bounds） | Right sclera、Suspensory ligament of right lens、Left conus elasticus、Right aryepiglotticus、Straight part of right cricothyroid 的 atlas.json 範圍框跨到對側（例如 Right sclera 範圍 x −44～+31 mm，實際網格 −44～−17 mm）。可能影響 Focus 取景與「不在目前視野」提示。 | atlas.json bounds 對比實際頂點 | — | 外觀小問題 | 頭頸模型 |
@@ -181,7 +197,6 @@
 | 骨（孔、管） | RS-0088 | Carotid canal 頸動脈管 | 只有腦資訊卡 |
 | 骨（孔、管） | RS-0542 | Opening of carotid canal 頸動脈孔 | 沒有 |
 | 骨（孔、管） | RS-0248 | Foramen magnum 枕骨大孔 | 只有腦資訊卡 |
-| 骨（孔、管） | RS-0546 | Optic canal 視神經管 | 只有腦資訊卡（眼詳細模式的眶孔功能待功能測試確認） |
 | 骨（其他） | RS-0607 | Periosteum 骨膜 | 只有腦資訊卡 |
 | 骨（其他） | RS-0647 | Posterior cranial fossa 後顱窩 | 只有腦資訊卡 |
 | 動脈 | RS-0054 | Ascending cervical artery 升頸動脈 | 只有腦資訊卡 |
@@ -223,9 +238,11 @@
 | 口腔 | RS-0856 | Terminal sulcus 界溝（舌） | 沒有 |
 | 其他 | RS-0707 | Scalp 頭皮 | 只有腦資訊卡 |
 
+（2026-11-16 更正：Optic canal 視神經管在眼詳細模式「眼眶的孔、管與裂」有標示，已從本表移除。）
+
 耳 16 項全部是因為耳詳細模式尚未部署到網站；耳的 PR 合併後重新核對這 16 項（使用者 2026-11-15 指示）。
 
-合計 49 個結構（50 個清單 id；翼靜脈叢、鼓索神經、小腦延腦池各有兩個 id）。分組：骨 11、動脈 5、靜脈 1、神經 2、腦 12、耳 16、口腔 1、其他 1。建議負責：耳由總管（耳詳細模式）；腦膜、腦池與嗅球由腦部工作階段；骨性標記、孔、頸部動脈與翼靜脈叢由頭頸模型；界溝、頭皮由總管分派。
+合計 48 個結構（49 個清單 id；翼靜脈叢、鼓索神經、小腦延腦池各有兩個 id）。分組：骨 10、動脈 5、靜脈 1、神經 2、腦 12、耳 16、口腔 1、其他 1。建議負責：耳由總管（耳詳細模式）；腦膜、腦池與嗅球由腦部工作階段；骨性標記、孔、頸部動脈與翼靜脈叢由頭頸模型；界溝、頭皮由總管分派。
 
 缺項規則（使用者 2026-11-15 批准）：只有資訊卡或只有概念、沒有 3D 模型的項目一律算缺項。`check-required-structures.mjs` 目前把 CARD-ONLY 與 CONCEPT-ONLY 算作「已有」，要改為只把有 3D 網格（PRESENT、ALIAS）算已有，並把上表各項加入 `known-gaps.json`（交總管分派）。
 
@@ -235,7 +252,7 @@
 - 已合併的 #337 與登記表稱「B01 神經」：實際內容是 13 條頭頸神經，不是計劃表的 B01 骨。
 - 決定：以資訊卡計劃表（`docs/quiz-head-neck-card-plan.md`）為唯一編號來源，批次名稱寫成「類別＋計劃表編號」，例如「B06 神經（第 1 部分，#337）」；#337 的 review-log 與登記表改用這個寫法；之後每批 PR 標題都用「頭頸資訊卡 B06 神經（1/2）」這類格式，避免同一編號指兩批。核對報告暫時以 PR 編號指稱（例如「#337 神經卡」）。
 
-### 13 資訊卡（#337 神經卡已核對；其餘待做）
+### 13 資訊卡（#337 神經卡、主圖譜頭頸資訊卡已核對；B02–B05 合併後即核對）
 
 #337 的 13 張神經卡（顏面、三叉、眼、上頜、頦、頰、舌咽、迷走、舌下、下頜神經前股、後股、下齒槽、下頜舌骨肌神經）逐欄核對「來源、走向、支配範圍」：
 
@@ -243,3 +260,83 @@
 - 不完整 1 項：眼神經卡寫額神經「延續為眶上神經」，沒有提滑車上神經（額神經分成眶上與滑車上神經）。外觀小問題（Gray's Anatomy 1918；TeachMeAnatomy）。
 - 用字：見 HN-07。
 - 其餘 11 張未見事實錯誤（Gray's Anatomy 1918；TeachMeAnatomy；Kenhub）。
+
+#### 主圖譜資訊卡（690 張，必考項目 252 張）
+
+- 肌肉卡（起點、止點、神經支配、作用、血供五欄齊全）89 張逐欄核對，約 50 條肌肉：未見會令溫書學錯的必考內容錯誤。細節：
+  - Spinalis cervicis 頸棘肌：卡片寫的是整條棘肌的通用附著（下胸、上腰棘突到上胸、頸棘突），不是頸棘肌本身（約 C7–T2 棘突到 C2 棘突）。不在必考清單（HN-13）。
+  - Straight／Oblique part of cricothyroid 環甲肌直部、斜部：兩張卡的止點寫法相同（甲狀軟骨下緣與下角），未分開直部（止於下緣）與斜部（止於下角）（HN-14）。
+- **必考結構中 98 張主圖譜資訊卡只有區域與構造類型，沒有任何內容欄**（HN-12），按類別：
+
+| 類別 | 數量 | 結構 |
+|---|---|---|
+| bone | 16 | Atlas 寰椎、Axis 樞椎、Ethmoid bone 篩骨、Frontal bone 額骨、Hyoid bone 舌骨、Inferior nasal concha 下鼻甲、Lacrimal bone 淚骨、Mandible 下頜骨、Nasal bone 鼻骨、Occipital bone 枕骨、Palatine bone 顎骨、Parietal bone 頂骨、Sphenoid bone 蝶骨、Temporal bone 顳骨、Vomer 犁骨、Zygomatic bone 顴骨 |
+| brain | 16 | Anterior commissure 前連合、Cerebellum 小腦、Cerebral aqueduct 中腦導水管、Corpus callosum 胼胝體、Fourth ventricle 第四腦室、Hypothalamus 下視丘、Inferior colliculus 下丘、Lateral ventricle 側腦室、Medulla oblongata 延腦、Midbrain 中腦、Occipital lobe 枕葉、Optic chiasm 視交叉、Pons 橋腦、Superior colliculus 上丘、Thalamus 視丘、Third ventricle 第三腦室 |
+| artery | 13 | Anterior cerebral artery 大腦前動脈、Anterior communicating artery 前交通動脈、Anterior inferior cerebellar artery 小腦前下動脈、Anterior spinal artery 脊髓前動脈、Basilar artery 基底動脈、Costocervical trunk 肋頸動脈幹、Deep cervical artery 頸深動脈、Inferior thyroid artery 下甲狀腺動脈、Internal carotid artery 內頸動脈、Ophthalmic artery 眼動脈、Posterior communicating artery 後交通動脈、Posterior inferior cerebellar artery 小腦後下動脈、Superior cerebellar artery 小腦上動脈 |
+| nerve | 13 | Anterior ethmoidal nerve 前篩神經、Frontal nerve 額神經、Infratrochlear nerve 滑車下神經、Lacrimal nerve 淚腺神經、Long ciliary nerve 長睫神經、Nasociliary nerve 鼻睫神經、Ophthalmic nerve 眼神經、Optic nerve 視神經、Posterior ethmoidal nerve 後篩神經、Short ciliary nerve 短睫神經、Supraorbital nerve 眶上神經、Supratrochlear nerve 滑車上神經、Trochlear nerve 滑車神經 |
+| ligament | 6 | Common tendinous ring 總腱環、Intermediate tendon 中間腱、Pharyngeal raphe 咽縫、Pterygomandibular raphe 翼下頷縫、Stylohyoid ligament 莖突舌骨韌帶、Suspensory ligament of lens 水晶體懸韌帶 |
+| muscle | 6 | Inferior pharyngeal constrictor 咽下縮肌、Middle pharyngeal constrictor 咽中縮肌、Palatopharyngeus 腭咽肌、Salpingopharyngeus 咽鼓管咽肌、Stylopharyngeus 莖突咽肌、Superior pharyngeal constrictor 咽上縮肌 |
+| eye | 6 | Choroid 脈絡膜、Cornea 角膜、Eyebrow 眉毛、Iris 虹膜、Lens 水晶體、Sclera 鞏膜 |
+| cartilage | 6 | Arytenoid cartilage 杓狀軟骨、Corniculate cartilage 小角軟骨、Cricoid cartilage 環狀軟骨、Epiglottis 會厭、Major alar cartilage 大翼軟骨、Thyroid cartilage 甲狀軟骨 |
+| gland | 4 | Lacrimal gland 淚腺、Pituitary gland 腦下垂體、Sublingual gland 舌下腺、Submandibular gland 下頜下腺 |
+| vein | 3 | Brachiocephalic vein 頭臂靜脈、Internal jugular vein 內頸靜脈、Suprascapular vein 肩胛上靜脈 |
+| duct | 3 | Lacrimal canaliculus 淚小管、Lacrimal sac 淚囊、Nasolacrimal duct 鼻淚管 |
+| oral | 2 | Lip 唇、Tongue 舌 |
+| ganglion | 1 | Ciliary ganglion 睫狀神經節 |
+| other | 1 | Trachea 氣管 |
+| foramen | 1 | Interventricular foramen 室間孔（Monro 孔） |
+| fascia | 1 | Tentorium cerebelli 小腦幕 |
+
+  頭頸資訊卡工作階段正在寫 B02–B05；#337 的 13 條神經文字只在 Quiz 資訊卡（`app/quiz/card-data.ts`），主圖譜點選神經時是否顯示同一內容待功能測試確認。
+
+### 功能測試 1–8（已部署網站；本環境沒有 GPU，用軟體繪圖，所以時間偏慢，只作相對參考）
+
+| 項目 | 桌面 1440×900 | 手機 390×844 | console error |
+|---|---|---|---|
+| 1 首次載入 | 載入事件 0.9 秒、3D 畫面 4 秒出現；底部進度條 120 秒後仍未走完（軟體繪圖，請在真機確認） | 3D 畫面 4 秒出現 | 無（只有 WebGL 效能警告） |
+| 2 點選高亮、資訊卡 | 正常，點選後鏡頭不移動 | 正常；排版見 HN-18 | 無 |
+| 2 Focus／Isolate／Hide／Clear | 全部正常；Focus 會放大到所選構造，Isolate 只剩 1 件，Hide 後可見件數減 1 | 未逐一測 | 無 |
+| 3 搜尋 | 英文名、網站中文名正常；必考清單寫法 6 個搜不到（HN-15）。頭 5 次搜尋要 5–20 秒（模型仍在載入），之後約 0.3 秒 | 正常 | 無 |
+| 4 區域分頁（頭頸）、分層解剖、組織深度 | 正常；分層解剖有頭面肌肉五層與枕下三角 | 區域列見 HN-18 | 無 |
+| 4 性別切換 | 頭頸畫面不出現（屬骨盆區功能，骨盆會陰核對時測） | — | — |
+| 5 腦詳細模式 | 切面（矢狀、冠狀、水平）、逐層剝離、六個視角、CSF 流向八步驟都正常；搜尋確認 HN-03、HN-04、HN-10 | 可開啟，頁面無橫向捲動 | 無 |
+| 6 眼詳細模式 | 剝層、切面、眼球動作（六條眼外肌、CN III／IV／VI 麻痺）、眼眶孔（視神經管、眶上裂、眶下裂、眶上孔、前／後篩孔）正常 | 未測 | 無 |
+| 7 耳詳細模式 | 已部署網站上隱藏（入口未開） | — | — |
+| 8 學習 | 頭頸 33 關；認識→練習→過關測驗流程正常；骨的卡片顯示「資料整理中」 | 可開啟 | 無 |
+| 8 Quiz | 出題、作答、答錯顯示正確位置、提早結束、計分、「返去學」連結正常；記住設定失敗（HN-17） | 出題畫面正常 | 無 |
+| 8 模擬考試 | 已部署頁面仍顯示「即將推出」（#348 合併後部署可能未完成），下次更新時重測 | — | — |
+
+搜尋 40 個詞（第一個結果）：
+
+| 類別 | 搜得到 | 搜不到 |
+|---|---|---|
+| 英文名（10） | masseter、temporalis、sternocleidomastoid、facial nerve、hypoglossal nerve、thyroid cartilage、hyoid bone、internal jugular vein | parotid gland（已知缺項）；lingual artery 只出現 lingual nerve（已知缺項） |
+| 網站中文名（10） | 咬肌、顳肌、胸鎖乳突肌、顏面神經、舌下神經、甲狀軟骨、舌骨、視神經 | 腮腺（已知缺項）、頸內靜脈（網站寫內頸靜脈） |
+| 必考清單寫法（10） | 腦垂體、提嘴角肌、淚神經、頜下腺 | 上咽縮肌、深頸動脈、前大腦動脈、耳咽管咽肌、橫頸動脈、腦橋 |
+| 英文別名（10） | CN VII、cranial nerve XII、hypophysis（找到腺垂體）、buccinator | Adam's apple、Eustachian tube、SCM、galea aponeurotica、Circle of Willis、tympanic membrane |
+
+### 13 資訊卡：#346（B04＋B05）核對（使用者指示合併後即核對）
+
+#346 新增的 32 張 Quiz 資訊卡逐欄核對（10 條肌肉：鼻中隔降肌、上中下咽縮肌、顎咽肌、咽鼓管咽肌、莖突咽肌、甲杓肌、環杓後肌、環杓側肌；3 條韌帶：環甲正中韌帶、甲狀舌骨外側韌帶、聲韌帶；19 個器官結構：角膜、鞏膜、玻璃體、視網膜視部、上下瞼板、淚腺、淚小管、淚囊、鼻淚管、舌下腺、下頜下腺、甲狀軟骨、環狀軟骨、氣管、大翼軟骨、鼻中隔軟骨、總腱環、上斜肌滑車）：**未見事實錯誤**（Gray's Anatomy 1918；TeachMeAnatomy；Kenhub；OpenStax Anatomy & Physiology）。用字：卡片用「咽鼓管」，必考清單用「耳咽管」（併入 HN-11）。這些內容不會出現在主圖譜資訊卡（HN-16）。
+
+### 層次核對：頭頸重點關係（使用者 2026-11-16 指定範圍）
+
+方法：用網站實際載入的網格，在固定高度取 4–8 mm 厚的水平斷面，比較各構造在同一斷面的左右（x，離中線距離）與前後（z，正值向前）位置；需要時再按 4–5 mm 分格比較。只用數值，未在 3D 畫面截圖確認。依公開資料核對，請使用者核對。
+
+| 關係 | 應有 | 模型 | 結果 |
+|---|---|---|---|
+| 頸動脈鞘（頸總動脈段，y 1.43–1.47 m） | 頸總動脈在內、頸內靜脈在外，迷走神經在兩者之間的後方 | 左：頸總動脈 x 16–26、頸內靜脈 x 24–28，迷走神經 z 比兩者都後；右側相同 | 正確 |
+| 頸動脈鞘（分叉以上，y 1.49–1.55 m） | 同上（頸內動脈取代頸總動脈） | 頸內靜脈在動脈內側並偏前 | **錯，HN-21** |
+| 頸闊肌 → 胸鎖乳突肌 → 頸動脈鞘 | 由淺到深 | y 1.44：頸闊肌 z 30、胸鎖乳突肌 z 21、頸內靜脈 z 17、頸總動脈 z 2 | 正確 |
+| 舌骨下肌 | 胸骨舌骨肌在胸骨甲狀肌淺面；肩胛舌骨肌上腹在胸骨舌骨肌外側 | 胸骨舌骨肌 z 12–15 比胸骨甲狀肌 z 4–10 前；肩胛舌骨肌 x 19–25 比胸骨舌骨肌 x 9–11 外 | 正確 |
+| 咬肌、下頜支、翼內肌 | 由外到內 | 咬肌 x 42–53 → 下頜支 x 35–43 → 翼內肌 x 26–35 | 正確 |
+| 咬肌淺部與深部 | 淺部在外、深部在內 | 深部在外 | **錯，HN-22** |
+| 舌下神經與舌骨舌肌 | 舌下神經在舌骨舌肌外側（淺面），舌動脈在其深面 | 舌下神經 x 13–16、舌骨舌肌 x 9 | 舌下神經正確；舌動脈為已知缺項，無法核對 |
+| 顏面動脈與顏面靜脈 | 靜脈在動脈後方 | 顏面動脈、顏面靜脈為已知缺項 | 無法核對 |
+| 顏面神經分支與腮腺 | 分支在腮腺內分出 | 腮腺為已知缺項 | 無法核對 |
+| 喉返神經 | 在氣管食道溝 | 右側正確；左側偏外約 10 mm | **HN-24** |
+| 椎動脈 | 經 C6–C1 橫突孔 | C3–C5 斷面上椎動脈 x 約 16 mm，位於椎骨橫突範圍內 | 正確（C6 段為另一件，未比對） |
+| 前斜角肌與鎖骨下動、靜脈 | 靜脈在前斜角肌前方；動脈在其後方（前、中斜角肌之間） | 靜脈在前方正確；動脈也在前方 | **錯，HN-23** |
+| 膈神經 | 走在前斜角肌前面，入胸時在鎖骨下靜脈後、鎖骨下動脈前 | y 1.45–1.46 貼前斜角肌前面；y 1.42 位於靜脈（z 16）與動脈（z −3）之間 | 正確 |
+| 臂神經叢 | 根與幹在前、中斜角肌之間 | 模型只有 C5–C8 神經根近段與各束，沒有幹 | 無法核對 |
+| 眶內上部 | 由上而下：額神經、提上眼瞼肌、上直肌 | 眶中段至前段（z 30–40 mm）次序正確；眶尖（z 20–25 mm）三者高度相差 1–3 mm | 正確（眶尖可接受） |
