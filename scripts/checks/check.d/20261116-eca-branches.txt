@@ -1,0 +1,2 @@
+node scripts/test-eca-branches.mjs
+node scripts/test-eca-branch-motion.mjs
