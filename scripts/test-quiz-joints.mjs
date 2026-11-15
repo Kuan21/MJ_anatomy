@@ -11,7 +11,7 @@ const {structureCard} = await quizModule('app/quiz/card.ts');
 const {JOINT_EXCLUSION_REASONS, jointKey} = await quizModule('app/quiz/joints.ts');
 
 const report = JSON.parse(fs.readFileSync('.sites-runtime/quiz-joints-report.json', 'utf8'));
-const asked = new Set(['lower-limb', 'upper-limb', 'thorax', 'back']);
+const asked = new Set(['lower-limb', 'upper-limb', 'thorax', 'back', 'head-neck']);
 assert.ok(QUIZ_CATEGORIES.some(c => c.id === 'joint' && c.label === '關節' && c.english === 'Joints'), 'category joint is missing');
 const doc = fs.readFileSync('docs/quiz-joints.md', 'utf8');
 for (const [reason, text] of Object.entries(JOINT_EXCLUSION_REASONS)) assert.ok(doc.includes(text), `docs/quiz-joints.md does not state the reason "${reason}": ${text}`);
@@ -53,7 +53,7 @@ const inCatalogue = (region, c) => JSON.parse(fs.readFileSync(`public/models/${Q
 for (const c of report) {
   if (c.reason) {
     assert.ok(JOINT_EXCLUSION_REASONS[c.reason], `${c.name}: undocumented reason ${c.reason}`);
-    if (c.reason === 'region-missing') assert.ok(['pelvis', 'head-neck', 'trunk-other'].includes(c.region), `${c.name}: region-missing for ${c.region}`);
+    if (c.reason === 'region-missing') assert.ok(['pelvis', 'trunk-other'].includes(c.region), `${c.name}: region-missing for ${c.region}`);
     if (asked.has(c.region)) assert.ok(!inCatalogue(c.region, c), `${c.name}: excluded (${c.reason}) but present in ${c.region}`);
   } else assert.ok(asked.has(c.region) && inCatalogue(c.region, c), `${c.name}: not excluded but missing from ${c.region}`);
 }

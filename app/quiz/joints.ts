@@ -10,7 +10,7 @@ export type JointExclusion = 'not-joint' | 'aggregate-capsule' | 'region-missing
 export const JOINT_EXCLUSION_REASONS: Record<JointExclusion, string> = {
   'not-joint': '不是關節構造（脂肪墊、關節囊繫帶、肋間膜、閉孔膜、方形膜）',
   'aggregate-capsule': '一個模型涵蓋多個關節的合併關節囊，無法對應單一關節',
-  'region-missing': '所屬部位（骨盆、頭頸）尚未開放測驗',
+  'region-missing': '所屬部位（骨盆與其他尚未開放的部位）尚未開放測驗',
   'in-atlas': '圖譜已有同名構造（屬其他系統），不重複出題',
   'bracket-name': '名稱括號內是另一構造（半月板）的名稱，輸入答案時會與該構造混淆（前、後脛側半月板韌帶各 2 條）',
   'no-chinese-name': '缺中文名',
@@ -46,7 +46,7 @@ export function jointExclusion(name: string, region: JointRegion | 'trunk-other'
   if (NOT_JOINT.test(n)) return 'not-joint';
   if (AGGREGATE_CAPSULE.test(n)) return 'aggregate-capsule';
   if (/\(.*\)/.test(n)) return 'bracket-name';
-  if (region === 'pelvis' || region === 'head-neck' || region === 'trunk-other') return 'region-missing';
+  if (region === 'pelvis' || region === 'trunk-other') return 'region-missing';
   if (inAtlas) return 'in-atlas';
   if (!chinese) return 'no-chinese-name';
   return null;
