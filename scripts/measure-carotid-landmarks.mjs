@@ -1,5 +1,6 @@
 // Read-only measurement: where the carotid bifurcation sits relative to the laryngeal, hyoid, mandibular and cervical-vertebral landmarks of the same model.
-//   node scripts/measure-carotid-landmarks.mjs [--json=<file>] [--md]
+//   node scripts/measure-carotid-landmarks.mjs [--json=<file>] [--md] [--raw]
+//   --raw   measure the source tubes as stored (before the viewer's load-time raise and rebuild of the bifurcation, app/biomechanics-v2/carotid-bifurcation.ts); default: as the viewer draws them
 // Reads public/models/atlas.json (+ streams) and public/models/neck-vessels.json.gz only; writes nothing unless --json is given.
 // Coordinates: metres in the viewer's rest frame, y up, x positive = Left, z positive = anterior. Output heights are mm (y x 1000).
 // Every number comes from vertices of the meshes; nothing is estimated.
@@ -7,6 +8,7 @@ import fs from 'node:fs';
 import zlib from 'node:zlib';
 import {fileURLToPath} from 'node:url';
 import {loadFullAtlas} from './lib/full-atlas.mjs';
+import {quizModule} from './quiz-modules.mjs';
 const arg = n => process.argv.find(a => a.startsWith(`--${n}=`))?.slice(n.length + 3);
 const root = new URL('../', import.meta.url);
 const {atlas, geometry} = loadFullAtlas();
@@ -57,6 +59,7 @@ for (const [side, s] of SIDES) {
 
 // --- vessels (neck-vessels.json.gz is the registered Z-Anatomy tube set the viewer draws) ---
 const nv = JSON.parse(zlib.gunzipSync(fs.readFileSync(fileURLToPath(new URL('public/models/neck-vessels.json.gz', root))))), R = 12;
+if (!process.argv.includes('--raw')) (await quizModule('app/biomechanics-v2/carotid-bifurcation.ts')).smoothCarotids(nv.vessels);
 const vessel = n => nv.vessels.find(v => v.name === n);
 const ring = (v, r) => Array.from({length: R}, (_, k) => [0, 1, 2].map(a => v.positions[(r * R + k) * 3 + a] * 1e3));
 const ctr = pts => [0, 1, 2].map(a => pts.reduce((s, p) => s + p[a], 0) / pts.length);
