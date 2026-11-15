@@ -1,11 +1,11 @@
 # PROGRESS（自動排程交接檔）
 
-最後更新：2026-11-15。分支：`claude/local-auto`（不推 main、不刪檔）。
+最後更新：2026-11-16。分支：`claude/local-auto`（不推 main、不刪檔）。
 依據：`ROADMAP.md`「穩定期」、`CLAUDE.md`、`git log`、開放 PR 清單。
 
 ## 目前狀態
 - 專案處於**穩定期**（2026-11-08 起）：暫停新功能，只修顯示錯誤；所有 PR 都要使用者人工審核，不可自行 merge。
-- main 最新：#338（2026-11-15 第十四次查看時）。本分支已合併 main 到 #338。
+- main 最新：#347（2026-11-16 第十五次查看時）。本分支已合併 main 到 #347。
 - **main 已經有中心線連續性檢查**（#281、#328：`scripts/check-centerlines.mjs`、基準 `docs/centerline-known.json` 57 條，已在 `npm run check` 內）。本分支的 `check-centreline-continuity.mjs` 是另一套做法，見「待我決定」。
 - 開放 PR（下列是 2026-11-11 的清單；本機沒有 `gh`，之後沒有再查，main 已合併到 #338，清單很可能已過時）：
   - #223 心臟腔內構造與標籤（部分完成）
@@ -141,6 +141,13 @@
   - 兩邊各有一個叫 `centrelinesOf` 的函式（main 的在 `leg-centreline.mjs`，本分支的在 `centreline-pieces.mjs`），做法不同、互不影響，但名稱相同容易混淆；沒有改名，留待上面的決定。
   - 未提交的暫存診斷腳本 `_diag-jumps.mjs`、`_diag-radius.mjs`、`_diag-branch.mjs`、`_diag-femoral.mjs` 仍在（依「不刪檔」沒有刪），可以由你刪除。`package-lock.json` 的未提交差異仍未提交。
   - 本機沒有 `gh`，未查開放 PR 是否有變動，也沒有看到 PR #248 的 CI 結果。
+
+- 2026-11-16（第十五次）：只合併 main，沒有改模型、解剖內容、網站或腳本。
+  - 發現上一次排程留下一個**未提交的合併**（origin/main 到 #333，沒有衝突）。先確認暫存內容與 `git merge-tree` 算出的乾淨自動合併結果完全相同（同一個 tree），才提交。
+  - 之後 main 又前進到 #347，再用一般 merge 合併一次，沒有衝突。**注意：** main 在 #347 自己移除了 `app/quiz/hub.tsx`、`app/quiz/lesson-mode.tsx`，合併跟著 main 移除；這不是本分支刪檔。
+  - 合併後本機通過：七個 `test-centreline-*`（`run-checks --only=test-centreline`，現在是 162 步中的第 151–157 步）、`check-no-notes`、`check:zh`（215 個檔）、`tsc --noEmit`。完整 `npm run check` 因缺生成檔沒有跑。
+  - `work/`、supplement／serous／female 三個生成串流與跑考串流二進位檔仍不存在；沒有下載資料。不需生成檔、又不改網站的 S5 工作仍然已做完，其餘等「待我決定」。
+  - 未提交的暫存診斷腳本 `_diag-*.mjs` 四個與 `package-lock.json` 差異仍未提交（依「不刪檔」沒有刪）。本機沒有 `gh`，未查 PR #248 的 CI。
 
 ## 進行中／等審核
 - S2 A–G、S3、S4、S6 相關工作都已有 PR（見上），等使用者審核。
