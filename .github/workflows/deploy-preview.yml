@@ -22,6 +22,16 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      # Pinned upstream files (checked by sha256 in the prepare scripts) are cached so a build does not depend on raw.githubusercontent.com every time.
+      # The cache is private to this repository; the files are not redistributed.
+      - uses: actions/cache@v4
+        with:
+          path: |
+            work/heart-source.glb
+            work/facial.bin
+            work/supplement/*.stl
+            public/models/brain.glb
+          key: pinned-downloads-${{ hashFiles('scripts/heart-parts.json', 'scripts/prepare-heart.mjs', 'scripts/prepare-facial.mjs', 'scripts/prepare-supplement.mjs', 'scripts/supplement-parts.json', 'scripts/prepare-brain.mjs') }}
       - run: npm run check
       - run: npm run check:motion
       - run: npm run check:vessels

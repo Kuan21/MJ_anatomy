@@ -4,10 +4,9 @@ import {QUIZ_REGIONS, type QuizRegionId} from './catalogue';
 import './quiz.css';
 
 interface HubCard {id: string; label: string; english: string; blurb: string; region?: QuizRegionId}
-/** Body parts in the order of the page: the first row is the trunk and head, the second the limbs. Parts without content yet are shown as 即將推出. */
+/** Body parts in the order of the page: head and neck, trunk, then the limbs. Parts without content yet are shown as 即將推出. */
 const PARTS: HubCard[] = [
-  {id: 'head', label: '頭部', english: 'Head', blurb: '顱骨、面部肌肉、腦神經與頭部血管'},
-  {id: 'neck', label: '頸部', english: 'Neck', blurb: '頸部肌肉、神經叢與頸部血管'},
+  {id: 'head-neck', label: '頭頸', english: 'Head and neck', blurb: '顱骨、面部與頸部肌肉、腦神經與頸神經、頭頸血管，以及眼、口、喉的構造（腦另有獨立的 Quiz）', region: 'head-neck'},
   {id: 'thorax', label: '胸腔', english: 'Thorax', blurb: '胸廓、胸壁肌肉、縱膈大血管與肋間構造', region: 'thorax'},
   {id: 'back', label: '背部', english: 'Back', blurb: '淺層至深層背肌、枕下區與相關神經血管', region: 'back'},
   {id: 'upper-limb', label: '上肢', english: 'Upper limb', blurb: '肩帶、上臂、肘、前臂與手', region: 'upper-limb'},

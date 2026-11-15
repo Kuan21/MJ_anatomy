@@ -1,0 +1,2 @@
+node scripts/report-quiz-headneck.mjs --check
+node scripts/test-quiz-headneck.mjs
