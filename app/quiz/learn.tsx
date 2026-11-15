@@ -210,7 +210,7 @@ function LearnBody({catalogue, regionId, settings}: {catalogue: QuizCatalogue; r
           {know ? <>
             <h1 className="quiz-target" ref={title} tabIndex={-1}><Name structure={target}/></h1>
             <p className="lesson-copy-note">黃色標示的就是這個構造。看完名稱與重點，再按「下一個」。</p>
-            <AnswerCard structure={target}/>
+            <AnswerCard structure={target} lesson/>
           </> : <>
             <h1 className="quiz-target" ref={title} tabIndex={-1}><Name structure={target}/></h1>
             {!answer ? <div className="quiz-answer-tools">
@@ -228,7 +228,7 @@ function LearnBody({catalogue, regionId, settings}: {catalogue: QuizCatalogue; r
               {answer.pickedId && !answer.ok && structures.get(answer.pickedId) && <div className="quiz-answer-name"><span><i className="wrong-dot"/>你點選的是</span><b><Name structure={structures.get(answer.pickedId)!}/></b></div>}
               <button data-slot="quiz-button" className="quiz-text-button" onClick={() => changeView('answer')}><Target size={15}/>放大正確位置</button>
             </div>}
-            {answer && (run.step === 'practice' || !answer.ok) && <AnswerCard structure={target}/>}
+            {answer && (run.step === 'practice' || !answer.ok) && <AnswerCard structure={target} lesson/>}
           </>}
           <div className="quiz-question-actions">
             {know ? <>

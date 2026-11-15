@@ -119,8 +119,8 @@ assert.ok(lessonCount > 0 && structureCount > 0);
   assert.deepEqual([...seededShuffle([1, 2, 3, 4, 5, 6], 's')].sort(), [1, 2, 3, 4, 5, 6]);
   const viewer = fs.readFileSync('app/quiz/viewer.ts', 'utf8');
   assert.match(viewer, /lesson\?: \{seed: string; apart: boolean\}/); assert.match(viewer, /avoid/);
-  const page = fs.readFileSync('app/quiz/lesson-mode.tsx', 'utf8');
-  assert.match(page, /apart: round === 3/, 'round 3 asks for a different view'); assert.ok(!/apart: round === [12]/.test(page));
+  const page = fs.readFileSync('app/quiz/learn.tsx', 'utf8');
+  assert.match(page, /lesson: know \? \{seed: [^}]*apart: false\}/, 'the learn step uses the seeded lesson view');
 }
 
 // ---- stars ----
