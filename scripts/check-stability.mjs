@@ -9,6 +9,7 @@ import {fragments, penetration, zfight, cuts} from './lib/stability-static.mjs';
 import {loadMotion, registerNerves, makePoser, stretched, detached, POSES} from './lib/stability-motion.mjs';
 import {TriGrid} from './lib/stability-geom.mjs';
 import {compareBaseline} from './lib/stability-baseline.mjs';
+import {makeStableIds} from './lib/stable-keys.mjs';
 
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 const arg = n => process.argv.find(a => a.startsWith(`--${n}=`))?.slice(n.length + 3), flag = n => process.argv.includes(`--${n}`);
@@ -59,13 +60,15 @@ if (needMotion) {
 }
 
 if (arg('dump')) fs.writeFileSync(arg('dump'), JSON.stringify(findings));
-const keyOf = f => `${f.check}|${f.id}${f.sub ? '|' + f.sub : ''}`;
+// PK / PKC ids move when a structure is added or removed, so the list is keyed by the structure name instead (scripts/lib/stable-keys.mjs)
+const SK = makeStableIds(parts), tok = id => SK.token(id) ?? id;
+const keyOf = f => `${f.check}|${tok(f.id)}${f.sub ? '|' + tok(f.sub) : ''}`;
 for (const f of findings) f.key = keyOf(f);
 findings.sort((a, b) => a.key < b.key ? -1 : 1);
 
 const adopt = flag('adopt-metrics');   // one-time: put detached/stretch entries that lack them onto the density-free numbers (fraction, severity); needs --write
 if (adopt && !write) { console.error('--adopt-metrics only works together with --write'); process.exit(1); }
-const result = compareBaseline(previous.known, findings, only, {adopt});
+const result = compareBaseline(previous.known, findings, only, {adopt, keyOf});
 if (write && !result.next) {
   console.error(`Stability update refused: ${result.bad.length} new or worse, ${result.invalid.length} invalid finding(s). No baseline files changed.`);
   process.exit(1);

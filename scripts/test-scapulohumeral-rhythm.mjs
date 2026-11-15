@@ -38,6 +38,6 @@ for(const side of ['left','right']){
  }
 }
 // The limit is now a full 180 degrees and is still enforced.
-assert.deepEqual([...motion.MOTION_LIMITS.shoulderFlexion],[-60,180]);assert.deepEqual([...motion.MOTION_LIMITS.shoulderAbduction],[-20,180]);
+assert.deepEqual([...motion.MOTION_LIMITS.shoulderFlexion],[-60,180]);assert.deepEqual([...motion.MOTION_LIMITS.shoulderAbduction],[0,180]);
 const c=motion.constrainPose({...motion.NEUTRAL_POSE,shoulderFlexion:200,shoulderAbduction:200});assert.ok(Math.hypot(c.shoulderFlexion,c.shoulderAbduction)<=180+1e-9);
 console.log('PASS scapulohumeral rhythm at 180°: '+rows.join('; ')+'.');

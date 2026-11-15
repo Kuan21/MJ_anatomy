@@ -1,0 +1,11 @@
+# Checks added by the upper-limb, lower-limb, gluteal and abdominal-wall fixes (PR #269).
+node scripts/test-selection-visibility.mjs
+node scripts/test-dorsal-scapular-card.mjs
+node scripts/test-motion-framing.mjs
+node scripts/test-motion-limits.mjs
+node scripts/test-abdominal-wall.mjs
+node scripts/test-winding.mjs
+node scripts/test-vessel-smoothness.mjs
+node scripts/test-tendon-shape.mjs
+node scripts/audit-muscle-cards.mjs --check
+node scripts/test-limb-tears.mjs

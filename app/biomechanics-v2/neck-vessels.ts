@@ -1,18 +1,20 @@
 import * as T from 'three';
-import {joinCarotids} from './carotid-junction';
+import {smoothCarotids,junctionPairs,stitchNormals} from './carotid-bifurcation';
 import {alignJugulars} from './jugular-align';
 import type {Atlas,SceneState,SystemId,Part} from '../anatomy';
 import {makeBodyRig,buildBodyMotion,bindBodyTissue} from './body-motion';
 import {deformTissue,type SkinBinding} from './soft-tissue';
-export interface NeckVesselData {/** set once the carotid joints and the jugular veins have been aligned, so a second add() of the same data does not move the origins again */joined?:boolean;vessels:{name:string;parentId:string;system:SystemId;positions:number[];indices:number[]}[]}
+export interface NeckVesselData {/** set once the carotid bifurcations are rebuilt, so a second add() of the same data does not move them again */joined?:boolean;vessels:{name:string;parentId:string;system:SystemId;positions:number[];indices:number[]}[]}
 const NO_PALETTE=new Float64Array(0);
 const samePalette=(a:Float64Array,b:Float64Array)=>{if(a.length!==b.length)return false;for(let i=0;i<a.length;i++)if(a[i]!==b[i])return false;return true;};
 export function createNeckVessels(atlas:Atlas,scene:T.Scene){
  const head=makeBodyRig(atlas,'head'),spine=makeBodyRig(atlas,'spine');
  const rows:{mesh:T.Mesh<T.BufferGeometry,T.MeshStandardMaterial>;parent:Part;system:SystemId;base:Float32Array;head:SkinBinding;spine:SkinBinding;/** what produced the current positions, so an unchanged pose is not re-deformed and re-lit */posed?:{region:string;palette:Float64Array}}[]=[];
  const replaced=new Set<string>();
+ const stitches:{a:T.BufferGeometry;b:T.BufferGeometry;pairs:[number,number][]}[]=[];
+ const stitch=()=>{for(const t of stitches){const na=t.a.getAttribute('normal') as T.BufferAttribute,nb=t.b.getAttribute('normal') as T.BufferAttribute;stitchNormals(na,nb,t.pairs);na.needsUpdate=true;nb.needsUpdate=true;}};
  function add(data:NeckVesselData){
-  if(!data.joined){joinCarotids(data.vessels);alignJugulars(data.vessels);data.joined=true;}
+  if(!data.joined){smoothCarotids(data.vessels);alignJugulars(data.vessels);data.joined=true;}
   for(const v of data.vessels){
    const parent=atlas.parts.find(p=>p.id===v.parentId);if(!parent)throw new Error('Missing cervical vessel identity '+v.parentId);
    const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(v.positions,3));g.setIndex(v.indices);g.computeVertexNormals();
@@ -22,6 +24,11 @@ export function createNeckVessels(atlas:Atlas,scene:T.Scene){
    // bounding-box or rigid-head rule can pull a bifurcation apart.
    rows.push({mesh,parent,system:v.system,base,head:bindBodyTissue(head,base),spine:bindBodyTissue(spine,base,true)});replaced.add(parent.id);
   }
+  for(const [c,i,e] of [['Left common carotid artery','Internal carotid artery.l','External carotid artery.l'],['Right common carotid artery','Internal carotid artery.r','External carotid artery.r']]){
+   const rc=rows.find(r=>r.mesh.name===c);if(!rc)continue;
+   for(const n of [i,e]){const rb=rows.find(r=>r.mesh.name===n);if(!rb)continue;const pairs=junctionPairs(rc.base,rb.base);if(pairs.length)stitches.push({a:rc.mesh.geometry,b:rb.mesh.geometry,pairs});}
+  }
+  stitch();
  }
  const SELECT_COLOR=0x5DB89A;
  /** `selectedName`: the vessel found by search (its mesh name): highlighted and the only row left under Isolate. */
@@ -42,6 +49,7 @@ export function createNeckVessels(atlas:Atlas,scene:T.Scene){
    attr.needsUpdate=true;r.mesh.geometry.computeVertexNormals();r.mesh.geometry.computeBoundingSphere();
    r.posed={region,palette:moving?Float64Array.from(palette):NO_PALETTE};
   }
+  stitch();
  }
  function dispose(){for(const r of rows){scene.remove(r.mesh);r.mesh.geometry.dispose();r.mesh.material.dispose();}}
  return{add,update,dispose,replaced,rows};

@@ -128,6 +128,8 @@ for(const g of globe){
  globeParts.push({id:g.name,positions,normals,indices:simplified});globeTriangles+=simplified.length/3;sourceTriangles+=g.indices.length/3;
 }
 
+const round=v=>+v.toFixed(6);
+
 // ---- fit the orbit onto the registered globe
 // The body muscles and optic nerve were modelled around the simpler body eyeball. Three corrections, all near the globe only:
 //   1. vertices that dip below the scleral surface are lifted back onto it;
@@ -198,15 +200,61 @@ for(const part of orbit){
 }
 for(const part of [...orbit,...globeParts])add(part.id,part.positions,part.normals,part.indices);
 
+// ---- openings of the orbit, marked on the bone surface (no extra geometry): for each opening, the vertices of the bones around it.
+//   optic canal               where the optic nerve is enclosed by the sphenoid;
+//   superior orbital fissure  where the nerves that use it pass through the sphenoid (oculomotor branches, trochlear, frontal, lacrimal, nasociliary);
+//   inferior orbital fissure  the gap between the sphenoid and the maxilla behind and below the globe.
+const partOf=id=>orbit.find(p=>p.id===id),pointsOf=id=>{const pos=partOf(id).positions,list=[];for(let i=0;i<pos.length;i+=3)list.push([pos[i],pos[i+1],pos[i+2]]);return list;};
+const SPHENOID='FJ3394',MAXILLA='FJ3269',sphenoid=pointsOf(SPHENOID),maxilla=pointsOf(MAXILLA),gap=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1],a[2]-b[2]);
+// A point is "enclosed" when bone lies within 5 mm on opposite sides of it: the unit directions to the nearby bone vertices nearly cancel.
+const enclosed=q=>{const mean=[0,0,0];let n=0;for(const p of sphenoid){const d=gap(p,q);if(d>=5*MM||d===0)continue;n++;for(let k=0;k<3;k++)mean[k]+=(p[k]-q[k])/d;}return n>=5&&Math.hypot(...mean)/n<.55;};
+const through=ids=>ids.flatMap(id=>pointsOf(id).filter(enclosed));
+const around=(bone,points,radius)=>{const picked=[];bone.forEach((p,i)=>{if(points.some(q=>gap(p,q)<radius))picked.push(i);});return picked;};
+const canalPoints=through(['FJ1313']),fissurePoints=through(['FJ1321','FJ1293','FJ1330','FJ1290','FJ1300','FJ1310']);
+const canal=around(sphenoid,canalPoints,4.5*MM),canalSet=new Set(canal);
+// A vertex between the two openings goes to the one whose contents are nearer.
+const nearest=(p,points)=>Math.min(...points.map(q=>gap(p,q)));
+const fissure=around(sphenoid,fissurePoints,3.5*MM).filter(i=>!canalSet.has(i)||nearest(sphenoid[i],fissurePoints)<nearest(sphenoid[i],canalPoints));
+const fissureSet=new Set(fissure),canalOnly=canal.filter(i=>!fissureSet.has(i));
+const lowerSphenoid=[],lowerMaxilla=new Set();
+sphenoid.forEach((p,i)=>{
+ if(gap(p,center)>45*MM||p[2]>center[2])return;
+ let best=Infinity,at=-1;maxilla.forEach((q,j)=>{const d=gap(p,q);if(d<best){best=d;at=j;}});
+ if(best>1.5*MM&&best<9*MM){lowerSphenoid.push(i);lowerMaxilla.add(at);}
+});
+const centerOf=(bone,indices)=>[0,1,2].map(k=>round(indices.reduce((n,i)=>n+bone[i][k],0)/(indices.length||1)));
+const openings=[
+ {id:'optic-canal',center:centerOf(sphenoid,canalOnly),bones:{[SPHENOID]:canalOnly}},
+ {id:'superior-orbital-fissure',center:centerOf(sphenoid,fissure),bones:{[SPHENOID]:fissure}},
+ {id:'inferior-orbital-fissure',center:centerOf(sphenoid,lowerSphenoid),bones:{[SPHENOID]:lowerSphenoid,[MAXILLA]:[...lowerMaxilla].sort((a,b)=>a-b)}},
+];
+// Foramina located by the nerve that uses them (the model has no nerve through the infraorbital foramen, so it is not marked):
+//   supraorbital foramen (notch)       where the supraorbital nerve leaves the orbit under the supraorbital margin of the frontal bone;
+//   anterior / posterior ethmoidal foramen   where the nerve of the same name reaches the medial wall, between the frontal and ethmoid bones.
+const FRONTAL='FJ3200',ETHMOID='FJ3199',frontal=pointsOf(FRONTAL),ethmoid=pointsOf(ETHMOID);
+const marked=(id,points,radius)=>{
+ const bones={};
+ for(const [bone,list] of [[FRONTAL,frontal],[ETHMOID,ethmoid]]){const picked=around(list,points,radius);if(picked.length)bones[bone]=picked;}
+ const all=Object.entries(bones).flatMap(([bone,list])=>list.map(i=>(bone===FRONTAL?frontal:ethmoid)[i]));
+ return {id,center:[0,1,2].map(k=>round(all.reduce((n,q)=>n+q[k],0)/(all.length||1))),bones};
+};
+// the supraorbital nerve runs forward under the orbital roof and turns up over the margin: its exit is the lowest part of its most anterior 6 mm
+const supra=pointsOf('FJ1325'),front=Math.max(...supra.map(q=>q[2])),leaving=supra.filter(q=>q[2]>front-6*MM),low=Math.min(...leaving.map(q=>q[1]));
+openings.push(marked('supraorbital-foramen',leaving.filter(q=>q[1]<low+3*MM),4*MM));
+// the ethmoidal nerves run medially from the nasociliary nerve: the foramen is at their medial end
+const medialEnd=id=>{const list=pointsOf(id),side=Math.sign(center[0])||1,edge=side>0?Math.min(...list.map(q=>q[0])):Math.max(...list.map(q=>q[0]));return list.filter(q=>Math.abs(q[0]-edge)<2*MM);};
+openings.push(marked('anterior-ethmoidal-foramen',medialEnd('FJ1283'),4.5*MM),marked('posterior-ethmoidal-foramen',medialEnd('FJ1315'),4.5*MM));
+for(const o of openings)if(!Object.keys(o.bones).length||Object.values(o.bones).reduce((n,list)=>n+list.length,0)<8)throw new Error(`Opening ${o.id} was not found on the bone`);
+
 const bin=Buffer.concat(segments),gz=gzipSync(bin,{level:9});
 fs.mkdirSync(out,{recursive:true});
 fs.writeFileSync(new URL('eye-atlas.bin.gz',out),gz);
-const round=v=>+v.toFixed(6);
 fs.writeFileSync(new URL('eye-atlas.json',out),JSON.stringify({
  side:'left',bytes:bin.length,gzip:'models/eye/eye-atlas.bin.gz',gzipBytes:gz.length,
  // Globe frame in package coordinates: centre, anterior direction of the optical axis and axial length.
  globe:{center:bCenter.map(round),axis:[0,0,1],length:round(bLength)},
  fitted,
+ openings,
  sources:{orbit:'BodyParts3D 4.0',globe:{name:'Human Reference Atlas, 3D Reference Object Library, eye-male-left v1.3',url:GLOBE_URL,sha256:GLOBE_SHA256,sourceTriangles,triangles:globeTriangles,scale:round(scale),mirrored:mirror<0}},
  parts,
 }));

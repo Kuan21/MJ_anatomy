@@ -10,7 +10,7 @@ export const CRANIAL_NERVES:CranialNerve[]=[
  {n:3,roman:'III',en:'Oculomotor nerve',zh:'動眼神經',trunk:/^oculomotor nerve$/,branches:/^(?:superior|inferior) branch of oculomotor nerve$/},
  {n:4,roman:'IV',en:'Trochlear nerve',zh:'滑車神經',trunk:/^trochlear nerve$/},
  {n:5,roman:'V',en:'Trigeminal nerve',zh:'三叉神經',trunk:/^(?:trigeminal nerve|(?:sensory|motor) root of trigeminal nerve)$/,branches:/^(?:ophthalmic|maxillary|mandibular) nerve$|^trigeminal ganglion$/},
- {n:6,roman:'VI',en:'Abducens nerve',zh:'外展神經',trunk:/^(?:abducens|abducent) nerve$/},
+ {n:6,roman:'VI',en:'Abducens nerve',zh:'外旋神經',trunk:/^(?:abducens|abducent) nerve$/},
  {n:7,roman:'VII',en:'Facial nerve',zh:'面神經',trunk:/^facial nerve$/},
  {n:8,roman:'VIII',en:'Vestibulocochlear nerve',zh:'前庭耳蝸神經',trunk:/^(?:vestibulocochlear|vestibular|cochlear) nerve$/},
  {n:9,roman:'IX',en:'Glossopharyngeal nerve',zh:'舌咽神經',trunk:/^glossopharyngeal nerve$/},

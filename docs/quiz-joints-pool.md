@@ -7,17 +7,17 @@
 | 部位 | 關節構造（可出題） | 不出題 |
 | --- | --- | --- |
 | 下肢 | 116 | 22 |
-| 上肢 | 96 | 8 |
+| 上肢 | 96 | 6 |
 | 胸腔 | 6 | 0 |
 | 背部 | 6 | 0 |
-| 骨盆／頭頸／其他（部位尚未開放） | 0 | 35 |
+| 骨盆／頭頸／其他（部位尚未開放） | 0 | 25 |
 
 ## 不出題：不是關節構造（脂肪墊、關節囊繫帶、肋間膜、閉孔膜、方形膜）（6 種，12 個構造）
 
 - External intercostal membrane（外肋間膜） [left/right]，trunk-other
 - Frenula capsulae（關節囊繫帶） [left/right]，lower-limb
 - Infrapatellar fat pad（髕下脂肪墊） [left/right]，lower-limb
-- Internal intercostal membrane（內肋間膜） [left/right]，upper-limb
+- Internal intercostal membrane（內肋間膜） [left/right]，trunk-other
 - Obturator membrane（閉孔膜） [left/right]，lower-limb
 - Quadrangular membrane（方形膜） [left/right]，trunk-other
 
@@ -30,25 +30,19 @@
 - Articular capsules of proximal interphalangeal joints（近端指間關節囊） [left/right]，upper-limb
 - Articular capsules of proximal interphalangeal joints of foot（足近端趾間關節囊） [left/right]，lower-limb
 
-## 不出題：所屬部位（骨盆、頭頸）尚未開放測驗（18 種，31 個構造）
+## 不出題：所屬部位（骨盆與其他尚未開放的部位）尚未開放測驗（12 種，19 個構造）
 
 - Anterior sacro-iliac ligament（前薦髂韌帶） [left/right]，pelvis
-- Articular capsule of temporomandibular joint（顳顎關節囊） [left/right]，head-neck
-- Articular disc of temporomandibular joint（顳顎關節盤） [left/right]，head-neck
-- Cricopharyngeal ligament（環咽韌帶） [left/right]，head-neck
 - Iliolumbar ligament（髂腰韌帶） [left/right]，pelvis
 - Inferior pubic ligament（恥骨下韌帶） [midline]，pelvis
 - Intercornual ligament（角間韌帶） [left/right]，pelvis
 - Interosseous sacro-iliac ligament（薦髂骨間韌帶） [left/right]，pelvis
 - Interpubic disc（恥骨間盤） [midline]，pelvis
-- Lateral temporomandibular ligament（顳顎外側韌帶） [left/right]，head-neck
 - Posterior sacro-iliac ligament（後薦髂韌帶） [left/right]，pelvis
 - Pubic symphysis（恥骨聯合） [midline]，pelvis
 - Sacrococcygeal symphysis（薦尾聯合） [midline]，pelvis
 - Sacrospinous ligament（薦棘韌帶） [left/right]，pelvis
 - Sacrotuberous ligament（薦結節韌帶） [left/right]，pelvis
-- Sphenomandibular ligament（蝶下頷韌帶） [left/right]，head-neck
-- Stylomandibular ligament（莖突下頷韌帶） [left/right]，head-neck
 - Superior pubic ligament（恥骨上韌帶） [midline]，pelvis
 
 ## 不出題：圖譜已有同名構造（屬其他系統），不重複出題（1 種，2 個構造）

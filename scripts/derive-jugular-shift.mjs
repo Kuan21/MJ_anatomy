@@ -11,7 +11,7 @@ import {Matrix4, Quaternion, Vector3} from 'three';
 import {quizModule} from './quiz-modules.mjs';
 import {correctNerve} from './lib/nerve-corrections.mjs';
 const root = new URL('../', import.meta.url).pathname, mode = process.argv[2] || 'report';
-const {joinCarotids} = await quizModule('app/biomechanics-v2/carotid-junction.ts');
+const {smoothCarotids} = await quizModule('app/biomechanics-v2/carotid-bifurcation.ts');
 const {alignJugulars, JUGULAR_SHIFTS} = await quizModule('app/biomechanics-v2/jugular-align.ts');
 const GAP = 0.0015;          // wanted wall-to-wall gap between CCA/ICA/ECA and IJV: the vessels of the sheath touch, a millimetre of connective tissue
 const MIN_ANGLE = 10, MAX_ANGLE = 45;  // IJV sits lateral and a little anterior: direction from the artery 10 degrees forward of pure lateral
@@ -49,7 +49,7 @@ const SIDES = [['L', 'Left common carotid artery', 'Internal carotid artery.l', 
                ['R', 'Right common carotid artery', 'Internal carotid artery.r', 'External carotid artery.r', 'Internal jugular vein.r', 'Vagus nerve (X).r.001', -1]];
 const smooth = t => { const x = Math.max(0, Math.min(1, t)); return x * x * (3 - 2 * x); };
 const vagi = await vagus();
-const scene = (aligned) => { const vs = raw(); joinCarotids(vs); if (aligned) alignJugulars(vs); return new Map(vs.map(v => [v.name, v.positions])); };
+const scene = (aligned) => { const vs = raw(); smoothCarotids(vs); if (aligned) alignJugulars(vs); return new Map(vs.map(v => [v.name, v.positions])); };
 
 /** artery (CCA below its end, else ICA) and IJV centre/radius at height y, in the (out, fwd) plane of one side */
 function frame(S, y, side) {

@@ -1,6 +1,7 @@
 // Heart structures that neither Z-Anatomy nor BodyParts3D models, built on the Z-Anatomy chambers from textbook anatomy ("示意構造").
 // Everything here is derived from the chamber, valve and vessel meshes at build time: ridges follow the inside of the wall, patches are
 // pieces of the chamber surface, and the pericardial sinuses are schematic spaces. They are marked as MJ-made in the UI.
+import {columnEnds} from './heart-valves.mjs';
 import {meshOf, ray, closest, wallPoint, patch, patchField, pillow, finger, surfaceNear, tubeThrough as tubeRaw, merge, sub, add, mul, unit, len, lerp, dot, cross} from './heart-geom.mjs';
 // every ridge is drawn with 12+ facets so it shades round, not faceted
 const tubeThrough = (points, r0, r1 = r0, samples = 40, sides = 8) => tubeRaw(points, r0, r1, samples, Math.max(12, sides * 2));
@@ -77,7 +78,7 @@ export function buildMjHeart(mesh) {
   // Septomarginal trabecula (moderator band): from the lower septum across the cavity to the base of the anterior papillary muscle.
   const apm = M['Anterior papillary muscle of right ventricle'];
   const sept = (() => { const o = [RV.centre[0], RV.lo[1] + .02, RV.centre[2] - .006]; const h = ray(RV, o, [1, 0, 0]); return h ? sub(h.point, [.0015, 0, 0]) : o; })();
-  const apmBase = [apm.centre[0], apm.lo[1] + .004, apm.centre[2]];
+  const apmEnds = columnEnds(apm, RV, .024), apmAxis = unit(sub(apmEnds.tip, apmEnds.base)), apmBase = add(apmEnds.base, mul(apmAxis, .004)); // the band ends on the trunk of the anterior papillary muscle, just above its root
   const mid = lerp(sept, apmBase, .5); mid[1] -= .003;
   out['Septomarginal trabecula'] = tubeThrough([sept, lerp(sept, mid, .5), mid, lerp(mid, apmBase, .5), apmBase], .0017, .0013, 32);
   // Trabeculae carneae: ridges and bridges on the lower and anterior inner walls; coarse in the right ventricle, fine and dense in the left.

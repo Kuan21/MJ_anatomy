@@ -4,6 +4,7 @@ import {QUIZ_CATEGORIES, QUIZ_REGIONS, categoryOf, type QuizCatalogue, type Quiz
 import {judgeName, relationOf, type AnswerLanguage} from './naming';
 import {addMistakes, clearMistakes, loadMistakes, scopeOf} from './mistakes';
 import {structureCard} from './card';
+import {LearnInfo} from './learn-info';
 import {AnswerCard, Name, NameFeedback, QuizScene} from './parts';
 import {buildLessons, hintFor, scopeKeyOf, seededShuffle, type Lesson} from './lessons';
 import {accuracyOf, applyReview, dayKey, dueIds, loadResults, loadReview, recordResult, resultKey, saveResults, saveReview, starsFor, summarise, typingSpeed, type TypedEntry} from './lesson-progress';
@@ -181,6 +182,7 @@ export function LessonMode({catalogue, regionId, settings, language, needSide, c
         {!answer ? <form className="quiz-name-form" onSubmit={e => {e.preventDefault(); submit();}}>
           {round === 1 ? <h1 className="quiz-target" ref={title} tabIndex={-1}><Name structure={target}/></h1> : <h1 className="quiz-target quiz-target-hidden" ref={title} tabIndex={-1}>黃色標示的是什麼構造？</h1>}
           {round === 1 && <p className="lesson-copy-note">黃色標示的就是這個構造。請把名稱輸入一次，幫助記憶。</p>}
+          {round === 1 && <LearnInfo structure={target}/>}
           {round === 2 && hint && <div className="lesson-hint" aria-label="提示"><span className="lesson-hint-title">提示</span>
             <p lang="en" className="lesson-hint-letters">{hint.letters}</p>
             {hint.chinese && <p lang="zh-Hant" className="lesson-hint-zh">{hint.chinese}</p>}
@@ -192,9 +194,10 @@ export function LessonMode({catalogue, regionId, settings, language, needSide, c
             <button type="button" data-slot="quiz-button" className="quiz-secondary" disabled={!ready} onClick={giveUp}>{round === 1 ? <><ChevronRight size={17}/>略過</> : <><Eye size={17}/>我不知道</>}</button></div>
           <p className="quiz-message" role="status" aria-live="polite">{message}</p>
         </form> : <>
+          {round === 1 && <LearnInfo structure={target}/>}
           {round === 1 ? <div className="quiz-feedback is-correct" role="status" aria-live="polite"><div className="quiz-feedback-title"><Check size={21}/><strong>{answer.typed ? '很好，記住它。' : '已略過。'}</strong></div><div className="quiz-answer-name"><span><i className="correct-dot"/>名稱</span><b><Name structure={target}/></b></div></div>
             : <NameFeedback result={answer.result} typed={answer.typed} relation={answer.relation} target={target} language={language} onZoom={() => changeView('answer')}/>}
-          {round > 1 && answer.result !== 'correct' && <AnswerCard structure={target}/>}
+          {round > 1 && answer.result !== 'correct' && <AnswerCard structure={target} lesson/>}
         </>}
         <div className="quiz-question-actions">
           {answer ? <button data-slot="quiz-button" className="quiz-primary" onClick={next}>{endsRun(run) ? '查看成績' : run.pos + 1 >= run.queue.length && repeats(run).length === 0 ? '下一輪' : '下一題'}<ArrowRight size={18}/></button> : null}
