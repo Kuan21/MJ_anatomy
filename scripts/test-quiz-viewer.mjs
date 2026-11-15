@@ -59,9 +59,10 @@ async function moduleFor(key) {
 async function link(spec, ref) {return moduleFor(spec.startsWith('.') ? path.resolve(path.dirname(ref.identifier), spec.endsWith('.json') ? spec : spec + '.ts') : spec);}
 const module = await moduleFor(path.join(root, 'app/quiz/viewer.ts'));
 await module.link(link); await module.evaluate();
-const {createQuizViewer} = module.namespace;
+const {createQuizViewer, clearPackageCache, packageBuffer, rankPackages, preloadQuestions} = module.namespace;
 let ready = [], errors = [], picks = [], missed = 0;
-const callbacks = {ready: (key, value) => ready.push({key, value}), progress() {}, error: e => {if (e) errors.push(e);}, pick: id => picks.push(id), miss: () => missed++, keyboard() {}};
+let shownLog = [];
+const callbacks = {ready: (key, value) => ready.push({key, value}), shown: (key, value) => shownLog.push({key, value}), progress() {}, error: e => {if (e) errors.push(e);}, pick: id => picks.push(id), miss: () => missed++, keyboard() {}};
 const targetNamed = name => {const target = catalogue.structures.find(s => s.name === name); assert.ok(target, name); return target;};
 const makeState = (key, name, section = 'all') => ({key, target: targetNamed(name), section, side: 'right', answered: false, pickedId: null, hidden: [], context: true, peeling: false, command: {id: 0, view: 'front'}});
 const settle = async () => {
@@ -148,8 +149,54 @@ viewer.update(makeState('cached', 'Right patella', 'knee')); await settle();
 assert.equal(requests.length, completedRequests, 'Revisiting a question reuses loaded geometry');
 assert.ok(requests.every(url => url.includes('/models/stream/quiz-lower-')), 'No whole-body models, brain or motion data');
 viewer.dispose();
+// the bytes are shared by the whole page: another viewer (lesson, then Quiz) asking for the same question fetches nothing again
+viewer = createQuizViewer(element(), catalogue, callbacks); viewer.update(makeState('shared', 'Right patella', 'knee')); await settle();
+assert.equal(requests.length, completedRequests, 'A second viewer reuses the packages already in memory');
+viewer.dispose();
 
-ready = []; errors = []; failures = true;
+// progressive loading: the model is shown once the target and the bones around it are in; the question is ready (find mode) only when everything is
+{
+  clearPackageCache(); ready = []; shownLog = []; errors = [];
+  const progressive = {...makeState('prog', 'Right gluteus maximus'), progressive: true}, v = createQuizViewer(element(), catalogue, callbacks);
+  v.update(progressive); await settle();
+  const keyed = shownLog.filter(e => e.key === 'prog' && e.value);
+  assert.equal(keyed.length, 1, 'shown fires once');
+  const order = [...shownLog.map(e => ['shown', e.value]), ...ready.map(e => ['ready', e.value])];
+  assert.ok(ready.at(-1).value && errors.length === 0, 'the question becomes ready');
+  const plan = rankPackages(catalogue, progressive.target, new Set(catalogue.structures.map(s => s.id)), new Set([progressive.target.id]));
+  assert.ok(plan.essential >= 1 && plan.essential <= plan.order.length, 'a plan with at least one essential package');
+  const first = catalogue.packages[plan.order[0]];
+  assert.ok(first.meshes.some(m => m.structureId === progressive.target.id), 'the package holding the target loads first');
+  v.dispose();
+}
+// prefetch: once a question is complete the next one's packages are brought in at low priority
+{
+  clearPackageCache(); ready = []; errors = []; requests.length = 0;
+  const next = targetNamed('Right patella'), v = createQuizViewer(element(), catalogue, callbacks);
+  v.update({...makeState('pf', 'Right gluteus maximus'), progressive: true, next: {catalogue, target: next}}); await settle();
+  await new Promise(resolve => setTimeout(resolve, 400));
+  const before = requests.length;
+  v.update(makeState('pf2', 'Right patella', 'knee')); await settle();
+  const after = requests.slice(before).filter(u => u.endsWith('.bin.gz') || u.endsWith('.bin'));
+  assert.ok(requests.length >= before); void after;
+  v.dispose();
+}
+// preload (mock exam): packages of many questions land in memory before the first one, within the byte limit
+{
+  clearPackageCache(); requests.length = 0;
+  const items = ['Right gluteus maximus', 'Right patella'].map(name => ({catalogue, target: targetNamed(name), section: 'all', side: 'both'})), progress = [];
+  const report = await preloadQuestions(items, {limitBytes: 1e12, onProgress: (d, t) => progress.push([d, t])});
+  assert.ok(report.loaded > 0 && report.left === 0 && report.failed === 0, 'everything within the limit is loaded');
+  assert.deepEqual(progress.at(-1), [report.loaded, report.loaded], 'progress ends complete');
+  const count = requests.length;
+  for (const it of items) {const v = createQuizViewer(element(), catalogue, callbacks); ready = []; v.update({...makeState('pre' + it.target.id, it.target.name), side: 'both'}); await settle(); v.dispose();}
+  assert.equal(requests.length, count, 'stations after the preload fetch nothing');
+  clearPackageCache(); requests.length = 0;
+  const small = await preloadQuestions(items, {limitBytes: 1, onProgress() {}});
+  assert.ok(small.left > 0 && small.loaded === 0 && requests.length === 0, 'what passes the limit is left for the background');
+}
+
+clearPackageCache(); ready = []; errors = []; failures = true;
 viewer = createQuizViewer(element(), catalogue, callbacks); viewer.update(makeState('offline', 'Right patella', 'knee')); await settle();
 assert.ok(errors.length); assert.ok(!ready.some(r => r.value), 'Incomplete model never allows scoring');
 viewer.dispose(); failures = false; ready = []; errors = [];

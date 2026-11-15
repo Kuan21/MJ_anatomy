@@ -34,9 +34,16 @@ export interface QuizViewState {
   lesson?: {seed: string; apart: boolean};
   /** Mock exam: the target is not painted; a thin needle is stuck into a point of its surface that can be seen from the opening view (mode 'name'). */
   pin?: boolean;
+  /** Show the model as soon as the target and the bones around it are in (`shown`), and bring in the rest in the background: `ready` (the question can be answered) then follows
+   * when everything the question needs is loaded (find mode) or at once (name mode, where nothing can be picked). Without it the question waits for all packages (mock exam). */
+  progressive?: boolean;
+  /** The question after this one: its packages are fetched in the background once this one is complete (never ahead of the current question). */
+  next?: {catalogue: QuizCatalogue; target: QuizStructure};
 }
 interface Callbacks {
   ready: (key: string, value: boolean) => void;
+  /** The target and its surroundings are drawn: the loading cover can go (the rest may still be coming in). */
+  shown?: (key: string, value: boolean) => void;
   progress: (loaded: number, total: number) => void;
   error: (message: string) => void;
   pick: (id: string) => void;
@@ -99,6 +106,82 @@ function setSpaceFade(material: T.MeshStandardMaterial, fade: SpaceFade | null) 
 }
 
 /** A static identification viewer. It never imports or applies motion skinning. */
+type Pack = QuizCatalogue['packages'][number];
+/** Timeline marks of a question (update, shown, complete): read with performance.getEntriesByName('quiz') to see where the time of a question goes. */
+const mark = (step: string) => {try {performance.mark(`quiz:${step}`);} catch {/* no performance API */}};
+const SHARED_LIMIT = 192 * 1024 * 1024;
+const shared = new Map<string, {promise: Promise<ArrayBuffer>; bytes: number}>();
+const urlOf = (path: string) => import.meta.env.BASE_URL + path.replace(/^\//, '');
+/** Every package is fetched and unzipped once per page: a later question of the same region, another viewer of the page (lesson, then Quiz) and the background prefetch all share the bytes.
+ * The download is not tied to one question's signal, so a question that is left does not throw away a transfer the next one needs. */
+export function packageBuffer(pack: Pack): Promise<ArrayBuffer> {
+  const hit = shared.get(pack.url);
+  if (hit) {shared.delete(pack.url); shared.set(pack.url, hit); return hit.promise;}
+  const abort = new AbortController();
+  const promise = (async () => {
+    try {return await fetchModelBuffer(urlOf(pack.gzip), pack.bytes, true, abort.signal);}
+    catch {return await fetchModelBuffer(urlOf(pack.url), pack.bytes, false, abort.signal);}
+  })();
+  shared.set(pack.url, {promise, bytes: pack.bytes});
+  promise.catch(() => {if (shared.get(pack.url)?.promise === promise) shared.delete(pack.url);});
+  let total = 0; for (const e of shared.values()) total += e.bytes;
+  for (const key of [...shared.keys()]) {if (total <= SHARED_LIMIT || shared.size <= 1) break; total -= shared.get(key)!.bytes; shared.delete(key);}
+  return promise;
+}
+export const clearPackageCache = () => shared.clear();
+export const hasPackage = (pack: Pack) => shared.has(pack.url);
+
+/** The packages a question needs, in the order they are worth loading: the ones holding the target, then the ones nearest to it (bones first), so the first few already show the target in its surroundings.
+ * `essential` is how many of them (the target's own plus the nearest, up to about 2 MB compressed) are enough to show the model. */
+export function rankPackages(catalogue: QuizCatalogue, target: QuizStructure, allowed: Set<string>, targetIds: Set<string>, budget = 2 * 1024 * 1024) {
+  const byId = new Map(catalogue.structures.map(s => [s.id, s]));
+  const centre = target.bounds[0].map((v, i) => (v + target.bounds[1][i]) / 2);
+  const rows = catalogue.packages.flatMap((pack, index) => {
+    if (!pack.meshes.some(m => allowed.has(m.structureId))) return [];
+    let distance = Infinity, holdsTarget = false;
+    for (const m of pack.meshes) {
+      if (targetIds.has(m.structureId)) holdsTarget = true;
+      const b = byId.get(m.structureId)?.bounds; if (!b) continue;
+      distance = Math.min(distance, Math.hypot(...b[0].map((v, i) => (v + b[1][i]) / 2 - centre[i])));
+    }
+    return [{index, holdsTarget, bone: pack.system === 'skeletal', distance, bytes: pack.gzipBytes ?? pack.bytes}];
+  });
+  rows.sort((a, b) => Number(b.holdsTarget) - Number(a.holdsTarget) || Number(b.bone) - Number(a.bone) || a.distance - b.distance);
+  let used = 0, essential = 0;
+  for (const row of rows) {if (row.holdsTarget || used + row.bytes <= budget) {used += row.bytes; essential++;} else break;}
+  return {order: rows.map(r => r.index), essential: Math.max(essential, Math.min(rows.length, 1))};
+}
+
+/** The package indices of one question in loading order (what the viewer loads for it). */
+export function questionPackages(catalogue: QuizCatalogue, target: QuizStructure, section: QuizSection, side: QuizSide): number[] {
+  const sec = section === 'all' ? target.sections[0] : section;
+  const ids = new Set(sceneStructures(catalogue, target, sec, side).map(s => s.id));
+  const own = new Set([target.id, ...(target.space?.members.map(m => m.id) ?? [])]);
+  return rankPackages(catalogue, target, ids, own).order;
+}
+/** Loads the packages of many questions into the shared memory before they are asked (the mock exam). Stations come in the order of the exam; whatever would pass `limitBytes` of decoded
+ * data stays for the background prefetch. Resolves with how many packages were loaded and how many were left out. */
+export async function preloadQuestions(items: {catalogue: QuizCatalogue; target: QuizStructure; section: QuizSection; side: QuizSide}[], opts: {limitBytes: number; concurrency?: number; signal?: AbortSignal; onProgress?: (done: number, total: number) => void}) {
+  const seen = new Set<string>(), todo: Pack[] = [];
+  let bytes = 0, left = 0;
+  for (const it of items) for (const i of questionPackages(it.catalogue, it.target, it.section, it.side)) {
+    const pack = it.catalogue.packages[i]; if (seen.has(pack.url)) continue; seen.add(pack.url);
+    if (bytes + pack.bytes > opts.limitBytes) {left++; continue;}
+    bytes += pack.bytes; todo.push(pack);
+  }
+  let done = 0, cursor = 0, failed = 0;
+  opts.onProgress?.(0, todo.length);
+  const worker = async () => {
+    while (cursor < todo.length && !opts.signal?.aborted) {
+      const pack = todo[cursor++];
+      try {await packageBuffer(pack);} catch {failed++;}
+      opts.onProgress?.(++done, todo.length);
+    }
+  };
+  await Promise.all(Array.from({length: Math.max(1, Math.min(todo.length, opts.concurrency ?? 6))}, worker));
+  return {loaded: todo.length - failed, failed, left, bytes};
+}
+
 export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue, callbacks: Callbacks) {
   const controller = new AbortController(), tap = new PointerTap();
   const scene = new T.Scene(), camera = new T.PerspectiveCamera(34, 1, .002, 30);
@@ -136,6 +219,15 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
   let targetIds = new Set<string>();
   const isSpace = () => !!state?.target.space;
   let command = -1, request = 0, commandAtQuestion = -1;
+  let queue = new AbortController(), prefetching = new AbortController();
+  /** After the current question is complete its successor's packages are fetched one by one at low priority, so the next question finds them already in memory. */
+  const startPrefetch = (current: QuizViewState) => {
+    prefetching.abort(); prefetching = new AbortController();
+    const upcoming = current.next; if (!upcoming) return;
+    const signal = prefetching.signal, cat = upcoming.catalogue;
+    const todo = questionPackages(cat, upcoming.target, current.section, current.side).filter(i => !hasPackage(cat.packages[i]));
+    void (async () => {for (const i of todo) {if (signal.aborted || disposed) return; try {await packageBuffer(cat.packages[i]);} catch {return;}}})();
+  };
 
   /** Sample points of the target. A space is judged where it is, not along the whole length of its boundary muscles: only vertices within the space box are taken. */
   const spaceBox = () => {const b = state!.target.bounds; return new T.Box3(new T.Vector3().fromArray(b[0]), new T.Vector3().fromArray(b[1]));};
@@ -339,18 +431,15 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
     controls.update(); dirty = true;
   };
 
+  /** Packages arrive one after another: the look of the scene is brought up to date once per short while, not after every package (each update repaints the whole scene). */
+  let appearanceTimer: ReturnType<typeof setTimeout> | undefined;
+  const scheduleAppearance = () => {if (appearanceTimer === undefined) appearanceTimer = setTimeout(() => {appearanceTimer = undefined; if (!disposed) applyAppearance();}, 120);};
   const loadPackage = (index: number): Promise<void> => {
     if (loaded.has(index)) return Promise.resolve();
     if (inFlight.has(index)) return inFlight.get(index)!;
     const task = (async () => {
       const pack = catalogue.packages[index];
-      const url = (path: string) => import.meta.env.BASE_URL + path.replace(/^\//, '');
-      let buffer: ArrayBuffer;
-      try {buffer = await fetchModelBuffer(url(pack.gzip), pack.bytes, true, controller.signal);}
-      catch (error) {
-        if (controller.signal.aborted) throw error;
-        buffer = await fetchModelBuffer(url(pack.url), pack.bytes, false, controller.signal);
-      }
+      const buffer = await packageBuffer(pack);
       if (disposed) return;
       for (const part of pack.meshes) {
         const geometry = new T.BufferGeometry();
@@ -365,7 +454,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
         meshes.set(part.id, mesh); scene.add(mesh);
       }
       loaded.add(index);
-      applyAppearance();
+      scheduleAppearance();
     })().finally(() => inFlight.delete(index));
     inFlight.set(index, task);
     return task;
@@ -378,22 +467,48 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
     allowed = new Set(sceneStructures(catalogue, next.target, section, next.side).map(s => s.id));
     targetIds = new Set([next.target.id, ...(next.target.space?.members.map(m => m.id) ?? [])]);
     if (changedQuestion) {
-      clearPin(); ready = false; keyboardId = undefined; commandAtQuestion = next.command.id;
+      clearPin(); prefetching.abort(); ready = false; keyboardId = undefined; commandAtQuestion = next.command.id;
       callbacks.ready(next.key, false);
       callbacks.error('');
-      const ticket = ++request;
-      const needed = catalogue.packages.flatMap((p, i) => p.meshes.some(m => allowed.has(m.structureId)) ? [i] : []);
-      callbacks.progress(needed.filter(i => loaded.has(i)).length, needed.length);
-      void loadMissingChunks(needed, async i => {
-        await loadPackage(i);
-        if (!disposed && ticket === request) callbacks.progress(needed.filter(n => loaded.has(n)).length, needed.length);
-      }, controller.signal, () => {}, 2).then(failed => {
-        if (disposed || ticket !== request) return;
-        if (failed.length) {callbacks.error('部分模型未能載入，題目暫停。請重試，載入完整後先作答。'); return;}
-        ready = true; callbacks.ready(next.key, true); dirty = true;
+      const ticket = ++request; mark('update');
+      queue.abort(); queue = new AbortController(); const signal = queue.signal;
+      const {order, essential} = rankPackages(catalogue, next.target, allowed, targetIds);
+      const progressive = !!next.progressive && order.length > essential;
+      const count = () => callbacks.progress(order.filter(i => loaded.has(i)).length, order.length);
+      count();
+      const settle = (failed: number[]) => failed.length > 0 && !disposed && ticket === request;
+      const load = async (i: number) => {await loadPackage(i); if (!disposed && ticket === request) count();};
+      const shownNow = () => {
+        if (state?.key !== next.key) return;
+        mark('shown');
+        callbacks.shown?.(next.key, true);
         // Level 2 opens each question from a random direction, chosen once the structures are in the scene so the target can be tested for visibility.
-        if (state?.mode === 'name' && state.key === next.key && state.command.id === commandAtQuestion) {applyAppearance(); frameModel('random'); if (state.pin) placePin();}
-      });
+        if (state.mode === 'name' && state.command.id === commandAtQuestion) {applyAppearance(); frameModel('random'); if (state.pin) placePin();}
+      };
+      const complete = () => {mark('complete'); applyAppearance(); ready = true; callbacks.ready(next.key, true); dirty = true; startPrefetch(next);};
+      callbacks.shown?.(next.key, false);
+      const failedMessage = () => callbacks.error('部分模型未能載入，題目暫停。請重試，載入完整後先作答。');
+      if (!progressive) {
+        void loadMissingChunks(order, load, signal, () => {}, 6).then(failed => {
+          if (disposed || ticket !== request) return;
+          if (failed.length) {failedMessage(); return;}
+          shownNow(); complete();
+        });
+      } else {
+        void loadMissingChunks(order.slice(0, essential), load, signal, () => {}, 6).then(failed => {
+          if (disposed || ticket !== request) return;
+          if (failed.length) {failedMessage(); return;}
+          applyAppearance(); dirty = true; shownNow();
+          // name mode: nothing can be picked, so the question is ready as it is; find mode waits for the rest so every candidate can be tapped
+          if (next.mode === 'name') {ready = true; callbacks.ready(next.key, true);}
+          return loadMissingChunks(order.slice(essential), load, signal, () => {}, 4).then(rest => {
+            if (disposed || ticket !== request) return;
+            if (settle(rest)) {failedMessage(); return;}
+            applyAppearance(); dirty = true;
+            if (next.mode === 'name') startPrefetch(next); else complete();
+          });
+        });
+      }
       const opening = openingView(catalogue.region, next.target, QUIZ_REGIONS[catalogue.region ?? 'lower-limb'].defaultView);
       frameModel(opening);
       // The page's first view command is the initial 'front'; it must not replace the opening view of a space question.
@@ -477,7 +592,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
   return {
     update,
     dispose() {
-      disposed = true; ++request; clearPin(); controller.abort(); cancelAnimationFrame(frame);
+      disposed = true; clearTimeout(appearanceTimer); ++request; clearPin(); queue.abort(); prefetching.abort(); controller.abort(); cancelAnimationFrame(frame);
       observer.disconnect(); controls.dispose();
       canvas.removeEventListener('pointerdown', down); canvas.removeEventListener('pointermove', move);
       canvas.removeEventListener('pointerup', up); canvas.removeEventListener('pointercancel', cancel);
