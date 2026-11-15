@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "note": "Provenance of every model source used by the viewer. Licences are those stated by each source; non-commercial or unclear pieces are not used.",
+  "note": "Provenance of every model source used by the viewer. Licences are those stated by each source. Non-commercial (NC) pieces are used only because this site is free, non-commercial and for personal education (owner's decision, 2026-11-14), so it must stay non-commercial; pieces with an unclear licence, or that forbid derivatives or redistribution, are not used.",
   "sources": [
     {
       "id": "bodyparts3d-4.0",
@@ -350,10 +350,21 @@
         "models/eye/*"
       ],
       "license": "CC BY 4.0",
-      "origin": "Eye detail atlas package (left eye only; nothing is mirrored and there is no right-eye model). Globe (23 layered structures): 3D Reference Object Library, eye-male-left v1.3, HuBMAP / Human Reference Atlas (Visible Human male); modified: simplified from 346,630 to 99,760 triangles, scaled by 1.087 and translated onto the BodyParts3D left eyeball, renamed. Orbit (48 structures: extraocular muscles, tarsal plates, lacrimal apparatus, orbital nerves, ophthalmic artery, optic nerve to superior colliculus, orbital bones): BodyParts3D 4.0; modified where it meets the globe: rectus tendons drawn back to their insertion distances, muscle surfaces lifted clear of the sclera, front end of the optic nerve bent to the optic disc; optic chiasm halves joined.",
+      "origin": "Eye detail atlas package (left eye only; nothing is mirrored and there is no right-eye model). Globe (23 layered structures): 3D Reference Object Library, eye-male-left v1.3, HuBMAP / Human Reference Atlas (Visible Human male); modified: simplified from 346,630 to 99,760 triangles, scaled by 1.087 and translated onto the BodyParts3D left eyeball, renamed. Orbit (48 structures: extraocular muscles, tarsal plates, lacrimal apparatus, orbital nerves, ophthalmic artery, optic nerve to superior colliculus, orbital bones): BodyParts3D 4.0; modified where it meets the globe: rectus tendons drawn back to their insertion distances, muscle surfaces lifted clear of the sclera, front end of the optic nerve bent to the optic disc; optic chiasm halves joined. Infraorbital nerve (1 structure): schematic tube written by this project along the BodyParts3D bones, no third-party model.",
       "url": "https://cdn.humanatlas.io/digital-objects/ref-organ/eye-male-left/v1.3/assets/3d-vh-m-eye-l.glb",
       "pinned_by": "scripts/build-eye-atlas.mjs (sha256)",
       "license_url": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    {
+      "id": "clitoris-mri-2",
+      "files": [
+        "models/paokao/*",
+        "models/stream/paokao-*.bin.gz"
+      ],
+      "license": "CC BY-NC-SA 4.0 (Creative Commons - Attribution - Non-Commercial - Share Alike, as stated in the LICENSE.txt of the download)",
+      "origin": "Clitoris-MRI-2 by Bioscope (Romain Dewaele), made from an MRI of a pre-menopausal woman without genital cutting, after Abdulcadir et al. 2020, J Sex Med 17(9):1590-1602, doi 10.1016/j.jsxm.2020.05.025. Modified: cut into glans, body, two crura and two bulbs of the vestibule and fitted to the female pelvis.",
+      "url": "https://www.thingiverse.com/thing:5027449",
+      "pinned_by": "scripts/data/clitoris-mri2.json.gz (source sha256 recorded in the file)"
     }
   ],
   "checked_not_used": [
