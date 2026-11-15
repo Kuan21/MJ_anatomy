@@ -16,27 +16,27 @@
 
 #### 四邊孔（Quadrangular space）
 
-- 中心交會距離：0.0094 公尺
+- 中心交會距離：0.0095 公尺
 - 邊界（畫出）：Teres minor、Teres major、Triceps brachii, long head
 - 內容物（畫出）：Axillary nerve、Posterior circumflex humeral artery
 - 題庫沒有、因此不畫出：Surgical neck of humerus、Posterior circumflex humeral vein
 
 #### 三邊孔（Triangular space）
 
-- 中心交會距離：0.0108 公尺
+- 中心交會距離：0.0111 公尺
 - 邊界（畫出）：Teres minor、Teres major、Triceps brachii, long head
 - 內容物（畫出）：Circumflex scapular artery、Circumflex scapular vein
 
 #### 三邊裂（Triangular interval）
 
-- 中心交會距離：0.0261 公尺
+- 中心交會距離：0.0264 公尺
 - 邊界（畫出）：Teres major、Triceps brachii, long head、Triceps brachii, lateral head
 - 底（畫出）：Humerus
 - 內容物（畫出）：Radial nerve、Deep brachial artery
 
 #### 三角肌胸大肌三角（Clavipectoral triangle）
 
-- 中心交會距離：0.0159 公尺
+- 中心交會距離：0.0163 公尺
 - 邊界（畫出）：Clavicle、Deltoid、Pectoralis major, clavicular part
 - 底（畫出）：Pectoralis minor
 - 內容物（畫出）：Cephalic vein、Thoraco-acromial artery, deltoid branch
@@ -51,7 +51,7 @@
 
 #### 肘窩（Cubital fossa）
 
-- 中心交會距離：0.0234 公尺
+- 中心交會距離：0.0238 公尺
 - 邊界（畫出）：Pronator teres、Brachioradialis
 - 頂（畫出）：Median cubital vein
 - 底（畫出）：Brachialis、Supinator
@@ -101,13 +101,13 @@
 
 #### 內收肌裂孔（Adductor hiatus）
 
-- 中心交會距離：0.0085 公尺
+- 中心交會距離：0.0086 公尺
 - 邊界（畫出）：Adductor magnus、Femur
 - 內容物（畫出）：Femoral artery、Femoral vein、Popliteal artery、Popliteal vein
 
 #### 膕窩（Popliteal fossa）
 
-- 中心交會距離：0.0322 公尺
+- 中心交會距離：0.0332 公尺
 - 邊界（畫出）：Biceps femoris、Semimembranosus、Semitendinosus、Gastrocnemius, lateral head、Plantaris、Gastrocnemius, medial head
 - 頂（畫出）：Small saphenous vein
 - 底（畫出）：Femur、Popliteus
@@ -121,4 +121,4 @@
 
 ### 各邊界構造的交會處不明確（交會距離超過 5 公分），畫面無法指出空間位置（1 個空間）
 
-- 坐骨小孔（Lesser sciatic foramen），下肢；交會距離 0.0602 公尺
+- 坐骨小孔（Lesser sciatic foramen），下肢；交會距離 0.0619 公尺

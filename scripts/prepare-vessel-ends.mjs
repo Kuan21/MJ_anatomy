@@ -26,7 +26,7 @@ const GAP_MM = 12, FADE_RADIUS = .0018;
 
 const unshaped = new Set(JSON.parse(fs.readFileSync(file('public/models/atlas-stream.json'), 'utf8')).shapedVesselTips?.unshaped ?? []);   // tips the stream step found no wall to narrow: they keep the old cone
 // tips shaped by the stream step, or no end at all (the vessel carries on past them), get no cone
-const rows = auditEnds(), plan = await planTips(rows), shapedTips = new Set([...plan.tapers.filter(t => !unshaped.has(tipKey(t.row))), ...plan.buried].map(t => t.row)), parts = new Map(atlas.parts.map(p => [p.id, p])), cache = new Map();
+const rows = auditEnds(), plan = process.env.MJ_NO_TIP_SHAPE ? {tapers: [], buried: []} : await planTips(rows), shapedTips = new Set([...plan.tapers.filter(t => !unshaped.has(tipKey(t.row))), ...plan.buried].map(t => t.row)), parts = new Map(atlas.parts.map(p => [p.id, p])), cache = new Map();
 /** Welded surface graph of a vessel mesh (cached). */
 function surface(id) {
   if (!cache.has(id)) { const g = geom(parts.get(id)); cache.set(id, weldSurface(g.pos, g.idx)); }

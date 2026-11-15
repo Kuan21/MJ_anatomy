@@ -38,7 +38,7 @@ export function shapeVesselTips(positions, tapers = [], flares = [], indices = n
   const normals = indices && (tapers.length || flares.length) ? weldedNormals(positions, indices) : null;
   /** True when the vertex belongs to the tube wall of this end: its normal stands across the axis. The wall of a larger vessel that the axis runs through (a stub is welded to it) faces along the axis and is left alone. */
   const onWall = (i, dir, s, capS) => { if (!normals || s <= capS) return true; const n = normals.get(i); return !n || Math.abs(n[0] * dir[0] + n[1] * dir[1] + n[2] * dir[2]) <= WALL_NORMAL; };
-  const moved = new Set(), applied = {tapers: 0, flares: 0, missed: []}, keyOf = i => `${Math.round(positions[i * 3] * 1e6)},${Math.round(positions[i * 3 + 1] * 1e6)},${Math.round(positions[i * 3 + 2] * 1e6)}`;
+  const moved = new Set(), applied = {tapers: 0, flares: 0, missed: [], done: []}, keyOf = i => `${Math.round(positions[i * 3] * 1e6)},${Math.round(positions[i * 3 + 1] * 1e6)},${Math.round(positions[i * 3 + 2] * 1e6)}`;
   /** Vertex numbers (i * 3) of the selected set that are joined, by triangles, to a vertex of the end itself (s <= seedS): another vessel of the same mesh that merely passes by is left alone. */
   function connected(sel, seedS) {
     if (!indices) return new Set(sel.keys());
@@ -55,12 +55,12 @@ export function shapeVesselTips(positions, tapers = [], flares = [], indices = n
   }
   for (const t of tapers) {
     const sel = new Map(); for (let i = 0; i < positions.length; i += 3) { const r = select(positions, i, t.center, t.dir, -.0004, t.length, t.radius); if (r && onWall(i / 3, t.dir, r.s, .0004)) sel.set(i, {...r, r: t.radius}); }
-    const hit = connected(sel, .0006); if (hit.size) applied.tapers++; else applied.missed.push(t);
+    const hit = connected(sel, .0006); if (hit.size) { applied.tapers++; applied.done.push(t); } else applied.missed.push(t);
     for (const i of hit) {
     const s0 = sel.get(i);
     const u = 1 - Math.max(s0.s, 0) / t.length, f = Math.pow(Math.max(0, 1 - u * u), TAPER_POWER);   // 1 at the body, 0 at the old end
-    for (let k = 0; k < 3; k++) positions[i + k] = t.center[k] - s0.s * t.dir[k] + s0.perp[k] * f;
-    moved.add(i / 3);
+    let changed = false; for (let k = 0; k < 3; k++) { const v = t.center[k] - s0.s * t.dir[k] + s0.perp[k] * f; if (Math.abs(v - positions[i + k]) > 1e-9) changed = true; positions[i + k] = v; }
+    if (changed) moved.add(i / 3);
     }
   }
   for (const fl of flares) {
@@ -69,8 +69,8 @@ export function shapeVesselTips(positions, tapers = [], flares = [], indices = n
     const hit = connected(sel, back); if (hit.size) applied.flares++;
     for (const i of hit) {
     const s0 = sel.get(i), w = Math.max(0, 1 - (s0.s + fl.reach) / back), g = 1 + FLARE_WIDEN * w * w;
-    for (let k = 0; k < 3; k++) positions[i + k] = fl.center[k] - s0.s * fl.dir[k] + s0.perp[k] * g;
-    moved.add(i / 3);
+    let changed = false; for (let k = 0; k < 3; k++) { const v = fl.center[k] - s0.s * fl.dir[k] + s0.perp[k] * g; if (Math.abs(v - positions[i + k]) > 1e-9) changed = true; positions[i + k] = v; }
+    if (changed) moved.add(i / 3);
     }
   }
   moved.applied = applied;
