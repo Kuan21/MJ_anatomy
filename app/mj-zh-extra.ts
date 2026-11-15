@@ -13,7 +13,7 @@ const EXACT:Record<string,string>={
  'ileocecal junction':'迴盲交界','mesentery of small intestine':'小腸繫膜','transverse mesocolon':'橫結腸繫膜','taenia libera':'游離結腸帶','taenia mesocolica':'結腸繫膜帶','taenia omentalis':'網膜帶',
  'distal part of ileum':'迴腸遠段','middle part of ileum':'迴腸中段','proximal part of ileum':'迴腸近段','distal part of jejunum':'空腸遠段','middle part of jejunum':'空腸中段','proximal part of jejunum':'空腸近段',
  'gallbladder':'膽囊','cystic duct':'膽囊管','common hepatic duct':'總肝管','hepatic duct':'肝管','pancreas':'胰臟','pancreatic duct':'胰管','pancreatic duct tree':'胰管樹','parenchyma of pancreas':'胰臟實質',
- 'caudate lobe of liver':'肝尾狀葉','duct of caudate lobe of liver':'肝尾狀葉膽管','tongue':'舌','sublingual gland':'舌下腺','submandibular gland':'頷下腺','spleen':'脾臟','lobe of thymus':'胸腺葉',
+ 'caudate lobe of liver':'肝尾狀葉','duct of caudate lobe of liver':'肝尾狀葉膽管','tongue':'舌','sublingual gland':'舌下腺','submandibular gland':'下頜下腺','spleen':'脾臟','lobe of thymus':'胸腺葉',
  // urogenital, endocrine, skin
  'kidney':'腎臟','ureter':'輸尿管','urethra':'尿道','urinary bladder':'膀胱','prostate':'前列腺','seminal vesicle':'精囊','deferent duct':'輸精管','epididymis':'副睪','testis':'睪丸','glans penis':'陰莖頭',
  'corpus cavernosum of penis':'陰莖海綿體','corpus spongiosum of penis':'尿道海綿體','adrenal gland':'腎上腺','pineal body':'松果體','pituitary gland':'腦下垂體',

@@ -720,7 +720,7 @@
 - 下視丘前部（Anterior hypothalamus）：缺 資料卡
 - 下視丘外側部（Lateral hypothalamus）：缺 資料卡
 - 下視丘後部（Posterior hypothalamus）：缺 資料卡
-- 松果腺（Pineal gland）：缺 資料卡
+- 松果體（Pineal gland）：缺 資料卡
 - 皮質紋狀體徑（前）（Corticostriatal tract (anterior)）：缺 資料卡
 - 皮質紋狀體徑（後）（Corticostriatal tract (posterior)）：缺 資料卡
 - 皮質紋狀體徑（上）（Corticostriatal tract (superior)）：缺 資料卡
@@ -875,7 +875,7 @@
 - 舌（Tongue）：缺 說明
 - 莖突舌骨韌帶（stylohyoid ligament）：缺 說明
 - 舌下腺（sublingual gland）：缺 說明
-- 頷下腺（submandibular gland）：缺 說明
+- 下頜下腺（submandibular gland）：缺 說明
 - 會厭（Epiglottis）：缺 說明
 - 舌骨會厭韌帶（Hyo-epiglottic ligament）：缺 說明
 - 楔狀軟骨（cuneiform cartilage）：缺 說明

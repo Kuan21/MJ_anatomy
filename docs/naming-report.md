@@ -1060,6 +1060,7 @@
 | 乳頭體 | Mammillary body；mamillary body |
 | 視丘髓紋 | stria medullaris of thalamus；stria medullaris thalami |
 | 眶回 | Orbital gyrus；orbital gyri |
+| 松果體 | Pineal body；pineal gland |
 | 腹腔動脈幹 | Celiac artery；Celiac trunk |
 | 結腸邊緣動脈 | Marginal colic artery；Marginal artery of colon |
 | 腋神經 | maxillary nerve；meningeal branch of maxillary nerve；axillary nerve |
@@ -1711,7 +1712,7 @@
 | Uvular muscle | 台灣解剖學名詞（程式內建對照表） | 懸雍垂肌 |
 | stylohyoid ligament | 台灣解剖學名詞（程式內建對照表） | 莖突舌骨韌帶 |
 | sublingual gland | 台灣解剖學名詞（程式內建對照表） | 舌下腺 |
-| submandibular gland | 台灣解剖學名詞（程式內建對照表） | 頷下腺 |
+| submandibular gland | 台灣解剖學名詞（程式內建對照表） | 下頜下腺 |
 | Epiglottis | 台灣解剖學名詞（程式內建對照表） | 會厭 |
 | Hyo-epiglottic ligament | 台灣解剖學名詞（程式內建對照表） | 舌骨會厭韌帶 |
 | Hyoid bone | 台灣解剖學名詞（程式內建對照表） | 舌骨 |
@@ -2521,7 +2522,7 @@
 | posterior hypothalamus | 台灣解剖學名詞（程式內建對照表） | 下視丘後部 |
 | adenohypophysis | 台灣解剖學名詞（程式內建對照表） | 腺垂體 |
 | neurohypophysis | 台灣解剖學名詞（程式內建對照表） | 神經垂體 |
-| pineal gland | 台灣解剖學名詞（程式內建對照表） | 松果腺 |
+| pineal gland | 台灣解剖學名詞（程式內建對照表） | 松果體 |
 | acoustic radiation | 台灣解剖學名詞（程式內建對照表） | 聽放射 |
 | anterior thalamic radiation | 台灣解剖學名詞（程式內建對照表） | 前視丘輻射 |
 | arcuate fasciculus | 台灣解剖學名詞（程式內建對照表） | 弓狀束 |
