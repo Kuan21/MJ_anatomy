@@ -22,7 +22,7 @@
 | 區域 | 狀態 | 已檢查 | 問題 | 最後更新 |
 |---|---|---|---|---|
 | 頭頸（含腦、眼、耳） | 進行中 | 見下 | 見下 | 2026-11-15 |
-| 骨盆與會陰 | 未開始 | — | — | — |
+| 骨盆與會陰 | 層次重點完成；其他項目未開始 | 見「骨盆與會陰」 | PP-01、PP-02 | 2026-11-16 |
 | 腹部 | 未開始 | — | — | — |
 
 ---
@@ -37,7 +37,7 @@
 
 | 編號 | 區域 | 結構或功能 | 問題 | 證據 | 來源 | 嚴重程度 | 建議負責 |
 |---|---|---|---|---|---|---|---|
-| HN-01 | 頭頸／顳顎關節 | Lateral temporomandibular ligament 顳顎外側韌帶（左、右） | 左右調轉：名為「左」的韌帶模型在病人右側，名為「右」的在左側。網站程式沒有更正，主圖譜關節系統與頭頸 Quiz 都受影響。需修改：`public/models/joints.glb` 的 `Lateral temporomandibular ligament.l`／`.r` 兩個節點（名稱對調或幾何對調）；受影響題目：頭頸 Quiz 的 `joint:left lateral temporomandibular ligament`、`joint:right lateral temporomandibular ligament`（`quiz-head-neck.json` 由 joints.glb 生成，修模型後要重新生成）。 | joints.glb：`.l` 中心 x = −53.2 mm，`.r` 中心 x = +53.2 mm；同檔同側的關節囊 `.l` +46.0 mm、關節盤 `.l` +44.8 mm、蝶下頜韌帶 `.l` +36.6 mm、莖突下頜韌帶 `.l` +38.8 mm 均正常；Quiz 資料「Left lateral temporomandibular ligament」範圍 x −63～−48 mm。未在 3D 畫面截圖確認（數值）。 | Gray's Anatomy 1918（顳顎關節外側韌帶附著顴弓與下頜頸，位於同側關節囊外側）；TeachMeAnatomy | 會令溫書學錯 | 頭頸模型（joints.glb）＋總管（Quiz 題庫） |
+| HN-01 | 頭頸／顳顎關節 | Lateral temporomandibular ligament 顳顎外側韌帶（左、右） | 左右調轉：名為「左」的韌帶模型在病人右側，名為「右」的在左側。網站程式沒有更正，主圖譜關節系統與頭頸 Quiz 都受影響。需修改：`public/models/joints.glb` 的 `Lateral temporomandibular ligament.l`／`.r` 兩個節點（名稱對調或幾何對調）；受影響題目：頭頸 Quiz 的 `joint:left lateral temporomandibular ligament`、`joint:right lateral temporomandibular ligament`（`quiz-head-neck.json` 由 joints.glb 生成，修模型後要重新生成）。 | joints.glb：`.l` 中心 x = −53.2 mm，`.r` 中心 x = +53.2 mm；同檔同側的關節囊 `.l` +46.0 mm、關節盤 `.l` +44.8 mm、蝶下頜韌帶 `.l` +36.6 mm、莖突下頜韌帶 `.l` +38.8 mm 均正常；Quiz 資料「Left lateral temporomandibular ligament」範圍 x −63～−48 mm。3D 截圖：學習「認識」右側面，右顳顎關節囊的黃色標示在右顳顎關節，「右顳顎外側韌帶」在右側看不到黃色標示（[截圖](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/02f374f2e37b1273426f9eb04d6933bdb11caeed/qa-report/head-neck/hn01-tmj-lateral-ligament.jpg)）。 | Gray's Anatomy 1918（顳顎關節外側韌帶附著顴弓與下頜頸，位於同側關節囊外側）；TeachMeAnatomy | 會令溫書學錯 | 頭頸模型（joints.glb）＋總管（Quiz 題庫） |
 | HN-02 | 頭頸／腦神經 | Vagus nerve (X) 迷走神經 Quiz 資訊卡「走向」（#337，左右共用一筆） | 寫「之後入胸腔，喉返神經由此分出並上行回到喉部」。右喉返神經在頸根部分出，勾住右鎖骨下動脈後上行；左喉返神經才在胸腔分出，勾住主動脈弓。左右要分開寫。 | `app/quiz/card-data.ts` 的 `'vagus nerve (x)'` 走向欄 | Gray's Anatomy 1918；TeachMeAnatomy；Kenhub | 會令溫書學錯 | 頭頸資訊卡（#337 批次） |
 | HN-03 | 腦／Quiz、腦詳細模式 | 腦 Quiz 中線結構被拆成左右 | 單一的中線結構被拆成左、右兩題：視交叉（Left／Right Optic chiasm 左／右視交叉）、橋腦（Left／Right Pons 左／右橋腦）、中腦（Left／Right Midbrain 左／右中腦）、延腦（只有 Left Medulla oblongata 左延腦）。學生會以為有「左視交叉」「右橋腦」等獨立構造。完整掃描見下方「腦部中線結構掃描」。 | `quiz-brain.json` 的結構名稱；brain.glb 節點 `Optic chiasm.l/.r`、`Pons.l/.r`、`Midbrain.l/.r` 的範圍都剛好以 x = 0 為界 | Gray's Anatomy 1918；OpenStax Anatomy & Physiology（腦幹與視交叉為正中構造） | 會令溫書學錯 | 腦部工作階段（由總管指定） |
 | HN-04 | 腦詳細模式 | Medulla oblongata 延腦模型 | brain.glb 只有 `Medulla oblongata.l`（x 0～+13 mm），沒有右半；腦詳細模式的延腦缺右半邊。 | brain.glb 節點清單與 POSITION 範圍 | OpenStax Anatomy & Physiology | 會令溫書學錯（與 HN-03 同一處修） | 腦部工作階段（由總管指定） |
@@ -50,7 +50,7 @@
 | HN-15 | 頭頸／搜尋 | 必考清單寫法搜不到 | 主圖譜搜尋輸入必考清單的中文寫法，6 個完全沒有結果：上咽縮肌、深頸動脈、前大腦動脈、耳咽管咽肌、橫頸動脈、腦橋（網站名為咽上縮肌、頸深動脈、大腦前動脈、咽鼓管咽肌、頸橫動脈、橋腦）。另外 頸內靜脈、SCM 也搜不到。腦垂體、提嘴角肌、淚神經、頜下腺 有別名可搜到。名稱決定檔說必考清單寫法會加作別名，尚未套用。 | 桌面搜尋 40 個詞的結果（見「功能測試」） | — | 影響使用 | 總管（別名資料，`docs/paokao-aliases.json` 等） |
 | HN-16 | 頭頸／資訊卡 | Quiz 資訊卡與主圖譜資訊卡是兩套資料 | #337、#346 寫的卡片文字（`app/quiz/card-data.ts`）只出現在 Quiz 與學習；主圖譜點同一構造（例如咽上縮肌、甲狀軟骨、淚腺）資訊卡仍然沒有內容（HN-12）。請決定兩邊是否共用同一份內容。 | 690 張主圖譜資訊卡讀取（#346 合併後） | — | 影響使用 | 總管 |
 | HN-17 | Quiz | Quiz 記住設定 | 桌面選「雙側」「20 題」開始測驗、提早結束後，重新開啟頭頸 Quiz，設定回到預設「右側」「10 題」，沒有記住。 | 自動測試：同一分頁重新載入後 aria-pressed 狀態 | — | 影響使用 | 總管（Quiz） |
-| HN-18 | 手機版（一般優先） | 主圖譜排版（390×844） | 標題下的「可點選構造」被右上角按鈕遮住；區域列只見「頭頸、雙側、左側」，「右側」要橫向捲動才看到；資訊卡內容區很矮，起止點等欄位要在卡內捲動才看到。頁面本身沒有橫向捲動。 | 截圖 mobile-02、mobile-04 | — | 外觀小問題 | 總管 |
+| HN-18 | 手機版（一般優先） | 主圖譜排版（390×844）（[截圖](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/02f374f2e37b1273426f9eb04d6933bdb11caeed/qa-report/head-neck/hn18-mobile-card.jpg)） | 標題下的「可點選構造」被右上角按鈕遮住；區域列只見「頭頸、雙側、左側」，「右側」要橫向捲動才看到；資訊卡內容區很矮，起止點等欄位要在卡內捲動才看到。頁面本身沒有橫向捲動。 | 截圖 mobile-02、mobile-04 | — | 外觀小問題 | 總管 |
 | HN-19 | 腦詳細模式、CSF 流向 | 網站內部用詞不一致 | CSF 流向頁寫「大腦導水管」「蛛網膜下腔」「蛛網膜顆粒」；腦模型與主圖譜寫「中腦導水管」；必考清單寫「蜘蛛膜」「蜘蛛膜下腔」。同一構造在網站上有兩種寫法。 | CSF 流向頁文字、腦詳細模式清單 | FIPAT TA2（名詞對照） | 影響使用 | 總管（併入 HN-11 一起決定） |
 | HN-20 | Quiz、學習、模擬考試 | 介面文字有廣東話「返去學」 | 共 5 處：`app/quiz/setup-page.tsx` 第 48 行（答錯的「返去學」→ 答錯的「回去學習」）、`app/quiz/page.tsx` 第 247 行（返去學：到{區域}學習地圖 → 回去學習：到{區域}學習地圖）、`app/quiz/exam.tsx` 第 178 行、`app/quiz/run.tsx` 第 32 行（返去學：→ 回去學習：），以及 `app/quiz/run.tsx` 第 10 行註解。另外使用者要求加強 `scripts/check-zh.mjs`（不可放寬）：(1) 加規則捉口語「返」（返去、返嚟、返學、返轉等，「返回」除外）與「撳、搵、攞、嚿、畀、郁、噉、嘥」；(2) 掃描範圍加入 `components/`、`lib/` 與建置時生成、會上網站的名稱與資訊卡資料；(3) 以「返去學」做反向測試，修改前必須失敗。完成後開【需人工審核】PR，附 Quiz 設定頁與結果頁截圖。 | Quiz 結果頁實際顯示「返去學：到頭頸學習地圖」（桌面測試） | — | 影響使用 | 總管（Quiz 與檢查腳本） |
 | HN-21 | 頸部 | 頸動脈鞘上段（頸動脈分叉以上，約 C4–C2，左右） | 頸內靜脈在頸內動脈的內側並偏前；應在外側。分叉後約 1 cm 內頸內、頸外動脈幾乎重疊（x、z 相差 1–2 mm 以內），未分開。分叉以下（頸總動脈段）的關係正確。 | 左側 y 1.51 m：頸內動脈 x 34、z −5 mm；頸內靜脈 x 29、z 0 mm；y 1.49–1.55 m 每一層都如此，右側鏡像相同（neck-vessels 資料逐層斷面）。未在 3D 畫面截圖確認。 | Gray's Anatomy 1918；TeachMeAnatomy；Kenhub | 會令溫書學錯 | 頭頸模型（登記表已有「頸內靜脈中心線調整」排期，建議一併處理） |
@@ -58,6 +58,8 @@
 | HN-23 | 頸根 | Subclavian artery 鎖骨下動脈與 Scalenus anterior 前斜角肌（左右） | 鎖骨下動脈在前斜角肌的前方；應在其後方（前、中斜角肌之間）。鎖骨下靜脈在前斜角肌前方，正確。 | y 1.425、1.435 m，x 40–52 mm：前斜角肌 z −8～−3，動脈 z −4～+5，中斜角肌 z −25～−14，兩肌之間沒有動脈；右側相同。未在 3D 畫面截圖確認。 | Gray's Anatomy 1918；TeachMeAnatomy；Kenhub | 會令溫書學錯 | 頭頸模型 |
 | HN-24 | 頸部 | Left recurrent laryngeal nerve 左喉返神經 | 頸段在氣管外緣外側約 10 mm，不在氣管食道溝內（右側位置正確）。 | y 1.42–1.44 m：左喉返神經 x 20–22 mm；氣管中心 x 0、半徑約 9 mm。 | Gray's Anatomy 1918；TeachMeAnatomy | 影響使用 | 頭頸模型 |
 | HN-25 | 學習 | 神經類別的黃色標示 | 學習「認識」步驟用黃色標示目標構造，但其他神經本身也是黃色，神經類別很難分出哪一條是目標。 | 學習地圖「神經」第 1 關截圖 | — | 影響使用 | 總管（學習） |
+| HN-26 | 頭部 | Aponeurosis of epicranius 帽狀腱膜 | 向前延伸到前額與眉間，並有一塊長方形延伸到兩眼之間的鼻根；帽狀腱膜前端應接額肌，不到眉毛與鼻根。長方形外形不符合「立體結構不可用長方體」規則。 | 學習「認識」前面與側面截圖（[前面](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/02f374f2e37b1273426f9eb04d6933bdb11caeed/qa-report/head-neck/hn26-galea-front.jpg)、[側面](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/02f374f2e37b1273426f9eb04d6933bdb11caeed/qa-report/head-neck/hn26-galea-side.jpg)）；Quiz 答錯畫面同樣可見 | Gray's Anatomy 1918；TeachMeAnatomy | 會令溫書學錯 | 頭頸模型 |
+| HN-27 | iPad 直向（820×1180） | 主圖譜區域列與系統面板 | 區域列（←、頭頸、雙側、左側、右側）蓋住系統面板第一行「Skeleton 骨骼」，直向時無法看到或點到骨骼開關；3D 模型被擠在兩個面板之間，顯示很小。橫向（1180×820）沒有溢出或遮擋。 | 1 倍解析度截圖（[直向](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/02f374f2e37b1273426f9eb04d6933bdb11caeed/qa-report/head-neck/hn27-ipad-portrait-overlap.jpg)） | — | 影響使用（iPad 優先） | 總管 |
 | HN-06 | 腦／Quiz | 腦 Quiz 英文大小寫 | 416 題中 383 題在 Left／Right 後保留大寫，例如「Left Lateral sulcus」「Right Pons」，與主圖譜寫法（Left lateral…）不一致。 | `quiz-brain.json` | — | 外觀小問題 | 總管（Quiz） |
 | HN-07 | 頭頸／名稱 | 字形「頷／頜」「腭／顎」 | `docs/quiz-head-neck-name-decisions.md` 已決定統一用「頜」「顎」，但網站仍兩種並存：Quiz 中文名「右下頷神經前股、後股」「右上頷神經腦膜支」，#337 資訊卡「下頷神經」「上頷竇」「硬腭」，主圖譜資訊卡「腭咽肌」。 | 已部署資料與資訊卡文字 | FIPAT TA2（名詞對照） | 外觀小問題 | 總管（套用名稱決定） |
 | HN-08 | 頭頸／眼、喉 | 5 個結構的範圍框（bounds） | Right sclera、Suspensory ligament of right lens、Left conus elasticus、Right aryepiglotticus、Straight part of right cricothyroid 的 atlas.json 範圍框跨到對側（例如 Right sclera 範圍 x −44～+31 mm，實際網格 −44～−17 mm）。可能影響 Focus 取景與「不在目前視野」提示。 | atlas.json bounds 對比實際頂點 | — | 外觀小問題 | 頭頸模型 |
@@ -340,3 +342,126 @@
 | 膈神經 | 走在前斜角肌前面，入胸時在鎖骨下靜脈後、鎖骨下動脈前 | y 1.45–1.46 貼前斜角肌前面；y 1.42 位於靜脈（z 16）與動脈（z −3）之間 | 正確 |
 | 臂神經叢 | 根與幹在前、中斜角肌之間 | 模型只有 C5–C8 神經根近段與各束，沒有幹 | 無法核對 |
 | 眶內上部 | 由上而下：額神經、提上眼瞼肌、上直肌 | 眶中段至前段（z 30–40 mm）次序正確；眶尖（z 20–25 mm）三者高度相差 1–3 mm | 正確（眶尖可接受） |
+
+### 12 位置抽查（學習「認識」步驟，黃色標示＋淡色骨骼；預設角度與側面各一張）
+
+| 類別 | 抽查 | 結果 |
+|---|---|---|
+| 骨 | 右頂骨、額骨、枕骨、右鼻骨、篩骨 | 位置正確 |
+| 肌肉 | 右額肌、右顳頂肌、右降眉間肌、右皺眉肌、右顳肌 | 位置正確 |
+| 神經 | 右眶上神經、右滑車上神經、右眼神經、右額神經、右上頷神經腦膜支 | 走向大致正確；其他神經同為黃色，難分辨目標（HN-25） |
+| 動脈 | 右眼動脈、右內頸動脈、右外頸動脈、右椎動脈、右頸深動脈 | 位置正確 |
+| 靜脈 | 右內頸靜脈（學習地圖頭頸只有這一個靜脈） | 位置正確；上段與頸內動脈內外調轉見 HN-21 |
+| 韌帶與筋膜 | 帽狀腱膜、右外直肌與內直肌制止韌帶、右水晶體懸韌帶、右翼下頷縫 | 帽狀腱膜範圍與形狀有誤（HN-26）；其餘正確 |
+| 關節 | 右顳顎關節盤、關節囊、外側韌帶、蝶下頜韌帶、莖突下頜韌帶 | 外側韌帶標示不在右側（HN-01 3D 證據）；其餘正確 |
+| 眼與眼眶（器官結構） | 右上斜肌滑車、右總腱環、右淚腺、右上瞼板、右眼前房 | 位置正確 |
+| 腦（腦學習地圖神經類） | 右眼神經、右嗅神經、右視神經、右滑車神經、右動眼神經 | 已截圖，位置未見異常 |
+| 耳 | — | 耳詳細模式未部署，未抽查 |
+
+### iPad 排版（1 倍解析度；觸控由使用者用真機測試）
+
+| 畫面 | 橫向 1180×820 | 直向 820×1180 |
+|---|---|---|
+| 主圖譜頭頸、資訊卡、搜尋 | 沒有溢出或遮擋（搜尋框關閉鍵與右側工具分頁有少量重疊，不影響點按） | 區域列蓋住「Skeleton 骨骼」一行（HN-27） |
+| 腦詳細模式 | 正常 | 正常 |
+| 眼詳細模式 | 頂部區域列較長，右上角「學習」「Quiz」按鈕被區域列蓋住 | 返回鍵與區域列有少量重疊 |
+| 學習地圖、學習關卡 | 正常 | 正常 |
+| Quiz 設定 | 自動測試未能進入（找不到「頭頸」按鈕，可能是點擊範圍問題），請以真機確認 | 同左 |
+
+---
+
+## 骨盆與會陰
+
+### 問題清單
+
+| 編號 | 區域 | 結構或功能 | 問題 | 證據 | 來源 | 嚴重程度 | 建議負責 |
+|---|---|---|---|---|---|---|---|
+| PP-01 | 女性骨盆 | Rectouterine pouch 直腸子宮陷凹 | 位置太前：整件在子宮頸與陰道前半（z −27～−18 mm），應在子宮頸與陰道後穹窿之後、直腸之前（約 z −40～−50 mm），偏前約 20 mm。 | 子宮頸 z −41～−21、陰道 z −39～−21；同高度（y 0.865–0.895 m）直腸前緣 z −43～−53 mm。未在 3D 畫面截圖確認。 | Gray's Anatomy 1918；OpenStax Anatomy & Physiology；TeachMeAnatomy | 會令溫書學錯 | 生殖＋內臟 |
+| PP-02 | 女性會陰 | Bulb of vestibule 前庭球、Crus of clitoris 陰蒂腳（左右） | 與提肛肌重疊：在同一水平位置，前庭球頂部高出提肛肌下表面最多 13 mm（左）／15 mm（右），陰蒂腳最多 8 mm（左）／15 mm（右）。淺袋內容應在會陰膜之下，與盆膈之間還隔着深袋。 | 5 mm 方格比較：左前庭球 11 格全部高出，右前庭球 7 格；左陰蒂腳 6／15 格。陰蒂與前庭球是 #333 的 Clitoris-MRI-2，提肛肌是男性 BodyParts3D 模型。未在 3D 畫面截圖確認。 | Gray's Anatomy 1918；OpenStax Anatomy & Physiology；TeachMeAnatomy | 會令溫書學錯（待 3D 確認） | 生殖＋內臟 |
+
+### 層次核對：骨盆與會陰重點關係
+
+| 關係 | 應有 | 模型 | 結果 |
+|---|---|---|---|
+| 女性：膀胱、子宮、直腸前後 | 由前到後：膀胱 → 子宮（子宮頸、陰道）→ 直腸 | 中線 z：膀胱 +3、子宮體 −11、子宮頸 −32、陰道 −27、直腸 −62 mm | 正確 |
+| 男性：膀胱、前列腺、直腸 | 前列腺在膀胱下方，直腸在後 | 膀胱 y 0.894、前列腺 y 0.861、直腸 z −62 mm | 正確 |
+| 膀胱子宮陷凹 | 在膀胱與子宮之間 | z −21～+33，與膀胱後上面、子宮前面相接 | 正確 |
+| 直腸子宮陷凹 | 在子宮頸、陰道後穹窿之後，直腸之前 | 在子宮頸與陰道前半 | **錯，PP-01** |
+| 輸尿管與子宮動脈 | 輸尿管在子宮動脈下後方通過，約在子宮頸外側 1.5–2 cm | 左：子宮動脈在輸尿管上方 1–18 mm，交叉點在中線外 20–30 mm；右：同一高度子宮動脈在輸尿管前方約 12 mm | 正確 |
+| 盆膈與會陰 | 提肛肌（盆膈）在上；會陰深袋、會陰膜、淺袋依次在下 | 前庭球、陰蒂腳與提肛肌重疊 | **PP-02** |
+| 會陰淺袋內容 | 坐骨海綿體肌、球海綿體肌、會陰淺橫肌、陰蒂腳（陰莖腳）、前庭球（尿道球） | 網站只有一件「superficial perineal muscle」與陰蒂腳、前庭球；坐骨海綿體肌、球海綿體肌沒有分開的模型 | 無法逐項核對（缺模型） |
+| 會陰深袋內容 | 會陰深橫肌、尿道外括約肌、會陰膜 | 網站沒有這些模型 | 無法核對（缺模型） |
+
+依公開資料核對，請使用者核對；數值未在 3D 畫面截圖確認。
+
+---
+
+## 檔案清單（全站，交總管；使用者 2026-11-16 縮細範圍：不量時間與 FPS）
+
+方法：已部署網站實際載入的資料目錄、`git ls-tree` 的 `public/` 檔案大小、一次瀏覽器網絡記錄（桌面 1440×900：首頁、頭頸、資訊卡、搜尋、骨盆與會陰、腦、眼、Quiz；同一瀏覽器第一次開與第二次開各一輪）與 GitHub Pages 回應標頭。學習與模擬考試這一輪自動點擊失敗，沒有計入。
+
+### 下載量
+
+| 項目 | 第一次開 | 第二次開 |
+|---|---|---|
+| 全部步驟 | 184 個請求，41.0 MB | 114 個請求，約 0.02 MB（模型由瀏覽器 Cache Storage 讀取，其餘 304） |
+| 首頁（等 60 秒） | 75 個請求，22.3 MB | 幾乎 0 |
+| 切換頭頸 | 2.7 MB | 0 |
+| 骨盆與會陰 | 5.0 MB | 0 |
+| 腦詳細模式 | 5.0 MB（brain.glb 3.9 MB） | 0 |
+| 眼詳細模式 | 2.0 MB（eye-atlas.bin.gz） | 0 |
+
+快取：GitHub Pages 對所有檔案回 `cache-control: max-age=600`（10 分鐘，網站無法更改）。程式把檔名帶雜湊的 `models/stream/*` 存入 Cache Storage（`mj-anatomy-models-v1`，本次 70 個），所以第二次開幾乎不用重新下載；brain.glb、eye-atlas、Quiz 套件等不在 `models/stream/` 的檔案只靠 10 分鐘 HTTP 快取，之後要重新驗證（304，資料不重下載）。
+
+### 1. `models/body-*.bin` 與 `models/stream/body-*.bin` 是否重複下載（已核實）
+
+- **不會重複下載。** 主圖譜只讀 `models/atlas-stream.json.gz`，再下載 `models/stream/body-*.bin.gz`（帶雜湊、壓縮、量化，29.8 MB）。
+- `models/atlas.json`（1.3 MB）與 `models/body-0.bin`…`body-14.bin` 及其 `.gz`（共 30 個檔、92.5 MB）只在兩個地方用到：`atlas-stream` 載入失敗時的後備（`app/page.tsx` 第 135 行），以及只在 `?dev=1` 開啟、沒有入口的骨架實驗頁（`app/biomechanics-v2/lab.tsx`）。本次記錄中一次都沒有下載。
+- 結論：不影響使用者下載量，但佔部署空間 93.9 MB（repo 內 `public/` 105.4 MB 中的 89%）。
+
+### 2. 各資料包大小、壓縮與用途
+
+| 資料包 | 件數 | 原始 | gzip | 量化（pq／u16／oct 法向） | 用途 | 備註 |
+|---|---|---|---|---|---|---|
+| `stream/body-*` | 2,230 | 37.5 MB | 29.8 MB | 2,204 件已量化 | 主圖譜 | — |
+| `stream/paokao-*` | 470 | 17.6 MB | 10.3 MB | 未量化 | 示意模型、頭頸補充 | 可量化 |
+| `stream/facial-*` | 47 | 16.4 MB | 9.3 MB | 未量化 | 面部肌肉 | 可量化；多邊形過多（見下） |
+| `stream/supplement-*` | 33 | 9.8 MB | 5.8 MB | 未量化 | 補充部件 | 可量化 |
+| `stream/vessel-ends-*` | 873 | 9.5 MB | 5.0 MB | 未量化 | 血管末端 | 可量化（血管末端工作階段專屬） |
+| `stream/female-*` | 47 | 3.4 MB | 2.0 MB | 未量化 | 女性器官 | 可量化 |
+| `stream/serous-*` | 14 | 2.7 MB | 1.6 MB | 未量化 | 漿膜 | 可量化 |
+| `brain.glb` | 437 | 4.6 MB | 3.9 MB | Draco | 腦詳細模式 | 已壓縮 |
+| `joints.glb` | 349 | 1.5 MB | — | Draco | 關節系統 | 已壓縮；本次未觸發下載（開啟關節動作才載入） |
+| `eye/eye-atlas.bin.gz` | 71 | — | 2.0 MB | — | 眼詳細模式 | 開啟時才下載（已延遲載入） |
+| `nervous.glb` | — | 6.7 MB | — | — | **執行時沒有用到**（只供建置腳本 `prepare-nerve-stream.mjs` 等產生 `nerve-stream`） | 佔部署空間 |
+| `neck-vessels.json.gz`、`articular-surfaces.json.gz`、`nerve-stream` | — | 0.2 MB、0.7 MB、— | — | — | 主圖譜補充（`scheduleSupplementary` 延後載入） | 本次 60 秒內未見下載，無法確認觸發時機 |
+
+未量化的 6 個資料包合計原始 59.4 MB、gzip 34.0 MB；若照 `stream/body` 的方式量化（位置 Uint16、索引 Uint16、法向八面體編碼），估計可再減約 30–40%（未實測，請負責工作階段確認）。
+
+### 3. 多邊形過多（可減面）
+
+全站 3,714 件共 552 萬個三角形；面部包 47 件就有 71 萬個。
+
+| 結構 | 三角形 | 大小 | 比較 |
+|---|---|---|---|
+| Left／Right temporalis 顳肌（面部包） | 各約 10.6 萬 | 約 12 cm | 全身皮膚只有 4.5 萬 |
+| Left／Right frontalis 額肌 | 各約 5.9 萬 | 約 7 cm | — |
+| Orbicularis oris 口輪匝肌 | 3.8 萬 | 約 7 cm | — |
+| Left／Right occipitalis 枕肌 | 各約 2.7 萬 | 約 5 cm | — |
+| Left／Right corona ciliaris 睫狀冠 | 1.0–1.2 萬 | 約 17 mm | 細小構造密度很高 |
+| 輸卵管繖、峽、漏斗部（女性） | 1,600–3,500 | 6–9 mm | 細小構造密度很高 |
+
+### 4. 重複下載（待確認）
+
+第一次開的一輪中，`atlas-stream.json.gz`、幾個程式包（`mj-system-classifier`、`camera-framing`、`page`、`mj-structure-info`、`index`）與各補充資料包目錄，在三次整頁重新載入時各下載 3 次（合計約 1.1 MB）；第二輪同樣的操作全部 304。原因未確定（可能與測試工具或 10 分鐘快取有關），請總管在真機用開發者工具確認。
+
+### 5. 可以刪除或合併的項目（只列出，等使用者批准；不會自行刪除）
+
+| 項目 | 節省 | 風險 | 建議負責 |
+|---|---|---|---|
+| `public/models/atlas.json` 與 `public/models/body-*.bin(.gz)`（舊版主圖譜） | 部署空間 93.9 MB；使用者下載量不變 | 失去 `atlas-stream` 載入失敗時的後備；`?dev=1` 骨架實驗頁會壞（需改讀 stream 或一併移除） | 總管 |
+| `public/models/nervous.glb` 移出 `public/`（改放建置用資料夾） | 部署空間 6.7 MB | 建置腳本與檢查腳本（`prepare-nerve-stream.mjs`、`check-required-structures.mjs` 等約 10 個）要改路徑 | 總管 |
+| `app/biomechanics-v2/lab.tsx`（骨架實驗頁，沒有入口，只在 `?dev=1`） | 少一個程式包（大小未量）；可連同上一項一起刪 | 開發者預覽功能消失 | 總管 |
+| `app/micro-atlas.tsx` 內腦與耳的設定 | 少量程式碼 | 不是舊程式：眼詳細模式仍用這個檔；腦已改用 `organ/brain`，耳入口關閉中（耳 PR 會用到），**不建議刪檔**，只可刪腦的設定 | 總管 |
+| 未量化的 6 個資料包改為量化 | 估計 gzip 下載減少約 10–14 MB | 需重新生成並跑穩定度與動作檢查；血管末端包只能由血管末端工作階段改 | 總管（血管末端包：血管末端） |
+| 面部包顳肌、額肌、口輪匝肌、枕肌減面 | 面部包約 9.3 MB gzip 的一大部分 | 外形與附著點要重新目視檢查 | 頭頸模型 |
