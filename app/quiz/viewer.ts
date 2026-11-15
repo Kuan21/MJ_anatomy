@@ -4,7 +4,8 @@ import {seededRandom} from './seeded';
 import {fetchModelBuffer, loadMissingChunks} from '../model-download';
 import {PointerTap} from '../pointer-tap';
 import {framingDistance} from '../camera-framing';
-import {coversBrainTarget} from './brain';
+import {coversBrainTarget, type BrainLayer} from './brain';
+import {coversHeadNeckTarget} from './headneck';
 import {SPACES} from '../mj-spaces';
 import {QUIZ_REGIONS, QUIZ_SYSTEMS, ownerMuscleNames, regionSections, sceneStructures, type QuizCatalogue, type QuizSection, type QuizSide, type QuizStructure} from './catalogue';
 
@@ -170,7 +171,9 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
   };
 
   /** Brain quiz: a structure that lies in front of a deep target is drawn as faint glass and cannot be picked, so the target is in view (rules: app/quiz/brain.ts). */
-  const isCover = (structure: QuizStructure) => catalogue.region === 'brain' && !!state && structure.id !== state.target.id && coversBrainTarget(state.target, structure);
+  // Head-and-neck quiz: the outer coats of the eyeball are glass while a part inside the same eye is the question (app/quiz/headneck.ts).
+  const isCover = (structure: QuizStructure) => !!state && structure.id !== state.target.id
+    && (catalogue.region === 'brain' ? coversBrainTarget(state.target as {layer?: BrainLayer}, structure as {layer?: BrainLayer}) : catalogue.region === 'head-neck' && coversHeadNeckTarget(state.target, structure));
   const BRAIN_GLASS = .09;
 
   const applyAppearance = () => {
