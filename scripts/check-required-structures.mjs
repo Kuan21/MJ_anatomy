@@ -59,6 +59,9 @@ for (const s of SPACES) add('special-region', [s.en], {zh: s.zh});
 // 5. detail atlases: the eye atlas (packaged; names in app/mj-eye-atlas.ts) and the inner-ear list (name table in app/micro-atlas.tsx)
 const {EYE_PARTS} = await quizModule('app/mj-eye-atlas.ts');
 for (const p of Object.values(EYE_PARTS)) add('micro-atlas', [p.name.replace(/\s*\(.*\)$/, ''), p.name], {zh: p.zh, system: 'sensory'});
+// openings of the orbit marked on the bone surface in the eye atlas (app/mj-eye-openings.ts)
+const {EYE_OPENINGS} = await quizModule('app/mj-eye-openings.ts');
+for (const o of EYE_OPENINGS) add('micro-atlas', [o.name], {zh: o.zh, system: 'skeletal'});
 const micro = fs.readFileSync(new URL('app/micro-atlas.tsx', root), 'utf8');
 for (const [from, to] of [['const EAR_FILES', '] as const']]) {
   const start = micro.indexOf(from), block = micro.slice(start, micro.indexOf(to, start));

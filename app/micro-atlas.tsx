@@ -117,10 +117,11 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
  const [movementOpen,setMovementOpen]=useState(false);
  const [openingsOpen,setOpeningsOpen]=useState(false);
  const [openingId,setOpeningId]=useState<string|null>(null);
+ const [looking,setLooking]=useState(false);
  const [loading,setLoading]=useState(0);
  const [error,setError]=useState('');
 
- useEffect(()=>{setRecords([]);setSelected(null);setExplode(0);setHiddenGroups(defaultHidden(atlasId));setOpenGroup(null);setIsolate(false);setCut(false);setMovementId(null);setMovementOpen(false);setOpeningsOpen(false);setOpeningId(null);setLoading(0);setError('');framed.current=false;},[atlasId]);
+ useEffect(()=>{setRecords([]);setSelected(null);setExplode(0);setHiddenGroups(defaultHidden(atlasId));setOpenGroup(null);setIsolate(false);setCut(false);setMovementId(null);setMovementOpen(false);setOpeningsOpen(false);setOpeningId(null);setLooking(false);setLoading(0);setError('');framed.current=false;},[atlasId]);
 
  useEffect(()=>{
   const el=host.current;if(!el)return;
@@ -307,7 +308,7 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
     openingMarks.push({id:opening.id,record,indices});
    }
    for(const opening of manifest.openings??[])openingCenters.set(opening.id,new T.Vector3().fromArray(opening.center));
-   orbitEntrance.copy(globeCenter).addScaledVector(axis,length*3.4).add(new T.Vector3(Math.sign(globeCenter.x)||1,.2,0).multiplyScalar(length*1.5));
+   orbitEntrance.copy(globeCenter).addScaledVector(axis,length*5.2).add(new T.Vector3(Math.sign(globeCenter.x)||1,.2,0).multiplyScalar(length*2.3));
    // Rig for eye movements: the globe turns about its centre; the tendons of the six muscles and the front of the optic nerve follow it.
    const REACH=.014,onGlobe=length/2+.003;
    const follower=(record:Record3D,attachment:T.Vector3)=>{
@@ -484,7 +485,7 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
  useEffect(()=>{if(records.length&&framed.current)apiRef.current?.frame(false);},[explode]);
  useEffect(()=>{if(records.length&&framed.current)apiRef.current?.frame(true,cut?SECTION_DIRECTION:undefined);},[cut]);
 
- const reset=()=>{setMovementId(null);setOpeningId(null);setOpeningsOpen(false);setExplode(0);setHiddenGroups(defaultHidden(atlasId));setSelected(null);setIsolate(false);setCut(false);setOpenGroup(null);requestAnimationFrame(()=>apiRef.current?.frame(true,HOME_DIRECTION));};
+ const reset=()=>{setMovementId(null);setOpeningId(null);setOpeningsOpen(false);setLooking(false);setExplode(0);setHiddenGroups(defaultHidden(atlasId));setSelected(null);setIsolate(false);setCut(false);setOpenGroup(null);requestAnimationFrame(()=>apiRef.current?.frame(true,HOME_DIRECTION));};
  const setGroupHidden=(name:string,hidden:boolean)=>{setIsolate(false);setHiddenGroups(prev=>{const next=new Set(prev);if(hidden)next.add(name);else next.delete(name);return next;});};
  const pick=(r:RecordInfo)=>{setSelected(r.id);if(hiddenGroups.has(r.group))setGroupHidden(r.group,false);};
  const playMovement=(id:string)=>{
@@ -496,7 +497,7 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
  };
  // The bones must be on to see an opening; choosing one never moves the camera.
  const chooseOpening=(id:string)=>{const next=openingId===id?null:id;setOpeningId(next);if(next){setIsolate(false);setSelected(null);setGroupHidden(EYE_LAYERS[0].name,false);}};
- const toggleOpenings=()=>{const next=!openingsOpen;setOpeningsOpen(next);if(next)setGroupHidden(EYE_LAYERS[0].name,false);};
+ const toggleOpenings=()=>{const next=!openingsOpen;setOpeningsOpen(next);setLooking(false);if(next)setGroupHidden(EYE_LAYERS[0].name,false);};
  const meta=MICRO_ATLASES[atlasId];
 
  return <div className="micro-atlas-shell">
@@ -529,8 +530,8 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
    {atlasId==='eye'&&records.length>0&&<div className={'micro-movement micro-openings'+(openingsOpen?' open':'')}>
     <Button variant="ghost" className="micro-movement-toggle" aria-expanded={openingsOpen} onClick={toggleOpenings}><span className="eyebrow">眼眶的管與裂</span><small lang="zh-Hant">{opening?opening.zh:''}</small><ChevronDown size={12} className={openingsOpen?'open':''}/></Button>
     {openingsOpen&&<>
-     <div className="micro-move-buttons openings">{EYE_OPENINGS.map(o=><Button variant="ghost" key={o.id} className={openingId===o.id?'active':''} aria-pressed={openingId===o.id} aria-label={'標示'+o.zh} title={o.name+' '+o.zh} onClick={()=>chooseOpening(o.id)}><b><i style={{background:o.color}}/>{o.label}</b><small lang="zh-Hant">{o.zh}</small></Button>)}</div>
-     {opening&&<div className="micro-move-info" aria-live="polite"><strong>{opening.name}<em lang="zh-Hant">{opening.zh}</em><Button variant="ghost" className="micro-look" onClick={()=>apiRef.current?.lookAt(opening.id)}><Focus size={11}/>對準</Button></strong><p>{opening.text}{opening.absent&&' '+opening.absent}</p><p lang="zh-Hant">{opening.textZh}{opening.absentZh}</p></div>}
+     <div className="micro-move-buttons openings">{EYE_OPENINGS.map(o=><Button variant="ghost" key={o.id} className={openingId===o.id?'active':''} aria-pressed={openingId===o.id} aria-label={'標示'+o.zh} title={o.name+' '+o.zh+(o.aliasZh?'（又稱'+o.aliasZh+'）':'')} onClick={()=>chooseOpening(o.id)}><b><i style={{background:o.color}}/>{o.label}</b><small lang="zh-Hant">{o.zh}</small></Button>)}</div>
+     {opening&&<div className="micro-move-info" aria-live="polite"><strong>{opening.name}<em lang="zh-Hant">{opening.zh}{opening.aliasZh&&'（又稱'+opening.aliasZh+'）'}</em><Button variant="ghost" className="micro-look" onClick={()=>{apiRef.current?.lookAt(opening.id);setLooking(true);}}><Focus size={11}/>對準</Button></strong>{looking&&<small className="micro-look-hint" lang="zh-Hant">目前由左眼眶的前外側看向眶尖：畫面左邊是鼻側，上方是眶頂，右邊是眼眶外側壁。</small>}<p>{opening.text}{opening.absent&&' '+opening.absent}</p><p lang="zh-Hant">{opening.textZh}{opening.absentZh}</p></div>}
     </>}
    </div>}
    <div className="micro-selected" aria-live="polite"><span className="eyebrow">已選構造</span><strong>{selectedRecord?.name??'點選模型上的構造，或從上方清單選擇'}</strong>{selectedRecord?.zh&&<em lang="zh-Hant">{selectedRecord.zh}</em>}{selectedRecord&&<small>{selectedRecord.group}{selectedRecord.groupZh&&' · '+selectedRecord.groupZh}</small>}{selectedRecord?.text&&<p>{selectedRecord.text}</p>}{selectedRecord?.textZh&&<p lang="zh-Hant">{selectedRecord.textZh}</p>}</div>
