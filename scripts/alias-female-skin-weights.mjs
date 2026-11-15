@@ -1,4 +1,4 @@
-// The female skin (id HRAF-skin, built by prepare-female.mjs) has the same vertices and triangles as the male skin, only the groin is reshaped, so it is skinned with the male
+// The female skin (id HRAF-skin, built by prepare-female.mjs) has the same vertices as the male skin (only the groin is reshaped, and a few hidden triangles there are dropped), so it is skinned with the male
 // skin's weights: they are copied under its id in skin-weights.json.gz. Run after prepare-skin-weights.mjs (which rewrites the file); safe to run again.
 import fs from 'node:fs';
 import {gunzipSync, gzipSync} from 'node:zlib';

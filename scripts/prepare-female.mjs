@@ -6,7 +6,7 @@ import fs from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {createStream, simplify, weldByPosition} from './lib/stream-writer.mjs';
 import {atlasPositions, atlasIndices} from './lib/atlas-read.mjs';
-import {femaleSkin} from './lib/female-skin.mjs';
+import {femaleSkin, femaleSkinIndices} from './lib/female-skin.mjs';
 
 const root = new URL('../', import.meta.url), out = new URL('public/models/stream/', root), dir = new URL('public/models/female/', root);
 fs.mkdirSync(out, {recursive: true}); fs.mkdirSync(dir, {recursive: true});
@@ -55,11 +55,11 @@ for (const piece of source.pieces) {
   report.push(`${name}: ${welded.indices.length / 3} → ${ix.length / 3} tris`);
 }
 // Female body surface: the atlas skin is a male mesh (penis and scrotum are part of it), so the female view gets a copy with that part pressed back onto a smooth female groin
-// (scripts/lib/female-skin.mjs). Same vertices and triangles as the male skin, so it is skinned with the male skin's weights (scripts/alias-female-skin-weights.mjs).
+// (scripts/lib/female-skin.mjs). Same vertices as the male skin (a few hidden triangles of the penis and scrotum layers are dropped), so it is skinned with the male skin's weights (scripts/alias-female-skin-weights.mjs).
 // The pubic hair patch is moved with it: each hair vertex takes the displacement of the nearest skin vertex, so the hair stays on the new surface.
 {
-  const skinPos = atlasPositions('Skin'), skinIdx = atlasIndices('Skin'), fp = femaleSkin(skinPos, skinIdx);
-  stream.add({id: 'HRAF-skin', conceptId: 'HRAF-skin', name: 'Skin', system: 'integumentary', sex: 'female', chineseName: '皮膚', sourceNode: 'BodyParts3D skin, groin reshaped'}, fp, skinIdx);
+  const skinPos = atlasPositions('Skin'), skinIdx = atlasIndices('Skin'), fp = femaleSkin(skinPos, skinIdx), fIdx = femaleSkinIndices(fp, skinIdx);
+  stream.add({id: 'HRAF-skin', conceptId: 'HRAF-skin', name: 'Skin', system: 'integumentary', sex: 'female', chineseName: '皮膚', sourceNode: 'BodyParts3D skin, groin reshaped'}, fp, fIdx);
   const cell = .006, grid = new Map(), key = (x, y, z) => `${Math.floor(x / cell)},${Math.floor(y / cell)},${Math.floor(z / cell)}`;
   for (let i = 0; i < skinPos.length; i += 3) { if (skinPos[i + 1] < .7 || skinPos[i + 1] > .98 || skinPos[i + 2] < 0) continue; const k = key(skinPos[i], skinPos[i + 1], skinPos[i + 2]); (grid.get(k) ?? grid.set(k, []).get(k)).push(i); }
   const hairPos = atlasPositions('Pubic hair'), hairIdx = atlasIndices('Pubic hair'), moved = Float32Array.from(hairPos); let shifted = 0;
