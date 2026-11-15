@@ -10,6 +10,11 @@ let LIMB = {};
 try { LIMB = JSON.parse(fs.readFileSync(new URL('./lower-limb-nerve-paths.json', import.meta.url), 'utf8')); } catch { /* the fit script writes it; the first run of scripts/fit-lower-limb-nerves.mjs starts without it */ }
 export const CORRECTIONS = {
   'Superior gluteal nerve.l.001': [[34, 946, -64], [58, 944, -58], [72, 946, -56], [85, 960, -53], [100, 976, -49], [119, 989, -33], [126, 989, -14], [134, 987, -3]],
+  // Vagus nerve in the neck: the Z-Anatomy course runs through the common carotid artery (left 0.7 mm from its centre line at 1.44 m, right 2.9 mm at 1.46 m). The vagus lies in the carotid
+  // sheath in the groove behind the artery and the internal jugular vein (Gray 1918; OpenStax). `shifts` moves it by [height mm, outward mm, forward mm] (linear between rows, nothing outside
+  // them) to a line 6 mm behind the arteries, between artery and vein; the two sides have their own rows because the two Z-Anatomy carotids are not mirror images.
+  'Vagus nerve (X).l.001': {shifts: [[1380, 0, 0], [1400, 3, -3], [1420, 2.5, -1], [1440, 5.6, -5.4], [1460, 1.5, -9.6], [1480, 4.1, -13], [1500, 5.7, -13.5], [1520, 6.1, -14], [1540, 5.4, -15.5], [1560, 3.9, -14.2], [1580, 0, -6], [1600, 0, 0]]},
+  'Vagus nerve (X).r.001': {shifts: [[1440, 0, 0], [1460, 1.2, -4.5], [1480, 3.3, -12.4], [1500, 4.8, -13.7], [1520, 5.6, -14], [1540, 5.3, -15.5], [1560, 4, -14.1], [1580, 0, -6], [1600, 0, 0]]},
   ...LIMB,
 };
 
@@ -46,9 +51,23 @@ export function correctNerve(name, positions, indices) {
   if (!spec) return false;
   const mirror = /\.r\.001$/.test(name);
   if (spec.taper) { shiftNear(positions, spec.taper, mirror); return true; }
+  if (spec.shifts) { shiftByHeight(positions, spec.shifts, mirror); return true; }
   if (Array.isArray(spec)) reroute(positions, spec, mirror);
   else rerouteMesh(positions, indices, spec, mirror);
   return true;
+}
+
+/** Moves every vertex by an offset that depends on its height: rows are [height mm, outward mm, forward mm] (outward = away from the midline, so the right side is mirrored); linear between rows, none outside. */
+function shiftByHeight(positions, rows, mirror) {
+  const sx = mirror ? -1 : 1;
+  for (let i = 0; i < positions.length / 3; i++) {
+    const y = positions[i * 3 + 1] * 1000;
+    if (y <= rows[0][0] || y >= rows[rows.length - 1][0]) continue;
+    let k = 1; while (rows[k][0] < y) k++;
+    const a = rows[k - 1], b = rows[k], t = (y - a[0]) / (b[0] - a[0]);
+    positions[i * 3] += sx * (a[1] + (b[1] - a[1]) * t) / 1000;
+    positions[i * 3 + 2] += (a[2] + (b[2] - a[2]) * t) / 1000;
+  }
 }
 
 /** Carries the end of a nerve that starts where another nerve was moved: every vertex moves by `shift` (mm) times a weight that falls from 1 at `from` to 0 at `length` mm away. */

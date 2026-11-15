@@ -5,7 +5,7 @@ import {anatomicalRegion} from '../mj-part-regions';
 import {bindTissue,deformTissue,makePalette,type SkinBinding,type Profile,makeSoftRig} from './soft-tissue';
 import {bindBodyTissue,makeBodyRig,buildBodyMotion,type BodyRegion} from './body-motion';
 
-import {includeJoint,jointKind} from './joint-filter';
+import {includeJoint,jointKind,smoothSheet} from './joint-filter';
 export {includeJoint,jointKind};
 export function jointProfile(name:string,y:number):Profile{
  name=name.toLowerCase();
@@ -66,7 +66,9 @@ export function createJointAnatomy(atlas:Atlas,scene:T.Scene){
    }
    const c=g.boundingBox!.getCenter(new T.Vector3());
    g.computeBoundingBox();g.computeVertexNormals();
-   const base=new Float32Array(pos.array),kind=jointKind(name);
+   // the cricopharyngeal ligament is a thin crumpled sheet in the source (no other copy of it is drawn): smoothed once, thickness kept
+   const base=/cricopharyngeal/i.test(name)&&g.index?smoothSheet(pos.array as Float32Array,g.index.array,20):new Float32Array(pos.array),kind=jointKind(name);
+   if(base.length&&/cricopharyngeal/i.test(name)){pos.array.set(base);pos.needsUpdate=true;g.computeBoundingBox();g.computeVertexNormals();}
    // membranes (intercostal, obturator, quadrangular) a paler sheet colour than ligaments; the infrapatellar fat pad a pale yellow; symphyses share the fibrocartilage colour
    const material=new T.MeshStandardMaterial({color:kind==='fibrocartilage'?0x84d8dc:kind==='capsule'?0xc5d9d2:kind==='membrane'?0xe6e1cb:kind==='fat pad'?0xe9d79a:0xd4d3ac,roughness:.6,side:T.DoubleSide,transparent:kind==='capsule',opacity:kind==='capsule'?.26:1,depthWrite:kind!=='capsule'});
    const mesh=new T.Mesh(g,material);mesh.name=sourceName;mesh.visible=false;scene.add(mesh);

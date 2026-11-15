@@ -82,6 +82,14 @@ else{
   for(const id of o.contents){const pos=P(id);let near=Infinity;for(let i=0;i<pos.length;i+=3)for(const m of marked)near=Math.min(near,Math.hypot(pos[i]-m[0],pos[i+1]-m[1],pos[i+2]-m[2]));if(near>.006)fail(`opening ${o.id}: ${id} does not pass the marked bone`);}
  }
  if(Object.keys(byId).length!==EYE_OPENINGS.length)fail('openings in the package and in the list differ');
+ {// foramina: the supraorbital foramen is on the frontal bone in front of and above the globe; the ethmoidal foramina are on the medial wall, the posterior behind the anterior and both in front of the optic canal
+  const at=id=>byId[id]?.center,sup=at('supraorbital-foramen'),ant=at('anterior-ethmoidal-foramen'),post=at('posterior-ethmoidal-foramen'),canalAt=at('optic-canal');
+  if(sup&&ant&&post&&canalAt){
+   if(!(sup[1]>C[1]+.012&&sup[2]>C[2]+.008)||Object.keys(byId['supraorbital-foramen'].bones).join()!=='FJ3200')fail('supraorbital foramen is not on the frontal bone at the upper margin of the orbit');
+   for(const [name,p] of [['anterior',ant],['posterior',post]])if(!((p[0]-C[0])*side<-.012))fail(`${name} ethmoidal foramen is not on the medial wall`);
+   if(!(post[2]<ant[2]-.004&&canalAt[2]<post[2]-.004))fail('ethmoidal foramina and optic canal are not in order from front to back');
+  }else fail('a foramen is missing from the package');
+ }
  const canal=byId['optic-canal']?.center,upper=byId['superior-orbital-fissure']?.center,lower=byId['inferior-orbital-fissure']?.center;
  if(canal&&upper&&lower){
   if(!((upper[0]-canal[0])*side>0))fail('superior orbital fissure is not lateral to the optic canal');
@@ -90,4 +98,4 @@ else{
  }
 }
 if(problems.length){console.error(`Eye atlas: ${problems.length} problem(s)`);for(const p of problems.slice(0,20))console.error(' - '+p);process.exit(1);}
-console.log(`Eye atlas ok: ${manifest.parts.length} parts in ${EYE_LAYERS.length} layers, all described in English and Chinese; globe registered on the body orbit; rectus insertions, oblique insertions, scleral clearance, optic nerve and the three openings of the orbit checked.`);
+console.log(`Eye atlas ok: ${manifest.parts.length} parts in ${EYE_LAYERS.length} layers, all described in English and Chinese; globe registered on the body orbit; rectus insertions, oblique insertions, scleral clearance, optic nerve and the six openings of the orbit checked.`);

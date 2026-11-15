@@ -5149,34 +5149,19 @@
    "measure": 557,
    "reason": "faces coincide with Hepatovenous segment VI: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ2440|FJ2769": {
-   "name": "Cricoid cartilage",
-   "measure": 1514,
-   "reason": "faces coincide with Cricoid cartilage: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ2772|FJ3201": {
-   "name": "Hyoid bone",
-   "measure": 1036,
-   "reason": "faces coincide with Hyoid bone: two layers share the same surface; to be offset or one of them removed"
-  },
   "zfight|FJ2777|FJ2788": {
    "name": "Left conus elasticus",
-   "measure": 85,
+   "measure": 77,
    "reason": "faces coincide with Left vocalis: two layers share the same surface; to be offset or one of them removed"
   },
   "zfight|FJ2787|FJ2788": {
    "name": "Left vocal ligament",
-   "measure": 141,
+   "measure": 132,
    "reason": "faces coincide with Left vocalis: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ2791|FJ2795": {
-   "name": "Right aryepiglotticus",
-   "measure": 44,
-   "reason": "faces coincide with Right cuneiform cartilage: two layers share the same surface; to be offset or one of them removed"
   },
   "zfight|FJ2794|FJ2805": {
    "name": "Right conus elasticus",
-   "measure": 172,
+   "measure": 157,
    "reason": "faces coincide with Right vocal ligament: two layers share the same surface; to be offset or one of them removed"
   },
   "zfight|FJ2794|FJ2806": {
@@ -5223,6 +5208,11 @@
    "name": "Esophageal impression of left lung",
    "measure": 57,
    "reason": "faces coincide with Apex of left lung: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|PK:Glans of clitoris|PK:Body of clitoris": {
+   "name": "Glans of clitoris",
+   "measure": 723,
+   "reason": "同一張 MRI 曲面按解剖切成兩件，交界共用 138 個頂點，相鄰面共面但冇重疊（真正重疊三角形 0.6%）；陰蒂由頭至體單調變寬，冇解剖上合理嘅切口可避開。2026-11-15 經使用者核准。"
   },
   "zfight|PK:Lingula of left lung|PK:Cardiac notch of left lung": {
    "name": "Lingula of left lung",
