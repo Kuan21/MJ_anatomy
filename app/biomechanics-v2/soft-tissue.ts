@@ -187,14 +187,13 @@ function armWeightsAt(rig:SoftRig,profile:Profile,p:Vector3,box:Box3,name=''):nu
 
  if(profile==='shoulderJoint'){
   const n=name.toLowerCase();
-  // Both ends on the scapula (coraco-acromial, the two transverse scapular ligaments): the ligament rides on the scapula as one piece.
-  // The superior transverse scapular ligament bridges the suprascapular notch and has no attachment on the clavicle; it only lies within 3 mm of it
-  // at rest, so the stability check lists it as leaving the clavicle in flexion (registered in docs/stability-known.json with that reason).
-  if(/coraco-?acromial|transverse scapular/.test(n))return pair(2,2,1);
+  if(/coraco-?acromial/.test(n))return pair(2,2,1);
+  // Both transverse scapular ligaments bridge the suprascapular notch / spinoglenoid notch: one bone, the scapula. (Under the generic rule below they were half scapula, half humerus and stretched 12 times at 150 degrees.)
+  if(/transverse scapular|suprascapular/.test(n))return pair(2,2,1);
   // First rib and costal cartilage below, clavicle above, 2 cm from the sternoclavicular joint: nothing of it belongs to the scapula or the humerus. A blend
-  // of thorax and clavicle draws this short band out to three times its length at the end of the range, so it stays on the first rib as one piece.
-  if(/costoclavicular/.test(n))return pair(0,0,1);
-  if(/acromioclavicular|coracoclavicular/.test(n))return pair(1,2,range(lateral,.10,.90));
+  // of thorax and clavicle draws this short band out to three to five times its length at the end of the range (stability check: shoulder abduction 120 and flexion 150), so it stays on the first rib as one piece.
+  if(/costoclavicular|clavipectoral/.test(n))return pair(0,0,1);
+  if(/acromio-?clavicular|coraco-?clavicular/.test(n))return pair(1,2,range(lateral,.10,.90));
   return pair(2,3,range(lateral,.18,.92));
  }
  if(profile==='elbowJoint'){

@@ -78,7 +78,7 @@ export const CARD_EXTRAS: Record<string, CardExtra> = {
     供應範圍: e('頸後深層肌', 'Deep posterior neck muscles'),
   },
   'dorsal scapular artery': {
-    來源: e('頸橫動脈深支（常見），或直接起自鎖骨下動脈第三段', 'Deep branch of the transverse cervical artery (common), or directly from the third part of the subclavian artery'),
+    來源: e('有變異：起自鎖骨下動脈第三段（有時為第二段），或起自頸橫動脈深支', 'Variable: the third part of the subclavian artery (sometimes the second part), or the deep branch of the transverse cervical artery'),
     走向: e('沿肩胛骨內側緣、菱形肌深面下行', 'Descends along the medial border of the scapula deep to the rhomboids'),
     供應範圍: e('菱形肌、提肩胛肌；與肩胛上動脈、旋肩胛動脈吻合', 'Rhomboids and levator scapulae; anastomoses with the suprascapular and circumflex scapular arteries'),
   },
@@ -96,7 +96,7 @@ export const CARD_EXTRAS: Record<string, CardExtra> = {
   'transverse cervical artery': {
     來源: e('甲狀頸動脈幹', 'Thyrocervical trunk'),
     走向: e('橫越頸後三角，經臂神經叢前方行至斜方肌深面', 'Crosses the posterior triangle in front of the brachial plexus to the deep surface of trapezius'),
-    主要分支: e('淺支（至斜方肌）與深支（常成為肩胛背動脈）', 'Superficial branch (to trapezius) and deep branch (often becomes the dorsal scapular artery)'),
+    主要分支: e('淺支（至斜方肌）與深支（可延續為肩胛背動脈）', 'Superficial branch (to trapezius) and deep branch (which may continue as the dorsal scapular artery)'),
     供應範圍: e('斜方肌、菱形肌與提肩胛肌', 'Trapezius, rhomboids and levator scapulae'),
   },
   'subcostal vein': {
@@ -307,7 +307,7 @@ Object.assign(CARD_EXTRAS, {
   },
   'maxillary nerve': {
     來源: e('三叉神經第二支（V2），由三叉神經節中部發出', 'Second division of the trigeminal nerve (V2), arising from the middle of the trigeminal ganglion'),
-    走向: e('經海綿竇外側壁，在圓孔前先分出腦膜支，再由圓孔出顱入翼顎窩；在翼顎窩分出顴神經與後上齒槽神經，並與翼顎神經節相連；之後穿眶下裂進入眼眶，延續為眶下神經，途中發出中上與前上齒槽神經，最後由眶下孔到達臉部', 'Passes through the lateral wall of the cavernous sinus, gives a meningeal branch before the foramen rotundum, then leaves the skull by it into the pterygopalatine fossa; there it gives the zygomatic and posterior superior alveolar nerves and is connected to the pterygopalatine ganglion; it then enters the orbit through the inferior orbital fissure as the infra-orbital nerve, which gives middle and anterior superior alveolar branches on its way and reaches the face at the infra-orbital foramen'),
+    走向: e('經海綿竇外側壁，在圓孔前先分出腦膜支，再由圓孔出顱入翼顎窩；在翼顎窩分出顴神經與後上齒槽神經，並與翼顎神經節相連；之後穿眶下裂進入眼眶，延續為眶下神經，途中發出中上（部分人有）與前上齒槽神經，最後由眶下孔到達臉部', 'Passes through the lateral wall of the cavernous sinus, gives a meningeal branch before the foramen rotundum, then leaves the skull by it into the pterygopalatine fossa; there it gives the zygomatic and posterior superior alveolar nerves and is connected to the pterygopalatine ganglion; it then enters the orbit through the inferior orbital fissure as the infra-orbital nerve, which gives middle (present in some people) and anterior superior alveolar branches on its way and reaches the face at the infra-orbital foramen'),
     支配範圍: e('純感覺：下眼瞼、鼻側與上唇間的臉部皮膚、顴部與顳部前方皮膚、上排牙齒與牙齦、上頷竇、鼻腔與硬腭黏膜', 'Purely sensory: facial skin between the lower eyelid and upper lip, skin of the cheek bone and anterior temple, upper teeth and gingiva, maxillary sinus, nasal cavity and palatal mucosa'),
   },
   'mental nerve': {
