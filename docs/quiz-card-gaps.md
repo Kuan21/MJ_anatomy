@@ -729,7 +729,7 @@
 
 ### 骨骼：0 / 28 項資料完整
 
-- 舌骨（Hyoid bone）：缺 主要標誌、相關關節、附著肌肉
+- 舌骨（Hyoid bone）：缺 附著肌肉
 - 第三頸椎（Third cervical vertebra）：缺 附著肌肉
 - 第四頸椎（Fourth cervical vertebra）：缺 附著肌肉
 - 第五頸椎（Fifth cervical vertebra）：缺 附著肌肉
@@ -737,26 +737,26 @@
 - 第七頸椎（Seventh cervical vertebra）：缺 附著肌肉
 - 寰椎（Atlas）：缺 附著肌肉
 - 樞椎（Axis）：缺 附著肌肉
-- 篩骨（Ethmoid）：缺 主要標誌、相關關節、附著肌肉
-- 額骨（Frontal bone）：缺 主要標誌、相關關節、附著肌肉
+- 篩骨（Ethmoid）：缺 附著肌肉
+- 額骨（Frontal bone）：缺 附著肌肉
 - 第二頸椎椎間盤（Intervertebral disk of axis）：缺 主要標誌、相關關節、附著肌肉
 - 第三頸椎椎間盤（Intervertebral disk of third cervical vertebra）：缺 主要標誌、相關關節、附著肌肉
 - 第四頸椎椎間盤（Intervertebral disk of fourth cervical vertebra）：缺 主要標誌、相關關節、附著肌肉
 - 第五頸椎椎間盤（Intervertebral disk of fifth cervical vertebra）：缺 主要標誌、相關關節、附著肌肉
 - 第六頸椎椎間盤（Intervertebral disk of sixth cervical vertebra）：缺 主要標誌、相關關節、附著肌肉
 - 第七頸椎椎間盤（Intervertebral disk of seventh cervical vertebra）：缺 主要標誌、相關關節、附著肌肉
-- 下鼻甲（inferior nasal concha）：缺 主要標誌、相關關節、附著肌肉
-- 淚骨（lacrimal bone）：缺 主要標誌、相關關節、附著肌肉
-- 上頜骨（maxilla）：缺 主要標誌、相關關節、附著肌肉
-- 鼻骨（nasal bone）：缺 主要標誌、相關關節、附著肌肉
-- 顎骨（palatine bone）：缺 主要標誌、相關關節、附著肌肉
-- 頂骨（parietal bone）：缺 主要標誌、相關關節、附著肌肉
-- 顳骨（temporal bone）：缺 主要標誌、相關關節、附著肌肉
-- 顴骨（zygomatic bone）：缺 主要標誌、相關關節、附著肌肉
-- 下頜骨（Mandible）：缺 主要標誌、相關關節、附著肌肉
+- 下鼻甲（inferior nasal concha）：缺 附著肌肉
+- 淚骨（lacrimal bone）：缺 附著肌肉
+- 上頜骨（maxilla）：缺 附著肌肉
+- 鼻骨（nasal bone）：缺 附著肌肉
+- 顎骨（palatine bone）：缺 附著肌肉
+- 頂骨（parietal bone）：缺 附著肌肉
+- 顳骨（temporal bone）：缺 附著肌肉
+- 顴骨（zygomatic bone）：缺 附著肌肉
+- 下頜骨（Mandible）：缺 附著肌肉
 - 枕骨（Occipital bone）：缺 附著肌肉
-- 蝶骨（Sphenoid bone）：缺 主要標誌、相關關節、附著肌肉
-- 犁骨（Vomer）：缺 主要標誌、相關關節、附著肌肉
+- 蝶骨（Sphenoid bone）：缺 附著肌肉
+- 犁骨（Vomer）：缺 附著肌肉
 
 ### 肌肉：80 / 86 項資料完整
 
@@ -824,7 +824,7 @@
 
 ### 靜脈：0 / 1 項資料完整
 
-- 內頸靜脈（internal jugular vein）：缺 來源、走向、主要分支、引流範圍
+- 內頸靜脈（internal jugular vein）：缺 主要分支
 
 ### 頭頸器官構造：28 / 63 項資料完整
 
@@ -864,13 +864,8 @@
 - 甲狀會厭韌帶（Thyro-epiglottic ligament）：缺 說明
 - 唇（Lip）：缺 說明
 
-### 關節構造：0 / 6 項資料完整
+### 關節構造：5 / 6 項資料完整
 
-- 蝶下頷韌帶（sphenomandibular ligament）：缺 所屬關節、附著與連結、功能
-- 莖突下頷韌帶（stylomandibular ligament）：缺 所屬關節、附著與連結、功能
-- 顳顎關節囊（articular capsule of temporomandibular joint）：缺 所屬關節、附著與連結、功能
-- 顳顎關節盤（articular disc of temporomandibular joint）：缺 所屬關節、附著與連結、功能
-- 顳顎外側韌帶（lateral temporomandibular ligament）：缺 所屬關節、附著與連結、功能
 - 環咽韌帶（cricopharyngeal ligament）：缺 所屬關節、附著與連結、功能
 
 ### 特殊空間與孔：1 / 1 項資料完整

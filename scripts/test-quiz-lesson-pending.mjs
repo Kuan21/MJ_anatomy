@@ -31,7 +31,7 @@ for (const def of Object.values(QUIZ_REGIONS)) {
   }
   askedBlank += asked1 + asked3;
   // the banks are not filtered by card text: structures without card text stay in the name questions of levels 1 and 3
-  if (def.id === 'head-neck') assert.ok(blanks > 100 && asked1 === blanks && asked3 === blanks, `head-neck: ${blanks} structures without card text, asked in level 1: ${asked1}, level 3: ${asked3}`);
+  if (def.id === 'head-neck') assert.ok(blanks > 0 && asked1 === blanks && asked3 === blanks, `head-neck: ${blanks} structures without card text, asked in level 1: ${asked1}, level 3: ${asked3}`);
 }
 assert.ok(blankCount > 0 && withText > 0 && askedBlank > 0);
 const src = fs.readFileSync('app/quiz/learn.tsx', 'utf8');
