@@ -8,6 +8,8 @@ import {namingPool, neighbours} from './level2';
 import {addMistakes, clearMistakes, loadMistakes, migrateMistakes, scopeOf} from './mistakes';
 import {QuizScene, Name, AnswerCard, NameFeedback} from './parts';
 import {ModeNav} from './mode-nav';
+import {settingsFor, type QuizPlan} from './setup';
+export interface BlockResult {region: QuizRegionId; total: number; answered: number; correct: number; wrongIds: string[]; names: Record<string, {name: string; chinese?: string}>}
 import {neighbourShade, type QuizView} from './viewer';
 import './quiz.css';
 
@@ -15,17 +17,19 @@ const ALL_CATEGORIES = QUIZ_CATEGORIES.map(c => c.id);
 const defaults: QuizSettings = {section: 'all', systems: ['skeletal', 'muscular', 'nervous', 'arterial', 'venous'], categories: ALL_CATEGORIES, side: 'right', scope: 'all', count: 10};
 const LEVEL3_COUNTS = [5, 10, 20];
 
-export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: QuizRegionId} = {}) {
+/** `plan` (from the Quiz setup screen) makes this one block of a longer run: the setup is skipped, the questions are drawn from the plan, and `onBlockDone` receives the block's result. */
+export interface BlockProps {plan: QuizPlan; count: number; index: number; blocks: number; nextLabel?: string; onBlockDone: (result: BlockResult, finishAll: boolean) => void}
+export default function RegionQuiz({region: regionId = 'lower-limb', block}: {region?: QuizRegionId; block?: BlockProps} = {}) {
   const region = QUIZ_REGIONS[regionId];
   const [catalogue, setCatalogue] = useState<QuizCatalogue | null>(null), [catalogueError, setCatalogueError] = useState(''), [catalogueRetry, setCatalogueRetry] = useState(0);
-  const [settings, setSettings] = useState<QuizSettings>({...defaults, side: region.defaultSide ?? defaults.side, systems: region.systems ?? defaults.systems, categories: ALL_CATEGORIES}), [phase, setPhase] = useState<'setup' | 'playing' | 'summary' | 'review'>('setup');
+  const [settings, setSettings] = useState<QuizSettings>(block ? settingsFor(block.plan.setup, regionId) : {...defaults, side: region.defaultSide ?? defaults.side, systems: region.systems ?? defaults.systems, categories: ALL_CATEGORIES}), [phase, setPhase] = useState<'setup' | 'playing' | 'summary' | 'review'>('setup');
   const [session, setSession] = useState<QuizSession>({queue: [], answers: []}), [index, setIndex] = useState(0), [round, setRound] = useState(0);
   const [hidden, setHidden] = useState<string[]>([]), [peeling, setPeeling] = useState(false), [context, setContext] = useState(true);
   const [command, setCommand] = useState<{id: number; view: QuizView}>({id: 0, view: 'front'});
   const [readiness, setReadiness] = useState({key: '', ready: false}), [load, setLoad] = useState({loaded: 0, total: 0});
   const [error, setError] = useState(''), [message, setMessage] = useState(''), [sceneRetry, setSceneRetry] = useState(0);
   // Level 1: given a name, find the structure. Level 3: given a structure, write its name (level 2, the guided lessons, now lives in 學習; the storage keys keep their L1/L3 names).
-  const [level, setLevel] = useState<1 | 3>(1), [language, setLanguage] = useState<AnswerLanguage>('any'), [needSide, setNeedSide] = useState(false);
+  const [level, setLevel] = useState<1 | 3>(block?.plan.level ?? 1), [language, setLanguage] = useState<AnswerLanguage>(block?.plan.language ?? 'any'), [needSide, setNeedSide] = useState(block?.plan.needSide ?? false);
   const [typed, setTyped] = useState(''), [clarity, setClarity] = useState(.45), [only, setOnly] = useState(false), [highlightIds, setHighlightIds] = useState<string[]>([]);
   const [saved, setSaved] = useState<string[]>([]), [sessionLevel, setSessionLevel] = useState<1 | 3>(1);
   const naming = sessionLevel === 3;
@@ -47,6 +51,14 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
     return () => abort.abort();
   }, [catalogueRetry, region.file, regionId]);
   useEffect(() => {title.current?.focus();}, [phase, index]);
+  // a block of a longer run starts by itself as soon as its catalogue is here
+  const autoStarted = useRef(false);
+  useEffect(() => {
+    if (!block || !catalogue || autoStarted.current || phase !== 'setup') return;
+    autoStarted.current = true;
+    const next = createSession(level === 3 ? namingPool(catalogue, settings) : questionPool(catalogue, settings), block.count);
+    if (next.queue.length) begin(next); else block.onBlockDone({region: regionId, total: 0, answered: 0, correct: 0, wrongIds: [], names: {}}, false);
+  });
 
   const pool = useMemo(() => catalogue ? (level === 1 ? questionPool(catalogue, settings) : namingPool(catalogue, settings)) : [], [catalogue, settings, level]);
   const allInScope = useMemo(() => catalogue ? questionPool(catalogue, settings).length : 0, [catalogue, settings]);
@@ -107,11 +119,13 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
   const result = answer ? (answer.result ?? (answer.correct ? 'correct' : 'wrong')) : undefined;
   const near = useMemo(() => catalogue && target ? neighbours(catalogue, target, 3) : [], [catalogue, target]);
   const wrongCount = session.answers.filter(a => (a.result ?? (a.correct ? 'correct' : 'wrong')) === 'wrong' || a.result === 'skipped').length, closeCount = session.answers.filter(a => a.result === 'close').length;
+  const blockResult = (): BlockResult => ({region: regionId, total: session.queue.length, answered: session.answers.length, correct, wrongIds: session.answers.filter(a => !a.correct).map(a => a.targetId),
+    names: Object.fromEntries(session.answers.map(a => structures.get(a.targetId)).filter((x): x is QuizStructure => !!x).map(x => [x.id, {name: x.name, chinese: x.chinese}]))});
   const reviewItem = (i: number) => {setIndex(i); clearQuestion(structures.get(session.queue[i])); setPhase('review');};
 
   return <main className={`quiz-app quiz-phase-${phase}`} lang="zh-Hant">
     <header className="quiz-header">
-      <a className="quiz-back" href="#/quiz" aria-label="返回部位選擇"><ArrowLeft size={18}/><span>部位選擇</span></a>
+      <a className="quiz-back" href="#/quiz" aria-label="返回 Quiz 設定"><ArrowLeft size={18}/><span>Quiz 設定</span></a>
       <ModeNav current="quiz"/>
       {phase === 'playing' ? <button data-slot="quiz-button" className="quiz-quiet" onClick={() => setPhase('summary')}>結束測驗 <X size={16}/></button> : phase === 'review' ? <button data-slot="quiz-button" className="quiz-quiet" onClick={() => setPhase('summary')}>返回成績 <ArrowLeft size={16}/></button> : <span className="quiz-header-tag">{region.tag}</span>}
     </header>
@@ -178,7 +192,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
       </section>
 
       <aside className="quiz-question-card" aria-label="測驗題目">
-        <div className="quiz-progress-label"><span>{region.label}辨認</span><b>{index + 1} <span>/ {session.queue.length}</span></b></div>
+        <div className="quiz-progress-label"><span>{region.label}{block && block.blocks > 1 ? `（第 ${block.index + 1} / ${block.blocks} 區）` : '辨認'}</span><b>{index + 1} <span>/ {session.queue.length}</span></b></div>
         <progress className="quiz-progress" value={session.answers.length} max={session.queue.length} aria-label="已作答題數"/>
         <div className="quiz-question-heading"><span className="quiz-kicker">{naming ? (answer ? 'ANSWER · 答案' : 'NAME IT · 請寫出名稱') : answer ? 'ANSWER · 答案' : 'FIND IT · 請找出'}</span><span className="quiz-system-label" style={{borderColor: category?.color}}>{category?.label}</span></div>
         {naming ? <>
@@ -226,7 +240,10 @@ export default function RegionQuiz({region: regionId = 'lower-limb'}: {region?: 
       <h1 ref={title} tabIndex={-1}>{session.answers.length === session.queue.length ? '本回練習完成。' : '本回練習到此為止。'}</h1>
       <div className="quiz-result-score"><strong>{correct}</strong><span>/ {session.answers.length}<small>已作答題目中答對的數目</small></span></div>
       <p className="quiz-result-description">{section.label} · 完成 {session.answers.length} / {session.queue.length} 題{mistakes.length > 0 ? `，${mistakes.length} 題可以再練。` : session.answers.length ? '，全部答對。' : '。隨時可以重新開始。'}</p>
-      <div className="quiz-summary-actions">{mistakes.length > 0 && <button data-slot="quiz-button" className="quiz-primary" onClick={() => begin(retryMistakes(session))}><RotateCcw size={17}/>只練錯題（{mistakes.length}）</button>}<button data-slot="quiz-button" className="quiz-secondary" onClick={() => begin(createSession(pool, settings.count))}>再練一回</button><button data-slot="quiz-button" className="quiz-text-button" onClick={() => setPhase('setup')}>重新選擇範圍</button><a className="quiz-text-button quiz-learn-link" href={learnHashOf(regionId)}>返去學：到{region.label}學習地圖</a></div>
+      {block ? <div className="quiz-summary-actions">
+        <button data-slot="quiz-button" className="quiz-primary" onClick={() => block.onBlockDone(blockResult(), false)}>{block.nextLabel ? `下一區：${block.nextLabel}` : '查看總成績'}<ArrowRight size={17}/></button>
+        {block.nextLabel && <button data-slot="quiz-button" className="quiz-secondary" onClick={() => block.onBlockDone(blockResult(), true)}>提早結束，查看總成績</button>}
+      </div> :       <div className="quiz-summary-actions">{mistakes.length > 0 && <button data-slot="quiz-button" className="quiz-primary" onClick={() => begin(retryMistakes(session))}><RotateCcw size={17}/>只練錯題（{mistakes.length}）</button>}<button data-slot="quiz-button" className="quiz-secondary" onClick={() => begin(createSession(pool, settings.count))}>再練一回</button><button data-slot="quiz-button" className="quiz-text-button" onClick={() => setPhase('setup')}>重新選擇範圍</button><a className="quiz-text-button quiz-learn-link" href={learnHashOf(regionId)}>返去學：到{region.label}學習地圖</a></div>
       {sessionLevel === 3 && session.answers.length > 0 && <p className="quiz-result-split"><span className="is-correct">答對 {session.answers.filter(a => a.result === 'correct').length}</span><span className="is-close">接近 {session.answers.filter(a => a.result === 'close').length}</span><span className="is-wrong">答錯／不知道 {session.answers.filter(a => a.result === 'wrong' || a.result === 'skipped').length}</span></p>}
       {session.answers.length > 0 && <div className="quiz-review-list"><h2>逐題回顧<small>點選任一題回到該題的構造</small></h2>{session.answers.map((a, i) => {
         const item = structures.get(a.targetId)!;

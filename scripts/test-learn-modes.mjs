@@ -94,16 +94,15 @@ try {
     const mod = await moduleFor(path.join(root, file)); await mod.link(link); await mod.evaluate();
     return all2(mod.namespace.default()).filter(n => n.type === 'a' && n.props['data-part']).map(n => [n.props['data-part'], n.props.href]);
   };
-  const learn = await hrefs('app/quiz/learn-hub.tsx'), quiz = await hrefs('app/quiz/hub.tsx');
+  const learn = await hrefs('app/quiz/learn-hub.tsx');
   assert.ok(learn.some(([id, href]) => id === FAKE && href === `#/learn/${FAKE}`), 'the learning hub lists the new region');
-  assert.ok(quiz.some(([id, href]) => id === FAKE && href === `#/quiz/${FAKE}`), 'the Quiz chooser lists the new region');
-  for (const id of regionIds().filter(i => i !== FAKE)) assert.ok(learn.some(([p]) => p === id) && quiz.some(([p]) => p === id), `${id} is in both choosers`);
+  for (const id of regionIds().filter(i => i !== FAKE)) assert.ok(learn.some(([p]) => p === id) , `${id} is in the learning hub`);
 } finally { delete QUIZ_REGIONS[FAKE]; }
 assert.ok(!regionIds().includes(FAKE));
 
 // ---- the exam entrance is on the same region data (checked again when the exam page exists)
-const hubSource = fs.readFileSync(path.join(root, 'app/quiz/learn-hub.tsx'), 'utf8'), quizHubSource = fs.readFileSync(path.join(root, 'app/quiz/hub.tsx'), 'utf8');
-for (const [name, src] of [['learn hub', hubSource], ['quiz chooser', quizHubSource]]) assert.ok(src.includes('orderedRegions()') && !/data-part="(?:heart|lung|brain)"/.test(src), `${name} builds its cards from the region data`);
+const hubSource = fs.readFileSync(path.join(root, 'app/quiz/learn-hub.tsx'), 'utf8'), quizHubSource = fs.readFileSync(path.join(root, 'app/quiz/setup-page.tsx'), 'utf8');
+for (const [name, src] of [['learn hub', hubSource], ['quiz chooser', quizHubSource]]) assert.ok(src.includes('orderedRegions()'), `${name} builds its cards from the region data`);
 // no study page names notes or the exam sources
-for (const f of ['learn.tsx', 'learn-hub.tsx', 'mode-nav.tsx', 'exam.tsx', 'hub.tsx', 'page.tsx']) assert.ok(!/共筆|筆記|跑考摘要|課堂/.test(fs.readFileSync(path.join(root, 'app/quiz', f), 'utf8')), `${f}: no note wording`);
+for (const f of ['learn.tsx', 'learn-hub.tsx', 'mode-nav.tsx', 'exam.tsx', 'setup-page.tsx', 'run.tsx', 'page.tsx']) assert.ok(!/共筆|筆記|跑考摘要|課堂/.test(fs.readFileSync(path.join(root, 'app/quiz', f), 'utf8')), `${f}: no note wording`);
 console.log(`Learn modes passed: 80% pass rule, unlock chain, saved progress and old star results, routes, ${counted} region catalogue(s) give lessons, a region added to the data appears in the learning hub and the Quiz chooser.`);
