@@ -307,7 +307,7 @@ Object.assign(CARD_EXTRAS, {
   },
   'middle pharyngeal constrictor': {
     起點: e('舌骨大角與小角，以及莖突舌骨韌帶下部', 'Greater and lesser horns of the hyoid bone and the lower part of the stylohyoid ligament'),
-    止點: e('咽縫；肌纖維呈扇形散開，上部覆蓋上縮肌下緣，下部被下縮肌上緣覆蓋', 'Pharyngeal raphe; the fibres fan out, the upper ones overlapping the lower edge of the superior constrictor and the lower ones lying under the upper edge of the inferior constrictor'),
+    止點: e('咽縫；肌纖維呈扇形散開，上部覆蓋上咽縮肌下緣，下部被下咽縮肌上緣覆蓋', 'Pharyngeal raphe; the fibres fan out, the upper ones overlapping the lower edge of the superior constrictor and the lower ones lying under the upper edge of the inferior constrictor'),
     作用: e('收縮咽壁中部，把食團往下推向食道', 'Narrows the middle part of the pharyngeal wall and pushes the bolus on toward the oesophagus'),
     ...PHARYNX_NERVE,
   },
@@ -428,12 +428,12 @@ Object.assign(CARD_EXTRAS, {
   'thyroid cartilage': {
     位置: e('頸前部，位於舌骨之下、環狀軟骨之上，約在第四至第五頸椎的高度；是喉最大的軟骨', 'Front of the neck below the hyoid bone and above the cricoid cartilage, at about the level of C4–C5; the largest cartilage of the larynx'),
     組成: e('透明軟骨；左右兩片四邊形的軟骨板在前方相接成交角（男性較尖，形成喉結），上緣有甲狀上切跡，後緣向上、下延伸成上角與下角，外面有斜線', 'Hyaline cartilage; two quadrilateral laminae meet in front at an angle (more acute in men, forming the laryngeal prominence), with a superior thyroid notch above and a posterior border drawn out into superior and inferior horns; the outer surface carries the oblique line'),
-    毗鄰: e('上方以甲狀舌骨膜連舌骨；下方以環甲正中韌帶與環甲關節（下角）連環狀軟骨；後方為咽下縮肌；外面有舌骨下肌群，甲狀腺側葉貼於其外側下方；內面前方有聲帶附著', 'Above it the thyrohyoid membrane joins it to the hyoid bone; below it the median cricothyroid ligament and the cricothyroid joints (inferior horns) join it to the cricoid cartilage; behind lies the inferior pharyngeal constrictor; infrahyoid muscles cover its outer surface and the lobe of the thyroid gland lies against its lower outer side; the vocal folds attach to the inner surface in front'),
+    毗鄰: e('上方以甲狀舌骨膜連舌骨；下方以環甲正中韌帶與環甲關節（下角）連環狀軟骨；後方為下咽縮肌；外面有舌骨下肌群，甲狀腺側葉貼於其外側下方；內面前方有聲帶附著', 'Above it the thyrohyoid membrane joins it to the hyoid bone; below it the median cricothyroid ligament and the cricothyroid joints (inferior horns) join it to the cricoid cartilage; behind lies the inferior pharyngeal constrictor; infrahyoid muscles cover its outer surface and the lobe of the thyroid gland lies against its lower outer side; the vocal folds attach to the inner surface in front'),
   },
   'cricoid cartilage': {
     位置: e('喉的最下方、甲狀軟骨之下，約在第六頸椎的高度，下方接氣管', 'Lowest cartilage of the larynx, below the thyroid cartilage at about the level of C6, continuous below with the trachea'),
     組成: e('透明軟骨，是喉部唯一完整的環；後方高大的環板，前方狹窄的環弓；板的上緣有杓狀關節面，兩側有甲狀關節面', 'Hyaline cartilage and the only complete ring in the larynx, with a tall lamina behind and a narrow arch in front; the upper border of the lamina bears the arytenoid facets and the sides bear the facets for the thyroid cartilage'),
-    毗鄰: e('上方與甲狀軟骨（環甲關節、環甲正中韌帶）及杓狀軟骨（環杓關節）相連；下方以環氣管韌帶接氣管第一環；後方為咽下縮肌的環咽部與食道起始處；前外側有甲狀腺鄰接；喉返神經在其後方入喉', 'Above, it joins the thyroid cartilage (cricothyroid joints and median cricothyroid ligament) and the arytenoid cartilages (cricoarytenoid joints); below, the cricotracheal ligament joins it to the first tracheal ring; behind lie the cricopharyngeal part of the inferior constrictor and the start of the oesophagus; the thyroid gland lies against its anterolateral side; the recurrent laryngeal nerve enters the larynx behind it'),
+    毗鄰: e('上方與甲狀軟骨（環甲關節、環甲正中韌帶）及杓狀軟骨（環杓關節）相連；下方以環氣管韌帶接氣管第一環；後方為下咽縮肌的環咽部與食道起始處；前外側有甲狀腺鄰接；喉返神經在其後方入喉', 'Above, it joins the thyroid cartilage (cricothyroid joints and median cricothyroid ligament) and the arytenoid cartilages (cricoarytenoid joints); below, the cricotracheal ligament joins it to the first tracheal ring; behind lie the cricopharyngeal part of the inferior constrictor and the start of the oesophagus; the thyroid gland lies against its anterolateral side; the recurrent laryngeal nerve enters the larynx behind it'),
   },
   'trachea': {
     位置: e('起於環狀軟骨下緣，約在第六頸椎（C6）的高度，向下經頸部入胸腔，到胸骨角的高度（約第四至第五胸椎）分為左、右主支氣管', 'Starts at the lower border of the cricoid cartilage at about the level of the sixth cervical vertebra (C6), runs down through the neck into the thorax and divides into the right and left main bronchi at the level of the sternal angle (about T4–T5)'),
