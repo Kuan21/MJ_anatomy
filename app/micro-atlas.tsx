@@ -144,7 +144,7 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
   let eyeRig:{center:T.Vector3;pupil?:Record3D;globe:Record3D[];followers:{record:Record3D;base:Float32Array;weight:Float32Array}[]}|null=null;
   const openingMarks:{id:string;record:Record3D;indices:number[]}[]=[];
   // Where each opening is, and a point in front of and lateral to the orbit from which its apex can be seen (atlas-root coordinates).
-  const openingCenters=new Map<string,T.Vector3>(),orbitEntrance=new T.Vector3();
+  const openingCenters=new Map<string,T.Vector3>(),orbitEntrance=new T.Vector3(),orbitFront=new T.Vector3();
   const markOpenings=(shown:string[],chosen:string|null)=>{
    const touched=new Set<T.BufferAttribute>(),tint=new T.Color();
    for(const mark of openingMarks){const color=mark.record.object.geometry.getAttribute('color') as T.BufferAttribute;if(!touched.has(color)){(color.array as Float32Array).fill(1);touched.add(color);}}
@@ -309,6 +309,7 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
    }
    for(const opening of manifest.openings??[])openingCenters.set(opening.id,new T.Vector3().fromArray(opening.center));
    orbitEntrance.copy(globeCenter).addScaledVector(axis,length*5.2).add(new T.Vector3(Math.sign(globeCenter.x)||1,.2,0).multiplyScalar(length*2.3));
+   orbitFront.copy(globeCenter).addScaledVector(axis,length*5.6).add(new T.Vector3(0,length*.6,0));
    // Rig for eye movements: the globe turns about its centre; the tendons of the six muscles and the front of the optic nerve follow it.
    const REACH=.014,onGlobe=length/2+.003;
    const follower=(record:Record3D,attachment:T.Vector3)=>{
@@ -384,7 +385,7 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
    lookAt:id=>{
     const center=openingCenters.get(id);if(!center)return;
     atlasRoot.updateMatrixWorld(true);
-    const toTarget=center.clone().applyMatrix4(atlasRoot.matrixWorld),toPosition=orbitEntrance.clone().applyMatrix4(atlasRoot.matrixWorld);
+    const toTarget=center.clone().applyMatrix4(atlasRoot.matrixWorld),toPosition=(EYE_OPENINGS.find(o=>o.id===id)?.view==='front'?orbitFront:orbitEntrance).clone().applyMatrix4(atlasRoot.matrixWorld);
     tween={start:performance.now(),fromPosition:camera.position.clone(),fromTarget:controls.target.clone(),toPosition,toTarget};invalidate();
    }};
   // Review aid (?review=1 only): fixed camera directions and screen positions of structures, for labelled screenshots.
@@ -528,10 +529,10 @@ export default function MicroAtlasScene({atlasId,onExit}:Props){
     </>}
    </div>}
    {atlasId==='eye'&&records.length>0&&<div className={'micro-movement micro-openings'+(openingsOpen?' open':'')}>
-    <Button variant="ghost" className="micro-movement-toggle" aria-expanded={openingsOpen} onClick={toggleOpenings}><span className="eyebrow">眼眶的管與裂</span><small lang="zh-Hant">{opening?opening.zh:''}</small><ChevronDown size={12} className={openingsOpen?'open':''}/></Button>
+    <Button variant="ghost" className="micro-movement-toggle" aria-expanded={openingsOpen} onClick={toggleOpenings}><span className="eyebrow">眼眶的孔、管與裂</span><small lang="zh-Hant">{opening?opening.zh:''}</small><ChevronDown size={12} className={openingsOpen?'open':''}/></Button>
     {openingsOpen&&<>
      <div className="micro-move-buttons openings">{EYE_OPENINGS.map(o=><Button variant="ghost" key={o.id} className={openingId===o.id?'active':''} aria-pressed={openingId===o.id} aria-label={'標示'+o.zh} title={o.name+' '+o.zh+(o.aliasZh?'（又稱'+o.aliasZh+'）':'')} onClick={()=>chooseOpening(o.id)}><b><i style={{background:o.color}}/>{o.label}</b><small lang="zh-Hant">{o.zh}</small></Button>)}</div>
-     {opening&&<div className="micro-move-info" aria-live="polite"><strong>{opening.name}<em lang="zh-Hant">{opening.zh}{opening.aliasZh&&'（又稱'+opening.aliasZh+'）'}</em><Button variant="ghost" className="micro-look" onClick={()=>{apiRef.current?.lookAt(opening.id);setLooking(true);}}><Focus size={11}/>對準</Button></strong>{looking&&<small className="micro-look-hint" lang="zh-Hant">目前由左眼眶的前外側看向眶尖：畫面左邊是鼻側，上方是眶頂，右邊是眼眶外側壁。</small>}<p>{opening.text}{opening.absent&&' '+opening.absent}</p><p lang="zh-Hant">{opening.textZh}{opening.absentZh}</p></div>}
+     {opening&&<div className="micro-move-info" aria-live="polite"><strong>{opening.name}<em lang="zh-Hant">{opening.zh}{opening.aliasZh&&'（又稱'+opening.aliasZh+'）'}</em><Button variant="ghost" className="micro-look" onClick={()=>{apiRef.current?.lookAt(opening.id);setLooking(true);}}><Focus size={11}/>對準</Button></strong>{looking&&<small className="micro-look-hint" lang="zh-Hant">{opening.hintZh}</small>}<p>{opening.text}{opening.absent&&' '+opening.absent}</p><p lang="zh-Hant">{opening.textZh}{opening.absentZh}</p></div>}
     </>}
    </div>}
    <div className="micro-selected" aria-live="polite"><span className="eyebrow">已選構造</span><strong>{selectedRecord?.name??'點選模型上的構造，或從上方清單選擇'}</strong>{selectedRecord?.zh&&<em lang="zh-Hant">{selectedRecord.zh}</em>}{selectedRecord&&<small>{selectedRecord.group}{selectedRecord.groupZh&&' · '+selectedRecord.groupZh}</small>}{selectedRecord?.text&&<p>{selectedRecord.text}</p>}{selectedRecord?.textZh&&<p lang="zh-Hant">{selectedRecord.textZh}</p>}</div>
