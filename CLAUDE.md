@@ -84,6 +84,7 @@
   - 每個例外要寫原因（例如「最近鄰判定，解剖上不相連」）。
   - 每次新增例外，PR 說明要列出是哪幾對、同一個原因，讓使用者知道。
   - 兩條血管解剖上相連（例如分支與主幹）時**不可加例外**，要修 skinning 或連接。
+  - **清單用結構名稱識別，不用 PK／PKC 編號**（使用者 2026-11-14）：`docs/stability-known.json` 與 `docs/vessel-motion-exceptions.json` 的鍵，PK／PKC 結構寫成 `PK:<名稱>`（同名多個時加 `#序號`），圖譜結構維持 FJ／HRAF 編號。加減結構不會讓清單移位。`node scripts/check-known-lists.mjs`（在 `npm run check` 內）要求每一項都對應到存在的結構，對不上就失敗；不要把清單改回數字編號。
 
 ### 每個 PR 的文件（使用者 2026-11-14 指示，長期規則；為了讓 PR 不再在 ROADMAP.md 與 REVIEW_LOG.md 互相衝突）
 - 一般 PR **不可以改** `ROADMAP.md`、`REVIEW_LOG.md`、`docs/review-log/README.md`。只新增或修改自己的兩個檔案（PR 開出、拿到編號後補上）：
@@ -101,6 +102,7 @@
 - 「需人工審核」的 PR 一律不開 auto-merge；若已開啟，先關閉。
 - 生成檔（`.json.gz`、bindings 等）不手動修改，在 build 時或 merge 前重新生成；改同一批資料檔的 PR 按次序做；共用資料檔過大時按系統或區域拆分。
 - 檢查失敗的 PR 自行修正；無法修好時說明原因並建議是否關閉。
+- GitHub 已開啟 Automatically delete head branches：PR 合併後遠端分支自動刪除，不用提醒使用者手動刪。合併後只需清理本機分支與 worktree。`archive/` 備份分支沒有 PR，不會被刪，也不要刪。（使用者 2026-11-15 指示）
 
 ### 立體結構與示意模型規則（2026-10-28 測試後新增）
 - 立體結構不可用平面、三角片、圓碟、長方體或圓柱代替。
