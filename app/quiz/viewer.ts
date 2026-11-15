@@ -32,6 +32,8 @@ export interface QuizViewState {
   highlightIds?: string[];
   /** Level 2 (學習關卡): the opening view is deterministic (the same seed always gives the same direction); `apart` makes it a clearly different direction from the one the seed gives without it (round 3). */
   lesson?: {seed: string; apart: boolean};
+  /** Mock exam: the target is not painted; a thin needle is stuck into a point of its surface that can be seen from the opening view (mode 'name'). */
+  pin?: boolean;
 }
 interface Callbacks {
   ready: (key: string, value: boolean) => void;
@@ -176,10 +178,39 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
   const isCover = (structure: QuizStructure) => !!state && structure.id !== state.target.id
     && (catalogue.region === 'brain' ? coversBrainTarget(state.target as {layer?: BrainLayer}, structure as {layer?: BrainLayer}) : catalogue.region === 'head-neck' && coversHeadNeckTarget(state.target, structure));
   const BRAIN_GLASS = .09;
+  /** The exam needle: a thin shaft whose tip touches the surface and a round head; removed and made again for every question. */
+  let pin: T.Group | undefined;
+  const clearPin = () => {if (pin) {scene.remove(pin); pin.traverse(o => {const m = o as T.Mesh; m.geometry?.dispose(); (m.material as T.Material | undefined)?.dispose();}); pin = undefined; dirty = true;}};
+  /** Of the points of the target that the camera can see, the one nearest to their middle gets the needle; it leans away from the view direction so that it is seen from the side. */
+  const placePin = () => {
+    clearPin();
+    scene.updateMatrixWorld(true);
+    const points = samplePoints(96); if (!points.length) return;
+    const eye = camera.position.clone(), occluders = [...meshes.values()].filter(m => m.visible && !targetIds.has(m.userData.structureId) && (m.material as T.MeshStandardMaterial).opacity >= .8);
+    const seen = points.filter(p => {
+      const to = p.clone().sub(eye), len = to.length();
+      raycaster.set(eye, to.normalize()); raycaster.far = len - .0008;
+      const blocked = occluders.length && raycaster.intersectObjects(occluders, false).length;
+      raycaster.far = Infinity; return !blocked;
+    });
+    const use = seen.length ? seen : points, middle = use.reduce((a, p) => a.add(p), new T.Vector3()).divideScalar(use.length);
+    const tip = use.reduce((a, p) => p.distanceTo(middle) < a.distanceTo(middle) ? p : a, use[0]);
+    const view = eye.clone().sub(tip).normalize(), up = new T.Vector3(0, 1, 0), side = new T.Vector3().crossVectors(up, view).normalize();
+    const dir = view.clone().multiplyScalar(.55).addScaledVector(up, .65).addScaledVector(side, .5).normalize();
+    const size = Math.min(Math.max(eye.distanceTo(controls.target) * .16, .012), .12), radius = size * .035, group = new T.Group();
+    const material = new T.MeshBasicMaterial({color: '#d6304a'});
+    const shaft = new T.Mesh(new T.CylinderGeometry(radius, radius * .35, size, 10), material);
+    shaft.position.copy(tip).addScaledVector(dir, size / 2); shaft.quaternion.setFromUnitVectors(new T.Vector3(0, 1, 0), dir);
+    // the narrow end (radius * .35, the cylinder's -y end) lies at the tip and the wide end towards the head, so +y points along dir, away from the surface
+    const head = new T.Mesh(new T.SphereGeometry(radius * 3.2, 16, 12), material);
+    head.position.copy(tip).addScaledVector(dir, size);
+    group.add(shaft, head); group.renderOrder = 20; group.userData.tip = tip.toArray();
+    scene.add(pin = group); dirty = true;
+  };
 
   const applyAppearance = () => {
     if (!state) return;
-    const hidden = new Set(state.hidden), naming = state.mode === 'name', clarity = state.clarity ?? .45;
+    const hidden = new Set(state.hidden), naming = state.mode === 'name', clarity = state.clarity ?? .45, pinned = !!state.pin;
     for (const mesh of meshes.values()) {
       const structure = byId.get(mesh.userData.structureId)!;
       const isTarget = targetIds.has(structure.id), space = isSpace();
@@ -193,8 +224,8 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
       mesh.visible = allowed.has(structure.id) && (naming ? (!state.only || isTarget || isNeighbour || isOwner) : (state.answered || !hidden.has(structure.id) || isOwner)) && (!isContext || state.context || isTarget || isNeighbour || isOwner);
       const base = QUIZ_SYSTEMS.find(s => s.id === structure.system)!.color;
       const material = mesh.material;
-      const lit = isAnswer || isWrong || (naming && (isTarget || isNeighbour));
-      const fill = isAnswer ? FEEDBACK.correct.fill : isWrong ? FEEDBACK.wrong.fill : naming && isTarget ? FEEDBACK.target.fill : shade ? shade.fill : keyboardId === structure.id ? '#5aa9e6' : base;
+      const lit = isAnswer || isWrong || (naming && ((isTarget && !pinned) || isNeighbour));
+      const fill = isAnswer ? FEEDBACK.correct.fill : isWrong ? FEEDBACK.wrong.fill : naming && isTarget && !pinned ? FEEDBACK.target.fill : shade ? shade.fill : keyboardId === structure.id ? '#5aa9e6' : base;
       // A neighbour is a pale blue wash over the structure's own colour, so its light, shade and fibre texture stay visible.
       if (shade) material.color.set(base).lerp(new T.Color(shade.fill), NEIGHBOUR_TINT); else material.color.set(fill);
       // The emissive term keeps the light and shade of the surface: the yellow is a tint, not a flat fill.
@@ -347,7 +378,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
     allowed = new Set(sceneStructures(catalogue, next.target, section, next.side).map(s => s.id));
     targetIds = new Set([next.target.id, ...(next.target.space?.members.map(m => m.id) ?? [])]);
     if (changedQuestion) {
-      ready = false; keyboardId = undefined; commandAtQuestion = next.command.id;
+      clearPin(); ready = false; keyboardId = undefined; commandAtQuestion = next.command.id;
       callbacks.ready(next.key, false);
       callbacks.error('');
       const ticket = ++request;
@@ -361,7 +392,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
         if (failed.length) {callbacks.error('部分模型未能載入，題目暫停。請重試，載入完整後先作答。'); return;}
         ready = true; callbacks.ready(next.key, true); dirty = true;
         // Level 2 opens each question from a random direction, chosen once the structures are in the scene so the target can be tested for visibility.
-        if (state?.mode === 'name' && state.key === next.key && state.command.id === commandAtQuestion) {applyAppearance(); frameModel('random');}
+        if (state?.mode === 'name' && state.key === next.key && state.command.id === commandAtQuestion) {applyAppearance(); frameModel('random'); if (state.pin) placePin();}
       });
       const opening = openingView(catalogue.region, next.target, QUIZ_REGIONS[catalogue.region ?? 'lower-limb'].defaultView);
       frameModel(opening);
@@ -446,7 +477,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
   return {
     update,
     dispose() {
-      disposed = true; ++request; controller.abort(); cancelAnimationFrame(frame);
+      disposed = true; ++request; clearPin(); controller.abort(); cancelAnimationFrame(frame);
       observer.disconnect(); controls.dispose();
       canvas.removeEventListener('pointerdown', down); canvas.removeEventListener('pointermove', move);
       canvas.removeEventListener('pointerup', up); canvas.removeEventListener('pointercancel', cancel);

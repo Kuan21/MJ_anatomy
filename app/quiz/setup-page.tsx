@@ -1,8 +1,9 @@
 import {useEffect, useMemo, useState} from 'react';
-import {AlertCircle, ArrowLeft, ArrowRight, Check, ChevronDown, ChevronRight, Target} from 'lucide-react';
+import {AlertCircle, ArrowLeft, ArrowRight, Check, Target} from 'lucide-react';
 import {QUIZ_CATEGORIES, QUIZ_REGIONS, orderedRegions, questionPool, type QuizCategory, type QuizRegionId, type QuizSide} from './catalogue';
 import {COUNT_CHOICES, MAX_COUNT, loadSetup, planOf, poolFor, saveSetup, savePlan, settingsFor, type QuizSetup} from './setup';
 import {ModeNav} from './mode-nav';
+import {CategoryPicker, RegionPicker, toggleRegionIn, toggleSectionIn} from './setup-parts';
 import {namingPool} from './level2';
 import {useCatalogues} from './use-catalogue';
 import './quiz.css';
@@ -15,16 +16,8 @@ export default function QuizSetupPage() {
   const regions = orderedRegions(), chosen = regions.map(r => r.id).filter(id => setup.regions[id]);
   const {loaded, failed, reload} = useCatalogues(chosen);
   const update = (patch: Partial<QuizSetup>) => setSetup(s => ({...s, ...patch}));
-  const toggleRegion = (id: QuizRegionId) => setSetup(s => {const regs = {...s.regions}; if (regs[id]) delete regs[id]; else regs[id] = ['all']; return {...s, regions: regs};});
-  const toggleSection = (id: QuizRegionId, section: string) => setSetup(s => {
-    const regs = {...s.regions}, now = regs[id] ?? [];
-    let next = section === 'all' ? (now.includes('all') ? [] : ['all']) : now.includes(section) ? now.filter(x => x !== section) : [...now.filter(x => x !== 'all'), section];
-    // every real section ticked = the whole region
-    const real = QUIZ_REGIONS[id].sections.filter(x => x.id !== 'all').length;
-    if (next.length >= real && !next.includes('all')) next = ['all'];
-    if (next.length) regs[id] = next; else delete regs[id];
-    return {...s, regions: regs};
-  });
+  const toggleRegion = (id: QuizRegionId) => setSetup(s => ({...s, regions: toggleRegionIn(s.regions, id)}));
+  const toggleSection = (id: QuizRegionId, section: string) => setSetup(s => ({...s, regions: toggleSectionIn(s.regions, id, section)}));
   const pools = useMemo(() => Object.fromEntries(chosen.filter(id => loaded[id]).map(id => [id, poolFor(loaded[id]!, setup, id).length])), [chosen.join(','), loaded, setup]); // eslint-disable-line react-hooks/exhaustive-deps
   const waiting = chosen.some(id => !loaded[id] && !failed.includes(id));
   const total = Object.values(pools).reduce((a, b) => a + b, 0);
@@ -57,23 +50,10 @@ export default function QuizSetupPage() {
       </section>
       <section className="quiz-setup-card" aria-label="設定 Quiz">
         <fieldset><legend><b>01</b> 範圍 <small>可多選區域與區段</small></legend>
-          <div className="quiz-setup-regions">{regions.map(r => {
-            const picked = setup.regions[r.id], expanded = open.includes(r.id), sections = picked ?? [];
-            return <div key={r.id} className={`setup-region ${picked ? 'is-on' : ''}`} data-region={r.id}>
-              <div className="setup-region-row">
-                <button type="button" data-slot="quiz-button" className="setup-region-main" aria-pressed={!!picked} onClick={() => toggleRegion(r.id)}><span className="quiz-checkbox">{picked && <Check size={12}/>}</span><span>{r.label}<small>{r.english}</small></span>
-                  {picked && <em>{sections.includes('all') ? '整區' : `${sections.length} 個區段`}</em>}</button>
-                <button type="button" data-slot="quiz-button" className="setup-expand" aria-expanded={expanded} aria-label={`${r.label}的區段`} onClick={() => setOpen(o => o.includes(r.id) ? o.filter(x => x !== r.id) : [...o, r.id])}>{expanded ? <ChevronDown size={16}/> : <ChevronRight size={16}/>}</button>
-              </div>
-              {expanded && <div className="setup-sections" role="group" aria-label={`${r.label}的區段`}>{r.sections.map(sec => <button type="button" data-slot="quiz-button" key={sec.id} aria-pressed={sections.includes(sec.id)} onClick={() => toggleSection(r.id, sec.id)}><span className="quiz-checkbox">{sections.includes(sec.id) && <Check size={12}/>}</span>{sec.id === 'all' ? `整個${r.label}` : sec.label}</button>)}</div>}
-            </div>;
-          })}</div>
+          <RegionPicker regions={setup.regions} open={open} setOpen={setOpen} onRegion={toggleRegion} onSection={toggleSection}/>
         </fieldset>
         <fieldset><legend><b>02</b> 內容類型 <small>可選多個，任意組合</small></legend>
-          <div className="quiz-system-grid quiz-category-grid">{QUIZ_CATEGORIES.map(c => {
-            const on = setup.categories.includes(c.id), count = chosen.length && !waiting ? countOf(c.id) : null;
-            return <button type="button" data-slot="quiz-button" key={c.id} data-category={c.id} aria-pressed={on} disabled={count === 0} onClick={() => update({categories: on ? setup.categories.filter(x => x !== c.id) : [...setup.categories, c.id]})}><i style={{background: c.color}}/><span>{c.label}<small>{c.english}</small></span>{count !== null && <span className="quiz-count">{count}</span>}<span className="quiz-checkbox">{on && <Check size={12}/>}</span></button>;
-          })}</div>
+          <CategoryPicker value={setup.categories} onChange={categories => update({categories})} count={c => chosen.length && !waiting ? countOf(c) : null}/>
           <div className="quiz-category-tools"><button type="button" data-slot="quiz-button" className="quiz-text-button" onClick={() => update({categories: QUIZ_CATEGORIES.map(c => c.id)})}>全選</button><button type="button" data-slot="quiz-button" className="quiz-text-button" onClick={() => update({categories: []})}>全部取消</button><span>灰色的類別在選定範圍內暫無題目</span></div>
         </fieldset>
         <fieldset><legend><b>03</b> 作答方式</legend>

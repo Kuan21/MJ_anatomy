@@ -29,7 +29,8 @@ for (const [needle, id] of [['#/quiz/upper-limb', 'upper-limb'], ['#/quiz/lower-
 
 // ---- the setup page (#/quiz) lists every region of the data; its rules are tested in test-quiz-setup.mjs
 const setupSource = fs.readFileSync(path.join(root, 'app/quiz/setup-page.tsx'), 'utf8');
-assert.ok(setupSource.includes('orderedRegions()') && setupSource.includes('QUIZ_CATEGORIES.map'), 'the setup page builds regions and categories from the data');
+const partsSource = fs.readFileSync(path.join(root, 'app/quiz/setup-parts.tsx'), 'utf8');
+assert.ok(partsSource.includes('orderedRegions()') && partsSource.includes('QUIZ_CATEGORIES.map') && setupSource.includes('RegionPicker'), 'the setup page builds regions and categories from the data');
 assert.match(fs.readFileSync(path.join(root, 'web/main.tsx'), 'utf8'), /hub \? <QuizSetup\/>/, '#/quiz shows the setup page');
 
 // ---- answer card content
