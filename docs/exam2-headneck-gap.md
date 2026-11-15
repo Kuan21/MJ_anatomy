@@ -170,7 +170,7 @@
 | Ophthalmic nerve (V1) | 眼神經 | 有 | 已有 | — |
 | Maxillary nerve (V2) | 上頷神經 | 有 | 已有 | — |
 | Mandibular nerve (V3) | 下頷神經 | 有 | 已有 | — |
-| Abducens nerve (CN VI) | 外展神經 | 有 | 已有 | — |
+| Abducens nerve (CN VI) | 外旋神經 | 有 | 已有 | — |
 | Facial nerve (CN VII) | 顏面神經 | 有 | 已有 | — |
 | Vestibulocochlear nerve (CN VIII) | 前庭耳蝸神經 | 有 | 已有 | — |
 | Glossopharyngeal nerve (CN IX) | 舌咽神經 | 有 | 已有 | — |
@@ -435,7 +435,7 @@ Longitudinal fissure／大腦縱裂 ; Frontal pole／額極* ; Visual cortex／�
 | 骨的細部 | Carotid canal | 頸動脈管 | 內頸動脈入顱的通道，顱底通道題常考 |
 | 骨的細部 | Hypoglossal canal | 舌下神經管 | 舌下神經離顱的通道，位於枕骨髁上方 |
 | 骨的細部 | Optic canal | 視神經管 | 視神經與眼動脈入眶的通道，位於蝶骨小翼 |
-| 骨的細部 | Superior orbital fissure | 眶上裂 | 動眼、滑車、外展神經與眼神經入眶的裂隙，眼眶題的重點 |
+| 骨的細部 | Superior orbital fissure | 眶上裂 | 動眼、滑車、外旋神經與眼神經入眶的裂隙，眼眶題的重點 |
 | 骨的細部 | Inferior orbital fissure | 眶下裂 | 上頷神經分支與眶下血管通過，是眼眶與翼顎窩的連通 |
 | 骨的細部 | Mandibular foramen | 下頷孔 | 下齒槽神經入下頷骨的孔，牙科麻醉的標記 |
 | 骨的細部 | Zygomatic arch | 顴弓 | 顴骨與顳骨共同構成，是咬肌起點與觸診標記 |

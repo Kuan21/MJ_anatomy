@@ -10,7 +10,7 @@
 import fs from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {loadWorld} from './lib/paokao-world.mjs';
-import {centrelineOf} from './lib/leg-centreline.mjs';
+import {centrelinesOf} from './lib/leg-centreline.mjs';
 import {compareBaseline} from './lib/stability-baseline.mjs';
 
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
@@ -23,15 +23,19 @@ const parents = JSON.parse(fs.readFileSync(file('app/mj-vessel-parents.json'), '
 const dseg = (p, a, b) => { const ab = [b[0] - a[0], b[1] - a[1], b[2] - a[2]], ap = [p[0] - a[0], p[1] - a[1], p[2] - a[2]], L = ab[0] ** 2 + ab[1] ** 2 + ab[2] ** 2 || 1e-12; const t = Math.max(0, Math.min(1, (ap[0] * ab[0] + ap[1] * ab[1] + ap[2] * ab[2]) / L)); return Math.hypot(p[0] - a[0] - ab[0] * t, p[1] - a[1] - ab[1] * t, p[2] - a[2] - ab[2] * t); };
 /** Distance from p to the line of `rings`, and the wall radius there. */
 const toLine = (p, rings) => { let m = Infinity, rad = 0; for (let i = 1; i < rings.length; i++) { const d = dseg(p, rings[i - 1].c, rings[i].c); if (d < m) { m = d; rad = Math.max(rings[i - 1].r || 0, rings[i].r || 0); } } return {d: m, r: rad}; };
+/** Distance from p to the nearest line of a part (a mesh may have one line per piece), and the wall radius there. */
+const toPart = (p, part) => part.lines.map(l => toLine(p, l)).reduce((a, b) => b.d < a.d ? b : a);
+/** The two ends of every line of a part. */
+const endsOf = part => part.lines.flatMap(l => [l[0].c, l.at(-1).c]);
 
-// structures: name -> {system, parts: [{id, rings}]}
+// structures: name -> {system, parts: [{id, lines: [rings]}] (a mesh in several pieces has one line per piece, the longest first)}
 const structures = new Map(), noLine = [];
 for (const e of world.entries) {
   if (!['arterial', 'venous', 'nervous'].includes(e.system) || /^extra:/.test(e.id) || CENTRAL.test(e.name)) continue;
   const name = plain(e.name), s = structures.get(name) ?? structures.set(name, {name, system: e.system, parts: []}).get(name);
   const g = e.load(); if (!g.indices.length) continue;
-  let rings = null; try { rings = centrelineOf(g); } catch { rings = null; }
-  if (rings && rings.length >= 2) s.parts.push({id: e.id, rings}); else noLine.push({id: e.id, name, tris: g.indices.length / 3});
+  let lines = null; try { lines = centrelinesOf(g); } catch { lines = null; }
+  if (lines?.length) s.parts.push({id: e.id, lines}); else noLine.push({id: e.id, name, tris: g.indices.length / 3});
 }
 
 const findings = [];
@@ -43,7 +47,7 @@ for (const [child, list_] of Object.entries(parents)) {
   for (const parent of list_) {
     const p = structures.get(parent); if (!p?.parts.length) continue;
     let gap = Infinity;
-    for (const cp of c.parts) for (const end of [cp.rings[0].c, cp.rings.at(-1).c]) for (const pp of p.parts) { const {d, r} = toLine(end, pp.rings); gap = Math.min(gap, Math.max(0, d - r)); }
+    for (const cp of c.parts) for (const end of endsOf(cp)) for (const pp of p.parts) { const {d, r} = toPart(end, pp); gap = Math.min(gap, Math.max(0, d - r)); }
     if (!best || gap < best.gap) best = {gap, parent};   // a structure with two parents (median cubital vein) needs to reach one of them, the nearer
   }
   if (best && best.gap > LINK_TOLERANCE) push('link', child, child, best.gap * 1000, `centreline end is ${(best.gap * 1000).toFixed(1)} mm from the wall of ${best.parent}`);
@@ -54,14 +58,14 @@ for (const s of structures.values()) {
   const comp = s.parts.map((_, i) => i), find = i => comp[i] === i ? i : (comp[i] = find(comp[i]));
   let worst = 0;
   for (let i = 0; i < s.parts.length; i++) for (let j = i + 1; j < s.parts.length; j++) {
-    let d = Infinity; for (const end of [s.parts[i].rings[0].c, s.parts[i].rings.at(-1).c]) d = Math.min(d, toLine(end, s.parts[j].rings).d);
-    for (const end of [s.parts[j].rings[0].c, s.parts[j].rings.at(-1).c]) d = Math.min(d, toLine(end, s.parts[i].rings).d);
+    let d = Infinity; for (const end of endsOf(s.parts[i])) d = Math.min(d, toPart(end, s.parts[j]).d);
+    for (const end of endsOf(s.parts[j])) d = Math.min(d, toPart(end, s.parts[i]).d);
     if (d <= PART_TOLERANCE) comp[find(i)] = find(j);
   }
   const roots = new Set(s.parts.map((_, i) => find(i)));
   if (roots.size > 1) {
     // how far apart the nearest two pieces of different components are
-    let gap = Infinity; for (let i = 0; i < s.parts.length; i++) for (let j = i + 1; j < s.parts.length; j++) if (find(i) !== find(j)) for (const end of [s.parts[i].rings[0].c, s.parts[i].rings.at(-1).c]) gap = Math.min(gap, toLine(end, s.parts[j].rings).d);
+    let gap = Infinity; for (let i = 0; i < s.parts.length; i++) for (let j = i + 1; j < s.parts.length; j++) if (find(i) !== find(j)) for (const end of endsOf(s.parts[i])) gap = Math.min(gap, toPart(end, s.parts[j]).d);
     worst = gap * 1000; push('parts', s.name, s.name, worst, `${s.parts.length} parts form ${roots.size} separate lines, the nearest two ${worst.toFixed(1)} mm apart`);
   }
 }
