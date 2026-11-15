@@ -610,7 +610,7 @@ Object.assign(CARD_EXTRAS, {
 // ===== B06 begin: head-and-neck organ structures (eye, lip, tongue, laryngeal cartilages) and arteries (card batch B06). Standard anatomy only; a field we are not sure of stays out. =====
 Object.assign(CARD_EXTRAS, {
   'choroid': {
-    位置: e('眼球壁中層（血管層）的後大部分，夾在鞏膜與視網膜之間，約覆蓋眼球後方五分之四以上；向前續為睫狀體', 'Posterior large part of the middle (vascular) coat of the eyeball wall, between the sclera and the retina, covering roughly the back four-fifths or more of the globe; it continues forward as the ciliary body'),
+    位置: e('眼球壁中層（血管層）的後大部分，夾在鞏膜與視網膜之間，約覆蓋眼球後方六分之五，範圍與鞏膜相當；向前續為睫狀體', 'Posterior large part of the middle (vascular) coat of the eyeball wall, between the sclera and the retina, covering about the posterior five-sixths of the globe, the same extent as the sclera; it continues forward as the ciliary body'),
     組成: e('富含血管與色素細胞的疏鬆結締組織，由外向內有血管層與毛細血管層，最內層為薄的玻璃膜；呈深褐色，可吸收進入眼內的散射光', 'Loose connective tissue rich in vessels and pigment cells, with an outer vascular layer and an inner capillary layer, and a thin glassy membrane innermost; its dark brown colour absorbs stray light inside the eye'),
     毗鄰: e('外面僅隔一層潛在的脈絡膜上腔貼著鞏膜；內面緊貼視網膜的色素上皮，並供給視網膜外層養分；後方有視神經穿出處，前方在鋸齒緣處接睫狀體；睫狀後短動脈與長動脈供血', 'Outside, it lies against the sclera across a potential suprachoroidal space; inside, it is closely applied to the pigment epithelium of the retina and nourishes its outer layers; the optic nerve leaves at its back and the ciliary body begins at the ora serrata in front; it is supplied by the short and long posterior ciliary arteries'),
   },
@@ -636,7 +636,7 @@ Object.assign(CARD_EXTRAS, {
   },
   'tongue': {
     位置: e('口腔底之上，大部分在口腔內（舌體），後部向下形成口咽前壁（舌根）；以 V 形的界溝分隔前方的舌體與後方的舌根', 'Above the floor of the mouth, mostly within the oral cavity (the body), with its back part (the root) forming the front wall of the oropharynx; a V-shaped terminal sulcus separates the body in front from the root behind'),
-    組成: e('以橫紋肌為主的肌性器官，分舌內肌與舌外肌（頦舌肌、舌骨舌肌、莖突舌肌、顎舌肌），表面覆黏膜；背面有絲狀、菌狀、輪廓與葉狀乳頭，味蕾分布其間；中央有舌中隔將兩半分開', 'A muscular organ of mainly striated muscle, made up of intrinsic muscles and extrinsic muscles (genioglossus, hyoglossus, styloglossus, palatoglossus) and covered by mucosa; the dorsum carries filiform, fungiform, vallate and foliate papillae with taste buds among them; a median septum divides it into two halves'),
+    組成: e('以橫紋肌為主的肌性器官，分舌內肌與舌外肌（頦舌肌、舌骨舌肌、莖突舌肌、顎舌肌），表面覆黏膜；背面有絲狀、菌狀、輪廓與葉狀乳頭，其中菌狀、輪廓與葉狀乳頭含味蕾，絲狀乳頭不含味蕾、負責觸覺；中央有舌中隔將兩半分開', 'A muscular organ of mainly striated muscle, made up of intrinsic muscles and extrinsic muscles (genioglossus, hyoglossus, styloglossus, palatoglossus) and covered by mucosa; the dorsum carries filiform, fungiform, vallate and foliate papillae, of which the fungiform, vallate and foliate ones contain taste buds, while the filiform ones have none and serve touch; a median septum divides it into two halves'),
     毗鄰: e('上方為硬顎與軟顎，下方為口腔底的下頜舌骨肌與舌下腺，後方連接舌骨與會厭；運動由舌下神經（顎舌肌除外，屬迷走神經）支配；前三分之二的一般感覺走舌神經、味覺走鼓索，後三分之一由舌咽神經支配；血供主要來自舌動脈', 'Above lie the hard and soft palate, below the mylohyoid and sublingual gland of the floor of the mouth, and behind it connects to the hyoid bone and epiglottis; movement is by the hypoglossal nerve (palatoglossus is supplied by the vagus), general sensation of the front two-thirds travels in the lingual nerve and taste in the chorda tympani, while the back third is supplied by the glossopharyngeal nerve; the blood supply is mainly the lingual artery'),
   },
   'epiglottis': {
@@ -661,15 +661,15 @@ Object.assign(CARD_EXTRAS, {
   },
   'common carotid artery': {
     來源: e('右側起自頭臂動脈幹，左側直接起自主動脈弓', 'On the right from the brachiocephalic trunk, on the left directly from the aortic arch'),
-    走向: e('在頸部沿氣管與食道外側上行，與內頸靜脈、迷走神經同包在頸動脈鞘內，走在胸鎖乳突肌深面；約在甲狀軟骨上緣（第三至第四頸椎）高度分為內、外頸動脈，分叉處略膨大為頸動脈竇', 'Ascends in the neck beside the trachea and oesophagus, enclosed with the internal jugular vein and vagus nerve in the carotid sheath, deep to sternocleidomastoid; about the level of the upper border of the thyroid cartilage (C3–C4) it divides into the internal and external carotid arteries, with a slight dilatation at the fork, the carotid sinus'),
+    走向: e('在頸部沿氣管與食道外側上行，與內頸靜脈、迷走神經同包在頸動脈鞘內，走在胸鎖乳突肌深面；約在第三至第四頸椎（C3–C4）高度，接近甲狀軟骨上緣至舌骨之間，分為內、外頸動脈，分叉處略膨大為頸動脈竇', 'Ascends in the neck beside the trachea and oesophagus, enclosed with the internal jugular vein and vagus nerve in the carotid sheath, deep to sternocleidomastoid; at about the level of C3–C4, between the upper border of the thyroid cartilage and the hyoid bone, it divides into the internal and external carotid arteries, with a slight dilatation at the fork, the carotid sinus'),
     主要分支: e('通常不發出分支；末端分為內頸動脈與外頸動脈', 'Usually gives off no branches; it ends by dividing into the internal and external carotid arteries'),
     供應範圍: e('以兩條終末分支供應頭與頸；分叉處的頸動脈竇有壓力感受器，頸動脈體有化學感受器', 'Supplies the head and neck through its two terminal branches; the carotid sinus at the fork holds baroreceptors and the carotid body holds chemoreceptors'),
   },
   'external carotid artery': {
     來源: e('總頸動脈在甲狀軟骨上緣附近分叉的前內側終支', 'The front-medial terminal branch of the common carotid artery, at about the upper border of the thyroid cartilage'),
-    走向: e('起初在內頸動脈前內側，繼而轉到其外側上行，經二腹肌後腹與莖突舌骨肌深面，穿入腮腺；在下頜頸後方分為上頷動脈與淺顳動脈兩終支', 'At first in front of and medial to the internal carotid, it then crosses to its lateral side and ascends deep to the posterior belly of digastric and stylohyoid, entering the parotid gland; behind the neck of the mandible it ends as the maxillary and superficial temporal arteries'),
-    主要分支: e('由下而上依序有上甲狀腺動脈、升咽動脈、舌動脈、面動脈、枕動脈、耳後動脈，終支為上頷動脈與淺顳動脈', 'From below upward: superior thyroid, ascending pharyngeal, lingual, facial, occipital and posterior auricular arteries, ending as the maxillary and superficial temporal arteries'),
-    供應範圍: e('頸前部、甲狀腺與喉、舌與口腔、顏面、頭皮、咽與扁桃體、顱底外面與硬腦膜、上下頷骨與牙齒及鼻腔（頭頸除眼、腦以外的大部分）', 'The front of the neck, thyroid gland and larynx, tongue and mouth, face, scalp, pharynx and tonsil, the outside of the skull base and the dura mater, the jaws and teeth and the nasal cavity (most of the head and neck except the eye and brain)'),
+    走向: e('起初在內頸動脈前內側，繼而轉到其外側上行，經二腹肌後腹與莖突舌骨肌深面，穿入腮腺；在下頜頸後方分為上頜動脈與淺顳動脈兩終支', 'At first in front of and medial to the internal carotid, it then crosses to its lateral side and ascends deep to the posterior belly of digastric and stylohyoid, entering the parotid gland; behind the neck of the mandible it ends as the maxillary and superficial temporal arteries'),
+    主要分支: e('由下而上依序有上甲狀腺動脈、升咽動脈、舌動脈、面動脈、枕動脈、耳後動脈，終支為上頜動脈與淺顳動脈', 'From below upward: superior thyroid, ascending pharyngeal, lingual, facial, occipital and posterior auricular arteries, ending as the maxillary and superficial temporal arteries'),
+    供應範圍: e('頸前部、甲狀腺與喉、舌與口腔、顏面、頭皮、咽與扁桃體、顱底外面與硬腦膜、上下頜骨與牙齒及鼻腔（頭頸除眼、腦以外的大部分）', 'The front of the neck, thyroid gland and larynx, tongue and mouth, face, scalp, pharynx and tonsil, the outside of the skull base and the dura mater, the jaws and teeth and the nasal cavity (most of the head and neck except the eye and brain)'),
   },
   'internal carotid artery': {
     來源: e('總頸動脈在甲狀軟骨上緣附近分叉的後外側終支', 'The back-lateral terminal branch of the common carotid artery, at about the upper border of the thyroid cartilage'),
