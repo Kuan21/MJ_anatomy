@@ -462,3 +462,72 @@ Object.assign(CARD_EXTRAS, {
   },
 });
 // ===== B04–B05 end =====
+
+// Head-and-neck cranial and trigeminal-branch nerves (card batch B01). Standard anatomy only; fields we are not sure of stay out.
+Object.assign(CARD_EXTRAS, {
+  'facial nerve (vii)': {
+    來源: e('第七對腦神經，自橋腦與延髓交界處外側出腦，含運動、感覺與副交感纖維', 'Cranial nerve VII, leaving the brainstem at the pontomedullary junction; carries motor, sensory and parasympathetic fibres'),
+    走向: e('與前庭耳蝸神經同入內耳道，穿過顳骨內的顏面神經管，由莖乳突孔出顱；進入腮腺後分成顳支、顴支、頰支、下頷緣支與頸支；鼓索神經在顏面神經管內分出，之後與舌神經會合', 'Enters the internal acoustic meatus with the vestibulocochlear nerve, runs through the facial canal of the temporal bone and exits at the stylomastoid foramen; within the parotid gland it divides into temporal, zygomatic, buccal, marginal mandibular and cervical branches; the chorda tympani leaves it in the facial canal and later joins the lingual nerve'),
+    支配範圍: e('運動：顏面表情肌（頸支支配闊頸肌）、莖突舌骨肌、二腹肌後腹、鐙骨肌；感覺：舌前三分之二的味覺；副交感：淚腺、下頷下腺、舌下腺', 'Motor to the muscles of facial expression (the cervical branch supplies platysma), stylohyoid, posterior belly of digastric and stapedius; taste of the front two-thirds of the tongue; parasympathetic to the lacrimal, submandibular and sublingual glands'),
+  },
+  'trigeminal nerve (v)': {
+    來源: e('第五對腦神經，自橋腦外側面出腦，有較粗的感覺根與較細的運動根', 'Cranial nerve V, leaving the lateral pons with a large sensory root and a small motor root'),
+    走向: e('感覺根連到顳骨岩部尖端的三叉神經節，再分成眼神經、上頷神經與下頷神經三支；運動根繞過神經節下方，只加入下頷神經', 'The sensory root joins the trigeminal ganglion at the apex of the petrous temporal bone and divides into the ophthalmic, maxillary and mandibular nerves; the motor root passes beneath the ganglion and joins only the mandibular nerve'),
+    支配範圍: e('臉部與前頭皮膚、口腔與鼻腔黏膜、牙齒與硬腦膜的一般感覺；運動（經下頷神經）支配咀嚼肌（咬肌、顳肌、內翼肌、外翼肌）、下頷舌骨肌、二腹肌前腹、張顎帆肌與鼓膜張肌', 'General sensation of the facial and frontal skin, oral and nasal mucosa, teeth and dura mater; motor (through the mandibular nerve) to the muscles of mastication (masseter, temporalis, medial and lateral pterygoids), mylohyoid, the anterior belly of digastric, tensor veli palatini and tensor tympani'),
+  },
+  'ophthalmic nerve': {
+    來源: e('三叉神經第一支（V1），由三叉神經節前內側發出', 'First division of the trigeminal nerve (V1), arising from the anteromedial part of the trigeminal ganglion'),
+    走向: e('向前走在海綿竇外側壁，於眶上裂附近分成淚腺神經、額神經與鼻睫神經，經眶上裂入眼眶；額神經在眶內向前，延續為眶上神經，穿眶上孔到前額', 'Runs forward in the lateral wall of the cavernous sinus, divides near the superior orbital fissure into the lacrimal, frontal and nasociliary nerves, and enters the orbit through the fissure; the frontal nerve runs forward in the orbit and continues as the supra-orbital nerve through the supra-orbital foramen to the forehead'),
+    支配範圍: e('純感覺：前額與頭頂前部皮膚、上眼瞼、鼻背與鼻尖、角膜與眼球、淚腺、鼻腔上部黏膜', 'Purely sensory: skin of the forehead and anterior scalp, upper eyelid, dorsum and tip of the nose, cornea and eyeball, lacrimal gland and the upper nasal mucosa'),
+  },
+  'maxillary nerve': {
+    來源: e('三叉神經第二支（V2），由三叉神經節中部發出', 'Second division of the trigeminal nerve (V2), arising from the middle of the trigeminal ganglion'),
+    走向: e('經海綿竇外側壁，在圓孔前先分出腦膜支，再由圓孔出顱入翼顎窩；在翼顎窩分出顴神經與後上齒槽神經，並與翼顎神經節相連；之後穿眶下裂進入眼眶，延續為眶下神經，途中發出中上（部分人有）與前上齒槽神經，最後由眶下孔到達臉部', 'Passes through the lateral wall of the cavernous sinus, gives a meningeal branch before the foramen rotundum, then leaves the skull by it into the pterygopalatine fossa; there it gives the zygomatic and posterior superior alveolar nerves and is connected to the pterygopalatine ganglion; it then enters the orbit through the inferior orbital fissure as the infra-orbital nerve, which gives middle (present in some people) and anterior superior alveolar branches on its way and reaches the face at the infra-orbital foramen'),
+    支配範圍: e('純感覺：下眼瞼、鼻側與上唇間的臉部皮膚、顴部與顳部前方皮膚、上排牙齒與牙齦、上頷竇、鼻腔與硬腭黏膜', 'Purely sensory: facial skin between the lower eyelid and upper lip, skin of the cheek bone and anterior temple, upper teeth and gingiva, maxillary sinus, nasal cavity and palatal mucosa'),
+  },
+  'mental nerve': {
+    來源: e('下齒槽神經的終末分支之一', 'A terminal branch of the inferior alveolar nerve'),
+    走向: e('下齒槽神經在下頷管內前行，於小臼齒附近分成頦神經與切牙神經；頦神經由頦孔穿出，向上分布於下唇與頦部', 'The inferior alveolar nerve divides in the mandibular canal near the premolars into the mental and incisive nerves; the mental nerve emerges through the mental foramen and spreads to the lower lip and chin'),
+    支配範圍: e('純感覺：下唇與頦部的皮膚、下唇黏膜與前牙區唇側牙齦', 'Purely sensory: skin of the lower lip and chin, mucosa of the lower lip and the labial gingiva of the anterior teeth'),
+  },
+  'buccal nerve': {
+    來源: e('下頷神經前股的感覺分支（三叉神經 V3）', 'Sensory branch of the anterior division of the mandibular nerve (trigeminal V3)'),
+    走向: e('自顳下窩由外翼肌兩個頭之間穿出，沿頰肌表面向前下行，分支穿過頰肌到達口腔', 'Emerges in the infratemporal fossa between the two heads of lateral pterygoid, runs forward and downward over buccinator, and sends branches through it into the mouth'),
+    支配範圍: e('頰部皮膚與頰內側黏膜、下排後牙頰側牙齦的一般感覺；不支配頰肌，頰肌屬顏面神經運動支配', 'General sensation of the skin of the cheek, the lining of the cheek and the buccal gingiva of the lower posterior teeth; it does not supply buccinator, which receives facial nerve motor fibres'),
+  },
+  'glossopharyngeal nerve (ix)': {
+    來源: e('第九對腦神經，自延髓橄欖後方上部出腦', 'Cranial nerve IX, leaving the medulla behind the upper part of the olive'),
+    走向: e('與迷走神經、副神經一同經頸靜脈孔出顱，伴著莖突咽肌下行並繞到其外側，穿過上、中咽縮肌之間進入咽壁，再向前至舌根', 'Leaves the skull through the jugular foramen with the vagus and accessory nerves, descends with stylopharyngeus and winds around its lateral side, passes between the superior and middle pharyngeal constrictors into the pharyngeal wall and continues forward to the root of the tongue'),
+    支配範圍: e('運動：莖突咽肌；感覺：舌後三分之一的一般感覺與味覺、咽黏膜、軟顎與扁桃體、中耳、頸動脈竇與頸動脈體；副交感：經耳神經節到腮腺', 'Motor to stylopharyngeus; general sensation and taste from the posterior third of the tongue, pharyngeal mucosa, soft palate and tonsil, middle ear, carotid sinus and carotid body; parasympathetic to the parotid gland via the otic ganglion'),
+  },
+  'vagus nerve (x)': {
+    來源: e('第十對腦神經，自延髓橄欖後方出腦，位於舌咽神經下方', 'Cranial nerve X, leaving the medulla behind the olive, below the glossopharyngeal nerve'),
+    走向: e('經頸靜脈孔出顱，出孔後略下方有下神經節；在頸部走於頸動脈鞘內，位於頸內靜脈與頸動脈之間的後方，並在此分出咽支與上喉神經（再分外支與內支）；之後入胸腔，喉返神經由此分出並上行回到喉部；主幹經肺根後方成為食道叢，隨食道穿過橫膈進入腹腔', 'Leaves the skull via the jugular foramen, with the inferior ganglion just below it; descends in the carotid sheath behind and between the internal jugular vein and the carotid artery, giving the pharyngeal branch and the superior laryngeal nerve (external and internal branches) in the neck; the recurrent laryngeal nerve arises in the thorax and returns upward to the larynx; the trunk passes behind the lung root to form the oesophageal plexus and accompanies the oesophagus through the diaphragm into the abdomen'),
+    支配範圍: e('運動：咽肌（莖突咽肌除外）、喉肌（外支支配環甲肌，喉返神經支配其餘喉內肌）、軟顎肌肉（張顎帆肌除外）；副交感：心、肺及消化道大部分；感覺：咽喉黏膜、內臟及部分外耳道皮膚', 'Motor to the pharyngeal muscles except stylopharyngeus, the laryngeal muscles (the external branch supplies cricothyroid, the recurrent laryngeal nerve the other intrinsic muscles) and the soft palate muscles except tensor veli palatini; parasympathetic to the heart, lungs and most of the gut; sensory from the pharyngeal and laryngeal mucosa, viscera and part of the external acoustic meatus'),
+  },
+  'hypoglossal nerve (xii)': {
+    來源: e('第十二對腦神經，自延髓錐體與橄欖之間的前外側溝出腦', 'Cranial nerve XII, leaving the medulla in the anterolateral sulcus between the pyramid and the olive'),
+    走向: e('經舌下神經管出顱，在頸部先走於頸內動脈與頸內靜脈之間，再弓形向前越過頸動脈淺面，經二腹肌後腹深面進入下頷下三角，沿舌骨舌肌外側入舌', 'Leaves the skull through the hypoglossal canal, descends between the internal carotid artery and internal jugular vein, arches forward over the carotid arteries, passes deep to the posterior belly of digastric into the submandibular triangle and enters the tongue lateral to hyoglossus'),
+    支配範圍: e('運動支配舌的所有內在肌，以及舌骨舌肌、頦舌肌、莖突舌肌；腭舌肌除外，由迷走神經支配；另攜帶第一頸神經（C1）纖維，分布到頦舌骨肌與甲狀舌骨肌', 'Motor to all intrinsic muscles of the tongue and to hyoglossus, genioglossus and styloglossus; palatoglossus is excluded and is supplied by the vagus nerve; it also carries C1 fibres that leave it to supply geniohyoid and thyrohyoid'),
+  },
+  'anterior division of mandibular nerve': {
+    來源: e('下頷神經（V3）出卵圓孔後，在顳下窩分出的較小前股', 'The smaller anterior division of the mandibular nerve (V3), given off in the infratemporal fossa after it leaves the foramen ovale'),
+    走向: e('在外翼肌深面前行，分出咬肌神經、顳深神經、外翼肌神經等運動支，以及感覺性的頰神經', 'Runs forward deep to lateral pterygoid and gives the motor masseteric, deep temporal and lateral pterygoid nerves plus the sensory buccal nerve'),
+    支配範圍: e('以運動為主：咬肌、顳肌、外翼肌；經頰神經帶來頰部的感覺', 'Mainly motor to masseter, temporalis and lateral pterygoid; the buccal nerve carries sensation from the cheek'),
+  },
+  'posterior division of mandibular nerve': {
+    來源: e('下頷神經（V3）在顳下窩分出的較大後股', 'The larger posterior division of the mandibular nerve (V3), given off in the infratemporal fossa'),
+    走向: e('在外翼肌深面下行，分為耳顳神經、舌神經與下齒槽神經三條主要分支', 'Descends deep to lateral pterygoid and divides into the auriculotemporal, lingual and inferior alveolar nerves'),
+    支配範圍: e('以感覺為主：耳前與顳部皮膚、外耳道、顳下頷關節、舌前三分之二的一般感覺、下排牙齒、下唇與頦部；耳顳神經另帶舌咽神經的副交感纖維（經耳神經節）到腮腺；經下頷舌骨肌神經支配下頷舌骨肌與二腹肌前腹', 'Mostly sensory to the skin in front of the ear and temple, the external acoustic meatus and the temporomandibular joint, general sensation of the front two-thirds of the tongue, the lower teeth, lower lip and chin; the auriculotemporal nerve also carries glossopharyngeal parasympathetic fibres (via the otic ganglion) to the parotid gland; the nerve to mylohyoid supplies mylohyoid and the anterior belly of digastric'),
+  },
+  'inferior alveolar nerve': {
+    來源: e('下頷神經後股最粗的分支', 'The largest branch of the posterior division of the mandibular nerve'),
+    走向: e('在內翼肌與下頷支之間下行，經下頷孔入下頷管，沿下牙根下方前行，於頦孔附近分成頦神經與切牙神經；入孔前先分出下頷舌骨肌神經', 'Descends between medial pterygoid and the mandibular ramus, enters the mandibular canal via the mandibular foramen, runs below the tooth roots and divides near the mental foramen into the mental and incisive nerves; the nerve to mylohyoid leaves it before it enters the foramen'),
+    支配範圍: e('下排牙齒與牙周組織的感覺；經頦神經支配下唇與頦部；經下頷舌骨肌神經運動支配下頷舌骨肌與二腹肌前腹', 'Sensation of the lower teeth and periodontium; the mental nerve supplies the lower lip and chin; the nerve to mylohyoid is motor to mylohyoid and the anterior belly of digastric'),
+  },
+  'nerve to mylohyoid muscle': {
+    來源: e('下齒槽神經在進入下頷孔之前分出的運動支', 'A motor branch of the inferior alveolar nerve given off just before it enters the mandibular foramen'),
+    走向: e('沿下頷支內面的下頷舌骨肌溝向下前行，再走在下頷舌骨肌的下面', 'Runs down and forward in the mylohyoid groove on the inner surface of the mandible, then along the lower surface of mylohyoid'),
+    支配範圍: e('運動支配下頷舌骨肌與二腹肌前腹', 'Motor to mylohyoid and the anterior belly of digastric'),
+  },
+});
