@@ -374,3 +374,11 @@ button.quiz-review-item:hover{background:#f4f7f9}
 .exam-station-row.is-correct{border-color:#9fd2bd;background:#f6fbf8}
 .exam-station-row.is-wrong,.exam-station-row.is-close{border-color:#e8b9b4;background:#fdf5f4}
 .exam-station-row p{margin:4px 0 0;font-size:12px;color:var(--quiz-muted)}
+.exam-app .quiz-name-actions .quiz-primary{white-space:nowrap;width:100%}
+@media(max-width:700px){
+  .is-exam .quiz-question-card{max-height:48%;padding:12px 18px}
+  .is-exam .quiz-target-hidden,.is-exam .exam-note{display:none}
+  .is-exam .exam-clock b{font-size:28px}
+  .is-exam .exam-side{margin:8px 0}
+  .is-exam .quiz-name-form label small{display:none}
+}
