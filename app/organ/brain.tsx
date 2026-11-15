@@ -1,6 +1,6 @@
-import {Switch} from '@/components/ui/switch';
 import {useEffect, useMemo, useRef, useState, type ReactNode} from 'react';
-import {ArrowLeft, ChevronDown, ChevronRight, Eye, EyeOff, RotateCcw} from 'lucide-react';
+import {ChevronDown, ChevronRight} from 'lucide-react';
+import {OrganAllToggle, OrganDetailLayout, OrganGroupNode, OrganLeftColumn, OrganPanel, OrganPartRow, OrganSegmented, OrganStage} from './organ-detail-layout';
 import {createBrainViewer, drawnWhenSelected} from './brain-viewer';
 import {createCsfScene, CSF_STEPS, type CsfSource} from './csf-scene';
 import {CSF_SHORT, CSF_STEP_NOTES} from './csf-notes';
@@ -10,7 +10,6 @@ import {cranialQuery, matchesCranial, singularQuery} from '../mj-cranial-search'
 import {factOf, markSharedFacts} from './brain-facts';
 import {NoteCardView} from './brain-note-card';
 import {SECTION_AXES, type BrainPart, type BrainView, type BrainViewState, type SectionAxis} from './brain-types';
-import './organ.css';
 
 const MAX_PEEL = 7;
 const DEEP = new Set(['basal', 'diencephalon', 'ventricles']);
@@ -165,20 +164,11 @@ export default function BrainDetail() {
   };
   const renderNode = (n: BrainTreeNode, depth: number): ReactNode => {
     const expanded = open.includes(n.id), some = n.all.some(partVisible);
-    return <div className="organ-group" key={n.id}>
-      <div className={`system-row organ-group-row ${some ? 'enabled' : ''}`}>
-        <button className="row-arrow" aria-expanded={expanded} aria-label={`${expanded ? '收合' : '展開'}${n.zh}`} onClick={() => setOpen(o => expanded ? o.filter(x => x !== n.id) : [...o, n.id])}>{expanded ? <ChevronDown size={13}/> : <ChevronRight size={13}/>}</button>
-        <button className="system-name" onClick={() => setOpen(o => expanded ? o.filter(x => x !== n.id) : [...o, n.id])} aria-expanded={expanded}><span className="system-dot" style={{background: depth === 0 ? '#8aa0ad' : '#b6c3cb'}}/><span lang="en">{n.en}<small lang="zh-Hant">{n.zh}</small></span><span className="system-count">{n.all.length}</span></button>
-        <Switch checked={some} onCheckedChange={() => setNodeVisible(n.all, !some)} aria-label={`${some ? '隱藏' : '顯示'}${n.zh}`}/>
-      </div>
-      {expanded && <div className="organ-subtree">
-        {n.children.map(c => renderNode(c, depth + 1))}
-        {n.leaf.length > 0 && <ul>{n.leaf.map(p => <li key={p.id} className="organ-part-row">
-          <button aria-pressed={view.selectedIds.includes(p.id)} onClick={() => choose(p.id)}><span lang="en">{displayEn(p)}</span><small lang="zh-Hant">{p.zh}{p.schematic ? '　〔示意〕' : ''}</small></button>
-          <button className="organ-eye" aria-label={`${partVisible(p) ? '隱藏' : '顯示'}${displayEn(p)}`} onClick={() => setNodeVisible([p], !partVisible(p))}>{partVisible(p) ? <Eye size={14}/> : <EyeOff size={14}/>}</button>
-        </li>)}</ul>}
-      </div>}
-    </div>;
+    return <OrganGroupNode key={n.id} en={n.en} zh={n.zh} count={n.all.length} depth={depth} expanded={expanded} visible={some}
+      onExpand={() => setOpen(o => expanded ? o.filter(x => x !== n.id) : [...o, n.id])} onVisible={() => setNodeVisible(n.all, !some)}>
+      {n.children.map(c => renderNode(c, depth + 1))}
+      {n.leaf.length > 0 && <ul>{n.leaf.map(p => <OrganPartRow key={p.id} selected={view.selectedIds.includes(p.id)} en={displayEn(p)} zh={`${p.zh}${p.schematic ? '　〔示意〕' : ''}`} onSelect={() => choose(p.id)} visible={partVisible(p)} onVisible={() => setNodeVisible([p], !partVisible(p))}/>)}</ul>}
+    </OrganGroupNode>;
   };
   const section = view.section;
   const chooseAxis = (axis: SectionAxis) => {
@@ -187,31 +177,23 @@ export default function BrainDetail() {
   };
   const reset = () => setView(v => ({...defaults, hiddenParts: peripheral.current, command: {id: v.command.id + 1, view: 'front'}}));
 
-  return <main className="organ-app" lang="zh-Hant">
-    <header className="organ-header">
-      <a className="organ-back" href="#/" aria-label="返回圖譜"><ArrowLeft size={18}/><span>返回圖譜</span></a>
-      <div className="organ-brand">MJ Anatomy <span>腦部詳細模式</span></div>
-      <button className="csf-toggle" aria-pressed={csf} disabled={!ready} onClick={() => setCsf(v => !v)}>CSF 流向</button>
-    </header>
-    <div className="organ-layout" inert={csf || undefined} aria-hidden={csf || undefined}>
-      <aside className="organ-left" aria-label="腦部構造清單">
-        <div className="organ-left-body">
-          <div className="organ-segmented" role="group" aria-label="全部開關">
-            <button onClick={() => patch({hiddenGroups: [], hiddenParts: [], isolate: null, fullNerves: true})}>全部開啟</button>
-            <button onClick={() => patch({hiddenGroups: BRAIN_GROUPS.map(g => g.id), isolate: null})}>全部關閉</button>
-          </div>
-          <div className="organ-segmented" role="group" aria-label="皮質顯示">
+  return <OrganDetailLayout title="腦部詳細模式" labels={{left: '腦部構造清單', stage: '腦部 3D 模型', panel: '腦部控制與說明'}}
+    headerActions={<button className="csf-toggle" aria-pressed={csf} disabled={!ready} onClick={() => setCsf(v => !v)}>CSF 流向</button>}
+    overlayOpen={csf} overlay={csf && <CsfPage exportRef={exportRef} onClose={() => setCsf(false)}/>}
+    left={<OrganLeftColumn onAllOn={() => patch({hiddenGroups: [], hiddenParts: [], isolate: null, fullNerves: true})} onAllOff={() => patch({hiddenGroups: BRAIN_GROUPS.map(g => g.id), isolate: null})}
+      query={query} onQuery={setQuery} ready={ready}
+      extras={<>
+          <OrganSegmented label="皮質顯示">
             <button aria-pressed={!!view.glass} onClick={toggleGlass} title="Glass cortex｜玻璃皮質：皮質半透明，深部核團、腦室、白質束一直可見"><span lang="en">Glass cortex</span><small lang="zh-Hant">玻璃皮質</small></button>
-          </div>
-          <div className="organ-segmented" role="group" aria-label="腦神經顯示範圍">
+          </OrganSegmented>
+          <OrganSegmented label="腦神經顯示範圍">
             <button aria-pressed={!view.fullNerves} onClick={() => patch({fullNerves: false})}><span lang="en">Near brain</span><small lang="zh-Hant">腦旁段</small></button>
             <button aria-pressed={!!view.fullNerves} onClick={() => patch({fullNerves: true})}><span lang="en">Full nerves</span><small lang="zh-Hant">完整神經</small></button>
-          </div>
-          {parts.some(p => p.schematic) && <div className="organ-segmented" role="group" aria-label="示意構造">
+          </OrganSegmented>
+          {parts.some(p => p.schematic) && <OrganSegmented label="示意構造">
             <button aria-pressed={!!view.isolate && view.isolate.length > 1 && view.isolate.every(id => byId.get(id)?.schematic || DEEP.has(byId.get(id)?.group ?? ''))} onClick={() => {if (view.isolate) {patch({isolate: null}); return;} const ids = parts.filter(p => p.schematic || DEEP.has(p.group)).map(p => p.id); setView(v => ({...v, isolate: ids, command: {id: v.command.id + 1, view: 'fit', focus: ids}}));}}>只看深部與示意構造（{parts.filter(p => p.schematic).length}）</button>
-          </div>}
-          <label className="organ-search"><span className="sr-only">搜尋構造</span><input type="search" value={query} placeholder="Search｜搜尋" onChange={e => setQuery(e.target.value)}/></label>
-          {!ready && <p className="organ-info-empty">載入中…</p>}
+          </OrganSegmented>}
+      </>}>
           {q ? <div className="organ-results" aria-live="polite">
             <h3>模型構造（{foundParts.length}）</h3>
             <ul>{foundParts.slice(0, 60).map(p => <li key={p.id} className="organ-part-row"><button aria-pressed={view.selectedIds.includes(p.id)} onClick={() => choose(p.id)}><span lang="en">{displayEn(p)}</span><small lang="zh-Hant">{p.zh}</small></button></li>)}</ul>
@@ -221,9 +203,9 @@ export default function BrainDetail() {
             {foundNotes.length > 80 && <p className="organ-info-empty">還有 {foundNotes.length - 80} 個，請輸入更多字。</p>}
             {!foundParts.length && !foundNotes.length && <p className="organ-info-empty">找不到符合的構造。</p>}
           </div> : <>
-          <button className="organ-all-toggle" aria-expanded={allOpen} onClick={() => setAllOpen(v => !v)}><span lang="en">All structures<small lang="zh-Hant">全部構造</small></span><b>{parts.length}</b>{allOpen ? <ChevronDown size={14}/> : <ChevronRight size={14}/>}</button>
+          <OrganAllToggle count={parts.length} open={allOpen} onToggle={() => setAllOpen(v => !v)}/>
           {allOpen ? <div className="organ-all">
-            <div className="organ-segmented" role="group" aria-label="排序"><button aria-pressed={allSort === 'name'} onClick={() => setAllSort('name')}>依名稱</button><button aria-pressed={allSort === 'region'} onClick={() => setAllSort('region')}>依分區</button></div>
+            <OrganSegmented label="排序"><button aria-pressed={allSort === 'name'} onClick={() => setAllSort('name')}>依名稱</button><button aria-pressed={allSort === 'region'} onClick={() => setAllSort('region')}>依分區</button></OrganSegmented>
             <ul>{[...parts].sort((a, b) => allSort === 'region' ? (regionOrder.get(a.id) ?? 0) - (regionOrder.get(b.id) ?? 0) || displayEn(a).localeCompare(displayEn(b)) : displayEn(a).localeCompare(displayEn(b))).map(p => {
               const fact = factOf(p);
               return <li key={p.id} className="organ-part-row"><button aria-pressed={view.selectedIds.includes(p.id)} onClick={() => choose(p.id)}><span lang="en">{displayEn(p)}</span><small lang="zh-Hant">{p.zh}{allSort === 'region' ? '' : `　${groupLabel(p)}`}{!fact ? '　〔資料待補〕' : fact.shared ? '　〔共用說明〕' : ''}{p.schematic ? '　〔示意〕' : ''}</small></button></li>;
@@ -241,19 +223,12 @@ export default function BrainDetail() {
             })}
           </div>}
           </>}
-        </div>
-      </aside>
-      <section className="organ-stage" aria-label="腦部 3D 模型">
-        <BrainScene view={view} exportRef={exportRef} onReady={p => {markSharedFacts(p.map(q => q.en)); peripheral.current = p.filter(q => q.peripheral).map(q => q.id); setView(v => ({...v, hiddenParts: [...new Set([...v.hiddenParts, ...peripheral.current])]})); setParts(p); setReady(true);}} onError={setError} onProgress={setPercent} onPick={select} onBusy={setCutBusy}/>
-        <div className="organ-views" aria-label="視角">{([['front', '前面'], ['back', '後面'], ['left', '左側'], ['right', '右側'], ['top', '上面'], ['bottom', '下面']] as const).map(([id, label]) => <button key={id} onClick={() => go(id)}>{label}</button>)}
-          <button onClick={reset} aria-label="還原預設" title="還原預設"><RotateCcw size={15}/></button></div>
-        {!ready && !error && <div className="organ-progress" role="status"><span className="organ-spinner"/><strong>載入腦部模型</strong><small>{percent ? `${percent}%` : '…'}</small></div>}
-        {cutBusy && <div className="organ-progress" role="status"><span className="organ-spinner"/><strong>正在計算平滑切面</strong><small>第一次切開需要幾秒</small></div>}
-        {error && <div className="organ-error stage" role="alert">{error}</div>}
-        <p className="organ-hint">拖曳旋轉 · 滾輪／雙指縮放 · 點選構造查看名稱</p>
-      </section>
-      <aside className="organ-panel" aria-label="腦部控制與說明">
-        <section className="organ-block organ-info" aria-live="polite">
+    </OrganLeftColumn>}
+    stage={<OrganStage ready={ready} error={error} percent={percent} loadingName="腦部模型" busy={cutBusy ? {title: '正在計算平滑切面', note: '第一次切開需要幾秒'} : null}
+      onView={id => go(id as BrainView)} onReset={reset}
+      canvas={<BrainScene view={view} exportRef={exportRef} onReady={p => {markSharedFacts(p.map(q => q.en)); peripheral.current = p.filter(q => q.peripheral).map(q => q.id); setView(v => ({...v, hiddenParts: [...new Set([...v.hiddenParts, ...peripheral.current])]})); setParts(p); setReady(true);}} onError={setError} onProgress={setPercent} onPick={select} onBusy={setCutBusy}/>}/>}
+    panel={<OrganPanel
+      info={<>
           {noteCard && notes ? <NoteCardView card={noteCard} data={notes} hasModel={!!noteCard.mesh?.length} approxModel={!noteCard.mesh?.length && !!noteCard.approx?.length} onFocus={() => openNote(noteCard)} onClose={() => setNoteId(null)}/> : selected ? <>
             {((view.hiddenGroups.includes(selected.group) && !drawnWhenSelected(selected.group)) || view.hiddenParts.includes(selected.id) || (!!view.isolate && !view.isolate.includes(selected.id))) && <p className="organ-out-of-view" role="status" lang="zh-Hant">不在目前視野，按 Focus 查看</p>}
             <h2 className="organ-info-title" lang="en">{displayEn(selected)}</h2>
@@ -286,32 +261,10 @@ export default function BrainDetail() {
             {partNotes.length > 0 && <div className="note-links"><h3>相關資訊卡</h3>{partNotes.map(c => <button key={c.id} onClick={() => openNote(c)}><span lang="en">{c.en}</span><small lang="zh-Hant">{c.zh}</small></button>)}</div>}
           </> : view.selectedIds.length > 1 ? <p>已選取 {view.selectedIds.length} 個構造。<button className="organ-clear" onClick={() => patch({selectedIds: []})}>取消選取</button></p>
             : <p className="organ-info-empty">點選模型或清單中的構造，會顯示名稱與分區。</p>}
-        </section>
-        <section className="organ-block">
-          <h2>Section<small>切面</small></h2>
-          <div className="organ-segmented" role="group" aria-label="切面方向">{AXES.map(axis => <button key={axis} aria-pressed={section.axis === axis} onClick={() => chooseAxis(axis)}>{axis === 'none' ? '不切' : SECTION_AXES[axis].zh}</button>)}</div>
-          {section.axis !== 'none' && <>
-            <label className="organ-slider"><span lang="en">{SECTION_AXES[section.axis].en}</span> · {SECTION_AXES[section.axis].cut} · 位置 {Math.round(section.offset * 100)}%
-              <input type="range" min={0} max={100} value={Math.round(section.offset * 100)} aria-label="切面位置" onChange={e => patch({section: {...section, offset: +e.target.value / 100}})}/></label>
-            <label className="organ-check"><input type="checkbox" checked={section.flip} onChange={e => patch({section: {...section, flip: e.target.checked}})}/>切除另一側</label>
-            <small>切面為實心截面：灰質（皮質）在外圈、白質在內；灰質厚度為示意。拖動滑桿即時更新；點選切面上的區域可選取該構造。</small>
-          </>}
-        </section>
-        <section className="organ-block">
-          <h2>Layers<small>逐層剝離</small></h2>
-          <div className="organ-segmented" role="group" aria-label="逐層剝離">
-            <button disabled={view.peel <= 0} onClick={() => patch({peel: Math.max(0, view.peel - 1)})}>Layer back｜回上一層</button>
-            <button disabled={view.peel >= MAX_PEEL} onClick={() => patch({peel: Math.min(MAX_PEEL, view.peel + 1)})}>Peel deeper｜再剝一層</button>
-          </div>
-          <small>由外而內：腦膜 → 皮質與小腦 → 腦幹 → 白質 → 基底核 → 間腦 → 腦室。目前已剝除 {view.peel} 層；血管與腦神經不受影響。</small>
-        </section>
-        <section className="organ-block organ-note">
-          <h2>模型範圍</h2>
+      </>}
+      section={{axes: SECTION_AXES, value: section, onAxis: chooseAxis, onChange: next => patch({section: next}), note: <small>切面為實心截面：灰質（皮質）在外圈、白質在內；灰質厚度為示意。拖動滑桿即時更新；點選切面上的區域可選取該構造。</small>}}
+      layers={{peel: view.peel, max: MAX_PEEL, onPeel: peel => patch({peel}), note: <small>由外而內：腦膜 → 皮質與小腦 → 腦幹 → 白質 → 基底核 → 間腦 → 腦室。目前已剝除 {view.peel} 層；血管與腦神經不受影響。</small>}}
+      scope={{text: <>
           <p>皮質各葉、腦溝與腦迴、小腦、腦幹、白質纖維束、基底核、間腦、腦室與脈絡叢、腦神經根部、腦動脈（含 Willis 環）、靜脈竇與硬腦膜反摺。已移除脊髓與脊神經等不屬於腦的構造。</p>
-          <p className="organ-source">切面灰白質分界為依皮質表面向內約 2.4 mm 產生的示意（體素 0.9 mm，以平滑場取等值面）。模型來源與授權見圖譜首頁的 Source & credits。</p>
-        </section>
-      </aside>
-    </div>
-    {csf && <CsfPage exportRef={exportRef} onClose={() => setCsf(false)}/>}
-  </main>;
+      </>, source: <p className="organ-source">切面灰白質分界為依皮質表面向內約 2.4 mm 產生的示意（體素 0.9 mm，以平滑場取等值面）。模型來源與授權見圖譜首頁的 Source & credits。</p>}}/>}/>;
 }
