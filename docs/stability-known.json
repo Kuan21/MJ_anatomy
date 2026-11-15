@@ -201,6 +201,11 @@
    "measure": 95,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
+  "cuts|runtime:micro-atlas.tsx": {
+   "name": "renderer clipping plane in micro-atlas.tsx",
+   "measure": 1,
+   "reason": "section plane of the eye detail mode: a cut view on purpose, switched on by its own button (user decision 2026-11-13)"
+  },
   "cuts|runtime:organ/brain-viewer.ts": {
    "name": "renderer clipping plane in organ/brain-viewer.ts",
    "measure": 1,
@@ -519,75 +524,19 @@
    "fraction": 0.9529914529914529,
    "severity": 20
   },
-  "detached|PK-418|shoulder abduction 120": {
-   "name": "Right costoclavicular ligament",
-   "measure": 27,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.84375,
-   "severity": 58
-  },
-  "detached|PK-418|shoulder flexion 150": {
-   "name": "Right costoclavicular ligament",
-   "measure": 32,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 1,
-   "severity": 60
-  },
-  "detached|PK-419|shoulder abduction 120": {
-   "name": "Right superior transverse scapular ligament",
-   "measure": 18,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.46153846153846156,
-   "severity": 60
-  },
   "detached|PK-419|shoulder flexion 150": {
    "name": "Right superior transverse scapular ligament",
    "measure": 16,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
+   "reason": "Not a detachment: the superior transverse scapular ligament attaches to the scapula at both ends (it bridges the suprascapular notch) and has no attachment on the clavicle; it only lies within 3 mm of the clavicle at rest, so it leaves it when the scapula turns in shoulder flexion 150. Exception added by hand with the user's approval on 2026-11-14 (PR #280); the ligament rides on the scapula as one piece.",
    "fraction": 0.41025641025641024,
-   "severity": 27
-  },
-  "detached|PK-420|shoulder flexion 150": {
-   "name": "Right inferior transverse scapular ligament",
-   "measure": 7,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.7,
-   "severity": 19
-  },
-  "detached|PK-422|shoulder abduction 120": {
-   "name": "Left costoclavicular ligament",
-   "measure": 32,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.8888888888888888,
-   "severity": 60
-  },
-  "detached|PK-422|shoulder flexion 150": {
-   "name": "Left costoclavicular ligament",
-   "measure": 36,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 1,
-   "severity": 60
-  },
-  "detached|PK-423|shoulder abduction 120": {
-   "name": "Left superior transverse scapular ligament",
-   "measure": 20,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.5128205128205128,
-   "severity": 60
+   "severity": 34
   },
   "detached|PK-423|shoulder flexion 150": {
    "name": "Left superior transverse scapular ligament",
    "measure": 14,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
+   "reason": "Not a detachment: the superior transverse scapular ligament attaches to the scapula at both ends (it bridges the suprascapular notch) and has no attachment on the clavicle; it only lies within 3 mm of the clavicle at rest, so it leaves it when the scapula turns in shoulder flexion 150. Exception added by hand with the user's approval on 2026-11-14 (PR #280); the ligament rides on the scapula as one piece.",
    "fraction": 0.358974358974359,
-   "severity": 28
-  },
-  "detached|PK-424|shoulder flexion 150": {
-   "name": "Left inferior transverse scapular ligament",
-   "measure": 7,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.6363636363636364,
-   "severity": 20
+   "severity": 33
   },
   "detached|PK-430|hip flexion 120 knee flexion 130": {
    "name": "Left quadriceps tendon",
@@ -623,20 +572,6 @@
    "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.7380952380952381,
    "severity": 55
-  },
-  "detached|PK-477|hip flexion 120 knee flexion 130": {
-   "name": "Right lateral patellar retinaculum",
-   "measure": 11,
-   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.5789473684210527,
-   "severity": 21
-  },
-  "detached|PK-482|hip flexion 120 knee flexion 130": {
-   "name": "Left lateral patellar retinaculum",
-   "measure": 11,
-   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.55,
-   "severity": 20
   },
   "detached|PK-7|shoulder abduction 120": {
    "name": "Clavicular branch of left thoraco-acromial artery",
@@ -3944,213 +3879,122 @@
   },
   "stretch|BP3S-FMA13358|shoulder abduction 120": {
    "name": "Right latissimus dorsi",
-   "measure": 1749,
+   "measure": 10,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.10938086303939963,
-   "severity": 7.1
+   "fraction": 0.0006253908692933083,
+   "severity": 2
   },
   "stretch|BP3S-FMA13358|shoulder flexion 150": {
    "name": "Right latissimus dorsi",
-   "measure": 2288,
+   "measure": 12,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.14308943089430895,
-   "severity": 7.4
+   "fraction": 0.00075046904315197,
+   "severity": 2
   },
   "stretch|BP3S-FMA13359|shoulder abduction 120": {
    "name": "Left latissimus dorsi",
-   "measure": 1684,
+   "measure": 10,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.10527631907976995,
-   "severity": 4.3
+   "fraction": 0.000625156289072268,
+   "severity": 2
   },
   "stretch|BP3S-FMA13359|shoulder flexion 150": {
    "name": "Left latissimus dorsi",
-   "measure": 2338,
+   "measure": 47,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.14616154038509627,
-   "severity": 4.6
+   "fraction": 0.0029382345586396598,
+   "severity": 2
   },
   "stretch|FJ1395M|hip flexion 120 knee flexion 130": {
    "name": "Long head of left biceps femoris",
-   "measure": 89,
+   "measure": 12,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.0791814946619217,
-   "severity": 8.4
+   "fraction": 0.010676156583629894,
+   "severity": 2
   },
   "stretch|FJ1395|hip flexion 120 knee flexion 130": {
    "name": "Long head of right biceps femoris",
-   "measure": 100,
+   "measure": 4,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.08896797153024912,
-   "severity": 7.7
+   "fraction": 0.0035587188612099642,
+   "severity": 2
   },
   "stretch|FJ1397M|hip flexion 120 knee flexion 130": {
    "name": "Medial head of left gastrocnemius",
-   "measure": 9,
+   "measure": 8,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.010089686098654708,
+   "fraction": 0.008968609865470852,
    "severity": 2
   },
   "stretch|FJ1397|hip flexion 120 knee flexion 130": {
    "name": "Medial head of right gastrocnemius",
-   "measure": 16,
+   "measure": 6,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.018140589569160998,
+   "fraction": 0.006802721088435374,
    "severity": 2
-  },
-  "stretch|FJ1401M|hip flexion 120 knee flexion 130": {
-   "name": "Left adductor brevis",
-   "measure": 18,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.034482758620689655,
-   "severity": 2.2
   },
   "stretch|FJ1401|hip flexion 120 knee flexion 130": {
    "name": "Right adductor brevis",
-   "measure": 18,
+   "measure": 2,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.03409090909090909,
-   "severity": 2.6
-  },
-  "stretch|FJ1402M|hip flexion 120 knee flexion 130": {
-   "name": "Left adductor longus",
-   "measure": 42,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.07317073170731707,
-   "severity": 3.4
+   "fraction": 0.003787878787878788,
+   "severity": 2
   },
   "stretch|FJ1402|hip flexion 120 knee flexion 130": {
    "name": "Right adductor longus",
-   "measure": 46,
+   "measure": 2,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.08013937282229965,
-   "severity": 3
-  },
-  "stretch|FJ1403M|hip flexion 120 knee flexion 130": {
-   "name": "Left adductor magnus",
-   "measure": 70,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.04221954161640531,
-   "severity": 2.8
-  },
-  "stretch|FJ1403|hip flexion 120 knee flexion 130": {
-   "name": "Right adductor magnus",
-   "measure": 59,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.035800970873786406,
-   "severity": 6.1
-  },
-  "stretch|FJ1404M|hip flexion 120 knee flexion 130": {
-   "name": "Left adductor minimus",
-   "measure": 32,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.040100250626566414,
-   "severity": 2.9
-  },
-  "stretch|FJ1404|hip flexion 120 knee flexion 130": {
-   "name": "Right adductor minimus",
-   "measure": 35,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.04408060453400504,
-   "severity": 3
+   "fraction": 0.003484320557491289,
+   "severity": 2
   },
   "stretch|FJ1416M|hip flexion 120 knee flexion 130": {
    "name": "Left gemellus inferior",
-   "measure": 65,
+   "measure": 56,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.1425438596491228,
-   "severity": 3.5
+   "fraction": 0.12280701754385964,
+   "severity": 2.4
   },
   "stretch|FJ1416|hip flexion 120 knee flexion 130": {
    "name": "Right gemellus inferior",
-   "measure": 62,
+   "measure": 59,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.13478260869565217,
-   "severity": 3
-  },
-  "stretch|FJ1417M|hip flexion 120 knee flexion 130": {
-   "name": "Left gemellus superior",
-   "measure": 3,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.00980392156862745,
-   "severity": 2
-  },
-  "stretch|FJ1417|hip flexion 120 knee flexion 130": {
-   "name": "Right gemellus superior",
-   "measure": 5,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.016339869281045753,
-   "severity": 2
+   "fraction": 0.1282608695652174,
+   "severity": 2.4
   },
   "stretch|FJ1418M|hip flexion 120 knee flexion 130": {
    "name": "Left gluteus maximus",
-   "measure": 12,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.00967741935483871,
-   "severity": 2
-  },
-  "stretch|FJ1418|hip flexion 120 knee flexion 130": {
-   "name": "Right gluteus maximus",
-   "measure": 12,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.009708737864077669,
-   "severity": 2
-  },
-  "stretch|FJ1419|hip flexion 120 knee flexion 130": {
-   "name": "Right gluteus medius",
    "measure": 2,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.00145985401459854,
-   "severity": 2
-  },
-  "stretch|FJ1420|hip flexion 120 knee flexion 130": {
-   "name": "Right gluteus minimus",
-   "measure": 2,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.0013966480446927375,
+   "fraction": 0.0016129032258064516,
    "severity": 2
   },
   "stretch|FJ1421M|hip flexion 120 knee flexion 130": {
    "name": "Left gracilis",
-   "measure": 21,
+   "measure": 4,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.03017241379310345,
-   "severity": 2.4
+   "fraction": 0.005747126436781609,
+   "severity": 2
   },
   "stretch|FJ1421|hip flexion 120 knee flexion 130": {
    "name": "Right gracilis",
-   "measure": 24,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.034482758620689655,
-   "severity": 3.1
-  },
-  "stretch|FJ1426M|hip flexion 120 knee flexion 130": {
-   "name": "Left obturator internus",
    "measure": 2,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.001589825119236884,
-   "severity": 2
-  },
-  "stretch|FJ1426|hip flexion 120 knee flexion 130": {
-   "name": "Right obturator internus",
-   "measure": 2,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.0016,
+   "fraction": 0.0028735632183908046,
    "severity": 2
   },
   "stretch|FJ1427M|hip flexion 120 knee flexion 130": {
    "name": "Left pectineus",
-   "measure": 40,
+   "measure": 6,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.05865102639296188,
-   "severity": 3.2
+   "fraction": 0.008797653958944282,
+   "severity": 2
   },
   "stretch|FJ1427|hip flexion 120 knee flexion 130": {
    "name": "Right pectineus",
-   "measure": 32,
+   "measure": 2,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.0471976401179941,
-   "severity": 4
+   "fraction": 0.0029498525073746312,
+   "severity": 2
   },
   "stretch|FJ1429M|hip flexion 120 knee flexion 130": {
    "name": "Left plantaris",
@@ -4161,129 +4005,87 @@
   },
   "stretch|FJ1429|hip flexion 120 knee flexion 130": {
    "name": "Right plantaris",
-   "measure": 6,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.010869565217391304,
-   "severity": 2
-  },
-  "stretch|FJ1431M|hip flexion 120 knee flexion 130": {
-   "name": "Left psoas major",
    "measure": 4,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.0028530670470756064,
+   "fraction": 0.007246376811594203,
    "severity": 2
   },
   "stretch|FJ1432M|hip flexion 120 knee flexion 130": {
    "name": "Left quadratus femoris",
-   "measure": 162,
+   "measure": 68,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.2071611253196931,
-   "severity": 14.8
+   "fraction": 0.08695652173913043,
+   "severity": 2.2
   },
   "stretch|FJ1432|hip flexion 120 knee flexion 130": {
    "name": "Right quadratus femoris",
-   "measure": 165,
+   "measure": 76,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.21153846153846154,
-   "severity": 14.9
+   "fraction": 0.09743589743589744,
+   "severity": 2.3
   },
   "stretch|FJ1433M|hip flexion 120 knee flexion 130": {
    "name": "Left rectus femoris",
-   "measure": 25,
+   "measure": 10,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.02,
-   "severity": 2.1
+   "fraction": 0.008,
+   "severity": 2
   },
   "stretch|FJ1433|hip flexion 120 knee flexion 130": {
    "name": "Right rectus femoris",
-   "measure": 20,
+   "measure": 12,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.016,
-   "severity": 2.1
-  },
-  "stretch|FJ1435M|hip flexion 120 knee flexion 130": {
-   "name": "Left semimembranosus",
-   "measure": 123,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.12130177514792899,
-   "severity": 22.8
+   "fraction": 0.0096,
+   "severity": 2
   },
   "stretch|FJ1435|hip flexion 120 knee flexion 130": {
    "name": "Right semimembranosus",
-   "measure": 127,
+   "measure": 2,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.1252465483234714,
-   "severity": 22.8
-  },
-  "stretch|FJ1436M|hip flexion 120 knee flexion 130": {
-   "name": "Left semitendinosus",
-   "measure": 85,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.14261744966442952,
-   "severity": 29.9
-  },
-  "stretch|FJ1436|hip flexion 120 knee flexion 130": {
-   "name": "Right semitendinosus",
-   "measure": 93,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.15604026845637584,
-   "severity": 27.4
+   "fraction": 0.0019723865877712033,
+   "severity": 2
   },
   "stretch|FJ1441M|hip flexion 120 knee flexion 130": {
    "name": "Left vastus intermedius",
-   "measure": 108,
+   "measure": 2,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.11538461538461539,
-   "severity": 11.1
+   "fraction": 0.002136752136752137,
+   "severity": 2
   },
   "stretch|FJ1441|hip flexion 120 knee flexion 130": {
    "name": "Right vastus intermedius",
-   "measure": 100,
+   "measure": 2,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.10683760683760683,
-   "severity": 11.6
-  },
-  "stretch|FJ1442M|hip flexion 120 knee flexion 130": {
-   "name": "Left vastus lateralis",
-   "measure": 26,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.017687074829931974,
-   "severity": 2.5
-  },
-  "stretch|FJ1442|hip flexion 120 knee flexion 130": {
-   "name": "Right vastus lateralis",
-   "measure": 27,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.018367346938775512,
-   "severity": 2.6
+   "fraction": 0.002136752136752137,
+   "severity": 2
   },
   "stretch|FJ1443M|hip flexion 120 knee flexion 130": {
    "name": "Left vastus medialis",
-   "measure": 81,
+   "measure": 4,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.081,
-   "severity": 33.7
+   "fraction": 0.004,
+   "severity": 2
   },
   "stretch|FJ1443|hip flexion 120 knee flexion 130": {
    "name": "Right vastus medialis",
-   "measure": 78,
+   "measure": 14,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.078,
-   "severity": 29.6
+   "fraction": 0.014,
+   "severity": 2
   },
   "stretch|FJ1444M|hip flexion 120 knee flexion 130": {
    "name": "Short head of left biceps femoris",
-   "measure": 11,
+   "measure": 8,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.022916666666666665,
+   "fraction": 0.016666666666666666,
    "severity": 2
   },
   "stretch|FJ1444|hip flexion 120 knee flexion 130": {
    "name": "Short head of right biceps femoris",
-   "measure": 10,
+   "measure": 9,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.02032520325203252,
-   "severity": 2.1
+   "fraction": 0.018292682926829267,
+   "severity": 2
   },
   "stretch|FJ1446M|shoulder abduction 120": {
    "name": "Abdominal part of left pectoralis major",
@@ -4417,48 +4219,6 @@
    "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.3929663608562691,
    "severity": 2.3
-  },
-  "stretch|FJ1488M|shoulder abduction 120": {
-   "name": "Left coracobrachialis",
-   "measure": 22,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.07971014492753623,
-   "severity": 3
-  },
-  "stretch|FJ1488M|shoulder flexion 150": {
-   "name": "Left coracobrachialis",
-   "measure": 10,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.036231884057971016,
-   "severity": 2.8
-  },
-  "stretch|FJ1488|shoulder abduction 120": {
-   "name": "Right coracobrachialis",
-   "measure": 25,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.08928571428571429,
-   "severity": 3
-  },
-  "stretch|FJ1488|shoulder flexion 150": {
-   "name": "Right coracobrachialis",
-   "measure": 8,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.02857142857142857,
-   "severity": 2.8
-  },
-  "stretch|FJ1505M|elbow flexion 140": {
-   "name": "Left supinator",
-   "measure": 133,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.10374414976599064,
-   "severity": 3.3
-  },
-  "stretch|FJ1505|elbow flexion 140": {
-   "name": "Right supinator",
-   "measure": 130,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.10268562401263823,
-   "severity": 3.3
   },
   "stretch|FJ1507M|shoulder abduction 120": {
    "name": "Left teres major",
@@ -4768,13 +4528,6 @@
    "fraction": 0.3602150537634409,
    "severity": 2.4
   },
-  "stretch|FJ2738|head extension 35": {
-   "name": "Left genioglossus",
-   "measure": 136,
-   "reason": "triangles stretch beyond 2x at head extension 35: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.05350118017309206,
-   "severity": 3
-  },
   "stretch|FJ2739|head extension 35": {
    "name": "Left hyoglossus",
    "measure": 309,
@@ -4788,13 +4541,6 @@
    "reason": "triangles stretch beyond 2x at head extension 35: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.00021958717610891525,
    "severity": 2
-  },
-  "stretch|FJ2750|head extension 35": {
-   "name": "Right genioglossus",
-   "measure": 129,
-   "reason": "triangles stretch beyond 2x at head extension 35: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.06201923076923077,
-   "severity": 3.1
   },
   "stretch|FJ2751|head extension 35": {
    "name": "Right hyoglossus",
@@ -4999,152 +4745,12 @@
    "fraction": 0.025714285714285714,
    "severity": 2.1
   },
-  "stretch|PK-417|shoulder abduction 120": {
-   "name": "Right coraco-acromial ligament",
-   "measure": 65,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.33163265306122447,
-   "severity": 2.5
-  },
-  "stretch|PK-417|shoulder flexion 150": {
-   "name": "Right coraco-acromial ligament",
-   "measure": 94,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.47959183673469385,
-   "severity": 2.8
-  },
-  "stretch|PK-418|shoulder abduction 120": {
-   "name": "Right costoclavicular ligament",
-   "measure": 152,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.7755102040816326,
-   "severity": 16.6
-  },
-  "stretch|PK-418|shoulder flexion 150": {
-   "name": "Right costoclavicular ligament",
-   "measure": 134,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.6836734693877551,
-   "severity": 10.1
-  },
-  "stretch|PK-419|shoulder abduction 120": {
-   "name": "Right superior transverse scapular ligament",
-   "measure": 112,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.5714285714285714,
-   "severity": 8.1
-  },
-  "stretch|PK-419|shoulder flexion 150": {
-   "name": "Right superior transverse scapular ligament",
-   "measure": 86,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.4387755102040816,
-   "severity": 4.4
-  },
-  "stretch|PK-420|shoulder abduction 120": {
-   "name": "Right inferior transverse scapular ligament",
-   "measure": 4,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.02040816326530612,
-   "severity": 2.5
-  },
-  "stretch|PK-420|shoulder flexion 150": {
-   "name": "Right inferior transverse scapular ligament",
-   "measure": 82,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.41836734693877553,
-   "severity": 5.8
-  },
-  "stretch|PK-421|shoulder abduction 120": {
-   "name": "Left coraco-acromial ligament",
-   "measure": 52,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.2653061224489796,
-   "severity": 2.6
-  },
-  "stretch|PK-421|shoulder flexion 150": {
-   "name": "Left coraco-acromial ligament",
-   "measure": 93,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.4744897959183674,
-   "severity": 3
-  },
-  "stretch|PK-422|shoulder abduction 120": {
-   "name": "Left costoclavicular ligament",
-   "measure": 161,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.8214285714285714,
-   "severity": 16.8
-  },
-  "stretch|PK-422|shoulder flexion 150": {
-   "name": "Left costoclavicular ligament",
-   "measure": 140,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.7142857142857143,
-   "severity": 9.3
-  },
-  "stretch|PK-423|shoulder abduction 120": {
-   "name": "Left superior transverse scapular ligament",
-   "measure": 113,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.576530612244898,
-   "severity": 7.6
-  },
-  "stretch|PK-423|shoulder flexion 150": {
-   "name": "Left superior transverse scapular ligament",
-   "measure": 78,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.3979591836734694,
-   "severity": 4.2
-  },
-  "stretch|PK-424|shoulder abduction 120": {
-   "name": "Left inferior transverse scapular ligament",
-   "measure": 8,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.04081632653061224,
-   "severity": 2.6
-  },
-  "stretch|PK-424|shoulder flexion 150": {
-   "name": "Left inferior transverse scapular ligament",
-   "measure": 80,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.40816326530612246,
-   "severity": 5.9
-  },
   "stretch|PK-46|shoulder flexion 150": {
    "name": "Left lateral cord of brachial plexus",
    "measure": 10,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.014285714285714285,
    "severity": 2
-  },
-  "stretch|PK-476|hip flexion 120 knee flexion 130": {
-   "name": "Right medial patellar retinaculum",
-   "measure": 42,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.22826086956521738,
-   "severity": 4.1
-  },
-  "stretch|PK-477|hip flexion 120 knee flexion 130": {
-   "name": "Right lateral patellar retinaculum",
-   "measure": 43,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.2905405405405405,
-   "severity": 4.8
-  },
-  "stretch|PK-481|hip flexion 120 knee flexion 130": {
-   "name": "Left medial patellar retinaculum",
-   "measure": 42,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.22826086956521738,
-   "severity": 3.9
-  },
-  "stretch|PK-482|hip flexion 120 knee flexion 130": {
-   "name": "Left lateral patellar retinaculum",
-   "measure": 48,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.32432432432432434,
-   "severity": 5
   },
   "stretch|PK-81-END|hip flexion 120 knee flexion 130": {
    "name": "Right superior gluteal artery",
@@ -5162,31 +4768,31 @@
   },
   "stretch|nerve:Lateral pectoral nerve.l.001|shoulder abduction 120": {
    "name": "Lateral pectoral nerve.l",
-   "measure": 208,
+   "measure": 105,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.028888888888888888,
-   "severity": 2.7
+   "fraction": 0.014583333333333334,
+   "severity": 2.1
   },
   "stretch|nerve:Lateral pectoral nerve.l.001|shoulder flexion 150": {
    "name": "Lateral pectoral nerve.l",
-   "measure": 336,
+   "measure": 314,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.04666666666666667,
-   "severity": 3
+   "fraction": 0.043611111111111114,
+   "severity": 2.4
   },
   "stretch|nerve:Lateral pectoral nerve.r.001|shoulder abduction 120": {
    "name": "Lateral pectoral nerve.r",
-   "measure": 208,
+   "measure": 131,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.028888888888888888,
-   "severity": 2.8
+   "fraction": 0.018194444444444444,
+   "severity": 2.1
   },
   "stretch|nerve:Lateral pectoral nerve.r.001|shoulder flexion 150": {
    "name": "Lateral pectoral nerve.r",
-   "measure": 342,
+   "measure": 316,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure.",
-   "fraction": 0.0475,
-   "severity": 3
+   "fraction": 0.04388888888888889,
+   "severity": 2.4
   },
   "stretch|nerve:Muscular branches of radial nerve.l.001|elbow flexion 140": {
    "name": "Muscular branches of radial nerve.l",
@@ -5215,34 +4821,6 @@
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure.",
    "fraction": 0.05876068376068376,
    "severity": 2.1
-  },
-  "stretch|nerve:Superior lateral brachial cutaneous nerve.l.001|shoulder abduction 120": {
-   "name": "Superior lateral brachial cutaneous nerve.l",
-   "measure": 106,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.05257936507936508,
-   "severity": 2.5
-  },
-  "stretch|nerve:Superior lateral brachial cutaneous nerve.l.001|shoulder flexion 150": {
-   "name": "Superior lateral brachial cutaneous nerve.l",
-   "measure": 1054,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure.",
-   "fraction": 0.5228174603174603,
-   "severity": 2.9
-  },
-  "stretch|nerve:Superior lateral brachial cutaneous nerve.r.001|shoulder abduction 120": {
-   "name": "Superior lateral brachial cutaneous nerve.r",
-   "measure": 106,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.05257936507936508,
-   "severity": 2.6
-  },
-  "stretch|nerve:Superior lateral brachial cutaneous nerve.r.001|shoulder flexion 150": {
-   "name": "Superior lateral brachial cutaneous nerve.r",
-   "measure": 1050,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure.",
-   "fraction": 0.5208333333333334,
-   "severity": 2.9
   },
   "stretch|nerve:Suprascapular nerve.l.001|shoulder abduction 120": {
    "name": "Suprascapular nerve.l",

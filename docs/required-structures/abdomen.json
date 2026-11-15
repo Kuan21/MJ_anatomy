@@ -1,0 +1,2852 @@
+{
+ "version": 1,
+ "kind": "names-only",
+ "structures": [
+  {
+   "id": "RS-A-0001",
+   "en": "Esophagus",
+   "zh": "食道",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0002",
+   "en": "Stomach",
+   "zh": "胃",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0003",
+   "en": "Fundus of stomach",
+   "zh": "胃底",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0004",
+   "en": "Lesser curvature of stomach",
+   "zh": "胃小彎",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0005",
+   "en": "Greater curvature of stomach",
+   "zh": "胃大彎",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0006",
+   "en": "Pylorus",
+   "zh": "幽門",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0007",
+   "en": "Duodenum",
+   "zh": "十二指腸",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0008",
+   "en": "Duodenojejunal flexure",
+   "zh": "十二指腸空腸彎曲",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0009",
+   "en": "Jejunum",
+   "zh": "空腸",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0010",
+   "en": "Ileum",
+   "zh": "迴腸",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0011",
+   "en": "Ileocecal junction",
+   "zh": "迴盲部",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0012",
+   "en": "Cecum",
+   "zh": "盲腸",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0013",
+   "en": "Appendix",
+   "zh": "闌尾",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0014",
+   "en": "Ascending colon",
+   "zh": "升結腸",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0015",
+   "en": "Right colic flexure",
+   "zh": "右結腸彎曲",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0016",
+   "en": "Transverse colon",
+   "zh": "橫結腸",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0017",
+   "en": "Left colic flexure",
+   "zh": "左大腸彎",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0018",
+   "en": "Descending colon",
+   "zh": "降結腸",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0019",
+   "en": "Sigmoid colon",
+   "zh": "乙狀結腸",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0020",
+   "en": "Rectum",
+   "zh": "直腸",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0021",
+   "en": "Anus",
+   "zh": "肛門",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0022",
+   "en": "Liver",
+   "zh": "肝臟",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0023",
+   "en": "Gallbladder",
+   "zh": "膽囊",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0024",
+   "en": "Bile duct (common bile duct)",
+   "zh": "膽管",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0025",
+   "en": "Portal triad",
+   "zh": "肝門三體",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0026",
+   "en": "Hepatic sinusoid",
+   "zh": "肝竇隙",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure"
+  },
+  {
+   "id": "RS-A-0027",
+   "en": "Central vein of liver lobule",
+   "zh": "中央靜脈",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure"
+  },
+  {
+   "id": "RS-A-0028",
+   "en": "Hepatic plate",
+   "zh": "肝板",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure"
+  },
+  {
+   "id": "RS-A-0029",
+   "en": "Pancreas",
+   "zh": "胰臟",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0030",
+   "en": "Spleen",
+   "zh": "脾臟",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0031",
+   "en": "Kidney",
+   "zh": "腎臟",
+   "type": "organ",
+   "topics": [
+    "urinary"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0032",
+   "en": "Renal cortex",
+   "zh": "腎皮質",
+   "type": "organ",
+   "topics": [
+    "urinary"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0033",
+   "en": "Renal medulla",
+   "zh": "腎髓質",
+   "type": "organ",
+   "topics": [
+    "urinary"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0034",
+   "en": "Renal pyramid",
+   "zh": "腎錐體",
+   "type": "organ",
+   "topics": [
+    "urinary"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0035",
+   "en": "Renal column",
+   "zh": "腎柱",
+   "type": "organ",
+   "topics": [
+    "urinary"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0036",
+   "en": "Renal papilla",
+   "zh": "腎乳突",
+   "type": "organ",
+   "topics": [
+    "urinary"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0037",
+   "en": "Minor calyx",
+   "zh": "腎小盞",
+   "type": "organ",
+   "topics": [
+    "urinary"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0038",
+   "en": "Major calyx",
+   "zh": "腎大盞",
+   "type": "organ",
+   "topics": [
+    "urinary"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0039",
+   "en": "Renal pelvis",
+   "zh": "腎盂",
+   "type": "organ",
+   "topics": [
+    "urinary"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0040",
+   "en": "Renal sinus",
+   "zh": "腎竇",
+   "type": "organ",
+   "topics": [
+    "urinary"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0041",
+   "en": "Hilum of kidney",
+   "zh": "腎門",
+   "type": "organ",
+   "topics": [
+    "urinary"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0042",
+   "en": "Nephron",
+   "zh": "腎元",
+   "type": "organ",
+   "topics": [
+    "urinary"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure"
+  },
+  {
+   "id": "RS-A-0043",
+   "en": "Ureter",
+   "zh": "輸尿管",
+   "type": "organ",
+   "topics": [
+    "urinary"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0044",
+   "en": "Urinary bladder",
+   "zh": "膀胱",
+   "type": "organ",
+   "topics": [
+    "urinary"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0045",
+   "en": "Suprarenal gland",
+   "zh": "腎上腺",
+   "type": "gland",
+   "topics": [
+    "urinary"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0046",
+   "en": "Peritoneum",
+   "zh": "腹膜",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0047",
+   "en": "Parietal peritoneum",
+   "zh": "壁層腹膜",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0048",
+   "en": "Visceral peritoneum",
+   "zh": "臟層腹膜",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0049",
+   "en": "Peritoneal cavity",
+   "zh": "腹膜腔",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0050",
+   "en": "Greater sac",
+   "zh": "大囊",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0051",
+   "en": "Lesser sac (omental bursa)",
+   "zh": "小囊（網膜囊）",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0052",
+   "en": "Omental foramen (epiploic foramen)",
+   "zh": "網膜孔",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0053",
+   "en": "Greater omentum",
+   "zh": "大網膜",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0054",
+   "en": "Lesser omentum",
+   "zh": "小網膜",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0055",
+   "en": "Hepatogastric ligament",
+   "zh": "肝胃韌帶",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0056",
+   "en": "Hepatoduodenal ligament",
+   "zh": "肝十二指腸韌帶",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0057",
+   "en": "Mesentery",
+   "zh": "小腸繫膜",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0058",
+   "en": "Root of mesentery",
+   "zh": "腸繫膜根部",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0059",
+   "en": "Transverse mesocolon",
+   "zh": "橫結腸繫膜",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0060",
+   "en": "Sigmoid mesocolon",
+   "zh": "乙狀結腸繫膜",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0061",
+   "en": "Mesoappendix",
+   "zh": "闌尾繫膜",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0062",
+   "en": "Median umbilical fold",
+   "zh": "正中臍襞",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0063",
+   "en": "Medial umbilical fold",
+   "zh": "內側臍襞",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0064",
+   "en": "Lateral umbilical fold",
+   "zh": "外側臍襞",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0065",
+   "en": "Falciform ligament",
+   "zh": "鐮狀韌帶",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0066",
+   "en": "Round ligament of liver",
+   "zh": "肝圓韌帶",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0067",
+   "en": "Median umbilical ligament",
+   "zh": "正中臍韌帶",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0068",
+   "en": "Medial umbilical ligament",
+   "zh": "內側臍韌帶",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0069",
+   "en": "Abdominal aorta",
+   "zh": "腹主動脈",
+   "type": "artery",
+   "topics": [
+    "aorta-branches"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0070",
+   "en": "Celiac trunk",
+   "zh": "腹腔動脈幹",
+   "type": "artery",
+   "topics": [
+    "celiac"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0071",
+   "en": "Left gastric artery",
+   "zh": "左胃動脈",
+   "type": "artery",
+   "topics": [
+    "celiac"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0072",
+   "en": "Esophageal branch of left gastric artery",
+   "zh": "左胃動脈食道支",
+   "type": "artery",
+   "topics": [
+    "celiac"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0073",
+   "en": "Splenic artery",
+   "zh": "脾動脈",
+   "type": "artery",
+   "topics": [
+    "celiac"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0074",
+   "en": "Short gastric arteries",
+   "zh": "短胃動脈",
+   "type": "artery",
+   "topics": [
+    "celiac"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0075",
+   "en": "Left gastro-omental artery",
+   "zh": "左胃網膜動脈",
+   "type": "artery",
+   "topics": [
+    "celiac"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0076",
+   "en": "Posterior gastric artery",
+   "zh": "後胃動脈",
+   "type": "artery",
+   "topics": [
+    "celiac"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0077",
+   "en": "Dorsal pancreatic artery",
+   "zh": "背胰動脈",
+   "type": "artery",
+   "topics": [
+    "celiac"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0078",
+   "en": "Greater pancreatic artery",
+   "zh": "大胰動脈",
+   "type": "artery",
+   "topics": [
+    "celiac"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0079",
+   "en": "Common hepatic artery",
+   "zh": "總肝動脈",
+   "type": "artery",
+   "topics": [
+    "celiac"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0080",
+   "en": "Hepatic artery proper",
+   "zh": "肝固有動脈",
+   "type": "artery",
+   "topics": [
+    "celiac"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0081",
+   "en": "Left hepatic artery",
+   "zh": "左肝動脈",
+   "type": "artery",
+   "topics": [
+    "celiac"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0082",
+   "en": "Right hepatic artery",
+   "zh": "右肝動脈",
+   "type": "artery",
+   "topics": [
+    "celiac"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0083",
+   "en": "Cystic artery",
+   "zh": "膽囊動脈",
+   "type": "artery",
+   "topics": [
+    "celiac"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0084",
+   "en": "Right gastric artery",
+   "zh": "右胃動脈",
+   "type": "artery",
+   "topics": [
+    "celiac"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0085",
+   "en": "Gastroduodenal artery",
+   "zh": "胃十二指腸動脈",
+   "type": "artery",
+   "topics": [
+    "celiac"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0086",
+   "en": "Right gastro-omental artery",
+   "zh": "右胃網膜動脈",
+   "type": "artery",
+   "topics": [
+    "celiac"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0087",
+   "en": "Superior pancreaticoduodenal artery",
+   "zh": "上胰十二指腸動脈",
+   "type": "artery",
+   "topics": [
+    "celiac"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0088",
+   "en": "Anterior superior pancreaticoduodenal artery",
+   "zh": "前上胰十二指腸動脈",
+   "type": "artery",
+   "topics": [
+    "celiac"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0089",
+   "en": "Posterior superior pancreaticoduodenal artery",
+   "zh": "後上胰十二指腸動脈",
+   "type": "artery",
+   "topics": [
+    "celiac"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0090",
+   "en": "Supraduodenal artery",
+   "zh": "上十二指腸動脈",
+   "type": "artery",
+   "topics": [
+    "celiac"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0091",
+   "en": "Superior mesenteric artery",
+   "zh": "上腸繫膜動脈",
+   "type": "artery",
+   "topics": [
+    "sma"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0092",
+   "en": "Inferior pancreaticoduodenal artery",
+   "zh": "下胰十二指腸動脈",
+   "type": "artery",
+   "topics": [
+    "sma"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0093",
+   "en": "Anterior inferior pancreaticoduodenal artery",
+   "zh": "前下胰十二指腸動脈",
+   "type": "artery",
+   "topics": [
+    "sma"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0094",
+   "en": "Posterior inferior pancreaticoduodenal artery",
+   "zh": "後下胰十二指腸動脈",
+   "type": "artery",
+   "topics": [
+    "sma"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0095",
+   "en": "Jejunal arteries",
+   "zh": "空腸動脈",
+   "type": "artery",
+   "topics": [
+    "sma"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0096",
+   "en": "Ileal arteries",
+   "zh": "迴腸動脈",
+   "type": "artery",
+   "topics": [
+    "sma"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0097",
+   "en": "Ileocolic artery",
+   "zh": "迴結腸動脈",
+   "type": "artery",
+   "topics": [
+    "sma"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0098",
+   "en": "Appendicular artery",
+   "zh": "闌尾動脈",
+   "type": "artery",
+   "topics": [
+    "sma"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0099",
+   "en": "Right colic artery",
+   "zh": "右結腸動脈",
+   "type": "artery",
+   "topics": [
+    "sma"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0100",
+   "en": "Middle colic artery",
+   "zh": "中結腸動脈",
+   "type": "artery",
+   "topics": [
+    "sma"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0101",
+   "en": "Inferior mesenteric artery",
+   "zh": "下腸繫膜動脈",
+   "type": "artery",
+   "topics": [
+    "ima"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0102",
+   "en": "Left colic artery",
+   "zh": "左結腸動脈",
+   "type": "artery",
+   "topics": [
+    "ima"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0103",
+   "en": "Sigmoid arteries",
+   "zh": "乙狀結腸動脈",
+   "type": "artery",
+   "topics": [
+    "ima"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0104",
+   "en": "Superior rectal artery",
+   "zh": "上直腸動脈",
+   "type": "artery",
+   "topics": [
+    "ima"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0105",
+   "en": "Renal artery",
+   "zh": "腎動脈",
+   "type": "artery",
+   "topics": [
+    "aorta-branches"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0106",
+   "en": "Middle suprarenal artery",
+   "zh": "中腎上腺動脈",
+   "type": "artery",
+   "topics": [
+    "aorta-branches"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0107",
+   "en": "Superior suprarenal artery",
+   "zh": "上腎上腺動脈",
+   "type": "artery",
+   "topics": [
+    "aorta-branches"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0108",
+   "en": "Inferior suprarenal artery",
+   "zh": "下腎上腺動脈",
+   "type": "artery",
+   "topics": [
+    "aorta-branches"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0109",
+   "en": "Gonadal artery",
+   "zh": "生殖腺動脈",
+   "type": "artery",
+   "topics": [
+    "aorta-branches"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0110",
+   "en": "Testicular artery",
+   "zh": "睪丸動脈",
+   "type": "artery",
+   "topics": [
+    "aorta-branches"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0111",
+   "en": "Ovarian artery",
+   "zh": "卵巢動脈",
+   "type": "artery",
+   "topics": [
+    "aorta-branches"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0112",
+   "en": "Inferior phrenic artery",
+   "zh": "下膈動脈",
+   "type": "artery",
+   "topics": [
+    "aorta-branches"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0113",
+   "en": "Lumbar arteries",
+   "zh": "腰動脈",
+   "type": "artery",
+   "topics": [
+    "aorta-branches"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0114",
+   "en": "Median sacral artery",
+   "zh": "正中薦動脈",
+   "type": "artery",
+   "topics": [
+    "aorta-branches"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0115",
+   "en": "Subcostal artery",
+   "zh": "肋下動脈",
+   "type": "artery",
+   "topics": [
+    "aorta-branches"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0116",
+   "en": "Common iliac artery",
+   "zh": "總髂動脈",
+   "type": "artery",
+   "topics": [
+    "iliac"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0117",
+   "en": "Internal iliac artery",
+   "zh": "內髂動脈",
+   "type": "artery",
+   "topics": [
+    "iliac"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0118",
+   "en": "External iliac artery",
+   "zh": "外髂動脈",
+   "type": "artery",
+   "topics": [
+    "iliac"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0119",
+   "en": "Inferior epigastric artery",
+   "zh": "下腹壁動脈",
+   "type": "artery",
+   "topics": [
+    "abdominal-wall"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0120",
+   "en": "Deep circumflex iliac artery",
+   "zh": "深旋髂動脈",
+   "type": "artery",
+   "topics": [
+    "abdominal-wall"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0121",
+   "en": "Superficial epigastric artery",
+   "zh": "淺腹壁動脈",
+   "type": "artery",
+   "topics": [
+    "abdominal-wall"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0122",
+   "en": "Superficial circumflex iliac artery",
+   "zh": "淺旋髂動脈",
+   "type": "artery",
+   "topics": [
+    "abdominal-wall"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0123",
+   "en": "Superior epigastric artery",
+   "zh": "上腹壁動脈",
+   "type": "artery",
+   "topics": [
+    "abdominal-wall"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0124",
+   "en": "Musculophrenic artery",
+   "zh": "肌膈動脈",
+   "type": "artery",
+   "topics": [
+    "abdominal-wall"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0125",
+   "en": "Superior phrenic artery",
+   "zh": "上膈動脈",
+   "type": "artery",
+   "topics": [
+    "diaphragm"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0126",
+   "en": "Pericardiacophrenic artery",
+   "zh": "心包膜膈動脈",
+   "type": "artery",
+   "topics": [
+    "diaphragm"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0127",
+   "en": "Cremasteric artery",
+   "zh": "提睪肌動脈",
+   "type": "artery",
+   "topics": [
+    "abdominal-wall"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0128",
+   "en": "Inferior vesical artery",
+   "zh": "下膀胱動脈",
+   "type": "artery",
+   "topics": [
+    "abdominal-wall"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0129",
+   "en": "Inferior vena cava",
+   "zh": "下腔靜脈",
+   "type": "vein",
+   "topics": [
+    "ivc"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0130",
+   "en": "Hepatic veins",
+   "zh": "肝靜脈",
+   "type": "vein",
+   "topics": [
+    "ivc"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0131",
+   "en": "Inferior phrenic vein",
+   "zh": "下膈靜脈",
+   "type": "vein",
+   "topics": [
+    "ivc"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0132",
+   "en": "Renal vein",
+   "zh": "腎靜脈",
+   "type": "vein",
+   "topics": [
+    "ivc"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0133",
+   "en": "Right suprarenal vein",
+   "zh": "右腎上腺靜脈",
+   "type": "vein",
+   "topics": [
+    "ivc"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0134",
+   "en": "Left suprarenal vein",
+   "zh": "左腎上腺靜脈",
+   "type": "vein",
+   "topics": [
+    "ivc"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0135",
+   "en": "Right gonadal vein",
+   "zh": "右生殖腺靜脈",
+   "type": "vein",
+   "topics": [
+    "ivc"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0136",
+   "en": "Left gonadal vein",
+   "zh": "左生殖腺靜脈",
+   "type": "vein",
+   "topics": [
+    "ivc"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0137",
+   "en": "Testicular vein",
+   "zh": "睪丸靜脈",
+   "type": "vein",
+   "topics": [
+    "ivc"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0138",
+   "en": "Ovarian vein",
+   "zh": "卵巢靜脈",
+   "type": "vein",
+   "topics": [
+    "ivc"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0139",
+   "en": "Lumbar veins",
+   "zh": "腰靜脈",
+   "type": "vein",
+   "topics": [
+    "ivc"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0140",
+   "en": "Ascending lumbar vein",
+   "zh": "升腰靜脈",
+   "type": "vein",
+   "topics": [
+    "ivc"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0141",
+   "en": "Iliolumbar vein",
+   "zh": "髂腰靜脈",
+   "type": "vein",
+   "topics": [
+    "ivc"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0142",
+   "en": "Common iliac vein",
+   "zh": "總髂靜脈",
+   "type": "vein",
+   "topics": [
+    "ivc"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0143",
+   "en": "Median sacral vein",
+   "zh": "正中薦靜脈",
+   "type": "vein",
+   "topics": [
+    "ivc"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0144",
+   "en": "Azygos vein",
+   "zh": "奇靜脈",
+   "type": "vein",
+   "topics": [
+    "ivc"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0145",
+   "en": "Hemiazygos vein",
+   "zh": "半奇靜脈",
+   "type": "vein",
+   "topics": [
+    "ivc"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0146",
+   "en": "Hepatic portal vein",
+   "zh": "肝門靜脈",
+   "type": "vein",
+   "topics": [
+    "portal"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0147",
+   "en": "Splenic vein",
+   "zh": "脾靜脈",
+   "type": "vein",
+   "topics": [
+    "portal"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0148",
+   "en": "Superior mesenteric vein",
+   "zh": "上腸繫膜靜脈",
+   "type": "vein",
+   "topics": [
+    "portal"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0149",
+   "en": "Inferior mesenteric vein",
+   "zh": "下腸繫膜靜脈",
+   "type": "vein",
+   "topics": [
+    "portal"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0150",
+   "en": "Left gastric vein",
+   "zh": "左胃靜脈",
+   "type": "vein",
+   "topics": [
+    "portal"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0151",
+   "en": "Right gastric vein",
+   "zh": "右胃靜脈",
+   "type": "vein",
+   "topics": [
+    "portal"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0152",
+   "en": "Short gastric veins",
+   "zh": "短胃靜脈",
+   "type": "vein",
+   "topics": [
+    "portal"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0153",
+   "en": "Left gastro-omental vein",
+   "zh": "左胃網膜靜脈",
+   "type": "vein",
+   "topics": [
+    "portal"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0154",
+   "en": "Cystic vein",
+   "zh": "膽囊靜脈",
+   "type": "vein",
+   "topics": [
+    "portal"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0155",
+   "en": "Paraumbilical vein",
+   "zh": "臍旁靜脈",
+   "type": "vein",
+   "topics": [
+    "portal"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0156",
+   "en": "Superior rectal vein",
+   "zh": "上直腸靜脈",
+   "type": "vein",
+   "topics": [
+    "portal"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0157",
+   "en": "Middle rectal veins",
+   "zh": "中直腸靜脈",
+   "type": "vein",
+   "topics": [
+    "portal"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0158",
+   "en": "Inferior rectal veins",
+   "zh": "下直腸靜脈",
+   "type": "vein",
+   "topics": [
+    "portal"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0159",
+   "en": "Esophageal vein",
+   "zh": "食道靜脈",
+   "type": "vein",
+   "topics": [
+    "portal"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0160",
+   "en": "Pampiniform venous plexus",
+   "zh": "蔓狀靜脈叢",
+   "type": "vein",
+   "topics": [
+    "abdominal-wall"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0161",
+   "en": "Superficial epigastric vein",
+   "zh": "淺腹壁靜脈",
+   "type": "vein",
+   "topics": [
+    "abdominal-wall"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0162",
+   "en": "Superior epigastric vein",
+   "zh": "上腹壁靜脈",
+   "type": "vein",
+   "topics": [
+    "abdominal-wall"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0163",
+   "en": "Inferior epigastric vein",
+   "zh": "下腹壁靜脈",
+   "type": "vein",
+   "topics": [
+    "abdominal-wall"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0164",
+   "en": "Superficial circumflex iliac vein",
+   "zh": "淺旋髂靜脈",
+   "type": "vein",
+   "topics": [
+    "abdominal-wall"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0165",
+   "en": "Deep circumflex iliac vein",
+   "zh": "深旋髂靜脈",
+   "type": "vein",
+   "topics": [
+    "abdominal-wall"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0166",
+   "en": "Thoracoepigastric vein",
+   "zh": "胸腹壁靜脈",
+   "type": "vein",
+   "topics": [
+    "abdominal-wall"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0167",
+   "en": "External iliac vein",
+   "zh": "外髂靜脈",
+   "type": "vein",
+   "topics": [
+    "iliac"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0168",
+   "en": "Femoral vein",
+   "zh": "股靜脈",
+   "type": "vein",
+   "topics": [
+    "iliac"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0169",
+   "en": "Internal thoracic vein",
+   "zh": "內胸靜脈",
+   "type": "vein",
+   "topics": [
+    "abdominal-wall"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0170",
+   "en": "Thoracic duct",
+   "zh": "胸管",
+   "type": "lymph",
+   "topics": [
+    "lymphatic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0171",
+   "en": "Cisterna chyli",
+   "zh": "乳糜池",
+   "type": "lymph",
+   "topics": [
+    "lymphatic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0172",
+   "en": "Intestinal trunk",
+   "zh": "腸幹",
+   "type": "lymph",
+   "topics": [
+    "lymphatic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0173",
+   "en": "Right lumbar trunk",
+   "zh": "右腰幹",
+   "type": "lymph",
+   "topics": [
+    "lymphatic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0174",
+   "en": "Left lumbar trunk",
+   "zh": "左腰幹",
+   "type": "lymph",
+   "topics": [
+    "lymphatic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0175",
+   "en": "Celiac nodes",
+   "zh": "腹腔淋巴結",
+   "type": "lymph",
+   "topics": [
+    "lymphatic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0176",
+   "en": "Superior mesenteric nodes",
+   "zh": "上腸繫膜淋巴結",
+   "type": "lymph",
+   "topics": [
+    "lymphatic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0177",
+   "en": "Inferior mesenteric nodes",
+   "zh": "下腸繫膜淋巴結",
+   "type": "lymph",
+   "topics": [
+    "lymphatic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0178",
+   "en": "Pre-aortic nodes",
+   "zh": "主動脈前淋巴結",
+   "type": "lymph",
+   "topics": [
+    "lymphatic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0179",
+   "en": "Para-aortic nodes",
+   "zh": "主動脈旁淋巴結",
+   "type": "lymph",
+   "topics": [
+    "lymphatic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0180",
+   "en": "Lateral aortic nodes",
+   "zh": "左右側主動脈淋巴結",
+   "type": "lymph",
+   "topics": [
+    "lymphatic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0181",
+   "en": "Lumbar nodes",
+   "zh": "腰淋巴結",
+   "type": "lymph",
+   "topics": [
+    "lymphatic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0182",
+   "en": "Common iliac nodes",
+   "zh": "總髂淋巴結",
+   "type": "lymph",
+   "topics": [
+    "lymphatic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0183",
+   "en": "External iliac nodes",
+   "zh": "外髂淋巴結",
+   "type": "lymph",
+   "topics": [
+    "lymphatic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0184",
+   "en": "Internal iliac nodes",
+   "zh": "內髂淋巴結",
+   "type": "lymph",
+   "topics": [
+    "lymphatic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0185",
+   "en": "Superficial inguinal nodes",
+   "zh": "淺腹股溝淋巴結",
+   "type": "lymph",
+   "topics": [
+    "lymphatic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0186",
+   "en": "Vagus nerve",
+   "zh": "迷走神經",
+   "type": "nerve",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0187",
+   "en": "Anterior vagal trunk",
+   "zh": "前迷走神經幹",
+   "type": "nerve",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0188",
+   "en": "Posterior vagal trunk",
+   "zh": "後迷走神經幹",
+   "type": "nerve",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0189",
+   "en": "Phrenic nerve",
+   "zh": "膈神經",
+   "type": "nerve",
+   "topics": [
+    "diaphragm"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0190",
+   "en": "Greater splanchnic nerve",
+   "zh": "大內臟神經",
+   "type": "nerve",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0191",
+   "en": "Lesser splanchnic nerve",
+   "zh": "小內臟神經",
+   "type": "nerve",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0192",
+   "en": "Least splanchnic nerve",
+   "zh": "最小內臟神經",
+   "type": "nerve",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0193",
+   "en": "Lumbar splanchnic nerves",
+   "zh": "腰內臟神經",
+   "type": "nerve",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0194",
+   "en": "Pelvic splanchnic nerves",
+   "zh": "骨盆內臟神經",
+   "type": "nerve",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0195",
+   "en": "Sympathetic trunk",
+   "zh": "交感神經幹",
+   "type": "nerve",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0196",
+   "en": "Ganglion impar",
+   "zh": "奇神經節",
+   "type": "nerve",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0197",
+   "en": "Hypogastric nerve",
+   "zh": "下腹神經",
+   "type": "nerve",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0198",
+   "en": "Celiac ganglion",
+   "zh": "腹腔神經節",
+   "type": "ganglion",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0199",
+   "en": "Aorticorenal ganglion",
+   "zh": "主動脈腎神經節",
+   "type": "ganglion",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0200",
+   "en": "Superior mesenteric ganglion",
+   "zh": "上腸繫膜神經節",
+   "type": "ganglion",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0201",
+   "en": "Inferior mesenteric ganglion",
+   "zh": "下腸繫膜神經節",
+   "type": "ganglion",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0202",
+   "en": "Celiac plexus",
+   "zh": "腹腔叢",
+   "type": "plexus",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0203",
+   "en": "Aortic plexus",
+   "zh": "主動脈叢",
+   "type": "plexus",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0204",
+   "en": "Superior mesenteric plexus",
+   "zh": "上腸繫膜叢",
+   "type": "plexus",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0205",
+   "en": "Intermesenteric plexus",
+   "zh": "中腸繫膜叢",
+   "type": "plexus",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0206",
+   "en": "Inferior mesenteric plexus",
+   "zh": "下腸繫膜叢",
+   "type": "plexus",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0207",
+   "en": "Renal plexus",
+   "zh": "腎神經叢",
+   "type": "plexus",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0208",
+   "en": "Superior hypogastric plexus",
+   "zh": "上腹下神經叢",
+   "type": "plexus",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0209",
+   "en": "Inferior hypogastric plexus",
+   "zh": "下腹下神經叢",
+   "type": "plexus",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0210",
+   "en": "Submucosal plexus (Meissner's plexus)",
+   "zh": "黏膜下層神經叢",
+   "type": "plexus",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure"
+  },
+  {
+   "id": "RS-A-0211",
+   "en": "Myenteric plexus (Auerbach's plexus)",
+   "zh": "肌間神經叢",
+   "type": "plexus",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure"
+  },
+  {
+   "id": "RS-A-0212",
+   "en": "Lumbar plexus",
+   "zh": "腰神經叢",
+   "type": "nerve",
+   "topics": [
+    "lumbar-plexus"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0213",
+   "en": "Subcostal nerve",
+   "zh": "肋下神經",
+   "type": "nerve",
+   "topics": [
+    "lumbar-plexus"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0214",
+   "en": "Iliohypogastric nerve",
+   "zh": "髂腹下神經",
+   "type": "nerve",
+   "topics": [
+    "lumbar-plexus"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0215",
+   "en": "Ilioinguinal nerve",
+   "zh": "髂腹股溝神經",
+   "type": "nerve",
+   "topics": [
+    "lumbar-plexus"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0216",
+   "en": "Genitofemoral nerve",
+   "zh": "生殖股神經",
+   "type": "nerve",
+   "topics": [
+    "lumbar-plexus"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0217",
+   "en": "Genital branch of genitofemoral nerve",
+   "zh": "生殖支",
+   "type": "nerve",
+   "topics": [
+    "lumbar-plexus"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0218",
+   "en": "Femoral branch of genitofemoral nerve",
+   "zh": "股支",
+   "type": "nerve",
+   "topics": [
+    "lumbar-plexus"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0219",
+   "en": "Lateral femoral cutaneous nerve",
+   "zh": "外股皮神經",
+   "type": "nerve",
+   "topics": [
+    "lumbar-plexus"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0220",
+   "en": "Femoral nerve",
+   "zh": "股神經",
+   "type": "nerve",
+   "topics": [
+    "lumbar-plexus"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0221",
+   "en": "Obturator nerve",
+   "zh": "閉孔神經",
+   "type": "nerve",
+   "topics": [
+    "lumbar-plexus"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0222",
+   "en": "Accessory obturator nerve",
+   "zh": "副閉孔神經",
+   "type": "nerve",
+   "topics": [
+    "lumbar-plexus"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0223",
+   "en": "Lumbosacral trunk",
+   "zh": "腰薦神經幹",
+   "type": "nerve",
+   "topics": [
+    "lumbar-plexus"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0224",
+   "en": "Intercostal nerves",
+   "zh": "肋間神經",
+   "type": "nerve",
+   "topics": [
+    "abdominal-wall"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0225",
+   "en": "Rectus abdominis",
+   "zh": "腹直肌",
+   "type": "muscle",
+   "topics": [
+    "wall-muscle"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0226",
+   "en": "External oblique",
+   "zh": "腹外斜肌",
+   "type": "muscle",
+   "topics": [
+    "wall-muscle"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0227",
+   "en": "Internal oblique",
+   "zh": "腹內斜肌",
+   "type": "muscle",
+   "topics": [
+    "wall-muscle"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0228",
+   "en": "Transversus abdominis",
+   "zh": "腹橫肌",
+   "type": "muscle",
+   "topics": [
+    "wall-muscle"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0229",
+   "en": "Cremaster",
+   "zh": "提睪肌",
+   "type": "muscle",
+   "topics": [
+    "wall-muscle"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0230",
+   "en": "Psoas major",
+   "zh": "腰大肌",
+   "type": "muscle",
+   "topics": [
+    "posterior-wall"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0231",
+   "en": "Psoas minor",
+   "zh": "腰小肌",
+   "type": "muscle",
+   "topics": [
+    "posterior-wall"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0232",
+   "en": "Iliacus",
+   "zh": "髂肌",
+   "type": "muscle",
+   "topics": [
+    "posterior-wall"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0233",
+   "en": "Quadratus lumborum",
+   "zh": "腰方肌",
+   "type": "muscle",
+   "topics": [
+    "posterior-wall"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0234",
+   "en": "Iliopsoas",
+   "zh": "髂腰肌",
+   "type": "muscle",
+   "topics": [
+    "posterior-wall"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0235",
+   "en": "Diaphragm",
+   "zh": "橫膈",
+   "type": "muscle",
+   "topics": [
+    "diaphragm"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0236",
+   "en": "Right crus of diaphragm",
+   "zh": "橫膈右腳",
+   "type": "muscle",
+   "topics": [
+    "diaphragm"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0237",
+   "en": "Left crus of diaphragm",
+   "zh": "橫膈左腳",
+   "type": "muscle",
+   "topics": [
+    "diaphragm"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0238",
+   "en": "Central tendon of diaphragm",
+   "zh": "橫膈中央肌腱",
+   "type": "muscle",
+   "topics": [
+    "diaphragm"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0239",
+   "en": "Linea alba",
+   "zh": "白線",
+   "type": "ligament",
+   "topics": [
+    "wall-ligament"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0240",
+   "en": "Semilunar line (linea semilunaris)",
+   "zh": "半月線",
+   "type": "ligament",
+   "topics": [
+    "wall-ligament"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0241",
+   "en": "Tendinous intersections",
+   "zh": "腱劃",
+   "type": "ligament",
+   "topics": [
+    "wall-ligament"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0242",
+   "en": "Arcuate line",
+   "zh": "弓狀線",
+   "type": "ligament",
+   "topics": [
+    "wall-ligament"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0243",
+   "en": "External oblique aponeurosis",
+   "zh": "腹外斜肌腱膜",
+   "type": "ligament",
+   "topics": [
+    "wall-ligament"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0244",
+   "en": "Inguinal ligament",
+   "zh": "腹股溝韌帶",
+   "type": "ligament",
+   "topics": [
+    "wall-ligament"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0245",
+   "en": "Lacunar ligament",
+   "zh": "腔隙韌帶",
+   "type": "ligament",
+   "topics": [
+    "wall-ligament"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0246",
+   "en": "Iliopectineal ligament",
+   "zh": "髂恥韌帶",
+   "type": "ligament",
+   "topics": [
+    "wall-ligament"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0247",
+   "en": "Conjoint tendon",
+   "zh": "聯合肌腱",
+   "type": "ligament",
+   "topics": [
+    "wall-ligament"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0248",
+   "en": "Iliolumbar ligament",
+   "zh": "髂腰韌帶",
+   "type": "ligament",
+   "topics": [
+    "wall-ligament"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0249",
+   "en": "Median arcuate ligament",
+   "zh": "正中弓狀韌帶",
+   "type": "ligament",
+   "topics": [
+    "diaphragm"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0250",
+   "en": "Medial arcuate ligament",
+   "zh": "內側弓狀韌帶",
+   "type": "ligament",
+   "topics": [
+    "diaphragm"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0251",
+   "en": "Lateral arcuate ligament",
+   "zh": "外側弓狀韌帶",
+   "type": "ligament",
+   "topics": [
+    "diaphragm"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0252",
+   "en": "Aortic hiatus",
+   "zh": "主動脈裂孔",
+   "type": "opening",
+   "topics": [
+    "diaphragm"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0253",
+   "en": "Esophageal hiatus",
+   "zh": "食道裂孔",
+   "type": "opening",
+   "topics": [
+    "diaphragm"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0254",
+   "en": "Vena caval hiatus",
+   "zh": "腔靜脈裂孔",
+   "type": "opening",
+   "topics": [
+    "diaphragm"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0255",
+   "en": "Inguinal canal",
+   "zh": "腹股溝管",
+   "type": "canal",
+   "topics": [
+    "inguinal"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0256",
+   "en": "Superficial inguinal ring",
+   "zh": "淺腹股溝環",
+   "type": "canal",
+   "topics": [
+    "inguinal"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0257",
+   "en": "Deep inguinal ring",
+   "zh": "深腹股溝環",
+   "type": "canal",
+   "topics": [
+    "inguinal"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0258",
+   "en": "Spermatic cord",
+   "zh": "精索",
+   "type": "canal",
+   "topics": [
+    "inguinal"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0259",
+   "en": "Ductus deferens",
+   "zh": "輸精管",
+   "type": "canal",
+   "topics": [
+    "inguinal"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0260",
+   "en": "Inguinal triangle (Hesselbach's triangle)",
+   "zh": "腹股溝三角",
+   "type": "canal",
+   "topics": [
+    "inguinal"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0261",
+   "en": "Femoral canal",
+   "zh": "股管",
+   "type": "canal",
+   "topics": [
+    "inguinal"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0262",
+   "en": "Femoral ring",
+   "zh": "股環",
+   "type": "canal",
+   "topics": [
+    "inguinal"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0263",
+   "en": "Superficial fascia of abdomen",
+   "zh": "淺筋膜",
+   "type": "fascia",
+   "topics": [
+    "fascia"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0264",
+   "en": "Camper's fascia",
+   "zh": "淺層脂肪層（Camper 氏筋膜）",
+   "type": "fascia",
+   "topics": [
+    "fascia"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0265",
+   "en": "Scarpa's fascia",
+   "zh": "深層膜性層（Scarpa 氏筋膜）",
+   "type": "fascia",
+   "topics": [
+    "fascia"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0266",
+   "en": "Deep fascia of abdomen",
+   "zh": "深筋膜",
+   "type": "fascia",
+   "topics": [
+    "fascia"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0267",
+   "en": "Transversalis fascia",
+   "zh": "腹橫筋膜",
+   "type": "fascia",
+   "topics": [
+    "fascia"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0268",
+   "en": "Thoracolumbar fascia",
+   "zh": "胸腰筋膜",
+   "type": "fascia",
+   "topics": [
+    "fascia"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0269",
+   "en": "Renal fascia",
+   "zh": "腎筋膜",
+   "type": "fascia",
+   "topics": [
+    "fascia"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0270",
+   "en": "Extraperitoneal fascia",
+   "zh": "腹膜外筋膜",
+   "type": "fascia",
+   "topics": [
+    "fascia"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0271",
+   "en": "Internal spermatic fascia",
+   "zh": "內精筋膜",
+   "type": "fascia",
+   "topics": [
+    "fascia"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0272",
+   "en": "External spermatic fascia",
+   "zh": "外精筋膜",
+   "type": "fascia",
+   "topics": [
+    "fascia"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0273",
+   "en": "Cremasteric fascia",
+   "zh": "提睪肌筋膜",
+   "type": "fascia",
+   "topics": [
+    "fascia"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0274",
+   "en": "Perirenal fat",
+   "zh": "腎圍脂肪層",
+   "type": "space",
+   "topics": [
+    "fascia"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0275",
+   "en": "Pararenal fat",
+   "zh": "腎旁脂肪層",
+   "type": "space",
+   "topics": [
+    "fascia"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0276",
+   "en": "Iliac crest",
+   "zh": "髂脊",
+   "type": "bone",
+   "topics": [
+    "landmark"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0277",
+   "en": "Anterior superior iliac spine",
+   "zh": "前上髂棘",
+   "type": "bone",
+   "topics": [
+    "landmark"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0278",
+   "en": "Iliac fossa",
+   "zh": "髂窩",
+   "type": "bone",
+   "topics": [
+    "landmark"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0279",
+   "en": "Pubic tubercle",
+   "zh": "恥骨結節",
+   "type": "bone",
+   "topics": [
+    "landmark"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0280",
+   "en": "Pubic crest",
+   "zh": "恥骨脊",
+   "type": "bone",
+   "topics": [
+    "landmark"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0281",
+   "en": "Pectineal line",
+   "zh": "恥骨線",
+   "type": "bone",
+   "topics": [
+    "landmark"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0282",
+   "en": "Iliopubic eminence",
+   "zh": "髂恥隆凸",
+   "type": "bone",
+   "topics": [
+    "landmark"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0283",
+   "en": "Xiphoid process",
+   "zh": "劍突",
+   "type": "bone",
+   "topics": [
+    "landmark"
+   ],
+   "expect3d": true
+  },
+  {
+   "id": "RS-A-0284",
+   "en": "Costal margin",
+   "zh": "肋弓",
+   "type": "bone",
+   "topics": [
+    "landmark"
+   ],
+   "expect3d": true
+  }
+ ]
+}

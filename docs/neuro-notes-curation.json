@@ -974,6 +974,12 @@
 },
 "neuro-0189": {
 "region": "die",
+"zh": "外側膝狀體",
+"aka": [
+{
+"zh": "外膝狀體"
+}
+],
 "mesh": [
 "Lateral geniculate body"
 ]
@@ -985,6 +991,12 @@
 },
 "neuro-0191": {
 "region": "die",
+"zh": "內側膝狀體",
+"aka": [
+{
+"zh": "內膝狀體"
+}
+],
 "mesh": [
 "Medial geniculate body"
 ]
