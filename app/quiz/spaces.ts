@@ -9,7 +9,7 @@ import type {QuizRegionId, QuizSpace, QuizSystem, SpaceRole} from './catalogue';
  */
 export type SpaceExclusion = 'not-limb' | 'no-range' | 'unclear-centre' | 'few-walls' | 'no-contents' | 'name-not-unique';
 export const SPACE_EXCLUSION_REASONS: Record<SpaceExclusion, string> = {
-  'not-limb': '不在上肢或下肢（背部、胸腔的特殊空間尚未開放測驗）',
+  'not-limb': '不在四肢或頭頸（背部、胸腔、腹腔的特殊空間尚未開放測驗）',
   'no-range': '沒有各側的中心點資料（app/space-ranges.json），無法把鏡頭對準這個空間',
   'unclear-centre': '各邊界構造的交會處不明確（交會距離超過 5 公分），畫面無法指出空間位置',
   'few-walls': '題庫裡畫得出來的邊界、頂與底構造不到兩個，或所列邊界、頂與底項目有一半以上題庫沒有',
@@ -19,7 +19,7 @@ export const SPACE_EXCLUSION_REASONS: Record<SpaceExclusion, string> = {
 /** Distance (metres) between the meeting point of the boundaries and the farthest boundary or content structure above which the position of the space is not clear. */
 export const MAX_REACH = .05;
 /** The quiz region a special region belongs to; null = not a limb space. The lesser sciatic foramen opens the pelvis towards the gluteal region, which the lower-limb quiz covers. */
-export const SPACE_REGION: Record<SpaceGroup, QuizRegionId | null> = {shoulder: 'upper-limb', arm: 'upper-limb', hand: 'upper-limb', lower: 'lower-limb', pelvis: 'lower-limb', head: null, trunk: null};
+export const SPACE_REGION: Record<SpaceGroup, QuizRegionId | null> = {shoulder: 'upper-limb', arm: 'upper-limb', hand: 'upper-limb', lower: 'lower-limb', pelvis: 'lower-limb', head: 'head-neck', trunk: null};
 /** Systems whose structures can be members (the systems of the limb quizzes that have meshes). */
 export const MEMBER_SYSTEMS: QuizSystem[] = ['skeletal', 'muscular', 'tendon', 'nervous', 'arterial', 'venous'];
 
