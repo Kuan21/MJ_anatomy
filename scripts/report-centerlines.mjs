@@ -7,7 +7,8 @@ import fs from 'node:fs';
 import {loadWorld} from './lib/paokao-world.mjs';
 import {centrelineOf} from './lib/leg-centreline.mjs';
 import {classifyRings, sparseStep, pieceCount} from './lib/centreline-classify.mjs';
-import {centrelinesOf} from './lib/centreline-pieces.mjs';
+import {centrelinesOf, splitPieces} from './lib/centreline-pieces.mjs';
+import {surfaceLinkGap} from './lib/centreline-surface.mjs';
 import {joinGap} from './lib/centreline-continuity.mjs';
 import {specNames, structureKind, linkGap} from './lib/centreline-groups.mjs';
 
@@ -31,7 +32,9 @@ for (const e of entries) {
     if (lines.length > 1) for (const a of lines) gap = Math.max(gap, Math.min(...lines.filter(b => b !== a).map(b => joinGap(a.rings, b.rings))));
     pieces.push({id: e.id, name: e.name, system: e.system, pieces: n, lines: lines.length, skipped: skipped.length, gapMm: lines.length > 1 ? Math.round(gap * 1000) : null,
       // kind: one structure by topology-spec, a group by its name, or undecided; link: the gap to bridge to make one connected structure of all the lines (not meaningful for a group).
-      kind: structureKind(e.name, spec), linkMm: lines.length > 1 ? Math.round(linkGap(lines.map(l => l.rings)) * 1000) : null});
+      kind: structureKind(e.name, spec), linkMm: lines.length > 1 ? Math.round(linkGap(lines.map(l => l.rings)) * 1000) : null,
+      // surfaceMm: the same link measured between the surfaces of all pieces (no centreline, so the skipped pieces count too and a coarse mesh does not mislead).
+      surfaceMm: Math.round(surfaceLinkGap(splitPieces(g)) * 1000)});
   }
 }
 const left = w.missing.length ? `（本次未含：${w.missing.join('、')}，這些生成檔不在本機）` : '';
@@ -43,9 +46,13 @@ else {
 if (process.argv.includes('--write')) {
   const rows = bad.map(b => `| ${b.system} | ${b.name} | ${b.why} |`).join('\n');
   const sparseRows = sparse.sort((a, b) => b.mm - a.mm).map(b => `| ${b.system} | ${b.name} | ${b.mm} mm |`).join('\n');
-  const count = k => pieces.filter(b => b.kind === k).length, apart = k => pieces.filter(b => b.kind === k && b.linkMm > 5).length;
-  const pieceRows = pieces.sort((a, b) => ORDER.indexOf(a.kind) - ORDER.indexOf(b.kind) || (b.linkMm ?? -1) - (a.linkMm ?? -1) || b.pieces - a.pieces)
-    .map(b => `| ${b.system} | ${b.name} | ${KIND[b.kind]} | ${b.pieces} | ${b.lines} | ${b.skipped} | ${b.gapMm === null ? '—' : b.gapMm + ' mm'} | ${b.linkMm === null ? '—' : b.linkMm + ' mm'} |`).join('\n');
+  const count = k => pieces.filter(b => b.kind === k).length, apart = (k, key = 'linkMm') => pieces.filter(b => b.kind === k && b[key] > 5).length;
+  // Where the two ways of measuring disagree about "apart" (over 5 mm), for structures that are not a group by name and have two or more centrelines.
+  const single = pieces.filter(b => b.kind !== 'group' && b.linkMm !== null);
+  const lineOnly = single.filter(b => b.linkMm > 5 && b.surfaceMm <= 5), surfaceOnly = single.filter(b => b.linkMm <= 5 && b.surfaceMm > 5);
+  const names = list => list.length ? '（' + list.map(b => b.name).join('、') + '）' : '';
+  const pieceRows = pieces.sort((a, b) => ORDER.indexOf(a.kind) - ORDER.indexOf(b.kind) || b.surfaceMm - a.surfaceMm || (b.linkMm ?? -1) - (a.linkMm ?? -1) || b.pieces - a.pieces)
+    .map(b => `| ${b.system} | ${b.name} | ${KIND[b.kind]} | ${b.pieces} | ${b.lines} | ${b.skipped} | ${b.gapMm === null ? '—' : b.gapMm + ' mm'} | ${b.linkMm === null ? '—' : b.linkMm + ' mm'} | ${b.surfaceMm} mm |`).join('\n');
   fs.writeFileSync('docs/centerline-report.md', `# 中心線抽取報告（自動產生，勿手動修改）
 
 由 \`node scripts/report-centerlines.mjs --write\` 產生。共 ${entries.length} 個血管與神經網格${left}，抽取成功且通過檢查：動脈 ${stats.arterial}、靜脈 ${stats.venous}、神經 ${stats.nervous}；列出 ${bad.length} 個。
@@ -68,10 +75,12 @@ ${sparseRows}
 
 上面的檢查只沿其中一件走。這裡逐件抽取中心線：「中心線」是抽得出至少兩圈的件數，「略過」是太小或形狀不是管的件數，「最大件距」是各件的中心線端點到最近另一件端點的距離（已扣半徑）當中最大的一個。件距大不一定是缺陷（例如同一名稱下本來就分開的分支，或端點不是相接處），只是提示要看哪些結構。
 
-「分類」只看名稱與 \`scripts/topology-spec.mjs\`，不是解剖判斷：「應相接」是 topology-spec 列為上一級或分支的單一結構（${count('spec')} 個，其中連接距離超過 5 mm 的 ${apart('spec')} 個）；「成組」是名稱本身表示多條的結構（Set of、複數、plexus；${count('group')} 個），各件本來分開，件距沒有意義；「未判定」是單數名稱但 topology-spec 沒有列出（${count('unknown')} 個，其中連接距離超過 5 mm 的 ${apart('unknown')} 個），需要人看。「連接距離」是把所有中心線連成一個整體時必須跨過的最大空隙（端點對端點，或端點到另一件的管壁），0 代表各件相接。表格依分類、再依連接距離排列。
+「分類」只看名稱與 \`scripts/topology-spec.mjs\`，不是解剖判斷：「應相接」是 topology-spec 列為上一級或分支的單一結構（${count('spec')} 個，其中連接距離超過 5 mm 的 ${apart('spec')} 個）；「成組」是名稱本身表示多條的結構（Set of、複數、plexus；${count('group')} 個），各件本來分開，件距沒有意義；「未判定」是單數名稱但 topology-spec 沒有列出（${count('unknown')} 個，其中連接距離超過 5 mm 的 ${apart('unknown')} 個），需要人看。「連接距離」是把所有中心線連成一個整體時必須跨過的最大空隙（端點對端點，或端點到另一件的管壁），0 代表各件相接。
 
-| 系統 | 結構 | 分類 | 件數 | 中心線 | 略過 | 最大件距 | 連接距離 |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+「表面連接距離」是同一件事改用各件網格表面之間的最短距離來量（\`scripts/lib/centreline-surface.mjs\`），不經過中心線，所以抽不出中心線而被略過的小件也算在內，網格很粗時也不會因為中心線不穩而誤報。「應相接」中超過 5 mm 的 ${apart('spec', 'surfaceMm')} 個，「未判定」中超過 5 mm 的 ${apart('unknown', 'surfaceMm')} 個。兩種量法對「是否超過 5 mm」判斷不同的（只算有兩條以上中心線、而且不是成組的結構）：中心線超過而表面沒有超過 ${lineOnly.length} 個${names(lineOnly)}；表面超過而中心線沒有超過 ${surfaceOnly.length} 個${names(surfaceOnly)}。數值沒有在 3D 畫面確認。表格依分類、再依表面連接距離排列。
+
+| 系統 | 結構 | 分類 | 件數 | 中心線 | 略過 | 最大件距 | 連接距離 | 表面連接距離 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
 ${pieceRows}
 `);
 }
