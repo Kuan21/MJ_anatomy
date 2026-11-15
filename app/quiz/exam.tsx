@@ -3,7 +3,7 @@ import {AlertCircle, ArrowLeft, ArrowRight, Check, Target, X} from 'lucide-react
 import {QUIZ_CATEGORIES, QUIZ_REGIONS, categoryOf, learnHashOf, type QuizCatalogue, type QuizRegionId, type QuizStructure} from './catalogue';
 import {ModeNav} from './mode-nav';
 import {CategoryPicker, RegionPicker, toggleRegionIn, toggleSectionIn} from './setup-parts';
-import {EXAM_DEFAULTS, EXAM_LIMITS, clock, loadExamSetup, saveExamSetup, withSide, type ExamSetup} from './exam-setup';
+import {EXAM_DEFAULTS, EXAM_LIMITS, clock, loadExamSetup, saveExamSetup, remainingSeconds, withSide, type ExamSetup} from './exam-setup';
 import {composeExam, difficultyMap, examEligible, needsSide, type Difficulty, type ExamQuestion} from './exam-difficulty';
 import {settingsFor} from './setup';
 import {namingPool} from './level2';
@@ -121,7 +121,7 @@ function ExamRun({catalogues, questions, seconds, onFinish, onQuit}: {catalogues
     if (!ready) return;
     startedAt.current = performance.now(); setLeft(seconds); input.current?.focus();
     const timer = window.setInterval(() => {
-      const remaining = seconds - (performance.now() - startedAt.current) / 1000;
+      const remaining = remainingSeconds(startedAt.current, performance.now(), seconds);
       setLeft(remaining);
       if (remaining <= 0) {window.clearInterval(timer); submitRef.current();}
     }, 200);

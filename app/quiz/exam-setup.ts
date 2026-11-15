@@ -33,3 +33,5 @@ export function withSide(text: string, side: 'left' | 'right' | null): string {
 }
 /** m:ss */
 export const clock = (seconds: number) => {const s = Math.max(0, Math.ceil(seconds)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;};
+/** Seconds left at a station: the clock starts at `startedMs` (when the station's model was ready) and runs `seconds` whatever the player does; 0 means the answer is handed in. */
+export const remainingSeconds = (startedMs: number, nowMs: number, seconds: number) => Math.max(0, seconds - (nowMs - startedMs) / 1000);

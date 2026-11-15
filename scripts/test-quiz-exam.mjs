@@ -22,6 +22,15 @@ const cleaned = setupMod.loadExamSetup(store); assert.deepEqual(cleaned.regions,
 store.setItem('mj-exam-setup', '{bad'); assert.deepEqual(setupMod.loadExamSetup(store), d); assert.deepEqual(setupMod.loadExamSetup(null), d);
 assert.equal(setupMod.clock(30), '0:30'); assert.equal(setupMod.clock(125), '2:05'); assert.equal(setupMod.clock(-3), '0:00');
 
+// ---- the clock: 30 s per station by default, counted from the moment the model is ready, and the answer is handed in at 0 without any key
+assert.equal(setupMod.EXAM_DEFAULTS.seconds, 30);
+assert.equal(setupMod.remainingSeconds(1000, 1000, 30), 30, 'exactly 30 s at the start');
+assert.equal(setupMod.remainingSeconds(1000, 16000, 30), 15); assert.equal(setupMod.remainingSeconds(1000, 31000, 30), 0); assert.equal(setupMod.remainingSeconds(1000, 99000, 30), 0, 'never negative');
+const examSource = fs.readFileSync(path.join(root, 'app/quiz/exam.tsx'), 'utf8');
+assert.match(examSource, /if \(!ready\) return;\s*startedAt\.current = performance\.now\(\)/, 'the clock starts when the station is ready');
+assert.match(examSource, /if \(remaining <= 0\) \{[^}]*submitRef\.current\(\)/, 'at 0 the current answer is handed in automatically');
+assert.match(examSource, /text\.trim\(\) \? verdict\.result : 'blank'|!text\.trim\(\) \? 'blank'/, 'a blank answer is accepted as blank');
+
 // ---- left/right in the typed answer
 assert.equal(setupMod.withSide('biceps brachii', 'left'), 'Left biceps brachii');
 assert.equal(setupMod.withSide('肱二頭肌', 'right'), '右肱二頭肌');
