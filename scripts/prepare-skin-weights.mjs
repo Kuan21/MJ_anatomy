@@ -17,7 +17,7 @@ for (const k of ['SKIN_SIGMA_ROOT', 'SKIN_SIGMA_SCALE', 'SKIN_SMOOTH', 'SKIN_GEO
 const stamp = inputHash.digest('hex').slice(0, 24);
 const stampFile = new URL('../../work/skin-weights.stamp', models);
 try {
-  if (fs.readFileSync(stampFile, 'utf8') === stamp && fs.existsSync(new URL('skin-weights.json.gz', models))) {console.log(`Skin weights up to date (${stamp}).`); process.exit(0);}
+  if (fs.readFileSync(stampFile, 'utf8') === stamp && fs.existsSync(new URL('skin-weights.json.gz', models))) {console.log(`Skin weights up to date (${stamp}).`); await import('./alias-female-skin-weights.mjs'); process.exit(0);}
 } catch {}
 const gpu = await quizModule('app/biomechanics-v2/gpu-skinning.ts');
 const {anatomicalRegion, isMotionQuarantined} = await quizModule('app/mj-part-regions.ts');
@@ -200,3 +200,5 @@ fs.writeFileSync(new URL('skin-weights.json.gz', models), gzipSync(manifest, {le
 fs.mkdirSync(new URL('../../work/', models), {recursive: true});
 fs.writeFileSync(stampFile, stamp);
 console.log(`Skin weights: ${targets.map(p => `${p.name} (${p.vertexCount.toLocaleString()} vertices)`).join(', ')} weighted over ${samples.toLocaleString()} bone samples; ${(manifest.length / 1e3).toFixed(0)} kB.`);
+// the female skin (prepare-female.mjs) has the male skin's vertices and is skinned with its weights: copied under its own id
+await import('./alias-female-skin-weights.mjs');
