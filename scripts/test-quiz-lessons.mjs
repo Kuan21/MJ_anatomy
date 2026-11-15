@@ -120,7 +120,7 @@ assert.ok(lessonCount > 0 && structureCount > 0);
   const viewer = fs.readFileSync('app/quiz/viewer.ts', 'utf8');
   assert.match(viewer, /lesson\?: \{seed: string; apart: boolean\}/); assert.match(viewer, /avoid/);
   const page = fs.readFileSync('app/quiz/learn.tsx', 'utf8');
-  assert.match(page, /lesson: know \? \{seed: [^}]*apart: false\}/, 'the learn step uses the seeded lesson view');
+  assert.match(page, /lesson: know \? \{seed: .*apart: false\}/, 'the learn step uses the seeded lesson view');
 }
 
 // ---- stars ----

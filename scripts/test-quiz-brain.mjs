@@ -218,7 +218,7 @@ assert.equal(brainLayerOf('white', 'White matter of telencephalon'), 'envelope')
 
 // ---- the hub card and the region wiring
 const hub = fs.readFileSync('app/quiz/hub.tsx', 'utf8');
-assert.ok(/href=\{QUIZ_REGIONS\.brain\.hash\} data-part="brain"/.test(hub), 'the hub has a brain card');
+assert.ok(/regions\.filter\(r => r\.group === 'organ'\)\.map\(region => <a [^>]*href=\{region\.hash\} data-part=\{region\.id\}/.test(hub) && QUIZ_REGIONS.brain.group === 'organ', 'the hub has a brain card (organ cards come from the region list)');
 assert.ok(!/腦等器官/.test(hub), 'the reserved organs card no longer promises the brain');
 const lessonsSource = fs.readFileSync('app/quiz/lessons.ts', 'utf8');
 assert.ok(!/brain/.test(lessonsSource), 'the lesson generator needs no brain-specific code');
