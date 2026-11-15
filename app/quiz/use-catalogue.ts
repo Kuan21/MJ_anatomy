@@ -3,7 +3,7 @@ import {fetchModelBuffer} from '../model-download';
 import {QUIZ_REGIONS, type QuizCatalogue, type QuizRegionId} from './catalogue';
 
 /** Fetches and checks the question catalogue of one region (the same file the Quiz reads). */
-export async function fetchCatalogue(regionId: QuizRegionId, signal?: AbortSignal): Promise<QuizCatalogue> {
+export async function fetchCatalogue(regionId: QuizRegionId, signal: AbortSignal = new AbortController().signal): Promise<QuizCatalogue> {
   const bytes = await fetchModelBuffer(`${import.meta.env.BASE_URL}models/${QUIZ_REGIONS[regionId].file}`, 0, false, signal);
   const data = JSON.parse(new TextDecoder().decode(bytes)) as QuizCatalogue;
   if (data.version !== 1 || !data.structures?.length || !data.packages?.length || (data.region ?? 'lower-limb') !== regionId) throw Error('Invalid quiz catalogue');
