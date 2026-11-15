@@ -14,14 +14,14 @@ function worse(f, k, adopt) {
   return f.measure > k.measure + 1e-9;
 }
 
-export function compareBaseline(known, findings, checks, {adopt = false} = {}) {
+export function compareBaseline(known, findings, checks, {adopt = false, keyOf = f => `${f.check}|${f.id}${f.sub ? '|' + f.sub : ''}`} = {}) {
   const scope = new Set(checks), current = new Map(), invalid = [];
   for (const [key, value] of Object.entries(known)) {
     if (!Number.isFinite(value?.measure) || value.measure < 0 || !value.reason?.trim()) invalid.push(key);
     if ((value?.fraction !== undefined || value?.severity !== undefined) && (!hasMetrics(value) || value.fraction < 0 || value.severity < 0)) invalid.push(key);
   }
   for (const f of findings) {
-    if (!scope.has(f.check) || f.key !== `${f.check}|${f.id}${f.sub ? '|' + f.sub : ''}` ||
+    if (!scope.has(f.check) || f.key !== keyOf(f) ||
         !Number.isFinite(f.measure) || f.measure < 0 || current.has(f.key)) invalid.push(f.key);
     current.set(f.key, f);
   }

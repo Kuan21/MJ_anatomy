@@ -36,129 +36,129 @@
    "measure": 25.1,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
-  "cuts|PK-135": {
-   "name": "Right surgical neck of humerus",
-   "measure": 17.2,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
-  },
-  "cuts|PK-136": {
-   "name": "Right radial groove",
-   "measure": 26.9,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure."
-  },
-  "cuts|PK-141": {
-   "name": "Right infraspinous fossa",
-   "measure": 23.4,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
-  },
-  "cuts|PK-143": {
-   "name": "Right iliac crest",
-   "measure": 35.8,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
-  },
-  "cuts|PK-150": {
-   "name": "Left intertubercular groove",
-   "measure": 21.2,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
-  },
-  "cuts|PK-151": {
-   "name": "Left surgical neck of humerus",
-   "measure": 17.1,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
-  },
-  "cuts|PK-152": {
-   "name": "Left radial groove",
-   "measure": 40.2,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
-  },
-  "cuts|PK-157": {
-   "name": "Left infraspinous fossa",
-   "measure": 25.5,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
-  },
-  "cuts|PK-159": {
-   "name": "Left iliac crest",
-   "measure": 21.9,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
-  },
-  "cuts|PK-166": {
-   "name": "Superior nuchal line",
-   "measure": 17.1,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
-  },
-  "cuts|PK-187": {
-   "name": "rectus sheath",
-   "measure": 36.4,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
-  },
-  "cuts|PK-231": {
-   "name": "Oblique fissure of right lung",
-   "measure": 17.7,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
-  },
-  "cuts|PK-232": {
-   "name": "Horizontal fissure of right lung",
-   "measure": 17.7,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
-  },
-  "cuts|PK-234": {
-   "name": "Lingula of left lung",
-   "measure": 24.6,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
-  },
-  "cuts|PK-236": {
-   "name": "Cardiac impression of left lung",
-   "measure": 16.8,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
-  },
-  "cuts|PK-237": {
-   "name": "Cardiac impression of right lung",
-   "measure": 16.6,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
-  },
-  "cuts|PK-246": {
-   "name": "Esophageal impression of left lung",
-   "measure": 17.6,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
-  },
-  "cuts|PK-248": {
-   "name": "Groove for esophagus",
-   "measure": 20.5,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
-  },
-  "cuts|PK-333": {
-   "name": "Contact area for trachea of right lung",
-   "measure": 22,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
-  },
-  "cuts|PK-335": {
-   "name": "Diaphragmatic surface of right lung",
-   "measure": 28.7,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
-  },
-  "cuts|PK-336": {
-   "name": "Inferior border of right lung",
-   "measure": 22.3,
-   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
-  },
-  "cuts|PK-337": {
+  "cuts|PK:Apex of left lung": {
    "name": "Apex of left lung",
    "measure": 22,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
-  "cuts|PK-341": {
+  "cuts|PK:Cardiac impression of left lung": {
+   "name": "Cardiac impression of left lung",
+   "measure": 16.8,
+   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
+  },
+  "cuts|PK:Cardiac impression of right lung": {
+   "name": "Cardiac impression of right lung",
+   "measure": 16.6,
+   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
+  },
+  "cuts|PK:Contact area for trachea of right lung": {
+   "name": "Contact area for trachea of right lung",
+   "measure": 22,
+   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
+  },
+  "cuts|PK:Diaphragmatic surface of left lung": {
    "name": "Diaphragmatic surface of left lung",
    "measure": 18.7,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
-  "cuts|PK-475": {
+  "cuts|PK:Diaphragmatic surface of right lung": {
+   "name": "Diaphragmatic surface of right lung",
+   "measure": 28.7,
+   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
+  },
+  "cuts|PK:Esophageal impression of left lung": {
+   "name": "Esophageal impression of left lung",
+   "measure": 17.6,
+   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
+  },
+  "cuts|PK:Groove for esophagus": {
+   "name": "Groove for esophagus",
+   "measure": 20.5,
+   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
+  },
+  "cuts|PK:Horizontal fissure of right lung": {
+   "name": "Horizontal fissure of right lung",
+   "measure": 17.7,
+   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
+  },
+  "cuts|PK:Inferior border of right lung": {
+   "name": "Inferior border of right lung",
+   "measure": 22.3,
+   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
+  },
+  "cuts|PK:Left iliac crest": {
+   "name": "Left iliac crest",
+   "measure": 21.9,
+   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
+  },
+  "cuts|PK:Left infraspinous fossa": {
+   "name": "Left infraspinous fossa",
+   "measure": 25.5,
+   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
+  },
+  "cuts|PK:Left intertubercular groove": {
+   "name": "Left intertubercular groove",
+   "measure": 21.2,
+   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
+  },
+  "cuts|PK:Left plantar aponeurosis": {
+   "name": "Left plantar aponeurosis",
+   "measure": 38.9,
+   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
+  },
+  "cuts|PK:Left radial groove": {
+   "name": "Left radial groove",
+   "measure": 40.2,
+   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
+  },
+  "cuts|PK:Left surgical neck of humerus": {
+   "name": "Left surgical neck of humerus",
+   "measure": 17.1,
+   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
+  },
+  "cuts|PK:Lingula of left lung": {
+   "name": "Lingula of left lung",
+   "measure": 24.6,
+   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
+  },
+  "cuts|PK:Oblique fissure of right lung": {
+   "name": "Oblique fissure of right lung",
+   "measure": 17.7,
+   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
+  },
+  "cuts|PK:Right iliac crest": {
+   "name": "Right iliac crest",
+   "measure": 35.8,
+   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
+  },
+  "cuts|PK:Right infraspinous fossa": {
+   "name": "Right infraspinous fossa",
+   "measure": 23.4,
+   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
+  },
+  "cuts|PK:Right plantar aponeurosis": {
    "name": "Right plantar aponeurosis",
    "measure": 38.6,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
-  "cuts|PK-480": {
-   "name": "Left plantar aponeurosis",
-   "measure": 38.9,
+  "cuts|PK:Right radial groove": {
+   "name": "Right radial groove",
+   "measure": 26.9,
+   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure."
+  },
+  "cuts|PK:Right surgical neck of humerus": {
+   "name": "Right surgical neck of humerus",
+   "measure": 17.2,
+   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
+  },
+  "cuts|PK:Superior nuchal line": {
+   "name": "Superior nuchal line",
+   "measure": 17.1,
+   "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
+  },
+  "cuts|PK:rectus sheath": {
+   "name": "rectus sheath",
+   "measure": 36.4,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
   "cuts|SERO-1": {
@@ -454,138 +454,138 @@
    "fraction": 1,
    "severity": 20
   },
-  "detached|PK-122|shoulder abduction 120": {
-   "name": "Right supreme intercostal artery",
-   "measure": 24,
+  "detached|PK:Clavicular branch of left thoraco-acromial artery|shoulder abduction 120": {
+   "name": "Clavicular branch of left thoraco-acromial artery",
+   "measure": 220,
    "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
    "fraction": 1,
-   "severity": 45
+   "severity": 26
   },
-  "detached|PK-122|shoulder flexion 150": {
-   "name": "Right supreme intercostal artery",
-   "measure": 24,
+  "detached|PK:Clavicular branch of left thoraco-acromial artery|shoulder flexion 150": {
+   "name": "Clavicular branch of left thoraco-acromial artery",
+   "measure": 220,
    "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
    "fraction": 1,
-   "severity": 36
+   "severity": 20
   },
-  "detached|PK-202|shoulder abduction 120": {
-   "name": "Right clavipectoral triangle",
-   "measure": 55,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 1,
-   "severity": 49
-  },
-  "detached|PK-202|shoulder flexion 150": {
-   "name": "Right clavipectoral triangle",
-   "measure": 55,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 1,
-   "severity": 41
-  },
-  "detached|PK-213|shoulder abduction 120": {
-   "name": "Left clavipectoral triangle",
-   "measure": 74,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 1,
-   "severity": 50
-  },
-  "detached|PK-213|shoulder flexion 150": {
-   "name": "Left clavipectoral triangle",
-   "measure": 74,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 1,
-   "severity": 42
-  },
-  "detached|PK-214|shoulder abduction 120": {
-   "name": "Left axillary fossa",
-   "measure": 4,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 1,
-   "severity": 24
-  },
-  "detached|PK-214|shoulder flexion 150": {
-   "name": "Left axillary fossa",
-   "measure": 4,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 1,
-   "severity": 19
-  },
-  "detached|PK-2|shoulder abduction 120": {
+  "detached|PK:Clavicular branch of right thoraco-acromial artery|shoulder abduction 120": {
    "name": "Clavicular branch of right thoraco-acromial artery",
    "measure": 234,
    "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
    "fraction": 1,
    "severity": 26
   },
-  "detached|PK-2|shoulder flexion 150": {
+  "detached|PK:Clavicular branch of right thoraco-acromial artery|shoulder flexion 150": {
    "name": "Clavicular branch of right thoraco-acromial artery",
    "measure": 223,
    "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.9529914529914529,
    "severity": 20
   },
-  "detached|PK-419|shoulder flexion 150": {
-   "name": "Right superior transverse scapular ligament",
-   "measure": 16,
-   "reason": "Not a detachment: the superior transverse scapular ligament attaches to the scapula at both ends (it bridges the suprascapular notch) and has no attachment on the clavicle; it only lies within 3 mm of the clavicle at rest, so it leaves it when the scapula turns in shoulder flexion 150. Exception added by hand with the user's approval on 2026-11-14 (PR #280); the ligament rides on the scapula as one piece.",
-   "fraction": 0.41025641025641024,
-   "severity": 34
+  "detached|PK:Left axillary fossa|shoulder abduction 120": {
+   "name": "Left axillary fossa",
+   "measure": 4,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
+   "fraction": 1,
+   "severity": 24
   },
-  "detached|PK-423|shoulder flexion 150": {
-   "name": "Left superior transverse scapular ligament",
-   "measure": 14,
-   "reason": "Not a detachment: the superior transverse scapular ligament attaches to the scapula at both ends (it bridges the suprascapular notch) and has no attachment on the clavicle; it only lies within 3 mm of the clavicle at rest, so it leaves it when the scapula turns in shoulder flexion 150. Exception added by hand with the user's approval on 2026-11-14 (PR #280); the ligament rides on the scapula as one piece.",
-   "fraction": 0.358974358974359,
-   "severity": 33
+  "detached|PK:Left axillary fossa|shoulder flexion 150": {
+   "name": "Left axillary fossa",
+   "measure": 4,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
+   "fraction": 1,
+   "severity": 19
   },
-  "detached|PK-430|hip flexion 120 knee flexion 130": {
+  "detached|PK:Left clavipectoral triangle|shoulder abduction 120": {
+   "name": "Left clavipectoral triangle",
+   "measure": 74,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
+   "fraction": 1,
+   "severity": 50
+  },
+  "detached|PK:Left clavipectoral triangle|shoulder flexion 150": {
+   "name": "Left clavipectoral triangle",
+   "measure": 74,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
+   "fraction": 1,
+   "severity": 42
+  },
+  "detached|PK:Left quadriceps tendon#1|hip flexion 120 knee flexion 130": {
    "name": "Left quadriceps tendon",
    "measure": 3,
    "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.5,
    "severity": 33
   },
-  "detached|PK-447|hip flexion 120 knee flexion 130": {
-   "name": "Right tendon of iliopsoas",
-   "measure": 106,
-   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.9380530973451328,
-   "severity": 58
+  "detached|PK:Left superior transverse scapular ligament|shoulder flexion 150": {
+   "name": "Left superior transverse scapular ligament",
+   "measure": 14,
+   "reason": "Not a detachment: the superior transverse scapular ligament attaches to the scapula at both ends (it bridges the suprascapular notch) and has no attachment on the clavicle; it only lies within 3 mm of the clavicle at rest, so it leaves it when the scapula turns in shoulder flexion 150. Exception added by hand with the user's approval on 2026-11-14 (PR #280); the ligament rides on the scapula as one piece.",
+   "fraction": 0.358974358974359,
+   "severity": 33
   },
-  "detached|PK-448|hip flexion 120 knee flexion 130": {
-   "name": "Right tendon of iliopsoas",
-   "measure": 56,
-   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.717948717948718,
-   "severity": 55
-  },
-  "detached|PK-449|hip flexion 120 knee flexion 130": {
+  "detached|PK:Left tendon of iliopsoas#1|hip flexion 120 knee flexion 130": {
    "name": "Left tendon of iliopsoas",
    "measure": 96,
    "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.9320388349514563,
    "severity": 57
   },
-  "detached|PK-450|hip flexion 120 knee flexion 130": {
+  "detached|PK:Left tendon of iliopsoas#2|hip flexion 120 knee flexion 130": {
    "name": "Left tendon of iliopsoas",
    "measure": 62,
    "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.7380952380952381,
    "severity": 55
   },
-  "detached|PK-7|shoulder abduction 120": {
-   "name": "Clavicular branch of left thoraco-acromial artery",
-   "measure": 220,
+  "detached|PK:Right clavipectoral triangle|shoulder abduction 120": {
+   "name": "Right clavipectoral triangle",
+   "measure": 55,
    "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
    "fraction": 1,
-   "severity": 26
+   "severity": 49
   },
-  "detached|PK-7|shoulder flexion 150": {
-   "name": "Clavicular branch of left thoraco-acromial artery",
-   "measure": 220,
+  "detached|PK:Right clavipectoral triangle|shoulder flexion 150": {
+   "name": "Right clavipectoral triangle",
+   "measure": 55,
    "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
    "fraction": 1,
-   "severity": 20
+   "severity": 41
+  },
+  "detached|PK:Right superior transverse scapular ligament|shoulder flexion 150": {
+   "name": "Right superior transverse scapular ligament",
+   "measure": 16,
+   "reason": "Not a detachment: the superior transverse scapular ligament attaches to the scapula at both ends (it bridges the suprascapular notch) and has no attachment on the clavicle; it only lies within 3 mm of the clavicle at rest, so it leaves it when the scapula turns in shoulder flexion 150. Exception added by hand with the user's approval on 2026-11-14 (PR #280); the ligament rides on the scapula as one piece.",
+   "fraction": 0.41025641025641024,
+   "severity": 34
+  },
+  "detached|PK:Right supreme intercostal artery|shoulder abduction 120": {
+   "name": "Right supreme intercostal artery",
+   "measure": 24,
+   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
+   "fraction": 1,
+   "severity": 45
+  },
+  "detached|PK:Right supreme intercostal artery|shoulder flexion 150": {
+   "name": "Right supreme intercostal artery",
+   "measure": 24,
+   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
+   "fraction": 1,
+   "severity": 36
+  },
+  "detached|PK:Right tendon of iliopsoas#1|hip flexion 120 knee flexion 130": {
+   "name": "Right tendon of iliopsoas",
+   "measure": 106,
+   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.9380530973451328,
+   "severity": 58
+  },
+  "detached|PK:Right tendon of iliopsoas#2|hip flexion 120 knee flexion 130": {
+   "name": "Right tendon of iliopsoas",
+   "measure": 56,
+   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.717948717948718,
+   "severity": 55
   },
   "detached|nerve:Abducens nerve (VI).l.001|head extension 35": {
    "name": "Abducens nerve (VI).l",
@@ -1537,19 +1537,19 @@
    "measure": 1,
    "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
   },
-  "fragments|PK-157": {
+  "fragments|PK:Left infraspinous fossa": {
    "name": "Left infraspinous fossa",
    "measure": 1,
    "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
   },
-  "fragments|PK-187": {
-   "name": "rectus sheath",
-   "measure": 21,
-   "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
-  },
-  "fragments|PK-61-END": {
+  "fragments|PK:Left lateral brachial vein-END": {
    "name": "Left lateral brachial vein",
    "measure": 1,
+   "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
+  },
+  "fragments|PK:rectus sheath": {
+   "name": "rectus sheath",
+   "measure": 21,
    "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
   },
   "fragments|SERO-1": {
@@ -1852,7 +1852,7 @@
    "measure": 3.5,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
-  "penetration|FJ2066-END|PK-163": {
+  "penetration|FJ2066-END|PK:Left tibial tuberosity": {
    "name": "Left anterior tibial recurrent artery",
    "measure": 4.5,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
@@ -2497,397 +2497,397 @@
    "measure": 3.8,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
-  "penetration|PK-102|FJ3259": {
-   "name": "Left saphenous branch of descending genicular artery",
-   "measure": 7.6,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-103|FJ3260": {
-   "name": "Left anterior lateral malleolar artery",
-   "measure": 5.4,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-103|FJ3282": {
-   "name": "Left anterior lateral malleolar artery",
-   "measure": 6.7,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-104|FJ3282": {
-   "name": "Left anterior medial malleolar artery",
-   "measure": 2.4,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-106|FJ3260": {
-   "name": "Left circumflex fibular artery",
-   "measure": 3.7,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-107|FJ3258": {
-   "name": "Left lateral plantar vein",
-   "measure": 2.8,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-108-END|FJ3288": {
-   "name": "Left superior gluteal artery",
-   "measure": 7.1,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-108-END|FJ3393": {
-   "name": "Left superior gluteal artery",
-   "measure": 3.1,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-108|FJ3288": {
-   "name": "Left superior gluteal artery",
-   "measure": 4.7,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-108|FJ3393": {
-   "name": "Left superior gluteal artery",
-   "measure": 2.9,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-121|FJ3330": {
-   "name": "Right posterior intercostal veins",
-   "measure": 3,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-121|FJ3338": {
-   "name": "Right posterior intercostal veins",
-   "measure": 3,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-121|FJ3342": {
-   "name": "Right posterior intercostal veins",
-   "measure": 2.6,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-121|FJ3347": {
-   "name": "Right posterior intercostal veins",
-   "measure": 2.6,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-121|FJ3348": {
-   "name": "Right posterior intercostal veins",
-   "measure": 2.7,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-122|FJ3334": {
-   "name": "Right supreme intercostal artery",
-   "measure": 2.3,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-123|FJ3154": {
-   "name": "Right superior phrenic artery",
-   "measure": 3,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-124|FJ3231": {
-   "name": "Left posterior intercostal veins",
-   "measure": 2.8,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-124|FJ3232": {
-   "name": "Left posterior intercostal veins",
-   "measure": 3.8,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-124|FJ3236": {
-   "name": "Left posterior intercostal veins",
-   "measure": 2.2,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-128|FJ3157": {
-   "name": "Right dorsal ramus of thoracic spinal nerve",
-   "measure": 3.4,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-130|FJ3157": {
-   "name": "Left dorsal ramus of thoracic spinal nerve",
-   "measure": 2.7,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-15|FJ3175": {
-   "name": "Right greater splanchnic nerve",
-   "measure": 2.8,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-16|FJ3155": {
-   "name": "Right lesser splanchnic nerve",
-   "measure": 2.3,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-17|FJ3156": {
-   "name": "Right least splanchnic nerve",
-   "measure": 2.3,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-17|FJ3332": {
-   "name": "Right least splanchnic nerve",
-   "measure": 2.3,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-255|FJ3161": {
-   "name": "Right C3 spinal nerve",
-   "measure": 4,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-256|FJ3164": {
-   "name": "Right C4 spinal nerve",
-   "measure": 3.2,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-257|FJ3167": {
-   "name": "Right C5 spinal nerve",
-   "measure": 4,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-258|FJ3167": {
-   "name": "Right C6 spinal nerve",
-   "measure": 2.7,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-263|FJ3161": {
-   "name": "Right dorsal ramus of C3 spinal nerve",
-   "measure": 4.1,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-264|FJ3164": {
-   "name": "Right dorsal ramus of C4 spinal nerve",
-   "measure": 2.8,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-266|FJ3170": {
-   "name": "Right dorsal ramus of C6 spinal nerve",
-   "measure": 2.5,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-268|FJ3158": {
-   "name": "Right dorsal ramus of C8 spinal nerve",
-   "measure": 3.9,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-26|FJ3235": {
-   "name": "Left greater splanchnic nerve",
-   "measure": 2.8,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-271|FJ3161": {
-   "name": "Left C3 spinal nerve",
-   "measure": 3.5,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-272|FJ3164": {
-   "name": "Left C4 spinal nerve",
-   "measure": 3.4,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-273|FJ3167": {
-   "name": "Left C5 spinal nerve",
-   "measure": 3.8,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-274|FJ3167": {
-   "name": "Left C6 spinal nerve",
-   "measure": 2.7,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-279|FJ3161": {
-   "name": "Left dorsal ramus of C3 spinal nerve",
-   "measure": 3.9,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-280|FJ3164": {
-   "name": "Left dorsal ramus of C4 spinal nerve",
-   "measure": 2.6,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-282|FJ3170": {
-   "name": "Left dorsal ramus of C6 spinal nerve",
-   "measure": 2.6,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-284|FJ3158": {
-   "name": "Left dorsal ramus of C8 spinal nerve",
-   "measure": 4.2,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-28|FJ3227": {
-   "name": "Left least splanchnic nerve",
-   "measure": 2.2,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-2|FJ3362": {
-   "name": "Clavicular branch of right thoraco-acromial artery",
-   "measure": 3,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-347|FJ3391": {
-   "name": "Right tendon of triceps brachii",
-   "measure": 4.1,
-   "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
-  },
-  "penetration|PK-349|FJ3391": {
-   "name": "Right tendon of triceps brachii",
-   "measure": 6.6,
-   "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
-  },
-  "penetration|PK-34|FJ3174": {
-   "name": "Posterior vagal trunk",
-   "measure": 5.9,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-34|FJ3175": {
-   "name": "Posterior vagal trunk",
-   "measure": 3.4,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-350|FJ3286": {
-   "name": "Left tendon of triceps brachii",
-   "measure": 4.5,
-   "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
-  },
-  "penetration|PK-352|FJ3286": {
-   "name": "Left tendon of triceps brachii",
-   "measure": 6.5,
-   "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
-  },
-  "penetration|PK-42|FJ3368": {
-   "name": "Right posterior circumflex humeral vein",
-   "measure": 7.9,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-43-END|FJ3391": {
-   "name": "Right posterior interosseous artery",
-   "measure": 6.5,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-436|FJ1410": {
-   "name": "Right tendon of biceps femoris",
-   "measure": 3.4,
-   "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
-  },
-  "penetration|PK-43|FJ3391": {
-   "name": "Right posterior interosseous artery",
-   "measure": 6.1,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-453|FJ1439": {
-   "name": "Right tendon of tibialis anterior",
-   "measure": 4.9,
-   "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
-  },
-  "penetration|PK-454|FJ1439M": {
-   "name": "Left tendon of tibialis anterior",
-   "measure": 4.7,
-   "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
-  },
-  "penetration|PK-455|FJ1440": {
-   "name": "Right tendon of tibialis posterior",
-   "measure": 3.2,
-   "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
-  },
-  "penetration|PK-457|FJ1440": {
-   "name": "Right tendon of flexor digitorum longus",
-   "measure": 7.5,
-   "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
-  },
-  "penetration|PK-465|FJ1410": {
-   "name": "Right tendon of fibularis longus",
-   "measure": 3.7,
-   "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
-  },
-  "penetration|PK-53|FJ3286": {
-   "name": "Left posterior interosseous artery",
-   "measure": 6,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-58|FJ3391": {
-   "name": "Right posterior interosseous vein",
-   "measure": 2.8,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-61-END|FJ3286": {
-   "name": "Left lateral brachial vein",
-   "measure": 6.3,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-61|FJ3286": {
-   "name": "Left lateral brachial vein",
-   "measure": 6.7,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-63|FJ3286": {
-   "name": "Left posterior interosseous vein",
-   "measure": 2.3,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-68|FJ3152": {
-   "name": "Right medial circumflex femoral artery",
-   "measure": 6,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-68|FJ3365": {
-   "name": "Right medial circumflex femoral artery",
-   "measure": 7.8,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-6|FJ3229": {
-   "name": "Left superior thoracic artery",
-   "measure": 2.3,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-75|FJ3365": {
-   "name": "Right saphenous branch of descending genicular artery",
-   "measure": 3.3,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-76|FJ3366": {
-   "name": "Right anterior lateral malleolar artery",
-   "measure": 6,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-76|FJ3387": {
-   "name": "Right anterior lateral malleolar artery",
-   "measure": 6.9,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-77|FJ3387": {
-   "name": "Right anterior medial malleolar artery",
-   "measure": 2.7,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-79|FJ3366": {
-   "name": "Right circumflex fibular artery",
-   "measure": 4.7,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|PK-7|FJ3237": {
+  "penetration|PK:Clavicular branch of left thoraco-acromial artery|FJ3237": {
    "name": "Clavicular branch of left thoraco-acromial artery",
    "measure": 3.1,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
-  "penetration|PK-80|FJ3364": {
-   "name": "Right lateral plantar vein",
+  "penetration|PK:Clavicular branch of right thoraco-acromial artery|FJ3362": {
+   "name": "Clavicular branch of right thoraco-acromial artery",
+   "measure": 3,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left C3 spinal nerve|FJ3161": {
+   "name": "Left C3 spinal nerve",
+   "measure": 3.5,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left C4 spinal nerve|FJ3164": {
+   "name": "Left C4 spinal nerve",
+   "measure": 3.4,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left C5 spinal nerve|FJ3167": {
+   "name": "Left C5 spinal nerve",
+   "measure": 3.8,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left C6 spinal nerve|FJ3167": {
+   "name": "Left C6 spinal nerve",
+   "measure": 2.7,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left anterior lateral malleolar artery|FJ3260": {
+   "name": "Left anterior lateral malleolar artery",
+   "measure": 5.4,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left anterior lateral malleolar artery|FJ3282": {
+   "name": "Left anterior lateral malleolar artery",
+   "measure": 6.7,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left anterior medial malleolar artery|FJ3282": {
+   "name": "Left anterior medial malleolar artery",
+   "measure": 2.4,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left circumflex fibular artery|FJ3260": {
+   "name": "Left circumflex fibular artery",
+   "measure": 3.7,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left dorsal ramus of C3 spinal nerve|FJ3161": {
+   "name": "Left dorsal ramus of C3 spinal nerve",
+   "measure": 3.9,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left dorsal ramus of C4 spinal nerve|FJ3164": {
+   "name": "Left dorsal ramus of C4 spinal nerve",
+   "measure": 2.6,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left dorsal ramus of C6 spinal nerve|FJ3170": {
+   "name": "Left dorsal ramus of C6 spinal nerve",
+   "measure": 2.6,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left dorsal ramus of C8 spinal nerve|FJ3158": {
+   "name": "Left dorsal ramus of C8 spinal nerve",
+   "measure": 4.2,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left dorsal ramus of thoracic spinal nerve|FJ3157": {
+   "name": "Left dorsal ramus of thoracic spinal nerve",
+   "measure": 2.7,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left greater splanchnic nerve|FJ3235": {
+   "name": "Left greater splanchnic nerve",
    "measure": 2.8,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
-  "penetration|PK-86|FJ3393": {
-   "name": "Right inferior gluteal nerve",
-   "measure": 3.3,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure."
+  "penetration|PK:Left lateral brachial vein-END|FJ3286": {
+   "name": "Left lateral brachial vein",
+   "measure": 6.3,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
-  "penetration|PK-95|FJ3259": {
+  "penetration|PK:Left lateral brachial vein|FJ3286": {
+   "name": "Left lateral brachial vein",
+   "measure": 6.7,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left lateral plantar vein|FJ3258": {
+   "name": "Left lateral plantar vein",
+   "measure": 2.8,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left least splanchnic nerve|FJ3227": {
+   "name": "Left least splanchnic nerve",
+   "measure": 2.2,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left medial circumflex femoral artery|FJ3259": {
    "name": "Left medial circumflex femoral artery",
    "measure": 7.8,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
-  "penetration|PK-95|FJ3288": {
+  "penetration|PK:Left medial circumflex femoral artery|FJ3288": {
    "name": "Left medial circumflex femoral artery",
    "measure": 6,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
-  "penetration|PKC-321|FJ3243": {
+  "penetration|PK:Left posterior intercostal veins|FJ3231": {
+   "name": "Left posterior intercostal veins",
+   "measure": 2.8,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left posterior intercostal veins|FJ3232": {
+   "name": "Left posterior intercostal veins",
+   "measure": 3.8,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left posterior intercostal veins|FJ3236": {
+   "name": "Left posterior intercostal veins",
+   "measure": 2.2,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left posterior interosseous artery|FJ3286": {
+   "name": "Left posterior interosseous artery",
+   "measure": 6,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left posterior interosseous vein|FJ3286": {
+   "name": "Left posterior interosseous vein",
+   "measure": 2.3,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left saphenous branch of descending genicular artery|FJ3259": {
+   "name": "Left saphenous branch of descending genicular artery",
+   "measure": 7.6,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left superior gluteal artery-END|FJ3288": {
+   "name": "Left superior gluteal artery",
+   "measure": 7.1,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left superior gluteal artery-END|FJ3393": {
+   "name": "Left superior gluteal artery",
+   "measure": 3.1,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left superior gluteal artery|FJ3288": {
+   "name": "Left superior gluteal artery",
+   "measure": 4.7,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left superior gluteal artery|FJ3393": {
+   "name": "Left superior gluteal artery",
+   "measure": 2.9,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left superior thoracic artery|FJ3229": {
+   "name": "Left superior thoracic artery",
+   "measure": 2.3,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Left tendon of tibialis anterior|FJ1439M": {
+   "name": "Left tendon of tibialis anterior",
+   "measure": 4.7,
+   "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
+  },
+  "penetration|PK:Left tendon of triceps brachii#1|FJ3286": {
+   "name": "Left tendon of triceps brachii",
+   "measure": 4.5,
+   "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
+  },
+  "penetration|PK:Left tendon of triceps brachii#3|FJ3286": {
+   "name": "Left tendon of triceps brachii",
+   "measure": 6.5,
+   "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
+  },
+  "penetration|PK:Posterior vagal trunk|FJ3174": {
+   "name": "Posterior vagal trunk",
+   "measure": 5.9,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Posterior vagal trunk|FJ3175": {
+   "name": "Posterior vagal trunk",
+   "measure": 3.4,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right C3 spinal nerve|FJ3161": {
+   "name": "Right C3 spinal nerve",
+   "measure": 4,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right C4 spinal nerve|FJ3164": {
+   "name": "Right C4 spinal nerve",
+   "measure": 3.2,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right C5 spinal nerve|FJ3167": {
+   "name": "Right C5 spinal nerve",
+   "measure": 4,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right C6 spinal nerve|FJ3167": {
+   "name": "Right C6 spinal nerve",
+   "measure": 2.7,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right anterior lateral malleolar artery|FJ3366": {
+   "name": "Right anterior lateral malleolar artery",
+   "measure": 6,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right anterior lateral malleolar artery|FJ3387": {
+   "name": "Right anterior lateral malleolar artery",
+   "measure": 6.9,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right anterior medial malleolar artery|FJ3387": {
+   "name": "Right anterior medial malleolar artery",
+   "measure": 2.7,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right circumflex fibular artery|FJ3366": {
+   "name": "Right circumflex fibular artery",
+   "measure": 4.7,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right dorsal ramus of C3 spinal nerve|FJ3161": {
+   "name": "Right dorsal ramus of C3 spinal nerve",
+   "measure": 4.1,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right dorsal ramus of C4 spinal nerve|FJ3164": {
+   "name": "Right dorsal ramus of C4 spinal nerve",
+   "measure": 2.8,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right dorsal ramus of C6 spinal nerve|FJ3170": {
+   "name": "Right dorsal ramus of C6 spinal nerve",
+   "measure": 2.5,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right dorsal ramus of C8 spinal nerve|FJ3158": {
+   "name": "Right dorsal ramus of C8 spinal nerve",
+   "measure": 3.9,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right dorsal ramus of thoracic spinal nerve|FJ3157": {
+   "name": "Right dorsal ramus of thoracic spinal nerve",
+   "measure": 3.4,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right greater splanchnic nerve|FJ3175": {
+   "name": "Right greater splanchnic nerve",
+   "measure": 2.8,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right inferior gluteal nerve|FJ3393": {
+   "name": "Right inferior gluteal nerve",
+   "measure": 3.3,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure."
+  },
+  "penetration|PK:Right lateral plantar vein|FJ3364": {
+   "name": "Right lateral plantar vein",
+   "measure": 2.8,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right least splanchnic nerve|FJ3156": {
+   "name": "Right least splanchnic nerve",
+   "measure": 2.3,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right least splanchnic nerve|FJ3332": {
+   "name": "Right least splanchnic nerve",
+   "measure": 2.3,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right lesser splanchnic nerve|FJ3155": {
+   "name": "Right lesser splanchnic nerve",
+   "measure": 2.3,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right medial circumflex femoral artery|FJ3152": {
+   "name": "Right medial circumflex femoral artery",
+   "measure": 6,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right medial circumflex femoral artery|FJ3365": {
+   "name": "Right medial circumflex femoral artery",
+   "measure": 7.8,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right posterior circumflex humeral vein|FJ3368": {
+   "name": "Right posterior circumflex humeral vein",
+   "measure": 7.9,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right posterior intercostal veins|FJ3330": {
+   "name": "Right posterior intercostal veins",
+   "measure": 3,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right posterior intercostal veins|FJ3338": {
+   "name": "Right posterior intercostal veins",
+   "measure": 3,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right posterior intercostal veins|FJ3342": {
+   "name": "Right posterior intercostal veins",
+   "measure": 2.6,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right posterior intercostal veins|FJ3347": {
+   "name": "Right posterior intercostal veins",
+   "measure": 2.6,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right posterior intercostal veins|FJ3348": {
+   "name": "Right posterior intercostal veins",
+   "measure": 2.7,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right posterior interosseous artery-END|FJ3391": {
+   "name": "Right posterior interosseous artery",
+   "measure": 6.5,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right posterior interosseous artery|FJ3391": {
+   "name": "Right posterior interosseous artery",
+   "measure": 6.1,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right posterior interosseous vein|FJ3391": {
+   "name": "Right posterior interosseous vein",
+   "measure": 2.8,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right saphenous branch of descending genicular artery|FJ3365": {
+   "name": "Right saphenous branch of descending genicular artery",
+   "measure": 3.3,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right superior phrenic artery|FJ3154": {
+   "name": "Right superior phrenic artery",
+   "measure": 3,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right supreme intercostal artery|FJ3334": {
+   "name": "Right supreme intercostal artery",
+   "measure": 2.3,
+   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
+  },
+  "penetration|PK:Right tendon of biceps femoris#2|FJ1410": {
+   "name": "Right tendon of biceps femoris",
+   "measure": 3.4,
+   "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
+  },
+  "penetration|PK:Right tendon of fibularis longus|FJ1410": {
+   "name": "Right tendon of fibularis longus",
+   "measure": 3.7,
+   "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
+  },
+  "penetration|PK:Right tendon of flexor digitorum longus|FJ1440": {
+   "name": "Right tendon of flexor digitorum longus",
+   "measure": 7.5,
+   "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
+  },
+  "penetration|PK:Right tendon of tibialis anterior|FJ1439": {
+   "name": "Right tendon of tibialis anterior",
+   "measure": 4.9,
+   "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
+  },
+  "penetration|PK:Right tendon of tibialis posterior|FJ1440": {
+   "name": "Right tendon of tibialis posterior",
+   "measure": 3.2,
+   "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
+  },
+  "penetration|PK:Right tendon of triceps brachii#1|FJ3391": {
+   "name": "Right tendon of triceps brachii",
+   "measure": 4.1,
+   "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
+  },
+  "penetration|PK:Right tendon of triceps brachii#3|FJ3391": {
+   "name": "Right tendon of triceps brachii",
+   "measure": 6.6,
+   "reason": "tendon end overlaps the bone face at its attachment; to be re-seated on the attachment footprint"
+  },
+  "penetration|PKC:Left arteria radialis indicis|FJ3243": {
    "name": "Left arteria radialis indicis",
    "measure": 3,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
@@ -3712,7 +3712,7 @@
    "measure": 5.3,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
-  "penetration|nerve:Suprascapular nerve.l.001|PK-157": {
+  "penetration|nerve:Suprascapular nerve.l.001|PK:Left infraspinous fossa": {
    "name": "Suprascapular nerve.l",
    "measure": 7.4,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
@@ -4626,145 +4626,145 @@
    "fraction": 0.019345238095238096,
    "severity": 2.1
   },
-  "stretch|PK-111|hip flexion 120 knee flexion 130": {
-   "name": "Left inferior gluteal artery",
-   "measure": 67,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.09571428571428571,
-   "severity": 2.6
-  },
-  "stretch|PK-171|shoulder flexion 150": {
-   "name": "Right axillary sheath",
-   "measure": 73,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.10428571428571429,
-   "severity": 2.3
-  },
-  "stretch|PK-180|shoulder flexion 150": {
-   "name": "Left axillary sheath",
-   "measure": 94,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.13428571428571429,
-   "severity": 2.4
-  },
-  "stretch|PK-199|shoulder flexion 150": {
-   "name": "Right quadrangular space",
-   "measure": 8,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.6666666666666666,
-   "severity": 2.3
-  },
-  "stretch|PK-200|shoulder flexion 150": {
-   "name": "Right triangular space",
-   "measure": 9,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.75,
-   "severity": 2.8
-  },
-  "stretch|PK-201|shoulder flexion 150": {
-   "name": "Right triangular interval",
-   "measure": 8,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.6666666666666666,
-   "severity": 3.2
-  },
-  "stretch|PK-203|shoulder abduction 120": {
-   "name": "Right axillary fossa",
-   "measure": 2,
-   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.16666666666666666,
-   "severity": 2.8
-  },
-  "stretch|PK-203|shoulder flexion 150": {
-   "name": "Right axillary fossa",
-   "measure": 2,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.16666666666666666,
-   "severity": 2.3
-  },
-  "stretch|PK-210|shoulder flexion 150": {
-   "name": "Left quadrangular space",
-   "measure": 8,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.6666666666666666,
-   "severity": 2.3
-  },
-  "stretch|PK-211|shoulder flexion 150": {
-   "name": "Left triangular space",
-   "measure": 9,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.75,
-   "severity": 2.8
-  },
-  "stretch|PK-212|shoulder flexion 150": {
-   "name": "Left triangular interval",
-   "measure": 8,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.6666666666666666,
-   "severity": 3.2
-  },
-  "stretch|PK-214|shoulder abduction 120": {
+  "stretch|PK:Left axillary fossa|shoulder abduction 120": {
    "name": "Left axillary fossa",
    "measure": 2,
    "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.16666666666666666,
    "severity": 2.9
   },
-  "stretch|PK-214|shoulder flexion 150": {
+  "stretch|PK:Left axillary fossa|shoulder flexion 150": {
    "name": "Left axillary fossa",
    "measure": 2,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.16666666666666666,
    "severity": 2.4
   },
-  "stretch|PK-347|elbow flexion 140": {
-   "name": "Right tendon of triceps brachii",
-   "measure": 2,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.002403846153846154,
-   "severity": 2
+  "stretch|PK:Left axillary sheath|shoulder flexion 150": {
+   "name": "Left axillary sheath",
+   "measure": 94,
+   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.13428571428571429,
+   "severity": 2.4
   },
-  "stretch|PK-348|elbow flexion 140": {
-   "name": "Right tendon of triceps brachii",
-   "measure": 2,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.0029069767441860465,
-   "severity": 2
+  "stretch|PK:Left inferior gluteal artery|hip flexion 120 knee flexion 130": {
+   "name": "Left inferior gluteal artery",
+   "measure": 67,
+   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.09571428571428571,
+   "severity": 2.6
   },
-  "stretch|PK-351|elbow flexion 140": {
-   "name": "Left tendon of triceps brachii",
-   "measure": 40,
-   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.05952380952380952,
-   "severity": 3
-  },
-  "stretch|PK-36|shoulder flexion 150": {
-   "name": "Right lateral cord of brachial plexus",
-   "measure": 18,
-   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure.",
-   "fraction": 0.025714285714285714,
-   "severity": 2.1
-  },
-  "stretch|PK-46|shoulder flexion 150": {
+  "stretch|PK:Left lateral cord of brachial plexus|shoulder flexion 150": {
    "name": "Left lateral cord of brachial plexus",
    "measure": 10,
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.014285714285714285,
    "severity": 2
   },
-  "stretch|PK-81-END|hip flexion 120 knee flexion 130": {
+  "stretch|PK:Left quadrangular space|shoulder flexion 150": {
+   "name": "Left quadrangular space",
+   "measure": 8,
+   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.6666666666666666,
+   "severity": 2.3
+  },
+  "stretch|PK:Left tendon of triceps brachii#2|elbow flexion 140": {
+   "name": "Left tendon of triceps brachii",
+   "measure": 40,
+   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.05952380952380952,
+   "severity": 3
+  },
+  "stretch|PK:Left triangular interval|shoulder flexion 150": {
+   "name": "Left triangular interval",
+   "measure": 8,
+   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.6666666666666666,
+   "severity": 3.2
+  },
+  "stretch|PK:Left triangular space|shoulder flexion 150": {
+   "name": "Left triangular space",
+   "measure": 9,
+   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.75,
+   "severity": 2.8
+  },
+  "stretch|PK:Right axillary fossa|shoulder abduction 120": {
+   "name": "Right axillary fossa",
+   "measure": 2,
+   "reason": "triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.16666666666666666,
+   "severity": 2.8
+  },
+  "stretch|PK:Right axillary fossa|shoulder flexion 150": {
+   "name": "Right axillary fossa",
+   "measure": 2,
+   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.16666666666666666,
+   "severity": 2.3
+  },
+  "stretch|PK:Right axillary sheath|shoulder flexion 150": {
+   "name": "Right axillary sheath",
+   "measure": 73,
+   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.10428571428571429,
+   "severity": 2.3
+  },
+  "stretch|PK:Right inferior gluteal artery|hip flexion 120 knee flexion 130": {
+   "name": "Right inferior gluteal artery",
+   "measure": 115,
+   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.16428571428571428,
+   "severity": 2.5
+  },
+  "stretch|PK:Right lateral cord of brachial plexus|shoulder flexion 150": {
+   "name": "Right lateral cord of brachial plexus",
+   "measure": 18,
+   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure.",
+   "fraction": 0.025714285714285714,
+   "severity": 2.1
+  },
+  "stretch|PK:Right quadrangular space|shoulder flexion 150": {
+   "name": "Right quadrangular space",
+   "measure": 8,
+   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.6666666666666666,
+   "severity": 2.3
+  },
+  "stretch|PK:Right superior gluteal artery-END|hip flexion 120 knee flexion 130": {
    "name": "Right superior gluteal artery",
    "measure": 4,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.0016339869281045752,
    "severity": 2
   },
-  "stretch|PK-84|hip flexion 120 knee flexion 130": {
-   "name": "Right inferior gluteal artery",
-   "measure": 115,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.16428571428571428,
-   "severity": 2.5
+  "stretch|PK:Right tendon of triceps brachii#1|elbow flexion 140": {
+   "name": "Right tendon of triceps brachii",
+   "measure": 2,
+   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.002403846153846154,
+   "severity": 2
+  },
+  "stretch|PK:Right tendon of triceps brachii#2|elbow flexion 140": {
+   "name": "Right tendon of triceps brachii",
+   "measure": 2,
+   "reason": "triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.0029069767441860465,
+   "severity": 2
+  },
+  "stretch|PK:Right triangular interval|shoulder flexion 150": {
+   "name": "Right triangular interval",
+   "measure": 8,
+   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.6666666666666666,
+   "severity": 3.2
+  },
+  "stretch|PK:Right triangular space|shoulder flexion 150": {
+   "name": "Right triangular space",
+   "measure": 9,
+   "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
+   "fraction": 0.75,
+   "severity": 2.8
   },
   "stretch|nerve:Lateral pectoral nerve.l.001|shoulder abduction 120": {
    "name": "Lateral pectoral nerve.l",
@@ -4921,12 +4921,12 @@
    "measure": 174,
    "reason": "faces coincide with Right superior rectus: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1411M|PK-470": {
+  "zfight|FJ1411M|PK:Left tendon of fibularis tertius": {
    "name": "Left fibularis tertius",
    "measure": 189,
    "reason": "faces coincide with Left tendon of fibularis tertius: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1411|PK-469": {
+  "zfight|FJ1411|PK:Right tendon of fibularis tertius": {
    "name": "Right fibularis tertius",
    "measure": 193,
    "reason": "faces coincide with Right tendon of fibularis tertius: two layers share the same surface; to be offset or one of them removed"
@@ -4971,82 +4971,82 @@
    "measure": 229,
    "reason": "faces coincide with Tendinous arch of levator ani: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1475M|PK-367": {
+  "zfight|FJ1475M|PK:Left tendons of flexor digitorum superficialis#1": {
    "name": "Left flexor digitorum superficialis",
    "measure": 574,
    "reason": "faces coincide with Left tendons of flexor digitorum superficialis: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1475|PK-365": {
+  "zfight|FJ1475|PK:Right tendons of flexor digitorum superficialis#1": {
    "name": "Right flexor digitorum superficialis",
    "measure": 568,
    "reason": "faces coincide with Right tendons of flexor digitorum superficialis: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1484M|PK-386": {
+  "zfight|FJ1484M|PK:Left tendon of abductor pollicis longus": {
    "name": "Left abductor pollicis longus",
    "measure": 155,
    "reason": "faces coincide with Left tendon of abductor pollicis longus: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1484|PK-385": {
+  "zfight|FJ1484|PK:Right tendon of abductor pollicis longus": {
    "name": "Right abductor pollicis longus",
    "measure": 159,
    "reason": "faces coincide with Right tendon of abductor pollicis longus: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1492M|PK-378": {
+  "zfight|FJ1492M|PK:Left tendons of extensor digitorum": {
    "name": "Left extensor digitorum",
    "measure": 357,
    "reason": "faces coincide with Left tendons of extensor digitorum: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1492|PK-377": {
+  "zfight|FJ1492|PK:Right tendons of extensor digitorum": {
    "name": "Right extensor digitorum",
    "measure": 371,
    "reason": "faces coincide with Right tendons of extensor digitorum: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1494M|PK-388": {
+  "zfight|FJ1494M|PK:Left tendon of extensor pollicis brevis": {
    "name": "Left extensor pollicis brevis",
    "measure": 133,
    "reason": "faces coincide with Left tendon of extensor pollicis brevis: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1494|PK-387": {
+  "zfight|FJ1494|PK:Right tendon of extensor pollicis brevis": {
    "name": "Right extensor pollicis brevis",
    "measure": 132,
    "reason": "faces coincide with Right tendon of extensor pollicis brevis: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1495M|PK-390": {
+  "zfight|FJ1495M|PK:Left tendon of extensor pollicis longus": {
    "name": "Left extensor pollicis longus",
    "measure": 181,
    "reason": "faces coincide with Left tendon of extensor pollicis longus: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1495|PK-389": {
+  "zfight|FJ1495|PK:Right tendon of extensor pollicis longus": {
    "name": "Right extensor pollicis longus",
    "measure": 176,
    "reason": "faces coincide with Right tendon of extensor pollicis longus: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1497M|PK-370": {
+  "zfight|FJ1497M|PK:Left tendons of flexor digitorum profundus": {
    "name": "Left flexor digitorum profundus",
    "measure": 383,
    "reason": "faces coincide with Left tendons of flexor digitorum profundus: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1497|PK-369": {
+  "zfight|FJ1497|PK:Right tendons of flexor digitorum profundus": {
    "name": "Right flexor digitorum profundus",
    "measure": 388,
    "reason": "faces coincide with Right tendons of flexor digitorum profundus: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1502M|PK-360": {
+  "zfight|FJ1502M|PK:Left palmar aponeurosis": {
    "name": "Left palmaris longus",
    "measure": 524,
    "reason": "faces coincide with Left palmar aponeurosis: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1502|PK-358": {
+  "zfight|FJ1502|PK:Right palmar aponeurosis": {
    "name": "Right palmaris longus",
    "measure": 523,
    "reason": "faces coincide with Right palmar aponeurosis: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1517M|PK-384": {
+  "zfight|FJ1517M|PK:Left tendon of extensor carpi ulnaris#2": {
    "name": "Left extensor carpi ulnaris",
    "measure": 132,
    "reason": "faces coincide with Left tendon of extensor carpi ulnaris: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1517|PK-382": {
+  "zfight|FJ1517|PK:Right tendon of extensor carpi ulnaris#2": {
    "name": "Right extensor carpi ulnaris",
    "measure": 125,
    "reason": "faces coincide with Right tendon of extensor carpi ulnaris: two layers share the same surface; to be offset or one of them removed"
@@ -5146,7 +5146,7 @@
    "measure": 107,
    "reason": "faces coincide with Right subscapular artery: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ2287-END|PK-56-END": {
+  "zfight|FJ2287-END|PK:Right lateral brachial vein-END": {
    "name": "Right median cubital vein",
    "measure": 116,
    "reason": "faces coincide with Right lateral brachial vein: two layers share the same surface; to be offset or one of them removed"
@@ -5216,20 +5216,20 @@
    "measure": 494,
    "reason": "faces coincide with Cervix of uterus: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|PK-142|PK-207": {
-   "name": "Right styloid process of radius",
-   "measure": 131,
-   "reason": "faces coincide with Right anatomical snuffbox: two layers share the same surface; to be offset or one of them removed"
+  "zfight|PK:Esophageal impression of left lung|PK:Apex of left lung": {
+   "name": "Esophageal impression of left lung",
+   "measure": 57,
+   "reason": "faces coincide with Apex of left lung: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|PK-234|PK-235": {
+  "zfight|PK:Lingula of left lung|PK:Cardiac notch of left lung": {
    "name": "Lingula of left lung",
    "measure": 1106,
    "reason": "faces coincide with Cardiac notch of left lung: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|PK-246|PK-337": {
-   "name": "Esophageal impression of left lung",
-   "measure": 57,
-   "reason": "faces coincide with Apex of left lung: two layers share the same surface; to be offset or one of them removed"
+  "zfight|PK:Right styloid process of radius|PK:Right anatomical snuffbox": {
+   "name": "Right styloid process of radius",
+   "measure": 131,
+   "reason": "faces coincide with Right anatomical snuffbox: two layers share the same surface; to be offset or one of them removed"
   }
  }
 }
