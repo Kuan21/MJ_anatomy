@@ -5,8 +5,9 @@
 
 ## 目前狀態
 - 專案處於**穩定期**（2026-11-08 起）：暫停新功能，只修顯示錯誤；所有 PR 都要使用者人工審核，不可自行 merge。
-- main 最新：#224（穩定期第 1 節自動檢查）、#245/#244（走向動畫微調）、#246（ROADMAP 增補）。
-- 開放 PR 共 10 個，全部【需人工審核】、等使用者：
+- main 最新：#338（2026-11-15 第十四次查看時）。本分支已合併 main 到 #338。
+- **main 已經有中心線連續性檢查**（#281、#328：`scripts/check-centerlines.mjs`、基準 `docs/centerline-known.json` 57 條，已在 `npm run check` 內）。本分支的 `check-centreline-continuity.mjs` 是另一套做法，見「待我決定」。
+- 開放 PR（下列是 2026-11-11 的清單；本機沒有 `gh`，之後沒有再查，main 已合併到 #338，清單很可能已過時）：
   - #223 心臟腔內構造與標籤（部分完成）
   - #226 背闊肌撕裂與權重平滑（S2-A）
   - #227 胸腔米色三角形與白板（S2-G）
@@ -130,6 +131,17 @@
   - 未提交的暫存診斷腳本 `_diag-jumps.mjs`、`_diag-radius.mjs`、`_diag-branch.mjs`、`_diag-femoral.mjs` 仍在（依「不刪檔」沒有刪），可以由你刪除。`package-lock.json` 的未提交差異仍未提交。
   - 本機沒有 `gh`，未查開放 PR 是否有變動。
 
+- 2026-11-15（第十四次）：合併 main，只動腳本與檢查清單，沒有改模型、解剖內容或網站。
+  - 重新檢查：`work/`、supplement／serous／female 三個生成串流與跑考串流的二進位檔仍不存在；沒有下載資料。
+  - **main 已前進 95 個 commit（到 #338），而且與本分支在兩個檔衝突**（`package.json`、`scripts/lib/leg-centreline.mjs`），PR #248 在解決前無法合併。已用一般 merge（不是 rebase，沒有改寫歷史）把 origin/main 合併進本分支並解決衝突；合併沒有刪除任何檔案（只有 main 自己的兩個改名）。
+  - `package.json`：main 已把 `npm run check` 改成由 `scripts/run-checks.mjs` 讀清單檔；採用 main 的寫法，本分支的七個中心線合成測試改列在 `scripts/checks/check.d/20261115-centreline-lib-tests.txt`（155 步中的第 148–154 步；本機用 `--only=test-centreline` 跑過，七個都通過）。
+  - `leg-centreline.mjs`：兩邊都改了 `centrelineOf` 的第三個參數（main 傳 `{start}` 指定要量哪一件；本分支傳一個接收圈距的物件，第四個參數是 `reach`）。合併後第三個參數是同一個可選物件（讀 `start`、寫回 `steps`），第四個參數 `reach` 保留，兩邊的呼叫都不用改。用合成的兩件網格確認 main 的 `centrelinesOf` 仍回傳兩條線（長的在前），本分支的圈距也照常回傳。
+  - **main 已有自己的中心線連續性檢查**（#281、#328）：`scripts/check-centerlines.mjs`，上一級關係取自 `app/mj-vessel-parents.json`，以中心線距離 6 mm 判斷，基準 `docs/centerline-known.json` 目前 57 條，已在 `npm run check` 內。也就是 ROADMAP S5（a）在 main 已經有一版。本分支的 `check-centreline-continuity.mjs` 是另一套（關係取自 `topology-spec`、以表面距離 3 mm 判斷、另量同一結構各件相接），基準仍未產生、未加入檢查清單。兩套怎樣處理已列入「待我決定」；決定前本分支這一套維持現狀。
+  - 合併後本機通過：七個 `test-centreline-*`、`check-no-notes`、`check:zh`（204 個檔）、`tsc --noEmit`；`check-centreline-continuity.mjs --available --list` 結果與合併前相同（127 個關係、同十個超過 3 mm、左右拇主動脈 9 mm）。main 的 `check-centerlines.mjs` 與完整 `npm run check` 在本機因缺生成檔停下，**合併後沒有跑過完整檢查**，要看 PR #248 的 CI 結果。
+  - 兩邊各有一個叫 `centrelinesOf` 的函式（main 的在 `leg-centreline.mjs`，本分支的在 `centreline-pieces.mjs`），做法不同、互不影響，但名稱相同容易混淆；沒有改名，留待上面的決定。
+  - 未提交的暫存診斷腳本 `_diag-jumps.mjs`、`_diag-radius.mjs`、`_diag-branch.mjs`、`_diag-femoral.mjs` 仍在（依「不刪檔」沒有刪），可以由你刪除。`package-lock.json` 的未提交差異仍未提交。
+  - 本機沒有 `gh`，未查開放 PR 是否有變動，也沒有看到 PR #248 的 CI 結果。
+
 ## 進行中／等審核
 - S2 A–G、S3、S4、S6 相關工作都已有 PR（見上），等使用者審核。
 
@@ -153,6 +165,7 @@
 - 待審 PR 已有 10 個，遠超 #234 擬定的上限 5 個；在使用者審核／合併前，自動排程**不新開**涉及模型或解剖內容的 PR，避免再堆積。請決定先審哪幾個。
 - S5 多件網格「未判定」183 個（`docs/centerline-report.md` 多件表，其中 57 個連接距離超過 5 mm；2026-11-14 重新產生前是 54 個）：每一個要當成「成組結構」（各件本來分開，不檢查相接）還是「單一結構」（各件必須相接，列入連續性基準），需你決定；決定前連續性檢查只會涵蓋 topology-spec 已列的結構。
 - S5 左右拇主動脈（2026-11-15 第十三次）：各有兩個同名網格，表面相距 9 mm（本機試跑，不含連接管，未在 3D 畫面確認）。請決定這是兩條本來分開的分支（不檢查相接），還是應該相接（列入基準當已知空隙）。決定前建立基準時會照現況記為已知空隙。
+- S5 兩套連續性檢查（2026-11-15 第十四次）：main 已有 `check-centerlines.mjs`（#281、#328；中心線距離、基準 57 條、已在 `npm run check`）；本分支另有 `check-centreline-continuity.mjs`（表面距離、topology-spec、各件相接；未有基準）。請決定：（甲）只留 main 那一套，本分支的量測程式庫只當報告工具；（乙）把本分支的表面距離與「各件相接」併入 main 那一套；（丙）兩套並存。建議（乙）或（甲），不建議（丙）（同一件事會有兩份基準）。決定前不動。
 - #228：枕部缺口要不要補、怎麼補（新增解剖內容）。
 - #242：5 個關節網格位置與舊版差 4–23 mm，保留官方新位置或改回舊位置。
 - #247：「噁心」的配色問題是否就是網紋、斑點、配色三點。
@@ -175,6 +188,7 @@
 - 上一項（2）的「粗管粗分支旁圈中心被拉偏」已處理（2026-11-15 第十二次：`robustRings` 加入中心位置判斷；很粗的管配粗分支仍是已知限制，對本機實際資料幾乎沒有影響，不再排入）。
 - 下一項：不需生成檔、又不改網站的 S5 工作已做完。剩下的都要等你：（1）三個生成串流與跑考串流二進位檔到位後跑 `node scripts/check-centreline-continuity.mjs --init`，看清單是否合理，再加入 `npm run check`；（2）「未判定」多件網格的歸類（見「待我決定」）；（3）S5「整條高亮」會改網站，等待審 PR 處理後再開始。
 - 2026-11-15 第十三次：連續性檢查補上「同一結構各件相接」（`link` 項目）。其餘不變：仍等上面（1）（2）（3）。
+- 2026-11-15 第十四次：已合併 main（到 #338）並解決衝突。下一次先看 main 有沒有再前進、有沒有新衝突（`git merge-tree --write-tree --name-only HEAD origin/main`），有就再合併一次；其餘仍等上面（1）（2）（3）與「兩套連續性檢查」的決定。
 - 規則：所有排程工作都放在本分支與 PR #248，不另開分支或 PR。
 
 ## 下一步（舊）
