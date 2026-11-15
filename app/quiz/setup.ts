@@ -1,4 +1,4 @@
-import {QUIZ_CATEGORIES, QUIZ_REGIONS, questionPool, regionIds, type QuizCatalogue, type QuizCategory, type QuizRegionId, type QuizSettings, type QuizSide} from './catalogue';
+import {QUIZ_CATEGORIES, QUIZ_REGIONS, orderedRegions, questionPool, regionIds, type QuizCatalogue, type QuizCategory, type QuizRegionId, type QuizSettings, type QuizSide} from './catalogue';
 import {namingPool} from './level2';
 import {defaultStore, type Store} from './lesson-progress';
 
@@ -80,7 +80,7 @@ export interface QuizPlan {level: QuizLevel; language: QuizSetup['language']; ne
 /** The plan the run page plays: one block per chosen region, in the order of the choosers. */
 export function planOf(setup: QuizSetup, pools: Record<string, number>): QuizPlan {
   const counts = splitCount(setup.count, pools);
-  const order = regionIds();
+  const order = orderedRegions().map(r => r.id);
   return {level: setup.level, language: setup.language, needSide: setup.needSide, setup,
     blocks: Object.keys(counts).filter(id => counts[id] > 0).sort((a, b) => order.indexOf(a as QuizRegionId) - order.indexOf(b as QuizRegionId)).map(id => ({region: id as QuizRegionId, count: counts[id]}))};
 }
