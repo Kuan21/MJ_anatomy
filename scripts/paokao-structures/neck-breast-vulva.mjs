@@ -117,9 +117,29 @@ export default function neckBreastVulva(U) {
     add('body', 'Body of clitoris', '陰蒂體', {origin: ['The shaft of the clitoris: two corpora cavernosa that lie side by side under the lower border of the pubic symphysis', '陰蒂的主幹：兩條並列的海綿體，位於恥骨聯合下緣下方'], course: ['Runs forwards and bends down under the symphysis to the glans; backwards it divides into the two crura', '向前在恥骨聯合下方彎向下接陰蒂頭；向後分成左右兩個陰蒂腳'], supply: ['Dorsal nerve and dorsal and deep arteries of the clitoris; the suspensory ligament holds it to the symphysis', '陰蒂背神經與陰蒂背動脈、陰蒂深動脈；陰蒂懸韌帶把它固定在恥骨聯合']}, 5000);
     for (const k of ['crusL', 'crusR']) { const S = sideOfPart(k); add(k, `${S.w} crus of clitoris`, `${S.zh}陰蒂腳`, {origin: ['Attached to the inner surface of the ischiopubic ramus, covered by ischiocavernosus', '附著於坐骨恥骨支內面，被坐骨海綿體肌覆蓋'], course: ['Passes forwards and medially along the ramus to join its fellow and form the body of the clitoris', '沿坐骨恥骨支向前內側走行，與對側會合形成陰蒂體'], supply: ['Dorsal nerve of the clitoris (pudendal nerve); deep artery of the clitoris', '陰蒂背神經（陰部神經）；陰蒂深動脈']}, 5000); }
     for (const k of ['bulbL', 'bulbR']) { const S = sideOfPart(k); add(k, `${S.w} bulb of vestibule`, `${S.zh}前庭球`, {origin: ['Erectile tissue on each side of the vaginal orifice, deep to the labia minora', '位於陰道口兩側、小陰唇深面的勃起組織'], course: ['Joined in front by a narrow band under the clitoris; covered by bulbospongiosus', '前方以細帶在陰蒂下方相連；被球海綿體肌覆蓋'], supply: ['Perineal branches of the pudendal nerve; artery of the bulb of the vestibule', '陰部神經會陰支；前庭球動脈']}, 5000); }
-    const introitus = U.extreme('Vagina', P(0, -1, 0), {});
-    for (const S of SIDES) out.push({name: `${S.w} greater vestibular gland`, zh: `${S.zh}前庭大腺（巴氏腺）`, system: 'reproductive', kind: 'gland', sex: 'female', geometry: [U.ellipsoid(P(S.sx * .0145, introitus[1] - .003, introitus[2] + .004), .0055, .0055, .0055)],
-      card: {origin: ['Pea-sized gland behind each vestibular bulb, deep to the posterior part of the labium majus', '位於前庭球後方、大陰唇後部深面的豌豆大小腺體'], course: ['Its duct opens in the groove between the hymen and the labium minus, near the middle of the vestibule', '導管開口於處女膜與小陰唇之間的溝，約在前庭中部'], supply: ['Secretes mucus during arousal; blood supply from the internal pudendal artery', '興奮時分泌黏液；血液供應來自陰部內動脈']}, refs: []});
+    // Greater vestibular glands: pea-sized (about 8 mm), one on each side of the vaginal opening, behind and beside it at about 4 and 8 o'clock, deep to the posterior end of the vestibular bulb,
+    // touching the wall of the lower vagina. Placed from the vagina and the bulbs: at the height of the posterior ends of the two bulbs, on the posterolateral wall of the vagina, pushed out by
+    // their own radius so they rest against it, and mirrored about the axis of the lower vagina so the two sides are symmetrical.
+    {
+      const H = cat(hipAll), Vg = cat(vag), R = {x: .0040, y: .0035, z: .0040};
+      let hlo = Infinity, hhi = -Infinity; for (let i = 0; i < H.length; i += 3) { hlo = Math.min(hlo, H[i]); hhi = Math.max(hhi, H[i]); }
+      const postEnd = k => { const g = placed(k).positions; let best = null; for (let i = 0; i < g.length; i += 3) if (!best || g[i + 2] < best[2]) best = [g[i], g[i + 1], g[i + 2]]; return best; };
+      const yb = (postEnd('bulbL')[1] + postEnd('bulbR')[1]) / 2 - .002;   // 2 mm below the posterior ends: deep to them, against the vaginal wall
+      const slab = []; for (let i = 0; i < Vg.length; i += 3) if (Math.abs(Vg[i + 1] - yb) < .003) slab.push([Vg[i], Vg[i + 1], Vg[i + 2]]);
+      if (slab.length < 20) throw new Error('vulva: too few vaginal vertices at the level of the vestibular bulbs');
+      // symmetrical about the axis of the lower vagina (the glands rest against it); the pelvic midline (middle of the hip bones) is reported next to it
+      const xm = (Math.min(...slab.map(p => p[0])) + Math.max(...slab.map(p => p[0]))) / 2;
+      const zc = slab.reduce((a, p) => a + p[2], 0) / slab.length, r = (R.x + R.z) / 2, k45 = Math.SQRT1_2;
+      const centre = sx => {   // the vaginal vertex furthest towards (side, posterior), then out by the gland radius (0.5 mm of overlap so it touches rather than floats)
+        let wall = null, bestScore = -Infinity;
+        for (const p of slab) { const sc = sx * k45 * (p[0] - xm) - k45 * (p[2] - zc); if (sc > bestScore) { bestScore = sc; wall = p; } }
+        return [wall[0] + sx * k45 * (r - .0005), yb, wall[2] - k45 * (r - .0005)];
+      };
+      const cs = {'-1': centre(-1), '1': centre(1)}, dx = (Math.abs(cs['-1'][0] - xm) + Math.abs(cs['1'][0] - xm)) / 2, cz = (cs['-1'][2] + cs['1'][2]) / 2;
+      fit.report.glandMm = {vaginaAxisX: +(xm * 1000).toFixed(1), pelvisMidlineX: +(((hlo + hhi) / 2) * 1000).toFixed(1), offsetMm: +(dx * 1000).toFixed(1), y: +(yb * 1000).toFixed(1), z: +(cz * 1000).toFixed(1)};
+      for (const S of SIDES) out.push({name: `${S.w} greater vestibular gland`, zh: `${S.zh}前庭大腺（巴氏腺）`, system: 'reproductive', kind: 'gland', sex: 'female', geometry: [U.ellipsoid(P(xm + S.sx * dx, yb, cz), R.x, R.y, R.z)],
+        card: {origin: ['Pea-sized gland on each side of the vaginal opening, behind and beside it at about 4 and 8 o\'clock, deep to the posterior end of the vestibular bulb and the bulbospongiosus, against the lower vagina', '位於陰道口兩側後外方（約 4 點與 8 點方向）的豌豆大小腺體，在前庭球後端與球海綿體肌深面，貼著陰道下端'], course: ['Its duct, about 2 cm long, opens in the groove between the hymen and the labium minus, near the middle of the vestibule', '導管長約 2 公分，開口於處女膜與小陰唇之間的溝，約在前庭中部'], supply: ['Secretes mucus during arousal; blood supply from the internal pudendal artery', '興奮時分泌黏液；血液供應來自陰部內動脈']}, refs: []});
+    }
     fit.report.glansMm = fit.report.glans.map(v => +v.toFixed(1));
   }
   void sub; void mul; void unit; void len;
