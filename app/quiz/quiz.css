@@ -158,6 +158,12 @@ a.quiz-hub-card:hover{transform:translateY(-2px);border-color:#263b4866;box-shad
 .quiz-info-card .is-empty dd{color:#8a949d}
 .quiz-info-none{font-size:12px}
 .quiz-info-note{font-size:11px;color:var(--quiz-muted);margin:2px 0 10px}
+.quiz-info-pending{display:flex;align-items:baseline;gap:8px;margin:8px 0;font-size:12px;color:var(--quiz-muted)}
+.quiz-info-pending small{font-size:11px;opacity:.8}
+.lesson-learn-info{margin:8px 0;display:grid;gap:6px;font-size:13px}
+.lesson-learn-info dt{font-size:11px;color:var(--quiz-muted)}
+.lesson-learn-info dd{margin:0;display:grid;gap:1px}
+.lesson-learn-info small{font-size:11px;color:var(--quiz-muted)}
 .quiz-target{display:block}
 .quiz-target>span{display:block}
 .quiz-hub-subhead{margin:34px 0 0;font-size:15px;font-weight:620;letter-spacing:-.2px;color:var(--quiz-ink)}

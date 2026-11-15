@@ -58,7 +58,8 @@ for (const s of catalogue.structures) {
   const card = structureCard(s);
   assert.equal(card.chinese, s.chinese); assert.equal(card.english, s.name);
   for (const f of card.fields) assert.ok((f.zh || f.en)?.trim(), `${s.name}: card field ${f.label} is not empty`);
-  if (s.system === 'headorgan') assert.deepEqual(card.missing, ['說明'], `${s.name}: no card text exists for it, so the card says 尚無資料`);
+  // a head-and-neck organ structure or ligament either has its checked fields (nothing missing) or no text at all (the card says 尚無資料)
+  if (s.system === 'headorgan') assert.deepEqual(card.missing, card.fields.length ? [] : ['說明'], `${s.name}: has its checked fields, or else no card text and the card says 尚無資料`);
 }
 for (const id of sectionIds) assert.ok(bySection[id] > 0, `section ${id} has questions`);
 for (const c of ['bone', 'muscle', 'nerve', 'artery', 'vein', 'ligament', 'organ']) assert.ok(byCategory[c] > 0, `category ${c} has questions`);

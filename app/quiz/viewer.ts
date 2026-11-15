@@ -7,9 +7,10 @@ import {framingDistance} from '../camera-framing';
 import {coversBrainTarget, type BrainLayer} from './brain';
 import {coversHeadNeckTarget} from './headneck';
 import {SPACES} from '../mj-spaces';
+import {SPACE_OPENING_MARGIN, openingView} from './spaces';
 import {QUIZ_REGIONS, QUIZ_SYSTEMS, ownerMuscleNames, regionSections, sceneStructures, type QuizCatalogue, type QuizSection, type QuizSide, type QuizStructure} from './catalogue';
 
-export type QuizView = 'front' | 'back' | 'side' | 'medial' | 'top' | 'bottom' | 'fit' | 'answer' | 'random';
+export type QuizView = 'front' | 'back' | 'side' | 'medial' | 'top' | 'bottom' | 'fit' | 'answer' | 'space' | 'random';
 export interface QuizViewState {
   key: string;
   target: QuizStructure;
@@ -313,11 +314,11 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
     const section = state.section === 'all' ? state.target.sections[0] : state.section;
     const range = (regionSections(catalogue.region).find(s => s.id === section) ?? regionSections(catalogue.region)[0]).range;
     const wide = region.frame.x, minX = state.side === 'left' ? -.01 : -wide, maxX = state.side === 'right' ? .01 : wide;
-    const box = view === 'answer'
-      ? new T.Box3(new T.Vector3().fromArray(state.target.bounds[0]), new T.Vector3().fromArray(state.target.bounds[1])).expandByScalar(.015)
+    const box = view === 'answer' || view === 'space'
+      ? new T.Box3(new T.Vector3().fromArray(state.target.bounds[0]), new T.Vector3().fromArray(state.target.bounds[1])).expandByScalar(view === 'space' ? SPACE_OPENING_MARGIN : .015)
       : new T.Box3(new T.Vector3(minX, range[0], region.frame.z[0]), new T.Vector3(maxX, range[1], section === 'foot' && region.frame.footZ ? region.frame.footZ : region.frame.z[1]));
     // A structure spanning two sections must still be entirely in the frame.
-    if (view !== 'answer') box.union(new T.Box3(new T.Vector3().fromArray(state.target.bounds[0]), new T.Vector3().fromArray(state.target.bounds[1])));
+    if (view !== 'answer' && view !== 'space') box.union(new T.Box3(new T.Vector3().fromArray(state.target.bounds[0]), new T.Vector3().fromArray(state.target.bounds[1])));
     let direction = camera.position.clone().sub(controls.target).normalize();
     if (view === 'random') direction = state.lesson ? lessonDirection(box, state.lesson) : chooseDirection(box);
     if (view === 'front') direction.set(0, .04, 1).normalize();
@@ -327,7 +328,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
     if (view === 'top') direction.set(0, 1, .02).normalize();
     if (view === 'bottom') direction.set(0, -1, .02).normalize();
     // a space opens its answer from the direction the layer panel looks at it from (SpaceDef.look: outward, up, front), mirrored for the left side
-    if (view === 'answer' && state.target.space) {
+    if ((view === 'answer' || view === 'space') && state.target.space) {
       const look = SPACES.find(d => d.id === state!.target.space!.id)?.look;
       if (look) direction.set(look[0] * (state.target.side === 'left' ? 1 : -1), look[1], look[2]).normalize();
     }
@@ -393,7 +394,10 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
         // Level 2 opens each question from a random direction, chosen once the structures are in the scene so the target can be tested for visibility.
         if (state?.mode === 'name' && state.key === next.key && state.command.id === commandAtQuestion) {applyAppearance(); frameModel('random'); if (state.pin) placePin();}
       });
-      frameModel(QUIZ_REGIONS[catalogue.region ?? 'lower-limb'].defaultView ?? 'front');
+      const opening = openingView(catalogue.region, next.target, QUIZ_REGIONS[catalogue.region ?? 'lower-limb'].defaultView);
+      frameModel(opening);
+      // The page's first view command is the initial 'front'; it must not replace the opening view of a space question.
+      if (opening === 'space') command = next.command.id;
     }
     if (command !== next.command.id) {
       command = next.command.id;

@@ -10,7 +10,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 |---|---|
 | Fragments | 47 |
 | Vessel, nerve and tendon walls inside bone | 456 |
-| Coincident faces (z-fighting) | 78 |
+| Coincident faces (z-fighting) | 79 |
 | Straight cuts in meshes | 43 |
 | Triangle stretch over 2x in the limit poses | 138 |
 | Structures that leave their bone in the limit poses | 162 |
@@ -528,7 +528,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Vestibulocochlear nerve (VIII).r | 4.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Vestibulocochlear nerve (VIII).r | 4.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 
-## Coincident faces (z-fighting) (78)
+## Coincident faces (z-fighting) (79)
 
 | structure | size | detail |
 |---|---|---|
@@ -609,6 +609,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Body of uterus | 736 | faces coincide with Lower uterine segment: two layers share the same surface; to be offset or one of them removed |
 | Lower uterine segment | 494 | faces coincide with Cervix of uterus: two layers share the same surface; to be offset or one of them removed |
 | Esophageal impression of left lung | 57 | faces coincide with Apex of left lung: two layers share the same surface; to be offset or one of them removed |
+| Glans of clitoris | 723 | 同一張 MRI 曲面按解剖切成兩件，交界共用 138 個頂點，相鄰面共面但冇重疊（真正重疊三角形 0.6%）；陰蒂由頭至體單調變寬，冇解剖上合理嘅切口可避開。2026-11-15 經使用者核准。 |
 | Lingula of left lung | 1106 | faces coincide with Cardiac notch of left lung: two layers share the same surface; to be offset or one of them removed |
 
 ## Straight cuts in meshes (43)
