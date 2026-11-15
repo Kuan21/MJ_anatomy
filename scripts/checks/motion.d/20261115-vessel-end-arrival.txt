@@ -1,0 +1,2 @@
+# 血管末端接頭不論比血管本體早或晚載入，都要跟著本體動（肩外展 158° 時胸肩峰動脈胸肌支的接頭懸空）
+node scripts/test-vessel-end-arrival.mjs
