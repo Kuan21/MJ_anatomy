@@ -246,7 +246,7 @@ QUIZ_REGIONS['head-neck'] = {
 export const QUIZ_REGION_IDS = Object.keys(QUIZ_REGIONS) as QuizRegionId[];
 /** Every region that exists in QUIZ_REGIONS right now (read at call time, so a region added to the data is picked up without any list to edit). */
 export const regionIds = () => Object.keys(QUIZ_REGIONS) as QuizRegionId[];
-const REGION_ORDER = ['head-neck', 'thorax', 'back', 'upper-limb', 'lower-limb', 'heart', 'lung', 'brain'];
+const REGION_ORDER = ['head-neck', 'thorax', 'back', 'upper-limb', 'lower-limb', 'heart', 'lung', 'brain', 'ear'];
 /** Regions in the order of the choosers: the known ones first (head and neck, trunk, limbs, organs), any new region after them. */
 export const orderedRegions = (): QuizRegionDef[] => regionIds().sort((a, b) => {const ia = REGION_ORDER.indexOf(a), ib = REGION_ORDER.indexOf(b); return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);}).map(id => QUIZ_REGIONS[id]);
 export const isQuizHub = (hash: string) => hash === '#/quiz' || hash === '#/quiz/';
