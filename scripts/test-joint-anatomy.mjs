@@ -36,6 +36,12 @@ const neutral={visible:['connective'],selected:[],explode:0,isolate:false,view:'
 controller.update(neutral,0);
 const rows=controller.rows;assert.ok(rows.length>200);
 for(const r of rows){assert.deepEqual(r.mesh.geometry.attributes.position.array,r.base);assert.ok(r.mesh.visible);}
+// Chest-wall tissue (intercostal membranes, costovertebral ligaments) hangs on ribs, sternum and vertebrae: it used to be anchored to the nearest bone of ANY kind, so the upper membranes sat on the
+// clavicle or scapula, were listed under the arm region (floating white sheets with no ribs behind them) and were carried by the arm rig.
+if(process.env.DUMP_JOINT_REGIONS)(await import('node:fs')).writeFileSync(process.env.DUMP_JOINT_REGIONS,JSON.stringify(rows.map(r=>({name:r.mesh.name,anchor:r.anchor.name,region:r.region,side:r.side}))));
+const chestWall=rows.filter(r=>/intercostal membrane|costotransverse|radiate ligament of head of rib|intra-articular ligament of head of rib/i.test(r.mesh.name));
+assert.ok(chestWall.length>=8,'intercostal membranes are drawn');
+for(const r of chestWall){assert.notEqual(r.region,'upper-limb',r.mesh.name+' must not belong to the upper limb');assert.ok(/ rib$|sternum|vertebra/i.test(r.anchor.name),r.mesh.name+' is anchored to '+r.anchor.name);}
 for(const side of ['left','right']){
  const suffix=side==='left'?'.l':'.r';
  const labrum=rows.find(r=>r.mesh.name==='Glenoid labrum'+suffix);assert.ok(labrum?.rigidId);assert.equal(labrum.region,'upper-limb');

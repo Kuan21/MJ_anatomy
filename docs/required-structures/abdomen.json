@@ -2847,6 +2847,2511 @@
     "landmark"
    ],
    "expect3d": true
+  },
+  {
+   "id": "RS-A-0285",
+   "en": "Umbilicus",
+   "zh": "臍",
+   "type": "region",
+   "topics": [
+    "wall-landmark"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "wall",
+   "order": 1,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0286",
+   "en": "Inferior thoracic aperture",
+   "zh": "胸廓下口",
+   "type": "bone",
+   "topics": [
+    "boundary"
+   ],
+   "expect3d": false,
+   "reason": "boundary description of the abdomen, not a separate structure",
+   "weight": "low",
+   "source": "wall",
+   "order": 2,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0287",
+   "en": "Pelvic inlet",
+   "zh": "骨盆入口",
+   "type": "bone",
+   "topics": [
+    "boundary"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "wall",
+   "order": 3,
+   "region": "pelvis"
+  },
+  {
+   "id": "RS-A-0288",
+   "en": "Greater (false) pelvis",
+   "zh": "大骨盆（假骨盆）",
+   "type": "bone",
+   "topics": [
+    "boundary"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "wall",
+   "order": 4,
+   "region": "pelvis"
+  },
+  {
+   "id": "RS-A-0289",
+   "en": "True pelvis",
+   "zh": "真骨盆",
+   "type": "bone",
+   "topics": [
+    "boundary"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "wall",
+   "order": 5,
+   "region": "pelvis"
+  },
+  {
+   "id": "RS-A-0290",
+   "en": "Sacrum",
+   "zh": "薦骨",
+   "type": "bone",
+   "topics": [
+    "landmark"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "wall",
+   "order": 6,
+   "region": "back"
+  },
+  {
+   "id": "RS-A-0291",
+   "en": "Pubic symphysis",
+   "zh": "恥骨聯合",
+   "type": "bone",
+   "topics": [
+    "landmark"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "wall",
+   "order": 7,
+   "region": "pelvis"
+  },
+  {
+   "id": "RS-A-0292",
+   "en": "Lumbar vertebrae",
+   "zh": "腰椎",
+   "type": "bone",
+   "topics": [
+    "landmark"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "wall",
+   "order": 8,
+   "region": "back"
+  },
+  {
+   "id": "RS-A-0293",
+   "en": "Intervertebral discs",
+   "zh": "椎間盤",
+   "type": "bone",
+   "topics": [
+    "landmark"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "wall",
+   "order": 9,
+   "region": "back"
+  },
+  {
+   "id": "RS-A-0294",
+   "en": "Eleventh rib",
+   "zh": "第 11 肋",
+   "type": "bone",
+   "topics": [
+    "landmark"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "wall",
+   "order": 10,
+   "region": "thorax"
+  },
+  {
+   "id": "RS-A-0295",
+   "en": "Twelfth rib",
+   "zh": "第 12 肋",
+   "type": "bone",
+   "topics": [
+    "landmark"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "wall",
+   "order": 11,
+   "region": "thorax"
+  },
+  {
+   "id": "RS-A-0296",
+   "en": "Costal cartilages",
+   "zh": "肋軟骨",
+   "type": "bone",
+   "topics": [
+    "landmark"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "wall",
+   "order": 12,
+   "region": "thorax"
+  },
+  {
+   "id": "RS-A-0297",
+   "en": "Jugular notch",
+   "zh": "頸靜脈切跡",
+   "type": "bone",
+   "topics": [
+    "landmark"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "wall",
+   "order": 13,
+   "region": "thorax"
+  },
+  {
+   "id": "RS-A-0298",
+   "en": "Tubercle of iliac crest",
+   "zh": "髂嵴結節",
+   "type": "bone",
+   "topics": [
+    "landmark"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "wall",
+   "order": 14,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0299",
+   "en": "Right hypochondriac region",
+   "zh": "右季肋區",
+   "type": "region",
+   "topics": [
+    "regions"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "wall",
+   "order": 15,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0300",
+   "en": "Epigastric region",
+   "zh": "上腹部（心窩區）",
+   "type": "region",
+   "topics": [
+    "regions"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "wall",
+   "order": 16,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0301",
+   "en": "Left hypochondriac region",
+   "zh": "左季肋區",
+   "type": "region",
+   "topics": [
+    "regions"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "wall",
+   "order": 17,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0302",
+   "en": "Right lumbar region (flank)",
+   "zh": "右腰區",
+   "type": "region",
+   "topics": [
+    "regions"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "wall",
+   "order": 18,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0303",
+   "en": "Umbilical region",
+   "zh": "臍區",
+   "type": "region",
+   "topics": [
+    "regions"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "wall",
+   "order": 19,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0304",
+   "en": "Left lumbar region (flank)",
+   "zh": "左腰區",
+   "type": "region",
+   "topics": [
+    "regions"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "wall",
+   "order": 20,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0305",
+   "en": "Right inguinal region (groin)",
+   "zh": "右腹股溝區",
+   "type": "region",
+   "topics": [
+    "regions"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "wall",
+   "order": 21,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0306",
+   "en": "Hypogastric (pubic) region",
+   "zh": "下腹部（恥骨上區）",
+   "type": "region",
+   "topics": [
+    "regions"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "wall",
+   "order": 22,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0307",
+   "en": "Left inguinal region (groin)",
+   "zh": "左腹股溝區",
+   "type": "region",
+   "topics": [
+    "regions"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "wall",
+   "order": 23,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0308",
+   "en": "Transpyloric plane (Addison's plane)",
+   "zh": "幽門平面",
+   "type": "region",
+   "topics": [
+    "planes"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "wall",
+   "order": 24,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0309",
+   "en": "Subcostal plane",
+   "zh": "肋下平面",
+   "type": "region",
+   "topics": [
+    "planes"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "wall",
+   "order": 25,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0310",
+   "en": "Transtubercular plane",
+   "zh": "結節間平面",
+   "type": "region",
+   "topics": [
+    "planes"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "wall",
+   "order": 26,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0311",
+   "en": "Transumbilical plane",
+   "zh": "臍平面",
+   "type": "region",
+   "topics": [
+    "planes"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "wall",
+   "order": 27,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0312",
+   "en": "Interspinous plane",
+   "zh": "棘間平面",
+   "type": "region",
+   "topics": [
+    "planes"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "wall",
+   "order": 28,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0313",
+   "en": "Midclavicular line",
+   "zh": "鎖骨中線",
+   "type": "region",
+   "topics": [
+    "planes"
+   ],
+   "expect3d": false,
+   "reason": "reference line on the body surface, not a structure",
+   "weight": "low",
+   "source": "wall",
+   "order": 29,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0314",
+   "en": "Median (mid-sagittal) plane",
+   "zh": "正中矢狀面",
+   "type": "region",
+   "topics": [
+    "planes"
+   ],
+   "expect3d": false,
+   "reason": "reference plane, not a structure",
+   "weight": "low",
+   "source": "wall",
+   "order": 30,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0315",
+   "en": "Midinguinal point",
+   "zh": "腹股溝中點",
+   "type": "region",
+   "topics": [
+    "planes"
+   ],
+   "expect3d": false,
+   "reason": "surface reference point, not a structure",
+   "weight": "low",
+   "source": "wall",
+   "order": 31,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0316",
+   "en": "Pyramidalis",
+   "zh": "錐狀肌",
+   "type": "muscle",
+   "topics": [
+    "wall-muscle"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "wall",
+   "order": 32,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0317",
+   "en": "Aponeurosis of internal oblique",
+   "zh": "腹內斜肌腱膜",
+   "type": "ligament",
+   "topics": [
+    "wall-ligament"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "wall",
+   "order": 33,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0318",
+   "en": "Aponeurosis of transversus abdominis",
+   "zh": "腹橫肌腱膜",
+   "type": "ligament",
+   "topics": [
+    "wall-ligament"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "wall",
+   "order": 34,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0319",
+   "en": "Rectus sheath",
+   "zh": "腹直肌鞘",
+   "type": "fascia",
+   "topics": [
+    "wall-ligament"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "wall",
+   "order": 35,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0320",
+   "en": "Anterior wall of rectus sheath",
+   "zh": "腹直肌鞘前壁",
+   "type": "fascia",
+   "topics": [
+    "wall-ligament"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "wall",
+   "order": 36,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0321",
+   "en": "Posterior wall of rectus sheath",
+   "zh": "腹直肌鞘後壁",
+   "type": "fascia",
+   "topics": [
+    "wall-ligament"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "wall",
+   "order": 37,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0322",
+   "en": "Dartos fascia",
+   "zh": "肉膜",
+   "type": "fascia",
+   "topics": [
+    "fascia"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "wall",
+   "order": 38,
+   "region": "pelvis"
+  },
+  {
+   "id": "RS-A-0323",
+   "en": "Colles' fascia (superficial perineal fascia)",
+   "zh": "淺會陰筋膜（科利斯氏筋膜）",
+   "type": "fascia",
+   "topics": [
+    "fascia"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "wall",
+   "order": 39,
+   "region": "pelvis"
+  },
+  {
+   "id": "RS-A-0324",
+   "en": "Fascia lata",
+   "zh": "闊筋膜",
+   "type": "fascia",
+   "topics": [
+    "fascia"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "wall",
+   "order": 40,
+   "region": "limb"
+  },
+  {
+   "id": "RS-A-0325",
+   "en": "Posterior intercostal arteries",
+   "zh": "後肋間動脈",
+   "type": "artery",
+   "topics": [
+    "abdominal-wall"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "wall",
+   "order": 41,
+   "region": "thorax"
+  },
+  {
+   "id": "RS-A-0326",
+   "en": "Thoracic aorta",
+   "zh": "胸主動脈",
+   "type": "artery",
+   "topics": [
+    "abdominal-wall"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "wall",
+   "order": 42,
+   "region": "thorax"
+  },
+  {
+   "id": "RS-A-0327",
+   "en": "Internal thoracic artery",
+   "zh": "內胸動脈",
+   "type": "artery",
+   "topics": [
+    "abdominal-wall"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "wall",
+   "order": 43,
+   "region": "thorax"
+  },
+  {
+   "id": "RS-A-0328",
+   "en": "Femoral artery",
+   "zh": "股動脈",
+   "type": "artery",
+   "topics": [
+    "abdominal-wall"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "wall",
+   "order": 44,
+   "region": "limb"
+  },
+  {
+   "id": "RS-A-0329",
+   "en": "Lateral thoracic vein",
+   "zh": "外胸靜脈",
+   "type": "vein",
+   "topics": [
+    "abdominal-wall"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "wall",
+   "order": 45,
+   "region": "thorax"
+  },
+  {
+   "id": "RS-A-0330",
+   "en": "Axillary nodes",
+   "zh": "腋淋巴結",
+   "type": "lymph",
+   "topics": [
+    "lymphatic"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "wall",
+   "order": 46,
+   "region": "thorax"
+  },
+  {
+   "id": "RS-A-0331",
+   "en": "Parasternal nodes",
+   "zh": "胸骨旁淋巴結",
+   "type": "lymph",
+   "topics": [
+    "lymphatic"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "wall",
+   "order": 47,
+   "region": "thorax"
+  },
+  {
+   "id": "RS-A-0332",
+   "en": "Thoraco-abdominal nerves",
+   "zh": "胸腹神經",
+   "type": "nerve",
+   "topics": [
+    "abdominal-wall"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "wall",
+   "order": 48,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0333",
+   "en": "Pectineal (Cooper's) ligament",
+   "zh": "恥骨梳韌帶",
+   "type": "ligament",
+   "topics": [
+    "wall-ligament"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "wall",
+   "order": 49,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0334",
+   "en": "Medial crus of superficial inguinal ring",
+   "zh": "淺腹股溝環內腳",
+   "type": "ligament",
+   "topics": [
+    "inguinal"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "wall",
+   "order": 50,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0335",
+   "en": "Lateral crus of superficial inguinal ring",
+   "zh": "淺腹股溝環外腳",
+   "type": "ligament",
+   "topics": [
+    "inguinal"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "wall",
+   "order": 51,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0336",
+   "en": "Processus vaginalis",
+   "zh": "鞘狀突",
+   "type": "canal",
+   "topics": [
+    "inguinal"
+   ],
+   "expect3d": false,
+   "reason": "embryonic structure; its remnant is the tunica vaginalis",
+   "weight": "low",
+   "source": "wall",
+   "order": 52,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0337",
+   "en": "Gubernaculum",
+   "zh": "引帶",
+   "type": "ligament",
+   "topics": [
+    "inguinal"
+   ],
+   "expect3d": false,
+   "reason": "embryonic structure",
+   "weight": "low",
+   "source": "wall",
+   "order": 53,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0338",
+   "en": "Tunica vaginalis",
+   "zh": "睪丸鞘膜",
+   "type": "canal",
+   "topics": [
+    "inguinal"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "wall",
+   "order": 54,
+   "region": "pelvis"
+  },
+  {
+   "id": "RS-A-0339",
+   "en": "Artery to ductus deferens",
+   "zh": "輸精管動脈",
+   "type": "artery",
+   "topics": [
+    "inguinal"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "wall",
+   "order": 55,
+   "region": "pelvis"
+  },
+  {
+   "id": "RS-A-0340",
+   "en": "Testis",
+   "zh": "睪丸",
+   "type": "organ",
+   "topics": [
+    "inguinal"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "wall",
+   "order": 56,
+   "region": "pelvis"
+  },
+  {
+   "id": "RS-A-0341",
+   "en": "Epididymis",
+   "zh": "副睪",
+   "type": "organ",
+   "topics": [
+    "inguinal"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "wall",
+   "order": 57,
+   "region": "pelvis"
+  },
+  {
+   "id": "RS-A-0342",
+   "en": "Round ligament of uterus",
+   "zh": "子宮圓韌帶",
+   "type": "ligament",
+   "topics": [
+    "inguinal"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "wall",
+   "order": 58,
+   "region": "pelvis"
+  },
+  {
+   "id": "RS-A-0343",
+   "en": "Ovary",
+   "zh": "卵巢",
+   "type": "organ",
+   "topics": [
+    "inguinal"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "wall",
+   "order": 59,
+   "region": "pelvis"
+  },
+  {
+   "id": "RS-A-0344",
+   "en": "Ligament of ovary",
+   "zh": "卵巢韌帶",
+   "type": "ligament",
+   "topics": [
+    "inguinal"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "wall",
+   "order": 60,
+   "region": "pelvis"
+  },
+  {
+   "id": "RS-A-0345",
+   "en": "Esophageal plexus",
+   "zh": "食道神經叢",
+   "type": "plexus",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "gut",
+   "order": 61,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0346",
+   "en": "Cervical constriction of esophagus",
+   "zh": "食道頸部狹窄",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "gut",
+   "order": 62,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0347",
+   "en": "Thoracic (broncho-aortic) constriction of esophagus",
+   "zh": "食道胸部狹窄（支氣管主動脈狹窄）",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "gut",
+   "order": 63,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0348",
+   "en": "Diaphragmatic (esophagogastric) constriction of esophagus",
+   "zh": "食道橫膈狹窄",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "gut",
+   "order": 64,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0349",
+   "en": "Abdominal esophagus",
+   "zh": "食道腹部",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "gut",
+   "order": 65,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0350",
+   "en": "Cricopharyngeus (upper esophageal sphincter)",
+   "zh": "環咽肌（上食道括約肌）",
+   "type": "muscle",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "gut",
+   "order": 66,
+   "region": "head-neck"
+  },
+  {
+   "id": "RS-A-0351",
+   "en": "Lower esophageal sphincter",
+   "zh": "下食道括約肌",
+   "type": "muscle",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "gut",
+   "order": 67,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0352",
+   "en": "Cardia (cardial orifice)",
+   "zh": "賁門",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 68,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0353",
+   "en": "Cardial notch",
+   "zh": "賁門切跡",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "gut",
+   "order": 69,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0354",
+   "en": "Body of stomach",
+   "zh": "胃體",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 70,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0355",
+   "en": "Pyloric antrum",
+   "zh": "幽門竇",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 71,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0356",
+   "en": "Pyloric canal",
+   "zh": "幽門管",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 72,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0357",
+   "en": "Pyloric sphincter",
+   "zh": "幽門括約肌",
+   "type": "muscle",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "gut",
+   "order": 73,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0358",
+   "en": "Angular incisure (angular notch)",
+   "zh": "胃角切跡",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "gut",
+   "order": 74,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0359",
+   "en": "Gastric canal",
+   "zh": "胃管",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "gut",
+   "order": 75,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0360",
+   "en": "Gastric rugae",
+   "zh": "胃皺襞",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": false,
+   "reason": "lumen mucosal fold, card level",
+   "weight": "low",
+   "source": "gut",
+   "order": 76,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0361",
+   "en": "Muscular layers of stomach (oblique, circular, longitudinal)",
+   "zh": "胃肌層（斜、環、縱）",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": false,
+   "reason": "wall layers, tissue level",
+   "weight": "low",
+   "source": "gut",
+   "order": 77,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0362",
+   "en": "Esophagogastric junction (Z-line)",
+   "zh": "食道胃交界（Z 線）",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "gut",
+   "order": 78,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0363",
+   "en": "Phrenico-esophageal ligament",
+   "zh": "橫膈食道韌帶",
+   "type": "ligament",
+   "topics": [
+    "diaphragm"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "gut",
+   "order": 79,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0364",
+   "en": "Gastrosplenic ligament",
+   "zh": "胃脾韌帶",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 80,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0365",
+   "en": "Splenorenal (lienorenal) ligament",
+   "zh": "脾腎韌帶",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 81,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0366",
+   "en": "Phrenicocolic ligament",
+   "zh": "橫膈結腸韌帶",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "gut",
+   "order": 82,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0367",
+   "en": "Phrenicosplenic ligament",
+   "zh": "橫膈脾韌帶",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "gut",
+   "order": 83,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0368",
+   "en": "Splenocolic ligament",
+   "zh": "脾結腸韌帶",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "gut",
+   "order": 84,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0369",
+   "en": "Esophageal branch of left inferior phrenic artery",
+   "zh": "左下膈動脈食道支",
+   "type": "artery",
+   "topics": [
+    "aorta-branches"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "gut",
+   "order": 85,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0370",
+   "en": "Right gastro-omental vein",
+   "zh": "右胃網膜靜脈",
+   "type": "vein",
+   "topics": [
+    "portal"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "gut",
+   "order": 86,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0371",
+   "en": "Posterior gastric veins",
+   "zh": "後胃靜脈",
+   "type": "vein",
+   "topics": [
+    "portal"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "gut",
+   "order": 87,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0372",
+   "en": "Superior part of duodenum (duodenal cap)",
+   "zh": "十二指腸上部（十二指腸壺腹）",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 88,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0373",
+   "en": "Descending part of duodenum",
+   "zh": "十二指腸降部",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 89,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0374",
+   "en": "Inferior (horizontal) part of duodenum",
+   "zh": "十二指腸下部（水平部）",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 90,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0375",
+   "en": "Ascending part of duodenum",
+   "zh": "十二指腸升部",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 91,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0376",
+   "en": "Major duodenal papilla",
+   "zh": "大十二指腸乳突",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 92,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0377",
+   "en": "Minor duodenal papilla",
+   "zh": "小十二指腸乳突",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 93,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0378",
+   "en": "Hepatopancreatic ampulla (ampulla of Vater)",
+   "zh": "肝胰壺腹",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 94,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0379",
+   "en": "Sphincter of ampulla (sphincter of Oddi)",
+   "zh": "肝胰壺腹括約肌",
+   "type": "muscle",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "gut",
+   "order": 95,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0380",
+   "en": "Suspensory ligament of duodenum (ligament of Treitz)",
+   "zh": "十二指腸懸韌帶（屈氏韌帶）",
+   "type": "ligament",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 96,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0381",
+   "en": "Paraduodenal fossa",
+   "zh": "十二指腸旁窩",
+   "type": "space",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "gut",
+   "order": 97,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0382",
+   "en": "Plicae circulares",
+   "zh": "環狀皺襞",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": false,
+   "reason": "lumen mucosal fold, card level",
+   "weight": "low",
+   "source": "gut",
+   "order": 98,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0383",
+   "en": "Vasa recta",
+   "zh": "直血管",
+   "type": "artery",
+   "topics": [
+    "sma"
+   ],
+   "expect3d": false,
+   "reason": "small terminal vessels in the mesentery; descriptive comparison feature",
+   "weight": "low",
+   "source": "gut",
+   "order": 99,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0384",
+   "en": "Arterial arcades",
+   "zh": "動脈弓",
+   "type": "artery",
+   "topics": [
+    "sma"
+   ],
+   "expect3d": false,
+   "reason": "descriptive comparison feature of jejunum and ileum",
+   "weight": "low",
+   "source": "gut",
+   "order": 100,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0385",
+   "en": "Peyer's patches",
+   "zh": "培氏斑",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": false,
+   "reason": "lymphoid tissue in the mucosa, tissue level",
+   "weight": "low",
+   "source": "gut",
+   "order": 101,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0386",
+   "en": "Ileocecal valve",
+   "zh": "迴盲瓣",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "gut",
+   "order": 102,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0387",
+   "en": "Diaphragmatic surface of liver",
+   "zh": "肝橫膈面",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "gut",
+   "order": 103,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0388",
+   "en": "Visceral surface of liver",
+   "zh": "肝臟面",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "gut",
+   "order": 104,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0389",
+   "en": "Subphrenic recess",
+   "zh": "膈下隱窩",
+   "type": "space",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "gut",
+   "order": 105,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0390",
+   "en": "Hepatorenal recess (Morison's pouch)",
+   "zh": "肝腎隱窩",
+   "type": "space",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "gut",
+   "order": 106,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0391",
+   "en": "Right lobe of liver",
+   "zh": "肝右葉",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 107,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0392",
+   "en": "Left lobe of liver",
+   "zh": "肝左葉",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 108,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0393",
+   "en": "Quadrate lobe of liver",
+   "zh": "肝方形葉",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 109,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0394",
+   "en": "Caudate lobe of liver",
+   "zh": "肝尾葉",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 110,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0395",
+   "en": "Porta hepatis",
+   "zh": "肝門",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 111,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0396",
+   "en": "Couinaud segments of liver",
+   "zh": "肝段（Couinaud 分段）",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "gut",
+   "order": 112,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0397",
+   "en": "Ligamentum venosum",
+   "zh": "靜脈韌帶",
+   "type": "ligament",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "gut",
+   "order": 113,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0398",
+   "en": "Coronary ligament of liver",
+   "zh": "肝冠狀韌帶",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 114,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0399",
+   "en": "Bare area of liver",
+   "zh": "肝裸區",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 115,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0400",
+   "en": "Right triangular ligament",
+   "zh": "右三角韌帶",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "gut",
+   "order": 116,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0401",
+   "en": "Left triangular ligament",
+   "zh": "左三角韌帶",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "gut",
+   "order": 117,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0402",
+   "en": "Right hepatic duct",
+   "zh": "右肝管",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "gut",
+   "order": 118,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0403",
+   "en": "Left hepatic duct",
+   "zh": "左肝管",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "gut",
+   "order": 119,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0404",
+   "en": "Common hepatic duct",
+   "zh": "總肝管",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 120,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0405",
+   "en": "Cystic duct",
+   "zh": "膽囊管",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 121,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0406",
+   "en": "Calot's triangle (cystohepatic triangle)",
+   "zh": "膽囊三角（卡洛三角）",
+   "type": "space",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 122,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0407",
+   "en": "Fundus of gallbladder",
+   "zh": "膽囊底",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "gut",
+   "order": 123,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0408",
+   "en": "Body of gallbladder",
+   "zh": "膽囊體",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "gut",
+   "order": 124,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0409",
+   "en": "Neck of gallbladder",
+   "zh": "膽囊頸",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "gut",
+   "order": 125,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0410",
+   "en": "Head of pancreas",
+   "zh": "胰頭",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 126,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0411",
+   "en": "Uncinate process of pancreas",
+   "zh": "胰鉤突",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 127,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0412",
+   "en": "Neck of pancreas",
+   "zh": "胰頸",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "gut",
+   "order": 128,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0413",
+   "en": "Body of pancreas",
+   "zh": "胰體",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 129,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0414",
+   "en": "Tail of pancreas",
+   "zh": "胰尾",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 130,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0415",
+   "en": "Main pancreatic duct",
+   "zh": "主胰管",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 131,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0416",
+   "en": "Accessory pancreatic duct",
+   "zh": "副胰管",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "gut",
+   "order": 132,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0417",
+   "en": "Pancreatic islets (islets of Langerhans)",
+   "zh": "胰島（蘭氏小島）",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure",
+   "weight": "low",
+   "source": "gut",
+   "order": 133,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0418",
+   "en": "Hilum of spleen (splenic hilum)",
+   "zh": "脾門",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 134,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0419",
+   "en": "Gastric surface of spleen",
+   "zh": "脾胃面",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "gut",
+   "order": 135,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0420",
+   "en": "Colic surface of spleen",
+   "zh": "脾結腸面",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "gut",
+   "order": 136,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0421",
+   "en": "Renal surface of spleen",
+   "zh": "脾腎面",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "gut",
+   "order": 137,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0422",
+   "en": "Hepatic lobule",
+   "zh": "肝小葉",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure",
+   "weight": "low",
+   "source": "gut",
+   "order": 138,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0423",
+   "en": "Bile canaliculi",
+   "zh": "膽小管",
+   "type": "organ",
+   "topics": [
+    "hepatobiliary"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure",
+   "weight": "low",
+   "source": "gut",
+   "order": 139,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0424",
+   "en": "Anal canal",
+   "zh": "肛管",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 140,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0425",
+   "en": "Taeniae coli",
+   "zh": "結腸帶",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 141,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0426",
+   "en": "Haustra of colon",
+   "zh": "結腸袋",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 142,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0427",
+   "en": "Omental (epiploic) appendices",
+   "zh": "腸脂垂",
+   "type": "organ",
+   "topics": [
+    "digestive"
+   ],
+   "expect3d": true,
+   "weight": "high",
+   "source": "gut",
+   "order": 143,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0428",
+   "en": "Paracolic gutters",
+   "zh": "結腸旁溝",
+   "type": "space",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "gut",
+   "order": 144,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0429",
+   "en": "Middle rectal artery",
+   "zh": "中直腸動脈",
+   "type": "artery",
+   "topics": [
+    "ima"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "gut",
+   "order": 145,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0430",
+   "en": "Inferior rectal artery",
+   "zh": "下直腸動脈",
+   "type": "artery",
+   "topics": [
+    "ima"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "gut",
+   "order": 146,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0431",
+   "en": "Internal pudendal artery",
+   "zh": "內陰動脈",
+   "type": "artery",
+   "topics": [
+    "ima"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "gut",
+   "order": 147,
+   "region": "pelvis"
+  },
+  {
+   "id": "RS-A-0432",
+   "en": "Mesocolon",
+   "zh": "結腸繫膜",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "gut",
+   "order": 148,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0433",
+   "en": "Retroperitoneal space",
+   "zh": "腹膜後腔",
+   "type": "space",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "wall",
+   "order": 149,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0434",
+   "en": "Preperitoneal (properitoneal) space",
+   "zh": "腹膜前腔",
+   "type": "space",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "wall",
+   "order": 150,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0435",
+   "en": "Mesothelium of peritoneum",
+   "zh": "腹膜間皮",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure",
+   "weight": "low",
+   "source": "gut",
+   "order": 151,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0436",
+   "en": "Peritoneal fluid",
+   "zh": "腹膜液",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": false,
+   "reason": "fluid, not a structure",
+   "weight": "low",
+   "source": "gut",
+   "order": 152,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0437",
+   "en": "Urachus",
+   "zh": "臍尿管",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": false,
+   "reason": "embryonic structure; its remnant is the median umbilical ligament",
+   "weight": "low",
+   "source": "gut",
+   "order": 153,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0438",
+   "en": "Umbilical artery (distal part)",
+   "zh": "臍動脈遠端部",
+   "type": "artery",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": false,
+   "reason": "embryonic structure; its remnant is the medial umbilical ligament",
+   "weight": "low",
+   "source": "gut",
+   "order": 154,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0439",
+   "en": "Umbilical vein",
+   "zh": "臍靜脈",
+   "type": "vein",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": false,
+   "reason": "embryonic structure; its remnant is the round ligament of liver",
+   "weight": "low",
+   "source": "gut",
+   "order": 155,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0440",
+   "en": "Ductus venosus",
+   "zh": "靜脈導管",
+   "type": "vein",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": false,
+   "reason": "embryonic structure; its remnant is the ligamentum venosum",
+   "weight": "low",
+   "source": "gut",
+   "order": 156,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0441",
+   "en": "Dorsal mesentery (dorsal mesogastrium)",
+   "zh": "背側腸繫膜",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": false,
+   "reason": "embryonic structure",
+   "weight": "low",
+   "source": "gut",
+   "order": 157,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0442",
+   "en": "Ventral mesentery (ventral mesogastrium)",
+   "zh": "腹側腸繫膜",
+   "type": "peritoneum",
+   "topics": [
+    "peritoneum"
+   ],
+   "expect3d": false,
+   "reason": "embryonic structure",
+   "weight": "low",
+   "source": "gut",
+   "order": 158,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0443",
+   "en": "Sternal part of diaphragm",
+   "zh": "橫膈胸骨部",
+   "type": "muscle",
+   "topics": [
+    "diaphragm"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "post",
+   "order": 159,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0444",
+   "en": "Costal part of diaphragm",
+   "zh": "橫膈肋骨部",
+   "type": "muscle",
+   "topics": [
+    "diaphragm"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "post",
+   "order": 160,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0445",
+   "en": "Lumbar part of diaphragm",
+   "zh": "橫膈腰部",
+   "type": "muscle",
+   "topics": [
+    "diaphragm"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "post",
+   "order": 161,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0446",
+   "en": "Ureteropelvic junction",
+   "zh": "腎盂輸尿管連接部",
+   "type": "organ",
+   "topics": [
+    "urinary"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "post",
+   "order": 162,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0447",
+   "en": "Ureterovesical junction (entrance to bladder)",
+   "zh": "輸尿管膀胱連接部",
+   "type": "organ",
+   "topics": [
+    "urinary"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "post",
+   "order": 163,
+   "region": "pelvis"
+  },
+  {
+   "id": "RS-A-0448",
+   "en": "Pelvic brim",
+   "zh": "骨盆緣",
+   "type": "bone",
+   "topics": [
+    "landmark"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "post",
+   "order": 164,
+   "region": "pelvis"
+  },
+  {
+   "id": "RS-A-0449",
+   "en": "Adrenal cortex",
+   "zh": "腎上腺皮質",
+   "type": "gland",
+   "topics": [
+    "urinary"
+   ],
+   "expect3d": false,
+   "reason": "internal zone, card level",
+   "weight": "low",
+   "source": "post",
+   "order": 165,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0450",
+   "en": "Adrenal medulla",
+   "zh": "腎上腺髓質",
+   "type": "gland",
+   "topics": [
+    "urinary"
+   ],
+   "expect3d": false,
+   "reason": "internal zone, card level",
+   "weight": "low",
+   "source": "post",
+   "order": 166,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0451",
+   "en": "Iliolumbar artery",
+   "zh": "髂腰動脈",
+   "type": "artery",
+   "topics": [
+    "aorta-branches"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "post",
+   "order": 167,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0452",
+   "en": "Lumbar azygos vein",
+   "zh": "腰奇靜脈",
+   "type": "vein",
+   "topics": [
+    "ivc"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "post",
+   "order": 168,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0453",
+   "en": "Left hepatic vein",
+   "zh": "左肝靜脈",
+   "type": "vein",
+   "topics": [
+    "ivc"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "post",
+   "order": 169,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0454",
+   "en": "Middle (intermediate) hepatic vein",
+   "zh": "中肝靜脈",
+   "type": "vein",
+   "topics": [
+    "ivc"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "post",
+   "order": 170,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0455",
+   "en": "Right hepatic vein",
+   "zh": "右肝靜脈",
+   "type": "vein",
+   "topics": [
+    "ivc"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "post",
+   "order": 171,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0456",
+   "en": "Lateral lumbar nodes",
+   "zh": "側腰淋巴結",
+   "type": "lymph",
+   "topics": [
+    "lymphatic"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "post",
+   "order": 172,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0457",
+   "en": "Thoracic splanchnic nerves",
+   "zh": "胸內臟神經",
+   "type": "nerve",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "post",
+   "order": 173,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0458",
+   "en": "Prevertebral (preaortic) ganglia",
+   "zh": "椎前神經節",
+   "type": "ganglion",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true,
+   "weight": "mid",
+   "source": "post",
+   "order": 174,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0459",
+   "en": "White ramus communicans",
+   "zh": "白交通支",
+   "type": "nerve",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": true,
+   "weight": "low",
+   "source": "post",
+   "order": 175,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0460",
+   "en": "Enteric nervous system",
+   "zh": "腸神經系統",
+   "type": "plexus",
+   "topics": [
+    "autonomic"
+   ],
+   "expect3d": false,
+   "reason": "functional system made of the two intramural plexuses, tissue level",
+   "weight": "low",
+   "source": "post",
+   "order": 176,
+   "region": "abdomen"
+  },
+  {
+   "id": "RS-A-0461",
+   "en": "Portal-systemic anastomoses",
+   "zh": "門體吻合",
+   "type": "vein",
+   "topics": [
+    "portal"
+   ],
+   "expect3d": false,
+   "reason": "concept; its member veins are listed separately",
+   "weight": "low",
+   "source": "post",
+   "order": 177,
+   "region": "abdomen"
   }
  ]
 }
