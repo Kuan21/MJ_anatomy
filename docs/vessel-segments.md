@@ -10,12 +10,12 @@
 
 | 區域 | 末端數 | 有下一段 | 已收成尖端 | 無下一段 | 間隙 > 管徑一半（修正前→後） | 切線誤差 > 45° | 管徑誤差 > 1.5 倍 |
 | --- | ---: | ---: | ---: | ---: | --- | ---: | ---: |
-| 上肢 | 1229 | 471 | 397 | 361 | 199 → 105 | 172 → 134 | 95 → 67 |
-| 下肢 | 1477 | 471 | 576 | 430 | 312 → 108 | 192 → 97 | 98 → 60 |
+| 上肢 | 1229 | 470 | 399 | 360 | 199 → 105 | 172 → 134 | 95 → 68 |
+| 下肢 | 1477 | 360 | 875 | 242 | 312 → 47 | 192 → 90 | 98 → 49 |
 
 ## 上肢：修正前（origin/main 的連接管）間隙大於管徑一半（199）
 
-其中 106 個已不再出現（橋接後間隙小於管徑一半，或該末端收成尖端）。
+其中 107 個已不再出現（橋接後間隙小於管徑一半，或該末端收成尖端）。
 
 | 血管對（上游 → 下一段） | 類型 | 間隙 (mm) | 管徑 (mm) | 修正後 |
 | --- | --- | ---: | ---: | --- |
@@ -31,7 +31,7 @@
 | Right radial artery (FJ2294) → Right posterior interosseous artery (PK-43) | 分支入幹 | 23.32 | 3.93 | 仍有間隙 |
 | Left ulnar artery (FJ2258) → Left anterior interosseous artery (FJ2214) | 分支入幹 | 21.66 | 1.39 | 已解決 |
 | Right anterior circumflex humeral vein (FJ2265) → Right posterior circumflex humeral vein (PK-42) | 分支入幹 | 21.56 | 1.6 | 仍有間隙 |
-| Left suprascapular vein (FJ2250) → Left posterior segmental vein (FJ2929) | 分支入幹 | 20.5 | 1.71 | 仍有間隙 |
+| Left suprascapular vein (FJ2250) → Left posterior segmental vein (FJ2929) | 分支入幹 | 20.5 | 1.71 | 已解決 |
 | Left suprascapular artery (FJ2251) → Left second posterior intercostal artery (FJ1974) | 分支入幹 | 19.86 | 1.32 | 仍有間隙 |
 | Left ulnar vein (FJ2260) → Left basilic vein (FJ2218) | 端接端 | 19.47 | 3.69 | 仍有間隙 |
 | Right ulnar vein (FJ2312) → Right median antebrachial vein (FJ2286) | 端接端 | 19.31 | 3.74 | 已解決 |
@@ -221,7 +221,7 @@
 
 ## 下肢：修正前（origin/main 的連接管）間隙大於管徑一半（312）
 
-其中 190 個已不再出現（橋接後間隙小於管徑一半，或該末端收成尖端）。
+其中 255 個已不再出現（橋接後間隙小於管徑一半，或該末端收成尖端）。
 
 | 血管對（上游 → 下一段） | 類型 | 間隙 (mm) | 管徑 (mm) | 修正後 |
 | --- | --- | ---: | ---: | --- |
@@ -230,52 +230,52 @@
 | Descending branch of right lateral circumflex femoral artery (FJ2057) → Set of perforating arteries (FJ2127) | 分支入幹 | 36.81 | 3.01 | 仍有間隙 |
 | Right lateral circumflex femoral vein (FJ2201) → Right deep femoral vein (FJ2135) | 分支入幹 | 36.22 | 3.9 | 仍有間隙 |
 | Left small saphenous vein (FJ2121) → Left genicular vein (FJ2107) | 分支入幹 | 36.05 | 3.66 | 仍有間隙 |
-| Right genicular vein (FJ2151) → Right anterior tibial vein (FJ2132) | 分支入幹 | 34.78 | 2.63 | 仍有間隙 |
-| Left genicular vein (FJ2108) → Left great saphenous vein (FJ2103) | 分支入幹 | 34.76 | 2.35 | 仍有間隙 |
+| Right genicular vein (FJ2151) → Right anterior tibial vein (FJ2132) | 分支入幹 | 34.78 | 2.63 | 已解決 |
+| Left genicular vein (FJ2108) → Left great saphenous vein (FJ2103) | 分支入幹 | 34.76 | 2.35 | 已解決 |
 | Right small saphenous vein (FJ2176) → Right popliteal vein (FJ2171) | 分支入幹 | 34.73 | 4.76 | 已解決 |
 | Left lateral circumflex femoral vein (FJ2188) → Left deep femoral vein (FJ2099) | 分支入幹 | 31.99 | 3.93 | 仍有間隙 |
 | Right anterior tibial vein (FJ2193) → Right fibular vein (FJ2200) | 分支入幹 | 31.98 | 4.23 | 仍有間隙 |
 | Right anterior tibial artery (FJ2130) → Right anterior tibial recurrent artery (FJ2131) | 分支入幹 | 31.96 | 5.51 | 仍有間隙 |
-| Left anterior tibial artery (FJ2065) → Left anterior tibial recurrent artery (FJ2066) | 分支入幹 | 29.78 | 3.32 | 仍有間隙 |
+| Left anterior tibial artery (FJ2065) → Left anterior tibial recurrent artery (FJ2066) | 分支入幹 | 29.78 | 3.32 | 已解決 |
 | Left inferior medial genicular artery (FJ2077) → Left popliteal artery (FJ2086) | 分支入幹 | 29.52 | 3.19 | 已解決 |
 | Left genicular vein (FJ2124) → Left anterior tibial vein (FJ2097) | 分支入幹 | 28.99 | 2.94 | 已解決 |
 | Left fibular vein (FJ2187) → Left posterior tibial vein (FJ2118) | 分支入幹 | 28.91 | 4.94 | 仍有間隙 |
 | Left anterior tibial artery (FJ2065) → Left fibular artery (PK-103) | 分支入幹 | 28.57 | 4.94 | 已解決 |
-| Left lateral circumflex femoral vein (FJ2188) → Left medial circumflex femoral vein (FJ2189) | 分支入幹 | 28.57 | 2.99 | 仍有間隙 |
+| Left lateral circumflex femoral vein (FJ2188) → Left medial circumflex femoral vein (FJ2189) | 分支入幹 | 28.57 | 2.99 | 已解決 |
 | Descending branch of right lateral circumflex femoral artery (FJ2057) → Set of perforating arteries (FJ2127) | 分支入幹 | 28.26 | 4.57 | 仍有間隙 |
-| Left inferior medial genicular artery (FJ2077) → Left anterior tibial recurrent artery (FJ2066) | 分支入幹 | 28.01 | 2.93 | 仍有間隙 |
-| Right genicular vein (FJ2153) → Right anterior tibial vein (FJ2132) | 分支入幹 | 27.54 | 2.19 | 仍有間隙 |
-| Right lateral circumflex femoral vein (FJ2201) → Right medial circumflex femoral vein (FJ2202) | 分支入幹 | 26.84 | 2.83 | 仍有間隙 |
-| Right anterior tibial artery (FJ2130) → Right fibular artery (PK-76) | 端接端 | 26.66 | 5.55 | 仍有間隙 |
-| Right superficial medial plantar artery (FJ2179) → Set of plantar digital arteries proper (FJ2205) | 分支入幹 | 26.5 | 1.97 | 仍有間隙 |
+| Left inferior medial genicular artery (FJ2077) → Left anterior tibial recurrent artery (FJ2066) | 分支入幹 | 28.01 | 2.93 | 已解決 |
+| Right genicular vein (FJ2153) → Right anterior tibial vein (FJ2132) | 分支入幹 | 27.54 | 2.19 | 已解決 |
+| Right lateral circumflex femoral vein (FJ2201) → Right medial circumflex femoral vein (FJ2202) | 分支入幹 | 26.84 | 2.83 | 已解決 |
+| Right anterior tibial artery (FJ2130) → Right fibular artery (PK-76) | 端接端 | 26.66 | 5.55 | 已解決 |
+| Right superficial medial plantar artery (FJ2179) → Set of plantar digital arteries proper (FJ2205) | 分支入幹 | 26.5 | 1.97 | 已解決 |
 | Right lateral circumflex femoral vein (FJ2201) → Right deep femoral vein (FJ2135) | 分支入幹 | 26.41 | 4.38 | 仍有間隙 |
 | Right anterior tibial artery (FJ2130) → Right anterior lateral malleolar artery (PK-74) | 分支入幹 | 25.58 | 3 | 已解決 |
 | Left anterior tibial recurrent artery (FJ2066) → Left articular branch of descending genicular artery (PK-99) | 分支入幹 | 25.47 | 2.44 | 已解決 |
 | Left lateral circumflex femoral vein (FJ2188) → Left deep femoral vein (FJ2099) | 分支入幹 | 25.14 | 4.33 | 仍有間隙 |
 | Right lateral circumflex femoral vein (FJ2201) → Right deep femoral vein (FJ2135) | 分支入幹 | 24.85 | 4.23 | 仍有間隙 |
 | Left lateral circumflex femoral vein (FJ2188) → Left deep femoral vein (FJ2099) | 分支入幹 | 24.71 | 4.12 | 仍有間隙 |
-| Right genicular vein (FJ2153) → Right great saphenous vein (FJ2145) | 分支入幹 | 24.45 | 2.35 | 仍有間隙 |
+| Right genicular vein (FJ2153) → Right great saphenous vein (FJ2145) | 分支入幹 | 24.45 | 2.35 | 已解決 |
 | Left fibular vein (FJ2187) → Left posterior tibial vein (FJ2118) | 分支入幹 | 24.32 | 4 | 仍有間隙 |
-| Right genicular vein (FJ2182) → Right anterior tibial vein (FJ2132) | 分支入幹 | 23.93 | 1.48 | 仍有間隙 |
-| Left genicular vein (FJ2107) → Left anterior tibial vein (FJ2097) | 分支入幹 | 23.52 | 2.53 | 仍有間隙 |
-| Left genicular vein (FJ2125) → Left anterior tibial vein (FJ2097) | 分支入幹 | 22.93 | 1.94 | 仍有間隙 |
+| Right genicular vein (FJ2182) → Right anterior tibial vein (FJ2132) | 分支入幹 | 23.93 | 1.48 | 已解決 |
+| Left genicular vein (FJ2107) → Left anterior tibial vein (FJ2097) | 分支入幹 | 23.52 | 2.53 | 已解決 |
+| Left genicular vein (FJ2125) → Left anterior tibial vein (FJ2097) | 分支入幹 | 22.93 | 1.94 | 已解決 |
 | Descending branch of right lateral circumflex femoral artery (FJ2057) → Right transverse branch of lateral circumflex femoral artery (PK-68) | 分支入幹 | 22.63 | 5.17 | 已解決 |
 | Right posterior tibial vein (FJ2173) → Right fibular vein (FJ2200) | 分支入幹 | 22.45 | 4.12 | 已解決 |
-| Set of plantar digital veins (FJ2175) → Dorsal venous arch of right foot (FJ2062) | 分支入幹 | 22.41 | 1.86 | 仍有間隙 |
-| Left genicular vein (FJ2108) → Left great saphenous vein (FJ2103) | 分支入幹 | 22.29 | 2.46 | 仍有間隙 |
-| Right lateral tarsal artery (FJ2163) → Right arcuate artery (FJ2133) | 分支入幹 | 22.27 | 3.2 | 仍有間隙 |
-| Right fibular vein (FJ2200) → Right posterior tibial vein (FJ2173) | 分支入幹 | 22.19 | 3.7 | 仍有間隙 |
-| Right genicular vein (FJ2182) → Right popliteal vein (FJ2171) | 分支入幹 | 22.14 | 2.59 | 仍有間隙 |
+| Set of plantar digital veins (FJ2175) → Dorsal venous arch of right foot (FJ2062) | 分支入幹 | 22.41 | 1.86 | 已解決 |
+| Left genicular vein (FJ2108) → Left great saphenous vein (FJ2103) | 分支入幹 | 22.29 | 2.46 | 已解決 |
+| Right lateral tarsal artery (FJ2163) → Right arcuate artery (FJ2133) | 分支入幹 | 22.27 | 3.2 | 已解決 |
+| Right fibular vein (FJ2200) → Right posterior tibial vein (FJ2173) | 分支入幹 | 22.19 | 3.7 | 已解決 |
+| Right genicular vein (FJ2182) → Right popliteal vein (FJ2171) | 分支入幹 | 22.14 | 2.59 | 已解決 |
 | Right lateral tarsal artery (FJ2163) → Right dorsalis pedis artery (FJ2055) | 分支入幹 | 22.05 | 3.24 | 已解決 |
-| Right genicular vein (FJ2153) → Right anterior tibial vein (FJ2132) | 分支入幹 | 21.08 | 2.12 | 仍有間隙 |
+| Right genicular vein (FJ2153) → Right anterior tibial vein (FJ2132) | 分支入幹 | 21.08 | 2.12 | 已解決 |
 | Right medial circumflex femoral artery (PK-66) → Right lateral circumflex femoral artery (FJ2158) | 分支入幹 | 20.99 | 2.92 | 已解決 |
 | Left posterior tibial artery (FJ2087) → Left fibular artery (PK-103) | 端接端 | 20.72 | 3.66 | 已解決 |
 | Right deep femoral vein (FJ2135) → Set of perforating veins (FJ2192) | 分支入幹 | 20.7 | 4.32 | 仍有間隙 |
-| Left arcuate artery (FJ2067) → Left lateral tarsal artery (FJ2081) | 分支入幹 | 20.45 | 2.9 | 仍有間隙 |
+| Left arcuate artery (FJ2067) → Left lateral tarsal artery (FJ2081) | 分支入幹 | 20.45 | 2.9 | 已解決 |
 | Right anterior tibial vein (FJ2193) → Right fibular vein (FJ2200) | 端接端 | 20.26 | 5.46 | 仍有間隙 |
-| Right arcuate artery (FJ2133) → Right lateral tarsal artery (FJ2163) | 分支入幹 | 20.13 | 2.92 | 仍有間隙 |
+| Right arcuate artery (FJ2133) → Right lateral tarsal artery (FJ2163) | 分支入幹 | 20.13 | 2.92 | 已解決 |
 | Left popliteal vein (FJ2117) → Left genicular vein (FJ2125) | 分支入幹 | 20.04 | 3.84 | 仍有間隙 |
-| Left anterior tibial recurrent artery (FJ2066) → Left lateral superior genicular artery (FJ2080) | 分支入幹 | 19.99 | 2.4 | 仍有間隙 |
+| Left anterior tibial recurrent artery (FJ2066) → Left lateral superior genicular artery (FJ2080) | 分支入幹 | 19.99 | 2.4 | 已解決 |
 | Left posterior tibial artery (FJ2087) → Left fibular artery (PK-103) | 分支入幹 | 19.93 | 3.21 | 已解決 |
 | Left genicular vein (FJ2124) → Left popliteal vein (FJ2117) | 分支入幹 | 19.86 | 3.61 | 仍有間隙 |
 | Left dorsalis pedis artery (FJ2073) → Left arcuate artery (FJ2067) | 端接端 | 19.61 | 3.65 | 已解決 |
@@ -283,8 +283,8 @@
 | Right inferior medial genicular artery (FJ2152) → Right inferior lateral genicular artery (FJ2150) | 端接端 | 19.51 | 3.67 | 已解決 |
 | Right deep femoral vein (FJ2135) → Set of perforating veins (FJ2192) | 分支入幹 | 19.48 | 2.68 | 仍有間隙 |
 | Right superior gluteal vein (FJ3616) → Right inferior gluteal vein (FJ3606) | 分支入幹 | 19.07 | 3.32 | 已解決 |
-| Right fibular vein (FJ2200) → Right posterior tibial vein (FJ2173) | 分支入幹 | 18.86 | 3.71 | 仍有間隙 |
-| Right superficial medial plantar artery (FJ2179) → Set of plantar digital arteries proper (FJ2205) | 分支入幹 | 18.67 | 1.85 | 仍有間隙 |
+| Right fibular vein (FJ2200) → Right posterior tibial vein (FJ2173) | 分支入幹 | 18.86 | 3.71 | 已解決 |
+| Right superficial medial plantar artery (FJ2179) → Set of plantar digital arteries proper (FJ2205) | 分支入幹 | 18.67 | 1.85 | 已解決 |
 | Left popliteal vein (FJ2117) → Left genicular vein (FJ2107) | 端接端 | 18.64 | 4.48 | 仍有間隙 |
 | Right inferior gluteal vein (FJ3606) → Right internal iliac vein (FJ3571) | 分支入幹 | 18.63 | 3.29 | 已解決 |
 | Left great saphenous vein (FJ2103) → Left genicular vein (FJ2108) | 端接端 | 18.53 | 3.81 | 已解決 |
@@ -294,7 +294,7 @@
 | Right popliteal artery (FJ2170) → Right inferior medial genicular artery (FJ2152) | 分支入幹 | 18.16 | 4.11 | 仍有間隙 |
 | Right popliteal artery (FJ2170) → Right medial superior genicular artery (FJ2166) | 端接端 | 17.8 | 4.16 | 已解決 |
 | Left popliteal artery (FJ2086) → Left descending genicular artery (FJ2069) | 端接端 | 17.3 | 3.71 | 已解決 |
-| Left superficial medial plantar artery (FJ2089) → Left plantar arch (FJ2085) | 分支入幹 | 17.27 | 1.95 | 仍有間隙 |
+| Left superficial medial plantar artery (FJ2089) → Left plantar arch (FJ2085) | 分支入幹 | 17.27 | 1.95 | 已解決 |
 | Left popliteal vein (FJ2117) → Left anterior tibial vein (FJ2183) | 端接端 | 17.24 | 5.78 | 已解決 |
 | Right popliteal vein (FJ2171) → Right genicular vein (FJ2182) | 端接端 | 17.07 | 5.12 | 已解決 |
 | Right popliteal vein (FJ2171) → Right femoral vein (FJ2144) | 分支入幹 | 16.91 | 3.98 | 仍有間隙 |
@@ -303,14 +303,14 @@
 | Right inferior medial genicular artery (FJ2152) → Right anterior tibial recurrent artery (FJ2131) | 端接端 | 16.17 | 2.44 | 已解決 |
 | Right inferior lateral genicular artery (FJ2150) → Right popliteal artery (FJ2170) | 端接端 | 16.11 | 3.59 | 已解決 |
 | Left popliteal artery (FJ2086) → Left descending genicular artery (FJ2069) | 端接端 | 15.99 | 5.26 | 已解決 |
-| Set of plantar digital veins (FJ2175) → Plantar venous arch of right foot (FJ2129) | 分支入幹 | 15.96 | 1.99 | 仍有間隙 |
-| Left lateral plantar artery (FJ2079) → Left medial plantar artery (FJ2082) | 分支入幹 | 15.84 | 2.07 | 仍有間隙 |
+| Set of plantar digital veins (FJ2175) → Plantar venous arch of right foot (FJ2129) | 分支入幹 | 15.96 | 1.99 | 已解決 |
+| Left lateral plantar artery (FJ2079) → Left medial plantar artery (FJ2082) | 分支入幹 | 15.84 | 2.07 | 已解決 |
 | Left popliteal artery (FJ2086) → Left inferior medial genicular artery (FJ2077) | 端接端 | 15.53 | 3.11 | 已解決 |
 | Left inferior gluteal vein (FJ3513) → Left internal iliac vein (FJ3470) | 分支入幹 | 15.51 | 3.78 | 已解決 |
 | Left inferior gluteal vein (FJ3513) → Left internal iliac vein (FJ3470) | 分支入幹 | 15.47 | 3.8 | 已解決 |
 | Left descending genicular artery (FJ2069) → Left articular branch of descending genicular artery (PK-99) | 分支入幹 | 15.46 | 3.52 | 已解決 |
-| Right anterior tibial vein (FJ2132) → Right genicular vein (FJ2181) | 分支入幹 | 15.39 | 1.78 | 仍有間隙 |
-| Left genicular vein (FJ2108) → Left great saphenous vein (FJ2103) | 分支入幹 | 15.16 | 2.54 | 仍有間隙 |
+| Right anterior tibial vein (FJ2132) → Right genicular vein (FJ2181) | 分支入幹 | 15.39 | 1.78 | 已解決 |
+| Left genicular vein (FJ2108) → Left great saphenous vein (FJ2103) | 分支入幹 | 15.16 | 2.54 | 已解決 |
 | Right popliteal vein (FJ2171) → Right anterior tibial vein (FJ2193) | 分支入幹 | 14.94 | 3.82 | 仍有間隙 |
 | Left popliteal vein (FJ2117) → Left small saphenous vein (FJ2121) | 端接端 | 14.93 | 4.87 | 已解決 |
 | Left popliteal vein (FJ2117) → Left genicular vein (FJ2125) | 端接端 | 14.77 | 3.25 | 仍有間隙 |
@@ -318,26 +318,26 @@
 | Left posterior tibial artery (FJ2087) → Set of dorsal digital arteries (FJ2093) | 端接端 | 14.65 | 3.76 | 已解決 |
 | Right genicular vein (FJ2181) → Right popliteal vein (FJ2171) | 端接端 | 14.45 | 3.93 | 已解決 |
 | Right genicular vein (FJ2151) → Right popliteal vein (FJ2171) | 分支入幹 | 14.12 | 3.4 | 已解決 |
-| Left arcuate artery (FJ2067) → Left lateral tarsal artery (FJ2081) | 分支入幹 | 14.06 | 2.81 | 仍有間隙 |
+| Left arcuate artery (FJ2067) → Left lateral tarsal artery (FJ2081) | 分支入幹 | 14.06 | 2.81 | 已解決 |
 | Set of dorsal digital arteries (FJ2093) → Left posterior tibial artery (FJ2087) | 分支入幹 | 13.94 | 3.13 | 仍有間隙 |
-| Right genicular vein (FJ2182) → Right popliteal vein (FJ2171) | 端接端 | 13.94 | 2.67 | 仍有間隙 |
+| Right genicular vein (FJ2182) → Right popliteal vein (FJ2171) | 端接端 | 13.94 | 2.67 | 已解決 |
 | Left popliteal artery (FJ2086) → Left lateral superior genicular artery (FJ2080) | 端接端 | 13.89 | 4.93 | 已解決 |
-| Set of perforating arteries (FJ2094) → Set of perforating arteries (FJ2090) | 分支入幹 | 13.84 | 2.81 | 仍有間隙 |
+| Set of perforating arteries (FJ2094) → Set of perforating arteries (FJ2090) | 分支入幹 | 13.84 | 2.81 | 已解決 |
 | Left popliteal vein (FJ2117) → Left anterior tibial vein (FJ2097) | 端接端 | 13.79 | 5.91 | 已解決 |
 | Right popliteal vein (FJ2171) → Right small saphenous vein (FJ2176) | 分支入幹 | 13.76 | 3.68 | 仍有間隙 |
-| Left anterior tibial vein (FJ2097) → Left genicular vein (FJ2107) | 分支入幹 | 13.75 | 1.75 | 仍有間隙 |
+| Left anterior tibial vein (FJ2097) → Left genicular vein (FJ2107) | 分支入幹 | 13.75 | 1.75 | 已解決 |
 | Right inferior gluteal vein (FJ3606) → Right internal iliac vein (FJ3571) | 分支入幹 | 13.72 | 3.56 | 已解決 |
-| Left inferior medial genicular artery (FJ2077) → Left anterior tibial recurrent artery (FJ2066) | 端接端 | 13.4 | 2.4 | 仍有間隙 |
-| Right genicular vein (FJ2182) → Right anterior tibial vein (FJ2132) | 端接端 | 13.13 | 2.08 | 仍有間隙 |
+| Left inferior medial genicular artery (FJ2077) → Left anterior tibial recurrent artery (FJ2066) | 端接端 | 13.4 | 2.4 | 已解決 |
+| Right genicular vein (FJ2182) → Right anterior tibial vein (FJ2132) | 端接端 | 13.13 | 2.08 | 已解決 |
 | Right popliteal artery (FJ2170) → Right lateral superior genicular artery (FJ2162) | 端接端 | 13.09 | 5.21 | 已解決 |
 | Left inferior lateral genicular artery (FJ2076) → Left middle genicular artery (FJ2084) | 分支入幹 | 13 | 2.39 | 仍有間隙 |
 | Right lateral tarsal artery (FJ2163) → Right dorsalis pedis artery (FJ2055) | 端接端 | 12.69 | 3.37 | 已解決 |
-| Right inferior gluteal vein (FJ3606) → Right internal iliac vein (FJ3572) | 分支入幹 | 12.61 | 2.85 | 仍有間隙 |
-| Right anterior tibial vein (FJ2132) → Right genicular vein (FJ2151) | 分支入幹 | 12.57 | 1.78 | 仍有間隙 |
-| Right genicular vein (FJ2151) → Right anterior tibial vein (FJ2132) | 分支入幹 | 12.4 | 2.27 | 仍有間隙 |
+| Right inferior gluteal vein (FJ3606) → Right internal iliac vein (FJ3572) | 分支入幹 | 12.61 | 2.85 | 已解決 |
+| Right anterior tibial vein (FJ2132) → Right genicular vein (FJ2151) | 分支入幹 | 12.57 | 1.78 | 已解決 |
+| Right genicular vein (FJ2151) → Right anterior tibial vein (FJ2132) | 分支入幹 | 12.4 | 2.27 | 已解決 |
 | Right superior gluteal artery (PK-79) → Right superficial branch of superior gluteal artery (PK-80) | 分支入幹 | 12.4 | 5.45 | 已解決 |
 | Left small saphenous vein (FJ2121) → Left popliteal vein (FJ2117) | 端接端 | 12.35 | 3.21 | 已解決 |
-| Left anterior tibial recurrent artery (FJ2066) → Left anterior tibial artery (FJ2065) | 分支入幹 | 12.34 | 2.24 | 仍有間隙 |
+| Left anterior tibial recurrent artery (FJ2066) → Left anterior tibial artery (FJ2065) | 分支入幹 | 12.34 | 2.24 | 已解決 |
 | Right anterior tibial artery (FJ2130) → Right anterior medial malleolar artery (PK-75) | 端接端 | 12.13 | 3.49 | 已解決 |
 | Left popliteal vein (FJ2117) → Left genicular vein (FJ2125) | 分支入幹 | 12.06 | 3.57 | 仍有間隙 |
 | Left genicular vein (FJ2124) → Left popliteal vein (FJ2117) | 端接端 | 12.04 | 3.72 | 仍有間隙 |
@@ -346,16 +346,16 @@
 | Right fibular artery (PK-76) → Right posterior tibial artery (FJ2172) | 端接端 | 11.65 | 3.93 | 已解決 |
 | Left medial circumflex femoral artery (PK-93) → Left femoral artery (FJ2074) | 分支入幹 | 11.47 | 4.49 | 已解決 |
 | Right popliteal artery (FJ2170) → Right medial superior genicular artery (FJ2166) | 端接端 | 11.38 | 4.85 | 已解決 |
-| Left genicular vein (FJ2107) → Left anterior tibial vein (FJ2097) | 端接端 | 11.37 | 2.2 | 仍有間隙 |
+| Left genicular vein (FJ2107) → Left anterior tibial vein (FJ2097) | 端接端 | 11.37 | 2.2 | 已解決 |
 | Left superior gluteal artery (PK-106) → Left deep branch of superior gluteal artery (PK-108) | 端接端 | 11.17 | 5.44 | 已解決 |
 | Right small saphenous vein (FJ2176) → Right popliteal vein (FJ2171) | 端接端 | 11.15 | 4.42 | 已解決 |
 | Right anterior tibial vein (FJ2132) → Right anterior tibial vein (FJ2193) | 分支入幹 | 10.97 | 1.34 | 已解決 |
-| Right descending genicular artery (FJ2137) → Right medial superior genicular artery (FJ2166) | 端接端 | 10.97 | 2.7 | 已解決 |
+| Right descending genicular artery (FJ2137) → Right medial superior genicular artery (FJ2166) | 端接端 | 10.97 | 2.7 | 仍有間隙 |
 | Left deep femoral artery (PK-91) → Set of perforating arteries (FJ2094) | 端接端 | 10.85 | 5.24 | 已解決 |
 | Left fibular artery (PK-103) → Set of dorsal digital arteries (FJ2093) | 端接端 | 10.81 | 3.99 | 仍有間隙 |
 | Left anterior tibial artery (FJ2065) → Left anterior medial malleolar artery (PK-102) | 端接端 | 10.8 | 3.8 | 已解決 |
 | Right superior gluteal artery (PK-79) → Right internal pudendal artery (PK-83) | 端接端 | 10.77 | 5.54 | 已解決 |
-| Right anterior tibial vein (FJ2132) → Right genicular vein (FJ2151) | 分支入幹 | 10.75 | 1.73 | 仍有間隙 |
+| Right anterior tibial vein (FJ2132) → Right genicular vein (FJ2151) | 分支入幹 | 10.75 | 1.73 | 已解決 |
 | Right superior gluteal artery (PK-79) → Right inferior gluteal artery (PK-82) | 端接端 | 10.71 | 5.71 | 已解決 |
 | Right inferior lateral genicular artery (FJ2150) → Right middle genicular artery (FJ2167) | 端接端 | 10.63 | 2.24 | 已解決 |
 | Left deep femoral artery (PK-91) → Set of perforating arteries (FJ2094) | 端接端 | 10.62 | 5.17 | 已解決 |
@@ -367,11 +367,11 @@
 | Right deep femoral vein (FJ2135) → Set of perforating veins (FJ2192) | 分支入幹 | 10.36 | 2.8 | 仍有間隙 |
 | Right small saphenous vein (FJ2176) → Right popliteal vein (FJ2171) | 端接端 | 10.29 | 4.57 | 已解決 |
 | Right lateral plantar artery (FJ2159) → Right medial plantar artery (FJ2164) | 端接端 | 10.23 | 2.13 | 已解決 |
-| Left anterior tibial recurrent artery (FJ2066) → Left inferior lateral genicular artery (FJ2076) | 分支入幹 | 10.18 | 2.34 | 仍有間隙 |
+| Left anterior tibial recurrent artery (FJ2066) → Left inferior lateral genicular artery (FJ2076) | 分支入幹 | 10.18 | 2.34 | 已解決 |
 | Descending branch of right lateral circumflex femoral artery (FJ2057) → Right lateral circumflex femoral artery (FJ2158) | 端接端 | 10.09 | 3.68 | 已解決 |
 | Left fibular artery (PK-103) → Set of dorsal digital arteries (FJ2093) | 端接端 | 10.08 | 3.49 | 仍有間隙 |
 | Tributary of plantar venous arch (FJ2115) → Left posterior tibial vein (FJ2118) | 端接端 | 9.66 | 2.28 | 已解決 |
-| Right inferior gluteal vein (FJ3606) → Right internal iliac vein (FJ3572) | 分支入幹 | 9.66 | 2.67 | 仍有間隙 |
+| Right inferior gluteal vein (FJ3606) → Right internal iliac vein (FJ3572) | 分支入幹 | 9.66 | 2.67 | 已解決 |
 | Left popliteal artery (FJ2086) → Left inferior lateral genicular artery (FJ2076) | 端接端 | 9.49 | 4.34 | 已解決 |
 | Set of perforating arteries (FJ2203) → Right deep femoral artery (PK-64) | 端接端 | 9.49 | 4.86 | 已解決 |
 | Set of perforating arteries (FJ2203) → Right deep femoral artery (PK-64) | 端接端 | 9.47 | 4.35 | 已解決 |
@@ -383,7 +383,7 @@
 | Right popliteal vein (FJ2171) → Right femoral vein (FJ2144) | 分支入幹 | 9.14 | 3.44 | 仍有間隙 |
 | Left popliteal artery (FJ2086) → Left lateral superior genicular artery (FJ2080) | 端接端 | 8.96 | 5.87 | 已解決 |
 | Left fibular artery (PK-103) → Set of dorsal digital arteries (FJ2093) | 端接端 | 8.93 | 3.69 | 仍有間隙 |
-| Right fibular vein (FJ2200) → Right posterior tibial vein (FJ2173) | 端接端 | 8.9 | 3.38 | 仍有間隙 |
+| Right fibular vein (FJ2200) → Right posterior tibial vein (FJ2173) | 端接端 | 8.9 | 3.38 | 已解決 |
 | Right deep femoral artery (PK-64) → Set of perforating arteries (FJ2203) | 端接端 | 8.78 | 4.98 | 已解決 |
 | Right deep femoral artery (PK-64) → Set of perforating arteries (FJ2203) | 分支入幹 | 8.73 | 4.46 | 已解決 |
 | Left lateral plantar vein (PK-105) → Left posterior tibial vein (FJ2118) | 端接端 | 8.58 | 3.73 | 已解決 |
@@ -398,7 +398,7 @@
 | Right deep femoral artery (PK-64) → Set of perforating arteries (FJ2203) | 分支入幹 | 8.16 | 4.2 | 已解決 |
 | Right popliteal vein (FJ2171) → Right genicular vein (FJ2182) | 分支入幹 | 8.11 | 3.65 | 已解決 |
 | Left deep femoral artery (PK-91) → Set of perforating arteries (FJ2094) | 分支入幹 | 8.11 | 3.94 | 已解決 |
-| Left obturator vein (FJ3527) → Left external iliac vein (FJ3484) | 端接端 | 8.06 | 2.81 | 仍有間隙 |
+| Left obturator vein (FJ3527) → Left external iliac vein (FJ3484) | 端接端 | 8.06 | 2.81 | 已解決 |
 | Left fibular artery (PK-103) → Set of dorsal digital arteries (FJ2093) | 端接端 | 8.04 | 3.83 | 仍有間隙 |
 | Right deep femoral artery (PK-64) → Set of perforating arteries (FJ2203) | 端接端 | 7.92 | 4.79 | 已解決 |
 | Right medial plantar artery (FJ2164) → Right posterior tibial artery (FJ2172) | 端接端 | 7.9 | 2.3 | 已解決 |
@@ -409,41 +409,41 @@
 | Left descending genicular artery (FJ2069) → Left medial superior genicular artery (FJ2083) | 端接端 | 7.66 | 3.04 | 已解決 |
 | Tributary of plantar venous arch (FJ2113) → Left posterior tibial vein (FJ2118) | 端接端 | 7.66 | 2.12 | 已解決 |
 | Set of perforating arteries (FJ2203) → Right deep femoral artery (PK-64) | 端接端 | 7.6 | 5.02 | 已解決 |
-| Left obturator vein (FJ3527) → Left external iliac vein (FJ3484) | 分支入幹 | 7.49 | 1.81 | 仍有間隙 |
+| Left obturator vein (FJ3527) → Left external iliac vein (FJ3484) | 分支入幹 | 7.49 | 1.81 | 已解決 |
 | Left posterior tibial artery (FJ2087) → Left circumflex fibular artery (PK-104) | 端接端 | 7.48 | 3.83 | 已解決 |
 | Descending branch of right lateral circumflex femoral artery (FJ2057) → Set of perforating arteries (FJ2203) | 端接端 | 7.47 | 3.98 | 已解決 |
 | Right descending genicular artery (FJ2137) → Right popliteal artery (FJ2170) | 端接端 | 7.44 | 5.7 | 已解決 |
 | Right anterior tibial vein (FJ2193) → Right anterior tibial vein (FJ2132) | 端接端 | 7.35 | 4.29 | 已解決 |
 | Left descending genicular artery (FJ2069) → Left medial superior genicular artery (FJ2083) | 分支入幹 | 7.26 | 3.16 | 已解決 |
-| Right genicular vein (FJ2182) → Right anterior tibial vein (FJ2132) | 端接端 | 7.22 | 2.07 | 仍有間隙 |
-| Set of perforating veins (FJ2174) → Plantar metatarsal vein (FJ2207) | 分支入幹 | 7.06 | 1.7 | 仍有間隙 |
+| Right genicular vein (FJ2182) → Right anterior tibial vein (FJ2132) | 端接端 | 7.22 | 2.07 | 已解決 |
+| Set of perforating veins (FJ2174) → Plantar metatarsal vein (FJ2207) | 分支入幹 | 7.06 | 1.7 | 已解決 |
 | Left anterior tibial vein (FJ2183) → Left posterior tibial vein (FJ2118) | 分支入幹 | 7.05 | 3.72 | 已解決 |
 | Left small saphenous vein (FJ2121) → Left popliteal vein (FJ2117) | 端接端 | 7.03 | 3.56 | 已解決 |
 | Right middle genicular artery (FJ2167) → Right popliteal artery (FJ2170) | 端接端 | 7.02 | 3.28 | 已解決 |
-| Left anterior tibial vein (FJ2097) → Left genicular vein (FJ2107) | 端接端 | 6.94 | 1.68 | 仍有間隙 |
-| Set of perforating veins (FJ2119) → Plantar metatarsal vein (FJ2191) | 分支入幹 | 6.94 | 1.61 | 仍有間隙 |
+| Left anterior tibial vein (FJ2097) → Left genicular vein (FJ2107) | 端接端 | 6.94 | 1.68 | 已解決 |
+| Set of perforating veins (FJ2119) → Plantar metatarsal vein (FJ2191) | 分支入幹 | 6.94 | 1.61 | 已解決 |
 | Right deep femoral artery (PK-64) → Set of perforating arteries (FJ2203) | 分支入幹 | 6.94 | 3.94 | 已解決 |
 | Left popliteal vein (FJ2117) → Left genicular vein (FJ2107) | 端接端 | 6.93 | 5.84 | 仍有間隙 |
-| Right inferior gluteal vein (FJ3606) → Right internal iliac vein (FJ3572) | 分支入幹 | 6.93 | 2.33 | 仍有間隙 |
+| Right inferior gluteal vein (FJ3606) → Right internal iliac vein (FJ3572) | 分支入幹 | 6.93 | 2.33 | 已解決 |
 | Right deep femoral artery (PK-64) → Set of perforating arteries (FJ2203) | 端接端 | 6.89 | 5.44 | 已解決 |
 | Left fibular vein (FJ2187) → Left posterior tibial vein (FJ2118) | 端接端 | 6.73 | 2.54 | 仍有間隙 |
-| Left lateral superior genicular artery (FJ2080) → Left anterior tibial recurrent artery (FJ2066) | 分支入幹 | 6.68 | 2.01 | 仍有間隙 |
+| Left lateral superior genicular artery (FJ2080) → Left anterior tibial recurrent artery (FJ2066) | 分支入幹 | 6.68 | 2.01 | 已解決 |
 | Set of dorsal digital arteries (FJ2197) → Right fibular artery (PK-76) | 端接端 | 6.65 | 5.46 | 已解決 |
 | Set of plantar digital veins (FJ2120) → Tributary of plantar venous arch (FJ2113) | 端接端 | 6.61 | 1.89 | 已解決 |
-| Plantar metatarsal vein (FJ2207) → Set of plantar digital veins (FJ2175) | 分支入幹 | 6.58 | 1.84 | 仍有間隙 |
+| Plantar metatarsal vein (FJ2207) → Set of plantar digital veins (FJ2175) | 分支入幹 | 6.58 | 1.84 | 已解決 |
 | Left dorsalis pedis artery (FJ2073) → Left anterior tibial artery (FJ2065) | 端接端 | 6.57 | 4.77 | 已解決 |
 | Left popliteal artery (FJ2086) → Left anterior tibial recurrent artery (FJ2066) | 端接端 | 6.51 | 3.43 | 已解決 |
 | Left great saphenous vein (FJ2103) → Left testicular vein (FJ3533) | 端接端 | 6.37 | 3.68 | 已解決 |
 | Set of perforating arteries (FJ2203) → Right deep femoral artery (PK-64) | 端接端 | 6.13 | 3.21 | 已解決 |
 | Set of perforating arteries (FJ2094) → Left perforating branch of deep femoral artery (PK-92) | 分支入幹 | 6.1 | 4.14 | 已解決 |
 | Set of perforating arteries (FJ2203) → Right femoral artery (FJ2143) | 分支入幹 | 5.94 | 3.57 | 已解決 |
-| Set of perforating veins (FJ2138) → Right dorsal metatarsal vein (FJ2199) | 分支入幹 | 5.93 | 1.69 | 仍有間隙 |
+| Set of perforating veins (FJ2138) → Right dorsal metatarsal vein (FJ2199) | 分支入幹 | 5.93 | 1.69 | 已解決 |
 | Left genicular vein (FJ2107) → Left popliteal vein (FJ2117) | 端接端 | 5.8 | 3.92 | 已解決 |
 | Right lateral tarsal artery (FJ2163) → Right dorsalis pedis artery (FJ2055) | 端接端 | 5.8 | 3.41 | 已解決 |
 | Left genicular vein (FJ2124) → Left small saphenous vein (FJ2121) | 端接端 | 5.77 | 4.75 | 已解決 |
 | Left superior gluteal vein (FJ3531) → Right superior gluteal vein (FJ3616) | 端接端 | 5.77 | 4.85 | 已解決 |
-| Right anterior tibial vein (FJ2132) → Right genicular vein (FJ2151) | 分支入幹 | 5.66 | 1.68 | 仍有間隙 |
-| Right anterior tibial vein (FJ2132) → Right genicular vein (FJ2151) | 分支入幹 | 5.66 | 1.68 | 仍有間隙 |
+| Right anterior tibial vein (FJ2132) → Right genicular vein (FJ2151) | 分支入幹 | 5.66 | 1.68 | 已解決 |
+| Right anterior tibial vein (FJ2132) → Right genicular vein (FJ2151) | 分支入幹 | 5.66 | 1.68 | 已解決 |
 | Left popliteal vein (FJ2117) → Left genicular vein (FJ2124) | 端接端 | 5.52 | 3.6 | 已解決 |
 | Right lateral superior genicular artery (FJ2162) → Right popliteal artery (FJ2170) | 端接端 | 5.45 | 2.92 | 仍有間隙 |
 | Right inferior medial genicular artery (FJ2152) → Right anterior tibial recurrent artery (FJ2131) | 端接端 | 5.33 | 1.99 | 已解決 |
@@ -454,23 +454,23 @@
 | Left anterior tibial vein (FJ2097) → Left genicular vein (FJ2108) | 端接端 | 4.85 | 2.25 | 已解決 |
 | Right superior gluteal artery (PK-79) → Right inferior gluteal artery (PK-82) | 端接端 | 4.83 | 5.48 | 已解決 |
 | Set of dorsal digital arteries (FJ2197) → Right fibular artery (PK-76) | 端接端 | 4.8 | 3.11 | 已解決 |
-| Right descending genicular artery (FJ2137) → Right medial superior genicular artery (FJ2166) | 分支入幹 | 4.73 | 3.16 | 已解決 |
+| Right descending genicular artery (FJ2137) → Right medial superior genicular artery (FJ2166) | 分支入幹 | 4.73 | 3.16 | 仍有間隙 |
 | Right anterior tibial artery (FJ2130) → Right popliteal artery (FJ2170) | 端接端 | 4.68 | 4.45 | 已解決 |
 | Left medial superior genicular artery (FJ2083) → Left descending genicular artery (FJ2069) | 分支入幹 | 4.63 | 1.82 | 已解決 |
 | Right superior gluteal artery (PK-79) → Right deep branch of superior gluteal artery (PK-81) | 端接端 | 4.59 | 5.45 | 已解決 |
 | Left deep femoral artery (PK-91) → Left perforating branch of deep femoral artery (PK-92) | 端接端 | 4.59 | 5.65 | 已解決 |
 | Left popliteal vein (FJ2117) → Left genicular vein (FJ2124) | 分支入幹 | 4.57 | 4.26 | 已解決 |
 | Left dorsal metatarsal vein (FJ2186) → Set of dorsal digital veins (FJ2185) | 分支入幹 | 4.51 | 2.68 | 已解決 |
-| Right genicular vein (FJ2153) → Right anterior tibial vein (FJ2132) | 分支入幹 | 4.48 | 1.76 | 仍有間隙 |
-| Right genicular vein (FJ2153) → Right great saphenous vein (FJ2145) | 端接端 | 4.47 | 2.71 | 仍有間隙 |
+| Right genicular vein (FJ2153) → Right anterior tibial vein (FJ2132) | 分支入幹 | 4.48 | 1.76 | 已解決 |
+| Right genicular vein (FJ2153) → Right great saphenous vein (FJ2145) | 端接端 | 4.47 | 2.71 | 已解決 |
 | Dorsal venous arch of right foot (FJ2061) → Right dorsal metatarsal vein (FJ2199) | 分支入幹 | 4.45 | 2.68 | 已解決 |
 | Descending branch of left lateral circumflex femoral artery (FJ2063) → Set of perforating arteries (FJ2094) | 端接端 | 4.44 | 5.29 | 已解決 |
 | Left lateral plantar vein (PK-105) → Set of plantar digital veins (FJ2120) | 端接端 | 4.43 | 2.66 | 已解決 |
 | Right descending genicular artery (FJ2137) → Right anterior tibial recurrent artery (FJ2131) | 分支入幹 | 4.4 | 2.56 | 已解決 |
 | Left deep femoral artery (PK-91) → Left perforating branch of deep femoral artery (PK-92) | 分支入幹 | 4.37 | 4.61 | 已解決 |
 | Right popliteal vein (FJ2171) → Right genicular vein (FJ2181) | 端接端 | 4.27 | 3.18 | 已解決 |
-| Left anterior tibial recurrent artery (FJ2066) → Left anterior tibial artery (FJ2065) | 分支入幹 | 4.25 | 2.29 | 仍有間隙 |
-| Left anterior tibial recurrent artery (FJ2066) → Left anterior tibial artery (FJ2065) | 分支入幹 | 4.25 | 2.33 | 仍有間隙 |
+| Left anterior tibial recurrent artery (FJ2066) → Left anterior tibial artery (FJ2065) | 分支入幹 | 4.25 | 2.29 | 已解決 |
+| Left anterior tibial recurrent artery (FJ2066) → Left anterior tibial artery (FJ2065) | 分支入幹 | 4.25 | 2.33 | 已解決 |
 | Left fibular vein (FJ2187) → Left posterior tibial vein (FJ2118) | 端接端 | 4.25 | 3.61 | 仍有間隙 |
 | Right medial plantar artery (FJ2164) → Right superficial medial plantar artery (FJ2179) | 端接端 | 4.21 | 2.1 | 已解決 |
 | Left medial circumflex femoral artery (PK-93) → Left femoral artery (FJ2074) | 分支入幹 | 4.14 | 4.78 | 已解決 |
@@ -480,26 +480,26 @@
 | Right anterior tibial artery (FJ2130) → Right dorsalis pedis artery (FJ2055) | 端接端 | 4.05 | 3.56 | 已解決 |
 | Left inferior gluteal vein (FJ3513) → Left obturator vein (FJ3527) | 端接端 | 4.03 | 2.83 | 已解決 |
 | Plantar venous arch of left foot (FJ2128) → Tributary of plantar venous arch (FJ2113) | 分支入幹 | 3.98 | 2.05 | 已解決 |
-| Left anterior tibial artery (FJ2065) → Left anterior tibial recurrent artery (FJ2066) | 端接端 | 3.93 | 4.15 | 仍有間隙 |
+| Left anterior tibial artery (FJ2065) → Left anterior tibial recurrent artery (FJ2066) | 端接端 | 3.93 | 4.15 | 已解決 |
 | Right popliteal artery (FJ2170) → Right inferior medial genicular artery (FJ2152) | 分支入幹 | 3.73 | 3.62 | 仍有間隙 |
-| Right inferior gluteal vein (FJ3606) → Right internal iliac vein (FJ3572) | 端接端 | 3.71 | 3.03 | 仍有間隙 |
+| Right inferior gluteal vein (FJ3606) → Right internal iliac vein (FJ3572) | 端接端 | 3.71 | 3.03 | 已解決 |
 | Left popliteal artery (FJ2086) → Left medial superior genicular artery (FJ2083) | 端接端 | 3.68 | 4.6 | 已解決 |
 | Right anterior tibial recurrent artery (FJ2131) → Descending branch of right lateral circumflex femoral artery (FJ2057) | 端接端 | 3.68 | 2 | 已解決 |
 | Right anterior tibial vein (FJ2193) → Right posterior tibial vein (FJ2173) | 端接端 | 3.64 | 5.05 | 已解決 |
 | Right popliteal vein (FJ2171) → Right anterior tibial vein (FJ2193) | 端接端 | 3.62 | 4.69 | 仍有間隙 |
 | Plantar venous arch of right foot (FJ2129) → Set of plantar digital veins (FJ2175) | 分支入幹 | 3.46 | 2.11 | 已解決 |
-| Right medial superior genicular artery (FJ2166) → Right popliteal artery (FJ2170) | 端接端 | 3.41 | 2.7 | 仍有間隙 |
+| Right medial superior genicular artery (FJ2166) → Right popliteal artery (FJ2170) | 端接端 | 3.41 | 2.7 | 已解決 |
 | Left popliteal artery (FJ2086) → Left inferior lateral genicular artery (FJ2076) | 端接端 | 3.34 | 3.49 | 已解決 |
 | Right popliteal vein (FJ2171) → Right femoral vein (FJ2144) | 分支入幹 | 3.34 | 4.48 | 仍有間隙 |
 | Right superior gluteal vein (FJ3616) → Median sacral vein (FJ3541) | 端接端 | 3.29 | 5.86 | 已解決 |
 | Right descending genicular artery (FJ2137) → Right popliteal artery (FJ2170) | 端接端 | 3.28 | 4.58 | 已解決 |
 | Left inferior medial genicular artery (FJ2077) → Left inferior lateral genicular artery (FJ2076) | 端接端 | 3.27 | 4.22 | 已解決 |
-| Set of perforating arteries (FJ2094) → Set of perforating arteries (FJ2090) | 分支入幹 | 3.26 | 5.26 | 仍有間隙 |
+| Set of perforating arteries (FJ2094) → Set of perforating arteries (FJ2090) | 分支入幹 | 3.26 | 5.26 | 已解決 |
 | Dorsal venous arch of left foot (FJ2059) → Left dorsal metatarsal vein (FJ2186) | 分支入幹 | 3.25 | 2.65 | 已解決 |
 | Left anterior tibial artery (FJ2065) → Left anterior medial malleolar artery (PK-102) | 分支入幹 | 3.18 | 5.39 | 已解決 |
 | Right plantar arch (FJ2169) → Right deep plantar artery (FJ2136) | 端接端 | 3.17 | 2.02 | 已解決 |
 | Right popliteal artery (FJ2170) → Right inferior medial genicular artery (FJ2152) | 分支入幹 | 3.15 | 3.28 | 仍有間隙 |
-| Left genicular vein (FJ2107) → Left anterior tibial vein (FJ2097) | 分支入幹 | 3.12 | 1.92 | 仍有間隙 |
+| Left genicular vein (FJ2107) → Left anterior tibial vein (FJ2097) | 分支入幹 | 3.12 | 1.92 | 已解決 |
 | Right anterior tibial vein (FJ2193) → Right posterior tibial vein (FJ2173) | 分支入幹 | 3.12 | 5.71 | 已解決 |
 | Left inferior lateral genicular artery (FJ2076) → Left popliteal artery (FJ2086) | 端接端 | 3.08 | 4.02 | 已解決 |
 | Dorsal venous arch of right foot (FJ2061) → Right dorsal metatarsal vein (FJ2199) | 端接端 | 3.03 | 2.56 | 已解決 |
@@ -526,8 +526,8 @@
 | Right popliteal artery (FJ2170) → Right middle genicular artery (FJ2167) | 分支入幹 | 2.11 | 3.6 | 已解決 |
 | Plantar venous arch of right foot (FJ2129) → Dorsal venous arch of right foot (FJ2062) | 端接端 | 2.08 | 2.08 | 已解決 |
 | Right popliteal artery (FJ2170) → Right middle genicular artery (FJ2167) | 端接端 | 2.01 | 3.32 | 已解決 |
-| Right genicular vein (FJ2182) → Right popliteal vein (FJ2171) | 分支入幹 | 1.95 | 2.81 | 仍有間隙 |
-| Right fibular vein (FJ2200) → Right posterior tibial vein (FJ2173) | 端接端 | 1.9 | 3.55 | 仍有間隙 |
+| Right genicular vein (FJ2182) → Right popliteal vein (FJ2171) | 分支入幹 | 1.95 | 2.81 | 已解決 |
+| Right fibular vein (FJ2200) → Right posterior tibial vein (FJ2173) | 端接端 | 1.9 | 3.55 | 已解決 |
 | Right descending genicular artery (FJ2137) → Right inferior medial genicular artery (FJ2152) | 端接端 | 1.89 | 2.42 | 已解決 |
 | Right popliteal artery (FJ2170) → Right middle genicular artery (FJ2167) | 分支入幹 | 1.85 | 3.11 | 已解決 |
 | Plantar metatarsal artery (FJ2206) → Right plantar arch (FJ2169) | 端接端 | 1.74 | 1.64 | 已解決 |
@@ -554,8 +554,7 @@
 | Right anterior circumflex humeral vein (FJ2265) → Right posterior circumflex humeral vein (PK-42) | 分支入幹 | 21.56 | 1.6 |
 | Right anterior circumflex humeral vein (FJ2265) → Right posterior circumflex humeral vein (PK-42) | 分支入幹 | 21.52 | 1.29 |
 | Right ulnar artery (FJ2310) → Right dorsal carpal branch of ulnar artery (FJ2288) | 分支入幹 | 20.96 | 2.22 |
-| Left suprascapular vein (FJ2250) → Left posterior segmental vein (FJ2929) | 分支入幹 | 20.5 | 1.71 |
-| Left suprascapular artery (FJ2251) → Left second posterior intercostal artery (FJ1974) | 分支入幹 | 19.86 | 1.32 |
+| Left suprascapular artery (FJ2251) → Left second posterior intercostal artery (FJ1974) | 分支入幹 | 20.6 | 1.32 |
 | Left basilic vein (FJ2218) → Left ulnar vein (FJ2260) | 分支入幹 | 19.77 | 1.8 |
 | Right anterior circumflex humeral artery (FJ2264) → Right posterior circumflex humeral artery (FJ2292) | 分支入幹 | 19.16 | 2.41 |
 | Left superior ulnar collateral artery (FJ2374) → Left brachial artery (FJ2219) | 分支入幹 | 18.92 | 1.22 |
@@ -569,6 +568,7 @@
 | Left radial artery (FJ2242) → Left superficial palmar arterial arch (FJ2248) | 分支入幹 | 17.91 | 1.6 |
 | Right radial artery (FJ2294) → Right posterior interosseous artery (PK-43) | 分支入幹 | 17.86 | 2.2 |
 | Right suprascapular vein (FJ2302) → Right circumflex scapular vein (FJ2274) | 分支入幹 | 17.45 | 1.78 |
+| Right dorsal scapular artery (FJ2284) → Posterior intercostal arteries (FJ1961) | 分支入幹 | 17.1 | 1.44 |
 | Right radial artery (FJ2294) → Right posterior interosseous artery (PK-43) | 分支入幹 | 16.76 | 3.66 |
 | Left cephalic vein (FJ2220) → Left anterior circumflex humeral vein (FJ2213) | 分支入幹 | 15.57 | 5.03 |
 | Right circumflex scapular vein (FJ2274) → Right posterior circumflex humeral vein (PK-42) | 分支入幹 | 15.25 | 1.65 |
@@ -648,117 +648,56 @@
 | Right third common palmar digital artery (FJ2345) → Right palmar metacarpal artery (FJ2289) | 分支入幹 | 0.86 | 1.7 |
 | Left median cubital vein (FJ2235) → Left lateral brachial vein (PK-61) | 分支入幹 | 0.75 | 1.4 |
 
-## 下肢：修正後仍大於管徑一半（108）
+## 下肢：修正後仍大於管徑一半（47）
 
 | 血管對（上游 → 下一段） | 類型 | 間隙 (mm) | 管徑 (mm) |
 | --- | --- | ---: | ---: |
-| Right anterior tibial artery (FJ2130) → Right posterior tibial artery (FJ2172) | 分支入幹 | 42.38 | 2.45 |
 | Left small saphenous vein (FJ2121) → Left genicular vein (FJ2107) | 分支入幹 | 38.27 | 4.76 |
-| Right anterior tibial vein (FJ2193) → Right fibular vein (FJ2200) | 分支入幹 | 36.86 | 3.32 |
-| Right lateral circumflex femoral vein (FJ2201) → Right deep femoral vein (FJ2135) | 分支入幹 | 36.18 | 3.9 |
+| Right lateral circumflex femoral vein (FJ2201) → Right deep femoral vein (FJ2135) | 分支入幹 | 37.38 | 3.9 |
 | Left small saphenous vein (FJ2121) → Left genicular vein (FJ2107) | 分支入幹 | 36.09 | 3.66 |
-| Right genicular vein (FJ2151) → Right anterior tibial vein (FJ2132) | 分支入幹 | 34.78 | 2.63 |
 | Right small saphenous vein (FJ2176) → Right genicular vein (FJ2151) | 分支入幹 | 34.7 | 4.76 |
+| Right anterior tibial artery (FJ2130) → Right anterior tibial recurrent artery (FJ2131) | 分支入幹 | 32.32 | 5.51 |
 | Right anterior tibial vein (FJ2193) → Right fibular vein (FJ2200) | 分支入幹 | 31.98 | 4.23 |
-| Left genicular vein (FJ2108) → Left great saphenous vein (FJ2103) | 分支入幹 | 31.92 | 1.39 |
-| Right anterior tibial artery (FJ2130) → Right anterior tibial recurrent artery (FJ2131) | 分支入幹 | 31.9 | 5.51 |
 | Left lateral circumflex femoral vein (FJ2188) → Left deep femoral vein (FJ2099) | 分支入幹 | 31.34 | 3.93 |
-| Right posterior tibial artery (FJ2172) → Right fibular artery (FJ2197) | 分支入幹 | 30.05 | 1.42 |
-| Left anterior tibial artery (FJ2065) → Left anterior tibial recurrent artery (FJ2066) | 分支入幹 | 29.7 | 3.32 |
 | Left fibular vein (FJ2187) → Left posterior tibial vein (FJ2118) | 分支入幹 | 28.91 | 4.94 |
-| Right fibular artery (FJ2197) → Right posterior tibial artery (FJ2172) | 分支入幹 | 28.7 | 3.32 |
-| Left lateral circumflex femoral vein (FJ2188) → Left medial circumflex femoral vein (FJ2189) | 分支入幹 | 28.45 | 2.99 |
 | Descending branch of right lateral circumflex femoral artery (FJ2057) → Set of perforating arteries (FJ2127) | 分支入幹 | 28.26 | 4.57 |
-| Left inferior medial genicular artery (FJ2077) → Left anterior tibial recurrent artery (FJ2066) | 分支入幹 | 28.01 | 2.93 |
 | Right fibular vein (FJ2200) → Right anterior tibial vein (FJ2193) | 分支入幹 | 27.73 | 5.64 |
-| Right genicular vein (FJ2153) → Right anterior tibial vein (FJ2132) | 分支入幹 | 27.54 | 2.19 |
-| Right lateral circumflex femoral vein (FJ2201) → Right medial circumflex femoral vein (FJ2202) | 分支入幹 | 26.72 | 2.83 |
-| Right superficial medial plantar artery (FJ2179) → Set of plantar digital arteries proper (FJ2205) | 分支入幹 | 26.5 | 1.97 |
-| Right lateral circumflex femoral vein (FJ2201) → Right deep femoral vein (FJ2135) | 分支入幹 | 26.39 | 4.38 |
-| Right anterior tibial artery (FJ2130) → Right anterior lateral malleolar artery (PK-76) | 分支入幹 | 25.58 | 3 |
-| Left anterior tibial recurrent artery (FJ2066) → Left articular branch of descending genicular artery (PK-101) | 分支入幹 | 25.47 | 2.44 |
+| Right lateral circumflex femoral vein (FJ2201) → Right deep femoral vein (FJ2135) | 分支入幹 | 27.63 | 4.38 |
+| Left fibular artery (FJ2093) → Left posterior tibial artery (FJ2087) | 分支入幹 | 26.73 | 5.74 |
+| Right lateral circumflex femoral vein (FJ2201) → Right deep femoral vein (FJ2135) | 分支入幹 | 25.64 | 4.23 |
 | Left lateral circumflex femoral vein (FJ2188) → Left deep femoral vein (FJ2099) | 分支入幹 | 25.03 | 4.33 |
-| Right lateral circumflex femoral vein (FJ2201) → Right deep femoral vein (FJ2135) | 分支入幹 | 24.77 | 4.23 |
-| Right genicular vein (FJ2153) → Right great saphenous vein (FJ2145) | 分支入幹 | 24.45 | 2.35 |
 | Left lateral circumflex femoral vein (FJ2188) → Left deep femoral vein (FJ2099) | 分支入幹 | 24.4 | 4.12 |
 | Left fibular vein (FJ2187) → Left posterior tibial vein (FJ2118) | 分支入幹 | 24.32 | 4 |
-| Right genicular vein (FJ2182) → Right anterior tibial vein (FJ2132) | 分支入幹 | 24.31 | 1.14 |
 | Right ascending and transverse branches of lateral circumflex femoral artery (FJ2195) → Descending branch of right lateral circumflex femoral artery (FJ2057) | 分支入幹 | 24.14 | 3.92 |
-| Right lateral tarsal artery (FJ2163) → Right arcuate artery (FJ2133) | 分支入幹 | 22.97 | 3.2 |
-| Left genicular vein (FJ2125) → Left anterior tibial vein (FJ2097) | 分支入幹 | 22.93 | 1.94 |
 | Right posterior tibial vein (FJ2173) → Right anterior tibial vein (FJ2193) | 分支入幹 | 22.74 | 4.12 |
-| Set of plantar digital veins (FJ2175) → Dorsal venous arch of right foot (FJ2062) | 分支入幹 | 22.41 | 1.86 |
-| Right genicular vein (FJ2153) → Right anterior tibial vein (FJ2132) | 分支入幹 | 21.08 | 2.12 |
-| Right medial circumflex femoral artery (PK-68) → Right lateral circumflex femoral artery (FJ2158) | 分支入幹 | 21 | 2.92 |
+| Left popliteal vein (FJ2117) → Left genicular vein (FJ2125) | 分支入幹 | 21.41 | 3.84 |
+| Right medial circumflex femoral artery (PK-68) → Right lateral circumflex femoral artery (FJ2158) | 分支入幹 | 21.17 | 2.92 |
 | Left anterior lateral malleolar artery (PK-103) → Left fibular artery (FJ2093) | 分支入幹 | 20.92 | 1.44 |
 | Right deep femoral vein (FJ2135) → Set of perforating veins (FJ2192) | 分支入幹 | 20.7 | 4.32 |
-| Left arcuate artery (FJ2067) → Left lateral tarsal artery (FJ2081) | 分支入幹 | 20.29 | 2.9 |
-| Right arcuate artery (FJ2133) → Right lateral tarsal artery (FJ2163) | 分支入幹 | 20.13 | 2.92 |
+| Left articular branch of descending genicular artery (PK-101) → Left anterior tibial recurrent artery (FJ2066) | 分支入幹 | 20.34 | 1.24 |
 | Right ascending and transverse branches of lateral circumflex femoral artery (FJ2195) → Descending branch of right lateral circumflex femoral artery (FJ2057) | 分支入幹 | 20.07 | 4.12 |
-| Left anterior tibial recurrent artery (FJ2066) → Left lateral superior genicular artery (FJ2080) | 分支入幹 | 19.99 | 2.4 |
-| Left popliteal vein (FJ2117) → Left genicular vein (FJ2125) | 分支入幹 | 19.97 | 3.84 |
 | Right anterior lateral malleolar artery (PK-76) → Right fibular artery (FJ2197) | 分支入幹 | 19.84 | 1.44 |
-| Left articular branch of descending genicular artery (PK-101) → Left anterior tibial recurrent artery (FJ2066) | 分支入幹 | 19.62 | 1.24 |
-| Right deep femoral vein (FJ2135) → Set of perforating veins (FJ2192) | 分支入幹 | 19.48 | 2.68 |
-| Right superficial medial plantar artery (FJ2179) → Set of plantar digital arteries proper (FJ2205) | 分支入幹 | 18.67 | 1.85 |
-| Left genicular vein (FJ2107) → Left anterior tibial vein (FJ2097) | 分支入幹 | 18.65 | 2.53 |
 | Left lateral superior genicular artery (FJ2080) → Left popliteal artery (FJ2086) | 分支入幹 | 18.64 | 3.69 |
 | Left lateral superior genicular artery (FJ2080) → Left popliteal artery (FJ2086) | 分支入幹 | 18.39 | 3.73 |
 | Right articular branch of descending genicular artery (PK-74) → Right anterior tibial recurrent artery (FJ2131) | 分支入幹 | 18.37 | 1.24 |
-| Right genicular vein (FJ2182) → Right popliteal vein (FJ2171) | 分支入幹 | 18.28 | 2.59 |
 | Right lateral superior genicular artery (FJ2162) → Right popliteal artery (FJ2170) | 分支入幹 | 18.17 | 3.68 |
 | Right popliteal artery (FJ2170) → Right inferior medial genicular artery (FJ2152) | 分支入幹 | 18.16 | 4.11 |
 | Right ascending and transverse branches of lateral circumflex femoral artery (FJ2195) → Descending branch of right lateral circumflex femoral artery (FJ2057) | 分支入幹 | 17.98 | 4.3 |
-| Right ascending and transverse branches of lateral circumflex femoral artery (FJ2195) → Descending branch of right lateral circumflex femoral artery (FJ2057) | 分支入幹 | 17.81 | 3.4 |
-| Left anterior tibial recurrent artery (FJ2066) → Left inferior medial genicular artery (FJ2077) | 分支入幹 | 17.62 | 1.39 |
-| Dorsal venous arch of left foot (FJ2059) → Left small saphenous vein (FJ2121) | 分支入幹 | 17.26 | 1.45 |
-| Right medial superior genicular artery (FJ2166) → Right popliteal artery (FJ2170) | 分支入幹 | 17.22 | 2.51 |
-| Left superficial medial plantar artery (FJ2089) → Left plantar arch (FJ2085) | 分支入幹 | 17.1 | 1.95 |
 | Right popliteal vein (FJ2171) → Right femoral vein (FJ2144) | 分支入幹 | 16.91 | 3.98 |
 | Left medial circumflex femoral artery (PK-95) → Left femoral artery (FJ2074) | 分支入幹 | 16.75 | 4.37 |
-| Left lateral plantar artery (FJ2079) → Left medial plantar artery (FJ2082) | 分支入幹 | 16.16 | 2.07 |
-| Right posterior tibial artery (FJ2172) → Right fibular artery (FJ2197) | 分支入幹 | 15.97 | 3.45 |
-| Set of plantar digital veins (FJ2175) → Plantar venous arch of right foot (FJ2129) | 分支入幹 | 15.79 | 1.99 |
-| Left inferior lateral genicular artery (FJ2076) → Left inferior medial genicular artery (FJ2077) | 分支入幹 | 15.55 | 3.4 |
-| Left descending genicular artery (FJ2069) → Left articular branch of descending genicular artery (PK-101) | 分支入幹 | 15.46 | 3.52 |
-| Left genicular vein (FJ2108) → Left great saphenous vein (FJ2103) | 分支入幹 | 15.39 | 2.46 |
-| Right anterior tibial vein (FJ2132) → Right genicular vein (FJ2181) | 分支入幹 | 15.39 | 1.78 |
 | Right popliteal vein (FJ2171) → Right anterior tibial vein (FJ2193) | 分支入幹 | 14.94 | 3.82 |
-| Left arcuate artery (FJ2067) → Left lateral tarsal artery (FJ2081) | 分支入幹 | 13.97 | 2.81 |
-| Set of perforating arteries (FJ2094) → Set of perforating arteries (FJ2090) | 分支入幹 | 13.84 | 2.81 |
-| Left fibular artery (FJ2093) → Left posterior tibial artery (FJ2087) | 分支入幹 | 13.09 | 2.99 |
 | Right popliteal vein (FJ2171) → Right small saphenous vein (FJ2176) | 分支入幹 | 12.83 | 3.68 |
 | Right fibular vein (FJ2200) → Right anterior tibial vein (FJ2193) | 分支入幹 | 12.75 | 3.7 |
-| Right anterior tibial vein (FJ2132) → Right genicular vein (FJ2151) | 分支入幹 | 12.57 | 1.78 |
-| Right genicular vein (FJ2151) → Right anterior tibial vein (FJ2132) | 分支入幹 | 12.42 | 2.27 |
-| Left anterior tibial recurrent artery (FJ2066) → Left anterior tibial artery (FJ2065) | 分支入幹 | 12.34 | 2.24 |
-| Left popliteal vein (FJ2117) → Left genicular vein (FJ2125) | 分支入幹 | 11.91 | 3.57 |
 | Right fibular vein (FJ2200) → Right anterior tibial vein (FJ2193) | 分支入幹 | 11.08 | 3.71 |
-| Right anterior tibial vein (FJ2132) → Right genicular vein (FJ2151) | 分支入幹 | 10.66 | 1.73 |
-| Right popliteal artery (FJ2170) → Right inferior medial genicular artery (FJ2152) | 分支入幹 | 10.4 | 3.12 |
-| Left anterior tibial recurrent artery (FJ2066) → Left inferior lateral genicular artery (FJ2076) | 分支入幹 | 10.18 | 2.34 |
 | Right ascending and transverse branches of lateral circumflex femoral artery (FJ2195) → Descending branch of right lateral circumflex femoral artery (FJ2057) | 分支入幹 | 8.09 | 4.98 |
 | Right popliteal artery (FJ2170) → Right anterior tibial artery (FJ2130) | 分支入幹 | 7.76 | 2.83 |
-| Left obturator vein (FJ3527) → Left external iliac vein (FJ3484) | 分支入幹 | 7.49 | 1.81 |
-| Right inferior gluteal vein (FJ3606) → Right internal iliac vein (FJ3572) | 分支入幹 | 7.12 | 2.33 |
-| Set of perforating veins (FJ2174) → Plantar metatarsal vein (FJ2207) | 分支入幹 | 7.06 | 1.7 |
-| Set of perforating veins (FJ2119) → Plantar metatarsal vein (FJ2191) | 分支入幹 | 6.94 | 1.61 |
-| Set of dorsal digital veins (FJ2185) → Set of plantar digital veins (FJ2120) | 分支入幹 | 6.93 | 0.8 |
-| Plantar metatarsal vein (FJ2207) → Set of plantar digital veins (FJ2175) | 分支入幹 | 6.58 | 1.84 |
-| Left lateral superior genicular artery (FJ2080) → Left anterior tibial recurrent artery (FJ2066) | 分支入幹 | 6.49 | 2.01 |
-| Set of perforating veins (FJ2138) → Right dorsal metatarsal vein (FJ2199) | 分支入幹 | 5.93 | 1.69 |
+| Right descending genicular artery (FJ2137) → Right medial superior genicular artery (FJ2166) | 分支入幹 | 5.97 | 2.79 |
 | Left genicular vein (FJ2124) → Left popliteal vein (FJ2117) | 分支入幹 | 5.78 | 3.61 |
-| Right anterior tibial vein (FJ2132) → Right genicular vein (FJ2151) | 分支入幹 | 5.66 | 1.68 |
-| Right anterior tibial vein (FJ2132) → Right genicular vein (FJ2151) | 分支入幹 | 5.66 | 1.68 |
 | Plantar venous arch of left foot (FJ2128) → Set of perforating veins (FJ2119) | 端接端 | 5.28 | 1.18 |
 | Left dorsal metatarsal vein (FJ2186) → Set of perforating veins (FJ2100) | 分支入幹 | 5.22 | 1.26 |
-| Left anterior tibial vein (FJ2097) → Left genicular vein (FJ2107) | 分支入幹 | 4.93 | 1.75 |
-| Right genicular vein (FJ2153) → Right anterior tibial vein (FJ2132) | 分支入幹 | 4.48 | 1.76 |
 | Left deep branch of superior gluteal artery (PK-110) → Left superior gluteal artery (PK-108) | 分支入幹 | 4.06 | 4.82 |
-| Right fibular vein (FJ2200) → Right posterior tibial vein (FJ2173) | 分支入幹 | 3.27 | 1.92 |
 | Left popliteal vein (FJ2117) → Left genicular vein (FJ2107) | 分支入幹 | 3.17 | 5.75 |
 | Left anterior tibial vein (FJ2183) → Left anterior tibial vein (FJ2097) | 分支入幹 | 2.23 | 4.34 |
-| Right lateral circumflex femoral artery (FJ2158) → Right ascending and transverse branches of lateral circumflex femoral artery (FJ2195) | 分支入幹 | 0.77 | 1.29 |
 | Left inferior lateral genicular artery (FJ2076) → Left middle genicular artery (FJ2084) | 分支入幹 | 0.51 | 0.94 |
 
 ## 沒有下一段的大血管末端（管徑 ≥ 3 mm，未收成尖端）
@@ -774,13 +713,12 @@
 | Left anterior circumflex humeral artery (FJ2212) | shoulder | left | 5 | 0.156, 1.353, -0.014 |
 | Left anterior circumflex humeral artery (FJ2212) | shoulder | left | 5.2 | 0.155, 1.352, -0.017 |
 | Left anterior circumflex humeral vein (FJ2213) | shoulder | left | 4.2 | 0.166, 1.364, -0.001 |
-| Left axillary vein (FJ2217) | arm | left | 3.6 | 0.127, 1.397, 0.008 |
+| Left axillary vein (FJ2217) | shoulder | left | 3.6 | 0.127, 1.397, 0.008 |
 | Left basilic vein (FJ2218) | forearm | left | 3.3 | 0.174, 1.216, -0.034 |
 | Left basilic vein (FJ2218) | forearm | left | 3.6 | 0.176, 1.081, -0.024 |
 | Left basilic vein (FJ2218) | forearm | left | 3.9 | 0.175, 1.196, -0.035 |
 | Left basilic vein (FJ2218) | forearm | left | 4.4 | 0.192, 1.02, -0.014 |
 | Left basilic vein (FJ2218) | forearm | left | 3.5 | 0.177, 1.193, -0.036 |
-| Left brachial artery (FJ2219) | arm | left | 4.9 | 0.159, 1.307, -0.02 |
 | Left brachial artery (FJ2219) | arm | left | 3.8 | 0.171, 1.278, -0.027 |
 | Left cephalic vein (FJ2220) | arm | left | 3.6 | 0.109, 1.402, 0.008 |
 | Left cephalic vein (FJ2220) | arm | left | 4.2 | 0.235, 1.079, 0.005 |
@@ -807,8 +745,8 @@
 | Left ulnar artery (FJ2258) | forearm | left | 3.6 | 0.217, 0.988, 0.002 |
 | Middle collateral branch of left deep brachial artery (FJ2331) | arm | left | 3.2 | 0.212, 1.159, -0.046 |
 | Middle collateral branch of left deep brachial artery (FJ2331) | arm | left | 3.2 | 0.216, 1.142, -0.047 |
-| Pectoral branch of left thoraco-acromial artery (FJ2330) | arm | left | 3.3 | 0.094, 1.392, 0.005 |
-| Pectoral branch of left thoraco-acromial artery (FJ2330) | arm | left | 4.4 | 0.098, 1.379, 0.012 |
+| Pectoral branch of left thoraco-acromial artery (FJ2330) | shoulder | left | 3.3 | 0.094, 1.392, 0.005 |
+| Pectoral branch of left thoraco-acromial artery (FJ2330) | shoulder | left | 4.4 | 0.098, 1.379, 0.012 |
 | Right basilic vein (FJ2270) | forearm | right | 3.7 | -0.182, 1.047, -0.021 |
 | Right basilic vein (FJ2270) | forearm | right | 4.2 | -0.177, 1.079, -0.023 |
 | Right basilic vein (FJ2270) | forearm | right | 3.7 | -0.157, 1.278, -0.015 |
@@ -853,12 +791,11 @@
 | Right ulnar vein (FJ2312) | forearm | right | 3.8 | -0.212, 1.036, 0.001 |
 | Right ulnar vein (FJ2312) | forearm | right | 3.7 | -0.213, 1.035, 0.001 |
 | Right ulnar vein (FJ2312) | forearm | right | 3.9 | -0.214, 1.018, 0.004 |
-| Descending branch of left lateral circumflex femoral artery (FJ2063) | thigh | left | 3.1 | 0.114, 0.798, -0.006 |
 | Descending branch of left lateral circumflex femoral artery (FJ2063) | thigh | left | 5.1 | 0.105, 0.82, -0.006 |
 | Descending branch of left lateral circumflex femoral artery (FJ2063) | thigh | left | 4.3 | 0.12, 0.724, -0.003 |
 | Descending branch of left lateral circumflex femoral artery (FJ2063) | thigh | left | 3.7 | 0.109, 0.808, -0.008 |
+| Descending branch of right lateral circumflex femoral artery (FJ2057) | thigh | right | 4.9 | -0.116, 0.785, -0.005 |
 | Left anterior tibial artery (FJ2065) | leg | left | 3.7 | 0.094, 0.241, -0.006 |
-| Left anterior tibial artery (FJ2065) | leg | left | 3.1 | 0.089, 0.322, -0.006 |
 | Left anterior tibial artery (FJ2065) | leg | left | 3.8 | 0.086, 0.152, -0.01 |
 | Left anterior tibial artery (FJ2065) | leg | left | 4.2 | 0.095, 0.308, -0.004 |
 | Left anterior tibial artery (FJ2065) | leg | left | 4.9 | 0.088, 0.162, -0.011 |
@@ -869,19 +806,16 @@
 | Left anterior tibial artery (FJ2065) | leg | left | 5 | 0.083, 0.138, -0.007 |
 | Left anterior tibial artery (FJ2065) | leg | left | 5.6 | 0.086, 0.157, -0.009 |
 | Left anterior tibial vein (FJ2183) | leg | left | 5.5 | 0.101, 0.368, -0.028 |
-| Left anterior tibial vein (FJ2183) | leg | left | 3.3 | 0.099, 0.334, -0.012 |
+| Left anterior tibial vein (FJ2183) | leg | left | 3.8 | 0.091, 0.185, -0.02 |
 | Left anterior tibial vein (FJ2183) | leg | left | 3.9 | 0.097, 0.314, -0.008 |
 | Left anterior tibial vein (FJ2183) | leg | left | 4.6 | 0.093, 0.298, -0.012 |
 | Left anterior tibial vein (FJ2183) | leg | left | 5.4 | 0.096, 0.345, -0.022 |
-| Left anterior tibial vein (FJ2183) | leg | left | 3.4 | 0.097, 0.291, -0.01 |
 | Left anterior tibial vein (FJ2183) | leg | left | 5.2 | 0.099, 0.317, -0.008 |
 | Left anterior tibial vein (FJ2183) | leg | left | 3.8 | 0.093, 0.289, -0.013 |
 | Left anterior tibial vein (FJ2183) | leg | left | 5.4 | 0.097, 0.341, -0.024 |
-| Left anterior tibial vein (FJ2183) | leg | left | 3.1 | 0.097, 0.332, -0.015 |
 | Left anterior tibial vein (FJ2183) | leg | left | 4.2 | 0.093, 0.296, -0.012 |
 | Left ascending and transverse branches of lateral circumflex femoral artery (FJ2091) | hip | left | 4.1 | 0.106, 0.868, -0.011 |
 | Left ascending and transverse branches of lateral circumflex femoral artery (FJ2091) | hip | left | 3.7 | 0.111, 0.844, -0.012 |
-| Left ascending and transverse branches of lateral circumflex femoral artery (FJ2091) | hip | left | 3 | 0.14, 0.848, -0.015 |
 | Left deep branch of superior gluteal artery (PK-110) | hip | left | 3.1 | 0.097, 0.991, -0.068 |
 | Left deep femoral artery (PK-93) | thigh | left | 4.7 | 0.066, 0.699, 0.023 |
 | Left deep femoral artery (PK-93) | thigh | left | 3.7 | 0.065, 0.673, 0.027 |
@@ -892,73 +826,62 @@
 | Left deep femoral vein (FJ2099) | thigh | left | 4.1 | 0.075, 0.814, 0.029 |
 | Left deep femoral vein (FJ2099) | thigh | left | 3.8 | 0.072, 0.83, 0.028 |
 | Left descending genicular artery (FJ2069) | leg | left | 3.7 | 0.041, 0.523, 0.009 |
-| Left descending genicular artery (FJ2069) | leg | left | 3 | 0.04, 0.505, 0 |
-| Left descending genicular artery (FJ2069) | leg | left | 3.5 | 0.039, 0.516, 0.005 |
+| Left descending genicular artery (FJ2069) | leg | left | 4.9 | 0.039, 0.503, -0.001 |
+| Left descending genicular artery (FJ2069) | leg | left | 3.9 | 0.04, 0.51, 0.003 |
 | Left descending genicular artery (FJ2069) | leg | left | 3.8 | 0.044, 0.485, -0.004 |
+| Left descending genicular artery (FJ2069) | leg | left | 4 | 0.038, 0.503, -0.003 |
 | Left descending genicular artery (FJ2069) | leg | left | 4.2 | 0.042, 0.49, -0.005 |
 | Left fibular artery (FJ2093) | leg | left | 4.5 | 0.099, 0.326, -0.046 |
 | Left fibular artery (FJ2093) | leg | left | 3.7 | 0.1, 0.286, -0.05 |
-| Left fibular artery (FJ2093) | leg | left | 3.3 | 0.093, 0.233, -0.054 |
+| Left fibular vein (FJ2187) | leg | left | 5.5 | 0.085, 0.301, -0.046 |
 | Left genicular vein (FJ2124) | leg | left | 3.6 | 0.076, 0.499, -0.029 |
 | Left great saphenous vein (FJ2103) | leg | left | 4.1 | 0.015, 0.549, -0.031 |
-| Left great saphenous vein (FJ2103) | leg | left | 3 | 0.026, 0.5, -0.047 |
-| Left great saphenous vein (FJ2103) | leg | left | 3.1 | 0.015, 0.562, -0.027 |
 | Left great saphenous vein (FJ2103) | leg | left | 4 | 0.03, 0.481, -0.05 |
 | Left inferior gluteal artery (PK-111) | hip | left | 3.3 | 0.061, 0.901, -0.096 |
 | Left inferior gluteal vein (FJ3513) | hip | left | 3.4 | 0.031, 0.907, -0.094 |
+| Left inferior lateral genicular artery (FJ2076) | leg | left | 3.8 | 0.098, 0.433, -0.045 |
 | Left inferior medial genicular artery (FJ2077) | leg | left | 3.9 | 0.06, 0.416, -0.037 |
 | Left inferior medial genicular artery (FJ2077) | leg | left | 3.6 | 0.052, 0.415, -0.035 |
-| Left lateral circumflex femoral vein (FJ2188) | hip | left | 3.1 | 0.113, 0.886, -0.005 |
-| Left lateral superior genicular artery (FJ2080) | leg | left | 3.2 | 0.111, 0.483, -0.021 |
+| Left lateral circumflex femoral vein (FJ2188) | hip | left | 3.8 | 0.106, 0.868, 0.006 |
+| Left lateral circumflex femoral vein (FJ2188) | hip | left | 3.9 | 0.106, 0.868, 0.006 |
 | Left medial circumflex femoral artery (PK-95) | hip | left | 4.2 | 0.055, 0.885, -0.002 |
 | Left popliteal artery (FJ2086) | leg | left | 4.2 | 0.091, 0.378, -0.03 |
 | Left popliteal artery (FJ2086) | leg | left | 3.3 | 0.077, 0.422, -0.032 |
 | Left popliteal artery (FJ2086) | leg | left | 3.9 | 0.065, 0.547, -0.019 |
 | Left popliteal artery (FJ2086) | leg | left | 3.5 | 0.073, 0.468, -0.039 |
 | Left popliteal artery (FJ2086) | leg | left | 5.6 | 0.072, 0.46, -0.041 |
-| Left popliteal artery (FJ2086) | leg | left | 3 | 0.078, 0.446, -0.044 |
 | Left popliteal artery (FJ2086) | leg | left | 4.6 | 0.071, 0.529, -0.019 |
 | Left popliteal vein (FJ2117) | leg | left | 5.8 | 0.082, 0.546, -0.023 |
 | Left popliteal vein (FJ2117) | leg | left | 3.9 | 0.079, 0.547, -0.018 |
-| Left popliteal vein (FJ2117) | leg | left | 3.2 | 0.085, 0.456, -0.044 |
 | Left popliteal vein (FJ2117) | leg | left | 4.6 | 0.093, 0.403, -0.03 |
 | Left popliteal vein (FJ2117) | leg | left | 4.6 | 0.069, 0.559, -0.014 |
 | Left popliteal vein (FJ2117) | leg | left | 5.7 | 0.087, 0.445, -0.039 |
-| Left popliteal vein (FJ2117) | leg | left | 3 | 0.077, 0.537, -0.021 |
 | Left popliteal vein (FJ2117) | leg | left | 5.8 | 0.075, 0.549, -0.024 |
 | Left popliteal vein (FJ2117) | leg | left | 5.4 | 0.084, 0.461, -0.037 |
 | Left popliteal vein (FJ2117) | leg | left | 6.2 | 0.087, 0.423, -0.033 |
 | Left posterior tibial artery (FJ2087) | leg | left | 3.9 | 0.052, 0.126, -0.048 |
 | Left posterior tibial artery (FJ2087) | leg | left | 3.7 | 0.066, 0.308, -0.038 |
-| Left posterior tibial artery (FJ2087) | leg | left | 3.4 | 0.074, 0.324, -0.042 |
-| Left posterior tibial artery (FJ2087) | leg | left | 3.2 | 0.07, 0.303, -0.04 |
 | Left posterior tibial vein (FJ2118) | leg | left | 4.2 | 0.067, 0.331, -0.034 |
-| Left posterior tibial vein (FJ2118) | leg | left | 3 | 0.042, 0.193, -0.037 |
 | Left posterior tibial vein (FJ2118) | leg | left | 3.9 | 0.052, 0.308, -0.04 |
+| Left posterior tibial vein (FJ2118) | leg | left | 4.2 | 0.045, 0.14, -0.049 |
 | Left posterior tibial vein (FJ2118) | leg | left | 4.5 | 0.043, 0.172, -0.044 |
 | Left posterior tibial vein (FJ2118) | leg | left | 3.8 | 0.046, 0.283, -0.036 |
 | Left posterior tibial vein (FJ2118) | leg | left | 4.7 | 0.044, 0.181, -0.041 |
 | Left posterior tibial vein (FJ2118) | leg | left | 3.9 | 0.051, 0.307, -0.039 |
-| Left posterior tibial vein (FJ2118) | leg | left | 3.4 | 0.048, 0.077, -0.043 |
 | Left posterior tibial vein (FJ2118) | leg | left | 5.9 | 0.052, 0.303, -0.04 |
+| Left small saphenous vein (FJ2121) | leg | left | 4 | 0.065, 0.394, -0.083 |
 | Left small saphenous vein (FJ2121) | leg | left | 3.6 | 0.074, 0.451, -0.068 |
 | Left small saphenous vein (FJ2121) | leg | left | 4.4 | 0.065, 0.403, -0.08 |
 | Left superior gluteal artery (PK-108) | hip | left | 5.5 | 0.064, 0.942, -0.059 |
-| Left superior gluteal vein (FJ3531) | hip | left | 3.3 | 0.06, 0.942, -0.069 |
 | Left superior gluteal vein (FJ3531) | hip | left | 3.7 | 0.039, 0.936, -0.062 |
-| Right anterior tibial artery (FJ2130) | leg | right | 3.1 | -0.089, 0.176, -0.013 |
 | Right anterior tibial artery (FJ2130) | leg | right | 4.1 | -0.076, 0.118, -0.003 |
 | Right anterior tibial artery (FJ2130) | leg | right | 4.3 | -0.087, 0.171, -0.013 |
-| Right anterior tibial artery (FJ2130) | leg | right | 3.2 | -0.095, 0.275, -0.004 |
-| Right anterior tibial artery (FJ2130) | leg | right | 3.2 | -0.085, 0.154, -0.012 |
 | Right anterior tibial artery (FJ2130) | leg | right | 5.5 | -0.103, 0.361, -0.019 |
 | Right anterior tibial artery (FJ2130) | leg | right | 5.6 | -0.089, 0.322, -0.008 |
 | Right anterior tibial artery (FJ2130) | leg | right | 4.2 | -0.089, 0.199, -0.013 |
 | Right anterior tibial artery (FJ2130) | leg | right | 3.9 | -0.102, 0.352, -0.017 |
-| Right anterior tibial artery (FJ2130) | leg | right | 3.1 | -0.096, 0.305, -0.007 |
 | Right anterior tibial artery (FJ2130) | leg | right | 3.9 | -0.091, 0.206, -0.008 |
 | Right anterior tibial artery (FJ2130) | leg | right | 3.8 | -0.087, 0.173, -0.013 |
-| Right anterior tibial artery (FJ2130) | leg | right | 3.5 | -0.08, 0.145, -0.007 |
 | Right anterior tibial artery (FJ2130) | leg | right | 5.5 | -0.081, 0.134, -0.003 |
 | Right anterior tibial artery (FJ2130) | leg | right | 3.7 | -0.095, 0.302, -0.003 |
 | Right anterior tibial vein (FJ2193) | leg | right | 5.5 | -0.101, 0.342, -0.023 |
@@ -973,23 +896,21 @@
 | Right deep femoral artery (PK-66) | thigh | right | 4.5 | -0.057, 0.852, 0.041 |
 | Right deep femoral artery (PK-66) | thigh | right | 4.8 | -0.067, 0.705, 0.025 |
 | Right deep femoral artery (PK-66) | thigh | right | 4.6 | -0.068, 0.701, 0.023 |
-| Right deep femoral vein (FJ2135) | thigh | right | 3.2 | -0.067, 0.647, 0.027 |
-| Right deep femoral vein (FJ2135) | thigh | right | 3.1 | -0.072, 0.838, 0.023 |
 | Right deep femoral vein (FJ2135) | thigh | right | 4.3 | -0.073, 0.826, 0.028 |
 | Right deep femoral vein (FJ2135) | thigh | right | 3.8 | -0.047, 0.863, 0.03 |
 | Right deep femoral vein (FJ2135) | thigh | right | 4.4 | -0.075, 0.75, 0.016 |
 | Right descending genicular artery (FJ2137) | leg | right | 5.6 | -0.043, 0.525, 0.01 |
-| Right descending genicular artery (FJ2137) | leg | right | 3.2 | -0.036, 0.498, -0.006 |
+| Right descending genicular artery (FJ2137) | leg | right | 4.4 | -0.038, 0.513, 0.003 |
 | Right descending genicular artery (FJ2137) | leg | right | 3.9 | -0.044, 0.486, -0.004 |
 | Right descending genicular artery (FJ2137) | leg | right | 5.5 | -0.04, 0.522, 0.007 |
-| Right fibular artery (FJ2197) | leg | right | 3.1 | -0.097, 0.26, -0.054 |
-| Right fibular artery (FJ2197) | leg | right | 3.5 | -0.08, 0.188, -0.055 |
+| Right dorsalis pedis artery (FJ2055) | foot | right | 4.8 | -0.082, 0.071, 0.012 |
 | Right fibular artery (FJ2197) | leg | right | 5.5 | -0.098, 0.281, -0.049 |
 | Right fibular artery (FJ2197) | leg | right | 3.7 | -0.091, 0.229, -0.055 |
+| Right fibular artery (FJ2197) | leg | right | 3.7 | -0.097, 0.257, -0.054 |
 | Right fibular artery (FJ2197) | leg | right | 4.1 | -0.101, 0.287, -0.05 |
 | Right fibular artery (FJ2197) | leg | right | 3.9 | -0.099, 0.324, -0.047 |
-| Right fibular vein (FJ2200) | leg | right | 3.2 | -0.07, 0.081, -0.052 |
 | Right fibular vein (FJ2200) | leg | right | 3.6 | -0.065, 0.119, -0.053 |
+| Right genicular vein (FJ2151) | leg | right | 3.7 | -0.102, 0.441, -0.046 |
 | Right genicular vein (FJ2181) | leg | right | 4.7 | -0.091, 0.494, -0.035 |
 | Right great saphenous vein (FJ2145) | leg | right | 3.2 | -0.025, 0.829, 0.037 |
 | Right great saphenous vein (FJ2145) | leg | right | 4.1 | -0.029, 0.487, -0.049 |
@@ -999,16 +920,11 @@
 | Right inferior medial genicular artery (FJ2152) | leg | right | 4.4 | -0.073, 0.425, -0.04 |
 | Right lateral circumflex femoral vein (FJ2201) | hip | right | 4 | -0.103, 0.841, 0.002 |
 | Right lateral circumflex femoral vein (FJ2201) | hip | right | 4.8 | -0.09, 0.849, 0.018 |
-| Right lateral circumflex femoral vein (FJ2201) | hip | right | 3.3 | -0.111, 0.881, -0.001 |
 | Right lateral superior genicular artery (FJ2162) | leg | right | 4.2 | -0.094, 0.495, -0.029 |
-| Right lateral tarsal artery (FJ2163) | foot | right | 3.1 | -0.108, 0.045, -0.004 |
 | Right medial circumflex femoral artery (PK-68) | hip | right | 4.5 | -0.059, 0.863, 0.013 |
-| Right obturator vein (FJ3612) | hip | right | 3.3 | -0.059, 0.921, -0.034 |
 | Right popliteal artery (FJ2170) | leg | right | 4.3 | -0.075, 0.434, -0.037 |
 | Right popliteal artery (FJ2170) | leg | right | 3.4 | -0.095, 0.38, -0.032 |
 | Right popliteal artery (FJ2170) | leg | right | 5.3 | -0.06, 0.543, -0.013 |
-| Right popliteal artery (FJ2170) | leg | right | 3.4 | -0.067, 0.541, -0.012 |
-| Right popliteal vein (FJ2171) | leg | right | 3.3 | -0.084, 0.522, -0.032 |
 | Right popliteal vein (FJ2171) | leg | right | 4.4 | -0.084, 0.429, -0.042 |
 | Right popliteal vein (FJ2171) | leg | right | 4.7 | -0.085, 0.453, -0.044 |
 | Right popliteal vein (FJ2171) | leg | right | 5.5 | -0.074, 0.56, -0.021 |
@@ -1016,14 +932,11 @@
 | Right popliteal vein (FJ2171) | leg | right | 4.8 | -0.087, 0.425, -0.033 |
 | Right posterior tibial artery (FJ2172) | leg | right | 3.9 | -0.064, 0.266, -0.034 |
 | Right posterior tibial artery (FJ2172) | leg | right | 4 | -0.053, 0.134, -0.049 |
-| Right posterior tibial artery (FJ2172) | leg | right | 3 | -0.061, 0.256, -0.034 |
 | Right posterior tibial vein (FJ2173) | leg | right | 3.7 | -0.042, 0.201, -0.037 |
 | Right posterior tibial vein (FJ2173) | leg | right | 3.8 | -0.044, 0.224, -0.035 |
 | Right posterior tibial vein (FJ2173) | leg | right | 4.1 | -0.05, 0.305, -0.038 |
 | Right posterior tibial vein (FJ2173) | leg | right | 4 | -0.045, 0.127, -0.05 |
 | Right posterior tibial vein (FJ2173) | leg | right | 4.5 | -0.044, 0.175, -0.043 |
-| Right posterior tibial vein (FJ2173) | leg | right | 3.1 | -0.043, 0.211, -0.038 |
-| Right posterior tibial vein (FJ2173) | leg | right | 3.2 | -0.046, 0.284, -0.037 |
 | Right posterior tibial vein (FJ2173) | leg | right | 4.7 | -0.043, 0.181, -0.041 |
 | Right posterior tibial vein (FJ2173) | leg | right | 4.9 | -0.043, 0.203, -0.038 |
 | Right posterior tibial vein (FJ2173) | leg | right | 4.4 | -0.043, 0.166, -0.045 |

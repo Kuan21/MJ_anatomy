@@ -1853,7 +1853,7 @@
   },
   "penetration|FJ2170-END|FJ3365": {
    "name": "Right popliteal artery",
-   "measure": 4.3,
+   "measure": 3.6,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
   "penetration|FJ2170-END|FJ3387": {
@@ -1933,7 +1933,7 @@
   },
   "penetration|FJ2193-END|FJ1439": {
    "name": "Right anterior tibial vein",
-   "measure": 7.8,
+   "measure": 7.7,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
   "penetration|FJ2193-END|FJ1440": {
@@ -2218,7 +2218,7 @@
   },
   "penetration|FJ3513-END|FJ3393": {
    "name": "Left inferior gluteal vein",
-   "measure": 3.7,
+   "measure": 3.2,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
   "penetration|FJ3519|FJ3225": {
@@ -4384,9 +4384,9 @@
   },
   "stretch|FJ3513-END|hip flexion 120 knee flexion 130": {
    "name": "Left inferior gluteal vein",
-   "measure": 490,
+   "measure": 301,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.07239952718676122,
+   "fraction": 0.050775978407557355,
    "severity": 2.5
   },
   "stretch|FJ3513|hip flexion 120 knee flexion 130": {
@@ -4398,10 +4398,10 @@
   },
   "stretch|FJ3606-END|hip flexion 120 knee flexion 130": {
    "name": "Right inferior gluteal vein",
-   "measure": 987,
+   "measure": 454,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.1490036231884058,
-   "severity": 2.6
+   "fraction": 0.08559577677224736,
+   "severity": 2.3
   },
   "stretch|FJ3606|hip flexion 120 knee flexion 130": {
    "name": "Right inferior gluteal vein",
@@ -4929,10 +4929,25 @@
    "measure": 105,
    "reason": "faces coincide with Trunk of left renal artery: two layers share the same surface; to be offset or one of them removed"
   },
+  "zfight|FJ2082-END|FJ2085-END": {
+   "name": "Left medial plantar artery",
+   "measure": 189,
+   "reason": "原本重疊，零件縮小後超過門檻；下肢，考試後修（2026-11-16 經使用者暫時核准）"
+  },
   "zfight|FJ2122|FJ3530": {
    "name": "Left superficial epigastric vein",
    "measure": 193,
    "reason": "faces coincide with Left superior epigastric vein: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ2164-END|FJ2179-END": {
+   "name": "Right medial plantar artery",
+   "measure": 253,
+   "reason": "原本重疊，零件縮小後超過門檻；下肢，考試後修（2026-11-16 經使用者暫時核准）"
+  },
+  "zfight|FJ2170-END|FJ2167-END": {
+   "name": "Right popliteal artery",
+   "measure": 123,
+   "reason": "原本重疊，零件縮小後超過門檻；下肢，考試後修（2026-11-16 經使用者暫時核准）"
   },
   "zfight|FJ2178|FJ3615": {
    "name": "Right superficial epigastric vein",
