@@ -2,43 +2,43 @@
  "note": "Vessel pairs that open more than half a diameter (and more than 1 mm beyond their rest gap) at a joint pose. Known; a new one fails `npm run check:motion`. Only vessels that are not anatomically joined may be listed; `reasons` holds the reason of each pair added since 2026-11-13 (older entries have none).",
  "summary": {
   "shoulder abduction 90": {
-   "pairs": 471,
-   "exceptions": 39,
+   "pairs": 470,
+   "exceptions": 38,
    "worstOpeningMm": 99.6
   },
   "shoulder flexion 90": {
-   "pairs": 471,
-   "exceptions": 39,
+   "pairs": 470,
+   "exceptions": 38,
    "worstOpeningMm": 102.4
   },
   "elbow flexion 90": {
-   "pairs": 471,
+   "pairs": 470,
    "exceptions": 9,
    "worstOpeningMm": 5.4
   },
   "shoulder abduction 180 (limit)": {
-   "pairs": 471,
-   "exceptions": 49,
+   "pairs": 470,
+   "exceptions": 48,
    "worstOpeningMm": 166.3
   },
   "shoulder flexion 180 (limit)": {
-   "pairs": 471,
+   "pairs": 470,
    "exceptions": 52,
    "worstOpeningMm": 150.7
   },
   "elbow flexion 140 (limit)": {
-   "pairs": 471,
+   "pairs": 470,
    "exceptions": 12,
    "worstOpeningMm": 8.9
   },
   "wrist flexion 80 (limit)": {
-   "pairs": 471,
+   "pairs": 470,
    "exceptions": 0,
    "worstOpeningMm": 0.2
   },
   "wrist flexion -70 (limit)": {
-   "pairs": 471,
-   "exceptions": 15,
+   "pairs": 470,
+   "exceptions": 14,
    "worstOpeningMm": 6.1
   },
   "hip flexion 90": {
@@ -94,7 +94,7 @@
  ],
  "reasons": {},
  "exceptions": {
-  "shoulder abduction 90|left|FJ2211|FJ2252|end-to-end": 2.5,
+  "shoulder abduction 90|left|FJ2211|FJ2252|end-to-end": 2.4,
   "shoulder abduction 90|left|FJ2216|FJ1973|end-to-end": 6.6,
   "shoulder abduction 90|left|FJ2217|FJ2963|end-to-end": 12.9,
   "shoulder abduction 90|left|FJ2217|FJ3486|junction": 2.9,
@@ -113,7 +113,6 @@
   "shoulder abduction 90|left|PK:Left posterior circumflex humeral vein|FJ2217|end-to-end": 4.1,
   "shoulder abduction 90|left|PK:Left lateral brachial vein|FJ2218|end-to-end": 3.1,
   "shoulder abduction 90|left|PKC:Deltoid branch of left thoraco-acromial artery|FJ2216|end-to-end": 2.1,
-  "shoulder abduction 90|left|PKC:Left deep brachial artery|FJ2219|end-to-end": 6.3,
   "shoulder abduction 90|right|FJ2264|FJ2291|end-to-end": 6.5,
   "shoulder abduction 90|right|FJ2265|PK:Right lateral brachial vein|end-to-end": 10.9,
   "shoulder abduction 90|right|FJ2268|PK:Right supreme intercostal artery|end-to-end": 17.2,
@@ -128,7 +127,7 @@
   "shoulder abduction 90|right|FJ2361|FJ1938|junction": 86.7,
   "shoulder abduction 90|right|FJ2361|PK:Right lateral mammary artery|junction": 102.7,
   "shoulder abduction 90|right|PK:Right lateral brachial vein|FJ2269|end-to-end": 2.6,
-  "shoulder flexion 90|left|FJ2211|FJ2252|end-to-end": 2.6,
+  "shoulder flexion 90|left|FJ2211|FJ2252|end-to-end": 2.5,
   "shoulder flexion 90|left|FJ2213|FJ2220|junction": 25.1,
   "shoulder flexion 90|left|FJ2216|FJ1973|end-to-end": 4.8,
   "shoulder flexion 90|left|FJ2217|FJ2963|end-to-end": 11.3,
@@ -146,7 +145,6 @@
   "shoulder flexion 90|left|FJ2330|PK:Left lateral mammary artery|junction": 109.4,
   "shoulder flexion 90|left|PK:Left lateral brachial vein|FJ2218|end-to-end": 4.8,
   "shoulder flexion 90|left|PKC:Deltoid branch of left thoraco-acromial artery|FJ2216|end-to-end": 1.8,
-  "shoulder flexion 90|left|PKC:Left deep brachial artery|FJ2219|end-to-end": 4.9,
   "shoulder flexion 90|right|FJ2264|FJ2291|end-to-end": 14.1,
   "shoulder flexion 90|right|FJ2265|PK:Right lateral brachial vein|end-to-end": 13.3,
   "shoulder flexion 90|right|FJ2265|PK:Right posterior circumflex humeral vein|junction": 22.8,
@@ -171,7 +169,7 @@
   "elbow flexion 90|right|FJ2296|FJ2312|end-to-end": 2.9,
   "elbow flexion 90|right|FJ2297|FJ2295|junction": 20.7,
   "elbow flexion 90|right|FJ2373|FJ2293|junction": 18.4,
-  "shoulder abduction 180 (limit)|left|FJ2211|FJ2252|end-to-end": 5.7,
+  "shoulder abduction 180 (limit)|left|FJ2211|FJ2252|end-to-end": 5.6,
   "shoulder abduction 180 (limit)|left|FJ2213|FJ2220|junction": 24.9,
   "shoulder abduction 180 (limit)|left|FJ2216|FJ1973|end-to-end": 12.7,
   "shoulder abduction 180 (limit)|left|FJ2217|FJ2963|end-to-end": 21.5,
@@ -180,7 +178,7 @@
   "shoulder abduction 180 (limit)|left|FJ2219|FJ2246|end-to-end": 8.1,
   "shoulder abduction 180 (limit)|left|FJ2220|FJ2213|junction": 42,
   "shoulder abduction 180 (limit)|left|FJ2220|FJ2233|junction": 23.3,
-  "shoulder abduction 180 (limit)|left|FJ2230|FJ2216|junction": 2.1,
+  "shoulder abduction 180 (limit)|left|FJ2230|FJ2216|junction": 2.2,
   "shoulder abduction 180 (limit)|left|FJ2232|FJ2257|junction": 10.1,
   "shoulder abduction 180 (limit)|left|FJ2232|FJ1975|junction": 108.3,
   "shoulder abduction 180 (limit)|left|FJ2250|FJ3486|junction": 17.9,
@@ -195,7 +193,6 @@
   "shoulder abduction 180 (limit)|left|PK:Left lateral brachial vein|FJ2218|end-to-end": 7.1,
   "shoulder abduction 180 (limit)|left|PKC:Deltoid branch of left thoraco-acromial artery|FJ2216|end-to-end": 5.2,
   "shoulder abduction 180 (limit)|left|PKC:Deltoid branch of left thoraco-acromial artery|FJ2252|end-to-end": 1,
-  "shoulder abduction 180 (limit)|left|PKC:Left deep brachial artery|FJ2219|end-to-end": 12.5,
   "shoulder abduction 180 (limit)|right|FJ2264|FJ2291|end-to-end": 13.3,
   "shoulder abduction 180 (limit)|right|FJ2265|PK:Right lateral brachial vein|end-to-end": 24.8,
   "shoulder abduction 180 (limit)|right|FJ2268|PK:Right supreme intercostal artery|end-to-end": 31.4,
@@ -215,7 +212,7 @@
   "shoulder abduction 180 (limit)|right|FJ2361|PK:Right lateral mammary artery|junction": 169.4,
   "shoulder abduction 180 (limit)|right|PK:Right lateral brachial vein|FJ2269|end-to-end": 7.4,
   "shoulder abduction 180 (limit)|right|PKC:Deltoid branch of right thoraco-acromial artery|FJ2268|junction": 1.8,
-  "shoulder flexion 180 (limit)|left|FJ2211|FJ2252|end-to-end": 4.8,
+  "shoulder flexion 180 (limit)|left|FJ2211|FJ2252|end-to-end": 4.7,
   "shoulder flexion 180 (limit)|left|FJ2213|FJ2220|junction": 25.5,
   "shoulder flexion 180 (limit)|left|FJ2216|FJ1973|end-to-end": 4.8,
   "shoulder flexion 180 (limit)|left|FJ2217|FJ2963|end-to-end": 14.1,
@@ -239,7 +236,7 @@
   "shoulder flexion 180 (limit)|left|FJ2330|FJ2211|junction": 1.6,
   "shoulder flexion 180 (limit)|left|PK:Left lateral brachial vein|FJ2218|end-to-end": 8.8,
   "shoulder flexion 180 (limit)|left|PKC:Deltoid branch of left thoraco-acromial artery|FJ2216|end-to-end": 4.3,
-  "shoulder flexion 180 (limit)|left|PKC:Left deep brachial artery|FJ2219|end-to-end": 10.9,
+  "shoulder flexion 180 (limit)|left|PKC:Left deep brachial artery|FJ2219|end-to-end": 2.3,
   "shoulder flexion 180 (limit)|right|FJ2264|FJ2268|junction": 2.8,
   "shoulder flexion 180 (limit)|right|FJ2264|FJ2291|end-to-end": 29.6,
   "shoulder flexion 180 (limit)|right|FJ2265|PK:Right lateral brachial vein|end-to-end": 36.4,
@@ -278,7 +275,7 @@
   "wrist flexion -70 (limit)|left|FJ2248|FJ2237|end-to-end": 3.5,
   "wrist flexion -70 (limit)|left|FJ2249|FJ2229|junction": 14.5,
   "wrist flexion -70 (limit)|left|FJ2320|FJ2244|end-to-end": 1.8,
-  "wrist flexion -70 (limit)|left|PKC:Left deep palmar venous arch|FJ2244|end-to-end": 2.1,
+  "wrist flexion -70 (limit)|left|PKC:Left deep palmar venous arch|FJ2244|end-to-end": 2.2,
   "wrist flexion -70 (limit)|right|FJ2279|FJ2300|end-to-end": 2.7,
   "wrist flexion -70 (limit)|right|FJ2289|FJ2300|end-to-end": 2.3,
   "wrist flexion -70 (limit)|right|FJ2294|PK:Right superficial palmar branch of radial artery|end-to-end": 5.9,

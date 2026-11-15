@@ -13,8 +13,8 @@ export function jointProfile(name:string,y:number):Profile{
  // is a wrist ligament, not the trapezoid component at the shoulder.
  if(/scapho|trapezi|carpal|metacarp|phalange|pisohamate|pisometacarp/.test(name))return 'hand';
  if(/glenoid labrum|transverse humeral/.test(name))return /labrum/.test(name)?'scapular':'humeral';
- if(/sternoclavicular|interclavicular/.test(name))return 'clavicular';
- if(/glenohumeral|coracohumeral|acromioclavicular|coracoacromial|coracoclavicular|\bconoid ligament\b|\btrapezoid ligament\b/.test(name))return 'shoulderJoint';
+ if(/sternoclavicular|interclavicular|costoclavicular/.test(name))return 'clavicular';
+ if(/glenohumeral|coraco-?humeral|acromio-?clavicular|coraco-?acromial|transverse scapular|coraco-?clavicular|\bconoid ligament\b|\btrapezoid ligament\b/.test(name))return 'shoulderJoint';
  if(/wrist|radiocarpal|radio-ulnar|ulnocarpal/.test(name))return 'wristJoint';
  if(/elbow|annular|collateral ligament/.test(name)&&y>1)return 'elbowJoint';
  return y<.84?'hand':y<.98?'wristJoint':'path';
@@ -39,7 +39,10 @@ export function createJointAnatomy(atlas:Atlas,scene:T.Scene){
    const sourceCenter=g.boundingBox!.getCenter(new T.Vector3()),side=sourceCenter.x>=0?'left':'right';
    const socketName=/glenoid labrum/.test(name)?'Scapula':/acetabular labrum|transverse acetabular/.test(name)?'Hip bone':/^(lateral|medial) meniscus/.test(name)?'Tibia':null;
    const forced=socketName?registrations.find(r=>r.name===socketName+(side==='left'?'.l':'.r')):undefined;
-   const candidates=registrations.filter(r=>r.name.endsWith(side==='left'?'.l':'.r')||!/[.][lr]$/.test(r.name));
+   // Chest-wall tissue (intercostal membranes and the costovertebral ligaments) is anchored to ribs, sternum and vertebrae only. Letting it pick the nearest of ALL bones put the upper intercostal
+   // membranes on the clavicle or scapula, so the arm region listed them (floating white and green sheets with no ribs behind them) and the arm rig carried them.
+   const chestWall=/intercostal membrane|costotransverse|radiate ligament of head of rib|intra-articular ligament of head of rib|costovertebral|costal cartilage/.test(name);
+   const candidates=registrations.filter(r=>(r.name.endsWith(side==='left'?'.l':'.r')||!/[.][lr]$/.test(r.name))&&(!chestWall||/\brib\b|sternum|vertebra/i.test(r.name)));
    // Nearest registered bone. A tissue whose centre lies inside several boxes (a rib's box is large and also holds the conoid ligament, the sternoclavicular joint …) is at distance 0 from all of them:
    // the smallest box wins, so a shoulder ligament is anchored to the clavicle or scapula and not to a rib, and follows its own region (it used to be drawn in the chest view as a beige wedge at each shoulder).
    const boxVolume=(r:{box:T.Box3})=>{const d=r.box.getSize(new T.Vector3());return d.x*d.y*d.z;};

@@ -510,13 +510,6 @@
    "fraction": 1,
    "severity": 42
   },
-  "detached|PK:Left quadriceps tendon#1|hip flexion 120 knee flexion 130": {
-   "name": "Left quadriceps tendon",
-   "measure": 3,
-   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.5,
-   "severity": 33
-  },
   "detached|PK:Left superior transverse scapular ligament|shoulder flexion 150": {
    "name": "Left superior transverse scapular ligament",
    "measure": 14,
@@ -1450,11 +1443,6 @@
   "fragments|FJ2200-END": {
    "name": "Right fibular vein",
    "measure": 1,
-   "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
-  },
-  "fragments|FJ2219-END": {
-   "name": "Left brachial artery",
-   "measure": 2,
    "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
   },
   "fragments|FJ2242-END": {
@@ -5226,10 +5214,12 @@
    "measure": 1106,
    "reason": "faces coincide with Cardiac notch of left lung: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|PK:Right styloid process of radius|PK:Right anatomical snuffbox": {
-   "name": "Right styloid process of radius",
-   "measure": 131,
-   "reason": "faces coincide with Right anatomical snuffbox: two layers share the same surface; to be offset or one of them removed"
+  "stretch|FJ2219-END|shoulder flexion 150": {
+   "name": "Left brachial artery",
+   "measure": 6,
+   "reason": "同一條動脈 main 上已登記拉伸 2.4 倍，端段跟隨主體；#269 後由碎片轉為拉伸，2026-11-15 經使用者核准",
+   "fraction": 0.005681818181818182,
+   "severity": 2.1
   }
  }
 }
