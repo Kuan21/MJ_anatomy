@@ -9,10 +9,12 @@ import {buildAll} from './lib/paokao-build.mjs';
 import {quizModule} from './quiz-modules.mjs';
 import {expand, attachment, originLevel, bridge, TOLERANCE} from './lib/topology.mjs';
 import {ARTERIES, VEINS} from './topology-spec.mjs';
+import {planFreeEnds, applyFreeEnds} from './lib/paokao-vessel-tips.mjs';
+import {atlas as rawAtlas, geom as rawGeom} from './audit-vessel-ends.mjs';
 
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 const out = new URL('public/models/stream/', root), dir = new URL('public/models/paokao/', root), manifest = new URL('paokao-stream.json.gz', dir);
-const inputs = ['scripts/prepare-paokao.mjs', 'scripts/lib/topology.mjs', 'scripts/lib/tube-tips.mjs', 'scripts/topology-spec.mjs', 'app/biomechanics-v2/tissue-bindings.json', 'app/biomechanics-v2/body-bindings.json', 'app/mj-part-regions.ts', 'scripts/lib/paokao-build.mjs', 'scripts/lib/tendon-cut.mjs', 'scripts/lib/tendon-build.mjs', 'scripts/lib/tendon-set.mjs', 'scripts/tendon/upper-limb-cuts.mjs', 'scripts/tendon/lower-limb-cuts.mjs', 'scripts/data/zanatomy-upper-limb.json.gz', 'scripts/data/zanatomy-lower-limb.json.gz', 'scripts/paokao-structures/zanatomy-upper-limb.mjs', 'app/biomechanics-v2/tissue-bindings.json', 'scripts/lib/paokao-util.mjs', 'scripts/lib/paokao-world.mjs', 'scripts/lib/nerve-schematics.mjs', 'public/models/atlas.json', 'public/models/nerve-stream.json',
+const inputs = ['scripts/prepare-paokao.mjs', 'scripts/lib/topology.mjs', 'scripts/lib/tube-tips.mjs', 'scripts/lib/paokao-vessel-tips.mjs', 'scripts/lib/vessel-tip-shape.mjs', 'scripts/audit-vessel-ends.mjs', 'scripts/topology-spec.mjs', 'app/biomechanics-v2/tissue-bindings.json', 'app/biomechanics-v2/body-bindings.json', 'app/mj-part-regions.ts', 'scripts/lib/paokao-build.mjs', 'scripts/lib/tendon-cut.mjs', 'scripts/lib/tendon-build.mjs', 'scripts/lib/tendon-set.mjs', 'scripts/tendon/upper-limb-cuts.mjs', 'scripts/tendon/lower-limb-cuts.mjs', 'scripts/data/zanatomy-upper-limb.json.gz', 'scripts/data/zanatomy-lower-limb.json.gz', 'scripts/paokao-structures/zanatomy-upper-limb.mjs', 'app/biomechanics-v2/tissue-bindings.json', 'scripts/lib/paokao-util.mjs', 'scripts/lib/paokao-world.mjs', 'scripts/lib/nerve-schematics.mjs', 'public/models/atlas.json', 'public/models/nerve-stream.json',
   'public/models/supplement/supplement-stream.json.gz', 'public/models/serous/serous-stream.json.gz', ...fs.readdirSync(file('scripts/paokao-structures')).map(f => 'scripts/paokao-structures/' + f)];
 const hash = createHash('sha256').update(inputs.map(f => fs.readFileSync(file(f))).join('')).digest('hex'), stamp = file('work/paokao.stamp');
 try { if (fs.readFileSync(stamp, 'utf8') === hash && fs.existsSync(manifest) && fs.existsSync(file('app/mj-paokao.json')) && fs.existsSync(file('app/biomechanics-v2/paokao-bindings.json')) && fs.existsSync(file('app/biomechanics-v2/tendon-bindings.json'))) { console.log('Paokao structures: up to date.'); process.exit(0); } } catch {}
@@ -45,7 +47,7 @@ fs.writeFileSync(file('docs/topology-report.json'), JSON.stringify(topology, nul
 { const kids = {}, parents = {}; for (const r of topology) { (kids[r.parent] ??= []).push(r.child); parents[r.child] = r.parent; } fs.writeFileSync(file('app/mj-vessel-branches.json'), JSON.stringify({branches: kids, parents})); }
 // Motion bindings: the new parts must follow the limb they sit on exactly like the atlas parts beside them. Parts in the arm region get a soft arm binding, parts in the leg
 // region a leg binding (a landmark on a leg bone copies its bone's frame), and connectors copy the binding of the branch they belong to. Trunk and neck parts need none.
-const {anatomicalRegion, anatomicalSide} = await quizModule('app/mj-part-regions.ts');
+const {anatomicalRegion, anatomicalSide, anatomicalSubregion} = await quizModule('app/mj-part-regions.ts');
 const tissueJson = JSON.parse(fs.readFileSync(file('app/biomechanics-v2/tissue-bindings.json'), 'utf8')), bodyJson = JSON.parse(fs.readFileSync(file('app/biomechanics-v2/body-bindings.json'), 'utf8'));
 const atlasParts = JSON.parse(fs.readFileSync(file('public/models/atlas.json'), 'utf8')).parts, atlasByName = new Map(atlasParts.map(p => [p.name, p]));
 const bindings = {tissue: {}, body: {}};
@@ -80,6 +82,23 @@ function bind(id, s) {
     bindings.body[id] = {name: s.name, rig: 'head', frame: cy < 1.58 ? null : 8};
   }
 }
+// Free ends of the schematic vessels of the head and neck, the abdomen and the pelvis (the arm, the chest and the legs keep their flat cuts for now) are rounded in their own mesh. Every end is
+// judged against the geometry as built, before any of them changes: a vessel the end touches (atlas vessels, the other schematic vessels, the connectors) makes it a joint, not an end.
+const roundedPlans = new Map(), roundedStats = {tapered: 0, kept: 0, tooWide: 0, parts: 0};
+{
+  const isVessel = x => x.system === 'arterial' || x.system === 'venous', surfaces = [];
+  for (const p of rawAtlas.parts) if (isVessel(p)) { const g = rawGeom(p); surfaces.push({tag: p.id, bounds: p.bounds, positions: g.pos, indices: g.idx}); }
+  for (const s of built) if (isVessel(s)) surfaces.push({tag: s, bounds: boundsOf(s.geometry), positions: s.geometry.positions, indices: s.geometry.indices});
+  const tPlan = Date.now();
+  for (const s of built) {
+    if (!s.vesselEnds) continue;
+    const probe = {id: 'PK', name: s.name, system: s.system, bounds: boundsOf(s.geometry)}, region = anatomicalRegion(probe), sub = anatomicalSubregion(probe);
+    if (!(region === 'head-neck' || (region === 'trunk' && (sub === 'abdomen' || sub === 'pelvis')))) continue;
+    const plan = planFreeEnds({positions: s.geometry.positions, indices: s.geometry.indices, vesselEnds: s.vesselEnds}, surfaces.filter(o => o.tag !== s));
+    roundedPlans.set(s, plan); roundedStats.kept += plan.kept; roundedStats.tooWide += plan.tooWide; roundedStats.parts++;
+  }
+  console.log(`Schematic vessel ends planned in ${((Date.now() - tPlan) / 1000).toFixed(1)} s.`);
+}
 let n = 0;
 const bellyBindings = {}, firstId = new Map();
 for (const s of built) {
@@ -90,6 +109,7 @@ for (const s of built) {
   let {positions, indices} = s.geometry;
   const cap = s.cap ?? (['fascia', 'fascia-dense', 'sheath', 'aponeurosis'].includes(s.kind) ? 2500 : 700);
   if (indices.length / 3 > cap) { const w = weldByPosition(positions, indices); ({positions, indices} = await simplify(w.positions, w.indices, cap, s.error ?? .003, ['LockBorder'])); }
+  if (roundedPlans.has(s)) { positions = Float32Array.from(positions); roundedStats.tapered += applyFreeEnds(positions, indices, roundedPlans.get(s)); }
   bind(id, s);
   if (!s.sibling) firstId.set(s.name, id);
   stream.add({id, conceptId: s.connector ? s.concept : s.sibling ? firstId.get(s.name) : id, name: s.name, system: s.system, schematic: !s.connector && !s.model, kind: s.kind, ...(s.model ? {model: s.model} : {}), ...(s.sex ? {sex: s.sex} : {})}, positions, indices);
@@ -102,4 +122,5 @@ fs.writeFileSync(file('app/biomechanics-v2/paokao-bindings.json'), JSON.stringif
 fs.writeFileSync(file('app/biomechanics-v2/tendon-bindings.json'), JSON.stringify({tissue: bellyBindings}));
 fs.writeFileSync(file('app/mj-paokao.json'), JSON.stringify(cards, null, 0));
 fs.writeFileSync(stamp, hash);
+console.log(`Schematic vessel ends: ${roundedStats.tapered} free ends rounded in ${roundedStats.parts} vessels, ${roundedStats.kept} ends touch another vessel and stay, ${roundedStats.tooWide} wider than 6 mm keep the flat cut.`);
 console.log(`Paokao structures: ${info.parts} schematic structures in ${info.chunks} packages, ${(info.gzipBytes / 1e6).toFixed(2)} MB compressed.`);
