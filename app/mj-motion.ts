@@ -27,17 +27,20 @@ export const NEUTRAL_POSE:MotionPose={
  ...DIGIT_NEUTRAL
 };
 
-// These limits intentionally stay a little conservative. The web atlas is a
-// surface reference, not a skinned biomechanical model; conservative limits
-// prevent anatomically impossible-looking combined rotations and self-crossing.
+// Active range of motion of a healthy adult, from the standard clinical goniometry tables (AAOS, Kapandji), rounded to whole degrees.
+// Positive values follow the slider labels: flexion, abduction, internal rotation, elbow flexion, pronation, wrist flexion, ulnar deviation.
+//   shoulder flexion 180 / extension 60        abduction 180 (no adduction below the anatomical position: that range is horizontal adduction, not a slider)
+//   internal rotation 70 / external rotation 90   elbow flexion 145 (0 = fully extended; the elbow does not hyperextend)
+//   forearm pronation 80 / supination 90       wrist flexion 80 / extension 70      wrist ulnar deviation 30 / radial deviation 20
+// Combined limits (the swing circle, the axial scale and the wrist ellipse below, and the arm/body collision envelope in mj-arm-collision.ts) keep every combination reachable by a real arm.
 export const MOTION_LIMITS={
- shoulderAbduction:[-20,180],
+ shoulderAbduction:[0,180],
  shoulderFlexion:[-60,180],
- shoulderRotation:[-60,70],
- elbowFlexion:[-5,140],
- forearmRotation:[-80,80],
+ shoulderRotation:[-90,70],
+ elbowFlexion:[0,145],
+ forearmRotation:[-90,80],
  wristFlexion:[-70,80],
- wristDeviation:[-30,20],
+ wristDeviation:[-20,30],
  ...DIGIT_LIMITS
 } as const;
 
@@ -114,7 +117,7 @@ export function constrainPose(input:MotionPose):MotionPose{
  if(swing>180){p.shoulderAbduction*=180/swing;p.shoulderFlexion*=180/swing;}
  const axialScale=1-.32*Math.min(1,Math.hypot(p.shoulderAbduction,p.shoulderFlexion)/180);
  p.shoulderRotation=T.MathUtils.clamp(p.shoulderRotation,MOTION_LIMITS.shoulderRotation[0]*axialScale,MOTION_LIMITS.shoulderRotation[1]*axialScale);
- const wristLoad=Math.hypot(p.wristFlexion/(p.wristFlexion>=0?80:70),p.wristDeviation/(p.wristDeviation>=0?20:30));
+ const wristLoad=Math.hypot(p.wristFlexion/(p.wristFlexion>=0?80:70),p.wristDeviation/(p.wristDeviation>=0?30:20));
  if(wristLoad>1){p.wristFlexion/=wristLoad;p.wristDeviation/=wristLoad;}
  return p;
 }

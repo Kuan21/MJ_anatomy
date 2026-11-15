@@ -1,6 +1,6 @@
 // Tips (branch ends) of a tube-like mesh: weld the surface into a graph, then repeatedly take the vertex geodesically farthest from the skeleton found so far.
 /** Tips of a tube tree: weld the surface into a graph, then repeatedly take the vertex farthest (geodesically) from the skeleton found so far. */
-export function tubeTips(g, minBranch = .006) {
+export function tubeTips(g, minBranch = .006, start = 0) {
   const key = new Map(), pts = [], remap = new Uint32Array(g.pos.length / 3);
   for (let i = 0; i < remap.length; i++) {
     const k = `${Math.round(g.pos[i * 3] * 1e5)},${Math.round(g.pos[i * 3 + 1] * 1e5)},${Math.round(g.pos[i * 3 + 2] * 1e5)}`;
@@ -19,7 +19,7 @@ export function tubeTips(g, minBranch = .006) {
     return {dist, prev};
   };
   const farthest = dist => {let best = -1, bd = -1; for (let i = 0; i < dist.length; i++) if (Number.isFinite(dist[i]) && dist[i] > bd) {bd = dist[i]; best = i;} return {best, bd};};
-  let {dist: d0} = dijkstra([0]); const a = farthest(d0).best;
+  let {dist: d0} = dijkstra([start]); const a = farthest(d0).best;
   const {dist: da, prev: pa} = dijkstra([a]); const b = farthest(da).best;
   const tips = [a, b], skeleton = new Set(), walk = (from, prev) => {for (let v = from; v >= 0 && !skeleton.has(v); v = prev[v]) skeleton.add(v);};
   walk(b, pa); skeleton.add(a);

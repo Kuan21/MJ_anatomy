@@ -62,5 +62,32 @@ else{
  if(!so||!(so[2]<0&&so[1]>0&&so[0]*Math.sign(C[0])>0))fail('superior oblique does not reach the upper lateral globe behind the equator');
  if(!io||!(io[2]<0&&io[1]<0&&io[0]*Math.sign(C[0])>0))fail('inferior oblique does not reach the lower lateral globe behind the equator');
 }
+// Openings of the orbit: marked on the bones, in the right places relative to one another and to what passes through them.
+{
+ const {EYE_OPENINGS}=await quizModule('app/mj-eye-openings.ts');
+ const C=g.center,side=Math.sign(C[0])||1,byId=Object.fromEntries((manifest.openings??[]).map(o=>[o.id,o]));
+ const P=id=>{const p=manifest.parts.find(x=>x.id===id);return new Float32Array(bin.buffer,bin.byteOffset+p.positions,p.vertexCount*3);};
+ for(const o of EYE_OPENINGS){
+  const found=byId[o.id];
+  if(!found){fail(`opening ${o.id}: not in the package`);continue;}
+  if(!/[㐀-鿿]/.test(o.zh)||o.text.length<40||!/[㐀-鿿]/.test(o.textZh))fail(`opening ${o.id}: name or text`);
+  for(const id of o.contents)if(!EYE_PARTS[id])fail(`opening ${o.id}: ${id} is not in the atlas`);
+  for(const [bone,indices] of Object.entries(found.bones)){
+   const part=manifest.parts.find(x=>x.id===bone);
+   if(!part||EYE_PARTS[bone]?.layer!==0)fail(`opening ${o.id}: ${bone} is not a bone of the orbit`);
+   else if(indices.length<8||indices.some(i=>!(i>=0&&i<part.vertexCount)))fail(`opening ${o.id}: vertex list of ${bone}`);
+  }
+  // what passes through comes within 6 mm of the marked bone
+  const marked=Object.entries(found.bones).flatMap(([bone,indices])=>{const pos=P(bone);return indices.map(i=>[pos[i*3],pos[i*3+1],pos[i*3+2]]);});
+  for(const id of o.contents){const pos=P(id);let near=Infinity;for(let i=0;i<pos.length;i+=3)for(const m of marked)near=Math.min(near,Math.hypot(pos[i]-m[0],pos[i+1]-m[1],pos[i+2]-m[2]));if(near>.006)fail(`opening ${o.id}: ${id} does not pass the marked bone`);}
+ }
+ if(Object.keys(byId).length!==EYE_OPENINGS.length)fail('openings in the package and in the list differ');
+ const canal=byId['optic-canal']?.center,upper=byId['superior-orbital-fissure']?.center,lower=byId['inferior-orbital-fissure']?.center;
+ if(canal&&upper&&lower){
+  if(!((upper[0]-canal[0])*side>0))fail('superior orbital fissure is not lateral to the optic canal');
+  if(!(lower[1]<canal[1]-.01&&lower[1]<upper[1]-.01))fail('inferior orbital fissure is not below the other two openings');
+  for(const [name,c] of [['optic canal',canal],['superior orbital fissure',upper],['inferior orbital fissure',lower]])if(!(c[2]<C[2]-g.length*.5))fail(`${name} is not behind the globe`);
+ }
+}
 if(problems.length){console.error(`Eye atlas: ${problems.length} problem(s)`);for(const p of problems.slice(0,20))console.error(' - '+p);process.exit(1);}
-console.log(`Eye atlas ok: ${manifest.parts.length} parts in ${EYE_LAYERS.length} layers, all described in English and Chinese; globe registered on the body orbit; rectus insertions, oblique insertions, scleral clearance and optic nerve checked.`);
+console.log(`Eye atlas ok: ${manifest.parts.length} parts in ${EYE_LAYERS.length} layers, all described in English and Chinese; globe registered on the body orbit; rectus insertions, oblique insertions, scleral clearance, optic nerve and the three openings of the orbit checked.`);
