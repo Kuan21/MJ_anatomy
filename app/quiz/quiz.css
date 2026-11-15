@@ -356,3 +356,5 @@ button.quiz-review-item:hover{background:#f4f7f9}
 .run-region-head{display:flex;justify-content:space-between;gap:10px;font-size:14px}
 .run-wrong{margin:8px 0 10px;font-size:12px;line-height:1.7;color:var(--quiz-muted)}
 @media(max-width:700px){.setup-sections{grid-template-columns:1fr}}
+/* the learning and exam play screens fill the window like the Quiz play screen (the header on top, the 3D stage and the question card below) */
+.learn-app:has(> .quiz-play-layout),.exam-app{height:100dvh;min-height:0;display:flex;flex-direction:column;overflow:hidden}
