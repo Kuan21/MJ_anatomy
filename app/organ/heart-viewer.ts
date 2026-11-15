@@ -19,7 +19,7 @@ interface Callbacks {
 /** Selection colours shared with the atlas: deep green, outlined; hover is a lighter mint of the same hue. */
 export const HEART_SELECT = {fill: '#5DB89A', edge: '#3E8E74', hover: '#A7DCCB'};
 const GROUP_COLOR: Record<string, string> = {
-  chambers: '#d98a85', papillary: '#c97a5a', valves: '#f0dfa3', coronary: '#b0313f', veins: '#4f86bf', vessels: '#c9a8a0', interior: '#b5503c', pericardium: '#d9c9a3',
+  chambers: '#d98a85', papillary: '#b4635a', valves: '#f0dfa3', coronary: '#b0313f', veins: '#4f86bf', vessels: '#c9a8a0', interior: '#b5503c', pericardium: '#d9c9a3',
 };
 /** schematic surface patches and spaces are drawn as tinted, translucent regions so they read as areas, not as ridges. */
 const PATCH_COLOR: Record<string, string> = {
