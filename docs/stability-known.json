@@ -510,13 +510,6 @@
    "fraction": 1,
    "severity": 42
   },
-  "detached|PK:Left quadriceps tendon#1|hip flexion 120 knee flexion 130": {
-   "name": "Left quadriceps tendon",
-   "measure": 3,
-   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.5,
-   "severity": 33
-  },
   "detached|PK:Left superior transverse scapular ligament|shoulder flexion 150": {
    "name": "Left superior transverse scapular ligament",
    "measure": 14,
@@ -1450,11 +1443,6 @@
   "fragments|FJ2200-END": {
    "name": "Right fibular vein",
    "measure": 1,
-   "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
-  },
-  "fragments|FJ2219-END": {
-   "name": "Left brachial artery",
-   "measure": 2,
    "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
   },
   "fragments|FJ2242-END": {
@@ -5161,34 +5149,19 @@
    "measure": 557,
    "reason": "faces coincide with Hepatovenous segment VI: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ2440|FJ2769": {
-   "name": "Cricoid cartilage",
-   "measure": 1514,
-   "reason": "faces coincide with Cricoid cartilage: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ2772|FJ3201": {
-   "name": "Hyoid bone",
-   "measure": 1036,
-   "reason": "faces coincide with Hyoid bone: two layers share the same surface; to be offset or one of them removed"
-  },
   "zfight|FJ2777|FJ2788": {
    "name": "Left conus elasticus",
-   "measure": 85,
+   "measure": 77,
    "reason": "faces coincide with Left vocalis: two layers share the same surface; to be offset or one of them removed"
   },
   "zfight|FJ2787|FJ2788": {
    "name": "Left vocal ligament",
-   "measure": 141,
+   "measure": 132,
    "reason": "faces coincide with Left vocalis: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ2791|FJ2795": {
-   "name": "Right aryepiglotticus",
-   "measure": 44,
-   "reason": "faces coincide with Right cuneiform cartilage: two layers share the same surface; to be offset or one of them removed"
   },
   "zfight|FJ2794|FJ2805": {
    "name": "Right conus elasticus",
-   "measure": 172,
+   "measure": 157,
    "reason": "faces coincide with Right vocal ligament: two layers share the same surface; to be offset or one of them removed"
   },
   "zfight|FJ2794|FJ2806": {
@@ -5246,10 +5219,12 @@
    "measure": 1106,
    "reason": "faces coincide with Cardiac notch of left lung: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|PK:Right styloid process of radius|PK:Right anatomical snuffbox": {
-   "name": "Right styloid process of radius",
-   "measure": 131,
-   "reason": "faces coincide with Right anatomical snuffbox: two layers share the same surface; to be offset or one of them removed"
+  "stretch|FJ2219-END|shoulder flexion 150": {
+   "name": "Left brachial artery",
+   "measure": 6,
+   "reason": "同一條動脈 main 上已登記拉伸 2.4 倍，端段跟隨主體；#269 後由碎片轉為拉伸，2026-11-15 經使用者核准",
+   "fraction": 0.005681818181818182,
+   "severity": 2.1
   }
  }
 }

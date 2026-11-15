@@ -8,14 +8,14 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 
 | check | violations |
 |---|---|
-| Fragments | 48 |
+| Fragments | 47 |
 | Vessel, nerve and tendon walls inside bone | 456 |
-| Coincident faces (z-fighting) | 83 |
+| Coincident faces (z-fighting) | 78 |
 | Straight cuts in meshes | 43 |
-| Triangle stretch over 2x in the limit poses | 137 |
-| Structures that leave their bone in the limit poses | 163 |
+| Triangle stretch over 2x in the limit poses | 138 |
+| Structures that leave their bone in the limit poses | 162 |
 
-## Fragments (48)
+## Fragments (47)
 
 | structure | size | detail |
 |---|---|---|
@@ -38,7 +38,6 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Left fibular vein | 3 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
 | Left medial circumflex femoral vein | 1 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
 | Right fibular vein | 1 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
-| Left brachial artery | 2 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
 | Left radial artery | 2 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
 | Acromial branch of right thoraco-acromial artery | 1 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
 | Right anterior interosseous artery | 1 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
@@ -529,7 +528,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Vestibulocochlear nerve (VIII).r | 4.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Vestibulocochlear nerve (VIII).r | 4.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 
-## Coincident faces (z-fighting) (83)
+## Coincident faces (z-fighting) (78)
 
 | structure | size | detail |
 |---|---|---|
@@ -598,12 +597,9 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right median cubital vein | 116 | faces coincide with Right lateral brachial vein: two layers share the same surface; to be offset or one of them removed |
 | Right lobe branch of right hepatic artery | 177 | faces coincide with Posterior superior segmental hepatic artery: two layers share the same surface; to be offset or one of them removed |
 | Hepatovenous segment VII | 557 | faces coincide with Hepatovenous segment VI: two layers share the same surface; to be offset or one of them removed |
-| Cricoid cartilage | 1514 | faces coincide with Cricoid cartilage: two layers share the same surface; to be offset or one of them removed |
-| Hyoid bone | 1036 | faces coincide with Hyoid bone: two layers share the same surface; to be offset or one of them removed |
-| Left conus elasticus | 85 | faces coincide with Left vocalis: two layers share the same surface; to be offset or one of them removed |
-| Left vocal ligament | 141 | faces coincide with Left vocalis: two layers share the same surface; to be offset or one of them removed |
-| Right aryepiglotticus | 44 | faces coincide with Right cuneiform cartilage: two layers share the same surface; to be offset or one of them removed |
-| Right conus elasticus | 172 | faces coincide with Right vocal ligament: two layers share the same surface; to be offset or one of them removed |
+| Left conus elasticus | 77 | faces coincide with Left vocalis: two layers share the same surface; to be offset or one of them removed |
+| Left vocal ligament | 132 | faces coincide with Left vocalis: two layers share the same surface; to be offset or one of them removed |
+| Right conus elasticus | 157 | faces coincide with Right vocal ligament: two layers share the same surface; to be offset or one of them removed |
 | Right conus elasticus | 66 | faces coincide with Right vocalis: two layers share the same surface; to be offset or one of them removed |
 | Right vocal ligament | 88 | faces coincide with Right vocalis: two layers share the same surface; to be offset or one of them removed |
 | Anterior superior segmental branch of right portal vein | 87 | faces coincide with Trunk of right portal vein: two layers share the same surface; to be offset or one of them removed |
@@ -613,9 +609,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Body of uterus | 736 | faces coincide with Lower uterine segment: two layers share the same surface; to be offset or one of them removed |
 | Lower uterine segment | 494 | faces coincide with Cervix of uterus: two layers share the same surface; to be offset or one of them removed |
 | Esophageal impression of left lung | 57 | faces coincide with Apex of left lung: two layers share the same surface; to be offset or one of them removed |
-| Glans of clitoris | 723 | 同一張 MRI 曲面按解剖切成兩件，交界共用 138 個頂點，相鄰面共面但冇重疊（真正重疊三角形 0.6%）；陰蒂由頭至體單調變寬，冇解剖上合理嘅切口可避開。2026-11-15 經使用者核准。 |
 | Lingula of left lung | 1106 | faces coincide with Cardiac notch of left lung: two layers share the same surface; to be offset or one of them removed |
-| Right styloid process of radius | 131 | faces coincide with Right anatomical snuffbox: two layers share the same surface; to be offset or one of them removed |
 
 ## Straight cuts in meshes (43)
 
@@ -665,7 +659,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | renderer clipping plane in organ/brain-viewer.ts | 1 | section plane of the brain or heart detail mode: a cut view on purpose, the cut face is drawn by the viewer |
 | renderer clipping plane in organ/heart-viewer.ts | 3 | section plane of the brain or heart detail mode: a cut view on purpose, the cut face is drawn by the viewer |
 
-## Triangle stretch over 2x in the limit poses (137)
+## Triangle stretch over 2x in the limit poses (138)
 
 | structure | size | detail |
 |---|---|---|
@@ -806,8 +800,9 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Pudendal nerve.r | 220 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Suprascapular nerve.l | 76 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Suprascapular nerve.r | 76 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left brachial artery | 6 | 同一條動脈 main 上已登記拉伸 2.4 倍，端段跟隨主體；#269 後由碎片轉為拉伸，2026-11-15 經使用者核准 |
 
-## Structures that leave their bone in the limit poses (163)
+## Structures that leave their bone in the limit poses (162)
 
 | structure | size | detail |
 |---|---|---|
@@ -853,7 +848,6 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Left axillary fossa | 4 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left clavipectoral triangle | 74 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left clavipectoral triangle | 74 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Left quadriceps tendon | 3 | does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left superior transverse scapular ligament | 14 | Not a detachment: the superior transverse scapular ligament attaches to the scapula at both ends (it bridges the suprascapular notch) and has no attachment on the clavicle; it only lies within 3 mm of the clavicle at rest, so it leaves it when the scapula turns in shoulder flexion 150. Exception added by hand with the user's approval on 2026-11-14 (PR #280); the ligament rides on the scapula as one piece. |
 | Left tendon of iliopsoas | 96 | does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left tendon of iliopsoas | 62 | does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |

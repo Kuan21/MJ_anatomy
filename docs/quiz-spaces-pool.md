@@ -29,7 +29,7 @@
 
 #### 三邊裂（Triangular interval）
 
-- 中心交會距離：0.0256 公尺
+- 中心交會距離：0.0261 公尺
 - 邊界（畫出）：Teres major、Triceps brachii, long head、Triceps brachii, lateral head
 - 底（畫出）：Humerus
 - 內容物（畫出）：Radial nerve、Deep brachial artery

@@ -172,7 +172,7 @@ for(const side of ['left','right']){
   const drift=point(l.humerusId).distanceTo(point(l.scapulaId));maxDrift=Math.max(maxDrift,drift);
   assert.ok(drift<1e-9,`${side} humeral head separated from its scapular socket frame: ${drift}`);
   const c=motion.constrainPose(pose);assert.ok(Math.hypot(c.shoulderAbduction,c.shoulderFlexion)<=180+1e-9);
-  assert.ok(Math.hypot(c.wristFlexion/80,c.wristDeviation/20)<=1+1e-9);
+  assert.ok(Math.hypot(c.wristFlexion/(c.wristFlexion>=0?80:70),c.wristDeviation/(c.wristDeviation>=0?30:20))<=1+1e-9);
   jointPoses++;
  }
 }

@@ -4,14 +4,14 @@
 
 | 姿勢 | 量測的血管對 | 例外 | 最大開口 (mm) |
 | --- | ---: | ---: | ---: |
-| shoulder abduction 90 | 471 | 39 | 99.6 |
-| shoulder flexion 90 | 471 | 39 | 102.4 |
-| elbow flexion 90 | 471 | 9 | 5.4 |
-| shoulder abduction 180 (limit) | 471 | 49 | 166.3 |
-| shoulder flexion 180 (limit) | 471 | 52 | 150.7 |
-| elbow flexion 140 (limit) | 471 | 12 | 8.9 |
-| wrist flexion 80 (limit) | 471 | 0 | 0.2 |
-| wrist flexion -70 (limit) | 471 | 15 | 6.1 |
+| shoulder abduction 90 | 470 | 38 | 99.6 |
+| shoulder flexion 90 | 470 | 38 | 102.4 |
+| elbow flexion 90 | 470 | 9 | 5.4 |
+| shoulder abduction 180 (limit) | 470 | 48 | 166.3 |
+| shoulder flexion 180 (limit) | 470 | 52 | 150.7 |
+| elbow flexion 140 (limit) | 470 | 12 | 8.9 |
+| wrist flexion 80 (limit) | 470 | 0 | 0.2 |
+| wrist flexion -70 (limit) | 470 | 14 | 6.1 |
 | hip flexion 90 | 471 | 44 | 46.8 |
 | knee flexion 90 | 471 | 21 | 6.5 |
 | hip flexion 120 + knee 130 (limit) | 471 | 70 | 62.2 |
@@ -23,7 +23,7 @@
 
 連接管背端與所屬血管分離超過 2 mm 的組合：8 個。
 
-## shoulder abduction 90（39 個例外）
+## shoulder abduction 90（38 個例外）
 
 | 血管對 | 側 | 靜止間隙 (mm) | 擺姿後 (mm) | 管徑 (mm) | 備註 |
 | --- | --- | ---: | ---: | ---: | --- |
@@ -54,7 +54,6 @@
 | Right subscapular artery (FJ2298) → Right thoracodorsal artery (FJ2305) | right | 0 | 7.6 | 3.98 | 下一段在trunk |
 | Left axillary artery (FJ2216) → Left first posterior intercostal artery (FJ1973) | left | 0 | 6.6 | 5.37 | 未綁定：the next segment；下一段在trunk |
 | Right anterior circumflex humeral artery (FJ2264) → Right posterior circumflex humeral artery (FJ2291) | right | 2.51 | 6.5 | 5.16 |  |
-| Left deep brachial artery (PKC-312) → Left brachial artery (FJ2219) | left | 0.78 | 6.3 | 3.98 |  |
 | Right dorsal scapular artery (FJ2284) → Right transverse cervical artery (FJ2309) | right | 0 | 6.1 | 1.57 | 未綁定：the next segment；下一段在trunk |
 | Left dorsal scapular artery (FJ2232) → Left transverse cervical artery (FJ2257) | left | 0 | 5.8 | 1.44 | 未綁定：the next segment；下一段在trunk |
 | Right anterior circumflex humeral artery (FJ2264) → Right posterior circumflex humeral artery (FJ2291) | right | 0.31 | 5 | 5.34 |  |
@@ -63,11 +62,11 @@
 | Left lateral brachial vein (PK-61) → Left basilic vein (FJ2218) | left | 0 | 3.1 | 4.13 |  |
 | Left axillary vein (FJ2217) → Left subclavian vein (FJ3486) | left | 1.66 | 2.9 | 3.47 | 下一段在trunk |
 | Right lateral brachial vein (PK-56) → Right axillary vein (FJ2269) | right | 0 | 2.6 | 3.85 |  |
-| Acromial branch of left thoraco-acromial artery (FJ2211) → Trunk of left thoraco-acromial artery (FJ2252) | left | 0.95 | 2.5 | 3.14 |  |
+| Acromial branch of left thoraco-acromial artery (FJ2211) → Trunk of left thoraco-acromial artery (FJ2252) | left | 0.88 | 2.4 | 3.14 |  |
 | Right posterior circumflex humeral artery (FJ2291) → Right axillary artery (FJ2268) | right | 0 | 2.3 | 2.07 |  |
-| Deltoid branch of left thoraco-acromial artery (PKC-310) → Left axillary artery (FJ2216) | left | 0 | 2.1 | 2.07 |  |
+| Deltoid branch of left thoraco-acromial artery (PKC-315) → Left axillary artery (FJ2216) | left | 0 | 2.1 | 2.08 |  |
 
-## shoulder flexion 90（39 個例外）
+## shoulder flexion 90（38 個例外）
 
 | 血管對 | 側 | 靜止間隙 (mm) | 擺姿後 (mm) | 管徑 (mm) | 備註 |
 | --- | --- | ---: | ---: | ---: | --- |
@@ -101,15 +100,14 @@
 | Left dorsal scapular artery (FJ2232) → Left transverse cervical artery (FJ2257) | left | 0 | 5.4 | 1.44 | 未綁定：the next segment；下一段在trunk |
 | Right lateral brachial vein (PK-56) → Right axillary vein (FJ2269) | right | 0 | 5.2 | 3.85 |  |
 | Right brachial artery (FJ2271) → Right thoracodorsal artery (FJ2305) | right | 0 | 5 | 5.43 | 下一段在trunk |
-| Left deep brachial artery (PKC-312) → Left brachial artery (FJ2219) | left | 0.78 | 4.9 | 3.98 |  |
 | Left axillary artery (FJ2216) → Left first posterior intercostal artery (FJ1973) | left | 0 | 4.8 | 5.37 | 未綁定：the next segment；下一段在trunk |
 | Left lateral brachial vein (PK-61) → Left basilic vein (FJ2218) | left | 0 | 4.8 | 4.13 |  |
 | Right axillary artery (FJ2268) → Right anterior circumflex humeral artery (FJ2264) | right | 0 | 4.2 | 4.71 |  |
 | Left axillary vein (FJ2217) → Left subclavian vein (FJ3486) | left | 1.66 | 2.8 | 3.47 | 下一段在trunk |
-| Acromial branch of left thoraco-acromial artery (FJ2211) → Trunk of left thoraco-acromial artery (FJ2252) | left | 0.95 | 2.6 | 3.14 |  |
+| Acromial branch of left thoraco-acromial artery (FJ2211) → Trunk of left thoraco-acromial artery (FJ2252) | left | 0.88 | 2.5 | 3.14 |  |
 | Right basilic vein (FJ2270) → Right axillary vein (FJ2269) | right | 0 | 2 | 3.89 |  |
 | Left posterior circumflex humeral artery (FJ2240) → Left posterior circumflex humeral artery (FJ2239) | left | 0 | 1.8 | 1.87 |  |
-| Deltoid branch of left thoraco-acromial artery (PKC-310) → Left axillary artery (FJ2216) | left | 0 | 1.8 | 2.07 |  |
+| Deltoid branch of left thoraco-acromial artery (PKC-315) → Left axillary artery (FJ2216) | left | 0 | 1.8 | 2.08 |  |
 
 ## elbow flexion 90（9 個例外）
 
@@ -125,7 +123,7 @@
 | Left median cubital vein (FJ2235) → Left basilic vein (FJ2218) | left | 0 | 1.7 | 2.71 |  |
 | Left recurrent interosseous artery (FJ2245) → Middle collateral branch of left deep brachial artery (FJ2331) | left | 0 | 1 | 0.84 |  |
 
-## shoulder abduction 180 (limit)（49 個例外）
+## shoulder abduction 180 (limit)（48 個例外）
 
 | 血管對 | 側 | 靜止間隙 (mm) | 擺姿後 (mm) | 管徑 (mm) | 備註 |
 | --- | --- | ---: | ---: | ---: | --- |
@@ -158,26 +156,25 @@
 | Right anterior circumflex humeral artery (FJ2264) → Right posterior circumflex humeral artery (FJ2291) | right | 2.51 | 13.3 | 5.16 |  |
 | Right anterior circumflex humeral artery (FJ2264) → Right posterior circumflex humeral artery (FJ2291) | right | 0.31 | 13.1 | 5.34 |  |
 | Left axillary artery (FJ2216) → Left first posterior intercostal artery (FJ1973) | left | 0 | 12.7 | 5.37 | 未綁定：the next segment；下一段在trunk |
-| Left deep brachial artery (PKC-312) → Left brachial artery (FJ2219) | left | 0.78 | 12.5 | 3.98 |  |
 | Pectoral branch of left thoraco-acromial artery (FJ2330) → Acromial branch of left thoraco-acromial artery (FJ2211) | left | 0.04 | 10.7 | 1.15 |  |
 | Right dorsal scapular artery (FJ2284) → Right transverse cervical artery (FJ2309) | right | 0 | 10.6 | 1.57 | 未綁定：the next segment；下一段在trunk |
 | Left dorsal scapular artery (FJ2232) → Left transverse cervical artery (FJ2257) | left | 0 | 10.1 | 1.44 | 未綁定：the next segment；下一段在trunk |
 | Left brachial artery (FJ2219) → Left subscapular artery (FJ2246) | left | 0 | 8.1 | 5.36 |  |
 | Right lateral brachial vein (PK-56) → Right axillary vein (FJ2269) | right | 0 | 7.4 | 3.85 |  |
 | Left lateral brachial vein (PK-61) → Left basilic vein (FJ2218) | left | 0 | 7.1 | 4.13 |  |
-| Acromial branch of left thoraco-acromial artery (FJ2211) → Trunk of left thoraco-acromial artery (FJ2252) | left | 0.95 | 5.7 | 3.14 |  |
+| Acromial branch of left thoraco-acromial artery (FJ2211) → Trunk of left thoraco-acromial artery (FJ2252) | left | 0.88 | 5.6 | 3.14 |  |
 | Left posterior circumflex humeral vein (PK-52) → Left axillary vein (FJ2217) | left | 0 | 5.6 | 3.73 |  |
-| Deltoid branch of left thoraco-acromial artery (PKC-310) → Left axillary artery (FJ2216) | left | 0 | 5.2 | 2.07 |  |
+| Deltoid branch of left thoraco-acromial artery (PKC-315) → Left axillary artery (FJ2216) | left | 0 | 5.2 | 2.08 |  |
 | Pectoral branch of right thoraco-acromial artery (FJ2361) → Right axillary artery (FJ2268) | right | 0 | 4.8 | 1.11 |  |
 | Left axillary vein (FJ2217) → Left subclavian vein (FJ3486) | left | 1.66 | 4.6 | 3.47 | 下一段在trunk |
 | Right posterior circumflex humeral artery (FJ2291) → Right axillary artery (FJ2268) | right | 0 | 3.7 | 2.07 |  |
 | Right basilic vein (FJ2270) → Right axillary vein (FJ2269) | right | 0 | 2.9 | 3.89 |  |
+| Deltoid branch of left thoraco-acromial artery (FJ2230) → Left axillary artery (FJ2216) | left | 0.65 | 2.2 | 1.77 |  |
 | Trunk of right thoraco-acromial artery (FJ2304) → Right subclavian artery (FJ3579) | right | 0 | 2.2 | 3.46 | 下一段在trunk |
-| Deltoid branch of left thoraco-acromial artery (FJ2230) → Left axillary artery (FJ2216) | left | 0.58 | 2.1 | 1.77 |  |
 | Trunk of right thoraco-acromial artery (FJ2304) → Acromial branch of right thoraco-acromial artery (FJ2263) | right | 0 | 2 | 3.22 |  |
-| Deltoid branch of right thoraco-acromial artery (PKC-309) → Right axillary artery (FJ2268) | right | 0.12 | 1.8 | 2.16 |  |
+| Deltoid branch of right thoraco-acromial artery (PKC-314) → Right axillary artery (FJ2268) | right | 0.15 | 1.8 | 2.18 |  |
 | Left axillary vein (FJ2217) → Left basilic vein (FJ2218) | left | 0 | 1.7 | 2.59 |  |
-| Deltoid branch of left thoraco-acromial artery (PKC-310) → Trunk of left thoraco-acromial artery (FJ2252) | left | 0 | 1 | 1.92 |  |
+| Deltoid branch of left thoraco-acromial artery (PKC-315) → Trunk of left thoraco-acromial artery (FJ2252) | left | 0 | 1 | 1.93 |  |
 
 ## shoulder flexion 180 (limit)（52 個例外）
 
@@ -215,22 +212,22 @@
 | Right lateral brachial vein (PK-56) → Right axillary vein (FJ2269) | right | 0 | 13.8 | 3.85 |  |
 | Right subscapular vein (FJ2299) → Right thoracodorsal vein (FJ2306) | right | 0 | 12.5 | 3.01 | 下一段在trunk |
 | Right posterior circumflex humeral vein (PK-42) → Right anterior circumflex humeral vein (FJ2265) | right | 7.22 | 12 | 2.47 |  |
-| Left deep brachial artery (PKC-312) → Left brachial artery (FJ2219) | left | 0.78 | 10.9 | 3.98 |  |
 | Left lateral brachial vein (PK-61) → Left basilic vein (FJ2218) | left | 0 | 8.8 | 4.13 |  |
 | Right dorsal scapular artery (FJ2284) → Right transverse cervical artery (FJ2309) | right | 0 | 8.6 | 1.57 | 未綁定：the next segment；下一段在trunk |
 | Left dorsal scapular artery (FJ2232) → Left transverse cervical artery (FJ2257) | left | 0 | 8.4 | 1.44 | 未綁定：the next segment；下一段在trunk |
-| Acromial branch of left thoraco-acromial artery (FJ2211) → Trunk of left thoraco-acromial artery (FJ2252) | left | 0.95 | 4.8 | 3.14 |  |
 | Left axillary artery (FJ2216) → Left first posterior intercostal artery (FJ1973) | left | 0 | 4.8 | 5.37 | 未綁定：the next segment；下一段在trunk |
-| Deltoid branch of left thoraco-acromial artery (PKC-310) → Left axillary artery (FJ2216) | left | 0 | 4.3 | 2.07 |  |
+| Acromial branch of left thoraco-acromial artery (FJ2211) → Trunk of left thoraco-acromial artery (FJ2252) | left | 0.88 | 4.7 | 3.14 |  |
+| Deltoid branch of left thoraco-acromial artery (PKC-315) → Left axillary artery (FJ2216) | left | 0 | 4.3 | 2.08 |  |
 | Left axillary vein (FJ2217) → Left subclavian vein (FJ3486) | left | 1.66 | 4.2 | 3.47 | 下一段在trunk |
 | Left posterior circumflex humeral artery (FJ2240) → Left posterior circumflex humeral artery (FJ2239) | left | 0 | 3.6 | 1.87 |  |
 | Right basilic vein (FJ2270) → Right axillary vein (FJ2269) | right | 0 | 3.2 | 3.89 |  |
 | Right anterior circumflex humeral artery (FJ2264) → Right axillary artery (FJ2268) | right | 0 | 2.8 | 4.6 |  |
+| Left deep brachial artery (PKC-317) → Left brachial artery (FJ2219) | left | 0 | 2.3 | 3.79 |  |
 | Right lateral brachial vein (PK-56) → Right axillary vein (FJ2269) | right | 0.35 | 2.1 | 3.59 |  |
 | Right anterior circumflex humeral artery (FJ2264) → Right posterior circumflex humeral artery (FJ2291) | right | 0 | 1.9 | 0.8 |  |
 | Trunk of right thoraco-acromial artery (FJ2304) → Acromial branch of right thoraco-acromial artery (FJ2263) | right | 0 | 1.7 | 3.22 |  |
 | Pectoral branch of left thoraco-acromial artery (FJ2330) → Acromial branch of left thoraco-acromial artery (FJ2211) | left | 0.04 | 1.6 | 1.15 |  |
-| Deltoid branch of right thoraco-acromial artery (PKC-309) → Right axillary artery (FJ2268) | right | 0.12 | 1.6 | 2.16 |  |
+| Deltoid branch of right thoraco-acromial artery (PKC-314) → Right axillary artery (FJ2268) | right | 0.15 | 1.6 | 2.18 |  |
 | Left circumflex scapular vein (FJ2222) → Left suprascapular vein (FJ2250) | left | 0 | 1.5 | 1.74 |  |
 | Left suprascapular vein (FJ2250) → Left circumflex scapular vein (FJ2222) | left | 0 | 1.5 | 1.6 |  |
 | Left posterior circumflex humeral artery (FJ2240) → Left anterior circumflex humeral artery (FJ2212) | left | 0 | 1.4 | 1.19 |  |
@@ -253,7 +250,7 @@
 | Right posterior interosseous vein (PK-58) → Right radial vein (FJ2296) | right | 0 | 1.5 | 2.06 |  |
 | Middle collateral branch of right deep brachial artery (FJ2362) → Right recurrent interosseous artery (FJ2297) | right | 0 | 1.4 | 2.43 |  |
 
-## wrist flexion -70 (limit)（15 個例外）
+## wrist flexion -70 (limit)（14 個例外）
 
 | 血管對 | 側 | 靜止間隙 (mm) | 擺姿後 (mm) | 管徑 (mm) | 備註 |
 | --- | --- | ---: | ---: | ---: | --- |
@@ -265,13 +262,12 @@
 | Left superficial palmar arterial arch (FJ2248) → Left palmar metacarpal artery (FJ2237) | left | 1.57 | 3.5 | 2.85 |  |
 | Right superficial palmar arterial arch (FJ2300) → Right deep palmar branch of ulnar artery (PK-45) | right | 1.29 | 2.8 | 2.86 |  |
 | Right deep palmar arch (FJ2279) → Right superficial palmar arterial arch (FJ2300) | right | 0 | 2.7 | 2.74 |  |
-| Right deep palmar venous arch (PKC-320) → Right radial vein (FJ2296) | right | 0 | 2.4 | 1.37 |  |
+| Right deep palmar venous arch (PKC-325) → Right radial vein (FJ2296) | right | 0 | 2.4 | 1.39 |  |
 | Right palmar metacarpal artery (FJ2289) → Right superficial palmar arterial arch (FJ2300) | right | 0 | 2.3 | 1.41 |  |
-| Left deep palmar venous arch (PKC-321) → Left radial vein (FJ2244) | left | 0.07 | 2.1 | 1.33 |  |
+| Left deep palmar venous arch (PKC-326) → Left radial vein (FJ2244) | left | 0.08 | 2.2 | 1.32 |  |
 | Left palmar metacarpal artery (FJ2237) → Left superficial palmar arterial arch (FJ2248) | left | 0 | 1.9 | 1.44 |  |
 | Left palmar metacarpal vein (FJ2320) → Left radial vein (FJ2244) | left | 0 | 1.8 | 1.23 |  |
 | Right deep palmar branch of ulnar artery (PK-45) → Right superficial palmar arterial arch (FJ2300) | right | 0 | 1.5 | 2.2 |  |
-| Left palmar metacarpal vein (FJ2320) → Left radial vein (FJ2244) | left | 0 | 1.2 | 1.64 |  |
 
 ## hip flexion 90（44 個例外）
 
@@ -300,8 +296,8 @@
 | Right inferior gluteal vein (FJ3606) → Right internal iliac vein (FJ3572) | right | 7.12 | 18.3 | 2.33 | 未綁定：the next segment；下一段在trunk |
 | Left inferior gluteal vein (FJ3513) → Left internal pudendal vein (FJ3525) | left | 0.12 | 17.1 | 1.24 | 未綁定：the next segment；下一段在trunk |
 | Left inferior gluteal vein (FJ3513) → Left internal pudendal vein (FJ3525) | left | 0.12 | 17.1 | 1.24 | 未綁定：the next segment；下一段在trunk |
-| Left femoral artery (PKC-317) → Left inferior epigastric artery (FJ3511) | left | 0 | 16 | 1.12 | 未綁定：the next segment；下一段在trunk |
-| Left femoral artery (PKC-317) → Left inferior epigastric artery (FJ3511) | left | 0 | 16 | 1.12 | 未綁定：the next segment；下一段在trunk |
+| Left femoral artery (PKC-322) → Left inferior epigastric artery (FJ3511) | left | 0 | 16 | 1.12 | 未綁定：the next segment；下一段在trunk |
+| Left femoral artery (PKC-322) → Left inferior epigastric artery (FJ3511) | left | 0 | 16 | 1.12 | 未綁定：the next segment；下一段在trunk |
 | Left inferior gluteal vein (FJ3513) → Left internal pudendal vein (FJ3525) | left | 1.35 | 15.6 | 3.68 | 未綁定：the next segment；下一段在trunk |
 | Right inferior gluteal artery (PK-84) → Right internal pudendal artery (PK-85) | right | 0.39 | 14.5 | 3.98 | 未綁定：the next segment；下一段在trunk |
 | Left inferior gluteal artery (PK-111) → Left internal pudendal artery (PK-112) | left | 0 | 13.8 | 5.58 | 未綁定：the next segment；下一段在trunk |
@@ -388,8 +384,8 @@
 | Left anterior tibial recurrent artery (FJ2066) → Left inferior medial genicular artery (FJ2077) | left | 17.62 | 21.8 | 1.39 |  |
 | Left inferior gluteal vein (FJ3513) → Left internal pudendal vein (FJ3525) | left | 0.12 | 21.7 | 1.24 | 未綁定：the next segment；下一段在trunk |
 | Left inferior gluteal vein (FJ3513) → Left internal pudendal vein (FJ3525) | left | 0.12 | 21.7 | 1.24 | 未綁定：the next segment；下一段在trunk |
-| Left femoral artery (PKC-317) → Left inferior epigastric artery (FJ3511) | left | 0 | 20.6 | 1.12 | 未綁定：the next segment；下一段在trunk |
-| Left femoral artery (PKC-317) → Left inferior epigastric artery (FJ3511) | left | 0 | 20.6 | 1.12 | 未綁定：the next segment；下一段在trunk |
+| Left femoral artery (PKC-322) → Left inferior epigastric artery (FJ3511) | left | 0 | 20.6 | 1.12 | 未綁定：the next segment；下一段在trunk |
+| Left femoral artery (PKC-322) → Left inferior epigastric artery (FJ3511) | left | 0 | 20.6 | 1.12 | 未綁定：the next segment；下一段在trunk |
 | Right ascending and transverse branches of lateral circumflex femoral artery (FJ2195) → Descending branch of right lateral circumflex femoral artery (FJ2057) | right | 17.98 | 20.6 | 4.3 |  |
 | Left inferior gluteal vein (FJ3513) → Left internal pudendal vein (FJ3525) | left | 1.35 | 19.7 | 3.68 | 未綁定：the next segment；下一段在trunk |
 | Right anterior tibial vein (FJ2132) → Right genicular vein (FJ2151) | right | 10.66 | 19.5 | 1.73 |  |
@@ -435,8 +431,8 @@
 | Left inferior gluteal vein (FJ3513) → Left internal pudendal vein (FJ3525) | left | 0.12 | 3.6 | 1.24 | 未綁定：the next segment；下一段在trunk |
 | Left inferior gluteal vein (FJ3513) → Left internal pudendal vein (FJ3525) | left | 0.12 | 3.6 | 1.24 | 未綁定：the next segment；下一段在trunk |
 | Right inferior gluteal artery (PK-84) → Right internal pudendal artery (PK-85) | right | 0.39 | 3.2 | 3.98 | 未綁定：the next segment；下一段在trunk |
-| Left femoral artery (PKC-317) → Left inferior epigastric artery (FJ3511) | left | 0 | 2.3 | 1.12 | 未綁定：the next segment；下一段在trunk |
-| Left femoral artery (PKC-317) → Left inferior epigastric artery (FJ3511) | left | 0 | 2.3 | 1.12 | 未綁定：the next segment；下一段在trunk |
+| Left femoral artery (PKC-322) → Left inferior epigastric artery (FJ3511) | left | 0 | 2.3 | 1.12 | 未綁定：the next segment；下一段在trunk |
+| Left femoral artery (PKC-322) → Left inferior epigastric artery (FJ3511) | left | 0 | 2.3 | 1.12 | 未綁定：the next segment；下一段在trunk |
 | Left obturator vein (FJ3527) → Left external iliac vein (FJ3484) | left | 0 | 2 | 1.6 | 未綁定：the next segment；下一段在trunk |
 
 ## ankle dorsiflexion 20 (limit)（1 個例外）
@@ -466,8 +462,8 @@
 | Left deep femoral vein (FJ2099) → Left superficial epigastric vein (FJ2122) | left | 0.65 | 3.6 | 4.35 | 未綁定：the next segment；下一段在trunk |
 | Right inferior gluteal vein (FJ3606) → Right external iliac vein (FJ3568) | right | 0.47 | 3.4 | 4.6 | 未綁定：the next segment；下一段在trunk |
 | Left superior gluteal vein (FJ3531) → Left uterine vein (HRAF-697) | left | 1.98 | 3.1 | 4.41 | 未綁定：the next segment；下一段在trunk |
-| Left femoral artery (PKC-317) → Left inferior epigastric artery (FJ3511) | left | 0 | 3.1 | 1.12 | 未綁定：the next segment；下一段在trunk |
-| Left femoral artery (PKC-317) → Left inferior epigastric artery (FJ3511) | left | 0 | 3.1 | 1.12 | 未綁定：the next segment；下一段在trunk |
+| Left femoral artery (PKC-322) → Left inferior epigastric artery (FJ3511) | left | 0 | 3.1 | 1.12 | 未綁定：the next segment；下一段在trunk |
+| Left femoral artery (PKC-322) → Left inferior epigastric artery (FJ3511) | left | 0 | 3.1 | 1.12 | 未綁定：the next segment；下一段在trunk |
 | Right inferior gluteal artery (PK-84) → Right superior gluteal artery (PK-81) | right | 0.12 | 2.7 | 4.89 |  |
 | Set of perforating arteries (FJ2203) → Right external iliac artery (FJ3567) | right | 1.42 | 2.6 | 4.91 | 未綁定：the next segment；下一段在trunk |
 | Left inferior gluteal artery (PK-111) → Left internal pudendal artery (PK-112) | left | 0.56 | 2.5 | 4.74 | 未綁定：the next segment；下一段在trunk |
@@ -499,6 +495,6 @@
 | Left inferior gluteal vein (FJ3513) → Left internal pudendal vein (FJ3525) | left | 0.12 | 3.2 | 1.24 | 未綁定：the next segment；下一段在trunk |
 | Left inferior gluteal vein (FJ3513) → Left internal pudendal vein (FJ3525) | left | 0.12 | 3.2 | 1.24 | 未綁定：the next segment；下一段在trunk |
 | Left inferior gluteal vein (FJ3513) → Left internal pudendal vein (FJ3525) | left | 1.35 | 2.9 | 3.68 | 未綁定：the next segment；下一段在trunk |
-| Left femoral artery (PKC-317) → Left inferior epigastric artery (FJ3511) | left | 0 | 2.5 | 1.12 | 未綁定：the next segment；下一段在trunk |
-| Left femoral artery (PKC-317) → Left inferior epigastric artery (FJ3511) | left | 0 | 2.5 | 1.12 | 未綁定：the next segment；下一段在trunk |
+| Left femoral artery (PKC-322) → Left inferior epigastric artery (FJ3511) | left | 0 | 2.5 | 1.12 | 未綁定：the next segment；下一段在trunk |
+| Left femoral artery (PKC-322) → Left inferior epigastric artery (FJ3511) | left | 0 | 2.5 | 1.12 | 未綁定：the next segment；下一段在trunk |
 | Right inferior gluteal artery (PK-84) → Right internal pudendal artery (PK-85) | right | 0.39 | 2.3 | 3.98 | 未綁定：the next segment；下一段在trunk |
