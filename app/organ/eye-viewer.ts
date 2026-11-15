@@ -78,7 +78,7 @@ export function createEyeViewer(host: HTMLDivElement, cb: Callbacks) {
 
   // ---- openings of the orbit: a per-vertex colour that multiplies the bone colour (white = unchanged)
   const openingMarks: {id: string; rec: Rec; indices: number[]}[] = [];
-  const openingCenters = new Map<string, T.Vector3>(), orbitEntrance = new T.Vector3();
+  const openingCenters = new Map<string, T.Vector3>(), orbitEntrance = new T.Vector3(), orbitFront = new T.Vector3();
   const markOpenings = (shown: string[], chosen: string | null) => {
     const touched = new Set<T.BufferAttribute>(), tint = new T.Color();
     for (const m of openingMarks) {const color = m.rec.mesh.geometry.getAttribute('color') as T.BufferAttribute; if (!touched.has(color)) {(color.array as Float32Array).fill(1); touched.add(color);}}
@@ -125,7 +125,7 @@ export function createEyeViewer(host: HTMLDivElement, cb: Callbacks) {
   const lookAt = (id: string) => {
     const center = openingCenters.get(id); if (!center) return;
     root.updateMatrixWorld(true);
-    tween = {start: performance.now(), fromPosition: camera.position.clone(), fromTarget: controls.target.clone(), toPosition: orbitEntrance.clone().applyMatrix4(root.matrixWorld), toTarget: center.clone().applyMatrix4(root.matrixWorld)}; invalidate();
+    tween = {start: performance.now(), fromPosition: camera.position.clone(), fromTarget: controls.target.clone(), toPosition: (EYE_OPENINGS.find(o => o.id === id)?.view === 'front' ? orbitFront : orbitEntrance).clone().applyMatrix4(root.matrixWorld), toTarget: center.clone().applyMatrix4(root.matrixWorld)}; invalidate();
   };
 
   // ---- drawing rules
@@ -220,6 +220,7 @@ export function createEyeViewer(host: HTMLDivElement, cb: Callbacks) {
     }
     for (const opening of manifest.openings ?? []) openingCenters.set(opening.id, new T.Vector3().fromArray(opening.center));
     orbitEntrance.copy(globeCenter).addScaledVector(globeAxis, globeLength * 5.2).add(new T.Vector3(Math.sign(globeCenter.x) || 1, .2, 0).multiplyScalar(globeLength * 2.3));
+    orbitFront.copy(globeCenter).addScaledVector(globeAxis, globeLength * 5.6).add(new T.Vector3(0, globeLength * .6, 0));
     // rig for the eye movements
     const REACH = .014, onGlobe = globeLength / 2 + .003;
     const verticesOf = (r: Rec) => {const position = r.mesh.geometry.getAttribute('position') as T.BufferAttribute, out: T.Vector3[] = []; for (let i = 0; i < position.count; i++) out.push(new T.Vector3().fromBufferAttribute(position, i)); return out;};

@@ -171,7 +171,7 @@ export default function EyeDetail() {
           <div className="eye-buttons openings">{EYE_OPENINGS.map(o => <button key={o.id} aria-pressed={view.openingId === o.id} aria-label={'標示' + o.zh} title={o.name + ' ' + o.zh + (o.aliasZh ? '（又稱' + o.aliasZh + '）' : '')} onClick={() => chooseOpening(o.id)}><b><i style={{background: o.color}}/>{o.label}</b><small lang="zh-Hant">{o.zh}</small></button>)}</div>
           {opening && <div className="eye-note" aria-live="polite"><strong>{opening.name}<em lang="zh-Hant">{opening.zh}{opening.aliasZh && '（又稱' + opening.aliasZh + '）'}</em>
             <button className="eye-look" onClick={() => {go('look', {opening: opening.id}); setLooking(true); showBone();}}><Crosshair size={11}/>對準</button></strong>
-            {looking && <small className="eye-look-hint" lang="zh-Hant">目前由左眼眶的前外側看向眶尖：畫面左邊是鼻側，上方是眶頂，右邊是眼眶外側壁。</small>}
+            {looking && <small className="eye-look-hint" lang="zh-Hant">{opening.hintZh}</small>}
             <p lang="en">{opening.text}{opening.absent && ' ' + opening.absent}</p><p lang="zh-Hant">{opening.textZh}{opening.absentZh}</p></div>}
           <small className="eye-foot" lang="zh-Hant">開口直接標示在骨面上；選定後，通過的構造變色，其他構造淡化。</small>
         </EyeBlock>
