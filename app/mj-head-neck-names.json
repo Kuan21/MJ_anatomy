@@ -148,6 +148,7 @@
   {"id":"718","kind":"typo","status":"applied","entries":[{"en":"Levator veli palatini muscle","zh":"提顎帆肌","enAliases":[],"zhAliases":["提腭帆肌"]}],"display":"typo"},
   {"id":"753","kind":"typo","status":"applied","entries":[{"en":"Palatine aponeurosis","zh":"顎腱膜","enAliases":[],"zhAliases":["腭腱膜"]}],"display":"typo"},
   {"id":"E-Median aperture","kind":"typo","status":"applied","entries":[{"en":"Median aperture","zh":"正中孔","enAliases":[],"zhAliases":[]}],"display":"typo"},
-  {"id":"E-Dura mater","kind":"typo","status":"applied","entries":[{"en":"Dura mater","zh":"硬腦膜","enAliases":[],"zhAliases":[]}],"display":"typo"}
+  {"id":"E-Dura mater","kind":"typo","status":"applied","entries":[{"en":"Dura mater","zh":"硬腦膜","enAliases":[],"zhAliases":[]}],"display":"typo"},
+  {"id":"E-Maxillary artery","kind":"spelling","status":"applied","entries":[{"en":"Maxillary artery","zh":"上頜動脈","enAliases":[],"zhAliases":["上頷動脈","上顎動脈"]}],"display":"alias"}
  ]
 }
