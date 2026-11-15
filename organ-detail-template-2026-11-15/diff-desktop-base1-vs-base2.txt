@@ -1,0 +1,7 @@
+1-initial: outside-canvas diff px = 0; inside-canvas diff px = 0
+2-group-open: outside-canvas diff px = 0; inside-canvas diff px = 0
+3-search: outside-canvas diff px = 0; inside-canvas diff px = 0
+4-selected: outside-canvas diff px = 0; inside-canvas diff px = 0
+5-section-sagittal: outside-canvas diff px = 0; inside-canvas diff px = 0
+6-peel2: outside-canvas diff px = 0; inside-canvas diff px = 0
+7-csf: outside-canvas diff px = 0; inside-canvas diff px = 44454
