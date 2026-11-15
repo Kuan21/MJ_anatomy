@@ -255,8 +255,8 @@
 | nervous | Hypothalamus | 未判定 | 2 | 1 | 1 | — | — | 1 mm |
 | venous | Right anterior circumflex humeral vein | 未判定 | 2 | 1 | 1 | — | — | 1 mm |
 | venous | Right portal vein | 未判定 | 2 | 1 | 1 | — | — | 1 mm |
-| arterial | Anterolateral central branch of right middle cerebral artery | 未判定 | 3 | 2 | 1 | 21 mm | 17 mm | 0 mm |
-| arterial | Anterolateral central branch of left middle cerebral artery | 未判定 | 3 | 2 | 1 | 21 mm | 17 mm | 0 mm |
+| arterial | Anterolateral central branch of right middle cerebral artery | 未判定 | 3 | 2 | 1 | 21 mm | 18 mm | 0 mm |
+| arterial | Anterolateral central branch of left middle cerebral artery | 未判定 | 3 | 2 | 1 | 21 mm | 18 mm | 0 mm |
 | nervous | Intermediate dorsal cutaneous nerve of foot.r | 未判定 | 2 | 2 | 0 | 18 mm | 2 mm | 0 mm |
 | nervous | Vagus nerve (X).r | 未判定 | 19 | 19 | 0 | 63 mm | 1 mm | 0 mm |
 | nervous | Inferior alveolar nerve.r | 未判定 | 12 | 12 | 0 | 6 mm | 1 mm | 0 mm |

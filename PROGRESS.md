@@ -110,6 +110,16 @@
   - 未提交的暫存診斷腳本 `_diag-jumps.mjs`、`_diag-radius.mjs`、`_diag-branch.mjs`、`_diag-femoral.mjs` 仍在（依「不刪檔」沒有刪），可以由你刪除。`package-lock.json` 的未提交差異仍未提交。
   - 本機沒有 `gh`，未查開放 PR 是否有變動。
 
+- 2026-11-15（第十二次）：只改腳本、測試與報告，沒有改模型、解剖內容或網站。
+  - 重新檢查：`work/`、supplement／serous／female 三個生成串流與跑考串流的二進位檔仍不存在，連續性基準仍無法產生；沒有下載資料。
+  - **粗管粗分支旁圈中心被拉偏的修正**：`robustRings` 原本只用半徑判斷哪一圈受分支干擾；分支旁有些圈半徑仍在 30% 容許範圍內，但中心已被拉出管外（合成測試：半徑 8 mm 的管偏 8–12 mm、12 mm 的管偏 22–29 mm），所以沒有被修正。現在多一個判斷：圈的中心離前後各 4 圈中心的中位數超過半徑的一半（而且超過一個圈距）也視為受干擾，中心同樣改放在前後最近的正常圈之間的直線上。新參數 `ctol`（預設 0.5，放在最後，原有呼叫不用改）；`centrelineOf`、`centrelineWide` 與 `leg-vessel-build` 不受影響。
+  - 合成測試結果（已寫入 `test-centreline-pieces`）：半徑 8 mm 與 12 mm 的管配 4 mm 分支，中心偏移由 8–29 mm 降到 0–4 mm；半徑 3–5 mm 的管結果不變；平滑彎曲（曲率半徑 10–50 mm 的半圓）與直角彎不會被改動。試過的 36 種組合沒有一種比原本差。
+  - **仍有的限制**（已寫在註解與測試）：半徑 10 mm 以上的管配超過約一半粗的分支（例如 16 mm 配 6 mm、12 mm 配 8 mm），連續受干擾超過 4 圈，中心仍偏 13–29 mm；分支旁緩慢偏向一側、超過 4 圈的圈也看不出來；與座標軸斜交、比一個圈距更急的折角，轉角那一圈會被拉直約 2 mm。
+  - **對實際資料的影響很小**：`docs/centerline-attach-report.md` 重新產生後完全相同（127 個關係、超過 3 mm 的仍是同十個加右股動脈）；`docs/centerline-report.md` 只有兩列變動（左右大腦中動脈前外側中央支的中心線連接距離 17 → 18 mm），其餘數量不變。也就是這個限制在本機現有資料上原本就幾乎沒有造成差異。**數值沒有在 3D 畫面確認，也沒有用實際血管逐一核對修正後的中心。**
+  - 本機通過：`test-centreline-pieces`、`test-centreline-groups`、`test-centreline-continuity`、`test-centreline-classify`、`test-centreline-attach`、`test-centreline-surface`、`test-centreline-baseline`、`check-no-notes`、`check:zh`。完整 `npm run check` 因缺生成檔沒有跑。
+  - 未提交的暫存診斷腳本 `_diag-jumps.mjs`、`_diag-radius.mjs`、`_diag-branch.mjs`、`_diag-femoral.mjs` 仍在（依「不刪檔」沒有刪），可以由你刪除。`package-lock.json` 的未提交差異仍未提交。
+  - 本機沒有 `gh`，未查開放 PR 是否有變動。
+
 ## 進行中／等審核
 - S2 A–G、S3、S4、S6 相關工作都已有 PR（見上），等使用者審核。
 
@@ -151,6 +161,8 @@
 - 下一項：（1）建立連續性基準仍要等跑考串流與三個生成串流；（2）不需生成檔可做的：把表面距離也用在多件網格的「連接距離」（`centerline-report.md` 多件表目前只用中心線，粗網格可能同樣誤報）；粗管粗分支旁圈中心被拉偏的限制（只影響位置，優先度低）；先寫好 `check-centreline-continuity.mjs` 的基準讀寫與「只減不增」比較邏輯並用合成資料測試，等生成檔到位再產生基準。
 - 上一項的（2）已完成兩件（2026-11-15 第十一次：多件表的表面連接距離；`centreline-baseline.mjs`、`check-centreline-continuity.mjs` 與測試）。
 - 下一項：（1）有了三個生成串流與跑考串流的二進位檔後：跑 `node scripts/check-centreline-continuity.mjs --init` 產生基準，看清單是否合理，再把腳本加入 `npm run check`；（2）不需生成檔可做的已所剩不多：粗管粗分支旁圈中心被拉偏的限制（優先度低）；S5 的「整條高亮」會改網站，屬需人工審核，等使用者處理待審 PR 後再開始。
+- 上一項（2）的「粗管粗分支旁圈中心被拉偏」已處理（2026-11-15 第十二次：`robustRings` 加入中心位置判斷；很粗的管配粗分支仍是已知限制，對本機實際資料幾乎沒有影響，不再排入）。
+- 下一項：不需生成檔、又不改網站的 S5 工作已做完。剩下的都要等你：（1）三個生成串流與跑考串流二進位檔到位後跑 `node scripts/check-centreline-continuity.mjs --init`，看清單是否合理，再加入 `npm run check`；（2）「未判定」多件網格的歸類（見「待我決定」）；（3）S5「整條高亮」會改網站，等待審 PR 處理後再開始。
 - 規則：所有排程工作都放在本分支與 PR #248，不另開分支或 PR。
 
 ## 下一步（舊）
