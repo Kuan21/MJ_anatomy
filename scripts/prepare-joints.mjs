@@ -1,16 +1,13 @@
-// Pinned CC BY-SA joint anatomy, with a content check before each build.
+// The joint tissues (public/models/joints.glb) are written from the official Z-Anatomy Joints100.fbx by scripts/extract-zanatomy-joints.mjs (CC BY-SA 4.0, BodyParts3D credit
+// CC BY-SA 2.1 Japan) and committed; this step only checks that the committed file is the one the build expects. Nothing is downloaded.
 import {readFile,writeFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
-const revision='8ca3b7421bcfbe88b85859eb1983d5cf79f21749';
-const expected='a20651f8f3e550ae8ee51365f147c09da4f80080';
+const expected='9ad9285edf50755ba284a954ce98b2b94ceda412';
 const target=new URL('../public/models/joints.glb',import.meta.url);
 const hash=b=>createHash('sha1').update(`blob ${b.length}\0`).update(b).digest('hex');
 let b;try{b=await readFile(target);}catch{}
-if(!b||hash(b)!==expected){
- const r=await fetch(`https://raw.githubusercontent.com/nqwrc/3d-anatomy/${revision}/public/models/joints.glb`,{signal:AbortSignal.timeout(60000)});
- if(!r.ok)throw new Error(`Joint model download failed: ${r.status}`);
- b=Buffer.from(await r.arrayBuffer());if(hash(b)!==expected)throw new Error('Joint model checksum mismatch');await writeFile(target,b);
-}
+if(!b)throw new Error('public/models/joints.glb is missing: it is committed with the repository (scripts/extract-zanatomy-joints.mjs writes it)');
+if(hash(b)!==expected)throw new Error('Joint model checksum mismatch: public/models/joints.glb is not the file the build expects; rerun scripts/extract-zanatomy-joints.mjs and update the checksum');
 console.log(`Joint source verified: ${b.length} bytes`);
 
 const {gunzipSync}=await import('node:zlib');

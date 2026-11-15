@@ -1,0 +1,10611 @@
+{
+ "version": 1,
+ "kind": "names-only",
+ "structures": [
+  {
+   "id": "RS-0001",
+   "en": "Abducens nerve",
+   "zh": "外旋神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0002",
+   "en": "Accessory meningeal artery",
+   "zh": "副腦膜動脈",
+   "type": "artery",
+   "topics": [
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0003",
+   "en": "Accessory nerve",
+   "zh": "副神經",
+   "type": "nerve",
+   "topics": [
+    "neck-pharynx-trachea-esophagus",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0004",
+   "en": "Accessory parotid gland",
+   "zh": "",
+   "type": "gland",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0005",
+   "en": "Alar fascia",
+   "zh": "翼筋膜",
+   "type": "fascia",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0006",
+   "en": "alveolar foramen",
+   "zh": "齒槽孔",
+   "type": "foramen",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0007",
+   "en": "Alveolar process",
+   "zh": "肺泡突",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0008",
+   "en": "Ambient cistern",
+   "zh": "",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0009",
+   "en": "Ampulla of semicircular canal",
+   "zh": "壺腹",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0010",
+   "en": "Aneurysm of external carotid artery",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0011",
+   "en": "Angle of mandible",
+   "zh": "下頜角",
+   "type": "bone",
+   "topics": [
+    "face-parotid-scalp",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0012",
+   "en": "Angular artery",
+   "zh": "角動脈",
+   "type": "artery",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0013",
+   "en": "Angular vein",
+   "zh": "角靜脈",
+   "type": "vein",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0014",
+   "en": "Annular ligaments of trachea",
+   "zh": "",
+   "type": "ligament",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0015",
+   "en": "Ansa cervicalis",
+   "zh": "頸襻",
+   "type": "nerve",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0016",
+   "en": "anterior belly of digastric",
+   "zh": "二腹肌前腹",
+   "type": "muscle",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0017",
+   "en": "Anterior cerebral artery",
+   "zh": "前大腦動脈",
+   "type": "artery",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0018",
+   "en": "Anterior chamber",
+   "zh": "前房",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0019",
+   "en": "Anterior ciliary artery",
+   "zh": "前睫動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0020",
+   "en": "Anterior clinoid process",
+   "zh": "前床突",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0021",
+   "en": "Anterior commissure",
+   "zh": "",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0022",
+   "en": "Anterior communicating artery",
+   "zh": "前交通支",
+   "type": "artery",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0023",
+   "en": "Anterior cranial fossa",
+   "zh": "前顱窩",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0024",
+   "en": "anterior division of mandibular nerve",
+   "zh": "前支",
+   "type": "nerve",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0025",
+   "en": "Anterior ethmoidal artery",
+   "zh": "前篩動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0026",
+   "en": "Anterior ethmoidal foramen",
+   "zh": "前篩孔",
+   "type": "foramen",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0027",
+   "en": "Anterior ethmoidal nerve",
+   "zh": "前篩神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0028",
+   "en": "Anterior fontanelle",
+   "zh": "前囟門",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0029",
+   "en": "Anterior inferior cerebellar artery",
+   "zh": "前下小腦動脈",
+   "type": "artery",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0030",
+   "en": "Anterior jugular vein",
+   "zh": "前頸靜脈",
+   "type": "vein",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0031",
+   "en": "Anterior longitudinal ligament",
+   "zh": "",
+   "type": "ligament",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0032",
+   "en": "Anterior meningeal artery",
+   "zh": "前腦膜動脈",
+   "type": "artery",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0033",
+   "en": "Anterior/middle/posterior part (position words)",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0034",
+   "en": "Anterior scalene muscle",
+   "zh": "前斜角肌",
+   "type": "muscle",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0035",
+   "en": "Anterior spinal artery",
+   "zh": "前脊髓動脈",
+   "type": "artery",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0036",
+   "en": "anterior superior alveolar artery",
+   "zh": "前上齒槽動脈",
+   "type": "artery",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0037",
+   "en": "anterior superior alveolar nerve",
+   "zh": "前上齒槽神經",
+   "type": "nerve",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0038",
+   "en": "Anterior tonsillar pillar",
+   "zh": "顎舌弓",
+   "type": "lymphoid",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0039",
+   "en": "Anterior triangle of the neck",
+   "zh": "頸前三角",
+   "type": "space",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0040",
+   "en": "Anterior tubercle of atlas",
+   "zh": "前結節",
+   "type": "landmark",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0041",
+   "en": "anterior tympanic artery",
+   "zh": "前鼓室動脈",
+   "type": "artery",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0042",
+   "en": "Anterior visceral space",
+   "zh": "",
+   "type": "space",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0043",
+   "en": "Aortic arch",
+   "zh": "",
+   "type": "artery",
+   "topics": [
+    "neck-pharynx-trachea-esophagus",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0044",
+   "en": "Apical foramen",
+   "zh": "頂孔",
+   "type": "foramen",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0045",
+   "en": "Aqueous humor",
+   "zh": "水樣狀液",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0046",
+   "en": "Arachnoid granulations",
+   "zh": "蜘蛛膜顆粒",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0047",
+   "en": "Arachnoid mater",
+   "zh": "蜘蛛膜",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0048",
+   "en": "Arcuate eminence",
+   "zh": "弓狀隆起",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0049",
+   "en": "artery of pterygoid canal",
+   "zh": "翼管動脈",
+   "type": "artery",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0050",
+   "en": "articular disc of temporomandibular joint",
+   "zh": "關節盤",
+   "type": "ligament",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0051",
+   "en": "articular tubercle",
+   "zh": "關節結節",
+   "type": "landmark",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0052",
+   "en": "Aryepiglottic fold",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0053",
+   "en": "Arytenoid cartilage",
+   "zh": "",
+   "type": "cartilage",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0054",
+   "en": "Ascending cervical artery",
+   "zh": "升頸動脈",
+   "type": "artery",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0055",
+   "en": "Ascending palatine artery",
+   "zh": "升顎動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0056",
+   "en": "Ascending pharyngeal artery",
+   "zh": "升咽動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0057",
+   "en": "Asterion",
+   "zh": "星點",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0058",
+   "en": "Atlas",
+   "zh": "寰椎",
+   "type": "bone",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0059",
+   "en": "Auditory ossicles",
+   "zh": "聽小骨",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0060",
+   "en": "Auricle",
+   "zh": "耳廓",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "REGION-ONLY"
+  },
+  {
+   "id": "RS-0061",
+   "en": "Auricular muscles",
+   "zh": "耳肌",
+   "type": "muscle",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0062",
+   "en": "Auriculotemporal nerve",
+   "zh": "耳顳神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0063",
+   "en": "Axial skeleton",
+   "zh": "中軸骨骼",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "REGION-ONLY"
+  },
+  {
+   "id": "RS-0064",
+   "en": "Axillary artery",
+   "zh": "腋動脈",
+   "type": "artery",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0065",
+   "en": "Axis",
+   "zh": "樞椎",
+   "type": "bone",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0066",
+   "en": "Basilar artery",
+   "zh": "基底動脈",
+   "type": "artery",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0067",
+   "en": "Basilar membrane",
+   "zh": "基底膜",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure",
+   "seed": "HISTOLOGY"
+  },
+  {
+   "id": "RS-0068",
+   "en": "Bell's palsy",
+   "zh": "貝爾氏麻痺",
+   "type": "other",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0069",
+   "en": "Body of hyoid bone",
+   "zh": "舌骨體",
+   "type": "landmark",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0070",
+   "en": "Body of sphenoid",
+   "zh": "蝶骨體",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0071",
+   "en": "Body of sphenoid bone",
+   "zh": "蝶骨體",
+   "type": "bone",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0072",
+   "en": "Botulinum toxin",
+   "zh": "肉毒桿菌毒素",
+   "type": "other",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0073",
+   "en": "Brachial plexus",
+   "zh": "臂神經叢",
+   "type": "nerve",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0074",
+   "en": "Brachiocephalic trunk",
+   "zh": "",
+   "type": "artery",
+   "topics": [
+    "neck-pharynx-trachea-esophagus",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0075",
+   "en": "Brachiocephalic vein",
+   "zh": "",
+   "type": "vein",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0076",
+   "en": "Bregma",
+   "zh": "前囟點",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0077",
+   "en": "Bridging vein",
+   "zh": "橋靜脈",
+   "type": "vein",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0078",
+   "en": "buccal artery",
+   "zh": "頰動脈",
+   "type": "artery",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0079",
+   "en": "Buccal branch of facial nerve",
+   "zh": "頰支",
+   "type": "nerve",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0080",
+   "en": "Buccal mucosa",
+   "zh": "",
+   "type": "oral",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0081",
+   "en": "Buccal nerve",
+   "zh": "頰神經",
+   "type": "nerve",
+   "topics": [
+    "face-parotid-scalp",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0082",
+   "en": "Buccinator",
+   "zh": "頰肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0083",
+   "en": "Buccopharyngeal fascia",
+   "zh": "頰咽筋膜",
+   "type": "fascia",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0084",
+   "en": "Bulbar conjunctiva",
+   "zh": "球結膜",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0085",
+   "en": "Calvarial/Orbital/Nasal/Oral group headings",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0086",
+   "en": "Canine",
+   "zh": "犬齒",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0087",
+   "en": "Carotid body",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0088",
+   "en": "Carotid canal",
+   "zh": "頸動脈管",
+   "type": "foramen",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0089",
+   "en": "carotid plexus",
+   "zh": "",
+   "type": "nerve",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0090",
+   "en": "Carotid sheath",
+   "zh": "頸動脈鞘",
+   "type": "fascia",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0091",
+   "en": "Carotid sinus",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0092",
+   "en": "Carotid triangle",
+   "zh": "",
+   "type": "space",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0093",
+   "en": "Carotid tubercle",
+   "zh": "頸動脈結節",
+   "type": "landmark",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0094",
+   "en": "Cavernous part of internal carotid artery",
+   "zh": "海綿區",
+   "type": "artery",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0095",
+   "en": "Cavernous sinus",
+   "zh": "海綿竇",
+   "type": "sinus",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0096",
+   "en": "Cement",
+   "zh": "齒堊質",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0097",
+   "en": "Central artery of retina",
+   "zh": "視網膜中央動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0098",
+   "en": "Central canal",
+   "zh": "中央管",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0099",
+   "en": "Central sulcus",
+   "zh": "中央溝",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0100",
+   "en": "Central vein of retina",
+   "zh": "",
+   "type": "vein",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0101",
+   "en": "Cerebellar falx",
+   "zh": "小腦鐮",
+   "type": "fascia",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0102",
+   "en": "Cerebellomedullary cistern",
+   "zh": "小腦延腦池",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0103",
+   "en": "Cerebellum",
+   "zh": "小腦",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0104",
+   "en": "Cerebral aqueduct",
+   "zh": "大腦導水管",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0105",
+   "en": "Cerebral arterial circle",
+   "zh": "大腦動脈環",
+   "type": "artery",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0106",
+   "en": "Cerebral part of internal carotid artery",
+   "zh": "腦區",
+   "type": "artery",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0107",
+   "en": "Cerebral peduncle",
+   "zh": "大腦腳",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0108",
+   "en": "Cerebrospinal fluid",
+   "zh": "腦脊髓液",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0109",
+   "en": "Cerebrum",
+   "zh": "大腦",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0110",
+   "en": "Ceruminous gland",
+   "zh": "耵聹腺",
+   "type": "gland",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0111",
+   "en": "Cervical branch of facial nerve",
+   "zh": "頸支",
+   "type": "nerve",
+   "topics": [
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0112",
+   "en": "Cervical esophagus",
+   "zh": "頸部食道",
+   "type": "other",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0113",
+   "en": "Cervical lymph nodes",
+   "zh": "",
+   "type": "lymphoid",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0114",
+   "en": "Cervical part of internal carotid artery",
+   "zh": "頸區",
+   "type": "artery",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0115",
+   "en": "Cervical plexus",
+   "zh": "頸神經叢",
+   "type": "nerve",
+   "topics": [
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0116",
+   "en": "Cervical plexus block",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0117",
+   "en": "Cervical vertebrae",
+   "zh": "頸椎",
+   "type": "bone",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0118",
+   "en": "Cheek",
+   "zh": "臉頰",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0119",
+   "en": "Chiasmatic cistern",
+   "zh": "",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0120",
+   "en": "Chiasmatic sulcus",
+   "zh": "視叉溝",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0121",
+   "en": "Choana",
+   "zh": "",
+   "type": "landmark",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0122",
+   "en": "Chorda tympani",
+   "zh": "鼓索神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0123",
+   "en": "chorda tympani nerve",
+   "zh": "鼓索神經",
+   "type": "nerve",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0124",
+   "en": "Choroid",
+   "zh": "脈絡膜",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0125",
+   "en": "Choroid plexus",
+   "zh": "脈絡叢",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0126",
+   "en": "Ciliary muscle",
+   "zh": "睫狀肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0127",
+   "en": "Ciliary body",
+   "zh": "睫狀體",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0128",
+   "en": "Ciliary ganglion",
+   "zh": "睫狀神經節",
+   "type": "ganglion",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0129",
+   "en": "Ciliary processes",
+   "zh": "睫狀突",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0130",
+   "en": "Circle of Willis",
+   "zh": "大腦動脈環",
+   "type": "artery",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0131",
+   "en": "Cisterna magna",
+   "zh": "大池",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0132",
+   "en": "Clavicle",
+   "zh": "鎖骨",
+   "type": "bone",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0133",
+   "en": "Clivus",
+   "zh": "",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0134",
+   "en": "closed mouth and open mouth",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0135",
+   "en": "Cochlea",
+   "zh": "耳蝸",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0136",
+   "en": "Cochlear duct (scala media)",
+   "zh": "耳蝸管",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0137",
+   "en": "Cochlear nerve",
+   "zh": "蝸神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0138",
+   "en": "Collagenous fiber",
+   "zh": "膠原纖維",
+   "type": "other",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure",
+   "seed": "HISTOLOGY"
+  },
+  {
+   "id": "RS-0139",
+   "en": "Collateral circulation",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0140",
+   "en": "Common carotid artery",
+   "zh": "總頸動脈",
+   "type": "artery",
+   "topics": [
+    "neck-pharynx-trachea-esophagus",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0141",
+   "en": "Common facial vein",
+   "zh": "總面靜脈",
+   "type": "vein",
+   "topics": [
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0142",
+   "en": "Common tendinous ring",
+   "zh": "總腱環",
+   "type": "ligament",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0143",
+   "en": "Communicating branch (jugular)",
+   "zh": "交通枝",
+   "type": "vein",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0144",
+   "en": "Condylar canal",
+   "zh": "髁管",
+   "type": "foramen",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0145",
+   "en": "condylar process",
+   "zh": "髁突",
+   "type": "landmark",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0146",
+   "en": "Confluence of sinuses",
+   "zh": "竇匯",
+   "type": "sinus",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0147",
+   "en": "Conjunctiva",
+   "zh": "結膜",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0148",
+   "en": "Conjunctival sac",
+   "zh": "結膜囊",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0149",
+   "en": "Connective tissue layer of scalp",
+   "zh": "緻密結締組織",
+   "type": "fascia",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0150",
+   "en": "Cornea",
+   "zh": "角膜",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0151",
+   "en": "Corneal limbus",
+   "zh": "角膜緣",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0152",
+   "en": "Corniculate cartilage",
+   "zh": "小角軟骨",
+   "type": "cartilage",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0153",
+   "en": "Coronal suture",
+   "zh": "冠狀縫",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0154",
+   "en": "coronoid process of mandible",
+   "zh": "冠狀突",
+   "type": "landmark",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0155",
+   "en": "Corpora quadrigemina",
+   "zh": "四疊體",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0156",
+   "en": "Corpus callosum",
+   "zh": "胼胝體",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0157",
+   "en": "Corrugator supercilii",
+   "zh": "皺眉肌",
+   "type": "muscle",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0158",
+   "en": "Costocervical trunk",
+   "zh": "肋頸動脈幹",
+   "type": "artery",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0159",
+   "en": "Cranium",
+   "zh": "顱骨",
+   "type": "bone",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0160",
+   "en": "Cribriform plate",
+   "zh": "篩板",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0161",
+   "en": "Cricoid cartilage",
+   "zh": "環狀軟骨",
+   "type": "cartilage",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0162",
+   "en": "Cricopharyngeus",
+   "zh": "",
+   "type": "muscle",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0163",
+   "en": "Cricothyroid muscle",
+   "zh": "",
+   "type": "muscle",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0164",
+   "en": "Cricothyroid artery",
+   "zh": "環甲動脈",
+   "type": "artery",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0165",
+   "en": "Cricothyroid ligament",
+   "zh": "",
+   "type": "ligament",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0166",
+   "en": "Crista ampullaris",
+   "zh": "嵴",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure",
+   "seed": "HISTOLOGY"
+  },
+  {
+   "id": "RS-0167",
+   "en": "Crista galli",
+   "zh": "雞冠",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0168",
+   "en": "Crown of tooth",
+   "zh": "齒冠",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0169",
+   "en": "Cupula",
+   "zh": "",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0170",
+   "en": "Danger space",
+   "zh": "危險空間",
+   "type": "space",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0171",
+   "en": "Danger triangle of the face",
+   "zh": "危險三角區",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0172",
+   "en": "Danger triangle zone",
+   "zh": "危險三角",
+   "type": "space",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0173",
+   "en": "Deciduous teeth",
+   "zh": "乳齒",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0174",
+   "en": "Deep auricular artery",
+   "zh": "深耳動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0175",
+   "en": "Deep cervical artery",
+   "zh": "深頸動脈",
+   "type": "artery",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0176",
+   "en": "Deep cervical lymph nodes",
+   "zh": "",
+   "type": "lymphoid",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0177",
+   "en": "Deep facial vein",
+   "zh": "深面靜脈",
+   "type": "vein",
+   "topics": [
+    "face-parotid-scalp",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0178",
+   "en": "Deep lingual artery",
+   "zh": "",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0179",
+   "en": "Deep lingual vein",
+   "zh": "",
+   "type": "vein",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0180",
+   "en": "Deep lobe of parotid",
+   "zh": "深葉",
+   "type": "gland",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0181",
+   "en": "Deep petrosal nerve",
+   "zh": "深岩神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0182",
+   "en": "deep temporal artery",
+   "zh": "深顳動脈",
+   "type": "artery",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0183",
+   "en": "deep temporal nerve",
+   "zh": "深顳神經",
+   "type": "nerve",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0184",
+   "en": "Dens",
+   "zh": "齒突",
+   "type": "bone",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0185",
+   "en": "Dentin",
+   "zh": "齒質",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0186",
+   "en": "Depressor anguli oris",
+   "zh": "降口角肌",
+   "type": "muscle",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0187",
+   "en": "Depressor labii inferioris",
+   "zh": "降下唇肌",
+   "type": "muscle",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0188",
+   "en": "Depressor septi nasi",
+   "zh": "降鼻中隔肌",
+   "type": "muscle",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0189",
+   "en": "Descending palatine artery",
+   "zh": "降顎動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0190",
+   "en": "Digastric",
+   "zh": "二腹肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0191",
+   "en": "Dilator pupillae",
+   "zh": "瞳孔擴張肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0192",
+   "en": "Diploe",
+   "zh": "",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0193",
+   "en": "Diploic vein",
+   "zh": "",
+   "type": "vein",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0194",
+   "en": "Dorsal lingual artery",
+   "zh": "",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0195",
+   "en": "Dorsal lingual vein",
+   "zh": "",
+   "type": "vein",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0196",
+   "en": "Dorsal nasal artery",
+   "zh": "",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0197",
+   "en": "Dorsal scapular artery",
+   "zh": "背肩胛動脈",
+   "type": "artery",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0198",
+   "en": "Dorsum sellae",
+   "zh": "鞍背",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0199",
+   "en": "Dural venous sinuses",
+   "zh": "硬腦膜靜脈竇",
+   "type": "sinus",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0200",
+   "en": "Dura mater",
+   "zh": "硬腦膜",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0201",
+   "en": "Elastic fiber",
+   "zh": "彈性纖維",
+   "type": "other",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure",
+   "seed": "HISTOLOGY"
+  },
+  {
+   "id": "RS-0202",
+   "en": "elevation and depression",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0203",
+   "en": "Emissary vein",
+   "zh": "導靜脈",
+   "type": "vein",
+   "topics": [
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0204",
+   "en": "Enamel",
+   "zh": "琺瑯質",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0205",
+   "en": "Endolymph",
+   "zh": "內淋巴液",
+   "type": "other",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0206",
+   "en": "Endolymphatic sac",
+   "zh": "",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0207",
+   "en": "Endotracheal intubation",
+   "zh": "氣管插管",
+   "type": "other",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0208",
+   "en": "Ependymal cell",
+   "zh": "室管膜膠細胞",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure",
+   "seed": "HISTOLOGY"
+  },
+  {
+   "id": "RS-0209",
+   "en": "Epicranial aponeurosis",
+   "zh": "顱頂腱膜",
+   "type": "fascia",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0210",
+   "en": "Epicranius",
+   "zh": "顱頂肌",
+   "type": "muscle",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0211",
+   "en": "Epidural hematoma",
+   "zh": "硬膜外血腫",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0212",
+   "en": "Epidural space",
+   "zh": "硬膜外腔",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0213",
+   "en": "Epiglottis",
+   "zh": "會厭軟骨",
+   "type": "cartilage",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0214",
+   "en": "Esophagus",
+   "zh": "食道",
+   "type": "other",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0215",
+   "en": "Ethmoidal bulla",
+   "zh": "篩泡",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0216",
+   "en": "ethmoidal sinus",
+   "zh": "篩竇",
+   "type": "sinus",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0217",
+   "en": "Ethmoid bone",
+   "zh": "篩骨",
+   "type": "bone",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0218",
+   "en": "Ethmoid sinus",
+   "zh": "篩竇",
+   "type": "sinus",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0219",
+   "en": "Excretory ducts of lacrimal gland",
+   "zh": "淚腺外分泌管",
+   "type": "duct",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0220",
+   "en": "External acoustic meatus",
+   "zh": "外耳道",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "REGION-ONLY"
+  },
+  {
+   "id": "RS-0221",
+   "en": "External auditory meatus",
+   "zh": "外聽道",
+   "type": "ear",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0222",
+   "en": "External carotid artery",
+   "zh": "外頸動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0223",
+   "en": "External jugular vein",
+   "zh": "外頸靜脈",
+   "type": "vein",
+   "topics": [
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0224",
+   "en": "External laryngeal nerve",
+   "zh": "外喉神經",
+   "type": "nerve",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0225",
+   "en": "External occipital protuberance",
+   "zh": "",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0226",
+   "en": "External portion of nose",
+   "zh": "外鼻部",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "REGION-ONLY"
+  },
+  {
+   "id": "RS-0227",
+   "en": "External table",
+   "zh": "",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0228",
+   "en": "Eyeball",
+   "zh": "眼球",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0229",
+   "en": "Eyebrow",
+   "zh": "眉",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0230",
+   "en": "Eyelashes",
+   "zh": "睫毛",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0231",
+   "en": "Eyelid",
+   "zh": "眼瞼",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "REGION-ONLY"
+  },
+  {
+   "id": "RS-0232",
+   "en": "Facial artery",
+   "zh": "顏面動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0233",
+   "en": "Facial expression muscle (category)",
+   "zh": "顏面表情肌",
+   "type": "other",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0234",
+   "en": "Facial nerve",
+   "zh": "顏面神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0235",
+   "en": "Facial vein",
+   "zh": "顏面靜脈",
+   "type": "vein",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0236",
+   "en": "Falx cerebri",
+   "zh": "大腦鐮",
+   "type": "fascia",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0237",
+   "en": "Fascial sling",
+   "zh": "",
+   "type": "ligament",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0238",
+   "en": "Fauces",
+   "zh": "咽門",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0239",
+   "en": "Fibrocartilage (hyoid figure label)",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0240",
+   "en": "Fibrous layer",
+   "zh": "纖維層",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0241",
+   "en": "Filiform papillae",
+   "zh": "絲狀乳突",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0242",
+   "en": "First costal cartilage",
+   "zh": "",
+   "type": "cartilage",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0243",
+   "en": "floor of orbit",
+   "zh": "眼眶底部",
+   "type": "space",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0244",
+   "en": "Foliate papillae",
+   "zh": "葉狀乳突",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0246",
+   "en": "Foramen cecum",
+   "zh": "盲孔",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0247",
+   "en": "Foramen lacerum",
+   "zh": "破裂孔",
+   "type": "foramen",
+   "topics": [
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0248",
+   "en": "Foramen magnum",
+   "zh": "枕骨大孔",
+   "type": "foramen",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0249",
+   "en": "Foramen ovale",
+   "zh": "卵圓孔",
+   "type": "foramen",
+   "topics": [
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0250",
+   "en": "Foramen rotundum",
+   "zh": "圓孔",
+   "type": "foramen",
+   "topics": [
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0251",
+   "en": "Foramen spinosum",
+   "zh": "棘孔",
+   "type": "foramen",
+   "topics": [
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0252",
+   "en": "Foramina of cribriform plate",
+   "zh": "篩孔",
+   "type": "foramen",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0253",
+   "en": "Fornix",
+   "zh": "",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0254",
+   "en": "Fourth ventricle",
+   "zh": "第四腦室",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0255",
+   "en": "Fovea centralis",
+   "zh": "中央小凹",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0256",
+   "en": "Frontal bone",
+   "zh": "額骨",
+   "type": "bone",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0257",
+   "en": "Frontal crest",
+   "zh": "額嵴",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0258",
+   "en": "Frontal eminence",
+   "zh": "額隆突",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0259",
+   "en": "Frontalis",
+   "zh": "額肌",
+   "type": "muscle",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0260",
+   "en": "Frontal lobe",
+   "zh": "額葉",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0261",
+   "en": "Frontal nerve",
+   "zh": "額神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0262",
+   "en": "Frontal sinus",
+   "zh": "額竇",
+   "type": "sinus",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0263",
+   "en": "Frontonasal suture",
+   "zh": "額鼻縫",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0264",
+   "en": "Fungiform papillae",
+   "zh": "蕈狀乳突",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0265",
+   "en": "Gelatinous matrix",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure",
+   "seed": "HISTOLOGY"
+  },
+  {
+   "id": "RS-0266",
+   "en": "geniculate ganglion",
+   "zh": "膝狀神經節",
+   "type": "ganglion",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0267",
+   "en": "Genioglossus",
+   "zh": "頦舌肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0268",
+   "en": "Geniohyoid",
+   "zh": "頦舌骨肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0269",
+   "en": "Glabella",
+   "zh": "眉間",
+   "type": "landmark",
+   "topics": [
+    "face-parotid-scalp",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0270",
+   "en": "Glands on palate",
+   "zh": "",
+   "type": "gland",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0271",
+   "en": "gliding and hinge action",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0272",
+   "en": "Glossopalatine arch",
+   "zh": "顎舌弓",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0273",
+   "en": "Glossopharyngeal nerve",
+   "zh": "舌咽神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0274",
+   "en": "Granular foveolae",
+   "zh": "顆粒小凹",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0275",
+   "en": "Great auricular nerve",
+   "zh": "耳大神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0276",
+   "en": "Great cerebral vein",
+   "zh": "大腦大靜脈",
+   "type": "vein",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0277",
+   "en": "Greater auricular nerve",
+   "zh": "耳大神經",
+   "type": "nerve",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0278",
+   "en": "Greater horn of hyoid",
+   "zh": "大角",
+   "type": "landmark",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0279",
+   "en": "Greater occipital nerve",
+   "zh": "",
+   "type": "nerve",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0280",
+   "en": "Greater palatine artery",
+   "zh": "顎大動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0281",
+   "en": "Greater palatine foramen",
+   "zh": "顎大孔",
+   "type": "foramen",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0282",
+   "en": "Greater palatine nerve",
+   "zh": "大顎神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0283",
+   "en": "Greater petrosal nerve",
+   "zh": "大岩神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0284",
+   "en": "Greater wing of sphenoid",
+   "zh": "大翼",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0285",
+   "en": "Greater wing of sphenoid bone",
+   "zh": "蝶骨大翼",
+   "type": "bone",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0286",
+   "en": "Groove for greater petrosal nerve",
+   "zh": "岩大神經溝",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0287",
+   "en": "Groove for inferior petrosal sinus",
+   "zh": "",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0288",
+   "en": "Groove for lesser petrosal nerve",
+   "zh": "小岩神經溝",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0289",
+   "en": "Groove for middle meningeal artery",
+   "zh": "",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0290",
+   "en": "Groove for sigmoid sinus",
+   "zh": "",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0291",
+   "en": "Groove for superior sagittal sinus",
+   "zh": "上矢狀竇溝",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0292",
+   "en": "Groove for transverse sinus",
+   "zh": "",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0293",
+   "en": "Groove for vertebral artery",
+   "zh": "椎動脈溝",
+   "type": "landmark",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0294",
+   "en": "GSA SVA GVE fibre types",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0295",
+   "en": "Gyrus",
+   "zh": "腦迴",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0296",
+   "en": "Hair cells",
+   "zh": "毛細胞",
+   "type": "other",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure",
+   "seed": "HISTOLOGY"
+  },
+  {
+   "id": "RS-0297",
+   "en": "Hard palate",
+   "zh": "硬顎",
+   "type": "bone",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0298",
+   "en": "head of mandible",
+   "zh": "下頜頭",
+   "type": "landmark",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0299",
+   "en": "Helicotrema",
+   "zh": "耳蝸孔",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0300",
+   "en": "Herpes zoster",
+   "zh": "帶狀皰疹",
+   "type": "other",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0301",
+   "en": "Horizontal plate of palatine bone",
+   "zh": "顎骨水平板",
+   "type": "bone",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0302",
+   "en": "Hyoglossus",
+   "zh": "舌骨舌肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0303",
+   "en": "Hyoid bone",
+   "zh": "舌骨",
+   "type": "bone",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0304",
+   "en": "Hypoglossal canal",
+   "zh": "舌下神經管",
+   "type": "foramen",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0305",
+   "en": "Hypoglossal nerve",
+   "zh": "舌下神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0306",
+   "en": "Hypophysial fossa",
+   "zh": "垂體窩",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0307",
+   "en": "Hypothalamus",
+   "zh": "",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0308",
+   "en": "Incisive foramen",
+   "zh": "門齒孔",
+   "type": "foramen",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0309",
+   "en": "incisive nerve",
+   "zh": "",
+   "type": "nerve",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0310",
+   "en": "Incisor",
+   "zh": "門齒",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0311",
+   "en": "Incus",
+   "zh": "砧骨",
+   "type": "bone",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0312",
+   "en": "Inferior alveolar artery",
+   "zh": "下齒槽動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0313",
+   "en": "Inferior alveolar nerve",
+   "zh": "下齒槽神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0314",
+   "en": "Inferior cervical ganglion",
+   "zh": "下頸交感神經節",
+   "type": "ganglion",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0315",
+   "en": "Inferior colliculus",
+   "zh": "下丘",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0316",
+   "en": "Inferior division of oculomotor nerve",
+   "zh": "下分支",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0317",
+   "en": "Inferior (nodose) ganglion of vagus",
+   "zh": "結狀神經節",
+   "type": "ganglion",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0318",
+   "en": "inferior joint cavity",
+   "zh": "下關節腔",
+   "type": "space",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0319",
+   "en": "Inferior labial artery",
+   "zh": "下唇動脈",
+   "type": "artery",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0320",
+   "en": "Inferior labial vein",
+   "zh": "下唇靜脈",
+   "type": "vein",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0321",
+   "en": "Inferior longitudinal muscle of tongue",
+   "zh": "下縱肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0322",
+   "en": "Inferior meatus of nasal cavity",
+   "zh": "下鼻道",
+   "type": "space",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0323",
+   "en": "Inferior nasal concha",
+   "zh": "下鼻甲",
+   "type": "bone",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0324",
+   "en": "Inferior nasal meatus",
+   "zh": "下鼻道",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0325",
+   "en": "Inferior nuchal line",
+   "zh": "",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0326",
+   "en": "Inferior oblique",
+   "zh": "下斜肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0327",
+   "en": "Inferior ophthalmic vein",
+   "zh": "下眼靜脈",
+   "type": "vein",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0328",
+   "en": "Inferior orbital fissure",
+   "zh": "下眶裂",
+   "type": "foramen",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0329",
+   "en": "Inferior petrosal sinus",
+   "zh": "下岩竇",
+   "type": "sinus",
+   "topics": [
+    "face-parotid-scalp",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0330",
+   "en": "Inferior pharyngeal constrictor",
+   "zh": "下咽縮肌",
+   "type": "muscle",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0331",
+   "en": "Inferior rectus",
+   "zh": "下直肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0332",
+   "en": "Inferior sagittal sinus",
+   "zh": "下矢狀竇",
+   "type": "sinus",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0333",
+   "en": "inferior temporal line",
+   "zh": "下顳線",
+   "type": "landmark",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0334",
+   "en": "Inferior thyroid artery",
+   "zh": "下甲狀腺動脈",
+   "type": "artery",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0335",
+   "en": "Inferior thyroid vein",
+   "zh": "下甲狀腺靜脈",
+   "type": "vein",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0336",
+   "en": "Infrahyoid muscles",
+   "zh": "舌骨下肌群",
+   "type": "muscle",
+   "topics": [
+    "neck-pharynx-trachea-esophagus",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0337",
+   "en": "Infraorbital artery",
+   "zh": "眶下動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0338",
+   "en": "Infraorbital foramen",
+   "zh": "眶下孔",
+   "type": "foramen",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0339",
+   "en": "infraorbital groove and canal",
+   "zh": "眶下溝",
+   "type": "foramen",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0340",
+   "en": "Infraorbital margin",
+   "zh": "眶下緣",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0341",
+   "en": "Infraorbital nerve",
+   "zh": "眶下神經",
+   "type": "nerve",
+   "topics": [
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0342",
+   "en": "Infra-orbital vein",
+   "zh": "",
+   "type": "vein",
+   "topics": [
+    "eye-ear-oral",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0343",
+   "en": "infratemporal crest",
+   "zh": "顳下脊",
+   "type": "landmark",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0344",
+   "en": "Infratemporal fossa",
+   "zh": "顳下窩",
+   "type": "space",
+   "topics": [
+    "face-parotid-scalp",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0345",
+   "en": "infratemporal surface of sphenoid",
+   "zh": "顳下面",
+   "type": "landmark",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0346",
+   "en": "Infratrochlear nerve",
+   "zh": "滑車下神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0347",
+   "en": "Infundibulum",
+   "zh": "漏斗",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0348",
+   "en": "Inion",
+   "zh": "枕外隆凸點",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0349",
+   "en": "Inner ear",
+   "zh": "內耳",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0350",
+   "en": "Inner layer of eyeball",
+   "zh": "視網膜層",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0351",
+   "en": "Interarytenoid notch",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0352",
+   "en": "Intercavernous sinus",
+   "zh": "海綿間竇",
+   "type": "sinus",
+   "topics": [
+    "face-parotid-scalp",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0353",
+   "en": "Intermaxillary suture",
+   "zh": "頜間縫",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0354",
+   "en": "Intermediate tendon",
+   "zh": "",
+   "type": "ligament",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0355",
+   "en": "Internal acoustic meatus",
+   "zh": "內聽道",
+   "type": "foramen",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0356",
+   "en": "Internal carotid artery",
+   "zh": "內頸動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0357",
+   "en": "Internal carotid plexus",
+   "zh": "內頸動脈叢",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0358",
+   "en": "Internal jugular vein",
+   "zh": "內頸靜脈",
+   "type": "vein",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0359",
+   "en": "Internal laryngeal nerve",
+   "zh": "內喉神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0360",
+   "en": "Internal nasal branches",
+   "zh": "",
+   "type": "nerve",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0361",
+   "en": "Internal occipital crest",
+   "zh": "枕內隆突",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0362",
+   "en": "Internal occipital protuberance",
+   "zh": "枕內粗隆",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0363",
+   "en": "Internal table",
+   "zh": "",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0364",
+   "en": "Internal thoracic artery",
+   "zh": "內胸動脈",
+   "type": "artery",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0365",
+   "en": "Internasal suture",
+   "zh": "鼻間縫",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0366",
+   "en": "Interpeduncular cistern",
+   "zh": "大腦腳間池",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0367",
+   "en": "Interventricular foramen",
+   "zh": "室間孔",
+   "type": "foramen",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0368",
+   "en": "Investing fascia",
+   "zh": "包覆筋膜",
+   "type": "fascia",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0369",
+   "en": "Iris",
+   "zh": "虹膜",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0370",
+   "en": "Jugular bulb",
+   "zh": "頸靜脈球",
+   "type": "vein",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0371",
+   "en": "Jugular foramen",
+   "zh": "頸靜脈孔",
+   "type": "foramen",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0372",
+   "en": "Jugular notch",
+   "zh": "頸靜脈切跡",
+   "type": "landmark",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0373",
+   "en": "Jugular tubercle",
+   "zh": "",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0374",
+   "en": "Kiesselbach's area",
+   "zh": "基塞耳巴赫氏區",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0375",
+   "en": "Labial glands",
+   "zh": "",
+   "type": "gland",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0376",
+   "en": "Labyrinthine artery",
+   "zh": "",
+   "type": "artery",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0377",
+   "en": "Lacrimal artery",
+   "zh": "",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0378",
+   "en": "Lacrimal bone",
+   "zh": "淚骨",
+   "type": "bone",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0379",
+   "en": "Lacrimal canaliculus",
+   "zh": "淚小管",
+   "type": "duct",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0380",
+   "en": "Lacrimal ducts",
+   "zh": "淚管",
+   "type": "duct",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0381",
+   "en": "Lacrimal gland",
+   "zh": "淚腺",
+   "type": "gland",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0382",
+   "en": "Lacrimal nerve",
+   "zh": "淚神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0383",
+   "en": "Lacrimal part of orbicularis oculi",
+   "zh": "淚部",
+   "type": "muscle",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0384",
+   "en": "Lacrimal punctum",
+   "zh": "淚點",
+   "type": "duct",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0385",
+   "en": "Lacrimal sac",
+   "zh": "淚囊",
+   "type": "duct",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0386",
+   "en": "Lambda",
+   "zh": "人字點",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0387",
+   "en": "Lambdoid suture",
+   "zh": "人字縫",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0388",
+   "en": "Lamina of thyroid cartilage",
+   "zh": "",
+   "type": "cartilage",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0389",
+   "en": "Laryngeal inlet",
+   "zh": "喉口",
+   "type": "other",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0390",
+   "en": "Laryngopharynx",
+   "zh": "喉咽",
+   "type": "other",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0391",
+   "en": "Lateral aperture",
+   "zh": "",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0392",
+   "en": "Lateral cerebellomedullary cistern",
+   "zh": "",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "REGION-ONLY"
+  },
+  {
+   "id": "RS-0393",
+   "en": "Lateral nasal artery",
+   "zh": "鼻外側動脈",
+   "type": "artery",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0394",
+   "en": "Lateral nasal vein",
+   "zh": "鼻外側靜脈",
+   "type": "vein",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0395",
+   "en": "Lateral process of septal cartilage",
+   "zh": "",
+   "type": "cartilage",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0396",
+   "en": "lateral pterygoid muscle",
+   "zh": "外翼肌",
+   "type": "muscle",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0397",
+   "en": "Lateral pterygoid lamina",
+   "zh": "",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0398",
+   "en": "lateral pterygoid plate",
+   "zh": "外翼板",
+   "type": "landmark",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0399",
+   "en": "Lateral rectus",
+   "zh": "外直肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0400",
+   "en": "Lateral sulcus",
+   "zh": "側溝",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0401",
+   "en": "Lateral ventricle",
+   "zh": "側腦室",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0402",
+   "en": "Lens",
+   "zh": "水晶體",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0403",
+   "en": "Lens epithelium",
+   "zh": "晶狀上皮",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure",
+   "seed": "HISTOLOGY"
+  },
+  {
+   "id": "RS-0404",
+   "en": "Lens fibers",
+   "zh": "晶狀纖維",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure",
+   "seed": "HISTOLOGY"
+  },
+  {
+   "id": "RS-0405",
+   "en": "Leptomeninges",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0406",
+   "en": "Lesser horn of hyoid",
+   "zh": "小角",
+   "type": "landmark",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0407",
+   "en": "Lesser occipital nerve",
+   "zh": "枕小神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0408",
+   "en": "Lesser palatine artery",
+   "zh": "顎小動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0409",
+   "en": "Lesser palatine foramen",
+   "zh": "顎小孔",
+   "type": "foramen",
+   "topics": [
+    "eye-ear-oral",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0410",
+   "en": "Lesser palatine nerve",
+   "zh": "小顎神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0411",
+   "en": "Lesser petrosal nerve",
+   "zh": "小岩神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0412",
+   "en": "Lesser wing of sphenoid",
+   "zh": "小翼",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0413",
+   "en": "Lesser wing of sphenoid bone",
+   "zh": "蝶骨小翼",
+   "type": "bone",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0414",
+   "en": "Levator anguli oris",
+   "zh": "提嘴角肌",
+   "type": "muscle",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0415",
+   "en": "Levator labii superioris",
+   "zh": "提上唇肌",
+   "type": "muscle",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0416",
+   "en": "Levator labii superioris alaeque nasi",
+   "zh": "提上唇鼻翼肌",
+   "type": "muscle",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0417",
+   "en": "Levator palpebrae superioris",
+   "zh": "提上眼瞼肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0418",
+   "en": "Levator scapulae",
+   "zh": "",
+   "type": "muscle",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0419",
+   "en": "Levator veli palatini",
+   "zh": "提顎帆肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0420",
+   "en": "Ligamentum flavum",
+   "zh": "",
+   "type": "ligament",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0421",
+   "en": "Lingual artery",
+   "zh": "舌動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0422",
+   "en": "Lingual frenulum",
+   "zh": "舌繫帶",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0423",
+   "en": "Lingual glands",
+   "zh": "",
+   "type": "gland",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0424",
+   "en": "Lingual nerve",
+   "zh": "舌神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0425",
+   "en": "Lingual tonsil",
+   "zh": "舌扁桃腺",
+   "type": "lymphoid",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0426",
+   "en": "Lingual vein",
+   "zh": "舌靜脈",
+   "type": "vein",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0427",
+   "en": "lingula of mandible",
+   "zh": "下頜小舌",
+   "type": "landmark",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0428",
+   "en": "Linguofacial trunk",
+   "zh": "",
+   "type": "artery",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0429",
+   "en": "Lips",
+   "zh": "嘴唇",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0430",
+   "en": "Long ciliary nerve",
+   "zh": "長睫神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0431",
+   "en": "Longitudinal fissure",
+   "zh": "大腦縱裂",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0432",
+   "en": "Long posterior ciliary artery",
+   "zh": "長後睫動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0433",
+   "en": "Longus colli",
+   "zh": "頸長肌",
+   "type": "muscle",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0434",
+   "en": "Loose connective tissue",
+   "zh": "疏鬆結締組織",
+   "type": "fascia",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0435",
+   "en": "Lumbar cistern",
+   "zh": "",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0436",
+   "en": "Macula lutea",
+   "zh": "黃斑部",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0437",
+   "en": "Macula of utricle and saccule",
+   "zh": "球囊斑",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure",
+   "seed": "HISTOLOGY"
+  },
+  {
+   "id": "RS-0438",
+   "en": "Major alar cartilage",
+   "zh": "翼軟骨",
+   "type": "cartilage",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0439",
+   "en": "Malleus",
+   "zh": "錘骨",
+   "type": "bone",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0440",
+   "en": "Mandible",
+   "zh": "下頜骨",
+   "type": "bone",
+   "topics": [
+    "neck-pharynx-trachea-esophagus",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0441",
+   "en": "Mandibular bone",
+   "zh": "下頜骨",
+   "type": "bone",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0442",
+   "en": "Mandibular foramen",
+   "zh": "下頜孔",
+   "type": "foramen",
+   "topics": [
+    "eye-ear-oral",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0443",
+   "en": "mandibular fossa",
+   "zh": "下頜窩",
+   "type": "landmark",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0444",
+   "en": "Mandibular nerve",
+   "zh": "下頜神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0445",
+   "en": "Marginal mandibular branch",
+   "zh": "邊緣下頜支",
+   "type": "nerve",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0446",
+   "en": "Massa intermedia",
+   "zh": "",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0447",
+   "en": "Masseter",
+   "zh": "咬肌",
+   "type": "muscle",
+   "topics": [
+    "face-parotid-scalp",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0448",
+   "en": "masseteric artery",
+   "zh": "咬肌動脈",
+   "type": "artery",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0449",
+   "en": "Masseteric fascia",
+   "zh": "",
+   "type": "fascia",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0450",
+   "en": "masseteric nerve",
+   "zh": "咬肌神經",
+   "type": "nerve",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0451",
+   "en": "Mastoid antrum",
+   "zh": "乳突竇",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0452",
+   "en": "Mastoid fontanelle",
+   "zh": "乳突囟門",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0453",
+   "en": "Mastoid foramen",
+   "zh": "乳突孔",
+   "type": "foramen",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0454",
+   "en": "Mastoid process",
+   "zh": "乳突",
+   "type": "landmark",
+   "topics": [
+    "neck-pharynx-trachea-esophagus",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0455",
+   "en": "Maxilla",
+   "zh": "上頜骨",
+   "type": "bone",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0456",
+   "en": "Maxillary artery",
+   "zh": "上頜動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0457",
+   "en": "maxillary artery parts 1-3",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0458",
+   "en": "Maxillary nerve",
+   "zh": "上頜神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0459",
+   "en": "Maxillary sinus",
+   "zh": "上頜竇",
+   "type": "sinus",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0460",
+   "en": "Maxillary vein",
+   "zh": "上頜靜脈",
+   "type": "vein",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0461",
+   "en": "Medial pterygoid",
+   "zh": "內翼肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0462",
+   "en": "Medial pterygoid lamina",
+   "zh": "",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0463",
+   "en": "Medial pterygoid plate",
+   "zh": "",
+   "type": "landmark",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0464",
+   "en": "Medial rectus",
+   "zh": "內直肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0465",
+   "en": "Median aperture",
+   "zh": "",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0466",
+   "en": "Medulla oblongata",
+   "zh": "延腦",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0467",
+   "en": "Melanocyte",
+   "zh": "黑色素細胞",
+   "type": "other",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure",
+   "seed": "HISTOLOGY"
+  },
+  {
+   "id": "RS-0468",
+   "en": "Membranous labyrinth",
+   "zh": "膜性迷路",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0469",
+   "en": "meningeal branch of maxillary nerve",
+   "zh": "腦膜支",
+   "type": "nerve",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0470",
+   "en": "Meningeal branch of vertebral artery",
+   "zh": "脊椎動脈腦膜分支",
+   "type": "artery",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0471",
+   "en": "Meningeal coverings of optic nerve",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0472",
+   "en": "Meningeal layer",
+   "zh": "腦膜層",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0473",
+   "en": "meningeal nerve of V3",
+   "zh": "腦膜分支",
+   "type": "nerve",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0474",
+   "en": "Meningitis",
+   "zh": "腦膜炎",
+   "type": "other",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0475",
+   "en": "Mental foramen",
+   "zh": "頦孔",
+   "type": "foramen",
+   "topics": [
+    "face-parotid-scalp",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0476",
+   "en": "Mentalis",
+   "zh": "頦肌",
+   "type": "muscle",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0477",
+   "en": "Mental nerve",
+   "zh": "頦神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0478",
+   "en": "Mental protuberance",
+   "zh": "下頜隆突",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0479",
+   "en": "Metopic suture",
+   "zh": "",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0480",
+   "en": "Midbrain",
+   "zh": "中腦",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0481",
+   "en": "Middle cerebral artery",
+   "zh": "中大腦動脈",
+   "type": "artery",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0482",
+   "en": "Middle cerebral vein",
+   "zh": "中大腦靜脈",
+   "type": "vein",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0483",
+   "en": "Middle cervical sympathetic ganglion",
+   "zh": "中頸交感神經節",
+   "type": "ganglion",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0484",
+   "en": "Middle clinoid process",
+   "zh": "",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0485",
+   "en": "Middle constrictor",
+   "zh": "",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0486",
+   "en": "Middle cranial fossa",
+   "zh": "中顱窩",
+   "type": "space",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0487",
+   "en": "Middle ear",
+   "zh": "中耳",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0488",
+   "en": "Middle meningeal artery",
+   "zh": "中腦膜動脈",
+   "type": "artery",
+   "topics": [
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0489",
+   "en": "Middle nasal concha",
+   "zh": "中鼻甲",
+   "type": "bone",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0490",
+   "en": "Middle nasal meatus",
+   "zh": "中鼻道",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0491",
+   "en": "Middle pharyngeal constrictor",
+   "zh": "中咽縮肌",
+   "type": "muscle",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0492",
+   "en": "Middle scalene muscle",
+   "zh": "中斜角肌",
+   "type": "muscle",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0493",
+   "en": "middle superior alveolar artery",
+   "zh": "中上齒槽動脈",
+   "type": "artery",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0494",
+   "en": "middle superior alveolar nerve",
+   "zh": "中上齒槽神經",
+   "type": "nerve",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0495",
+   "en": "Middle thyroid vein",
+   "zh": "中甲狀腺靜脈",
+   "type": "vein",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0496",
+   "en": "Minor alar cartilage",
+   "zh": "小翼軟骨",
+   "type": "cartilage",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0497",
+   "en": "Modiolus",
+   "zh": "蝸軸",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0498",
+   "en": "Molar",
+   "zh": "臼齒",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0499",
+   "en": "Mylohyoid",
+   "zh": "下頜舌骨肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0500",
+   "en": "mylohyoid artery",
+   "zh": "",
+   "type": "artery",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0501",
+   "en": "mylohyoid nerve",
+   "zh": "下頜舌骨神經",
+   "type": "nerve",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0502",
+   "en": "Nasal bone",
+   "zh": "鼻骨",
+   "type": "bone",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0503",
+   "en": "Nasal cavity",
+   "zh": "鼻腔",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "REGION-ONLY"
+  },
+  {
+   "id": "RS-0504",
+   "en": "Nasalis",
+   "zh": "鼻肌",
+   "type": "muscle",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0505",
+   "en": "nasal nerve",
+   "zh": "鼻神經",
+   "type": "nerve",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0506",
+   "en": "Nasal septum",
+   "zh": "鼻中隔",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "REGION-ONLY"
+  },
+  {
+   "id": "RS-0507",
+   "en": "Nasal vestibule",
+   "zh": "鼻前庭",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0508",
+   "en": "Nasion",
+   "zh": "鼻根點",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0509",
+   "en": "Nasociliary nerve",
+   "zh": "鼻睫神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0510",
+   "en": "Nasolacrimal duct",
+   "zh": "鼻淚管",
+   "type": "duct",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0511",
+   "en": "nasopalatine artery",
+   "zh": "鼻顎動脈",
+   "type": "artery",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0512",
+   "en": "Nasopalatine nerve",
+   "zh": "鼻腭神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0513",
+   "en": "Nasopharynx",
+   "zh": "鼻咽",
+   "type": "space",
+   "topics": [
+    "neck-pharynx-trachea-esophagus",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0514",
+   "en": "neck of mandible",
+   "zh": "下頜頸",
+   "type": "landmark",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0515",
+   "en": "Neck of tooth",
+   "zh": "齒頸",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0516",
+   "en": "Nerve of pterygoid canal",
+   "zh": "翼管神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0517",
+   "en": "Nerve point of neck",
+   "zh": "神經點",
+   "type": "landmark",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0518",
+   "en": "Nerve to geniohyoid",
+   "zh": "至頦舌骨肌神經",
+   "type": "nerve",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0519",
+   "en": "nerve to lateral pterygoid",
+   "zh": "外翼肌神經",
+   "type": "nerve",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0520",
+   "en": "nerve to medial pterygoid",
+   "zh": "內翼肌神經",
+   "type": "nerve",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0521",
+   "en": "Nerve to thyrohyoid",
+   "zh": "至甲狀舌骨肌神經",
+   "type": "nerve",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0522",
+   "en": "Neural layer of retina",
+   "zh": "神經層",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0523",
+   "en": "Neurocranium",
+   "zh": "神經顱",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "REGION-ONLY"
+  },
+  {
+   "id": "RS-0524",
+   "en": "Non-visual part of retina",
+   "zh": "非視覺層",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0525",
+   "en": "Nostril",
+   "zh": "",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0526",
+   "en": "Nuchal ligament",
+   "zh": "",
+   "type": "ligament",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0527",
+   "en": "Occipital artery",
+   "zh": "枕動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0528",
+   "en": "Occipital bone",
+   "zh": "枕骨",
+   "type": "bone",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0529",
+   "en": "Occipital condyle",
+   "zh": "",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0530",
+   "en": "Occipitalis",
+   "zh": "枕肌",
+   "type": "muscle",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0531",
+   "en": "Occipital lobe",
+   "zh": "枕葉",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0532",
+   "en": "Occipital sinus",
+   "zh": "枕竇",
+   "type": "sinus",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0533",
+   "en": "Occipital vein",
+   "zh": "",
+   "type": "vein",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0534",
+   "en": "Occipitofrontalis",
+   "zh": "枕額肌",
+   "type": "muscle",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0535",
+   "en": "Oculomotor nerve",
+   "zh": "動眼神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0536",
+   "en": "Olfactory bulb",
+   "zh": "嗅球",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0537",
+   "en": "Olfactory nerve",
+   "zh": "嗅神經",
+   "type": "nerve",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0538",
+   "en": "Olfactory receptors",
+   "zh": "嗅覺受器",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure",
+   "seed": "HISTOLOGY"
+  },
+  {
+   "id": "RS-0539",
+   "en": "Olfactory region",
+   "zh": "嗅覺區",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0540",
+   "en": "Olfactory tract",
+   "zh": "",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0541",
+   "en": "Omohyoid muscle",
+   "zh": "肩胛舌骨肌",
+   "type": "muscle",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0542",
+   "en": "Opening of carotid canal",
+   "zh": "頸動脈孔",
+   "type": "foramen",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0543",
+   "en": "Ophthalmic artery",
+   "zh": "眼動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0544",
+   "en": "Ophthalmic nerve",
+   "zh": "眼神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0545",
+   "en": "Ophthalmic vein",
+   "zh": "眼靜脈",
+   "type": "vein",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0546",
+   "en": "Optic canal",
+   "zh": "視神經管",
+   "type": "foramen",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0547",
+   "en": "Optic chiasm",
+   "zh": "",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0548",
+   "en": "Optic disc (blind spot)",
+   "zh": "視盤",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0549",
+   "en": "Optic nerve",
+   "zh": "視神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0550",
+   "en": "Oral cavity",
+   "zh": "口腔",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0551",
+   "en": "Oral cavity proper",
+   "zh": "口腔本體",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0552",
+   "en": "Oral diaphragm",
+   "zh": "口腔橫膈",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0553",
+   "en": "Oral fissure",
+   "zh": "",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0554",
+   "en": "Oral muscle upper/lower group (category)",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0555",
+   "en": "Oral vestibule",
+   "zh": "口腔前庭",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0556",
+   "en": "Ora serrata",
+   "zh": "鋸齒緣",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0557",
+   "en": "Orbicularis oculi",
+   "zh": "眼輪匝肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0558",
+   "en": "Orbicularis oris",
+   "zh": "口輪匝肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0559",
+   "en": "Orbit",
+   "zh": "眼眶",
+   "type": "space",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "REGION-ONLY"
+  },
+  {
+   "id": "RS-0560",
+   "en": "orbital branches",
+   "zh": "",
+   "type": "nerve",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0561",
+   "en": "Orbital margin",
+   "zh": "框緣",
+   "type": "landmark",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0562",
+   "en": "Orbital part of frontal bone",
+   "zh": "額骨眶部",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0563",
+   "en": "Orbital part of orbicularis oculi",
+   "zh": "眶部",
+   "type": "muscle",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0564",
+   "en": "Orbital septum",
+   "zh": "眶隔",
+   "type": "fascia",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0565",
+   "en": "Organ of Corti",
+   "zh": "柯蒂氏器",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure",
+   "seed": "HISTOLOGY"
+  },
+  {
+   "id": "RS-0566",
+   "en": "Oropharynx",
+   "zh": "口咽",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0567",
+   "en": "Osseous labyrinth",
+   "zh": "骨性迷路",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0568",
+   "en": "Otic ganglion",
+   "zh": "耳神經節",
+   "type": "ganglion",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0569",
+   "en": "Otolith",
+   "zh": "耳石",
+   "type": "other",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure",
+   "seed": "HISTOLOGY"
+  },
+  {
+   "id": "RS-0570",
+   "en": "Outer ear",
+   "zh": "外耳",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0571",
+   "en": "Oval window",
+   "zh": "卵圓窗",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0572",
+   "en": "Palatine aponeurosis",
+   "zh": "顎腱膜",
+   "type": "fascia",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0573",
+   "en": "Palatine bone",
+   "zh": "顎骨",
+   "type": "bone",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0574",
+   "en": "palatine canal",
+   "zh": "顎管",
+   "type": "foramen",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0575",
+   "en": "Palatine nerve",
+   "zh": "",
+   "type": "nerve",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0576",
+   "en": "Palatine process of maxilla",
+   "zh": "上頜骨顎突",
+   "type": "bone",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0577",
+   "en": "Palatine tonsil",
+   "zh": "顎扁桃",
+   "type": "lymphoid",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0578",
+   "en": "Palatoglossal arch",
+   "zh": "顎舌弓",
+   "type": "oral",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0579",
+   "en": "Palatoglossus",
+   "zh": "顎舌肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0580",
+   "en": "Palatopharyngeal arch",
+   "zh": "顎咽弓",
+   "type": "oral",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0581",
+   "en": "Palatopharyngeus",
+   "zh": "顎咽肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0582",
+   "en": "palatovaginal canal",
+   "zh": "顎鞘管",
+   "type": "foramen",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0583",
+   "en": "Palpebral conjunctiva",
+   "zh": "瞼結膜",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0584",
+   "en": "Palpebral fissure",
+   "zh": "眼裂",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0585",
+   "en": "Palpebral part of orbicularis oculi",
+   "zh": "瞼部",
+   "type": "muscle",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0586",
+   "en": "Paralingual space",
+   "zh": "",
+   "type": "space",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0587",
+   "en": "Paranasal sinuses",
+   "zh": "副鼻竇",
+   "type": "sinus",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0588",
+   "en": "Parathyroid glands",
+   "zh": "",
+   "type": "gland",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0589",
+   "en": "Parietal bone",
+   "zh": "頂骨",
+   "type": "bone",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0590",
+   "en": "Parietal eminence",
+   "zh": "頂骨隆突",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0591",
+   "en": "Parietal lobe",
+   "zh": "頂葉",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0592",
+   "en": "Parieto-occipital sulcus",
+   "zh": "頂枕溝",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0593",
+   "en": "Parotid bed",
+   "zh": "耳下腺床",
+   "type": "space",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0594",
+   "en": "Parotid duct",
+   "zh": "耳下腺管",
+   "type": "duct",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0595",
+   "en": "Parotid fascia",
+   "zh": "",
+   "type": "fascia",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0596",
+   "en": "Parotid gland",
+   "zh": "耳下腺",
+   "type": "gland",
+   "topics": [
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0597",
+   "en": "Parotid lymph node",
+   "zh": "",
+   "type": "lymphoid",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0598",
+   "en": "Parotid sheath",
+   "zh": "耳下腺鞘",
+   "type": "fascia",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0599",
+   "en": "Pars plana of ciliary body",
+   "zh": "",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0600",
+   "en": "Pars plicata of ciliary body",
+   "zh": "",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0601",
+   "en": "Pectoral girdle",
+   "zh": "肩帶",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "REGION-ONLY"
+  },
+  {
+   "id": "RS-0602",
+   "en": "Pelvic girdle",
+   "zh": "骨盆帶",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "REGION-ONLY"
+  },
+  {
+   "id": "RS-0603",
+   "en": "Pericranium",
+   "zh": "顱骨膜",
+   "type": "fascia",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0604",
+   "en": "Perilymph",
+   "zh": "外淋巴液",
+   "type": "other",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0605",
+   "en": "Periorbita",
+   "zh": "眶骨膜",
+   "type": "fascia",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0606",
+   "en": "Periosteal layer",
+   "zh": "骨膜層",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0607",
+   "en": "Periosteum",
+   "zh": "骨膜",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0608",
+   "en": "Permanent teeth",
+   "zh": "恆齒",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0609",
+   "en": "Perpendicular plate of ethmoid",
+   "zh": "篩骨垂直板",
+   "type": "bone",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0610",
+   "en": "perpendicular plate of palatine bone",
+   "zh": "顎骨垂直板",
+   "type": "landmark",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0611",
+   "en": "Petrosal branch of middle meningeal artery",
+   "zh": "岩部分支",
+   "type": "artery",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0612",
+   "en": "petrotympanic fissure",
+   "zh": "岩鼓溝",
+   "type": "foramen",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0613",
+   "en": "Petrous part of internal carotid artery",
+   "zh": "岩狀區",
+   "type": "artery",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0614",
+   "en": "Petrous part of temporal bone",
+   "zh": "顳骨岩部",
+   "type": "bone",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0615",
+   "en": "pharyngeal artery",
+   "zh": "咽動脈",
+   "type": "artery",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0616",
+   "en": "Pharyngeal nerve",
+   "zh": "咽神經",
+   "type": "nerve",
+   "topics": [
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0617",
+   "en": "Pharyngeal plexus",
+   "zh": "咽神經叢",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0618",
+   "en": "Pharyngeal raphe",
+   "zh": "",
+   "type": "ligament",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0619",
+   "en": "Pharyngeal recess",
+   "zh": "咽隱窩",
+   "type": "other",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0620",
+   "en": "Pharyngeal tonsil",
+   "zh": "咽扁桃腺",
+   "type": "lymphoid",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0621",
+   "en": "Pharyngeal veins",
+   "zh": "",
+   "type": "vein",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0622",
+   "en": "Pharyngobasilar fascia",
+   "zh": "咽顱底筋膜",
+   "type": "fascia",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0623",
+   "en": "Pharyngo-epiglottic fold",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0624",
+   "en": "Pharyngo-esophageal junction",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0625",
+   "en": "Pharyngo-occipital trunk",
+   "zh": "",
+   "type": "artery",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0626",
+   "en": "Pharyngopalatine arch",
+   "zh": "顎咽弓",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0627",
+   "en": "Pharyngotympanic tube",
+   "zh": "耳咽管",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0628",
+   "en": "Pharyngotympanic tube opening",
+   "zh": "",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0629",
+   "en": "Phrenic nerve",
+   "zh": "膈神經",
+   "type": "nerve",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0630",
+   "en": "Pia mater",
+   "zh": "軟腦膜",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0631",
+   "en": "Pigment layer of retina",
+   "zh": "色素層",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure",
+   "seed": "HISTOLOGY"
+  },
+  {
+   "id": "RS-0632",
+   "en": "Pineal gland",
+   "zh": "松果體",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0633",
+   "en": "Piriform aperture",
+   "zh": "梨狀孔徑",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0634",
+   "en": "Piriform fossa",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0635",
+   "en": "Pituitary gland",
+   "zh": "腦垂體",
+   "type": "gland",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0636",
+   "en": "Platysma",
+   "zh": "闊頸肌",
+   "type": "muscle",
+   "topics": [
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0637",
+   "en": "Pons",
+   "zh": "腦橋",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0638",
+   "en": "Pontocerebellar cistern",
+   "zh": "橋小腦池",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0639",
+   "en": "Posterior auricular artery",
+   "zh": "後耳動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0640",
+   "en": "Posterior auricular vein",
+   "zh": "耳後靜脈",
+   "type": "vein",
+   "topics": [
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0641",
+   "en": "Posterior cerebellomedullary cistern",
+   "zh": "",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "REGION-ONLY"
+  },
+  {
+   "id": "RS-0642",
+   "en": "Posterior cerebral artery",
+   "zh": "後大腦動脈",
+   "type": "artery",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0643",
+   "en": "Posterior chamber",
+   "zh": "後房",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0644",
+   "en": "Posterior ciliary artery",
+   "zh": "後睫動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0645",
+   "en": "Posterior clinoid process",
+   "zh": "後床突",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0646",
+   "en": "Posterior communicating artery",
+   "zh": "後交通支",
+   "type": "artery",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0647",
+   "en": "Posterior cranial fossa",
+   "zh": "後顱窩",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0648",
+   "en": "posterior division of mandibular nerve",
+   "zh": "後支",
+   "type": "nerve",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0649",
+   "en": "Posterior ethmoidal artery",
+   "zh": "後篩動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0650",
+   "en": "Posterior ethmoidal foramen",
+   "zh": "後篩孔",
+   "type": "foramen",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0651",
+   "en": "Posterior ethmoidal nerve",
+   "zh": "後篩神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0652",
+   "en": "Posterior fontanelle",
+   "zh": "後囟門",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0653",
+   "en": "Posterior inferior cerebellar artery",
+   "zh": "後下小腦動脈",
+   "type": "artery",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0654",
+   "en": "Posterior meningeal artery",
+   "zh": "後腦膜動脈",
+   "type": "artery",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0655",
+   "en": "posterior superior alveolar artery",
+   "zh": "後上齒槽動脈",
+   "type": "artery",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0656",
+   "en": "posterior superior alveolar nerve",
+   "zh": "後上齒槽神經",
+   "type": "nerve",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0657",
+   "en": "posterior surface of maxilla",
+   "zh": "上頜骨後側面",
+   "type": "landmark",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0658",
+   "en": "Posterior triangle of the neck",
+   "zh": "頸後三角",
+   "type": "space",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0659",
+   "en": "Posterior tubercle of atlas",
+   "zh": "後結節",
+   "type": "landmark",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0660",
+   "en": "Postganglionic fiber",
+   "zh": "節後神經纖維",
+   "type": "other",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0661",
+   "en": "postglenoid tubercle",
+   "zh": "關節後結節",
+   "type": "landmark",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0662",
+   "en": "Preganglionic fiber",
+   "zh": "節前神經纖維",
+   "type": "other",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0663",
+   "en": "Premolar",
+   "zh": "前臼齒",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0664",
+   "en": "Premolar teeth",
+   "zh": "前臼齒",
+   "type": "oral",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0665",
+   "en": "Pretracheal fascia",
+   "zh": "氣管前筋膜",
+   "type": "fascia",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0666",
+   "en": "Prevertebral fascia",
+   "zh": "椎前筋膜",
+   "type": "fascia",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0667",
+   "en": "Prevertebral space",
+   "zh": "",
+   "type": "space",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0668",
+   "en": "Procerus",
+   "zh": "降眉間肌",
+   "type": "muscle",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0669",
+   "en": "Promontory",
+   "zh": "岬",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0670",
+   "en": "protrusion and retrusion",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0671",
+   "en": "Pterion",
+   "zh": "翼點",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0672",
+   "en": "pterygoid branches",
+   "zh": "翼肌動脈",
+   "type": "artery",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0673",
+   "en": "Pterygoid canal",
+   "zh": "翼管",
+   "type": "foramen",
+   "topics": [
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0674",
+   "en": "Pterygoid fissure",
+   "zh": "",
+   "type": "foramen",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0675",
+   "en": "pterygoid fovea",
+   "zh": "翼肌凹",
+   "type": "landmark",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0676",
+   "en": "Pterygoid hamulus",
+   "zh": "",
+   "type": "landmark",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0677",
+   "en": "Pterygoid plexus",
+   "zh": "翼靜脈叢",
+   "type": "vein",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0678",
+   "en": "pterygoid process",
+   "zh": "翼突",
+   "type": "landmark",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0679",
+   "en": "Pterygoid venous plexus",
+   "zh": "翼靜脈叢",
+   "type": "vein",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0680",
+   "en": "Pterygomandibular raphe",
+   "zh": "",
+   "type": "ligament",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0681",
+   "en": "pterygomaxillary fissure",
+   "zh": "翼上頜裂",
+   "type": "foramen",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0682",
+   "en": "Pterygopalatine fossa",
+   "zh": "翼腭窩",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0683",
+   "en": "Pterygopalatine ganglion",
+   "zh": "翼腭神經節",
+   "type": "ganglion",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0684",
+   "en": "Pulp cavity",
+   "zh": "齒髓腔",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0685",
+   "en": "Pupil",
+   "zh": "瞳孔",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0686",
+   "en": "pyramidal process of palatine bone",
+   "zh": "顎骨錐突",
+   "type": "landmark",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0687",
+   "en": "Quadrigeminal cistern",
+   "zh": "四疊體池",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0688",
+   "en": "Ramus of mandible",
+   "zh": "下頜骨支",
+   "type": "bone",
+   "topics": [
+    "face-parotid-scalp",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0689",
+   "en": "Recurrent laryngeal nerve",
+   "zh": "喉返神經",
+   "type": "nerve",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0690",
+   "en": "Respiratory region",
+   "zh": "呼吸區",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0691",
+   "en": "Retina",
+   "zh": "視網膜",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0692",
+   "en": "Retromandibular vein",
+   "zh": "下頜後靜脈",
+   "type": "vein",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0693",
+   "en": "Retromolar trigone",
+   "zh": "",
+   "type": "oral",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0694",
+   "en": "Retropharyngeal space",
+   "zh": "後咽部間隙",
+   "type": "space",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0695",
+   "en": "Rib",
+   "zh": "肋骨",
+   "type": "bone",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0696",
+   "en": "Risorius",
+   "zh": "笑肌",
+   "type": "muscle",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0697",
+   "en": "roof of oral cavity",
+   "zh": "口腔頂部",
+   "type": "space",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0698",
+   "en": "Root canal",
+   "zh": "",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0699",
+   "en": "Root of tooth",
+   "zh": "齒根",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0700",
+   "en": "Round window",
+   "zh": "圓窗",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0701",
+   "en": "Saccule",
+   "zh": "球狀囊",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0702",
+   "en": "Sagittal suture",
+   "zh": "矢狀縫",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0703",
+   "en": "Salpingopharyngeal fold",
+   "zh": "耳咽管咽褶",
+   "type": "other",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0704",
+   "en": "Salpingopharyngeus",
+   "zh": "耳咽管咽肌",
+   "type": "muscle",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0705",
+   "en": "Scala tympani",
+   "zh": "鼓階",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0706",
+   "en": "Scala vestibuli",
+   "zh": "前庭階",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0707",
+   "en": "Scalp",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0708",
+   "en": "Sclera",
+   "zh": "鞏膜",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0709",
+   "en": "Scleral venous sinus (Canal of Schlemm)",
+   "zh": "鞏膜靜脈竇",
+   "type": "sinus",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0710",
+   "en": "Secondary tympanic membrane",
+   "zh": "第二鼓膜",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0711",
+   "en": "Second upper molar tooth",
+   "zh": "上排第二顆臼齒",
+   "type": "oral",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0712",
+   "en": "Sellar diaphragm",
+   "zh": "鞍隔",
+   "type": "fascia",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0713",
+   "en": "Sella turcica",
+   "zh": "蝶鞍",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0714",
+   "en": "Semicircular canal",
+   "zh": "半規管",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0715",
+   "en": "Semicircular duct",
+   "zh": "半規導管",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0716",
+   "en": "Semilunar hiatus",
+   "zh": "半月裂孔",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0717",
+   "en": "Septal branch of superior labial artery",
+   "zh": "上唇動脈隔支",
+   "type": "artery",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0718",
+   "en": "Septal cartilage",
+   "zh": "鼻中隔軟骨",
+   "type": "cartilage",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0719",
+   "en": "Septum pellucidum",
+   "zh": "",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0720",
+   "en": "Short ciliary nerve",
+   "zh": "短睫神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0721",
+   "en": "Short posterior ciliary artery",
+   "zh": "短後睫動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0722",
+   "en": "Sigmoid sinus",
+   "zh": "乙狀竇",
+   "type": "sinus",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0723",
+   "en": "Skin",
+   "zh": "皮膚",
+   "type": "other",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0724",
+   "en": "Skull",
+   "zh": "頭骨",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "REGION-ONLY"
+  },
+  {
+   "id": "RS-0725",
+   "en": "Soft palate",
+   "zh": "軟顎",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "REGION-ONLY"
+  },
+  {
+   "id": "RS-0726",
+   "en": "Sphenoethmoidal recess",
+   "zh": "蝶篩隱窩",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0727",
+   "en": "Sphenoidal concha",
+   "zh": "",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0728",
+   "en": "Sphenoidal crest",
+   "zh": "",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0729",
+   "en": "Sphenoidal fontanelle",
+   "zh": "蝶囟門",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0730",
+   "en": "Sphenoidal spine",
+   "zh": "",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0731",
+   "en": "Sphenoid bone",
+   "zh": "蝶骨",
+   "type": "bone",
+   "topics": [
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0732",
+   "en": "Sphenoid sinus",
+   "zh": "蝶竇",
+   "type": "sinus",
+   "topics": [
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0733",
+   "en": "sphenomandibular ligament",
+   "zh": "蝶下頜韌帶",
+   "type": "ligament",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0734",
+   "en": "Sphenopalatine artery",
+   "zh": "蝶顎動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0735",
+   "en": "Sphenopalatine foramen",
+   "zh": "蝶顎孔",
+   "type": "foramen",
+   "topics": [
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0736",
+   "en": "Sphenopalatine vein",
+   "zh": "蝶顎靜脈",
+   "type": "vein",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0737",
+   "en": "Sphenoparietal sinus",
+   "zh": "蝶竇",
+   "type": "sinus",
+   "topics": [
+    "face-parotid-scalp",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0738",
+   "en": "Sphincter pupillae",
+   "zh": "瞳孔括約肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0739",
+   "en": "spine of sphenoid",
+   "zh": "蝶骨棘",
+   "type": "landmark",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0740",
+   "en": "Spiral (cochlear) ganglion",
+   "zh": "螺旋神經節",
+   "type": "ganglion",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0741",
+   "en": "Splenius capitis",
+   "zh": "頭夾肌",
+   "type": "muscle",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0742",
+   "en": "Splenius cervicis",
+   "zh": "頸夾肌",
+   "type": "muscle",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0743",
+   "en": "Squamous part of temporal bone",
+   "zh": "鱗狀部",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0744",
+   "en": "Squamous suture",
+   "zh": "鱗狀縫",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0745",
+   "en": "Stapes",
+   "zh": "鐙骨",
+   "type": "bone",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0746",
+   "en": "Stapedius",
+   "zh": "鐙骨肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0747",
+   "en": "Stapedius nerve",
+   "zh": "鐙骨肌神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0748",
+   "en": "Stereocilia",
+   "zh": "靜纖毛",
+   "type": "other",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure",
+   "seed": "HISTOLOGY"
+  },
+  {
+   "id": "RS-0749",
+   "en": "Sternal angle",
+   "zh": "胸骨角",
+   "type": "landmark",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0750",
+   "en": "Sternocleidomastoid",
+   "zh": "胸鎖乳突肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0751",
+   "en": "Sternohyoid muscle",
+   "zh": "胸骨舌骨肌",
+   "type": "muscle",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0752",
+   "en": "Sternothyroid muscle",
+   "zh": "胸骨甲狀肌",
+   "type": "muscle",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0753",
+   "en": "Sternum",
+   "zh": "胸骨",
+   "type": "bone",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0754",
+   "en": "Straight sinus",
+   "zh": "直竇",
+   "type": "sinus",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0755",
+   "en": "Styloglossus",
+   "zh": "莖突舌肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0756",
+   "en": "Stylohyoid",
+   "zh": "莖突舌骨肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0757",
+   "en": "Stylohyoid ligament",
+   "zh": "",
+   "type": "ligament",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0758",
+   "en": "Styloid process of temporal bone",
+   "zh": "莖突",
+   "type": "landmark",
+   "topics": [
+    "neck-pharynx-trachea-esophagus",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0759",
+   "en": "stylomandibular ligament",
+   "zh": "莖突下頜韌帶",
+   "type": "ligament",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0760",
+   "en": "Stylomastoid artery",
+   "zh": "",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0761",
+   "en": "Stylomastoid foramen",
+   "zh": "莖乳突孔",
+   "type": "foramen",
+   "topics": [
+    "face-parotid-scalp",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0762",
+   "en": "Stylopharyngeus",
+   "zh": "莖突咽肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0763",
+   "en": "Subarachnoid space",
+   "zh": "蜘蛛膜下腔",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0764",
+   "en": "Subclavian artery",
+   "zh": "鎖骨下動脈",
+   "type": "artery",
+   "topics": [
+    "neck-pharynx-trachea-esophagus",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0765",
+   "en": "Subclavian vein",
+   "zh": "鎖骨下靜脈",
+   "type": "vein",
+   "topics": [
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0766",
+   "en": "Subdural hematoma",
+   "zh": "硬膜下血腫",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0767",
+   "en": "Subdural space",
+   "zh": "硬膜下腔",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0768",
+   "en": "Sublingual artery",
+   "zh": "",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0769",
+   "en": "Sublingual fold",
+   "zh": "",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0770",
+   "en": "Sublingual gland",
+   "zh": "舌下腺",
+   "type": "gland",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0771",
+   "en": "Sublingual vein",
+   "zh": "",
+   "type": "vein",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0772",
+   "en": "Submandibular duct",
+   "zh": "頜下腺管",
+   "type": "duct",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0773",
+   "en": "Submandibular ganglion",
+   "zh": "下頜下神經節",
+   "type": "ganglion",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0774",
+   "en": "Submandibular gland",
+   "zh": "頜下腺",
+   "type": "gland",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0775",
+   "en": "Submandibular lymph nodes",
+   "zh": "",
+   "type": "lymphoid",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0776",
+   "en": "Submandibular region",
+   "zh": "頜下區",
+   "type": "space",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0777",
+   "en": "Submandibular triangle",
+   "zh": "",
+   "type": "space",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0778",
+   "en": "Submental lymph nodes",
+   "zh": "",
+   "type": "lymphoid",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0779",
+   "en": "Submental region",
+   "zh": "頦下區",
+   "type": "space",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0780",
+   "en": "Superciliary arch",
+   "zh": "眉弓",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0781",
+   "en": "Superficial cervical fascia",
+   "zh": "淺筋膜",
+   "type": "fascia",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0782",
+   "en": "superficial head and deep head",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0783",
+   "en": "Superficial lobe of parotid",
+   "zh": "淺葉",
+   "type": "gland",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0784",
+   "en": "Superficial middle cerebral vein",
+   "zh": "",
+   "type": "vein",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0785",
+   "en": "Superficial temporal artery",
+   "zh": "淺顳動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0786",
+   "en": "Superficial temporal vein",
+   "zh": "淺顳靜脈",
+   "type": "vein",
+   "topics": [
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0787",
+   "en": "Superior alveolar arteries",
+   "zh": "",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0788",
+   "en": "Superior alveolar nerves (anterior, middle, posterior)",
+   "zh": "上齒槽神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0789",
+   "en": "Superior cerebellar artery",
+   "zh": "上小腦動脈",
+   "type": "artery",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0790",
+   "en": "Superior cerebral vein",
+   "zh": "",
+   "type": "vein",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0791",
+   "en": "Superior cervical ganglion",
+   "zh": "頸上神經節",
+   "type": "ganglion",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0792",
+   "en": "Superior cervical sympathetic ganglion",
+   "zh": "上頸交感神經節",
+   "type": "ganglion",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0793",
+   "en": "Superior colliculus",
+   "zh": "上丘",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0794",
+   "en": "Superior division of oculomotor nerve",
+   "zh": "上分支",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0795",
+   "en": "Superior esophageal sphincter",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0796",
+   "en": "Superior horn of thyroid cartilage",
+   "zh": "",
+   "type": "cartilage",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0797",
+   "en": "superior joint cavity",
+   "zh": "上關節腔",
+   "type": "space",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0798",
+   "en": "Superior labial artery",
+   "zh": "上唇動脈",
+   "type": "artery",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0799",
+   "en": "Superior labial vein",
+   "zh": "上唇靜脈",
+   "type": "vein",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0800",
+   "en": "Superior laryngeal artery",
+   "zh": "上喉動脈",
+   "type": "artery",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0801",
+   "en": "Superior laryngeal nerve",
+   "zh": "上喉神經",
+   "type": "nerve",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0802",
+   "en": "Superior longitudinal muscle of tongue",
+   "zh": "上縱肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0803",
+   "en": "Superior nasal concha",
+   "zh": "上鼻甲",
+   "type": "bone",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0804",
+   "en": "Superior nasal meatus",
+   "zh": "上鼻道",
+   "type": "space",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0805",
+   "en": "Superior nuchal line",
+   "zh": "",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0806",
+   "en": "Superior oblique",
+   "zh": "上斜肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0807",
+   "en": "Superior ophthalmic vein",
+   "zh": "上眼靜脈",
+   "type": "vein",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0808",
+   "en": "Superior orbital fissure",
+   "zh": "上眶裂",
+   "type": "foramen",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0809",
+   "en": "Superior petrosal sinus",
+   "zh": "上岩竇",
+   "type": "sinus",
+   "topics": [
+    "face-parotid-scalp",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0810",
+   "en": "Superior pharyngeal constrictor",
+   "zh": "上咽縮肌",
+   "type": "muscle",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0811",
+   "en": "Superior rectus",
+   "zh": "上直肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0812",
+   "en": "Superior sagittal sinus",
+   "zh": "上矢狀竇",
+   "type": "sinus",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0813",
+   "en": "Superior tarsal muscle",
+   "zh": "瞼上肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0814",
+   "en": "superior temporal line",
+   "zh": "上顳線",
+   "type": "landmark",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0815",
+   "en": "Superior thyroid artery",
+   "zh": "上甲狀腺動脈",
+   "type": "artery",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0816",
+   "en": "Superior thyroid vein",
+   "zh": "上甲狀腺靜脈",
+   "type": "vein",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0817",
+   "en": "Superior vena cava",
+   "zh": "",
+   "type": "vein",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0818",
+   "en": "Supporting cells",
+   "zh": "支持細胞",
+   "type": "other",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure",
+   "seed": "HISTOLOGY"
+  },
+  {
+   "id": "RS-0819",
+   "en": "Supraclavicular nerves",
+   "zh": "鎖骨上神經",
+   "type": "nerve",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0820",
+   "en": "Suprahyoid muscles",
+   "zh": "舌骨上肌群",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0821",
+   "en": "Supraorbital artery",
+   "zh": "眶上動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0822",
+   "en": "Supraorbital foramen",
+   "zh": "眶上孔",
+   "type": "foramen",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0823",
+   "en": "Supraorbital margin",
+   "zh": "眶上緣",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0824",
+   "en": "Supraorbital nerve",
+   "zh": "眶上神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0825",
+   "en": "Supraorbital vein",
+   "zh": "眶上靜脈",
+   "type": "vein",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0826",
+   "en": "Suprascapular artery",
+   "zh": "肩胛上動脈",
+   "type": "artery",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0827",
+   "en": "Suprascapular vein",
+   "zh": "",
+   "type": "vein",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0828",
+   "en": "Suprasternal space",
+   "zh": "",
+   "type": "space",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0829",
+   "en": "Supratrochlear artery",
+   "zh": "滑車上動脈",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0830",
+   "en": "Supratrochlear nerve",
+   "zh": "滑車上神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0831",
+   "en": "Supratrochlear vein",
+   "zh": "滑車上靜脈",
+   "type": "vein",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0832",
+   "en": "Supreme intercostal artery",
+   "zh": "最上肋間動脈",
+   "type": "artery",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0833",
+   "en": "Suspensory ligament of lens",
+   "zh": "懸韌帶",
+   "type": "ligament",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0834",
+   "en": "Swallowing process",
+   "zh": "吞嚥過程",
+   "type": "other",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0835",
+   "en": "Sympathetic fibers",
+   "zh": "交感神經纖維",
+   "type": "nerve",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0836",
+   "en": "Sympathetic plexus",
+   "zh": "交感神經叢",
+   "type": "nerve",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0837",
+   "en": "Sympathetic trunk",
+   "zh": "交感神經",
+   "type": "nerve",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0838",
+   "en": "Tarsal glands",
+   "zh": "瞼腺",
+   "type": "gland",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0839",
+   "en": "Tarsal plate",
+   "zh": "瞼板",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0840",
+   "en": "Tectorial membrane",
+   "zh": "覆膜",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": false,
+   "reason": "cell or tissue level, not a gross structure",
+   "seed": "HISTOLOGY"
+  },
+  {
+   "id": "RS-0841",
+   "en": "Tegmen tympani",
+   "zh": "鼓室蓋",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0842",
+   "en": "Temporal bone",
+   "zh": "顳骨",
+   "type": "bone",
+   "topics": [
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0843",
+   "en": "Temporal branch of facial nerve",
+   "zh": "顳支",
+   "type": "nerve",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0844",
+   "en": "Temporal fascia",
+   "zh": "",
+   "type": "fascia",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0845",
+   "en": "temporal fossa",
+   "zh": "顳窩",
+   "type": "landmark",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0846",
+   "en": "Temporalis",
+   "zh": "顳肌",
+   "type": "muscle",
+   "topics": [
+    "face-parotid-scalp",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0847",
+   "en": "temporalis fascia",
+   "zh": "顳筋膜",
+   "type": "fascia",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0848",
+   "en": "temporalis nerve",
+   "zh": "顳肌神經",
+   "type": "nerve",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0849",
+   "en": "temporal line",
+   "zh": "顳線",
+   "type": "landmark",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0850",
+   "en": "Temporal lobe",
+   "zh": "顳葉",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0851",
+   "en": "temporomandibular joint",
+   "zh": "顳顎關節",
+   "type": "other",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0852",
+   "en": "temporomandibular ligament",
+   "zh": "顳下頜韌帶",
+   "type": "ligament",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0853",
+   "en": "Tensor tympani",
+   "zh": "鼓膜張肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0854",
+   "en": "Tensor veli palatini",
+   "zh": "張顎帆肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0855",
+   "en": "Tentorium cerebelli",
+   "zh": "小腦天幕",
+   "type": "fascia",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0856",
+   "en": "Terminal sulcus",
+   "zh": "界溝",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0857",
+   "en": "Terminal sulcus of tongue",
+   "zh": "",
+   "type": "landmark",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0858",
+   "en": "Thalamus",
+   "zh": "",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0859",
+   "en": "Third ventricle",
+   "zh": "第三腦室",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0860",
+   "en": "Thoracic cage",
+   "zh": "胸廓",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0861",
+   "en": "Thoracic duct",
+   "zh": "",
+   "type": "duct",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0862",
+   "en": "Thymus",
+   "zh": "",
+   "type": "gland",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0863",
+   "en": "Thyrocervical trunk",
+   "zh": "甲狀頸動脈幹",
+   "type": "artery",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0864",
+   "en": "Thyrohyoid muscle",
+   "zh": "甲狀舌骨肌",
+   "type": "muscle",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0865",
+   "en": "Thyroid cartilage",
+   "zh": "甲狀軟骨",
+   "type": "cartilage",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0866",
+   "en": "Thyroid gland",
+   "zh": "甲狀腺",
+   "type": "gland",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0867",
+   "en": "Thyroid notch",
+   "zh": "",
+   "type": "landmark",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0868",
+   "en": "Thyroid prominence",
+   "zh": "",
+   "type": "landmark",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0869",
+   "en": "TMJ capsule",
+   "zh": "關節囊",
+   "type": "ligament",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0870",
+   "en": "TMJ dislocation",
+   "zh": "顳下頜關節位移",
+   "type": "other",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0871",
+   "en": "Tongue",
+   "zh": "舌",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0872",
+   "en": "Tonsil",
+   "zh": "",
+   "type": "lymphoid",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0873",
+   "en": "Tonsillar artery",
+   "zh": "扁桃體動脈",
+   "type": "artery",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0874",
+   "en": "Tonsillar branch of facial artery",
+   "zh": "面動脈扁桃支",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0875",
+   "en": "Torticollis",
+   "zh": "斜頸症",
+   "type": "other",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0876",
+   "en": "Trachea",
+   "zh": "氣管",
+   "type": "other",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0877",
+   "en": "Tracheal bifurcation",
+   "zh": "",
+   "type": "other",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0878",
+   "en": "Tracheal cartilages",
+   "zh": "氣管軟骨",
+   "type": "cartilage",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0879",
+   "en": "Tracheal venous plexus",
+   "zh": "氣管靜脈叢",
+   "type": "vein",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0880",
+   "en": "Tracheostomy",
+   "zh": "氣管造口術",
+   "type": "other",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0881",
+   "en": "Transverse cerebral fissure",
+   "zh": "大腦橫裂",
+   "type": "brain",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0882",
+   "en": "Transverse cervical artery",
+   "zh": "橫頸動脈",
+   "type": "artery",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0883",
+   "en": "Transverse cervical nerve",
+   "zh": "橫頸神經",
+   "type": "nerve",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0884",
+   "en": "Transverse cervical vein",
+   "zh": "",
+   "type": "vein",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0885",
+   "en": "Transverse facial artery",
+   "zh": "橫面動脈",
+   "type": "artery",
+   "topics": [
+    "face-parotid-scalp",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0886",
+   "en": "Transverse foramen",
+   "zh": "橫突孔",
+   "type": "foramen",
+   "topics": [
+    "neck-pharynx-trachea-esophagus",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0887",
+   "en": "Transverse muscle of tongue",
+   "zh": "橫肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0888",
+   "en": "Transverse sinus",
+   "zh": "橫竇",
+   "type": "sinus",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0889",
+   "en": "Trapezius",
+   "zh": "斜方肌",
+   "type": "muscle",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0890",
+   "en": "Trigeminal ganglion",
+   "zh": "三叉神經節",
+   "type": "ganglion",
+   "topics": [
+    "eye-ear-oral",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0891",
+   "en": "Trigeminal impression",
+   "zh": "三叉神經壓跡",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0892",
+   "en": "Trigeminal nerve",
+   "zh": "三叉神經",
+   "type": "nerve",
+   "topics": [
+    "face-parotid-scalp",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0893",
+   "en": "Trochlea",
+   "zh": "滑車",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0894",
+   "en": "Trochlear nerve",
+   "zh": "滑車神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0895",
+   "en": "Tubal tonsil",
+   "zh": "咽鼓管扁桃腺",
+   "type": "lymphoid",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0896",
+   "en": "Tuberculum sellae",
+   "zh": "鞍結節",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0897",
+   "en": "tuberosity of maxilla",
+   "zh": "上頜結節",
+   "type": "landmark",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0898",
+   "en": "Tympanic cavity",
+   "zh": "鼓室腔",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "REGION-ONLY"
+  },
+  {
+   "id": "RS-0899",
+   "en": "Tympanic membrane",
+   "zh": "鼓膜",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0900",
+   "en": "Tympanic plexus",
+   "zh": "鼓室神經叢",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0901",
+   "en": "Utricle",
+   "zh": "橢圓囊",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0902",
+   "en": "Uvula",
+   "zh": "懸壅垂",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0903",
+   "en": "Musculus uvulae",
+   "zh": "懸壅垂肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0904",
+   "en": "Vagus nerve",
+   "zh": "迷走神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "neck-pharynx-trachea-esophagus",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0905",
+   "en": "Vallate papillae",
+   "zh": "輪廓狀乳突",
+   "type": "oral",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0906",
+   "en": "Vascular layer",
+   "zh": "血管層",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": false,
+   "reason": "clinical or functional term, not a drawable structure",
+   "seed": "EXCLUDED"
+  },
+  {
+   "id": "RS-0907",
+   "en": "Vertebral artery",
+   "zh": "椎動脈",
+   "type": "artery",
+   "topics": [
+    "neck-pharynx-trachea-esophagus",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0908",
+   "en": "Vertebral column",
+   "zh": "脊柱",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "REGION-ONLY"
+  },
+  {
+   "id": "RS-0909",
+   "en": "Vertebra prominens (C7)",
+   "zh": "",
+   "type": "bone",
+   "topics": [
+    "neck-pharynx-trachea-esophagus"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0910",
+   "en": "Vertex",
+   "zh": "顱頂點",
+   "type": "landmark",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0911",
+   "en": "Vertical muscle of tongue",
+   "zh": "垂直肌",
+   "type": "muscle",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0912",
+   "en": "Vestibular ganglion",
+   "zh": "前庭神經節",
+   "type": "ganglion",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0913",
+   "en": "Vestibular nerve",
+   "zh": "前庭神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0914",
+   "en": "Vestibule",
+   "zh": "前庭",
+   "type": "ear",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0915",
+   "en": "Vestibulocochlear nerve",
+   "zh": "前庭耳蝸神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0916",
+   "en": "Viscerocranium",
+   "zh": "臟顱",
+   "type": "other",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "REGION-ONLY"
+  },
+  {
+   "id": "RS-0917",
+   "en": "Vitreous humor",
+   "zh": "玻璃狀液",
+   "type": "eye",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "ALIAS"
+  },
+  {
+   "id": "RS-0918",
+   "en": "Vomer",
+   "zh": "犁骨",
+   "type": "bone",
+   "topics": [
+    "skull-meninges-brain-nose"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0919",
+   "en": "Vorticose veins",
+   "zh": "",
+   "type": "vein",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0920",
+   "en": "Zonular fibers",
+   "zh": "小帶纖維",
+   "type": "ligament",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0921",
+   "en": "Zygomatic arch",
+   "zh": "顴弓",
+   "type": "landmark",
+   "topics": [
+    "face-parotid-scalp",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0922",
+   "en": "Zygomatic bone",
+   "zh": "顴骨",
+   "type": "bone",
+   "topics": [
+    "eye-ear-oral",
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0923",
+   "en": "Zygomatic branch of facial nerve",
+   "zh": "顴支",
+   "type": "nerve",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0924",
+   "en": "Zygomatic nerve",
+   "zh": "顴神經",
+   "type": "nerve",
+   "topics": [
+    "eye-ear-oral",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0925",
+   "en": "Zygomaticofacial artery",
+   "zh": "",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0926",
+   "en": "Zygomaticofacial foramen",
+   "zh": "顴面孔",
+   "type": "foramen",
+   "topics": [
+    "skull-meninges-brain-nose",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0927",
+   "en": "zygomaticofacial nerve",
+   "zh": "顴面神經",
+   "type": "nerve",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0928",
+   "en": "zygomatico-orbital foramen",
+   "zh": "顴眶孔",
+   "type": "foramen",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0929",
+   "en": "Zygomaticotemporal artery",
+   "zh": "",
+   "type": "artery",
+   "topics": [
+    "eye-ear-oral"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0930",
+   "en": "zygomaticotemporal foramen",
+   "zh": "顴顳孔",
+   "type": "foramen",
+   "topics": [
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0931",
+   "en": "Zygomaticotemporal nerve",
+   "zh": "顴顳神經",
+   "type": "nerve",
+   "topics": [
+    "face-parotid-scalp",
+    "temporal-infratemporal-tmj"
+   ],
+   "expect3d": true,
+   "seed": "MISSING"
+  },
+  {
+   "id": "RS-0932",
+   "en": "Zygomaticus major",
+   "zh": "顴大肌",
+   "type": "muscle",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  },
+  {
+   "id": "RS-0933",
+   "en": "Zygomaticus minor",
+   "zh": "顴小肌",
+   "type": "muscle",
+   "topics": [
+    "face-parotid-scalp"
+   ],
+   "expect3d": true,
+   "seed": "FOUND"
+  }
+ ]
+}

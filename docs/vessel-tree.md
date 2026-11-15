@@ -2,7 +2,7 @@
 
 Written by `node scripts/check-vessel-tree.mjs --write`.
 
-- 1133 vessel meshes, 4 connected groups; 1127 meshes reach an aorta or a vena cava.
+- 1135 vessel meshes, 4 connected groups; 1129 meshes reach an aorta or a vena cava.
 - cut off (2): Left dorsal artery of penis
 - cut off (2): Right dorsal artery of penis
 - cut off (2): Right uterine artery; Right uterine vein

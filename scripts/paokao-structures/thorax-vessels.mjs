@@ -2,7 +2,6 @@
 // vessel at the textbook place and follows the textbook course. Landmarks are measured on the atlas meshes; refs name the textbooks used.
 import {sub, add, mul, unit, len, lerp} from '../lib/paokao-util.mjs';
 
-const GRAYS = 'Gray’s Anatomy for Students, 4th ed. (Drake et al.), ch. 3 Thorax and ch. 7 Upper Limb';
 const SIDES = [{w: 'Right', l: 'right', sx: -1, zh: '右'}, {w: 'Left', l: 'left', sx: 1, zh: '左'}];
 
 export default function thoraxVessels(U) {
@@ -27,7 +26,7 @@ export default function thoraxVessels(U) {
         card: {origin: ['1st part of the axillary artery, above the upper border of pectoralis minor', '腋動脈第一段（胸小肌上緣以上）'],
           course: ['Runs medially and downwards on the chest wall through the 1st and 2nd intercostal spaces', '沿胸壁向內下行，經第一、二肋間隙'],
           supply: ['Intercostal muscles of the 1st–2nd spaces, pectoral muscles and the upper part of the serratus anterior', '第一、二肋間肌、胸肌及前鋸肌上部']},
-        refs: [GRAYS],
+        refs: [],
       });
     }
     // Thoraco-acromial trunk → clavicular branch: up and medially to subclavius and the clavicle.
@@ -39,7 +38,7 @@ export default function thoraxVessels(U) {
         card: {origin: ['Thoraco-acromial trunk, at the upper border of pectoralis minor', '胸肩峰動脈幹（胸小肌上緣）'],
           course: ['Passes up and medially, deep to pectoralis major, towards the clavicle', '向內上走，在胸大肌深面往鎖骨'],
           supply: ['Subclavius, the sternoclavicular joint and the clavicle', '鎖骨下肌、胸鎖關節與鎖骨']},
-        refs: [GRAYS],
+        refs: [],
       });
     }
     // Lateral thoracic artery → lateral mammary branches round the lateral border of pectoralis major.
@@ -51,7 +50,7 @@ export default function thoraxVessels(U) {
         card: {origin: ['Lateral thoracic artery (sometimes the thoraco-acromial artery)', '胸外側動脈（有時來自胸肩峰動脈）'],
           course: ['Curves round the lateral border of pectoralis major to the breast', '繞過胸大肌外側緣到乳房'],
           supply: ['Lateral part of the mammary gland', '乳腺外側部']},
-        refs: [GRAYS],
+        refs: [],
       });
     }
     // Perforating branches of the internal thoracic artery through the 2nd–4th spaces → medial mammary branches.
@@ -66,7 +65,7 @@ export default function thoraxVessels(U) {
         card: {origin: ['Perforating branches of the internal thoracic artery, 2nd–4th intercostal spaces', '內胸動脈穿通支（第二至四肋間隙）'],
           course: ['Pierce the intercostal space and pectoralis major beside the sternum', '在胸骨旁穿過肋間隙與胸大肌'],
           supply: ['Medial part of the mammary gland', '乳腺內側部']},
-        refs: [GRAYS],
+        refs: [],
       });
     }
     // Anterior intercostal arteries: from the internal thoracic artery laterally along the 2nd–6th spaces (they meet the posterior intercostal arteries).
@@ -81,7 +80,7 @@ export default function thoraxVessels(U) {
         card: {origin: ['Internal thoracic artery (spaces 1–6) and musculophrenic artery (spaces 7–9)', '內胸動脈（第一至六間隙）與肌膈動脈（第七至九間隙）'],
           course: ['Run laterally in the intercostal spaces and anastomose with the posterior intercostal arteries', '在肋間隙向外側走，與後肋間動脈吻合'],
           supply: ['Intercostal muscles and the overlying skin and pectoral muscles', '肋間肌及其表面的皮膚與胸肌']},
-        refs: [GRAYS],
+        refs: [],
       });
     }
   }

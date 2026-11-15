@@ -4,6 +4,8 @@ import {fetchModelBuffer, loadMissingChunks} from '../model-download';
 import {PointerTap} from '../pointer-tap';
 import {framingDistance} from '../camera-framing';
 import {CHAMBERS} from './heart-chambers';
+import {chooseAnchors, layoutLeaders, type LeaderCandidate, type Pt} from './label-leaders';
+import {visibleSurfacePoints, type SurfacePoint} from './heart-label-anchors';
 import {BLOCKER_OPACITY, isKeptVessel, isTrunkPart, trunkTriangles} from './heart-vessels';
 import {SECTION_AXES, type HeartCatalogue, type HeartView, type HeartViewState} from './heart-types';
 
@@ -17,11 +19,11 @@ interface Callbacks {
 /** Selection colours shared with the atlas: deep green, outlined; hover is a lighter mint of the same hue. */
 export const HEART_SELECT = {fill: '#5DB89A', edge: '#3E8E74', hover: '#A7DCCB'};
 const GROUP_COLOR: Record<string, string> = {
-  chambers: '#d98a85', papillary: '#c97a5a', valves: '#f0dfa3', coronary: '#b0313f', veins: '#4f86bf', vessels: '#c9a8a0', interior: '#c9785f', pericardium: '#d9c9a3',
+  chambers: '#d98a85', papillary: '#b4635a', valves: '#f0dfa3', coronary: '#b0313f', veins: '#4f86bf', vessels: '#c9a8a0', interior: '#b5503c', pericardium: '#d9c9a3',
 };
 /** schematic surface patches and spaces are drawn as tinted, translucent regions so they read as areas, not as ridges. */
 const PATCH_COLOR: Record<string, string> = {
-  'Interatrial septum': '#8fb8e6', 'Fossa ovalis': '#f0e3a8', 'Interventricular septum': '#86c08a', 'Conus arteriosus': '#b98ad6', 'Aortic vestibule': '#5fb0dc',
+  'Interatrial septum': '#6f9fe0', 'Fossa ovalis': '#f2cf5c', 'Interventricular septum': '#86c08a', 'Conus arteriosus': '#b98ad6', 'Aortic vestibule': '#5fb0dc',
   'Transverse pericardial sinus': '#69b96a', 'Oblique pericardial sinus': '#69b96a',
   'Fibrous pericardium': '#d9c9a3', 'Parietal layer of serous pericardium': '#e3d6b4', 'Visceral layer of serous pericardium (epicardium)': '#e8b9ae',
 };
@@ -37,6 +39,8 @@ const COLOR_BY_PART = (id: string, group: string, system: string, name: string) 
   return GROUP_COLOR[group] ?? '#cfae9a';
 };
 
+/** Smallest distance between two leader anchors on screen, in pixels. */
+const LEADER_GAP = 28;
 const chamberOf = (id: string) => CHAMBERS.find(c => c.id === id);
 
 /** Isolated, static viewer for the heart detail model: sections, per-group visibility, hover and selection. It never touches the atlas scene. */
@@ -232,7 +236,7 @@ gl_FragColor = vec4(mix(vec3(0.30, 0.78, 0.62), vec3(0.03, 0.36, 0.27), edge), m
     host.dataset.visibleParts = JSON.stringify([...meshes].filter(([, m]) => m.visible).map(([id]) => parts.get(id)!.name));
     host.dataset.trunkParts = JSON.stringify([...meshes].filter(([, m]) => m.userData.trunkDrawn).map(([id]) => parts.get(id)!.name));
     host.dataset.seeThrough = JSON.stringify([...selBlockers].map(id => parts.get(id)?.name));
-    dirty = true;
+    dirty = true; markAnchorsStale();
   };
 
   /**
@@ -278,50 +282,96 @@ gl_FragColor = vec4(mix(vec3(0.30, 0.78, 0.62), vec3(0.03, 0.36, 0.27), edge), m
   };
   const scheduleBlockers = () => {window.clearTimeout(blockTimer); blockTimer = window.setTimeout(() => {if (!disposed) refreshSelBlockers();}, 120);};
 
+  /**
+   * Name labels. Every label points at one point of its structure's visible surface (a ray from the camera reaches it before anything else): structures that are
+   * hidden from this view get no leader and are named in a hint instead. Anchors are searched once the camera has been still for a moment (and after a change of
+   * the opened chamber or the visible parts); while the heart turns, the last anchors are only projected again. See label-leaders.ts for the line layout.
+   */
+  const anchorWorld = new Map<string, T.Vector3>(), hiddenSpecs = new Map<string, {en: string; zh: string}>(), absentSpecs = new Set<string>();
+  let anchorTimer = 0, anchorsReady = false, leaderDump = '';
+  const hint = document.createElement('div');
+  hint.style.cssText = 'position:absolute;left:50%;bottom:34px;transform:translateX(-50%);max-width:60%;padding:5px 10px;border-radius:6px;background:#fff8dcf0;box-shadow:0 1px 4px #1825361f;font:11.5px/1.35 system-ui,sans-serif;color:#5b4a14;text-align:center;display:none';
+  labelLayer.appendChild(hint);
+  const opaque = (m: T.Mesh<T.BufferGeometry, T.MeshStandardMaterial>) => !m.material.transparent || m.material.opacity >= .55;
+  const cutAway = (mesh: T.Mesh, point: T.Vector3) => {
+    const id = mesh.userData.partId as string;
+    return !keeps(point) || (cutApplies(id) && cutPlane.distanceToPoint(point) < 0);
+  };
+  const recomputeAnchors = () => {
+    anchorsReady = true;
+    const width = host.clientWidth, height = host.clientHeight;
+    anchorWorld.clear(); hiddenSpecs.clear(); absentSpecs.clear();
+    if (!labelSpecs.length || width < 10 || height < 10) return;
+    camera.updateMatrixWorld(); scene.updateMatrixWorld(true);
+    const occluders = [...meshes.values()].filter(m => m.visible && opaque(m));
+    const found = new Map<string, SurfacePoint[]>(), candidates: LeaderCandidate[] = [];
+    for (const spec of labelSpecs) {
+      const own = spec.ids.map(id => meshes.get(id)).filter((m): m is T.Mesh<T.BufferGeometry, T.MeshStandardMaterial> => !!m && m.visible);
+      const points = own.length ? visibleSurfacePoints(own, {camera, width, height, occluders, cutAway}) : [];
+      // not drawn at all (the heart is closed, or the structure belongs to a chamber that is not open): nothing to point at, and not an occlusion
+      if (!own.length) {absentSpecs.add(spec.id); continue;}
+      if (!points.length) {hiddenSpecs.set(spec.id, {en: spec.en, zh: spec.zh}); continue;}
+      found.set(spec.id, points);
+      candidates.push({id: spec.id, points: points.map(p => p.screen), width: 0, height: 0, priority: spec.ids.some(id => selectedIds().has(id)) ? 1 : 0});
+    }
+    const chosen = chooseAnchors(candidates, LEADER_GAP);
+    for (const [id, screen] of chosen) anchorWorld.set(id, found.get(id)!.find(p => p.screen === screen)!.world);
+    for (const c of candidates) if (!chosen.has(c.id)) {const spec = labelSpecs.find(x => x.id === c.id)!; hiddenSpecs.set(c.id, {en: spec.en, zh: spec.zh});}
+  };
+  const markAnchorsStale = () => {
+    window.clearTimeout(anchorTimer);
+    anchorTimer = window.setTimeout(() => {if (!disposed) {recomputeAnchors(); dirty = true;}}, 140);
+  };
   const layoutLabels = () => {
     const width = host.clientWidth, height = host.clientHeight;
-    const active: {spec: typeof labelSpecs[number]; x: number; y: number; side: 'l' | 'r'}[] = [];
+    camera.updateMatrixWorld();
     const centreX = (() => {const v = coreCentre.clone().project(camera); return (v.x * .5 + .5) * width;})();
-    const clipped = (p: T.Vector3) => { const planes = clipping(); return planes.length > 0 && planes[0].distanceToPoint(p) < 0; };
+    const anchors = new Map<string, Pt>(), specs: typeof labelSpecs = [];
     for (const spec of labelSpecs) {
-      const box = new T.Box3();
-      for (const id of spec.ids) {const mesh = meshes.get(id); if (mesh?.visible) box.union(new T.Box3().setFromObject(mesh));}
-      if (box.isEmpty()) continue;
-      const c = box.getCenter(new T.Vector3());
-      if (clipped(c)) continue;
-      const v = c.clone().project(camera);
+      const world = anchorWorld.get(spec.id); if (!world) continue;
+      const v = world.clone().project(camera);
       if (v.z > 1 || Math.abs(v.x) > 1 || Math.abs(v.y) > 1) continue;
-      const x = (v.x * .5 + .5) * width, y = (-v.y * .5 + .5) * height;
-      active.push({spec, x, y, side: x < centreX ? 'l' : 'r'});
+      anchors.set(spec.id, {x: (v.x * .5 + .5) * width, y: (-v.y * .5 + .5) * height}); specs.push(spec);
     }
-    const placed = new Map<string, number>();
-    for (const side of ['l', 'r'] as const) {
-      const column = active.filter(a => a.side === side).sort((a, b) => a.y - b.y);
-      let last = -Infinity;
-      for (const a of column) {const y = Math.max(a.y, last + 34); placed.set(a.spec.id, y); last = y;}
-      const overflow = last - (height - 24);
-      if (overflow > 0) for (const a of column) placed.set(a.spec.id, Math.max(14, placed.get(a.spec.id)! - overflow));
-    }
-    const live = new Set<string>();
-    let lines = '';
-    for (const a of active) {
-      live.add(a.spec.id);
-      let node = labelNodes.get(a.spec.id);
+    const selected = selectedIds();
+    // Measure the wrapped names before laying out the columns.
+    const candidates: LeaderCandidate[] = specs.map(spec => {
+      let node = labelNodes.get(spec.id);
       if (!node) {
         node = document.createElement('div');
         node.style.cssText = 'position:absolute;max-width:24%;padding:3px 7px;border-radius:6px;background:#ffffffe6;box-shadow:0 1px 4px #1825361f;font:11.5px/1.25 system-ui,sans-serif;color:#1f2a35;white-space:normal';
-        const en = document.createElement('div'); en.textContent = a.spec.en; en.style.fontWeight = '600';
-        const zh = document.createElement('div'); zh.textContent = a.spec.zh; zh.style.cssText = 'font-size:10.5px;color:#7b8793';
-        node.appendChild(en); node.appendChild(zh); labelLayer.appendChild(node); labelNodes.set(a.spec.id, node);
+        const en = document.createElement('div'); en.textContent = spec.en; en.style.fontWeight = '600';
+        const zh = document.createElement('div'); zh.textContent = spec.zh; zh.style.cssText = 'font-size:10.5px;color:#7b8793';
+        node.appendChild(en); node.appendChild(zh); labelLayer.appendChild(node); labelNodes.set(spec.id, node);
       }
-      const y = placed.get(a.spec.id)!;
-      node.style.display = 'block'; node.style.top = `${y - 15}px`;
-      if (a.side === 'l') {node.style.left = '10px'; node.style.right = ''; node.style.textAlign = 'left';} else {node.style.right = '10px'; node.style.left = ''; node.style.textAlign = 'right';}
-      const edge = a.side === 'l' ? 10 + Math.min(node.offsetWidth, width * .24) : width - 10 - Math.min(node.offsetWidth, width * .24);
-      lines += `<line x1="${edge}" y1="${y}" x2="${a.x}" y2="${a.y}" stroke="#5a6b78" stroke-width="1"/><circle cx="${a.x}" cy="${a.y}" r="2.6" fill="#fff" stroke="#3e5463" stroke-width="1.2"/>`;
+      node.style.display = 'block';
+      return {id: spec.id, points: [anchors.get(spec.id)!], width: Math.min(node.offsetWidth || 90, width * .24), height: node.offsetHeight || 34, priority: spec.ids.some(id => selected.has(id)) ? 1 : 0};
+    });
+    const layout = layoutLeaders(candidates, anchors, {width, height, centreX});
+    const live = new Set<string>();
+    let lines = '';
+    for (const l of layout.leaders) {
+      live.add(l.id);
+      const node = labelNodes.get(l.id)!;
+      node.style.display = 'block'; node.style.top = `${l.top}px`;
+      if (l.side === 'l') {node.style.left = '10px'; node.style.right = ''; node.style.textAlign = 'left';} else {node.style.right = '10px'; node.style.left = ''; node.style.textAlign = 'right';}
+      lines += `<line x1="${l.edge.x}" y1="${l.edge.y}" x2="${l.anchor.x}" y2="${l.anchor.y}" stroke="#5a6b78" stroke-width="1"/><circle cx="${l.anchor.x}" cy="${l.anchor.y}" r="2.6" fill="#fff" stroke="#3e5463" stroke-width="1.2"/>`;
     }
     for (const [id, node] of labelNodes) if (!live.has(id)) node.style.display = 'none';
     leaders.innerHTML = lines;
+    // what could not be labelled in this view: said in words instead of a line pointing at a wall
+    const names = [...hiddenSpecs.values()].map(h => h.zh);
+    for (const id of layout.hidden) {const spec = labelSpecs.find(x => x.id === id); if (spec && anchorWorld.has(id)) names.push(spec.zh);}
+    const closedHint = !state?.openChamber && absentSpecs.size > 0;
+    if (!anchorsReady || (!names.length && !closedHint)) hint.style.display = 'none';
+    else {
+      hint.textContent = closedHint
+        ? '腔內構造（瓣膜、瓣葉、腱索等）在閉合的心臟內，請先在左側選一個心腔打開。'
+        : `此視角看不到：${names.slice(0, 4).join('、')}${names.length > 4 ? `等 ${names.length} 項` : ''}。請轉動模型，或按上方視角按鈕換個方向。`;
+      hint.style.display = 'block';
+    }
+    const dump = JSON.stringify({ready: anchorsReady, leaders: layout.leaders.map(l => ({id: l.id, side: l.side, ax: +l.anchor.x.toFixed(1), ay: +l.anchor.y.toFixed(1), ex: +l.edge.x.toFixed(1), ey: +l.edge.y.toFixed(1), top: +l.top.toFixed(1), w: l.width, h: l.height})), hidden: [...hiddenSpecs.values()].map(h => h.en).concat(layout.hidden.map(id => labelSpecs.find(x => x.id === id)?.en ?? id))});
+    if (dump !== leaderDump) {leaderDump = dump; host.dataset.leaders = dump;}
   };
   let lastFocus: string | undefined;
   const frameModel = (view: HeartView, look?: [number, number, number], focusName?: string) => {
@@ -341,7 +391,7 @@ gl_FragColor = vec4(mix(vec3(0.30, 0.78, 0.62), vec3(0.03, 0.36, 0.27), edge), m
     const areaCentre = area.getCenter(new T.Vector3());
     const target = new T.Box3(area.min.clone().addScalar(-.012), area.max.clone().addScalar(.012));
     controls.target.copy(areaCentre);
-    camera.position.copy(areaCentre).addScaledVector(direction, framingDistance(target, direction, camera.fov, camera.aspect, .9, .9));
+    camera.position.copy(areaCentre).addScaledVector(direction, framingDistance(target, direction, camera.fov, camera.aspect, look && focusPart ? 1.3 : .9, look && focusPart ? 1.3 : .9));
     controls.update(); dirty = true;
   };
 
@@ -441,7 +491,7 @@ gl_FragColor = vec4(mix(vec3(0.30, 0.78, 0.62), vec3(0.03, 0.36, 0.27), edge), m
   canvas.addEventListener('pointercancel', cancel); canvas.addEventListener('pointerleave', leave);
   const lost = (e: Event) => {e.preventDefault(); callbacks.error('3D 顯示已中斷，請重新載入頁面。');};
   canvas.addEventListener('webglcontextlost', lost);
-  controls.addEventListener('change', () => {dirty = true; updateCut(); if (state?.openChamber && findBlockers()) apply(); if (selectedIds().size) scheduleBlockers();});
+  controls.addEventListener('change', () => {dirty = true; updateCut(); markAnchorsStale(); if (state?.openChamber && findBlockers()) apply(); if (selectedIds().size) scheduleBlockers();});
   let userMoved = false; controls.addEventListener('start', () => {userMoved = true;});
   const resize = () => {
     const rect = host.getBoundingClientRect();
@@ -464,12 +514,14 @@ gl_FragColor = vec4(mix(vec3(0.30, 0.78, 0.62), vec3(0.03, 0.36, 0.27), edge), m
   void centre; void size;
   const setLabels = (specs: typeof labelSpecs) => {
     labelSpecs = specs; for (const [id, node] of labelNodes) if (!specs.some(x => x.id === id)) {node.remove(); labelNodes.delete(id);}
-    if (!specs.length) leaders.innerHTML = ''; dirty = true;
+    for (const id of [...anchorWorld.keys()]) if (!specs.some(x => x.id === id)) anchorWorld.delete(id);
+    if (!specs.length) {leaders.innerHTML = ''; hint.style.display = 'none'; hiddenSpecs.clear(); host.dataset.leaders = leaderDump = '';}
+    dirty = true; markAnchorsStale();
   };
   return {
     update, setLabels,
     dispose() {
-      disposed = true; controller.abort(); cancelAnimationFrame(frame); observer.disconnect(); controls.dispose();
+      disposed = true; window.clearTimeout(anchorTimer); controller.abort(); cancelAnimationFrame(frame); observer.disconnect(); controls.dispose();
       canvas.removeEventListener('pointerdown', down); canvas.removeEventListener('pointermove', move); canvas.removeEventListener('pointerup', up);
       canvas.removeEventListener('pointercancel', cancel); canvas.removeEventListener('pointerleave', leave); canvas.removeEventListener('webglcontextlost', lost);
       for (const mesh of meshes.values()) {mesh.geometry.dispose(); mesh.material.dispose();}

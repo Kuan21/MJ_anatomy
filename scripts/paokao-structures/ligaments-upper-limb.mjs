@@ -2,7 +2,6 @@
 // (procedural; no third-party geometry). They are schematic: the attachment points are measured, the width and thickness are typical values.
 import {add, mul, lerp, sub, unit, len} from '../lib/paokao-util.mjs';
 
-const REF = 'Gray’s Anatomy for Students, 4th ed. (Drake et al.); Moore’s Clinically Oriented Anatomy, 8th ed.';
 const SIDES = [{w: 'Right', l: 'right', sx: -1, zh: '右'}, {w: 'Left', l: 'left', sx: 1, zh: '左'}];
 const MODEL = ['Schematic band between measured bony attachment points; width and thickness are typical values.', '示意帶：兩端落在實測的骨性附著點，寬度與厚度為典型值。'];
 
@@ -11,7 +10,7 @@ export default function ligamentsUpperLimb(U) {
   for (const S of SIDES) {
     const sx = S.sx, X = (a, b) => sx < 0 ? [-b, -a] : [a, b], D = (x, y, z) => P(sx, y, z);
     const sc = `${S.w} scapula`, cl = `${S.w} clavicle`, rib = `${S.w} first rib`;
-    const push = (name, zh, geometry, card) => out.push({name: `${S.w} ${name}`, zh: `${S.zh}${zh}`, system: 'connective', kind: 'ligament', model: 'procedural', cap: 1e9, geometry: [geometry], card: {...card, supply: card.action}, note: MODEL, refs: [REF], binding: {name: `${S.w} ${name}`, side: S.l, profile: 'shoulderJoint'}});
+    const push = (name, zh, geometry, card) => out.push({name: `${S.w} ${name}`, zh: `${S.zh}${zh}`, system: 'connective', kind: 'ligament', model: 'procedural', cap: 1e9, geometry: [geometry], card: {...card, supply: card.action}, note: MODEL, refs: [], binding: {name: `${S.w} ${name}`, side: S.l, profile: 'shoulderJoint'}});
     const band = (pts, width, thick, hint) => U.ribbon(pts, width, thick, hint ?? P(0, 1, 0), 24);
     // Coraco-acromial ligament: from the lateral border of the coracoid process to the tip of the acromion; with them it forms the arch over the head of the humerus.
     {

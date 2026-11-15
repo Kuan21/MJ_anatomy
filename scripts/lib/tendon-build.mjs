@@ -143,21 +143,42 @@ export function clearBones(tendon, bones, {ringY, end = 'distal', fade = .012, c
 
 
 /**
+ * The vertices of the outline of the flat cap at height `ringY`, in order along the outline (null when there is no single clean loop). The cut leaves a cap that carries interior vertices as well (the
+ * tendon is subdivided before it is lofted): taking every vertex in the plane and sorting it by angle round the mean threw the interior points into the outline and made the loft zig-zag, so every
+ * section of the band was a pleated polygon (up to 6 times the perimeter of the ellipse it should be: the wrinkled, bunched-up knee tendons).
+ */
+export function capLoop(P, I, ringY, tol = 2e-6) {
+  const on = v => Math.abs(P[v * 3 + 1] - ringY) < tol, uses = new Map();
+  for (let i = 0; i < I.length; i += 3) {
+    const a = I[i], b = I[i + 1], c = I[i + 2]; if (!(on(a) && on(b) && on(c))) continue;
+    for (const [u, w] of [[a, b], [b, c], [c, a]]) { const key = u < w ? u * 4294967296 + w : w * 4294967296 + u; uses.set(key, (uses.get(key) || 0) + 1); }
+  }
+  const next = new Map();
+  for (const [key, count] of uses) if (count === 1) { const u = Math.floor(key / 4294967296), w = key % 4294967296; (next.get(u) || next.set(u, []).get(u)).push(w); (next.get(w) || next.set(w, []).get(w)).push(u); }
+  if (!next.size) return null;
+  for (const l of next.values()) if (l.length !== 2) return null;
+  const start = next.keys().next().value, loop = [start]; let prev = -1, cur = start;
+  for (;;) { const [a, b] = next.get(cur), n = a !== prev ? a : b; if (n === start) break; if (loop.length > next.size) return null; loop.push(n); prev = cur; cur = n; }
+  return loop.length === next.size && loop.length >= 6 ? loop : null;
+}
+
+/**
  * Rebuilds a chunky wedge (a tendon cut out of a thick, low-poly muscle mesh) as a smooth flat band, continuous with the muscle: the first section IS the cut ring (the muscle part keeps its edge), and the
  * sections below it are the same outline, scaled to the width of the original piece and to at most `thickness` metres (front-back, kept against the back surface, which lies on the bone) and rounded
  * towards an ellipse, so the band has no flat faces or box corners. `evenWidth` (0 to 1) pulls the width towards its mean (a ligament is a band of even width, not a triangle). Distal tendons only.
  * The mesh is closed (a fan at the ring and at the free end). Returns the thickest section before and after, in millimetres.
  */
-export function loftBand(tendon, {ringY, thickness = .006, evenWidth = 0, fade = .014, minSlices = 8} = {}) {
+export function loftBand(tendon, {ringY, thickness = .006, evenWidth = 0, fade = .014, minSlices = 8, legacyRing = false} = {}) {
   const P = tendon.positions, n = P.length / 3, BIN = .003;
   let lo = Infinity; for (let v = 0; v < n; v++) lo = Math.min(lo, P[v * 3 + 1]);
-  const ring = []; for (let v = 0; v < n; v++) if (Math.abs(P[v * 3 + 1] - ringY) < 2e-6) ring.push([P[v * 3], P[v * 3 + 1], P[v * 3 + 2]]);
+  const loop = legacyRing ? null : capLoop(P, tendon.indices, ringY), ring = []; for (const v of loop ?? []) ring.push([P[v * 3], P[v * 3 + 1], P[v * 3 + 2]]);
+  if (!loop) for (let v = 0; v < n; v++) if (Math.abs(P[v * 3 + 1] - ringY) < 2e-6) ring.push([P[v * 3], P[v * 3 + 1], P[v * 3 + 2]]);
   if (ring.length < 6) throw new Error('loftBand: no ring at the cut');
   const len = ringY - lo; if (len < .004) return {before: 0, after: 0};
   const rx = ring.map(r => r[0]), rz = ring.map(r => r[2]);
   const cxm = (Math.min(...rx) + Math.max(...rx)) / 2, czm = (Math.min(...rz) + Math.max(...rz)) / 2, Wr = Math.max(...rx) - Math.min(...rx), Tr = Math.max(...rz) - Math.min(...rz), backr = Math.min(...rz);
   const cx0 = rx.reduce((a, b) => a + b, 0) / ring.length, cz0 = rz.reduce((a, b) => a + b, 0) / ring.length;
-  ring.sort((a, b) => Math.atan2(a[2] - cz0, a[0] - cx0) - Math.atan2(b[2] - cz0, b[0] - cx0));
+  if (!loop) ring.sort((a, b) => Math.atan2(a[2] - cz0, a[0] - cx0) - Math.atan2(b[2] - cz0, b[0] - cx0));
   // the original piece section by section: width, middle and back surface
   const nb = Math.max(2, Math.ceil(len / BIN)), xmin = new Float64Array(nb).fill(Infinity), xmax = new Float64Array(nb).fill(-Infinity), zmin = new Float64Array(nb).fill(Infinity), zmax = new Float64Array(nb).fill(-Infinity);
   for (let v = 0; v < n; v++) { const b = Math.min(nb - 1, Math.floor((ringY - P[v * 3 + 1]) / BIN)); if (b < 0) continue; xmin[b] = Math.min(xmin[b], P[v * 3]); xmax[b] = Math.max(xmax[b], P[v * 3]); zmin[b] = Math.min(zmin[b], P[v * 3 + 2]); zmax[b] = Math.max(zmax[b], P[v * 3 + 2]); }
@@ -188,4 +209,75 @@ export function loftBand(tendon, {ringY, thickness = .006, evenWidth = 0, fade =
   if (volume(positions, indices) < 0) for (let i = 0; i < indices.length; i += 3) { const t = indices[i + 1]; indices[i + 1] = indices[i + 2]; indices[i + 2] = t; }
   tendon.positions = positions; tendon.indices = indices;
   return {before: before * 1000, after: after * 1000};
+}
+
+/**
+ * Like loftBand, but the sections follow the tendon's own path instead of horizontal slices, so a tendon that curves round the ankle or runs along the foot is rebuilt as one smooth band or cord.
+ * The path comes from the original piece: every vertex gets its distance along the mesh from the cut ring (Dijkstra over the edges), the vertices of each 3 mm of that distance give a centre, and
+ * the sections stand perpendicular to the smoothed centre line (front of the body = the normal side, so the back of the band lies against the bone). The first section is the cut ring itself.
+ * One strand only (a tendon that splits into several strands, such as the finger or toe tendons, is not handled). Returns the length of the path in millimetres.
+ */
+export function loftPath(tendon, {ringY, thickness = .006, evenWidth = 0, fade = .014, minSlices = 8} = {}) {
+  const P = tendon.positions, I = tendon.indices, n = P.length / 3, BIN = .003;
+  const loopIdx = capLoop(P, I, ringY), ringIdx = loopIdx ? [...loopIdx] : []; if (!loopIdx) for (let v = 0; v < n; v++) if (Math.abs(P[v * 3 + 1] - ringY) < 2e-6) ringIdx.push(v);
+  if (ringIdx.length < 6) throw new Error('loftPath: no ring at the cut');
+  // distance along the mesh from the ring
+  const adj = Array.from({length: n}, () => []);
+  const dist3 = (a, b) => Math.hypot(P[a * 3] - P[b * 3], P[a * 3 + 1] - P[b * 3 + 1], P[a * 3 + 2] - P[b * 3 + 2]);
+  for (let i = 0; i < I.length; i += 3) for (let k = 0; k < 3; k++) { const a = I[i + k], b = I[i + (k + 1) % 3]; adj[a].push(b); adj[b].push(a); }
+  const D = new Float64Array(n).fill(Infinity), heap = [];
+  const push = (d, v) => { heap.push([d, v]); let i = heap.length - 1; while (i > 0) { const p = (i - 1) >> 1; if (heap[p][0] <= heap[i][0]) break; [heap[p], heap[i]] = [heap[i], heap[p]]; i = p; } };
+  const pop = () => { const top = heap[0], last = heap.pop(); if (heap.length) { heap[0] = last; let i = 0; for (;;) { let m = i; const l = 2 * i + 1, r = l + 1; if (l < heap.length && heap[l][0] < heap[m][0]) m = l; if (r < heap.length && heap[r][0] < heap[m][0]) m = r; if (m === i) break; [heap[m], heap[i]] = [heap[i], heap[m]]; i = m; } } return top; };
+  for (const v of ringIdx) { D[v] = 0; push(0, v); }
+  while (heap.length) { const [d, v] = pop(); if (d > D[v]) continue; for (const u of adj[v]) { const nd = d + dist3(v, u); if (nd < D[u]) { D[u] = nd; push(nd, u); } } }
+  let L = 0; for (let v = 0; v < n; v++) if (isFinite(D[v])) L = Math.max(L, D[v]);
+  if (L < .006) return 0;
+  // centre line: mean of the vertices in each bin of path distance, smoothed
+  const nb = Math.ceil(L / BIN) + 1, cen = Array.from({length: nb}, () => [0, 0, 0, 0]);
+  for (let v = 0; v < n; v++) if (isFinite(D[v])) { const b = Math.min(nb - 1, Math.floor(D[v] / BIN)), c = cen[b]; c[0] += P[v * 3]; c[1] += P[v * 3 + 1]; c[2] += P[v * 3 + 2]; c[3]++; }
+  const rc = [0, 0, 0]; for (const v of ringIdx) for (let k = 0; k < 3; k++) rc[k] += P[v * 3 + k] / ringIdx.length;
+  let line = cen.map((c, b) => c[3] ? [c[0] / c[3], c[1] / c[3], c[2] / c[3]] : null);
+  for (let b = 0; b < nb; b++) if (!line[b]) line[b] = line[b - 1] ?? rc;
+  line[0] = rc;
+  for (let pass = 0; pass < 4; pass++) { const c = line.map(x => [...x]); for (let b = 1; b < nb - 1; b++) for (let k = 0; k < 3; k++) line[b][k] = (c[b - 1][k] + 2 * c[b][k] + c[b + 1][k]) / 4; }
+  const K = Math.max(minSlices, Math.ceil(L / .003)), centre = [], tang = [];
+  const at = (t, k) => { const f = Math.max(0, Math.min(nb - 1, t / BIN)), a = Math.floor(f), b = Math.min(nb - 1, a + 1), w = f - a; return line[a][k] * (1 - w) + line[b][k] * w; };
+  for (let k = 0; k <= K; k++) { const t = L * k / K; centre.push([at(t, 0), at(t, 1), at(t, 2)]); }
+  for (let k = 0; k <= K; k++) { const a = centre[Math.max(0, k - 1)], b = centre[Math.min(K, k + 1)], d = [b[0] - a[0], b[1] - a[1], b[2] - a[2]], l = Math.hypot(...d) || 1; tang.push(d.map(x => x / l)); }
+  const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]], dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2], unit = a => { const l = Math.hypot(...a) || 1; return a.map(x => x / l); };
+  const frame = T => { let ref = [0, 0, 1]; if (Math.abs(dot(ref, T)) > .92) ref = [1, 0, 0]; const N = unit(ref.map((x, i) => x - dot(ref, T) * T[i])); return {N, B: cross(T, N)}; };
+  const frames = tang.map(frame);
+  // extents of the original piece in each section's frame (vertices within one bin of its distance)
+  const ext = [];
+  for (let k = 0; k <= K; k++) {
+    const t = L * k / K, c = centre[k], {N, B} = frames[k]; let w0 = Infinity, w1 = -Infinity, n0 = Infinity, n1 = -Infinity;
+    for (let v = 0; v < n; v++) if (isFinite(D[v]) && Math.abs(D[v] - t) < BIN * 1.2) { const d = [P[v * 3] - c[0], P[v * 3 + 1] - c[1], P[v * 3 + 2] - c[2]], w = dot(d, B), q = dot(d, N); w0 = Math.min(w0, w); w1 = Math.max(w1, w); n0 = Math.min(n0, q); n1 = Math.max(n1, q); }
+    ext.push(isFinite(w0) ? [w0, w1, n0, n1] : ext[k - 1] ?? [-.002, .002, -.002, .002]);
+  }
+  for (let pass = 0; pass < 3; pass++) { const c = ext.map(x => [...x]); for (let k = 1; k < K; k++) for (let j = 0; j < 4; j++) ext[k][j] = (c[k - 1][j] + 2 * c[k][j] + c[k + 1][j]) / 4; }
+  const meanW = ext.reduce((a, e) => a + e[1] - e[0], 0) / ext.length;
+  // the ring in its own frame
+  const f0 = frames[0], rpts = ringIdx.map(v => { const d = [P[v * 3] - rc[0], P[v * 3 + 1] - rc[1], P[v * 3 + 2] - rc[2]]; return {x: [P[v * 3], P[v * 3 + 1], P[v * 3 + 2]], w: dot(d, f0.B), q: dot(d, f0.N)}; });
+  const rw0 = Math.min(...rpts.map(r => r.w)), rw1 = Math.max(...rpts.map(r => r.w)), rn0 = Math.min(...rpts.map(r => r.q)), rn1 = Math.max(...rpts.map(r => r.q));
+  const Wr = rw1 - rw0 || 1e-3, Tr = rn1 - rn0 || 1e-3, wm0 = (rw0 + rw1) / 2, cw = rpts.reduce((a, r) => a + r.w, 0) / rpts.length, cq = rpts.reduce((a, r) => a + r.q, 0) / rpts.length;
+  if (!loopIdx) rpts.sort((a, b) => Math.atan2(a.q - cq, a.w - cw) - Math.atan2(b.q - cq, b.w - cw));
+  const N0 = rpts.length, ss = t => { t = Math.max(0, Math.min(1, t)); return t * t * (3 - 2 * t); }, fd = Math.min(fade, L * .45), pos = [], idx = [];
+  for (let k = 0; k <= K; k++) {
+    const d = L * k / K, s = ss(d / fd), e = ss(d / (fd * 1.6)), [w0, w1, n0, n1] = ext[k], {N, B} = frames[k], c = centre[k];
+    const Wt = (1 - evenWidth) * (w1 - w0) + evenWidth * meanW, wmt = (w0 + w1) / 2, Tt = Math.min(n1 - n0, thickness);
+    const W = Wr + (Wt - Wr) * s, T = Tr + (Tt - Tr) * s, wm = wm0 + (wmt - wm0) * s, nb0 = rn0 + (n0 - rn0) * s;
+    for (const r of rpts) {
+      if (k === 0) { pos.push(...r.x); continue; }
+      const u = (r.w - wm0) / Wr, v = (r.q - (rn0 + rn1) / 2) / Tr, th = Math.atan2(v, u), uu = (1 - e) * u + e * .5 * Math.cos(th), vv = (1 - e) * v + e * .5 * Math.sin(th);
+      const a = wm + uu * W, b = nb0 + T / 2 + vv * T;
+      pos.push(c[0] + B[0] * a + N[0] * b, c[1] + B[1] * a + N[1] * b, c[2] + B[2] * a + N[2] * b);
+    }
+  }
+  for (let k = 0; k < K; k++) for (let i = 0; i < N0; i++) { const a = k * N0 + i, b = k * N0 + (i + 1) % N0, c = (k + 1) * N0 + i, d2 = (k + 1) * N0 + (i + 1) % N0; idx.push(a, c, b, b, c, d2); }
+  const cap = (k, flip) => { const c = pos.length / 3; let sx = 0, sy = 0, sz = 0; for (let i = 0; i < N0; i++) { sx += pos[(k * N0 + i) * 3]; sy += pos[(k * N0 + i) * 3 + 1]; sz += pos[(k * N0 + i) * 3 + 2]; } pos.push(sx / N0, sy / N0, sz / N0); for (let i = 0; i < N0; i++) { const a = k * N0 + i, b = k * N0 + (i + 1) % N0; idx.push(...(flip ? [c, b, a] : [c, a, b])); } };
+  cap(0, false); cap(K, true);
+  const positions = Float32Array.from(pos), indices = Uint32Array.from(idx);
+  if (volume(positions, indices) < 0) for (let i = 0; i < indices.length; i += 3) { const t = indices[i + 1]; indices[i + 1] = indices[i + 2]; indices[i + 2] = t; }
+  tendon.positions = positions; tendon.indices = indices;
+  return L * 1000;
 }

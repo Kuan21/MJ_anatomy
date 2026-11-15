@@ -124,6 +124,25 @@ for (const [name, system] of [['Right gluteus maximus', 'muscular'], ['Right sci
   viewer.update({...state, answered: true, pickedId: state.target.id}); frame();
   assert.ok(meshes(state.target.id).every(m => m.material.color.getHexString() === '5db89a'));
 }
+// A limb space has no mesh of its own: its members (boundaries and contents) are the target, the structures around it are the other choices.
+{
+  const space = targetNamed('Right tarsal tunnel'), memberIds = new Set(space.space.members.map(m => m.id));
+  state = makeState('space', 'Right tarsal tunnel'); viewer.update(state); await settle();
+  assert.ok(ready.at(-1).value && errors.length === 0);
+  const visible = meshes().filter(m => m.visible), memberMeshes = visible.filter(m => memberIds.has(m.userData.structureId)), others = visible.filter(m => !memberIds.has(m.userData.structureId));
+  assert.ok([...memberIds].every(id => meshes(id).length && meshes(id).every(m => m.visible)), 'every member of the space is in the scene');
+  assert.ok(others.length > 0, 'the structures around the space are in the scene too');
+  assert.ok(visible.every(m => m.material.opacity === 1), 'nothing is faded before the answer (a faded neighbour would give the answer away)');
+  assert.ok(meshes(space.id).length === 0, 'the space itself has no mesh');
+  const member = [...memberIds].find(id => projectedHit(id)); assert.ok(member, 'a member can be tapped'); click(projectedHit(member)); assert.equal(picks.at(-1), member);
+  const outside = [...new Set(others.map(m => m.userData.structureId))].find(id => projectedHit(id)); assert.ok(outside, 'a structure around the space can be tapped'); click(projectedHit(outside)); assert.equal(picks.at(-1), outside);
+  viewer.update({...state, answered: true}); frame();
+  assert.ok(meshes().filter(m => m.visible && memberIds.has(m.userData.structureId)).every(m => m.material.color.getHexString() === '5db89a' && m.material.opacity === 1 && m.material.depthTest), 'members are green and solid in the answer');
+  assert.ok(meshes().filter(m => m.visible && !memberIds.has(m.userData.structureId)).every(m => m.material.opacity < .5), 'the rest is faded in the answer');
+  viewer.update({...state, mode: 'name'}); frame();
+  assert.ok(meshes().filter(m => m.visible && memberIds.has(m.userData.structureId)).every(m => m.material.color.getHexString() === 'fbe27a'), 'members are yellow in levels 2 and 3');
+  assert.ok(meshes().filter(m => m.visible && !memberIds.has(m.userData.structureId)).every(m => m.material.opacity < 1), 'the rest is faded in levels 2 and 3');
+}
 const completedRequests = requests.length;
 viewer.update(makeState('cached', 'Right patella', 'knee')); await settle();
 assert.equal(requests.length, completedRequests, 'Revisiting a question reuses loaded geometry');

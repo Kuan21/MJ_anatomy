@@ -974,6 +974,12 @@
 },
 "neuro-0189": {
 "region": "die",
+"zh": "外側膝狀體",
+"aka": [
+{
+"zh": "外膝狀體"
+}
+],
 "mesh": [
 "Lateral geniculate body"
 ]
@@ -985,6 +991,12 @@
 },
 "neuro-0191": {
 "region": "die",
+"zh": "內側膝狀體",
+"aka": [
+{
+"zh": "內膝狀體"
+}
+],
 "mesh": [
 "Medial geniculate body"
 ]
@@ -996,6 +1008,7 @@
 },
 "neuro-0193": {
 "region": "cbl",
+"zh": "小腦上腳",
 "mesh": [
 "Superior cerebellar peduncle"
 ]
@@ -1347,9 +1360,7 @@
 "en": "Middle cerebral artery (MCA)",
 "mesh": [
 "Middle cerebral artery (M1-segment)",
-"Middle cerebral artery (M3 segment)",
 "Middle cerebral artery (M3-segment)",
-"Insular branches of middle cerebral artery (M2)",
 "Insular branches of middle cerebral artery (M2-segment)",
 "Parietal branches of middle cerebral artery",
 "Temporal branches of middle cerebral artery"
@@ -2988,6 +2999,17 @@
 "VPM",
 "腹後內側"
 ]
+},
+{
+"id": "x002",
+"zh": "小腦上腳交叉",
+"en": "Decussation of superior cerebellar peduncles",
+"type": "tract_pathway",
+"region": "cbl",
+"mesh": [
+"Decussation of superior cerebellar peduncles"
+],
+"terms": []
 }
 ]
 }

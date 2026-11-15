@@ -20,11 +20,12 @@ import tendonsLowerLimb from '../paokao-structures/tendons-lower-limb.mjs';
 import zanatomyLowerLimb from '../paokao-structures/zanatomy-lower-limb.mjs';
 import ligamentsLowerLimb from '../paokao-structures/ligaments-lower-limb.mjs';
 
+import occipitalAponeurosis from '../paokao-structures/occipital-aponeurosis.mjs';
 import {clearBones} from './nerve-bone-clearance.mjs';
 
 export function buildAll() {
   const w = loadWorld(), U = makeUtil(w), specs = [...thorax(U), ...thoraxNerves(U), ...upperLimb(U), ...limbVeins(U), ...lowerLimb(U), ...thoraxExtra(U), ...landmarks(U), ...membranes(U), ...knee(U), ...spacesMuscles(U), ...lungs(U), ...neckBreastVulva(U)], built = [];
-  const lateSpecs = [...lungs(U, 'late'), ...tendonsUpperLimb(U, w), ...zanatomyUpperLimb(), ...ligamentsUpperLimb(U), ...tendonsLowerLimb(), ...zanatomyLowerLimb(U), ...ligamentsLowerLimb(U)], late = [];
+  const lateSpecs = [...lungs(U, 'late'), ...tendonsUpperLimb(U, w), ...zanatomyUpperLimb(), ...ligamentsUpperLimb(U), ...tendonsLowerLimb(), ...zanatomyLowerLimb(U), ...ligamentsLowerLimb(U), ...occipitalAponeurosis(U, w)], late = [];
   for (const s of [...specs, ...lateSpecs]) {
     const pieces = [];
     for (const t of s.tubes ?? []) pieces.push(U.tube(t.pts, t.r[0], t.r[1] ?? t.r[0], t.samples ?? 24, t.sides ?? 12));

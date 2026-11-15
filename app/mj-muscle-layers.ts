@@ -3,7 +3,7 @@ import layerDoc from '../docs/muscle-layers.json';
 
 /**
  * Dissection layers come from docs/muscle-layers.json (the user's own
- * 跑考 summary). order 1 = most superficial. "Peeling to layer N" hides the
+ * exam-scope list). order 1 = most superficial. "Peeling to layer N" hides the
  * muscles of that region whose order is smaller than N, so the deeper ones
  * show; muscles outside the chosen region are never touched.
  */
@@ -56,7 +56,8 @@ function patternsFor(en:string,regionId=''):RegExp[]{
  return[new RegExp(`^(?:(?:left|right) )?${esc(e)}(?: muscle)?$|^(?:\\w+ (?:part|head) of )${SIDE}${esc(e)}$${suffix}`)];
 }
 
-const NOT_MUSCLE=/artery|vein|nerve|ligament|tendon sheath|bursa|fascia\b(?! lata)/;
+// the pale tendinous origin of trapezius on the back of the skull (a connective-tissue part of the head) is not a muscle of the dissection layers
+const NOT_MUSCLE=/artery|vein|nerve|ligament|tendon sheath|bursa|fascia\b(?! lata)|nuchal origin of trapezius/;
 const compiled=new Map<string,{region:string;order:number;res:RegExp[]}[]>();
 for(const r of MUSCLE_LAYER_REGIONS){
  const list:{region:string;order:number;res:RegExp[]}[]=[];
@@ -129,7 +130,7 @@ export const LAYER_GROUP_OF:Record<string,{en:string;zh:string}>={
  gluteal:{en:'Lower limb',zh:'下肢'},thigh_anterior:{en:'Lower limb',zh:'下肢'},thigh_medial:{en:'Lower limb',zh:'下肢'},thigh_posterior:{en:'Lower limb',zh:'下肢'},leg_anterior:{en:'Lower limb',zh:'下肢'},leg_lateral:{en:'Lower limb',zh:'下肢'},leg_posterior:{en:'Lower limb',zh:'下肢'},foot_dorsum:{en:'Lower limb',zh:'下肢'},foot_sole:{en:'Lower limb',zh:'下肢'}
 };
 
-/** English first, Chinese (the 跑考 summary's wording) after. */
+/** English first, Chinese (the exam-scope wording) after. */
 const REGION_NAMES:Record<string,string>={
  back_superficial:'Superficial back muscles (extrinsic)｜背部淺層（外在肌群）',
  back_deep:'Deep back muscles (intrinsic)｜背部深層（內在肌群）',

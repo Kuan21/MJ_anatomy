@@ -72,7 +72,7 @@
   "y": 0.908
  },
  {
-  "id": "PK-141",
+  "id": "PK-143",
   "name": "Right iliac crest",
   "system": "skeletal",
   "stream": "paokao",
@@ -81,7 +81,7 @@
   "y": 1.031
  },
  {
-  "id": "PK-142",
+  "id": "PK-144",
   "name": "Right pubic tubercle",
   "system": "skeletal",
   "stream": "paokao",
@@ -90,7 +90,7 @@
   "y": 0.88
  },
  {
-  "id": "PK-143",
+  "id": "PK-145",
   "name": "Right ischial tuberosity",
   "system": "skeletal",
   "stream": "paokao",
@@ -99,7 +99,7 @@
   "y": 0.837
  },
  {
-  "id": "PK-144",
+  "id": "PK-146",
   "name": "Right spine of ischium",
   "system": "skeletal",
   "stream": "paokao",
@@ -108,7 +108,7 @@
   "y": 0.968
  },
  {
-  "id": "PK-157",
+  "id": "PK-159",
   "name": "Left iliac crest",
   "system": "skeletal",
   "stream": "paokao",
@@ -117,7 +117,7 @@
   "y": 1.03
  },
  {
-  "id": "PK-158",
+  "id": "PK-160",
   "name": "Left pubic tubercle",
   "system": "skeletal",
   "stream": "paokao",
@@ -126,7 +126,7 @@
   "y": 0.88
  },
  {
-  "id": "PK-159",
+  "id": "PK-161",
   "name": "Left ischial tuberosity",
   "system": "skeletal",
   "stream": "paokao",
@@ -135,7 +135,7 @@
   "y": 0.836
  },
  {
-  "id": "PK-160",
+  "id": "PK-162",
   "name": "Left spine of ischium",
   "system": "skeletal",
   "stream": "paokao",

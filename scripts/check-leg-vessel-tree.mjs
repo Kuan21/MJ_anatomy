@@ -25,7 +25,7 @@ for (const v of tree.vessels) {
   if (v.parent && !ids.has(v.parent)) fail(v.id, 'parent', 1, `parent ${v.parent} missing`);
   let p = v, k = 0; while (p?.parent && k++ < 50) p = tree.vessels.find(x => x.id === p.parent); if (k >= 50) fail(v.id, 'cycle', 1, 'cycle');
   if (!v.origin?.en || !v.origin?.zh || !v.course?.en || !v.course?.zh || !v.supply?.en || !v.supply?.zh) fail(v.id, 'card fields', 1, 'origin, course and supply need English and Chinese text');
-  if (!v.terminal && !v.joinsTo && !v.continuesInto && !tree.vessels.some(x => x.parent === v.id || x.parentPending === v.id)) fail(v.id, 'dead end', 1, 'not terminal and has no child');
+  if (!v.terminal && !v.joinsTo && !v.continuesInto && !v.feeds && !tree.vessels.some(x => x.parent === v.id || x.parentPending === v.id)) fail(v.id, 'dead end', 1, 'not terminal and has no child');
   if (v.joinsTo && !ids.has(v.joinsTo)) fail(v.id, 'joinsTo', 1, `joinsTo ${v.joinsTo} missing`);
   for (const c of v.continuesInto ?? []) if (ids.has(c) && !tree.vessels.some(x => x.id === c && x.parent === v.id)) fail(v.id, 'continuesInto', 1, `${c} exists but does not name ${v.id} as its parent`);
 }

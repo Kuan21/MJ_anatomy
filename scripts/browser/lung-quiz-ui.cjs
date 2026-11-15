@@ -32,7 +32,7 @@ const ok=(name,pass,info='')=>console.log((pass?'PASS ':'FAIL ')+name+(info?'  '
  // level 2
  await p.goto(`http://127.0.0.1:${port}/#/quiz`);await p.reload();
  await p.waitForSelector('[data-part="lung"]');await p.locator('[data-part="lung"]').click();await p.waitForSelector('text=肺篇');
- await p.locator('button',{hasText:'第二級'}).click();await p.locator('button',{hasText:'壓跡與溝'}).click();
+ await p.locator('button',{hasText:'第三級'}).click();await p.locator('button',{hasText:'壓跡與溝'}).click();
  await p.locator('button',{hasText:'開始測驗'}).click();
  await p.waitForSelector('input[type=text], input:not([type])');
  await p.waitForTimeout(60000);

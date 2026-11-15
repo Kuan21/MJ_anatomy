@@ -16,7 +16,7 @@ for(const p of atlas.parts){
  const c=p.bounds[0].map((v,k)=>(v+p.bounds[1][k])/2);
  if(Math.hypot(c[0]-sh[0],c[1]-sh[1],c[2]-sh[2])>.33||c[0]<-0.02)continue;
  const g=geometry(p);let posed=g.positions;const b=m.tissueBindings[p.id];
- if(b&&b.name===p.name){const prof=m.resolveNeurovascularProfile(p.name,b.profile);try{const sk=m.bindTissue(rig,prof,g.positions,p,'',g.indices);if(p.id.endsWith('-END')){const mn=skins.get(p.id.slice(0,-4));if(mn)m.alignEndPiece(sk,g.positions,mn.sk,mn.pos);}else skins.set(p.id,{sk,pos:g.positions});posed=new Float32Array(g.positions.length);m.deformTissue(sk,g.positions,palette,posed);}catch(e){console.log('BINDERR',p.id,p.name,e.message.slice(0,80));}}
+ if(b&&b.name===p.name){const prof=m.resolveNeurovascularProfile(p.name,b.profile);try{const sk=m.bindTissue(rig,prof,g.positions,p,'',g.indices);if(p.id.endsWith('-END')){const mn=skins.get(p.id.slice(0,-4));if(mn)m.alignEndPiece(sk,g.positions,mn.sk,mn.pos,undefined,g.indices);}else skins.set(p.id,{sk,pos:g.positions});posed=new Float32Array(g.positions.length);m.deformTissue(sk,g.positions,palette,posed);}catch(e){console.log('BINDERR',p.id,p.name,e.message.slice(0,80));}}
  rows.push({p,rest:g.positions,posed,bound:!!(b&&b.name===p.name)});
 }
 const cell=.004,h=new Map();

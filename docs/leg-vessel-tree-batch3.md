@@ -54,7 +54,7 @@
 
 - Origin 起點：Anterior tibial artery, in front of the ankle joint｜脛前動脈，踝關節前方
 - Course 走向：Runs forwards on the dorsum of the foot lateral to the tendon of extensor hallucis longus, gives the tarsal arteries, and ends by dipping between the first and second metatarsal bones as the deep plantar artery｜在足背沿伸拇長肌腱外側向前，分出跗動脈，終末在第一、二蹠骨之間轉入足底，成為深蹠動脈
-- Main branches 主要分支：Lateral tarsal artery（跗外側動脈）、Medial tarsal arteries（跗內側動脈）
+- Main branches 主要分支：Lateral tarsal artery（跗外側動脈）、Medial tarsal arteries（跗內側動脈）、Arcuate artery（弓狀動脈）、Deep plantar artery（深蹠動脈）、Dorsal metatarsal artery 1（第一蹠背動脈）
 - Territory 供應範圍：Dorsum of the foot, the tarsal joints and the first toe cleft｜足背、跗關節與第一趾間
 
 ### Lateral tarsal artery｜跗外側動脈
@@ -75,7 +75,7 @@
 
 - Origin 起點：Popliteal artery, at the lower border of popliteus｜膕動脈，在膕肌下緣
 - Course 走向：Runs down the deep posterior compartment behind tibialis posterior, between flexor digitorum longus and flexor hallucis longus, with the tibial nerve, passes behind the medial malleolus through the tarsal tunnel and divides into the medial and lateral plantar arteries｜在小腿後區深層沿脛後肌後方下行，位於屈趾長肌與屈拇長肌之間，與脛神經同行，經內踝後方的跗隧道，分為足底內側與外側動脈
-- Main branches 主要分支：Circumflex fibular artery（旋腓動脈）、Fibular artery（腓動脈）、Posterior medial malleolar artery（後內踝動脈）、Calcaneal branches of posterior tibial artery（脛後動脈跟骨支）
+- Main branches 主要分支：Circumflex fibular artery（旋腓動脈）、Medial plantar artery（足底內側動脈）、Fibular artery（腓動脈）、Lateral plantar artery（足底外側動脈）、Posterior medial malleolar artery（後內踝動脈）、Calcaneal branches of posterior tibial artery（脛後動脈跟骨支）
 - Territory 供應範圍：Muscles of the posterior and lateral compartments, the tibia, and through its terminal branches the sole of the foot｜小腿後區與外側區肌肉、脛骨，並經終支供應足底
 - 位置關係：tibial nerve lateral to the artery in the lower leg
 

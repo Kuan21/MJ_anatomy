@@ -18,8 +18,9 @@ const MUSCLE_GROUPS:[string,RegExp][]=[
  ['bic',/right biceps brachii/i],
  ['brach',/right brachialis/i],
  ['tric',/right triceps brachii/i],
- ['flex',/right (flexor (carpi|digitorum|pollicis longus)|palmaris|pronator)|(head of right (flexor carpi|pronator))/i],
- ['ext',/right (extensor (carpi|digit|indicis|pollicis)|abductor pollicis longus|brachioradialis|anconeus)/i],
+ // 注意：小腿與足部也有 flexor／extensor digitorum longus，不可被上肢的群組選到
+ ['flex',/right (flexor (carpi [a-z ]+|digitorum (superficialis|profundus)|pollicis longus)|palmaris|pronator)|(head of right (flexor carpi|pronator))/i],
+ ['ext',/right (extensor (carpi [a-z ]+|digiti minimi|indicis|pollicis (longus|brevis))|extensor digitorum$|abductor pollicis longus|brachioradialis|anconeus)/i],
  ['sup',/right supinator/i],
  ['then',/right (abductor pollicis brevis|opponens pollicis|flexor pollicis brevis)|flexor pollicis brevis/i],
  ['hypo',/(abductor digiti minimi|flexor digiti minimi brevis|opponens digiti minimi) of right hand/i],

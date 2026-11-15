@@ -15,6 +15,15 @@ import {ownerSwitchesOn,referenceMuscles,ruleParts,type Owners} from './mj-owner
  */
 export type VisibilityState=Pick<SceneState,'visible'|'selected'|'hiddenParts'|'focusParts'|'isolate'|'depthFilter'|'muscleRegion'|'muscleLayer'|'faceMuscleLayer'|'heartOpen'|'sex'|'hiddenSerous'>;
 
+/**
+ * Every field of VisibilityState decides what partVisibility shows, so the scene must redraw when any of them changes. The record makes this list complete at compile
+ * time (a field added to VisibilityState without a line here does not type-check), and the scene uses visibilityChanged for its "did the display rules change" test.
+ * Before this list the scene compared only some of the fields: switching 男／女 while Reproductive was already on changed nothing on screen until another switch was touched.
+ */
+const VISIBILITY_INPUTS:Record<keyof VisibilityState,true>={visible:true,selected:true,hiddenParts:true,focusParts:true,isolate:true,depthFilter:true,muscleRegion:true,muscleLayer:true,faceMuscleLayer:true,heartOpen:true,sex:true,hiddenSerous:true};
+export const VISIBILITY_KEYS=Object.keys(VISIBILITY_INPUTS) as (keyof VisibilityState)[];
+export const visibilityChanged=(before:VisibilityState|null|undefined,now:VisibilityState)=>!before||VISIBILITY_KEYS.some(k=>before[k]!==now[k]);
+
 export function partVisibility(owners:Owners,s:VisibilityState){
  const visible=new Set<SystemId>(s.visible),selection=new Set(s.selected),hidden=new Set(s.hiddenParts??[]),focus=s.focusParts?new Set(s.focusParts):null;
  const ruleVisible=(p:Part,viaOwner=false)=>{

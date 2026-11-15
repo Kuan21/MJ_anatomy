@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {netterEnglishName} from '../app/mj-netter-terminology.ts';
+import {displayEnglishName} from '../app/mj-display-terminology.ts';
 
 const cases=[
  ['Celiac artery','arterial','Celiac trunk'],
@@ -22,10 +22,10 @@ const cases=[
 ];
 
 for(const [raw,system,expected] of cases){
- const actual=netterEnglishName(raw,system);
+ const actual=displayEnglishName(raw,system);
  assert.equal(actual,expected,`${raw} -> ${actual}`);
 }
-console.log(`Netter terminology regression: ${cases.length} cases passed`);
+console.log(`display terminology regression: ${cases.length} cases passed`);
 
 
 const atlas=JSON.parse(await readFile(new URL('../public/models/atlas.json',import.meta.url),'utf8'));
@@ -33,7 +33,7 @@ const facial=JSON.parse(await readFile(new URL('../public/models/facial/atlas.js
 const namedSystems=new Set(['muscular','skeletal','nervous','arterial','venous','connective']);
 const all=[...(atlas.parts??[]),...(facial.parts??[])].filter(p=>namedSystems.has(p.system));
 for(const part of all){
- const label=netterEnglishName(part.name,part.system);
+ const label=displayEnglishName(part.name,part.system);
  assert.ok(label.trim().length>0,`empty terminology for ${part.id}`);
  assert.ok(!/^set of\b/i.test(label),`dataset wording leaked: ${part.name} -> ${label}`);
  assert.ok(!/supra-orbital|infra-orbital/i.test(label),`legacy hyphenation leaked: ${label}`);

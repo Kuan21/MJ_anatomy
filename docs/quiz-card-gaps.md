@@ -39,15 +39,8 @@
 - 小趾近節趾骨（Proximal phalanx of left little toe）：缺 主要標誌、相關關節、附著肌肉
 - 第二趾近節趾骨（Proximal phalanx of right second toe）：缺 主要標誌、相關關節、附著肌肉
 
-### 肌肉：52 / 60 項資料完整
+### 肌肉：59 / 60 項資料完整
 
-- 足第一蚓狀肌（First lumbrical of right foot）：缺 起點、止點、作用、神經支配、血液供應
-- 足第一蹠側骨間肌（First plantar interosseous of right foot）：缺 起點、止點、作用、神經支配、血液供應
-- 足第二蚓狀肌（Second lumbrical of right foot）：缺 起點、止點、作用、神經支配、血液供應
-- 足第二蹠側骨間肌（Second plantar interosseous of right foot）：缺 起點、止點、作用、神經支配、血液供應
-- 足第三蚓狀肌（Third lumbrical of right foot）：缺 起點、止點、作用、神經支配、血液供應
-- 足第三蹠側骨間肌（Third plantar interosseous of right foot）：缺 起點、止點、作用、神經支配、血液供應
-- 足第四蚓狀肌（Fourth lumbrical of right foot）：缺 起點、止點、作用、神經支配、血液供應
 - 闊筋膜張肌（tensor fasciae latae）：缺 起點、止點、作用、神經支配、血液供應
 
 ### 肌腱：0 / 19 項資料完整
@@ -154,6 +147,73 @@
 - 閉孔靜脈（obturator vein）：缺 來源、走向、主要分支、引流範圍
 - 臀上靜脈（superior gluteal vein）：缺 來源、走向、主要分支、引流範圍
 
+### 關節構造：0 / 58 項資料完整
+
+- 前脛腓韌帶（anterior tibiofibular ligament）：缺 所屬關節、附著與連結、功能
+- 後脛腓韌帶（posterior tibiofibular ligament）：缺 所屬關節、附著與連結、功能
+- 脛腓橫韌帶（transverse tibiofibular ligament）：缺 所屬關節、附著與連結、功能
+- 後脛距韌帶（posterior tibiotalar ligament）：缺 所屬關節、附著與連結、功能
+- 脛跟韌帶（tibiocalcaneal ligament）：缺 所屬關節、附著與連結、功能
+- 脛舟韌帶（tibionavicular ligament）：缺 所屬關節、附著與連結、功能
+- 髖臼唇（acetabular labrum）：缺 所屬關節、附著與連結、功能
+- 髖關節囊（articular capsule of hip joint）：缺 所屬關節、附著與連結、功能
+- 髂股韌帶降部（descending part of iliofemoral ligament）：缺 所屬關節、附著與連結、功能
+- 坐股韌帶（ischiofemoral ligament）：缺 所屬關節、附著與連結、功能
+- 股骨頭韌帶（ligament of head of femur）：缺 所屬關節、附著與連結、功能
+- 恥股韌帶（pubofemoral ligament）：缺 所屬關節、附著與連結、功能
+- 髖臼橫韌帶（transverse acetabular ligament）：缺 所屬關節、附著與連結、功能
+- 髂股韌帶橫部（transverse part of iliofemoral ligament）：缺 所屬關節、附著與連結、功能
+- 背側蹠骨韌帶（dorsal metatarsal ligaments）：缺 所屬關節、附著與連結、功能
+- 籽骨間韌帶（intersesamoid ligament）：缺 所屬關節、附著與連結、功能
+- 蹠骨間韌帶（metatarsal interosseous ligaments）：缺 所屬關節、附著與連結、功能
+- 足底蹠骨韌帶（plantar metatarsal ligaments）：缺 所屬關節、附著與連結、功能
+- 拇趾趾間關節囊（articular capsule of interphalangeal joint of great toe）：缺 所屬關節、附著與連結、功能
+- 足趾間關節側副韌帶（collateral interphalangeal ligaments of foot）：缺 所屬關節、附著與連結、功能
+- 足底趾間韌帶（plantar interphalangeal ligaments）：缺 所屬關節、附著與連結、功能
+- 前距跟韌帶（anterior talocalcaneal ligament）：缺 所屬關節、附著與連結、功能
+- 跟骰韌帶（calcaneocuboid ligament）：缺 所屬關節、附著與連結、功能
+- 跟舟韌帶（calcaneonavicular ligament）：缺 所屬關節、附著與連結、功能
+- 楔骰骨間韌帶（cuneocuboid interosseous ligament）：缺 所屬關節、附著與連結、功能
+- 背側楔舟韌帶（dorsal cuneonavicular ligaments）：缺 所屬關節、附著與連結、功能
+- 背側楔間韌帶（dorsal intercuneiform ligaments）：缺 所屬關節、附著與連結、功能
+- 楔間骨間韌帶（intercuneiform interosseous ligaments）：缺 所屬關節、附著與連結、功能
+- 外側距跟韌帶（lateral talocalcaneal ligament）：缺 所屬關節、附著與連結、功能
+- 內側距跟韌帶（medial talocalcaneal ligament）：缺 所屬關節、附著與連結、功能
+- 足底跟骰韌帶（plantar calcaneocuboid ligament）：缺 所屬關節、附著與連結、功能
+- 足底楔骰韌帶（plantar cuneocuboid ligament）：缺 所屬關節、附著與連結、功能
+- 足底楔舟韌帶（plantar cuneonavicular ligaments）：缺 所屬關節、附著與連結、功能
+- 足底楔間韌帶（plantar intercuneiform ligaments）：缺 所屬關節、附著與連結、功能
+- 後距跟韌帶（posterior talocalcaneal ligament）：缺 所屬關節、附著與連結、功能
+- 距跟骨間韌帶（talocalcaneal interosseous ligament）：缺 所屬關節、附著與連結、功能
+- 距舟韌帶（talonavicular ligament）：缺 所屬關節、附著與連結、功能
+- 蹠趾關節側副韌帶（collateral metatarsophalangeal ligaments）：缺 所屬關節、附著與連結、功能
+- 蹠骨深橫韌帶（deep transverse metatarsal ligament）：缺 所屬關節、附著與連結、功能
+- 足底蹠趾韌帶（plantar metatarsophalangeal ligaments）：缺 所屬關節、附著與連結、功能
+- 楔蹠骨間韌帶（cuneometatarsal interosseous ligaments）：缺 所屬關節、附著與連結、功能
+- 背側跗蹠韌帶（dorsal tarsometatarsal ligaments）：缺 所屬關節、附著與連結、功能
+- 足底跗蹠韌帶（plantar tarsometatarsal ligaments）：缺 所屬關節、附著與連結、功能
+- 前十字韌帶（anterior cruciate ligament）：缺 所屬關節、附著與連結、功能
+- 弓狀膕韌帶（arcuate popliteal ligament）：缺 所屬關節、附著與連結、功能
+- 膝關節囊（articular capsule of knee joint）：缺 所屬關節、附著與連結、功能
+- 脛側副韌帶深部（deep part of tibial collateral ligament）：缺 所屬關節、附著與連結、功能
+- 外側半月板（lateral meniscus）：缺 所屬關節、附著與連結、功能
+- 內側半月板（medial meniscus）：缺 所屬關節、附著與連結、功能
+- 半月板髕韌帶（meniscopatellar ligament）：缺 所屬關節、附著與連結、功能
+- 斜膕韌帶（oblique popliteal ligament）：缺 所屬關節、附著與連結、功能
+- 膕腓韌帶（popliteofibular ligament）：缺 所屬關節、附著與連結、功能
+- 後十字韌帶（posterior cruciate ligament）：缺 所屬關節、附著與連結、功能
+- 脛側副韌帶淺部（superficial part of tibial collateral ligament）：缺 所屬關節、附著與連結、功能
+- 膝橫韌帶（transverse ligament of knee）：缺 所屬關節、附著與連結、功能
+- 腓骨頭前韌帶（anterior ligament of fibular head）：缺 所屬關節、附著與連結、功能
+- 上脛腓關節囊（articular capsule of superior tibiofibular joint）：缺 所屬關節、附著與連結、功能
+- 腓骨頭後韌帶（posterior ligament of fibular head）：缺 所屬關節、附著與連結、功能
+
+### 特殊空間與孔：2 / 5 項資料完整
+
+- 股三角（femoral triangle）：缺 位置
+- 內收肌管（adductor canal）：缺 位置
+- 膕窩（popliteal fossa）：缺 位置
+
 ## 上肢（Upper limb）
 
 ### 骨骼：0 / 32 項資料完整
@@ -229,7 +289,7 @@
 - 鎖骨下肌神經（subclavian nerve）：缺 來源、走向、主要分支、支配範圍
 - 腋神經（axillary nerve）：缺 來源、走向、主要分支、支配範圍
 - 臂神經叢後束（posterior cord of brachial plexus）：缺 來源、走向、主要分支、支配範圍
-- 外側胸神經（lateral pectoral nerve）：缺 來源、走向、主要分支、支配範圍
+- 外胸神經（lateral pectoral nerve）：缺 來源、走向、主要分支、支配範圍
 - 肌皮神經（musculocutaneous nerve）：缺 來源、走向、主要分支、支配範圍
 - 外側前臂皮神經（lateral antebrachial cutaneous nerve）：缺 來源、走向、主要分支、支配範圍
 - 橈神經深支（deep branch of radial nerve）：缺 來源、走向、主要分支、支配範圍
@@ -335,6 +395,61 @@
 - 中指掌側固有指靜脈（Proper palmar digital vein of left middle finger）：缺 來源、走向、主要分支、引流範圍
 - 無名指掌側固有指靜脈（Proper palmar digital vein of left ring finger）：缺 來源、走向、主要分支、引流範圍
 
+### 關節構造：0 / 48 項資料完整
+
+- 遠端橈尺關節盤（articular disc of distal radio-ulnar joint）：缺 所屬關節、附著與連結、功能
+- 掌側橈尺韌帶（palmar radio-ulnar ligament）：缺 所屬關節、附著與連結、功能
+- 橈骨環狀韌帶（annular ligament of radius）：缺 所屬關節、附著與連結、功能
+- 肘關節囊（articular capsule of elbow joint）：缺 所屬關節、附著與連結、功能
+- 橈側副韌帶（radial collateral ligament）：缺 所屬關節、附著與連結、功能
+- 尺側副韌帶（ulnar collateral ligament）：缺 所屬關節、附著與連結、功能
+- 盂肱關節囊（articular capsule of glenohumeral joint）：缺 所屬關節、附著與連結、功能
+- 喙肱韌帶（coracohumeral ligament）：缺 所屬關節、附著與連結、功能
+- 盂唇（glenoid labrum）：缺 所屬關節、附著與連結、功能
+- 下盂肱韌帶（inferior glenohumeral ligament）：缺 所屬關節、附著與連結、功能
+- 中盂肱韌帶（middle glenohumeral ligament）：缺 所屬關節、附著與連結、功能
+- 上盂肱韌帶（superior glenohumeral ligament）：缺 所屬關節、附著與連結、功能
+- 肱橫韌帶（transverse humeral ligament）：缺 所屬關節、附著與連結、功能
+- 背側腕掌韌帶（dorsal carpometacarpal ligaments）：缺 所屬關節、附著與連結、功能
+- 掌側腕掌韌帶（palmar carpometacarpal ligaments）：缺 所屬關節、附著與連結、功能
+- 背側舟三角韌帶（dorsal scaphotriquetral ligament）：缺 所屬關節、附著與連結、功能
+- 背側腕間韌帶（dorsal intercarpal ligaments）：缺 所屬關節、附著與連結、功能
+- 背側尺腕韌帶（dorsal ulnocarpal ligament）：缺 所屬關節、附著與連結、功能
+- 掌側舟三角韌帶（palmar scaphotriquetral ligament）：缺 所屬關節、附著與連結、功能
+- 豆三角韌帶（pisotriquetral ligament）：缺 所屬關節、附著與連結、功能
+- 腕橈側副韌帶（radial collateral ligament of wrist joint）：缺 所屬關節、附著與連結、功能
+- 腕輻狀韌帶（radiate carpal ligament）：缺 所屬關節、附著與連結、功能
+- 舟大小多角韌帶（scaphotrapeziotrapezoidal ligament）：缺 所屬關節、附著與連結、功能
+- 三角頭狀韌帶（triquetrocapitate ligament）：缺 所屬關節、附著與連結、功能
+- 腕尺側副韌帶（ulnar collateral ligament of wrist joint）：缺 所屬關節、附著與連結、功能
+- 背側掌骨韌帶（dorsal metacarpal ligaments）：缺 所屬關節、附著與連結、功能
+- 掌骨間韌帶（interosseous metacarpal ligaments）：缺 所屬關節、附著與連結、功能
+- 掌側掌骨韌帶（palmar metacarpal ligaments）：缺 所屬關節、附著與連結、功能
+- 手指間關節側副韌帶（collateral interphalangeal ligaments of hand）：缺 所屬關節、附著與連結、功能
+- 指間關節掌側韌帶（palmar interphalangeal ligaments）：缺 所屬關節、附著與連結、功能
+- 掌指關節側副韌帶（collateral metacarpophalangeal ligaments）：缺 所屬關節、附著與連結、功能
+- 掌骨深橫韌帶（deep transverse metacarpal ligament）：缺 所屬關節、附著與連結、功能
+- 橈腕關節囊（articular capsule of radiocarpal joint）：缺 所屬關節、附著與連結、功能
+- 背側橈腕韌帶（dorsal radiocarpal ligament）：缺 所屬關節、附著與連結、功能
+- 橈舟頭狀韌帶（radioscaphocapitate ligament）：缺 所屬關節、附著與連結、功能
+- 尺頭狀韌帶（ulnocapitate ligament）：缺 所屬關節、附著與連結、功能
+- 尺月韌帶（ulnolunate ligament）：缺 所屬關節、附著與連結、功能
+- 尺三角韌帶（ulnotriquetral ligament）：缺 所屬關節、附著與連結、功能
+- 肩鎖韌帶（acromioclavicular ligament）：缺 所屬關節、附著與連結、功能
+- 肩鎖關節囊（articular capsule of acromioclavicular joint）：缺 所屬關節、附著與連結、功能
+- 肩鎖關節盤（articular disc of acromioclavicular joint）：缺 所屬關節、附著與連結、功能
+- 錐狀韌帶（conoid ligament）：缺 所屬關節、附著與連結、功能
+- 斜方韌帶（trapezoid ligament）：缺 所屬關節、附著與連結、功能
+- 前胸鎖韌帶（anterior sternoclavicular ligament）：缺 所屬關節、附著與連結、功能
+- 胸鎖關節囊（articular capsule of sternoclavicular joint）：缺 所屬關節、附著與連結、功能
+- 胸鎖關節盤（articular disc of sternoclavicular joint）：缺 所屬關節、附著與連結、功能
+- 鎖骨間韌帶（interclavicular ligament）：缺 所屬關節、附著與連結、功能
+- 後胸鎖韌帶（posterior sternoclavicular ligament）：缺 所屬關節、附著與連結、功能
+
+### 特殊空間與孔：8 / 8 項資料完整
+
+（全部完整）
+
 ## 胸腔（Thorax）
 
 ### 骨骼：0 / 27 項資料完整
@@ -367,10 +482,9 @@
 - 第九肋骨（ninth rib）：缺 主要標誌、相關關節、附著肌肉
 - 胸骨柄（Manubrium）：缺 主要標誌、相關關節、附著肌肉
 
-### 肌肉：13 / 15 項資料完整
+### 肌肉：15 / 15 項資料完整
 
-- 短肋提肌群（Set of right levatores costarum breves）：缺 起點、止點、作用、神經支配、血液供應
-- 長肋提肌群（Set of right levatores costarum longi）：缺 起點、止點、作用、神經支配、血液供應
+（全部完整）
 
 ### 神經：0 / 3 項資料完整
 
@@ -408,6 +522,12 @@
 - 鎖骨下靜脈（subclavian vein）：缺 來源、走向、主要分支、引流範圍
 - 上腔靜脈（Superior vena cava）：缺 來源、走向、主要分支、引流範圍
 
+### 關節構造：0 / 3 項資料完整
+
+- 肋橫突韌帶（costotransverse ligament）：缺 所屬關節、附著與連結、功能
+- 肋頭關節內韌帶（intra-articular ligament of head of rib）：缺 所屬關節、附著與連結、功能
+- 肋頭輻狀韌帶（radiate ligament of head of rib）：缺 所屬關節、附著與連結、功能
+
 ## 背部（Back）
 
 ### 骨骼：0 / 27 項資料完整
@@ -440,9 +560,9 @@
 - 枕骨（Occipital bone）：缺 附著肌肉
 - 薦骨（Sacrum）：缺 附著肌肉
 
-### 肌肉：28 / 29 項資料完整
+### 肌肉：29 / 29 項資料完整
 
-- 多裂肌（multifidus）：缺 血液供應
+（全部完整）
 
 ### 神經：1 / 8 項資料完整
 
@@ -466,6 +586,15 @@
 - 胸背靜脈（thoracodorsal vein）：缺 主要分支
 - 腰升靜脈（ascending lumbar vein）：缺 主要分支
 - 枕下靜脈叢（suboccipital venous plexus）：缺 走向、主要分支
+
+### 關節構造：0 / 6 項資料完整
+
+- 前縱韌帶（Anterior longitudinal ligament）：缺 所屬關節、附著與連結、功能
+- 棘間韌帶（Interspinous ligaments）：缺 所屬關節、附著與連結、功能
+- 黃韌帶（Ligamenta flava）：缺 所屬關節、附著與連結、功能
+- 項韌帶（Nuchal ligament）：缺 所屬關節、附著與連結、功能
+- 後縱韌帶（Posterior longitudinal ligament）：缺 所屬關節、附著與連結、功能
+- 棘上韌帶（Supraspinous ligament）：缺 所屬關節、附著與連結、功能
 
 ## 心臟（Heart）
 
@@ -508,3 +637,270 @@
 - 肺上葉（Upper lobe of right lung）：缺 構造／毗鄰關係、血液供應／神經
 - 肺中葉（Middle lobe of right lung）：缺 構造／毗鄰關係、血液供應／神經
 - 肺下葉（Lower lobe of right lung）：缺 構造／毗鄰關係、血液供應／神經
+
+## 腦（Brain）
+
+### 神經：8 / 15 項資料完整
+
+- 三叉神經感覺根（Sensory root of trigeminal nerve）：缺 資料卡
+- 三叉神經運動根（Motor root of trigeminal nerve）：缺 資料卡
+- 外旋神經（第六對腦神經）（Abducens nerve (VI)）：缺 資料卡
+- 副神經（第十一對腦神經）（Accessory nerve (XI)）：缺 資料卡
+- 上頷神經（Maxillary nerve）：缺 資料卡
+- 嗅神經（第一對腦神經）（Olfactory nerve (I)）：缺 資料卡
+- 眼神經（Ophthalmic nerve）：缺 資料卡
+
+### 動脈：19 / 23 項資料完整
+
+- 胼胝體邊緣動脈（Callosomarginal artery）：缺 資料卡
+- 胼胝體邊緣動脈額支（Frontal branches of callosomarginal artery）：缺 資料卡
+- 大腦前動脈眶額支（Orbitofrontal branches of anterior cerebral artery）：缺 資料卡
+- 胼胝體周動脈（Pericallosal artery）：缺 資料卡
+
+### 靜脈：3 / 12 項資料完整
+
+- 基底靜脈叢（Basilar venous plexus）：缺 資料卡
+- 前海綿間竇（Anterior intercavernous sinus）：缺 資料卡
+- 下矢狀竇（Inferior sagittal sinus）：缺 資料卡
+- 枕竇（Occipital sinus）：缺 資料卡
+- 後海綿間竇（Posterior intercavernous sinus）：缺 資料卡
+- 乙狀竇（Sigmoid sinus）：缺 資料卡
+- 直竇（Straight sinus）：缺 資料卡
+- 上矢狀竇（Superior sagittal sinus）：缺 資料卡
+- 橫竇（Transverse sinus）：缺 資料卡
+
+### 腦構造：122 / 175 項資料完整
+
+- 枕極（Occipital pole）：缺 資料卡
+- 頂枕溝（Parieto-occipital sulcus）：缺 資料卡
+- 頂下溝（Subparietal sulcus）：缺 資料卡
+- 側副溝（Collateral sulcus）：缺 資料卡
+- 枕前溝（Anterior occipital sulcus）：缺 資料卡
+- 眶回（額緣回及溝）（Orbital gyri (Frontomarginal gyrus and sulcus)）：缺 資料卡
+- 中央旁小葉及溝（Paracentral gyrus and sulcus）：缺 資料卡
+- 橫額極回及溝（Transverse frontopolar gyrus and sulcus）：缺 資料卡
+- 額下溝（Inferior frontal sulcus）：缺 資料卡
+- 額上溝（Superior frontal sulcus）：缺 資料卡
+- 中央旁溝（Paracentral sulcus）：缺 資料卡
+- 眶溝（H 形眶溝）（Orbital sulci (H-shaped orbital sulci)）：缺 資料卡
+- 眶溝（外側眶溝）（Orbital sulci (Lateral Orbital sulcus)）：缺 資料卡
+- 中央前溝（下部）（Precentral sulcus (inferior part)）：缺 資料卡
+- 中央前溝（上部）（Precentral sulcus (Superior part)）：缺 資料卡
+- 中央後溝（Postcentral sulcus）：缺 資料卡
+- 楔前葉（Precuneus）：缺 資料卡
+- 頂內溝（Intraparietal sulcus）：缺 資料卡
+- 舌回（Lingual gyrus）：缺 資料卡
+- 距狀溝（Calcarine sulcus）：缺 資料卡
+- 楔葉（Cuneus）：缺 資料卡
+- 月狀溝（Lunate sulcus）：缺 資料卡
+- 枕橫溝（Transverse occipital sulcus）：缺 資料卡
+- 顳橫回（Transverse temporal gyri）：缺 資料卡
+- 外側枕顳回（Lateral occipitotemporal gyrus）：缺 資料卡
+- 顳下溝（Inferior temporal sulcus）：缺 資料卡
+- 顳上溝（Superior temporal sulcus）：缺 資料卡
+- 枕顳溝（外側部）（Occipitotemporal sulcus (Lateral part)）：缺 資料卡
+- 透明中隔（Septum pellucidum）：缺 資料卡
+- 後橫側副溝（Posterior transverse collateral sulcus）：缺 資料卡
+- 中間初級溝（Jensen 溝）（Intermediate primary sulcus (of Jensen)）：缺 資料卡
+- 韁核（Habenula）：缺 資料卡
+- 大腦腳底（Base of peduncle）：缺 資料卡
+- 上泌涎核（Superior salivatory nucleus）：缺 資料卡
+- 小腦扁桃體（Tonsil of cerebellum）：缺 資料卡
+- 絨球腳（Peduncle of flocculus）：缺 資料卡
+- 蚓小結（Nodule of vermis）：缺 資料卡
+- 蒼白球外側部（Globus pallidus external）：缺 資料卡
+- 蒼白球內側部（Globus pallidus internal）：缺 資料卡
+- 視丘前核群（Anterior nuclei of thalamus）：缺 資料卡
+- 背內側核（Mediodorsal nucleus）：缺 資料卡
+- 板內核群及外側後核（Intralaminar and lateral posterior nuclei）：缺 資料卡
+- 基底外側複合體（Basolateral complex）：缺 資料卡
+- 中央核（Central nucleus）：缺 資料卡
+- 皮質內側核群（Corticomedial group）：缺 資料卡
+- 視前下視丘（Preoptic hypothalamus）：缺 資料卡
+- 下視丘前部（Anterior hypothalamus）：缺 資料卡
+- 下視丘外側部（Lateral hypothalamus）：缺 資料卡
+- 下視丘後部（Posterior hypothalamus）：缺 資料卡
+- 松果體（Pineal gland）：缺 資料卡
+- 皮質紋狀體徑（前）（Corticostriatal tract (anterior)）：缺 資料卡
+- 皮質紋狀體徑（後）（Corticostriatal tract (posterior)）：缺 資料卡
+- 皮質紋狀體徑（上）（Corticostriatal tract (superior)）：缺 資料卡
+
+## 頭頸（Head and neck）
+
+### 骨骼：0 / 28 項資料完整
+
+- 舌骨（Hyoid bone）：缺 主要標誌、相關關節、附著肌肉
+- 第三頸椎（Third cervical vertebra）：缺 附著肌肉
+- 第四頸椎（Fourth cervical vertebra）：缺 附著肌肉
+- 第五頸椎（Fifth cervical vertebra）：缺 附著肌肉
+- 第六頸椎（Sixth cervical vertebra）：缺 附著肌肉
+- 第七頸椎（Seventh cervical vertebra）：缺 附著肌肉
+- 寰椎（Atlas）：缺 附著肌肉
+- 樞椎（Axis）：缺 附著肌肉
+- 篩骨（Ethmoid）：缺 主要標誌、相關關節、附著肌肉
+- 額骨（Frontal bone）：缺 主要標誌、相關關節、附著肌肉
+- 第二頸椎椎間盤（Intervertebral disk of axis）：缺 主要標誌、相關關節、附著肌肉
+- 第三頸椎椎間盤（Intervertebral disk of third cervical vertebra）：缺 主要標誌、相關關節、附著肌肉
+- 第四頸椎椎間盤（Intervertebral disk of fourth cervical vertebra）：缺 主要標誌、相關關節、附著肌肉
+- 第五頸椎椎間盤（Intervertebral disk of fifth cervical vertebra）：缺 主要標誌、相關關節、附著肌肉
+- 第六頸椎椎間盤（Intervertebral disk of sixth cervical vertebra）：缺 主要標誌、相關關節、附著肌肉
+- 第七頸椎椎間盤（Intervertebral disk of seventh cervical vertebra）：缺 主要標誌、相關關節、附著肌肉
+- 下鼻甲（inferior nasal concha）：缺 主要標誌、相關關節、附著肌肉
+- 淚骨（lacrimal bone）：缺 主要標誌、相關關節、附著肌肉
+- 上頜骨（maxilla）：缺 主要標誌、相關關節、附著肌肉
+- 鼻骨（nasal bone）：缺 主要標誌、相關關節、附著肌肉
+- 顎骨（palatine bone）：缺 主要標誌、相關關節、附著肌肉
+- 頂骨（parietal bone）：缺 主要標誌、相關關節、附著肌肉
+- 顳骨（temporal bone）：缺 主要標誌、相關關節、附著肌肉
+- 顴骨（zygomatic bone）：缺 主要標誌、相關關節、附著肌肉
+- 下頜骨（Mandible）：缺 主要標誌、相關關節、附著肌肉
+- 枕骨（Occipital bone）：缺 附著肌肉
+- 蝶骨（Sphenoid bone）：缺 主要標誌、相關關節、附著肌肉
+- 犁骨（Vomer）：缺 主要標誌、相關關節、附著肌肉
+
+### 肌肉：80 / 86 項資料完整
+
+- 咽下縮肌（inferior pharyngeal constrictor）：缺 起點、止點、作用、神經支配、血液供應
+- 咽中縮肌（middle pharyngeal constrictor）：缺 起點、止點、作用、神經支配、血液供應
+- 腭咽肌（palatopharyngeus）：缺 起點、止點、作用、神經支配、血液供應
+- 咽鼓管咽肌（salpingopharyngeus）：缺 起點、止點、作用、神經支配、血液供應
+- 莖突咽肌（stylopharyngeus）：缺 起點、止點、作用、神經支配、血液供應
+- 咽上縮肌（superior pharyngeal constrictor）：缺 起點、止點、作用、神經支配、血液供應
+
+### 神經：1 / 44 項資料完整
+
+- 前篩神經（anterior ethmoidal nerve）：缺 來源、走向、主要分支、支配範圍
+- 睫狀神經節（ciliary ganglion）：缺 來源、走向、主要分支、支配範圍
+- 額神經（frontal nerve）：缺 來源、走向、主要分支、支配範圍
+- 動眼神經下支（Inferior branch of left oculomotor nerve）：缺 來源、走向、主要分支、支配範圍
+- 滑車下神經（infratrochlear nerve）：缺 來源、走向、主要分支、支配範圍
+- 淚腺神經（lacrimal nerve）：缺 來源、走向、主要分支、支配範圍
+- 鼻睫神經（nasociliary nerve）：缺 來源、走向、主要分支、支配範圍
+- 後篩神經（posterior ethmoidal nerve）：缺 來源、走向、主要分支、支配範圍
+- 長睫神經（long ciliary nerve）：缺 來源、走向、主要分支、支配範圍
+- 短睫神經（short ciliary nerve）：缺 來源、走向、主要分支、支配範圍
+- 動眼神經上支（Superior branch of left oculomotor nerve）：缺 來源、走向、主要分支、支配範圍
+- 眶上神經（supra-orbital nerve）：缺 來源、走向、主要分支、支配範圍
+- 滑車上神經（supratrochlear nerve）：缺 來源、走向、主要分支、支配範圍
+- 嗅神經（第一對腦神經）（olfactory nerve (I)）：缺 來源、走向、主要分支、支配範圍
+- 視神經（第二對腦神經）（optic nerve (II)）：缺 來源、走向、主要分支、支配範圍
+- 動眼神經（第三對腦神經）（oculomotor nerve (III)）：缺 來源、走向、主要分支、支配範圍
+- 三叉神經感覺根（sensory root of trigeminal nerve）：缺 來源、走向、主要分支、支配範圍
+- 三叉神經（第五對腦神經）（trigeminal nerve (V)）：缺 來源、走向、主要分支、支配範圍
+- 下齒槽神經（inferior alveolar nerve）：缺 來源、走向、主要分支、支配範圍
+- 頦神經（mental nerve）：缺 來源、走向、主要分支、支配範圍
+- 下頷舌骨肌神經（nerve to mylohyoid muscle）：缺 來源、走向、主要分支、支配範圍
+- 頰神經（buccal nerve）：缺 來源、走向、主要分支、支配範圍
+- 下頷神經後股（posterior division of mandibular nerve）：缺 來源、走向、主要分支、支配範圍
+- 下頷神經前股（anterior division of mandibular nerve）：缺 來源、走向、主要分支、支配範圍
+- 舌神經（lingual nerve）：缺 來源、走向、主要分支、支配範圍
+- 上頷神經（maxillary nerve）：缺 來源、走向、主要分支、支配範圍
+- 眼神經（ophthalmic nerve）：缺 來源、走向、主要分支、支配範圍
+- 上頷神經腦膜支（meningeal branch of maxillary nerve）：缺 來源、走向、主要分支、支配範圍
+- 三叉神經運動根（motor root of trigeminal nerve）：缺 來源、走向、主要分支、支配範圍
+- 顏面神經（第七對腦神經）（facial nerve (VII)）：缺 來源、走向、主要分支、支配範圍
+- 前庭神經（vestibular nerve）：缺 來源、走向、主要分支、支配範圍
+- 耳蝸神經（cochlear nerve）：缺 來源、走向、主要分支、支配範圍
+- 前庭耳蝸神經（第八對腦神經）（vestibulocochlear nerve (VIII)）：缺 來源、走向、主要分支、支配範圍
+- 舌咽神經（第九對腦神經）（glossopharyngeal nerve (IX)）：缺 來源、走向、主要分支、支配範圍
+- 迷走神經（第十對腦神經）（vagus nerve (X)）：缺 來源、走向、主要分支、支配範圍
+- 舌下神經（第十二對腦神經）（hypoglossal nerve (XII)）：缺 來源、走向、主要分支、支配範圍
+- 外旋神經（第六對腦神經）（abducens nerve (VI)）：缺 來源、走向、主要分支、支配範圍
+- 滑車神經（第四對腦神經）（trochlear nerve (IV)）：缺 來源、走向、主要分支、支配範圍
+- 枕下神經（suboccipital nerve）：缺 主要分支
+- 枕大神經（greater occipital nerve）：缺 主要分支
+- 第三枕神經（third occipital nerve）：缺 主要分支
+- 枕小神經（lesser occipital nerve）：缺 主要分支
+- 耳大神經（great auricular nerve）：缺 主要分支
+
+### 動脈：2 / 8 項資料完整
+
+- 眼動脈（ophthalmic artery）：缺 來源、走向、主要分支、供應範圍
+- 下甲狀腺動脈（inferior thyroid artery）：缺 來源、走向、主要分支、供應範圍
+- 頸淺動脈（superficial cervical artery）：缺 主要分支
+- 外頸動脈（external carotid artery）：缺 來源、走向、主要分支、供應範圍
+- 內頸動脈（internal carotid artery）：缺 來源、走向、主要分支、供應範圍
+- 總頸動脈（common carotid artery）：缺 來源、走向、主要分支、供應範圍
+
+### 靜脈：0 / 1 項資料完整
+
+- 內頸靜脈（internal jugular vein）：缺 來源、走向、主要分支、引流範圍
+
+### 頭頸器官構造：0 / 63 項資料完整
+
+- 上顎牙齦（Gingiva of upper jaw）：缺 說明
+- 下顎牙齦（Gingiva of lower jaw）：缺 說明
+- 下顎第一恆大臼齒（lower first secondary molar tooth）：缺 說明
+- 下顎第一恆小臼齒（lower first secondary premolar tooth）：缺 說明
+- 下顎第二恆大臼齒（lower second secondary molar tooth）：缺 說明
+- 下顎第二恆小臼齒（lower second secondary premolar tooth）：缺 說明
+- 下顎恆中切齒（lower central secondary incisor tooth）：缺 說明
+- 下顎恆側切齒（lower lateral secondary incisor tooth）：缺 說明
+- 下顎恆犬齒（lower secondary canine tooth）：缺 說明
+- 上顎第一恆大臼齒（upper first secondary molar tooth）：缺 說明
+- 上顎第一恆小臼齒（upper first secondary premolar tooth）：缺 說明
+- 上顎第二恆大臼齒（upper second secondary molar tooth）：缺 說明
+- 上顎第二恆小臼齒（upper second secondary premolar tooth）：缺 說明
+- 上顎恆中切齒（upper central secondary incisor tooth）：缺 說明
+- 上顎恆側切齒（upper lateral secondary incisor tooth）：缺 說明
+- 上顎恆犬齒（upper secondary canine tooth）：缺 說明
+- 眼前房（Anterior chamber of left eyeball）：缺 說明
+- 外直肌制止韌帶（Check ligament of left lateral rectus）：缺 說明
+- 脈絡膜（choroid）：缺 說明
+- 睫狀冠（corona ciliaris）：缺 說明
+- 角膜（cornea）：缺 說明
+- 總腱環（common tendinous ring）：缺 說明
+- 內直肌制止韌帶（Check ligament of left medial rectus）：缺 說明
+- 虹膜（iris）：缺 說明
+- 淚小管（lacrimal canaliculus）：缺 說明
+- 淚腺（lacrimal gland）：缺 說明
+- 淚湖（lacrimal lake）：缺 說明
+- 鼻淚管（nasolacrimal duct）：缺 說明
+- 水晶體（lens）：缺 說明
+- 淚囊（lacrimal sac）：缺 說明
+- 視網膜視部（Optic part of left retina）：缺 說明
+- 鞏膜（sclera）：缺 說明
+- 水晶體懸韌帶（Suspensory ligament of left lens）：缺 說明
+- 上眼瞼瞼板（Tarsal plate of left upper eyelid）：缺 說明
+- 下眼瞼瞼板（Tarsal plate of left lower eyelid）：缺 說明
+- 滑車（Trochlea of left superior oblique）：缺 說明
+- 玻璃體（vitreous body）：缺 說明
+- 環狀軟骨（Cricoid cartilage）：缺 說明
+- 氣管（Trachea）：缺 說明
+- 大翼軟骨（major alar cartilage）：缺 說明
+- 鼻外側軟骨（lateral nasal cartilage）：缺 說明
+- 鼻中隔軟骨（Septal nasal cartilage）：缺 說明
+- 翼下頷縫（pterygomandibular raphe）：缺 說明
+- 咽縫（Pharyngeal raphe）：缺 說明
+- 舌（Tongue）：缺 說明
+- 莖突舌骨韌帶（stylohyoid ligament）：缺 說明
+- 舌下腺（sublingual gland）：缺 說明
+- 下頜下腺（submandibular gland）：缺 說明
+- 會厭（Epiglottis）：缺 說明
+- 舌骨會厭韌帶（Hyo-epiglottic ligament）：缺 說明
+- 楔狀軟骨（cuneiform cartilage）：缺 說明
+- 杓狀軟骨（arytenoid cartilage）：缺 說明
+- 小角軟骨（corniculate cartilage）：缺 說明
+- 彈性圓錐（conus elasticus）：缺 說明
+- 甲狀舌骨外側韌帶（lateral thyrohyoid ligament）：缺 說明
+- 甲狀舌骨膜（thyrohyoid membrane）：缺 說明
+- 聲帶韌帶（vocal ligament）：缺 說明
+- 環甲正中韌帶（Median cricothyroid ligament）：缺 說明
+- 甲狀舌骨正中韌帶（Median thyrohyoid ligament）：缺 說明
+- 甲狀會厭韌帶（Thyro-epiglottic ligament）：缺 說明
+- 甲狀軟骨（Thyroid cartilage）：缺 說明
+- 唇（Lip）：缺 說明
+- 帽狀腱膜（Aponeurosis of epicranius）：缺 說明
+
+### 關節構造：0 / 6 項資料完整
+
+- 蝶下頷韌帶（sphenomandibular ligament）：缺 所屬關節、附著與連結、功能
+- 莖突下頷韌帶（stylomandibular ligament）：缺 所屬關節、附著與連結、功能
+- 顳顎關節囊（articular capsule of temporomandibular joint）：缺 所屬關節、附著與連結、功能
+- 顳顎關節盤（articular disc of temporomandibular joint）：缺 所屬關節、附著與連結、功能
+- 顳顎外側韌帶（lateral temporomandibular ligament）：缺 所屬關節、附著與連結、功能
+- 環咽韌帶（cricopharyngeal ligament）：缺 所屬關節、附著與連結、功能
+
+### 特殊空間與孔：1 / 1 項資料完整
+
+（全部完整）

@@ -1,15 +1,16 @@
 import {SYNONYMS} from './synonyms';
+import {headNeckSynonyms} from '../mj-head-neck-names';
 import type {QuizStructure} from './catalogue';
 import {structureProfile} from '../mj-structure-info';
 import type {SystemId} from '../anatomy';
 import paokaoAliases from '../../docs/paokao-aliases.json';
 
-/** How a typed name is judged for the level-2 quiz (看結構寫名稱). Pure functions: the page, the tests and the REVIEW_LOG table all use these. */
+/** How a typed name is judged for the level-3 quiz (看結構寫名稱). Pure functions: the page, the tests and the REVIEW_LOG table all use these. */
 export type AnswerLanguage = 'en' | 'zh' | 'any';
 export type NameResult = 'correct' | 'close' | 'wrong';
 export interface NameOptions {language: AnswerLanguage; needSide: boolean}
 export interface Accepted {en: string[]; zh: string[]}
-type Named = Pick<QuizStructure, 'name' | 'chinese'> & {side?: string; system?: string};
+type Named = Pick<QuizStructure, 'name' | 'chinese'> & {side?: string; system?: string; source?: string; exactNames?: boolean};
 
 const SIDE_EN = /\b(left|right)\b/g, SIDE_WORD = /\b(left|right)\b/;
 /** "Septomarginal trabecula (moderator band)" → ["septomarginal trabecula (moderator band)", "septomarginal trabecula", "moderator band"] */
@@ -30,6 +31,9 @@ export const HEADS_REQUIRED = new Set(['biceps brachii', 'triceps brachii', 'bic
 const PART_OF_MUSCLE = /^(.+?) (?:part|head|belly) of (?:(?:right|left) )?(.+)$/i;
 export interface WholeMuscle {en: string; zh?: string; muscle: string; headsRequired: boolean}
 export function wholeMuscleOf(structure: Named): WholeMuscle | null {
+  // "iliofemoral ligament, descending part", "ligament of head of femur": a joint structure is never a part of a muscle, so the bone or ligament named after "of" is not an accepted answer
+  // the brain quiz asks the names of the brain model itself: "opercular part of inferior frontal gyrus" is a part of a gyrus, never of a muscle
+  if (structure.system === 'joint' || structure.system === 'brain' || structure.system === 'headorgan') return null;
   const match = structure.name.match(PART_OF_MUSCLE);
   if (!match) return null;
   const muscle = match[2].trim(), side = structure.name.match(SIDE_WORD)?.[1];
@@ -47,13 +51,17 @@ export function checklistAliases(structure: Named): {exact: string[]; group: str
   return {exact, group};
 }
 const partOfName = (x: string, y: string) => x.endsWith(` of ${y}`) || x.includes(` of ${y} `) || x.endsWith(` of the ${y}`) || x.includes(` of the ${y} `);
-/** The name the main site shows for this structure (the Netter-style spelling: quadratus plantae for flexor accessorius, 1st rib for first rib, coxal bone for hip bone), when it is another spelling
+/** The name the main site shows for this structure (the standard display spelling: quadratus plantae for flexor accessorius, 1st rib for first rib, coxal bone for hip bone), when it is another spelling
  * of the same structure. The site shows the branches of a nerve under the nerve's own name; that is a parent, not a spelling, and is never accepted here. */
 export function siteName(structure: Named): {en?: string; zh?: string} {
   if (!structure.system) return {};
+  // the main site's profile search matches by words, which is wrong for the brain model's names (maxillary nerve → axillary nerve); the brain keeps the names of its own model
+  if (structure.source === 'Brain Project') return {};
+  // head-and-neck nerves and vessels carry the names of app/quiz/headneck.ts; the site's word search would turn maxillary nerve into axillary nerve
+  if (structure.exactNames) return {};
   // A part of a muscle (clavicular part of pectoralis major, spinal part of deltoid) is answered with the muscle's name (wholeMuscleOf), not with the site's other wording of the part.
   if (wholeMuscleOf(structure)) return {};
-  const profile = structureProfile(structure.name, structure.system as SystemId);
+  const profile = structureProfile(structure.name, (structure.system === 'joint' || structure.system === 'space' ? 'connective' : structure.system === 'headorgan' ? 'sensory' : structure.system) as SystemId);
   const paired = isPaired(structure), key = (n: string) => paired ? cleanKey(n) : n.toLowerCase().replace(/\s+/g, ' ').trim();
   const out: {en?: string; zh?: string} = {};
   if (profile.english) {const a = key(profile.english), b = key(structure.name); if (a && a !== b && !partOfName(b, a) && !partOfName(a, b)) out.en = profile.english;}
@@ -61,11 +69,14 @@ export function siteName(structure: Named): {en?: string; zh?: string} {
   return out;
 }
 
+/** The unified head-and-neck names (app/mj-head-neck-names.json) accept every wording of a name in either language; they sit beside the synonym table and are not listed in REVIEW_LOG. */
+const HEAD_NECK_ROWS = headNeckSynonyms();
 /** Every name that is right for a structure: its own English and Chinese names, names in brackets, the rows of the synonym table, and for a part of a muscle the whole muscle. */
 export function acceptedNames(structure: Named): Accepted {
   const paired = isPaired(structure);
   // Left/right is part of the identity of a midline structure (left atrium, left coronary cusp), so its row is keyed with the word; paired structures are keyed without it.
-  const row = SYNONYMS[structure.name.toLowerCase()] ?? SYNONYMS[cleanKey(structure.name)];
+  const synonymRow = SYNONYMS[structure.name.toLowerCase()] ?? SYNONYMS[cleanKey(structure.name)], nameRow = HEAD_NECK_ROWS[structure.name.toLowerCase()] ?? HEAD_NECK_ROWS[cleanKey(structure.name)];
+  const row = synonymRow || nameRow ? {en: [...(synonymRow?.en ?? []), ...(nameRow?.en ?? [])], zh: [...(synonymRow?.zh ?? []), ...(nameRow?.zh ?? [])]} : undefined;
   const whole = wholeMuscleOf(structure);
   const wholeEn = whole && !whole.headsRequired ? [whole.en] : [], wholeZh = whole && !whole.headsRequired && whole.zh ? [whole.zh] : [];
   const site = siteName(structure), aliases = checklistAliases(structure).exact;
@@ -79,7 +90,7 @@ export function acceptedNames(structure: Named): Accepted {
 }
 
 /** Simplified characters that occur in anatomical names, mapped to the traditional form the quiz uses. */
-const SIMPLIFIED: Record<string, string> = Object.fromEntries('侧側 内內 剑劍 动動 区區 丛叢 圆圓 压壓 夹夾 对對 层層 属屬 带帶 干幹 张張 后後 耻恥 枢樞 桡橈 横橫 气氣 浅淺 沟溝 浆漿 无無 状狀 窦竇 节節 结結 经經 维維 网網 缘緣 缝縫 总總 纤纖 脉脈 胫脛 脑腦 肠腸 腘膕 脏臟 与與 叶葉 荐薦 触觸 贵貴 迹跡 跖蹠 轴軸 回迴 远遠 钝鈍 钩鉤 锐銳 锯鋸 锥錐 锁鎖 长長 门門 闭閉 间間 阔闊 隐隱 静靜 韧韌 头頭 颈頸 体體 髌髕 髋髖 鱼魚 窝窩 颅顱 胆膽 肾腎 关關 机機 转轉 线線 术術 发發 齿齒 腭顎 颊頰 颞顳 额額 项項 颚顎 荚莢 过過 边邊 连連 导導 听聽 视視 块塊 两兩 双雙 单單 环環 杆桿 梁樑 槛檻 组組 织織 骶薦'.split(' ').map(pair => [pair[0], pair[1]]));
+const SIMPLIFIED: Record<string, string> = Object.fromEntries('侧側 内內 剑劍 动動 区區 丛叢 圆圓 压壓 夹夾 对對 层層 属屬 带帶 干幹 张張 后後 耻恥 枢樞 桡橈 横橫 气氣 浅淺 沟溝 浆漿 无無 状狀 窦竇 节節 结結 经經 维維 网網 缘緣 缝縫 总總 纤纖 脉脈 胫脛 脑腦 肠腸 腘膕 脏臟 与與 叶葉 荐薦 触觸 贵貴 迹跡 跖蹠 轴軸 回迴 远遠 钝鈍 钩鉤 锐銳 锯鋸 锥錐 锁鎖 长長 门門 闭閉 间間 阔闊 隐隱 静靜 韧韌 头頭 颈頸 体體 髌髕 髋髖 鱼魚 窝窩 颅顱 胆膽 肾腎 关關 机機 转轉 线線 术術 发發 齿齒 腭顎 颊頰 颞顳 额額 项項 颚顎 荚莢 过過 边邊 连連 导導 听聽 视視 块塊 两兩 双雙 单單 环環 杆桿 梁樑 槛檻 组組 织織 骶薦 頷頜'.split(' ').map(pair => [pair[0], pair[1]]));
 /** Abbreviations of the course handouts: "radial n." = radial nerve, "brachial a." = brachial artery, "cephalic v." = cephalic vein, "lig." = ligament, "br." = branch. */
 const ABBREVIATIONS: Array<[RegExp, string]> = [[/\bnn\.(?=\s|$)/g, ' nerves '], [/\bn\.(?=\s|$)|\bn$/g, ' nerve '], [/\baa\.(?=\s|$)/g, ' arteries '], [/\ba\.(?=\s|$)|\ba$/g, ' artery '], [/\bvv\.(?=\s|$)/g, ' veins '], [/\bv\.(?=\s|$)|\bv$/g, ' vein '], [/\bmm\.(?=\s|$)/g, ' muscles '], [/\bm\.(?=\s|$)|\bm$/g, ' muscle '], [/\bligg?\.(?=\s|$)/g, ' ligament '], [/\bbr\.(?=\s|$)/g, ' branch ']];
 

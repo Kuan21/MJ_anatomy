@@ -106,17 +106,18 @@
         "models/stream/nerves-*.bin.gz",
         "models/nerve-stream.json"
       ],
-      "license": "CC BY-SA 4.0 (BodyParts3D CC BY-SA 2.1 Japan)",
-      "origin": "Z-Anatomy export (nqwrc/3d-anatomy)",
-      "url": "https://github.com/nqwrc/3d-anatomy"
+      "license": "CC BY-SA 4.0 (Z-Anatomy), with the BodyParts3D credit CC BY-SA 2.1 Japan",
+      "origin": "Z-Anatomy NervousSystem100.fbx from the official repository (commit 6c7f9016bd5899ac8edafd31b9900c151df42ed6), geometry converted from centimetres to metres and Draco-encoded by scripts/extract-zanatomy-nervous.mjs; modification: on both sides the anterior root of the posterior femoral cutaneous nerve is moved 0.3 mm inwards where its surface lay on the sciatic nerve's surface",
+      "url": "https://github.com/LluisV/Z-Anatomy"
     },
     {
       "id": "z-anatomy-joints",
       "files": [
         "models/joints.glb"
       ],
-      "license": "CC BY-SA 4.0 (BodyParts3D CC BY-SA 2.1 Japan)",
-      "origin": "Z-Anatomy export (nqwrc/3d-anatomy)"
+      "license": "CC BY-SA 4.0 (Z-Anatomy), with the BodyParts3D credit CC BY-SA 2.1 Japan",
+      "origin": "Z-Anatomy Joints100.fbx from the official repository (commit 6c7f9016bd5899ac8edafd31b9900c151df42ed6), geometry converted from centimetres to metres, welded and Draco-encoded by scripts/extract-zanatomy-joints.mjs",
+      "url": "https://github.com/LluisV/Z-Anatomy"
     },
     {
       "id": "brain-project",
@@ -271,17 +272,18 @@
         "models/stream/nerves-*.bin.gz",
         "models/nerve-stream.json"
       ],
-      "license": "CC BY-SA 4.0 (BodyParts3D CC BY-SA 2.1 Japan)",
-      "origin": "Z-Anatomy export (nqwrc/3d-anatomy)",
-      "url": "https://github.com/nqwrc/3d-anatomy"
+      "license": "CC BY-SA 4.0 (Z-Anatomy), with the BodyParts3D credit CC BY-SA 2.1 Japan",
+      "origin": "Z-Anatomy NervousSystem100.fbx from the official repository (commit 6c7f9016bd5899ac8edafd31b9900c151df42ed6), geometry converted from centimetres to metres and Draco-encoded by scripts/extract-zanatomy-nervous.mjs; modification: on both sides the anterior root of the posterior femoral cutaneous nerve is moved 0.3 mm inwards where its surface lay on the sciatic nerve's surface",
+      "url": "https://github.com/LluisV/Z-Anatomy"
     },
     {
       "id": "z-anatomy-joints",
       "files": [
         "models/joints.glb"
       ],
-      "license": "CC BY-SA 4.0 (BodyParts3D CC BY-SA 2.1 Japan)",
-      "origin": "Z-Anatomy export (nqwrc/3d-anatomy)"
+      "license": "CC BY-SA 4.0 (Z-Anatomy), with the BodyParts3D credit CC BY-SA 2.1 Japan",
+      "origin": "Z-Anatomy Joints100.fbx from the official repository (commit 6c7f9016bd5899ac8edafd31b9900c151df42ed6), geometry converted from centimetres to metres, welded and Draco-encoded by scripts/extract-zanatomy-joints.mjs",
+      "url": "https://github.com/LluisV/Z-Anatomy"
     },
     {
       "id": "brain-project",
@@ -341,6 +343,17 @@
       "license": "CC BY 4.0",
       "origin": "Tendon parts cut from BodyParts3D 4.0 muscle meshes by scripts/lib/tendon-cut.mjs (derived, no other source)",
       "url": "https://dbarchive.biosciencedbc.jp/en/bodyparts3d/desc.html"
+    },
+    {
+      "id": "eye-detail-atlas",
+      "files": [
+        "models/eye/*"
+      ],
+      "license": "CC BY 4.0",
+      "origin": "Eye detail atlas package (left eye only; nothing is mirrored and there is no right-eye model). Globe (23 layered structures): 3D Reference Object Library, eye-male-left v1.3, HuBMAP / Human Reference Atlas (Visible Human male); modified: simplified from 346,630 to 99,760 triangles, scaled by 1.087 and translated onto the BodyParts3D left eyeball, renamed. Orbit (48 structures: extraocular muscles, tarsal plates, lacrimal apparatus, orbital nerves, ophthalmic artery, optic nerve to superior colliculus, orbital bones): BodyParts3D 4.0; modified where it meets the globe: rectus tendons drawn back to their insertion distances, muscle surfaces lifted clear of the sclera, front end of the optic nerve bent to the optic disc; optic chiasm halves joined.",
+      "url": "https://cdn.humanatlas.io/digital-objects/ref-organ/eye-male-left/v1.3/assets/3d-vh-m-eye-l.glb",
+      "pinned_by": "scripts/build-eye-atlas.mjs (sha256)",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/"
     }
   ],
   "checked_not_used": [

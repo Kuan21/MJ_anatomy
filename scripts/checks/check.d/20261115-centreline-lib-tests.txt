@@ -1,0 +1,8 @@
+# Centreline measuring libraries (scripts/lib/centreline-*.mjs): synthetic tubes only, no model data needed.
+node scripts/test-centreline-classify.mjs
+node scripts/test-centreline-continuity.mjs
+node scripts/test-centreline-pieces.mjs
+node scripts/test-centreline-groups.mjs
+node scripts/test-centreline-surface.mjs
+node scripts/test-centreline-attach.mjs
+node scripts/test-centreline-baseline.mjs

@@ -13,7 +13,7 @@ const {structureCard} = await quizModule('app/quiz/card.ts');
 
 // ---- routing
 assert.ok(isQuizHub('#/quiz') && isQuizHub('#/quiz/') && !isQuizHub('#/quiz/back') && !isQuizHub(''));
-for (const id of ['thorax', 'back', 'upper-limb', 'lower-limb', 'heart', 'lung']) assert.equal(regionOfHash(QUIZ_REGIONS[id].hash), id);
+for (const id of ['head-neck', 'thorax', 'back', 'upper-limb', 'lower-limb', 'heart', 'lung', 'brain']) assert.equal(regionOfHash(QUIZ_REGIONS[id].hash), id);
 const main = fs.readFileSync(path.join(root, 'web/main.tsx'), 'utf8');
 assert.match(main, /hub \? <QuizHub\/>/, 'the router shows the chooser for #/quiz');
 assert.match(main, /params\.get\('dev'\) === '1'/, 'Skeleton v2 lab needs ?dev=1');
@@ -23,7 +23,7 @@ assert.ok(!/skeleton-v2|Skeleton v2/i.test(page), 'no Skeleton v2 link on the ho
 assert.match(page, /const quizHref=quizHrefFor\(topRegion as RegionKey,regionSub\)/, 'the Quiz button takes its scope from the region bar');
 const barSource = fs.readFileSync(path.join(root, 'app/mj-region-bar.ts'), 'utf8');
 assert.match(barSource, /return '#\/quiz';\n\}/, 'whole body (and the regions without a quiz) opens the chooser');
-for (const [needle, id] of [['#/quiz/upper-limb', 'upper-limb'], ['#/quiz/lower-limb', 'lower-limb'], ['#/quiz/heart', 'heart'], ['#/quiz/lung', 'lung'], ['#/quiz/thorax', 'thorax'], ['#/quiz/back', 'back']]) {
+for (const [needle, id] of [['#/quiz/upper-limb', 'upper-limb'], ['#/quiz/lower-limb', 'lower-limb'], ['#/quiz/heart', 'heart'], ['#/quiz/lung', 'lung'], ['#/quiz/thorax', 'thorax'], ['#/quiz/back', 'back'], ['#/quiz/head-neck', 'head-neck']]) {
   assert.ok(barSource.includes(needle) && QUIZ_REGIONS[id].hash === needle, `region bar links to ${needle}`);
 }
 
@@ -46,16 +46,16 @@ const tree = hub.namespace.default();
 const all = n => Array.isArray(n) ? n.flatMap(all) : !n || typeof n !== 'object' ? [] : [n, ...all(n.props?.children)];
 const text = n => Array.isArray(n) ? n.map(text).join('') : n == null || typeof n === 'boolean' ? '' : typeof n !== 'object' ? String(n) : text(n.props?.children);
 const cards = all(tree).filter(n => n.props?.['data-part']);
-assert.deepEqual(cards.map(c => c.props['data-part']), ['head', 'neck', 'thorax', 'back', 'upper-limb', 'lower-limb', 'heart', 'lung', 'organs'], 'six body parts, then the organ quizzes (heart, lung, other organs reserved)');
-for (const part of ['thorax', 'back', 'upper-limb', 'lower-limb', 'heart', 'lung']) {
+assert.deepEqual(cards.map(c => c.props['data-part']), ['head-neck', 'thorax', 'back', 'upper-limb', 'lower-limb', 'heart', 'lung', 'brain', 'organs'], 'five body parts (head and neck, thorax, back, two limbs), then the organ quizzes (heart, lung, brain, other organs reserved)');
+for (const part of ['head-neck', 'thorax', 'back', 'upper-limb', 'lower-limb', 'heart', 'lung', 'brain']) {
   const card = cards.find(c => c.props['data-part'] === part);
   assert.equal(card.type, 'a'); assert.equal(card.props.href, QUIZ_REGIONS[part].hash);
 }
-for (const part of ['head', 'neck', 'organs']) {
+for (const part of ['organs']) {
   const card = cards.find(c => c.props['data-part'] === part);
   assert.notEqual(card.type, 'a', `${part} is not a link yet`); assert.equal(card.props['aria-disabled'], 'true'); assert.match(text(card), /即將推出/);
 }
-for (const label of ['頭部', '頸部', '胸腔', '背部', '上肢', '下肢']) assert.ok(text(tree).includes(label), label);
+for (const label of ['頭頸', '胸腔', '背部', '上肢', '下肢']) assert.ok(text(tree).includes(label), label);
 assert.ok(all(tree).some(n => n.type === 'a' && n.props.href === '#/' ), 'a way back to the atlas');
 
 // ---- answer card content
@@ -80,6 +80,6 @@ const catalogue = JSON.parse(fs.readFileSync(path.join(root, 'public/models/quiz
 for (const s of catalogue.structures) {
   const card = structureCard(s);
   for (const f of card.fields) assert.ok((f.zh || f.en)?.trim(), `${s.name}: ${f.label} is not empty`);
-  assert.equal(card.fields.length + card.missing.length, {muscular: 5, nervous: 4, arterial: 4, venous: 4, skeletal: 3}[s.system]);
+  assert.equal(card.fields.length + card.missing.length, {muscular: 5, nervous: 4, arterial: 4, venous: 4, skeletal: 3, joint: 3}[s.system]);
 }
 console.log('Quiz chooser passed: six body parts in order, parts without content marked 即將推出, organ slot reserved, Quiz button and #/quiz route, Skeleton v2 only with ?dev=1, answer-card fields per structure type with nothing guessed.');

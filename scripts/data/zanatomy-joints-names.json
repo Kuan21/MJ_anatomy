@@ -1,0 +1,1401 @@
+{
+ "note": "The joint tissues the viewer uses (node name as in public/models/joints.glb, material), taken from the previous container; scripts/extract-zanatomy-joints.mjs takes each one from the official Z-Anatomy Joints100.fbx.",
+ "nodes": [
+  {
+   "name": "Interosseous membrane of leg.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Interosseous membrane of leg.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Anterior tibiofibular ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Anterior tibiofibular ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Posterior tibiofibular ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Posterior tibiofibular ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Transverse tibiofibular ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Transverse tibiofibular ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Posterior tibiotalar ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Posterior tibiotalar ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Tibiocalcaneal ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Tibiocalcaneal ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Tibionavicular ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Tibionavicular ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Acetabular labrum.l",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Acetabular labrum.r",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Articular capsule of hip joint.l",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Articular capsule of hip joint.r",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Descending part of iliofemoral ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Descending part of iliofemoral ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Frenula capsulae.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Frenula capsulae.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Ischiofemoral ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Ischiofemoral ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Ligament of head of femur.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Ligament of head of femur.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Pubofemoral ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Pubofemoral ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Transverse acetabular ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Transverse acetabular ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Transverse part of iliofemoral ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Transverse part of iliofemoral ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Dorsal metatarsal ligaments.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Dorsal metatarsal ligaments.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Intersesamoid ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Intersesamoid ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Metatarsal interosseous ligaments.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Metatarsal interosseous ligaments.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Plantar metatarsal ligaments.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Plantar metatarsal ligaments.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Articular capsule of interphalangeal joint of great toe.l",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Articular capsule of interphalangeal joint of great toe.r",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Articular capsules of distal interphalangeal joints of foot.l",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Articular capsules of distal interphalangeal joints of foot.r",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Articular capsules of proximal interphalangeal joints of foot.l",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Articular capsules of proximal interphalangeal joints of foot.r",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Collateral interphalangeal ligaments of foot.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Collateral interphalangeal ligaments of foot.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Plantar interphalangeal ligaments.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Plantar interphalangeal ligaments.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Anterior talocalcaneal ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Anterior talocalcaneal ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Calcaneocuboid ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Calcaneocuboid ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Calcaneonavicular ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Calcaneonavicular ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Cuneocuboid interosseous ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Cuneocuboid interosseous ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Dorsal cuneonavicular ligaments.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Dorsal cuneonavicular ligaments.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Dorsal intercuneiform ligaments.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Dorsal intercuneiform ligaments.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Intercuneiform interosseous ligaments.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Intercuneiform interosseous ligaments.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Lateral talocalcaneal ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Lateral talocalcaneal ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Long plantar ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Long plantar ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Medial talocalcaneal ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Medial talocalcaneal ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Plantar calcaneocuboid ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Plantar calcaneocuboid ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Plantar cuneocuboid ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Plantar cuneocuboid ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Plantar cuneonavicular ligaments.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Plantar cuneonavicular ligaments.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Plantar intercuneiform ligaments.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Plantar intercuneiform ligaments.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Posterior talocalcaneal ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Posterior talocalcaneal ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Talocalcaneal interosseous ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Talocalcaneal interosseous ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Talonavicular ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Talonavicular ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Articular capsules of metatarsophalangeal joints.l",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Articular capsules of metatarsophalangeal joints.r",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Collateral metatarsophalangeal ligaments.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Collateral metatarsophalangeal ligaments.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Deep transverse metatarsal ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Deep transverse metatarsal ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Plantar metatarsophalangeal ligaments.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Plantar metatarsophalangeal ligaments.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Cuneometatarsal interosseous ligaments.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Cuneometatarsal interosseous ligaments.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Dorsal tarsometatarsal ligaments.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Dorsal tarsometatarsal ligaments.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Plantar tarsometatarsal ligaments.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Plantar tarsometatarsal ligaments.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Anterior cruciate ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Anterior cruciate ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Anterior meniscotibial ligament (Lateral meniscus).l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Anterior meniscotibial ligament (Lateral meniscus).r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Anterior meniscotibial ligament (Medial meniscus).l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Anterior meniscotibial ligament (Medial meniscus).r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Arcuate popliteal ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Arcuate popliteal ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Articular capsule of knee joint.l",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Articular capsule of knee joint.r",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Deep part of tibial collateral ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Deep part of tibial collateral ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Fibular collateral ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Fibular collateral ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Infrapatellar fat pad.l",
+   "material": "Fat"
+  },
+  {
+   "name": "Infrapatellar fat pad.r",
+   "material": "Fat"
+  },
+  {
+   "name": "Lateral meniscus.l",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Lateral meniscus.r",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Medial meniscus.l",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Medial meniscus.r",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Meniscopatellar ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Meniscopatellar ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Oblique popliteal ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Oblique popliteal ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Popliteofibular ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Popliteofibular ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Posterior cruciate ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Posterior cruciate ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Posterior meniscotibial ligament (Lateral meniscus).l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Posterior meniscotibial ligament (Lateral meniscus).r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Posterior meniscotibial ligament (Medial meniscus).l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Posterior meniscotibial ligament (Medial meniscus).r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Superficial part of tibial collateral ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Superficial part of tibial collateral ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Transverse ligament of knee.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Transverse ligament of knee.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Anterior ligament of fibular head.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Anterior ligament of fibular head.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Articular capsule of superior tibiofibular joint.l",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Articular capsule of superior tibiofibular joint.r",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Posterior ligament of fibular head.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Posterior ligament of fibular head.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Inferior pubic ligament",
+   "material": "Ligament"
+  },
+  {
+   "name": "Interpubic disc",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Superior pubic ligament",
+   "material": "Ligament"
+  },
+  {
+   "name": "Pubic symphysis",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Triradiate cartilage.l",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Triradiate cartilage.r",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Iliolumbar ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Iliolumbar ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Obturator membrane.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Obturator membrane.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Sacrospinous ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Sacrospinous ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Sacrotuberous ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Sacrotuberous ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Anterior sacro-iliac ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Anterior sacro-iliac ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Interosseous sacro-iliac ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Interosseous sacro-iliac ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Posterior sacro-iliac ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Posterior sacro-iliac ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Sphenomandibular ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Sphenomandibular ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Stylohyoid ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Stylohyoid ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Stylomandibular ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Stylomandibular ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Articular capsule of temporomandibular joint.l",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Articular capsule of temporomandibular joint.r",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Articular disc of temporomandibular joint.l",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Articular disc of temporomandibular joint.r",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Lateral temporomandibular ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Lateral temporomandibular ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Interosseous membrane of forearm.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Interosseous membrane of forearm.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Articular disc of distal radio-ulnar joint.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Articular disc of distal radio-ulnar joint.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Palmar radio-ulnar ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Palmar radio-ulnar ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Annular ligament of radius.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Annular ligament of radius.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Articular capsule of elbow joint.l",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Articular capsule of elbow joint.r",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Radial collateral ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Radial collateral ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Ulnar collateral ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Ulnar collateral ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Articular capsule of glenohumeral joint.l",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Articular capsule of glenohumeral joint.r",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Coracohumeral ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Coracohumeral ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Glenoid labrum.l",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Glenoid labrum.r",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Inferior glenohumeral ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Inferior glenohumeral ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Middle glenohumeral ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Middle glenohumeral ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Superior glenohumeral ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Superior glenohumeral ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Transverse humeral ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Transverse humeral ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Dorsal carpometacarpal ligaments.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Dorsal carpometacarpal ligaments.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Palmar carpometacarpal ligaments.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Palmar carpometacarpal ligaments.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Dorsal scaphotriquetral ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Dorsal intercarpal ligaments.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Dorsal scaphotriquetral ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Dorsal intercarpal ligaments.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Dorsal ulnocarpal ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Dorsal ulnocarpal ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Palmar scaphotriquetral ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Palmar scaphotriquetral ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Pisotriquetral ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Pisotriquetral ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Radial collateral ligament of wrist joint.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Radiate carpal ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Radiate carpal ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Scaphotrapeziotrapezoidal ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Scaphotrapeziotrapezoidal ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Triquetrocapitate ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Triquetrocapitate ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Ulnar collateral ligament of wrist joint.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Dorsal metacarpal ligaments.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Dorsal metacarpal ligaments.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Interosseous metacarpal ligaments.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Interosseous metacarpal ligaments.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Palmar metacarpal ligaments.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Palmar metacarpal ligaments.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Articular capsules of distal interphalangeal joints.l",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Articular capsules of distal interphalangeal joints.r",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Articular capsules of proximal interphalangeal joints.l",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Articular capsules of proximal interphalangeal joints.r",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Collateral interphalangeal ligaments of hand.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Collateral interphalangeal ligaments of hand.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Palmar interphalangeal ligaments.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Palmar interphalangeal ligaments.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Articular capsules of metacarpophalangeal joints.l",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Articular capsules of metacarpophalangeal joints.r",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Collateral metacarpophalangeal ligaments.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Collateral metacarpophalangeal ligaments.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Deep transverse metacarpal ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Deep transverse metacarpal ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Articular capsule of radiocarpal joint.l",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Articular capsule of radiocarpal joint.r",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Dorsal radiocarpal ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Dorsal radiocarpal ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Radial collateral ligament of wrist joint.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Radioscaphocapitate ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Radioscaphocapitate ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Ulnar collateral ligament of wrist joint.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Ulnocapitate ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Ulnocapitate ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Ulnolunate ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Ulnolunate ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Ulnotriquetral ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Ulnotriquetral ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Acromioclavicular ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Acromioclavicular ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Articular capsule of acromioclavicular joint.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Articular capsule of acromioclavicular joint.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Articular disc of acromioclavicular joint.l",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Articular disc of acromioclavicular joint.r",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Conoid ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Conoid ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Trapezoid ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Trapezoid ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Anterior sternoclavicular ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Anterior sternoclavicular ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Articular capsule of sternoclavicular joint.l",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Articular capsule of sternoclavicular joint.r",
+   "material": "Articular capsule"
+  },
+  {
+   "name": "Articular disc of sternoclavicular joint.l",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Articular disc of sternoclavicular joint.r",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Interclavicular ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Interclavicular ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Posterior sternoclavicular ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Posterior sternoclavicular ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Intervertebral disc C2-C3",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Intervertebral disc C3-C4",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Intervertebral disc C4-C5",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Intervertebral disc C5-C6",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Intervertebral disc C6-C7",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Intervertebral disc C7-T1",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Intervertebral disc L1-L2",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Intervertebral disc L2-L3",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Intervertebral disc L3-L4",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Intervertebral disc L4-L5",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Intervertebral disc L5-S1",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Intervertebral disc T1-T2",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Intervertebral disc T2-T3",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Intervertebral disc T3-T4",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Intervertebral disc T4-T5",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Intervertebral disc T5-T6",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Intervertebral disc T6-T7",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Intervertebral disc T7-T8",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Intervertebral disc T8-T9",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Intervertebral disc T9-T10",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Intervertebral disc T10-T11",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Intervertebral disc T11-T12",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Intervertebral disc T12-L1",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Nucleus pulposus C2-C3",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Nucleus pulposus C3-C4",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Nucleus pulposus C4-C5",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Nucleus pulposus C5-C6",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Nucleus pulposus C6-C7",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Nucleus pulposus C7-T1",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Nucleus pulposus L1-L2",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Nucleus pulposus L2-L3",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Nucleus pulposus L3-L4",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Nucleus pulposus L4-L5",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Nucleus pulposus L5-S1",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Nucleus pulposus T1-T2",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Nucleus pulposus T2-T3",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Nucleus pulposus T3-T4",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Nucleus pulposus T4-T5",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Nucleus pulposus T5-T6",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Nucleus pulposus T6-T7",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Nucleus pulposus T7-T8",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Nucleus pulposus T8-T9",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Nucleus pulposus T9-T10",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Nucleus pulposus T10-T11",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Nucleus pulposus T11-T12",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Nucleus pulposus T12-L1",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Sacrococcygeal symphysis",
+   "material": "Cartilage"
+  },
+  {
+   "name": "Anterior longitudinal ligament",
+   "material": "Ligament"
+  },
+  {
+   "name": "Intercornual ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Intercornual ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Interspinous ligaments",
+   "material": "Ligament"
+  },
+  {
+   "name": "Ligamenta flava",
+   "material": "Ligament"
+  },
+  {
+   "name": "Nuchal ligament",
+   "material": "Ligament"
+  },
+  {
+   "name": "Posterior longitudinal ligament",
+   "material": "Ligament"
+  },
+  {
+   "name": "Supraspinous ligament",
+   "material": "Ligament"
+  },
+  {
+   "name": "Quadrangular membrane.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Quadrangular membrane.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Median cricothyroid ligament",
+   "material": "Ligament"
+  },
+  {
+   "name": "Lateral thyrohyoid ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Lateral thyrohyoid ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Median thyrohyoid ligament",
+   "material": "Ligament"
+  },
+  {
+   "name": "Cricopharyngeal ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Cricopharyngeal ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "External intercostal membrane.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "External intercostal membrane.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Internal intercostal membrane.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Internal intercostal membrane.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Costotransverse ligament.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Costotransverse ligament.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Intra-articular ligament of head of rib",
+   "material": "Ligament"
+  },
+  {
+   "name": "Intra-articular ligament of head of rib.r",
+   "material": "Ligament"
+  },
+  {
+   "name": "Radiate ligament of head of rib.l",
+   "material": "Ligament"
+  },
+  {
+   "name": "Radiate ligament of head of rib.r",
+   "material": "Ligament"
+  }
+ ]
+}

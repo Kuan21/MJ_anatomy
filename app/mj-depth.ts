@@ -19,7 +19,7 @@ const deepNeurovascular=/brachial plexus|subscapular|suprascapular|circumflex|in
  * The match is by name, so it holds for every side and every piece of a muscle.
  */
 export const BACK_LAYERS:{depth:Exclude<TissueDepth,'all'>;re:RegExp;systems?:string[]}[]=[
- {depth:'superficial',re:/trapezius|latissimus dorsi|thoracolumbar fascia|accessory nerve|transverse cervical artery|superficial branch of transverse cervical/},
+ {depth:'superficial',re:/trapezius|latissimus dorsi|thoracolumbar fascia|nuchal origin of trapezius|accessory nerve|transverse cervical artery|superficial branch of transverse cervical/},
  {depth:'intermediate',re:/rhomboid|levator scapulae|serratus posterior|dorsal scapular/},
  {depth:'deep',re:/splenius|iliocostalis|longissimus|spinalis|semispinalis|multifidus|rotator|interspinal|intertransvers|levatores costarum|levator costarum|rectus capitis posterior|obliquus capitis|dorsal ramus|posterior cutaneous branch of dorsal ramus|suboccipital|greater occipital|third occipital|vertebral artery|ligamentum flavum|denticulate|spinal nerve|spinal ganglion|root of spinal|posterior rami|spinal ganglia|sympathetic trunk|suboccipital venous|suboccipital plexus/},
 ];
@@ -35,8 +35,14 @@ export function anatomyDepthInfo(part:Part):{depth:Layer;by:'rule'|'default'}{
  if(part.system==='integumentary')return rule('superficial');
  const back=part.system==='skeletal'?undefined:backLayer(name);
  if(back)return rule(back);
+ if(part.system==='connective'&&/^rectus sheath$|^linea alba$|inguinal ligament/.test(name))return rule('superficial');
  if(part.system==='skeletal'||part.system==='connective'||part.system==='tendon')return dflt('deep');
  if(part.system==='muscular'){
+  // Anterolateral abdominal wall, outside to inside: external oblique and rectus abdominis (with pyramidalis, rectus sheath, linea alba) are superficial, internal oblique lies behind the
+  // external oblique, transversus abdominis is the deepest of the three flat muscles. (The default for any unlisted muscle is superficial, which put the internal oblique in the surface layer.)
+  if(/external oblique|rectus abdominis|pyramidalis/.test(name))return rule('superficial');
+  if(/internal oblique/.test(name))return rule('intermediate');
+  if(/transversus abdominis/.test(name))return rule('deep');
   if(deepMuscle.test(name))return rule('deep');
   if(intermediateMuscle.test(name))return rule('intermediate');
   if(superficialMuscle.test(name))return rule('superficial');

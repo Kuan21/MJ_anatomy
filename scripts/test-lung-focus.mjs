@@ -34,7 +34,7 @@ assert.ok(/lungOpacity\?:number/.test(text('app/anatomy.ts')), 'SceneState.lungO
 assert.ok(/latest\.current\.lungOpacity\?\?1/.test(scene), 'the scene must read lungOpacity');
 
 // --- 3. rendering ------------------------------------------------------------------------------------------------------------------------------------------
-assert.ok(/fadeMatFor/.test(scene) && /m\.transparent=true;m\.depthWrite=false;m\.alphaToCoverage=false/.test(scene), 'faded parts need a blended twin material');
+assert.ok(/fadeMatFor/.test(scene) && /m\.transparent=true;m\.depthWrite=false;\}/.test(scene) && !/alphaToCoverage/.test(scene), 'faded parts need a blended twin material (and no alpha-to-coverage anywhere)');
 assert.ok(/selectedData\[p\.index\*4\+2\]>0/.test(scene), 'faded parts must be routed into the twin batch');
 const lungMaterial = scene.match(/const lungMat=materialFor\([^}]*\}/)?.[0] ?? '';
 assert.ok(/roughness=1/.test(lungMaterial) && /FrontSide/.test(lungMaterial) && /envMapIntensity/.test(lungMaterial), 'one matte lung material');

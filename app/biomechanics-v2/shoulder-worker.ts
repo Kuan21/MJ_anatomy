@@ -25,21 +25,22 @@ export function createShoulderSolver(atlas:Atlas){
   if(collision&&!collider){collider=makePointCollider(collision);models.clear();}
   if(inputs.length)models.clear();
   const boundSkins=new Map<string,{skin:ReturnType<typeof bindTissue>;base:Float32Array}>();
-  for(const input of inputs){
+  // vessels first, their end pieces after them: an end piece takes its motion from its vessel, wherever the two stand in the atlas (schematic vessels are listed after the end pieces)
+  for(const input of [...inputs.filter(i=>!i.part.id.endsWith('-END')),...inputs.filter(i=>i.part.id.endsWith('-END'))]){
    const binding=tissueBindings[input.part.id];
    if(!binding||binding.name!==input.part.name||isMotionQuarantined(input.part)||!['upper-limb','trunk'].includes(anatomicalRegion(input.part)))continue;
    const profile=['arterial','venous'].includes(input.part.system)?resolveNeurovascularProfile(input.part.name,binding.profile):binding.profile;
    const skin=bindTissue(rigs[binding.side],profile,input.base,input.part,'',input.triangles);
    // an end piece joins its vessel with the vessel's own weights (the atlas lists a vessel before its end piece)
    const main=input.part.id.endsWith('-END')?boundSkins.get(input.part.id.slice(0,-4)):undefined;
-   if(main)alignEndPiece(skin,input.base,main.skin,main.base);else boundSkins.set(input.part.id,{skin,base:input.base});
+   if(main)alignEndPiece(skin,input.base,main.skin,main.base,undefined,input.triangles);else boundSkins.set(input.part.id,{skin,base:input.base});
    const linear=isLinearBinding(skin);
-   gpu.push({id:input.part.id,...gpuBinding(binding.side,{indices:skin.indices.slice(),weights:skin.weights.slice()},linear,skin.profile==='chest'||skin.profile==='pectoralPath')});
+   const shown=skin.preview??skin;gpu.push({id:input.part.id,...gpuBinding(binding.side,{indices:shown.indices.slice(),weights:shown.weights.slice()},linear,skin.profile==='chest'||skin.profile==='pectoralPath'||!!skin.preview?.lbs)});
    if(linear)continue;
    const positions=input.base.slice(),geometry=new BufferGeometry();
    geometry.setAttribute('position',new BufferAttribute(positions,3));geometry.setAttribute('normal',new BufferAttribute(input.normals.slice(),3,true));geometry.setIndex(new BufferAttribute(input.triangles,1));prepareSurfaceNormals(geometry);
    // serratus anterior wraps the ribcage on its own guide; a rest-length guard only drags it apart
-   const guard=['chest','scapular'].includes(skin.profile)&&!skin.wrap?makeSurfaceConstraints(input.base,input.triangles,skin):undefined;
+   const guard=(['chest','scapular'].includes(skin.profile)&&!skin.wrap)||skin.relax?makeSurfaceConstraints(input.base,input.triangles,skin):undefined;
    members.set(input.part.id,{...input,side:binding.side,skin,positions,geometry,guard});
   }
   const results:ShoulderResult[]=[];
@@ -48,7 +49,7 @@ export function createShoulderSolver(atlas:Atlas){
    const palette=makePalette(rig,transforms),groups=new Map<string,(typeof members extends Map<string,infer M>?M:never)[]>();
    for(const m of members.values())if(m.side===side){
     deformTissue(m.skin,m.base,palette,m.positions);
-    if(m.guard)constrainSurface(m.guard,m.positions);
+    if(m.guard)constrainSurface(m.guard,m.positions,100);
     // Broad sheets join the volume solve, except serratus anterior (it wraps the ribcage on its own guide).
     const sheet=SHEET_PROFILES.includes(m.skin.profile)&&!m.skin.wrap&&m.part.system==='muscular';
     if(!m.skin.fibre&&!sheet&&!['deltoid','cuff'].includes(m.skin.profile))continue;
@@ -95,7 +96,7 @@ export function createBodySolver(atlas:Atlas){
     const mkey=key;let model=legModels.get(mkey);
     if(!model){model=makeShoulderMuscles([{base:input.base,triangles:input.triangles,skin:member.skin,positions:member.positions}],rig.pivots[1],0,{proximal:[0],distal:[2,3]});legModels.set(mkey,model);}
     else model.group.members[0].positions=member.positions;
-    solveShoulderMuscles(model,rig.pivots[1],28);
+    solveShoulderMuscles(model,rig.pivots[1],48);
    }
    updateSurfaceNormals(member.geometry);member.geometry.computeBoundingBox();
    results.push({id:input.part.id,positions:member.positions.slice(),normals:(member.geometry.getAttribute('normal').array as Int16Array).slice(),bounds:[member.geometry.boundingBox!.min.toArray(),member.geometry.boundingBox!.max.toArray()]});

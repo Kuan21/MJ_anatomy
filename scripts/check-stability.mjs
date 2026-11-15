@@ -1,7 +1,7 @@
 // Stability checks (CI and npm run check): fragments, penetration of bones, z-fighting, cut-open meshes, and joint stretch / detachment in the limit poses.
 // Existing violations of main are registered one by one in docs/stability-known.json (with the reason). A new violation, a worse one, or a known one that is gone fails;
 // the list may only shrink. CI and logs print counts and pass/fail only; --list prints the structure names, --write (alias --shrink) only lowers/removes reviewed exceptions and regenerates docs/stability-baseline.md.
-//   node scripts/check-stability.mjs [--only=fragments,penetration,zfight,cuts,motion] [--list] [--write]
+//   node scripts/check-stability.mjs [--only=fragments,penetration,zfight,cuts,motion] [--list] [--write] [--adopt-metrics]
 import fs from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {loadStabilityParts} from './lib/stability-world.mjs';
@@ -9,6 +9,7 @@ import {fragments, penetration, zfight, cuts} from './lib/stability-static.mjs';
 import {loadMotion, registerNerves, makePoser, stretched, detached, POSES} from './lib/stability-motion.mjs';
 import {TriGrid} from './lib/stability-geom.mjs';
 import {compareBaseline} from './lib/stability-baseline.mjs';
+import {makeStableIds} from './lib/stable-keys.mjs';
 
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 const arg = n => process.argv.find(a => a.startsWith(`--${n}=`))?.slice(n.length + 3), flag = n => process.argv.includes(`--${n}`);
@@ -46,7 +47,7 @@ if (needMotion) {
         const g = p.load(); if (pos.length !== g.positions.length) continue;
         let d = 0; for (let i = 0; i < pos.length; i += 7) d = Math.max(d, Math.abs(pos[i] - g.positions[i])); if (d < 1e-4) continue;
         const r = stretched(g.positions, pos, g.indices);
-        if (r.n) findings.push({check: 'stretch', id, name: p.name, sub: pz.name, measure: r.n, detail: `${r.n} triangles with an edge over 2x its rest length (worst x${Number.isFinite(r.worst) ? r.worst.toFixed(1) : 'non-finite'}) at ${pz.name}`});
+        if (r.n) findings.push({check: 'stretch', id, name: p.name, sub: pz.name, measure: r.n, fraction: r.n / Math.max(1, g.indices.length / 3), severity: Number.isFinite(r.worst) ? Math.round(r.worst * 10) / 10 : 1e9, detail: `${r.n} triangles with an edge over 2x its rest length (worst x${Number.isFinite(r.worst) ? r.worst.toFixed(1) : 'non-finite'}) at ${pz.name}`});
       }
     }
     if (only.includes('detached')) {
@@ -59,11 +60,15 @@ if (needMotion) {
 }
 
 if (arg('dump')) fs.writeFileSync(arg('dump'), JSON.stringify(findings));
-const keyOf = f => `${f.check}|${f.id}${f.sub ? '|' + f.sub : ''}`;
+// PK / PKC ids move when a structure is added or removed, so the list is keyed by the structure name instead (scripts/lib/stable-keys.mjs)
+const SK = makeStableIds(parts), tok = id => SK.token(id) ?? id;
+const keyOf = f => `${f.check}|${tok(f.id)}${f.sub ? '|' + tok(f.sub) : ''}`;
 for (const f of findings) f.key = keyOf(f);
 findings.sort((a, b) => a.key < b.key ? -1 : 1);
 
-const result = compareBaseline(previous.known, findings, only);
+const adopt = flag('adopt-metrics');   // one-time: put detached/stretch entries that lack them onto the density-free numbers (fraction, severity); needs --write
+if (adopt && !write) { console.error('--adopt-metrics only works together with --write'); process.exit(1); }
+const result = compareBaseline(previous.known, findings, only, {adopt, keyOf});
 if (write && !result.next) {
   console.error(`Stability update refused: ${result.bad.length} new or worse, ${result.invalid.length} invalid finding(s). No baseline files changed.`);
   process.exit(1);

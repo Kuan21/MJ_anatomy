@@ -4,67 +4,47 @@ import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 import {DRACOLoader} from 'three/examples/jsm/loaders/DRACOLoader.js';
 import {VTKLoader} from 'three/examples/jsm/loaders/VTKLoader.js';
-import {ArrowLeft,Focus,Layers3,RotateCcw} from 'lucide-react';
+import {ArrowLeft,ChevronDown,Eye,EyeOff,Focus,Layers3,RotateCcw,Scissors} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {Slider} from '@/components/ui/slider';
+import {decodeModelResponse} from './model-download';
+import {EYE_LAYERS,EYE_PARTS} from './mj-eye-atlas';
+import {EYE_OPENINGS} from './mj-eye-openings';
+import {EYE_MOVEMENTS,EYE_MUSCLE_IDS,followWeight,gazeQuaternion} from './mj-eye-movement';
 
 export type MicroAtlasId='brain'|'eye'|'ear';
 
 export const MICRO_ATLASES:Record<MicroAtlasId,{title:string;subtitle:string;source:string;license:string}> = {
  brain:{title:'Brain',subtitle:'Neuroanatomy micro-atlas',source:'Brain Project · Z-Anatomy / BodyParts3D',license:'CC BY-SA 4.0'},
- eye:{title:'Eye & orbit',subtitle:'Eyeball, extraocular muscles, nerve & vessels',source:'Human Reference Atlas · Ocularium',license:'CC BY 4.0'},
+ eye:{title:'Eye & orbit',subtitle:'左眼：眼球分層、眼外肌、神經、淚器與視覺路徑',source:'BodyParts3D · Human Reference Atlas',license:'CC BY 4.0'},
  ear:{title:'Inner ear',subtitle:'Vestibular & cochlear micro-atlas',source:'IE-Map · LMU Munich',license:'CC BY 4.0'},
 };
 
 interface Props {atlasId:MicroAtlasId;onExit:()=>void}
-interface Record3D {
- id:string;
- name:string;
- group:string;
- rank:number;
+interface RecordInfo {id:string;name:string;zh?:string;text?:string;textZh?:string;group:string;groupZh?:string;rank:number}
+interface Record3D extends RecordInfo {
  object:T.Mesh;
+ /** Bounding-box centre in atlas-root coordinates. */
  center:T.Vector3;
- baseColor?:T.Color;
+ /** Offset in atlas-root coordinates when fully separated. */
+ spread:T.Vector3;
+ color:T.Color;
+ opacity:number;
 }
+interface EyeManifest {bytes:number;gzip:string;globe:{center:number[];axis:number[];length:number};openings?:{id:string;center:number[];bones:Record<string,number[]>}[];parts:{id:string;vertexCount:number;indexCount:number;positions:number;normals:number;indices:number;bounds:[number[],number[]]}[]}
+interface SceneApi {frame:(smooth:boolean,direction?:T.Vector3)=>void;invalidate:()=>void;plane:T.Plane;
+ /** Eye atlas only: turn the globe to a rotation (quaternion x, y, z, w) and set the pupil size; `smooth` eases into it. */
+ pose:(rotation:[number,number,number,number],pupil:number,smooth:boolean)=>void;
+ /** Re-applies the current pose after something else has moved the parts. */
+ repose:()=>void;
+ /** Eye atlas only: colour the bone around the listed openings; `chosen` is drawn at full strength, the others lighter. */
+ mark:(shown:string[],chosen:string|null)=>void;
+ /** Eye atlas only: turn the camera to look into the orbit at an opening. Only ever called from its own button. */
+ lookAt:(opening:string)=>void}
 
 const BRAIN_URLS=[`${import.meta.env.BASE_URL}models/brain.glb`];
-const EYE_URLS=[
- 'https://cdn.jsdelivr.net/gh/huahbo/ocularium@main/public/models/eye-anatomy.glb',
- 'https://raw.githubusercontent.com/huahbo/ocularium/main/public/models/eye-anatomy.glb',
-];
-const EYE_ORBIT_URLS=[
- 'https://cdn.humanatlas.io/digital-objects/ref-organ/eye-male-left/v1.3/assets/3d-vh-m-eye-l.glb',
- 'https://3d.nih.gov/api/submissions/29116/runs/365c5e09-2486-4d48-a725-f707520ab9a3/output-files/741947',
- 'https://cdn.jsdelivr.net/gh/huahbo/ocularium@main/source/eye-anatomy.glb',
- 'https://raw.githubusercontent.com/huahbo/ocularium/main/source/eye-anatomy.glb',
-];
+const EYE_MANIFEST=`${import.meta.env.BASE_URL}models/eye/eye-atlas.json`;
 const DRACO_PATH=`${import.meta.env.BASE_URL}draco/`;
-
-const EYE_PARTS:Record<string,{name:string;group:string;rank:number}> = {
- VH_M_palpebral_conjunctiva_of_upper_eyelid_L:{name:'Upper palpebral conjunctiva',group:'Surface & conjunctiva',rank:0},
- VH_M_palpebral_conjunctiva_of_lower_eyelid_L:{name:'Lower palpebral conjunctiva',group:'Surface & conjunctiva',rank:0},
- VH_M_bulbar_conjunctiva_L:{name:'Bulbar conjunctiva',group:'Surface & conjunctiva',rank:0},
- VH_M_cornea_L:{name:'Cornea',group:'Outer fibrous coat',rank:1},
- VH_M_corneo_scleral_junction_L:{name:'Corneoscleral junction (limbus)',group:'Outer fibrous coat',rank:1},
- VH_M_sclera_L:{name:'Sclera',group:'Outer fibrous coat',rank:1},
- VH_M_schlemms_canal_L:{name:"Schlemm's canal",group:'Anterior chamber outflow',rank:2},
- VH_M_trabecular_meshwork_L:{name:'Trabecular meshwork',group:'Anterior chamber outflow',rank:2},
- VH_M_iris_L:{name:'Iris',group:'Anterior uvea',rank:3},
- VH_M_pupil_L:{name:'Pupil',group:'Anterior uvea',rank:3},
- VH_M_ciliary_body_L:{name:'Ciliary body',group:'Anterior uvea',rank:3},
- VH_M_ciliary_muscle_L:{name:'Ciliary muscle',group:'Anterior uvea',rank:3},
- VH_M_ciliary_processes_L:{name:'Ciliary processes',group:'Anterior uvea',rank:3},
- VH_M_suspensory_ligament_of_lens_L:{name:'Suspensory ligament / zonules',group:'Lens apparatus',rank:4},
- VH_M_lens_L:{name:'Lens',group:'Lens apparatus',rank:4},
- VH_M_aqueous_humor_L:{name:'Aqueous humour',group:'Ocular media',rank:5},
- VH_M_vitreous_humor_L:{name:'Vitreous humour',group:'Ocular media',rank:5},
- VH_M_optic_choroid_L:{name:'Choroid',group:'Vascular & neural coats',rank:6},
- VH_M_retina_L:{name:'Retina',group:'Vascular & neural coats',rank:7},
- VH_M_ora_serrata_of_retina_L:{name:'Ora serrata',group:'Retinal landmarks',rank:8},
- VH_M_optic_disc_L:{name:'Optic disc',group:'Retinal landmarks',rank:8},
- VH_M_macula_lutea_L:{name:'Macula lutea',group:'Retinal landmarks',rank:8},
- VH_M_fovea_L:{name:'Fovea',group:'Retinal landmarks',rank:8},
-};
 
 const EAR_BASE='https://media.githubusercontent.com/media/pydsgz/IEMap/master/data/';
 const EAR_FILES=[
@@ -92,39 +72,6 @@ const EAR_FILES=[
 const pretty=(s:string)=>s.replace(/[_-]+/g,' ').replace(/\s+/g,' ').trim().replace(/\b\w/g,m=>m.toUpperCase());
 const humanize=(s:string)=>s.replace(/[_-]+/g,' ').replace(/\s+/g,' ').trim();
 
-function eyeOrbitMeta(raw:string){
- const s=raw.toLowerCase().replace(/[_-]+/g,' ');
- if(/ciliary muscle|ciliary body|ciliary process/.test(s))return null;
- if(/superior rectus|inferior rectus|medial rectus|lateral rectus|superior oblique|inferior oblique/.test(s))
-  return {name:humanize(raw).replace(/^VH M /i,''),group:'Extraocular muscles',rank:0};
- if(/optic nerve/.test(s))
-  return {name:'Optic nerve',group:'Orbital nerves',rank:1};
- if(/oculomotor|trochlear|abducens|ophthalmic nerve|nasociliary|lacrimal nerve|frontal nerve/.test(s))
-  return {name:humanize(raw).replace(/^VH M /i,''),group:'Orbital nerves',rank:1};
- if(/artery|arterial|vein|venous/.test(s))
-  return {name:humanize(raw).replace(/^VH M /i,''),group:/vein|venous/.test(s)?'Orbital veins':'Orbital arteries',rank:2};
- if(/lacrimal gland/.test(s))
-  return {name:'Lacrimal gland',group:'Orbital adnexa',rank:2};
- return null;
-}
-
-function structureColor(name:string,group:string,rank:number){
- const s=(name+' '+group).toLowerCase();
- if(/muscle/.test(s))return '#b96863';
- if(/nerve/.test(s))return '#dec45e';
- if(/vein|venous/.test(s))return '#6f8fba';
- if(/artery|arterial|vascular/.test(s))return '#c7605b';
- if(/cornea/.test(s))return '#9ccfd5';
- if(/sclera/.test(s))return '#e4ddd2';
- if(/conjunctiva/.test(s))return '#d8aaa3';
- if(/iris/.test(s))return '#8f765b';
- if(/lens/.test(s))return '#d5cb91';
- if(/retina/.test(s))return '#c98b73';
- if(/choroid/.test(s))return '#865249';
- if(/aqueous|vitreous/.test(s))return '#abcbd4';
- return meshColor(rank);
-}
-
 function brainGroup(label:string,cat:string){
  const s=(cat+' '+label).toLowerCase();
  if(/dura|falx|tentor/.test(s))return {group:'Meninges & dural reflections',rank:0};
@@ -145,231 +92,453 @@ const meshColor=(rank:number)=>[
  '#d7c0a9','#c59b91','#e1c9a4','#ad8b8f','#b5a1c7','#8ca9bf',
  '#c99b87','#b7a58b','#e0c96e','#c96c62','#708aa0',
 ][rank%11];
+const SELECTED_COLOR=new T.Color('#9dfc8f');
+const PARALYSED_COLOR=new T.Color('#a7afb4');
+const OPENING_CONTENT_COLOR=new T.Color('#f0b429');
+const HOME_DIRECTION=new T.Vector3(2.7,1.35,3.35).normalize();
+/** Looks onto the cut face once the lateral half is removed. */
+const SECTION_DIRECTION=new T.Vector3(1,.22,.42).normalize();
+const DEFAULT_HIDDEN:Record<MicroAtlasId,string[]> = {brain:[],ear:[],eye:EYE_LAYERS.filter(l=>l.hiddenByDefault).map(l=>l.name)};
+const defaultHidden=(id:MicroAtlasId)=>new Set(DEFAULT_HIDDEN[id]);
 
 export default function MicroAtlasScene({atlasId,onExit}:Props){
  const host=useRef<HTMLDivElement>(null);
  const recordsRef=useRef<Record3D[]>([]);
- const rootRef=useRef<T.Group|null>(null);
- const cameraRef=useRef<T.PerspectiveCamera|null>(null);
- const controlsRef=useRef<OrbitControls|null>(null);
- const [records,setRecords]=useState<{id:string;name:string;group:string;rank:number}[]>([]);
+ const apiRef=useRef<SceneApi|null>(null);
+ const framed=useRef(false);
+ const [records,setRecords]=useState<RecordInfo[]>([]);
  const [selected,setSelected]=useState<string|null>(null);
- const [depth,setDepth]=useState(0);
  const [explode,setExplode]=useState(0);
- const [hiddenGroups,setHiddenGroups]=useState<Set<string>>(()=>new Set());
+ const [hiddenGroups,setHiddenGroups]=useState<Set<string>>(()=>defaultHidden(atlasId));
+ const [openGroup,setOpenGroup]=useState<string|null>(null);
  const [isolate,setIsolate]=useState(false);
+ const [cut,setCut]=useState(false);
+ const [movementId,setMovementId]=useState<string|null>(null);
+ const [movementOpen,setMovementOpen]=useState(false);
+ const [openingsOpen,setOpeningsOpen]=useState(false);
+ const [openingId,setOpeningId]=useState<string|null>(null);
+ const [looking,setLooking]=useState(false);
  const [loading,setLoading]=useState(0);
  const [error,setError]=useState('');
 
- useEffect(()=>{setSelected(null);setDepth(0);setExplode(0);setHiddenGroups(new Set());setIsolate(false);setLoading(0);setError('');},[atlasId]);
+ useEffect(()=>{setRecords([]);setSelected(null);setExplode(0);setHiddenGroups(defaultHidden(atlasId));setOpenGroup(null);setIsolate(false);setCut(false);setMovementId(null);setMovementOpen(false);setOpeningsOpen(false);setOpeningId(null);setLooking(false);setLoading(0);setError('');framed.current=false;},[atlasId]);
 
  useEffect(()=>{
   const el=host.current;if(!el)return;
-  let disposed=false,frame=0;
+  let disposed=false,frame=0,dirty=true;
+  const abort=new AbortController();
   const scene=new T.Scene();scene.background=new T.Color('#f2f3f3');
-  const camera=new T.PerspectiveCamera(32,1,.001,100);camera.position.set(2.6,1.4,3.3);
-  const renderer=new T.WebGLRenderer({antialias:true,powerPreference:'high-performance'});
-  renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
-  el.appendChild(renderer.domElement);cameraRef.current=camera;
-  const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.dampingFactor=.08;controls.minDistance=.35;controls.maxDistance=10;controls.target.set(0,0,0);controlsRef.current=controls;
+  const camera=new T.PerspectiveCamera(32,1,.001,100);camera.position.copy(HOME_DIRECTION).multiplyScalar(4.5);
+  let renderer:T.WebGLRenderer;
+  try{renderer=new T.WebGLRenderer({antialias:true,powerPreference:'high-performance'});}catch{setError('這個瀏覽器無法啟動 3D 檢視器。');return;}
+  renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;renderer.localClippingEnabled=true;
+  renderer.domElement.setAttribute('aria-label',MICRO_ATLASES[atlasId].title+' 詳細模式：拖曳旋轉、滾輪或雙指縮放、點選構造查看說明。');
+  el.appendChild(renderer.domElement);
+  const invalidate=()=>{dirty=true;};
+  const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;controls.dampingFactor=.08;controls.minDistance=.12;controls.maxDistance=14;controls.target.set(0,0,0);controls.addEventListener('change',invalidate);
   scene.add(new T.HemisphereLight(0xffffff,0x9aa1a8,2.1));
   const key=new T.DirectionalLight(0xffffff,2.2);key.position.set(-3,4,5);scene.add(key);
   const fill=new T.DirectionalLight(0xdbe8ff,1.35);fill.position.set(3,1,-4);scene.add(fill);
-  const ground=new T.Mesh(new T.CircleGeometry(5,96),new T.MeshStandardMaterial({color:0xe1e3e3,roughness:1}));ground.rotation.x=-Math.PI/2;ground.position.y=-1.55;scene.add(ground);
 
-  const atlasRoot=new T.Group();scene.add(atlasRoot);rootRef.current=atlasRoot;
-  const loaded:Record3D[]=[];
-
-  const registerMesh=(mesh:T.Mesh,name:string,group:string,rank:number,id:string)=>{
-   mesh.geometry=mesh.geometry.clone();
-   if(!mesh.geometry.getAttribute('normal'))mesh.geometry.computeVertexNormals();
-   const color=new T.Color(structureColor(name,group,rank));
-   const n=name.toLowerCase();
-   const transparent=/cornea|conjunctiva|aqueous|vitreous|lens/.test(n);
-   const opacity=/aqueous|vitreous/.test(n)?.14:/cornea/.test(n)?.28:/conjunctiva/.test(n)?.38:/lens/.test(n)?.48:1;
-   mesh.material=new T.MeshStandardMaterial({
-    color,roughness:.58,metalness:0,side:T.FrontSide,
-    transparent,opacity,depthWrite:!transparent
-   });
-   mesh.geometry.computeBoundingBox();
-   const center=mesh.geometry.boundingBox?.getCenter(new T.Vector3())??new T.Vector3();
-   mesh.userData.__microId=id;
-   loaded.push({id,name,group,rank,object:mesh,center,baseColor:color.clone()});
+  const atlasRoot=new T.Group();scene.add(atlasRoot);
+  let eyeRig:{center:T.Vector3;pupil?:Record3D;globe:Record3D[];followers:{record:Record3D;base:Float32Array;weight:Float32Array}[]}|null=null;
+  const openingMarks:{id:string;record:Record3D;indices:number[]}[]=[];
+  // Where each opening is, and a point in front of and lateral to the orbit from which its apex can be seen (atlas-root coordinates).
+  const openingCenters=new Map<string,T.Vector3>(),orbitEntrance=new T.Vector3();
+  const markOpenings=(shown:string[],chosen:string|null)=>{
+   const touched=new Set<T.BufferAttribute>(),tint=new T.Color();
+   for(const mark of openingMarks){const color=mark.record.object.geometry.getAttribute('color') as T.BufferAttribute;if(!touched.has(color)){(color.array as Float32Array).fill(1);touched.add(color);}}
+   for(const mark of openingMarks){
+    if(!shown.includes(mark.id))continue;
+    const opening=EYE_OPENINGS.find(o=>o.id===mark.id);if(!opening)continue;
+    // multiplier that turns the bone colour into the opening colour; unchosen openings are drawn half way
+    const base=mark.record.color,strength=chosen===null||chosen===mark.id?1:.45;tint.set(opening.color);
+    const multiplier=[tint.r/base.r,tint.g/base.g,tint.b/base.b].map(v=>1+(Math.min(v,1.6)-1)*strength);
+    const color=mark.record.object.geometry.getAttribute('color') as T.BufferAttribute;
+    for(const i of mark.indices)color.setXYZ(i,multiplier[0],multiplier[1],multiplier[2]);
+   }
+   touched.forEach(color=>{color.needsUpdate=true;});
   };
-
-  const flattenGlb=(source:T.Object3D,kind:'brain'|'eye')=>{
-   source.updateMatrixWorld(true);
-   const meshes:T.Mesh[]=[];
-   source.traverse(o=>{if(o instanceof T.Mesh)meshes.push(o);});
-   meshes.forEach((src,index)=>{
-    const mesh=src.clone(false) as T.Mesh;
-    mesh.geometry=src.geometry.clone();
-    mesh.geometry.applyMatrix4(src.matrixWorld);
-    mesh.position.set(0,0,0);mesh.rotation.set(0,0,0);mesh.scale.set(1,1,1);mesh.updateMatrix();
-    let name=src.name||`Structure ${index+1}`,group='Anatomy',rank=0,id=`${kind}-${index}`;
-    if(kind==='eye'){
-      const meta=EYE_PARTS[src.name];
-      if(!meta)return;
-      name=meta.name;group=meta.group;rank=meta.rank+3;id='eye-'+src.name;
-    }else{
-      const label=String(src.userData?.bx_label||src.name||`Brain structure ${index+1}`);
-      const cat=String(src.userData?.bx_cat||'');
-      const classified=brainGroup(label,cat);
-      name=humanize(label);group=classified.group;rank=classified.rank;id=String(src.userData?.bx_id||`brain-${index}`);
+  const gaze=new T.Quaternion();let pupilSize=1;
+  let poseTween:{start:number;from:T.Quaternion;to:T.Quaternion;fromPupil:number;toPupil:number}|null=null;
+  /** Puts the globe, the muscle insertions and the optic nerve head at the current gaze. Only used while the layers are not separated. */
+  const applyPose=()=>{
+   const rig=eyeRig;if(!rig)return;
+   const c=rig.center,offset=new T.Vector3();
+   for(const r of rig.globe){
+    r.object.quaternion.copy(gaze);
+    if(r===rig.pupil){r.object.scale.setScalar(pupilSize);offset.copy(r.center).multiplyScalar(1-pupilSize).sub(c);}
+    else offset.copy(c).negate();
+    r.object.position.copy(offset.applyQuaternion(gaze).add(c));
+   }
+   const v=new T.Vector3(),turned=new T.Vector3();
+   for(const f of rig.followers){
+    const position=f.record.object.geometry.getAttribute('position') as T.BufferAttribute,array=position.array as Float32Array;
+    for(let i=0;i<f.weight.length;i++){
+     const w=f.weight[i];
+     if(!w){array[i*3]=f.base[i*3];array[i*3+1]=f.base[i*3+1];array[i*3+2]=f.base[i*3+2];continue;}
+     v.fromArray(f.base,i*3);turned.copy(v).sub(c).applyQuaternion(gaze).add(c);v.lerp(turned,w).toArray(array,i*3);
     }
-    registerMesh(mesh,name,group,rank,id);atlasRoot.add(mesh);
+    position.needsUpdate=true;f.record.object.geometry.computeVertexNormals();
+   }
+  };
+  const loaded:Record3D[]=[];
+  // Section plane in world space; keeps the medial side (x below the plane).
+  const plane=new T.Plane(new T.Vector3(-1,0,0),0);
+
+  const standardMaterial=(color:T.Color,opacity:number)=>new T.MeshStandardMaterial({color,roughness:.58,metalness:.02,side:T.DoubleSide,transparent:opacity<1,opacity,depthWrite:opacity>=1});
+  /** Registers a mesh whose geometry is already in atlas-root coordinates. */
+  const register=(mesh:T.Mesh,info:RecordInfo,color:T.Color,opacity=1)=>{
+   if(!mesh.geometry.getAttribute('normal'))mesh.geometry.computeVertexNormals();
+   mesh.geometry.computeBoundingBox();
+   mesh.userData.__microId=info.id;
+   if(opacity<1)mesh.renderOrder=100-info.rank;
+   atlasRoot.add(mesh);
+   loaded.push({...info,object:mesh,center:mesh.geometry.boundingBox!.getCenter(new T.Vector3()),spread:new T.Vector3(),color,opacity});
+  };
+  /** Copies a GLB mesh into atlas-root coordinates, optionally through an extra transform. */
+  const bake=(src:T.Mesh,transform?:T.Matrix4)=>{
+   const geometry=src.geometry.clone(),matrix=transform?transform.clone().multiply(src.matrixWorld):src.matrixWorld;
+   geometry.applyMatrix4(matrix);
+   if(matrix.determinant()<0&&geometry.index){
+    // A mirrored copy needs its triangle winding reversed to keep faces outward.
+    const index=geometry.index.array;
+    for(let i=0;i<index.length;i+=3){const t=index[i+1];index[i+1]=index[i+2];index[i+2]=t;}
+    geometry.index.needsUpdate=true;
+   }
+   return geometry;
+  };
+  const meshesOf=(source:T.Object3D)=>{source.updateMatrixWorld(true);const list:T.Mesh[]=[];source.traverse(o=>{if(o instanceof T.Mesh)list.push(o);});return list;};
+  const disposeSource=(source:T.Object3D)=>source.traverse(o=>{if(o instanceof T.Mesh){o.geometry.dispose();(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>m.dispose());}});
+
+  const addBrain=(source:T.Object3D)=>{
+   meshesOf(source).forEach((src,index)=>{
+    const label=String(src.userData?.bx_label||src.name||`Brain structure ${index+1}`),classified=brainGroup(label,String(src.userData?.bx_cat||''));
+    const color=new T.Color(meshColor(classified.rank));
+    register(new T.Mesh(bake(src),standardMaterial(color,1)),{id:String(src.userData?.bx_id||`brain-${index}`),name:humanize(label),group:classified.group,rank:classified.rank},color);
    });
+   disposeSource(source);
   };
 
-  const flattenEyeOrbit=(source:T.Object3D)=>{
-   source.updateMatrixWorld(true);
-   const meshes:T.Mesh[]=[];
-   source.traverse(o=>{if(o instanceof T.Mesh)meshes.push(o);});
-   meshes.forEach((src,index)=>{
-    const raw=String(src.name||src.userData?.name||'');
-    const meta=eyeOrbitMeta(raw);
-    if(!meta)return;
-    const mesh=src.clone(false) as T.Mesh;
-    mesh.geometry=src.geometry.clone();
-    mesh.geometry.applyMatrix4(src.matrixWorld);
-    mesh.position.set(0,0,0);mesh.rotation.set(0,0,0);mesh.scale.set(1,1,1);mesh.updateMatrix();
-    registerMesh(mesh,meta.name,meta.group,meta.rank,'orbit-'+raw+'-'+index);
-    atlasRoot.add(mesh);
-   });
-  };
-
-  const normalizeRoot=()=>{
-   if(!loaded.length)return;
-   atlasRoot.updateMatrixWorld(true);
-   const box=new T.Box3().setFromObject(atlasRoot),center=box.getCenter(new T.Vector3()),size=box.getSize(new T.Vector3());
-   const max=Math.max(size.x,size.y,size.z)||1;
-   const scale=2.45/max;
-   atlasRoot.scale.setScalar(scale);
-   atlasRoot.position.copy(center).multiplyScalar(-scale);
-   atlasRoot.updateMatrixWorld(true);
+  /** Centres and scales the atlas, then derives the default (radial) separation for parts without one. */
+  const finish=(focus?:T.Vector3)=>{
+   if(disposed)return;
+   if(!loaded.length){setError('詳細模式的模型無法載入。');return;}
+   const box=new T.Box3();loaded.forEach(r=>box.union(r.object.geometry.boundingBox!));
+   const center=box.getCenter(new T.Vector3()),size=box.getSize(new T.Vector3());
+   const scale=2.45/(Math.max(size.x,size.y,size.z)||1);
+   atlasRoot.scale.setScalar(scale);atlasRoot.position.copy(center).multiplyScalar(-scale);atlasRoot.updateMatrixWorld(true);
+   const origin=focus??center;
    loaded.forEach(r=>{
-    r.object.geometry.computeBoundingBox();
-    r.center=(r.object.geometry.boundingBox?.getCenter(new T.Vector3())??new T.Vector3()).sub(center);
+    if(r.spread.lengthSq()>0)return;
+    const direction=r.center.clone().sub(origin);
+    if(direction.lengthSq()<1e-10)direction.set((r.rank%3)-1,((r.rank+1)%3)-1,1);
+    r.spread.copy(direction.normalize().multiplyScalar(.58/scale*(1+r.rank*.04)));
    });
+   plane.constant=origin.clone().applyMatrix4(atlasRoot.matrixWorld).x;
    recordsRef.current=loaded;
-   setRecords(loaded.map(({id,name,group,rank})=>({id,name,group,rank})));
+   setRecords(loaded.map(({id,name,zh,text,textZh,group,groupZh,rank})=>({id,name,zh,text,textZh,group,groupZh,rank})));
    setLoading(100);
-   if(atlasId==='eye')camera.position.set(3.5,1.35,3.05);
-   else camera.position.set(2.7,1.35,3.35);
-   controls.target.set(0,0,0);controls.update();
   };
 
-  const loadGlbRaw=(urls:string[],onLoad:(scene:T.Object3D)=>void,onFail:(err:unknown)=>void,from=2,to=95)=>{
+  const loadGlb=(urls:string[],onProgress:(fraction:number)=>void)=>new Promise<T.Object3D>((resolve,reject)=>{
    const draco=new DRACOLoader();draco.setDecoderPath(DRACO_PATH);
    const loader=new GLTFLoader();loader.setDRACOLoader(draco);
    let ix=0;
-   const attempt=()=>{
-    loader.load(urls[ix],g=>{if(disposed){draco.dispose();return;}onLoad(g.scene);draco.dispose();},
-      e=>{if(e.total)setLoading(Math.max(from,Math.min(to,Math.round(from+(e.loaded/e.total)*(to-from)))));},
-      err=>{ix++;if(ix<urls.length)attempt();else{draco.dispose();onFail(err);}});
-   };attempt();
-  };
-  const loadGlb=(urls:string[],kind:'brain'|'eye')=>{
-   loadGlbRaw(urls,scene=>{flattenGlb(scene,kind);normalizeRoot();},
-    err=>setError(err instanceof Error?err.message:'Could not load this detail atlas.'));
-  };
-  const loadEye=()=>{
-   loadGlbRaw(EYE_URLS,scene=>{
-    flattenGlb(scene,'eye');setLoading(58);
-    loadGlbRaw(EYE_ORBIT_URLS,orbit=>{
-      flattenEyeOrbit(orbit);normalizeRoot();
-    },()=>normalizeRoot(),60,96);
-   },err=>setError(err instanceof Error?err.message:'Could not load the eye atlas.'),2,56);
+   const attempt=()=>loader.load(urls[ix],g=>{draco.dispose();resolve(g.scene);},
+    e=>{if(e.total)onProgress(Math.min(1,e.loaded/e.total));},
+    err=>{ix++;if(ix<urls.length&&!disposed)attempt();else{draco.dispose();reject(err);}});
+   attempt();
+  });
+
+  const loadBrain=async()=>{
+   try{const source=await loadGlb(BRAIN_URLS,f=>setLoading(Math.max(2,Math.round(f*95))));if(disposed){disposeSource(source);return;}addBrain(source);finish();}
+   catch{if(!disposed)setError('腦部模型無法載入，請檢查網路連線後再試一次。');}
   };
 
   const loadEar=async()=>{
    const loader=new VTKLoader();let done=0;
-   const jobs=EAR_FILES.map((entry,index)=>new Promise<void>((resolve)=>{
+   await Promise.all(EAR_FILES.map((entry,index)=>new Promise<void>(resolve=>{
+    const step=()=>{done++;if(!disposed)setLoading(Math.min(99,Math.round(done/EAR_FILES.length*100)));resolve();};
     loader.load(EAR_BASE+entry.file,geometry=>{
-      if(disposed){resolve();return;}
-      geometry.computeVertexNormals();
-      const mesh=new T.Mesh(geometry,new T.MeshStandardMaterial({color:meshColor(entry.rank),roughness:.62,side:T.DoubleSide}));
-      registerMesh(mesh,entry.name,entry.group,entry.rank,`ear-${index}`);atlasRoot.add(mesh);done++;setLoading(Math.round(done/EAR_FILES.length*100));resolve();
-    },undefined,()=>{done++;setLoading(Math.round(done/EAR_FILES.length*100));resolve();});
-   }));
-   await Promise.all(jobs);
-   if(!disposed){
-    if(loaded.length)normalizeRoot();
-    else setError('The inner-ear surface models could not be loaded.');
-   }
+     if(disposed){geometry.dispose();resolve();return;}
+     geometry.computeVertexNormals();
+     const color=new T.Color(meshColor(entry.rank));
+     register(new T.Mesh(geometry,standardMaterial(color,1)),{id:`ear-${index}`,name:entry.name,group:entry.group,rank:entry.rank},color);step();
+    },undefined,step);
+   })));
+   if(disposed)return;
+   if(loaded.length)finish();else setError('內耳模型無法載入，請檢查網路連線後再試一次。');
   };
 
-  if(atlasId==='brain')loadGlb(BRAIN_URLS,'brain');
-  else if(atlasId==='eye')loadEye();
+  const loadEye=async()=>{
+   let manifest:EyeManifest,buffer:ArrayBuffer;
+   try{
+    manifest=await(await fetch(EYE_MANIFEST,{signal:abort.signal})).json() as EyeManifest;
+    setLoading(15);
+    buffer=await decodeModelResponse(await fetch(import.meta.env.BASE_URL+manifest.gzip,{signal:abort.signal}),manifest.bytes,true);
+   }catch{if(!disposed)setError('眼部模型無法載入，請檢查網路連線後再試一次。');return;}
+   if(disposed)return;
+   setLoading(80);
+   const globeCenter=new T.Vector3().fromArray(manifest.globe.center),axis=new T.Vector3().fromArray(manifest.globe.axis),length=manifest.globe.length;
+   for(const p of manifest.parts){
+    const part=EYE_PARTS[p.id];if(!part)continue;
+    const layer=EYE_LAYERS[part.layer],color=new T.Color(part.color??layer.color),opacity=part.opacity??1;
+    const geometry=new T.BufferGeometry();
+    geometry.setAttribute('position',new T.BufferAttribute(new Float32Array(buffer,p.positions,p.vertexCount*3),3));
+    geometry.setAttribute('normal',new T.BufferAttribute(new Int16Array(buffer,p.normals,p.vertexCount*3),3,true));
+    geometry.setIndex(new T.BufferAttribute(new Uint32Array(buffer,p.indices,p.indexCount),1));
+    register(new T.Mesh(geometry,standardMaterial(color,opacity)),{id:p.id,name:part.name,zh:part.zh,text:part.text,textZh:part.textZh,group:layer.name,groupZh:layer.zh,rank:part.layer},color,opacity);
+    const record=loaded[loaded.length-1];
+    // Globe layers separate along the optical axis; everything else moves radially away from the globe.
+    if(part.axial!==undefined)record.spread.copy(axis).multiplyScalar(part.axial*length*.75);
+    else{
+     const direction=record.center.clone().sub(globeCenter);
+     if(direction.lengthSq()<1e-10)direction.copy(axis);
+     // Structures far behind the globe travel further so the orbital apex opens up too.
+     const reach=1+Math.min(2,direction.length()/length)*.45;
+     record.spread.copy(direction.normalize().multiplyScalar(length*(part.layer===0?1.5:.9)*reach));
+    }
+   }
+   // Openings are painted on the bone: a per-vertex colour that multiplies the bone colour (white = unchanged).
+   for(const opening of manifest.openings??[])for(const [boneId,indices] of Object.entries(opening.bones)){
+    const record=loaded.find(r=>r.id===boneId);if(!record)continue;
+    const geometry=record.object.geometry;
+    if(!geometry.getAttribute('color')){geometry.setAttribute('color',new T.BufferAttribute(new Float32Array(geometry.getAttribute('position').count*3).fill(1),3));const material=record.object.material as T.MeshStandardMaterial;material.vertexColors=true;material.needsUpdate=true;}
+    openingMarks.push({id:opening.id,record,indices});
+   }
+   for(const opening of manifest.openings??[])openingCenters.set(opening.id,new T.Vector3().fromArray(opening.center));
+   orbitEntrance.copy(globeCenter).addScaledVector(axis,length*5.2).add(new T.Vector3(Math.sign(globeCenter.x)||1,.2,0).multiplyScalar(length*2.3));
+   // Rig for eye movements: the globe turns about its centre; the tendons of the six muscles and the front of the optic nerve follow it.
+   const REACH=.014,onGlobe=length/2+.003;
+   const follower=(record:Record3D,attachment:T.Vector3)=>{
+    const position=record.object.geometry.getAttribute('position') as T.BufferAttribute,base=Float32Array.from(position.array as Float32Array),weight=new Float32Array(position.count),v=new T.Vector3();
+    for(let i=0;i<position.count;i++)weight[i]=followWeight(v.fromArray(base,i*3).distanceTo(attachment),REACH);
+    // The packaged normals are 16-bit; a part that changes shape needs normals that can be recomputed.
+    record.object.geometry.deleteAttribute('normal');record.object.geometry.computeVertexNormals();
+    return {record,base,weight};
+   };
+   const vertices=(record:Record3D)=>{const position=record.object.geometry.getAttribute('position') as T.BufferAttribute,list:T.Vector3[]=[];for(let i=0;i<position.count;i++)list.push(new T.Vector3().fromBufferAttribute(position,i));return list;};
+   const centroid=(list:T.Vector3[])=>list.reduce((sum,v)=>sum.add(v),new T.Vector3()).divideScalar(list.length||1);
+   const byId=(id:string)=>loaded.find(r=>r.id===id);
+   const trochlea=byId('FJ1329');
+   eyeRig={center:globeCenter.clone(),pupil:byId('VH_M_pupil_L'),
+    globe:loaded.filter(r=>r.id.startsWith('VH_M_')&&!r.id.includes('palpebral')),
+    followers:[]};
+   for(const id of [EYE_MUSCLE_IDS.superiorRectus,EYE_MUSCLE_IDS.inferiorRectus,EYE_MUSCLE_IDS.medialRectus,EYE_MUSCLE_IDS.lateralRectus,EYE_MUSCLE_IDS.superiorOblique,EYE_MUSCLE_IDS.inferiorOblique]){
+    const record=byId(id);if(!record)continue;
+    const all=vertices(record),touching=all.filter(v=>v.distanceTo(globeCenter)<onGlobe);if(!touching.length)continue;
+    // The insertion is the end of the part lying on the globe that is furthest from where the muscle comes from (for the superior oblique, from the trochlea).
+    const from=id===EYE_MUSCLE_IDS.superiorOblique&&trochlea?trochlea.center:all.reduce((far,v)=>v.distanceTo(globeCenter)>far.distanceTo(globeCenter)?v:far,all[0]);
+    const insertion=centroid([...touching].sort((a,b)=>b.distanceTo(from)-a.distanceTo(from)).slice(0,12));
+    eyeRig.followers.push(follower(record,insertion));
+   }
+   const nerve=byId('FJ1313');
+   if(nerve)eyeRig.followers.push(follower(nerve,centroid(vertices(nerve).sort((a,b)=>b.dot(axis)-a.dot(axis)).slice(0,15))));
+   finish(globeCenter);
+  };
+
+  if(atlasId==='brain')void loadBrain();
+  else if(atlasId==='eye')void loadEye();
   else void loadEar();
 
-  const resize=()=>{const w=el.clientWidth,h=el.clientHeight;camera.aspect=w/Math.max(h,1);camera.updateProjectionMatrix();renderer.setSize(w,h);};resize();
+  /** Part of the canvas not covered by the side panel (desktop) or bottom sheet (phone), in canvas pixels. */
+  const freeRegion=()=>{
+   const w=el.clientWidth,h=el.clientHeight,panel=el.parentElement?.querySelector('.micro-atlas-panel');
+   if(!panel)return {cx:w/2,cy:h/2,w,h};
+   const pr=panel.getBoundingClientRect(),er=el.getBoundingClientRect();
+   if(pr.width>w*.6){const top=Math.min(150,h*.2),bottom=Math.max(top+80,pr.top-er.top);return {cx:w/2,cy:(top+bottom)/2,w,h:bottom-top};}
+   const top=Math.min(96,h*.15),right=Math.max(80,pr.left-er.left);return {cx:right/2,cy:(top+h)/2,w:right,h:h-top};
+  };
+  const resize=()=>{
+   const w=el.clientWidth,h=Math.max(el.clientHeight,1),free=freeRegion();
+   camera.aspect=w/h;camera.setViewOffset(w,h,w/2-free.cx,h/2-free.cy,w,h);renderer.setSize(w,h);invalidate();
+  };
+  resize();
   const observer=new ResizeObserver(resize);observer.observe(el);
+
+  let tween:{start:number;fromPosition:T.Vector3;fromTarget:T.Vector3;toPosition:T.Vector3;toTarget:T.Vector3}|null=null;
+  /** Fits everything currently visible into the free part of the canvas. */
+  const frameVisible=(smooth:boolean,direction?:T.Vector3,only?:string[])=>{
+   const box=new T.Box3(),part=new T.Box3();
+   atlasRoot.updateMatrixWorld(true);
+   for(const r of loaded){if(!r.object.visible||(only&&!only.includes(r.id)))continue;r.object.updateMatrixWorld(true);box.union(part.copy(r.object.geometry.boundingBox!).applyMatrix4(r.object.matrixWorld));}
+   if(box.isEmpty())return;
+   const sphere=box.getBoundingSphere(new T.Sphere()),free=freeRegion(),h=Math.max(el.clientHeight,1);
+   const tan=Math.tan(T.MathUtils.degToRad(camera.fov/2)),half=Math.atan(tan*Math.min(free.w,free.h)/h);
+   const distance=T.MathUtils.clamp(sphere.radius/Math.sin(half)*1.04,controls.minDistance,controls.maxDistance);
+   const toTarget=sphere.center,toPosition=toTarget.clone().addScaledVector(direction??camera.position.clone().sub(controls.target).normalize(),distance);
+   if(smooth)tween={start:performance.now(),fromPosition:camera.position.clone(),fromTarget:controls.target.clone(),toPosition,toTarget};
+   else{tween=null;camera.position.copy(toPosition);controls.target.copy(toTarget);controls.update();}
+   invalidate();
+  };
+  apiRef.current={frame:frameVisible,invalidate,plane,
+   pose:(rotation,pupil,smooth)=>{
+    const to=new T.Quaternion().fromArray(rotation);
+    if(smooth)poseTween={start:performance.now(),from:gaze.clone(),to,fromPupil:pupilSize,toPupil:pupil};
+    else{poseTween=null;gaze.copy(to);pupilSize=pupil;applyPose();}
+    invalidate();
+   },
+   repose:()=>{applyPose();invalidate();},
+   mark:(shown,chosen)=>{markOpenings(shown,chosen);invalidate();},
+   lookAt:id=>{
+    const center=openingCenters.get(id);if(!center)return;
+    atlasRoot.updateMatrixWorld(true);
+    const toTarget=center.clone().applyMatrix4(atlasRoot.matrixWorld),toPosition=orbitEntrance.clone().applyMatrix4(atlasRoot.matrixWorld);
+    tween={start:performance.now(),fromPosition:camera.position.clone(),fromTarget:controls.target.clone(),toPosition,toTarget};invalidate();
+   }};
+  // Review aid (?review=1 only): fixed camera directions and screen positions of structures, for labelled screenshots.
+  const dev=new URLSearchParams(location.search).has('review');
+  if(dev)(window as unknown as {__microAtlas?:unknown}).__microAtlas={
+   view:(x:number,y:number,z:number,only?:string[],back=1)=>{frameVisible(false,new T.Vector3(x,y,z).normalize(),only);camera.position.sub(controls.target).multiplyScalar(back).add(controls.target);controls.update();invalidate();},
+   project:(id:string)=>{const r=loaded.find(v=>v.id===id);if(!r||!r.object.visible)return null;const p=r.center.clone().add(r.object.position).applyMatrix4(atlasRoot.matrixWorld).project(camera);return [(p.x+1)/2*el.clientWidth,(1-p.y)/2*el.clientHeight];},
+  };
+
   const raycaster=new T.Raycaster(),pointer=new T.Vector2();let down:{x:number;y:number}|null=null;
-  const pointerDown=(e:PointerEvent)=>{down={x:e.clientX,y:e.clientY};};
+  const pointerDown=(e:PointerEvent)=>{down={x:e.clientX,y:e.clientY};tween=null;};
   const pointerUp=(e:PointerEvent)=>{
    if(!down||Math.hypot(e.clientX-down.x,e.clientY-down.y)>7){down=null;return;}down=null;
    const rect=renderer.domElement.getBoundingClientRect();
    pointer.set((e.clientX-rect.left)/rect.width*2-1,-(e.clientY-rect.top)/rect.height*2+1);
    raycaster.setFromCamera(pointer,camera);
    const candidates=recordsRef.current.map(r=>r.object).filter(o=>o.visible);
-   const hit=raycaster.intersectObjects(candidates,false)[0]?.object as T.Mesh|undefined;
-   const id=hit?.userData.__microId as string|undefined;
+   // Ignore surface that the section plane has cut away.
+   const sectioned=(candidates[0]?.material as T.Material|undefined)?.clippingPlanes?.length;
+   const hit=raycaster.intersectObjects(candidates,false).find(i=>!sectioned||plane.distanceToPoint(i.point)>=0);
+   const id=hit?.object.userData.__microId as string|undefined;
    if(id)setSelected(id);
   };
-  renderer.domElement.addEventListener('pointerdown',pointerDown);renderer.domElement.addEventListener('pointerup',pointerUp);
-  const animate=()=>{if(disposed)return;frame=requestAnimationFrame(animate);controls.update();renderer.render(scene,camera);};animate();
-  return()=>{disposed=true;cancelAnimationFrame(frame);observer.disconnect();controls.dispose();renderer.domElement.removeEventListener('pointerdown',pointerDown);renderer.domElement.removeEventListener('pointerup',pointerUp);scene.traverse(o=>{if(o instanceof T.Mesh){o.geometry.dispose();const ms=Array.isArray(o.material)?o.material:[o.material];ms.forEach(m=>m.dispose());}});renderer.dispose();renderer.domElement.remove();recordsRef.current=[];rootRef.current=null;};
+  const wheel=()=>{tween=null;};
+  renderer.domElement.addEventListener('pointerdown',pointerDown);renderer.domElement.addEventListener('pointerup',pointerUp);renderer.domElement.addEventListener('wheel',wheel,{passive:true});
+  const animate=()=>{
+   if(disposed)return;frame=requestAnimationFrame(animate);
+   if(tween){
+    const k=Math.min(1,(performance.now()-tween.start)/420),e=1-Math.pow(1-k,3);
+    camera.position.lerpVectors(tween.fromPosition,tween.toPosition,e);controls.target.lerpVectors(tween.fromTarget,tween.toTarget,e);
+    if(k>=1)tween=null;dirty=true;
+   }
+   if(poseTween){
+    const k=Math.min(1,(performance.now()-poseTween.start)/650),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+    gaze.slerpQuaternions(poseTween.from,poseTween.to,e);pupilSize=poseTween.fromPupil+(poseTween.toPupil-poseTween.fromPupil)*e;
+    if(k>=1)poseTween=null;applyPose();dirty=true;
+   }
+   controls.update();
+   if(dirty){
+    dirty=false;
+    // Depth range follows the orbit distance, so thin layers lying on one another keep their order when zoomed in.
+    const distance=camera.position.distanceTo(controls.target),near=Math.max(.0005,distance*.02),far=distance*40+10;
+    if(Math.abs(camera.near-near)>near*.05){camera.near=near;camera.far=far;camera.updateProjectionMatrix();}
+    renderer.render(scene,camera);
+   }
+  };animate();
+  return()=>{
+   disposed=true;abort.abort();cancelAnimationFrame(frame);observer.disconnect();controls.dispose();
+   renderer.domElement.removeEventListener('pointerdown',pointerDown);renderer.domElement.removeEventListener('pointerup',pointerUp);renderer.domElement.removeEventListener('wheel',wheel);
+   if(dev)delete (window as unknown as {__microAtlas?:unknown}).__microAtlas;
+   disposeSource(scene);renderer.dispose();renderer.domElement.remove();recordsRef.current=[];apiRef.current=null;
+  };
  },[atlasId]);
 
  const groups=useMemo(()=>{
-  const map=new Map<string,number>();
-  records.forEach(r=>map.set(r.group,Math.min(map.get(r.group)??999,r.rank)));
-  return [...map.entries()].sort((a,b)=>a[1]-b[1]).map(([name,rank])=>({name,rank,count:records.filter(r=>r.group===name).length}));
- },[records]);
- const maxDepth=groups.length?Math.max(...groups.map(g=>g.rank)):0;
+  const map=new Map<string,{rank:number;count:number;zh?:string}>();
+  records.forEach(r=>{const g=map.get(r.group);if(g){g.count++;g.rank=Math.min(g.rank,r.rank);}else map.set(r.group,{rank:r.rank,count:1,zh:r.groupZh});});
+  return [...map.entries()].sort((a,b)=>a[1].rank-b[1].rank).map(([name,g])=>({name,...g,color:atlasId==='eye'?EYE_LAYERS.find(l=>l.name===name)?.color??meshColor(g.rank):meshColor(g.rank)}));
+ },[records,atlasId]);
+ const shown=groups.filter(g=>!hiddenGroups.has(g.name));
+ // Peeling works from the outside in: the outermost shown layer goes first, and comes back last.
+ const outermost=shown[0],restorable=[...groups].reverse().find(g=>hiddenGroups.has(g.name)&&(!outermost||g.rank<outermost.rank));
  const selectedRecord=records.find(r=>r.id===selected);
+ const movement=atlasId==='eye'?EYE_MOVEMENTS.find(m=>m.id===movementId):undefined;
+ const opening=atlasId==='eye'&&openingsOpen?EYE_OPENINGS.find(o=>o.id===openingId):undefined;
 
  useEffect(()=>{
-  const selectedId=selected;
+  const api=apiRef.current;
   recordsRef.current.forEach(r=>{
-   const visible=isolate&&selectedId?r.id===selectedId:r.rank>=depth&&!hiddenGroups.has(r.group);
-   r.object.visible=visible;
-   const direction=r.center.clone();
-   if(direction.lengthSq()<1e-8)direction.set((r.rank%3)-1,((r.rank+1)%3)-1,1);
-   direction.normalize();
-   const rootScale=rootRef.current?.scale.x||1;
-   const amount=(explode/100)*(.58/rootScale);
-   r.object.position.copy(direction.multiplyScalar(amount*(1+r.rank*.04)));
-   const mats=Array.isArray(r.object.material)?r.object.material:[r.object.material];
-   mats.forEach(m=>{
-    const mm=m as T.MeshStandardMaterial;
-    if(mm.color)mm.color.copy(r.id===selectedId?new T.Color('#9dfc8f'):r.baseColor??new T.Color(meshColor(r.rank)));
-    if('emissive' in mm)(mm as T.MeshStandardMaterial).emissive.set(r.id===selectedId?'#193b18':'#000000');
-   });
+   const chosen=r.id===selected;
+   r.object.visible=isolate&&selected?chosen:!hiddenGroups.has(r.group);
+   r.object.position.copy(r.spread).multiplyScalar(explode/100);
+   const material=r.object.material as T.MeshStandardMaterial;
+   // An opening is shown the way a special region is: its bone and what passes through it stay, everything else fades.
+   const passing=opening?.contents.includes(r.id),faded=!!opening&&!chosen&&!passing&&r.rank!==0;
+   material.color.copy(chosen?SELECTED_COLOR:passing?OPENING_CONTENT_COLOR:movement?.paralysed?.includes(r.id)?PARALYSED_COLOR:r.color);
+   material.emissive.set(chosen?'#193b18':'#000000');
+   const opacity=chosen?Math.max(r.opacity,.9):faded?Math.min(r.opacity,.07):r.opacity,transparent=opacity<1;
+   if(material.transparent!==transparent){material.transparent=transparent;material.depthWrite=!transparent;material.needsUpdate=true;}
+   material.opacity=opacity;
+   material.clippingPlanes=cut&&api&&!(isolate&&selected)?[api.plane]:null;
   });
- },[depth,explode,hiddenGroups,isolate,selected,records]);
+  // The loop above puts every part back at its separated position; put the globe back at its gaze.
+  if(explode===0)api?.repose();
+  api?.invalidate();
+ },[explode,hiddenGroups,isolate,selected,records,cut,movement,opening]);
 
- const reset=()=>{setDepth(0);setExplode(0);setHiddenGroups(new Set());setSelected(null);setIsolate(false);const c=controlsRef.current,cam=cameraRef.current;if(c&&cam){c.target.set(0,0,0);cam.position.set(2.7,1.35,3.35);c.update();}};
- const toggleGroup=(name:string)=>setHiddenGroups(prev=>{const next=new Set(prev);if(next.has(name))next.delete(name);else next.add(name);return next;});
+ // Openings of the orbit: colour the bone while the section is open; the chosen one at full strength.
+ useEffect(()=>{if(!records.length||atlasId!=='eye')return;apiRef.current?.mark(openingsOpen?EYE_OPENINGS.map(o=>o.id):[],openingsOpen?openingId:null);},[openingsOpen,openingId,records,atlasId]);
+
+ // Eye movements: turn the globe to the chosen movement, or back to the primary position. Separating the layers ends the movement.
+ useEffect(()=>{if(!records.length||atlasId!=='eye')return;apiRef.current?.pose(movement?gazeQuaternion(movement.rotation):[0,0,0,1],movement?.pupil??1,true);},[movement,records,atlasId]);
+ useEffect(()=>{if(explode>0)setMovementId(null);},[explode]);
+
+ // Keep whatever is visible in frame; follow the separation slider without easing.
+ const isolated=isolate?selected:null;
+ useEffect(()=>{if(!records.length)return;apiRef.current?.frame(framed.current,framed.current?undefined:HOME_DIRECTION);framed.current=true;},[records,hiddenGroups,isolated]);
+ useEffect(()=>{if(records.length&&framed.current)apiRef.current?.frame(false);},[explode]);
+ useEffect(()=>{if(records.length&&framed.current)apiRef.current?.frame(true,cut?SECTION_DIRECTION:undefined);},[cut]);
+
+ const reset=()=>{setMovementId(null);setOpeningId(null);setOpeningsOpen(false);setLooking(false);setExplode(0);setHiddenGroups(defaultHidden(atlasId));setSelected(null);setIsolate(false);setCut(false);setOpenGroup(null);requestAnimationFrame(()=>apiRef.current?.frame(true,HOME_DIRECTION));};
+ const setGroupHidden=(name:string,hidden:boolean)=>{setIsolate(false);setHiddenGroups(prev=>{const next=new Set(prev);if(hidden)next.add(name);else next.delete(name);return next;});};
+ const pick=(r:RecordInfo)=>{setSelected(r.id);if(hiddenGroups.has(r.group))setGroupHidden(r.group,false);};
+ const playMovement=(id:string)=>{
+  const next=movementId===id?null:EYE_MOVEMENTS.find(m=>m.id===id);
+  setExplode(0);setIsolate(false);setMovementId(next?.id??null);
+  // A muscle movement also selects its muscle, so its card is shown; selecting never moves the camera.
+  if(next?.kind==='muscle'&&next.muscles){const record=records.find(r=>r.id===next.muscles![0]);if(record)pick(record);}
+  else if(next?.kind==='palsy')setSelected(null);
+ };
+ // The bones must be on to see an opening; choosing one never moves the camera.
+ const chooseOpening=(id:string)=>{const next=openingId===id?null:id;setOpeningId(next);if(next){setIsolate(false);setSelected(null);setGroupHidden(EYE_LAYERS[0].name,false);}};
+ const toggleOpenings=()=>{const next=!openingsOpen;setOpeningsOpen(next);setLooking(false);if(next)setGroupHidden(EYE_LAYERS[0].name,false);};
  const meta=MICRO_ATLASES[atlasId];
 
  return <div className="micro-atlas-shell">
   <div className="micro-atlas-canvas" ref={host}/>
-  <section className="micro-atlas-panel glass" aria-label={meta.title+' detail atlas'}>
-   <div className="micro-atlas-heading"><Button variant="ghost" className="micro-back" onClick={onExit}><ArrowLeft size={15}/>Body</Button><span className="eyebrow">DETAIL ATLAS</span><h2>{meta.title}</h2><p>{meta.subtitle}</p></div>
+  <section className="micro-atlas-panel glass" aria-label={meta.title+' 詳細模式'}>
+   <div className="micro-atlas-heading"><Button variant="ghost" className="micro-back" onClick={onExit}><ArrowLeft size={15}/>返回</Button><span className="eyebrow">DETAIL ATLAS</span><h2>{meta.title}</h2><p>{meta.subtitle}</p></div>
    <div className="micro-atlas-actions">
-    <Button variant="ghost" disabled={depth<=0} onClick={()=>setDepth(d=>Math.max(0,d-1))}>Layer back</Button>
-    <Button variant="ghost" disabled={depth>=maxDepth} onClick={()=>setDepth(d=>Math.min(maxDepth,d+1))}>Peel deeper</Button>
+    <Button variant="ghost" disabled={!restorable} onClick={()=>restorable&&setGroupHidden(restorable.name,false)}>還原上一層</Button>
+    <Button variant="ghost" disabled={shown.length<2} onClick={()=>outermost&&setGroupHidden(outermost.name,true)}>剝開一層</Button>
    </div>
-   <div className="micro-atlas-depth"><span>Depth</span><strong>{groups.find(g=>g.rank===depth)?.name??'All layers'}</strong></div>
-   <div className="micro-layer-list">{groups.map(g=><Button key={g.name} variant="ghost" className={!hiddenGroups.has(g.name)&&g.rank>=depth?'enabled':''} onClick={()=>toggleGroup(g.name)}><i style={{background:meshColor(g.rank)}}/><span>{g.name}</span><small>{g.count}</small></Button>)}</div>
-   <div className="micro-explode"><div><Layers3 size={14}/><span>Separate details</span><output>{explode}%</output></div><Slider min={0} max={100} step={1} value={[explode]} onValueChange={v=>setExplode(Array.isArray(v)?v[0]:v)}/></div>
-   <div className="micro-selected"><span className="eyebrow">SELECTED STRUCTURE</span><strong>{selectedRecord?.name??'Tap any visible structure'}</strong><small>{selectedRecord?.group??'Structure remains in its anatomical layer until isolated.'}</small></div>
-   <div className="micro-selected-actions"><Button className={isolate?'active':''} disabled={!selected} onClick={()=>setIsolate(v=>!v)}><Focus size={13}/>{isolate?'Show layer context':'Isolate'}</Button><Button variant="ghost" onClick={reset}><RotateCcw size={13}/>Reset</Button></div>
+   <div className="micro-layer-list">{groups.map(g=>{
+    const on=!hiddenGroups.has(g.name),open=openGroup===g.name,label=g.zh??g.name;
+    return <div key={g.name} className={'micro-layer'+(on?' enabled':'')} ref={open?node=>{node?.scrollIntoView({block:'nearest'});}:undefined}>
+     <div className="micro-layer-row">
+      <Button variant="ghost" className="micro-layer-toggle" aria-pressed={on} aria-label={(on?'隱藏':'顯示')+label} title={on?'隱藏這一層':'顯示這一層'} onClick={()=>setGroupHidden(g.name,on)}>{on?<Eye size={13}/>:<EyeOff size={13}/>}</Button>
+      <Button variant="ghost" className="micro-layer-name" aria-expanded={open} aria-label={label+'：構造清單'} onClick={()=>setOpenGroup(open?null:g.name)}><i style={{background:g.color}}/><span>{g.name}{g.zh&&<small lang="zh-Hant">{g.zh}</small>}</span><small>{g.count}</small><ChevronDown size={12} className={open?'open':''}/></Button>
+     </div>
+     {open&&<div className="micro-part-list">{records.filter(r=>r.group===g.name).map(r=><Button variant="ghost" key={r.id} className={r.id===selected?'active':''} aria-pressed={r.id===selected} onClick={()=>pick(r)}><span>{r.name}</span>{r.zh&&<small lang="zh-Hant">{r.zh}</small>}</Button>)}</div>}
+    </div>;
+   })}</div>
+   <div className="micro-explode"><Layers3 size={14}/><span id="micro-explode-label">分離</span><Slider aria-labelledby="micro-explode-label" min={0} max={100} step={1} value={[explode]} onValueChange={v=>setExplode(Array.isArray(v)?v[0]:v)}/><output>{explode}%</output></div>
+   {atlasId==='eye'&&records.length>0&&<div className={'micro-movement'+(movementOpen?' open':'')}>
+    <Button variant="ghost" className="micro-movement-toggle" aria-expanded={movementOpen} onClick={()=>setMovementOpen(v=>!v)}><span className="eyebrow">眼球動作</span><small lang="zh-Hant">{movement&&!movementOpen?movement.zh:''}</small><ChevronDown size={12} className={movementOpen?'open':''}/></Button>
+    {movementOpen&&<>
+     <div className="micro-move-buttons">{EYE_MOVEMENTS.filter(m=>m.kind==='muscle').map(m=><Button variant="ghost" key={m.id} className={movementId===m.id?'active':''} aria-pressed={movementId===m.id} aria-label={m.zh+'的動作'} title={m.name+' '+m.zh} onClick={()=>playMovement(m.id)}><b>{m.label}</b><small lang="zh-Hant">{m.zh}</small></Button>)}</div>
+     <div className="micro-move-buttons palsy">{EYE_MOVEMENTS.filter(m=>m.kind==='palsy').map(m=><Button variant="ghost" key={m.id} className={movementId===m.id?'active':''} aria-pressed={movementId===m.id} aria-label={m.zh+'的眼位'} title={m.name+' '+m.zh} onClick={()=>playMovement(m.id)}><b>{m.label}</b><small lang="zh-Hant">{m.zh.replace('神經麻痺','麻痺')}</small></Button>)}</div>
+     {movement&&<div className="micro-move-info" aria-live="polite"><strong>{movement.name}<em lang="zh-Hant">{movement.zh}</em></strong>{movement.kind==='palsy'&&<p>{movement.text}</p>}<p lang="zh-Hant">{movement.textZh}</p></div>}
+    </>}
+   </div>}
+   {atlasId==='eye'&&records.length>0&&<div className={'micro-movement micro-openings'+(openingsOpen?' open':'')}>
+    <Button variant="ghost" className="micro-movement-toggle" aria-expanded={openingsOpen} onClick={toggleOpenings}><span className="eyebrow">眼眶的管與裂</span><small lang="zh-Hant">{opening?opening.zh:''}</small><ChevronDown size={12} className={openingsOpen?'open':''}/></Button>
+    {openingsOpen&&<>
+     <div className="micro-move-buttons openings">{EYE_OPENINGS.map(o=><Button variant="ghost" key={o.id} className={openingId===o.id?'active':''} aria-pressed={openingId===o.id} aria-label={'標示'+o.zh} title={o.name+' '+o.zh+(o.aliasZh?'（又稱'+o.aliasZh+'）':'')} onClick={()=>chooseOpening(o.id)}><b><i style={{background:o.color}}/>{o.label}</b><small lang="zh-Hant">{o.zh}</small></Button>)}</div>
+     {opening&&<div className="micro-move-info" aria-live="polite"><strong>{opening.name}<em lang="zh-Hant">{opening.zh}{opening.aliasZh&&'（又稱'+opening.aliasZh+'）'}</em><Button variant="ghost" className="micro-look" onClick={()=>{apiRef.current?.lookAt(opening.id);setLooking(true);}}><Focus size={11}/>對準</Button></strong>{looking&&<small className="micro-look-hint" lang="zh-Hant">目前由左眼眶的前外側看向眶尖：畫面左邊是鼻側，上方是眶頂，右邊是眼眶外側壁。</small>}<p>{opening.text}{opening.absent&&' '+opening.absent}</p><p lang="zh-Hant">{opening.textZh}{opening.absentZh}</p></div>}
+    </>}
+   </div>}
+   <div className="micro-selected" aria-live="polite"><span className="eyebrow">已選構造</span><strong>{selectedRecord?.name??'點選模型上的構造，或從上方清單選擇'}</strong>{selectedRecord?.zh&&<em lang="zh-Hant">{selectedRecord.zh}</em>}{selectedRecord&&<small>{selectedRecord.group}{selectedRecord.groupZh&&' · '+selectedRecord.groupZh}</small>}{selectedRecord?.text&&<p>{selectedRecord.text}</p>}{selectedRecord?.textZh&&<p lang="zh-Hant">{selectedRecord.textZh}</p>}</div>
+   <div className="micro-selected-actions"><Button className={isolate?'active':''} disabled={!selected} onClick={()=>setIsolate(v=>!v)}><Focus size={13}/>{isolate?'顯示周圍':'單獨顯示'}</Button><Button variant="ghost" className={cut?'active':''} aria-pressed={cut} disabled={isolate&&!!selected} onClick={()=>setCut(v=>!v)}><Scissors size={13}/>{cut?'完整':'切面'}</Button><Button variant="ghost" onClick={reset}><RotateCcw size={13}/>重設</Button></div>
    <div className="micro-credit"><span>{meta.source}</span><span>{meta.license}</span></div>
   </section>
-  {loading<100&&!error&&<div className="micro-loading glass"><strong>Loading {meta.title}</strong><span>{loading}%</span><div><i style={{width:loading+'%'}}/></div></div>}
-  {error&&<div className="micro-loading glass error"><strong>Detail atlas unavailable</strong><span>{error}</span><Button variant="ghost" onClick={onExit}>Return to body</Button></div>}
+  {loading<100&&!error&&<div className="micro-loading glass" role="status"><strong>正在載入 {meta.title}</strong><span>{loading}%</span><div><i style={{width:loading+'%'}}/></div></div>}
+  {error&&<div className="micro-loading glass error" role="alert"><strong>詳細模式無法使用</strong><span>{error}</span><Button variant="ghost" onClick={onExit}>返回人體</Button></div>}
  </div>;
 }

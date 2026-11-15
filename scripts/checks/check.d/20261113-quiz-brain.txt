@@ -1,0 +1,2 @@
+node scripts/report-quiz-brain.mjs --check
+node scripts/test-quiz-brain.mjs

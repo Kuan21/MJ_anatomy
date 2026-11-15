@@ -1,0 +1,305 @@
+{
+ "note": "Links that the other sources of scripts/build-vessel-parents.mjs do not carry: the continuations of the main trunks (aorta, subclavian→axillary, brachiocephalic veins, leg veins) and the brachial plexus and sciatic nerve trees. `%` is Right/Left (lower-case inside a name), `.s` the nerve-stream suffix .r/.l; `why` is the textbook fact each link states (Gray's Anatomy 1918; OpenStax Anatomy and Physiology). The builder fails when a name is not a structure of the model.",
+ "links": [
+  {
+   "child": "% axillary artery",
+   "parent": "% subclavian artery",
+   "sided": true,
+   "why": "The subclavian artery becomes the axillary artery at the lateral border of the first rib."
+  },
+  {
+   "child": "Descending thoracic aorta",
+   "parent": "Arch of aorta",
+   "sided": false,
+   "why": "The aortic arch continues as the descending thoracic aorta."
+  },
+  {
+   "child": "Abdominal aorta",
+   "parent": "Descending thoracic aorta",
+   "sided": false,
+   "why": "The thoracic aorta passes through the aortic hiatus of the diaphragm and becomes the abdominal aorta."
+  },
+  {
+   "child": "% common iliac artery",
+   "parent": "Abdominal aorta",
+   "sided": true,
+   "why": "The abdominal aorta divides into the two common iliac arteries."
+  },
+  {
+   "child": "Celiac trunk",
+   "parent": "Abdominal aorta",
+   "sided": false,
+   "why": "The celiac trunk is the first unpaired branch of the abdominal aorta."
+  },
+  {
+   "child": "Superior mesenteric artery",
+   "parent": "Abdominal aorta",
+   "sided": false,
+   "why": "The superior mesenteric artery arises from the abdominal aorta below the celiac trunk."
+  },
+  {
+   "child": "Inferior mesenteric artery",
+   "parent": "Abdominal aorta",
+   "sided": false,
+   "why": "The inferior mesenteric artery arises from the abdominal aorta below the renal arteries."
+  },
+  {
+   "child": "% renal artery",
+   "parent": "Abdominal aorta",
+   "sided": true,
+   "why": "The renal arteries arise from the sides of the abdominal aorta."
+  },
+  {
+   "child": "% axillary vein",
+   "parent": "% subclavian vein",
+   "sided": true,
+   "why": "The axillary vein becomes the subclavian vein at the lateral border of the first rib."
+  },
+  {
+   "child": "% subclavian vein",
+   "parent": "% brachiocephalic vein",
+   "sided": true,
+   "why": "The subclavian vein joins the internal jugular vein to form the brachiocephalic vein."
+  },
+  {
+   "child": "Right brachiocephalic vein",
+   "parent": "Superior vena cava",
+   "sided": false,
+   "why": "The brachiocephalic veins unite to form the superior vena cava."
+  },
+  {
+   "child": "Left brachiocephalic vein",
+   "parent": "Superior vena cava",
+   "sided": false,
+   "why": "The brachiocephalic veins unite to form the superior vena cava."
+  },
+  {
+   "child": "Azygos vein",
+   "parent": "Superior vena cava",
+   "sided": false,
+   "why": "The azygos vein arches over the right main bronchus and drains into the superior vena cava."
+  },
+  {
+   "child": "Hemiazygos vein",
+   "parent": "Azygos vein",
+   "sided": false,
+   "why": "The hemiazygos vein crosses the vertebral column and drains into the azygos vein."
+  },
+  {
+   "child": "Accessory hemiazygos vein",
+   "parent": "Azygos vein",
+   "sided": false,
+   "why": "The accessory hemiazygos vein crosses the vertebral column and drains into the azygos vein."
+  },
+  {
+   "child": "Right internal thoracic vein",
+   "parent": "Right brachiocephalic vein",
+   "sided": false,
+   "why": "The internal thoracic vein drains into the brachiocephalic vein."
+  },
+  {
+   "child": "% small saphenous vein",
+   "parent": "% popliteal vein",
+   "sided": true,
+   "why": "The small saphenous vein drains into the popliteal vein."
+  },
+  {
+   "child": "% great saphenous vein",
+   "parent": "% femoral vein",
+   "sided": true,
+   "why": "The great saphenous vein drains into the femoral vein at the saphenous opening."
+  },
+  {
+   "child": "% popliteal vein",
+   "parent": "% femoral vein",
+   "sided": true,
+   "why": "The popliteal vein continues as the femoral vein."
+  },
+  {
+   "child": "% femoral vein",
+   "parent": "% external iliac vein",
+   "sided": true,
+   "why": "The femoral vein continues as the external iliac vein behind the inguinal ligament."
+  },
+  {
+   "child": "% external iliac vein",
+   "parent": "% common iliac vein",
+   "sided": true,
+   "why": "The external and internal iliac veins unite to form the common iliac vein."
+  },
+  {
+   "child": "% internal iliac vein",
+   "parent": "% common iliac vein",
+   "sided": true,
+   "why": "The external and internal iliac veins unite to form the common iliac vein."
+  },
+  {
+   "child": "% common iliac vein",
+   "parent": "Inferior vena cava",
+   "sided": true,
+   "why": "The two common iliac veins unite to form the inferior vena cava."
+  },
+  {
+   "child": "% renal vein",
+   "parent": "Inferior vena cava",
+   "sided": true,
+   "why": "The renal veins drain into the inferior vena cava."
+  },
+  {
+   "child": "% superficial epigastric vein",
+   "parent": "% great saphenous vein",
+   "sided": true,
+   "why": "The superficial epigastric vein drains into the great saphenous vein."
+  },
+  {
+   "child": "% inferior epigastric vein",
+   "parent": "% external iliac vein",
+   "sided": true,
+   "why": "The inferior epigastric vein drains into the external iliac vein."
+  },
+  {
+   "child": "Anterior division of superior trunk of brachial plexus.s",
+   "parent": "Superior trunk of brachial plexus.s",
+   "sided": true,
+   "why": "Each trunk divides into an anterior and a posterior division."
+  },
+  {
+   "child": "Posterior division of superior trunk of brachial plexus.s",
+   "parent": "Superior trunk of brachial plexus.s",
+   "sided": true,
+   "why": "Each trunk divides into an anterior and a posterior division."
+  },
+  {
+   "child": "Anterior division of middle trunk of brachial plexus.s",
+   "parent": "Middle trunk of brachial plexus.s",
+   "sided": true,
+   "why": "Each trunk divides into an anterior and a posterior division."
+  },
+  {
+   "child": "Posterior division of middle trunk of brachial plexus.s",
+   "parent": "Middle trunk of brachial plexus.s",
+   "sided": true,
+   "why": "Each trunk divides into an anterior and a posterior division."
+  },
+  {
+   "child": "Anterior division of inferior trunk of brachial plexus.s",
+   "parent": "Inferior trunk of brachial plexus.s",
+   "sided": true,
+   "why": "Each trunk divides into an anterior and a posterior division."
+  },
+  {
+   "child": "Posterior division of inferior trunk of brachial plexus.s",
+   "parent": "Inferior trunk of brachial plexus.s",
+   "sided": true,
+   "why": "Each trunk divides into an anterior and a posterior division."
+  },
+  {
+   "child": "Superior trunk of brachial plexus.s",
+   "parent": "% C5 spinal nerve",
+   "sided": true,
+   "why": "The superior trunk is formed by the ventral rami of C5 and C6."
+  },
+  {
+   "child": "Superior trunk of brachial plexus.s",
+   "parent": "% C6 spinal nerve",
+   "sided": true,
+   "why": "The superior trunk is formed by the ventral rami of C5 and C6."
+  },
+  {
+   "child": "Middle trunk of brachial plexus.s",
+   "parent": "% C7 spinal nerve",
+   "sided": true,
+   "why": "The middle trunk is the continuation of the ventral ramus of C7."
+  },
+  {
+   "child": "Inferior trunk of brachial plexus.s",
+   "parent": "% C8 spinal nerve",
+   "sided": true,
+   "why": "The inferior trunk is formed by the ventral rami of C8 and T1."
+  },
+  {
+   "child": "% lateral cord of brachial plexus",
+   "parent": "Anterior division of superior trunk of brachial plexus.s",
+   "sided": true,
+   "why": "The lateral cord is formed by the anterior divisions of the superior and middle trunks."
+  },
+  {
+   "child": "% lateral cord of brachial plexus",
+   "parent": "Anterior division of middle trunk of brachial plexus.s",
+   "sided": true,
+   "why": "The lateral cord is formed by the anterior divisions of the superior and middle trunks."
+  },
+  {
+   "child": "% medial cord of brachial plexus",
+   "parent": "Anterior division of inferior trunk of brachial plexus.s",
+   "sided": true,
+   "why": "The medial cord is the continuation of the anterior division of the inferior trunk."
+  },
+  {
+   "child": "Posterior cord of brachial plexus.s",
+   "parent": "Posterior division of superior trunk of brachial plexus.s",
+   "sided": true,
+   "why": "The posterior cord is formed by the posterior divisions of all three trunks."
+  },
+  {
+   "child": "Posterior cord of brachial plexus.s",
+   "parent": "Posterior division of middle trunk of brachial plexus.s",
+   "sided": true,
+   "why": "The posterior cord is formed by the posterior divisions of all three trunks."
+  },
+  {
+   "child": "Posterior cord of brachial plexus.s",
+   "parent": "Posterior division of inferior trunk of brachial plexus.s",
+   "sided": true,
+   "why": "The posterior cord is formed by the posterior divisions of all three trunks."
+  },
+  {
+   "child": "Common fibular nerve.s",
+   "parent": "Sciatic nerve.s",
+   "sided": true,
+   "why": "The sciatic nerve divides into the tibial and the common fibular nerves."
+  },
+  {
+   "child": "Tibial nerve.s",
+   "parent": "Sciatic nerve.s",
+   "sided": true,
+   "why": "The sciatic nerve divides into the tibial and the common fibular nerves."
+  },
+  {
+   "child": "Deep fibular nerve.s",
+   "parent": "Common fibular nerve.s",
+   "sided": true,
+   "why": "The common fibular nerve divides into the superficial and the deep fibular nerves."
+  },
+  {
+   "child": "Superficial fibular nerve.s",
+   "parent": "Common fibular nerve.s",
+   "sided": true,
+   "why": "The common fibular nerve divides into the superficial and the deep fibular nerves."
+  },
+  {
+   "child": "Medial sural cutaneous nerve.s",
+   "parent": "Tibial nerve.s",
+   "sided": true,
+   "why": "The medial sural cutaneous nerve is a branch of the tibial nerve."
+  },
+  {
+   "child": "Sural communicating branch of common fibular nerve.s",
+   "parent": "Common fibular nerve.s",
+   "sided": true,
+   "why": "The sural communicating branch comes off the common fibular nerve."
+  },
+  {
+   "child": "Sural nerve.s",
+   "parent": "Medial sural cutaneous nerve.s",
+   "sided": true,
+   "why": "The sural nerve is formed by the medial sural cutaneous nerve and the sural communicating branch of the common fibular nerve."
+  },
+  {
+   "child": "Sural nerve.s",
+   "parent": "Sural communicating branch of common fibular nerve.s",
+   "sided": true,
+   "why": "The sural nerve is formed by the medial sural cutaneous nerve and the sural communicating branch of the common fibular nerve."
+  }
+ ]
+}

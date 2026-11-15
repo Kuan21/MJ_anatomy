@@ -9,6 +9,7 @@ import assert from 'node:assert/strict';
 import {fileURLToPath} from 'node:url';
 import {loadVessels, analyse} from './lib/vessel-segments.mjs';
 import {loadPoseModule, createPoser} from './lib/vessel-pose.mjs';
+import {makeStableIds, loadPaokaoList} from './lib/stable-keys.mjs';
 
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 const m = await loadPoseModule();
@@ -95,11 +96,25 @@ for (const [baseId, end] of V.ends) {
 console.log(`  connector back ends: ${weightRows.length} connector/pose combinations separate from their vessel by more than ${WEIGHT_MM} mm`);
 
 // ---- exceptions file
-const key = e => `${e.pose}|${e.side}|${e.id}|${e.neighbourId}|${e.kind}`;
+// The list is keyed by structure name, not by the PK / PKC number (which moves whenever a structure is added or removed): scripts/lib/stable-keys.mjs
+const SK = makeStableIds(loadPaokaoList()), tok = id => SK.token(id) ?? id;
+const key = e => `${e.pose}|${e.side}|${tok(e.id)}|${tok(e.neighbourId)}|${e.kind}`;
 const excFile = file('docs/vessel-motion-exceptions.json');
 const worstByKey = {}; for (const e of exceptions) worstByKey[key(e)] = Math.max(worstByKey[key(e)] ?? 0, e.posedGapMm);   // several ends of one pair share a key: the worst counts
 if (write) {
-  fs.writeFileSync(excFile, JSON.stringify({note: 'Vessel pairs that open more than half a diameter (and more than 1 mm beyond their rest gap) at a joint pose. Known; a new one fails `npm run check:motion`.', summary, weightExceptions: weightRows.map(w => `${w.pose}|${w.id}`), exceptions: worstByKey}, null, 1));
+  // A new exception may only be registered for two vessels that are NOT anatomically joined (CLAUDE.md), and needs a written reason: `--write --reason="..."` applies it to every pair added by this run.
+  // Entries registered before 2026-11-13 have no reason (legacy); `reasons` holds the reason of every pair added since.
+  const prev = JSON.parse(fs.readFileSync(excFile, 'utf8')), reasonArg = process.argv.find(a => a.startsWith('--reason='))?.slice(9).trim();
+  const added = Object.keys(worstByKey).filter(k => prev.exceptions[k] === undefined), reasons = {};
+  for (const [k, r] of Object.entries(prev.reasons ?? {})) if (worstByKey[k] !== undefined) reasons[k] = r;
+  if (added.length && !reasonArg) {
+    const names = new Map(exceptions.map(e => [key(e), `${e.pose} ${e.side}: ${e.name} -> ${e.neighbour} (rest ${e.restGapMm} mm, posed ${e.posedGapMm} mm)`]));
+    console.error(`${added.length} new open pair(s). Register them only if the two vessels are NOT anatomically joined (a branch and its trunk must be fixed in the skinning or the connector, not registered), and say why:\n - ${added.slice(0, 40).map(k => names.get(k)).join('\n - ')}\nThen run: node scripts/test-vessel-motion.mjs --write --reason="nearest-neighbour match, not anatomically joined"\nand list these pairs and the reason in the PR description.`);
+    process.exit(1);
+  }
+  for (const k of added) reasons[k] = reasonArg;
+  if (added.length) console.log(`Registered ${added.length} new pair(s) with the reason: ${reasonArg}`);
+  fs.writeFileSync(excFile, JSON.stringify({note: 'Vessel pairs that open more than half a diameter (and more than 1 mm beyond their rest gap) at a joint pose. Known; a new one fails `npm run check:motion`. Only vessels that are not anatomically joined may be listed; `reasons` holds the reason of each pair added since 2026-11-13 (older entries have none).', summary, weightExceptions: weightRows.map(w => `${w.pose}|${tok(w.id)}`), reasons, exceptions: worstByKey}, null, 1));
   const byPose = new Map(); for (const e of exceptions) (byPose.get(e.pose) ?? byPose.set(e.pose, []).get(e.pose)).push(e);
   fs.writeFileSync(file('docs/vessel-motion.md'), ['# 血管在關節極限位置的連續性', '', '由 `node scripts/test-vessel-motion.mjs --write` 產生。相鄰兩段血管（含連接管）以檢視器使用的蒙皮擺姿後，重新量測間隙（間隙 = 靜止間隙 + 兩端點距離的變化）。判準：間隙小於管徑一半，或小於靜止間隙 + 1 mm。', '',
     '| 姿勢 | 量測的血管對 | 例外 | 最大開口 (mm) |', '| --- | ---: | ---: | ---: |', ...Object.entries(summary).map(([k, s]) => `| ${k} | ${s.pairs} | ${s.exceptions} | ${s.worstOpeningMm} |`), '',
@@ -108,7 +123,7 @@ if (write) {
   console.log('Wrote docs/vessel-motion-exceptions.json and docs/vessel-motion.md');
 } else {
   const known = JSON.parse(fs.readFileSync(excFile, 'utf8')), fresh = exceptions.filter(e => known.exceptions[key(e)] === undefined || e.posedGapMm > known.exceptions[key(e)] + GROW_MM);
-  const freshW = weightRows.filter(w => !known.weightExceptions.includes(`${w.pose}|${w.id}`));
+  const freshW = weightRows.filter(w => !known.weightExceptions.includes(`${w.pose}|${tok(w.id)}`));
   if (list) for (const e of exceptions) console.log(`  ${e.pose} ${e.side}: ${e.name} -> ${e.neighbour} ${e.restGapMm} -> ${e.posedGapMm} mm (diameter ${e.diameterMm})`);
   if (fresh.length || freshW.length) { console.error(`Vessel motion: ${fresh.length} new open pairs, ${freshW.length} new separated connectors:\n - ` + [...fresh.slice(0, 25).map(e => `${e.pose} ${e.side}: ${e.name} -> ${e.neighbour} rest ${e.restGapMm} mm, posed ${e.posedGapMm} mm, diameter ${e.diameterMm} mm`), ...freshW.slice(0, 10).map(w => `${w.pose}: connector ${w.id} (${w.name}) ${w.separationMm} mm`)].join('\n - ')); process.exit(1); }
   console.log(`PASS vessel motion: ${exceptions.length} known exceptions (docs/vessel-motion-exceptions.json), none new.`);

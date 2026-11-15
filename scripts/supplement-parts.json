@@ -80,7 +80,7 @@
    "fma": "FMA46764","name": "Left temporoparietalis","system": "muscular","sha256": "f261e6c1712ef3250210a407e10a201ed2c81c59abc09213141f8fed37d8be40"
   },
   {
-   "fma": "FMA46768","name": "Aponeurosis of epicranius","system": "muscular","sha256": "4186e24a09042bb3ee022d746938f54263cc5e3aab41cdd95b906c0347611e36"
+   "fma": "FMA46768","name": "Aponeurosis of epicranius","system": "connective","sha256": "4186e24a09042bb3ee022d746938f54263cc5e3aab41cdd95b906c0347611e36"
   },
   {
    "fma": "FMA55608","name": "Right depressor septi nasi","system": "muscular","sha256": "ac70607f86eb061e4a7c29fb84ce78e634a0577ea1955faa5ed2e6bdb4f6ec79"

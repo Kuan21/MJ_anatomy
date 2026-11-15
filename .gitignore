@@ -48,7 +48,6 @@ next-env.d.ts
 /public/models/brain.glb
 
 # Pinned Z-Anatomy joint source
-/public/models/joints.glb
 
 /public/models/articular-surfaces.json
 
@@ -83,3 +82,6 @@ next-env.d.ts
 /.screenshots/
 /test-results/
 /playwright-report/
+
+# Claude agent worktrees (avoid accidental commits)
+.claude/worktrees/

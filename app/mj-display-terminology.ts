@@ -5,13 +5,13 @@ import type {SystemId} from './anatomy';
  *
  * The source mesh names and concept IDs stay untouched so model bindings,
  * animation, visibility, and anatomy lookup remain stable. Only the labels
- * shown to learners are normalized to the terminology used in Netter,
- * Atlas of Human Anatomy, 7th ed.
+ * shown to learners are normalized to standard anatomical terminology
+ * (Terminologia Anatomica) and common usage.
  */
-export const NETTER_TERMINOLOGY_SOURCE='English nomenclature: Netter, Atlas of Human Anatomy, 7th ed. (Elsevier, 2019); Traditional Chinese nomenclature: standard Taiwanese anatomical terms.';
+export const DISPLAY_TERMINOLOGY_SOURCE='English nomenclature: Terminologia Anatomica and standard anatomical usage; Traditional Chinese nomenclature: standard Taiwanese anatomical terms.';
 
 const preferred:Record<string,string>={
- // Netter 7 / Terminologia Anatomica wording that differs from BodyParts3D.
+ // Terminologia Anatomica wording that differs from BodyParts3D.
  'celiac artery':'celiac trunk',
  'flexor accessorius':'quadratus plantae',
  'hip bone':'coxal bone',
@@ -81,7 +81,7 @@ function ordinalize(base:string){
  const m=/^(first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth)\s+(.+)$/i.exec(base);
  if(!m)return base;
  const tail=m[2];
- // Netter commonly labels numbered ribs, metacarpals/metatarsals,
+ // Anatomical atlases commonly label numbered ribs, metacarpals/metatarsals,
  // lumbricals/interossei and costal cartilages with numeric ordinals.
  if(/^(rib|costal cartilage|metacarpal(?: bone)?|metatarsal(?: bone)?|lumbrical(?: of (?:hand|foot))?|plantar interosseous(?: of foot)?|dorsal interosseous(?: of (?:hand|foot))?)/i.test(tail))
   return `${ordinal[m[1].toLowerCase()]} ${tail}`;
@@ -108,7 +108,7 @@ function normalizeBase(input:string,system:SystemId){
  // Apply preferred wording after removing a subdivision prefix as well.
  base=base.replace(/\bsupra-orbital\b/gi,'supraorbital').replace(/\binfra-orbital\b/gi,'infraorbital');
 
- // Netter labels foot/hand intrinsics with numeric ordinals (1st, 2nd, ...).
+ // Atlases label foot/hand intrinsics with numeric ordinals (1st, 2nd, ...).
  base=ordinalize(base);
 
  // Tooth terminology: "secondary" in the source atlas corresponds to the
@@ -118,16 +118,16 @@ function normalizeBase(input:string,system:SystemId){
  // Keep region qualifiers readable without changing anatomical identity.
  base=base.replace(/\bnavicular bone of foot\b/gi,'navicular bone');
 
- // Modern Netter 7 terminology uses fibularis in the main lower-limb plates.
+ // Modern terminology uses fibularis in the main lower-limb plates.
  base=base.replace(/\bperoneus\b/gi,'fibularis').replace(/\bperoneal\b/gi,'fibular');
 
- // Preserve names that are already accepted Netter/TA terms. This is display
+ // Preserve names that are already accepted TA terms. This is display
  // normalization only; it never merges or changes source anatomy IDs.
  if(system==='muscular'&&/^external abdominal oblique$/i.test(base))return base;
  return base;
 }
 
-export function netterEnglishName(name:string,system:SystemId){
+export function displayEnglishName(name:string,system:SystemId){
  const {side,base:rawBase}=extractSide(name);
  let base=normalizeBase(rawBase,system);
 
@@ -135,7 +135,7 @@ export function netterEnglishName(name:string,system:SystemId){
  const mapped=preferred[base.toLowerCase()];
  if(mapped)base=mapped;
 
- // Netter-style side qualifier is placed first.
+ // Standard side qualifier is placed first.
  const label=side?`${side} ${lowerFirst(base)}`:upperFirst(base);
  return clean(label);
 }

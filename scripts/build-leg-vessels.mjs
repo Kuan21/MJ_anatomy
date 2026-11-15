@@ -9,7 +9,7 @@ const root = new URL('../', import.meta.url), full = loadTree(), built = buildTr
 const kids = id => full.vessels.filter(v => v.parent === id || v.parentPending === id || v.joinsTo === id).sort((a, b) => a.order - b.order);
 const by = (id, side) => built.vessels.find(b => b.id === id && b.side === side);
 const mmOf = b => Math.round(b.path.length * 3);
-const TITLE = {1: ['femoral artery system', '股動脈系統'], 2: ['popliteal artery and knee arteries', '膕動脈與膝部動脈'], 3: ['tibial, fibular and ankle arteries', '脛前、脛後、腓動脈與踝部動脈']};
+const TITLE = {1: ['femoral artery system', '股動脈系統'], 2: ['popliteal artery and knee arteries', '膕動脈與膝部動脈'], 3: ['tibial, fibular and ankle arteries', '脛前、脛後、腓動脈與踝部動脈'], 4: ['arteries of the foot', '足部動脈']};
 const parentName = v => v.parent ? full.vessels.find(x => x.id === v.parent).zh : v.parentPending ? `${full.vessels.find(x => x.id === v.parentPending)?.zh ?? '脛前動脈'}（之後的批次）` : '腹主動脈';
 for (const batch of full.batches) {
   const list = full.vessels.filter(v => v.batch === batch);

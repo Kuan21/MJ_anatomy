@@ -3,7 +3,6 @@
 // bone frames (1 thigh, 2 shank, 3 foot, 4 patella; see app/biomechanics-v2/body-motion.ts), so both ends stay on their bone and the part between stretches with the joint.
 import {add, mul, lerp, sub, unit, len} from '../lib/paokao-util.mjs';
 
-const REF = 'Gray’s Anatomy for Students, 4th ed. (Drake et al.); Moore’s Clinically Oriented Anatomy, 8th ed.';
 const SIDES = [{w: 'Right', l: 'right', sx: -1, zh: '右'}, {w: 'Left', l: 'left', sx: 1, zh: '左'}];
 const MODEL = ['Schematic band or cord between measured bony attachment points; width and thickness are typical values.', '示意帶或索：兩端落在實測的骨性附著點，寬度與厚度為典型值。'];
 const P = (x, y, z) => [x, y, z];
@@ -15,7 +14,7 @@ export default function ligamentsLowerLimb(U) {
     const fib = `${S.w} fibula`, tib = `${S.w} tibia`, tal = `${S.w} talus`, cal = `${S.w} calcaneus`, nav = `Navicular bone of ${S.l} foot`, fem = `${S.w} femur`;
     const X = (a, b) => sx < 0 ? [-b, -a] : [a, b];
     const on = (bone, p, off = -.0006) => U.onSurface(bone, p, off);
-    const push = (name, zh, kind, geometry, card, ends, a, b) => out.push({name: `${S.w} ${name}`, zh: `${S.zh}${zh}`, system: 'connective', kind, model: 'procedural', cap: 1e9, geometry: [geometry], card: {...card, supply: card.action}, note: MODEL, refs: [REF],
+    const push = (name, zh, kind, geometry, card, ends, a, b) => out.push({name: `${S.w} ${name}`, zh: `${S.zh}${zh}`, system: 'connective', kind, model: 'procedural', cap: 1e9, geometry: [geometry], card: {...card, supply: card.action}, note: MODEL, refs: [],
       binding: {name: `${S.w} ${name}`, rig, frame: null, ends, a, b}});
     const band = (pts, width, thick, hint) => U.ribbon(pts, width, thick, hint, 24);
     const cord = (pts, r) => U.tube(pts, r, r, 24, 10);

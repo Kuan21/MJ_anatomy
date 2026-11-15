@@ -25,6 +25,25 @@ The breast (female only) uses the Human Reference Atlas *3D Reference Objects: L
 
 The pleura and pericardium layers are schematic shells written by this project (`scripts/prepare-serous.mjs`): each is an offset of the lung lobe or heart wall surface, not a measured structure. The five lung lobes are BodyParts3D 3.0 meshes (CC BY-SA 2.1 Japan, FMA7333, FMA7383, FMA7337, FMA7370, FMA7371).
 
+## Eye detail atlas
+
+The eye detail atlas (眼) shows one left orbit assembled from two sources and packaged in `models/eye/` by `scripts/build-eye-atlas.mjs`.
+
+**Layered eyeball (23 structures)**
+
+- Model: *3D Reference Object Library, eye-male-left, v1.3*, HuBMAP / Human Reference Atlas (Cyberinfrastructure for Network Science Center, Indiana University), built from the Visible Human male data set.
+- License: CC BY 4.0, https://creativecommons.org/licenses/by/4.0/
+- Source file: https://cdn.humanatlas.io/digital-objects/ref-organ/eye-male-left/v1.3/assets/3d-vh-m-eye-l.glb (pinned by sha256 in the build script).
+- Modified: simplified with meshoptimizer from 346,630 to 99,760 triangles (0.4% error limit per structure) and normals recomputed; scaled uniformly by 1.087 and translated so that it shares the optical axis and axial length of the BodyParts3D left eyeball (registration); structures renamed (English and Chinese display names) and given colours, transparency and layer groups for this interface.
+- Not mirrored. The source is a left eye and it is shown as the left eye; this atlas has no right-eye model.
+
+**Orbit (48 structures)**
+
+- Extraocular muscles and their fascia, tarsal plates, lacrimal apparatus, orbital nerves, ophthalmic artery, optic nerve to superior colliculus, and the bones of the orbit: BodyParts3D 4.0 (as above, CC BY 4.0), taken from the packaged atlas.
+- Modified: the two halves of the optic chiasm are joined into one structure. Three corrections where the orbit meets the registered eyeball: (1) the tendons of the four rectus muscles are drawn back so that they end 5.5 mm (medial), 6.5 mm (inferior), 6.9 mm (lateral) and 7.7 mm (superior) behind the corneal margin; (2) the parts of the six extraocular muscles and of levator palpebrae superioris that lay below the scleral surface are lifted onto it; (3) the last 14 mm of the optic nerve are bent by up to 3.8 mm so that it ends on the optic disc. All other geometry is unchanged.
+
+The abducens nerve, the orbital veins, the central retinal vessels and the individual branches of the ophthalmic artery are not present in either source and are not shown.
+
 ## Historical assets (not included in the current release)
 
 Earlier repository revisions included female reference anatomy: Kristen Browne and Heidi Schlehlein, Human Reference Atlas / HuBMAP, *3D Reference Organ Set for Female v1.5* (2023). CC BY 4.0. Geometry adapted for this viewer.
@@ -39,6 +58,10 @@ Adaptations: translated native meter/Y-up coordinates onto the stage, coincident
 This is a reference assembly with whole-body surface and selected organs, including female reproductive anatomy. Its skeleton and muscle coverage is partial. It is not a complete model of every human structure or a single-person scan. Eight placenta/umbilical structures are classified under Pregnancy reference and hidden by default.
 
 Separately licensed additions (BodyParts3D 3.0, CC BY-SA 2.1 Japan, not the 4.0 CC BY terms above): the 47 facial/masticatory muscles (`models/facial/ATTRIBUTION.md`) and 28 structures that the 4.0 export omitted, such as latissimus dorsi and rectus abdominis (`models/supplement/ATTRIBUTION.md`).
+
+## Peripheral nerves (Z-Anatomy)
+
+The nerve meshes of the atlas (the peripheral nerves, ganglia, plexuses and the sympathetic trunk) are taken from the official Z-Anatomy nervous system model: [LluisV/Z-Anatomy](https://github.com/LluisV/Z-Anatomy) commit `6c7f9016bd5899ac8edafd31b9900c151df42ed6`, `Resources/Models/FBX/NervousSystem100.fbx`, CC BY-SA 4.0, a derivative of BodyParts3D (The Database Center for Life Science, CC BY-SA 2.1 Japan) as the model's own `License.txt` states. `scripts/extract-zanatomy-nervous.mjs` (a maintainer tool, not run by the build) converts the geometry from centimetres to metres and re-encodes it with Draco into `public/models/nervous.glb`; the file records the source file's SHA-256. Adapted mesh data remains under CC BY-SA 4.0. The course of some nerves is corrected by this project after loading (`scripts/lib/nerve-corrections.mjs`). Modification (CC BY-SA 4.0 requires saying so): on both sides the anterior root of the posterior femoral cutaneous nerve is moved 0.3 mm inwards where its surface lay on the sciatic nerve's surface, so that the two do not draw on top of each other; nothing else of the geometry is changed (`scripts/extract-zanatomy-nervous.mjs`).
 
 ## Schematic nerve and vein models (generated for this atlas)
 
@@ -56,7 +79,7 @@ The BodyParts3D 4.0 vessels are closed tubes cut off where the segmentation stop
 
 ## Course-summary structures (paokao)
 
-`scripts/prepare-paokao.mjs` builds, for structures named in the course summary that have no ready-made model in the sources, simplified models (the earlier statement here that the Z-Anatomy export contains none of them was wrong for the retinacula, tendon sheaths and aponeuroses, which the tendon batch below now takes from it): tubes for vessels and nerves, ribbons for ligaments and retinacula, thin shells for fasciae and aponeuroses, translucent boxes for spaces, and thin patches cut from the atlas bone and lung meshes for bone landmarks and lung surface marks. They are generated by this project from the textbook course of each structure (Gray’s Anatomy for Students, Moore’s Clinically Oriented Anatomy) on landmarks measured on the BodyParts3D atlas meshes; the patches are derived from BodyParts3D (CC BY-SA 2.1 Japan). The symmetrical sympathetic trunk and its ganglia now shown come from the Z-Anatomy `nervous.glb` already in the project (CC BY-SA 4.0). Every card says "Schematic model".
+`scripts/prepare-paokao.mjs` builds, for structures named in the course summary that have no ready-made model in the sources, simplified models (the earlier statement here that the Z-Anatomy export contains none of them was wrong for the retinacula, tendon sheaths and aponeuroses, which the tendon batch below now takes from it): tubes for vessels and nerves, ribbons for ligaments and retinacula, thin shells for fasciae and aponeuroses, translucent boxes for spaces, and thin patches cut from the atlas bone and lung meshes for bone landmarks and lung surface marks. They are generated by this project from standard anatomical descriptions of each structure (positions to be verified by the user against the public sources Gray’s Anatomy 1918 illustrations and OpenStax Anatomy and Physiology) on landmarks measured on the BodyParts3D atlas meshes; the patches are derived from BodyParts3D (CC BY-SA 2.1 Japan). The symmetrical sympathetic trunk and its ganglia now shown come from the Z-Anatomy `nervous.glb` already in the project (CC BY-SA 4.0). Every card says "Schematic model".
 
 ## Tendons, retinacula and tendon sheaths of the upper limb
 

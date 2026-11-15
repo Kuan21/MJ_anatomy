@@ -1,4 +1,4 @@
-/** Accepted alternative names for the typed-answer quiz (level 2), keyed by the structure name in lower case without left/right.
+/** Accepted alternative names for the typed-answer quiz (levels 2 and 3), keyed by the structure name in lower case without left/right.
  * Wording follows the course checklist first; every row is listed in REVIEW_LOG.md for the owner to check. The structure's own English and Chinese names, and
  * any name in brackets (such as "Septomarginal trabecula (moderator band)"), are accepted without a row here. */
 export interface Synonym {en?: string[]; zh?: string[]}

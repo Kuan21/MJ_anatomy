@@ -2,7 +2,6 @@
 // (palmaris brevis, transversus thoracis, subcostal muscles). Positions are measured on the atlas meshes that bound each space.
 import {sub, add, mul, unit, len, lerp} from '../lib/paokao-util.mjs';
 
-const REF = 'Gray’s Anatomy for Students, 4th ed. (Drake et al.); Moore’s Clinically Oriented Anatomy, 8th ed.';
 const SIDES = [{w: 'Right', l: 'right', sx: -1, zh: '右', s: 'r'}, {w: 'Left', l: 'left', sx: 1, zh: '左', s: 'l'}];
 const ORD = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth', 'eleventh', 'twelfth'];
 
@@ -10,7 +9,7 @@ export default function spacesMuscles(U) {
   const out = [], P = (x, y, z) => [x, y, z];
   const box = (c, dx, dy, dz) => U.prism([[-1, -1, -1], [1, -1, -1], [1, 1, -1], [-1, 1, -1], [-1, -1, 1], [1, -1, 1], [1, 1, 1], [-1, 1, 1]].map(([a, b, d]) => add(c, P(a * dx / 2, b * dy / 2, d * dz / 2))));
   const space = (S, name, zh, geometry, where, role, bounds) => out.push({name: S ? `${S.w} ${name}` : name, zh: `${S ? S.zh : ''}${zh}`, system: 'connective', kind: 'space', geometry: [geometry],
-    card: {origin: [bounds[0], bounds[1]], course: [where[0], where[1]], supply: [role[0], role[1]]}, refs: [REF]});
+    card: {origin: [bounds[0], bounds[1]], course: [where[0], where[1]], supply: [role[0], role[1]]}, refs: []});
   const axis = (n, y, near) => U.axisAt(n, y, near, .002);
   for (const S of SIDES) {
     const sx = S.sx;
@@ -92,7 +91,7 @@ export default function spacesMuscles(U) {
   {
     const c = U.axisAt('Abdominal aorta', 1.178, null, .003);
     out.push({name: 'Aortic hiatus', zh: '主動脈裂孔', system: 'connective', kind: 'space', geometry: [U.ring(c, P(1, 0, 0), P(0, 0, 1), .0125, .0105, .0045, .0016)],
-      card: {origin: ['Diaphragm, at the level of T12, behind the median arcuate ligament', '橫膈，T12 高度、正中弓狀韌帶後方'], course: ['The opening between the right and left crura of the diaphragm', '橫膈左右腳之間的開口'], supply: ['Transmits the aorta, the thoracic duct and often the azygos vein', '通過主動脈、胸管，常並有奇靜脈']}, refs: [REF]});
+      card: {origin: ['Diaphragm, at the level of T12, behind the median arcuate ligament', '橫膈，T12 高度、正中弓狀韌帶後方'], course: ['The opening between the right and left crura of the diaphragm', '橫膈左右腳之間的開口'], supply: ['Transmits the aorta, the thoracic duct and often the azygos vein', '通過主動脈、胸管，常並有奇靜脈']}, refs: []});
   }
   // ---- Ligaments of the spine and breast
   {
@@ -100,7 +99,7 @@ export default function spacesMuscles(U) {
     for (const S of SIDES) {
       const pts = []; for (let y = 1.50; y > 1.14; y -= .0165) { const c = cordAt(y); pts.push(add(c, P(S.sx * .0042, 0, 0)), add(c, P(S.sx * .0088, -.0085, 0))); }
       out.push({name: `${S.w} denticulate ligament`, zh: `${S.zh}齒狀韌帶`, system: 'connective', kind: 'ligament', ribbons: [{pts, width: .0016, thick: .0006, hint: P(0, 0, 1), samples: pts.length * 2}],
-        card: {origin: ['Pia mater on the side of the spinal cord, between the dorsal and ventral roots', '脊髓側面的軟膜，位於背根與腹根之間'], course: ['A series of about 21 triangular teeth that attach to the dura mater', '約 21 個三角形齒突，附著於硬脊膜'], supply: ['Suspends the spinal cord in the dural sac; it marks the boundary between the dorsal and ventral roots', '把脊髓懸吊在硬膜囊內；是區分背根與腹根的標誌']}, refs: [REF]});
+        card: {origin: ['Pia mater on the side of the spinal cord, between the dorsal and ventral roots', '脊髓側面的軟膜，位於背根與腹根之間'], course: ['A series of about 21 triangular teeth that attach to the dura mater', '約 21 個三角形齒突，附著於硬脊膜'], supply: ['Suspends the spinal cord in the dural sac; it marks the boundary between the dorsal and ventral roots', '把脊髓懸吊在硬膜囊內；是區分背根與腹根的標誌']}, refs: []});
     }
     const levels = [];
     const names = [...ORD.slice(0, 12).map(o => `${o[0].toUpperCase()}${o.slice(1)} thoracic vertebra`), 'First lumbar vertebra', 'Second lumbar vertebra', 'Third lumbar vertebra', 'Fourth lumbar vertebra', 'Fifth lumbar vertebra', 'Seventh cervical vertebra', 'Sixth cervical vertebra', 'Fifth cervical vertebra', 'Fourth cervical vertebra', 'Third cervical vertebra'].filter(U.has);
@@ -111,7 +110,7 @@ export default function spacesMuscles(U) {
       for (const sx of [-1, 1]) ribs.push(U.ribbon([P(sx * .003, gap + .0045, z), P(sx * .0095, gap, z - .0015), P(sx * .0165, gap - .0045, z - .003)], .0046, .0011, 'vertical', 8));
     }
     out.push({name: 'Ligamentum flavum', zh: '黃韌帶', system: 'connective', kind: 'ligament', geometry: [U.merge(ribs)],
-      card: {origin: ['Lamina of the vertebra above', '上一節椎骨的椎弓板'], course: ['Yellow elastic bands joining the laminae of adjacent vertebrae on the inside of the vertebral canal, behind the spinal cord', '連接相鄰椎弓板的黃色彈性纖維帶，位於椎管內脊髓後方'], supply: ['Resists excessive flexion and helps the spine return to the upright posture', '限制過度前屈，並協助脊柱回復直立']}, refs: [REF]});
+      card: {origin: ['Lamina of the vertebra above', '上一節椎骨的椎弓板'], course: ['Yellow elastic bands joining the laminae of adjacent vertebrae on the inside of the vertebral canal, behind the spinal cord', '連接相鄰椎弓板的黃色彈性纖維帶，位於椎管內脊髓後方'], supply: ['Resists excessive flexion and helps the spine return to the upright posture', '限制過度前屈，並協助脊柱回復直立']}, refs: []});
     // The suspensory ligaments of the breast (Cooper) are part of the registered breast model in neck-breast-vulva.mjs.
   }
   // ---- Thin muscles
@@ -122,7 +121,7 @@ export default function spacesMuscles(U) {
     const adm = hand('Abductor digiti minimi'), am = U.mesh(adm), top = am.hi[1], xm = (am.lo[0] + am.hi[0]) / 2, zf = am.hi[2], hw = (am.hi[0] - am.lo[0]) / 2 * .7;
     const brevis = U.conformingSheet([P(xm - hw, top - .004, zf), P(xm + hw, top - .004, zf), P(xm + hw, top - .026, zf), P(xm - hw, top - .026, zf)], [adm], .0012, .0014, .0025);
     out.push({name: `${S.w} palmaris brevis`, zh: `${S.zh}掌短肌`, system: 'muscular', kind: 'muscle', geometry: [brevis],
-      card: {origin: ['Flexor retinaculum and palmar aponeurosis', '屈肌支持帶與掌腱膜'], insertion: ['Skin of the ulnar border of the palm, over the hypothenar eminence', '手掌尺側緣、小魚際隆起上的皮膚'], nerve: ['Ulnar nerve, superficial branch', '尺神經淺支'], action: ['Wrinkles the skin of the hypothenar eminence and deepens the hollow of the palm', '使小魚際的皮膚皺起並加深掌心凹']}, refs: [REF]});
+      card: {origin: ['Flexor retinaculum and palmar aponeurosis', '屈肌支持帶與掌腱膜'], insertion: ['Skin of the ulnar border of the palm, over the hypothenar eminence', '手掌尺側緣、小魚際隆起上的皮膚'], nerve: ['Ulnar nerve, superficial branch', '尺神經淺支'], action: ['Wrinkles the skin of the hypothenar eminence and deepens the hollow of the palm', '使小魚際的皮膚皺起並加深掌心凹']}, refs: []});
     // transversus thoracis: slips from the back of the lower sternum and xiphoid to the 2nd–6th costal cartilages.
     const body = U.mesh('Body of sternum'), slips = [];
     for (let i = 1; i <= 5; i++) {
@@ -131,7 +130,7 @@ export default function spacesMuscles(U) {
       slips.push(U.ribbon([from, lerp(from, to, .5), add(to, P(0, .002, 0))], .0045, .0010, 'vertical', 8));
     }
     out.push({name: `${S.w} transversus thoracis`, zh: `${S.zh}胸橫肌`, system: 'muscular', kind: 'muscle', geometry: [U.merge(slips)],
-      card: {origin: ['Posterior surface of the lower sternum and xiphoid process', '胸骨下部與劍突後面'], insertion: ['Inner surface of the 2nd–6th costal cartilages', '第二至第六肋軟骨內面'], nerve: ['Intercostal nerves 2–6', '第二至第六肋間神經'], action: ['Depresses the costal cartilages (weak expiration)', '下壓肋軟骨（微弱的呼氣作用）']}, refs: [REF]});
+      card: {origin: ['Posterior surface of the lower sternum and xiphoid process', '胸骨下部與劍突後面'], insertion: ['Inner surface of the 2nd–6th costal cartilages', '第二至第六肋軟骨內面'], nerve: ['Intercostal nerves 2–6', '第二至第六肋間神經'], action: ['Depresses the costal cartilages (weak expiration)', '下壓肋軟骨（微弱的呼氣作用）']}, refs: []});
     // subcostal muscles: slips on the inner surface of the lower ribs near their angles, crossing one or two ribs.
     const sub = [];
     for (let i = 7; i <= 10; i++) {
@@ -140,7 +139,7 @@ export default function spacesMuscles(U) {
       sub.push(U.ribbon([p1, lerp(p1, p2, .5), p2], .0075, .0010, 'vertical', 8));
     }
     out.push({name: `${S.w} subcostal muscles`, zh: `${S.zh}肋下肌`, system: 'muscular', kind: 'muscle', geometry: [U.merge(sub)],
-      card: {origin: ['Inner surface of the lower ribs near their angles', '下位肋骨角附近的內面'], insertion: ['Inner surface of the 2nd or 3rd rib below, in the same direction as the innermost intercostals', '下方第二或第三條肋骨的內面，方向與最內肋間肌相同'], nerve: ['Lower intercostal nerves', '下位肋間神經'], action: ['Depress the ribs (weak expiration)', '下拉肋骨（微弱的呼氣作用）']}, refs: [REF]});
+      card: {origin: ['Inner surface of the lower ribs near their angles', '下位肋骨角附近的內面'], insertion: ['Inner surface of the 2nd or 3rd rib below, in the same direction as the innermost intercostals', '下方第二或第三條肋骨的內面，方向與最內肋間肌相同'], nerve: ['Lower intercostal nerves', '下位肋間神經'], action: ['Depress the ribs (weak expiration)', '下拉肋骨（微弱的呼氣作用）']}, refs: []});
   }
   return out;
 }

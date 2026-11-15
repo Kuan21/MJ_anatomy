@@ -80,6 +80,9 @@ export function anatomicalSubregion(part:Part):AnatomicalSubregion{
  if(r==='upper-limb'){
   if(HAND.test(n)||y<.90)return 'hand';
   if(FOREARM.test(n)||y<1.11)return 'forearm';
+  // A named shoulder-girdle structure is a shoulder structure wherever its centre happens to lie: the height bands below only stand in for names that say nothing (the dorsal scapular artery,
+  // centred at 1.35 m, was labelled "arm" by the band).
+  if(SHOULDER.test(n)&&!ARM.test(n))return 'shoulder';
   if(ARM.test(n)||y<1.37)return 'arm';
   return 'shoulder';
  }
@@ -133,8 +136,11 @@ export function anatomicalRegion(part:Part):AnatomicalRegion{
  return 'trunk';
 }
 
+/** Shoulder-girdle structures that lie on the back of the scapula and thorax: the label names the scapular / back region rather than the arm. */
+const SCAPULAR_BACK=/dorsal scapular|rhomboid|trapezius|levator scapulae|latissimus|thoracodorsal|circumflex scapular|suprascapular|supraspinatus|infraspinatus|teres (?:major|minor)/i;
 export function anatomicalRegionLabel(part:Part):{en:string;zh:string}{
  const sub=anatomicalSubregion(part);
+ if(sub==='shoulder'&&SCAPULAR_BACK.test(correctedPartName(part)))return{en:'scapular region / back',zh:'肩胛區／背部'};
  const labels:Record<AnatomicalSubregion,[string,string]>={
   head:['head','頭部'],neck:['neck','頸部'],shoulder:['shoulder girdle','肩帶'],arm:['arm','上臂'],forearm:['forearm','前臂'],hand:['hand','手部'],
   thorax:['thorax','胸部'],abdomen:['abdomen','腹部'],pelvis:['pelvis','骨盆'],hip:['hip','髖部'],thigh:['thigh','大腿'],leg:['leg','小腿'],foot:['foot','足部'],back:['back / vertebral column','背部／脊柱'],general:['general anatomy','全身解剖']
@@ -153,7 +159,7 @@ export function topRegionParts(parts:Part[],region:'whole'|'upper'|'lower'|'head
  if(region==='organs')return parts.filter(p=>organSystems.includes(p.system)).map(p=>p.id);
  if(region==='upper')return [...partsInRegion(parts,'upper-limb'),...skinIds(parts)];
  if(region==='lower')return [...partsInRegion(parts,'lower-limb'),...skinIds(parts)];
- // Top-level 頭部 shows only what lies above the collarbones (the scene also cuts long vessels and nerves at that level); Motion 頭頸 uses only head-neck.
+ // Top-level 頭部 shows only what lies above the collarbones (a structure is shown whole or not at all; nothing is cut at that level); Motion 頭頸 uses only head-neck.
  const level=clavicleLevel(parts);
  return parts.filter(p=>{
   if(isMotionQuarantined(p))return false;
