@@ -81,9 +81,9 @@ export function penetration(parts, log) {
   return out;
 }
 
+/** Parts that are never shown together (the sex switch shows exactly one of them; scripts/test-female-skin.mjs checks that), so their coinciding faces are never drawn on top of each other. */
+const NEVER_TOGETHER = new Set(['FJ2810|HRAF-skin', 'FJ2815|HRAF-pubic-hair']);
 /** Coincident parallel faces of two different meshes. Triangle centroids are compared: same plane within zfightGap, normals parallel, centroids close in the plane. */
-/** Parts that are never shown together (the sex switch shows exactly one of them), so their coinciding faces are never drawn on top of each other. */
-const NEVER_TOGETHER = new Set(['FJ2810|HRAF-skin']);
 export function zfight(parts, log) {
   const {zfightGap: gap, zfightRadius: radius, zfightMin: minCount} = THRESHOLDS, cell = radius;
   // centroid grid

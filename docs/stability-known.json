@@ -3807,7 +3807,7 @@
   },
   "penetration|nerve:Vagus nerve (X).l.001|FJ3309": {
    "name": "Vagus nerve (X).l",
-   "measure": 4.1,
+   "measure": 2.4,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
   "penetration|nerve:Vagus nerve (X).r.001|FJ3169": {
@@ -3827,7 +3827,7 @@
   },
   "penetration|nerve:Vagus nerve (X).r.001|FJ3309": {
    "name": "Vagus nerve (X).r",
-   "measure": 4.3,
+   "measure": 2.5,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
   "penetration|nerve:Vestibular nerve.l.001|FJ3289": {
@@ -4383,6 +4383,13 @@
    "fraction": 0.05818965517241379,
    "severity": 2.3
   },
+  "stretch|FJ2219-END|shoulder flexion 150": {
+   "name": "Left brachial artery",
+   "measure": 6,
+   "reason": "同一條動脈 main 上已登記拉伸 2.4 倍，端段跟隨主體；#269 後由碎片轉為拉伸，2026-11-15 經使用者核准",
+   "fraction": 0.005681818181818182,
+   "severity": 2.1
+  },
   "stretch|FJ2219|shoulder flexion 150": {
    "name": "Left brachial artery",
    "measure": 109,
@@ -4575,7 +4582,7 @@
   "stretch|FJ2810|head extension 35": {
    "name": "Skin",
    "measure": 40,
-   "reason": "triangles stretch beyond 2x at head extension 35: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
+   "reason": "triangles stretch beyond 2x at head extension 35: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) 女性皮膚（HRAF-skin）沿用這張男性皮膚的蒙皮權重，頭部伸展時同一處拉伸（同一批 40 個三角形，位置在頸部與頭頸交界、y 約 1.50–1.54 m，不在鼠蹊部），登記為孿生例外 stretch|HRAF-skin|head extension 35；皮膚權重平滑修好時兩條一齊移除。",
    "fraction": 0.0008939746111210441,
    "severity": 3.5
   },
@@ -4613,6 +4620,13 @@
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.019345238095238096,
    "severity": 2.1
+  },
+  "stretch|HRAF-skin|head extension 35": {
+   "name": "Skin",
+   "measure": 40,
+   "reason": "女性皮膚沿用男性皮膚（FJ2810，見 stretch|FJ2810|head extension 35）的蒙皮權重，頭部伸展時同一處拉伸（同一批 40 個三角形，位置在頸部與頭頸交界、y 約 1.50–1.54 m，不在鼠蹊部），與 FJ2810 同一問題；待皮膚權重平滑時兩條一齊移除。2026-11-16 經使用者核准。",
+   "fraction": 0.0008939746111210441,
+   "severity": 3.5
   },
   "stretch|PK:Left axillary fossa|shoulder abduction 120": {
    "name": "Left axillary fossa",
@@ -5218,13 +5232,6 @@
    "name": "Lingula of left lung",
    "measure": 1106,
    "reason": "faces coincide with Cardiac notch of left lung: two layers share the same surface; to be offset or one of them removed"
-  },
-  "stretch|FJ2219-END|shoulder flexion 150": {
-   "name": "Left brachial artery",
-   "measure": 6,
-   "reason": "同一條動脈 main 上已登記拉伸 2.4 倍，端段跟隨主體；#269 後由碎片轉為拉伸，2026-11-15 經使用者核准",
-   "fraction": 0.005681818181818182,
-   "severity": 2.1
   }
  }
 }
