@@ -182,7 +182,21 @@ const TUBE = (() => {
 const segments = [], parts = [];
 let offset = 0;
 const push = array => { const at = offset, b = Buffer.from(array.buffer, array.byteOffset, array.byteLength); segments.push(b); offset += b.length; const pad = (4 - offset % 4) % 4; if (pad) { segments.push(Buffer.alloc(pad)); offset += pad; } return at; };
-const add = (id, mesh, normals, extra = {}) => { const positions = mesh.positions instanceof Float32Array ? mesh.positions : Float32Array.from(mesh.positions); parts.push({id, vertexCount: positions.length / 3, indexCount: mesh.indices.length, bounds: bounds(positions), positions: push(positions), normals: push(normals), indices: push(mesh.indices), ...extra}); };
+// Closed solids are written with their faces pointing outward (the viewer shows the inside of a cut with a flat tint, which needs the front faces to be the outer ones): the sources differ in winding, and the placement may mirror a specimen.
+const CLOSED = new Set(['malleus', 'incus', 'stapes', 'scala-tympani', 'utricle', 'saccule', 'anterior-duct', 'lateral-duct', 'posterior-duct', 'anterior-ampulla', 'lateral-ampulla', 'posterior-ampulla', 'facial-nerve', 'chorda-tympani', 'cochlear-nerve', 'external-acoustic-meatus', 'pharyngotympanic-tube']);
+// the vestibule, the three canals and the scala vestibuli are open pieces of one closed cast: they turn together, by the orientation of the whole cast
+const CAST_PIECES = new Set(['vestibule', 'anterior-canal', 'lateral-canal', 'posterior-canal', 'scala-vestibuli']);
+const castFlipped = (() => { const m = placeMesh(oe.scalaVestibuli); return signedVolume(m.positions, Uint32Array.from(m.indices)) < 0; })();
+const flipped = [];
+const add = (id, mesh, normals, extra = {}) => {
+  const positions = mesh.positions instanceof Float32Array ? mesh.positions : Float32Array.from(mesh.positions);
+  let indices = Uint32Array.from(mesh.indices);
+  if (CAST_PIECES.has(id) ? castFlipped : CLOSED.has(id) && signedVolume(positions, indices) < 0) {
+    for (let i = 0; i < indices.length; i += 3) { const t = indices[i + 1]; indices[i + 1] = indices[i + 2]; indices[i + 2] = t; }
+    normals = Int16Array.from(normals, v => -v); flipped.push(id);
+  }
+  parts.push({id, vertexCount: positions.length / 3, indexCount: indices.length, bounds: bounds(positions), positions: push(positions), normals: push(normals), indices: push(indices), ...extra});
+};
 const addMesh = (id, specimenMesh, extra) => { const m = placeMesh(specimenMesh); add(id, m, vertexNormals(m.positions, m.indices), extra); };
 const addPiece = (id, piece, labelIdx, extra) => { const m = placeMesh(piece), n = castNormalsOf(piece, labelIdx); add(id, m, n, extra); };
 
@@ -221,10 +235,11 @@ fs.writeFileSync(new URL('ear-atlas.json', out), JSON.stringify({
   sources: {
     innerEar: {name: 'IE-Map', url: 'https://github.com/pydsgz/IEMap', license: 'CC BY 4.0'},
     middleEar: {name: 'OpenEar example set (specimen Delta)', url: 'https://doi.org/10.5281/zenodo.4362584', license: 'CC BY 4.0'},
-    auricle: {name: 'BodyParts3D 4.0 (right External ear, FJ2811)', license: 'CC BY-SA 2.1 JP'},
+    auricle: {name: 'BodyParts3D 4.0 (right External ear, FJ2811)', license: 'CC BY 4.0'},
   },
   parts,
 }));
+console.log('faces turned outward:', flipped.join(', ') || 'none');
 console.log(`ear-atlas: ${parts.length} parts, ${(bin.length / 1e6).toFixed(2)} MB (${(gz.length / 1e6).toFixed(2)} MB gzip)`);
 console.log('registration error (mm):', JSON.stringify(registrationError));
 console.log('footplate to vestibule wall', footDistance.toFixed(2), 'mm; oval', oval.indices.length / 3, 'round', round.indices.length / 3, 'triangles; labelling', JSON.stringify(Object.fromEntries(groups.map(([n], i) => [n, castParts[i]?.indices.length / 3]))));

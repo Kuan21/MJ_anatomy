@@ -39,7 +39,7 @@ export default function QuizHub() {
             : <div key={part.id} className="quiz-hub-card is-soon" aria-disabled="true" data-part={part.id}>{body}</div>;
         })}
       </section>
-      {/* Organ quizzes: the heart, the lungs and the brain; other organs are added here later. */}
+      {/* Organ quizzes: the heart, the lungs, the brain and the ear; other organs are added here later. */}
       <h2 className="quiz-hub-subhead">器官 <small>Organs</small></h2>
       <section aria-label="器官" className="quiz-hub-grid quiz-hub-organs">
         <a className="quiz-hub-card" href={QUIZ_REGIONS.heart.hash} data-part="heart">
@@ -50,6 +50,9 @@ export default function QuizHub() {
         </a>
         <a className="quiz-hub-card" href={QUIZ_REGIONS.brain.hash} data-part="brain">
           <span className="quiz-hub-text"><b>腦</b><small>Brain</small><em>大腦皮質、深部核團、腦室、白質纖維束、腦幹、小腦、腦神經根與腦血管</em></span><ChevronRight size={18}/>
+        </a>
+        <a className="quiz-hub-card" href={QUIZ_REGIONS.ear.hash} data-part="ear">
+          <span className="quiz-hub-text"><b>耳</b><small>Ear</small><em>耳廓、鼓膜、聽小骨、骨性迷路、膜性迷路，以及耳內的顏面神經、鼓索神經與蝸神經</em></span><ChevronRight size={18}/>
         </a>
         <div className="quiz-hub-card is-soon" aria-disabled="true" data-part="organs">
           <span className="quiz-hub-text"><b>其他器官</b><small>Other organs</small><em>其他器官的 Quiz，之後加入</em></span>

@@ -725,6 +725,20 @@
 - 皮質紋狀體徑（後）（Corticostriatal tract (posterior)）：缺 資料卡
 - 皮質紋狀體徑（上）（Corticostriatal tract (superior)）：缺 資料卡
 
+## 耳（Ear）
+
+### 骨骼：3 / 3 項資料完整
+
+（全部完整）
+
+### 神經：3 / 3 項資料完整
+
+（全部完整）
+
+### 耳構造：16 / 16 項資料完整
+
+（全部完整）
+
 ## 頭頸（Head and neck）
 
 ### 骨骼：0 / 28 項資料完整

@@ -2,8 +2,9 @@ import {scopeOf} from '../mj-scope';
 import {TENDON_OWNERS} from '../mj-tendon-owners';
 import type {BrainLayer} from './brain';
 import {headNeckSection, type HeadNeckLayer} from './headneck';
-export type QuizSystem = 'skeletal' | 'muscular' | 'tendon' | 'nervous' | 'arterial' | 'venous' | 'cardiac' | 'respiratory' | 'brain' | 'headorgan' | 'joint' | 'space';
-export type QuizRegionId = 'lower-limb' | 'upper-limb' | 'thorax' | 'back' | 'heart' | 'lung' | 'brain' | 'head-neck';
+import type {EarLayer} from './ear';
+export type QuizSystem = 'skeletal' | 'muscular' | 'tendon' | 'nervous' | 'arterial' | 'venous' | 'cardiac' | 'respiratory' | 'brain' | 'headorgan' | 'ear' | 'joint' | 'space';
+export type QuizRegionId = 'lower-limb' | 'upper-limb' | 'thorax' | 'back' | 'heart' | 'lung' | 'brain' | 'ear' | 'head-neck';
 /** Section ids are region specific ('hip', 'thigh'… for the leg; 'shoulder', 'arm'… for the arm; 'cage', 'wall'… for the thorax). */
 export type QuizSection = string;
 export type QuizSide = 'right' | 'left' | 'both';
@@ -26,6 +27,8 @@ export const QUIZ_SYSTEMS: {id: QuizSystem; label: string; english: string; colo
   {id: 'brain', label: '腦構造', english: 'Brain structures', color: '#cdaaa6'},
   // Head-and-neck quiz only: the organs of the head and neck that are not bones, muscles, nerves or vessels (eyeball and lacrimal apparatus, tongue, teeth, glands, larynx cartilages, nasal cartilages) and the ligaments and membranes of the larynx, pharynx and orbit.
   {id: 'headorgan', label: '頭頸器官構造', english: 'Head and neck organ structures', color: '#d9a49a'},
+  // Ear quiz only: the structures of the ear detail model that are not bones or nerves (auricle, tympanic membrane, bony and membranous labyrinth); see app/mj-ear-atlas.ts.
+  {id: 'ear', label: '耳構造', english: 'Ear structures', color: '#d9b4a4'},
   // Joint soft tissue (capsules, labra, menisci, articular discs, joint ligaments); the pool is built by app/quiz/joints.ts.
   {id: 'joint', label: '關節構造', english: 'Joint structures', color: '#8fb4be'},
   // A special space or opening of a limb (quadrangular space, femoral triangle…): it has no mesh of its own; a question shows the structures that bound it and pass through it (QuizStructure.members).
@@ -52,7 +55,7 @@ export interface QuizRegionDef {
   /** Systems offered on the setup page; omitted = the five body-system chips (not the heart or lung structures). */
   systems?: QuizSystem[];
   /** Framing of the section box: half-width in x (per side) and the z range in metres. */
-  frame: {x: number; z: [number, number]; footZ?: number};
+  frame: {x: number; z: [number, number]; footZ?: number; /** closest the camera frames the box (metres); the body-sized default is 0.28 */ minDistance?: number; /** a fixed box the question view frames (min and max corner, metres), instead of the side/range box; the target is always inside it */ box?: [number[], number[]]};
   sections: QuizSectionDef[];
 }
 const LOWER_SECTIONS: QuizSectionDef[] = [
@@ -102,7 +105,7 @@ export const QUIZ_CATEGORIES: {id: QuizCategory; label: string; english: string;
 ];
 const SPACE_NAME = /quadrangular space|quadrilateral space|triangular space|triangular interval|anatomical snuffbox|snuff ?box|tarsal tunnel|carpal tunnel|cubital fossa|popliteal fossa|femoral triangle|adductor canal|(?<![a-z])axilla\b|foramen|hiatus|canal\b/i;
 const LIGAMENT_NAME = /ligament|fascia|retinaculum|aponeurosis|membrane|septum|raphe|capsule/i;
-const SYSTEM_CATEGORY: Record<QuizSystem, QuizCategory> = {skeletal: 'bone', muscular: 'muscle', tendon: 'tendon', nervous: 'nerve', arterial: 'artery', venous: 'vein', cardiac: 'organ', respiratory: 'organ', brain: 'organ', headorgan: 'organ', joint: 'joint', space: 'space'};
+const SYSTEM_CATEGORY: Record<QuizSystem, QuizCategory> = {skeletal: 'bone', muscular: 'muscle', tendon: 'tendon', nervous: 'nerve', arterial: 'artery', venous: 'vein', cardiac: 'organ', respiratory: 'organ', brain: 'organ', headorgan: 'organ', ear: 'organ', joint: 'joint', space: 'space'};
 /** One category per structure: spaces and ligaments are recognised by name; every other structure follows its body system. */
 export function categoryOf(structure: {name: string; system: QuizSystem}): QuizCategory {
   // Joint soft tissue is 'joint' only; the name rules below never reach it, and they never produce 'joint'.
@@ -203,6 +206,22 @@ QUIZ_REGIONS.brain = {
   defaultView: 'side', defaultSide: 'right', systems: ['brain', 'nervous', 'arterial', 'venous'],
   frame: {x: .08, z: [-.11, .1]}, sections: BRAIN_SECTIONS,
 };
+const EAR_RANGE: [number, number] = [1.555, 1.62];
+const EAR_SECTIONS: QuizSectionDef[] = [
+  {id: 'all', label: '全部耳', english: 'Ear', range: EAR_RANGE},
+  {id: 'outer', label: '外耳', english: 'Outer ear', range: EAR_RANGE},
+  {id: 'middle', label: '中耳', english: 'Middle ear', range: EAR_RANGE},
+  {id: 'bony', label: '骨性迷路', english: 'Bony labyrinth', range: EAR_RANGE},
+  {id: 'membranous', label: '膜性迷路', english: 'Membranous labyrinth', range: EAR_RANGE},
+  {id: 'nerves', label: '耳內神經', english: 'Nerves of the ear', range: EAR_RANGE},
+];
+QUIZ_REGIONS.ear = {
+  id: 'ear', label: '耳', english: 'Ear', tag: '耳篇', file: 'quiz-ear.json', hash: '#/quiz/ear', atlasHash: '#/organ/ear',
+  headline: ['看名稱，', '點出位置。'], description: ['由耳廓、鼓膜與三塊聽小骨，到骨性迷路、膜性迷路與耳內的神經，在 3D 耳模型上練習辨認。', '每答一題，立即顯示正確位置與資料卡。'],
+  scope: '採用耳部詳細模型（右耳）。題目只涵蓋模型中真正有的網格：外耳道與耳咽管是示意管道、卵圓窗與圓窗是標在骨面上的色塊，都不出題；鼓室腔、鼓膜張肌、鐙骨肌、耳蝸管、內淋巴囊、前庭神經、前庭耳蝸神經與各神經節沒有網格，也不出題。題目是內層構造時，位於它外側的構造會變成淡淡的玻璃。',
+  defaultView: 'side', defaultSide: 'right', systems: ['skeletal', 'nervous', 'ear'],
+  frame: {x: .09, z: [-.04, .015], minDistance: .01, box: [[-.047, 1.569, -.021], [-.014, 1.598, .002]]}, sections: EAR_SECTIONS,
+};
 const HN_RANGE: [number, number] = [1.4, 1.72];
 const HEAD_NECK_SECTIONS: QuizSectionDef[] = [
   {id: 'all', label: '全部頭頸', english: 'Head and neck', range: HN_RANGE},
@@ -237,13 +256,13 @@ export interface QuizStructure {
   sections: Exclude<QuizSection, 'all'>[];
   meshIds: string[];
   bounds: Bounds;
-  source: 'BodyParts3D' | 'Special regions' | 'Nervous supplement' | 'Lung surface areas' | 'Brain Project' | 'Z-Anatomy' | `Z-Anatomy / ${string}`;
+  source: 'BodyParts3D' | 'Special regions' | 'Nervous supplement' | 'Lung surface areas' | 'Brain Project' | 'Ear atlas' | 'Z-Anatomy' | `Z-Anatomy / ${string}`;
   /** Short bilingual description (heart quiz), shown on the answer card. */
   description?: {zh: string; en: string};
   /** Brain quiz: what lies in front of the structure (app/quiz/brain.ts), which decides what is drawn as glass while it is the question. */
-  layer?: BrainLayer | HeadNeckLayer;
+  layer?: BrainLayer | HeadNeckLayer | EarLayer;
   /** Brain quiz: the fields of the structure's information card (from public/models/brain/neuro-cards.json); a structure without a card shows 「尚無資料」. */
-  cardFields?: {label: string; zh: string}[];
+  cardFields?: {label: string; zh: string; en?: string}[];
   /** A limb space (system 'space') has no mesh of its own: it is drawn as the structures that bound it, form its floor or roof and pass through it (all of the same catalogue). */
   space?: QuizSpace;
   /** Head-and-neck nerves and vessels: the name is exact, the main site's word search must not add other spellings (it matches maxillary nerve to axillary nerve). */
@@ -437,6 +456,7 @@ export const THORAX_INCLUDE: Record<QuizSystem, RegExp> = {
   respiratory: /(?!)/,
   brain: /(?!)/,
   headorgan: /(?!)/,
+  ear: /(?!)/,
   joint: /(?!)/,   // joint soft tissue comes from app/quiz/joints.ts, not from the atlas
   space: /(?!)/,   // limb spaces are composed from the structures of the catalogue (app/quiz/spaces.ts)
   tendon: /(?!)/,
@@ -476,6 +496,7 @@ export const BACK_INCLUDE: Record<QuizSystem, RegExp> = {
   respiratory: /(?!)/,
   brain: /(?!)/,
   headorgan: /(?!)/,
+  ear: /(?!)/,
   joint: /(?!)/,
   space: /(?!)/,
   tendon: /(?!)/,
@@ -538,7 +559,7 @@ export function sceneStructures(catalogue: QuizCatalogue, target: QuizStructure,
   const range = (regionSections(catalogue.region).find(s => s.id === section) ?? regionSections(catalogue.region)[0]).range;
   // The target is always drawn: a mistake from the other side (錯題本 after the side setting changed) must still be answerable; the frame unions its bounds.
   return catalogue.structures.filter(s => s.id === target.id || (s.system === 'muscular' && owners.includes(s.name)) || ((side === 'both' || s.side === 'midline' || s.side === side)
-    && (catalogue.region === 'heart' || catalogue.region === 'lung' || (catalogue.region === 'brain' ? s.system === 'brain' || s.system === target.system : s.system === target.system || s.system === 'skeletal'))
+    && (catalogue.region === 'heart' || catalogue.region === 'lung' || catalogue.region === 'ear' || (catalogue.region === 'brain' ? s.system === 'brain' || s.system === target.system : s.system === target.system || s.system === 'skeletal'))
     && (section === 'all' || s.sections.includes(section)
       || (s.bounds[0][1] < range[1] && s.bounds[1][1] > range[0]))))
     // a structure that level 1 does not ask (availability) is drawn only when it is the question itself

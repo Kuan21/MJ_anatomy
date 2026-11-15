@@ -5,6 +5,7 @@ import {fetchModelBuffer, loadMissingChunks} from '../model-download';
 import {PointerTap} from '../pointer-tap';
 import {framingDistance} from '../camera-framing';
 import {coversBrainTarget, type BrainLayer} from './brain';
+import {coversEarTarget} from './ear';
 import {coversHeadNeckTarget} from './headneck';
 import {SPACES} from '../mj-spaces';
 import {QUIZ_REGIONS, QUIZ_SYSTEMS, ownerMuscleNames, regionSections, sceneStructures, type QuizCatalogue, type QuizSection, type QuizSide, type QuizStructure} from './catalogue';
@@ -114,7 +115,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
   const controls = new OrbitControls(camera, canvas);
   controls.enableDamping = true;
   controls.dampingFactor = .15;
-  controls.minDistance = .04;
+  controls.minDistance = QUIZ_REGIONS[catalogue.region ?? 'lower-limb'].frame.minDistance ? .006 : .04;
   controls.maxDistance = 5;
   controls.enablePan = true;
   scene.add(new T.HemisphereLight('#ffffff', '#7b8e9c', 2.2));
@@ -173,7 +174,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
   /** Brain quiz: a structure that lies in front of a deep target is drawn as faint glass and cannot be picked, so the target is in view (rules: app/quiz/brain.ts). */
   // Head-and-neck quiz: the outer coats of the eyeball are glass while a part inside the same eye is the question (app/quiz/headneck.ts).
   const isCover = (structure: QuizStructure) => !!state && structure.id !== state.target.id
-    && (catalogue.region === 'brain' ? coversBrainTarget(state.target as {layer?: BrainLayer}, structure as {layer?: BrainLayer}) : catalogue.region === 'head-neck' && coversHeadNeckTarget(state.target, structure));
+    && (catalogue.region === 'brain' ? coversBrainTarget(state.target as {layer?: BrainLayer}, structure as {layer?: BrainLayer}) : catalogue.region === 'ear' ? coversEarTarget(state.target, structure) : catalogue.region === 'head-neck' && coversHeadNeckTarget(state.target, structure));
   const BRAIN_GLASS = .09;
 
   const applyAppearance = () => {
@@ -284,6 +285,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
     const wide = region.frame.x, minX = state.side === 'left' ? -.01 : -wide, maxX = state.side === 'right' ? .01 : wide;
     const box = view === 'answer'
       ? new T.Box3(new T.Vector3().fromArray(state.target.bounds[0]), new T.Vector3().fromArray(state.target.bounds[1])).expandByScalar(.015)
+      : region.frame.box ? new T.Box3(new T.Vector3().fromArray(region.frame.box[0]), new T.Vector3().fromArray(region.frame.box[1]))
       : new T.Box3(new T.Vector3(minX, range[0], region.frame.z[0]), new T.Vector3(maxX, range[1], section === 'foot' && region.frame.footZ ? region.frame.footZ : region.frame.z[1]));
     // A structure spanning two sections must still be entirely in the frame.
     if (view !== 'answer') box.union(new T.Box3(new T.Vector3().fromArray(state.target.bounds[0]), new T.Vector3().fromArray(state.target.bounds[1])));
@@ -300,10 +302,11 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
       const look = SPACES.find(d => d.id === state!.target.space!.id)?.look;
       if (look) direction.set(look[0] * (state.target.side === 'left' ? 1 : -1), look[1], look[2]).normalize();
     }
-    if (view === 'side') direction.set(state.target.side === 'right' ? -1 : 1, .03, .02).normalize();
+    // the ear model is one right ear: its side view looks at it from the outside
+    if (view === 'side') direction.set(state.target.side === 'right' || catalogue.region === 'ear' ? -1 : 1, .03, .02).normalize();
     if (direction.lengthSq() < .5) direction.set(0, 0, 1);
     controls.target.copy(box.getCenter(new T.Vector3()));
-    camera.position.copy(controls.target).addScaledVector(direction, framingDistance(box, direction, camera.fov, camera.aspect, .86, .86));
+    camera.position.copy(controls.target).addScaledVector(direction, framingDistance(box, direction, camera.fov, camera.aspect, .86, .86, region.frame.minDistance));
     controls.update(); dirty = true;
   };
 
