@@ -36,6 +36,15 @@
   "y": 0.933
  },
  {
+  "id": "HRAF-pubic-hair",
+  "name": "Pubic hair",
+  "system": "integumentary",
+  "stream": "female",
+  "region": "trunk",
+  "side": "midline",
+  "y": 0.878
+ },
+ {
   "id": "HRAF-bone-Left-hip-bone",
   "name": "Left hip bone",
   "system": "skeletal",
