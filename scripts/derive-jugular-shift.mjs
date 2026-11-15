@@ -193,14 +193,15 @@ function vagusInside() {
   const ringsOf = pos => { const r = []; for (let k = 0; k + RING <= pos.length / 3; k += RING) { const pts = []; for (let j = 0; j < RING; j++) pts.push([pos[(k + j) * 3], pos[(k + j) * 3 + 1], pos[(k + j) * 3 + 2]]); const c = [0, 1, 2].map(a => pts.reduce((x, q) => x + q[a], 0) / RING); r.push({c, r: Math.min(...pts.map(q => Math.hypot(q[0] - c[0], q[2] - c[2])))}); } return r.sort((a, b) => a.c[1] - b.c[1]); };
   for (const label of ['before', 'after']) {
     const S = scene(label === 'after');
-    for (const side of SIDES) for (const [what, key] of [['IJV', side[4]], ['CCA', side[1]]]) {
-      const R = ringsOf(S.get(key)), V = vagi[side[5]]; let worst = 1e9, at = 0, inside = 0, n = 0;
+    for (const side of SIDES) for (const [what, key] of [['IJV', side[4]], ['CCA', side[1]], ['ICA', side[2]], ['ECA', side[3]]]) {
+      const R = ringsOf(S.get(key)), V = vagi[side[5]]; let worst = 1e9, at = 0, inside = 0, n = 0; const perCm = new Map();
       for (let i = 0; i < V.length; i += 3) {
         const y = V[i + 1]; let k = R.findIndex(q => q.c[1] >= y); if (k <= 0 || k < 0) continue;
         const a = R[k - 1], b = R[k], t = (y - a.c[1]) / (b.c[1] - a.c[1] || 1), cx = a.c[0] + (b.c[0] - a.c[0]) * t, cz = a.c[2] + (b.c[2] - a.c[2]) * t, rr = a.r + (b.r - a.r) * t;
         n++; const m = Math.hypot(V[i] - cx, V[i + 2] - cz) - rr; if (m < worst) { worst = m; at = y; } if (m < 0) inside++;
+        const cm = Math.floor(y * 100); if (!perCm.has(cm) || m < perCm.get(cm)) perCm.set(cm, m);
       }
-      console.log(`${side[0]} ${label} vagus vs ${what}: ${n} vertices in the vessel height range, ${inside} inside, smallest margin ${(worst * 1000).toFixed(2)} mm at ${at.toFixed(3)} m`);
+      console.log(`${side[0]} ${label} vagus vs ${what}: ${n} vertices in the vessel height range, ${inside} inside, smallest margin ${(worst * 1000).toFixed(2)} mm at ${at.toFixed(3)} m; per cm (smallest margin, mm): ` + [...perCm.entries()].sort((a, b) => a[0] - b[0]).map(([k, v]) => `${k / 100}:${(v * 1000).toFixed(1)}`).join(' '));
     }
   }
 }
