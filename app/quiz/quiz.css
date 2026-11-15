@@ -382,3 +382,5 @@ button.quiz-review-item:hover{background:#f4f7f9}
   .is-exam .exam-side{margin:8px 0}
   .is-exam .quiz-name-form label small{display:none}
 }
+/* the learning and exam play screens fill the window like the Quiz play screen (the header on top, the 3D stage and the question card below) */
+.learn-app:has(> .quiz-play-layout),.exam-app{height:100dvh;min-height:0;display:flex;flex-direction:column;overflow:hidden}
