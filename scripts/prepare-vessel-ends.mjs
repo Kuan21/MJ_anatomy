@@ -40,9 +40,8 @@ const {anatomicalRegion} = await regionTools(), limbIds = new Set(atlas.parts.fi
 // vessels where a wall vessel meets its end piece.
 // Intercostal and subcostal vessels end beside ribs and discs: as 12-sided prisms their end pieces sank 2-3 mm into the 9th/12th ribs and the intervertebral disk (stability check), so they keep the light end pieces.
 const WALL_VESSELS = /epigastric|circumflex iliac|musculophrenic|lumbar (?:artery|vein)|thoracoepigastric/i;
-// Kept light until the stability check passes with round ones (2026-11-14, split out of this change): the inferior epigastric end piece overlapped the femoral artery connector end (112 coincident faces) and the
-// brachial artery end piece stretched 2.1 times at shoulder flexion 150 degrees.
-const LIGHT_ENDS = /inferior epigastric|brachial artery/i, lightIds = new Set(atlas.parts.filter(p => LIGHT_ENDS.test(p.name)).map(p => p.id));
+// Kept light until the stability check passes with round ones (2026-11-14, split out of this change): the inferior epigastric end piece overlapped the femoral artery connector end (112 coincident faces).
+const LIGHT_ENDS = /inferior epigastric/i, lightIds = new Set(atlas.parts.filter(p => LIGHT_ENDS.test(p.name)).map(p => p.id));
 const wallIds = new Set(atlas.parts.filter(p => WALL_VESSELS.test(p.name)).map(p => p.id)), round = id => (limbIds.has(id) || wallIds.has(id)) && !lightIds.has(id);
 const sides = id => round(id) ? 12 : 5;
 for (const row of rows) {

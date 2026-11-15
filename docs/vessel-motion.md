@@ -21,7 +21,7 @@
 | hip abduction 35 (limit) | 471 | 23 | 9 |
 | hip rotation 20 (limit) | 471 | 25 | 8.9 |
 
-連接管背端與所屬血管分離超過 2 mm 的組合：8 個。
+連接管背端與所屬血管分離超過 2 mm 的組合：10 個。
 
 ## shoulder abduction 90（38 個例外）
 
