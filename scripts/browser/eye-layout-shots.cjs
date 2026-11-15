@@ -32,8 +32,15 @@ const viewport = size === 'mobile' ? {width: 390, height: 844} : {width: 1500, h
   await click(p.locator('.eye-buttons button[aria-label="動眼神經麻痺的眼位"]')); await p.waitForTimeout(1500); await shot('palsy-cn3');
   await click(p.locator('.eye-buttons button[aria-label="動眼神經麻痺的眼位"]')); await p.waitForTimeout(800);
   await click(p.locator('.organ-header .csf-toggle', {hasText: '眼眶的孔'})); await p.waitForTimeout(800);
-  await click(p.locator('.eye-buttons.openings button').nth(1)); await p.waitForTimeout(1000);
-  await click(p.locator('.eye-look')); await p.waitForTimeout(2200); await shot('opening-sof');
+  const names = ['optic-canal', 'sof', 'iof', 'supraorbital', 'infraorbital', 'anterior-ethmoidal', 'posterior-ethmoidal'], count = await p.locator('.eye-buttons.openings button').count();
+  for (let i = 0; i < count; i++) {
+    await click(p.locator('.eye-buttons.openings button').nth(i)); await p.waitForTimeout(600);
+    await click(p.locator('.eye-look')); await p.waitForTimeout(2200); await shot('opening-' + (names[i] || i));
+  }
+  if (size === 'desktop') {
+    await p.evaluate(() => {const el = document.querySelector('.organ-panel'); el.scrollTop = el.scrollHeight * .45;}); await p.waitForTimeout(600); await shot('panel-scrolled-card-not-covering');
+    await p.evaluate(() => {const el = document.querySelector('.organ-panel'); el.scrollTop = el.scrollHeight * .8;}); await p.waitForTimeout(600); await shot('panel-scrolled-more');
+  }
   await click(p.locator('.organ-views button', {hasText: '前面'})); await p.waitForTimeout(1500); await shot('view-front');
   await b.close();
 })().catch(e => {console.error(e); process.exit(1);});
