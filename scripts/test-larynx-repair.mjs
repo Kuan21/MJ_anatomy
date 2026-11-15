@@ -26,7 +26,7 @@ for (const p of atlas.parts.filter(q => LARYNX_REPAIR.has(q.id))) {
 const {includeJoint} = await quizModule('app/biomechanics-v2/joint-filter.ts');
 for (const n of ['Median cricothyroid ligament', 'Median thyrohyoid ligament', 'Lateral thyrohyoid ligament.l', 'Stylohyoid ligament.r']) assert.equal(includeJoint(n), false, `${n} duplicates the atlas`);
 assert.equal(includeJoint('Cricopharyngeal ligament.l'), true, 'the cricopharyngeal ligament has no other copy');
-const {smoothSheet} = await quizModule('app/biomechanics-v2/sheet-smooth.ts');
+const {smoothSheet} = await quizModule('app/biomechanics-v2/joint-filter.ts');
 const z = new Float32Array([0,0,0, 1,0,.4, 2,0,0, 0,1,.4, 1,1,0, 2,1,.4, 0,2,0, 1,2,.4, 2,2,0]), idx = [0,1,3,1,4,3,1,2,4,2,5,4,3,4,6,4,7,6,4,5,7,5,8,7];
 const s = smoothSheet(z, idx, 20);
 const range = a => { let lo = 1e9, hi = -1e9; for (let i = 2; i < a.length; i += 3) { lo = Math.min(lo, a[i]); hi = Math.max(hi, a[i]); } return hi - lo; };

@@ -1,4 +1,3 @@
-import {smoothSheet} from './sheet-smooth';
 import registrationData from './joint-registration.json';
 import * as T from 'three';
 import type {Atlas,Part,SceneState} from '../anatomy';
@@ -6,7 +5,7 @@ import {anatomicalRegion} from '../mj-part-regions';
 import {bindTissue,deformTissue,makePalette,type SkinBinding,type Profile,makeSoftRig} from './soft-tissue';
 import {bindBodyTissue,makeBodyRig,buildBodyMotion,type BodyRegion} from './body-motion';
 
-import {includeJoint,jointKind} from './joint-filter';
+import {includeJoint,jointKind,smoothSheet} from './joint-filter';
 export {includeJoint,jointKind};
 export function jointProfile(name:string,y:number):Profile{
  name=name.toLowerCase();
