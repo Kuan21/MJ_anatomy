@@ -363,7 +363,10 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
         // Level 2 opens each question from a random direction, chosen once the structures are in the scene so the target can be tested for visibility.
         if (state?.mode === 'name' && state.key === next.key && state.command.id === commandAtQuestion) {applyAppearance(); frameModel('random');}
       });
-      frameModel(openingView(catalogue.region, next.target, QUIZ_REGIONS[catalogue.region ?? 'lower-limb'].defaultView));
+      const opening = openingView(catalogue.region, next.target, QUIZ_REGIONS[catalogue.region ?? 'lower-limb'].defaultView);
+      frameModel(opening);
+      // The page's first view command is the initial 'front'; it must not replace the opening view of a space question.
+      if (opening === 'space') command = next.command.id;
     }
     if (command !== next.command.id) {
       command = next.command.id;
