@@ -7,7 +7,7 @@ import type {BlockResult} from './page';
 import './quiz.css';
 const RegionQuiz = lazy(() => import('./page'));
 
-/** Plays the plan made by the Quiz setup screen: one block per chosen region (the model is one region at a time), then the combined result with 「返去學」 for every region with mistakes. */
+/** Plays the plan made by the Quiz setup screen: one block per chosen region (the model is one region at a time), then the combined result with 「回去學習」 for every region with mistakes. */
 export default function QuizRun() {
   const plan = useMemo(() => loadPlan(), []);
   const [index, setIndex] = useState(0), [results, setResults] = useState<BlockResult[]>([]), [done, setDone] = useState(false);
@@ -29,7 +29,7 @@ export default function QuizRun() {
           <div className="run-region-head"><b>{QUIZ_REGIONS[r.region].label}</b><span>答對 {r.correct} / {r.answered}</span></div>
           {r.wrongIds.length > 0 && <>
             <p className="run-wrong">答錯：{r.wrongIds.map(id => r.names[id]?.chinese ?? r.names[id]?.name ?? '').filter(Boolean).join('、')}</p>
-            <a className="quiz-secondary quiz-link-button" href={learnHashOf(r.region)}>返去學：{QUIZ_REGIONS[r.region].label}學習地圖</a>
+            <a className="quiz-secondary quiz-link-button" href={learnHashOf(r.region)}>回去學習：{QUIZ_REGIONS[r.region].label}學習地圖</a>
           </>}
         </div>)}</div>
         <div className="quiz-summary-actions"><a className="quiz-primary quiz-link-button" href="#/quiz"><RotateCcw size={16}/>重新設定</a><a className="quiz-text-button" href="#/learn">到學習</a></div>
