@@ -774,12 +774,12 @@
 
 ### 肌肉：80 / 86 項資料完整
 
-- 咽下縮肌（inferior pharyngeal constrictor）：缺 起點、止點、作用、神經支配、血液供應
-- 咽中縮肌（middle pharyngeal constrictor）：缺 起點、止點、作用、神經支配、血液供應
-- 腭咽肌（palatopharyngeus）：缺 起點、止點、作用、神經支配、血液供應
-- 咽鼓管咽肌（salpingopharyngeus）：缺 起點、止點、作用、神經支配、血液供應
-- 莖突咽肌（stylopharyngeus）：缺 起點、止點、作用、神經支配、血液供應
-- 咽上縮肌（superior pharyngeal constrictor）：缺 起點、止點、作用、神經支配、血液供應
+- 咽下縮肌（inferior pharyngeal constrictor）：缺 血液供應
+- 咽中縮肌（middle pharyngeal constrictor）：缺 血液供應
+- 腭咽肌（palatopharyngeus）：缺 血液供應
+- 咽鼓管咽肌（salpingopharyngeus）：缺 血液供應
+- 莖突咽肌（stylopharyngeus）：缺 血液供應
+- 咽上縮肌（superior pharyngeal constrictor）：缺 血液供應
 
 ### 神經：1 / 44 項資料完整
 
@@ -840,7 +840,7 @@
 
 - 內頸靜脈（internal jugular vein）：缺 來源、走向、主要分支、引流範圍
 
-### 頭頸器官構造：0 / 63 項資料完整
+### 頭頸器官構造：22 / 63 項資料完整
 
 - 上顎牙齦（Gingiva of upper jaw）：缺 說明
 - 下顎牙齦（Gingiva of lower jaw）：缺 說明
@@ -862,47 +862,25 @@
 - 外直肌制止韌帶（Check ligament of left lateral rectus）：缺 說明
 - 脈絡膜（choroid）：缺 說明
 - 睫狀冠（corona ciliaris）：缺 說明
-- 角膜（cornea）：缺 說明
-- 總腱環（common tendinous ring）：缺 說明
 - 內直肌制止韌帶（Check ligament of left medial rectus）：缺 說明
 - 虹膜（iris）：缺 說明
-- 淚小管（lacrimal canaliculus）：缺 說明
-- 淚腺（lacrimal gland）：缺 說明
 - 淚湖（lacrimal lake）：缺 說明
-- 鼻淚管（nasolacrimal duct）：缺 說明
 - 水晶體（lens）：缺 說明
-- 淚囊（lacrimal sac）：缺 說明
-- 視網膜視部（Optic part of left retina）：缺 說明
-- 鞏膜（sclera）：缺 說明
 - 水晶體懸韌帶（Suspensory ligament of left lens）：缺 說明
-- 上眼瞼瞼板（Tarsal plate of left upper eyelid）：缺 說明
-- 下眼瞼瞼板（Tarsal plate of left lower eyelid）：缺 說明
-- 滑車（Trochlea of left superior oblique）：缺 說明
-- 玻璃體（vitreous body）：缺 說明
-- 環狀軟骨（Cricoid cartilage）：缺 說明
-- 氣管（Trachea）：缺 說明
-- 大翼軟骨（major alar cartilage）：缺 說明
 - 鼻外側軟骨（lateral nasal cartilage）：缺 說明
-- 鼻中隔軟骨（Septal nasal cartilage）：缺 說明
 - 翼下頷縫（pterygomandibular raphe）：缺 說明
 - 咽縫（Pharyngeal raphe）：缺 說明
 - 舌（Tongue）：缺 說明
 - 莖突舌骨韌帶（stylohyoid ligament）：缺 說明
-- 舌下腺（sublingual gland）：缺 說明
-- 下頜下腺（submandibular gland）：缺 說明
 - 會厭（Epiglottis）：缺 說明
 - 舌骨會厭韌帶（Hyo-epiglottic ligament）：缺 說明
 - 楔狀軟骨（cuneiform cartilage）：缺 說明
 - 杓狀軟骨（arytenoid cartilage）：缺 說明
 - 小角軟骨（corniculate cartilage）：缺 說明
 - 彈性圓錐（conus elasticus）：缺 說明
-- 甲狀舌骨外側韌帶（lateral thyrohyoid ligament）：缺 說明
 - 甲狀舌骨膜（thyrohyoid membrane）：缺 說明
-- 聲帶韌帶（vocal ligament）：缺 說明
-- 環甲正中韌帶（Median cricothyroid ligament）：缺 說明
 - 甲狀舌骨正中韌帶（Median thyrohyoid ligament）：缺 說明
 - 甲狀會厭韌帶（Thyro-epiglottic ligament）：缺 說明
-- 甲狀軟骨（Thyroid cartilage）：缺 說明
 - 唇（Lip）：缺 說明
 - 帽狀腱膜（Aponeurosis of epicranius）：缺 說明
 

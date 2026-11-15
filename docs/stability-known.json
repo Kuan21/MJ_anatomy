@@ -5214,6 +5214,11 @@
    "measure": 57,
    "reason": "faces coincide with Apex of left lung: two layers share the same surface; to be offset or one of them removed"
   },
+  "zfight|PK:Glans of clitoris|PK:Body of clitoris": {
+   "name": "Glans of clitoris",
+   "measure": 723,
+   "reason": "同一張 MRI 曲面按解剖切成兩件，交界共用 138 個頂點，相鄰面共面但冇重疊（真正重疊三角形 0.6%）；陰蒂由頭至體單調變寬，冇解剖上合理嘅切口可避開。2026-11-15 經使用者核准。"
+  },
   "zfight|PK:Lingula of left lung|PK:Cardiac notch of left lung": {
    "name": "Lingula of left lung",
    "measure": 1106,
