@@ -6,16 +6,6 @@
    "measure": 11.6,
    "reason": "the centreline of the branch does not reach the wall of its parent (measured on the meshes as they are): the branch is joined by a connector piece or has a gap in the source mesh; to be closed in the vessel rebuilds"
   },
-  "link|Common fibular nerve.l": {
-   "name": "Common fibular nerve.l",
-   "measure": 344.3,
-   "reason": "the centreline of the branch does not reach the wall of its parent (measured on the meshes as they are): the branch is joined by a connector piece or has a gap in the source mesh; to be closed in the vessel rebuilds"
-  },
-  "link|Common fibular nerve.r": {
-   "name": "Common fibular nerve.r",
-   "measure": 343.9,
-   "reason": "the centreline of the branch does not reach the wall of its parent (measured on the meshes as they are): the branch is joined by a connector piece or has a gap in the source mesh; to be closed in the vessel rebuilds"
-  },
   "link|Descending thoracic aorta": {
    "name": "Descending thoracic aorta",
    "measure": 7.2,
@@ -34,21 +24,6 @@
   "link|Left common carotid artery": {
    "name": "Left common carotid artery",
    "measure": 9.6,
-   "reason": "the centreline of the branch does not reach the wall of its parent (measured on the meshes as they are): the branch is joined by a connector piece or has a gap in the source mesh; to be closed in the vessel rebuilds"
-  },
-  "link|Left paraumbilical veins": {
-   "name": "Left paraumbilical veins",
-   "measure": 39.3,
-   "reason": "the centreline of the branch does not reach the wall of its parent (measured on the meshes as they are): the branch is joined by a connector piece or has a gap in the source mesh; to be closed in the vessel rebuilds"
-  },
-  "link|Left posterior intercostal veins": {
-   "name": "Left posterior intercostal veins",
-   "measure": 138.1,
-   "reason": "the centreline of the branch does not reach the wall of its parent (measured on the meshes as they are): the branch is joined by a connector piece or has a gap in the source mesh; to be closed in the vessel rebuilds"
-  },
-  "link|Left recurrent laryngeal nerve": {
-   "name": "Left recurrent laryngeal nerve",
-   "measure": 31.6,
    "reason": "the centreline of the branch does not reach the wall of its parent (measured on the meshes as they are): the branch is joined by a connector piece or has a gap in the source mesh; to be closed in the vessel rebuilds"
   },
   "link|Left renal artery": {
@@ -96,16 +71,6 @@
    "measure": 6.6,
    "reason": "the centreline of the branch does not reach the wall of its parent (measured on the meshes as they are): the branch is joined by a connector piece or has a gap in the source mesh; to be closed in the vessel rebuilds"
   },
-  "link|Right paraumbilical veins": {
-   "name": "Right paraumbilical veins",
-   "measure": 39.5,
-   "reason": "the centreline of the branch does not reach the wall of its parent (measured on the meshes as they are): the branch is joined by a connector piece or has a gap in the source mesh; to be closed in the vessel rebuilds"
-  },
-  "link|Right recurrent laryngeal nerve": {
-   "name": "Right recurrent laryngeal nerve",
-   "measure": 30.4,
-   "reason": "the centreline of the branch does not reach the wall of its parent (measured on the meshes as they are): the branch is joined by a connector piece or has a gap in the source mesh; to be closed in the vessel rebuilds"
-  },
   "link|Right superficial epigastric vein": {
    "name": "Right superficial epigastric vein",
    "measure": 14.3,
@@ -126,26 +91,6 @@
    "measure": 31.8,
    "reason": "the centreline of the branch does not reach the wall of its parent (measured on the meshes as they are): the branch is joined by a connector piece or has a gap in the source mesh; to be closed in the vessel rebuilds"
   },
-  "link|Sural nerve.l": {
-   "name": "Sural nerve.l",
-   "measure": 350.3,
-   "reason": "the centreline of the branch does not reach the wall of its parent (measured on the meshes as they are): the branch is joined by a connector piece or has a gap in the source mesh; to be closed in the vessel rebuilds"
-  },
-  "link|Sural nerve.r": {
-   "name": "Sural nerve.r",
-   "measure": 350.4,
-   "reason": "the centreline of the branch does not reach the wall of its parent (measured on the meshes as they are): the branch is joined by a connector piece or has a gap in the source mesh; to be closed in the vessel rebuilds"
-  },
-  "link|Tibial nerve.l": {
-   "name": "Tibial nerve.l",
-   "measure": 335.3,
-   "reason": "the centreline of the branch does not reach the wall of its parent (measured on the meshes as they are): the branch is joined by a connector piece or has a gap in the source mesh; to be closed in the vessel rebuilds"
-  },
-  "link|Tibial nerve.r": {
-   "name": "Tibial nerve.r",
-   "measure": 335,
-   "reason": "the centreline of the branch does not reach the wall of its parent (measured on the meshes as they are): the branch is joined by a connector piece or has a gap in the source mesh; to be closed in the vessel rebuilds"
-  },
   "parts|Circumflex branch of left coronary artery": {
    "name": "Circumflex branch of left coronary artery",
    "measure": 9,
@@ -153,7 +98,7 @@
   },
   "parts|Common palmar digital vein": {
    "name": "Common palmar digital vein",
-   "measure": 512.8,
+   "measure": 477,
    "reason": "the parts of this structure do not form one line: the pieces have a gap between them in the source mesh; to be joined in the vessel rebuilds"
   },
   "parts|Diagonal branch of anterior descending branch of left coronary artery": {
@@ -163,7 +108,7 @@
   },
   "parts|Distal perforating artery": {
    "name": "Distal perforating artery",
-   "measure": 235.7,
+   "measure": 200.8,
    "reason": "the parts of this structure do not form one line: the pieces have a gap between them in the source mesh; to be joined in the vessel rebuilds"
   },
   "parts|Dorsal digital artery of foot": {
@@ -184,11 +129,6 @@
   "parts|Hepatovenous segment VIII": {
    "name": "Hepatovenous segment VIII",
    "measure": 16.4,
-   "reason": "the parts of this structure do not form one line: the pieces have a gap between them in the source mesh; to be joined in the vessel rebuilds"
-  },
-  "parts|Inferior phrenic vein": {
-   "name": "Inferior phrenic vein",
-   "measure": 42.5,
    "reason": "the parts of this structure do not form one line: the pieces have a gap between them in the source mesh; to be joined in the vessel rebuilds"
   },
   "parts|Inferior vena cava": {
@@ -218,7 +158,7 @@
   },
   "parts|Left fibular vein": {
    "name": "Left fibular vein",
-   "measure": 444.4,
+   "measure": 281,
    "reason": "the parts of this structure do not form one line: the pieces have a gap between them in the source mesh; to be joined in the vessel rebuilds"
   },
   "parts|Left genicular vein": {
@@ -238,7 +178,7 @@
   },
   "parts|Left portal vein": {
    "name": "Left portal vein",
-   "measure": 19.4,
+   "measure": 11.3,
    "reason": "the parts of this structure do not form one line: the pieces have a gap between them in the source mesh; to be joined in the vessel rebuilds"
   },
   "parts|Left posterior segmental vein": {
@@ -251,14 +191,9 @@
    "measure": 11.5,
    "reason": "the parts of this structure do not form one line: the pieces have a gap between them in the source mesh; to be joined in the vessel rebuilds"
   },
-  "parts|Lumbar artery": {
-   "name": "Lumbar artery",
-   "measure": 80.9,
-   "reason": "the parts of this structure do not form one line: the pieces have a gap between them in the source mesh; to be joined in the vessel rebuilds"
-  },
   "parts|Lumbar vein": {
    "name": "Lumbar vein",
-   "measure": 51.7,
+   "measure": 38.7,
    "reason": "the parts of this structure do not form one line: the pieces have a gap between them in the source mesh; to be joined in the vessel rebuilds"
   },
   "parts|Pancreaticoduodenal vein": {
@@ -268,17 +203,12 @@
   },
   "parts|Plantar metatarsal artery": {
    "name": "Plantar metatarsal artery",
-   "measure": 211.1,
+   "measure": 199.8,
    "reason": "the parts of this structure do not form one line: the pieces have a gap between them in the source mesh; to be joined in the vessel rebuilds"
   },
   "parts|Plantar metatarsal vein": {
    "name": "Plantar metatarsal vein",
-   "measure": 211,
-   "reason": "the parts of this structure do not form one line: the pieces have a gap between them in the source mesh; to be joined in the vessel rebuilds"
-  },
-  "parts|Posterior division of left renal artery": {
-   "name": "Posterior division of left renal artery",
-   "measure": 7.1,
+   "measure": 199.8,
    "reason": "the parts of this structure do not form one line: the pieces have a gap between them in the source mesh; to be joined in the vessel rebuilds"
   },
   "parts|Posterior inferior segmental tributary of right hepatic vein": {
@@ -308,7 +238,7 @@
   },
   "parts|Proper palmar digital vein of right little finger": {
    "name": "Proper palmar digital vein of right little finger",
-   "measure": 31.1,
+   "measure": 6.7,
    "reason": "the parts of this structure do not form one line: the pieces have a gap between them in the source mesh; to be joined in the vessel rebuilds"
   },
   "parts|Proper palmar digital vein of right ring finger": {
@@ -319,11 +249,6 @@
   "parts|Right arteria princeps pollicis": {
    "name": "Right arteria princeps pollicis",
    "measure": 9,
-   "reason": "the parts of this structure do not form one line: the pieces have a gap between them in the source mesh; to be joined in the vessel rebuilds"
-  },
-  "parts|Right fibular vein": {
-   "name": "Right fibular vein",
-   "measure": 34.9,
    "reason": "the parts of this structure do not form one line: the pieces have a gap between them in the source mesh; to be joined in the vessel rebuilds"
   },
   "parts|Right genicular vein": {
@@ -353,12 +278,7 @@
   },
   "parts|Short ciliary nerve": {
    "name": "Short ciliary nerve",
-   "measure": 56,
-   "reason": "the parts of this structure do not form one line: the pieces have a gap between them in the source mesh; to be joined in the vessel rebuilds"
-  },
-  "parts|Splenic artery": {
-   "name": "Splenic artery",
-   "measure": 6.7,
+   "measure": 50.2,
    "reason": "the parts of this structure do not form one line: the pieces have a gap between them in the source mesh; to be joined in the vessel rebuilds"
   },
   "parts|Tributary of plantar venous arch": {

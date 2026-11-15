@@ -51,7 +51,7 @@ const EXACT:Record<string,string>={
  'dorsal metatarsal ligaments':'背側蹠骨韌帶','plantar metatarsal ligaments':'足底蹠骨韌帶','metatarsal interosseous ligaments':'蹠骨間韌帶','deep transverse metatarsal ligament':'蹠骨深橫韌帶','collateral metatarsophalangeal ligaments':'蹠趾關節側副韌帶','plantar metatarsophalangeal ligaments':'足底蹠趾韌帶',
  'collateral interphalangeal ligaments of foot':'足趾間關節側副韌帶','plantar interphalangeal ligaments':'足底趾間韌帶','intersesamoid ligament':'籽骨間韌帶',
  // brain
- 'adenohypophysis':'腺垂體','neurohypophysis':'神經垂體','pineal gland':'松果腺','acoustic radiation':'聽放射','optic radiation':'視放射','anterior thalamic radiation':'前視丘輻射','posterior thalamic radiation':'後視丘輻射','superior thalamic radiation':'上視丘輻射',
+ 'adenohypophysis':'腺垂體','neurohypophysis':'神經垂體','pineal gland':'松果體','acoustic radiation':'聽放射','optic radiation':'視放射','anterior thalamic radiation':'前視丘輻射','posterior thalamic radiation':'後視丘輻射','superior thalamic radiation':'上視丘輻射',
  'anterior hypothalamus':'下視丘前部','posterior hypothalamus':'下視丘後部','lateral hypothalamus':'下視丘外側部','preoptic hypothalamus':'視前下視丘','tuberal hypothalamus':'下視丘結節部','anterior nuclei of thalamus':'視丘前核群','mediodorsal nucleus':'背內側核','pulvinar':'視丘枕',
  'ventral anterior nucleus':'腹前核','ventral laterodorsal nucleus':'腹外背側核','ventral lateroventral nucleus':'腹外腹側核','intralaminar and lateral posterior nuclei':'板內核群及外側後核','stria medullaris thalami':'視丘髓紋','anterior intercavernous sinus':'前海綿間竇','posterior intercavernous sinus':'後海綿間竇',
  'aqueduct of midbrain':'中腦導水管','arcuate fasciculus':'弓狀束','base of peduncle':'大腦腳底','basolateral complex':'基底外側複合體','corticomedial group':'皮質內側核群','central nucleus':'中央核','lateral nucleus':'外側核','nucleus accumbens':'伏隔核','septal nuclei':'中隔核',
