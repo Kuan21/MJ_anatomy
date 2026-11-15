@@ -296,7 +296,7 @@ Object.assign(CARD_EXTRAS, {
   'depressor septi nasi': {
     起點: e('上頜骨中切牙上方的牙槽隆起處，位於口輪匝肌深面', 'Alveolar eminence of the maxilla above the central incisor, deep to orbicularis oris'),
     止點: e('鼻中隔可動部分的下緣與鼻翼後部，纖維與鼻肌相連', 'Lower margin of the mobile part of the nasal septum and the back of the nasal ala, blending with fibres of nasalis'),
-    作用: e('把鼻中隔與鼻尖向下拉', 'Pulls the nasal septum and the tip of the nose downward'),
+    作用: e('把鼻中隔與鼻尖向下拉；與鼻肌橫部關係密切，對鼻孔也有影響', 'Pulls the nasal septum and the tip of the nose downward; it is closely related to the transverse part of nasalis and also has an effect on the nostril'),
     神經支配: e('顏面神經的頰支', 'Buccal branches of the facial nerve'),
   },
   'superior pharyngeal constrictor': {
@@ -324,7 +324,7 @@ Object.assign(CARD_EXTRAS, {
     ...PHARYNX_NERVE,
   },
   'salpingopharyngeus': {
-    起點: e('咽鼓管軟骨部的下緣，靠近咽口處', 'Lower edge of the cartilaginous part of the auditory tube, near its pharyngeal opening'),
+    起點: e('咽鼓管軟骨部的下緣，靠近咽口處', 'Lower edge of the cartilaginous part of the pharyngotympanic tube, near its pharyngeal opening'),
     止點: e('向下與顎咽肌纖維會合，融入咽側壁', 'Runs down to merge with the fibres of palatopharyngeus in the side wall of the pharynx'),
     作用: e('吞嚥時抬高咽側壁與喉；肌肉被包在咽鼓管咽皺襞內', 'Raises the side wall of the pharynx and the larynx in swallowing; the muscle lies inside the salpingopharyngeal fold'),
     ...PHARYNX_NERVE,
@@ -333,7 +333,7 @@ Object.assign(CARD_EXTRAS, {
     起點: e('顳骨莖突基部的內側面', 'Medial side of the base of the styloid process of the temporal bone'),
     止點: e('在上、中咽縮肌之間入咽壁，附著於甲狀軟骨的後緣與上緣，纖維並混入咽壁與顎咽肌', 'Enters the pharyngeal wall between the superior and middle constrictors and attaches to the posterior and upper borders of the thyroid cartilage, its fibres also blending with the pharyngeal wall and palatopharyngeus'),
     作用: e('吞嚥時抬高咽部與喉，同時擴大咽腔，便於食團通過', 'Raises the pharynx and larynx in swallowing and widens the pharyngeal cavity so the bolus can pass'),
-    神經支配: e('舌咽神經，是咽肌中唯一不由迷走神經支配的肌肉；舌咽神經與此肌一同繞過它進入咽壁', 'Glossopharyngeal nerve, the only pharyngeal muscle not supplied by the vagus nerve; the nerve winds round the muscle to enter the pharyngeal wall'),
+    神經支配: e('舌咽神經，是咽肌中唯一不由迷走神經支配的肌肉；神經與此肌伴行，一同在上、中咽縮肌之間進入咽壁', 'Glossopharyngeal nerve, the only pharyngeal muscle not supplied by the vagus nerve; the nerve accompanies the muscle and enters the pharyngeal wall with it between the superior and middle constrictors'),
   },
   'thyro-arytenoid': {
     起點: e('甲狀軟骨交角內面的下半部與環甲正中韌帶', 'Lower half of the inner surface of the angle of the thyroid cartilage and the median cricothyroid ligament'),
@@ -367,7 +367,7 @@ Object.assign(CARD_EXTRAS, {
   },
   'cornea': {
     位置: e('眼球纖維層的前方，約占前六分之一，向前微凸的透明部分，位在虹膜與前房之前', 'Front of the fibrous coat of the eyeball, about its anterior sixth, the transparent bulging part lying in front of the iris and anterior chamber'),
-    組成: e('透明、沒有血管的緻密結締組織，膠原纖維排列極規則，表面為複層上皮，神經末梢豐富；養分由房水、角膜緣血管與淚膜供應', 'Transparent, avascular dense connective tissue with very regularly arranged collagen fibres, a stratified epithelium at the surface and abundant nerve endings; nourished by the aqueous humour, limbal vessels and the tear film'),
+    組成: e('透明、沒有血管的緻密結締組織，膠原纖維排列極規則，表面為複層上皮，神經末梢豐富；養分主要由房水供應，並由角膜緣血管與淚膜補充', 'Transparent, avascular dense connective tissue with very regularly arranged collagen fibres, a stratified epithelium at the surface and abundant nerve endings; nourished mainly by the aqueous humour, with supplementary supply from the limbal vessels and the tear film'),
     毗鄰: e('後方為前房的房水；周緣在角鞏膜交界（角膜緣）處接鞏膜，鞏膜靜脈竇位在附近；前面隔著淚膜與上、下眼瞼和結膜相對', 'Behind it lies the aqueous humour of the anterior chamber; its rim joins the sclera at the corneoscleral junction (limbus), near the scleral venous sinus; its front surface, covered by the tear film, faces the eyelids and conjunctiva'),
   },
   'sclera': {
@@ -388,7 +388,7 @@ Object.assign(CARD_EXTRAS, {
   'tarsal plate of upper eyelid': {
     位置: e('上眼瞼內，位於眼輪匝肌的深面、瞼結膜的淺面，接近瞼緣', 'Inside the upper eyelid, deep to orbicularis oculi and superficial to the palpebral conjunctiva, near the lid margin'),
     組成: e('緻密纖維結締組織構成的新月形板，高約 10 mm，內含 20–30 條瞼板腺（特化的皮脂腺）', 'Crescent-shaped plate of dense fibrous connective tissue, about 10 mm high, containing 20–30 tarsal glands (modified sebaceous glands)'),
-    毗鄰: e('上緣接提上眼瞼肌腱膜與瞼上肌；下緣為游離的瞼緣；前面隔著眼輪匝肌，後面緊貼瞼結膜；兩端借內、外側瞼韌帶連到眶緣', 'Its upper edge receives the levator palpebrae superioris aponeurosis and the superior tarsal muscle and its lower edge is the free lid margin; orbicularis oculi lies in front and the palpebral conjunctiva is adherent behind; its ends are tied to the orbital margin by the medial and lateral palpebral ligaments'),
+    毗鄰: e('上緣接提上眼瞼肌腱膜與上瞼板肌；下緣為游離的瞼緣；前面隔著眼輪匝肌，後面緊貼瞼結膜；兩端借內、外側瞼韌帶連到眶緣', 'Its upper edge receives the levator palpebrae superioris aponeurosis and the superior tarsal muscle and its lower edge is the free lid margin; orbicularis oculi lies in front and the palpebral conjunctiva is adherent behind; its ends are tied to the orbital margin by the medial and lateral palpebral ligaments'),
   },
   'tarsal plate of lower eyelid': {
     位置: e('下眼瞼內，位於眼輪匝肌的深面、瞼結膜的淺面，接近瞼緣', 'Inside the lower eyelid, deep to orbicularis oculi and superficial to the palpebral conjunctiva, near the lid margin'),
@@ -396,7 +396,7 @@ Object.assign(CARD_EXTRAS, {
     毗鄰: e('下緣接眶隔與下眼瞼的縮肌筋膜；上緣為游離的瞼緣；前面隔著眼輪匝肌，後面緊貼瞼結膜；兩端借內、外側瞼韌帶連到眶緣', 'Its lower edge receives the orbital septum and the retractor fascia of the lower lid and its upper edge is the free lid margin; orbicularis oculi lies in front and the palpebral conjunctiva is adherent behind; its ends are tied to the orbital margin by the medial and lateral palpebral ligaments'),
   },
   'lacrimal gland': {
-    位置: e('眼眶的外上方，位於額骨的淚腺窩內；呈杏仁狀，約 2 cm 大，是判斷眼球上外側方向的標誌', 'Superolateral part of the orbit, in the lacrimal fossa of the frontal bone; almond-shaped and about 2 cm across, it marks the upper outer side of the eyeball'),
+    位置: e('眼眶的外上方，位於額骨的淚腺窩內；呈杏仁狀，約 2 cm 大', 'Superolateral part of the orbit, in the lacrimal fossa of the frontal bone; almond-shaped and about 2 cm across'),
     組成: e('漿液性腺體，被提上眼瞼肌腱膜的外側部分隔成較大的眶部與較小的瞼部，以 10–20 條小排泄管開口於上結膜穹窿的外側', 'Serous gland divided by the lateral part of the levator palpebrae superioris aponeurosis into a larger orbital part and a smaller palpebral part; 10–20 small excretory ducts open into the lateral part of the superior conjunctival fornix'),
     毗鄰: e('上方貼額骨；下方與眼球上外側面及外直肌上緣相鄰；內側為提上眼瞼肌腱膜與上直肌；前面鄰眶隔', 'Above it lies the frontal bone; below it lie the upper outer surface of the eyeball and the upper edge of lateral rectus; medially lie the levator palpebrae superioris aponeurosis and superior rectus; in front lies the orbital septum'),
   },
@@ -423,7 +423,7 @@ Object.assign(CARD_EXTRAS, {
   'submandibular gland': {
     位置: e('下頜下三角內，位於下頜骨體下緣之下，界於二腹肌前腹、後腹與下頜骨之間', 'In the submandibular triangle below the body of the mandible, bounded by the anterior and posterior bellies of digastric and the mandible'),
     組成: e('混合腺，以漿液為主；較大的淺部在下頜舌骨肌下方，較小的深部繞過該肌後緣到其上方；導管由深部向前走，開口於舌繫帶兩側的舌下阜', 'Mixed gland that is mainly serous; the larger superficial part lies below mylohyoid and the smaller deep part curls round its posterior border above the muscle; the duct runs forward from the deep part and opens on the sublingual papilla beside the frenulum of the tongue'),
-    毗鄰: e('淺面被頸闊肌、皮膚與深筋膜覆蓋，顏面靜脈與顏面神經下頜緣支經其淺側；顏面動脈從其深面穿出；深面為下頜舌骨肌與舌骨舌肌，舌神經、舌下神經與其導管在此區交叉', 'Its superficial surface is covered by platysma, skin and deep fascia, with the facial vein and the marginal mandibular twig of the facial nerve passing superficial to it; the facial artery emerges from its deep side; its deep surface lies on mylohyoid and hyoglossus, where the lingual nerve, hypoglossal nerve and the duct cross one another'),
+    毗鄰: e('淺面被頸闊肌、皮膚與深筋膜覆蓋，顏面靜脈與顏面神經的下頜邊緣支經其淺側；顏面動脈從其深面穿出；深面為下頜舌骨肌與舌骨舌肌，舌神經、舌下神經與其導管在此區交叉', 'Its superficial surface is covered by platysma, skin and deep fascia, with the facial vein and the marginal mandibular branch (facial nerve) passing superficial to it; the facial artery emerges from its deep side; its deep surface lies on mylohyoid and hyoglossus, where the lingual nerve, hypoglossal nerve and the duct cross one another'),
   },
   'thyroid cartilage': {
     位置: e('頸前部，位於舌骨之下、環狀軟骨之上，約在第四至第五頸椎的高度；是喉最大的軟骨', 'Front of the neck below the hyoid bone and above the cricoid cartilage, at about the level of C4–C5; the largest cartilage of the larynx'),
@@ -436,7 +436,7 @@ Object.assign(CARD_EXTRAS, {
     毗鄰: e('上方與甲狀軟骨（環甲關節、環甲正中韌帶）及杓狀軟骨（環杓關節）相連；下方以環氣管韌帶接氣管第一環；後方為咽下縮肌的環咽部與食道起始處；前外側有甲狀腺鄰接；喉返神經在其後方入喉', 'Above, it joins the thyroid cartilage (cricothyroid joints and median cricothyroid ligament) and the arytenoid cartilages (cricoarytenoid joints); below, the cricotracheal ligament joins it to the first tracheal ring; behind lie the cricopharyngeal part of the inferior constrictor and the start of the oesophagus; the thyroid gland lies against its anterolateral side; the recurrent laryngeal nerve enters the larynx behind it'),
   },
   'trachea': {
-    位置: e('從環狀軟骨下緣（約第六頸椎）向下，經頸部入胸腔，到胸骨角的高度分為左、右主支氣管', 'Runs down from the lower border of the cricoid cartilage (about C6) through the neck into the thorax and divides into the right and left main bronchi at the level of the sternal angle'),
+    位置: e('從環狀軟骨下緣（約第六至第七頸椎之間）向下，經頸部入胸腔，到胸骨角的高度分為左、右主支氣管', 'Runs down from the lower border of the cricoid cartilage (between about C6 and C7) through the neck into the thorax and divides into the right and left main bronchi at the level of the sternal angle'),
     組成: e('約 16–20 個 C 形透明軟骨環疊成的管道，後方缺口由氣管肌（平滑肌）與纖維彈性膜封閉；內襯偽複層纖毛柱狀上皮', 'A tube held open by about 16–20 C-shaped hyaline cartilage rings, the gap at the back closed by the trachealis muscle (smooth muscle) and a fibroelastic membrane; lined by pseudostratified ciliated columnar epithelium'),
     毗鄰: e('前方有甲狀腺峽（約第二至第四環）、胸骨柄、左頭臂靜脈與主動脈弓；後方為食道，兩者之間的溝內有喉返神經；兩側為甲狀腺側葉與頸總動脈', 'In front lie the isthmus of the thyroid gland (over about rings 2–4), the manubrium, the left brachiocephalic vein and the aortic arch; behind lies the oesophagus with the recurrent laryngeal nerves in the groove between them; at the sides lie the lobes of the thyroid gland and the common carotid arteries'),
   },
