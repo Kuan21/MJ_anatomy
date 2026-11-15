@@ -5,7 +5,8 @@ import '../app/workspace-layout.css';
 const Home = lazy(() => import('../app/page'));
 const SkeletonLab = lazy(() => import('../app/biomechanics-v2/lab'));
 const RegionQuiz = lazy(() => import('../app/quiz/page'));
-const QuizHub = lazy(() => import('../app/quiz/hub'));
+const QuizSetup = lazy(() => import('../app/quiz/setup-page'));
+const QuizRun = lazy(() => import('../app/quiz/run'));
 const LearnHub = lazy(() => import('../app/quiz/learn-hub'));
 const LearnRegion = lazy(() => import('../app/quiz/learn'));
 const ExamPage = lazy(() => import('../app/quiz/exam'));
@@ -51,7 +52,7 @@ function App() {
   }, [hash, hub, quiz, learn, learnHub, exam]);
   if (stale) return <Trouble title="網站已更新，請重新載入後再開啟這個畫面。"/>;
   return <ErrorBoundary><Suspense fallback={<div role="status" style={{padding: 32}}>正在載入 MJ Anatomy…</div>}>
-    {page === '#/organ/heart' ? <HeartDetail/> : page === '#/organ/brain' ? <BrainDetail/> : hub ? <QuizHub/> : learnHub ? <LearnHub/> : learn ? <LearnRegion key={learn} region={learn}/> : exam ? <ExamPage/> : quiz ? <RegionQuiz key={quiz} region={quiz}/> : devLab() ? <SkeletonLab/> : <Home initialRegion={hash === '#/atlas/lower' ? 'lower' : hash === '#/atlas/upper' ? 'upper' : 'whole'}/>}
+    {page === '#/organ/heart' ? <HeartDetail/> : page === '#/organ/brain' ? <BrainDetail/> : hub ? <QuizSetup/> : page === '#/quiz/run' ? <QuizRun/> : learnHub ? <LearnHub/> : learn ? <LearnRegion key={learn} region={learn}/> : exam ? <ExamPage/> : quiz ? <RegionQuiz key={quiz} region={quiz}/> : devLab() ? <SkeletonLab/> : <Home initialRegion={hash === '#/atlas/lower' ? 'lower' : hash === '#/atlas/upper' ? 'upper' : 'whole'}/>}
   </Suspense></ErrorBoundary>;
 }
 createRoot(document.getElementById('root')!).render(<App/>);
