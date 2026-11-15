@@ -1,327 +1,632 @@
-# 生殖系統與骨盆會陰：必考結構清單（第一版，內部文件，不上網站）
+# 生殖系統與骨盆會陰：必考結構清單（第二版，內部文件，不上網站）
 
-2026-11-15 建立。依使用者上傳的課程資料整理出的結構名稱（只有名稱，沒有任何說明句、頁碼或題目）：男女生殖系統、骨盆骨與韌帶、盆壁與盆底、會陰、膀胱與尿道、骨盆內的血管、淋巴與神經。來源代號：W8＝生殖系統（男、女）、W14＝骨盆與會陰、W6＝泌尿、W7＝消化（直腸與肛管）。
+2026-11-15 更新。依使用者上傳的課程資料整理出的結構名稱（只有名稱，沒有說明句、頁碼或題目）。第二版在第一版（男女生殖、骨盆、泌尿、消化的直腸肛管）之外，加入「骨盆與會陰 I（2025-11-10）」「骨盆與會陰 II（2025-12-01）」兩份 M66 資料，並重新核對 CM58 的骨盆與會陰單元。
 
-**這是第一版，資料還不齊：** 課程資料中的「骨盆與會陰 I、II」兩份尚未取得（預期包含外生殖器、會陰各層與盆內臟器的細節），所以外生殖器（陰莖、陰蒂、陰唇、前庭）與會陰層次的結構很可能還不完整；另有子宮韌帶、男性內生殖器的部分細節也待補。取得後會增補並重新核對。
+代號：**M66**＝兩份骨盆與會陰單元（1110、1201）；**CM58**＝W8 生殖、W14 骨盆與會陰、W6 泌尿、W7 消化（W10 心血管只有總髂動脈一處）。系列欄：M66、CM58、兩者。
 
-## 數量
+## 使用者決定（2026-11-15）
 
-| 類別 | 項數 |
-| --- | --- |
-| 骨與骨盆分區 | 35 |
-| 關節與韌帶 | 11 |
-| 盆壁與盆底肌肉 | 18 |
-| 會陰 | 24 |
-| 泌尿（骨盆段） | 23 |
-| 男性生殖 | 48 |
-| 女性生殖 | 47 |
-| 直腸與肛管 | 9 |
-| 血管 | 42 |
-| 神經 | 22 |
-| 淋巴 | 9 |
-| 合計 | 288 |
+以下已定案，清單已照此寫入主名稱與別名，第一版的舊建議作廢；搜尋要同時找得到主名稱與別名。
 
-## 名稱寫法需要使用者決定的
+| 項目 | 主名稱 | 別名 | 備註 |
+| --- | --- | --- | --- |
+| 副睪 | 副睪（Epididymis） | 附睪 | 頭、體、尾、導管同樣處理 |
+| 精囊 | 精囊 | 精囊腺（另有課程資料寫法：精腺、儲精囊） | |
+| 前列腺 | 前列腺 | 攝護腺（課程資料另有前立腺，異體字） | |
+| 處女膜 | 陰道冠（Vaginal corona） | 處女膜、Hymen | 搜尋兩者都要找得到；資訊卡與題目一律用陰道冠 |
+| 肉膜肌 | 肉膜肌（Dartos muscle） | 無 | 「內膜肌」是課程資料筆誤，只記在下方衝突表，不作別名 |
+| 骨盆的梳狀線 | 恥骨梳線（Pecten pubis） | 無（梳狀線不作它的別名） | |
+| 肛管的梳狀線 | 齒狀線（Pectinate line） | 梳狀線（只作齒狀線的別名） | |
 
-兩個系列或不同單元寫法不同、依名稱統一規則整理如下，等使用者決定（建議採台灣常用形）：
+## 摘要
 
-- 副睪／附睪：建議「副睪」，附睪作別名（課程資料用副睪；常用形兩者都有）。
-- 精囊／精囊腺：建議「精囊」，精囊腺作別名。
-- 前列腺／攝護腺：建議「前列腺」，攝護腺作別名。
-- 內膜肌／肉膜肌（Dartos muscle）：建議「肉膜肌」，內膜肌視為筆誤或同義寫法。
-- 處女膜（課程資料稱「陰道冠」，也寫成 Hymen）：建議「處女膜」，陰道冠作別名。
-- 梳狀線：骨盆的梳狀線（Pecten pubis）與肛管的齒狀線（Pectinate line）在課程資料中都寫成「梳狀線」，兩者是不同結構；建議骨盆用「梳狀線」、肛管用「齒狀線」。
-- 尿道球腺：兩處提到，也寫成 Cowper 腺；同一結構，合併一筆。
+- 第一版 288 筆來自 CM58 的 W8、W14、W6、W7；第二版加入 M66 兩份後共 **401** 筆，其中 **389** 筆是結構（需要網站有對應名稱），**12** 筆是組織層次或細胞而移入「非結構」（不計入結構數）。另有 24 項非結構的概念、臨床操作與比較項目列在最後的「非結構」一節，不入數。
+- 第二版新增 114 筆；合併重複 1 筆（恥骨聯合在第一版出現兩次）。
+- 系列分布（只算結構）：M66 單獨 88、CM58 單獨 70、兩者都有 231。
+- 權重分布（只算結構）：1（只被點名）117、2（有獨立段落或表格列）235、3（強調用語）37。
+- 處理方式分布（只算結構）：3D 模型 169、區域標示 170、僅資訊卡 50。
 
-## 完整清單
+### 各類別數量（結構）
 
-| 序 | 英文 | 中文 | 類別 | 來源 | 備註 |
-| --- | --- | --- | --- | --- | --- |
-| 1 | Hip bone | 髖骨 | 骨與骨盆分區 | W14 |  |
-| 2 | Ilium | 髂骨 | 骨與骨盆分區 | W14 |  |
-| 3 | Iliac crest | 髂嵴 | 骨與骨盆分區 | W14 |  |
-| 4 | Iliac fossa | 髂窩 | 骨與骨盆分區 | W14 |  |
-| 5 | Greater sciatic notch | 大坐骨切跡 | 骨與骨盆分區 | W14 |  |
-| 6 | Ischium | 坐骨 | 骨與骨盆分區 | W14 |  |
-| 7 | Ischial tuberosity | 坐骨粗隆 | 骨與骨盆分區 | W14 |  |
-| 8 | Ischial spine | 坐骨棘 | 骨與骨盆分區 | W14 |  |
-| 9 | Ramus of ischium | 坐骨枝 | 骨與骨盆分區 | W14 |  |
-| 10 | Pubis | 恥骨 | 骨與骨盆分區 | W14 |  |
-| 11 | Body of pubis | 恥骨體 | 骨與骨盆分區 | W14 |  |
-| 12 | Superior pubic ramus | 上恥骨枝 | 骨與骨盆分區 | W14 |  |
-| 13 | Inferior pubic ramus | 下恥骨枝 | 骨與骨盆分區 | W14 |  |
-| 14 | Arcuate line | 弓狀線 | 骨與骨盆分區 | W14 |  |
-| 15 | Pecten pubis (pectineal line) | 梳狀線 | 骨與骨盆分區 | W14 |  |
-| 16 | Pubic symphysis | 恥骨聯合 | 骨與骨盆分區 | W14 |  |
-| 17 | Obturator foramen | 閉孔 | 骨與骨盆分區 | W14 |  |
-| 18 | Sacrum | 薦骨 | 骨與骨盆分區 | W14 |  |
-| 19 | Sacral promontory | 薦骨岬 | 骨與骨盆分區 | W14 |  |
-| 20 | Ala of sacrum | 薦骨翼 | 骨與骨盆分區 | W14 |  |
-| 21 | Anterior sacral foramina | 前薦孔 | 骨與骨盆分區 | W14 |  |
-| 22 | Posterior sacral foramina | 後薦孔 | 骨與骨盆分區 | W14 |  |
-| 23 | Sacral hiatus | 薦骨裂孔 | 骨與骨盆分區 | W14 |  |
-| 24 | Sacral horn (cornu) | 薦骨角 | 骨與骨盆分區 | W14 | 只出現一次 |
-| 25 | Coccyx | 尾骨 | 骨與骨盆分區 | W14 |  |
-| 26 | Tip of coccyx | 尾骨尖端 | 骨與骨盆分區 | W14 |  |
-| 27 | Pelvic brim | 骨盆邊緣 | 骨與骨盆分區 | W14 |  |
-| 28 | Pelvic inlet | 骨盆入口 | 骨與骨盆分區 | W14 |  |
-| 29 | Pelvic outlet | 骨盆出口 | 骨與骨盆分區 | W14 |  |
-| 30 | Greater (false) pelvis | 大（假）骨盆 | 骨與骨盆分區 | W14 |  |
-| 31 | Lesser (true) pelvis | 小（真）骨盆 | 骨與骨盆分區 | W14 |  |
-| 32 | Pubic arch | 恥骨弓 | 骨與骨盆分區 | W14 |  |
-| 33 | Subpubic angle | 恥骨下角 | 骨與骨盆分區 | W14 |  |
-| 34 | Greater sciatic foramen | 坐骨大孔 | 骨與骨盆分區 | W14 | 只在靜脈路徑中出現 |
-| 35 | Lesser sciatic foramen | 坐骨小孔 | 骨與骨盆分區 | W14 | 只在靜脈路徑中出現 |
-| 36 | Pubic symphysis (joint) | 恥骨聯合（關節） | 關節與韌帶 | W14 |  |
-| 37 | Superior pubic ligament | 恥骨上韌帶 | 關節與韌帶 | W14 |  |
-| 38 | Inferior (arcuate) pubic ligament | 恥骨下韌帶（恥骨弓狀韌帶） | 關節與韌帶 | W14 |  |
-| 39 | Sacro-iliac joint | 薦髂關節 | 關節與韌帶 | W14 |  |
-| 40 | Anterior sacro-iliac ligament | 薦髂前韌帶 | 關節與韌帶 | W14 |  |
-| 41 | Interosseous sacro-iliac ligament | 薦髂骨間韌帶 | 關節與韌帶 | W14 |  |
-| 42 | Posterior sacro-iliac ligament | 薦髂後韌帶 | 關節與韌帶 | W14 |  |
-| 43 | Sacrospinous ligament | 薦棘韌帶 | 關節與韌帶 | W14 |  |
-| 44 | Sacrotuberous ligament | 薦粗隆韌帶 | 關節與韌帶 | W14 |  |
-| 45 | Obturator membrane | 閉孔膜 | 關節與韌帶 | W14 |  |
-| 46 | Obturator canal | 閉孔管 | 關節與韌帶 | W14 |  |
-| 47 | Obturator internus | 閉孔內肌 | 盆壁與盆底肌肉 | W14 |  |
-| 48 | Piriformis | 梨狀肌 | 盆壁與盆底肌肉 | W14 |  |
-| 49 | Pelvic diaphragm | 骨盆膈 | 盆壁與盆底肌肉 | W14 |  |
-| 50 | Levator ani | 提肛肌 | 盆壁與盆底肌肉 | W14 |  |
-| 51 | Puborectalis | 恥骨直腸肌 | 盆壁與盆底肌肉 | W14 |  |
-| 52 | Pubococcygeus | 恥骨尾骨肌 | 盆壁與盆底肌肉 | W14 |  |
-| 53 | Iliococcygeus | 髂骨尾骨肌 | 盆壁與盆底肌肉 | W14 |  |
-| 54 | Coccygeus | 尾骨肌 | 盆壁與盆底肌肉 | W14 |  |
-| 55 | Tendinous arch of levator ani | 腱弓 | 盆壁與盆底肌肉 | W14 |  |
-| 56 | Anococcygeal ligament | 肛尾韌帶 | 盆壁與盆底肌肉 | W14 |  |
-| 57 | Iliococcygeal raphe | 髂尾中縫 | 盆壁與盆底肌肉 | W14 |  |
-| 58 | Urogenital hiatus | 泌尿生殖裂孔 | 盆壁與盆底肌肉 | W14 |  |
-| 59 | Anal aperture | 肛門口 | 盆壁與盆底肌肉 | W14 |  |
-| 60 | Puboanalis | 恥骨肛門肌 | 盆壁與盆底肌肉 | W14 |  |
-| 61 | Puboperinealis | 恥骨會陰肌 | 盆壁與盆底肌肉 | W14 |  |
-| 62 | Puboprostaticus (levator prostatae) | 恥骨前列腺肌（提前列腺肌） | 盆壁與盆底肌肉 | W14 |  |
-| 63 | Pubovaginalis (sphincter vaginae) | 恥骨陰道肌（陰道括約肌） | 盆壁與盆底肌肉 | W14 |  |
-| 64 | Perineal body | 會陰體 | 盆壁與盆底肌肉 | W14 |  |
-| 65 | Perineum | 會陰 | 會陰 | W14 |  |
-| 66 | Urogenital triangle | 泌尿生殖三角 | 會陰 | W14 |  |
-| 67 | Anal triangle | 肛門三角 | 會陰 | W14 |  |
-| 68 | Ischioanal (ischiorectal) fossa | 坐骨肛門窩（坐骨直腸窩） | 會陰 | W14 |  |
-| 69 | Ischiopubic ramus | 坐骨恥骨支 | 會陰 | W14 |  |
-| 70 | Perineal membrane | 會陰膜 | 會陰 | W14 |  |
-| 71 | Deep perineal pouch | 會陰深陷凹 | 會陰 | W14 |  |
-| 72 | Superficial perineal pouch | 會陰淺陷凹 | 會陰 | W14 |  |
-| 73 | Obturator fascia | 閉孔筋膜 | 會陰 | W14 |  |
-| 74 | Inferior fascia of pelvic diaphragm | 骨盆膈下筋膜 | 會陰 | W14 |  |
-| 75 | Urogenital diaphragm | 泌尿生殖膈 | 會陰 | W14 |  |
-| 76 | External urethral sphincter | 尿道外括約肌 | 會陰 | W14 |  |
-| 77 | Deep transverse perineal muscle | 會陰深橫肌 | 會陰 | W14 |  |
-| 78 | Compressor urethrae | 尿道壓迫肌 | 會陰 | W14 |  |
-| 79 | Urethrovaginal sphincter | 尿道陰道括約肌 | 會陰 | W14 |  |
-| 80 | Bulb of penis | 陰莖球 | 會陰 | W14 |  |
-| 81 | Crus of penis | 陰莖腳 | 會陰 | W14 |  |
-| 82 | Corpus cavernosum | 陰莖海綿體 | 會陰 | W14 |  |
-| 83 | Corpus spongiosum | 尿道海綿體 | 會陰 | W14 |  |
-| 84 | Body of clitoris | 陰蒂體（陰蒂海綿體） | 會陰 | W14 |  |
-| 85 | Crus of clitoris | 陰蒂腳 | 會陰 | W14 |  |
-| 86 | Bulb of vestibule | 前庭球 | 會陰 | W14 |  |
-| 87 | Bulbospongiosus | 球海綿體肌 | 會陰 | W14 |  |
-| 88 | Ischiocavernosus | 坐骨海綿體肌 | 會陰 | W14 |  |
-| 89 | Ureter | 輸尿管 | 泌尿（骨盆段） | W14,W6 |  |
-| 90 | Ureterovesical junction | 輸尿管膀胱交界 | 泌尿（骨盆段） | W14,W6 |  |
-| 91 | Urinary bladder | 膀胱 | 泌尿（骨盆段） | W14,W6 |  |
-| 92 | Apex of bladder | 膀胱尖 | 泌尿（骨盆段） | W14,W6 |  |
-| 93 | Body of bladder | 膀胱體 | 泌尿（骨盆段） | W14,W6 |  |
-| 94 | Fundus of bladder | 膀胱底 | 泌尿（骨盆段） | W14,W6 |  |
-| 95 | Neck of bladder | 膀胱頸 | 泌尿（骨盆段） | W14,W6 |  |
-| 96 | Superior surface of bladder | 膀胱上表面 | 泌尿（骨盆段） | W14,W6 |  |
-| 97 | Anterior surface of bladder | 膀胱前表面 | 泌尿（骨盆段） | W14,W6 |  |
-| 98 | Inferior surface of bladder | 膀胱下表面 | 泌尿（骨盆段） | W14,W6 |  |
-| 99 | Trigone of bladder | 膀胱三角 | 泌尿（骨盆段） | W14,W6 |  |
-| 100 | Interureteric crest | 輸尿管間嵴 | 泌尿（骨盆段） | W14,W6 |  |
-| 101 | Ureteric orifice | 輸尿管開口 | 泌尿（骨盆段） | W14,W6 |  |
-| 102 | Internal urethral orifice | 內尿道口 | 泌尿（骨盆段） | W14,W6 |  |
-| 103 | Detrusor muscle | 逼尿肌 | 泌尿（骨盆段） | W14,W6 |  |
-| 104 | Internal urethral sphincter | 尿道內括約肌 | 泌尿（骨盆段） | W14,W6 |  |
-| 105 | Median umbilical ligament | 正中臍韌帶 | 泌尿（骨盆段） | W14,W6 |  |
-| 106 | Puboprostatic ligament | 恥骨前列腺韌帶 | 泌尿（骨盆段） | W14,W6 |  |
-| 107 | Pubovesical ligament | 恥骨膀胱韌帶 | 泌尿（骨盆段） | W14,W6 |  |
-| 108 | Urethra | 尿道 | 泌尿（骨盆段） | W14,W6 |  |
-| 109 | Female urethra | 女性尿道 | 泌尿（骨盆段） | W14,W6 |  |
-| 110 | Paraurethral (Skene) glands | 旁尿道腺 | 泌尿（骨盆段） | W14,W6 |  |
-| 111 | External urethral orifice | 尿道外口 | 泌尿（骨盆段） | W14,W6 |  |
-| 112 | Testis | 睪丸 | 男性生殖 | W8,W14 |  |
-| 113 | Tunica albuginea of testis | 睪丸白膜 | 男性生殖 | W8,W14 |  |
-| 114 | Tunica vaginalis | 鞘膜 | 男性生殖 | W8,W14 |  |
-| 115 | Visceral layer of tunica vaginalis | 鞘膜臟層 | 男性生殖 | W8,W14 |  |
-| 116 | Parietal layer of tunica vaginalis | 鞘膜壁層 | 男性生殖 | W8,W14 |  |
-| 117 | Tunica vasculosa | 血管膜 | 男性生殖 | W8,W14 |  |
-| 118 | Seminiferous tubules | 曲細精管 | 男性生殖 | W8,W14 |  |
-| 119 | Efferent ductule | 輸出小管 | 男性生殖 | W8,W14 |  |
-| 120 | Epididymis | 副睪 | 男性生殖 | W8,W14 | 副睪／附睪 兩種寫法 |
-| 121 | Head of epididymis | 副睪頭 | 男性生殖 | W8,W14 |  |
-| 122 | Body of epididymis | 副睪體 | 男性生殖 | W8,W14 |  |
-| 123 | Tail of epididymis | 副睪尾 | 男性生殖 | W8,W14 |  |
-| 124 | Ductus epididymis | 副睪導管 | 男性生殖 | W8,W14 |  |
-| 125 | Ductus deferens | 輸精管 | 男性生殖 | W8,W14 |  |
-| 126 | Ampulla of ductus deferens | 輸精管壺腹 | 男性生殖 | W8,W14 |  |
-| 127 | Ejaculatory duct | 射精管 | 男性生殖 | W8,W14 |  |
-| 128 | Seminal gland (vesicle) | 精囊 | 男性生殖 | W8,W14 | 精囊／精囊腺 兩種寫法 |
-| 129 | Prostate | 前列腺 | 男性生殖 | W8,W14 | 前列腺／攝護腺 兩種寫法 |
-| 130 | Peripheral zone of prostate | 前列腺外圍區 | 男性生殖 | W8,W14 |  |
-| 131 | Central zone of prostate | 前列腺中央區 | 男性生殖 | W8,W14 |  |
-| 132 | Transition zone of prostate | 前列腺過渡區 | 男性生殖 | W8,W14 |  |
-| 133 | Anterior fibromuscular stroma | 前纖維肌肉間質 | 男性生殖 | W8,W14 |  |
-| 134 | Bulbo-urethral (Cowper) gland | 尿道球腺 | 男性生殖 | W8,W14 |  |
-| 135 | Spermatic cord | 精索 | 男性生殖 | W8,W14 |  |
-| 136 | Pampiniform venous plexus | 蔓狀靜脈叢 | 男性生殖 | W8,W14 |  |
-| 137 | Scrotum | 陰囊 | 男性生殖 | W8,W14 |  |
-| 138 | Dartos muscle | 肉膜肌 | 男性生殖 | W8,W14 | 內膜肌／肉膜肌 兩種寫法 |
-| 139 | Septum of scrotum | 陰囊隔 | 男性生殖 | W8,W14 |  |
-| 140 | Scrotal raphe | 陰囊縫 | 男性生殖 | W8,W14 |  |
-| 141 | Penile raphe | 陰莖縫 | 男性生殖 | W8,W14 |  |
-| 142 | Perineal raphe | 會陰縫 | 男性生殖 | W8,W14 |  |
-| 143 | External spermatic fascia | 外精索筋膜 | 男性生殖 | W8,W14 |  |
-| 144 | Cremaster muscle and fascia | 提睪肌與筋膜 | 男性生殖 | W8,W14 |  |
-| 145 | Internal spermatic fascia | 內精索筋膜 | 男性生殖 | W8,W14 |  |
-| 146 | Male urethra | 男性尿道 | 男性生殖 | W8,W14 |  |
-| 147 | Intramural (preprostatic) part of urethra | 尿道壁內部（間質部） | 男性生殖 | W8,W14 |  |
-| 148 | Prostatic urethra | 前列腺部尿道 | 男性生殖 | W8,W14 |  |
-| 149 | Intermediate (membranous) part of urethra | 尿道中間部（膜部） | 男性生殖 | W8,W14 |  |
-| 150 | Spongy urethra | 海綿體部尿道 | 男性生殖 | W8,W14 |  |
-| 151 | Bulbar urethra | 尿道球部 | 男性生殖 | W8,W14 |  |
-| 152 | Navicular fossa | 舟狀窩 | 男性生殖 | W8,W14 |  |
-| 153 | Urethral crest | 尿道脊 | 男性生殖 | W8,W14 |  |
-| 154 | Seminal colliculus | 精阜 | 男性生殖 | W8,W14 |  |
-| 155 | Prostatic utricle | 前列腺小囊 | 男性生殖 | W8,W14 |  |
-| 156 | Uvula of bladder | 膀胱懸雍垂 | 男性生殖 | W8,W14 |  |
-| 157 | Curvatura infrapubica | 恥骨下彎 | 男性生殖 | W8,W14 |  |
-| 158 | Curvatura prepubica | 恥骨前彎 | 男性生殖 | W8,W14 |  |
-| 159 | Rectoprostatic fascia | 直腸前列腺筋膜 | 男性生殖 | W8,W14 | 只在圖上標籤出現 |
-| 160 | Ovary | 卵巢 | 女性生殖 | W8,W14 |  |
-| 161 | Germinal epithelium | 生殖上皮 | 女性生殖 | W8,W14 |  |
-| 162 | Tunica albuginea of ovary | 卵巢白膜 | 女性生殖 | W8,W14 |  |
-| 163 | Ovarian cortex | 卵巢皮質 | 女性生殖 | W8,W14 |  |
-| 164 | Inner medulla of ovary | 卵巢內髓 | 女性生殖 | W8,W14 |  |
-| 165 | Primordial follicle | 原始濾泡 | 女性生殖 | W8,W14 |  |
-| 166 | Suspensory ligament of ovary | 卵巢懸韌帶 | 女性生殖 | W8,W14 |  |
-| 167 | Ovarian ligament | 卵巢韌帶 | 女性生殖 | W8,W14 |  |
-| 168 | Round ligament of uterus | 子宮圓韌帶 | 女性生殖 | W8,W14 |  |
-| 169 | Broad ligament of uterus | 子宮闊韌帶 | 女性生殖 | W8,W14 |  |
-| 170 | Mesometrium | 子宮繫膜 | 女性生殖 | W8,W14 |  |
-| 171 | Mesosalpinx | 輸卵管繫膜 | 女性生殖 | W8,W14 |  |
-| 172 | Mesovarium | 卵巢繫膜 | 女性生殖 | W8,W14 |  |
-| 173 | Uterine tube | 輸卵管 | 女性生殖 | W8,W14 |  |
-| 174 | Infundibulum of uterine tube | 輸卵管漏斗部 | 女性生殖 | W8,W14 |  |
-| 175 | Fimbriae | 輸卵管繖 | 女性生殖 | W8,W14 |  |
-| 176 | Ampulla of uterine tube | 輸卵管壺腹 | 女性生殖 | W8,W14 |  |
-| 177 | Isthmus of uterine tube | 輸卵管峽部 | 女性生殖 | W8,W14 |  |
-| 178 | Uterine (intramural) part | 輸卵管子宮部（間質部） | 女性生殖 | W8,W14 |  |
-| 179 | Uterus | 子宮 | 女性生殖 | W8,W14 |  |
-| 180 | Fundus of uterus | 子宮底 | 女性生殖 | W8,W14 |  |
-| 181 | Body of uterus | 子宮體 | 女性生殖 | W8,W14 |  |
-| 182 | Isthmus of uterus | 子宮峽 | 女性生殖 | W8,W14 |  |
-| 183 | Cervix | 子宮頸 | 女性生殖 | W8,W14 |  |
-| 184 | Internal os | 子宮頸內口 | 女性生殖 | W8,W14 |  |
-| 185 | Cervical canal | 子宮頸管 | 女性生殖 | W8,W14 |  |
-| 186 | External os | 子宮頸外口 | 女性生殖 | W8,W14 |  |
-| 187 | Perimetrium | 子宮外膜 | 女性生殖 | W8,W14 |  |
-| 188 | Myometrium | 子宮肌層 | 女性生殖 | W8,W14 |  |
-| 189 | Endometrium | 子宮內膜 | 女性生殖 | W8,W14 |  |
-| 190 | Stratum functionalis | 功能層 | 女性生殖 | W8,W14 |  |
-| 191 | Stratum basalis | 基底層 | 女性生殖 | W8,W14 |  |
-| 192 | Vagina | 陰道 | 女性生殖 | W8,W14 |  |
-| 193 | Vaginal fornix | 陰道穹窿 | 女性生殖 | W8,W14 |  |
-| 194 | Anterior fornix | 前穹窿 | 女性生殖 | W8,W14 |  |
-| 195 | Lateral fornix | 側穹窿 | 女性生殖 | W8,W14 |  |
-| 196 | Posterior fornix | 後穹窿 | 女性生殖 | W8,W14 |  |
-| 197 | Recto-uterine pouch | 子宮直腸陷凹 | 女性生殖 | W8,W14 |  |
-| 198 | Hymen | 處女膜 | 女性生殖 | W8,W14 | 課程資料稱 陰道冠，與常用名不同 |
-| 199 | Mammary gland | 乳腺 | 女性生殖 | W8,W14 |  |
-| 200 | Lobes of mammary gland | 乳腺葉 | 女性生殖 | W8,W14 |  |
-| 201 | Lobule of mammary gland | 乳腺小葉 | 女性生殖 | W8,W14 |  |
-| 202 | Lactiferous duct | 輸乳管 | 女性生殖 | W8,W14 |  |
-| 203 | Lactiferous sinus | 輸乳竇 | 女性生殖 | W8,W14 |  |
-| 204 | Suspensory ligaments of breast | 乳房懸韌帶 | 女性生殖 | W8,W14 |  |
-| 205 | Areola | 乳暈 | 女性生殖 | W8,W14 |  |
-| 206 | Nipple | 乳頭 | 女性生殖 | W8,W14 |  |
-| 207 | Rectum | 直腸 | 直腸與肛管 | W14,W7 |  |
-| 208 | Rectal valves | 直腸瓣 | 直腸與肛管 | W14,W7 |  |
-| 209 | Anal canal | 肛管 | 直腸與肛管 | W14,W7 |  |
-| 210 | Anal columns | 肛柱 | 直腸與肛管 | W14,W7 |  |
-| 211 | Anal valves | 肛瓣 | 直腸與肛管 | W14,W7 |  |
-| 212 | Anal sinuses | 肛竇 | 直腸與肛管 | W14,W7 |  |
-| 213 | Pectinate line | 齒狀線（梳狀線） | 直腸與肛管 | W14,W7 | 課程資料寫 梳狀腺，與骨盆梳狀線同名 |
-| 214 | External anal sphincter | 肛門外括約肌 | 直腸與肛管 | W14,W7 |  |
-| 215 | Internal anal sphincter | 肛門內括約肌 | 直腸與肛管 | W14,W7 |  |
-| 216 | Internal iliac artery | 內髂動脈 | 血管 | W14,W6 |  |
-| 217 | Umbilical artery | 臍動脈 | 血管 | W14,W6 |  |
-| 218 | Superior vesical artery | 上膀胱動脈 | 血管 | W14,W6 |  |
-| 219 | Inferior vesical artery | 下膀胱動脈 | 血管 | W14,W6 |  |
-| 220 | Vaginal artery | 陰道動脈 | 血管 | W14,W6 |  |
-| 221 | Uterine artery | 子宮動脈 | 血管 | W14,W6 |  |
-| 222 | Ovarian artery | 卵巢動脈 | 血管 | W14,W6 |  |
-| 223 | Arcuate artery of uterus | 子宮弓狀動脈 | 血管 | W14,W6 |  |
-| 224 | Radial artery of uterus | 子宮放射動脈 | 血管 | W14,W6 |  |
-| 225 | Straight artery | 直動脈 | 血管 | W14,W6 |  |
-| 226 | Spiral artery | 螺旋動脈 | 血管 | W14,W6 |  |
-| 227 | Middle rectal artery | 中直腸動脈 | 血管 | W14,W6 |  |
-| 228 | Inferior rectal artery | 下直腸動脈 | 血管 | W14,W6 |  |
-| 229 | Superior rectal artery | 上直腸動脈 | 血管 | W14,W6 |  |
-| 230 | Internal pudendal artery | 內陰動脈 | 血管 | W14,W6 |  |
-| 231 | Median sacral artery | 正中薦動脈 | 血管 | W14,W6 |  |
-| 232 | Dorsal artery of penis | 陰莖背動脈 | 血管 | W14,W6 |  |
-| 233 | Testicular artery | 睪丸動脈 | 血管 | W14,W6 |  |
-| 234 | Artery to ductus deferens | 輸精管動脈 | 血管 | W14,W6 |  |
-| 235 | External spermatic (cremasteric) artery | 外精索動脈（提睪肌動脈） | 血管 | W14,W6 |  |
-| 236 | Internal iliac vein | 內髂靜脈 | 血管 | W14,W6 |  |
-| 237 | External iliac vein | 外髂靜脈 | 血管 | W14,W6 |  |
-| 238 | Common iliac vein | 總髂靜脈 | 血管 | W14,W6 |  |
-| 239 | Superior gluteal vein | 上臀靜脈 | 血管 | W14,W6 |  |
-| 240 | Inferior gluteal vein | 下臀靜脈 | 血管 | W14,W6 |  |
-| 241 | Obturator vein | 閉孔靜脈 | 血管 | W14,W6 |  |
-| 242 | Internal pudendal vein | 內陰靜脈 | 血管 | W14,W6 |  |
-| 243 | Middle rectal vein | 中直腸靜脈 | 血管 | W14,W6 |  |
-| 244 | Inferior rectal vein | 下直腸靜脈 | 血管 | W14,W6 |  |
-| 245 | Superior vesical vein | 上膀胱靜脈 | 血管 | W14,W6 |  |
-| 246 | Inferior vesical vein | 下膀胱靜脈 | 血管 | W14,W6 |  |
-| 247 | Uterine vein | 子宮靜脈 | 血管 | W14,W6 |  |
-| 248 | Vaginal vein | 陰道靜脈 | 血管 | W14,W6 |  |
-| 249 | Rectal venous plexus | 直腸靜脈叢 | 血管 | W14,W6 |  |
-| 250 | Uterine venous plexus | 子宮靜脈叢 | 血管 | W14,W6 |  |
-| 251 | Vaginal venous plexus | 陰道靜脈叢 | 血管 | W14,W6 |  |
-| 252 | Sacral venous plexus | 薦靜脈叢 | 血管 | W14,W6 |  |
-| 253 | Internal vertebral venous plexus | 椎內靜脈叢 | 血管 | W14,W6 |  |
-| 254 | Lateral sacral vein | 外側薦靜脈 | 血管 | W14,W6 |  |
-| 255 | Median sacral vein | 正中薦靜脈 | 血管 | W14,W6 |  |
-| 256 | Iliolumbar vein | 髂腰靜脈 | 血管 | W14,W6 |  |
-| 257 | Testicular vein | 睪丸靜脈 | 血管 | W14,W6 |  |
-| 258 | Lumbosacral trunk | 腰薦神經幹 | 神經 | W14 |  |
-| 259 | Sacral plexus | 薦神經叢 | 神經 | W14 |  |
-| 260 | Superior gluteal nerve | 上臀神經 | 神經 | W14 |  |
-| 261 | Inferior gluteal nerve | 下臀神經 | 神經 | W14 |  |
-| 262 | Sciatic nerve | 坐骨神經 | 神經 | W14 |  |
-| 263 | Obturator nerve | 閉孔神經 | 神經 | W14 |  |
-| 264 | Pudendal nerve | 陰部神經 | 神經 | W14 |  |
-| 265 | Inferior rectal nerve | 下直腸神經 | 神經 | W14 |  |
-| 266 | Perineal nerve | 會陰神經 | 神經 | W14 |  |
-| 267 | Posterior scrotal (labial) nerves | 後陰囊（陰唇）神經 | 神經 | W14 |  |
-| 268 | Dorsal nerve of penis (clitoris) | 陰莖（陰蒂）背神經 | 神經 | W14 |  |
-| 269 | Coccygeal plexus | 尾神經叢 | 神經 | W14 |  |
-| 270 | Anococcygeal nerve | 肛尾神經 | 神經 | W14 |  |
-| 271 | Sacral sympathetic trunk | 薦交感神經幹 | 神經 | W14 |  |
-| 272 | Ganglion impar | 奇神經節（尾神經節） | 神經 | W14 |  |
-| 273 | Periarterial plexus | 動脈周壁神經叢 | 神經 | W14 |  |
-| 274 | Superior hypogastric plexus | 上腹下神經叢 | 神經 | W14 |  |
-| 275 | Inferior hypogastric plexus | 下腹下神經叢 | 神經 | W14 |  |
-| 276 | Hypogastric nerve | 腹下神經 | 神經 | W14 |  |
-| 277 | Pelvic splanchnic nerves | 骨盆內臟神經 | 神經 | W14 |  |
-| 278 | Pelvic plexus | 骨盆神經叢 | 神經 | W14 |  |
-| 279 | Genital branch of genitofemoral nerve | 生殖股神經生殖支 | 神經 | W14 |  |
-| 280 | External iliac nodes | 外髂淋巴結 | 淋巴 | W14 |  |
-| 281 | Internal iliac nodes | 內髂淋巴結 | 淋巴 | W14 |  |
-| 282 | Sacral nodes | 薦淋巴結 | 淋巴 | W14 |  |
-| 283 | Common iliac nodes | 總髂淋巴結 | 淋巴 | W14 |  |
-| 284 | Superficial inguinal nodes | 淺腹股溝淋巴結 | 淋巴 | W14 |  |
-| 285 | Deep inguinal nodes | 深腹股溝淋巴結 | 淋巴 | W14 |  |
-| 286 | Pararectal nodes | 旁直腸淋巴結 | 淋巴 | W14 |  |
-| 287 | Inferior mesenteric nodes | 下腸繫膜淋巴結 | 淋巴 | W14 |  |
-| 288 | Lumbar nodes | 腰淋巴結 | 淋巴 | W14 |  |
+| 類別 | 項數 | M66 單獨 | CM58 單獨 | 兩者 | 3D 模型 | 區域標示 | 僅資訊卡 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 骨與骨盆分區 | 41 | 1 | 10 | 30 | 6 | 35 | 0 |
+| 關節與韌帶 | 13 | 0 | 1 | 12 | 10 | 3 | 0 |
+| 盆壁與盆底肌肉 | 17 | 0 | 0 | 17 | 14 | 3 | 0 |
+| 腹膜、陷凹與筋膜 | 18 | 13 | 1 | 4 | 0 | 8 | 10 |
+| 會陰 | 20 | 5 | 0 | 15 | 9 | 10 | 1 |
+| 男性外生殖器 | 9 | 3 | 0 | 6 | 7 | 1 | 1 |
+| 女性外生殖器 | 19 | 15 | 0 | 4 | 9 | 10 | 0 |
+| 泌尿（骨盆段） | 27 | 1 | 4 | 22 | 7 | 17 | 3 |
+| 男性生殖（內生殖器與陰囊） | 45 | 0 | 26 | 19 | 11 | 23 | 11 |
+| 女性生殖（內生殖器與乳房） | 36 | 0 | 24 | 12 | 9 | 21 | 6 |
+| 直腸與肛管 | 26 | 16 | 0 | 10 | 5 | 18 | 3 |
+| 血管 | 80 | 31 | 1 | 48 | 59 | 9 | 12 |
+| 神經 | 27 | 2 | 2 | 23 | 23 | 1 | 3 |
+| 淋巴 | 11 | 1 | 1 | 9 | 0 | 11 | 0 |
+| 合計 | 389 | 88 | 70 | 231 | 169 | 170 | 50 |
+
+第一版各類別為：骨與骨盆分區 35、關節與韌帶 11、盆壁與盆底肌肉 18、會陰 24、泌尿 23、男性生殖 48、女性生殖 47、直腸與肛管 9、血管 42、神經 22、淋巴 9。第二版把外生殖器（陰莖、陰蒂、前庭球）、腹膜陷凹與筋膜拆成獨立類別，並把部分第一版項目移到這些類別，所以類別數字不能直接和第一版相減。
+
+### 排序方式
+
+先依類別，類別內依「課程順序鍵」排序：M66 1110（1）、M66 1201（2）、CM58 W8（3）、W14（4）、W6（5）、W7（6）。每一筆取它出現的最早單元作為排序鍵，同一鍵內維持課程資料出現的先後。「單元」欄列出該結構出現的所有單元。
+
+### 權重說明
+
+1＝只被點名；2＝有獨立段落或表格列；3＝資料用強調語（例如特別說明、重點、要背、實習必考）。第一版沒有權重欄，第二版對全部項目補上；第一版項目的權重是依資料中的強調與段落重新判斷，請使用者抽查。
+
+### 還缺什麼
+
+- 課程資料沒有提到、因此**沒有收**的（若使用者認為考試會考，請另外指示）：子宮主韌帶（子宮頸橫韌帶）、子宮薦韌帶、恥骨子宮頸韌帶；陰莖包皮、陰莖繫帶、陰莖冠與頸（資料只在陰蒂處寫包皮與繫帶）；男性尿道的 Littré 腺；前庭小腺的開口細節；骨盆的筋膜（壁層、臟層、直腸固有筋膜）、盆腔腹膜下間隙（恥骨後間隙、膀胱旁間隙）；精液成分、荷爾蒙與性週期（資料沒有此類內容，或只有功能敘述）。
+- 血管與神經的小分支（營養支、各器官的細小分支）只收資料有獨立名稱的；資料只在表格裡寫器官與動脈對照的，列在「非結構」。
+- W5（神經系統）、W6、W7、W10 中與骨盆無關的部分沒有納入；W10 只有總髂動脈一處與骨盆有關。
+- 單元 1110 與 W14 的喉部、咽部、氣管內容屬頭頸清單，不在本清單。
+
+### 使用者要確認的
+
+1. **確認範圍**：骨盆與會陰、男女內外生殖器、膀胱與尿道骨盆段、直腸與肛管；乳房（乳腺、乳暈、乳頭）因 W8 放在女性生殖，第一版已收，請確認要不要算進這次範圍。屬腹部清單、但骨盆資料有提到的（腹主動脈、下腸繫膜動脈、乙狀結腸、下腔靜脈、左腎靜脈、乳糜池、結腸帶、結腸袋、腸脂垂、Scarpa 筋膜）已收並標註，確認是否保留在這份清單或只放腹部清單。
+2. **別名與名稱衝突**：下方衝突表的「確定度」欄寫「不確定」的項目需要使用者拍板，其餘是我的建議。
+3. **處理方式**（3D 模型、區域標示、僅資訊卡）是依資料描述與「立體結構規則」提出的建議，使用者確認後才開工；有機形狀的腺體（前列腺、精囊、大前庭腺、旁尿道腺）依規則自行建模兩輪不像就停。
+4. **男女同源構造是否併成一筆**：背神經、深動脈、尿道球（前庭球）動脈、後陰囊（陰唇）神經與動脈目前以男女合併成一筆；背動脈因資料分開寫，陰莖背動脈與陰蒂背動脈各一筆。請決定網站上統一分開還是合併。
+5. **女性外陰的體表部分**（陰阜、大陰唇）可能與進行中的女性體表工作重疊，請確認由哪邊負責。
+6. **權重與系列欄**請抽查幾列，再決定是否以權重 3 優先。
+
+## 名稱衝突與寫法差異
+
+類型：異體字或拼法／同義異名／課程資料明顯筆誤／真的不同（不同結構同名，或兩個系列的資料互相矛盾）。確定度：確定＝可直接採用；不確定＝請使用者決定。
+
+| # | 類型 | 名稱或寫法 | 出處 | 建議統一名 | 別名 | 確定度 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | 同義異名 | 副睪／附睪 | CM58 兩種 | 副睪 | 附睪 | 確定（使用者已決定） |
+| 2 | 同義異名 | 精囊／精囊腺／精腺／儲精囊 | M66、CM58 | 精囊 | 精囊腺、精腺、儲精囊 | 確定（使用者已決定） |
+| 3 | 同義異名 | 前列腺／攝護腺／前立腺 | M66、CM58 | 前列腺 | 攝護腺、前立腺 | 確定（使用者已決定） |
+| 4 | 同義異名 | 陰道冠／處女膜／Hymen | CM58 | 陰道冠（Vaginal corona） | 處女膜、Hymen | 確定（使用者已決定，更正版） |
+| 5 | 課程資料明顯筆誤 | 內膜肌（應為肉膜肌） | CM58 | 肉膜肌 | 無 | 確定（使用者已決定） |
+| 6 | 真的不同 | 骨盆的梳狀線與肛管的梳狀線 | M66、CM58 | 恥骨梳線（骨盆）；齒狀線（肛管） | 梳狀線只作齒狀線的別名 | 確定（使用者已決定） |
+| 7 | 課程資料明顯筆誤 | 梳狀腺（應為梳狀線／齒狀線） | CM58 W7 | 齒狀線 | 梳狀線 | 確定 |
+| 8 | 課程資料明顯筆誤 | 尿道球腺（Bulbar urethra）：1110 把尿道球部寫成尿道球腺 | M66 1110 | 尿道球部（Bulbar urethra）；尿道球腺（Bulbourethral gland）另一筆 | 無 | 確定 |
+| 9 | 同義異名 | 薦結節韌帶／薦粗隆韌帶 | M66 兩份不同、CM58 用薦粗隆 | 薦粗隆韌帶（多數資料用） | 薦結節韌帶 | 不確定 |
+| 10 | 同義異名 | 坐骨粗隆／坐骨結節（資料偶有「坐骨結節」）；坐骨脊／坐骨棘 | M66、CM58 | 坐骨粗隆；坐骨棘 | 坐骨結節；坐骨脊 | 不確定（粗隆／結節）；坐骨脊為異體字 |
+| 11 | 同義異名 | 髂骨尾骨肌／髂尾骨肌 | M66 兩種 | 髂骨尾骨肌 | 髂尾骨肌 | 確定 |
+| 12 | 課程資料明顯筆誤 | W14 把髂骨尾骨肌（iliococcygeus）寫成「坐骨尾骨肌」；坐骨尾骨肌是尾骨肌（coccygeus）的別名 | CM58 W14 | 髂骨尾骨肌；尾骨肌 | 坐骨尾骨肌只作尾骨肌別名 | 確定 |
+| 13 | 真的不同 | 恥骨直腸肌與恥骨肛門肌：1110 先寫成同義、後文又強調兩者不同 | M66 1110（前後矛盾） | 分開兩筆 | 無 | 不確定（資料前後不一） |
+| 14 | 同義異名 | 恥骨膀胱韌帶／恥骨前列腺韌帶（男女不同稱呼；1110 說是同一條） | M66、CM58 | 兩筆並存 | 互不作別名 | 不確定 |
+| 15 | 課程資料明顯筆誤 | 膀胱頂（應為膀胱尖） | M66 1201 | 膀胱尖 | 無 | 確定 |
+| 16 | 同義異名 | 輸尿管間嵴／輸尿管間褶；另有「膀胱褶」 | M66、CM58 | 輸尿管間嵴 | 輸尿管間褶；膀胱褶描述的是空膀胱的黏膜皺褶，另列一筆 | 不確定 |
+| 17 | 同義異名 | 尿道外括約肌／外尿道括約肌 | M66、CM58 | 尿道外括約肌 | 外尿道括約肌 | 確定 |
+| 18 | 同義異名 | 尿道陰道括約肌／陰道尿道外括約肌 | M66、CM58 | 尿道陰道括約肌 | 陰道尿道括約肌 | 確定 |
+| 19 | 課程資料明顯筆誤 | 尿道壓迫肌寫成「逼尿肌／尿道壓迫肌」（逼尿肌是膀胱壁肌層） | CM58 W14 | 尿道壓迫肌 | 無 | 確定 |
+| 20 | 同義異名 | 直腸瓣／直腸橫褶（上、中、下三條） | CM58 W7 用直腸瓣、M66 用橫褶 | 直腸橫褶 | 直腸瓣 | 不確定 |
+| 21 | 同義異名 | 外薦動脈／外側薦動脈；外薦靜脈／外側薦靜脈 | M66、CM58 | 外側薦動脈；外側薦靜脈 | 外薦動脈；外薦靜脈 | 確定 |
+| 22 | 課程資料明顯筆誤 | 外側薦靜脈回流對象：1201 寫內薦靜脈，W14 寫外髂靜脈（解剖上回內髂靜脈） | M66 1201、CM58 W14 | 不作結構名稱 | 無 | 不確定（兩份互相矛盾） |
+| 23 | 同義異名 | 內陰動脈／陰部內動脈（靜脈同） | M66、CM58 | 內陰動脈 | 陰部內動脈 | 確定 |
+| 24 | 同義異名 | 基底動脈／直動脈（子宮），另有拼法 Badal | M66 1110 | 直動脈 | 基底動脈不作別名 | 確定（與腦的基底動脈同名，不可混） |
+| 25 | 真的不同 | 螺旋動脈：子宮的螺旋動脈與陰莖的螺旋枝同名 | M66 1110、1201 | 子宮螺旋動脈；陰莖螺旋動脈（別名螺旋枝） | 無 | 確定 |
+| 26 | 真的不同 | 白膜：睪丸白膜、卵巢白膜、陰莖白膜是不同構造 | M66、CM58 | 分別冠上器官名 | 無 | 確定 |
+| 27 | 同義異名 | 內側椎靜脈叢／椎內靜脈叢（IVVS） | M66 1201、CM58 W14 | 椎內靜脈叢 | 內側椎靜脈叢 | 確定 |
+| 28 | 真的不同 | 內直腸靜脈叢與外直腸靜脈叢的回流來源：1201 寫內叢由中直腸靜脈、外叢由下直腸靜脈；W14 寫相反 | M66 1201、CM58 W14 | 先不寫引流對象 | 無 | 不確定（兩份互相矛盾，需依公開圖譜核對） |
+| 29 | 異體字或拼法 | 子宮闊韌帶／子宮擴韌帶 | CM58 W8 | 子宮闊韌帶 | 子宮擴韌帶 | 確定 |
+| 30 | 課程資料明顯筆誤 | 輸尿管（Vas deferens）：應為輸精管 | M66 1201 淋巴 | 輸精管 | 無 | 確定 |
+| 31 | 課程資料明顯筆誤 | 陰莖球「頭端膨大，俗稱龜頭」：龜頭是陰莖頭，陰莖球在根部 | M66 1201 | 龜頭另列一筆 | 無 | 確定 |
+| 32 | 異體字或拼法 | 陰莖狀襻韌帶（多一個「狀」）→ 陰莖襻韌帶 | M66 1201 | 陰莖襻韌帶 | 陰莖狀襻韌帶 | 不確定 |
+| 33 | 課程資料明顯筆誤 | 肛門直腸腺（應為肛門直腸線） | M66 1201 | 肛門直腸線 | 無 | 確定 |
+| 34 | 異體字或拼法 | 髂／骼（總骼動脈、外骼淋巴結、內骼淋巴結等） | M66 1201 部分 | 髂 | 骼 | 確定 |
+| 35 | 同義異名 | 內髂／髂內（動脈、靜脈、淋巴結的字序） | M66、CM58 | 內髂、外髂、總髂 | 髂內、髂外 | 確定 |
+| 36 | 同義異名 | 腹股溝淋巴結／鼠蹊淋巴結 | M66 用鼠蹊、CM58 兩種 | 腹股溝淋巴結 | 鼠蹊淋巴結 | 不確定 |
+| 37 | 同義異名 | 上恥骨枝／上恥骨支、坐骨枝／坐骨支（枝／支） | M66、CM58 | 枝（沿用第一版） | 支 | 不確定 |
+| 38 | 同義異名 | 骨盆膈／骨盆橫膈／骨盆隔膜（膈／隔）；泌尿生殖膈／泌尿生殖隔 | M66、CM58 | 骨盆膈；泌尿生殖膈 | 骨盆橫膈、骨盆隔膜、泌尿生殖隔 | 確定 |
+| 39 | 同義異名 | 會陰深陷凹／會陰深隙／深陷窩；會陰淺陷凹／淺隙 | M66、CM58 | 會陰深陷凹；會陰淺陷凹 | 會陰深隙、深陷窩 | 不確定 |
+| 40 | 同義異名 | 骨盆膈下筋膜／提肛肌下筋膜 | M66、CM58 | 骨盆膈下筋膜 | 提肛肌下筋膜 | 確定 |
+| 41 | 課程資料明顯筆誤 | 「陰部上半部／下半部」指的是陰道上半部／下半部 | CM58 W14 | 陰道 | 無 | 確定 |
+| 42 | 課程資料明顯筆誤 | 上膀胱靜脈寫成（inf. vesical v.） | CM58 W14 | 上膀胱靜脈 | 無 | 確定 |
+| 43 | 課程資料明顯筆誤 | 會陰體寫成 peritoneal body（應為 perineal body） | M66 1201 | Perineal body | 無 | 確定 |
+| 44 | 課程資料明顯筆誤 | 恥骨下角（Pubic arch）：把恥骨弓與恥骨下角混寫 | M66 1110 | 恥骨弓（Pubic arch）；恥骨下角（Subpubic angle）分開 | 無 | 確定 |
+| 45 | 同義異名 | 骨盆邊緣／骨盆入口（資料視為同一個） | M66、CM58 | 分兩筆（邊緣是線，入口是開口），別名互通 | 互為別名 | 不確定 |
+| 46 | 真的不同 | 閉孔筋膜與閉孔膜：資料特別提醒閉孔內肌被閉孔筋膜包覆，不是閉孔膜 | M66 1110 | 兩筆並存 | 互不作別名 | 確定 |
+| 47 | 同義異名 | 子宮直腸陷凹／直腸子宮陷凹／Douglas 陷凹；膀胱子宮陷凹 | M66、CM58 | 子宮直腸陷凹 | 直腸子宮陷凹、Douglas 陷凹 | 確定 |
+| 48 | 同義異名 | 直腸前列腺筋膜（W8 圖上標籤）／直腸膀胱隔膜（1201） | CM58 W8、M66 1201 | 兩筆並存，待確認是否同一構造 | 無 | 不確定 |
+| 49 | 同義異名 | 旁尿道腺／尿道旁腺／小前庭腺／史氏腺 | M66、CM58 | 旁尿道腺 | 尿道旁腺、小前庭腺、史氏腺 | 確定 |
+| 50 | 同義異名 | 大前庭腺／巴氏腺 | M66 | 大前庭腺 | 巴氏腺 | 確定 |
+| 51 | 異體字或拼法 | 陰唇／陰脣；輸卵管繖／輸卵管傘；坐骨脊／坐骨棘 | M66、CM58 | 陰唇；輸卵管繖；坐骨棘 | 陰脣；輸卵管傘；坐骨脊 | 確定 |
+| 52 | 同義異名 | 睪丸動脈／內精索動脈；外精索動脈／提睪肌動脈 | CM58、M66 | 睪丸動脈；外精索動脈 | 內精索動脈；提睪肌動脈 | 確定 |
+| 53 | 同義異名 | 會陰體／會陰中心腱 | M66 1201 | 會陰體 | 會陰中心腱 | 確定 |
+| 54 | 課程資料明顯筆誤 | 奇神經節重複寫成「奇神經節經節」 | M66 1201 | 奇神經節 | 尾神經節 | 確定 |
+
+衝突共 54 筆：同義異名 29、課程資料明顯筆誤 15、真的不同 6、異體字或拼法 4；其中標「不確定」的 14 筆。
+
+## 完整清單（結構）
+
+欄位：單元＝出現的單元；系列＝M66／CM58／兩者；權重＝1／2／3；處理＝3D 模型／區域標示／僅資訊卡；主名稱以中文欄為準，別名另欄。
+
+### 骨與骨盆分區（41）
+
+| 序 | 英文 | 中文（主名稱） | 別名 | 單元 | 系列 | 權重 | 處理 | 備註 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | Hip bone | 髖骨 |  | 1110 W14 | 兩者 | 2 | 3D模型 |  |
+| 2 | Greater sciatic notch | 大坐骨切跡 |  | 1110 W14 | 兩者 | 2 | 區域標示 |  |
+| 3 | Ischial tuberosity | 坐骨粗隆 |  | 1110 1201 W14 | 兩者 | 3 | 區域標示 |  |
+| 4 | Ischial spine | 坐骨棘 |  | 1110 W14 | 兩者 | 3 | 區域標示 |  |
+| 5 | Pubis | 恥骨 |  | 1110 W14 | 兩者 | 2 | 3D模型 |  |
+| 6 | Body of pubis | 恥骨體 |  | 1110 W14 | 兩者 | 1 | 區域標示 |  |
+| 7 | Superior pubic ramus | 上恥骨枝 |  | 1110 W14 | 兩者 | 1 | 區域標示 |  |
+| 8 | Inferior pubic ramus | 下恥骨枝 |  | 1110 W14 | 兩者 | 1 | 區域標示 |  |
+| 9 | Arcuate line | 弓狀線 |  | 1110 W14 | 兩者 | 3 | 區域標示 |  |
+| 10 | Pecten pubis (pectineal line) | 恥骨梳線 |  | 1110 W14 | 兩者 | 3 | 區域標示 | 使用者決定（2026-11-15）：骨盆這條稱恥骨梳線，梳狀線不作它的別名 |
+| 11 | Obturator foramen | 閉孔 |  | 1110 W14 | 兩者 | 2 | 區域標示 |  |
+| 12 | Sacrum | 薦骨 |  | 1110 W14 | 兩者 | 2 | 3D模型 |  |
+| 13 | Sacral promontory | 薦骨岬 |  | 1110 W14 | 兩者 | 3 | 區域標示 |  |
+| 14 | Ala of sacrum | 薦骨翼 |  | 1110 W14 | 兩者 | 3 | 區域標示 |  |
+| 15 | Anterior sacral foramina | 前薦孔 |  | 1110 W14 | 兩者 | 2 | 區域標示 |  |
+| 16 | Sacral hiatus | 薦骨裂孔 |  | 1110 1201 W14 | 兩者 | 3 | 區域標示 |  |
+| 17 | Coccyx | 尾骨 |  | 1110 W14 | 兩者 | 2 | 3D模型 |  |
+| 18 | Pelvic brim | 骨盆邊緣 |  | 1110 W14 | 兩者 | 2 | 區域標示 |  |
+| 19 | Pelvic inlet | 骨盆入口 |  | 1110 W14 | 兩者 | 2 | 區域標示 |  |
+| 20 | Pelvic outlet | 骨盆出口 |  | 1110 W14 | 兩者 | 2 | 區域標示 |  |
+| 21 | Greater (false) pelvis | 大（假）骨盆 |  | 1110 W14 | 兩者 | 2 | 區域標示 |  |
+| 22 | Lesser (true) pelvis | 小（真）骨盆 |  | 1110 W14 | 兩者 | 2 | 區域標示 |  |
+| 23 | Pubic arch | 恥骨弓 |  | 1110 W14 | 兩者 | 2 | 區域標示 |  |
+| 24 | Subpubic angle | 恥骨下角 |  | 1110 W14 | 兩者 | 2 | 區域標示 |  |
+| 25 | Greater sciatic foramen | 坐骨大孔 |  | 1110 W14 | 兩者 | 1 | 區域標示 | 只在靜脈路徑中出現 |
+| 26 | Lesser sciatic foramen | 坐骨小孔 |  | 1110 W14 | 兩者 | 1 | 區域標示 | 只在靜脈路徑中出現 |
+| 27 | Anteroinferior pelvic wall | 骨盆前下壁 |  | 1110 W14 | 兩者 | 2 | 區域標示 |  |
+| 28 | Lateral pelvic wall | 骨盆外側壁 |  | 1110 W14 | 兩者 | 2 | 區域標示 |  |
+| 29 | Posterolateral pelvic wall (and roof) | 骨盆後外側壁（頂） |  | 1110 W14 | 兩者 | 2 | 區域標示 |  |
+| 30 | Pelvic floor | 骨盆底 |  | 1110 W14 | 兩者 | 2 | 區域標示 | 與骨盆膈同一結構的區域說法 |
+| 31 | Pubic tubercle | 恥骨粗隆 |  | 1201 | M66 | 1 | 區域標示 | 只在陰阜邊界出現 |
+| 32 | Ilium | 髂骨 |  | W14 | CM58 | 2 | 3D模型 |  |
+| 33 | Iliac crest | 髂嵴 |  | W14 | CM58 | 1 | 區域標示 |  |
+| 34 | Iliac fossa | 髂窩 |  | W14 | CM58 | 1 | 區域標示 |  |
+| 35 | Ischium | 坐骨 |  | W14 | CM58 | 2 | 3D模型 |  |
+| 36 | Ramus of ischium | 坐骨枝 |  | W14 | CM58 | 1 | 區域標示 |  |
+| 37 | Posterior sacral foramina | 後薦孔 |  | W14 | CM58 | 2 | 區域標示 |  |
+| 38 | Sacral horn (cornu) | 薦骨角 |  | W14 | CM58 | 1 | 區域標示 | 只出現一次 |
+| 39 | Tip of coccyx | 尾骨尖端 |  | W14 | CM58 | 1 | 區域標示 |  |
+| 40 | Acetabulum | 髖臼 |  | W14 | CM58 | 1 | 區域標示 | 只出現在男女骨盆比較表 |
+| 41 | Body of ischium | 坐骨體 |  | W14 | CM58 | 1 | 區域標示 | 只在閉孔邊界出現 |
+
+### 關節與韌帶（13）
+
+| 序 | 英文 | 中文（主名稱） | 別名 | 單元 | 系列 | 權重 | 處理 | 備註 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 42 | Pubic symphysis | 恥骨聯合 |  | 1110 1201 W14 | 兩者 | 2 | 區域標示 | 原第一版重複兩筆（骨與關節），已合併 |
+| 43 | Superior pubic ligament | 恥骨上韌帶 |  | 1110 W14 | 兩者 | 2 | 3D模型 |  |
+| 44 | Inferior (arcuate) pubic ligament | 恥骨下韌帶（恥骨弓狀韌帶） |  | 1110 W14 | 兩者 | 2 | 3D模型 |  |
+| 45 | Sacro-iliac joint | 薦髂關節 |  | 1110 W14 | 兩者 | 2 | 區域標示 |  |
+| 46 | Anterior sacro-iliac ligament | 薦髂前韌帶 |  | 1110 W14 | 兩者 | 2 | 3D模型 |  |
+| 47 | Interosseous sacro-iliac ligament | 薦髂骨間韌帶 |  | 1110 W14 | 兩者 | 2 | 3D模型 |  |
+| 48 | Posterior sacro-iliac ligament | 薦髂後韌帶 |  | 1110 W14 | 兩者 | 2 | 3D模型 |  |
+| 49 | Sacrospinous ligament | 薦棘韌帶 |  | 1110 W14 | 兩者 | 2 | 3D模型 |  |
+| 50 | Sacrotuberous ligament | 薦粗隆韌帶 | 薦結節韌帶 | 1110 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 51 | Obturator membrane | 閉孔膜 |  | 1110 W14 | 兩者 | 2 | 3D模型 |  |
+| 52 | Obturator canal | 閉孔管 |  | 1110 W14 | 兩者 | 2 | 區域標示 |  |
+| 53 | Medial umbilical ligament | 內側臍韌帶 | 內側臍襞（腹膜皺褶） | 1110 W6 | 兩者 | 2 | 3D模型 | 臍動脈閉鎖部 |
+| 54 | Lateral ligament of bladder | 膀胱外側韌帶 |  | W14 | CM58 | 1 | 3D模型 | 只在膀胱底附著處出現一次 |
+
+### 盆壁與盆底肌肉（17）
+
+| 序 | 英文 | 中文（主名稱） | 別名 | 單元 | 系列 | 權重 | 處理 | 備註 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 55 | Obturator internus | 閉孔內肌 |  | 1110 W14 | 兩者 | 2 | 3D模型 |  |
+| 56 | Piriformis | 梨狀肌 |  | 1110 W14 | 兩者 | 2 | 3D模型 |  |
+| 57 | Pelvic diaphragm | 骨盆膈 | 骨盆橫膈、骨盆隔膜 | 1110 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 58 | Levator ani | 提肛肌 |  | 1110 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 59 | Puborectalis | 恥骨直腸肌 |  | 1110 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 60 | Pubococcygeus | 恥骨尾骨肌 |  | 1110 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 61 | Iliococcygeus | 髂骨尾骨肌 | 髂尾骨肌 | 1110 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 62 | Coccygeus | 尾骨肌 |  | 1110 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 63 | Tendinous arch of levator ani | 腱弓 | 提肛肌腱弓 | 1110 W14 | 兩者 | 3 | 3D模型 |  |
+| 64 | Anococcygeal ligament | 肛尾韌帶 |  | 1110 W14 | 兩者 | 2 | 3D模型 |  |
+| 65 | Iliococcygeal raphe | 髂尾中縫 |  | 1110 W14 | 兩者 | 1 | 區域標示 |  |
+| 66 | Urogenital hiatus | 泌尿生殖裂孔 |  | 1110 1201 W14 | 兩者 | 2 | 區域標示 |  |
+| 67 | Anal aperture | 肛門口 |  | 1110 1201 W14 | 兩者 | 2 | 區域標示 |  |
+| 68 | Puboanalis | 恥骨肛門肌 |  | 1110 W14 | 兩者 | 3 | 3D模型 |  |
+| 69 | Puboperinealis | 恥骨會陰肌 |  | 1110 W14 | 兩者 | 2 | 3D模型 |  |
+| 70 | Puboprostaticus (levator prostatae) | 恥骨前列腺肌（提前列腺肌） |  | 1110 W14 | 兩者 | 2 | 3D模型 |  |
+| 71 | Pubovaginalis (sphincter vaginae) | 恥骨陰道肌（陰道括約肌） |  | 1110 W14 | 兩者 | 2 | 3D模型 |  |
+
+### 腹膜、陷凹與筋膜（18）
+
+| 序 | 英文 | 中文（主名稱） | 別名 | 單元 | 系列 | 權重 | 處理 | 備註 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 72 | Recto-uterine pouch | 子宮直腸陷凹 | 直腸子宮陷凹、Douglas 陷凹 | 1110 1201 W8 W14 | 兩者 | 3 | 區域標示 |  |
+| 73 | Supravesical fossa | 膀胱上窩 |  | 1110 | M66 | 2 | 區域標示 |  |
+| 74 | Paravesical fossa | 膀胱旁窩 |  | 1110 | M66 | 2 | 區域標示 |  |
+| 75 | Ureteric fold | 輸尿管褶 |  | 1110 | M66 | 2 | 區域標示 |  |
+| 76 | Rectovesical pouch | 直腸膀胱陷凹 |  | 1110 | M66 | 3 | 區域標示 | 男性腹膜最低點 |
+| 77 | Pararectal fossa | 直腸旁窩 |  | 1110 | M66 | 2 | 區域標示 |  |
+| 78 | Vesicouterine pouch | 膀胱子宮陷凹 |  | 1110 | M66 | 2 | 區域標示 |  |
+| 79 | Folds for broad and round ligaments | 子宮闊韌帶與圓韌帶的腹膜褶 |  | 1110 | M66 | 1 | 僅資訊卡 |  |
+| 80 | Medial umbilical fold | 內側臍襞 |  | 1110 | M66 | 1 | 區域標示 |  |
+| 81 | Obturator fascia | 閉孔筋膜 |  | 1201 W14 | 兩者 | 2 | 僅資訊卡 |  |
+| 82 | Inferior fascia of pelvic diaphragm | 骨盆膈下筋膜 | 提肛肌下筋膜 | 1201 W14 | 兩者 | 2 | 僅資訊卡 |  |
+| 83 | Urogenital diaphragm | 泌尿生殖膈 |  | 1201 W14 | 兩者 | 1 | 僅資訊卡 |  |
+| 84 | Rectovesical septum | 直腸膀胱隔膜 |  | 1201 | M66 | 2 | 僅資訊卡 | 與直腸前列腺筋膜是否同一構造，不確定 |
+| 85 | Rectovaginal septum | 直腸陰道隔膜 |  | 1201 | M66 | 2 | 僅資訊卡 |  |
+| 86 | Colles' fascia (membranous layer of perineal subcutaneous tissue) | 會陰皮下組織膜層（Colles 筋膜） |  | 1201 | M66 | 2 | 僅資訊卡 | 課程資料只有英文，中文名為暫擬，不確定 |
+| 87 | Buck's fascia (deep fascia of penis) | 陰莖深筋膜（Buck 筋膜） |  | 1201 | M66 | 2 | 僅資訊卡 | 中文只寫深筋膜，括號名為英文 |
+| 88 | Scarpa's fascia | 腹壁淺筋膜膜層（Scarpa 筋膜） |  | 1201 | M66 | 1 | 僅資訊卡 | 只因與陰莖襻韌帶融合而出現；主要屬腹部清單；中文為暫擬 |
+| 89 | Rectoprostatic fascia | 直腸前列腺筋膜 |  | W8 W14 | CM58 | 1 | 僅資訊卡 | 只在圖上標籤出現 |
+
+### 會陰（20）
+
+| 序 | 英文 | 中文（主名稱） | 別名 | 單元 | 系列 | 權重 | 處理 | 備註 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 90 | Perineal body | 會陰體 | 會陰中心腱 | 1110 1201 W14 | 兩者 | 3 | 3D模型 |  |
+| 91 | External urethral sphincter | 尿道外括約肌 | 外尿道括約肌 | 1110 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 92 | Compressor urethrae | 尿道壓迫肌 |  | 1110 1201 W14 | 兩者 | 1 | 3D模型 |  |
+| 93 | Urethrovaginal sphincter | 尿道陰道括約肌 |  | 1110 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 94 | Perineum | 會陰 |  | 1201 W14 | 兩者 | 2 | 區域標示 |  |
+| 95 | Urogenital triangle | 泌尿生殖三角 |  | 1201 W14 | 兩者 | 3 | 區域標示 |  |
+| 96 | Anal triangle | 肛門三角 |  | 1201 W14 | 兩者 | 3 | 區域標示 |  |
+| 97 | Ischioanal (ischiorectal) fossa | 坐骨肛門窩（坐骨直腸窩） | 坐骨直腸窩 | 1201 W14 | 兩者 | 2 | 區域標示 |  |
+| 98 | Ischiopubic ramus | 坐骨恥骨支 |  | 1201 W14 | 兩者 | 2 | 區域標示 |  |
+| 99 | Perineal membrane | 會陰膜 |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 100 | Deep perineal pouch | 會陰深陷凹 |  | 1201 W14 | 兩者 | 2 | 區域標示 |  |
+| 101 | Superficial perineal pouch | 會陰淺陷凹 |  | 1201 W14 | 兩者 | 2 | 區域標示 |  |
+| 102 | Deep transverse perineal muscle | 會陰深橫肌 |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 103 | Bulbospongiosus | 球海綿體肌 |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 104 | Ischiocavernosus | 坐骨海綿體肌 |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 105 | Superficial transverse perineal muscle | 會陰淺橫肌 |  | 1201 | M66 | 2 | 3D模型 |  |
+| 106 | Anterior recess of ischioanal fossa | 前隱窩（坐骨肛門窩） |  | 1201 | M66 | 2 | 區域標示 |  |
+| 107 | Posterior recess of ischioanal fossa | 後隱窩（坐骨肛門窩） |  | 1201 | M66 | 2 | 區域標示 |  |
+| 108 | Ischioanal fat pad | 坐骨肛門窩脂肪墊 |  | 1201 | M66 | 1 | 僅資訊卡 |  |
+| 109 | Pudendal (Alcock) canal | 陰部管 | Alcock 管 | 1201 | M66 | 3 | 區域標示 | 有獨立章節 |
+
+### 男性外生殖器（9）
+
+| 序 | 英文 | 中文（主名稱） | 別名 | 單元 | 系列 | 權重 | 處理 | 備註 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 110 | Bulb of penis | 陰莖球 |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 111 | Crus of penis | 陰莖腳 |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 112 | Corpus cavernosum | 陰莖海綿體 |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 113 | Corpus spongiosum | 尿道海綿體 |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 114 | Penis | 陰莖 |  | 1201 W8 | 兩者 | 2 | 3D模型 |  |
+| 115 | Glans penis | 龜頭 |  | 1201 W8 | 兩者 | 2 | 區域標示 |  |
+| 116 | Tunica albuginea of penis | 陰莖白膜 |  | 1201 | M66 | 2 | 僅資訊卡 | 與睪丸、卵巢的白膜不是同一構造 |
+| 117 | Suspensory ligament of penis | 陰莖懸韌帶 |  | 1201 | M66 | 2 | 3D模型 |  |
+| 118 | Fundiform ligament of penis | 陰莖襻韌帶 |  | 1201 | M66 | 2 | 3D模型 | 課程資料寫成「陰莖狀襻韌帶」 |
+
+### 女性外生殖器（19）
+
+| 序 | 英文 | 中文（主名稱） | 別名 | 單元 | 系列 | 權重 | 處理 | 備註 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 119 | Paraurethral (Skene) glands | 旁尿道腺 | 尿道旁腺、小前庭腺、史氏腺（Skene 腺） | 1110 1201 W14 W6 | 兩者 | 2 | 3D模型 |  |
+| 120 | Body of clitoris | 陰蒂體（陰蒂海綿體） |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 121 | Crus of clitoris | 陰蒂腳 |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 122 | Bulb of vestibule | 前庭球 |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 123 | Pudendum (vulva) | 陰部（外陰） | 外陰 | 1201 | M66 | 2 | 3D模型 | 女性外生殖器總稱；注意與陰部神經的「陰部」不同層次 |
+| 124 | Mons pubis | 陰阜 |  | 1201 | M66 | 2 | 區域標示 | 體表；可能與女性體表的進行中工作重疊 |
+| 125 | Labia majora | 大陰唇 |  | 1201 | M66 | 2 | 3D模型 |  |
+| 126 | Labia minora | 小陰唇 |  | 1201 | M66 | 2 | 3D模型 |  |
+| 127 | Pudendal cleft | 陰部裂隙 |  | 1201 | M66 | 1 | 區域標示 |  |
+| 128 | Genitofemoral sulcus | 生殖股溝 |  | 1201 | M66 | 1 | 區域標示 |  |
+| 129 | Frenulum of labia minora (fourchette) | 小陰唇繫帶（陰唇繫帶） |  | 1201 | M66 | 1 | 區域標示 |  |
+| 130 | Clitoris | 陰蒂 |  | 1201 | M66 | 2 | 3D模型 |  |
+| 131 | Glans of clitoris | 陰蒂頭 |  | 1201 | M66 | 2 | 區域標示 |  |
+| 132 | Angle of clitoris | 陰蒂角 |  | 1201 | M66 | 1 | 區域標示 |  |
+| 133 | Frenulum of clitoris | 陰蒂繫帶 |  | 1201 | M66 | 2 | 區域標示 |  |
+| 134 | Prepuce of clitoris | 陰蒂包皮 |  | 1201 | M66 | 2 | 區域標示 |  |
+| 135 | Vestibule of vagina | 前庭 | 陰道前庭、外陰前庭 | 1201 | M66 | 2 | 區域標示 |  |
+| 136 | Greater vestibular gland (Bartholin) | 大前庭腺 | 巴氏腺 | 1201 | M66 | 3 | 3D模型 | 有「重點」字樣；男性同源為尿道球腺 |
+| 137 | Vaginal orifice | 陰道口 |  | 1201 | M66 | 1 | 區域標示 |  |
+
+### 泌尿（骨盆段）（27）
+
+| 序 | 英文 | 中文（主名稱） | 別名 | 單元 | 系列 | 權重 | 處理 | 備註 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 138 | Ureter | 輸尿管 |  | 1110 1201 W14 W6 | 兩者 | 3 | 3D模型 |  |
+| 139 | Urinary bladder | 膀胱 |  | 1110 1201 W14 W6 | 兩者 | 3 | 3D模型 |  |
+| 140 | Apex of bladder | 膀胱尖 |  | 1110 W14 W6 | 兩者 | 2 | 區域標示 |  |
+| 141 | Body of bladder | 膀胱體 |  | 1110 W14 W6 | 兩者 | 2 | 區域標示 |  |
+| 142 | Fundus of bladder | 膀胱底 |  | 1110 W14 W6 | 兩者 | 2 | 區域標示 |  |
+| 143 | Neck of bladder | 膀胱頸 |  | 1110 W14 W6 | 兩者 | 2 | 區域標示 |  |
+| 144 | Superior surface of bladder | 膀胱上表面 |  | 1110 W14 W6 | 兩者 | 2 | 區域標示 |  |
+| 145 | Trigone of bladder | 膀胱三角 |  | 1110 W14 W6 | 兩者 | 2 | 區域標示 |  |
+| 146 | Interureteric crest | 輸尿管間嵴 |  | 1110 W14 W6 | 兩者 | 2 | 區域標示 |  |
+| 147 | Ureteric orifice | 輸尿管開口 |  | 1110 W14 W6 | 兩者 | 2 | 區域標示 |  |
+| 148 | Internal urethral orifice | 內尿道口 |  | 1110 W14 W6 | 兩者 | 2 | 區域標示 |  |
+| 149 | Detrusor muscle | 逼尿肌 |  | 1110 W14 W6 | 兩者 | 2 | 僅資訊卡 |  |
+| 150 | Internal urethral sphincter | 尿道內括約肌 |  | 1110 W14 W6 | 兩者 | 2 | 僅資訊卡 |  |
+| 151 | Median umbilical ligament | 正中臍韌帶 |  | 1110 W14 W6 | 兩者 | 2 | 3D模型 |  |
+| 152 | Puboprostatic ligament | 恥骨前列腺韌帶 |  | 1110 W14 W6 | 兩者 | 2 | 3D模型 |  |
+| 153 | Pubovesical ligament | 恥骨膀胱韌帶 |  | 1110 W14 W6 | 兩者 | 2 | 3D模型 |  |
+| 154 | Urethra | 尿道 |  | 1110 1201 W14 W6 | 兩者 | 2 | 3D模型 |  |
+| 155 | Female urethra | 女性尿道 |  | 1110 W14 W6 | 兩者 | 2 | 3D模型 |  |
+| 156 | External urethral orifice | 尿道外口 |  | 1110 W14 W6 | 兩者 | 2 | 區域標示 |  |
+| 157 | Proximal urethra | 近端尿道 |  | 1110 1201 W6 | 兩者 | 2 | 區域標示 |  |
+| 158 | Posterior surface (base) of bladder | 膀胱後表面 |  | 1110 W14 | 兩者 | 1 | 區域標示 |  |
+| 159 | Intraureteric fold (empty-bladder mucosal folds) | 膀胱褶 |  | 1110 | M66 | 1 | 僅資訊卡 | 用語與輸尿管間嵴／輸尿管間褶混淆，不確定 |
+| 160 | Distal urethra | 遠端尿道 |  | 1201 W6 | 兩者 | 2 | 區域標示 |  |
+| 161 | Ureterovesical junction | 輸尿管膀胱交界 |  | W14 W6 | CM58 | 2 | 區域標示 |  |
+| 162 | Anterior surface of bladder | 膀胱前表面 |  | W14 W6 | CM58 | 2 | 區域標示 |  |
+| 163 | Inferior surface of bladder | 膀胱下表面 |  | W14 W6 | CM58 | 2 | 區域標示 |  |
+| 164 | Interureteric fold | 輸尿管間褶 | 輸尿管間嵴 | W14 | CM58 | 1 | 區域標示 | 與輸尿管間嵴同一構造，併成一筆較合理，不確定 |
+
+### 男性生殖（內生殖器與陰囊）（45）
+
+| 序 | 英文 | 中文（主名稱） | 別名 | 單元 | 系列 | 權重 | 處理 | 備註 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 165 | Ductus deferens | 輸精管 |  | 1110 1201 W8 W14 | 兩者 | 3 | 3D模型 |  |
+| 166 | Ejaculatory duct | 射精管 |  | 1110 W8 W14 | 兩者 | 3 | 3D模型 |  |
+| 167 | Seminal gland (vesicle) | 精囊 | 精囊腺、精腺、儲精囊 | 1110 1201 W8 W14 | 兩者 | 3 | 3D模型 | 使用者決定：主名稱精囊 |
+| 168 | Prostate | 前列腺 | 攝護腺、前立腺 | 1110 1201 W8 W14 | 兩者 | 3 | 3D模型 | 使用者決定：主名稱前列腺 |
+| 169 | Male urethra | 男性尿道 |  | 1110 W8 W14 | 兩者 | 2 | 區域標示 |  |
+| 170 | Intramural (preprostatic) part of urethra | 尿道壁內部（間質部） |  | 1110 W8 W14 | 兩者 | 2 | 區域標示 |  |
+| 171 | Prostatic urethra | 前列腺部尿道 |  | 1110 W8 W14 | 兩者 | 2 | 區域標示 |  |
+| 172 | Intermediate (membranous) part of urethra | 尿道中間部（膜部） |  | 1110 W8 W14 | 兩者 | 2 | 區域標示 |  |
+| 173 | Spongy urethra | 海綿體部尿道 |  | 1110 W8 W14 | 兩者 | 2 | 區域標示 |  |
+| 174 | Bulbar urethra | 尿道球部 |  | 1110 W8 W14 | 兩者 | 2 | 區域標示 |  |
+| 175 | Navicular fossa | 舟狀窩 |  | 1110 W8 W14 | 兩者 | 2 | 區域標示 |  |
+| 176 | Urethral crest | 尿道脊 |  | 1110 W8 W14 | 兩者 | 2 | 區域標示 |  |
+| 177 | Seminal colliculus | 精阜 |  | 1110 W8 W14 | 兩者 | 2 | 區域標示 |  |
+| 178 | Prostatic utricle | 前列腺小囊 |  | 1110 W8 W14 | 兩者 | 2 | 區域標示 |  |
+| 179 | Uvula of bladder | 膀胱懸雍垂 |  | 1110 W8 W14 | 兩者 | 2 | 區域標示 |  |
+| 180 | Curvatura infrapubica | 恥骨下彎 |  | 1110 W8 W14 | 兩者 | 2 | 僅資訊卡 |  |
+| 181 | Curvatura prepubica | 恥骨前彎 |  | 1110 W8 W14 | 兩者 | 2 | 僅資訊卡 |  |
+| 182 | Testis | 睪丸 |  | 1201 W8 W14 | 兩者 | 2 | 3D模型 |  |
+| 183 | Bulbo-urethral (Cowper) gland | 尿道球腺 | Cowper 腺 | 1201 W8 W14 | 兩者 | 2 | 3D模型 |  |
+| 184 | Tunica vaginalis | 鞘膜 |  | W8 W14 | CM58 | 2 | 3D模型 |  |
+| 185 | Visceral layer of tunica vaginalis | 鞘膜臟層 |  | W8 W14 | CM58 | 1 | 區域標示 |  |
+| 186 | Parietal layer of tunica vaginalis | 鞘膜壁層 |  | W8 W14 | CM58 | 1 | 區域標示 |  |
+| 187 | Seminiferous tubules | 曲細精管 |  | W8 W14 | CM58 | 1 | 僅資訊卡 |  |
+| 188 | Efferent ductule | 輸出小管 |  | W8 W14 | CM58 | 1 | 僅資訊卡 |  |
+| 189 | Epididymis | 副睪 | 附睪 | W8 W14 | CM58 | 2 | 3D模型 | 使用者決定：主名稱副睪 |
+| 190 | Head of epididymis | 副睪頭 | 附睪頭 | W8 W14 | CM58 | 2 | 區域標示 |  |
+| 191 | Body of epididymis | 副睪體 | 附睪體 | W8 W14 | CM58 | 2 | 區域標示 |  |
+| 192 | Tail of epididymis | 副睪尾 | 附睪尾 | W8 W14 | CM58 | 2 | 區域標示 |  |
+| 193 | Ductus epididymis | 副睪導管 | 附睪導管 | W8 W14 | CM58 | 1 | 僅資訊卡 |  |
+| 194 | Ampulla of ductus deferens | 輸精管壺腹 |  | W8 W14 | CM58 | 2 | 區域標示 |  |
+| 195 | Peripheral zone of prostate | 前列腺外圍區 |  | W8 W14 | CM58 | 2 | 區域標示 |  |
+| 196 | Central zone of prostate | 前列腺中央區 |  | W8 W14 | CM58 | 2 | 區域標示 |  |
+| 197 | Transition zone of prostate | 前列腺過渡區 |  | W8 W14 | CM58 | 2 | 區域標示 |  |
+| 198 | Anterior fibromuscular stroma | 前纖維肌肉間質 |  | W8 W14 | CM58 | 1 | 僅資訊卡 |  |
+| 199 | Spermatic cord | 精索 |  | W8 W14 | CM58 | 2 | 3D模型 |  |
+| 200 | Pampiniform venous plexus | 蔓狀靜脈叢 |  | W8 W14 | CM58 | 2 | 3D模型 |  |
+| 201 | Scrotum | 陰囊 |  | W8 W14 | CM58 | 2 | 3D模型 |  |
+| 202 | Dartos muscle | 肉膜肌 |  | W8 W14 | CM58 | 2 | 僅資訊卡 | 使用者決定：「內膜肌」是課程資料筆誤，不列別名 |
+| 203 | Septum of scrotum | 陰囊隔 |  | W8 W14 | CM58 | 1 | 僅資訊卡 |  |
+| 204 | Scrotal raphe | 陰囊縫 |  | W8 W14 | CM58 | 1 | 區域標示 |  |
+| 205 | Penile raphe | 陰莖縫 |  | W8 W14 | CM58 | 1 | 區域標示 |  |
+| 206 | Perineal raphe | 會陰縫 |  | W8 W14 | CM58 | 1 | 區域標示 |  |
+| 207 | External spermatic fascia | 外精索筋膜 |  | W8 W14 | CM58 | 1 | 僅資訊卡 |  |
+| 208 | Cremaster muscle and fascia | 提睪肌與筋膜 |  | W8 W14 | CM58 | 1 | 僅資訊卡 |  |
+| 209 | Internal spermatic fascia | 內精索筋膜 |  | W8 W14 | CM58 | 1 | 僅資訊卡 |  |
+
+### 女性生殖（內生殖器與乳房）（36）
+
+| 序 | 英文 | 中文（主名稱） | 別名 | 單元 | 系列 | 權重 | 處理 | 備註 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 210 | Ovary | 卵巢 |  | 1110 1201 W8 W14 | 兩者 | 3 | 3D模型 |  |
+| 211 | Suspensory ligament of ovary | 卵巢懸韌帶 |  | 1110 W8 W14 | 兩者 | 2 | 3D模型 |  |
+| 212 | Round ligament of uterus | 子宮圓韌帶 |  | 1110 W8 W14 | 兩者 | 2 | 3D模型 |  |
+| 213 | Broad ligament of uterus | 子宮闊韌帶 |  | 1110 W8 W14 | 兩者 | 3 | 3D模型 |  |
+| 214 | Mesometrium | 子宮繫膜 |  | 1110 W8 W14 | 兩者 | 3 | 區域標示 |  |
+| 215 | Mesosalpinx | 輸卵管繫膜 |  | 1110 W8 W14 | 兩者 | 3 | 區域標示 |  |
+| 216 | Mesovarium | 卵巢繫膜 |  | 1110 W8 W14 | 兩者 | 3 | 區域標示 |  |
+| 217 | Uterine tube | 輸卵管 |  | 1110 1201 W8 W14 | 兩者 | 3 | 3D模型 |  |
+| 218 | Uterus | 子宮 |  | 1110 1201 W8 W14 | 兩者 | 3 | 3D模型 |  |
+| 219 | Vagina | 陰道 |  | 1110 1201 W8 W14 | 兩者 | 3 | 3D模型 |  |
+| 220 | Posterior fornix | 後穹窿 |  | 1110 W8 W14 | 兩者 | 3 | 區域標示 |  |
+| 221 | Vaginal corona | 陰道冠 | 處女膜、Hymen | 1201 W8 W14 | 兩者 | 2 | 僅資訊卡 | 使用者決定（更正版）：主名稱陰道冠；處女膜與 Hymen 為別名，搜尋兩者都要找得到；資訊卡與題目用陰道冠 |
+| 222 | Ovarian ligament | 卵巢韌帶 |  | W8 W14 | CM58 | 2 | 3D模型 |  |
+| 223 | Infundibulum of uterine tube | 輸卵管漏斗部 |  | W8 W14 | CM58 | 2 | 區域標示 |  |
+| 224 | Fimbriae | 輸卵管繖 | 輸卵管傘 | W8 W14 | CM58 | 2 | 區域標示 |  |
+| 225 | Ampulla of uterine tube | 輸卵管壺腹 |  | W8 W14 | CM58 | 2 | 區域標示 |  |
+| 226 | Isthmus of uterine tube | 輸卵管峽部 |  | W8 W14 | CM58 | 2 | 區域標示 |  |
+| 227 | Uterine (intramural) part | 輸卵管子宮部（間質部） |  | W8 W14 | CM58 | 2 | 區域標示 |  |
+| 228 | Fundus of uterus | 子宮底 |  | W8 W14 | CM58 | 2 | 區域標示 |  |
+| 229 | Body of uterus | 子宮體 |  | W8 W14 | CM58 | 2 | 區域標示 |  |
+| 230 | Isthmus of uterus | 子宮峽 |  | W8 W14 | CM58 | 2 | 區域標示 |  |
+| 231 | Cervix | 子宮頸 |  | W8 W14 | CM58 | 2 | 區域標示 |  |
+| 232 | Internal os | 子宮頸內口 |  | W8 W14 | CM58 | 2 | 區域標示 |  |
+| 233 | Cervical canal | 子宮頸管 |  | W8 W14 | CM58 | 2 | 區域標示 |  |
+| 234 | External os | 子宮頸外口 |  | W8 W14 | CM58 | 2 | 區域標示 |  |
+| 235 | Vaginal fornix | 陰道穹窿 |  | W8 W14 | CM58 | 2 | 區域標示 |  |
+| 236 | Anterior fornix | 前穹窿 |  | W8 W14 | CM58 | 1 | 區域標示 |  |
+| 237 | Lateral fornix | 側穹窿 |  | W8 W14 | CM58 | 1 | 區域標示 |  |
+| 238 | Mammary gland | 乳腺 |  | W8 W14 | CM58 | 2 | 3D模型 |  |
+| 239 | Lobes of mammary gland | 乳腺葉 |  | W8 W14 | CM58 | 1 | 僅資訊卡 |  |
+| 240 | Lobule of mammary gland | 乳腺小葉 |  | W8 W14 | CM58 | 1 | 僅資訊卡 |  |
+| 241 | Lactiferous duct | 輸乳管 |  | W8 W14 | CM58 | 1 | 僅資訊卡 |  |
+| 242 | Lactiferous sinus | 輸乳竇 |  | W8 W14 | CM58 | 1 | 僅資訊卡 |  |
+| 243 | Suspensory ligaments of breast | 乳房懸韌帶 |  | W8 W14 | CM58 | 1 | 僅資訊卡 |  |
+| 244 | Areola | 乳暈 |  | W8 W14 | CM58 | 1 | 區域標示 |  |
+| 245 | Nipple | 乳頭 |  | W8 W14 | CM58 | 1 | 區域標示 |  |
+
+### 直腸與肛管（26）
+
+| 序 | 英文 | 中文（主名稱） | 別名 | 單元 | 系列 | 權重 | 處理 | 備註 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 246 | Rectum | 直腸 |  | 1110 1201 W14 W7 | 兩者 | 3 | 3D模型 |  |
+| 247 | Rectal valves | 直腸橫褶 | 直腸瓣 | 1110 W14 W7 | 兩者 | 2 | 區域標示 | 原名直腸瓣，兩種寫法見衝突表（不確定） |
+| 248 | Rectal ampulla | 直腸壺腹 |  | 1110 1201 | M66 | 2 | 區域標示 |  |
+| 249 | Superior transverse rectal fold | 上橫褶（直腸） |  | 1110 | M66 | 1 | 區域標示 |  |
+| 250 | Middle transverse rectal fold | 中橫褶（直腸） |  | 1110 | M66 | 2 | 區域標示 | 內視鏡檢查標的 |
+| 251 | Inferior transverse rectal fold | 下橫褶（直腸） |  | 1110 | M66 | 1 | 區域標示 |  |
+| 252 | Sacral flexure of rectum | 直腸薦曲 |  | 1110 | M66 | 2 | 區域標示 |  |
+| 253 | Perineal (anorectal) flexure | 肛管直腸曲 | 會陰曲 | 1110 | M66 | 2 | 區域標示 | 由恥骨直腸肌牽拉形成 |
+| 254 | Sigmoid colon | 乙狀結腸 |  | 1110 | M66 | 3 | 3D模型 | 屬腹部清單；此處因骨盆內容物而出現 |
+| 255 | Taenia coli | 結腸帶 |  | 1110 | M66 | 1 | 僅資訊卡 | 只作為直腸缺少的特徵；屬腹部清單 |
+| 256 | Haustra | 結腸袋 |  | 1110 | M66 | 1 | 僅資訊卡 | 同上 |
+| 257 | Appendices epiploicae | 腸脂垂 |  | 1110 | M66 | 1 | 僅資訊卡 | 同上 |
+| 258 | Anal canal | 肛管 |  | 1201 W14 W7 | 兩者 | 2 | 3D模型 |  |
+| 259 | Anal columns | 肛柱 |  | 1201 W14 W7 | 兩者 | 2 | 區域標示 |  |
+| 260 | Anal valves | 肛瓣 |  | 1201 W14 W7 | 兩者 | 2 | 區域標示 |  |
+| 261 | Anal sinuses | 肛竇 |  | 1201 W14 W7 | 兩者 | 2 | 區域標示 |  |
+| 262 | Pectinate line | 齒狀線 | 梳狀線 | 1201 W14 W7 | 兩者 | 2 | 區域標示 | 使用者決定：梳狀線只作齒狀線的別名；課程資料另有「梳狀腺」筆誤 |
+| 263 | External anal sphincter | 肛門外括約肌 |  | 1201 W14 W7 | 兩者 | 2 | 3D模型 |  |
+| 264 | Internal anal sphincter | 肛門內括約肌 |  | 1201 W14 W7 | 兩者 | 2 | 3D模型 |  |
+| 265 | Mesorectum | 直腸繫膜 |  | 1201 W14 | 兩者 | 1 | 區域標示 |  |
+| 266 | Anorectal line | 肛門直腸線 |  | 1201 | M66 | 2 | 區域標示 | 課程資料寫成「肛門直腸腺」 |
+| 267 | Anal pecten | 肛梳 |  | 1201 | M66 | 2 | 區域標示 |  |
+| 268 | Anocutaneous line | 肛門皮膚線 |  | 1201 | M66 | 2 | 區域標示 |  |
+| 269 | Subcutaneous part of external anal sphincter | 肛門外括約肌皮下部 |  | 1201 | M66 | 1 | 區域標示 |  |
+| 270 | Superficial part of external anal sphincter | 肛門外括約肌淺部 |  | 1201 | M66 | 1 | 區域標示 |  |
+| 271 | Deep part of external anal sphincter | 肛門外括約肌深部 |  | 1201 | M66 | 1 | 區域標示 |  |
+
+### 血管（80）
+
+| 序 | 英文 | 中文（主名稱） | 別名 | 單元 | 系列 | 權重 | 處理 | 備註 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 272 | Internal iliac artery | 內髂動脈 | 髂內動脈 | 1110 W14 W6 | 兩者 | 2 | 3D模型 |  |
+| 273 | Umbilical artery | 臍動脈 |  | 1110 1201 W14 W6 | 兩者 | 3 | 3D模型 |  |
+| 274 | Superior vesical artery | 上膀胱動脈 |  | 1110 1201 W14 W6 | 兩者 | 2 | 3D模型 |  |
+| 275 | Inferior vesical artery | 下膀胱動脈 |  | 1110 1201 W14 W6 | 兩者 | 2 | 3D模型 |  |
+| 276 | Vaginal artery | 陰道動脈 |  | 1110 1201 W14 W6 | 兩者 | 2 | 3D模型 |  |
+| 277 | Uterine artery | 子宮動脈 |  | 1110 1201 W14 W6 | 兩者 | 3 | 3D模型 |  |
+| 278 | Ovarian artery | 卵巢動脈 |  | 1110 1201 W14 W6 | 兩者 | 2 | 3D模型 |  |
+| 279 | Arcuate artery of uterus | 子宮弓狀動脈 |  | 1110 1201 W14 W6 | 兩者 | 1 | 僅資訊卡 |  |
+| 280 | Radial artery of uterus | 子宮放射動脈 |  | 1110 1201 W14 W6 | 兩者 | 1 | 僅資訊卡 |  |
+| 281 | Straight artery | 直動脈 | （基底動脈：不用，與腦的基底動脈同名） | 1110 1201 W14 W6 | 兩者 | 1 | 僅資訊卡 |  |
+| 282 | Spiral artery | 螺旋動脈 |  | 1110 1201 W14 W6 | 兩者 | 1 | 僅資訊卡 |  |
+| 283 | Middle rectal artery | 中直腸動脈 |  | 1110 1201 W14 W6 | 兩者 | 2 | 3D模型 |  |
+| 284 | Inferior rectal artery | 下直腸動脈 |  | 1110 1201 W14 W6 | 兩者 | 2 | 3D模型 |  |
+| 285 | Superior rectal artery | 上直腸動脈 |  | 1110 1201 W14 W6 | 兩者 | 1 | 3D模型 |  |
+| 286 | Internal pudendal artery | 內陰動脈 | 陰部內動脈 | 1110 1201 W14 W6 | 兩者 | 3 | 3D模型 |  |
+| 287 | Median sacral artery | 正中薦動脈 |  | 1110 1201 W14 W6 | 兩者 | 2 | 3D模型 |  |
+| 288 | Dorsal artery of penis | 陰莖背動脈 |  | 1110 1201 W14 W6 | 兩者 | 1 | 3D模型 |  |
+| 289 | Testicular artery | 睪丸動脈 | 內精索動脈 | 1110 1201 W14 W6 | 兩者 | 2 | 3D模型 |  |
+| 290 | Artery to ductus deferens | 輸精管動脈 |  | 1110 1201 W14 W6 | 兩者 | 1 | 3D模型 |  |
+| 291 | Deep artery of penis (clitoris) | 陰莖（陰蒂）深動脈 |  | 1110 1201 | M66 | 2 | 3D模型 |  |
+| 292 | Prostatic artery (see vessels) | 前列腺動脈 |  | 1110 | M66 | 2 | 3D模型 |  |
+| 293 | Abdominal aorta | 腹主動脈 |  | 1110 1201 | M66 | 1 | 3D模型 | 屬腹部清單；此處為分支起源 |
+| 294 | Common iliac artery | 總髂動脈 |  | 1110 | M66 | 2 | 3D模型 |  |
+| 295 | External iliac artery | 外髂動脈 |  | 1110 | M66 | 2 | 3D模型 |  |
+| 296 | Obturator artery | 閉孔動脈 |  | 1110 W14 | 兩者 | 3 | 3D模型 | 有辨認重點；變異有副閉孔動脈 |
+| 297 | Accessory obturator artery | 副閉孔動脈 |  | 1110 | M66 | 1 | 3D模型 |  |
+| 298 | Inferior gluteal artery | 下臀動脈 |  | 1110 | M66 | 2 | 3D模型 |  |
+| 299 | Superior gluteal artery | 上臀動脈 |  | 1110 | M66 | 2 | 3D模型 |  |
+| 300 | Iliolumbar artery | 髂腰動脈 |  | 1110 | M66 | 2 | 3D模型 |  |
+| 301 | Lateral sacral artery | 外側薦動脈 | 外薦動脈 | 1110 1201 | M66 | 2 | 3D模型 |  |
+| 302 | Inferior epigastric artery | 下腹壁動脈 |  | 1110 | M66 | 2 | 3D模型 |  |
+| 303 | Superior epigastric artery | 上腹壁動脈 |  | 1110 | M66 | 1 | 3D模型 | 只作為吻合對象；屬腹部清單 |
+| 304 | Deep circumflex iliac artery | 深旋髂動脈 |  | 1110 | M66 | 2 | 3D模型 |  |
+| 305 | Pubic branch (of inferior epigastric / obturator artery) | 恥骨支（動脈） |  | 1110 | M66 | 1 | 僅資訊卡 |  |
+| 306 | Inferior mesenteric artery | 下腸繫膜動脈 |  | 1110 W14 | 兩者 | 1 | 3D模型 | 屬腹部清單；此處為上直腸動脈起源 |
+| 307 | Artery to seminal gland (seminal branch) | 精囊動脈（精囊支） |  | 1110 | M66 | 1 | 僅資訊卡 |  |
+| 308 | Vaginal branch of uterine artery | 子宮動脈陰道支 |  | 1110 | M66 | 1 | 僅資訊卡 |  |
+| 309 | Ovarian branch of uterine artery | 子宮動脈卵巢支 |  | 1110 | M66 | 1 | 僅資訊卡 |  |
+| 310 | Tubal branch of uterine artery | 子宮動脈輸卵管支 |  | 1110 | M66 | 1 | 僅資訊卡 |  |
+| 311 | Artery of round ligament of uterus | 子宮圓韌帶動脈 |  | 1110 | M66 | 1 | 僅資訊卡 |  |
+| 312 | Perineal artery | 會陰動脈 |  | 1110 1201 | M66 | 2 | 3D模型 |  |
+| 313 | Artery to bulb of penis (vestibule) | 尿道球動脈（前庭球動脈） |  | 1110 1201 | M66 | 2 | 3D模型 |  |
+| 314 | Dorsal artery of clitoris | 陰蒂背動脈 |  | 1110 1201 | M66 | 2 | 3D模型 | 與陰莖背動脈為男女同源，是否併成一筆見使用者決定 |
+| 315 | External spermatic (cremasteric) artery | 外精索動脈（提睪肌動脈） | 提睪肌動脈 | 1201 W14 W6 | 兩者 | 1 | 3D模型 |  |
+| 316 | Internal iliac vein | 內髂靜脈 |  | 1201 W14 W6 | 兩者 | 2 | 3D模型 |  |
+| 317 | External iliac vein | 外髂靜脈 |  | 1201 W14 W6 | 兩者 | 2 | 3D模型 |  |
+| 318 | Common iliac vein | 總髂靜脈 |  | 1201 W14 W6 | 兩者 | 2 | 3D模型 |  |
+| 319 | Superior gluteal vein | 上臀靜脈 |  | 1201 W14 W6 | 兩者 | 2 | 3D模型 |  |
+| 320 | Inferior gluteal vein | 下臀靜脈 |  | 1201 W14 W6 | 兩者 | 2 | 3D模型 |  |
+| 321 | Obturator vein | 閉孔靜脈 |  | 1201 W14 W6 | 兩者 | 2 | 3D模型 |  |
+| 322 | Internal pudendal vein | 內陰靜脈 | 陰部內靜脈 | 1201 W14 W6 | 兩者 | 2 | 3D模型 |  |
+| 323 | Middle rectal vein | 中直腸靜脈 |  | 1201 W14 W6 | 兩者 | 2 | 3D模型 |  |
+| 324 | Inferior rectal vein | 下直腸靜脈 |  | 1201 W14 W6 | 兩者 | 2 | 3D模型 |  |
+| 325 | Superior vesical vein | 上膀胱靜脈 |  | 1201 W14 W6 | 兩者 | 1 | 3D模型 |  |
+| 326 | Inferior vesical vein | 下膀胱靜脈 |  | 1201 W14 W6 | 兩者 | 1 | 3D模型 |  |
+| 327 | Uterine vein | 子宮靜脈 |  | 1201 W14 W6 | 兩者 | 2 | 3D模型 |  |
+| 328 | Vaginal vein | 陰道靜脈 |  | 1201 W14 W6 | 兩者 | 2 | 3D模型 |  |
+| 329 | Rectal venous plexus | 直腸靜脈叢 |  | 1201 W14 W6 | 兩者 | 1 | 區域標示 |  |
+| 330 | Uterine venous plexus | 子宮靜脈叢 |  | 1201 W14 W6 | 兩者 | 1 | 區域標示 |  |
+| 331 | Vaginal venous plexus | 陰道靜脈叢 |  | 1201 W14 W6 | 兩者 | 1 | 區域標示 |  |
+| 332 | Sacral venous plexus | 薦靜脈叢 |  | 1201 W14 W6 | 兩者 | 1 | 區域標示 |  |
+| 333 | Internal vertebral venous plexus | 椎內靜脈叢 | 內側椎靜脈叢 | 1201 W14 W6 | 兩者 | 2 | 區域標示 |  |
+| 334 | Lateral sacral vein | 外側薦靜脈 | 外薦靜脈 | 1201 W14 W6 | 兩者 | 1 | 3D模型 |  |
+| 335 | Median sacral vein | 正中薦靜脈 |  | 1201 W14 W6 | 兩者 | 1 | 3D模型 |  |
+| 336 | Iliolumbar vein | 髂腰靜脈 |  | 1201 W14 W6 | 兩者 | 1 | 3D模型 |  |
+| 337 | Helicine arteries of penis | 陰莖螺旋動脈 | 螺旋枝 | 1201 | M66 | 1 | 僅資訊卡 | 與子宮螺旋動脈同名不同構造 |
+| 338 | Deep dorsal vein of penis | 陰莖深背靜脈 |  | 1201 | M66 | 2 | 3D模型 |  |
+| 339 | Superficial dorsal vein of penis | 陰莖淺背靜脈 |  | 1201 | M66 | 1 | 3D模型 |  |
+| 340 | Posterior scrotal (labial) arteries | 後陰囊（陰唇）動脈 |  | 1201 | M66 | 1 | 3D模型 |  |
+| 341 | Pubic tributary of inferior epigastric vein | 恥骨靜脈 |  | 1201 W14 | 兩者 | 1 | 僅資訊卡 | 不稱副閉孔靜脈 |
+| 342 | Inferior epigastric vein | 下腹壁靜脈 |  | 1201 | M66 | 1 | 3D模型 |  |
+| 343 | Superior rectal vein | 上直腸靜脈 |  | 1201 | M66 | 1 | 3D模型 |  |
+| 344 | Ovarian venous plexus | 卵巢靜脈叢 |  | 1201 W14 | 兩者 | 1 | 區域標示 |  |
+| 345 | Vesical venous plexus | 膀胱靜脈叢 |  | 1201 W14 | 兩者 | 1 | 區域標示 |  |
+| 346 | Internal rectal venous plexus | 內直腸靜脈叢 |  | 1201 W14 | 兩者 | 1 | 區域標示 | 兩處的引流對象寫法相反，見衝突表 |
+| 347 | External rectal venous plexus | 外直腸靜脈叢 |  | 1201 W14 | 兩者 | 1 | 區域標示 | 同上 |
+| 348 | Inferior vena cava | 下腔靜脈 |  | 1201 | M66 | 1 | 3D模型 | 屬腹部清單；這裡為總髂靜脈的上游 |
+| 349 | Left renal vein | 左腎靜脈 |  | 1201 | M66 | 1 | 3D模型 | 只在總髂靜脈變異中出現；屬腹部清單 |
+| 350 | Posterior scrotal (labial) veins | 後陰囊（陰唇）靜脈 |  | 1201 | M66 | 1 | 3D模型 |  |
+| 351 | Testicular vein | 睪丸靜脈 |  | W14 W6 | CM58 | 1 | 3D模型 |  |
+
+### 神經（27）
+
+| 序 | 英文 | 中文（主名稱） | 別名 | 單元 | 系列 | 權重 | 處理 | 備註 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 352 | Lumbosacral trunk | 腰薦神經幹 |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 353 | Sacral plexus | 薦神經叢 |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 354 | Superior gluteal nerve | 上臀神經 |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 355 | Inferior gluteal nerve | 下臀神經 |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 356 | Obturator nerve | 閉孔神經 |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 357 | Pudendal nerve | 陰部神經 |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 358 | Inferior rectal nerve | 下直腸神經 |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 359 | Perineal nerve | 會陰神經 |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 360 | Posterior scrotal (labial) nerves | 後陰囊（陰唇）神經 |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 361 | Dorsal nerve of penis (clitoris) | 陰莖（陰蒂）背神經 |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 362 | Coccygeal plexus | 尾神經叢 |  | 1201 W14 | 兩者 | 1 | 3D模型 |  |
+| 363 | Anococcygeal nerve | 肛尾神經 |  | 1201 W14 | 兩者 | 1 | 3D模型 |  |
+| 364 | Sacral sympathetic trunk | 薦交感神經幹 |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 365 | Ganglion impar | 奇神經節（尾神經節） |  | 1201 W14 | 兩者 | 2 | 區域標示 |  |
+| 366 | Periarterial plexus | 動脈周壁神經叢 |  | 1201 W14 | 兩者 | 1 | 僅資訊卡 |  |
+| 367 | Superior hypogastric plexus | 上腹下神經叢 |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 368 | Inferior hypogastric plexus | 下腹下神經叢 |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 369 | Hypogastric nerve | 腹下神經 |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 370 | Pelvic splanchnic nerves | 骨盆內臟神經 |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 371 | Pelvic plexus | 骨盆神經叢 |  | 1201 W14 | 兩者 | 2 | 3D模型 |  |
+| 372 | Deep branch of perineal nerve | 會陰神經深支 |  | 1201 | M66 | 1 | 3D模型 |  |
+| 373 | Superficial branch of perineal nerve | 會陰神經淺支 |  | 1201 | M66 | 1 | 3D模型 |  |
+| 374 | Coccygeal nerve | 尾神經 |  | 1201 W14 | 兩者 | 1 | 3D模型 |  |
+| 375 | Intermesenteric plexus | 腸繫膜間神經叢 |  | 1201 W14 | 兩者 | 1 | 僅資訊卡 |  |
+| 376 | Sacral spinal nerves S2–S4 | 薦神經 S2–S4 |  | 1201 W14 | 兩者 | 1 | 僅資訊卡 |  |
+| 377 | Sciatic nerve | 坐骨神經 |  | W14 | CM58 | 2 | 3D模型 |  |
+| 378 | Genital branch of genitofemoral nerve | 生殖股神經生殖支 |  | W14 | CM58 | 1 | 3D模型 |  |
+
+### 淋巴（11）
+
+| 序 | 英文 | 中文（主名稱） | 別名 | 單元 | 系列 | 權重 | 處理 | 備註 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 379 | External iliac nodes | 外髂淋巴結 |  | 1201 W14 | 兩者 | 2 | 區域標示 |  |
+| 380 | Internal iliac nodes | 內髂淋巴結 |  | 1201 W14 | 兩者 | 2 | 區域標示 |  |
+| 381 | Sacral nodes | 薦淋巴結 |  | 1201 W14 | 兩者 | 2 | 區域標示 |  |
+| 382 | Common iliac nodes | 總髂淋巴結 |  | 1201 W14 | 兩者 | 2 | 區域標示 |  |
+| 383 | Superficial inguinal nodes | 淺腹股溝淋巴結 | 淺鼠蹊淋巴結 | 1201 W14 | 兩者 | 1 | 區域標示 |  |
+| 384 | Deep inguinal nodes | 深腹股溝淋巴結 | 深鼠蹊淋巴結 | 1201 W14 | 兩者 | 1 | 區域標示 |  |
+| 385 | Pararectal nodes | 旁直腸淋巴結 |  | 1201 W14 | 兩者 | 1 | 區域標示 |  |
+| 386 | Inferior mesenteric nodes | 下腸繫膜淋巴結 |  | 1201 W14 | 兩者 | 1 | 區域標示 |  |
+| 387 | Lumbar nodes | 腰淋巴結 |  | 1201 W14 | 兩者 | 1 | 區域標示 |  |
+| 388 | Inguinal nodes | 腹股溝淋巴結 | 鼠蹊淋巴結 | 1201 | M66 | 2 | 區域標示 | 總稱；淺、深各有一筆 |
+| 389 | Cisterna chyli | 乳糜池 |  | W14 | CM58 | 1 | 區域標示 | 屬腹部清單 |
+
+## 非結構（不計入結構數）
+
+組織層次、細胞、功能、臨床操作、比較項目與概念；資料有提到，但不是需要在網站畫成模型的結構。內容可以放在相關結構的資訊卡文字裡，名稱不需要成為獨立結構。
+
+| 項目 | 性質 | 單元 |
+| --- | --- | --- |
+| 男女骨盆比較項目（整體、深度、入口、出口、恥骨下角、閉孔形狀、髖臼、大坐骨切跡角度） | 比較項目 | 1110 W14 |
+| 女性骨盆入口類型（卵圓形、類人猿型、心型、扁平型、混合型） | 分類 | 1110 W14 |
+| 骨盆內容物由前往後的排列（泌尿、生殖、消化） | 概念 | 1110 |
+| 膀胱壁分層：漿膜層、黏膜、黏膜下層 | 組織層次 | 1110 W6 |
+| 子宮壁分層（外膜、肌層、內膜、功能層、基底層） | 組織層次 | W8（已由主表移入） |
+| 卵巢與睪丸的被膜、皮質、髓質、血管膜、生殖上皮、原始濾泡 | 組織層次與細胞 | W8（已由主表移入） |
+| 直腸與腹膜的關係（上三分之一、中三分之一、下三分之一） | 關係分類 | 1110 |
+| 男性尿道膨大處與狹窄處的分類 | 概念 | 1110 W6 |
+| 解剖肛管與外科肛管的定義 | 定義 | 1201 |
+| 齒狀線上下比較（胚胎來源、血供、淋巴、神經、痔） | 比較項目 | 1201 |
+| 內痔、外痔 | 臨床病名 | 1201 |
+| 膀胱穿刺、導尿、硬膀胱鏡 | 臨床操作 | 1110 W6 |
+| 直腸指檢 | 臨床操作 | 1110 |
+| 後穹窿穿刺 | 臨床操作 | W8 1110 |
+| 外陰切開術（會陰側切） | 臨床操作 | 1201 |
+| 陰莖骨折 | 臨床病名 | 1201 |
+| 子宮前傾 | 位置描述 | 1110 |
+| 骨盆痛覺線 | 功能概念 | 1201 W14 |
+| 體神經與自主神經的分類；交感三作用（血管收縮、豎毛、排汗） | 功能概念 | 1201 W14 |
+| 骨盆動脈來源的變異比例；總髂靜脈匯合高度的變異 | 變異 | 1110 1201 W14 |
+| 靜脈與同名動脈伴行的規則；臍動脈無伴行靜脈 | 概念 | 1201 W14 |
+| 淋巴流向對照（各器官到各淋巴結群） | 流向表 | 1201 W14 |
+| 動脈對器官的供應對照表 | 供應表 | 1110 1201 W14 |
+| 勃起機制（螺旋動脈、坐骨海綿體肌收縮壓迫靜脈） | 功能 | 1201 |
+
+從第一版主表移入非結構的 12 筆（組織層次與細胞）：睪丸白膜、血管膜、生殖上皮、卵巢白膜、卵巢皮質、卵巢內髓、原始濾泡、子宮外膜、子宮肌層、子宮內膜、功能層、基底層。
