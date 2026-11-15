@@ -6,6 +6,7 @@ import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import {gzipSync} from 'node:zlib';
 import {smoothTube} from './lib/mesh-smooth.mjs';
+import {LARYNX_REPAIR,repairSheet,repairPasses} from './lib/larynx-repair.mjs';
 import {quizModule} from './quiz-modules.mjs';
 import {planCuts} from './lib/tendon-set.mjs';
 import {planTips} from './lib/vessel-tip-plan.mjs';
@@ -21,8 +22,11 @@ for(const f of fs.readdirSync(new URL('../app/biomechanics-v2/',import.meta.url)
  const data=JSON.parse(fs.readFileSync(new URL('../app/biomechanics-v2/'+f,import.meta.url)));
  for(const [key,entry] of Object.entries(data.parts??{}))if(entry&&typeof entry==='object'&&'positionHash' in entry){hashBound.add(key);if(entry.name)hashBound.add(entry.name);}
 }
-const SMOOTH_MAX_TRIANGLES=3000,smoothed=part=>(part.system==='arterial'||part.system==='venous')&&part.indexCount/3<=SMOOTH_MAX_TRIANGLES&&['upper-limb','lower-limb'].includes(anatomicalRegion(part))&&!hashBound.has(part.id)&&!hashBound.has(part.name);
-const unshaped=[];let smoothedParts=0,triangles=0,shapedTapers=0,shapedFlares=0;const skippedParts=[];
+// Trunk vessels that run in the abdominal and chest wall (epigastric, circumflex iliac, musculophrenic, intercostal, lumbar, thoracoepigastric) are smoothed like the limb vessels: the source left them as 5- and 6-sided prisms, and
+// they are the vessels in front of the camera when the abdominal wall is looked at. The aorta and the venae cavae stay as they are (the triangle limit).
+const WALL_VESSELS=/epigastric|circumflex iliac|musculophrenic|intercostal|lumbar (?:artery|vein)|thoracoepigastric|subcostal/i;
+const SMOOTH_MAX_TRIANGLES=3000,smoothed=part=>(part.system==='arterial'||part.system==='venous')&&part.indexCount/3<=SMOOTH_MAX_TRIANGLES&&(['upper-limb','lower-limb'].includes(anatomicalRegion(part))||WALL_VESSELS.test(part.name))&&!hashBound.has(part.id)&&!hashBound.has(part.name);
+const unshaped=[];let repairedLarynx=0,smoothedParts=0,triangles=0,shapedTapers=0,shapedFlares=0;const skippedParts=[];
 const dir=new URL('../public/models/',import.meta.url),out=new URL('stream/',dir);
 fs.mkdirSync(out,{recursive:true});
 const atlas=JSON.parse(fs.readFileSync(new URL('atlas.json',dir)));
@@ -47,6 +51,12 @@ for(const part of atlas.parts){
  const source=originals[part.chunk];let positions=source.subarray(part.positions,part.positions+part.vertexCount*12),normals=source.subarray(part.normals,part.normals+part.vertexCount*6),indices=source.subarray(part.indices,part.indices+part.indexCount*4);
  const belly=bellies.get(part.id);
  if(belly){positions=Buffer.from(belly.positions.buffer,belly.positions.byteOffset,belly.positions.byteLength);normals=Buffer.from(belly.normals.buffer,belly.normals.byteOffset,belly.normals.byteLength);indices=Buffer.from(belly.indices.buffer,belly.indices.byteOffset,belly.indices.byteLength);part.vertexCount=belly.positions.length/3;part.indexCount=belly.indices.length;if(belly.bounds){part.bounds=belly.bounds;part.reshaped=true;reshapedMuscles++;}else{part.tendonCut=true;cutMuscles++;}}
+ else if(LARYNX_REPAIR.has(part.id)&&!hashBound.has(part.id)&&!hashBound.has(part.name)){
+  // thin laryngeal sheets: loose shreds dropped, crumpled surface smoothed (scripts/lib/larynx-repair.mjs)
+  const f32=new Float32Array(positions.buffer.slice(positions.byteOffset,positions.byteOffset+positions.length)),u32=new Uint32Array(indices.buffer.slice(indices.byteOffset,indices.byteOffset+indices.length));
+  const r=repairSheet(f32,u32,{passes:repairPasses(part.id)});
+  positions=Buffer.from(r.positions.buffer);normals=Buffer.from(r.normals.buffer);indices=Buffer.from(r.indices.buffer);part.vertexCount=r.positions.length/3;part.indexCount=r.indices.length;part.repaired=true;repairedLarynx++;
+ }
  else if(smoothed(part)){
   const f32=new Float32Array(positions.buffer.slice(positions.byteOffset,positions.byteOffset+positions.length)),u32=new Uint32Array(indices.buffer.slice(indices.byteOffset,indices.byteOffset+indices.length));
   const m=smoothTube(f32,u32);
@@ -79,6 +89,7 @@ const manifest=Buffer.from(JSON.stringify(atlas));
 fs.writeFileSync(new URL('atlas-stream.json',dir),manifest);fs.writeFileSync(new URL('atlas-stream.json.gz',dir),gzipSync(manifest,{level:9}));
 if(skippedParts.length)console.log(`Left unsmoothed (surface would move more than 1.5 mm): ${skippedParts.join(', ')}`);
 console.log(`${cutMuscles} muscle parts end at their musculotendinous junction (tendon parts are added by prepare-paokao); ${reshapedMuscles} muscle parts have a repaired shape (scripts/lib/muscle-reshape.mjs).`);
+console.log(`${repairedLarynx} laryngeal sheets repaired (scripts/lib/larynx-repair.mjs).`);
 console.log(`${exactParts} parts keep exact Float32 positions (motion data fitted to the source mesh).`);
 console.log(`Vessel tips shaped in their own meshes: ${shapedTapers}/${tipPlan.tapers.length} tapers, ${shapedFlares}/${tipPlan.flares.length} junction flares (applied/planned); ${tipPlan.buried.length} candidate ends are not ends (the vessel carries on past them: no cone, no taper); ${unshaped.length} taper(s) found no wall to narrow and keep the old end.`);
 console.log(`Prepared ${chunks.length} immutable packages; ${atlas.parts.length} tissues (${smoothedParts} limb vessels smoothed, ${triangles} triangles), ${(chunks.reduce((sum,c)=>sum+c.gzipBytes,0)/1e6).toFixed(1)} MB compressed.`);

@@ -8,6 +8,10 @@ import {gzipSync} from 'node:zlib';
 import {MeshoptSimplifier} from 'meshoptimizer';
 import {LUNG_LOBES, carveFissures} from './lib/lung-fissures.mjs';
 import {taubin, angleWeightedNormals} from './lib/lung-mesh.mjs';
+import {atlasMesh} from './lib/atlas-read.mjs';
+import {layerAbdominalWall} from './lib/abdominal-layers.mjs';
+import {readBone, refineGalea, GALEA} from './lib/facial-refine.mjs';
+import {download} from './lib/download.mjs';
 await MeshoptSimplifier.ready;
 const pin = process.argv.includes('--pin');
 const specUrl = new URL('./supplement-parts.json', import.meta.url), spec = JSON.parse(fs.readFileSync(specUrl, 'utf8'));
@@ -47,15 +51,7 @@ async function source(part) {
   let bytes; try { bytes = fs.readFileSync(file); } catch {}
   if (!bytes || (!pin && digest(bytes) !== part.sha256)) {
     const url = `https://raw.githubusercontent.com/${spec.repository}/${spec.revision}/assets/BodyParts3D_data/stl/${part.fma}.stl`;
-    let error;
-    for (let attempt = 0; attempt < 4; attempt++) {
-      try {
-        const response = await fetch(url, {signal: AbortSignal.timeout(180000)});
-        if (!response.ok) throw new Error(`${part.fma}.stl download failed: ${response.status}`);
-        bytes = Buffer.from(await response.arrayBuffer()); error = undefined; break;
-      } catch (e) { error = e; await new Promise(r => setTimeout(r, 1000 * 2 ** attempt)); }
-    }
-    if (error) throw error;
+    bytes = await download(url, {label: `${part.fma}.stl`, timeoutMs: 180000});
     fs.writeFileSync(file, bytes);
   }
   if (pin) part.sha256 = digest(bytes);
@@ -123,8 +119,21 @@ for (const [side, fmas] of Object.entries(LUNG_LOBES)) {
   report.push(`${side} lung fissures: ${carveFissures(lobes).join(' / ')} vertices moved inward`);
   for (const lobe of lobes) taubin(lobe.positions, lobe.indices, {iterations: LUNG_CARVED_SMOOTH});
 }
+// Anterolateral abdominal wall (scripts/lib/abdominal-layers.mjs): internal oblique and transversus abdominis are cut at the semilunar line and stacked behind the external oblique of the atlas.
+const ABDOMINAL_WALL = [{sx: -1, ext: 'Right external oblique', internal: 'FMA13892', transversus: 'FMA22344'}, {sx: 1, ext: 'Left external oblique', internal: 'FMA13893', transversus: 'FMA22345'}];
+const layered = new Map();
+for (const w of ABDOMINAL_WALL) {
+  const ip = spec.parts.find(p => p.fma === w.internal), tp = spec.parts.find(p => p.fma === w.transversus);
+  const [i, t] = [await prepared(ip), await prepared(tp)], mesh = g => ({positions: g.positions, indices: g.simplified});
+  const r = layerAbdominalWall({ext: atlasMesh(w.ext), internal: mesh(i), transversus: mesh(t), sx: w.sx});
+  const repack = (g, m) => { const positions = Float32Array.from(m.positions), indices = Uint32Array.from(m.indices); return {...g, positions, simplified: indices, vertexCount: positions.length / 3}; };
+  layered.set(w.internal, repack(i, r.internal)); layered.set(w.transversus, repack(t, r.transversus));
+  report.push(`${w.ext} wall: internal oblique ${r.moved.internal} and transversus ${r.moved.transversus} vertices moved behind it`);
+}
 for (const part of spec.parts) {
-  const {positions, simplified, vertexCount, error, fullIndices} = carved.get(part.fma) ?? await prepared(part);
+  const {positions, simplified, vertexCount, error, fullIndices} = layered.get(part.fma) ?? carved.get(part.fma) ?? await prepared(part);
+  // the lower front edge of the epicranial aponeurosis is drawn up to the arc of the frontalis edge (scripts/lib/facial-refine.mjs), so the sheet and the muscle meet along one line
+  if (part.fma === GALEA.FMA) positions.set(refineGalea(positions, readBone(new URL('../public/models/', import.meta.url), 'FMA52734')));
   const normals = LUNG_FMAS.has(part.fma) ? packNormals(angleWeightedNormals(positions, simplified)) : normalsOf(positions, simplified);
   const bounds = [[Infinity, Infinity, Infinity], [-Infinity, -Infinity, -Infinity]];
   for (let i = 0; i < positions.length; i += 3) for (let k = 0; k < 3; k++) { bounds[0][k] = Math.min(bounds[0][k], positions[i + k]); bounds[1][k] = Math.max(bounds[1][k], positions[i + k]); }

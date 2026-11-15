@@ -19,28 +19,35 @@ export function createShoulderSolver(atlas:Atlas){
  const rigs={left:makeSoftRig(atlas,'left')!,right:makeSoftRig(atlas,'right')!};
  const members=new Map<string,ShoulderInput&{skin:ReturnType<typeof bindTissue>;positions:Float32Array;side:'left'|'right';geometry:BufferGeometry;guard?:ReturnType<typeof makeSurfaceConstraints>}>();
  const models=new Map<string,ReturnType<typeof makeShoulderMuscles>>();
+ // Vessels and their end pieces arrive in whatever order the model packages finish loading, often in different calls. Both lists live as long as the
+ // solver: an end piece that arrives after its vessel still takes the vessel's motion, and one that arrived first is bound again when the vessel comes
+ // (otherwise it kept its own chest-wall weights and stayed behind when a solved vessel, such as the pectoral branch, moved with its muscle).
+ const boundSkins=new Map<string,{skin:ReturnType<typeof bindTissue>;base:Float32Array}>(),waitingEnds=new Map<string,ShoulderInput>();
  let collider:PointCollider|undefined;
  /** `collision` = surface samples of the ribs, sternum and thoracic vertebrae, sent once: broad sheets then cannot sink into the chest. */
  return(inputs:ShoulderInput[],transforms:Record<string,PartTransform>,gpu:GpuSkinResult[]=[],collision?:Float32Array)=>{
   if(collision&&!collider){collider=makePointCollider(collision);models.clear();}
   if(inputs.length)models.clear();
-  const boundSkins=new Map<string,{skin:ReturnType<typeof bindTissue>;base:Float32Array}>();
   // vessels first, their end pieces after them: an end piece takes its motion from its vessel, wherever the two stand in the atlas (schematic vessels are listed after the end pieces)
-  for(const input of [...inputs.filter(i=>!i.part.id.endsWith('-END')),...inputs.filter(i=>i.part.id.endsWith('-END'))]){
+  const arriving=new Set(inputs.map(i=>i.part.id)),again=[...waitingEnds.values()].filter(e=>arriving.has(e.part.id.slice(0,-4)));
+  for(const e of again)waitingEnds.delete(e.part.id);
+  for(const input of [...inputs.filter(i=>!i.part.id.endsWith('-END')),...inputs.filter(i=>i.part.id.endsWith('-END')),...again]){
    const binding=tissueBindings[input.part.id];
    if(!binding||binding.name!==input.part.name||isMotionQuarantined(input.part)||!['upper-limb','trunk'].includes(anatomicalRegion(input.part)))continue;
    const profile=['arterial','venous'].includes(input.part.system)?resolveNeurovascularProfile(input.part.name,binding.profile):binding.profile;
    const skin=bindTissue(rigs[binding.side],profile,input.base,input.part,'',input.triangles);
    // an end piece joins its vessel with the vessel's own weights (the atlas lists a vessel before its end piece)
    const main=input.part.id.endsWith('-END')?boundSkins.get(input.part.id.slice(0,-4)):undefined;
-   if(main)alignEndPiece(skin,input.base,main.skin,main.base,undefined,input.triangles);else boundSkins.set(input.part.id,{skin,base:input.base});
+   if(main)alignEndPiece(skin,input.base,main.skin,main.base,undefined,input.triangles);
+   else if(input.part.id.endsWith('-END'))waitingEnds.set(input.part.id,input);
+   else if(['arterial','venous'].includes(input.part.system))boundSkins.set(input.part.id,{skin,base:input.base});
    const linear=isLinearBinding(skin);
    const shown=skin.preview??skin;gpu.push({id:input.part.id,...gpuBinding(binding.side,{indices:shown.indices.slice(),weights:shown.weights.slice()},linear,skin.profile==='chest'||skin.profile==='pectoralPath'||!!skin.preview?.lbs)});
    if(linear)continue;
    const positions=input.base.slice(),geometry=new BufferGeometry();
    geometry.setAttribute('position',new BufferAttribute(positions,3));geometry.setAttribute('normal',new BufferAttribute(input.normals.slice(),3,true));geometry.setIndex(new BufferAttribute(input.triangles,1));prepareSurfaceNormals(geometry);
    // serratus anterior wraps the ribcage on its own guide; a rest-length guard only drags it apart
-   const guard=['chest','scapular'].includes(skin.profile)&&!skin.wrap?makeSurfaceConstraints(input.base,input.triangles,skin):undefined;
+   const guard=(['chest','scapular'].includes(skin.profile)&&!skin.wrap)||skin.relax?makeSurfaceConstraints(input.base,input.triangles,skin):undefined;
    members.set(input.part.id,{...input,side:binding.side,skin,positions,geometry,guard});
   }
   const results:ShoulderResult[]=[];
@@ -96,7 +103,7 @@ export function createBodySolver(atlas:Atlas){
     const mkey=key;let model=legModels.get(mkey);
     if(!model){model=makeShoulderMuscles([{base:input.base,triangles:input.triangles,skin:member.skin,positions:member.positions}],rig.pivots[1],0,{proximal:[0],distal:[2,3]});legModels.set(mkey,model);}
     else model.group.members[0].positions=member.positions;
-    solveShoulderMuscles(model,rig.pivots[1],28);
+    solveShoulderMuscles(model,rig.pivots[1],48);
    }
    updateSurfaceNormals(member.geometry);member.geometry.computeBoundingBox();
    results.push({id:input.part.id,positions:member.positions.slice(),normals:(member.geometry.getAttribute('normal').array as Int16Array).slice(),bounds:[member.geometry.boundingBox!.min.toArray(),member.geometry.boundingBox!.max.toArray()]});

@@ -27,6 +27,8 @@ const FIELDS: Record<QuizSystem, string[]> = {
   respiratory: ['位置', '構造／毗鄰關係', '血液供應／神經'],
   // brain quiz: every field of the structure's brain information card (their labels depend on the kind of structure); see structureCard
   brain: [],
+  // head-and-neck organ structures (eyeball, tongue, teeth, larynx cartilages…): the repository has no card text for them yet, so the card says 「尚無資料」 until a checked description is added to card-data.ts
+  headorgan: ['說明'],
   // joint soft tissue: the repository documents none of these yet, so the card shows 「尚無資料」 until hand-checked entries are added to card-data.ts
   joint: ['所屬關節', '附著與連結', '功能'],
   // limb spaces: location from the data card of the space, boundaries and contents from the special-region list of the layer panel (app/mj-spaces.ts)
@@ -43,6 +45,7 @@ const FROM_PROFILE: Record<QuizSystem, Record<string, string[]>> = {
   cardiac: {},
   respiratory: {位置: ['位置'], '構造／毗鄰關係': ['構造／毗鄰關係'], '血液供應／神經': ['血液供應／神經']},
   brain: {},
+  headorgan: {},
   joint: {},
   space: {},
 };
@@ -76,14 +79,16 @@ export function structureCard(structure: Pick<QuizStructure, 'name' | 'chinese' 
   if (system === 'space') return spaceCard(structure);
   // Brain quiz: the fields come from the structure's own brain information card (public/models/brain/neuro-cards.json, packed into the catalogue); with no card the card says so.
   if (structure.source === 'Brain Project') return {english: structure.name, chinese: structure.chinese, system, fields: (structure.cardFields ?? []).map(f => ({label: f.label, zh: f.zh})), missing: structure.cardFields?.length ? [] : ['資料卡']};
-  const profile = structureProfile(structure.name, (system === 'joint' ? 'connective' : system) as SystemId);
+  const profile = structureProfile(structure.name, (system === 'joint' ? 'connective' : system === 'headorgan' ? 'sensory' : system) as SystemId);
   // Paired structures are keyed without left/right; names where "left"/"right" belongs to the name itself (left atrium, left pulmonary artery…) are keyed in full.
   const extra: CardExtra | undefined = CARD_EXTRAS[structure.name.toLowerCase()] ?? CARD_EXTRAS[clean(structure.name)];
   const fields: CardField[] = [], missing: string[] = [];
   // A lung surface structure (impression, hilum, lobe part …) shows the fields of its own type, as on the atlas data card; fields without content are not listed.
   const lungCard = system === 'respiratory' ? paokaoCardByName(structure.name) : undefined;
   if (lungCard?.lung) return {english: structure.name, chinese: structure.chinese ?? lungCard.zh, system, fields: (lungCard.extra ?? []).map(f => ({label: f.labelZh, zh: f.zh, en: f.en})), missing: []};
-  for (const label of FIELDS[system]) {
+  // Head-and-neck organ structures and ligaments carry their own checked fields (location, composition and relations; attachments and action); when an entry has none of the generic 說明, those fields are shown in the order written.
+  const labels = system === 'headorgan' && extra && !extra['說明'] ? Object.keys(extra) : FIELDS[system];
+  for (const label of labels) {
     const fromExtra = extra?.[label] ?? (system === 'respiratory' ? lungMark(structure.name, label) : undefined);
     const fact = FROM_PROFILE[system][label]?.map(l => profile.facts.find(f => f.labelZh === l)).find(Boolean);
     // Heart structures carry their own checked description (catalogue), shown as the card's 說明.

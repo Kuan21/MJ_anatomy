@@ -3,6 +3,7 @@ import {AlertCircle, CheckCircle2, Eye, Maximize2, XCircle} from 'lucide-react';
 import {PronounceButton} from '../pronunciation/PronounceButton';
 import {createQuizViewer, type QuizViewState} from './viewer';
 import {structureCard} from './card';
+import {ContentPending} from './learn-info';
 import {acceptedNames, preferredName, type AnswerLanguage} from './naming';
 import type {QuizCatalogue, QuizStructure} from './catalogue';
 
@@ -41,9 +42,16 @@ export function Name({structure}: {structure: QuizStructure}) {
 }
 
 /** Shown under the correct answer, right or wrong: English name (large), Chinese name (small), then the fields for that kind of structure. */
-export function AnswerCard({structure}: {structure: QuizStructure}) {
+export function AnswerCard({structure, lesson = false}: {structure: QuizStructure; lesson?: boolean}) {
   const card = useMemo(() => structureCard(structure), [structure]);
   const blank = card.fields.length === 0;
+  // Guided lessons: a structure with no card text shows 「資料整理中」 instead of a list of empty fields.
+  if (lesson && blank) return <section className="quiz-info-card" aria-label="構造資料卡" data-system={card.system}>
+    <h2 lang="en">{card.english}</h2>
+    <PronounceButton name={card.english}/>
+    {card.chinese && <p className="quiz-info-zh" lang="zh-Hant">{card.chinese}</p>}
+    <ContentPending/>
+  </section>;
   return <section className="quiz-info-card" aria-label="構造資料卡" data-system={card.system}>
     <h2 lang="en">{card.english}</h2>
     <PronounceButton name={card.english}/>

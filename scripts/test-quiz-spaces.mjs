@@ -13,7 +13,7 @@ const {SPACES} = await quizModule('app/mj-spaces.ts');
 const {SPACE_EXCLUSION_REASONS, SPACE_REGION, MAX_REACH} = await quizModule('app/quiz/spaces.ts');
 
 const report = JSON.parse(fs.readFileSync('.sites-runtime/quiz-spaces-report.json', 'utf8'));
-const limb = ['lower-limb', 'upper-limb'], sides = ['left', 'right'];
+const limb = ['lower-limb', 'upper-limb', 'head-neck'], sides = ['left', 'right'];
 assert.ok(QUIZ_CATEGORIES.some(c => c.id === 'space' && c.label === '特殊空間與孔'), 'category space is missing');
 const doc = fs.readFileSync('docs/quiz-spaces.md', 'utf8');
 for (const [reason, text] of Object.entries(SPACE_EXCLUSION_REASONS)) assert.ok(doc.includes(text), `docs/quiz-spaces.md does not state the reason "${reason}": ${text}`);

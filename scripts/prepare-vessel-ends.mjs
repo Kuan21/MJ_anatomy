@@ -39,7 +39,14 @@ const pieces = [];   // {id, tip, action, geometry}
 const piece = (id, geometry, tip, action) => pieces.push({id, tip, action, geometry});
 // Limb vessels get round connectors (12 sides); the rest keep the light 5-sided pieces.
 const {anatomicalRegion} = await regionTools(), limbIds = new Set(atlas.parts.filter(p => ['upper-limb', 'lower-limb'].includes(anatomicalRegion(p))).map(p => p.id));
-const sides = id => limbIds.has(id) ? 12 : 5;
+// Round connectors: 12 sides on limb vessels and on the vessels of the abdominal and chest wall (the ones in front of the camera there), 8 elsewhere. The light 5-sided prisms of the first version read as faceted, segmented
+// vessels where a wall vessel meets its end piece.
+// Intercostal and subcostal vessels end beside ribs and discs: as 12-sided prisms their end pieces sank 2-3 mm into the 9th/12th ribs and the intervertebral disk (stability check), so they keep the light end pieces.
+const WALL_VESSELS = /epigastric|circumflex iliac|musculophrenic|lumbar (?:artery|vein)|thoracoepigastric/i;
+// Kept light until the stability check passes with round ones (2026-11-14, split out of this change): the inferior epigastric end piece overlapped the femoral artery connector end (112 coincident faces).
+const LIGHT_ENDS = /inferior epigastric/i, lightIds = new Set(atlas.parts.filter(p => LIGHT_ENDS.test(p.name)).map(p => p.id));
+const wallIds = new Set(atlas.parts.filter(p => WALL_VESSELS.test(p.name)).map(p => p.id)), round = id => (limbIds.has(id) || wallIds.has(id)) && !lightIds.has(id);
+const sides = id => round(id) ? 12 : 5;
 for (const row of rows) {
   const frame = row.kind === 'joined' ? null : endFrame(row.id, row.at);
   let action = row.kind === 'joined' ? 'joined' : 'enters';
@@ -49,12 +56,12 @@ for (const row of rows) {
       action = 'gap';
       const d = row.toSameMm / 1000, target = row.closest, chord = unit(sub(target, row.at));
       const bend = add(row.at, chord, d * .5), mid = add(bend, frame.dir, d * .18), through = add(target, chord, .001);
-      piece(row.id, tube([add(row.at, frame.dir, -.0015), row.at, mid, through], frame.radius * .95, frame.radius * .75, limbIds.has(row.id) ? 12 : 6, sides(row.id)), row.at, 'gap');
+      piece(row.id, tube([add(row.at, frame.dir, -.0015), row.at, mid, through], frame.radius * .95, frame.radius * .75, round(row.id) ? 12 : 6, sides(row.id)), row.at, 'gap');
     } else if (frame.radius <= FADE_RADIUS) {
       action = 'fade';
       if (shapedTips.has(row)) { /* the vessel's own mesh narrows to a rounded tip (scripts/prepare-model-stream.mjs): no cone beyond the end */ } else {
       const L = Math.min(.008, .003 + 3 * frame.radius);
-      piece(row.id, tube([add(row.at, frame.dir, -.001), add(row.at, frame.dir, L / 2), add(row.at, frame.dir, L)], frame.radius * .95, frame.radius * .1, limbIds.has(row.id) ? 4 : 2, sides(row.id)), row.at, 'fade'); }
+      piece(row.id, tube([add(row.at, frame.dir, -.001), add(row.at, frame.dir, L / 2), add(row.at, frame.dir, L)], frame.radius * .95, frame.radius * .1, round(row.id) ? 4 : 2, sides(row.id)), row.at, 'fade'); }
     } else if (!inTissue && row.kind === 'dangling') action = 'enters';
   }
   report.push({id: row.id, name: row.name, system: row.system, action, at: row.at, radiusMm: frame ? +(frame.radius * 1000).toFixed(1) : null, toSameMm: row.toSameMm, toTissueMm: row.toTissueMm, nearest: row.nearestSame});

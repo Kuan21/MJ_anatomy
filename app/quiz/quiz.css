@@ -158,6 +158,12 @@ a.quiz-hub-card:hover{transform:translateY(-2px);border-color:#263b4866;box-shad
 .quiz-info-card .is-empty dd{color:#8a949d}
 .quiz-info-none{font-size:12px}
 .quiz-info-note{font-size:11px;color:var(--quiz-muted);margin:2px 0 10px}
+.quiz-info-pending{display:flex;align-items:baseline;gap:8px;margin:8px 0;font-size:12px;color:var(--quiz-muted)}
+.quiz-info-pending small{font-size:11px;opacity:.8}
+.lesson-learn-info{margin:8px 0;display:grid;gap:6px;font-size:13px}
+.lesson-learn-info dt{font-size:11px;color:var(--quiz-muted)}
+.lesson-learn-info dd{margin:0;display:grid;gap:1px}
+.lesson-learn-info small{font-size:11px;color:var(--quiz-muted)}
 .quiz-target{display:block}
 .quiz-target>span{display:block}
 .quiz-hub-subhead{margin:34px 0 0;font-size:15px;font-weight:620;letter-spacing:-.2px;color:var(--quiz-ink)}
@@ -310,3 +316,29 @@ button.quiz-review-item:hover{background:#f4f7f9}
   .is-lesson .lesson-copy-note{display:none}
 }
 @media(max-width:700px){.is-lesson .quiz-question-card{max-height:56%}}
+
+/* Mode tabs (學習 / Quiz / 模擬跑考) and the learning map */
+.mode-nav{display:flex;gap:4px;padding:3px;border:1px solid var(--quiz-line);border-radius:999px;background:#eef1f3}
+.quiz-app .mode-nav-link{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:0 16px;border-radius:999px;font-size:13px;font-weight:600;color:var(--quiz-muted);text-decoration:none;white-space:nowrap}
+.quiz-app .mode-nav-link:hover{color:var(--quiz-ink)}
+.quiz-app .mode-nav-link[aria-current=page]{background:#263b48;color:#fff}
+.quiz-app .mode-nav-link.mode-exam:not([aria-current=page]){color:#9a3b2f}
+.learn-path{list-style:none;margin:0;padding:0}
+.learn-path>li{display:contents}
+.quiz-app .lesson-item.is-locked{opacity:.55;background:#f3f5f6;cursor:default}
+.quiz-app .lesson-item.is-passed{border-color:#9fd2bd;background:#f6fbf8}
+.quiz-app .lesson-item.is-started{border-color:#e0a528;background:#fffaf0}
+.learn-state{align-items:center;min-width:52px;color:var(--quiz-muted)}
+.lesson-item.is-passed .learn-state{color:#1d6b46}
+.learn-weak{display:inline-flex;align-items:center;gap:4px;margin-top:6px;padding:2px 8px;border-radius:999px;background:#fdecd3;color:#8a4b00;font-size:11px}
+.learn-unlock{margin:6px 0 0;font-size:13px;color:var(--quiz-muted)}
+.lesson-result[data-passed=true] .learn-unlock{color:#1d6b46}
+.learn-unlock-all{display:flex;align-items:center;gap:8px;margin-top:24px;font-size:12px;color:var(--quiz-muted)}
+.quiz-learn-link{display:inline-flex;align-items:center;min-height:44px;text-decoration:underline;text-underline-offset:4px}
+@media(max-width:700px){
+  .quiz-app .mode-nav-link{padding:0 10px;font-size:12px;min-height:36px}
+  .quiz-app .quiz-header .quiz-header-tag{display:none}
+  .learn-path{grid-template-columns:1fr}
+}
+/* the learning and exam play screens fill the window like the Quiz play screen (the header on top, the 3D stage and the question card below) */
+.learn-app:has(> .quiz-play-layout),.exam-app{height:100dvh;min-height:0;display:flex;flex-direction:column;overflow:hidden}

@@ -33,7 +33,7 @@ for (const rel of [...expand(ARTERIES, 'artery'), ...expand(VEINS, 'vein')]) {
   if (needs) {
     if (created.has(rel.child)) throw new Error(`topology: new structure ${rel.child} does not touch ${rel.parent} (${row.gapMm} mm)`);
     const b = bridge(U, w, rel, att); if (!b) continue;
-    const entry = w.find(rel.child).find(e => e.concept), geometry = U.tube(b.pts, b.r0, b.r1, 18, 6);
+    const entry = w.find(rel.child).find(e => e.concept), geometry = /radialis indicis/i.test(rel.child) ? U.tube(b.pts, b.r0, b.r1, 18, 6) : U.tube(b.pts, b.r0, b.r1, 24, 10);   // the index finger artery runs on the second metacarpal: the rounder tube sank 3.1 mm into it (stability check), so it keeps the light one
     built.push({name: rel.child, connector: true, concept: entry.concept, system: entry.system, kind: 'connector', geometry, parent: rel.parent});
     w.addExtra(rel.child, entry.system, geometry);
     row.originY = level != null ? +level.toFixed(3) : undefined;
