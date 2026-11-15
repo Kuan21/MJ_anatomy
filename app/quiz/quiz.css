@@ -356,3 +356,21 @@ button.quiz-review-item:hover{background:#f4f7f9}
 .run-region-head{display:flex;justify-content:space-between;gap:10px;font-size:14px}
 .run-wrong{margin:8px 0 10px;font-size:12px;line-height:1.7;color:var(--quiz-muted)}
 @media(max-width:700px){.setup-sections{grid-template-columns:1fr}}
+
+/* Mock exam */
+.exam-rules{margin:0 0 18px;padding-left:18px;color:var(--quiz-muted);font-size:13px;line-height:1.9}
+.exam-number{width:120px;min-height:44px;padding:0 12px;border:1px solid var(--quiz-line);border-radius:9px;font:inherit;background:#fff}
+.exam-hint{display:block;margin-top:6px;font-size:11px;color:var(--quiz-muted)}
+.exam-station{font-size:13px;font-weight:600;color:var(--quiz-ink);font-variant-numeric:tabular-nums}
+.exam-clock{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px}
+.exam-clock b{font-size:38px;font-weight:650;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+.exam-clock span{font-size:11px;color:var(--quiz-muted)}
+.exam-clock.is-urgent b{color:#c2342f}
+.exam-side{display:flex;gap:8px;margin:12px 0}
+.quiz-app .exam-side>button{flex:1;min-height:46px;border:1px solid var(--quiz-line);border-radius:10px;background:#fff;font-size:13px;font-weight:600}
+.quiz-app .exam-side>button[aria-pressed=true]{background:#263b48;color:#fff;border-color:#263b48}
+.exam-note{margin:10px 0 0;font-size:11px;color:var(--quiz-muted)}
+.exam-station-row{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--quiz-line);border-radius:10px;background:#fff;margin-bottom:6px;text-align:left}
+.exam-station-row.is-correct{border-color:#9fd2bd;background:#f6fbf8}
+.exam-station-row.is-wrong,.exam-station-row.is-close{border-color:#e8b9b4;background:#fdf5f4}
+.exam-station-row p{margin:4px 0 0;font-size:12px;color:var(--quiz-muted)}
