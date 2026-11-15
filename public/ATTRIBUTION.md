@@ -42,7 +42,11 @@ The eye detail atlas (眼) shows one left orbit assembled from two sources and p
 - Extraocular muscles and their fascia, tarsal plates, lacrimal apparatus, orbital nerves, ophthalmic artery, optic nerve to superior colliculus, and the bones of the orbit: BodyParts3D 4.0 (as above, CC BY 4.0), taken from the packaged atlas.
 - Modified: the two halves of the optic chiasm are joined into one structure. Three corrections where the orbit meets the registered eyeball: (1) the tendons of the four rectus muscles are drawn back so that they end 5.5 mm (medial), 6.5 mm (inferior), 6.9 mm (lateral) and 7.7 mm (superior) behind the corneal margin; (2) the parts of the six extraocular muscles and of levator palpebrae superioris that lay below the scleral surface are lifted onto it; (3) the last 14 mm of the optic nerve are bent by up to 3.8 mm so that it ends on the optic disc. All other geometry is unchanged.
 
-The abducens nerve, the orbital veins, the central retinal vessels and the individual branches of the ophthalmic artery are not present in either source and are not shown.
+**Infraorbital nerve (1 structure, schematic)**
+
+- Written by this project in `scripts/build-eye-atlas.mjs`; no third-party model. A tube built along the BodyParts3D bones: from the inferior orbital fissure, forward on the floor of the orbit and through the maxilla to a point on its front surface 10 mm below the infraorbital margin, on the vertical line of the supraorbital notch, with six short branches on the face. It is a schematic model of the course, not a measured one.
+
+The abducens nerve, the orbital veins, the infraorbital vessels, the central retinal vessels and the individual branches of the ophthalmic artery are not present in either source and are not shown.
 
 ## Historical assets (not included in the current release)
 
