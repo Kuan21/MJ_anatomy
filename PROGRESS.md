@@ -1,6 +1,6 @@
 # PROGRESS（自動排程交接檔）
 
-最後更新：2026-11-14。分支：`claude/local-auto`（不推 main、不刪檔）。
+最後更新：2026-11-15。分支：`claude/local-auto`（不推 main、不刪檔）。
 依據：`ROADMAP.md`「穩定期」、`CLAUDE.md`、`git log`、開放 PR 清單。
 
 ## 目前狀態
@@ -98,6 +98,18 @@
   - 新留下一個未提交的暫存診斷腳本 `scripts/_diag-femoral.mjs`（依「不刪檔」沒有刪），連同 `_diag-jumps.mjs`、`_diag-radius.mjs`、`_diag-branch.mjs` 可以由你刪除。`package-lock.json` 的未提交差異仍未提交。
   - 本機沒有 `gh`，未查開放 PR 是否有變動。
 
+- 2026-11-15（第十一次）：只加腳本、測試與報告，沒有改模型、解剖內容或網站。
+  - 重新檢查：`work/` 與 supplement／serous／female 三個生成串流仍不存在；另外發現跑考串流只有索引檔（`paokao-stream.json.gz`），它指向的二進位檔（`public/models/stream/paokao-*.bin`）不在本機，所以連接管仍載入不了。沒有下載資料。
+  - **表面距離用在多件網格**：`centreline-surface.mjs` 新增 `surfaceLinkGap`（把一個結構的各件連成一個整體時要跨過的最大表面空隙，不經過中心線，被略過的小件也算在內），並為每個網格建一次三角形方盒樹（原本逐一比對，多件大網格要跑幾分鐘）；`surfaceGap` 多一個可選的上限參數。合成測試已補在 `test-centreline-surface`。這部分是上一次排程留下、未提交的改動，這次測試通過後才提交。
+  - `report-centerlines.mjs` 多件表加了「表面連接距離」一欄，`docs/centerline-report.md` 已用 `--available --write` 重新產生（約 66 秒）。結果：「應相接」4 個都是 0 mm；「未判定」183 個中超過 5 mm 的，中心線量法 57 個、表面量法 56 個。兩種量法只在 3 個結構判斷不同（左右大腦中動脈前外側中央支、Hepatovenous segment IV：中心線說超過 5 mm、表面沒有）；沒有「表面超過而中心線沒有」的情況。也就是粗網格在這張表上幾乎沒有造成誤報，「待我決定」那一項的數量基本不變。**數值沒有在 3D 畫面確認。**
+  - **連續性基準的比較邏輯**：新檔 `scripts/lib/centreline-baseline.mjs`（沿用穩定度檢查的 `compareBaseline`）與 `scripts/test-centreline-baseline.mjs`（合成資料，已加入 `npm run check`）。規則：每個上一級關係以表面距離判斷，超過 3 mm 的記入基準（取到 0.5 mm、無條件進位）；記錄的距離只能變小，變小後成為新上限，合上的從清單移除；新出現的空隙、變大的空隙、原本有網格後來沒有的關係都算失敗；失敗時不會產生可儲存的基準；沒有基準檔不會自動建立。
+  - **檢查腳本**：新檔 `scripts/check-centreline-continuity.mjs`。不加參數時與 `docs/centreline-continuity-baseline.json` 比較，只印數量與通過／失敗；`--list` 印名稱；`--write` 只在通過時儲存縮小後的基準；`--init` 建立第一份基準（已有基準或缺生成檔時拒絕）；`--available` 是試跑，不讀也不寫基準。**基準檔尚未產生，腳本也還沒有加入 `npm run check`**（要先有三個生成串流與跑考串流的二進位檔）。
+  - 本機試跑（`--available --list`，約 20 秒，不含連接管）：127 個關係量到、60 個沒有網格、10 個超過 3 mm，就是之前列出的同十個，數值與 `centerline-attach-report` 一致。不加 `--available` 時在本機因缺檔而停下（預期行為）。
+  - 「粗管粗分支旁圈中心被拉偏」這次沒有處理（只影響位置，不影響是否相接）。
+  - 本機通過：`test-centreline-baseline`、`test-centreline-surface`、`test-centreline-attach`、`test-centreline-pieces`、`test-centreline-groups`、`test-centreline-continuity`、`test-centreline-classify`、`check-no-notes`、`check:zh`。完整 `npm run check` 因缺生成檔沒有跑。
+  - 未提交的暫存診斷腳本 `_diag-jumps.mjs`、`_diag-radius.mjs`、`_diag-branch.mjs`、`_diag-femoral.mjs` 仍在（依「不刪檔」沒有刪），可以由你刪除。`package-lock.json` 的未提交差異仍未提交。
+  - 本機沒有 `gh`，未查開放 PR 是否有變動。
+
 ## 進行中／等審核
 - S2 A–G、S3、S4、S6 相關工作都已有 PR（見上），等使用者審核。
 
@@ -117,6 +129,7 @@
 ## 待我決定
 - S7 模型限制說明（資訊卡與「模型範圍」）的文字屬解剖內容，需你決定要寫哪些結構與措辭；決定前自動排程不動。
 - S5 第二階段需在有生成檔的環境（`node scripts/clean.mjs --donor`）執行，本資料夾無 `node_modules`／`work/`；請決定由你在該環境跑，或授權排程在那裡跑。
+- S5 連續性基準（2026-11-15）：本機缺 `supplement-stream.json.gz`、`serous-stream.json.gz`、`female-stream.json.gz` 與跑考串流的二進位檔（`public/models/stream/paokao-*.bin`），產生它們要先下載 BodyParts3D 原始檔。請決定：由你在有這些檔的環境跑 `node scripts/check-centreline-continuity.mjs --init`，或授權排程下載原始資料後在本機產生。決定前基準不會建立，腳本不會加入 `npm run check`。
 - 待審 PR 已有 10 個，遠超 #234 擬定的上限 5 個；在使用者審核／合併前，自動排程**不新開**涉及模型或解剖內容的 PR，避免再堆積。請決定先審哪幾個。
 - S5 多件網格「未判定」183 個（`docs/centerline-report.md` 多件表，其中 57 個連接距離超過 5 mm；2026-11-14 重新產生前是 54 個）：每一個要當成「成組結構」（各件本來分開，不檢查相接）還是「單一結構」（各件必須相接，列入連續性基準），需你決定；決定前連續性檢查只會涵蓋 topology-spec 已列的結構。
 - #228：枕部缺口要不要補、怎麼補（新增解剖內容）。
@@ -136,6 +149,8 @@
 - 下一項：（1）建立連續性基準要先有跑考串流與三個生成串流（含連接管的完整世界），本機沒有，等生成檔；（2）不需生成檔可做的：查右股動脈接右髂外動脈 5.6 mm 只出現在單側的原因（量測問題還是網格差異）；粗管粗分支旁圈中心仍被拉偏的限制；為 `report-centreline-attach` 的量測邏輯補合成測試。
 - 上一項的（2）已完成兩件（2026-11-14 第十次：右股動脈為量測誤差；`centreline-attach.mjs` 與測試；另加表面距離 `centreline-surface.mjs`）。
 - 下一項：（1）建立連續性基準仍要等跑考串流與三個生成串流；（2）不需生成檔可做的：把表面距離也用在多件網格的「連接距離」（`centerline-report.md` 多件表目前只用中心線，粗網格可能同樣誤報）；粗管粗分支旁圈中心被拉偏的限制（只影響位置，優先度低）；先寫好 `check-centreline-continuity.mjs` 的基準讀寫與「只減不增」比較邏輯並用合成資料測試，等生成檔到位再產生基準。
+- 上一項的（2）已完成兩件（2026-11-15 第十一次：多件表的表面連接距離；`centreline-baseline.mjs`、`check-centreline-continuity.mjs` 與測試）。
+- 下一項：（1）有了三個生成串流與跑考串流的二進位檔後：跑 `node scripts/check-centreline-continuity.mjs --init` 產生基準，看清單是否合理，再把腳本加入 `npm run check`；（2）不需生成檔可做的已所剩不多：粗管粗分支旁圈中心被拉偏的限制（優先度低）；S5 的「整條高亮」會改網站，屬需人工審核，等使用者處理待審 PR 後再開始。
 - 規則：所有排程工作都放在本分支與 PR #248，不另開分支或 PR。
 
 ## 下一步（舊）
