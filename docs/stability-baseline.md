@@ -10,9 +10,9 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 |---|---|
 | Fragments | 47 |
 | Vessel, nerve and tendon walls inside bone | 456 |
-| Coincident faces (z-fighting) | 78 |
+| Coincident faces (z-fighting) | 79 |
 | Straight cuts in meshes | 43 |
-| Triangle stretch over 2x in the limit poses | 138 |
+| Triangle stretch over 2x in the limit poses | 139 |
 | Structures that leave their bone in the limit poses | 162 |
 
 ## Fragments (47)
@@ -515,11 +515,11 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Trochlear nerve (IV).r | 6.3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Ulnar nerve.l | 2.6 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Ulnar nerve.r | 2.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Vagus nerve (X).l | 4.1 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
+| Vagus nerve (X).l | 2.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Vagus nerve (X).r | 4.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Vagus nerve (X).r | 6.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Vagus nerve (X).r | 2.3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Vagus nerve (X).r | 4.3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
+| Vagus nerve (X).r | 2.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Vestibular nerve.l | 2.1 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Vestibular nerve.l | 2.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Vestibular nerve.r | 2.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
@@ -528,7 +528,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Vestibulocochlear nerve (VIII).r | 4.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Vestibulocochlear nerve (VIII).r | 4.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 
-## Coincident faces (z-fighting) (78)
+## Coincident faces (z-fighting) (79)
 
 | structure | size | detail |
 |---|---|---|
@@ -609,6 +609,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Body of uterus | 736 | faces coincide with Lower uterine segment: two layers share the same surface; to be offset or one of them removed |
 | Lower uterine segment | 494 | faces coincide with Cervix of uterus: two layers share the same surface; to be offset or one of them removed |
 | Esophageal impression of left lung | 57 | faces coincide with Apex of left lung: two layers share the same surface; to be offset or one of them removed |
+| Glans of clitoris | 723 | 同一張 MRI 曲面按解剖切成兩件，交界共用 138 個頂點，相鄰面共面但冇重疊（真正重疊三角形 0.6%）；陰蒂由頭至體單調變寬，冇解剖上合理嘅切口可避開。2026-11-15 經使用者核准。 |
 | Lingula of left lung | 1106 | faces coincide with Cardiac notch of left lung: two layers share the same surface; to be offset or one of them removed |
 
 ## Straight cuts in meshes (43)
@@ -659,7 +660,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | renderer clipping plane in organ/brain-viewer.ts | 1 | section plane of the brain or heart detail mode: a cut view on purpose, the cut face is drawn by the viewer |
 | renderer clipping plane in organ/heart-viewer.ts | 3 | section plane of the brain or heart detail mode: a cut view on purpose, the cut face is drawn by the viewer |
 
-## Triangle stretch over 2x in the limit poses (138)
+## Triangle stretch over 2x in the limit poses (139)
 
 | structure | size | detail |
 |---|---|---|
@@ -737,6 +738,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Left anterior circumflex humeral vein | 8 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left axillary artery | 74 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left axillary vein | 27 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left brachial artery | 6 | 同一條動脈 main 上已登記拉伸 2.4 倍，端段跟隨主體；#269 後由碎片轉為拉伸，2026-11-15 經使用者核准 |
 | Left brachial artery | 109 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left circumflex scapular artery | 21 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left lateral thoracic vein | 30 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
@@ -764,12 +766,13 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Left submandibular gland | 23 | triangles stretch beyond 2x at head extension 35: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right sublingual gland | 20 | triangles stretch beyond 2x at head extension 35: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right submandibular gland | 23 | triangles stretch beyond 2x at head extension 35: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Skin | 40 | triangles stretch beyond 2x at head extension 35: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Skin | 40 | triangles stretch beyond 2x at head extension 35: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) 女性皮膚（HRAF-skin）沿用這張男性皮膚的蒙皮權重，頭部伸展時同一處拉伸（同一批 40 個三角形，位置在頸部與頭頸交界、y 約 1.50–1.54 m，不在鼠蹊部），登記為孿生例外 stretch/HRAF-skin/head extension 35；皮膚權重平滑修好時兩條一齊移除。 |
 | Left inferior gluteal vein | 490 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left inferior gluteal vein | 889 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right inferior gluteal vein | 987 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right inferior gluteal vein | 869 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right superior gluteal vein | 26 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Skin | 40 | 女性皮膚沿用男性皮膚（FJ2810，見 stretch/FJ2810/head extension 35）的蒙皮權重，頭部伸展時同一處拉伸（同一批 40 個三角形，位置在頸部與頭頸交界、y 約 1.50–1.54 m，不在鼠蹊部），與 FJ2810 同一問題；待皮膚權重平滑時兩條一齊移除。2026-11-16 經使用者核准。 |
 | Left axillary fossa | 2 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left axillary fossa | 2 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left axillary sheath | 94 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
@@ -800,7 +803,6 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Pudendal nerve.r | 220 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Suprascapular nerve.l | 76 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Suprascapular nerve.r | 76 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left brachial artery | 6 | 同一條動脈 main 上已登記拉伸 2.4 倍，端段跟隨主體；#269 後由碎片轉為拉伸，2026-11-15 經使用者核准 |
 
 ## Structures that leave their bone in the limit poses (162)
 

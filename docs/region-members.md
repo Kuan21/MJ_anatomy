@@ -4,14 +4,14 @@
 
 ## 頭頸
 
-956 個網格，403 個名稱。
+957 個網格，403 個名稱。
 
 - **動脈**（74）：Acromial branch of thoraco-acromial artery ×4；anterior cerebral artery ×2；anterior choroidal artery ×4；Anterior communicating artery；anterior inferior cerebellar artery ×4；anterior parietal artery ×4；Anterior part of apical segmental artery ×7；anterior spinal artery ×2；anterior temporal artery ×4；Anterior temporal branch of lateral occipital artery ×4；Anterolateral central branch of middle cerebral artery ×8；Apical part of apical segmental artery ×6；apical segmental artery ×6；artery of central sulcus ×8；Artery of postcentral sulcus ×4；Artery of precentral sulcus ×12；Basilar artery ×2；Brachiocephalic artery；Branch of anterior choroidal artery to posterior limb of internal capsule ×4；Branch of middle cerebral artery to angular gyrus ×4；callosomarginal artery ×4；Clavicular branch of thoraco-acromial artery ×3；common carotid artery ×4；costocervical trunk ×2；deep cervical artery ×4；Deltoid branch of thoraco-acromial artery；Hypothalamic branch of posterior communicating artery ×4；inferior thyroid artery ×4；Insular part of middle cerebral artery ×5；Intermediomedial branch of callosomarginal artery ×4；internal carotid artery ×4；Lateral branch of pontine artery ×4；Lateral branch of superior cerebellar artery ×4；lateral frontobasal artery ×8；lateral occipital artery ×4；Medial branch of pontine artery ×4；Medial branch of superior cerebellar artery ×2；medial frontobasal artery ×4；medial occipital artery ×4；Middle temporal branch of lateral occipital artery ×4；Middle temporal branch of middle cerebral artery ×4；ophthalmic artery ×4；Paracentral branch of callosomarginal artery ×12；pericallosal artery ×4；polar temporal artery ×4；Postcommunicating part of posterior cerebral artery ×2；posterior communicating artery ×2；posterior inferior cerebellar artery ×52；posterior medial choroidal artery ×4；posterior parietal artery ×4；Posterior temporal branch of middle cerebral artery ×4；Posteromedial branch of callosomarginal artery ×4；Posteromedial central branch of posterior cerebral artery ×4；Precommunicating part of posterior cerebral artery ×2；Precuneal branch of pericallosal artery ×4；prefrontal artery ×4；set of posterior temporal branches of lateral occipital artery ×4；Sphenoid part of middle cerebral artery ×4；splenial artery ×4；subclavian artery ×3；superficial cervical artery ×4；superior cerebellar artery ×2；superior intercostal artery ×2；Superior vermian branch of medial branch of superior cerebellar artery ×4；suprascapular artery ×4；supreme intercostal artery ×2；Temporo-occipital branch of middle cerebral artery ×4；thalamogeniculate artery ×4；thalamoperforating artery ×4；thyrocervical trunk ×2；transverse cervical artery ×2；Trunk of inferior terminal branch of middle cerebral artery ×2；Trunk of thoraco-acromial artery ×2；vertebral artery ×6
 - **心臟**（4）：Fourth ventricle；Interventricular foramen；lateral ventricle ×2；Third ventricle
 - **結締組織**（21）：Aponeurosis of epicranius；Check ligament of lateral rectus ×2；Check ligament of medial rectus ×2；conus elasticus ×2；coraco-acromial ligament ×2；Hyo-epiglottic ligament；intermediate tendon；lateral thyrohyoid ligament ×2；Median cricothyroid ligament；Median thyrohyoid ligament；nuchal origin of trapezius；Pharyngeal raphe；pterygomandibular raphe ×2；stylohyoid ligament ×2；suboccipital triangle ×2；superior transverse scapular ligament ×2；Tendon of levator palpebrae superioris；Thyro-epiglottic ligament；thyrohyoid membrane ×2；Trochlea of superior oblique ×2；vocal ligament ×2
 - **消化**（3）：sublingual gland ×2；submandibular gland ×2；Tongue
 - **內分泌**（2）：Pineal body；Pituitary gland
-- **體表**（4）：Eyebrow；Hair of head；Lip；Skin
+- **體表**（4）：Eyebrow；Hair of head；Lip；Skin ×2
 - **肌肉**（89）：aryepiglotticus ×2；buccinator ×2；cervical rotator ×2；corrugator supercilii ×2；Deep part of masseter ×2；depressor anguli oris ×2；depressor labii inferioris ×2；depressor septi nasi ×2；Descending part of trapezius ×2；digastric ×5；frontalis ×2；genioglossus ×2；geniohyoid ×2；hyoglossus ×2；iliocostalis cervicis ×2；inferior oblique ×2；Inferior oblique part of longus colli ×2；inferior rectus ×2；interspinalis thoracis ×2；lateral crico-arytenoid ×2；lateral rectus ×2；levator anguli oris ×2；levator labii superioris ×2；levator labii superioris alaeque nasi ×2；levator palpebrae superioris ×2；levator veli palatini ×2；longissimus capitis ×2；longissimus cervicis ×2；longus capitis ×2；Lower head of lateral pterygoid ×2；medial pterygoid ×2；medial rectus ×2；mentalis ×2；mylohyoid ×2；nasalis ×2；oblique arytenoid ×2；Oblique part of cricothyroid ×2；obliquus capitis inferior ×2；obliquus capitis superior ×2；occipitalis ×2；omohyoid ×2；Orbicularis oris；Orbital part of orbicularis oculi ×2；Palpebral part of orbicularis oculi ×2；platysma ×2；posterior crico-arytenoid ×2；procerus ×2；rectus capitis anterior ×2；rectus capitis lateralis ×2；rectus capitis posterior major ×2；rectus capitis posterior minor ×2；rhomboid minor ×2；risorius ×2；scalenus anterior ×2；scalenus medius ×2；scalenus posterior ×2；semispinalis capitis ×2；semispinalis cervicis ×2；set of anterior cervical intertransversarii ×2；set of interspinales cervicis ×2；set of posterior cervical intertransversarii ×2；spinalis ×2；spinalis cervicis ×2；splenius capitis ×2；splenius cervicis ×2；sternocleidomastoid ×2；sternohyoid ×2；sternothyroid ×2；Straight part of cricothyroid ×2；stylohyoid ×2；subclavius ×2；Superficial part of masseter ×2；superior oblique ×2；Superior oblique part of longus colli ×2；superior rectus ×2；supraspinatus ×2；temporalis ×2；temporoparietalis ×2；tensor veli palatini ×2；thyro-arytenoid ×4；thyrohyoid ×2；Transverse arytenoid；Transverse part of trapezius ×2；Upper head of lateral pterygoid ×2；Uvular muscle；Vertical intermediate part of longus colli ×2；vocalis ×2；zygomaticus major ×2；zygomaticus minor ×2
 - **神經**（90）：amygdala ×2；angular gyrus ×2；Anterior commissure；anterior ethmoidal nerve ×2；Anterior part of superior temporal gyrus ×2；Brachium of inferior colliculus ×2；Brachium of superior colliculus ×2；C1 spinal nerve ×2；C2 spinal nerve ×2；C3 spinal nerve ×2；C4 spinal nerve ×2；C5 spinal nerve ×2；C6 spinal nerve ×2；C7 spinal nerve ×2；C8 spinal nerve ×2；caudate nucleus ×2；Central canal of spinal cord；Cerebellum ×2；Cerebral aqueduct；ciliary ganglion ×2；cingulate gyrus ×2；Commissure of fornix of forebrain；Communicating branch of nasociliary nerve with ciliary ganglion ×2；Corpus callosum；dorsal ramus of C1 spinal nerve ×2；dorsal ramus of C2 spinal nerve ×2；dorsal ramus of C3 spinal nerve ×2；dorsal ramus of C4 spinal nerve ×2；dorsal ramus of C5 spinal nerve ×2；dorsal ramus of C6 spinal nerve ×2；dorsal ramus of C7 spinal nerve ×2；dorsal ramus of C8 spinal nerve ×2；fornix of forebrain ×2；frontal nerve ×2；fusiform gyrus ×2；globus pallidus ×2；Habenula；hippocampus ×2；Hypothalamus ×2；Inferior branch of oculomotor nerve ×2；inferior colliculus ×2；inferior frontal gyrus ×2；inferior temporal gyrus ×2；infratrochlear nerve ×2；insula ×2；internal capsule ×2；Interpeduncular fossa ×2；lacrimal nerve ×2；Lamina terminalis ×2；lateral geniculate body ×2；long ciliary nerve ×2；Mammillary body ×2；medial geniculate body ×2；Medulla oblongata ×2；Midbrain ×2；middle frontal gyrus ×2；middle temporal gyrus ×2；nasociliary nerve ×2；occipital lobe ×2；ophthalmic nerve ×2；Optic chiasm ×2；optic nerve ×4；optic tract ×2；Orbital gyrus ×2；parahippocampal gyrus ×2；Peduncle of midbrain ×2；Pons ×2；postcentral gyrus ×2；Posterior commissure；posterior ethmoidal nerve ×2；Posterior part of superior temporal gyrus ×2；precentral gyrus ×2；putamen ×2；recurrent laryngeal nerve ×2；Septum of telencephalon；Short ciliary nerve ×2；stria medullaris of thalamus ×2；stria terminalis ×2；Superior branch of oculomotor nerve ×2；superior colliculus ×2；superior frontal gyrus ×2；superior parietal lobule ×2；supra-orbital nerve ×2；supramarginal gyrus ×2；supratrochlear nerve ×2；Tentorium cerebelli；thalamus ×2；trochlear nerve ×2；Tuber cinereum ×2；White matter of cerebral hemisphere ×2
 - **呼吸**（18）：Apex of lung ×2；apical segmental bronchial tree ×10；Contact area for trachea of lung；Epiglottis；Esophageal impression of lung；Groove for brachiocephalic vein；Groove for first rib of lung ×2；groove for subclavian artery ×2；inferior nasal concha ×2；inferior pharyngeal constrictor ×2；lateral nasal cartilage ×2；middle pharyngeal constrictor ×2；palatopharyngeus ×2；salpingopharyngeus ×2；Septal nasal cartilage；stylopharyngeus ×2；superior pharyngeal constrictor ×2；Trachea
@@ -49,11 +49,11 @@
 
 ## 胸腔 → 胸壁
 
-186 個網格，95 個名稱。
+187 個網格，95 個名稱。
 
 - **動脈**（14）：anterior intercostal arteries ×2；costocervical trunk ×2；first posterior intercostal artery ×4；internal thoracic artery ×4；lateral mammary artery ×2；lateral thoracic artery ×4；medial mammary branch of internal thoracic artery ×2；musculophrenic artery ×4；Posterior intercostal arteries ×4；second posterior intercostal artery ×4；superior epigastric artery ×4；superior intercostal artery ×2；superior thoracic artery ×2；supreme intercostal artery ×2
 - **結締組織**（2）：clavipectoral triangle ×2；suspensory ligament of breast ×2
-- **體表**（1）：Skin
+- **體表**（1）：Skin ×2
 - **肌肉**（16）：Abdominal part of pectoralis major ×2；Clavicular part of pectoralis major ×2；Diaphragm；external intercostal muscle ×2；innermost intercostal muscle ×2；internal intercostal muscle ×2；latissimus dorsi ×2；pectoralis minor ×2；serratus anterior ×2；serratus posterior superior ×2；Set of levatores costarum breves ×2；Set of levatores costarum longi ×2；Sternocostal part of pectoralis major ×2；subclavius ×2；subcostal muscles ×2；transversus thoracis ×4
 - **神經**（3）：dorsal ramus of thoracic spinal nerve ×2；intercostobrachial nerve ×2；posterior cutaneous branch of dorsal ramus of thoracic spinal nerve ×2
 - **生殖**（6）：adipose tissue of breast ×2；areola ×2；lactiferous ducts ×2；lactiferous sinuses ×2；mammary gland ×2；nipple ×2
@@ -74,10 +74,10 @@
 
 ## 背部
 
-169 個網格，110 個名稱。
+170 個網格，110 個名稱。
 
 - **結締組織**（4）：denticulate ligament ×2；Ligamentum flavum；nuchal origin of trapezius；thoracolumbar fascia ×4
-- **體表**（1）：Skin
+- **體表**（1）：Skin ×2
 - **肌肉**（35）：Ascending part of trapezius ×2；cervical rotator ×2；Descending part of trapezius ×2；iliocostalis cervicis ×2；iliocostalis lumborum ×2；iliocostalis thoracis ×2；interspinalis thoracis ×2；lateral lumbar intertransversarius ×2；latissimus dorsi ×2；longissimus capitis ×2；longissimus cervicis ×2；longissimus thoracis ×2；lumbar rotator ×2；medial lumbar intertransversarius ×2；multifidus ×2；rhomboid major ×2；rhomboid minor ×2；semispinalis capitis ×2；semispinalis cervicis ×2；semispinalis thoracis ×2；serratus posterior inferior ×2；serratus posterior superior ×2；set of anterior cervical intertransversarii ×2；set of interspinales cervicis ×2；set of interspinales lumborum ×2；Set of levatores costarum breves ×2；Set of levatores costarum longi ×2；set of posterior cervical intertransversarii ×2；spinalis ×2；spinalis cervicis ×2；spinalis thoracis ×2；splenius capitis ×2；splenius cervicis ×2；thoracic rotator ×2；Transverse part of trapezius ×2
 - **神經**（18）：C1 spinal nerve ×2；C2 spinal nerve ×2；C3 spinal nerve ×2；C4 spinal nerve ×2；C5 spinal nerve ×2；C6 spinal nerve ×2；C7 spinal nerve ×2；C8 spinal nerve ×2；dorsal ramus of C1 spinal nerve ×2；dorsal ramus of C2 spinal nerve ×2；dorsal ramus of C3 spinal nerve ×2；dorsal ramus of C4 spinal nerve ×2；dorsal ramus of C5 spinal nerve ×2；dorsal ramus of C6 spinal nerve ×2；dorsal ramus of C7 spinal nerve ×2；dorsal ramus of C8 spinal nerve ×2；dorsal ramus of thoracic spinal nerve ×2；posterior cutaneous branch of dorsal ramus of thoracic spinal nerve ×2
 - **骨**（52）：Atlas；Axis；Coccyx；Eighth thoracic vertebra；Eleventh thoracic vertebra；Fifth cervical vertebra；Fifth lumbar vertebra；Fifth thoracic vertebra；First lumbar vertebra；First thoracic vertebra；Fourth cervical vertebra；Fourth lumbar vertebra；Fourth thoracic vertebra；Intervertebral disk；Intervertebral disk of axis；Intervertebral disk of eighth thoracic vertebra；Intervertebral disk of eleventh thoracic vertebra；Intervertebral disk of fifth cervical vertebra；Intervertebral disk of fifth lumbar vertebra；Intervertebral disk of fifth thoracic vertebra；Intervertebral disk of first lumbar vertebra；Intervertebral disk of first thoracic vertebra；Intervertebral disk of fourth cervical vertebra；Intervertebral disk of fourth lumbar vertebra；Intervertebral disk of fourth thoracic vertebra；Intervertebral disk of ninth thoracic vertebra；Intervertebral disk of second lumbar vertebra；Intervertebral disk of second thoracic vertebra；Intervertebral disk of seventh cervical vertebra；Intervertebral disk of seventh thoracic vertebra；Intervertebral disk of sixth cervical vertebra；Intervertebral disk of sixth thoracic vertebra；Intervertebral disk of tenth thoracic vertebra；Intervertebral disk of third cervical vertebra；Intervertebral disk of third lumbar vertebra；Intervertebral disk of third thoracic vertebra；levator scapulae ×2；Ninth thoracic vertebra；Posterior arch of atlas；Sacrum ×2；Second lumbar vertebra；Second thoracic vertebra；Seventh cervical vertebra；Seventh thoracic vertebra；Sixth cervical vertebra；Sixth thoracic vertebra；Spinous process of axis；Tenth thoracic vertebra；Third cervical vertebra；Third lumbar vertebra；Third thoracic vertebra；Twelfth thoracic vertebra
@@ -96,11 +96,11 @@
 
 ## 腹腔 → 腹壁
 
-62 個網格，27 個名稱。
+63 個網格，27 個名稱。
 
 - **動脈**（5）：inferior epigastric artery ×4；subcostal artery ×4；superficial circumflex iliac artery ×2；superficial epigastric artery ×4；superior epigastric artery ×4
 - **結締組織**（3）：inguinal ligament ×2；Linea alba；rectus sheath
-- **體表**（1）：Skin
+- **體表**（1）：Skin ×2
 - **肌肉**（7）：Diaphragm；external oblique ×2；internal oblique ×2；latissimus dorsi ×2；pyramidalis ×2；rectus abdominis ×2；transversus abdominis ×2
 - **骨**（7）：eighth rib ×2；eleventh rib ×2；ninth rib ×2；seventh costal cartilage ×2；seventh rib ×2；tenth rib ×2；twelfth rib ×2
 - **靜脈**（4）：inferior epigastric vein ×4；subcostal vein ×4；superficial epigastric vein ×2；superior epigastric vein ×2
@@ -122,11 +122,11 @@
 
 ## 骨盆與會陰 → 骨盆器官
 
-70 個網格，42 個名稱；內部視圖中 7 個骨骼半透明。
+69 個網格，41 個名稱；內部視圖中 7 個骨骼半透明。
 
 - **動脈**（3）：Sigmoid artery ×2；Superior rectal artery ×2；uterine artery ×2
 - **消化**（1）：Rectum
-- **生殖**（24）：ampulla of uterine tube ×2；Body of uterus；Broad ligament of uterus；cardinal ligament of uterus ×2；Cervicovaginal junction；Cervix of uterus；deferent duct ×2；fimbriae of uterine tube ×2；Fundus of uterus；infundibulum of uterine tube ×2；isthmus of uterine tube ×2；Lower uterine segment；mesosalpinx ×2；mesovarium ×2；ovarian ligament ×2；ovary ×2；Prostate；round ligament of uterus ×2；seminal vesicle ×2；suspensory ligament of ovary ×2；Uterine cornua；uterosacral ligament ×2；Vagina；Vestibule of vagina
+- **生殖**（23）：ampulla of uterine tube ×2；Body of uterus；Broad ligament of uterus；cardinal ligament of uterus ×2；Cervicovaginal junction；Cervix of uterus；deferent duct ×2；fimbriae of uterine tube ×2；Fundus of uterus；infundibulum of uterine tube ×2；isthmus of uterine tube ×2；Lower uterine segment；mesosalpinx ×2；mesovarium ×2；ovarian ligament ×2；ovary ×2；Prostate；round ligament of uterus ×2；seminal vesicle ×2；suspensory ligament of ovary ×2；Uterine cornua；uterosacral ligament ×2；Vagina
 - **漿膜**（3）：Pelvic peritoneum；Rectouterine pouch；Vesicouterine pouch
 - **骨**（3）：Coccyx；hip bone ×4；Sacrum ×2
 - **泌尿**（5）：Female urethra；Trigone of urinary bladder；ureter ×4；Urethra；Urinary bladder ×2
@@ -134,11 +134,11 @@
 
 ## 骨盆與會陰 → 骨盆壁
 
-104 個網格，33 個名稱。
+105 個網格，33 個名稱。
 
 - **動脈**（6）：deep branch of superior gluteal artery ×2；external iliac artery ×3；inferior gluteal artery ×2；internal iliac artery ×4；superficial branch of superior gluteal artery ×2；superior gluteal artery ×4
 - **結締組織**（2）：tendinous arch of levator ani ×4；tendinous arch of soleus ×2
-- **體表**（1）：Skin
+- **體表**（1）：Skin ×2
 - **肌肉**（7）：coccygeus ×3；iliococcygeus ×3；obturator externus ×2；obturator internus ×2；piriformis ×2；pubococcygeus ×3；puborectalis ×3
 - **神經**（2）：inferior gluteal nerve ×2；nerve to obturator internus ×2
 - **骨**（7）：Coccyx；hip bone ×4；iliac crest ×2；ischial tuberosity ×2；pubic tubercle ×2；Sacrum ×2；spine of ischium ×2
@@ -146,23 +146,23 @@
 
 ## 骨盆與會陰 → 會陰
 
-58 個網格，29 個名稱。
+55 個網格，26 個名稱。
 
 - **動脈**（4）：deep external pudendal artery ×2；dorsal artery of penis ×8；internal pudendal artery ×2；superficial external pudendal artery ×2
-- **體表**（2）：Pubic hair；Skin
+- **體表**（2）：Pubic hair ×2；Skin ×2
 - **肌肉**（2）：External anal sphincter ×3；superficial perineal muscle
-- **生殖**（15）：bulb of vestibule ×2；Cervicovaginal junction；Clitoris；Corpus cavernosum of penis；Corpus spongiosum of penis；crus of clitoris ×2；epididymis ×2；Glans penis；greater vestibular gland ×2；labium majus ×2；labium minus ×2；Mons pubis；testis ×2；Vagina；Vestibule of vagina
+- **生殖**（12）：Body of clitoris；bulb of vestibule ×2；Cervicovaginal junction；Corpus cavernosum of penis；Corpus spongiosum of penis；crus of clitoris ×2；epididymis ×2；Glans of clitoris；Glans penis；greater vestibular gland ×2；testis ×2；Vagina
 - **骨**（1）：ischial tuberosity ×2
 - **泌尿**（2）：Female urethra；Urethra
 - **靜脈**（3）：Deep dorsal vein of penis ×2；internal pudendal vein ×4；Superficial dorsal vein of penis ×6
 
 ## 臀區
 
-70 個網格，30 個名稱。
+71 個網格，30 個名稱。
 
 - **動脈**（5）：deep branch of superior gluteal artery ×2；inferior gluteal artery ×2；internal pudendal artery ×2；superficial branch of superior gluteal artery ×2；superior gluteal artery ×4
 - **結締組織**（1）：tensor fasciae latae ×2
-- **體表**（1）：Skin
+- **體表**（1）：Skin ×2
 - **肌肉**（9）：gemellus inferior ×2；gemellus superior ×2；gluteus maximus ×2；gluteus medius ×2；gluteus minimus ×2；obturator externus ×2；obturator internus ×2；piriformis ×2；quadratus femoris ×2
 - **神經**（2）：inferior gluteal nerve ×2；nerve to obturator internus ×2
 - **骨**（8）：Coccyx；femur ×2；hip bone ×4；iliac crest ×2；ischial tuberosity ×2；pubic tubercle ×2；Sacrum ×2；spine of ischium ×2
