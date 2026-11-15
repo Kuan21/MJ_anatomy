@@ -130,7 +130,8 @@ export default function RegionQuiz({region: regionId = 'lower-limb', block}: {re
       {phase === 'playing' ? <button data-slot="quiz-button" className="quiz-quiet" onClick={() => setPhase('summary')}>結束測驗 <X size={16}/></button> : phase === 'review' ? <button data-slot="quiz-button" className="quiz-quiet" onClick={() => setPhase('summary')}>返回成績 <ArrowLeft size={16}/></button> : <span className="quiz-header-tag">{region.tag}</span>}
     </header>
 
-    {phase === 'setup' && <div className="quiz-setup-content">
+    {phase === 'setup' && block && <div className="quiz-pool-note" role="status" style={{padding: 32}}>{catalogueError || '正在準備題目…'}{catalogueError && <button data-slot="quiz-button" onClick={() => setCatalogueRetry(n => n + 1)}>重新載入</button>}</div>}
+    {phase === 'setup' && !block && <div className="quiz-setup-content">
       <section className="quiz-intro">
         <div className="quiz-kicker"><Target size={15}/> FIND THE STRUCTURE</div>
         <h1 ref={title} tabIndex={-1}>{region.headline[0]}<br/>{region.headline[1]}</h1>
