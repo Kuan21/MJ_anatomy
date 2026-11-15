@@ -44,8 +44,10 @@ const base = `http://127.0.0.1:${port}${process.env.BASE_PATH || '/'}`;
   // the list, the search and the card
   await p.locator('.organ-search input').fill('canal'); await p.waitForTimeout(500); await shot('17-search-canal'); await p.locator('.organ-search input').fill('');
   if (size !== 'mobile') {await pick('Round window'); await shot('18-round-window-card');}
-  // quiz
+  // quiz (the page is optional for the detail screenshots: a failure here only skips its shots)
+  try {
   await p.goto(`${base}#/quiz/ear`); await p.waitForTimeout(2500); await shot('19-quiz-setup');
   await p.locator('button', {hasText: '膜性迷路'}).first().click(); await p.waitForTimeout(400); await p.locator('button', {hasText: '開始測驗'}).click(); await p.waitForTimeout(9000); await shot('20-quiz-question');
+  } catch (e) {console.log('quiz shots skipped:', e.message.split('\n')[0]);}
   await b.close();
 })().catch(e => {console.error(e); process.exit(1);});
