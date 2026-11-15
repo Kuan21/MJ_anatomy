@@ -2415,12 +2415,12 @@
     "frame": 8
   },
   "FJ1735": {
-    "name": "Brachium of left superior colliculus",
+    "name": "Brachium of right superior colliculus",
     "rig": "head",
     "frame": 8
   },
   "FJ1736": {
-    "name": "Brachium of right superior colliculus",
+    "name": "Brachium of left superior colliculus",
     "rig": "head",
     "frame": 8
   },
@@ -3425,7 +3425,7 @@
     "frame": null
   },
   "FJ2742": {
-    "name": "Right middle pharyngeal constrictor",
+    "name": "Left middle pharyngeal constrictor",
     "rig": "head",
     "frame": null
   },
@@ -3485,7 +3485,7 @@
     "frame": null
   },
   "FJ2754": {
-    "name": "Left middle pharyngeal constrictor",
+    "name": "Right middle pharyngeal constrictor",
     "rig": "head",
     "frame": null
   },

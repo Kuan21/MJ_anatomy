@@ -1,0 +1,1 @@
+node scripts/test-quiz-lesson-pending.mjs

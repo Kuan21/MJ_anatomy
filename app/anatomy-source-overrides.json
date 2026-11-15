@@ -1,7 +1,9 @@
 {
   "exclude": [
     "FJ1471",
-    "FJ1471M"
+    "FJ1471M",
+    "FJ2769",
+    "FJ3201"
   ],
   "parts": {
     "FJ2186": {
@@ -39,6 +41,22 @@
     "FJ2091": {
       "name": "Left ascending and transverse branches of lateral circumflex femoral artery",
       "conceptId": "MJ-LCFA-BRANCHES-L"
+    },
+    "FJ2742": {
+      "name": "Left middle pharyngeal constrictor",
+      "conceptId": "FMA46634"
+    },
+    "FJ2754": {
+      "name": "Right middle pharyngeal constrictor",
+      "conceptId": "FMA46633"
+    },
+    "FJ1735": {
+      "name": "Brachium of right superior colliculus",
+      "conceptId": "FMA73461"
+    },
+    "FJ1736": {
+      "name": "Brachium of left superior colliculus",
+      "conceptId": "FMA73462"
     }
   },
   "concepts": {
