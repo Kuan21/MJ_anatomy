@@ -45,6 +45,7 @@
 | FJ1312 | Ophthalmic nerve | 眼神經 | 眼眶神經 | 待對照共筆 |
 | FJ1290 | Frontal nerve | 額神經 | 眼眶神經 | 待對照共筆 |
 | FJ1325 | Supraorbital nerve | 眶上神經 | 眼眶神經 | 待對照共筆 |
+| infraorbital-nerve | Infraorbital nerve | 眶下神經 | 眼眶神經 | 待對照共筆 |
 | FJ1326 | Supratrochlear nerve | 滑車上神經 | 眼眶神經 | 待對照共筆 |
 | FJ1300 | Lacrimal nerve | 淚腺神經 | 眼眶神經 | 待對照共筆 |
 | FJ1310 | Nasociliary nerve | 鼻睫神經 | 眼眶神經 | 待對照共筆 |
@@ -83,4 +84,4 @@
 | macula_lutea | Macula lutea | 黃斑部 | 視網膜標誌 | 待對照共筆 |
 | fovea | Fovea centralis | 中央小凹 | 視網膜標誌 | 待對照共筆 |
 
-合計 71 個構造：待對照 62，已對照神經解剖共筆 9。
+合計 72 個構造：待對照 63，已對照神經解剖共筆 9。
