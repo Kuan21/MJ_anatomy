@@ -481,8 +481,20 @@ function paokaoProfile(rawName:string,system:SystemId,part?:Part):StructureProfi
 /** A field with no content in either language is not shown on any card. */
 const hasText=(v?:string)=>!!v&&v.trim().length>0;
 export const nonEmptyFacts=<T extends {valueEn?:string;valueZh?:string}>(facts:T[]|undefined):T[]=>(facts??[]).filter(f=>hasText(f.valueEn)||hasText(f.valueZh));
+/**
+ * Arteries whose origin varies between people. The vessel tree of the model joins each mesh to ONE parent, which is the common pattern but not the only one, so the card states the variants instead of the single mesh parent.
+ * Dorsal scapular artery: usually the third part of the subclavian artery (sometimes the second part), or the deep (descending) branch of the transverse cervical artery.
+ */
+const ORIGIN_VARIANTS:{test:RegExp;en:string;zh:string}[]=[
+ {test:/^(?:left |right )?dorsal scapular artery$/i,en:'Variable: the third part of the subclavian artery (sometimes the second part), or the deep branch of the transverse cervical artery',zh:'有變異：起自鎖骨下動脈第三段（有時為第二段），或起自頸橫動脈深支'},
+];
 export function structureProfile(rawName:string,system:SystemId,part?:Part):StructureProfile{
- const p=structureProfileRaw(rawName,system,part);
+ let p=structureProfileRaw(rawName,system,part);
+ const variant=system==='arterial'?ORIGIN_VARIANTS.find(v=>v.test.test((part?.name??rawName).trim())):undefined;
+ if(variant&&p.facts){
+  const origin:BilingualFact={labelEn:'Origin',labelZh:'來源',valueEn:variant.en,valueZh:variant.zh},at=p.facts.findIndex(f=>f.labelZh==='來源'||f.labelEn==='Origin');
+  p={...p,facts:at>=0?p.facts.map((f,i)=>i===at?origin:f):[origin,...p.facts]};
+ }
  return p.facts?{...p,facts:nonEmptyFacts(p.facts)}:p;
 }
 function structureProfileRaw(rawName:string,system:SystemId,part?:Part):StructureProfile{
