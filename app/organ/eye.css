@@ -27,3 +27,8 @@
 .eye-header-actions .csf-toggle{padding:4px 10px;min-height:36px;white-space:nowrap}
 .eye-buttons{grid-template-columns:repeat(3,1fr)}
 }
+/* The info card stays at the top of the right column while it scrolls; no padding above it, so nothing scrolls into view over or behind it. */
+@media(min-width:901px){
+.organ-panel:has(.eye-block){padding-top:0}
+.organ-panel:has(.eye-block)>.organ-info{margin-top:16px;top:0}
+}
