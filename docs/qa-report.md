@@ -39,7 +39,8 @@
 | HN-02 | 頭頸／腦神經 | Vagus nerve (X) 迷走神經 Quiz 資訊卡「走向」（#337，左右共用一筆） | 寫「之後入胸腔，喉返神經由此分出並上行回到喉部」。右喉返神經在頸根部分出，勾住右鎖骨下動脈後上行；左喉返神經才在胸腔分出，勾住主動脈弓。左右要分開寫。 | `app/quiz/card-data.ts` 的 `'vagus nerve (x)'` 走向欄 | Gray's Anatomy 1918；TeachMeAnatomy；Kenhub | 會令溫書學錯 | 頭頸資訊卡（#337 批次） |
 | HN-03 | 腦／Quiz、腦詳細模式 | 腦 Quiz 中線結構被拆成左右 | 單一的中線結構被拆成左、右兩題：視交叉（Left／Right Optic chiasm 左／右視交叉）、橋腦（Left／Right Pons 左／右橋腦）、中腦（Left／Right Midbrain 左／右中腦）、延腦（只有 Left Medulla oblongata 左延腦）。學生會以為有「左視交叉」「右橋腦」等獨立構造。完整掃描見下方「腦部中線結構掃描」。 | `quiz-brain.json` 的結構名稱；brain.glb 節點 `Optic chiasm.l/.r`、`Pons.l/.r`、`Midbrain.l/.r` 的範圍都剛好以 x = 0 為界 | Gray's Anatomy 1918；OpenStax Anatomy & Physiology（腦幹與視交叉為正中構造） | 會令溫書學錯 | 腦部工作階段（由總管指定） |
 | HN-04 | 腦詳細模式 | Medulla oblongata 延腦模型 | brain.glb 只有 `Medulla oblongata.l`（x 0～+13 mm），沒有右半；腦詳細模式的延腦缺右半邊。 | brain.glb 節點清單與 POSITION 範圍 | OpenStax Anatomy & Physiology | 會令溫書學錯（與 HN-03 同一處修） | 腦部工作階段（由總管指定） |
-| HN-05 | 腦詳細模式 | Tentorium cerebelli 小腦幕、Anterior spinal artery 脊髓前動脈 | 兩者都是單一構造，但 brain.glb 拆成 `.l`／`.r` 兩半（各以 x = 0 為界）。目前不在 Quiz，點選時名稱是否帶左右待功能測試確認。 | brain.glb 節點範圍 | Gray's Anatomy 1918 | 影響使用 | 腦部工作階段（由總管指定） |
+| HN-05 | 腦詳細模式 | Tentorium cerebelli 小腦幕、Anterior spinal artery 脊髓前動脈 | 兩者都是單一構造，但 brain.glb 拆成 `.l`／`.r` 兩半（各以 x = 0 為界）。目前不在 Quiz，點選時名稱是否帶左右待功能測試確認。脊髓前動脈是單一中線動脈；本項要與 HN-03、HN-04 由同一個工作階段一起修（使用者 2026-11-15 決定）。 | brain.glb 節點範圍 | Gray's Anatomy 1918 | 影響使用 | 腦部工作階段（由總管指定），與 HN-03、HN-04 同一批 |
+| HN-10 | 腦／Quiz、腦詳細模式 | Fornix 穹窿 | 只有 Left／Right Fornix 左／右穹窿（brain.glb `Fornix.l/.r`，以 x = 0 為界）。左右穹窿腳保留；穹窿體是中線構造，模型與 Quiz 要有單一「Body of fornix 穹窿體」，不分左右（使用者 2026-11-15 決定）。 | brain.glb 節點範圍；`quiz-brain.json` | Gray's Anatomy 1918；OpenStax Anatomy & Physiology | 會令溫書學錯 | 腦部工作階段（由總管指定），與 HN-03、HN-04 同一批 |
 | HN-06 | 腦／Quiz | 腦 Quiz 英文大小寫 | 416 題中 383 題在 Left／Right 後保留大寫，例如「Left Lateral sulcus」「Right Pons」，與主圖譜寫法（Left lateral…）不一致。 | `quiz-brain.json` | — | 外觀小問題 | 總管（Quiz） |
 | HN-07 | 頭頸／名稱 | 字形「頷／頜」「腭／顎」 | `docs/quiz-head-neck-name-decisions.md` 已決定統一用「頜」「顎」，但網站仍兩種並存：Quiz 中文名「右下頷神經前股、後股」「右上頷神經腦膜支」，#337 資訊卡「下頷神經」「上頷竇」「硬腭」，主圖譜資訊卡「腭咽肌」。 | 已部署資料與資訊卡文字 | FIPAT TA2（名詞對照） | 外觀小問題 | 總管（套用名稱決定） |
 | HN-08 | 頭頸／眼、喉 | 5 個結構的範圍框（bounds） | Right sclera、Suspensory ligament of right lens、Left conus elasticus、Right aryepiglotticus、Straight part of right cricothyroid 的 atlas.json 範圍框跨到對側（例如 Right sclera 範圍 x −44～+31 mm，實際網格 −44～−17 mm）。可能影響 Focus 取景與「不在目前視野」提示。 | atlas.json bounds 對比實際頂點 | — | 外觀小問題 | 頭頸模型 |
@@ -84,7 +85,7 @@
 
 **沒有被拆開（正常）**：Corpus callosum 胼胝體、Pineal gland 松果體、Adenohypophysis 腺垂體、Neurohypophysis 神經垂體、Third ventricle 第三腦室、Fourth ventricle 第四腦室、Aqueduct of midbrain 中腦導水管、Septum pellucidum 透明中隔、Anterior／Posterior／Hippocampal commissure 前／後／海馬連合、蚓部各葉（Lingula、Central lobule、Culmen、Declive、Folium、Tuber、Pyramis、Uvula、Nodule）、Basilar artery 基底動脈、Anterior communicating artery 前交通動脈、Superior／Inferior sagittal sinus 上／下矢狀竇、Straight sinus 直竇、Occipital sinus 枕竇、Falx cerebri 大腦鐮、Anterior／Posterior intercavernous sinus 前／後海綿間竇。
 
-**本來就左右成對、分左右正確**：下視丘各部（Preoptic／Anterior／Tuberal／Lateral／Posterior hypothalamus）、Pyramid of medulla oblongata 延腦錐體、Superior／Inferior colliculus 上／下丘、Fornix 穹窿（腳與柱成對；體部在中線，題目只有左右兩題，請使用者決定是否加「體部」說明）、Wing of central lobule 中央小葉翼、基底動脈橋腦內側支與外側支。
+**本來就左右成對、分左右正確**：下視丘各部（Preoptic／Anterior／Tuberal／Lateral／Posterior hypothalamus）、Pyramid of medulla oblongata 延腦錐體、Superior／Inferior colliculus 上／下丘、Fornix 穹窿的腳（體部在中線，見 HN-10）、Wing of central lobule 中央小葉翼、基底動脈橋腦內側支與外側支。
 
 ### 9 名稱（進行中）
 
@@ -177,15 +178,17 @@
 | 口腔 | RS-0856 | Terminal sulcus 界溝（舌） | 沒有 |
 | 其他 | RS-0707 | Scalp 頭皮 | 只有腦資訊卡 |
 
+耳 16 項全部是因為耳詳細模式尚未部署到網站；耳的 PR 合併後重新核對這 16 項（使用者 2026-11-15 指示）。
+
 合計 49 個結構（50 個清單 id；翼靜脈叢、鼓索神經、小腦延腦池各有兩個 id）。分組：骨 11、動脈 5、靜脈 1、神經 2、腦 12、耳 16、口腔 1、其他 1。建議負責：耳由總管（耳詳細模式）；腦膜、腦池與嗅球由腦部工作階段；骨性標記、孔、頸部動脈與翼靜脈叢由頭頸模型；界溝、頭皮由總管分派。
 
-另外建議修改檢查方法：`check-required-structures.mjs` 把 CARD-ONLY 與 CONCEPT-ONLY 算作「已有」，與完成標準不符；建議改為只把有 3D 網格（PRESENT、ALIAS）算已有，其餘列入缺項（交總管決定）。
+缺項規則（使用者 2026-11-15 批准）：只有資訊卡或只有概念、沒有 3D 模型的項目一律算缺項。`check-required-structures.mjs` 目前把 CARD-ONLY 與 CONCEPT-ONLY 算作「已有」，要改為只把有 3D 網格（PRESENT、ALIAS）算已有，並把上表各項加入 `known-gaps.json`（交總管分派）。
 
-### B01 批次編號衝突（等使用者批）
+### B01 批次編號衝突（使用者 2026-11-15 已批准）
 
 - `docs/quiz-head-neck-card-plan.md` 的批次表：B01＝骨（14 塊頭骨），B06＝神經（28 條），B07＝神經（8 條）。
 - 已合併的 #337 與登記表稱「B01 神經」：實際內容是 13 條頭頸神經，不是計劃表的 B01 骨。
-- 建議：以計劃表為唯一編號來源，批次名稱寫成「類別＋計劃表編號」，例如「B06 神經（第 1 部分，#337）」；#337 的 review-log 與登記表改用這個寫法；之後每批 PR 標題都用「頭頸資訊卡 B06 神經（1/2）」這類格式，避免同一編號指兩批。核對報告暫時以 PR 編號指稱（例如「#337 神經卡」）。
+- 決定：以資訊卡計劃表（`docs/quiz-head-neck-card-plan.md`）為唯一編號來源，批次名稱寫成「類別＋計劃表編號」，例如「B06 神經（第 1 部分，#337）」；#337 的 review-log 與登記表改用這個寫法；之後每批 PR 標題都用「頭頸資訊卡 B06 神經（1/2）」這類格式，避免同一編號指兩批。核對報告暫時以 PR 編號指稱（例如「#337 神經卡」）。
 
 ### 13 資訊卡（#337 神經卡已核對；其餘待做）
 
