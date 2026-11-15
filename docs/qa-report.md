@@ -41,6 +41,7 @@
 | HN-04 | 腦詳細模式 | Medulla oblongata 延腦模型 | brain.glb 只有 `Medulla oblongata.l`（x 0～+13 mm），沒有右半；腦詳細模式的延腦缺右半邊。 | brain.glb 節點清單與 POSITION 範圍 | OpenStax Anatomy & Physiology | 會令溫書學錯（與 HN-03 同一處修） | 腦部工作階段（由總管指定） |
 | HN-05 | 腦詳細模式 | Tentorium cerebelli 小腦幕、Anterior spinal artery 脊髓前動脈 | 兩者都是單一構造，但 brain.glb 拆成 `.l`／`.r` 兩半（各以 x = 0 為界）。目前不在 Quiz，點選時名稱是否帶左右待功能測試確認。脊髓前動脈是單一中線動脈；本項要與 HN-03、HN-04 由同一個工作階段一起修（使用者 2026-11-15 決定）。 | brain.glb 節點範圍 | Gray's Anatomy 1918 | 影響使用 | 腦部工作階段（由總管指定），與 HN-03、HN-04 同一批 |
 | HN-10 | 腦／Quiz、腦詳細模式 | Fornix 穹窿 | 只有 Left／Right Fornix 左／右穹窿（brain.glb `Fornix.l/.r`，以 x = 0 為界）。左右穹窿腳保留；穹窿體是中線構造，模型與 Quiz 要有單一「Body of fornix 穹窿體」，不分左右（使用者 2026-11-15 決定）。 | brain.glb 節點範圍；`quiz-brain.json` | Gray's Anatomy 1918；OpenStax Anatomy & Physiology | 會令溫書學錯 | 腦部工作階段（由總管指定），與 HN-03、HN-04 同一批 |
+| HN-11 | 頭頸／名稱 | 中文名與必考清單用詞不同（24 個構造） | 見「9 名稱」表；名稱決定檔與 CLAUDE.md 規則不一致，等使用者決定以哪份為準 | 690 張資訊卡顯示名稱對照必考清單 | FIPAT TA2（名詞對照） | 影響使用 | 總管（決定後分派） |
 | HN-06 | 腦／Quiz | 腦 Quiz 英文大小寫 | 416 題中 383 題在 Left／Right 後保留大寫，例如「Left Lateral sulcus」「Right Pons」，與主圖譜寫法（Left lateral…）不一致。 | `quiz-brain.json` | — | 外觀小問題 | 總管（Quiz） |
 | HN-07 | 頭頸／名稱 | 字形「頷／頜」「腭／顎」 | `docs/quiz-head-neck-name-decisions.md` 已決定統一用「頜」「顎」，但網站仍兩種並存：Quiz 中文名「右下頷神經前股、後股」「右上頷神經腦膜支」，#337 資訊卡「下頷神經」「上頷竇」「硬腭」，主圖譜資訊卡「腭咽肌」。 | 已部署資料與資訊卡文字 | FIPAT TA2（名詞對照） | 外觀小問題 | 總管（套用名稱決定） |
 | HN-08 | 頭頸／眼、喉 | 5 個結構的範圍框（bounds） | Right sclera、Suspensory ligament of right lens、Left conus elasticus、Right aryepiglotticus、Straight part of right cricothyroid 的 atlas.json 範圍框跨到對側（例如 Right sclera 範圍 x −44～+31 mm，實際網格 −44～−17 mm）。可能影響 Focus 取景與「不在目前視野」提示。 | atlas.json bounds 對比實際頂點 | — | 外觀小問題 | 頭頸模型 |
@@ -59,7 +60,7 @@
 | 腦詳細模式 brain.glb | 403 | 0（右迷走神經延伸到胸腹，屬正常走向） |
 | 關節 joints.glb | 349 件中有左右者 | **2（HN-01 的一對）** |
 | 頭頸 Quiz／腦 Quiz | 435／416 題 | 1 對（HN-01）；中線結構拆左右見 HN-03 |
-| 資訊卡顯示名稱（英文 Left／Right 與中文 左／右） | 讀取中，已讀 300 張 | 0 |
+| 資訊卡顯示名稱（英文 Left／Right 與中文 左／右） | 690 張 | 0 |
 
 ### 14 Quiz 答案對應（完成）
 
@@ -87,11 +88,55 @@
 
 **本來就左右成對、分左右正確**：下視丘各部（Preoptic／Anterior／Tuberal／Lateral／Posterior hypothalamus）、Pyramid of medulla oblongata 延腦錐體、Superior／Inferior colliculus 上／下丘、Fornix 穹窿的腳（體部在中線，見 HN-10）、Wing of central lobule 中央小葉翼、基底動脈橋腦內側支與外側支。
 
-### 9 名稱（進行中）
+### 9 名稱（完成）
 
-- 主圖譜頭頸結構名稱：沒有 `.l／.r／.001` 等後綴殘留；沒有拉丁文；頭頸範圍內沒有兩個不同結構同名。全身另有 8 組同名不同結構（Right／Left transversus thoracis、Right／Left ureter、Urinary bladder、Sacrum、Right／Left hip bone），留待骨盆與腹部核對時處理。
-- 13 個小寫開頭的英文名（例如 spinalis、set of interspinales cervicis、anterior inferior cerebellar artery、artery of central sulcus），與其他名稱大小寫不一致：外觀小問題，待資訊卡讀完後一併列出。
-- 中文名與必考清單用詞不同：讀取中，已讀 300 張資訊卡中有 16 個結構不同（例如 咽上縮肌／上咽縮肌、頸深動脈／深頸動脈、大腦前動脈／前大腦動脈、腦下垂體／腦垂體、提口角肌／提嘴角肌）。注意 `docs/quiz-head-neck-name-decisions.md` 對其中多數選了網站現名、必考清單寫法作別名，與 CLAUDE.md「第二次考試範圍中文名跟必考清單用詞」的規則不一致，需使用者決定以哪一份為準。完整清單待資訊卡讀完補上。
+方法：用網站的檢視工具逐一開啟頭頸 690 個結構（中心 y ≥ 1.40 m）的資訊卡，讀取顯示的英文名與中文名，與必考清單比對；另查名稱後綴、拉丁文、重複與大小寫。
+
+- 690 張資訊卡的英文 Left／Right 與中文 左／右 全部一致。
+- 沒有 `.l／.r／.001` 後綴殘留、沒有拉丁文；頭頸範圍內沒有兩個不同結構同名。全身另有 8 組同名不同結構（Right／Left transversus thoracis、Right／Left ureter、Urinary bladder、Sacrum、Right／Left hip bone），留待骨盆與腹部核對時處理。
+- 顯示名稱小寫開頭只剩 1 個：nuchal origin of trapezius（外觀小問題，頭頸模型或總管）。
+- 顯示中文名用「頷／腭」的：左／右翼下頷縫、左／右腭咽肌（併入 HN-07）。
+- 690 張中 252 張對得到必考清單，204 張中文相同，**29 張不同**。其中 4 張是網站寫得更完整，可以接受；其餘 25 張（24 個構造）用詞不同，見下表。
+
+**注意（等使用者決定）：** `docs/quiz-head-neck-name-decisions.md` 對下表多數項目選了網站現名，必考清單寫法只作別名；這與 CLAUDE.md「第二次考試範圍中文名跟必考清單用詞」的規則不一致。請使用者決定以哪一份為準；決定後由總管分派（主圖譜名稱、資訊卡、Quiz 三處要一起改）。
+
+| 結構 | 網站中文名 | 必考清單中文名 | 差異 |
+|---|---|---|---|
+| Anterior cerebral artery | 大腦前動脈 | 前大腦動脈 | 詞序 |
+| Anterior communicating artery | 前交通動脈 | 前交通支 | 用詞 |
+| Anterior inferior cerebellar artery | 小腦前下動脈 | 前下小腦動脈 | 詞序 |
+| Posterior inferior cerebellar artery | 小腦後下動脈 | 後下小腦動脈 | 詞序 |
+| Superior cerebellar artery | 小腦上動脈 | 上小腦動脈 | 詞序 |
+| Posterior communicating artery | 後交通動脈 | 後交通支 | 用詞 |
+| Anterior spinal artery | 脊髓前動脈 | 前脊髓動脈 | 詞序 |
+| Deep cervical artery | 頸深動脈 | 深頸動脈 | 詞序 |
+| Transverse cervical artery | 頸橫動脈 | 橫頸動脈 | 詞序 |
+| Superior pharyngeal constrictor | 咽上縮肌 | 上咽縮肌 | 詞序 |
+| Middle pharyngeal constrictor | 咽中縮肌 | 中咽縮肌 | 詞序 |
+| Inferior pharyngeal constrictor | 咽下縮肌 | 下咽縮肌 | 詞序 |
+| Salpingopharyngeus | 咽鼓管咽肌 | 耳咽管咽肌 | 用詞 |
+| Palatopharyngeus | 腭咽肌 | 顎咽肌 | 字形（另見 HN-07） |
+| Levator anguli oris | 提口角肌 | 提嘴角肌 | 用詞 |
+| Lacrimal nerve | 淚腺神經 | 淚神經 | 用詞 |
+| Submandibular gland | 下頜下腺 | 頜下腺 | 用詞 |
+| Pituitary gland | 腦下垂體 | 腦垂體 | 用詞 |
+| Pons | 橋腦 | 腦橋 | 用詞 |
+| Cerebral aqueduct | 中腦導水管 | 大腦導水管 | 用詞 |
+| Tentorium cerebelli | 小腦幕 | 小腦天幕 | 用詞 |
+| Lip | 唇 | 嘴唇 | 用詞 |
+| Eyebrow | 眉毛 | 眉 | 用詞 |
+| Epiglottis | 會厭 | 會厭軟骨 | 名稱決定檔已決定保留「會厭」 |
+
+網站寫得更完整、可接受（不列為問題）：
+
+| 結構 | 網站 | 必考清單 |
+|---|---|---|
+| Interventricular foramen | 室間孔（Monro 孔） | 室間孔 |
+| Orbital／Palpebral part of orbicularis oculi | 眼輪匝肌眶部／瞼部 | 眶部／瞼部 |
+| Suspensory ligament of lens | 水晶體懸韌帶 | 懸韌帶 |
+| Major alar cartilage | 大翼軟骨 | 翼軟骨 |
+
+腦 Quiz 與頭頸 Quiz 的中文名與上表相同（另有 Quiz 才有的：大腦中動脈／中大腦動脈、大腦後動脈／後大腦動脈、外側溝／側溝；Quiz 的「右下頷神經前股、後股」見 HN-07）。
 
 #### 已知缺項分佈（`docs/required-structures/known-gaps.json`，527 項）
 
