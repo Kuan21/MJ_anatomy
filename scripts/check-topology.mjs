@@ -5,6 +5,7 @@ import {loadWorld} from './lib/paokao-world.mjs';
 import {makeUtil} from './lib/paokao-util.mjs';
 import {expand, attachment, originLevel, TOLERANCE} from './lib/topology.mjs';
 import {ARTERIES, VEINS, NERVES} from './topology-spec.mjs';
+import {loadNeckVessels} from './lib/eca-reference.mjs';
 
 const w = loadWorld({paokao: true}), U = makeUtil(w), problems = [], rows = [];
 for (const rel of [...expand(ARTERIES, 'artery'), ...expand(VEINS, 'vein'), ...expand(NERVES, 'nerve')]) {
@@ -19,7 +20,10 @@ for (const rel of [...expand(ARTERIES, 'artery'), ...expand(VEINS, 'vein'), ...e
 // ---- Whole body: every artery and vein must touch at least one other vessel of its kind (a vessel floating alone is cut off). Known singletons are listed in docs/topology-baseline.json;
 // a new one, or one that is not in the model any more, fails the build.
 const T = .0025, C = T;
-const vessels = w.entries.filter(e => (e.system === 'arterial' || e.system === 'venous') && !/^extra:/.test(e.id));
+// The neck-vessel tubes the viewer draws (carotid arteries and internal jugular veins after the load-time rebuild of the bifurcation) replace the atlas meshes of the same vessels, so the branches of the
+// external carotid artery start on them; they take part in the touching test as neighbours only (they are not listed as floating).
+const neck = (await loadNeckVessels()).map(v => ({id: `neckvessel:${v.name}`, name: v.name, system: v.system, neighbourOnly: true, load: () => ({positions: Float32Array.from(v.positions)})}));
+const vessels = [...w.entries.filter(e => (e.system === 'arterial' || e.system === 'venous') && !/^extra:/.test(e.id)), ...neck];
 const grid = new Map(), cells = new Map(), verts = new Map();
 const cellOf = (x, y, z) => `${Math.floor(x / C)},${Math.floor(y / C)},${Math.floor(z / C)}`;
 for (const e of vessels) { const g = e.load(); verts.set(e.id, g.positions); for (let i = 0; i < g.positions.length; i += 3) { const k = cellOf(g.positions[i], g.positions[i + 1], g.positions[i + 2]); (grid.get(k) ?? grid.set(k, []).get(k)).push([e.id, i]); } }
@@ -34,7 +38,7 @@ for (const e of vessels) {
     }
   }
 }
-const alone = vessels.filter(e => !touching.get(e.id).size).map(e => `${e.name} [${e.id}]`).sort();
+const alone = vessels.filter(e => !e.neighbourOnly && !touching.get(e.id).size).map(e => `${e.name} [${e.id}]`).sort();
 const baselineFile = new URL('../docs/topology-baseline.json', import.meta.url);
 if (process.argv.includes('--write')) fs.writeFileSync(baselineFile, JSON.stringify({note: 'Vessels that touch no other vessel in the source atlas (checked at 2.5 mm). Each is listed so a new floating vessel fails the build; fix them rather than adding to the list.', alone}, null, 1));
 else {

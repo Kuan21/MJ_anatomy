@@ -4,8 +4,8 @@
 
 | 狀態 | 項數 | 說明 |
 | --- | ---: | --- |
-| 已有 | 418 | 模型原本就有（含別名拼法） |
-| 新增示意模型 | 153 | 公開圖譜沒有，依真實解剖位置新做 |
+| 已有 | 417 | 模型原本就有（含別名拼法） |
+| 新增示意模型 | 154 | 公開圖譜沒有，依真實解剖位置新做 |
 | 屬於已有結構的一部分 | 14 | 肌頭、肌腱等，包含在對應肌肉內 |
 | 略過 | 7 | 非結構詞，原因見下 |
 | 缺少 | 0 | 仍缺（build 失敗） |
@@ -37,6 +37,7 @@
 | 33 | spinous process | Spinous process of axis | 背部／Deep layer （2+3+3+3） （只有 | Spinous process of axis |
 | 39 | spinal process | Spinous process of axis | 背部／枕下三角 Suboccipital triang | Spinous process of axis |
 | 47 | Post. Arch | Posterior arch of atlas | 背部／枕下三角 Suboccipital triang | Posterior arch of atlas |
+| 48 | Occipital a | Occipital artery | 背部／枕下三角 Suboccipital triang | Left occipital artery |
 | 49 | Denticulate lig | Denticulate ligament | 背部／枕下三角 Suboccipital triang | Right denticulate ligament |
 | 50 | b. Denticulate lig | Denticulate ligament | 背部／枕下三角 Suboccipital triang | Right denticulate ligament |
 | 53 | Ligamentum flavum | Ligamentum flavum | 背部／枕下三角 Suboccipital triang | Ligamentum flavum |
@@ -232,7 +233,7 @@
 | 45 | Great auricular n | Great auricular nerve | 已有 | Great auricular nerve | nerve |
 | 46 | Vertebral a | Vertebral artery | 已有 | Right vertebral artery | atlas |
 | 47 | Post. Arch | Posterior arch of atlas | 新增示意模型 | Posterior arch of atlas | paokao |
-| 48 | Occipital a | Occipital artery | 已有（contained） | Right lateral occipital artery | atlas |
+| 48 | Occipital a | Occipital artery | 新增示意模型 | Left occipital artery | paokao |
 | 49 | Denticulate lig | Denticulate ligament | 新增示意模型 | Right denticulate ligament | paokao |
 | 50 | b. Denticulate lig | Denticulate ligament | 新增示意模型 | Right denticulate ligament | paokao |
 | 51 | Ventral root | Ventral root of spinal nerve | 已有（alias） | Anterior root of spinal nerve | nerve |
@@ -811,7 +812,6 @@
 | Longissimus muscle | Right longissimus capitis | contained |
 | Iliocostalis muscle | Right iliocostalis cervicis | contained |
 | Semispinalis muscle | Right semispinalis capitis | contained |
-| Occipital artery | Right lateral occipital artery | contained |
 | Thoracoacromial artery | Acromial branch of left thoraco-acromial artery | contained |
 | Thoracoacromial artery | Acromial branch of left thoraco-acromial artery | contained |
 | Middle collateral artery | Middle collateral branch of left deep brachial artery | contained |

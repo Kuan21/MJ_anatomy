@@ -2,8 +2,8 @@
  "totals": {
   "terms": 574,
   "rows": 592,
-  "have": 418,
-  "new": 153,
+  "have": 417,
+  "new": 154,
   "part": 14,
   "skip": 7,
   "missing": 0
@@ -594,11 +594,11 @@
    "term": "Occipital a",
    "name": "Occipital artery",
    "section": "背部／枕下三角 Suboccipital triang",
-   "status": "have",
-   "via": "contained",
-   "model": "Right lateral occipital artery",
-   "source": "atlas",
-   "kind": "contained",
+   "status": "new",
+   "via": "exact",
+   "model": "Left occipital artery",
+   "source": "paokao",
+   "kind": "exact",
    "findable": true
   },
   {

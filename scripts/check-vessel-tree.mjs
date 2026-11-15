@@ -6,10 +6,14 @@
 import fs from 'node:fs';
 import {loadWorld} from './lib/paokao-world.mjs';
 import {closest} from './lib/heart-geom.mjs';
+import {loadNeckVessels} from './lib/eca-reference.mjs';
 
 const T = .0025, SURFACE = .0015, C = T;
 const w = loadWorld({paokao: true});
-const vessels = w.entries.filter(e => (e.system === 'arterial' || e.system === 'venous') && !/^extra:/.test(e.id));
+// The neck-vessel tubes the viewer draws in place of the atlas carotid arteries and internal jugular veins (after the load-time rebuild of the bifurcation) take part in the tree:
+// the branches of the external carotid artery start on them.
+const neck = (await loadNeckVessels()).map(v => ({id: `neckvessel:${v.name}`, name: v.name, system: v.system, load: () => ({positions: Float32Array.from(v.positions), indices: Uint32Array.from(v.indices)})}));
+const vessels = [...w.entries.filter(e => (e.system === 'arterial' || e.system === 'venous') && !/^extra:/.test(e.id)), ...neck];
 const geom = new Map(), bb = new Map(), radius = new Map();
 for (const e of vessels) {
   const g = e.load(); geom.set(e.id, g);

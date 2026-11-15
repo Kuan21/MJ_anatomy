@@ -14,6 +14,7 @@ import fs from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {loadWorld} from './lib/paokao-world.mjs';
 import {closest} from './lib/heart-geom.mjs';
+import {loadNeckVessels} from './lib/eca-reference.mjs';
 
 const root = new URL('../', import.meta.url), TOL = .003, MIN = 12, C = TOL;
 if (process.argv.includes('--segments')) { const {runSegments} = await import('./lib/vessel-segment-report.mjs'); await runSegments(process.argv.slice(2)); process.exit(0); }
@@ -38,6 +39,8 @@ for (const e of w.entries) {
     split(p.name + ' (end piece)', p.id, pos, idx, true);
   }
 }
+// The neck-vessel tubes the viewer draws in place of the atlas carotid arteries and internal jugular veins (after the load-time rebuild of the bifurcation): neighbours for the touching test only, never reported themselves.
+{ const before = pieces.length; for (const v of await loadNeckVessels()) split(v.name, `neckvessel:${v.name}`, v.positions, v.indices, false); for (let i = before; i < pieces.length; i++) pieces[i].neighbourOnly = true; }
 const grid = new Map(), key = (x, y, z) => `${Math.floor(x / C)},${Math.floor(y / C)},${Math.floor(z / C)}`;
 pieces.forEach((pc, k) => { pc.k = k; for (const p of pc.pts) { const q = key(...p); (grid.get(q) ?? grid.set(q, []).get(q)).push([k, p]); } });
 const touches = pc => {
@@ -59,7 +62,7 @@ const touchesSurface = pc => {
   }
   return false;
 };
-const floating = pieces.filter(p => p.verts >= MIN && !touches(p) && !touchesSurface(p)), slivers = pieces.filter(p => p.verts < MIN && !p.end);
+const floating = pieces.filter(p => !p.neighbourOnly && p.verts >= MIN && !touches(p) && !touchesSurface(p)), slivers = pieces.filter(p => p.verts < MIN && !p.end);
 const label = p => `${p.name} [${p.id}] ${p.verts} vertices at ${[0, 1, 2].map(a => Math.round(p.pts.reduce((t, q) => t + q[a], 0) / p.pts.length * 1000)).join(', ')} mm`;
 const names = floating.map(label).sort();
 const baseline = new URL('docs/vessel-continuity-baseline.json', root);
