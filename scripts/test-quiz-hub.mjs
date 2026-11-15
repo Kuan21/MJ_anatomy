@@ -15,7 +15,7 @@ const {structureCard} = await quizModule('app/quiz/card.ts');
 assert.ok(isQuizHub('#/quiz') && isQuizHub('#/quiz/') && !isQuizHub('#/quiz/back') && !isQuizHub(''));
 for (const id of ['head-neck', 'thorax', 'back', 'upper-limb', 'lower-limb', 'heart', 'lung', 'brain']) assert.equal(regionOfHash(QUIZ_REGIONS[id].hash), id);
 const main = fs.readFileSync(path.join(root, 'web/main.tsx'), 'utf8');
-assert.match(main, /hub \? <QuizHub\/>/, 'the router shows the chooser for #/quiz');
+assert.match(main, /hub \? <QuizSetup\/>/, 'the router shows the setup page for #/quiz');
 assert.match(main, /params\.get\('dev'\) === '1'/, 'Skeleton v2 lab needs ?dev=1');
 const page = fs.readFileSync(path.join(root, 'app/page.tsx'), 'utf8');
 assert.ok(!/skeleton-v2|Skeleton v2/i.test(page), 'no Skeleton v2 link on the home page');
@@ -27,36 +27,11 @@ for (const [needle, id] of [['#/quiz/upper-limb', 'upper-limb'], ['#/quiz/lower-
   assert.ok(barSource.includes(needle) && QUIZ_REGIONS[id].hash === needle, `region bar links to ${needle}`);
 }
 
-// ---- the chooser page
-const jsx = (type, props) => ({type, props: props ?? {}});
-const react = {useEffect() {}};
-const external = {react, 'react/jsx-runtime': {jsx, jsxs: jsx, Fragment: 'fragment'}, 'lucide-react': Object.fromEntries(['ArrowLeft', 'ChevronRight', 'Lock', 'Target'].map(n => [n, n]))};
-const cache = new Map();
-async function moduleFor(key) {
-  if (cache.has(key)) return cache.get(key);
-  const exports = key.endsWith('.json') ? {default: JSON.parse(fs.readFileSync(key, 'utf8'))} : key.endsWith('.css') ? {} : external[key];
-  let mod;
-  if (exports) mod = new vm.SyntheticModule(Object.keys(exports), function () {for (const [n, v] of Object.entries(exports)) this.setExport(n, v);});
-  else mod = new vm.SourceTextModule(ts.transpileModule(fs.readFileSync(key, 'utf8'), {compilerOptions: {target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext, jsx: ts.JsxEmit.ReactJSX}}).outputText, {identifier: key});
-  cache.set(key, mod); return mod;
-}
-const link = async (spec, ref) => {let key = spec; if (spec.startsWith('.')) {key = path.resolve(path.dirname(ref.identifier), spec); if (!fs.existsSync(key)) key += fs.existsSync(key + '.ts') ? '.ts' : '.tsx';} return moduleFor(key);};
-const hub = await moduleFor(path.join(root, 'app/quiz/hub.tsx')); await hub.link(link); await hub.evaluate();
-const tree = hub.namespace.default();
-const all = n => Array.isArray(n) ? n.flatMap(all) : !n || typeof n !== 'object' ? [] : [n, ...all(n.props?.children)];
-const text = n => Array.isArray(n) ? n.map(text).join('') : n == null || typeof n === 'boolean' ? '' : typeof n !== 'object' ? String(n) : text(n.props?.children);
-const cards = all(tree).filter(n => n.props?.['data-part']);
-assert.deepEqual(cards.map(c => c.props['data-part']), ['head-neck', 'thorax', 'back', 'upper-limb', 'lower-limb', 'heart', 'lung', 'brain', 'organs'], 'five body parts (head and neck, thorax, back, two limbs), then the organ quizzes (heart, lung, brain, other organs reserved)');
-for (const part of ['head-neck', 'thorax', 'back', 'upper-limb', 'lower-limb', 'heart', 'lung', 'brain']) {
-  const card = cards.find(c => c.props['data-part'] === part);
-  assert.equal(card.type, 'a'); assert.equal(card.props.href, QUIZ_REGIONS[part].hash);
-}
-for (const part of ['organs']) {
-  const card = cards.find(c => c.props['data-part'] === part);
-  assert.notEqual(card.type, 'a', `${part} is not a link yet`); assert.equal(card.props['aria-disabled'], 'true'); assert.match(text(card), /即將推出/);
-}
-for (const label of ['頭頸', '胸腔', '背部', '上肢', '下肢']) assert.ok(text(tree).includes(label), label);
-assert.ok(all(tree).some(n => n.type === 'a' && n.props.href === '#/' ), 'a way back to the atlas');
+// ---- the setup page (#/quiz) lists every region of the data; its rules are tested in test-quiz-setup.mjs
+const setupSource = fs.readFileSync(path.join(root, 'app/quiz/setup-page.tsx'), 'utf8');
+const partsSource = fs.readFileSync(path.join(root, 'app/quiz/setup-parts.tsx'), 'utf8');
+assert.ok(partsSource.includes('orderedRegions()') && partsSource.includes('QUIZ_CATEGORIES.map') && setupSource.includes('RegionPicker'), 'the setup page builds regions and categories from the data');
+assert.match(fs.readFileSync(path.join(root, 'web/main.tsx'), 'utf8'), /hub \? <QuizSetup\/>/, '#/quiz shows the setup page');
 
 // ---- answer card content
 const muscle = structureCard({name: 'Right latissimus dorsi', chinese: '右闊背肌', system: 'muscular'});

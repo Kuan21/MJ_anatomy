@@ -34,6 +34,6 @@ for (const def of Object.values(QUIZ_REGIONS)) {
   if (def.id === 'head-neck') assert.ok(blanks > 100 && asked1 === blanks && asked3 === blanks, `head-neck: ${blanks} structures without card text, asked in level 1: ${asked1}, level 3: ${asked3}`);
 }
 assert.ok(blankCount > 0 && withText > 0 && askedBlank > 0);
-const src = fs.readFileSync('app/quiz/lesson-mode.tsx', 'utf8');
-assert.ok(/round === 1 &&[^\n]*<LearnInfo/.test(src), 'the lesson learn step must render LearnInfo');
+const src = fs.readFileSync('app/quiz/learn.tsx', 'utf8');
+assert.ok(/know \? <>[\s\S]*?<AnswerCard structure=\{target\} lesson\/>/.test(src), 'the get-to-know step shows the card in lesson mode (a structure without text shows the pending line)');
 console.log(`quiz lesson pending line: ok (${blankCount} structures without card text, ${withText} with)`);
