@@ -73,15 +73,24 @@ for (const [R, r] of [[.003, .002], [.004, .004], [.005, .003]]) for (const phi 
   assert.equal(rings.length, raw.length);
   assert.equal(centrelinesOf(g)[0].disturbed, fix.disturbed.length, 'centrelinesOf returns corrected rings');
 }
-// Known limit: on a wide tube with a wide branch the radius is corrected but a centre can stay pulled towards the branch.
-{ const raw = centrelineWide(withBranch(.008, .004, Math.PI)), rings = robustRings(raw);
-  assert.ok(Math.abs(widest(nearBranch(rings)) - .008) < .0005 && widest(nearBranch(raw)) > .012, 'wide tube: radius corrected');
-  assert.ok(farthest(nearBranch(rings)) > .008, 'wide tube: a centre is still off the axis (update this test when that is solved)'); }
+// Wide tube: rings beside the branch keep a radius within the tolerance while their centre is pulled out; they are found by their centre (ctol) and put back.
+for (const [R, r, phi, most] of [[.008, .004, Math.PI, .0005], [.008, .004, 0, .005], [.012, .004, 0, .0005], [.012, .004, -Math.PI / 2, .0005]]) {
+  const raw = centrelineWide(withBranch(R, r, phi)), rings = robustRings(raw), radiusOnly = robustRings(raw, 4, .3, null, Infinity);
+  assert.ok(Math.abs(widest(nearBranch(rings)) - R) < .0005 && widest(nearBranch(raw)) > R * 1.25, "wide tube: radius corrected");
+  assert.ok(farthest(nearBranch(radiusOnly)) > R, "wide tube: by the radius alone a centre stays off the axis");
+  assert.ok(farthest(nearBranch(rings)) <= most, `wide tube ${R * 1000} mm with a ${r * 1000} mm branch: centres back within ${most * 1000} mm, got ${(farthest(nearBranch(rings)) * 1000).toFixed(1)} mm`);
+}
+// Known limit: a branch more than about half as wide as a tube of 10 mm radius and more disturbs more than 4 rings in a row and is not removed.
+{ const rings = robustRings(centrelineWide(withBranch(.016, .006, 0)));
+  assert.ok(farthest(nearBranch(rings)) > .016, "very wide tube with a wide branch: still off the axis (update this test when that is solved)"); }
 // A plain tube and a bent line are left alone: no ring is disturbed, centres are identical.
 { const raw = centrelineWide(tube(.004)), fix = {}, rings = robustRings(raw, 4, .3, fix);
   assert.equal(fix.disturbed.length, 0); assert.deepEqual(rings.map(q => q.c), raw.map(q => q.c));
   const bent = Array.from({length: 40}, (_, i) => ({c: [i < 20 ? 0 : (i - 20) * .003, -Math.min(i, 20) * .003, 0], r: .002 + i * .00001})), kept = robustRings(bent);
   assert.deepEqual(kept.map(q => q.c), bent.map(q => q.c), 'a right-angle bend with a slowly changing radius keeps its centres'); }
+  for (const [rho, tr] of [[.01, .001], [.02, .002], [.05, .008]]) { // smooth curves (half circle of radius rho, rising out of its plane) are not touched
+    const arc = Array.from({length: Math.round(Math.PI * rho / .003)}, (_, i) => ({c: [rho * Math.cos(i * .003 / rho), rho * Math.sin(i * .003 / rho), i * .0015], r: tr})), info = {};
+    assert.deepEqual(robustRings(arc, 4, .3, info).map(q => q.c), arc.map(q => q.c)); assert.equal(info.disturbed.length, 0); }
 // A whole mesh is one piece and gives one line.
 assert.equal(centrelinesOf(tube(.004)).length, 1);
 console.log('centreline pieces: ok');

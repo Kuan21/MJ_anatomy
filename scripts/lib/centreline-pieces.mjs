@@ -68,14 +68,21 @@ export function centrelinesOf(g, bin = .003, skipped = null) {
  * Rings that a side branch does not disturb. Where a branch leaves the tube, its vertices near the chain fall into the same few rings: their radius comes out too wide
  * and their centre is pulled into the branch. Each radius is replaced by the median over `span` rings on either side; a ring whose own radius differs from that by more
  * than `tol` (30 %) is taken as disturbed and its centre is put on the straight line between the nearest undisturbed rings before and after it (kept when there is none on one side).
- * Undisturbed rings keep their centre, so a real bend stays. Limit: a branch that disturbs more than `span` rings in a row (about 12 mm of the tube) is not removed;
- * next to a wide branch on a wide tube (radius 8 mm and more in the synthetic tests) a ring can keep a radius within the tolerance while its centre is still pulled
- * towards the branch by up to about one radius, and that ring is not corrected.
+ * A ring beside a wide branch can keep a radius within the tolerance while its centre is pulled out, so a ring is also taken as disturbed when its centre lies more than
+ * `ctol` radii (and more than one ring spacing) from the median centre of the `span` rings on either side (fewer near the ends, so the window stays symmetric).
+ * Undisturbed rings keep their centre, so a real bend stays (a kink sharper than one ring spacing, oblique to the axes, can lose its corner ring: under one spacing).
+ * Limits: a branch that disturbs more than `span` rings in a row (about 12 mm of the tube) is not removed: in the synthetic tests that is a tube of 10 mm radius and more
+ * with a branch more than about half as wide; rings that drift slowly to one side over more than `span` rings (tilted bands beside such a branch) are not seen either.
  * Returns new rings; `info` (optional) receives {disturbed}: the indices that were corrected.
  */
-export function robustRings(rings, span = 4, tol = .3, info = null) {
-  const r = rings.map((_, i) => median(rings.slice(Math.max(0, i - span), i + span + 1).map(q => q.r)));
-  const bad = rings.map((q, i) => Math.abs(q.r - r[i]) > r[i] * tol), good = i => i >= 0 && i < rings.length && !bad[i];
+export function robustRings(rings, span = 4, tol = .3, info = null, ctol = .5) {
+  const n = rings.length, r = rings.map((_, i) => median(rings.slice(Math.max(0, i - span), i + span + 1).map(q => q.r)));
+  const step = n > 1 ? median(rings.slice(1).map((q, i) => Math.hypot(q.c[0] - rings[i].c[0], q.c[1] - rings[i].c[1], q.c[2] - rings[i].c[2]))) : 0;
+  const bad = rings.map((q, i) => {
+    if (Math.abs(q.r - r[i]) > r[i] * tol) return true;
+    const h = Math.min(span, i, n - 1 - i), near = rings.slice(i - h, i + h + 1), m = [0, 1, 2].map(k => median(near.map(p => p.c[k])));
+    return Math.hypot(q.c[0] - m[0], q.c[1] - m[1], q.c[2] - m[2]) > Math.max(r[i] * ctol, step);
+  }), good = i => i >= 0 && i < n && !bad[i];
   if (info) info.disturbed = bad.flatMap((b, i) => b ? [i] : []);
   return rings.map((q, i) => {
     if (!bad[i]) return {c: q.c, r: r[i]};
