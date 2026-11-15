@@ -92,6 +92,79 @@ R after vagus vs ECA: 3315 vertices in the vessel height range, 0 inside, smalle
 
 調整前迷走神經有少數頂點（左 5、右 2，最深 0.08 mm）已輕微穿入 IJV 壁；調整後為 0。左 CCA 在 1.388 m（IJV 範圍之下，本 PR 未改動）有 15 個迷走神經頂點穿入 CCA 最深 0.95 mm，是 #289 之後既有的狀況，不在本 PR 範圍，列為待辦。逐環以環中心與最小頂點距離近似管壁，非精確網格相交。
 
+## 核對報告 HN-21：分叉以上頸內靜脈與頸內動脈的內外關係（`node scripts/derive-jugular-shift.mjs inout`）
+
+HN-21 症狀：分叉以上（約 1.49–1.55 m）頸內靜脈跑到頸內動脈內側並偏前，應在外側。下表是 IJV 中心減動脈中心（mm；外 = 遠離中線，正值代表 IJV 在外側／前方），每 5 mm 一列，修改前（main）與修改後。依 Gray's Anatomy 1918 與 OpenStax 核對位置，請使用者核對；未在 3D 畫面確認。
+
+```
+L before (IJV centre minus artery centre, mm; + = IJV lateral / anterior)
+  1.490: vs ICA - | vs ECA - | vs CCA -5.0 out, 7.9 fwd
+  1.495: vs ICA - | vs ECA - | vs CCA -6.5 out, 7.8 fwd
+  1.500: vs ICA -7.2 out, 8.0 fwd | vs ECA -6.8 out, 5.6 fwd | vs CCA -5.8 out, 7.0 fwd
+  1.505: vs ICA -6.9 out, 7.4 fwd | vs ECA -6.0 out, 3.1 fwd | vs CCA -
+  1.510: vs ICA -7.5 out, 8.0 fwd | vs ECA -5.6 out, 0.3 fwd | vs CCA -
+  1.515: vs ICA -6.8 out, 7.3 fwd | vs ECA -5.0 out, -0.7 fwd | vs CCA -
+  1.520: vs ICA -6.3 out, 5.2 fwd | vs ECA -5.6 out, -2.1 fwd | vs CCA -
+  1.525: vs ICA -4.8 out, 4.3 fwd | vs ECA -6.7 out, -2.9 fwd | vs CCA -
+  1.530: vs ICA -3.6 out, 2.7 fwd | vs ECA -7.8 out, -2.9 fwd | vs CCA -
+  1.535: vs ICA -3.0 out, 0.6 fwd | vs ECA -8.6 out, -2.2 fwd | vs CCA -
+  1.540: vs ICA -2.1 out, -0.5 fwd | vs ECA -9.6 out, -2.1 fwd | vs CCA -
+  1.545: vs ICA -0.5 out, -1.8 fwd | vs ECA -9.8 out, -3.0 fwd | vs CCA -
+  1.550: vs ICA 1.3 out, -2.6 fwd | vs ECA -10.0 out, -3.6 fwd | vs CCA -
+  1.555: vs ICA 3.6 out, -4.0 fwd | vs ECA -9.6 out, -5.3 fwd | vs CCA -
+  1.560: vs ICA 6.2 out, -4.9 fwd | vs ECA -8.0 out, -6.9 fwd | vs CCA -
+R before (IJV centre minus artery centre, mm; + = IJV lateral / anterior)
+  1.490: vs ICA - | vs ECA - | vs CCA -4.3 out, 8.6 fwd
+  1.495: vs ICA - | vs ECA - | vs CCA -4.8 out, 9.0 fwd
+  1.500: vs ICA -6.3 out, 9.7 fwd | vs ECA -5.4 out, 7.5 fwd | vs CCA -4.6 out, 8.5 fwd
+  1.505: vs ICA -6.1 out, 9.0 fwd | vs ECA -4.7 out, 5.4 fwd | vs CCA -
+  1.510: vs ICA -6.8 out, 8.9 fwd | vs ECA -4.6 out, 1.5 fwd | vs CCA -
+  1.515: vs ICA -6.9 out, 7.9 fwd | vs ECA -4.5 out, 0.1 fwd | vs CCA -
+  1.520: vs ICA -6.3 out, 5.5 fwd | vs ECA -5.4 out, -1.9 fwd | vs CCA -
+  1.525: vs ICA -4.8 out, 4.2 fwd | vs ECA -6.7 out, -2.9 fwd | vs CCA -
+  1.530: vs ICA -3.7 out, 2.7 fwd | vs ECA -8.0 out, -2.9 fwd | vs CCA -
+  1.535: vs ICA -3.0 out, 0.7 fwd | vs ECA -8.8 out, -2.3 fwd | vs CCA -
+  1.540: vs ICA -2.1 out, -0.5 fwd | vs ECA -9.5 out, -2.3 fwd | vs CCA -
+  1.545: vs ICA -0.5 out, -1.8 fwd | vs ECA -9.8 out, -3.0 fwd | vs CCA -
+  1.550: vs ICA 1.2 out, -2.7 fwd | vs ECA -10.0 out, -3.6 fwd | vs CCA -
+  1.555: vs ICA 3.6 out, -4.0 fwd | vs ECA -9.6 out, -5.4 fwd | vs CCA -
+  1.560: vs ICA 6.1 out, -5.0 fwd | vs ECA -8.1 out, -7.0 fwd | vs CCA -
+L after (IJV centre minus artery centre, mm; + = IJV lateral / anterior)
+  1.490: vs ICA - | vs ECA - | vs CCA 8.0 out, -1.4 fwd
+  1.495: vs ICA - | vs ECA - | vs CCA 8.3 out, -1.0 fwd
+  1.500: vs ICA 8.0 out, -0.5 fwd | vs ECA 8.4 out, -2.9 fwd | vs CCA 9.4 out, -1.5 fwd
+  1.505: vs ICA 8.0 out, -1.9 fwd | vs ECA 8.9 out, -6.3 fwd | vs CCA -
+  1.510: vs ICA 7.7 out, -1.5 fwd | vs ECA 9.7 out, -9.3 fwd | vs CCA -
+  1.515: vs ICA 7.5 out, -1.4 fwd | vs ECA 9.2 out, -9.4 fwd | vs CCA -
+  1.520: vs ICA 6.3 out, -2.3 fwd | vs ECA 7.1 out, -9.6 fwd | vs CCA -
+  1.525: vs ICA 6.3 out, -2.7 fwd | vs ECA 4.4 out, -9.9 fwd | vs CCA -
+  1.530: vs ICA 5.8 out, -3.2 fwd | vs ECA 1.6 out, -8.7 fwd | vs CCA -
+  1.535: vs ICA 5.0 out, -4.1 fwd | vs ECA -0.7 out, -6.9 fwd | vs CCA -
+  1.540: vs ICA 4.3 out, -4.5 fwd | vs ECA -3.2 out, -6.1 fwd | vs CCA -
+  1.545: vs ICA 3.5 out, -5.0 fwd | vs ECA -5.8 out, -6.2 fwd | vs CCA -
+  1.550: vs ICA 3.5 out, -4.9 fwd | vs ECA -7.8 out, -5.8 fwd | vs CCA -
+  1.555: vs ICA 3.7 out, -4.3 fwd | vs ECA -9.4 out, -5.7 fwd | vs CCA -
+  1.560: vs ICA 5.7 out, -4.9 fwd | vs ECA -8.5 out, -6.8 fwd | vs CCA -
+R after (IJV centre minus artery centre, mm; + = IJV lateral / anterior)
+  1.490: vs ICA - | vs ECA - | vs CCA 9.1 out, -2.1 fwd
+  1.495: vs ICA - | vs ECA - | vs CCA 9.7 out, -2.0 fwd
+  1.500: vs ICA 7.7 out, -0.8 fwd | vs ECA 8.7 out, -3.0 fwd | vs CCA 9.4 out, -2.0 fwd
+  1.505: vs ICA 8.0 out, -1.8 fwd | vs ECA 9.4 out, -5.4 fwd | vs CCA -
+  1.510: vs ICA 7.8 out, -1.7 fwd | vs ECA 10.0 out, -9.1 fwd | vs CCA -
+  1.515: vs ICA 7.2 out, -1.2 fwd | vs ECA 9.6 out, -9.0 fwd | vs CCA -
+  1.520: vs ICA 6.4 out, -2.2 fwd | vs ECA 7.3 out, -9.6 fwd | vs CCA -
+  1.525: vs ICA 6.1 out, -2.8 fwd | vs ECA 4.3 out, -9.9 fwd | vs CCA -
+  1.530: vs ICA 5.7 out, -3.2 fwd | vs ECA 1.4 out, -8.8 fwd | vs CCA -
+  1.535: vs ICA 4.9 out, -3.9 fwd | vs ECA -0.9 out, -6.9 fwd | vs CCA -
+  1.540: vs ICA 4.2 out, -4.5 fwd | vs ECA -3.2 out, -6.3 fwd | vs CCA -
+  1.545: vs ICA 3.5 out, -5.0 fwd | vs ECA -5.8 out, -6.2 fwd | vs CCA -
+  1.550: vs ICA 3.5 out, -5.0 fwd | vs ECA -7.8 out, -5.9 fwd | vs CCA -
+  1.555: vs ICA 3.8 out, -4.4 fwd | vs ECA -9.3 out, -5.9 fwd | vs CCA -
+  1.560: vs ICA 5.7 out, -4.9 fwd | vs ECA -8.5 out, -6.9 fwd | vs CCA -
+```
+
+結論（數值）：修改前左右 IJV 在 1.50–1.545 m 相對 ICA 都是內側 0.5–7.5 mm、前方約 8 mm；修改後 1.50–1.56 m 皆在 ICA 外側 3.5–8.0 mm、後方 0.5–5 mm。對 ECA：1.50–1.53 m 在外側；1.535 m 起 ECA 往外側分開，IJV 從其後方通過（內側 0.7–9.8 mm、後方 6–7 mm），符合 IJV 從 ECA 後方走向頸靜脈孔的設計。
+
 ## 骨頭間距（`node scripts/derive-jugular-shift.mjs bones`）
 
 IJV 頂點到頸椎、鎖骨、甲狀軟骨、舌骨、下顎骨、顳骨表面的最近距離（每 2 cm 取最小）。1.40 至 1.52 m 調整後離骨面 7 mm 以上，沒有接近骨面；1.54 m 以上靠近顳骨（頸靜脈孔，端點固定），調整前後相同量級。完整輸出見 PR 說明。

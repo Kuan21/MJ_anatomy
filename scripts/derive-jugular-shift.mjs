@@ -4,6 +4,7 @@
 //   node scripts/derive-jugular-shift.mjs report   prints the per-centimetre tables, before (source) and after (alignJugulars applied)
 //   node scripts/derive-jugular-shift.mjs bones    prints the closest distance of the IJV (and the vagus) to the bones of the neck and skull base, per 2 cm of height, before and after
 //   node scripts/derive-jugular-shift.mjs vagus    per-vertex check: does any vagus vertex enter the IJV or CCA tube (ring-wise: horizontal distance to the interpolated ring centre against the ring radius), before and after
+//   node scripts/derive-jugular-shift.mjs inout    prints, every 5 mm from 1.49 to 1.56 m, how far lateral (+) or medial (-) the IJV centre lies relative to the ICA and ECA centres, before and after (the medial-lateral order above the bifurcation)
 //   node scripts/derive-jugular-shift.mjs groove   prints how far the vagus would still have to move (not applied) to lie 1 mm from both walls
 // Coordinates: metres, x to the left, y up, z forward. "out" = away from the midline (right side mirrored), "fwd" = anterior.
 import fs from 'node:fs';
@@ -205,4 +206,19 @@ function vagusInside() {
     }
   }
 }
-if (mode === 'vagus') vagusInside(); else if (mode === 'derive') derive(); else if (mode === 'bones') bones(); else if (mode === 'groove') groove(); else if (mode === 'anchors') anchors(process.argv.slice(3).map(Number)); else report();
+function inout() {
+  for (const label of ['before', 'after']) {
+    const S = scene(label === 'after');
+    for (const side of SIDES) {
+      const sg = side[6], rows = [];
+      for (let y = 1.49; y <= 1.5601; y += 0.005) {
+        const J = band(S.get(side[4]), y, .002), I = band(S.get(side[2]), y, .002), E = band(S.get(side[3]), y, .002), C = band(S.get(side[1]), y, .002);
+        if (J.length < 6) continue; const cj = ctr(J), f = a => ((cj[0] - a[0]) * sg * 1000).toFixed(1), g = a => ((cj[1] - a[1]) * 1000).toFixed(1);
+        const ci = I.length >= 6 ? ctr(I) : null, ce = E.length >= 6 ? ctr(E) : null, cc = C.length >= 6 ? ctr(C) : null;
+        rows.push(`${y.toFixed(3)}: vs ICA ${ci ? f(ci) + ' out, ' + g(ci) + ' fwd' : '-'} | vs ECA ${ce ? f(ce) + ' out, ' + g(ce) + ' fwd' : '-'} | vs CCA ${cc ? f(cc) + ' out, ' + g(cc) + ' fwd' : '-'}`);
+      }
+      console.log(`${side[0]} ${label} (IJV centre minus artery centre, mm; + = IJV lateral / anterior)\n  ` + rows.join('\n  '));
+    }
+  }
+}
+if (mode === 'inout') inout(); else if (mode === 'vagus') vagusInside(); else if (mode === 'derive') derive(); else if (mode === 'bones') bones(); else if (mode === 'groove') groove(); else if (mode === 'anchors') anchors(process.argv.slice(3).map(Number)); else report();
