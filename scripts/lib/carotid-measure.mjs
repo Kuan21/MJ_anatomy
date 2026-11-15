@@ -24,3 +24,45 @@ export function measureSide(common, internal, external) {
 }
 export const SIDES = [['left', 'Left common carotid artery', 'Internal carotid artery.l', 'External carotid artery.l'], ['right', 'Right common carotid artery', 'Internal carotid artery.r', 'External carotid artery.r']];
 export function measureAll(vessels) { const by = new Map(vessels.map(v => [v.name, v])); return Object.fromEntries(SIDES.map(([s, c, i, e]) => [s, measureSide(by.get(c), by.get(i), by.get(e))])); }
+
+// --- seam measurements (junction of the common carotid with its branches, and the shift that raises the bifurcation) ---
+/** Area-weighted vertex normals, as three.js computeVertexNormals does. */
+export function vertexNormals(positions, indices) {
+  const n = new Float64Array(positions.length);
+  for (let t = 0; t < indices.length; t += 3) {
+    const [a, b, c] = [indices[t], indices[t + 1], indices[t + 2]], P = i => [positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]];
+    const pa = P(a), pb = P(b), pc = P(c), u = sub(pb, pa), w = sub(pc, pa), f = [u[1] * w[2] - u[2] * w[1], u[2] * w[0] - u[0] * w[2], u[0] * w[1] - u[1] * w[0]];
+    for (const i of [a, b, c]) for (let k = 0; k < 3; k++) n[i * 3 + k] += f[k];
+  }
+  for (let i = 0; i < n.length; i += 3) { const l = Math.hypot(n[i], n[i + 1], n[i + 2]) || 1; n[i] /= l; n[i + 1] /= l; n[i + 2] /= l; }
+  return n;
+}
+/** Largest angle (degrees) between the normal of a ring vertex and the radial direction (ring plane, away from the centre line) of a tube. */
+export function normalVsRadial(v, normals, r) {
+  const q = info(v, r), ax = q.ax; let worst = 0;
+  for (let k = 0; k < R; k++) {
+    const d = sub(q.p[k], q.c), h = dot(d, ax), rad = d.map((x, i) => x - ax[i] * h), l = len(rad) || 1, nn = [0, 1, 2].map(a => normals[(r * R + k) * 3 + a]);
+    worst = Math.max(worst, Math.acos(Math.max(-1, Math.min(1, dot(rad, nn) / l))) * 180 / Math.PI);
+  }
+  return +worst.toFixed(1);
+}
+/** Angle (degrees) of the first vertex of each ring about the tube axis; the source rings turn by one vertex (30 degrees) per ring. */
+export function ringAngles(v) {
+  const n = v.positions.length / (R * 3), out = [];
+  for (let r = 0; r < n; r++) {
+    const q = info(v, r), ref = Math.abs(q.ax[0]) < .9 ? [1, 0, 0] : [0, 1, 0], e1 = cross(q.ax, ref), l1 = len(e1), u1 = e1.map(x => x / l1), u2 = cross(q.ax, u1), d = sub(q.p[0], q.c);
+    out.push(Math.atan2(dot(d, u2), dot(d, u1)) * 180 / Math.PI);
+  }
+  return out;
+}
+const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+/** Steps between ring angles wrapped to (-180, 180]. */
+export const angleSteps = a => a.slice(1).map((x, i) => { let d = x - a[i]; while (d > 180) d -= 360; while (d <= -180) d += 360; return d; });
+/** Ring spacing ratios between neighbouring rings (max of a/b and b/a), centre steps in mm. */
+export function spacingRatios(v) { const n = v.positions.length / (R * 3), s = []; for (let r = 1; r < n; r++) s.push(len(sub(info(v, r).c, info(v, r - 1).c))); return s.slice(1).map((x, i) => Math.max(x / s[i], s[i] / x)); }
+/** Second difference (mm) of the displacement field between a tube before and after a shift: |d[r-1] - 2 d[r] + d[r+1]| per ring, for rings of equal count. */
+export function shiftSecondDifference(before, after) {
+  const n = before.positions.length / (R * 3), d = Array.from({length: n}, (_, r) => sub(info(after, r).c, info(before, r).c).map(x => x * 1e3)), out = [];
+  for (let r = 1; r < n - 1; r++) out.push(len([0, 1, 2].map(a => d[r - 1][a] - 2 * d[r][a] + d[r + 1][a])));
+  return out;
+}

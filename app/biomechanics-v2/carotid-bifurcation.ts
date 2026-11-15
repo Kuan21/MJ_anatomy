@@ -20,6 +20,7 @@ const dot = (a: P3, b: P3) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 const cross = (a: P3, b: P3): P3 => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
 const len = (a: P3) => Math.hypot(a[0], a[1], a[2]);
 const unit = (a: P3): P3 => { const l = len(a) || 1; return [a[0] / l, a[1] / l, a[2] / l]; };
+const smoother = (t: number) => { const x = Math.max(0, Math.min(1, t)); return x * x * x * (x * (x * 6 - 15) + 10); };   // C2 at both ends: no jump of curvature where a shift starts or stops
 const smooth = (t: number) => { const x = Math.max(0, Math.min(1, t)); return x * x * (3 - 2 * x); };
 const ringPoints = (pos: number[], r: number): P3[] => Array.from({length: RING}, (_, k) => [pos[(r * RING + k) * 3], pos[(r * RING + k) * 3 + 1], pos[(r * RING + k) * 3 + 2]] as P3);
 const centre = (pts: P3[]): P3 => mul(pts.reduce((s, p) => add(s, p), [0, 0, 0] as P3), 1 / pts.length);
@@ -36,13 +37,13 @@ export const PUSH_FROM = 0.0005, PUSH_FULL = 0.012, PUSH_FADE = 0.032;   // side
 /** Fixed upward shift of the bifurcation (m): from y 1487.7/1488.4 mm to about 1500.7/1501.4 mm, 2 mm above the upper edge of the thyroid cartilage (1498.8 mm) in the C4 body (docs/carotid-landmarks.md). */
 export const RAISE = 0.013;
 /** Arc length (m) over which the shift fades out: down the common carotid and up each branch. */
-export const COMMON_BLEND = 0.05, BRANCH_BLEND = 0.045;
+export const COMMON_BLEND = 0.06, BRANCH_BLEND = 0.045;
 /** Wall-to-wall clearance (m) asked of the two branches in the first 1 to 2 cm above the bifurcation; it fades out between GAP_FADE_FROM and GAP_FADE_TO. */
 export const GAP = 0.0025, GAP_FADE_FROM = 0.025, GAP_FADE_TO = 0.05;
 
 export interface BifurcationReport {side: string; blendRings: [number, number]; pushMm: [number, number]; raisedMm?: number}
 
-/** Raises the bifurcation of one side by `raise` metres (see RAISE): rigid per-ring translation along the end direction of the common carotid, weight 1 at the junction and smoothstep to 0 along the arc length of each tube. Ring shapes and radii do not change. */
+/** Raises the bifurcation of one side by `raise` metres (see RAISE): rigid per-ring translation along the end direction of the common carotid, weight 1 at the junction and smootherstep (C2) to 0 along the arc length of each tube. Ring shapes and radii do not change. */
 export function raiseBifurcation(common: V, internal: V, external: V, raise = RAISE): number | null {
   const cn = common.positions.length / (RING * 3), nI = internal.positions.length / (RING * 3), nE = external.positions.length / (RING * 3);
   if (![cn, nI, nE].every(n => Number.isInteger(n) && n >= 8)) return null;
@@ -57,9 +58,9 @@ export function raiseBifurcation(common: V, internal: V, external: V, raise = RA
     const arc = [0]; for (let r = 1; r < n; r++) arc.push(arc[r - 1] + len(sub(c[r], c[r - 1])));
     for (let r = 0; r < n; r++) { const w = weightOf(r, arc); if (!w) continue; put(t.positions, r, ringPoints(t.positions, r).map(p => add(p, mul(v, w)))); }
   };
-  apply(common, cn, (r, arc) => 1 - smooth((arc[cn - 1] - arc[r]) / COMMON_BLEND) );
-  apply(internal, nI, (r, arc) => 1 - smooth(arc[r] / BRANCH_BLEND));
-  apply(external, nE, (r, arc) => 1 - smooth(arc[r] / BRANCH_BLEND));
+  apply(common, cn, (r, arc) => 1 - smoother((arc[cn - 1] - arc[r]) / COMMON_BLEND));
+  apply(internal, nI, (r, arc) => 1 - smoother(arc[r] / BRANCH_BLEND));
+  apply(external, nE, (r, arc) => 1 - smoother(arc[r] / BRANCH_BLEND));
   return v[1] * 1000;
 }
 
@@ -153,7 +154,18 @@ export function junctionPairs(common: number[] | Float32Array, branch: number[] 
   }
   return out;
 }
-/** Gives both sides of the junction the same (averaged) normal, so the seam between the two meshes is not drawn as a crease. */
+/** Normals at the junction: every vertex of the common carotid's end ring, and the vertex of a branch that lies on it, gets the radial direction of the common carotid. A face-based normal of an open end is one-sided, and
+ * averaging it with the D-shaped first ring of a branch (stitchNormals) bent it by up to 69 degrees away from the wall, which is the crease and the streaks drawn round the tube at the junction. The rows next to the junction keep their own face normals (under 3 degrees from radial). */
+export function junctionNormals(cPos: ArrayLike<number>, cNorm: {[i: number]: number}, bPos: ArrayLike<number>, bNorm: {[i: number]: number}, pairs: [number, number][]) {
+  void bPos;
+  const n = cPos.length / 3, last = n - RING;
+  const ring = (r: number): P3[] => Array.from({length: RING}, (_, k) => [cPos[(r + k) * 3], cPos[(r + k) * 3 + 1], cPos[(r + k) * 3 + 2]] as P3);
+  const c = centre(ring(last)), axis = unit(sub(c, centre(ring(last - 2 * RING))));
+  const radial = (i: number): P3 => { const p: P3 = [cPos[i * 3], cPos[i * 3 + 1], cPos[i * 3 + 2]], d = sub(p, c); return unit(sub(d, mul(axis, dot(d, axis)))); };
+  for (let k = 0; k < RING; k++) { const r = radial(last + k); cNorm[(last + k) * 3] = r[0]; cNorm[(last + k) * 3 + 1] = r[1]; cNorm[(last + k) * 3 + 2] = r[2]; }
+  for (const [i, j] of pairs) { const r = radial(i); bNorm[j * 3] = r[0]; bNorm[j * 3 + 1] = r[1]; bNorm[j * 3 + 2] = r[2]; }
+}
+/** Older rule, kept for the regression test: gives both sides of the junction the same (averaged) normal, so the seam between the two meshes is not drawn as a crease. */
 export function stitchNormals(a: {array: ArrayLike<number> & {[i: number]: number}}, b: {array: ArrayLike<number> & {[i: number]: number}}, pairs: [number, number][]) {
   for (const [i, j] of pairs) {
     let x = a.array[i * 3] + b.array[j * 3], y = a.array[i * 3 + 1] + b.array[j * 3 + 1], z = a.array[i * 3 + 2] + b.array[j * 3 + 2];

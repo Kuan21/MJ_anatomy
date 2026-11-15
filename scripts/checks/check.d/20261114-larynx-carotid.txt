@@ -1,2 +1,3 @@
 node scripts/test-larynx-repair.mjs
 node scripts/test-carotid-bifurcation.mjs
+node scripts/test-carotid-seam.mjs

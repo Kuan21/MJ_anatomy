@@ -1,5 +1,5 @@
 import * as T from 'three';
-import {smoothCarotids,junctionPairs,stitchNormals} from './carotid-bifurcation';
+import {smoothCarotids,junctionPairs,junctionNormals} from './carotid-bifurcation';
 import type {Atlas,SceneState,SystemId,Part} from '../anatomy';
 import {makeBodyRig,buildBodyMotion,bindBodyTissue} from './body-motion';
 import {deformTissue,type SkinBinding} from './soft-tissue';
@@ -11,7 +11,7 @@ export function createNeckVessels(atlas:Atlas,scene:T.Scene){
  const rows:{mesh:T.Mesh<T.BufferGeometry,T.MeshStandardMaterial>;parent:Part;system:SystemId;base:Float32Array;head:SkinBinding;spine:SkinBinding;/** what produced the current positions, so an unchanged pose is not re-deformed and re-lit */posed?:{region:string;palette:Float64Array}}[]=[];
  const replaced=new Set<string>();
  const stitches:{a:T.BufferGeometry;b:T.BufferGeometry;pairs:[number,number][]}[]=[];
- const stitch=()=>{for(const t of stitches){const na=t.a.getAttribute('normal') as T.BufferAttribute,nb=t.b.getAttribute('normal') as T.BufferAttribute;stitchNormals(na,nb,t.pairs);na.needsUpdate=true;nb.needsUpdate=true;}};
+ const stitch=()=>{for(const t of stitches){const na=t.a.getAttribute('normal') as T.BufferAttribute,nb=t.b.getAttribute('normal') as T.BufferAttribute;junctionNormals((t.a.getAttribute('position') as T.BufferAttribute).array,na.array,(t.b.getAttribute('position') as T.BufferAttribute).array,nb.array,t.pairs);na.needsUpdate=true;nb.needsUpdate=true;}};
  function add(data:NeckVesselData){
   if(!data.joined){smoothCarotids(data.vessels);data.joined=true;}
   for(const v of data.vessels){
