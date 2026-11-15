@@ -1,3 +1,4 @@
+import {ORGAN_IDS,ORGAN_TITLES} from './organ/organ-ids';
 import {SEROUS_LAYERS,PERITONEUM_KEYS} from './mj-serous';
 import {flushSync} from 'react-dom';
 import {registerAtlasTools} from './agent-tools';
@@ -563,6 +564,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
    <div className="detail-atlas-shortcuts" aria-label="Detail atlases">
     <Button variant="ghost" onClick={()=>{window.location.hash='#/organ/brain';}}>腦</Button>
     <Button variant="ghost" onClick={()=>{window.location.hash='#/organ/heart';}}>心</Button>
+    {ORGAN_IDS.map(id=><Button key={id} variant="ghost" onClick={()=>{window.location.hash=`#/organ/${id}`;}}>{ORGAN_TITLES[id]}</Button>)}
     <Button variant="ghost" onClick={enterLungView} aria-pressed={!!lungView}>肺</Button>
     {MICRO_ATLAS_ENTRY.eye&&<Button variant="ghost" onClick={()=>openMicroAtlas('eye')} aria-pressed={microAtlas==='eye'}>眼</Button>}{MICRO_ATLAS_ENTRY.ear&&<Button variant="ghost" onClick={()=>openMicroAtlas('ear')}>耳</Button>}
    </div>
