@@ -69,7 +69,7 @@ export function siteName(structure: Named): {en?: string; zh?: string} {
   return out;
 }
 
-/** The unified head-and-neck names (docs/head-neck-unified-names.json) accept every wording of a name in either language; they sit beside the synonym table and are not listed in REVIEW_LOG. */
+/** The unified head-and-neck names (app/mj-head-neck-names.json) accept every wording of a name in either language; they sit beside the synonym table and are not listed in REVIEW_LOG. */
 const HEAD_NECK_ROWS = headNeckSynonyms();
 /** Every name that is right for a structure: its own English and Chinese names, names in brackets, the rows of the synonym table, and for a part of a muscle the whole muscle. */
 export function acceptedNames(structure: Named): Accepted {

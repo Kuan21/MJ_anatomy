@@ -1,7 +1,7 @@
-import data from '../docs/head-neck-unified-names.json';
+import data from './mj-head-neck-names.json';
 
 /**
- * Unified head-and-neck names (docs/head-neck-unified-names.json): one Taiwan anatomy name per structure and the other spellings and synonyms as aliases.
+ * Unified head-and-neck names (app/mj-head-neck-names.json): one Taiwan anatomy name per structure and the other spellings and synonyms as aliases.
  * Search (app/mj-search.ts) and the typed-answer Quiz (app/quiz/synonyms.ts) both read this table, so a structure is found and accepted under every wording.
  * A row with status "not-applied" is an open owner decision and is never read here.
  */

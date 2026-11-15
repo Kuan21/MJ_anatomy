@@ -13,7 +13,7 @@ const PAPILLARY=/(?<!胸鎖)乳突肌/;
 const aliasForms=(chinese:string)=>{
  const forms:string[]=[];
  for(const [canonical,others] of Object.entries(ALIASES))if(chinese.includes(canonical))for(const o of others)forms.push(chinese.replace(canonical,o));
- // unified head-and-neck names: the other wordings of the same structure (docs/head-neck-unified-names.json), with the side kept
+ // unified head-and-neck names: the other wordings of the same structure (app/mj-head-neck-names.json), with the side kept
  const side=/^[左右]/.exec(chinese)?.[0]??'';
  for(const o of headNeckZhAliases(chinese.slice(side.length)))forms.push(side+o);
  if(PAPILLARY.test(chinese))for(const o of ['乳頭肌','乳头肌'])forms.push(chinese.replace(PAPILLARY,o));

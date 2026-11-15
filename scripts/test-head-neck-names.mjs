@@ -1,4 +1,4 @@
-// Unified head-and-neck names (docs/head-neck-unified-names.json, decided in docs/quiz-head-neck-name-decisions.md):
+// Unified head-and-neck names (app/mj-head-neck-names.json, decided in docs/quiz-head-neck-name-decisions.md):
 //   - the data holds exactly the rows of the decision table (count check), the open owner decisions are not applied;
 //   - renamed structures show the unified name; the other wording is found by the main search and accepted by the Quiz typing check;
 //   - alias-only rows are found and accepted in both wordings; the 頜／頷 and 顎／腭 character forms find each other.
@@ -9,7 +9,7 @@ import {gunzipSync} from 'node:zlib';
 import {quizModule} from './quiz-modules.mjs';
 
 const root = new URL('../', import.meta.url);
-const data = JSON.parse(fs.readFileSync(new URL('docs/head-neck-unified-names.json', root), 'utf8'));
+const data = JSON.parse(fs.readFileSync(new URL('app/mj-head-neck-names.json', root), 'utf8'));
 
 // 1. count check against the decision table
 {
