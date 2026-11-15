@@ -37,6 +37,8 @@ export const QUIZ_SYSTEMS: {id: QuizSystem; label: string; english: string; colo
 export interface QuizSectionDef {id: string; label: string; english: string; range: [number, number]}
 export interface QuizRegionDef {
   id: QuizRegionId;
+  /** 'organ' regions are listed under Organs in the chooser of every mode; omitted = a body part. */
+  group?: 'organ';
   label: string;
   english: string;
   /** Header tag, catalogue file and route. */
@@ -163,7 +165,7 @@ const HEART_SECTIONS: QuizSectionDef[] = [
   {id: 'pericardium', label: '心包膜', english: 'Pericardium', range: [1.2, 1.42]},
 ];
 QUIZ_REGIONS.heart = {
-  id: 'heart', label: '心臟', english: 'Heart', tag: '心臟篇', file: 'quiz-heart.json', hash: '#/quiz/heart', atlasHash: '#/organ/heart',
+  id: 'heart', group: 'organ', label: '心臟', english: 'Heart', tag: '心臟篇', file: 'quiz-heart.json', hash: '#/quiz/heart', atlasHash: '#/organ/heart',
   headline: ['看名稱，', '點出位置。'], description: ['由心腔、瓣膜、乳突肌到冠狀動脈，在 3D 心臟模型上練習辨認。', '每答一題，立即顯示正確位置與說明。'],
   scope: '採用心臟詳細模型。房室瓣（二尖瓣、三尖瓣）的瓣葉、乳突肌與腱索是依房室環與來源模型位置生成的示意模型，腱索可單獨作答；乳突肌與瓣膜位於心腔內，題目開始時心腔已先移開，可用「移開遮擋」再調整。腔內構造（界嵴、梳狀肌、卵圓窩、節制索、室上嵴、肉柱等）與兩個心包竇是依解剖知識補建的示意模型，資料卡標示「示意構造」。傳導系統不在範圍內，不會出題。',
   defaultView: 'front', defaultSide: 'both', systems: ['cardiac', 'arterial', 'venous'],
@@ -176,7 +178,7 @@ const LUNG_SECTIONS: QuizSectionDef[] = [
   {id: 'hilum', label: '肺門', english: 'Hilum', range: [1.15, 1.45]},
 ];
 QUIZ_REGIONS.lung = {
-  id: 'lung', label: '肺', english: 'Lungs', tag: '肺篇', file: 'quiz-lung.json', hash: '#/quiz/lung', atlasHash: '#/atlas/whole',
+  id: 'lung', group: 'organ', label: '肺', english: 'Lungs', tag: '肺篇', file: 'quiz-lung.json', hash: '#/quiz/lung', atlasHash: '#/atlas/whole',
   headline: ['看名稱，', '點出位置。'], description: ['由肺的壓跡、溝、緣、裂到肺門，在 3D 肺模型上練習辨認。', '每答一題，立即顯示正確位置與資料卡。'],
   scope: '題目只涵蓋模型中真正有的肺表面面片（由肺葉表面依相鄰構造切出，邊界為近似）與肺門構造（主支氣管、肺動脈、肺靜脈、支氣管動脈）。右上葉支氣管、中間支氣管、肺門淋巴結與肺門處的胸膜返折模型沒有，不出題；肺內的支氣管樹與肺血管不在範圍內。',
   defaultView: 'medial', defaultSide: 'right', systems: ['respiratory', 'arterial', 'venous'],
@@ -200,7 +202,7 @@ const BRAIN_SECTIONS: QuizSectionDef[] = [
   {id: 'vessels', label: '腦血管', english: 'Cerebral arteries and veins', range: BRAIN_RANGE},
 ];
 QUIZ_REGIONS.brain = {
-  id: 'brain', label: '腦', english: 'Brain', tag: '腦篇', file: 'quiz-brain.json', hash: '#/quiz/brain', atlasHash: '#/organ/brain',
+  id: 'brain', group: 'organ', label: '腦', english: 'Brain', tag: '腦篇', file: 'quiz-brain.json', hash: '#/quiz/brain', atlasHash: '#/organ/brain',
   headline: ['看名稱，', '點出位置。'], description: ['由大腦皮質、深部核團、腦室、白質纖維束、腦幹與小腦，到腦神經根與腦血管，在 3D 腦模型上練習辨認。', '每答一題，立即顯示正確位置與資料卡。'],
   scope: '採用腦部詳細模型。題目只涵蓋模型中真正有的網格：腦膜、顱外的腦神經分支與主站畫面上的示意形狀不出題。題目是深部構造（基底核、視丘、腦室、白質纖維束、腦幹核團、海馬）時，大腦皮質、小腦與包覆的大塊構造會改為淡色半透明，穿過該構造的纖維束也一併淡化，目標可以直接看見並點選；腦葉的內側面請改選單側，再用「內側面」視角觀看。',
   defaultView: 'side', defaultSide: 'right', systems: ['brain', 'nervous', 'arterial', 'venous'],
@@ -242,8 +244,13 @@ QUIZ_REGIONS['head-neck'] = {
   frame: {x: .11, z: [-.12, .1]}, sections: HEAD_NECK_SECTIONS,
 };
 export const QUIZ_REGION_IDS = Object.keys(QUIZ_REGIONS) as QuizRegionId[];
+/** Every region that exists in QUIZ_REGIONS right now (read at call time, so a region added to the data is picked up without any list to edit). */
+export const regionIds = () => Object.keys(QUIZ_REGIONS) as QuizRegionId[];
+const REGION_ORDER = ['head-neck', 'thorax', 'back', 'upper-limb', 'lower-limb', 'heart', 'lung', 'brain'];
+/** Regions in the order of the choosers: the known ones first (head and neck, trunk, limbs, organs), any new region after them. */
+export const orderedRegions = (): QuizRegionDef[] => regionIds().sort((a, b) => {const ia = REGION_ORDER.indexOf(a), ib = REGION_ORDER.indexOf(b); return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);}).map(id => QUIZ_REGIONS[id]);
 export const isQuizHub = (hash: string) => hash === '#/quiz' || hash === '#/quiz/';
-export const regionOfHash = (hash: string): QuizRegionId | undefined => QUIZ_REGION_IDS.find(id => QUIZ_REGIONS[id].hash === hash);
+export const regionOfHash = (hash: string): QuizRegionId | undefined => regionIds().find(id => QUIZ_REGIONS[id].hash === hash);
 export const QUIZ_SECTIONS = LOWER_SECTIONS;
 export const regionSections = (region: QuizRegionId | undefined) => QUIZ_REGIONS[region ?? 'lower-limb'].sections;
 
@@ -311,6 +318,8 @@ export interface QuizCatalogue {
 }
 export interface QuizSettings {
   section: QuizSection;
+  /** Several sections at once (the Quiz setup screen); when set it replaces `section` as the pool filter (the scene keeps showing `section`). */
+  sections?: QuizSection[];
   systems: QuizSystem[];
   /** Scope categories (multi-select, any combination). When set it decides the pool; `systems` is the older body-system filter. */
   categories?: QuizCategory[];
@@ -541,7 +550,7 @@ export function classifySections(region: QuizRegionId, name: string, bounds: Bou
 export function questionPool(catalogue: QuizCatalogue, settings: QuizSettings, level: 1 | 3 = 1): QuizStructure[] {
   return catalogue.structures.filter(s => askedAtLevel(s, level) && (settings.scope !== 'summary' || scopeOf(s.name, [s.id, ...s.meshIds]) === 'summary') && (settings.categories ? settings.categories.includes(categoryOf(s)) : settings.systems.includes(s.system)) && s.sections.length > 0
     && (settings.side === 'both' || s.side === 'midline' || settings.side === s.side)
-    && (settings.section === 'all' || s.sections.includes(settings.section)));
+    && (settings.sections?.length ? settings.sections.includes('all') || s.sections.some(x => settings.sections!.includes(x)) : settings.section === 'all' || s.sections.includes(settings.section)));
 }
 
 /** Same-system regional anatomy stays available as distractors and for peeling. */
@@ -565,3 +574,11 @@ export function sceneStructures(catalogue: QuizCatalogue, target: QuizStructure,
     // a structure that level 1 does not ask (availability) is drawn only when it is the question itself
     .filter(s => s.id === target.id || askedAtLevel(s, 1));
 }
+
+/** The three study modes share the region list above (adding a region to QUIZ_REGIONS makes it appear in the learning map, the Quiz chooser and the mock exam). */
+export const LEARN_HUB_HASH = '#/learn';
+export const EXAM_HASH = '#/exam';
+export const learnHashOf = (region: QuizRegionId) => `${LEARN_HUB_HASH}/${region}`;
+export const isLearnHub = (hash: string) => hash === LEARN_HUB_HASH || hash === `${LEARN_HUB_HASH}/`;
+export const learnRegionOfHash = (hash: string): QuizRegionId | undefined => regionIds().find(id => learnHashOf(id) === hash);
+export const isExam = (hash: string) => hash === EXAM_HASH || hash === `${EXAM_HASH}/`;

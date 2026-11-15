@@ -1,6 +1,6 @@
 # Quiz 第二級「學習關卡」：關卡產生、星星與複習規則
 
-內部文件（只放在 `docs/`，不放進 `public/` 或 `dist/`）。程式在 `app/quiz/lessons.ts`、`lesson-progress.ts`、`lesson-mode.tsx`，測試在 `scripts/test-quiz-lessons.mjs`（已併入 `npm run check`）。
+內部文件（只放在 `docs/`，不放進 `public/` 或 `dist/`）。程式在 `app/quiz/lessons.ts`、`lesson-progress.ts`（關卡切分與舊版星星、間隔複習）、`learn.tsx`、`learn-progress.ts`（2026-11-15 起：關卡已移到獨立的「學習」入口 `#/learn`，流程改為認識 → 練習 → 過關測驗，80% 解鎖；下文的「三輪」「星星」是舊版，進度檔仍可讀取：2 星以上視為已過關），測試在 `scripts/test-quiz-lessons.mjs`（已併入 `npm run check`）。
 
 ## 等級編號
 
