@@ -17,7 +17,7 @@ const root = new URL('../', import.meta.url).pathname, mode = process.argv[2] ||
 const {smoothCarotids} = await quizModule('app/biomechanics-v2/carotid-bifurcation.ts');
 const {alignJugulars, JUGULAR_SHIFTS} = await quizModule('app/biomechanics-v2/jugular-align.ts');
 const GAP = 0.0015;          // wanted wall-to-wall gap between CCA/ICA/ECA and IJV: the vessels of the sheath touch, a millimetre of connective tissue
-const MIN_ANGLE = +(process.env.IJV_ANGLE ?? -20), MAX_ANGLE = 45;  // IJV direction from the artery: 20 degrees behind pure lateral (user decision: the vagus lies between the CCA and the back wall of the IJV)
+const MIN_ANGLE = +(process.env.IJV_ANGLE ?? -10), MAX_ANGLE = 45;  // IJV direction from the artery: 10 degrees behind pure lateral (the vagus lies between the CCA and the back wall of the IJV; -20 is the alternative on branch mj-ijv-align-b20)
 const BOTTOM = 0.024, TOP_FROM = 1.52, TOP_TO = 1.575;   // transitions that keep the two ends of the vein where they are
 
 const raw = () => JSON.parse(zlib.gunzipSync(fs.readFileSync(root + 'public/models/neck-vessels.json.gz'))).vessels.map(v => ({...v, positions: v.positions.slice()}));

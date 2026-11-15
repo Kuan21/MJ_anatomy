@@ -38,7 +38,7 @@ for (const [side, sg] of [['l', 1], ['r', -1]]) {
     const art = y < 1.485 ? centre(cca, y) : centre(ica, y);
     if (art) {
       const gap = Math.hypot(j.c[0] - art.c[0], j.c[1] - art.c[1]) - j.r - art.r;
-      if (y >= 1.435 && y <= 1.5) { worst.gap = Math.max(worst.gap, gap); worst.minGap = Math.min(worst.minGap, gap); assert.ok(gap < .004, `${name}: wall gap to the artery ${(gap * 1e3).toFixed(1)} mm at ${y.toFixed(3)}`); }
+      if (y >= 1.435 && y <= 1.5) { worst.gap = Math.max(worst.gap, gap); worst.minGap = Math.min(worst.minGap, gap); assert.ok(gap < .0035, `${name}: wall gap to the artery ${(gap * 1e3).toFixed(1)} mm at ${y.toFixed(3)}`); }
       assert.ok(gap > 0, `${name}: the vein is inside the artery by ${(-gap * 1e3).toFixed(1)} mm at ${y.toFixed(3)}`);
     }
     if (y >= 1.49) for (const br of [ica, eca]) { const o = centre(br, y); if (o) { const gap = Math.hypot(j.c[0] - o.c[0], j.c[1] - o.c[1]) - j.r - o.r; worst.branch = Math.min(worst.branch, gap); assert.ok(gap > 0, `${name}: inside a carotid branch by ${(-gap * 1e3).toFixed(1)} mm at ${y.toFixed(3)}`); } }
