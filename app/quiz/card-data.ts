@@ -135,6 +135,144 @@ export const CARD_EXTRAS: Record<string, CardExtra> = {
 };
 
 
+// Head and neck cards, batches B02 and B03: cranial nerves of the orbit, nose and ear, a few more nerves, and the head-and-neck ligaments and fascia.
+// Standard anatomy in our own words. Ligaments and fascia are head-and-neck organ structures, whose card has one field (說明): it holds the attachments and the action.
+Object.assign(CARD_EXTRAS, {
+  'lingual nerve': {
+    來源: e('下頜神經（V3）後股的分支，在顳下窩內發出', 'A branch of the posterior division of the mandibular nerve (V3), given off in the infratemporal fossa'),
+    走向: e('在外翼肌深面下行，位置在下齒槽神經的前方；沿內翼肌與下頜支之間向前下，途中自後方接上鼓索神經；再貼近下頜第三大臼齒內側的骨面進入口腔底，在舌骨舌肌表面前行，從下頜下腺導管的下方由外側繞到內側，分支入舌前部', 'Descends deep to lateral pterygoid, in front of the inferior alveolar nerve; runs between medial pterygoid and the mandibular ramus, is joined from behind by the chorda tympani, passes close to the bone medial to the third lower molar into the floor of the mouth, runs forward on hyoglossus and crosses from lateral to medial beneath the submandibular duct before breaking up in the front of the tongue'),
+    支配範圍: e('舌前三分之二（界溝以前）的一般感覺（觸、壓、冷熱、痛）、口腔底與舌側牙齦的黏膜感覺；加入的鼓索神經另帶來舌前三分之二的味覺，以及到下頜下神經節的副交感節前纖維，再由節後纖維支配下頜下腺與舌下腺；本身沒有運動纖維', 'General sensation (touch, pressure, temperature, pain) of the front two-thirds of the tongue, and of the mucosa of the floor of the mouth and the lingual gingiva; the joined chorda tympani adds taste from the front two-thirds and preganglionic parasympathetic fibres to the submandibular ganglion, whose postganglionic fibres supply the submandibular and sublingual glands; it has no motor fibres of its own'),
+  },
+  'meningeal branch of maxillary nerve': {
+    來源: e('上頷神經（V2）在進入圓孔之前、仍在中顱窩時發出的細小感覺支', 'A small sensory branch of the maxillary nerve (V2), given off in the middle cranial fossa before the nerve enters the foramen rotundum'),
+    走向: e('是上頷神經中唯一在圓孔之前就分出的分支，向後外方進入中顱窩的硬腦膜，與腦膜中動脈同行', 'The only branch of the maxillary nerve that leaves it before the foramen rotundum; it turns into the dura mater of the middle cranial fossa and accompanies the middle meningeal artery'),
+    支配範圍: e('中顱窩的硬腦膜（以前部為主）的一般感覺；純感覺', 'General sensation of the dura mater of the middle cranial fossa, mainly its front part; purely sensory'),
+  },
+  'lacrimal nerve': {
+    來源: e('眼神經（V1）三條分支中最外側、最細的一條，在眶上裂附近分出', 'The most lateral and smallest of the three branches of the ophthalmic nerve (V1), arising near the superior orbital fissure'),
+    走向: e('經眶上裂、在總腱環之外進入眼眶，沿外直肌上緣向前外行到淚腺；途中接受顴神經（V2）的交通支', 'Enters the orbit via the superior orbital fissure, lying outside the common tendinous ring, and runs forward along the upper border of lateral rectus to the lacrimal gland; on the way it receives a communicating branch from the zygomatic nerve (V2)'),
+    支配範圍: e('淚腺、鄰近結膜與上眼瞼外側皮膚的一般感覺；顴神經交通支帶來翼顎神經節的副交感節後纖維，經它到達淚腺，促進淚液分泌', 'General sensation of the lacrimal gland, the adjacent conjunctiva and the skin of the lateral upper eyelid; the communicating branch from the zygomatic nerve carries postganglionic parasympathetic fibres from the pterygopalatine ganglion that stimulate tear secretion'),
+  },
+  'abducens nerve (vi)': {
+    來源: e('第六對腦神經，由橋腦的外旋神經核發出，在橋腦與延腦之間的橋延溝出腦', 'Cranial nerve VI, arising from the abducens nucleus of the pons and leaving the brainstem at the pontomedullary groove'),
+    走向: e('向前上方行，斜行爬過顳骨岩部尖端上緣進入海綿竇，在竇腔內緊貼頸內動脈外側前行；再經眶上裂、在總腱環之內入眼眶，從內側面進入外直肌', 'Runs forward and upward, over the apex of the petrous temporal bone into the cavernous sinus, where it lies lateral to the internal carotid artery within the sinus; it then enters the orbit through the superior orbital fissure inside the common tendinous ring and reaches the medial surface of lateral rectus'),
+    支配範圍: e('運動支配外直肌，使眼球外展；受損時眼球無法外展，向內偏斜並出現複視', 'Motor to lateral rectus only, which abducts the eyeball; a lesion leaves the eye turned inward and causes double vision'),
+  },
+  'oculomotor nerve (iii)': {
+    來源: e('第三對腦神經，起自中腦的動眼神經核（運動）與動眼神經副核（副交感），由腳間窩出腦', 'Cranial nerve III, arising from the oculomotor nucleus (motor) and the accessory (parasympathetic) nucleus of the midbrain and leaving at the interpeduncular fossa'),
+    走向: e('穿過後大腦動脈與小腦上動脈之間向前，進入海綿竇外側壁最上方，經眶上裂、在總腱環之內入眼眶，隨即分成上支與下支', 'Passes between the posterior cerebral and superior cerebellar arteries, enters the uppermost part of the lateral wall of the cavernous sinus, then enters the orbit through the superior orbital fissure inside the common tendinous ring and divides into a superior and an inferior branch'),
+    支配範圍: e('運動支配提上眼瞼肌、上直肌、內直肌、下直肌與下斜肌（上斜肌由滑車神經、外直肌由外旋神經支配）；副交感節前纖維經下支到睫狀神經節，控制睫狀肌（調焦）與瞳孔括約肌（縮瞳）', 'Motor to levator palpebrae superioris, superior, medial and inferior recti and inferior oblique (superior oblique is supplied by the trochlear nerve and lateral rectus by the abducens); parasympathetic preganglionic fibres go through the inferior branch to the ciliary ganglion for the ciliary muscle (accommodation) and sphincter pupillae (constriction)'),
+  },
+  'trochlear nerve (iv)': {
+    來源: e('第四對腦神經，起自中腦的滑車神經核，纖維在腦幹內交叉後，自中腦背側（下丘下方）出腦；是唯一從腦幹背面出腦的腦神經', 'Cranial nerve IV, arising from the trochlear nucleus of the midbrain; its fibres cross within the brainstem and leave on the dorsal surface below the inferior colliculus, the only cranial nerve to emerge dorsally'),
+    走向: e('繞過大腦腳外側向前，進入海綿竇外側壁（位在動眼神經下方），經眶上裂、在總腱環之外入眼眶，越過提上眼瞼肌上方向內行，到上斜肌；顱內行程在腦神經中最長', 'Winds around the cerebral peduncle, enters the lateral wall of the cavernous sinus below the oculomotor nerve, passes via the superior orbital fissure, lying outside the common tendinous ring, crosses above levator palpebrae superioris and reaches superior oblique; it has the longest intracranial course of the cranial nerves'),
+    支配範圍: e('只運動支配上斜肌（使眼球下壓、外展與內旋）', 'Motor to superior oblique only (depression, abduction and intorsion of the eyeball)'),
+  },
+  'olfactory nerve (i)': {
+    來源: e('第一對腦神經，由鼻腔頂部嗅上皮（上鼻甲與相對的鼻中隔上部）內嗅覺感受細胞的中樞突聚成', 'Cranial nerve I, formed by the central processes of the olfactory receptor cells in the olfactory epithelium of the roof of the nasal cavity (superior concha and the opposite upper septum)'),
+    走向: e('約二十束細小的嗅絲向上穿過篩骨篩板的小孔進入前顱窩，止於嗅球；訊號再經嗅徑傳到大腦底部的嗅覺相關區', 'About twenty fine filaments pass up through the foramina of the cribriform plate of the ethmoid into the anterior cranial fossa and end in the olfactory bulb; the signal continues by the olfactory tract to olfactory areas at the base of the brain'),
+    支配範圍: e('特殊感覺：嗅覺；純感覺。篩板骨折可撕斷嗅絲，造成嗅覺喪失，並可能使腦脊髓液從鼻腔漏出', 'Special sense of smell; purely sensory. A fracture of the cribriform plate can tear the filaments, causing loss of smell and possibly leakage of cerebrospinal fluid from the nose'),
+  },
+  'anterior ethmoidal nerve': {
+    來源: e('鼻睫神經（V1）的終末分支之一，在眼眶內側壁發出', 'One of the terminal branches of the nasociliary nerve (V1), given off at the medial wall of the orbit'),
+    走向: e('與前篩動脈同行，經前篩孔離開眼眶進入前顱窩，沿篩板上面前行，再經篩板前方的小縫下降入鼻腔；分出內側與外側鼻支，終末支（外鼻神經）在鼻骨與鼻軟骨交界處穿出到鼻背皮膚', 'Accompanies the anterior ethmoidal artery out of the orbit through the anterior ethmoidal foramen into the anterior cranial fossa, runs forward on the cribriform plate and descends into the nasal cavity through a slit at its front; it gives medial and lateral nasal branches, and its terminal external nasal branch emerges between the nasal bone and the nasal cartilage to the skin of the nasal dorsum'),
+    支配範圍: e('前、中篩竇，前顱窩的硬腦膜，鼻腔前上部的黏膜（鼻中隔與外側壁），以及鼻尖與鼻翼的皮膚；純感覺', 'The anterior and middle ethmoidal cells, the dura of the anterior cranial fossa, the mucosa of the anterosuperior nasal cavity (septum and lateral wall) and the skin of the tip and alae of the nose; purely sensory'),
+  },
+  'nasociliary nerve': {
+    來源: e('眼神經（V1）的三條分支之一，是其中分支最多的一條', 'One of the three branches of the ophthalmic nerve (V1), and the one with the most branches'),
+    走向: e('經眶上裂、在總腱環之內入眼眶，從外側向內跨過視神經上方，沿眼眶內側壁前行；依序分出到睫狀神經節的感覺根、長睫神經、後篩神經與前篩神經，終末延續為滑車下神經；短睫神經則由睫狀神經節發出，內含它的感覺纖維', 'Enters the orbit through the superior orbital fissure inside the common tendinous ring, crosses above the optic nerve from lateral to medial and runs along the medial orbital wall; it gives the sensory root of the ciliary ganglion and the long ciliary, posterior ethmoidal and anterior ethmoidal nerves and ends as the infratrochlear nerve; the short ciliary nerves arise from the ciliary ganglion and contain its sensory fibres'),
+    支配範圍: e('眼球（角膜、虹膜、睫狀體）、篩竇與蝶竇黏膜、鼻腔前上部黏膜、鼻背與鼻尖皮膚、內眼角附近眼瞼與淚囊的一般感覺；純感覺', 'General sensation of the eyeball (cornea, iris, ciliary body), the mucosa of the ethmoidal and sphenoidal sinuses and the anterosuperior nasal cavity, the skin of the nasal dorsum and tip, and the eyelids and lacrimal sac near the medial angle; purely sensory'),
+  },
+  'posterior ethmoidal nerve': {
+    來源: e('鼻睫神經（V1）在眼眶內側壁發出的細小分支', 'A slender branch of the nasociliary nerve (V1) arising at the medial wall of the orbit'),
+    走向: e('與後篩動脈同行，經後篩孔離開眼眶，進入後篩竇與蝶竇', 'Accompanies the posterior ethmoidal artery through the posterior ethmoidal foramen out of the orbit to the posterior ethmoidal and sphenoidal sinuses'),
+    支配範圍: e('後篩竇與蝶竇黏膜的一般感覺；純感覺', 'General sensation of the mucosa of the posterior ethmoidal cells and the sphenoidal sinus; purely sensory'),
+  },
+  'optic nerve (ii)': {
+    來源: e('第二對腦神經，由視網膜神經節細胞的軸突在視盤匯集，穿過鞏膜後極離開眼球而成；胚胎來源是腦的延伸', 'Cranial nerve II, formed by the axons of the retinal ganglion cells gathering at the optic disc and leaving the eyeball through the posterior sclera; developmentally an outgrowth of the brain'),
+    走向: e('向後內行經眼眶，穿視神經管（與眼動脈同行）進入顱腔，在腦下垂體前上方與對側合成視交叉，再成視徑，繞過大腦腳到外側膝狀體；眶內段包有硬膜、蛛網膜與軟膜，蛛網膜下腔與顱內相通；視網膜中央動脈與靜脈在其內走行，睫狀神經節位於它與外直肌之間', 'Runs backward and medially through the orbit, enters the cranial cavity through the optic canal together with the ophthalmic artery, joins its fellow in front of and above the pituitary gland as the optic chiasm and continues as the optic tract around the cerebral peduncle to the lateral geniculate body; in the orbit it is sheathed by dura, arachnoid and pia, the subarachnoid space being continuous with the intracranial one; the central retinal artery and vein run within it, and the ciliary ganglion lies between it and lateral rectus'),
+    支配範圍: e('特殊感覺：視覺，純感覺；也是瞳孔對光反射的傳入路徑', 'Special sense of vision, purely sensory; also the afferent pathway of the pupillary light reflex'),
+  },
+  'frontal nerve': {
+    來源: e('眼神經（V1）三條分支中位於中間的一條', 'The middle one of the three branches of the ophthalmic nerve (V1)'),
+    走向: e('經眶上裂、在總腱環之外入眼眶，沿提上眼瞼肌上表面與眶頂骨膜之間向前，約在眼眶中部分成眶上神經與滑車上神經', 'Enters the orbit via the superior orbital fissure, lying outside the common tendinous ring, runs forward between the roof periosteum and levator palpebrae superioris and divides about the middle of the orbit into the supra-orbital and supratrochlear nerves'),
+    支配範圍: e('經兩條終末支傳導前額、上眼瞼與前頭皮的一般感覺；純感覺', 'Through its two terminal branches, general sensation of the forehead, upper eyelid and anterior scalp; purely sensory'),
+  },
+  'supra-orbital nerve': {
+    來源: e('額神經（V1）較大、位置較外側的終末支', 'The larger, lateral terminal branch of the frontal nerve (V1)'),
+    走向: e('在提上眼瞼肌上方向前，經眶上切跡或眶上孔出眼眶（位置在眶上緣內側三分之一附近），分成淺支與深支，上行到前額與頭皮', 'Runs forward above levator palpebrae superioris and leaves the orbit through the supra-orbital notch or foramen near the medial third of the supra-orbital margin, then divides into superficial and deep branches that ascend to the forehead and scalp'),
+    支配範圍: e('上眼瞼的皮膚與結膜、前額皮膚與前頭皮直到頭頂的一般感覺；純感覺', 'General sensation of the skin and conjunctiva of the upper eyelid, the forehead and the scalp as far back as the vertex; purely sensory'),
+  },
+  'supratrochlear nerve': {
+    來源: e('額神經（V1）較小、位置較內側的終末支', 'The smaller, medial terminal branch of the frontal nerve (V1)'),
+    走向: e('沿眶頂內側向前，經滑車上方，與滑車上動脈同行，越過眶上緣內側（比眶上神經更靠近正中）上行到前額', 'Runs forward along the medial part of the orbital roof above the trochlea, accompanies the supratrochlear artery over the medial supra-orbital margin (nearer the midline than the supra-orbital nerve) and ascends to the forehead'),
+    支配範圍: e('前額近正中處的皮膚、上眼瞼內側的皮膚與結膜的一般感覺；純感覺', 'General sensation of the skin of the forehead near the midline and of the skin and conjunctiva of the medial upper eyelid; purely sensory'),
+  },
+  'superior branch of oculomotor nerve': {
+    來源: e('動眼神經（III）在眶上裂內、總腱環之內分出的較細上支', 'The smaller upper division of the oculomotor nerve (III), given off at the superior orbital fissure within the common tendinous ring'),
+    走向: e('越過視神經上方向上前行，貼著上直肌下面進入；一小支穿過或繞過上直肌，抵達它上方的提上眼瞼肌', 'Passes above the optic nerve and enters the underside of superior rectus; a small branch passes through or around that muscle to reach levator palpebrae superioris above it'),
+    支配範圍: e('運動支配上直肌（上提眼球）與提上眼瞼肌（上提上眼瞼）', 'Motor to superior rectus (elevating the eyeball) and levator palpebrae superioris (raising the upper eyelid)'),
+  },
+  'inferior branch of oculomotor nerve': {
+    來源: e('動眼神經（III）在總腱環之內分出的較粗下支', 'The larger inferior branch of the oculomotor nerve (III), given off within the common tendinous ring'),
+    走向: e('在視神經下方，與鼻睫神經、外旋神經一起位於總腱環內，分成三支，分別到內直肌、下直肌與下斜肌；到下斜肌的一支沿下直肌外緣前行，並發出到睫狀神經節的副交感根', 'Lies below the optic nerve with the nasociliary and abducens nerves inside the common tendinous ring and divides into three branches to medial rectus, inferior rectus and inferior oblique; the branch to inferior oblique runs along the lateral border of inferior rectus and gives off the parasympathetic root to the ciliary ganglion'),
+    支配範圍: e('運動支配內直肌、下直肌與下斜肌；其副交感節前纖維經睫狀神經節換神經元，再分布到睫狀肌與瞳孔括約肌', 'Motor to medial rectus, inferior rectus and inferior oblique; its parasympathetic preganglionic fibres synapse in the ciliary ganglion and then supply the ciliary muscle and sphincter pupillae'),
+  },
+  'long ciliary nerve': {
+    來源: e('鼻睫神經（V1）在眼眶內發出的細支，通常有兩條', 'A slender branch of the nasociliary nerve (V1) given off in the orbit, usually two in number'),
+    走向: e('在鼻睫神經跨過視神經處發出，與短睫神經並行向前，穿過視神經附近的鞏膜後部入眼球，在鞏膜與脈絡膜之間向前到睫狀體與虹膜', 'Arises where the nasociliary nerve crosses the optic nerve, runs forward beside the short ciliary nerves, pierces the sclera near the optic nerve and passes forward between the sclera and the choroid to the ciliary body and iris'),
+    支配範圍: e('虹膜、睫狀體與角膜的一般感覺；並帶有頸上神經節來的交感節後纖維，支配瞳孔開大肌', 'General sensation of the iris, ciliary body and cornea; it also carries sympathetic postganglionic fibres from the superior cervical ganglion to dilator pupillae'),
+  },
+  'short ciliary nerve': {
+    來源: e('睫狀神經節前緣發出的六至十條細神經', 'Six to ten fine nerves leaving the front of the ciliary ganglion'),
+    走向: e('分成上、下兩群環繞視神經，與短後睫動脈伴行，穿過視神經周圍的鞏膜入眼球，在鞏膜與脈絡膜之間向前', 'Pass in an upper and a lower group around the optic nerve with the short posterior ciliary arteries, pierce the sclera around the optic nerve and run forward between the sclera and the choroid'),
+    支配範圍: e('副交感節後纖維支配睫狀肌（調焦）與瞳孔括約肌（縮瞳）；也帶來鼻睫神經的感覺纖維（角膜、虹膜、睫狀體）與經過神經節的交感纖維（眼球內血管）', 'Postganglionic parasympathetic fibres to the ciliary muscle (accommodation) and sphincter pupillae (constriction); they also carry sensory fibres from the nasociliary nerve (cornea, iris, ciliary body) and sympathetic fibres passing through the ganglion (intraocular vessels)'),
+  },
+  'ciliary ganglion': {
+    來源: e('眼眶內的副交感神經節；節前纖維來自中腦的動眼神經副核，隨動眼神經下支（到下斜肌的分支）而來', 'A parasympathetic ganglion of the orbit; its preganglionic fibres come from the accessory nucleus of the oculomotor nerve in the midbrain, by way of the inferior branch of the oculomotor nerve (the branch to inferior oblique)'),
+    走向: e('只有針頭般大小，位在眼眶後部、視神經與外直肌之間；有三條根：副交感根（動眼神經，在此換神經元）、感覺根（鼻睫神經）、交感根（來自頸內動脈周圍神經叢），後兩者只是穿過，不換神經元；節後纖維組成短睫神經', 'Pin-head sized, in the posterior orbit between the optic nerve and lateral rectus; it has three roots: a parasympathetic root (oculomotor nerve, where the neurons synapse), a sensory root (nasociliary nerve) and a sympathetic root (from the plexus around the internal carotid artery), the last two passing through without synapsing; its postganglionic fibres form the short ciliary nerves'),
+    支配範圍: e('經短睫神經分布到睫狀肌（調焦）與瞳孔括約肌（縮瞳）', 'Through the short ciliary nerves, the ciliary muscle (accommodation) and sphincter pupillae (constriction)'),
+  },
+  'infratrochlear nerve': {
+    來源: e('鼻睫神經（V1）的終末支，在前篩神經發出之後延續而成', 'The terminal branch of the nasociliary nerve (V1), continuing after the anterior ethmoidal nerve has been given off'),
+    走向: e('沿眼眶內側壁、內直肌上緣向前，在上斜肌滑車的下方離開眼眶，到達內眼角', 'Runs forward along the medial orbital wall above the upper border of medial rectus, leaves the orbit below the trochlea of superior oblique and reaches the medial angle of the eye'),
+    支配範圍: e('內眼角附近的眼瞼與結膜、淚囊、淚阜，以及鼻根與鼻背上部皮膚的一般感覺；純感覺', 'General sensation of the eyelids and conjunctiva near the medial angle, the lacrimal sac and caruncle, and the skin of the root and upper dorsum of the nose; purely sensory'),
+  },
+  'vestibulocochlear nerve (viii)': {
+    來源: e('第八對腦神經，由來自前庭神經節的前庭神經與來自螺旋神經節的耳蝸神經合成', 'Cranial nerve VIII, formed by the vestibular nerve from the vestibular ganglion and the cochlear nerve from the spiral ganglion'),
+    走向: e('兩部在內耳道內合成一條，與顏面神經一同穿過顳骨岩部的內聽道，經內聽孔進入後顱窩，在橋腦下緣、顏面神經外側入腦幹（小腦橋腦角）', 'The two parts join in the internal acoustic meatus, and the nerve runs with the facial nerve through the petrous temporal bone, enters the posterior cranial fossa through the internal acoustic pore and reaches the brainstem at the lower border of the pons, lateral to the facial nerve (cerebellopontine angle)'),
+    支配範圍: e('特殊感覺：耳蝸部傳導聽覺、前庭部傳導平衡覺；純感覺，沒有運動纖維', 'Special senses: the cochlear part carries hearing and the vestibular part carries balance; purely sensory, with no motor fibres'),
+  },
+  'cochlear nerve': {
+    來源: e('耳蝸蝸軸內螺旋神經節雙極神經元的軸突；周圍突連到柯蒂氏器的毛細胞', 'Axons of the bipolar neurons of the spiral ganglion in the modiolus of the cochlea, whose peripheral processes connect to the hair cells of the spiral organ'),
+    走向: e('在蝸軸內聚成束，由內耳道底離開耳蝸，在內耳道內與前庭神經合成前庭耳蝸神經，入腦幹後止於耳蝸神經核', 'The axons gather in the modiolus, leave the cochlea at the fundus of the internal acoustic meatus, join the vestibular nerve there to form the vestibulocochlear nerve and end in the cochlear nuclei of the brainstem'),
+    支配範圍: e('特殊感覺：傳導耳蝸管內柯蒂氏器毛細胞產生的聽覺訊號；純感覺', 'Special sense: carries the hearing signals generated by the hair cells of the spiral organ in the cochlear duct; purely sensory'),
+  },
+  'vestibular nerve': {
+    來源: e('內耳道底前庭神經節（斯卡帕神經節）雙極神經元的軸突；周圍突連到壺腹嵴、橢圓囊斑與球囊斑', 'Axons of the bipolar neurons of the vestibular ganglion at the fundus of the internal acoustic meatus, whose peripheral processes connect to the ampullary crests, the macula of the utricle and the macula of the saccule'),
+    走向: e('由前庭神經節向內行，在內耳道內與耳蝸神經合成前庭耳蝸神經，入腦幹後止於前庭神經核，部分纖維直接到小腦', 'Runs medially from the ganglion, joins the cochlear nerve in the internal acoustic meatus to form the vestibulocochlear nerve and ends in the vestibular nuclei of the brainstem, some fibres going directly to the cerebellum'),
+    支配範圍: e('特殊感覺：傳導平衡覺，包括三個半規管壺腹嵴的頭部旋轉訊息，以及橢圓囊斑與球囊斑的直線加速度與重力方向；純感覺', 'Special sense: carries balance information, namely head rotation from the ampullary crests of the three semicircular ducts and linear acceleration and the direction of gravity from the maculae of the utricle and saccule; purely sensory'),
+  },
+  'aponeurosis of epicranius': {
+    說明: e('附著：寬廣的腱膜，覆蓋顱頂，前連額肌、後連枕肌，是頭皮的第三層；兩側向顳區變薄，續為顳筋膜。作用：把額肌與枕肌連成一個整體，額肌收縮時以枕肌為後方定點牽動頭皮，使眉毛上提、額部起皺；其下方的疏鬆結締組織讓頭皮能在顱骨上滑動，也是感染容易擴散的層次', 'Attachments: a broad tendinous sheet over the vault of the skull, joined in front to frontalis and behind to occipitalis, the third layer of the scalp; it thins out laterally and continues into the temporal fascia. Action: links frontalis and occipitalis into one muscle, so that frontalis pulls the scalp forward against the fixed occipitalis, raising the eyebrows and wrinkling the forehead; the loose connective tissue beneath it lets the scalp slide over the skull and is the layer along which infection spreads easily'),
+  },
+  'thyrohyoid membrane': {
+    說明: e('附著：上緣附著於舌骨體與大角的後上緣，下緣附著於甲狀軟骨板的上緣；中央增厚為甲狀舌骨正中韌帶，兩側後緣增厚為甲狀舌骨外側韌帶（內含小麥軟骨）。作用：把喉懸吊在舌骨下方，吞嚥時讓喉隨舌骨一同上提；上喉神經內支與上喉動脈、靜脈從側面穿過它進入喉', 'Attachments: its upper edge is fixed to the posterior upper margin of the body and greater horns of the hyoid, its lower edge to the upper border of the thyroid lamina; it thickens centrally as the median thyrohyoid ligament and at its posterior borders as the lateral thyrohyoid ligaments, which contain the triticeal cartilage. Action: suspends the larynx from the hyoid so that the larynx rises with the hyoid in swallowing; the internal branch of the superior laryngeal nerve and the superior laryngeal vessels pierce it on each side to enter the larynx'),
+  },
+  'suspensory ligament of lens': {
+    說明: e('附著：由睫狀體與睫狀突伸出的許多細小帶纖維組成，呈放射狀向內附著在水晶體赤道附近的前後囊。作用：把水晶體懸吊在虹膜後方，並把睫狀肌的收縮與放鬆傳給水晶體：看近時睫狀肌收縮，懸韌帶鬆弛，水晶體因自身彈性變厚變圓；看遠時睫狀肌放鬆，懸韌帶拉緊，水晶體被拉扁', 'Attachments: made up of many fine zonular fibres running from the ciliary body and ciliary processes radially inward to the anterior and posterior capsule near the equator of the lens. Action: holds the lens behind the iris and transmits the contraction and relaxation of the ciliary muscle to it: in near vision the ciliary muscle contracts, the ligament slackens and the lens thickens by its own elasticity; in distant vision the muscle relaxes, the ligament tightens and the lens is flattened'),
+  },
+  'pharyngeal raphe': {
+    說明: e('附著：咽後壁正中的纖維縫，上端附著於枕骨基底部的咽結節，向下延伸到食道起始處；上、中、下咽縮肌的纖維從兩側止於此縫。作用：作為左右咽縮肌共同的止點，使它們合成一條肌肉管，收縮時由上往下依序擠壓，把食團推向食道', 'Attachments: a fibrous seam in the midline of the posterior pharyngeal wall, fixed above to the pharyngeal tubercle on the basilar part of the occipital bone and running down toward the start of the oesophagus; the fibres of the superior, middle and inferior constrictors insert into it from each side. Action: the common insertion of the constrictors of both sides, joining them into one muscular tube that squeezes from above downward to drive the bolus toward the oesophagus'),
+  },
+  'pterygomandibular raphe': {
+    說明: e('附著：腱性的纖維帶，上端附著於蝶骨翼突內側板的翼鉤，下端附著於下頜骨的下頜舌骨肌線後端、最後一顆大臼齒後方；位於前方的頰肌與後方的上咽縮肌之間，在口腔黏膜下形成一道皺襞。作用：供頰肌與上咽縮肌附著的共同帶，把兩塊肌肉在這條線上連成一體，使頰肌壓緊臉頰、上咽縮肌收縮咽壁；也是下齒槽神經阻滯麻醉進針時的位置標誌', 'Attachments: a tendinous band fixed above to the pterygoid hamulus of the medial pterygoid plate and below to the posterior end of the mylohyoid line of the mandible behind the last molar; it lies between buccinator in front and the superior pharyngeal constrictor behind and raises a mucosal fold in the mouth. Action: the common attachment line of buccinator and the superior constrictor, joining the two muscles so that buccinator presses the cheek against the teeth and the constrictor narrows the pharyngeal wall; it is also a landmark for needle placement in an inferior alveolar nerve block'),
+  },
+  'stylohyoid ligament': {
+    說明: e('附著：細長的纖維索，上端附著於顳骨莖突尖端，下端附著於舌骨小角（舌骨體與大角交界處）；是第二咽弓軟骨的遺跡，有時部分鈣化。作用：把舌骨向上懸吊在顱底，並供中咽縮肌附著；舌咽神經與莖突咽肌沿著它向下，在上、中咽縮肌之間進入咽部', 'Attachments: a slender fibrous cord fixed above to the tip of the styloid process of the temporal bone and below to the lesser horn of the hyoid bone; a remnant of the cartilage of the second pharyngeal arch that may be partly calcified. Action: suspends the hyoid from the skull base and gives attachment to the middle pharyngeal constrictor; the glossopharyngeal nerve and stylopharyngeus follow it down and enter the pharynx between the superior and middle constrictors'),
+  },
+});
+
 // Heart and adjoining great vessels (heart quiz). Standard textbook anatomy; variable branching is described as "常見".
 Object.assign(CARD_EXTRAS, {
   'right coronary artery': {
