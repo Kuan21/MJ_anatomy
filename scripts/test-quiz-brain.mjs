@@ -217,9 +217,9 @@ assert.equal(brainLayerOf('basal', 'Putamen'), 'deep'); assert.equal(brainLayerO
 assert.equal(brainLayerOf('white', 'White matter of telencephalon'), 'envelope'); assert.equal(brainLayerOf('white', 'Fornix'), 'tract'); assert.equal(brainLayerOf('arteries', 'Basilar artery'), 'open');
 
 // ---- the hub card and the region wiring
-const hub = fs.readFileSync('app/quiz/hub.tsx', 'utf8');
-assert.ok(/href=\{QUIZ_REGIONS\.brain\.hash\} data-part="brain"/.test(hub), 'the hub has a brain card');
-assert.ok(!/腦等器官/.test(hub), 'the reserved organs card no longer promises the brain');
+// the chooser pages build their cards from the region data: the brain is an organ region, so it is listed under the organs without any brain-specific code
+assert.equal(QUIZ_REGIONS.brain.group, 'organ', 'the brain is listed under the organs');
+for (const file of ['app/quiz/learn-hub.tsx']) assert.ok(fs.readFileSync(file, 'utf8').includes('orderedRegions()'), `${file} lists the regions of the data`);
 const lessonsSource = fs.readFileSync('app/quiz/lessons.ts', 'utf8');
 assert.ok(!/brain/.test(lessonsSource), 'the lesson generator needs no brain-specific code');
 console.log(`Brain quiz passed: ${catalogue.structures.length} structures (${new Set(catalogue.structures.map(s => normalize(s.name, false))).size} names) in ${sectionIds.length} sections; organ ${byCategory.organ}, nerve ${byCategory.nerve}, artery ${byCategory.artery}, vein ${byCategory.vein}; ${report.excluded.length} excluded with a documented reason; ${catalogue.structures.filter(s => !s.cardFields?.length).length} without a card (listed as gaps).`);

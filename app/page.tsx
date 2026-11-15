@@ -4,7 +4,7 @@ import {flushSync} from 'react-dom';
 import {registerAtlasTools} from './agent-tools';
 import {Fragment,Suspense,lazy,useCallback,useEffect,useMemo,useRef,useState} from 'react';
 import {PronounceButton} from './pronunciation/PronounceButton';
-import {Activity,ArrowUpRight,Play,Maximize2,ChevronRight,EyeOff,GraduationCap,Focus,Tag,Info,Layers3,Pause,RotateCcw,RotateCw,Search,Target,Undo2,X} from 'lucide-react';
+import {Activity,ArrowUpRight,Play,Maximize2,ChevronRight,EyeOff,BookOpen,GraduationCap,Focus,Tag,Info,Layers3,Pause,RotateCcw,RotateCw,Search,Target,Undo2,X} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {Badge} from '@/components/ui/badge';
 import {Switch} from '@/components/ui/switch';
@@ -535,7 +535,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
    {picked&&def.paired&&<span className="tab-sides" role="group" aria-label={`${def.label}側別`}>{([['both','雙側'],['left','左側'],['right','右側']] as ['both'|Side,string][]).map(([id,label])=><Button variant="ghost" key={id} aria-pressed={studySide===id} onClick={()=>applySide(id)}>{label}</Button>)}</span>}
    {picked&&def.paired&&studySide!=='both'&&<label className="side-fade-toggle"><input type="checkbox" checked={fadeOther} onChange={e=>setFadeOther(e.target.checked)}/>淡化另一側</label>}
   </nav>;})()}
-  <nav className="top-actions" aria-label="工具列"><a className="top-link quiz-link" href={quizHref} aria-label="開啟 Quiz，先選擇部位" title="Quiz"><GraduationCap size={18}/><span>Quiz</span></a><Button variant="ghost" className="hover-toggle" aria-pressed={hoverLabels} onClick={toggleHoverLabels} aria-label="主動跟隨 Hover labels" title="主動跟隨 Hover labels：滑鼠移到構造上時顯示名稱"><Tag size={18}/><span>主動跟隨 Hover labels</span></Button><Button variant="ghost" className={panel==='search'?'active':''} onClick={()=>openPanel('search')} aria-label="搜尋構造"><Search size={18}/><span>Find a structure｜搜尋</span><kbd>/</kbd></Button><Button variant="ghost" className="icon-button" aria-label="關於本圖譜與來源" onClick={()=>{setDetails(false);setPanel(null);setAbout(true);}}><Info size={18}/></Button></nav>
+  <nav className="top-actions" aria-label="工具列"><a className="top-link quiz-link learn-link" href="#/learn" aria-label="開啟學習：關卡地圖" title="學習"><BookOpen size={18}/><span>學習</span></a><a className="top-link quiz-link" href={quizHref} aria-label="開啟 Quiz，先選擇部位" title="Quiz"><GraduationCap size={18}/><span>Quiz</span></a><Button variant="ghost" className="hover-toggle" aria-pressed={hoverLabels} onClick={toggleHoverLabels} aria-label="主動跟隨 Hover labels" title="主動跟隨 Hover labels：滑鼠移到構造上時顯示名稱"><Tag size={18}/><span>主動跟隨 Hover labels</span></Button><Button variant="ghost" className={panel==='search'?'active':''} onClick={()=>openPanel('search')} aria-label="搜尋構造"><Search size={18}/><span>Find a structure｜搜尋</span><kbd>/</kbd></Button><Button variant="ghost" className="icon-button" aria-label="關於本圖譜與來源" onClick={()=>{setDetails(false);setPanel(null);setAbout(true);}}><Info size={18}/></Button></nav>
   <aside className={`left-workspace ${panel==='layers'?'mobile-open':''}`}>
   <section className={`layers-panel glass ${panel==='layers'?'mobile-open':''}`} aria-label="Anatomical layers">
    <Button variant="ghost" className="mobile-only close-systems" onClick={()=>setPanel(null)} aria-label="Close systems"><X size={18}/></Button>

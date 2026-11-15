@@ -1,6 +1,6 @@
 # Quiz 第二級「學習關卡」：關卡產生、星星與複習規則
 
-內部文件（只放在 `docs/`，不放進 `public/` 或 `dist/`）。程式在 `app/quiz/lessons.ts`、`lesson-progress.ts`、`lesson-mode.tsx`，測試在 `scripts/test-quiz-lessons.mjs`（已併入 `npm run check`）。
+內部文件（只放在 `docs/`，不放進 `public/` 或 `dist/`）。程式在 `app/quiz/lessons.ts`、`lesson-progress.ts`（關卡切分與舊版星星、間隔複習）、`learn.tsx`、`learn-progress.ts`（2026-11-15 起：關卡已移到獨立的「學習」入口 `#/learn`，流程改為認識 → 練習 → 過關測驗，80% 解鎖；下文的「三輪」「星星」是舊版，進度檔仍可讀取：2 星以上視為已過關），測試在 `scripts/test-quiz-lessons.mjs`（已併入 `npm run check`）。
 
 ## 等級編號
 
@@ -95,3 +95,7 @@
 ## 目前不含
 
 - 關節類別、骨盆、腹部、頭頸、腦等新部位與新類別：之後各用獨立 PR 加入，只需補資料（目錄產生器會自動出關卡）。
+
+## 認識步驟的資料行
+
+第一輪（認識）在題目下方顯示該構造已有的資料欄位；完全沒有資料卡文字的構造改顯示小字「資料整理中」（英文 Content being prepared），不列出空白欄位。這些構造仍照常出現在第一級與第三級的名稱題庫（題庫不依資料卡文字篩選）。第二、三輪答錯後的資料卡，沒有資料卡文字時也顯示同一行。Quiz 本身的答案卡維持原來的「尚無資料」。測試：`scripts/test-quiz-lesson-pending.mjs`。
