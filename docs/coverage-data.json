@@ -1,9 +1,9 @@
 {
  "totals": {
   "terms": 3816,
-  "have": 1219,
+  "have": 1217,
   "findability": 0,
-  "missing": 1122,
+  "missing": 1124,
   "landmark": 262,
   "noise": 650
  },
@@ -8125,14 +8125,6 @@
    "lecture": "下肢 I（骨、臀部）",
    "have": [
     {
-     "term": "pubis Bones",
-     "zh": null,
-     "kind": "contained",
-     "model": "Mons pubis",
-     "source": "paokao",
-     "system": "reproductive"
-    },
-    {
      "term": "adductor magnus m",
      "zh": null,
      "kind": "exact",
@@ -8505,6 +8497,10 @@
     },
     {
      "term": "pubs ischium Gluteal ligaments",
+     "zh": null
+    },
+    {
+     "term": "pubis Bones",
      "zh": null
     },
     {
@@ -14968,7 +14964,7 @@
      "term": "bulb",
      "zh": "尿道球動脈",
      "kind": "contained",
-     "model": "Right bulb of vestibule",
+     "model": "Left bulb of vestibule",
      "source": "paokao",
      "system": "reproductive"
     },
@@ -17801,18 +17797,10 @@
      "system": "muscular"
     },
     {
-     "term": "mons pubis",
-     "zh": "陰阜",
-     "kind": "exact",
-     "model": "Mons pubis",
-     "source": "paokao",
-     "system": "reproductive"
-    },
-    {
      "term": "clitoris",
      "zh": "陰蒂",
-     "kind": "exact",
-     "model": "Clitoris",
+     "kind": "contained",
+     "model": "Glans of clitoris",
      "source": "paokao",
      "system": "reproductive"
     },
@@ -17820,7 +17808,7 @@
      "term": "crus",
      "zh": "陰蒂腳",
      "kind": "contained",
-     "model": "Right crus of clitoris",
+     "model": "Left crus of clitoris",
      "source": "paokao",
      "system": "reproductive"
     },
@@ -17828,7 +17816,7 @@
      "term": "vestibule",
      "zh": "前庭",
      "kind": "contained",
-     "model": "Right bulb of vestibule",
+     "model": "Left bulb of vestibule",
      "source": "paokao",
      "system": "reproductive"
     },
@@ -17836,7 +17824,7 @@
      "term": "bulbs of vestibule",
      "zh": "前庭球",
      "kind": "exact",
-     "model": "Right bulb of vestibule",
+     "model": "Left bulb of vestibule",
      "source": "paokao",
      "system": "reproductive"
     },
@@ -17860,7 +17848,7 @@
      "term": "bulb",
      "zh": "陰莖球",
      "kind": "contained",
-     "model": "Right bulb of vestibule",
+     "model": "Left bulb of vestibule",
      "source": "paokao",
      "system": "reproductive"
     },
@@ -17884,7 +17872,7 @@
      "term": "artery to the bulb",
      "zh": "前庭球動脈",
      "kind": "contained",
-     "model": "Right bulb of vestibule",
+     "model": "Left bulb of vestibule",
      "source": "paokao",
      "system": "reproductive"
     }
@@ -18498,6 +18486,10 @@
     {
      "term": "pudendum/vulva",
      "zh": "外陰"
+    },
+    {
+     "term": "mons pubis",
+     "zh": "陰阜"
     },
     {
      "term": "coarse pubic hairs",

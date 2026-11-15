@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "note": "Provenance of every model source used by the viewer. Licences are those stated by each source; non-commercial or unclear pieces are not used.",
+  "note": "Provenance of every model source used by the viewer. Licences are those stated by each source. Non-commercial (NC) pieces are used only because this site is free, non-commercial and for personal education (owner's decision, 2026-11-14), so it must stay non-commercial; pieces with an unclear licence, or that forbid derivatives or redistribution, are not used.",
   "sources": [
     {
       "id": "bodyparts3d-4.0",
@@ -354,6 +354,17 @@
       "url": "https://cdn.humanatlas.io/digital-objects/ref-organ/eye-male-left/v1.3/assets/3d-vh-m-eye-l.glb",
       "pinned_by": "scripts/build-eye-atlas.mjs (sha256)",
       "license_url": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    {
+      "id": "clitoris-mri-2",
+      "files": [
+        "models/paokao/*",
+        "models/stream/paokao-*.bin.gz"
+      ],
+      "license": "CC BY-NC-SA 4.0 (Creative Commons - Attribution - Non-Commercial - Share Alike, as stated in the LICENSE.txt of the download)",
+      "origin": "Clitoris-MRI-2 by Bioscope (Romain Dewaele), made from an MRI of a pre-menopausal woman without genital cutting, after Abdulcadir et al. 2020, J Sex Med 17(9):1590-1602, doi 10.1016/j.jsxm.2020.05.025. Modified: cut into glans, body, two crura and two bulbs of the vestibule and fitted to the female pelvis.",
+      "url": "https://www.thingiverse.com/thing:5027449",
+      "pinned_by": "scripts/data/clitoris-mri2.json.gz (source sha256 recorded in the file)"
     }
   ],
   "checked_not_used": [
