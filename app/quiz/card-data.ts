@@ -240,7 +240,7 @@ Object.assign(CARD_EXTRAS, {
   },
   'vestibulocochlear nerve (viii)': {
     來源: e('第八對腦神經，由來自前庭神經節的前庭神經與來自螺旋神經節的耳蝸神經合成', 'Cranial nerve VIII, formed by the vestibular nerve from the vestibular ganglion and the cochlear nerve from the spiral ganglion'),
-    走向: e('兩部在內耳道內合成一條，與顏面神經一同穿過顳骨岩部的內聽道，經內聽孔進入後顱窩，在橋腦下緣、顏面神經外側入腦幹（小腦橋腦角）', 'The two parts join in the internal acoustic meatus, and the nerve runs with the facial nerve through the petrous temporal bone, enters the posterior cranial fossa through the internal acoustic pore and reaches the brainstem at the lower border of the pons, lateral to the facial nerve (cerebellopontine angle)'),
+    走向: e('兩部在內耳道內合成一條，與顏面神經一同穿過顳骨岩部的內耳道，經內耳孔進入後顱窩，在橋腦下緣、顏面神經外側入腦幹（小腦橋腦角）', 'The two parts join in the internal acoustic meatus, and the nerve runs with the facial nerve through the petrous temporal bone, leaves the internal acoustic meatus through its porus into the posterior cranial fossa and reaches the brainstem at the lower border of the pons, lateral to the facial nerve (cerebellopontine angle)'),
     支配範圍: e('特殊感覺：耳蝸部傳導聽覺、前庭部傳導平衡覺；純感覺，沒有運動纖維', 'Special senses: the cochlear part carries hearing and the vestibular part carries balance; purely sensory, with no motor fibres'),
   },
   'cochlear nerve': {
@@ -275,7 +275,7 @@ Object.assign(CARD_EXTRAS, {
   },
   'stylohyoid ligament': {
     附著: e('細長的纖維索，上端附著於顳骨莖突尖端，下端附著於舌骨小角（舌骨體與大角交界處）；是第二咽弓軟骨的遺跡，有時部分鈣化', 'a slender fibrous cord fixed above to the tip of the styloid process of the temporal bone and below to the lesser horn of the hyoid bone; a remnant of the cartilage of the second pharyngeal arch that may be partly calcified'),
-    作用: e('把舌骨向上懸吊在顱底，並供中咽縮肌附著；舌咽神經與莖突咽肌沿著它向下，在上、中咽縮肌之間進入咽部', 'suspends the hyoid from the skull base and gives attachment to the middle pharyngeal constrictor; the glossopharyngeal nerve and stylopharyngeus follow it down and enter the pharynx between the superior and middle constrictors'),
+    作用: e('把舌骨向上懸吊在顱底，並供中咽縮肌附著；莖突咽肌與舌咽神經在其附近下行，神經從上、中咽縮肌之間進入咽壁', 'suspends the hyoid from the skull base and gives attachment to the middle pharyngeal constrictor; stylopharyngeus and the glossopharyngeal nerve descend close to it, and the nerve enters the pharyngeal wall between the superior and middle constrictors'),
   },
 });
 
