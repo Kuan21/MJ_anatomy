@@ -488,7 +488,7 @@
 
 ### 神經：0 / 3 項資料完整
 
-- 迷走神經（vagus nerve (X)）：缺 來源、走向、主要分支、支配範圍
+- 迷走神經（vagus nerve (X)）：缺 主要分支
 - 肋間神經（intercostal nerves）：缺 來源、走向、主要分支、支配範圍
 - 交感神經（sympathetic nerves）：缺 來源、走向、主要分支、支配範圍
 
@@ -800,25 +800,25 @@
 - 視神經（第二對腦神經）（optic nerve (II)）：缺 來源、走向、主要分支、支配範圍
 - 動眼神經（第三對腦神經）（oculomotor nerve (III)）：缺 來源、走向、主要分支、支配範圍
 - 三叉神經感覺根（sensory root of trigeminal nerve）：缺 來源、走向、主要分支、支配範圍
-- 三叉神經（第五對腦神經）（trigeminal nerve (V)）：缺 來源、走向、主要分支、支配範圍
-- 下齒槽神經（inferior alveolar nerve）：缺 來源、走向、主要分支、支配範圍
-- 頦神經（mental nerve）：缺 來源、走向、主要分支、支配範圍
-- 下頷舌骨肌神經（nerve to mylohyoid muscle）：缺 來源、走向、主要分支、支配範圍
-- 頰神經（buccal nerve）：缺 來源、走向、主要分支、支配範圍
-- 下頷神經後股（posterior division of mandibular nerve）：缺 來源、走向、主要分支、支配範圍
-- 下頷神經前股（anterior division of mandibular nerve）：缺 來源、走向、主要分支、支配範圍
+- 三叉神經（第五對腦神經）（trigeminal nerve (V)）：缺 主要分支
+- 下齒槽神經（inferior alveolar nerve）：缺 主要分支
+- 頦神經（mental nerve）：缺 主要分支
+- 下頷舌骨肌神經（nerve to mylohyoid muscle）：缺 主要分支
+- 頰神經（buccal nerve）：缺 主要分支
+- 下頷神經後股（posterior division of mandibular nerve）：缺 主要分支
+- 下頷神經前股（anterior division of mandibular nerve）：缺 主要分支
 - 舌神經（lingual nerve）：缺 來源、走向、主要分支、支配範圍
-- 上頷神經（maxillary nerve）：缺 來源、走向、主要分支、支配範圍
-- 眼神經（ophthalmic nerve）：缺 來源、走向、主要分支、支配範圍
+- 上頷神經（maxillary nerve）：缺 主要分支
+- 眼神經（ophthalmic nerve）：缺 主要分支
 - 上頷神經腦膜支（meningeal branch of maxillary nerve）：缺 來源、走向、主要分支、支配範圍
 - 三叉神經運動根（motor root of trigeminal nerve）：缺 來源、走向、主要分支、支配範圍
-- 顏面神經（第七對腦神經）（facial nerve (VII)）：缺 來源、走向、主要分支、支配範圍
+- 顏面神經（第七對腦神經）（facial nerve (VII)）：缺 主要分支
 - 前庭神經（vestibular nerve）：缺 來源、走向、主要分支、支配範圍
 - 耳蝸神經（cochlear nerve）：缺 來源、走向、主要分支、支配範圍
 - 前庭耳蝸神經（第八對腦神經）（vestibulocochlear nerve (VIII)）：缺 來源、走向、主要分支、支配範圍
-- 舌咽神經（第九對腦神經）（glossopharyngeal nerve (IX)）：缺 來源、走向、主要分支、支配範圍
-- 迷走神經（第十對腦神經）（vagus nerve (X)）：缺 來源、走向、主要分支、支配範圍
-- 舌下神經（第十二對腦神經）（hypoglossal nerve (XII)）：缺 來源、走向、主要分支、支配範圍
+- 舌咽神經（第九對腦神經）（glossopharyngeal nerve (IX)）：缺 主要分支
+- 迷走神經（第十對腦神經）（vagus nerve (X)）：缺 主要分支
+- 舌下神經（第十二對腦神經）（hypoglossal nerve (XII)）：缺 主要分支
 - 外旋神經（第六對腦神經）（abducens nerve (VI)）：缺 來源、走向、主要分支、支配範圍
 - 滑車神經（第四對腦神經）（trochlear nerve (IV)）：缺 來源、走向、主要分支、支配範圍
 - 枕下神經（suboccipital nerve）：缺 主要分支

@@ -1,1 +1,35 @@
-{"version":1,"aliases":[]}
+{
+ "version": 1,
+ "aliases": [
+  {
+   "id": "RS-A-0292",
+   "site": "First lumbar vertebra",
+   "kind": "member"
+  },
+  {
+   "id": "RS-A-0296",
+   "site": "First costal cartilage",
+   "kind": "member"
+  },
+  {
+   "id": "RS-A-0425",
+   "site": "Taenia libera",
+   "kind": "member"
+  },
+  {
+   "id": "RS-A-0432",
+   "site": "Transverse mesocolon",
+   "kind": "member"
+  },
+  {
+   "id": "RS-A-0458",
+   "site": "Celiac ganglion",
+   "kind": "member"
+  },
+  {
+   "id": "RS-A-0457",
+   "site": "Greater splanchnic nerve",
+   "kind": "member"
+  }
+ ]
+}
