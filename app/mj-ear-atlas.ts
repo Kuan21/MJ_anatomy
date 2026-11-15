@@ -20,9 +20,9 @@ export const EAR_GROUPS: EarGroup[] = [
 /** Peel layers, from the outside in; the membranous labyrinth and the nerves are never peeled. */
 export const EAR_LAYERS = [
   {en: 'Auricle', zh: '耳廓'},
-  {en: 'External acoustic meatus', zh: '外耳道'},
+  {en: 'External auditory meatus', zh: '外聽道', aliases: ['External acoustic meatus', '外耳道']},
   {en: 'Tympanic membrane', zh: '鼓膜'},
-  {en: 'Ossicles and pharyngotympanic tube', zh: '聽小骨與耳咽管'},
+  {en: 'Ossicles and pharyngotympanic tube', zh: '聽小骨與咽鼓管'},
   {en: 'Bony labyrinth', zh: '骨性迷路'},
 ] as const;
 export const EAR_MAX_PEEL = EAR_LAYERS.length;
@@ -50,6 +50,8 @@ export interface EarPart {
   schematic?: boolean;
   /** only for a structure without a mesh: the modelled structures that bound it or lie next to it, highlighted while it is selected (the rest is faded) */
   near?: string[];
+  /** other accepted names (English or Chinese), found by the search */
+  aliases?: string[];
   /** related structures (ids) shown as links on the card */
   rel: string[];
   card: {en: EarFacts; zh: EarFacts};
@@ -72,7 +74,7 @@ export const EAR_PARTS: EarPart[] = [
       note: '外力撞擊可使皮膚與軟骨分離而積血；若未引流，癒合時會形成增厚變形的「菜花耳」。',
     },
   }}),
-  P({id: 'external-acoustic-meatus', en: 'External acoustic meatus', zh: '外耳道', group: 'outer', model: true, color: '#d9a99b', opacity: .6, layer: 1, schematic: true, rel: ['auricle', 'tympanic-membrane'], card: {
+  P({id: 'external-acoustic-meatus', en: 'External auditory meatus', zh: '外聽道', aliases: ['External acoustic meatus', '外耳道'], group: 'outer', model: true, color: '#d9a99b', opacity: .6, layer: 1, schematic: true, rel: ['auricle', 'tympanic-membrane'], card: {
     en: {
       loc: 'A slightly S-shaped canal about 2.5 cm long that runs from the concha to the tympanic membrane, inward and a little forward. The outer third is cartilage, continuous with the auricle; the inner two thirds run in the tympanic part of the temporal bone. The tympanic membrane lies obliquely across the inner end, so the floor and front wall are longer than the roof and back wall.',
       fn: 'Conducts sound to the tympanic membrane and protects it. Wax (cerumen) from glands in the cartilaginous part traps dust and keeps the skin supple.',
@@ -97,8 +99,8 @@ export const EAR_PARTS: EarPart[] = [
       note: 'The thin roof and medial wall are why an ear infection can reach the meninges and temporal lobe, the labyrinth and the facial nerve, and the back wall opens into the mastoid air cells. This space has no mesh of its own: selecting it highlights the structures that bound it or lie inside it and fades the rest.',
     },
     zh: {
-      loc: '位於顳骨岩部、介於鼓膜（外側壁）與骨性迷路（內側壁）之間的含氣空間。鼓膜上方為上鼓室（鼓室隱窩），與鼓膜相對為中鼓室，下方為下鼓室。頂壁為鼓室蓋，也是中顱窩的底；底壁為頸靜脈壁；前壁有耳咽管開口與頸動脈壁；後壁有通向乳突竇的入口與錐隆起；內側壁有岬、卵圓窗、圓窗與顏面神經管的隆起。',
-      fn: '容納聽小骨、鼓膜張肌與鐙骨肌、鼓索神經及鼓室神經叢；耳咽管使鼓室內的氣壓與外界相等。',
+      loc: '位於顳骨岩部、介於鼓膜（外側壁）與骨性迷路（內側壁）之間的含氣空間。鼓膜上方為上鼓室（鼓室隱窩），與鼓膜相對為中鼓室，下方為下鼓室。頂壁為鼓室蓋，也是中顱窩的底；底壁為頸靜脈壁；前壁有咽鼓管開口與頸動脈壁；後壁有通向乳突竇的入口與錐隆起；內側壁有岬、卵圓窗、圓窗與顏面神經管的隆起。',
+      fn: '容納聽小骨、鼓膜張肌與鐙骨肌、鼓索神經及鼓室神經叢；咽鼓管使鼓室內的氣壓與外界相等。',
       supply: '黏膜由鼓室神經叢（舌咽神經）支配。動脈：前鼓室動脈、莖乳動脈，以及腦膜中動脈與內頸動脈的細小分支。',
       note: '頂壁與內側壁很薄，因此中耳感染可蔓延到腦膜與顳葉、迷路及顏面神經；後壁通向乳突氣房。此空間沒有獨立的網格：選取時會標示圍成它或位於其中的構造，其餘淡化。',
     },
@@ -159,7 +161,7 @@ export const EAR_PARTS: EarPart[] = [
       note: '耳硬化症使底板固定，是成人傳導性聽力受損的常見原因；鐙骨切開術是以小型人工聽小骨取代鐙骨。',
     },
   }}),
-  P({id: 'tensor-tympani', en: 'Tensor tympani', zh: '鼓膜張肌', group: 'middle', model: false, color: '#b86a5c', layer: -1, near: ['malleus', 'pharyngotympanic-tube', 'tympanic-membrane'], rel: ['malleus', 'tympanic-membrane', 'pharyngotympanic-tube', 'stapedius'], card: {
+  P({id: 'tensor-tympani', en: 'Tensor tympani muscle', zh: '鼓膜張肌', group: 'middle', model: false, color: '#b86a5c', layer: -1, near: ['malleus', 'pharyngotympanic-tube', 'tympanic-membrane'], rel: ['malleus', 'tympanic-membrane', 'pharyngotympanic-tube', 'stapedius'], card: {
     en: {
       loc: 'A small muscle lying in a bony semicanal above the pharyngotympanic tube. It arises from the cartilage of the tube, the greater wing of the sphenoid and the wall of its canal. Its tendon turns laterally around the cochleariform process and attaches to the handle of the malleus near the neck.',
       fn: 'Pulls the handle of the malleus medially, tensing the tympanic membrane and damping its vibration. It contracts before chewing, yawning or loud sounds.',
@@ -167,13 +169,13 @@ export const EAR_PARTS: EarPart[] = [
       note: 'It is supplied by the trigeminal nerve, whereas the other middle ear muscle, the stapedius, is supplied by the facial nerve. This muscle has no mesh in the model: selecting it highlights the malleus, tube and membrane beside which it lies.',
     },
     zh: {
-      loc: '位於耳咽管上方骨性半管內的小肌肉，起自耳咽管軟骨、蝶骨大翼與管壁；肌腱繞過匙突後轉向外側，附著於錘骨頸附近的錘骨柄。',
+      loc: '位於咽鼓管上方骨性半管內的小肌肉，起自咽鼓管軟骨、蝶骨大翼與管壁；肌腱繞過匙突後轉向外側，附著於錘骨頸附近的錘骨柄。',
       fn: '把錘骨柄向內拉，使鼓膜繃緊並減小振動。咀嚼、打呵欠或聽到巨大聲響之前會收縮。',
       supply: '鼓膜張肌神經，來自下頜神經（經內側翼肌神經）。動脈：腦膜中動脈與上鼓室動脈的分支。',
-      note: '本肌由三叉神經支配，而中耳的另一條肌肉鐙骨肌由顏面神經支配。本模型沒有這條肌肉的網格：選取時會標示與它相鄰的錘骨、耳咽管與鼓膜。',
+      note: '本肌由三叉神經支配，而中耳的另一條肌肉鐙骨肌由顏面神經支配。本模型沒有這條肌肉的網格：選取時會標示與它相鄰的錘骨、咽鼓管與鼓膜。',
     },
   }}),
-  P({id: 'stapedius', en: 'Stapedius', zh: '鐙骨肌', group: 'middle', model: false, color: '#b86a5c', layer: -1, near: ['stapes', 'facial-nerve'], rel: ['stapes', 'facial-nerve', 'tensor-tympani'], card: {
+  P({id: 'stapedius', en: 'Stapedius muscle', zh: '鐙骨肌', group: 'middle', model: false, color: '#b86a5c', layer: -1, near: ['stapes', 'facial-nerve'], rel: ['stapes', 'facial-nerve', 'tensor-tympani'], card: {
     en: {
       loc: 'The smallest skeletal muscle of the body. It lies inside the pyramidal eminence on the back wall of the tympanic cavity; its tendon leaves the tip of the eminence and attaches to the neck of the stapes.',
       fn: 'Pulls the stapes backward and tilts the footplate, stiffening the ossicular chain and reducing the transmission of loud sounds (the acoustic reflex).',
@@ -187,7 +189,7 @@ export const EAR_PARTS: EarPart[] = [
       note: '顏面神經在此分支以上受損時，這個緩衝作用消失，一般聲音會變得刺耳（聽覺過敏）。本模型沒有這條肌肉的網格：選取時會標示相鄰的鐙骨與顏面神經。',
     },
   }}),
-  P({id: 'pharyngotympanic-tube', en: 'Pharyngotympanic tube', zh: '耳咽管', group: 'middle', model: true, color: '#c98f86', opacity: .7, layer: 3, schematic: true, rel: ['tympanic-cavity', 'tensor-tympani'], card: {
+  P({id: 'pharyngotympanic-tube', en: 'Pharyngotympanic tube (Auditory tube)', zh: '咽鼓管', aliases: ['Eustachian tube', '耳咽管'], group: 'middle', model: true, color: '#c98f86', opacity: .7, layer: 3, schematic: true, rel: ['tympanic-cavity', 'tensor-tympani'], card: {
     en: {
       loc: 'About 3.5 to 4 cm long. It runs from the front wall of the tympanic cavity forward, inward and downward to the side wall of the nasopharynx. The back third is bony and lies beside the carotid canal; the front two thirds are cartilage and fibrous tissue and open at the pharyngeal opening behind the torus tubarius.',
       fn: 'Keeps the air pressure in the tympanic cavity equal to the outside and drains mucus. It is normally closed and opens when the tensor veli palatini (with the levator veli palatini and salpingopharyngeus) contracts in swallowing or yawning.',
@@ -198,7 +200,7 @@ export const EAR_PARTS: EarPart[] = [
       loc: '長約 3.5 至 4 公分，由鼓室前壁向前、向內、向下通到鼻咽側壁。後側約三分之一為骨部，緊鄰頸動脈管；前側約三分之二為軟骨與纖維組織，開口於咽鼓管圓枕後方的咽口。',
       fn: '使鼓室內的氣壓與外界相等，並引流黏液。平時關閉，吞嚥或打呵欠時，腭帆張肌（與腭帆提肌、咽鼓管咽肌）收縮而打開。',
       supply: '神經：鼓室神經叢與上頜神經的咽支。動脈：升咽動脈、腦膜中動脈與翼管動脈。',
-      note: '幼兒的耳咽管較短、較平、較接近水平，咽部的感染較容易上行，這是兒童常發生中耳炎的原因之一。本模型的耳咽管是依上述走向建立的示意管道。',
+      note: '幼兒的咽鼓管較短、較平、較接近水平，咽部的感染較容易上行，這是兒童常發生中耳炎的原因之一。本模型的咽鼓管是依上述走向建立的示意管道。',
     },
   }}),
   // ---- bony labyrinth
@@ -415,7 +417,7 @@ export const EAR_PARTS: EarPart[] = [
       supply: '神經：後壺腹神經（前庭神經下分支）。動脈：迷路動脈。',
     },
   }}),
-  P({id: 'cochlear-duct', en: 'Cochlear duct', zh: '耳蝸管', group: 'membranous', model: false, color: '#9fc4a0', layer: -1, near: ['scala-vestibuli', 'scala-tympani', 'saccule'], rel: ['scala-vestibuli', 'scala-tympani', 'saccule', 'spiral-ganglion', 'cochlear-nerve'], card: {
+  P({id: 'cochlear-duct', en: 'Cochlear duct (Scala media)', zh: '耳蝸管', group: 'membranous', model: false, color: '#9fc4a0', layer: -1, near: ['scala-vestibuli', 'scala-tympani', 'saccule'], rel: ['scala-vestibuli', 'scala-tympani', 'saccule', 'spiral-ganglion', 'cochlear-nerve'], card: {
     en: {
       loc: 'The triangular membranous tube (scala media) inside the cochlea, between the scala vestibuli above and the scala tympani below. Its roof is the vestibular membrane; its floor is the basilar membrane, which carries the organ of Corti with the tectorial membrane above it; its outer wall is the stria vascularis. It is closed at the apex and joins the saccule through the ductus reuniens.',
       fn: 'Filled with endolymph, which is rich in potassium; the stria vascularis keeps the endocochlear potential of about +80 mV. Sound waves move the basilar membrane, and the hair cells at different places respond best to different frequencies: high at the base, low at the apex.',
@@ -425,7 +427,7 @@ export const EAR_PARTS: EarPart[] = [
     zh: {
       loc: '位於耳蝸內的三角形膜性管道（中階），介於上方的前庭階與下方的鼓階之間。頂是前庭膜；底是基底膜，上有柯蒂氏器，其上方是覆膜；外側壁是血管紋。蝸頂端為盲端，經連合管與球狀囊相通。',
       fn: '內含富含鉀離子的內淋巴液，血管紋維持約 +80 mV 的耳蝸內電位。聲波使基底膜振動，不同位置的毛細胞對不同頻率反應最強：蝸底為高頻，蝸頂為低頻。',
-      supply: '動脈：迷路動脈的耳蝸分支。神經：來自螺旋神經節的蝸神經纖維。',
+      supply: '動脈：迷路動脈的耳蝸分支。神經：來自螺旋神經節的耳蝸神經纖維。',
       note: '本模型沒有耳蝸管的網格：選取時會標示它所在位置上下的前庭階與鼓階，以及與它相通的球狀囊。',
     },
   }}),
@@ -456,7 +458,7 @@ export const EAR_PARTS: EarPart[] = [
       note: '顏面神經管在卵圓窗上方很薄，也可能有缺口，因此中耳的感染與手術可能傷到神經。貝爾氏麻痺是此神經突然麻痺。模型只畫出位於顳骨內的部分。',
     },
   }}),
-  P({id: 'chorda-tympani', en: 'Chorda tympani', zh: '鼓索神經', group: 'nerves', model: true, color: '#e8a63a', layer: -1, rel: ['facial-nerve', 'malleus', 'incus', 'tympanic-cavity'], card: {
+  P({id: 'chorda-tympani', en: 'Chorda tympani nerve', zh: '鼓索神經', group: 'nerves', model: true, color: '#e8a63a', layer: -1, rel: ['facial-nerve', 'malleus', 'incus', 'tympanic-cavity'], card: {
     en: {
       loc: 'A branch of the facial nerve given off in the mastoid segment about 6 mm above the stylomastoid foramen. It runs up in a small canal, enters the tympanic cavity through the back wall, crosses the medial surface of the tympanic membrane between the handle of the malleus and the long crus of the incus (covered by mucosa), leaves through the petrotympanic fissure and joins the lingual nerve in the infratemporal fossa.',
       fn: 'Carries taste from the front two thirds of the tongue and preganglionic parasympathetic fibres to the submandibular ganglion, which supplies the submandibular and sublingual glands.',
@@ -468,7 +470,7 @@ export const EAR_PARTS: EarPart[] = [
       note: '由於它橫越鼓室，中耳手術或感染可能使它被拉傷或切斷，造成味覺改變，或一側舌頭有金屬味。',
     },
   }}),
-  P({id: 'cochlear-nerve', en: 'Cochlear nerve', zh: '蝸神經', group: 'nerves', model: true, color: '#efd27a', layer: -1, rel: ['spiral-ganglion', 'vestibular-nerve', 'vestibulocochlear-nerve', 'cochlear-duct'], card: {
+  P({id: 'cochlear-nerve', en: 'Cochlear nerve', zh: '耳蝸神經', aliases: ['蝸神經'], group: 'nerves', model: true, color: '#efd27a', layer: -1, rel: ['spiral-ganglion', 'vestibular-nerve', 'vestibulocochlear-nerve', 'cochlear-duct'], card: {
     en: {
       loc: 'Formed by the central processes of the bipolar neurons of the spiral ganglion (about 30,000 fibres). It runs through the central axis of the cochlea (modiolus) to the fundus of the internal acoustic meatus, where it lies in front of and below the vestibular nerve, and goes on as the cochlear part of the vestibulocochlear nerve.',
       fn: 'Carries the sound signal from the hair cells of the organ of Corti. The fibres keep their order of pitch (tonotopic) and end in the dorsal and ventral cochlear nuclei at the pontomedullary junction.',
@@ -477,9 +479,9 @@ export const EAR_PARTS: EarPart[] = [
     },
     zh: {
       loc: '由螺旋神經節雙極神經元的中樞突（約 30,000 條纖維）組成。它穿過耳蝸中軸（蝸軸）到內聽道底，在前庭神經的前下方，再延續為前庭耳蝸神經的蝸部。',
-      fn: '傳遞柯蒂氏器毛細胞的聲音訊號。纖維依音高排列（音頻分布），終止於腦橋延髓交界處的背側與腹側蝸神經核。',
+      fn: '傳遞柯蒂氏器毛細胞的聲音訊號。纖維依音高排列（音頻分布），終止於腦橋延髓交界處的背側與腹側耳蝸神經核。',
       supply: '動脈：迷路動脈的耳蝸分支。',
-      note: '前庭神經鞘瘤通常長在前庭神經，但會壓迫蝸神經，造成單側聽力下降與耳鳴。OpenEar 標本的網格較粗，可能包含內聽道內不只蝸神經的神經束。',
+      note: '前庭神經鞘瘤通常長在前庭神經，但會壓迫耳蝸神經，造成單側聽力下降與耳鳴。OpenEar 標本的網格較粗，可能包含內聽道內不只耳蝸神經的神經束。',
     },
   }}),
   P({id: 'vestibular-nerve', en: 'Vestibular nerve', zh: '前庭神經', group: 'nerves', model: false, color: '#d8c36a', layer: -1, near: ['cochlear-nerve', 'utricle', 'saccule', 'anterior-ampulla', 'lateral-ampulla', 'posterior-ampulla'], rel: ['vestibular-ganglion', 'cochlear-nerve', 'vestibulocochlear-nerve', 'utricle', 'saccule'], card: {
@@ -490,10 +492,10 @@ export const EAR_PARTS: EarPart[] = [
       note: 'Vestibular neuritis causes sudden severe vertigo without hearing loss. This nerve has no mesh in the model: selecting it highlights the cochlear nerve beside it and the end organs it supplies.',
     },
     zh: {
-      loc: '由內聽道外端前庭神經節雙極神經元的中樞突組成。上分支支配橢圓囊、前壺腹與外側壺腹；下分支支配球狀囊與後壺腹。它與蝸神經合成前庭耳蝸神經。',
+      loc: '由內聽道外端前庭神經節雙極神經元的中樞突組成。上分支支配橢圓囊、前壺腹與外側壺腹；下分支支配球狀囊與後壺腹。它與耳蝸神經合成前庭耳蝸神經。',
       fn: '傳遞頭部運動與位置的訊號，到腦幹的前庭神經核，並直接到小腦的絨球小結葉。',
       supply: '動脈：迷路動脈。',
-      note: '前庭神經炎會突然出現嚴重眩暈，但聽力不受影響。本模型沒有前庭神經的網格：選取時會標示相鄰的蝸神經與它所支配的末梢器官。',
+      note: '前庭神經炎會突然出現嚴重眩暈，但聽力不受影響。本模型沒有前庭神經的網格：選取時會標示相鄰的耳蝸神經與它所支配的末梢器官。',
     },
   }}),
   P({id: 'vestibulocochlear-nerve', en: 'Vestibulocochlear nerve', zh: '前庭耳蝸神經', group: 'nerves', model: false, color: '#e3cf7f', layer: -1, near: ['cochlear-nerve', 'facial-nerve'], rel: ['cochlear-nerve', 'vestibular-nerve', 'facial-nerve'], card: {
@@ -507,7 +509,7 @@ export const EAR_PARTS: EarPart[] = [
       loc: '第八對腦神經。蝸部與前庭部一起，隨顏面神經與迷路動脈穿過內聽道，越過小腦橋腦角，在腦橋延髓交界處、顏面神經外側進入腦幹。',
       fn: '特殊感覺神經，負責聽覺（蝸部）與平衡覺（前庭部）。',
       supply: '動脈：迷路動脈，通常是前下小腦動脈的分支。',
-      note: '小腦橋腦角的腫瘤（最常見為前庭神經鞘瘤）會壓迫此神經及其旁的顏面神經。本模型沒有完整的前庭耳蝸神經網格：選取時會標示與它並行的蝸神經與顏面神經。',
+      note: '小腦橋腦角的腫瘤（最常見為前庭神經鞘瘤）會壓迫此神經及其旁的顏面神經。本模型沒有完整的前庭耳蝸神經網格：選取時會標示與它並行的耳蝸神經與顏面神經。',
     },
   }}),
   P({id: 'spiral-ganglion', en: 'Spiral ganglion', zh: '螺旋神經節', group: 'nerves', model: false, color: '#dcc890', layer: -1, near: ['scala-vestibuli', 'scala-tympani', 'cochlear-nerve'], rel: ['cochlear-nerve', 'cochlear-duct'], card: {
@@ -518,8 +520,8 @@ export const EAR_PARTS: EarPart[] = [
     },
     zh: {
       loc: '位於蝸軸螺旋管內的神經節，隨耳蝸的圈數繞著中軸盤旋。',
-      fn: '雙極神經元的周邊突通到柯蒂氏器的毛細胞（約 90% 至 95% 的細胞支配內毛細胞），中樞突組成蝸神經。',
-      note: '這些神經元能否存活，是人工電子耳效果的決定因素之一。本模型沒有螺旋神經節的網格：選取時會標示蝸軸周圍的前庭階與鼓階，以及由它發出的蝸神經。',
+      fn: '雙極神經元的周邊突通到柯蒂氏器的毛細胞（約 90% 至 95% 的細胞支配內毛細胞），中樞突組成耳蝸神經。',
+      note: '這些神經元能否存活，是人工電子耳效果的決定因素之一。本模型沒有螺旋神經節的網格：選取時會標示蝸軸周圍的前庭階與鼓階，以及由它發出的耳蝸神經。',
     },
   }}),
   P({id: 'vestibular-ganglion', en: 'Vestibular ganglion', zh: '前庭神經節', group: 'nerves', model: false, color: '#d9c978', layer: -1, near: ['vestibule', 'cochlear-nerve', 'facial-nerve'], rel: ['vestibular-nerve', 'utricle', 'saccule'], card: {
@@ -531,7 +533,7 @@ export const EAR_PARTS: EarPart[] = [
     zh: {
       loc: '位於內聽道外端的神經節，分為上部與下部（又稱 Scarpa 神經節）。',
       fn: '雙極神經元的周邊突通到橢圓囊與球狀囊的斑，以及半規導管的嵴；中樞突組成前庭神經，終止於前庭神經核與小腦。',
-      note: '本模型沒有前庭神經節的網格：選取時會標示內聽道外端周圍的前庭、蝸神經與顏面神經。',
+      note: '本模型沒有前庭神經節的網格：選取時會標示內聽道外端周圍的前庭、耳蝸神經與顏面神經。',
     },
   }}),
   P({id: 'geniculate-ganglion', en: 'Geniculate ganglion', zh: '膝狀神經節', group: 'nerves', model: false, color: '#f0d24a', layer: -1, near: ['facial-nerve'], rel: ['facial-nerve', 'chorda-tympani'], card: {
@@ -555,6 +557,6 @@ export const earGroupOf = (id: EarGroupId) => EAR_GROUPS.find(g => g.id === id)!
 
 /** What the "Model scope" block says (the viewer's page). */
 export const EAR_SCOPE = {
-  zh: '一側（右側）的完整耳：外耳（耳廓、外耳道）、中耳（鼓膜、三塊聽小骨、耳咽管）、內耳（骨性迷路的前庭、三條半規管、前庭階與鼓階；膜性迷路的橢圓囊、球狀囊、三條半規導管與壺腹）以及顏面神經、鼓索神經與蝸神經。另有 10 項只有資訊卡的構造（鼓室腔、鼓膜張肌、鐙骨肌、耳蝸管、內淋巴囊、前庭神經、前庭耳蝸神經、螺旋神經節、前庭神經節、膝狀神經節），選取時只會標示相鄰的真實構造。',
-  source: '耳廓取自 BodyParts3D；中耳與骨迷路取自 OpenEar 標本；膜迷路取自 IE-Map，已與骨迷路對位（平均誤差小於 1 公釐）；外耳道與耳咽管為依解剖描述建立的示意管道。兩個標本不是同一個人的耳，各部位的相對位置與比例不是同一個人的實測值。來源與授權見圖譜首頁的 Source & credits。',
+  zh: '一側（右側）的完整耳：外耳（耳廓、外耳道）、中耳（鼓膜、三塊聽小骨、咽鼓管）、內耳（骨性迷路的前庭、三條半規管、前庭階與鼓階；膜性迷路的橢圓囊、球狀囊、三條半規導管與壺腹）以及顏面神經、鼓索神經與耳蝸神經。另有 10 項只有資訊卡的構造（鼓室腔、鼓膜張肌、鐙骨肌、耳蝸管、內淋巴囊、前庭神經、前庭耳蝸神經、螺旋神經節、前庭神經節、膝狀神經節），選取時只會標示相鄰的真實構造。',
+  source: '耳廓取自 BodyParts3D；中耳與骨迷路取自 OpenEar 標本；膜迷路取自 IE-Map，已與骨迷路對位（平均誤差小於 1 公釐）；外耳道與咽鼓管為依解剖描述建立的示意管道。兩個標本不是同一個人的耳，各部位的相對位置與比例不是同一個人的實測值。來源與授權見圖譜首頁的 Source & credits。',
 } as const;

@@ -65,7 +65,7 @@ export default function EarDetail() {
     const wanted = new URLSearchParams(location.hash.split('?')[1] ?? '').get('select');
     if (!wanted) return;
     const norm = (s: string) => s.toLowerCase().replace(/^(left|right) /, '').replace(/\s+/g, ' ').trim();
-    const hit = EAR_PARTS.find(p => norm(p.en) === norm(wanted) || p.id === wanted);
+    const hit = EAR_PARTS.find(p => norm(p.en) === norm(wanted) || p.id === wanted || (p.aliases ?? []).some(a => norm(a) === norm(wanted)));
     history.replaceState(null, '', location.pathname + location.search + '#/organ/ear');
     if (hit) choose(hit.id);
   }, [ready]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -98,7 +98,7 @@ export default function EarDetail() {
     {groupNode('nerves', 'Nerves and ganglia', '神經與神經節', ['nerves'], 0, <ul>{groupParts('nerves').map(p => row(p, true))}</ul>)}
   </>;
   const q = query.trim().toLowerCase();
-  const found = q ? EAR_PARTS.filter(p => p.en.toLowerCase().includes(q) || p.zh.toLowerCase().includes(q) || chineseMatches(p.zh, query)) : [];
+  const found = q ? EAR_PARTS.filter(p => p.en.toLowerCase().includes(q) || p.zh.toLowerCase().includes(q) || (p.aliases ?? []).some(a => a.toLowerCase().includes(q)) || chineseMatches(p.zh, query)) : [];
   const sectionAxes = {sagittal: EAR_SECTION_AXES.sagittal, coronal: EAR_SECTION_AXES.coronal, horizontal: EAR_SECTION_AXES.horizontal};
   const chooseAxis = (axis: EarSectionAxis) => {
     if (axis === 'none') {patch({section: {...view.section, axis}}); return;}
