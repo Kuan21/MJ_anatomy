@@ -90,7 +90,7 @@
 
 - 主圖譜頭頸結構名稱：沒有 `.l／.r／.001` 等後綴殘留；沒有拉丁文；頭頸範圍內沒有兩個不同結構同名。全身另有 8 組同名不同結構（Right／Left transversus thoracis、Right／Left ureter、Urinary bladder、Sacrum、Right／Left hip bone），留待骨盆與腹部核對時處理。
 - 13 個小寫開頭的英文名（例如 spinalis、set of interspinales cervicis、anterior inferior cerebellar artery、artery of central sulcus），與其他名稱大小寫不一致：外觀小問題，待資訊卡讀完後一併列出。
-- 中文名與必考清單用詞不同：讀取中，已讀 300 張資訊卡中有 16 個結構不同（例如 咽上縮肌／上咽縮肌、頸深動脈／深頸動脈、大腦前動脈／前大腦動脈、腦下垂體／腦垂體、提口角肌／提嘴角肌）。注意 `docs/quiz-head-neck-name-decisions.md` 對其中多數選了網站現名、共筆寫法作別名，與 CLAUDE.md「第二次考試範圍中文名跟必考清單用詞」的規則不一致，需使用者決定以哪一份為準。完整清單待資訊卡讀完補上。
+- 中文名與必考清單用詞不同：讀取中，已讀 300 張資訊卡中有 16 個結構不同（例如 咽上縮肌／上咽縮肌、頸深動脈／深頸動脈、大腦前動脈／前大腦動脈、腦下垂體／腦垂體、提口角肌／提嘴角肌）。注意 `docs/quiz-head-neck-name-decisions.md` 對其中多數選了網站現名、必考清單寫法作別名，與 CLAUDE.md「第二次考試範圍中文名跟必考清單用詞」的規則不一致，需使用者決定以哪一份為準。完整清單待資訊卡讀完補上。
 
 #### 已知缺項分佈（`docs/required-structures/known-gaps.json`，527 項）
 
