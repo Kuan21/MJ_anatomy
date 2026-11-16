@@ -288,5 +288,5 @@
 | Upper head of right lateral pterygoid | 右外翼肌上頭 | right lateral pterygoid／右外翼肌（整條肌肉） |  |
 | Left great auricular nerve | 左耳大神經 | greater auricular nerve |  |
 | Left articular capsule of temporomandibular joint | 左顳顎關節囊 | tmj capsule |  |
-| Left lateral temporomandibular ligament | 左顳顎外側韌帶 | temporomandibular ligament |  |
+| Right lateral temporomandibular ligament | 右顳顎外側韌帶 | temporomandibular ligament |  |
 
