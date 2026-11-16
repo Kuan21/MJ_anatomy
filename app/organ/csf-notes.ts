@@ -9,7 +9,7 @@ export interface CsfStepNotes {
 }
 
 /** Short labels for the step list (the full names stay in the detail heading). */
-export const CSF_SHORT: [string, string][] = [['Choroid plexus', '脈絡叢'], ['Lateral ventricle → foramen of Monro', '側腦室 → 室間孔'], ['Third ventricle', '第三腦室'], ['Cerebral aqueduct', '大腦導水管'], ['Fourth ventricle', '第四腦室'], ['Median & lateral apertures', '正中孔、外側孔'], ['Subarachnoid space, lumbar cistern', '蛛網膜下腔、腰池'], ['Arachnoid granulations → sagittal sinus', '蛛網膜顆粒 → 上矢狀竇']];
+export const CSF_SHORT: [string, string][] = [['Choroid plexus', '脈絡叢'], ['Lateral ventricle → foramen of Monro', '側腦室 → 室間孔'], ['Third ventricle', '第三腦室'], ['Cerebral aqueduct', '中腦導水管'], ['Fourth ventricle', '第四腦室'], ['Median & lateral apertures', '正中孔、外側孔'], ['Subarachnoid space, lumbar cistern', '蛛網膜下腔、腰池'], ['Arachnoid granulations → sagittal sinus', '蛛網膜顆粒 → 上矢狀竇']];
 
 export const CSF_STEP_NOTES: CsfStepNotes[] = [
   {
@@ -36,7 +36,7 @@ export const CSF_STEP_NOTES: CsfStepNotes[] = [
     event: '經過',
     happens: [
       '第三腦室是一道窄縫，兩側是視丘與下視丘；左右視丘常以視丘間黏合相連，腦脊髓液由它的周圍繞過。',
-      '腦脊髓液由第三腦室向後下方，經大腦導水管流往第四腦室。',
+      '腦脊髓液由第三腦室向後下方，經中腦導水管流往第四腦室。',
     ],
     clinical: [],
   },
@@ -44,7 +44,7 @@ export const CSF_STEP_NOTES: CsfStepNotes[] = [
     where: '中腦；位在頂蓋與被蓋之間',
     event: '經過',
     happens: [
-      '大腦導水管（cerebral aqueduct）是穿過中腦的細窄管道，上接第三腦室、下連第四腦室。',
+      '中腦導水管（cerebral aqueduct）是穿過中腦的細窄管道，上接第三腦室、下連第四腦室。',
       '它的管徑很小，是整條腦室系統最容易被堵住的地方。',
     ],
     clinical: ['導水管狹窄或被腫瘤壓迫時，其上游的腦室會擴大，形成阻塞性水腦症。'],

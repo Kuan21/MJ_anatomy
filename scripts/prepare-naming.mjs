@@ -11,7 +11,7 @@ const checkOnly=process.argv.includes('--check');
 const DATA=root+'app/mj-naming-data.ts',REPORT=root+'docs/naming-report.md';
 
 // Confirmed corrections applied to every Chinese name (longest first).
-const FIXES=[['背闊肌','闊背肌']];
+const FIXES=[['背闊肌','闊背肌'],['頷','頜'],['腭','顎']];
 
 // Phase 1: baseline names with no overrides.
 const previousData=fs.existsSync(DATA)?fs.readFileSync(DATA,'utf8'):'';

@@ -116,7 +116,7 @@ assert.ok(brainNameClashes([mk('Left Foo (x 1)', 'left'), mk('Right Foo (x-1)', 
 assert.ok(brainNameClashes([mk('Foo', 'midline', 'g', '甲'), mk('Bar', 'midline', 'g', '甲')]).some(k => k.kinds.some(x => x.startsWith('iv'))), 'one Chinese name on two structures');
 // ---- the superior cerebellar peduncles: left and right are asked under their own names, the midline mesh is held back until the owner confirms its name
 const scp = n => catalogue.structures.find(s => s.name === n);
-for (const [name, chinese, sign] of [['Left Superior cerebellar peduncle', '左小腦上腳', 1], ['Right Superior cerebellar peduncle', '右小腦上腳', -1]]) {
+for (const [name, chinese, sign] of [['Left superior cerebellar peduncle', '左小腦上腳', 1], ['Right Superior cerebellar peduncle', '右小腦上腳', -1]]) {
   const s = scp(name); assert.ok(s, `${name} is asked`); assert.equal(s.chinese, chinese);
   assert.ok(Math.sign((s.bounds[0][0] + s.bounds[1][0]) / 2) === sign, `${name} lies on the ${sign > 0 ? 'left (+x)' : 'right (-x)'} of the brain`);
 }
@@ -143,7 +143,7 @@ assert.deepEqual(BRAIN_OVERRIDES.filter(o => o.quiz).map(o => o.en), ['Decussati
   const mk = (label, side, cat = 'tracts', region = '') => describeBrainNode({name: label, cat, region, label, side}, 0);
   const mid = mk('Superior cerebellar peduncle', 'mid'), left = mk('Superior cerebellar peduncle', 'left', 'cerebellum'), right = mk('Superior cerebellar peduncle', 'right', 'cerebellum');
   assert.equal(displayEn(mid), 'Decussation of superior cerebellar peduncles'); assert.equal(mid.zh, '小腦上腳交叉');
-  assert.equal(displayEn(left), 'Left Superior cerebellar peduncle'); assert.equal(left.zh, '左小腦上腳'); assert.equal(right.zh, '右小腦上腳');
+  assert.equal(displayEn(left), 'Left superior cerebellar peduncle'); assert.equal(left.zh, '左小腦上腳'); assert.equal(right.zh, '右小腦上腳');
   assert.equal(factOf(mid).note.zh, DECUSSATION_NOTE.zh); assert.equal(factOf(mid).note.en, DECUSSATION_NOTE.en);
   const cards = JSON.parse(fs.readFileSync('public/models/brain/neuro-cards.json', 'utf8')), card = cards.cards.find(c => c.en === 'Decussation of superior cerebellar peduncles');
   assert.ok(card && card.zh === '小腦上腳交叉' && cards.partCards['Decussation of superior cerebellar peduncles']?.includes(card.id), 'the neuro card of the decussation is linked to its mesh');
