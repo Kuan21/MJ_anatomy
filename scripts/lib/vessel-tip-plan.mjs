@@ -16,6 +16,10 @@ const root = new URL('../../', import.meta.url), file = f => fileURLToPath(new U
 export const tipKey = row => `${row.id}@${row.at.map(x => Math.round(x * 1e5)).join(',')}`;
 export const FADE_RADIUS = .0018, FLARE_MAX_RADIUS = .0018, FLARE_END_CLEAR = .003, GAP_MM = 12;
 
+/** Two veins whose ends are held exactly as on main (owner's decision): the right lateral circumflex femoral vein (FJ2201) and the right deep femoral vein (FJ2135). A far branch end of the first lies 37 mm from the second
+ *  and is listed as an open pair at the hip poses; rounding the ends changed that distance by 1.2 mm, and the pair may not be registered again. Their missing-connection question is a separate follow-up (issue and pull request). */
+const HOLD_OLD_ENDS = ['FJ2201', 'FJ2135'];
+
 /** Vessels (ids) whose ends keep the old form: motion data fitted to the source mesh, the arm, and what the arm rig moves. */
 export async function keepOldEnds() {
   const {anatomicalRegion} = await regionTools(), keep = new Set(), bindings = file('app/biomechanics-v2/');
@@ -26,6 +30,7 @@ export async function keepOldEnds() {
   }
   for (const f of ['tissue-bindings.json', 'paokao-bindings.json']) { const data = JSON.parse(fs.readFileSync(bindings + f, 'utf8')); for (const id of Object.keys(f.startsWith('paokao') ? data.tissue ?? {} : data)) armSkinned.add(id); }
   for (const p of atlas.parts) if (hashBound.has(p.id) || hashBound.has(p.name) || anatomicalRegion(p) === 'upper-limb' || armSkinned.has(p.id)) keep.add(p.id);
+  for (const id of HOLD_OLD_ENDS) keep.add(id);
   return keep;
 }
 

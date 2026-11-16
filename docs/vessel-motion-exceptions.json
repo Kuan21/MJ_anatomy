@@ -42,42 +42,42 @@
    "worstOpeningMm": 6.1
   },
   "hip flexion 90": {
-   "pairs": 360,
+   "pairs": 362,
    "exceptions": 35,
    "worstOpeningMm": 45.3
   },
   "knee flexion 90": {
-   "pairs": 360,
+   "pairs": 362,
    "exceptions": 8,
    "worstOpeningMm": 5.5
   },
   "hip flexion 120 + knee 130 (limit)": {
-   "pairs": 360,
+   "pairs": 362,
    "exceptions": 48,
    "worstOpeningMm": 62.2
   },
   "hip extension -20 (limit)": {
-   "pairs": 360,
+   "pairs": 362,
    "exceptions": 14,
    "worstOpeningMm": 12.1
   },
   "ankle dorsiflexion 20 (limit)": {
-   "pairs": 360,
+   "pairs": 362,
    "exceptions": 0,
    "worstOpeningMm": 0.6
   },
   "ankle plantar flexion -30 (limit)": {
-   "pairs": 360,
+   "pairs": 362,
    "exceptions": 0,
    "worstOpeningMm": 0.8
   },
   "hip abduction 35 (limit)": {
-   "pairs": 360,
+   "pairs": 362,
    "exceptions": 16,
    "worstOpeningMm": 6.2
   },
   "hip rotation 20 (limit)": {
-   "pairs": 360,
+   "pairs": 362,
    "exceptions": 21,
    "worstOpeningMm": 8.9
   }
@@ -299,7 +299,7 @@
   "hip flexion 90|left|PK:Left inferior gluteal artery|PK:Left internal pudendal artery|junction": 34.9,
   "hip flexion 90|left|PKC:Left femoral artery|FJ3511|end-to-end": 16,
   "hip flexion 90|right|FJ2195|FJ2057|junction": 21.8,
-  "hip flexion 90|right|FJ2201|FJ2135|junction": 26.8,
+  "hip flexion 90|right|FJ2201|FJ2135|junction": 25.9,
   "hip flexion 90|right|FJ2203|FJ3567|junction": 29.7,
   "hip flexion 90|right|FJ3606|FJ3610|end-to-end": 9.2,
   "hip flexion 90|right|FJ3606|FJ3603|end-to-end": 3.6,
@@ -339,7 +339,7 @@
   "hip flexion 120 + knee 130 (limit)|right|FJ2162|FJ2150|end-to-end": 4.7,
   "hip flexion 120 + knee 130 (limit)|right|FJ2176|FJ2151|junction": 37,
   "hip flexion 120 + knee 130 (limit)|right|FJ2195|FJ2057|junction": 25.6,
-  "hip flexion 120 + knee 130 (limit)|right|FJ2201|FJ2135|junction": 38.4,
+  "hip flexion 120 + knee 130 (limit)|right|FJ2201|FJ2135|junction": 37.5,
   "hip flexion 120 + knee 130 (limit)|right|FJ2203|FJ3567|junction": 38.6,
   "hip flexion 120 + knee 130 (limit)|right|FJ3606|FJ3610|end-to-end": 11.9,
   "hip flexion 120 + knee 130 (limit)|right|FJ3606|FJ3603|end-to-end": 4.1,

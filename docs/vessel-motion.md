@@ -12,14 +12,14 @@
 | elbow flexion 140 (limit) | 470 | 12 | 8.9 |
 | wrist flexion 80 (limit) | 470 | 0 | 0.2 |
 | wrist flexion -70 (limit) | 470 | 14 | 6.1 |
-| hip flexion 90 | 360 | 35 | 45.3 |
-| knee flexion 90 | 360 | 8 | 5.5 |
-| hip flexion 120 + knee 130 (limit) | 360 | 48 | 62.2 |
-| hip extension -20 (limit) | 360 | 14 | 12.1 |
-| ankle dorsiflexion 20 (limit) | 360 | 0 | 0.6 |
-| ankle plantar flexion -30 (limit) | 360 | 0 | 0.8 |
-| hip abduction 35 (limit) | 360 | 16 | 6.2 |
-| hip rotation 20 (limit) | 360 | 21 | 8.9 |
+| hip flexion 90 | 362 | 35 | 45.3 |
+| knee flexion 90 | 362 | 8 | 5.5 |
+| hip flexion 120 + knee 130 (limit) | 362 | 48 | 62.2 |
+| hip extension -20 (limit) | 362 | 14 | 12.1 |
+| ankle dorsiflexion 20 (limit) | 362 | 0 | 0.6 |
+| ankle plantar flexion -30 (limit) | 362 | 0 | 0.8 |
+| hip abduction 35 (limit) | 362 | 16 | 6.2 |
+| hip rotation 20 (limit) | 362 | 21 | 8.9 |
 
 連接管背端與所屬血管分離超過 2 mm 的組合：8 個。
 
@@ -282,8 +282,8 @@
 | Right inferior gluteal artery (PK-84) → Right internal pudendal artery (PK-85) | right | 0.89 | 33.6 | 4.9 | 未綁定：the next segment；下一段在trunk |
 | Set of perforating arteries (FJ2203) → Right external iliac artery (FJ3567) | right | 1.42 | 29.7 | 4.91 | 未綁定：the next segment；下一段在trunk |
 | Right inferior gluteal artery (PK-84) → Right internal pudendal artery (PK-85) | right | 0.72 | 27.6 | 5.25 | 未綁定：the next segment；下一段在trunk |
-| Right lateral circumflex femoral vein (FJ2201) → Right deep femoral vein (FJ2135) | right | 25.64 | 26.8 | 4.23 |  |
 | Left lateral circumflex femoral vein (FJ2188) → Left deep femoral vein (FJ2099) | left | 25.03 | 26.4 | 4.33 |  |
+| Right lateral circumflex femoral vein (FJ2201) → Right deep femoral vein (FJ2135) | right | 24.77 | 25.9 | 4.23 |  |
 | Right medial circumflex femoral artery (PK-68) → Right lateral circumflex femoral artery (FJ2158) | right | 21.17 | 24.5 | 2.92 |  |
 | Left inferior gluteal artery (PK-111) → Left internal pudendal artery (PK-112) | left | 1.86 | 23.1 | 5.24 | 未綁定：the next segment；下一段在trunk |
 | Left inferior gluteal artery (PK-111) → Left internal pudendal artery (PK-112) | left | 1.44 | 22 | 5.46 | 未綁定：the next segment；下一段在trunk |
@@ -336,14 +336,14 @@
 | Left small saphenous vein (FJ2121) → Left genicular vein (FJ2107) | left | 38.27 | 42.2 | 4.76 |  |
 | Left small saphenous vein (FJ2121) → Left genicular vein (FJ2107) | left | 36.09 | 39 | 3.66 |  |
 | Set of perforating arteries (FJ2203) → Right external iliac artery (FJ3567) | right | 1.42 | 38.6 | 4.91 | 未綁定：the next segment；下一段在trunk |
-| Right lateral circumflex femoral vein (FJ2201) → Right deep femoral vein (FJ2135) | right | 37.38 | 38.4 | 3.9 |  |
+| Right lateral circumflex femoral vein (FJ2201) → Right deep femoral vein (FJ2135) | right | 36.18 | 37.5 | 3.9 |  |
 | Right small saphenous vein (FJ2176) → Right genicular vein (FJ2151) | right | 34.7 | 37 | 4.76 |  |
 | Right inferior gluteal artery (PK-84) → Right internal pudendal artery (PK-85) | right | 0.72 | 35.9 | 5.25 | 未綁定：the next segment；下一段在trunk |
 | Left inferior gluteal artery (PK-111) → Left internal pudendal artery (PK-112) | left | 1.86 | 30.1 | 5.24 | 未綁定：the next segment；下一段在trunk |
 | Right inferior gluteal artery (PK-84) → Right internal pudendal artery (PK-85) | right | 0 | 29.1 | 5.78 | 未綁定：the next segment；下一段在trunk |
 | Left inferior gluteal artery (PK-111) → Left internal pudendal artery (PK-112) | left | 1.44 | 28.9 | 5.46 | 未綁定：the next segment；下一段在trunk |
-| Right lateral circumflex femoral vein (FJ2201) → Right deep femoral vein (FJ2135) | right | 25.64 | 27.1 | 4.23 |  |
 | Left lateral circumflex femoral vein (FJ2188) → Left deep femoral vein (FJ2099) | left | 25.03 | 26.9 | 4.33 |  |
+| Right lateral circumflex femoral vein (FJ2201) → Right deep femoral vein (FJ2135) | right | 24.77 | 26.3 | 4.23 |  |
 | Left articular branch of descending genicular artery (PK-101) → Left anterior tibial recurrent artery (FJ2066) | left | 20.34 | 26 | 1.24 |  |
 | Right medial circumflex femoral artery (PK-68) → Right lateral circumflex femoral artery (FJ2158) | right | 21.17 | 25.8 | 2.92 |  |
 | Right ascending and transverse branches of lateral circumflex femoral artery (FJ2195) → Descending branch of right lateral circumflex femoral artery (FJ2057) | right | 24.14 | 25.6 | 3.92 |  |
@@ -419,9 +419,9 @@
 
 | 血管對 | 側 | 靜止間隙 (mm) | 擺姿後 (mm) | 管徑 (mm) | 備註 |
 | --- | --- | ---: | ---: | ---: | --- |
-| Right lateral circumflex femoral vein (FJ2201) → Right deep femoral vein (FJ2135) | right | 37.38 | 39.2 | 3.9 |  |
+| Right lateral circumflex femoral vein (FJ2201) → Right deep femoral vein (FJ2135) | right | 36.18 | 38 | 3.9 |  |
 | Left lateral circumflex femoral vein (FJ2188) → Left deep femoral vein (FJ2099) | left | 31.34 | 32.8 | 3.93 |  |
-| Right lateral circumflex femoral vein (FJ2201) → Right deep femoral vein (FJ2135) | right | 27.63 | 29 | 4.38 |  |
+| Right lateral circumflex femoral vein (FJ2201) → Right deep femoral vein (FJ2135) | right | 26.39 | 27.8 | 4.38 |  |
 | Left lateral circumflex femoral vein (FJ2188) → Left deep femoral vein (FJ2099) | left | 24.4 | 25.6 | 4.12 |  |
 | Right medial circumflex femoral artery (PK-68) → Right lateral circumflex femoral artery (FJ2158) | right | 21.17 | 23 | 2.92 |  |
 | Left deep femoral vein (FJ2099) → Left superficial epigastric vein (FJ2122) | left | 1.37 | 10.1 | 4.86 | 未綁定：the next segment；下一段在trunk |
