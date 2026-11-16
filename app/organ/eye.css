@@ -1,0 +1,31 @@
+/* Eye detail mode: header buttons and the collapsible blocks of the right column (eye movements, orbital openings). */
+.eye-header-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.eye-block-toggle{width:100%;display:flex;align-items:center;gap:6px;background:transparent;color:inherit;font-size:13px;font-weight:620;padding:0;min-height:36px;text-align:left}
+.eye-block-toggle small{font-size:11px;color:var(--muted);font-weight:400;letter-spacing:0;text-transform:none}
+.eye-block-toggle em{margin-left:auto;font-style:normal;font-size:11px;font-weight:400;color:#4d6f49}
+.eye-block h2{margin-bottom:6px}
+.eye-buttons{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin-bottom:6px}
+.eye-buttons.palsy,.eye-buttons.openings{grid-template-columns:repeat(3,1fr)}
+.eye-buttons button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-height:44px;padding:4px 2px;background:#fff;border:1px solid #18253622;border-radius:8px;font-size:11px;line-height:1.15;color:#31414e}
+.eye-buttons button b{display:flex;align-items:center;gap:4px;font-weight:600}
+.eye-buttons button i{width:8px;height:8px;border-radius:50%;flex:none}
+.eye-buttons button small{font-size:10px;color:var(--muted);white-space:nowrap}
+.eye-buttons button:hover{background:#eef1f3}
+.eye-buttons button[aria-pressed=true]{background:#263b48;color:#fff;border-color:#263b48}
+.eye-buttons button[aria-pressed=true] small{color:#cfd8dd}
+.eye-buttons.palsy button[aria-pressed=true]{background:#7a4a3a;border-color:#7a4a3a}
+.eye-note{padding:8px 10px;border-radius:8px;background:#f7f8f8;border:1px solid #18253612}
+.eye-note strong{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap;font-size:12.5px;font-weight:600}
+.eye-note strong em{font-style:normal;font-size:11.5px;color:#4d6f49;font-weight:400}
+.eye-note p{margin:4px 0 0;font-size:12px;line-height:1.65;color:#3c4b57}
+.eye-look{margin-left:auto;display:inline-flex;align-items:center;gap:4px;min-height:30px;padding:0 10px;background:#fff;border:1px solid #18253626!important;border-radius:6px;font-size:11px;font-weight:500;color:#31414e}
+.eye-look-hint{display:block;margin-top:4px;font-size:11px;color:var(--muted)}
+.eye-foot{display:block;margin-top:6px;font-size:11px;color:var(--muted);line-height:1.5}
+@media(max-width:900px){
+.organ-header:has(.eye-header-actions){height:auto;flex-wrap:wrap;row-gap:2px;padding:6px 16px}
+.eye-header-actions{width:100%;justify-content:flex-start;flex-wrap:nowrap}
+.eye-header-actions .csf-toggle{padding:4px 10px;min-height:36px;white-space:nowrap}
+.eye-buttons{grid-template-columns:repeat(3,1fr)}
+}
+/* The info card scrolls with the right column (not sticky), so it never lies over the text of the blocks below it. */
+.organ-panel:has(.eye-block)>.organ-info{position:static;max-height:none;box-shadow:none}
