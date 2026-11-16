@@ -198,20 +198,28 @@ for (const side of ['left', 'right', 'both']) for (const s of catalogue.structur
 }
 assert.ok(heaviest < 8e6, `a one-sided brain question loads ${(heaviest / 1e6).toFixed(2)} MB compressed`);
 
+// ---- single midline structures carry no left/right, and the body of the fornix exists once (HN-03, HN-04, HN-05, HN-10; app/organ/brain-midline.ts)
+for (const name of ['Optic chiasm', 'Pons', 'Midbrain', 'Medulla oblongata', 'Body of fornix']) {
+  const hits = catalogue.structures.filter(s => s.name === name); assert.equal(hits.length, 1, `${name} is one structure`);
+  assert.equal(hits[0].side, 'midline', `${name} has no side`); assert.ok(!/[左右]/.test(hits[0].chinese ?? ''), `${name}: Chinese name has no left/right`);
+  assert.ok(!catalogue.structures.some(s => s.name !== name && new RegExp(`^(Left|Right) ${name}$`, 'i').test(s.name)), `${name}: no Left/Right copy`);
+}
+assert.equal(catalogue.structures.find(s => s.name === 'Body of fornix').chinese, '穹窿體');
+assert.ok(catalogue.structures.filter(s => /^(Left|Right) Fornix$/.test(s.name)).length === 2, 'the left and right fornix (crus and columns) stay');
 // ---- deep structures are seen through glass: the layers and the cover rule
 const byName = n => catalogue.structures.find(s => s.name === n);
 for (const [name, layer] of [['Right Caudate nucleus', 'deep'], ['Right Hippocampus', 'deep'], ['Right Lateral ventricle', 'deep'], ['Third ventricle', 'deep'], ['Right Corticospinal tract', 'tract'], ['Corpus callosum', 'tract'], ['Right Red nucleus', 'deep'],
-  ['Right Precentral gyrus', 'cortex'], ['Right Insula (Subcentral gyrus and ant. and post. sulci)', 'inset'], ['Right Pons', 'envelope'], ['Right Inferior cerebellar peduncle', 'tract']]) {
+  ['Right Precentral gyrus', 'cortex'], ['Right Insula (Subcentral gyrus and ant. and post. sulci)', 'inset'], ['Pons', 'envelope'], ['Right Inferior cerebellar peduncle', 'tract']]) {
   const s = byName(name); assert.ok(s, `${name} is in the pool`); assert.equal(s.layer, layer, `${name}: layer`);
 }
-const cortex = byName('Right Precentral gyrus'), deep = byName('Right Caudate nucleus'), cerebellum = catalogue.structures.find(s => s.layer === 'cerebellum'), pons = byName('Right Pons'), insula = byName('Right Insula (Subcentral gyrus and ant. and post. sulci)');
+const cortex = byName('Right Precentral gyrus'), deep = byName('Right Caudate nucleus'), cerebellum = catalogue.structures.find(s => s.layer === 'cerebellum'), pons = byName('Pons'), insula = byName('Right Insula (Subcentral gyrus and ant. and post. sulci)');
 assert.ok(coversBrainTarget(deep, cortex) && coversBrainTarget(deep, cerebellum) && coversBrainTarget(deep, pons) && coversBrainTarget(deep, insula), 'a deep target is seen through cortex, cerebellum and the wrapping solids');
 assert.ok(!coversBrainTarget(deep, deep) && !coversBrainTarget(deep, byName('Right Putamen')), 'other deep structures stay solid');
 const tract = byName('Right Corticospinal tract'), otherTract = byName('Right Arcuate fasciculus');
 assert.ok(coversBrainTarget(deep, tract), 'the tracts that cross a nucleus are glass for it');
 assert.ok(coversBrainTarget(tract, cortex) && coversBrainTarget(tract, pons) && !coversBrainTarget(tract, otherTract) && !coversBrainTarget(tract, deep), 'a tract is looked at through the cortex; other tracts and the nuclei stay solid');
 assert.ok(coversBrainTarget(insula, cortex) && !coversBrainTarget(insula, cerebellum), 'buried cortex is seen through the surface cortex only');
-assert.ok(!coversBrainTarget(cortex, deep) && !coversBrainTarget(cortex, cortex) && !coversBrainTarget(byName('Right Pons') && cerebellum, cortex), 'a surface target covers nothing');
+assert.ok(!coversBrainTarget(cortex, deep) && !coversBrainTarget(cortex, cortex) && !coversBrainTarget(byName('Pons') && cerebellum, cortex), 'a surface target covers nothing');
 assert.ok(!coversBrainTarget({layer: 'open'}, cortex) && !coversBrainTarget(undefined, cortex) && !coversBrainTarget(deep, {}));
 assert.equal(brainLayerOf('basal', 'Putamen'), 'deep'); assert.equal(brainLayerOf('limbic', 'Hippocampus'), 'deep'); assert.equal(brainLayerOf('limbic', 'Precuneus'), 'cortex');
 assert.equal(brainLayerOf('white', 'White matter of telencephalon'), 'envelope'); assert.equal(brainLayerOf('white', 'Fornix'), 'tract'); assert.equal(brainLayerOf('arteries', 'Basilar artery'), 'open');
