@@ -1,1 +1,1 @@
-scripts/test-pelvic-floor-female.mjs
+node scripts/test-pelvic-floor-female.mjs
