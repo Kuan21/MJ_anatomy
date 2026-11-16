@@ -21,7 +21,8 @@ for (const [en, minX, maxX] of [['Optic chiasm', -7, 7], ['Pons', -20, 20], ['Mi
 }
 assert.ok(!dropped.some(d => d.raw && /\.[lr]$/.test(d.raw.name) && /^(Optic chiasm|Pons|Midbrain|Tentorium cerebelli|Medulla oblongata)$/.test(d.raw.label)), 'no half left behind');
 const body = by('Body of fornix'); assert.equal(body.length, 1, 'one Body of fornix'); assert.equal(body[0].part.side, 'mid');
-const [blo, bhi] = span(body[0]); assert.ok(blo < -5 && bhi > 5, `the body of the fornix spans the midline (${blo.toFixed(1)}..${bhi.toFixed(1)} mm)`);
+const [blo, bhi] = span(body[0]); assert.ok(blo < -9 && bhi > 9, `the body of the fornix spans the midline (${blo.toFixed(1)}..${bhi.toFixed(1)} mm)`);
+assert.ok(body[0].geometry.getIndex().count / 3 > 1800, 'the body of the fornix covers the widened range (more than 1800 triangles)');
 const fornix = by('Fornix'); assert.deepEqual(fornix.map(r => r.part.side).sort(), ['left', 'right'], 'left and right fornix stay');
 for (const r of fornix) { const [lo, hi] = span(r); assert.ok(r.part.side === 'left' ? lo > -0.5 : hi < 0.5, 'fornix half stays on its own side'); }
 const fornixTriangles = fornix.reduce((n, r) => n + r.geometry.getIndex().count / 3, 0) + body[0].geometry.getIndex().count / 3;
