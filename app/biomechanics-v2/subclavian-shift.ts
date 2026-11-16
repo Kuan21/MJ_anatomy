@@ -59,6 +59,7 @@ export function roleOf(id: string): {side: Side; own: boolean} | null {
   for (const side of ['Left', 'Right'] as Side[]) { if (PARTS[side].own.includes(id)) return {side, own: true}; if (PARTS[side].branches.includes(id)) return {side, own: false}; }
   return null;
 }
+export const isSubclavianPart = (id: string) => roleOf(id) !== null;
 /** Moves the vertices of a part in place (metres). Returns true when the part is one of the subclavian parts. */
 export function shiftSubclavianPart(id: string, positions: Float32Array): boolean {
   const role = roleOf(id); if (!role) return false;
