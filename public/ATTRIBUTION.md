@@ -48,6 +48,34 @@ The eye detail atlas (眼) shows one left orbit assembled from two sources and p
 
 The abducens nerve, the orbital veins, the infraorbital vessels, the central retinal vessels and the individual branches of the ophthalmic artery are not present in either source and are not shown.
 
+## Ear detail atlas
+
+The ear detail atlas (耳) shows one right ear assembled from three sources and packaged in `models/ear/` by `scripts/build-ear-atlas.mjs` (the source files are pinned by sha256 in `scripts/ear-source-files.json`; they are not kept in the repository).
+
+**Membranous labyrinth (utricle, saccule, three semicircular ducts, three ampullae)**
+
+- Model: IE-Map, an in-vivo atlas and template of the human inner ear (surface meshes of the human inner ear).
+- License: CC BY 4.0, https://creativecommons.org/licenses/by/4.0/
+- Source: https://github.com/pydsgz/IEMap (data files, Git LFS).
+- Modified: moved onto the OpenEar specimen by a rigid transform (rotation and translation, scale fixed at 1) found by iterative closest point between the IE-Map scalae and semicircular canals and the OpenEar perilymphatic spaces (mean distance of the registered surfaces 0.16 to 0.73 mm, listed in `models/ear/ear-atlas.json`); faces turned outward; structures named (English and Chinese) and coloured for this interface. The IE-Map scalae and canals are used as the reference of the registration and as labels for the bony labyrinth below, and are not drawn themselves.
+
+**Middle ear, bony labyrinth and nerves (ossicles, tympanic membrane, bony labyrinth, scala tympani, facial nerve, chorda tympani, cochlear nerve)**
+
+- Model: OpenEar example set, specimen Delta.
+- License: CC BY 4.0, https://creativecommons.org/licenses/by/4.0/
+- Source: https://doi.org/10.5281/zenodo.4362584
+- Modified: translated and rotated into the body frame of this atlas beside the auricle; the cast of the perilymphatic space (file `ScalaVestibuli.ply`, which holds the vestibule, the three canals and the scala vestibuli) is divided into vestibule, anterior, lateral and posterior canal and scala vestibuli by the nearest registered IE-Map structure, so the borders between these parts are approximate; the oval window and the round window are patches cut from the surface of the vestibule and the scala tympani around the footplate of the stapes and the round window niche; faces turned outward. The meshes are used as the source provides them.
+
+**Auricle**
+
+- Right external ear (FJ2811) of BodyParts3D 4.0, taken from the packaged atlas (CC BY 4.0, credited above). The source mesh is coarse (415 vertices).
+
+**Schematic structures**
+
+- The external acoustic meatus and the pharyngotympanic tube are tubes built by this project along the textbook course (`scripts/build-ear-atlas.mjs`); their position, length and width are estimates, not measured. They carry no third-party geometry.
+
+The model is one right ear; nothing is mirrored and there is no left-ear model. The three sources come from different people, so the relative position and size of the parts are not the measurements of one ear. The tympanic cavity, tensor tympani, stapedius, cochlear duct, endolymphatic sac, vestibular nerve, vestibulocochlear nerve, spiral ganglion, vestibular ganglion and geniculate ganglion have no mesh in these sources and are not drawn; they have an information card only.
+
 ## Historical assets (not included in the current release)
 
 Earlier repository revisions included female reference anatomy: Kristen Browne and Heidi Schlehlein, Human Reference Atlas / HuBMAP, *3D Reference Organ Set for Female v1.5* (2023). CC BY 4.0. Geometry adapted for this viewer.
@@ -75,7 +103,7 @@ They are simplified tube models written by this project (`scripts/lib/nerve-sche
 
 ## Brain detail mode: cut surfaces and CSF flow (generated for this atlas)
 
-The brain detail mode (`#/organ/brain`) draws the Brain Project model (Z-Anatomy / BodyParts3D, CC BY-SA 4.0, see above) without changes. Two things in it are written by this project and contain no third-party geometry: (1) the solid cut surfaces of a section, built in the browser by rasterising the model's surfaces into a 1.2 mm voxel grid, filling each organ between its own surfaces and labelling tissue by distance to the cortical surface (the 2.4 mm grey-matter rim is schematic, not a measurement); (2) the CSF flow animation, whose ventricles, choroid plexus and superior sagittal sinus are the model's own meshes, while the foramina, apertures, cisterns, subarachnoid space, spinal cord, central canal, lumbar cistern, cauda equina and arachnoid granulations are simplified schematic shapes (the spinal part is shortened and not to scale). Both are marked as schematic in the interface.
+The brain detail mode (`#/organ/brain`) draws the Brain Project model (Z-Anatomy / BodyParts3D, CC BY-SA 4.0, see above) without changes to its triangles; unpaired midline structures that the file stores as a left and a right half (optic chiasm, pons, midbrain, tentorium cerebelli) are welded into one structure when loaded, the medulla oblongata, which the file holds only as a left half, is completed by its mirror image about the midline (示意：依左右對稱補建，右半不是來源模型的網格), and the body of the fornix is the part of the two fornix meshes that lies on the midline, listed as its own structure. Two things in it are written by this project and contain no third-party geometry: (1) the solid cut surfaces of a section, built in the browser by rasterising the model's surfaces into a 1.2 mm voxel grid, filling each organ between its own surfaces and labelling tissue by distance to the cortical surface (the 2.4 mm grey-matter rim is schematic, not a measurement); (2) the CSF flow animation, whose ventricles, choroid plexus and superior sagittal sinus are the model's own meshes, while the foramina, apertures, cisterns, subarachnoid space, spinal cord, central canal, lumbar cistern, cauda equina and arachnoid granulations are simplified schematic shapes (the spinal part is shortened and not to scale). Both are marked as schematic in the interface.
 
 ## Vessel ends (connector and taper pieces)
 

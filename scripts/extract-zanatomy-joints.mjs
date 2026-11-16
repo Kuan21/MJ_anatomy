@@ -43,7 +43,11 @@ const keyOfGlb = s => { const m = /^(.*)\.(l|r|j)$/.exec(s); return squash(m ? m
 const keyOfFbx = s => { const m = /^(.*?)(l|r|j)$/.exec(s); return squash((m ? m[1] : s).replace(/(?<=[a-z])\d{3}$/i, '')) + '|' + (m && m[2] !== 'j' ? m[2] : ''); };
 const byKey = new Map(); for (const m of official) (byKey.get(keyOfFbx(m.name)) ?? byKey.set(keyOfFbx(m.name), []).get(keyOfFbx(m.name))).push(m);
 const plan = [], missing = [];
-for (const w of wanted) { const c = byKey.get(keyOfGlb(w.name)); if (!c) missing.push(w.name); else plan.push([w, c[0], c.length]); }
+// The official model has the two lateral temporomandibular ligaments on the opposite sides (its ".l" mesh lies on the person's right, the ".r" on the left; checked by mesh centroid x),
+// so each name takes the other side's official mesh. Every other tissue keeps its own side (scripts/test-joints-lr-names.mjs checks all pairs).
+const SIDE_SWAPPED = /^Lateral temporomandibular ligament\.[lr]$/;
+const swapSide = n => SIDE_SWAPPED.test(n) ? n.replace(/\.([lr])$/, (_, x) => x === 'l' ? '.r' : '.l') : n;
+for (const w of wanted) { const c = byKey.get(keyOfGlb(swapSide(w.name))); if (!c) missing.push(w.name); else plan.push([w, c[0], c.length]); }
 console.log(`Official joints model: ${official.length} meshes. Of the ${wanted.length} tissues the viewer uses, ${plan.length} are taken from it${missing.length ? `; ${missing.length} have no counterpart and are left out: ${missing.join('; ')}` : ''}.`);
 const dup = plan.filter(p => p[2] > 1); if (dup.length) console.log(`  ${dup.length} names have several official meshes (the first is used): ${dup.map(p => p[0].name).join('; ')}`);
 if (check) process.exit(0);

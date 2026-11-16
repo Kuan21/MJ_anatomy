@@ -11,18 +11,20 @@ import {judgeName, relationOf} from './naming';
 import {addMistakes, scopeOf} from './mistakes';
 import {QuizScene} from './parts';
 import {fetchCatalogue} from './use-catalogue';
-import type {QuizView} from './viewer';
+import {preloadQuestions, type QuizView} from './viewer';
 import './quiz.css';
 
 interface Station {question: ExamQuestion; typed: string; side: 'left' | 'right' | null; result: 'correct' | 'close' | 'wrong' | 'blank'; seconds: number}
 const TIER: Record<Difficulty, string> = {easy: '簡單', medium: '中等', hard: '困難'};
 type Phase = 'setup' | 'loading' | 'running' | 'result';
+/** Decoded bytes of model data the exam keeps in memory before it starts (about 140 MB); a longer exam brings the stations beyond this in while the earlier ones are answered. */
+const PRELOAD_LIMIT = 140 * 1024 * 1024;
 
 /** 模擬考試: the hardest mode. Needle on a structure, name it (and the side) before the clock runs out; stations are shuffled over every chosen region, there is no hint, no feedback and no way back; the result comes at the end. */
 export default function ExamPage() {
   const [phase, setPhase] = useState<Phase>('setup'), [setup, setSetup] = useState<ExamSetup>(() => loadExamSetup()), [open, setOpen] = useState<string[]>([]);
   const [catalogues, setCatalogues] = useState<Partial<Record<QuizRegionId, QuizCatalogue>>>({}), [questions, setQuestions] = useState<ExamQuestion[]>([]), [stations, setStations] = useState<Station[]>([]);
-  const [problem, setProblem] = useState(''), [seconds, setSeconds] = useState(EXAM_DEFAULTS.seconds), [elapsed, setElapsed] = useState(0);
+  const [prep, setPrep] = useState({done: 0, total: 0}), [problem, setProblem] = useState(''), [seconds, setSeconds] = useState(EXAM_DEFAULTS.seconds), [elapsed, setElapsed] = useState(0);
   useEffect(() => {document.title = '模擬考試 · MJ Anatomy';}, []);
   useEffect(() => {saveExamSetup(setup);}, [setup]);
   const chosen = Object.keys(setup.regions) as QuizRegionId[];
@@ -40,6 +42,10 @@ export default function ExamPage() {
       }
       if (!pool.length) {setProblem('選定的範圍沒有可出的題目，請調整區域或內容類型。'); setPhase('setup'); return;}
       const drawn = composeExam(pool, setup.count);
+      // Everything the stations need is loaded into memory before the first station, so no station waits for a model and the clock never runs while loading (the data stays in memory for the whole exam).
+      setPrep({done: 0, total: 0});
+      const report = await preloadQuestions(drawn.map(q => ({catalogue: loaded[q.region]!, target: q.structure, section: 'all' as const, side: 'both' as const})), {limitBytes: PRELOAD_LIMIT, onProgress: (done, total) => setPrep({done, total})});
+      void report;
       setCatalogues(loaded); setQuestions(drawn); setStations([]); setSeconds(setup.seconds); setElapsed(0); setPhase('running');
     } catch { setProblem('題庫未能載入，請重試。'); setPhase('setup'); }
   };
@@ -86,7 +92,7 @@ export default function ExamPage() {
         <label className="quiz-context-toggle setup-remember"><input type="checkbox" checked={setup.remember} onChange={e => update({remember: e.target.checked})}/>記住這次的設定</label>
         {problem && <div className="quiz-error" role="alert">{problem}</div>}
         <p className="quiz-pool-note" role="status">{chosen.length ? `已選 ${chosen.length} 個區域，共 ${setup.count} 題，每題 ${setup.seconds} 秒（約 ${clock(setup.count * setup.seconds)}）` : '請先選擇至少一個區域。'}</p>
-        <div className="quiz-start-row"><button data-slot="quiz-button" className="quiz-primary" disabled={!chosen.length || !setup.categories.length || phase === 'loading'} onClick={() => void begin()}>{phase === 'loading' ? '正在準備題庫…' : '開始考試'} <ArrowRight size={18}/></button></div>
+        <div className="quiz-start-row"><button data-slot="quiz-button" className="quiz-primary" disabled={!chosen.length || !setup.categories.length || phase === 'loading'} onClick={() => void begin()}>{phase === 'loading' ? (prep.total ? `準備考試 ${prep.done} / ${prep.total}` : '正在準備題庫…') : '開始考試'} <ArrowRight size={18}/></button></div>
       </section>
     </div>
   </main>;
@@ -95,7 +101,7 @@ export default function ExamPage() {
 function ExamRun({catalogues, questions, seconds, onFinish, onQuit}: {catalogues: Partial<Record<QuizRegionId, QuizCatalogue>>; questions: ExamQuestion[]; seconds: number; onFinish: (s: Station[], spent: number) => void; onQuit: () => void}) {
   const [index, setIndex] = useState(0), [typed, setTyped] = useState(''), [side, setSide] = useState<'left' | 'right' | null>(null), [left, setLeft] = useState(seconds);
   const [readiness, setReadiness] = useState({key: '', ready: false}), [load, setLoad] = useState({loaded: 0, total: 0}), [error, setError] = useState(''), [sceneRetry, setSceneRetry] = useState(0);
-  const [command, setCommand] = useState<{id: number; view: QuizView}>({id: 0, view: 'front'}), [message, setMessage] = useState('');
+  const [command, setCommand] = useState<{id: number; view: QuizView}>({id: 0, view: 'front'}), [message, setMessage] = useState(''), [slow, setSlow] = useState(false);
   const done = useRef<Station[]>([]), startedAt = useRef(0), runStart = useRef(performance.now()), submitted = useRef(false), input = useRef<HTMLInputElement>(null);
   const question = questions[index], target = question.structure, catalogue = catalogues[question.region]!;
   const questionKey = `${index}:${target.id}`, ready = readiness.key === questionKey && readiness.ready && !error;
@@ -127,6 +133,8 @@ function ExamRun({catalogues, questions, seconds, onFinish, onQuit}: {catalogues
     }, 200);
     return () => window.clearInterval(timer);
   }, [ready, questionKey, seconds]);
+  // the cover only appears when a station really waits (a model that is already in memory shows at once)
+  useEffect(() => {setSlow(false); const t = window.setTimeout(() => setSlow(true), 600); return () => window.clearTimeout(t);}, [questionKey]);
   const quit = () => {if (window.confirm('離開考試？目前的作答不會計分。')) onQuit();};
   const urgent = left <= 5;
 
@@ -138,11 +146,11 @@ function ExamRun({catalogues, questions, seconds, onFinish, onQuit}: {catalogues
     </header>
     <div className="quiz-play-layout is-naming is-exam">
       <section className="quiz-stage" aria-label="3D 模型，針指住的構造是題目">
-        <QuizScene key={`${question.region}:${sceneRetry}`} catalogue={catalogue} view={{key: questionKey, target, section: 'all', side: 'both', answered: false, pickedId: null, hidden: [], context: true, peeling: false, command, mode: 'name', clarity: .7, only: false, highlightIds: [], pin: true}}
+        <QuizScene key={`${question.region}:${sceneRetry}`} catalogue={catalogue} view={{key: questionKey, target, section: 'all', side: 'both', answered: false, pickedId: null, hidden: [], context: true, peeling: false, command, mode: 'name', clarity: .7, only: false, highlightIds: [], pin: true, next: questions[index + 1] && catalogues[questions[index + 1].region] ? {catalogue: catalogues[questions[index + 1].region]!, target: questions[index + 1].structure} : undefined}}
           onReady={(key, value) => setReadiness({key, ready: value})} onProgress={(loaded, total) => setLoad({loaded, total})} onError={setError} onPick={() => {}} onMessage={setMessage}/>
         <div className="quiz-stage-caption"><span>紅色的針指住的構造是哪一個？</span></div>
         <div className="quiz-view-buttons" aria-label="模型視角"><button data-slot="quiz-button" onClick={() => setCommand(c => ({id: c.id + 1, view: 'random'}))}>換角度</button></div>
-        {!ready && !error && <div className="quiz-loading" role="status"><span className="quiz-spinner"/><strong>載入這一站的模型</strong><small>倒數尚未開始 · {load.loaded} / {load.total || '…'}</small></div>}
+        {!ready && !error && slow && <div className="quiz-loading" role="status"><span className="quiz-spinner"/><strong>載入這一站的模型</strong><small>倒數尚未開始 · {load.loaded} / {load.total || '…'}</small></div>}
         {error && <div className="quiz-model-error" role="alert"><strong>這一站的模型沒有載入</strong><p>{error}</p><button data-slot="quiz-button" className="quiz-primary" onClick={() => {setError(''); setReadiness({key: '', ready: false}); setSceneRetry(n => n + 1);}}>重新載入模型</button></div>}
         <div className="quiz-stage-hint">拖曳旋轉 · 滾輪／雙指縮放 · {message || '看針的位置作答'}</div>
       </section>
@@ -175,7 +183,7 @@ function ExamResult({stations, planned, elapsed, seconds, onAgain, onSetup}: {st
       <div className="run-regions">{[...byRegion.entries()].map(([id, list]) => {
         const bad = list.filter(wrong);
         return <div key={id} className="run-region" data-region={id}><div className="run-region-head"><b>{QUIZ_REGIONS[id].label}</b><span>答對 {list.length - bad.length} / {list.length}</span></div>
-          {bad.length > 0 && <a className="quiz-secondary quiz-link-button" href={learnHashOf(id)}>返去學：{QUIZ_REGIONS[id].label}學習地圖</a>}</div>;
+          {bad.length > 0 && <a className="quiz-secondary quiz-link-button" href={learnHashOf(id)}>回去學習：{QUIZ_REGIONS[id].label}學習地圖</a>}</div>;
       })}</div>
       <div className="quiz-summary-actions"><button data-slot="quiz-button" className="quiz-primary" onClick={onAgain}>再考一次（重新抽題）</button><button data-slot="quiz-button" className="quiz-secondary" onClick={onSetup}>重新設定</button></div>
       <div className="quiz-review-list"><h2>每一站<small>你的答案與正確答案</small></h2>

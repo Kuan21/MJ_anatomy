@@ -62,6 +62,18 @@ assert.ok(!/go\(|command/.test(chooseOrgan), 'organ detail: choose only selects'
 assert.match(organDetail, /onClick=\{\(\) => focusOn\(selected\.key\)\}/, 'organ detail Focus button');
 assert.match(organDetail, /不在目前視野，按 Focus 查看/);
 
+// the ear detail mode: choosing only selects; Focus is the only button that moves the camera, and the viewer turns the camera only for a new command id
+const ear = fs.readFileSync('app/ear-detail.tsx', 'utf8');
+const chooseEar = ear.slice(ear.indexOf('const choose = '), ear.indexOf('const hasMesh'));
+assert.ok(!/go\(|command/.test(chooseEar), 'ear: choose only selects');
+const selectEar = ear.slice(ear.indexOf('const select = '), ear.indexOf('// Selecting (model, list'));
+assert.ok(!/hiddenGroups|peel|command/.test(selectEar), 'ear: select neither re-shows layers nor moves the camera');
+assert.match(ear, /onClick=\{\(\) => focusOn\(selected\)\}/, 'ear Focus button');
+assert.match(ear, /不在目前視野，按 Focus 查看/);
+const earViewer = fs.readFileSync('app/mj-ear-viewer.ts', 'utf8');
+const earUpdate = earViewer.slice(earViewer.indexOf('const update = '), earViewer.indexOf('const pickAt ='));
+assert.ok(/command !== next\.command\.id/.test(earUpdate) && !/selectedIds/.test(earUpdate), 'ear viewer: only a new command moves the camera, never a selection');
+
 // 3. framing level -----------------------------------------------------------------------------------------------
 let seed = 12345; const rnd = () => (seed = (seed * 1664525 + 1013904223) % 4294967296) / 4294967296;
 let worst = 1;
