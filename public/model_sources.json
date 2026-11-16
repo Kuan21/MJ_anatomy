@@ -126,7 +126,8 @@
       ],
       "license": "CC BY-SA 4.0",
       "origin": "itayinbarr/brainproject (Z-Anatomy derived)",
-      "pinned_by": "scripts/prepare-brain.mjs"
+      "pinned_by": "scripts/prepare-brain.mjs",
+      "derived_in_browser": "app/organ/brain-midline.ts: left and right halves of optic chiasm, pons, midbrain and tentorium cerebelli are welded into one structure; the right half of the medulla oblongata is the mirror image of the left half (示意：依左右對稱補建); the body of the fornix is the midline part of the two fornix meshes"
     },
     {
       "id": "schematic-suboccipital",
@@ -292,7 +293,8 @@
       ],
       "license": "CC BY-SA 4.0",
       "origin": "itayinbarr/brainproject (Z-Anatomy derived)",
-      "pinned_by": "scripts/prepare-brain.mjs"
+      "pinned_by": "scripts/prepare-brain.mjs",
+      "derived_in_browser": "app/organ/brain-midline.ts: left and right halves of optic chiasm, pons, midbrain and tentorium cerebelli are welded into one structure; the right half of the medulla oblongata is the mirror image of the left half (示意：依左右對稱補建); the body of the fornix is the midline part of the two fornix meshes"
     },
     {
       "id": "schematic-suboccipital",
