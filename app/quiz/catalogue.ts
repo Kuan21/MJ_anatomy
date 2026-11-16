@@ -575,7 +575,7 @@ export function sceneStructures(catalogue: QuizCatalogue, target: QuizStructure,
   const range = (regionSections(catalogue.region).find(s => s.id === section) ?? regionSections(catalogue.region)[0]).range;
   // The target is always drawn: a mistake from the other side (錯題本 after the side setting changed) must still be answerable; the frame unions its bounds.
   return catalogue.structures.filter(s => s.id === target.id || (s.system === 'muscular' && owners.includes(s.name)) || ((side === 'both' || s.side === 'midline' || s.side === side)
-    && (catalogue.region === 'heart' || catalogue.region === 'lung' || catalogue.region === 'ear' || (ORGAN_IDS as string[]).includes(catalogue.region ?? '') || (catalogue.region === 'brain' ? s.system === 'brain' || s.system === target.system : s.system === target.system || s.system === 'skeletal'))
+    && (catalogue.region === 'heart' || catalogue.region === 'lung' || catalogue.region === 'ear' || ((ORGAN_IDS as string[]).includes(catalogue.region ?? '') && (target.system === 'viscera' ? s.system === 'viscera' : s.system === 'viscera' || s.system === target.system)) || (catalogue.region === 'brain' ? s.system === 'brain' || s.system === target.system : s.system === target.system || s.system === 'skeletal'))
     && (section === 'all' || s.sections.includes(section)
       || (s.bounds[0][1] < range[1] && s.bounds[1][1] > range[0]))))
     // a structure that level 1 does not ask (availability) is drawn only when it is the question itself

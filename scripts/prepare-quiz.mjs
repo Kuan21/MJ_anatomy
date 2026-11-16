@@ -224,7 +224,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
       const bounds = [[Infinity, Infinity, Infinity], [-Infinity, -Infinity, -Infinity]];
       for (let i = 0; i < geo.pos.length; i++) { bounds[0][i % 3] = Math.min(bounds[0][i % 3], geo.pos[i]); bounds[1][i % 3] = Math.max(bounds[1][i % 3], geo.pos[i]); }
       const cardFields = Object.keys(label).filter(f => d.card?.[f]).map(f => ({label: label[f], zh: d.card[f].zh, en: d.card[f].en}));
-      add({id: `${region}:${d.key}`, name: d.en, chinese: d.zh, system: 'viscera', side: d.side ?? 'midline', bounds, source: 'Organ detail', sections: [d.group], cardFields,
+      add({id: `${region}:${d.key}`, name: d.en, chinese: d.zh, system: d.quizSystem ?? 'viscera', side: d.side ?? 'midline', bounds, source: 'Organ detail', sections: [d.group], cardFields,
         positions: Buffer.from(geo.pos.buffer), normals: Buffer.from(geo.nrm.buffer), indices: Buffer.from(geo.idx.buffer)});
       asked.push(d.key);
     }

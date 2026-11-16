@@ -3,11 +3,12 @@
 //   zone channel : 1 cardia, 2 fundus, 3 body, 4 pyloric antrum, 5 pyloric canal      (a partition of the stomach surface)
 //   line channel : 1 lesser curvature, 2 greater curvature, 3 angular incisure, 4 pyloric sphincter band, 5 cardial notch (strips and patches laid over the zones)
 import {weld, loopSubdivide, graphOf, dijkstra, compact, clipPlane, distToPolyline, smoothPolyline} from '../lib/organ-mesh.mjs';
+import {buildSupply} from './stomach-supply.mjs';
 
 export const id = 'stomach';
 const D = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
 
-export function build({atlasPart, writer}) {
+export function build({atlasPart, nervePart, paokaoPart, writer}) {
   const raw = atlasPart('FJ2564'), w = weld(raw.positions, raw.indices, 1e-6), eso = weld(...Object.values(atlasPart('FJ2563')), 1e-6), duo = weld(...Object.values(atlasPart('FJ2573')), 1e-6);
   const pt = (m, v) => [m.positions[v * 3], m.positions[v * 3 + 1], m.positions[v * 3 + 2]];
   const nearest = (m, p) => { let b = -1, bd = Infinity; for (let v = 0; v < m.positions.length / 3; v++) { const d = D(pt(m, v), p); if (d < bd) { bd = d; b = v; } } return b; };
@@ -70,11 +71,12 @@ export function build({atlasPart, writer}) {
   const part = writer.addMesh('Stomach', s.positions, s.indices, {});
   part.triZone = writer.addBytes(triZone); part.triLine = writer.addBytes(triLine);
   // context: the abdominal oesophagus (plus a short stretch above the diaphragm) and the first part of the duodenum, each cut straight with a plane
-  const e1 = loopSubdivide(eso.positions, eso.indices, 1), e2 = clipPlane(e1.positions, e1.indices, [0, 1, 0], cardiaPt[1] + .05);
+  const e1 = loopSubdivide(eso.positions, eso.indices, 1), e2 = clipPlane(e1.positions, e1.indices, [0, 1, 0], cardiaPt[1] + .14);
   writer.addMesh('Esophagus', e2.positions, e2.indices);
   const d1 = loopSubdivide(duo.positions, duo.indices, 1), dn = []; for (let v = 0; v < d1.positions.length / 3; v++) if (D(pt(d1, v), pylorusPt) < .04) dn.push(v);
   const dc = [0, 1, 2].map(k => dn.reduce((t, v) => t + pt(d1, v)[k], 0) / dn.length), du = dc.map((x, k) => x - pylorusPt[k]), dul = Math.hypot(...du), u = du.map(x => x / dul);
   const d2 = clipPlane(d1.positions, d1.indices, u, u[0] * pylorusPt[0] + u[1] * pylorusPt[1] + u[2] * pylorusPt[2] + .05);
   writer.addMesh('Duodenum', d2.positions, d2.indices);
-  return {stats, landmarks: {cardia: pt(s, c0), pylorus: pt(s, p0), incisure: ai, apex: pos(apex)}};
+  const supply = buildSupply({writer, atlasPart, nervePart, paokaoPart, surface: s, lesser: lesser.map(pos), greater: greater.map(pos)});
+  return {stats: {...stats, supply: supply.keys.length}, landmarks: {cardia: pt(s, c0), pylorus: pt(s, p0), incisure: ai, apex: pos(apex)}};
 }

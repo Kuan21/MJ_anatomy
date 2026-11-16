@@ -6,6 +6,8 @@ import {PointerTap} from '../pointer-tap';
 import {framingDistance} from '../camera-framing';
 import {coversBrainTarget, type BrainLayer} from './brain';
 import {coversEarTarget} from './ear';
+import {coversOrganTarget} from './organs';
+import {ORGAN_IDS} from '../organ/organ-ids';
 import {coversHeadNeckTarget} from './headneck';
 import {SPACES} from '../mj-spaces';
 import {SPACE_OPENING_MARGIN, openingView} from './spaces';
@@ -269,7 +271,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
   /** Brain quiz: a structure that lies in front of a deep target is drawn as faint glass and cannot be picked, so the target is in view (rules: app/quiz/brain.ts). */
   // Head-and-neck quiz: the outer coats of the eyeball are glass while a part inside the same eye is the question (app/quiz/headneck.ts).
   const isCover = (structure: QuizStructure) => !!state && structure.id !== state.target.id
-    && (catalogue.region === 'brain' ? coversBrainTarget(state.target as {layer?: BrainLayer}, structure as {layer?: BrainLayer}) : catalogue.region === 'ear' ? coversEarTarget(state.target, structure) : catalogue.region === 'head-neck' && coversHeadNeckTarget(state.target, structure));
+    && (catalogue.region === 'brain' ? coversBrainTarget(state.target as {layer?: BrainLayer}, structure as {layer?: BrainLayer}) : catalogue.region === 'ear' ? coversEarTarget(state.target, structure) : (ORGAN_IDS as string[]).includes(catalogue.region ?? '') ? coversOrganTarget(state.target, structure) : catalogue.region === 'head-neck' && coversHeadNeckTarget(state.target, structure));
   const BRAIN_GLASS = .09;
   /** The exam needle: a thin shaft whose tip touches the surface and a round head; removed and made again for every question. */
   let pin: T.Group | undefined;

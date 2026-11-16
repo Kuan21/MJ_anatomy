@@ -31,7 +31,7 @@ export default function OrganDetail({id}: {id: OrganId}) {
 }
 
 function OrganDetailView({def}: {def: OrganDef}) {
-  const defaults: OrganViewState = useMemo(() => ({hiddenGroups: def.groups.filter(g => !g.on).map(g => g.id), hiddenParts: [], peel: 0, isolate: null, selectedIds: [], section: {axis: 'none', offset: .5, flip: false}, zones: def.zonesDefault ?? false, command: {id: 0, view: 'front'}}), [def]);
+  const defaults: OrganViewState = useMemo(() => ({hiddenGroups: def.groups.filter(g => !g.on).map(g => g.id), hiddenParts: [], peel: 0, isolate: null, selectedIds: [], section: {axis: 'none', offset: .5, flip: false}, zones: def.zonesDefault ?? false, ghost: [], glass: false, command: {id: 0, view: 'front'}}), [def]);
   const [view, setView] = useState<OrganViewState>(defaults);
   const [ready, setReady] = useState(false), [error, setError] = useState(''), [percent, setPercent] = useState(0), [query, setQuery] = useState('');
   const [open, setOpen] = useState<string[]>(() => def.groups.filter(g => g.layer !== 0).map(g => g.id)), [allOpen, setAllOpen] = useState(false);
@@ -58,9 +58,11 @@ function OrganDetailView({def}: {def: OrganDef}) {
     history.replaceState(null, '', location.pathname + location.search + `#/organ/${def.id}`);
     if (hit) choose(hit.key);
   }, [ready]); // eslint-disable-line react-hooks/exhaustive-deps
-  const partVisible = (p: OrganPartDef) => !view.hiddenParts.includes(p.key) && !view.hiddenGroups.includes(p.group);
+  const partVisible = (p: OrganPartDef) => !view.hiddenParts.includes(p.key) && !view.hiddenGroups.includes(p.group) && !view.ghost.includes(p.group);
   const togglePart = (p: OrganPartDef) => patch({hiddenParts: view.hiddenParts.includes(p.key) ? view.hiddenParts.filter(x => x !== p.key) : [...view.hiddenParts, p.key]});
   const toggleGroup = (id: string, list: OrganPartDef[]) => {
+    // switching a group by hand shows it as a normal group: it is no longer a faint shell
+    if (view.ghost.includes(id)) { patch({ghost: view.ghost.filter(g => g !== id), hiddenGroups: view.hiddenGroups.filter(g => g !== id)}); return; }
     const on = view.hiddenGroups.includes(id) || list.every(p => view.hiddenParts.includes(p.key));
     patch({hiddenGroups: on ? view.hiddenGroups.filter(g => g !== id) : [...view.hiddenGroups, id], hiddenParts: on ? view.hiddenParts.filter(k => !list.some(p => p.key === k)) : view.hiddenParts});
   };
@@ -73,7 +75,7 @@ function OrganDetailView({def}: {def: OrganDef}) {
     if (axis === 'none') { patch({section: {...section, axis}}); return; }
     setView(v => ({...v, section: {axis, offset: .5, flip: ORGAN_CUT[axis].flip}, command: {id: v.command.id + 1, view: ORGAN_CUT[axis].view}}));
   };
-  const outOfView = !!selected && !selected.cardOnly && (view.hiddenGroups.includes(selected.group) || view.hiddenParts.includes(selected.key) || (groupOf(selected.group).layer >= 0 && groupOf(selected.group).layer < view.peel) || (!!view.isolate && !view.isolate.includes(selected.key)));
+  const outOfView = !!selected && !selected.cardOnly && ((view.hiddenGroups.includes(selected.group) && !view.ghost.includes(selected.group)) || view.hiddenParts.includes(selected.key) || (groupOf(selected.group).layer >= 0 && groupOf(selected.group).layer < view.peel) || (!!view.isolate && !view.isolate.includes(selected.key)));
   const field = (label: string, bi?: {en: string; zh: string}): ReactNode => bi ? <><dt>{label}</dt><dd lang="en">{bi.en}</dd><dd lang="zh-Hant">{bi.zh}</dd></> : null;
   const info = selected ? <>
     {outOfView && <p className="organ-out-of-view" role="status" lang="zh-Hant">不在目前視野，按 Focus 查看</p>}
@@ -95,10 +97,18 @@ function OrganDetailView({def}: {def: OrganDef}) {
     </div>
   </> : <p className="organ-info-empty">點選模型或清單中的構造，會顯示名稱與資訊卡。</p>;
   const hasZones = def.parts.some(p => p.mark?.channel === 'zone');
+  const presetState = (pr: NonNullable<OrganDef['presets']>[number]) => ({hiddenGroups: def.groups.map(g => g.id).filter(id => !pr.show.includes(id) && !(pr.ghost ?? []).includes(id)), hiddenParts: [] as string[], ghost: pr.ghost ?? [], glass: !!pr.glass, zones: pr.zones ?? view.zones, isolate: null});
+  const sameSet = (a: string[], b: string[]) => a.length === b.length && a.every(x => b.includes(x));
+  const presetOn = (pr: NonNullable<OrganDef['presets']>[number]) => { const t = presetState(pr); return sameSet(view.hiddenGroups, t.hiddenGroups) && sameSet(view.ghost, t.ghost) && view.glass === t.glass && view.hiddenParts.length === 0; };
+  const extrasNodes = <>
+    {def.presets && <OrganSegmented label="顯示分組">{def.presets.map(pr => <button key={pr.id} aria-pressed={presetOn(pr)} onClick={() => patch(presetState(pr))} title={`${pr.en}｜${pr.zh}`}><span lang="en">{pr.en}</span><small lang="zh-Hant">{pr.zh}</small></button>)}</OrganSegmented>}
+    {def.presets && <OrganSegmented label="胃壁透明"><button aria-pressed={view.glass} onClick={() => patch({glass: !view.glass})} title="Glass wall｜胃壁透明"><span lang="en">Glass wall</span><small lang="zh-Hant">　{def.zh}壁透明</small></button></OrganSegmented>}
+    {hasZones && <OrganSegmented label="分區顏色"><button aria-pressed={view.zones} onClick={() => patch({zones: !view.zones})} title="Region colours｜分區顏色"><span lang="en">Region colours</span><small lang="zh-Hant">　分區顏色</small></button></OrganSegmented>}
+  </>;
   return <OrganDetailLayout title={`${def.zh}詳細模式`} labels={{left: `${def.zh}構造清單`, stage: `${def.zh} 3D 模型`, panel: `${def.zh}控制與說明`}}
-    left={<OrganLeftColumn onAllOn={() => patch({hiddenGroups: [], hiddenParts: [], isolate: null})} onAllOff={() => patch({hiddenGroups: def.groups.map(g => g.id), isolate: null})}
+    left={<OrganLeftColumn onAllOn={() => patch({hiddenGroups: [], hiddenParts: [], ghost: [], isolate: null})} onAllOff={() => patch({hiddenGroups: def.groups.map(g => g.id), ghost: [], isolate: null})}
       query={query} onQuery={setQuery} ready={ready}
-      extras={hasZones ? <OrganSegmented label="分區顏色"><button aria-pressed={view.zones} onClick={() => patch({zones: !view.zones})} title="Region colours｜分區顏色"><span lang="en">Region colours</span><small lang="zh-Hant">　分區顏色</small></button></OrganSegmented> : undefined}>
+      extras={extrasNodes}>
       {q ? <div className="organ-results" aria-live="polite"><h3>符合的構造（{found.length}）</h3><ul>{found.map(p => <li key={p.key} className="organ-part-row"><button aria-pressed={view.selectedIds.includes(p.key)} onClick={() => choose(p.key)}><span lang="en">{p.en}</span><small lang="zh-Hant">{p.zh}</small></button></li>)}</ul>
         {!found.length && <p className="organ-info-empty">找不到符合的構造。</p>}</div> : <>
         <OrganAllToggle count={def.parts.length} open={allOpen} onToggle={() => setAllOpen(v => !v)}/>

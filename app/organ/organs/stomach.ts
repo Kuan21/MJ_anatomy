@@ -1,10 +1,15 @@
 import type {OrganDef, OrganGroupDef, OrganPartDef} from '../organ-types';
+import {SUPPLY_GROUPS, SUPPLY_PARTS} from './stomach-supply';
 
 const groups: OrganGroupDef[] = [
-  {id: 'context', en: 'Neighbouring parts of the gut tube', zh: '相連的消化管', layer: 0, on: true},
-  {id: 'lines', en: 'Curvatures, notches and sphincter', zh: '彎、切跡與括約肌', layer: 1, on: true},
-  {id: 'zones', en: 'Regions of the stomach', zh: '胃的分區', layer: 2, on: true},
-  {id: 'wall', en: 'Stomach (whole organ)', zh: '胃（整體）', layer: 3, on: true},
+  {id: 'wall', en: 'Stomach (whole organ)', zh: '胃（整體）', layer: 6, on: true},
+  {id: 'zones', en: 'Regions of the stomach', zh: '胃的分區', layer: 5, on: true},
+  {id: 'lines', en: 'Curvatures, notches and sphincter', zh: '彎、切跡與括約肌', layer: 4, on: true},
+  {...SUPPLY_GROUPS[2], on: false},
+  {...SUPPLY_GROUPS[1], on: false},
+  {...SUPPLY_GROUPS[0], on: false},
+  SUPPLY_GROUPS[3],
+  {id: 'context', en: 'Neighbouring organs and gut tube', zh: '相鄰器官與消化管', layer: 3, on: true},
   {id: 'info', en: 'Wall layers and mucosa (card only)', zh: '胃壁與黏膜（只有資訊卡）', layer: -1, on: true},
 ];
 
@@ -169,9 +174,19 @@ const parts: OrganPartDef[] = [
   },
 ];
 
+const ALL_PARTS: OrganPartDef[] = [...parts.filter(p => p.group !== 'context' && p.group !== 'info'), ...SUPPLY_PARTS.filter(p => p.group !== 'context'), ...parts.filter(p => p.group === 'context'), ...SUPPLY_PARTS.filter(p => p.group === 'context'), ...parts.filter(p => p.group === 'info')];
+
 export const STOMACH: OrganDef = {
-  id: 'stomach', zh: '胃', en: 'Stomach', manifest: 'models/organ/stomach/stomach.json', groups, parts, coreGroups: ['zones', 'lines', 'wall'], zonesDefault: true,
-  peelNote: '由外而內：相連的食道與十二指腸 → 彎、切跡與括約肌的標示 → 分區顏色 → 胃壁本身。',
+  id: 'stomach', zh: '胃', en: 'Stomach', manifest: 'models/organ/stomach/stomach.json', groups, parts: ALL_PARTS, coreGroups: ['zones', 'lines', 'wall'], zonesDefault: true, glassGroups: ['wall'],
+  presets: [
+    {id: 'organ', en: 'Organ', zh: '器官', show: ['wall', 'zones', 'lines', 'context', 'info'], zones: true},
+    {id: 'arteries', en: 'Arteries', zh: '動脈', show: ['arteries'], ghost: ['wall']},
+    {id: 'veins', en: 'Veins', zh: '靜脈', show: ['veins'], ghost: ['wall']},
+    {id: 'nerves', en: 'Nerves', zh: '神經', show: ['nerves'], ghost: ['wall']},
+    {id: 'overview', en: 'Overview', zh: '全部', show: ['wall', 'lines', 'arteries', 'veins', 'nerves', 'context', 'info', 'lymph'], glass: true, zones: false},
+  ],
+  peelNote: '由外而內：神經 → 靜脈 → 動脈 → 相鄰器官與消化管 → 彎、切跡與括約肌的標示 → 分區顏色 → 胃壁本身。',
   scope: ['胃分區（賁門、胃底、胃體、幽門竇、幽門管）與胃大彎、胃小彎、胃角切跡、賁門切跡、幽門括約肌，都是標示在同一個胃模型表面上的位置，不是另外的模型；邊界位置為示意。',
-    '食道腹部與十二指腸第一部只作為相連構造顯示。肌層、皺襞與胃管沒有模型，只有資訊卡。'],
+    '動脈、靜脈（含門靜脈屬支）與神經分組：腹腔幹與其分支、胃的靜脈與脾靜脈、腸繫膜上靜脈、門靜脈、迷走神經下段、腹腔神經節、大內臟神經是圖譜既有的模型；胃短動脈與靜脈、胃後動脈與靜脈、前迷走神經幹、胃前支、腹腔神經叢是依一般描述沿中心線畫成的示意管，起止點放在相鄰模型的表面上。',
+    '部分血管在圖譜模型中緊貼甚至略陷入胃壁，尤其是胃左動脈靠近賁門處；用「胃壁透明」或逐層剝離即可看到。淋巴結沒有模型，只有資訊卡。食道腹部、十二指腸第一部、脾與胰只作為相鄰構造顯示。肌層、皺襞與胃管沒有模型，只有資訊卡。'],
 };

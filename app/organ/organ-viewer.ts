@@ -31,7 +31,7 @@ export function createOrganViewer(host: HTMLDivElement, def: OrganDef, callbacks
   const key = new T.DirectionalLight('#fff6e6', 2.5); key.position.set(-1.5, 3, 4); scene.add(key);
   const fill = new T.DirectionalLight('#a8c8e3', 1.3); fill.position.set(3, 1, -3); scene.add(fill);
   const raycaster = new T.Raycaster(), plane = new T.Plane(new T.Vector3(1, 0, 0), 0);
-  type Item = {def: OrganPartDef; mesh: T.Mesh<T.BufferGeometry, T.MeshStandardMaterial>; cap?: T.Mesh; box: T.Box3; host?: Item};
+  type Item = {def: OrganPartDef; mesh: T.Mesh<T.BufferGeometry, T.MeshStandardMaterial>; cap?: T.Mesh; box: T.Box3; host?: Item; faint?: boolean};
   const items = new Map<string, Item>(), hostLabels = new Map<string, {zone?: Uint8Array; line?: Uint8Array}>(), markFor = new Map<string, string>();
   const core = new T.Box3();
   const groups = new Map(def.groups.map(g => [g.id, g]));
@@ -45,7 +45,7 @@ export function createOrganViewer(host: HTMLDivElement, def: OrganDef, callbacks
   };
   const apply = () => {
     if (!state) return;
-    const sel = new Set(state.selectedIds), iso = state.isolate;
+    const sel = new Set(state.selectedIds), iso = state.isolate, ghosts = new Set(state.ghost), glassGroups = def.glassGroups ?? ['wall'];
     const clip = state.section.axis !== 'none';
     if (clip) {
       const axis = state.section.axis as 'sagittal' | 'coronal' | 'horizontal', a = AXIS[axis], lo = core.min.getComponent(a.x ? 0 : a.y ? 1 : 2), hi = core.max.getComponent(a.x ? 0 : a.y ? 1 : 2);
@@ -53,11 +53,13 @@ export function createOrganViewer(host: HTMLDivElement, def: OrganDef, callbacks
       plane.normal.copy(a).multiplyScalar(sign); plane.constant = -sign * at;
     }
     for (const it of items.values()) {
-      const d = it.def, hidden = isHidden(it), selected = sel.has(d.key);
+      const d = it.def, ghost = ghosts.has(d.group) && !d.mark, hidden = isHidden(it) && !ghost, selected = sel.has(d.key), glass = state.glass && glassGroups.includes(d.group) && !d.mark;
       let visible = !hidden;
       if (visible && it.def.mark?.channel === 'zone') visible = state.zones || selected;
       // isolate: only the chosen structures; a chosen marking keeps its host as a faint shell
       let opacity = d.opacity ?? 1;
+      if (ghost) opacity = selected ? .4 : .16; else if (glass) opacity = Math.min(opacity, selected ? .5 : .3);
+      it.faint = ghost || glass;
       if (iso?.length && visible) {
         const chosen = iso.includes(d.key), hostOfChosen = iso.some(k => items.get(k)?.host === it);
         if (!chosen) { if (hostOfChosen) opacity = .22; else visible = false; }
@@ -142,7 +144,9 @@ export function createOrganViewer(host: HTMLDivElement, def: OrganDef, callbacks
     const clip = state?.section.axis !== 'none';
     const targets = [...items.values()].filter(it => it.mesh.visible && !it.host).map(it => it.mesh);
     // a cut hides the half that is clipped: ignore hits on it
-    const hit = raycaster.intersectObjects(targets, false).find(h => !clip || plane.distanceToPoint(h.point) >= 0);
+    // a see-through shell (glass wall or faint context) never blocks what lies behind it: the first solid structure on the ray wins, and the shell is chosen only when nothing solid is there
+    const hits = raycaster.intersectObjects(targets, false).filter(h => !clip || plane.distanceToPoint(h.point) >= 0);
+    const hit = hits.find(h => !items.get(h.object.userData.key as string)?.faint) ?? hits.find(h => !(state?.ghost ?? []).includes(items.get(h.object.userData.key as string)?.def.group ?? ''));
     if (!hit) return null;
     const hostKey = hit.object.userData.key as string, lab = hostLabels.get(hostKey);
     if (lab && hit.faceIndex != null) {
