@@ -13,7 +13,7 @@
 
 - 涵蓋結構名稱（去除左右後）：1475 個
 - 採用來源 1（muscle-layers.json）改名：33 個；來源 2（跑考摘要）：14 個；來源 3（其他筆記）：25 個
-- 全站固定修正：「背闊肌」→「闊背肌」
+- 全站固定修正：「背闊肌」→「闊背肌」、「頷」→「頜」、「腭」→「顎」
 - 仍缺中文名或含英文：0 個
 
 | 來源 | 結構數 |
@@ -79,8 +79,6 @@
 | inferior thyroid artery | glossary.json（其他筆記） | 甲狀腺下動脈 | 下甲狀腺動脈 |
 | posterior circumflex humeral artery | glossary.json（其他筆記） | 旋肱後動脈 | 後旋肱動脈 |
 | radial recurrent artery | glossary.json（其他筆記） | 橈側返動脈 | 橈側迴返動脈 |
-| levator veli palatini | glossary.json（其他筆記） | 提腭帆肌 | 提顎帆肌 |
-| tensor veli palatini | glossary.json（其他筆記） | 張腭帆肌 | 張顎帆肌 |
 | Dorsal pancreatic artery | glossary.json（其他筆記） | 胰背動脈 | 背胰動脈 |
 | Inferior pancreaticoduodenal artery | glossary.json（其他筆記） | 胰十二指腸下動脈 | 下胰十二指腸動脈 |
 | external iliac artery | glossary.json（其他筆記） | 髂外動脈 | 外髂動脈 |
@@ -99,6 +97,8 @@
 | lateral plantar nerve | glossary.json（跑考摘要） | 足底外側神經 | 外蹠神經 |
 | medial plantar nerve | glossary.json（跑考摘要） | 足底內側神經 | 內蹠神經 |
 | common fibular nerve | glossary.json（跑考摘要） | 腓總神經 | 總腓神經 |
+| sphenomandibular ligament | glossary.json（其他筆記） | 蝶下頜韌帶 | 蝶下頷韌帶 |
+| stylomandibular ligament | glossary.json（其他筆記） | 莖突下頜韌帶 | 莖突下頷韌帶 |
 
 ## 三、已知錯誤的修正結果
 
@@ -1701,8 +1701,8 @@
 | inferior pharyngeal constrictor | 台灣解剖學名詞（程式內建對照表） | 咽下縮肌 |
 | levator veli palatini | glossary.json（其他筆記） | 提顎帆肌 |
 | middle pharyngeal constrictor | 台灣解剖學名詞（程式內建對照表） | 咽中縮肌 |
-| palatopharyngeus | 台灣解剖學名詞（程式內建對照表） | 腭咽肌 |
-| pterygomandibular raphe | 台灣解剖學名詞（程式內建對照表） | 翼下頷縫 |
+| palatopharyngeus | 台灣解剖學名詞（程式內建對照表） | 顎咽肌 |
+| pterygomandibular raphe | 台灣解剖學名詞（程式內建對照表） | 翼下頜縫 |
 | salpingopharyngeus | 台灣解剖學名詞（程式內建對照表） | 咽鼓管咽肌 |
 | stylopharyngeus | 台灣解剖學名詞（程式內建對照表） | 莖突咽肌 |
 | superior pharyngeal constrictor | 台灣解剖學名詞（程式內建對照表） | 咽上縮肌 |
@@ -2105,10 +2105,10 @@
 | trigeminal nerve (V) | 台灣解剖學名詞（程式內建對照表） | 三叉神經（第五對腦神經） |
 | inferior alveolar nerve | 台灣解剖學名詞（程式內建對照表） | 下齒槽神經 |
 | mental nerve | 台灣解剖學名詞（程式內建對照表） | 頦神經 |
-| nerve to mylohyoid muscle | 台灣解剖學名詞（程式內建對照表） | 下頷舌骨肌神經 |
+| nerve to mylohyoid muscle | 台灣解剖學名詞（程式內建對照表） | 下頜舌骨肌神經 |
 | buccal nerve | 台灣解剖學名詞（程式內建對照表） | 頰神經 |
-| posterior division of mandibular nerve | 台灣解剖學名詞（程式內建對照表） | 下頷神經後股 |
-| anterior division of mandibular nerve | 台灣解剖學名詞（程式內建對照表） | 下頷神經前股 |
+| posterior division of mandibular nerve | 台灣解剖學名詞（程式內建對照表） | 下頜神經後股 |
+| anterior division of mandibular nerve | 台灣解剖學名詞（程式內建對照表） | 下頜神經前股 |
 | lingual nerve | glossary.json（其他筆記） | 舌神經 |
 | maxillary nerve | 台灣解剖學名詞（程式內建對照表） | 腋神經 |
 | meningeal branch of maxillary nerve | 台灣解剖學名詞（程式內建對照表） | 腋神經 |

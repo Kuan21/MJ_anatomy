@@ -116,7 +116,7 @@ assert.ok(brainNameClashes([mk('Left Foo (x 1)', 'left'), mk('Right Foo (x-1)', 
 assert.ok(brainNameClashes([mk('Foo', 'midline', 'g', '甲'), mk('Bar', 'midline', 'g', '甲')]).some(k => k.kinds.some(x => x.startsWith('iv'))), 'one Chinese name on two structures');
 // ---- the superior cerebellar peduncles: left and right are asked under their own names, the midline mesh is held back until the owner confirms its name
 const scp = n => catalogue.structures.find(s => s.name === n);
-for (const [name, chinese, sign] of [['Left superior cerebellar peduncle', '左小腦上腳', 1], ['Right Superior cerebellar peduncle', '右小腦上腳', -1]]) {
+for (const [name, chinese, sign] of [['Left superior cerebellar peduncle', '左小腦上腳', 1], ['Right superior cerebellar peduncle', '右小腦上腳', -1]]) {
   const s = scp(name); assert.ok(s, `${name} is asked`); assert.equal(s.chinese, chinese);
   assert.ok(Math.sign((s.bounds[0][0] + s.bounds[1][0]) / 2) === sign, `${name} lies on the ${sign > 0 ? 'left (+x)' : 'right (-x)'} of the brain`);
 }
@@ -154,7 +154,7 @@ assert.deepEqual(BRAIN_OVERRIDES.filter(o => o.quiz).map(o => o.en), ['Decussati
   const extras = JSON.parse(gunzipSync(fs.readFileSync('public/models/search-extras.json.gz'))).filter(e => e.k === 'brain').map(e => e.n.toLowerCase());
   assert.ok(extras.includes('decussation of superior cerebellar peduncles') && extras.includes('left middle cerebral artery (m3-segment)') && !extras.some(n => /m3 segment|\(m2\)$/.test(n)), 'the site search uses the shared names');
 }
-for (const name of ['Left Buccal nerve', 'Falx cerebri', 'Anterior spinal artery']) assert.ok(report.excluded.some(e => e.name === name), `${name} is listed as excluded`);
+for (const name of ['Left buccal nerve', 'Falx cerebri', 'Anterior spinal artery']) assert.ok(report.excluded.some(e => e.name === name), `${name} is listed as excluded`);
 assert.ok(fs.existsSync('docs/quiz-brain-pool.md') && fs.readFileSync('docs/quiz-brain-pool.md', 'utf8').includes('不出題的構造'), 'docs/quiz-brain-pool.md exists');
 
 // ---- pool and scenes through the shared engine
@@ -171,7 +171,7 @@ assert.ok(!lessonIds.includes(dec.id), 'the decussation is in no lesson');
 assert.equal(new Set(lessonIds).size, lessonIds.length);
 assert.equal(lessonIds.length, catalogue.structures.length - flagged.length, 'every non-flagged structure is in exactly one lesson; the flagged ones are in none');
 // a question about another structure does not draw the flagged one as context, and its own question does draw it
-const other = catalogue.structures.find(s => s.name === 'Left Red nucleus');
+const other = catalogue.structures.find(s => s.name === 'Left red nucleus');
 assert.ok(!sceneStructures(catalogue, other, 'all', 'both').some(s => s.id === dec.id), 'level 1 scenes do not draw the decussation');
 assert.ok(sceneStructures(catalogue, dec, 'all', 'both').some(s => s.id === dec.id));
 for (const section of sectionIds) assert.ok(questionPool(catalogue, {...base, section}).length > 0, `section ${section} has questions`);
@@ -209,17 +209,17 @@ for (const name of ['Optic chiasm', 'Pons', 'Midbrain', 'Medulla oblongata', 'Bo
   assert.ok(!catalogue.structures.some(s => s.name !== name && new RegExp(`^(Left|Right) ${name}$`, 'i').test(s.name)), `${name}: no Left/Right copy`);
 }
 assert.equal(catalogue.structures.find(s => s.name === 'Body of fornix').chinese, '穹窿體');
-assert.ok(catalogue.structures.filter(s => /^(Left|Right) Fornix$/.test(s.name)).length === 2, 'the left and right fornix (crus and columns) stay');
+assert.ok(catalogue.structures.filter(s => /^(Left|Right) fornix$/.test(s.name)).length === 2, 'the left and right fornix (crus and columns) stay');
 // ---- deep structures are seen through glass: the layers and the cover rule
 const byName = n => catalogue.structures.find(s => s.name === n);
-for (const [name, layer] of [['Right Caudate nucleus', 'deep'], ['Right Hippocampus', 'deep'], ['Right Lateral ventricle', 'deep'], ['Third ventricle', 'deep'], ['Right Corticospinal tract', 'tract'], ['Corpus callosum', 'tract'], ['Right Red nucleus', 'deep'],
-  ['Right Precentral gyrus', 'cortex'], ['Right Insula (Subcentral gyrus and ant. and post. sulci)', 'inset'], ['Pons', 'envelope'], ['Right Inferior cerebellar peduncle', 'tract']]) {
+for (const [name, layer] of [['Right caudate nucleus', 'deep'], ['Right hippocampus', 'deep'], ['Right lateral ventricle', 'deep'], ['Third ventricle', 'deep'], ['Right corticospinal tract', 'tract'], ['Corpus callosum', 'tract'], ['Right red nucleus', 'deep'],
+  ['Right precentral gyrus', 'cortex'], ['Right insula (Subcentral gyrus and ant. and post. sulci)', 'inset'], ['Pons', 'envelope'], ['Right inferior cerebellar peduncle', 'tract']]) {
   const s = byName(name); assert.ok(s, `${name} is in the pool`); assert.equal(s.layer, layer, `${name}: layer`);
 }
-const cortex = byName('Right Precentral gyrus'), deep = byName('Right Caudate nucleus'), cerebellum = catalogue.structures.find(s => s.layer === 'cerebellum'), pons = byName('Pons'), insula = byName('Right Insula (Subcentral gyrus and ant. and post. sulci)');
+const cortex = byName('Right precentral gyrus'), deep = byName('Right caudate nucleus'), cerebellum = catalogue.structures.find(s => s.layer === 'cerebellum'), pons = byName('Pons'), insula = byName('Right insula (Subcentral gyrus and ant. and post. sulci)');
 assert.ok(coversBrainTarget(deep, cortex) && coversBrainTarget(deep, cerebellum) && coversBrainTarget(deep, pons) && coversBrainTarget(deep, insula), 'a deep target is seen through cortex, cerebellum and the wrapping solids');
-assert.ok(!coversBrainTarget(deep, deep) && !coversBrainTarget(deep, byName('Right Putamen')), 'other deep structures stay solid');
-const tract = byName('Right Corticospinal tract'), otherTract = byName('Right Arcuate fasciculus');
+assert.ok(!coversBrainTarget(deep, deep) && !coversBrainTarget(deep, byName('Right putamen')), 'other deep structures stay solid');
+const tract = byName('Right corticospinal tract'), otherTract = byName('Right arcuate fasciculus');
 assert.ok(coversBrainTarget(deep, tract), 'the tracts that cross a nucleus are glass for it');
 assert.ok(coversBrainTarget(tract, cortex) && coversBrainTarget(tract, pons) && !coversBrainTarget(tract, otherTract) && !coversBrainTarget(tract, deep), 'a tract is looked at through the cortex; other tracts and the nuclei stay solid');
 assert.ok(coversBrainTarget(insula, cortex) && !coversBrainTarget(insula, cerebellum), 'buried cortex is seen through the surface cortex only');
