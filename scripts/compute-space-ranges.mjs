@@ -35,6 +35,18 @@ for (const space of SPACES) {
       let worst = 0; for (const it of items) { const d = minDist2(c, it.pts); if (d > worst) worst = d; if (best && worst >= best.cost) break; }
       if (!best || worst < best.cost) best = {c, cost: worst};
     }
+    // The distance to the farthest structure is nearly flat along a long vessel (the popliteal fossa: 0.0322 m at the knee, 0.0324 m in the calf), so the first candidate found would depend on which vertices
+    // happen to exist. Among the candidates within 3 % of the best distance, the centre is the one nearest to the middle of the structures (the mean of their centroids): the same answer however the vessels are sampled.
+    const mid = [0, 1, 2].map(k => items.reduce((s, it) => s + it.pts.reduce((t, v, j) => j % 3 === k ? t + v : t, 0) / (it.pts.length / 3), 0) / items.length), limit = best.cost * 1.0609;
+    let nearest = null;
+    for (let i = 0; i < candidates.length; i += 3) {
+      const c = [candidates[i], candidates[i + 1], candidates[i + 2]];
+      let worst = 0; for (const it of items) { const d = minDist2(c, it.pts); if (d > worst) worst = d; if (worst > limit) break; }
+      if (worst > limit) continue;
+      const dm = (c[0] - mid[0]) ** 2 + (c[1] - mid[1]) ** 2 + (c[2] - mid[2]) ** 2;
+      if (!nearest || dm < nearest.dm) nearest = {c, cost: worst, dm};
+    }
+    best = {c: nearest.c, cost: nearest.cost};
     out[space.id][side] = {c: best.c.map(x => +x.toFixed(4)), reach: +Math.sqrt(best.cost).toFixed(4)};
     rows.push({id: space.id, side, items: items.length, c: out[space.id][side].c, reach: out[space.id][side].reach, r: space.r});
   }

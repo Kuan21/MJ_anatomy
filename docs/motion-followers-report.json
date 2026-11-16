@@ -1,25 +1,25 @@
 [
  {
   "region": "spine",
-  "belong": 2536,
+  "belong": 2193,
   "still": [],
   "flung": []
  },
  {
   "region": "head",
-  "belong": 690,
+  "belong": 620,
   "still": [],
   "flung": []
  },
  {
   "region": "leftLeg",
-  "belong": 261,
+  "belong": 248,
   "still": [],
   "flung": []
  },
  {
   "region": "rightLeg",
-  "belong": 262,
+  "belong": 249,
   "still": [],
   "flung": []
  },
