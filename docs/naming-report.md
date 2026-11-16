@@ -11,14 +11,14 @@
 
 ## 一、結果摘要
 
-- 涵蓋結構名稱（去除左右後）：1474 個
+- 涵蓋結構名稱（去除左右後）：1475 個
 - 採用來源 1（muscle-layers.json）改名：33 個；來源 2（跑考摘要）：14 個；來源 3（其他筆記）：25 個
 - 全站固定修正：「背闊肌」→「闊背肌」
 - 仍缺中文名或含英文：0 個
 
 | 來源 | 結構數 |
 |---|---|
-| 台灣解剖學名詞（程式內建對照表） | 1278 |
+| 台灣解剖學名詞（程式內建對照表） | 1279 |
 | muscle-layers.json | 88 |
 | glossary.json（其他筆記） | 75 |
 | glossary.json（跑考摘要） | 33 |
@@ -1074,7 +1074,7 @@
 
 ## 五、全部結構命名一覽
 
-<details><summary>展開 1474 項</summary>
+<details><summary>展開 1475 項</summary>
 
 | 結構 | 使用來源 | 中文名 |
 |---|---|---|
@@ -2459,6 +2459,7 @@
 | cingulate gyrus (Posteroventral part) | 台灣解剖學名詞（程式內建對照表） | 扣帶回（後腹側部） |
 | septal nuclei | 台灣解剖學名詞（程式內建對照表） | 中隔核 |
 | hippocampal commissure | 台灣解剖學名詞（程式內建對照表） | 海馬連合 |
+| body of fornix | 台灣解剖學名詞（程式內建對照表） | 穹窿體 |
 | fornix | 台灣解剖學名詞（程式內建對照表） | 穹窿 |
 | white matter of telencephalon | 台灣解剖學名詞（程式內建對照表） | 端腦白質 |
 | septum pellucidum | 台灣解剖學名詞（程式內建對照表） | 透明中隔 |

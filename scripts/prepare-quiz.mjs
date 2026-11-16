@@ -25,6 +25,8 @@ const {normalize} = await quizModule('app/quiz/naming.ts');
 const {brainSectionOf, brainLayerOf, brainSystemOf, BRAIN_EXCLUSION_REASONS, renameSideOk, brainNameClashes, BRAIN_NAME_CLASHES} = await quizModule('app/quiz/brain.ts');
 const {headNeckSystem, HN_EXTRA_MUSCLE, HN_EXCLUSION_REASONS, HEADNECK_NERVES, HEADNECK_NERVE_OTHER, HN_ZH, headNeckLayerOf, headNeckNameClashes} = await quizModule('app/quiz/headneck.ts');
 const {SCHEMATIC} = await quizModule('app/organ/brain-schematic.ts');
+const {EAR_PARTS} = await quizModule('app/mj-ear-atlas.ts');
+const {earLayerOf} = await quizModule('app/quiz/ear.ts');
 const {brainOverrideOf} = await quizModule('app/organ/brain-overrides.ts');
 const {QUIZ_SYSTEMS, QUIZ_REGIONS, LOWER_NERVES, UPPER_NERVES, THORAX_NERVES, THORAX_INCLUDE, BACK_NERVES, BACK_INCLUDE, classifySections} = await quizModule('app/quiz/catalogue.ts');
 const atlas = normalizeAtlasSystems(JSON.parse(fs.readFileSync(new URL('atlas.json', models))));
@@ -116,7 +118,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
   const items = [], structures = new Map(), hnExcluded = [];
   const groupId = (system, name) => `${system}:${name.toLowerCase().replace(/\s+/g, ' ').trim()}`;
   function add({id, name, chinese, system, side, bounds, source, positions, normals, indices, sections, description, layer, cardFields, availability}) {
-    const exactNames = region === 'head-neck' && (system === 'nervous' || system === 'arterial' || system === 'venous');
+    const exactNames = (region === 'head-neck' && (system === 'nervous' || system === 'arterial' || system === 'venous')) || region === 'ear';
     const structureId = groupId(system, name);
     let structure = structures.get(structureId);
     if (!structure) {
@@ -206,6 +208,26 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
         positions: raw.subarray(part.positions, part.positions + part.vertexCount * 12), normals: raw.subarray(part.normals, part.normals + part.vertexCount * 6), indices: raw.subarray(part.indices, part.indices + part.indexCount * 4)});
     }
   }
+  // Ear quiz: the structures come from the ear detail package (public/models/ear/ear-atlas.*, scripts/build-ear-atlas.mjs), named and carded by app/mj-ear-atlas.ts.
+  // Not asked (each with its reason in .sites-runtime/quiz-ear-report.json): the two schematic tubes, the two window patches (bone-surface marks, not structures) and the structures that have no mesh.
+  if (region === 'ear') {
+    const atlasJson = JSON.parse(fs.readFileSync(new URL('ear/ear-atlas.json', models), 'utf8')), bin = gunzipSync(fs.readFileSync(new URL('ear/ear-atlas.bin.gz', models)));
+    const meshOf = new Map(atlasJson.parts.map(p => [p.id, p]));
+    const LABELS = {loc: '位置與形態', fn: '功能', supply: '血液與神經供應', note: '補充'};
+    const systemOf = p => ['malleus', 'incus', 'stapes'].includes(p.id) ? 'skeletal' : p.group === 'nerves' ? 'nervous' : 'ear';
+    const reasonOf = p => !p.model || !meshOf.has(p.id) ? 'no-mesh' : p.schematic ? 'schematic' : p.mark ? 'bone-surface-mark' : null;
+    const earReport = {asked: [], excluded: []};
+    for (const p of EAR_PARTS) {
+      const reason = reasonOf(p);
+      if (reason) {earReport.excluded.push({name: p.en, chinese: p.zh, group: p.group, reason}); continue;}
+      const mesh = meshOf.get(p.id), fields = Object.entries(LABELS).filter(([key]) => p.card.zh[key]).map(([key, label]) => ({label, zh: p.card.zh[key], en: p.card.en[key]}));
+      add({id: `ear:${p.id}`, name: p.en, chinese: p.zh, system: systemOf(p), side: 'midline', bounds: mesh.bounds, source: 'Ear atlas', sections: [p.group], layer: earLayerOf(p.id, p.group), cardFields: fields,
+        positions: bin.subarray(mesh.positions, mesh.positions + mesh.vertexCount * 12), normals: bin.subarray(mesh.normals, mesh.normals + mesh.vertexCount * 6), indices: bin.subarray(mesh.indices, mesh.indices + mesh.indexCount * 4)});
+      earReport.asked.push({name: p.en, chinese: p.zh, group: p.group, system: systemOf(p)});
+    }
+    fs.mkdirSync(new URL('.sites-runtime/', root), {recursive: true});
+    fs.writeFileSync(new URL('.sites-runtime/quiz-ear-report.json', root), JSON.stringify({reasons: {'no-mesh': '沒有網格：只有資訊卡（選取時只標示相鄰的真實構造）', schematic: '示意管道：位置與大小為估算，測驗只用真實網格', 'bone-surface-mark': '標在骨面上的色塊，不是獨立的構造'}, ...earReport}, null, 1));
+  }
   if (region === 'lung') {
     const pk = JSON.parse(gunzipSync(fs.readFileSync(new URL('paokao/paokao-stream.json.gz', models))));
     const pkChunks = pk.chunks.map(c => fs.readFileSync(new URL('public' + c.url, root)));
@@ -271,7 +293,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
       geometry.dispose();
     }
   }
-  for (const part of region === 'heart' || region === 'brain' || region === 'head-neck' ? [] : atlas.parts) {
+  for (const part of region === 'heart' || region === 'brain' || region === 'head-neck' || region === 'ear' ? [] : atlas.parts) {
     if (!QUIZ_SYSTEMS.some(s => s.id === part.system)) continue;
     // tendons are asked per region once a region has enough of them (the limbs now; the other regions follow in later batches)
     if (part.system === 'tendon' && region !== 'upper-limb' && region !== 'lower-limb') continue;
@@ -292,7 +314,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
       indices: belly ? buf(belly.indices) : raw.subarray(part.indices, part.indices + part.indexCount * 4)});
   }
   // Tendons cut off their muscles (parts of the course-summary package): asked in the region they lie in, like any other structure.
-  if (region !== 'heart' && region !== 'lung' && region !== 'brain' && region !== 'head-neck') {
+  if (region !== 'heart' && region !== 'lung' && region !== 'brain' && region !== 'head-neck' && region !== 'ear') {
     const pk = JSON.parse(gunzipSync(fs.readFileSync(new URL('paokao/paokao-stream.json.gz', models))));
     const pkChunks = pk.chunks.map(c => fs.readFileSync(new URL('public' + c.url, root)));
     for (const part of pk.parts) {
@@ -305,7 +327,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
     }
   }
 
-  for (const chunk of region === 'heart' || region === 'lung' || region === 'brain' ? [] : nerveStream.chunks) {
+  for (const chunk of region === 'heart' || region === 'lung' || region === 'brain' || region === 'ear' ? [] : nerveStream.chunks) {
     let raw;
     for (const [ordinal, mesh] of chunk.meshes.entries()) {
       let match = /^(.*?)\.([lr])(?:\.\d+)?$/i.exec(mesh.name);
@@ -355,7 +377,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
   }
 
   // Joint soft tissue asked in this region (category 關節).
-  for (const c of region === 'heart' || region === 'lung' || region === 'brain' ? [] : jointCandidates) {
+  for (const c of region === 'heart' || region === 'lung' || region === 'brain' || region === 'ear' ? [] : jointCandidates) {
     if (c.reason || c.region !== region) continue;
     const geometry = c.mesh.geometry.clone();
     geometry.computeVertexNormals();
@@ -407,7 +429,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
       excluded: [...new Map(hnExcluded.map(e => [`${e.reason}|${e.side}|${e.name}`, e])).values()].sort((a, b) => a.reason.localeCompare(b.reason) || a.name.localeCompare(b.name)),
     }, null, 1));
   }
-  const packages = [], sides = region === 'thorax' || region === 'back' || region === 'head-neck' || region === 'heart' || region === 'lung' || region === 'brain' ? ['left', 'right', 'midline'] : ['left', 'right'];
+  const packages = [], sides = region === 'thorax' || region === 'back' || region === 'head-neck' || region === 'heart' || region === 'lung' || region === 'brain' || region === 'ear' ? ['left', 'right', 'midline'] : ['left', 'right'];
   for (const {id: system} of QUIZ_SYSTEMS) for (const side of sides) {
     let buffers = [], bytes = 0, meshes = [];
     const append = data => {

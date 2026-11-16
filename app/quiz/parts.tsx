@@ -7,19 +7,20 @@ import {ContentPending} from './learn-info';
 import {acceptedNames, preferredName, type AnswerLanguage} from './naming';
 import type {QuizCatalogue, QuizStructure} from './catalogue';
 
-export function QuizScene({catalogue, view, onReady, onProgress, onError, onPick, onMessage}: {
+export function QuizScene({catalogue, view, onReady, onShown, onProgress, onError, onPick, onMessage}: {
   catalogue: QuizCatalogue; view: QuizViewState;
-  onReady: (key: string, ready: boolean) => void; onProgress: (loaded: number, total: number) => void;
+  onReady: (key: string, ready: boolean) => void; onShown?: (key: string, shown: boolean) => void; onProgress: (loaded: number, total: number) => void;
   onError: (message: string) => void; onPick: (id: string) => void; onMessage: (message: string) => void;
 }) {
   const host = useRef<HTMLDivElement>(null), viewer = useRef<ReturnType<typeof createQuizViewer> | null>(null);
-  const callbacks = useRef({onReady, onProgress, onError, onPick, onMessage});
-  callbacks.current = {onReady, onProgress, onError, onPick, onMessage};
+  const callbacks = useRef({onReady, onShown, onProgress, onError, onPick, onMessage});
+  callbacks.current = {onReady, onShown, onProgress, onError, onPick, onMessage};
   const latest = useRef(view); latest.current = view;
   useEffect(() => {
     try {
       viewer.current = createQuizViewer(host.current!, catalogue, {
         ready: (key, ready) => callbacks.current.onReady(key, ready),
+        shown: (key, shown) => callbacks.current.onShown?.(key, shown),
         progress: (loaded, total) => callbacks.current.onProgress(loaded, total),
         error: message => callbacks.current.onError(message),
         pick: id => callbacks.current.onPick(id),

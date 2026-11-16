@@ -25,6 +25,11 @@ export const FACTS: [RegExp, BrainFact][] = [
     'Main output pathway of the hippocampus, carrying memory-circuit fibres to the mamillary bodies, septal nuclei and anterior thalamus. Bilateral damage causes anterograde amnesia.',
     ['Hippocampus', 'Mamillary body', 'Septal nuclei', 'Septum pellucidum', 'Anterior nuclei of thalamus'],
     'Posterior choroidal branches of the PCA supply the crus and body; ACA branches and the anterior communicating artery supply the columns.')),
+  T(/^Body of fornix$/, f(
+    'The unpaired middle part of the fornix: the two crura run forward and meet under the corpus callosum, lie in the floor of the lateral ventricles with the septum pellucidum attached along their upper surface, and travel together as the body before they separate again into the two columns.',
+    'Carries the hippocampal outflow of both sides on to the columns of the fornix; it is part of the same memory circuit as the crura and columns, so damage to the fornix on both sides gives anterograde amnesia.',
+    ['Fornix', 'Corpus callosum', 'Septum pellucidum', 'Lateral ventricle', 'Hippocampal commissure'],
+    'Posterior choroidal branches of the PCA supply the crus and body of the fornix.')),
   T(/^Stria terminalis$/, f(
     'Slender bundle that runs from the amygdala along the groove between the caudate nucleus and thalamus, arching in the floor of the lateral ventricle to reach the hypothalamus and septal area.',
     'Main efferent pathway of the corticomedial amygdala, carrying emotional and autonomic influences to the medial hypothalamus and septal nuclei.',

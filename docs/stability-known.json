@@ -206,10 +206,20 @@
    "measure": 1,
    "reason": "section plane of the eye detail mode: a cut view on purpose, switched on by its own button (user decision 2026-11-13)"
   },
+  "cuts|runtime:mj-ear-viewer.ts": {
+   "name": "renderer clipping plane in mj-ear-viewer.ts",
+   "measure": 1,
+   "reason": "section plane of the ear detail mode only (none, sagittal, coronal, horizontal; same cut feature as the brain detail mode; the main atlas is not affected): a cut view on purpose, the inside of a cut structure is drawn as a flat tint by the viewer; approved by the user 2026-11-16"
+  },
   "cuts|runtime:organ/brain-viewer.ts": {
    "name": "renderer clipping plane in organ/brain-viewer.ts",
    "measure": 1,
    "reason": "section plane of the brain or heart detail mode: a cut view on purpose, the cut face is drawn by the viewer"
+  },
+  "cuts|runtime:organ/eye-viewer.ts": {
+   "name": "renderer clipping plane in organ/eye-viewer.ts",
+   "measure": 1,
+   "reason": "section plane of the eye detail mode only (none, sagittal, coronal, horizontal; same cut feature as the brain detail mode; the main atlas is not affected): a cut view on purpose; approved by the user 2026-11-16"
   },
   "cuts|runtime:organ/heart-viewer.ts": {
    "name": "renderer clipping plane in organ/heart-viewer.ts",
