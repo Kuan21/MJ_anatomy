@@ -106,7 +106,7 @@
 - **靜脈**（1）：suprascapular vein
 - **神經**（16）：C1 spinal nerve；C2 spinal nerve；C3 spinal nerve；C4 spinal nerve；C5 spinal nerve；C6 spinal nerve；C7 spinal nerve；C8 spinal nerve；dorsal ramus of C1 spinal nerve；dorsal ramus of C2 spinal nerve；dorsal ramus of C3 spinal nerve；dorsal ramus of C4 spinal nerve；dorsal ramus of C5 spinal nerve；dorsal ramus of C6 spinal nerve；dorsal ramus of C7 spinal nerve；dorsal ramus of C8 spinal nerve
 
-## 胸壁（61 個名稱）
+## 胸壁（60 個名稱）
 
 ### 淺層
 
@@ -116,7 +116,7 @@
 
 - **肌肉**（3）：pectoralis minor；serratus anterior；serratus posterior superior
 - **動脈**（14）：anterior intercostal arteries〔預設〕；costocervical trunk〔預設〕；first posterior intercostal artery〔預設〕；internal thoracic artery〔預設〕；lateral mammary artery〔預設〕；lateral thoracic artery〔預設〕；medial mammary branch of internal thoracic artery〔預設〕；musculophrenic artery〔預設〕；Posterior intercostal arteries〔預設〕；second posterior intercostal artery〔預設〕；superior epigastric artery〔預設〕；superior intercostal artery〔預設〕；superior thoracic artery〔預設〕；supreme intercostal artery〔預設〕
-- **靜脈**（8）：internal thoracic vein〔預設〕；lateral thoracic vein〔預設〕；musculophrenic vein〔預設〕；posterior intercostal veins〔預設〕；Set of anterior intercostal veins〔預設〕；superior epigastric vein〔預設〕；superior intercostal vein〔預設〕；thoracoepigastric vein〔預設〕
+- **靜脈**（7）：internal thoracic vein〔預設〕；lateral thoracic vein〔預設〕；musculophrenic vein〔預設〕；posterior intercostal veins〔預設〕；Set of anterior intercostal veins〔預設〕；superior intercostal vein〔預設〕；thoracoepigastric vein〔預設〕
 - **神經**（1）：intercostobrachial nerve〔預設〕
 
 ### 深層
