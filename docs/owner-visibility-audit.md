@@ -32,10 +32,10 @@
 
 ## 胸腔 → 胸壁
 
-開啟的系統：skeletal、muscular、arterial、venous、nervous、connective、tendon、reproductive；區域內血管與神經 62 個網格。
+開啟的系統：skeletal、muscular、arterial、venous、nervous、connective、tendon、reproductive；區域內血管與神經 60 個網格。
 
 - 關閉生殖：隨之消失的血管與神經 0 個網格（沒有；此區域沒有歸屬於它的血管或神經）
-- 全部器官關閉：仍顯示 62 個網格（經過、沿著的構造）：Posterior intercostal arteries ×3；Set of anterior intercostal veins ×2；anterior intercostal arteries ×2；costocervical trunk ×2；dorsal ramus of thoracic spinal nerve ×2；first posterior intercostal artery ×3；intercostobrachial nerve ×2；internal thoracic artery ×4；internal thoracic vein ×2；lateral mammary artery ×2；lateral thoracic artery ×4；lateral thoracic vein ×4；medial mammary branch of internal thoracic artery ×2；musculophrenic artery ×2；musculophrenic vein ×2；posterior cutaneous branch of dorsal ramus of thoracic spinal nerve ×2；posterior intercostal veins ×2；second posterior intercostal artery ×2；superior epigastric artery ×4；superior epigastric vein ×2；superior intercostal artery ×2；superior intercostal vein ×4；superior thoracic artery ×2；supreme intercostal artery ×2；thoracoepigastric vein ×2
+- 全部器官關閉：仍顯示 60 個網格（經過、沿著的構造）：Posterior intercostal arteries ×3；Set of anterior intercostal veins ×2；anterior intercostal arteries ×2；costocervical trunk ×2；dorsal ramus of thoracic spinal nerve ×2；first posterior intercostal artery ×3；intercostobrachial nerve ×2；internal thoracic artery ×4；internal thoracic vein ×2；lateral mammary artery ×2；lateral thoracic artery ×4；lateral thoracic vein ×4；medial mammary branch of internal thoracic artery ×2；musculophrenic artery ×2；musculophrenic vein ×2；posterior cutaneous branch of dorsal ramus of thoracic spinal nerve ×2；posterior intercostal veins ×2；second posterior intercostal artery ×2；superior epigastric artery ×4；superior intercostal artery ×2；superior intercostal vein ×4；superior thoracic artery ×2；supreme intercostal artery ×2；thoracoepigastric vein ×2
 - 肌肉關閉：肌腱、腱鞘與掌腱膜（跟著肌肉的）0 個網格；其餘結締組織中肌腱樣、筋膜樣、韌帶樣構造 13 個網格：Intervertebral disk of eighth thoracic vertebra；Intervertebral disk of eleventh thoracic vertebra；Intervertebral disk of fifth thoracic vertebra；Intervertebral disk of first thoracic vertebra；Intervertebral disk of fourth thoracic vertebra；Intervertebral disk of ninth thoracic vertebra；Intervertebral disk of second thoracic vertebra；Intervertebral disk of seventh thoracic vertebra；Intervertebral disk of sixth thoracic vertebra；Intervertebral disk of tenth thoracic vertebra；Intervertebral disk of third thoracic vertebra；suspensory ligament of breast ×2
 
 ## 胸腔 → 肺與胸膜
@@ -90,7 +90,7 @@
 - 關閉生殖：隨之消失的血管與神經 4 個網格：uterine artery ×2；uterine vein ×2
 - 關閉漿膜：隨之消失的血管與神經 0 個網格（沒有；此區域沒有歸屬於它的血管或神經）
 - 全部器官關閉：仍顯示 0 個網格（經過、沿著的構造）：無
-- 肌肉關閉：肌腱、腱鞘與掌腱膜（跟著肌肉的）0 個網格；其餘結締組織中肌腱樣、筋膜樣、韌帶樣構造 0 個網格
+- 肌肉關閉：肌腱、腱鞘與掌腱膜（跟著肌肉的）0 個網格；其餘結締組織中肌腱樣、筋膜樣、韌帶樣構造 4 個網格：Tendinous arch of levator ani ×3；tendinous arch of levator ani
 
 ## 骨盆與會陰 → 骨盆壁
 
@@ -99,7 +99,7 @@
 - 關閉泌尿：隨之消失的血管與神經 0 個網格（沒有；此區域沒有歸屬於它的血管或神經）
 - 關閉生殖：隨之消失的血管與神經 0 個網格（沒有；此區域沒有歸屬於它的血管或神經）
 - 全部器官關閉：仍顯示 59 個網格（經過、沿著的構造）：Median sacral vein ×2；deep branch of superior gluteal artery ×2；external iliac artery ×3；external iliac vein ×7；iliolumbar vein ×4；inferior gluteal artery ×2；inferior gluteal nerve ×2；inferior gluteal vein ×4；internal iliac artery ×3；internal iliac vein ×10；lateral sacral vein ×4；nerve to obturator internus ×2；obturator vein ×4；superficial branch of superior gluteal artery ×2；superior gluteal artery ×4；superior gluteal vein ×4
-- 肌肉關閉：肌腱、腱鞘與掌腱膜（跟著肌肉的）0 個網格；其餘結締組織中肌腱樣、筋膜樣、韌帶樣構造 6 個網格：Tendinous arch of levator ani ×3；tendinous arch of levator ani；tendinous arch of soleus ×2
+- 肌肉關閉：肌腱、腱鞘與掌腱膜（跟著肌肉的）0 個網格；其餘結締組織中肌腱樣、筋膜樣、韌帶樣構造 4 個網格：Tendinous arch of levator ani ×3；tendinous arch of levator ani
 
 ## 骨盆與會陰 → 會陰
 
