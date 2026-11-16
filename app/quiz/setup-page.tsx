@@ -45,7 +45,7 @@ export default function QuizSetupPage() {
         <div className="quiz-kicker"><Target size={15}/> CHECK YOURSELF</div>
         <h1 tabIndex={-1}>想考哪些範圍？</h1>
         <p>可以同時選多個區域、多個區段與多種構造，題數自訂，題目由選好的範圍隨機抽出、不重複。作答沒有提示，隨時可以提早結束，做過的題目照樣計分。</p>
-        <div className="quiz-how"><span><b>01</b>選範圍與構造種類</span><span><b>02</b>旋轉模型，點出答案</span><span><b>03</b>看結果，答錯的「返去學」</span></div>
+        <div className="quiz-how"><span><b>01</b>選範圍與構造種類</span><span><b>02</b>旋轉模型，點出答案</span><span><b>03</b>看結果，答錯的「回去學習」</span></div>
         <p className="quiz-scope">還沒學過這個區域？先到<a href="#/learn">學習</a>走一遍關卡，再回來檢測。</p>
       </section>
       <section className="quiz-setup-card" aria-label="設定 Quiz">

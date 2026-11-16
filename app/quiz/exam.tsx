@@ -183,7 +183,7 @@ function ExamResult({stations, planned, elapsed, seconds, onAgain, onSetup}: {st
       <div className="run-regions">{[...byRegion.entries()].map(([id, list]) => {
         const bad = list.filter(wrong);
         return <div key={id} className="run-region" data-region={id}><div className="run-region-head"><b>{QUIZ_REGIONS[id].label}</b><span>答對 {list.length - bad.length} / {list.length}</span></div>
-          {bad.length > 0 && <a className="quiz-secondary quiz-link-button" href={learnHashOf(id)}>返去學：{QUIZ_REGIONS[id].label}學習地圖</a>}</div>;
+          {bad.length > 0 && <a className="quiz-secondary quiz-link-button" href={learnHashOf(id)}>回去學習：{QUIZ_REGIONS[id].label}學習地圖</a>}</div>;
       })}</div>
       <div className="quiz-summary-actions"><button data-slot="quiz-button" className="quiz-primary" onClick={onAgain}>再考一次（重新抽題）</button><button data-slot="quiz-button" className="quiz-secondary" onClick={onSetup}>重新設定</button></div>
       <div className="quiz-review-list"><h2>每一站<small>你的答案與正確答案</small></h2>

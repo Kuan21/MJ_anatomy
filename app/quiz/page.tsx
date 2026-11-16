@@ -70,7 +70,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb', block}: {re
   const system = QUIZ_SYSTEMS.find(s => s.id === target?.system);
   const category = target ? QUIZ_CATEGORIES.find(c => c.id === categoryOf(target)) : undefined;
   const categories = settings.categories ?? ALL_CATEGORIES;
-  const contextName = regionId === 'heart' ? '其他心臟構造' : regionId === 'lung' ? '其他肺構造' : regionId === 'brain' ? '其他腦構造' : '骨骼';
+  const contextName = regionId === 'heart' ? '其他心臟構造' : regionId === 'lung' ? '其他肺構造' : regionId === 'brain' ? '其他腦構造' : regionId === 'ear' ? '其他耳構造' : '骨骼';
   const questionKey = `${round}:${index}:${target?.id ?? ''}`;
   const ready = readiness.key === questionKey && readiness.ready && !error;
   const shown = seen.key === questionKey && seen.shown;
@@ -247,7 +247,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb', block}: {re
       {block ? <div className="quiz-summary-actions">
         <button data-slot="quiz-button" className="quiz-primary" onClick={() => block.onBlockDone(blockResult(), false)}>{block.nextLabel ? `下一區：${block.nextLabel}` : '查看總成績'}<ArrowRight size={17}/></button>
         {block.nextLabel && <button data-slot="quiz-button" className="quiz-secondary" onClick={() => block.onBlockDone(blockResult(), true)}>提早結束，查看總成績</button>}
-      </div> :       <div className="quiz-summary-actions">{mistakes.length > 0 && <button data-slot="quiz-button" className="quiz-primary" onClick={() => begin(retryMistakes(session))}><RotateCcw size={17}/>只練錯題（{mistakes.length}）</button>}<button data-slot="quiz-button" className="quiz-secondary" onClick={() => begin(createSession(pool, settings.count))}>再練一回</button><button data-slot="quiz-button" className="quiz-text-button" onClick={() => setPhase('setup')}>重新選擇範圍</button><a className="quiz-text-button quiz-learn-link" href={learnHashOf(regionId)}>返去學：到{region.label}學習地圖</a></div>}
+      </div> :       <div className="quiz-summary-actions">{mistakes.length > 0 && <button data-slot="quiz-button" className="quiz-primary" onClick={() => begin(retryMistakes(session))}><RotateCcw size={17}/>只練錯題（{mistakes.length}）</button>}<button data-slot="quiz-button" className="quiz-secondary" onClick={() => begin(createSession(pool, settings.count))}>再練一回</button><button data-slot="quiz-button" className="quiz-text-button" onClick={() => setPhase('setup')}>重新選擇範圍</button><a className="quiz-text-button quiz-learn-link" href={learnHashOf(regionId)}>回去學習：到{region.label}學習地圖</a></div>}
       {sessionLevel === 3 && session.answers.length > 0 && <p className="quiz-result-split"><span className="is-correct">答對 {session.answers.filter(a => a.result === 'correct').length}</span><span className="is-close">接近 {session.answers.filter(a => a.result === 'close').length}</span><span className="is-wrong">答錯／不知道 {session.answers.filter(a => a.result === 'wrong' || a.result === 'skipped').length}</span></p>}
       {session.answers.length > 0 && <div className="quiz-review-list"><h2>逐題回顧<small>點選任一題回到該題的構造</small></h2>{session.answers.map((a, i) => {
         const item = structures.get(a.targetId)!;
