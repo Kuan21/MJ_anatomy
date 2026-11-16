@@ -2,7 +2,7 @@
 // CC BY-SA 2.1 Japan) and committed; this step only checks that the committed file is the one the build expects. Nothing is downloaded.
 import {readFile,writeFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
-const expected='9ad9285edf50755ba284a954ce98b2b94ceda412';
+const expected='fa9114478cca4529b5c9160e26a8c5025e008fc6';
 const target=new URL('../public/models/joints.glb',import.meta.url);
 const hash=b=>createHash('sha1').update(`blob ${b.length}\0`).update(b).digest('hex');
 let b;try{b=await readFile(target);}catch{}
