@@ -33,9 +33,16 @@ export function buildAll() {
     for (const g of s.geometry ?? []) pieces.push(g);
     if (!pieces.length) throw new Error(`paokao: ${s.name} has no geometry`);
     const geometry = merge(pieces);
+    // the two ends of every vessel tube (position, outward direction, radius, length of the path): scripts/lib/paokao-vessel-tips.mjs rounds the free ones
+    const vesselEnds = [];
+    if ((s.system === 'arterial' || s.system === 'venous') && !s.connector) for (const t of s.tubes ?? []) {
+      const P = t.pts, n = P.length, d = (a, b) => { const v = [a[0] - b[0], a[1] - b[1], a[2] - b[2]], l = Math.hypot(...v) || 1; return v.map(x => x / l); };
+      let len = 0; for (let i = 1; i < n; i++) len += Math.hypot(P[i][0] - P[i - 1][0], P[i][1] - P[i - 1][1], P[i][2] - P[i - 1][2]);
+      vesselEnds.push({center: P[0], dir: d(P[0], P[1]), radius: t.r[0], pathLength: len}, {center: P[n - 1], dir: d(P[n - 1], P[n - 2]), radius: t.r[1] ?? t.r[0], pathLength: len});
+    }
     // nerve tubes that cross a leg or foot bone (the straight branches on the dorsum of the foot) are moved out through the bone surface, like the nerves of the nerve stream
     if (s.system === 'nervous' && s.kind === 'nerve' && geometry.indices.length) clearBones(geometry.positions, geometry.indices);
-    (lateSpecs.includes(s) ? late : built).push({...s, geometry});
+    (lateSpecs.includes(s) ? late : built).push({...s, geometry, ...(vesselEnds.length ? {vesselEnds} : {})});
     // further parts of the same structure (a tendon cut from several muscle meshes): same name, card and concept, their own geometry and motion binding
     for (const sib of s.siblings ?? []) late.push({...s, siblings: undefined, bellies: undefined, geometry: merge(sib.geometry), binding: sib.binding, kind: sib.kind ?? s.kind, sibling: true});
   }

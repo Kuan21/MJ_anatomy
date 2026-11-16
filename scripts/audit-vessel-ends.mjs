@@ -87,15 +87,15 @@ export function tubeTips(g, minBranch = .006) {
   const farthest = dist => {let best = -1, bd = -1; for (let i = 0; i < dist.length; i++) if (Number.isFinite(dist[i]) && dist[i] > bd) {bd = dist[i]; best = i;} return {best, bd};};
   let {dist: d0} = dijkstra([0]); const a = farthest(d0).best;
   const {dist: da, prev: pa} = dijkstra([a]); const b = farthest(da).best;
-  const tips = [a, b], skeleton = new Set(), walk = (from, prev) => {for (let v = from; v >= 0 && !skeleton.has(v); v = prev[v]) skeleton.add(v);};
+  const tips = [a, b], lengths = [Infinity, Infinity], skeleton = new Set(), walk = (from, prev) => {for (let v = from; v >= 0 && !skeleton.has(v); v = prev[v]) skeleton.add(v);};
   walk(b, pa); skeleton.add(a);
   for (let guard = 0; guard < 40; guard++) {
     const {dist, prev} = dijkstra([...skeleton]), f = farthest(dist);
     if (f.bd < minBranch) break;
-    tips.push(f.best); walk(f.best, prev);
+    tips.push(f.best); lengths.push(f.bd); walk(f.best, prev);
   }
-  // radius at a tip: distance from the tip to the vertices at 2 mm along the way towards the skeleton
-  return {pts, tips, skeleton, adj};
+  // lengths[i]: distance (m) along the surface from tips[i] to the skeleton found before it (Infinity for the two ends of the main axis)
+  return {pts, tips, lengths, skeleton, adj};
 }
 
 export function auditEnds() {
@@ -111,13 +111,13 @@ export function auditEnds() {
   }
   const rows = [];
   for (const p of vessels) {
-    const g = geom(p), {pts, tips} = tubeTips(g);
-    for (const tip of tips) {
+    const g = geom(p), {pts, tips, lengths} = tubeTips(g);
+    for (const [k, tip] of tips.entries()) {
       const at = pts[tip], inTissue = tissue.nearest(at, .004, p.id);
       const near = vesselGrid.nearest(at, .03, p.id);
       const same = bySystem[p.system].nearest(at, .03, p.id);
       const kind = same.d < .0025 ? 'joined' : inTissue.d < .004 ? 'tissue' : 'dangling';
-      rows.push({id: p.id, name: p.name, system: p.system, kind, at: at.map(v => +v.toFixed(4)), toVessel: +(near.d * 1000).toFixed(1), nearestVessel: near.tag, toSameMm: +(same.d * 1000).toFixed(1), nearestSame: same.tag, closest: same.q && same.q.map(v => +v.toFixed(5)), toTissueMm: +(inTissue.d * 1000).toFixed(1)});
+      rows.push({id: p.id, name: p.name, system: p.system, kind, branchMm: Number.isFinite(lengths[k]) ? +(lengths[k] * 1000).toFixed(1) : null, at: at.map(v => +v.toFixed(4)), toVessel: +(near.d * 1000).toFixed(1), nearestVessel: near.tag, toSameMm: +(same.d * 1000).toFixed(1), nearestSame: same.tag, closest: same.q && same.q.map(v => +v.toFixed(5)), toTissueMm: +(inTissue.d * 1000).toFixed(1)});
     }
   }
   return rows;
