@@ -1,5 +1,6 @@
 import * as T from 'three';
 import {smoothCarotids,junctionPairs,stitchNormals} from './carotid-bifurcation';
+import {alignJugulars} from './jugular-align';
 import type {Atlas,SceneState,SystemId,Part} from '../anatomy';
 import {makeBodyRig,buildBodyMotion,bindBodyTissue} from './body-motion';
 import {deformTissue,type SkinBinding} from './soft-tissue';
@@ -13,7 +14,7 @@ export function createNeckVessels(atlas:Atlas,scene:T.Scene){
  const stitches:{a:T.BufferGeometry;b:T.BufferGeometry;pairs:[number,number][]}[]=[];
  const stitch=()=>{for(const t of stitches){const na=t.a.getAttribute('normal') as T.BufferAttribute,nb=t.b.getAttribute('normal') as T.BufferAttribute;stitchNormals(na,nb,t.pairs);na.needsUpdate=true;nb.needsUpdate=true;}};
  function add(data:NeckVesselData){
-  if(!data.joined){smoothCarotids(data.vessels);data.joined=true;}
+  if(!data.joined){smoothCarotids(data.vessels);alignJugulars(data.vessels);data.joined=true;}
   for(const v of data.vessels){
    const parent=atlas.parts.find(p=>p.id===v.parentId);if(!parent)throw new Error('Missing cervical vessel identity '+v.parentId);
    const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(v.positions,3));g.setIndex(v.indices);g.computeVertexNormals();

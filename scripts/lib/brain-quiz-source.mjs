@@ -17,16 +17,25 @@ export async function loadBrainRows() {
   const {describeBrainNode, displayEn} = await quizModule('app/organ/brain-catalogue.ts');
   const {nearMask, keepNear} = await quizModule('app/organ/brain-smooth.ts');
   const {fourthVentricleGeometry} = await quizModule('app/organ/brain-reshape.ts');
+  const {FORNIX_BODY, midlineKind, mirrorX, splitFornixBody} = await quizModule('app/organ/brain-midline.ts');
   const {PERIPHERAL_NERVE} = await quizModule('app/quiz/brain.ts');
   const factory = createRequire(import.meta.url)(new URL('.sites-runtime/nerve-draco.cjs', root).pathname);
   const draco = await factory({wasmBinary: fs.readFileSync(new URL('public/draco/draco_decoder.wasm', root))});
   const b = fs.readFileSync(new URL('public/models/brain.glb', root)), n = b.readUInt32LE(12), j = JSON.parse(b.subarray(20, 20 + n)), bin = b.subarray(28 + n);
-  const rows = [], dropped = [];
+  const rows = [], dropped = [], midline = new Map();
+  const addRow = (raw, pieces) => {
+    const part = describeBrainNode(raw, rows.length + dropped.length);
+    if (!part) {dropped.push({raw, reason: 'not-brain'}); return;}
+    if (!pieces.length) {dropped.push({raw, part, reason: 'no-drawable-mesh'}); return;}
+    let geometry = mergeVertices(mergeGeometries(pieces, false), 1e-6);
+    if (/^fourth ventricle$/i.test(part.en)) geometry = fourthVentricleGeometry(geometry);
+    rows.push({raw, part, name: displayEn(part), geometry});
+  };
   for (const node of j.nodes) {
     const x = node.extras ?? {};
     if (!x.bx_cat) continue;
     const raw = {name: node.name, cat: String(x.bx_cat), region: String(x.bx_region ?? ''), label: String(x.bx_label ?? ''), side: String(x.bx_side ?? '')};
-    const pieces = [];
+    let pieces = [];
     for (const p of node.mesh === undefined ? [] : j.meshes[node.mesh].primitives) {
       const ext = p.extensions.KHR_draco_mesh_compression, v = j.bufferViews[ext.bufferView], buf = new draco.DecoderBuffer(), d = new draco.Decoder(), m = new draco.Mesh();
       const bytes = bin.subarray(v.byteOffset ?? 0, (v.byteOffset ?? 0) + v.byteLength);
@@ -44,13 +53,19 @@ export async function loadBrainRows() {
       pieces.push(ng);
       for (const o of [values, faces, m, d, buf]) draco.destroy(o);
     }
-    const part = describeBrainNode(raw, rows.length + dropped.length);
-    if (!part) {dropped.push({raw, reason: 'not-brain'}); continue;}
-    if (!pieces.length) {dropped.push({raw, part, reason: 'no-drawable-mesh'}); continue;}
-    let geometry = mergeVertices(mergeGeometries(pieces, false), 1e-6);
-    if (/^fourth ventricle$/i.test(part.en)) geometry = fourthVentricleGeometry(geometry);
-    rows.push({raw, part, name: displayEn(part), geometry});
+    // midline structures stored as two halves (or one half): collected and added once without a side (app/organ/brain-midline.ts)
+    const kind = midlineKind(raw.label), hold = (label, from) => {
+      const entry = midline.get(label) ?? midline.set(label, {raw: {...raw, name: label, label, side: 'median'}, pieces: []}).get(label);
+      entry.pieces.push(...from);
+    };
+    if (kind && pieces.length) {
+      if (kind === 'join') {hold(raw.label, pieces); continue;}
+      if (kind === 'mirror') {hold(raw.label, [...pieces, ...mirrorX(pieces)]); continue;}
+      const cut = splitFornixBody(pieces); hold(FORNIX_BODY, cut.body); pieces = cut.rest;
+    }
+    addRow(raw, pieces);
   }
+  for (const {raw, pieces} of midline.values()) addRow(raw, pieces);
   // cranial nerves: only the stretch near the brain is drawn (the rest is peripheral), as in the viewer
   const clouds = [];
   for (const r of rows) {
