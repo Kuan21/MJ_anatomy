@@ -12,7 +12,7 @@ const VIEWS=[['front',[0,1.43,0.0],[0,0.28,1],0.2],['left-side',[0.045,1.428,-0.
  const b=await chromium.launch({args:['--use-gl=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
  const ctx=await b.newContext({viewport:SIZE,deviceScaleFactor:1,colorScheme:'light'});const p=await ctx.newPage();p.setDefaultTimeout(240000);
  p.on('pageerror',e=>console.log('PAGEERR',e.message.slice(0,200)));
- await p.goto(`http://127.0.0.1:${port}/?mjview=1`);
+ await p.goto(`http://127.0.0.1:${port}/MJ_anatomy/?mjview=1`);
  {const t0=Date.now();await p.waitForFunction(()=>document.querySelector('[data-testid=load-bar]')?.getAttribute('aria-valuenow')==='100',null,{timeout:3600000,polling:2000});console.log('loaded',Math.round((Date.now()-t0)/1000)+'s');}
  await p.waitForFunction(()=>window.__mjView&&window.__mjView.neckRows().length>0,null,{timeout:600000,polling:2000});console.log('neckRows',await p.evaluate(()=>window.__mjView.neckRows().length));
  await sleep(8000);
