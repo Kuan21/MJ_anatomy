@@ -9,6 +9,9 @@ import {smoothTube} from './lib/mesh-smooth.mjs';
 import {LARYNX_REPAIR,repairSheet,repairPasses} from './lib/larynx-repair.mjs';
 import {quizModule} from './quiz-modules.mjs';
 import {planCuts} from './lib/tendon-set.mjs';
+import {planTips} from './lib/vessel-tip-plan.mjs';
+import {shapeVesselTips,refreshNormals,boundsOf} from './lib/vessel-tip-shape.mjs';
+import {tipKey} from './lib/vessel-tip-plan.mjs';
 const {anatomicalRegion}=await quizModule('app/mj-part-regions.ts');
 const {encodeOctNormals,quantisePositions}=await quizModule('app/stream-geometry.ts');
 let exactParts=0;
@@ -23,7 +26,7 @@ for(const f of fs.readdirSync(new URL('../app/biomechanics-v2/',import.meta.url)
 // they are the vessels in front of the camera when the abdominal wall is looked at. The aorta and the venae cavae stay as they are (the triangle limit).
 const WALL_VESSELS=/epigastric|circumflex iliac|musculophrenic|intercostal|lumbar (?:artery|vein)|thoracoepigastric|subcostal/i;
 const SMOOTH_MAX_TRIANGLES=3000,smoothed=part=>(part.system==='arterial'||part.system==='venous')&&part.indexCount/3<=SMOOTH_MAX_TRIANGLES&&(['upper-limb','lower-limb'].includes(anatomicalRegion(part))||WALL_VESSELS.test(part.name))&&!hashBound.has(part.id)&&!hashBound.has(part.name);
-let repairedLarynx=0,smoothedParts=0,triangles=0;const skippedParts=[];
+const unshaped=[],roundedTips=[];let repairedLarynx=0,smoothedParts=0,triangles=0,shapedTapers=0,shapedFlares=0;const skippedParts=[];
 const dir=new URL('../public/models/',import.meta.url),out=new URL('stream/',dir);
 fs.mkdirSync(out,{recursive:true});
 const atlas=JSON.parse(fs.readFileSync(new URL('atlas.json',dir)));
@@ -32,6 +35,10 @@ const originals=atlas.chunks.map(c=>fs.readFileSync(new URL('../'+c.url.replace(
 // The muscle part keeps its original bounds (the motion binding fits the whole muscle, see app/biomechanics-v2/tendon-bindings.json).
 const {finals:bellies}=planCuts(atlas.parts,part=>{const b=originals[part.chunk];return{positions:new Float32Array(b.buffer.slice(b.byteOffset+part.positions,b.byteOffset+part.positions+part.vertexCount*12)),indices:new Uint32Array(b.buffer.slice(b.byteOffset+part.indices,b.byteOffset+part.indices+part.indexCount*4))};});
 let cutMuscles=0,reshapedMuscles=0;
+// Small vessels end in a rounded, gradually narrowing tip and widen where a small branch leaves a larger vessel (scripts/lib/vessel-tip-shape.mjs): vertex positions of the vessel's own mesh only.
+const tipPlan=process.env.MJ_NO_TIP_SHAPE?{tapers:[],flares:[],buried:[],keep:new Set()}:await planTips(),tapersBy=new Map(),flaresBy=new Map();
+for(const t of tipPlan.tapers)(tapersBy.get(t.id)??tapersBy.set(t.id,[]).get(t.id)).push(t);
+for(const t of tipPlan.flares)(flaresBy.get(t.id)??flaresBy.set(t.id,[]).get(t.id)).push(t);
 const chunks=[];let slices=[],bytes=0;
 const append=data=>{const padding=(4-bytes%4)%4;if(padding){slices.push(Buffer.alloc(padding));bytes+=padding;}const start=bytes;slices.push(data);bytes+=data.length;return start;};
 const flush=()=>{
@@ -58,6 +65,15 @@ for(const part of atlas.parts){
   if(drift<.0015){positions=Buffer.from(m.positions.buffer);normals=Buffer.from(m.normals.buffer);indices=Buffer.from(m.indices.buffer);part.vertexCount=m.positions.length/3;part.indexCount=m.indices.length;part.smoothed=true;smoothedParts++;}
   else skippedParts.push(part.name);
  }
+ if((tapersBy.has(part.id)||flaresBy.has(part.id))&&(part.system==='arterial'||part.system==='venous')&&!hashBound.has(part.id)&&!hashBound.has(part.name)){
+  const f32=new Float32Array(positions.buffer.slice(positions.byteOffset,positions.byteOffset+positions.length)),u32=new Uint32Array(indices.buffer.slice(indices.byteOffset,indices.byteOffset+indices.length));
+  const moved=shapeVesselTips(f32,tapersBy.get(part.id),flaresBy.get(part.id),u32);
+  if(!moved.size)for(const t of tapersBy.get(part.id)??[])unshaped.push(tipKey(t.row));
+  if(moved.size){
+   const n16=new Int16Array(normals.buffer.slice(normals.byteOffset,normals.byteOffset+normals.length));refreshNormals(f32,u32,moved,n16);
+   positions=Buffer.from(f32.buffer);normals=Buffer.from(n16.buffer);part.bounds=boundsOf(f32);part.tipsShaped=true;shapedTapers+=moved.applied.tapers;for(const t of moved.applied.done)roundedTips.push([t.id,t.row.at]);for(const t of moved.applied.missed)unshaped.push(tipKey(t.row));shapedFlares+=moved.applied.flares;
+  }
+ }
  triangles+=part.indexCount/3;
  // Bug Audit P2-01, compact encoding (decoded by app/stream-geometry.ts and scripts/lib/stream-geometry.mjs):
  // indices as Uint16 (every part has at most 65 535 vertices), normals as octahedral Int16 pairs, positions quantised to Uint16 on the part's box
@@ -68,11 +84,16 @@ for(const part of atlas.parts){
  if(bytes&&bytes+positions.length+normals.length+indices.length>750000)flush();
  part.chunk=chunks.length;part.positions=append(positions);part.normals=append(normals);part.indices=append(indices);
 }
-flush();atlas.chunks=chunks;atlas.triangles=triangles;atlas.smoothedVessels=smoothedParts;
+flush();atlas.chunks=chunks;atlas.triangles=triangles;atlas.smoothedVessels=smoothedParts;atlas.shapedVesselTips={tapers:shapedTapers,flares:shapedFlares,plannedTapers:tipPlan.tapers.length,plannedFlares:tipPlan.flares.length,notEnds:tipPlan.buried.length,unshaped};
 const manifest=Buffer.from(JSON.stringify(atlas));
 fs.writeFileSync(new URL('atlas-stream.json',dir),manifest);fs.writeFileSync(new URL('atlas-stream.json.gz',dir),gzipSync(manifest,{level:9}));
 if(skippedParts.length)console.log(`Left unsmoothed (surface would move more than 1.5 mm): ${skippedParts.join(', ')}`);
 console.log(`${cutMuscles} muscle parts end at their musculotendinous junction (tendon parts are added by prepare-paokao); ${reshapedMuscles} muscle parts have a repaired shape (scripts/lib/muscle-reshape.mjs).`);
 console.log(`${repairedLarynx} laryngeal sheets repaired (scripts/lib/larynx-repair.mjs).`);
 console.log(`${exactParts} parts keep exact Float32 positions (motion data fitted to the source mesh).`);
+{ // ends that are rounded in their own mesh, and candidates that are no end at all: the adjacent-segment analysis (scripts/lib/vessel-segments.mjs) leaves them out like the tapered cones it used to skip
+ const grouped={};for(const [id,at] of [...roundedTips,...tipPlan.buried.map(b=>[b.id,b.row.at])])(grouped[id]??=[]).push(at.map(v=>+v.toFixed(5)));
+ fs.mkdirSync(new URL('../work/',import.meta.url),{recursive:true});fs.writeFileSync(new URL('../work/vessel-tip-plan.json',import.meta.url),JSON.stringify(grouped));
+}
+console.log(`Vessel tips shaped in their own meshes: ${shapedTapers}/${tipPlan.tapers.length} tapers, ${shapedFlares}/${tipPlan.flares.length} junction flares (applied/planned); ${tipPlan.buried.length} candidate ends are not ends (the vessel carries on past them: no cone, no taper); ${unshaped.length} taper(s) found no wall to narrow and keep the old end.`);
 console.log(`Prepared ${chunks.length} immutable packages; ${atlas.parts.length} tissues (${smoothedParts} limb vessels smoothed, ${triangles} triangles), ${(chunks.reduce((sum,c)=>sum+c.gzipBytes,0)/1e6).toFixed(1)} MB compressed.`);
