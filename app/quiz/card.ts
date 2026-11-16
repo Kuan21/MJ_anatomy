@@ -91,7 +91,8 @@ export function structureCard(structure: Pick<QuizStructure, 'name' | 'chinese' 
   const lungCard = system === 'respiratory' ? paokaoCardByName(structure.name) : undefined;
   if (lungCard?.lung) return {english: structure.name, chinese: structure.chinese ?? lungCard.zh, system, fields: (lungCard.extra ?? []).map(f => ({label: f.labelZh, zh: f.zh, en: f.en})), missing: []};
   // Head-and-neck organ structures and ligaments carry their own checked fields (location, composition and relations; attachments and action); when an entry has none of the generic 說明, those fields are shown in the order written.
-  const labels = system === 'headorgan' && extra && !extra['說明'] ? Object.keys(extra) : FIELDS[system];
+  // A skeletal entry that documents its position (bones of the head and neck) shows that field first.
+  const labels = system === 'headorgan' && extra && !extra['說明'] ? Object.keys(extra) : system === 'skeletal' && extra?.['位置'] ? ['位置', ...FIELDS[system]] : FIELDS[system];
   for (const label of labels) {
     const fromExtra = extra?.[label] ?? (system === 'respiratory' ? lungMark(structure.name, label) : undefined);
     const fact = FROM_PROFILE[system][label]?.map(l => profile.facts.find(f => f.labelZh === l)).find(Boolean);
