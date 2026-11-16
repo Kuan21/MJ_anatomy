@@ -31,7 +31,7 @@ const VIEWS=[['front',[0,1.43,0.0],[0,0.28,1],0.2],['left-side',[0.045,1.428,-0.
   const name=tpl.includes('#')?tpl.replace('#',side.toLowerCase()):`${side} ${tpl}`;
   try{ if(!await search(name)){console.log('no result',name);continue;}
    const title=(await p.locator('.detail-sheet .structure-title').first().innerText().catch(()=>'')).replace(/\s+/g,' ');
-   const hide=p.locator('.detail-sheet button',{hasText:/^Hide$/}).first();
+   const hide=p.locator('.detail-sheet .hide-structure-action').first();
    if(await hide.count()){await hide.click();hidden++;await sleep(800);console.log('hid',name,'|',title.slice(0,50));}else console.log('no hide button',name,title.slice(0,40));
   }catch(e){console.log('hide failed',name,e.message.slice(0,80));}
  }
@@ -41,5 +41,7 @@ const VIEWS=[['front',[0,1.43,0.0],[0,0.28,1],0.2],['left-side',[0.045,1.428,-0.
  const shot=async n=>{await sleep(3000);await p.screenshot({path:`${out}/${tag}-${vp}-${n}.png`,timeout:240000});console.log('shot',n);};
  const views=vp==='mobile'?[VIEWS[0]]:VIEWS;
  for(const [n,t,d,r] of views){await p.evaluate(([t,d,r])=>window.__mjView.look(t,d,r),[t,d,r]);await shot(n);}
+ // phone width: the same page, resized (one shot)
+ if(vp==='desktop'){await p.setViewportSize({width:390,height:844});await sleep(6000);await p.evaluate(([t,d,r])=>window.__mjView.look(t,d,r),[VIEWS[0][1],VIEWS[0][2],0.24]);await sleep(4000);await p.screenshot({path:`${out}/${tag}-mobile-front.png`,timeout:240000});console.log('shot mobile-front');}
  await b.close();console.log('done');
 })().catch(e=>{console.log('FAIL',e.message.slice(0,500));process.exit(1);});
