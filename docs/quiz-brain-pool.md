@@ -2,7 +2,7 @@
 
 此檔由 `node scripts/report-quiz-brain.mjs` 產生，請勿手改（排除與分組由 `scripts/prepare-quiz.mjs` 依 `app/quiz/brain.ts` 的規則決定；說明見 `docs/quiz-brain.md`）。來源是主站腦部畫面使用的同一個腦模型（`public/models/brain.glb`），測驗只用模型真正有的網格。
 
-可出題：416 個構造（左右分開計），去掉左右後 225 個名稱。不出題：47 項（逐項列在下方，原因見各小節）。
+可出題：414 個構造（左右分開計），去掉左右後 226 個名稱。不出題：45 項（逐項列在下方，原因見各小節）。
 
 ## 各區段 × 類別（格內為「構造數 / 去掉左右後的名稱數」）
 
@@ -14,20 +14,20 @@
 | 枕葉 | — | — | — | 22 / 11 | 22 / 11 |
 | 邊緣葉、腦島與葉間溝 | — | — | — | 24 / 12 | 24 / 12 |
 | 基底核與深部灰質 | — | — | — | 19 / 10 | 19 / 10 |
-| 間腦（視丘與下視丘） | — | — | — | 43 / 24 | 43 / 24 |
+| 間腦（視丘與下視丘） | — | — | — | 42 / 24 | 42 / 24 |
 | 腦室與脈絡叢 | — | — | — | 7 / 5 | 7 / 5 |
-| 白質纖維束與連合 | — | — | — | 63 / 34 | 63 / 34 |
-| 腦幹 | — | — | — | 34 / 18 | 34 / 18 |
+| 白質纖維束與連合 | — | — | — | 64 / 35 | 64 / 35 |
+| 腦幹 | — | — | — | 32 / 18 | 32 / 18 |
 | 小腦 | — | — | — | 31 / 20 | 31 / 20 |
 | 腦神經根 | 30 / 15 | — | — | — | 30 / 15 |
 | 腦血管 | — | 44 / 23 | 17 / 12 | — | 61 / 35 |
-| 全部腦 | 30 / 15 | 44 / 23 | 17 / 12 | 325 / 175 | 416 / 225 |
+| 全部腦 | 30 / 15 | 44 / 23 | 17 / 12 | 323 / 176 | 414 / 226 |
 
 分類規則：腦神經根 → 神經；腦動脈 → 動脈；靜脈竇與靜脈 → 靜脈；皮質、核團、腦室、白質纖維束、腦幹、小腦、間腦 → 器官結構（沿用現有類別，不新增類別）。
 
 ## 資料卡
 
-有資料卡：281 / 416 個構造；其中 81 個名稱對應的是較廣概念的資料卡（例如視丘的卡片對應視丘的各個核），卡片第一行會標明「所屬資料卡」。沒有資料卡的構造在答題後的資料卡顯示「尚無資料」，並列在 `docs/quiz-card-gaps.md`。資料卡內容全部來自 `public/models/brain/neuro-cards.json`，沒有新增文字。
+有資料卡：278 / 414 個構造；其中 81 個名稱對應的是較廣概念的資料卡（例如視丘的卡片對應視丘的各個核），卡片第一行會標明「所屬資料卡」。沒有資料卡的構造在答題後的資料卡顯示「尚無資料」，並列在 `docs/quiz-card-gaps.md`。資料卡內容全部來自 `public/models/brain/neuro-cards.json`，沒有新增文字。
 
 ## 只開放部分級別的構造
 
@@ -68,16 +68,14 @@
 - Right Ventral posteromedial nucleus (VPM)（右視丘腹後內側核） [diencephalon, right]
 - Right Ventromedial nucleus of hypothalamus（右下視丘腹內側核） [diencephalon, right]
 
-### 腦膜（硬腦膜反摺）：包覆整個腦，會遮住其他題目，主站腦部畫面預設也關閉（3）
+### 腦膜（硬腦膜反摺）：包覆整個腦，會遮住其他題目，主站腦部畫面預設也關閉（2）
 
 - Falx cerebri（大腦鐮） [meninges]
-- Left Tentorium cerebelli（左小腦幕） [meninges, left]
-- Right Tentorium cerebelli（右小腦幕） [meninges, right]
+- Tentorium cerebelli（小腦幕） [meninges]
 
-### 屬於脊髓或脊椎的構造（脊髓、脊髓動脈、椎動脈）：主站腦部畫面同樣不畫（4）
+### 屬於脊髓或脊椎的構造（脊髓、脊髓動脈、椎動脈）：主站腦部畫面同樣不畫（3）
 
-- Anterior spinal artery [arteries, left]
-- Anterior spinal artery [arteries, right]
+- Anterior spinal artery [arteries, median]
 - Vertebral artery [arteries, left]
 - Vertebral artery [arteries, right]
 
