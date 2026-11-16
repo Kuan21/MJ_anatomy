@@ -20,11 +20,13 @@ import tendonsLowerLimb from '../paokao-structures/tendons-lower-limb.mjs';
 import zanatomyLowerLimb from '../paokao-structures/zanatomy-lower-limb.mjs';
 import ligamentsLowerLimb from '../paokao-structures/ligaments-lower-limb.mjs';
 
+import perinealMuscles from '../paokao-structures/perineal-muscles.mjs';
 import occipitalAponeurosis from '../paokao-structures/occipital-aponeurosis.mjs';
 import {clearBones} from './nerve-bone-clearance.mjs';
 
 export function buildAll() {
   const w = loadWorld(), U = makeUtil(w), specs = [...thorax(U), ...thoraxNerves(U), ...upperLimb(U), ...limbVeins(U), ...lowerLimb(U), ...thoraxExtra(U), ...landmarks(U), ...membranes(U), ...knee(U), ...spacesMuscles(U), ...lungs(U), ...neckBreastVulva(U)], built = [];
+  specs.push(...perinealMuscles(U, specs));   // after the clitoral complex: the muscles lie on it
   const lateSpecs = [...lungs(U, 'late'), ...tendonsUpperLimb(U, w), ...zanatomyUpperLimb(), ...ligamentsUpperLimb(U), ...tendonsLowerLimb(), ...zanatomyLowerLimb(U), ...ligamentsLowerLimb(U), ...occipitalAponeurosis(U, w)], late = [];
   for (const s of [...specs, ...lateSpecs]) {
     const pieces = [];
