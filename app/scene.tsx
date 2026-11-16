@@ -1,5 +1,6 @@
 import {createNeckVessels,type NeckVesselData} from './biomechanics-v2/neck-vessels';
 import {createJointAnatomy} from './biomechanics-v2/joint-anatomy';
+import {shiftSubclavianPart} from './biomechanics-v2/subclavian-shift';
 import {useEffect,useRef} from 'react';
 import * as T from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
@@ -649,7 +650,10 @@ mats.set('connective:fascia-dense',materialFor('connective',.88));{const gm=mate
    if(disposed)return;
    const groups=new Map<string,T.BufferGeometry[]>(),pendingPickers=new Map<number,T.Mesh>();let partOrdinal=0;
    for(const {p,i} of chunkParts[ci]){
-    const g=new T.BufferGeometry();g.setAttribute('position',new T.BufferAttribute(positionArray(buffer,p),3));
+    const g=new T.BufferGeometry(),decoded=positionArray(buffer,p);
+    // HN-23: the subclavian arteries and the branches that arise from them are moved back into the interscalene gap at load (never in the source data); the part's box and centre follow
+    if(shiftSubclavianPart(p.id,decoded)){bounds[i].setFromArray(decoded);bounds[i].getCenter(centers[i]);}
+    g.setAttribute('position',new T.BufferAttribute(decoded,3));
     // GPU normalized signed-short normals keep the complete atlas compact in memory.
     g.setAttribute('normal',new T.BufferAttribute(normalArray(buffer,p),3,true));g.setIndex(new T.BufferAttribute(indexArray(buffer,p),1));
     const position=g.getAttribute('position') as T.BufferAttribute,weights=new Float32Array(p.vertexCount);let variableWeights=false;
