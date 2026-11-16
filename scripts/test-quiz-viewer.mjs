@@ -141,7 +141,7 @@ for (const [name, system] of [['Right gluteus maximus', 'muscular'], ['Right sci
   assert.ok(meshes().filter(m => m.visible && memberIds.has(m.userData.structureId)).every(m => m.material.color.getHexString() === '5db89a' && m.material.opacity === 1 && m.material.depthTest), 'members are green and solid in the answer');
   assert.ok(meshes().filter(m => m.visible && !memberIds.has(m.userData.structureId)).every(m => m.material.opacity < .5), 'the rest is faded in the answer');
   viewer.update({...state, mode: 'name'}); frame();
-  assert.ok(meshes().filter(m => m.visible && memberIds.has(m.userData.structureId)).every(m => m.material.color.getHexString() === 'fbe27a'), 'members are yellow in levels 2 and 3');
+  assert.ok(meshes().filter(m => m.visible && memberIds.has(m.userData.structureId)).every(m => m.material.color.getHexString() === '9b30ff'), 'members are violet in levels 2 and 3');
   assert.ok(meshes().filter(m => m.visible && !memberIds.has(m.userData.structureId)).every(m => m.material.opacity < 1), 'the rest is faded in levels 2 and 3');
 }
 const completedRequests = requests.length;
