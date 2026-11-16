@@ -264,8 +264,8 @@
 - 頭頸：depressor anguli oris → 淺層
 - 頭頸：buccinator → 淺層
 - 頭頸：risorius → 淺層
-- 頭頸：Superficial part of masseter → 淺層
 - 頭頸：Deep part of masseter → 淺層
+- 頭頸：Superficial part of masseter → 淺層
 - 頭頸：temporalis → 淺層
 - 頭頸：medial pterygoid → 淺層
 - 頭頸：Lower head of lateral pterygoid → 淺層
