@@ -162,8 +162,8 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  // Respiratory has two layers: 1 = lobes, trachea, main bronchi and hilum; 2 = the pleura laid over the lungs. Switching Respiratory on shows layer 1; ＋ adds the pleura, － takes it away.
  const PLEURA_KEYS=SEROUS_LAYERS.slice(0,2).map(l=>l.key) as string[];
  const lungLayer=state.visible.includes('serous')&&PLEURA_KEYS.some(k=>!(state.hiddenSerous??[]).includes(k))?2:1;
- // The eye detail atlas is open for review; brain uses its own page and the inner-ear atlas stays hidden until it is finished (see ROADMAP.md).
- const MICRO_ATLAS_ENTRY:Record<MicroAtlasId,boolean>={brain:false,eye:true,ear:false};
+ // The eye (#/organ/eye) and the brain use their own pages on the shared detail template and the inner-ear atlas stays hidden until it is finished (see ROADMAP.md).
+ const MICRO_ATLAS_ENTRY:Record<MicroAtlasId,boolean>={brain:false,eye:false,ear:false};
  useEffect(()=>{if(microAtlas&&!MICRO_ATLAS_ENTRY[microAtlas])setMicroAtlas(null);},[microAtlas]);// eslint-disable-line react-hooks/exhaustive-deps
  // Thorax focus view (肺 button): the respiratory system, the pleura (off until layer 2) and the rib cage drawn see-through, camera on the front of the chest; 返回 restores what was shown before.
  const THORAX_BONE=/^(?:left |right )?(?:\d+(?:st|nd|rd|th) )?rib\b|\brib\b|costal cartilage|sternum|manubrium|xiphoid|thoracic vertebra|^(?:left |right )?clavicle$/i;
@@ -564,7 +564,7 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
     <Button variant="ghost" onClick={()=>{window.location.hash='#/organ/brain';}}>腦</Button>
     <Button variant="ghost" onClick={()=>{window.location.hash='#/organ/heart';}}>心</Button>
     <Button variant="ghost" onClick={enterLungView} aria-pressed={!!lungView}>肺</Button>
-    {MICRO_ATLAS_ENTRY.eye&&<Button variant="ghost" onClick={()=>openMicroAtlas('eye')} aria-pressed={microAtlas==='eye'}>眼</Button>}<Button variant="ghost" onClick={()=>{window.location.hash='#/organ/ear';}}>耳</Button>
+    <Button variant="ghost" onClick={()=>{window.location.hash='#/organ/eye';}}>眼</Button><Button variant="ghost" onClick={()=>{window.location.hash='#/organ/ear';}}>耳</Button>
    </div>
    <div className="panel-foot"><span>可見 {visibleCount.toLocaleString()} 件{((state.hiddenParts?.length??0)+(state.hiddenNerves?.length??0))>0&&<small> · 隱藏 {(state.hiddenParts?.length??0)+(state.hiddenNerves?.length??0)} 件</small>}</span><div className="panel-foot-actions">{((state.hiddenParts?.length??0)+(state.hiddenNerves?.length??0))>0&&<Button variant="ghost" onClick={restoreHidden}><Undo2 size={14}/> 還原隱藏</Button>}<Button variant="ghost" onClick={()=>setState(s=>({...s,visible:[],selected:[],isolate:false}))}>全部隱藏</Button><Button variant="ghost" onClick={reset}><RotateCcw size={14}/> 重設</Button></div></div>{((state.hiddenParts?.length??0)+(state.hiddenNerves?.length??0))>0&&<details className="hidden-structures"><summary>Hidden structures｜已隱藏 <span>{state.hiddenParts?.length}</span></summary><div>{(state.hiddenParts??[]).slice(0,24).map(id=>{const hp=profileForPart(id);return <Button variant="ghost" key={id} onClick={()=>restorePart(id)}><span>{hp?.english??parts.get(id)?.name??id}{hp?.chinese&&<small>{hp.chinese}</small>}</span><Undo2 size={13}/></Button>})}</div></details>}
   </section>

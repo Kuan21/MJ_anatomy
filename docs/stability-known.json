@@ -216,6 +216,11 @@
    "measure": 1,
    "reason": "section plane of the brain or heart detail mode: a cut view on purpose, the cut face is drawn by the viewer"
   },
+  "cuts|runtime:organ/eye-viewer.ts": {
+   "name": "renderer clipping plane in organ/eye-viewer.ts",
+   "measure": 1,
+   "reason": "section plane of the eye detail mode only (none, sagittal, coronal, horizontal; same cut feature as the brain detail mode; the main atlas is not affected): a cut view on purpose; approved by the user 2026-11-16"
+  },
   "cuts|runtime:organ/heart-viewer.ts": {
    "name": "renderer clipping plane in organ/heart-viewer.ts",
    "measure": 3,
