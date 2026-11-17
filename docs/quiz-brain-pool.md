@@ -2,7 +2,7 @@
 
 此檔由 `node scripts/report-quiz-brain.mjs` 產生，請勿手改（排除與分組由 `scripts/prepare-quiz.mjs` 依 `app/quiz/brain.ts` 的規則決定；說明見 `docs/quiz-brain.md`）。來源是主站腦部畫面使用的同一個腦模型（`public/models/brain.glb`），測驗只用模型真正有的網格。
 
-可出題：416 個構造（左右分開計），去掉左右後 225 個名稱。不出題：47 項（逐項列在下方，原因見各小節）。
+可出題：414 個構造（左右分開計），去掉左右後 226 個名稱。不出題：45 項（逐項列在下方，原因見各小節）。
 
 ## 各區段 × 類別（格內為「構造數 / 去掉左右後的名稱數」）
 
@@ -14,20 +14,20 @@
 | 枕葉 | — | — | — | 22 / 11 | 22 / 11 |
 | 邊緣葉、腦島與葉間溝 | — | — | — | 24 / 12 | 24 / 12 |
 | 基底核與深部灰質 | — | — | — | 19 / 10 | 19 / 10 |
-| 間腦（視丘與下視丘） | — | — | — | 43 / 24 | 43 / 24 |
+| 間腦（視丘與下視丘） | — | — | — | 42 / 24 | 42 / 24 |
 | 腦室與脈絡叢 | — | — | — | 7 / 5 | 7 / 5 |
-| 白質纖維束與連合 | — | — | — | 63 / 34 | 63 / 34 |
-| 腦幹 | — | — | — | 34 / 18 | 34 / 18 |
+| 白質纖維束與連合 | — | — | — | 64 / 35 | 64 / 35 |
+| 腦幹 | — | — | — | 32 / 18 | 32 / 18 |
 | 小腦 | — | — | — | 31 / 20 | 31 / 20 |
 | 腦神經根 | 30 / 15 | — | — | — | 30 / 15 |
 | 腦血管 | — | 44 / 23 | 17 / 12 | — | 61 / 35 |
-| 全部腦 | 30 / 15 | 44 / 23 | 17 / 12 | 325 / 175 | 416 / 225 |
+| 全部腦 | 30 / 15 | 44 / 23 | 17 / 12 | 323 / 176 | 414 / 226 |
 
 分類規則：腦神經根 → 神經；腦動脈 → 動脈；靜脈竇與靜脈 → 靜脈；皮質、核團、腦室、白質纖維束、腦幹、小腦、間腦 → 器官結構（沿用現有類別，不新增類別）。
 
 ## 資料卡
 
-有資料卡：281 / 416 個構造；其中 81 個名稱對應的是較廣概念的資料卡（例如視丘的卡片對應視丘的各個核），卡片第一行會標明「所屬資料卡」。沒有資料卡的構造在答題後的資料卡顯示「尚無資料」，並列在 `docs/quiz-card-gaps.md`。資料卡內容全部來自 `public/models/brain/neuro-cards.json`，沒有新增文字。
+有資料卡：278 / 414 個構造；其中 81 個名稱對應的是較廣概念的資料卡（例如視丘的卡片對應視丘的各個核），卡片第一行會標明「所屬資料卡」。沒有資料卡的構造在答題後的資料卡顯示「尚無資料」，並列在 `docs/quiz-card-gaps.md`。資料卡內容全部來自 `public/models/brain/neuro-cards.json`，沒有新增文字。
 
 ## 只開放部分級別的構造
 
@@ -68,35 +68,33 @@
 - Right Ventral posteromedial nucleus (VPM)（右視丘腹後內側核） [diencephalon, right]
 - Right Ventromedial nucleus of hypothalamus（右下視丘腹內側核） [diencephalon, right]
 
-### 腦膜（硬腦膜反摺）：包覆整個腦，會遮住其他題目，主站腦部畫面預設也關閉（3）
+### 腦膜（硬腦膜反摺）：包覆整個腦，會遮住其他題目，主站腦部畫面預設也關閉（2）
 
 - Falx cerebri（大腦鐮） [meninges]
-- Left Tentorium cerebelli（左小腦幕） [meninges, left]
-- Right Tentorium cerebelli（右小腦幕） [meninges, right]
+- Tentorium cerebelli（小腦天幕） [meninges]
 
-### 屬於脊髓或脊椎的構造（脊髓、脊髓動脈、椎動脈）：主站腦部畫面同樣不畫（4）
+### 屬於脊髓或脊椎的構造（脊髓、脊髓動脈、椎動脈）：主站腦部畫面同樣不畫（3）
 
-- Anterior spinal artery [arteries, left]
-- Anterior spinal artery [arteries, right]
+- Anterior spinal artery [arteries, median]
 - Vertebral artery [arteries, left]
 - Vertebral artery [arteries, right]
 
-### 走在顱外（臉、下頷）或硬腦膜上的腦神經分支：主站腦部畫面預設關閉，只留腦神經根部（14）
+### 走在顱外（臉、下頜）或硬腦膜上的腦神經分支：主站腦部畫面預設關閉，只留腦神經根部（14）
 
-- Left Anterior division of mandibular nerve（左下頷神經前股） [cranial, left]
-- Left Buccal nerve（左頰神經） [cranial, left]
-- Left Inferior alveolar nerve（左下齒槽神經） [cranial, left]
-- Left Lingual nerve（左舌神經） [cranial, left]
-- Left Meningeal branch of maxillary nerve（左上頷神經腦膜支） [cranial, left]
-- Left Mental nerve（左頦神經） [cranial, left]
-- Left Posterior division of mandibular nerve（左下頷神經後股） [cranial, left]
-- Right Anterior division of mandibular nerve（右下頷神經前股） [cranial, right]
-- Right Buccal nerve（右頰神經） [cranial, right]
-- Right Inferior alveolar nerve（右下齒槽神經） [cranial, right]
-- Right Lingual nerve（右舌神經） [cranial, right]
-- Right Meningeal branch of maxillary nerve（右上頷神經腦膜支） [cranial, right]
-- Right Mental nerve（右頦神經） [cranial, right]
-- Right Posterior division of mandibular nerve（右下頷神經後股） [cranial, right]
+- Left anterior division of mandibular nerve（左下頜神經前股） [cranial, left]
+- Left buccal nerve（左頰神經） [cranial, left]
+- Left inferior alveolar nerve（左下齒槽神經） [cranial, left]
+- Left lingual nerve（左舌神經） [cranial, left]
+- Left meningeal branch of maxillary nerve（左上頜神經腦膜支） [cranial, left]
+- Left mental nerve（左頦神經） [cranial, left]
+- Left posterior division of mandibular nerve（左下頜神經後股） [cranial, left]
+- Right anterior division of mandibular nerve（右下頜神經前股） [cranial, right]
+- Right buccal nerve（右頰神經） [cranial, right]
+- Right inferior alveolar nerve（右下齒槽神經） [cranial, right]
+- Right lingual nerve（右舌神經） [cranial, right]
+- Right meningeal branch of maxillary nerve（右上頜神經腦膜支） [cranial, right]
+- Right mental nerve（右頦神經） [cranial, right]
+- Right posterior division of mandibular nerve（右下頜神經後股） [cranial, right]
 
 ### 來源模型中沒有可畫的網格（0）
 
@@ -118,8 +116,8 @@
 
 | 模型名稱 | 位置 | 群組 | 中心 x | 測驗名稱（中文） | 狀態 |
 | --- | --- | --- | --- | --- | --- |
-| Right Insular branches of middle cerebral artery (M2) | 右 | arteries | -0.0426 | Right Insular branches of middle cerebral artery (M2-segment)（右大腦中動脈島支（M2 段）） | 出題 |
-| Left Insular branches of middle cerebral artery (M2-segment) | 左 | arteries | 0.0426 | Left Insular branches of middle cerebral artery (M2-segment)（左大腦中動脈島支（M2 段）） | 出題 |
+| Right Insular branches of middle cerebral artery (M2) | 右 | arteries | -0.0426 | Right insular branches of middle cerebral artery (M2-segment)（右中大腦動脈島支（M2 段）） | 出題 |
+| Left Insular branches of middle cerebral artery (M2-segment) | 左 | arteries | 0.0426 | Left insular branches of middle cerebral artery (M2-segment)（左中大腦動脈島支（M2 段）） | 出題 |
 
 處理：左右一對的英文寫法不一致（M2／M2-segment）。已統一為 M2-segment，中文名統一為「大腦中動脈島支（M2 段）」；主站與測驗同步。
 
@@ -127,8 +125,8 @@
 
 | 模型名稱 | 位置 | 群組 | 中心 x | 測驗名稱（中文） | 狀態 |
 | --- | --- | --- | --- | --- | --- |
-| Left Middle cerebral artery (M3 segment) | 左 | arteries | 0.0534 | Left Middle cerebral artery (M3-segment)（左大腦中動脈（M3 段）） | 出題 |
-| Right Middle cerebral artery (M3-segment) | 右 | arteries | -0.0534 | Right Middle cerebral artery (M3-segment)（右大腦中動脈（M3 段）） | 出題 |
+| Left Middle cerebral artery (M3 segment) | 左 | arteries | 0.0534 | Left middle cerebral artery (M3-segment)（左中大腦動脈（M3 段）） | 出題 |
+| Right Middle cerebral artery (M3-segment) | 右 | arteries | -0.0534 | Right middle cerebral artery (M3-segment)（右中大腦動脈（M3 段）） | 出題 |
 
 處理：左右一對的英文寫法不一致（M3 segment／M3-segment）。已統一為 M3-segment（模型裡 M1、M2 也多用連字號），中文名「大腦中動脈（M3 段）」不變；主站與測驗同步。
 
@@ -136,8 +134,8 @@
 
 | 模型名稱 | 位置 | 群組 | 中心 x | 測驗名稱（中文） | 狀態 |
 | --- | --- | --- | --- | --- | --- |
-| Left Superior cerebellar peduncle | 左 | cerebellum | 0.0092 | Left Superior cerebellar peduncle（左小腦上腳） | 出題 |
-| Right Superior cerebellar peduncle | 右 | cerebellum | -0.0092 | Right Superior cerebellar peduncle（右小腦上腳） | 出題 |
+| Left Superior cerebellar peduncle | 左 | cerebellum | 0.0092 | Left superior cerebellar peduncle（左小腦上腳） | 出題 |
+| Right Superior cerebellar peduncle | 右 | cerebellum | -0.0092 | Right superior cerebellar peduncle（右小腦上腳） | 出題 |
 | Superior cerebellar peduncle | 中線 | white | 0.0016 | Decussation of superior cerebellar peduncles（小腦上腳交叉） | 出題（限第三級） |
 
 處理：模型有三個同名網格（左、右小腦上腳與一個中線白質網格）。左右兩個維持「左小腦上腳」「右小腦上腳」並正常出題；中線網格依位置改名為「小腦上腳交叉」（使用者已確認），只開放第三級。改名表：`app/organ/brain-overrides.ts`。

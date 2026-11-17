@@ -12,7 +12,7 @@ export const CSF_STEPS = [
   {en: 'Lateral ventricle → Interventricular foramen (of Monro)', zh: '側腦室 → 室間孔（Monro 孔）', note: '兩側側腦室各經一個室間孔通往第三腦室。'},
   {en: 'Third ventricle', zh: '第三腦室', note: '位於兩側視丘之間。'},
   {en: 'Cerebral aqueduct (of Sylvius)', zh: '大腦導水管', note: '穿過中腦，連接第三與第四腦室。'},
-  {en: 'Fourth ventricle', zh: '第四腦室', note: '菱形窩，位於橋腦與延腦後方。'},
+  {en: 'Fourth ventricle', zh: '第四腦室', note: '菱形窩，位於腦橋與延腦後方。'},
   {en: 'Median aperture (Magendie) ×1 and lateral apertures (Luschka) ×2 → cisterna magna → subarachnoid space', zh: '正中孔（Magendie）×1、外側孔（Luschka）×2 → 小腦延髓池 → 蛛網膜下腔', note: '少量 CSF 進入脊髓中央管（青春期後常閉鎖，為盲端）。'},
   {en: 'Subarachnoid space: over the hemispheres, and down the spinal cord to the lumbar cistern and back', zh: '蛛網膜下腔：一路流過大腦半球表面；另一路沿脊髓向下至腰池再回流', note: '腰池（圓錐至 S2）內有馬尾與終絲；腰椎穿刺是在腰池抽取 CSF，並非由中央管抽。'},
   {en: 'Arachnoid granulations / villi → superior sagittal sinus → venous system → right atrium', zh: '蛛網膜顆粒／絨毛 → 上矢狀竇 → 靜脈系統 → 右心房', note: '右心房只以文字表示。'},

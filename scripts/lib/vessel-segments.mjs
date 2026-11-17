@@ -94,6 +94,14 @@ const deg = x => Math.acos(Math.max(-1, Math.min(1, x))) * 180 / Math.PI;
 /** Segments count as adjacent when the gap is at most this many mm: a few millimetres plus six diameters, never more than SEARCH_MM. */
 export const adjacentMm = diameterMm => Math.min(SEARCH_MM, 3 + 6 * diameterMm);
 
+/** Ends the build rounded in the vessel's own mesh, and candidate ends that are none (the vessel carries on past them): {vesselId: [[x,y,z], ...]} from work/vessel-tip-plan.json (written by scripts/prepare-model-stream.mjs). */
+let tipPlan = null;
+function roundedTips() {
+  if (tipPlan) return tipPlan;
+  try { tipPlan = JSON.parse(fs.readFileSync(fileURLToPath(new URL('../../work/vessel-tip-plan.json', import.meta.url)), 'utf8')); } catch { tipPlan = {}; }
+  return tipPlan;
+}
+
 /** One row per end of every in-scope vessel that has a same-kind segment close enough ahead of it to be the next segment (or the trunk it joins).
  *  Ends without one are counted as terminal (`terminal`), ends that the vessel-ends step tapers to a point as `tapered`. */
 export async function analyse({regions = ['upper'], mode = 'after', V} = {}) {
@@ -109,8 +117,10 @@ export async function analyse({regions = ['upper'], mode = 'after', V} = {}) {
   stats.vessels = scope.length;
   for (const p of scope) {
     const rg = V.region(p), {tips} = V.infoOf(p.id), connector = V.ends.get(p.id);
+    const rounded = mode === 'after' ? roundedTips()[p.id] ?? [] : [];
     for (const tip of tips) {
       stats.ends++;
+      if (rounded.some(a => Math.hypot(a[0] - tip.at[0], a[1] - tip.at[1], a[2] - tip.at[2]) < .0012)) { stats.tapered++; continue; }
       let end = {at: tip.center, dir: tip.dir, radius: tip.radius, connector: false};
       if (mode === 'after' && connector) {
         const c = connectorEnd(connector, V.g, tip);

@@ -23,7 +23,7 @@ const data = JSON.parse(fs.readFileSync(new URL('app/mj-head-neck-names.json', r
   assert.equal(by('renamed') + by('alias') + by('typo'), applied.length, 'every applied row has an effect');
   assert.equal(by('typo'), 27, 'typo rows');
   assert.equal(by('renamed'), 3, 'renamed rows');
-  assert.equal(applied.length, 146, 'applied rows');
+  assert.equal(applied.length, 147, 'applied rows');
   for (const r of data.rows) for (const e of r.entries) { assert.ok(e.en && e.zh, `row ${r.id} has names`); assert.ok(!/[㐀-鿿]/.test(e.en), `row ${r.id} English name has no Chinese`); }
   // a typo is never kept as an alias
   for (const r of data.rows.filter(x => x.kind === 'typo')) for (const e of r.entries) for (const a of e.zhAliases) assert.ok(!/鄂|硬腱膜|視神經|內頸靜脈|下頷靜脈|錘鼓|上肩胛|顴骨莖突/.test(a), `typo kept as alias: row ${r.id}`);
@@ -56,7 +56,7 @@ const accepts = (structure, typed) => judgeName(typed, structure, any).result ==
 
 // 2. renamed: the unified name is shown, the other wording is found and accepted
 for (const [english, unified, others, quizName, quizTyped] of [
-  ['submandibular gland', '下頜下腺', ['頷下腺', '下頷下腺', '顎下腺', '下頜下腺'], 'Left submandibular gland', ['下頜下腺', '頷下腺', '下頷下腺', '顎下腺']],
+  ['submandibular gland', '頜下腺', ['頷下腺', '下頷下腺', '顎下腺', '下頜下腺'], 'Left submandibular gland', ['下頜下腺', '頷下腺', '下頷下腺', '顎下腺']],
   ['pineal gland', '松果體', ['松果腺', '松果體', 'pineal body'], null, []],
 ]) {
   assert.ok(shown(english).some(z => z?.includes(unified)), `${english} is shown as ${unified}`);

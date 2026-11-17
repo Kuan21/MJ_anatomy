@@ -74,6 +74,16 @@ for(let i=0;i<atlas.parts.length;i++){
   for(let k=0;k<3;k++){let lo=Infinity,hi=-Infinity;for(let v=k;v<pos.length;v+=3){lo=Math.min(lo,pos[v]);hi=Math.max(hi,pos[v]);}assert.ok(Math.abs(lo-before.bounds[0][k])<.0015&&Math.abs(hi-before.bounds[1][k])<.0015,`${before.name}: smoothed vessel moved`);}
   assert.ok(idx.every(v=>v<after.vertexCount),`${before.name}: index out of range`);continue;
  }
+ if(after.tipsShaped){
+  // a vessel whose small ends were rounded in its own mesh (scripts/lib/vessel-tip-shape.mjs): the same vertices and the same triangles, only positions changed, none by more than 3 mm (a taper moves a vertex at most one
+  // radius across the tube, a flare at most half a radius outwards), and at least one did move
+  assert.ok(['arterial','venous'].includes(before.system),`${before.name}: tip shaping`);
+  const d=delivered[after.chunk],s=sourceBuffers[before.chunk],pos=positionsOf(d,after),idx=indicesOf(d,after);
+  const srcPos=new Float32Array(s.buffer.slice(s.byteOffset+before.positions,s.byteOffset+before.positions+before.vertexCount*12)),srcIdx=new Uint32Array(s.buffer.slice(s.byteOffset+before.indices,s.byteOffset+before.indices+before.indexCount*4));
+  assert.equal(after.vertexCount,before.vertexCount,`${before.name}: tip shaping keeps the vertices`);assert.deepEqual(Array.from(idx),Array.from(srcIdx),`${before.name}: tip shaping keeps the triangles`);
+  let moved=0,maxd=0;for(let v=0;v<pos.length;v+=3){const dd=Math.hypot(pos[v]-srcPos[v],pos[v+1]-srcPos[v+1],pos[v+2]-srcPos[v+2]);assert.ok(dd<.003,`${before.name}: shaped vertex moved ${dd} m`);maxd=Math.max(maxd,dd);if(dd>1e-7)moved++;}
+  assert.ok(moved>0,`${before.name}: marked as shaped but nothing moved (largest move ${maxd} m, ${pos.length/3} vertices)`);continue;
+ }
  if(after.tendonCut){
   // a muscle that ends at its musculotendinous junction (scripts/tendon/*.mjs): its distal end was cut off into a tendon part, so it has other vertices but keeps its id, name, bounds and
   // lies inside its original bounds; every index is valid

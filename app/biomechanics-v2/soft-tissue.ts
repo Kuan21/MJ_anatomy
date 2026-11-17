@@ -378,7 +378,8 @@ export function tubeCentres(positions:ArrayLike<number>,triangles:ArrayLike<numb
  for(let i=0;i<count;i++)for(let k=0;k<3;k++)out[i*3+k]=placed[weld[i]*3+k];
  return out;
 }
-export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<number>,part?:Part,sourceName='',triangles?:ArrayLike<number>):SkinBinding{
+/** `sourcePositions`: the positions the stored tables were made from, when `positions` were moved after loading (subclavian-shift.ts); only the scapular-branch hash check reads it. */
+export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<number>,part?:Part,sourceName='',triangles?:ArrayLike<number>,sourcePositions?:ArrayLike<number>):SkinBinding{
  const count=positions.length/3,indices=new Uint8Array(count*4),weights=new Float32Array(count*4),belly=new Float32Array(count),radial=new Float32Array(count*3),longitudinal=new Float32Array(count);
  const own=new Box3();for(let i=0;i<count;i++)own.expandByPoint(new Vector3(positions[i*3],positions[i*3+1],positions[i*3+2]));
  // A part cut from a muscle is bound with the box of the whole muscle (see TissueBinding.box).
@@ -449,7 +450,7 @@ export function bindTissue(rig:SoftRig,profile:Profile,positions:ArrayLike<numbe
  const wrap=fitted&&/serratus anterior/i.test(name)?rig.thorax:undefined;
  const branch=effectiveProfile==='path'?scapularBranches[name]:undefined;
  if(branch){
-  let hash=2166136261;for(let i=0;i<positions.length;i++)hash=Math.imul(hash^Math.round(positions[i]*1e7),16777619);
+  const hashed=sourcePositions??positions;let hash=2166136261;for(let i=0;i<hashed.length;i++)hash=Math.imul(hash^Math.round(hashed[i]*1e7),16777619);
   if(branch.side!==rig.side||branch.vertexCount!==count||branch.progress.length!==count||branch.positionHash!==(hash>>>0))throw new Error('Scapular branch/source mismatch');
   for(let i=0;i<count;i++){
    // Preserve the proximal shared field exactly. Progress follows source
