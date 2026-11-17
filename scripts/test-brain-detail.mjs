@@ -75,7 +75,7 @@ assert.ok(!parts.some(p => p.group === 'cortex-other'), 'every cortical structur
   for (const en of new Set(parts.map(p => p.en))) assert.equal(BRAIN_FACTS.filter(([re]) => re.test(en)).length, 1, `${en}: matched by more than one card rule`);
 }
 const central = parts.find(p => p.en === 'Central sulcus' && p.side === 'left');
-assert.equal(displayEn(central), 'Left Central sulcus');
+assert.equal(displayEn(central), 'Left central sulcus');
 assert.equal(central.group, 'interlobar', 'central sulcus is an interlobar groove');
 
 // ---- voxel cut surface: a hollow brain-sized cube of "cortex" (open on one face, like the real shells) filled, grey rim, white core, a ventricle inside

@@ -10,7 +10,7 @@ export type HeadNeckSection = typeof HN_SECTIONS[number];
 
 export type HeadNeckExclusion = 'in-brain-region' | 'replaced-by-neck-vessel' | 'duplicate-source' | 'other-region' | 'left-right-merged' | 'not-structure' | 'too-fine' | 'incomplete-pair' | 'no-chinese-name' | 'name-not-unique';
 export const HN_EXCLUSION_REASONS: Record<HeadNeckExclusion, string> = {
-  'in-brain-region': '腦的構造（腦回、核團、腦室、白質纖維束、腦幹、小腦、腦膜、腦動脈與腦下垂體、松果體）：已有獨立的「腦」Quiz 區域，這裡不重複',
+  'in-brain-region': '腦的構造（腦回、核團、腦室、白質纖維束、腦幹、小腦、腦膜、腦動脈與腦垂體、松果體）：已有獨立的「腦」Quiz 區域，這裡不重複',
   'replaced-by-neck-vessel': '主站畫面用頸部血管模型取代這個圖譜網格（總頸動脈、內頸動脈、內頸靜脈）；測驗改用頸部血管模型，避免同一條血管出現兩次',
   'duplicate-source': '另一個來源已經有同一條構造（神經串流的完整走向取代圖譜較短的一段），只保留一個',
   'other-region': '屬於其他部位的測驗（胸椎、脊髓動脈、斜方肌、全身走行的交感神經與神經節）',
@@ -91,15 +91,15 @@ export const HEADNECK_NERVES: Record<string, {zh: string; schematic?: boolean}> 
   'sensory root of trigeminal nerve': {zh: '三叉神經感覺根'},
   'motor root of trigeminal nerve': {zh: '三叉神經運動根'},
   'ophthalmic nerve': {zh: '眼神經'},
-  'maxillary nerve': {zh: '上頷神經'},
-  'meningeal branch of maxillary nerve': {zh: '上頷神經腦膜支'},
-  'anterior division of mandibular nerve': {zh: '下頷神經前股'},
-  'posterior division of mandibular nerve': {zh: '下頷神經後股'},
+  'maxillary nerve': {zh: '上頜神經'},
+  'meningeal branch of maxillary nerve': {zh: '上頜神經腦膜支'},
+  'anterior division of mandibular nerve': {zh: '下頜神經前股'},
+  'posterior division of mandibular nerve': {zh: '下頜神經後股'},
   'inferior alveolar nerve': {zh: '下齒槽神經'},
   'mental nerve': {zh: '頦神經'},
   'buccal nerve': {zh: '頰神經'},
   'lingual nerve': {zh: '舌神經'},
-  'nerve to mylohyoid muscle': {zh: '下頷舌骨肌神經'},
+  'nerve to mylohyoid muscle': {zh: '下頜舌骨肌神經'},
   'vestibular nerve': {zh: '前庭神經'},
   'cochlear nerve': {zh: '耳蝸神經'},
   // the schematic tube models of the back quiz (app/quiz/catalogue.ts BACK_NERVES): the cervical plexus and the dorsal rami at the neck
