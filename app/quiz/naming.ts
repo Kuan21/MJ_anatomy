@@ -1,5 +1,6 @@
 import {SYNONYMS} from './synonyms';
 import {headNeckSynonyms} from '../mj-head-neck-names';
+import {EYE_NAME_ROWS} from './eye';
 import type {QuizStructure} from './catalogue';
 import {structureProfile} from '../mj-structure-info';
 import type {SystemId} from '../anatomy';
@@ -76,7 +77,8 @@ export function acceptedNames(structure: Named): Accepted {
   const paired = isPaired(structure);
   // Left/right is part of the identity of a midline structure (left atrium, left coronary cusp), so its row is keyed with the word; paired structures are keyed without it.
   const synonymRow = SYNONYMS[structure.name.toLowerCase()] ?? SYNONYMS[cleanKey(structure.name)], nameRow = HEAD_NECK_ROWS[structure.name.toLowerCase()] ?? HEAD_NECK_ROWS[cleanKey(structure.name)];
-  const row = synonymRow || nameRow ? {en: [...(synonymRow?.en ?? []), ...(nameRow?.en ?? [])], zh: [...(synonymRow?.zh ?? []), ...(nameRow?.zh ?? [])]} : undefined;
+  const eyeRow = EYE_NAME_ROWS[structure.name.toLowerCase()];
+  const row = synonymRow || nameRow || eyeRow ? {en: [...(synonymRow?.en ?? []), ...(nameRow?.en ?? []), ...(eyeRow?.en ?? [])], zh: [...(synonymRow?.zh ?? []), ...(nameRow?.zh ?? []), ...(eyeRow?.zh ?? [])]} : undefined;
   const whole = wholeMuscleOf(structure);
   const wholeEn = whole && !whole.headsRequired ? [whole.en] : [], wholeZh = whole && !whole.headsRequired && whole.zh ? [whole.zh] : [];
   const site = siteName(structure), aliases = checklistAliases(structure).exact;

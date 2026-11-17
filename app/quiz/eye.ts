@@ -25,3 +25,18 @@ export function coversEyeTarget(target: {layer?: string} | undefined, other: {la
   if (other.layer === 'media') return target?.layer !== 'media';
   return b < a;
 }
+
+/** Other wordings of the structures of the eye model that the typed-answer quiz accepts (keyed by the structure's name in lower case); the wording of the required-structure list comes first.
+ * The same shape as app/quiz/synonyms.ts, kept here so that the owner's review list (REVIEW_LOG.md, frozen) is not involved. */
+export const EYE_NAME_ROWS: Record<string, {en?: string[]; zh?: string[]}> = {
+  'suspensory ligament of lens': {en: ['zonular fibers', 'zonule', 'ciliary zonule'], zh: ['懸韌帶', '小帶纖維']},
+  'aqueous humor': {en: ['aqueous humour'], zh: ['水樣狀液']},
+  'vitreous body': {en: ['vitreous humor', 'vitreous humour'], zh: ['玻璃狀液']},
+  'corneoscleral junction': {en: ['corneal limbus', 'limbus'], zh: ['角膜緣']},
+  'optic disc': {en: ['blind spot', 'optic nerve head'], zh: ['盲點', '視神經盤']},
+  'trochlea of superior oblique': {en: ['trochlea'], zh: ['上斜肌滑車']},
+  'maxillary bone': {en: ['maxilla'], zh: ['上頜骨', '上顎骨']},
+  'inferior orbital fissure': {en: ['infraorbital fissure'], zh: ['下眶裂']},
+  'superior orbital fissure': {en: [], zh: ['上眶裂']},
+  'supraorbital foramen': {en: ['supraorbital notch'], zh: ['眶上切跡']},
+};

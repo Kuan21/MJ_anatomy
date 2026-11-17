@@ -21,7 +21,7 @@
 
 ## 名稱
 
-英文名與中文名取自眼詳細模式。必考結構清單（`docs/required-structures/head-neck.json`）寫法不同的中文名與英文名，第三級與學習關卡都接受（`app/quiz/synonyms.ts` 的「eye」段，以及頭頸統一名稱表 `app/mj-head-neck-names.json`）；`scripts/test-quiz-eye.mjs` 逐項檢查。
+英文名與中文名取自眼詳細模式。必考結構清單（`docs/required-structures/head-neck.json`）寫法不同的中文名與英文名，第三級與學習關卡都接受（`app/quiz/eye.ts` 的 `EYE_NAME_ROWS`，以及頭頸統一名稱表 `app/mj-head-neck-names.json`）；`scripts/test-quiz-eye.mjs` 逐項檢查。
 
 ## 檢查
 
