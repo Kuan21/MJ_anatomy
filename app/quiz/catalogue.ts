@@ -125,7 +125,7 @@ export function categoryOf(structure: {name: string; system: QuizSystem}): QuizC
   if (structure.system === 'headorgan' && LIGAMENT_NAME.test(structure.name)) return 'ligament';
   // eye model: the check ligaments, the suspensory ligament of the lens and the common tendinous ring
   // the openings of the orbit (optic canal, orbital fissures, foramina) are marked on the bone surface
-  if (structure.system === 'eye' && /foramen|canal\b|fissure|notch/i.test(structure.name)) return 'space';
+  if (structure.system === 'eye' && /foramen|canal\b|fissure|notch/i.test(structure.name) && !/sinus/i.test(structure.name)) return 'space';
   if (structure.system === 'eye' && (LIGAMENT_NAME.test(structure.name) || /tendinous ring/i.test(structure.name))) return 'ligament';
   return SYSTEM_CATEGORY[structure.system];
 }
@@ -246,7 +246,7 @@ const EYE_SECTIONS: QuizSectionDef[] = [
 QUIZ_REGIONS.eye = {
   id: 'eye', label: '眼', english: 'Eye', tag: '眼篇', file: 'quiz-eye.json', hash: '#/quiz/eye', atlasHash: '#/organ/eye',
   headline: ['看名稱，', '點出位置。'], description: ['由眼眶骨、眼瞼與淚器、眼外肌與眼眶神經，到眼球各層、水晶體與視覺路徑，在 3D 眼模型上練習辨認。', '每答一題，立即顯示正確位置與資料卡。'],
-  scope: '採用眼部詳細模型（左側眼眶）。題目只涵蓋模型中真正有網格的構造；眼眶的孔、管與裂是標在骨面上的位置，不是獨立的構造，不出題。題目是較深層的構造時，位於它外側的構造會變成淡淡的玻璃；房水與玻璃體本身透明，除了自己是題目之外一律淡化。',
+  scope: '採用眼部詳細模型（左側眼眶）。眼眶的孔、管與裂是標在骨面上的位置，題目以骨面上的一小片色塊表示。題目是較深層的構造時，位於它外側的構造會變成淡淡的玻璃；房水與玻璃體本身透明，除了自己是題目之外一律淡化。',
   defaultView: 'side', defaultSide: 'left', systems: ['skeletal', 'muscular', 'nervous', 'arterial', 'eye', 'brain'],
   frame: {x: .06, z: [-.03, .085], minDistance: .012, box: [[.002, 1.562, 0], [.056, 1.632, .082]]}, sections: EYE_SECTIONS,
 };

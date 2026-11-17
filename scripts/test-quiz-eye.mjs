@@ -63,6 +63,7 @@ assert.equal(cat('Frontal bone'), 'bone'); assert.equal(cat('Lateral rectus'), '
 assert.equal(cat('Ophthalmic artery'), 'artery'); assert.equal(cat('Optic nerve'), 'nerve'); assert.equal(sys('Optic chiasm'), 'brain'); assert.equal(sys('Lateral geniculate body'), 'brain');
 assert.equal(cat('Check ligament of lateral rectus'), 'ligament'); assert.equal(cat('Suspensory ligament of lens'), 'ligament'); assert.equal(cat('Common tendinous ring'), 'ligament');
 assert.equal(cat('Optic canal'), 'space'); assert.equal(cat('Superior orbital fissure'), 'space'); assert.equal(cat('Infraorbital foramen'), 'space'); assert.equal(sys('Supraorbital foramen'), 'eye');
+assert.equal(cat('Scleral venous sinus (Schlemm canal)'), 'organ'); assert.equal(categoryOf({name: 'x', system: 'eye'}), 'organ'); assert.equal(catalogue.structures.filter(s => categoryOf(s) === 'space').length, 7, 'the seven openings of the orbit');
 assert.equal(cat('Cornea'), 'organ'); assert.equal(cat('Lens'), 'organ'); assert.equal(cat('Trochlea of superior oblique'), 'organ');
 for (const [section, names] of Object.entries({
   orbit: ['Frontal bone', 'Optic canal'], adnexa: ['Lacrimal gland', 'Tarsal plate of upper eyelid'], muscles: ['Superior rectus', 'Common tendinous ring'], nerves: ['Nasociliary nerve', 'Ophthalmic artery'],
