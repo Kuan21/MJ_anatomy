@@ -1,5 +1,6 @@
 import {createNeckVessels,type NeckVesselData} from './biomechanics-v2/neck-vessels';
 import {createJointAnatomy} from './biomechanics-v2/joint-anatomy';
+import {shiftSubclavianPart,isSubclavianPart} from './biomechanics-v2/subclavian-shift';
 import {useEffect,useRef} from 'react';
 import * as T from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
@@ -649,13 +650,16 @@ mats.set('connective:fascia-dense',materialFor('connective',.88));{const gm=mate
    if(disposed)return;
    const groups=new Map<string,T.BufferGeometry[]>(),pendingPickers=new Map<number,T.Mesh>();let partOrdinal=0;
    for(const {p,i} of chunkParts[ci]){
-    const g=new T.BufferGeometry();g.setAttribute('position',new T.BufferAttribute(positionArray(buffer,p),3));
+    const g=new T.BufferGeometry(),decoded=positionArray(buffer,p),unshifted=isSubclavianPart(p.id)?decoded.slice():undefined;
+    // HN-23: the subclavian arteries and the branches that arise from them are moved back into the interscalene gap at load (never in the source data); the part's box and centre follow
+    if(shiftSubclavianPart(p.id,decoded)){bounds[i].setFromArray(decoded);bounds[i].getCenter(centers[i]);}
+    g.setAttribute('position',new T.BufferAttribute(decoded,3));
     // GPU normalized signed-short normals keep the complete atlas compact in memory.
     g.setAttribute('normal',new T.BufferAttribute(normalArray(buffer,p),3,true));g.setIndex(new T.BufferAttribute(indexArray(buffer,p),1));
     const position=g.getAttribute('position') as T.BufferAttribute,weights=new Float32Array(p.vertexCount);let variableWeights=false;
     for(let vi=0;vi<p.vertexCount;vi++){const weight=vertexMotionWeight(p,position.getX(vi),position.getY(vi),position.getZ(vi));weights[vi]=weight;if(weight<.999)variableWeights=true;}
     g.setAttribute('motionWeight',new T.BufferAttribute(weights,1));
-    g.boundingBox=bounds[i].clone();g.computeBoundingSphere();const pick=new T.Mesh(g);pick.matrixAutoUpdate=false;pick.userData.partSystem=p.system;
+    g.boundingBox=bounds[i].clone();g.computeBoundingSphere();const pick=new T.Mesh(g);pick.matrixAutoUpdate=false;pick.userData.partSystem=p.system;if(unshifted)pick.userData.unshiftedPositions=unshifted;
     const ensureMotionBase=()=>{pick.userData.baseMotionNormals??=(g.getAttribute('normal').array as Int16Array).slice();return pick.userData.baseMotionPositions??(pick.userData.baseMotionPositions=new Float32Array(position.array as ArrayLike<number>));};
     // Building fibre bindings and sheet constraints is for motion, not for
     // opening the atlas. Keep the first static view inexpensive and complete.
@@ -663,7 +667,7 @@ mats.set('connective:fascia-dense',materialFor('connective',.88));{const gm=mate
     const bodyPrepared=new Map<string,ReturnType<typeof bindBodyPart>>();
     pick.userData.prepareMotion=(mode='upper')=>{
     if(mode!=='upper'){
-     if(!bodyPrepared.has(mode))bodyPrepared.set(mode,bindBodyPart(p,ensureMotionBase(),bodyRigs[mode as BodyRegion],softRigs));
+     if(!bodyPrepared.has(mode))bodyPrepared.set(mode,bindBodyPart(p,ensureMotionBase(),bodyRigs[mode as BodyRegion],softRigs,unshifted));
      const binding=bodyPrepared.get(mode);
      pick.userData.bodySkin=binding?.skin;pick.userData.bodyRegion=mode;
      const guards=pick.userData.bodyGuards??=(new Map());
@@ -684,7 +688,7 @@ mats.set('connective:fascia-dense',materialFor('connective',.88));{const gm=mate
     // limbs and quarantined source meshes must never enter an arm rig.
     if(binding?.name===p.name&&rig&&(canonicalRegion==='upper-limb'||canonicalRegion==='trunk')&&!isMotionQuarantined(p)){
      const profile=(p.system==='arterial'||p.system==='venous')?resolveNeurovascularProfile(p.name,binding.profile):binding.profile;
-     pick.userData.skin=bindTissue(rig,profile,ensureMotionBase(),p,'',g.index!.array);
+     pick.userData.skin=bindTissue(rig,profile,ensureMotionBase(),p,'',g.index!.array,unshifted);
      pick.userData.tissueSide=bindingSide;
      // vessel-end pieces take the weights of their vessel where they touch it (the end stream is appended after the atlas, so the vessel is bound first)
      if(p.id.endsWith('-END')){const mainIndex=atlas.parts.findIndex(q=>q.id===p.id.slice(0,-4)),mainPick=mainIndex>=0?pickers[mainIndex]:undefined;if(mainPick&&!mainPick.userData.skin)mainPick.userData.prepareMotion?.('upper');const mainSkin=mainPick?.userData.skin as ReturnType<typeof bindTissue>|undefined,mainBase=mainPick?.userData.baseMotionPositions as Float32Array|undefined;if(mainSkin&&mainBase)alignEndPiece(pick.userData.skin,ensureMotionBase(),mainSkin,mainBase,undefined,g.index!.array);}
@@ -776,7 +780,7 @@ mats.set('connective:fascia-dense',materialFor('connective',.88));{const gm=mate
      if(bodyMotion?!bodyPartRule(part,bodyRigs[bodyMotion.region]):(!binding||binding.name!==part.name||isMotionQuarantined(part)||!['upper-limb','trunk'].includes(anatomicalRegion(part))))return;
      mesh.userData.baseMotionPositions??=(mesh.geometry.getAttribute('position').array as Float32Array).slice();
      mesh.userData.baseMotionNormals??=(mesh.geometry.getAttribute('normal').array as Int16Array).slice();
-     inputs.push({part,base:mesh.userData.baseMotionPositions.slice(),normals:mesh.userData.baseMotionNormals.slice(),triangles:Uint32Array.from(mesh.geometry.index!.array)});workerParts.add(part.id);
+     inputs.push({part,base:mesh.userData.baseMotionPositions.slice(),normals:mesh.userData.baseMotionNormals.slice(),triangles:Uint32Array.from(mesh.geometry.index!.array),source:mesh.userData.unshiftedPositions});workerParts.add(part.id);
     });
     shoulderWorker!.onmessage=event=>{
      workerBusy=false;if(disposed)return;

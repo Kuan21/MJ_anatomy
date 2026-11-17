@@ -429,6 +429,34 @@
 
 ---
 
+## 碎片與尖刺清單（交血管平順；2026-11-17，main 含 #366）
+
+方法：已部署網站，關閉肌肉與結締組織，各區用 Focus 放大後從前、斜後方截圖；可疑處在同一視角點選取得結構名稱。逐檔掃描網格的「分離小塊」與「細長三角形」雜訊太多（血管本來分段、末端連接件、細血管的長三角形），只作輔助，不列入清單。
+
+| 編號 | 區域 | 位置 | 結構（點選或附近候選） | 現象 | 截圖 |
+|---|---|---|---|---|---|
+| VS-01 | 頸根部、左上胸後方 | 鎖骨後方、第一至第二肋附近（斜後方視角） | 附近候選：左頸深動脈、左肩胛上動脈與靜脈、左第一肋間後動脈、左肺尖段靜脈、副半奇靜脈末端件（位置 x 24–37、y 1.40–1.41 m、z −12～+1 mm） | 多條細血管末端仍呈小三角形箭頭狀尖刺（紅色動脈與藍色靜脈都有，圖中橘色圈）；#383 截圖所見的淺藍色碎片在同一區域 | [頸根部尖刺](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/2a7f782904015edea1d6e66776b18cc3136a1ecf/qa-report/fragments/hn-root-spikes.jpg)、[頸根部前面](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/2a7f782904015edea1d6e66776b18cc3136a1ecf/qa-report/fragments/hn-root-front.jpg) |
+| VS-02 | 骨盆 | 直腸上方、骶骨前（骨盆器官分頁，Focus 左髂內動脈後） | Superior rectal artery 上直腸動脈（點選確認） | 與伴行靜脈多處急轉成尖角（鋸齒狀折線） | [骨盆](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/2a7f782904015edea1d6e66776b18cc3136a1ecf/qa-report/fragments/pelvis-superior-rectal.jpg) |
+| — | 腹部 | 胰臟上緣、腹主動脈前 | 黃色小橢圓為 Right celiac ganglion 右腹腔神經節（示意模型），紅色為腹腔動脈幹 | 不是碎片，不列入 | [腹部](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/2a7f782904015edea1d6e66776b18cc3136a1ecf/qa-report/fragments/abdomen-overview.jpg) |
+
+### 新問題（資訊卡「區域」欄）
+
+| 編號 | 區域 | 結構或功能 | 問題 | 證據 | 來源 | 嚴重程度 | 建議負責 |
+|---|---|---|---|---|---|---|---|
+| AB-03 | 腹部、骨盆 | 主圖譜資訊卡「REGION 區域」欄 | 腹部結構標成胸部：Abdominal aorta 腹主動脈、Celiac trunk 腹腔動脈幹、Right gastric artery 右胃動脈、Left gastric vein 左胃靜脈都寫「thorax 胸部」；Sacrum 薦骨、Left internal iliac artery 左髂內動脈寫「abdomen 腹部」（應為骨盆）。疑為按高度自動分區，邊界不準。 | 網站點選資訊卡 | Gray's Anatomy 1918；OpenStax Anatomy & Physiology | 影響使用 | 總管 |
+
+---
+
+## 新 PR 獨立核對（2026-11-17，只列錯誤）
+
+已核對：#393（HN-02 迷走神經卡）、#396（HN-11／HN-28 名稱跟必考清單）、#397（上頜動脈名稱）、#395（主圖譜接上腦資訊卡文字，97 個主圖譜結構逐一比對都是同一構造）。#393、#397、#395 未見錯誤。
+
+| 編號 | PR | 問題 | 證據 | 來源 | 嚴重程度 | 建議負責 |
+|---|---|---|---|---|---|---|
+| HN-29 | #396 | Arachnoid mater、Subarachnoid space 顯示名改為「蛛網膜」「蛛網膜下腔」，必考清單用「蜘蛛膜」「蜘蛛膜下腔」（RS-0047、RS-0763，另有 RS-0046「蜘蛛膜顆粒」），與使用者「跟必考清單統一」的指示相反。另外 #396 已自行選定 HN-28 尚待使用者決定的兩項（顳顎關節／顳下頜韌帶並用、麥粒軟骨），請使用者確認。 | `app/mj-required-names.json`（#396）與 `docs/required-structures/head-neck.json` | FIPAT TA2（名詞對照） | 影響使用 | 總管 |
+
+---
+
 ## 骨盆與會陰
 
 ### 問題清單

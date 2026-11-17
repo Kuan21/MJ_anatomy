@@ -14,6 +14,7 @@ import path from 'node:path';
 import {gzipSync} from 'node:zlib';
 import {readPly, readObj, readVtk, vertexNormals, bounds} from './lib/ear-mesh-io.mjs';
 import {icp, distanceStats, makeGrid, transformPoint} from './lib/ear-register.mjs';
+import {loopSubdivide, surfaceDistance, slimTube, radiusStats, connectivity} from './lib/ear-tube.mjs';
 import {v3, bezier, bezierTangent, principalAxes, wallTube, frames, splitByLabel, signedVolume, smooth} from './lib/ear-geometry.mjs';
 
 const args = process.argv.slice(2), opt = name => { const i = args.indexOf('--' + name); return i < 0 ? undefined : (args[i + 1]?.startsWith('--') ? true : args[i + 1] ?? true); };
@@ -113,6 +114,14 @@ const auricleSource = (() => {
   const keep = []; for (let t = 0; t < idx.length; t += 3) if ((pos[idx[t] * 3] + pos[idx[t + 1] * 3] + pos[idx[t + 2] * 3]) / 3 < 0) keep.push(idx[t], idx[t + 1], idx[t + 2]);
   const c = compact(pos, keep); return {positions: c.positions, indices: c.indices};
 })();
+// the packaged auricle mesh is coarse (415 vertices): two levels of Loop subdivision smooth it and stay on the original shape (distances to the original surface are written to the package)
+const auricleSmooth = (() => {
+  const mm = Float32Array.from(auricleSource.positions, v => v * 1000); let m = {positions: mm, indices: auricleSource.indices};
+  for (let level = 0; level < 2; level++) m = loopSubdivide(m.positions, m.indices);
+  const toOriginal = surfaceDistance(m.positions, mm, auricleSource.indices), fromOriginal = surfaceDistance(mm, m.positions, m.indices);
+  return {positions: Float32Array.from(m.positions, v => v / 1000), indices: m.indices, fit: {sourceVertices: auricleSource.positions.length / 3, sourcePieces: connectivity(auricleSource.positions.length / 3, auricleSource.indices).pieces, vertices: m.positions.length / 3, levels: 2, method: 'Loop subdivision',
+    toOriginalMm: {max: +toOriginal.max.toFixed(3), mean: +toOriginal.mean.toFixed(3)}, fromOriginalMm: {max: +fromOriginal.max.toFixed(3), mean: +fromOriginal.mean.toFixed(3)}}};
+})();
 // the concha opening: the most medial point of the right auricle, well inside its outline (this is where the auricle surface is open towards the canal)
 const PORUS_MM = [-61.8, 1582.7, -15.4]; // concha opening in the body frame, mm (read from the packaged auricle: the gap of the concha floor)
 const porus = v3.mul(PORUS_MM, .001);
@@ -163,20 +172,25 @@ const EAC = (() => {
   return wallTube(rings, .9);
 })();
 // pharyngotympanic tube: from the front wall of the tympanic cavity (just in front of the membrane, medial to it) forwards, medially and down to the nasopharynx
+const TUBE_SPEC = {ISTHMUS: .33, A0: 1.3, B0: 1.0, AI: .6, BI: .45, A_END: 1.9, B_END: .8};
 const TUBE = (() => {
   // site-frame direction: medial (+X), forward (+Z), down (-Y)
   const dirSite = v3.norm([.42, -.46, .78]), startSite = v3.add(tmWanted, v3.mul(v3.norm([.45, .05, .89]), .0072));
   const dirSpec = v3.norm(v3.sub(unplace(v3.add(startSite, v3.mul(dirSite, .001))), unplace(startSite))), startSpec = unplace(startSite);
-  const length = 37, STEPS = 22, up = v3.norm(v3.sub(unplace(v3.add(startSite, [0, .001, 0])), startSpec)), rings = [];
-  const bend = v3.mul(v3.cross(dirSpec, up), .0); // straight axis; the cartilaginous part flattens instead of bending
+  const length = 37, STEPS = 36, up = v3.norm(v3.sub(unplace(v3.add(startSite, [0, .001, 0])), startSpec)), rings = [];
   const pts = [], tans = []; for (let s = 0; s <= STEPS; s++) { pts.push(v3.add(startSpec, v3.mul(dirSpec, length * s / STEPS))); tans.push(dirSpec); }
   const fr = frames(pts, tans, up);
-  for (let s = 0; s <= STEPS; s++) { // bony part (first third) is round, the cartilaginous part is a vertical slit
-    const t = s / STEPS, w = smooth(Math.max(0, Math.min(1, (t - .3) / .25))), a = 1.7 + (3.2 - 1.7) * w, b = 1.9 - (1.9 - 1.0) * w, f = fr[s], ring = [];
+  // lumen half-height a (vertical) and half-width b (mm): the bony part (first third) is narrow and round, the isthmus (about a third of the way) is the narrowest point,
+  // the cartilaginous part widens steadily into a vertical slit towards the opening in the nasopharynx. The wall is 0.4 mm, so the outer radius never exceeds A_END + 0.4.
+  const {ISTHMUS, A0, B0, AI, BI, A_END, B_END} = TUBE_SPEC;
+  const ease = x => smooth(Math.max(0, Math.min(1, x)));
+  for (let s = 0; s <= STEPS; s++) {
+    const t = s / STEPS, w0 = ease(t / ISTHMUS), w1 = ease((t - ISTHMUS) / (1 - ISTHMUS));
+    const a = t <= ISTHMUS ? A0 + (AI - A0) * w0 : AI + (A_END - AI) * w1, b = t <= ISTHMUS ? B0 + (BI - B0) * w0 : BI + (B_END - BI) * w1, f = fr[s], ring = [];
     for (let i = 0; i < 24; i++) { const th = i / 24 * 2 * Math.PI; ring.push(v3.add(f.c, v3.add(v3.mul(f.u, a * Math.cos(th)), v3.mul(f.v, b * Math.sin(th))))); }
     rings.push(ring);
   }
-  return wallTube(rings, .55);
+  return wallTube(rings, .4);
 })();
 
 // ---- assemble the parts (body frame)
@@ -201,7 +215,7 @@ const add = (id, mesh, normals, extra = {}) => {
 const addMesh = (id, specimenMesh, extra) => { const m = placeMesh(specimenMesh); add(id, m, vertexNormals(m.positions, m.indices), extra); };
 const addPiece = (id, piece, labelIdx, extra) => { const m = placeMesh(piece), n = castNormalsOf(piece, labelIdx); add(id, m, n, extra); };
 
-add('auricle', auricleSource, vertexNormals(auricleSource.positions, auricleSource.indices));
+add('auricle', auricleSmooth, vertexNormals(auricleSmooth.positions, auricleSmooth.indices));
 addMesh('external-acoustic-meatus', EAC);
 addMesh('tympanic-membrane', oe.membrane);
 addMesh('malleus', oe.malleus); addMesh('incus', oe.incus); addMesh('stapes', oe.stapes);
@@ -217,6 +231,15 @@ addMesh('scala-tympani', oe.scalaTympani);
 addMesh('utricle', ieOE.utricle); addMesh('saccule', ieOE.saccule);
 addMesh('anterior-duct', ieOE.sa); addMesh('lateral-duct', ieOE.sl); addMesh('posterior-duct', ieOE.sp);
 addMesh('anterior-ampulla', ieOE.aa); addMesh('lateral-ampulla', ieOE.al); addMesh('posterior-ampulla', ieOE.ap);
+// the facial and cochlear nerve meshes are wider than the nerves (the facial one includes its sheath, the cochlear one the bundle in the internal acoustic meatus):
+// they are slimmed towards their own centre line (a smooth radial move, topology unchanged, so the tubes stay one continuous piece) to the radius caps below (mm)
+const NERVE_CAP = {facial: .5, cochlear: .75};
+const slim = (mesh, cap) => ({...mesh, positions: slimTube(mesh.positions, mesh.indices, {target: cap, reach: 6}).positions});
+const nerveStats = {};
+for (const [key, cap, id] of [['facial', NERVE_CAP.facial, 'facial-nerve'], ['cochlearNerve', NERVE_CAP.cochlear, 'cochlear-nerve']]) {
+  const before = radiusStats(oe[key].positions, oe[key].indices, 6); oe[key] = slim(oe[key], cap); const after = radiusStats(oe[key].positions, oe[key].indices, 6);
+  nerveStats[id] = {capMm: cap, beforeMm: {median: +before.median.toFixed(2), p95: +before.p95.toFixed(2)}, afterMm: {median: +after.median.toFixed(2), p95: +after.p95.toFixed(2)}, pieces: connectivity(oe[key].positions.length / 3, oe[key].indices).pieces};
+}
 addMesh('facial-nerve', oe.facial); addMesh('chorda-tympani', oe.chorda); addMesh('cochlear-nerve', oe.cochlearNerve);
 
 // ---- checks of the placement (printed; the test script repeats the ones that matter)
@@ -232,6 +255,7 @@ fs.writeFileSync(new URL('ear-atlas.json', out), JSON.stringify({
   registration: {method: 'rigid iterative closest point (scale fixed at 1) of the IE-Map scalae and semicircular canals onto the OpenEar perilymphatic spaces; IE-Map files in 3D Slicer RAS', R: reg.R, t: reg.t, errorMm: registrationError},
   placement: {porus: porus.map(v => +v.toFixed(5)), canalLengthMm: CANAL_LENGTH, translation: T.map(v => +v.toFixed(6)), footplateToVestibuleWallMm: +footDistance.toFixed(2), footplateCentre: footSite.map(v => +v.toFixed(6)),
     ovalWindowTriangles: oval.indices.length / 3, roundWindowTriangles: round.indices.length / 3},
+  refinement: {auricle: auricleSmooth.fit, nerves: nerveStats, tube: {lumenHalfHeightWidthMm: {tympanicEnd: [TUBE_SPEC.A0, TUBE_SPEC.B0], isthmus: [TUBE_SPEC.AI, TUBE_SPEC.BI], pharyngealEnd: [TUBE_SPEC.A_END, TUBE_SPEC.B_END]}, isthmusAt: TUBE_SPEC.ISTHMUS, wallMm: .4, lengthMm: 37}},
   labelling: Object.fromEntries(groups.map(([n], i) => [n, castParts[i] ? castParts[i].indices.length / 3 : 0])),
   sources: {
     innerEar: {name: 'IE-Map', url: 'https://github.com/pydsgz/IEMap', license: 'CC BY 4.0'},
