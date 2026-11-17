@@ -86,10 +86,15 @@
    "measure": 22.3,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
-  "cuts|PK:Left iliac crest": {
+  "cuts|PK:Left iliac crest#1": {
    "name": "Left iliac crest",
    "measure": 21.9,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
+  },
+  "cuts|PK:Left iliac crest#2": {
+   "name": "Left iliac crest",
+   "measure": 17.4,
+   "reason": "mesh boundary has a straight run: the patch is cut from the female hip bone by height (the same cut as the male patch #1); to be re-cut along the anatomy after the exam; approved by the user 2026-11-17"
   },
   "cuts|PK:Left infraspinous fossa": {
    "name": "Left infraspinous fossa",
@@ -126,10 +131,15 @@
    "measure": 17.7,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
-  "cuts|PK:Right iliac crest": {
+  "cuts|PK:Right iliac crest#1": {
    "name": "Right iliac crest",
    "measure": 35.8,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
+  },
+  "cuts|PK:Right iliac crest#2": {
+   "name": "Right iliac crest",
+   "measure": 21,
+   "reason": "mesh boundary has a straight run: the patch is cut from the female hip bone by height (the same cut as the male patch #1); to be re-cut along the anatomy after the exam; approved by the user 2026-11-17"
   },
   "cuts|PK:Right infraspinous fossa": {
    "name": "Right infraspinous fossa",
@@ -244,7 +254,7 @@
    "name": "Left anterior circumflex humeral artery",
    "measure": 23,
    "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.4339622641509434,
+   "fraction": 0.3194444444444444,
    "severity": 17
   },
   "detached|FJ2216|shoulder abduction 120": {
@@ -1178,20 +1188,6 @@
    "fraction": 1,
    "severity": 21
   },
-  "detached|nerve:Superior subscapular nerve.l.001|shoulder abduction 120": {
-   "name": "Superior subscapular nerve.l",
-   "measure": 138,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure.",
-   "fraction": 0.8734177215189873,
-   "severity": 24
-  },
-  "detached|nerve:Superior subscapular nerve.r.001|shoulder abduction 120": {
-   "name": "Superior subscapular nerve.r",
-   "measure": 133,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure.",
-   "fraction": 0.8471337579617835,
-   "severity": 23
-  },
   "detached|nerve:Superior trunk of brachial plexus.l.001|shoulder abduction 120": {
    "name": "Superior trunk of brachial plexus.l",
    "measure": 5,
@@ -1205,20 +1201,6 @@
    "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
    "fraction": 1,
    "severity": 20
-  },
-  "detached|nerve:Suprascapular nerve.l.001|shoulder flexion 150": {
-   "name": "Suprascapular nerve.l",
-   "measure": 18,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.43902439024390244,
-   "severity": 19
-  },
-  "detached|nerve:Suprascapular nerve.r.001|shoulder flexion 150": {
-   "name": "Suprascapular nerve.r",
-   "measure": 16,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure.",
-   "fraction": 0.4,
-   "severity": 19
   },
   "detached|nerve:Trochlear nerve (IV).l.001|head extension 35": {
    "name": "Trochlear nerve (IV).l",

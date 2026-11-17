@@ -514,7 +514,9 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
   const landmarkHost=new Map<string,(typeof atlas.parts)[number]>();
   {const parentName=new Map<string,string>();for(const c of Object.values(paokaoCards as Record<string,{name:string;kind?:string;parent?:string}>))if(c.kind==='landmark'&&c.parent)parentName.set(c.name,c.parent);
    const byName=new Map<string,(typeof atlas.parts)[number]>();for(const q of atlas.parts)if(!byName.has(q.name))byName.set(q.name,q);
-   for(const lm of atlas.parts){const host=(lm as {kind?:string}).kind==='landmark'?byName.get(parentName.get(lm.name)??''):undefined;if(host)landmarkHost.set(lm.id,host);}}
+   for(const lm of atlas.parts){if((lm as {kind?:string}).kind!=='landmark')continue;const hostName=parentName.get(lm.name)??'';
+    // a female landmark (hip bone, female mode) belongs to the female bone of that name
+    const host=lm.sex==='female'?atlas.parts.find(q=>q.name===hostName&&q.sex==='female'&&!(q as {kind?:string}).kind)??byName.get(hostName):byName.get(hostName);if(host)landmarkHost.set(lm.id,host);}}
   const shellOf=(p:{name:string;system:string;kind?:string})=>p.system==='serous'&&PERITONEUM_KEYS.includes(serousLayerKey(p.name))?'serous:peritoneum':pelvicTone(p)?'pelvic:'+pelvicTone(p)![1]:p.kind==='space'||p.kind==='sheath'?'connective:space':/^(aponeurosis of epicranius|nuchal origin of trapezius)$/i.test(p.name)?'connective:galea':/^thoracolumbar fascia$/i.test(p.name)?'connective:fascia-dense':p.kind==='aponeurosis'?'connective:aponeurosis':p.kind==='fascia'?'connective:fascia':p.kind==='fascia-dense'?'connective:fascia-dense':p.kind==='surface'?'respiratory:mark':p.kind==='landmark'?'skeletal:mark':isShellSurface(p.name)?p.system+':shell':p.system;
   // The lung lobes: one pink, one material for every lobe. Matte (roughness 1, weak reflections of the room) because a glossy surface turned the upper lobes, which face the key light, into pure white glare;
   // closed meshes seen from outside, so front faces only (the back faces drawn through a see-through lobe made it patchy).
@@ -1366,7 +1368,8 @@ mats.set('connective:fascia-dense',materialFor('connective',.88));{const gm=mate
      const lungLobe=/\blobe of (?:right |left )?lung$/i.test(p.name);
      const replacedBrain=!lungLobe&&brainLoaded&&(legacyBrainParenchyma.test(p.name)||intracranialLegacy);
      // A selected structure overrides the region, depth and layer filters, never a system switch that is off: the switches of the left panel decide what is drawn in every mode.
-     if(selection.has(p.id)&&visible.has(p.system)&&!replacedBrain&&(!cranialVaultVisible||!intracranial.test(p.name)||s.isolate))return true;
+     // ... nor the sex shown: a picked hip-bone landmark has a male and a female copy (one concept), and only the copy on the bone that is drawn may show.
+     if(selection.has(p.id)&&visible.has(p.system)&&((p as {kind?:string}).kind!=='landmark'||matchesSex(p,s.sex))&&!replacedBrain&&(!cranialVaultVisible||!intracranial.test(p.name)||s.isolate))return true;
      // the muscle of a selected tendon stays on screen (faded) as a reference, whatever the filters say, as long as Muscles is switched on
      if(refMuscles.has(p.id))return visible.has('muscular');
      if(!baseVisible(p))return false;
