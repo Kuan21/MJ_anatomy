@@ -5,7 +5,7 @@
 
 ## 目前狀態
 - 專案處於**穩定期**（2026-11-08 起）：暫停新功能，只修顯示錯誤；所有 PR 都要使用者人工審核，不可自行 merge。
-- main 最新：#391（2026-11-17 第十九次）。本分支已合併 main 到 #391。
+- main 最新：#405（2026-11-17 第二十次）。本分支已合併 main 到 #405。
 - **main 已經有中心線連續性檢查**（#281、#328：`scripts/check-centerlines.mjs`、基準 `docs/centerline-known.json` 57 條，已在 `npm run check` 內）。本分支的 `check-centreline-continuity.mjs` 是另一套做法，見「待我決定」。
 - 開放 PR（下列是 2026-11-11 的清單；本機沒有 `gh`，之後沒有再查，main 已合併到 #338，清單很可能已過時）：
   - #223 心臟腔內構造與標籤（部分完成）
@@ -172,6 +172,13 @@
   - 新改的 `scripts/test-quiz-viewer.mjs` 沒有 `URL.pathname` 寫法；在本機停在讀取 `public/models/quiz-lower.json`（生成檔，本機沒有），與 `test-quiz-exam` 同樣是缺生成檔，與本分支無關，沒有改它。
   - 合併後本機通過：七個 `test-centreline-*`（178 步中的第 152–158 步）、`check-no-notes`、`tsc --noEmit`。完整 `npm run check` 因缺生成檔沒有跑。
   - 其餘不變：生成檔仍缺、`_diag-*.mjs` 四個與 `package-lock.json` 差異仍未提交、本機沒有 `gh`，未查 PR #248 的 CI。
+
+- 2026-11-17（第二十次）：合併 main 並修腳本的 Windows 路徑，沒有改模型、解剖內容或網站。
+  - main 前進 13 個 commit 到 #405（#383 鎖骨下動脈位移、#394 模擬考試、#395 主圖譜接腦資訊卡、#402 耳部示意模型等）。`git merge-tree` 確認無衝突、main 沒有刪檔，用一般 merge 合併。
+  - main 新增／修改的腳本有四個 `URL.pathname` 寫法，已改用 `fileURLToPath`：`test-wording-unify`、`test-ear-refinement`、`lib/brain-quiz-source`、`lib/joint-quiz-source`。其中 **`test-wording-unify` 在 Windows 原本掃到 0 個檔而空過**；改後又發現它比對允許清單時用 `\` 分隔的相對路徑，把允許的別名表誤報為違規，改成一律用 `/`。現在本機掃 310 個檔並通過。`derive-subclavian-shift` 的 `pathname` 只用在印出訊息，沒有改。Linux／CI 行為不變。
+  - 修正後本機通過：`test-wording-unify`、`test-ear-refinement`（實際讀耳部模型執行）、七個 `test-centreline-*`（183 步中的第 152–158 步）、`check-no-notes`、`check-zh`（317 個檔）、`tsc --noEmit`；兩個 quiz-source 程式庫只做語法檢查（需 `.sites-runtime`，本機沒有）。完整 `npm run check` 因缺生成檔沒有跑。
+  - 生成檔：`public/models/stream/` 現在有神經串流 `.bin.gz`，但仍沒有跑考串流二進位檔；`work/`、`serous/`、`female/`、`supplement-stream.json.gz` 仍不存在，連續性基準仍無法產生。
+  - 其餘不變：`_diag-*.mjs` 四個與 `package-lock.json` 差異仍未提交、本機沒有 `gh`，未查 PR #248 的 CI。
 
 ## 進行中／等審核
 - S2 A–G、S3、S4、S6 相關工作都已有 PR（見上），等使用者審核。
