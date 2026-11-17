@@ -1,6 +1,6 @@
 # 耳詳細模式：構造清單、來源與核對事項（內部文件）
 
-位置：圖譜左側底部「耳」按鈕，或網址 `#/organ/ear`。程式：`app/ear-detail.tsx`（頁面，使用共用模板 `OrganDetailLayout`）、`app/mj-ear-viewer.ts`（3D 顯示）、`app/mj-ear-atlas.ts`（構造清單、分組、剝離層、資訊卡）。模型檔：`public/models/ear/ear-atlas.json` 與 `ear-atlas.bin.gz`，由 `node scripts/build-ear-atlas.mjs --source <來源資料夾>` 產生（來源檔不放在 repo，以 `scripts/ear-source-files.json` 的 sha256 釘住）。
+位置：圖譜左側底部「耳」按鈕，或網址 `#/organ/ear`。程式：`app/ear-detail.tsx`（頁面，使用共用模板 `OrganDetailLayout`）、`app/mj-ear-viewer.ts`（3D 顯示）、`app/mj-ear-atlas.ts`（構造清單、分組、深度層、資訊卡）。模型檔：`public/models/ear/ear-atlas.json` 與 `ear-atlas.bin.gz`，由 `node scripts/build-ear-atlas.mjs --source <來源資料夾>` 產生（來源檔不放在 repo，以 `scripts/ear-source-files.json` 的 sha256 釘住）。
 
 ## 一、模型是什麼
 
@@ -77,8 +77,7 @@ IE-Map 與 OpenEar 是不同人的標本，座標也不同。IE-Map 的鼓階、
 
 - 左欄：外耳／中耳／內耳（骨性迷路、膜性迷路）／神經與神經節的樹狀清單、搜尋、全部開關；卡片只有資訊的項目標示〔只有資訊卡〕，示意項目標示〔示意〕。
 - 視角：外側、內側、前面、後面、上面、下面、重設。
-- 切面：矢狀、冠狀、水平三個方向；預設通過鐙骨；被切到的構造內側以平色顯示（不是真實組織斷面）。
-- 逐層剝離（5 層，由外而內）：耳廓 → 外耳道 → 鼓膜 → 聽小骨與咽鼓管 → 骨性迷路；膜性迷路與神經不被剝除。
+- 右欄沒有「切面」與「逐層剝離」面板（使用者 2026-11-17 決定，只限耳；腦、眼仍有）。構造的由外而內深度次序（耳廓 → 外耳道 → 鼓膜 → 聽小骨與咽鼓管 → 骨性迷路）仍用於選取深層構造時淡化前面的外層，以及 Quiz 排序。
 - 點選構造：只選取，不移動鏡頭、不縮放、不自動 Focus／Isolate／Hide。選取深層構造時，位於它前面的外層構造變成淡淡的玻璃，仍可穿過它點選後方的構造。資訊卡的 Focus 才會移動鏡頭。
 - Quiz：`#/quiz/ear`（22 題：真實網格的構造，不含兩條示意管道、兩個窗的色塊與 10 項只有資訊卡的構造），規則與排除原因見 `docs/quiz-ear.md`。
 
@@ -101,3 +100,7 @@ node scripts/test-quiz-ear.mjs
 ```
 
 `--register` 重新做疊代最近點搜尋（預設使用已記錄的對位結果）。
+
+## 聽覺傳導動畫
+
+耳部詳細模式右欄「動畫」按鈕開啟全畫面動畫（`app/ear-hearing/`）。文字與數字在 `hearing-data.ts`（六步、考點、滑桿、狀態機）；耳的 3D 在 `hearing-ear-scene.ts`（自己的 renderer，讀同一個耳套件檔，不下載新檔）；腦在 `hearing-brain-scene.ts`（重用腦詳細模式的 viewer 與已載入的 `brain.glb`，透過 `hearing()` 取得場景）；柯蒂氏器、突觸、展開圖為 2D 示意（`hearing-diagrams.ts`）。蝸管中心線與聽小骨擺動軸由載入的網格計算（`geometry-analysis.ts`），耳模型改版後會自動跟著。耳蝸核、上橄欖核、斜方體、外側丘系模型沒有，以標「示意」的點與管表示，位置為估計。測試：`node scripts/test-ear-hearing.mjs`。
