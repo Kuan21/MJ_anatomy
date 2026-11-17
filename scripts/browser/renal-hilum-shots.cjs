@@ -1,6 +1,6 @@
 // Renal hilum order (AB-01): screenshots of a production build served by vite preview (software GL, light theme). No annotations are drawn.
 // usage: node scripts/browser/renal-hilum-shots.cjs <port> <outDir> <tag> [base=/MJ_anatomy/]
-// Shown: urinary organs (kidneys, ureters), arteries and veins only. Views: front, from above (front-to-back order reads top to bottom), and close obliques of each hilum;
+// Shown: kidneys, ureters, renal arteries and veins (with divisions and branches), abdominal aorta and inferior vena cava only. Views: front, from above (front-to-back order reads top to bottom), and close obliques of each hilum;
 // then the same views with both kidneys hidden, so the renal pelvis (the upper end of the ureter, otherwise inside the kidney) shows behind the artery and vein;
 // each series at desktop size (1500×950) and phone size (390×844). Colours: veins blue, arteries red, ureter and renal pelvis brown (urinary). Loading takes 20–25 minutes with software WebGL.
 const {chromium}=require('playwright');const fs=require('fs');
@@ -22,18 +22,20 @@ const VIEWS=[
  await p.goto(`http://127.0.0.1:${port}${base}?mjview=1`);
  {const t0=Date.now();await p.waitForFunction(()=>document.querySelector('[data-testid=load-bar]')?.getAttribute('aria-valuenow')==='100',null,{timeout:3600000,polling:2000});console.log('loaded',Math.round((Date.now()-t0)/1000)+'s');}
  await sleep(8000);
- // Organs ▸ Urinary: "show only urinary"; then switch on arteries and veins
- const organs=p.locator('.organ-parent .organ-expand').first();if(await organs.getAttribute('aria-expanded')!=='true'){await organs.click();await sleep(1200);}
- await p.locator('.organ-children .system-row',{hasText:/Urinary/}).locator('button.system-name').first().click();await sleep(2500);
- for(const name of [/^\s*Arteries/,/^\s*Veins/]){const row=p.locator('.system-row:not(.enabled)',{hasText:name}).first();if(await row.count()){await row.locator('button.system-name').click();await sleep(2500);}}
- console.log('systems on',await p.locator('.system-row.enabled').allTextContents().then(a=>a.map(t=>t.replace(/\s+/g,' ').slice(0,20)).join(' | ')));
+ // Only the hilum structures: urinary, arterial and venous systems on, every other part of them hidden (the page state is set through React, as the system panel and the Hide
+ // button would; nothing in the app is changed). Kept: kidneys, ureters, renal arteries and veins with their divisions and branches, abdominal aorta, inferior vena cava.
+ const KEEP='kidney|ureter$|renal (artery|vein)|division of (left|right) renal artery|segmental branch of (left|right) renal artery|Ureteric segment|Abdominal aorta|Inferior vena cava';
+ const setScene=(hideRx)=>p.evaluate(([KEEP,hideRx])=>{
+  const keep=new RegExp(KEEP,'i'),hide=hideRx?new RegExp(hideRx,'i'):null,all=window.__mjView.partsState('.');
+  const hiddenParts=all.filter(x=>!keep.test(x.name)||(hide&&hide.test(x.name))).map(x=>x.id);
+  const el=document.querySelector('.layers-panel'),k=Object.keys(el).find(k=>k.startsWith('__reactFiber$'));
+  for(let f=el[k];f;f=f.return)for(let h=f.memoizedState;h;h=h.next){const v=h.memoizedState;
+   if(v&&typeof v==='object'&&!Array.isArray(v)&&'hiddenParts' in v&&'visible' in v&&h.queue?.dispatch){h.queue.dispatch(s=>({...s,visible:['arterial','venous','urinary'],hiddenParts,selected:[],isolate:false}));return hiddenParts.length;}}
+  return -1;
+ },[KEEP,hideRx]);
+ console.log('hidden parts',await setScene(null));await sleep(4000);
+ console.log('shown',await p.evaluate(()=>window.__mjView.partsState('.').filter(x=>x.visible>0).map(x=>x.name).filter((v,i,a)=>a.indexOf(v)===i).join(', ')));
  await p.mouse.click(5,300);await sleep(1000);
- // camera of every shot (position, target, zoom, canvas rectangle) for scripts/browser/renal-hilum-annotate.mjs, which draws labels on copies for the PR description
- const meta={};
- const shot=async (n,vp='desktop')=>{await sleep(3500);const file=`${tag}-${vp}-${n}.png`;await p.screenshot({path:`${out}/${file}`,timeout:240000});
-  meta[file]=await p.evaluate(()=>({camera:window.__mjView.camera(),zoom:window.__mjView.zoom(),canvas:window.__mjView.screenBox(['FJ3145']),viewport:[innerWidth,innerHeight]}));
-  fs.writeFileSync(`${out}/${tag}-camera.json`,JSON.stringify(meta,null,1));console.log('shot',vp,n);};
- const look=([t,d,r],k=1)=>p.evaluate(([t,d,r])=>window.__mjView.look(t,d,r),[t,d,r*k]);
  const DESK={width:1500,height:950},PHONE={width:390,height:844},PHONE_VIEWS=[VIEWS[1],VIEWS[2],VIEWS[4]];
  const series=async suffix=>{
   await p.setViewportSize(DESK);await sleep(5000);
@@ -42,18 +44,10 @@ const VIEWS=[
   for(const [n,...v] of PHONE_VIEWS){await look(v,1.6);await shot(n+suffix,'mobile');}
  };
  await series('');
- // hide both kidneys (search, then the Hide button of the detail sheet): the renal pelvis, the upper end of the ureter, is otherwise inside the kidney
+ // hide both kidneys: the renal pelvis, the upper end of the ureter, is otherwise inside the kidney
  await p.setViewportSize(DESK);await sleep(5000);
- const hideByName=async name=>{
-  if(!await p.locator('.search-panel input').count())await p.locator('.top-actions button',{hasText:/Find a structure/}).first().click();
-  await p.waitForSelector('.search-panel input');await p.fill('.search-panel input',name);await sleep(1500);
-  const opt=p.locator('.anatomy-search-results [role=option]',{hasText:new RegExp('^\\s*'+name)}).first();if(!await opt.count()){console.log('no result',name);return;}
-  await opt.click();await sleep(1800);const hide=p.locator('.detail-sheet .hide-structure-action').first();
-  if(await hide.count()){await hide.click();await sleep(1000);console.log('hid',name);}else console.log('no hide button',name);
- };
- for(const name of ['Left kidney','Right kidney'])await hideByName(name);
- await p.keyboard.press('Escape');await p.mouse.click(5,300);await sleep(1500);
- console.log('kidneys',await p.evaluate(()=>window.__mjView.partsState('^(Left|Right) kidney$').filter(x=>/kidney$/.test(x.name)).map(x=>x.name+':'+x.visible).join(' ')));
+ console.log('hidden parts',await setScene('kidney'));await sleep(4000);
+ console.log('kidneys',await p.evaluate(()=>window.__mjView.partsState('^(Left|Right) kidney$').map(x=>x.name+':'+x.visible).join(' ')));
  await series('-no-kidney');
  await b.close();console.log('done');
 })().catch(e=>{console.log('FAIL',e.message.slice(0,500));process.exit(1);});
