@@ -14,8 +14,10 @@ const SCENE1=[
 const SCENE2=[
  {find:'Right recurrent laryngeal nerve',views:[['right-hook-front',R,[-0.2,-0.3,0.95],0.14],['right-hook-below',R,[-0.3,-0.9,0.3],0.14],['right-hook-back',R,[-0.3,0.1,-0.95],0.14],['right-hook-wide',[-0.04,1.41,-0.004],[-0.1,0.1,1],0.24]]},
  {find:'Left recurrent laryngeal nerve',views:[['left-hook-front',A,[0.3,-0.1,0.95],0.16]]}];
-async function toggle(p,name){await p.locator('.system-row',{hasText:name}).first().locator('button.system-name').click();await sleep(2500);}
-async function organs(p,names){for(const name of names){await p.evaluate(n=>{const rows=[...document.querySelectorAll('div,li,label')].filter(e=>e.children.length<8&&e.textContent.trim().startsWith(n)&&e.querySelector('input,button[role=switch],button'));const r=rows.sort((a,b)=>a.textContent.length-b.textContent.length)[0];if(!r)return 'none';const t=r.querySelector('input[type=checkbox],button[role=switch]')||r.querySelector('input,button');t.click();return r.textContent.trim().slice(0,30);},name);await sleep(2500);}}
+async function openPanel(p){const row=p.locator('.system-row').first();if(!(await row.isVisible().catch(()=>false))){const b=p.locator('button[aria-label="開啟系統面板"]');if(await b.count()){await b.click();await sleep(1500);}}}
+async function closePanel(p){const c=p.locator('.close-systems').first();if(await c.isVisible().catch(()=>false)){await c.click();await sleep(1500);}}
+async function toggle(p,name){await openPanel(p);await p.locator('.system-row',{hasText:name}).first().locator('button.system-name').evaluate(e=>e.click());await sleep(2500);}
+async function organs(p,names){await openPanel(p);for(const name of names){await p.evaluate(n=>{const rows=[...document.querySelectorAll('div,li,label')].filter(e=>e.children.length<8&&e.textContent.trim().startsWith(n)&&e.querySelector('input,button[role=switch],button'));const r=rows.sort((a,b)=>a.textContent.length-b.textContent.length)[0];if(!r)return 'none';const t=r.querySelector('input[type=checkbox],button[role=switch]')||r.querySelector('input,button');t.click();return r.textContent.trim().slice(0,30);},name);await sleep(2500);}}
 async function select(p,find){await p.getByRole('button',{name:'搜尋構造'}).click();await sleep(800);await p.locator('.search-panel input[role=combobox]').first().fill(find);await sleep(1500);await p.locator('[data-slot=combobox-item]').first().click();await sleep(3500);}
 async function shoot(p,tag,sel,sceneName){await select(p,sel.find);const side=sel.find.startsWith('Left')?'L':'R';
  for(const [n,t,d,r] of sel.views){await p.evaluate(([t,d,r])=>window.__mjView.look(t,d,r),[t,d,r]);await sleep(3500);await p.screenshot({path:`${out}/${tag}-${sceneName}-${n}.png`,...(IPAD?{}:{clip:{x:330,y:60,width:840,height:830}}),timeout:240000});console.log(tag,'shot',n);}
@@ -31,9 +33,11 @@ async function shoot(p,tag,sel,sceneName){await select(p,sel.find);const side=se
   for(const n of [/Muscles/,/Connective/,/Skeleton/,/Veins/,/Arteries/])await toggle(p,n);
   await organs(p,['Respiratory','Digestive']);
   console.log(tag,'scene1',await p.locator('.system-row.enabled').allTextContents().then(a=>a.map(t=>t.replace(/\s+/g,' ').slice(0,24)).join(' | ')));
+  await closePanel(p);
   for(const s of SCENE1)await shoot(p,tag,s,'s1');
   await organs(p,['Respiratory','Digestive']);await toggle(p,/Arteries/);
   console.log(tag,'scene2',await p.locator('.system-row.enabled').allTextContents().then(a=>a.map(t=>t.replace(/\s+/g,' ').slice(0,24)).join(' | ')));
+  await closePanel(p);
   for(const s of SCENE2)await shoot(p,tag,s,'s2');
  }));
  await b.close();console.log('done');
