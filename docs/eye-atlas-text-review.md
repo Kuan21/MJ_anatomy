@@ -46,7 +46,7 @@
 | FJ1325 | Supraorbital nerve | 眶上神經 | 眼眶神經 | 已對照 |
 | infraorbital-nerve | Infraorbital nerve | 眶下神經 | 眼眶神經 | 已對照 |
 | FJ1326 | Supratrochlear nerve | 滑車上神經 | 眼眶神經 | 已對照 |
-| FJ1300 | Lacrimal nerve | 淚腺神經 | 眼眶神經 | 已對照 |
+| FJ1300 | Lacrimal nerve | 淚神經 | 眼眶神經 | 已對照 |
 | FJ1310 | Nasociliary nerve | 鼻睫神經 | 眼眶神經 | 已對照 |
 | FJ1311 | Communicating branch of nasociliary nerve with ciliary ganglion | 鼻睫神經至睫狀神經節的交通支 | 眼眶神經 | 已對照 |
 | FJ1288 | Ciliary ganglion | 睫狀神經節 | 眼眶神經 | 已對照 |

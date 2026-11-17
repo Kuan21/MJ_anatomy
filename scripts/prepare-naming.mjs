@@ -13,6 +13,9 @@ const DATA=root+'app/mj-naming-data.ts',REPORT=root+'docs/naming-report.md';
 // Confirmed corrections applied to every Chinese name (longest first).
 const FIXES=[['背闊肌','闊背肌'],['頷','頜'],['腭','顎']];
 
+// HN-11 (user decision 2026-11-17): the shown Chinese name of these structures is the wording of the required-structure list (app/mj-required-names.json); it outranks every other source.
+const REQUIRED=Object.fromEntries(read('app/mj-required-names.json').rows.filter(r=>r.display==='renamed').map(r=>r.entries[0]).map(e=>[e.en.toLowerCase(),e.zh]));
+
 // Phase 1: baseline names with no overrides.
 const previousData=fs.existsSync(DATA)?fs.readFileSync(DATA,'utf8'):'';
 fs.writeFileSync(DATA,'export const NAMING_DATA={overrides:{} as Record<string,string>,fixes:'+JSON.stringify(FIXES)+' as [string,string][]};\n');
@@ -64,14 +67,16 @@ for(const t of glossary){
 }
 
 // Resolve per structure.
-const rows=[],overrides={},conflicts=[],adopted={1:0,2:0,3:0},sameName=new Map();
+const rows=[],overrides={},conflicts=[],adopted={0:0,1:0,2:0,3:0},sameName=new Map();
 for(const [k,e] of structures){
  const base=baseline.get(k);let pick=null;
  const lf=layerForms.get(k);
+ const rq=REQUIRED[k];
  if(lf)pick={zh:lf.zh,tier:1,src:`muscle-layers.json（${lf.region}）`};
  const gl=glossaryRules.filter(g=>g.key===k).sort((a,b)=>a.tier-b.tier);
  if(!pick&&gl.length)pick={zh:gl[0].zh,tier:gl[0].tier,src:gl[0].tier===2?'glossary.json（跑考摘要）':'glossary.json（其他筆記）'};
- if(pick&&gl.length&&gl[0].zh!==pick.zh)conflicts.push({key:k,layers:pick.zh,glossary:gl[0].zh});
+ if(rq)pick={zh:rq,tier:0,src:'必考清單用詞（app/mj-required-names.json）'};
+ if(pick&&gl.length&&gl[0].zh!==pick.zh&&!rq)conflicts.push({key:k,layers:pick.zh,glossary:gl[0].zh});
  if(pick&&pick.zh!==base){overrides[k]=pick.zh;adopted[pick.tier]++;}
  const finalZh=overrides[k]??base;
  rows.push({key:k,name:e.name,where:[...e.where].join('、'),system:e.system,source:pick?pick.src:'台灣解剖學名詞（程式內建對照表）',before:base,after:finalZh,changed:pick&&pick.zh!==base});
@@ -89,7 +94,7 @@ const bySource=Object.entries(rows.reduce((a,r)=>{const s=r.source.replace(/（[
 const md=[];
 md.push('# 統一命名報告\n');
 md.push('由 `scripts/prepare-naming.mjs` 產生（`npm run check` 會檢查本檔是否最新）。優先次序：\n');
-md.push('1. `docs/muscle-layers.json`（跑考摘要的肌肉分層）\n2. `docs/glossary.json` 中 `source_priority` 為「跑考摘要」的項目\n3. `docs/glossary.json` 其他項目\n4. 以上皆無，採用台灣解剖學通用譯名（程式內建對照表 `app/mj-structure-info.ts`、`app/mj-zh-anatomy.ts`、`app/mj-zh-extra*.ts`）\n');
+md.push('0. `app/mj-required-names.json`（必考清單用詞，使用者 2026-11-17 決定，優先於以下所有來源）\n1. `docs/muscle-layers.json`（跑考摘要的肌肉分層）\n2. `docs/glossary.json` 中 `source_priority` 為「跑考摘要」的項目\n3. `docs/glossary.json` 其他項目\n4. 以上皆無，採用台灣解剖學通用譯名（程式內建對照表 `app/mj-structure-info.ts`、`app/mj-zh-anatomy.ts`、`app/mj-zh-extra*.ts`）\n');
 md.push('`docs/glossary.json` 為自動抽取，採用前逐項過濾：標為 `needs_review`、英文名不帶結構類型後綴、中文名與類型不符（如動脈對應到「分隔」）、含句子成分、分支／肌腱／系列結構者一律不採用，列於下方「待確認」。\n');
 md.push('## 一、結果摘要\n');
 md.push(`- 涵蓋結構名稱（去除左右後）：${rows.length} 個\n- 採用來源 1（muscle-layers.json）改名：${adopted[1]} 個；來源 2（跑考摘要）：${adopted[2]} 個；來源 3（其他筆記）：${adopted[3]} 個\n- 全站固定修正：${FIXES.map(([a,b])=>`「${a}」→「${b}」`).join('、')}\n- 仍缺中文名或含英文：${latin.length} 個\n`);

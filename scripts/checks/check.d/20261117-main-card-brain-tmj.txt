@@ -1,0 +1,1 @@
+node scripts/test-main-card-brain-tmj.mjs
