@@ -80,6 +80,22 @@ for (const id of movedIds) {
   }
   assert.ok(checked > 20, 'arterial parts checked: ' + checked);
 }
+// branch origin stays on the trunk: for every moved branch the nearest distance to the other moved parts (its parent) may not grow by more than 0.3 mm, and a branch that touched (<= 1 mm) before still touches after
+{
+  const all = [...movedIds].map(id => loaded(id)), minD = (A, B) => { let m = Infinity; for (const p of A) for (const q of B) m = Math.min(m, dist(p, q)); return m; };
+  const gapOf = (L, others, key) => Math.min(...others.filter(O => O.id !== L.id).map(O => minD(L[key], O[key])));
+  for (const side of ['Left', 'Right']) {
+    const fam = all.filter(L => movedOwn.has(L.id) ? M.PARTS[side].own.includes(L.id) : M.PARTS[side].branches.includes(L.id)), art = fam.find(L => L.id === M.PARTS[side].own[0]);
+    for (const L of fam) {
+      if (L === art) continue;
+      const b = gapOf(L, fam, 'base'), a = gapOf(L, fam, 'verts');
+      assert.ok(a <= b + .3 && (b > 1 || a <= 1), `${side} ${L.id}: nearest distance to its parent grows from ${b.toFixed(2)} to ${a.toFixed(2)} mm (branch separates from the trunk)`);
+    }
+    // negative control: the branch with the longest reach (thyrocervical trunk) left at its source position while the rest moves is caught by the same rule
+    const th = fam.find(L => L.id === (side === 'Left' ? 'FJ2255' : 'FJ2307')), rest = fam.filter(L => L !== th), left = {id: th.id, base: th.base, verts: th.base};
+    assert.ok(gapOf(left, [...rest, left], 'verts') > gapOf(left, [...rest, left], 'base') + .3, `${side}: control, a branch left behind is detected`);
+  }
+}
 // negative controls: a rigid shift of the artery alone (no fade, no branches) is caught by the same measurements
 {
   const S = SIDES[0], A = loaded(S.artery), rigid = A.base.map(p => [p[0], p[1] + 2, p[2] - 12]), arch = part('FJ3411');
