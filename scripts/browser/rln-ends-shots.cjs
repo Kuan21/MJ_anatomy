@@ -5,6 +5,7 @@
 const {chromium}=require('playwright');const fs=require('fs');
 const [out='/tmp/rln-ends',spec='after=5812']=process.argv.slice(2);fs.mkdirSync(out,{recursive:true});
 const runs=spec.split(',').map(s=>s.split('=')).map(([tag,port])=>({tag,port}));
+const [VW,VH]=(process.env.VIEWPORT||'1500x950').split('x').map(Number),IPAD=VW<1200;   // VIEWPORT=820x1180 for the iPad size: no crop (the panels stack differently)
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const N=[0,1.445,-0.010], LN=[0.012,1.44,-0.01], RN=[-0.012,1.44,-0.01], R=[-0.045,1.412,-0.004], A=[0.015,1.37,-0.01];
 const SCENE1=[
@@ -17,12 +18,12 @@ async function toggle(p,name){await p.locator('.system-row',{hasText:name}).firs
 async function organs(p,names){for(const name of names){await p.evaluate(n=>{const rows=[...document.querySelectorAll('div,li,label')].filter(e=>e.children.length<8&&e.textContent.trim().startsWith(n)&&e.querySelector('input,button[role=switch],button'));const r=rows.sort((a,b)=>a.textContent.length-b.textContent.length)[0];if(!r)return 'none';const t=r.querySelector('input[type=checkbox],button[role=switch]')||r.querySelector('input,button');t.click();return r.textContent.trim().slice(0,30);},name);await sleep(2500);}}
 async function select(p,find){await p.getByRole('button',{name:'搜尋構造'}).click();await sleep(800);await p.locator('.search-panel input[role=combobox]').first().fill(find);await sleep(1500);await p.locator('[data-slot=combobox-item]').first().click();await sleep(3500);}
 async function shoot(p,tag,sel,sceneName){await select(p,sel.find);const side=sel.find.startsWith('Left')?'L':'R';
- for(const [n,t,d,r] of sel.views){await p.evaluate(([t,d,r])=>window.__mjView.look(t,d,r),[t,d,r]);await sleep(3500);await p.screenshot({path:`${out}/${tag}-${sceneName}-${n}.png`,clip:{x:330,y:60,width:840,height:830},timeout:240000});console.log(tag,'shot',n);}
+ for(const [n,t,d,r] of sel.views){await p.evaluate(([t,d,r])=>window.__mjView.look(t,d,r),[t,d,r]);await sleep(3500);await p.screenshot({path:`${out}/${tag}-${sceneName}-${n}.png`,...(IPAD?{}:{clip:{x:330,y:60,width:840,height:830}}),timeout:240000});console.log(tag,'shot',n);}
  await p.keyboard.press('Escape').catch(()=>{});await sleep(800);}
 (async()=>{
  const b=await chromium.launch({args:['--use-gl=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
  await Promise.all(runs.map(async({tag,port})=>{
-  const ctx=await b.newContext({viewport:{width:1500,height:950},deviceScaleFactor:1,colorScheme:'light'});const p=await ctx.newPage();p.setDefaultTimeout(240000);
+  const ctx=await b.newContext({viewport:{width:VW,height:VH},deviceScaleFactor:1,colorScheme:'light'});const p=await ctx.newPage();p.setDefaultTimeout(240000);
   p.on('pageerror',e=>console.log(tag,'PAGEERR',e.message.slice(0,200)));
   await p.goto(`http://127.0.0.1:${port}/?mjview=1`);
   {const t0=Date.now();await p.waitForFunction(()=>document.querySelector('[data-testid=load-bar]')?.getAttribute('aria-valuenow')==='100',null,{timeout:3600000,polling:2000});console.log(tag,'loaded',Math.round((Date.now()-t0)/1000)+'s');}
