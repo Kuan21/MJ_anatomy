@@ -1,5 +1,9 @@
 # REVIEW_LOG
 
+## 頸內、頸外動脈分叉後分開（HN-21b，【需人工審核】，不自動 merge）
+
+等我審核（未合併）：載入時只把頸外動脈往前、往內側位移最多 3 mm（頸內動脈與頸總動脈不動），分叉後 5 mm 起兩條動脈壁不再穿過、10 mm 起壁間距 ≥ 1.5 mm；迷走神經、舌下神經、頸交感幹、頸內靜脈、咽縮肌的間距不變或仍 ≥ 8 mm。新增 `scripts/measure-carotid-separation.mjs`、`scripts/test-carotid-separation.mjs`、`docs/carotid-separation.md`。使用者核對：依 Gray's 1918 與 OpenStax 一般描述，頸外動脈在前內側、頸內動脈在後外側。
+
 ## 鎖骨下動脈移到前、中斜角肌之間（HN-23，使用者 2026-11-16 批准方案 B，【需人工審核】，不自動 merge）
 
 | 任務 | 狀態 | PR | 合併規則 | 備註 |

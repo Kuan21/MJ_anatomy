@@ -1,6 +1,8 @@
 // Thoracic and abdominal-wall nerves the atlas lacks (phrenic, recurrent laryngeal, splanchnic nerves and their ganglia, vagal trunks, oesophageal plexus,
 // intercostobrachial): textbook courses on landmarks measured on the atlas meshes.
 import {sub, add, mul, unit, len, lerp, cross} from '../lib/paokao-util.mjs';
+import {smooth} from '../lib/nerve-corrections.mjs';
+import {displaceAlong, grooveLine, sampleAtHeight} from '../lib/rln-groove.mjs';
 
 const SIDES = [{w: 'Right', l: 'right', sx: -1, zh: '右', s: 'r'}, {w: 'Left', l: 'left', sx: 1, zh: '左', s: 'l'}];
 
@@ -48,10 +50,19 @@ export default function thoraxNerves(U) {
       const o = S.s === 'r' ? axis(vag, 1.418, P(S.sx * .017, 1.418, 0)) : axis(vag, 1.36, P(S.sx * .015, 1.36, -.02));
       const loop = S.s === 'r' ? add(axis('Right subclavian artery', 1.412, P(-.05, 1.412, 0)), P(.0, -.012, -.004)) : add(U.cen('Arch of aorta', P(.02, 1.36, -.01), .006), P(-.004, -.012, -.006));
       const g = y => { const c = axis(trach, y, P(0, y, -.01)); return add(c, P(S.sx * .0135, 0, -.0015)); };
-      const pts = [o, loop, g(1.385), g(1.420), g(1.450), add(U.extreme('Cricoid cartilage', P(S.sx * -1, 0, 0)), P(S.sx * .0035, -.002, -.0005))];
+      let pts = [o, loop, g(1.385), g(1.420), g(1.450), add(U.extreme('Cricoid cartilage', P(S.sx * -1, 0, 0)), P(S.sx * .0035, -.002, -.0005))], samples = 44;
+      // Left side: the course above lies about 10 mm lateral of the groove (the tracheal axis taken from the slab is off to the left; on the right side the same error happens to cancel the
+      // offset). The left nerve is moved onto the groove line fitted to the tracheal mesh (scripts/lib/rln-groove.mjs), the same line on which the right nerve already lies. The offset is zero at
+      // the hook round the aortic arch and at the cricoid and blends in between by smootherstep over the arc length of the nerve, so it stays attached to the vagus and the larynx.
+      if (S.s === 'l' && !U.legacyRln) {
+        const dense = smooth(pts, 51), line = grooveLine(U.V(trach), S.sx), stations = [{i: 10, dx: 0, dz: 0}];
+        for (let y = 1.375; y < 1.4551; y += .005) { const i = sampleAtHeight(dense, y, 12), [x, z] = line(dense[i][1]); stations.push({i, dx: x - dense[i][0], dz: z - dense[i][2]}); }
+        stations.push({i: 50, dx: 0, dz: 0});
+        pts = displaceAlong(dense, stations); samples = 50;
+      }
       out.push({
         name: `${S.w} recurrent laryngeal nerve`, zh: `${S.zh}喉返神經`, system: 'nervous', kind: 'nerve', parent: vag,
-        tubes: [{pts, r: [.0010, .0007], samples: 44}],
+        tubes: [{pts, r: [.0010, .0007], samples}],
         card: {origin: [`Vagus nerve (${S.s === 'r' ? 'at the level of the right subclavian artery' : 'at the aortic arch, beside the ligamentum arteriosum'})`, `迷走神經（${S.s === 'r' ? '在右鎖骨下動脈高度' : '在主動脈弓、動脈韌帶旁'}）`],
           course: [`${S.s === 'r' ? 'Hooks round the right subclavian artery' : 'Hooks round the aortic arch'} and ascends in the groove between the trachea and oesophagus to the larynx`, `${S.s === 'r' ? '繞過右鎖骨下動脈' : '繞過主動脈弓'}，在氣管與食道之間的溝內上行到喉`],
           supply: ['Motor to all intrinsic laryngeal muscles except cricothyroid; sensory below the vocal folds', '支配除環甲肌以外的所有喉內肌；聲帶以下黏膜感覺']},
