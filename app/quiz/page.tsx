@@ -193,7 +193,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb', block}: {re
         {!shown && !error && <div className="quiz-loading" role="status"><span className="quiz-spinner"/><strong>載入本題模型</strong><small>{load.loaded} / {load.total || '…'} 個模型套件</small></div>}
         {shown && !ready && !error && <div className="quiz-loading-chip" role="status"><span className="quiz-spinner"/>其餘構造載入中 {load.loaded} / {load.total}</div>}
         {error && <div className="quiz-model-error" role="alert"><strong>暫時未能作答</strong><p>{error}</p><button data-slot="quiz-button" className="quiz-primary" onClick={() => {setError(''); setReadiness({key: '', ready: false}); setSceneRetry(n => n + 1);}}>重新載入模型</button></div>}
-        <div className="quiz-stage-hint">{naming ? (answer ? '可旋轉模型，對照黃色標示的構造' : '黃色標示的是哪個構造？拖曳旋轉 · 滾輪／雙指縮放') : answer ? '可旋轉模型，對照正確位置' : peeling ? '移開遮擋中：點選構造會暫時隱藏，不計分' : '拖曳旋轉 · 滾輪／雙指縮放 · 點選作答'}</div>
+        <div className="quiz-stage-hint">{naming ? (answer ? '可旋轉模型，對照紫色標示的構造' : '紫色標示的是哪個構造？拖曳旋轉 · 滾輪／雙指縮放') : answer ? '可旋轉模型，對照正確位置' : peeling ? '移開遮擋中：點選構造會暫時隱藏，不計分' : '拖曳旋轉 · 滾輪／雙指縮放 · 點選作答'}</div>
       </section>
 
       <aside className="quiz-question-card" aria-label="測驗題目">
@@ -202,7 +202,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb', block}: {re
         <div className="quiz-question-heading"><span className="quiz-kicker">{naming ? (answer ? 'ANSWER · 答案' : 'NAME IT · 請寫出名稱') : answer ? 'ANSWER · 答案' : 'FIND IT · 請找出'}</span><span className="quiz-system-label" style={{borderColor: category?.color}}>{category?.label}</span></div>
         {naming ? <>
           {!answer ? <form className="quiz-name-form" onSubmit={e => {e.preventDefault(); submit();}}>
-            <h1 className="quiz-target quiz-target-hidden" ref={title} tabIndex={-1}>黃色標示的是什麼構造？</h1>
+            <h1 className="quiz-target quiz-target-hidden" ref={title} tabIndex={-1}>紫色標示的是什麼構造？</h1>
             <label htmlFor="quiz-typed">請輸入名稱<small>{language === 'en' ? '用英文作答' : language === 'zh' ? '用中文作答' : '英文或中文皆可'}{needSide ? '，並寫出左右側' : ''}</small></label>
             <input id="quiz-typed" ref={input} className="quiz-name-input" value={typed} onChange={e => setTyped(e.target.value)} autoComplete="off" autoCapitalize="off" spellCheck={false} lang={language === 'zh' ? 'zh-Hant' : 'en'} placeholder={language === 'zh' ? '例如：二尖瓣' : 'e.g. Bicuspid valve'} disabled={!ready}/>
             <div className="quiz-name-actions"><button type="submit" data-slot="quiz-button" className="quiz-primary" disabled={!ready || !typed.trim()}><Pencil size={16}/>送出<small>Enter</small></button><button type="button" data-slot="quiz-button" className="quiz-secondary" disabled={!ready} onClick={giveUp}><Eye size={17}/>我不知道</button></div>

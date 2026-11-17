@@ -1,6 +1,6 @@
 import {useEffect, useMemo, useRef, useState} from 'react';
 import {AlertCircle, ArrowLeft, ArrowRight, Check, CheckCircle2, Eye, Layers, Lock, Maximize2, Play, RotateCcw, Target, XCircle} from 'lucide-react';
-import {QUIZ_CATEGORIES, QUIZ_REGIONS, categoryOf, type QuizCatalogue, type QuizRegionId, type QuizSettings, type QuizStructure} from './catalogue';
+import {FOCUS_COUNT, QUIZ_CATEGORIES, QUIZ_REGIONS, categoryOf, type QuizCatalogue, type SceneFocus, type QuizRegionId, type QuizSettings, type QuizStructure} from './catalogue';
 import {AnswerCard, Name, QuizScene} from './parts';
 import {structureCard} from './card';
 import {buildLessons, hintFor, scopeKeyOf, seededShuffle, type Lesson} from './lessons';
@@ -186,12 +186,14 @@ function LearnBody({catalogue, regionId, settings}: {catalogue: QuizCatalogue; r
     const step = STEPS.find(s => s.id === run.step)!, category = QUIZ_CATEGORIES.find(c => c.id === categoryOf(target));
     const know = run.step === 'know', stepNo = STEPS.indexOf(step);
     const hide = autoHidden(regionId, catalogue, target);
+    // 認識: nothing is picked, so the scene is the target, the bones and the structures nearest to the target; the practice step (where every candidate must be there) is brought into memory meanwhile
+    const focus: SceneFocus | undefined = know ? {count: FOCUS_COUNT} : undefined, knowNext = know && run.pos + 1 < run.queue.length;
     const last = run.pos + 1 >= run.queue.length, goesOn = !(last && (run.step === 'test' || run.requeued || !run.firsts.some(f => !f.ok)));
     return <>
       <LearnHeader regionId={regionId} right={<button data-slot="quiz-button" className="quiz-quiet" onClick={leave}>離開關卡 <ArrowLeft size={16}/></button>}/>
       <div className={`quiz-play-layout is-lesson ${know ? 'is-naming' : ''}`} data-step={run.step}>
         <section className="quiz-stage" aria-label="3D 模型">
-          <QuizScene key={sceneRetry} catalogue={catalogue} view={{key: questionKey, target, section: 'all', side: settings.side, answered: !!answer, pickedId: answer?.pickedId ?? null, hidden: hide.length ? [...hidden, ...hide] : hidden, context, peeling, command, mode: know ? 'name' : 'find', clarity: .45, only: false, highlightIds: [], progressive: true, next: nextTarget ? {catalogue, target: nextTarget} : undefined, lesson: know ? {seed: `${regionId}:${target.id}`, apart: false} : undefined}}
+          <QuizScene key={sceneRetry} catalogue={catalogue} view={{key: questionKey, target, section: 'all', side: settings.side, answered: !!answer, pickedId: answer?.pickedId ?? null, hidden: hide.length ? [...hidden, ...hide] : hidden, context, peeling, command, mode: know ? 'name' : 'find', clarity: .45, only: false, highlightIds: [], progressive: true, focus, next: nextTarget ? {catalogue, target: nextTarget, focus: knowNext ? focus : undefined, warm: know ? target : undefined} : know ? {catalogue, target, focus, warm: target} : undefined, lesson: know ? {seed: `${regionId}:${target.id}`, apart: false} : undefined}}
             onReady={(key, value) => setReadiness({key, ready: value})} onShown={(key, value) => setSeen({key, shown: value})} onProgress={(loaded, total) => setLoad({loaded, total})} onError={setError} onPick={choose} onMessage={setMessage}/>
           <div className="quiz-stage-caption"><span>{region.label}</span><span>{category?.label} · {target.side === 'midline' ? '中線' : target.side === 'right' ? '右側' : '左側'}</span></div>
           <div className="quiz-view-buttons" aria-label="模型視角"><button data-slot="quiz-button" onClick={() => changeView('front')}>前面</button><button data-slot="quiz-button" onClick={() => changeView('back')}>後面</button><button data-slot="quiz-button" onClick={() => changeView('side')}>側面</button>
@@ -201,7 +203,7 @@ function LearnBody({catalogue, regionId, settings}: {catalogue: QuizCatalogue; r
           {!shown && !error && <div className="quiz-loading" role="status"><span className="quiz-spinner"/><strong>載入本題模型</strong><small>{load.loaded} / {load.total || '…'} 個模型套件</small></div>}
           {shown && !ready && !error && <div className="quiz-loading-chip" role="status"><span className="quiz-spinner"/>其餘構造載入中 {load.loaded} / {load.total}</div>}
           {error && <div className="quiz-model-error" role="alert"><strong>暫時未能作答</strong><p>{error}</p><button data-slot="quiz-button" className="quiz-primary" onClick={() => {setError(''); setReadiness({key: '', ready: false}); setSceneRetry(n => n + 1);}}>重新載入模型</button></div>}
-          <div className="quiz-stage-hint">{know ? '黃色標示的是這個構造 · 拖曳旋轉 · 滾輪／雙指縮放' : answer ? '可旋轉模型，對照正確位置' : peeling ? '移開遮擋中：點選構造會暫時隱藏，不計分' : '拖曳旋轉 · 滾輪／雙指縮放 · 點選作答'}</div>
+          <div className="quiz-stage-hint">{know ? '紫色標示的是這個構造 · 拖曳旋轉 · 滾輪／雙指縮放' : answer ? '可旋轉模型，對照正確位置' : peeling ? '移開遮擋中：點選構造會暫時隱藏，不計分' : '拖曳旋轉 · 滾輪／雙指縮放 · 點選作答'}</div>
         </section>
 
         <aside className="quiz-question-card" aria-label="學習關卡" data-target={target.id} data-step={run.step}>
@@ -212,7 +214,7 @@ function LearnBody({catalogue, regionId, settings}: {catalogue: QuizCatalogue; r
           <div className="quiz-question-heading"><span className="quiz-kicker">{answer ? 'ANSWER · 答案' : step.kicker}</span><span className="quiz-system-label" style={{borderColor: category?.color}}>{category?.label}</span></div>
           {know ? <>
             <h1 className="quiz-target" ref={title} tabIndex={-1}><Name structure={target}/></h1>
-            <p className="lesson-copy-note">黃色標示的就是這個構造。看完名稱與重點，再按「下一個」。</p>
+            <p className="lesson-copy-note">紫色標示的就是這個構造。看完名稱與重點，再按「下一個」。</p>
             <AnswerCard structure={target} lesson/>
           </> : <>
             <h1 className="quiz-target" ref={title} tabIndex={-1}><Name structure={target}/></h1>
