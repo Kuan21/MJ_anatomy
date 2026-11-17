@@ -492,6 +492,19 @@
 | HN-29 | #396 | Arachnoid mater、Subarachnoid space 顯示名改為「蛛網膜」「蛛網膜下腔」，必考清單用「蜘蛛膜」「蜘蛛膜下腔」（RS-0047、RS-0763，另有 RS-0046「蜘蛛膜顆粒」），與使用者「跟必考清單統一」的指示相反。另外 #396 已自行選定 HN-28 尚待使用者決定的兩項（顳顎關節／顳下頜韌帶並用、麥粒軟骨），請使用者確認。 | `app/mj-required-names.json`（#396）與 `docs/required-structures/head-neck.json` | FIPAT TA2（名詞對照） | 影響使用 | 總管 |
 | HN-30 | #409 覆核時發現（#409 之前已存在） | 左、右喉返神經（Left／Right recurrent laryngeal nerve，建置時產生的示意管）上端在環狀軟骨下緣（y 1.459–1.471 m）向中線匯合並**交叉**：左側末端到 x −4～−9 mm（病人右側），右側末端到 x +8 mm（病人左側），後面看成 X 形。應各自在同側、甲狀軟骨下角（環甲關節）後方入喉，不越過中線。 | 已部署資料逐層斷面（左 y 1.455 m x +11.6 → 1.467 m x −4.1；右 1.456 m x −5.0 → 1.468 m x +7.9；左、右環杓後肌各在 x +1～+10、−11～−2）；只開神經系統的後方 3D 截圖：[喉返神經上端交叉](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/c664c5205ebb2d05227d15439996634b6bdcf636/qa-report/newpr/hn30-rln.jpg)（畫面中上方細的兩條） | Gray's Anatomy 1918；TeachMeAnatomy；Kenhub | 會令溫書學錯 | 頭頸模型 |
 
+### 新 PR 第三輪（2026-11-17 深夜；本機 build：main（含 #419）＋#421＋#423 合在一起，只在本機，沒有推送）
+
+只列錯誤；以下 PR 都**未見錯誤**，依公開資料核對，請使用者核對。
+
+| PR | 內容 | 核對方法與結果 |
+|---|---|---|
+| #421（未合併） | HN-30 喉返神經上端 | 已修正：左、右喉返神經全程留在同側（左 x +9.6～+17.3 mm、右 −78.5～−5.4 mm），上端在環甲關節後方附近（左 x +9.6～+12.6、右 −13.4～−9.8、z −7.6～−4.3 mm），不再交叉。[只開神經系統的後方截圖](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/6671d04d83fd2e462b2b51035018a5c5ea2ae67d/qa-report/newpr/round3-rln-neckroot.jpg)（左半張）。HN-30 待 #421 合併後即解決。 |
+| #423（未合併） | PP-02、PP-03、PP-04 | PP-03、PP-04：5 件重疊網格（`FJ1450`、`FJ1450M`、`FJ1449M`、`FJ1457M`、`FJ1458M`）已從圖譜移除。PP-02：用 5 mm 方格比較，左右陰蒂腳與前庭球全部在女性提肛肌下表面以下 2.1–5.8 mm（原本最多高出 15 mm）；抬高前後，提肛肌與陰道、直腸的穿插比例相同，沒有因抬高而增加。另外：移除 `FJ1450` 後網站沒有任何「會陰淺橫肌」結構；它是必考清單要求的 3D 結構，已列在會陰缺項模型清單（會陰肌肉排定 12/1 前完成），不算 #423 的錯誤。 |
+| #419（已合併） | AB-01 腎門次序 | 用網站同一套載入時位移公式計算：腎門處由前到後為腎靜脈、腎動脈、腎盂。左（距中線 30–38 mm）z 約 +0.6／−10.5／−22.5 mm；右（30–42 mm）約 +4.1／−4.1／−12.2 mm。AB-01 已解決。腎竇內較深處（距中線 42 mm 以外）靜脈與動脈前後相近，屬腎內分支，不影響腎門次序。未在 3D 畫面截圖確認。 |
+| #422（未合併） | 耳說明文字 | 前庭階繞蝸軸改為「約兩圈半」，與公開資料一致。 |
+| #418（未合併） | 眼詳細模式 Quiz | 只看程式與資料（題目取自眼詳細模式的結構與眼眶孔，卡片用眼詳細模式的說明文字），未見錯誤；網站上的實際操作待合併後測試。 |
+| #411（已合併） | 頸根部尖刺 | 本機 build 只開動脈與靜脈，從後斜方與前斜方看頸根部：細血管末端為圓頭，沒有看到三角形尖刺（[後斜方](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/6671d04d83fd2e462b2b51035018a5c5ea2ae67d/qa-report/newpr/round3-rln-neckroot.jpg，右半張）。 |
+
 ### #407 耳部聽覺傳導動畫：iPad 模擬測試（總管轉交，2026-11-17）
 
 方法：本機最新 main（含 #407、#411）`vite build` + `vite preview`；Playwright 觸控模擬（hasTouch）、1 倍解析度，直向 820×1180、橫向 1180×820。**這是模擬，不等於 iPad 真機**，手指實際觸控仍由使用者用真機測。逐項：步驟 1–6、上一步／下一步、播放／暫停、自動切換、三條滑桿用觸控拖到頭尾、展開圖開關、開著動畫轉向、關閉後回到耳部詳細模式。截圖：[直向 4 張](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/ba932b860455e6f2dbb07a63f9ceab1a51dc9241/qa-report/ipad407/ipad-407-portrait.jpg)（步驟 1、4、6、展開圖）、[橫向 4 張](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/ba932b860455e6f2dbb07a63f9ceab1a51dc9241/qa-report/ipad407/ipad-407-landscape.jpg)、[直向展開圖](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/ba932b860455e6f2dbb07a63f9ceab1a51dc9241/qa-report/ipad407/portrait-unrolled.png)。
