@@ -15,6 +15,8 @@ export function loaded(id, apply = true) {
   return {id, name: p.name, pos, idx: g.indices};
 }
 const ids = (side, role) => M.PARTS[side][role].flatMap(id => [id, id + '-END']).filter(id => byId.has(id));
+/** The first n parts of a role (renal vein trunk and hilum part; renal artery, its trunk and first divisions), with their end pieces. */
+const main = (side, role, n) => M.PARTS[side][role].slice(0, n).flatMap(id => [id, id + '-END']).filter(id => byId.has(id));
 /** Hilum slabs: lateral distance band (mm) where the three meet. */
 export const HILUM = {Left: [30, 42], Right: [30, 42]};
 const median = a => { const s = [...a].sort((x, y) => x - y); return s.length ? s[Math.floor(s.length / 2)] : NaN; };
@@ -97,10 +99,10 @@ export function measure(apply) {
     for (let u = 8; u < 56; u += 4) o.bands.push({u, vein: bandZ(side, 'vein', u, u + 4, apply), artery: bandZ(side, 'artery', u, u + 4, apply), pelvis: bandZ(side, 'pelvis', u, u + 4, apply)});
     o.hilum = {vein: bandZ(side, 'vein', lo, hi, apply), artery: bandZ(side, 'artery', lo, hi, apply), pelvis: bandZ(side, 'pelvis', lo, hi, apply)};
     o.where = {}; const C = o.clear; o.clear = new Proxy(C, {set(t, k, v) { t[k] = v; if (clearance.last) o.where[k] = clearance.last; clearance.last = null; return true; }});
-    o.clear['vein ↔ artery'] = clearance(side, ids(side, 'vein').slice(0, 2), ids(side, 'artery').slice(0, 4), apply);
-    o.clear['artery ↔ pelvis'] = clearance(side, ids(side, 'artery').slice(0, 4), ids(side, 'pelvis'), apply);
-    for (const [name, nb] of Object.entries(NEIGHBOURS[side])) o.clear['vein ↔ ' + name] = clearance(side, ids(side, 'vein').slice(0, 2), nb, apply);
-    for (const [name, nb] of Object.entries(NEIGHBOURS[side])) o.clear['artery ↔ ' + name] = clearance(side, ids(side, 'artery').slice(0, 4), nb, apply);
+    o.clear['vein ↔ artery'] = clearance(side, main(side, 'vein', 2), main(side, 'artery', 4), apply);
+    o.clear['artery ↔ pelvis'] = clearance(side, main(side, 'artery', 4), ids(side, 'pelvis'), apply);
+    for (const [name, nb] of Object.entries(NEIGHBOURS[side])) o.clear['vein ↔ ' + name] = clearance(side, main(side, 'vein', 2), nb, apply);
+    for (const [name, nb] of Object.entries(NEIGHBOURS[side])) o.clear['artery ↔ ' + name] = clearance(side, main(side, 'artery', 4), nb, apply);
   }
   return out;
 }
