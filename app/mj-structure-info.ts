@@ -510,6 +510,29 @@ function withCardExtras(p:StructureProfile,names:(string|undefined)[]):Structure
  const note=facts.findIndex(f=>f.labelZh==='模型'||f.labelZh==='模型末端');
  return{...p,facts:note>=0?[...facts.slice(0,note),...added,...facts.slice(note)]:[...facts,...added]};
 }
+/** Brain information cards (public/models/brain/neuro-cards.json, our own texts) shown on the main atlas card of the structure with the same name. */
+export interface BrainCardLite{en:string;fields:{label:string;items:string[]}[]}
+const BRAIN_LABEL_EN:Record<string,string>={位置:'Location',構造:'Structure',功能:'Function',傳入:'Afferents',傳出:'Efferents',損傷表現:'Effects of damage',臨床意義:'Clinical significance',影像表現:'Imaging',連通關係:'Connections',內容物:'Contents',傳遞內容:'Fibres carried',來源:'Origin',分支:'Branches',供應範圍:'Supply',阻塞症狀:'Effects of occlusion',分布:'Distribution','Brodmann 編號':'Brodmann area'};
+/** a card field that says the same as a field the profile already has (different label only) is not added a second time */
+const BRAIN_LABEL_SAME:Record<string,string[]>={分支:['主要分支'],供應範圍:['支配範圍','供應範圍'],分布:['支配範圍','供應範圍'],位置:['位置'],來源:['來源'],功能:['功能','作用']};
+export function brainCardIndex(cards:BrainCardLite[]):Map<string,BrainCardLite>{
+ const m=new Map<string,BrainCardLite>();
+ for(const c of cards){const k=sideless(c.en);if(k&&!m.has(k))m.set(k,c);}
+ return m;
+}
+export function withBrainCard(p:StructureProfile,index:Map<string,BrainCardLite>):StructureProfile{
+ const card=index.get(sideless(p.english));
+ if(!card||!p.facts||cardExtraFor(p.english))return p;
+ const have=new Set(p.facts.map(f=>f.labelZh)),added:BilingualFact[]=[];
+ for(const f of card.fields){
+  const text=f.items.join('').trim();
+  if(!text||have.has(f.label)||(BRAIN_LABEL_SAME[f.label]??[]).some(l=>have.has(l)))continue;
+  added.push({labelEn:BRAIN_LABEL_EN[f.label]??f.label,labelZh:f.label,valueEn:'',valueZh:text});
+ }
+ if(!added.length)return p;
+ const facts=[...p.facts],note=facts.findIndex(f=>f.labelZh==='模型'||f.labelZh==='模型末端');
+ return{...p,facts:note>=0?[...facts.slice(0,note),...added,...facts.slice(note)]:[...facts,...added]};
+}
 export function structureProfile(rawName:string,system:SystemId,part?:Part):StructureProfile{
  let p=withCardExtras(structureProfileRaw(rawName,system,part),[part?.name,rawName]);
  const variant=system==='arterial'?ORIGIN_VARIANTS.find(v=>v.test.test((part?.name??rawName).trim())):undefined;
