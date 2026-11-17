@@ -10,7 +10,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 |---|---|
 | Fragments | 32 |
 | Vessel, nerve and tendon walls inside bone | 433 |
-| Coincident faces (z-fighting) | 82 |
+| Coincident faces (z-fighting) | 74 |
 | Straight cuts in meshes | 45 |
 | Triangle stretch over 2x in the limit poses | 139 |
 | Structures that leave their bone in the limit poses | 160 |
@@ -490,7 +490,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Vestibulocochlear nerve (VIII).r | 4.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Vestibulocochlear nerve (VIII).r | 4.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 
-## Coincident faces (z-fighting) (82)
+## Coincident faces (z-fighting) (74)
 
 | structure | size | detail |
 |---|---|---|
@@ -513,14 +513,6 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right sclera | 174 | faces coincide with Right superior rectus: two layers share the same surface; to be offset or one of them removed |
 | Left fibularis tertius | 189 | faces coincide with Left tendon of fibularis tertius: two layers share the same surface; to be offset or one of them removed |
 | Right fibularis tertius | 193 | faces coincide with Right tendon of fibularis tertius: two layers share the same surface; to be offset or one of them removed |
-| Left coccygeus | 894 | faces coincide with Left coccygeus: two layers share the same surface; to be offset or one of them removed |
-| External anal sphincter | 158 | faces coincide with External anal sphincter: two layers share the same surface; to be offset or one of them removed |
-| superficial perineal muscle | 350 | faces coincide with External anal sphincter: two layers share the same surface; to be offset or one of them removed |
-| Left iliococcygeus | 1042 | faces coincide with Left iliococcygeus: two layers share the same surface; to be offset or one of them removed |
-| Left pubococcygeus | 1003 | faces coincide with Left pubococcygeus: two layers share the same surface; to be offset or one of them removed |
-| Left puborectalis | 1040 | faces coincide with Left puborectalis: two layers share the same surface; to be offset or one of them removed |
-| Tendinous arch of levator ani | 206 | faces coincide with Tendinous arch of levator ani: two layers share the same surface; to be offset or one of them removed |
-| tendinous arch of levator ani | 229 | faces coincide with Tendinous arch of levator ani: two layers share the same surface; to be offset or one of them removed |
 | Left flexor digitorum superficialis | 574 | faces coincide with Left tendons of flexor digitorum superficialis: two layers share the same surface; to be offset or one of them removed |
 | Right flexor digitorum superficialis | 568 | faces coincide with Right tendons of flexor digitorum superficialis: two layers share the same surface; to be offset or one of them removed |
 | Left abductor pollicis longus | 155 | faces coincide with Left tendon of abductor pollicis longus: two layers share the same surface; to be offset or one of them removed |
