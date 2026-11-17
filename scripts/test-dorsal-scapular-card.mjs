@@ -6,6 +6,6 @@ const part={id:'FJ2284',name:'Right dorsal scapular artery',system:'arterial',co
 const p=structureProfile(part.name,'arterial',part),origin=p.facts.find(f=>f.labelEn==='Origin'),region=p.facts.find(f=>f.labelEn==='Region');
 assert.ok(origin,'Origin field present');
 assert.ok(/subclavian artery/i.test(origin.valueEn)&&/second part/i.test(origin.valueEn)&&/transverse cervical artery/i.test(origin.valueEn),origin.valueEn);
-assert.ok(origin.valueZh.includes('鎖骨下動脈')&&origin.valueZh.includes('頸橫動脈深支'),origin.valueZh);
+assert.ok(origin.valueZh.includes('鎖骨下動脈')&&origin.valueZh.includes('橫頸動脈深支'),origin.valueZh);
 if(region)assert.ok(!/\barm\b/.test(region.valueEn),'region is not "arm": '+region.valueEn);
 console.log('PASS dorsal scapular artery card:',origin.valueZh,'|',region?.valueZh??'(no region field)');

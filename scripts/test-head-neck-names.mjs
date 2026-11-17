@@ -56,7 +56,7 @@ const accepts = (structure, typed) => judgeName(typed, structure, any).result ==
 
 // 2. renamed: the unified name is shown, the other wording is found and accepted
 for (const [english, unified, others, quizName, quizTyped] of [
-  ['submandibular gland', '下頜下腺', ['頷下腺', '下頷下腺', '顎下腺', '下頜下腺'], 'Left submandibular gland', ['下頜下腺', '頷下腺', '下頷下腺', '顎下腺']],
+  ['submandibular gland', '頜下腺', ['頷下腺', '下頷下腺', '顎下腺', '下頜下腺'], 'Left submandibular gland', ['下頜下腺', '頷下腺', '下頷下腺', '顎下腺']],
   ['pineal gland', '松果體', ['松果腺', '松果體', 'pineal body'], null, []],
 ]) {
   assert.ok(shown(english).some(z => z?.includes(unified)), `${english} is shown as ${unified}`);
