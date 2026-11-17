@@ -11,7 +11,7 @@ export const FACIAL_MUSCLE_LAYERS=[
  {id:2,label:'Layer 2｜第2層',depth:'Deep facial plane｜深層面肌',muscles:[
   'Deep masseter｜咬肌深部',
   'Buccinator｜頰肌',
-  'Levator anguli oris｜提口角肌',
+  'Levator anguli oris｜提嘴角肌',
   'Corrugator supercilii｜皺眉肌'
  ]},
  {id:3,label:'Layer 3｜第3層',depth:'Intermediate facial / mastication｜中層面肌／咀嚼肌',muscles:[

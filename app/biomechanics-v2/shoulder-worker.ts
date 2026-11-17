@@ -10,7 +10,8 @@ import {makeBodyRig,buildBodyMotion} from './body-motion';
 import {bindBodyPart} from './body-part';
 import {anatomicalRegion,isMotionQuarantined} from '../mj-part-regions';
 
-export type ShoulderInput={part:Part;base:Float32Array;triangles:Uint32Array;normals:Int16Array};
+/** `source`: the positions before a load-time shift (subclavian-shift.ts), for the stored tables' hash check only. */
+export type ShoulderInput={part:Part;base:Float32Array;triangles:Uint32Array;normals:Int16Array;source?:Float32Array};
 export type ShoulderResult={id:string;positions:Float32Array;normals:Int16Array;bounds:[number[],number[]]};
 /** Weights are sent once. Linear bindings (`exact`) are skinned on the GPU and never re-solved; refined ones are still solved
  * here, and their weights only drive the coarse live preview while a pose is being dragged. */
@@ -35,7 +36,7 @@ export function createShoulderSolver(atlas:Atlas){
    const binding=tissueBindings[input.part.id];
    if(!binding||binding.name!==input.part.name||isMotionQuarantined(input.part)||!['upper-limb','trunk'].includes(anatomicalRegion(input.part)))continue;
    const profile=['arterial','venous'].includes(input.part.system)?resolveNeurovascularProfile(input.part.name,binding.profile):binding.profile;
-   const skin=bindTissue(rigs[binding.side],profile,input.base,input.part,'',input.triangles);
+   const skin=bindTissue(rigs[binding.side],profile,input.base,input.part,'',input.triangles,input.source);
    // an end piece joins its vessel with the vessel's own weights (the atlas lists a vessel before its end piece)
    const main=input.part.id.endsWith('-END')?boundSkins.get(input.part.id.slice(0,-4)):undefined;
    if(main)alignEndPiece(skin,input.base,main.skin,main.base,undefined,input.triangles);
@@ -90,7 +91,7 @@ export function createBodySolver(atlas:Atlas){
   for(const input of sources.values()){
    const key=motion.region+':'+input.part.id;
    if(!bound.has(key)){
-    const binding=bindBodyPart(input.part,input.base,rig,softRigs);
+    const binding=bindBodyPart(input.part,input.base,rig,softRigs,input.source);
     if(!binding){bound.set(key,null);continue;}
     const positions=input.base.slice(),geometry=new BufferGeometry();
     geometry.setAttribute('position',new BufferAttribute(positions,3));geometry.setAttribute('normal',new BufferAttribute(input.normals.slice(),3,true));geometry.setIndex(new BufferAttribute(input.triangles,1));prepareSurfaceNormals(geometry);

@@ -267,7 +267,7 @@
 | Left superficial cervical artery | 左頸淺動脈 | superficial branch of transverse cervical artery |  |
 | Left lateral nasal cartilage | 左鼻外側軟骨 | lateral process of septal cartilage |  |
 | Septal nasal cartilage | 鼻中隔軟骨 | septal cartilage |  |
-| Left middle pharyngeal constrictor | 左咽中縮肌 | middle constrictor |  |
+| Left middle pharyngeal constrictor | 左中咽縮肌 | middle constrictor |  |
 | Hyo-epiglottic ligament | 舌骨會厭韌帶 | Hyoepiglottic ligament |  |
 | Left lateral crico-arytenoid | 左環杓側肌 | Left lateral cricoarytenoid |  |
 | Oblique part of left cricothyroid | 左環甲肌斜部 | left cricothyroid／左環甲肌（整條肌肉） |  |
@@ -293,5 +293,5 @@
 | Upper head of right lateral pterygoid | 右外翼肌上頭 | right lateral pterygoid／右外翼肌（整條肌肉） |  |
 | Left great auricular nerve | 左耳大神經 | greater auricular nerve |  |
 | Left articular capsule of temporomandibular joint | 左顳顎關節囊 | tmj capsule |  |
-| Right lateral temporomandibular ligament | 右顳顎外側韌帶 | temporomandibular ligament |  |
+| Right lateral temporomandibular ligament | 右顳下頜外側韌帶 | temporomandibular ligament |  |
 

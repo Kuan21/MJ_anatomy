@@ -1,6 +1,6 @@
 import {useEffect, useMemo, useRef, useState} from 'react';
 import {AlertCircle, ArrowLeft, ArrowRight, Check, Target, X} from 'lucide-react';
-import {FOCUS_COUNT, QUIZ_CATEGORIES, QUIZ_REGIONS, categoryOf, learnHashOf, type QuizCatalogue, type QuizRegionId, type QuizStructure} from './catalogue';
+import {FOCUS_COUNT_EXAM, QUIZ_CATEGORIES, QUIZ_REGIONS, categoryOf, learnHashOf, type QuizCatalogue, type QuizRegionId, type QuizStructure} from './catalogue';
 import {ModeNav} from './mode-nav';
 import {CategoryPicker, RegionPicker, toggleRegionIn, toggleSectionIn} from './setup-parts';
 import {EXAM_DEFAULTS, EXAM_LIMITS, clock, loadExamSetup, saveExamSetup, remainingSeconds, withSide, type ExamSetup} from './exam-setup';
@@ -20,7 +20,7 @@ type Phase = 'setup' | 'loading' | 'running' | 'result';
 /** Decoded bytes of model data the exam keeps in memory before it starts (about 140 MB); a longer exam brings the stations beyond this in while the earlier ones are answered. */
 const PRELOAD_LIMIT = 140 * 1024 * 1024;
 /** A station draws the structure under the needle, the bones and the structures nearest to it; the far faint structures are not loaded or drawn (nothing is picked in the exam). */
-const EXAM_FOCUS = {count: FOCUS_COUNT};
+const EXAM_FOCUS = {count: FOCUS_COUNT_EXAM};
 
 /** 模擬考試: the hardest mode. Needle on a structure, name it (and the side) before the clock runs out; stations are shuffled over every chosen region, there is no hint, no feedback and no way back; the result comes at the end. */
 export default function ExamPage() {
