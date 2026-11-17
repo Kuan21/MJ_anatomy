@@ -30,8 +30,8 @@ export function bodyPartRule(p:Part,rig:BodyRig){
  }
  return null;
 }
-export function bindBodyPart(p:Part,base:Float32Array,rig:BodyRig,softRigs:SoftRigs){
+export function bindBodyPart(p:Part,base:Float32Array,rig:BodyRig,softRigs:SoftRigs,source?:Float32Array){
  const rule=bodyPartRule(p,rig);if(!rule)return null;
- if(rule.carrier){const binding=tissueBindings[p.id],side=anatomicalSide(p),soft=softRigs[side==='midline'?binding.side:side];if(!soft)return null;const profile=['arterial','venous'].includes(p.system)?resolveNeurovascularProfile(p.name,binding.profile):binding.profile;return{skin:bindSpineCarrier(rig,base,bindTissue(soft,profile,base,p)),guard:rule.guard};}
+ if(rule.carrier){const binding=tissueBindings[p.id],side=anatomicalSide(p),soft=softRigs[side==='midline'?binding.side:side];if(!soft)return null;const profile=['arterial','venous'].includes(p.system)?resolveNeurovascularProfile(p.name,binding.profile):binding.profile;return{skin:bindSpineCarrier(rig,base,bindTissue(soft,profile,base,p,'',undefined,source)),guard:rule.guard};}
  return{skin:bindBodyTissue(rig,base,rule.skull,p),guard:rule.guard};
 }
