@@ -6,6 +6,7 @@
 // Reads the generated streams (not available in a clean CI checkout of generated files? the check.d test runs after the generators, same as the other mesh tests).
 // --check exits 1 when a reversed name is not in KNOWN_REVERSED (that list may only shrink).
 import {loadFullAtlas} from './lib/full-atlas.mjs';
+import {fileURLToPath} from 'node:url';
 export const HEAD_NECK_MIN_Y = 1.42, MID_MM = 2;
 // Known reversed names that are not fixed in this data (reason in docs). Empty on purpose: it may only shrink.
 export const KNOWN_REVERSED = [];
@@ -24,7 +25,7 @@ export function scanLeftRight() {
   }
   return rows;
 }
-if (process.argv[1] === new URL(import.meta.url).pathname) {
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const rows = scanLeftRight(), bad = rows.filter(r => r.verdict === 'REVERSED'), mid = rows.filter(r => r.verdict.startsWith('midline'));
   const show = process.argv.includes('--all') ? rows : [...bad, ...mid];
   if (process.argv.includes('--md')) { console.log('| id | name | named | centroid x (mm) | verdict |\n|---|---|---|---|---|'); for (const r of show) console.log(`| ${r.id} | ${r.name} | ${r.named === 'L' ? 'Left' : 'Right'} | ${r.cx} | ${r.verdict} |`); }

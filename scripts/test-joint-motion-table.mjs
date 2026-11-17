@@ -1,6 +1,7 @@
 // Validates app/data/joint-motion/joints.json (internal joint-motion table). Prints only counts and pass/fail.
 import fs from 'node:fs';
-const root = new URL('../', import.meta.url).pathname;
+import {fileURLToPath} from 'node:url';
+const root = fileURLToPath(new URL('../', import.meta.url));
 const read = f => fs.readFileSync(root + f, 'utf8');
 const table = JSON.parse(read('app/data/joint-motion/joints.json'));
 const errors = [];

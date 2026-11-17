@@ -8,6 +8,7 @@
 // Output: public/models/ear/ear-atlas.json and ear-atlas.bin.gz (Float32 positions, Int16 normals, Uint32 indices per part).
 //   node scripts/build-ear-atlas.mjs --source <dir with iemap/ and openear/> [--atlas public/models] [--register]
 import fs from 'node:fs';
+import {fileURLToPath} from 'node:url';
 import crypto from 'node:crypto';
 import path from 'node:path';
 import {gzipSync} from 'node:zlib';
@@ -17,7 +18,7 @@ import {v3, bezier, bezierTangent, principalAxes, wallTube, frames, splitByLabel
 
 const args = process.argv.slice(2), opt = name => { const i = args.indexOf('--' + name); return i < 0 ? undefined : (args[i + 1]?.startsWith('--') ? true : args[i + 1] ?? true); };
 const sourceDir = opt('source'); if (!sourceDir || sourceDir === true) throw new Error('Pass --source <directory with iemap/ and openear/> (see scripts/ear-source-files.json)');
-const atlasDir = path.resolve(typeof opt('atlas') === 'string' ? opt('atlas') : new URL('../public/models/', import.meta.url).pathname);
+const atlasDir = path.resolve(typeof opt('atlas') === 'string' ? opt('atlas') : fileURLToPath(new URL('../public/models/', import.meta.url)));
 const out = new URL('../public/models/ear/', import.meta.url);
 
 // ---- sources (checked against the pinned hashes)

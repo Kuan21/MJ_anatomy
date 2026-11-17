@@ -8,13 +8,14 @@
 //   node scripts/derive-jugular-shift.mjs groove   prints how far the vagus would still have to move (not applied) to lie 1 mm from both walls
 // Coordinates: metres, x to the left, y up, z forward. "out" = away from the midline (right side mirrored), "fwd" = anterior.
 import fs from 'node:fs';
+import {fileURLToPath} from 'node:url';
 import zlib from 'node:zlib';
 import {createRequire} from 'node:module';
 import {Matrix4, Quaternion, Vector3} from 'three';
 import {quizModule} from './quiz-modules.mjs';
 import {correctNerve} from './lib/nerve-corrections.mjs';
 import {meshOf, closest} from './lib/heart-geom.mjs';
-const root = new URL('../', import.meta.url).pathname, mode = process.argv[2] || 'report';
+const root = fileURLToPath(new URL('../', import.meta.url)), mode = process.argv[2] || 'report';
 const {smoothCarotids} = await quizModule('app/biomechanics-v2/carotid-bifurcation.ts');
 const {alignJugulars, JUGULAR_SHIFTS} = await quizModule('app/biomechanics-v2/jugular-align.ts');
 const GAP = 0.0015;          // wanted wall-to-wall gap between CCA/ICA/ECA and IJV: the vessels of the sheath touch, a millimetre of connective tissue

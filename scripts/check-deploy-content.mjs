@@ -3,10 +3,11 @@
 // are never copied or imported into the site: only a short allowlist of docs files is bundled, vite copies public/ only, and the Pages workflow uploads dist/ only.
 // check-no-notes.mjs (note wording, page citations) stays as it is; this one adds the book-name and deploy-path rules. Prints counts only.
 import fs from 'node:fs';
+import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 
-const root = new URL('../', import.meta.url).pathname, problems = [];
-const rel = f => path.relative(root, f);
+const root = fileURLToPath(new URL('../', import.meta.url)), problems = [];
+const rel = f => path.relative(root, f).split(path.sep).join('/');   // forward slashes on Windows too
 const BOOKS = /Netter|Moore[’']?s|Clinically Oriented|Gray[’']?s Anatomy for Students|Drake et al|Grant[’']?s|Sobotta|Rohen|Gilroy|Standring|Prometheus|Elsevier|Atlas of Human Anatomy|GROSS_SOURCE|NETTER_/i;
 const TEXT = /\.(json|md|txt|html|js|css|ts|tsx|mjs|svg)$/;
 function* walk(dir) {
@@ -45,7 +46,7 @@ const ALLOWED_DOCS = new Set(['docs/muscle-layers.json', 'docs/paokao-aliases.js
 const imported = new Set();
 for (const dir of ['app', 'components', 'lib', 'hooks', 'web']) for (const f of walk(path.join(root, dir))) {
   if (!/\.(ts|tsx|js|jsx|mjs)$/.test(f)) continue;
-  for (const m of fs.readFileSync(f, 'utf8').matchAll(/(?:from|import\()\s*['"]([^'"]*docs\/[^'"]+)['"]/g)) imported.add(path.relative(root, path.resolve(path.dirname(f), m[1])));
+  for (const m of fs.readFileSync(f, 'utf8').matchAll(/(?:from|import\()\s*['"]([^'"]*docs\/[^'"]+)['"]/g)) imported.add(rel(path.resolve(path.dirname(f), m[1])));
 }
 for (const f of imported) if (!ALLOWED_DOCS.has(f)) problems.push(`${f}: imported by the app, so it would be bundled into the site, but it is not on the allowlist`);
 // 2b. files made from the notes or the course summary never sit in public/ or dist/

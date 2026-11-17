@@ -1,10 +1,11 @@
 // The sixth cranial nerve is shown as 外旋神經 everywhere; 外展神經 stays searchable as an alias (the alias table of app/mj-search.ts,
 // which the brain detail mode's search also uses). Prints pass/fail only.
 import fs from 'node:fs';
+import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import {quizModule} from './quiz-modules.mjs';
-const root = new URL('../', import.meta.url).pathname;
+const root = fileURLToPath(new URL('../', import.meta.url));
 const files = [];
 const walk = dir => { for (const e of fs.readdirSync(dir, {withFileTypes: true})) { const f = path.join(dir, e.name); if (e.isDirectory()) walk(f); else if (/\.(ts|tsx)$/.test(e.name)) files.push(f); } };
 walk(path.join(root, 'app'));

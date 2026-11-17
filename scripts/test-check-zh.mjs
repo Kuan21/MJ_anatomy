@@ -1,6 +1,7 @@
 // Reverse tests for scripts/check-zh.mjs: text that must fail (Cantonese colloquial wording in every scanned place, including the
 // generated gzip JSON the pages read) and written Chinese that must pass.
 import fs from 'node:fs';
+import {fileURLToPath} from 'node:url';
 import os from 'node:os';
 import path from 'node:path';
 import zlib from 'node:zlib';
@@ -18,7 +19,7 @@ for (const good of ['返回', '返回上一頁', '返還', '回去學習', '回�
   ok(!flagged(good), `should pass: ${good}`);
 
 // 2. the scanner: every scanned place must fail on a bad string, and a clean tree must pass
-const script = new URL('./check-zh.mjs', import.meta.url).pathname;
+const script = fileURLToPath(new URL('./check-zh.mjs', import.meta.url));
 const run = root => spawnSync(process.execPath, [script], {env: {...process.env, ZH_ROOT: root + '/'}, encoding: 'utf8'});
 const make = files => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'check-zh-'));
