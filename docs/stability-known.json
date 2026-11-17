@@ -226,6 +226,11 @@
    "measure": 3,
    "reason": "section plane of the brain or heart detail mode: a cut view on purpose, the cut face is drawn by the viewer"
   },
+  "cuts|runtime:organ/organ-viewer.ts": {
+   "name": "renderer clipping plane in organ/organ-viewer.ts",
+   "measure": 2,
+   "reason": "section plane of the shared organ detail mode only (none, sagittal, coronal, horizontal; same cut feature as the brain, eye and ear detail modes; the main atlas is not affected): a cut view on purpose; the user decided 2026-11-16 that sections follow the shared template and approved this exception 2026-11-17"
+  },
   "detached|FJ1981|shoulder flexion 150": {
    "name": "Accessory hemiazygos vein",
    "measure": 13,
