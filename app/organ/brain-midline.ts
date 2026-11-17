@@ -32,10 +32,10 @@ export function mirrorX(pieces: T.BufferGeometry[]): T.BufferGeometry[] {
 
 /**
  * Body of the fornix (the unpaired part where the two crura have joined under the corpus callosum, before the columns turn downwards): the triangles of the two fornix meshes
- * whose centre lies within 7 mm of the midline, at least 30 mm above the model's 1600 mm origin, and between 14 mm behind and 9.5 mm in front of the origin.
+ * whose centre lies within 12 mm of the midline, at least 24 mm above the model's 1600 mm origin, and between 22 mm behind and 14 mm in front of the origin.
  * Behind that the two crura diverge (each runs back and laterally to the hippocampus), in front the columns descend. Limits read from the mesh (docs/brain-midline.md).
  */
-export const FORNIX_BODY_LIMITS = {x: 0.007, yMin: 1.630, zMin: -0.014, zMax: 0.0095};
+export const FORNIX_BODY_LIMITS = {x: 0.012, yMin: 1.624, zMin: -0.022, zMax: 0.014};
 export function splitFornixBody(pieces: T.BufferGeometry[]): {body: T.BufferGeometry[]; rest: T.BufferGeometry[]} {
   const body: T.BufferGeometry[] = [], rest: T.BufferGeometry[] = [], L = FORNIX_BODY_LIMITS;
   for (const g of pieces) {

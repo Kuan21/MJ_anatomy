@@ -2,13 +2,13 @@
 
 此檔由 `node scripts/report-quiz-headneck.mjs` 產生，請勿手改（排除與分組由 `scripts/prepare-quiz.mjs` 依 `app/quiz/headneck.ts` 的規則決定；說明見 `docs/quiz-head-neck.md`）。來源是主站已有的頭頸構造（圖譜、面部與補充肌肉、神經疊圖、頸部血管、關節組織），沒有新增或修改任何 3D 模型。腦的構造不在這裡（有獨立的「腦」Quiz）。
 
-可出題：435 個構造（左右分開計），去掉左右後 237 個名稱。不出題：254 項（逐項列在下方，原因見各小節）。
+可出題：435 個構造（左右分開計），去掉左右後 237 個名稱。不出題：253 項（逐項列在下方，原因見各小節）。
 
 ## 各區段 × 類別（格內為「構造數 / 去掉左右後的名稱數」）
 
 | 區段 | 骨 | 肌肉 | 神經 | 動脈 | 靜脈 | 韌帶與筋膜 | 關節 | 特殊空間與孔 | 器官結構 | 合計 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 顱骨與下頷 | 22 / 14 | — | — | — | — | — | 10 / 5 | — | — | 32 / 19 |
+| 顱骨與下頜 | 22 / 14 | — | — | — | — | — | 10 / 5 | — | — | 32 / 19 |
 | 頸椎與舌骨 | 14 / 14 | — | — | — | — | 2 / 1 | — | — | — | 16 / 15 |
 | 面部與咀嚼肌 | — | 51 / 26 | — | — | — | 1 / 1 | — | — | — | 52 / 27 |
 | 頸部肌肉 | — | 65 / 33 | — | — | — | — | — | 2 / 1 | — | 67 / 34 |
@@ -261,13 +261,13 @@
 - Right optic nerve [right]
 - Right trochlear nerve [right]
 
-### 屬於其他部位的測驗（胸椎、脊髓動脈、斜方肌、全身走行的交感神經與神經節）（36）
+### 屬於其他部位的測驗（胸椎、脊髓動脈、斜方肌、全身走行的交感神經與神經節）（35）
 
+- Anterior spinal artery
 - Left anterior division of inferior trunk of brachial plexus [left]
 - Left anterior division of middle trunk of brachial plexus [left]
 - Left anterior division of superior trunk of brachial plexus [left]
 - Left anterior root of spinal nerve [left]
-- Left anterior spinal artery [left]
 - Left ganglia of sympathetic trunk [left]
 - Left inferior trunk of brachial plexus [left]
 - Left middle trunk of brachial plexus [left]
@@ -285,7 +285,6 @@
 - Right anterior division of middle trunk of brachial plexus [right]
 - Right anterior division of superior trunk of brachial plexus [right]
 - Right anterior root of spinal nerve [right]
-- Right anterior spinal artery [right]
 - Right ganglia of sympathetic trunk [right]
 - Right inferior trunk of brachial plexus [right]
 - Right middle trunk of brachial plexus [right]

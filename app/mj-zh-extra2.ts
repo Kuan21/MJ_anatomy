@@ -9,7 +9,7 @@ const EXACT:Record<string,string>={
  'olfactory nerve (i)':'嗅神經（第一對腦神經）','optic nerve (ii)':'視神經（第二對腦神經）','oculomotor nerve (iii)':'動眼神經（第三對腦神經）','trochlear nerve (iv)':'滑車神經（第四對腦神經）','trigeminal nerve (v)':'三叉神經（第五對腦神經）',
  'abducens nerve (vi)':'外旋神經（第六對腦神經）','facial nerve (vii)':'顏面神經（第七對腦神經）','vestibulocochlear nerve (viii)':'前庭耳蝸神經（第八對腦神經）','glossopharyngeal nerve (ix)':'舌咽神經（第九對腦神經）','vagus nerve (x)':'迷走神經（第十對腦神經）',
  'accessory nerve (xi)':'副神經（第十一對腦神經）','hypoglossal nerve (xii)':'舌下神經（第十二對腦神經）','cochlear nerve':'耳蝸神經','vestibular nerve':'前庭神經','motor root of trigeminal nerve':'三叉神經運動根','sensory root of trigeminal nerve':'三叉神經感覺根',
- 'posterior division of mandibular nerve':'下頷神經後股','anterior division of mandibular nerve':'下頷神經前股','buccal nerve':'頰神經','lingual nerve':'舌神經','inferior alveolar nerve':'下齒槽神經','mental nerve':'頦神經','nerve to mylohyoid muscle':'下頷舌骨肌神經',
+ 'posterior division of mandibular nerve':'下頜神經後股','anterior division of mandibular nerve':'下頜神經前股','buccal nerve':'頰神經','lingual nerve':'舌神經','inferior alveolar nerve':'下齒槽神經','mental nerve':'頦神經','nerve to mylohyoid muscle':'下頜舌骨肌神經',
  'motor nucleus of facial nerve':'顏面神經運動核','nucleus of abducens nerve':'外旋神經核','nucleus of accessory nerve':'副神經核','nucleus of hypoglossal nerve':'舌下神經核','posterior nucleus of vagus nerve':'迷走神經背核','superior salivatory nucleus':'上泌涎核','vestibular nuclei':'前庭神經核',
  // peripheral nerves
  'genitofemoral nerve':'生殖股神經','femoral branch of genitofemoral nerve':'生殖股神經股支','genital branch of genitofemoral nerve':'生殖股神經生殖支','iliohypogastric nerve':'髂腹下神經','ilio-inguinal nerve':'髂腹股溝神經','pudendal nerve':'陰部神經',
@@ -36,7 +36,7 @@ const EXACT:Record<string,string>={
  'articular capsule of acromioclavicular joint':'肩鎖關節囊','articular capsule of elbow joint':'肘關節囊','articular capsule of glenohumeral joint':'盂肱關節囊','articular capsule of radiocarpal joint':'橈腕關節囊','articular capsule of sternoclavicular joint':'胸鎖關節囊',
  'articular capsules of metacarpophalangeal joints':'掌指關節囊','articular capsules of proximal interphalangeal joints':'近端指間關節囊','articular capsules of distal interphalangeal joints':'遠端指間關節囊','articular disc of acromioclavicular joint':'肩鎖關節盤',
  'articular disc of distal radio-ulnar joint':'遠端橈尺關節盤','articular disc of sternoclavicular joint':'胸鎖關節盤','articular capsule of temporomandibular joint':'顳顎關節囊','articular disc of temporomandibular joint':'顳顎關節盤',
- 'lateral temporomandibular ligament':'顳顎外側韌帶','sphenomandibular ligament':'蝶下頷韌帶','stylomandibular ligament':'莖突下頷韌帶','cricopharyngeal ligament':'環咽韌帶','quadrangular membrane':'方形膜','frenula capsulae':'關節囊繫帶',
+ 'lateral temporomandibular ligament':'顳顎外側韌帶','sphenomandibular ligament':'蝶下頜韌帶','stylomandibular ligament':'莖突下頜韌帶','cricopharyngeal ligament':'環咽韌帶','quadrangular membrane':'方形膜','frenula capsulae':'關節囊繫帶',
  // hip, knee, ankle, foot
  'articular capsule of hip joint':'髖關節囊','articular capsule of knee joint':'膝關節囊','articular capsule of superior tibiofibular joint':'上脛腓關節囊','articular capsule of interphalangeal joint of great toe':'拇趾趾間關節囊','articular capsules of metatarsophalangeal joints':'蹠趾關節囊',
  'articular capsules of proximal interphalangeal joints of foot':'足近端趾間關節囊','articular capsules of distal interphalangeal joints of foot':'足遠端趾間關節囊','acetabular labrum':'髖臼唇','transverse acetabular ligament':'髖臼橫韌帶','ligament of head of femur':'股骨頭韌帶',

@@ -23,8 +23,8 @@ const EXACT:Record<string,string>={
  'thyroid cartilage':'甲狀軟骨','cricoid cartilage':'環狀軟骨','arytenoid cartilage':'杓狀軟骨','corniculate cartilage':'小角軟骨','cuneiform cartilage':'楔狀軟骨','conus elasticus':'彈性圓錐',
  'hyo-epiglottic ligament':'舌骨會厭韌帶','thyro-epiglottic ligament':'甲狀會厭韌帶','median cricothyroid ligament':'環甲正中韌帶','median thyrohyoid ligament':'甲狀舌骨正中韌帶','lateral thyrohyoid ligament':'甲狀舌骨外側韌帶',
  'thyrohyoid membrane':'甲狀舌骨膜','vocal ligament':'聲帶韌帶','lateral crico-arytenoid':'環杓側肌','posterior crico-arytenoid':'環杓後肌','thyro-arytenoid':'甲杓肌',
- 'superior pharyngeal constrictor':'咽上縮肌','middle pharyngeal constrictor':'咽中縮肌','inferior pharyngeal constrictor':'咽下縮肌','palatopharyngeus':'腭咽肌','salpingopharyngeus':'咽鼓管咽肌','stylopharyngeus':'莖突咽肌',
- 'pharyngeal raphe':'咽縫','pterygomandibular raphe':'翼下頷縫','stylohyoid ligament':'莖突舌骨韌帶',
+ 'superior pharyngeal constrictor':'咽上縮肌','middle pharyngeal constrictor':'咽中縮肌','inferior pharyngeal constrictor':'咽下縮肌','palatopharyngeus':'顎咽肌','salpingopharyngeus':'咽鼓管咽肌','stylopharyngeus':'莖突咽肌',
+ 'pharyngeal raphe':'咽縫','pterygomandibular raphe':'翼下頜縫','stylohyoid ligament':'莖突舌骨韌帶',
  'superior lingular bronchial tree':'上舌支氣管樹','inferior lingular bronchial tree':'下舌支氣管樹',
  // costal cartilage, discs, connective
  'first costal cartilage':'第一肋軟骨','second costal cartilage':'第二肋軟骨','third costal cartilage':'第三肋軟骨','fourth costal cartilage':'第四肋軟骨','fifth costal cartilage':'第五肋軟骨','sixth costal cartilage':'第六肋軟骨','seventh costal cartilage':'第七肋軟骨',
