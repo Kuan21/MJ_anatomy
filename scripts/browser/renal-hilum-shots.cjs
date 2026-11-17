@@ -48,7 +48,8 @@ const VIEWS=[
   await p.setViewportSize(DESK);await sleep(5000);
   for(const [n,...v] of VIEWS){await look(v);await shot(n+suffix);}
   await p.setViewportSize(PHONE);await sleep(6000);
-  for(const [n,...v] of PHONE_VIEWS){await look(v,1.6);await shot(n+suffix,'mobile');}
+  // the phone is narrow: the whole view needs about 2.6 times the distance, the hilum close-ups 1.6 times
+  for(const [n,...v] of PHONE_VIEWS){await look(v,n==='above'?2.6:1.6);await shot(n+suffix,'mobile');}
  };
  await series('');
  // hide both kidneys: the renal pelvis, the upper end of the ureter, is otherwise inside the kidney
