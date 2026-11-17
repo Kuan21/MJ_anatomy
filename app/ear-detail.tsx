@@ -1,8 +1,13 @@
-import {useEffect, useMemo, useRef, useState, type ReactNode} from 'react';
+import {lazy, Suspense, useEffect, useMemo, useRef, useState, type ReactNode} from 'react';
 import {OrganAllToggle, OrganDetailLayout, OrganGroupNode, OrganLeftColumn, OrganPanel, OrganPartRow, OrganStage, type OrganViewButton} from './organ/organ-detail-layout';
 import {createEarViewer, type EarView, type EarViewState} from './mj-ear-viewer';
 import {EAR_BY_ID, EAR_GROUPS, EAR_PARTS, EAR_SCOPE, earGroupOf, type EarFacts, type EarPart} from './mj-ear-atlas';
 import {chineseMatches} from './mj-search';
+
+import './ear-hearing/hearing-button.css';
+
+// the hearing animation (3D, own scenes) is loaded only when it is opened
+const HearingAnimation = lazy(() => import('./ear-hearing/hearing-animation'));
 
 const EAR_VIEWS: readonly OrganViewButton[] = [{id: 'lateral', label: '外側'}, {id: 'medial', label: '內側'}, {id: 'front', label: '前面'}, {id: 'back', label: '後面'}, {id: 'top', label: '上面'}, {id: 'bottom', label: '下面'}];
 const defaults: EarViewState = {hiddenGroups: [], hiddenParts: [], isolate: null, selectedIds: [], command: {id: 0, view: 'lateral'}};
@@ -38,8 +43,9 @@ export default function EarDetail() {
   const [view, setView] = useState<EarViewState>(defaults);
   const [ready, setReady] = useState(false), [error, setError] = useState(''), [percent, setPercent] = useState(0);
   const [open, setOpen] = useState<string[]>([]), [allOpen, setAllOpen] = useState(false), [query, setQuery] = useState('');
+  const [hearing, setHearing] = useState(false);
   const [modelIds, setModelIds] = useState<Set<string>>(new Set());
-  useEffect(() => {document.title = '耳部詳細模式 · MJ Anatomy';}, []);
+  useEffect(() => {document.title = hearing ? '聽覺傳導動畫 · MJ Anatomy' : '耳部詳細模式 · MJ Anatomy';}, [hearing]);
   const patch = (next: Partial<EarViewState>) => setView(v => ({...v, ...next}));
   const go = (name: EarView, focus?: string[]) => setView(v => ({...v, command: {id: v.command.id + 1, view: name, focus}}));
   const selected = view.selectedIds.length === 1 ? EAR_BY_ID.get(view.selectedIds[0]) : undefined;
@@ -112,7 +118,7 @@ export default function EarDetail() {
     <dd className="organ-rel">{p.rel.map(id => {const r = EAR_BY_ID.get(id); return r ? <button key={id} onClick={() => choose(id)}><span lang="en">{r.en}</span></button> : null;})}</dd>
   </dl>;
 
-  return <OrganDetailLayout title="耳部詳細模式" labels={{left: '耳部構造清單', stage: '耳部 3D 模型', panel: '耳部控制與說明'}}
+  return <OrganDetailLayout title="耳部詳細模式" overlayOpen={hearing} overlay={hearing && <Suspense fallback={null}><HearingAnimation onClose={() => setHearing(false)}/></Suspense>} labels={{left: '耳部構造清單', stage: '耳部 3D 模型', panel: '耳部控制與說明'}}
     left={<OrganLeftColumn onAllOn={() => patch({hiddenGroups: [], hiddenParts: [], isolate: null})} onAllOff={() => patch({hiddenGroups: EAR_GROUPS.map(g => g.id), isolate: null})} query={query} onQuery={setQuery} ready={ready}>
       {q ? <div className="organ-results organ-all" aria-live="polite">
         <h3>構造（{found.length}）</h3>
@@ -141,5 +147,10 @@ export default function EarDetail() {
           <button onClick={() => patch({selectedIds: [], isolate: null})}>Clear｜清除</button>
         </div>
       </> : <p className="organ-info-empty">點選模型或清單中的構造，會顯示名稱、位置與功能。</p>}
+      extraBlocks={<section className="organ-block ear-animation-block">
+        <h2>Animation<small>動畫</small></h2>
+        <button className="ear-animation-open" onClick={() => setHearing(true)}>聽覺傳導動畫｜Hearing</button>
+        <small lang="zh-Hant">分六步：外耳、中耳、耳蝸行波、柯蒂氏器、突觸、聽覺路徑。使用目前載入的耳部與腦部模型，不會下載新的模型檔。</small>
+      </section>}
       scope={{text: <p>{EAR_SCOPE.zh}</p>, source: <p className="organ-source">{EAR_SCOPE.source}</p>}}/>}/>;
 }

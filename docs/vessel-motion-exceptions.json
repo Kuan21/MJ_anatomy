@@ -2,42 +2,42 @@
  "note": "Vessel pairs that open more than half a diameter (and more than 1 mm beyond their rest gap) at a joint pose. Known; a new one fails `npm run check:motion`. Only vessels that are not anatomically joined may be listed; `reasons` holds the reason of each pair added since 2026-11-13 (older entries have none).",
  "summary": {
   "shoulder abduction 90": {
-   "pairs": 470,
-   "exceptions": 38,
+   "pairs": 467,
+   "exceptions": 35,
    "worstOpeningMm": 99.6
   },
   "shoulder flexion 90": {
-   "pairs": 470,
-   "exceptions": 38,
+   "pairs": 467,
+   "exceptions": 35,
    "worstOpeningMm": 102.4
   },
   "elbow flexion 90": {
-   "pairs": 470,
+   "pairs": 467,
    "exceptions": 9,
    "worstOpeningMm": 5.4
   },
   "shoulder abduction 180 (limit)": {
-   "pairs": 470,
-   "exceptions": 48,
+   "pairs": 467,
+   "exceptions": 45,
    "worstOpeningMm": 166.3
   },
   "shoulder flexion 180 (limit)": {
-   "pairs": 470,
-   "exceptions": 52,
+   "pairs": 467,
+   "exceptions": 49,
    "worstOpeningMm": 150.7
   },
   "elbow flexion 140 (limit)": {
-   "pairs": 470,
+   "pairs": 467,
    "exceptions": 12,
    "worstOpeningMm": 8.9
   },
   "wrist flexion 80 (limit)": {
-   "pairs": 470,
+   "pairs": 467,
    "exceptions": 0,
    "worstOpeningMm": 0.2
   },
   "wrist flexion -70 (limit)": {
-   "pairs": 470,
+   "pairs": 467,
    "exceptions": 14,
    "worstOpeningMm": 6.1
   },
@@ -109,8 +109,6 @@
   "shoulder abduction 90|left|FJ2220|FJ2233|junction": 20.6,
   "shoulder abduction 90|left|FJ2232|FJ2257|junction": 5.8,
   "shoulder abduction 90|left|FJ2232|FJ1975|junction": 71,
-  "shoulder abduction 90|left|FJ2250|FJ3486|junction": 15.5,
-  "shoulder abduction 90|left|FJ2251|FJ1974|junction": 55.5,
   "shoulder abduction 90|left|FJ2252|FJ1974|end-to-end": 28,
   "shoulder abduction 90|left|FJ2330|FJ1974|junction": 40.9,
   "shoulder abduction 90|left|FJ2330|FJ1976|junction": 84.4,
@@ -128,7 +126,6 @@
   "shoulder abduction 90|right|FJ2291|FJ2268|end-to-end": 2.3,
   "shoulder abduction 90|right|FJ2298|FJ2305|end-to-end": 7.6,
   "shoulder abduction 90|right|FJ2299|FJ2306|end-to-end": 9.5,
-  "shoulder abduction 90|right|FJ2302|FJ2274|junction": 23,
   "shoulder abduction 90|right|FJ2361|FJ1938|junction": 86.7,
   "shoulder abduction 90|right|FJ2361|PK:Right lateral mammary artery|junction": 102.7,
   "shoulder abduction 90|right|PK:Right lateral brachial vein|FJ2269|end-to-end": 2.6,
@@ -141,8 +138,6 @@
   "shoulder flexion 90|left|FJ2232|FJ2257|junction": 5.4,
   "shoulder flexion 90|left|FJ2232|FJ1975|junction": 64.7,
   "shoulder flexion 90|left|FJ2240|FJ2239|end-to-end": 1.8,
-  "shoulder flexion 90|left|FJ2250|FJ3486|junction": 15.5,
-  "shoulder flexion 90|left|FJ2251|FJ1974|junction": 52.7,
   "shoulder flexion 90|left|FJ2252|FJ1974|end-to-end": 24.2,
   "shoulder flexion 90|left|FJ2330|FJ1974|junction": 42.1,
   "shoulder flexion 90|left|FJ2330|FJ1976|junction": 98.2,
@@ -160,7 +155,6 @@
   "shoulder flexion 90|right|FJ2272|FJ2269|junction": 26.8,
   "shoulder flexion 90|right|FJ2284|FJ2309|junction": 5.6,
   "shoulder flexion 90|right|FJ2284|FJ1961|junction": 65.5,
-  "shoulder flexion 90|right|FJ2302|FJ2274|junction": 25.3,
   "shoulder flexion 90|right|FJ2361|FJ1938|junction": 100.3,
   "shoulder flexion 90|right|FJ2361|PK:Right lateral mammary artery|junction": 106.2,
   "shoulder flexion 90|right|PK:Right posterior circumflex humeral vein|FJ2265|junction": 9,
@@ -185,8 +179,6 @@
   "shoulder abduction 180 (limit)|left|FJ2230|FJ2216|junction": 2.2,
   "shoulder abduction 180 (limit)|left|FJ2232|FJ2257|junction": 10.1,
   "shoulder abduction 180 (limit)|left|FJ2232|FJ1975|junction": 108.3,
-  "shoulder abduction 180 (limit)|left|FJ2250|FJ3486|junction": 17.9,
-  "shoulder abduction 180 (limit)|left|FJ2251|FJ1974|junction": 88.5,
   "shoulder abduction 180 (limit)|left|FJ2252|FJ1974|end-to-end": 47.8,
   "shoulder abduction 180 (limit)|left|FJ2330|FJ1974|junction": 79.1,
   "shoulder abduction 180 (limit)|left|FJ2330|FJ1976|junction": 128.3,
@@ -207,7 +199,6 @@
   "shoulder abduction 180 (limit)|right|FJ2291|FJ2268|end-to-end": 3.7,
   "shoulder abduction 180 (limit)|right|FJ2298|FJ2305|end-to-end": 16.5,
   "shoulder abduction 180 (limit)|right|FJ2299|FJ2306|end-to-end": 18.1,
-  "shoulder abduction 180 (limit)|right|FJ2302|FJ2274|junction": 29.7,
   "shoulder abduction 180 (limit)|right|FJ2304|FJ3579|end-to-end": 2.2,
   "shoulder abduction 180 (limit)|right|FJ2304|FJ2263|end-to-end": 2,
   "shoulder abduction 180 (limit)|right|FJ2361|FJ1938|junction": 131.2,
@@ -229,8 +220,6 @@
   "shoulder flexion 180 (limit)|left|FJ2240|FJ2212|end-to-end": 1.4,
   "shoulder flexion 180 (limit)|left|FJ2240|FJ2239|end-to-end": 3.6,
   "shoulder flexion 180 (limit)|left|FJ2250|FJ2222|end-to-end": 1.5,
-  "shoulder flexion 180 (limit)|left|FJ2250|FJ3486|junction": 17.3,
-  "shoulder flexion 180 (limit)|left|FJ2251|FJ1974|junction": 77.4,
   "shoulder flexion 180 (limit)|left|FJ2252|FJ1974|end-to-end": 32.3,
   "shoulder flexion 180 (limit)|left|FJ2330|FJ1974|junction": 65.2,
   "shoulder flexion 180 (limit)|left|FJ2330|FJ1976|junction": 114.8,
@@ -253,7 +242,6 @@
   "shoulder flexion 180 (limit)|right|FJ2284|FJ1961|junction": 106.3,
   "shoulder flexion 180 (limit)|right|FJ2298|FJ2305|end-to-end": 16.7,
   "shoulder flexion 180 (limit)|right|FJ2299|FJ2306|end-to-end": 12.5,
-  "shoulder flexion 180 (limit)|right|FJ2302|FJ2274|junction": 34.6,
   "shoulder flexion 180 (limit)|right|FJ2304|FJ2263|end-to-end": 1.7,
   "shoulder flexion 180 (limit)|right|FJ2361|FJ1938|junction": 118.5,
   "shoulder flexion 180 (limit)|right|FJ2361|PK:Right lateral mammary artery|junction": 153.1,

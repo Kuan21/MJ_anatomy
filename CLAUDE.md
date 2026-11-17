@@ -41,6 +41,8 @@
 - **執行規則（使用者 2026-11-14）：** 同時最多 3 個 agent；**同一時間只准一個 agent 開瀏覽器載入頁面**，其他排隊，避免機器負載過高（用 `mkdir /tmp/claude-0/browser.lock` 取鎖、用完或失敗都 `rm -rf` 釋放；取不到就每 2 分鐘重試）。agent 超過 30 分鐘沒有進展就停掉，回報卡在哪裡再重新開始。完整檢查用 `npm run ci:local`（等同 CI 的 `check` 與 `build`）。
 - **更新舊 PR 到最新 main：** 因為禁止 force push 與改寫歷史，一律把 main merge 進該 PR 分支（衝突先解決，生成檔以 repo 工具重新生成，不手改），不用 rebase。
 
+- **Cloudflare Pages（使用者 2026-11-17）：** 使用者已在 Cloudflare Pages 另開第二個網站（`mj-anatomy.pages.dev`），之後會加 Cloudflare Access 做邀請制。考試前 GitHub Pages 照舊是主要網站，部署流程不改。設定由使用者在 Cloudflare 介面管理：production branch 為 `main`、build 指令 `npm run build`、輸出資料夾 `dist`、`NODE_VERSION=24`、base 為 `/`（GitHub Pages 仍用 `--base /MJ_anatomy/`）；預覽分支不 build。**agent 不可修改 Cloudflare 設定，也不可為了 Cloudflare 改 `vite.config` 或 build 指令，需要時先問使用者。** 設定與考試後的步驟見 `docs/cloudflare-pages.md`。
+
 ### 第二次跑考衝刺（使用者 2026-11-15 指示；期限 2026-11-19（星期四）中午）
 - **次序：** 頭頸（含腦、眼、耳）→ 生殖系統（男女內外生殖器、會陰）→ 內臟（消化器官、腎、腎上腺、腹膜、後腹壁）；星期四早上全範圍回歸核對，並完整試一次模擬跑考。某區做不完，報告原因與剩餘項目，**不降低標準趕完**。
 - **完成標準（清單全部過完才算完成，不是做了幾多）：** 必考清單上每一項都要有：網站模型（位置、形狀、左右側符合解剖，沒有破損、穿模、遮擋）；中英名稱跟共筆；資訊卡內容（按結構類型寫起止點、神經、血供、作用或走向，用自己的話，不抄原文）；進入學習關卡、Quiz、模擬跑考。
