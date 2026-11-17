@@ -575,6 +575,23 @@ export function sceneStructures(catalogue: QuizCatalogue, target: QuizStructure,
     .filter(s => s.id === target.id || askedAtLevel(s, 1));
 }
 
+/** A reduced scene for the questions where nothing is picked (學習「認識」步驟、模擬考試): the target, every bone (when the target is not a bone) and the `count` structures nearest to the target.
+ * The far faint structures are neither loaded nor drawn, which is most of the triangles of a question. */
+export interface SceneFocus {count: number}
+export const FOCUS_COUNT = 8;
+/** Gap between the bounding boxes of two structures (0 when they overlap), the centre distance breaks a tie. */
+const boxGap = (a: QuizStructure, b: QuizStructure) => Math.hypot(...[0, 1, 2].map(i => Math.max(0, a.bounds[0][i] - b.bounds[1][i], b.bounds[0][i] - a.bounds[1][i])));
+const centreGap = (a: QuizStructure, b: QuizStructure) => Math.hypot(...[0, 1, 2].map(i => (a.bounds[0][i] + a.bounds[1][i] - b.bounds[0][i] - b.bounds[1][i]) / 2));
+/** `always` keeps structures the question needs whatever their distance (the glass coats over a deep target, the muscle a tendon belongs to). */
+export function focusStructures(scene: QuizStructure[], target: QuizStructure, focus: SceneFocus, always: (s: QuizStructure) => boolean = () => false): QuizStructure[] {
+  // a space is drawn as its boundary and its neighbourhood already (sceneStructures); leave it whole
+  if (target.space) return scene;
+  const fixed = (s: QuizStructure) => s.id === target.id || always(s) || (s.system === 'skeletal' && target.system !== 'skeletal');
+  const near = new Set(scene.filter(s => !fixed(s)).sort((a, b) => boxGap(a, target) - boxGap(b, target) || centreGap(a, target) - centreGap(b, target) || (a.id < b.id ? -1 : 1))
+    .slice(0, focus.count).map(s => s.id));
+  return scene.filter(s => fixed(s) || near.has(s.id));
+}
+
 /** The three study modes share the region list above (adding a region to QUIZ_REGIONS makes it appear in the learning map, the Quiz chooser and the mock exam). */
 export const LEARN_HUB_HASH = '#/learn';
 export const EXAM_HASH = '#/exam';
