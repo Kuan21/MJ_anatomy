@@ -28,7 +28,11 @@ const VIEWS=[
  for(const name of [/^\s*Arteries/,/^\s*Veins/]){const row=p.locator('.system-row:not(.enabled)',{hasText:name}).first();if(await row.count()){await row.locator('button.system-name').click();await sleep(2500);}}
  console.log('systems on',await p.locator('.system-row.enabled').allTextContents().then(a=>a.map(t=>t.replace(/\s+/g,' ').slice(0,20)).join(' | ')));
  await p.mouse.click(5,300);await sleep(1000);
- const shot=async (n,vp='desktop')=>{await sleep(3500);await p.screenshot({path:`${out}/${tag}-${vp}-${n}.png`,timeout:240000});console.log('shot',vp,n);};
+ // camera of every shot (position, target, zoom, canvas rectangle) for scripts/browser/renal-hilum-annotate.mjs, which draws labels on copies for the PR description
+ const meta={};
+ const shot=async (n,vp='desktop')=>{await sleep(3500);const file=`${tag}-${vp}-${n}.png`;await p.screenshot({path:`${out}/${file}`,timeout:240000});
+  meta[file]=await p.evaluate(()=>({camera:window.__mjView.camera(),zoom:window.__mjView.zoom(),canvas:window.__mjView.screenBox(['FJ3145']),viewport:[innerWidth,innerHeight]}));
+  fs.writeFileSync(`${out}/${tag}-camera.json`,JSON.stringify(meta,null,1));console.log('shot',vp,n);};
  const look=([t,d,r],k=1)=>p.evaluate(([t,d,r])=>window.__mjView.look(t,d,r),[t,d,r*k]);
  const DESK={width:1500,height:950},PHONE={width:390,height:844},PHONE_VIEWS=[VIEWS[1],VIEWS[2],VIEWS[4]];
  const series=async suffix=>{
