@@ -1,6 +1,6 @@
 import {useEffect, useMemo, useRef, useState} from 'react';
 import {AlertCircle, ArrowLeft, ArrowRight, Check, CheckCircle2, Eye, Layers, Lock, Maximize2, Play, RotateCcw, Target, XCircle} from 'lucide-react';
-import {FOCUS_COUNT, QUIZ_CATEGORIES, QUIZ_REGIONS, categoryOf, type QuizCatalogue, type SceneFocus, type QuizRegionId, type QuizSettings, type QuizStructure} from './catalogue';
+import {FOCUS_COUNT_LEARN, QUIZ_CATEGORIES, QUIZ_REGIONS, categoryOf, type QuizCatalogue, type SceneFocus, type QuizRegionId, type QuizSettings, type QuizStructure} from './catalogue';
 import {AnswerCard, Name, QuizScene} from './parts';
 import {structureCard} from './card';
 import {buildLessons, hintFor, scopeKeyOf, seededShuffle, type Lesson} from './lessons';
@@ -187,7 +187,7 @@ function LearnBody({catalogue, regionId, settings}: {catalogue: QuizCatalogue; r
     const know = run.step === 'know', stepNo = STEPS.indexOf(step);
     const hide = autoHidden(regionId, catalogue, target);
     // 認識: nothing is picked, so the scene is the target, the bones and the structures nearest to the target; the practice step (where every candidate must be there) is brought into memory meanwhile
-    const focus: SceneFocus | undefined = know ? {count: FOCUS_COUNT} : undefined, knowNext = know && run.pos + 1 < run.queue.length;
+    const focus: SceneFocus | undefined = know ? {count: FOCUS_COUNT_LEARN} : undefined, knowNext = know && run.pos + 1 < run.queue.length;
     const last = run.pos + 1 >= run.queue.length, goesOn = !(last && (run.step === 'test' || run.requeued || !run.firsts.some(f => !f.ok)));
     return <>
       <LearnHeader regionId={regionId} right={<button data-slot="quiz-button" className="quiz-quiet" onClick={leave}>離開關卡 <ArrowLeft size={16}/></button>}/>
