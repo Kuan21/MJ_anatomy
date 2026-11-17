@@ -1,0 +1,2 @@
+node scripts/derive-subclavian-shift.mjs --check
+node scripts/test-subclavian-shift.mjs
