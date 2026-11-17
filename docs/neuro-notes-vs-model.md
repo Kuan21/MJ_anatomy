@@ -61,7 +61,7 @@
 | 0048 | 側腦室<br>Lateral ventricle | 腦室／腦池／腦膜 | 0218 p.10 | 有：Lateral ventricle | 清單＋模型 | 已寫（位置、連通關係、內容物、臨床意義、影像表現） |
 | 0049 | 第三腦室<br>Third ventricle | 腦室／腦池／腦膜 | 0218 p.10 | 有：Third ventricle | 清單＋模型 | 已寫（位置、連通關係、內容物、臨床意義） |
 | 0050 | 第四腦室<br>Fourth ventricle | 腦室／腦池／腦膜 | 0218 p.10；0305 p.18；0324 p.4 | 有：Fourth ventricle | 清單＋模型 | 已寫（位置、連通關係、內容物、臨床意義） |
-| 0051 | 中腦導水管<br>Mesencephalic aqueduct | 腦室／腦池／腦膜 | 0218 p.10 | 見 0242 | 見 0242 | 併入 0242「大腦導水管（中腦導水管）」，名稱保留為別名 |
+| 0051 | 中腦導水管<br>Mesencephalic aqueduct | 腦室／腦池／腦膜 | 0218 p.10 | 見 0242 | 見 0242 | 併入 0242「大腦導水管（大腦導水管）」，名稱保留為別名 |
 | 0052 | 側孔<br>Lateral aperture | 腦室／腦池／腦膜 | 0218 p.10 | 模型未有 | 僅清單（模型未有） | 已寫（位置、連通關係） |
 | 0053 | 小腦延髓池<br>Cerebellomedullary cistern | 腦室／腦池／腦膜 | 0218 p.10 | 模型未有 | 僅清單（模型未有） | 已寫（位置、連通關係、臨床意義） |
 | 0054 | 蜘蛛網膜下腔<br>Subarachnoid space | 腦室／腦池／腦膜 | 0218 p.10；0218 p.11；0311 p.4；0311 p.5；0311 p.6；0430 p.3 | 模型未有 | 僅清單（模型未有） | 已寫（位置、連通關係、內容物、臨床意義） |
@@ -188,7 +188,7 @@
 | 0177 | 後顱窩<br>Posterior cranial fossa | 其他結構 | 0305 p.3；0324 p.4 | 模型未有 | 僅清單（模型未有） | 已寫（位置、構造、臨床意義） |
 | 0178 | 斜坡<br>Clivus | 其他結構 | 0305 p.3 | 模型未有 | 僅清單（模型未有） | 已寫（位置、功能、臨床意義） |
 | 0179 | 中腦<br>Midbrain | 其他結構 | 0305 p.3；0305 p.12；0430 p.34 | 有：Midbrain | 清單＋模型 | 已寫（位置、構造、功能、損傷表現） |
-| 0180 | 橋腦<br>Pons | 其他結構 | 0305 p.3；0305 p.12；0324 p.4；0324 p.7；0324 p.13；0411 p.21；0430 p.26；0430 p.34 | 有：Pons | 清單＋模型 | 已寫（位置、構造、功能、損傷表現） |
+| 0180 | 腦橋<br>Pons | 其他結構 | 0305 p.3；0305 p.12；0324 p.4；0324 p.7；0324 p.13；0411 p.21；0430 p.26；0430 p.34 | 有：Pons | 清單＋模型 | 已寫（位置、構造、功能、損傷表現） |
 | 0181 | 腳間窩<br>Interpeduncular fossa | 其他結構 | 0305 p.4；0305 p.21 | 有：Interpeduncular fossa | 清單＋模型 | 已寫（位置、構造、功能） |
 | 0182 | 中小腦腳<br>Middle cerebellar peduncle | 纖維束／傳導路徑 | 0305 p.4；0305 p.6；0324 p.7；0324 p.16 | 有：Middle cerebellar peduncle | 清單＋模型 | 已寫（位置、傳遞內容、終點、損傷表現） |
 | 0183 | 錐體<br>Pyramid | 其他結構 | 0305 p.5；0305 p.12 | 有：Pyramid of medulla oblongata | 清單＋模型 | 已寫（位置、構造、功能、損傷表現） |
@@ -218,7 +218,7 @@
 | 0207 | 正中溝<br>Dorsal median sulcus | 其他結構 | 0305 p.9；0305 p.18 | 模型未有 | 僅清單（模型未有） | 已寫（位置、功能） |
 | 0208 | 界溝<br>sulcus limitans | 其他結構 | 0305 p.9 | 模型未有 | 僅清單（模型未有） | 已寫（位置、構造、功能） |
 | 0209 | 背蓋<br>Tegmentum | 其他結構 | 0305 p.11；0305 p.20 | 模型未有 | 僅清單（模型未有） | 已寫（位置、構造、功能） |
-| 0210 | 橋腦核<br>Pontine nuclei | 核團 | 0305 p.11；0305 p.19；0324 p.16 | 模型未有 | 僅清單（模型未有） | 已寫（位置／所在高度、傳入、傳出、功能、損傷表現） |
+| 0210 | 腦橋核<br>Pontine nuclei | 核團 | 0305 p.11；0305 p.19；0324 p.16 | 模型未有 | 僅清單（模型未有） | 已寫（位置／所在高度、傳入、傳出、功能、損傷表現） |
 | 0211 | 下橄欖核<br>inferior olivary nucleus | 核團 | 0305 p.5；0305 p.11；0324 p.17；0305 p.16 | 有：Olive | 清單＋模型 | 已寫（位置／所在高度、傳入、傳出、功能、損傷表現） |
 | 0212 | 放射冠<br>Corona radiata | 其他結構 | 0305 p.12；0324 p.16 | 模型未有 | 僅清單（模型未有） | 已寫（位置、功能、損傷表現） |
 | 0213 | 部的大腦腳<br>Cerebral Crus | 纖維束／傳導路徑 | 0305 p.12 | 見 0043 | 見 0043 | 併入 0043「大腦腳」，名稱保留為別名 |
@@ -250,7 +250,7 @@
 | 0239 | 初級聽覺皮質<br>Primary auditory cortex | 皮質／腦迴／腦溝／腦葉 | 0305 p.18；0424 p.12 | 有：Transverse temporal gyri | 清單＋模型 | 已寫（位置、Brodmann 編號、功能、損傷表現） |
 | 0240 | 三叉神經核<br>Trigeminal nuclei | 核團 | 0305 p.19 | 模型未有 | 僅清單（模型未有） | 已寫（位置／所在高度、傳入、傳出、功能、損傷表現） |
 | 0241 | 滑車神經核<br>Trochlear nucleus | 核團 | 0305 p.20 | 模型未有 | 僅清單（模型未有） | 已寫（位置／所在高度、傳入、傳出、功能、損傷表現） |
-| 0242 | 大腦導水管（中腦導水管）<br>Cerebral aqueduct (Mesencephalic aqueduct) | 腦室／腦池／腦膜 | 0218 p.10；0305 p.20 | 有：Aqueduct of midbrain | 清單＋模型 | 已寫（位置、連通關係、內容物、臨床意義、影像表現） |
+| 0242 | 大腦導水管（大腦導水管）<br>Cerebral aqueduct (Mesencephalic aqueduct) | 腦室／腦池／腦膜 | 0218 p.10；0305 p.20 | 有：Aqueduct of midbrain | 清單＋模型 | 已寫（位置、連通關係、內容物、臨床意義、影像表現） |
 | 0243 | 滑車神經<br>Trochlear nerve (CN IV) | 神經 | 0305 p.20；0430 p.25 | 有：Trochlear nerve (IV) | 清單＋模型 | 已寫（起源核團、出腦位置、分布、功能、損傷表現） |
 | 0244 | 黑質<br>Substantia nigra | 其他結構 | 0305 p.20 | 有：Substantia nigra | 清單＋模型 | 已寫（位置、構造、功能、損傷表現） |
 | 0245 | 黑質緻密部<br>Substantia nigra, pars compacta | 其他結構 | 0305 p.20 | 近似：Substantia nigra | 清單＋模型 | 已寫（位置、傳出、功能、損傷表現） |
@@ -276,7 +276,7 @@
 | 0270 | 威利氏環<br>Circle of Willis | 其他結構 | 0311 p.3；0311 p.5；0311 p.6；0430 p.34；0430 p.33 | 有：Anterior communicating artery、Posterior communicating artery、Anterior cerebral artery…等 5 個 | 清單＋模型 | 已寫（位置、構造、功能、臨床意義） |
 | 0271 | 鎖骨下動脈<br>Subclavian artery | 血管 | 0311 p.3 | 模型未有 | 僅清單（模型未有） | 已寫（來源、分支、供應範圍、阻塞症狀） |
 | 0272 | 基底動脈<br>Basilar artery | 血管 | 0311 p.3；0311 p.17；0311 p.18；0311 p.19；0324 p.7；0430 p.30 | 有：Basilar artery | 清單＋模型 | 已寫（來源、分支、供應範圍、阻塞症狀） |
-| 0273 | 橋腦動脈<br>Pontine arteries | 血管 | 0311 p.3；0311 p.19 | 有：Medial pontine branches of basilar artery、Lateral pontine branches of basilar artery | 清單＋模型 | 已寫（來源、分支、供應範圍、阻塞症狀） |
+| 0273 | 腦橋動脈<br>Pontine arteries | 血管 | 0311 p.3；0311 p.19 | 有：Medial pontine branches of basilar artery、Lateral pontine branches of basilar artery | 清單＋模型 | 已寫（來源、分支、供應範圍、阻塞症狀） |
 | 0274 | 後大腦動脈<br>Posterior cerebral artery (PCA) | 血管 | 0311 p.3；0311 p.5；0311 p.11；0311 p.19；0430 p.30；0430 p.31；0311 p.6 | 有：Posterior cerebral artery | 清單＋模型 | 已寫（來源、分支、供應範圍、阻塞症狀） |
 | 0275 | 前下小腦動脈<br>Anterior inferior cerebellar artery (AICA) | 血管 | 0311 p.3；0324 p.7 | 有：Anterior inferior cerebellar artery | 清單＋模型 | 已寫（來源、分支、供應範圍、阻塞症狀） |
 | 0276 | 後下小腦動脈<br>Posterior inferior cerebellar artery (PICA) | 血管 | 0311 p.3；0324 p.5；0324 p.7 | 有：Posterior inferior cerebellar artery | 清單＋模型 | 已寫（來源、分支、供應範圍、阻塞症狀） |
@@ -294,8 +294,8 @@
 | 0288 | 硬腦膜下腔<br>Subdural | 腦室／腦池／腦膜 | 0311 p.4 | 模型未有 | 僅清單（模型未有） | 已寫（位置、臨床意義） |
 | 0289 | 蛛網膜<br>Arachnoid mater | 腦室／腦池／腦膜 | 0311 p.4 | 模型未有 | 僅清單（模型未有） | 已寫（位置、構造、功能） |
 | 0290 | 軟腦膜<br>Pia mater | 腦室／腦池／腦膜 | 0311 p.4 | 模型未有 | 僅清單（模型未有） | 已寫（位置、構造、功能） |
-| 0291 | 前交通動脈<br>Anterior communicating artery | 血管 | 0311 p.5 | 有：Anterior communicating artery | 清單＋模型 | 已寫（來源、供應範圍、阻塞症狀） |
-| 0292 | 後交通動脈<br>Posterior communicating artery | 血管 | 0311 p.5；0311 p.6；0430 p.26；0430 p.35 | 有：Posterior communicating artery | 清單＋模型 | 已寫（來源、供應範圍、阻塞症狀） |
+| 0291 | 前交通支<br>Anterior communicating artery | 血管 | 0311 p.5 | 有：Anterior communicating artery | 清單＋模型 | 已寫（來源、供應範圍、阻塞症狀） |
+| 0292 | 後交通支<br>Posterior communicating artery | 血管 | 0311 p.5；0311 p.6；0430 p.26；0430 p.35 | 有：Posterior communicating artery | 清單＋模型 | 已寫（來源、供應範圍、阻塞症狀） |
 | 0293 | 頸段（內頸動脈與椎動脈的第一段）<br>Cervical part (segment 1 of ICA and vertebral artery) | 其他結構 | 0311 p.6 | 模型未有 | 僅清單（模型未有） | 已寫（位置、功能、臨床意義） |
 | 0294 | 內頸動脈岩樣部段<br>Petrous part (ICA segment 2) | 其他結構 | 0311 p.6 | 模型未有 | 僅清單（模型未有） | 已寫（位置、構造、功能） |
 | 0295 | 內頸動脈海綿竇段<br>Cavernous part (ICA segment 3) | 血管 | 0311 p.6 | 模型未有 | 僅清單（模型未有） | 已寫（位置、分支、臨床意義） |
@@ -321,7 +321,7 @@
 | 0315 | 後脈絡動脈<br>Posterior choroidal artery | 血管 | 0311 p.11 | 模型未有 | 僅清單（模型未有） | 已寫（來源、分支、供應範圍、阻塞症狀） |
 | 0316 | 皮質支<br>Cortical branches (of cerebral arteries) | 血管 | 0311 p.12 | 模型未有 | 僅清單（模型未有） | 已寫（來源、分支、供應範圍、阻塞症狀） |
 | 0317 | 中央支<br>Central branches (of cerebral arteries) | 血管 | 0311 p.12 | 模型未有 | 僅清單（模型未有） | 已寫（來源、分支、供應範圍、阻塞症狀） |
-| 0318 | 橋腦基底溝<br>Basilar sulcus | 其他結構 | 0311 p.17 | 模型未有 | 僅清單（模型未有） | 已寫（位置、功能） |
+| 0318 | 腦橋基底溝<br>Basilar sulcus | 其他結構 | 0311 p.17 | 模型未有 | 僅清單（模型未有） | 已寫（位置、功能） |
 | 0319 | 腦膜支<br>Meningeal branch (of vertebral artery) | 血管 | 0311 p.18 | 模型未有 | 僅清單（模型未有） | 已寫（來源、供應範圍、阻塞症狀） |
 | 0320 | 外側溝<br>Posterolateral sulcus | 其他結構 | 0311 p.18 | 模型未有 | 僅清單（模型未有） | 已寫（位置、功能） |
 | 0321 | 延髓動脈<br>Medullary artery (medulla oblongata) | 血管 | 0311 p.19 | 模型未有 | 僅清單（模型未有） | 已寫（來源、供應範圍、阻塞症狀） |
@@ -381,8 +381,8 @@
 | 0375 | 大腦小腦（新小腦）<br>Cerebrocerebellum (neocerebellum) | 其他結構 | 0324 p.13；0324 p.14 | 模型未有 | 僅清單（模型未有） | 已寫（位置、傳入、傳出、功能、損傷表現） |
 | 0376 | 脊髓小腦（古小腦）<br>Spinocerebellum (paleocerebellum) | 其他結構 | 0324 p.14 | 模型未有 | 僅清單（模型未有） | 已寫（位置、傳入、傳出、功能、損傷表現） |
 | 0377 | 橋腦小腦<br>Neocerebellum | 其他結構 | 0324 p.14 | 見 0375 | 見 0375 | 併入 0375「大腦小腦（新小腦）」，名稱保留為別名 |
-| 0378 | 皮質橋腦小腦徑<br>Corticopontocerebellar pathway | 纖維束／傳導路徑 | 0324 p.16 | 模型未有 | 僅清單（模型未有） | 已寫（起始神經元、中繼站、交叉位置、終點、傳遞內容、損傷表現） |
-| 0379 | 皮質橋腦纖維<br>Corticopontine fibers | 纖維束／傳導路徑 | 0324 p.16 | 模型未有 | 僅清單（模型未有） | 已寫（起始神經元、中繼站、終點、傳遞內容） |
+| 0378 | 皮質腦橋小腦徑<br>Corticopontocerebellar pathway | 纖維束／傳導路徑 | 0324 p.16 | 模型未有 | 僅清單（模型未有） | 已寫（起始神經元、中繼站、交叉位置、終點、傳遞內容、損傷表現） |
+| 0379 | 皮質腦橋纖維<br>Corticopontine fibers | 纖維束／傳導路徑 | 0324 p.16 | 模型未有 | 僅清單（模型未有） | 已寫（起始神經元、中繼站、終點、傳遞內容） |
 | 0380 | 皮質網狀小腦徑<br>Cerebro-reticular cerebellar pathway | 纖維束／傳導路徑 | 0324 p.16 | 模型未有 | 僅清單（模型未有） | 已寫（起始神經元、中繼站、終點、傳遞內容） |
 | 0381 | 皮質網狀纖維<br>Corticoreticular fibers | 纖維束／傳導路徑 | 0324 p.16 | 模型未有 | 僅清單（模型未有） | 已寫（起始神經元、終點、傳遞內容） |
 | 0382 | 網狀小腦纖維<br>Reticulocerebellar fibers | 纖維束／傳導路徑 | 0324 p.16 | 模型未有 | 僅清單（模型未有） | 已寫（起始神經元、終點、傳遞內容） |
@@ -401,7 +401,7 @@
 | 0395 | 齒狀核丘腦路徑<br>Dentatothalamic pathway | 纖維束／傳導路徑 | 0324 p.19 | 有：Dentatorubrothalamic tract | 清單＋模型 | 已寫（起始神經元、交叉位置、中繼站、終點、傳遞內容、損傷表現） |
 | 0396 | 共濟失調<br>Cerebellar ataxia | 其他結構 | 0324 p.20 | 見 0137 | 見 0137 | 併入 0137「小腦」，名稱保留為別名 |
 | 0397 | 橫行纖維<br>Transverse pontine fibers | 纖維束／傳導路徑 |  | 模型未有 | 僅清單（模型未有） | 已寫（起始神經元、交叉位置、終點、傳遞內容） |
-| 0398 | 橋腦小腦纖維<br>Pontocerebellar fibers | 纖維束／傳導路徑 |  | 模型未有 | 僅清單（模型未有） | 已寫（起始神經元、交叉位置、終點、傳遞內容） |
+| 0398 | 腦橋小腦纖維<br>Pontocerebellar fibers | 纖維束／傳導路徑 |  | 模型未有 | 僅清單（模型未有） | 已寫（起始神經元、交叉位置、終點、傳遞內容） |
 | 0399 | 橄欖小腦纖維<br>Olivocerebellar fibers | 纖維束／傳導路徑 |  | 見 0385 | 見 0385 | 併入 0385「橄欖小腦徑」，名稱保留為別名 |
 | 0400 | 古小腦<br>Archicerebellum | 其他結構 |  | 見 0374 | 見 0374 | 併入 0374「前庭小腦」，名稱保留為別名 |
 | 0402 | 近繩狀體<br>juxtarestiform body | 其他結構 |  | 模型未有 | 僅清單（模型未有） | 已寫（位置、傳遞內容、功能） |
@@ -445,7 +445,7 @@
 | 0441 | 顳葉癲癇<br>Temporal lobe epilepsy | 皮質／腦迴／腦溝／腦葉 | 0402 p.28 | 見 0009 | 見 0009 | 併入 0009「顳葉」，名稱保留為別名 |
 | 0442 | 藍斑核<br>Locus ceruleus | 核團 |  | 模型未有 | 僅清單（模型未有） | 已寫（位置／所在高度、傳入、傳出、功能、損傷表現） |
 | 0443 | 視丘背內側核<br>Mediodorsal nucleus of thalamus | 核團 |  | 有：Mediodorsal nucleus | 清單＋模型 | 已寫（位置／所在高度、傳入、傳出、功能、損傷表現） |
-| 0444 | 腦下垂體<br>Pituitary gland | 其他結構 | 0430 p.2；0430 p.37 | 有：Adenohypophysis、Neurohypophysis | 清單＋模型 | 已寫（位置、構造、功能、損傷表現） |
+| 0444 | 腦垂體<br>Pituitary gland | 其他結構 | 0430 p.2；0430 p.37 | 有：Adenohypophysis、Neurohypophysis | 清單＋模型 | 已寫（位置、構造、功能、損傷表現） |
 | 0446 | 海馬本體<br>hippocampus proper | 其他結構 |  | 有：Hippocampus | 清單＋模型 | 已寫（位置、構造、功能、損傷表現） |
 | 0448 | 體感覺傳入路徑<br>Somatic afferent pathway (GSA from body) | 纖維束／傳導路徑 | 0411 p.2；0411 p.7 | 模型未有 | 僅清單（模型未有） | 已寫（起始神經元、中繼站、終點、傳遞內容、損傷表現） |
 | 0449 | 背根神經纖維<br>dorsal root fiber | 纖維束／傳導路徑 | 0411 p.5 | 模型未有 | 僅清單（模型未有） | 已寫（起始神經元、終點、傳遞內容、損傷表現） |
@@ -513,7 +513,7 @@
 | 0514 | 顱根<br>cranial root | 其他結構 | 0423 p.16 | 模型未有 | 僅清單（模型未有） | 已寫（位置、功能、損傷表現） |
 | 0515 | 脊髓根<br>spinal root | 其他結構 | 0423 p.16 | 模型未有 | 僅清單（模型未有） | 已寫（位置、功能、損傷表現） |
 | 0516 | 錐體外路徑<br>Extrapyramidal tract | 纖維束／傳導路徑 | 0423 p.17 | 模型未有 | 僅清單（模型未有） | 已寫（起始神經元、傳遞內容、功能、損傷表現） |
-| 0517 | 橋腦網狀脊髓徑（內側）<br>Pontine (medial) reticulospinal tract | 纖維束／傳導路徑 | 0423 p.17 | 模型未有 | 僅清單（模型未有） | 已寫（起始神經元、交叉位置、終點、傳遞內容、損傷表現） |
+| 0517 | 腦橋網狀脊髓徑（內側）<br>Pontine (medial) reticulospinal tract | 纖維束／傳導路徑 | 0423 p.17 | 模型未有 | 僅清單（模型未有） | 已寫（起始神經元、交叉位置、終點、傳遞內容、損傷表現） |
 | 0518 | 延腦網狀脊髓徑（外側）<br>Medullary (lateral) reticulospinal tract | 纖維束／傳導路徑 | 0423 p.17 | 模型未有 | 僅清單（模型未有） | 已寫（起始神經元、交叉位置、終點、傳遞內容） |
 | 0519 | 外側前庭脊髓徑<br>Lateral vestibulo-spinal tract | 纖維束／傳導路徑 | 0423 p.19；0424 p.18 | 模型未有 | 僅清單（模型未有） | 已寫（起始神經元、交叉位置、終點、傳遞內容、損傷表現） |
 | 0520 | 外側前庭核<br>Lateral vestibular nucleus | 核團 | 0423 p.19；0424 p.18 | 近似：Vestibular nuclei | 清單＋模型 | 已寫（位置／所在高度、傳入、傳出、功能） |
@@ -575,7 +575,7 @@
 | 0576 | 毛細胞<br>Hair cell | 耳部結構 | 0424 p.13；0424 p.15 | 模型未有 | 僅清單（模型未有） | 已寫（位置、構造、功能、損傷表現） |
 | 0577 | 耳石膜<br>Otolithic membrane | 耳部結構 | 0424 p.13 | 模型未有 | 僅清單（模型未有） | 已寫（位置、功能、損傷表現） |
 | 0578 | 前庭神經節（Scarpa 神經節）<br>Vestibular ganglion (Scarpa’s ganglion) | 神經 | 0424 p.16 | 模型未有 | 僅清單（模型未有） | 已寫（位置、構造、功能、損傷表現） |
-| 0579 | 橋腦延腦交界<br>Pontomedullary junction (caudal pons / rostral medulla) | 其他結構 | 0424 p.17 | 模型未有 | 僅清單（模型未有） | 已寫（位置、構造、功能、損傷表現） |
+| 0579 | 腦橋延腦交界<br>Pontomedullary junction (caudal pons / rostral medulla) | 其他結構 | 0424 p.17 | 模型未有 | 僅清單（模型未有） | 已寫（位置、構造、功能、損傷表現） |
 | 0580 | 下蚓部<br>Inferior vermis | 其他結構 | 0424 p.17 | 模型未有 | 僅清單（模型未有） | 已寫（位置、傳入、傳出、功能、損傷表現） |
 | 0581 | 走在腹索<br>Ventral feniculus | 其他結構 | 0424 p.18 | 見 0128 | 見 0128 | 併入 0128「腹索」，名稱保留為別名 |
 | 0582 | 叫內側縱束<br>Medial longitudinal fasciculi, MLF | 纖維束／傳導路徑 | 0424 p.18 | 見 0224 | 見 0224 | 併入 0224「內側縱束」，名稱保留為別名 |
@@ -587,7 +587,7 @@
 | 0588 | 眼睛的光受體<br>Photoreceptor | 其他結構 | 0430 p.23 | 模型未有 | 僅清單（模型未有） | 已寫（位置、構造、功能、損傷表現） |
 | 0589 | 視交叉<br>Optic chiasm | 纖維束／傳導路徑 | 0430 p.23；0430 p.24；0430 p.37 | 有：Optic chiasm | 清單＋模型 | 已寫（起始神經元、交叉位置、終點、傳遞內容、損傷表現） |
 | 0590 | 視徑<br>Optic tract | 纖維束／傳導路徑 | 0430 p.23；0430 p.24 | 有：Optic tract | 清單＋模型 | 已寫（起始神經元、交叉位置、中繼站、終點、傳遞內容、損傷表現） |
-| 0591 | 後大腦交通動脈<br>PCoA | 血管 | 0430 p.26；0430 p.35 | 見 0292 | 見 0292 | 併入 0292「後交通動脈」，名稱保留為別名 |
+| 0591 | 後大腦交通動脈<br>PCoA | 血管 | 0430 p.26；0430 p.35 | 見 0292 | 見 0292 | 併入 0292「後交通支」，名稱保留為別名 |
 | 0592 | 前庭耳蝸神經<br>Vestibulocochlear nerve (CN VIII) | 神經 | 0430 p.26 | 近似：Vestibular nerve | 清單＋模型 | 已寫（起源核團、出腦位置、分布、功能、損傷表現） |
 | 0593 | 數位化血管攝影<br>Digital subtraction angiography | 血管 | 0430 p.29 | — | 否 | 已剔除：影像方法（數位減影血管攝影），不是構造 |
 | 0594 | 深支<br>Deep branches (of posterior cerebral artery) | 血管 | 0430 p.31 | 模型未有 | 僅清單（模型未有） | 已寫（來源、供應範圍、阻塞症狀） |

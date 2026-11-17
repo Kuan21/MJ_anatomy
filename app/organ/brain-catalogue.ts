@@ -116,7 +116,7 @@ export function buildBrainTree(parts: BrainPart[]): BrainTreeNode[] {
     node('lobes', 'Lobes', '腦葉', [], lobes),
     node('diencephalon', 'Diencephalon', '間腦', byName(inGroup('diencephalon'))),
     node('basal', 'Basal nuclei', '基底核', byName(inGroup('basal'))),
-    node('brainstem', 'Brainstem', '腦幹', byName(other), [node('midbrain', 'Midbrain', '中腦', byName(midbrain)), node('pons', 'Pons', '橋腦', byName(pons)), node('medulla', 'Medulla oblongata', '延腦', byName(medulla))].filter(n => n.leaf.length)),
+    node('brainstem', 'Brainstem', '腦幹', byName(other), [node('midbrain', 'Midbrain', '中腦', byName(midbrain)), node('pons', 'Pons', '腦橋', byName(pons)), node('medulla', 'Medulla oblongata', '延腦', byName(medulla))].filter(n => n.leaf.length)),
     node('cerebellum', 'Cerebellum', '小腦', byName(inGroup('cerebellum'))),
     node('ventricles', 'Ventricles & choroid plexus', '腦室與脈絡叢', byName(inGroup('ventricles'))),
     node('white', 'White matter tracts', '白質纖維束', byName(inGroup('white'))),
