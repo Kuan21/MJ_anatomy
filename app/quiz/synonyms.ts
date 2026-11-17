@@ -149,4 +149,15 @@ export const SYNONYMS: Record<string, Synonym> = {
   'main bronchus': {en: ['primary bronchus', 'principal bronchus'], zh: []},
   'main bronchus proper': {en: ['right main bronchus', 'right primary bronchus', 'main bronchus'], zh: ['主支氣管', '右主支氣管']},
   'bronchial artery': {en: ['bronchial arteries'], zh: []},
+  // eye (the eye quiz asks the names of the eye detail model; these are the other wordings of the same structures)
+  'suspensory ligament of lens': {en: ['zonular fibers', 'zonule', 'ciliary zonule'], zh: ['懸韌帶', '小帶纖維']},
+  'aqueous humor': {en: ['aqueous humour'], zh: ['水樣狀液']},
+  'vitreous body': {en: ['vitreous humor', 'vitreous humour'], zh: ['玻璃狀液']},
+  'corneoscleral junction': {en: ['corneal limbus', 'limbus'], zh: ['角膜緣']},
+  'optic disc': {en: ['blind spot', 'optic nerve head'], zh: ['盲點', '視神經盤']},
+  'trochlea of superior oblique': {en: ['trochlea'], zh: ['上斜肌滑車']},
+  'maxillary bone': {en: ['maxilla'], zh: ['上頜骨', '上顎骨']},
+  'inferior orbital fissure': {en: ['infraorbital fissure'], zh: ['下眶裂']},
+  'superior orbital fissure': {en: [], zh: ['上眶裂']},
+  'supraorbital foramen': {en: ['supraorbital notch'], zh: ['眶上切跡']},
 };

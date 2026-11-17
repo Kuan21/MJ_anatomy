@@ -29,6 +29,8 @@ const FIELDS: Record<QuizSystem, string[]> = {
   brain: [],
   // ear quiz: the fields of the structure's own ear card (app/mj-ear-atlas.ts, packed into the catalogue)
   ear: [],
+  // eye quiz: the one description of the structure's eye card (app/mj-eye-atlas.ts, packed into the catalogue)
+  eye: [],
   // head-and-neck organ structures (eyeball, tongue, teeth, larynx cartilages…): the repository has no card text for them yet, so the card says 「尚無資料」 until a checked description is added to card-data.ts
   headorgan: ['說明'],
   // joint soft tissue: the repository documents none of these yet, so the card shows 「尚無資料」 until hand-checked entries are added to card-data.ts
@@ -48,6 +50,7 @@ const FROM_PROFILE: Record<QuizSystem, Record<string, string[]>> = {
   respiratory: {位置: ['位置'], '構造／毗鄰關係': ['構造／毗鄰關係'], '血液供應／神經': ['血液供應／神經']},
   brain: {},
   ear: {},
+  eye: {},
   headorgan: {},
   joint: {},
   space: {},
@@ -81,6 +84,7 @@ export function structureCard(structure: Pick<QuizStructure, 'name' | 'chinese' 
   const system = structure.system;
   if (system === 'space') return spaceCard(structure);
   // Brain quiz: the fields come from the structure's own brain information card (public/models/brain/neuro-cards.json, packed into the catalogue); with no card the card says so.
+  if (structure.source === 'Eye atlas') return {english: structure.name, chinese: structure.chinese, system, fields: (structure.cardFields ?? []).map(f => ({label: f.label, zh: f.zh, en: f.en})), missing: structure.cardFields?.length ? [] : ['說明']};
   if (structure.source === 'Ear atlas') return {english: structure.name, chinese: structure.chinese, system, fields: (structure.cardFields ?? []).map(f => ({label: f.label, zh: f.zh, en: f.en})), missing: structure.cardFields?.length ? [] : ['資料']};
   if (structure.source === 'Brain Project') return {english: structure.name, chinese: structure.chinese, system, fields: (structure.cardFields ?? []).map(f => ({label: f.label, zh: f.zh})), missing: structure.cardFields?.length ? [] : ['資料卡']};
   const profile = structureProfile(structure.name, (system === 'joint' ? 'connective' : system === 'headorgan' ? 'sensory' : system) as SystemId);
