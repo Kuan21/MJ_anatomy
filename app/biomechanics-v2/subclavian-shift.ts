@@ -22,7 +22,7 @@ export const SHIFT: Record<Side, ShiftSpec> = {
 export const INNER = 9, OUTER = 36;
 /** The artery of each side and the parts that follow it (arteries arising from it; closure checked by scripts/test-subclavian-shift.mjs). `own`: the artery and its end pieces (full field, no distance falloff). */
 export const PARTS: Record<Side, {own: string[]; branches: string[]}> = {
-  Left: {own: ['FJ3479', 'FJ3479-END'], branches: ['FJ1972', 'FJ1972-END', 'FJ2224', 'FJ2226', 'FJ2251', 'FJ2255', 'FJ2257', 'PK-125', 'PKC-308', 'FJ1970', 'FJ2210', 'FJ2232', 'FJ2256', 'FJ1973', 'FJ1974', 'FJ2251-END']},
+  Left: {own: ['FJ3479', 'FJ3479-END'], branches: ['FJ1972', 'FJ1972-END', 'FJ2224', 'FJ2226', 'FJ2251', 'FJ2255', 'FJ2257', 'PK-125', 'PKC-308', 'FJ1970', 'FJ2210', 'FJ2232', 'FJ2256', 'FJ1973', 'FJ1974']},
   Right: {own: ['FJ3579'], branches: ['FJ1935', 'FJ1937', 'FJ1939', 'FJ2276', 'FJ2278', 'FJ2303', 'FJ2307', 'FJ2309', 'PKC-307', 'FJ2209', 'FJ2284', 'FJ2308', 'FJ1950', 'FJ1937-END', 'FJ1939-END', 'PK-122']},
 };
 export const smoother = (t: number) => { const x = Math.max(0, Math.min(1, t)); return x * x * x * (x * (x * 6 - 15) + 10); };
