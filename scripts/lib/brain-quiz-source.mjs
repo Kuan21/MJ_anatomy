@@ -4,6 +4,7 @@
 // shades the welded mesh smoothly instead. Nothing is added or moved.
 import fs from 'node:fs';
 import {createRequire} from 'node:module';
+import {fileURLToPath} from 'node:url';
 import * as T from 'three';
 import {mergeGeometries, mergeVertices} from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import {quizModule} from '../quiz-modules.mjs';
@@ -19,7 +20,7 @@ export async function loadBrainRows() {
   const {fourthVentricleGeometry} = await quizModule('app/organ/brain-reshape.ts');
   const {FORNIX_BODY, midlineKind, mirrorX, splitFornixBody} = await quizModule('app/organ/brain-midline.ts');
   const {PERIPHERAL_NERVE} = await quizModule('app/quiz/brain.ts');
-  const factory = createRequire(import.meta.url)(new URL('.sites-runtime/nerve-draco.cjs', root).pathname);
+  const factory = createRequire(import.meta.url)(fileURLToPath(new URL('.sites-runtime/nerve-draco.cjs', root)));
   const draco = await factory({wasmBinary: fs.readFileSync(new URL('public/draco/draco_decoder.wasm', root))});
   const b = fs.readFileSync(new URL('public/models/brain.glb', root)), n = b.readUInt32LE(12), j = JSON.parse(b.subarray(20, 20 + n)), bin = b.subarray(28 + n);
   const rows = [], dropped = [], midline = new Map();

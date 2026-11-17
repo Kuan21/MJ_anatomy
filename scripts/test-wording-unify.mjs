@@ -7,10 +7,11 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
+import {fileURLToPath} from 'node:url';
 import {gunzipSync} from 'node:zlib';
 import {quizModule} from './quiz-modules.mjs';
 
-const root = new URL('../', import.meta.url), rootPath = path.resolve(root.pathname);
+const root = new URL('../', import.meta.url), rootPath = path.resolve(fileURLToPath(root));
 const OLD = /[頷腭]/;
 
 // 1. no old spelling in anything the site shows (source strings and generated data); alias tables and character-fold maps are the allowed places
@@ -21,7 +22,7 @@ for (const dir of ['app', 'components', 'lib', 'public', 'dist']) {
   const base = path.join(rootPath, dir);
   if (!fs.existsSync(base)) continue;
   for (const f of walk(base)) {
-    const rel = path.relative(rootPath, f);
+    const rel = path.relative(rootPath, f).split(path.sep).join('/');
     if (ALLOWED.has(rel) || !/\.(ts|tsx|json|json\.gz|js|css|html|md|txt)$/.test(f)) continue;
     let text = f.endsWith('.gz') ? gunzipSync(fs.readFileSync(f)).toString('utf8') : fs.readFileSync(f, 'utf8');
     scanned++;

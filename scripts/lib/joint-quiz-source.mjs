@@ -2,13 +2,14 @@
 // with createJointAnatomy (app/biomechanics-v2/joint-anatomy.ts). The neutral-pose positions (`base`) are what the quiz draws.
 import fs from 'node:fs';
 import {createRequire} from 'node:module';
+import {fileURLToPath} from 'node:url';
 import * as T from 'three';
 import {quizModule} from '../quiz-modules.mjs';
 
 const root = new URL('../../', import.meta.url);
 export async function loadJointRows(atlas) {
   const {createJointAnatomy} = await quizModule('app/biomechanics-v2/joint-anatomy.ts');
-  const factory = createRequire(import.meta.url)(new URL('.sites-runtime/nerve-draco.cjs', root).pathname);
+  const factory = createRequire(import.meta.url)(fileURLToPath(new URL('.sites-runtime/nerve-draco.cjs', root)));
   const draco = await factory({wasmBinary: fs.readFileSync(new URL('public/draco/draco_decoder.wasm', root))});
   const b = fs.readFileSync(new URL('public/models/joints.glb', root)), n = b.readUInt32LE(12), j = JSON.parse(b.subarray(20, 20 + n)), bin = b.subarray(28 + n);
   const world = [], parents = new Map();

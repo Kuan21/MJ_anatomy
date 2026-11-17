@@ -3,6 +3,7 @@
 // stays on the original BodyParts3D surface. Measured on the packaged meshes (not copied from the build). Prints counts only.
 import fs from 'node:fs';
 import path from 'node:path';
+import {fileURLToPath} from 'node:url';
 import {gunzipSync} from 'node:zlib';
 import {principalAxes} from './lib/ear-geometry.mjs';
 import {radiusStats, connectivity, surfaceDistance} from './lib/ear-tube.mjs';
@@ -80,7 +81,7 @@ if (aur) {
   // recompute against the packaged body atlas (right half of the source mesh) when it is present
   const atlasFile = new URL('../public/models/atlas.json', import.meta.url);
   if (fs.existsSync(atlasFile)) {
-    const atlas = JSON.parse(fs.readFileSync(atlasFile)), p = atlas.parts.find(x => x.id === 'FJ2811'), chunk = path.join(path.dirname(atlasFile.pathname), atlas.chunks[p.chunk].url.split('/').pop());
+    const atlas = JSON.parse(fs.readFileSync(atlasFile)), p = atlas.parts.find(x => x.id === 'FJ2811'), chunk = path.join(path.dirname(fileURLToPath(atlasFile)), atlas.chunks[p.chunk].url.split('/').pop());
     if (fs.existsSync(chunk)) {
       const b = fs.readFileSync(chunk), pos = new Float32Array(b.buffer.slice(b.byteOffset + p.positions, b.byteOffset + p.positions + p.vertexCount * 12)), idx = new Uint32Array(b.buffer.slice(b.byteOffset + p.indices, b.byteOffset + p.indices + p.indexCount * 4));
       const keep = []; for (let q = 0; q < idx.length; q += 3) if ((pos[idx[q] * 3] + pos[idx[q + 1] * 3] + pos[idx[q + 2] * 3]) / 3 < 0) keep.push(idx[q], idx[q + 1], idx[q + 2]);
