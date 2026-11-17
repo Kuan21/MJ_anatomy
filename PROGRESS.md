@@ -1,11 +1,11 @@
 # PROGRESS（自動排程交接檔）
 
-最後更新：2026-11-17。分支：`claude/local-auto`（不推 main、不刪檔）。
+最後更新：2026-11-18。分支：`claude/local-auto`（不推 main、不刪檔）。
 依據：`ROADMAP.md`「穩定期」、`CLAUDE.md`、`git log`、開放 PR 清單。
 
 ## 目前狀態
 - 專案處於**穩定期**（2026-11-08 起）：暫停新功能，只修顯示錯誤；所有 PR 都要使用者人工審核，不可自行 merge。
-- main 最新：#405（2026-11-17 第二十一次確認）。本分支已合併 main 到 #405。
+- main 最新：#425（2026-11-18 第二十二次確認）。本分支已合併 main 到 #425。
 - **main 已經有中心線連續性檢查**（#281、#328：`scripts/check-centerlines.mjs`、基準 `docs/centerline-known.json` 57 條，已在 `npm run check` 內）。本分支的 `check-centreline-continuity.mjs` 是另一套做法，見「待我決定」。
 - 開放 PR（下列是 2026-11-11 的清單；本機沒有 `gh`，之後沒有再查，main 已合併到 #338，清單很可能已過時）：
   - #223 心臟腔內構造與標籤（部分完成）
@@ -186,6 +186,16 @@
   - 本機通過：`test-joints-lr-names`、七個 `test-centreline-*`（183 步中的第 152–158 步）、`check-no-notes`。完整 `npm run check` 因缺生成檔沒有跑。
   - 現在 `scripts/` 內已沒有把 `URL.pathname` 當檔案路徑用的寫法（`derive-subclavian-shift` 只用在印出訊息、`lib/stability-static` 只切相對路徑，都不需要改）。
   - 其餘不變：`work/`、`serous/`、`female/`、`supplement-stream.json.gz`、跑考串流二進位檔仍缺，連續性基準仍無法產生；`_diag-*.mjs` 四個與 `package-lock.json` 差異仍未提交；本機沒有 `gh`，未查 PR #248 的 CI。
+
+- 2026-11-18（第二十二次）：合併 main 並修腳本的 Windows 路徑，沒有改模型、解剖內容或網站。
+  - main 前進 10 個 commit 到 #425（#406 骨性標誌剛性跟骨、#407 耳部聽覺動畫、#419 腎門次序、#425 胃與十二指腸資訊卡等）。`git merge-tree` 確認無衝突、main 沒有刪檔，用一般 merge 合併。
+  - 新的 `URL.pathname` 寫法三處，改用 `fileURLToPath`：
+    - `test-ear-hearing`（在 `npm run check` 內，`check.d/20261117-ear-hearing.txt`）：本機重現原本會失敗（`scandir 'C:\C:\Users\…\app\ear-hearing'`），改後實際執行通過（6 步、58 段文字、10 個原始檔）。
+    - `measure-rln-groove`：`process.argv[1] === …pathname` 在 Windows 永遠不成立，直接執行時什麼都不印；改成比較 `path.resolve(argv[1])` 與 `fileURLToPath`。只做語法檢查，**沒有實際執行**（要大圖譜與神經串流）。
+    - `build-required-structures`：`mkdirSync` 用 `pathname`，改用 `fileURLToPath`。只做語法檢查（輸入檔不在 repo）。
+    - Linux／CI 行為不變。
+  - 本機通過：`test-ear-hearing`、七個 `test-centreline-*`、`check-no-notes`。完整 `npm run check` 因缺生成檔沒有跑。
+  - 其餘不變：生成檔仍缺，連續性基準仍無法產生；`_diag-*.mjs` 四個與 `package-lock.json` 差異仍未提交；本機沒有 `gh`，未查 PR #248 的 CI。
 
 ## 進行中／等審核
 - S2 A–G、S3、S4、S6 相關工作都已有 PR（見上），等使用者審核。
