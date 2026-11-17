@@ -227,7 +227,7 @@ QUIZ_REGIONS.ear = {
 const HN_RANGE: [number, number] = [1.4, 1.72];
 const HEAD_NECK_SECTIONS: QuizSectionDef[] = [
   {id: 'all', label: '全部頭頸', english: 'Head and neck', range: HN_RANGE},
-  {id: 'skull', label: '顱骨與下頷', english: 'Skull and mandible', range: [1.49, 1.72]},
+  {id: 'skull', label: '顱骨與下頜', english: 'Skull and mandible', range: [1.49, 1.72]},
   {id: 'cervical', label: '頸椎與舌骨', english: 'Cervical vertebrae and hyoid bone', range: [1.4, 1.58]},
   {id: 'face', label: '面部與咀嚼肌', english: 'Facial and masticatory muscles', range: [1.49, 1.7]},
   {id: 'neck', label: '頸部肌肉', english: 'Neck muscles', range: [1.4, 1.58]},

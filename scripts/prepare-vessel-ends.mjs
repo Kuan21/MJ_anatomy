@@ -14,16 +14,19 @@ import {auditEnds, atlas, geom} from './audit-vessel-ends.mjs';
 import {weldSurface, endFrame as endFrameOf, bridgePath, sub, add, len, unit} from './lib/vessel-frames.mjs';
 import {loadFullAtlas, STREAMS} from './lib/full-atlas.mjs';
 import {loadVessels, analyse, bridgeable, regionTools} from './lib/vessel-segments.mjs';
+import {planTips, tipKey} from './lib/vessel-tip-plan.mjs';
 
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 const stamp = file('work/vessel-ends.stamp'), out = new URL('public/models/stream/', root), manifest = file('public/models/vessel-ends/vessel-ends-stream.json.gz');
-const inputs = ['scripts/prepare-vessel-ends.mjs', 'scripts/audit-vessel-ends.mjs', 'scripts/lib/nerve-schematics.mjs', 'scripts/lib/vessel-frames.mjs', 'scripts/lib/vessel-segments.mjs', 'scripts/lib/tube-tips.mjs', 'scripts/lib/region-entry.ts', 'app/mj-part-regions.ts', 'public/models/atlas.json', 'app/anatomy-source-overrides.json', ...STREAMS.filter(s => !s.startsWith('vessel-ends')).map(s => 'public/models/' + s)];
+const inputs = ['scripts/prepare-vessel-ends.mjs', 'scripts/lib/vessel-tip-plan.mjs', 'scripts/lib/vessel-tip-shape.mjs', 'scripts/audit-vessel-ends.mjs', 'scripts/lib/nerve-schematics.mjs', 'scripts/lib/vessel-frames.mjs', 'scripts/lib/vessel-segments.mjs', 'scripts/lib/tube-tips.mjs', 'scripts/lib/region-entry.ts', 'app/mj-part-regions.ts', 'public/models/atlas.json', 'public/models/atlas-stream.json', 'app/anatomy-source-overrides.json', ...STREAMS.filter(s => !s.startsWith('vessel-ends')).map(s => 'public/models/' + s)];
 const hash = createHash('sha256').update(inputs.map(f => fs.readFileSync(file(f))).join('')).digest('hex');
 try { if (fs.readFileSync(stamp, 'utf8') === hash && fs.existsSync(manifest)) { console.log('Vessel ends: up to date.'); process.exit(0); } } catch {}
 
 const GAP_MM = 12, FADE_RADIUS = .0018;
 
-const rows = auditEnds(), parts = new Map(atlas.parts.map(p => [p.id, p])), cache = new Map();
+const unshaped = new Set(JSON.parse(fs.readFileSync(file('public/models/atlas-stream.json'), 'utf8')).shapedVesselTips?.unshaped ?? []);   // tips the stream step found no wall to narrow: they keep the old cone
+// tips shaped by the stream step, or no end at all (the vessel carries on past them), get no cone
+const rows = auditEnds(), plan = process.env.MJ_NO_TIP_SHAPE ? {tapers: [], buried: []} : await planTips(rows), shapedTips = new Set([...plan.tapers.filter(t => !unshaped.has(tipKey(t.row))), ...plan.buried].map(t => t.row)), parts = new Map(atlas.parts.map(p => [p.id, p])), cache = new Map();
 /** Welded surface graph of a vessel mesh (cached). */
 function surface(id) {
   if (!cache.has(id)) { const g = geom(parts.get(id)); cache.set(id, weldSurface(g.pos, g.idx)); }
@@ -56,8 +59,9 @@ for (const row of rows) {
       piece(row.id, tube([add(row.at, frame.dir, -.0015), row.at, mid, through], frame.radius * .95, frame.radius * .75, round(row.id) ? 12 : 6, sides(row.id)), row.at, 'gap');
     } else if (frame.radius <= FADE_RADIUS) {
       action = 'fade';
+      if (shapedTips.has(row)) { /* the vessel's own mesh narrows to a rounded tip (scripts/prepare-model-stream.mjs): no cone beyond the end */ } else {
       const L = Math.min(.008, .003 + 3 * frame.radius);
-      piece(row.id, tube([add(row.at, frame.dir, -.001), add(row.at, frame.dir, L / 2), add(row.at, frame.dir, L)], frame.radius * .95, frame.radius * .1, round(row.id) ? 4 : 2, sides(row.id)), row.at, 'fade');
+      piece(row.id, tube([add(row.at, frame.dir, -.001), add(row.at, frame.dir, L / 2), add(row.at, frame.dir, L)], frame.radius * .95, frame.radius * .1, round(row.id) ? 4 : 2, sides(row.id)), row.at, 'fade'); }
     } else if (!inTissue && row.kind === 'dangling') action = 'enters';
   }
   report.push({id: row.id, name: row.name, system: row.system, action, at: row.at, radiusMm: frame ? +(frame.radius * 1000).toFixed(1) : null, toSameMm: row.toSameMm, toTissueMm: row.toTissueMm, nearest: row.nearestSame});

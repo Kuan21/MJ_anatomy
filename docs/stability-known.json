@@ -226,26 +226,12 @@
    "measure": 3,
    "reason": "section plane of the brain or heart detail mode: a cut view on purpose, the cut face is drawn by the viewer"
   },
-  "detached|FJ1981-END|shoulder flexion 150": {
-   "name": "Accessory hemiazygos vein",
-   "measure": 17,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.6296296296296297,
-   "severity": 22
-  },
   "detached|FJ1981|shoulder flexion 150": {
    "name": "Accessory hemiazygos vein",
    "measure": 13,
    "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.7647058823529411,
    "severity": 22
-  },
-  "detached|FJ2066-END|hip flexion 120 knee flexion 130": {
-   "name": "Left anterior tibial recurrent artery",
-   "measure": 29,
-   "reason": "does not follow its bone at hip flexion 120 knee flexion 130: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.3372093023255814,
-   "severity": 20
   },
   "detached|FJ2212-END|shoulder flexion 150": {
    "name": "Left anterior circumflex humeral artery",
@@ -1390,68 +1376,8 @@
    "measure": 4,
    "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
   },
-  "fragments|FJ2057-END": {
-   "name": "Descending branch of right lateral circumflex femoral artery",
-   "measure": 2,
-   "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
-  },
-  "fragments|FJ2113-END": {
-   "name": "Tributary of plantar venous arch",
-   "measure": 1,
-   "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
-  },
-  "fragments|FJ2121-END": {
-   "name": "Left small saphenous vein",
-   "measure": 5,
-   "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
-  },
-  "fragments|FJ2124-END": {
-   "name": "Left genicular vein",
-   "measure": 1,
-   "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
-  },
-  "fragments|FJ2131-END": {
-   "name": "Right anterior tibial recurrent artery",
-   "measure": 4,
-   "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
-  },
-  "fragments|FJ2158-END": {
-   "name": "Right lateral circumflex femoral artery",
-   "measure": 2,
-   "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
-  },
-  "fragments|FJ2159-END": {
-   "name": "Right lateral plantar artery",
-   "measure": 1,
-   "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
-  },
-  "fragments|FJ2163-END": {
-   "name": "Right lateral tarsal artery",
-   "measure": 1,
-   "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
-  },
-  "fragments|FJ2176-END": {
-   "name": "Right small saphenous vein",
-   "measure": 7,
-   "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
-  },
-  "fragments|FJ2185-END": {
-   "name": "Set of dorsal digital veins",
-   "measure": 1,
-   "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
-  },
-  "fragments|FJ2187-END": {
-   "name": "Left fibular vein",
-   "measure": 3,
-   "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
-  },
   "fragments|FJ2189-END": {
    "name": "Left medial circumflex femoral vein",
-   "measure": 1,
-   "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
-  },
-  "fragments|FJ2200-END": {
-   "name": "Right fibular vein",
    "measure": 1,
    "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
   },
@@ -1485,16 +1411,6 @@
    "measure": 1,
    "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
   },
-  "fragments|FJ2974-END": {
-   "name": "Posterior branch of right anterior segmental artery",
-   "measure": 1,
-   "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
-  },
-  "fragments|FJ3030-END": {
-   "name": "Superior part of medial segmental vein",
-   "measure": 1,
-   "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
-  },
   "fragments|FJ3074": {
    "name": "Anterior inferior segmental branch of right portal vein",
    "measure": 2,
@@ -1517,11 +1433,6 @@
   },
   "fragments|FJ3473": {
    "name": "Posterior division of left renal artery",
-   "measure": 1,
-   "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
-  },
-  "fragments|FJ3513-END": {
-   "name": "Left inferior gluteal vein",
    "measure": 1,
    "reason": "mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2)"
   },
@@ -1655,11 +1566,6 @@
    "measure": 2.7,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
-  "penetration|FJ1695M-END|FJ3200": {
-   "name": "Left ophthalmic artery",
-   "measure": 2.2,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
   "penetration|FJ1695M|FJ3200": {
    "name": "Left ophthalmic artery",
    "measure": 2.2,
@@ -1683,16 +1589,6 @@
   "penetration|FJ1961|FJ3210": {
    "name": "Posterior intercostal arteries",
    "measure": 2.5,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|FJ1981-END|FJ3169": {
-   "name": "Accessory hemiazygos vein",
-   "measure": 2.9,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|FJ1981-END|FJ3173": {
-   "name": "Accessory hemiazygos vein",
-   "measure": 2.3,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
   "penetration|FJ1985|FJ3225": {
@@ -1730,24 +1626,9 @@
    "measure": 2.9,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
-  "penetration|FJ1986-END|FJ3229": {
-   "name": "Left superior intercostal vein",
-   "measure": 2.6,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|FJ1986-END|FJ3230": {
-   "name": "Left superior intercostal vein",
-   "measure": 2.3,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
   "penetration|FJ1986|FJ3230": {
    "name": "Left superior intercostal vein",
    "measure": 3.3,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|FJ1988-END|FJ3255": {
-   "name": "Left musculophrenic vein",
-   "measure": 4.1,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
   "penetration|FJ1988|FJ3255": {
@@ -1758,11 +1639,6 @@
   "penetration|FJ1991|FJ3338": {
    "name": "Right superior intercostal vein",
    "measure": 3,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|FJ1993-END|FJ3178": {
-   "name": "Right internal thoracic vein",
-   "measure": 2.5,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
   "penetration|FJ1993|FJ3178": {
@@ -1790,11 +1666,6 @@
    "measure": 3.2,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
-  "penetration|FJ1996-END|FJ3345": {
-   "name": "Right musculophrenic vein",
-   "measure": 3.1,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
   "penetration|FJ1996|FJ3345": {
    "name": "Right musculophrenic vein",
    "measure": 3,
@@ -1815,19 +1686,9 @@
    "measure": 2.8,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
-  "penetration|FJ2063-END|FJ3259": {
-   "name": "Descending branch of left lateral circumflex femoral artery",
-   "measure": 3.9,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
   "penetration|FJ2063|FJ3259": {
    "name": "Descending branch of left lateral circumflex femoral artery",
    "measure": 3,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|FJ2065-END|FJ1439M": {
-   "name": "Left anterior tibial artery",
-   "measure": 7.9,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
   "penetration|FJ2065-END|FJ3282": {
@@ -1843,16 +1704,6 @@
   "penetration|FJ2065|FJ3282": {
    "name": "Left anterior tibial artery",
    "measure": 5.5,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|FJ2066-END|FJ1439M": {
-   "name": "Left anterior tibial recurrent artery",
-   "measure": 3.5,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|FJ2066-END|PK:Left tibial tuberosity": {
-   "name": "Left anterior tibial recurrent artery",
-   "measure": 4.5,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
   "penetration|FJ2066|FJ1439M": {
@@ -1878,11 +1729,6 @@
   "penetration|FJ2077|FJ3282": {
    "name": "Left inferior medial genicular artery",
    "measure": 2.4,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|FJ2081-END|FJ3258": {
-   "name": "Left lateral tarsal artery",
-   "measure": 2.9,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
   "penetration|FJ2086-END|FJ1440M": {
@@ -1975,11 +1821,6 @@
    "measure": 5.5,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
-  "penetration|FJ2130-END|FJ1439": {
-   "name": "Right anterior tibial artery",
-   "measure": 5.6,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
   "penetration|FJ2130-END|FJ3387": {
    "name": "Right anterior tibial artery",
    "measure": 4.5,
@@ -1995,11 +1836,6 @@
    "measure": 5.2,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
-  "penetration|FJ2131-END|FJ1439": {
-   "name": "Right anterior tibial recurrent artery",
-   "measure": 3.4,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
   "penetration|FJ2131|FJ1439": {
    "name": "Right anterior tibial recurrent artery",
    "measure": 3.9,
@@ -2008,11 +1844,6 @@
   "penetration|FJ2132-END|FJ1423": {
    "name": "Right anterior tibial vein",
    "measure": 5.6,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|FJ2132-END|FJ1439": {
-   "name": "Right anterior tibial vein",
-   "measure": 5.4,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
   "penetration|FJ2132|FJ1423": {
@@ -2032,7 +1863,7 @@
   },
   "penetration|FJ2170-END|FJ3365": {
    "name": "Right popliteal artery",
-   "measure": 4.3,
+   "measure": 3.6,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
   "penetration|FJ2170-END|FJ3387": {
@@ -2075,11 +1906,6 @@
    "measure": 7,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
-  "penetration|FJ2183-END|FJ1439M": {
-   "name": "Left anterior tibial vein",
-   "measure": 6.7,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
   "penetration|FJ2183-END|FJ1440M": {
    "name": "Left anterior tibial vein",
    "measure": 5.9,
@@ -2088,11 +1914,6 @@
   "penetration|FJ2183|FJ1439M": {
    "name": "Left anterior tibial vein",
    "measure": 8,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|FJ2184-END|FJ3256": {
-   "name": "Left fibular vein",
-   "measure": 5.7,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
   "penetration|FJ2184|FJ3256": {
@@ -2110,11 +1931,6 @@
    "measure": 4.5,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
-  "penetration|FJ2188-END|FJ3259": {
-   "name": "Left lateral circumflex femoral vein",
-   "measure": 2.2,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
   "penetration|FJ2189-END|FJ3259": {
    "name": "Left medial circumflex femoral vein",
    "measure": 5.8,
@@ -2127,7 +1943,7 @@
   },
   "penetration|FJ2193-END|FJ1439": {
    "name": "Right anterior tibial vein",
-   "measure": 7.8,
+   "measure": 7.7,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
   "penetration|FJ2193-END|FJ1440": {
@@ -2380,11 +2196,6 @@
    "measure": 4.3,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
-  "penetration|FJ3468-END|FJ3393": {
-   "name": "Left internal iliac artery",
-   "measure": 3,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
   "penetration|FJ3468|FJ3393": {
    "name": "Left internal iliac artery",
    "measure": 3.6,
@@ -2417,12 +2228,7 @@
   },
   "penetration|FJ3513-END|FJ3393": {
    "name": "Left inferior gluteal vein",
-   "measure": 3.7,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|FJ3519-END|FJ3225": {
-   "name": "Left inferior phrenic artery",
-   "measure": 2.3,
+   "measure": 3.2,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
   "penetration|FJ3519|FJ3225": {
@@ -2458,16 +2264,6 @@
   "penetration|FJ3587|FJ3362": {
    "name": "Right subclavian vein",
    "measure": 4.3,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|FJ3589-END|FJ3215": {
-   "name": "Right ascending lumbar vein",
-   "measure": 2.4,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|FJ3632-END|FJ3212": {
-   "name": "Lumbar artery",
-   "measure": 2.6,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
   "penetration|FJ3632|FJ3212": {
@@ -4598,9 +4394,9 @@
   },
   "stretch|FJ3513-END|hip flexion 120 knee flexion 130": {
    "name": "Left inferior gluteal vein",
-   "measure": 490,
+   "measure": 301,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.07239952718676122,
+   "fraction": 0.050775978407557355,
    "severity": 2.5
   },
   "stretch|FJ3513|hip flexion 120 knee flexion 130": {
@@ -4612,10 +4408,10 @@
   },
   "stretch|FJ3606-END|hip flexion 120 knee flexion 130": {
    "name": "Right inferior gluteal vein",
-   "measure": 987,
+   "measure": 454,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.1490036231884058,
-   "severity": 2.6
+   "fraction": 0.08559577677224736,
+   "severity": 2.3
   },
   "stretch|FJ3606|hip flexion 120 knee flexion 130": {
    "name": "Right inferior gluteal vein",
@@ -5143,10 +4939,25 @@
    "measure": 105,
    "reason": "faces coincide with Trunk of left renal artery: two layers share the same surface; to be offset or one of them removed"
   },
+  "zfight|FJ2082-END|FJ2085-END": {
+   "name": "Left medial plantar artery",
+   "measure": 189,
+   "reason": "原本重疊，零件縮小後超過門檻；下肢，考試後修（2026-11-16 經使用者暫時核准）"
+  },
   "zfight|FJ2122|FJ3530": {
    "name": "Left superficial epigastric vein",
    "measure": 193,
    "reason": "faces coincide with Left superior epigastric vein: two layers share the same surface; to be offset or one of them removed"
+  },
+  "zfight|FJ2164-END|FJ2179-END": {
+   "name": "Right medial plantar artery",
+   "measure": 253,
+   "reason": "原本重疊，零件縮小後超過門檻；下肢，考試後修（2026-11-16 經使用者暫時核准）"
+  },
+  "zfight|FJ2170-END|FJ2167-END": {
+   "name": "Right popliteal artery",
+   "measure": 123,
+   "reason": "原本重疊，零件縮小後超過門檻；下肢，考試後修（2026-11-16 經使用者暫時核准）"
   },
   "zfight|FJ2178|FJ3615": {
    "name": "Right superficial epigastric vein",

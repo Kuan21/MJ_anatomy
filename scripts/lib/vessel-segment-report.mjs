@@ -43,6 +43,15 @@ export async function runSegments(argv) {
   if (write) {
     const base = {note: 'Vessel ends whose next segment lies further away than half the vessel diameter (known, listed in REVIEW_LOG.md). A new one fails `npm run check`; bridge it rather than adding it here.', thresholds: {gapFactor: .5, tangentDeg: TANGENT_DEG, diameterRatio: RATIO, growMm: GROW_MM}, before: JSON.parse(fs.existsSync(baselineFile) ? fs.readFileSync(baselineFile, 'utf8') : '{}').before, regions: {}};
     for (const r of regions) base.regions[r] = {summary: sums[r], gaps: Object.fromEntries(res[r].gaps.map(g => [pairKey(g) + '|' + g.at.map(v => Math.round(v * 1000)).join(','), g.gapMm]))};
+    // A gap that is new, or that grew by more than GROW_MM, may only be written with a reason (`--write --reason="..."`, applied to every such gap of this run); the reason of a gap that stays is kept.
+    const prev = fs.existsSync(baselineFile) ? JSON.parse(fs.readFileSync(baselineFile, 'utf8')) : {}, reasonArg = argv.find(a => a.startsWith('--reason='))?.slice(9).trim(), reasons = {}, added = [];
+    for (const r of regions) for (const [k, mm] of Object.entries(base.regions[r].gaps)) {
+      const old = prev.regions?.[r]?.gaps?.[k];
+      if (old === undefined || mm > old + GROW_MM) added.push(`${r}: ${k} (${old === undefined ? 'new' : 'grew from ' + old} → ${mm} mm)`); else if (prev.reasons?.[k]) reasons[k] = prev.reasons[k];
+    }
+    if (added.length && !reasonArg) { console.error(`${added.length} new or grown gap(s); register them only with a reason (--write --reason="..."), and list them in the pull request:\n - ` + added.join('\n - ')); process.exit(1); }
+    for (const r of regions) for (const [k, mm] of Object.entries(base.regions[r].gaps)) { const old = prev.regions?.[r]?.gaps?.[k]; if (old === undefined || mm > old + GROW_MM) reasons[k] = reasonArg; }
+    if (Object.keys(reasons).length) base.reasons = reasons;
     fs.writeFileSync(baselineFile, JSON.stringify(base, null, 1));
     await writeDocs(res, regions, sums, base.before);
     console.log(`Wrote docs/vessel-segments.md and the baseline (${((performance.now() - t) / 1000).toFixed(0)} s).`);

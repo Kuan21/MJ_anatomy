@@ -10,6 +10,7 @@ import {BRAIN_GROUPS, describeBrainNode} from './brain-catalogue';
 import type {CsfSource} from './csf-scene';
 import {LABEL, classFields, partField, voxelize, type VoxelGrid, type VoxelInput} from './brain-voxels';
 import {SCHEMATIC} from './brain-schematic';
+import {FORNIX_BODY, midlineKind, mirrorX, splitFornixBody} from './brain-midline';
 import {keepNear, loopSubdivide, nearMask} from './brain-smooth';
 import {SECTION_AXES, type BrainPart, type BrainView, type BrainViewState} from './brain-types';
 
@@ -238,19 +239,11 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
     gltf.scene.updateMatrixWorld(true);
     const list: BrainPart[] = [];
     // A node with several materials loads as a group of meshes: its pieces are merged into one geometry so a structure stays one selectable thing.
-    const take = (node: T.Object3D) => {
-      const x = node.userData ?? {};
-      if (!x.bx_cat) return false;
-      const pieces: T.BufferGeometry[] = [];
-      node.traverse(o => {
-        if (!(o instanceof T.Mesh)) return;
-        const flat = o.geometry.getIndex() ? o.geometry.toNonIndexed() : o.geometry.clone(), ng = new T.BufferGeometry();
-        ng.setAttribute('position', flat.getAttribute('position'));
-        ng.applyMatrix4(o.matrixWorld); pieces.push(ng);
-      });
-      if (!pieces.length) return true;
-      const part = describeBrainNode({name: node.name, cat: String(x.bx_cat), region: String(x.bx_region ?? ''), label: String(x.bx_label ?? ''), side: String(x.bx_side ?? '')}, list.length);
-      if (!part) return true;
+    // Midline structures stored as two halves (or one half) are collected here and added once, with no side (app/organ/brain-midline.ts).
+    const midline = new Map<string, {raw: {name: string; cat: string; region: string; label: string; side: string}; pieces: T.BufferGeometry[]}>();
+    const addPart = (raw: {name: string; cat: string; region: string; label: string; side: string}, pieces: T.BufferGeometry[]) => {
+      const part = describeBrainNode(raw, list.length);
+      if (!part) return;
       const merged = mergeGeometries(pieces, false)!;
       let geometry = /^fourth ventricle$/i.test(part.en) ? fourthVentricleGeometry(mergeVertices(merged, 1e-6)) : mergeVertices(merged, 1e-6);
       const coarse = geometry;
@@ -261,10 +254,32 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
       mesh.userData.partId = part.id; mesh.userData.coarse = coarse; list.push(part); parts.set(part.id, part); meshes.set(part.id, mesh); scene.add(mesh);
       whole.union(geometry.boundingBox!);
       if (/^(frontal|parietal|temporal|occipital|limbic|insula|cortex-other|cerebellum|brainstem)$/.test(part.group)) core.union(geometry.boundingBox!);
+    };
+    const take = (node: T.Object3D) => {
+      const x = node.userData ?? {};
+      if (!x.bx_cat) return false;
+      let pieces: T.BufferGeometry[] = [];
+      node.traverse(o => {
+        if (!(o instanceof T.Mesh)) return;
+        const flat = o.geometry.getIndex() ? o.geometry.toNonIndexed() : o.geometry.clone(), ng = new T.BufferGeometry();
+        ng.setAttribute('position', flat.getAttribute('position'));
+        ng.applyMatrix4(o.matrixWorld); pieces.push(ng);
+      });
+      if (!pieces.length) return true;
+      const raw = {name: node.name, cat: String(x.bx_cat), region: String(x.bx_region ?? ''), label: String(x.bx_label ?? ''), side: String(x.bx_side ?? '')};
+      const kind = midlineKind(raw.label), hold = (label: string, from: T.BufferGeometry[]) => {
+        const entry = midline.get(label) ?? midline.set(label, {raw: {...raw, name: label, label, side: 'median'}, pieces: []}).get(label)!;
+        entry.pieces.push(...from);
+      };
+      if (kind === 'join') {hold(raw.label, pieces); return true;}
+      if (kind === 'mirror') {hold(raw.label, [...pieces, ...mirrorX(pieces)]); return true;}
+      if (kind === 'fornix') {const cut = splitFornixBody(pieces); hold(FORNIX_BODY, cut.body); pieces = cut.rest;}
+      if (pieces.length) addPart(raw, pieces);
       return true;
     };
     const walk = (node: T.Object3D) => {if (!take(node)) for (const child of [...node.children]) walk(child);};
     walk(gltf.scene);
+    for (const {raw, pieces} of midline.values()) addPart(raw, pieces);
     // Optional view crop near the brain; this distance mask is not an anatomical root boundary.
     // Keep full source geometry so complete paths can always be restored.
     {
