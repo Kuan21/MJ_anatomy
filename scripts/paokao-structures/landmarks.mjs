@@ -12,6 +12,11 @@ export default function landmarks(U) {
       card: {origin: [`On the ${bone.replace(/^(Right|Left) /, '').toLowerCase()}`, extra.zhBone ?? ''], course: [where[0], where[1]], supply: [role[0], role[1]]}, refs: [], ...extra.spec});
   };
   const disc = (bone, c, r) => U.surfacePatch(bone, c, r, .0004);
+  // Hip-bone landmarks: the male patch is the structure, the female patch its sibling (same name, card and concept). `male` records, `female` attaches, `flush` keeps the order.
+  const pending = new Map();
+  const male = (S, name, zh, bone, geometry, where, role, extra = {}) => { mark(S, name, zh, bone, geometry, where, role, {...extra, spec: {...extra.spec, sex: 'male'}}); pending.set(`${S.w} ${name}`, out.at(-1)); };
+  const female = (S, name, zh, bone, geometry) => { const s = pending.get(`${S.w} ${name}`); if (!geometry.indices.length) throw new Error(`landmark ${name}: empty female patch`); (s.siblings ??= []).push({geometry: [geometry], sex: 'female'}); };
+  const flush = () => pending.clear();
   for (const S of SIDES) {
     const hum = `${S.w} humerus`, sc = `${S.w} scapula`, rad = `${S.w} radius`, hip = `${S.w} hip bone`, tib = `${S.w} tibia`, side = S.sx;
     // ---- Humerus
@@ -35,11 +40,16 @@ export default function landmarks(U) {
     mark(S, 'infraspinous fossa', '棘下窩', sc, U.patchWhere(sc, tr => tr.n[2] < -.45 && tr.mid[1] < spineY - .006 && tr.mid[1] > 1.285 && Math.abs(tr.mid[0]) > .074 && Math.abs(tr.mid[0]) < .150, .0003, p => p[1] < spineY && p[1] > 1.28, .003), ['The large hollow below the spine of the scapula on its back surface', '肩胛骨後面、肩胛棘下方的大凹窩'], ['Origin of infraspinatus; the suprascapular vessels and nerve supply it', '棘下肌的起點；由肩胛上血管與神經供應'], {zhBone: '肩胛骨'});
     // ---- Radius, ilium, pubis, ischium, tibia
     mark(S, 'styloid process of radius', '橈骨莖突', rad, disc(rad, U.extreme(rad, P(side, -.8, .1), {y: [.88, .93]}), .0070), ['Pointed lateral projection at the lower end of the radius', '橈骨下端外側的尖突'], ['Insertion of brachioradialis; the radial collateral ligament of the wrist attaches here', '肱橈肌的止點；腕橈側副韌帶附著於此'], {zhBone: '橈骨'});
-    const top = U.mesh(hip).hi[1];
-    mark(S, 'iliac crest', '髂嵴', hip, U.patchWhere(hip, tr => tr.mid[1] > top - .0105 && tr.n[1] > -.2, .0003, p => p[1] > top - .016, .002), ['The curved upper border of the ilium, from the anterior to the posterior superior iliac spine', '髂骨彎曲的上緣，由髂前上棘延伸到髂後上棘'], ['Attachment of the abdominal wall muscles, latissimus dorsi and the fascia lata', '腹壁肌肉、背闊肌與闊筋膜的附著處'], {zhBone: '髖骨'});
-    mark(S, 'pubic tubercle', '恥骨結節', hip, disc(hip, U.extreme(hip, P(-side * .55, .35, 1), {y: [.84, .92]}), .0055), ['A small rounded projection on the upper border of the pubis, about 2 cm from the symphysis', '恥骨上緣、距恥骨聯合約 2 公分的小圓突'], ['Medial attachment of the inguinal ligament', '腹股溝韌帶的內側附著點'], {zhBone: '髖骨'});
-    mark(S, 'ischial tuberosity', '坐骨結節', hip, disc(hip, U.extreme(hip, P(0, -1, -.35), {y: [.82, .90]}), .0120), ['Thick roughened lower part of the ischium that bears the weight in sitting', '坐骨下方粗糙肥厚、坐姿時承重的部分'], ['Origin of the hamstrings; sacrotuberous ligament attaches here', '膕繩肌的起點；薦結節韌帶附著於此'], {zhBone: '髖骨'});
-    mark(S, 'spine of ischium', '坐骨棘', hip, disc(hip, U.extreme(hip, P(-side * .25, -.1, -1), {y: [.90, .97], x: side < 0 ? [-.1, -.03] : [.03, .1]}), .0055), ['Pointed projection from the back of the ischium between the greater and lesser sciatic notches', '坐骨後緣、坐骨大切跡與小切跡之間的尖突'], ['Attachment of the sacrospinous ligament; the pudendal nerve and internal pudendal vessels wind round it', '薦棘韌帶的附著處；陰部神經與陰部內血管繞過此處'], {zhBone: '髖骨'});
+    // The hip bone exists twice (BodyParts3D, shown in male mode; Human Reference Atlas, shown in female mode) and the two surfaces differ by up to 2 cm, so each
+    // landmark is cut from each bone on its own: the male patch (sex 'male') with a female sibling (sex 'female'). Cut from both at once, it lay half on each.
+    for (const sex of ['male', 'female']) {
+      const bone = `${hip} @${sex}`, top = U.mesh(bone).hi[1], at = sex === 'female' ? female : male;
+      at(S, 'iliac crest', '髂嵴', hip, U.patchWhere(bone, tr => tr.mid[1] > top - .0105 && tr.n[1] > -.2, .0003, p => p[1] > top - .016, .002), ['The curved upper border of the ilium, from the anterior to the posterior superior iliac spine', '髂骨彎曲的上緣，由髂前上棘延伸到髂後上棘'], ['Attachment of the abdominal wall muscles, latissimus dorsi and the fascia lata', '腹壁肌肉、背闊肌與闊筋膜的附著處'], {zhBone: '髖骨'});
+      at(S, 'pubic tubercle', '恥骨結節', hip, disc(bone, U.extreme(bone, P(-side * .55, .35, 1), {y: [.84, .92]}), .0055), ['A small rounded projection on the upper border of the pubis, about 2 cm from the symphysis', '恥骨上緣、距恥骨聯合約 2 公分的小圓突'], ['Medial attachment of the inguinal ligament', '腹股溝韌帶的內側附著點'], {zhBone: '髖骨'});
+      at(S, 'ischial tuberosity', '坐骨結節', hip, disc(bone, U.extreme(bone, P(0, -1, -.35), {y: [.82, .90]}), .0120), ['Thick roughened lower part of the ischium that bears the weight in sitting', '坐骨下方粗糙肥厚、坐姿時承重的部分'], ['Origin of the hamstrings; sacrotuberous ligament attaches here', '膕繩肌的起點；薦結節韌帶附著於此'], {zhBone: '髖骨'});
+      at(S, 'spine of ischium', '坐骨棘', hip, disc(bone, U.extreme(bone, P(-side * .25, -.1, -1), {y: [.90, .97], x: side < 0 ? [-.1, -.03] : [.03, .1]}), .0055), ['Pointed projection from the back of the ischium between the greater and lesser sciatic notches', '坐骨後緣、坐骨大切跡與小切跡之間的尖突'], ['Attachment of the sacrospinous ligament; the pudendal nerve and internal pudendal vessels wind round it', '薦棘韌帶的附著處；陰部神經與陰部內血管繞過此處'], {zhBone: '髖骨'});
+    }
+    flush(S);
     mark(S, 'tibial tuberosity', '脛骨粗隆', tib, disc(tib, U.extreme(tib, P(0, .3, 1), {y: [.375, .445]}), .0100), ['Rough elevation on the front of the upper tibia', '脛骨上端前面的粗糙隆起'], ['Insertion of the patellar ligament', '髕韌帶的止點'], {zhBone: '脛骨'});
   }
   // ---- Skull and cervical vertebrae (single bones)

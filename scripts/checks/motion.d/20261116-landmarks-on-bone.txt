@@ -1,0 +1,2 @@
+# Bone landmarks lie on their bone at rest and at every joint pose of scripts/test-vessel-motion.mjs (limits included); negative control: a landmark bound as soft tissue must fail.
+node scripts/check-schematic-models.mjs --only=landmarks

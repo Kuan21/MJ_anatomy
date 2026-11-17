@@ -25,7 +25,9 @@ export async function createAudit() {
   const m = await loadMotion(), world = loadStabilityParts(), {atlas, geometry, parts} = world;
   registerNerves(m, atlas, parts);
   const byId = new Map(parts.map(p => [p.id, p]));
-  const bones = parts.filter(p => p.system === 'skeletal'), boneRest = new Map(bones.map(b => [b.id, b.load()])), boneNames = new Map(bones.map(b => [b.id, b.name]));
+  // A bone landmark (kind 'landmark') is a patch of colour on its bone's surface that moves rigidly with that bone, not a bone of its own: touching it is touching
+  // the bone under it, which is checked here as itself. Counted as a bone, every vessel or nerve that lay on the patch at rest was measured against the patch.
+  const bones = parts.filter(p => p.system === 'skeletal' && p.part?.kind !== 'landmark'), boneRest = new Map(bones.map(b => [b.id, b.load()])), boneNames = new Map(bones.map(b => [b.id, b.name]));
   const restBoneGrid = new TriGrid(.008); for (const [id, g] of boneRest) restBoneGrid.add(id, g.positions, g.indices);
   const poser = makePoser(m, atlas, geometry, parts, p => p.load());
   const profileOf = (id, p) => m.tissueBindings[id]?.profile ?? (p?.stream === 'nerve' ? 'nerve' : '-');
