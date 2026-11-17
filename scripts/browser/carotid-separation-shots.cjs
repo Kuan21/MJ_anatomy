@@ -6,7 +6,7 @@ const [port='5800',out='/tmp/carotid-c4',tag='after',vp='desktop']=process.argv.
 const SIZE=vp==='mobile'?{width:390,height:844}:{width:1500,height:950};
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const LT=[0.031,1.496,-0.005],RT=[-0.031,1.496,-0.005];
-const VIEWS=[['front-close',[0,1.505,0],[0,0,1],0.16],['left-close',[0.03,1.505,-0.005],[1,0,0],0.09],['right-close',[-0.03,1.505,-0.005],[-1,0,0],0.09]];
+const VIEWS=[['front-low',[0,1.50,0.0],[0,-0.35,1],0.12],['left-oblique',[0.03,1.502,-0.005],[0.8,0.1,0.6],0.07],['right-oblique',[-0.03,1.502,-0.005],[-0.8,0.1,0.6],0.07],['left-side-noveins',[0.03,1.502,-0.005],[1,0,0],0.07],['right-side-noveins',[-0.03,1.502,-0.005],[-1,0,0],0.07]];
 const OLDVIEWS=[
  ['L-front',LT,[0,0,1],0.09],['L-side',LT,[1,0,0],0.09],['R-front',RT,[0,0,1],0.09],['R-side',RT,[-1,0,0],0.09],
  ['L-landmarks-side',[0.02,1.505,-0.005],[1,0,0],0.2],['R-landmarks-side',[-0.02,1.505,-0.005],[-1,0,0],0.2],['landmarks-front',[0,1.505,0],[0,0,1],0.22]];
@@ -21,7 +21,7 @@ const OLDVIEWS=[
  const openSystems=async()=>{ if(vp==='mobile'&&!(await panel.isVisible().catch(()=>false))){await p.locator('button[aria-label="開啟系統面板"]').click();await sleep(1500);} };
  const closePanel=async()=>{ if(vp==='mobile'){const c=p.locator('.close-systems').first();if(await c.isVisible().catch(()=>false))await c.click();await sleep(1500);} };
  await openSystems();
- for(const name of [/Muscles/,/Connective/]){await p.locator('.system-row',{hasText:name}).first().locator('button.system-name').click();await sleep(2500);}
+ for(const name of [/Muscles/,/Connective/,/Veins/]){await p.locator('.system-row',{hasText:name}).first().locator('button.system-name').click();await sleep(2500);}
  console.log('systems',await p.locator('.system-row.enabled').allTextContents().then(a=>a.map(t=>t.replace(/\s+/g,' ').slice(0,24)).join(' | ')));
  await closePanel();
  const shot=async n=>{await sleep(3000);await p.screenshot({path:`${out}/${tag}-${vp}-${n}.png`,timeout:240000});console.log('shot',n);};
