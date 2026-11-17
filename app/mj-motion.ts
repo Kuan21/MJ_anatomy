@@ -1,6 +1,7 @@
 import * as T from 'three';
 import type {Atlas,PartTransform} from './anatomy';
 import boneBindings from './biomechanics-v2/bone-bindings.json';
+import paokaoBindings from './biomechanics-v2/paokao-bindings.json';
 import shoulderLandmarks from './biomechanics-v2/shoulder-landmarks.json';
 import forearmLandmarks from './biomechanics-v2/forearm-landmarks.json';
 import scapularContact from './biomechanics-v2/scapular-contact.json';
@@ -280,6 +281,9 @@ export function buildUpperLimbMotion(atlas:Atlas,side:Side,input:MotionPose){
  const transforms:Record<string,PartTransform>={};
  const matrices={clavicle:clavicleM,scapula:scapulaM,humerus:shoulderM,ulna:elbowM,radius:forearmM,carpus:wristM,hand:wristM};
  for(const bone of st.bones)transforms[bone.id]=rigid(matrices[bone.group as keyof typeof matrices]);
+ // Bone landmarks of the shoulder girdle and arm (tubercles, grooves, coracoid …) ride their bone rigidly (scripts/prepare-paokao.mjs, bindings.rigid).
+ const rigidLandmarks=(paokaoBindings as {rigid?:Record<string,{name:string;side:string;host:string}>}).rigid??{};
+ for(const [id,b] of Object.entries(rigidLandmarks))if(b.side===side&&transforms[b.host])transforms[id]=transforms[b.host];
  // Fingers: each moving digit bone (thumb metacarpal, every phalanx) turns about its own joint on top of the wrist; the soft tissue follows through its own frame.
  Object.assign(transforms,digitTransforms(side,p,wristM));
  const warnings=st.warnings.slice();

@@ -50,7 +50,7 @@ fs.writeFileSync(file('docs/topology-report.json'), JSON.stringify(topology, nul
 const {anatomicalRegion, anatomicalSide, anatomicalSubregion} = await quizModule('app/mj-part-regions.ts');
 const tissueJson = JSON.parse(fs.readFileSync(file('app/biomechanics-v2/tissue-bindings.json'), 'utf8')), bodyJson = JSON.parse(fs.readFileSync(file('app/biomechanics-v2/body-bindings.json'), 'utf8'));
 const atlasParts = JSON.parse(fs.readFileSync(file('public/models/atlas.json'), 'utf8')).parts, atlasByName = new Map(atlasParts.map(p => [p.name, p]));
-const bindings = {tissue: {}, body: {}};
+const bindings = {tissue: {}, body: {}, rigid: {}};
 const boundsOf = g => { const lo = [1e9, 1e9, 1e9], hi = [-1e9, -1e9, -1e9]; for (let i = 0; i < g.positions.length; i += 3) for (let k = 0; k < 3; k++) { lo[k] = Math.min(lo[k], g.positions[i + k]); hi[k] = Math.max(hi[k], g.positions[i + k]); } return [lo, hi]; };
 const ARM_PROFILE = {humerus: 'arm', scapula: 'scapular', clavicle: 'clavicular', radius: 'forearm', ulna: 'forearm'};
 function bind(id, s) {
@@ -68,6 +68,9 @@ function bind(id, s) {
   // The superior thoracic artery leaves the axillary artery at the first rib and stretches with it when the arm is raised. The lateral mammary arteries lie on the
   // chest wall and stay with the trunk: bound to the arm they were pulled to three times their length and 3 to 4 cm away from the lateral thoracic artery they leave.
   const axillaryBranch = /superior thoracic artery/i.test(s.name);
+  // A bone landmark on a bone of the shoulder girdle or arm moves rigidly with that bone (app/mj-motion.ts gives it the bone's transform). Bound as soft tissue
+  // (the 'arm' and 'scapular' profiles of the muscles) the tubercles of the humerus were carried 10 to 26 cm off the bone when the elbow bent.
+  if (s.kind === 'landmark' && hostWord && (side === 'left' || side === 'right')) { bindings.rigid[id] = {name: s.name, side, host: host.id, hostName: host.name}; return; }
   if ((region === 'upper-limb' || hostWord || axillaryBranch) && (side === 'left' || side === 'right')) {
     bindings.tissue[id] = {name: s.name, side, profile: ARM_PROFILE[hostWord] ?? 'path'};
   } else if (region === 'lower-limb' && (side === 'left' || side === 'right')) {
