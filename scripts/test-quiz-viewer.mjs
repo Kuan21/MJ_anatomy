@@ -59,7 +59,7 @@ async function moduleFor(key) {
 async function link(spec, ref) {return moduleFor(spec.startsWith('.') ? path.resolve(path.dirname(ref.identifier), spec.endsWith('.json') ? spec : spec + '.ts') : spec);}
 const module = await moduleFor(path.join(root, 'app/quiz/viewer.ts'));
 await module.link(link); await module.evaluate();
-const {createQuizViewer, clearPackageCache, packageBuffer, rankPackages, preloadQuestions} = module.namespace;
+const {createQuizViewer, clearPackageCache, packageBuffer, rankPackages, preloadQuestions, questionScene, questionPackages} = module.namespace;
 let ready = [], errors = [], picks = [], missed = 0;
 let shownLog = [];
 const callbacks = {ready: (key, value) => ready.push({key, value}), shown: (key, value) => shownLog.push({key, value}), progress() {}, error: e => {if (e) errors.push(e);}, pick: id => picks.push(id), miss: () => missed++, keyboard() {}};
@@ -194,6 +194,51 @@ viewer.dispose();
   clearPackageCache(); requests.length = 0;
   const small = await preloadQuestions(items, {limitBytes: 1, onProgress() {}});
   assert.ok(small.left > 0 && small.loaded === 0 && requests.length === 0, 'what passes the limit is left for the background');
+}
+
+// reduced scene (學習「認識」步驟、模擬考試): the target, every bone and the structures nearest to the target; the far faint muscles are not loaded or drawn.
+// Questions where something is picked (mode 'find') always draw every candidate, whatever `focus` says, so the scoring stays fair.
+{
+  const target = targetNamed('Right gluteus maximus'), focus = {count: 3};
+  const full = questionScene(catalogue, target, 'all', 'right'), reduced = questionScene(catalogue, target, 'all', 'right', focus);
+  const reducedIds = new Set(reduced.map(s => s.id)), bones = full.filter(s => s.system === 'skeletal'), others = full.filter(s => s.id !== target.id && s.system !== 'skeletal');
+  assert.ok(others.length > focus.count + 2, 'the scene has enough structures to leave some out');
+  assert.equal(reduced.length, 1 + bones.length + focus.count, 'target, every bone and the `count` nearest');
+  assert.ok(reduced.every(s => full.some(f => f.id === s.id)), 'nothing is added that the whole scene does not have');
+  assert.ok(reducedIds.has(target.id) && bones.every(s => reducedIds.has(s.id)), 'the target and every bone stay');
+  const gap = (a, b) => Math.hypot(...[0, 1, 2].map(i => Math.max(0, a.bounds[0][i] - b.bounds[1][i], b.bounds[0][i] - a.bounds[1][i])));
+  const kept = others.filter(s => reducedIds.has(s.id)), left = others.filter(s => !reducedIds.has(s.id));
+  assert.ok(Math.max(...kept.map(s => gap(s, target))) <= Math.min(...left.map(s => gap(s, target))) + 1e-9, 'what stays is nearer to the target than what is left out');
+  const far = left.at(-1);
+  const packs = questionPackages(catalogue, target, 'all', 'right', focus), packsFull = questionPackages(catalogue, target, 'all', 'right');
+  assert.ok(packs.every(i => packsFull.includes(i)) && packs.length <= packsFull.length, 'the reduced scene never needs a package the whole scene does not');
+  // a bone question keeps no bone it does not need: the nearest ones
+  const bone = targetNamed('Right patella'), boneScene = questionScene(catalogue, bone, 'all', 'right', focus);
+  assert.equal(boneScene.length, 1 + focus.count, 'a bone question draws the nearest structures only');
+  // a space is never reduced
+  const space = targetNamed('Right tarsal tunnel');
+  assert.equal(questionScene(catalogue, space, 'all', 'right', focus).length, questionScene(catalogue, space, 'all', 'right').length, 'a space keeps its whole scene');
+  // drawn: only the reduced scene is visible in mode 'name', and nothing else was fetched for it
+  clearPackageCache(); ready = []; errors = []; requests.length = 0;
+  const v = createQuizViewer(element(), catalogue, callbacks), name = {...makeState('focus-name', 'Right gluteus maximus'), mode: 'name', progressive: true, focus};
+  v.update(name); await settle();
+  const drawn = new Set(meshes().filter(m => m.visible).map(m => m.userData.structureId));
+  assert.ok(drawn.has(target.id) && [...drawn].every(id => reducedIds.has(id)), 'mode name draws only the reduced scene');
+  assert.ok(!drawn.has(far.id), 'the far structure is not drawn');
+  const binsOf = () => requests.filter(u => /\.bin(\.gz)?$/.test(u)).length;
+  assert.ok(binsOf() <= packs.length, 'only the packages of the reduced scene were fetched');
+  // the same question in mode 'find' ignores the focus: every candidate is there
+  ready = []; v.update({...name, key: 'focus-find', mode: 'find'}); await settle();
+  const drawnFind = new Set(meshes().filter(m => m.visible).map(m => m.userData.structureId));
+  assert.ok(drawnFind.has(far.id), 'mode find draws the far structure too (every distractor)');
+  v.dispose();
+  // the step after the reduced one is brought in at low priority: the whole scene lands in memory without a question asking for it
+  clearPackageCache(); ready = []; errors = []; requests.length = 0;
+  const w = createQuizViewer(element(), catalogue, callbacks);
+  w.update({...makeState('warm', 'Right gluteus maximus'), mode: 'name', progressive: true, focus, next: {catalogue, target, focus, warm: target}}); await settle();
+  const deadline = Date.now() + 8000; while (binsOf() < packsFull.length && Date.now() < deadline) await new Promise(resolve => setTimeout(resolve, 20));
+  assert.equal(binsOf(), packsFull.length, 'the warm-up fetches the packages of the whole scene in the background');
+  w.dispose();
 }
 
 clearPackageCache(); ready = []; errors = []; failures = true;

@@ -9,7 +9,7 @@ import {coversEarTarget} from './ear';
 import {coversHeadNeckTarget} from './headneck';
 import {SPACES} from '../mj-spaces';
 import {SPACE_OPENING_MARGIN, openingView} from './spaces';
-import {QUIZ_REGIONS, QUIZ_SYSTEMS, ownerMuscleNames, regionSections, sceneStructures, type QuizCatalogue, type QuizSection, type QuizSide, type QuizStructure} from './catalogue';
+import {QUIZ_REGIONS, QUIZ_SYSTEMS, focusStructures, ownerMuscleNames, regionSections, sceneStructures, type QuizCatalogue, type SceneFocus, type QuizSection, type QuizSide, type QuizStructure} from './catalogue';
 
 export type QuizView = 'front' | 'back' | 'side' | 'medial' | 'top' | 'bottom' | 'fit' | 'answer' | 'space' | 'random';
 export interface QuizViewState {
@@ -38,8 +38,11 @@ export interface QuizViewState {
   /** Show the model as soon as the target and the bones around it are in (`shown`), and bring in the rest in the background: `ready` (the question can be answered) then follows
    * when everything the question needs is loaded (find mode) or at once (name mode, where nothing can be picked). Without it the question waits for all packages (mock exam). */
   progressive?: boolean;
-  /** The question after this one: its packages are fetched in the background once this one is complete (never ahead of the current question). */
-  next?: {catalogue: QuizCatalogue; target: QuizStructure};
+  /** Mode 'name' only: draw the target, the bones, the structures nearest to the target (`focus.count`), not every faint structure of the region (nothing is picked, so no candidate is missing). */
+  focus?: SceneFocus;
+  /** The question after this one: its packages are fetched in the background once this one is complete (never ahead of the current question). `focus` is the reduced scene it will be drawn with;
+   * `warm` names the scene of the step after it (the questions where structures are picked need every candidate), whose packages follow at low priority so that step finds them in memory. */
+  next?: {catalogue: QuizCatalogue; target: QuizStructure; focus?: SceneFocus; warm?: QuizStructure};
 }
 interface Callbacks {
   ready: (key: string, value: boolean) => void;
@@ -153,19 +156,26 @@ export function rankPackages(catalogue: QuizCatalogue, target: QuizStructure, al
   return {order: rows.map(r => r.index), essential: Math.max(essential, Math.min(rows.length, 1))};
 }
 
+/** What a structure that lies in front of the target is: drawn as glass while the target is the question (brain, ear, head and neck rules), so it stays in a reduced scene. */
+const coversTarget = (region: QuizCatalogue['region'], target: QuizStructure, structure: QuizStructure) => structure.id !== target.id
+  && (region === 'brain' ? coversBrainTarget(target as {layer?: BrainLayer}, structure as {layer?: BrainLayer}) : region === 'ear' ? coversEarTarget(target, structure) : region === 'head-neck' && coversHeadNeckTarget(target, structure));
+/** The structures a question draws: the whole scene of the region, or (mode 'name' with `focus`) the reduced one. */
+export function questionScene(catalogue: QuizCatalogue, target: QuizStructure, section: QuizSection, side: QuizSide, focus?: SceneFocus): QuizStructure[] {
+  const sec = section === 'all' ? target.sections[0] : section, full = sceneStructures(catalogue, target, sec, side);
+  return focus ? focusStructures(full, target, focus, s => coversTarget(catalogue.region, target, s) || (target.system === 'tendon' && s.system === 'muscular' && ownerMuscleNames(target.name).includes(s.name))) : full;
+}
 /** The package indices of one question in loading order (what the viewer loads for it). */
-export function questionPackages(catalogue: QuizCatalogue, target: QuizStructure, section: QuizSection, side: QuizSide): number[] {
-  const sec = section === 'all' ? target.sections[0] : section;
-  const ids = new Set(sceneStructures(catalogue, target, sec, side).map(s => s.id));
+export function questionPackages(catalogue: QuizCatalogue, target: QuizStructure, section: QuizSection, side: QuizSide, focus?: SceneFocus): number[] {
+  const ids = new Set(questionScene(catalogue, target, section, side, focus).map(s => s.id));
   const own = new Set([target.id, ...(target.space?.members.map(m => m.id) ?? [])]);
   return rankPackages(catalogue, target, ids, own).order;
 }
 /** Loads the packages of many questions into the shared memory before they are asked (the mock exam). Stations come in the order of the exam; whatever would pass `limitBytes` of decoded
  * data stays for the background prefetch. Resolves with how many packages were loaded and how many were left out. */
-export async function preloadQuestions(items: {catalogue: QuizCatalogue; target: QuizStructure; section: QuizSection; side: QuizSide}[], opts: {limitBytes: number; concurrency?: number; signal?: AbortSignal; onProgress?: (done: number, total: number) => void}) {
+export async function preloadQuestions(items: {catalogue: QuizCatalogue; target: QuizStructure; section: QuizSection; side: QuizSide; focus?: SceneFocus}[], opts: {limitBytes: number; concurrency?: number; signal?: AbortSignal; onProgress?: (done: number, total: number) => void}) {
   const seen = new Set<string>(), todo: Pack[] = [];
   let bytes = 0, left = 0;
-  for (const it of items) for (const i of questionPackages(it.catalogue, it.target, it.section, it.side)) {
+  for (const it of items) for (const i of questionPackages(it.catalogue, it.target, it.section, it.side, it.focus)) {
     const pack = it.catalogue.packages[i]; if (seen.has(pack.url)) continue; seen.add(pack.url);
     if (bytes + pack.bytes > opts.limitBytes) {left++; continue;}
     bytes += pack.bytes; todo.push(pack);
@@ -226,8 +236,17 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
     prefetching.abort(); prefetching = new AbortController();
     const upcoming = current.next; if (!upcoming) return;
     const signal = prefetching.signal, cat = upcoming.catalogue;
-    const todo = questionPackages(cat, upcoming.target, current.section, current.side).filter(i => !hasPackage(cat.packages[i]));
-    void (async () => {for (const i of todo) {if (signal.aborted || disposed) return; try {await packageBuffer(cat.packages[i]);} catch {return;}}})();
+    const todo = questionPackages(cat, upcoming.target, current.section, current.side, upcoming.focus).filter(i => !hasPackage(cat.packages[i]));
+    // the scene of the step after the next question is only worth the idle time of the browser, one package at a time
+    const warm = upcoming.warm ? questionPackages(cat, upcoming.warm, current.section, current.side).filter(i => !todo.includes(i) && !hasPackage(cat.packages[i])) : [];
+    const idle = () => new Promise<void>(resolve => {
+      const ric = (globalThis as {requestIdleCallback?: (fn: () => void, o?: {timeout: number}) => number}).requestIdleCallback;
+      if (ric) ric(() => resolve(), {timeout: 600}); else setTimeout(resolve, 60);
+    });
+    void (async () => {
+      for (const i of todo) {if (signal.aborted || disposed) return; try {await packageBuffer(cat.packages[i]);} catch {return;}}
+      for (const i of warm) {await idle(); if (signal.aborted || disposed) return; try {await packageBuffer(cat.packages[i]);} catch {return;}}
+    })();
   };
 
   /** Sample points of the target. A space is judged where it is, not along the whole length of its boundary muscles: only vertices within the space box are taken. */
@@ -268,8 +287,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
 
   /** Brain quiz: a structure that lies in front of a deep target is drawn as faint glass and cannot be picked, so the target is in view (rules: app/quiz/brain.ts). */
   // Head-and-neck quiz: the outer coats of the eyeball are glass while a part inside the same eye is the question (app/quiz/headneck.ts).
-  const isCover = (structure: QuizStructure) => !!state && structure.id !== state.target.id
-    && (catalogue.region === 'brain' ? coversBrainTarget(state.target as {layer?: BrainLayer}, structure as {layer?: BrainLayer}) : catalogue.region === 'ear' ? coversEarTarget(state.target, structure) : catalogue.region === 'head-neck' && coversHeadNeckTarget(state.target, structure));
+  const isCover = (structure: QuizStructure) => !!state && coversTarget(catalogue.region, state.target, structure);
   const BRAIN_GLASS = .09;
   /** The exam needle: a thin shaft whose tip touches the surface and a round head; removed and made again for every question. */
   let pin: T.Group | undefined;
@@ -466,8 +484,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
   const update = (next: QuizViewState) => {
     const changedQuestion = state?.key !== next.key;
     state = next;
-    const section = next.section === 'all' ? next.target.sections[0] : next.section;
-    allowed = new Set(sceneStructures(catalogue, next.target, section, next.side).map(s => s.id));
+    allowed = new Set(questionScene(catalogue, next.target, next.section, next.side, next.mode === 'name' ? next.focus : undefined).map(s => s.id));
     targetIds = new Set([next.target.id, ...(next.target.space?.members.map(m => m.id) ?? [])]);
     if (changedQuestion) {
       clearPin(); prefetching.abort(); ready = false; keyboardId = undefined; commandAtQuestion = next.command.id;

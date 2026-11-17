@@ -1,6 +1,6 @@
 import {useEffect, useMemo, useRef, useState} from 'react';
 import {AlertCircle, ArrowLeft, ArrowRight, Check, CheckCircle2, Eye, Layers, Lock, Maximize2, Play, RotateCcw, Target, XCircle} from 'lucide-react';
-import {QUIZ_CATEGORIES, QUIZ_REGIONS, categoryOf, type QuizCatalogue, type QuizRegionId, type QuizSettings, type QuizStructure} from './catalogue';
+import {FOCUS_COUNT, QUIZ_CATEGORIES, QUIZ_REGIONS, categoryOf, type QuizCatalogue, type SceneFocus, type QuizRegionId, type QuizSettings, type QuizStructure} from './catalogue';
 import {AnswerCard, Name, QuizScene} from './parts';
 import {structureCard} from './card';
 import {buildLessons, hintFor, scopeKeyOf, seededShuffle, type Lesson} from './lessons';
@@ -186,12 +186,14 @@ function LearnBody({catalogue, regionId, settings}: {catalogue: QuizCatalogue; r
     const step = STEPS.find(s => s.id === run.step)!, category = QUIZ_CATEGORIES.find(c => c.id === categoryOf(target));
     const know = run.step === 'know', stepNo = STEPS.indexOf(step);
     const hide = autoHidden(regionId, catalogue, target);
+    // 認識: nothing is picked, so the scene is the target, the bones and the structures nearest to the target; the practice step (where every candidate must be there) is brought into memory meanwhile
+    const focus: SceneFocus | undefined = know ? {count: FOCUS_COUNT} : undefined, knowNext = know && run.pos + 1 < run.queue.length;
     const last = run.pos + 1 >= run.queue.length, goesOn = !(last && (run.step === 'test' || run.requeued || !run.firsts.some(f => !f.ok)));
     return <>
       <LearnHeader regionId={regionId} right={<button data-slot="quiz-button" className="quiz-quiet" onClick={leave}>離開關卡 <ArrowLeft size={16}/></button>}/>
       <div className={`quiz-play-layout is-lesson ${know ? 'is-naming' : ''}`} data-step={run.step}>
         <section className="quiz-stage" aria-label="3D 模型">
-          <QuizScene key={sceneRetry} catalogue={catalogue} view={{key: questionKey, target, section: 'all', side: settings.side, answered: !!answer, pickedId: answer?.pickedId ?? null, hidden: hide.length ? [...hidden, ...hide] : hidden, context, peeling, command, mode: know ? 'name' : 'find', clarity: .45, only: false, highlightIds: [], progressive: true, next: nextTarget ? {catalogue, target: nextTarget} : undefined, lesson: know ? {seed: `${regionId}:${target.id}`, apart: false} : undefined}}
+          <QuizScene key={sceneRetry} catalogue={catalogue} view={{key: questionKey, target, section: 'all', side: settings.side, answered: !!answer, pickedId: answer?.pickedId ?? null, hidden: hide.length ? [...hidden, ...hide] : hidden, context, peeling, command, mode: know ? 'name' : 'find', clarity: .45, only: false, highlightIds: [], progressive: true, focus, next: nextTarget ? {catalogue, target: nextTarget, focus: knowNext ? focus : undefined, warm: know ? target : undefined} : know ? {catalogue, target, focus, warm: target} : undefined, lesson: know ? {seed: `${regionId}:${target.id}`, apart: false} : undefined}}
             onReady={(key, value) => setReadiness({key, ready: value})} onShown={(key, value) => setSeen({key, shown: value})} onProgress={(loaded, total) => setLoad({loaded, total})} onError={setError} onPick={choose} onMessage={setMessage}/>
           <div className="quiz-stage-caption"><span>{region.label}</span><span>{category?.label} · {target.side === 'midline' ? '中線' : target.side === 'right' ? '右側' : '左側'}</span></div>
           <div className="quiz-view-buttons" aria-label="模型視角"><button data-slot="quiz-button" onClick={() => changeView('front')}>前面</button><button data-slot="quiz-button" onClick={() => changeView('back')}>後面</button><button data-slot="quiz-button" onClick={() => changeView('side')}>側面</button>
