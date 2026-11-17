@@ -14,7 +14,7 @@ import {auditEnds, atlas, geom} from './audit-vessel-ends.mjs';
 import {weldSurface, endFrame as endFrameOf, bridgePath, sub, add, len, unit} from './lib/vessel-frames.mjs';
 import {loadFullAtlas, STREAMS} from './lib/full-atlas.mjs';
 import {loadVessels, analyse, bridgeable, regionTools} from './lib/vessel-segments.mjs';
-import {planTips, tipKey} from './lib/vessel-tip-plan.mjs';
+import {planTips, tipKey, NECK_ROOT_ARM_RIG} from './lib/vessel-tip-plan.mjs';
 
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 const stamp = file('work/vessel-ends.stamp'), out = new URL('public/models/stream/', root), manifest = file('public/models/vessel-ends/vessel-ends-stream.json.gz');
@@ -44,9 +44,15 @@ const {anatomicalRegion} = await regionTools(), limbIds = new Set(atlas.parts.fi
 // Intercostal and subcostal vessels end beside ribs and discs: as 12-sided prisms their end pieces sank 2-3 mm into the 9th/12th ribs and the intervertebral disk (stability check), so they keep the light end pieces.
 const WALL_VESSELS = /epigastric|circumflex iliac|musculophrenic|lumbar (?:artery|vein)|thoracoepigastric/i;
 // Kept light until the stability check passes with round ones (2026-11-14, split out of this change): the inferior epigastric end piece overlapped the femoral artery connector end (112 coincident faces).
-const LIGHT_ENDS = /inferior epigastric/i, lightIds = new Set(atlas.parts.filter(p => LIGHT_ENDS.test(p.name)).map(p => p.id));
-const wallIds = new Set(atlas.parts.filter(p => WALL_VESSELS.test(p.name)).map(p => p.id)), round = id => (limbIds.has(id) || wallIds.has(id)) && !lightIds.has(id);
-const sides = id => round(id) ? 12 : 5;
+// The medial occipital artery (cerebral, inside the skull) keeps the light end pieces as well: its two meshes (FJ1691 and FJ1691M) have end pieces of the same shape, and as 12-sided prisms they coincide (182 faces, stability check).
+const LIGHT_ENDS = /inferior epigastric|medial occipital artery/i, lightIds = new Set(atlas.parts.filter(p => LIGHT_ENDS.test(p.name)).map(p => p.id));
+// The vessels of the head and neck and the subclavian and brachiocephalic vessels at the neck root are round too (second exam, 2026-11-17): the 5-sided pieces there read as blue triangles and red spikes beside the large veins.
+// The neck root is judged by the position of each end, not by the region label or the centre of the vessel (the thoracic apical vessels, the deep cervical and suprascapular vessels and the first intercostal vessels around the clavicle carry other
+// labels, and the internal thoracic artery runs down the chest): an end within |x| 170 mm, y 1.37-1.47 m, |z| 80 mm gets round pieces.
+const atNeckRoot = at => Math.abs(at[0]) <= .17 && at[1] >= 1.37 && at[1] <= 1.47 && Math.abs(at[2]) <= .08;
+const neckIds = new Set([...atlas.parts.filter(p => anatomicalRegion(p) === 'head-neck').map(p => p.id), ...NECK_ROOT_ARM_RIG]);
+const wallIds = new Set(atlas.parts.filter(p => WALL_VESSELS.test(p.name)).map(p => p.id)), round = id => (limbIds.has(id) || wallIds.has(id) || neckIds.has(id)) && !lightIds.has(id);
+const roundTip = row => (round(row.id) || (atNeckRoot(row.at) && !lightIds.has(row.id))), sides = row => roundTip(row) ? 12 : 5;
 for (const row of rows) {
   const frame = row.kind === 'joined' ? null : endFrame(row.id, row.at);
   let action = row.kind === 'joined' ? 'joined' : 'enters';
@@ -56,12 +62,12 @@ for (const row of rows) {
       action = 'gap';
       const d = row.toSameMm / 1000, target = row.closest, chord = unit(sub(target, row.at));
       const bend = add(row.at, chord, d * .5), mid = add(bend, frame.dir, d * .18), through = add(target, chord, .001);
-      piece(row.id, tube([add(row.at, frame.dir, -.0015), row.at, mid, through], frame.radius * .95, frame.radius * .75, round(row.id) ? 12 : 6, sides(row.id)), row.at, 'gap');
+      piece(row.id, tube([add(row.at, frame.dir, -.0015), row.at, mid, through], frame.radius * .95, frame.radius * .75, roundTip(row) ? 12 : 6, sides(row)), row.at, 'gap');
     } else if (frame.radius <= FADE_RADIUS) {
       action = 'fade';
       if (shapedTips.has(row)) { /* the vessel's own mesh narrows to a rounded tip (scripts/prepare-model-stream.mjs): no cone beyond the end */ } else {
       const L = Math.min(.008, .003 + 3 * frame.radius);
-      piece(row.id, tube([add(row.at, frame.dir, -.001), add(row.at, frame.dir, L / 2), add(row.at, frame.dir, L)], frame.radius * .95, frame.radius * .1, round(row.id) ? 4 : 2, sides(row.id)), row.at, 'fade'); }
+      piece(row.id, tube([add(row.at, frame.dir, -.001), add(row.at, frame.dir, L / 2), add(row.at, frame.dir, L)], frame.radius * .95, frame.radius * .1, roundTip(row) ? 4 : 2, sides(row)), row.at, 'fade'); }
     } else if (!inTissue && row.kind === 'dangling') action = 'enters';
   }
   report.push({id: row.id, name: row.name, system: row.system, action, at: row.at, radiusMm: frame ? +(frame.radius * 1000).toFixed(1) : null, toSameMm: row.toSameMm, toTissueMm: row.toTissueMm, nearest: row.nearestSame});
