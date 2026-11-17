@@ -36,6 +36,12 @@ const VIEWS=[
  console.log('hidden parts',await setScene(null));await sleep(4000);
  console.log('shown',await p.evaluate(()=>window.__mjView.partsState('.').filter(x=>x.visible>0).map(x=>x.name).filter((v,i,a)=>a.indexOf(v)===i).join(', ')));
  await p.mouse.click(5,300);await sleep(1000);
+ // camera of every shot (position, target, zoom, canvas rectangle) for scripts/browser/renal-hilum-annotate.mjs, which draws labels on copies for the PR description
+ const meta={};
+ const shot=async (n,vp='desktop')=>{await sleep(3500);const file=`${tag}-${vp}-${n}.png`;await p.screenshot({path:`${out}/${file}`,timeout:240000});
+  meta[file]=await p.evaluate(()=>({camera:window.__mjView.camera(),zoom:window.__mjView.zoom(),canvas:window.__mjView.screenBox(['FJ3145']),viewport:[innerWidth,innerHeight]}));
+  fs.writeFileSync(`${out}/${tag}-camera.json`,JSON.stringify(meta,null,1));console.log('shot',vp,n);};
+ const look=([t,d,r],k=1)=>p.evaluate(([t,d,r])=>window.__mjView.look(t,d,r),[t,d,r*k]);
  const DESK={width:1500,height:950},PHONE={width:390,height:844},PHONE_VIEWS=[VIEWS[1],VIEWS[2],VIEWS[4]];
  const series=async suffix=>{
   await p.setViewportSize(DESK);await sleep(5000);
