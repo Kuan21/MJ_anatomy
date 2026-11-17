@@ -1,11 +1,11 @@
 # PROGRESS（自動排程交接檔）
 
-最後更新：2026-11-16。分支：`claude/local-auto`（不推 main、不刪檔）。
+最後更新：2026-11-17。分支：`claude/local-auto`（不推 main、不刪檔）。
 依據：`ROADMAP.md`「穩定期」、`CLAUDE.md`、`git log`、開放 PR 清單。
 
 ## 目前狀態
 - 專案處於**穩定期**（2026-11-08 起）：暫停新功能，只修顯示錯誤；所有 PR 都要使用者人工審核，不可自行 merge。
-- main 最新：#353（2026-11-16 第十六次查看時）。本分支已合併 main 到 #353。
+- main 最新：#388（2026-11-17 第十七次查看時）。本分支已合併 main 到 #388。
 - **main 已經有中心線連續性檢查**（#281、#328：`scripts/check-centerlines.mjs`、基準 `docs/centerline-known.json` 57 條，已在 `npm run check` 內）。本分支的 `check-centreline-continuity.mjs` 是另一套做法，見「待我決定」。
 - 開放 PR（下列是 2026-11-11 的清單；本機沒有 `gh`，之後沒有再查，main 已合併到 #338，清單很可能已過時）：
   - #223 心臟腔內構造與標籤（部分完成）
@@ -154,6 +154,12 @@
   - 合併後本機通過：七個 `test-centreline-*`（`run-checks check --only=test-centreline`，現在是 163 步中的第 151–157 步）、`check-no-notes`、`check:zh`（219 個檔）、`tsc --noEmit`。
   - main 新增的 `scripts/test-quiz-exam.mjs` 在本機失敗於「every tier has questions {0,0,0}」：它讀 `public/models/quiz-*.json`（生成檔），本機沒有這些檔，所以真實資料部分量到 0 題；前面不需資料的部分都通過。屬缺生成檔，與本分支無關，沒有改它。完整 `npm run check` 因缺生成檔沒有跑。
   - 其餘不變：生成檔仍缺、`_diag-*.mjs` 與 `package-lock.json` 差異仍未提交、本機沒有 `gh`。
+
+- 2026-11-17（第十七次）：合併 main 並修腳本的 Windows 路徑，沒有改模型、解剖內容或網站。
+  - main 前進 37 個 commit 到 #388。`git merge-tree` 指出 `scripts/check-zh.mjs` 有衝突：main 加了 `ZH_ROOT` 環境變數與 `lib/zh-rules.mjs`，本分支把 `root` 改成 `fileURLToPath`。用一般 merge 解決，兩邊都保留（`process.env.ZH_ROOT ?? fileURLToPath(...)`）。合併沒有刪除本分支任何檔案。
+  - main 新增的七個腳本有同樣的 `URL.pathname` 寫法，在 Windows 會變成 `C:\C:\…`：`test-abducens-name`、`test-check-zh`、`test-joint-motion-table`、`check-deploy-content`、`audit-lr-names`、`build-ear-atlas`、`derive-jugular-shift`，全部改用 `fileURLToPath`。`check-deploy-content` 另外在 Windows 把相對路徑寫成 `docs\…`，對不上允許清單而誤報兩個檔，改成一律用 `/`。Linux／CI 行為不變。
+  - 修正後本機通過：`test-abducens-name`、`test-check-zh`、`test-joint-motion-table`、`check-deploy-content`、`check-zh`（314 個檔）、`check-no-notes`、`tsc --noEmit`、七個 `test-centreline-*`（現在是 178 步中的第 152–158 步）。`audit-lr-names` 不再出現路徑錯誤，之後因本機沒有 `facial-stream.json.gz` 停下；`build-ear-atlas`、`derive-jugular-shift` 只做了語法檢查，**沒有實際執行**（需要原始資料）。完整 `npm run check` 因缺生成檔沒有跑。
+  - 其餘不變：生成檔仍缺、`_diag-*.mjs` 與 `package-lock.json` 差異仍未提交、本機沒有 `gh`，未查 PR #248 的 CI。
 
 ## 進行中／等審核
 - S2 A–G、S3、S4、S6 相關工作都已有 PR（見上），等使用者審核。
