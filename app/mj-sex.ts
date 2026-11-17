@@ -16,6 +16,8 @@ const MALE_SKIN=(part:Part)=>part.system==='integumentary'&&(part.name==='Skin'|
 export const matchesSex=(part:Part,sex:'male'|'female'|undefined)=>{
  const shown=sex??'male';
  if(part.sex==='female')return shown==='female';
+ // a patch cut from a BodyParts3D (male) pelvic bone, whose female copy is drawn in female mode (hip-bone landmarks)
+ if(part.sex==='male')return shown==='male';
  if(part.sex!=='female'){ if(shown==='female'&&(MALE_ONLY.test(part.name)||(part.system==='skeletal'&&MALE_PELVIC_BONE.test(part.name))||(part.system==='urinary'&&MALE_URINARY.test(part.name))||MALE_SKIN(part)))return false; if(shown==='male'&&FEMALE_ONLY.test(part.name))return false; }
  if(part.system==='reproductive')return shown==='male';
  return true;
