@@ -10,6 +10,7 @@
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import {createRequire} from 'node:module';
+import {fileURLToPath} from 'node:url';
 import {execFileSync} from 'node:child_process';
 import * as T from 'three';
 import {FBXLoader} from 'three/examples/jsm/loaders/FBXLoader.js';
@@ -54,7 +55,7 @@ if (check) process.exit(0);
 
 fs.mkdirSync(new URL('.sites-runtime/', root), {recursive: true});
 fs.copyFileSync(new URL('node_modules/three/examples/jsm/libs/draco/draco_encoder.js', root), new URL('.sites-runtime/extract-draco-encoder.cjs', root));
-globalThis.DracoEncoderModule = req(new URL('.sites-runtime/extract-draco-encoder.cjs', root).pathname);
+globalThis.DracoEncoderModule = req(fileURLToPath(new URL('.sites-runtime/extract-draco-encoder.cjs', root)));
 const materialNames = Object.keys(MATERIALS);
 const out = {asset: {version: '2.0', generator: 'MJ Anatomy scripts/extract-zanatomy-joints.mjs', extras: {source: 'https://github.com/LluisV/Z-Anatomy', commit: COMMIT, file: FILE, fileSha256: fbxSha, license: 'CC BY-SA 4.0 (Z-Anatomy), with the BodyParts3D credit CC BY-SA 2.1 Japan', note: 'official geometry converted from centimetres to metres, welded and Draco-encoded; materials are this project\'s own colours'}},
   extensionsUsed: ['KHR_draco_mesh_compression'], extensionsRequired: ['KHR_draco_mesh_compression'], scene: 0, scenes: [{nodes: []}], nodes: [], meshes: [], accessors: [], bufferViews: [], buffers: [],

@@ -9,6 +9,7 @@
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import {createRequire} from 'node:module';
+import {fileURLToPath} from 'node:url';
 import {execFileSync} from 'node:child_process';
 import * as T from 'three';
 import {FBXLoader} from 'three/examples/jsm/loaders/FBXLoader.js';
@@ -44,7 +45,7 @@ const bytes = fs.readFileSync(glbUrl), jsonLen = bytes.readUInt32LE(12), gltf = 
 fs.mkdirSync(new URL('.sites-runtime/', root), {recursive: true});
 fs.copyFileSync(new URL('public/draco/draco_wasm_wrapper.js', root), new URL('.sites-runtime/extract-draco-decoder.cjs', root));
 fs.copyFileSync(new URL('node_modules/three/examples/jsm/libs/draco/draco_encoder.js', root), new URL('.sites-runtime/extract-draco-encoder.cjs', root));
-const draco = await req(new URL('.sites-runtime/extract-draco-decoder.cjs', root).pathname)({wasmBinary: fs.readFileSync(new URL('public/draco/draco_decoder.wasm', root))});
+const draco = await req(fileURLToPath(new URL('.sites-runtime/extract-draco-decoder.cjs', root)))({wasmBinary: fs.readFileSync(new URL('public/draco/draco_decoder.wasm', root))});
 const nodeMatrix = n => n.matrix ? new T.Matrix4().fromArray(n.matrix) : new T.Matrix4().compose(new T.Vector3(...(n.translation ?? [0, 0, 0])), new T.Quaternion(...(n.rotation ?? [0, 0, 0, 1])), new T.Vector3(...(n.scale ?? [1, 1, 1])));
 if (gltf.nodes.some(n => (n.children ?? []).length)) throw new Error('the container is expected to be flat (every node on top level)');
 
@@ -113,7 +114,7 @@ const ADJUSTMENTS = [];
 }
 
 // ---- write the glb: official geometry, current names, materials and node offsets
-globalThis.DracoEncoderModule = req(new URL('.sites-runtime/extract-draco-encoder.cjs', root).pathname);
+globalThis.DracoEncoderModule = req(fileURLToPath(new URL('.sites-runtime/extract-draco-encoder.cjs', root)));
 const out = JSON.parse(JSON.stringify(gltf)); out.accessors = []; out.bufferViews = []; out.meshes = [];
 const chunks = []; let offset = 0;
 for (const node of out.nodes) {

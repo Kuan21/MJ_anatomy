@@ -5,8 +5,9 @@
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
+import {fileURLToPath} from 'node:url';
 const root = new URL('../', import.meta.url);
-const factory = createRequire(import.meta.url)(new URL('.sites-runtime/nerve-draco.cjs', root).pathname);
+const factory = createRequire(import.meta.url)(fileURLToPath(new URL('.sites-runtime/nerve-draco.cjs', root)));
 const draco = await factory({wasmBinary: fs.readFileSync(new URL('public/draco/draco_decoder.wasm', root))});
 const b = fs.readFileSync(new URL('public/models/joints.glb', root)), n = b.readUInt32LE(12), j = JSON.parse(b.subarray(20, 20 + n)), bin = b.subarray(28 + n);
 const MID_MM = 2, rows = [];
