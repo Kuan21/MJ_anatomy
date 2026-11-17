@@ -64,15 +64,15 @@ The ear detail atlas (耳) shows one right ear assembled from three sources and 
 - Model: OpenEar example set, specimen Delta.
 - License: CC BY 4.0, https://creativecommons.org/licenses/by/4.0/
 - Source: https://doi.org/10.5281/zenodo.4362584
-- Modified: translated and rotated into the body frame of this atlas beside the auricle; the cast of the perilymphatic space (file `ScalaVestibuli.ply`, which holds the vestibule, the three canals and the scala vestibuli) is divided into vestibule, anterior, lateral and posterior canal and scala vestibuli by the nearest registered IE-Map structure, so the borders between these parts are approximate; the oval window and the round window are patches cut from the surface of the vestibule and the scala tympani around the footplate of the stapes and the round window niche; faces turned outward. The meshes are used as the source provides them.
+- Modified: translated and rotated into the body frame of this atlas beside the auricle; the facial nerve and cochlear nerve meshes are slimmed towards their own centre lines (smooth radial move, topology unchanged; median radius 0.61 to 0.51 mm and 1.63 to 0.62 mm); the cast of the perilymphatic space (file `ScalaVestibuli.ply`, which holds the vestibule, the three canals and the scala vestibuli) is divided into vestibule, anterior, lateral and posterior canal and scala vestibuli by the nearest registered IE-Map structure, so the borders between these parts are approximate; the oval window and the round window are patches cut from the surface of the vestibule and the scala tympani around the footplate of the stapes and the round window niche; faces turned outward. The meshes are used as the source provides them.
 
 **Auricle**
 
-- Right external ear (FJ2811) of BodyParts3D 4.0, taken from the packaged atlas (CC BY 4.0, credited above). The source mesh is coarse (415 vertices).
+- Right external ear (FJ2811) of BodyParts3D 4.0, taken from the packaged atlas (CC BY 4.0, credited above). The source mesh is coarse (415 vertices). Modified: the mesh is smoothed by two levels of Loop subdivision (5,632 vertices); the result stays within 0.7 mm of the source surface (mean 0.2 mm), the shape is not otherwise changed.
 
 **Schematic structures**
 
-- The external acoustic meatus and the pharyngotympanic tube are tubes built by this project along the textbook course (`scripts/build-ear-atlas.mjs`); their position, length and width are estimates, not measured. They carry no third-party geometry.
+- The external acoustic meatus and the pharyngotympanic tube are tubes built by this project along the textbook course (`scripts/build-ear-atlas.mjs`); their position, length and width are estimates, not measured. The tube is narrow in its bony part, narrowest at the isthmus about a third of the way along, and widens steadily in its cartilaginous part towards the pharyngeal opening; its widest outer radius (2.4 mm) is smaller than the basal turn of the cochlea (4.3 mm). They carry no third-party geometry.
 
 The model is one right ear; nothing is mirrored and there is no left-ear model. The three sources come from different people, so the relative position and size of the parts are not the measurements of one ear. The tympanic cavity, tensor tympani, stapedius, cochlear duct, endolymphatic sac, vestibular nerve, vestibulocochlear nerve, spiral ganglion, vestibular ganglion and geniculate ganglion have no mesh in these sources and are not drawn; they have an information card only.
 
