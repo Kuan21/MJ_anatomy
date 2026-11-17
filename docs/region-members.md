@@ -125,9 +125,9 @@
 82 個網格，46 個名稱；內部視圖中 7 個骨骼半透明。
 
 - **動脈**（3）：Sigmoid artery ×2；Superior rectal artery；uterine artery ×2
-- **結締組織**（1）：Tendinous arch of levator ani ×2
+- **結締組織**（1）：tendinous arch of levator ani ×4
 - **消化**（1）：Rectum
-- **肌肉**（4）：coccygeus ×2；iliococcygeus ×4；pubococcygeus ×4；puborectalis ×4
+- **肌肉**（4）：coccygeus ×3；iliococcygeus ×3；pubococcygeus ×3；puborectalis ×3
 - **生殖**（23）：ampulla of uterine tube ×2；Body of uterus；Broad ligament of uterus；cardinal ligament of uterus ×2；Cervicovaginal junction；Cervix of uterus；deferent duct ×2；fimbriae of uterine tube ×2；Fundus of uterus；infundibulum of uterine tube ×2；isthmus of uterine tube ×2；Lower uterine segment；mesosalpinx ×2；mesovarium ×2；ovarian ligament ×2；ovary ×2；Prostate；round ligament of uterus ×2；seminal vesicle ×2；suspensory ligament of ovary ×2；Uterine cornua；uterosacral ligament ×2；Vagina
 - **漿膜**（3）：Pelvic peritoneum；Rectouterine pouch；Vesicouterine pouch
 - **骨**（3）：Coccyx；hip bone ×4；Sacrum ×2
@@ -136,38 +136,38 @@
 
 ## 骨盆與會陰 → 骨盆壁
 
-98 個網格，32 個名稱。
+106 個網格，32 個名稱。
 
 - **動脈**（6）：deep branch of superior gluteal artery ×2；external iliac artery ×3；inferior gluteal artery ×2；internal iliac artery ×3；superficial branch of superior gluteal artery ×2；superior gluteal artery ×4
-- **結締組織**（1）：Tendinous arch of levator ani ×2
+- **結締組織**（1）：tendinous arch of levator ani ×4
 - **體表**（1）：Skin ×2
-- **肌肉**（7）：coccygeus ×2；iliococcygeus ×4；obturator externus ×2；obturator internus ×2；piriformis ×2；pubococcygeus ×4；puborectalis ×4
+- **肌肉**（7）：coccygeus ×3；iliococcygeus ×3；obturator externus ×2；obturator internus ×2；piriformis ×2；pubococcygeus ×3；puborectalis ×3
 - **神經**（2）：inferior gluteal nerve ×2；nerve to obturator internus ×2
-- **骨**（7）：Coccyx；hip bone ×4；iliac crest ×2；ischial tuberosity ×2；pubic tubercle ×2；Sacrum ×2；spine of ischium ×2
+- **骨**（7）：Coccyx；hip bone ×4；iliac crest ×4；ischial tuberosity ×4；pubic tubercle ×4；Sacrum ×2；spine of ischium ×4
 - **靜脈**（8）：external iliac vein ×7；iliolumbar vein ×4；inferior gluteal vein ×4；internal iliac vein ×10；lateral sacral vein ×4；Median sacral vein ×2；obturator vein ×4；superior gluteal vein ×4
 
 ## 骨盆與會陰 → 會陰
 
-44 個網格，24 個名稱。
+48 個網格，25 個名稱。
 
 - **動脈**（4）：deep external pudendal artery ×2；dorsal artery of penis ×4；internal pudendal artery ×2；superficial external pudendal artery ×2
 - **體表**（2）：Pubic hair ×2；Skin ×2
-- **肌肉**（1）：External anal sphincter ×2
+- **肌肉**（2）：External anal sphincter ×3；superficial perineal muscle
 - **生殖**（11）：Body of clitoris；bulb of vestibule ×2；Corpus cavernosum of penis；Corpus spongiosum of penis；crus of clitoris ×2；epididymis ×2；Glans of clitoris；Glans penis；greater vestibular gland ×2；testis ×2；Vagina
-- **骨**（1）：ischial tuberosity ×2
+- **骨**（1）：ischial tuberosity ×4
 - **泌尿**（2）：Female urethra；Urethra
 - **靜脈**（3）：Deep dorsal vein of penis；internal pudendal vein ×4；Superficial dorsal vein of penis ×3
 
 ## 臀區
 
-71 個網格，30 個名稱。
+79 個網格，30 個名稱。
 
 - **動脈**（5）：deep branch of superior gluteal artery ×2；inferior gluteal artery ×2；internal pudendal artery ×2；superficial branch of superior gluteal artery ×2；superior gluteal artery ×4
 - **結締組織**（1）：tensor fasciae latae ×2
 - **體表**（1）：Skin ×2
 - **肌肉**（9）：gemellus inferior ×2；gemellus superior ×2；gluteus maximus ×2；gluteus medius ×2；gluteus minimus ×2；obturator externus ×2；obturator internus ×2；piriformis ×2；quadratus femoris ×2
 - **神經**（2）：inferior gluteal nerve ×2；nerve to obturator internus ×2
-- **骨**（8）：Coccyx；femur ×2；hip bone ×4；iliac crest ×2；ischial tuberosity ×2；pubic tubercle ×2；Sacrum ×2；spine of ischium ×2
+- **骨**（8）：Coccyx；femur ×2；hip bone ×4；iliac crest ×4；ischial tuberosity ×4；pubic tubercle ×4；Sacrum ×2；spine of ischium ×4
 - **靜脈**（4）：inferior gluteal vein ×4；internal pudendal vein ×4；obturator vein ×4；superior gluteal vein ×4
 
 ## 下肢

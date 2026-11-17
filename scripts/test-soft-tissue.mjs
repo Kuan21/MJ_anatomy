@@ -14,6 +14,7 @@ for(const file of ['biomechanics-v2/skeleton','biomechanics-v2/digits','biomecha
  await writeFile(new URL(`${file.split('/').pop()}.mjs`,tmp),js);
 }
 const soft=await import(new URL('soft-tissue.mjs',tmp)),motion=await import(new URL('mj-motion.mjs',tmp));
+const rigidLandmarks=JSON.parse(await readFile(new URL('app/biomechanics-v2/paokao-bindings.json',root),'utf8')).rigid??{};
 const rawAtlas=JSON.parse(await readFile(new URL('public/models/atlas.json',root),'utf8'));
 const {normalizeAtlasSystems}=await import(new URL('mj-system-classifier.mjs',tmp));
 const atlas=normalizeAtlasSystems(rawAtlas);
@@ -89,7 +90,10 @@ for(const side of ['left','right']){
  // Splitting a tube into independent source objects must not change the posed points.
  const wholeBinding=soft.bindTissue(rig,'path',nerveProbe),firstBinding=soft.bindTissue(rig,'path',nerveProbe.slice(0,6));
  for(const [poseName,pose] of Object.entries(poses)){
-  const {transforms,warnings}=motion.buildUpperLimbMotion(atlas,side,pose);assert.equal(warnings.length,0);assert.equal(Object.keys(transforms).length,32);
+  const {transforms,warnings}=motion.buildUpperLimbMotion(atlas,side,pose);assert.equal(warnings.length,0);
+  // 32 bones; the bone landmarks of this arm (scripts/prepare-paokao.mjs bindings.rigid) get exactly their bone's transform on top
+  const rigidHere=Object.entries(rigidLandmarks).filter(([,b])=>b.side===side);assert.equal(Object.keys(transforms).filter(id=>!(id in rigidLandmarks)).length,32);
+  assert.ok(rigidHere.length>0,'bone landmarks of the '+side+' arm are bound rigidly');for(const [id,b] of rigidHere)assert.equal(transforms[id],transforms[b.host],`${b.name} must take the transform of ${b.hostName}`);
   const palette=soft.makePalette(rig,transforms),rows=[];
   // A branch junction must not move when its source name/profile changes.
   for(const point of [rig.shoulder.clone().add(new Vector3(0,-.03,-.04)),rig.elbow,rig.wrist]){

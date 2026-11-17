@@ -3,7 +3,7 @@ import {fetchModelBuffer} from './model-download';
 
 type FacialSourcePart={
  id:string;conceptId:string;name:string;system:Part['system'];vertexCount:number;indexCount:number;
- bounds:[number[],number[]];positions:number;normals:number;indices:number;pq?:number[];n2?:boolean;u16?:boolean;chunk:number;sex?:'female';schematic?:boolean;kind?:string;
+ bounds:[number[],number[]];positions:number;normals:number;indices:number;pq?:number[];n2?:boolean;u16?:boolean;chunk:number;sex?:'female'|'male';schematic?:boolean;kind?:string;
 };
 
 export type FacialStream={parts:FacialSourcePart[];chunks:Atlas['chunks']};

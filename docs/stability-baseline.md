@@ -10,10 +10,10 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 |---|---|
 | Fragments | 32 |
 | Vessel, nerve and tendon walls inside bone | 428 |
-| Coincident faces (z-fighting) | 74 |
-| Straight cuts in meshes | 44 |
+| Coincident faces (z-fighting) | 82 |
+| Straight cuts in meshes | 46 |
 | Triangle stretch over 2x in the limit poses | 139 |
-| Structures that leave their bone in the limit poses | 154 |
+| Structures that leave their bone in the limit poses | 150 |
 
 ## Fragments (32)
 
@@ -485,7 +485,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Vestibulocochlear nerve (VIII).r | 4.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Vestibulocochlear nerve (VIII).r | 4.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 
-## Coincident faces (z-fighting) (74)
+## Coincident faces (z-fighting) (82)
 
 | structure | size | detail |
 |---|---|---|
@@ -508,6 +508,14 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right sclera | 174 | faces coincide with Right superior rectus: two layers share the same surface; to be offset or one of them removed |
 | Left fibularis tertius | 189 | faces coincide with Left tendon of fibularis tertius: two layers share the same surface; to be offset or one of them removed |
 | Right fibularis tertius | 193 | faces coincide with Right tendon of fibularis tertius: two layers share the same surface; to be offset or one of them removed |
+| Left coccygeus | 894 | faces coincide with Left coccygeus: two layers share the same surface; to be offset or one of them removed |
+| External anal sphincter | 158 | faces coincide with External anal sphincter: two layers share the same surface; to be offset or one of them removed |
+| superficial perineal muscle | 350 | faces coincide with External anal sphincter: two layers share the same surface; to be offset or one of them removed |
+| Left iliococcygeus | 1042 | faces coincide with Left iliococcygeus: two layers share the same surface; to be offset or one of them removed |
+| Left pubococcygeus | 1003 | faces coincide with Left pubococcygeus: two layers share the same surface; to be offset or one of them removed |
+| Left puborectalis | 1040 | faces coincide with Left puborectalis: two layers share the same surface; to be offset or one of them removed |
+| Tendinous arch of levator ani | 206 | faces coincide with Tendinous arch of levator ani: two layers share the same surface; to be offset or one of them removed |
+| tendinous arch of levator ani | 229 | faces coincide with Tendinous arch of levator ani: two layers share the same surface; to be offset or one of them removed |
 | Left flexor digitorum superficialis | 574 | faces coincide with Left tendons of flexor digitorum superficialis: two layers share the same surface; to be offset or one of them removed |
 | Right flexor digitorum superficialis | 568 | faces coincide with Right tendons of flexor digitorum superficialis: two layers share the same surface; to be offset or one of them removed |
 | Left abductor pollicis longus | 155 | faces coincide with Left tendon of abductor pollicis longus: two layers share the same surface; to be offset or one of them removed |
@@ -564,7 +572,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Glans of clitoris | 723 | 同一張 MRI 曲面按解剖切成兩件，交界共用 138 個頂點，相鄰面共面但冇重疊（真正重疊三角形 0.6%）；陰蒂由頭至體單調變寬，冇解剖上合理嘅切口可避開。2026-11-15 經使用者核准。 |
 | Lingula of left lung | 1106 | faces coincide with Cardiac notch of left lung: two layers share the same surface; to be offset or one of them removed |
 
-## Straight cuts in meshes (44)
+## Straight cuts in meshes (46)
 
 | structure | size | detail |
 |---|---|---|
@@ -586,6 +594,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Horizontal fissure of right lung | 17.7 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
 | Inferior border of right lung | 22.3 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
 | Left iliac crest | 21.9 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
+| Left iliac crest | 17.4 | mesh boundary has a straight run: the patch is cut from the female hip bone by height (the same cut as the male patch #1); to be re-cut along the anatomy after the exam; approved by the user 2026-11-17 |
 | Left infraspinous fossa | 25.5 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
 | Left intertubercular groove | 21.2 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
 | Left plantar aponeurosis | 38.9 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
@@ -594,6 +603,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Lingula of left lung | 24.6 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
 | Oblique fissure of right lung | 17.7 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
 | Right iliac crest | 35.8 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
+| Right iliac crest | 21 | mesh boundary has a straight run: the patch is cut from the female hip bone by height (the same cut as the male patch #1); to be re-cut along the anatomy after the exam; approved by the user 2026-11-17 |
 | Right infraspinous fossa | 23.4 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
 | Right plantar aponeurosis | 38.6 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy |
 | Right radial groove | 26.9 | mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
@@ -757,7 +767,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Suprascapular nerve.l | 76 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Suprascapular nerve.r | 76 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 
-## Structures that leave their bone in the limit poses (154)
+## Structures that leave their bone in the limit poses (150)
 
 | structure | size | detail |
 |---|---|---|
@@ -897,12 +907,8 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Posterior division of superior trunk of brachial plexus.l | 25 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Posterior division of superior trunk of brachial plexus.r | 9 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Posterior division of superior trunk of brachial plexus.r | 9 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Superior subscapular nerve.l | 138 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
-| Superior subscapular nerve.r | 133 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Superior trunk of brachial plexus.l | 5 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Superior trunk of brachial plexus.l | 5 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Suprascapular nerve.l | 18 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Suprascapular nerve.r | 16 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Trochlear nerve (IV).l | 70 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Trochlear nerve (IV).l | 93 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Trochlear nerve (IV).r | 64 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |

@@ -1,14 +1,15 @@
 // Schematic models, site-wide, without a browser.
 //   1. Bone landmarks (kind 'landmark'): every vertex lies on its bone (within SURFACE_MM of the bone surface), the bounding box sits inside the bone's box
-//      (grown by SURFACE_MM), and the patch is not out of proportion to the bone (largest side <= SIZE_RATIO of the bone's largest side).
+//      (grown by SURFACE_MM), and the patch is not out of proportion to the bone (largest side <= SIZE_RATIO of the bone's largest side; lines, crests, fossae and borders <= 90 %).
 //   2. Schematic vessels and nerves: each selectable structure is one continuous piece (pieces further apart than about GAP_MM count as broken), and it does
 //      not leave its neighbours (no stretch of it lies further than FAR_MM from every other structure; skin and serous shells do not count as neighbours).
 //      Covered: the vessel-end pieces (`…-END`, the parts whose card says "generated from the surface of the neighbouring structure"), the schematic
 //      arteries, veins, nerves and lymphatics of the course list (PK-…), and the schematic tubes of the nerve stream.
 //   3. Checks 1 and 2 (landmark on its bone, structure in one piece) again at the joint poses of scripts/test-vessel-motion.mjs, limits included, posed the
 //      way the viewer poses them (arm: soft-tissue bindings and the shoulder/elbow/wrist transforms; leg: body rig).
-//   4. Negative controls: the left intertubercular groove (lifts off the humerus when the elbow bends) and the vessel-end piece of the left median
-//      antebrachial vein (19 separate pieces) are known to be broken; if the check passes either of them, the check itself is broken and it fails.
+//   4. Negative controls: the left intertubercular groove bound the old way (as soft tissue, it lifted off the humerus when the elbow bent) and the vessel-end
+//      piece of the left median antebrachial vein selected on its own (several separate pieces) must both be caught; if either passes, the check itself fails.
+//   --only=landmarks runs 1 and 3 for the bone landmarks alone (scripts/checks/motion.d/20261116-landmarks-on-bone.txt).
 //   node scripts/check-schematic-models.mjs [--write] [--json=<file>]   --write rewrites docs/schematic-models-report.md
 // Exit code: 0 when nothing is found, 1 otherwise (or when a negative control passes). Not part of `npm run check` yet: the report comes first.
 import fs from 'node:fs';
@@ -20,7 +21,7 @@ import {loadPoseModule} from './lib/vessel-pose.mjs';
 import {surfaceIndex, pieceSizes} from './lib/surface-distance.mjs';
 
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
-const write = process.argv.includes('--write'), jsonOut = process.argv.find(a => a.startsWith('--json='))?.slice(7);
+const write = process.argv.includes('--write'), onlyLandmarks = process.argv.includes('--only=landmarks'), jsonOut = process.argv.find(a => a.startsWith('--json='))?.slice(7);
 const SURFACE_MM = 3, SIZE_RATIO = .6, GAP_MM = 1.5, FAR_MM = 15;
 const NEGATIVE = {landmark: 'Left intertubercular groove', vessel: 'Left median antebrachial vein'};
 
@@ -111,27 +112,49 @@ function farthestFromNeighbours(pos, self) {
 const findings = [];
 const add = (kind, p, zone, problem, detail) => findings.push({kind, id: p.id, name: p.name, zone, problem, detail});
 const landmarks = atlas.parts.filter(p => p.kind === 'landmark');
-for (const p of landmarks) {
-  // the bone of the same sex: a female landmark (hip bone, female mode) lies on the female bone of that name
-  const hostName = PAOKAO[p.id]?.parent, host = hostName && (p.sex === 'female' ? atlas.parts.find(q => q.name === hostName && q.sex === 'female' && !q.kind) : byName.get(hostName)), zone = zoneOf(host ?? p);
-  if (!host) { add('landmark', p, zone, '找不到所屬骨骼', hostName ?? '—'); continue; }
-  const g = G(p), hg = G(host), S = surfaceIndex(hg.pos, hg.idx);
+// Lines, crests, fossae and borders run along most of a bone by definition (iliac crest, superior nuchal line, infraspinous fossa): they may reach 90 % of the bone's largest side.
+const sizeLimit = p => /\b(?:line|crest|fossa|border)\b/i.test(p.name) ? .9 : SIZE_RATIO;
+const hostOf = p => { const hostName = PAOKAO[p.id]?.parent; return hostName && (p.sex === 'female' ? atlas.parts.find(q => q.name === hostName && q.sex === 'female' && !q.kind) : byName.get(hostName)); };
+/** Problems of one landmark: [problem, detail]. `lm` is how it moves (the viewer's binding, or a forced one for the negative control). */
+function landmarkProblems(p, host, lm = mover(p)) {
+  const out = [], g = G(p), hg = G(host), S = surfaceIndex(hg.pos, hg.idx);
   const off = pos => { let mx = 0; for (let i = 0; i < pos.length; i += 3) mx = Math.max(mx, S.distance([pos[i], pos[i + 1], pos[i + 2]], .05)); return mx * 1000; };
   const rest = off(g.pos), [lo, hi] = boxOf(g.pos), [blo, bhi] = boxOf(hg.pos), t = SURFACE_MM / 1000;
   const outside = [0, 1, 2].some(k => lo[k] < blo[k] - t || hi[k] > bhi[k] + t), size = Math.max(...hi.map((v, k) => v - lo[k])) / Math.max(...bhi.map((v, k) => v - blo[k]));
-  if (rest > SURFACE_MM) add('landmark', p, zone, '靜止時離開骨面', `最遠 ${rest === Infinity ? '> 50' : rest.toFixed(1)} mm（${host.name}）`);
-  if (outside) add('landmark', p, zone, '包圍盒超出所屬骨骼', host.name);
-  if (size > SIZE_RATIO) add('landmark', p, zone, '尺寸過大', `最長邊為骨骼的 ${(size * 100).toFixed(0)}%`);
-  const lm = mover(p), bm = mover(host);
-  if (!lm && !bm) continue;
-  if (!lm || !bm || lm.kind !== bm.kind || lm.key !== bm.key) { add('landmark', p, zone, '關節動作時不跟所屬骨骼', `標誌${lm ? '會動' : '不動'}、骨骼${bm ? '會動' : '不動'}`); continue; }
+  if (rest > SURFACE_MM) out.push(['靜止時離開骨面', `最遠 ${rest === Infinity ? '> 50' : rest.toFixed(1)} mm（${host.name}）`]);
+  if (outside) out.push(['包圍盒超出所屬骨骼', host.name]);
+  if (size > sizeLimit(p)) out.push(['尺寸過大', `最長邊為骨骼的 ${(size * 100).toFixed(0)}%（上限 ${sizeLimit(p) * 100}%）`]);
+  const bm = mover(host);
+  if (!lm && !bm) return out;
+  if (!lm || !bm || lm.kind !== bm.kind || lm.key !== bm.key) { out.push(['關節動作時不跟所屬骨骼', `標誌${lm ? '會動' : '不動'}、骨骼${bm ? '會動' : '不動'}`]); return out; }
   const bad = [];
   for (const {name, ctx} of poseSet(lm)) {
     const bone = bm.apply(ctx), Sp = surfaceIndex(bone, hg.idx), pos = lm.apply(ctx); let mx = 0;
     for (let i = 0; i < pos.length; i += 3) mx = Math.max(mx, Sp.distance([pos[i], pos[i + 1], pos[i + 2]], .5));
     mx *= 1000; if (mx > SURFACE_MM) bad.push(`${name} ${mx === Infinity ? '> 500' : mx.toFixed(0)} mm`);
   }
-  if (bad.length) add('landmark', p, zone, '關節動作時離開骨面', bad.join('；'));
+  if (bad.length) out.push(['關節動作時離開骨面', bad.join('；')]);
+  return out;
+}
+for (const p of landmarks) {
+  const host = hostOf(p), zone = zoneOf(host ?? p);
+  if (!host) { add('landmark', p, zone, '找不到所屬骨骼', PAOKAO[p.id]?.parent ?? '—'); continue; }
+  for (const [problem, detail] of landmarkProblems(p, host)) add('landmark', p, zone, problem, detail);
+}
+// Negative control for landmarks: the left intertubercular groove bound the old way (soft tissue, the 'arm' profile of the upper-arm muscles) must be caught.
+const controlLandmark = (() => {
+  const p = landmarks.find(q => q.name === NEGATIVE.landmark), host = p && hostOf(p); if (!host) return false;
+  const g = G(p), skin = m.bindTissue(armRig('left'), 'arm', g.pos, p, '', g.idx);
+  const soft = {kind: 'arm', key: 'left', apply: ctx => { const o = new Float32Array(g.pos.length); m.deformTissue(skin, g.pos, ctx.palette, o); return o; }};
+  return landmarkProblems(p, host, soft).some(([problem]) => problem === '關節動作時離開骨面');
+})();
+
+if (onlyLandmarks) {
+  const list = findings.filter(f => f.kind === 'landmark');
+  for (const f of list) console.error(`  ${f.name} (${f.id}): ${f.problem} ${f.detail}`);
+  if (!controlLandmark) { console.error(`Negative control passed (the check is broken): ${NEGATIVE.landmark} bound as soft tissue`); process.exit(1); }
+  console.log(`Bone landmarks: ${landmarks.length} checked at rest and at the joint poses (limits included): ${list.length} problems; negative control (${NEGATIVE.landmark} bound as soft tissue) caught.`);
+  process.exit(list.length ? 1 : 0);
 }
 
 // ---- 2 + 3: schematic vessels and nerves
@@ -174,7 +197,7 @@ for (const ch of ns.chunks) {
 
 // ---- 4: negative controls
 const control = {
-  landmark: findings.some(f => f.kind === 'landmark' && f.name === NEGATIVE.landmark && f.problem === '關節動作時離開骨面'),
+  landmark: controlLandmark,
   vessel: findings.some(f => f.kind === 'vessel-end' && f.name === NEGATIVE.vessel && f.problem === '斷開成多段'),
 };
 
@@ -192,8 +215,8 @@ const COLUMNS = [
 ];
 const lines = ['# 示意模型全站檢查報告', '', '由 `node scripts/check-schematic-models.mjs --write` 生成（不開瀏覽器；數值檢查，未在 3D 畫面確認）。', '',
   `檢查範圍：骨性標誌 ${landmarks.length} 個；示意血管與神經 ${checkedVessels} 個（血管末端片 ${ends.length}、PK 示意血管／神經 ${pk.length}、神經串流示意管 ${checkedVessels - ends.length - pk.length}）。`, '',
-  `門檻：骨面距離 ≤ ${SURFACE_MM} mm；標誌最長邊 ≤ 所屬骨骼最長邊的 ${SIZE_RATIO * 100}%；斷開＝兩段之間的空隙大於約 ${GAP_MM} mm；離開相鄰構造＝有一段離最近的構造（不計皮膚與漿膜）超過 ${FAR_MM} mm。關節姿勢與 \`scripts/test-vessel-motion.mjs\` 相同（含極限角度）。區域：骨性標誌按所屬骨骼，末端片按所屬主血管。`, '',
-  `反向對照：${NEGATIVE.landmark}（關節動作）${control.landmark ? '已如預期判為失敗' : '**沒有判為失敗：檢查失效**'}；${NEGATIVE.vessel} 的末端片（斷開）${control.vessel ? '已如預期判為失敗' : '**沒有判為失敗：檢查失效**'}。`, '',
+  `門檻：骨面距離 ≤ ${SURFACE_MM} mm；標誌最長邊 ≤ 所屬骨骼最長邊的 ${SIZE_RATIO * 100}%（線、嵴、窩、緣 ≤ 90%）；斷開＝兩段之間的空隙大於約 ${GAP_MM} mm；離開相鄰構造＝有一段離最近的構造（不計皮膚與漿膜）超過 ${FAR_MM} mm。關節姿勢與 \`scripts/test-vessel-motion.mjs\` 相同（含極限角度）。區域：骨性標誌按所屬骨骼，末端片按所屬主血管。`, '',
+  `反向對照：${NEGATIVE.landmark} 以舊的軟組織綁定重演（關節動作）${control.landmark ? '已如預期判為失敗' : '**沒有判為失敗：檢查失效**'}；${NEGATIVE.vessel} 的末端片（斷開）${control.vessel ? '已如預期判為失敗' : '**沒有判為失敗：檢查失效**'}。`, '',
   '## 按區域的數目（結構數）', '', `| 區域 | ${COLUMNS.map(c => c[0]).join(' | ')} |`, `| --- | ${COLUMNS.map(() => '---:').join(' | ')} |`,
   ...ZONES.map(([z, zh]) => `| ${zh} | ${COLUMNS.map(([, t]) => uniq(findings.filter(f => f.zone === z && t(f)))).join(' | ')} |`),
   `| **合計** | ${COLUMNS.map(([, t]) => uniq(findings.filter(t))).join(' | ')} |`, ''];
