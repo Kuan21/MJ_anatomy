@@ -1,0 +1,3 @@
+.ear-animation-open{display:block;width:100%;min-height:44px;padding:8px 14px;border-radius:10px;background:#263b48;color:#fff;font-size:13px;font-weight:600;text-align:center}
+.ear-animation-open:hover{background:#31495a}
+.ear-animation-block small{display:block;margin-top:8px;font-size:11px;line-height:1.55;color:var(--muted)}

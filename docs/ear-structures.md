@@ -94,3 +94,7 @@ node scripts/test-quiz-ear.mjs
 ```
 
 `--register` 重新做疊代最近點搜尋（預設使用已記錄的對位結果）。
+
+## 聽覺傳導動畫
+
+耳部詳細模式右欄「動畫」按鈕開啟全畫面動畫（`app/ear-hearing/`）。文字與數字在 `hearing-data.ts`（六步、考點、滑桿、狀態機）；耳的 3D 在 `hearing-ear-scene.ts`（自己的 renderer，讀同一個耳套件檔，不下載新檔）；腦在 `hearing-brain-scene.ts`（重用腦詳細模式的 viewer 與已載入的 `brain.glb`，透過 `hearing()` 取得場景）；柯蒂氏器、突觸、展開圖為 2D 示意（`hearing-diagrams.ts`）。蝸管中心線與聽小骨擺動軸由載入的網格計算（`geometry-analysis.ts`），耳模型改版後會自動跟著。耳蝸核、上橄欖核、斜方體、外側丘系模型沒有，以標「示意」的點與管表示，位置為估計。測試：`node scripts/test-ear-hearing.mjs`。
