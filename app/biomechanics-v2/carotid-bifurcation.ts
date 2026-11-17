@@ -131,6 +131,29 @@ export function smoothBifurcation(common: V, internal: V, external: V): Bifurcat
   return {side: '', blendRings: [kIdx[0], kIdx[1]], pushMm: [maxPush[0] * 1000, maxPush[1] * 1000]};
 }
 
+/** Extra separation of the external carotid (HN-21b). Right after the bifurcation the two branches are D-shaped halves of the common section and their centres are only 2.7 to 4.7 mm apart 2 to 5 mm above it (walls crossing, 8.5 mm apart at 1 cm) and
+ * almost exactly one behind the other; in an adult the external carotid lies in front of and medial to the internal carotid, which goes up behind and lateral to it (Gray's Anatomy 1918, OpenStax Anatomy and Physiology: please verify). The external carotid is therefore
+ * moved forward and towards the midline by SEP_MM at full value, never the internal carotid (the vagus nerve and the internal jugular vein lie behind and lateral to it, so nothing there gets closer to them). The shift is a smootherstep of the arc length
+ * from the junction (zero value and slope at the first ring, which stays on the common carotid's end ring, so the seam is untouched), full between SEP_FULL and SEP_HOLD, and fades to zero at SEP_END so the tube joins its source path again; the source
+ * mesh is not changed, only the loaded positions. Direction: SEP_MEDIAL of the unit step towards the midline, SEP_FRONT forward (their squares add up to 1). Units: metres. */
+export const SEP_MM = 0.003, SEP_FULL = 0.009, SEP_HOLD = 0.013, SEP_END = 0.036, SEP_MEDIAL = 0.8, SEP_FRONT = 0.6;
+const smoother = (t: number) => { const x = Math.max(0, Math.min(1, t)); return x * x * x * (x * (x * 6 - 15) + 10); };
+export const separationAt = (arc: number) => SEP_MM * smoother(arc / SEP_FULL) * (1 - smoother((arc - SEP_HOLD) / (SEP_END - SEP_HOLD)));
+/** Moves the rings of the external carotid forward and medially (see SEP_MM). Returns the largest step in metres, or null when the tube has the wrong shape. */
+export function separateExternal(external: V, medialSign: number): number | null {
+  const n = external.positions.length / (RING * 3);
+  if (!Number.isInteger(n) || n < 8) return null;
+  const cs = Array.from({length: n}, (_, r) => centre(ringPoints(external.positions, r)));
+  let arc = 0, max = 0;
+  for (let r = 0; r < n; r++) {
+    if (r) arc += len(sub(cs[r], cs[r - 1]));
+    const s = separationAt(arc); if (!s) continue;
+    max = Math.max(max, s);
+    put(external.positions, r, ringPoints(external.positions, r).map(p => add(p, [medialSign * SEP_MEDIAL * s, 0, SEP_FRONT * s] as P3)));
+  }
+  return max;
+}
+
 /** Both sides, by vessel name. */
 export function smoothCarotids(vessels: V[]) {
   const by = new Map(vessels.map(v => [v.name, v]));
@@ -139,7 +162,7 @@ export function smoothCarotids(vessels: V[]) {
     const c = by.get(common), i = by.get(internal), e = by.get(external);
     if (!c || !i || !e) continue;
     const up = raiseBifurcation(c, i, e);
-    const r = smoothBifurcation(c, i, e); if (r) out.push({...r, side, raisedMm: up ?? 0});
+    const r = smoothBifurcation(c, i, e); if (r) { separateExternal(e, side === 'left' ? -1 : 1); out.push({...r, side, raisedMm: up ?? 0}); }
   }
   return out;
 }
