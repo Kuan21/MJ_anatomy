@@ -47,7 +47,9 @@ const WALL_VESSELS = /epigastric|circumflex iliac|musculophrenic|lumbar (?:arter
 // The medial occipital artery (cerebral, inside the skull) keeps the light end pieces as well: its two meshes (FJ1691 and FJ1691M) have end pieces of the same shape, and as 12-sided prisms they coincide (182 faces, stability check).
 const LIGHT_ENDS = /inferior epigastric|medial occipital artery/i, lightIds = new Set(atlas.parts.filter(p => LIGHT_ENDS.test(p.name)).map(p => p.id));
 // The vessels of the head and neck and the subclavian and brachiocephalic vessels at the neck root are round too (second exam, 2026-11-17): the 5-sided pieces there read as blue triangles and red spikes beside the large veins.
-const neckIds = new Set([...atlas.parts.filter(p => anatomicalRegion(p) === 'head-neck').map(p => p.id), ...NECK_ROOT_ARM_RIG]);
+// The neck root is judged by position, not by the region label (the thoracic apical vessels, the deep cervical and suprascapular vessels and the first intercostal vessels around the clavicle carry other labels): a vessel whose box centre lies within |x| 170 mm, y 1.37-1.47 m, |z| 80 mm.
+const atNeckRoot = p => { const c = p.bounds[0].map((v, k) => (v + p.bounds[1][k]) / 2); return Math.abs(c[0]) <= .17 && c[1] >= 1.37 && c[1] <= 1.47 && Math.abs(c[2]) <= .08; };
+const neckIds = new Set([...atlas.parts.filter(p => anatomicalRegion(p) === 'head-neck' || ((p.system === 'arterial' || p.system === 'venous') && atNeckRoot(p))).map(p => p.id), ...NECK_ROOT_ARM_RIG]);
 const wallIds = new Set(atlas.parts.filter(p => WALL_VESSELS.test(p.name)).map(p => p.id)), round = id => (limbIds.has(id) || wallIds.has(id) || neckIds.has(id)) && !lightIds.has(id);
 const sides = id => round(id) ? 12 : 5;
 for (const row of rows) {
