@@ -65,7 +65,7 @@ for j in jobs:
   for l in j['labels']: l['xy']=list(snap(l['xy'][0],l['xy'][1],l['role']))
   d=ImageDraw.Draw(im)
   f=ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc',14*s);ft=ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc',16*s)
-  d.rectangle([0,0,W,26*s],fill='white');d.text((8*s,4*s),j['title']+'   (veins blue, arteries red, ureter and renal pelvis pale yellow｜靜脈藍、動脈紅、輸尿管與腎盂淡黃)',fill='black',font=ft)
+  d.rectangle([0,0,W,26*s],fill='white');d.text((8*s,4*s),j['title']+'  ·  靜脈藍、動脈紅、輸尿管與腎盂淡黃',fill='black',font=ft)
   for k,l in enumerate(sorted(j['labels'],key=lambda l:l['xy'][1])):
     x,y=l['xy'];tx=W-int(W*0.36);ty=int(H*0.18)+k*int(H*0.2)
     d.line([(x,y),(tx,ty+9*s)],fill=l['color'],width=2*s);d.ellipse([x-5*s,y-5*s,x+5*s,y+5*s],outline='white',fill=l['color'],width=s)
