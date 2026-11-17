@@ -2,6 +2,7 @@
 
 由 `scripts/prepare-naming.mjs` 產生（`npm run check` 會檢查本檔是否最新）。優先次序：
 
+0. `app/mj-required-names.json`（必考清單用詞，使用者 2026-11-17 決定，優先於以下所有來源）
 1. `docs/muscle-layers.json`（跑考摘要的肌肉分層）
 2. `docs/glossary.json` 中 `source_priority` 為「跑考摘要」的項目
 3. `docs/glossary.json` 其他項目
@@ -18,10 +19,11 @@
 
 | 來源 | 結構數 |
 |---|---|
-| 台灣解剖學名詞（程式內建對照表） | 1279 |
+| 台灣解剖學名詞（程式內建對照表） | 1255 |
 | muscle-layers.json | 88 |
-| glossary.json（其他筆記） | 75 |
+| glossary.json（其他筆記） | 74 |
 | glossary.json（跑考摘要） | 33 |
+| 必考清單用詞（app/mj-required-names.json） | 25 |
 
 ## 二、已改名（前後對照）
 
@@ -1055,7 +1057,7 @@
 | 滑車 | Trochlea of superior oblique；trochlear nerve (IV) |
 | 拇收肌斜頭 | Oblique head of adductor hallucis；Oblique head of adductor pollicis |
 | 拇收肌橫頭 | Transverse head of adductor hallucis；Transverse head of adductor pollicis |
-| 中腦導水管 | Cerebral aqueduct；aqueduct of midbrain |
+| 大腦導水管 | Cerebral aqueduct；aqueduct of midbrain |
 | 穹窿 | fornix of forebrain；fornix |
 | 乳頭體 | Mammillary body；mamillary body |
 | 視丘髓紋 | stria medullaris of thalamus；stria medullaris thalami |
@@ -1111,7 +1113,7 @@
 | iris | 台灣解剖學名詞（程式內建對照表） | 虹膜 |
 | lacrimal canaliculus | 台灣解剖學名詞（程式內建對照表） | 淚小管 |
 | lacrimal gland | 台灣解剖學名詞（程式內建對照表） | 淚腺 |
-| lacrimal nerve | glossary.json（其他筆記） | 淚腺神經 |
+| lacrimal nerve | 必考清單用詞（app/mj-required-names.json） | 淚神經 |
 | lacrimal lake | 台灣解剖學名詞（程式內建對照表） | 淚湖 |
 | nasolacrimal duct | 台灣解剖學名詞（程式內建對照表） | 鼻淚管 |
 | lateral rectus | glossary.json（其他筆記） | 外直肌 |
@@ -1330,68 +1332,68 @@
 | intermediate tendon | 台灣解剖學名詞（程式內建對照表） | 中間腱 |
 | Superior oblique part of longus colli | 台灣解剖學名詞（程式內建對照表） | 頸長肌上斜部 |
 | Vertical intermediate part of longus colli | 台灣解剖學名詞（程式內建對照表） | 頸長肌垂直中間部 |
-| anterior cerebral artery | 台灣解剖學名詞（程式內建對照表） | 大腦前動脈 |
-| Anterior communicating artery | 台灣解剖學名詞（程式內建對照表） | 前交通動脈 |
-| anterior inferior cerebellar artery | 台灣解剖學名詞（程式內建對照表） | 小腦前下動脈 |
-| anterior spinal artery | 台灣解剖學名詞（程式內建對照表） | 脊髓前動脈 |
+| anterior cerebral artery | 必考清單用詞（app/mj-required-names.json） | 前大腦動脈 |
+| Anterior communicating artery | 必考清單用詞（app/mj-required-names.json） | 前交通支 |
+| anterior inferior cerebellar artery | 必考清單用詞（app/mj-required-names.json） | 前下小腦動脈 |
+| anterior spinal artery | 必考清單用詞（app/mj-required-names.json） | 前脊髓動脈 |
 | anterior choroidal artery | 台灣解剖學名詞（程式內建對照表） | 脈絡叢前動脈 |
 | anterior temporal artery | 台灣解剖學名詞（程式內建對照表） | 顳前動脈 |
-| Insular part of middle cerebral artery | 台灣解剖學名詞（程式內建對照表） | 大腦中動脈島部 |
+| Insular part of middle cerebral artery | 台灣解剖學名詞（程式內建對照表） | 中大腦動脈島部 |
 | Anterior temporal branch of lateral occipital artery | 台灣解剖學名詞（程式內建對照表） | 外側枕動脈前顳支 |
-| Anterolateral central branch of middle cerebral artery | 台灣解剖學名詞（程式內建對照表） | 大腦中動脈前外側中央支 |
+| Anterolateral central branch of middle cerebral artery | 台灣解剖學名詞（程式內建對照表） | 中大腦動脈前外側中央支 |
 | artery of central sulcus | 台灣解剖學名詞（程式內建對照表） | 中央溝動脈 |
 | Artery of postcentral sulcus | 台灣解剖學名詞（程式內建對照表） | 中央後溝動脈 |
 | anterior parietal artery | 台灣解剖學名詞（程式內建對照表） | 頂前動脈 |
 | Artery of precentral sulcus | 台灣解剖學名詞（程式內建對照表） | 中央前溝動脈 |
 | Precuneal branch of pericallosal artery | 台灣解剖學名詞（程式內建對照表） | 胼胝體周動脈楔前葉支 |
 | Basilar artery | 台灣解剖學名詞（程式內建對照表） | 基底動脈 |
-| Branch of middle cerebral artery to angular gyrus | 台灣解剖學名詞（程式內建對照表） | 大腦中動脈至角回之分支 |
+| Branch of middle cerebral artery to angular gyrus | 台灣解剖學名詞（程式內建對照表） | 中大腦動脈至角回之分支 |
 | Branch of anterior choroidal artery to posterior limb of internal capsule | 台灣解剖學名詞（程式內建對照表） | 脈絡叢前動脈至內囊後肢之分支 |
 | thalamogeniculate artery | 台灣解剖學名詞（程式內建對照表） | 視丘膝狀體動脈 |
 | callosomarginal artery | 台灣解剖學名詞（程式內建對照表） | 胼胝體邊緣動脈 |
 | splenial artery | 台灣解剖學名詞（程式內建對照表） | 胼胝體壓部動脈 |
-| Hypothalamic branch of posterior communicating artery | 台灣解剖學名詞（程式內建對照表） | 後交通動脈下視丘支 |
+| Hypothalamic branch of posterior communicating artery | 台灣解剖學名詞（程式內建對照表） | 後交通支下視丘支 |
 | Middle temporal branch of lateral occipital artery | 台灣解剖學名詞（程式內建對照表） | 外側枕動脈中顳支 |
 | Intermediomedial branch of callosomarginal artery | 台灣解剖學名詞（程式內建對照表） | 胼胝體邊緣動脈中內支 |
 | internal carotid artery | glossary.json（其他筆記） | 內頸動脈 |
-| Lateral branch of superior cerebellar artery | 台灣解剖學名詞（程式內建對照表） | 小腦上動脈外側支 |
-| Lateral branch of pontine artery | 台灣解剖學名詞（程式內建對照表） | 橋腦動脈外側支 |
+| Lateral branch of superior cerebellar artery | 台灣解剖學名詞（程式內建對照表） | 上小腦動脈外側支 |
+| Lateral branch of pontine artery | 台灣解剖學名詞（程式內建對照表） | 腦橋動脈外側支 |
 | lateral frontobasal artery | 台灣解剖學名詞（程式內建對照表） | 外側額底動脈 |
 | lateral occipital artery | 台灣解剖學名詞（程式內建對照表） | 外側枕動脈 |
-| Medial branch of superior cerebellar artery | 台灣解剖學名詞（程式內建對照表） | 小腦上動脈內側支 |
-| Medial branch of pontine artery | 台灣解剖學名詞（程式內建對照表） | 橋腦動脈內側支 |
+| Medial branch of superior cerebellar artery | 台灣解剖學名詞（程式內建對照表） | 上小腦動脈內側支 |
+| Medial branch of pontine artery | 台灣解剖學名詞（程式內建對照表） | 腦橋動脈內側支 |
 | medial frontobasal artery | 台灣解剖學名詞（程式內建對照表） | 內側額底動脈 |
 | medial occipital artery | 台灣解剖學名詞（程式內建對照表） | 枕內側動脈 |
-| Sphenoid part of middle cerebral artery | 台灣解剖學名詞（程式內建對照表） | 大腦中動脈蝶部 |
-| Middle temporal branch of middle cerebral artery | 台灣解剖學名詞（程式內建對照表） | 大腦中動脈中顳支 |
+| Sphenoid part of middle cerebral artery | 台灣解剖學名詞（程式內建對照表） | 中大腦動脈蝶部 |
+| Middle temporal branch of middle cerebral artery | 台灣解剖學名詞（程式內建對照表） | 中大腦動脈中顳支 |
 | ophthalmic artery | glossary.json（其他筆記） | 眼動脈 |
 | Paracentral branch of callosomarginal artery | 台灣解剖學名詞（程式內建對照表） | 胼胝體邊緣動脈中央旁支 |
 | pericallosal artery | 台灣解剖學名詞（程式內建對照表） | 胼胝體周動脈 |
-| posterior inferior cerebellar artery | 台灣解剖學名詞（程式內建對照表） | 小腦後下動脈 |
+| posterior inferior cerebellar artery | 必考清單用詞（app/mj-required-names.json） | 後下小腦動脈 |
 | polar temporal artery | 台灣解剖學名詞（程式內建對照表） | 顳極動脈 |
-| posterior communicating artery | 台灣解剖學名詞（程式內建對照表） | 後交通動脈 |
-| Postcommunicating part of posterior cerebral artery | 台灣解剖學名詞（程式內建對照表） | 大腦後動脈交通後部 |
+| posterior communicating artery | 必考清單用詞（app/mj-required-names.json） | 後交通支 |
+| Postcommunicating part of posterior cerebral artery | 台灣解剖學名詞（程式內建對照表） | 後大腦動脈交通後部 |
 | posterior parietal artery | 台灣解剖學名詞（程式內建對照表） | 頂後動脈 |
-| Posterior temporal branch of middle cerebral artery | 台灣解剖學名詞（程式內建對照表） | 大腦中動脈後顳支 |
-| Trunk of inferior terminal branch of middle cerebral artery | 台灣解剖學名詞（程式內建對照表） | 大腦中動脈下終支幹 |
+| Posterior temporal branch of middle cerebral artery | 台灣解剖學名詞（程式內建對照表） | 中大腦動脈後顳支 |
+| Trunk of inferior terminal branch of middle cerebral artery | 台灣解剖學名詞（程式內建對照表） | 中大腦動脈下終支幹 |
 | set of posterior temporal branches of lateral occipital artery | 台灣解剖學名詞（程式內建對照表） | 外側枕動脈後顳支 |
 | thalamoperforating artery | 台灣解剖學名詞（程式內建對照表） | 視丘穿通動脈 |
-| Posteromedial central branch of posterior cerebral artery | 台灣解剖學名詞（程式內建對照表） | 大腦後動脈後內側中央支 |
+| Posteromedial central branch of posterior cerebral artery | 台灣解剖學名詞（程式內建對照表） | 後大腦動脈後內側中央支 |
 | Posteromedial branch of callosomarginal artery | 台灣解剖學名詞（程式內建對照表） | 胼胝體邊緣動脈後內側支 |
-| Precommunicating part of posterior cerebral artery | 台灣解剖學名詞（程式內建對照表） | 大腦後動脈交通前部 |
+| Precommunicating part of posterior cerebral artery | 台灣解剖學名詞（程式內建對照表） | 後大腦動脈交通前部 |
 | prefrontal artery | 台灣解剖學名詞（程式內建對照表） | 前額動脈 |
 | vertebral artery | 台灣解剖學名詞（程式內建對照表） | 椎動脈 |
-| superior cerebellar artery | 台灣解剖學名詞（程式內建對照表） | 小腦上動脈 |
+| superior cerebellar artery | 必考清單用詞（app/mj-required-names.json） | 上小腦動脈 |
 | posterior medial choroidal artery | 台灣解剖學名詞（程式內建對照表） | 脈絡叢後內側動脈 |
-| Superior vermian branch of medial branch of superior cerebellar artery | 台灣解剖學名詞（程式內建對照表） | 小腦上動脈內側支上小腦蚓支 |
-| Temporo-occipital branch of middle cerebral artery | 台灣解剖學名詞（程式內建對照表） | 大腦中動脈顳枕支 |
+| Superior vermian branch of medial branch of superior cerebellar artery | 台灣解剖學名詞（程式內建對照表） | 上小腦動脈內側支上小腦蚓支 |
+| Temporo-occipital branch of middle cerebral artery | 台灣解剖學名詞（程式內建對照表） | 中大腦動脈顳枕支 |
 | Third ventricle | 台灣解剖學名詞（程式內建對照表） | 第三腦室 |
 | Fourth ventricle | 台灣解剖學名詞（程式內建對照表） | 第四腦室 |
 | angular gyrus | 台灣解剖學名詞（程式內建對照表） | 角回 |
 | Anterior commissure | 台灣解剖學名詞（程式內建對照表） | 前連合 |
 | Brachium of superior colliculus | 台灣解剖學名詞（程式內建對照表） | 上丘臂 |
 | Central canal of spinal cord | 台灣解剖學名詞（程式內建對照表） | 脊髓中央管 |
-| Cerebral aqueduct | 台灣解剖學名詞（程式內建對照表） | 中腦導水管 |
+| Cerebral aqueduct | 必考清單用詞（app/mj-required-names.json） | 大腦導水管 |
 | cingulate gyrus | 台灣解剖學名詞（程式內建對照表） | 扣帶回 |
 | Commissure of fornix of forebrain | 台灣解剖學名詞（程式內建對照表） | 穹窿連合 |
 | Corpus callosum | 台灣解剖學名詞（程式內建對照表） | 胼胝體 |
@@ -1421,7 +1423,7 @@
 | Optic chiasm | 台灣解剖學名詞（程式內建對照表） | 視交叉 |
 | optic tract | 台灣解剖學名詞（程式內建對照表） | 視徑 |
 | Peduncle of midbrain | 台灣解剖學名詞（程式內建對照表） | 中腦腳 |
-| Pons | 台灣解剖學名詞（程式內建對照表） | 橋腦 |
+| Pons | 必考清單用詞（app/mj-required-names.json） | 腦橋 |
 | putamen | 台灣解剖學名詞（程式內建對照表） | 殼核 |
 | stria medullaris of thalamus | 台灣解剖學名詞（程式內建對照表） | 視丘髓紋 |
 | stria terminalis | 台灣解剖學名詞（程式內建對照表） | 終紋 |
@@ -1436,7 +1438,7 @@
 | occipital lobe | 台灣解剖學名詞（程式內建對照表） | 枕葉 |
 | Orbital gyrus | 台灣解剖學名詞（程式內建對照表） | 眶回 |
 | Pineal body | 台灣解剖學名詞（程式內建對照表） | 松果體 |
-| Pituitary gland | 台灣解剖學名詞（程式內建對照表） | 腦下垂體 |
+| Pituitary gland | 必考清單用詞（app/mj-required-names.json） | 腦垂體 |
 | postcentral gyrus | 台灣解剖學名詞（程式內建對照表） | 中央後回 |
 | Posterior commissure | 台灣解剖學名詞（程式內建對照表） | 後連合 |
 | precentral gyrus | 台灣解剖學名詞（程式內建對照表） | 中央前回 |
@@ -1447,7 +1449,7 @@
 | Anterior part of superior temporal gyrus | 台灣解剖學名詞（程式內建對照表） | 顳上回前部 |
 | Posterior part of superior temporal gyrus | 台灣解剖學名詞（程式內建對照表） | 顳上回後部 |
 | supramarginal gyrus | 台灣解剖學名詞（程式內建對照表） | 緣上回 |
-| Tentorium cerebelli | 台灣解剖學名詞（程式內建對照表） | 小腦幕 |
+| Tentorium cerebelli | 必考清單用詞（app/mj-required-names.json） | 小腦天幕 |
 | Celiac artery | 台灣解剖學名詞（程式內建對照表） | 腹腔動脈幹 |
 | Hepatic portal vein | 台灣解剖學名詞（程式內建對照表） | 肝門靜脈 |
 | Hepatovenous segment IX | 台灣解剖學名詞（程式內建對照表） | 肝第 IX 段 |
@@ -1553,7 +1555,7 @@
 | common interosseous artery | glossary.json（其他筆記） | 總骨間動脈 |
 | costocervical trunk | 台灣解剖學名詞（程式內建對照表） | 肋頸動脈幹 |
 | deep brachial artery | 台灣解剖學名詞（程式內建對照表） | 肱深動脈 |
-| deep cervical artery | 台灣解剖學名詞（程式內建對照表） | 頸深動脈 |
+| deep cervical artery | 必考清單用詞（app/mj-required-names.json） | 深頸動脈 |
 | deep palmar arch | 台灣解剖學名詞（程式內建對照表） | 深掌動脈弓 |
 | Dorsal venous network of hand | 台灣解剖學名詞（程式內建對照表） | 手背靜脈網 |
 | deep palmar venous arch | 台灣解剖學名詞（程式內建對照表） | 深掌靜脈弓 |
@@ -1583,7 +1585,7 @@
 | thoracodorsal vein | 台灣解剖學名詞（程式內建對照表） | 胸背靜脈 |
 | thyrocervical trunk | 台灣解剖學名詞（程式內建對照表） | 甲狀頸動脈幹 |
 | superficial cervical artery | 台灣解剖學名詞（程式內建對照表） | 頸淺動脈 |
-| transverse cervical artery | 台灣解剖學名詞（程式內建對照表） | 頸橫動脈 |
+| transverse cervical artery | 必考清單用詞（app/mj-required-names.json） | 橫頸動脈 |
 | ulnar artery | glossary.json（跑考摘要） | 尺動脈 |
 | anterior ulnar recurrent artery | 台灣解剖學名詞（程式內建對照表） | 尺側返動脈前支 |
 | ulnar vein | 台灣解剖學名詞（程式內建對照表） | 尺靜脈 |
@@ -1698,22 +1700,22 @@
 | Second septal branch of posterior interventricular artery | 台灣解剖學名詞（程式內建對照表） | 後室間動脈第二隔支 |
 | genioglossus | 台灣解剖學名詞（程式內建對照表） | 頦舌肌 |
 | hyoglossus | 台灣解剖學名詞（程式內建對照表） | 舌骨舌肌 |
-| inferior pharyngeal constrictor | 台灣解剖學名詞（程式內建對照表） | 咽下縮肌 |
+| inferior pharyngeal constrictor | 必考清單用詞（app/mj-required-names.json） | 下咽縮肌 |
 | levator veli palatini | glossary.json（其他筆記） | 提顎帆肌 |
-| middle pharyngeal constrictor | 台灣解剖學名詞（程式內建對照表） | 咽中縮肌 |
-| palatopharyngeus | 台灣解剖學名詞（程式內建對照表） | 顎咽肌 |
+| middle pharyngeal constrictor | 必考清單用詞（app/mj-required-names.json） | 中咽縮肌 |
+| palatopharyngeus | 必考清單用詞（app/mj-required-names.json） | 顎咽肌 |
 | pterygomandibular raphe | 台灣解剖學名詞（程式內建對照表） | 翼下頜縫 |
-| salpingopharyngeus | 台灣解剖學名詞（程式內建對照表） | 咽鼓管咽肌 |
+| salpingopharyngeus | 必考清單用詞（app/mj-required-names.json） | 耳咽管咽肌 |
 | stylopharyngeus | 台灣解剖學名詞（程式內建對照表） | 莖突咽肌 |
-| superior pharyngeal constrictor | 台灣解剖學名詞（程式內建對照表） | 咽上縮肌 |
+| superior pharyngeal constrictor | 必考清單用詞（app/mj-required-names.json） | 上咽縮肌 |
 | tensor veli palatini | glossary.json（其他筆記） | 張顎帆肌 |
 | Pharyngeal raphe | 台灣解剖學名詞（程式內建對照表） | 咽縫 |
 | Tongue | 台灣解剖學名詞（程式內建對照表） | 舌 |
 | Uvular muscle | 台灣解剖學名詞（程式內建對照表） | 懸雍垂肌 |
 | stylohyoid ligament | 台灣解剖學名詞（程式內建對照表） | 莖突舌骨韌帶 |
 | sublingual gland | 台灣解剖學名詞（程式內建對照表） | 舌下腺 |
-| submandibular gland | 台灣解剖學名詞（程式內建對照表） | 下頜下腺 |
-| Epiglottis | 台灣解剖學名詞（程式內建對照表） | 會厭 |
+| submandibular gland | 必考清單用詞（app/mj-required-names.json） | 頜下腺 |
+| Epiglottis | 必考清單用詞（app/mj-required-names.json） | 會厭軟骨 |
 | Hyo-epiglottic ligament | 台灣解剖學名詞（程式內建對照表） | 舌骨會厭韌帶 |
 | Hyoid bone | 台灣解剖學名詞（程式內建對照表） | 舌骨 |
 | cuneiform cartilage | 台灣解剖學名詞（程式內建對照表） | 楔狀軟骨 |
@@ -1738,9 +1740,9 @@
 | Transverse arytenoid | 台灣解剖學名詞（程式內建對照表） | 杓橫肌 |
 | Skin | 台灣解剖學名詞（程式內建對照表） | 皮膚 |
 | External ear | 台灣解剖學名詞（程式內建對照表） | 外耳 |
-| Eyebrow | 台灣解剖學名詞（程式內建對照表） | 眉毛 |
+| Eyebrow | 必考清單用詞（app/mj-required-names.json） | 眉 |
 | Hair of head | 台灣解剖學名詞（程式內建對照表） | 頭髮 |
-| Lip | 台灣解剖學名詞（程式內建對照表） | 唇 |
+| Lip | 必考清單用詞（app/mj-required-names.json） | 嘴唇 |
 | Pubic hair | 台灣解剖學名詞（程式內建對照表） | 陰毛 |
 | Caudate lobe of liver | 台灣解剖學名詞（程式內建對照表） | 肝尾狀葉 |
 | Gallbladder | 台灣解剖學名詞（程式內建對照表） | 膽囊 |
@@ -2314,7 +2316,7 @@
 | stylomandibular ligament | glossary.json（其他筆記） | 莖突下頷韌帶 |
 | articular capsule of temporomandibular joint | 台灣解剖學名詞（程式內建對照表） | 顳顎關節囊 |
 | articular disc of temporomandibular joint | 台灣解剖學名詞（程式內建對照表） | 顳顎關節盤 |
-| lateral temporomandibular ligament | 台灣解剖學名詞（程式內建對照表） | 顳顎外側韌帶 |
+| lateral temporomandibular ligament | 必考清單用詞（app/mj-required-names.json） | 顳下頜外側韌帶 |
 | articular disc of distal radio-ulnar joint | 台灣解剖學名詞（程式內建對照表） | 遠端橈尺關節盤 |
 | palmar radio-ulnar ligament | 台灣解剖學名詞（程式內建對照表） | 掌側橈尺韌帶 |
 | annular ligament of radius | 台灣解剖學名詞（程式內建對照表） | 橈骨環狀韌帶 |
@@ -2388,22 +2390,22 @@
 | frontal branches of callosomarginal artery | 台灣解剖學名詞（程式內建對照表） | 胼胝體邊緣動脈額支 |
 | inferior petrosal sinus | 台灣解剖學名詞（程式內建對照表） | 下岩竇 |
 | inferior sagittal sinus | 台灣解剖學名詞（程式內建對照表） | 下矢狀竇 |
-| insular branches of middle cerebral artery (M2-segment) | 台灣解剖學名詞（程式內建對照表） | 大腦中動脈島支（M2 段） |
-| lateral pontine branches of basilar artery | 台灣解剖學名詞（程式內建對照表） | 基底動脈橋腦外側支 |
-| medial pontine branches of basilar artery | 台灣解剖學名詞（程式內建對照表） | 基底動脈橋腦內側支 |
-| middle cerebral artery (M1-segment) | 台灣解剖學名詞（程式內建對照表） | 大腦中動脈（M1 段） |
-| middle cerebral artery (M3-segment) | 台灣解剖學名詞（程式內建對照表） | 大腦中動脈（M3 段） |
+| insular branches of middle cerebral artery (M2-segment) | 台灣解剖學名詞（程式內建對照表） | 中大腦動脈島支（M2 段） |
+| lateral pontine branches of basilar artery | 台灣解剖學名詞（程式內建對照表） | 基底動脈腦橋外側支 |
+| medial pontine branches of basilar artery | 台灣解剖學名詞（程式內建對照表） | 基底動脈腦橋內側支 |
+| middle cerebral artery (M1-segment) | 台灣解剖學名詞（程式內建對照表） | 中大腦動脈（M1 段） |
+| middle cerebral artery (M3-segment) | 台灣解剖學名詞（程式內建對照表） | 中大腦動脈（M3 段） |
 | occipital sinus | 台灣解剖學名詞（程式內建對照表） | 枕竇 |
-| orbitofrontal branches of anterior cerebral artery | 台灣解剖學名詞（程式內建對照表） | 大腦前動脈眶額支 |
-| parietal branches of middle cerebral artery | 台灣解剖學名詞（程式內建對照表） | 大腦中動脈頂支 |
-| posterior cerebral artery | 台灣解剖學名詞（程式內建對照表） | 大腦後動脈 |
+| orbitofrontal branches of anterior cerebral artery | 台灣解剖學名詞（程式內建對照表） | 前大腦動脈眶額支 |
+| parietal branches of middle cerebral artery | 台灣解剖學名詞（程式內建對照表） | 中大腦動脈頂支 |
+| posterior cerebral artery | 必考清單用詞（app/mj-required-names.json） | 後大腦動脈 |
 | posterior intercavernous sinus | 台灣解剖學名詞（程式內建對照表） | 後海綿間竇 |
 | proximal lateral striate branches | 台灣解剖學名詞（程式內建對照表） | 外側紋狀動脈近端分支 |
 | sigmoid sinus | 台灣解剖學名詞（程式內建對照表） | 乙狀竇 |
 | straight sinus | 台灣解剖學名詞（程式內建對照表） | 直竇 |
 | superior petrosal sinus | 台灣解剖學名詞（程式內建對照表） | 上岩竇 |
 | superior sagittal sinus | 台灣解剖學名詞（程式內建對照表） | 上矢狀竇 |
-| temporal branches of middle cerebral artery | 台灣解剖學名詞（程式內建對照表） | 大腦中動脈顳支 |
+| temporal branches of middle cerebral artery | 台灣解剖學名詞（程式內建對照表） | 中大腦動脈顳支 |
 | transverse sinus | 台灣解剖學名詞（程式內建對照表） | 橫竇 |
 | falx cerebri | 台灣解剖學名詞（程式內建對照表） | 大腦鐮 |
 | choroid plexus | 台灣解剖學名詞（程式內建對照表） | 脈絡叢 |
@@ -2473,7 +2475,7 @@
 | nucleus of oculomotor nerve | 台灣解剖學名詞（程式內建對照表） | 動眼神經 |
 | accessory nucleus of oculomotor nerve | 台灣解剖學名詞（程式內建對照表） | 動眼神經 |
 | red nucleus | 台灣解剖學名詞（程式內建對照表） | 紅核 |
-| aqueduct of midbrain | 台灣解剖學名詞（程式內建對照表） | 中腦導水管 |
+| aqueduct of midbrain | 台灣解剖學名詞（程式內建對照表） | 大腦導水管 |
 | vestibular nuclei | 台灣解剖學名詞（程式內建對照表） | 前庭神經核 |
 | nucleus of abducens nerve | 台灣解剖學名詞（程式內建對照表） | 外旋神經核 |
 | motor nucleus of facial nerve | 台灣解剖學名詞（程式內建對照表） | 顏面神經運動核 |

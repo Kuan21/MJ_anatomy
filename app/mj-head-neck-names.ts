@@ -1,4 +1,5 @@
 import data from './mj-head-neck-names.json';
+import requiredData from './mj-required-names.json';
 
 /**
  * Unified head-and-neck names (app/mj-head-neck-names.json): one Taiwan anatomy name per structure and the other spellings and synonyms as aliases.
@@ -9,7 +10,9 @@ export interface NameEntry {en: string; zh: string; enAliases: string[]; zhAlias
 export interface NameRow {id: string; kind: 'synonym' | 'spelling' | 'typo'; status: 'applied' | 'not-applied'; display: string; reason?: string; entries: NameEntry[]}
 export const NAME_ROWS = (data as {rows: NameRow[]}).rows;
 export const APPLIED_ROWS = NAME_ROWS.filter(r => r.status === 'applied');
-const ENTRIES = APPLIED_ROWS.flatMap(r => r.entries);
+/** HN-11: structures whose shown Chinese name follows the required-structure wording; the earlier site wording stays as an alias (app/mj-required-names.json). */
+export const REQUIRED_NAME_ROWS = (requiredData as {rows: NameRow[]}).rows;
+const ENTRIES = [...APPLIED_ROWS, ...REQUIRED_NAME_ROWS].flatMap(r => r.entries);
 
 /** Variant characters of the same word: 頷 = 頜 (jaw), 腭 = 顎 (palate). Either spelling finds the structure whichever one the site shows. */
 export const foldVariants = (s: string) => s.replace(/頷/g, '頜').replace(/腭/g, '顎');

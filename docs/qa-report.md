@@ -407,6 +407,46 @@
 
 ---
 
+## 覆核：使用者未審即合併的 PR（2026-11-17）
+
+| PR | 內容 | 覆核方法 | 結果 |
+|---|---|---|---|
+| #384 | 穹窿體範圍 | 腦詳細模式搜尋與矢狀切面（[截圖](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/0521acf0b3ce1ad223379117ca586a057d5df0fd/qa-report/round2/384-fornix-sag.jpg)）；腦 Quiz 資料 | 清單有左、右穹窿（腳）與單一「Body of fornix 穹窿體」；腦 Quiz 的視交叉、橋腦、中腦、延腦已改為單一結構，並有穹窿體。截圖中穹窿體的標示不明顯，範圍未能目視確認。 |
+| #385 | 主圖譜資訊卡共用卡片文字 | 主圖譜 117 個結構以名稱對上卡片，沒有對到不同結構；隨機抽 20 張在網站開啟（[截圖](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/0521acf0b3ce1ad223379117ca586a057d5df0fd/qa-report/round2/385-card.jpg)） | 20 張全部顯示正確結構與對應文字（其中「Right maxilla」顯示名為「Right maxillary bone」，內容正確）。 |
+| #388 | 學習／Quiz 紫色高亮 | 學習「神經」第 1 關側面（[截圖](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/0521acf0b3ce1ad223379117ca586a057d5df0fd/qa-report/round2/388-learn-nerve.jpg)） | 目標神經為紫色，與其他黃色神經分得清。HN-25 已解決。 |
+| #372 | 骨盆與會陰分頁 | 主圖譜「骨盆與會陰」三個子分頁（[截圖](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/0521acf0b3ce1ad223379117ca586a057d5df0fd/qa-report/round2/372-perineum.jpg)）；`docs/region-members.md`；網格比對 | 子分頁正常。**新問題 PP-03、PP-04**（見下）。 |
+| #382 | 咬肌淺部／深部 | 已部署 `facial/atlas.json` 與 Quiz 資料 | 名稱已對調，淺部在外側（中心 |x| 50 mm），Quiz 同步。HN-22 已解決。 |
+| #386 | 脊髓前動脈單一名稱 | 主圖譜中英文搜尋與 Focus（[截圖](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/0521acf0b3ce1ad223379117ca586a057d5df0fd/qa-report/round2/386-asa.jpg)） | 只有一項「Anterior spinal artery 脊髓前動脈」，不分左右。 |
+| #387 | 用字 | 已部署 Quiz 資料與 main 原始碼 | Quiz 名稱已無「頷／腭」；腦 Quiz 英文 Left／Right 後改小寫；程式中「頷／腭」只留作搜尋別名與自動更正表。仍不一致的用字見下方 HN-28。 |
+
+### 新問題
+
+| 編號 | 區域 | 結構或功能 | 問題 | 證據 | 來源 | 嚴重程度 | 建議負責 |
+|---|---|---|---|---|---|---|---|
+| PP-03 | 會陰 | superficial perineal muscle 會陰淺肌（`FJ1450`） | 這件網格其實是外肛門括約肌的一部分：與 `FJ2548`「External anal sphincter」頂點數相同（240）、中心完全相同（x −7.4、y 842.5、z −72.4 mm），位置在肛門周圍，不在會陰中心腱前方的會陰淺橫肌位置。會陰分頁與搜尋會把它當成會陰淺肌。 | 網格逐件比對。未在 3D 畫面截圖確認。 | Gray's Anatomy 1918；TeachMeAnatomy | 會令溫書學錯 | 生殖＋內臟 |
+| PP-04 | 盆底 | 尾骨肌、恥骨尾骨肌、恥骨直腸肌、外肛門括約肌（左側） | 同一結構有兩件幾乎重疊的網格（`FJ1449M`／`FJ2542`、`FJ1457M`／`FJ2545`、`FJ1458M`／`FJ2546`、`FJ1450M`／`FJ2543`），清單顯示「×3」。「M」結尾的疑為由右側鏡像再改名為左側的副本。 | 中心相差 0.4–5 mm，概念編號相同 | — | 影響使用 | 生殖＋內臟 |
+| HN-28 | 全站 | 用字仍與必考清單不一致 | 使用者 2026-11-17 指示跟必考清單用詞統一：(1) 必考清單「顳顎關節」（關節）、「顳下頜韌帶」（韌帶），清單本身兩種都有，請使用者決定；資訊卡多寫「顳下頜關節」。(2) 必考清單「大腦導水管」，#387 把 CSF 頁統一為「中腦導水管」，與必考清單相反。(3) CSF 頁「蛛網膜」「蛛網膜下腔」「蛛網膜顆粒」，必考清單為「蜘蛛膜」。(4) 甲狀舌骨外側韌帶內的 triticeal cartilage：#346「麥粒軟骨」、#358「小麥軟骨」，不在必考清單，請使用者選一個。 | main 原始碼與必考清單 | FIPAT TA2（名詞對照） | 影響使用 | 總管 |
+
+---
+
+## 碎片與尖刺清單（交血管平順；2026-11-17，main 含 #366）
+
+方法：已部署網站，關閉肌肉與結締組織，各區用 Focus 放大後從前、斜後方截圖；可疑處在同一視角點選取得結構名稱。逐檔掃描網格的「分離小塊」與「細長三角形」雜訊太多（血管本來分段、末端連接件、細血管的長三角形），只作輔助，不列入清單。
+
+| 編號 | 區域 | 位置 | 結構（點選或附近候選） | 現象 | 截圖 |
+|---|---|---|---|---|---|
+| VS-01 | 頸根部、左上胸後方 | 鎖骨後方、第一至第二肋附近（斜後方視角） | 附近候選：左頸深動脈、左肩胛上動脈與靜脈、左第一肋間後動脈、左肺尖段靜脈、副半奇靜脈末端件（位置 x 24–37、y 1.40–1.41 m、z −12～+1 mm） | 多條細血管末端仍呈小三角形箭頭狀尖刺（紅色動脈與藍色靜脈都有，圖中橘色圈）；#383 截圖所見的淺藍色碎片在同一區域 | [頸根部尖刺](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/2a7f782904015edea1d6e66776b18cc3136a1ecf/qa-report/fragments/hn-root-spikes.jpg)、[頸根部前面](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/2a7f782904015edea1d6e66776b18cc3136a1ecf/qa-report/fragments/hn-root-front.jpg) |
+| VS-02 | 骨盆 | 直腸上方、骶骨前（骨盆器官分頁，Focus 左髂內動脈後） | Superior rectal artery 上直腸動脈（點選確認） | 與伴行靜脈多處急轉成尖角（鋸齒狀折線） | [骨盆](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/2a7f782904015edea1d6e66776b18cc3136a1ecf/qa-report/fragments/pelvis-superior-rectal.jpg) |
+| — | 腹部 | 胰臟上緣、腹主動脈前 | 黃色小橢圓為 Right celiac ganglion 右腹腔神經節（示意模型），紅色為腹腔動脈幹 | 不是碎片，不列入 | [腹部](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/2a7f782904015edea1d6e66776b18cc3136a1ecf/qa-report/fragments/abdomen-overview.jpg) |
+
+### 新問題（資訊卡「區域」欄）
+
+| 編號 | 區域 | 結構或功能 | 問題 | 證據 | 來源 | 嚴重程度 | 建議負責 |
+|---|---|---|---|---|---|---|---|
+| AB-03 | 腹部、骨盆 | 主圖譜資訊卡「REGION 區域」欄 | 腹部結構標成胸部：Abdominal aorta 腹主動脈、Celiac trunk 腹腔動脈幹、Right gastric artery 右胃動脈、Left gastric vein 左胃靜脈都寫「thorax 胸部」；Sacrum 薦骨、Left internal iliac artery 左髂內動脈寫「abdomen 腹部」（應為骨盆）。疑為按高度自動分區，邊界不準。 | 網站點選資訊卡 | Gray's Anatomy 1918；OpenStax Anatomy & Physiology | 影響使用 | 總管 |
+
+---
+
 ## 骨盆與會陰
 
 ### 問題清單
