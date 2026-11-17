@@ -5,7 +5,10 @@
 // the artery leaves the aorta, both unchanged), a long ramp to the full value at the hilum, held across the hilum and faded to zero inside the renal sinus, so the intrarenal branches and the
 // kidney stay where they are; the same field is faded out above and below the hilum, so tributaries and branches (suprarenal and gonadal veins, suprarenal and ureteric arteries) follow
 // near their junction and keep their far ends. Every step is a smootherstep, so the field has no kink. Values come from scripts/measure-renal-hilum.mjs (docs/renal-hilum-shift.md).
-// Pure functions without imports, so scripts/test-renal-hilum-shift.mjs runs the same code as the viewer. Units: millimetres in the field, metres in the position arrays.
+// The shift also fades out with the depth inside the kidney (grid sampled from the kidney meshes by scripts/derive-renal-hilum-depth.mjs, renal-hilum-depth.json), so the
+// intrarenal branches and the part of the ureter inside the kidney stay inside it and are never pushed out through the kidney surface.
+// Pure functions, no imports other than the depth grid, so scripts/test-renal-hilum-shift.mjs runs the same code as the viewer. Units: millimetres in the field, metres in the position arrays.
+import DEPTH from './renal-hilum-depth.json';
 export type Side = 'Left' | 'Right';
 export type Role = 'vein' | 'artery' | 'pelvis';
 export interface Field {
@@ -22,7 +25,7 @@ export const SPEC: Record<Side, HilumSpec> = {
     artery: {ramp: [16, 32], fall: [38, 50], dz: -11},
     pelvis: {ramp: [20, 32], fall: [44, 56], dz: -6},
   }},
-  Right: {y: 1108, inner: 22, outer: 46, role: {
+  Right: {y: 1108, inner: 12, outer: 28, role: {
     vein: {ramp: [14, 28], fall: [40, 54], dz: 15},
     artery: {ramp: [18, 32], fall: [38, 50], dz: -4},
     pelvis: {ramp: [20, 32], fall: [44, 56], dz: -6},
@@ -64,18 +67,33 @@ export const smoother = (t: number) => { const x = Math.max(0, Math.min(1, t)); 
 export const lateral = (s: Field, u: number) => u <= s.ramp[0] ? 0 : u < s.ramp[1] ? smoother((u - s.ramp[0]) / (s.ramp[1] - s.ramp[0])) : u <= s.fall[0] ? 1 : 1 - smoother((u - s.fall[0]) / (s.fall[1] - s.fall[0]));
 /** Weight (0–1) of the field at height y (mm). */
 export const vertical = (s: HilumSpec, y: number) => 1 - smoother((Math.abs(y - s.y) - s.inner) / (s.outer - s.inner));
-/** Forward shift (mm) of the point (x, y in mm) for a part of the given side and role, without branch rules. x is the atlas x (left positive). */
-export function fieldAt(side: Side, role: Role, x: number, y: number): number {
+/** Depth (mm) over which the shift fades out inside the kidney: full at the surface, none from this depth on. */
+export const DEPTH_FADE = 12;
+interface Grid {origin: number[]; dims: number[]; data: Uint8Array}
+const GRID = {} as Record<Side, Grid>;
+const decode = (b64: string) => { const bin = typeof atob === 'function' ? atob(b64) : ''; const out = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i); return out; };
+for (const side of ['Left', 'Right'] as Side[]) { const g = (DEPTH as unknown as Record<Side, {origin: number[]; dims: number[]; depth: string}>)[side]; GRID[side] = {origin: g.origin, dims: g.dims, data: decode(g.depth)}; }
+/** Depth (mm) of the point inside the kidney of this side (0 outside it or outside the sampled box); trilinear between the grid points. */
+export function depthAt(side: Side, x: number, y: number, z: number): number {
+  const g = GRID[side], st = (DEPTH as unknown as {step: number}).step, [nx, ny, nz] = g.dims;
+  const fx = (x - g.origin[0]) / st, fy = (y - g.origin[1]) / st, fz = (z - g.origin[2]) / st;
+  if (fx < 0 || fy < 0 || fz < 0 || fx > nx - 1 || fy > ny - 1 || fz > nz - 1) return 0;
+  const i = Math.min(nx - 2, Math.floor(fx)), j = Math.min(ny - 2, Math.floor(fy)), k = Math.min(nz - 2, Math.floor(fz)), a = fx - i, b = fy - j, c = fz - k;
+  const at = (di: number, dj: number, dk: number) => g.data[(i + di) + nx * ((j + dj) + ny * (k + dk))] / 10;
+  return (1 - c) * ((1 - b) * ((1 - a) * at(0, 0, 0) + a * at(1, 0, 0)) + b * ((1 - a) * at(0, 1, 0) + a * at(1, 1, 0))) + c * ((1 - b) * ((1 - a) * at(0, 0, 1) + a * at(1, 0, 1)) + b * ((1 - a) * at(0, 1, 1) + a * at(1, 1, 1)));
+}
+/** Forward shift (mm) of the point (x, y, z in mm) for a part of the given side and role, without branch rules. x is the atlas x (left positive). */
+export function fieldAt(side: Side, role: Role, x: number, y: number, z: number): number {
   const s = SPEC[side], u = side === 'Left' ? x : -x;
-  const f = s.role[role]; let w = lateral(f, u) * vertical(s, y);
+  const f = s.role[role]; let w = lateral(f, u) * vertical(s, y) * (1 - smoother(depthAt(side, x, y, z) / DEPTH_FADE));
   if (role === 'pelvis') w *= smoother((y - PELVIS_Y[0]) / (PELVIS_Y[1] - PELVIS_Y[0]));
   return f.dz * w;
 }
 /** Forward shift (mm) of the point for the part `id` (branch rules applied). */
-export function shiftAt(id: string, side: Side, role: Role, x: number, y: number): number {
+export function shiftAt(id: string, side: Side, role: Role, x: number, y: number, z: number): number {
   const b = BRANCH[id.endsWith('-END') ? id.slice(0, -4) : id];
-  if (b?.blend) { const a = smoother((y - b.blend[0]) / (b.blend[1] - b.blend[0])); return a * fieldAt(side, 'artery', x, y) + (1 - a) * fieldAt(side, 'pelvis', x, y); }
-  const v = fieldAt(side, role, x, y);
+  if (b?.blend) { const a = smoother((y - b.blend[0]) / (b.blend[1] - b.blend[0])); return a * fieldAt(side, 'artery', x, y, z) + (1 - a) * fieldAt(side, 'pelvis', x, y, z); }
+  const v = fieldAt(side, role, x, y, z);
   return b?.up ? v * (1 - smoother((y - b.up[0]) / (b.up[1] - b.up[0]))) : v;
 }
 /** Side and role of a part, or null. */
@@ -88,6 +106,14 @@ export const isHilumPart = (id: string) => roleOf(id) !== null;
 /** Moves the vertices of a part in place (metres). Returns true when the part is one of the hilum parts. */
 export function shiftHilumPart(id: string, positions: Float32Array): boolean {
   const r = roleOf(id); if (!r) return false;
-  for (let i = 0; i < positions.length; i += 3) positions[i + 2] += shiftAt(id, r.side, r.role, positions[i] * 1e3, positions[i + 1] * 1e3) * 1e-3;
+  // vertices inside a kidney that would be carried out through its surface stop 0.5 mm short of it, and their neighbours are eased towards them (at most 2.5 mm of shift
+  // per mm along the mesh), caps from scripts/derive-renal-hilum-depth.mjs
+  const capList = (DEPTH as unknown as {caps: Record<string, number[]>}).caps[id], cap = new Map<number, number>();
+  if (capList) for (let k = 0; k < capList.length; k += 2) cap.set(capList[k], capList[k + 1] / 10);
+  for (let i = 0; i < positions.length; i += 3) {
+    let d = shiftAt(id, r.side, r.role, positions[i] * 1e3, positions[i + 1] * 1e3, positions[i + 2] * 1e3);
+    const c = cap.get(i / 3); if (c !== undefined && Math.abs(d) > c) d = Math.sign(d) * c;
+    positions[i + 2] += d * 1e-3;
+  }
   return true;
 }

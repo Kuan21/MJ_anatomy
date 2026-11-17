@@ -1,6 +1,7 @@
 // Labels for the AB-01 screenshots (PR description only, never on the site): projects the hilum position of the renal vein, renal artery and renal pelvis of each side
 // (median of the vertices 30–42 mm from the midline, within 20 mm of the hilum height; before or after the load-time shift) with the camera recorded by renal-hilum-shots.cjs,
-// and draws a dot, a leader line and the English and Chinese name on a copy of each close hilum shot (Python Pillow, wqy-zenhei font).
+// and draws a dot, a leader line and the English and Chinese name on a copy of each close hilum shot (Python Pillow, wqy-zenhei font). The anchor can lie behind
+// another structure in the picture, so the dot is moved to the nearest pixel of the structure's own colour (veins blue, arteries red, ureter and pelvis pale yellow) within 60 px.
 // usage: node scripts/browser/renal-hilum-annotate.mjs <outDir> <tag before|after>
 import fs from 'node:fs';
 import {execFileSync} from 'node:child_process';
@@ -8,7 +9,7 @@ import {M, loaded, HILUM} from '../measure-renal-hilum.mjs';
 const [out = '/tmp/renal-hilum', tag = 'after'] = process.argv.slice(2), apply = tag !== 'before';
 const meta = JSON.parse(fs.readFileSync(`${out}/${tag}-camera.json`, 'utf8'));
 const NAMES = {vein: ['Renal vein', '腎靜脈'], artery: ['Renal artery', '腎動脈'], pelvis: ['Renal pelvis', '腎盂']};
-const COLOR = {vein: '#2f5f8f', artery: '#9b1c2c', pelvis: '#7a4a2a'};
+const COLOR = {vein: '#2f5f8f', artery: '#9b1c2c', pelvis: '#8a6a1a'};
 const median = a => { const s = [...a].sort((x, y) => x - y); return s[Math.floor(s.length / 2)]; };
 /** Hilum anchor (metres) of a role: median x, y, z of its vertices in the hilum band. */
 function anchor(side, role) {
@@ -45,9 +46,26 @@ import json,sys
 from PIL import Image,ImageDraw,ImageFont
 jobs=json.load(sys.stdin)
 for j in jobs:
-  im=Image.open(j['src']).convert('RGB');d=ImageDraw.Draw(im);W,H=im.size;s=max(1,W//500)
+  im=Image.open(j['src']).convert('RGB');px=im.load();W,H=im.size;s=max(1,W//500)
+  def kind(c):
+    r,g,b=c
+    if b>r+25 and b>g: return 'vein'
+    if r>150 and r>g+70 and r>b+60: return 'artery'
+    if r>200 and g>180 and b<175 and r-b>45: return 'pelvis'
+    return None
+  def snap(x,y,role,R=60):
+    best=None
+    for dy in range(-R,R+1,2):
+      for dx in range(-R,R+1,2):
+        X,Y=int(x)+dx,int(y)+dy
+        if 0<=X<W and 30*s<Y<H and kind(px[X,Y])==role:
+          d=dx*dx+dy*dy
+          if best is None or d<best[0]: best=(d,X,Y)
+    return (best[1],best[2]) if best else (x,y)
+  for l in j['labels']: l['xy']=list(snap(l['xy'][0],l['xy'][1],l['role']))
+  d=ImageDraw.Draw(im)
   f=ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc',14*s);ft=ImageFont.truetype('/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc',16*s)
-  d.rectangle([0,0,W,26*s],fill='white');d.text((8*s,4*s),j['title']+'   (veins blue, arteries red, ureter/pelvis brown)',fill='black',font=ft)
+  d.rectangle([0,0,W,26*s],fill='white');d.text((8*s,4*s),j['title']+'   (veins blue, arteries red, ureter and renal pelvis pale yellow｜靜脈藍、動脈紅、輸尿管與腎盂淡黃)',fill='black',font=ft)
   for k,l in enumerate(sorted(j['labels'],key=lambda l:l['xy'][1])):
     x,y=l['xy'];tx=W-int(W*0.36);ty=int(H*0.18)+k*int(H*0.2)
     d.line([(x,y),(tx,ty+9*s)],fill=l['color'],width=2*s);d.ellipse([x-5*s,y-5*s,x+5*s,y+5*s],outline='white',fill=l['color'],width=s)

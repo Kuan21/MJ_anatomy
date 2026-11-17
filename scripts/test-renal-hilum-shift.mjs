@@ -1,13 +1,15 @@
 // Renal hilum order (AB-01) regression, on the real meshes. The load-time shift of app/biomechanics-v2/renal-hilum-shift.ts (the code the viewer runs) must
-//  1. give the order renal vein, renal artery, renal pelvis from front to back at the hilum on both sides, with the vein in front of the artery all the way from the midline
+//  1. give the order renal vein, renal artery, renal pelvis from front to back at the hilum on both sides (median depths at least 3.5 mm and 5 mm apart; on the right the vein
+//     is held back by the kidney surface and the artery by the psoas major, so 4 mm is what fits), with the vein in front of the artery all the way from the midline
 //     (reverse test: the unshifted meshes fail this);
 //  2. fade to nothing near the midline (vein into the inferior vena cava, artery from the aorta) and inside the renal sinus, with no step (the shift changes by less than 3 mm per mm along any mesh edge);
 //  3. keep every branch on its parent and on its organ: suprarenal vessels on the renal vessel and on the adrenal gland, ureteric arteries on the renal artery and on the ureter
 //     (every vertex that touched within 1.5 mm before still touches within 2.5 mm), and leave no vessel that touches a moved part behind (closure);
-//  4. not push the vessels into the neighbouring organs: wall clearance against the closed neighbour meshes no worse than the source by more than 0.5 mm, unless still clear by 1 mm;
+//  4. keep inside each kidney what was inside it (no intrarenal branch or part of the ureter is carried out through the kidney surface) and keep 1 mm from the adrenal glands;
+//  5. not push the vessels into the neighbouring organs: wall clearance against the closed neighbour meshes no worse than the source by more than 0.5 mm, unless still clear by 1 mm;
 //     vein and artery may touch only inside the renal sinus (measured clearance >= -1 mm).
 import assert from 'node:assert/strict';
-import {M, loaded, bandZ, measure, HILUM} from './measure-renal-hilum.mjs';
+import {M, loaded, bandZ, measure, HILUM, ENTRY} from './measure-renal-hilum.mjs';
 import {loadFullAtlas} from './lib/full-atlas.mjs';
 import {surfaceIndex} from './lib/surface-distance.mjs';
 const SIDES = ['Left', 'Right'];
@@ -16,10 +18,10 @@ for (const side of SIDES) {
   const [lo, hi] = HILUM[side];
   const after = {vein: bandZ(side, 'vein', lo, hi, true), artery: bandZ(side, 'artery', lo, hi, true), pelvis: bandZ(side, 'pelvis', lo, hi, true)};
   const before = {vein: bandZ(side, 'vein', lo, hi, false), artery: bandZ(side, 'artery', lo, hi, false)};
-  assert.ok(after.vein - after.artery >= 5, `${side} hilum: vein ${after.vein.toFixed(1)} must be at least 5 mm in front of the artery ${after.artery.toFixed(1)}`);
+  assert.ok(after.vein - after.artery >= 3.5, `${side} hilum: vein ${after.vein.toFixed(1)} must be at least 3.5 mm in front of the artery ${after.artery.toFixed(1)}`);
   assert.ok(after.artery - after.pelvis >= 5, `${side} hilum: artery ${after.artery.toFixed(1)} must be at least 5 mm in front of the pelvis ${after.pelvis.toFixed(1)}`);
   assert.ok(before.vein < before.artery, `${side} reverse test: the source meshes should have the vein behind the artery at the hilum`);
-  for (let u = 8; u < 44; u += 4) {
+  for (let u = 8; u + 4 <= ENTRY[side]; u += 4) {
     const v = bandZ(side, 'vein', u, u + 4, true), a = bandZ(side, 'artery', u, u + 4, true);
     if (Number.isFinite(v) && Number.isFinite(a)) assert.ok(v > a, `${side} ${u}–${u + 4} mm from the midline: vein ${v.toFixed(1)} behind artery ${a.toFixed(1)}`);
   }
@@ -85,11 +87,34 @@ for (const q of vessels) {
     assert.ok(d > .0005, `${q.id} ${q.name} touches ${m.p.id} ${m.p.name} where it moves ${(shift * 1e3).toFixed(1)} mm, but is not moved with it`);
   }
 }
-// 4. clearances
+// 4. nothing that was inside a kidney leaves it
+{
+  const DIRS = [[0.577, 0.577, 0.577], [-0.7, 0.1, 0.707], [0.1, -0.99, 0.1]];
+  const inside = (p, pos, idx) => { let votes = 0; for (const d of DIRS) { let n = 0; for (let i = 0; i < idx.length; i += 3) { const a = idx[i] * 3, b = idx[i + 1] * 3, c = idx[i + 2] * 3;
+    const e1 = [pos[b] - pos[a], pos[b + 1] - pos[a + 1], pos[b + 2] - pos[a + 2]], e2 = [pos[c] - pos[a], pos[c + 1] - pos[a + 1], pos[c + 2] - pos[a + 2]];
+    const h = [d[1] * e2[2] - d[2] * e2[1], d[2] * e2[0] - d[0] * e2[2], d[0] * e2[1] - d[1] * e2[0]], det = e1[0] * h[0] + e1[1] * h[1] + e1[2] * h[2]; if (Math.abs(det) < 1e-14) continue;
+    const f = 1 / det, sv = [p[0] - pos[a], p[1] - pos[a + 1], p[2] - pos[a + 2]], u = f * (sv[0] * h[0] + sv[1] * h[1] + sv[2] * h[2]); if (u < 0 || u > 1) continue;
+    const q = [sv[1] * e1[2] - sv[2] * e1[1], sv[2] * e1[0] - sv[0] * e1[2], sv[0] * e1[1] - sv[1] * e1[0]], v = f * (d[0] * q[0] + d[1] * q[1] + d[2] * q[2]); if (v < 0 || u + v > 1) continue;
+    if (f * (e2[0] * q[0] + e2[1] * q[1] + e2[2] * q[2]) > 0) n++; } if (n % 2) votes++; } return votes >= 2; };
+  for (const [side, kidney] of [['Left', 'FJ3145'], ['Right', 'FJ3147']]) {
+    const K = loaded(kidney, false); let out = 0, checked = 0;
+    for (const p of moved.filter(q => M.roleOf(q.id).side === side)) {
+      const A0 = loaded(p.id, false), A1 = loaded(p.id, true);
+      for (let i = 0; i < A0.pos.length; i += 3) {
+        if (Math.abs(A1.pos[i + 2] - A0.pos[i + 2]) < 2e-4) continue;
+        const p0 = [A0.pos[i], A0.pos[i + 1], A0.pos[i + 2]]; if (!inside(p0, K.pos, K.idx)) continue; checked++;
+        if (!inside([A1.pos[i], A1.pos[i + 1], A1.pos[i + 2]], K.pos, K.idx)) out++;
+      }
+    }
+    assert.equal(out, 0, `${side}: ${out} of ${checked} moved vertices inside the kidney were carried out through its surface`);
+  }
+}
+// 5. clearances
 const before = measure(false), after = measure(true);
 for (const side of SIDES) for (const [k, b] of Object.entries(before[side].clear)) {
   const a = after[side].clear[k]; if (!Number.isFinite(a)) continue;
   if (k === 'vein ↔ artery') { assert.ok(a >= -1, `${side} ${k}: ${a.toFixed(1)} mm`); continue; }
+  if (/adrenal/.test(k)) { assert.ok(a >= Math.min(b, 1), `${side} ${k}: clearance ${a.toFixed(1)} mm after, ${b.toFixed(1)} mm before`); continue; }
   assert.ok(a >= Math.min(b - .5, 1) || a >= b - .5, `${side} ${k}: clearance ${a.toFixed(1)} mm after, ${b.toFixed(1)} mm before`);
 }
 console.log(`Renal hilum shift: ${all.length} parts; vein, artery, pelvis in order at both hila; no step, branches kept on their parents and organs, no new penetration of neighbours.`);

@@ -17,8 +17,10 @@ export function loaded(id, apply = true) {
 const ids = (side, role) => M.PARTS[side][role].flatMap(id => [id, id + '-END']).filter(id => byId.has(id));
 /** The first n parts of a role (renal vein trunk and hilum part; renal artery, its trunk and first divisions), with their end pieces. */
 const main = (side, role, n) => M.PARTS[side][role].slice(0, n).flatMap(id => [id, id + '-END']).filter(id => byId.has(id));
-/** Hilum slabs: lateral distance band (mm) where the three meet. */
-export const HILUM = {Left: [30, 42], Right: [30, 42]};
+/** Hilum slabs: lateral distance band (mm) where the three meet before entering the kidney (the right kidney reaches closer to the midline). */
+export const HILUM = {Left: [30, 42], Right: [28, 38]};
+/** Lateral distance (mm) where the renal vessels enter the kidney mesh (beyond it they are inside the kidney and branch in the renal sinus, out of sight). */
+export const ENTRY = {Left: 44, Right: 36};
 const median = a => { const s = [...a].sort((x, y) => x - y); return s.length ? s[Math.floor(s.length / 2)] : NaN; };
 /** Median z (mm) of a role in a lateral band, within the hilum height (and above PELVIS_Y[1] for the pelvis). */
 export function bandZ(side, role, lo, hi, apply) {
