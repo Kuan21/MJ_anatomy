@@ -5,7 +5,7 @@
 
 ## 目前狀態
 - 專案處於**穩定期**（2026-11-08 起）：暫停新功能，只修顯示錯誤；所有 PR 都要使用者人工審核，不可自行 merge。
-- main 最新：#388（2026-11-17 第十七次查看時）。本分支已合併 main 到 #388。
+- main 最新：#388（2026-11-17 第十八次查看時仍是）。本分支已合併 main 到 #388。
 - **main 已經有中心線連續性檢查**（#281、#328：`scripts/check-centerlines.mjs`、基準 `docs/centerline-known.json` 57 條，已在 `npm run check` 內）。本分支的 `check-centreline-continuity.mjs` 是另一套做法，見「待我決定」。
 - 開放 PR（下列是 2026-11-11 的清單；本機沒有 `gh`，之後沒有再查，main 已合併到 #338，清單很可能已過時）：
   - #223 心臟腔內構造與標籤（部分完成）
@@ -160,6 +160,12 @@
   - main 新增的七個腳本有同樣的 `URL.pathname` 寫法，在 Windows 會變成 `C:\C:\…`：`test-abducens-name`、`test-check-zh`、`test-joint-motion-table`、`check-deploy-content`、`audit-lr-names`、`build-ear-atlas`、`derive-jugular-shift`，全部改用 `fileURLToPath`。`check-deploy-content` 另外在 Windows 把相對路徑寫成 `docs\…`，對不上允許清單而誤報兩個檔，改成一律用 `/`。Linux／CI 行為不變。
   - 修正後本機通過：`test-abducens-name`、`test-check-zh`、`test-joint-motion-table`、`check-deploy-content`、`check-zh`（314 個檔）、`check-no-notes`、`tsc --noEmit`、七個 `test-centreline-*`（現在是 178 步中的第 152–158 步）。`audit-lr-names` 不再出現路徑錯誤，之後因本機沒有 `facial-stream.json.gz` 停下；`build-ear-atlas`、`derive-jugular-shift` 只做了語法檢查，**沒有實際執行**（需要原始資料）。完整 `npm run check` 因缺生成檔沒有跑。
   - 其餘不變：生成檔仍缺、`_diag-*.mjs` 與 `package-lock.json` 差異仍未提交、本機沒有 `gh`，未查 PR #248 的 CI。
+
+- 2026-11-17（第十八次）：只查狀態，沒有改程式、模型、解剖內容或網站。
+  - `git fetch` 後 main 仍在 #388，本分支已含全部 main 的 commit，不需要合併。
+  - `work/`、`serous/`、`female/` 仍不存在；`public/models/supplement/` 只有神經的 `.bin.gz`，沒有 `supplement-stream.json.gz`；`public/models/stream/` 不存在（跑考串流二進位檔仍缺）。連續性基準仍無法產生；沒有下載資料。
+  - 本機通過：七個 `test-centreline-*`（178 步中的第 152–158 步）、`check-no-notes`。
+  - 不需生成檔、又不改網站的工作已做完，其餘仍等「待我決定」。生成檔仍缺、`_diag-*.mjs` 四個與 `package-lock.json` 差異仍未提交、本機沒有 `gh`，未查 PR #248 的 CI。
 
 ## 進行中／等審核
 - S2 A–G、S3、S4、S6 相關工作都已有 PR（見上），等使用者審核。
