@@ -1,7 +1,7 @@
 # 器官詳細模式共用模板（內部設計文件）
 
 檔案：`app/organ/organ-detail-layout.tsx`（樣式沿用 `app/organ/organ.css`，class 名稱 `organ-*` 不變）。
-第一個使用者：腦（`app/organ/brain.tsx`）。之後眼、耳、胃肝腎等內臟詳細模式都用同一個模板，版面一致。
+使用者：腦（`app/organ/brain.tsx`）、眼（`app/organ/eye.tsx`，路由 `#/organ/eye`）。之後耳、胃肝腎等內臟詳細模式都用同一個模板，版面一致。
 
 ## 版面（所有詳細模式相同）
 
@@ -68,4 +68,5 @@
 ## 注意
 
 - 保持 class 名稱與 DOM 結構：`organ.css` 與既有測試（`scripts/test-select-no-camera.mjs`、`scripts/test-brain-smooth.mjs`）依賴它們；邏輯字串（如 `focusOn(selected.id)`）留在器官檔案內，不要搬進模板。
-- 心臟（`heart.tsx`）與眼耳（`micro-atlas.tsx`）目前不使用模板，之後各自的 PR 再接。
+- 心臟（`heart.tsx`）與耳（`micro-atlas.tsx`）目前不使用模板，之後各自的 PR 再接。
+- 眼：`eye.tsx`（頁面與狀態）、`eye-viewer.ts`（viewer）、`eye-catalogue.ts`（狀態型別與剝離次序）、`eye.css`（眼專屬區塊樣式）。眼球動作與眼眶孔管裂放在右欄 `extraBlocks`（可收合），頂部兩個功能掣會展開並捲到該區塊；分離滑桿也在 `extraBlocks`。眼的剝離次序由外而內寫在 `EYE_PEEL`。

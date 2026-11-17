@@ -5,7 +5,8 @@
 import fs from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {createStream, simplify, weldByPosition} from './lib/stream-writer.mjs';
-import {atlasPositions} from './lib/atlas-read.mjs';
+import {atlasPositions, atlasIndices} from './lib/atlas-read.mjs';
+import {femaleSkin, femaleSkinIndices} from './lib/female-skin.mjs';
 
 const root = new URL('../', import.meta.url), out = new URL('public/models/stream/', root), dir = new URL('public/models/female/', root);
 fs.mkdirSync(out, {recursive: true}); fs.mkdirSync(dir, {recursive: true});
@@ -52,6 +53,23 @@ for (const piece of source.pieces) {
   const name = rule[4] ? `${side} ${rule[1][0].toLowerCase()}${rule[1].slice(1)}` : rule[1];
   stream.add({id: `HRAF-${piece.node}`, conceptId: `HRAF-${piece.node}`, name, system: rule[3], sex: 'female', chineseName: (rule[4] ? (side === 'Left' ? '左' : '右') : '') + rule[2], sourceNode: piece.name}, p, ix);
   report.push(`${name}: ${welded.indices.length / 3} → ${ix.length / 3} tris`);
+}
+// Female body surface: the atlas skin is a male mesh (penis and scrotum are part of it), so the female view gets a copy with that part pressed back onto a smooth female groin
+// (scripts/lib/female-skin.mjs). Same vertices as the male skin (a few hidden triangles of the penis and scrotum layers are dropped), so it is skinned with the male skin's weights (scripts/alias-female-skin-weights.mjs).
+// The pubic hair patch is moved with it: each hair vertex takes the displacement of the nearest skin vertex, so the hair stays on the new surface.
+{
+  const skinPos = atlasPositions('Skin'), skinIdx = atlasIndices('Skin'), fp = femaleSkin(skinPos, skinIdx), fIdx = femaleSkinIndices(fp, skinIdx);
+  stream.add({id: 'HRAF-skin', conceptId: 'HRAF-skin', name: 'Skin', system: 'integumentary', sex: 'female', chineseName: '皮膚', sourceNode: 'BodyParts3D skin, groin reshaped'}, fp, fIdx);
+  const cell = .006, grid = new Map(), key = (x, y, z) => `${Math.floor(x / cell)},${Math.floor(y / cell)},${Math.floor(z / cell)}`;
+  for (let i = 0; i < skinPos.length; i += 3) { if (skinPos[i + 1] < .7 || skinPos[i + 1] > .98 || skinPos[i + 2] < 0) continue; const k = key(skinPos[i], skinPos[i + 1], skinPos[i + 2]); (grid.get(k) ?? grid.set(k, []).get(k)).push(i); }
+  const hairPos = atlasPositions('Pubic hair'), hairIdx = atlasIndices('Pubic hair'), moved = Float32Array.from(hairPos); let shifted = 0;
+  for (let i = 0; i < hairPos.length; i += 3) {
+    const cx = Math.floor(hairPos[i] / cell), cy = Math.floor(hairPos[i + 1] / cell), cz = Math.floor(hairPos[i + 2] / cell); let best = -1, bd = (2 * cell) ** 2;
+    for (let dx = -2; dx <= 2; dx++) for (let dy = -2; dy <= 2; dy++) for (let dz = -2; dz <= 2; dz++) for (const j of grid.get(`${cx + dx},${cy + dy},${cz + dz}`) ?? []) { const d = (skinPos[j] - hairPos[i]) ** 2 + (skinPos[j + 1] - hairPos[i + 1]) ** 2 + (skinPos[j + 2] - hairPos[i + 2]) ** 2; if (d < bd) { bd = d; best = j; } }
+    if (best >= 0) { for (let k = 0; k < 3; k++) moved[i + k] += fp[best + k] - skinPos[best + k]; shifted++; }
+  }
+  stream.add({id: 'HRAF-pubic-hair', conceptId: 'HRAF-pubic-hair', name: 'Pubic hair', system: 'integumentary', sex: 'female', chineseName: '陰毛', sourceNode: 'BodyParts3D pubic hair, moved with the reshaped groin'}, moved, hairIdx);
+  report.push(`Skin (female): ${skinPos.length / 3} vertices, groin reshaped; pubic hair: ${shifted} of ${hairPos.length / 3} vertices moved`);
 }
 // Pelvic bones: one hip bone per side (ilium + ischium + pubis compact bone), sacrum, coccyx.
 const bonesSource = JSON.parse(gunzipSync(fs.readFileSync(new URL('data/hra-female-pelvis-bones.json.gz', import.meta.url))));
@@ -122,13 +140,18 @@ const tube = (pts, radius, sides = 14) => {
   const pts = []; for (let k = 0; k <= 8; k++) { const y = neck[1] + (yEnd - neck[1]) * k / 8, z = k === 0 ? neck[2] : Math.max(frontAt(y), -Infinity) + .0045; pts.push([neck[0], y, Number.isFinite(z) ? z : neck[2]]); }
   await addMesh({name: 'Female urethra', system: 'urinary', chineseName: '女性尿道', schematic: true}, tube(pts, .003), 1200);
 }
-// Rectouterine pouch: the peritoneal recess between the back of the cervix and uterus and the front of the rectum (a flattened ellipsoid in the gap, schematic).
+// Rectouterine pouch: the peritoneal recess behind the cervix, the posterior vaginal fornix and the uterus, in front of the rectum (a flattened sac, schematic).
+// At every height the sac sits half way between the back of the uterus, cervix and upper vagina and the front of the rectum, and its lowest point is at the posterior fornix.
+// (An earlier version took the middle of a gap measured at one height where the cervix does not reach, read the missing value as 0 and so lay about 2 cm too far forward, inside the cervix and vagina.)
 {
-  const uterus = merged(source.pieces.filter(q => /^VH_F_(cervix|lower_uterine_segment|body_of_uterus)$/.test(q.name)).map(mapped)).positions, rectum = atlasPositions('Rectum');
-  const slab = (P, y, xw, pick) => { let r = pick === 'min' ? Infinity : -Infinity, any = false; for (let i = 0; i < P.length; i += 3) if (Math.abs(P[i + 1] - y) < .004 && Math.abs(P[i]) < xw) { r = pick === 'min' ? Math.min(r, P[i + 2]) : Math.max(r, P[i + 2]); any = true; } return any ? r : null; };
-  const y0 = .875, ys = [.86, .87, .88, .89], gaps = ys.map(y => (slab(uterus, y, .02, 'min') ?? 0) - (slab(rectum, y, .025, 'max') ?? 0)), c0 = (slab(uterus, y0, .02, 'min') + slab(rectum, y0, .025, 'max')) / 2;
-  const half = Math.max(.0015, Math.min(.006, Math.min(...gaps) / 2 - .001)), cx = centroid(uterus)[0], pos = [], idx = [], nu = 24, nv = 14;
-  for (let a = 0; a <= nv; a++) for (let b = 0; b < nu; b++) { const th = Math.PI * a / nv, ph = 2 * Math.PI * b / nu; pos.push(cx + .022 * Math.sin(th) * Math.cos(ph), y0 + .02 * Math.cos(th), c0 + half * Math.sin(th) * Math.sin(ph)); }
+  const front = merged(source.pieces.filter(q => /^VH_F_(cervix|lower_uterine_segment|body_of_uterus|vagina|cervicovaginal_junction)$/.test(q.name)).map(mapped)).positions, rectum = atlasPositions('Rectum');
+  const slab = (P, y, xw, pick) => { let r = pick === 'min' ? Infinity : -Infinity, any = false; for (let i = 0; i < P.length; i += 3) if (Math.abs(P[i + 1] - y) < .003 && Math.abs(P[i]) < xw) { r = pick === 'min' ? Math.min(r, P[i + 2]) : Math.max(r, P[i + 2]); any = true; } return any ? r : null; };
+  const yLow = .876, yHigh = .905, rows = [];
+  for (let y = yLow; y <= yHigh + 1e-9; y += .001) { const back = slab(front, y, .02, 'min'), rect = slab(rectum, y, .025, 'max'); if (back !== null && rect !== null && back > rect) rows.push({y, c: (back + rect) / 2, half: Math.max(.0012, Math.min(.004, (back - rect) / 2 - .0008))}); }
+  if (rows.length < 16) throw new Error('rectouterine pouch: no gap between the uterus/vagina and the rectum');
+  const at = (y, k) => { const r = rows; if (y <= r[0].y) return r[0][k]; for (let i = 1; i < r.length; i++) if (y <= r[i].y) { const t = (y - r[i - 1].y) / (r[i].y - r[i - 1].y); return r[i - 1][k] + t * (r[i][k] - r[i - 1][k]); } return r[r.length - 1][k]; };
+  const yTop = rows[rows.length - 1].y - .001, y0 = (yLow + yTop) / 2, ry = (yTop - yLow) / 2, cx = centroid(front)[0], pos = [], idx = [], nu = 24, nv = 14;
+  for (let a = 0; a <= nv; a++) for (let b = 0; b < nu; b++) { const th = Math.PI * a / nv, ph = 2 * Math.PI * b / nu, y = y0 + ry * Math.cos(th); pos.push(cx + .022 * Math.sin(th) * Math.cos(ph), y, at(y, 'c') + at(y, 'half') * Math.sin(th) * Math.sin(ph)); }
   for (let a = 0; a < nv; a++) for (let b = 0; b < nu; b++) { const i = a * nu + b, j = a * nu + (b + 1) % nu; idx.push(i, j, i + nu, j, j + nu, i + nu); }
   await addMesh({name: 'Rectouterine pouch', system: 'serous', chineseName: '直腸子宮陷凹', schematic: true}, {positions: Float32Array.from(pos), indices: Uint32Array.from(idx)}, 1500);
 }

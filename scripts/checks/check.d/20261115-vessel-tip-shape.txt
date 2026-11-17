@@ -1,0 +1,2 @@
+# Smooth vessel ends shaped in the vessels own meshes (PR: vessel thorns).
+node scripts/test-vessel-tip-shape.mjs

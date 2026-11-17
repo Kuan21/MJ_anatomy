@@ -63,7 +63,7 @@ export const BRAIN_EXCLUSION_REASONS: Record<BrainExclusion, string> = {
   schematic: '示意構造：模型本身沒有，主站腦部畫面以橢球或管狀示意形狀補上；測驗只用真實網格，不考示意形狀',
   meninges: '腦膜（硬腦膜反摺）：包覆整個腦，會遮住其他題目，主站腦部畫面預設也關閉',
   'not-brain': '屬於脊髓或脊椎的構造（脊髓、脊髓動脈、椎動脈）：主站腦部畫面同樣不畫',
-  'peripheral-nerve': '走在顱外（臉、下頷）或硬腦膜上的腦神經分支：主站腦部畫面預設關閉，只留腦神經根部',
+  'peripheral-nerve': '走在顱外（臉、下頜）或硬腦膜上的腦神經分支：主站腦部畫面預設關閉，只留腦神經根部',
   'no-drawable-mesh': '來源模型中沒有可畫的網格',
   'no-chinese-name': '缺中文名',
   'name-not-unique': '名稱與同部位其他構造重複（打出名稱沒有唯一答案）',

@@ -82,6 +82,17 @@ else{
   for(const id of o.contents){const pos=P(id);let near=Infinity;for(let i=0;i<pos.length;i+=3)for(const m of marked)near=Math.min(near,Math.hypot(pos[i]-m[0],pos[i+1]-m[1],pos[i+2]-m[2]));if(near>.006)fail(`opening ${o.id}: ${id} does not pass the marked bone`);}
  }
  if(Object.keys(byId).length!==EYE_OPENINGS.length)fail('openings in the package and in the list differ');
+ {// built infraorbital nerve: from behind the globe, under it, to the front of the maxilla below the orbit; its exit is the infraorbital foramen, below the supraorbital foramen on about the same vertical line
+  const nerve=manifest.parts.find(p=>p.id==='infraorbital-nerve'),exit=byId['infraorbital-foramen']?.center,sup=byId['supraorbital-foramen']?.center;
+  if(!nerve||!exit||!sup)fail('infraorbital nerve or foramen missing');
+  else{
+   const pos=P('infraorbital-nerve');let inside=0;
+   for(let i=0;i<pos.length;i+=3)if(Math.hypot(pos[i]-C[0],pos[i+1]-C[1],pos[i+2]-C[2])<g.length/2)inside++;
+   if(inside)fail('infraorbital nerve passes through the globe');
+   if(!(nerve.bounds[0][2]<C[2]-.02&&nerve.bounds[1][2]>C[2]+.005&&nerve.bounds[1][1]<C[1]))fail('infraorbital nerve does not run from behind the globe to the face below it');
+   if(!(exit[1]<C[1]-.02&&exit[2]>C[2]&&Math.abs(exit[0]-sup[0])<.004&&Object.keys(byId['infraorbital-foramen'].bones).join()==='FJ3269'))fail('infraorbital foramen is not on the front of the maxilla below the supraorbital foramen');
+  }
+ }
  {// foramina: the supraorbital foramen is on the frontal bone in front of and above the globe; the ethmoidal foramina are on the medial wall, the posterior behind the anterior and both in front of the optic canal
   const at=id=>byId[id]?.center,sup=at('supraorbital-foramen'),ant=at('anterior-ethmoidal-foramen'),post=at('posterior-ethmoidal-foramen'),canalAt=at('optic-canal');
   if(sup&&ant&&post&&canalAt){
@@ -98,4 +109,4 @@ else{
  }
 }
 if(problems.length){console.error(`Eye atlas: ${problems.length} problem(s)`);for(const p of problems.slice(0,20))console.error(' - '+p);process.exit(1);}
-console.log(`Eye atlas ok: ${manifest.parts.length} parts in ${EYE_LAYERS.length} layers, all described in English and Chinese; globe registered on the body orbit; rectus insertions, oblique insertions, scleral clearance, optic nerve and the six openings of the orbit checked.`);
+console.log(`Eye atlas ok: ${manifest.parts.length} parts in ${EYE_LAYERS.length} layers, all described in English and Chinese; globe registered on the body orbit; rectus insertions, oblique insertions, scleral clearance, optic nerve and the built infraorbital nerve and the seven openings of the orbit checked.`);

@@ -1,0 +1,2 @@
+node scripts/test-ear-atlas.mjs
+node scripts/test-quiz-ear.mjs

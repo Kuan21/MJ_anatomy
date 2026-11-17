@@ -233,6 +233,11 @@
 | 題目 | 中文 | 也接受 | 只算接近 |
 | --- | --- | --- | --- |
 
+## 耳（ear）：0 個構造
+
+| 題目 | 中文 | 也接受 | 只算接近 |
+| --- | --- | --- | --- |
+
 ## 頭頸（head-neck）：52 個構造
 
 | 題目 | 中文 | 也接受 | 只算接近 |
@@ -282,11 +287,11 @@
 | Aponeurosis of epicranius | 帽狀腱膜 | epicranial aponeurosis |  |
 | Orbital part of right orbicularis oculi | 右眼輪匝肌眶部 | right orbicularis oculi／右眼輪匝肌（整條肌肉） |  |
 | Palpebral part of right orbicularis oculi | 右眼輪匝肌瞼部 | right orbicularis oculi／右眼輪匝肌（整條肌肉） |  |
-| Superficial part of right masseter | 右咬肌淺部 | right masseter／右咬肌（整條肌肉） |  |
 | Deep part of right masseter | 右咬肌深部 | right masseter／右咬肌（整條肌肉） |  |
+| Superficial part of right masseter | 右咬肌淺部 | right masseter／右咬肌（整條肌肉） |  |
 | Lower head of right lateral pterygoid | 右外翼肌下頭 | right lateral pterygoid／右外翼肌（整條肌肉） |  |
 | Upper head of right lateral pterygoid | 右外翼肌上頭 | right lateral pterygoid／右外翼肌（整條肌肉） |  |
 | Left great auricular nerve | 左耳大神經 | greater auricular nerve |  |
 | Left articular capsule of temporomandibular joint | 左顳顎關節囊 | tmj capsule |  |
-| Left lateral temporomandibular ligament | 左顳顎外側韌帶 | temporomandibular ligament |  |
+| Right lateral temporomandibular ligament | 右顳顎外側韌帶 | temporomandibular ligament |  |
 

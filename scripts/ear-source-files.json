@@ -1,0 +1,32 @@
+{
+ "note": "Source meshes of the ear atlas (not kept in the repository). Directory layout of --source: iemap/*.vtk and openear/*.ply|obj. sha256 pins the files the atlas was built from.",
+ "iemap": {
+  "license": "CC BY 4.0", "url": "https://github.com/pydsgz/IEMap (data/, Git LFS: https://media.githubusercontent.com/media/pydsgz/IEMap/master/data/<file>)",
+  "files": {
+   "ls_Hsapiens_Aa.vtk": "5cd975d220a083b00974dc4359df1357794a3de55dc655975d7cd9615a5a3b2d",
+   "ls_Hsapiens_Al.vtk": "3fe81111311373545defe26581ab3d36de4f222cec4507ce1b8b7429078add7f",
+   "ls_Hsapiens_Ap.vtk": "6962851bba7fc5a9f80f6a665e5756a09a99ba45eed17208161502578f6e9e21",
+   "ls_Hsapiens_Sa.vtk": "e9ceca62d1e0cce89e7daf8d3a76872313ac566eb93222f70790ac1b5c2d0538",
+   "ls_Hsapiens_Sl.vtk": "14219b72ab4b9df3f9b9750f89ca7e8b88aad9aa74cf6d111eb800463f02ffaa",
+   "ls_Hsapiens_Sp.vtk": "bc71028c27c970180139a44271522788a8d126cec8b92ff5aa991be62f173a8f",
+   "ls_Hsapiens_utricle.vtk": "f1afbe3ebbce3b608f2d252db99f209704b95207e9c49c66e64b307bd8cd1309",
+   "mesh_david_sacculus.vtk": "ec8ea3fdc7c1d23f055b82a108e3780df9cb48cafdc1609e83aea95bc4824434",
+   "seg_coch_inner_scala_tympani.vtk": "f6e991653b075a73972ee65957dc86279a9ff921010d590c30f827779290204d",
+   "seg_coch_inner_scala_vestibuli.vtk": "742e3750f14d0e959d62027307a001b7b0cfe30482df8e0e050007f2e05174b5"
+  }
+ },
+ "openear": {
+  "license": "CC BY 4.0", "url": "https://doi.org/10.5281/zenodo.4362584 (example set, specimen Delta; https://zenodo.org/api/records/4362584/files/<file>/content)",
+  "files": {
+   "ChordaTympani.ply": "49b1c526a8ef9e1552ad8f25ebed1b6ff9705077f8f75d60f8b9748d4985fe28",
+   "CochlearNerve.ply": "3c97a401f9d1afbd2585cdab2e016525d92366c08c7c39bcd941acfe51e26446",
+   "FacialisT.obj": "6e5d53a084b3f6554d13ca9f1e237567d4e6a56736203a86c63d3cec58d2fe39",
+   "Incus.ply": "899e454d194870fd9c8b441766cc63d6573229b3cdf0c74f524b01f632886269",
+   "Malleus.ply": "3342f8436333da6a94089ff243d997d9dd6c83900513ffe12f154a5255a6601d",
+   "ScalaTympani.ply": "1c89139de3a139c5e10c4b8c4ab9722d5a6f50b5f0e441e37de986c6951a038c",
+   "ScalaVestibuli.ply": "1b11eaef984b0ed1502bb2e012a449ae5d4f05364d71b532b2f5cbb6275d8479",
+   "Stapes.ply": "b3dce1b78ab5d4e8f66526acb1ed504623275bd9f0a31c072621419ea2e7036e",
+   "TympanicMembrane.ply": "8630b7745cd259462668b6c524be1a7ae9e197d67edebbbaf059c4e7ae767775"
+  }
+ }
+}

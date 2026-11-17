@@ -492,7 +492,7 @@
 - 肋間神經（intercostal nerves）：缺 來源、走向、主要分支、支配範圍
 - 交感神經（sympathetic nerves）：缺 來源、走向、主要分支、支配範圍
 
-### 動脈：6 / 18 項資料完整
+### 動脈：7 / 18 項資料完整
 
 - 胸主動脈（Descending thoracic aorta）：缺 來源、走向、主要分支、供應範圍
 - 食道動脈（Esophageal artery）：缺 來源、走向、主要分支、供應範圍
@@ -505,7 +505,6 @@
 - 頭臂動脈（Brachiocephalic artery）：缺 來源、走向、主要分支、供應範圍
 - 降主動脈（Descending aorta）：缺 來源、走向、主要分支、供應範圍
 - 鎖骨下動脈（subclavian artery）：缺 來源、走向、主要分支、供應範圍
-- 總頸動脈（common carotid artery）：缺 來源、走向、主要分支、供應範圍
 
 ### 靜脈：2 / 14 項資料完整
 
@@ -642,20 +641,20 @@
 
 ### 神經：8 / 15 項資料完整
 
-- 三叉神經感覺根（Sensory root of trigeminal nerve）：缺 資料卡
-- 三叉神經運動根（Motor root of trigeminal nerve）：缺 資料卡
-- 外旋神經（第六對腦神經）（Abducens nerve (VI)）：缺 資料卡
-- 副神經（第十一對腦神經）（Accessory nerve (XI)）：缺 資料卡
-- 上頷神經（Maxillary nerve）：缺 資料卡
-- 嗅神經（第一對腦神經）（Olfactory nerve (I)）：缺 資料卡
-- 眼神經（Ophthalmic nerve）：缺 資料卡
+- 三叉神經感覺根（sensory root of trigeminal nerve）：缺 資料卡
+- 三叉神經運動根（motor root of trigeminal nerve）：缺 資料卡
+- 外旋神經（第六對腦神經）（abducens nerve (VI)）：缺 資料卡
+- 副神經（第十一對腦神經）（accessory nerve (XI)）：缺 資料卡
+- 上頜神經（maxillary nerve）：缺 資料卡
+- 嗅神經（第一對腦神經）（olfactory nerve (I)）：缺 資料卡
+- 眼神經（ophthalmic nerve）：缺 資料卡
 
 ### 動脈：19 / 23 項資料完整
 
-- 胼胝體邊緣動脈（Callosomarginal artery）：缺 資料卡
-- 胼胝體邊緣動脈額支（Frontal branches of callosomarginal artery）：缺 資料卡
-- 大腦前動脈眶額支（Orbitofrontal branches of anterior cerebral artery）：缺 資料卡
-- 胼胝體周動脈（Pericallosal artery）：缺 資料卡
+- 胼胝體邊緣動脈（callosomarginal artery）：缺 資料卡
+- 胼胝體邊緣動脈額支（frontal branches of callosomarginal artery）：缺 資料卡
+- 大腦前動脈眶額支（orbitofrontal branches of anterior cerebral artery）：缺 資料卡
+- 胼胝體周動脈（pericallosal artery）：缺 資料卡
 
 ### 靜脈：3 / 12 項資料完整
 
@@ -664,72 +663,87 @@
 - 下矢狀竇（Inferior sagittal sinus）：缺 資料卡
 - 枕竇（Occipital sinus）：缺 資料卡
 - 後海綿間竇（Posterior intercavernous sinus）：缺 資料卡
-- 乙狀竇（Sigmoid sinus）：缺 資料卡
+- 乙狀竇（sigmoid sinus）：缺 資料卡
 - 直竇（Straight sinus）：缺 資料卡
 - 上矢狀竇（Superior sagittal sinus）：缺 資料卡
-- 橫竇（Transverse sinus）：缺 資料卡
+- 橫竇（transverse sinus）：缺 資料卡
 
-### 腦構造：122 / 175 項資料完整
+### 腦構造：122 / 176 項資料完整
 
-- 枕極（Occipital pole）：缺 資料卡
-- 頂枕溝（Parieto-occipital sulcus）：缺 資料卡
-- 頂下溝（Subparietal sulcus）：缺 資料卡
-- 側副溝（Collateral sulcus）：缺 資料卡
-- 枕前溝（Anterior occipital sulcus）：缺 資料卡
-- 眶回（額緣回及溝）（Orbital gyri (Frontomarginal gyrus and sulcus)）：缺 資料卡
-- 中央旁小葉及溝（Paracentral gyrus and sulcus）：缺 資料卡
-- 橫額極回及溝（Transverse frontopolar gyrus and sulcus）：缺 資料卡
-- 額下溝（Inferior frontal sulcus）：缺 資料卡
-- 額上溝（Superior frontal sulcus）：缺 資料卡
-- 中央旁溝（Paracentral sulcus）：缺 資料卡
-- 眶溝（H 形眶溝）（Orbital sulci (H-shaped orbital sulci)）：缺 資料卡
-- 眶溝（外側眶溝）（Orbital sulci (Lateral Orbital sulcus)）：缺 資料卡
-- 中央前溝（下部）（Precentral sulcus (inferior part)）：缺 資料卡
-- 中央前溝（上部）（Precentral sulcus (Superior part)）：缺 資料卡
-- 中央後溝（Postcentral sulcus）：缺 資料卡
-- 楔前葉（Precuneus）：缺 資料卡
-- 頂內溝（Intraparietal sulcus）：缺 資料卡
-- 舌回（Lingual gyrus）：缺 資料卡
-- 距狀溝（Calcarine sulcus）：缺 資料卡
-- 楔葉（Cuneus）：缺 資料卡
-- 月狀溝（Lunate sulcus）：缺 資料卡
-- 枕橫溝（Transverse occipital sulcus）：缺 資料卡
-- 顳橫回（Transverse temporal gyri）：缺 資料卡
-- 外側枕顳回（Lateral occipitotemporal gyrus）：缺 資料卡
-- 顳下溝（Inferior temporal sulcus）：缺 資料卡
-- 顳上溝（Superior temporal sulcus）：缺 資料卡
-- 枕顳溝（外側部）（Occipitotemporal sulcus (Lateral part)）：缺 資料卡
+- 枕極（occipital pole）：缺 資料卡
+- 頂枕溝（parieto-occipital sulcus）：缺 資料卡
+- 頂下溝（subparietal sulcus）：缺 資料卡
+- 側副溝（collateral sulcus）：缺 資料卡
+- 枕前溝（anterior occipital sulcus）：缺 資料卡
+- 眶回（額緣回及溝）（orbital gyri (Frontomarginal gyrus and sulcus)）：缺 資料卡
+- 中央旁小葉及溝（paracentral gyrus and sulcus）：缺 資料卡
+- 橫額極回及溝（transverse frontopolar gyrus and sulcus）：缺 資料卡
+- 額下溝（inferior frontal sulcus）：缺 資料卡
+- 額上溝（superior frontal sulcus）：缺 資料卡
+- 中央旁溝（paracentral sulcus）：缺 資料卡
+- 眶溝（H 形眶溝）（orbital sulci (H-shaped orbital sulci)）：缺 資料卡
+- 眶溝（外側眶溝）（orbital sulci (Lateral Orbital sulcus)）：缺 資料卡
+- 中央前溝（下部）（precentral sulcus (inferior part)）：缺 資料卡
+- 中央前溝（上部）（precentral sulcus (Superior part)）：缺 資料卡
+- 中央後溝（postcentral sulcus）：缺 資料卡
+- 楔前葉（precuneus）：缺 資料卡
+- 頂內溝（intraparietal sulcus）：缺 資料卡
+- 舌回（lingual gyrus）：缺 資料卡
+- 距狀溝（calcarine sulcus）：缺 資料卡
+- 楔葉（cuneus）：缺 資料卡
+- 月狀溝（lunate sulcus）：缺 資料卡
+- 枕橫溝（transverse occipital sulcus）：缺 資料卡
+- 顳橫回（transverse temporal gyri）：缺 資料卡
+- 外側枕顳回（lateral occipitotemporal gyrus）：缺 資料卡
+- 顳下溝（inferior temporal sulcus）：缺 資料卡
+- 顳上溝（superior temporal sulcus）：缺 資料卡
+- 枕顳溝（外側部）（occipitotemporal sulcus (Lateral part)）：缺 資料卡
 - 透明中隔（Septum pellucidum）：缺 資料卡
-- 後橫側副溝（Posterior transverse collateral sulcus）：缺 資料卡
-- 中間初級溝（Jensen 溝）（Intermediate primary sulcus (of Jensen)）：缺 資料卡
+- 後橫側副溝（posterior transverse collateral sulcus）：缺 資料卡
+- 中間初級溝（Jensen 溝）（intermediate primary sulcus (of Jensen)）：缺 資料卡
 - 韁核（Habenula）：缺 資料卡
-- 大腦腳底（Base of peduncle）：缺 資料卡
-- 上泌涎核（Superior salivatory nucleus）：缺 資料卡
-- 小腦扁桃體（Tonsil of cerebellum）：缺 資料卡
-- 絨球腳（Peduncle of flocculus）：缺 資料卡
+- 大腦腳底（base of peduncle）：缺 資料卡
+- 上泌涎核（superior salivatory nucleus）：缺 資料卡
+- 小腦扁桃體（tonsil of cerebellum）：缺 資料卡
+- 絨球腳（peduncle of flocculus）：缺 資料卡
 - 蚓小結（Nodule of vermis）：缺 資料卡
-- 蒼白球外側部（Globus pallidus external）：缺 資料卡
-- 蒼白球內側部（Globus pallidus internal）：缺 資料卡
-- 視丘前核群（Anterior nuclei of thalamus）：缺 資料卡
-- 背內側核（Mediodorsal nucleus）：缺 資料卡
-- 板內核群及外側後核（Intralaminar and lateral posterior nuclei）：缺 資料卡
-- 基底外側複合體（Basolateral complex）：缺 資料卡
-- 中央核（Central nucleus）：缺 資料卡
-- 皮質內側核群（Corticomedial group）：缺 資料卡
-- 視前下視丘（Preoptic hypothalamus）：缺 資料卡
-- 下視丘前部（Anterior hypothalamus）：缺 資料卡
-- 下視丘外側部（Lateral hypothalamus）：缺 資料卡
-- 下視丘後部（Posterior hypothalamus）：缺 資料卡
+- 蒼白球外側部（globus pallidus external）：缺 資料卡
+- 蒼白球內側部（globus pallidus internal）：缺 資料卡
+- 視丘前核群（anterior nuclei of thalamus）：缺 資料卡
+- 背內側核（mediodorsal nucleus）：缺 資料卡
+- 板內核群及外側後核（intralaminar and lateral posterior nuclei）：缺 資料卡
+- 基底外側複合體（basolateral complex）：缺 資料卡
+- 中央核（central nucleus）：缺 資料卡
+- 皮質內側核群（corticomedial group）：缺 資料卡
+- 視前下視丘（preoptic hypothalamus）：缺 資料卡
+- 下視丘前部（anterior hypothalamus）：缺 資料卡
+- 下視丘外側部（lateral hypothalamus）：缺 資料卡
+- 下視丘後部（posterior hypothalamus）：缺 資料卡
 - 松果體（Pineal gland）：缺 資料卡
-- 皮質紋狀體徑（前）（Corticostriatal tract (anterior)）：缺 資料卡
-- 皮質紋狀體徑（後）（Corticostriatal tract (posterior)）：缺 資料卡
-- 皮質紋狀體徑（上）（Corticostriatal tract (superior)）：缺 資料卡
+- 皮質紋狀體徑（前）（corticostriatal tract (anterior)）：缺 資料卡
+- 皮質紋狀體徑（後）（corticostriatal tract (posterior)）：缺 資料卡
+- 皮質紋狀體徑（上）（corticostriatal tract (superior)）：缺 資料卡
+- 穹窿體（Body of fornix）：缺 資料卡
+
+## 耳（Ear）
+
+### 骨骼：3 / 3 項資料完整
+
+（全部完整）
+
+### 神經：3 / 3 項資料完整
+
+（全部完整）
+
+### 耳構造：16 / 16 項資料完整
+
+（全部完整）
 
 ## 頭頸（Head and neck）
 
 ### 骨骼：0 / 28 項資料完整
 
-- 舌骨（Hyoid bone）：缺 主要標誌、相關關節、附著肌肉
+- 舌骨（Hyoid bone）：缺 附著肌肉
 - 第三頸椎（Third cervical vertebra）：缺 附著肌肉
 - 第四頸椎（Fourth cervical vertebra）：缺 附著肌肉
 - 第五頸椎（Fifth cervical vertebra）：缺 附著肌肉
@@ -737,96 +751,91 @@
 - 第七頸椎（Seventh cervical vertebra）：缺 附著肌肉
 - 寰椎（Atlas）：缺 附著肌肉
 - 樞椎（Axis）：缺 附著肌肉
-- 篩骨（Ethmoid）：缺 主要標誌、相關關節、附著肌肉
-- 額骨（Frontal bone）：缺 主要標誌、相關關節、附著肌肉
+- 篩骨（Ethmoid）：缺 附著肌肉
+- 額骨（Frontal bone）：缺 附著肌肉
 - 第二頸椎椎間盤（Intervertebral disk of axis）：缺 主要標誌、相關關節、附著肌肉
 - 第三頸椎椎間盤（Intervertebral disk of third cervical vertebra）：缺 主要標誌、相關關節、附著肌肉
 - 第四頸椎椎間盤（Intervertebral disk of fourth cervical vertebra）：缺 主要標誌、相關關節、附著肌肉
 - 第五頸椎椎間盤（Intervertebral disk of fifth cervical vertebra）：缺 主要標誌、相關關節、附著肌肉
 - 第六頸椎椎間盤（Intervertebral disk of sixth cervical vertebra）：缺 主要標誌、相關關節、附著肌肉
 - 第七頸椎椎間盤（Intervertebral disk of seventh cervical vertebra）：缺 主要標誌、相關關節、附著肌肉
-- 下鼻甲（inferior nasal concha）：缺 主要標誌、相關關節、附著肌肉
-- 淚骨（lacrimal bone）：缺 主要標誌、相關關節、附著肌肉
-- 上頜骨（maxilla）：缺 主要標誌、相關關節、附著肌肉
-- 鼻骨（nasal bone）：缺 主要標誌、相關關節、附著肌肉
-- 顎骨（palatine bone）：缺 主要標誌、相關關節、附著肌肉
-- 頂骨（parietal bone）：缺 主要標誌、相關關節、附著肌肉
-- 顳骨（temporal bone）：缺 主要標誌、相關關節、附著肌肉
-- 顴骨（zygomatic bone）：缺 主要標誌、相關關節、附著肌肉
-- 下頜骨（Mandible）：缺 主要標誌、相關關節、附著肌肉
+- 下鼻甲（inferior nasal concha）：缺 附著肌肉
+- 淚骨（lacrimal bone）：缺 附著肌肉
+- 上頜骨（maxilla）：缺 附著肌肉
+- 鼻骨（nasal bone）：缺 附著肌肉
+- 顎骨（palatine bone）：缺 附著肌肉
+- 頂骨（parietal bone）：缺 附著肌肉
+- 顳骨（temporal bone）：缺 附著肌肉
+- 顴骨（zygomatic bone）：缺 附著肌肉
+- 下頜骨（Mandible）：缺 附著肌肉
 - 枕骨（Occipital bone）：缺 附著肌肉
-- 蝶骨（Sphenoid bone）：缺 主要標誌、相關關節、附著肌肉
-- 犁骨（Vomer）：缺 主要標誌、相關關節、附著肌肉
+- 蝶骨（Sphenoid bone）：缺 附著肌肉
+- 犁骨（Vomer）：缺 附著肌肉
 
 ### 肌肉：80 / 86 項資料完整
 
 - 咽下縮肌（inferior pharyngeal constrictor）：缺 血液供應
 - 咽中縮肌（middle pharyngeal constrictor）：缺 血液供應
-- 腭咽肌（palatopharyngeus）：缺 血液供應
+- 顎咽肌（palatopharyngeus）：缺 血液供應
 - 咽鼓管咽肌（salpingopharyngeus）：缺 血液供應
 - 莖突咽肌（stylopharyngeus）：缺 血液供應
 - 咽上縮肌（superior pharyngeal constrictor）：缺 血液供應
 
 ### 神經：1 / 44 項資料完整
 
-- 前篩神經（anterior ethmoidal nerve）：缺 來源、走向、主要分支、支配範圍
-- 睫狀神經節（ciliary ganglion）：缺 來源、走向、主要分支、支配範圍
-- 額神經（frontal nerve）：缺 來源、走向、主要分支、支配範圍
-- 動眼神經下支（Inferior branch of left oculomotor nerve）：缺 來源、走向、主要分支、支配範圍
-- 滑車下神經（infratrochlear nerve）：缺 來源、走向、主要分支、支配範圍
-- 淚腺神經（lacrimal nerve）：缺 來源、走向、主要分支、支配範圍
-- 鼻睫神經（nasociliary nerve）：缺 來源、走向、主要分支、支配範圍
-- 後篩神經（posterior ethmoidal nerve）：缺 來源、走向、主要分支、支配範圍
-- 長睫神經（long ciliary nerve）：缺 來源、走向、主要分支、支配範圍
-- 短睫神經（short ciliary nerve）：缺 來源、走向、主要分支、支配範圍
-- 動眼神經上支（Superior branch of left oculomotor nerve）：缺 來源、走向、主要分支、支配範圍
-- 眶上神經（supra-orbital nerve）：缺 來源、走向、主要分支、支配範圍
-- 滑車上神經（supratrochlear nerve）：缺 來源、走向、主要分支、支配範圍
-- 嗅神經（第一對腦神經）（olfactory nerve (I)）：缺 來源、走向、主要分支、支配範圍
-- 視神經（第二對腦神經）（optic nerve (II)）：缺 來源、走向、主要分支、支配範圍
-- 動眼神經（第三對腦神經）（oculomotor nerve (III)）：缺 來源、走向、主要分支、支配範圍
+- 前篩神經（anterior ethmoidal nerve）：缺 主要分支
+- 睫狀神經節（ciliary ganglion）：缺 主要分支
+- 額神經（frontal nerve）：缺 主要分支
+- 動眼神經下支（Inferior branch of left oculomotor nerve）：缺 主要分支
+- 滑車下神經（infratrochlear nerve）：缺 主要分支
+- 淚腺神經（lacrimal nerve）：缺 主要分支
+- 鼻睫神經（nasociliary nerve）：缺 主要分支
+- 後篩神經（posterior ethmoidal nerve）：缺 主要分支
+- 長睫神經（long ciliary nerve）：缺 主要分支
+- 短睫神經（short ciliary nerve）：缺 主要分支
+- 動眼神經上支（Superior branch of left oculomotor nerve）：缺 主要分支
+- 眶上神經（supra-orbital nerve）：缺 主要分支
+- 滑車上神經（supratrochlear nerve）：缺 主要分支
+- 嗅神經（第一對腦神經）（olfactory nerve (I)）：缺 主要分支
+- 視神經（第二對腦神經）（optic nerve (II)）：缺 主要分支
+- 動眼神經（第三對腦神經）（oculomotor nerve (III)）：缺 主要分支
 - 三叉神經感覺根（sensory root of trigeminal nerve）：缺 來源、走向、主要分支、支配範圍
 - 三叉神經（第五對腦神經）（trigeminal nerve (V)）：缺 主要分支
 - 下齒槽神經（inferior alveolar nerve）：缺 主要分支
 - 頦神經（mental nerve）：缺 主要分支
-- 下頷舌骨肌神經（nerve to mylohyoid muscle）：缺 主要分支
+- 下頜舌骨肌神經（nerve to mylohyoid muscle）：缺 主要分支
 - 頰神經（buccal nerve）：缺 主要分支
-- 下頷神經後股（posterior division of mandibular nerve）：缺 主要分支
-- 下頷神經前股（anterior division of mandibular nerve）：缺 主要分支
-- 舌神經（lingual nerve）：缺 來源、走向、主要分支、支配範圍
-- 上頷神經（maxillary nerve）：缺 主要分支
+- 下頜神經後股（posterior division of mandibular nerve）：缺 主要分支
+- 下頜神經前股（anterior division of mandibular nerve）：缺 主要分支
+- 舌神經（lingual nerve）：缺 主要分支
+- 上頜神經（maxillary nerve）：缺 主要分支
 - 眼神經（ophthalmic nerve）：缺 主要分支
-- 上頷神經腦膜支（meningeal branch of maxillary nerve）：缺 來源、走向、主要分支、支配範圍
+- 上頜神經腦膜支（meningeal branch of maxillary nerve）：缺 主要分支
 - 三叉神經運動根（motor root of trigeminal nerve）：缺 來源、走向、主要分支、支配範圍
 - 顏面神經（第七對腦神經）（facial nerve (VII)）：缺 主要分支
-- 前庭神經（vestibular nerve）：缺 來源、走向、主要分支、支配範圍
-- 耳蝸神經（cochlear nerve）：缺 來源、走向、主要分支、支配範圍
-- 前庭耳蝸神經（第八對腦神經）（vestibulocochlear nerve (VIII)）：缺 來源、走向、主要分支、支配範圍
+- 前庭神經（vestibular nerve）：缺 主要分支
+- 耳蝸神經（cochlear nerve）：缺 主要分支
+- 前庭耳蝸神經（第八對腦神經）（vestibulocochlear nerve (VIII)）：缺 主要分支
 - 舌咽神經（第九對腦神經）（glossopharyngeal nerve (IX)）：缺 主要分支
 - 迷走神經（第十對腦神經）（vagus nerve (X)）：缺 主要分支
 - 舌下神經（第十二對腦神經）（hypoglossal nerve (XII)）：缺 主要分支
-- 外旋神經（第六對腦神經）（abducens nerve (VI)）：缺 來源、走向、主要分支、支配範圍
-- 滑車神經（第四對腦神經）（trochlear nerve (IV)）：缺 來源、走向、主要分支、支配範圍
+- 外旋神經（第六對腦神經）（abducens nerve (VI)）：缺 主要分支
+- 滑車神經（第四對腦神經）（trochlear nerve (IV)）：缺 主要分支
 - 枕下神經（suboccipital nerve）：缺 主要分支
 - 枕大神經（greater occipital nerve）：缺 主要分支
 - 第三枕神經（third occipital nerve）：缺 主要分支
 - 枕小神經（lesser occipital nerve）：缺 主要分支
 - 耳大神經（great auricular nerve）：缺 主要分支
 
-### 動脈：2 / 8 項資料完整
+### 動脈：7 / 8 項資料完整
 
-- 眼動脈（ophthalmic artery）：缺 來源、走向、主要分支、供應範圍
-- 下甲狀腺動脈（inferior thyroid artery）：缺 來源、走向、主要分支、供應範圍
 - 頸淺動脈（superficial cervical artery）：缺 主要分支
-- 外頸動脈（external carotid artery）：缺 來源、走向、主要分支、供應範圍
-- 內頸動脈（internal carotid artery）：缺 來源、走向、主要分支、供應範圍
-- 總頸動脈（common carotid artery）：缺 來源、走向、主要分支、供應範圍
 
-### 靜脈：0 / 1 項資料完整
+### 靜脈：1 / 1 項資料完整
 
-- 內頸靜脈（internal jugular vein）：缺 來源、走向、主要分支、引流範圍
+（全部完整）
 
-### 頭頸器官構造：22 / 63 項資料完整
+### 頭頸器官構造：38 / 63 項資料完整
 
 - 上顎牙齦（Gingiva of upper jaw）：缺 說明
 - 下顎牙齦（Gingiva of lower jaw）：缺 說明
@@ -844,39 +853,18 @@
 - 上顎恆中切齒（upper central secondary incisor tooth）：缺 說明
 - 上顎恆側切齒（upper lateral secondary incisor tooth）：缺 說明
 - 上顎恆犬齒（upper secondary canine tooth）：缺 說明
-- 眼前房（Anterior chamber of left eyeball）：缺 說明
 - 外直肌制止韌帶（Check ligament of left lateral rectus）：缺 說明
-- 脈絡膜（choroid）：缺 說明
 - 睫狀冠（corona ciliaris）：缺 說明
 - 內直肌制止韌帶（Check ligament of left medial rectus）：缺 說明
-- 虹膜（iris）：缺 說明
 - 淚湖（lacrimal lake）：缺 說明
-- 水晶體（lens）：缺 說明
-- 水晶體懸韌帶（Suspensory ligament of left lens）：缺 說明
 - 鼻外側軟骨（lateral nasal cartilage）：缺 說明
-- 翼下頷縫（pterygomandibular raphe）：缺 說明
-- 咽縫（Pharyngeal raphe）：缺 說明
-- 舌（Tongue）：缺 說明
-- 莖突舌骨韌帶（stylohyoid ligament）：缺 說明
-- 會厭（Epiglottis）：缺 說明
 - 舌骨會厭韌帶（Hyo-epiglottic ligament）：缺 說明
-- 楔狀軟骨（cuneiform cartilage）：缺 說明
-- 杓狀軟骨（arytenoid cartilage）：缺 說明
-- 小角軟骨（corniculate cartilage）：缺 說明
 - 彈性圓錐（conus elasticus）：缺 說明
-- 甲狀舌骨膜（thyrohyoid membrane）：缺 說明
 - 甲狀舌骨正中韌帶（Median thyrohyoid ligament）：缺 說明
 - 甲狀會厭韌帶（Thyro-epiglottic ligament）：缺 說明
-- 唇（Lip）：缺 說明
-- 帽狀腱膜（Aponeurosis of epicranius）：缺 說明
 
-### 關節構造：0 / 6 項資料完整
+### 關節構造：5 / 6 項資料完整
 
-- 蝶下頷韌帶（sphenomandibular ligament）：缺 所屬關節、附著與連結、功能
-- 莖突下頷韌帶（stylomandibular ligament）：缺 所屬關節、附著與連結、功能
-- 顳顎關節囊（articular capsule of temporomandibular joint）：缺 所屬關節、附著與連結、功能
-- 顳顎關節盤（articular disc of temporomandibular joint）：缺 所屬關節、附著與連結、功能
-- 顳顎外側韌帶（lateral temporomandibular ligament）：缺 所屬關節、附著與連結、功能
 - 環咽韌帶（cricopharyngeal ligament）：缺 所屬關節、附著與連結、功能
 
 ### 特殊空間與孔：1 / 1 項資料完整
