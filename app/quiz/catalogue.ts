@@ -585,7 +585,8 @@ export function sceneStructures(catalogue: QuizCatalogue, target: QuizStructure,
 /** A reduced scene for the questions where nothing is picked (學習「認識」步驟、模擬考試): the target, every bone (when the target is not a bone) and the `count` structures nearest to the target.
  * The far faint structures are neither loaded nor drawn, which is most of the triangles of a question. */
 export interface SceneFocus {count: number}
-export const FOCUS_COUNT = 8;
+/** 學習「認識」: 8 nearest. 模擬考試: 25 nearest (a real exam has plenty around the structure, so a station must not be easier than that). */
+export const FOCUS_COUNT_LEARN = 8, FOCUS_COUNT_EXAM = 25;
 /** Gap between the bounding boxes of two structures (0 when they overlap), the centre distance breaks a tie. */
 const boxGap = (a: QuizStructure, b: QuizStructure) => Math.hypot(...[0, 1, 2].map(i => Math.max(0, a.bounds[0][i] - b.bounds[1][i], b.bounds[0][i] - a.bounds[1][i])));
 const centreGap = (a: QuizStructure, b: QuizStructure) => Math.hypot(...[0, 1, 2].map(i => (a.bounds[0][i] + a.bounds[1][i] - b.bounds[0][i] - b.bounds[1][i]) / 2));

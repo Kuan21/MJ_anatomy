@@ -5,7 +5,7 @@
 import fs from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {quizModule} from './quiz-modules.mjs';
-const {EAR_PARTS, EAR_GROUPS, EAR_LAYERS, EAR_BY_ID, EAR_MAX_PEEL} = await quizModule('app/mj-ear-atlas.ts');
+const {EAR_PARTS, EAR_GROUPS, EAR_LAYERS, EAR_BY_ID} = await quizModule('app/mj-ear-atlas.ts');
 const dir = new URL('../public/models/ear/', import.meta.url);
 const manifest = JSON.parse(fs.readFileSync(new URL('ear-atlas.json', dir))), bin = gunzipSync(fs.readFileSync(new URL('ear-atlas.bin.gz', dir)));
 const problems = [], fail = m => problems.push(m), CJK = /[㐀-鿿]/;
@@ -40,11 +40,11 @@ for (const p of EAR_PARTS) {
 const names = EAR_PARTS.map(p => p.en.toLowerCase()), zhs = EAR_PARTS.map(p => p.zh);
 for (const list of [names, zhs]) for (const n of new Set(list)) if (list.filter(x => x === n).length > 1) fail(`duplicate name: ${n}`);
 if (EAR_PARTS.length !== 36 || EAR_PARTS.filter(p => p.model).length !== 26) fail(`expected 36 structures, 26 with a mesh; found ${EAR_PARTS.length} and ${EAR_PARTS.filter(p => p.model).length}`);
-if (EAR_MAX_PEEL !== 5) fail('five peel layers');
-// the peel order runs from the outside in: the structures of a layer are medial to those of the layers before it (the centre of its box, x is lateral to medial for the right ear)
+if (EAR_LAYERS.length !== 5) fail('five depth layers');
+// the depth order runs from the outside in: the structures of a layer are medial to those of the layers before it (the centre of its box, x is lateral to medial for the right ear)
 const mid = id => packaged.get(id).bounds[0].map((v, i) => (v + packaged.get(id).bounds[1][i]) / 2), size = id => packaged.get(id).bounds[0].map((v, i) => packaged.get(id).bounds[1][i] - v);
 const layerX = n => { const ids = EAR_PARTS.filter(p => p.model && p.layer === n && !p.mark && p.id !== 'pharyngotympanic-tube').map(p => mid(p.id)[0]); return ids.reduce((a, b) => a + b, 0) / ids.length; };
-for (let n = 1; n < EAR_LAYERS.length; n++) if (!(layerX(n) > layerX(n - 1))) fail(`peel layer ${n} is not medial to layer ${n - 1}`);
+for (let n = 1; n < EAR_LAYERS.length; n++) if (!(layerX(n) > layerX(n - 1))) fail(`depth layer ${n} is not medial to layer ${n - 1}`);
 
 // ---- buffers
 for (const p of manifest.parts) {

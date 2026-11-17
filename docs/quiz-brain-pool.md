@@ -71,7 +71,7 @@
 ### 腦膜（硬腦膜反摺）：包覆整個腦，會遮住其他題目，主站腦部畫面預設也關閉（2）
 
 - Falx cerebri（大腦鐮） [meninges]
-- Tentorium cerebelli（小腦幕） [meninges]
+- Tentorium cerebelli（小腦天幕） [meninges]
 
 ### 屬於脊髓或脊椎的構造（脊髓、脊髓動脈、椎動脈）：主站腦部畫面同樣不畫（3）
 
@@ -116,8 +116,8 @@
 
 | 模型名稱 | 位置 | 群組 | 中心 x | 測驗名稱（中文） | 狀態 |
 | --- | --- | --- | --- | --- | --- |
-| Right Insular branches of middle cerebral artery (M2) | 右 | arteries | -0.0426 | Right insular branches of middle cerebral artery (M2-segment)（右大腦中動脈島支（M2 段）） | 出題 |
-| Left Insular branches of middle cerebral artery (M2-segment) | 左 | arteries | 0.0426 | Left insular branches of middle cerebral artery (M2-segment)（左大腦中動脈島支（M2 段）） | 出題 |
+| Right Insular branches of middle cerebral artery (M2) | 右 | arteries | -0.0426 | Right insular branches of middle cerebral artery (M2-segment)（右中大腦動脈島支（M2 段）） | 出題 |
+| Left Insular branches of middle cerebral artery (M2-segment) | 左 | arteries | 0.0426 | Left insular branches of middle cerebral artery (M2-segment)（左中大腦動脈島支（M2 段）） | 出題 |
 
 處理：左右一對的英文寫法不一致（M2／M2-segment）。已統一為 M2-segment，中文名統一為「大腦中動脈島支（M2 段）」；主站與測驗同步。
 
@@ -125,8 +125,8 @@
 
 | 模型名稱 | 位置 | 群組 | 中心 x | 測驗名稱（中文） | 狀態 |
 | --- | --- | --- | --- | --- | --- |
-| Left Middle cerebral artery (M3 segment) | 左 | arteries | 0.0534 | Left middle cerebral artery (M3-segment)（左大腦中動脈（M3 段）） | 出題 |
-| Right Middle cerebral artery (M3-segment) | 右 | arteries | -0.0534 | Right middle cerebral artery (M3-segment)（右大腦中動脈（M3 段）） | 出題 |
+| Left Middle cerebral artery (M3 segment) | 左 | arteries | 0.0534 | Left middle cerebral artery (M3-segment)（左中大腦動脈（M3 段）） | 出題 |
+| Right Middle cerebral artery (M3-segment) | 右 | arteries | -0.0534 | Right middle cerebral artery (M3-segment)（右中大腦動脈（M3 段）） | 出題 |
 
 處理：左右一對的英文寫法不一致（M3 segment／M3-segment）。已統一為 M3-segment（模型裡 M1、M2 也多用連字號），中文名「大腦中動脈（M3 段）」不變；主站與測驗同步。
 

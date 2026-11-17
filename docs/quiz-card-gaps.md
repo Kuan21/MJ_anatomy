@@ -653,7 +653,7 @@
 
 - 胼胝體邊緣動脈（callosomarginal artery）：缺 資料卡
 - 胼胝體邊緣動脈額支（frontal branches of callosomarginal artery）：缺 資料卡
-- 大腦前動脈眶額支（orbitofrontal branches of anterior cerebral artery）：缺 資料卡
+- 前大腦動脈眶額支（orbitofrontal branches of anterior cerebral artery）：缺 資料卡
 - 胼胝體周動脈（pericallosal artery）：缺 資料卡
 
 ### 靜脈：3 / 12 項資料完整
@@ -774,12 +774,12 @@
 
 ### 肌肉：80 / 86 項資料完整
 
-- 咽下縮肌（inferior pharyngeal constrictor）：缺 血液供應
-- 咽中縮肌（middle pharyngeal constrictor）：缺 血液供應
+- 下咽縮肌（inferior pharyngeal constrictor）：缺 血液供應
+- 中咽縮肌（middle pharyngeal constrictor）：缺 血液供應
 - 顎咽肌（palatopharyngeus）：缺 血液供應
-- 咽鼓管咽肌（salpingopharyngeus）：缺 血液供應
+- 耳咽管咽肌（salpingopharyngeus）：缺 血液供應
 - 莖突咽肌（stylopharyngeus）：缺 血液供應
-- 咽上縮肌（superior pharyngeal constrictor）：缺 血液供應
+- 上咽縮肌（superior pharyngeal constrictor）：缺 血液供應
 
 ### 神經：1 / 44 項資料完整
 
@@ -788,7 +788,7 @@
 - 額神經（frontal nerve）：缺 主要分支
 - 動眼神經下支（Inferior branch of left oculomotor nerve）：缺 主要分支
 - 滑車下神經（infratrochlear nerve）：缺 主要分支
-- 淚腺神經（lacrimal nerve）：缺 主要分支
+- 淚神經（lacrimal nerve）：缺 主要分支
 - 鼻睫神經（nasociliary nerve）：缺 主要分支
 - 後篩神經（posterior ethmoidal nerve）：缺 主要分支
 - 長睫神經（long ciliary nerve）：缺 主要分支

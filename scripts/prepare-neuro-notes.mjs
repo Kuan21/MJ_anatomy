@@ -9,6 +9,8 @@ import fs from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {quizModule} from './quiz-modules.mjs';
 import {isAliasName} from './lib/notes-leak.mjs';
+const WORDING = Object.entries(JSON.parse(fs.readFileSync(fileURLToPath(new URL('../app/mj-required-names.json', import.meta.url)), 'utf8')).wording);
+const renameZh = zh => WORDING.reduce((s, [from, to]) => s.split(from).join(to), (zh ?? '').split('小腦橋腦角').join('\u0001')).split('\u0001').join('小腦橋腦角');
 
 const root = fileURLToPath(new URL('../', import.meta.url)), check = process.argv.includes('--check'), draft = process.argv.includes('--draft') ? process.argv.slice(process.argv.indexOf('--draft') + 1) : null;
 const texts = {};
@@ -104,6 +106,8 @@ for (const card of cards.values()) {
   card.fields = (texts[card.id] ?? []).map(([label, items]) => ({label, items}));
   delete card.excerpts;
   if (card.fields.length) delete card.noBody;
+  // HN-11: a card title follows the required-structure wording (app/mj-required-names.json); the earlier title stays as an alias
+  { const zh = renameZh(card.zh); if (zh !== card.zh) { card.aka = [...(card.aka ?? []), {zh: card.zh}]; card.zh = zh; } }
   // an alias is another name of the structure: figure references, comparison rows and sentence fragments from the notes' extraction are dropped (counted, never shown)
   const lower = v => (v ?? '').toLowerCase();
   card.aka = card.aka.map(a => ({...(a.en && {en: a.en.trim()}), ...(a.zh && {zh: a.zh.trim()})})).filter(a => a.en || a.zh);
