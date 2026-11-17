@@ -1,5 +1,5 @@
 // Ear quiz (Quiz → 器官 → 耳): which structure lies in front of another when the ear is looked at from outside (decides what is drawn as glass in a question, see coversEarTarget).
-// The order is the peel order of the ear detail mode (app/mj-ear-atlas.ts EAR_LAYERS): auricle, tympanic membrane, ossicles, bony labyrinth; the nerves lie at the depth of the ossicles and the membranous labyrinth is the innermost.
+// The order is the depth order of the ear detail mode (app/mj-ear-atlas.ts EAR_LAYERS): auricle, tympanic membrane, ossicles, bony labyrinth; the nerves lie at the depth of the ossicles and the membranous labyrinth is the innermost.
 
 export type EarLayer = 'auricle' | 'membrane' | 'ossicle' | 'nerve' | 'bony' | 'membranous';
 const DEPTH: Record<EarLayer, number> = {auricle: 0, membrane: 1, ossicle: 2, nerve: 2, bony: 3, membranous: 4};

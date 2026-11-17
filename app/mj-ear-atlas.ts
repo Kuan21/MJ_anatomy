@@ -1,5 +1,5 @@
 /**
- * Ear detail mode: the structure catalogue (names, groups, peel layers, colours) and the info-card text of every structure.
+ * Ear detail mode: the structure catalogue (names, groups, depth layers, colours) and the info-card text of every structure.
  * The geometry comes from public/models/ear/ear-atlas.* (scripts/build-ear-atlas.mjs): one right ear assembled from
  *   - IE-Map (CC BY 4.0): the membranous labyrinth, also the reference for the registration;
  *   - OpenEar example set (CC BY 4.0): ossicles, tympanic membrane, bony labyrinth, scala tympani, facial nerve, chorda tympani, cochlear nerve;
@@ -17,7 +17,7 @@ export const EAR_GROUPS: EarGroup[] = [
   {id: 'nerves', en: 'Nerves and ganglia', zh: '神經與神經節'},
 ];
 
-/** Peel layers, from the outside in; the membranous labyrinth and the nerves are never peeled. */
+/** Depth layers, from the outside in (used to fade the layers in front of a selected structure and to order the quiz); the membranous labyrinth and the nerves have no layer of their own. */
 export const EAR_LAYERS = [
   {en: 'Auricle', zh: '耳廓'},
   {en: 'External auditory meatus', zh: '外聽道', aliases: ['External acoustic meatus', '外耳道']},
@@ -25,7 +25,6 @@ export const EAR_LAYERS = [
   {en: 'Ossicles and pharyngotympanic tube', zh: '聽小骨與咽鼓管'},
   {en: 'Bony labyrinth', zh: '骨性迷路'},
 ] as const;
-export const EAR_MAX_PEEL = EAR_LAYERS.length;
 
 export interface EarFacts {
   /** Location and shape */ loc: string;
@@ -42,7 +41,7 @@ export interface EarPart {
   model: boolean;
   color: string;
   opacity?: number;
-  /** peel layer (index of EAR_LAYERS), -1 = never peeled */
+  /** depth layer (index of EAR_LAYERS), -1 = none */
   layer: number;
   /** a coloured patch on the surface of another structure (the windows), not a structure of its own */
   mark?: boolean;
