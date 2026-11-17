@@ -227,7 +227,7 @@ QUIZ_REGIONS.ear = {
 const HN_RANGE: [number, number] = [1.4, 1.72];
 const HEAD_NECK_SECTIONS: QuizSectionDef[] = [
   {id: 'all', label: '全部頭頸', english: 'Head and neck', range: HN_RANGE},
-  {id: 'skull', label: '顱骨與下頷', english: 'Skull and mandible', range: [1.49, 1.72]},
+  {id: 'skull', label: '顱骨與下頜', english: 'Skull and mandible', range: [1.49, 1.72]},
   {id: 'cervical', label: '頸椎與舌骨', english: 'Cervical vertebrae and hyoid bone', range: [1.4, 1.58]},
   {id: 'face', label: '面部與咀嚼肌', english: 'Facial and masticatory muscles', range: [1.49, 1.7]},
   {id: 'neck', label: '頸部肌肉', english: 'Neck muscles', range: [1.4, 1.58]},
@@ -573,6 +573,23 @@ export function sceneStructures(catalogue: QuizCatalogue, target: QuizStructure,
       || (s.bounds[0][1] < range[1] && s.bounds[1][1] > range[0]))))
     // a structure that level 1 does not ask (availability) is drawn only when it is the question itself
     .filter(s => s.id === target.id || askedAtLevel(s, 1));
+}
+
+/** A reduced scene for the questions where nothing is picked (學習「認識」步驟、模擬考試): the target, every bone (when the target is not a bone) and the `count` structures nearest to the target.
+ * The far faint structures are neither loaded nor drawn, which is most of the triangles of a question. */
+export interface SceneFocus {count: number}
+export const FOCUS_COUNT = 8;
+/** Gap between the bounding boxes of two structures (0 when they overlap), the centre distance breaks a tie. */
+const boxGap = (a: QuizStructure, b: QuizStructure) => Math.hypot(...[0, 1, 2].map(i => Math.max(0, a.bounds[0][i] - b.bounds[1][i], b.bounds[0][i] - a.bounds[1][i])));
+const centreGap = (a: QuizStructure, b: QuizStructure) => Math.hypot(...[0, 1, 2].map(i => (a.bounds[0][i] + a.bounds[1][i] - b.bounds[0][i] - b.bounds[1][i]) / 2));
+/** `always` keeps structures the question needs whatever their distance (the glass coats over a deep target, the muscle a tendon belongs to). */
+export function focusStructures(scene: QuizStructure[], target: QuizStructure, focus: SceneFocus, always: (s: QuizStructure) => boolean = () => false): QuizStructure[] {
+  // a space is drawn as its boundary and its neighbourhood already (sceneStructures); leave it whole
+  if (target.space) return scene;
+  const fixed = (s: QuizStructure) => s.id === target.id || always(s) || (s.system === 'skeletal' && target.system !== 'skeletal');
+  const near = new Set(scene.filter(s => !fixed(s)).sort((a, b) => boxGap(a, target) - boxGap(b, target) || centreGap(a, target) - centreGap(b, target) || (a.id < b.id ? -1 : 1))
+    .slice(0, focus.count).map(s => s.id));
+  return scene.filter(s => fixed(s) || near.has(s.id));
 }
 
 /** The three study modes share the region list above (adding a region to QUIZ_REGIONS makes it appear in the learning map, the Quiz chooser and the mock exam). */

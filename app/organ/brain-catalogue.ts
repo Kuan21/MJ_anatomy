@@ -59,7 +59,7 @@ const SIDE_EN = {left: 'Left ', right: 'Right ', mid: ''} as const;
 /** Chinese names the shared glossary lacks for a few labels of this model. */
 const ZH_EXTRA: Record<string, string> = {
   'nucleus of oculomotor nerve': '動眼神經核', 'accessory nucleus of oculomotor nerve': '動眼神經副核（Edinger-Westphal 核）',
-  'maxillary nerve': '上頷神經', 'meningeal branch of maxillary nerve': '上頷神經腦膜支', 'ophthalmic nerve': '眼神經',
+  'maxillary nerve': '上頜神經', 'meningeal branch of maxillary nerve': '上頜神經腦膜支', 'ophthalmic nerve': '眼神經',
   'insula (subcentral gyrus and ant. and post. sulci)': '腦島（中央下迴與前、後腦島溝）',
   'lat fis-post': '外側溝（後支）', 'lat fis-ant-vertical': '外側溝（前升支）', 'lat fis-ant-horizont': '外側溝（前水平支）', 'sulcus interm prim-jensen': '中間初級溝（Jensen 溝）',
 };
@@ -93,7 +93,9 @@ export function describeBrainNode(raw: RawBrainNode, index: number): BrainPart |
   const over = brainOverrideOf(en0, side), name = over?.en ?? en, zh = zhOfBrain(name);
   return {id: `b${index}`, en: name, ...(over?.en ? {was: en0} : {}), zh: zh ? SIDE_ZH[side] + zh : '', side, cat: raw.cat, region: raw.region, group, layer, ...(LOBES.has(group) ? {sub: lobeSub(en)} : {})};
 }
-export const displayEn = (p: BrainPart) => SIDE_EN[p.side] + (RENAME[p.en] ?? p.en);
+/** After "Left"/"Right" the name starts in lower case, as in the main atlas ("Left lateral sulcus"); acronyms and possessives ("CA1", "Broca's") keep their capital. */
+const lowerAfterSide = (n: string) => /^[A-Z][a-z]/.test(n) && !/^[A-Z][a-z]*'s\b/.test(n) ? n[0].toLowerCase() + n.slice(1) : n;
+export const displayEn = (p: BrainPart) => { const n = RENAME[p.en] ?? p.en; return SIDE_EN[p.side] + (SIDE_EN[p.side] ? lowerAfterSide(n) : n); };
 
 /** The nested list of the left panel: lobes (each with gyri, then sulci and fissures), then the other main regions. Every structure sits in exactly one leaf. */
 export interface BrainTreeNode {id: string; en: string; zh: string; /** structures of this node's own, when it is a leaf */ leaf: BrainPart[]; children: BrainTreeNode[]; /** every structure below this node */ all: BrainPart[]}

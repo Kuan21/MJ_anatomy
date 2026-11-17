@@ -29,8 +29,8 @@ export const CARD_EXTRAS: Record<string, CardExtra> = {
   },
   'great auricular nerve': {
     來源: e('第二、三頸神經（C2–C3）前支，頸神經叢', 'Ventral rami of C2–C3 (cervical plexus)'),
-    走向: e('自 Erb 點穿出，斜向上越過胸鎖乳突肌淺面，往下頷角與腮腺方向行（示意模型）', 'Emerges at Erb point and crosses sternocleidomastoid obliquely upward toward the angle of the mandible and the parotid gland (schematic model)'),
-    支配範圍: e('腮腺區皮膚、下頷角與耳廓的感覺', 'Sensation of the skin over the parotid, the angle of the mandible and the auricle'),
+    走向: e('自 Erb 點穿出，斜向上越過胸鎖乳突肌淺面，往下頜角與腮腺方向行（示意模型）', 'Emerges at Erb point and crosses sternocleidomastoid obliquely upward toward the angle of the mandible and the parotid gland (schematic model)'),
+    支配範圍: e('腮腺區皮膚、下頜角與耳廓的感覺', 'Sensation of the skin over the parotid, the angle of the mandible and the auricle'),
   },
   'suboccipital venous plexus': {
     來源: e('枕下三角內環繞椎動脈的靜脈網（示意模型）', 'Venous network around the vertebral artery in the suboccipital triangle (schematic model)'),
@@ -607,6 +607,112 @@ Object.assign(CARD_EXTRAS, {
 });
 // ===== B04–B05 end =====
 
+// ===== B07–B08 begin: internal jugular vein, head-and-neck bones and temporomandibular joint soft tissue (card batches B07 and B08). Standard anatomy only; a field we are not sure of stays out. =====
+Object.assign(CARD_EXTRAS, {
+  'internal jugular vein': {
+    來源: e('在顱底的頸靜脈孔接續乙狀竇而成，起始處略膨大（上球）', 'Continues from the sigmoid sinus at the jugular foramen of the skull base, with a small dilatation (superior bulb) at its start'),
+    走向: e('在頸動脈鞘內下行：上段在頸內動脈後方，往下逐漸移到總頸動脈外側，迷走神經走在兩者之間的後方；大多隱在胸鎖乳突肌深面，到胸鎖關節後方與鎖骨下靜脈會合成頭臂靜脈，會合處稱靜脈角', 'Descends in the carotid sheath: behind the internal carotid artery above, then lateral to the common carotid artery lower down, with the vagus nerve between and behind them; lies mostly deep to sternocleidomastoid and joins the subclavian vein behind the sternoclavicular joint to form the brachiocephalic vein (the venous angle)'),
+    主要分支: e('下岩竇、總顏面靜脈、舌靜脈、咽靜脈、上甲狀腺靜脈與中甲狀腺靜脈', 'Inferior petrosal sinus, common facial vein, and the lingual, pharyngeal, superior thyroid and middle thyroid veins'),
+    引流範圍: e('腦與腦膜、顏面與口咽、舌、甲狀腺與頸部深層結構的血液', 'Blood from the brain and meninges, the face and oropharynx, the tongue, the thyroid and the deep neck'),
+  },
+  'mandible': {
+    位置: e('顏面下部，是頭部唯一可動的骨；由水平的馬蹄形下頜體與兩側向上的下頜支組成', 'Lower part of the face and the only movable bone of the head; a horizontal horseshoe-shaped body with an upright ramus on each side'),
+    主要標誌: e('下頜體與牙槽部、頦隆凸、頦孔、斜線、下頜舌骨肌線；下頜角；下頜支上的下頜孔與小舌、髁突、冠突、下頜切跡', 'Body with the alveolar part, mental protuberance, mental foramen, oblique line and mylohyoid line; angle of the mandible; on the ramus the mandibular foramen with its lingula, condylar process, coronoid process and mandibular notch'),
+    相關關節: e('顳下頜關節（髁突與顳骨的下頜窩）', 'Temporomandibular joint (condylar process with the mandibular fossa of the temporal bone)'),
+  },
+  'hyoid bone': {
+    位置: e('頸前部，位於下頜骨與甲狀軟骨之間，約在第三頸椎的高度；呈馬蹄形', 'Front of the neck between the mandible and the thyroid cartilage, at about the level of C3; horseshoe-shaped'),
+    主要標誌: e('體、一對大角、一對小角', 'Body, a pair of greater horns and a pair of lesser horns'),
+    相關關節: e('不與其他骨形成典型關節，由肌肉與韌帶懸吊（莖突舌骨韌帶、甲狀舌骨膜等）；體與大角之間有小關節', 'Forms no typical joint with another bone and is suspended by muscles and ligaments (stylohyoid ligament, thyrohyoid membrane and others); small joints lie between the body and the greater horns'),
+  },
+  'frontal bone': {
+    位置: e('構成前額、眼眶上壁與前顱底的前部', 'Forms the forehead, the roof of the orbit and the front of the anterior cranial base'),
+    主要標誌: e('額鱗、眉弓、額結節、眶上緣與眶上切跡（孔）、顴突、鼻部、額竇', 'Frontal squama, superciliary arch, frontal eminence, supraorbital margin with the supraorbital notch (foramen), zygomatic process, nasal part and frontal sinus'),
+    相關關節: e('冠狀縫（與頂骨）、與蝶骨、篩骨、鼻骨、淚骨、上頜骨及顴骨相接', 'Coronal suture (with the parietal bones); also meets the sphenoid, ethmoid, nasal, lacrimal, maxilla and zygomatic bones'),
+  },
+  'zygomatic bone': {
+    位置: e('面頰隆起處，構成眼眶的外側壁與下緣的一部分', 'The prominence of the cheek, forming part of the lateral wall and the lower margin of the orbit'),
+    主要標誌: e('額突、顳突、上頜突、眶面；顴面孔與顴顳孔', 'Frontal process, temporal process, maxillary process, orbital surface; zygomaticofacial and zygomaticotemporal foramina'),
+    相關關節: e('額骨（顴額縫）、上頜骨（顴上頜縫）、蝶骨大翼，並與顳骨顴突相接成顴弓', 'Frontal bone (frontozygomatic suture), maxilla (zygomaticomaxillary suture) and the greater wing of the sphenoid; joins the zygomatic process of the temporal bone to form the zygomatic arch'),
+  },
+  'maxilla': {
+    位置: e('顏面中部，左右兩塊在中線相接；構成上顎、眼眶下壁、鼻腔外側壁與硬顎前部', 'Middle of the face, the two bones meeting in the midline; forms the upper jaw, the floor of the orbit, the lateral wall of the nasal cavity and the front of the hard palate'),
+    主要標誌: e('上頜體（內含上頜竇）、額突、顴突、牙槽突、顎突、眶下孔、前鼻棘、切牙孔', 'Body (containing the maxillary sinus), frontal process, zygomatic process, alveolar process, palatine process, infraorbital foramen, anterior nasal spine and incisive foramen'),
+    相關關節: e('對側上頜骨（上頜間縫）、鼻骨、額骨、淚骨、篩骨、顴骨、顎骨、犁骨與下鼻甲', 'The opposite maxilla (intermaxillary suture), nasal, frontal, lacrimal, ethmoid, zygomatic, palatine and vomer bones and the inferior nasal concha'),
+  },
+  'sphenoid bone': {
+    位置: e('位於顱底正中，前接額骨與篩骨，後接枕骨與顳骨，形如展翅的蝴蝶', 'Lies in the middle of the cranial base between the frontal and ethmoid bones in front and the occipital and temporal bones behind, shaped like a butterfly with outspread wings'),
+    主要標誌: e('體（蝶竇、蝶鞍與垂體窩）、小翼（視神經管、前床突）、鞍背、大翼（圓孔、卵圓孔、棘孔）、翼突（內側板與外側板）、眶上裂、蝶棘', 'Body (sphenoidal sinus, sella turcica and hypophysial fossa), lesser wing (optic canal, anterior clinoid process), dorsum sellae, greater wing (foramen rotundum, foramen ovale, foramen spinosum), pterygoid process (medial and lateral plates), superior orbital fissure and spine of the sphenoid'),
+    相關關節: e('額骨、篩骨、頂骨、顳骨、枕骨（蝶枕軟骨結合）、顴骨、上頜骨、顎骨與犁骨', 'Frontal, ethmoid, parietal, temporal, occipital (spheno-occipital synchondrosis), zygomatic, maxilla, palatine bones and the vomer'),
+  },
+  'palatine bone': {
+    位置: e('位於上頜骨後方、蝶骨翼突之前，構成鼻腔後外側壁與硬顎後部；呈 L 形', 'Behind the maxilla and in front of the pterygoid process of the sphenoid, forming the posterolateral wall of the nasal cavity and the back of the hard palate; L-shaped'),
+    主要標誌: e('水平板（硬顎後部）、垂直板、錐突、眶突與蝶突、蝶顎切跡、大顎孔與小顎孔、後鼻棘', 'Horizontal plate (back of the hard palate), perpendicular plate, pyramidal process, orbital and sphenoidal processes, sphenopalatine notch, greater and lesser palatine foramina and posterior nasal spine'),
+    相關關節: e('上頜骨、蝶骨（翼突）、對側顎骨、犁骨、篩骨與下鼻甲', 'Maxilla, sphenoid (pterygoid process), the opposite palatine bone, vomer, ethmoid and inferior nasal concha'),
+  },
+  'nasal bone': {
+    位置: e('外鼻上部的骨性鼻樑，左右各一片小而薄的長方形骨，位於兩側上頜骨額突之間、額骨鼻部之下', 'The bony bridge of the upper external nose; a small thin rectangular bone on each side between the frontal processes of the maxillae and below the nasal part of the frontal bone'),
+    主要標誌: e('鼻間縫（兩骨之間）、鼻額縫、鼻骨孔；內面有篩溝，容納前篩神經的外鼻支', 'Internasal suture between the two bones, frontonasal suture, nasal foramen; a groove on the inner surface carries the external nasal branch of the anterior ethmoidal nerve'),
+    相關關節: e('對側鼻骨、額骨、上頜骨額突，內面與篩骨垂直板相接', 'The opposite nasal bone, the frontal bone and the frontal process of the maxilla; internally it meets the perpendicular plate of the ethmoid'),
+  },
+  'vomer': {
+    位置: e('鼻中隔的後下部，位於正中線上，是薄而呈梯形的骨板', 'The posteroinferior part of the nasal septum, a thin trapezoid plate lying in the midline'),
+    主要標誌: e('犁骨翼（上緣兩側）、游離的後緣（分隔左右後鼻孔）、鼻顎溝', 'Ala of the vomer (on each side of its upper border), the free posterior border that separates the two choanae, and the nasopalatine groove'),
+    相關關節: e('蝶骨體下面、篩骨垂直板、上頜骨與顎骨的鼻嵴，前方與鼻中隔軟骨相接', 'Underside of the body of the sphenoid, the perpendicular plate of the ethmoid, the nasal crests of the maxillae and palatine bones, and in front the septal cartilage'),
+  },
+  'inferior nasal concha': {
+    位置: e('鼻腔外側壁的下部，是獨立的顏面骨，下方覆蓋下鼻道', 'Lower part of the lateral wall of the nasal cavity; an independent facial bone that roofs the inferior nasal meatus'),
+    主要標誌: e('向下捲曲的薄骨板；淚突、篩突、上頜突', 'A thin scroll of bone curling downward; lacrimal, ethmoidal and maxillary processes'),
+    相關關節: e('上頜骨、淚骨、顎骨垂直板與篩骨鉤突', 'Maxilla, lacrimal bone, perpendicular plate of the palatine bone and the uncinate process of the ethmoid'),
+  },
+  'ethmoid': {
+    位置: e('位於兩眼眶之間、鼻腔的上部，額骨之下、蝶骨之前；由篩板、垂直板與兩側篩骨迷路組成', 'Between the two orbits in the upper nasal cavity, below the frontal bone and in front of the sphenoid; made of the cribriform plate, the perpendicular plate and two lateral labyrinths'),
+    主要標誌: e('雞冠、篩板與篩孔、垂直板、上鼻甲與中鼻甲、鉤突、篩泡、眶板（紙樣板）', 'Crista galli, cribriform plate with its foramina, perpendicular plate, superior and middle nasal conchae, uncinate process, ethmoidal bulla and orbital plate (lamina papyracea)'),
+    相關關節: e('額骨、蝶骨、上頜骨、淚骨、顎骨、下鼻甲、犁骨與鼻骨', 'Frontal, sphenoid, maxilla, lacrimal, palatine, inferior nasal concha, vomer and nasal bones'),
+  },
+  'lacrimal bone': {
+    位置: e('眼眶內側壁的前部，是顏面最小而薄的骨之一，位於上頜骨額突與篩骨眶板之間', 'Front part of the medial wall of the orbit; one of the smallest, thinnest facial bones, between the frontal process of the maxilla and the orbital plate of the ethmoid'),
+    主要標誌: e('淚後嵴、淚溝（與上頜骨額突共同圍成淚囊窩）、淚鉤', 'Posterior lacrimal crest, lacrimal groove (forming the fossa for the lacrimal sac together with the frontal process of the maxilla) and lacrimal hamulus'),
+    相關關節: e('額骨、篩骨、上頜骨額突與下鼻甲', 'Frontal bone, ethmoid, frontal process of the maxilla and the inferior nasal concha'),
+  },
+  'temporal bone': {
+    位置: e('構成顱的側壁與顱底的一部分，介於蝶骨、頂骨與枕骨之間；內含中耳與內耳', 'Forms part of the side wall and base of the skull between the sphenoid, parietal and occipital bones; contains the middle and inner ear'),
+    主要標誌: e('鱗部、鼓部、岩部、乳突部與莖突；顴突、下頜窩與關節結節、外耳道、莖乳孔、頸動脈管、內耳道', 'Squamous, tympanic, petrous and mastoid parts and the styloid process; zygomatic process, mandibular fossa and articular tubercle, external acoustic meatus, stylomastoid foramen, carotid canal and internal acoustic meatus'),
+    相關關節: e('顳下頜關節（下頜窩與下頜髁突）；鱗縫（與頂骨）、與蝶骨、枕骨相接，顴突與顴骨相接成顴弓', 'Temporomandibular joint (mandibular fossa with the condylar process of the mandible); squamous suture (with the parietal bone), contact with the sphenoid and occipital bones, and the zygomatic process meeting the zygomatic bone to form the zygomatic arch'),
+  },
+  'parietal bone': {
+    位置: e('構成頭頂與顱側壁的上部，左右各一塊，呈四邊形的彎曲骨板', 'Forms the roof and the upper part of the side wall of the skull; a curved quadrilateral plate on each side'),
+    主要標誌: e('頂結節、上顳線與下顳線；四個緣（矢狀緣、冠狀緣、人字緣、鱗緣）；內面有腦膜中動脈溝與上矢狀竇溝', 'Parietal eminence, superior and inferior temporal lines; four borders (sagittal, frontal, occipital and squamosal); on the inner surface the groove for the middle meningeal artery and the groove for the superior sagittal sinus'),
+    相關關節: e('對側頂骨（矢狀縫）、額骨（冠狀縫）、枕骨（人字縫）、顳骨（鱗縫）與蝶骨大翼', 'The opposite parietal bone (sagittal suture), frontal bone (coronal suture), occipital bone (lambdoid suture), temporal bone (squamous suture) and the greater wing of the sphenoid'),
+  },
+  'articular disc of temporomandibular joint': {
+    所屬關節: e('顳下頜關節', 'Temporomandibular joint'),
+    附著與連結: e('橢圓形的纖維軟骨板，夾在下頜髁突與顳骨的下頜窩及關節結節之間；周緣與關節囊相連，前方有外翼肌的部分纖維附著，後方接富含血管與神經的雙層區', 'An oval plate of fibrocartilage between the condylar process of the mandible and the mandibular fossa and articular tubercle of the temporal bone; its rim blends with the articular capsule, some fibres of lateral pterygoid attach in front, and behind it continues into a vascular and nerve-rich bilaminar zone'),
+    功能: e('把關節腔分成上、下兩腔：上腔做滑動（下頜前突與後縮），下腔做樞紐運動（張口與閉口）；並緩衝壓力、使不吻合的關節面互相適應', 'Divides the joint into upper and lower compartments: gliding in the upper (protrusion and retrusion), hinge movement in the lower (opening and closing); it also cushions pressure and fits together the unmatched joint surfaces'),
+  },
+  'articular capsule of temporomandibular joint': {
+    所屬關節: e('顳下頜關節', 'Temporomandibular joint'),
+    附著與連結: e('寬鬆的纖維膜，上方附著於下頜窩邊緣與關節結節前緣，下方附著於下頜髁頸；內襯滑膜，外側被外側韌帶加強', 'A loose fibrous membrane attached above to the margin of the mandibular fossa and the front of the articular tubercle and below to the neck of the condylar process; lined by synovial membrane and strengthened laterally by the lateral ligament'),
+    功能: e('包圍並封閉關節腔，容許下頜大幅度活動，並與韌帶一起限制過度運動；滑膜分泌滑液潤滑關節', 'Encloses the joint cavity, allows wide movement of the mandible and, together with the ligaments, limits excessive movement; the synovial membrane secretes lubricating fluid'),
+  },
+  'lateral temporomandibular ligament': {
+    所屬關節: e('顳下頜關節', 'Temporomandibular joint'),
+    附著與連結: e('由關節囊外側纖維增厚而成；起自顴弓下緣與關節結節，向後下斜行，止於下頜頸的後外側', 'A thickening of the lateral fibres of the capsule; arises from the lower border of the zygomatic arch and the articular tubercle, runs obliquely backward and downward and attaches to the back and outer side of the neck of the mandible'),
+    功能: e('從外側固定下頜，是關節最主要的韌帶；限制下頜向後與向下過度移位', 'Holds the mandible from the lateral side and is the main ligament of the joint; limits excessive backward and downward displacement of the mandible'),
+  },
+  'sphenomandibular ligament': {
+    所屬關節: e('顳下頜關節（位於關節內側的輔助韌帶，與關節囊分開）', 'Temporomandibular joint (an accessory ligament on the medial side, separate from the capsule)'),
+    附著與連結: e('起自蝶骨棘，向下呈扇形展開，止於下頜小舌與下頜孔的邊緣；下齒槽神經與血管走在它與下頜支之間', 'Arises from the spine of the sphenoid, fans out downward and attaches to the lingula and the edge of the mandibular foramen; the inferior alveolar nerve and vessels pass between it and the ramus'),
+    功能: e('從內側懸吊下頜，張口時作為下頜轉動的支點，並限制下頜過度前移', 'Suspends the mandible from the medial side, acts as the pivot for the mandible in opening and limits excessive forward movement'),
+  },
+  'stylomandibular ligament': {
+    所屬關節: e('顳下頜關節（位於關節內側的輔助韌帶，與關節囊分開）', 'Temporomandibular joint (an accessory ligament on the medial side, separate from the capsule)'),
+    附著與連結: e('起自顳骨莖突的尖端，向前下止於下頜角與下頜支的後緣；是頸深筋膜的增厚帶，把腮腺與下頜下腺隔開', 'Arises from the tip of the styloid process of the temporal bone and runs forward and downward to the angle and posterior border of the ramus; a thickened band of deep cervical fascia that separates the parotid from the submandibular gland'),
+    功能: e('從內側固定下頜，張口時放鬆，下頜前突時繃緊，限制其過度前移', 'Holds the mandible from the medial side; it slackens when the mouth opens and tightens on protrusion, limiting excessive forward movement'),
+  },
+});
+// ===== B07–B08 end =====
+
 // ===== B06 begin: head-and-neck organ structures (eye, lip, tongue, laryngeal cartilages) and arteries (card batch B06). Standard anatomy only; a field we are not sure of stays out. =====
 Object.assign(CARD_EXTRAS, {
   'choroid': {
@@ -696,13 +802,13 @@ Object.assign(CARD_EXTRAS, {
 Object.assign(CARD_EXTRAS, {
   'facial nerve (vii)': {
     來源: e('第七對腦神經，自橋腦與延髓交界處外側出腦，含運動、感覺與副交感纖維', 'Cranial nerve VII, leaving the brainstem at the pontomedullary junction; carries motor, sensory and parasympathetic fibres'),
-    走向: e('與前庭耳蝸神經同入內耳道，穿過顳骨內的顏面神經管，由莖乳突孔出顱；進入腮腺後分成顳支、顴支、頰支、下頷緣支與頸支；鼓索神經在顏面神經管內分出，之後與舌神經會合', 'Enters the internal acoustic meatus with the vestibulocochlear nerve, runs through the facial canal of the temporal bone and exits at the stylomastoid foramen; within the parotid gland it divides into temporal, zygomatic, buccal, marginal mandibular and cervical branches; the chorda tympani leaves it in the facial canal and later joins the lingual nerve'),
-    支配範圍: e('運動：顏面表情肌（頸支支配闊頸肌）、莖突舌骨肌、二腹肌後腹、鐙骨肌；感覺：舌前三分之二的味覺；副交感：淚腺、下頷下腺、舌下腺', 'Motor to the muscles of facial expression (the cervical branch supplies platysma), stylohyoid, posterior belly of digastric and stapedius; taste of the front two-thirds of the tongue; parasympathetic to the lacrimal, submandibular and sublingual glands'),
+    走向: e('與前庭耳蝸神經同入內耳道，穿過顳骨內的顏面神經管，由莖乳突孔出顱；進入腮腺後分成顳支、顴支、頰支、下頜緣支與頸支；鼓索神經在顏面神經管內分出，之後與舌神經會合', 'Enters the internal acoustic meatus with the vestibulocochlear nerve, runs through the facial canal of the temporal bone and exits at the stylomastoid foramen; within the parotid gland it divides into temporal, zygomatic, buccal, marginal mandibular and cervical branches; the chorda tympani leaves it in the facial canal and later joins the lingual nerve'),
+    支配範圍: e('運動：顏面表情肌（頸支支配闊頸肌）、莖突舌骨肌、二腹肌後腹、鐙骨肌；感覺：舌前三分之二的味覺；副交感：淚腺、下頜下腺、舌下腺', 'Motor to the muscles of facial expression (the cervical branch supplies platysma), stylohyoid, posterior belly of digastric and stapedius; taste of the front two-thirds of the tongue; parasympathetic to the lacrimal, submandibular and sublingual glands'),
   },
   'trigeminal nerve (v)': {
     來源: e('第五對腦神經，自橋腦外側面出腦，有較粗的感覺根與較細的運動根', 'Cranial nerve V, leaving the lateral pons with a large sensory root and a small motor root'),
-    走向: e('感覺根連到顳骨岩部尖端的三叉神經節，再分成眼神經、上頷神經與下頷神經三支；運動根繞過神經節下方，只加入下頷神經', 'The sensory root joins the trigeminal ganglion at the apex of the petrous temporal bone and divides into the ophthalmic, maxillary and mandibular nerves; the motor root passes beneath the ganglion and joins only the mandibular nerve'),
-    支配範圍: e('臉部與前頭皮膚、口腔與鼻腔黏膜、牙齒與硬腦膜的一般感覺；運動（經下頷神經）支配咀嚼肌（咬肌、顳肌、內翼肌、外翼肌）、下頷舌骨肌、二腹肌前腹、張顎帆肌與鼓膜張肌', 'General sensation of the facial and frontal skin, oral and nasal mucosa, teeth and dura mater; motor (through the mandibular nerve) to the muscles of mastication (masseter, temporalis, medial and lateral pterygoids), mylohyoid, the anterior belly of digastric, tensor veli palatini and tensor tympani'),
+    走向: e('感覺根連到顳骨岩部尖端的三叉神經節，再分成眼神經、上頜神經與下頜神經三支；運動根繞過神經節下方，只加入下頜神經', 'The sensory root joins the trigeminal ganglion at the apex of the petrous temporal bone and divides into the ophthalmic, maxillary and mandibular nerves; the motor root passes beneath the ganglion and joins only the mandibular nerve'),
+    支配範圍: e('臉部與前頭皮膚、口腔與鼻腔黏膜、牙齒與硬腦膜的一般感覺；運動（經下頜神經）支配咀嚼肌（咬肌、顳肌、內翼肌、外翼肌）、下頜舌骨肌、二腹肌前腹、張顎帆肌與鼓膜張肌', 'General sensation of the facial and frontal skin, oral and nasal mucosa, teeth and dura mater; motor (through the mandibular nerve) to the muscles of mastication (masseter, temporalis, medial and lateral pterygoids), mylohyoid, the anterior belly of digastric, tensor veli palatini and tensor tympani'),
   },
   'ophthalmic nerve': {
     來源: e('三叉神經第一支（V1），由三叉神經節前內側發出', 'First division of the trigeminal nerve (V1), arising from the anteromedial part of the trigeminal ganglion'),
@@ -712,15 +818,15 @@ Object.assign(CARD_EXTRAS, {
   'maxillary nerve': {
     來源: e('三叉神經第二支（V2），由三叉神經節中部發出', 'Second division of the trigeminal nerve (V2), arising from the middle of the trigeminal ganglion'),
     走向: e('經海綿竇外側壁，在圓孔前先分出腦膜支，再由圓孔出顱入翼顎窩；在翼顎窩分出顴神經與後上齒槽神經，並與翼顎神經節相連；之後穿眶下裂進入眼眶，延續為眶下神經，途中發出中上（部分人有）與前上齒槽神經，最後由眶下孔到達臉部', 'Passes through the lateral wall of the cavernous sinus, gives a meningeal branch before the foramen rotundum, then leaves the skull by it into the pterygopalatine fossa; there it gives the zygomatic and posterior superior alveolar nerves and is connected to the pterygopalatine ganglion; it then enters the orbit through the inferior orbital fissure as the infra-orbital nerve, which gives middle (present in some people) and anterior superior alveolar branches on its way and reaches the face at the infra-orbital foramen'),
-    支配範圍: e('純感覺：下眼瞼、鼻側與上唇間的臉部皮膚、顴部與顳部前方皮膚、上排牙齒與牙齦、上頷竇、鼻腔與硬腭黏膜', 'Purely sensory: facial skin between the lower eyelid and upper lip, skin of the cheek bone and anterior temple, upper teeth and gingiva, maxillary sinus, nasal cavity and palatal mucosa'),
+    支配範圍: e('純感覺：下眼瞼、鼻側與上唇間的臉部皮膚、顴部與顳部前方皮膚、上排牙齒與牙齦、上頜竇、鼻腔與硬顎黏膜', 'Purely sensory: facial skin between the lower eyelid and upper lip, skin of the cheek bone and anterior temple, upper teeth and gingiva, maxillary sinus, nasal cavity and palatal mucosa'),
   },
   'mental nerve': {
     來源: e('下齒槽神經的終末分支之一', 'A terminal branch of the inferior alveolar nerve'),
-    走向: e('下齒槽神經在下頷管內前行，於小臼齒附近分成頦神經與切牙神經；頦神經由頦孔穿出，向上分布於下唇與頦部', 'The inferior alveolar nerve divides in the mandibular canal near the premolars into the mental and incisive nerves; the mental nerve emerges through the mental foramen and spreads to the lower lip and chin'),
+    走向: e('下齒槽神經在下頜管內前行，於小臼齒附近分成頦神經與切牙神經；頦神經由頦孔穿出，向上分布於下唇與頦部', 'The inferior alveolar nerve divides in the mandibular canal near the premolars into the mental and incisive nerves; the mental nerve emerges through the mental foramen and spreads to the lower lip and chin'),
     支配範圍: e('純感覺：下唇與頦部的皮膚、下唇黏膜與前牙區唇側牙齦', 'Purely sensory: skin of the lower lip and chin, mucosa of the lower lip and the labial gingiva of the anterior teeth'),
   },
   'buccal nerve': {
-    來源: e('下頷神經前股的感覺分支（三叉神經 V3）', 'Sensory branch of the anterior division of the mandibular nerve (trigeminal V3)'),
+    來源: e('下頜神經前股的感覺分支（三叉神經 V3）', 'Sensory branch of the anterior division of the mandibular nerve (trigeminal V3)'),
     走向: e('自顳下窩由外翼肌兩個頭之間穿出，沿頰肌表面向前下行，分支穿過頰肌到達口腔', 'Emerges in the infratemporal fossa between the two heads of lateral pterygoid, runs forward and downward over buccinator, and sends branches through it into the mouth'),
     支配範圍: e('頰部皮膚與頰內側黏膜、下排後牙頰側牙齦的一般感覺；不支配頰肌，頰肌屬顏面神經運動支配', 'General sensation of the skin of the cheek, the lining of the cheek and the buccal gingiva of the lower posterior teeth; it does not supply buccinator, which receives facial nerve motor fibres'),
   },
@@ -736,27 +842,27 @@ Object.assign(CARD_EXTRAS, {
   },
   'hypoglossal nerve (xii)': {
     來源: e('第十二對腦神經，自延髓錐體與橄欖之間的前外側溝出腦', 'Cranial nerve XII, leaving the medulla in the anterolateral sulcus between the pyramid and the olive'),
-    走向: e('經舌下神經管出顱，在頸部先走於頸內動脈與頸內靜脈之間，再弓形向前越過頸動脈淺面，經二腹肌後腹深面進入下頷下三角，沿舌骨舌肌外側入舌', 'Leaves the skull through the hypoglossal canal, descends between the internal carotid artery and internal jugular vein, arches forward over the carotid arteries, passes deep to the posterior belly of digastric into the submandibular triangle and enters the tongue lateral to hyoglossus'),
-    支配範圍: e('運動支配舌的所有內在肌，以及舌骨舌肌、頦舌肌、莖突舌肌；腭舌肌除外，由迷走神經支配；另攜帶第一頸神經（C1）纖維，分布到頦舌骨肌與甲狀舌骨肌', 'Motor to all intrinsic muscles of the tongue and to hyoglossus, genioglossus and styloglossus; palatoglossus is excluded and is supplied by the vagus nerve; it also carries C1 fibres that leave it to supply geniohyoid and thyrohyoid'),
+    走向: e('經舌下神經管出顱，在頸部先走於頸內動脈與頸內靜脈之間，再弓形向前越過頸動脈淺面，經二腹肌後腹深面進入下頜下三角，沿舌骨舌肌外側入舌', 'Leaves the skull through the hypoglossal canal, descends between the internal carotid artery and internal jugular vein, arches forward over the carotid arteries, passes deep to the posterior belly of digastric into the submandibular triangle and enters the tongue lateral to hyoglossus'),
+    支配範圍: e('運動支配舌的所有內在肌，以及舌骨舌肌、頦舌肌、莖突舌肌；顎舌肌除外，由迷走神經支配；另攜帶第一頸神經（C1）纖維，分布到頦舌骨肌與甲狀舌骨肌', 'Motor to all intrinsic muscles of the tongue and to hyoglossus, genioglossus and styloglossus; palatoglossus is excluded and is supplied by the vagus nerve; it also carries C1 fibres that leave it to supply geniohyoid and thyrohyoid'),
   },
   'anterior division of mandibular nerve': {
-    來源: e('下頷神經（V3）出卵圓孔後，在顳下窩分出的較小前股', 'The smaller anterior division of the mandibular nerve (V3), given off in the infratemporal fossa after it leaves the foramen ovale'),
+    來源: e('下頜神經（V3）出卵圓孔後，在顳下窩分出的較小前股', 'The smaller anterior division of the mandibular nerve (V3), given off in the infratemporal fossa after it leaves the foramen ovale'),
     走向: e('在外翼肌深面前行，分出咬肌神經、顳深神經、外翼肌神經等運動支，以及感覺性的頰神經', 'Runs forward deep to lateral pterygoid and gives the motor masseteric, deep temporal and lateral pterygoid nerves plus the sensory buccal nerve'),
     支配範圍: e('以運動為主：咬肌、顳肌、外翼肌；經頰神經帶來頰部的感覺', 'Mainly motor to masseter, temporalis and lateral pterygoid; the buccal nerve carries sensation from the cheek'),
   },
   'posterior division of mandibular nerve': {
-    來源: e('下頷神經（V3）在顳下窩分出的較大後股', 'The larger posterior division of the mandibular nerve (V3), given off in the infratemporal fossa'),
+    來源: e('下頜神經（V3）在顳下窩分出的較大後股', 'The larger posterior division of the mandibular nerve (V3), given off in the infratemporal fossa'),
     走向: e('在外翼肌深面下行，分為耳顳神經、舌神經與下齒槽神經三條主要分支', 'Descends deep to lateral pterygoid and divides into the auriculotemporal, lingual and inferior alveolar nerves'),
-    支配範圍: e('以感覺為主：耳前與顳部皮膚、外耳道、顳下頷關節、舌前三分之二的一般感覺、下排牙齒、下唇與頦部；耳顳神經另帶舌咽神經的副交感纖維（經耳神經節）到腮腺；經下頷舌骨肌神經支配下頷舌骨肌與二腹肌前腹', 'Mostly sensory to the skin in front of the ear and temple, the external acoustic meatus and the temporomandibular joint, general sensation of the front two-thirds of the tongue, the lower teeth, lower lip and chin; the auriculotemporal nerve also carries glossopharyngeal parasympathetic fibres (via the otic ganglion) to the parotid gland; the nerve to mylohyoid supplies mylohyoid and the anterior belly of digastric'),
+    支配範圍: e('以感覺為主：耳前與顳部皮膚、外耳道、顳下頜關節、舌前三分之二的一般感覺、下排牙齒、下唇與頦部；耳顳神經另帶舌咽神經的副交感纖維（經耳神經節）到腮腺；經下頜舌骨肌神經支配下頜舌骨肌與二腹肌前腹', 'Mostly sensory to the skin in front of the ear and temple, the external acoustic meatus and the temporomandibular joint, general sensation of the front two-thirds of the tongue, the lower teeth, lower lip and chin; the auriculotemporal nerve also carries glossopharyngeal parasympathetic fibres (via the otic ganglion) to the parotid gland; the nerve to mylohyoid supplies mylohyoid and the anterior belly of digastric'),
   },
   'inferior alveolar nerve': {
-    來源: e('下頷神經後股最粗的分支', 'The largest branch of the posterior division of the mandibular nerve'),
-    走向: e('在內翼肌與下頷支之間下行，經下頷孔入下頷管，沿下牙根下方前行，於頦孔附近分成頦神經與切牙神經；入孔前先分出下頷舌骨肌神經', 'Descends between medial pterygoid and the mandibular ramus, enters the mandibular canal via the mandibular foramen, runs below the tooth roots and divides near the mental foramen into the mental and incisive nerves; the nerve to mylohyoid leaves it before it enters the foramen'),
-    支配範圍: e('下排牙齒與牙周組織的感覺；經頦神經支配下唇與頦部；經下頷舌骨肌神經運動支配下頷舌骨肌與二腹肌前腹', 'Sensation of the lower teeth and periodontium; the mental nerve supplies the lower lip and chin; the nerve to mylohyoid is motor to mylohyoid and the anterior belly of digastric'),
+    來源: e('下頜神經後股最粗的分支', 'The largest branch of the posterior division of the mandibular nerve'),
+    走向: e('在內翼肌與下頜支之間下行，經下頜孔入下頜管，沿下牙根下方前行，於頦孔附近分成頦神經與切牙神經；入孔前先分出下頜舌骨肌神經', 'Descends between medial pterygoid and the mandibular ramus, enters the mandibular canal via the mandibular foramen, runs below the tooth roots and divides near the mental foramen into the mental and incisive nerves; the nerve to mylohyoid leaves it before it enters the foramen'),
+    支配範圍: e('下排牙齒與牙周組織的感覺；經頦神經支配下唇與頦部；經下頜舌骨肌神經運動支配下頜舌骨肌與二腹肌前腹', 'Sensation of the lower teeth and periodontium; the mental nerve supplies the lower lip and chin; the nerve to mylohyoid is motor to mylohyoid and the anterior belly of digastric'),
   },
   'nerve to mylohyoid muscle': {
-    來源: e('下齒槽神經在進入下頷孔之前分出的運動支', 'A motor branch of the inferior alveolar nerve given off just before it enters the mandibular foramen'),
-    走向: e('沿下頷支內面的下頷舌骨肌溝向下前行，再走在下頷舌骨肌的下面', 'Runs down and forward in the mylohyoid groove on the inner surface of the mandible, then along the lower surface of mylohyoid'),
-    支配範圍: e('運動支配下頷舌骨肌與二腹肌前腹', 'Motor to mylohyoid and the anterior belly of digastric'),
+    來源: e('下齒槽神經在進入下頜孔之前分出的運動支', 'A motor branch of the inferior alveolar nerve given off just before it enters the mandibular foramen'),
+    走向: e('沿下頜支內面的下頜舌骨肌溝向下前行，再走在下頜舌骨肌的下面', 'Runs down and forward in the mylohyoid groove on the inner surface of the mandible, then along the lower surface of mylohyoid'),
+    支配範圍: e('運動支配下頜舌骨肌與二腹肌前腹', 'Motor to mylohyoid and the anterior belly of digastric'),
   },
 });

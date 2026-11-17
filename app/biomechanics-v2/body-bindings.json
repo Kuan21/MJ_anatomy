@@ -1665,12 +1665,12 @@
     "frame": 8
   },
   "FJ1657": {
-    "name": "Right anterior spinal artery",
+    "name": "Anterior spinal artery",
     "rig": "head",
     "frame": null
   },
   "FJ1657M": {
-    "name": "Left anterior spinal artery",
+    "name": "Anterior spinal artery",
     "rig": "head",
     "frame": null
   },

@@ -48,7 +48,8 @@ const RULES:Rule[]=[
  // bones and their cartilage and disks only: the lung's surface marks "Groove for first rib of lung" and the like are named after a rib but belong to the lung
  T(ALL_CHEST,CHEST_BONE,{sys:['skeletal','connective']}),
  T(['chest/wall'],/intercostal|transversus thoracis|levatores? costarum|subcostal muscle|pectoralis|serratus anterior|serratus posterior superior|subclavius|mammary|breast|nipple|areola|lactiferous|internal thoracic|musculophrenic|lateral thoracic|superior thoracic|costocervical|thoracoepigastric|intercostobrachial|thoracic spinal nerve|clavipectoral/),
- T(['chest/wall','abdomen/wall'],/superior epigastric/),
+ T(['chest/wall'],/superior epigastric/,{y:[1.0,1.5]}),
+ T(['abdomen/wall'],/superior epigastric/),
  // ---- diaphragm and other structures that cross cavities
  T([...ALL_CHEST,...ALL_ABD],/^diaphragm$|\bdiaphragm\b/,{sys:['muscular']}),
  // ---- mediastinum and heart
@@ -78,9 +79,10 @@ const RULES:Rule[]=[
  // ---- pelvis
  T(['pelvis/wall','pelvis/organs','gluteal'],/^hip bone$|\bhip bone\b|^sacrum$|^coccyx$/),
  T(['pelvis/wall','gluteal'],/iliac crest|ischial tuberosity|spine of ischium|pubic tubercle|^sacrum$|^coccyx$|sacrotuberous|sacrospinous|sacroiliac|pubic symphysis/),
- T(['pelvis/wall'],/levator ani|coccygeus|iliococcygeus|pubococcygeus|puborectalis|tendinous arch|obturator|piriformis|internal iliac|external iliac|iliolumbar|lateral sacral|median sacral|superior gluteal|inferior gluteal|sacral plexus|nerve to (?:piriformis|obturator)|lumbosacral/),
+ T(['pelvis/wall'],/levator ani|coccygeus|iliococcygeus|pubococcygeus|puborectalis|tendinous arch of levator ani|obturator|piriformis|internal iliac|external iliac|iliolumbar|lateral sacral|median sacral|superior gluteal|inferior gluteal|sacral plexus|nerve to (?:piriformis|obturator)|lumbosacral/),
+ T(['pelvis/organs'],/levator ani|coccygeus|iliococcygeus|pubococcygeus|puborectalis|tendinous arch of levator ani/),
  T(['pelvis/organs'],/urinary bladder|trigone|ureter|urethra|prostate|seminal vesicle|deferent duct|ductus deferens|uter(?:us|ine)|ovar(?:y|ian)|vagina|cervico|cervix|mesosalpinx|mesovarium|broad ligament|round ligament|uterosacral|cardinal ligament|suspensory ligament of ovary|pouch|pelvic peritoneum|rectum|(?:superior|middle|inferior) rectal|sigmoid|vesical|hypogastric|ampulla of uterine|isthmus of uterine|fimbriae|infundibulum of uterine/,{y:[0.7,1.05]}),
- T(['pelvis/perineum'],/penis|corpus (?:cavernosum|spongiosum)|glans|testis|epididymis|scrotum|clitoris|labium|bulb of vestibule|vestibule|vestibular gland|perineal|\banal (?:sphincter|canal)|external anal|\banus\b|bulbospongiosus|ischiocavernosus|sphincter urethrae|pudendal|dorsal (?:artery|vein|nerve) of (?:penis|clitoris)|pubic hair|mons pubis|urethra|ischial tuberosity|inferior rectal|vagina/),
+ T(['pelvis/perineum'],/penis|corpus (?:cavernosum|spongiosum)|glans|testis|epididymis|scrotum|clitoris|labium|bulb of vestibule|vestibule|vestibular gland|perineal|\banal (?:sphincter|canal)|external anal|\banus\b|bulbospongiosus|ischiocavernosus|sphincter urethrae|pudendal|dorsal (?:artery|vein|nerve) of (?:penis|clitoris)|pubic hair|mons pubis|urethra|^vagina$|ischial tuberosity|inferior rectal/),
  // ---- gluteal region
  T(['gluteal'],/glute|piriformis|gemell|quadratus femoris|obturator|tensor fasciae latae|sciatic|posterior femoral cutaneous|hip joint|iliofemoral|ischiofemoral|pubofemoral|ligament of head of femur|nerve to (?:piriformis|quadratus femoris|obturator)|internal pudendal|pudendal nerve|^femur$|\bfemur\b/),
 ];

@@ -2,13 +2,13 @@
 
 此檔由 `node scripts/report-quiz-headneck.mjs` 產生，請勿手改（排除與分組由 `scripts/prepare-quiz.mjs` 依 `app/quiz/headneck.ts` 的規則決定；說明見 `docs/quiz-head-neck.md`）。來源是主站已有的頭頸構造（圖譜、面部與補充肌肉、神經疊圖、頸部血管、關節組織），沒有新增或修改任何 3D 模型。腦的構造不在這裡（有獨立的「腦」Quiz）。
 
-可出題：435 個構造（左右分開計），去掉左右後 237 個名稱。不出題：254 項（逐項列在下方，原因見各小節）。
+可出題：435 個構造（左右分開計），去掉左右後 237 個名稱。不出題：253 項（逐項列在下方，原因見各小節）。
 
 ## 各區段 × 類別（格內為「構造數 / 去掉左右後的名稱數」）
 
 | 區段 | 骨 | 肌肉 | 神經 | 動脈 | 靜脈 | 韌帶與筋膜 | 關節 | 特殊空間與孔 | 器官結構 | 合計 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 顱骨與下頷 | 22 / 14 | — | — | — | — | — | 10 / 5 | — | — | 32 / 19 |
+| 顱骨與下頜 | 22 / 14 | — | — | — | — | — | 10 / 5 | — | — | 32 / 19 |
 | 頸椎與舌骨 | 14 / 14 | — | — | — | — | 2 / 1 | — | — | — | 16 / 15 |
 | 面部與咀嚼肌 | — | 51 / 26 | — | — | — | 1 / 1 | — | — | — | 52 / 27 |
 | 頸部肌肉 | — | 65 / 33 | — | — | — | — | — | 2 / 1 | — | 67 / 34 |
@@ -22,17 +22,17 @@
 
 ## 資料卡
 
-資料卡只使用主站已有的資料；沒有資料的欄位顯示「尚無資料」，不自行補寫。欄位齊全：240 / 435；部分欄位有資料：104；完全沒有資料：91。完整的缺漏清單在 `docs/quiz-card-gaps.md`。
+資料卡只使用主站已有的資料；沒有資料的欄位顯示「尚無資料」，不自行補寫。欄位齊全：252 / 435；部分欄位有資料：126；完全沒有資料：57。完整的缺漏清單在 `docs/quiz-card-gaps.md`。
 
 | 系統 | 構造數 | 欄位齊全 | 部分有資料 | 完全沒有資料 |
 | --- | --- | --- | --- | --- |
-| 骨骼 | 36 | 0 | 8 | 28 |
+| 骨骼 | 36 | 0 | 30 | 6 |
 | 肌肉 | 168 | 156 | 12 | 0 |
 | 神經 | 88 | 2 | 82 | 4 |
 | 動脈 | 16 | 14 | 2 | 0 |
-| 靜脈 | 2 | 0 | 0 | 2 |
+| 靜脈 | 2 | 2 | 0 | 0 |
 | 頭頸器官構造 | 111 | 66 | 0 | 45 |
-| 關節構造 | 12 | 0 | 0 | 12 |
+| 關節構造 | 12 | 10 | 0 | 2 |
 | 特殊空間與孔 | 2 | 2 | 0 | 0 |
 
 ## 眼球內部構造（外層變半透明）
@@ -261,13 +261,13 @@
 - Right optic nerve [right]
 - Right trochlear nerve [right]
 
-### 屬於其他部位的測驗（胸椎、脊髓動脈、斜方肌、全身走行的交感神經與神經節）（36）
+### 屬於其他部位的測驗（胸椎、脊髓動脈、斜方肌、全身走行的交感神經與神經節）（35）
 
+- Anterior spinal artery
 - Left anterior division of inferior trunk of brachial plexus [left]
 - Left anterior division of middle trunk of brachial plexus [left]
 - Left anterior division of superior trunk of brachial plexus [left]
 - Left anterior root of spinal nerve [left]
-- Left anterior spinal artery [left]
 - Left ganglia of sympathetic trunk [left]
 - Left inferior trunk of brachial plexus [left]
 - Left middle trunk of brachial plexus [left]
@@ -285,7 +285,6 @@
 - Right anterior division of middle trunk of brachial plexus [right]
 - Right anterior division of superior trunk of brachial plexus [right]
 - Right anterior root of spinal nerve [right]
-- Right anterior spinal artery [right]
 - Right ganglia of sympathetic trunk [right]
 - Right inferior trunk of brachial plexus [right]
 - Right middle trunk of brachial plexus [right]

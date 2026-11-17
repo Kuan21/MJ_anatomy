@@ -13,8 +13,18 @@ const {SCHEMATIC, SCHEMATIC_NAMES} = await quizModule('app/organ/brain-schematic
 const bytes = fs.readFileSync(new URL('../public/models/brain.glb', import.meta.url));
 const json = JSON.parse(bytes.toString('utf8', 20, 20 + bytes.readUInt32LE(12)));
 const nodes = json.nodes.filter(n => n.extras?.bx_label);
-const parts = nodes.map((n, i) => describeBrainNode({name: n.name, cat: n.extras.bx_cat, region: n.extras.bx_region ?? '', label: n.extras.bx_label, side: n.extras.bx_side ?? ''}, i)).filter(Boolean);
-assert.ok(parts.length >= nodes.length - 4 && parts.length < nodes.length, `spinal parts removed (${nodes.length} → ${parts.length})`);
+// the viewer reads the nodes through app/organ/brain-midline.ts: halves of single midline structures become one structure, the medulla is completed, the body of the fornix is added
+const {midlineKind, FORNIX_BODY} = await quizModule('app/organ/brain-midline.ts');
+const rawNodes = [], seenMidline = new Set();
+for (const n of nodes) {
+  const raw = {name: n.name, cat: n.extras.bx_cat, region: n.extras.bx_region ?? '', label: n.extras.bx_label, side: n.extras.bx_side ?? ''}, kind = midlineKind(raw.label);
+  if (kind === 'join' || kind === 'mirror') {if (!seenMidline.has(raw.label)) {seenMidline.add(raw.label); rawNodes.push({...raw, name: raw.label, side: 'median'});} continue;}
+  rawNodes.push(raw);
+  if (kind === 'fornix' && !seenMidline.has(FORNIX_BODY)) {seenMidline.add(FORNIX_BODY); rawNodes.push({...raw, name: FORNIX_BODY, label: FORNIX_BODY, side: 'median'});}
+}
+const parts = rawNodes.map((raw, i) => describeBrainNode(raw, i)).filter(Boolean);
+assert.ok(parts.length >= nodes.length - 8 && parts.length < nodes.length, `spinal parts removed, halves welded (${nodes.length} → ${parts.length})`);
+for (const en of ['Optic chiasm', 'Pons', 'Midbrain', 'Medulla oblongata', 'Tentorium cerebelli', 'Body of fornix']) assert.deepEqual(parts.filter(p => p.en === en).map(p => p.side), ['mid'], `${en}: one structure without a side`);
 const groups = new Set(BRAIN_GROUPS.map(g => g.id));
 for (const p of parts) {
   assert.ok(groups.has(p.group), `${p.en}: unknown group ${p.group}`);
@@ -65,7 +75,7 @@ assert.ok(!parts.some(p => p.group === 'cortex-other'), 'every cortical structur
   for (const en of new Set(parts.map(p => p.en))) assert.equal(BRAIN_FACTS.filter(([re]) => re.test(en)).length, 1, `${en}: matched by more than one card rule`);
 }
 const central = parts.find(p => p.en === 'Central sulcus' && p.side === 'left');
-assert.equal(displayEn(central), 'Left Central sulcus');
+assert.equal(displayEn(central), 'Left central sulcus');
 assert.equal(central.group, 'interlobar', 'central sulcus is an interlobar groove');
 
 // ---- voxel cut surface: a hollow brain-sized cube of "cortex" (open on one face, like the real shells) filled, grey rim, white core, a ventricle inside

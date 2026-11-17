@@ -11244,7 +11244,7 @@
      "term": "masseter m",
      "zh": "跨過咬肌",
      "kind": "contained",
-     "model": "Superficial part of right masseter",
+     "model": "Deep part of right masseter",
      "source": "facial",
      "system": "muscular"
     },
@@ -11356,7 +11356,7 @@
      "term": "Masseter muscle",
      "zh": null,
      "kind": "contained",
-     "model": "Superficial part of right masseter",
+     "model": "Deep part of right masseter",
      "source": "facial",
      "system": "muscular"
     },
@@ -12064,7 +12064,7 @@
      "term": "Masseter muscle",
      "zh": null,
      "kind": "contained",
-     "model": "Superficial part of right masseter",
+     "model": "Deep part of right masseter",
      "source": "facial",
      "system": "muscular"
     },
@@ -12104,7 +12104,7 @@
      "term": "masseter m",
      "zh": "咬肌",
      "kind": "contained",
-     "model": "Superficial part of right masseter",
+     "model": "Deep part of right masseter",
      "source": "facial",
      "system": "muscular"
     },
@@ -12112,7 +12112,7 @@
      "term": "masseter n",
      "zh": "咬肌神經",
      "kind": "contained",
-     "model": "Superficial part of right masseter",
+     "model": "Deep part of right masseter",
      "source": "facial",
      "system": "muscular"
     },
@@ -13600,7 +13600,7 @@
      "term": "Masster m",
      "zh": "咬肌",
      "kind": "contained",
-     "model": "Superficial part of right masseter",
+     "model": "Deep part of right masseter",
      "source": "facial",
      "system": "muscular"
     },

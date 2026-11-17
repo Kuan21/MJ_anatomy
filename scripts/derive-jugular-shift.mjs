@@ -1,0 +1,224 @@
+// Internal jugular vein (IJV) alignment in the carotid sheath: derives the per-height shift table used by app/biomechanics-v2/jugular-align.ts from measurements,
+// and reports the before/after relation of vagus nerve, common carotid artery (CCA) and IJV.
+//   node scripts/derive-jugular-shift.mjs derive   prints the shift rows (paste them into jugular-align.ts)
+//   node scripts/derive-jugular-shift.mjs report   prints the per-centimetre tables, before (source) and after (alignJugulars applied)
+//   node scripts/derive-jugular-shift.mjs bones    prints the closest distance of the IJV (and the vagus) to the bones of the neck and skull base, per 2 cm of height, before and after
+//   node scripts/derive-jugular-shift.mjs vagus    per-vertex check: does any vagus vertex enter the IJV or CCA tube (ring-wise: horizontal distance to the interpolated ring centre against the ring radius), before and after
+//   node scripts/derive-jugular-shift.mjs inout    prints, every 5 mm from 1.49 to 1.56 m, how far lateral (+) or medial (-) the IJV centre lies relative to the ICA and ECA centres, before and after (the medial-lateral order above the bifurcation)
+//   node scripts/derive-jugular-shift.mjs groove   prints how far the vagus would still have to move (not applied) to lie 1 mm from both walls
+// Coordinates: metres, x to the left, y up, z forward. "out" = away from the midline (right side mirrored), "fwd" = anterior.
+import fs from 'node:fs';
+import zlib from 'node:zlib';
+import {createRequire} from 'node:module';
+import {Matrix4, Quaternion, Vector3} from 'three';
+import {quizModule} from './quiz-modules.mjs';
+import {correctNerve} from './lib/nerve-corrections.mjs';
+import {meshOf, closest} from './lib/heart-geom.mjs';
+const root = new URL('../', import.meta.url).pathname, mode = process.argv[2] || 'report';
+const {smoothCarotids} = await quizModule('app/biomechanics-v2/carotid-bifurcation.ts');
+const {alignJugulars, JUGULAR_SHIFTS} = await quizModule('app/biomechanics-v2/jugular-align.ts');
+const GAP = 0.0015;          // wanted wall-to-wall gap between CCA/ICA/ECA and IJV: the vessels of the sheath touch, a millimetre of connective tissue
+const MIN_ANGLE = +(process.env.IJV_ANGLE ?? -10), MAX_ANGLE = 45;  // IJV direction from the artery: 10 degrees behind pure lateral (the vagus lies between the CCA and the back wall of the IJV; -20 is the alternative on branch mj-ijv-align-b20)
+const BOTTOM = 0.024, TOP_FROM = 1.52, TOP_TO = 1.575;   // transitions that keep the two ends of the vein where they are
+
+const raw = () => JSON.parse(zlib.gunzipSync(fs.readFileSync(root + 'public/models/neck-vessels.json.gz'))).vessels.map(v => ({...v, positions: v.positions.slice()}));
+function vagus() {   // the corrected vagus trunks, decoded as prepare-nerve-stream.mjs does
+  fs.mkdirSync(root + '.sites-runtime', {recursive: true}); fs.copyFileSync(root + 'public/draco/draco_wasm_wrapper.js', root + '.sites-runtime/ijv-draco.cjs');
+  return createRequire(import.meta.url)(root + '.sites-runtime/ijv-draco.cjs')({wasmBinary: fs.readFileSync(root + 'public/draco/draco_decoder.wasm')}).then(draco => {
+    const bytes = fs.readFileSync(root + 'public/models/nervous.glb'), n = bytes.readUInt32LE(12), gltf = JSON.parse(bytes.subarray(20, 20 + n)), bin = bytes.subarray(28 + n);
+    const parents = new Map(), world = []; gltf.nodes.forEach((nd, i) => (nd.children ?? []).forEach(c => parents.set(c, i)));
+    const matrix = i => { if (world[i]) return world[i]; const nd = gltf.nodes[i], m = nd.matrix ? new Matrix4().fromArray(nd.matrix) : new Matrix4().compose(new Vector3(...(nd.translation ?? [0, 0, 0])), new Quaternion(...(nd.rotation ?? [0, 0, 0, 1])), new Vector3(...(nd.scale ?? [1, 1, 1]))); const p = parents.get(i); return world[i] = p === undefined ? m : new Matrix4().multiplyMatrices(matrix(p), m); };
+    const out = {};
+    for (const [i, nd] of gltf.nodes.entries()) {
+      if (nd.mesh === undefined || !/^Vagus nerve \(X\)\.[lr]\.001$/.test(nd.name ?? '')) continue;
+      for (const pr of gltf.meshes[nd.mesh].primitives) {
+        const ext = pr.extensions.KHR_draco_mesh_compression, view = gltf.bufferViews[ext.bufferView], dec = new draco.Decoder(), buf = new draco.DecoderBuffer(), mesh = new draco.Mesh();
+        const data = bin.subarray(view.byteOffset ?? 0, (view.byteOffset ?? 0) + view.byteLength); buf.Init(data, data.length); dec.DecodeBufferToMesh(buf, mesh);
+        const vals = new draco.DracoFloat32Array(); dec.GetAttributeFloatForAllPoints(mesh, dec.GetAttributeByUniqueId(mesh, ext.attributes.POSITION), vals);
+        const pos = new Float32Array(mesh.num_points() * 3), v = new Vector3();
+        for (let k = 0; k < mesh.num_points(); k++) { v.set(vals.GetValue(k * 3), vals.GetValue(k * 3 + 1), vals.GetValue(k * 3 + 2)).applyMatrix4(matrix(i)); pos.set(v.toArray(), k * 3); }
+        const idx = new Uint32Array(mesh.num_faces() * 3), face = new draco.DracoInt32Array();
+        for (let k = 0; k < mesh.num_faces(); k++) { dec.GetFaceFromMesh(mesh, k, face); for (let j = 0; j < 3; j++) idx[k * 3 + j] = face.GetValue(j); }
+        correctNerve(nd.name, pos, idx); out[nd.name] = pos;
+      }
+    }
+    return out;
+  });
+}
+const band = (pos, y, h) => { const o = []; for (let i = 0; i < pos.length; i += 3) if (Math.abs(pos[i + 1] - y) <= h) o.push([pos[i], pos[i + 1], pos[i + 2]]); return o; };
+const ctr = p => [p.reduce((a, b) => a + b[0], 0) / p.length, p.reduce((a, b) => a + b[2], 0) / p.length];
+const rad = (p, c) => p.reduce((a, b) => a + Math.hypot(b[0] - c[0], b[2] - c[1]), 0) / p.length;
+const minDc = (c, y, B) => { let m = 1e9; for (const b of B) { const d = Math.hypot(c[0] - b[0], y - b[1], c[1] - b[2]); if (d < m) m = d; } return m; };
+const SIDES = [['L', 'Left common carotid artery', 'Internal carotid artery.l', 'External carotid artery.l', 'Internal jugular vein.l', 'Vagus nerve (X).l.001', 1],
+               ['R', 'Right common carotid artery', 'Internal carotid artery.r', 'External carotid artery.r', 'Internal jugular vein.r', 'Vagus nerve (X).r.001', -1]];
+const smooth = t => { const x = Math.max(0, Math.min(1, t)); return x * x * (3 - 2 * x); };
+const vagi = await vagus();
+const scene = (aligned) => { const vs = raw(); smoothCarotids(vs); if (aligned) alignJugulars(vs); return new Map(vs.map(v => [v.name, v.positions])); };
+
+/** artery (CCA below its end, else ICA) and IJV centre/radius at height y, in the (out, fwd) plane of one side */
+function frame(S, y, side) {
+  const [, cca, ica, eca, ijv, vag, sg] = side, h = 0.002;
+  const C = band(S.get(cca), y, h), I = band(S.get(ica), y, h), E = band(S.get(eca), y, h), J = band(S.get(ijv), y, h), V = band(vagi[vag], y, h);
+  if (!J.length || !V.length) return null;
+  const A = C.length >= 6 ? C : I; if (A.length < 6) return null;
+  const ca = ctr(A), ra = rad(A, ca), cj = ctr(J), rj = rad(J, cj), cv = ctr(V), rv = rad(V, cv);
+  const to = c => [(c[0] - ca[0]) * sg, c[1] - ca[1]];
+  return {ca, ra, cj, rj, cv, rv, sg, art: C.length >= 6 ? 'CCA' : 'ICA', ecaRel: E.length >= 6 ? [ctr(E), rad(E, ctr(E))] : null, icaRel: I.length >= 6 ? [ctr(I), rad(I, ctr(I))] : null, ccaRel: C.length >= 6 ? [ctr(C), rad(C, ctr(C))] : null, to};
+}
+/** direction wanted from the artery, degrees forward of pure lateral: slightly anterior in the neck; above the carotid bifurcation the vein passes behind the external carotid on its way to the jugular foramen */
+const wantedAngle = y => y <= 1.51 ? MIN_ANGLE : Math.max(-50, MIN_ANGLE - (y - 1.51) / 0.04 * (MIN_ANGLE + 50));
+/** pushes the centre j (out, fwd relative to the artery centre) straight away from any carotid branch it would touch, to a wall gap of GAP */
+function clear(f, j) {
+  const {ca, rj, sg} = f;
+  for (let it = 0; it < 30; it++) for (const o of [f.icaRel, f.ecaRel]) {
+    if (!o) continue; const oc = [(o[0][0] - ca[0]) * sg, o[0][1] - ca[1]], need = o[1] + rj + GAP, dx = j[0] - oc[0], dz = j[1] - oc[1], d = Math.hypot(dx, dz) || 1e-6;
+    if (d < need) j = [oc[0] + dx / d * need, oc[1] + dz / d * need];
+  }
+  return j;
+}
+const VAGUS_GAP = +(process.env.VAGUS_GAP ?? 0.0006);   // the vagus must stay this far outside the IJV wall (its tube is not round, the margin covers that)
+/** pushes the IJV centre j (out, fwd relative to the artery) away from the vagus centre until the wall gap to the vagus is VAGUS_GAP */
+function clearVagus(f, j) {
+  const {ca, rj, rv, cv, sg} = f, v = [(cv[0] - ca[0]) * sg, cv[1] - ca[1]], need = rj + rv + VAGUS_GAP, dx = j[0] - v[0], dz = j[1] - v[1], d = Math.hypot(dx, dz) || 1e-6;
+  return d < need ? [v[0] + dx / d * need, v[1] + dz / d * need] : j;
+}
+/** wanted IJV centre: tangent to the artery (gap GAP), lateral and slightly anterior; the angle is the wanted one (equalGapAngle, the angle that would put the vagus equally far from both walls, is returned for the report: it is always behind the wanted one) */
+function target(f, y) {
+  const {ca, ra, rj, cv, sg} = f, D = ra + rj + GAP, v = [(cv[0] - ca[0]) * sg, cv[1] - ca[1]], dv = Math.hypot(...v);
+  let eq = null;
+  for (let a = -60; a <= MAX_ANGLE; a += 0.5) {
+    const t = a * Math.PI / 180, j = [D * Math.cos(t), D * Math.sin(t)], e = Math.abs((dv - ra) - (Math.hypot(v[0] - j[0], v[1] - j[1]) - rj));
+    if (!eq || e < eq.e) eq = {e, a};
+  }
+  const a = wantedAngle(y), t = a * Math.PI / 180;
+  return {j: [D * Math.cos(t), D * Math.sin(t)], angle: a, equalGapAngle: eq.a};
+}
+function derive() {
+  const S = scene(false), rows = {};
+  for (const side of SIDES) {
+    const rel = [];
+    for (let y = 1.416; y <= 1.5851; y += 0.005) {
+      const f = frame(S, y, side); if (!f) continue;
+      const cur = f.to(f.cj), t = target(f, y), wb = smooth((y - 1.416) / BOTTOM), wt = smooth((TOP_TO - y) / (TOP_TO - TOP_FROM)), w = Math.min(wb, wt);
+      let j = [cur[0] + (t.j[0] - cur[0]) * w, cur[1] + (t.j[1] - cur[1]) * w];
+      if (f.art === 'ICA') j = clear(f, j);
+      j = clearVagus(f, j);
+      rel.push([Math.round(y * 1000), (j[0] - cur[0]) * 1000, (j[1] - cur[1]) * 1000, t.angle, f.art]);
+    }
+    // three-point smoothing of the targets below the carotid bifurcation (the measured bands are noisy), ends stay at zero; above it the rows keep the clearance to the branches exactly
+    const sm = rel.map((r, i) => i === 0 || i === rel.length - 1 ? [r[0], 0, 0] : r[0] >= 1490 ? [r[0], r[1], r[2]] : [r[0], (rel[i - 1][1] + r[1] * 2 + rel[i + 1][1]) / 4, (rel[i - 1][2] + r[2] * 2 + rel[i + 1][2]) / 4]);
+    rows[side[0]] = sm.map(r => [r[0], +r[1].toFixed(1), +r[2].toFixed(1)]);
+    console.log(side[0], 'angles', rel.map(r => `${r[0]}:${r[3].toFixed(0)}${r[4][0]}`).join(' '));
+  }
+  console.log(JSON.stringify(rows));
+}
+function report() {
+  const f1 = v => (v * 1000).toFixed(1);
+  for (const label of ['before', 'after']) {
+    const S = scene(label === 'after');
+    for (const side of SIDES) {
+      const [name, , , , , , sg] = side;
+      console.log(`\n${name} (${label}) | y m | CCA r, IJV r mm | vagus rel CCA out,fwd | vagus rel IJV out,fwd | CCA-IJV centre out,fwd,dist | vagus centre to CCA wall, to IJV wall | CCA-IJV wall gap`);
+      for (let y = 1.42; y <= 1.4901; y += 0.01) {
+        const C = band(S.get(side[1]), y, .002), J = band(S.get(side[4]), y, .002), V = band(vagi[side[5]], y, .002);
+        const cc = ctr(C), cj = ctr(J), cv = ctr(V), rc = rad(C, cc), rj = rad(J, cj);
+        const rel = (a, b) => `${((a[0] - b[0]) * sg * 1000).toFixed(1)},${((a[1] - b[1]) * 1000).toFixed(1)}`;
+        const wc = minDc(cv, y, band(S.get(side[1]), y, .01)), wj = minDc(cv, y, band(S.get(side[4]), y, .01));
+        const dist = Math.hypot(cc[0] - cj[0], cc[1] - cj[1]);
+        console.log(y.toFixed(2), '|', f1(rc), f1(rj), '|', rel(cv, cc), '|', rel(cv, cj), '|', `${((cc[0] - cj[0]) * sg * 1000).toFixed(1)},${((cc[1] - cj[1]) * 1000).toFixed(1)},${(dist * 1000).toFixed(1)}`, '|', f1(wc), f1(wj), '|', ((dist - rc - rj) * 1000).toFixed(1));
+      }
+    }
+  }
+}
+/** what the vagus table would have to move by (not applied) for the vagus to sit in the groove, 1 mm from both walls: the circle intersection behind the two vessels */
+function groove() {
+  const S = scene(true);
+  for (const side of SIDES) {
+    console.log(`\n${side[0]} groove: y | vagus now rel CCA out,fwd | groove point rel CCA out,fwd | extra vagus shift out,fwd mm`);
+    for (let y = 1.42; y <= 1.4801; y += 0.01) {
+      const C = band(S.get(side[1]), y, .002), J = band(S.get(side[4]), y, .002), V = band(vagi[side[5]], y, .002), sg = side[6];
+      const cc = ctr(C), cj = ctr(J), cv = ctr(V), rc = rad(C, cc), rj = rad(J, cj), rv = rad(V, cv);
+      const j = [(cj[0] - cc[0]) * sg, cj[1] - cc[1]], r1 = rc + rv + 0.001, r2 = rj + rv + 0.001, d = Math.hypot(...j);
+      if (d > r1 + r2 || d < Math.abs(r1 - r2)) { console.log(y.toFixed(2), 'no solution'); continue; }
+      const a = (r1 * r1 - r2 * r2 + d * d) / (2 * d), h = Math.sqrt(Math.max(0, r1 * r1 - a * a)), ux = j[0] / d, uz = j[1] / d;
+      const c1 = [a * ux + h * uz, a * uz - h * ux], c2 = [a * ux - h * uz, a * uz + h * ux], p = c1[1] < c2[1] ? c1 : c2;
+      const now = [(cv[0] - cc[0]) * sg, cv[1] - cc[1]];
+      console.log(y.toFixed(2), '|', now.map(x => (x * 1000).toFixed(1)).join(','), '|', p.map(x => (x * 1000).toFixed(1)).join(','), '|', ((p[0] - now[0]) * 1000).toFixed(1) + ',' + ((p[1] - now[1]) * 1000).toFixed(1));
+    }
+  }
+}
+/** centres (metres) of CCA, IJV and vagus at the given heights, before and after: anchors for the labels of the review screenshots */
+function anchors(heights) {
+  const out = {};
+  for (const label of ['before', 'after']) {
+    const S = scene(label === 'after'); out[label] = {};
+    for (const y of heights) {
+      out[label][y] = {};
+      for (const side of SIDES) {
+        const at = (pos) => { const b = band(pos, y, .002), c = ctr(b); return [c[0], y, c[1]]; };
+        out[label][y][side[0]] = {cca: at(S.get(side[1])), ijv: at(S.get(side[4])), vagus: at(vagi[side[5]])};
+      }
+    }
+  }
+  console.log(JSON.stringify(out));
+}
+/** closest distance from the IJV vertices (and the vagus vertices) to the skeletal parts, per 2 cm height band, before and after; negative = the vertex is inside a bone is not detected here (distance to the surface only) */
+function bones() {
+  const atlas = JSON.parse(fs.readFileSync(root + 'public/models/atlas.json')), chunks = new Map();
+  const chunk = i => { if (!chunks.has(i)) chunks.set(i, fs.readFileSync(root + 'public' + atlas.chunks[i].url)); return chunks.get(i); };
+  const meshes = atlas.parts.filter(p => p.system === 'skeletal' && p.bounds && p.bounds[1][1] > 1.38 && p.bounds[0][1] < 1.62).map(p => {
+    const b = chunk(p.chunk);
+    return {name: p.name, mesh: meshOf(new Float32Array(b.buffer.slice(b.byteOffset + p.positions, b.byteOffset + p.positions + p.vertexCount * 12)), new Uint32Array(b.buffer.slice(b.byteOffset + p.indices, b.byteOffset + p.indices + p.indexCount * 4)))};
+  });
+  for (const label of ['before', 'after']) {
+    const S = scene(label === 'after');
+    for (const side of SIDES) {
+      const out = [];
+      for (const [what, pos] of [['IJV', S.get(side[4])], ['vagus', vagi[side[5]]]]) {
+        const worst = new Map();
+        for (let i = 0; i < pos.length; i += 3) {
+          const y = pos[i + 1]; if (y < 1.40 || y > 1.62) continue;
+          const key = Math.floor(y / 0.02) * 2; let best = [1e9, ''];
+          for (const m of meshes) { const c = closest(m.mesh, [pos[i], y, pos[i + 2]]); if (c.d < best[0]) best = [c.d, m.name]; }
+          const w = worst.get(key); if (!w || best[0] < w[0]) worst.set(key, best);
+        }
+        out.push(`${what}: ` + [...worst.entries()].sort((a, b) => a[0] - b[0]).map(([k, v]) => `${(k / 100).toFixed(2)}m ${(v[0] * 1000).toFixed(1)}mm(${v[1]})`).join('; '));
+      }
+      console.log(`${side[0]} ${label}\n  ` + out.join('\n  '));
+    }
+  }
+}
+/** vagus vertices against the ring tubes of the IJV and CCA: signed margin = horizontal distance to the ring centre minus the ring's smallest vertex distance (negative = inside) */
+function vagusInside() {
+  const RING = 12;
+  const ringsOf = pos => { const r = []; for (let k = 0; k + RING <= pos.length / 3; k += RING) { const pts = []; for (let j = 0; j < RING; j++) pts.push([pos[(k + j) * 3], pos[(k + j) * 3 + 1], pos[(k + j) * 3 + 2]]); const c = [0, 1, 2].map(a => pts.reduce((x, q) => x + q[a], 0) / RING); r.push({c, r: Math.min(...pts.map(q => Math.hypot(q[0] - c[0], q[2] - c[2])))}); } return r.sort((a, b) => a.c[1] - b.c[1]); };
+  for (const label of ['before', 'after']) {
+    const S = scene(label === 'after');
+    for (const side of SIDES) for (const [what, key] of [['IJV', side[4]], ['CCA', side[1]], ['ICA', side[2]], ['ECA', side[3]]]) {
+      const R = ringsOf(S.get(key)), V = vagi[side[5]]; let worst = 1e9, at = 0, inside = 0, n = 0; const perCm = new Map();
+      for (let i = 0; i < V.length; i += 3) {
+        const y = V[i + 1]; let k = R.findIndex(q => q.c[1] >= y); if (k <= 0 || k < 0) continue;
+        const a = R[k - 1], b = R[k], t = (y - a.c[1]) / (b.c[1] - a.c[1] || 1), cx = a.c[0] + (b.c[0] - a.c[0]) * t, cz = a.c[2] + (b.c[2] - a.c[2]) * t, rr = a.r + (b.r - a.r) * t;
+        n++; const m = Math.hypot(V[i] - cx, V[i + 2] - cz) - rr; if (m < worst) { worst = m; at = y; } if (m < 0) inside++;
+        const cm = Math.floor(y * 100); if (!perCm.has(cm) || m < perCm.get(cm)) perCm.set(cm, m);
+      }
+      console.log(`${side[0]} ${label} vagus vs ${what}: ${n} vertices in the vessel height range, ${inside} inside, smallest margin ${(worst * 1000).toFixed(2)} mm at ${at.toFixed(3)} m; per cm (smallest margin, mm): ` + [...perCm.entries()].sort((a, b) => a[0] - b[0]).map(([k, v]) => `${k / 100}:${(v * 1000).toFixed(1)}`).join(' '));
+    }
+  }
+}
+function inout() {
+  for (const label of ['before', 'after']) {
+    const S = scene(label === 'after');
+    for (const side of SIDES) {
+      const sg = side[6], rows = [];
+      for (let y = 1.49; y <= 1.5601; y += 0.005) {
+        const J = band(S.get(side[4]), y, .002), I = band(S.get(side[2]), y, .002), E = band(S.get(side[3]), y, .002), C = band(S.get(side[1]), y, .002);
+        if (J.length < 6) continue; const cj = ctr(J), f = a => ((cj[0] - a[0]) * sg * 1000).toFixed(1), g = a => ((cj[1] - a[1]) * 1000).toFixed(1);
+        const ci = I.length >= 6 ? ctr(I) : null, ce = E.length >= 6 ? ctr(E) : null, cc = C.length >= 6 ? ctr(C) : null;
+        rows.push(`${y.toFixed(3)}: vs ICA ${ci ? f(ci) + ' out, ' + g(ci) + ' fwd' : '-'} | vs ECA ${ce ? f(ce) + ' out, ' + g(ce) + ' fwd' : '-'} | vs CCA ${cc ? f(cc) + ' out, ' + g(cc) + ' fwd' : '-'}`);
+      }
+      console.log(`${side[0]} ${label} (IJV centre minus artery centre, mm; + = IJV lateral / anterior)\n  ` + rows.join('\n  '));
+    }
+  }
+}
+if (mode === 'inout') inout(); else if (mode === 'vagus') vagusInside(); else if (mode === 'derive') derive(); else if (mode === 'bones') bones(); else if (mode === 'groove') groove(); else if (mode === 'anchors') anchors(process.argv.slice(3).map(Number)); else report();

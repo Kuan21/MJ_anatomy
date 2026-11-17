@@ -390,3 +390,7 @@ button.quiz-review-item:hover{background:#f4f7f9}
 }
 /* the learning and exam play screens fill the window like the Quiz play screen (the header on top, the 3D stage and the question card below) */
 .learn-app:has(> .quiz-play-layout),.exam-app{height:100dvh;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+
+/* background loading of the rest of a question's structures: a small chip, never a cover over the model */
+.quiz-loading-chip{position:absolute;left:14px;bottom:36px;z-index:3;display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:#ffffffd9;border:1px solid var(--quiz-line);font-size:11px;color:var(--quiz-muted);pointer-events:none}
+.quiz-loading-chip .quiz-spinner{width:12px;height:12px;border-width:2px}
