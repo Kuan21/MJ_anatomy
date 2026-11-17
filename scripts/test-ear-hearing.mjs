@@ -2,11 +2,12 @@
 // maths on a synthetic cochlea, and the rules that keep the animation from downloading anything new. Pure functions only; no browser. Prints counts only.
 import fs from 'node:fs';
 import path from 'node:path';
+import {fileURLToPath} from 'node:url';
 import assert from 'node:assert/strict';
 import {quizModule} from './quiz-modules.mjs';
 import {scanLine} from './lib/zh-rules.mjs';
 
-const root = new URL('../', import.meta.url).pathname;
+const root = fileURLToPath(new URL('../', import.meta.url));   // .pathname gives "/C:/…" on Windows
 const data = await quizModule('app/ear-hearing/hearing-data.ts');
 const geometry = await quizModule('app/ear-hearing/geometry-analysis.ts');
 const {HEARING_STEPS, STEP_COUNT, HEARING_NOTE, PRESSURE_GAIN, FREQ_SLIDER, LOUD_SLIDER, SPEED_SLIDER, sliderToHz, formatHz, basePosition, hzAt, waveEnvelope, waveValue, initialPlay, goTo, stepBy, wrapStep, advance, AUTO_DWELL_S, PULSE_LEGS, PULSE_CYCLE_S, PULSE_LEG_S, pulseAt} = data;

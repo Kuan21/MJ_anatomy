@@ -5,6 +5,7 @@
 // so an id never changes meaning. Only names, types and topic labels are written.
 import fs from 'node:fs';
 import path from 'node:path';
+import {fileURLToPath} from 'node:url';
 import {requiredKey} from './lib/required-match.mjs';
 
 const out = new URL('../docs/required-structures/head-neck.json', import.meta.url);
@@ -51,6 +52,6 @@ for (const [key, list] of [...groups].sort((a, b) => a[0].localeCompare(b[0]))) 
   structures.push(entry);
 }
 structures.sort((a, b) => a.id.localeCompare(b.id));
-fs.mkdirSync(path.dirname(out.pathname), {recursive: true});
+fs.mkdirSync(path.dirname(fileURLToPath(out)), {recursive: true});
 fs.writeFileSync(out, JSON.stringify({version: 1, kind: 'names-only', structures}, null, 1) + '\n');
 console.log(`required structures ${structures.length} (3D expected ${structures.filter(s => s.expect3d).length}, kept out ${structures.filter(s => !s.expect3d).length})`);

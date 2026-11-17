@@ -4,6 +4,8 @@
 // stream, the displayed carotid from neck-vessels.json.gz. Wall-to-wall = distance between ring centres in the horizontal plane minus both mean radii.
 import fs from 'node:fs';
 import zlib from 'node:zlib';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
 import {loadWorld} from './lib/paokao-world.mjs';
 import {makeUtil} from './lib/paokao-util.mjs';
 import {meshOf, closest, ray} from './lib/heart-geom.mjs';
@@ -48,7 +50,7 @@ export function gapTo(mesh, p, r = .00085) {
   n = votes.reduce((a, b) => a + b, 0) >= 2 ? 1 : 0;
   const d = closest(mesh, o).d; return (n ? -d : d - r) * 1000;
 }
-if (process.argv[1] === new URL(import.meta.url).pathname) {
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {   // .pathname never equals argv[1] on Windows
   const {meshes, w} = loadNeck(), f1 = v => v == null || Number.isNaN(v) ? '    —' : v.toFixed(1).padStart(5);
   for (const [s, sg] of [['l', 1], ['r', -1]]) {
     const m = meshes[s], W = s === 'l' ? 'Left' : 'Right';
