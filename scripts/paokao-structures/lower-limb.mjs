@@ -55,17 +55,19 @@ export default function lowerLimb(U) {
     }
     // Superficial branches of the femoral artery just below the inguinal ligament.
     {
-      const o = f(.885), asis = U.extreme(`${S.w} hip bone`, P(0, 0, 1), {y: [.95, 1.05]}), pub = U.extreme(`${S.w} hip bone`, P(0, -1, 0), {y: [.8, .95]});
+      const o = f(.885), asis = U.extreme(`${S.w} hip bone`, P(0, 0, 1), {y: [.95, 1.05]});
+      // the external pudendal arteries end at the skin of the genitals just below the pubic tubercle (the most anterior point of the pubic crest 1.2–3.5 cm from the midline), neither down at the ischial tuberosity nor across the midline
+      const tub = U.extreme(`${S.w} hip bone`, P(0, 0, 1), {x: S.sx > 0 ? [.012, .035] : [-.035, -.012], y: [.85, .91]});
       const skinZ = z => z + .010;
       art(S, fem, 'superficial circumflex iliac artery', '旋髂淺動脈', ['Femoral artery, 1–2 cm below the inguinal ligament', '股動脈（腹股溝韌帶下方 1–2 公分）'],
         ['Runs laterally in the superficial fascia, parallel to and below the inguinal ligament, towards the anterior superior iliac spine', '在淺筋膜內向外、與腹股溝韌帶平行並位於其下方，朝髂前上棘'], ['Skin and superficial fascia of the groin and lower abdominal wall', '腹股溝與下腹壁的皮膚與淺筋膜'],
         [{pts: [o, add(o, P(S.sx * .020, .020, .012)), add(asis, P(S.sx * -.010, -.012, .005))], r: [.0010, .0005], samples: 18}]);
       art(S, fem, 'superficial external pudendal artery', '陰部外淺動脈', ['Femoral artery, below the inguinal ligament', '股動脈（腹股溝韌帶下方）'],
         ['Passes medially across the spermatic cord (or round ligament) to the skin of the scrotum or labium majus', '向內側越過精索（或子宮圓韌帶），到陰囊或大陰唇皮膚'], ['Skin of the lower abdomen, penis and scrotum (labium majus)', '下腹、陰莖與陰囊（大陰唇）皮膚'],
-        [{pts: [o, add(o, P(-S.sx * .016, -.002, .012)), add(pub, P(-S.sx * .010, .000, .020))], r: [.0010, .0005], samples: 18}]);
+        [{pts: [o, add(o, P(-S.sx * .016, -.002, .012)), add(tub, P(-S.sx * .004, -.012, .010))], r: [.0010, .0005], samples: 18}]);
       art(S, fem, 'deep external pudendal artery', '陰部外深動脈', ['Femoral artery, below the inguinal ligament', '股動脈（腹股溝韌帶下方）'],
         ['Passes medially deep to the great saphenous vein and across adductor longus to the skin of the perineum', '向內側行經大隱靜脈深面、越過內收長肌，到會陰皮膚'], ['Skin of the scrotum (labium majus) and perineum', '陰囊（大陰唇）與會陰皮膚'],
-        [{pts: [add(f(.872), P(0, 0, -.002)), add(f(.872), P(-S.sx * .018, -.012, -.006)), add(pub, P(-S.sx * .014, -.020, .006))], r: [.0010, .0005], samples: 18}]);
+        [{pts: [add(f(.872), P(0, 0, -.002)), add(f(.872), P(-S.sx * .018, -.012, -.006)), add(tub, P(-S.sx * .008, -.030, .006))], r: [.0010, .0005], samples: 18}]);
     }
     // Descending genicular artery → articular and saphenous branches.
     {

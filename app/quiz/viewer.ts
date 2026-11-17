@@ -23,7 +23,7 @@ export interface QuizViewState {
   context: boolean;
   peeling: boolean;
   command: {id: number; view: QuizView};
-  /** Levels 2 and 3 (學習關卡, 看結構寫名稱): the target is painted yellow with a glowing outline, nothing can be picked, and the camera chooses a random view where the target can be seen. */
+  /** Levels 2 and 3 (學習關卡, 看結構寫名稱): the target is painted violet with a glowing outline, nothing can be picked, and the camera chooses a random view where the target can be seen. */
   mode?: 'find' | 'name';
   /** Level 2: how clear the surrounding structures are (0 faint … 1 solid). */
   clarity?: number;
@@ -56,10 +56,10 @@ type AnatomyMesh = T.Mesh<T.BufferGeometry, T.MeshStandardMaterial>;
 export const FEEDBACK = {
   correct: {fill: '#5DB89A', edge: '#3E8E74'},
   wrong: {fill: '#D6304A', edge: '#A8243A'},
-  /** Level 2 target: yellow body with a brighter yellow glow around it. */
-  target: {fill: '#FBE27A', edge: '#FFEB9E'},
+  /** Level 2 target: violet body with a lighter violet glow around it (no body-system colour is violet; see scripts/test-target-highlight-colour.mjs). */
+  target: {fill: '#9B30FF', edge: '#C9A4FF'},
 };
-/** Neighbouring structures: a pale sky blue laid over the model's own colour and shading, thin blue outline. Several at once take lighter or deeper shades of the same blue, never darker than the yellow target is bright. */
+/** Neighbouring structures: a pale sky blue laid over the model's own colour and shading, thin blue outline. Several at once take lighter or deeper shades of the same blue, never darker than the violet target is bright. */
 export const NEIGHBOUR_SHADES = [
   {fill: '#9CC9F0', edge: '#4F94D2'},
   {fill: '#B7DAF6', edge: '#6BA8DC'},
@@ -249,7 +249,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
     }
     return points;
   };
-  /** A neighbour that stands between the camera and the yellow target turns half transparent so the target stays visible. */
+  /** A neighbour that stands between the camera and the violet target turns half transparent so the target stays visible. */
   const targetPoints = () => samplePoints(32);
   let cachedPoints: T.Vector3[] | undefined, cachedFor = '';
   const hidesTarget = (mesh: AnatomyMesh) => {
@@ -321,7 +321,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
       const fill = isAnswer ? FEEDBACK.correct.fill : isWrong ? FEEDBACK.wrong.fill : naming && isTarget && !pinned ? FEEDBACK.target.fill : shade ? shade.fill : keyboardId === structure.id ? '#5aa9e6' : base;
       // A neighbour is a pale blue wash over the structure's own colour, so its light, shade and fibre texture stay visible.
       if (shade) material.color.set(base).lerp(new T.Color(shade.fill), NEIGHBOUR_TINT); else material.color.set(fill);
-      // The emissive term keeps the light and shade of the surface: the yellow is a tint, not a flat fill.
+      // The emissive term keeps the light and shade of the surface: the violet is a tint, not a flat fill.
       material.emissive.set(lit ? fill : '#000000');
       material.emissiveIntensity = naming && isTarget ? .16 : isNeighbour ? .06 : isAnswer || isWrong ? .08 : 0;
       const glass = isCover(structure) && !isNeighbour;

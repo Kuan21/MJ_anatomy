@@ -55,7 +55,6 @@ export const NAMING_DATA={
   "lateral plantar nerve": "外蹠神經",
   "lateral sacral vein": "外薦靜脈",
   "levator palpebrae superioris": "提上眼瞼肌",
-  "levator veli palatini": "提顎帆肌",
   "long ciliary nerve": "長睫神經",
   "long thoracic nerve": "長胸神經",
   "medial plantar nerve": "內蹠神經",
@@ -66,13 +65,14 @@ export const NAMING_DATA={
   "pubococcygeus": "恥骨尾骨肌",
   "radial recurrent artery": "橈側迴返動脈",
   "short ciliary nerve": "短睫神經",
+  "sphenomandibular ligament": "蝶下頜韌帶",
+  "stylomandibular ligament": "莖突下頜韌帶",
   "superficial epigastric artery": "淺腹壁動脈",
   "superficial fibular nerve": "淺腓神經",
   "superior epigastric artery": "上腹壁動脈",
   "superior rectal artery": "上直腸動脈",
-  "tensor veli palatini": "張顎帆肌",
   "tibialis anterior": "脛前肌",
   "tibialis posterior": "脛後肌"
  },
- fixes:[["背闊肌","闊背肌"]] as [string,string][]
+ fixes:[["背闊肌","闊背肌"],["頷","頜"],["腭","顎"]] as [string,string][]
 };

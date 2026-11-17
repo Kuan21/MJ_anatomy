@@ -201,7 +201,7 @@ function LearnBody({catalogue, regionId, settings}: {catalogue: QuizCatalogue; r
           {!shown && !error && <div className="quiz-loading" role="status"><span className="quiz-spinner"/><strong>載入本題模型</strong><small>{load.loaded} / {load.total || '…'} 個模型套件</small></div>}
           {shown && !ready && !error && <div className="quiz-loading-chip" role="status"><span className="quiz-spinner"/>其餘構造載入中 {load.loaded} / {load.total}</div>}
           {error && <div className="quiz-model-error" role="alert"><strong>暫時未能作答</strong><p>{error}</p><button data-slot="quiz-button" className="quiz-primary" onClick={() => {setError(''); setReadiness({key: '', ready: false}); setSceneRetry(n => n + 1);}}>重新載入模型</button></div>}
-          <div className="quiz-stage-hint">{know ? '黃色標示的是這個構造 · 拖曳旋轉 · 滾輪／雙指縮放' : answer ? '可旋轉模型，對照正確位置' : peeling ? '移開遮擋中：點選構造會暫時隱藏，不計分' : '拖曳旋轉 · 滾輪／雙指縮放 · 點選作答'}</div>
+          <div className="quiz-stage-hint">{know ? '紫色標示的是這個構造 · 拖曳旋轉 · 滾輪／雙指縮放' : answer ? '可旋轉模型，對照正確位置' : peeling ? '移開遮擋中：點選構造會暫時隱藏，不計分' : '拖曳旋轉 · 滾輪／雙指縮放 · 點選作答'}</div>
         </section>
 
         <aside className="quiz-question-card" aria-label="學習關卡" data-target={target.id} data-step={run.step}>
@@ -212,7 +212,7 @@ function LearnBody({catalogue, regionId, settings}: {catalogue: QuizCatalogue; r
           <div className="quiz-question-heading"><span className="quiz-kicker">{answer ? 'ANSWER · 答案' : step.kicker}</span><span className="quiz-system-label" style={{borderColor: category?.color}}>{category?.label}</span></div>
           {know ? <>
             <h1 className="quiz-target" ref={title} tabIndex={-1}><Name structure={target}/></h1>
-            <p className="lesson-copy-note">黃色標示的就是這個構造。看完名稱與重點，再按「下一個」。</p>
+            <p className="lesson-copy-note">紫色標示的就是這個構造。看完名稱與重點，再按「下一個」。</p>
             <AnswerCard structure={target} lesson/>
           </> : <>
             <h1 className="quiz-target" ref={title} tabIndex={-1}><Name structure={target}/></h1>

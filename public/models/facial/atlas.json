@@ -879,8 +879,8 @@
     },
     {
       "id": "BP3-FMA49001",
-      "conceptId": "FMA49001",
-      "name": "Superficial part of right masseter",
+      "conceptId": "FMA49004",
+      "name": "Deep part of right masseter",
       "system": "muscular",
       "group": "muscles",
       "bufferUrl": "/models/facial/facial.bin",
@@ -906,8 +906,8 @@
     },
     {
       "id": "BP3-FMA49002",
-      "conceptId": "FMA49002",
-      "name": "Superficial part of left masseter",
+      "conceptId": "FMA49005",
+      "name": "Deep part of left masseter",
       "system": "muscular",
       "group": "muscles",
       "bufferUrl": "/models/facial/facial.bin",
@@ -933,8 +933,8 @@
     },
     {
       "id": "BP3-FMA49004",
-      "conceptId": "FMA49004",
-      "name": "Deep part of right masseter",
+      "conceptId": "FMA49001",
+      "name": "Superficial part of right masseter",
       "system": "muscular",
       "group": "muscles",
       "bufferUrl": "/models/facial/facial.bin",
@@ -960,8 +960,8 @@
     },
     {
       "id": "BP3-FMA49005",
-      "conceptId": "FMA49005",
-      "name": "Deep part of left masseter",
+      "conceptId": "FMA49002",
+      "name": "Superficial part of left masseter",
       "system": "muscular",
       "group": "muscles",
       "bufferUrl": "/models/facial/facial.bin",
