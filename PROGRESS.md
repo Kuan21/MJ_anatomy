@@ -5,7 +5,7 @@
 
 ## 目前狀態
 - 專案處於**穩定期**（2026-11-08 起）：暫停新功能，只修顯示錯誤；所有 PR 都要使用者人工審核，不可自行 merge。
-- main 最新：#405（2026-11-17 第二十次）。本分支已合併 main 到 #405。
+- main 最新：#405（2026-11-17 第二十一次確認）。本分支已合併 main 到 #405。
 - **main 已經有中心線連續性檢查**（#281、#328：`scripts/check-centerlines.mjs`、基準 `docs/centerline-known.json` 57 條，已在 `npm run check` 內）。本分支的 `check-centreline-continuity.mjs` 是另一套做法，見「待我決定」。
 - 開放 PR（下列是 2026-11-11 的清單；本機沒有 `gh`，之後沒有再查，main 已合併到 #338，清單很可能已過時）：
   - #223 心臟腔內構造與標籤（部分完成）
@@ -179,6 +179,13 @@
   - 修正後本機通過：`test-wording-unify`、`test-ear-refinement`（實際讀耳部模型執行）、七個 `test-centreline-*`（183 步中的第 152–158 步）、`check-no-notes`、`check-zh`（317 個檔）、`tsc --noEmit`；兩個 quiz-source 程式庫只做語法檢查（需 `.sites-runtime`，本機沒有）。完整 `npm run check` 因缺生成檔沒有跑。
   - 生成檔：`public/models/stream/` 現在有神經串流 `.bin.gz`，但仍沒有跑考串流二進位檔；`work/`、`serous/`、`female/`、`supplement-stream.json.gz` 仍不存在，連續性基準仍無法產生。
   - 其餘不變：`_diag-*.mjs` 四個與 `package-lock.json` 差異仍未提交、本機沒有 `gh`，未查 PR #248 的 CI。
+
+- 2026-11-17（第二十一次）：修腳本的 Windows 路徑，沒有改模型、解剖內容或網站。
+  - `git fetch` 後 main 仍在 #405，本分支已含全部 main 的 commit，不需要合併。
+  - 再找到三個腳本有 `new URL(...).pathname` 交給 `require()` 的寫法，已改用 `fileURLToPath`：`test-joints-lr-names`（在 `npm run check` 內，`check.d/20261116-joints-lr-names.txt`）、`extract-zanatomy-joints`、`extract-zanatomy-nervous`。用同一路徑在本機重現舊寫法：`require` 得到 `MODULE_NOT_FOUND`，也就是 `test-joints-lr-names` 在 Windows 原本會失敗。改後本機實際執行通過（289 個成對組織、144 對，沒有左右顛倒）。兩個抽取腳本只做了語法檢查，**沒有實際執行**（要 Z-Anatomy 原始檔）。Linux／CI 行為不變。
+  - 本機通過：`test-joints-lr-names`、七個 `test-centreline-*`（183 步中的第 152–158 步）、`check-no-notes`。完整 `npm run check` 因缺生成檔沒有跑。
+  - 現在 `scripts/` 內已沒有把 `URL.pathname` 當檔案路徑用的寫法（`derive-subclavian-shift` 只用在印出訊息、`lib/stability-static` 只切相對路徑，都不需要改）。
+  - 其餘不變：`work/`、`serous/`、`female/`、`supplement-stream.json.gz`、跑考串流二進位檔仍缺，連續性基準仍無法產生；`_diag-*.mjs` 四個與 `package-lock.json` 差異仍未提交；本機沒有 `gh`，未查 PR #248 的 CI。
 
 ## 進行中／等審核
 - S2 A–G、S3、S4、S6 相關工作都已有 PR（見上），等使用者審核。
