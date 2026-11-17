@@ -1,6 +1,6 @@
 import {useEffect, useMemo, useRef, useState} from 'react';
 import {AlertCircle, ArrowLeft, ArrowRight, Check, Target, X} from 'lucide-react';
-import {QUIZ_CATEGORIES, QUIZ_REGIONS, categoryOf, learnHashOf, type QuizCatalogue, type QuizRegionId, type QuizStructure} from './catalogue';
+import {FOCUS_COUNT, QUIZ_CATEGORIES, QUIZ_REGIONS, categoryOf, learnHashOf, type QuizCatalogue, type QuizRegionId, type QuizStructure} from './catalogue';
 import {ModeNav} from './mode-nav';
 import {CategoryPicker, RegionPicker, toggleRegionIn, toggleSectionIn} from './setup-parts';
 import {EXAM_DEFAULTS, EXAM_LIMITS, clock, loadExamSetup, saveExamSetup, remainingSeconds, withSide, type ExamSetup} from './exam-setup';
@@ -19,6 +19,8 @@ const TIER: Record<Difficulty, string> = {easy: '簡單', medium: '中等', hard
 type Phase = 'setup' | 'loading' | 'running' | 'result';
 /** Decoded bytes of model data the exam keeps in memory before it starts (about 140 MB); a longer exam brings the stations beyond this in while the earlier ones are answered. */
 const PRELOAD_LIMIT = 140 * 1024 * 1024;
+/** A station draws the structure under the needle, the bones and the structures nearest to it; the far faint structures are not loaded or drawn (nothing is picked in the exam). */
+const EXAM_FOCUS = {count: FOCUS_COUNT};
 
 /** 模擬考試: the hardest mode. Needle on a structure, name it (and the side) before the clock runs out; stations are shuffled over every chosen region, there is no hint, no feedback and no way back; the result comes at the end. */
 export default function ExamPage() {
@@ -44,7 +46,7 @@ export default function ExamPage() {
       const drawn = composeExam(pool, setup.count);
       // Everything the stations need is loaded into memory before the first station, so no station waits for a model and the clock never runs while loading (the data stays in memory for the whole exam).
       setPrep({done: 0, total: 0});
-      const report = await preloadQuestions(drawn.map(q => ({catalogue: loaded[q.region]!, target: q.structure, section: 'all' as const, side: 'both' as const})), {limitBytes: PRELOAD_LIMIT, onProgress: (done, total) => setPrep({done, total})});
+      const report = await preloadQuestions(drawn.map(q => ({catalogue: loaded[q.region]!, target: q.structure, section: 'all' as const, side: 'both' as const, focus: EXAM_FOCUS})), {limitBytes: PRELOAD_LIMIT, onProgress: (done, total) => setPrep({done, total})});
       void report;
       setCatalogues(loaded); setQuestions(drawn); setStations([]); setSeconds(setup.seconds); setElapsed(0); setPhase('running');
     } catch { setProblem('題庫未能載入，請重試。'); setPhase('setup'); }
@@ -146,7 +148,7 @@ function ExamRun({catalogues, questions, seconds, onFinish, onQuit}: {catalogues
     </header>
     <div className="quiz-play-layout is-naming is-exam">
       <section className="quiz-stage" aria-label="3D 模型，針指住的構造是題目">
-        <QuizScene key={`${question.region}:${sceneRetry}`} catalogue={catalogue} view={{key: questionKey, target, section: 'all', side: 'both', answered: false, pickedId: null, hidden: [], context: true, peeling: false, command, mode: 'name', clarity: .7, only: false, highlightIds: [], pin: true, next: questions[index + 1] && catalogues[questions[index + 1].region] ? {catalogue: catalogues[questions[index + 1].region]!, target: questions[index + 1].structure} : undefined}}
+        <QuizScene key={`${question.region}:${sceneRetry}`} catalogue={catalogue} view={{key: questionKey, target, section: 'all', side: 'both', answered: false, pickedId: null, hidden: [], context: true, peeling: false, command, mode: 'name', clarity: .7, only: false, highlightIds: [], pin: true, focus: EXAM_FOCUS, next: questions[index + 1] && catalogues[questions[index + 1].region] ? {catalogue: catalogues[questions[index + 1].region]!, target: questions[index + 1].structure, focus: EXAM_FOCUS} : undefined}}
           onReady={(key, value) => setReadiness({key, ready: value})} onProgress={(loaded, total) => setLoad({loaded, total})} onError={setError} onPick={() => {}} onMessage={setMessage}/>
         <div className="quiz-stage-caption"><span>紅色的針指住的構造是哪一個？</span></div>
         <div className="quiz-view-buttons" aria-label="模型視角"><button data-slot="quiz-button" onClick={() => setCommand(c => ({id: c.id + 1, view: 'random'}))}>換角度</button></div>
