@@ -2,7 +2,7 @@
 // intercostobrachial): textbook courses on landmarks measured on the atlas meshes.
 import {sub, add, mul, unit, len, lerp, cross} from '../lib/paokao-util.mjs';
 import {smooth} from '../lib/nerve-corrections.mjs';
-import {displaceAlong, grooveLine, sampleAtHeight} from '../lib/rln-groove.mjs';
+import {displaceAlong, grooveLine, resampleByArc, sampleAtHeight} from '../lib/rln-groove.mjs';
 
 const SIDES = [{w: 'Right', l: 'right', sx: -1, zh: '右', s: 'r'}, {w: 'Left', l: 'left', sx: 1, zh: '左', s: 'l'}];
 
@@ -50,13 +50,23 @@ export default function thoraxNerves(U) {
       const o = S.s === 'r' ? axis(vag, 1.418, P(S.sx * .017, 1.418, 0)) : axis(vag, 1.36, P(S.sx * .015, 1.36, -.02));
       const loop = S.s === 'r' ? add(axis('Right subclavian artery', 1.412, P(-.05, 1.412, 0)), P(.0, -.012, -.004)) : add(U.cen('Arch of aorta', P(.02, 1.36, -.01), .006), P(-.004, -.012, -.006));
       const g = y => { const c = axis(trach, y, P(0, y, -.01)); return add(c, P(S.sx * .0135, 0, -.0015)); };
-      let pts = [o, loop, g(1.385), g(1.420), g(1.450), add(U.extreme('Cricoid cartilage', P(S.sx * -1, 0, 0)), P(S.sx * .0035, -.002, -.0005))], samples = 44;
+      // Upper end (HN-24 follow-up): the nerve enters the larynx on its own side, behind the cricothyroid joint, at the postero-lateral edge of the cricoid cartilage, so it never crosses the
+      // midline. (The earlier end was the far-side lateral extreme of the cricoid plus 3.5 mm, which sent the last 15 mm across behind the trachea.) The point is a millimetre outside the lateral extreme of the cricoid, 3.5 mm below
+      // it and 5.2 mm behind it, which clears the cricoid, the thyroid cartilage and its inferior horn, the trachea and the posterior crico-arytenoid muscle (scripts/test-rln-groove.mjs).
+      const latCric = U.extreme('Cricoid cartilage', P(S.sx, 0, 0)), larynx = add(latCric, P(S.sx * .0006, -.0035, -.0052));
+      const earlier = U.legacyRlnEnds || U.legacyRln;   // test only: the course as it was before this change (legacyRln: before the groove move too)
+      let pts = earlier ? [o, loop, g(1.385), g(1.420), g(1.450), add(U.extreme('Cricoid cartilage', P(S.sx * -1, 0, 0)), P(S.sx * .0035, -.002, -.0005))] : [o, loop, g(1.385), g(1.420), g(1.450), larynx], samples = 44;
+      // Right side: the nerve passes below and behind the subclavian artery and then climbs at once. The earlier course dipped to 1.385 m after the hook and climbed from there; that landmark is dropped,
+      // and the hook sits closer under the artery (about 4.5 mm from its wall, measured at the lateral-most ring) instead of 10.5 mm below it.
+      if (S.s === 'r' && !earlier) pts = [o, P(-.0235, 1.4135, -.003), add(axis('Right subclavian artery', 1.412, P(-.05, 1.412, 0)), P(.0, -.0055, -.004)), P(-.040, 1.4125, -.004), add(g(1.417), P(-.008, 0, .0015)), g(1.420), g(1.450), larynx];
+      // The landmarks of the right course are far apart on the hook and close together at the groove; resampled evenly along the arc length so the rings are evenly spaced.
+      if (S.s === 'r' && !earlier) { pts = resampleByArc(smooth(pts, 400), 52); samples = 51; }
       // Left side: the course above lies about 10 mm lateral of the groove (the tracheal axis taken from the slab is off to the left; on the right side the same error happens to cancel the
       // offset). The left nerve is moved onto the groove line fitted to the tracheal mesh (scripts/lib/rln-groove.mjs), the same line on which the right nerve already lies. The offset is zero at
       // the hook round the aortic arch and at the cricoid and blends in between by smootherstep over the arc length of the nerve, so it stays attached to the vagus and the larynx.
       if (S.s === 'l' && !U.legacyRln) {
         const dense = smooth(pts, 51), line = grooveLine(U.V(trach), S.sx), stations = [{i: 10, dx: 0, dz: 0}];
-        for (let y = 1.375; y < 1.4551; y += .005) { const i = sampleAtHeight(dense, y, 12), [x, z] = line(dense[i][1]); stations.push({i, dx: x - dense[i][0], dz: z - dense[i][2]}); }
+        for (let y = 1.375; y < (earlier ? 1.4551 : 1.4601); y += .005) { const i = sampleAtHeight(dense, y, 12), [x, z] = line(dense[i][1]); stations.push({i, dx: x - dense[i][0], dz: z - dense[i][2]}); }
         stations.push({i: 50, dx: 0, dz: 0});
         pts = displaceAlong(dense, stations); samples = 50;
       }
