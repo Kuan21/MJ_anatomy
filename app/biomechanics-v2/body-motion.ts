@@ -48,11 +48,13 @@ export function makeBodyRig(atlas:Atlas,region:BodyRegion):BodyRig{
   const upperChain=/clavicle|scapula|humerus|ulna|radius|carpal|capitate|hamate|lunate|pisiform|scaphoid|trapezium|trapezoid|triquetr|sesamoid bone of (?:left|right) hand|metacarpal|phalanx of .*?(?:finger|thumb)|cervical vertebra|cricoid|atlas$|axis$|occipital|parietal|frontal bone|temporal bone|sphenoid|ethmoid|mandible|maxilla|zygomatic|nasal bone|lacrimal bone|palatine bone|vomer|inferior nasal concha|hyoid/i;
   const topFrame=framePartIds[framePartIds.length-1];
   const assigned=new Set(framePartIds.flat()),topY=levels[levels.length-1];
+  // bone landmarks of the shoulder girdle and arm ride their bone rigidly (paokao bindings.rigid), so they ride the upper thorax with it, whatever their name
+  const rigidLandmarks=new Set(Object.keys((paokaoBindings as {rigid?:Record<string,unknown>}).rigid??{}));
   for(const p of atlas.parts){
    if(p.system!=='skeletal'||assigned.has(p.id))continue;
    const b=bodyBindings[p.id],pc=center(p);
    const cranioCervicalSpatial=pc.y>topY+.035&&Math.abs(pc.x)<.38;
-   if(upperChain.test(p.name)||(b?.rig==='head'&&b.frame!==null)||cranioCervicalSpatial)topFrame.push(p.id);
+   if(upperChain.test(p.name)||rigidLandmarks.has(p.id)||(b?.rig==='head'&&b.frame!==null)||cranioCervicalSpatial)topFrame.push(p.id);
   }
   return{region,pivots,levels,focusIds:[...new Set([...focusIds,...framePartIds.flat(),...blendPartIds.map(x=>x.id)])],framePartIds,blendPartIds};
  }
