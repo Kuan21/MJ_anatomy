@@ -15,7 +15,8 @@ export const COPIED = [
   ['Esophageal plexus', 'paokao', 'Esophageal plexus'], ['Right celiac ganglion', 'paokao', 'Right celiac ganglion'], ['Left celiac ganglion', 'paokao', 'Left celiac ganglion'],
   ['Right greater splanchnic nerve', 'paokao', 'Right greater splanchnic nerve'], ['Left greater splanchnic nerve', 'paokao', 'Left greater splanchnic nerve'],
   ['Spleen', 'atlas', 'FJ2561'], ['Pancreas', 'atlas', 'FJ1895'],
-  // related muscle shown with the organ: the diaphragm, whose left dome lies on the fundus and whose oesophageal hiatus the oesophagus passes through
+  // related muscle shown with the organ: the diaphragm, whose left dome lies on the fundus and whose oesophageal hiatus the oesophagus passes through;
+  // only the part left of x = -20 mm is kept (left dome, central tendon next to it, hiatus and crura), so the right dome over the liver does not cover the stomach
   ['Diaphragm', 'atlas', 'FJ3131'],
 ];
 
@@ -25,6 +26,7 @@ export function buildSupply({writer, atlasPart, nervePart, paokaoPart, surface, 
     let m = src[kind](id);
     if (lo !== undefined && kind === 'atlas') m = clipPlane(m.positions, m.indices, [0, -1, 0], -lo);
     if (kind === 'nerve') { m = clipPlane(m.positions, m.indices, [0, -1, 0], -lo); m = clipPlane(m.positions, m.indices, [0, 1, 0], hi); }
+    if (key === 'Diaphragm') m = clipPlane(m.positions, m.indices, [-1, 0, 0], .02);
     m = weld(m.positions, m.indices, 1e-6); meshes.set(key, m);
   }
   const V = key => verticesOf(meshes.get(key)), sv = verticesOf(surface), sn = vertexNormals(surface.positions, surface.indices);

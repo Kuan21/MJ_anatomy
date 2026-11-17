@@ -258,9 +258,9 @@ export const SUPPLY_PARTS: OrganPartDef[] = [
 
   // ---- related muscles (shown with the organ; the muscular coat of the stomach itself has no model, see its card)
   part('Diaphragm', 'Diaphragm', '橫膈', 'muscles', '#b8695c', {
-    loc: b('A dome-shaped sheet of muscle between the chest and the abdomen; its left dome lies directly on the fundus of the stomach.', '分隔胸腔與腹腔的圓頂形肌肉板；左側圓頂直接蓋在胃底上方。'),
+    loc: b('A dome-shaped sheet of muscle between the chest and the abdomen; its left dome lies directly on the fundus of the stomach. Only the left half, around the oesophageal hiatus, is shown here.', '分隔胸腔與腹腔的圓頂形肌肉板；左側圓頂直接蓋在胃底上方。這裡只顯示食道裂孔附近的左半部。'),
     rel: b('The oesophagus passes through its oesophageal hiatus, at about the level of the tenth thoracic vertebra, with the vagal trunks; the fibres of the right crus loop round the hiatus.', '食道與迷走神經幹在約第十胸椎高度穿過其食道裂孔；右膈腳的肌纖維環繞裂孔。'),
     fn: b('The main muscle of breathing; around the hiatus it also helps the lower oesophageal sphincter to keep stomach contents from flowing back.', '主要的呼吸肌；裂孔周圍的肌纖維也協助食道下括約肌，防止胃內容物逆流。'),
     nerve: b('Phrenic nerves (C3–C5).', '膈神經（C3–C5）。'),
-  }, {opacity: .35, quiz: false}),
+  }, {opacity: .2, quiz: false}),
 ];
