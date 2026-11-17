@@ -1,6 +1,6 @@
 // Renal hilum order (AB-01): screenshots of a production build served by vite preview (software GL, light theme). No annotations are drawn.
 // usage: node scripts/browser/renal-hilum-shots.cjs <port> <outDir> <tag> [base=/MJ_anatomy/]
-// Shown: kidneys, ureters, renal arteries and veins (with divisions and branches), abdominal aorta and inferior vena cava only. Views: front, from above (front-to-back order reads top to bottom), and close obliques of each hilum;
+// Shown: kidneys, ureters, renal arteries (trunk and divisions) and renal veins only. Views: front, from above (front-to-back order reads top to bottom), and close obliques of each hilum;
 // then the same views with both kidneys hidden, so the renal pelvis (the upper end of the ureter, otherwise inside the kidney) shows behind the artery and vein;
 // each series at desktop size (1500×950) and phone size (390×844). Colours: veins blue, arteries red, ureter and renal pelvis brown (urinary). Loading takes 20–25 minutes with software WebGL.
 const {chromium}=require('playwright');const fs=require('fs');
@@ -9,10 +9,11 @@ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 // [name, target (m), direction from target to camera, distance (m)]
 const VIEWS=[
  ['front',[0,1.108,0],[0,0,1],0.26],
- ['above',[0,1.11,-0.005],[0,1,0.02],0.24],
- ['left-hilum-above',[0.036,1.118,-0.008],[0.15,1,0.25],0.085],
+ // from above and behind, looking forward and down: the front of the body is at the top of the image, so the front-to-back order reads top to bottom
+ ['above',[0,1.11,-0.005],[0,0.94,-0.34],0.26],
+ ['left-hilum-above',[0.036,1.118,-0.008],[0,0.94,-0.34],0.09],
  ['left-hilum-oblique',[0.036,1.118,-0.008],[0.55,0.35,0.75],0.09],
- ['right-hilum-above',[-0.034,1.108,-0.006],[-0.15,1,0.25],0.085],
+ ['right-hilum-above',[-0.034,1.108,-0.006],[0,0.94,-0.34],0.09],
  ['right-hilum-oblique',[-0.034,1.108,-0.006],[-0.55,0.35,0.75],0.09],
 ];
 (async()=>{
@@ -23,8 +24,8 @@ const VIEWS=[
  {const t0=Date.now();await p.waitForFunction(()=>document.querySelector('[data-testid=load-bar]')?.getAttribute('aria-valuenow')==='100',null,{timeout:3600000,polling:2000});console.log('loaded',Math.round((Date.now()-t0)/1000)+'s');}
  await sleep(8000);
  // Only the hilum structures: urinary, arterial and venous systems on, every other part of them hidden (the page state is set through React, as the system panel and the Hide
- // button would; nothing in the app is changed). Kept: kidneys, ureters, renal arteries and veins with their divisions and branches, abdominal aorta, inferior vena cava.
- const KEEP='kidney|ureter$|renal (artery|vein)|division of (left|right) renal artery|segmental branch of (left|right) renal artery|Ureteric segment|Abdominal aorta|Inferior vena cava';
+ // button would; nothing in the app is changed). Kept: kidneys, ureters, renal arteries (trunk and anterior and posterior divisions) and renal veins.
+ const KEEP='^(Left|Right) (kidney|ureter|renal artery|renal vein)$|^Trunk of (left|right) renal artery$|division of (left|right) renal artery$';
  const setScene=(hideRx)=>p.evaluate(([KEEP,hideRx])=>{
   const keep=new RegExp(KEEP,'i'),hide=hideRx?new RegExp(hideRx,'i'):null,all=window.__mjView.partsState('.');
   const hiddenParts=all.filter(x=>!keep.test(x.name)||(hide&&hide.test(x.name))).map(x=>x.id);
