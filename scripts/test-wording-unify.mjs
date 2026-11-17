@@ -14,7 +14,7 @@ const root = new URL('../', import.meta.url), rootPath = path.resolve(root.pathn
 const OLD = /[頷腭]/;
 
 // 1. no old spelling in anything the site shows (source strings and generated data); alias tables and character-fold maps are the allowed places
-const ALLOWED = new Set(['app/mj-head-neck-names.json', 'app/mj-head-neck-names.ts', 'app/mj-related-' + 'search.json', 'app/mj-search.ts', 'app/quiz/naming.ts']);
+const ALLOWED = new Set(['app/mj-head-neck-names.json', 'app/mj-head-neck-names.ts', 'app/mj-required-names.json', 'app/mj-related-' + 'search.json', 'app/mj-search.ts', 'app/quiz/naming.ts']);
 const walk = d => fs.readdirSync(d, {withFileTypes: true}).flatMap(e => e.name === 'node_modules' || e.name.startsWith('.') ? [] : e.isDirectory() ? walk(path.join(d, e.name)) : [path.join(d, e.name)]);
 let scanned = 0;
 for (const dir of ['app', 'components', 'lib', 'public', 'dist']) {
@@ -56,14 +56,14 @@ assert.ok(brainNames > 300 || !fs.existsSync(quizFile), `only ${brainNames} brai
 
 // 3. CSF page wording
 const csf = ['app/organ/csf-notes.ts', 'app/organ/csf-scene.ts'].map(f => fs.readFileSync(new URL(f, root), 'utf8')).join('\n');
-assert.ok(!/大腦導水管|蜘蛛膜/.test(csf), 'CSF page: 大腦導水管／蜘蛛膜 must not appear');
-assert.ok(/中腦導水管/.test(csf) && /蛛網膜下腔/.test(csf) && /蛛網膜顆粒/.test(csf), 'CSF page uses 中腦導水管、蛛網膜下腔、蛛網膜顆粒');
+assert.ok(!/中腦導水管|蜘蛛膜/.test(csf), 'CSF page: 中腦導水管（HN-11 改為必考清單用詞）／蜘蛛膜 must not appear');
+assert.ok(/大腦導水管/.test(csf) && /蛛網膜下腔/.test(csf) && /蛛網膜顆粒/.test(csf), 'CSF page uses 大腦導水管、蛛網膜下腔、蛛網膜顆粒');
 const brainZh = fs.readFileSync(new URL('app/mj-zh-extra.ts', root), 'utf8');
-assert.ok(brainZh.includes("'cerebral aqueduct':'中腦導水管'"), 'the model name of the aqueduct is 中腦導水管');
+assert.ok(brainZh.includes("'cerebral aqueduct':'大腦導水管'"), 'the model name of the aqueduct is 大腦導水管');
 
 // 4. old spellings still search
 const {chineseMatches} = await quizModule('app/mj-search.ts');
-for (const [shown, typed] of [['下頜下腺', '頷下腺'], ['下頜下腺', '下頷下腺'], ['左顎咽肌', '腭咽肌'], ['右提顎帆肌', '提腭帆肌'], ['左翼下頜縫', '翼下頷縫'], ['左下頜神經前股', '下頷神經前股'], ['上頜竇', '上頷竇'], ['蛛網膜下腔', '蜘蛛膜下腔'], ['蛛網膜顆粒', '蜘蛛膜顆粒'], ['上頜神經', '上頷神經'], ['顎', '腭']]) {
+for (const [shown, typed] of [['頜下腺', '頷下腺'], ['頜下腺', '下頷下腺'], ['左顎咽肌', '腭咽肌'], ['右提顎帆肌', '提腭帆肌'], ['左翼下頜縫', '翼下頷縫'], ['左下頜神經前股', '下頷神經前股'], ['上頜竇', '上頷竇'], ['蛛網膜下腔', '蜘蛛膜下腔'], ['蛛網膜顆粒', '蜘蛛膜顆粒'], ['上頜神經', '上頷神經'], ['顎', '腭']]) {
   assert.ok(chineseMatches(shown, typed), `search 「${typed}」 should find 「${shown}」`);
   assert.ok(chineseMatches(shown, shown), `search 「${shown}」 finds itself`);
 }

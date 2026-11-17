@@ -21,7 +21,7 @@ import ActiveFilters,{type FilterChip} from './active-filters';
 import {selectOnly,withCameraFocus} from './selection-state';
 import {readHoverLabels,writeHoverLabels} from './hover-labels';
 import {resolveDissection} from './mj-dissection';
-import {structureProfile} from './mj-structure-info';
+import {structureProfile,brainCardIndex,withBrainCard,type BrainCardLite} from './mj-structure-info';
 import {resolveLungLabels,lungHilumRoot,lungContextIds,lungImpressors,lungLinkTarget} from './mj-lung-labels';
 import {scopeOf,SCOPE_LABEL} from './mj-scope';
 import {LUNG_CATEGORIES,LUNG_CATEGORY,lungCategoryOf,type LungCategoryKey} from './mj-lung-categories';
@@ -291,7 +291,11 @@ export default function Home({initialRegion='whole'}:{initialRegion?:'whole'|'up
  const reset=()=>{stopMotionAnimation();setMicroAtlas(null);setLungView(null);setLungMedial(false);setLungImpress(false);setRegionPrev(null);setRegionSub(undefined);setFadeOther(false);setSpaceId(null);setSpaceItem(null);setLayerPicked(null);setError('');setNotice('');setAbout(false);setMobileMotionOpen(false);setState(s=>({...initial,visible:DEFAULT_VISIBLE,reset:s.reset+1}));setTopRegion('whole');setStudySide('both');setRightTool(null);setChosen(null);setExternalNerve(null);setDetails(false);setPanel(null);setRegion('whole-body');setDissectionStage(0);setMotionPose(NEUTRAL_POSE);motionPoseRef.current=NEUTRAL_POSE;motionTargetRef.current=NEUTRAL_POSE;setMotionEdit(false);setMotionEnabled(false);};
  const openPanel=(next:'layers'|'search')=>{setDetails(false);setPanel(p=>p===next?null:next);};
  const currentRegion=regionById(region);
- const profile=externalNerve?structureProfile(extras.find(x=>(x.raw??x.n)===externalNerve)?.n??externalNerve,externalSystem):chosen&&selected?structureProfile(chosen.name,selected.system,selected):null;
+ const profileBase=externalNerve?structureProfile(extras.find(x=>(x.raw??x.n)===externalNerve)?.n??externalNerve,externalSystem):chosen&&selected?structureProfile(chosen.name,selected.system,selected):null;
+ // The brain information cards (our own texts) also fill the main atlas card of a structure with the same name; loaded once, the first time a card is open.
+ const [brainCards,setBrainCards]=useState<Map<string,BrainCardLite>|null>(null);
+ useEffect(()=>{if(!profileBase||brainCards)return;const abort=new AbortController();void fetch(`${import.meta.env.BASE_URL}models/brain/neuro-cards.json`,{signal:abort.signal}).then(r=>r.ok?(r.json() as Promise<{cards:BrainCardLite[]}>):Promise.reject(new Error('cards'))).then(d=>{if(!abort.signal.aborted)setBrainCards(brainCardIndex(d.cards));}).catch(()=>{});return()=>abort.abort();},[!!profileBase,brainCards]);
+ const profile=useMemo(()=>profileBase&&brainCards?withBrainCard(profileBase,brainCards):profileBase,[profileBase,brainCards]);
  // A lung structure takes the colour and the letter of its category on the data card (top bar, category tag); names in its fields open that structure.
  // Scope (範圍): 摘要 when the structure is named in the summary the atlas must cover, otherwise 延伸.
  const scope=profile?scopeOf(externalNerve??chosen?.name??profile.english,externalNerve?[]:chosen?.elements??[]):null;
