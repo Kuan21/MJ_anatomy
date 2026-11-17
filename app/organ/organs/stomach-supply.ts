@@ -10,6 +10,7 @@ export const SUPPLY_GROUPS: OrganGroupDef[] = [
   {id: 'veins', en: 'Veins and portal tributaries', zh: '靜脈（含門靜脈屬支）', layer: 1, on: true},
   {id: 'arteries', en: 'Arteries', zh: '動脈', layer: 2, on: true},
   {id: 'lymph', en: 'Lymphatic drainage (card only)', zh: '淋巴引流（只有資訊卡）', layer: -1, on: true},
+  {id: 'muscles', en: 'Related muscles', zh: '相關肌肉', layer: 3, on: true},
 ];
 
 const ART = '#c4413a', VEIN = '#3f66b0', PORTAL = '#5b4fb0', NERVE = '#d4a600', GANGLION = '#b88a00';
@@ -254,4 +255,12 @@ export const SUPPLY_PARTS: OrganPartDef[] = [
     rel: b('The splenic artery runs along its upper border and the splenic vein behind it; the stomach lies in front, separated by the lesser sac.', '脾動脈沿其上緣走，脾靜脈在其後方；前方隔著網膜囊與胃相對。'),
     fn: b('It secretes digestive enzymes into the duodenum and insulin and glucagon into the blood.', '把消化酵素分泌到十二指腸，並把胰島素與升糖素分泌到血液。'),
   }, {opacity: .5, quiz: false}),
+
+  // ---- related muscles (shown with the organ; the muscular coat of the stomach itself has no model, see its card)
+  part('Diaphragm', 'Diaphragm', '橫膈', 'muscles', '#b8695c', {
+    loc: b('A dome-shaped sheet of muscle between the chest and the abdomen; its left dome lies directly on the fundus of the stomach.', '分隔胸腔與腹腔的圓頂形肌肉板；左側圓頂直接蓋在胃底上方。'),
+    rel: b('The oesophagus passes through its oesophageal hiatus, at about the level of the tenth thoracic vertebra, with the vagal trunks; the fibres of the right crus loop round the hiatus.', '食道與迷走神經幹在約第十胸椎高度穿過其食道裂孔；右膈腳的肌纖維環繞裂孔。'),
+    fn: b('The main muscle of breathing; around the hiatus it also helps the lower oesophageal sphincter to keep stomach contents from flowing back.', '主要的呼吸肌；裂孔周圍的肌纖維也協助食道下括約肌，防止胃內容物逆流。'),
+    nerve: b('Phrenic nerves (C3–C5).', '膈神經（C3–C5）。'),
+  }, {opacity: .35, quiz: false}),
 ];

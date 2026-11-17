@@ -9,6 +9,7 @@ const groups: OrganGroupDef[] = [
   {...SUPPLY_GROUPS[1], on: false},
   {...SUPPLY_GROUPS[0], on: false},
   SUPPLY_GROUPS[3],
+  SUPPLY_GROUPS[4],
   {id: 'context', en: 'Neighbouring organs and gut tube', zh: '相鄰器官與消化管', layer: 3, on: true},
   {id: 'info', en: 'Wall layers and mucosa (card only)', zh: '胃壁與黏膜（只有資訊卡）', layer: -1, on: true},
 ];
@@ -179,14 +180,14 @@ const ALL_PARTS: OrganPartDef[] = [...parts.filter(p => p.group !== 'context' &&
 export const STOMACH: OrganDef = {
   id: 'stomach', zh: '胃', en: 'Stomach', manifest: 'models/organ/stomach/stomach.json', groups, parts: ALL_PARTS, coreGroups: ['zones', 'lines', 'wall'], zonesDefault: true, glassGroups: ['wall'],
   presets: [
-    {id: 'organ', en: 'Organ', zh: '器官', show: ['wall', 'zones', 'lines', 'context', 'info'], zones: true},
+    {id: 'organ', en: 'Organ', zh: '器官', show: ['wall', 'zones', 'lines', 'context', 'info', 'muscles'], zones: true},
     {id: 'arteries', en: 'Arteries', zh: '動脈', show: ['arteries'], ghost: ['wall']},
     {id: 'veins', en: 'Veins', zh: '靜脈', show: ['veins'], ghost: ['wall']},
     {id: 'nerves', en: 'Nerves', zh: '神經', show: ['nerves'], ghost: ['wall']},
-    {id: 'overview', en: 'Overview', zh: '全部', show: ['wall', 'lines', 'arteries', 'veins', 'nerves', 'context', 'info', 'lymph'], glass: true, zones: false},
+    {id: 'overview', en: 'Overview', zh: '全部', show: ['wall', 'lines', 'arteries', 'veins', 'nerves', 'context', 'info', 'lymph', 'muscles'], glass: true, zones: false},
   ],
   peelNote: '由外而內：神經 → 靜脈 → 動脈 → 相鄰器官與消化管 → 彎、切跡與括約肌的標示 → 分區顏色 → 胃壁本身。',
   scope: ['胃分區（賁門、胃底、胃體、幽門竇、幽門管）與胃大彎、胃小彎、胃角切跡、賁門切跡、幽門括約肌，都是標示在同一個胃模型表面上的位置，不是另外的模型；邊界位置為示意。',
     '動脈、靜脈（含門靜脈屬支）與神經分組：腹腔幹與其分支、胃的靜脈與脾靜脈、腸繫膜上靜脈、門靜脈、迷走神經下段、腹腔神經節、大內臟神經是圖譜既有的模型；胃短動脈與靜脈、胃後動脈與靜脈、前迷走神經幹、胃前支、腹腔神經叢是依一般描述沿中心線畫成的示意管，起止點放在相鄰模型的表面上。',
-    '部分血管在圖譜模型中緊貼甚至略陷入胃壁，尤其是胃左動脈靠近賁門處；用「胃壁透明」或逐層剝離即可看到。淋巴結沒有模型，只有資訊卡。食道腹部、十二指腸第一部、脾與胰只作為相鄰構造顯示。肌層、皺襞與胃管沒有模型，只有資訊卡。'],
+    '部分血管在圖譜模型中緊貼甚至略陷入胃壁，尤其是胃左動脈靠近賁門處；用「胃壁透明」或逐層剝離即可看到。淋巴結沒有模型，只有資訊卡。食道腹部、十二指腸第一部、脾與胰只作為相鄰構造顯示。相關肌肉（橫膈，半透明）在「器官」與「全部」兩個視圖一起顯示。肌層、皺襞與胃管沒有模型，只有資訊卡。'],
 };

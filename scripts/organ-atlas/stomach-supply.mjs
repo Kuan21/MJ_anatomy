@@ -15,6 +15,8 @@ export const COPIED = [
   ['Esophageal plexus', 'paokao', 'Esophageal plexus'], ['Right celiac ganglion', 'paokao', 'Right celiac ganglion'], ['Left celiac ganglion', 'paokao', 'Left celiac ganglion'],
   ['Right greater splanchnic nerve', 'paokao', 'Right greater splanchnic nerve'], ['Left greater splanchnic nerve', 'paokao', 'Left greater splanchnic nerve'],
   ['Spleen', 'atlas', 'FJ2561'], ['Pancreas', 'atlas', 'FJ1895'],
+  // related muscle shown with the organ: the diaphragm, whose left dome lies on the fundus and whose oesophageal hiatus the oesophagus passes through
+  ['Diaphragm', 'atlas', 'FJ3131'],
 ];
 
 export function buildSupply({writer, atlasPart, nervePart, paokaoPart, surface, lesser, greater}) {
