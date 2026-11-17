@@ -11,6 +11,8 @@ import {Worker as NodeWorker} from 'node:worker_threads';
 import ts from 'typescript';
 import * as THREE from 'three';
 import {positionsOf} from './lib/stream-geometry.mjs';
+import {quizModule} from './quiz-modules.mjs';
+const {shiftHilumPart}=await quizModule('app/biomechanics-v2/renal-hilum-shift.ts');
 const root=fileURLToPath(new URL('../',import.meta.url)),stream=process.argv.includes('--stream'),withWorker=process.argv.includes('--worker');
 let pendingWorker=0,peakWorker=0,workerReplies=0,workerResults=[],workerCreated=0;
 if(withWorker){
@@ -223,7 +225,7 @@ if(withWorker){
 refCursor=0;main.namespace.default(props);await settle();
 scene.traverse(o=>{if(o.userData.mjNerve)assert.deepEqual(o.geometry.getAttribute('position').array,o.userData.basePositions,'nerve reset '+o.name);});
 const sourceBuffers=atlas.chunks.map(c=>fs.readFileSync(path.join(root,'public',c.url)));
-scene.traverse(o=>{const p=o.geometry?.getAttribute('partIndex'),positions=o.geometry?.getAttribute('position');if(!p)return;for(let i=0;i<p.count;){const part=atlas.parts[p.getX(i)],buffer=sourceBuffers[part.chunk],base=positionsOf(buffer,part);assert.ok(base.every((v,j)=>positions.array[i*3+j]===v),'exact reset after mixed motion: '+part.name);i+=part.vertexCount;}});
+scene.traverse(o=>{const p=o.geometry?.getAttribute('partIndex'),positions=o.geometry?.getAttribute('position');if(!p)return;for(let i=0;i<p.count;){const part=atlas.parts[p.getX(i)],buffer=sourceBuffers[part.chunk],base=positionsOf(buffer,part);shiftHilumPart(part.id,base);assert.ok(base.every((v,j)=>positions.array[i*3+j]===v),'exact reset after mixed motion: '+part.name);i+=part.vertexCount;}});
 console.log(spineNerves,'loaded nerves: trunk bindings, reported poses and exact reset PASS');
 // --full: the reproductive organs of both sexes in the actual scene. Switching 男／女 changes nothing but the sex field (the same switches stay on), and the scene must redraw:
 // every required structure of the chosen sex is drawn, none of the other sex. (Before the fix the scene ignored a change of sex while Reproductive was already on.)
