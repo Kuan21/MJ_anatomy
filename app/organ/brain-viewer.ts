@@ -380,10 +380,14 @@ export function createBrainViewer(host: HTMLDivElement, callbacks: Callbacks) {
     if (loaded && !userMoved) frameModel('fit'); dirty = true;
   };
   const observer = new ResizeObserver(resize); observer.observe(host); resize();
-  const render = () => {if (disposed) return; frame = requestAnimationFrame(render); controls.update(); if (dirty) {renderer.render(scene, camera); dirty = false;}};
+  // frame hooks: the hearing animation of the ear detail mode draws its pulses and moves the camera from here (it borrows the loaded scene instead of loading a second brain)
+  const frameHooks = new Set<() => void>();
+  const render = () => {if (disposed) return; frame = requestAnimationFrame(render); controls.update(); for (const hook of frameHooks) hook(); if (dirty) {renderer.render(scene, camera); dirty = false;}};
   render();
   return {
     update, exportForCsf,
+    /** What the hearing animation needs from the loaded model (null until it is loaded): the scene, camera and orbit controls, the meshes by part id, a way to ask for a redraw and a per-frame hook. */
+    hearing: () => loaded ? {scene, camera, controls, meshes, parts, invalidate: () => {dirty = true;}, onFrame: (hook: () => void) => {frameHooks.add(hook); return () => {frameHooks.delete(hook);};}} : null,
     /** Screenshots and tests: the canvas as it is drawn now. */
     get canvas() {return canvas;},
     dispose() {

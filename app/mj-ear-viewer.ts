@@ -5,29 +5,15 @@ import {framingDistance} from './camera-framing';
 import {fetchModelBuffer} from './model-download';
 import {EAR_BY_ID, EAR_LAYERS, type EarPart} from './mj-ear-atlas';
 
-export type EarSectionAxis = 'none' | 'sagittal' | 'coronal' | 'horizontal';
-export interface EarSection {axis: EarSectionAxis; offset: number; flip: boolean}
 export type EarView = 'lateral' | 'medial' | 'front' | 'back' | 'top' | 'bottom' | 'fit';
 export interface EarViewState {
   hiddenGroups: string[];
   hiddenParts: string[];
-  /** outer layers already peeled away (EAR_LAYERS from the outside in) */
-  peel: number;
   /** structures drawn alone when set */
   isolate: string[] | null;
   selectedIds: string[];
-  section: EarSection;
   command: {id: number; view: EarView; focus?: string[]};
 }
-/** The body atlas frame: +x is the body's left, +y up, +z anterior; the model is a right ear, so it lies at negative x. */
-export const EAR_SECTION_AXES: Record<Exclude<EarSectionAxis, 'none'>, {index: 0 | 1 | 2; en: string; zh: string; cut: string}> = {
-  sagittal: {index: 0, en: 'Sagittal', zh: '矢狀面', cut: '內外'},
-  coronal: {index: 2, en: 'Coronal', zh: '冠狀面', cut: '前後'},
-  horizontal: {index: 1, en: 'Horizontal (axial)', zh: '水平面', cut: '上下'},
-};
-/** Each cut removes the half that faces the camera that looks into it: sagittal from the outside (lateral), coronal from the front, horizontal from above. */
-export const EAR_CUT: Record<Exclude<EarSectionAxis, 'none'>, {flip: boolean; view: EarView}> = {sagittal: {flip: false, view: 'lateral'}, coronal: {flip: true, view: 'front'}, horizontal: {flip: true, view: 'top'}};
-
 export const EAR_SELECT = {fill: '#5DB89A', edge: '#3E8E74'};
 /** A structure without a mesh highlights its neighbours in this colour. */
 export const EAR_NEAR = '#7BB2E6';
@@ -38,23 +24,13 @@ interface Atlas {bytes: number; gzip: string; parts: AtlasPart[]}
 
 interface Callbacks {
   progress: (percent: number) => void;
-  /** ids with a mesh, and the cutting offsets (0-1) that pass through the stapes, so that each cut opens on the middle ear */
-  ready: (info: {ids: string[]; sectionOffsets: Record<Exclude<EarSectionAxis, 'none'>, number>}) => void;
+  /** ids with a mesh */
+  ready: (info: {ids: string[]}) => void;
   error: (message: string) => void;
   pick: (id: string | null) => void;
 }
 
-/** What a cut part looks like from inside: a flat tint of its colour (the back faces of a closed mesh seen through the cutting plane). */
-function capped(material: T.MeshStandardMaterial, cap: T.Color) {
-  material.onBeforeCompile = shader => {
-    shader.uniforms.uCap = {value: cap};
-    shader.fragmentShader = 'uniform vec3 uCap;\n' + shader.fragmentShader.replace('#include <opaque_fragment>', 'vec3 shown = gl_FrontFacing ? outgoingLight : uCap; gl_FragColor = vec4(shown, diffuseColor.a);');
-  };
-  material.customProgramCacheKey = () => 'ear-capped';
-  return material;
-}
-
-/** Isolated viewer of the ear detail mode (one right ear): sections, peel layers, picking. It never touches the atlas scene. */
+/** Isolated viewer of the ear detail mode (one right ear): picking. It never touches the atlas scene. */
 export function createEarViewer(host: HTMLDivElement, callbacks: Callbacks) {
   const tap = new PointerTap();
   const scene = new T.Scene(), camera = new T.PerspectiveCamera(30, 1, .002, 5);
@@ -64,7 +40,6 @@ export function createEarViewer(host: HTMLDivElement, callbacks: Callbacks) {
   renderer.outputColorSpace = T.SRGBColorSpace;
   renderer.toneMapping = T.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.15;
-  renderer.localClippingEnabled = true;
   const canvas = renderer.domElement;
   canvas.setAttribute('aria-label', '3D 耳部詳細模型（右耳）。拖曳旋轉，滾輪或雙指縮放，點選構造查看名稱。');
   canvas.setAttribute('role', 'group');
@@ -76,24 +51,12 @@ export function createEarViewer(host: HTMLDivElement, callbacks: Callbacks) {
   const key = new T.DirectionalLight('#fff6e6', 2.6); key.position.set(-1.5, 3, 4); scene.add(key);
   const fill = new T.DirectionalLight('#a8c8e3', 1.4); fill.position.set(3, 1, -3); scene.add(fill);
 
-  const plane = new T.Plane(new T.Vector3(0, 0, 1), 0);
-  const parts = new Map<string, EarPart>(), meshes = new Map<string, T.Mesh<T.BufferGeometry, T.MeshStandardMaterial>>(), caps = new Map<string, T.Color>();
-  const core = new T.Box3(), frameBox = new T.Box3(), raycaster = new T.Raycaster();
+  const parts = new Map<string, EarPart>(), meshes = new Map<string, T.Mesh<T.BufferGeometry, T.MeshStandardMaterial>>();
+  const frameBox = new T.Box3(), raycaster = new T.Raycaster();
   let state: EarViewState | undefined, disposed = false, dirty = true, frame = 0, command = -1, loaded = false;
   const faded = new Set<string>();
 
-  const planeActive = () => !!state && state.section.axis !== 'none';
-  const placePlane = () => {
-    const s = state?.section;
-    if (!s || s.axis === 'none') return false;
-    const axis = EAR_SECTION_AXES[s.axis].index, lo = core.min.getComponent(axis), hi = core.max.getComponent(axis), at = lo + (hi - lo) * s.offset;
-    const normal = new T.Vector3(); normal.setComponent(axis, s.flip ? -1 : 1);
-    plane.set(normal, -normal.dot(new T.Vector3().setComponent(axis, at)));
-    return true;
-  };
-  const keeps = (point: T.Vector3) => !planeActive() || plane.distanceToPoint(point) >= 0;
-
-  /** How deep a selected structure lies: the peel layers in front of it (smaller layer index) are drawn as faint glass so that it can be seen and clicked. Nerves lie at the depth of the ossicles, the membranous labyrinth under every layer. */
+  /** How deep a selected structure lies: the layers in front of it (smaller layer index, EAR_LAYERS from the outside in) are drawn as faint glass so that it can be seen and clicked. Nerves lie at the depth of the ossicles, the membranous labyrinth under every layer. */
   const depthOf = (p: EarPart) => p.layer >= 0 ? p.layer : p.group === 'nerves' ? 3 : EAR_LAYERS.length;
   const nearOf = (selected: EarPart[]) => new Set(selected.filter(p => !p.model).flatMap(p => p.near ?? []));
 
@@ -102,11 +65,11 @@ export function createEarViewer(host: HTMLDivElement, callbacks: Callbacks) {
     if (state.isolate) return state.isolate.includes(p.id);
     if (forced.has(p.id)) return true;
     if (state.hiddenGroups.includes(p.group) || state.hiddenParts.includes(p.id)) return false;
-    return p.layer < 0 || p.layer >= state.peel;
+    return true;
   };
   const apply = () => {
     if (!state) return;
-    const cutting = placePlane(), selected = new Set(state.selectedIds), chosen = state.selectedIds.map(id => EAR_BY_ID.get(id)).filter((p): p is EarPart => !!p);
+    const selected = new Set(state.selectedIds), chosen = state.selectedIds.map(id => EAR_BY_ID.get(id)).filter((p): p is EarPart => !!p);
     // a selected card-only structure shows the modelled structures next to it, whatever their switches say
     const near = nearOf(chosen), cardOnly = chosen.some(p => !p.model);
     const covering = chosen.filter(p => meshes.has(p.id) && visibleIn(p, new Set()));
@@ -126,8 +89,6 @@ export function createEarViewer(host: HTMLDivElement, callbacks: Callbacks) {
       m.roughness = .55;
       m.polygonOffset = !!part.mark || on; m.polygonOffsetFactor = part.mark ? -4 : -2; m.polygonOffsetUnits = part.mark ? -4 : -2;
       mesh.renderOrder = part.mark ? 3 : opacity < 1 ? 2 : 0;
-      caps.get(id)!.set(tint).lerp(new T.Color('#ffffff'), .3);
-      const nextPlanes = cutting ? [plane] : []; if ((m.clippingPlanes?.length ?? 0) !== nextPlanes.length) m.needsUpdate = true; m.clippingPlanes = nextPlanes;
     }
     dirty = true;
   };
@@ -167,20 +128,16 @@ export function createEarViewer(host: HTMLDivElement, callbacks: Callbacks) {
         geometry.setAttribute('normal', new T.BufferAttribute(new Int16Array(buffer, a.normals, a.vertexCount * 3), 3, true));
         geometry.setIndex(new T.BufferAttribute(new Uint32Array(buffer, a.indices, a.indexCount), 1));
         geometry.computeBoundingBox(); geometry.computeBoundingSphere();
-        const cap = new T.Color(part.color);
-        const material = capped(new T.MeshStandardMaterial({color: part.color, roughness: .55, metalness: 0, side: T.DoubleSide}), cap);
+        const material = new T.MeshStandardMaterial({color: part.color, roughness: .55, metalness: 0, side: T.DoubleSide});
         const mesh = new T.Mesh(geometry, material);
         mesh.userData.partId = part.id;
-        parts.set(part.id, part); meshes.set(part.id, mesh); caps.set(part.id, cap); scene.add(mesh);
-        core.union(geometry.boundingBox!);
+        parts.set(part.id, part); meshes.set(part.id, mesh); scene.add(mesh);
         // the pharyngotympanic tube runs far forward: the default framing leaves its far end out of the picture
         if (part.id !== 'pharyngotympanic-tube') frameBox.union(geometry.boundingBox!);
       }
-      const stapes = meshes.get('stapes')?.geometry.boundingBox?.getCenter(new T.Vector3()) ?? core.getCenter(new T.Vector3());
-      const at = (axis: 0 | 1 | 2) => Math.min(.95, Math.max(.05, (stapes.getComponent(axis) - core.min.getComponent(axis)) / Math.max(1e-6, core.max.getComponent(axis) - core.min.getComponent(axis))));
       callbacks.progress(100);
       loaded = true; frameModel('lateral'); apply();
-      callbacks.ready({ids: [...meshes.keys()], sectionOffsets: {sagittal: at(0), coronal: at(2), horizontal: at(1)}});
+      callbacks.ready({ids: [...meshes.keys()]});
     } catch (e) {
       if (!disposed && !(e instanceof DOMException && e.name === 'AbortError')) callbacks.error('耳部模型未能載入，請重新載入。');
     }
@@ -197,7 +154,7 @@ export function createEarViewer(host: HTMLDivElement, callbacks: Callbacks) {
     camera.updateMatrixWorld(); scene.updateMatrixWorld(true);
     raycaster.setFromCamera(new T.Vector2(((clientX - rect.left) / rect.width) * 2 - 1, 1 - ((clientY - rect.top) / rect.height) * 2), camera);
     const visible = [...meshes.values()].filter(m => m.visible);
-    const hits = raycaster.intersectObjects(visible, false).filter(h => keeps(h.point));
+    const hits = raycaster.intersectObjects(visible, false);
     // faded structures are picked only when nothing else is under the pointer; a window patch wins over the bone it lies on
     const solid = hits.filter(h => !faded.has(h.object.userData.partId as string)), pool = solid.length ? solid : hits;
     if (!pool.length) return null;

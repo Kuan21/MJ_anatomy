@@ -14,7 +14,9 @@ const {cleanMeshName} = await quizModule('app/mj-naming.ts');
 // The peripheral and cranial nerve overlay names its cards from the cleaned mesh name (Left Oculomotor nerve (III)); the other streams carry their own part names.
 const nerveParts = JSON.parse(fs.readFileSync(new URL('../public/models/nerve-stream.json', import.meta.url), 'utf8')).chunks.flatMap(c => c.meshes).map((m, i) => ({id: `nerve:${i}`, name: cleanMeshName(m.name), system: 'nervous'}));
 const neckVessels = readGz('neck-vessels.json.gz').vessels.map((v, i) => ({id: `neck:${i}`, name: cleanMeshName(v.name), system: v.system ?? (/vein/i.test(v.name) ? 'venous' : 'arterial')}));
-const parts = [...atlas.parts, ...stream.parts, ...nerveParts, ...neckVessels, ...['supplement/supplement-stream.json.gz', 'facial/facial-stream.json.gz', 'serous/serous-stream.json.gz', 'female/female-stream.json.gz'].flatMap(f => readGz(f).parts)];
+// The search index also lists structures that are not atlas meshes (joint ligaments, capsules); their cards open from there.
+const searchExtras = readGz('search-extras.json.gz').filter(x => x.k === 'joint').map((x, i) => ({id: `extra:${i}`, name: x.n, system: x.s}));
+const parts = [...searchExtras, ...atlas.parts, ...stream.parts, ...nerveParts, ...neckVessels, ...['supplement/supplement-stream.json.gz', 'facial/facial-stream.json.gz', 'serous/serous-stream.json.gz', 'female/female-stream.json.gz'].flatMap(f => readGz(f).parts)];
 const bad = [];
 const sideless = n => n.toLowerCase().replace(/\b(left|right)\b/g, '').replace(/\s+/g, ' ').trim();
 const nameOf = p => p.bounds ? correctedPartName(p) : p.name;

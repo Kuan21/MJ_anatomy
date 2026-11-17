@@ -1,5 +1,5 @@
 /**
- * Ear detail mode: the structure catalogue (names, groups, peel layers, colours) and the info-card text of every structure.
+ * Ear detail mode: the structure catalogue (names, groups, depth layers, colours) and the info-card text of every structure.
  * The geometry comes from public/models/ear/ear-atlas.* (scripts/build-ear-atlas.mjs): one right ear assembled from
  *   - IE-Map (CC BY 4.0): the membranous labyrinth, also the reference for the registration;
  *   - OpenEar example set (CC BY 4.0): ossicles, tympanic membrane, bony labyrinth, scala tympani, facial nerve, chorda tympani, cochlear nerve;
@@ -17,7 +17,7 @@ export const EAR_GROUPS: EarGroup[] = [
   {id: 'nerves', en: 'Nerves and ganglia', zh: '神經與神經節'},
 ];
 
-/** Peel layers, from the outside in; the membranous labyrinth and the nerves are never peeled. */
+/** Depth layers, from the outside in (used to fade the layers in front of a selected structure and to order the quiz); the membranous labyrinth and the nerves have no layer of their own. */
 export const EAR_LAYERS = [
   {en: 'Auricle', zh: '耳廓'},
   {en: 'External auditory meatus', zh: '外聽道', aliases: ['External acoustic meatus', '外耳道']},
@@ -25,7 +25,6 @@ export const EAR_LAYERS = [
   {en: 'Ossicles and pharyngotympanic tube', zh: '聽小骨與咽鼓管'},
   {en: 'Bony labyrinth', zh: '骨性迷路'},
 ] as const;
-export const EAR_MAX_PEEL = EAR_LAYERS.length;
 
 export interface EarFacts {
   /** Location and shape */ loc: string;
@@ -42,7 +41,7 @@ export interface EarPart {
   model: boolean;
   color: string;
   opacity?: number;
-  /** peel layer (index of EAR_LAYERS), -1 = never peeled */
+  /** depth layer (index of EAR_LAYERS), -1 = none */
   layer: number;
   /** a coloured patch on the surface of another structure (the windows), not a structure of its own */
   mark?: boolean;
@@ -198,7 +197,7 @@ export const EAR_PARTS: EarPart[] = [
     },
     zh: {
       loc: '長約 3.5 至 4 公分，由鼓室前壁向前、向內、向下通到鼻咽側壁。後側約三分之一為骨部，緊鄰頸動脈管；前側約三分之二為軟骨與纖維組織，開口於咽鼓管圓枕後方的咽口。',
-      fn: '使鼓室內的氣壓與外界相等，並引流黏液。平時關閉，吞嚥或打呵欠時，顎帆張肌（與顎帆提肌、咽鼓管咽肌）收縮而打開。',
+      fn: '使鼓室內的氣壓與外界相等，並引流黏液。平時關閉，吞嚥或打呵欠時，顎帆張肌（與顎帆提肌、耳咽管咽肌）收縮而打開。',
       supply: '神經：鼓室神經叢與上頜神經的咽支。動脈：升咽動脈、腦膜中動脈與翼管動脈。',
       note: '幼兒的咽鼓管較短、較平、較接近水平，咽部的感染較容易上行，這是兒童常發生中耳炎的原因之一。本模型的咽鼓管是依上述走向建立的示意管道。',
     },
@@ -453,7 +452,7 @@ export const EAR_PARTS: EarPart[] = [
     },
     zh: {
       loc: '行經顳骨的顏面神經管。它與前庭耳蝸神經一起進入內聽道，經過耳蝸上方短而窄的迷路段到膝狀神經節（第一膝），再沿鼓室內側壁、卵圓窗上方向後走（鼓室段），在第二膝處轉向下，從鼓室後方下行（乳突段）到莖乳孔。',
-      fn: '運動纖維支配顏面表情肌與鐙骨肌；副交感纖維經大淺岩神經到淚腺、鼻腺與顎腺，經鼓索神經到下頜下腺與舌下腺；並傳遞舌前三分之二的味覺，以及耳部一小塊皮膚的感覺。',
+      fn: '運動纖維支配顏面表情肌與鐙骨肌；副交感纖維經大淺岩神經到淚腺、鼻腺與顎腺，經鼓索神經到頜下腺與舌下腺；並傳遞舌前三分之二的味覺，以及耳部一小塊皮膚的感覺。',
       supply: '動脈：腦膜中動脈的岩支（上段）、莖乳動脈（下段）與迷路動脈。',
       note: '顏面神經管在卵圓窗上方很薄，也可能有缺口，因此中耳的感染與手術可能傷到神經。貝爾氏麻痺是此神經突然麻痺。模型只畫出位於顳骨內的部分。',
     },
@@ -466,7 +465,7 @@ export const EAR_PARTS: EarPart[] = [
     },
     zh: {
       loc: '顏面神經的分支，在乳突段、莖乳孔上方約 6 公釐處發出。它走在一條小管內向上，從後壁進入鼓室，在錘骨柄與砧骨長腳之間、表面覆有黏膜，橫越鼓膜內側，再經岩鼓裂離開，在顳下窩加入舌神經。',
-      fn: '傳遞舌前三分之二的味覺，以及到下頜下神經節的節前副交感纖維，後者支配下頜下腺與舌下腺。',
+      fn: '傳遞舌前三分之二的味覺，以及到下頜下神經節的節前副交感纖維，後者支配頜下腺與舌下腺。',
       note: '由於它橫越鼓室，中耳手術或感染可能使它被拉傷或切斷，造成味覺改變，或一側舌頭有金屬味。',
     },
   }}),

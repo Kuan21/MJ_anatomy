@@ -1,15 +1,19 @@
-import {useEffect, useMemo, useRef, useState, type ReactNode} from 'react';
+import {lazy, Suspense, useEffect, useMemo, useRef, useState, type ReactNode} from 'react';
 import {OrganAllToggle, OrganDetailLayout, OrganGroupNode, OrganLeftColumn, OrganPanel, OrganPartRow, OrganStage, type OrganViewButton} from './organ/organ-detail-layout';
-import {createEarViewer, EAR_CUT, EAR_SECTION_AXES, type EarSectionAxis, type EarView, type EarViewState} from './mj-ear-viewer';
-import {EAR_BY_ID, EAR_GROUPS, EAR_LAYERS, EAR_MAX_PEEL, EAR_PARTS, EAR_SCOPE, earGroupOf, type EarFacts, type EarPart} from './mj-ear-atlas';
+import {createEarViewer, type EarView, type EarViewState} from './mj-ear-viewer';
+import {EAR_BY_ID, EAR_GROUPS, EAR_PARTS, EAR_SCOPE, earGroupOf, type EarFacts, type EarPart} from './mj-ear-atlas';
 import {chineseMatches} from './mj-search';
 
+import './ear-hearing/hearing-button.css';
+
+// the hearing animation (3D, own scenes) is loaded only when it is opened
+const HearingAnimation = lazy(() => import('./ear-hearing/hearing-animation'));
+
 const EAR_VIEWS: readonly OrganViewButton[] = [{id: 'lateral', label: '外側'}, {id: 'medial', label: '內側'}, {id: 'front', label: '前面'}, {id: 'back', label: '後面'}, {id: 'top', label: '上面'}, {id: 'bottom', label: '下面'}];
-const defaults: EarViewState = {hiddenGroups: [], hiddenParts: [], peel: 0, isolate: null, selectedIds: [], section: {axis: 'none', offset: .5, flip: false}, command: {id: 0, view: 'lateral'}};
-type Offsets = Record<Exclude<EarSectionAxis, 'none'>, number>;
+const defaults: EarViewState = {hiddenGroups: [], hiddenParts: [], isolate: null, selectedIds: [], command: {id: 0, view: 'lateral'}};
 
 function EarScene({view, onReady, onError, onProgress, onPick}: {
-  view: EarViewState; onReady: (ids: string[], offsets: Offsets) => void; onError: (m: string) => void; onProgress: (p: number) => void; onPick: (id: string | null) => void;
+  view: EarViewState; onReady: (ids: string[]) => void; onError: (m: string) => void; onProgress: (p: number) => void; onPick: (id: string | null) => void;
 }) {
   const host = useRef<HTMLDivElement>(null), viewer = useRef<ReturnType<typeof createEarViewer> | null>(null);
   const callbacks = useRef({onReady, onError, onProgress, onPick}); callbacks.current = {onReady, onError, onProgress, onPick};
@@ -17,7 +21,7 @@ function EarScene({view, onReady, onError, onProgress, onPick}: {
   useEffect(() => {
     try {
       viewer.current = createEarViewer(host.current!, {
-        progress: p => callbacks.current.onProgress(p), ready: info => {callbacks.current.onReady(info.ids, info.sectionOffsets); viewer.current?.update(latest.current);},
+        progress: p => callbacks.current.onProgress(p), ready: info => {callbacks.current.onReady(info.ids); viewer.current?.update(latest.current);},
         error: m => callbacks.current.onError(m), pick: id => callbacks.current.onPick(id),
       });
       viewer.current.update(latest.current);
@@ -39,22 +43,23 @@ export default function EarDetail() {
   const [view, setView] = useState<EarViewState>(defaults);
   const [ready, setReady] = useState(false), [error, setError] = useState(''), [percent, setPercent] = useState(0);
   const [open, setOpen] = useState<string[]>([]), [allOpen, setAllOpen] = useState(false), [query, setQuery] = useState('');
-  const [modelIds, setModelIds] = useState<Set<string>>(new Set()), offsets = useRef<Offsets>({sagittal: .5, coronal: .5, horizontal: .5});
-  useEffect(() => {document.title = '耳部詳細模式 · MJ Anatomy';}, []);
+  const [hearing, setHearing] = useState(false);
+  const [modelIds, setModelIds] = useState<Set<string>>(new Set());
+  useEffect(() => {document.title = hearing ? '聽覺傳導動畫 · MJ Anatomy' : '耳部詳細模式 · MJ Anatomy';}, [hearing]);
   const patch = (next: Partial<EarViewState>) => setView(v => ({...v, ...next}));
   const go = (name: EarView, focus?: string[]) => setView(v => ({...v, command: {id: v.command.id + 1, view: name, focus}}));
   const selected = view.selectedIds.length === 1 ? EAR_BY_ID.get(view.selectedIds[0]) : undefined;
   const select = (id: string | null) => setView(v => !id ? {...v, selectedIds: []} : {...v, selectedIds: v.selectedIds.length === 1 && v.selectedIds[0] === id ? [] : [id]});
-  // Selecting (model, list, search, related-structure link) never moves the camera or switches layers; the Focus button of the card does both.
+  // Selecting (model, list, search, related-structure link) never moves the camera; the Focus button of the card moves it.
   const choose = (id: string) => select(id);
   const hasMesh = (p: EarPart) => p.model && modelIds.has(p.id);
-  const partVisible = (p: EarPart) => !view.hiddenParts.includes(p.id) && !view.hiddenGroups.includes(p.group) && (p.layer < 0 || p.layer >= view.peel);
+  const partVisible = (p: EarPart) => !view.hiddenParts.includes(p.id) && !view.hiddenGroups.includes(p.group);
   // the far end of the pharyngotympanic tube would pull the camera back: it is left out of the framing unless it is the structure itself
   const focusIds = (p: EarPart) => p.model ? [p.id] : (p.near ?? []).filter(id => modelIds.has(id) && id !== 'pharyngotympanic-tube');
   const focusOn = (p: EarPart) => {
     const ids = focusIds(p), parts = ids.map(id => EAR_BY_ID.get(id)!);
     setView(v => ({
-      ...v, isolate: null, peel: parts.length ? Math.min(v.peel, ...parts.filter(x => x.layer >= 0).map(x => x.layer), v.peel) : v.peel,
+      ...v, isolate: null,
       hiddenGroups: v.hiddenGroups.filter(g => !parts.some(x => x.group === g)), hiddenParts: v.hiddenParts.filter(x => !ids.includes(x)),
       command: {id: v.command.id + 1, view: 'fit', focus: ids},
     }));
@@ -99,11 +104,6 @@ export default function EarDetail() {
   </>;
   const q = query.trim().toLowerCase();
   const found = q ? EAR_PARTS.filter(p => p.en.toLowerCase().includes(q) || p.zh.toLowerCase().includes(q) || (p.aliases ?? []).some(a => a.toLowerCase().includes(q)) || chineseMatches(p.zh, query)) : [];
-  const sectionAxes = {sagittal: EAR_SECTION_AXES.sagittal, coronal: EAR_SECTION_AXES.coronal, horizontal: EAR_SECTION_AXES.horizontal};
-  const chooseAxis = (axis: EarSectionAxis) => {
-    if (axis === 'none') {patch({section: {...view.section, axis}}); return;}
-    setView(v => ({...v, section: {axis, offset: offsets.current[axis], flip: EAR_CUT[axis].flip}, command: {id: v.command.id + 1, view: EAR_CUT[axis].view}}));
-  };
   const reset = () => setView(v => ({...defaults, command: {id: v.command.id + 1, view: 'lateral'}}));
   const out = selected && hasMesh(selected) && !partVisible(selected) || (!!selected && !hasMesh(selected) && !!view.isolate);
   const group = selected ? earGroupOf(selected.group) : undefined;
@@ -118,7 +118,7 @@ export default function EarDetail() {
     <dd className="organ-rel">{p.rel.map(id => {const r = EAR_BY_ID.get(id); return r ? <button key={id} onClick={() => choose(id)}><span lang="en">{r.en}</span></button> : null;})}</dd>
   </dl>;
 
-  return <OrganDetailLayout title="耳部詳細模式" labels={{left: '耳部構造清單', stage: '耳部 3D 模型', panel: '耳部控制與說明'}}
+  return <OrganDetailLayout title="耳部詳細模式" overlayOpen={hearing} overlay={hearing && <Suspense fallback={null}><HearingAnimation onClose={() => setHearing(false)}/></Suspense>} labels={{left: '耳部構造清單', stage: '耳部 3D 模型', panel: '耳部控制與說明'}}
     left={<OrganLeftColumn onAllOn={() => patch({hiddenGroups: [], hiddenParts: [], isolate: null})} onAllOff={() => patch({hiddenGroups: EAR_GROUPS.map(g => g.id), isolate: null})} query={query} onQuery={setQuery} ready={ready}>
       {q ? <div className="organ-results organ-all" aria-live="polite">
         <h3>構造（{found.length}）</h3>
@@ -130,7 +130,7 @@ export default function EarDetail() {
       </>}
     </OrganLeftColumn>}
     stage={<OrganStage ready={ready} error={error} percent={percent} loadingName="耳部模型" views={EAR_VIEWS} onView={id => go(id as EarView)} onReset={reset}
-      canvas={<EarScene view={view} onReady={(ids, o) => {offsets.current = o; setModelIds(new Set(ids)); setReady(true);}} onError={setError} onProgress={setPercent} onPick={select}/>}/>}
+      canvas={<EarScene view={view} onReady={ids => {setModelIds(new Set(ids)); setReady(true);}} onError={setError} onProgress={setPercent} onPick={select}/>}/>}
     panel={<OrganPanel
       info={selected ? <>
         {out && <p className="organ-out-of-view" role="status" lang="zh-Hant">不在目前視野，按 Focus 查看</p>}
@@ -147,9 +147,10 @@ export default function EarDetail() {
           <button onClick={() => patch({selectedIds: [], isolate: null})}>Clear｜清除</button>
         </div>
       </> : <p className="organ-info-empty">點選模型或清單中的構造，會顯示名稱、位置與功能。</p>}
-      section={{axes: sectionAxes, value: view.section, onAxis: chooseAxis, onChange: next => patch({section: next}),
-        note: <small>切面把一側切開：被切到的構造，內側以平色顯示，不是真實的組織斷面。切面預設通過鐙骨。拖動滑桿即時更新；點選切面上的構造可選取它。</small>}}
-      layers={{peel: view.peel, max: EAR_MAX_PEEL, onPeel: peel => patch({peel}),
-        note: <small>由外而內：{EAR_LAYERS.map(l => l.zh).join(' → ')}。目前已剝除 {view.peel} 層；膜性迷路與神經不受影響。</small>}}
+      extraBlocks={<section className="organ-block ear-animation-block">
+        <h2>Animation<small>動畫</small></h2>
+        <button className="ear-animation-open" onClick={() => setHearing(true)}>聽覺傳導動畫｜Hearing</button>
+        <small lang="zh-Hant">分六步：外耳、中耳、耳蝸行波、柯蒂氏器、突觸、聽覺路徑。使用目前載入的耳部與腦部模型，不會下載新的模型檔。</small>
+      </section>}
       scope={{text: <p>{EAR_SCOPE.zh}</p>, source: <p className="organ-source">{EAR_SCOPE.source}</p>}}/>}/>;
 }
