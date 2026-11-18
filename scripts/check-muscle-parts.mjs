@@ -3,12 +3,12 @@
 // Run: node scripts/check-muscle-parts.mjs [--check]
 import fs from 'node:fs';
 import {build} from 'esbuild';
-import {fileURLToPath} from 'node:url';
+import {fileURLToPath, pathToFileURL} from 'node:url';
 import {loadFullAtlas} from './lib/full-atlas.mjs';
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 const tmp = file('.sites-runtime/muscle-facts-entry.mjs');
 await build({entryPoints: [file('scripts/lib/muscle-facts-entry.ts')], bundle: true, format: 'esm', platform: 'node', outfile: tmp, logLevel: 'error'});
-const {muscleFactsFor, MUSCLE_PART_FACTS} = await import(tmp);
+const {muscleFactsFor, MUSCLE_PART_FACTS} = await import(pathToFileURL(tmp).href);   // a bare "C:\…" path is not a valid import specifier on Windows
 const {atlas} = loadFullAtlas();
 const partRe = /\b(part|head|belly|portion|bundle|fascicle|lamina|slip)s? of |^(superior|inferior|anterior|middle|posterior|upper|lower) (part|portion)/;
 // parts that really share the facts of the whole muscle (listed on purpose)

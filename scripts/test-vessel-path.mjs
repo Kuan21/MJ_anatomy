@@ -2,10 +2,10 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {build} from 'esbuild';
-import {fileURLToPath} from 'node:url';
+import {fileURLToPath, pathToFileURL} from 'node:url';
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 await build({entryPoints: [file('scripts/lib/vessel-path-entry.ts')], bundle: true, format: 'esm', platform: 'node', outfile: file('.sites-runtime/vessel-path-test.mjs'), loader: {'.json': 'json'}, logLevel: 'error'});
-const m = await import(file('.sites-runtime/vessel-path-test.mjs'));
+const m = await import(pathToFileURL(file('.sites-runtime/vessel-path-test.mjs')).href);   // a bare "C:\…" path is not a valid import specifier on Windows
 const {mirrorName, pathAbove, pathHighlightNames, plainName, VESSEL_PARENTS: P} = m;
 
 // the other side of a name

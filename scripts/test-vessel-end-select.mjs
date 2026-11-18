@@ -9,7 +9,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import zlib from 'node:zlib';
 import esbuild from 'esbuild';
-import {fileURLToPath} from 'node:url';
+import {fileURLToPath, pathToFileURL} from 'node:url';
 import {loadFullAtlas} from './lib/full-atlas.mjs';
 import {regionTools} from './lib/vessel-segments.mjs';
 import {pieceSizes} from './lib/surface-distance.mjs';
@@ -19,7 +19,7 @@ fs.mkdirSync(file('.sites-runtime'), {recursive: true});
 const out = file('.sites-runtime/vessel-unit-test.mjs');
 await esbuild.build({stdin: {contents: "export {vesselUnit, vesselBase, isVesselEnd} from './app/mj-vessel-unit';\nexport {structureProfile} from './app/mj-structure-info';", resolveDir: file('.'), loader: 'ts'},
   bundle: true, format: 'esm', platform: 'node', outfile: out, loader: {'.json': 'json'}, logLevel: 'error', external: ['three']});
-const {vesselUnit, structureProfile} = await import(out + '?t=' + Date.now());
+const {vesselUnit, structureProfile} = await import(pathToFileURL(out).href + '?t=' + Date.now());   // a bare "C:\…" path is not a valid import specifier on Windows
 const {anatomicalRegion, anatomicalSubregion} = await regionTools();
 const {atlas, geometry} = loadFullAtlas();
 const ids = new Set(atlas.parts.map(p => p.id)), byId = new Map(atlas.parts.map(p => [p.id, p])), has = id => ids.has(id);

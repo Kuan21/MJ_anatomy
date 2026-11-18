@@ -15,7 +15,7 @@
 import fs from 'node:fs';
 import esbuild from 'esbuild';
 import zlib from 'node:zlib';
-import {fileURLToPath} from 'node:url';
+import {fileURLToPath, pathToFileURL} from 'node:url';
 import {loadFullAtlas} from './lib/full-atlas.mjs';
 import {regionTools} from './lib/vessel-segments.mjs';
 import {loadPoseModule} from './lib/vessel-pose.mjs';
@@ -30,7 +30,7 @@ const {anatomicalRegion, anatomicalSubregion, anatomicalSide} = await regionTool
 // the selection rule of the viewer (a vessel and its end piece are picked together)
 fs.mkdirSync(file('.sites-runtime'), {recursive: true});
 await esbuild.build({entryPoints: [file('app/mj-vessel-unit.ts')], bundle: true, format: 'esm', platform: 'node', outfile: file('.sites-runtime/vessel-unit.mjs'), logLevel: 'error'});
-const {vesselUnit} = await import(file('.sites-runtime/vessel-unit.mjs') + '?t=' + Date.now());
+const {vesselUnit} = await import(pathToFileURL(file('.sites-runtime/vessel-unit.mjs')).href + '?t=' + Date.now());   // a bare "C:\…" path is not a valid import specifier on Windows
 const m = await loadPoseModule();
 const {atlas, geometry} = loadFullAtlas();
 const PAOKAO = JSON.parse(fs.readFileSync(file('app/mj-paokao.json'), 'utf8')), RIGID = JSON.parse(fs.readFileSync(file('app/biomechanics-v2/paokao-bindings.json'), 'utf8')).rigid ?? {};

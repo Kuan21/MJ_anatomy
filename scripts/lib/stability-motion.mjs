@@ -4,7 +4,7 @@
 // Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm rotation to both ends, hip flexion 120 with knee flexion 130, head and neck flexion and extension.
 import fs from 'node:fs';
 import {build} from 'esbuild';
-import {fileURLToPath} from 'node:url';
+import {fileURLToPath, pathToFileURL} from 'node:url';
 import {TriGrid} from './stability-geom.mjs';
 
 const root = new URL('../../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
@@ -24,7 +24,7 @@ export async function loadMotion() {
   fs.mkdirSync(file('.sites-runtime'), {recursive: true});
   const out = file('.sites-runtime/stability-motion.mjs');
   await build({entryPoints: [file('scripts/lib/stability-entry.ts')], bundle: true, format: 'esm', platform: 'node', outfile: out, loader: {'.json': 'json'}, logLevel: 'error', external: ['three']});
-  return import(out + '?t=' + Date.now());
+  return import(pathToFileURL(out).href + '?t=' + Date.now());   // a bare "C:\…" path is not a valid import specifier on Windows
 }
 
 const rigidApply = (t, src) => {

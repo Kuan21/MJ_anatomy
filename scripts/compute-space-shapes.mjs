@@ -4,12 +4,12 @@
 // Run: node scripts/compute-space-shapes.mjs [--check]
 import fs from 'node:fs';
 import {build} from 'esbuild';
-import {fileURLToPath} from 'node:url';
+import {fileURLToPath, pathToFileURL} from 'node:url';
 import {loadFullAtlas} from './lib/full-atlas.mjs';
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 const tmp = file('.sites-runtime/shapes-entry.mjs');
 await build({entryPoints: [file('scripts/lib/shapes-entry.ts')], bundle: true, format: 'esm', platform: 'node', outfile: tmp, loader: {'.json': 'json'}, logLevel: 'error', external: ['three']});
-const {SPACES, SPACE_SHAPES, resolveSpace} = await import(tmp);
+const {SPACES, SPACE_SHAPES, resolveSpace} = await import(pathToFileURL(tmp).href);   // a bare "C:\…" path is not a valid import specifier on Windows
 const ranges = JSON.parse(fs.readFileSync(file('app/space-ranges.json'), 'utf8'));
 const {atlas, geometry} = loadFullAtlas();
 const parts = atlas.parts, byId = new Map(parts.map(p => [p.id, p])), geoCache = new Map();

@@ -6,7 +6,7 @@
 // `mode: 'before'` ignores the connector pieces of public/models/vessel-ends, `'after'` counts them: an end that carries a connector is measured from the connector's far end.
 import esbuild from 'esbuild';
 import fs from 'node:fs';
-import {fileURLToPath} from 'node:url';
+import {fileURLToPath, pathToFileURL} from 'node:url';
 import {loadFullAtlas} from './full-atlas.mjs';
 import {tubeTips} from './tube-tips.mjs';
 import {weldSurface, endFrame, sub, add, len, unit, dot} from './vessel-frames.mjs';
@@ -21,7 +21,7 @@ export async function regionTools() {
   fs.mkdirSync(file('.sites-runtime'), {recursive: true});
   const out = file('.sites-runtime/region-entry.mjs');
   await esbuild.build({entryPoints: [file('scripts/lib/region-entry.ts')], bundle: true, format: 'esm', platform: 'node', outfile: out, logLevel: 'error', external: ['three']});
-  return import(out + '?t=' + Date.now());
+  return import(pathToFileURL(out).href + '?t=' + Date.now());   // a bare "C:\…" path is not a valid import specifier on Windows
 }
 
 /** Everything the checks need: the full atlas, the region of each vessel, a triangle grid per kind. */

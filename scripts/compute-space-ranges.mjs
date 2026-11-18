@@ -4,12 +4,12 @@
 // Run: node scripts/compute-space-ranges.mjs [--check]   → app/space-ranges.json, docs/space-ranges.md   (--check fails when either is out of date)
 import fs from 'node:fs';
 import {build} from 'esbuild';
-import {fileURLToPath} from 'node:url';
+import {fileURLToPath, pathToFileURL} from 'node:url';
 import {loadFullAtlas} from './lib/full-atlas.mjs';
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 const tmp = file('.sites-runtime/spaces-entry.mjs');
 await build({entryPoints: [file('scripts/lib/spaces-entry.ts')], bundle: true, format: 'esm', platform: 'node', outfile: tmp, loader: {'.json': 'json'}, logLevel: 'error', external: ['three']});
-const {SPACES, resolveSpace} = await import(tmp);
+const {SPACES, resolveSpace} = await import(pathToFileURL(tmp).href);   // a bare "C:\…" path is not a valid import specifier on Windows
 const {atlas, geometry} = loadFullAtlas();
 const parts = atlas.parts, byId = new Map(parts.map(p => [p.id, p]));
 const samples = new Map();

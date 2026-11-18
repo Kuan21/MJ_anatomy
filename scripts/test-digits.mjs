@@ -2,12 +2,12 @@
 // Run: node scripts/test-digits.mjs
 import assert from 'node:assert/strict';
 import {build} from 'esbuild';
-import {fileURLToPath} from 'node:url';
+import {fileURLToPath, pathToFileURL} from 'node:url';
 import {Box3, Vector3} from 'three';
 import {loadFullAtlas} from './lib/full-atlas.mjs';
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 await build({entryPoints: [file('scripts/lib/digits-entry.ts')], bundle: true, format: 'esm', platform: 'node', outfile: file('.sites-runtime/digits-test.mjs'), loader: {'.json': 'json'}, logLevel: 'error', external: ['three']});
-const m = await import(file('.sites-runtime/digits-test.mjs'));
+const m = await import(pathToFileURL(file('.sites-runtime/digits-test.mjs')).href);   // a bare "C:\…" path is not a valid import specifier on Windows
 const {atlas, geometry} = loadFullAtlas();
 const ids = side => m.digitBoneIds(side);
 const quat = t => ({x: t.quaternion[0], y: t.quaternion[1], z: t.quaternion[2], w: t.quaternion[3]});
@@ -15,7 +15,7 @@ const apply = (t, p) => { // rest point -> posed point
   const q = quat(t), v = new Vector3(...p), u = new Vector3(q.x, q.y, q.z), c = u.clone().cross(v).multiplyScalar(2);
   return v.add(c.clone().multiplyScalar(q.w)).add(u.clone().cross(c)).add(new Vector3(...t.translation));
 };
-const joints = (await import(file('app/biomechanics-v2/digit-joints.json'), {with: {type: 'json'}})).default;
+const joints = (await import(pathToFileURL(file('app/biomechanics-v2/digit-joints.json')).href, {with: {type: 'json'}})).default;
 
 // 1. neutral: every digit bone stays exactly where it is
 for (const side of ['left', 'right']) {

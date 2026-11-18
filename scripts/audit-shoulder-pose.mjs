@@ -2,13 +2,13 @@
 // Usage: node scripts/audit-shoulder-pose.mjs [--check]   (writes docs/shoulder-motion/pose-audit.json)
 import fs from 'node:fs';
 import {build} from 'esbuild';
-import {fileURLToPath} from 'node:url';
+import {fileURLToPath, pathToFileURL} from 'node:url';
 import {loadFullAtlas} from './lib/full-atlas.mjs';
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 fs.mkdirSync(file('.sites-runtime'), {recursive: true});
 const out = file('.sites-runtime/motion-followers.mjs');
 await build({entryPoints: [file('scripts/lib/motion-audit-entry.ts')], bundle: true, format: 'esm', platform: 'node', outfile: out, loader: {'.json': 'json'}, logLevel: 'error', external: ['three']});
-const m = await import(out);
+const m = await import(pathToFileURL(out).href);   // a bare "C:\…" path is not a valid import specifier on Windows
 const {atlas, geometry} = loadFullAtlas();
 const inputs = atlas.parts.map(part => {const g = geometry(part); return {part, base: g.positions, normals: g.normals, triangles: g.indices};});
 const solveArm = m.createShoulderSolver(atlas), U = m.MOTION_LIMITS;

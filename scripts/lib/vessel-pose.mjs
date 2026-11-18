@@ -2,14 +2,14 @@
 // Shared by scripts/test-vessel-motion.mjs and scripts/render-vessel-views.mjs.
 import esbuild from 'esbuild';
 import fs from 'node:fs';
-import {fileURLToPath} from 'node:url';
+import {fileURLToPath, pathToFileURL} from 'node:url';
 
 const root = new URL('../../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 export async function loadPoseModule() {
   fs.mkdirSync(file('.sites-runtime'), {recursive: true});
   const out = file('.sites-runtime/vessel-pose.mjs');
   await esbuild.build({entryPoints: [file('scripts/lib/vessel-pose-entry.ts')], bundle: true, format: 'esm', platform: 'node', outfile: out, loader: {'.json': 'json'}, logLevel: 'error', external: ['three']});
-  return import(out + '?t=' + Date.now());
+  return import(pathToFileURL(out).href + '?t=' + Date.now());   // a bare "C:\…" path is not a valid import specifier on Windows
 }
 
 /** {skinOf, posed, geo, armRig, legRig, context}: `V` from loadVessels, `m` from loadPoseModule. */

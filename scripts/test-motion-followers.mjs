@@ -2,13 +2,13 @@
 // Usage: node scripts/test-motion-followers.mjs [--report]  (writes docs/motion-followers-report.md; fails on any structure not listed in docs/motion-static-allowed.json)
 import fs from 'node:fs';
 import {build} from 'esbuild';
-import {fileURLToPath} from 'node:url';
+import {fileURLToPath, pathToFileURL} from 'node:url';
 import {loadFullAtlas} from './lib/full-atlas.mjs';
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 fs.mkdirSync(file('.sites-runtime'), {recursive: true});
 const out = file('.sites-runtime/motion-followers.mjs');
 await build({entryPoints: [file('scripts/lib/motion-audit-entry.ts')], bundle: true, format: 'esm', platform: 'node', outfile: out, loader: {'.json': 'json'}, logLevel: 'error', external: ['three']});
-const m = await import(out);
+const m = await import(pathToFileURL(out).href);   // a bare "C:\…" path is not a valid import specifier on Windows
 const {atlas, geometry} = loadFullAtlas();
 const allowed = JSON.parse(fs.readFileSync(file('docs/motion-static-allowed.json'), 'utf8')).map(a => ({re: new RegExp(a.name, 'i'), why: a.why}));
 const isAllowed = p => allowed.find(a => a.re.test(p.name));

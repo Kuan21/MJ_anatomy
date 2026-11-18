@@ -3,11 +3,11 @@
 import fs from 'node:fs';
 import zlib from 'node:zlib';
 import {build} from 'esbuild';
-import {fileURLToPath} from 'node:url';
+import {fileURLToPath, pathToFileURL} from 'node:url';
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 const tmp = file('.sites-runtime/audit-motion.mjs');
 await build({entryPoints: [file('scripts/lib/motion-audit-entry.ts')], bundle: true, format: 'esm', platform: 'node', outfile: tmp, loader: {'.json': 'json'}, logLevel: 'error', external: ['three']});
-const m = await import(tmp);
+const m = await import(pathToFileURL(tmp).href);   // a bare "C:\…" path is not a valid import specifier on Windows
 import {loadFullAtlas} from './lib/full-atlas.mjs';
 const {atlas: full} = loadFullAtlas(), parts = full.parts;
 const rigs = Object.fromEntries(['spine', 'head', 'leftLeg', 'rightLeg'].map(r => [r, m.makeBodyRig(full, r)]));

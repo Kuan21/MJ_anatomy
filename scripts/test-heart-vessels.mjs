@@ -3,12 +3,12 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {build} from 'esbuild';
-import {fileURLToPath} from 'node:url';
+import {fileURLToPath, pathToFileURL} from 'node:url';
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 fs.mkdirSync(file('.sites-runtime'), {recursive: true});
 const out = file('.sites-runtime/heart-vessels.mjs');
 await build({entryPoints: [file('app/organ/heart-vessels.ts')], bundle: true, format: 'esm', platform: 'node', outfile: out, logLevel: 'error'});
-const {MAIN_CORONARY, FINE_BRANCHES, isFineBranch, isKeptVessel, isTrunkPart, trunkTriangles} = await import(out);
+const {MAIN_CORONARY, FINE_BRANCHES, isFineBranch, isKeptVessel, isTrunkPart, trunkTriangles} = await import(pathToFileURL(out).href);   // a bare "C:\…" path is not a valid import specifier on Windows
 const heart = JSON.parse(gunzipSync(fs.readFileSync(file('public/models/heart/heart-detail.json.gz'))));
 const names = new Set(heart.parts.map(p => p.name));
 for (const n of [...MAIN_CORONARY, ...FINE_BRANCHES]) assert.ok(names.has(n), `${n} is a part of the heart catalogue`);

@@ -9,15 +9,15 @@
 // Run: node scripts/test-digit-collision.mjs
 import assert from 'node:assert/strict';
 import {build} from 'esbuild';
-import {fileURLToPath} from 'node:url';
+import {fileURLToPath, pathToFileURL} from 'node:url';
 import {loadFullAtlas} from './lib/full-atlas.mjs';
 import {digitGaps} from './lib/digit-gap.mjs';
 import {makeDigitSkin} from './lib/digit-skin.mjs';
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 await build({entryPoints: [file('scripts/lib/digits-entry.ts')], bundle: true, format: 'esm', platform: 'node', outfile: file('.sites-runtime/digits-test.mjs'), loader: {'.json': 'json'}, logLevel: 'error', external: ['three']});
-const m = await import(file('.sites-runtime/digits-test.mjs'));
+const m = await import(pathToFileURL(file('.sites-runtime/digits-test.mjs')).href);   // a bare "C:\…" path is not a valid import specifier on Windows
 const {atlas, geometry} = loadFullAtlas();
-const joints = (await import(file('app/biomechanics-v2/digit-joints.json'), {with: {type: 'json'}})).default;
+const joints = (await import(pathToFileURL(file('app/biomechanics-v2/digit-joints.json')).href, {with: {type: 'json'}})).default;
 const FINGER_MIN = .004, THUMB_MIN = .0015, SKIN_OVERLAP_MAX = .0065, PAD_OVERLAP_MAX = .0015, PAD_GAP_MAX = .003, SKIN_TOUCH_MAX = .0015, FINGER_PAIRS = ['index-middle', 'middle-ring', 'ring-little'];
 let seed = 20261029; const rnd = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296;
 const cases = [];

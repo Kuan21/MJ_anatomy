@@ -2,13 +2,13 @@
 // Usage: node scripts/audit-vessel-motion.mjs [flexion|abduction] [angle] [--check]
 import {build} from 'esbuild';
 import fs from 'node:fs';
-import {fileURLToPath} from 'node:url';
+import {fileURLToPath, pathToFileURL} from 'node:url';
 import {loadFullAtlas} from './lib/full-atlas.mjs';
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 fs.mkdirSync(file('.sites-runtime'), {recursive: true});
 const out = file('.sites-runtime/vessel-motion.mjs');
 await build({entryPoints: [file('scripts/lib/vessel-motion-entry.ts')], bundle: true, format: 'esm', platform: 'node', outfile: out, loader: {'.json': 'json'}, logLevel: 'error', external: ['three']});
-const m = await import(out);
+const m = await import(pathToFileURL(out).href);   // a bare "C:\…" path is not a valid import specifier on Windows
 const {atlas, geometry} = loadFullAtlas();
 const kind = process.argv[2] && !process.argv[2].startsWith('--') ? process.argv[2] : 'flexion', angle = +(process.argv[3] && !process.argv[3].startsWith('--') ? process.argv[3] : 180);
 const pose = {...m.NEUTRAL_POSE, [kind === 'flexion' ? 'shoulderFlexion' : 'shoulderAbduction']: angle};
