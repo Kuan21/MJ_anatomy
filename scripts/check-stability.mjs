@@ -4,7 +4,7 @@
 //   node scripts/check-stability.mjs [--only=fragments,penetration,zfight,cuts,motion] [--list] [--write] [--adopt-metrics]
 import fs from 'node:fs';
 import {fileURLToPath} from 'node:url';
-import {loadStabilityParts} from './lib/stability-world.mjs';
+import {loadStabilityParts, isHeadBoneMark} from './lib/stability-world.mjs';
 import {fragments, penetration, zfight, cuts} from './lib/stability-static.mjs';
 import {loadMotion, registerNerves, makePoser, stretched, detached, POSES} from './lib/stability-motion.mjs';
 import {TriGrid} from './lib/stability-geom.mjs';
@@ -36,7 +36,7 @@ if (only.includes('cuts')) findings.push(...cuts(parts, log));
 
 if (needMotion) {
   const byId = new Map(parts.map(p => [p.id, p]));
-  const bones = parts.filter(p => p.system === 'skeletal'), boneRest = new Map(bones.map(b => [b.id, b.load()])), boneNames = new Map(bones.map(b => [b.id, b.name]));
+  const bones = parts.filter(p => p.system === 'skeletal' && !isHeadBoneMark(p)), boneRest = new Map(bones.map(b => [b.id, b.load()])), boneNames = new Map(bones.map(b => [b.id, b.name]));
   const restBoneGrid = new TriGrid(.008); for (const [id, g] of boneRest) restBoneGrid.add(id, g.positions, g.indices);
   const poser = makePoser(m, atlas, geometry, parts, p => p.load());
   for (const pz of POSES) {
