@@ -1,8 +1,9 @@
 // Touch targets of the hearing animation (iPad): every control must keep a hit area of at least 44 x 44 points. Reads the style sheets only; no browser. Prints counts only.
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
+import {fileURLToPath} from 'node:url';
 
-const root = new URL('../', import.meta.url).pathname;
+const root = fileURLToPath(new URL('../', import.meta.url));   // .pathname gives "/C:/…" on Windows
 const MIN = 44;
 const hearing = fs.readFileSync(root + 'app/ear-hearing/hearing.css', 'utf8'), button = fs.readFileSync(root + 'app/ear-hearing/hearing-button.css', 'utf8'), css = hearing + '\n' + button;
 const rules = [...(hearing.replace(/@media[^{]+\{[\s\S]*$/m, '') + '\n' + button).matchAll(/([^{}]+)\{([^}]*)\}/g)].map(m => ({sel: m[1].split(',').map(x => x.trim()), body: m[2]}));
