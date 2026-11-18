@@ -12,7 +12,7 @@ import {quizModule} from './quiz-modules.mjs';
 import {info, SIDES} from './lib/carotid-measure.mjs';
 const raw = process.argv.includes('--raw'), md = process.argv.includes('--md');
 const nv = JSON.parse(zlib.gunzipSync(fs.readFileSync(fileURLToPath(new URL('../public/models/neck-vessels.json.gz', import.meta.url)))));
-if (!raw) (await quizModule('app/biomechanics-v2/carotid-bifurcation.ts')).smoothCarotids(nv.vessels);
+if (!raw) { (await quizModule('app/biomechanics-v2/carotid-bifurcation.ts')).smoothCarotids(nv.vessels); (await quizModule('app/biomechanics-v2/jugular-align.ts')).alignJugulars(nv.vessels); }   // the same two steps as the viewer (neck-vessels.ts)
 const world = loadWorld({paokao: false});
 const vessel = n => nv.vessels.find(v => v.name === n);
 const rings = v => Array.from({length: v.positions.length / 36}, (_, j) => { const q = info(v, j); return {c: q.c.map(x => x * 1e3), r: q.r * 1e3}; });
@@ -31,7 +31,7 @@ const rows = [];
 for (const [side, c, i, e] of SIDES) {
   const tag = side === 'left' ? 'l' : 'r', S = side === 'left' ? 'Left' : 'Right';
   const arteries = [['CCA', c], ['ICA', i], ['ECA', e]].map(([k, n]) => [k, rings(vessel(n))]);
-  const targets = [['IJV', [vessel(`Internal jugular vein.${tag}`).positions]], ['Vagus', geom(`Vagus nerve (X).${tag}`)], ['Thyroid cart.', byId('FJ2808')], ['Hyoid', byId('FJ2772')], ['Cricoid', byId('FJ2440')],
+  const targets = [['IJV', [vessel(`Internal jugular vein.${tag}`).positions]], ['Vagus', geom(`Vagus nerve (X).${tag}`)], ['Hypoglossal', geom(`Hypoglossal nerve (XII).${tag}`)], ['Sympathetic trunk', geom(`Sympathetic trunk.${tag}`)], ['Mid. constrictor', geom(`${S} middle pharyngeal constrictor`)], ['Sup. constrictor', geom(`${S} superior pharyngeal constrictor`)], ['Thyroid cart.', byId('FJ2808')], ['Hyoid', byId('FJ2772')], ['Cricoid', byId('FJ2440')],
     ...[['C2', 'FJ3177'], ['C3', 'FJ3161'], ['C4', 'FJ3164'], ['C5', 'FJ3167'], ['C6', 'FJ3170']].map(([k, id]) => [k, byId(id)])];
   for (const [t, g] of targets) for (const [k, ar] of arteries) { const r = clearance(ar, g.filter(x => x)); rows.push({side: S, artery: k, target: t, gapMm: r.gap, atY: r.y}); }
 }

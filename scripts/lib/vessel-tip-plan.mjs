@@ -14,11 +14,14 @@ import {taperLength, continuesAhead, FLARE_MIN_TRUNK} from './vessel-tip-shape.m
 const root = new URL('../../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 /** Identity of a vessel end across the two build steps: the vessel and the cut position to 0.01 mm. */
 export const tipKey = row => `${row.id}@${row.at.map(x => Math.round(x * 1e5)).join(',')}`;
+export const STUB_RADIUS = .0032;   // head and neck, neck root: an end of up to 3.2 mm radius is rounded too, down to half a radius long
 export const FADE_RADIUS = .0018, FLARE_MAX_RADIUS = .0018, FLARE_END_CLEAR = .003, GAP_MM = 12;
 
 /** Two veins whose ends are held exactly as on main (owner's decision): the right lateral circumflex femoral vein (FJ2201) and the right deep femoral vein (FJ2135). A far branch end of the first lies 37 mm from the second
  *  and is listed as an open pair at the hip poses; rounding the ends changed that distance by 1.2 mm, and the pair may not be registered again. Their missing-connection question is a separate follow-up (issue and pull request). */
 const HOLD_OLD_ENDS = ['FJ2201', 'FJ2135'];
+/** The subclavian arteries and veins and the brachiocephalic veins (soft arm binding, profile `path`, no positionHash): a second-exam structure at the neck root, shaped from the head and neck pass on. The lateral thoracic and thoracodorsal vessels of the chest wall stay as they are. */
+export const NECK_ROOT_ARM_RIG = ['FJ3479', 'FJ3482', 'FJ3486', 'FJ3579', 'FJ3583', 'FJ3587', 'FJ2250', 'FJ2251', 'FJ2302', 'FJ2303'];   // + the suprascapular arteries and veins (FJ2250/2251 left, FJ2302/2303 right): they run behind the clavicle beside the brachial plexus
 
 /** Vessels (ids) whose ends keep the old form: motion data fitted to the source mesh, the arm, and what the arm rig moves. */
 export async function keepOldEnds() {
@@ -31,6 +34,7 @@ export async function keepOldEnds() {
   for (const f of ['tissue-bindings.json', 'paokao-bindings.json']) { const data = JSON.parse(fs.readFileSync(bindings + f, 'utf8')); for (const id of Object.keys(f.startsWith('paokao') ? data.tissue ?? {} : data)) armSkinned.add(id); }
   for (const p of atlas.parts) if (hashBound.has(p.id) || hashBound.has(p.name) || anatomicalRegion(p) === 'upper-limb' || armSkinned.has(p.id)) keep.add(p.id);
   for (const id of HOLD_OLD_ENDS) keep.add(id);
+  for (const id of NECK_ROOT_ARM_RIG) if (!hashBound.has(id)) keep.delete(id);   // the neck-root vessels follow the arm only softly: their ends are shaped like any other vessel's
   return keep;
 }
 
@@ -65,7 +69,8 @@ const vesselContinues = (parts, id, frame, ahead) => continuesAhead(geom(parts.g
  * @returns {buried: [{id, row, center, radius}] (ends inside the vessel's own trunk: left alone), tapers: [{id, row, center, dir, radius, length}], flares: [{id, row, center, dir, radius, reach}], keep}
  */
 export async function planTips(rows = auditEnds()) {
-  const keep = await keepOldEnds(), parts = new Map(atlas.parts.map(p => [p.id, p])), surfaces = new Map();
+  const keep = await keepOldEnds(), {anatomicalRegion} = await regionTools(), parts = new Map(atlas.parts.map(p => [p.id, p])), surfaces = new Map();
+  const stubScope = new Map(); const inStubScope = id => { if (!stubScope.has(id)) stubScope.set(id, anatomicalRegion(parts.get(id)) === 'head-neck' || NECK_ROOT_ARM_RIG.includes(id)); return stubScope.get(id); };
   const surface = id => { if (!surfaces.has(id)) { const g = geom(parts.get(id)); surfaces.set(id, weldSurface(g.pos, g.idx)); } return surfaces.get(id); };
   const tapers = [], flares = [], buried = [];
   for (const row of rows) {
@@ -80,11 +85,12 @@ export async function planTips(rows = auditEnds()) {
     } else {
       const frame = endFrame(surface(row.id), row.at); if (!frame) continue;
       if (row.kind === 'dangling' && row.toSameMm <= GAP_MM && row.closest) continue;   // a connector is built there
-      if (frame.radius > FADE_RADIUS) continue;
+      const stub = inStubScope(row.id);   // head and neck, neck root: any end of up to 3.2 mm radius is rounded, whatever the length of its branch (the suprascapular vein ends flat 28 mm out)
+      if (frame.radius > (stub ? STUB_RADIUS : FADE_RADIUS)) continue;
       // a ring in the middle of the vessel, or the open cap of a branch root inside its own trunk: the vessel carries on past it. Not an end at all, so neither narrowed nor given a cone.
       if (vesselContinues(parts, row.id, frame, Math.min(taperLength(frame.radius), row.branchMm == null ? Infinity : .85 * row.branchMm / 1000))) { buried.push({id: row.id, row, center: frame.center, radius: frame.radius}); continue; }
       const length = Math.min(taperLength(frame.radius), row.branchMm == null ? Infinity : .85 * row.branchMm / 1000);
-      if (length < Math.max(.001, 1.2 * frame.radius)) continue;   // a stub too short to narrow
+      if (length < (stub ? Math.max(.0008, .5 * frame.radius) : Math.max(.001, 1.2 * frame.radius))) continue;   // a stub too short to narrow
       tapers.push({id: row.id, row, center: frame.center, dir: frame.dir, radius: frame.radius, length});
     }
   }

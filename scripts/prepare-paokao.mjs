@@ -14,7 +14,7 @@ import {atlas as rawAtlas, geom as rawGeom} from './audit-vessel-ends.mjs';
 
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 const out = new URL('public/models/stream/', root), dir = new URL('public/models/paokao/', root), manifest = new URL('paokao-stream.json.gz', dir);
-const inputs = ['scripts/prepare-paokao.mjs', 'scripts/lib/topology.mjs', 'scripts/lib/tube-tips.mjs', 'scripts/lib/paokao-vessel-tips.mjs', 'scripts/lib/vessel-tip-shape.mjs', 'scripts/audit-vessel-ends.mjs', 'scripts/topology-spec.mjs', 'app/biomechanics-v2/tissue-bindings.json', 'app/biomechanics-v2/body-bindings.json', 'app/mj-part-regions.ts', 'scripts/lib/paokao-build.mjs', 'scripts/lib/tendon-cut.mjs', 'scripts/lib/tendon-build.mjs', 'scripts/lib/tendon-set.mjs', 'scripts/tendon/upper-limb-cuts.mjs', 'scripts/tendon/lower-limb-cuts.mjs', 'scripts/data/zanatomy-upper-limb.json.gz', 'scripts/data/zanatomy-lower-limb.json.gz', 'scripts/paokao-structures/zanatomy-upper-limb.mjs', 'app/biomechanics-v2/tissue-bindings.json', 'scripts/lib/paokao-util.mjs', 'scripts/lib/paokao-world.mjs', 'scripts/lib/nerve-schematics.mjs', 'public/models/atlas.json', 'public/models/nerve-stream.json',
+const inputs = ['scripts/prepare-paokao.mjs', 'scripts/lib/rln-groove.mjs', 'scripts/lib/nerve-corrections.mjs', 'scripts/lib/topology.mjs', 'scripts/lib/tube-tips.mjs', 'scripts/lib/paokao-vessel-tips.mjs', 'scripts/lib/vessel-tip-shape.mjs', 'scripts/audit-vessel-ends.mjs', 'scripts/topology-spec.mjs', 'app/biomechanics-v2/tissue-bindings.json', 'app/biomechanics-v2/body-bindings.json', 'app/mj-part-regions.ts', 'scripts/lib/paokao-build.mjs', 'scripts/lib/tendon-cut.mjs', 'scripts/lib/tendon-build.mjs', 'scripts/lib/tendon-set.mjs', 'scripts/tendon/upper-limb-cuts.mjs', 'scripts/tendon/lower-limb-cuts.mjs', 'scripts/data/zanatomy-upper-limb.json.gz', 'scripts/data/zanatomy-lower-limb.json.gz', 'scripts/paokao-structures/zanatomy-upper-limb.mjs', 'app/biomechanics-v2/tissue-bindings.json', 'scripts/lib/paokao-util.mjs', 'scripts/lib/paokao-world.mjs', 'scripts/lib/nerve-schematics.mjs', 'public/models/atlas.json', 'public/models/nerve-stream.json',
   'public/models/supplement/supplement-stream.json.gz', 'public/models/serous/serous-stream.json.gz', ...fs.readdirSync(file('scripts/paokao-structures')).map(f => 'scripts/paokao-structures/' + f)];
 const hash = createHash('sha256').update(inputs.map(f => fs.readFileSync(file(f))).join('')).digest('hex'), stamp = file('work/paokao.stamp');
 try { if (fs.readFileSync(stamp, 'utf8') === hash && fs.existsSync(manifest) && fs.existsSync(file('app/mj-paokao.json')) && fs.existsSync(file('app/biomechanics-v2/paokao-bindings.json')) && fs.existsSync(file('app/biomechanics-v2/tendon-bindings.json'))) { console.log('Paokao structures: up to date.'); process.exit(0); } } catch {}
@@ -50,7 +50,7 @@ fs.writeFileSync(file('docs/topology-report.json'), JSON.stringify(topology, nul
 const {anatomicalRegion, anatomicalSide, anatomicalSubregion} = await quizModule('app/mj-part-regions.ts');
 const tissueJson = JSON.parse(fs.readFileSync(file('app/biomechanics-v2/tissue-bindings.json'), 'utf8')), bodyJson = JSON.parse(fs.readFileSync(file('app/biomechanics-v2/body-bindings.json'), 'utf8'));
 const atlasParts = JSON.parse(fs.readFileSync(file('public/models/atlas.json'), 'utf8')).parts, atlasByName = new Map(atlasParts.map(p => [p.name, p]));
-const bindings = {tissue: {}, body: {}};
+const bindings = {tissue: {}, body: {}, rigid: {}};
 const boundsOf = g => { const lo = [1e9, 1e9, 1e9], hi = [-1e9, -1e9, -1e9]; for (let i = 0; i < g.positions.length; i += 3) for (let k = 0; k < 3; k++) { lo[k] = Math.min(lo[k], g.positions[i + k]); hi[k] = Math.max(hi[k], g.positions[i + k]); } return [lo, hi]; };
 const ARM_PROFILE = {humerus: 'arm', scapula: 'scapular', clavicle: 'clavicular', radius: 'forearm', ulna: 'forearm'};
 function bind(id, s) {
@@ -68,6 +68,9 @@ function bind(id, s) {
   // The superior thoracic artery leaves the axillary artery at the first rib and stretches with it when the arm is raised. The lateral mammary arteries lie on the
   // chest wall and stay with the trunk: bound to the arm they were pulled to three times their length and 3 to 4 cm away from the lateral thoracic artery they leave.
   const axillaryBranch = /superior thoracic artery/i.test(s.name);
+  // A bone landmark on a bone of the shoulder girdle or arm moves rigidly with that bone (app/mj-motion.ts gives it the bone's transform). Bound as soft tissue
+  // (the 'arm' and 'scapular' profiles of the muscles) the tubercles of the humerus were carried 10 to 26 cm off the bone when the elbow bent.
+  if (s.kind === 'landmark' && hostWord && (side === 'left' || side === 'right')) { bindings.rigid[id] = {name: s.name, side, host: host.id, hostName: host.name}; return; }
   if ((region === 'upper-limb' || hostWord || axillaryBranch) && (side === 'left' || side === 'right')) {
     bindings.tissue[id] = {name: s.name, side, profile: ARM_PROFILE[hostWord] ?? 'path'};
   } else if (region === 'lower-limb' && (side === 'left' || side === 'right')) {

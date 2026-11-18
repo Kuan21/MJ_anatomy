@@ -86,10 +86,15 @@
    "measure": 22.3,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
-  "cuts|PK:Left iliac crest": {
+  "cuts|PK:Left iliac crest#1": {
    "name": "Left iliac crest",
    "measure": 21.9,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
+  },
+  "cuts|PK:Left iliac crest#2": {
+   "name": "Left iliac crest",
+   "measure": 17.4,
+   "reason": "mesh boundary has a straight run: the patch is cut from the female hip bone by height (the same cut as the male patch #1); to be re-cut along the anatomy after the exam; approved by the user 2026-11-17"
   },
   "cuts|PK:Left infraspinous fossa": {
    "name": "Left infraspinous fossa",
@@ -126,10 +131,15 @@
    "measure": 17.7,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
   },
-  "cuts|PK:Right iliac crest": {
+  "cuts|PK:Right iliac crest#1": {
    "name": "Right iliac crest",
    "measure": 35.8,
    "reason": "mesh boundary has a straight run: a surface patch or open sheet cut along a line in the build, or opened by a plane in the source; to be closed or re-cut along the anatomy"
+  },
+  "cuts|PK:Right iliac crest#2": {
+   "name": "Right iliac crest",
+   "measure": 21,
+   "reason": "mesh boundary has a straight run: the patch is cut from the female hip bone by height (the same cut as the male patch #1); to be re-cut along the anatomy after the exam; approved by the user 2026-11-17"
   },
   "cuts|PK:Right infraspinous fossa": {
    "name": "Right infraspinous fossa",
@@ -206,11 +216,6 @@
    "measure": 1,
    "reason": "section plane of the eye detail mode: a cut view on purpose, switched on by its own button (user decision 2026-11-13)"
   },
-  "cuts|runtime:mj-ear-viewer.ts": {
-   "name": "renderer clipping plane in mj-ear-viewer.ts",
-   "measure": 1,
-   "reason": "section plane of the ear detail mode only (none, sagittal, coronal, horizontal; same cut feature as the brain detail mode; the main atlas is not affected): a cut view on purpose, the inside of a cut structure is drawn as a flat tint by the viewer; approved by the user 2026-11-16"
-  },
   "cuts|runtime:organ/brain-viewer.ts": {
    "name": "renderer clipping plane in organ/brain-viewer.ts",
    "measure": 1,
@@ -244,7 +249,7 @@
    "name": "Left anterior circumflex humeral artery",
    "measure": 23,
    "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.4339622641509434,
+   "fraction": 0.3194444444444444,
    "severity": 17
   },
   "detached|FJ2216|shoulder abduction 120": {
@@ -288,27 +293,6 @@
    "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.40425531914893614,
    "severity": 17
-  },
-  "detached|FJ2250-END|shoulder abduction 120": {
-   "name": "Left suprascapular vein",
-   "measure": 50,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.38461538461538464,
-   "severity": 19
-  },
-  "detached|FJ2251-END|shoulder abduction 120": {
-   "name": "Left suprascapular artery",
-   "measure": 57,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.43846153846153846,
-   "severity": 18
-  },
-  "detached|FJ2251-END|shoulder flexion 150": {
-   "name": "Left suprascapular artery",
-   "measure": 57,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.43846153846153846,
-   "severity": 18
   },
   "detached|FJ2268|shoulder abduction 120": {
    "name": "Right axillary artery",
@@ -357,27 +341,6 @@
    "measure": 140,
    "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
    "fraction": 1,
-   "severity": 18
-  },
-  "detached|FJ2302-END|shoulder abduction 120": {
-   "name": "Right suprascapular vein",
-   "measure": 87,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.5028901734104047,
-   "severity": 19
-  },
-  "detached|FJ2303-END|shoulder abduction 120": {
-   "name": "Right suprascapular artery",
-   "measure": 52,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.5977011494252874,
-   "severity": 18
-  },
-  "detached|FJ2303-END|shoulder flexion 150": {
-   "name": "Right suprascapular artery",
-   "measure": 52,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.5977011494252874,
    "severity": 18
   },
   "detached|FJ3479|shoulder abduction 120": {
@@ -1220,20 +1183,6 @@
    "fraction": 1,
    "severity": 21
   },
-  "detached|nerve:Superior subscapular nerve.l.001|shoulder abduction 120": {
-   "name": "Superior subscapular nerve.l",
-   "measure": 138,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure.",
-   "fraction": 0.8734177215189873,
-   "severity": 24
-  },
-  "detached|nerve:Superior subscapular nerve.r.001|shoulder abduction 120": {
-   "name": "Superior subscapular nerve.r",
-   "measure": 133,
-   "reason": "does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure.",
-   "fraction": 0.8471337579617835,
-   "severity": 23
-  },
   "detached|nerve:Superior trunk of brachial plexus.l.001|shoulder abduction 120": {
    "name": "Superior trunk of brachial plexus.l",
    "measure": 5,
@@ -1247,20 +1196,6 @@
    "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
    "fraction": 1,
    "severity": 20
-  },
-  "detached|nerve:Suprascapular nerve.l.001|shoulder flexion 150": {
-   "name": "Suprascapular nerve.l",
-   "measure": 18,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.43902439024390244,
-   "severity": 19
-  },
-  "detached|nerve:Suprascapular nerve.r.001|shoulder flexion 150": {
-   "name": "Suprascapular nerve.r",
-   "measure": 16,
-   "reason": "does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure.",
-   "fraction": 0.4,
-   "severity": 19
   },
   "detached|nerve:Trochlear nerve (IV).l.001|head extension 35": {
    "name": "Trochlear nerve (IV).l",
@@ -2046,11 +1981,6 @@
    "measure": 6.4,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
-  "penetration|FJ2250-END|FJ3237": {
-   "name": "Left suprascapular vein",
-   "measure": 4.2,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
   "penetration|FJ2250|FJ3237": {
    "name": "Left suprascapular vein",
    "measure": 4,
@@ -2059,11 +1989,6 @@
   "penetration|FJ2250|FJ3279": {
    "name": "Left suprascapular vein",
    "measure": 3.9,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|FJ2251-END|FJ3237": {
-   "name": "Left suprascapular artery",
-   "measure": 2.2,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
   "penetration|FJ2251|FJ3237": {
@@ -2136,16 +2061,6 @@
    "measure": 2.9,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
-  "penetration|FJ2302-END|FJ3362": {
-   "name": "Right suprascapular vein",
-   "measure": 3.5,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|FJ2302-END|FJ3384": {
-   "name": "Right suprascapular vein",
-   "measure": 4.1,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
   "penetration|FJ2302|FJ3362": {
    "name": "Right suprascapular vein",
    "measure": 3.9,
@@ -2154,11 +2069,6 @@
   "penetration|FJ2302|FJ3384": {
    "name": "Right suprascapular vein",
    "measure": 3.9,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|FJ2303-END|FJ3362": {
-   "name": "Right suprascapular artery",
-   "measure": 2.6,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
   "penetration|FJ2303|FJ3362": {

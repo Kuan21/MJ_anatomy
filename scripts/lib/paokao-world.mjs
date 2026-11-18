@@ -30,6 +30,9 @@ export function loadWorld({paokao = false} = {}) {
   /** Geometry that is not on disk yet (structures built in this run) so later specs and the topology check can refer to it by name. */
   const addExtra = (name, system, geometry) => { entries.push({name, id: 'extra:' + name, system, load: () => geometry}); cache.delete(name); };
   const find = (name) => {
+    // "Left hip bone @male" / "@female": only the BodyParts3D (male) or only the female (HRAF-…) mesh of a name both carry, for patches that must lie on one of them
+    const sexed = / @(male|female)$/.exec(name);
+    if (sexed) return find(name.slice(0, sexed.index)).filter(e => /^HRAF-/.test(e.id) === (sexed[1] === 'female'));
     const n = name.toLowerCase(), exact = entries.filter(e => e.name.toLowerCase() === n);
     if (exact.length) return exact;
     // Some paired structures are stored once without a side word ("Internal thoracic vein" is the left one): accept it when it lies on the requested side.
