@@ -107,7 +107,7 @@
 
 #### 膕窩（Popliteal fossa）
 
-- 中心交會距離：0.0332 公尺
+- 中心交會距離：0.0333 公尺
 - 邊界（畫出）：Biceps femoris、Semimembranosus、Semitendinosus、Gastrocnemius, lateral head、Plantaris、Gastrocnemius, medial head
 - 頂（畫出）：Small saphenous vein
 - 底（畫出）：Femur、Popliteus
