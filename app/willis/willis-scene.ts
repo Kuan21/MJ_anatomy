@@ -28,9 +28,9 @@ const V = (p: V3) => new T.Vector3(p[0], p[1], p[2]);
 /** Camera per step: which segments to frame and the direction to look from (model frame: +x left, +y up, +z front). */
 const CAMERAS: Record<StepId, {segments: SegmentId[]; dir: V3; fill: number}> = {
   inflow: {segments: ['ica-l', 'ica-r', 'va-l', 'va-r', 'ba-1', 'ba-2'], dir: [-.45, .12, .88], fill: .86},
-  circle: {segments: ['a1-l', 'a1-r', 'acom', 'pcom-l', 'pcom-r', 'p1-l', 'p1-r', 'ba-2'], dir: [0, -.86, .5], fill: .62},
-  branches: {segments: ['a1-l', 'a1-r', 'pcom-l', 'pcom-r', 'mca-l', 'mca-r', 'p2-l', 'p2-r', 'ba-1', 'ba-2'], dir: [0, -.86, .5], fill: .9},
-  block: {segments: ['a1-l', 'a1-r', 'pcom-l', 'pcom-r', 'mca-l', 'mca-r', 'p2-l', 'p2-r', 'ba-1', 'ba-2'], dir: [0, -.86, .5], fill: .9},
+  circle: {segments: ['a1-l', 'a1-r', 'acom', 'pcom-l', 'pcom-r', 'p1-l', 'p1-r', 'ba-2'], dir: [0, -.86, .5], fill: .42},
+  branches: {segments: ['a1-l', 'a1-r', 'a2-l', 'a2-r', 'pcom-l', 'pcom-r', 'mca-l', 'mca-r', 'p2-l', 'p2-r', 'ba-1', 'ba-2', 'pf-branches'], dir: [0, -.86, .5], fill: .66},
+  block: {segments: ['a1-l', 'a1-r', 'a2-l', 'a2-r', 'pcom-l', 'pcom-r', 'mca-l', 'mca-r', 'p2-l', 'p2-r', 'ba-1', 'ba-2', 'pf-branches'], dir: [0, -.86, .5], fill: .66},
 };
 
 /** The circle of Willis in 3D: the arteries of the brain model (red, see-through), a channel and moving dots along each segment of the flow network, and the brain as glass whose
@@ -130,7 +130,10 @@ export function createWillisScene(host: HTMLElement, callbacks: Callbacks) {
   function aimFor(id: StepId) {
     const c = CAMERAS[id], box = segmentBox(c.segments); if (box.isEmpty()) return null;
     const dir = V(c.dir).normalize(), centre = box.getCenter(new T.Vector3()), pad = new T.Box3(box.min.clone().addScalar(-.004), box.max.clone().addScalar(.004));
-    return {tgt: centre, pos: centre.clone().addScaledVector(dir, framingDistance(pad, dir, camera.fov, camera.aspect, c.fill, c.fill, .05))};
+    const distance = framingDistance(pad, dir, camera.fov, camera.aspect, c.fill, c.fill, .05);
+    // the controls bar covers the bottom of the canvas: move the picture up by a share of the view height
+    const screenUp = new T.Vector3(0, 1, 0).addScaledVector(dir, -dir.y).normalize(), shift = screenUp.multiplyScalar(-distance * Math.tan(camera.fov * Math.PI / 360) * .16);
+    return {tgt: centre.clone().add(shift), pos: centre.clone().addScaledVector(dir, distance).add(shift)};
   }
   function flyTo(id: StepId, instant = false) {
     const to = aimFor(id); if (!to) return;
@@ -196,7 +199,7 @@ export function createWillisScene(host: HTMLElement, callbacks: Callbacks) {
       lab('aica', 'Anterior inferior cerebellar artery', '前下小腦動脈', () => curves.get('pf-branches')?.[1]?.curve.getPointAt(.4) ?? null, {dx: 50, dy: 40}),
     );
     if (step === 'block') {
-      if (blocked) {const s = SEGMENT_BY_ID.get(blocked)!; specs.push(lab('blocked', `Blocked: ${s.en}`, `✕ 阻塞：${s.zh}`, () => mid(blocked!, .5), {accent: true, dx: 40, dy: -50}));}
+      if (blocked) {const s = SEGMENT_BY_ID.get(blocked)!; specs.push(lab(`blocked-${blocked}`, `Blocked: ${s.en}`, `✕ 阻塞：${s.zh}`, () => mid(blocked!, /^(ica|va)-/.test(blocked!) ? .9 : .5), {accent: true, dx: 40, dy: -50}));}
       for (const id of reversed) {const s = SEGMENT_BY_ID.get(id)!; specs.push(lab(`rev-${id}`, `${s.en}: reversed`, `${s.zh}：側支（方向倒轉）`, () => mid(id, .5), {dx: -200, dy: 30}));}
     }
     return specs;
