@@ -27,7 +27,7 @@ export const SUPPLY_PARTS: OrganPartDef[] = [
   art('Celiac trunk', 'Celiac trunk', '腹腔幹', {
     loc: b('A short, wide, unpaired branch from the front of the abdominal aorta, just below the aortic hiatus of the diaphragm (about the level of T12–L1).', '腹主動脈前壁短而粗的單一分支，位在橫膈主動脈裂孔的正下方，約第十二胸椎至第一腰椎的高度。'),
     course: b('It is only 1–2 cm long. It runs forward and slightly down above the upper border of the pancreas and ends by dividing into the left gastric, splenic and common hepatic arteries.', '全長約一至二公分，向前並稍向下，走在胰上緣之上，隨即分成胃左動脈、脾動脈與肝總動脈三支。'),
-    rel: b('The celiac ganglia and plexus surround its root; the crura of the diaphragm lie behind it and the lesser sac and stomach in front.', '根部被腹腔神經節與腹腔神經叢包圍；後方為橫膈腳，前方隔著網膜囊與胃相對。'),
+    rel: b('The celiac ganglia and plexus surround its root; the crura of the diaphragm lie behind it and the lesser sac and stomach in front.', '根部被腹腔神經節與腹腔叢包圍；後方為橫膈腳，前方隔著網膜囊與胃相對。'),
     fn: b('It supplies the derivatives of the foregut: lower oesophagus, stomach, upper duodenum, liver, gallbladder, pancreas and spleen.', '供應前腸來源的器官：食道下段、胃、十二指腸上部、肝、膽囊、胰與脾。'),
   }, {quizSystem: 'arterial'}),
   art('Left gastric artery', 'Left gastric artery', '胃左動脈', {
@@ -38,7 +38,7 @@ export const SUPPLY_PARTS: OrganPartDef[] = [
   }, {quizSystem: 'arterial'}),
   art('Splenic artery', 'Splenic artery', '脾動脈', {
     loc: b('The largest branch of the celiac trunk. It runs to the left along the upper border of the pancreas, in a winding course, behind the stomach (the stomach bed).', '腹腔幹最大的分支，沿胰上緣向左走，路徑迂曲，位於胃後方（胃床）。'),
-    course: b('It ends at the hilum of the spleen by dividing into terminal branches. On the way it gives pancreatic branches, the posterior gastric artery, and near the end the short gastric arteries and the left gastro-epiploic artery.', '終點在脾門，分成末梢分支；途中發出胰支、胃後動脈，接近末端時發出胃短動脈與胃網膜左動脈。'),
+    course: b('It ends at the hilum of the spleen by dividing into terminal branches. On the way it gives pancreatic branches, the posterior gastric artery, and near the end the short gastric arteries and the left gastro-epiploic artery.', '終點在脾門，分成末梢分支；途中發出胰支、後胃動脈，接近末端時發出短胃動脈與胃網膜左動脈。'),
     rel: b('The splenic vein runs just below it, and the splenic lymph nodes lie along it.', '脾靜脈在它的下方並行，脾淋巴結沿著它分布。'),
     fn: b('It supplies the spleen, the body and tail of the pancreas, and through its gastric branches the fundus and the upper part of the greater curvature.', '供應脾、胰體與胰尾，並以胃支供應胃底與大彎上部。'),
   }, {quizSystem: 'arterial'}),
@@ -78,14 +78,14 @@ export const SUPPLY_PARTS: OrganPartDef[] = [
     rel: b('The left gastro-epiploic vein runs with it, and the splenic lymph nodes lie near its origin.', '胃網膜左靜脈與它並行，起始處附近有脾淋巴結。'),
     fn: b('It supplies the upper greater curvature and the adjacent walls of the stomach.', '供應胃大彎上部及相鄰的胃壁。'),
   }, {quizSystem: 'arterial'}),
-  art('Short gastric arteries', 'Short gastric arteries', '胃短動脈', {
+  art('Short gastric arteries', 'Short gastric arteries', '短胃動脈', {
     loc: b('Four to six small branches from the end of the splenic artery or from its terminal branches at the splenic hilum.', '約四到六條小分支，起自脾門處的脾動脈末端或其末梢分支。'),
     course: b('They run a short way in the gastrosplenic ligament and reach the fundus and the upper part of the greater curvature, where they join the left gastric and left gastro-epiploic arteries.', '在胃脾韌帶內走很短一段，到達胃底與大彎上部，並與胃左動脈、胃網膜左動脈吻合。'),
-    rel: b('The short gastric veins run with them toward the splenic hilum.', '胃短靜脈與它們一起朝脾門走。'),
+    rel: b('The short gastric veins run with them toward the splenic hilum.', '短胃靜脈與它們一起朝脾門走。'),
     fn: b('They supply the fundus, which has no other large artery of its own.', '供應胃底，這一區沒有其他較大的專屬動脈。'),
     note: b('Schematic model: the course follows the usual description and the end points are placed on the model surface.', '示意模型：走向依一般描述，起止點放在模型的表面上。'),
   }, {quizSystem: 'arterial', schematic: true}),
-  art('Posterior gastric artery', 'Posterior gastric artery', '胃後動脈', {
+  art('Posterior gastric artery', 'Posterior gastric artery', '後胃動脈', {
     loc: b('A small, inconstant branch of the middle part of the splenic artery.', '脾動脈中段發出的小分支，並非每個人都有。'),
     course: b('It climbs behind the lesser sac, in the fold between the stomach and the diaphragm, to the back wall of the fundus.', '在網膜囊後方、胃與橫膈之間的皺褶內向上爬，到達胃底的後壁。'),
     rel: b('It lies behind the lesser sac, in the peritoneal fold between the stomach and the diaphragm, and its vein runs with it.', '位於網膜囊後方、胃與橫膈之間的腹膜皺褶內，靜脈與它同行。'),
@@ -118,15 +118,15 @@ export const SUPPLY_PARTS: OrganPartDef[] = [
     rel: b('The left gastro-omental lymph nodes and the splenic nodes lie near it.', '附近有胃網膜左淋巴結與脾淋巴結。'),
     fn: b('It drains the upper greater curvature and the adjacent walls.', '回收胃大彎上部與相鄰胃壁的血液。'),
   }, {quizSystem: 'venous'}),
-  vein('Short gastric veins', 'Short gastric veins', '胃短靜脈', {
-    loc: b('Small veins from the fundus and the upper greater curvature that run beside the short gastric arteries.', '來自胃底與大彎上部的小靜脈，與胃短動脈並行。'),
+  vein('Short gastric veins', 'Short gastric veins', '短胃靜脈', {
+    loc: b('Small veins from the fundus and the upper greater curvature that run beside the short gastric arteries.', '來自胃底與大彎上部的小靜脈，與短胃動脈並行。'),
     course: b('They cross the gastrosplenic ligament to the splenic hilum and end in the splenic vein or its tributaries.', '越過胃脾韌帶到脾門，注入脾靜脈或它的屬支。'),
     rel: b('They are the shortest link between the fundus and the splenic vein.', '是胃底與脾靜脈之間最短的連結。'),
     fn: b('They drain the fundus into the splenic vein and so into the portal system.', '把胃底的血液經脾靜脈送入門靜脈系統。'),
     note: b('Schematic model: the end points are placed on the model surface.', '示意模型：起止點放在模型的表面上。'),
   }, {quizSystem: 'venous', schematic: true}),
-  vein('Posterior gastric vein', 'Posterior gastric vein', '胃後靜脈', {
-    loc: b('A small vein of the back wall of the fundus that runs with the posterior gastric artery.', '胃底後壁的小靜脈，與胃後動脈同行。'),
+  vein('Posterior gastric vein', 'Posterior gastric vein', '後胃靜脈', {
+    loc: b('A small vein of the back wall of the fundus that runs with the posterior gastric artery.', '胃底後壁的小靜脈，與後胃動脈同行。'),
     course: b('It runs down behind the lesser sac and ends in the splenic vein.', '在網膜囊後方向下走，注入脾靜脈。'),
     rel: b('Like the artery, it is not always present.', '和動脈一樣，並非每個人都有。'),
     fn: b('It drains the back wall of the fundus into the splenic vein.', '把胃底後壁的血液送入脾靜脈。'),
@@ -134,7 +134,7 @@ export const SUPPLY_PARTS: OrganPartDef[] = [
   }, {quizSystem: 'venous', schematic: true}),
   part('Splenic vein', 'Splenic vein', '脾靜脈', 'veins', PORTAL, {
     loc: b('It forms at the splenic hilum from several tributaries and runs to the right behind the body of the pancreas, below the splenic artery.', '在脾門由數條屬支匯合而成，在胰體後方、脾動脈下方向右走。'),
-    course: b('It receives the short gastric, left gastro-epiploic and posterior gastric veins and the pancreatic veins, and usually the inferior mesenteric vein. Behind the neck of the pancreas it joins the superior mesenteric vein to form the portal vein.', '接收胃短靜脈、胃網膜左靜脈、胃後靜脈與胰靜脈，通常還有腸繫膜下靜脈；在胰頸後方與腸繫膜上靜脈匯合成門靜脈。'),
+    course: b('It receives the short gastric, left gastro-epiploic and posterior gastric veins and the pancreatic veins, and usually the inferior mesenteric vein. Behind the neck of the pancreas it joins the superior mesenteric vein to form the portal vein.', '接收短胃靜脈、胃網膜左靜脈、後胃靜脈與胰靜脈，通常還有腸繫膜下靜脈；在胰頸後方與腸繫膜上靜脈匯合成門靜脈。'),
     rel: b('It lies in front of the left kidney and suprarenal gland and behind the stomach and pancreas.', '位於左腎與左腎上腺前方、胃與胰的後方。'),
     fn: b('It drains the spleen, the left part of the stomach and the pancreas into the portal system.', '把脾、胃左側與胰的血液送入門靜脈系統。'),
   }, {quizSystem: 'venous'}),
@@ -155,7 +155,7 @@ export const SUPPLY_PARTS: OrganPartDef[] = [
   // ---- nerves
   nerve('Right vagus nerve', 'Right vagus nerve', '右迷走神經', {
     loc: b('The model shows its lower part: down the side and then the back of the oesophagus, through the oesophageal hiatus and on toward the celiac region.', '模型顯示它的下段：沿食道側面、再到後面下行，穿過食道裂孔後朝腹腔幹區域走。'),
-    course: b('Near the hiatus it forms the posterior vagal trunk. The trunk gives posterior gastric branches to the back wall of the stomach and a large celiac branch that joins the celiac plexus.', '接近食道裂孔時形成後迷走神經幹；後幹發出到胃後壁的胃後支，以及一條較大的腹腔支，匯入腹腔神經叢。'),
+    course: b('Near the hiatus it forms the posterior vagal trunk. The trunk gives posterior gastric branches to the back wall of the stomach and a large celiac branch that joins the celiac plexus.', '接近食道裂孔時形成後迷走神經幹；後幹發出到胃後壁的胃後支，以及一條較大的腹腔支，匯入腹腔叢。'),
     rel: b('In the lower chest the two vagi form the oesophageal plexus; the right vagus ends up behind the oesophagus, the left in front.', '在下胸部兩側迷走神經形成食道神經叢；右迷走神經最後走到食道後面，左迷走神經走到前面。'),
     fn: b('Its parasympathetic fibres raise gastric acid secretion and gut movement and relax the pylorus; it also carries sensation back from the stomach.', '副交感纖維促進胃酸分泌與消化道蠕動、使幽門放鬆，也把胃的感覺傳回中樞。'),
   }, {quizSystem: 'nervous', side: 'right'}),
@@ -187,7 +187,7 @@ export const SUPPLY_PARTS: OrganPartDef[] = [
   }, {quizSystem: 'nervous'}),
   part('Right celiac ganglion', 'Right celiac ganglion', '右腹腔神經節', 'nerves', GANGLION, {
     loc: b('One of two large sympathetic ganglia, on the right of the root of the celiac trunk, in front of the crus of the diaphragm.', '兩個大型交感神經節之一，位於腹腔幹根部右側、橫膈腳前方。'),
-    course: b('Preganglionic fibres of the greater splanchnic nerve end in it; postganglionic fibres leave to form the celiac plexus along the arteries.', '大內臟神經的節前纖維在此終止；節後纖維離開後形成沿動脈分布的腹腔神經叢。'),
+    course: b('Preganglionic fibres of the greater splanchnic nerve end in it; postganglionic fibres leave to form the celiac plexus along the arteries.', '大內臟神經的節前纖維在此終止；節後纖維離開後形成沿動脈分布的腹腔叢。'),
     rel: b('It lies beside the right suprarenal gland and the inferior vena cava.', '靠近右腎上腺與下腔靜脈。'),
     fn: b('Relay station of the sympathetic supply to the stomach and the other foregut organs.', '胃與其他前腸器官交感支配的中繼站。'),
   }, {quizSystem: 'nervous', side: 'right'}),
@@ -209,7 +209,7 @@ export const SUPPLY_PARTS: OrganPartDef[] = [
     rel: b('It runs beside the descending aorta and the hemiazygos vein.', '沿降主動脈與半奇靜脈旁邊走。'),
     fn: b('Sympathetic supply of the stomach and the other foregut organs, and a route for their pain sensation.', '胃與其他前腸器官的交感支配，也是它們痛覺的傳導路徑。'),
   }, {quizSystem: 'nervous', side: 'left'}),
-  part('Celiac plexus', 'Celiac plexus', '腹腔神經叢', 'nerves', GANGLION, {
+  part('Celiac plexus', 'Celiac plexus', '腹腔叢', 'nerves', GANGLION, {
     loc: b('The network of nerves around the root of the celiac trunk, made up of the two celiac ganglia and the fibres that reach them.', '圍繞腹腔幹根部的神經網，由兩個腹腔神經節與到達它們的纖維組成。'),
     course: b('It receives the greater and lesser splanchnic nerves and the celiac branches of the vagus nerves, and sends fibres out along the left gastric, splenic and common hepatic arteries.', '接收大、小內臟神經與迷走神經的腹腔支，並沿胃左動脈、脾動脈與肝總動脈送出纖維。'),
     rel: b('It lies in front of the aorta and the crura of the diaphragm, behind the lesser sac and the pancreas.', '位於主動脈與橫膈腳前方、網膜囊與胰的後方。'),

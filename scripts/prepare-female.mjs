@@ -28,7 +28,7 @@ const NAMES = [ // [regex on HRA node name, English (without side), Chinese, sys
   [/uterosacral_ligament$/, 'Uterosacral ligament', '子宮骶韌帶', 'reproductive', true],
   [/cardinal_ligament_of_uterus$/, 'Cardinal ligament of uterus', '子宮主韌帶（子宮頸橫韌帶）', 'reproductive', true],
   [/^VH_F_suspensory_ligament_of_ovary_[LR]$/, 'Suspensory ligament of ovary', '卵巢懸韌帶', 'reproductive', true],
-  [/^VH_F_ovarian_ligament_[LR]$/, 'Ovarian ligament', '卵巢固有韌帶', 'reproductive', true],
+  [/^VH_F_ovarian_ligament_[LR]$/, 'Ovarian ligament', '卵巢韌帶', 'reproductive', true],
   [/^VH_F_mesovarium_[LR]$/, 'Mesovarium', '卵巢繫膜', 'reproductive', true],
   [/_ovary$/, 'Ovary', '卵巢', 'reproductive', true],
   [/^VH_F_ampulla_of_uterine_tube_[LR]$/, 'Ampulla of uterine tube', '輸卵管壺腹', 'reproductive', true],
@@ -153,7 +153,7 @@ const tube = (pts, radius, sides = 14) => {
   const yTop = rows[rows.length - 1].y - .001, y0 = (yLow + yTop) / 2, ry = (yTop - yLow) / 2, cx = centroid(front)[0], pos = [], idx = [], nu = 24, nv = 14;
   for (let a = 0; a <= nv; a++) for (let b = 0; b < nu; b++) { const th = Math.PI * a / nv, ph = 2 * Math.PI * b / nu, y = y0 + ry * Math.cos(th); pos.push(cx + .022 * Math.sin(th) * Math.cos(ph), y, at(y, 'c') + at(y, 'half') * Math.sin(th) * Math.sin(ph)); }
   for (let a = 0; a < nv; a++) for (let b = 0; b < nu; b++) { const i = a * nu + b, j = a * nu + (b + 1) % nu; idx.push(i, j, i + nu, j, j + nu, i + nu); }
-  await addMesh({name: 'Rectouterine pouch', system: 'serous', chineseName: '直腸子宮陷凹', schematic: true}, {positions: Float32Array.from(pos), indices: Uint32Array.from(idx)}, 1500);
+  await addMesh({name: 'Rectouterine pouch', system: 'serous', chineseName: '子宮直腸陷凹', schematic: true}, {positions: Float32Array.from(pos), indices: Uint32Array.from(idx)}, 1500);
 }
 
 const info = stream.finish({source: source.source, license: source.license, doi: source.doi, authors: source.authors, sourceSha256: source.sourceSha256,
