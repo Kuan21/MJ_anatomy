@@ -390,5 +390,13 @@
   "Posterior division of inferior trunk of brachial plexus.r.001": {
     "side": "right",
     "profile": "path"
+  },
+  "Superior subscapular nerve.l.001": {
+    "side": "left",
+    "profile": "path"
+  },
+  "Superior subscapular nerve.r.001": {
+    "side": "right",
+    "profile": "path"
   }
 }

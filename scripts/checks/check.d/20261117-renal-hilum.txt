@@ -1,0 +1,2 @@
+node scripts/derive-renal-hilum-depth.mjs --check
+node scripts/test-renal-hilum-shift.mjs

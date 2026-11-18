@@ -4,6 +4,7 @@
 //   --list           print the numbered steps and exit
 //   --from=N|text    start at step N (1-based) or at the first step that contains the text (resume after a fix)
 //   --with-install   also run `npm ci` (skipped by default: it deletes node_modules, which a local checkout usually shares)
+// A run that starts before the build step first deletes dist/ (CI checks out a clean tree, so the checks there never see an earlier build; a stale dist/ made scans of dist/ report old output as a failure).
 // Prints the command and pass/fail; the commands print their own output.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -32,6 +33,8 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   if (process.argv.includes('--list')) { steps.forEach((s, i) => console.log(`${i + 1}  ${s}`)); process.exit(0); }
   let start = 0;
   if (from) { start = /^\d+$/.test(from) ? +from - 1 : steps.findIndex(s => s.includes(from)); if (start < 0 || start >= steps.length) { console.error(`--from=${from}: no such step`); process.exit(2); } }
+  const buildStep = steps.findIndex(s => /\bbuild\b/.test(s) && !/^npm run check/.test(s));
+  if (start < (buildStep < 0 ? steps.length : buildStep) && fs.existsSync(path.join(root, 'dist'))) { fs.rmSync(path.join(root, 'dist'), {recursive: true, force: true}); console.log('ci:local: removed the old dist/ (CI starts from a clean checkout)'); }
   const t0 = Date.now();
   for (let i = start; i < steps.length; i++) {
     console.log(`\n[ci:local ${i + 1}/${steps.length}] ${steps[i]}`);

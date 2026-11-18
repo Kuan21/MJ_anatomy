@@ -92,7 +92,7 @@ export const EAR_PARTS: EarPart[] = [
     near: ['tympanic-membrane', 'malleus', 'incus', 'stapes', 'pharyngotympanic-tube', 'oval-window', 'round-window', 'facial-nerve', 'chorda-tympani'],
     rel: ['tympanic-membrane', 'malleus', 'incus', 'stapes', 'tensor-tympani', 'stapedius', 'pharyngotympanic-tube', 'oval-window', 'round-window', 'facial-nerve', 'chorda-tympani'], card: {
     en: {
-      loc: 'The air-filled space in the petrous part of the temporal bone between the tympanic membrane (lateral wall) and the bony labyrinth (medial wall). The epitympanic recess (attic) lies above the membrane, the mesotympanum opposite it and the hypotympanum below. Roof: tegmen tympani, the floor of the middle cranial fossa. Floor: the jugular wall. Front: the opening of the pharyngotympanic tube and the carotid wall. Back: the entrance to the mastoid antrum and the pyramidal eminence. Medial wall: promontory, oval window, round window and the bulge of the facial canal.',
+      loc: 'The air-filled space inside the petrous temporal bone, between the tympanic membrane (lateral wall) and the bony labyrinth (medial wall). The epitympanic recess (attic) lies above the membrane, the mesotympanum opposite it and the hypotympanum below. Roof: tegmen tympani, the floor of the middle cranial fossa. Floor: the jugular wall. Front: the opening of the pharyngotympanic tube and the carotid wall. Back: the entrance to the mastoid antrum and the pyramidal eminence. Medial wall: promontory, oval window, round window and the bulge of the facial canal.',
       fn: 'Holds the ossicles, the tensor tympani and stapedius muscles, the chorda tympani and the tympanic plexus. The pharyngotympanic tube keeps its air pressure equal to the outside.',
       supply: 'The mucosa is supplied by the tympanic plexus (glossopharyngeal nerve). Arteries: anterior tympanic, stylomastoid and several small branches of the middle meningeal and internal carotid arteries.',
       note: 'The thin roof and medial wall are why an ear infection can reach the meninges and temporal lobe, the labyrinth and the facial nerve, and the back wall opens into the mastoid air cells. This space has no mesh of its own: selecting it highlights the structures that bound it or lie inside it and fades the rest.',
@@ -261,13 +261,13 @@ export const EAR_PARTS: EarPart[] = [
   }}),
   P({id: 'scala-vestibuli', en: 'Scala vestibuli', zh: '前庭階', group: 'bony', model: true, color: '#d98a7c', opacity: .85, layer: 4, rel: ['vestibule', 'scala-tympani', 'cochlear-duct', 'oval-window'], card: {
     en: {
-      loc: 'The upper of the two perilymph channels that wind about two and three quarter turns around the modiolus of the cochlea. It begins at the vestibule just inside the oval window, runs up to the apex and joins the scala tympani at the helicotrema. The vestibular membrane separates it from the cochlear duct.',
+      loc: 'The upper of the two perilymph channels that wind about two and a half turns around the modiolus of the cochlea. It begins at the vestibule just inside the oval window, runs up to the apex and joins the scala tympani at the helicotrema. The vestibular membrane separates it from the cochlear duct.',
       fn: 'Carries the pressure wave from the oval window up the cochlea.',
       supply: 'Filled with perilymph. Arteries: cochlear branches of the labyrinthine artery.',
       note: 'Shown from the OpenEar specimen, from the vestibule to the apex of the cochlea.',
     },
     zh: {
-      loc: '兩條外淋巴液通道中位於上方的一條，繞耳蝸蝸軸約兩圈又四分之三。起點在前庭，緊接卵圓窗內側，向上走到蝸頂，在耳蝸孔與鼓階相通。前庭膜把它與耳蝸管隔開。',
+      loc: '兩條外淋巴液通道中位於上方的一條，繞耳蝸蝸軸約兩圈半。起點在前庭，緊接卵圓窗內側，向上走到蝸頂，在耳蝸孔與鼓階相通。前庭膜把它與耳蝸管隔開。',
       fn: '把來自卵圓窗的壓力波沿耳蝸向上傳送。',
       supply: '內含外淋巴液。動脈：迷路動脈的耳蝸分支。',
       note: '此處顯示的是 OpenEar 標本中從前庭到蝸頂的部分。',
