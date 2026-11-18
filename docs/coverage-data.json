@@ -1,9 +1,9 @@
 {
  "totals": {
   "terms": 3816,
-  "have": 1224,
+  "have": 1216,
   "findability": 0,
-  "missing": 1117,
+  "missing": 1125,
   "landmark": 262,
   "noise": 650
  },
@@ -17525,54 +17525,6 @@
      "system": "muscular"
     },
     {
-     "term": "Perineal muscles",
-     "zh": "會陰肌肉",
-     "kind": "contained",
-     "model": "Right superficial transverse perineal muscle",
-     "source": "paokao",
-     "system": "muscular"
-    },
-    {
-     "term": "Ischiocavernosus m",
-     "zh": "坐骨海綿體肌",
-     "kind": "exact",
-     "model": "Right ischiocavernosus",
-     "source": "paokao",
-     "system": "muscular"
-    },
-    {
-     "term": "Bulbospongiosus m",
-     "zh": "球海綿體肌",
-     "kind": "exact",
-     "model": "Right bulbospongiosus",
-     "source": "paokao",
-     "system": "muscular"
-    },
-    {
-     "term": "Superficial transverse perineal m",
-     "zh": null,
-     "kind": "exact",
-     "model": "Right superficial transverse perineal muscle",
-     "source": "paokao",
-     "system": "muscular"
-    },
-    {
-     "term": "Superficial transverse perineal muscle",
-     "zh": "會陰淺橫肌",
-     "kind": "exact",
-     "model": "Right superficial transverse perineal muscle",
-     "source": "paokao",
-     "system": "muscular"
-    },
-    {
-     "term": "Bulbospongiosus muscle",
-     "zh": "球海綿體肌",
-     "kind": "exact",
-     "model": "Right bulbospongiosus",
-     "source": "paokao",
-     "system": "muscular"
-    },
-    {
      "term": "External anal sphincter muscle",
      "zh": "肛門外括約肌",
      "kind": "exact",
@@ -17603,14 +17555,6 @@
      "model": "Suspensory ligament of left lens",
      "source": "atlas",
      "system": "connective"
-    },
-    {
-     "term": "Transverse perineal m",
-     "zh": "淺橫肌",
-     "kind": "contained",
-     "model": "Right superficial transverse perineal muscle",
-     "source": "paokao",
-     "system": "muscular"
     },
     {
      "term": "Sacrotuberous lig",
@@ -17875,14 +17819,6 @@
      "model": "Left bulb of vestibule",
      "source": "paokao",
      "system": "reproductive"
-    },
-    {
-     "term": "bulbospongiosus",
-     "zh": "球海綿體肌",
-     "kind": "exact",
-     "model": "Right bulbospongiosus",
-     "source": "paokao",
-     "system": "muscular"
     },
     {
      "term": "corpus cavernosum penis",
@@ -18176,6 +18112,10 @@
      "zh": "會陰淺陷凹"
     },
     {
+     "term": "Perineal muscles",
+     "zh": "會陰肌肉"
+    },
+    {
      "term": "Compressor urethrae muscle",
      "zh": "生是尿道壓迫肌"
     },
@@ -18208,8 +18148,20 @@
      "zh": "尿道陰道括約肌"
     },
     {
+     "term": "Ischiocavernosus m",
+     "zh": "坐骨海綿體肌"
+    },
+    {
+     "term": "Bulbospongiosus m",
+     "zh": "球海綿體肌"
+    },
+    {
      "term": "Perineal a",
      "zh": "會陰動脈"
+    },
+    {
+     "term": "Superficial transverse perineal m",
+     "zh": null
     },
     {
      "term": "Perineal branches",
@@ -18226,6 +18178,14 @@
     {
      "term": "Deep perineal muscles",
      "zh": null
+    },
+    {
+     "term": "Superficial transverse perineal muscle",
+     "zh": "會陰淺橫肌"
+    },
+    {
+     "term": "Bulbospongiosus muscle",
+     "zh": "球海綿體肌"
     },
     {
      "term": "Intermediate layer A",
@@ -18250,6 +18210,10 @@
     {
      "term": "Fundiform lig",
      "zh": null
+    },
+    {
+     "term": "Transverse perineal m",
+     "zh": "淺橫肌"
     },
     {
      "term": "anococcygeal lig",
@@ -18558,6 +18522,10 @@
     {
      "term": "bulb of the penis",
      "zh": "陰莖球"
+    },
+    {
+     "term": "bulbospongiosus",
+     "zh": "球海綿體肌"
     },
     {
      "term": "tunica albuginea",
