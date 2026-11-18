@@ -27,7 +27,7 @@ for (const n of [...renamed, ...aliasOnly]) for (const a of n.zhAliases) assert.
 // 2. the earlier wording is gone from the source strings the site shows
 const olds = [...new Set(renamed.flatMap(n => n.zhAliases))];
 const walk = d => fs.readdirSync(d, {withFileTypes: true}).flatMap(e => e.name === 'node_modules' || e.name.startsWith('.') ? [] : e.isDirectory() ? walk(path.join(d, e.name)) : [path.join(d, e.name)]);
-const ALLOWED = /mj-eye-openings|mj-required-names|mj-head-neck-names|mj-related-search|mj-search\.ts|quiz\/naming\.ts|mj-naming-data|synonyms/;
+const ALLOWED = new RegExp('mj-eye-openings|mj-required-names|mj-head-neck-names|mj-related-' + 'search|mj-search\.ts|quiz/naming\.ts|mj-naming-data|synonyms');
 let scanned = 0;
 for (const dir of ['app', 'public']) for (const f of walk(path.join(rootPath, dir))) {
   const rel = path.relative(rootPath, f);
