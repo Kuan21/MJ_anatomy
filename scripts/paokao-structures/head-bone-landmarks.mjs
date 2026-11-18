@@ -58,20 +58,20 @@ export default function headBoneLandmarks(U) {
       ['Opening on the outer surface of the body of the mandible below the second premolar, about halfway between the upper and lower borders; the mandibular canal ends here', '位於下頜體外側面、第二小臼齒下方，約在上、下緣之間；下頜管在此終止'],
       ['Transmits the mental nerve and vessels, the terminal branches of the inferior alveolar nerve and artery', '通過頦神經與頦血管（下牙槽神經與動脈的終末分支）']);
     mark(...sided(S, 'mandibular foramen', '下頜孔'), [{bone: MAND, geometry: disc(MAND, mandFor[S.sx], .0035)}], ['On the mandible', '下頜骨'],
-      ['Opening on the inner surface of the ramus, about halfway between its front and back borders; it leads into the mandibular canal and is partly covered by a small flap, the lingula', '位於下頜枝內側面、約在前後緣中間的開口，通往下頜管；前方有一小片骨瓣（下頜小舌）遮蓋'],
+      ['Opening on the inner surface of the ramus, about halfway between its front and back borders; it leads into the mandibular canal and is partly covered by a small flap, the lingula', '位於下頜骨支內側面、約在前後緣中間的開口，通往下頜管；前方有一小片骨瓣（下頜小舌）遮蓋'],
       ['The inferior alveolar nerve and vessels enter here; the sphenomandibular ligament attaches to the lingula', '下牙槽神經與血管由此進入；蝶下頜韌帶附著於下頜小舌']);
     const A = angle(S), mfLine = [surf(MAND, mandFor[S.sx])], nearMF = nearAny([mfLine], 9.8);
     mark(...sided(S, 'angle of mandible', '下頜角'), [{bone: MAND, geometry: U.patchWhere(MAND, tr => side(m(tr.mid[0])) && len(sub(tr.mid, A)) < .011, .0004, p => len(sub(p, A)) < .015, .0012)}], ['On the mandible', '下頜骨'],
-      ['The rounded corner where the lower border of the body meets the back border of the ramus; it is more open in the adult than in the child and the old', '下頜體下緣與下頜枝後緣相接的圓角；成人的角度比幼兒與老人更接近直角'],
+      ['The rounded corner where the lower border of the body meets the back border of the ramus; the angle is close to a right angle in the adult, but wider (more obtuse) in the young child and in the elderly', '下頜體下緣與下頜骨支後緣相接的圓角；成人的角度較接近直角，幼兒與老人則較鈍'],
       ['Insertion of the masseter on the outside and of the medial pterygoid on the inside; the stylomandibular ligament attaches near it', '外側為咬肌止點，內側為內翼肌止點；莖突下頜韌帶附著於其附近']);
-    mark(...sided(S, 'ramus of mandible', '下頜枝'), [{bone: MAND, geometry: where(MAND, ([x, y, z]) => side(x) && y < 1561 && ((z - 13) / 15) ** 2 + ((y - 1544) / 15.5) ** 2 < 1 + .30 * Math.sin(z * .75 + y * .5) + .15 * Math.sin(z * .31 - y * .67) && len(sub(P(x, y, z), A)) > .0175 && !nearMF([x, y, z]), ([x, y, z]) => side(x) && y < 1566 && ((z - 13) / 19) ** 2 + ((y - 1544) / 19) ** 2 < 1.6)}], ['On the mandible', '下頜骨'],
+    mark(...sided(S, 'ramus of mandible', '下頜骨支'), [{bone: MAND, geometry: where(MAND, ([x, y, z]) => side(x) && y < 1561 && ((z - 13) / 15) ** 2 + ((y - 1544) / 15.5) ** 2 < 1 + .30 * Math.sin(z * .75 + y * .5) + .15 * Math.sin(z * .31 - y * .67) && len(sub(P(x, y, z), A)) > .0175 && !nearMF([x, y, z]), ([x, y, z]) => side(x) && y < 1566 && ((z - 13) / 19) ** 2 + ((y - 1544) / 19) ** 2 < 1.6)}], ['On the mandible', '下頜骨'],
       ['The broad, nearly vertical plate that rises from the back of the body of the mandible; it carries the coronoid process in front and the condylar process behind, with the mandibular notch between them', '由下頜體後端向上升起、近乎垂直的寬板；前方連冠狀突，後方連髁突，兩者之間為下頜切跡'],
       ['Insertion of the masseter on its outer surface and of the medial pterygoid on its inner surface; the mandibular foramen opens on the inside', '外側面為咬肌止點，內側面為內翼肌止點；內側有下頜孔開口']);
     mark(...sided(S, 'coronoid process of mandible', '下頜骨冠狀突'), [{bone: MAND, geometry: where(MAND, ([x, y, z]) => side(x) && y > 1563 && z > 22.5, ([x, y, z]) => side(x) && y > 1558 && z > 17)}], ['On the mandible', '下頜骨'],
-      ['Thin, triangular plate that projects upward from the front of the ramus, in front of the mandibular notch', '由下頜枝前部向上突出的薄三角形骨板，位於下頜切跡前方'],
-      ['Insertion of the temporalis, which also reaches down the front border of the ramus', '顳肌止點，肌腱並沿下頜枝前緣向下延伸']);
+      ['Thin, triangular plate that projects upward from the front of the ramus, in front of the mandibular notch', '由下頜骨支前部向上突出的薄三角形骨板，位於下頜切跡前方'],
+      ['Insertion of the temporalis, which also reaches down the front border of the ramus', '顳肌止點，肌腱並沿下頜骨支前緣向下延伸']);
     mark(...sided(S, 'condylar process of mandible', '下頜骨髁突'), [{bone: MAND, geometry: where(MAND, ([x, y, z]) => side(x) && y > 1566 && z <= 20.5, ([x, y, z]) => side(x) && y > 1561 && z < 26)}], ['On the mandible', '下頜骨'],
-      ['The upward projection at the back of the ramus: a narrow neck topped by a smooth head that fits into the mandibular fossa of the temporal bone', '下頜枝後部向上的突起：細窄的頸部上方為光滑的髁頭，嵌入顳骨的下頜窩'],
+      ['The upward projection at the back of the ramus: a narrow neck topped by a smooth head that fits into the mandibular fossa of the temporal bone', '下頜骨支後部向上的突起：細窄的頸部上方為光滑的髁頭，嵌入顳骨的下頜窩'],
       ['The head forms the temporomandibular joint; the lateral pterygoid inserts into a pit on the front of the neck', '髁頭構成顳顎關節；外翼肌止於頸部前面的小凹']);
   }
 
@@ -100,11 +100,11 @@ export default function headBoneLandmarks(U) {
     mark(...sided(S, 'sphenopalatine foramen', '蝶顎孔'), [{bone: pb, geometry: disc(pb, P(sx * 13.0, 1578.5, 31.5), .0034)}], ['On the palatine bone', '顎骨'],
       ['Opening on the side wall of the nasal cavity, between the orbital and sphenoidal processes of the palatine bone, joining the pterygopalatine fossa to the nasal cavity', '位於鼻腔外側壁、顎骨眶突與蝶突之間的開口，使翼顎窩與鼻腔相通'],
       ['Transmits the sphenopalatine artery and vein and the nasopalatine and posterior superior nasal nerves', '通過蝶顎動脈、靜脈，以及鼻顎神經與後上鼻神經']);
-    mark(...sided(S, 'greater palatine foramen', '大顎孔'), [{bone: pb, geometry: disc(pb, P(sx * 15.6, 1557, 41.7), .0033)}], ['On the palatine bone', '顎骨'],
+    mark(...sided(S, 'greater palatine foramen', '顎大孔'), [{bone: pb, geometry: disc(pb, P(sx * 15.6, 1557, 41.7), .0033)}], ['On the palatine bone', '顎骨'],
       ['Opening on the underside of the hard palate near its outer border, at the lower end of the greater palatine canal, in line with the last molar', '位於硬顎下面近外緣處，是大顎管的下端出口，約與最後一顆臼齒同一直線'],
       ['Transmits the greater palatine nerve and vessels, which run forward on the hard palate', '通過大顎神經與大顎血管，向前行於硬顎']);
-    mark(...sided(S, 'lesser palatine foramen', '小顎孔'), [{bone: pb, geometry: disc(pb, P(sx * 21.6, 1555.7, 28.5), .0030)}], ['On the palatine bone', '顎骨'],
-      ['One or more small openings behind the greater palatine foramen, on the pyramidal process of the palatine bone', '位於大顎孔後方、顎骨錐突上的一個或數個小孔'],
+    mark(...sided(S, 'lesser palatine foramen', '顎小孔'), [{bone: pb, geometry: disc(pb, P(sx * 21.6, 1555.7, 28.5), .0030)}], ['On the palatine bone', '顎骨'],
+      ['One or more small openings behind the greater palatine foramen, on the pyramidal process of the palatine bone', '位於顎大孔後方、顎骨錐突上的一個或數個小孔'],
       ['Transmits the lesser palatine nerves and vessels to the soft palate and tonsil', '通過小顎神經與小顎血管，分布到軟顎與扁桃體']);
   }
 
@@ -120,13 +120,13 @@ export default function headBoneLandmarks(U) {
   for (const S of SIDES) {
     const sx = S.sx, side = x => sx * x > 9;
     mark(...sided(S, 'optic canal', '視神經管'), [{bone: SPH, geometry: disc(SPH, P(sx * 10.9, 1608, 17.2), .0045)}], ['On the sphenoid bone, in the root of the lesser wing', '蝶骨小翼根部'],
-      ['Short canal through the lesser wing at the apex of the orbit, medial to the superior orbital fissure; it joins the middle cranial fossa to the orbit', '穿過蝶骨小翼的短管，位於眼眶尖端、眶上裂內側；連接中顱窩與眼眶'],
+      ['Short canal through the lesser wing at the apex of the orbit, medial to the superior orbital fissure; it joins the middle cranial fossa to the orbit', '穿過蝶骨小翼的短管，位於眼眶尖端、上眶裂內側；連接中顱窩與眼眶'],
       ['Transmits the optic nerve with its meninges and the ophthalmic artery', '通過視神經（連同腦膜）與眼動脈']);
-    mark(...sided(S, 'superior orbital fissure', '眶上裂'), [{bone: SPH, geometry: along(SPH, sof[sx], .0032)}], ['Between the lesser and greater wings of the sphenoid bone', '位於蝶骨小翼與大翼之間'],
+    mark(...sided(S, 'superior orbital fissure', '上眶裂'), [{bone: SPH, geometry: along(SPH, sof[sx], .0032)}], ['Between the lesser and greater wings of the sphenoid bone', '位於蝶骨小翼與大翼之間'],
       ['Slanting cleft that joins the middle cranial fossa to the orbit, lateral to the optic canal', '斜行的裂隙，位於視神經管外側，連接中顱窩與眼眶'],
       ['Transmits the oculomotor, trochlear and abducens nerves, the lacrimal, frontal and nasociliary branches of the ophthalmic nerve, and the superior ophthalmic vein', '通過動眼、滑車與外旋（外展）神經，眼神經的淚、額與鼻睫分支，以及上眼靜脈']);
     mark(...sided(S, 'foramen rotundum', '圓孔'), [{bone: SPH, geometry: along(SPH, rotundum[sx], .0027)}], ['On the greater wing of the sphenoid bone', '蝶骨大翼'],
-      ['Round canal that runs forward through the greater wing, below the inner end of the superior orbital fissure, from the middle cranial fossa to the pterygopalatine fossa', '由前向後穿過蝶骨大翼的圓形管道，位於眶上裂內端下方，連接中顱窩與翼顎窩'],
+      ['Round canal that runs forward through the greater wing, below the inner end of the superior orbital fissure, from the middle cranial fossa to the pterygopalatine fossa', '穿過蝶骨大翼的圓形管道，位於上眶裂內端下方，由中顱窩向前通到翼顎窩'],
       ['Transmits the maxillary nerve (the second division of the trigeminal nerve)', '通過上頜神經（三叉神經第二支）']);
     mark(...sided(S, 'foramen ovale', '卵圓孔'), [{bone: SPH, geometry: along(SPH, ovale[sx], .0045)}], ['On the greater wing of the sphenoid bone', '蝶骨大翼'],
       ['Oval opening in the floor of the middle cranial fossa, behind and lateral to the foramen rotundum, leading down into the infratemporal fossa', '位於中顱窩底的卵圓形開口，在圓孔後外側，向下通往顳下窩'],
@@ -141,7 +141,7 @@ export default function headBoneLandmarks(U) {
       ['The wide, curved plate that spreads out from the side of the body; its inner face forms part of the floor of the middle cranial fossa and its outer faces look into the temporal and infratemporal fossae and into the orbit', '由蝶骨體兩側向外展開的寬而彎的骨板；內面構成中顱窩底的一部分，外面朝向顳窩、顳下窩與眼眶'],
       ['Pierced by the foramen rotundum, foramen ovale and foramen spinosum; the upper head of the lateral pterygoid arises from its infratemporal surface', '有圓孔、卵圓孔與棘孔穿過；外翼肌上頭起於其顳下面']);
     mark(...sided(S, 'lesser wing of sphenoid bone', '蝶骨小翼'), [{bone: SPH, geometry: where(SPH, ([x, y, z]) => sx * x > 9 && sx * x < 28 && y > 1607 && z > 14 && z < 36 && !inHole([x, y, z]), ([x, y, z]) => sx * x > 4 && sx * x < 31 && y > 1602 && z > 10 && z < 40)}], ['On the sphenoid bone', '蝶骨'],
-      ['The thin, pointed plate that spreads out from the upper front of the body, forming the ridge between the anterior and middle cranial fossae and the roof of the superior orbital fissure', '由蝶骨體前上方向外延伸的薄而尖的骨板，構成前顱窩與中顱窩之間的骨嵴，也是眶上裂的上界'],
+      ['The thin, pointed plate that spreads out from the upper front of the body, forming the ridge between the anterior and middle cranial fossae and the roof of the superior orbital fissure', '由蝶骨體前上方向外延伸的薄而尖的骨板，構成前顱窩與中顱窩之間的骨嵴，也是上眶裂的上界'],
       ['The optic canal runs through its root; its inner end forms the anterior clinoid process', '視神經管穿過其根部；內側端形成前床突']);
     const medial = ([x, y]) => sx * x > 12 && sx * x < 19 && y < 1577, lateral = ([x, y]) => sx * x >= 20 && sx * x < 36 && y < 1577;
     mark(...sided(S, 'medial plate of pterygoid process', '翼突內側板'), [{bone: SPH, geometry: where(SPH, medial, ([x, y]) => sx * x > 10 && sx * x < 22 && y < 1580)}], ['On the sphenoid bone', '蝶骨'],
@@ -151,7 +151,7 @@ export default function headBoneLandmarks(U) {
       ['The broad, flat plate of the pterygoid process, which faces the infratemporal fossa on its outer side', '翼突寬而扁的骨板，外側面朝向顳下窩'],
       ['Origin of the lower head of the lateral pterygoid on its outer surface and of the deep head of the medial pterygoid on its inner surface', '外面為外翼肌下頭起點，內面為內翼肌深頭起點']);
     const crest = crestOf(sx);
-    mark(...sided(S, 'infratemporal crest', '顳下嵴'), [{bone: SPH, geometry: along(SPH, crest, .0026)}], ['On the greater wing of the sphenoid bone', '蝶骨大翼'],
+    mark(...sided(S, 'infratemporal crest', '顳下脊'), [{bone: SPH, geometry: along(SPH, crest, .0026)}], ['On the greater wing of the sphenoid bone', '蝶骨大翼'],
       ['Horizontal ridge on the outer side of the greater wing that divides its upper (temporal) surface from its lower (infratemporal) surface', '蝶骨大翼外側的橫行骨嵴，將其上方的顳面與下方的顳下面分開'],
       ['Origin of the upper head of the lateral pterygoid below it; the temporalis lies above it', '其下方為外翼肌上頭起點；顳肌位於其上方']);
   }
@@ -175,7 +175,7 @@ export default function headBoneLandmarks(U) {
     mark(...sided(S, 'articular tubercle', '關節結節'), [{bone: tb, geometry: disc(tb, P(sx * 42.5, 1588, 4.5), .0045)}], ['On the temporal bone', '顳骨'],
       ['Transverse bony ridge on the underside of the root of the zygomatic arch, in front of the mandibular fossa; also called the articular eminence', '位於顴弓根部下面、下頜窩前方的橫向骨嵴，又稱關節隆起'],
       ['The head of the mandible and the articular disc glide forward onto it when the mouth opens wide', '大張口時，下頜骨髁頭與關節盤向前滑到其上']);
-    mark(...sided(S, 'petrotympanic fissure', '岩鼓裂'), [{bone: tb, geometry: disc(tb, P(sx * 42.5, 1583.5, -10.5), .0030)}], ['On the temporal bone', '顳骨'],
+    mark(...sided(S, 'petrotympanic fissure', '岩鼓溝'), [{bone: tb, geometry: disc(tb, P(sx * 42.5, 1583.5, -10.5), .0030)}], ['On the temporal bone', '顳骨'],
       ['Narrow slit just behind the mandibular fossa, between the tympanic part and the petrous part of the temporal bone', '位於下頜窩正後方、顳骨鼓部與岩部之間的狹縫'],
       ['Transmits the chorda tympani nerve and the anterior tympanic artery; the anterior ligament of the malleus passes through it', '通過鼓索神經與前鼓室動脈；錘骨前韌帶也經由此縫']);
     mark(...sided(S, 'stylomastoid foramen', '莖乳突孔'), [{bone: tb, geometry: disc(tb, P(sx * 40, 1571, -22), .0032)}], ['On the temporal bone, between the styloid and mastoid processes', '顳骨，莖突與乳突之間'],
@@ -186,7 +186,7 @@ export default function headBoneLandmarks(U) {
     mark(...sided(S, 'carotid canal', '頸動脈管'), [{bone: tb, geometry: along(tb, canal, .0032)}], ['In the petrous part of the temporal bone', '顳骨岩部'],
       ['Canal that starts on the underside of the petrous part, in front of the jugular foramen, turns forward and medially inside the bone and ends at the apex of the petrous part', '起於顳骨岩部下面、頸靜脈孔前方，在骨內轉向前內側，終止於岩部尖端的管道'],
       ['Transmits the internal carotid artery with its sympathetic plexus and venous plexus', '通過頸內動脈及其交感神經叢與靜脈叢']);
-    mark(...sided(S, 'internal acoustic meatus', '內耳道'), [{bone: tb, geometry: disc(tb, P(sx * 27, 1590, -23), .0045)}], ['On the back of the petrous part of the temporal bone', '顳骨岩部後面'],
+    mark(...sided(S, 'internal acoustic meatus', '內聽道'), [{bone: tb, geometry: disc(tb, P(sx * 27, 1590, -23), .0045)}], ['On the back of the petrous part of the temporal bone', '顳骨岩部後面'],
       ['Short canal, about 1 cm long, that opens on the back surface of the petrous part facing the posterior cranial fossa and ends blindly at the inner ear', '約 1 公分長的短管，開口於岩部後面、朝向後顱窩，盲端連到內耳'],
       ['Transmits the facial nerve, the vestibulocochlear nerve and the labyrinthine artery', '通過顏面神經、前庭耳蝸神經與迷路動脈']);
     // foramen lacerum: the through-hole between the petrous apex, the body of the sphenoid and the basilar part of the occipital bone
