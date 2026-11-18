@@ -214,15 +214,15 @@
   - 坐骨棘（Spine of ischium） — 上界：**示意**；網格：spine of ischium
   - 坐骨結節（Ischial tuberosity） — 下界：**示意**；網格：ischial tuberosity
   - 薦棘韌帶（Sacrospinous ligament） — 前上界：**缺**
-  - 薦結節韌帶（Sacrotuberous ligament） — 後界：**缺**
+  - 薦粗隆韌帶（Sacrotuberous ligament） — 後界：**缺**
 - **頂**：—
 - **底**
   - 髖骨（坐骨體後面）（Hip bone (ischium)） — 底：**有**；網格：hip bone
 - **內容物**
   - 閉孔內肌腱（Obturator internus tendon）：**有**；網格：obturator internus、nerve to obturator internus
   - 陰部神經（Pudendal nerve）：**有**；網格：Pudendal nerve（神經模型）
-  - 陰部內動脈（Internal pudendal artery）：**示意**；網格：internal pudendal artery
-  - 陰部內靜脈（Internal pudendal vein）：**有**；網格：internal pudendal vein
+  - 內陰動脈（Internal pudendal artery）：**示意**；網格：internal pudendal artery
+  - 內陰靜脈（Internal pudendal vein）：**有**；網格：internal pudendal vein
   - 閉孔內肌神經（Nerve to obturator internus）：**示意**；網格：nerve to obturator internus
 - **相關結構**
   - 梨狀肌（坐骨大孔）（Piriformis）：**有**；網格：piriformis
