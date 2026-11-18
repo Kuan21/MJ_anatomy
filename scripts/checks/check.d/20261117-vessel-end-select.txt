@@ -1,0 +1,2 @@
+# A vessel and its end piece are picked together and show the vessel card; what a click selects is one continuous piece (head and neck, pelvis and perineum, three named vessels); negative control: the old single end-piece selection is caught as broken.
+node scripts/test-vessel-end-select.mjs
