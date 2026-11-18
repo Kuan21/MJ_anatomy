@@ -38,3 +38,10 @@ export function grooveLine(verts, sx, {inward = -.0015, behind = -.001, from = 1
 
 /** Index of the first sample of `path` at or after `from` whose height reaches y. */
 export function sampleAtHeight(path, y, from = 0) { let i = from; while (i < path.length - 1 && path[i][1] < y) i++; return i; }
+
+/** `path` resampled to `n` points evenly spaced along its arc length (linear between the samples of `path`, which should be dense). */
+export function resampleByArc(path, n) {
+  const s = arcLengths(path), out = [path[0]]; let k = 0;
+  for (let i = 1; i < n - 1; i++) { const target = s[s.length - 1] * i / (n - 1); while (s[k + 1] < target) k++; const t = (target - s[k]) / (s[k + 1] - s[k]); out.push(path[k].map((v, a) => v + (path[k + 1][a] - v) * t)); }
+  out.push(path[path.length - 1]); return out;
+}
