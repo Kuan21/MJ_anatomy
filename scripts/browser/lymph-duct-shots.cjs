@@ -5,6 +5,7 @@ const {chromium}=require('playwright');const fs=require('fs');
 const [out='/tmp/lymph-duct',spec='after=5812']=process.argv.slice(2);fs.mkdirSync(out,{recursive:true});
 const runs=spec.split(',').map(s=>s.split('=')).map(([tag,port])=>({tag,port}));
 const [VW,VH]=(process.env.VIEWPORT||'1500x950').split('x').map(Number),IPAD=VW<1200;
+const PHONE=VW<500;   // the selected structure's card covers the lower half of a phone screen: aim 28 mm below the target so that the target appears in the upper part, a little further away
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const LA=[0.021,1.418,0.016],RA=[-0.024,1.42,0.017];
 const SELECTS=[
@@ -26,7 +27,7 @@ async function select(p,find){await p.getByRole('button',{name:'搜尋構造'}).
   await organs(p,['Lymphatic']);
   console.log(tag,'systems',await p.locator('.system-row.enabled').allTextContents().then(a=>a.map(t=>t.replace(/\s+/g,' ').slice(0,24)).join(' | ')));
   for(const sel of SELECTS){if(sel.only&&sel.only!==tag)continue;await select(p,sel.find);
-   for(const [n,t,d,r] of sel.views){await p.evaluate(([t,d,r])=>window.__mjView.look(t,d,r),[t,d,r]);await sleep(3500);await p.screenshot({path:`${out}/${tag}-${n}.png`,...(IPAD?{}:{clip:{x:330,y:60,width:840,height:830}}),timeout:240000});console.log(tag,'shot',n);}
+   for(let [n,t,d,r] of sel.views){if(PHONE){t=[t[0],t[1]-0.028,t[2]];r*=1.3;}await p.evaluate(([t,d,r])=>window.__mjView.look(t,d,r),[t,d,r]);await sleep(3500);await p.screenshot({path:`${out}/${tag}-${n}.png`,...(IPAD?{}:{clip:{x:330,y:60,width:840,height:830}}),timeout:240000});console.log(tag,'shot',n);}
    await p.keyboard.press('Escape').catch(()=>{});await sleep(800);}
  }));
  await b.close();console.log('done');
