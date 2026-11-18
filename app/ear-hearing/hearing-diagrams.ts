@@ -101,7 +101,7 @@ export function createCorti(svg: SVGSVGElement): Diagram {
   label(g, 330, 130, 'Inner hair cell', '內毛細胞（一排）', 'middle', 330, 240);
   label(g, 590, 130, 'Outer hair cells', '外毛細胞（三排）', 'middle', 565, 232);
   label(g, 790, 190, 'Tectorial membrane', '蓋膜', 'middle', 660, 224);
-  label(g, 446, 380, 'Tunnel', '柯蒂氏隧道', 'middle');
+  label(g, 446, 452, 'Tunnel', '柯蒂氏隧道', 'middle', 446, 372);
   label(g, 700, 440, 'Basilar membrane', '基底膜', 'middle', 700, 408);
   label(g, 130, 350, 'Spiral ganglion ←', '往螺旋神經節', 'middle');
   label(g, 130, 196, 'Spiral limbus', '螺旋緣', 'middle');
