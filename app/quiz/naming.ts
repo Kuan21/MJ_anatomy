@@ -33,7 +33,7 @@ export interface WholeMuscle {en: string; zh?: string; muscle: string; headsRequ
 export function wholeMuscleOf(structure: Named): WholeMuscle | null {
   // "iliofemoral ligament, descending part", "ligament of head of femur": a joint structure is never a part of a muscle, so the bone or ligament named after "of" is not an accepted answer
   // the brain quiz asks the names of the brain model itself: "opercular part of inferior frontal gyrus" is a part of a gyrus, never of a muscle
-  if (structure.system === 'joint' || structure.system === 'brain' || structure.system === 'headorgan' || structure.system === 'ear') return null;
+  if (structure.system === 'joint' || structure.system === 'brain' || structure.system === 'headorgan' || structure.system === 'viscera' || structure.system === 'ear') return null;
   const match = structure.name.match(PART_OF_MUSCLE);
   if (!match) return null;
   const muscle = match[2].trim(), side = structure.name.match(SIDE_WORD)?.[1];
