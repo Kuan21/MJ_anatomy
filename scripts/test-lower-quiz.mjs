@@ -7,7 +7,7 @@ import {planCuts, atlasParts} from './lib/tendon-set.mjs';
 const cutMuscles = new Set(planCuts(atlasParts().parts, atlasParts().read).finals.keys());
 
 const {QUIZ_SECTIONS, QUIZ_SYSTEMS, questionPool, sceneStructures} = await quizModule('app/quiz/catalogue.ts');
-const LOWER_SYSTEMS = QUIZ_SYSTEMS.filter(s => s.id !== 'cardiac' && s.id !== 'respiratory' && s.id !== 'brain' && s.id !== 'headorgan' && s.id !== 'ear'); // heart, lung, brain and head-and-neck organ structures only exist in their own quizzes
+const LOWER_SYSTEMS = QUIZ_SYSTEMS.filter(s => s.id !== 'cardiac' && s.id !== 'respiratory' && s.id !== 'brain' && s.id !== 'headorgan' && s.id !== 'ear' && s.id !== 'viscera'); // heart, lung, brain, head-and-neck organ and visceral organ (organ detail modes) structures only exist in their own quizzes
 const {createSession, recordAnswer, retryMistakes} = await quizModule('app/quiz/engine.ts');
 const {PointerTap} = await quizModule('app/pointer-tap.ts');
 const {normalizeAtlasSystems} = await quizModule('app/mj-system-classifier.ts');
