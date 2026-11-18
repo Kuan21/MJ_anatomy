@@ -6,9 +6,9 @@
 
 | 類別 | 不重複詞數 | 意思 |
 |---|---|---|
-| 一、已有 | 1216 | 模型有，而且可以用搜尋／圖層揀到 |
+| 一、已有 | 1224 | 模型有，而且可以用搜尋／圖層揀到 |
 | 二、模型有但 UI 搵唔到 | 0 | 模型有幾何，但搜尋唔到（見下面清單；已修好者會喺「修復」一節列明） |
-| 三、模型冇 | 1125 | 交俾第 2 部分補模型 |
+| 三、模型冇 | 1117 | 交俾第 2 部分補模型 |
 | 骨性標誌 | 262 | 結節、窩、切跡等，屬已有骨件嘅表面特徵，模型唔另外分件 |
 | 雜訊（已略去） | 650 | 唔係解剖結構 |
 
@@ -1278,7 +1278,7 @@
 
 ## 骨盆會陰 II　`解剖_1201`
 
-已有 67　·　UI 搵唔到 0　·　模型冇 177　·　骨標誌 26　·　雜訊 54
+已有 75　·　UI 搵唔到 0　·　模型冇 169　·　骨標誌 26　·　雜訊 54
 
 **三、模型冇**
 
@@ -1342,7 +1342,6 @@
 - Perineal membrane（會陰膜）
 - Deep perineal pouch（陷凹）
 - superficial perineal pouch（會陰淺陷凹）
-- Perineal muscles（會陰肌肉）
 - Compressor urethrae muscle（生是尿道壓迫肌）
 - Obturator fascia（閉孔筋膜）
 - Deep transverse perineal muscle（會陰深橫肌）
@@ -1351,23 +1350,17 @@
 - External urethral sphincter m（環形的外尿道括約肌）
 - Compressor urethrae m（兩條斜走的尿道壓迫肌）
 - Urethrovaginal sphincter m（尿道陰道括約肌）
-- Ischiocavernosus m（坐骨海綿體肌）
-- Bulbospongiosus m（球海綿體肌）
 - Perineal a（會陰動脈）
-- Superficial transverse perineal m
 - Perineal branches
 - Perineal branches of pudendal n（陰部神經的會陰分支）
 - Superior fascia Deep perineal muscles
 - Deep perineal muscles
-- Superficial transverse perineal muscle（會陰淺橫肌）
-- Bulbospongiosus muscle（球海綿體肌）
 - Intermediate layer A
 - External urethral sphincter muscle（尿道外括約肌）
 - Rectovesical septum（直腸膀胱隔膜）
 - Rectovaginal septum（直腸陰道隔膜）
 - Paraurethral gland
 - Fundiform lig
-- Transverse perineal m（淺橫肌）
 - anococcygeal lig（連至尾骨形成肛尾韌帶）
 - Inf. rectal a（下直腸動脈）
 - Inf. rectal v（下直腸靜脈）
@@ -1445,7 +1438,6 @@
 - frenulum of the clitoris（陰蒂繫帶）
 - prepuce of the clitoris（陰蒂包皮）
 - bulb of the penis（陰莖球）
-- bulbospongiosus（球海綿體肌）
 - tunica albuginea（白膜）
 - suspension of the penis（陰莖韌帶）
 - int. anal sphincter（肛門內括約肌）
