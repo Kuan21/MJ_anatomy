@@ -10,6 +10,7 @@ import {quizModule} from './quiz-modules.mjs';
 
 const {QUIZ_REGIONS, QUIZ_SYSTEMS, questionPool, sceneStructures, regionOfHash} = await quizModule('app/quiz/catalogue.ts');
 const {createSession, recordAnswer, retryMistakes} = await quizModule('app/quiz/engine.ts');
+const {ORGAN_IDS} = await quizModule('app/organ/organ-ids.ts');
 const {normalizeAtlasSystems} = await quizModule('app/mj-system-classifier.ts');
 const {zhAnatomy} = await quizModule('app/mj-zh-anatomy.ts');
 const atlas = normalizeAtlasSystems(JSON.parse(fs.readFileSync('public/models/atlas.json')));
@@ -89,7 +90,7 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
   const def = QUIZ_REGIONS[regionId], catalogue = JSON.parse(fs.readFileSync('public/models/' + def.file));
   assert.equal(catalogue.region ?? 'lower-limb', regionId);
   assert.equal(regionOfHash(def.hash), regionId);
-  const regionSystems = (def.systems ?? QUIZ_SYSTEMS.filter(s => s.id !== 'cardiac' && s.id !== 'respiratory' && s.id !== 'brain' && s.id !== 'headorgan' && s.id !== 'ear' && s.id !== 'eye').map(s => s.id)).map(id => QUIZ_SYSTEMS.find(s => s.id === id));
+  const regionSystems = (def.systems ?? QUIZ_SYSTEMS.filter(s => s.id !== 'cardiac' && s.id !== 'respiratory' && s.id !== 'brain' && s.id !== 'headorgan' && s.id !== 'ear' && s.id !== 'viscera' && s.id !== 'eye').map(s => s.id)).map(id => QUIZ_SYSTEMS.find(s => s.id === id));
   const structures = new Map(catalogue.structures.map(s => [s.id, s]));
   assert.equal(structures.size, catalogue.structures.length, `${regionId}: no repeated anatomical answers`);
   if (expected[regionId]) assert.ok(catalogue.structures.length >= expected[regionId].count[0] && catalogue.structures.length <= expected[regionId].count[1], `${regionId}: ${catalogue.structures.length} structures`);
@@ -132,6 +133,8 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
         const part = earParts.get(mesh.id.replace(/^ear:/, '')); assert.ok(part, mesh.id);
         assert.deepEqual(positions, earBin.subarray(part.positions, part.positions + part.vertexCount * 12), 'Unchanged ear position data');
         assert.deepEqual(indices, earBin.subarray(part.indices, part.indices + part.indexCount * 4), 'Unchanged ear triangles');
+      } else if (structure.source === 'Organ detail') {
+        // organ detail modes (stomach, …): a surface marking is a subset of its host mesh's triangles, cut at build time (scripts/prepare-quiz.mjs), not a byte copy: finite positions and valid indices are checked above
       } else if (structure.source === 'Brain Project') {
         // brain meshes are decoded and welded at build time (scripts/lib/brain-quiz-source.mjs), as the brain viewer does, not a byte copy: finite positions and valid indices are checked above
       } else if (structure.source === 'Lung surface areas') {
@@ -159,7 +162,8 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
     // the lobes of the lung quiz are context only (no section, never asked)
     assert.ok((s.sections.length || (regionId === 'lung' && /^(?:upper|middle|lower) lobe of/i.test(s.name))) && s.sections.every(id => sectionIds.has(id) && id !== 'all'), `${s.name}: valid sections ${s.sections}`);
     assert.ok(['left', 'right', 'midline'].includes(s.side));
-    if (regionId !== 'thorax' && regionId !== 'back' && regionId !== 'heart' && regionId !== 'lung' && regionId !== 'brain' && regionId !== 'ear' && regionId !== 'eye' && regionId !== 'head-neck') assert.notEqual(s.side, 'midline');
+    // organ detail quizzes (stomach, …) are midline organs
+    if (regionId !== 'thorax' && regionId !== 'back' && regionId !== 'heart' && regionId !== 'lung' && regionId !== 'brain' && regionId !== 'ear' && regionId !== 'eye' && regionId !== 'head-neck' && !ORGAN_IDS.includes(regionId)) assert.notEqual(s.side, 'midline');
     // Every answer shows 中文名 + English name, Taiwan terminology.
     checkChinese(`${regionId} ${s.name}`, s.chinese);
     assert.ok(/[A-Za-z]/.test(s.name), 'English name present');

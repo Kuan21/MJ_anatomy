@@ -27,6 +27,8 @@ const FIELDS: Record<QuizSystem, string[]> = {
   respiratory: ['位置', '構造／毗鄰關係', '血液供應／神經'],
   // brain quiz: every field of the structure's brain information card (their labels depend on the kind of structure); see structureCard
   brain: [],
+  // organ detail modes: every field of the structure's own card (location, relations, blood supply, nerve supply, function); see structureCard
+  viscera: [],
   // ear quiz: the fields of the structure's own ear card (app/mj-ear-atlas.ts, packed into the catalogue)
   ear: [],
   // eye quiz: the one description of the structure's eye card (app/mj-eye-atlas.ts, packed into the catalogue)
@@ -49,6 +51,7 @@ const FROM_PROFILE: Record<QuizSystem, Record<string, string[]>> = {
   cardiac: {},
   respiratory: {位置: ['位置'], '構造／毗鄰關係': ['構造／毗鄰關係'], '血液供應／神經': ['血液供應／神經']},
   brain: {},
+  viscera: {},
   ear: {},
   eye: {},
   headorgan: {},
@@ -86,7 +89,7 @@ export function structureCard(structure: Pick<QuizStructure, 'name' | 'chinese' 
   // Brain quiz: the fields come from the structure's own brain information card (public/models/brain/neuro-cards.json, packed into the catalogue); with no card the card says so.
   if (structure.source === 'Eye atlas') return {english: structure.name, chinese: structure.chinese, system, fields: (structure.cardFields ?? []).map(f => ({label: f.label, zh: f.zh, en: f.en})), missing: structure.cardFields?.length ? [] : ['說明']};
   if (structure.source === 'Ear atlas') return {english: structure.name, chinese: structure.chinese, system, fields: (structure.cardFields ?? []).map(f => ({label: f.label, zh: f.zh, en: f.en})), missing: structure.cardFields?.length ? [] : ['資料']};
-  if (structure.source === 'Brain Project') return {english: structure.name, chinese: structure.chinese, system, fields: (structure.cardFields ?? []).map(f => ({label: f.label, zh: f.zh})), missing: structure.cardFields?.length ? [] : ['資料卡']};
+  if (structure.source === 'Brain Project' || structure.source === 'Organ detail') return {english: structure.name, chinese: structure.chinese, system, fields: (structure.cardFields ?? []).map(f => ({label: f.label, zh: f.zh})), missing: structure.cardFields?.length ? [] : ['資料卡']};
   const profile = structureProfile(structure.name, (system === 'joint' ? 'connective' : system === 'headorgan' ? 'sensory' : system) as SystemId);
   // Paired structures are keyed without left/right; names where "left"/"right" belongs to the name itself (left atrium, left pulmonary artery…) are keyed in full.
   const extra: CardExtra | undefined = CARD_EXTRAS[structure.name.toLowerCase()] ?? CARD_EXTRAS[clean(structure.name)];

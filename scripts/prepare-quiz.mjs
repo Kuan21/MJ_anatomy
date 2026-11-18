@@ -31,6 +31,7 @@ const {EYE_PARTS, EYE_LAYERS} = await quizModule('app/mj-eye-atlas.ts');
 const {EYE_OPENINGS} = await quizModule('app/mj-eye-openings.ts');
 const {eyeLayerOf} = await quizModule('app/quiz/eye.ts');
 const {brainOverrideOf} = await quizModule('app/organ/brain-overrides.ts');
+const {ORGAN_IDS} = await quizModule('app/organ/organ-ids.ts');
 const {QUIZ_SYSTEMS, QUIZ_REGIONS, LOWER_NERVES, UPPER_NERVES, THORAX_NERVES, THORAX_INCLUDE, BACK_NERVES, BACK_INCLUDE, classifySections} = await quizModule('app/quiz/catalogue.ts');
 const atlas = normalizeAtlasSystems(JSON.parse(fs.readFileSync(new URL('atlas.json', models))));
 // BodyParts3D 3.0 structures the 4.0 export left out (latissimus dorsi, multifidus, spinalis cervicis…) are quiz answers too: their packages are read like the atlas chunks.
@@ -202,6 +203,40 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
     }, null, 1));
   }
 
+  // Organ detail modes (stomach, …): the structures come from public/models/organ/<organ>/ and the definition app/organ/organs/<organ>.ts. A surface marking is the subset of its host mesh's triangles;
+  // zone markings leave out the triangles that carry a line marking, so the pieces tile the surface without overlap. A host that has markings is not asked itself (its markings are), and so is a part with quiz: false.
+  if (ORGAN_IDS.includes(region)) {
+    const odef = Object.values(await quizModule(`app/organ/organs/${region}.ts`)).find(d => d?.id === region), odir = new URL(`organ/${region}/`, models);
+    const man = JSON.parse(fs.readFileSync(new URL(`${region}.json`, odir), 'utf8')), obin = gunzipSync(fs.readFileSync(new URL(`${region}.bin.gz`, odir)));
+    const slice = (T, off, n) => new T(obin.buffer.slice(obin.byteOffset + off, obin.byteOffset + off + n * T.BYTES_PER_ELEMENT));
+    const mesh = new Map(man.parts.map(p => [p.id, {p, pos: slice(Float32Array, p.positions, p.vertexCount * 3), nrm: slice(Int16Array, p.normals, p.vertexCount * 3), idx: slice(Uint32Array, p.indices, p.indexCount),
+      zone: p.triZone !== undefined ? new Uint8Array(slice(Uint8Array, p.triZone, p.indexCount / 3)) : null, line: p.triLine !== undefined ? new Uint8Array(slice(Uint8Array, p.triLine, p.indexCount / 3)) : null}]));
+    const subset = (m, keep) => {
+      const map = new Map(), pos = [], nrm = [], idx = [];
+      for (let t = 0; t < m.idx.length / 3; t++) if (keep(t)) for (let k = 0; k < 3; k++) { const v = m.idx[t * 3 + k]; if (!map.has(v)) { map.set(v, map.size); pos.push(m.pos[v * 3], m.pos[v * 3 + 1], m.pos[v * 3 + 2]); nrm.push(m.nrm[v * 3], m.nrm[v * 3 + 1], m.nrm[v * 3 + 2]); } idx.push(map.get(v)); }
+      return {pos: Float32Array.from(pos), nrm: Int16Array.from(nrm), idx: Uint32Array.from(idx)};
+    };
+    const label = {loc: 'Location｜位置', course: 'Course｜走向', contents: 'Contents｜內容', rel: 'Relations｜毗鄰', blood: 'Blood supply｜血液供應', nerve: 'Nerve supply｜神經支配', fn: 'Function｜作用', note: 'Note｜說明'};
+    const asked = [];
+    for (const d of odef.parts) {
+      if (d.cardOnly || d.quiz === false || (!d.mark && odef.parts.some(x => x.mark?.host === d.key))) continue;
+      let geo;
+      if (d.mark) {
+        const h = mesh.get(d.mark.host), lab = h[d.mark.channel === 'zone' ? 'zone' : 'line'];
+        geo = subset(h, t => d.mark.values.includes(lab[t]) && (d.mark.channel === 'line' || !h.line || !h.line[t]));
+      } else { const m = mesh.get(d.key); geo = subset(m, () => true); }
+      if (!geo.idx.length) throw Error(`organ quiz: ${region}/${d.key} has no triangles`);
+      const bounds = [[Infinity, Infinity, Infinity], [-Infinity, -Infinity, -Infinity]];
+      for (let i = 0; i < geo.pos.length; i++) { bounds[0][i % 3] = Math.min(bounds[0][i % 3], geo.pos[i]); bounds[1][i % 3] = Math.max(bounds[1][i % 3], geo.pos[i]); }
+      const cardFields = Object.keys(label).filter(f => d.card?.[f]).map(f => ({label: label[f], zh: d.card[f].zh, en: d.card[f].en}));
+      add({id: `${region}:${d.key}`, name: d.en, chinese: d.zh, system: d.quizSystem ?? 'viscera', side: d.side ?? 'midline', bounds, source: 'Organ detail', sections: [d.group], cardFields,
+        positions: Buffer.from(geo.pos.buffer), normals: Buffer.from(geo.nrm.buffer), indices: Buffer.from(geo.idx.buffer)});
+      asked.push(d.key);
+    }
+    fs.mkdirSync(new URL('.sites-runtime/', root), {recursive: true});
+    fs.writeFileSync(new URL(`.sites-runtime/quiz-${region}-report.json`, root), JSON.stringify({asked, excluded: odef.parts.filter(d => !asked.includes(d.key)).map(d => d.key)}));
+  }
+
   // Heart quiz: the structures come from the heart detail package (Z-Anatomy), not the atlas.
   if (region === 'heart') {
     const heart = JSON.parse(gunzipSync(fs.readFileSync(new URL('heart/heart-detail.json.gz', models))));
@@ -345,7 +380,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
       geometry.dispose();
     }
   }
-  for (const part of region === 'heart' || region === 'brain' || region === 'head-neck' || ownModel ? [] : atlas.parts) {
+  for (const part of region === 'heart' || region === 'brain' || region === 'head-neck' || ownModel || ORGAN_IDS.includes(region) ? [] : atlas.parts) {
     if (!QUIZ_SYSTEMS.some(s => s.id === part.system)) continue;
     // tendons are asked per region once a region has enough of them (the limbs now; the other regions follow in later batches)
     if (part.system === 'tendon' && region !== 'upper-limb' && region !== 'lower-limb') continue;
@@ -366,7 +401,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
       indices: belly ? buf(belly.indices) : raw.subarray(part.indices, part.indices + part.indexCount * 4)});
   }
   // Tendons cut off their muscles (parts of the course-summary package): asked in the region they lie in, like any other structure.
-  if (region !== 'heart' && region !== 'lung' && region !== 'brain' && region !== 'head-neck' && !ownModel) {
+  if (region !== 'heart' && region !== 'lung' && region !== 'brain' && region !== 'head-neck' && !ownModel && !ORGAN_IDS.includes(region)) {
     const pk = JSON.parse(gunzipSync(fs.readFileSync(new URL('paokao/paokao-stream.json.gz', models))));
     const pkChunks = pk.chunks.map(c => fs.readFileSync(new URL('public' + c.url, root)));
     for (const part of pk.parts) {
@@ -379,7 +414,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
     }
   }
 
-  for (const chunk of region === 'heart' || region === 'lung' || region === 'brain' || ownModel ? [] : nerveStream.chunks) {
+  for (const chunk of region === 'heart' || region === 'lung' || region === 'brain' || ownModel || ORGAN_IDS.includes(region) ? [] : nerveStream.chunks) {
     let raw;
     for (const [ordinal, mesh] of chunk.meshes.entries()) {
       let match = /^(.*?)\.([lr])(?:\.\d+)?$/i.exec(mesh.name);
@@ -429,7 +464,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
   }
 
   // Joint soft tissue asked in this region (category 關節).
-  for (const c of region === 'heart' || region === 'lung' || region === 'brain' || ownModel ? [] : jointCandidates) {
+  for (const c of region === 'heart' || region === 'lung' || region === 'brain' || ownModel || ORGAN_IDS.includes(region) ? [] : jointCandidates) {
     if (c.reason || c.region !== region) continue;
     const geometry = c.mesh.geometry.clone();
     geometry.computeVertexNormals();
@@ -481,7 +516,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
       excluded: [...new Map(hnExcluded.map(e => [`${e.reason}|${e.side}|${e.name}`, e])).values()].sort((a, b) => a.reason.localeCompare(b.reason) || a.name.localeCompare(b.name)),
     }, null, 1));
   }
-  const packages = [], sides = region === 'thorax' || region === 'back' || region === 'head-neck' || region === 'heart' || region === 'lung' || region === 'brain' || ownModel ? ['left', 'right', 'midline'] : ['left', 'right'];
+  const packages = [], sides = region === 'thorax' || region === 'back' || region === 'head-neck' || region === 'heart' || region === 'lung' || region === 'brain' || ownModel || ORGAN_IDS.includes(region) ? ['left', 'right', 'midline'] : ['left', 'right'];
   for (const {id: system} of QUIZ_SYSTEMS) for (const side of sides) {
     let buffers = [], bytes = 0, meshes = [];
     const append = data => {

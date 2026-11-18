@@ -7,6 +7,8 @@ import {framingDistance} from '../camera-framing';
 import {coversBrainTarget, type BrainLayer} from './brain';
 import {coversEarTarget} from './ear';
 import {coversEyeTarget} from './eye';
+import {coversOrganTarget} from './organs';
+import {ORGAN_IDS} from '../organ/organ-ids';
 import {coversHeadNeckTarget} from './headneck';
 import {SPACES} from '../mj-spaces';
 import {SPACE_OPENING_MARGIN, openingView} from './spaces';
@@ -159,7 +161,7 @@ export function rankPackages(catalogue: QuizCatalogue, target: QuizStructure, al
 
 /** What a structure that lies in front of the target is: drawn as glass while the target is the question (brain, ear, head and neck rules), so it stays in a reduced scene. */
 const coversTarget = (region: QuizCatalogue['region'], target: QuizStructure, structure: QuizStructure) => structure.id !== target.id
-  && (region === 'brain' ? coversBrainTarget(target as {layer?: BrainLayer}, structure as {layer?: BrainLayer}) : region === 'ear' ? coversEarTarget(target, structure) : region === 'eye' ? coversEyeTarget(target, structure) : region === 'head-neck' && coversHeadNeckTarget(target, structure));
+  && (region === 'brain' ? coversBrainTarget(target as {layer?: BrainLayer}, structure as {layer?: BrainLayer}) : region === 'ear' ? coversEarTarget(target, structure) : region === 'eye' ? coversEyeTarget(target, structure) : (ORGAN_IDS as string[]).includes(region ?? '') ? coversOrganTarget(target, structure) : region === 'head-neck' && coversHeadNeckTarget(target, structure));
 /** The structures a question draws: the whole scene of the region, or (mode 'name' with `focus`) the reduced one. */
 export function questionScene(catalogue: QuizCatalogue, target: QuizStructure, section: QuizSection, side: QuizSide, focus?: SceneFocus): QuizStructure[] {
   const sec = section === 'all' ? target.sections[0] : section, full = sceneStructures(catalogue, target, sec, side);

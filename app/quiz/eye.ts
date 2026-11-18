@@ -37,6 +37,6 @@ export const EYE_NAME_ROWS: Record<string, {en?: string[]; zh?: string[]}> = {
   'trochlea of superior oblique': {en: ['trochlea'], zh: ['上斜肌滑車']},
   'maxillary bone': {en: ['maxilla'], zh: ['上頜骨', '上顎骨']},
   'inferior orbital fissure': {en: ['infraorbital fissure'], zh: ['下眶裂']},
-  'superior orbital fissure': {en: [], zh: ['上眶裂']},
+  'superior orbital fissure': {en: [], zh: ['上眶裂', '眶上裂']},
   'supraorbital foramen': {en: ['supraorbital notch'], zh: ['眶上切跡']},
 };
