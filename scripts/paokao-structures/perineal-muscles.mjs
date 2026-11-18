@@ -49,6 +49,40 @@ function slices(P3, axis, from, to, count) {
   return out;
 }
 const extent = (P3, k) => { let lo = 1e9, hi = -1e9; for (let i = k; i < P3.length; i += 3) { lo = Math.min(lo, P3[i]); hi = Math.max(hi, P3[i]); } return [lo, hi]; };
+/** Merged positions and triangles of several meshes. */
+const catMesh = list => { const positions = [], indices = []; let off = 0; for (const g of list) { for (const v of g.positions) positions.push(v); for (const t of g.indices) indices.push(t + off); off += g.positions.length / 3; } return {positions: Float32Array.from(positions), indices: Uint32Array.from(indices)}; };
+/** Parity test: is the point inside the closed mesh (a ray towards +x crosses an odd number of triangles). */
+function insideMesh(P, I, x, y, z) {
+  let c = 0;
+  for (let t = 0; t < I.length; t += 3) {
+    const a = I[t] * 3, b = I[t + 1] * 3, d = I[t + 2] * 3, y0 = P[a + 1] - y, z0 = P[a + 2] - z, y1 = P[b + 1] - y, z1 = P[b + 2] - z, y2 = P[d + 1] - y, z2 = P[d + 2] - z;
+    const s0 = y0 * z1 - y1 * z0, s1 = y1 * z2 - y2 * z1, s2 = y2 * z0 - y0 * z2;
+    if (!((s0 >= 0 && s1 >= 0 && s2 >= 0) || (s0 <= 0 && s1 <= 0 && s2 <= 0))) continue;
+    const area = s0 + s1 + s2; if (!area) continue;
+    if ((s1 * P[a] + s2 * P[b] + s0 * P[d]) / area > x) c++;
+  }
+  return c & 1;
+}
+/**
+ * Moves every vertex of `geo` that lies inside one of the `covers` (the erectile structures the muscle lies on) out of it, in steps of 0.6 mm away from the local middle of that structure
+ * (the centre of its vertices within 15 mm), and then eases the result so that the surface stays smooth. The muscle then rests on the structure instead of sinking into it.
+ */
+function clearOf(geo, covers) {
+  const P = geo.positions, n = P.length / 3, moved = new Uint8Array(n);
+  for (const cv of covers) {
+    const CP = cv.positions, CI = cv.indices;
+    for (let v = 0; v < n; v++) for (let it = 0; it < 10; it++) {
+      const x = P[v * 3], y = P[v * 3 + 1], z = P[v * 3 + 2];
+      if (!insideMesh(CP, CI, x, y, z)) break;
+      let cx = 0, cy = 0, cz = 0, k = 0;
+      for (let i = 0; i < CP.length; i += 3) if (Math.hypot(CP[i] - x, CP[i + 1] - y, CP[i + 2] - z) < .015) { cx += CP[i]; cy += CP[i + 1]; cz += CP[i + 2]; k++; }
+      if (!k) break;
+      let dx = x - cx / k, dy = y - cy / k, dz = z - cz / k; const l = Math.hypot(dx, dy, dz) || 1;
+      P[v * 3] += dx / l * .0006; P[v * 3 + 1] += dy / l * .0006; P[v * 3 + 2] += dz / l * .0006; moved[v] = 1;
+    }
+  }
+  return moved.reduce((a, b) => a + b, 0);
+}
 
 const CARD = {
   ischiocavernosus: {
@@ -76,6 +110,7 @@ export default function perinealMuscles(U, prior) {
   const hip = (name, female) => { const es = U.find(name).filter(e => female ? /^HRAF-/.test(e.id ?? '') : !/^HRAF-/.test(e.id ?? '') && !/^PK/.test(e.id ?? '')); if (!es.length) throw new Error(`perineal muscles: no ${female ? 'female' : 'male'} ${name}`); return catPos(es.map(e => e.load())); };
   // the female structures: the clitoral complex is built earlier in the same run (neck-breast-vulva.mjs), so it is read from those specs; the vagina is a female atlas mesh
   const femalePart = name => { const sp = prior.find(q => q.name === name && q.sex === 'female'); if (sp) return catPos(sp.geometry); const es = U.find(name).filter(e => /^HRAF-/.test(e.id ?? '')); if (!es.length) throw new Error(`perineal muscles: no female ${name}`); return catPos(es.map(e => e.load())); };
+  const femaleMesh = name => { const sp = prior.find(q => q.name === name && q.sex === 'female'); if (sp) return catMesh(sp.geometry); const es = U.find(name).filter(e => /^HRAF-/.test(e.id ?? '')); if (!es.length) throw new Error(`perineal muscles: no female ${name}`); return catMesh(es.map(e => e.load())); };
   const add3 = (...v) => v.reduce((a, b) => add(a, b), [0, 0, 0]);
   /** Lowest vertex of a hip bone behind the pubis (the ischial tuberosity). */
   const tuberosity = H => { let b = null; for (let i = 0; i < H.length; i += 3) if (H[i + 2] < -.03 && (!b || H[i + 1] < b[1])) b = [H[i], H[i + 1], H[i + 2]]; return b; };
@@ -115,13 +150,18 @@ export default function perinealMuscles(U, prior) {
         const b = bulbSl, lat = s => add3(s.c, P(sx * (.0035), -s.ry * .85 - .0015, 0));
         bs = [PB, add3(lerp(PB, lat(b[b.length - 1]), .5), P(sx * .004, .003, 0)), ...[...b].reverse().map(lat)];
       } else {
-        const b = bulbSl, around = s => add3(s.c, P(sx * .0105, -s.ry * .2, 0));
+        const b = bulbSl, around = s => add3(s.c, P(sx * .0046, -s.ry - .0026, 0));   // a broad strip under the bulb, this side's half of it; the two halves meet at the median raphe
         bs = [PB, ...[...b].reverse().map(s => around(s))];
       }
-      out.push({...name('bulbospongiosus', '球海綿體肌'), system: 'muscular', kind: 'muscle', ...tag, geometry: [belly(bs, female ? [.0010, .0030, .0038, .0038, .0030, .0020, .0008] : [.0012, .0034, .0040, .0036, .0030, .0020, .0008], female ? [.0008, .0018, .0022, .0022, .0018, .0012, .0006] : [.0008, .0020, .0024, .0022, .0018, .0012, .0006], {ref: [sx * .6, 1, .2]})], card: CARD.bulbospongiosus, refs: []});
+      out.push({...name('bulbospongiosus', '球海綿體肌'), system: 'muscular', kind: 'muscle', ...tag, geometry: [belly(bs, female ? [.0010, .0030, .0038, .0038, .0030, .0020, .0008] : [.0016, .0042, .0050, .0050, .0048, .0038, .0012], female ? [.0008, .0018, .0022, .0022, .0018, .0012, .0006] : [.0008, .0017, .0022, .0022, .0020, .0016, .0007], {ref: female ? [sx * .6, 1, .2] : [0, 1, 0]})], card: CARD.bulbospongiosus, refs: []});
       // ---- superficial transverse perineal: a thin band from the tuberosity to the perineal body
       const from = add3(T, P(-sx * .006, .004, .006)), to = PB, mid = lerp(from, to, .5);
       out.push({...name('superficial transverse perineal muscle', '會陰淺橫肌'), system: 'muscular', kind: 'muscle', ...tag, geometry: [belly([from, lerp(from, mid, .5), mid, lerp(mid, to, .5), to], [.0012, .0030, .0034, .0030, .0010], [.0005, .0010, .0012, .0010, .0005], {ref: [0, 1, 0]})], card: CARD.transverse, refs: []});
+      // the muscles rest on the erectile structures they cover and do not sink into them
+      const covers = female ? [femaleMesh(`${S.w} crus of clitoris`), femaleMesh(`${S.w} bulb of vestibule`), femaleMesh('Body of clitoris')] : [U.mesh('Corpus cavernosum of penis'), U.mesh('Corpus spongiosum of penis')];
+      for (const e of out.slice(-3)) for (const g of e.geometry) clearOf(g, covers);
+      // the two sides meet at the midline (the raphe, the perineal body) and never cross it
+      for (const e of out.slice(-3)) for (const g of e.geometry) { const Q = g.positions; for (let i = 0; i < Q.length; i += 3) if (Q[i] * sx < -.0009) Q[i] = -sx * .0009; }
     }
   }
   return out;
