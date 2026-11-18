@@ -866,3 +866,160 @@ Object.assign(CARD_EXTRAS, {
     支配範圍: e('運動支配下頜舌骨肌與二腹肌前腹', 'Motor to mylohyoid and the anterior belly of digastric'),
   },
 });
+
+// ===== C01 begin: stomach and duodenum parts (card batch C01). Standard anatomy only; a field we are not sure of stays out. =====
+Object.assign(CARD_EXTRAS, {
+  'stomach': {
+    位置: e('腹腔左上部，介於食道與十二指腸之間，大部分在左季肋區與上腹部；入口（賁門）約在第十一胸椎高度，出口（幽門）約在第一腰椎的幽門平面，略偏右', 'Left upper abdomen between the oesophagus and the duodenum, mostly in the left hypochondrium and epigastrium; the inlet (cardia) lies at about T11 and the outlet (pylorus) at about L1 on the transpyloric plane, a little right of the midline'),
+    組成: e('J 形的中空肌性囊袋，可依充盈程度改變形狀；分賁門、胃底、胃體與幽門部，另有胃小彎、胃大彎兩緣；壁的肌層有三層（斜、環、縱），黏膜在空胃時形成皺襞', 'J-shaped hollow muscular bag whose shape changes with filling; divided into cardia, fundus, body and pyloric part, with lesser and greater curvatures; the muscle coat has three layers (oblique, circular, longitudinal) and the mucosa forms rugae when empty'),
+    毗鄰: e('前面隔著橫膈與前腹壁貼肝左葉；後面為網膜囊，其後依序有胰、脾動脈、左腎與左腎上腺、脾，構成胃床；上方連食道，下方續十二指腸；小彎連小網膜，大彎連大網膜', 'In front, the diaphragm and anterior abdominal wall and the left lobe of the liver; behind lies the lesser sac and, beyond it, the pancreas, splenic artery, left kidney and suprarenal gland and the spleen, which form the stomach bed; the oesophagus enters above and the duodenum continues below; the lesser omentum is attached to the lesser curvature and the greater omentum to the greater curvature'),
+    血液供應: e('皆源自腹腔動脈幹：小彎有左胃動脈與右胃動脈相吻合；大彎有左、右胃網膜動脈相吻合；胃底由脾動脈的短胃動脈與後胃動脈供應；靜脈最後注入肝門靜脈系統', 'All from the coeliac trunk: the left and right gastric arteries anastomose along the lesser curvature; the left and right gastro-omental arteries anastomose along the greater curvature; the fundus receives short gastric and posterior gastric arteries from the splenic artery; the veins drain into the portal system'),
+    神經支配: e('副交感來自迷走神經的前幹與後幹，促進蠕動與分泌；交感纖維經腹腔神經叢隨動脈到胃，抑制蠕動並使幽門收縮；痛覺循交感路徑傳入，常表現為上腹部疼痛', 'Parasympathetic supply from the anterior and posterior vagal trunks, increasing motility and secretion; sympathetic fibres reach the stomach from the coeliac plexus along the arteries, inhibiting motility and tightening the pylorus; pain travels with the sympathetic pathway and is felt in the epigastrium'),
+  },
+  'fundus of stomach': {
+    位置: e('胃的最上部，在賁門水平以上向左上方膨出的圓頂，頂端貼著左側橫膈穹窿，約在第五肋間隙的高度', 'Uppermost part of the stomach, the dome bulging up and to the left above the level of the cardia, in contact with the left dome of the diaphragm at about the level of the fifth intercostal space'),
+    組成: e('與胃體相連、沒有明確的外在界線；常含吞入的氣體，站立時在腹部 X 光上呈現胃泡；黏膜與胃體相同，富含分泌胃酸與消化酶的胃腺', 'Continuous with the body without a sharp external boundary; usually holds swallowed air, seen as the gastric bubble on an upright abdominal film; its mucosa is the same as the body, rich in glands secreting acid and digestive enzymes'),
+    毗鄰: e('上方與後外側隔著橫膈鄰接左肺底與心臟；後方鄰脾（胃脾韌帶相連）；內側為賁門切跡與食道腹段', 'Above and posterolaterally, the diaphragm separates it from the base of the left lung and the heart; behind lies the spleen, joined by the gastrosplenic ligament; medially lie the cardial notch and the abdominal oesophagus'),
+    血液供應: e('主要來自脾動脈發出的短胃動脈與後胃動脈，並有左胃動脈上部分支參與', 'Mainly the short gastric and posterior gastric arteries from the splenic artery, with contributions from upper branches of the left gastric artery'),
+  },
+  'body of stomach': {
+    位置: e('胃的主體，上接胃底，向下延伸到胃角切跡的水平，約占胃的大部分容積', 'Main part of the stomach, continuous above with the fundus and extending down to the level of the angular incisure; it holds most of the stomach contents'),
+    組成: e('黏膜有縱行的皺襞，胃腺含壁細胞（分泌鹽酸與內在因子）與主細胞（分泌胃蛋白酶原）；肌層分斜、環、縱三層', 'Mucosa with longitudinal rugae; the glands contain parietal cells (hydrochloric acid and intrinsic factor) and chief cells (pepsinogen); the muscle coat has oblique, circular and longitudinal layers'),
+    毗鄰: e('右緣為胃小彎，左緣為胃大彎；前面貼肝左葉與前腹壁；後面隔網膜囊鄰胰、左腎與脾動脈', 'Its right border is the lesser curvature and its left border the greater curvature; the front lies against the left lobe of the liver and the anterior abdominal wall; behind, across the lesser sac, lie the pancreas, left kidney and splenic artery'),
+    血液供應: e('小彎側為左、右胃動脈；大彎側為左、右胃網膜動脈', 'Left and right gastric arteries on the lesser curvature side; left and right gastro-omental arteries on the greater curvature side'),
+  },
+  'cardia (cardial orifice)': {
+    位置: e('食道腹段進入胃的開口及其周圍的胃壁，位在胃的上內側，約在第十一胸椎高度、正中線左側，對著第七肋軟骨後方', 'Opening where the abdominal oesophagus enters the stomach, with the surrounding rim of gastric wall at the upper medial part of the stomach, at about T11 and left of the midline, behind the seventh costal cartilage'),
+    組成: e('沒有單獨的解剖性括約肌；防止胃內容物逆流靠下食道括約肌的功能、橫膈食道裂孔的右膈腳、食道斜行穿過胃壁的瓣狀作用與賁門切跡所成的銳角共同作用', 'No separate anatomical sphincter; reflux is prevented by the lower oesophageal sphincter mechanism, the right crus of the diaphragm around the oesophageal hiatus, the flap-like oblique entry of the oesophagus into the stomach wall and the sharp angle of the cardial notch'),
+    毗鄰: e('上方為食道裂孔與橫膈，前方鄰肝左葉，後方為主動脈與左膈腳；周圍有食道叢發出的迷走神經前、後幹到達', 'Above lie the oesophageal hiatus and diaphragm; the left lobe of the liver is in front and the aorta and left crus behind; the anterior and posterior vagal trunks reach it from the oesophageal plexus'),
+    血液供應: e('左胃動脈的食道支與胃支；靜脈與食道下段靜脈在此吻合，是門脈與體循環的交通部位之一', 'Oesophageal and gastric branches of the left gastric artery; its veins anastomose with those of the lower oesophagus, one of the portal-systemic connections'),
+  },
+  'cardial notch': {
+    位置: e('食道左緣與胃底之間形成的銳角切跡，位在賁門的左側', 'Sharp notch between the left border of the oesophagus and the fundus, lying just to the left of the cardia'),
+    組成: e('由食道斜行進入胃壁形成；胃內面對應處有黏膜皺襞，形成瓣狀結構，有助於防止逆流', 'Formed by the oblique entry of the oesophagus into the stomach; on the inside a mucosal fold at this angle forms a valve-like flap that helps prevent reflux'),
+    毗鄰: e('上方為橫膈與食道裂孔，其左側連續為胃大彎的起始處', 'Above it lie the diaphragm and oesophageal hiatus; to its left the greater curvature begins'),
+    作用: e('保持食道與胃底之間的夾角，是抗逆流機制的一部分；夾角變鈍（如裂孔疝氣）時容易逆流', 'Keeps the angle between oesophagus and fundus, part of the anti-reflux mechanism; when the angle flattens, as in a hiatal hernia, reflux becomes easier'),
+  },
+  'pylorus': {
+    位置: e('胃的出口部分，位在幽門平面（約第一腰椎）、正中線右側；站立時可降到第三腰椎附近', 'Outlet part of the stomach on the transpyloric plane (about L1) just right of the midline; it may sag to about L3 on standing'),
+    組成: e('由幽門竇、幽門管與幽門括約肌組成；管壁肌層明顯增厚，黏膜皺襞在幽門處形成瓣狀突起', 'Made up of the pyloric antrum, the pyloric canal and the pyloric sphincter; its muscle wall is much thickened and the mucosal folds form a valve-like projection at the opening'),
+    毗鄰: e('前方與上方鄰肝方形葉、膽囊與前腹壁；後方為胰頭與胃十二指腸動脈；下方連十二指腸上部', 'In front and above lie the quadrate lobe of the liver, the gallbladder and the anterior abdominal wall; behind lie the head of the pancreas and the gastroduodenal artery; below it continues into the superior part of the duodenum'),
+    血液供應: e('右胃動脈與右胃網膜動脈（來自胃十二指腸動脈）', 'Right gastric artery and right gastro-omental artery (from the gastroduodenal artery)'),
+    神經支配: e('迷走神經與經腹腔神經叢的交感纖維，與胃其他部分相同', 'Vagus nerve and sympathetic fibres through the coeliac plexus, as for the rest of the stomach'),
+  },
+  'pyloric antrum': {
+    位置: e('幽門部的近側段，從胃角切跡向右延伸到幽門管，管腔較寬', 'Proximal part of the pyloric region, running right from the angular incisure to the pyloric canal; its lumen is wide'),
+    組成: e('肌層較胃體厚，黏膜含分泌胃泌素的 G 細胞與分泌黏液的細胞，壁細胞很少', 'Muscle coat thicker than in the body; the mucosa contains gastrin-secreting G cells and mucus-secreting cells, with few parietal cells'),
+    毗鄰: e('上方與前方貼肝左葉與前腹壁，後方隔網膜囊鄰胰頭與胰體', 'Above and in front it lies against the liver and anterior abdominal wall; behind, across the lesser sac, lie the head and body of the pancreas'),
+    血液供應: e('右胃動脈與右胃網膜動脈', 'Right gastric and right gastro-omental arteries'),
+    作用: e('研磨並混合食糜、分泌胃泌素；以推進波把食糜分批送入幽門管', 'Grinds and mixes the chyme and secretes gastrin; peristaltic waves push the chyme in portions into the pyloric canal'),
+  },
+  'pyloric canal': {
+    位置: e('幽門部的遠側段，是連接幽門竇與十二指腸上部的狹窄管道，長約兩至三公分，末端為幽門口', 'Distal part of the pyloric region, a narrow channel about 2–3 cm long joining the pyloric antrum to the superior part of the duodenum, ending at the pyloric orifice'),
+    組成: e('環肌層厚，末端增厚成幽門括約肌；內面黏膜有縱行皺襞，沿小彎處形成貫通的黏膜通路（胃管）', 'Thick circular muscle that thickens at its end into the pyloric sphincter; the mucosa bears longitudinal folds, forming a channel (gastric canal) along the lesser curvature'),
+    毗鄰: e('前方貼肝方形葉與膽囊，後方為胰頭與胃十二指腸動脈，下接十二指腸上部', 'Anteriorly the quadrate lobe of the liver and the gallbladder, posteriorly the pancreatic head and the gastroduodenal artery, and below the superior part of the duodenum'),
+    血液供應: e('右胃動脈與右胃網膜動脈', 'Right gastric and right gastro-omental arteries'),
+  },
+  'pyloric sphincter': {
+    位置: e('幽門口處，位於胃與十二指腸上部之間，約在第一腰椎、正中線右側', 'At the pyloric orifice between the stomach and the superior part of the duodenum, at about L1 right of the midline'),
+    組成: e('胃壁環肌層局部明顯增厚形成的環形肌；與十二指腸的環肌之間隔著一層纖維組織，縱肌與外層縱行纖維則跨過幽門連到十二指腸', 'Ring of smooth muscle formed by marked local thickening of the circular layer of the gastric wall; a layer of fibrous tissue separates it from the circular muscle of the duodenum, while the longitudinal fibres pass across the pylorus into the duodenum'),
+    作用: e('控制食糜進入十二指腸的速度，一次只讓少量通過，並防止十二指腸內容物逆流回胃；迷走神經與交感神經調節其張力，先天性肥厚時會造成幼兒胃出口阻塞', 'Controls the rate at which chyme enters the duodenum, letting a little through at a time, and prevents duodenal contents from flowing back into the stomach; its tone is adjusted by the vagus and sympathetic nerves, and congenital hypertrophy obstructs the stomach outlet in infants'),
+  },
+  'lesser curvature of stomach': {
+    位置: e('胃的右側緣與上緣，凹面向右上，自賁門起弧形向下到幽門', 'Right and upper border of the stomach, concave towards the upper right, curving down from the cardia to the pylorus'),
+    組成: e('短而凹，最低點為胃角切跡；兩層腹膜在此合併，向上連成小網膜（肝胃韌帶）', 'Short and concave, its lowest point being the angular incisure; the two layers of peritoneum meet along it and continue up as the lesser omentum (hepatogastric ligament)'),
+    毗鄰: e('小網膜內有左、右胃動脈沿弧吻合，並有胃冠狀靜脈與胃周淋巴結；迷走神經的胃支沿此分布；胃潰瘍多發生在小彎近胃角處', 'The left and right gastric arteries anastomose in the lesser omentum along the curve, together with the gastric veins and the gastric lymph nodes; gastric branches of the vagus run along it; gastric ulcers are common on the lesser curvature near the angular incisure'),
+    血液供應: e('左胃動脈（來自腹腔動脈幹）與右胃動脈（來自肝固有動脈）', 'Left gastric artery (from the coeliac trunk) and right gastric artery (from the proper hepatic artery)'),
+  },
+  'greater curvature of stomach': {
+    位置: e('胃的左側緣與下緣，凸面向左下，自賁門切跡起越過胃底，沿胃體左下方弧行到幽門，長度約為小彎的四倍', 'Left and lower border of the stomach, convex to the lower left, starting at the cardial notch, arching over the fundus and running down the left side of the body to the pylorus; it is roughly four times as long as the lesser curvature'),
+    組成: e('凸而長；腹膜在此延伸為大網膜（含胃結腸韌帶與胃脾韌帶）；胃底另有胃膈韌帶連到橫膈', 'Long and convex; peritoneum from it forms the greater omentum (including the gastrocolic and gastrosplenic ligaments); at the fundus the gastrophrenic ligament also runs to the diaphragm'),
+    毗鄰: e('下方經胃結腸韌帶連橫結腸；左上方連胃脾韌帶至脾門；左、右胃網膜動脈沿弧吻合，短胃動脈經胃脾韌帶到達胃底', 'Below, the gastrocolic ligament links it to the transverse colon; at the upper left the gastrosplenic ligament runs to the hilum of the spleen; the left and right gastro-omental arteries anastomose along it, and the short gastric arteries reach the fundus through the gastrosplenic ligament'),
+    血液供應: e('左胃網膜動脈（來自脾動脈）、右胃網膜動脈（來自胃十二指腸動脈）與短胃動脈', 'Left gastro-omental artery (from the splenic artery), right gastro-omental artery (from the gastroduodenal artery) and the short gastric arteries'),
+  },
+  'angular incisure (angular notch)': {
+    位置: e('胃小彎下部最低處的明顯彎折，在幽門平面附近', 'Sharp bend at the lowest part of the lesser curvature, near the transpyloric plane'),
+    組成: e('小彎在此由垂直走向轉為水平走向；內面黏膜皺襞在此相對突起，內視鏡下可見', 'The lesser curvature changes here from a vertical to a horizontal course; on the inside the mucosal folds project towards each other and the notch can be seen at endoscopy'),
+    毗鄰: e('為胃體與幽門部的分界；對應胃大彎側沒有明顯切跡；後方鄰胰體', 'Marks the boundary between the body and the pyloric part, with no notch on the opposite side along the greater curvature; the pancreatic body lies behind'),
+    作用: e('內視鏡與影像上用來辨認胃體與幽門竇的分界，也是胃潰瘍的好發部位之一', 'A landmark at endoscopy and in imaging for the division of body and antrum, and a common site of gastric ulcer'),
+  },
+  'gastric rugae': {
+    位置: e('胃內面黏膜與黏膜下層形成的皺襞，主要在胃體與胃底，沿小彎處較整齊', 'Folds of mucosa and submucosa on the inner surface of the stomach, mainly in the body and fundus and most regular along the lesser curvature'),
+    組成: e('縱行、彼此平行或略呈網狀的暫時性皺襞，由黏膜與黏膜下層共同隆起；胃充盈擴張時變平，排空時明顯', 'Longitudinal, roughly parallel or slightly netlike temporary folds raised by mucosa and submucosa; they flatten as the stomach fills and are prominent when it is empty'),
+    作用: e('使胃可大幅擴張而容納食物，並增加黏膜表面積與食物接觸；皺襞變粗或消失可見於胃炎與腫瘤等病變', 'Allow the stomach to expand and hold food and increase the mucosal surface; thickened or effaced folds can occur in gastritis and tumours'),
+  },
+  'esophagogastric junction (z-line)': {
+    位置: e('食道腹段與賁門交接處，約在第十一胸椎高度，位於橫膈食道裂孔稍下方；Z 線是黏膜組織學上的交界，通常與內視鏡所見的胃食道交界相差不到一公分', 'Where the abdominal oesophagus meets the cardia, at about T11 just below the oesophageal hiatus of the diaphragm; the Z-line is the histological mucosal boundary and usually differs by less than 1 cm from the gastro-oesophageal junction seen at endoscopy'),
+    組成: e('黏膜在此由食道的複層鱗狀上皮突然轉為胃的單層柱狀上皮，交界呈鋸齒狀的線（Z 線，鱗柱交界）；內視鏡下為粉白與橙紅黏膜的分界', 'The mucosa changes abruptly from the oesophageal stratified squamous epithelium to the gastric simple columnar epithelium along an irregular zigzag line (the Z-line, squamocolumnar junction); at endoscopy it separates pale pink from orange-red mucosa'),
+    毗鄰: e('周圍有右膈腳形成的食道裂孔括約作用與下食道括約肌；食道叢的迷走神經前、後幹在此進入腹腔', 'Surrounded by the sling of the right crus at the hiatus and the lower oesophageal sphincter; the anterior and posterior vagal trunks enter the abdomen here'),
+    作用: e('Z 線上移或出現柱狀上皮（巴雷特食道）與慢性胃酸逆流有關；滑動型裂孔疝氣時此交界上移到橫膈以上', 'Upward displacement of the Z-line or columnar epithelium above it (Barrett oesophagus) is linked with chronic acid reflux; in a sliding hiatal hernia the junction lies above the diaphragm'),
+  },
+  'duodenum': {
+    位置: e('小腸的起始段，約二十五公分，呈 C 形環繞胰頭，位於第一至第三腰椎之間；起始約二點五公分前後兩面均有腹膜包被（腹膜內位），其餘為後腹膜器官，僅前面覆有腹膜', 'First part of the small intestine, about 25 cm long, C-shaped around the head of the pancreas at the levels of L1–L3; the first 2.5 cm or so is covered by peritoneum on both front and back (intraperitoneal), while the rest is retroperitoneal with peritoneum on its front only'),
+    組成: e('分上部、降部、下部（水平部）與升部四段；黏膜有環狀皺襞與絨毛，十二指腸腺（Brunner 腺）分泌鹼性黏液；膽管與胰管在降部開口', 'Four parts: superior, descending, inferior (horizontal) and ascending; the mucosa has circular folds and villi, and duodenal glands (Brunner glands) secrete alkaline mucus; the bile and pancreatic ducts open into the descending part'),
+    毗鄰: e('環抱胰頭；右側鄰肝、膽囊與右腎；後方有下腔靜脈、腹主動脈與右腎血管；前方有橫結腸與其繫膜根；上腸繫膜血管跨過下部前方', 'Wraps the head of the pancreas; on the right lie the liver, gallbladder and right kidney; behind lie the inferior vena cava, abdominal aorta and right renal vessels; in front lie the transverse colon and the root of its mesocolon; the superior mesenteric vessels cross in front of the inferior part'),
+    血液供應: e('上半（乳突以上）由胃十二指腸動脈的上胰十二指腸動脈供應，下半由上腸繫膜動脈的下胰十二指腸動脈供應，兩者在胰頭後方吻合', 'The upper half (above the papilla) is supplied by the superior pancreaticoduodenal arteries from the gastroduodenal artery and the lower half by the inferior pancreaticoduodenal arteries from the superior mesenteric artery; the two groups anastomose behind the pancreatic head'),
+    神經支配: e('迷走神經與來自腹腔神經叢、上腸繫膜神經叢的交感纖維', 'Vagus nerve and sympathetic fibres from the coeliac and superior mesenteric plexuses'),
+  },
+  'superior part of duodenum (duodenal cap)': {
+    位置: e('自幽門起向右後上方走，約五公分，約在第一腰椎，止於十二指腸上曲', 'Runs from the pylorus backwards, upwards and to the right for about 5 cm at about L1, ending at the superior duodenal flexure'),
+    組成: e('起始約二點五公分（十二指腸壺腹、十二指腸球部）前後兩面均有腹膜包被（腹膜內位），黏膜平滑、沒有環狀皺襞，鋇劑造影呈三角形的陰影；其餘部分為後腹膜，僅前面覆有腹膜', 'The first 2.5 cm or so (the duodenal cap or bulb) is covered by peritoneum on both front and back (intraperitoneal) and has a smooth mucosa without circular folds, giving a triangular shadow on a barium film; the rest is retroperitoneal, with peritoneum on its front only'),
+    毗鄰: e('前方貼肝方形葉與膽囊；後方為膽總管、胃十二指腸動脈與肝門靜脈；下方為胰頭與頸；上方有網膜孔', 'In front lie the quadrate lobe of the liver and the gallbladder; behind lie the common bile duct, gastroduodenal artery and portal vein; below lie the head and neck of the pancreas; above lies the epiploic foramen'),
+    血液供應: e('上十二指腸動脈、胃十二指腸動脈與上胰十二指腸動脈', 'Supraduodenal artery, gastroduodenal artery and superior pancreaticoduodenal arteries'),
+    作用: e('接收胃排出的酸性食糜，是十二指腸潰瘍最常見的部位；後壁潰瘍可侵蝕胃十二指腸動脈而大量出血', 'Receives acid chyme from the stomach and is the commonest site of duodenal ulcer; a posterior ulcer can erode the gastroduodenal artery and bleed heavily'),
+  },
+  'descending part of duodenum': {
+    位置: e('自十二指腸上曲向下，沿脊柱右側，約從第一腰椎到第三腰椎，長約八至十公分，止於十二指腸下曲', 'Runs down on the right of the vertebral column from about L1 to L3 for roughly 8–10 cm, ending at the inferior duodenal flexure'),
+    組成: e('後腹膜器官；後內側壁有大十二指腸乳突，膽總管與主胰管在此開口，上方約二公分處有小乳突；黏膜有明顯環狀皺襞', 'Retroperitoneal; the major duodenal papilla on the posteromedial wall receives the common bile duct and main pancreatic duct, with the minor papilla about 2 cm above; circular folds are prominent'),
+    毗鄰: e('內側緊貼胰頭；外側為肝右葉與結腸右曲；後方為右腎門與右腎血管；前方被橫結腸及其繫膜根橫過', 'Medially the head of the pancreas; laterally the right lobe of the liver and the right colic flexure; behind the right renal hilum and renal vessels; in front it is crossed by the transverse colon and the root of its mesocolon'),
+    血液供應: e('上、下胰十二指腸動脈，在乳突附近為前、後兩支吻合成弓', 'Superior and inferior pancreaticoduodenal arteries, forming anterior and posterior arcades near the papilla'),
+  },
+  'inferior (horizontal) part of duodenum': {
+    位置: e('自下曲向左橫行，約六至八公分，約平第三腰椎，由右向左越過脊柱', 'Runs horizontally to the left for about 6–8 cm at about L3, crossing the vertebral column from right to left'),
+    組成: e('後腹膜器官，上緣貼胰頭下部與鉤突', 'Retroperitoneal; its upper border lies against the lower head and uncinate process of the pancreas'),
+    毗鄰: e('前方有上腸繫膜動脈與靜脈及腸繫膜根越過；後方為右腰大肌、下腔靜脈與腹主動脈，並有右生殖腺血管與右輸尿管經過；上腸繫膜動脈與主動脈夾角過小時可壓迫此段，造成上腸繫膜動脈症候群', 'In front the superior mesenteric artery and vein and the root of the mesentery cross it; behind lie the right psoas, inferior vena cava and aorta, with the right gonadal vessels and right ureter passing by; if the angle between the superior mesenteric artery and the aorta is too narrow, this part can be compressed (superior mesenteric artery syndrome)'),
+    血液供應: e('下胰十二指腸動脈，並有第一空腸動脈分支', 'Inferior pancreaticoduodenal artery, with branches of the first jejunal artery'),
+  },
+  'ascending part of duodenum': {
+    位置: e('自下部末端向上，沿主動脈左緣，約二點五公分，上升到第二腰椎，止於十二指腸空腸彎曲', 'Runs up on the left side of the aorta for about 2.5 cm to the level of L2, ending at the duodenojejunal flexure'),
+    組成: e('後腹膜器官；上端被十二指腸懸韌帶向上牽拉，是尋找十二指腸空腸彎曲的標誌', 'Retroperitoneal; its upper end is pulled upward by the suspensory ligament, which makes it a landmark for the duodenojejunal flexure'),
+    毗鄰: e('右側為腹主動脈與腸繫膜根，後方為左腰大肌與左交感幹，上方為胰體下緣', 'On its right lie the abdominal aorta and the root of the mesentery, behind lie the left psoas and sympathetic trunk, and above lies the lower border of the pancreatic body'),
+    血液供應: e('下胰十二指腸動脈與空腸動脈第一支', 'Inferior pancreaticoduodenal artery and the first jejunal artery'),
+  },
+  'duodenojejunal flexure': {
+    位置: e('十二指腸升部與空腸交界的急彎，約在第二腰椎左側，位於胰體下緣之下', 'Sharp bend where the ascending duodenum turns into the jejunum, at the left of L2 just below the lower border of the pancreatic body'),
+    組成: e('由十二指腸懸韌帶固定；腸管在此由後腹膜轉入有腸繫膜的腹膜內位', 'Held in place by the suspensory ligament of the duodenum; the gut passes here from a retroperitoneal position to an intraperitoneal one with a mesentery'),
+    毗鄰: e('前方為胃後壁與橫結腸繫膜，左側為左腎與左腎血管，後方為左腰大肌與腹主動脈的左側；下腸繫膜靜脈常在其附近匯入脾靜脈', 'In front the posterior wall of the stomach and the transverse mesocolon, to the left the left kidney and renal vessels, behind the left psoas and the left side of the aorta; the inferior mesenteric vein often passes nearby to join the splenic vein'),
+    血液供應: e('空腸第一動脈與下胰十二指腸動脈', 'First jejunal artery and the inferior pancreaticoduodenal artery'),
+    作用: e('是十二指腸與空腸的分界，臨床上常以此為上、下消化道出血的分界點', 'The boundary between the duodenum and jejunum, and the usual dividing line between upper and lower gastrointestinal bleeding'),
+  },
+  'major duodenal papilla': {
+    位置: e('十二指腸降部後內側壁的小圓形隆起，約在幽門下方八至十公分，約在第二腰椎高度', 'Small rounded elevation on the posteromedial wall of the descending duodenum, about 8–10 cm below the pylorus at about L2'),
+    組成: e('膽總管與主胰管共同通過肝胰壺腹在此開口，上方常有一條縱行黏膜皺襞（縱皺襞）指引', 'The common bile duct and main pancreatic duct open here through the hepatopancreatic ampulla; a longitudinal mucosal fold above it usually points to it'),
+    毗鄰: e('內側鄰胰頭，是前腸與中腸的分界處；小乳突位於其上方偏前', 'Medially the head of the pancreas; it marks the boundary between foregut and midgut; the minor papilla lies a little above and in front of it'),
+    作用: e('把膽汁與胰液排入十二指腸；乳突或壺腹的結石、腫瘤會阻塞膽汁與胰液，造成黃疸或胰臟炎，也是內視鏡逆行胰膽管攝影的進入口', 'Delivers bile and pancreatic juice into the duodenum; a stone or tumour here blocks both and causes jaundice or pancreatitis; it is the entry point for endoscopic retrograde cholangiopancreatography'),
+  },
+  'minor duodenal papilla': {
+    位置: e('十二指腸降部內側壁，位於大乳突上方約二公分處，稍偏前', 'On the medial wall of the descending duodenum, about 2 cm above the major papilla and slightly in front of it'),
+    組成: e('副胰管的開口，較大乳突小而不明顯', 'Opening of the accessory pancreatic duct; smaller and less obvious than the major papilla'),
+    作用: e('排出一部分胰液；主胰管阻塞或胰管發育變異（如胰臟分裂）時，成為胰液的備用通路', 'Drains part of the pancreatic juice; it serves as an alternative route when the main pancreatic duct is blocked or in developmental variants such as pancreas divisum'),
+  },
+  'hepatopancreatic ampulla (ampulla of vater)': {
+    位置: e('位於十二指腸降部壁內，是膽總管與主胰管匯合形成的短小共同通道，向十二指腸腔開口於大乳突', 'Short common channel inside the wall of the descending duodenum formed by the union of the common bile duct and main pancreatic duct, opening into the lumen at the major papilla'),
+    組成: e('管壁內層為黏膜，周圍有肝胰壺腹括約肌包圍；兩管匯合方式有變異，也可能各自開口', 'Lined by mucosa and surrounded by the sphincter of the ampulla; the manner of union of the two ducts varies and they may open separately'),
+    毗鄰: e('在胰頭後內側與十二指腸壁之間，上游為膽總管末段與主胰管末段', 'Between the posteromedial part of the pancreatic head and the duodenal wall; upstream lie the ends of the common bile duct and main pancreatic duct'),
+    血液供應: e('上、下胰十二指腸動脈的小分支', 'Small branches of the superior and inferior pancreaticoduodenal arteries'),
+    作用: e('把膽汁與胰液送入十二指腸；膽結石卡在壺腹可造成梗阻性黃疸與膽結石性胰臟炎', 'Carries bile and pancreatic juice into the duodenum; a gallstone impacted in the ampulla causes obstructive jaundice and gallstone pancreatitis'),
+  },
+  'sphincter of ampulla (sphincter of oddi)': {
+    位置: e('環繞肝胰壺腹及其上游膽總管與主胰管末段，位在十二指腸降部壁內的大乳突處', 'Surrounds the hepatopancreatic ampulla and the ends of the common bile duct and main pancreatic duct, in the wall of the descending duodenum at the major papilla'),
+    組成: e('平滑肌；包括膽總管括約肌、胰管括約肌與壺腹括約肌三部分，與十二指腸的肌層有所區別', 'Smooth muscle; made up of the sphincters of the common bile duct, of the pancreatic duct and of the ampulla itself, distinct from the muscle of the duodenal wall'),
+    作用: e('調節膽汁與胰液流入十二指腸，平時收縮使膽囊儲存膽汁，進食後在膽囊收縮素作用下放鬆；也防止十二指腸內容物逆流入膽管與胰管', 'Regulates the flow of bile and pancreatic juice into the duodenum; it is normally contracted, letting the gallbladder store bile, and relaxes after a meal under the action of cholecystokinin; it also stops duodenal contents from flowing back into the ducts'),
+  },
+  'suspensory ligament of duodenum (ligament of treitz)': {
+    附著: e('上端起自右膈腳與包繞腹腔動脈幹起始部及上腸繫膜動脈根部附近的結締組織；下端止於十二指腸空腸彎曲及十二指腸升部', 'Upper end arises from the right crus of the diaphragm and from the connective tissue around the origin of the coeliac trunk and near the root of the superior mesenteric artery; lower end attaches to the duodenojejunal flexure and ascending duodenum'),
+    毗鄰: e('斜向下走在胰體與脾靜脈的後方；內含平滑肌與纖維結締組織束；下端連到十二指腸空腸彎曲，位於十二指腸升部上端附近', 'Passes obliquely downward behind the pancreatic body and splenic vein; it contains smooth muscle and fibrous bands; its lower end joins the duodenojejunal flexure, near the upper end of the ascending duodenum'),
+    作用: e('把十二指腸空腸彎曲向上懸吊固定，使十二指腸與空腸分界在手術與影像上可辨；是辨認十二指腸終點的標誌', 'Suspends and fixes the duodenojejunal flexure upward, making the boundary between duodenum and jejunum identifiable at surgery and on imaging; it is a landmark for the end of the duodenum'),
+  },
+});
+// ===== C01 end =====
