@@ -31,7 +31,7 @@ const FIELDS: Record<QuizSystem, string[]> = {
   ear: [],
   // eye quiz: the one description of the structure's eye card (app/mj-eye-atlas.ts, packed into the catalogue)
   eye: [],
-  // head-and-neck organ structures (eyeball, tongue, teeth, larynx cartilages…): the repository has no card text for them yet, so the card says 「尚無資料」 until a checked description is added to card-data.ts
+  // head-and-neck organ structures and the parts of the stomach and duodenum (eyeball, tongue, teeth, larynx cartilages…): the repository has no card text for them yet, so the card says 「尚無資料」 until a checked description is added to card-data.ts
   headorgan: ['說明'],
   // joint soft tissue: the repository documents none of these yet, so the card shows 「尚無資料」 until hand-checked entries are added to card-data.ts
   joint: ['所屬關節', '附著與連結', '功能'],
