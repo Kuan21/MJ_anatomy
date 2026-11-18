@@ -25,6 +25,8 @@ for (const dir of ['app', 'components', 'lib', 'public', 'dist']) {
     if (ALLOWED.has(rel) || !/\.(ts|tsx|json|json\.gz|js|css|html|md|txt)$/.test(f)) continue;
     let text = f.endsWith('.gz') ? gunzipSync(fs.readFileSync(f)).toString('utf8') : fs.readFileSync(f, 'utf8');
     scanned++;
+    // the bundled copy of app/quiz/naming.ts (an allowed file above) carries its simplified-to-traditional fold table as one string literal; skip only that literal in dist
+    if (rel.startsWith('dist/') && f.endsWith('.js')) text = text.replace(/(["'`])(?:(?!\1)[^\\\n]|\\.)*侧側(?:(?!\1)[^\\\n]|\\.)*\1/g, '');
     if (rel === 'app/mj-naming-data.ts') text = text.replace(/fixes:.*$/m, ''); // the fix table itself names the old spellings
     const m = OLD.exec(text);
     assert.ok(!m, `${rel}: old spelling 頷／腭 near 「${m && text.slice(Math.max(0, m.index - 8), m.index + 8)}」`);

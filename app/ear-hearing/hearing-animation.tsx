@@ -97,7 +97,7 @@ export default function HearingAnimation({onClose}: {onClose: () => void}) {
       {HEARING_STEPS.map((s, i) => <button key={s.id} aria-current={i === step ? 'step' : undefined} onClick={() => go(i)}><b>{i + 1}</b><span>{s.short}</span></button>)}
     </nav>
     <div className="hear-body">
-      <section className="hear-stage" ref={stage} aria-label="聽覺傳導 3D 動畫">
+      <section className={`hear-stage ${step === 2 && unrolled ? 'unrolled-on' : ''}`} ref={stage} aria-label="聽覺傳導 3D 動畫">
         <div className={`hear-layer ${step === 5 ? 'off' : ''}`} ref={earHost}/>
         <div className={`hear-layer brain ${step === 5 ? '' : 'off'}`} ref={brainHost}/>
         {!earReady && !error && <div className="hear-loading" role="status"><span className="organ-spinner"/><strong>載入耳部模型</strong><small>{earPercent ? `${earPercent}%` : '…'}</small></div>}
