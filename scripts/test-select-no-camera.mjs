@@ -56,6 +56,11 @@ const selectBrain = brain.slice(brain.indexOf('const select = '), brain.indexOf(
 assert.ok(!/hiddenGroups|command/.test(selectBrain), 'brain: select neither re-shows layers nor moves the camera');
 assert.match(brain, /onClick=\{\(\) => focusOn\(selected\.id\)\}/, 'brain Focus button');
 assert.match(brain, /不在目前視野，按 Focus 查看/);
+const organDetail = fs.readFileSync('app/organ/organ-detail.tsx', 'utf8');
+const chooseOrgan = organDetail.slice(organDetail.indexOf('const choose = '), organDetail.indexOf('const focusOn'));
+assert.ok(!/go\(|command/.test(chooseOrgan), 'organ detail: choose only selects');
+assert.match(organDetail, /onClick=\{\(\) => focusOn\(selected\.key\)\}/, 'organ detail Focus button');
+assert.match(organDetail, /不在目前視野，按 Focus 查看/);
 
 // the ear detail mode: choosing only selects; Focus is the only button that moves the camera, and the viewer turns the camera only for a new command id
 const ear = fs.readFileSync('app/ear-detail.tsx', 'utf8');
