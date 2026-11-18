@@ -642,3 +642,9 @@
 | `app/micro-atlas.tsx` 內腦與耳的設定 | 少量程式碼 | 不是舊程式：眼詳細模式仍用這個檔；腦已改用 `organ/brain`，耳入口關閉中（耳 PR 會用到），**不建議刪檔**，只可刪腦的設定 | 總管 |
 | 未量化的 6 個資料包改為量化 | 估計 gzip 下載減少約 10–14 MB | 需重新生成並跑穩定度與動作檢查；血管包只能由血管平順工作階段改 | 總管（血管末端包：血管平順） |
 | 面部包顳肌、額肌、口輪匝肌、枕肌減面 | 面部包約 9.3 MB gzip 的一大部分 | 外形與附著點要重新目視檢查 | 頭頸模型 |
+
+## 檢查腳本（交總管；腹部內臟 2026-11-17 回報）
+
+| 編號 | 腳本 | 問題 | 證據 | 嚴重程度 | 建議負責 |
+|---|---|---|---|---|---|
+| TOOL-01 | `scripts/test-wording-unify.mjs` | 本機第二次跑 `npm run ci:local` 會誤報失敗：腳本也掃描 `dist/`，而 `app/quiz/naming.ts` 的簡繁對照表（含「腭」，原始碼中屬允許例外）在 build 後會打包進 `dist/assets/level2-*.js`，上一輪 build 留下的 `dist/` 因此在 check 第 173 步報「old spelling 頷／腭」。GitHub CI 先 check 後 build，check 時沒有 `dist/`，所以 CI 不受影響。 | AB-01 分支本機 `ci:local`：`check FAILED at step 173/177`，訊息指向 `dist/assets/level2-*.js`；刪除 `dist/` 後重跑即通過。 | 影響使用（只影響本機重跑） | 總管：開純腳本 PR，例如 dist 掃描也允許 naming.ts 的對照表，或只掃原始碼與 `public/`。暫時繞過：跑 `ci:local` 前先刪除 `dist/`。 |
