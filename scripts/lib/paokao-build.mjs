@@ -26,8 +26,8 @@ import {clearBones} from './nerve-bone-clearance.mjs';
 
 export function buildAll() {
   const w = loadWorld(), U = makeUtil(w), specs = [...thorax(U), ...thoraxNerves(U), ...upperLimb(U), ...limbVeins(U), ...lowerLimb(U), ...thoraxExtra(U), ...landmarks(U), ...membranes(U), ...knee(U), ...spacesMuscles(U), ...lungs(U), ...neckBreastVulva(U)], built = [];
-  specs.push(...perinealMuscles(U, specs));   // after the clitoral complex: the muscles lie on it
   const lateSpecs = [...lungs(U, 'late'), ...tendonsUpperLimb(U, w), ...zanatomyUpperLimb(), ...ligamentsUpperLimb(U), ...tendonsLowerLimb(), ...zanatomyLowerLimb(U), ...ligamentsLowerLimb(U), ...occipitalAponeurosis(U, w)], late = [];
+  lateSpecs.push(...perinealMuscles(U, specs));   // the clitoral complex is built by now; last in the list, so that the ids of every earlier structure stay as they are (some code files name them)
   for (const s of [...specs, ...lateSpecs]) {
     const pieces = [];
     for (const t of s.tubes ?? []) pieces.push(U.tube(t.pts, t.r[0], t.r[1] ?? t.r[0], t.samples ?? 24, t.sides ?? 12));
