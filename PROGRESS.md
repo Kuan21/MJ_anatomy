@@ -5,7 +5,7 @@
 
 ## 目前狀態
 - 專案處於**穩定期**（2026-11-08 起）：暫停新功能，只修顯示錯誤；所有 PR 都要使用者人工審核，不可自行 merge。
-- main 最新：#425（2026-11-18 第二十二次確認）。本分支已合併 main 到 #425。
+- main 最新：#437（2026-11-18 第二十三次確認）。本分支已合併 main 到 #437。
 - **main 已經有中心線連續性檢查**（#281、#328：`scripts/check-centerlines.mjs`、基準 `docs/centerline-known.json` 57 條，已在 `npm run check` 內）。本分支的 `check-centreline-continuity.mjs` 是另一套做法，見「待我決定」。
 - 開放 PR（下列是 2026-11-11 的清單；本機沒有 `gh`，之後沒有再查，main 已合併到 #338，清單很可能已過時）：
   - #223 心臟腔內構造與標籤（部分完成）
@@ -195,6 +195,12 @@
     - `build-required-structures`：`mkdirSync` 用 `pathname`，改用 `fileURLToPath`。只做語法檢查（輸入檔不在 repo）。
     - Linux／CI 行為不變。
   - 本機通過：`test-ear-hearing`、七個 `test-centreline-*`、`check-no-notes`。完整 `npm run check` 因缺生成檔沒有跑。
+  - 其餘不變：生成檔仍缺，連續性基準仍無法產生；`_diag-*.mjs` 四個與 `package-lock.json` 差異仍未提交；本機沒有 `gh`，未查 PR #248 的 CI。
+
+- 2026-11-18（第二十三次）：合併 main 並修一個腳本的 Windows 路徑，沒有改模型、解剖內容或網站。
+  - main 前進 12 個 commit 到 #437（#421 喉返神經上端、#426 胃詳細模式、#427 耳部聽覺動畫 iPad、#430 腸肝膽腎門資訊卡、#436 咽後間隙方案 B 預檢等）。`git merge-tree` 確認無衝突、main 沒有刪檔或改名，用一般 merge 合併。
+  - main 新增的 `test-ear-hearing-touch`（在 `npm run check` 內，`check.d/20261117-ear-hearing-touch.txt`）用 `URL.pathname`，本機重現原本會失敗（`open 'C:\C:\Users\…\hearing.css'`），改用 `fileURLToPath` 後實際執行通過（8 個控制項都在 44 點以上）。Linux／CI 行為不變。其他新腳本沒有同類寫法。
+  - 本機通過：`test-ear-hearing-touch`、`test-organ-atlas`（1 個器官包、55 個結構）、七個 `test-centreline-*`、`check-no-notes`。完整 `npm run check` 因缺生成檔沒有跑。
   - 其餘不變：生成檔仍缺，連續性基準仍無法產生；`_diag-*.mjs` 四個與 `package-lock.json` 差異仍未提交；本機沒有 `gh`，未查 PR #248 的 CI。
 
 ## 進行中／等審核
