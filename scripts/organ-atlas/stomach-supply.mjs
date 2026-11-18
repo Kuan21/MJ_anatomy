@@ -60,7 +60,11 @@ export function buildSupply({writer, atlasPart, nervePart, paokaoPart, surface, 
   const fromSplenic = (verts, lo, hi) => { const xs = verts.map(p => p[0]), x0 = Math.min(...xs), x1 = Math.max(...xs); return verts.filter(p => p[0] > x0 + lo * (x1 - x0) && p[0] < x0 + hi * (x1 - x0) && !insideMesh(surface, p)).reduce((b, p) => p[1] > b[1] ? p : b); };
   for (const [key, verts, lo, hi, dx, r] of [['Posterior gastric artery', splenicA, .35, .7, 0, R_ARTERY], ['Posterior gastric vein', splenicV, .35, .7, .008, R_VEIN]]) {
     const a0 = fromSplenic(verts, lo, hi), t = wallFacing(a0, add(a0, [dx, .03, -.004]));
-    meshes.set(key, tubeThrough([a0, lerp(a0, t, .35), lerp(a0, t, .7), t], r * .8, r * .5));
+    // on the wall it runs on up the back of the fundus for about 20 mm, tapering, with two small branches, as its branches do: seen through the glass stomach from the front, a vessel that stopped at the
+    // wall looked like a stick ending in the air
+    const onBack = [.006, .012, .02].map(h => wallFacing(a0, add(t, [0, h, 0]), .0006)), fork = onBack[1];
+    const twigs = [-1, 1].map(sd => tubeThrough([fork, wallFacing(a0, add(fork, [sd * .004, .004, 0]), .0006), wallFacing(a0, add(fork, [sd * .009, .009, 0]), .0006)], r * .4, r * .25, 6, 8));
+    meshes.set(key, merge([tubeThrough([a0, lerp(a0, t, .35), lerp(a0, t, .7), t, ...onBack], r * .8, r * .3), ...twigs]));
   }
 
   // anterior vagal trunk: the continuation of the left vagus nerve, down the front of the oesophagus to the cardia; the anterior gastric branches fan out on the front wall along the lesser curvature
