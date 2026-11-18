@@ -21,3 +21,11 @@ export function atlasIndices(name) {
 export function atlasMesh(name) {
   return {positions: atlasPositions(name), indices: atlasIndices(name)};
 }
+
+/** Positions and triangle indices of a BodyParts3D atlas mesh by its id (several atlas meshes can share a name: the left and right copies, the mirrored duplicates). */
+export function atlasMeshById(id) {
+  atlas ??= JSON.parse(fs.readFileSync(new URL('public/models/atlas.json', root)));
+  const p = atlas.parts.find(q => q.id === id); if (!p) throw new Error(`atlas has no part ${id}`);
+  const b = chunk(p.chunk);
+  return {part: p, positions: new Float32Array(b.buffer.slice(b.byteOffset + p.positions, b.byteOffset + p.positions + p.vertexCount * 12)), indices: new Uint32Array(b.buffer.slice(b.byteOffset + p.indices, b.byteOffset + p.indices + p.indexCount * 4))};
+}
