@@ -10,8 +10,8 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 |---|---|
 | Fragments | 32 |
 | Vessel, nerve and tendon walls inside bone | 428 |
-| Coincident faces (z-fighting) | 74 |
-| Straight cuts in meshes | 46 |
+| Coincident faces (z-fighting) | 82 |
+| Straight cuts in meshes | 47 |
 | Triangle stretch over 2x in the limit poses | 139 |
 | Structures that leave their bone in the limit poses | 150 |
 
@@ -485,7 +485,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Vestibulocochlear nerve (VIII).r | 4.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Vestibulocochlear nerve (VIII).r | 4.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 
-## Coincident faces (z-fighting) (74)
+## Coincident faces (z-fighting) (82)
 
 | structure | size | detail |
 |---|---|---|
@@ -508,6 +508,14 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right sclera | 174 | faces coincide with Right superior rectus: two layers share the same surface; to be offset or one of them removed |
 | Left fibularis tertius | 189 | faces coincide with Left tendon of fibularis tertius: two layers share the same surface; to be offset or one of them removed |
 | Right fibularis tertius | 193 | faces coincide with Right tendon of fibularis tertius: two layers share the same surface; to be offset or one of them removed |
+| Left coccygeus | 894 | faces coincide with Left coccygeus: two layers share the same surface; to be offset or one of them removed |
+| External anal sphincter | 158 | faces coincide with External anal sphincter: two layers share the same surface; to be offset or one of them removed |
+| superficial perineal muscle | 350 | faces coincide with External anal sphincter: two layers share the same surface; to be offset or one of them removed |
+| Left iliococcygeus | 1042 | faces coincide with Left iliococcygeus: two layers share the same surface; to be offset or one of them removed |
+| Left pubococcygeus | 1003 | faces coincide with Left pubococcygeus: two layers share the same surface; to be offset or one of them removed |
+| Left puborectalis | 1040 | faces coincide with Left puborectalis: two layers share the same surface; to be offset or one of them removed |
+| Tendinous arch of levator ani | 206 | faces coincide with Tendinous arch of levator ani: two layers share the same surface; to be offset or one of them removed |
+| tendinous arch of levator ani | 229 | faces coincide with Tendinous arch of levator ani: two layers share the same surface; to be offset or one of them removed |
 | Left flexor digitorum superficialis | 574 | faces coincide with Left tendons of flexor digitorum superficialis: two layers share the same surface; to be offset or one of them removed |
 | Right flexor digitorum superficialis | 568 | faces coincide with Right tendons of flexor digitorum superficialis: two layers share the same surface; to be offset or one of them removed |
 | Left abductor pollicis longus | 155 | faces coincide with Left tendon of abductor pollicis longus: two layers share the same surface; to be offset or one of them removed |
@@ -564,7 +572,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Glans of clitoris | 723 | 同一張 MRI 曲面按解剖切成兩件，交界共用 138 個頂點，相鄰面共面但冇重疊（真正重疊三角形 0.6%）；陰蒂由頭至體單調變寬，冇解剖上合理嘅切口可避開。2026-11-15 經使用者核准。 |
 | Lingula of left lung | 1106 | faces coincide with Cardiac notch of left lung: two layers share the same surface; to be offset or one of them removed |
 
-## Straight cuts in meshes (46)
+## Straight cuts in meshes (47)
 
 | structure | size | detail |
 |---|---|---|
@@ -614,6 +622,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | renderer clipping plane in organ/brain-viewer.ts | 1 | section plane of the brain or heart detail mode: a cut view on purpose, the cut face is drawn by the viewer |
 | renderer clipping plane in organ/eye-viewer.ts | 1 | section plane of the eye detail mode only (none, sagittal, coronal, horizontal; same cut feature as the brain detail mode; the main atlas is not affected): a cut view on purpose; approved by the user 2026-11-16 |
 | renderer clipping plane in organ/heart-viewer.ts | 3 | section plane of the brain or heart detail mode: a cut view on purpose, the cut face is drawn by the viewer |
+| renderer clipping plane in organ/organ-viewer.ts | 2 | section plane of the shared organ detail mode only (none, sagittal, coronal, horizontal; same cut feature as the brain, eye and ear detail modes; the main atlas is not affected): a cut view on purpose; the user decided 2026-11-16 that sections follow the shared template and approved this exception 2026-11-17 |
 
 ## Triangle stretch over 2x in the limit poses (139)
 
