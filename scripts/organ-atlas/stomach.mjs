@@ -72,8 +72,8 @@ export function build({atlasPart, nervePart, paokaoPart, writer}) {
   part.triZone = writer.addBytes(triZone); part.triLine = writer.addBytes(triLine);
   // context: the abdominal oesophagus (plus a short stretch above the diaphragm) and the first part of the duodenum, each cut straight with a plane
   const e1 = loopSubdivide(eso.positions, eso.indices, 1), e2 = clipPlane(e1.positions, e1.indices, [0, 1, 0], cardiaPt[1] + .14);
-  // curvature bands: the stomach surface within BAND of the (smoothed) curvature, cut along the line of equal distance and lifted 0.35 mm out of the surface
-  const BAND = .0012, LIFT = .00035, sn = vertexNormals(s.positions, s.indices);
+  // curvature bands: the stomach surface within BAND of the (smoothed) curvature, cut along the line of equal distance and lifted 0.8 mm out of the surface (the zone colours are drawn with a polygon offset; a smaller lift lets them cover the band in grazing views)
+  const BAND = .0014, LIFT = .0008, sn = vertexNormals(s.positions, s.indices);
   for (const [key, path] of [['Lesser curvature', lesser], ['Greater curvature', greater]]) {
     const poly = smoothPolyline(path.map(pos), 4, 3), f = Float64Array.from({length: n}, (_, v) => BAND - distToPolyline(pos(v), poly));
     const band = fieldClip(s.positions, s.indices, f);
