@@ -2,7 +2,7 @@
 // its regions are marked on that surface (triangle labels, no new meshes). The abdominal oesophagus and the first part of the duodenum come from the same atlas as context.
 //   zone channel : 1 cardia, 2 fundus, 3 body, 4 pyloric antrum, 5 pyloric canal      (a partition of the stomach surface)
 //   line channel : 1 lesser curvature, 2 greater curvature, 3 angular incisure, 4 pyloric sphincter band, 5 cardial notch (strips and patches laid over the zones)
-import {weld, loopSubdivide, graphOf, dijkstra, compact, clipPlane, distToPolyline, smoothPolyline} from '../lib/organ-mesh.mjs';
+import {weld, loopSubdivide, graphOf, dijkstra, compact, clipPlane, distToPolyline, smoothPolyline, vertexNormals} from '../lib/organ-mesh.mjs';
 import {buildSupply} from './stomach-supply.mjs';
 
 export const id = 'stomach';
@@ -54,7 +54,7 @@ export function build({atlasPart, nervePart, paokaoPart, writer}) {
   }
   const lineOf = new Uint8Array(n);
   const stripLine = (path, r, label) => { const poly = smoothPolyline(path.map(pos), 4, 3); for (let v = 0; v < n; v++) if (distToPolyline(pos(v), poly) <= r) lineOf[v] = label; };
-  stripLine(lesser, .0028, 1); stripLine(greater, .0028, 2);
+  // the two curvatures are their own thin bands (below), not triangle labels: a band cut along a smooth line of equal distance has a smooth edge, a run of whole triangles does not
   for (let v = 0; v < n; v++) { const p = pos(v); if (D(p, ai) <= .0065) lineOf[v] = 3; const along = dot(pylorusP, canalAxis, p); if (zoneOf[v] >= 4 && along >= 0 && along <= sphincterLen) lineOf[v] = 4; }
   // cardial notch: the angle between the oesophagus and the fundus, on the side of the cardia that faces away from the lesser curvature
   const notchV = (() => { let far = c0, fd = -1; for (let v = 0; v < n; v++) if (zoneOf[v] === 1 && dl.dist[v] > fd) { fd = dl.dist[v]; far = v; } return far; })();
@@ -72,11 +72,37 @@ export function build({atlasPart, nervePart, paokaoPart, writer}) {
   part.triZone = writer.addBytes(triZone); part.triLine = writer.addBytes(triLine);
   // context: the abdominal oesophagus (plus a short stretch above the diaphragm) and the first part of the duodenum, each cut straight with a plane
   const e1 = loopSubdivide(eso.positions, eso.indices, 1), e2 = clipPlane(e1.positions, e1.indices, [0, 1, 0], cardiaPt[1] + .14);
+  // curvature bands: the stomach surface within BAND of the (smoothed) curvature, cut along the line of equal distance and lifted 0.35 mm out of the surface
+  const BAND = .0012, LIFT = .00035, sn = vertexNormals(s.positions, s.indices);
+  for (const [key, path] of [['Lesser curvature', lesser], ['Greater curvature', greater]]) {
+    const poly = smoothPolyline(path.map(pos), 4, 3), f = Float64Array.from({length: n}, (_, v) => BAND - distToPolyline(pos(v), poly));
+    const band = fieldClip(s.positions, s.indices, f);
+    for (let v = 0; v < band.positions.length / 3; v++) { const src = band.from[v]; for (let k = 0; k < 3; k++) band.positions[v * 3 + k] += LIFT * (sn[src[0] * 3 + k] * (1 - src[2]) + sn[src[1] * 3 + k] * src[2]); }
+    writer.addMesh(key, band.positions, band.indices);
+  }
   writer.addMesh('Esophagus', e2.positions, e2.indices);
   const d1 = loopSubdivide(duo.positions, duo.indices, 1), dn = []; for (let v = 0; v < d1.positions.length / 3; v++) if (D(pt(d1, v), pylorusPt) < .04) dn.push(v);
   const dc = [0, 1, 2].map(k => dn.reduce((t, v) => t + pt(d1, v)[k], 0) / dn.length), du = dc.map((x, k) => x - pylorusPt[k]), dul = Math.hypot(...du), u = du.map(x => x / dul);
   const d2 = clipPlane(d1.positions, d1.indices, u, u[0] * pylorusPt[0] + u[1] * pylorusPt[1] + u[2] * pylorusPt[2] + .05);
   writer.addMesh('Duodenum', d2.positions, d2.indices);
-  const supply = buildSupply({writer, atlasPart, nervePart, paokaoPart, surface: s, lesser: lesser.map(pos), greater: greater.map(pos)});
+  const supply = buildSupply({writer, atlasPart, nervePart, paokaoPart, surface: s, lesser: lesser.map(pos), greater: greater.map(pos), organs: {Esophagus: eso, Duodenum: duo}});
   return {stats: {...stats, supply: supply.keys.length}, landmarks: {cardia: pt(s, c0), pylorus: pt(s, p0), incisure: ai, apex: pos(apex)}};
+}
+
+/**
+ * The part of a mesh where the per-vertex field f is >= 0, the triangles crossing the zero level cut along it (linear along each edge), so the border is a smooth line.
+ * Returns positions, indices and, for every output vertex, the source edge [a, b, t] it lies on (a = b for a source vertex), so normals can be carried over.
+ */
+function fieldClip(P, I, f) {
+  const out = [], from = [], map = new Map(), edge = new Map(), idx = [];
+  const vert = v => { if (!map.has(v)) { map.set(v, out.length / 3); out.push(P[v * 3], P[v * 3 + 1], P[v * 3 + 2]); from.push([v, v, 0]); } return map.get(v); };
+  const cut = (a, b) => { const k = a < b ? `${a}_${b}` : `${b}_${a}`; if (edge.has(k)) return edge.get(k); const t = f[a] / (f[a] - f[b]), i = out.length / 3;
+    for (let c = 0; c < 3; c++) out.push(P[a * 3 + c] + (P[b * 3 + c] - P[a * 3 + c]) * t); from.push([a, b, t]); edge.set(k, i); return i; };
+  for (let t = 0; t < I.length; t += 3) {
+    const tri = [I[t], I[t + 1], I[t + 2]], inside = tri.map(v => f[v] >= 0), k = inside.filter(Boolean).length;
+    if (k === 3) idx.push(...tri.map(vert));
+    else if (k === 1) { const i = inside.indexOf(true), a = tri[i], b = tri[(i + 1) % 3], c = tri[(i + 2) % 3]; idx.push(vert(a), cut(a, b), cut(a, c)); }
+    else if (k === 2) { const o = inside.indexOf(false), a = tri[o], b = tri[(o + 1) % 3], c = tri[(o + 2) % 3]; const ab = cut(b, a), ca = cut(c, a); idx.push(vert(b), vert(c), ca, vert(b), ca, ab); }
+  }
+  return {positions: Float32Array.from(out), indices: Uint32Array.from(idx), from};
 }
