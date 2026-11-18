@@ -5,7 +5,8 @@
 import fs from 'node:fs';
 import {gunzipSync} from 'node:zlib';
 import {createStream, simplify, weldByPosition} from './lib/stream-writer.mjs';
-import {atlasPositions, atlasIndices} from './lib/atlas-read.mjs';
+import {atlasPositions, atlasIndices, atlasMeshById} from './lib/atlas-read.mjs';
+import {PELVIC_FLOOR_IDS, femaleCopyId, placeClitorisComplex, buildLiftField, liftPositions} from './lib/pelvic-floor-female.mjs';
 import {femaleSkin, femaleSkinIndices} from './lib/female-skin.mjs';
 
 const root = new URL('../', import.meta.url), out = new URL('public/models/stream/', root), dir = new URL('public/models/female/', root);
@@ -40,7 +41,7 @@ const NAMES = [ // [regex on HRA node name, English (without side), Chinese, sys
 ];
 // The HRA file labels two round ligaments with the wrong side; laterality here always comes from where the piece lies (+x = the body's left).
 const decode = (text, Type) => {const b = Buffer.from(text, 'base64'); return new Type(b.buffer.slice(b.byteOffset, b.byteOffset + b.length));};
-const stream = createStream(out, 'female'), report = [];
+const stream = createStream(out, 'female'), report = [], kept = {};   // kept: the simplified arrays of the vagina and the hip bones, from which the clitoral complex is placed (as in scripts/paokao-structures/neck-breast-vulva.mjs)
 for (const piece of source.pieces) {
   const rule = NAMES.find(r => r[0].test(piece.name));
   if (!rule) throw new Error('unmapped HRA piece ' + piece.name);
@@ -52,6 +53,7 @@ for (const piece of source.pieces) {
   const side = rule[4] ? (cx > 0 ? 'Left' : 'Right') : '';
   const name = rule[4] ? `${side} ${rule[1][0].toLowerCase()}${rule[1].slice(1)}` : rule[1];
   stream.add({id: `HRAF-${piece.node}`, conceptId: `HRAF-${piece.node}`, name, system: rule[3], sex: 'female', chineseName: (rule[4] ? (side === 'Left' ? '左' : '右') : '') + rule[2], sourceNode: piece.name}, p, ix);
+  if (piece.name === 'VH_F_vagina') kept.vagina = p;
   report.push(`${name}: ${welded.indices.length / 3} → ${ix.length / 3} tris`);
 }
 // Female body surface: the atlas skin is a male mesh (penis and scrotum are part of it), so the female view gets a copy with that part pressed back onto a smooth female groin
@@ -86,6 +88,7 @@ for (const [key, re, name, zh] of boneGroups) {
   const welded = weldByPosition(Float32Array.from(pos), Uint32Array.from(idx));
   const {positions: p, indices: ix} = await simplify(welded.positions, welded.indices, key === 'hip' ? 16000 : key === 'sacrum' ? 9000 : 2500, .002);
   stream.add({id: `HRAF-bone-${name.replace(/ /g, '-')}`, conceptId: `HRAF-bone-${name.replace(/ /g, '-')}`, name, system: 'skeletal', sex: 'female', chineseName: zh, sourceNode: pieces.map(q => q.name).join(' + ')}, p, ix);
+  if (key === 'hip') kept[name] = p;
   report.push(`${name}: ${welded.indices.length / 3} → ${ix.length / 3} tris`);
 }
 // Pelvic viscera from the same HRA set (scripts/data/hra-female-pelvis-viscera.json.gz): urinary bladder, ureters, vesicouterine pouch, mesosalpinx, uterine
@@ -154,6 +157,22 @@ const tube = (pts, radius, sides = 14) => {
   for (let a = 0; a <= nv; a++) for (let b = 0; b < nu; b++) { const th = Math.PI * a / nv, ph = 2 * Math.PI * b / nu, y = y0 + ry * Math.cos(th); pos.push(cx + .022 * Math.sin(th) * Math.cos(ph), y, at(y, 'c') + at(y, 'half') * Math.sin(th) * Math.sin(ph)); }
   for (let a = 0; a < nv; a++) for (let b = 0; b < nu; b++) { const i = a * nu + b, j = a * nu + (b + 1) % nu; idx.push(i, j, i + nu, j, j + nu, i + nu); }
   await addMesh({name: 'Rectouterine pouch', system: 'serous', chineseName: '子宮直腸陷凹', schematic: true}, {positions: Float32Array.from(pos), indices: Uint32Array.from(idx)}, 1500);
+}
+
+// Female pelvic floor: the levator ani of the atlas (iliococcygeus, pubococcygeus and puborectalis, left and right) is a male muscle, a deep funnel whose lower border hangs below the vulva's erectile
+// structures; in female mode the clitoral complex lay inside it. The female copy has the same mesh, name and sides but is lifted by a smooth vertical shear until its lower border is clear of the
+// clitoral complex (scripts/lib/pelvic-floor-female.mjs; the complex is placed here exactly as scripts/paokao-structures/neck-breast-vulva.mjs places it; scripts/test-pelvic-floor-female.mjs checks the
+// result against the structures that build creates). The male muscles are hidden in female mode (app/mj-sex.ts).
+{
+  const complex = placeClitorisComplex(Float64Array.from([...kept['Left hip bone'], ...kept['Right hip bone']]), Float64Array.from(kept.vagina));
+  const ZH = {iliococcygeus: '髂骨尾骨肌', pubococcygeus: '恥骨尾骨肌', puborectalis: '恥骨直腸肌'};   // the names the viewer shows for the male muscles (app/mj-naming-data.ts)
+  const sources = PELVIC_FLOOR_IDS.map(id => ({id, ...atlasMeshById(id)})), field = buildLiftField(sources.map(m => m.positions), Object.values(complex).map(g => g.positions));
+  for (const m of sources) {
+    const lifted = liftPositions(m.positions, field);
+    stream.add({id: femaleCopyId(m.id), conceptId: femaleCopyId(m.id), name: m.part.name, system: m.part.system, sex: 'female', chineseName: (m.part.name.startsWith('Left') ? '左' : '右') + ZH[m.part.name.split(' ')[1]], sourceNode: `BodyParts3D ${m.id}, lower border raised clear of the clitoral complex`}, lifted, m.indices);
+    let up = 0; for (let i = 1; i < lifted.length; i += 3) up = Math.max(up, lifted[i] - m.positions[i]);
+    report.push(`${m.part.name} (female copy): ${m.indices.length / 3} tris, raised by up to ${(up * 1000).toFixed(1)} mm`);
+  }
 }
 
 const info = stream.finish({source: source.source, license: source.license, doi: source.doi, authors: source.authors, sourceSha256: source.sourceSha256,
