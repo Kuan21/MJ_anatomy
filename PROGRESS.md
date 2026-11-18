@@ -5,7 +5,7 @@
 
 ## 目前狀態
 - 專案處於**穩定期**（2026-11-08 起）：暫停新功能，只修顯示錯誤；所有 PR 都要使用者人工審核，不可自行 merge。
-- main 最新：#437（2026-11-18 第二十四次確認）。本分支已合併 main 到 #437。
+- main 最新：#437（2026-11-18 第二十五次確認）。本分支已合併 main 到 #437。
 - **main 已經有中心線連續性檢查**（#281、#328：`scripts/check-centerlines.mjs`、基準 `docs/centerline-known.json` 57 條，已在 `npm run check` 內）。本分支的 `check-centreline-continuity.mjs` 是另一套做法，見「待我決定」。
 - 開放 PR（下列是 2026-11-11 的清單；本機沒有 `gh`，之後沒有再查，main 已合併到 #338，清單很可能已過時）：
   - #223 心臟腔內構造與標籤（部分完成）
@@ -209,6 +209,12 @@
   - 生成檔仍缺（`work/`、`serous/`、`female/`、`supplement-stream.json.gz`、跑考串流二進位檔；`public/models/stream/` 只有神經串流），連續性基準仍無法產生；沒有下載資料。
   - 本機通過：七個 `test-centreline-*`（191 步中的第 152–158 步）、`check-no-notes`。
   - 不需生成檔、又不改網站的工作已做完，其餘仍等「待我決定」。`_diag-*.mjs` 四個與 `package-lock.json` 差異仍未提交；本機沒有 `gh`，未查 PR #248 的 CI。
+
+- 2026-11-18（第二十五次）：只查狀態，沒有改程式、模型、解剖內容或網站。
+  - `git fetch` 後 main 仍在 #437，本分支已含全部 main 的 commit，不需要合併；`scripts/` 內沒有新的 `URL.pathname` 寫法。
+  - 生成檔仍缺（同上），連續性基準仍無法產生；沒有下載資料。
+  - 本機通過：七個 `test-centreline-*`（191 步中的第 152–158 步）、`check-no-notes`。
+  - 其餘仍等「待我決定」。`_diag-*.mjs` 四個與 `package-lock.json` 差異仍未提交；本機沒有 `gh`，未查 PR #248 的 CI。
 
 ## 進行中／等審核
 - S2 A–G、S3、S4、S6 相關工作都已有 PR（見上），等使用者審核。
