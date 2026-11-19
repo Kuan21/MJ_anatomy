@@ -11,6 +11,7 @@ import {loadFullAtlas} from './full-atlas.mjs';
 import {tubeTips} from './tube-tips.mjs';
 import {weldSurface, endFrame, sub, add, len, unit, dot} from './vessel-frames.mjs';
 import {Grid} from '../audit-vessel-ends.mjs';
+import {relationFor, UNKNOWN_MM} from './vessel-relation.mjs';
 
 const root = new URL('../../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 export const REGIONS = {upper: 'upper-limb', lower: 'lower-limb', thorax: 'trunk', head: 'head-neck'};
@@ -107,6 +108,9 @@ function roundedTips() {
 export async function analyse({regions = ['upper'], mode = 'after', V} = {}) {
   V ??= await loadVessels({mode});
   const want = new Set(regions.map(r => REGIONS[r] ?? r)), rows = [], stats = {ends: 0, terminal: 0, tapered: 0, vessels: 0, open: []};
+  // an end is only continued into a vessel of its own tree (scripts/lib/vessel-relation.mjs), the same rule the connectors of the vessel-ends step follow
+  const relation = await relationFor(id => V.byId.get(id)?.name, V.bases.map(p => p.name)), allIds = V.bases.map(p => p.id);
+  const related = (p, c, dist) => { const r = relation.rel(p.id, c.id ?? c); return r === 'yes' || (r === 'unknown' && dist <= UNKNOWN_MM / 1000); };
   const scope = V.bases.filter(p => want.has(V.region(p).region));
   const lo = [Infinity, Infinity, Infinity], hi = [-Infinity, -Infinity, -Infinity];
   for (const p of scope) for (let k = 0; k < 3; k++) { lo[k] = Math.min(lo[k], p.bounds[0][k]); hi[k] = Math.max(hi[k], p.bounds[1][k]); }
@@ -131,12 +135,12 @@ export async function analyse({regions = ['upper'], mode = 'after', V} = {}) {
       let best = null;
       for (const c of caps[p.system]) {
         if (c.id === p.id) continue;
-        const v = sub(c.center, end.at), dist = len(v); if (dist > limit) continue;
+        const v = sub(c.center, end.at), dist = len(v); if (dist > limit || !related(p, c, dist)) continue;
         const faces = dist < Math.max(end.radius, c.radius) || (deg(dot(end.dir, unit(v))) <= 55 && deg(dot(c.dir, unit(sub(end.at, c.center)))) <= 70);
         if (faces && (!best || dist < best.dist)) best = {dist, cap: c};
       }
       // (2) otherwise the surface of the trunk it runs into
-      const hit = V.grids[p.system].nearest(end.at, limit, skip);
+      const hit = relation.nearest(V.grids[p.system], end.at, p.id, limit, allIds);
       let kind, nId, nName, nRadius, angle, gap, target;
       if (best) {
         const surf = hit.tag ? hit.d : best.dist; gap = Math.min(best.dist, surf);

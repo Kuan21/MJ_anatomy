@@ -6,9 +6,9 @@
 
 | 類別 | 不重複詞數 | 意思 |
 |---|---|---|
-| 一、已有 | 1216 | 模型有，而且可以用搜尋／圖層揀到 |
+| 一、已有 | 1219 | 模型有，而且可以用搜尋／圖層揀到 |
 | 二、模型有但 UI 搵唔到 | 0 | 模型有幾何，但搜尋唔到（見下面清單；已修好者會喺「修復」一節列明） |
-| 三、模型冇 | 1125 | 交俾第 2 部分補模型 |
+| 三、模型冇 | 1122 | 交俾第 2 部分補模型 |
 | 骨性標誌 | 262 | 結節、窩、切跡等，屬已有骨件嘅表面特徵，模型唔另外分件 |
 | 雜訊（已略去） | 650 | 唔係解剖結構 |
 
@@ -611,7 +611,7 @@
 
 ## 胸部 I（胸壁、乳房）　`解剖_0908-3`
 
-已有 53　·　UI 搵唔到 0　·　模型冇 57　·　骨標誌 26　·　雜訊 28
+已有 55　·　UI 搵唔到 0　·　模型冇 55　·　骨標誌 26　·　雜訊 28
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -631,7 +631,6 @@
 - subclavian lymphatic trunk（帶回鎖骨下淋巴幹）
 - parasternal lymph node（胸骨旁淋巴結）
 - broncomediastinal trunk（膈淋巴幹）
-- right lymphatic duct（分別再帶回右淋巴總管）
 - synovial joint
 - Intercostal space（肋間）
 - Transverse ridge（橫脊）
@@ -648,7 +647,6 @@
 - radiate sternocostal ligaments
 - sternum via cartilage
 - Cisterna chyli B. Thoracic duct
-- Left lymphatic duct
 - They have costotransverse joints
 - intercostal spaces. B. Intercostal nerves
 - go through the space
@@ -907,7 +905,7 @@
 
 ## 頸部 II　`解剖_1020`
 
-已有 83　·　UI 搵唔到 0　·　模型冇 74　·　骨標誌 18　·　雜訊 45
+已有 85　·　UI 搵唔到 0　·　模型冇 72　·　骨標誌 18　·　雜訊 45
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -952,8 +950,6 @@
 - muller muscle
 - Stella ganglion
 - External jugular vein
-- Right lymphatic duct（右側匯入右淋巴總管）
-- lymphatic duct（右淋巴總管）
 - superior thyroid v（下甲狀腺靜脈）
 - middle thyroid v
 - inferior thyroid v（下甲狀腺靜脈）
