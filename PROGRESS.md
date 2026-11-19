@@ -1,6 +1,6 @@
 # PROGRESS（自動排程交接檔）
 
-最後更新：2026-11-19。分支：`claude/local-auto`（不推 main、不刪檔）。
+最後更新：2026-11-20。分支：`claude/local-auto`（不推 main、不刪檔）。
 依據：`ROADMAP.md`「穩定期」、`CLAUDE.md`、`git log`、開放 PR 清單。
 
 ## 目前狀態
@@ -259,6 +259,12 @@
   - main 前進到 #431（血管連接管只接同一棵血管樹、四肢血管真缺口登記為使用者 2026-11-18 批准的暫時例外、相關生成報告）。`git merge-tree` 確認無衝突、main 沒有刪檔或改名，用一般 merge 合併。
   - main 新增的 `scripts/lib/vessel-relation.mjs` 只用相對路徑 `import('../audit-vessel-ends.mjs')`，Windows 可用；`scripts/browser/vessel-region-shots.cjs` 的輸出資料夾預設 `/tmp/vessel-region`，可由參數指定，沒有改。`scripts/` 內沒有新的 `URL.pathname` 寫法。
   - 本機通過：七個 `test-centreline-*`（196 步中的第 152–158 步）、`check-no-notes`。完整 `npm run check` 因缺生成檔沒有跑。
+  - 其餘仍等「待我決定」。`_diag-*.mjs` 四個與 `package-lock.json` 差異仍未提交；本機沒有 `gh`，未查 PR #248 的 CI。
+
+- 2026-11-20（第三十三次）：只查狀態，沒有改程式、模型、解剖內容或網站。
+  - `git fetch` 後 main 仍在 #431（最後 commit 2026-11-19），本分支已含全部 main 的 commit，不需要合併。
+  - `scripts/` 內的 `.pathname` 只剩註解與 `derive-subclavian-shift`、`lib/stability-static`（不需要改）。
+  - 本機通過：七個 `test-centreline-*`、`check-no-notes`、`test-ear-hearing`。完整 `npm run check` 因缺生成檔沒有跑。
   - 其餘仍等「待我決定」。`_diag-*.mjs` 四個與 `package-lock.json` 差異仍未提交；本機沒有 `gh`，未查 PR #248 的 CI。
 
 ## 進行中／等審核
