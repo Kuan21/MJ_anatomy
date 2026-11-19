@@ -4580,46 +4580,6 @@
    "measure": 193,
    "reason": "faces coincide with Right tendon of fibularis tertius: two layers share the same surface; to be offset or one of them removed"
   },
-  "zfight|FJ1449M|FJ2542": {
-   "name": "Left coccygeus",
-   "measure": 894,
-   "reason": "faces coincide with Left coccygeus: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1450M|FJ2543": {
-   "name": "External anal sphincter",
-   "measure": 158,
-   "reason": "faces coincide with External anal sphincter: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1450|FJ2548": {
-   "name": "superficial perineal muscle",
-   "measure": 350,
-   "reason": "faces coincide with External anal sphincter: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1453M|FJ2544": {
-   "name": "Left iliococcygeus",
-   "measure": 1042,
-   "reason": "faces coincide with Left iliococcygeus: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1457M|FJ2545": {
-   "name": "Left pubococcygeus",
-   "measure": 1003,
-   "reason": "faces coincide with Left pubococcygeus: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1458M|FJ2546": {
-   "name": "Left puborectalis",
-   "measure": 1040,
-   "reason": "faces coincide with Left puborectalis: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1465M|FJ2552": {
-   "name": "Tendinous arch of levator ani",
-   "measure": 206,
-   "reason": "faces coincide with Tendinous arch of levator ani: two layers share the same surface; to be offset or one of them removed"
-  },
-  "zfight|FJ1465|FJ2553": {
-   "name": "tendinous arch of levator ani",
-   "measure": 229,
-   "reason": "faces coincide with Tendinous arch of levator ani: two layers share the same surface; to be offset or one of them removed"
-  },
   "zfight|FJ1475M|PK:Left tendons of flexor digitorum superficialis#1": {
    "name": "Left flexor digitorum superficialis",
    "measure": 574,
