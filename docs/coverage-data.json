@@ -1,9 +1,9 @@
 {
  "totals": {
   "terms": 3816,
-  "have": 1217,
+  "have": 1216,
   "findability": 0,
-  "missing": 1124,
+  "missing": 1125,
   "landmark": 262,
   "noise": 650
  },
@@ -14436,7 +14436,7 @@
      "term": "Levator ani m",
      "zh": "提肛肌",
      "kind": "contained",
-     "model": "tendinous arch of levator ani",
+     "model": "Tendinous arch of levator ani",
      "source": "atlas",
      "system": "connective"
     },
@@ -17525,14 +17525,6 @@
      "system": "muscular"
     },
     {
-     "term": "Perineal muscles",
-     "zh": "會陰肌肉",
-     "kind": "contained",
-     "model": "superficial perineal muscle",
-     "source": "atlas",
-     "system": "muscular"
-    },
-    {
      "term": "External anal sphincter muscle",
      "zh": "肛門外括約肌",
      "kind": "exact",
@@ -17544,7 +17536,7 @@
      "term": "Levator ani m",
      "zh": "提肛肌",
      "kind": "contained",
-     "model": "tendinous arch of levator ani",
+     "model": "Tendinous arch of levator ani",
      "source": "atlas",
      "system": "connective"
     },
@@ -18118,6 +18110,10 @@
     {
      "term": "superficial perineal pouch",
      "zh": "會陰淺陷凹"
+    },
+    {
+     "term": "Perineal muscles",
+     "zh": "會陰肌肉"
     },
     {
      "term": "Compressor urethrae muscle",

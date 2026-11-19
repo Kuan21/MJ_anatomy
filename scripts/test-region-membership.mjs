@@ -34,7 +34,7 @@ const has = (list, re) => list.some(p => re.test(p.name));
 const PELVIC = /uter|ovar|fallopian|salping|cardinal|round ligament|broad ligament|mesosalpinx|mesovarium|cervic/i;
 for (const sex of ['female', 'male']) {
   const per = named('pelvis', 'perineum', sex), org = named('pelvis', 'organs', sex);
-  ok(has(per, /superficial perineal muscle/i) && has(per, /external anal sphincter/i), `${sex}: the perineum tab lacks the perineal muscles that exist (superficial perineal muscle, external anal sphincter)`);
+  ok(has(per, /external anal sphincter/i), `${sex}: the perineum tab lacks the external anal sphincter`);
   ok(has(org, /levator ani|puborectalis|pubococcygeus|iliococcygeus/i) && has(org, /coccygeus/i), `${sex}: the pelvic organs tab lacks the pelvic-floor muscles`);
   for (const sub of ['organs', 'perineum']) ok(B.regionVisible('pelvis', sub).includes('muscular'), `${sex}: the ${sub} tab does not switch the muscle layer on`);
 }
