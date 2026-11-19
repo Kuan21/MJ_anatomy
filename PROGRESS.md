@@ -267,6 +267,12 @@
   - 本機通過：七個 `test-centreline-*`、`check-no-notes`、`test-ear-hearing`。完整 `npm run check` 因缺生成檔沒有跑。
   - 其餘仍等「待我決定」。`_diag-*.mjs` 四個與 `package-lock.json` 差異仍未提交；本機沒有 `gh`，未查 PR #248 的 CI。
 
+- 2026-11-20（第三十四次）：只查狀態，沒有改程式、模型、解剖內容或網站。
+  - `git fetch` 後 main 仍在 #431（ed799d1f，2026-11-19），本分支已含全部 main 的 commit，不需要合併；`scripts/` 內沒有新的 `URL.pathname` 寫法。
+  - 生成檔仍缺（`work/`、`supplement-stream.json.gz` 等；`public/models/stream/` 只有神經串流），連續性基準仍無法產生；沒有下載資料。
+  - 本機通過：七個 `test-centreline-*`（196 步中的第 152–158 步）、`check-no-notes`。
+  - 其餘仍等「待我決定」。`_diag-*.mjs` 四個與 `package-lock.json` 差異仍未提交；本機沒有 `gh`，未查 PR #248 的 CI。
+
 ## 進行中／等審核
 - S2 A–G、S3、S4、S6 相關工作都已有 PR（見上），等使用者審核。
 
