@@ -5,7 +5,7 @@
 
 ## 目前狀態
 - 專案處於**穩定期**（2026-11-08 起）：暫停新功能，只修顯示錯誤；所有 PR 都要使用者人工審核，不可自行 merge。
-- main 最新：#431（2026-11-19 第三十二次合併，2026-11-20 第三十六次再確認未前進）。本分支已合併 main 到 #431。
+- main 最新：#431（2026-11-19 第三十二次合併，2026-11-20 第三十八次再確認未前進）。本分支已合併 main 到 #431。
 - **main 已經有中心線連續性檢查**（#281、#328：`scripts/check-centerlines.mjs`、基準 `docs/centerline-known.json` 57 條，已在 `npm run check` 內）。本分支的 `check-centreline-continuity.mjs` 是另一套做法，見「待我決定」。
 - 開放 PR（下列是 2026-11-11 的清單；本機沒有 `gh`，之後沒有再查，main 已合併到 #338，清單很可能已過時）：
   - #223 心臟腔內構造與標籤（部分完成）
@@ -290,6 +290,10 @@
   - 生成檔仍缺（`work/`、`supplement-stream.json.gz` 等），連續性基準仍無法產生；沒有下載資料。
   - 本機通過：七個 `test-centreline-*`、`check-no-notes`。
   - 不需生成檔、又不改網站的工作已全部做完，其餘仍等「待我決定」；在你回覆之前，之後的排程只會重複這個狀態檢查。
+
+- 2026-11-20（第三十八次）：只查狀態，沒有改程式、模型、解剖內容或網站。
+  - `git fetch` 後 main 仍在 #431（ed799d1f），本分支已含全部 main 的 commit；`scripts/` 內沒有新的 `URL(...).pathname` 寫法；`work/`、`supplement-stream.json.gz` 仍缺。
+  - 本機通過：七個 `test-centreline-*`、`check-no-notes`。其餘仍等「待我決定」。
 
 ## 進行中／等審核
 - S2 A–G、S3、S4、S6 相關工作都已有 PR（見上），等使用者審核。
