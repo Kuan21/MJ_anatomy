@@ -1,11 +1,11 @@
 # PROGRESS（自動排程交接檔）
 
-最後更新：2026-11-21。分支：`claude/local-auto`（不推 main、不刪檔）。
+最後更新：2026-11-22。分支：`claude/local-auto`（不推 main、不刪檔）。
 依據：`ROADMAP.md`「穩定期」、`CLAUDE.md`、`git log`、開放 PR 清單。
 
 ## 目前狀態
 - 專案處於**穩定期**（2026-11-08 起）：暫停新功能，只修顯示錯誤；所有 PR 都要使用者人工審核，不可自行 merge。
-- main 最新：#431（2026-11-19 第三十二次合併，2026-11-20 第三十八次再確認未前進）。本分支已合併 main 到 #431。
+- main 最新：#454（02b73ba5）。本分支已合併 main 到 #454（2026-11-22 第五十四次）。
 - **main 已經有中心線連續性檢查**（#281、#328：`scripts/check-centerlines.mjs`、基準 `docs/centerline-known.json` 57 條，已在 `npm run check` 內）。本分支的 `check-centreline-continuity.mjs` 是另一套做法，見「待我決定」。
 - 開放 PR（下列是 2026-11-11 的清單；本機沒有 `gh`，之後沒有再查，main 已合併到 #338，清單很可能已過時）：
   - #223 心臟腔內構造與標籤（部分完成）
@@ -354,6 +354,13 @@
 - 2026-11-21（第五十三次）：只查狀態，沒有改程式、模型、解剖內容或網站。
   - `git fetch` 後 main 仍在 #431（ed799d1f，2026-11-19），本分支已含全部 main 的 commit；`scripts/` 內沒有新的 `URL(...).pathname` 寫法；`work/`、`supplement-stream.json.gz` 仍缺。
   - 本機通過：七個 `test-centreline-*`、`check-no-notes`。其餘仍等「待我決定」。
+
+- 2026-11-22（第五十四次）：只合併 main，沒有改程式、模型、解剖內容或網站。
+  - 上一次排程已在本機合併 main 到 #453（cba55685）但未推送、也未記錄；這次一起推送。
+  - main 再前進到 #454（#433 頭頸骨細部骨面標示、#451 核對報告、#455 頸外動脈分支資訊卡、#454 同義名稱檢查）。`git merge-tree` 確認無衝突、main 沒有刪檔或改名，用一般 merge 合併。
+  - main 新增的 `scripts/browser/head-bone-shots.cjs`、`scripts/paokao-structures/head-bone-landmarks.mjs` 與修改的程式庫沒有 `URL(...).pathname` 或變數 `import()` 寫法（`lib/stability-static` 的 `pathname` 仍只切相對路徑，不需要改）。
+  - 本機通過：七個 `test-centreline-*`（196 步中的第 152–158 步）、`check-no-notes`。完整 `npm run check` 因缺生成檔沒有跑。
+  - 其餘仍等「待我決定」。`_diag-*.mjs` 四個與 `package-lock.json` 差異仍未提交；本機沒有 `gh`，未查 PR #248 的 CI。
 
 ## 進行中／等審核
 - S2 A–G、S3、S4、S6 相關工作都已有 PR（見上），等使用者審核。
