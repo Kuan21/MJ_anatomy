@@ -6,6 +6,7 @@
 // Usage: node scripts/audit-vessel-ends.mjs [--write]   (--write refreshes docs/vessel-ends.json and docs/vessel-ends.md)
 import fs from 'node:fs';
 import {fileURLToPath} from 'node:url';
+import {makeRelation, contactPairs, saveContacts} from './lib/vessel-relation.mjs';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const atlas = JSON.parse(fs.readFileSync(root + 'public/models/atlas.json', 'utf8'));
 // The viewer drops the source meshes listed in app/anatomy-source-overrides.json (mislabelled or misplaced pieces) and renames a few: audit the same set, so that no
@@ -119,6 +120,17 @@ export function auditEnds() {
       const kind = same.d < .0025 ? 'joined' : inTissue.d < .004 ? 'tissue' : 'dangling';
       rows.push({id: p.id, name: p.name, system: p.system, kind, branchMm: Number.isFinite(lengths[k]) ? +(lengths[k] * 1000).toFixed(1) : null, at: at.map(v => +v.toFixed(4)), toVessel: +(near.d * 1000).toFixed(1), nearestVessel: near.tag, toSameMm: +(same.d * 1000).toFixed(1), nearestSame: same.tag, closest: same.q && same.q.map(v => +v.toFixed(5)), toTissueMm: +(inTissue.d * 1000).toFixed(1)});
     }
+  }
+  // Second pass: a dangling end is joined only to a vessel of its own tree (scripts/lib/vessel-relation.mjs). `toSameMm`, `nearestSame` and `closest` now describe the nearest RELATED vessel of the same kind;
+  // `anySameMm` / `anyNearest` keep the plain nearest one, and `lostGap` marks an end that used to be joined to an unrelated vessel (it is rounded off instead).
+  const pairs = contactPairs(rows); saveContacts(pairs);
+  const names = new Map(atlas.parts.map(p => [p.id, p.name])), relation = makeRelation(id => names.get(id), pairs, vessels.map(p => p.name)), ids = vessels.map(p => p.id);
+  for (const r of rows) {
+    r.anySameMm = r.toSameMm; r.anyNearest = r.nearestSame; r.rel = null; r.lostGap = false;
+    if (r.kind !== 'dangling' || !r.closest) continue;
+    const hit = relation.nearest(bySystem[r.system], r.at, r.id, .03, ids);
+    r.lostGap = r.anySameMm <= 12 && !(hit.tag && hit.d <= .012);
+    r.rel = hit.rel; r.toSameMm = hit.tag ? +(hit.d * 1000).toFixed(1) : 999; r.nearestSame = hit.tag; r.closest = hit.q && hit.q.map(v => +v.toFixed(5));
   }
   return rows;
 }

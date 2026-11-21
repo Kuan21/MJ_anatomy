@@ -1,5 +1,6 @@
 import {SYNONYMS} from './synonyms';
 import {headNeckSynonyms} from '../mj-head-neck-names';
+import {EYE_NAME_ROWS} from './eye';
 import type {QuizStructure} from './catalogue';
 import {structureProfile} from '../mj-structure-info';
 import type {SystemId} from '../anatomy';
@@ -33,7 +34,7 @@ export interface WholeMuscle {en: string; zh?: string; muscle: string; headsRequ
 export function wholeMuscleOf(structure: Named): WholeMuscle | null {
   // "iliofemoral ligament, descending part", "ligament of head of femur": a joint structure is never a part of a muscle, so the bone or ligament named after "of" is not an accepted answer
   // the brain quiz asks the names of the brain model itself: "opercular part of inferior frontal gyrus" is a part of a gyrus, never of a muscle
-  if (structure.system === 'joint' || structure.system === 'brain' || structure.system === 'headorgan' || structure.system === 'viscera' || structure.system === 'ear' || structure.system === 'trunkorgan') return null;
+  if (structure.system === 'joint' || structure.system === 'brain' || structure.system === 'headorgan' || structure.system === 'viscera' || structure.system === 'ear' || structure.system === 'eye' || structure.system === 'trunkorgan') return null;
   const match = structure.name.match(PART_OF_MUSCLE);
   if (!match) return null;
   const muscle = match[2].trim(), side = structure.name.match(SIDE_WORD)?.[1];
@@ -56,7 +57,7 @@ const partOfName = (x: string, y: string) => x.endsWith(` of ${y}`) || x.include
 export function siteName(structure: Named): {en?: string; zh?: string} {
   if (!structure.system) return {};
   // the main site's profile search matches by words, which is wrong for the brain model's names (maxillary nerve → axillary nerve); the brain keeps the names of its own model
-  if (structure.source === 'Brain Project' || structure.source === 'Ear atlas') return {};
+  if (structure.source === 'Brain Project' || structure.source === 'Ear atlas' || structure.source === 'Eye atlas') return {};
   // head-and-neck nerves and vessels carry the names of app/quiz/headneck.ts; the site's word search would turn maxillary nerve into axillary nerve
   if (structure.exactNames) return {};
   // A part of a muscle (clavicular part of pectoralis major, spinal part of deltoid) is answered with the muscle's name (wholeMuscleOf), not with the site's other wording of the part.
@@ -77,7 +78,8 @@ export function acceptedNames(structure: Named): Accepted {
   // Left/right is part of the identity of a midline structure (left atrium, left coronary cusp), so its row is keyed with the word; paired structures are keyed without it.
   const synonymRow = SYNONYMS[structure.name.toLowerCase()] ?? SYNONYMS[cleanKey(structure.name)], nameRow = HEAD_NECK_ROWS[structure.name.toLowerCase()] ?? HEAD_NECK_ROWS[cleanKey(structure.name)];
   const own = structure.aliases;
-  const row = synonymRow || nameRow || own ? {en: [...(synonymRow?.en ?? []), ...(nameRow?.en ?? []), ...(own?.en ?? [])], zh: [...(synonymRow?.zh ?? []), ...(nameRow?.zh ?? []), ...(own?.zh ?? [])]} : undefined;
+  const eyeRow = EYE_NAME_ROWS[structure.name.toLowerCase()];
+  const row = synonymRow || nameRow || eyeRow || own ? {en: [...(synonymRow?.en ?? []), ...(nameRow?.en ?? []), ...(eyeRow?.en ?? []), ...(own?.en ?? [])], zh: [...(synonymRow?.zh ?? []), ...(nameRow?.zh ?? []), ...(eyeRow?.zh ?? []), ...(own?.zh ?? [])]} : undefined;
   const whole = wholeMuscleOf(structure);
   const wholeEn = whole && !whole.headsRequired ? [whole.en] : [], wholeZh = whole && !whole.headsRequired && whole.zh ? [whole.zh] : [];
   const site = siteName(structure), aliases = checklistAliases(structure).exact;
