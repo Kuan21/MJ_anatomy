@@ -1,37 +1,37 @@
 [
  {
   "region": "spine",
-  "belong": 2175,
+  "belong": 2212,
   "still": [],
   "flung": []
  },
  {
   "region": "head",
-  "belong": 603,
+  "belong": 620,
   "still": [],
   "flung": []
  },
  {
   "region": "leftLeg",
-  "belong": 244,
-  "still": [],
-  "flung": []
- },
- {
-  "region": "rightLeg",
   "belong": 248,
   "still": [],
   "flung": []
  },
  {
+  "region": "rightLeg",
+  "belong": 249,
+  "still": [],
+  "flung": []
+ },
+ {
   "region": "leftArm",
-  "belong": 303,
+  "belong": 304,
   "still": [],
   "flung": []
  },
  {
   "region": "rightArm",
-  "belong": 300,
+  "belong": 305,
   "still": [],
   "flung": []
  }
