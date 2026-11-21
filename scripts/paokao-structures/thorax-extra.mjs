@@ -21,7 +21,8 @@ export default function thoraxExtra(U) {
       const z = body(y) - .0035, t = Math.max(0, Math.min(1, (y - 1.28) / .06));  // x runs from right of the aorta (-x) over to the left (+x) between T6 and T4
       return P(-.0065 + t * .0215, y, z);
     });
-    const vc = U.tipNear('Left subclavian artery', P(.03, 1.41, -.01), .01), angle = U.axisAt('Left brachiocephalic vein', 1.403, P(.022, 1.403, .02), .003);
+    // The left venous angle: where the lower end of the internal jugular vein meets the medial end of the subclavian vein (the duct used to end on the brachiocephalic vein about 13 mm below and medial of it).
+    const vc = U.tipNear('Left subclavian artery', P(.03, 1.41, -.01), .01), angle = U.legacyDuctEnd ? U.axisAt('Left brachiocephalic vein', 1.403, P(.022, 1.403, .02), .003) : add(mul(add(U.extreme('Left internal jugular vein', P(0, -1, 0)), U.extreme('Left subclavian vein', P(-1, 0, 0))), .5), P(.001, .0035, -.001));   // the end lies 3.5 mm up in the lower end of the vein: the duct opens into the angle, and clears the phrenic nerve that crosses it
     const over = [add(pts[pts.length - 1], P(.0075, .020, .0025)), add(pts[pts.length - 1], P(.0105, .052, .0040)), P(.0285, 1.4465, -.0100), add(angle, P(.0105, .0035, -.008)), angle];
     out.push({
       name: 'Thoracic duct', zh: '胸管', system: 'lymphatic', kind: 'vessel',
