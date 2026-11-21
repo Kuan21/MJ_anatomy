@@ -71,35 +71,35 @@ const parts: OrganPartDef[] = [
     blood: b('Branches from both the right and left hepatic arteries and portal branches; it drains directly into the inferior vena cava by small veins.', '同時接受左、右肝動脈與門靜脈分支；以小靜脈直接注入下腔靜脈。'),
   }, {mark: zone('Liver', 4), schematic: true}),
   part('Porta hepatis', 'Porta hepatis', '肝門', 'marks', '#2f3437', {
-    loc: b('A transverse fissure about 5 cm long on the visceral surface, between the quadrate lobe in front and the caudate lobe behind. Marked here around the division of the portal vein.', '臟面上長約 5 公分的橫裂，前方是方形葉，後方是尾葉。這裡標示在肝門靜脈分叉處周圍。'),
+    loc: b('A transverse fissure about 5 cm long on the visceral surface, between the quadrate lobe in front and the caudate lobe behind. Marked here around the division of the portal vein and shown only when chosen.', '臟面上長約 5 公分的橫裂，前方是方形葉，後方是尾葉。這裡標示在肝門靜脈分叉處周圍，選取時才顯示。'),
     contents: b('The portal vein (behind), the right and left hepatic arteries and the hepatic ducts (in front), hepatic nerves and lymph vessels; the lesser omentum attaches to its edges.', '肝門靜脈（後方）、左右肝動脈與左右肝管（前方）、肝神經與淋巴管；小網膜附著在它的邊緣。'),
     rel: b('It is the hilum of the liver: all structures except the hepatic veins enter or leave here.', '它是肝的門：除了肝靜脈以外，所有結構都由此出入。'),
-  }, {mark: line('Liver', 1), schematic: true}),
+  }, {mark: line('Liver', 1), schematic: true, term: true}),
   part('Bare area of liver', 'Bare area of liver', '肝裸區', 'marks', '#8a5a3a', {
-    loc: b('A triangular area on the back of the right lobe, around the groove for the inferior vena cava, that is not covered by peritoneum. Its outline here is schematic.', '右葉後方、下腔靜脈溝周圍沒有腹膜覆蓋的三角形區域。這裡的範圍為示意。'),
+    loc: b('A triangular area on the back of the right lobe, around the groove for the inferior vena cava, that is not covered by peritoneum. Its outline here is schematic and it is shown only when chosen.', '右葉後方、下腔靜脈溝周圍沒有腹膜覆蓋的三角形區域。這裡的範圍為示意，選取時才顯示。'),
     rel: b('It lies directly against the diaphragm, bounded by the upper and lower layers of the coronary ligament, which meet at the right triangular ligament.', '直接貼著橫膈，四周以冠狀韌帶上、下兩層為界，兩層在右三角韌帶處會合。'),
     note: b('Here the liver is joined to the diaphragm by connective tissue only, so infection can spread from the liver to the chest without entering the peritoneal cavity.', '這裡肝與橫膈之間只有結締組織，所以感染可不經腹膜腔直接由肝擴散到胸腔。'),
-  }, {mark: line('Liver', 2), schematic: true}),
+  }, {mark: line('Liver', 2), schematic: true, term: true}),
   part('Coronary ligament of liver', 'Coronary ligament of liver', '肝冠狀韌帶', 'marks', '#3d6e8f', {
     loc: b('The reflection of peritoneum from the diaphragm to the back of the liver, in an upper and a lower layer around the bare area. Marked here along the border of the bare area.', '腹膜由橫膈反折到肝後方的部分，分上、下兩層圍住裸區。這裡沿裸區邊緣標示。'),
     rel: b('Its two layers meet at the right triangular ligament; on the left they lead to the left triangular ligament.', '兩層在右側會合成右三角韌帶；左側延續到左三角韌帶。'),
     fn: b('It holds the back of the liver to the diaphragm.', '把肝的後方固定在橫膈上。'),
-  }, {mark: line('Liver', 3), schematic: true}),
+  }, {mark: line('Liver', 3), schematic: true, term: true}),
   part('Right triangular ligament', 'Right triangular ligament', '右三角韌帶', 'marks', '#c83aa0', {
     loc: b('The right end of the bare area, where the upper and lower layers of the coronary ligament meet, joining the right lobe to the diaphragm. Marked here at that point.', '裸區的右端，冠狀韌帶上、下兩層會合處，把右葉連到橫膈。這裡標示在該處。'),
     rel: b('It lies above the right kidney and the hepatorenal recess.', '位在右腎與肝腎隱窩的上方。'),
     fn: b('Fixes the right lobe to the diaphragm.', '把右葉固定在橫膈上。'),
-  }, {mark: line('Liver', 4), schematic: true}),
+  }, {mark: line('Liver', 4), schematic: true, term: true}),
   part('Left triangular ligament', 'Left triangular ligament', '左三角韌帶', 'marks', '#2ab0b0', {
     loc: b('A fold of peritoneum from the back of the tip of the left lobe to the diaphragm, in front of the oesophageal opening. Marked here on the back of the tip.', '由左葉尖端後方連到橫膈的腹膜皺襞，位在食道裂孔前方。這裡標示在左葉尖端後方。'),
     rel: b('It continues to the right as the upper layer of the coronary ligament and the falciform ligament.', '向右延續為冠狀韌帶上層與鐮狀韌帶。'),
     fn: b('Fixes the left lobe to the diaphragm.', '把左葉固定在橫膈上。'),
-  }, {mark: line('Liver', 5), schematic: true}),
+  }, {mark: line('Liver', 5), schematic: true, term: true}),
   part('Falciform ligament', 'Falciform ligament', '鐮狀韌帶', 'marks', '#e6e6e6', {
     loc: b('A sickle-shaped double fold of peritoneum from the anterior abdominal wall and the diaphragm to the front and upper surface of the liver. Marked here along its attachment to the liver.', '由前腹壁與橫膈連到肝前上面的鐮刀形雙層腹膜皺襞。這裡沿它在肝上的附著線標示。'),
     contents: b('Its free lower edge contains the round ligament of the liver and the small paraumbilical veins.', '下方游離緣內有肝圓韌帶與細小的臍旁靜脈。'),
     rel: b('It divides the anatomical right and left lobes on the diaphragmatic surface; above, its two layers separate into the coronary and left triangular ligaments.', '在橫膈面上分隔解剖學的左、右葉；向上兩層分開成冠狀韌帶與左三角韌帶。'),
-  }, {mark: line('Liver', 6), schematic: true}),
+  }, {mark: line('Liver', 6), schematic: true, term: true}),
   part('Fundus of gallbladder', 'Fundus of gallbladder', '膽囊底', 'zones', '#f0c24f', {
     loc: b('The rounded blind end that projects beyond the inferior border of the liver, against the anterior abdominal wall at the tip of the right ninth costal cartilage.', '突出到肝下緣以外的圓鈍盲端，貼著前腹壁，約對著右側第九肋軟骨尖端。'),
     rel: b('It touches the transverse colon.', '與橫結腸相鄰。'),
