@@ -549,6 +549,79 @@
 
 ---
 
+## 覆核 #431 血管補接規則（2026-11-21，本機最新 main 已含 #431）
+
+### 錯接連接管（我的全站掃描，與 11/17 同一方法）
+
+| 類別 | #431 前 | #431 後 | 說明 |
+|---|---|---|---|
+| VS-04 睪丸血管接到腸的血管 | 18 | **0** | 已解決 |
+| VS-05 肝靜脈接到門靜脈 | 13 | **0** | 已解決 |
+| VS-07 肺內血管接到胸壁或體循環血管 | 16 | 1 | 剩左鎖骨下動脈 → 左尖段動脈（胸腔，考試後） |
+| VS-08 動脈接到靜脈 | 11 | 9 | 8 條在四肢（膕動脈 → 膕靜脈等，考試後）；**1 條在腹部：左腰升靜脈 → 右髂總動脈**（使用者 2026-11-21：一定是錯接，交血管平順 11/27 前修） |
+| VS-09 臀下靜脈接到陰部內靜脈等 | 9 | 9 | 未改：新規則把「髂內血管與骨盆分支」列為同一家族，所以容許。**使用者 2026-11-21 決定算錯接**（兩者各自流入髂內靜脈，不直接相連），交血管平順 11/27 前修，不可加例外 |
+| VS-06 浮空碎片 | 12 | 12 | 未處理（肝靜脈末端件為主）；使用者 2026-11-21 交血管平順 11/27 前修 |
+| 名稱不相關的其他補接（11/17 的 139 條） | 139 | 93 | 多為母血管與分支，未逐條判斷 |
+
+### 四肢斷開
+
+用專案的連續性工具（`audit-vessel-continuity.mjs --segments`，只讀）量靜止姿勢：四肢仍有 **93 處**血管與下一段之間的間隙大於管徑一半（上肢 54、下肢 39）。其中 **31 處**是 #431 移除誤接後新露出來的（上肢 19、下肢 12；#431 自報 32 處），其餘 62 處 #431 之前已存在。另有 #431 登記的動作例外 10 對、穩定度例外 8 項（極限姿勢下才出現，最大 42.7 mm：左股深靜脈 → 左髂外靜脈）。截圖：[左膝後方動脈上端截斷、肘窩正中肘靜脈末端未接上](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/5f5fbea3e7d25b5176a4c5688419a1585b71d5a0/qa-report/vessels/431-limb-gaps.jpg)。
+
+新露出的 31 處（間隙由大到小）：
+
+| 區域 | 血管 → 下一段 | 間隙（mm） |
+|---|---|---|
+| 下肢 | Left popliteal vein → Left genicular vein | 28.0 |
+| 下肢 | Right posterior tibial vein → Right fibular vein | 22.9 |
+| 下肢 | Right fibular vein → Right posterior tibial vein | 20.1 |
+| 下肢 | Right fibular vein → Right posterior tibial vein | 18.3 |
+| 下肢 | Right deep femoral artery → Right femoral artery | 17.7 |
+| 下肢 | Left deep femoral artery → Left perforating branch of deep femoral artery | 17.6 |
+| 下肢 | Set of perforating arteries → Set of perforating arteries | 17.5 |
+| 下肢 | Left popliteal artery → Left femoral artery | 17.3 |
+| 下肢 | Set of perforating arteries → Set of perforating arteries | 14.9 |
+| 下肢 | Left medial superior genicular artery → Left anterior tibial recurrent artery | 9.8 |
+| 下肢 | Left anterior tibial vein → Left anterior tibial vein | 7.6 |
+| 下肢 | Plantar venous arch of left foot → Plantar metatarsal vein | 5.3 |
+| 上肢 | Left median cubital vein → Left basilic vein | 26.5 |
+| 上肢 | Right median cubital vein → Right cephalic vein | 26.4 |
+| 上肢 | Right median cubital vein → Right basilic vein | 24.9 |
+| 上肢 | Left median cubital vein → Left basilic vein | 21.3 |
+| 上肢 | Pectoral branch of left thoraco-acromial artery → Trunk of left thoraco-acromial artery | 19.3 |
+| 上肢 | Acromial branch of right thoraco-acromial artery → Trunk of right thoraco-acromial artery | 17.9 |
+| 上肢 | Right superficial palmar arterial arch → Right first common palmar digital artery | 17.7 |
+| 上肢 | Pectoral branch of right thoraco-acromial artery → Trunk of right thoraco-acromial artery | 16.4 |
+| 上肢 | Left median cubital vein → Left basilic vein | 15.8 |
+| 上肢 | Right anterior circumflex humeral vein → Right axillary vein | 15.0 |
+| 上肢 | Right superficial palmar arterial arch → Right ulnar artery | 13.8 |
+| 上肢 | Dorsal venous network of left hand → Left cephalic vein | 12.2 |
+| 上肢 | Middle collateral branch of left deep brachial artery → Left deep brachial artery | 8.0 |
+| 上肢 | Middle collateral branch of left deep brachial artery → Left deep brachial artery | 7.5 |
+| 上肢 | Right posterior interosseous artery → Right common interosseous artery | 5.4 |
+| 上肢 | Left recurrent interosseous artery → Left common interosseous artery | 5.1 |
+| 上肢 | Medial proper palmar digital artery of right index finger → Lateral proper palmar digital artery of right middle finger | 4.5 |
+| 上肢 | Left palmar metacarpal vein → Left radial vein | 1.4 |
+| 上肢 | Left deep palmar venous arch → Left radial vein | 0.7 |
+
+其中較顯眼的是主幹斷開：左膕動脈與左股動脈之間 17.3 mm、右股深動脈與右股動脈之間 17.7 mm、左膕靜脈與膝靜脈 28.0 mm、兩側正中肘靜脈與貴要／頭靜脈 21–27 mm。四肢已考完，使用者 2026-11-18 批准考試後第一優先修。
+
+### 其他已合併 PR
+
+- #443（胸管頸段、右淋巴管）：胸管在左側上行，於約第 7 頸椎高度拱起，終點距左靜脈角 0.7 mm；右淋巴管長 15 mm，終點距右靜脈角 1.3 mm。未見錯誤（數據核對，未在 3D 畫面截圖）。
+- #433（未合併）：HN-31、HN-32 已修正，HN-33 的 7 個名稱已改成必考清單寫法；已合併 main，無衝突。HN-34（眶上裂／上眶裂兩種寫法）由 #446 處理。
+- #446（未合併）：與 main 有衝突；胃詳細模式約 12 個舊名（腹腔幹、胃左動脈、肝總動脈、門靜脈、脾、胰等）未改；使用者 2026-11-21 已決定髂脊、坐骨粗隆、恥骨粗隆、第十一肋骨、第十二肋骨、陰蒂體（陰蒂海綿體）照必考清單，舊寫法留作別名，已轉交總管派回原作者。
+
+## 必考清單缺項：每日重算
+
+方法同「必考清單覆蓋核對」一節（本機最新 main）。
+
+| 日期 | 腹部：已有／只有資訊卡／只有組成部分／缺（共 428） | 骨盆與會陰 3D 模型：已有／只有組成部分／缺（共 169） | 區域標示：已有／缺（共 170） | 僅資訊卡：已有／缺（共 50） |
+|---|---|---|---|---|
+| 2026-11-18 | 179／35／6／**208** | 85／11／**73** | 24／**146** | 3／**47** |
+| 2026-11-21 | 180／34／6／**208** | 85／11／**73** | 24／**146** | 3／**47** |
+
+11/18 至 11/21 沒有新增的必考結構合併入 main（期間合併的是胃詳細模式修正、血管規則、胸管、Quiz 資料等）。
+
 ## 學習、Quiz、模擬考試：腹部、骨盆與會陰（2026-11-18）
 
 方法：本機最新 main 的 `vite build` + `vite preview`；桌面 1440×900，iPad 直向 820×1180、橫向 1180×820（觸控模擬、1 倍，不等於真機）。Quiz 判分用網站同一個函式（`app/quiz/naming.ts` 的 `judgeName`）逐一測試必考清單寫法。
