@@ -2,8 +2,8 @@
 // (public/models/atlas.json, CC BY 4.0, already in the repository). The three colon pieces are put together into one surface so their parts can be marked on it:
 //   Colon   zone 1 caecum (below the ileocaecal junction), 2 ascending colon, 3 transverse colon, 4 descending colon, 5 sigmoid colon (the descending piece of the atlas runs on
 //           into the pelvis: the sigmoid colon starts where it turns medially);
-//           line 1 haustra (the sacculations of the model, where the wall bulges out from the centre line), 2 right colic flexure, 3 left colic flexure (position terms: a thin line
-//           round the gut at each bend), 4 ileocaecal valve (marked on the outer wall where the ileum enters). Haustra, flexures, anus and the root of the mesentery show only when chosen.
+//           line 1 haustra (the sacculations of the model, where the wall bulges out from the centre line), 2 right colic flexure, 3 left colic flexure (the stretch of gut at each bend;
+//           6 and 7 where a haustrum lies in it), 4 ileocaecal valve (marked on the outer wall where the ileum enters). Haustra and the root of the mesentery show only when chosen.
 //   Rectum  zone 1 rectum, 2 anal canal (the lowest 35 mm, within the anal sphincters); line 1 anus (the lower opening).
 //   Mesentery line 1 root of the mesentery (the border along the back wall of the abdomen).
 // Built by us (schematic): omental (epiploic) appendices along the taeniae, jejunal and ileal arteries from the superior mesenteric artery, the inferior mesenteric ganglion and the
@@ -84,13 +84,13 @@ export function build({atlasPart, paokaoPart, writer}) {
   const rightFlex = contact('asc', 'tra'), leftFlex = contact('des', 'tra');
   for (let v = 0; v < cn; v++) if (D(CV[v], icOnColon) < .008) line[v] = 4;
   const count = (a, k) => a.reduce((n, x) => n + (x === k), 0);
-  // colic flexures: position terms, drawn as a thin line (1.5 mm) round the gut at each bend, in the plane that bisects the two directions of the gut there
+  // colic flexures: the stretch of colon at each bend, between two planes across the gut 15 mm either side of the bend (planes square to the bisector of the two directions there)
   let cm = {positions: colon.positions, indices: colon.indices, ...(({tz, tl}) => ({zone: tz, line: tl}))(triangleLabels(colon.indices, zone, line, 4))};
-  const LINE_W = .0015, endDir = (L, atEnd) => atEnd ? unit(sub(L.at(-1), L.at(-4))) : unit(sub(L[0], L[3]));
-  const rings = [[rightFlex, unit(add(endDir(lines.asc, true), endDir(lines.tra, false))), 2], [leftFlex, unit(add(endDir(lines.tra, true), endDir(lines.des, false))), 3]];
-  const ringF = (c, n) => p => D(p, c) > .03 ? -1 : LINE_W / 2 - Math.abs((p[0] - c[0]) * n[0] + (p[1] - c[1]) * n[1] + (p[2] - c[2]) * n[2]);
-  for (const [c, n] of rings) cm = splitByField(cm, ringF(c, n));
-  for (let t = 0; t < cm.indices.length / 3; t++) { const q = triCentre(cm, t); for (const [c, n, lab] of rings) if (ringF(c, n)(q) > 0) cm.line[t] = lab; }
+  const endDir = (L, atEnd) => atEnd ? unit(sub(L.at(-1), L.at(-4))) : unit(sub(L[0], L[3]));
+  const bends = [[rightFlex, unit(add(endDir(lines.asc, true), endDir(lines.tra, false))), 2], [leftFlex, unit(add(endDir(lines.tra, true), endDir(lines.des, false))), 3]];
+  const slab = (c, n) => p => D(p, c) > .04 ? -1 : .015 - Math.abs((p[0] - c[0]) * n[0] + (p[1] - c[1]) * n[1] + (p[2] - c[2]) * n[2]);
+  for (const [c, n] of bends) cm = splitByField(cm, slab(c, n));
+  for (let t = 0; t < cm.indices.length / 3; t++) { const q = triCentre(cm, t); for (const [c, n, lab] of bends) if (slab(c, n)(q) > 0 && cm.line[t] !== 4) cm.line[t] = cm.line[t] === 1 ? lab + 4 : lab; }
   const tz = cm.zone, tl = cm.line, cp = writer.addMesh('Colon', cm.positions, cm.indices, {}); cp.triZone = writer.addBytes(tz); cp.triLine = writer.addBytes(tl);
 
   // ---- rectum and anal canal
@@ -140,6 +140,6 @@ export function build({atlasPart, paokaoPart, writer}) {
   const report = tidy(meshes, {walls, organs: ['Mesentery', 'Mesoappendix', 'Transverse mesocolon', 'Taeniae coli', 'External anal sphincter', 'Puborectalis'], keepInside: true,
     origin: {'Superior mesenteric artery': 'Abdominal aorta', 'Inferior mesenteric artery': 'Abdominal aorta'}, cutEnd: p => p[1] > 1.125 || p[1] < .84, skip: k => /ganglion|aorta|appendices/i.test(k)});
   for (const [key, m] of meshes) writer.addMesh(key, m.positions, m.indices);
-  return {stats: {colonVertices: cn, zones: [1, 2, 3, 4, 5].map(z => count([...tz], z)), lines: [1, 2, 3, 4].map(l => count([...tl], l)), sigmoidFromMm: +(desArc[sig] * 1e3).toFixed(0), appendices: tags.length, tidy: report.length},
+  return {stats: {colonVertices: cn, zones: [1, 2, 3, 4, 5].map(z => count([...tz], z)), lines: [1, 2, 3, 4, 6, 7].map(l => count([...tl], l)), sigmoidFromMm: +(desArc[sig] * 1e3).toFixed(0), appendices: tags.length, tidy: report.length},
     landmarks: {rightFlex, leftFlex, icOnColon, imaTop}};
 }
