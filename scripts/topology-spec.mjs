@@ -38,6 +38,11 @@ export const ARTERIES = [
   ['% posterior tibial artery', '% popliteal artery'], ['% fibular artery', '% posterior tibial artery'], ['% dorsalis pedis artery', '% anterior tibial artery'],
   ['% medial plantar artery', '% posterior tibial artery'], ['% lateral plantar artery', '% posterior tibial artery'],
   ['% superior gluteal artery', '% internal iliac artery'], ['% inferior gluteal artery', '% internal iliac artery'], ['% internal pudendal artery', '% internal iliac artery'],
+  // abdomen and pelvis: schematic branches built by scripts/paokao-structures/abdomen-arteries.mjs
+  ['% iliolumbar artery', '% internal iliac artery'], ['% middle rectal artery', '% internal iliac artery'], ['% inferior vesical artery', '% internal iliac artery'],
+  ['% inferior rectal artery', '% internal pudendal artery'], ['% ovarian artery', 'Abdominal aorta'], ['Median sacral artery', 'Abdominal aorta'], ['% superior suprarenal artery', '% inferior phrenic artery'],
+  ['Jejunal arteries', 'Trunk of superior mesenteric artery'], ['Supraduodenal artery', 'Trunk of gastroduodenal artery'], ['Esophageal branch of left gastric artery', 'Left gastric artery'],
+  ['Esophageal branch of left inferior phrenic artery', 'Left inferior phrenic artery'],
   ['% descending genicular artery', '% femoral artery'],
 ];
 export const VEINS = [

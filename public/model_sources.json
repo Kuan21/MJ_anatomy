@@ -233,7 +233,8 @@
       "origin": "scripts/prepare-paokao.mjs (textbook courses placed on landmarks measured on the BodyParts3D atlas meshes; landmark and lung-surface patches are cut from the atlas bone and lung meshes)",
       "structures": [
         "Course-summary vessels, nerves, ganglia, ligaments, retinacula, fasciae, sheaths, spaces, thin muscles, bone landmarks and lung surface marks (docs/paokao-audit.md)",
-        "Thin connector tubes that join vessels to their parent (docs/topology-report.json)"
+        "Thin connector tubes that join vessels to their parent (docs/topology-report.json)",
+        "Abdominal and pelvic arteries built as one continuous tube each along a smooth centre line (scripts/paokao-structures/abdomen-arteries.mjs): oesophageal branches of the left gastric and left inferior phrenic arteries, supraduodenal artery, jejunal arteries, superior suprarenal, ovarian, median sacral, iliolumbar, middle rectal, inferior vesical and inferior rectal arteries (schematic)"
       ]
     },
     {
