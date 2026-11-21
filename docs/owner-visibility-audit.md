@@ -56,7 +56,7 @@
 
 ## 腹腔 → 腹腔器官
 
-開啟的系統：skeletal、muscular、arterial、venous、nervous、connective、tendon、digestive、lymphatic；區域內血管與神經 161 個網格。
+開啟的系統：skeletal、muscular、arterial、venous、nervous、connective、tendon、digestive、lymphatic；區域內血管與神經 165 個網格。
 
 - 關閉消化：隨之消失的血管與神經 118 個網格：Anterior cecal artery；Anterior inferior pancreaticoduodenal artery；Anterior inferior segmental branch of portal vein；Anterior inferior segmental hepatic artery；Anterior inferior segmental tributary of middle hepatic vein ×4；Anterior superior pancreaticoduodenal artery；Anterior superior segmental branch of portal vein；Anterior superior segmental hepatic artery；Anterior superior segmental tributary of hepatic vein ×2；Appendicular artery；Ascending branch of colic artery；Ascending branch of inferior branch of ileocolic artery；Caudal pancreatic artery；Caudate lobe branch of hepatic artery ×3；Caudate lobe branch of portal vein ×2；Descending branch of colic artery；Dorsal pancreatic artery；Great pancreatic artery；Hepatovenous segment II；Hepatovenous segment III；Hepatovenous segment IV；Hepatovenous segment V；Hepatovenous segment VI；Hepatovenous segment VIII；Ileal artery；Ileal branch of inferior branch of ileocolic artery；Ileal vein；Ileocolic artery ×2；Ileocolic vein ×4；Inferior pancreatic artery；Inferior pancreaticoduodenal artery；Lateral inferior segmental branch of portal vein；Lateral inferior segmental hepatic artery；Lateral inferior segmental tributary of hepatic vein ×6；Lateral superior segmental branch of portal vein；Lateral superior segmental hepatic artery ×2；Lateral superior segmental tributary of hepatic vein；Marginal artery of colon；Marginal colic artery；Medial inferior segmental branch of portal vein；Medial inferior segmental hepatic artery；Medial inferior segmental tributary of middle hepatic vein ×4；Medial superior segmental branch of portal vein；Medial superior segmental hepatic artery；Medial superior segmental tributary of hepatic vein ×2；Middle colic artery；Middle colic vein；Middle hepatic vein ×2；Pancreaticoduodenal vein ×3；Posterior cecal artery；Posterior inferior pancreaticoduodenal artery；Posterior inferior segmental branch of portal vein；Posterior inferior segmental hepatic artery；Posterior inferior segmental tributary of hepatic vein ×4；Posterior superior pancreaticoduodenal artery；Posterior superior segmental branch of portal vein ×2；Posterior superior segmental hepatic artery ×2；Posterior superior segmental tributary of hepatic vein ×2；Sigmoid artery ×2；Sigmoid vein；Tributary of middle hepatic vein ×2；colic artery ×2；colic vein ×4；gastric artery ×4；gastric vein ×4；gastro-epiploic artery ×2；gastroepiploic vein ×2；hepatic vein ×4；lobe branch of hepatic artery ×3
 - 關閉淋巴：隨之消失的血管與神經 0 個網格（沒有；此區域沒有歸屬於它的血管或神經）
@@ -72,7 +72,7 @@
 
 ## 腹腔 → 後腹壁（腎、大血管）
 
-開啟的系統：skeletal、muscular、arterial、venous、nervous、connective、tendon、urinary、endocrine、lymphatic、digestive；區域內血管與神經 134 個網格。
+開啟的系統：skeletal、muscular、arterial、venous、nervous、connective、tendon、urinary、endocrine、lymphatic、digestive；區域內血管與神經 135 個網格。
 
 - 關閉消化：隨之消失的血管與神經 0 個網格（沒有；此區域沒有歸屬於它的血管或神經）
 - 關閉泌尿：隨之消失的血管與神經 14 個網格：Inferior segmental branch of renal artery ×4；Posterior segmental branch of renal artery ×5；Superior segmental branch of renal artery ×3；anterior segmental artery ×2
