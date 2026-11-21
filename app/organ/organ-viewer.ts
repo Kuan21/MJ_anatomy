@@ -56,6 +56,8 @@ export function createOrganViewer(host: HTMLDivElement, def: OrganDef, callbacks
       const d = it.def, ghost = ghosts.has(d.group) && !d.mark, hidden = isHidden(it) && !ghost, selected = sel.has(d.key), glass = state.glass && glassGroups.includes(d.group) && !d.mark;
       let visible = !hidden;
       if (visible && it.def.mark?.channel === 'zone') visible = state.zones || selected;
+      // a position term (curvature, notch, surface) is only a name for part of the outline: its thin line is drawn only while it is selected
+      if (visible && d.term) visible = selected;
       // isolate: only the chosen structures; a chosen marking keeps its host as a faint shell
       let opacity = d.opacity ?? 1;
       if (ghost) opacity = selected ? .4 : .16; else if (glass) opacity = Math.min(opacity, selected ? .5 : .3);
@@ -104,7 +106,8 @@ export function createOrganViewer(host: HTMLDivElement, def: OrganDef, callbacks
         g.computeBoundingBox(); geoms.set(p.id, g);
         if (p.triZone !== undefined || p.triLine !== undefined) hostLabels.set(p.id, {zone: p.triZone !== undefined ? new Uint8Array(bin, p.triZone, p.indexCount / 3) : undefined, line: p.triLine !== undefined ? new Uint8Array(bin, p.triLine, p.indexCount / 3) : undefined});
       }
-      const makeMat = (d: OrganPartDef) => new T.MeshStandardMaterial({color: d.color, roughness: .55, metalness: 0, side: T.DoubleSide, polygonOffset: !!d.mark, polygonOffsetFactor: d.mark ? -2 : 0, polygonOffsetUnits: d.mark ? -2 : 0});
+      // a position term is drawn over the other markings of the same triangles (a surface of the liver over its lobes)
+      const makeMat = (d: OrganPartDef) => new T.MeshStandardMaterial({color: d.color, roughness: .55, metalness: 0, side: T.DoubleSide, polygonOffset: !!d.mark, polygonOffsetFactor: d.mark ? (d.term ? -4 : -2) : 0, polygonOffsetUnits: d.mark ? (d.term ? -4 : -2) : 0});
       for (const d of def.parts) {
         if (d.cardOnly) continue;
         if (d.mark) continue;
@@ -124,7 +127,8 @@ export function createOrganViewer(host: HTMLDivElement, def: OrganDef, callbacks
         const g = new T.BufferGeometry(); g.setAttribute('position', pos); g.setAttribute('normal', host.mesh.geometry.getAttribute('normal')); g.setIndex(idx);
         const mesh = new T.Mesh(g, makeMat(d)); mesh.userData.key = d.key; mesh.renderOrder = 1; scene.add(mesh);
         items.set(d.key, {def: d, mesh, box, host});
-        for (const v of d.mark.values) markFor.set(`${d.mark.host}|${d.mark.channel}|${v}`, d.key);
+        // a click on the surface picks the part (a lobe), not a position term that shares its triangles
+        for (const v of d.mark.values) { const k = `${d.mark.host}|${d.mark.channel}|${v}`; if (!d.term || !markFor.has(k)) markFor.set(k, d.key); }
       }
       if (core.isEmpty()) for (const it of items.values()) core.union(it.box);
       loaded = true; frameModel('front'); apply(); callbacks.ready();

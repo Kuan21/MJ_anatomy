@@ -29,6 +29,8 @@ export interface OrganPartDef {
   opacity?: number;
   /** Surface marking: a set of triangles of the host mesh (channel 'zone' = partition of the surface, 'line' = strips and patches over it). */
   mark?: {host: string; channel: 'zone' | 'line'; values: number[]};
+  /** A position term (curvature, notch, flexure, surface): a name for a part of the organ's outline, not a structure of its own. Its marking is hidden and is shown only while it is selected. */
+  term?: boolean;
   /** Built by us from the shape of the neighbouring structures (shown as 示意). */
   schematic?: boolean;
   /** Quiz: false = not asked (an aggregate of other markings). */
