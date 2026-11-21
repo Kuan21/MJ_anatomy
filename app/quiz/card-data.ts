@@ -774,7 +774,7 @@ Object.assign(CARD_EXTRAS, {
   'external carotid artery': {
     來源: e('總頸動脈在甲狀軟骨上緣附近分叉的前內側終支', 'The front-medial terminal branch of the common carotid artery, at about the upper border of the thyroid cartilage'),
     走向: e('起初在內頸動脈前內側，繼而轉到其外側上行，經二腹肌後腹與莖突舌骨肌深面，穿入腮腺；在下頜頸後方分為上頜動脈與淺顳動脈兩終支', 'At first in front of and medial to the internal carotid, it then crosses to its lateral side and ascends deep to the posterior belly of digastric and stylohyoid, entering the parotid gland; behind the neck of the mandible it ends as the maxillary and superficial temporal arteries'),
-    主要分支: e('由下而上依序有上甲狀腺動脈、升咽動脈、舌動脈、面動脈、枕動脈、耳後動脈，終支為上頜動脈與淺顳動脈', 'From below upward: superior thyroid, ascending pharyngeal, lingual, facial, occipital and posterior auricular arteries, ending as the maxillary and superficial temporal arteries'),
+    主要分支: e('由下而上依序有上甲狀腺動脈、升咽動脈、舌動脈、顏面動脈、枕動脈、後耳動脈，終支為上頜動脈與淺顳動脈', 'From below upward: superior thyroid, ascending pharyngeal, lingual, facial, occipital and posterior auricular arteries, ending as the maxillary and superficial temporal arteries'),
     供應範圍: e('頸前部、甲狀腺與喉、舌與口腔、顏面、頭皮、咽與扁桃體、顱底外面與硬腦膜、上下頜骨與牙齒及鼻腔（頭頸除眼、腦以外的大部分）', 'The front of the neck, thyroid gland and larynx, tongue and mouth, face, scalp, pharynx and tonsil, the outside of the skull base and the dura mater, the jaws and teeth and the nasal cavity (most of the head and neck except the eye and brain)'),
   },
   'internal carotid artery': {
@@ -1239,3 +1239,56 @@ Object.assign(CARD_EXTRAS, {
   },
 });
 // ===== C02 end =====
+
+// ===== HN-EC begin =====
+Object.assign(CARD_EXTRAS, {
+  'superior thyroid artery': {
+    來源: e('外頸動脈的第一條前壁分支，在頸動脈三角內、舌骨大角下方附近發出', 'The first anterior branch of the external carotid artery, arising in the carotid triangle just below the greater horn of the hyoid bone'),
+    走向: e('向前下彎成弧形，深入肩胛舌骨肌、胸骨舌骨肌與胸骨甲狀肌，到達甲狀腺上極；上極處與喉外神經相鄰', 'Arches forward and downward, passing deep to omohyoid, sternohyoid and sternothyroid to reach the upper pole of the thyroid gland, where it lies close to the external laryngeal nerve'),
+    主要分支: e('舌骨下支、胸鎖乳突肌支、上喉動脈（與喉內神經一同穿過甲狀舌骨膜）、環甲支，以及供應腺體的前、後與外側支', 'Infrahyoid, sternocleidomastoid, superior laryngeal (passing through the thyrohyoid membrane with the internal laryngeal nerve) and cricothyroid branches, and the anterior, posterior and lateral glandular branches'),
+    供應範圍: e('甲狀腺上部、喉、舌骨下肌群與胸鎖乳突肌；腺內與下甲狀腺動脈、對側同名動脈相吻合', 'The upper part of the thyroid gland, the larynx, the infrahyoid muscles and sternocleidomastoid; within the gland it anastomoses with the inferior thyroid artery and with its fellow of the opposite side'),
+  },
+  'ascending pharyngeal artery': {
+    來源: e('外頸動脈起始部附近的後內側壁分支，是外頸動脈最細的分支', 'A branch from the posteromedial wall of the external carotid artery near its origin; the smallest branch of that artery'),
+    走向: e('沿咽側壁、在內頸動脈內側垂直上行，到達顱底附近', 'Ascends vertically along the side wall of the pharynx, medial to the internal carotid artery, as far as the base of the skull'),
+    主要分支: e('咽支、下鼓室動脈、後腦膜動脈（經頸靜脈孔入顱）與椎前肌支', 'Pharyngeal branches, the inferior tympanic artery, the posterior meningeal artery (entering the skull through the jugular foramen) and branches to the prevertebral muscles'),
+    供應範圍: e('咽壁、扁桃體、軟顎、中耳與頸椎前肌，以及顱後窩的硬腦膜', 'The pharyngeal wall, tonsil, soft palate, middle ear and prevertebral muscles, and the dura mater of the posterior cranial fossa'),
+  },
+  'lingual artery': {
+    來源: e('外頸動脈的前壁分支，約在舌骨大角尖端高度、顏面動脈起點之下發出', 'An anterior branch of the external carotid artery, arising at about the level of the tip of the greater horn of the hyoid bone, below the origin of the facial artery'),
+    走向: e('先向上呈小弧形，再在舌骨大角上緣上方向前走；舌下神經橫過其淺面，接著深入舌骨舌肌的深面，其深側緊貼中咽縮肌，再前行入舌', 'Loops upward first, then runs forward above the greater horn of the hyoid bone; the hypoglossal nerve crosses its superficial side, and it then passes deep to hyoglossus, lying on the middle constrictor, before entering the tongue'),
+    主要分支: e('舌骨上支、舌背支、舌下動脈與舌深動脈（為終末支）', 'Suprahyoid and dorsal lingual branches, the sublingual artery, and the deep lingual artery as its terminal branch'),
+    供應範圍: e('舌、口腔底、舌下腺、扁桃體與會厭；舌深動脈在舌下面走近舌繫帶兩側', 'The tongue, floor of the mouth, sublingual gland, tonsil and epiglottis; the deep lingual artery runs on the underside of the tongue close to the frenulum'),
+  },
+  'facial artery': {
+    來源: e('外頸動脈的前壁分支，在舌動脈起點的稍上方發出', 'An anterior branch of the external carotid artery, arising just above the lingual artery'),
+    走向: e('先在二腹肌後腹與莖突舌骨肌深面上行，再貼著下頜下腺後方壓出溝槽，於咬肌前緣繞過下頜骨下緣上到顏面，彎曲地經口角外側、鼻翼旁抵達內眥', 'Ascends first deep to the posterior belly of digastric and stylohyoid, grooves the back of the submandibular gland, then winds over the lower border of the mandible at the front edge of masseter onto the face and runs tortuously beside the angle of the mouth and the side of the nose to the medial angle of the eye'),
+    主要分支: e('頸部：升顎動脈、扁桃體支、腺支與頦下動脈；顏面部：下唇動脈、上唇動脈、鼻外側動脈，終支為角動脈', 'In the neck: ascending palatine, tonsillar, glandular and submental arteries; on the face: inferior and superior labial and lateral nasal arteries, ending as the angular artery'),
+    供應範圍: e('扁桃體與軟顎、下頜下腺、口唇、鼻與內眥一帶的顏面；角動脈與眼動脈的鼻背支吻合，連結內、外頸動脈系統；在下頜骨下緣、咬肌前方可摸到搏動，其靜脈走在動脈後方', 'The tonsil and soft palate, submandibular gland, lips, and the face around the nose and medial angle of the eye; the angular artery anastomoses with the dorsal nasal branch of the ophthalmic artery, linking the internal and external carotid systems; its pulse can be felt on the lower border of the mandible in front of masseter, with the facial vein lying behind the artery'),
+  },
+  'occipital artery': {
+    來源: e('外頸動脈的後壁分支，約與顏面動脈同一高度，起於二腹肌後腹下緣', 'A posterior branch of the external carotid artery, arising at about the level of the facial artery at the lower border of the posterior belly of digastric'),
+    走向: e('沿顳骨乳突內側的枕動脈溝向後上行，淺越過內頸動脈、內頸靜脈、迷走神經與副神經，舌下神經由後向前繞過其起始部；行程中被胸鎖乳突肌、頭夾肌、頭最長肌與二腹肌後腹覆蓋，之後在斜方肌與胸鎖乳突肌附著於上項線處穿出筋膜，彎曲上行於後頭皮', 'Runs backward and upward along the occipital groove on the medial side of the mastoid process of the temporal bone, crossing superficial to the internal carotid artery, internal jugular vein, vagus and accessory nerves, with the hypoglossal nerve hooking round its origin from behind forward; it is covered by sternocleidomastoid, splenius capitis, longissimus capitis and the posterior belly of digastric, then pierces the fascia at the trapezius and sternocleidomastoid attachments to the superior nuchal line and ascends tortuously in the back of the scalp'),
+    主要分支: e('胸鎖乳突肌支、耳支、腦膜支、降支（與深頸動脈、橫頸動脈相吻合）與枕支', 'Sternocleidomastoid, auricular and meningeal branches, a descending branch (anastomosing with the deep cervical and transverse cervical arteries) and occipital branches'),
+    供應範圍: e('後頭皮、頸後部深層肌肉、胸鎖乳突肌與乳突、硬腦膜', 'The back of the scalp, the deep muscles of the back of the neck, sternocleidomastoid, the mastoid region and the dura mater'),
+  },
+  'posterior auricular artery': {
+    來源: e('外頸動脈的後壁分支，位於二腹肌與莖突舌骨肌上方，通常在腮腺深部或其邊緣發出', 'A posterior branch of the external carotid artery arising above digastric and stylohyoid, usually deep to or at the edge of the parotid gland'),
+    走向: e('在耳廓與乳突之間向後上行，沿乳突前方抵達耳後頭皮', 'Ascends between the auricle and the mastoid process and reaches the scalp behind the ear'),
+    主要分支: e('莖乳動脈（經莖乳孔入顏面神經管）、耳支、枕支與腮腺支', 'The stylomastoid artery (entering the facial canal through the stylomastoid foramen), and auricular, occipital and parotid branches'),
+    供應範圍: e('耳廓後面、耳後頭皮、腮腺，以及經莖乳動脈供應中耳、乳突小房與顏面神經；與枕動脈、淺顳動脈相吻合', 'The back of the auricle, the scalp behind the ear and the parotid gland, and through the stylomastoid artery the middle ear, mastoid air cells and facial nerve; it anastomoses with the occipital and superficial temporal arteries'),
+  },
+  'maxillary artery': {
+    來源: e('外頸動脈兩條終末支中較大的一條，在腮腺內、下頜頸後方發出', 'The larger of the two terminal branches of the external carotid artery, arising within the parotid gland behind the neck of the mandible'),
+    走向: e('以外側翼肌為界分三段：下頜段起於下頜頸後方，經下頜頸深面（內側、蝶下頜韌帶外側）向前進入顳下窩；翼段沿外側翼肌的淺面或深面行走（個體有差異，以淺面較常見）；翼顎段穿過翼上頜裂進入翼顎窩', 'Divided by lateral pterygoid into three parts: the mandibular part begins behind the neck of the mandible and passes forward deep (medial) to the neck, lateral to the sphenomandibular ligament, into the infratemporal fossa; the pterygoid part runs on the superficial or deep surface of lateral pterygoid (this varies between people, the superficial course being more common); the pterygopalatine part passes through the pterygomaxillary fissure into the pterygopalatine fossa'),
+    主要分支: e('下頜段：深耳動脈、前鼓室動脈、中腦膜動脈（經棘孔入顱）、下齒槽動脈、副腦膜動脈；翼段：咬肌動脈、深顳動脈、翼肌支、頰動脈；翼顎段：上牙槽後動脈、眶下動脈、降顎動脈、翼管動脈、咽支與蝶顎動脈', 'Mandibular part: deep auricular, anterior tympanic, middle meningeal (entering the skull through the foramen spinosum), inferior alveolar and accessory meningeal arteries; pterygoid part: masseteric, deep temporal, pterygoid and buccal branches; pterygopalatine part: posterior superior alveolar, infraorbital, descending palatine, artery of the pterygoid canal, pharyngeal and sphenopalatine arteries'),
+    供應範圍: e('深層顏面：上下頜骨與牙齒、咀嚼肌、鼻腔與硬顎、軟顎、硬腦膜（中腦膜動脈）與中耳', 'The deep face: the jaws and teeth, the muscles of mastication, the nasal cavity and hard and soft palate, the dura mater (middle meningeal artery) and the middle ear'),
+  },
+  'superficial temporal artery': {
+    來源: e('外頸動脈兩條終末支中較小的一條，在腮腺內、下頜頸後方發出，可視為外頸動脈的延續', 'The smaller terminal branch of the external carotid artery, arising within the parotid gland behind the neck of the mandible and seen as its continuation'),
+    走向: e('向上越過顴弓根部，在耳屏前方上行，耳顳神經走在其後方；約在顴弓上方五公分處（高度因人而異）分為額支與頂支', 'Ascends across the root of the zygomatic arch in front of the tragus, with the auriculotemporal nerve lying behind it, and divides about 5 cm above the arch into frontal and parietal branches'),
+    主要分支: e('橫面動脈（在腮腺內發出，走在顴弓下方與腮腺管上方）、中顳動脈、顴眶動脈、前耳支，終支為額支與頂支', 'The transverse facial artery (given off within the parotid gland and running below the zygomatic arch and above the parotid duct), middle temporal, zygomatico-orbital and anterior auricular branches, ending as the frontal and parietal branches'),
+    供應範圍: e('顳部與額頂部頭皮、耳廓前部、顳肌與顏面側部；在耳屏前方可摸到搏動，與眼動脈、後耳動脈、枕動脈的分支相吻合', 'The scalp of the temporal, frontal and parietal regions, the front of the auricle, temporalis and the side of the face; its pulse can be felt in front of the tragus, and it anastomoses with branches of the ophthalmic, posterior auricular and occipital arteries'),
+  },
+});
+// ===== HN-EC end =====
