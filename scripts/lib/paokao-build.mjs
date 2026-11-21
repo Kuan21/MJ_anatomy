@@ -21,12 +21,13 @@ import zanatomyLowerLimb from '../paokao-structures/zanatomy-lower-limb.mjs';
 import ligamentsLowerLimb from '../paokao-structures/ligaments-lower-limb.mjs';
 
 import occipitalAponeurosis from '../paokao-structures/occipital-aponeurosis.mjs';
+import neckLymphatics from '../paokao-structures/neck-lymphatics.mjs';
 import abdomenParts from '../paokao-structures/abdomen-parts.mjs';
 import {clearBones} from './nerve-bone-clearance.mjs';
 
 export function buildAll() {
   const w = loadWorld(), U = makeUtil(w), specs = [...thorax(U), ...thoraxNerves(U), ...upperLimb(U), ...limbVeins(U), ...lowerLimb(U), ...thoraxExtra(U), ...landmarks(U), ...membranes(U), ...knee(U), ...spacesMuscles(U), ...lungs(U), ...neckBreastVulva(U)], built = [];
-  const lateSpecs = [...lungs(U, 'late'), ...tendonsUpperLimb(U, w), ...zanatomyUpperLimb(), ...ligamentsUpperLimb(U), ...tendonsLowerLimb(), ...zanatomyLowerLimb(U), ...ligamentsLowerLimb(U), ...occipitalAponeurosis(U, w), ...abdomenParts(U)], late = [];
+  const lateSpecs = [...lungs(U, 'late'), ...tendonsUpperLimb(U, w), ...zanatomyUpperLimb(), ...ligamentsUpperLimb(U), ...tendonsLowerLimb(), ...zanatomyLowerLimb(U), ...ligamentsLowerLimb(U), ...occipitalAponeurosis(U, w), ...neckLymphatics(U), ...abdomenParts(U)], late = [];
   for (const s of [...specs, ...lateSpecs]) {
     const pieces = [];
     for (const t of s.tubes ?? []) pieces.push(U.tube(t.pts, t.r[0], t.r[1] ?? t.r[0], t.samples ?? 24, t.sides ?? 12));

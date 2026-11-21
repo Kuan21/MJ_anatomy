@@ -83,6 +83,8 @@ export function penetration(parts, log) {
 
 /** Parts that are never shown together (the sex switch shows exactly one of them; scripts/test-female-skin.mjs checks that), so their coinciding faces are never drawn on top of each other. */
 const NEVER_TOGETHER = new Set(['FJ2810|HRAF-skin', 'FJ2815|HRAF-pubic-hair']);
+/** The female copy of a levator ani muscle (id HRAF-FJ…, scripts/lib/pelvic-floor-female.mjs) and the male muscles of the same name (the atlas has a mirrored duplicate on the left): the sex switch shows one or the other. */
+const femaleMuscleCopy = (p, q) => /^HRAF-FJ\d+$/.test(p.id) && p.name === q.name && !/^HRAF-/.test(q.id);
 /** Coincident parallel faces of two different meshes. Triangle centroids are compared: same plane within zfightGap, normals parallel, centroids close in the plane. */
 export function zfight(parts, log) {
   const {zfightGap: gap, zfightRadius: radius, zfightMin: minCount} = THRESHOLDS, cell = radius;
@@ -122,7 +124,7 @@ export function zfight(parts, log) {
     const a = Math.floor(k / 100000), b = k % 100000;
     const ta = loaded[a].indices.length / 3, tb = loaded[b].indices.length / 3, share = Math.round(100 * n / Math.min(ta, tb));
     if (share < THRESHOLDS.zfightShare) continue;
-    if (NEVER_TOGETHER.has(`${parts[a].id}|${parts[b].id}`) || NEVER_TOGETHER.has(`${parts[b].id}|${parts[a].id}`)) continue;
+    if (NEVER_TOGETHER.has(`${parts[a].id}|${parts[b].id}`) || NEVER_TOGETHER.has(`${parts[b].id}|${parts[a].id}`) || femaleMuscleCopy(parts[a], parts[b]) || femaleMuscleCopy(parts[b], parts[a])) continue;
     out.push({check: 'zfight', id: parts[a].id, name: parts[a].name, sub: parts[b].id, other: parts[b].name, measure: n, share, detail: `${n} faces (${share}% of the smaller mesh) coincide with ${parts[b].name}`});
   }
   log?.(`zfight: ${out.length}`);

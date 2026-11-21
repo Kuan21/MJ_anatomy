@@ -29,6 +29,7 @@ import {nerveDepth} from './mj-depth';
 import {anatomicalRegion,anatomicalSide,isMotionQuarantined} from './mj-part-regions';
 import {motionFrame} from './motion-framing';
 import {armJoints} from './mj-motion';
+import {END_SUFFIX,isVesselEnd,vesselBase} from './mj-vessel-unit';
 import {freeCanvasRect,judgeSelectionView,sampleMeshPoints,type SamplePoint} from './selection-visibility';
 import {isLinearBinding,alignEndPiece,lbsSkin,linearSkin,makeSoftRig,bindTissue,makePalette,deformTissue,deformPoint,followDeltoidSurface,setDeltoidFollowers,registerNerveRest,resolveNeurovascularProfile,tissueBindings,nerveBindings,type SkinBinding,type Profile,type DeltoidFollowers} from './biomechanics-v2/soft-tissue';
 import {makeBodyRig,buildBodyMotion,bindBodyTissue,bindSpineCarrier,cranialNerveRigid,inferredLimb,type BodyRegion} from './biomechanics-v2/body-motion';
@@ -431,10 +432,12 @@ export default function AnatomyScene({atlas,state,onSelect,onClear,onLabelPick,o
   const tintData=new Float32Array(width*4),tintTexture=new T.DataTexture(tintData,width,1,T.RGBAFormat,T.FloatType);tintTexture.needsUpdate=true;let lastTintKey='';
   // Pointer hover: the part under the cursor gets a lighter mint of the selection green (channel G of the selection texture).
   let hoverIndex=-1,hoverNerve:string|null=null,lastHoverAt=0,hoverText='';
+  // A vessel and its end piece (`…-END`) light up together under the pointer, as they are picked together (app/mj-vessel-unit.ts).
+  const unitIndex=new Map(atlas.parts.map((p,i)=>[p.id,i])),hoverPartner=(index:number)=>{const p=atlas.parts[index];if(!p)return -1;const other=isVesselEnd(p.id)?vesselBase(p.id):p.id+END_SUFFIX;return unitIndex.get(other)??-1;};
   const setHover=(index:number,nerve:string|null)=>{
    if(index===hoverIndex&&nerve===hoverNerve)return;
-   if(hoverIndex>=0)selectedData[hoverIndex*4+1]=0;
-   hoverIndex=index;hoverNerve=nerve;if(index>=0)selectedData[index*4+1]=255;
+   if(hoverIndex>=0){selectedData[hoverIndex*4+1]=0;const q=hoverPartner(hoverIndex);if(q>=0)selectedData[q*4+1]=0;}
+   hoverIndex=index;hoverNerve=nerve;if(index>=0){selectedData[index*4+1]=255;const q=hoverPartner(index);if(q>=0)selectedData[q*4+1]=255;}
    selectionTexture.needsUpdate=true;dirty=true;
   };
   const motionData=new Float32Array(width*4),motionTexture=new T.DataTexture(motionData,width,1,T.RGBAFormat,T.FloatType);motionTexture.needsUpdate=true;
