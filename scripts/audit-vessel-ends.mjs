@@ -99,6 +99,37 @@ export function tubeTips(g, minBranch = .006) {
   return {pts, tips, lengths, skeleton, adj};
 }
 
+/** Vessel meshes that are several separate tubes in one mesh (the four lumbar veins of a side, each running from the body wall to the vena cava or the ascending lumbar vein). `tubeTips` walks the surface graph from
+ *  its first vertex, so it only ever reaches ONE of the pieces and the other three got no ends audited at all (no connector, no taper: the end pieces of the lumbar veins stayed in 4 loose segments, 2026-11-18).
+ *  For the vessels listed here every piece gets its own tips. Other multi-piece meshes (84 in the atlas: portal vein, intercostal sets, digital sets …) are not listed yet: each would add its own connectors and checks. */
+export const MULTI_PIECE_VESSELS = /^Lumbar vein$/;
+const MIN_PIECE_TRIANGLES = 40;
+/** The connected pieces of a mesh (vertices welded by position), each with its own compact positions and indices; pieces below MIN_PIECE_TRIANGLES are loose debris and dropped. */
+export function surfacePieces(g) {
+  const key = new Map(), remap = new Uint32Array(g.pos.length / 3); let n = 0;
+  for (let i = 0; i < remap.length; i++) {
+    const k = `${Math.round(g.pos[i * 3] * 1e5)},${Math.round(g.pos[i * 3 + 1] * 1e5)},${Math.round(g.pos[i * 3 + 2] * 1e5)}`;
+    let v = key.get(k); if (v === undefined) { v = n++; key.set(k, v); } remap[i] = v;
+  }
+  const par = Array.from({length: n}, (_, i) => i), find = x => { while (par[x] !== x) x = par[x] = par[par[x]]; return x; };
+  for (let i = 0; i < g.idx.length; i += 3) { const a = find(remap[g.idx[i]]), b = find(remap[g.idx[i + 1]]), c = find(remap[g.idx[i + 2]]); par[b] = a; par[c] = a; }
+  const groups = new Map();
+  for (let i = 0; i < g.idx.length; i += 3) { const r = find(remap[g.idx[i]]); if (!groups.has(r)) groups.set(r, []); groups.get(r).push(i); }
+  const pieces = [];
+  for (const tris of groups.values()) {
+    if (tris.length < MIN_PIECE_TRIANGLES) continue;
+    const local = new Map(), pos = [], idx = [];
+    for (const i of tris) for (let t = 0; t < 3; t++) { const v = g.idx[i + t]; if (!local.has(v)) { local.set(v, pos.length / 3); pos.push(g.pos[v * 3], g.pos[v * 3 + 1], g.pos[v * 3 + 2]); } idx.push(local.get(v)); }
+    pieces.push({pos: Float32Array.from(pos), idx: Uint32Array.from(idx)});
+  }
+  return pieces;
+}
+/** [{pts, tips, lengths}] of a vessel: one entry per connected piece for MULTI_PIECE_VESSELS, else the single entry of tubeTips. */
+const tipsOf = (p, g) => { const pieces = MULTI_PIECE_VESSELS.test(p.name) ? surfacePieces(g) : [g];
+  if (!MULTI_PIECE_VESSELS.test(p.name)) return [tubeTips(g)];
+  // a piece is a plain tube, ~70 mm long and 4-6 mm across: the surface of a tube that thick is more than 6 mm (geodesic) from its axis, so the branch search would invent side tips; only the two ends of the axis count
+  return (pieces.length ? pieces : [g]).map(piece => { const t = tubeTips(piece); return {...t, tips: t.tips.slice(0, 2), lengths: t.lengths.slice(0, 2)}; }); };
+
 export function auditEnds() {
   const vessels = atlas.parts.filter(isVessel), tissue = new Grid(), vesselGrid = new Grid(), bySystem = {arterial: new Grid(), venous: new Grid()};
   for (const p of atlas.parts) {
@@ -112,8 +143,7 @@ export function auditEnds() {
   }
   const rows = [];
   for (const p of vessels) {
-    const g = geom(p), {pts, tips, lengths} = tubeTips(g);
-    for (const [k, tip] of tips.entries()) {
+    for (const {pts, tips, lengths} of tipsOf(p, geom(p))) for (const [k, tip] of tips.entries()) {
       const at = pts[tip], inTissue = tissue.nearest(at, .004, p.id);
       const near = vesselGrid.nearest(at, .03, p.id);
       const same = bySystem[p.system].nearest(at, .03, p.id);

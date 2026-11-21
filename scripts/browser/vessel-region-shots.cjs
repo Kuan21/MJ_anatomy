@@ -15,6 +15,8 @@ const VIEWS=[
  ['vs04-mesenteric',[0.0253,1.0742,0.0168],[0,0,1],0.07],['vs04-groin',[-0.0326,0.7752,0.0342],[0,0,1],0.07],['vs05-middle-hepatic',[-0.0176,1.2278,0.047],[0,0,1],0.08],['vs05-right-hepatic',[-0.0678,1.1995,-0.0186],[0,0,1],0.08],
  // a limb gap that was hidden by a wrong connector: the pectoral branch of the left thoraco-acromial artery stops 19 mm short of its trunk
  ['limb-gap-thoraco-acromial',[0.105,1.395,0.025],[0,0,1],0.10],
+ // the lumbar veins (four separate tubes per side, from the body wall to the ascending lumbar vein)
+ ['lumbar-back',[0,1.07,-0.03],[0,0,-1],0.22],['lumbar-front',[0,1.07,-0.01],[0,0,1],0.22],
  ['pel-front-wide',[0,0.90,0.0],[0,0,1],0.50],['pel-front',[0.03,0.88,0.0],[0,0,1],0.28],['pel-left',[0,0.88,0.0],[1,0,0],0.32],['pel-top',[0,0.92,0.0],[0,1,0],0.36]];
 (async()=>{
  const b=await chromium.launch({args:['--use-gl=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
