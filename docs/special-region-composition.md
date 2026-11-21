@@ -212,7 +212,7 @@
 
 - **邊界**
   - 坐骨棘（Spine of ischium） — 上界：**示意**；網格：spine of ischium
-  - 坐骨結節（Ischial tuberosity） — 下界：**示意**；網格：ischial tuberosity
+  - 坐骨粗隆（Ischial tuberosity） — 下界：**示意**；網格：ischial tuberosity
   - 薦棘韌帶（Sacrospinous ligament） — 前上界：**缺**
   - 薦粗隆韌帶（Sacrotuberous ligament） — 後界：**缺**
 - **頂**：—
