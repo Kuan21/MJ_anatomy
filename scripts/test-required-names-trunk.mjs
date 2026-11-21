@@ -18,6 +18,7 @@ assert.ok(renamed.length >= 50, `renamed rows: ${renamed.length}`);
 
 // 1. the table follows the required lists
 const required = [...JSON.parse(fs.readFileSync(new URL('docs/required-structures/abdomen.json', root), 'utf8')).structures.map(s => s.zh)];
+required.push(...JSON.parse(fs.readFileSync(new URL('docs/required-structures/head-neck.json', root), 'utf8')).structures.map(s => s.zh));
 for (const l of fs.readFileSync(new URL('docs/required-structures/pelvis-perineum-genital-list.md', root), 'utf8').split('\n')) { const m = l.match(/^\| \d+ \| [^|]+ \| ([^|]+) \|/); if (m) required.push(m[1].trim()); }
 const listed = new Set(required.map(z => z.replace(/（.*）/, '')));
 let inList = 0;
@@ -83,4 +84,5 @@ const zhOf = en => [...renamed, ...aliasOnly].find(n => n.en === en);
 assert.deepEqual(['Iliac crest', 'Ischial tuberosity', 'Pubic tubercle'].map(e => zhOf(e)?.zh), ['髂脊', '坐骨粗隆', '恥骨粗隆']);
 assert.ok(zhOf('11th rib').zhAliases.includes('第 11 肋') && zhOf('12th rib').zhAliases.includes('第 12 肋'));
 assert.equal(zhOf('Body of clitoris').zh, '陰蒂體');
+assert.deepEqual(['Posterior auricular artery', 'Middle meningeal artery'].map(e => zhOf(e)?.zh), ['後耳動脈', '中腦膜動脈']);
 console.log(`Required names (abdomen, pelvis, perineum) OK: ${renamed.length} renamed, ${inList} in the lists, ${found} in the search index, ${quizChecked} Quiz structures, ${scanned} files scanned.`);

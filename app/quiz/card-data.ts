@@ -145,7 +145,7 @@ Object.assign(CARD_EXTRAS, {
   },
   'meningeal branch of maxillary nerve': {
     來源: e('上頜神經（V2）在進入圓孔之前、仍在中顱窩時發出的細小感覺支', 'A small sensory branch of the maxillary nerve (V2), given off in the middle cranial fossa before the nerve enters the foramen rotundum'),
-    走向: e('是上頜神經中唯一在圓孔之前就分出的分支，向後外方進入中顱窩的硬腦膜，與腦膜中動脈同行', 'The only branch of the maxillary nerve that leaves it before the foramen rotundum; it turns into the dura mater of the middle cranial fossa and accompanies the middle meningeal artery'),
+    走向: e('是上頜神經中唯一在圓孔之前就分出的分支，向後外方進入中顱窩的硬腦膜，與中腦膜動脈同行', 'The only branch of the maxillary nerve that leaves it before the foramen rotundum; it turns into the dura mater of the middle cranial fossa and accompanies the middle meningeal artery'),
     支配範圍: e('中顱窩的硬腦膜（以前部為主）的一般感覺；純感覺', 'General sensation of the dura mater of the middle cranial fossa, mainly its front part; purely sensory'),
   },
   'lacrimal nerve': {
@@ -682,7 +682,7 @@ Object.assign(CARD_EXTRAS, {
   },
   'parietal bone': {
     位置: e('構成頭頂與顱側壁的上部，左右各一塊，呈四邊形的彎曲骨板', 'Forms the roof and the upper part of the side wall of the skull; a curved quadrilateral plate on each side'),
-    主要標誌: e('頂結節、上顳線與下顳線；四個緣（矢狀緣、冠狀緣、人字緣、鱗緣）；內面有腦膜中動脈溝與上矢狀竇溝', 'Parietal eminence, superior and inferior temporal lines; four borders (sagittal, frontal, occipital and squamosal); on the inner surface the groove for the middle meningeal artery and the groove for the superior sagittal sinus'),
+    主要標誌: e('頂結節、上顳線與下顳線；四個緣（矢狀緣、冠狀緣、人字緣、鱗緣）；內面有中腦膜動脈溝與上矢狀竇溝', 'Parietal eminence, superior and inferior temporal lines; four borders (sagittal, frontal, occipital and squamosal); on the inner surface the groove for the middle meningeal artery and the groove for the superior sagittal sinus'),
     相關關節: e('對側頂骨（矢狀縫）、額骨（冠狀縫）、枕骨（人字縫）、顳骨（鱗縫）與蝶骨大翼', 'The opposite parietal bone (sagittal suture), frontal bone (coronal suture), occipital bone (lambdoid suture), temporal bone (squamous suture) and the greater wing of the sphenoid'),
   },
   'articular disc of temporomandibular joint': {
@@ -774,7 +774,7 @@ Object.assign(CARD_EXTRAS, {
   'external carotid artery': {
     來源: e('總頸動脈在甲狀軟骨上緣附近分叉的前內側終支', 'The front-medial terminal branch of the common carotid artery, at about the upper border of the thyroid cartilage'),
     走向: e('起初在內頸動脈前內側，繼而轉到其外側上行，經二腹肌後腹與莖突舌骨肌深面，穿入腮腺；在下頜頸後方分為上頜動脈與淺顳動脈兩終支', 'At first in front of and medial to the internal carotid, it then crosses to its lateral side and ascends deep to the posterior belly of digastric and stylohyoid, entering the parotid gland; behind the neck of the mandible it ends as the maxillary and superficial temporal arteries'),
-    主要分支: e('由下而上依序有上甲狀腺動脈、升咽動脈、舌動脈、面動脈、枕動脈、耳後動脈，終支為上頜動脈與淺顳動脈', 'From below upward: superior thyroid, ascending pharyngeal, lingual, facial, occipital and posterior auricular arteries, ending as the maxillary and superficial temporal arteries'),
+    主要分支: e('由下而上依序有上甲狀腺動脈、升咽動脈、舌動脈、面動脈、枕動脈、後耳動脈，終支為上頜動脈與淺顳動脈', 'From below upward: superior thyroid, ascending pharyngeal, lingual, facial, occipital and posterior auricular arteries, ending as the maxillary and superficial temporal arteries'),
     供應範圍: e('頸前部、甲狀腺與喉、舌與口腔、顏面、頭皮、咽與扁桃體、顱底外面與硬腦膜、上下頜骨與牙齒及鼻腔（頭頸除眼、腦以外的大部分）', 'The front of the neck, thyroid gland and larynx, tongue and mouth, face, scalp, pharynx and tonsil, the outside of the skull base and the dura mater, the jaws and teeth and the nasal cavity (most of the head and neck except the eye and brain)'),
   },
   'internal carotid artery': {
