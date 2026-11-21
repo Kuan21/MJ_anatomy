@@ -2941,7 +2941,7 @@
  },
  {
   "name": "Right iliac crest",
-  "zh": "右髂嵴",
+  "zh": "右髂脊",
   "system": "skeletal",
   "kind": "landmark",
   "sex": "",
@@ -2962,7 +2962,7 @@
  },
  {
   "name": "Right pubic tubercle",
-  "zh": "右恥骨結節",
+  "zh": "右恥骨粗隆",
   "system": "skeletal",
   "kind": "landmark",
   "sex": "",
@@ -2983,7 +2983,7 @@
  },
  {
   "name": "Right ischial tuberosity",
-  "zh": "右坐骨結節",
+  "zh": "右坐骨粗隆",
   "system": "skeletal",
   "kind": "landmark",
   "sex": "",
@@ -3277,7 +3277,7 @@
  },
  {
   "name": "Left iliac crest",
-  "zh": "左髂嵴",
+  "zh": "左髂脊",
   "system": "skeletal",
   "kind": "landmark",
   "sex": "",
@@ -3298,7 +3298,7 @@
  },
  {
   "name": "Left pubic tubercle",
-  "zh": "左恥骨結節",
+  "zh": "左恥骨粗隆",
   "system": "skeletal",
   "kind": "landmark",
   "sex": "",
@@ -3319,7 +3319,7 @@
  },
  {
   "name": "Left ischial tuberosity",
-  "zh": "左坐骨結節",
+  "zh": "左坐骨粗隆",
   "system": "skeletal",
   "kind": "landmark",
   "sex": "",

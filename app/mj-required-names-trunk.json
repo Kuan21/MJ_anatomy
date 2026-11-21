@@ -54,6 +54,12 @@
   {"id":"AB07-50","kind":"synonym","status":"applied","entries":[{"en":"Superior gluteal nerve","zh":"上臀神經","enAliases":[],"zhAliases":["臀上神經"]}],"display":"renamed"},
   {"id":"AB07-51","kind":"synonym","status":"applied","entries":[{"en":"Inferior gluteal nerve","zh":"下臀神經","enAliases":[],"zhAliases":["臀下神經"]}],"display":"renamed"},
   {"id":"AB07-52","kind":"synonym","status":"applied","entries":[{"en":"Superior orbital fissure","zh":"上眶裂","enAliases":[],"zhAliases":["眶上裂"]}],"display":"renamed"},
-  {"id":"PP05-alias","kind":"synonym","status":"applied","entries":[{"en":"Inferior pubic ligament","zh":"恥骨下韌帶","enAliases":[],"zhAliases":["恥骨弓狀韌帶"]}],"display":"alias"}
+  {"id":"PP05-iliac-crest","kind":"synonym","status":"applied","entries":[{"en":"Iliac crest","zh":"髂脊","enAliases":[],"zhAliases":["髂嵴"]}],"display":"renamed"},
+  {"id":"PP05-ischial-tuberosity","kind":"synonym","status":"applied","entries":[{"en":"Ischial tuberosity","zh":"坐骨粗隆","enAliases":[],"zhAliases":["坐骨結節"]}],"display":"renamed"},
+  {"id":"PP05-pubic-tubercle","kind":"synonym","status":"applied","entries":[{"en":"Pubic tubercle","zh":"恥骨粗隆","enAliases":[],"zhAliases":["恥骨結節"]}],"display":"renamed"},
+  {"id":"PP05-alias","kind":"synonym","status":"applied","entries":[{"en":"Inferior pubic ligament","zh":"恥骨下韌帶","enAliases":[],"zhAliases":["恥骨弓狀韌帶"]}],"display":"alias"},
+  {"id":"AB07-rib11","kind":"synonym","status":"applied","entries":[{"en":"11th rib","zh":"第十一肋骨","enAliases":[],"zhAliases":["第 11 肋","第11肋","第十一肋"]}],"display":"alias"},
+  {"id":"AB07-rib12","kind":"synonym","status":"applied","entries":[{"en":"12th rib","zh":"第十二肋骨","enAliases":[],"zhAliases":["第 12 肋","第12肋","第十二肋"]}],"display":"alias"},
+  {"id":"PP05-clitoris-body","kind":"synonym","status":"applied","entries":[{"en":"Body of clitoris","zh":"陰蒂體","enAliases":[],"zhAliases":["陰蒂海綿體"]}],"display":"alias"}
  ]
 }

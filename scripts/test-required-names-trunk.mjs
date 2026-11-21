@@ -78,4 +78,9 @@ for (const n of [...renamed, ...aliasOnly]) {
   }
 }
 assert.ok(quizChecked >= 10, `only ${quizChecked} Quiz structures checked`);
+// user decisions 2026-11-21: landmarks follow the list; the ribs keep the site wording with the list wording as an alias; the clitoris body is shown as 陰蒂體
+const zhOf = en => [...renamed, ...aliasOnly].find(n => n.en === en);
+assert.deepEqual(['Iliac crest', 'Ischial tuberosity', 'Pubic tubercle'].map(e => zhOf(e)?.zh), ['髂脊', '坐骨粗隆', '恥骨粗隆']);
+assert.ok(zhOf('11th rib').zhAliases.includes('第 11 肋') && zhOf('12th rib').zhAliases.includes('第 12 肋'));
+assert.equal(zhOf('Body of clitoris').zh, '陰蒂體');
 console.log(`Required names (abdomen, pelvis, perineum) OK: ${renamed.length} renamed, ${inList} in the lists, ${found} in the search index, ${quizChecked} Quiz structures, ${scanned} files scanned.`);
