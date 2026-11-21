@@ -14,7 +14,7 @@ const base = normalizeAtlasSystems(stream('atlas-stream.json.gz')), facial = str
 const atlas = mergeAtlasStreams(base, [facial, supplement]);
 
 assert.equal(atlas.parts.length, base.parts.length + facial.parts.length + supplement.parts.length);
-assert.equal(base.parts.length + facial.parts.length, 2277, '2,230 body (the duplicate copies of the cricoid cartilage FJ2769 and the hyoid bone FJ3201 are excluded in app/anatomy-source-overrides.json; the two lateral circumflex femoral branch sets came back under their real name) + 47 facial = 2,279 structures before the supplement');
+assert.equal(base.parts.length + facial.parts.length, 2269, '2,222 body (the duplicate copies of the cricoid cartilage FJ2769 and the hyoid bone FJ3201 and eight overlapping pelvic-floor, anal-sphincter and levator-arch meshes (FJ1449M, FJ1450, FJ1450M, FJ1453M, FJ1457M, FJ1458M, FJ1465, FJ1465M) are excluded in app/anatomy-source-overrides.json; the two lateral circumflex femoral branch sets came back under their real name) + 47 facial = 2,279 structures before the supplement');
 assert.equal(new Set(atlas.parts.map(p => p.id)).size, atlas.parts.length, 'part ids are unique');
 
 // every part resolves to bytes inside a real, correctly sized package
