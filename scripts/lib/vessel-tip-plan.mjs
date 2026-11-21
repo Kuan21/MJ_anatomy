@@ -14,7 +14,7 @@ import {taperLength, continuesAhead, FLARE_MIN_TRUNK} from './vessel-tip-shape.m
 const root = new URL('../../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 /** Identity of a vessel end across the two build steps: the vessel and the cut position to 0.01 mm. */
 export const tipKey = row => `${row.id}@${row.at.map(x => Math.round(x * 1e5)).join(',')}`;
-export const STUB_RADIUS = .0032;   // head and neck, neck root: an end of up to 3.2 mm radius is rounded too, down to half a radius long
+export const STUB_RADIUS = .0032, LOST_GAP_RADIUS = .005;   // head and neck, neck root: an end of up to 3.2 mm radius is rounded too, down to half a radius long
 export const FADE_RADIUS = .0018, FLARE_MAX_RADIUS = .0018, FLARE_END_CLEAR = .003, GAP_MM = 12;
 
 /** Two veins whose ends are held exactly as on main (owner's decision): the right lateral circumflex femoral vein (FJ2201) and the right deep femoral vein (FJ2135). A far branch end of the first lies 37 mm from the second
@@ -85,8 +85,9 @@ export async function planTips(rows = auditEnds()) {
     } else {
       const frame = endFrame(surface(row.id), row.at); if (!frame) continue;
       if (row.kind === 'dangling' && row.toSameMm <= GAP_MM && row.closest) continue;   // a connector is built there
-      const stub = inStubScope(row.id);   // head and neck, neck root: any end of up to 3.2 mm radius is rounded, whatever the length of its branch (the suprascapular vein ends flat 28 mm out)
-      if (frame.radius > (stub ? STUB_RADIUS : FADE_RADIUS)) continue;
+      const stub = inStubScope(row.id) || row.lostGap;   // head and neck, neck root: any end of up to 3.2 mm radius is rounded, whatever the length of its branch (the suprascapular vein ends flat 28 mm out)
+      // an end that used to be joined to an unrelated vessel (scripts/lib/vessel-relation.mjs) is rounded off instead, up to 5 mm radius, wherever it is
+      if (frame.radius > (row.lostGap ? LOST_GAP_RADIUS : stub ? STUB_RADIUS : FADE_RADIUS)) continue;
       // a ring in the middle of the vessel, or the open cap of a branch root inside its own trunk: the vessel carries on past it. Not an end at all, so neither narrowed nor given a cone.
       if (vesselContinues(parts, row.id, frame, Math.min(taperLength(frame.radius), row.branchMm == null ? Infinity : .85 * row.branchMm / 1000))) { buried.push({id: row.id, row, center: frame.center, radius: frame.radius}); continue; }
       const length = Math.min(taperLength(frame.radius), row.branchMm == null ? Infinity : .85 * row.branchMm / 1000);

@@ -18,7 +18,7 @@ import {planTips, tipKey, NECK_ROOT_ARM_RIG} from './lib/vessel-tip-plan.mjs';
 
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 const stamp = file('work/vessel-ends.stamp'), out = new URL('public/models/stream/', root), manifest = file('public/models/vessel-ends/vessel-ends-stream.json.gz');
-const inputs = ['scripts/prepare-vessel-ends.mjs', 'scripts/lib/vessel-tip-plan.mjs', 'scripts/lib/vessel-tip-shape.mjs', 'scripts/audit-vessel-ends.mjs', 'scripts/lib/nerve-schematics.mjs', 'scripts/lib/vessel-frames.mjs', 'scripts/lib/vessel-segments.mjs', 'scripts/lib/tube-tips.mjs', 'scripts/lib/region-entry.ts', 'app/mj-part-regions.ts', 'public/models/atlas.json', 'public/models/atlas-stream.json', 'app/anatomy-source-overrides.json', ...STREAMS.filter(s => !s.startsWith('vessel-ends')).map(s => 'public/models/' + s)];
+const inputs = ['scripts/prepare-vessel-ends.mjs', 'scripts/lib/vessel-tip-plan.mjs', 'scripts/lib/vessel-relation.mjs', 'app/mj-vessel-parents.json', 'scripts/lib/vessel-tip-shape.mjs', 'scripts/audit-vessel-ends.mjs', 'scripts/lib/nerve-schematics.mjs', 'scripts/lib/vessel-frames.mjs', 'scripts/lib/vessel-segments.mjs', 'scripts/lib/tube-tips.mjs', 'scripts/lib/region-entry.ts', 'app/mj-part-regions.ts', 'public/models/atlas.json', 'public/models/atlas-stream.json', 'app/anatomy-source-overrides.json', ...STREAMS.filter(s => !s.startsWith('vessel-ends')).map(s => 'public/models/' + s)];
 const hash = createHash('sha256').update(inputs.map(f => fs.readFileSync(file(f))).join('')).digest('hex');
 try { if (fs.readFileSync(stamp, 'utf8') === hash && fs.existsSync(manifest)) { console.log('Vessel ends: up to date.'); process.exit(0); } } catch {}
 
