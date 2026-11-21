@@ -51,3 +51,24 @@ export function marchOnSurface(verts, normals, from, dir, steps, step = .004, li
   for (let k = 0; k < steps; k++) { const next = onSurface(verts, normals, add(at, mul(dir, step)), lift, accept); if (!next) break; out.push(next); at = next; }
   return out;
 }
+
+/**
+ * Splits the triangles of a mesh that cross the zero level of a field (fOf: position -> value) along that level (linear along each edge), keeping both sides; each new triangle keeps
+ * the zone and line labels of the triangle it comes from. Shared edges are cut once, so the mesh stays watertight. Used to draw the thin line of a position term into the surface.
+ */
+export function splitByField({positions: P, indices: I, zone, line}, fOf) {
+  const pos = Array.from(P), f = [], edge = new Map(), idx = [], z = [], l = [];
+  for (let v = 0; v < P.length / 3; v++) f.push(fOf([P[v * 3], P[v * 3 + 1], P[v * 3 + 2]]));
+  const cut = (a, b) => { const k = a < b ? `${a}_${b}` : `${b}_${a}`; if (edge.has(k)) return edge.get(k); const t = f[a] / (f[a] - f[b]), i = pos.length / 3;
+    for (let c = 0; c < 3; c++) pos.push(pos[a * 3 + c] + (pos[b * 3 + c] - pos[a * 3 + c]) * t); f.push(0); edge.set(k, i); return i; };
+  for (let t = 0; t < I.length / 3; t++) {
+    const tri = [I[t * 3], I[t * 3 + 1], I[t * 3 + 2]], s = tri.map(v => f[v] >= 0), push = (a, b, c) => { idx.push(a, b, c); z.push(zone[t]); l.push(line[t]); };
+    if (s[0] === s[1] && s[1] === s[2]) { push(...tri); continue; }
+    const k = s[0] !== s[1] && s[0] !== s[2] ? 0 : s[1] !== s[0] && s[1] !== s[2] ? 1 : 2, L = tri[k], M = tri[(k + 1) % 3], N = tri[(k + 2) % 3], pM = cut(L, M), pN = cut(L, N);
+    push(L, pM, pN); push(pM, M, N); push(pM, N, pN);
+  }
+  return {positions: Float32Array.from(pos), indices: Uint32Array.from(idx), zone: Uint8Array.from(z), line: Uint8Array.from(l)};
+}
+
+/** Centroid of triangle t. */
+export const triCentre = (m, t) => [0, 1, 2].map(k => (m.positions[m.indices[t * 3] * 3 + k] + m.positions[m.indices[t * 3 + 1] * 3 + k] + m.positions[m.indices[t * 3 + 2] * 3 + k]) / 3);

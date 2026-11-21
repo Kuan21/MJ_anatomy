@@ -105,17 +105,17 @@ const parts: OrganPartDef[] = [
     loc: b('The sacculations of the colon wall between the taeniae, separated by semilunar folds. Marked here on the bulges of the colon model.', '結腸帶之間管壁的袋狀膨出，彼此以半月皺襞分隔。這裡標示在結腸模型的膨出處。'),
     rel: b('They are absent from the rectum and appendix; on X-ray their folds cross only part of the lumen, unlike the circular folds of the small intestine.', '直腸與闌尾沒有結腸袋；X 光上其皺襞只橫過部分管腔，與小腸的環狀皺襞不同。'),
     fn: b('They form because the taeniae are shorter than the colon wall.', '因結腸帶比管壁短，管壁被收縮成袋狀。'),
-  }, {mark: line('Colon', 1), schematic: true}),
+  }, {mark: line('Colon', 1), schematic: true, term: true}),
   part('Right colic flexure', 'Right colic flexure', '右結腸彎曲', 'marks', '#8a5a3a', {
-    loc: b('The bend between the ascending and transverse colon, under the right lobe of the liver (hepatic flexure).', '升結腸與橫結腸之間的轉彎處，位在肝右葉下方（肝曲）。'),
+    loc: b('Not a separate structure: the name of the bend between the ascending and transverse colon, under the right lobe of the liver (hepatic flexure). Shown as a thin line round the gut there when chosen.', '不是獨立的構造，而是升結腸與橫結腸之間轉彎處的名稱，位在肝右葉下方（肝曲）。選取時在該處繞腸管顯示一條細線。'),
     rel: b('It lies in front of the lower part of the right kidney.', '位在右腎下部前方。'),
     blood: b('Right colic artery.', '右結腸動脈。'),
-  }, {mark: line('Colon', 2), schematic: true}),
+  }, {mark: line('Colon', 2), schematic: true, term: true}),
   part('Left colic flexure', 'Left colic flexure', '左大腸彎', 'marks', '#3d6e8f', {
-    loc: b('The sharper, higher bend between the transverse and descending colon, against the spleen (splenic flexure).', '橫結腸與降結腸之間、較高較急的轉彎處，靠著脾臟（脾曲）。'),
+    loc: b('Not a separate structure: the name of the sharper, higher bend between the transverse and descending colon, against the spleen (splenic flexure). Shown as a thin line round the gut there when chosen.', '不是獨立的構造，而是橫結腸與降結腸之間、較高較急轉彎處的名稱，靠著脾臟（脾曲）。選取時在該處繞腸管顯示一條細線。'),
     rel: b('The phrenicocolic ligament holds it to the diaphragm; it lies on the left kidney.', '由膈結腸韌帶固定在橫膈上；位在左腎前方。'),
     blood: b('Left colic artery; the meeting point of the superior and inferior mesenteric territories is near here.', '左結腸動脈；上、下腸繫膜動脈供應範圍的交會處在這附近。'),
-  }, {mark: line('Colon', 3), schematic: true}),
+  }, {mark: line('Colon', 3), schematic: true, term: true}),
   part('Ileocecal valve', 'Ileocecal valve', '迴盲瓣', 'marks', '#c83aa0', {
     loc: b('Two lips of the bowel wall at the opening of the ileum into the large intestine. Marked here on the outer wall at that place; the valve itself lies inside.', '迴腸開口於大腸處由腸壁形成的上下兩唇。這裡把標示畫在同一位置的外壁上，瓣本身在腸腔內面。'),
     fn: b('Slows the passage of contents into the caecum and limits reflux from it.', '減慢內容物進入盲腸，並限制逆流。'),
@@ -125,7 +125,7 @@ const parts: OrganPartDef[] = [
     loc: b('The lower opening of the anal canal, in the perineum about 4 cm in front of the tip of the coccyx. Marked here around the lower end of the model.', '肛管的下開口，位在會陰、尾骨尖前方約 4 公分處。這裡標示在模型下端周圍。'),
     rel: b('Surrounded by the external anal sphincter and the skin of the perineum.', '周圍有肛門外括約肌與會陰皮膚。'),
     nerve: b('Inferior rectal nerves (from the pudendal nerve).', '下直腸神經（來自陰部神經）。'),
-  }, {mark: line('Rectum', 1), schematic: true}),
+  }, {mark: line('Rectum', 1), schematic: true, term: true}),
 
   // ---- wall structures
   part('Taeniae coli', 'Taeniae coli', '結腸帶', 'wall', '#e0d8b0', {
@@ -149,7 +149,7 @@ const parts: OrganPartDef[] = [
     loc: b('The attachment of the mesentery to the posterior abdominal wall, running obliquely from the duodenojejunal flexure (left of L2) to the right sacroiliac joint. Marked here along the back border of the mesentery.', '小腸繫膜附著在後腹壁上的部分，由十二指腸空腸彎曲（第二腰椎左側）斜向右下到右薦髂關節。這裡沿繫膜後緣標示。'),
     rel: b('It crosses the inferior part of the duodenum, aorta, inferior vena cava, right ureter and right psoas major.', '越過十二指腸下部、主動脈、下腔靜脈、右輸尿管與右腰大肌。'),
     contents: b('The superior mesenteric vessels enter the mesentery here.', '上腸繫膜動靜脈由此進入小腸繫膜。'),
-  }, {mark: line('Mesentery', 1), schematic: true, quizSystem: 'viscera'}),
+  }, {mark: line('Mesentery', 1), schematic: true, quizSystem: 'viscera', term: true}),
   part('Transverse mesocolon', 'Transverse mesocolon', '橫結腸繫膜', 'peritoneum', '#e8dcc0', {
     loc: b('The fold of peritoneum that suspends the transverse colon from the front of the pancreas.', '把橫結腸懸掛在胰臟前方的腹膜皺襞。'),
     contents: b('The middle colic vessels.', '中結腸動靜脈。'),

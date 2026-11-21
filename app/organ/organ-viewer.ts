@@ -56,6 +56,8 @@ export function createOrganViewer(host: HTMLDivElement, def: OrganDef, callbacks
       const d = it.def, ghost = ghosts.has(d.group) && !d.mark, hidden = isHidden(it) && !ghost, selected = sel.has(d.key), glass = state.glass && glassGroups.includes(d.group) && !d.mark;
       let visible = !hidden;
       if (visible && it.def.mark?.channel === 'zone') visible = state.zones || selected;
+      // a position term (curvature, notch, surface) is only a name for part of the outline: its thin line is drawn only while it is selected
+      if (visible && d.term) visible = selected;
       // isolate: only the chosen structures; a chosen marking keeps its host as a faint shell
       let opacity = d.opacity ?? 1;
       if (ghost) opacity = selected ? .4 : .16; else if (glass) opacity = Math.min(opacity, selected ? .5 : .3);

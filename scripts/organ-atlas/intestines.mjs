@@ -2,8 +2,8 @@
 // (public/models/atlas.json, CC BY 4.0, already in the repository). The three colon pieces are put together into one surface so their parts can be marked on it:
 //   Colon   zone 1 caecum (below the ileocaecal junction), 2 ascending colon, 3 transverse colon, 4 descending colon, 5 sigmoid colon (the descending piece of the atlas runs on
 //           into the pelvis: the sigmoid colon starts where it turns medially);
-//           line 1 haustra (the sacculations of the model, where the wall bulges out from the centre line), 2 right colic flexure, 3 left colic flexure, 4 ileocaecal valve
-//           (marked on the outer wall where the ileum enters).
+//           line 1 haustra (the sacculations of the model, where the wall bulges out from the centre line), 2 right colic flexure, 3 left colic flexure (position terms: a thin line
+//           round the gut at each bend), 4 ileocaecal valve (marked on the outer wall where the ileum enters). Haustra, flexures, anus and the root of the mesentery show only when chosen.
 //   Rectum  zone 1 rectum, 2 anal canal (the lowest 35 mm, within the anal sphincters); line 1 anus (the lower opening).
 //   Mesentery line 1 root of the mesentery (the border along the back wall of the abdomen).
 // Built by us (schematic): omental (epiploic) appendices along the taeniae, jejunal and ileal arteries from the superior mesenteric artery, the inferior mesenteric ganglion and the
@@ -11,7 +11,7 @@
 import {weld, loopSubdivide, graphOf, dijkstra, clipPlane, vertexNormals, smoothPolyline} from '../lib/organ-mesh.mjs';
 import {add, sub, mul, lerp, len, unit, cross, verticesOf, nearest, merge, tubeThrough} from '../lib/organ-supply.mjs';
 import {tidy} from '../lib/organ-tidy.mjs';
-import {smoothLabels, triangleLabels, band} from '../lib/organ-parts.mjs';
+import {smoothLabels, triangleLabels, band, splitByField, triCentre} from '../lib/organ-parts.mjs';
 
 export const id = 'intestines';
 const D = (a, b) => len(sub(a, b));
@@ -82,9 +82,16 @@ export function build({atlasPart, paokaoPart, writer}) {
   // flexures: where the pieces meet; ileocaecal valve: where the ileum enters
   const contact = (a, b) => { let best = [Infinity]; for (let v = ranges[a][0]; v < ranges[a][1]; v += 3) for (let u = ranges[b][0]; u < ranges[b][1]; u += 3) { const d = D(CV[v], CV[u]); if (d < best[0]) best = [d, lerp(CV[v], CV[u], .5)]; } return best[1]; };
   const rightFlex = contact('asc', 'tra'), leftFlex = contact('des', 'tra');
-  for (let v = 0; v < cn; v++) { if (D(CV[v], rightFlex) < .02) line[v] = 2; else if (D(CV[v], leftFlex) < .02) line[v] = 3; else if (D(CV[v], icOnColon) < .008) line[v] = 4; }
+  for (let v = 0; v < cn; v++) if (D(CV[v], icOnColon) < .008) line[v] = 4;
   const count = (a, k) => a.reduce((n, x) => n + (x === k), 0);
-  const {tz, tl} = triangleLabels(colon.indices, zone, line, 4), cp = writer.addMesh('Colon', colon.positions, colon.indices, {}); cp.triZone = writer.addBytes(tz); cp.triLine = writer.addBytes(tl);
+  // colic flexures: position terms, drawn as a thin line (1.5 mm) round the gut at each bend, in the plane that bisects the two directions of the gut there
+  let cm = {positions: colon.positions, indices: colon.indices, ...(({tz, tl}) => ({zone: tz, line: tl}))(triangleLabels(colon.indices, zone, line, 4))};
+  const LINE_W = .0015, endDir = (L, atEnd) => atEnd ? unit(sub(L.at(-1), L.at(-4))) : unit(sub(L[0], L[3]));
+  const rings = [[rightFlex, unit(add(endDir(lines.asc, true), endDir(lines.tra, false))), 2], [leftFlex, unit(add(endDir(lines.tra, true), endDir(lines.des, false))), 3]];
+  const ringF = (c, n) => p => D(p, c) > .03 ? -1 : LINE_W / 2 - Math.abs((p[0] - c[0]) * n[0] + (p[1] - c[1]) * n[1] + (p[2] - c[2]) * n[2]);
+  for (const [c, n] of rings) cm = splitByField(cm, ringF(c, n));
+  for (let t = 0; t < cm.indices.length / 3; t++) { const q = triCentre(cm, t); for (const [c, n, lab] of rings) if (ringF(c, n)(q) > 0) cm.line[t] = lab; }
+  const tz = cm.zone, tl = cm.line, cp = writer.addMesh('Colon', cm.positions, cm.indices, {}); cp.triZone = writer.addBytes(tz); cp.triLine = writer.addBytes(tl);
 
   // ---- rectum and anal canal
   const rec = loopSubdivide(...Object.values(W(atlasPart('FJ2571'))), 1), RV = verticesOf(rec), rn = RV.length, rMinY = Math.min(...RV.map(p => p[1]));
