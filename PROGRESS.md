@@ -5,7 +5,7 @@
 
 ## 目前狀態
 - 專案處於**穩定期**（2026-11-08 起）：暫停新功能，只修顯示錯誤；所有 PR 都要使用者人工審核，不可自行 merge。
-- main 最新：#457（9c94708a）。本分支已合併 main 到 #457（2026-11-22 第五十五次）。
+- main 最新：#458（c40e2735）。本分支已合併 main 到 #458（2026-11-22 第五十六次）。
 - **main 已經有中心線連續性檢查**（#281、#328：`scripts/check-centerlines.mjs`、基準 `docs/centerline-known.json` 57 條，已在 `npm run check` 內）。本分支的 `check-centreline-continuity.mjs` 是另一套做法，見「待我決定」。
 - 開放 PR（下列是 2026-11-11 的清單；本機沒有 `gh`，之後沒有再查，main 已合併到 #338，清單很可能已過時）：
   - #223 心臟腔內構造與標籤（部分完成）
@@ -365,6 +365,11 @@
 - 2026-11-22（第五十五次）：只合併 main，沒有改程式、模型、解剖內容或網站。
   - main 前進到 #457（#456 CLAUDE.md 加入「純文件 PR 免跑 ci:local」與重工作槽優先次序、#457 核對報告）。只改文件，`git merge-tree` 確認無衝突、沒有刪檔，用一般 merge 合併。
   - 本機通過：七個 `test-centreline-*`（196 步中的第 152–158 步）、`check-no-notes`。完整 `npm run check` 因缺生成檔沒有跑。
+  - 其餘仍等「待我決定」。`_diag-*.mjs` 四個與 `package-lock.json` 差異仍未提交；本機沒有 `gh`，未查 PR #248 的 CI。
+
+- 2026-11-22（第五十六次）：只合併 main，沒有改程式、模型、解剖內容或網站。
+  - main 前進到 #458（部位名詞卡措辭，改 `app/mj-structure-info.ts`、`app/quiz/card-data.ts`）。`git merge-tree` 確認無衝突、沒有刪檔或改名，用一般 merge 合併。
+  - 本機通過：七個 `test-centreline-*`、`check-no-notes`。完整 `npm run check` 因缺生成檔沒有跑。
   - 其餘仍等「待我決定」。`_diag-*.mjs` 四個與 `package-lock.json` 差異仍未提交；本機沒有 `gh`，未查 PR #248 的 CI。
 
 ## 進行中／等審核
