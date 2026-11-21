@@ -15,6 +15,13 @@ export const ORGAN_QUIZ: Record<OrganId, OrganQuiz> = {
     frame: {x: .13, z: [-.04, .11]},
     sections: [section('all', '全部胃', 'Stomach'), section('zones', '胃的分區', 'Regions of the stomach'), section('lines', '彎、切跡與括約肌', 'Curvatures, notches and sphincter'), section('arteries', '動脈', 'Arteries'), section('veins', '靜脈（含門靜脈屬支）', 'Veins and portal tributaries'), section('nerves', '神經', 'Nerves'), section('context', '相連的消化管', 'Neighbouring parts of the gut tube')],
   },
+  'duodenum-pancreas-spleen': {
+    label: '十二指腸、胰、脾', english: 'Duodenum, pancreas and spleen', tag: '十二指腸胰脾篇',
+    blurb: '十二指腸四部與乳突、胰的頭頸體尾與鉤突、胰管與膽管、脾的各面與脾門，以及它們的動脈、靜脈（含門靜脈屬支）與神經',
+    scope: '採用十二指腸、胰與脾的詳細模型（解剖姿勢，由前方觀看）。各部分與各面都是標示在同一個器官模型表面上的位置，邊界為示意；肝胰壺腹、副胰管、上十二指腸動脈、十二指腸懸韌帶與腹腔叢、上腸繫膜叢是依一般描述畫成的示意管或示意帶。',
+    frame: {x: .13, z: [-.04, .11]},
+    sections: [section('all', '全部', 'All'), section('zones', '各部分與各面', 'Parts and surfaces'), section('marks', '乳突、彎曲與脾門', 'Papillae, flexure and hilum'), section('ducts', '膽管與胰管', 'Bile and pancreatic ducts'), section('arteries', '動脈', 'Arteries'), section('veins', '靜脈（含門靜脈屬支）', 'Veins and portal tributaries'), section('nerves', '神經', 'Nerves'), section('muscles', '相關肌肉與韌帶', 'Related muscles and ligaments')],
+  },
 };
 export const organQuizRegion = (id: OrganId): QuizRegionDef => {
   const o = ORGAN_QUIZ[id];
