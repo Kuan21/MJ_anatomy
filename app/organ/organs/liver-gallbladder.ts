@@ -28,7 +28,7 @@ const vein = (key: string, zh: string, card: OrganCard, extra: Extra = {}) => pa
 const portal = (key: string, zh: string, card: OrganCard, extra: Extra = {}) => part(key, key, zh, 'veins', PORTAL, card, {quizSystem: 'venous', ...extra});
 const duct = (key: string, en: string, zh: string, card: OrganCard, extra: Extra = {}) => part(key, en, zh, 'ducts', DUCT, card, {quizSystem: 'viscera', ...extra});
 const note = (key: string, en: string, zh: string, card: OrganCard) => part(key, en, zh, 'cardonly', '#9fb8a0', card, {cardOnly: true, quizSystem: 'viscera'});
-const zone = (host: string, v: number) => ({host, channel: 'zone' as const, values: [v]});
+const zone = (host: string, ...v: number[]) => ({host, channel: 'zone' as const, values: v});
 const line = (host: string, v: number) => ({host, channel: 'line' as const, values: [v]});
 
 const parts: OrganPartDef[] = [
@@ -54,32 +54,32 @@ const parts: OrganPartDef[] = [
     loc: b('The large part to the right of the falciform ligament on the diaphragmatic surface (and of the gallbladder fossa and the groove for the inferior vena cava on the visceral surface). Here it is marked as segments V–VIII and the upper part of IV.', '橫膈面上位於鐮狀韌帶右側的大部分（臟面上在膽囊窩與下腔靜脈溝的右側）。這裡標示為第 V 至第 VIII 段與第 IV 段上部。'),
     rel: b('Its visceral surface bears the impressions of the right colic flexure, right kidney, right suprarenal gland and duodenum.', '臟面上有右結腸彎、右腎、右腎上腺與十二指腸的壓跡。'),
     blood: b('Right hepatic artery, right branch of the portal vein; drained mainly by the right and middle hepatic veins.', '右肝動脈與肝門靜脈右支；主要由右肝靜脈與中肝靜脈引流。'),
-  }, {mark: zone('Liver', 1), schematic: true}),
+  }, {mark: zone('Liver', 11, 12), schematic: true}),
   part('Left lobe of liver', 'Left lobe of liver', '肝左葉', 'zones', '#7fbf7f', {
     loc: b('The smaller, thinner part to the left of the falciform ligament and of the fissures for the round ligament and the ligamentum venosum; it reaches the left hypochondrium (segments II and III).', '位於鐮狀韌帶，以及圓韌帶裂與靜脈韌帶裂左側、較小較薄的部分，延伸到左季肋區（第 II、III 段）。'),
     rel: b('Its visceral surface lies on the stomach (gastric impression) and the abdominal oesophagus; the lesser omentum attaches along the fissure for the ligamentum venosum.', '臟面覆蓋在胃上（胃壓跡）與食道腹部上；小網膜附著在靜脈韌帶裂。'),
     blood: b('Left hepatic artery, left branch of the portal vein; drained by the left hepatic vein.', '左肝動脈與肝門靜脈左支；由左肝靜脈引流。'),
-  }, {mark: zone('Liver', 2), schematic: true}),
+  }, {mark: zone('Liver', 21, 22), schematic: true}),
   part('Quadrate lobe of liver', 'Quadrate lobe of liver', '肝方形葉', 'zones', '#6aa9d8', {
     loc: b('A square area on the visceral surface between the gallbladder fossa and the fissure for the round ligament, in front of the porta hepatis (the lower part of segment IV).', '臟面上位於膽囊窩與圓韌帶裂之間、肝門前方的方形區域（第 IV 段下部）。'),
     rel: b('It touches the pylorus and the first part of the duodenum.', '與幽門及十二指腸上部相鄰。'),
     note: b('Functionally it belongs to the left liver (segment IV), although it lies to the right of the falciform ligament.', '雖然位在鐮狀韌帶右側，在功能分區上屬於左半肝（第 IV 段）。'),
-  }, {mark: zone('Liver', 3), schematic: true}),
+  }, {mark: zone('Liver', 31, 32), schematic: true}),
   part('Caudate lobe of liver', 'Caudate lobe of liver', '肝尾葉', 'zones', '#b48fd0', {
     loc: b('A small lobe on the back of the liver between the groove for the inferior vena cava and the fissure for the ligamentum venosum, behind the porta hepatis (segment I).', '肝後方的小葉，位在下腔靜脈溝與靜脈韌帶裂之間、肝門後方（第 I 段）。'),
     rel: b('It lies in the upper recess of the lesser sac; its caudate process joins it to the right lobe behind the porta.', '位在網膜囊上隱窩內；尾狀突在肝門後方把它與右葉連起來。'),
     blood: b('Branches from both the right and left hepatic arteries and portal branches; it drains directly into the inferior vena cava by small veins.', '同時接受左、右肝動脈與門靜脈分支；以小靜脈直接注入下腔靜脈。'),
-  }, {mark: zone('Liver', 4), schematic: true}),
+  }, {mark: zone('Liver', 41, 42), schematic: true}),
   part('Porta hepatis', 'Porta hepatis', '肝門', 'marks', '#2f3437', {
-    loc: b('A transverse fissure about 5 cm long on the visceral surface, between the quadrate lobe in front and the caudate lobe behind. Marked here around the division of the portal vein and shown only when chosen.', '臟面上長約 5 公分的橫裂，前方是方形葉，後方是尾葉。這裡標示在肝門靜脈分叉處周圍，選取時才顯示。'),
+    loc: b('A transverse fissure about 5 cm long on the visceral surface, between the quadrate lobe in front and the caudate lobe behind. Marked here around the division of the portal vein.', '臟面上長約 5 公分的橫裂，前方是方形葉，後方是尾葉。這裡標示在肝門靜脈分叉處周圍。'),
     contents: b('The portal vein (behind), the right and left hepatic arteries and the hepatic ducts (in front), hepatic nerves and lymph vessels; the lesser omentum attaches to its edges.', '肝門靜脈（後方）、左右肝動脈與左右肝管（前方）、肝神經與淋巴管；小網膜附著在它的邊緣。'),
     rel: b('It is the hilum of the liver: all structures except the hepatic veins enter or leave here.', '它是肝的門：除了肝靜脈以外，所有結構都由此出入。'),
-  }, {mark: line('Liver', 1), schematic: true, term: true}),
+  }, {mark: line('Liver', 1), schematic: true}),
   part('Bare area of liver', 'Bare area of liver', '肝裸區', 'marks', '#8a5a3a', {
-    loc: b('A triangular area on the back of the right lobe, around the groove for the inferior vena cava, that is not covered by peritoneum. Its outline here is schematic and it is shown only when chosen.', '右葉後方、下腔靜脈溝周圍沒有腹膜覆蓋的三角形區域。這裡的範圍為示意，選取時才顯示。'),
+    loc: b('A triangular area on the back of the right lobe, around the groove for the inferior vena cava, that is not covered by peritoneum. Its outline here is schematic.', '右葉後方、下腔靜脈溝周圍沒有腹膜覆蓋的三角形區域。這裡的範圍為示意。'),
     rel: b('It lies directly against the diaphragm, bounded by the upper and lower layers of the coronary ligament, which meet at the right triangular ligament.', '直接貼著橫膈，四周以冠狀韌帶上、下兩層為界，兩層在右三角韌帶處會合。'),
     note: b('Here the liver is joined to the diaphragm by connective tissue only, so infection can spread from the liver to the chest without entering the peritoneal cavity.', '這裡肝與橫膈之間只有結締組織，所以感染可不經腹膜腔直接由肝擴散到胸腔。'),
-  }, {mark: line('Liver', 2), schematic: true, term: true}),
+  }, {mark: line('Liver', 2), schematic: true}),
   part('Coronary ligament of liver', 'Coronary ligament of liver', '肝冠狀韌帶', 'marks', '#3d6e8f', {
     loc: b('The reflection of peritoneum from the diaphragm to the back of the liver, in an upper and a lower layer around the bare area. Marked here along the border of the bare area.', '腹膜由橫膈反折到肝後方的部分，分上、下兩層圍住裸區。這裡沿裸區邊緣標示。'),
     rel: b('Its two layers meet at the right triangular ligament; on the left they lead to the left triangular ligament.', '兩層在右側會合成右三角韌帶；左側延續到左三角韌帶。'),
@@ -302,16 +302,16 @@ const parts: OrganPartDef[] = [
     rel: b('Behind it is limited by the coronary and triangular ligaments.', '後方以冠狀韌帶與三角韌帶為界。'),
     note: b('Abscesses can form here after abdominal infection.', '腹腔感染後可在這裡形成膿瘍。'),
   }),
-  note('Diaphragmatic surface of liver', 'Diaphragmatic surface of liver', '肝橫膈面', {
+  part('Diaphragmatic surface of liver', 'Diaphragmatic surface of liver', '肝橫膈面', 'marks', '#d9c27a', {
     loc: b('The smooth convex front, upper and right surface that lies under the diaphragm.', '位在橫膈下方、平滑凸起的前面、上面與右面。'),
     rel: b('The falciform ligament attaches to it; the bare area is on its back part.', '鐮狀韌帶附著在這一面；後部有裸區。'),
-    note: b('Not marked separately on the model: it is the whole upper, front and back surface of the liver.', '模型上沒有另外標示：即肝的整個上面、前面與後面。'),
-  }),
-  note('Visceral surface of liver', 'Visceral surface of liver', '肝臟面', {
+    note: b('Shown as a coloured area over the lobes when chosen; its border with the visceral surface is schematic.', '選取時在肝葉上整塊著色；與臟面的分界為示意。'),
+  }, {mark: zone('Liver', 11, 21, 41), term: true, schematic: true, quizSystem: 'viscera'}),
+  part('Visceral surface of liver', 'Visceral surface of liver', '肝臟面', 'marks', '#8fb8d8', {
     loc: b('The lower, back surface that faces the abdominal organs.', '朝向腹腔器官的下後面。'),
     rel: b('It carries the porta hepatis, the gallbladder fossa, the fissures for the round ligament and ligamentum venosum, and the impressions of the neighbouring organs.', '面上有肝門、膽囊窩、圓韌帶裂與靜脈韌帶裂，以及相鄰器官的壓跡。'),
-    note: b('Not marked separately on the model: it is the lower surface, where the quadrate lobe and porta hepatis are marked.', '模型上沒有另外標示：即標示方形葉與肝門的下面。'),
-  }),
+    note: b('Shown as a coloured area over the lobes when chosen; its border with the diaphragmatic surface is schematic.', '選取時在肝葉上整塊著色；與膈面的分界為示意。'),
+  }, {mark: zone('Liver', 12, 22, 32, 42), term: true, schematic: true, quizSystem: 'viscera'}),
   note('Couinaud segments', 'Couinaud segments of liver', '肝段', {
     loc: b('Eight functional segments (I–VIII), each with its own portal and arterial branch and bile duct, separated by the hepatic veins.', '八個功能肝段（第 I 至第 VIII 段），各有自己的門靜脈、動脈分支與膽管，以肝靜脈為分界。'),
     rel: b('Right liver V–VIII, left liver II–IV, caudate lobe I; the line from the gallbladder fossa to the inferior vena cava divides right from left.', '右半肝為第 V 至第 VIII 段，左半肝為第 II 至第 IV 段，尾葉為第 I 段；膽囊窩到下腔靜脈的連線分隔左右半肝。'),
@@ -385,6 +385,6 @@ export const LIVER_GALLBLADDER: OrganDef = {
   scope: [
     '肝由圖譜的各肝段拼合而成，段與段之間可見細縫；肝右葉、左葉、方形葉、尾葉，以及膽囊底、體、頸，都是標示在同一個模型表面上的位置，邊界為示意。',
     '肝門、裸區、冠狀韌帶、左右三角韌帶與鐮狀韌帶是標示在肝表面上的位置（韌帶標示附著處）；肝圓韌帶、靜脈韌帶、膽囊動脈、膽囊靜脈與肝叢是依一般描述畫成的示意索或示意管。',
-    '總肝管與膽管在圖譜中是同一件模型，這裡在膽囊管會合處分開。肝門三體、膽囊三角、小網膜與其韌帶、網膜孔、肝腎隱窩、膈下隱窩、肝的兩個面、肝段與顯微構造只有資訊卡。',
+    '總肝管與膽管在圖譜中是同一件模型，這裡在膽囊管會合處分開。肝的膈面與臟面在選取時整塊著色。肝門三體、膽囊三角、小網膜與其韌帶、網膜孔、肝腎隱窩、膈下隱窩、肝段與顯微構造只有資訊卡。',
   ],
 };

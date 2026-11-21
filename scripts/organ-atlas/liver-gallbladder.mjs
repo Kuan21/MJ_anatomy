@@ -1,7 +1,7 @@
 // Liver, gallbladder and biliary tract detail package. No external model: the BodyParts3D liver segments, gallbladder, bile ducts and hepatic vessels (public/models/atlas.json, CC BY 4.0,
 // already in the repository). The liver is the atlas segments put together into one surface (each kept as it is, subdivided once), so its lobes and landmarks are surface labels:
-//   Liver  zone 1 right lobe (segments IV upper part, V–VIII and the posterior piece the atlas calls IX), 2 left lobe (II, III), 3 quadrate lobe (the part of IV on the visceral
-//          surface below the porta hepatis), 4 caudate lobe (I);
+//   Liver  zone = lobe × 10 + surface: lobe 1 right (segments IV upper part, V–VIII and the posterior piece the atlas calls IX), 2 left (II, III), 3 quadrate (the part of IV on the
+//          visceral surface below the porta hepatis), 4 caudate (I); surface 1 diaphragmatic, 2 visceral;
 //          line 1 porta hepatis, 2 bare area, 3 coronary ligament (the border of the bare area), 4 right triangular ligament, 5 left triangular ligament,
 //          6 attachment of the falciform ligament (the border between IV and II/III on the diaphragmatic surface).
 //   Gallbladder zone 1 fundus, 2 body, 3 neck — along its long axis from the cystic duct.
@@ -93,6 +93,8 @@ export function build({atlasPart, paokaoPart, writer}) {
   for (let v = 0; v < nv; v++) if (seg[v] === 4 && !line[v] && (LNs[v][2] > .25 || LNs[v][1] > .35) && nearSet(v, s23, .0022)) line[v] = 6;
   // porta hepatis
   for (let v = 0; v < nv; v++) if (D(LV[v], porta) < .014 && visceral(v) && !line[v]) line[v] = 1;
+  // surfaces: each zone value carries the lobe and the surface (lobe × 10 + 1 diaphragmatic, + 2 visceral), so the lobes and the two surfaces are both markings of the same triangles
+  for (let v = 0; v < nv; v++) zone[v] = zone[v] * 10 + (zone[v] === 3 || visceral(v) ? 2 : 1);
   const {tz, tl} = triangleLabels(liver.indices, zone, line, 6), lp = writer.addMesh('Liver', liver.positions, liver.indices, {});
   lp.triZone = writer.addBytes(tz); lp.triLine = writer.addBytes(tl);
   const count = (a, k) => a.reduce((n, x) => n + (x === k), 0);
@@ -137,6 +139,6 @@ export function build({atlasPart, paokaoPart, writer}) {
   const report = tidy(meshes, {walls, organs: CONTEXT, drain: {'Celiac trunk': 'Abdominal aorta'}, origin: {'Cystic artery': 'Right hepatic artery', 'Cystic vein': 'Right branch of portal vein'}, keepInside: true,
     cutEnd: p => p[1] < 1.145 || p[1] > 1.262, skip: k => /ganglion|aorta|vena cava/i.test(k)});
   for (const [key, m] of meshes) writer.addMesh(key, m.positions, m.indices);
-  return {stats: {liverVertices: nv, lobes: [1, 2, 3, 4].map(z => count([...tz], z)), lines: [1, 2, 3, 4, 5, 6].map(l => count([...tl], l)), gallbladder: [1, 2, 3].map(z => count([...gz], z)),
+  return {stats: {liverVertices: nv, lobes: [11, 12, 21, 22, 31, 32, 41, 42].map(z => count([...tz], z)), lines: [1, 2, 3, 4, 5, 6].map(l => count([...tl], l)), gallbladder: [1, 2, 3].map(z => count([...gz], z)),
     round: roundV.length, venosum: venosumV.length, meshes: meshes.size + 2, tidy: report.length}, landmarks: {porta, neckPt, fundusPt, leftTip}};
 }
