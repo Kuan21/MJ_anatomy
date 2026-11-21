@@ -491,7 +491,7 @@ const ORIGIN_VARIANTS:{test:RegExp;en:string;zh:string}[]=[
  {test:/^(?:left |right )?dorsal scapular artery$/i,en:'Variable: the third part of the subclavian artery (sometimes the second part), or the deep branch of the transverse cervical artery',zh:'有變異：起自鎖骨下動脈第三段（有時為第二段），或起自橫頸動脈深支'},
 ];
 /** English label of each card field the quiz card text (app/quiz/card-data.ts) writes in Chinese. */
-const EXTRA_LABEL_EN:Record<string,string>={來源:'Origin',走向:'Course',主要分支:'Main branches',支配範圍:'Supply',供應範圍:'Territory',引流範圍:'Tributary area',位置:'Location',組成:'Composition',毗鄰:'Relations',作用:'Action',起點:'Origin',止點:'Insertion',神經支配:'Innervation',相關關節:'Related joints',主要標誌:'Key landmarks',附著:'Attachments',附著與連結:'Attachments and connections',所屬關節:'Joint',功能:'Function',血液供應:'Blood supply',邊界:'Boundaries',內容物:'Contents',臨床意義:'Clinical significance'};
+const EXTRA_LABEL_EN:Record<string,string>={來源:'Origin',走向:'Course',主要分支:'Main branches',支配範圍:'Supply',供應範圍:'Territory',引流範圍:'Tributary area',位置:'Location',組成:'Composition',毗鄰:'Relations',作用:'Action',起點:'Origin',止點:'Insertion',神經支配:'Innervation',相關關節:'Related joints',附著肌肉:'Muscle attachments',主要標誌:'Key landmarks',附著:'Attachments',附著與連結:'Attachments and connections',所屬關節:'Joint',功能:'Function',血液供應:'Blood supply',邊界:'Boundaries',內容物:'Contents',臨床意義:'Clinical significance'};
 const sideless=(n:string)=>n.toLowerCase().replace(/\b(left|right)\b/g,'').replace(/\s+/g,' ').trim();
 /** The card text the quiz and learning cards use for this structure (same table, same lookup: the full name, then the name without Left/Right). */
 export function cardExtraFor(...names:(string|undefined)[]){
