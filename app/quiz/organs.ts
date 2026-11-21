@@ -22,6 +22,13 @@ export const ORGAN_QUIZ: Record<OrganId, OrganQuiz> = {
     frame: {x: .15, z: [-.06, .12]},
     sections: [section('all', '全部', 'All'), section('zones', '肝葉與膽囊各部', 'Lobes and parts'), section('marks', '肝門、裸區與腹膜附著', 'Porta hepatis, bare area and peritoneal attachments'), section('ligaments', '肝的韌帶', 'Ligaments of the liver'), section('ducts', '膽管', 'Bile ducts'), section('arteries', '動脈', 'Arteries'), section('veins', '靜脈', 'Veins'), section('nerves', '神經', 'Nerves')],
   },
+  intestines: {
+    label: '小腸與大腸', english: 'Small and large intestine', tag: '腸篇',
+    blurb: '空腸、迴腸、迴盲部與闌尾，結腸各段、結腸彎、結腸帶、結腸袋與腸脂垂，直腸、肛管與肛門，腸繫膜，以及腸的動脈、靜脈與神經',
+    scope: '採用小腸與大腸的詳細模型（解剖姿勢，由前方觀看）。結腸各段、結腸袋、結腸彎、迴盲瓣、直腸、肛管與肛門都是標示在模型表面上的位置，邊界為示意；腸脂垂、空腸動脈、迴腸動脈、下腸繫膜神經節與各神經叢是依一般描述畫成的示意模型。',
+    frame: {x: .17, z: [-.1, .12]},
+    sections: [section('all', '全部', 'All'), section('organs', '小腸、大腸與闌尾', 'Bowel and appendix'), section('zones', '結腸與直腸各部', 'Parts of the colon and rectum'), section('marks', '結腸袋、結腸彎、迴盲瓣與肛門', 'Haustra, flexures, valve and anus'), section('wall', '結腸帶與腸脂垂', 'Taeniae and omental appendices'), section('peritoneum', '腸繫膜', 'Mesenteries'), section('arteries', '動脈', 'Arteries'), section('veins', '靜脈', 'Veins'), section('nerves', '神經', 'Nerves')],
+  },
 };
 export const organQuizRegion = (id: OrganId): QuizRegionDef => {
   const o = ORGAN_QUIZ[id];
