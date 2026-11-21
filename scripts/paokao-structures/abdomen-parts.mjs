@@ -84,8 +84,9 @@ export default function abdomenParts(U) {
   // they are chosen from the search, the structure list or the quiz. The small marks (papillae, notches, valve, sphincter, curvatures, flexures, hila …) are picked by a click like bone landmarks.
   const REGION = new Set(['Fundus of stomach', 'Body of stomach', 'Pylorus', 'Pyloric antrum', 'Pyloric canal', 'Superior part of duodenum (duodenal cap)', 'Descending part of duodenum', 'Inferior (horizontal) part of duodenum', 'Ascending part of duodenum', 'Cecum', 'Neck of gallbladder', 'Body of gallbladder', 'Fundus of gallbladder', 'Right lobe of liver', 'Left lobe of liver', 'Quadrate lobe of liver',
     'Abdominal esophagus', 'Gastric surface of spleen', 'Renal surface of spleen', 'Bare area of liver']);
-  // Borders, angles, bends and hila are places on an organ, not structures of their own (user, 2026-11-21): they are drawn as a thin line about 1.5 mm wide along the
-  // border (a smoothed centre line) or round the gut, refined finely enough for the line to keep its width; the parts (fundus, body, parts of the duodenum, lobes …) stay areas.
+  // Borders and angles of an organ (greater and lesser curvature, angular incisure, cardial notch) are not structures of their own (user, 2026-11-21): they are drawn as a thin
+  // line about 1.5 mm wide along the border (a smoothed centre line on the surface), refined finely enough for the line to keep its width; so is the Z-line, a line by
+  // definition. Parts, surfaces, hila and bends (the stretch of gut at the turn) stay areas.
   const LINE = .00075, FINE = {maxEdge: .0005};
   const patch = (organ, field, opts = {}) => U.fieldPatch(organ, field, {off: lift(), maxEdge: .0012, ...opts});
 
@@ -151,7 +152,7 @@ export default function abdomenParts(U) {
     part('Descending part of duodenum', '十二指腸降部', Dn, patch(Dn, p => Math.min(at(p) - s1, s2 - at(p))), ['The second part, about 7–10 cm, running down on the right of the head of the pancreas', '第二部，約 7–10 公分，在胰頭右側向下走'], ['The bile duct and the main pancreatic duct open into it at the major duodenal papilla', '總膽管與主胰管在大十二指腸乳突開口於此']);
     part('Inferior (horizontal) part of duodenum', '十二指腸下部（水平部）', Dn, patch(Dn, p => Math.min(at(p) - s2, s3 - at(p))), ['The third part, about 10 cm, crossing to the left in front of the inferior vena cava and the aorta, behind the superior mesenteric vessels', '第三部，約 10 公分，向左橫過下腔靜脈與主動脈前方、腸繫膜上血管後方'], ['', '']);
     part('Ascending part of duodenum', '十二指腸升部', Dn, patch(Dn, p => at(p) - s3), ['The fourth part, about 2.5 cm, rising to the duodenojejunal flexure on the left of the aorta', '第四部，約 2.5 公分，在主動脈左側上升至十二指腸空腸彎曲'], ['', '']);
-    part('Duodenojejunal flexure', '十二指腸空腸彎曲', Dn, patch(Dn, p => LINE - Math.abs(at(p) - (total - .008)), FINE), ['', ''], ['', ''], ['A thin line round the gut at the bend where the duodenum turns into the jejunum: a bend of the organ, not a separate structure', '在十二指腸轉為空腸的彎曲處繞腸管一圈的細線：這是器官的彎曲，不是獨立構造']);
+    part('Duodenojejunal flexure', '十二指腸空腸彎曲', Dn, patch(Dn, p => at(p) - (total - .012)), ['', ''], ['', ''], ['The stretch of the gut at the bend where the duodenum turns forward into the jejunum (the last 12 mm of the duodenum of the model): a bend of the organ, not a separate structure', '十二指腸向前轉為空腸的那一段轉彎（模型十二指腸最後約 12 公釐）：這是器官的彎曲，不是獨立構造']);
     // papillae: on the medial (pancreatic) side of the descending part, the major one about halfway down, the minor one about 2 cm above and a little in front of it
     const mid = (s1 + s2) / 2, onLine = s => { const i = arc.findIndex(a => a >= s); return line[i < 0 ? line.length - 1 : i]; };
     const medialPoint = (s, forward) => { const c = onLine(s); let best = null, bd = -Infinity; for (const p of P) { if (Math.abs(at(p) - s) > .004) continue; const score = (p[0] - c[0]) + forward * (p[2] - c[2]); if (score > bd) { bd = score; best = p; } } return best; };
@@ -205,7 +206,7 @@ export default function abdomenParts(U) {
     // signed distance to the stomach (negative inside): the lower end of the oesophagus of the model runs a little way inside the stomach mesh, and that hidden stretch is not marked
     const sm = U.mesh('Stomach'), fromStomach = p => { const c = closest(sm, p), d = len(sub(p, c.point)); return dot(sub(p, c.point), c.normal) < 0 ? -d : d; };
     part('Abdominal esophagus', '食道腹部', E, patch(E, p => Math.min(yH - p[1], fromStomach(p) + .0005)), ['The short last part of the oesophagus, from the oesophageal hiatus of the diaphragm (about T10) to the cardia of the stomach, left of the midline', '食道最後一小段，由橫膈食道裂孔（約第十胸椎）到胃的賁門，在正中線左側'], ['', ''], ['The part of the oesophagus of the model below the oesophageal hiatus of the diaphragm', '模型食道在橫膈食道裂孔以下的部分']);
-    part('Diaphragmatic (esophagogastric) constriction of esophagus', '食道橫膈狹窄', E, patch(E, p => Math.min(LINE - Math.abs(p[1] - yH), fromStomach(p) + .0005), FINE), ['Where the oesophagus passes through the oesophageal hiatus of the diaphragm, about 40 cm from the incisor teeth', '食道穿過橫膈食道裂孔處，距門齒約 40 公分'], ['', ''], ['A thin line round the oesophagus where it passes the oesophageal hiatus (the narrowing itself is not modelled)', '食道穿過食道裂孔處繞一圈的細線（模型沒有做出狹窄本身）']);
+    part('Diaphragmatic (esophagogastric) constriction of esophagus', '食道橫膈狹窄', E, patch(E, p => Math.min(.004 - Math.abs(p[1] - yH), fromStomach(p) + .0005)), ['Where the oesophagus passes through the oesophageal hiatus of the diaphragm, about 40 cm from the incisor teeth', '食道穿過橫膈食道裂孔處，距門齒約 40 公分'], ['', ''], ['A band of the oesophagus where it passes the oesophageal hiatus of the diaphragm (the narrowing itself is not modelled)', '食道穿過橫膈食道裂孔處的一段（模型沒有做出狹窄本身）']);
     part('Esophagogastric junction (Z-line)', '食道胃交界（Z 線）', E, patch(E, p => Math.min(2 * LINE - fromStomach(p), fromStomach(p)), FINE), ['', ''], ['', ''], ['The Z-line lies on the inner (mucosal) surface; marked here as a thin line where the oesophagus meets the stomach', 'Z 線在黏膜內面；這裡以食道與胃相接處的細線標示']);
   }
 
@@ -216,10 +217,8 @@ export default function abdomenParts(U) {
       ['Right colic flexure', '右結腸彎曲', 'Ascending colon', 'right (hepatic)', ['The bend between the ascending and the transverse colon, under the right lobe of the liver, in front of the right kidney', '升結腸與橫結腸之間的轉彎，在肝右葉下方、右腎前方']],
       ['Left colic flexure', '左大腸彎', 'Descending colon', 'left (splenic)', ['The bend between the transverse and the descending colon, higher than the right one, at the lower end of the spleen, held by the phrenicocolic ligament', '橫結腸與降結腸之間的轉彎，比右側高，在脾下端，由膈結腸韌帶固定']]]) {
       const [meet] = contact(U.V(C), U.V(T)); group = C;
-      // a ring round the gut: the plane through the centre of the last 25 mm of the colon, across its axis there
-      const near = U.V(C).filter(q => D(q, meet) < .025), c = mul(near.reduce((a, q) => add(a, q), [0, 0, 0]), 1 / near.length);
-      let ax = [0, 1, 0]; for (let it = 0; it < 30; it++) { const n2 = [0, 0, 0]; for (const q of near) { const d = sub(q, c), t = dot(d, ax); for (let a = 0; a < 3; a++) n2[a] += d[a] * t; } ax = unit(n2); }
-      part(name, zh, C, patch(C, p => Math.min(LINE - Math.abs(dot(sub(p, c), ax)), .03 - D(p, c)), FINE), where, ['', ''], [`A thin line round the colon at the ${side} flexure, where the ${C.toLowerCase()} turns into the transverse colon: a bend of the organ, not a separate structure`, `在${ORGAN_ZH[C]}轉為橫結腸的彎曲處繞腸管一圈的細線：這是器官的彎曲，不是獨立構造`]);
+      // the stretch of the colon at the bend: the upper end, within 16 mm of where it meets the transverse colon
+      part(name, zh, C, patch(C, p => .016 - D(p, meet)), where, ['', ''], [`The stretch of the colon at the ${side} flexure, where the ${C.toLowerCase()} turns into the transverse colon: a bend of the organ, not a separate structure`, `${ORGAN_ZH[C]}轉為橫結腸的那一段轉彎：這是器官的彎曲，不是獨立構造`]);
     }
   }
 
@@ -227,7 +226,7 @@ export default function abdomenParts(U) {
   {
     group = 'spleen';
     const Sp = 'Spleen', dA = p => U.dist('Splenic artery', p), dV = p => U.dist('Splenic vein', p);
-    part('Hilum of spleen (splenic hilum)', '脾門', Sp, patch(Sp, p => LINE - Math.abs(Math.min(dA(p), dV(p)) - .008), FINE), ['A slit on the visceral surface of the spleen, between its gastric and renal areas, where the splenic vessels enter and leave', '脾臟面上、胃面與腎面之間的裂隙，脾血管由此進出'], ['', ''], ['A thin outline round the place where the splenic vessels enter: a part of the surface of the organ, not a separate structure', '圍繞脾血管進出處的細線：這是器官表面的一處，不是獨立構造']);
+    part('Hilum of spleen (splenic hilum)', '脾門', Sp, patch(Sp, p => .008 - Math.min(dA(p), dV(p))), ['A slit on the visceral surface of the spleen, between its gastric and renal areas, where the splenic vessels enter and leave', '脾臟面上、胃面與腎面之間的裂隙，脾血管由此進出'], ['', ''], ['The area of the visceral surface where the splenic vessels enter and leave: a place on the surface of the organ, not a separate structure', '臟面上脾血管進出的區域：這是器官表面的一處，不是獨立構造']);
     // each area: the part of the visceral (inward-facing) surface whose nearest neighbour is that organ, within 2.5 cm of it
     const near = {gastric: p => U.dist('Stomach', p), renal: p => U.dist('Left kidney', p), colic: p => Math.min(U.dist('Transverse colon', p), U.dist('Descending colon', p))};
     const sc = U.pca(Sp).c, visceral = (p, n) => n ? dot(n, unit(sub([0, sc[1], sc[2] + .02], sc))) > .1 : true; // facing medially and forwards, away from the diaphragm
@@ -257,7 +256,7 @@ export default function abdomenParts(U) {
     // bare area: on the back of the diaphragmatic surface, in contact with the diaphragm and not covered by peritoneum
     part('Bare area of liver', '肝裸區', used, merge(over((p, n) => Math.min(.006 - dDia(p), n ? -n[2] - .3 : 1, xIvc + .01 - p[0]))), ['', ''], ['', ''], ['The back of the liver model where it lies directly against the diaphragm (no peritoneum)', '模型肝臟背面直接貼著橫膈（沒有腹膜覆蓋）的區域']);
     const hilum = memo(p => Math.min(...['Hepatic portal vein', 'Hepatic artery proper', 'Common hepatic duct'].filter(U.has).map(v => U.dist(v, p))));
-    part('Porta hepatis', '肝門', used, merge(over(p => LINE - Math.abs(hilum(p) - .009), FINE)), ['', ''], ['', ''], ['A thin outline on the visceral surface round the place where the portal vein and the hepatic artery enter and the hepatic ducts leave: a part of the surface of the organ, not a separate structure', '臟面上圍繞門靜脈、肝動脈進入與肝管離開處的細線：這是器官表面的一處，不是獨立構造']);
+    part('Porta hepatis', '肝門', used, merge(over(p => .009 - hilum(p))), ['', ''], ['', ''], ['The area of the visceral surface where the portal vein and the hepatic artery enter and the hepatic ducts leave: a place on the surface of the organ, not a separate structure', '臟面上門靜脈、肝動脈進入與肝管離開的區域：這是器官表面的一處，不是獨立構造']);
   }
   return out;
 }
