@@ -8,14 +8,14 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 
 | check | violations |
 |---|---|
-| Fragments | 32 |
-| Vessel, nerve and tendon walls inside bone | 428 |
-| Coincident faces (z-fighting) | 74 |
+| Fragments | 31 |
+| Vessel, nerve and tendon walls inside bone | 420 |
+| Coincident faces (z-fighting) | 72 |
 | Straight cuts in meshes | 47 |
-| Triangle stretch over 2x in the limit poses | 139 |
+| Triangle stretch over 2x in the limit poses | 138 |
 | Structures that leave their bone in the limit poses | 150 |
 
-## Fragments (32)
+## Fragments (31)
 
 | structure | size | detail |
 |---|---|---|
@@ -25,13 +25,11 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right sternocleidomastoid | 2 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
 | Stria terminalis | 1 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
 | Marginal colic artery | 4 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
-| Left medial circumflex femoral vein | 1 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
-| Left radial artery | 2 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
+| Left radial artery | 3 | 使用者 2026-11-18 批准；解剖上相連，原本被誤接的連接管遮住；考試後第一優先修好，修好後刪除此項 |
 | Acromial branch of right thoraco-acromial artery | 1 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
 | Right anterior interosseous artery | 1 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
 | Left palmar metacarpal vein | 1 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
 | Right puborectalis | 1 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
-| Hepatovenous segment IV | 1 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
 | Anterior inferior segmental branch of right portal vein | 2 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
 | Anterior inferior segmental hepatic artery | 1 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
 | Posterior superior segmental hepatic artery | 1 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
@@ -40,7 +38,6 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Marginal artery of colon | 4 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
 | Superior phrenic vein | 1 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
 | Left infraspinous fossa | 1 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
-| Left lateral brachial vein | 1 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
 | rectus sheath | 21 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
 | Costal part of right parietal pleura | 5 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
 | Diaphragmatic part of right parietal pleura | 1 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
@@ -51,8 +48,10 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Lateral femoral cutaneous nerve.r | 2 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
 | Muscular branches of ulnar nerve.l | 1 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
 | Muscular branches of ulnar nerve.r | 1 | mesh has pieces detached from its main body: source mesh or build leaves them behind; to be removed in the display-error fixes (stabilisation section 2) |
+| Acromial branch of left thoraco-acromial artery | 1 | 使用者 2026-11-18 批准；解剖上相連，原本被誤接的連接管遮住；考試後第一優先修好，修好後刪除此項 |
+| Right ulnar artery | 1 | 使用者 2026-11-18 批准；解剖上相連，原本被誤接的連接管遮住；考試後第一優先修好，修好後刪除此項 |
 
-## Vessel, nerve and tendon walls inside bone (428)
+## Vessel, nerve and tendon walls inside bone (420)
 
 | structure | size | detail |
 |---|---|---|
@@ -99,10 +98,9 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Left anterior tibial recurrent artery | 3.1 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left descending genicular artery | 2.1 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left dorsalis pedis artery | 2.1 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Left inferior medial genicular artery | 3.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
+| Left inferior medial genicular artery | 4.3 | 使用者 2026-11-18 批准；解剖上相連，原本被誤接的連接管遮住；考試後第一優先修好，修好後刪除此項 |
 | Left inferior medial genicular artery | 2.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Left popliteal artery | 3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Left popliteal artery | 4.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
+| Left popliteal artery | 3.1 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left popliteal artery | 7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left popliteal artery | 2.6 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left popliteal artery | 6.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
@@ -111,7 +109,6 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Left anterior tibial vein | 6.9 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left anterior tibial vein | 7.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left genicular vein | 2.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Left popliteal vein | 4.9 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left popliteal vein | 2.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left popliteal vein | 3.3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left popliteal vein | 3.9 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
@@ -127,7 +124,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right anterior tibial vein | 4.8 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right anterior tibial vein | 7.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right inferior medial genicular artery | 2.6 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Right popliteal artery | 3.6 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
+| Right popliteal artery | 2.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right popliteal artery | 7.3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right popliteal artery | 3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right popliteal artery | 6.6 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
@@ -141,16 +138,14 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Left fibular vein | 5.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left fibular vein | 7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left fibular vein | 4.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Left medial circumflex femoral vein | 5.8 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left medial circumflex femoral vein | 5.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right anterior tibial vein | 7.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Right anterior tibial vein | 7.8 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
+| Right anterior tibial vein | 5.8 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right anterior tibial vein | 8 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right fibular vein | 5.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right ascending and transverse branches of lateral circumflex femoral artery | 2.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right fibular vein | 6.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right fibular vein | 4.9 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Right medial circumflex femoral vein | 5.9 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right medial circumflex femoral vein | 5.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left anterior circumflex humeral artery | 2.3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left axillary artery | 4.2 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
@@ -161,9 +156,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Left deep cervical artery | 2.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left dorsal scapular artery | 6.3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left median cubital vein | 5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Left median cubital vein | 6.2 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left radial artery | 3.1 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Left recurrent interosseous artery | 6.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left suprascapular vein | 4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left suprascapular vein | 3.9 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left suprascapular artery | 3.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
@@ -184,7 +177,6 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right suprascapular vein | 3.9 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right suprascapular artery | 3.2 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right suprascapular artery | 2.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Middle collateral branch of left deep brachial artery | 2.2 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Middle collateral branch of right deep brachial artery | 2.8 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Azygos vein | 3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Azygos vein | 4.3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
@@ -224,7 +216,6 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Left dorsal ramus of C8 spinal nerve | 4.2 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left dorsal ramus of thoracic spinal nerve | 2.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left greater splanchnic nerve | 2.8 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Left lateral brachial vein | 6.3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left lateral brachial vein | 6.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left lateral plantar vein | 2.8 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left least splanchnic nerve | 2.2 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
@@ -273,7 +264,6 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right posterior intercostal veins | 2.6 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right posterior intercostal veins | 2.6 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right posterior intercostal veins | 2.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Right posterior interosseous artery | 6.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right posterior interosseous artery | 6.1 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right posterior interosseous vein | 2.8 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right saphenous branch of descending genicular artery | 3.3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
@@ -484,8 +474,9 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Vestibulocochlear nerve (VIII).l | 4.5 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Vestibulocochlear nerve (VIII).r | 4.4 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Vestibulocochlear nerve (VIII).r | 4.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
+| Left posterior interosseous artery | 6.5 | 使用者 2026-11-18 批准；解剖上相連，原本被誤接的連接管遮住；考試後第一優先修好，修好後刪除此項 |
 
-## Coincident faces (z-fighting) (74)
+## Coincident faces (z-fighting) (72)
 
 | structure | size | detail |
 |---|---|---|
@@ -540,13 +531,10 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Celiac artery | 238 | faces coincide with Celiac trunk: two layers share the same surface; to be offset or one of them removed |
 | Marginal colic artery | 718 | faces coincide with Marginal artery of colon: two layers share the same surface; to be offset or one of them removed |
 | Left renal artery | 105 | faces coincide with Trunk of left renal artery: two layers share the same surface; to be offset or one of them removed |
-| Left medial plantar artery | 189 | 原本重疊，零件縮小後超過門檻；下肢，考試後修（2026-11-16 經使用者暫時核准） |
 | Left superficial epigastric vein | 193 | faces coincide with Left superior epigastric vein: two layers share the same surface; to be offset or one of them removed |
 | Right medial plantar artery | 253 | 原本重疊，零件縮小後超過門檻；下肢，考試後修（2026-11-16 經使用者暫時核准） |
 | Right popliteal artery | 123 | 原本重疊，零件縮小後超過門檻；下肢，考試後修（2026-11-16 經使用者暫時核准） |
 | Right superficial epigastric vein | 199 | faces coincide with Right superior epigastric vein: two layers share the same surface; to be offset or one of them removed |
-| Right axillary artery | 107 | faces coincide with Right subscapular artery: two layers share the same surface; to be offset or one of them removed |
-| Right median cubital vein | 116 | faces coincide with Right lateral brachial vein: two layers share the same surface; to be offset or one of them removed |
 | Right lobe branch of right hepatic artery | 177 | faces coincide with Posterior superior segmental hepatic artery: two layers share the same surface; to be offset or one of them removed |
 | Hepatovenous segment VII | 557 | faces coincide with Hepatovenous segment VI: two layers share the same surface; to be offset or one of them removed |
 | Left conus elasticus | 77 | faces coincide with Left vocalis: two layers share the same surface; to be offset or one of them removed |
@@ -563,6 +551,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Esophageal impression of left lung | 57 | faces coincide with Apex of left lung: two layers share the same surface; to be offset or one of them removed |
 | Glans of clitoris | 723 | 同一張 MRI 曲面按解剖切成兩件，交界共用 138 個頂點，相鄰面共面但冇重疊（真正重疊三角形 0.6%）；陰蒂由頭至體單調變寬，冇解剖上合理嘅切口可避開。2026-11-15 經使用者核准。 |
 | Lingula of left lung | 1106 | faces coincide with Cardiac notch of left lung: two layers share the same surface; to be offset or one of them removed |
+| Left axillary artery | 118 | 使用者 2026-11-18 批准；解剖上相連，原本被誤接的連接管遮住；考試後第一優先修好，修好後刪除此項 |
 
 ## Straight cuts in meshes (47)
 
@@ -616,7 +605,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | renderer clipping plane in organ/heart-viewer.ts | 3 | section plane of the brain or heart detail mode: a cut view on purpose, the cut face is drawn by the viewer |
 | renderer clipping plane in organ/organ-viewer.ts | 2 | section plane of the shared organ detail mode only (none, sagittal, coronal, horizontal; same cut feature as the brain, eye and ear detail modes; the main atlas is not affected): a cut view on purpose; the user decided 2026-11-16 that sections follow the shared template and approved this exception 2026-11-17 |
 
-## Triangle stretch over 2x in the limit poses (139)
+## Triangle stretch over 2x in the limit poses (138)
 
 | structure | size | detail |
 |---|---|---|
@@ -703,7 +692,6 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Left thoracodorsal vein | 133 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right anterior circumflex humeral artery | 24 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right anterior circumflex humeral artery | 26 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right anterior circumflex humeral vein | 185 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right anterior circumflex humeral vein | 2 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right axillary artery | 60 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right axillary vein | 32 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
@@ -765,7 +753,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | structure | size | detail |
 |---|---|---|
 | Accessory hemiazygos vein | 13 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Left anterior circumflex humeral artery | 90 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
+| Left anterior circumflex humeral artery | 87 | 使用者 2026-11-18 批准；解剖上相連，原本被誤接的連接管遮住；考試後第一優先修好，修好後刪除此項 |
 | Left anterior circumflex humeral artery | 23 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left axillary artery | 33 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left axillary artery | 29 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
@@ -779,7 +767,6 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right axillary vein | 29 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Right circumflex scapular artery | 58 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Right circumflex scapular vein | 20 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
-| Right posterior circumflex humeral artery | 140 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left subclavian artery | 55 | does not follow its bone at shoulder abduction 120: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left subclavian artery | 45 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
 | Left brachiocephalic vein | 17 | does not follow its bone at shoulder flexion 150: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) |
@@ -914,3 +901,4 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Vestibulocochlear nerve (VIII).l | 116 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Vestibulocochlear nerve (VIII).r | 189 | does not follow its bone at head extension 35: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Vestibulocochlear nerve (VIII).r | 107 | does not follow its bone at head flexion 40: binding or weights missing; to be bound to the bone in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
+| Left descending genicular artery | 42 | 使用者 2026-11-18 批准；解剖上相連，原本被誤接的連接管遮住；考試後第一優先修好，修好後刪除此項 |

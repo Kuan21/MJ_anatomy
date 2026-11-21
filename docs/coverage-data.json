@@ -1,9 +1,9 @@
 {
  "totals": {
   "terms": 3816,
-  "have": 1216,
+  "have": 1219,
   "findability": 0,
-  "missing": 1125,
+  "missing": 1122,
   "landmark": 262,
   "noise": 650
  },
@@ -10369,6 +10369,14 @@
      "system": "venous"
     },
     {
+     "term": "right lymphatic duct",
+     "zh": "分別再帶回右淋巴總管",
+     "kind": "exact",
+     "model": "Right lymphatic duct",
+     "source": "paokao",
+     "system": "lymphatic"
+    },
+    {
      "term": "left subclavian vein",
      "zh": "左鎖骨下靜脈",
      "kind": "exact",
@@ -10511,6 +10519,14 @@
      "model": "Ganglia of sympathetic trunk",
      "source": "nerve",
      "system": "nervous"
+    },
+    {
+     "term": "Left lymphatic duct",
+     "zh": null,
+     "kind": "exact",
+     "model": "Right lymphatic duct",
+     "source": "paokao",
+     "system": "lymphatic"
     },
     {
      "term": "Subcostal artery",
@@ -10720,10 +10736,6 @@
      "zh": "膈淋巴幹"
     },
     {
-     "term": "right lymphatic duct",
-     "zh": "分別再帶回右淋巴總管"
-    },
-    {
      "term": "synovial joint",
      "zh": null
     },
@@ -10785,10 +10797,6 @@
     },
     {
      "term": "Cisterna chyli B. Thoracic duct",
-     "zh": null
-    },
-    {
-     "term": "Left lymphatic duct",
      "zh": null
     },
     {
@@ -13717,6 +13725,22 @@
      "system": "venous"
     },
     {
+     "term": "Right lymphatic duct",
+     "zh": "右側匯入右淋巴總管",
+     "kind": "exact",
+     "model": "Right lymphatic duct",
+     "source": "paokao",
+     "system": "lymphatic"
+    },
+    {
+     "term": "lymphatic duct",
+     "zh": "右淋巴總管",
+     "kind": "exact",
+     "model": "Right lymphatic duct",
+     "source": "paokao",
+     "system": "lymphatic"
+    },
+    {
      "term": "Thyrohyoid m",
      "zh": null,
      "kind": "exact",
@@ -14074,14 +14098,6 @@
     {
      "term": "External jugular vein",
      "zh": null
-    },
-    {
-     "term": "Right lymphatic duct",
-     "zh": "右側匯入右淋巴總管"
-    },
-    {
-     "term": "lymphatic duct",
-     "zh": "右淋巴總管"
     },
     {
      "term": "superior thyroid v",

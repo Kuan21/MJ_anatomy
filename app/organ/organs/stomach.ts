@@ -32,7 +32,7 @@ const parts: OrganPartDef[] = [
         zh: '暫存食物，以胃酸與胃蛋白酶攪拌成食糜，再分次少量送入十二指腸；壁細胞另分泌內在因子，維生素 B12 的吸收需要它。'},
       links: ['Cardia', 'Fundus', 'Body', 'Pylorus', 'Greater curvature', 'Lesser curvature']},
   },
-  {key: 'Cardia', en: 'Cardia', zh: '賁門', group: 'zones', color: '#f0c24f', mark: zone([1]),
+  {key: 'Cardia', en: 'Cardia (cardial orifice)', zh: '賁門', group: 'zones', color: '#f0c24f', mark: zone([1]),
     card: {
       loc: {en: 'The short zone around the opening of the oesophagus into the stomach, left of the midline at about the level of T11. There is no anatomical valve: closure depends on the lower oesophageal sphincter and the diaphragmatic crura.',
         zh: '食道開口於胃處周圍的短小區域，在正中線左側，約與第 11 胸椎同高。這裡沒有解剖上的瓣膜，閉鎖靠食道下括約肌與橫膈腳。'},
@@ -44,7 +44,7 @@ const parts: OrganPartDef[] = [
         zh: '讓食物進入胃，並與食道斜向進入的角度一起減少逆流。交界處上皮由複層鱗狀變為單層柱狀；胃食道逆流的影響就發生在這個移行處。'},
       links: ['Esophagus', 'Cardial notch', 'Fundus', 'Lesser curvature']},
   },
-  {key: 'Fundus', en: 'Fundus', zh: '胃底', group: 'zones', color: '#86b6e0', mark: zone([2]),
+  {key: 'Fundus', en: 'Fundus of stomach', zh: '胃底', group: 'zones', color: '#86b6e0', mark: zone([2]),
     card: {
       loc: {en: 'The dome of the stomach above the level of the cardial opening, in contact with the left hemidiaphragm. On an upright film it holds the gas bubble of the stomach.', zh: '位於賁門開口水平以上的胃圓頂，貼著左側橫膈。站立時胃中的氣體聚集在這裡（X 光上的胃泡）。'},
       rel: {en: 'Above and to the left: the left dome of the diaphragm, with the heart and the left lung beyond it. Behind and lateral: the gastric surface of the spleen.', zh: '上方與左側為左橫膈圓頂，其外有心臟與左肺。後外側貼著脾的胃面。'},
@@ -62,7 +62,7 @@ const parts: OrganPartDef[] = [
       fn: {en: 'Main site of mixing and of acid and pepsinogen secretion; its gastric glands are rich in parietal and chief cells.', zh: '食物混合以及胃酸與胃蛋白酶原分泌的主要處所，胃腺含有豐富的壁細胞與主細胞。'},
       links: ['Fundus', 'Pylorus', 'Angular incisure', 'Greater curvature', 'Lesser curvature']},
   },
-  {key: 'Pylorus', en: 'Pylorus', zh: '幽門（幽門部）', group: 'zones', color: '#9ccf9a', mark: zone([4, 5]), quiz: false,
+  {key: 'Pylorus', en: 'Pylorus', zh: '幽門', group: 'zones', color: '#9ccf9a', mark: zone([4, 5]), quiz: false,
     card: {
       loc: {en: 'The distal, funnel-shaped part from the angular incisure to the pyloric opening. It is divided into the pyloric antrum and the pyloric canal and usually lies on the right of the midline near the transpyloric plane (L1), lower when standing.', zh: '從胃角切跡到幽門口、呈漏斗形的遠端部分，分為幽門竇與幽門管。多在正中線右側，約在幽門平面（L1）附近，站立時位置較低。'},
       rel: {en: 'In front: quadrate lobe of the liver and the anterior abdominal wall. Behind: the neck and head of the pancreas, beyond the lesser sac. The gastroduodenal artery runs behind the first part of the duodenum.', zh: '前方為肝方形葉與前腹壁，後方隔著網膜囊為胰頸與胰頭。胃十二指腸動脈走在十二指腸第一部後方。'},
@@ -89,7 +89,7 @@ const parts: OrganPartDef[] = [
       fn: {en: 'Passes small amounts of chyme into the duodenum; the thick circular muscle of this part forms the pyloric sphincter at its end.', zh: '把少量食糜送入十二指腸；本段環走肌很厚，在末端形成幽門括約肌。'},
       links: ['Pyloric antrum', 'Pyloric sphincter', 'Duodenum']},
   },
-  {key: 'Greater curvature', en: 'Greater curvature', zh: '胃大彎', group: 'lines', color: '#2d5fb5', mark: line(2),
+  {key: 'Greater curvature', en: 'Greater curvature of stomach', zh: '胃大彎', group: 'lines', color: '#2f3437',
     card: {
       course: {en: 'The long convex border on the left and below, running from the cardial notch over the fundus and down to the lower end of the pylorus.', zh: '位於左側與下方的長凸緣，從賁門切跡起，繞過胃底往下，到幽門下端。'},
       contents: {en: 'The greater omentum attaches along it (gastrosplenic and gastrocolic ligaments); the right and left gastro-omental arteries form an arcade between the two layers of the omentum.', zh: '大網膜附著於此（胃脾韌帶與胃結腸韌帶），左、右胃網膜動脈在網膜兩層之間形成動脈弓。'},
@@ -98,7 +98,7 @@ const parts: OrganPartDef[] = [
       fn: {en: 'Landmark for the attachment of the greater omentum and the blood supply of the lower stomach.', zh: '是大網膜附著處，也是胃下部血液供應的標記。'},
       links: ['Lesser curvature', 'Fundus', 'Body']},
   },
-  {key: 'Lesser curvature', en: 'Lesser curvature', zh: '胃小彎', group: 'lines', color: '#b0262f', mark: line(1),
+  {key: 'Lesser curvature', en: 'Lesser curvature of stomach', zh: '胃小彎', group: 'lines', color: '#2e6b3a',
     card: {
       course: {en: 'The short concave border on the right and above, from the cardia to the pylorus. It is the shortest way between the two openings and has its lowest point at the angular incisure.', zh: '位於右側與上方的短凹緣，從賁門到幽門，是兩個開口之間最短的路徑，最低處是胃角切跡。'},
       contents: {en: 'The lesser omentum (hepatogastric part) attaches along it. The right and left gastric arteries meet in an arcade between its layers, with the vagal branches that run along the wall.', zh: '小網膜（肝胃韌帶部分）附著於此。右、左胃動脈在網膜兩層之間形成動脈弓，迷走神經分支也沿胃壁走行。'},
@@ -107,7 +107,7 @@ const parts: OrganPartDef[] = [
       fn: {en: 'Gastric ulcers are most common along the lesser curvature near the angular incisure.', zh: '胃潰瘍最常發生在胃小彎靠近胃角切跡處。'},
       links: ['Greater curvature', 'Angular incisure', 'Cardia']},
   },
-  {key: 'Angular incisure', en: 'Angular incisure', zh: '胃角切跡', group: 'lines', color: '#7a2da0', mark: line(3),
+  {key: 'Angular incisure', en: 'Angular incisure (angular notch)', zh: '胃角切跡', group: 'lines', color: '#7a2da0', mark: line(3),
     card: {
       loc: {en: 'The sharp bend of the lesser curvature where the body turns into the pyloric part; it is the lowest point of the lesser curvature.', zh: '胃小彎上急轉的折角，胃體在此轉為幽門部，也是小彎的最低點。'},
       rel: {en: 'The pancreas lies behind this level; on a barium film it shows as a notch on the lesser curvature.', zh: '此水平的後方是胰；鋇劑造影上呈現為小彎上的一個切跡。'},
@@ -134,7 +134,7 @@ const parts: OrganPartDef[] = [
       fn: {en: 'Meters the passage of chyme into the duodenum and limits the backflow of bile. In infants its muscle can thicken (pyloric stenosis), obstructing the outflow.', zh: '控制食糜進入十二指腸的速度，並限制膽汁逆流。嬰兒的括約肌可能增厚（幽門狹窄）而阻礙出口。'},
       links: ['Pyloric canal', 'Duodenum']},
   },
-  {key: 'Esophagus', en: 'Abdominal part of esophagus', zh: '食道腹部', group: 'context', color: '#c98f8a',
+  {key: 'Esophagus', en: 'Abdominal esophagus', zh: '食道腹部', group: 'context', color: '#c98f8a',
     card: {
       loc: {en: 'The short segment, about 1 to 2 cm long, between the oesophageal hiatus of the diaphragm (about T10) and the cardia. The picture shows it with a short length of the thoracic part above.', zh: '位於橫膈食道裂孔（約 T10）與賁門之間的短段，長約 1 至 2 公分。畫面中連同上方一小段胸段一起顯示。'},
       rel: {en: 'Lies in a groove on the back of the left lobe of the liver, in front of the aorta; the anterior and posterior vagal trunks accompany it.', zh: '位於肝左葉後面的凹溝中，在主動脈前方；前迷走神經幹與後幹伴行。'},
@@ -143,7 +143,7 @@ const parts: OrganPartDef[] = [
       fn: {en: 'Delivers food to the stomach; the lower oesophageal sphincter and the diaphragmatic crura keep it closed between swallows.', zh: '把食物送入胃；食道下括約肌與橫膈腳在吞嚥之間使其閉合。'},
       links: ['Cardia', 'Cardial notch']},
   },
-  {key: 'Duodenum', en: 'Duodenum (first part)', zh: '十二指腸（第一部）', group: 'context', color: '#c9a07f',
+  {key: 'Duodenum', en: 'Superior part of duodenum (duodenal cap)', zh: '十二指腸上部（十二指腸壺腹）', group: 'context', color: '#c9a07f',
     card: {
       loc: {en: 'The first part of the duodenum, about 5 cm long, which runs backwards, upwards and to the right from the pylorus at about L1. Its first centimetres, the duodenal cap, are mobile and covered by peritoneum.', zh: '十二指腸第一部，長約 5 公分，從幽門起向後、向上、向右走行，約在 L1 水平。最前面一段稱為十二指腸球部，活動度較大，有腹膜覆蓋。'},
       rel: {en: 'Above and in front: quadrate lobe of the liver and the neck of the gallbladder. Behind: the gastroduodenal artery, bile duct and portal vein; the head of the pancreas lies below and behind.', zh: '上方與前方為肝方形葉與膽囊頸；後方有胃十二指腸動脈、總膽管與肝門靜脈；胰頭在下後方。'},
@@ -152,7 +152,7 @@ const parts: OrganPartDef[] = [
       fn: {en: 'Receives chyme from the stomach and neutralises acid with bicarbonate. Ulcers of the cap are common, and one on the back wall may erode the gastroduodenal artery.', zh: '接收來自胃的食糜，並以碳酸氫鹽中和胃酸。球部是消化性潰瘍的好發處，後壁潰瘍可能侵蝕胃十二指腸動脈。'},
       links: ['Pylorus', 'Pyloric sphincter']},
   },
-  {key: 'Muscle layers', en: 'Muscular coat of stomach', zh: '胃的肌層', group: 'info', color: '#c98f8a', cardOnly: true,
+  {key: 'Muscle layers', en: 'Muscular layers of stomach (oblique, circular, longitudinal)', zh: '胃肌層（斜、環、縱）', group: 'info', color: '#c98f8a', cardOnly: true,
     card: {
       loc: {en: 'Three layers, from inside out: an incomplete oblique layer, a circular layer and a longitudinal layer. The oblique layer is the extra one that the rest of the gut does not have.', zh: '由內而外共三層：不完整的斜走肌層、環走肌層與縱走肌層；斜走肌層是消化管其他部分所沒有的額外一層。'},
       course: {en: 'The oblique fibres loop around the cardia and the body; the circular layer thickens at the pylorus to form the sphincter; the longitudinal layer continues from the oesophagus to the duodenum, with its strongest bundles along the curvatures.', zh: '斜走肌纖維繞過賁門與胃體；環走肌層在幽門增厚成括約肌；縱走肌層從食道延續到十二指腸，沿兩彎最為明顯。'},
@@ -160,7 +160,7 @@ const parts: OrganPartDef[] = [
       fn: {en: 'Together they churn and knead the contents and push them toward the pylorus.', zh: '三層合作，攪拌揉捏胃內容物，並把它推向幽門。'},
       links: ['Pyloric sphincter']},
   },
-  {key: 'Gastric rugae', en: 'Gastric rugae', zh: '胃皺襞（胃褶）', group: 'info', color: '#e0a8a0', cardOnly: true,
+  {key: 'Gastric rugae', en: 'Gastric rugae', zh: '胃皺襞', group: 'info', color: '#e0a8a0', cardOnly: true,
     card: {
       loc: {en: 'Longitudinal folds of mucosa and submucosa on the inner surface, most obvious in the body and along the lesser curvature.', zh: '黏膜與黏膜下層形成的縱向皺襞，在胃體與胃小彎側最明顯。'},
       course: {en: 'They flatten when the stomach is filled and reappear when it empties. Unlike the circular folds of the small intestine, they do not exist to enlarge the absorbing surface.', zh: '胃充盈時皺襞變平，排空後再現；與小腸的環狀皺襞不同，它的作用不是增加吸收面積。'},
@@ -188,6 +188,6 @@ export const STOMACH: OrganDef = {
   ],
   peelNote: '由外而內：神經 → 靜脈 → 動脈 → 相鄰器官與消化管 → 彎、切跡與括約肌的標示 → 分區顏色 → 胃壁本身。',
   scope: ['胃分區（賁門、胃底、胃體、幽門竇、幽門管）與胃大彎、胃小彎、胃角切跡、賁門切跡、幽門括約肌，都是標示在同一個胃模型表面上的位置，不是另外的模型；邊界位置為示意。',
-    '動脈、靜脈（含門靜脈屬支）與神經分組：腹腔幹與其分支、胃的靜脈與脾靜脈、腸繫膜上靜脈、門靜脈、迷走神經下段、腹腔神經節、大內臟神經是圖譜既有的模型；短胃動脈與靜脈、後胃動脈與靜脈、前迷走神經幹、胃前支、腹腔叢是依一般描述沿中心線畫成的示意管，起止點放在相鄰模型的表面上。',
-    '部分血管在圖譜模型中緊貼甚至略陷入胃壁，尤其是胃左動脈靠近賁門處；用「胃壁透明」或逐層剝離即可看到。淋巴結沒有模型，只有資訊卡。食道腹部、十二指腸第一部、脾與胰只作為相鄰構造顯示。相關肌肉（橫膈，半透明）在「器官」與「全部」兩個視圖一起顯示。肌層、皺襞與胃管沒有模型，只有資訊卡。'],
+    '動脈、靜脈（含肝門靜脈屬支）與神經分組：腹腔動脈幹與其分支、胃的靜脈與脾靜脈、上腸繫膜靜脈、肝門靜脈、迷走神經下段、腹腔神經節、大內臟神經是圖譜既有的模型；短胃動脈與靜脈、後胃動脈與靜脈、前迷走神經幹、胃前支、腹腔叢是依一般描述沿中心線畫成的示意管，起止點放在相鄰模型的表面上。',
+    '部分血管在圖譜模型中緊貼甚至略陷入胃壁，尤其是左胃動脈靠近賁門處；用「胃壁透明」或逐層剝離即可看到。淋巴結沒有模型，只有資訊卡。食道腹部、十二指腸第一部、脾與胰只作為相鄰構造顯示。相關肌肉（橫膈，半透明）在「器官」與「全部」兩個視圖一起顯示。肌層、皺襞與胃管沒有模型，只有資訊卡。'],
 };
