@@ -8,6 +8,7 @@ import {planCuts, atlasParts} from './lib/tendon-set.mjs';
 import {quizModule} from './quiz-modules.mjs';
 import {loadJointRows} from './lib/joint-quiz-source.mjs';
 import {loadBrainRows} from './lib/brain-quiz-source.mjs';
+import {trunkCandidates, requiredAliases} from './lib/trunk-quiz-source.mjs';
 
 const root = new URL('../', import.meta.url);
 const models = new URL('public/models/', root);
@@ -24,6 +25,7 @@ const {jointRegion, jointExclusion, jointKey, jointKindOf, JOINT_EXCLUSION_REASO
 const {normalize} = await quizModule('app/quiz/naming.ts');
 const {brainSectionOf, brainLayerOf, brainSystemOf, BRAIN_EXCLUSION_REASONS, renameSideOk, brainNameClashes, BRAIN_NAME_CLASHES} = await quizModule('app/quiz/brain.ts');
 const {headNeckSystem, HN_EXTRA_MUSCLE, HN_EXCLUSION_REASONS, HEADNECK_NERVES, HEADNECK_NERVE_OTHER, HN_ZH, headNeckLayerOf, headNeckNameClashes} = await quizModule('app/quiz/headneck.ts');
+const {trunkNameClashes, TRUNK_EXCLUSION_REASONS, ABDOMEN_NERVES} = await quizModule('app/quiz/trunk.ts');
 const {SCHEMATIC} = await quizModule('app/organ/brain-schematic.ts');
 const {EAR_PARTS} = await quizModule('app/mj-ear-atlas.ts');
 const {earLayerOf} = await quizModule('app/quiz/ear.ts');
@@ -48,7 +50,7 @@ const sourceBuffers = new Map();
 const lc = s => s[0].toLowerCase() + s.slice(1);
 const cleanName = name => name.toLowerCase().replace(/\b(left|right)\b/g, '').replace(/\s+/g, ' ').trim();
 const PAIRED_THORAX = /\brib\b|intercostal|serratus posterior|levatores costarum|rotator|iliocostalis|longissimus|spinalis|semispinalis|interspinalis|transversus thoracis|subcostal|internal thoracic|musculophrenic|bronchial|pulmonary (?:artery|vein)|superior pulmonary|inferior pulmonary|costocervical|thyrocervical|costal cartilage/i;
-const NERVES = {'lower-limb': LOWER_NERVES, 'upper-limb': UPPER_NERVES, thorax: THORAX_NERVES, back: BACK_NERVES, 'head-neck': HEADNECK_NERVES};
+const NERVES = {'lower-limb': LOWER_NERVES, 'upper-limb': UPPER_NERVES, thorax: THORAX_NERVES, back: BACK_NERVES, 'head-neck': HEADNECK_NERVES, abdomen: ABDOMEN_NERVES};
 
 // Lung quiz: the lobes (context only, never asked), the main bronchi, the pulmonary arteries and veins and the bronchial artery come from the atlas; the lung surface areas
 // and the pulmonary ligaments come from the course-summary package. Nothing is added that the model does not have.
@@ -114,16 +116,19 @@ fs.mkdirSync(new URL('.sites-runtime/', root), {recursive: true});
 fs.writeFileSync(new URL('.sites-runtime/quiz-joints-report.json', root), JSON.stringify(jointCandidates.map(({mesh, bounds, id, ...c}) => ({...c, bounds: undefined})).sort((a, b) => a.name.localeCompare(b.name)), null, 1));
 
 const summary = [], spaceReport = [];
+// node scripts/prepare-quiz.mjs --region=abdomen builds one region only (local use while working on it)
+const onlyRegion = process.argv.find(a => a.startsWith('--region='))?.slice(9);
 for (const region of Object.keys(QUIZ_REGIONS)) {
+  if (onlyRegion && region !== onlyRegion) continue;
   const def = QUIZ_REGIONS[region], short = def.file.replace(/^quiz-|\.json$/g, '');
   const items = [], structures = new Map(), hnExcluded = [];
   const groupId = (system, name) => `${system}:${name.toLowerCase().replace(/\s+/g, ' ').trim()}`;
-  function add({id, name, chinese, system, side, bounds, source, positions, normals, indices, sections, description, layer, cardFields, availability}) {
+  function add({id, name, chinese, system, side, bounds, source, positions, normals, indices, sections, description, layer, cardFields, availability, cardSystem, aliases}) {
     const exactNames = (region === 'head-neck' && (system === 'nervous' || system === 'arterial' || system === 'venous')) || region === 'ear';
     const structureId = groupId(system, name);
     let structure = structures.get(structureId);
     if (!structure) {
-      structure = {id: structureId, name, chinese, system, side, sections: sections ?? classifySections(region, name, bounds, system), meshIds: [], bounds: bounds.map(b => [...b]), source, ...(description ? {description} : {}), ...(layer ? {layer} : {}), ...(cardFields ? {cardFields} : {}), ...(availability ? {availability} : {}), ...(exactNames ? {exactNames: true} : {})};
+      structure = {id: structureId, name, chinese, system, side, sections: sections ?? classifySections(region, name, bounds, system), meshIds: [], bounds: bounds.map(b => [...b]), source, ...(description ? {description} : {}), ...(layer ? {layer} : {}), ...(cardFields ? {cardFields} : {}), ...(availability ? {availability} : {}), ...(cardSystem ? {cardSystem} : {}), ...(aliases ? {aliases} : {}), ...(exactNames ? {exactNames: true} : {})};
       structures.set(structureId, structure);
     }
     structure.meshIds.push(id);
@@ -328,7 +333,39 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
       geometry.dispose();
     }
   }
-  for (const part of region === 'heart' || region === 'brain' || region === 'head-neck' || region === 'ear' || ORGAN_IDS.includes(region) ? [] : atlas.parts) {
+  // Abdomen quiz: the structures of the abdomen that the main site already draws (the atlas, the course-summary package and the nerve overlay below). The region is the one the main site's region bar gives a structure
+  // (app/mj-region-bar.ts); app/quiz/trunk.ts sets aside what an organ detail mode or another region's quiz asks and names the sections and depth layers (documented in docs/quiz-trunk.md).
+  // Every structure that is not asked is in .sites-runtime/quiz-abdomen-report.json with its reason; docs/quiz-trunk-pool.md is made from it by scripts/report-quiz-trunk.mjs.
+  const trunkReport = {excluded: []};
+  if (region === 'abdomen') {
+    const pk = JSON.parse(gunzipSync(fs.readFileSync(new URL('paokao/paokao-stream.json.gz', models))));
+    const pkChunks = pk.chunks.map(c => fs.readFileSync(new URL('public' + c.url, root)));
+    const packageParts = pk.parts.filter(p => !['connector', 'surface', 'tendon', 'landmark'].includes(p.kind));
+    const rows = await trunkCandidates('abdomen', {atlasParts: atlas.parts, packageParts});
+    // a typed name must have one right answer: structures of one system that share a name once left and right are taken out are not asked (the model's own duplicates of one structure are merged by app/quiz/trunk.ts first)
+    const probe = new Map();
+    for (const c of rows) if (!c.reason) probe.set(`${c.system}|${c.side}|${c.name.toLowerCase()}`, c);
+    const clash = trunkNameClashes([...probe.values()]);
+    // an unsided mesh with the name of a left/right pair is a copy of the pair: the pair is asked
+    for (const [, list] of clash) {
+      const sided = list.filter(x => x.side !== 'midline'), plain = x => x.name.toLowerCase().replace(/\b(left|right)\b/g, '').replace(/\s+/g, ' ').trim();
+      if (sided.length) for (const x of list) if (x.side === 'midline' && sided.every(o => plain(o) === plain(x))) x.reason ??= 'unsided-copy';
+    }
+    for (const [, list] of trunkNameClashes([...probe.values()].filter(x => !x.reason))) for (const x of list) x.reason ??= 'name-not-unique';
+    for (const c of rows) {
+      if (c.reason) {trunkReport.excluded.push({name: c.name, chinese: c.chinese, side: c.side, atlasSystem: c.atlasSystem, reason: c.reason}); continue;}
+      const part = c.part;
+      let raw, positions, normals, indices;
+      if (c.from === 'atlas') {
+        const chunk = atlas.chunks[part.chunk];
+        if (!sourceBuffers.has(part.chunk)) sourceBuffers.set(part.chunk, fs.readFileSync(new URL('public' + chunk.url, root)));
+        raw = sourceBuffers.get(part.chunk);
+      } else raw = pkChunks[part.chunk];
+      positions = raw.subarray(part.positions, part.positions + part.vertexCount * 12); normals = raw.subarray(part.normals, part.normals + part.vertexCount * 6); indices = raw.subarray(part.indices, part.indices + part.indexCount * 4);
+      add({id: part.id, name: c.name, chinese: c.chinese, system: c.system, side: c.side, bounds: part.bounds, source: c.from === 'atlas' ? 'BodyParts3D' : 'Model package', layer: c.layer, cardSystem: c.system === 'trunkorgan' ? c.atlasSystem : undefined, positions, normals, indices});
+    }
+  }
+  for (const part of region === 'heart' || region === 'brain' || region === 'head-neck' || region === 'ear' || region === 'abdomen' || ORGAN_IDS.includes(region) ? [] : atlas.parts) {
     if (!QUIZ_SYSTEMS.some(s => s.id === part.system)) continue;
     // tendons are asked per region once a region has enough of them (the limbs now; the other regions follow in later batches)
     if (part.system === 'tendon' && region !== 'upper-limb' && region !== 'lower-limb') continue;
@@ -349,7 +386,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
       indices: belly ? buf(belly.indices) : raw.subarray(part.indices, part.indices + part.indexCount * 4)});
   }
   // Tendons cut off their muscles (parts of the course-summary package): asked in the region they lie in, like any other structure.
-  if (region !== 'heart' && region !== 'lung' && region !== 'brain' && region !== 'head-neck' && region !== 'ear' && !ORGAN_IDS.includes(region)) {
+  if (region !== 'heart' && region !== 'lung' && region !== 'brain' && region !== 'head-neck' && region !== 'ear' && region !== 'abdomen' && !ORGAN_IDS.includes(region)) {
     const pk = JSON.parse(gunzipSync(fs.readFileSync(new URL('paokao/paokao-stream.json.gz', models))));
     const pkChunks = pk.chunks.map(c => fs.readFileSync(new URL('public' + c.url, root)));
     for (const part of pk.parts) {
@@ -464,7 +501,18 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
       excluded: [...new Map(hnExcluded.map(e => [`${e.reason}|${e.side}|${e.name}`, e])).values()].sort((a, b) => a.reason.localeCompare(b.reason) || a.name.localeCompare(b.name)),
     }, null, 1));
   }
-  const packages = [], sides = region === 'thorax' || region === 'back' || region === 'head-neck' || region === 'heart' || region === 'lung' || region === 'brain' || region === 'ear' || ORGAN_IDS.includes(region) ? ['left', 'right', 'midline'] : ['left', 'right'];
+  if (region === 'abdomen') {
+    const {aliases, coverage} = requiredAliases('abdomen', [...structures.values()]);
+    for (const [id, a] of aliases) structures.get(id).aliases = a;
+    fs.mkdirSync(new URL('.sites-runtime/', root), {recursive: true});
+    fs.writeFileSync(new URL('.sites-runtime/quiz-abdomen-report.json', root), JSON.stringify({
+      reasons: TRUNK_EXCLUSION_REASONS,
+      asked: [...structures.values()].map(x => ({name: x.name, chinese: x.chinese, system: x.system, side: x.side, sections: x.sections, source: x.source, ...(x.layer ? {layer: x.layer} : {}), ...(x.aliases ? {aliases: x.aliases} : {}), meshes: x.meshIds.length})).sort((a, b) => a.name.localeCompare(b.name)),
+      excluded: [...new Map(trunkReport.excluded.map(e => [`${e.reason}|${e.side}|${e.name}`, e])).values()].sort((a, b) => a.reason.localeCompare(b.reason) || a.name.localeCompare(b.name)),
+      requiredCoverage: coverage,
+    }, null, 1));
+  }
+  const packages = [], sides = region === 'thorax' || region === 'back' || region === 'head-neck' || region === 'abdomen' || region === 'heart' || region === 'lung' || region === 'brain' || region === 'ear' || ORGAN_IDS.includes(region) ? ['left', 'right', 'midline'] : ['left', 'right'];
   for (const {id: system} of QUIZ_SYSTEMS) for (const side of sides) {
     let buffers = [], bytes = 0, meshes = [];
     const append = data => {

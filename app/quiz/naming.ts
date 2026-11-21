@@ -10,7 +10,7 @@ export type AnswerLanguage = 'en' | 'zh' | 'any';
 export type NameResult = 'correct' | 'close' | 'wrong';
 export interface NameOptions {language: AnswerLanguage; needSide: boolean}
 export interface Accepted {en: string[]; zh: string[]}
-type Named = Pick<QuizStructure, 'name' | 'chinese'> & {side?: string; system?: string; source?: string; exactNames?: boolean};
+type Named = Pick<QuizStructure, 'name' | 'chinese'> & {side?: string; system?: string; source?: string; exactNames?: boolean; aliases?: {en?: string[]; zh?: string[]}};
 
 const SIDE_EN = /\b(left|right)\b/g, SIDE_WORD = /\b(left|right)\b/;
 /** "Septomarginal trabecula (moderator band)" → ["septomarginal trabecula (moderator band)", "septomarginal trabecula", "moderator band"] */
@@ -33,7 +33,7 @@ export interface WholeMuscle {en: string; zh?: string; muscle: string; headsRequ
 export function wholeMuscleOf(structure: Named): WholeMuscle | null {
   // "iliofemoral ligament, descending part", "ligament of head of femur": a joint structure is never a part of a muscle, so the bone or ligament named after "of" is not an accepted answer
   // the brain quiz asks the names of the brain model itself: "opercular part of inferior frontal gyrus" is a part of a gyrus, never of a muscle
-  if (structure.system === 'joint' || structure.system === 'brain' || structure.system === 'headorgan' || structure.system === 'viscera' || structure.system === 'ear') return null;
+  if (structure.system === 'joint' || structure.system === 'brain' || structure.system === 'headorgan' || structure.system === 'viscera' || structure.system === 'ear' || structure.system === 'trunkorgan') return null;
   const match = structure.name.match(PART_OF_MUSCLE);
   if (!match) return null;
   const muscle = match[2].trim(), side = structure.name.match(SIDE_WORD)?.[1];
@@ -76,7 +76,8 @@ export function acceptedNames(structure: Named): Accepted {
   const paired = isPaired(structure);
   // Left/right is part of the identity of a midline structure (left atrium, left coronary cusp), so its row is keyed with the word; paired structures are keyed without it.
   const synonymRow = SYNONYMS[structure.name.toLowerCase()] ?? SYNONYMS[cleanKey(structure.name)], nameRow = HEAD_NECK_ROWS[structure.name.toLowerCase()] ?? HEAD_NECK_ROWS[cleanKey(structure.name)];
-  const row = synonymRow || nameRow ? {en: [...(synonymRow?.en ?? []), ...(nameRow?.en ?? [])], zh: [...(synonymRow?.zh ?? []), ...(nameRow?.zh ?? [])]} : undefined;
+  const own = structure.aliases;
+  const row = synonymRow || nameRow || own ? {en: [...(synonymRow?.en ?? []), ...(nameRow?.en ?? []), ...(own?.en ?? [])], zh: [...(synonymRow?.zh ?? []), ...(nameRow?.zh ?? []), ...(own?.zh ?? [])]} : undefined;
   const whole = wholeMuscleOf(structure);
   const wholeEn = whole && !whole.headsRequired ? [whole.en] : [], wholeZh = whole && !whole.headsRequired && whole.zh ? [whole.zh] : [];
   const site = siteName(structure), aliases = checklistAliases(structure).exact;

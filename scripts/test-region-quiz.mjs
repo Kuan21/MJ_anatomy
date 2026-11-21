@@ -49,6 +49,11 @@ const checkChinese = (label, zh) => {
 };
 
 const expected = {
+  abdomen: {
+    count: [170, 240],
+    names: ['Kidney', 'Adrenal gland', 'Ureter', 'Psoas major', 'Iliacus', 'Quadratus lumborum', 'Rectus abdominis', 'External oblique', 'Renal artery', 'Renal vein', 'Twelfth rib', 'Celiac ganglion', 'Greater splanchnic nerve', 'Iliohypogastric nerve', 'Genitofemoral nerve'],
+    plain: ['Stomach', 'Spleen', 'Pancreas', 'Duodenum', 'Gallbladder', 'Jejunum', 'Ileum', 'Transverse colon', 'Appendix', 'Celiac artery', 'Superior mesenteric artery', 'Inferior mesenteric artery', 'Abdominal aorta', 'Inferior vena cava', 'Hepatic portal vein', 'Splenic vein', 'Splenic artery', 'Diaphragm', 'Linea alba'],
+  },
   'upper-limb': {
     count: [380, 560],
     names: ['Humerus', 'Radius', 'Ulna', 'Clavicle', 'Scapula', 'Deltoid', 'Median nerve', 'Radial nerve', 'Ulnar nerve', 'Axillary nerve', 'Musculocutaneous nerve', 'Axillary artery', 'Brachial artery', 'Radial artery', 'Ulnar artery', 'Cephalic vein', 'Basilic vein', 'Axillary vein'],
@@ -89,7 +94,7 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
   const def = QUIZ_REGIONS[regionId], catalogue = JSON.parse(fs.readFileSync('public/models/' + def.file));
   assert.equal(catalogue.region ?? 'lower-limb', regionId);
   assert.equal(regionOfHash(def.hash), regionId);
-  const regionSystems = (def.systems ?? QUIZ_SYSTEMS.filter(s => s.id !== 'cardiac' && s.id !== 'respiratory' && s.id !== 'brain' && s.id !== 'headorgan' && s.id !== 'ear' && s.id !== 'viscera').map(s => s.id)).map(id => QUIZ_SYSTEMS.find(s => s.id === id));
+  const regionSystems = (def.systems ?? QUIZ_SYSTEMS.filter(s => s.id !== 'cardiac' && s.id !== 'respiratory' && s.id !== 'brain' && s.id !== 'headorgan' && s.id !== 'ear' && s.id !== 'trunkorgan' && s.id !== 'viscera').map(s => s.id)).map(id => QUIZ_SYSTEMS.find(s => s.id === id));
   const structures = new Map(catalogue.structures.map(s => [s.id, s]));
   assert.equal(structures.size, catalogue.structures.length, `${regionId}: no repeated anatomical answers`);
   if (expected[regionId]) assert.ok(catalogue.structures.length >= expected[regionId].count[0] && catalogue.structures.length <= expected[regionId].count[1], `${regionId}: ${catalogue.structures.length} structures`);
@@ -121,6 +126,12 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
         const original = read('public' + atlas.chunks[source.chunk].url);
         assert.deepEqual(positions, original.subarray(source.positions, source.positions + source.vertexCount * 12), 'Unchanged original position data');
         assert.deepEqual(indices, original.subarray(source.indices, source.indices + source.indexCount * 4), 'Unchanged source triangles');
+      } else if (structure.source === 'Model package') {
+        // the abdomen quiz copies meshes of the course-summary package (nerve ganglia, splanchnic nerves, sheaths, spaces) as they are
+        const part = paokao.parts.find(p => p.id === mesh.id); assert.ok(part, mesh.id);
+        const original = read('public' + paokao.chunks[part.chunk].url);
+        assert.deepEqual(positions, original.subarray(part.positions, part.positions + part.vertexCount * 12), 'Unchanged package position data');
+        assert.deepEqual(indices, original.subarray(part.indices, part.indices + part.indexCount * 4), 'Unchanged package triangles');
       } else if (structure.source === 'Ear atlas') {
         const part = earParts.get(mesh.id.replace(/^ear:/, '')); assert.ok(part, mesh.id);
         assert.deepEqual(positions, earBin.subarray(part.positions, part.positions + part.vertexCount * 12), 'Unchanged ear position data');
@@ -155,7 +166,7 @@ for (const regionId of Object.keys(QUIZ_REGIONS)) {
     assert.ok((s.sections.length || (regionId === 'lung' && /^(?:upper|middle|lower) lobe of/i.test(s.name))) && s.sections.every(id => sectionIds.has(id) && id !== 'all'), `${s.name}: valid sections ${s.sections}`);
     assert.ok(['left', 'right', 'midline'].includes(s.side));
     // organ detail quizzes (stomach, …) are midline organs
-    if (regionId !== 'thorax' && regionId !== 'back' && regionId !== 'heart' && regionId !== 'lung' && regionId !== 'brain' && regionId !== 'ear' && regionId !== 'head-neck' && !ORGAN_IDS.includes(regionId)) assert.notEqual(s.side, 'midline');
+    if (regionId !== 'thorax' && regionId !== 'back' && regionId !== 'heart' && regionId !== 'lung' && regionId !== 'brain' && regionId !== 'ear' && regionId !== 'head-neck' && regionId !== 'abdomen' && !ORGAN_IDS.includes(regionId)) assert.notEqual(s.side, 'midline');
     // Every answer shows 中文名 + English name, Taiwan terminology.
     checkChinese(`${regionId} ${s.name}`, s.chinese);
     assert.ok(/[A-Za-z]/.test(s.name), 'English name present');
