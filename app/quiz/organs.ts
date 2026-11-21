@@ -15,6 +15,13 @@ export const ORGAN_QUIZ: Record<OrganId, OrganQuiz> = {
     frame: {x: .13, z: [-.04, .11]},
     sections: [section('all', '全部胃', 'Stomach'), section('zones', '胃的分區', 'Regions of the stomach'), section('lines', '彎、切跡與括約肌', 'Curvatures, notches and sphincter'), section('arteries', '動脈', 'Arteries'), section('veins', '靜脈（含門靜脈屬支）', 'Veins and portal tributaries'), section('nerves', '神經', 'Nerves'), section('context', '相連的消化管', 'Neighbouring parts of the gut tube')],
   },
+  'liver-gallbladder': {
+    label: '肝、膽囊與膽道', english: 'Liver, gallbladder and biliary tract', tag: '肝膽篇',
+    blurb: '肝的四葉、肝門、裸區與韌帶、膽囊各部、肝內外膽管，以及肝的動脈、門靜脈、肝靜脈與神經',
+    scope: '採用肝、膽囊與膽道的詳細模型（解剖姿勢，由前方觀看）。肝葉、膽囊各部、肝門、裸區與韌帶附著處都是標示在同一個器官模型表面上的位置，邊界為示意；肝圓韌帶、靜脈韌帶、膽囊動脈、膽囊靜脈與肝叢是依一般描述畫成的示意索或示意管。',
+    frame: {x: .15, z: [-.06, .12]},
+    sections: [section('all', '全部', 'All'), section('zones', '肝葉與膽囊各部', 'Lobes and parts'), section('marks', '肝門、裸區與腹膜附著', 'Porta hepatis, bare area and peritoneal attachments'), section('ligaments', '肝的韌帶', 'Ligaments of the liver'), section('ducts', '膽管', 'Bile ducts'), section('arteries', '動脈', 'Arteries'), section('veins', '靜脈', 'Veins'), section('nerves', '神經', 'Nerves')],
+  },
 };
 export const organQuizRegion = (id: OrganId): QuizRegionDef => {
   const o = ORGAN_QUIZ[id];

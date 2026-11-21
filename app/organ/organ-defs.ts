@@ -4,6 +4,7 @@ import type {OrganId} from './organ-ids';
 export async function loadOrganDef(id: OrganId): Promise<OrganDef> {
   switch (id) {
     case 'stomach': return (await import('./organs/stomach')).STOMACH;
+    case 'liver-gallbladder': return (await import('./organs/liver-gallbladder')).LIVER_GALLBLADDER;
   }
 }
 export type {OrganId};
