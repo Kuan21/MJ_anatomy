@@ -102,7 +102,7 @@ export function tubeTips(g, minBranch = .006) {
 /** Vessel meshes that are several separate tubes in one mesh (the four lumbar veins of a side, each running from the body wall to the vena cava or the ascending lumbar vein). `tubeTips` walks the surface graph from
  *  its first vertex, so it only ever reaches ONE of the pieces and the other three got no ends audited at all (no connector, no taper: the end pieces of the lumbar veins stayed in 4 loose segments, 2026-11-18).
  *  For the vessels listed here every piece gets its own tips. Other multi-piece meshes (84 in the atlas: portal vein, intercostal sets, digital sets …) are not listed yet: each would add its own connectors and checks. */
-export const MULTI_PIECE_VESSELS = /^Lumbar vein$/;
+export const MULTI_PIECE_VESSELS = process.env.MJ_NO_MULTI_PIECE ? /(?!)/ : /^Lumbar vein$/;   // MJ_NO_MULTI_PIECE=1: the old behaviour (one piece per mesh), for before/after comparisons
 const MIN_PIECE_TRIANGLES = 40;
 /** The connected pieces of a mesh (vertices welded by position), each with its own compact positions and indices; pieces below MIN_PIECE_TRIANGLES are loose debris and dropped. */
 export function surfacePieces(g) {

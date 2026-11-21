@@ -17,6 +17,8 @@ const VIEWS=[
  ['limb-gap-thoraco-acromial',[0.105,1.395,0.025],[0,0,1],0.10],
  // the lumbar veins (four separate tubes per side, from the body wall to the ascending lumbar vein)
  ['lumbar-back',[0,1.07,-0.03],[0,0,-1],0.22],['lumbar-front',[0,1.07,-0.01],[0,0,1],0.22],
+ // the lumbar veins entering the ascending lumbar vein / inferior vena cava (use HIDE=Skeleton,Arteries,Nervous to see the veins alone)
+ ['lumbar-veins-front',[0,1.075,0.0],[0,0,1],0.17],['lumbar-veins-back',[0,1.075,-0.02],[0,0,-1],0.19],['lumbar-veins-left',[0.03,1.075,-0.02],[1,0,0],0.19],
  ['pel-front-wide',[0,0.90,0.0],[0,0,1],0.50],['pel-front',[0.03,0.88,0.0],[0,0,1],0.28],['pel-left',[0,0.88,0.0],[1,0,0],0.32],['pel-top',[0,0.92,0.0],[0,1,0],0.36]];
 (async()=>{
  const b=await chromium.launch({args:['--use-gl=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
@@ -25,8 +27,14 @@ const VIEWS=[
  await p.goto(`http://127.0.0.1:${port}${BASE}?mjview=1`);
  await p.waitForFunction(()=>document.querySelector('[data-testid=load-bar]')?.getAttribute('aria-valuenow')==='100',null,{timeout:3600000,polling:2000});
  await sleep(8000);
- for(const name of [/Muscles/,/Connective/,...(process.env.HIDE?process.env.HIDE.split(',').map(x=>new RegExp(x)):[])]){await p.locator('.system-row',{hasText:name}).first().locator('button.system-name').click();await sleep(2500);}
+ if(!process.env.NOSYSTEMS)for(const name of [/Muscles/,/Connective/,...(process.env.HIDE?process.env.HIDE.split(',').map(x=>new RegExp(x)):[])]){await p.locator('.system-row',{hasText:name}).first().locator('button.system-name').click();await sleep(2500);}
  console.log('systems',await p.locator('.system-row.enabled').allTextContents().then(a=>a.map(t=>t.replace(/\s+/g,' ').slice(0,24)).join(' | ')));
+ if(process.env.SELECT){ // select a structure through the search (the vessel and its end piece are selected together, the rest is faded)
+  await p.getByRole('button',{name:'搜尋構造'}).click();await sleep(800);
+  await p.locator('.search-panel input[role=combobox]').first().fill(process.env.SELECT);await sleep(1200);
+  await p.locator('[data-slot=combobox-item]').first().click();await sleep(3500);
+  console.log('selected',process.env.SELECT);
+ }
  for(const [n,t,d,r] of VIEWS){
   if(want&&!want.has(n))continue;
   await p.evaluate(([t,d,r])=>window.__mjView.look(t,d,r),[t,d,r]);await sleep(3000);
