@@ -90,7 +90,7 @@
 - 關閉生殖：隨之消失的血管與神經 4 個網格：uterine artery ×2；uterine vein ×2
 - 關閉漿膜：隨之消失的血管與神經 0 個網格（沒有；此區域沒有歸屬於它的血管或神經）
 - 全部器官關閉：仍顯示 0 個網格（經過、沿著的構造）：無
-- 肌肉關閉：肌腱、腱鞘與掌腱膜（跟著肌肉的）0 個網格；其餘結締組織中肌腱樣、筋膜樣、韌帶樣構造 4 個網格：Tendinous arch of levator ani ×3；tendinous arch of levator ani
+- 肌肉關閉：肌腱、腱鞘與掌腱膜（跟著肌肉的）0 個網格；其餘結締組織中肌腱樣、筋膜樣、韌帶樣構造 2 個網格：Tendinous arch of levator ani ×2
 
 ## 骨盆與會陰 → 骨盆壁
 
@@ -99,7 +99,7 @@
 - 關閉泌尿：隨之消失的血管與神經 0 個網格（沒有；此區域沒有歸屬於它的血管或神經）
 - 關閉生殖：隨之消失的血管與神經 0 個網格（沒有；此區域沒有歸屬於它的血管或神經）
 - 全部器官關閉：仍顯示 59 個網格（經過、沿著的構造）：Median sacral vein ×2；deep branch of superior gluteal artery ×2；external iliac artery ×3；external iliac vein ×7；iliolumbar vein ×4；inferior gluteal artery ×2；inferior gluteal nerve ×2；inferior gluteal vein ×4；internal iliac artery ×3；internal iliac vein ×10；lateral sacral vein ×4；nerve to obturator internus ×2；obturator vein ×4；superficial branch of superior gluteal artery ×2；superior gluteal artery ×4；superior gluteal vein ×4
-- 肌肉關閉：肌腱、腱鞘與掌腱膜（跟著肌肉的）0 個網格；其餘結締組織中肌腱樣、筋膜樣、韌帶樣構造 4 個網格：Tendinous arch of levator ani ×3；tendinous arch of levator ani
+- 肌肉關閉：肌腱、腱鞘與掌腱膜（跟著肌肉的）0 個網格；其餘結締組織中肌腱樣、筋膜樣、韌帶樣構造 2 個網格：Tendinous arch of levator ani ×2
 
 ## 骨盆與會陰 → 會陰
 
