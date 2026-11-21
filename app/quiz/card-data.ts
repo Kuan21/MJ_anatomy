@@ -1245,12 +1245,12 @@ Object.assign(CARD_EXTRAS, {
   'abdominal aorta': {
     來源: e('主動脈在第十二胸椎（T12）下緣高度經橫膈的主動脈裂孔進入腹腔後續成腹主動脈', 'The continuation of the thoracic aorta after it passes through the aortic hiatus of the diaphragm at the lower border of T12'),
     走向: e('沿腰椎體前方稍偏左下行，右側為下腔靜脈，前方依次有胰、十二指腸第三部與腸繫膜根；約在第四腰椎（L4）高度分為左、右總髂動脈，分叉處另發出細小的正中薦動脈', 'Descends in front of the lumbar vertebral bodies slightly to the left of the midline, with the inferior vena cava on its right and the pancreas, third part of the duodenum and root of the mesentery in front; at about L4 it divides into the left and right common iliac arteries and gives off a slender median sacral artery at the fork'),
-    主要分支: e('不成對的內臟分支：腹腔動脈幹（約 T12）、上腸繫膜動脈（約 L1）、下腸繫膜動脈（約 L3）；成對分支：下膈動脈、腎上腺中動脈、腎動脈、生殖腺動脈、腰動脈、肋下動脈；分叉處另有正中薦動脈', 'Unpaired visceral branches: the celiac trunk (about T12), superior mesenteric artery (about L1) and inferior mesenteric artery (about L3); paired branches: inferior phrenic, middle suprarenal, renal, gonadal, lumbar and subcostal arteries; the median sacral artery arises at the bifurcation'),
+    主要分支: e('不成對的內臟分支：腹腔動脈幹（約 T12）、上腸繫膜動脈（約 L1）、下腸繫膜動脈（約 L3）；成對分支：下膈動脈、中腎上腺動脈、腎動脈、生殖腺動脈、腰動脈、肋下動脈；分叉處另有正中薦動脈', 'Unpaired visceral branches: the celiac trunk (about T12), superior mesenteric artery (about L1) and inferior mesenteric artery (about L3); paired branches: inferior phrenic, middle suprarenal, renal, gonadal, lumbar and subcostal arteries; the median sacral artery arises at the bifurcation'),
     供應範圍: e('腹腔內臟、後腹壁、橫膈下面，並藉總髂動脈供應骨盆與下肢', 'The abdominal viscera, posterior abdominal wall and underside of the diaphragm, and through the common iliac arteries the pelvis and lower limbs'),
   },
   'celiac trunk': {
     來源: e('在約第十二胸椎（T12）高度（部分資料作 T12 至 L1 上緣），主動脈裂孔下方，由腹主動脈前壁發出', 'Arises from the front of the abdominal aorta at about T12 (some sources give T12 to the upper border of L1), just below the aortic hiatus'),
-    走向: e('非常短（約一至二公分），幾乎水平向前，位於胰體上緣上方、小網膜囊後方，被腹腔神經叢與腹腔神經節環繞；隨即分為三支', 'Very short (about 1 to 2 cm) and running almost horizontally forward, above the upper border of the body of the pancreas and behind the lesser sac, surrounded by the celiac plexus and ganglia; it soon divides into three branches'),
+    走向: e('非常短（約一至二公分），幾乎水平向前，位於胰體上緣上方、小網膜囊後方，被腹腔叢與腹腔神經節環繞；隨即分為三支', 'Very short (about 1 to 2 cm) and running almost horizontally forward, above the upper border of the body of the pancreas and behind the lesser sac, surrounded by the celiac plexus and ganglia; it soon divides into three branches'),
     主要分支: e('左胃動脈、脾動脈、總肝動脈', 'Left gastric, splenic and common hepatic arteries'),
     供應範圍: e('前腸衍生的器官：食道腹段、胃、十二指腸近端（至大十二指腸乳頭）、肝、膽囊、膽道、胰的大部分與脾', 'Foregut derivatives: the abdominal oesophagus, stomach, proximal duodenum (down to the major duodenal papilla), liver, gallbladder, bile ducts, most of the pancreas and the spleen'),
   },
@@ -1390,7 +1390,7 @@ Object.assign(CARD_EXTRAS, {
   },
   'ileocolic artery': {
     來源: e('上腸繫膜動脈右側壁發出的最下一條分支', 'The lowest branch from the right side of the superior mesenteric artery'),
-    走向: e('在腹膜後向右下走向迴盲交界，分為上支（升結腸支）與下支；下支發出前、後盲腸動脈、闌尾動脈與迴腸支', 'Runs down and to the right behind the peritoneum towards the ileocaecal junction and divides into a superior (colic) branch and an inferior branch, which gives anterior and posterior caecal arteries, the appendicular artery and an ileal branch'),
+    走向: e('在腹膜後向右下走向迴盲部，分為上支（升結腸支）與下支；下支發出前、後盲腸動脈、闌尾動脈與迴腸支', 'Runs down and to the right behind the peritoneum towards the ileocaecal junction and divides into a superior (colic) branch and an inferior branch, which gives anterior and posterior caecal arteries, the appendicular artery and an ileal branch'),
     主要分支: e('結腸支、前盲腸動脈、後盲腸動脈、闌尾動脈、迴腸支', 'Colic, anterior caecal, posterior caecal, appendicular and ileal branches'),
     供應範圍: e('迴腸末端、盲腸、闌尾與升結腸下段', 'The terminal ileum, caecum, appendix and lower ascending colon'),
   },
