@@ -110,10 +110,10 @@ export default function WillisAnimation({onClose}: {onClose: () => void}) {
         {showFlow && <div className="willis-perfusion">
           <p className="willis-result">{choice ? <><b>✕ {choice.zh}</b>　{choice.result}{thinPcom ? '（目前勾選後交通支細小：經後交通支的代償變差，結果以下表為準。）' : ''}</> : thinPcom ? '後交通支細小：正常情況下各供血區仍足夠；選一條動脈阻塞，比較與完整的環有何不同。' : '未選阻塞：各供血區血流足夠。'}</p>
           <table aria-label="各供血區血流">
-            <thead><tr><th>供血區</th><th>血流</th><th>狀態</th></tr></thead>
+            <thead><tr><th>供血區</th><th>血流（以正常為 100%）</th><th>狀態</th></tr></thead>
             <tbody>{TERRITORIES.map(t => {const v = flow.perfusion[t.id], level = perfusionLevel(v); return <tr key={t.id} className={level}>
               <td><span lang="en">{t.en}</span><small>{t.zh}</small></td>
-              <td><span className="willis-bar"><i style={{width: `${Math.min(100, v * 100)}%`}}/></span>{Math.round(Math.min(1.5, v) * 100)}%</td>
+              <td><span className="willis-bar"><i style={{width: `${Math.min(100, v * 100)}%`}}/></span>{Math.round(Math.min(1, v) * 100)}%</td>
               <td>{LEVEL_ZH[level]}</td></tr>;})}</tbody>
           </table>
         </div>}

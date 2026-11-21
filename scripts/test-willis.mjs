@@ -79,6 +79,12 @@ for (const c of BLOCK_CHOICES) {
   assert.equal(c.result.includes('缺血'), worst.includes('ischaemia') || c.id === 'ba-1', `${c.id}: the text says 缺血 exactly when a territory is ischaemic (or would be with thin PCoAs)`);
 }
 assert.equal(new Set(BLOCK_CHOICES.map(c => c.id)).size, BLOCK_CHOICES.length);
+// wording checked in review: homonymous hemianopia is 同向偏盲; the watershed zone is the border between territories (HN-35, HN-36)
+assert.ok(!allText.includes('同側偏盲') && allText.includes('同向偏盲'), 'contralateral homonymous hemianopia is 對側同向偏盲');
+assert.ok(/供血區交界[^。]*分水嶺區/.test(allText) && !allText.includes('遠離各動脈的交界區'), 'the watershed zone is the border between territories');
+// the table shows at most 100 % (a territory gets a little more when a neighbour is blocked; HN-37)
+const anim = fs.readFileSync(path.join(root, 'app/willis/willis-animation.tsx'), 'utf8');
+assert.ok(anim.includes('Math.min(1, v) * 100') && !anim.includes('Math.min(1.5, v)'), 'perfusion is shown capped at 100 %');
 
 // ---- dots: direction follows the sign of the flow, more flow gives more dots, no dots without flow
 assert.equal(dotCount(0, .03), 0);
