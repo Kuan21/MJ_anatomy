@@ -2,12 +2,12 @@
 // usage: node scripts/browser/head-bone-shots.cjs <port> <outDir> <tag>
 // Only the skeletal system is switched on, so the marked areas lie directly on the bone. No annotations are drawn.
 const {chromium}=require('playwright');const fs=require('fs');
-const [port='5800',out='/tmp/head-bone',tag='after']=process.argv.slice(2);fs.mkdirSync(out,{recursive:true});
-const SIZE={width:1500,height:950};
+const [port='5800',out='/tmp/head-bone',tag='after',vp='desktop']=process.argv.slice(2);fs.mkdirSync(out,{recursive:true});
+const SIZE=vp==='mobile'?{width:390,height:844}:{width:1500,height:950};
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const C=[0,1.6,0.0];
 // [structure to select, name of the picture, camera target, direction from the target to the camera, distance]
-const SHOTS=[
+const ALL=[
  ['Left zygomatic arch','front',[0,1.6,0.03],[0,0,1],0.32],['Left zygomatic arch','back',[0,1.62,-0.04],[0,0,-1],0.32],['Left zygomatic arch','left',[0.0,1.6,-0.01],[1,0,0],0.34],['Left zygomatic arch','top',[0,1.64,-0.02],[0,1,0],0.32],
  ['Foramen magnum','base',[0,1.57,-0.01],[0,-1,0],0.28],
  ['Right foramen ovale','close-foramen-ovale',[-0.025,1.58,0.0],[0,-1,0],0.10],
@@ -21,6 +21,7 @@ const SHOTS=[
  ['Left external acoustic meatus','close-ear-opening',[0.06,1.585,-0.02],[1,0,0],0.08],
  ['Left mandibular fossa','close-mandibular-fossa',[0.043,1.585,-0.006],[1,0,0],0.07],
  ['Left carotid tubercle','close-carotid-tubercle',[0.023,1.468,-0.014],[1,0,0.3],0.08]];
+const SHOTS=vp==='mobile'?ALL.filter(x=>['left','close-foramen-ovale','close-mental-foramen','close-infraorbital','close-mandibular-fossa'].includes(x[1])):ALL;
 (async()=>{
  const b=await chromium.launch({args:['--use-gl=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']});
  const ctx=await b.newContext({viewport:SIZE,deviceScaleFactor:1,colorScheme:'light'});const p=await ctx.newPage();p.setDefaultTimeout(240000);
@@ -28,9 +29,12 @@ const SHOTS=[
  console.log('goto');await p.goto(`http://127.0.0.1:${port}/MJ_anatomy/?mjview=1`,{waitUntil:'commit',timeout:120000});console.log('committed');
  {const t0=Date.now();await p.waitForFunction(()=>document.querySelector('[data-testid=load-bar]')?.getAttribute('aria-valuenow')==='100',null,{timeout:3600000,polling:2000});console.log('loaded',Math.round((Date.now()-t0)/1000),'s');}
  await sleep(8000);
+ const panel=p.locator('.system-list').first();
+ if(vp==='mobile'&&!(await panel.isVisible().catch(()=>false))){await p.locator('button[aria-label="開啟系統面板"]').click();await sleep(1500);}
  for(const name of [/Muscles/,/Connective/,/Arteries/,/Veins/,/Nervous/]){const r=p.locator('.system-row',{hasText:name}).first();if(await r.count()){const on=await r.evaluate(e=>e.classList.contains('enabled'));if(on){await r.locator('button.system-name').click();await sleep(2500);}}}
  console.log('systems',await p.locator('.system-row.enabled').allTextContents().then(a=>a.map(t=>t.replace(/\s+/g,' ').slice(0,24)).join(' | ')));
- const shot=async n=>{await sleep(3000);await p.screenshot({path:`${out}/${tag}-${n}.png`,timeout:240000});console.log('shot',n);};
+ if(vp==='mobile'){const c=p.locator('.close-systems').first();if(await c.isVisible().catch(()=>false))await c.click();await sleep(1500);}
+ const shot=async n=>{await sleep(3000);await p.screenshot({path:`${out}/${tag}-${vp}-${n}.png`,timeout:240000});console.log('shot',n);};
  const searchBtn=p.locator('button[aria-label*="搜尋"]').first();
  for(const [name,n,t,d,r] of SHOTS){
   try{
