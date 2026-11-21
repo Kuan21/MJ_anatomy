@@ -6,10 +6,10 @@
 
 | 類別 | 不重複詞數 | 意思 |
 |---|---|---|
-| 一、已有 | 1275 | 模型有，而且可以用搜尋／圖層揀到 |
+| 一、已有 | 1219 | 模型有，而且可以用搜尋／圖層揀到 |
 | 二、模型有但 UI 搵唔到 | 0 | 模型有幾何，但搜尋唔到（見下面清單；已修好者會喺「修復」一節列明） |
-| 三、模型冇 | 1103 | 交俾第 2 部分補模型 |
-| 骨性標誌 | 225 | 結節、窩、切跡等，屬已有骨件嘅表面特徵，模型唔另外分件 |
+| 三、模型冇 | 1122 | 交俾第 2 部分補模型 |
+| 骨性標誌 | 262 | 結節、窩、切跡等，屬已有骨件嘅表面特徵，模型唔另外分件 |
 | 雜訊（已略去） | 650 | 唔係解剖結構 |
 
 ## 闊背肌（Latissimus dorsi）點解搵唔到
@@ -20,7 +20,7 @@
 
 - BodyParts3D 3.0 官方部件名單（`parts_list_e.txt`，經 Kevin-Mattheus-Moerman/BodyParts3D 鏡像 `f0eeb6e843380cfe6b83797cf8c3e1af74de5e61` 取得）有 `FMA13357 latissimus dorsi`、`FMA13358 right latissimus dorsi`、`FMA13359 left latissimus dorsi`，而且左右兩邊都有 STL（各約 22.8 萬三角面）。
 - `public/models/atlas.json`（4.0 匯出）嘅 2,234 件 mesh 同 3,432 個 concept 都冇 latissimus／dorsi／FMA13357–13359；`app/anatomy-source-overrides.json` 只排除咗 2 件（足跟動脈分支），冇涉及闊背肌。
-- 3.0 有 925 個 STL；其中 128 個唔喺 4.0 atlas 入面：47 個係已經用緊嘅面部肌（OMFAtlas 套件），其餘主要係闊背肌、腹直肌、腹內斜肌、腹橫肌、錐狀肌、腰方肌、頸棘肌、多裂肌、腹股溝韌帶、伸趾短肌、右頸長肌、顳頂肌、帽狀腱膜、降鼻中隔肌（共 28 件已補入，見 `scripts/supplement-parts.json`），餘下係腦／心臟細部、毛髮、結腸等，另計。來源 mesh 編號有 100 段缺口、共 414 個編號冇匯出，同樣係 4.0 匯出時被略去。
+- 3.0 有 925 個 STL；其中 128 個唔喺 4.0 atlas 入面：47 個係已經用緊嘅面部肌（OMFAtlas 套件），其餘主要係闊背肌、腹直肌、腹內斜肌、腹橫肌、錐狀肌、腰方肌、頸棘肌、多裂肌、腹股溝韌帶、伸趾短肌、右頸長肌、顳頂肌、帽狀腱膜、降鼻中隔肌（共 28 件已補入，見 `scripts/supplement-parts.json`），餘下係腦／心臟細部、毛髮、結腸等，另計。來源 mesh 編號有 104 段缺口、共 420 個編號冇匯出，同樣係 4.0 匯出時被略去。
 - `normalizeAtlasSystems` 已經修正 89 件系統分類錯誤（例如腓骨肌被標成骨骼）；冇肌肉被 dissection／region／depth 過濾器濾走：全身視圖永遠顯示所有開咗嘅系統。
 
 **修復**：`scripts/prepare-supplement.mjs` 由 3.0 鏡像下載已釘 sha256 嘅 STL，用 OMFAtlas 面部肌肉同一個相似變換（比例 1.0594、Z-up mm → Y-up m）對齊 4.0，再加一個平滑位移場（3.0 同 4.0 唔係同一個剛體：只用相似變換，肋骨處會偏 12 mm、腳部偏 30 mm），位移場用 270 塊兩版共有嘅骨做控制點；以 meshoptimizer 簡化（每件 ≤ 1.6 萬三角面，誤差 < 0.1%）、分成細包 gzip，載入方式同其餘分包一樣。留一法驗證（逐塊骨由其餘骨預測）：中位數誤差 1.3 mm、第 90 百分位 5.6 mm；`scripts/test-all-structures.mjs` 每次 check 都重算，並驗證闊背肌左右兩邊貼住肩胛骨、到達髂嵴。授權同現有資料一樣係 CC BY-SA 2.1 Japan。
@@ -31,7 +31,7 @@
 
 **build 守門**：`npm run check:coverage`（亦係 `npm run build` 前置步驟）用 Find a structure 真正嘅比對函式（`app/mj-search.ts`）檢查：闊背肌（latissimus／背闊肌／闊背肌／背阔肌）等指定肌肉必須搵到；課程清單入面「模型有嘅肌肉」用講義寫法（縮寫展開後）全部必須搵到；每一件畫出嚟嘅 mesh 都屬於某個可搜尋 concept。唔通過就 build 失敗。
 
-缺口編號（供補模型時對照）：FJ1303、FJ1307、FJ1314、FJ1327、FJ1354、FJ1358、FJ1365、FJ1378、FJ1471、FJ1519、FJ1523、FJ1529–1531、FJ1602–1653、FJ1765、FJ1845、FJ1847–1852、FJ1854–1857、FJ1859–1866、FJ1868–1873、FJ1875–1882、FJ1884–1892、FJ1894、FJ1897–1912、FJ1915、FJ1917–1923、FJ1925–1927、FJ1929–1930、FJ1940–1949、FJ1951–1960、FJ1962–1966、FJ1968、FJ1978、FJ1980、FJ1982–1984、FJ1989–1990、FJ1992、FJ1997–2010、FJ2012、FJ2014–2024、FJ2026–2033、FJ2035–2037、FJ2039–2040、FJ2047–2048、FJ2050–2051、FJ2070–2071、FJ2075、FJ2088、FJ2098、FJ2101、FJ2104–2106、FJ2109–2112、FJ2114、FJ2116、FJ2123、FJ2126、FJ2134、FJ2139–2140、FJ2142、FJ2146–2149、FJ2154–2157、FJ2161、FJ2168、FJ2177、FJ2180、FJ2375–2385、FJ2387–2393、FJ2395–2403、FJ2406–2408、FJ2410–2413、FJ2559–2560、FJ2666、FJ2669、FJ2726、FJ2769、FJ2825–2880、FJ3087、FJ3201、FJ3238、FJ3363、FJ3402–3405、FJ3407–3408、FJ3412、FJ3422–3425、FJ3435–3436、FJ3445、FJ3453–3457、FJ3487–3492、FJ3498、FJ3503–3509、FJ3521、FJ3528、FJ3535–3540、FJ3547–3552、FJ3554–3556、FJ3588、FJ3598–3602、FJ3613、FJ3627–3630、FJ3633–3634、FJ3642–3643
+缺口編號（供補模型時對照）：FJ1303、FJ1307、FJ1314、FJ1327、FJ1354、FJ1358、FJ1365、FJ1378、FJ1449–1450、FJ1453、FJ1457–1458、FJ1465、FJ1471、FJ1519、FJ1523、FJ1529–1531、FJ1602–1653、FJ1765、FJ1845、FJ1847–1852、FJ1854–1857、FJ1859–1866、FJ1868–1873、FJ1875–1882、FJ1884–1892、FJ1894、FJ1897–1912、FJ1915、FJ1917–1923、FJ1925–1927、FJ1929–1930、FJ1940–1949、FJ1951–1960、FJ1962–1966、FJ1968、FJ1978、FJ1980、FJ1982–1984、FJ1989–1990、FJ1992、FJ1997–2010、FJ2012、FJ2014–2024、FJ2026–2033、FJ2035–2037、FJ2039–2040、FJ2047–2048、FJ2050–2051、FJ2070–2071、FJ2075、FJ2088、FJ2098、FJ2101、FJ2104–2106、FJ2109–2112、FJ2114、FJ2116、FJ2123、FJ2126、FJ2134、FJ2139–2140、FJ2142、FJ2146–2149、FJ2154–2157、FJ2161、FJ2168、FJ2177、FJ2180、FJ2375–2385、FJ2387–2393、FJ2395–2403、FJ2406–2408、FJ2410–2413、FJ2559–2560、FJ2666、FJ2669、FJ2726、FJ2769、FJ2825–2880、FJ3087、FJ3201、FJ3238、FJ3363、FJ3402–3405、FJ3407–3408、FJ3412、FJ3422–3425、FJ3435–3436、FJ3445、FJ3453–3457、FJ3487–3492、FJ3498、FJ3503–3509、FJ3521、FJ3528、FJ3535–3540、FJ3547–3552、FJ3554–3556、FJ3588、FJ3598–3602、FJ3613、FJ3627–3630、FJ3633–3634、FJ3642–3643
 
 ## 背部/上肢/胸腔/下肢（跑考摘要）　`115-1_第一次跑考摘要`
 
@@ -78,7 +78,7 @@
 
 ## 上肢 I　`20250228_解剖_上肢__W2`
 
-已有 51　·　UI 搵唔到 0　·　模型冇 8　·　骨標誌 12　·　雜訊 25
+已有 50　·　UI 搵唔到 0　·　模型冇 8　·　骨標誌 13　·　雜訊 25
 
 **三、模型冇**
 
@@ -93,7 +93,7 @@
 
 ## 神經系統　`20250321_解剖_神經系統__W5_2`
 
-已有 47　·　UI 搵唔到 0　·　模型冇 69　·　骨標誌 6　·　雜訊 26
+已有 39　·　UI 搵唔到 0　·　模型冇 71　·　骨標誌 12　·　雜訊 26
 
 **三、模型冇**
 
@@ -117,6 +117,7 @@
 - Dorsal motor nucleus
 - amibguus nucleus
 - Formed from a cranial root
+- Hypoglossal nucleus
 - Meningeal branches
 - Communicating branches
 - Preganglionic neuron Automatic ganglion
@@ -150,6 +151,7 @@
 - primary olfactory cortex（嗅皮質區）
 - ganglion cell（視網膜上的神經節細胞）
 - ganglion cell layer（第八層神經節細胞層）
+- optic canals（過蝶骨小翼的視神經管）
 - optic radiation fibers（纖維）
 - visual cortex（射到枕葉的視覺皮質區）
 - ventral midbrain（中腦腹側面）
@@ -609,7 +611,7 @@
 
 ## 胸部 I（胸壁、乳房）　`解剖_0908-3`
 
-已有 53　·　UI 搵唔到 0　·　模型冇 57　·　骨標誌 26　·　雜訊 28
+已有 55　·　UI 搵唔到 0　·　模型冇 55　·　骨標誌 26　·　雜訊 28
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -629,7 +631,6 @@
 - subclavian lymphatic trunk（帶回鎖骨下淋巴幹）
 - parasternal lymph node（胸骨旁淋巴結）
 - broncomediastinal trunk（膈淋巴幹）
-- right lymphatic duct（分別再帶回右淋巴總管）
 - synovial joint
 - Intercostal space（肋間）
 - Transverse ridge（橫脊）
@@ -646,7 +647,6 @@
 - radiate sternocostal ligaments
 - sternum via cartilage
 - Cisterna chyli B. Thoracic duct
-- Left lymphatic duct
 - They have costotransverse joints
 - intercostal spaces. B. Intercostal nerves
 - go through the space
@@ -680,7 +680,7 @@
 
 ## 頭部 I（顏面、腮腺、頭皮）　`解剖_0929`
 
-已有 87　·　UI 搵唔到 0　·　模型冇 69　·　骨標誌 7　·　雜訊 35
+已有 75　·　UI 搵唔到 0　·　模型冇 75　·　骨標誌 13　·　雜訊 35
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -690,6 +690,7 @@
 
 - Facial expression muscle
 - Mimetic muscle
+- Parotid gland（腮腺）
 - Upper group of oral muscles
 - Lower group of oral muscles
 - Auricular muscles（耳肌）
@@ -698,7 +699,10 @@
 - Superior labial a（上唇動脈）
 - Lateral nasal a（鼻外側動脈）
 - Superficial temporal a（淺顳動脈）
+- mandibular bone（下頷骨）
+- parotid duct（耳下腺管）
 - External jugular v（外頸靜脈）
+- supraorbital v（眶上靜脈）
 - supratrochlear v（滑車上靜脈）
 - Lateral nasal v（走一路收集鼻外側靜脈）
 - Superior labial v（上唇靜脈）
@@ -713,6 +717,7 @@
 - Auriculotemporal nerve（耳顳神經）
 - Otic ganglion
 - Posterior auricular artery（耳後動脈）
+- Supraorbital artery（分支包括眶上動脈）
 - Supratrochlear artery（滑車上動脈）
 - likely to be damaged A
 - division of the trigeminal nerve
@@ -735,6 +740,7 @@
 - middle meningeal artery
 - descending palatine artery
 - inferior alveolar artery
+- CN V C. Mandibular branch
 - deepest in the parotid gland
 - infraorbital and infratrochlear vein
 - scalp（頭皮）
@@ -760,7 +766,7 @@
 
 ## 頭部 II　`解剖_1013`
 
-已有 109　·　UI 搵唔到 0　·　模型冇 118　·　骨標誌 20　·　雜訊 57
+已有 74　·　UI 搵唔到 0　·　模型冇 128　·　骨標誌 45　·　雜訊 57
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -774,6 +780,7 @@
 - dense fascia（緻密的筋膜）
 - II. III. IV. V
 - deep temporal nerve（深顳神經）
+- parotid gland（腮腺）
 - Otic ganglion（耳神經節）
 - Trigeminal ganglion（三叉神經節）
 - Main Trunk Branches（主幹分支）
@@ -800,30 +807,38 @@
 - Zygomaticotemporal nerve（顴顳神經）
 - Zygomaticofacial nerve（顴面神經）
 - Posterior superior alveolar nerve（後上齒槽神經）
+- Infraorbital nerve（眶下神經）
 - Middle superior alveolar nerve（中上齒槽神經）
 - Anterior superior alveolar nerve（前上齒槽神經）
 - Orbital branches
 - sphenoid sinus（蝶竇）
 - ethmoidal sinus（篩竇）
 - nasopalatine n（鼻顎神經）
+- Lesser palatine n
 - Parasympathetic ganglion（屬於副交感神經節）
 - Paranasal sinuses（鼻竇）
 - Superior cervical sympathetic ganglion
 - Deep petrosal nerve（深岩神經）
 - Greater petrosal nerve
+- Nerve of pterygoid canal
 - Vidian nerve
 - Within the ganglion（神經節內）
 - Greater petrosal n
 - sup. cervical sympathetic ganglion
 - Deep petrosal n
 - otic ganglion Lesser petrosal n
+- Sphenopalatine artery（上頷動脈的終）
 - Nasopalatine artery（鼻顎動脈）
 - Anterior superior alveolar artery（前上齒槽動脈）
 - Middle superior alveolar artery（中上齒槽動脈）
 - Posterior superior alveolar artery（後上齒槽動脈）
 - superior alveolar artery
 - Descending palatine artery
+- Greater palatine artery（大顎動脈）
+- palatine artery
+- Lesser palatine artery（小顎動脈）
 - Branches of the maxillary artery
+- sphenopalatine arteries
 - synovial joint（屬於滑關節）
 - superficial temporal artery（淺顳動脈）
 - auriculotemporal n（主要以耳顳神經）
@@ -841,6 +856,7 @@
 - Damage of the lingual nerve
 - Secretion of the submandibular gland
 - continue with the nasal cavity
+- the infraorbital artery
 - mandible. D. The masseter muscles
 - Middle superior alveolar n
 - fibers innervating the sublingual gland
@@ -889,7 +905,7 @@
 
 ## 頸部 II　`解剖_1020`
 
-已有 87　·　UI 搵唔到 0　·　模型冇 72　·　骨標誌 16　·　雜訊 45
+已有 85　·　UI 搵唔到 0　·　模型冇 72　·　骨標誌 18　·　雜訊 45
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -918,6 +934,8 @@
 - External jugular v（外頸靜脈）
 - Supraclavicular n（鎖骨上神經）
 - Middle Scalene m（中斜角肌）
+- carotid sinus（頸動脈竇）
+- Carotid Sinus nerve（壓訊息由頸動脈竇神經）
 - Superior thyroid a（上甲狀腺動脈）
 - Superior laryngeal a（上喉動脈）
 - Spinal accessory n（副神經）
@@ -932,8 +950,6 @@
 - muller muscle
 - Stella ganglion
 - External jugular vein
-- Right lymphatic duct（右側匯入右淋巴總管）
-- lymphatic duct（右淋巴總管）
 - superior thyroid v（下甲狀腺靜脈）
 - middle thyroid v
 - inferior thyroid v（下甲狀腺靜脈）
@@ -1113,7 +1129,7 @@
 
 ## 頭部 IV　`解剖_1117`
 
-已有 95　·　UI 搵唔到 0　·　模型冇 71　·　骨標誌 10　·　雜訊 20
+已有 89　·　UI 搵唔到 0　·　模型冇 72　·　骨標誌 15　·　雜訊 20
 
 **三、模型冇**
 
@@ -1125,6 +1141,7 @@
 - Scleral venous sinus（鞏膜靜脈竇）
 - potential space（素層之間有一潛在空間）
 - optic disc（視盤）
+- nerve of pterygoid canal（翼管神經）
 - Anterior ciliary a（前睫動脈）
 - Posterior ciliary a（後睫動脈）
 - Short posterior ciliary a（短後睫動脈）
@@ -1191,7 +1208,7 @@
 
 ## 頸部 III　`解剖_1124-2_頸III_`
 
-已有 57　·　UI 搵唔到 0　·　模型冇 52　·　骨標誌 3　·　雜訊 27
+已有 54　·　UI 搵唔到 0　·　模型冇 55　·　骨標誌 3　·　雜訊 27
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -1212,6 +1229,7 @@
 - palatine aponeurosis
 - Pharyngobasilar fascia
 - Sup. Cervical sympathetic ganglion（交感神經的上頸神經節）
+- carotid sinus
 - Otic ganglion（腮腺中的耳下腺）
 - ext. laryngeal n
 - Int. laryngeal n
@@ -1239,6 +1257,7 @@
 - pharyngeal recesses（咽隱窩）
 - salpingopharyngeal fold（耳咽管咽折）
 - pharyngotympanic tube（耳咽管）
+- palatine tonsil（顎扁桃體）
 - orifice of pharyngotympanic tube / eustachian tube（耳咽管開口）
 - tubal tonsils（咽鼓管扁桃腺）
 - lingual follicles of lingual tonsil（舌根淋巴濾泡）
@@ -1251,10 +1270,11 @@
 - elevates the pharynx and larynx（參與提升咽部和喉部）
 - pharyngo-esophageal junction（狹窄）
 - b. tubal tonsil（咽鼓管扁桃腺）
+- c. palatine tonsil（腭扁桃腺）
 
 ## 骨盆會陰 II　`解剖_1201`
 
-已有 68　·　UI 搵唔到 0　·　模型冇 176　·　骨標誌 26　·　雜訊 54
+已有 67　·　UI 搵唔到 0　·　模型冇 177　·　骨標誌 26　·　雜訊 54
 
 **三、模型冇**
 
@@ -1318,6 +1338,7 @@
 - Perineal membrane（會陰膜）
 - Deep perineal pouch（陷凹）
 - superficial perineal pouch（會陰淺陷凹）
+- Perineal muscles（會陰肌肉）
 - Compressor urethrae muscle（生是尿道壓迫肌）
 - Obturator fascia（閉孔筋膜）
 - Deep transverse perineal muscle（會陰深橫肌）

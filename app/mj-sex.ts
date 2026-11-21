@@ -10,6 +10,9 @@ const MALE_PELVIC_BONE=/^(?:(?:Left|Right) hip bone|Sacrum)$/;
 /** Likewise the male bladder, ureters and urethra: the male bladder lies where the uterus is, so the female set from the same atlas replaces them. */
 const MALE_URINARY=/^(?:Urinary bladder|(?:Left|Right) ureter|Urethra)$/;
 
+/** The levator ani of the atlas is male (a deep funnel that hangs below the vulva's erectile structures); in female mode the lifted female copies (ids HRAF-FJ…, scripts/lib/pelvic-floor-female.mjs) are drawn instead. */
+const MALE_PELVIC_FLOOR=/^(?:Left|Right) (?:iliococcygeus|pubococcygeus|puborectalis)$/;
+
 /** The atlas skin is a male surface (the penis and scrotum are part of the mesh) and its pubic hair patch follows it; in female mode the female copies (ids HRAF-skin and HRAF-pubic-hair, groin reshaped) are drawn instead. */
 const MALE_SKIN=(part:Part)=>part.system==='integumentary'&&(part.name==='Skin'||part.name==='Pubic hair')&&!part.sex;
 
@@ -18,7 +21,7 @@ export const matchesSex=(part:Part,sex:'male'|'female'|undefined)=>{
  if(part.sex==='female')return shown==='female';
  // a patch cut from a BodyParts3D (male) pelvic bone, whose female copy is drawn in female mode (hip-bone landmarks)
  if(part.sex==='male')return shown==='male';
- if(part.sex!=='female'){ if(shown==='female'&&(MALE_ONLY.test(part.name)||(part.system==='skeletal'&&MALE_PELVIC_BONE.test(part.name))||(part.system==='urinary'&&MALE_URINARY.test(part.name))||MALE_SKIN(part)))return false; if(shown==='male'&&FEMALE_ONLY.test(part.name))return false; }
+ if(part.sex!=='female'){ if(shown==='female'&&(MALE_ONLY.test(part.name)||(part.system==='skeletal'&&MALE_PELVIC_BONE.test(part.name))||(part.system==='urinary'&&MALE_URINARY.test(part.name))||(part.system==='muscular'&&MALE_PELVIC_FLOOR.test(part.name))||MALE_SKIN(part)))return false; if(shown==='male'&&FEMALE_ONLY.test(part.name))return false; }
  if(part.system==='reproductive')return shown==='male';
  return true;
 };

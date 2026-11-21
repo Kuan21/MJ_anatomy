@@ -1,10 +1,10 @@
 {
  "totals": {
   "terms": 3816,
-  "have": 1275,
+  "have": 1219,
   "findability": 0,
-  "missing": 1103,
-  "landmark": 225,
+  "missing": 1122,
+  "landmark": 262,
   "noise": 650
  },
  "lectures": [
@@ -2464,9 +2464,9 @@
      "term": "articular br",
      "zh": null,
      "kind": "contained",
-     "model": "Right articular tubercle",
+     "model": "Right articular branch of descending genicular artery",
      "source": "paokao",
-     "system": "skeletal"
+     "system": "arterial"
     },
     {
      "term": "Lateral femoral cutaneous n",
@@ -3873,14 +3873,6 @@
      "system": "connective"
     },
     {
-     "term": "coronoid process",
-     "zh": "冠狀突",
-     "kind": "contained",
-     "model": "Right coronoid process of mandible",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
      "term": "styloid process",
      "zh": "莖突",
      "kind": "contained",
@@ -4226,6 +4218,10 @@
      "zh": "滑車切跡"
     },
     {
+     "term": "coronoid process",
+     "zh": "冠狀突"
+    },
+    {
      "term": "coronoid fossa",
      "zh": "冠狀窩"
     },
@@ -4333,14 +4329,6 @@
      "system": "nervous"
     },
     {
-     "term": "Superior orbital fissure",
-     "zh": "通過蝶骨的眶上裂",
-     "kind": "exact",
-     "model": "Right superior orbital fissure",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
      "term": "Extrinsic eye muscles",
      "zh": "支配眼球外在肌",
      "kind": "group",
@@ -4392,25 +4380,9 @@
      "term": "Mandibular nerve",
      "zh": null,
      "kind": "contained",
-     "model": "Right mandibular foramen",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
-     "term": "orbital fissure",
-     "zh": null,
-     "kind": "contained",
-     "model": "Right superior orbital fissure",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
-     "term": "Stylomastoid foramen",
-     "zh": "莖乳突孔",
-     "kind": "exact",
-     "model": "Right stylomastoid foramen",
-     "source": "paokao",
-     "system": "skeletal"
+     "model": "Posterior division of mandibular nerve",
+     "source": "nerve",
+     "system": "nervous"
     },
     {
      "term": "facial motor nucleus",
@@ -4459,22 +4431,6 @@
      "model": "Accessory nerve (XI)",
      "source": "nerve",
      "system": "nervous"
-    },
-    {
-     "term": "Hypoglossal nucleus",
-     "zh": null,
-     "kind": "contained",
-     "model": "Right hypoglossal canal",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
-     "term": "hypoglossal canal",
-     "zh": "過舌下神經管",
-     "kind": "exact",
-     "model": "Right hypoglossal canal",
-     "source": "paokao",
-     "system": "skeletal"
     },
     {
      "term": "Brachial plexus",
@@ -4557,28 +4513,12 @@
      "system": "nervous"
     },
     {
-     "term": "foramen magnum",
-     "zh": "脊髓從枕骨大孔",
-     "kind": "exact",
-     "model": "Foramen magnum",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
      "term": "retina",
      "zh": "眼睛的視網膜",
      "kind": "contained",
      "model": "Optic part of left retina",
      "source": "atlas",
      "system": "sensory"
-    },
-    {
-     "term": "optic canals",
-     "zh": "過蝶骨小翼的視神經管",
-     "kind": "exact",
-     "model": "Right optic canal",
-     "source": "paokao",
-     "system": "skeletal"
     },
     {
      "term": "optic chiasm",
@@ -4603,14 +4543,6 @@
      "model": "Left lateral rectus",
      "source": "atlas",
      "system": "muscular"
-    },
-    {
-     "term": "internal acoustic meatus",
-     "zh": "內耳道",
-     "kind": "exact",
-     "model": "Right internal acoustic meatus",
-     "source": "paokao",
-     "system": "skeletal"
     },
     {
      "term": "sternocleidomastoid",
@@ -4709,6 +4641,10 @@
     },
     {
      "term": "Formed from a cranial root",
+     "zh": null
+    },
+    {
+     "term": "Hypoglossal nucleus",
      "zh": null
     },
     {
@@ -4844,6 +4780,10 @@
      "zh": "第八層神經節細胞層"
     },
     {
+     "term": "optic canals",
+     "zh": "過蝶骨小翼的視神經管"
+    },
+    {
      "term": "optic radiation fibers",
      "zh": "纖維"
     },
@@ -4926,12 +4866,36 @@
      "zh": null
     },
     {
+     "term": "Superior orbital fissure",
+     "zh": "通過蝶骨的眶上裂"
+    },
+    {
      "term": "SVE fissure",
      "zh": null
     },
     {
+     "term": "orbital fissure",
+     "zh": null
+    },
+    {
+     "term": "Stylomastoid foramen",
+     "zh": "莖乳突孔"
+    },
+    {
      "term": "pons-medulla border",
      "zh": "橋腦延腦緣"
+    },
+    {
+     "term": "hypoglossal canal",
+     "zh": "過舌下神經管"
+    },
+    {
+     "term": "foramen magnum",
+     "zh": "脊髓從枕骨大孔"
+    },
+    {
+     "term": "internal acoustic meatus",
+     "zh": "內耳道"
     }
    ],
    "noise": 26
@@ -10405,6 +10369,14 @@
      "system": "venous"
     },
     {
+     "term": "right lymphatic duct",
+     "zh": "分別再帶回右淋巴總管",
+     "kind": "exact",
+     "model": "Right lymphatic duct",
+     "source": "paokao",
+     "system": "lymphatic"
+    },
+    {
      "term": "left subclavian vein",
      "zh": "左鎖骨下靜脈",
      "kind": "exact",
@@ -10547,6 +10519,14 @@
      "model": "Ganglia of sympathetic trunk",
      "source": "nerve",
      "system": "nervous"
+    },
+    {
+     "term": "Left lymphatic duct",
+     "zh": null,
+     "kind": "exact",
+     "model": "Right lymphatic duct",
+     "source": "paokao",
+     "system": "lymphatic"
     },
     {
      "term": "Subcostal artery",
@@ -10756,10 +10736,6 @@
      "zh": "膈淋巴幹"
     },
     {
-     "term": "right lymphatic duct",
-     "zh": "分別再帶回右淋巴總管"
-    },
-    {
      "term": "synovial joint",
      "zh": null
     },
@@ -10821,10 +10797,6 @@
     },
     {
      "term": "Cisterna chyli B. Thoracic duct",
-     "zh": null
-    },
-    {
-     "term": "Left lymphatic duct",
      "zh": null
     },
     {
@@ -11061,14 +11033,6 @@
    "lecture": "頭部 I（顏面、腮腺、頭皮）",
    "have": [
     {
-     "term": "Parotid gland",
-     "zh": "腮腺",
-     "kind": "contained",
-     "model": "Right carotid canal",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
      "term": "Epicranius muscle",
      "zh": "顱頂肌",
      "kind": "contained",
@@ -11165,14 +11129,6 @@
      "system": "muscular"
     },
     {
-     "term": "Mental foramen",
-     "zh": "頦孔",
-     "kind": "exact",
-     "model": "Right mental foramen",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
      "term": "Mentalis m",
      "zh": "頦肌",
      "kind": "exact",
@@ -11229,14 +11185,6 @@
      "system": "nervous"
     },
     {
-     "term": "Supra-orbital foramen",
-     "zh": "神經末梢主要經眶上孔",
-     "kind": "exact",
-     "model": "Right supraorbital foramen",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
      "term": "Maxillary nerve",
      "zh": null,
      "kind": "exact",
@@ -11245,20 +11193,12 @@
      "system": "nervous"
     },
     {
-     "term": "Infra-orbital foramen",
-     "zh": "末梢主要經由眶下孔",
-     "kind": "exact",
-     "model": "Right infraorbital foramen",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
      "term": "Mandibular nerve",
      "zh": null,
      "kind": "contained",
-     "model": "Right mandibular foramen",
-     "source": "paokao",
-     "system": "skeletal"
+     "model": "Posterior division of mandibular nerve",
+     "source": "nerve",
+     "system": "nervous"
     },
     {
      "term": "Mental nerve",
@@ -11267,14 +11207,6 @@
      "model": "Mental nerve",
      "source": "nerve",
      "system": "nervous"
-    },
-    {
-     "term": "Stylomastoid foramen",
-     "zh": "莖乳突孔",
-     "kind": "exact",
-     "model": "Right stylomastoid foramen",
-     "source": "paokao",
-     "system": "skeletal"
     },
     {
      "term": "Temporal branch",
@@ -11349,22 +11281,6 @@
      "system": "nervous"
     },
     {
-     "term": "mandibular bone",
-     "zh": "下頷骨",
-     "kind": "contained",
-     "model": "Right mandibular foramen",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
-     "term": "parotid duct",
-     "zh": "耳下腺管",
-     "kind": "contained",
-     "model": "Right carotid canal",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
      "term": "Internal jugular v",
      "zh": "內頸靜脈",
      "kind": "exact",
@@ -11379,14 +11295,6 @@
      "model": "Left angular gyrus",
      "source": "atlas",
      "system": "nervous"
-    },
-    {
-     "term": "supraorbital v",
-     "zh": "眶上靜脈",
-     "kind": "contained",
-     "model": "Right supraorbital foramen",
-     "source": "paokao",
-     "system": "skeletal"
     },
     {
      "term": "Internal jugular vein",
@@ -11453,14 +11361,6 @@
      "system": "muscular"
     },
     {
-     "term": "Zygomatic arch",
-     "zh": "顴弓",
-     "kind": "exact",
-     "model": "Right zygomatic arch",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
      "term": "Masseter muscle",
      "zh": null,
      "kind": "contained",
@@ -11507,14 +11407,6 @@
      "model": "Right internal carotid artery",
      "source": "atlas",
      "system": "arterial"
-    },
-    {
-     "term": "Supraorbital artery",
-     "zh": "分支包括眶上動脈",
-     "kind": "contained",
-     "model": "Right supraorbital foramen",
-     "source": "paokao",
-     "system": "skeletal"
     },
     {
      "term": "Stylopharyngeus muscle",
@@ -11595,14 +11487,6 @@
      "model": "Meningeal branch of maxillary nerve",
      "source": "nerve",
      "system": "nervous"
-    },
-    {
-     "term": "CN V C. Mandibular branch",
-     "zh": null,
-     "kind": "contained",
-     "model": "Right mandibular foramen",
-     "source": "paokao",
-     "system": "skeletal"
     },
     {
      "term": "Orbicularis oculi",
@@ -11747,14 +11631,6 @@
      "model": "Left platysma",
      "source": "atlas",
      "system": "muscular"
-    },
-    {
-     "term": "ramus of mandible",
-     "zh": "行於下頷骨支",
-     "kind": "exact",
-     "model": "Right ramus of mandible",
-     "source": "paokao",
-     "system": "skeletal"
     }
    ],
    "findability": [],
@@ -11766,6 +11642,10 @@
     {
      "term": "Mimetic muscle",
      "zh": null
+    },
+    {
+     "term": "Parotid gland",
+     "zh": "腮腺"
     },
     {
      "term": "Upper group of oral muscles",
@@ -11800,8 +11680,20 @@
      "zh": "淺顳動脈"
     },
     {
+     "term": "mandibular bone",
+     "zh": "下頷骨"
+    },
+    {
+     "term": "parotid duct",
+     "zh": "耳下腺管"
+    },
+    {
      "term": "External jugular v",
      "zh": "外頸靜脈"
+    },
+    {
+     "term": "supraorbital v",
+     "zh": "眶上靜脈"
     },
     {
      "term": "supratrochlear v",
@@ -11858,6 +11750,10 @@
     {
      "term": "Posterior auricular artery",
      "zh": "耳後動脈"
+    },
+    {
+     "term": "Supraorbital artery",
+     "zh": "分支包括眶上動脈"
     },
     {
      "term": "Supratrochlear artery",
@@ -11945,6 +11841,10 @@
     },
     {
      "term": "inferior alveolar artery",
+     "zh": null
+    },
+    {
+     "term": "CN V C. Mandibular branch",
      "zh": null
     },
     {
@@ -12038,8 +11938,28 @@
    ],
    "landmark": [
     {
+     "term": "Mental foramen",
+     "zh": "頦孔"
+    },
+    {
+     "term": "Supra-orbital foramen",
+     "zh": "神經末梢主要經眶上孔"
+    },
+    {
+     "term": "Infra-orbital foramen",
+     "zh": "末梢主要經由眶下孔"
+    },
+    {
+     "term": "Stylomastoid foramen",
+     "zh": "莖乳突孔"
+    },
+    {
      "term": "Pterygoid venous plexus",
      "zh": "翼靜脈叢"
+    },
+    {
+     "term": "Zygomatic arch",
+     "zh": "顴弓"
     },
     {
      "term": "skin over the angle",
@@ -12062,6 +11982,10 @@
      "zh": null
     },
     {
+     "term": "ramus of mandible",
+     "zh": "行於下頷骨支"
+    },
+    {
      "term": "external auditory meatus",
      "zh": "位在外聽道"
     }
@@ -12079,22 +12003,6 @@
      "model": "Articular capsule of temporomandibular joint",
      "source": "joints",
      "system": "connective"
-    },
-    {
-     "term": "zygomatic arch",
-     "zh": "顴弓",
-     "kind": "exact",
-     "model": "Right zygomatic arch",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
-     "term": "infratemporal crest",
-     "zh": "顳下脊",
-     "kind": "exact",
-     "model": "Right infratemporal crest",
-     "source": "paokao",
-     "system": "skeletal"
     },
     {
      "term": "frontal bone",
@@ -12121,14 +12029,6 @@
      "system": "muscular"
     },
     {
-     "term": "coronoid process",
-     "zh": "下頷骨的冠狀突",
-     "kind": "contained",
-     "model": "Right coronoid process of mandible",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
      "term": "nerve to temporalis muscle",
      "zh": null,
      "kind": "exact",
@@ -12148,9 +12048,9 @@
      "term": "mandibular nerve",
      "zh": null,
      "kind": "contained",
-     "model": "Right mandibular foramen",
-     "source": "paokao",
-     "system": "skeletal"
+     "model": "Posterior division of mandibular nerve",
+     "source": "nerve",
+     "system": "nervous"
     },
     {
      "term": "external carotid artery",
@@ -12159,14 +12059,6 @@
      "model": "External carotid artery",
      "source": "neck",
      "system": "arterial"
-    },
-    {
-     "term": "parotid gland",
-     "zh": "腮腺",
-     "kind": "contained",
-     "model": "Right carotid canal",
-     "source": "paokao",
-     "system": "skeletal"
     },
     {
      "term": "styloid process",
@@ -12244,9 +12136,9 @@
      "term": "Mandibular n",
      "zh": "下頷神經",
      "kind": "contained",
-     "model": "Right mandibular foramen",
-     "source": "paokao",
-     "system": "skeletal"
+     "model": "Posterior division of mandibular nerve",
+     "source": "nerve",
+     "system": "nervous"
     },
     {
      "term": "Trigeminal nerve",
@@ -12289,14 +12181,6 @@
      "system": "nervous"
     },
     {
-     "term": "mandibular foramen",
-     "zh": "下頷孔",
-     "kind": "exact",
-     "model": "Right mandibular foramen",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
      "term": "mylohyoid nerve",
      "zh": "顎舌骨肌神經",
      "kind": "exact",
@@ -12337,14 +12221,6 @@
      "system": "nervous"
     },
     {
-     "term": "mental foramen",
-     "zh": null,
-     "kind": "exact",
-     "model": "Right mental foramen",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
      "term": "Lingual nerve",
      "zh": "舌神經",
      "kind": "exact",
@@ -12377,22 +12253,6 @@
      "system": "digestive"
     },
     {
-     "term": "Stylomastoid foramen",
-     "zh": "莖乳突孔",
-     "kind": "exact",
-     "model": "Right stylomastoid foramen",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
-     "term": "Petrotympanic fissure",
-     "zh": "岩鼓溝",
-     "kind": "exact",
-     "model": "Right petrotympanic fissure",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
      "term": "Great auricular nerve",
      "zh": null,
      "kind": "exact",
@@ -12407,14 +12267,6 @@
      "model": "External carotid artery",
      "source": "neck",
      "system": "arterial"
-    },
-    {
-     "term": "madibular foramen",
-     "zh": "頷孔",
-     "kind": "exact",
-     "model": "Right mandibular foramen",
-     "source": "paokao",
-     "system": "skeletal"
     },
     {
      "term": "Mylohyoid a",
@@ -12457,59 +12309,11 @@
      "system": "skeletal"
     },
     {
-     "term": "Pterygoid process",
-     "zh": "翼突",
-     "kind": "contained",
-     "model": "Right medial plate of pterygoid process",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
      "term": "Palatine bone",
      "zh": "顎骨",
      "kind": "exact",
      "model": "Left palatine bone",
      "source": "atlas",
-     "system": "skeletal"
-    },
-    {
-     "term": "Pterygomaxillary fissure",
-     "zh": "翼上頜裂",
-     "kind": "exact",
-     "model": "Right pterygomaxillary fissure",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
-     "term": "Pterygoid canal",
-     "zh": "翼管",
-     "kind": "exact",
-     "model": "Right pterygoid canal",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
-     "term": "Sphenopalatine foramen",
-     "zh": "蝶顎孔",
-     "kind": "exact",
-     "model": "Right sphenopalatine foramen",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
-     "term": "Greater palatine foramen",
-     "zh": "腭大孔",
-     "kind": "exact",
-     "model": "Right greater palatine foramen",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
-     "term": "Lesser palatine foramen",
-     "zh": null,
-     "kind": "exact",
-     "model": "Right lesser palatine foramen",
-     "source": "paokao",
      "system": "skeletal"
     },
     {
@@ -12553,36 +12357,12 @@
      "system": "muscular"
     },
     {
-     "term": "Infraorbital nerve",
-     "zh": "眶下神經",
-     "kind": "contained",
-     "model": "Right infraorbital foramen",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
-     "term": "Infraorbital foramen",
-     "zh": "眶下孔",
-     "kind": "exact",
-     "model": "Right infraorbital foramen",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
      "term": "Nasal n",
      "zh": null,
      "kind": "contained",
      "model": "Left inferior nasal concha",
      "source": "atlas",
      "system": "respiratory"
-    },
-    {
-     "term": "Lesser palatine n",
-     "zh": null,
-     "kind": "contained",
-     "model": "Right lesser palatine foramen",
-     "source": "paokao",
-     "system": "skeletal"
     },
     {
      "term": "Lacrimal gland",
@@ -12593,60 +12373,12 @@
      "system": "sensory"
     },
     {
-     "term": "Nerve of pterygoid canal",
-     "zh": null,
-     "kind": "exact",
-     "model": "Right pterygoid canal",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
      "term": "Lacrimal nerve",
      "zh": null,
      "kind": "exact",
      "model": "Left lacrimal nerve",
      "source": "atlas",
      "system": "nervous"
-    },
-    {
-     "term": "Sphenopalatine artery",
-     "zh": "上頷動脈的終",
-     "kind": "contained",
-     "model": "Right sphenopalatine foramen",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
-     "term": "Greater palatine artery",
-     "zh": "大顎動脈",
-     "kind": "contained",
-     "model": "Right greater palatine foramen",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
-     "term": "palatine artery",
-     "zh": null,
-     "kind": "contained",
-     "model": "Right greater palatine foramen",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
-     "term": "Lesser palatine artery",
-     "zh": "小顎動脈",
-     "kind": "contained",
-     "model": "Right lesser palatine foramen",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
-     "term": "sphenopalatine arteries",
-     "zh": null,
-     "kind": "contained",
-     "model": "Right sphenopalatine foramen",
-     "source": "paokao",
-     "system": "skeletal"
     },
     {
      "term": "pterygoid plexus",
@@ -12663,22 +12395,6 @@
      "model": "Articular disc of temporomandibular joint",
      "source": "joints",
      "system": "connective"
-    },
-    {
-     "term": "mandibular fossa",
-     "zh": "下頷窩",
-     "kind": "exact",
-     "model": "Right mandibular fossa",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
-     "term": "condylar process",
-     "zh": "髁突",
-     "kind": "contained",
-     "model": "Right condylar process of mandible",
-     "source": "paokao",
-     "system": "skeletal"
     },
     {
      "term": "capsule",
@@ -12721,28 +12437,12 @@
      "system": "muscular"
     },
     {
-     "term": "articular tubercle",
-     "zh": "關節結節",
-     "kind": "exact",
-     "model": "Right articular tubercle",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
      "term": "Internal jugular vein",
      "zh": null,
      "kind": "exact",
      "model": "Left internal jugular vein",
      "source": "atlas",
      "system": "venous"
-    },
-    {
-     "term": "the infraorbital artery",
-     "zh": null,
-     "kind": "contained",
-     "model": "Right infraorbital foramen",
-     "source": "paokao",
-     "system": "skeletal"
     },
     {
      "term": "Glossopharyngeal n",
@@ -12774,14 +12474,6 @@
      "kind": "exact",
      "model": "Left maxilla",
      "source": "atlas",
-     "system": "skeletal"
-    },
-    {
-     "term": "lateral pterygoid process",
-     "zh": null,
-     "kind": "contained",
-     "model": "Right lateral plate of pterygoid process",
-     "source": "paokao",
      "system": "skeletal"
     },
     {
@@ -12857,30 +12549,6 @@
      "system": "muscular"
     },
     {
-     "term": "angle of mandible",
-     "zh": "下頷角",
-     "kind": "exact",
-     "model": "Right angle of mandible",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
-     "term": "foramen ovale",
-     "zh": "卵圓孔",
-     "kind": "exact",
-     "model": "Right foramen ovale",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
-     "term": "foramen spinosum",
-     "zh": "會通過棘孔",
-     "kind": "exact",
-     "model": "Right foramen spinosum",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
      "term": "maxilla",
      "zh": "上頜骨",
      "kind": "exact",
@@ -12894,14 +12562,6 @@
      "kind": "exact",
      "model": "Sphenoid bone",
      "source": "atlas",
-     "system": "skeletal"
-    },
-    {
-     "term": "greater wing",
-     "zh": "大翼",
-     "kind": "contained",
-     "model": "Right greater wing of sphenoid bone",
-     "source": "paokao",
      "system": "skeletal"
     },
     {
@@ -12921,28 +12581,12 @@
      "system": "respiratory"
     },
     {
-     "term": "ramus of mandible",
-     "zh": "下顎支",
-     "kind": "exact",
-     "model": "Right ramus of mandible",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
      "term": "pons",
      "zh": "橋腦",
      "kind": "exact",
      "model": "Pons",
      "source": "atlas",
      "system": "nervous"
-    },
-    {
-     "term": "foramen rotundum",
-     "zh": "圓孔",
-     "kind": "exact",
-     "model": "Right foramen rotundum",
-     "source": "paokao",
-     "system": "skeletal"
     }
    ],
    "findability": [],
@@ -12970,6 +12614,10 @@
     {
      "term": "deep temporal nerve",
      "zh": "深顳神經"
+    },
+    {
+     "term": "parotid gland",
+     "zh": "腮腺"
     },
     {
      "term": "Otic ganglion",
@@ -13076,6 +12724,10 @@
      "zh": "後上齒槽神經"
     },
     {
+     "term": "Infraorbital nerve",
+     "zh": "眶下神經"
+    },
+    {
      "term": "Middle superior alveolar nerve",
      "zh": "中上齒槽神經"
     },
@@ -13100,6 +12752,10 @@
      "zh": "鼻顎神經"
     },
     {
+     "term": "Lesser palatine n",
+     "zh": null
+    },
+    {
      "term": "Parasympathetic ganglion",
      "zh": "屬於副交感神經節"
     },
@@ -13117,6 +12773,10 @@
     },
     {
      "term": "Greater petrosal nerve",
+     "zh": null
+    },
+    {
+     "term": "Nerve of pterygoid canal",
      "zh": null
     },
     {
@@ -13144,6 +12804,10 @@
      "zh": null
     },
     {
+     "term": "Sphenopalatine artery",
+     "zh": "上頷動脈的終"
+    },
+    {
      "term": "Nasopalatine artery",
      "zh": "鼻顎動脈"
     },
@@ -13168,7 +12832,23 @@
      "zh": null
     },
     {
+     "term": "Greater palatine artery",
+     "zh": "大顎動脈"
+    },
+    {
+     "term": "palatine artery",
+     "zh": null
+    },
+    {
+     "term": "Lesser palatine artery",
+     "zh": "小顎動脈"
+    },
+    {
      "term": "Branches of the maxillary artery",
+     "zh": null
+    },
+    {
+     "term": "sphenopalatine arteries",
      "zh": null
     },
     {
@@ -13237,6 +12917,10 @@
     },
     {
      "term": "continue with the nasal cavity",
+     "zh": null
+    },
+    {
+     "term": "the infraorbital artery",
      "zh": null
     },
     {
@@ -13434,6 +13118,14 @@
      "zh": "顳線"
     },
     {
+     "term": "zygomatic arch",
+     "zh": "顴弓"
+    },
+    {
+     "term": "infratemporal crest",
+     "zh": "顳下脊"
+    },
+    {
      "term": "temporal fossa",
      "zh": "顳窩"
     },
@@ -13446,6 +13138,10 @@
      "zh": "下顳線"
     },
     {
+     "term": "coronoid process",
+     "zh": "下頷骨的冠狀突"
+    },
+    {
      "term": "infratemporal fossa",
      "zh": "顳下窩"
     },
@@ -13454,8 +13150,36 @@
      "zh": "翼靜脈叢"
     },
     {
+     "term": "mandibular foramen",
+     "zh": "下頷孔"
+    },
+    {
+     "term": "mental foramen",
+     "zh": null
+    },
+    {
+     "term": "Stylomastoid foramen",
+     "zh": "莖乳突孔"
+    },
+    {
+     "term": "Petrotympanic fissure",
+     "zh": "岩鼓溝"
+    },
+    {
+     "term": "madibular foramen",
+     "zh": "頷孔"
+    },
+    {
      "term": "inferior orbital fissure",
      "zh": "眶下裂"
+    },
+    {
+     "term": "Pterygoid process",
+     "zh": "翼突"
+    },
+    {
+     "term": "Pterygomaxillary fissure",
+     "zh": "翼上頜裂"
     },
     {
      "term": "Palatine canal",
@@ -13466,8 +13190,40 @@
      "zh": "眶下裂"
     },
     {
+     "term": "Pterygoid canal",
+     "zh": "翼管"
+    },
+    {
+     "term": "Sphenopalatine foramen",
+     "zh": "蝶顎孔"
+    },
+    {
      "term": "Palatovaginal canal",
      "zh": "腭鞘管"
+    },
+    {
+     "term": "Greater palatine foramen",
+     "zh": "腭大孔"
+    },
+    {
+     "term": "Lesser palatine foramen",
+     "zh": null
+    },
+    {
+     "term": "Infraorbital foramen",
+     "zh": "眶下孔"
+    },
+    {
+     "term": "mandibular fossa",
+     "zh": "下頷窩"
+    },
+    {
+     "term": "condylar process",
+     "zh": "髁突"
+    },
+    {
+     "term": "articular tubercle",
+     "zh": "關節結節"
     },
     {
      "term": "affected by the inflammatory process",
@@ -13475,6 +13231,10 @@
     },
     {
      "term": "tympani in the infratemporal fossa",
+     "zh": null
+    },
+    {
+     "term": "lateral pterygoid process",
      "zh": null
     },
     {
@@ -13500,6 +13260,30 @@
     {
      "term": "skin over the angle",
      "zh": null
+    },
+    {
+     "term": "angle of mandible",
+     "zh": "下頷角"
+    },
+    {
+     "term": "foramen ovale",
+     "zh": "卵圓孔"
+    },
+    {
+     "term": "foramen spinosum",
+     "zh": "會通過棘孔"
+    },
+    {
+     "term": "greater wing",
+     "zh": "大翼"
+    },
+    {
+     "term": "ramus of mandible",
+     "zh": "下顎支"
+    },
+    {
+     "term": "foramen rotundum",
+     "zh": "圓孔"
     }
    ],
    "noise": 57
@@ -13773,28 +13557,12 @@
      "system": "arterial"
     },
     {
-     "term": "carotid sinus",
-     "zh": "頸動脈竇",
-     "kind": "contained",
-     "model": "Right carotid canal",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
      "term": "Hypoglossal nerve",
      "zh": "舌下神經",
      "kind": "exact",
      "model": "Hypoglossal nerve (XII)",
      "source": "nerve",
      "system": "nervous"
-    },
-    {
-     "term": "Hypoglossal Canal",
-     "zh": null,
-     "kind": "exact",
-     "model": "Right hypoglossal canal",
-     "source": "paokao",
-     "system": "skeletal"
     },
     {
      "term": "Mylohyoid m",
@@ -13835,14 +13603,6 @@
      "model": "Left sternothyroid",
      "source": "atlas",
      "system": "muscular"
-    },
-    {
-     "term": "Carotid Sinus nerve",
-     "zh": "壓訊息由頸動脈竇神經",
-     "kind": "contained",
-     "model": "Right carotid canal",
-     "source": "paokao",
-     "system": "skeletal"
     },
     {
      "term": "Masster m",
@@ -13965,6 +13725,22 @@
      "system": "venous"
     },
     {
+     "term": "Right lymphatic duct",
+     "zh": "右側匯入右淋巴總管",
+     "kind": "exact",
+     "model": "Right lymphatic duct",
+     "source": "paokao",
+     "system": "lymphatic"
+    },
+    {
+     "term": "lymphatic duct",
+     "zh": "右淋巴總管",
+     "kind": "exact",
+     "model": "Right lymphatic duct",
+     "source": "paokao",
+     "system": "lymphatic"
+    },
+    {
      "term": "Thyrohyoid m",
      "zh": null,
      "kind": "exact",
@@ -14027,14 +13803,6 @@
      "model": "Left cuneiform cartilage",
      "source": "atlas",
      "system": "connective"
-    },
-    {
-     "term": "Carotid tubercle",
-     "zh": null,
-     "kind": "exact",
-     "model": "Right carotid tubercle",
-     "source": "paokao",
-     "system": "skeletal"
     },
     {
      "term": "longus coli muscle",
@@ -14268,6 +14036,14 @@
      "zh": "中斜角肌"
     },
     {
+     "term": "carotid sinus",
+     "zh": "頸動脈竇"
+    },
+    {
+     "term": "Carotid Sinus nerve",
+     "zh": "壓訊息由頸動脈竇神經"
+    },
+    {
      "term": "Superior thyroid a",
      "zh": "上甲狀腺動脈"
     },
@@ -14322,14 +14098,6 @@
     {
      "term": "External jugular vein",
      "zh": null
-    },
-    {
-     "term": "Right lymphatic duct",
-     "zh": "右側匯入右淋巴總管"
-    },
-    {
-     "term": "lymphatic duct",
-     "zh": "右淋巴總管"
     },
     {
      "term": "superior thyroid v",
@@ -14526,12 +14294,20 @@
      "zh": null
     },
     {
+     "term": "Hypoglossal Canal",
+     "zh": null
+    },
+    {
      "term": "Carotid Body",
      "zh": "關於頸動脈體"
     },
     {
      "term": "venous angle",
      "zh": "分別由左右靜脈角"
+    },
+    {
+     "term": "Carotid tubercle",
+     "zh": null
     },
     {
      "term": "post. border of the sternocleidomastoid m",
@@ -14676,7 +14452,7 @@
      "term": "Levator ani m",
      "zh": "提肛肌",
      "kind": "contained",
-     "model": "tendinous arch of levator ani",
+     "model": "Tendinous arch of levator ani",
      "source": "atlas",
      "system": "connective"
     },
@@ -15841,14 +15617,6 @@
      "system": "skeletal"
     },
     {
-     "term": "Lesser Wing of Sphenoid Bone",
-     "zh": null,
-     "kind": "exact",
-     "model": "Right lesser wing of sphenoid bone",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
      "term": "Maxilla Bone",
      "zh": null,
      "kind": "exact",
@@ -15881,14 +15649,6 @@
      "system": "skeletal"
     },
     {
-     "term": "Greater Wing of Sphenoid Bone",
-     "zh": null,
-     "kind": "exact",
-     "model": "Right greater wing of sphenoid bone",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
      "term": "Lacrimal Bone",
      "zh": null,
      "kind": "exact",
@@ -15902,22 +15662,6 @@
      "kind": "exact",
      "model": "Ethmoid",
      "source": "atlas",
-     "system": "skeletal"
-    },
-    {
-     "term": "Body of Sphenoid Bone",
-     "zh": null,
-     "kind": "exact",
-     "model": "Body of sphenoid bone",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
-     "term": "Optic canal",
-     "zh": "視神經管",
-     "kind": "exact",
-     "model": "Right optic canal",
-     "source": "paokao",
      "system": "skeletal"
     },
     {
@@ -15943,14 +15687,6 @@
      "model": "Left nasociliary nerve",
      "source": "atlas",
      "system": "nervous"
-    },
-    {
-     "term": "Superior orbital fissure",
-     "zh": "過眶上裂",
-     "kind": "exact",
-     "model": "Right superior orbital fissure",
-     "source": "paokao",
-     "system": "skeletal"
     },
     {
      "term": "Abducens n",
@@ -16135,14 +15871,6 @@
      "model": "Left lacrimal nerve",
      "source": "atlas",
      "system": "nervous"
-    },
-    {
-     "term": "nerve of pterygoid canal",
-     "zh": "翼管神經",
-     "kind": "exact",
-     "model": "Right pterygoid canal",
-     "source": "paokao",
-     "system": "skeletal"
     },
     {
      "term": "Zygomatic br",
@@ -16620,6 +16348,10 @@
      "zh": "視盤"
     },
     {
+     "term": "nerve of pterygoid canal",
+     "zh": "翼管神經"
+    },
+    {
      "term": "Anterior ciliary a",
      "zh": "前睫動脈"
     },
@@ -16882,6 +16614,26 @@
      "zh": "視神經管"
     },
     {
+     "term": "Lesser Wing of Sphenoid Bone",
+     "zh": null
+    },
+    {
+     "term": "Greater Wing of Sphenoid Bone",
+     "zh": null
+    },
+    {
+     "term": "Body of Sphenoid Bone",
+     "zh": null
+    },
+    {
+     "term": "Optic canal",
+     "zh": "視神經管"
+    },
+    {
+     "term": "Superior orbital fissure",
+     "zh": "過眶上裂"
+    },
+    {
      "term": "Inferior orbital fissure",
      "zh": null
     },
@@ -17031,14 +16783,6 @@
      "model": "External carotid artery",
      "source": "neck",
      "system": "arterial"
-    },
-    {
-     "term": "carotid sinus",
-     "zh": null,
-     "kind": "contained",
-     "model": "Right carotid canal",
-     "source": "paokao",
-     "system": "skeletal"
     },
     {
      "term": "laryngeal n",
@@ -17345,28 +17089,12 @@
      "system": "nervous"
     },
     {
-     "term": "palatine tonsil",
-     "zh": "顎扁桃體",
-     "kind": "contained",
-     "model": "Right greater palatine foramen",
-     "source": "paokao",
-     "system": "skeletal"
-    },
-    {
      "term": "uvula",
      "zh": "懸雍垂",
      "kind": "contained",
      "model": "Uvula of vermis",
      "source": "brain",
      "system": "nervous"
-    },
-    {
-     "term": "c. palatine tonsil",
-     "zh": "腭扁桃腺",
-     "kind": "contained",
-     "model": "Right greater palatine foramen",
-     "source": "paokao",
-     "system": "skeletal"
     },
     {
      "term": "d. lingual tonsil",
@@ -17430,6 +17158,10 @@
     {
      "term": "Sup. Cervical sympathetic ganglion",
      "zh": "交感神經的上頸神經節"
+    },
+    {
+     "term": "carotid sinus",
+     "zh": null
     },
     {
      "term": "Otic ganglion",
@@ -17540,6 +17272,10 @@
      "zh": "耳咽管"
     },
     {
+     "term": "palatine tonsil",
+     "zh": "顎扁桃體"
+    },
+    {
      "term": "orifice of pharyngotympanic tube / eustachian tube",
      "zh": "耳咽管開口"
     },
@@ -17586,6 +17322,10 @@
     {
      "term": "b. tubal tonsil",
      "zh": "咽鼓管扁桃腺"
+    },
+    {
+     "term": "c. palatine tonsil",
+     "zh": "腭扁桃腺"
     }
    ],
    "landmark": [
@@ -17801,14 +17541,6 @@
      "system": "muscular"
     },
     {
-     "term": "Perineal muscles",
-     "zh": "會陰肌肉",
-     "kind": "contained",
-     "model": "superficial perineal muscle",
-     "source": "atlas",
-     "system": "muscular"
-    },
-    {
      "term": "External anal sphincter muscle",
      "zh": "肛門外括約肌",
      "kind": "exact",
@@ -17820,7 +17552,7 @@
      "term": "Levator ani m",
      "zh": "提肛肌",
      "kind": "contained",
-     "model": "tendinous arch of levator ani",
+     "model": "Tendinous arch of levator ani",
      "source": "atlas",
      "system": "connective"
     },
@@ -18394,6 +18126,10 @@
     {
      "term": "superficial perineal pouch",
      "zh": "會陰淺陷凹"
+    },
+    {
+     "term": "Perineal muscles",
+     "zh": "會陰肌肉"
     },
     {
      "term": "Compressor urethrae muscle",
