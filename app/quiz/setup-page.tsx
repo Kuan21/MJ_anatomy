@@ -1,6 +1,6 @@
 import {useEffect, useMemo, useState} from 'react';
 import {AlertCircle, ArrowLeft, ArrowRight, Check, Target} from 'lucide-react';
-import {QUIZ_CATEGORIES, QUIZ_REGIONS, orderedRegions, questionPool, type QuizCategory, type QuizRegionId, type QuizSide} from './catalogue';
+import {QUIZ_CATEGORIES, QUIZ_REGIONS, categoryOf, orderedRegions, questionPool, type QuizCategory, type QuizRegionId, type QuizSide} from './catalogue';
 import {COUNT_CHOICES, MAX_COUNT, loadSetup, planOf, poolFor, saveSetup, savePlan, settingsFor, type QuizSetup} from './setup';
 import {ModeNav} from './mode-nav';
 import {CategoryPicker, RegionPicker, toggleRegionIn, toggleSectionIn} from './setup-parts';
@@ -33,6 +33,8 @@ export default function QuizSetupPage() {
     savePlan(plan); location.hash = '#/quiz/run';
   };
   const setCount = (v: number | 'all') => {update({count: v}); setCustom('');};
+  /** Side choices only matter when a chosen region has paired structures; only the chosen kinds of structure count (a stomach's organ and vessels are midline). Shown while the data is still loading. */
+  const sided = waiting || !chosen.length || chosen.some(id => !loaded[id] || loaded[id]!.structures.some(s => s.side !== 'midline' && setup.categories.includes(categoryOf(s))));
   const sideLabel: [QuizSide, string][] = [['right', '右側'], ['left', '左側'], ['both', '雙側']];
   return <main className="quiz-app quiz-setup-page" lang="zh-Hant">
     <header className="quiz-header">
@@ -63,12 +65,12 @@ export default function QuizSetupPage() {
           </div>
         </fieldset>
         <div className="quiz-options-row">
-          <fieldset><legend>左右側</legend><div className="quiz-segmented">{sideLabel.map(([id, label]) => <button type="button" data-slot="quiz-button" key={id} aria-pressed={setup.side === id} onClick={() => update({side: id})}>{label}</button>)}</div></fieldset>
+          {sided && <fieldset><legend>左右側</legend><div className="quiz-segmented">{sideLabel.map(([id, label]) => <button type="button" data-slot="quiz-button" key={id} aria-pressed={setup.side === id} onClick={() => update({side: id})}>{label}</button>)}</div></fieldset>}
           <fieldset><legend>題目範圍</legend><div className="quiz-segmented">{([['all', '包括延伸'], ['summary', '只考摘要']] as const).map(([id, label]) => <button type="button" data-slot="quiz-button" key={id} aria-pressed={setup.scope === id} onClick={() => update({scope: id})}>{label}</button>)}</div></fieldset>
         </div>
         {setup.level === 3 && <div className="quiz-options-row quiz-naming-options">
           <fieldset><legend>作答語言</legend><div className="quiz-segmented">{([['en', '英文'], ['zh', '中文'], ['any', '任一']] as const).map(([id, label]) => <button type="button" data-slot="quiz-button" key={id} aria-pressed={setup.language === id} onClick={() => update({language: id})}>{label}</button>)}</div></fieldset>
-          <fieldset><legend>左右側</legend><label className="quiz-context-toggle"><input type="checkbox" checked={setup.needSide} onChange={e => update({needSide: e.target.checked})}/>需要答出左右</label></fieldset>
+          {sided && <fieldset><legend>左右側</legend><label className="quiz-context-toggle"><input type="checkbox" checked={setup.needSide} onChange={e => update({needSide: e.target.checked})}/>需要答出左右</label></fieldset>}
         </div>}
         <fieldset><legend><b>04</b> 題數</legend>
           <div className="quiz-segmented">{COUNT_CHOICES.map(n => <button type="button" data-slot="quiz-button" key={n} aria-pressed={setup.count === n && !custom} onClick={() => setCount(n)}>{n}</button>)}
