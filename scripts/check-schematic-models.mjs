@@ -3,7 +3,7 @@
 //      (grown by SURFACE_MM), and the patch is not out of proportion to the bone (largest side <= SIZE_RATIO of the bone's largest side; lines, crests, fossae and borders <= 90 %).
 //   2. Schematic vessels and nerves: each selectable structure is one continuous piece (pieces further apart than about GAP_MM count as broken), and it does
 //      not leave its neighbours (no stretch of it lies further than FAR_MM from every other structure; skin and serous shells do not count as neighbours).
-//      Covered: the vessel-end pieces (`…-END`, the parts whose card says "generated from the surface of the neighbouring structure"), the schematic
+//      Covered: the vessel-end pieces (`…-END`, checked as the viewer selects them: together with their vessel, app/mj-vessel-unit.ts), the schematic
 //      arteries, veins, nerves and lymphatics of the course list (PK-…), and the schematic tubes of the nerve stream.
 //   3. Checks 1 and 2 (landmark on its bone, structure in one piece) again at the joint poses of scripts/test-vessel-motion.mjs, limits included, posed the
 //      way the viewer poses them (arm: soft-tissue bindings and the shoulder/elbow/wrist transforms; leg: body rig).
@@ -13,6 +13,7 @@
 //   node scripts/check-schematic-models.mjs [--write] [--json=<file>]   --write rewrites docs/schematic-models-report.md
 // Exit code: 0 when nothing is found, 1 otherwise (or when a negative control passes). Not part of `npm run check` yet: the report comes first.
 import fs from 'node:fs';
+import esbuild from 'esbuild';
 import zlib from 'node:zlib';
 import {fileURLToPath} from 'node:url';
 import {loadFullAtlas} from './lib/full-atlas.mjs';
@@ -26,6 +27,10 @@ const SURFACE_MM = 3, SIZE_RATIO = .6, GAP_MM = 1.5, FAR_MM = 15;
 const NEGATIVE = {landmark: 'Left intertubercular groove', vessel: 'Left median antebrachial vein'};
 
 const {anatomicalRegion, anatomicalSubregion, anatomicalSide} = await regionTools();
+// the selection rule of the viewer (a vessel and its end piece are picked together)
+fs.mkdirSync(file('.sites-runtime'), {recursive: true});
+await esbuild.build({entryPoints: [file('app/mj-vessel-unit.ts')], bundle: true, format: 'esm', platform: 'node', outfile: file('.sites-runtime/vessel-unit.mjs'), logLevel: 'error'});
+const {vesselUnit} = await import(file('.sites-runtime/vessel-unit.mjs') + '?t=' + Date.now());
 const m = await loadPoseModule();
 const {atlas, geometry} = loadFullAtlas();
 const PAOKAO = JSON.parse(fs.readFileSync(file('app/mj-paokao.json'), 'utf8')), RIGID = JSON.parse(fs.readFileSync(file('app/biomechanics-v2/paokao-bindings.json'), 'utf8')).rigid ?? {};
@@ -161,17 +166,17 @@ if (onlyLandmarks) {
 const VESSEL_SYSTEMS = new Set(['arterial', 'venous', 'nervous', 'lymphatic']);
 const ends = atlas.parts.filter(p => p.stream === 'vessel-ends');
 const pk = atlas.parts.filter(p => p.stream === 'paokao' && p.schematic && VESSEL_SYSTEMS.has(p.system) && p.kind !== 'ganglion');
-let checkedVessels = 0;
+let checkedVessels = 0, controlVessel = false;
 for (const p of [...ends, ...pk]) {
   const isEnd = p.stream === 'vessel-ends', main = isEnd ? byId.get(p.id.replace(/-END$/, '')) : null, zone = zoneOf(main ?? p), g = G(p);
   checkedVessels++;
   // the selectable structure: today a click selects only the part under the pointer (app/page.tsx choosePart), so a vessel-end piece is a structure of its own
   const sizes = pieceSizes([g]);
   if (isEnd) {
-    // every vessel-end piece is picked on its own: the card says "generated from the surface of the neighbouring structure" and the vessel it finishes is not highlighted.
-    // Also measured: is the vessel together with its end piece one continuous structure (what a click should select)?
-    const joined = pieceSizes([g, G(main)]).length;
-    add('vessel-end', p, zone, sizes.length > 1 ? '斷開成多段' : '單獨點選', `末端片 ${sizes.length} 段；與主血管合併後 ${joined} 段`);
+    // What a click selects (app/mj-vessel-unit.ts): the vessel together with its end piece. It must be one continuous structure.
+    const unit = vesselUnit(p.id, id => byId.has(id)).map(id => G(byId.get(id))), joined = pieceSizes(unit).length;
+    if (joined > 1) add('vessel-end', p, zone, '與主血管合併後仍斷開', `點選得到 ${joined} 段（末端片本身 ${sizes.length} 段）`);
+    if (p.name === NEGATIVE.vessel) controlVessel = sizes.length > 1;   // the old selection (the end piece alone) must be found broken
   } else if (sizes.length > 1) add('schematic', p, zone, /(?:arteries|veins|branches|plexus|rami)\b/i.test(p.name) || /dorsal ramus of thoracic|perforating branch/i.test(p.name) ? '多段（名稱為複數、叢或多節段，可能是設計，待確認）' : '斷開成多段', `${sizes.length} 段`);
   if (!isEnd) {
     const far = farthestFromNeighbours(g.pos, new Set([p.id]));
@@ -198,17 +203,14 @@ for (const ch of ns.chunks) {
 // ---- 4: negative controls
 const control = {
   landmark: controlLandmark,
-  vessel: findings.some(f => f.kind === 'vessel-end' && f.name === NEGATIVE.vessel && f.problem === '斷開成多段'),
+  vessel: controlVessel,
 };
 
 // ---- report
 const zoneZh = new Map(ZONES), uniq = list => new Set(list.map(f => f.id + '|' + f.name)).size;
-const joinedAfter = f => +(/合併後 (\d+) 段/.exec(f.detail)?.[1] ?? 0);
 const COLUMNS = [
   ['骨性標誌', f => f.kind === 'landmark'],
-  ['血管末端片（全部：單獨點選，卡寫「由相鄰構造的表面生成」）', f => f.kind === 'vessel-end'],
-  ['　其中末端片本身斷開成多段', f => f.kind === 'vessel-end' && f.problem === '斷開成多段'],
-  ['　其中與主血管合併後仍斷開', f => f.kind === 'vessel-end' && joinedAfter(f) > 1],
+  ['血管末端片：點選（主血管＋末端片）後仍斷開', f => f.kind === 'vessel-end'],
   ['示意血管／神經：斷開', f => f.kind === 'schematic' && f.problem === '斷開成多段'],
   ['示意血管／神經：多段但可能是設計（待確認）', f => f.kind === 'schematic' && f.problem.startsWith('多段')],
   ['示意血管／神經：離開相鄰構造', f => f.kind === 'schematic' && f.problem === '離開相鄰構造太遠'],
@@ -216,7 +218,7 @@ const COLUMNS = [
 const lines = ['# 示意模型全站檢查報告', '', '由 `node scripts/check-schematic-models.mjs --write` 生成（不開瀏覽器；數值檢查，未在 3D 畫面確認）。', '',
   `檢查範圍：骨性標誌 ${landmarks.length} 個；示意血管與神經 ${checkedVessels} 個（血管末端片 ${ends.length}、PK 示意血管／神經 ${pk.length}、神經串流示意管 ${checkedVessels - ends.length - pk.length}）。`, '',
   `門檻：骨面距離 ≤ ${SURFACE_MM} mm；標誌最長邊 ≤ 所屬骨骼最長邊的 ${SIZE_RATIO * 100}%（線、嵴、窩、緣 ≤ 90%）；斷開＝兩段之間的空隙大於約 ${GAP_MM} mm；離開相鄰構造＝有一段離最近的構造（不計皮膚與漿膜）超過 ${FAR_MM} mm。關節姿勢與 \`scripts/test-vessel-motion.mjs\` 相同（含極限角度）。區域：骨性標誌按所屬骨骼，末端片按所屬主血管。`, '',
-  `反向對照：${NEGATIVE.landmark} 以舊的軟組織綁定重演（關節動作）${control.landmark ? '已如預期判為失敗' : '**沒有判為失敗：檢查失效**'}；${NEGATIVE.vessel} 的末端片（斷開）${control.vessel ? '已如預期判為失敗' : '**沒有判為失敗：檢查失效**'}。`, '',
+  `反向對照：${NEGATIVE.landmark} 以舊的軟組織綁定重演（關節動作）${control.landmark ? '已如預期判為失敗' : '**沒有判為失敗：檢查失效**'}；${NEGATIVE.vessel} 的末端片單獨選取（舊的點選方式，斷開）${control.vessel ? '已如預期判為失敗' : '**沒有判為失敗：檢查失效**'}。`, '',
   '## 按區域的數目（結構數）', '', `| 區域 | ${COLUMNS.map(c => c[0]).join(' | ')} |`, `| --- | ${COLUMNS.map(() => '---:').join(' | ')} |`,
   ...ZONES.map(([z, zh]) => `| ${zh} | ${COLUMNS.map(([, t]) => uniq(findings.filter(f => f.zone === z && t(f)))).join(' | ')} |`),
   `| **合計** | ${COLUMNS.map(([, t]) => uniq(findings.filter(t))).join(' | ')} |`, ''];

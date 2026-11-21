@@ -37,12 +37,6 @@
    "value": 7.5,
    "reason": "the piece reads its weights on the centreline of each tube, the vessel on its surface (or is moved by a solver): where the field is steep the two slip a few millimetres at the extreme pose. No thorns, the tube keeps its shape."
   },
-  "FJ2268-END|detached": {
-   "name": "Right axillary artery",
-   "pose": "shoulder flexion 73 + abduction 158",
-   "value": 2.6,
-   "reason": "the piece reads its weights on the centreline of each tube, the vessel on its surface (or is moved by a solver): where the field is steep the two slip a few millimetres at the extreme pose. No thorns, the tube keeps its shape."
-  },
   "FJ2284-END|detached": {
    "name": "Right dorsal scapular artery",
    "pose": "shoulder flexion 73 + abduction 158",
