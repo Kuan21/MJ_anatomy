@@ -7,8 +7,11 @@
 //      arteries, veins, nerves and lymphatics of the course list (PK-…), and the schematic tubes of the nerve stream.
 //   3. Checks 1 and 2 (landmark on its bone, structure in one piece) again at the joint poses of scripts/test-vessel-motion.mjs, limits included, posed the
 //      way the viewer poses them (arm: soft-tissue bindings and the shoulder/elbow/wrist transforms; leg: body rig).
+//   1b. Parts of the abdominal organs (kind 'landmark' on a digestive or lymphatic organ; rule approved by the user on 2026-11-18): on the surface of their organ (or organs,
+//      `hosts`) within ORGAN_MM, box inside it, not inside another organ; no size limit (see organPartProblems).
 //   4. Negative controls: the left intertubercular groove bound the old way (as soft tissue, it lifted off the humerus when the elbow bent) and the vessel-end
-//      piece of the left median antebrachial vein selected on its own (several separate pieces) must both be caught; if either passes, the check itself fails.
+//      piece of the left median antebrachial vein selected on its own (several separate pieces) must both be caught, and so must the body of the stomach lifted 3 mm off
+//      the stomach; if any passes, the check itself fails.
 //   --only=landmarks runs 1 and 3 for the bone landmarks alone (scripts/checks/motion.d/20261116-landmarks-on-bone.txt).
 //   node scripts/check-schematic-models.mjs [--write] [--json=<file>]   --write rewrites docs/schematic-models-report.md
 // Exit code: 0 when nothing is found, 1 otherwise (or when a negative control passes). Not part of `npm run check` yet: the report comes first.
@@ -23,7 +26,7 @@ import {surfaceIndex, pieceSizes} from './lib/surface-distance.mjs';
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 const write = process.argv.includes('--write'), onlyLandmarks = process.argv.includes('--only=landmarks'), jsonOut = process.argv.find(a => a.startsWith('--json='))?.slice(7);
 const SURFACE_MM = 3, SIZE_RATIO = .6, GAP_MM = 1.5, FAR_MM = 15;
-const NEGATIVE = {landmark: 'Left intertubercular groove', vessel: 'Left median antebrachial vein'};
+const NEGATIVE = {landmark: 'Left intertubercular groove', vessel: 'Left median antebrachial vein', organPart: 'Body of stomach'};
 
 const {anatomicalRegion, anatomicalSubregion, anatomicalSide} = await regionTools();
 const m = await loadPoseModule();
@@ -115,8 +118,54 @@ const landmarks = atlas.parts.filter(p => p.kind === 'landmark');
 // Lines, crests, fossae and borders run along most of a bone by definition (iliac crest, superior nuchal line, infraspinous fossa): they may reach 90 % of the bone's largest side.
 const sizeLimit = p => /\b(?:line|crest|fossa|border)\b/i.test(p.name) ? .9 : SIZE_RATIO;
 const hostOf = p => { const hostName = PAOKAO[p.id]?.parent; return hostName && (p.sex === 'female' ? atlas.parts.find(q => q.name === hostName && q.sex === 'female' && !q.kind) : byName.get(hostName)); };
+// Parts of the abdominal organs (rule approved by the user on 2026-11-18, for these parts only; bone landmarks keep the rules above): a part (fundus of stomach, parts of the
+// duodenum, lobes of the liver …, scripts/paokao-structures/abdomen-parts.mjs) is a patch of colour drawn on its organ, so it may be as large as the share of the organ it is.
+// Instead of the size limit it must lie on its organ: every vertex within ORGAN_MM of the surface of its host (the patches are lifted 0.3–3.3 mm, one 0.3 mm step per part
+// of the same organ, and simplified to about 0.06 mm), its box inside the host's box, and almost none of it inside another organ. A part may lie on several meshes (`hosts`: a lobe of
+// the liver on several liver segments); the host is then all of them.
+const ORGAN_MM = 3.5, INSIDE_MM = 1.5, INSIDE_SHARE = .05;
+const isOrganPart = p => p.kind === 'landmark' && (p.system === 'digestive' || p.system === 'lymphatic');
+const organs = atlas.parts.filter(q => !q.kind && !q.stream && (q.system === 'digestive' || q.system === 'lymphatic'));
+/** Host surface of a landmark: its parent, or every mesh named in `hosts`. */
+function hostGeometry(p, host) {
+  const names = PAOKAO[p.id]?.hosts; if (!names) return G(host);
+  const list = atlas.parts.filter(q => names.includes(q.name) && !q.kind && !q.stream).map(G), pos = new Float32Array(list.reduce((a, g) => a + g.pos.length, 0)), idx = new Uint32Array(list.reduce((a, g) => a + g.idx.length, 0));
+  let vo = 0, io = 0; for (const g of list) { pos.set(g.pos, vo * 3); for (let i = 0; i < g.idx.length; i++) idx[io + i] = g.idx[i] + vo; vo += g.pos.length / 3; io += g.idx.length; }
+  return {pos, idx};
+}
+/** Inside a closed mesh: a ray along +x crosses it an odd number of times. */
+const insideMesh = (g, q) => {
+  let n = 0;
+  for (let i = 0; i < g.idx.length; i += 3) {
+    const a = g.idx[i] * 3, b = g.idx[i + 1] * 3, c = g.idx[i + 2] * 3, P = g.pos;
+    // the ray y = q.y, z = q.z, x > q.x against triangle abc, projected on the y-z plane
+    const ay = P[a + 1] - q[1], az = P[a + 2] - q[2], by = P[b + 1] - q[1], bz = P[b + 2] - q[2], cy = P[c + 1] - q[1], cz = P[c + 2] - q[2];
+    const d = (by - ay) * (cz - az) - (bz - az) * (cy - ay); if (Math.abs(d) < 1e-18) continue;
+    const u = (-ay * (cz - az) + az * (cy - ay)) / d, v = (-(by - ay) * az + (bz - az) * ay) / d; if (u < 0 || v < 0 || u + v > 1) continue;
+    const x = P[a] + u * (P[b] - P[a]) + v * (P[c] - P[a]); if (x > q[0]) n++;
+  }
+  return n % 2 === 1;
+};
+/** Problems of a part of an organ at rest; `pos` replaces its vertices (the negative control lifts it off its organ). */
+function organPartProblems(p, host, pos = G(p).pos) {
+  const out = [], hg = hostGeometry(p, host), S = surfaceIndex(hg.pos, hg.idx), names = new Set(PAOKAO[p.id]?.hosts ?? [host.name]);
+  let mx = 0; for (let i = 0; i < pos.length; i += 3) mx = Math.max(mx, S.distance([pos[i], pos[i + 1], pos[i + 2]], .05)); mx *= 1000;
+  const [lo, hi] = boxOf(pos), [blo, bhi] = boxOf(hg.pos), t = ORGAN_MM / 1000;
+  if (mx > ORGAN_MM) out.push(['靜止時離開器官表面', `最遠 ${mx === Infinity ? '> 50' : mx.toFixed(1)} mm（上限 ${ORGAN_MM} mm；${[...names].join('、')}）`]);
+  if ([0, 1, 2].some(k => lo[k] < blo[k] - t || hi[k] > bhi[k] + t)) out.push(['包圍盒超出所屬器官', [...names].join('、')]);
+  // inside another organ: a sample of the vertices against every other digestive or lymphatic organ whose box it reaches
+  const n = pos.length / 3, step = Math.max(1, Math.floor(n / 300)), sample = []; for (let i = 0; i < n; i += step) sample.push([pos[i * 3], pos[i * 3 + 1], pos[i * 3 + 2]]);
+  for (const o of organs) {
+    if (names.has(o.name)) continue;
+    const og = G(o), [olo, ohi] = boxOf(og.pos); if ([0, 1, 2].some(k => hi[k] < olo[k] || lo[k] > ohi[k])) continue;
+    const So = surfaceIndex(og.pos, og.idx), deep = sample.filter(q => [0, 1, 2].every(k => q[k] >= olo[k] && q[k] <= ohi[k]) && So.distance(q, .05) * 1000 > INSIDE_MM && insideMesh(og, q)).length;
+    if (deep > sample.length * INSIDE_SHARE) out.push(['穿入其他器官', `${o.name}：${Math.round(100 * deep / sample.length)}% 的頂點在其內 ${INSIDE_MM} mm 以上`]);
+  }
+  return out;
+}
 /** Problems of one landmark: [problem, detail]. `lm` is how it moves (the viewer's binding, or a forced one for the negative control). */
 function landmarkProblems(p, host, lm = mover(p)) {
+  if (isOrganPart(p)) return organPartProblems(p, host);
   const out = [], g = G(p), hg = G(host), S = surfaceIndex(hg.pos, hg.idx);
   const off = pos => { let mx = 0; for (let i = 0; i < pos.length; i += 3) mx = Math.max(mx, S.distance([pos[i], pos[i + 1], pos[i + 2]], .05)); return mx * 1000; };
   const rest = off(g.pos), [lo, hi] = boxOf(g.pos), [blo, bhi] = boxOf(hg.pos), t = SURFACE_MM / 1000;
@@ -149,11 +198,24 @@ const controlLandmark = (() => {
   return landmarkProblems(p, host, soft).some(([problem]) => problem === '關節動作時離開骨面');
 })();
 
+// Negative control for the parts of the organs: the body of the stomach lifted 3 mm off the stomach (along its own vertex normals) must be caught as leaving the organ.
+const controlOrganPart = (() => {
+  const p = landmarks.find(q => q.name === NEGATIVE.organPart), host = p && hostOf(p); if (!host) return false;
+  const g = G(p), nrm = new Float32Array(g.pos.length), lifted = new Float32Array(g.pos.length);
+  for (let i = 0; i < g.idx.length; i += 3) {
+    const [a, b, c] = [g.idx[i] * 3, g.idx[i + 1] * 3, g.idx[i + 2] * 3], u = [0, 1, 2].map(k => g.pos[b + k] - g.pos[a + k]), v = [0, 1, 2].map(k => g.pos[c + k] - g.pos[a + k]);
+    const f = [u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0]]; for (const x of [a, b, c]) for (let k = 0; k < 3; k++) nrm[x + k] += f[k];
+  }
+  for (let i = 0; i < g.pos.length; i += 3) { const l = Math.hypot(nrm[i], nrm[i + 1], nrm[i + 2]) || 1; for (let k = 0; k < 3; k++) lifted[i + k] = g.pos[i + k] + nrm[i + k] / l * .003; }
+  return organPartProblems(p, host, lifted).some(([problem]) => problem === '靜止時離開器官表面');
+})();
+
 if (onlyLandmarks) {
   const list = findings.filter(f => f.kind === 'landmark');
   for (const f of list) console.error(`  ${f.name} (${f.id}): ${f.problem} ${f.detail}`);
   if (!controlLandmark) { console.error(`Negative control passed (the check is broken): ${NEGATIVE.landmark} bound as soft tissue`); process.exit(1); }
-  console.log(`Bone landmarks: ${landmarks.length} checked at rest and at the joint poses (limits included): ${list.length} problems; negative control (${NEGATIVE.landmark} bound as soft tissue) caught.`);
+  if (!controlOrganPart) { console.error(`Negative control passed (the check is broken): ${NEGATIVE.organPart} lifted 3 mm off its organ`); process.exit(1); }
+  console.log(`Bone landmarks and parts of organs: ${landmarks.length} checked at rest and at the joint poses (limits included): ${list.length} problems; negative controls (${NEGATIVE.landmark} bound as soft tissue, ${NEGATIVE.organPart} lifted 3 mm) caught.`);
   process.exit(list.length ? 1 : 0);
 }
 
@@ -198,6 +260,7 @@ for (const ch of ns.chunks) {
 // ---- 4: negative controls
 const control = {
   landmark: controlLandmark,
+  organPart: controlOrganPart,
   vessel: findings.some(f => f.kind === 'vessel-end' && f.name === NEGATIVE.vessel && f.problem === '斷開成多段'),
 };
 
@@ -232,5 +295,5 @@ if (write) fs.writeFileSync(file('docs/schematic-models-report.md'), lines.join(
 if (jsonOut) fs.writeFileSync(jsonOut, JSON.stringify(findings, null, 1));
 console.log(`Schematic models: ${landmarks.length} landmarks, ${checkedVessels} schematic vessels/nerves; ${new Set(findings.map(f => f.id + f.name)).size} structures with problems (${findings.length} findings).`);
 for (const [z, zh] of ZONES) console.log(`  ${zh}: ${COLUMNS.map(([c, t]) => `${c.trim().split('（')[0]} ${uniq(findings.filter(f => f.zone === z && t(f)))}`).join('、')}`);
-if (!control.landmark || !control.vessel) { console.error(`Negative control passed (the check is broken): ${!control.landmark ? NEGATIVE.landmark : ''} ${!control.vessel ? NEGATIVE.vessel + ' (end piece)' : ''}`); process.exit(1); }
+if (!control.landmark || !control.vessel || !control.organPart) { console.error(`Negative control passed (the check is broken): ${!control.landmark ? NEGATIVE.landmark : ''} ${!control.vessel ? NEGATIVE.vessel + ' (end piece)' : ''} ${!control.organPart ? NEGATIVE.organPart + ' (lifted 3 mm)' : ''}`); process.exit(1); }
 process.exit(findings.length ? 1 : 0);

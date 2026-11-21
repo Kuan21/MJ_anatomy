@@ -465,7 +465,8 @@ function paokaoProfile(rawName:string,system:SystemId,part?:Part):StructureProfi
  else if(k==='landmark'){
   // Bone, description, then what is attached to it and what lies next to it. The card holds one sentence group about the role; its parts that speak of an origin, insertion or attachment become Attachments, the rest Related structures.
   // a part of an abdominal organ (scripts/paokao-structures/abdomen-parts.mjs) names its organ instead of a bone
-  if(system==='digestive'){L('Organ','所在器官',card.origin);L('Model','模型',card.course);return{english:card.name,chinese:card.zh,category:'Part of an organ｜器官部分（示意標示）',summaryEn:'',summaryZh:'',facts,source:SCHEMATIC_CARD_SOURCE};}
+  // its organ, where it lies (the card text of app/quiz/card-data.ts replaces this field when it has one) and how the model shows it
+  if(system==='digestive'||system==='lymphatic'){L('Organ','所在器官',card.origin);L('Location','位置',card.supply);L('Model','模型',card.course);return{english:card.name,chinese:card.zh,category:'Part of an organ｜器官部分（示意標示）',summaryEn:'',summaryZh:'',facts,source:SCHEMATIC_CARD_SOURCE};}
   L('Bone','所在骨骼',card.origin);L('Description','描述',card.course);
   const en=(card.supply?.[0]??'').split(/;\s*/).filter(Boolean),zh=(card.supply?.[1]??'').split(/[；;]\s*/).filter(Boolean),isAttach=(t:string)=>/\b(origin|insertion|attachment|attaches|attach)\b/i.test(t);
   if(en.length&&en.length===zh.length){

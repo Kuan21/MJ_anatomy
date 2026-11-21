@@ -129,11 +129,18 @@ export function zfight(parts, log) {
   return out;
 }
 
+/** A part of an abdominal organ (scripts/paokao-structures/abdomen-parts.mjs): a patch of kind 'landmark' on a digestive or lymphatic organ (not a bone landmark). */
+export const isOrganPart = p => (p.part?.kind ?? p.kind) === 'landmark' && (p.system === 'digestive' || p.system === 'lymphatic');
+
 /** Open boundaries with long straight runs: a mesh opened by a plane or a box. */
 export function cuts(parts, log) {
   const out = [];
   for (const p of parts) {
     if (p.system === 'integumentary') continue;
+    // Rule change approved by the user on 2026-11-18, for the parts of the abdominal organs only: such a part is a patch drawn on the organ's surface, and its border is the
+    // dividing line between two parts of the organ (often a plane through landmarks, as the anatomical definitions are), not an opening cut into a structure. The organ
+    // mesh under it is still checked; bone landmarks and every other mesh are checked as before.
+    if (isOrganPart(p)) continue;
     const g = p.load(); if (!g.indices.length) continue;
     const {chains, boundary} = boundaryChains(g.positions, g.indices); if (!boundary) continue;
     let best = null, runs = 0;
