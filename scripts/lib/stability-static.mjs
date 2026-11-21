@@ -5,7 +5,7 @@
 //   cuts         an open boundary of a mesh with a long straight run (a plane or a box cut it open)
 import fs from 'node:fs';
 import {TriGrid, pieces, boundaryChains, longestStraightRun} from './stability-geom.mjs';
-import {SOFT_TUBES, isCentral} from './stability-world.mjs';
+import {SOFT_TUBES, isCentral, isHeadBoneMark} from './stability-world.mjs';
 
 const mm = v => +(v * 1000).toFixed(1);
 export const THRESHOLDS = {
@@ -63,7 +63,8 @@ export function fragments(parts, log) {
 
 /** Vessel, nerve and tendon walls inside a bone. */
 export function penetration(parts, log) {
-  const bones = parts.filter(p => p.system === 'skeletal'), grid = new TriGrid(.008), names = new Map(bones.map(b => [b.id, b.name]));
+  // Skull and neck landmarks are marks on a bone, not bones (see isHeadBoneMark).
+  const bones = parts.filter(p => p.system === 'skeletal' && !isHeadBoneMark(p)), grid = new TriGrid(.008), names = new Map(bones.map(b => [b.id, b.name]));
   for (const b of bones) { const g = b.load(); grid.add(b.id, g.positions, g.indices); }
   const out = [];
   for (const p of parts) {
