@@ -492,6 +492,28 @@
 | HN-29 | #396 | Arachnoid mater、Subarachnoid space 顯示名改為「蛛網膜」「蛛網膜下腔」，必考清單用「蜘蛛膜」「蜘蛛膜下腔」（RS-0047、RS-0763，另有 RS-0046「蜘蛛膜顆粒」），與使用者「跟必考清單統一」的指示相反。另外 #396 已自行選定 HN-28 尚待使用者決定的兩項（顳顎關節／顳下頜韌帶並用、麥粒軟骨），請使用者確認。 | `app/mj-required-names.json`（#396）與 `docs/required-structures/head-neck.json` | FIPAT TA2（名詞對照） | 影響使用 | 總管 |
 | HN-30 | #409 覆核時發現（#409 之前已存在） | 左、右喉返神經（Left／Right recurrent laryngeal nerve，建置時產生的示意管）上端在環狀軟骨下緣（y 1.459–1.471 m）向中線匯合並**交叉**：左側末端到 x −4～−9 mm（病人右側），右側末端到 x +8 mm（病人左側），後面看成 X 形。應各自在同側、甲狀軟骨下角（環甲關節）後方入喉，不越過中線。 | 已部署資料逐層斷面（左 y 1.455 m x +11.6 → 1.467 m x −4.1；右 1.456 m x −5.0 → 1.468 m x +7.9；左、右環杓後肌各在 x +1～+10、−11～−2）；只開神經系統的後方 3D 截圖：[喉返神經上端交叉](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/c664c5205ebb2d05227d15439996634b6bdcf636/qa-report/newpr/hn30-rln.jpg)（畫面中上方細的兩條） | Gray's Anatomy 1918；TeachMeAnatomy；Kenhub | 會令溫書學錯 | 頭頸模型 |
 
+### 新 PR 第六輪（2026-11-21；#444 在本機 build：main＋#444 分支合在一起，只在本機，沒有推送）
+
+| 編號 | PR | 問題 | 證據 | 來源 | 嚴重程度 | 建議負責 |
+|---|---|---|---|---|---|---|
+| HN-35 | #444（未合併） | 分水嶺區的定義寫反：步驟 4 說明「突然阻塞或環不完整時，同側中大腦動脈供血區最容易缺血（遠離各動脈的交界區，稱分水嶺區，最先受影響）」，容易讀成分水嶺區是「離開交界區」的地方。分水嶺區正是相鄰動脈供血區的交界帶，也是離各動脈起點最遠的區域。建議改為「各動脈供血區交界、離動脈起點最遠的地帶（分水嶺區）最先受影響」。 | `app/willis/willis-data.ts` 步驟 4 說明 | Radiopaedia；Kenhub | 會令溫書學錯 | 總管（轉交 #444 作者） |
+| HN-36 | #444（未合併） | 左後大腦動脈（後交通支之後）阻塞的結果寫「可出現對側同側偏盲」，「對側」與「同側」並列，讀起來自相矛盾。建議改為「對側同向偏盲（homonymous hemianopia）」。 | `app/willis/willis-data.ts` BLOCK_CHOICES `p2-l`；[桌面截圖](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/4bb7a0aedce288597ed90fb045bf195be1a3bbbb/qa-report/willis444/desktop-block-left-p2.jpg)右欄紅框 | Kenhub；Radiopaedia | 影響使用 | 總管（轉交 #444 作者） |
+| HN-37 | #444（未合併） | 阻塞後，其他供血區的血流顯示為 101–109%（例如右中大腦動脈阻塞時，右前大腦動脈供血區顯示 106%）。這是簡化計算模型的數字，不代表真的增加血流，可能令人以為側支會使血流超過正常。建議顯示上限為 100%，或在說明中註明。 | 本機逐項計算（12 個阻塞選項 × 完整環、後交通支細小）；[桌面截圖](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/4bb7a0aedce288597ed90fb045bf195be1a3bbbb/qa-report/willis444/desktop-block-left-ica.jpg) | — | 影響使用（不影響考試內容） | 總管（轉交 #444 作者） |
+
+**#444 功能測試**（本機 `vite build` + `vite preview`；桌面 1440×900 用滑鼠；iPad 直向 820×1180、橫向 1180×820 用 Playwright 觸控模擬、1 倍解析度。**這是模擬，不等於 iPad 真機**）：
+
+- 步驟 1–4、上一步、下一步、播放／暫停、重設視角、速度滑桿（0.2–1.6×）、「後交通支細小」與「自動切換下一步」核取方塊、12 個阻塞選項都能操作；Esc 與「關閉」都會回到腦部詳細模式（頁面標題也會還原）；再開再關正常。沒有頁面錯誤。
+- 沒有元件被蓋住、被裁切或需要橫向捲動；直向轉橫向後版面正常（[iPad 直向](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/4bb7a0aedce288597ed90fb045bf195be1a3bbbb/qa-report/willis444/ipad-portrait-block.jpg)、[iPad 橫向](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/4bb7a0aedce288597ed90fb045bf195be1a3bbbb/qa-report/willis444/ipad-landscape-thin-pcoa.jpg)）。
+- 左右方向正確：腦底由下往上看，病人左側在畫面右邊；阻塞左內頸動脈時，紅色叉號與「血流下降」的黃色區都在病人左側，右中大腦動脈阻塞時缺血區在病人右側外側面。
+- 小問題（不影響使用）：阻塞選單高 36 點、兩個核取方塊 24 點（連文字的點按範圍已超過 44 點），低於 iPad 建議的 44 點；直向時控制列在說明文字上方，但步驟 4 說明寫「在下方選一條動脈阻塞」；步驟 4 的圖例只說明黃色與紅色，沒有說明正常供血區仍保留步驟 3 的顏色。
+
+其餘說明文字（Willis 環的組成與位置、內頸動脈與椎動脈的走向、三條大腦動脈的供血區、各阻塞選項的側支路徑、動脈瘤好發位置）**未見錯誤**，依公開資料核對，請使用者核對。
+
+其他 PR，**未見錯誤**（依公開資料核對，請使用者核對）：
+
+- #449（已合併）：腹主動脈不成對分支 35 張資訊卡，逐欄核對來源、走向、分支與供應範圍。
+- #455（草稿）：頸外動脈 8 條分支資訊卡（上甲狀腺、升咽、舌、顏面、枕、後耳、上頜、淺顳動脈），逐欄核對；中文名與必考清單相同（顏面動脈、後耳動脈、中腦膜動脈、副腦膜動脈、深耳動脈、橫面動脈）。另外，耳詳細模式的說明仍用「耳後動脈」「腦膜中動脈」，與必考清單不同，建議日後一併統一（不影響這個 PR）。
+
 ### 新 PR 第五輪（2026-11-18；#433 用它自己的分支在本機 build，因為它與最新 main 有衝突）
 
 | 編號 | PR | 問題 | 證據 | 來源 | 嚴重程度 | 建議負責 |
@@ -548,6 +570,84 @@
 步驟 1–6 說明文字順帶看過，未見事實錯誤（依公開資料核對，請使用者核對）。
 
 ---
+
+## 覆核 #431 血管補接規則（2026-11-21，本機最新 main 已含 #431）
+
+### 錯接連接管（我的全站掃描，與 11/17 同一方法）
+
+| 類別 | #431 前 | #431 後 | 說明 |
+|---|---|---|---|
+| VS-04 睪丸血管接到腸的血管 | 18 | **0** | 已解決 |
+| VS-05 肝靜脈接到門靜脈 | 13 | **0** | 已解決 |
+| VS-07 肺內血管接到胸壁或體循環血管 | 16 | 1 | 剩左鎖骨下動脈 → 左尖段動脈（胸腔，考試後） |
+| VS-08 動脈接到靜脈 | 11 | 9 | 8 條在四肢（膕動脈 → 膕靜脈等，考試後）；**1 條在腹部：左腰升靜脈 → 右髂總動脈**（使用者 2026-11-21：一定是錯接，交血管平順 11/27 前修） |
+| VS-09 臀下靜脈接到陰部內靜脈等 | 9 | 9 | 未改：新規則把「髂內血管與骨盆分支」列為同一家族，所以容許。**使用者 2026-11-21 決定算錯接**（兩者各自流入髂內靜脈，不直接相連），交血管平順 11/27 前修，不可加例外 |
+| VS-06 浮空碎片 | 12 | 12 | 未處理；使用者 2026-11-21 交血管平順 11/27 前修。**11/22 更正：** 其中肝靜脈 7 件不是幾何斷開，見下方說明；實際浮空 5 件 |
+| 名稱不相關的其他補接（11/17 的 139 條） | 139 | 93 | 多為母血管與分支，未逐條判斷 |
+
+**VS-06 更正（2026-11-22，血管平順詢問掃描方法時重新核對）：** 原掃描只納入 arterial／venous 系統。肝靜脈第 II、III、IV、V、VI（2 塊）、VIII 段的末端件（`FJ2818-END` 至 `FJ2824-END`）屬 venous，但它們的母網格 `Hepatovenous segment II…VIII`（`FJ2818` 等）在圖譜上屬 digestive，所以被漏掉。重新量：這 7 塊到各自母網格只有 0.5–1.1 mm，**不是幾何斷開**。不過畫面上確實會看到浮空：只開血管、關掉器官時，母網格隱藏，末端件留下。這是「末端件與母網格不屬同一系統」的顯示問題，已轉告血管平順。實際浮空只剩 5 件：左腎動脈後支一小塊（3.4 mm，未套用腎門載入位移）、左右臍旁靜脈各一段（約 6 mm，示意件），以及胸腔兩件食管動脈（2.2 mm，接近門檻，考試後看）。
+
+### 四肢斷開
+
+用專案的連續性工具（`audit-vessel-continuity.mjs --segments`，只讀）量靜止姿勢：四肢仍有 **93 處**血管與下一段之間的間隙大於管徑一半（上肢 54、下肢 39）。其中 **31 處**是 #431 移除誤接後新露出來的（上肢 19、下肢 12；#431 自報 32 處），其餘 62 處 #431 之前已存在。另有 #431 登記的動作例外 10 對、穩定度例外 8 項（極限姿勢下才出現，最大 42.7 mm：左股深靜脈 → 左髂外靜脈）。截圖：[左膝後方動脈上端截斷、肘窩正中肘靜脈末端未接上](https://raw.githubusercontent.com/Kuan21/MJ_anatomy/5f5fbea3e7d25b5176a4c5688419a1585b71d5a0/qa-report/vessels/431-limb-gaps.jpg)。
+
+新露出的 31 處（間隙由大到小）：
+
+| 區域 | 血管 → 下一段 | 間隙（mm） |
+|---|---|---|
+| 下肢 | Left popliteal vein → Left genicular vein | 28.0 |
+| 下肢 | Right posterior tibial vein → Right fibular vein | 22.9 |
+| 下肢 | Right fibular vein → Right posterior tibial vein | 20.1 |
+| 下肢 | Right fibular vein → Right posterior tibial vein | 18.3 |
+| 下肢 | Right deep femoral artery → Right femoral artery | 17.7 |
+| 下肢 | Left deep femoral artery → Left perforating branch of deep femoral artery | 17.6 |
+| 下肢 | Set of perforating arteries → Set of perforating arteries | 17.5 |
+| 下肢 | Left popliteal artery → Left femoral artery | 17.3 |
+| 下肢 | Set of perforating arteries → Set of perforating arteries | 14.9 |
+| 下肢 | Left medial superior genicular artery → Left anterior tibial recurrent artery | 9.8 |
+| 下肢 | Left anterior tibial vein → Left anterior tibial vein | 7.6 |
+| 下肢 | Plantar venous arch of left foot → Plantar metatarsal vein | 5.3 |
+| 上肢 | Left median cubital vein → Left basilic vein | 26.5 |
+| 上肢 | Right median cubital vein → Right cephalic vein | 26.4 |
+| 上肢 | Right median cubital vein → Right basilic vein | 24.9 |
+| 上肢 | Left median cubital vein → Left basilic vein | 21.3 |
+| 上肢 | Pectoral branch of left thoraco-acromial artery → Trunk of left thoraco-acromial artery | 19.3 |
+| 上肢 | Acromial branch of right thoraco-acromial artery → Trunk of right thoraco-acromial artery | 17.9 |
+| 上肢 | Right superficial palmar arterial arch → Right first common palmar digital artery | 17.7 |
+| 上肢 | Pectoral branch of right thoraco-acromial artery → Trunk of right thoraco-acromial artery | 16.4 |
+| 上肢 | Left median cubital vein → Left basilic vein | 15.8 |
+| 上肢 | Right anterior circumflex humeral vein → Right axillary vein | 15.0 |
+| 上肢 | Right superficial palmar arterial arch → Right ulnar artery | 13.8 |
+| 上肢 | Dorsal venous network of left hand → Left cephalic vein | 12.2 |
+| 上肢 | Middle collateral branch of left deep brachial artery → Left deep brachial artery | 8.0 |
+| 上肢 | Middle collateral branch of left deep brachial artery → Left deep brachial artery | 7.5 |
+| 上肢 | Right posterior interosseous artery → Right common interosseous artery | 5.4 |
+| 上肢 | Left recurrent interosseous artery → Left common interosseous artery | 5.1 |
+| 上肢 | Medial proper palmar digital artery of right index finger → Lateral proper palmar digital artery of right middle finger | 4.5 |
+| 上肢 | Left palmar metacarpal vein → Left radial vein | 1.4 |
+| 上肢 | Left deep palmar venous arch → Left radial vein | 0.7 |
+
+其中較顯眼的是主幹斷開：左膕動脈與左股動脈之間 17.3 mm、右股深動脈與右股動脈之間 17.7 mm、左膕靜脈與膝靜脈 28.0 mm、兩側正中肘靜脈與貴要／頭靜脈 21–27 mm。四肢已考完，使用者 2026-11-18 批准考試後第一優先修。
+
+### 其他已合併 PR
+
+- #443（胸管頸段、右淋巴管）：胸管在左側上行，於約第 7 頸椎高度拱起，終點距左靜脈角 0.7 mm；右淋巴管長 15 mm，終點距右靜脈角 1.3 mm。未見錯誤（數據核對，未在 3D 畫面截圖）。
+- #433（未合併）：HN-31、HN-32 已修正，HN-33 的 7 個名稱已改成必考清單寫法；已合併 main，無衝突。HN-34（眶上裂／上眶裂兩種寫法）由 #446 處理。
+- #446（未合併）：與 main 有衝突；胃詳細模式約 12 個舊名（腹腔幹、胃左動脈、肝總動脈、門靜脈、脾、胰等）未改；使用者 2026-11-21 已決定髂脊、坐骨粗隆、恥骨粗隆、第十一肋骨、第十二肋骨、陰蒂體（陰蒂海綿體）照必考清單，舊寫法留作別名，已轉交總管派回原作者。
+
+## 必考清單缺項：每日重算
+
+方法同「必考清單覆蓋核對」一節（本機最新 main）。
+
+| 日期 | 腹部：已有／只有資訊卡／只有組成部分／缺（共 428） | 骨盆與會陰 3D 模型：已有／只有組成部分／缺（共 169） | 區域標示：已有／缺（共 170） | 僅資訊卡：已有／缺（共 50） |
+|---|---|---|---|---|
+| 2026-11-18 | 179／35／6／**208** | 85／11／**73** | 24／**146** | 3／**47** |
+| 2026-11-21 | 180／34／6／**208** | 85／11／**73** | 24／**146** | 3／**47** |
+| 2026-11-22 | 180／39／6／**203** | 85／11／**73** | 24／**146** | 3／**47** |
+
+11/18 至 11/21 沒有新增的必考結構合併入 main（期間合併的是胃詳細模式修正、血管規則、胸管、Quiz 資料等）。
+
+11/22：腹部缺項由 208 減為 203，因為 #449 新增動脈資訊卡，5 項由「缺」變為「只有資訊卡」（左胃動脈食道支、胰大動脈、上胰十二指腸動脈、十二指腸上動脈、空腸動脈）；這 5 項仍沒有 3D 模型。骨盆與會陰沒有變化（#452 會陰肌肉仍是草稿，未合併）。
 
 ## 學習、Quiz、模擬考試：腹部、骨盆與會陰（2026-11-18）
 

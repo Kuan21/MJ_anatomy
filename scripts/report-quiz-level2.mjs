@@ -1,5 +1,5 @@
 // Level 3 (看結構寫名稱) question pool: which structures qualify per region, and which are left out and why.
-// `node scripts/report-quiz-level2.mjs` writes docs/quiz-level2-pool.md; `--check` fails when the file is stale.
+// `node scripts/report-quiz-level2.mjs` writes docs/quiz-level2-pool.md; `--check` fails when the file is stale or a synonym row of app/quiz/synonyms.ts is not listed for review.
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import {quizModule} from './quiz-modules.mjs';
@@ -26,8 +26,10 @@ for (const [id, label] of regions) {
 lines.splice(3, 0, `合計：${kept} / ${total} 個構造可出題。`, '');
 const text = lines.join('\n') + '\n';
 if (process.argv.includes('--check')) {
-  const log = fs.readFileSync('REVIEW_LOG.md', 'utf8');
-  for (const key of Object.keys(SYNONYMS)) assert.ok(log.includes(`| ${key} |`), `synonym row "${key}" is missing from REVIEW_LOG.md`);
+  // every synonym row must be listed for the owner to check: in REVIEW_LOG.md (frozen since 2026-11-14, rows added before then) or in the review record of the PR
+  // that added it (docs/review-log/pr-<number>.md), in the same table form `| name |`
+  const logs = ['REVIEW_LOG.md', ...fs.readdirSync('docs/review-log').filter(f => /^pr-\d+\.md$/.test(f)).map(f => `docs/review-log/${f}`)], log = logs.map(f => fs.readFileSync(f, 'utf8')).join('\n');
+  for (const key of Object.keys(SYNONYMS)) assert.ok(log.includes(`| ${key} |`), `synonym row "${key}" is listed neither in REVIEW_LOG.md nor in docs/review-log/pr-*.md`);
   assert.equal(fs.existsSync('docs/quiz-level2-pool.md') && fs.readFileSync('docs/quiz-level2-pool.md', 'utf8'), text, 'docs/quiz-level2-pool.md is stale: run node scripts/report-quiz-level2.mjs');
   console.log(`Quiz level 3 pool passed: ${kept} / ${total} structures qualify, exclusion list is current.`);
 } else {fs.writeFileSync('docs/quiz-level2-pool.md', text); console.log(`wrote docs/quiz-level2-pool.md: ${kept} / ${total}`);}

@@ -90,7 +90,7 @@ export default function membranes(U) {
       push(null, 'thoracolumbar fascia', '胸腰筋膜', first.kind, 'connective', {geometry: [first.geometry], cap: 20000, siblings: rest.map(r => ({geometry: [r.geometry], kind: r.kind}))},
         ['Posterior layer: a diamond on each side of the back, thin and narrow over the lower thoracic region (medial to the rib angles, deep to the scapula), widest and thickest at L2–L4, narrowing onto the back of the sacrum', '後層：背部每側一片菱形，下胸段窄而薄（在肋骨角內側、肩胛骨深面），L2–L4 最闊最厚，向下收窄到薦骨背面'],
         ['Encloses the erector spinae; its lateral raphe gives origin to latissimus dorsi, internal oblique and transversus abdominis (only the posterior layer is drawn)', '包裹豎脊肌；外側縫是背闊肌、腹內斜肌與腹橫肌的起點（此處只畫後層）'],
-        ['Medially the spinous processes and supraspinous ligament; below, the back of the sacrum and the posterior iliac crest; laterally the lateral raphe', '內側：棘突與棘上韌帶；下方：薦骨背面與髂嵴後部；外側：外側縫']);
+        ['Medially the spinous processes and supraspinous ligament; below, the back of the sacrum and the posterior iliac crest; laterally the lateral raphe', '內側：棘突與棘上韌帶；下方：薦骨背面與髂脊後部；外側：外側縫']);
     }
     for (const S of SIDES) push(S, 'plantar aponeurosis', '足底腱膜', 'aponeurosis', 'connective', {geometry: [geo(sole[S.w])], retired: true},
       ['A thick fibrous sheet covering the central and medial parts of the sole, from the calcaneal tuberosity to the toes', '覆蓋足底中央與內側的厚纖維膜，由跟骨粗隆到趾'], ['Supports the longitudinal arch and protects the plantar muscles, vessels and nerves', '支撐縱弓，保護足底肌肉、血管與神經']);
