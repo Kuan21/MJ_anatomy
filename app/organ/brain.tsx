@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useRef, useState, type ReactNode} from 'react';
+import {lazy, Suspense, useEffect, useMemo, useRef, useState, type ReactNode} from 'react';
 import {ChevronDown, ChevronRight} from 'lucide-react';
 import {OrganAllToggle, OrganDetailLayout, OrganGroupNode, OrganLeftColumn, OrganPanel, OrganPartRow, OrganSegmented, OrganStage} from './organ-detail-layout';
 import {createBrainViewer, drawnWhenSelected} from './brain-viewer';
@@ -11,6 +11,8 @@ import {chineseMatches} from '../mj-search';
 import {factOf, markSharedFacts} from './brain-facts';
 import {NoteCardView} from './brain-note-card';
 import {SECTION_AXES, type BrainPart, type BrainView, type BrainViewState, type SectionAxis} from './brain-types';
+// the circle of Willis animation (3D, own scene) is loaded only when it is opened
+const WillisAnimation = lazy(() => import('../willis/willis-animation'));
 
 const MAX_PEEL = 7;
 const DEEP = new Set(['basal', 'diencephalon', 'ventricles']);
@@ -99,10 +101,10 @@ export default function BrainDetail() {
     }
   };
   const [parts, setParts] = useState<BrainPart[]>([]), [ready, setReady] = useState(false), [error, setError] = useState(''), [percent, setPercent] = useState(0);
-  const [open, setOpen] = useState<string[]>([]), [csf, setCsf] = useState(false), [allOpen, setAllOpen] = useState(false), [allSort, setAllSort] = useState<'name' | 'region'>('name'), [cutBusy, setCutBusy] = useState(false);
+  const [open, setOpen] = useState<string[]>([]), [csf, setCsf] = useState(false), [willis, setWillis] = useState(false), [allOpen, setAllOpen] = useState(false), [allSort, setAllSort] = useState<'name' | 'region'>('name'), [cutBusy, setCutBusy] = useState(false);
   const [notes, setNotes] = useState<NoteData | null>(null), [noteId, setNoteId] = useState<string | null>(null), [query, setQuery] = useState(''), [openRegions, setOpenRegions] = useState<string[]>([]);
   const exportRef = useRef<(() => CsfSource | null) | null>(null);
-  useEffect(() => {document.title = csf ? 'CSF 流向 · MJ Anatomy' : '腦部詳細模式 · MJ Anatomy';}, [csf]);
+  useEffect(() => {document.title = csf ? 'CSF 流向 · MJ Anatomy' : willis ? 'Willis 環血流動畫 · MJ Anatomy' : '腦部詳細模式 · MJ Anatomy';}, [csf, willis]);
   useEffect(() => {loadNotes().then(setNotes).catch(() => setNotes(null));}, []);
   const byId = useMemo(() => new Map(parts.map(p => [p.id, p])), [parts]);
   const selected = view.selectedIds.length === 1 ? byId.get(view.selectedIds[0]) : undefined;
@@ -179,8 +181,8 @@ export default function BrainDetail() {
   const reset = () => setView(v => ({...defaults, hiddenParts: peripheral.current, command: {id: v.command.id + 1, view: 'front'}}));
 
   return <OrganDetailLayout title="腦部詳細模式" labels={{left: '腦部構造清單', stage: '腦部 3D 模型', panel: '腦部控制與說明'}}
-    headerActions={<button className="csf-toggle" aria-pressed={csf} disabled={!ready} onClick={() => setCsf(v => !v)}>CSF 流向</button>}
-    overlayOpen={csf} overlay={csf && <CsfPage exportRef={exportRef} onClose={() => setCsf(false)}/>}
+    headerActions={<><button className="csf-toggle" aria-pressed={csf} disabled={!ready} onClick={() => {setWillis(false); setCsf(v => !v);}}>CSF 流向</button><button className="csf-toggle" aria-pressed={willis} onClick={() => {setCsf(false); setWillis(v => !v);}}>Willis 環血流｜Circle of Willis</button></>}
+    overlayOpen={csf || willis} overlay={csf ? <CsfPage exportRef={exportRef} onClose={() => setCsf(false)}/> : willis && <Suspense fallback={null}><WillisAnimation onClose={() => setWillis(false)}/></Suspense>}
     left={<OrganLeftColumn onAllOn={() => patch({hiddenGroups: [], hiddenParts: [], isolate: null, fullNerves: true})} onAllOff={() => patch({hiddenGroups: BRAIN_GROUPS.map(g => g.id), isolate: null})}
       query={query} onQuery={setQuery} ready={ready}
       extras={<>

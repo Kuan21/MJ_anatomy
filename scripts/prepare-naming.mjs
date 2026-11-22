@@ -14,7 +14,7 @@ const DATA=root+'app/mj-naming-data.ts',REPORT=root+'docs/naming-report.md';
 const FIXES=[['背闊肌','闊背肌'],['頷','頜'],['腭','顎']];
 
 // HN-11 (user decision 2026-11-17): the shown Chinese name of these structures is the wording of the required-structure list (app/mj-required-names.json); it outranks every other source.
-const REQUIRED=Object.fromEntries(read('app/mj-required-names.json').rows.filter(r=>r.display==='renamed').map(r=>r.entries[0]).map(e=>[e.en.toLowerCase(),e.zh]));
+const REQUIRED=Object.fromEntries([...read('app/mj-required-names.json').rows,...read('app/mj-required-names-trunk.json').rows].filter(r=>r.display==='renamed').map(r=>r.entries[0]).map(e=>[e.en.toLowerCase(),e.zh]));
 
 // Phase 1: baseline names with no overrides.
 const previousData=fs.existsSync(DATA)?fs.readFileSync(DATA,'utf8'):'';

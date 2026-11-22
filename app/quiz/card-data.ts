@@ -145,27 +145,27 @@ Object.assign(CARD_EXTRAS, {
   },
   'meningeal branch of maxillary nerve': {
     來源: e('上頜神經（V2）在進入圓孔之前、仍在中顱窩時發出的細小感覺支', 'A small sensory branch of the maxillary nerve (V2), given off in the middle cranial fossa before the nerve enters the foramen rotundum'),
-    走向: e('是上頜神經中唯一在圓孔之前就分出的分支，向後外方進入中顱窩的硬腦膜，與腦膜中動脈同行', 'The only branch of the maxillary nerve that leaves it before the foramen rotundum; it turns into the dura mater of the middle cranial fossa and accompanies the middle meningeal artery'),
+    走向: e('是上頜神經中唯一在圓孔之前就分出的分支，向後外方進入中顱窩的硬腦膜，與中腦膜動脈同行', 'The only branch of the maxillary nerve that leaves it before the foramen rotundum; it turns into the dura mater of the middle cranial fossa and accompanies the middle meningeal artery'),
     支配範圍: e('中顱窩的硬腦膜（以前部為主）的一般感覺；純感覺', 'General sensation of the dura mater of the middle cranial fossa, mainly its front part; purely sensory'),
   },
   'lacrimal nerve': {
-    來源: e('眼神經（V1）三條分支中最外側、最細的一條，在眶上裂附近分出', 'The most lateral and smallest of the three branches of the ophthalmic nerve (V1), arising near the superior orbital fissure'),
-    走向: e('經眶上裂、在總腱環之外進入眼眶，沿外直肌上緣向前外行到淚腺；途中接受顴神經（V2）的交通支', 'Enters the orbit via the superior orbital fissure, lying outside the common tendinous ring, and runs forward along the upper border of lateral rectus to the lacrimal gland; on the way it receives a communicating branch from the zygomatic nerve (V2)'),
+    來源: e('眼神經（V1）三條分支中最外側、最細的一條，在上眶裂附近分出', 'The most lateral and smallest of the three branches of the ophthalmic nerve (V1), arising near the superior orbital fissure'),
+    走向: e('經上眶裂、在總腱環之外進入眼眶，沿外直肌上緣向前外行到淚腺；途中接受顴神經（V2）的交通支', 'Enters the orbit via the superior orbital fissure, lying outside the common tendinous ring, and runs forward along the upper border of lateral rectus to the lacrimal gland; on the way it receives a communicating branch from the zygomatic nerve (V2)'),
     支配範圍: e('淚腺、鄰近結膜與上眼瞼外側皮膚的一般感覺；顴神經交通支帶來翼顎神經節的副交感節後纖維，經它到達淚腺，促進淚液分泌', 'General sensation of the lacrimal gland, the adjacent conjunctiva and the skin of the lateral upper eyelid; the communicating branch from the zygomatic nerve carries postganglionic parasympathetic fibres from the pterygopalatine ganglion that stimulate tear secretion'),
   },
   'abducens nerve (vi)': {
     來源: e('第六對腦神經，由腦橋的外旋神經核發出，在腦橋與延腦之間的橋延溝出腦', 'Cranial nerve VI, arising from the abducens nucleus of the pons and leaving the brainstem at the pontomedullary groove'),
-    走向: e('向前上方行，斜行爬過顳骨岩部尖端上緣進入海綿竇，在竇腔內緊貼頸內動脈外側前行；再經眶上裂、在總腱環之內入眼眶，從內側面進入外直肌', 'Runs forward and upward, over the apex of the petrous temporal bone into the cavernous sinus, where it lies lateral to the internal carotid artery within the sinus; it then enters the orbit through the superior orbital fissure inside the common tendinous ring and reaches the medial surface of lateral rectus'),
+    走向: e('向前上方行，斜行爬過顳骨岩部尖端上緣進入海綿竇，在竇腔內緊貼頸內動脈外側前行；再經上眶裂、在總腱環之內入眼眶，從內側面進入外直肌', 'Runs forward and upward, over the apex of the petrous temporal bone into the cavernous sinus, where it lies lateral to the internal carotid artery within the sinus; it then enters the orbit through the superior orbital fissure inside the common tendinous ring and reaches the medial surface of lateral rectus'),
     支配範圍: e('運動支配外直肌，使眼球外展；受損時眼球無法外展，向內偏斜並出現複視', 'Motor to lateral rectus only, which abducts the eyeball; a lesion leaves the eye turned inward and causes double vision'),
   },
   'oculomotor nerve (iii)': {
     來源: e('第三對腦神經，起自中腦的動眼神經核（運動）與動眼神經副核（副交感），由腳間窩出腦', 'Cranial nerve III, arising from the oculomotor nucleus (motor) and the accessory (parasympathetic) nucleus of the midbrain and leaving at the interpeduncular fossa'),
-    走向: e('穿過後大腦動脈與上小腦動脈之間向前，進入海綿竇外側壁最上方，經眶上裂、在總腱環之內入眼眶，隨即分成上支與下支', 'Passes between the posterior cerebral and superior cerebellar arteries, enters the uppermost part of the lateral wall of the cavernous sinus, then enters the orbit through the superior orbital fissure inside the common tendinous ring and divides into a superior and an inferior branch'),
+    走向: e('穿過後大腦動脈與上小腦動脈之間向前，進入海綿竇外側壁最上方，經上眶裂、在總腱環之內入眼眶，隨即分成上支與下支', 'Passes between the posterior cerebral and superior cerebellar arteries, enters the uppermost part of the lateral wall of the cavernous sinus, then enters the orbit through the superior orbital fissure inside the common tendinous ring and divides into a superior and an inferior branch'),
     支配範圍: e('運動支配提上眼瞼肌、上直肌、內直肌、下直肌與下斜肌（上斜肌由滑車神經、外直肌由外旋神經支配）；副交感節前纖維經下支到睫狀神經節，控制睫狀肌（調焦）與瞳孔括約肌（縮瞳）', 'Motor to levator palpebrae superioris, superior, medial and inferior recti and inferior oblique (superior oblique is supplied by the trochlear nerve and lateral rectus by the abducens); parasympathetic preganglionic fibres go through the inferior branch to the ciliary ganglion for the ciliary muscle (accommodation) and sphincter pupillae (constriction)'),
   },
   'trochlear nerve (iv)': {
     來源: e('第四對腦神經，起自中腦的滑車神經核，纖維在腦幹內交叉後，自中腦背側（下丘下方）出腦；是唯一從腦幹背面出腦的腦神經', 'Cranial nerve IV, arising from the trochlear nucleus of the midbrain; its fibres cross within the brainstem and leave on the dorsal surface below the inferior colliculus, the only cranial nerve to emerge dorsally'),
-    走向: e('繞過大腦腳外側向前，進入海綿竇外側壁（位在動眼神經下方），經眶上裂、在總腱環之外入眼眶，越過提上眼瞼肌上方向內行，到上斜肌；顱內行程在腦神經中最長', 'Winds around the cerebral peduncle, enters the lateral wall of the cavernous sinus below the oculomotor nerve, passes via the superior orbital fissure, lying outside the common tendinous ring, crosses above levator palpebrae superioris and reaches superior oblique; it has the longest intracranial course of the cranial nerves'),
+    走向: e('繞過大腦腳外側向前，進入海綿竇外側壁（位在動眼神經下方），經上眶裂、在總腱環之外入眼眶，越過提上眼瞼肌上方向內行，到上斜肌；顱內行程在腦神經中最長', 'Winds around the cerebral peduncle, enters the lateral wall of the cavernous sinus below the oculomotor nerve, passes via the superior orbital fissure, lying outside the common tendinous ring, crosses above levator palpebrae superioris and reaches superior oblique; it has the longest intracranial course of the cranial nerves'),
     支配範圍: e('只運動支配上斜肌（使眼球下壓、外展與內旋）', 'Motor to superior oblique only (depression, abduction and intorsion of the eyeball)'),
   },
   'olfactory nerve (i)': {
@@ -180,7 +180,7 @@ Object.assign(CARD_EXTRAS, {
   },
   'nasociliary nerve': {
     來源: e('眼神經（V1）的三條分支之一，是其中分支最多的一條', 'One of the three branches of the ophthalmic nerve (V1), and the one with the most branches'),
-    走向: e('經眶上裂、在總腱環之內入眼眶，從外側向內跨過視神經上方，沿眼眶內側壁前行；依序分出到睫狀神經節的感覺根、長睫神經、後篩神經與前篩神經，終末延續為滑車下神經；短睫神經則由睫狀神經節發出，內含它的感覺纖維', 'Enters the orbit through the superior orbital fissure inside the common tendinous ring, crosses above the optic nerve from lateral to medial and runs along the medial orbital wall; it gives the sensory root of the ciliary ganglion and the long ciliary, posterior ethmoidal and anterior ethmoidal nerves and ends as the infratrochlear nerve; the short ciliary nerves arise from the ciliary ganglion and contain its sensory fibres'),
+    走向: e('經上眶裂、在總腱環之內入眼眶，從外側向內跨過視神經上方，沿眼眶內側壁前行；依序分出到睫狀神經節的感覺根、長睫神經、後篩神經與前篩神經，終末延續為滑車下神經；短睫神經則由睫狀神經節發出，內含它的感覺纖維', 'Enters the orbit through the superior orbital fissure inside the common tendinous ring, crosses above the optic nerve from lateral to medial and runs along the medial orbital wall; it gives the sensory root of the ciliary ganglion and the long ciliary, posterior ethmoidal and anterior ethmoidal nerves and ends as the infratrochlear nerve; the short ciliary nerves arise from the ciliary ganglion and contain its sensory fibres'),
     支配範圍: e('眼球（角膜、虹膜、睫狀體）、篩竇與蝶竇黏膜、鼻腔前上部黏膜、鼻背與鼻尖皮膚、內眼角附近眼瞼與淚囊的一般感覺；純感覺', 'General sensation of the eyeball (cornea, iris, ciliary body), the mucosa of the ethmoidal and sphenoidal sinuses and the anterosuperior nasal cavity, the skin of the nasal dorsum and tip, and the eyelids and lacrimal sac near the medial angle; purely sensory'),
   },
   'posterior ethmoidal nerve': {
@@ -195,7 +195,7 @@ Object.assign(CARD_EXTRAS, {
   },
   'frontal nerve': {
     來源: e('眼神經（V1）三條分支中位於中間的一條', 'The middle one of the three branches of the ophthalmic nerve (V1)'),
-    走向: e('經眶上裂、在總腱環之外入眼眶，沿提上眼瞼肌上表面與眶頂骨膜之間向前，約在眼眶中部分成眶上神經與滑車上神經', 'Enters the orbit via the superior orbital fissure, lying outside the common tendinous ring, runs forward between the roof periosteum and levator palpebrae superioris and divides about the middle of the orbit into the supra-orbital and supratrochlear nerves'),
+    走向: e('經上眶裂、在總腱環之外入眼眶，沿提上眼瞼肌上表面與眶頂骨膜之間向前，約在眼眶中部分成眶上神經與滑車上神經', 'Enters the orbit via the superior orbital fissure, lying outside the common tendinous ring, runs forward between the roof periosteum and levator palpebrae superioris and divides about the middle of the orbit into the supra-orbital and supratrochlear nerves'),
     支配範圍: e('經兩條終末支傳導前額、上眼瞼與前頭皮的一般感覺；純感覺', 'Through its two terminal branches, general sensation of the forehead, upper eyelid and anterior scalp; purely sensory'),
   },
   'supra-orbital nerve': {
@@ -209,7 +209,7 @@ Object.assign(CARD_EXTRAS, {
     支配範圍: e('前額近正中處的皮膚、上眼瞼內側的皮膚與結膜的一般感覺；純感覺', 'General sensation of the skin of the forehead near the midline and of the skin and conjunctiva of the medial upper eyelid; purely sensory'),
   },
   'superior branch of oculomotor nerve': {
-    來源: e('動眼神經（III）在眶上裂內、總腱環之內分出的較細上支', 'The smaller upper division of the oculomotor nerve (III), given off at the superior orbital fissure within the common tendinous ring'),
+    來源: e('動眼神經（III）在上眶裂內、總腱環之內分出的較細上支', 'The smaller upper division of the oculomotor nerve (III), given off at the superior orbital fissure within the common tendinous ring'),
     走向: e('越過視神經上方向上前行，貼著上直肌下面進入；一小支穿過或繞過上直肌，抵達它上方的提上眼瞼肌', 'Passes above the optic nerve and enters the underside of superior rectus; a small branch passes through or around that muscle to reach levator palpebrae superioris above it'),
     支配範圍: e('運動支配上直肌（上提眼球）與提上眼瞼肌（上提上眼瞼）', 'Motor to superior rectus (elevating the eyeball) and levator palpebrae superioris (raising the upper eyelid)'),
   },
@@ -595,7 +595,7 @@ Object.assign(CARD_EXTRAS, {
     毗鄰: e('後上方接篩骨垂直板，後下方接犁骨，下方接上頜骨的鼻嵴與前鼻棘；前下緣與大翼軟骨內側腳相鄰；上方與鼻骨相接', 'Behind and above it meets the perpendicular plate of the ethmoid, behind and below the vomer, and below the nasal crest of the maxilla and the anterior nasal spine; its front lower edge lies between the medial crura of the major alar cartilages; above it meets the nasal bones'),
   },
   'common tendinous ring': {
-    位置: e('眶尖，圍繞視神經管與眶上裂的中段', 'Apex of the orbit, surrounding the optic canal and the middle part of the superior orbital fissure'),
+    位置: e('眶尖，圍繞視神經管與上眶裂的中段', 'Apex of the orbit, surrounding the optic canal and the middle part of the superior orbital fissure'),
     組成: e('纖維性的環狀腱，由上、下兩股組成，是上、下、內、外四條直肌共同的起點', 'Fibrous tendinous ring made of an upper and a lower band, the common origin of the superior, inferior, medial and lateral rectus muscles'),
     毗鄰: e('環內通過動眼神經的上支與下支、鼻睫神經、外旋神經，以及經視神經管進入、穿過此環的視神經與眼動脈；環外通過滑車神經、額神經、淚神經與眼上靜脈', 'Inside the ring pass the superior and inferior divisions of the oculomotor nerve, the nasociliary nerve, the abducens nerve, and the optic nerve with the ophthalmic artery, which enter through the optic canal and pass through the ring; outside the ring pass the trochlear, frontal and lacrimal nerves and the superior ophthalmic vein'),
   },
@@ -642,7 +642,7 @@ Object.assign(CARD_EXTRAS, {
   },
   'sphenoid bone': {
     位置: e('位於顱底正中，前接額骨與篩骨，後接枕骨與顳骨，形如展翅的蝴蝶', 'Lies in the middle of the cranial base between the frontal and ethmoid bones in front and the occipital and temporal bones behind, shaped like a butterfly with outspread wings'),
-    主要標誌: e('體（蝶竇、蝶鞍與垂體窩）、小翼（視神經管、前床突）、鞍背、大翼（圓孔、卵圓孔、棘孔）、翼突（內側板與外側板）、眶上裂、蝶棘', 'Body (sphenoidal sinus, sella turcica and hypophysial fossa), lesser wing (optic canal, anterior clinoid process), dorsum sellae, greater wing (foramen rotundum, foramen ovale, foramen spinosum), pterygoid process (medial and lateral plates), superior orbital fissure and spine of the sphenoid'),
+    主要標誌: e('體（蝶竇、蝶鞍與垂體窩）、小翼（視神經管、前床突）、鞍背、大翼（圓孔、卵圓孔、棘孔）、翼突（內側板與外側板）、上眶裂、蝶棘', 'Body (sphenoidal sinus, sella turcica and hypophysial fossa), lesser wing (optic canal, anterior clinoid process), dorsum sellae, greater wing (foramen rotundum, foramen ovale, foramen spinosum), pterygoid process (medial and lateral plates), superior orbital fissure and spine of the sphenoid'),
     相關關節: e('額骨、篩骨、頂骨、顳骨、枕骨（蝶枕軟骨結合）、顴骨、上頜骨、顎骨與犁骨', 'Frontal, ethmoid, parietal, temporal, occipital (spheno-occipital synchondrosis), zygomatic, maxilla, palatine bones and the vomer'),
   },
   'palatine bone': {
@@ -682,7 +682,7 @@ Object.assign(CARD_EXTRAS, {
   },
   'parietal bone': {
     位置: e('構成頭頂與顱側壁的上部，左右各一塊，呈四邊形的彎曲骨板', 'Forms the roof and the upper part of the side wall of the skull; a curved quadrilateral plate on each side'),
-    主要標誌: e('頂結節、上顳線與下顳線；四個緣（矢狀緣、冠狀緣、人字緣、鱗緣）；內面有腦膜中動脈溝與上矢狀竇溝', 'Parietal eminence, superior and inferior temporal lines; four borders (sagittal, frontal, occipital and squamosal); on the inner surface the groove for the middle meningeal artery and the groove for the superior sagittal sinus'),
+    主要標誌: e('頂結節、上顳線與下顳線；四個緣（矢狀緣、冠狀緣、人字緣、鱗緣）；內面有中腦膜動脈溝與上矢狀竇溝', 'Parietal eminence, superior and inferior temporal lines; four borders (sagittal, frontal, occipital and squamosal); on the inner surface the groove for the middle meningeal artery and the groove for the superior sagittal sinus'),
     相關關節: e('對側頂骨（矢狀縫）、額骨（冠狀縫）、枕骨（人字縫）、顳骨（鱗縫）與蝶骨大翼', 'The opposite parietal bone (sagittal suture), frontal bone (coronal suture), occipital bone (lambdoid suture), temporal bone (squamous suture) and the greater wing of the sphenoid'),
   },
   'articular disc of temporomandibular joint': {
@@ -812,7 +812,7 @@ Object.assign(CARD_EXTRAS, {
   },
   'ophthalmic nerve': {
     來源: e('三叉神經第一支（V1），由三叉神經節前內側發出', 'First division of the trigeminal nerve (V1), arising from the anteromedial part of the trigeminal ganglion'),
-    走向: e('向前走在海綿竇外側壁，於眶上裂附近分成淚神經、額神經與鼻睫神經，經眶上裂入眼眶；額神經在眶內向前，延續為眶上神經，穿眶上孔到前額', 'Runs forward in the lateral wall of the cavernous sinus, divides near the superior orbital fissure into the lacrimal, frontal and nasociliary nerves, and enters the orbit through the fissure; the frontal nerve runs forward in the orbit and continues as the supra-orbital nerve through the supra-orbital foramen to the forehead'),
+    走向: e('向前走在海綿竇外側壁，於上眶裂附近分成淚神經、額神經與鼻睫神經，經上眶裂入眼眶；額神經在眶內向前，延續為眶上神經，穿眶上孔到前額', 'Runs forward in the lateral wall of the cavernous sinus, divides near the superior orbital fissure into the lacrimal, frontal and nasociliary nerves, and enters the orbit through the fissure; the frontal nerve runs forward in the orbit and continues as the supra-orbital nerve through the supra-orbital foramen to the forehead'),
     支配範圍: e('純感覺：前額與頭頂前部皮膚、上眼瞼、鼻背與鼻尖、角膜與眼球、淚腺、鼻腔上部黏膜', 'Purely sensory: skin of the forehead and anterior scalp, upper eyelid, dorsum and tip of the nose, cornea and eyeball, lacrimal gland and the upper nasal mucosa'),
   },
   'maxillary nerve': {
@@ -874,7 +874,7 @@ Object.assign(CARD_EXTRAS, {
     組成: e('J 形的中空肌性囊袋，可依充盈程度改變形狀；分賁門、胃底、胃體與幽門部，另有胃小彎、胃大彎兩緣；壁的肌層有三層（斜、環、縱），黏膜在空胃時形成皺襞', 'J-shaped hollow muscular bag whose shape changes with filling; divided into cardia, fundus, body and pyloric part, with lesser and greater curvatures; the muscle coat has three layers (oblique, circular, longitudinal) and the mucosa forms rugae when empty'),
     毗鄰: e('前面鄰橫膈、前腹壁與肝左葉；後面為網膜囊，其後依序有胰、脾動脈、左腎與左腎上腺、脾，構成胃床；上方連食道，下方續十二指腸；小彎連小網膜，大彎連大網膜', 'In front, the diaphragm and anterior abdominal wall and the left lobe of the liver; behind lies the lesser sac and, beyond it, the pancreas, splenic artery, left kidney and suprarenal gland and the spleen, which form the stomach bed; the oesophagus enters above and the duodenum continues below; the lesser omentum is attached to the lesser curvature and the greater omentum to the greater curvature'),
     血液供應: e('皆源自腹腔動脈幹：小彎有左胃動脈與右胃動脈相吻合；大彎有左、右胃網膜動脈相吻合；胃底由脾動脈的短胃動脈與後胃動脈供應；靜脈最後注入肝門靜脈系統', 'All from the coeliac trunk: the left and right gastric arteries anastomose along the lesser curvature; the left and right gastro-omental arteries anastomose along the greater curvature; the fundus receives short gastric and posterior gastric arteries from the splenic artery; the veins drain into the portal system'),
-    神經支配: e('副交感來自迷走神經的前幹與後幹，促進蠕動與分泌；交感纖維經腹腔神經叢隨動脈到胃，抑制蠕動並使幽門收縮；痛覺循交感路徑傳入，常表現為上腹部疼痛', 'Parasympathetic supply from the anterior and posterior vagal trunks, increasing motility and secretion; sympathetic fibres reach the stomach from the coeliac plexus along the arteries, inhibiting motility and tightening the pylorus; pain travels with the sympathetic pathway and is felt in the epigastrium'),
+    神經支配: e('副交感來自迷走神經的前幹與後幹，促進蠕動與分泌；交感纖維經腹腔叢隨動脈到胃，抑制蠕動並使幽門收縮；痛覺循交感路徑傳入，常表現為上腹部疼痛', 'Parasympathetic supply from the anterior and posterior vagal trunks, increasing motility and secretion; sympathetic fibres reach the stomach from the coeliac plexus along the arteries, inhibiting motility and tightening the pylorus; pain travels with the sympathetic pathway and is felt in the epigastrium'),
   },
   'fundus of stomach': {
     位置: e('胃的最上部，在賁門水平以上向左上方膨出的圓頂，頂端貼著左側橫膈穹窿，約在第五肋間隙的高度', 'Uppermost part of the stomach, the dome bulging up and to the left above the level of the cardia, in contact with the left dome of the diaphragm at about the level of the fifth intercostal space'),
@@ -905,7 +905,7 @@ Object.assign(CARD_EXTRAS, {
     組成: e('由幽門竇、幽門管與幽門括約肌組成；管壁肌層明顯增厚，黏膜皺襞在幽門處形成瓣狀突起', 'Made up of the pyloric antrum, the pyloric canal and the pyloric sphincter; its muscle wall is much thickened and the mucosal folds form a valve-like projection at the opening'),
     毗鄰: e('前方與上方鄰肝方形葉、膽囊與前腹壁；後方為胰頭與胃十二指腸動脈；下方連十二指腸上部', 'In front and above lie the quadrate lobe of the liver, the gallbladder and the anterior abdominal wall; behind lie the head of the pancreas and the gastroduodenal artery; below it continues into the superior part of the duodenum'),
     血液供應: e('右胃動脈與右胃網膜動脈（來自胃十二指腸動脈）', 'Right gastric artery and right gastro-omental artery (from the gastroduodenal artery)'),
-    神經支配: e('迷走神經與經腹腔神經叢的交感纖維，與胃其他部分相同', 'Vagus nerve and sympathetic fibres through the coeliac plexus, as for the rest of the stomach'),
+    神經支配: e('迷走神經與經腹腔叢的交感纖維，與胃其他部分相同', 'Vagus nerve and sympathetic fibres through the coeliac plexus, as for the rest of the stomach'),
   },
   'pyloric antrum': {
     位置: e('幽門部的近側段，從胃角切跡向右延伸到幽門管，管腔較寬', 'Proximal part of the pyloric region, running right from the angular incisure to the pyloric canal; its lumen is wide'),
@@ -959,7 +959,7 @@ Object.assign(CARD_EXTRAS, {
     組成: e('分上部、降部、下部（水平部）與升部四段；黏膜有環狀皺襞與絨毛，十二指腸腺（Brunner 腺）分泌鹼性黏液；膽管與胰管在降部開口', 'Four parts: superior, descending, inferior (horizontal) and ascending; the mucosa has circular folds and villi, and duodenal glands (Brunner glands) secrete alkaline mucus; the bile and pancreatic ducts open into the descending part'),
     毗鄰: e('環抱胰頭；右側鄰肝、膽囊與右腎；後方有下腔靜脈、腹主動脈與右腎血管；前方有橫結腸與其繫膜根；上腸繫膜血管跨過下部前方', 'Wraps the head of the pancreas; on the right lie the liver, gallbladder and right kidney; behind lie the inferior vena cava, abdominal aorta and right renal vessels; in front lie the transverse colon and the root of its mesocolon; the superior mesenteric vessels cross in front of the inferior part'),
     血液供應: e('上半（乳突以上）由胃十二指腸動脈的上胰十二指腸動脈供應，下半由上腸繫膜動脈的下胰十二指腸動脈供應，兩者在胰頭後方吻合', 'The upper half (above the papilla) is supplied by the superior pancreaticoduodenal arteries from the gastroduodenal artery and the lower half by the inferior pancreaticoduodenal arteries from the superior mesenteric artery; the two groups anastomose behind the pancreatic head'),
-    神經支配: e('迷走神經與來自腹腔神經叢、上腸繫膜神經叢的交感纖維', 'Vagus nerve and sympathetic fibres from the coeliac and superior mesenteric plexuses'),
+    神經支配: e('迷走神經與來自腹腔叢、上腸繫膜神經叢的交感纖維', 'Vagus nerve and sympathetic fibres from the coeliac and superior mesenteric plexuses'),
   },
   'superior part of duodenum (duodenal cap)': {
     位置: e('自幽門起向右後上方走，約五公分，約在第一腰椎，止於十二指腸上曲', 'Runs from the pylorus backwards, upwards and to the right for about 5 cm at about L1, ending at the superior duodenal flexure'),
@@ -983,7 +983,7 @@ Object.assign(CARD_EXTRAS, {
   'ascending part of duodenum': {
     位置: e('自下部末端向上，沿主動脈左緣，約二點五公分，上升到第二腰椎，止於十二指腸空腸彎曲', 'Runs up on the left side of the aorta for about 2.5 cm to the level of L2, ending at the duodenojejunal flexure'),
     組成: e('後腹膜器官；上端被十二指腸懸韌帶向上牽拉，是尋找十二指腸空腸彎曲的標誌', 'Retroperitoneal; its upper end is pulled upward by the suspensory ligament, which makes it a landmark for the duodenojejunal flexure'),
-    毗鄰: e('右側為腹主動脈與腸繫膜根，後方為左腰大肌與左交感幹，上方為胰體下緣', 'On its right lie the abdominal aorta and the root of the mesentery, behind lie the left psoas and sympathetic trunk, and above lies the lower border of the pancreatic body'),
+    毗鄰: e('右側為腹主動脈與腸繫膜根，後方為左腰大肌與左交感神經幹，上方為胰體下緣', 'On its right lie the abdominal aorta and the root of the mesentery, behind lie the left psoas and sympathetic trunk, and above lies the lower border of the pancreatic body'),
     血液供應: e('下胰十二指腸動脈與空腸動脈第一支', 'Inferior pancreaticoduodenal artery and the first jejunal artery'),
   },
   'duodenojejunal flexure': {
@@ -1031,7 +1031,7 @@ Object.assign(CARD_EXTRAS, {
     組成: e('寬而短的囊袋，三條結腸帶在其後內側壁匯集到闌尾根部；通常四面被腹膜包被而沒有繫膜，故活動度較大，也可能有一小段腹膜後固定的變異', 'A wide, short pouch; the three taeniae coli converge on the base of the appendix on its posteromedial wall; it is usually covered by peritoneum on all sides without a mesentery and is therefore fairly mobile, although some are partly fixed to the posterior wall'),
     毗鄰: e('前方貼前腹壁（或被大網膜覆蓋），後方為髂肌、腰大肌與股外側皮神經，後方常有盲腸後隱窩；內側有迴腸末段進入', 'In front lies the anterior abdominal wall (or the greater omentum); behind lie iliacus, psoas major and the lateral femoral cutaneous nerve, often with a retrocecal recess; the terminal ileum enters medially'),
     血液供應: e('迴結腸動脈的前、後盲腸動脈；靜脈經迴結腸靜脈回流至上腸繫膜靜脈', 'Anterior and posterior caecal arteries from the ileocolic artery; venous blood drains through the ileocolic vein to the superior mesenteric vein'),
-    神經支配: e('來自腹腔神經叢與上腸繫膜神經叢的交感纖維，以及迷走神經的副交感纖維', 'Sympathetic fibres from the coeliac and superior mesenteric plexuses and parasympathetic fibres from the vagus nerve'),
+    神經支配: e('來自腹腔叢與上腸繫膜神經叢的交感纖維，以及迷走神經的副交感纖維', 'Sympathetic fibres from the coeliac and superior mesenteric plexuses and parasympathetic fibres from the vagus nerve'),
     作用: e('接收迴腸排入的內容物，吸收水分與電解質並開始形成糞便', 'Receives the contents of the ileum, absorbs water and electrolytes and begins to form faeces'),
   },
   'ileocecal valve': {
@@ -1045,7 +1045,7 @@ Object.assign(CARD_EXTRAS, {
     位置: e('小腸與大腸相接的部位，在右髂窩，包括迴腸末段、迴盲瓣、盲腸起始部與闌尾根部', 'Where the small intestine meets the large intestine in the right iliac fossa, including the terminal ileum, ileocecal valve, upper caecum and the base of the appendix'),
     組成: e('迴腸末段由內側進入盲腸與升結腸交界處；腸壁上有迴盲瓣，周圍有迴腸上、下隱窩與盲腸後隱窩等腹膜小凹', 'The terminal ileum enters at the medial side of the junction of caecum and ascending colon; the valve lies in the wall, and peritoneal recesses (superior and inferior ileocecal and retrocecal) surround it'),
     血液供應: e('迴結腸動脈（上腸繫膜動脈的分支），含迴腸支、盲腸前後支與闌尾動脈', 'Ileocolic artery (a branch of the superior mesenteric artery), giving ileal, anterior and posterior caecal branches and the appendicular artery'),
-    神經支配: e('腹腔神經叢、上腸繫膜神經叢的交感纖維與迷走神經的副交感纖維', 'Sympathetic fibres from the coeliac and superior mesenteric plexuses and vagal parasympathetic fibres'),
+    神經支配: e('腹腔叢、上腸繫膜神經叢的交感纖維與迷走神經的副交感纖維', 'Sympathetic fibres from the coeliac and superior mesenteric plexuses and vagal parasympathetic fibres'),
     作用: e('是小腸排入大腸的通道；克隆氏症與腸結核常侵犯此處，闌尾炎的疼痛與壓痛也常在附近', 'The passage from small to large intestine; Crohn disease and intestinal tuberculosis often involve it, and the pain and tenderness of appendicitis are often found near it'),
   },
   'appendix': {
@@ -1053,7 +1053,7 @@ Object.assign(CARD_EXTRAS, {
     組成: e('壁含大量淋巴組織，腔窄；以闌尾繫膜懸吊於迴腸末段的腸繫膜下方，故為腹膜內位器官，三條結腸帶在其根部匯合', 'The wall is rich in lymphoid tissue and the lumen is narrow; it hangs from the mesentery of the terminal ileum by the mesoappendix, so it is intraperitoneal, and the three taeniae coli meet at its base'),
     毗鄰: e('尖端依位置可貼盲腸後壁、髂肌、骨盆緣、膀胱或右側卵巢與輸卵管', 'Depending on its position the tip can lie against the back of the caecum, iliacus, the pelvic brim, the bladder or the right ovary and uterine tube'),
     血液供應: e('闌尾動脈，來自迴結腸動脈，在迴腸末段後方進入闌尾繫膜；它是終末動脈，血流受阻易造成壞死穿孔', 'Appendicular artery from the ileocolic artery, passing behind the terminal ileum into the mesoappendix; it is an end artery, so obstruction readily leads to gangrene and perforation'),
-    神經支配: e('腹腔神經叢與上腸繫膜神經叢的交感纖維（痛覺傳入約第十胸椎節段，早期痛在臍周）與迷走神經的副交感纖維', 'Sympathetic fibres from the coeliac and superior mesenteric plexuses (pain afferents enter at about T10, so early pain is felt around the umbilicus) and vagal parasympathetic fibres'),
+    神經支配: e('腹腔叢與上腸繫膜神經叢的交感纖維（痛覺傳入約第十胸椎節段，早期痛在臍周）與迷走神經的副交感纖維', 'Sympathetic fibres from the coeliac and superior mesenteric plexuses (pain afferents enter at about T10, so early pain is felt around the umbilicus) and vagal parasympathetic fibres'),
     作用: e('富含淋巴組織，屬腸道免疫的一部分；發炎波及壁腹膜時，疼痛會轉移到右下腹', 'Rich in lymphoid tissue and part of gut immunity; when inflammation (appendicitis) reaches the parietal peritoneum the pain shifts to the right lower abdomen'),
   },
   'mesoappendix': {
@@ -1066,7 +1066,7 @@ Object.assign(CARD_EXTRAS, {
     組成: e('分為右葉、左葉、方形葉與尾葉，並以鐮狀韌帶將前方的左、右葉分開；表面有橫膈面與臟面，臟面有肝門；表面被腹膜覆蓋，只有裸區例外；外有纖維性的格利森囊', 'Divided into right, left, quadrate and caudate lobes, with the falciform ligament separating the right and left lobes in front; it has diaphragmatic and visceral surfaces, the latter with the porta hepatis; it is covered with peritoneum except at the bare area, and has a fibrous capsule (Glisson capsule)'),
     毗鄰: e('上方為橫膈，隔著橫膈鄰右肺、胸膜與心臟；臟面鄰接胃、十二指腸、結腸右曲、右腎與腎上腺及膽囊；後方有下腔靜脈與食道', 'Above lies the diaphragm, and across it the right lung, pleura and heart; the visceral surface touches the stomach, duodenum, right colic flexure, right kidney and suprarenal gland and the gallbladder; behind lie the inferior vena cava and oesophagus'),
     血液供應: e('雙重供血：肝固有動脈（來自腹腔動脈幹，約佔兩成至三成）帶來含氧血，門靜脈（約佔七成至八成）帶來來自腸道的血；靜脈經肝右、中、左靜脈注入下腔靜脈', 'A dual supply: the proper hepatic artery (from the coeliac trunk, roughly a quarter) brings oxygenated blood and the portal vein (roughly three quarters) brings blood from the gut; venous blood leaves through the right, middle and left hepatic veins into the inferior vena cava'),
-    神經支配: e('主要為腹腔神經叢（交感）與迷走神經（副交感）的纖維，隨肝動脈與門靜脈進入肝門；包膜的痛覺可由右膈神經傳導', 'Fibres mainly from the coeliac plexus (sympathetic) and the vagus nerve (parasympathetic), entering at the porta hepatis along the hepatic artery and portal vein; pain from the capsule can be carried by the right phrenic nerve'),
+    神經支配: e('主要為腹腔叢（交感）與迷走神經（副交感）的纖維，隨肝動脈與門靜脈進入肝門；包膜的痛覺可由右膈神經傳導', 'Fibres mainly from the coeliac plexus (sympathetic) and the vagus nerve (parasympathetic), entering at the porta hepatis along the hepatic artery and portal vein; pain from the capsule can be carried by the right phrenic nerve'),
     作用: e('代謝營養物質、合成血漿蛋白與凝血因子、解毒、製造膽汁、儲存肝醣與維生素，並在胎兒期造血', 'Metabolises nutrients, makes plasma proteins and clotting factors, detoxifies, produces bile, stores glycogen and vitamins and is haemopoietic in the fetus'),
   },
   'right lobe of liver': {
@@ -1074,7 +1074,7 @@ Object.assign(CARD_EXTRAS, {
     組成: e('臟面以膽囊窩與下腔靜脈溝為界；功能性右半肝為第五至第八段，形態上的右葉不包括方形葉（第四段）與尾葉（第一段）', 'On the visceral surface it is bounded by the gallbladder fossa and the groove for the inferior vena cava; the functional right hemiliver is segments V to VIII, and the morphological right lobe does not include the quadrate lobe (segment IV) or the caudate lobe (segment I)'),
     毗鄰: e('臟面接觸右腎、右腎上腺、結腸右曲與十二指腸；上方貼橫膈', 'Its visceral surface touches the right kidney, right suprarenal gland, right colic flexure and duodenum; above lies the diaphragm'),
     血液供應: e('肝右動脈與門靜脈右支；肝右靜脈引流至下腔靜脈', 'Right hepatic artery and right branch of the portal vein; the right hepatic vein drains to the inferior vena cava'),
-    神經支配: e('腹腔神經叢與迷走神經的纖維', 'Fibres from the coeliac plexus and the vagus nerve'),
+    神經支配: e('腹腔叢與迷走神經的纖維', 'Fibres from the coeliac plexus and the vagus nerve'),
     作用: e('構成肝大部分的功能組織；右肝切除時沿肝中靜脈所在平面切開', 'Provides most of the functional liver tissue; a right hepatectomy divides the liver along the plane of the middle hepatic vein'),
   },
   'left lobe of liver': {
@@ -1082,7 +1082,7 @@ Object.assign(CARD_EXTRAS, {
     組成: e('臟面有胃壓跡與食道溝，左三角韌帶將其外側部固定到橫膈；依功能分區，在鐮狀韌帶左側為第二、三段，方形葉為第四段', 'Its visceral surface bears the gastric impression and oesophageal groove, and the left triangular ligament fixes its tip to the diaphragm; functionally, segments II and III lie left of the falciform ligament and the quadrate lobe corresponds to segment IV'),
     毗鄰: e('上方為橫膈與心臟，下方為胃前壁與小網膜；有時延伸到脾旁', 'Above lie the diaphragm and heart, below the front of the stomach and the lesser omentum; it may reach as far as the spleen'),
     血液供應: e('肝左動脈與門靜脈左支；肝左靜脈引流至下腔靜脈', 'Left hepatic artery and left branch of the portal vein; the left hepatic vein drains to the inferior vena cava'),
-    神經支配: e('腹腔神經叢與迷走神經的纖維', 'Fibres from the coeliac plexus and the vagus nerve'),
+    神經支配: e('腹腔叢與迷走神經的纖維', 'Fibres from the coeliac plexus and the vagus nerve'),
     作用: e('構成肝的左側部分，可獨立做左側肝切除；功能上的左半肝為第二至第四段，解剖上的左葉不含方形葉', 'Forms the left part of the liver and can be resected separately; the functional left hemiliver is segments II to IV, whereas the anatomical left lobe does not include the quadrate lobe'),
   },
   'quadrate lobe of liver': {
@@ -1090,7 +1090,7 @@ Object.assign(CARD_EXTRAS, {
     組成: e('形似長方形的小葉，後方以肝門為界；在功能分區屬第四段，右為膽囊窩，左為肝圓韌帶裂', 'A small oblong lobe bounded behind by the porta hepatis; functionally it is segment IV, with the gallbladder fossa on its right and the fissure for the round ligament on its left'),
     毗鄰: e('下方接觸幽門與十二指腸上部', 'Below it lie the pylorus and the first part of the duodenum'),
     血液供應: e('肝左動脈（或其中間支）與門靜脈左支', 'Left hepatic artery (or its middle branch) and the left branch of the portal vein'),
-    神經支配: e('腹腔神經叢與迷走神經的纖維', 'Fibres from the coeliac plexus and the vagus nerve'),
+    神經支配: e('腹腔叢與迷走神經的纖維', 'Fibres from the coeliac plexus and the vagus nerve'),
     作用: e('膽汁引流入左肝管；是肝臟面上認定肝門前緣的標誌', 'Its bile drains to the left hepatic duct; it marks the front border of the porta hepatis on the visceral surface'),
   },
   'caudate lobe of liver': {
@@ -1098,7 +1098,7 @@ Object.assign(CARD_EXTRAS, {
     組成: e('乳突突起向左下方突入小網膜，尾狀突在下腔靜脈與肝門之間連接右葉；在功能分區為第一段，血管與膽管分別來自左右兩側', 'Its papillary process projects to the left and downward into the lesser omentum, and the caudate process links it to the right lobe between the inferior vena cava and the porta hepatis; functionally it is segment I, receiving vessels and bile ducts from both sides'),
     毗鄰: e('前方為肝門，後方鄰下腔靜脈與右膈腳，左側貼小網膜上部（網膜囊上隱窩）', 'In front lies the porta hepatis, behind it the inferior vena cava and the right crus, and on its left it touches the upper lesser omentum (superior recess of the omental bursa)'),
     血液供應: e('肝左、右動脈與門靜脈左、右支雙側供應；肝短靜脈直接注入下腔靜脈', 'Supplied from both sides by the left and right hepatic arteries and portal branches; short hepatic veins drain directly into the inferior vena cava'),
-    神經支配: e('腹腔神經叢與迷走神經的纖維', 'Fibres from the coeliac plexus and the vagus nerve'),
+    神經支配: e('腹腔叢與迷走神經的纖維', 'Fibres from the coeliac plexus and the vagus nerve'),
     作用: e('獨立的引流（直接進下腔靜脈）使它在布加氏症候群中常代償性肥大', 'Its separate venous drainage straight into the inferior vena cava often makes it enlarge in compensation in Budd-Chiari syndrome'),
   },
   'diaphragmatic surface of liver': {
@@ -1154,7 +1154,7 @@ Object.assign(CARD_EXTRAS, {
     組成: e('分為底、體、頸三部分，頸部續接膽囊管；容積約三十至五十毫升；黏膜在頸部呈螺旋瓣；下面被腹膜覆蓋，上面直接貼肝', 'Divided into fundus, body and neck, with the neck continuing into the cystic duct; capacity about 30 to 50 mL; the mucosa forms a spiral fold in the neck; the lower surface is covered by peritoneum while the upper surface is attached directly to the liver'),
     毗鄰: e('下方與十二指腸上部及結腸右曲相鄰，內側為十二指腸，前方為肝下緣與腹前壁；頸部靠近肝門右端', 'Below it lie the first part of the duodenum and the right colic flexure, in front are the inferior liver border and the anterior abdominal wall; its neck lies near the right end of the porta hepatis'),
     血液供應: e('膽囊動脈，通常來自肝右動脈，經膽囊三角至膽囊頸；靜脈經膽囊靜脈入門靜脈右支，或直接入肝', 'Cystic artery, usually from the right hepatic artery, reaching the neck through the cystohepatic triangle; veins drain through the cystic vein to the right branch of the portal vein or directly into the liver'),
-    神經支配: e('腹腔神經叢的交感纖維、迷走神經的副交感纖維，以及右膈神經的感覺纖維（膈下腹膜受刺激時，疼痛牽涉右肩）', 'Sympathetic fibres from the coeliac plexus, parasympathetic fibres from the vagus nerve and sensory fibres of the right phrenic nerve (irritation of the peritoneum near the diaphragm refers pain to the right shoulder)'),
+    神經支配: e('腹腔叢的交感纖維、迷走神經的副交感纖維，以及右膈神經的感覺纖維（膈下腹膜受刺激時，疼痛牽涉右肩）', 'Sympathetic fibres from the coeliac plexus, parasympathetic fibres from the vagus nerve and sensory fibres of the right phrenic nerve (irritation of the peritoneum near the diaphragm refers pain to the right shoulder)'),
     作用: e('濃縮並儲存肝分泌的膽汁；進食後在膽囊收縮素作用下收縮，把膽汁經膽囊管與膽總管排入十二指腸', 'Concentrates and stores the bile made by the liver; after a meal it contracts under cholecystokinin and drives bile through the cystic and common bile ducts into the duodenum'),
   },
   'fundus of gallbladder': {
@@ -1245,12 +1245,12 @@ Object.assign(CARD_EXTRAS, {
   'abdominal aorta': {
     來源: e('主動脈在第十二胸椎（T12）下緣高度經橫膈的主動脈裂孔進入腹腔後續成腹主動脈', 'The continuation of the thoracic aorta after it passes through the aortic hiatus of the diaphragm at the lower border of T12'),
     走向: e('沿腰椎體前方稍偏左下行，右側為下腔靜脈，前方依次有胰、十二指腸第三部與腸繫膜根；約在第四腰椎（L4）高度分為左、右總髂動脈，分叉處另發出細小的正中薦動脈', 'Descends in front of the lumbar vertebral bodies slightly to the left of the midline, with the inferior vena cava on its right and the pancreas, third part of the duodenum and root of the mesentery in front; at about L4 it divides into the left and right common iliac arteries and gives off a slender median sacral artery at the fork'),
-    主要分支: e('不成對的內臟分支：腹腔動脈幹（約 T12）、上腸繫膜動脈（約 L1）、下腸繫膜動脈（約 L3）；成對分支：下膈動脈、腎上腺中動脈、腎動脈、生殖腺動脈、腰動脈、肋下動脈；分叉處另有正中薦動脈', 'Unpaired visceral branches: the celiac trunk (about T12), superior mesenteric artery (about L1) and inferior mesenteric artery (about L3); paired branches: inferior phrenic, middle suprarenal, renal, gonadal, lumbar and subcostal arteries; the median sacral artery arises at the bifurcation'),
+    主要分支: e('不成對的內臟分支：腹腔動脈幹（約 T12）、上腸繫膜動脈（約 L1）、下腸繫膜動脈（約 L3）；成對分支：下膈動脈、中腎上腺動脈、腎動脈、生殖腺動脈、腰動脈、肋下動脈；分叉處另有正中薦動脈', 'Unpaired visceral branches: the celiac trunk (about T12), superior mesenteric artery (about L1) and inferior mesenteric artery (about L3); paired branches: inferior phrenic, middle suprarenal, renal, gonadal, lumbar and subcostal arteries; the median sacral artery arises at the bifurcation'),
     供應範圍: e('腹腔內臟、後腹壁、橫膈下面，並藉總髂動脈供應骨盆與下肢', 'The abdominal viscera, posterior abdominal wall and underside of the diaphragm, and through the common iliac arteries the pelvis and lower limbs'),
   },
   'celiac trunk': {
     來源: e('在約第十二胸椎（T12）高度（部分資料作 T12 至 L1 上緣），主動脈裂孔下方，由腹主動脈前壁發出', 'Arises from the front of the abdominal aorta at about T12 (some sources give T12 to the upper border of L1), just below the aortic hiatus'),
-    走向: e('非常短（約一至二公分），幾乎水平向前，位於胰體上緣上方、小網膜囊後方，被腹腔神經叢與腹腔神經節環繞；隨即分為三支', 'Very short (about 1 to 2 cm) and running almost horizontally forward, above the upper border of the body of the pancreas and behind the lesser sac, surrounded by the celiac plexus and ganglia; it soon divides into three branches'),
+    走向: e('非常短（約一至二公分），幾乎水平向前，位於胰體上緣上方、小網膜囊後方，被腹腔叢與腹腔神經節環繞；隨即分為三支', 'Very short (about 1 to 2 cm) and running almost horizontally forward, above the upper border of the body of the pancreas and behind the lesser sac, surrounded by the celiac plexus and ganglia; it soon divides into three branches'),
     主要分支: e('左胃動脈、脾動脈、總肝動脈', 'Left gastric, splenic and common hepatic arteries'),
     供應範圍: e('前腸衍生的器官：食道腹段、胃、十二指腸近端（至大十二指腸乳頭）、肝、膽囊、膽道、胰的大部分與脾', 'Foregut derivatives: the abdominal oesophagus, stomach, proximal duodenum (down to the major duodenal papilla), liver, gallbladder, bile ducts, most of the pancreas and the spleen'),
   },
@@ -1390,7 +1390,7 @@ Object.assign(CARD_EXTRAS, {
   },
   'ileocolic artery': {
     來源: e('上腸繫膜動脈右側壁發出的最下一條分支', 'The lowest branch from the right side of the superior mesenteric artery'),
-    走向: e('在腹膜後向右下走向迴盲交界，分為上支（升結腸支）與下支；下支發出前、後盲腸動脈、闌尾動脈與迴腸支', 'Runs down and to the right behind the peritoneum towards the ileocaecal junction and divides into a superior (colic) branch and an inferior branch, which gives anterior and posterior caecal arteries, the appendicular artery and an ileal branch'),
+    走向: e('在腹膜後向右下走向迴盲部，分為上支（升結腸支）與下支；下支發出前、後盲腸動脈、闌尾動脈與迴腸支', 'Runs down and to the right behind the peritoneum towards the ileocaecal junction and divides into a superior (colic) branch and an inferior branch, which gives anterior and posterior caecal arteries, the appendicular artery and an ileal branch'),
     主要分支: e('結腸支、前盲腸動脈、後盲腸動脈、闌尾動脈、迴腸支', 'Colic, anterior caecal, posterior caecal, appendicular and ileal branches'),
     供應範圍: e('迴腸末端、盲腸、闌尾與升結腸下段', 'The terminal ileum, caecum, appendix and lower ascending colon'),
   },

@@ -11,7 +11,7 @@ interface OrganQuiz {label: string; english: string; tag: string; blurb: string;
 export const ORGAN_QUIZ: Record<OrganId, OrganQuiz> = {
   stomach: {
     label: '胃', english: 'Stomach', tag: '胃篇', blurb: '胃的分區（賁門、胃底、胃體、幽門竇、幽門管）、大小彎、胃角切跡、幽門括約肌、相連的食道與十二指腸，以及胃的動脈、靜脈（含門靜脈屬支）與神經',
-    scope: '採用胃詳細模型（解剖姿勢，由前方觀看）。胃的分區與彎、切跡、括約肌都是標示在同一個胃模型表面上的位置，邊界為示意；胃短動脈與靜脈、胃後動脈與靜脈、前迷走神經幹、胃前支、腹腔神經叢是依一般描述畫成的示意管。問血管與神經時，胃壁與相鄰器官會變成半透明；肌層、皺襞、胃管與淋巴結沒有模型，不出題。',
+    scope: '採用胃詳細模型（解剖姿勢，由前方觀看）。胃的分區與彎、切跡、括約肌都是標示在同一個胃模型表面上的位置，邊界為示意；短胃動脈與靜脈、後胃動脈與靜脈、前迷走神經幹、胃前支、腹腔叢是依一般描述畫成的示意管。問血管與神經時，胃壁與相鄰器官會變成半透明；肌層、皺襞、胃管與淋巴結沒有模型，不出題。',
     frame: {x: .13, z: [-.04, .11], organ: true},
     sections: [section('all', '全部胃', 'Stomach'), section('zones', '胃的分區', 'Regions of the stomach'), section('lines', '彎、切跡與括約肌', 'Curvatures, notches and sphincter'), section('arteries', '動脈', 'Arteries'), section('veins', '靜脈（含門靜脈屬支）', 'Veins and portal tributaries'), section('nerves', '神經', 'Nerves'), section('context', '相連的消化管', 'Neighbouring parts of the gut tube')],
   },

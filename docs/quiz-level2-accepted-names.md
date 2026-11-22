@@ -245,7 +245,7 @@
 | Corneoscleral junction | 角膜緣（角鞏膜交界） | corneal limbus |  |
 | Superior branch of oculomotor nerve | 動眼神經上支 | superior division of oculomotor nerve |  |
 | Inferior branch of oculomotor nerve | 動眼神經下支 | inferior division of oculomotor nerve |  |
-| Superior orbital fissure | 眶上裂 | 眶上裂 |  |
+| Superior orbital fissure | 上眶裂 | 眶上裂 |  |
 
 ## 頭頸（head-neck）：52 個構造
 
