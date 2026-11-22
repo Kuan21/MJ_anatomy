@@ -774,7 +774,7 @@ Object.assign(CARD_EXTRAS, {
   'external carotid artery': {
     來源: e('總頸動脈在甲狀軟骨上緣附近分叉的前內側終支', 'The front-medial terminal branch of the common carotid artery, at about the upper border of the thyroid cartilage'),
     走向: e('起初在內頸動脈前內側，繼而轉到其外側上行，經二腹肌後腹與莖突舌骨肌深面，穿入腮腺；在下頜頸後方分為上頜動脈與淺顳動脈兩終支', 'At first in front of and medial to the internal carotid, it then crosses to its lateral side and ascends deep to the posterior belly of digastric and stylohyoid, entering the parotid gland; behind the neck of the mandible it ends as the maxillary and superficial temporal arteries'),
-    主要分支: e('由下而上依序有上甲狀腺動脈、升咽動脈、舌動脈、面動脈、枕動脈、耳後動脈，終支為上頜動脈與淺顳動脈', 'From below upward: superior thyroid, ascending pharyngeal, lingual, facial, occipital and posterior auricular arteries, ending as the maxillary and superficial temporal arteries'),
+    主要分支: e('由下而上依序有上甲狀腺動脈、升咽動脈、舌動脈、顏面動脈、枕動脈、後耳動脈，終支為上頜動脈與淺顳動脈', 'From below upward: superior thyroid, ascending pharyngeal, lingual, facial, occipital and posterior auricular arteries, ending as the maxillary and superficial temporal arteries'),
     供應範圍: e('頸前部、甲狀腺與喉、舌與口腔、顏面、頭皮、咽與扁桃體、顱底外面與硬腦膜、上下頜骨與牙齒及鼻腔（頭頸除眼、腦以外的大部分）', 'The front of the neck, thyroid gland and larynx, tongue and mouth, face, scalp, pharynx and tonsil, the outside of the skull base and the dura mater, the jaws and teeth and the nasal cavity (most of the head and neck except the eye and brain)'),
   },
   'internal carotid artery': {
@@ -896,7 +896,7 @@ Object.assign(CARD_EXTRAS, {
   },
   'cardial notch': {
     位置: e('食道左緣與胃底之間形成的銳角切跡，位在賁門的左側', 'Sharp notch between the left border of the oesophagus and the fundus, lying just to the left of the cardia'),
-    組成: e('由食道斜行進入胃壁形成；胃內面對應處有黏膜皺襞，形成瓣狀結構，有助於防止逆流', 'Formed by the oblique entry of the oesophagus into the stomach; on the inside a mucosal fold at this angle forms a valve-like flap that helps prevent reflux'),
+    形態: e('食道斜行進入胃，與胃底在此相交成銳角，是胃左緣上的一處凹入；胃內面對應處的黏膜皺襞與抗逆流機制有關', 'The oesophagus enters the stomach obliquely and meets the fundus at an acute angle here, making a concavity in the left border of the stomach; the mucosal fold on the inner surface at this level is related to the anti-reflux mechanism'),
     毗鄰: e('上方為橫膈與食道裂孔，其左側連續為胃大彎的起始處', 'Above it lie the diaphragm and oesophageal hiatus; to its left the greater curvature begins'),
     作用: e('保持食道與胃底之間的夾角，是抗逆流機制的一部分；夾角變鈍（如裂孔疝氣）時容易逆流', 'Keeps the angle between oesophagus and fundus, part of the anti-reflux mechanism; when the angle flattens, as in a hiatal hernia, reflux becomes easier'),
   },
@@ -927,19 +927,19 @@ Object.assign(CARD_EXTRAS, {
   },
   'lesser curvature of stomach': {
     位置: e('胃的右側緣與上緣，凹面向右上，自賁門起弧形向下到幽門', 'Right and upper border of the stomach, concave towards the upper right, curving down from the cardia to the pylorus'),
-    組成: e('短而凹，最低點為胃角切跡；兩層腹膜在此合併，向上連成小網膜（肝胃韌帶）', 'Short and concave, its lowest point being the angular incisure; the two layers of peritoneum meet along it and continue up as the lesser omentum (hepatogastric ligament)'),
-    毗鄰: e('小網膜內有左、右胃動脈沿弧吻合，並有胃冠狀靜脈與胃周淋巴結；迷走神經的胃支沿此分布；胃潰瘍多發生在小彎近胃角處', 'The left and right gastric arteries anastomose in the lesser omentum along the curve, together with the gastric veins and the gastric lymph nodes; gastric branches of the vagus run along it; gastric ulcers are common on the lesser curvature near the angular incisure'),
+    形態與附著: e('胃的右上緣，短而凹，最低點為胃角切跡；小網膜（肝胃韌帶）附著於此緣，向上連到肝', 'The short concave right-upper border of the stomach, lowest at the angular incisure; the lesser omentum (hepatogastric ligament) attaches along it and runs up to the liver'),
+    毗鄰: e('左、右胃動脈沿此緣相接成弧，並有胃冠狀靜脈與胃周淋巴結；迷走神經的胃支沿此緣分布；胃潰瘍多發生在小彎近胃角處', 'The left and right gastric arteries join in an arcade alongside this border, together with the gastric veins and the gastric lymph nodes; gastric branches of the vagus follow it; gastric ulcers are common on the lesser curvature near the angular incisure'),
     血液供應: e('左胃動脈（來自腹腔動脈幹）與右胃動脈（來自肝固有動脈）', 'Left gastric artery (from the coeliac trunk) and right gastric artery (from the proper hepatic artery)'),
   },
   'greater curvature of stomach': {
     位置: e('胃的左側緣與下緣，凸面向左下，自賁門切跡起越過胃底，沿胃體左下方弧行到幽門，長度約為小彎的四倍', 'Left and lower border of the stomach, convex to the lower left, starting at the cardial notch, arching over the fundus and running down the left side of the body to the pylorus; it is roughly four times as long as the lesser curvature'),
-    組成: e('凸而長；腹膜在此延伸為大網膜（含胃結腸韌帶與胃脾韌帶）；胃底另有胃膈韌帶連到橫膈', 'Long and convex; peritoneum from it forms the greater omentum (including the gastrocolic and gastrosplenic ligaments); at the fundus the gastrophrenic ligament also runs to the diaphragm'),
+    形態與附著: e('胃的左下緣，凸而長；大網膜（含胃結腸韌帶與胃脾韌帶）附著於此緣，胃底處另有胃膈韌帶連到橫膈', 'The long convex left-lower border of the stomach; the greater omentum (including the gastrocolic and gastrosplenic ligaments) attaches along it, with the gastrophrenic ligament at the fundus running to the diaphragm'),
     毗鄰: e('下方經胃結腸韌帶連橫結腸；左上方連胃脾韌帶至脾門；左、右胃網膜動脈沿弧吻合，短胃動脈經胃脾韌帶到達胃底', 'Below, the gastrocolic ligament links it to the transverse colon; at the upper left the gastrosplenic ligament runs to the hilum of the spleen; the left and right gastro-omental arteries anastomose along it, and the short gastric arteries reach the fundus through the gastrosplenic ligament'),
     血液供應: e('左胃網膜動脈（來自脾動脈）、右胃網膜動脈（來自胃十二指腸動脈）與短胃動脈', 'Left gastro-omental artery (from the splenic artery), right gastro-omental artery (from the gastroduodenal artery) and the short gastric arteries'),
   },
   'angular incisure (angular notch)': {
     位置: e('胃小彎下部最低處的明顯彎折，在幽門平面附近', 'Sharp bend at the lowest part of the lesser curvature, near the transpyloric plane'),
-    組成: e('小彎在此由垂直走向轉為水平走向；內面黏膜皺襞在此相對突起，內視鏡下可見', 'The lesser curvature changes here from a vertical to a horizontal course; on the inside the mucosal folds project towards each other and the notch can be seen at endoscopy'),
+    形態: e('胃小彎在此由垂直轉為水平，形成一處明顯的凹入；內視鏡下可在小彎側看到對應的折角', 'The lesser curvature turns here from a vertical to a horizontal course, forming a distinct indentation; the corresponding angle can be seen on the lesser-curvature side at endoscopy'),
     毗鄰: e('為胃體與幽門部的分界；對應胃大彎側沒有明顯切跡；後方鄰胰體', 'Marks the boundary between the body and the pyloric part, with no notch on the opposite side along the greater curvature; the pancreatic body lies behind'),
     作用: e('內視鏡與影像上用來辨認胃體與幽門竇的分界，也是胃潰瘍的好發部位之一', 'A landmark at endoscopy and in imaging for the division of body and antrum, and a common site of gastric ulcer'),
   },
@@ -987,8 +987,8 @@ Object.assign(CARD_EXTRAS, {
     血液供應: e('下胰十二指腸動脈與空腸動脈第一支', 'Inferior pancreaticoduodenal artery and the first jejunal artery'),
   },
   'duodenojejunal flexure': {
-    位置: e('十二指腸升部與空腸交界的急彎，約在第二腰椎左側，位於胰體下緣之下', 'Sharp bend where the ascending duodenum turns into the jejunum, at the left of L2 just below the lower border of the pancreatic body'),
-    組成: e('由十二指腸懸韌帶固定；腸管在此由後腹膜轉入有腸繫膜的腹膜內位', 'Held in place by the suspensory ligament of the duodenum; the gut passes here from a retroperitoneal position to an intraperitoneal one with a mesentery'),
+    位置: e('十二指腸升部轉向空腸的腸管轉彎處，約在第二腰椎左側、胰體下緣之下；是腸管轉彎的一段，有自己的管壁，與前後腸段相連', 'The turn of the gut tube where the ascending duodenum passes into the jejunum, at the left of L2 just below the lower border of the pancreatic body; it is a segment of gut with its own wall, continuous with the gut on either side'),
+    固定方式: e('由十二指腸懸韌帶固定；腸管在此由後腹膜轉入有腸繫膜的腹膜內位', 'Held in place by the suspensory ligament of the duodenum; the gut passes here from a retroperitoneal position to an intraperitoneal one with a mesentery'),
     毗鄰: e('前方為胃後壁與橫結腸繫膜，左側為左腎與左腎血管，後方為左腰大肌與腹主動脈的左側；下腸繫膜靜脈常在其附近匯入脾靜脈', 'In front the posterior wall of the stomach and the transverse mesocolon, to the left the left kidney and renal vessels, behind the left psoas and the left side of the aorta; the inferior mesenteric vein often passes nearby to join the splenic vein'),
     血液供應: e('空腸第一動脈與下胰十二指腸動脈', 'First jejunal artery and the inferior pancreaticoduodenal artery'),
     作用: e('是十二指腸與空腸的分界，臨床上常以此為上、下消化道出血的分界點', 'The boundary between the duodenum and jejunum, and the usual dividing line between upper and lower gastrointestinal bleeding'),
@@ -1103,13 +1103,13 @@ Object.assign(CARD_EXTRAS, {
   },
   'diaphragmatic surface of liver': {
     位置: e('肝的上面與前面及後面一部分，平滑呈圓頂狀，緊貼橫膈', 'The smooth dome-shaped upper surface of the liver with parts of its front and back, applied to the diaphragm'),
-    組成: e('被腹膜覆蓋，鐮狀韌帶與冠狀韌帶附著其上，並將肝分為左右部；後上方的裸區無腹膜覆蓋', 'Covered by peritoneum, with the falciform and coronary ligaments attached to it dividing the liver into right and left parts; the bare area behind and above has no peritoneal covering'),
+    表面特徵: e('此面大部分有腹膜覆蓋，鐮狀韌帶與冠狀韌帶附著於此面，鐮狀韌帶的附著線把肝分為左右部；後上方的裸區沒有腹膜覆蓋，直接貼橫膈', 'Most of this surface is covered by peritoneum; the falciform and coronary ligaments attach to it, the line of the falciform ligament dividing the liver into right and left parts; the bare area behind and above lacks peritoneum and lies directly against the diaphragm'),
     毗鄰: e('隔著橫膈，右側貼右肺與胸膜，左側貼心臟；前面貼前腹壁與肋弓', 'Across the diaphragm lie the right lung and pleura on the right and the heart on the left; in front lie the anterior abdominal wall and costal margin'),
     作用: e('右膈下間隙的膿瘍會貼附在此面；刺激橫膈時疼痛可牽涉到右肩', 'Subphrenic abscesses collect against it; irritation of the diaphragm can refer pain to the right shoulder'),
   },
   'visceral surface of liver': {
     位置: e('肝的下面與後下面，朝向下方與後方，與腹腔臟器相接', 'The inferior and posteroinferior surface of the liver, facing downward and backward towards the abdominal organs'),
-    組成: e('有 H 形的溝：右縱溝（膽囊窩與下腔靜脈溝）、左縱溝（肝圓韌帶裂與靜脈韌帶裂）和橫溝（肝門）；劃出右葉、左葉、方形葉與尾葉', 'Marked by an H-shaped set of grooves: the right sagittal groove (gallbladder fossa and groove for the inferior vena cava), the left sagittal groove (fissures for the round ligament and ligamentum venosum) and the transverse groove (porta hepatis); these delimit the right, left, quadrate and caudate lobes'),
+    表面特徵: e('表面有 H 形的溝：右縱溝（膽囊窩與下腔靜脈溝）、左縱溝（肝圓韌帶裂與靜脈韌帶裂）和橫溝（肝門）；劃出右葉、左葉、方形葉與尾葉', 'Marked by an H-shaped set of grooves: the right sagittal groove (gallbladder fossa and groove for the inferior vena cava), the left sagittal groove (fissures for the round ligament and ligamentum venosum) and the transverse groove (porta hepatis); these delimit the right, left, quadrate and caudate lobes'),
     毗鄰: e('留有胃壓跡、十二指腸壓跡、結腸壓跡、腎壓跡與腎上腺壓跡，分別與相應器官相接', 'Bears gastric, duodenal, colic, renal and suprarenal impressions where it touches the respective organs'),
     作用: e('肝門與周圍的器官壓跡是辨認臟面結構的標誌', 'The porta hepatis and the organ impressions are the landmarks for identifying structures on the visceral surface'),
   },
@@ -1432,3 +1432,56 @@ Object.assign(CARD_EXTRAS, {
   },
 });
 // ===== AB-A1 end =====
+
+// ===== HN-EC begin =====
+Object.assign(CARD_EXTRAS, {
+  'superior thyroid artery': {
+    來源: e('外頸動脈的第一條前壁分支，在頸動脈三角內、舌骨大角下方附近發出', 'The first anterior branch of the external carotid artery, arising in the carotid triangle just below the greater horn of the hyoid bone'),
+    走向: e('向前下彎成弧形，深入肩胛舌骨肌、胸骨舌骨肌與胸骨甲狀肌，到達甲狀腺上極；上極處與喉外神經相鄰', 'Arches forward and downward, passing deep to omohyoid, sternohyoid and sternothyroid to reach the upper pole of the thyroid gland, where it lies close to the external laryngeal nerve'),
+    主要分支: e('舌骨下支、胸鎖乳突肌支、上喉動脈（與喉內神經一同穿過甲狀舌骨膜）、環甲支，以及供應腺體的前、後與外側支', 'Infrahyoid, sternocleidomastoid, superior laryngeal (passing through the thyrohyoid membrane with the internal laryngeal nerve) and cricothyroid branches, and the anterior, posterior and lateral glandular branches'),
+    供應範圍: e('甲狀腺上部、喉、舌骨下肌群與胸鎖乳突肌；腺內與下甲狀腺動脈、對側同名動脈相吻合', 'The upper part of the thyroid gland, the larynx, the infrahyoid muscles and sternocleidomastoid; within the gland it anastomoses with the inferior thyroid artery and with its fellow of the opposite side'),
+  },
+  'ascending pharyngeal artery': {
+    來源: e('外頸動脈起始部附近的後內側壁分支，是外頸動脈最細的分支', 'A branch from the posteromedial wall of the external carotid artery near its origin; the smallest branch of that artery'),
+    走向: e('沿咽側壁、在內頸動脈內側垂直上行，到達顱底附近', 'Ascends vertically along the side wall of the pharynx, medial to the internal carotid artery, as far as the base of the skull'),
+    主要分支: e('咽支、下鼓室動脈、後腦膜動脈（經頸靜脈孔入顱）與椎前肌支', 'Pharyngeal branches, the inferior tympanic artery, the posterior meningeal artery (entering the skull through the jugular foramen) and branches to the prevertebral muscles'),
+    供應範圍: e('咽壁、扁桃體、軟顎、中耳與頸椎前肌，以及顱後窩的硬腦膜', 'The pharyngeal wall, tonsil, soft palate, middle ear and prevertebral muscles, and the dura mater of the posterior cranial fossa'),
+  },
+  'lingual artery': {
+    來源: e('外頸動脈的前壁分支，約在舌骨大角尖端高度、顏面動脈起點之下發出', 'An anterior branch of the external carotid artery, arising at about the level of the tip of the greater horn of the hyoid bone, below the origin of the facial artery'),
+    走向: e('先向上呈小弧形，再在舌骨大角上緣上方向前走；舌下神經橫過其淺面，接著深入舌骨舌肌的深面，其深側緊貼中咽縮肌，再前行入舌', 'Loops upward first, then runs forward above the greater horn of the hyoid bone; the hypoglossal nerve crosses its superficial side, and it then passes deep to hyoglossus, lying on the middle constrictor, before entering the tongue'),
+    主要分支: e('舌骨上支、舌背支、舌下動脈與舌深動脈（為終末支）', 'Suprahyoid and dorsal lingual branches, the sublingual artery, and the deep lingual artery as its terminal branch'),
+    供應範圍: e('舌、口腔底、舌下腺、扁桃體與會厭；舌深動脈在舌下面走近舌繫帶兩側', 'The tongue, floor of the mouth, sublingual gland, tonsil and epiglottis; the deep lingual artery runs on the underside of the tongue close to the frenulum'),
+  },
+  'facial artery': {
+    來源: e('外頸動脈的前壁分支，在舌動脈起點的稍上方發出', 'An anterior branch of the external carotid artery, arising just above the lingual artery'),
+    走向: e('先在二腹肌後腹與莖突舌骨肌深面上行，再貼著下頜下腺後方壓出溝槽，於咬肌前緣繞過下頜骨下緣上到顏面，彎曲地經口角外側、鼻翼旁抵達內眥', 'Ascends first deep to the posterior belly of digastric and stylohyoid, grooves the back of the submandibular gland, then winds over the lower border of the mandible at the front edge of masseter onto the face and runs tortuously beside the angle of the mouth and the side of the nose to the medial angle of the eye'),
+    主要分支: e('頸部：升顎動脈、扁桃體支、腺支與頦下動脈；顏面部：下唇動脈、上唇動脈、鼻外側動脈，終支為角動脈', 'In the neck: ascending palatine, tonsillar, glandular and submental arteries; on the face: inferior and superior labial and lateral nasal arteries, ending as the angular artery'),
+    供應範圍: e('扁桃體與軟顎、下頜下腺、口唇、鼻與內眥一帶的顏面；角動脈與眼動脈的鼻背支吻合，連結內、外頸動脈系統；在下頜骨下緣、咬肌前方可摸到搏動，其靜脈走在動脈後方', 'The tonsil and soft palate, submandibular gland, lips, and the face around the nose and medial angle of the eye; the angular artery anastomoses with the dorsal nasal branch of the ophthalmic artery, linking the internal and external carotid systems; its pulse can be felt on the lower border of the mandible in front of masseter, with the facial vein lying behind the artery'),
+  },
+  'occipital artery': {
+    來源: e('外頸動脈的後壁分支，約與顏面動脈同一高度，起於二腹肌後腹下緣', 'A posterior branch of the external carotid artery, arising at about the level of the facial artery at the lower border of the posterior belly of digastric'),
+    走向: e('沿顳骨乳突內側的枕動脈溝向後上行，淺越過內頸動脈、內頸靜脈、迷走神經與副神經，舌下神經由後向前繞過其起始部；行程中被胸鎖乳突肌、頭夾肌、頭最長肌與二腹肌後腹覆蓋，之後在斜方肌與胸鎖乳突肌附著於上項線處穿出筋膜，彎曲上行於後頭皮', 'Runs backward and upward along the occipital groove on the medial side of the mastoid process of the temporal bone, crossing superficial to the internal carotid artery, internal jugular vein, vagus and accessory nerves, with the hypoglossal nerve hooking round its origin from behind forward; it is covered by sternocleidomastoid, splenius capitis, longissimus capitis and the posterior belly of digastric, then pierces the fascia at the trapezius and sternocleidomastoid attachments to the superior nuchal line and ascends tortuously in the back of the scalp'),
+    主要分支: e('胸鎖乳突肌支、耳支、腦膜支、降支（與深頸動脈、橫頸動脈相吻合）與枕支', 'Sternocleidomastoid, auricular and meningeal branches, a descending branch (anastomosing with the deep cervical and transverse cervical arteries) and occipital branches'),
+    供應範圍: e('後頭皮、頸後部深層肌肉、胸鎖乳突肌與乳突、硬腦膜', 'The back of the scalp, the deep muscles of the back of the neck, sternocleidomastoid, the mastoid region and the dura mater'),
+  },
+  'posterior auricular artery': {
+    來源: e('外頸動脈的後壁分支，位於二腹肌與莖突舌骨肌上方，通常在腮腺深部或其邊緣發出', 'A posterior branch of the external carotid artery arising above digastric and stylohyoid, usually deep to or at the edge of the parotid gland'),
+    走向: e('在耳廓與乳突之間向後上行，沿乳突前方抵達耳後頭皮', 'Ascends between the auricle and the mastoid process and reaches the scalp behind the ear'),
+    主要分支: e('莖乳動脈（經莖乳孔入顏面神經管）、耳支、枕支與腮腺支', 'The stylomastoid artery (entering the facial canal through the stylomastoid foramen), and auricular, occipital and parotid branches'),
+    供應範圍: e('耳廓後面、耳後頭皮、腮腺，以及經莖乳動脈供應中耳、乳突小房與顏面神經；與枕動脈、淺顳動脈相吻合', 'The back of the auricle, the scalp behind the ear and the parotid gland, and through the stylomastoid artery the middle ear, mastoid air cells and facial nerve; it anastomoses with the occipital and superficial temporal arteries'),
+  },
+  'maxillary artery': {
+    來源: e('外頸動脈兩條終末支中較大的一條，在腮腺內、下頜頸後方發出', 'The larger of the two terminal branches of the external carotid artery, arising within the parotid gland behind the neck of the mandible'),
+    走向: e('以外側翼肌為界分三段：下頜段起於下頜頸後方，經下頜頸深面（內側、蝶下頜韌帶外側）向前進入顳下窩；翼段沿外側翼肌的淺面或深面行走（個體有差異，以淺面較常見）；翼顎段穿過翼上頜裂進入翼顎窩', 'Divided by lateral pterygoid into three parts: the mandibular part begins behind the neck of the mandible and passes forward deep (medial) to the neck, lateral to the sphenomandibular ligament, into the infratemporal fossa; the pterygoid part runs on the superficial or deep surface of lateral pterygoid (this varies between people, the superficial course being more common); the pterygopalatine part passes through the pterygomaxillary fissure into the pterygopalatine fossa'),
+    主要分支: e('下頜段：深耳動脈、前鼓室動脈、中腦膜動脈（經棘孔入顱）、下齒槽動脈、副腦膜動脈；翼段：咬肌動脈、深顳動脈、翼肌支、頰動脈；翼顎段：上牙槽後動脈、眶下動脈、降顎動脈、翼管動脈、咽支與蝶顎動脈', 'Mandibular part: deep auricular, anterior tympanic, middle meningeal (entering the skull through the foramen spinosum), inferior alveolar and accessory meningeal arteries; pterygoid part: masseteric, deep temporal, pterygoid and buccal branches; pterygopalatine part: posterior superior alveolar, infraorbital, descending palatine, artery of the pterygoid canal, pharyngeal and sphenopalatine arteries'),
+    供應範圍: e('深層顏面：上下頜骨與牙齒、咀嚼肌、鼻腔與硬顎、軟顎、硬腦膜（中腦膜動脈）與中耳', 'The deep face: the jaws and teeth, the muscles of mastication, the nasal cavity and hard and soft palate, the dura mater (middle meningeal artery) and the middle ear'),
+  },
+  'superficial temporal artery': {
+    來源: e('外頸動脈兩條終末支中較小的一條，在腮腺內、下頜頸後方發出，可視為外頸動脈的延續', 'The smaller terminal branch of the external carotid artery, arising within the parotid gland behind the neck of the mandible and seen as its continuation'),
+    走向: e('向上越過顴弓根部，在耳屏前方上行，耳顳神經走在其後方；約在顴弓上方五公分處（高度因人而異）分為額支與頂支', 'Ascends across the root of the zygomatic arch in front of the tragus, with the auriculotemporal nerve lying behind it, and divides about 5 cm above the arch into frontal and parietal branches'),
+    主要分支: e('橫面動脈（在腮腺內發出，走在顴弓下方與腮腺管上方）、中顳動脈、顴眶動脈、前耳支，終支為額支與頂支', 'The transverse facial artery (given off within the parotid gland and running below the zygomatic arch and above the parotid duct), middle temporal, zygomatico-orbital and anterior auricular branches, ending as the frontal and parietal branches'),
+    供應範圍: e('顳部與額頂部頭皮、耳廓前部、顳肌與顏面側部；在耳屏前方可摸到搏動，與眼動脈、後耳動脈、枕動脈的分支相吻合', 'The scalp of the temporal, frontal and parietal regions, the front of the auricle, temporalis and the side of the face; its pulse can be felt in front of the tragus, and it anastomoses with branches of the ophthalmic, posterior auricular and occipital arteries'),
+  },
+});
+// ===== HN-EC end =====
