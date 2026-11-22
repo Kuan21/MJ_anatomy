@@ -88,7 +88,7 @@
 | 同義異名 | 458 | Cerebral part of ICA | 大腦段（內頸動脈） | 腦區 | — |  |
 | 同義異名 | 462 | Optic canal | 視神經管 | 視神經孔 | 視神經管（mj-eye-atlas.ts） | 已一致 |
 | 同義異名 | 468 | Confluence of sinuses | 竇匯 | 匯竇、靜脈竇匯合 | — |  |
-| 同義異名 | 474 | Superior orbital fissure | 眶上裂 | 上眶裂 | 眶上裂（mj-eye-atlas.ts） | 已一致 |
+| 同義異名 | 474 | Superior orbital fissure | 上眶裂 | 眶上裂 | 上眶裂（mj-eye-atlas.ts；必考清單寫法，2026-11-18 起顯示） | 已一致 |
 | 同義異名 | 475 | Petrous part of the temporal bone | 顳骨岩部 | 顳骨岩樣部 | 顳骨岩部（mj-muscle-facts-head-neck.ts、mj-paokao.json） | 已一致 |
 | 同義異名 | 506 | Semilunar hiatus | 半月裂孔 | 半月裂 | — |  |
 | 同義異名 | 525 | Extraocular muscle | 眼外肌 | 眼部外在肌、眼外在肌 | 眼外肌（mj-eye-atlas.ts） | 已一致 |
@@ -169,7 +169,7 @@
 | 筆誤 | 343 | Palate | 顎 | 鄂部（筆誤） | — | 另有 343 同義異名列 |
 | 筆誤 | 413 | Ophthalmic artery | 眼動脈 | 視神經（筆誤） | 眼動脈（mj-zh-extra.ts） | 原備註寫「應為眼神經」有誤，正確為眼動脈 |
 | 筆誤 | 473 | Sphenoparietal sinus | 蝶頂竇 | 蝶竇（筆誤） | — |  |
-| 筆誤 | 474 | Superior orbital fissure | 眶上裂 | 英文與下眶裂配錯（筆誤） | 眶上裂（mj-eye-atlas.ts） | 同結構另有同義異名列 |
+| 筆誤 | 474 | Superior orbital fissure | 上眶裂 | 英文與下眶裂配錯（筆誤） | 上眶裂（mj-eye-atlas.ts） | 同結構另有同義異名列 |
 | 筆誤 | 515 | Ophthalmic vein | 眼靜脈 | 視神經（筆誤） | — | 原備註寫「應為眼神經」有誤，正確為眼靜脈 |
 | 筆誤 | 610 | Malleus | 錘骨 | 錘鼓（筆誤） | — |  |
 | 筆誤 | 611 | Stapes | 鐙骨 | Stampes（筆誤） | — |  |

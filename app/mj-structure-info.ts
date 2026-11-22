@@ -28,6 +28,7 @@ export interface StructureProfile {
 
 import {lungCategoryOf} from './mj-lung-categories';
 import {lungCardLinks} from './mj-lung-labels';
+import {isVesselEnd,vesselBase} from './mj-vessel-unit';
 import vesselEnds from './mj-vessel-ends.json';
 import paokaoCards from './mj-paokao.json';
 import {femaleCards} from './mj-female-cards';
@@ -490,7 +491,7 @@ const ORIGIN_VARIANTS:{test:RegExp;en:string;zh:string}[]=[
  {test:/^(?:left |right )?dorsal scapular artery$/i,en:'Variable: the third part of the subclavian artery (sometimes the second part), or the deep branch of the transverse cervical artery',zh:'有變異：起自鎖骨下動脈第三段（有時為第二段），或起自橫頸動脈深支'},
 ];
 /** English label of each card field the quiz card text (app/quiz/card-data.ts) writes in Chinese. */
-const EXTRA_LABEL_EN:Record<string,string>={來源:'Origin',走向:'Course',主要分支:'Main branches',支配範圍:'Supply',供應範圍:'Territory',引流範圍:'Tributary area',位置:'Location',組成:'Composition',毗鄰:'Relations',作用:'Action',起點:'Origin',止點:'Insertion',神經支配:'Innervation',相關關節:'Related joints',主要標誌:'Key landmarks',附著:'Attachments',附著與連結:'Attachments and connections',所屬關節:'Joint',功能:'Function',血液供應:'Blood supply',邊界:'Boundaries',內容物:'Contents',臨床意義:'Clinical significance'};
+const EXTRA_LABEL_EN:Record<string,string>={來源:'Origin',走向:'Course',主要分支:'Main branches',支配範圍:'Supply',供應範圍:'Territory',引流範圍:'Tributary area',位置:'Location',組成:'Composition',形態:'Form',形態與附著:'Form and attachments',表面特徵:'Surface features',固定方式:'Fixation',毗鄰:'Relations',作用:'Action',起點:'Origin',止點:'Insertion',神經支配:'Innervation',相關關節:'Related joints',主要標誌:'Key landmarks',附著:'Attachments',附著與連結:'Attachments and connections',所屬關節:'Joint',功能:'Function',血液供應:'Blood supply',邊界:'Boundaries',內容物:'Contents',臨床意義:'Clinical significance'};
 const sideless=(n:string)=>n.toLowerCase().replace(/\b(left|right)\b/g,'').replace(/\s+/g,' ').trim();
 /** The card text the quiz and learning cards use for this structure (same table, same lookup: the full name, then the name without Left/Right). */
 export function cardExtraFor(...names:(string|undefined)[]){
@@ -552,10 +553,11 @@ function structureProfileRaw(rawName:string,system:SystemId,part?:Part):Structur
  if(from&&!profile.facts.some(f=>f.labelZh==='來源'||f.labelZh==='回流至'))profile={...profile,facts:[{labelEn:system==='venous'?'Drains into':'Origin',labelZh:system==='venous'?'回流至':'來源',valueEn:from,valueZh:chineseName(from,system)||from},...profile.facts]};
  if(kids?.length&&!profile.facts.some(f=>f.labelEn==='Main branches'))profile={...profile,facts:[...profile.facts,{labelEn:'Main branches',labelZh:'主要分支',valueEn:kids.join(', '),valueZh:kids.map(n=>chineseName(n,system)||n).join('、')}]};
  // A schematic shell that is not in the course list (the pleura and pericardial layers) says so on its card: the tag sits on the category line.
- if(part?.schematic&&!(part.id in PAOKAO)&&!profile.category.includes('示意模型')){
+ // A vessel-end piece (`…-END`) is part of its vessel, not a model of its own: it never takes this line (the vessel is picked with it, app/mj-vessel-unit.ts).
+ if(part?.schematic&&!(part.id in PAOKAO)&&!isVesselEnd(part.id)&&!profile.category.includes('示意模型')){
   const pleura=/pleura/i.test(part.name),how=pleura?'由肺表面向外擴生成的薄殼':/pericardium|epicardium/i.test(part.name)?'由心臟壁面向外擴生成的薄殼':'由相鄰構造的表面生成';
   profile={...profile,category:`${profile.category}（示意模型）`,facts:[...profile.facts,{labelEn:'Model',labelZh:'模型',valueEn:'Schematic model, generated from the surface of the neighbouring organ',valueZh:`示意模型：${how}`}]};
  }
- if(!part||!(part.id in vesselEnds))return profile;
+ if(!part||!(vesselBase(part.id) in vesselEnds))return profile;
  return{...profile,facts:[...profile.facts,{labelEn:'Model end',labelZh:'模型末端',valueEn:'Small branches end by thinning out into the surrounding muscle, organ or fascia; the model tapers the end to show this.',valueZh:'細小分支在周圍的肌肉、器官或筋膜內逐漸變細而終止；模型把末端收細表示。'}]};
 }

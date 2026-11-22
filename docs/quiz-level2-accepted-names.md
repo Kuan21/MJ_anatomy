@@ -1,7 +1,7 @@
 # Quiz 第三級額外接受的答案
 
 此檔由 `node scripts/report-quiz-accepted-names.mjs` 產生，請勿手改。除了構造自己的英文名、中文名、括號內別名與同義詞表（`app/quiz/synonyms.ts`，列在 REVIEW_LOG）之外，第三級與學習關卡還接受下列寫法；群名只算「接近」並列入錯題。左右兩側同一規則，只列一側。
-合計 246 個構造有額外接受的寫法。
+合計 250 個構造有額外接受的寫法。
 
 
 ## 下肢（lower）：40 個構造
@@ -237,6 +237,15 @@
 
 | 題目 | 中文 | 也接受 | 只算接近 |
 | --- | --- | --- | --- |
+
+## 眼（eye）：4 個構造
+
+| 題目 | 中文 | 也接受 | 只算接近 |
+| --- | --- | --- | --- |
+| Corneoscleral junction | 角膜緣（角鞏膜交界） | corneal limbus |  |
+| Superior branch of oculomotor nerve | 動眼神經上支 | superior division of oculomotor nerve |  |
+| Inferior branch of oculomotor nerve | 動眼神經下支 | inferior division of oculomotor nerve |  |
+| Superior orbital fissure | 上眶裂 | 眶上裂 |  |
 
 ## 頭頸（head-neck）：52 個構造
 

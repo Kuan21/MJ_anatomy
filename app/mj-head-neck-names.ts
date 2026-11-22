@@ -1,5 +1,6 @@
 import data from './mj-head-neck-names.json';
 import requiredData from './mj-required-names.json';
+import requiredTrunkData from './mj-required-names-trunk.json';
 
 /**
  * Unified head-and-neck names (app/mj-head-neck-names.json): one Taiwan anatomy name per structure and the other spellings and synonyms as aliases.
@@ -11,7 +12,8 @@ export interface NameRow {id: string; kind: 'synonym' | 'spelling' | 'typo'; sta
 export const NAME_ROWS = (data as {rows: NameRow[]}).rows;
 export const APPLIED_ROWS = NAME_ROWS.filter(r => r.status === 'applied');
 /** HN-11: structures whose shown Chinese name follows the required-structure wording; the earlier site wording stays as an alias (app/mj-required-names.json). */
-export const REQUIRED_NAME_ROWS = (requiredData as {rows: NameRow[]}).rows;
+/** AB-07／PP-05: abdomen, pelvis and perineum names (and the orbital fissure) in the required-list wording (app/mj-required-names-trunk.json). */
+export const REQUIRED_NAME_ROWS = [...(requiredData as {rows: NameRow[]}).rows, ...(requiredTrunkData as {rows: NameRow[]}).rows];
 const ENTRIES = [...APPLIED_ROWS, ...REQUIRED_NAME_ROWS].flatMap(r => r.entries);
 
 /** Variant characters of the same word: 頷 = 頜 (jaw), 腭 = 顎 (palate). Either spelling finds the structure whichever one the site shows. */
