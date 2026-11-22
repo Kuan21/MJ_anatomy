@@ -1539,7 +1539,7 @@ Object.assign(CARD_EXTRAS, {
   'internal iliac artery': {
     來源: e('總髂動脈，在骨盆緣、薦髂關節前方分出', 'The common iliac artery, at the pelvic brim in front of the sacroiliac joint'),
     走向: e('向後內下進入骨盆，行程約四公分，到坐骨大孔上緣附近分成前幹與後幹；輸尿管與其前方相鄰', 'Passes down and back into the pelvis for about 4 cm and divides near the upper edge of the greater sciatic foramen into anterior and posterior divisions; the ureter lies in front of it'),
-    主要分支: e('後幹：髂腰動脈、外側薦動脈、臀上動脈；前幹：臍動脈（發出上膀胱動脈）、閉孔動脈、下膀胱動脈（女性為陰道動脈）、中直腸動脈、子宮動脈（僅女性）、內陰動脈與臀下動脈', 'Posterior division: iliolumbar, lateral sacral and superior gluteal arteries; anterior division: umbilical (giving the superior vesical), obturator, inferior vesical (vaginal in women), middle rectal, uterine (women only), internal pudendal and inferior gluteal arteries'),
+    主要分支: e('後幹：髂腰動脈、外側薦動脈、上臀動脈；前幹：臍動脈（發出上膀胱動脈）、閉孔動脈、下膀胱動脈（女性為陰道動脈）、中直腸動脈、子宮動脈（僅女性）、內陰動脈與下臀動脈', 'Posterior division: iliolumbar, lateral sacral and superior gluteal arteries; anterior division: umbilical (giving the superior vesical), obturator, inferior vesical (vaginal in women), middle rectal, uterine (women only), internal pudendal and inferior gluteal arteries'),
     供應範圍: e('骨盆壁與骨盆內臟、臀部、會陰與大腿內側肌群；是骨盆的主要動脈', 'The pelvic wall and viscera, the gluteal region, the perineum and the medial thigh muscles; the main artery of the pelvis'),
   },
   'external iliac artery': {
@@ -1556,9 +1556,9 @@ Object.assign(CARD_EXTRAS, {
   },
   'deep circumflex iliac artery': {
     來源: e('外髂動脈外側壁，約與下腹壁動脈相對的高度發出', 'The lateral wall of the external iliac artery, at about the level opposite the origin of the inferior epigastric artery'),
-    走向: e('沿腹股溝韌帶深面外上行至髂前上棘，再沿髂嵴內唇向後，先行於髂筋膜與腹橫筋膜之間，約在髂嵴中部穿腹橫肌，之後行於腹橫肌與腹內斜肌之間', 'Runs outward and upward behind the inguinal ligament to the anterior superior iliac spine, then backward along the inner lip of the iliac crest, first between the iliac fascia and the transversalis fascia, piercing transversus abdominis about the middle of the crest and then running between transversus abdominis and internal oblique'),
-    主要分支: e('升支（向上走在腹橫肌與腹內斜肌之間）與沿髂嵴的終末支', 'An ascending branch (between transversus abdominis and internal oblique) and terminal branches along the iliac crest'),
-    供應範圍: e('髂肌與下外側腹壁肌，並與髂腰動脈、旋股外側動脈與臀上動脈相吻合', 'Iliacus and the lower lateral abdominal wall muscles, anastomosing with the iliolumbar, lateral circumflex femoral and superior gluteal arteries'),
+    走向: e('沿腹股溝韌帶深面外上行至髂前上棘，再沿髂脊內唇向後，先行於髂筋膜與腹橫筋膜之間，約在髂脊中部穿腹橫肌，之後行於腹橫肌與腹內斜肌之間', 'Runs outward and upward behind the inguinal ligament to the anterior superior iliac spine, then backward along the inner lip of the iliac crest, first between the iliac fascia and the transversalis fascia, piercing transversus abdominis about the middle of the crest and then running between transversus abdominis and internal oblique'),
+    主要分支: e('升支（向上走在腹橫肌與腹內斜肌之間）與沿髂脊的終末支', 'An ascending branch (between transversus abdominis and internal oblique) and terminal branches along the iliac crest'),
+    供應範圍: e('髂肌與下外側腹壁肌，並與髂腰動脈、旋股外側動脈與上臀動脈相吻合', 'Iliacus and the lower lateral abdominal wall muscles, anastomosing with the iliolumbar, lateral circumflex femoral and superior gluteal arteries'),
   },
   'superficial epigastric artery': {
     來源: e('股動脈，在腹股溝韌帶下方約一公分處自前壁發出', 'The femoral artery, from its front wall about 1 cm below the inguinal ligament'),
@@ -1587,7 +1587,7 @@ Object.assign(CARD_EXTRAS, {
   'subcostal nerve': {
     來源: e('第十二胸神經（T12）的前支', 'Ventral ramus of the twelfth thoracic nerve (T12)'),
     走向: e('沿第十二肋下緣行走，經外側弓狀韌帶後方，在腰方肌前面、腎臟後方向外下行，穿過腹橫肌後行於腹橫肌與腹內斜肌之間，終末進入腹直肌鞘', 'Runs along the lower border of the twelfth rib, passes behind the lateral arcuate ligament in front of quadratus lumborum and behind the kidney, pierces transversus abdominis and continues between it and internal oblique, ending in the rectus sheath'),
-    主要分支: e('肌支、前皮支與外側皮支（越過髂嵴到臀部外上方皮膚）；常與髂腹下神經相連接', 'Muscular branches, an anterior cutaneous branch and a lateral cutaneous branch (crossing the iliac crest to the skin of the upper outer buttock); it often communicates with the iliohypogastric nerve'),
+    主要分支: e('肌支、前皮支與外側皮支（越過髂脊到臀部外上方皮膚）；常與髂腹下神經相連接', 'Muscular branches, an anterior cutaneous branch and a lateral cutaneous branch (crossing the iliac crest to the skin of the upper outer buttock); it often communicates with the iliohypogastric nerve'),
     支配範圍: e('運動支配腹橫肌、腹內斜肌、腹外斜肌、腹直肌與錐狀肌；感覺支配下腹壁與臀外上部皮膚', 'Motor to transversus abdominis, the oblique muscles, rectus abdominis and pyramidalis; sensory to the skin of the lower abdominal wall and the upper outer buttock'),
   },
   'intercostal nerves': {
@@ -1604,8 +1604,8 @@ Object.assign(CARD_EXTRAS, {
   },
   'iliohypogastric nerve': {
     來源: e('第一腰神經（L1）的前支，常有第十二胸神經的細支加入', 'Ventral ramus of L1, often joined by a small branch from T12'),
-    走向: e('由腰大肌上部的外緣穿出，越過腰方肌前面，經腎臟後方向外，在髂嵴上方穿過腹橫肌，行於腹橫肌與腹內斜肌之間，再穿腹內斜肌；前皮支穿過腹外斜肌腱膜，在淺腹股溝環上方出現', 'Emerges from the lateral border of the upper part of psoas major, crosses in front of quadratus lumborum behind the kidney, pierces transversus abdominis above the iliac crest and runs between it and internal oblique; its anterior cutaneous branch pierces the external oblique aponeurosis above the superficial inguinal ring'),
-    主要分支: e('外側皮支（髂支，越過髂嵴到臀外上方）與前皮支（腹下支）', 'A lateral cutaneous (iliac) branch crossing the iliac crest to the upper outer buttock, and an anterior cutaneous (hypogastric) branch'),
+    走向: e('由腰大肌上部的外緣穿出，越過腰方肌前面，經腎臟後方向外，在髂脊上方穿過腹橫肌，行於腹橫肌與腹內斜肌之間，再穿腹內斜肌；前皮支穿過腹外斜肌腱膜，在淺腹股溝環上方出現', 'Emerges from the lateral border of the upper part of psoas major, crosses in front of quadratus lumborum behind the kidney, pierces transversus abdominis above the iliac crest and runs between it and internal oblique; its anterior cutaneous branch pierces the external oblique aponeurosis above the superficial inguinal ring'),
+    主要分支: e('外側皮支（髂支，越過髂脊到臀外上方）與前皮支（腹下支）', 'A lateral cutaneous (iliac) branch crossing the iliac crest to the upper outer buttock, and an anterior cutaneous (hypogastric) branch'),
     支配範圍: e('運動支配腹橫肌與腹內斜肌的下部；感覺支配臀外上方與恥骨上方（下腹正中）皮膚', 'Motor to the lower parts of transversus abdominis and internal oblique; sensory to the skin of the upper outer buttock and of the suprapubic region'),
   },
   'ilioinguinal nerve': {
