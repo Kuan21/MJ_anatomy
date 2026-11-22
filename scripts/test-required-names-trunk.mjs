@@ -8,9 +8,10 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import {gunzipSync} from 'node:zlib';
+import {fileURLToPath} from 'node:url';
 import {quizModule} from './quiz-modules.mjs';
 
-const root = new URL('../', import.meta.url), rootPath = path.resolve(root.pathname);
+const root = new URL('../', import.meta.url), rootPath = fileURLToPath(root);
 const rows = JSON.parse(fs.readFileSync(new URL('app/mj-required-names-trunk.json', root), 'utf8')).rows;
 const renamed = rows.filter(r => r.display === 'renamed').map(r => r.entries[0]);
 const aliasOnly = rows.filter(r => r.display === 'alias').map(r => r.entries[0]);
@@ -31,7 +32,7 @@ const walk = d => fs.readdirSync(d, {withFileTypes: true}).flatMap(e => e.name =
 const ALLOWED = new RegExp('mj-eye-openings|quiz/eye\\.ts|mj-required-names|mj-head-neck-names|mj-related-' + 'search|mj-search\.ts|quiz/naming\.ts|mj-naming-data|synonyms');
 let scanned = 0;
 for (const dir of ['app', 'public']) for (const f of walk(path.join(rootPath, dir))) {
-  const rel = path.relative(rootPath, f);
+  const rel = path.relative(rootPath, f).split(path.sep).join('/');
   if (ALLOWED.test(rel) || !/\.(ts|tsx|json|json\.gz)$/.test(f)) continue;
   const text = f.endsWith('.gz') ? gunzipSync(fs.readFileSync(f)).toString('utf8') : fs.readFileSync(f, 'utf8');
   scanned++;
