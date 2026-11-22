@@ -85,4 +85,7 @@ assert.deepEqual(['Iliac crest', 'Ischial tuberosity', 'Pubic tubercle'].map(e =
 assert.ok(zhOf('11th rib').zhAliases.includes('第 11 肋') && zhOf('12th rib').zhAliases.includes('第 12 肋'));
 assert.equal(zhOf('Body of clitoris').zh, '陰蒂體');
 assert.deepEqual(['Posterior auricular artery', 'Middle meningeal artery'].map(e => zhOf(e)?.zh), ['後耳動脈', '中腦膜動脈']);
+// follow-up 2026-11-22: iliac arteries, lateral femoral cutaneous nerve, great pancreatic artery, pericardiophrenic artery, linea alba, inferior orbital fissure
+assert.deepEqual(['Lateral femoral cutaneous nerve', 'Internal iliac artery', 'External iliac artery', 'Common iliac artery', 'Great pancreatic artery', 'Pericardiophrenic artery', 'Linea alba', 'Inferior orbital fissure'].map(e => zhOf(e)?.zh),
+  ['外股皮神經', '內髂動脈', '外髂動脈', '總髂動脈', '大胰動脈', '心包膜膈動脈', '白線', '下眶裂']);
 console.log(`Required names (abdomen, pelvis, perineum) OK: ${renamed.length} renamed, ${inList} in the lists, ${found} in the search index, ${quizChecked} Quiz structures, ${scanned} files scanned.`);
