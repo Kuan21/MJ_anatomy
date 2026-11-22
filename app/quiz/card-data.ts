@@ -1485,3 +1485,182 @@ Object.assign(CARD_EXTRAS, {
   },
 });
 // ===== HN-EC end =====
+
+// ===== AB-A2 begin: paired abdominal arteries, iliac and abdominal-wall arteries, lumbar plexus nerves (card batch AB-A2). Standard anatomy only; a field we are not sure of stays out. =====
+Object.assign(CARD_EXTRAS, {
+  'thoracic aorta': {
+    來源: e('主動脈弓的延續，在第四胸椎下緣左側開始', 'The continuation of the aortic arch, beginning on the left side at the lower border of the fourth thoracic vertebra'),
+    走向: e('在後縱隔內沿脊柱左前方下行，逐漸移到中線，約在第十二胸椎高度穿過橫膈的主動脈裂孔，之後改稱腹主動脈', 'Descends in the posterior mediastinum in front of and to the left of the vertebral column, drifting toward the midline, and passes through the aortic hiatus of the diaphragm at about T12, where it becomes the abdominal aorta'),
+    主要分支: e('壁支：後肋間動脈（第三至第十一對）、肋下動脈、上膈動脈；臟支：支氣管動脈、食道動脈、縱隔支與心包支', 'Parietal: the posterior intercostal arteries (third to eleventh), the subcostal artery and the superior phrenic arteries; visceral: bronchial, oesophageal, mediastinal and pericardial branches'),
+    供應範圍: e('胸壁、縱隔內臟（氣管支氣管樹、食道、心包）與橫膈上面；肋間動脈與內胸動脈的前肋間支相吻合', 'The chest wall, the mediastinal viscera (bronchial tree, oesophagus, pericardium) and the upper surface of the diaphragm; the intercostal arteries anastomose with the anterior intercostal branches of the internal thoracic artery'),
+  },
+  'inferior phrenic artery': {
+    來源: e('腹主動脈，在橫膈主動脈裂孔下方、腹腔動脈幹起點附近發出；常與腹腔動脈幹共同起始，有時起自腎動脈', 'The abdominal aorta just below the aortic hiatus, close to the origin of the coeliac trunk; often it arises with the coeliac trunk from a common origin, and sometimes from the renal artery'),
+    走向: e('左、右各一，沿橫膈下面向外上行，經過腎上腺的上方', 'One on each side; ascends laterally along the under surface of the diaphragm, passing above the suprarenal gland'),
+    主要分支: e('上腎上腺動脈（數條小支）；右側下膈動脈經下腔靜脈後方，左側經食道裂孔後外側，並發細支到食道下段；終末分成內側支與外側支', 'The superior suprarenal arteries (several small twigs); the right passes behind the inferior vena cava and the left behind and lateral to the oesophageal hiatus, with twigs to the lower oesophagus; it ends as medial and lateral branches'),
+    供應範圍: e('橫膈下面，並以上腎上腺動脈供應腎上腺上部；與肌膈動脈、心包膜膈動脈與肋間動脈相吻合', 'The under surface of the diaphragm, and through the superior suprarenal arteries the upper part of the suprarenal gland; it anastomoses with the musculophrenic, pericardiacophrenic and intercostal arteries'),
+  },
+  'superior suprarenal artery': {
+    來源: e('下膈動脈，通常為數條細小分支', 'The inferior phrenic artery, usually as several small branches'),
+    走向: e('由橫膈下面向下，到達腎上腺上緣與上部', 'Runs down from the under surface of the diaphragm to the upper border and upper part of the suprarenal gland'),
+    主要分支: e('在腺體被膜下分成許多細支', 'Splits into many small twigs beneath the capsule of the gland'),
+    供應範圍: e('腎上腺的上部，與中、下腎上腺動脈在腺內相吻合', 'The upper part of the suprarenal gland, anastomosing within the gland with the middle and inferior suprarenal arteries'),
+  },
+  'middle suprarenal artery': {
+    來源: e('腹主動脈側壁，約在上腸繫膜動脈起點的高度發出', 'The side of the abdominal aorta at about the level of the origin of the superior mesenteric artery'),
+    走向: e('短而橫向外行，越過橫膈腳，直接到達腎上腺的內側面', 'Runs a short, transverse course outward across the crus of the diaphragm to the medial surface of the suprarenal gland'),
+    主要分支: e('進入腺體後分成細支，與上、下腎上腺動脈相連', 'Divides into small twigs on entering the gland, joining the superior and inferior suprarenal arteries'),
+    供應範圍: e('腎上腺的中部（內側面）', 'The middle part (medial surface) of the suprarenal gland'),
+  },
+  'inferior suprarenal artery': {
+    來源: e('腎動脈，在其靠近起點處發出', 'The renal artery, near its origin'),
+    走向: e('由腎動脈向上行至腎上腺的下部', 'Passes upward from the renal artery to the lower part of the suprarenal gland'),
+    主要分支: e('在腺體下部分成細支，與中、上腎上腺動脈相吻合', 'Breaks into small twigs in the lower part of the gland, anastomosing with the middle and superior suprarenal arteries'),
+    供應範圍: e('腎上腺的下部；腎上腺因此由三組動脈（來自下膈動脈、腹主動脈與腎動脈）共同供血', 'The lower part of the suprarenal gland; the gland therefore receives blood from three sources (the inferior phrenic artery, the aorta and the renal artery)'),
+  },
+  'renal artery': {
+    來源: e('腹主動脈側壁，約在第一與第二腰椎之間（上腸繫膜動脈起點下方）發出，左右各一，起點高度略有差異（右側常略低）', 'The side of the abdominal aorta at about the L1–L2 level, just below the origin of the superior mesenteric artery; one on each side, the level differing slightly (the right often a little lower)'),
+    走向: e('橫向外行，經橫膈腳與腰大肌前方走向腎門；右腎動脈較長，從下腔靜脈後方通過；兩側的腎靜脈都位於腎動脈前方', 'Runs transversely outward in front of the diaphragmatic crus and psoas major to the hilum of the kidney; the right renal artery is longer and passes behind the inferior vena cava; on both sides the renal vein lies in front of the artery'),
+    主要分支: e('下腎上腺動脈與輸尿管支，在腎門附近分成前支與後支，前支分出尖、上前、中前、下前四段，後支成為後段，共五條節段動脈', 'The inferior suprarenal artery and ureteric branches; near the hilum it divides into anterior and posterior divisions, the anterior division giving the apical, upper anterior, middle anterior and lower anterior segmental arteries and the posterior division becoming the posterior segmental artery, five in all'),
+    供應範圍: e('腎臟、腎盂與輸尿管上段，並以下腎上腺動脈供應腎上腺下部；節段動脈屬終動脈，彼此之間沒有吻合', 'The kidney, renal pelvis and upper ureter, and through the inferior suprarenal artery the lower part of the suprarenal gland; the segmental arteries are end arteries without anastomoses between them'),
+  },
+  'gonadal artery': {
+    來源: e('腹主動脈前外側壁，在腎動脈起點稍下方（約第二腰椎高度）發出，左右各一；男性稱睪丸動脈，女性稱卵巢動脈', 'The anterolateral wall of the abdominal aorta just below the renal arteries (about L2), one on each side; called the testicular artery in men and the ovarian artery in women'),
+    走向: e('在腹膜後沿腰大肌前面斜向外下行，在前方越過輸尿管與外髂血管。男性續行至腹股溝深環，穿腹股溝管進入精索，下達陰囊；女性越過骨盆緣進入骨盆，行於卵巢懸韌帶（骨盆漏斗韌帶）內，到達卵巢與輸卵管', 'Descends obliquely outward behind the peritoneum on psoas major, crossing in front of the ureter and the external iliac vessels. In men it reaches the deep inguinal ring, traverses the inguinal canal in the spermatic cord and descends to the scrotum; in women it crosses the pelvic brim and runs in the suspensory ligament of the ovary (infundibulopelvic ligament) to the ovary and uterine tube'),
+    主要分支: e('輸尿管支；男性有附睪支與睪丸支；女性有卵巢支與輸卵管支，並與子宮動脈的卵巢支相吻合', 'Ureteric branches; in men epididymal and testicular branches; in women ovarian and tubal branches, anastomosing with the ovarian branch of the uterine artery'),
+    供應範圍: e('男性：睪丸與附睪；女性：卵巢與輸卵管外側部。生殖腺在胚胎期起自腹腔高處，下降時帶著這條動脈，所以起點遠高於器官', 'In men the testis and epididymis; in women the ovary and the lateral part of the uterine tube. The gonad develops high in the abdomen and carries its artery down with it, which is why the origin lies far above the organ'),
+  },
+  'common iliac artery': {
+    來源: e('腹主動脈，約在第四腰椎高度偏左分成左、右總髂動脈', 'The abdominal aorta, which divides at about L4, slightly to the left of the midline, into the left and right common iliac arteries'),
+    走向: e('向外下斜行，沿腰大肌內側緣，到骨盆緣（約薦髂關節前方）分成內髂動脈與外髂動脈；右側較左側長，輸尿管在分叉處前方越過', 'Runs obliquely down and outward along the medial border of psoas major and divides at the pelvic brim, in front of the sacroiliac joint, into the internal and external iliac arteries; the right is longer than the left, and the ureter crosses in front of the bifurcation'),
+    主要分支: e('通常只有終末分支（內髂動脈與外髂動脈），另有細小分支到輸尿管與腰大肌', 'Normally only its terminal branches (internal and external iliac arteries), with small twigs to the ureter and psoas major'),
+    供應範圍: e('作為通往骨盆與下肢的幹道，間接供應骨盆內臟、臀部與下肢', 'A trunk to the pelvis and lower limb, supplying the pelvic viscera, the gluteal region and the lower limb through its two branches'),
+  },
+  'internal iliac artery': {
+    來源: e('總髂動脈，在骨盆緣、薦髂關節前方分出', 'The common iliac artery, at the pelvic brim in front of the sacroiliac joint'),
+    走向: e('向後內下進入骨盆，行程約四公分，到坐骨大孔上緣附近分成前幹與後幹；輸尿管與其前方相鄰', 'Passes down and back into the pelvis for about 4 cm and divides near the upper edge of the greater sciatic foramen into anterior and posterior divisions; the ureter lies in front of it'),
+    主要分支: e('後幹：髂腰動脈、外側薦動脈、臀上動脈；前幹：臍動脈（發出上膀胱動脈）、閉孔動脈、下膀胱動脈（女性為陰道動脈）、中直腸動脈、子宮動脈（僅女性）、內陰動脈與臀下動脈', 'Posterior division: iliolumbar, lateral sacral and superior gluteal arteries; anterior division: umbilical (giving the superior vesical), obturator, inferior vesical (vaginal in women), middle rectal, uterine (women only), internal pudendal and inferior gluteal arteries'),
+    供應範圍: e('骨盆壁與骨盆內臟、臀部、會陰與大腿內側肌群；是骨盆的主要動脈', 'The pelvic wall and viscera, the gluteal region, the perineum and the medial thigh muscles; the main artery of the pelvis'),
+  },
+  'external iliac artery': {
+    來源: e('總髂動脈，在骨盆緣、薦髂關節前方分出，與內髂動脈同一高度', 'The common iliac artery, at the pelvic brim in front of the sacroiliac joint, at the same point as the internal iliac artery'),
+    走向: e('沿腰大肌內側緣向外下方行走，在髂筋膜之下、腹膜之後，到腹股溝韌帶中點深面，在約髂前上棘與恥骨聯合連線的中點（腹股溝中點）進入大腿成為股動脈', 'Runs down and outward along the medial border of psoas major beneath the peritoneum, and passes under the inguinal ligament at about the mid-inguinal point (midway between the anterior superior iliac spine and the pubic symphysis) into the thigh, where it becomes the femoral artery'),
+    主要分支: e('下腹壁動脈與深旋髂動脈，兩者都在腹股溝韌帶上方不遠處發出', 'The inferior epigastric and deep circumflex iliac arteries, both arising just above the inguinal ligament'),
+    供應範圍: e('下腹壁與髂窩區，並延續為下肢的主要動脈', 'The lower abdominal wall and iliac region, and it continues as the main artery of the lower limb'),
+  },
+  'inferior epigastric artery': {
+    來源: e('外髂動脈，在腹股溝韌帶上方、腹股溝深環的內側發出', 'The external iliac artery just above the inguinal ligament, medial to the deep inguinal ring'),
+    走向: e('在腹股溝深環的內側向上內行，穿過腹橫筋膜，在弓狀線處由腹直肌後面（腹橫筋膜與肌肉之間）進入腹直肌鞘上行，約在臍附近與上腹壁動脈吻合；此動脈本身構成腹股溝三角（海氏三角）的外側界', 'Runs up and inward on the medial side of the deep inguinal ring, pierces the transversalis fascia, enters the rectus sheath at the arcuate line, ascending behind rectus abdominis (between the transversalis fascia and the muscle) and anastomosing with the superior epigastric artery near the umbilicus; the artery itself forms the lateral boundary of the inguinal triangle'),
+    主要分支: e('提睪肌動脈（女性為子宮圓韌帶動脈）、恥骨支（與閉孔動脈的恥骨支相吻合），以及肌支與皮支', 'The cremasteric artery (the artery of the round ligament in women), a pubic branch (anastomosing with the pubic branch of the obturator artery), and muscular and cutaneous branches'),
+    供應範圍: e('腹直肌與其表面皮膚、下腹壁肌，以及精索被膜；與上腹壁動脈連成內胸動脈與外髂動脈之間的吻合通路', 'Rectus abdominis and the overlying skin, the lower abdominal wall muscles and the coverings of the spermatic cord; with the superior epigastric artery it forms an anastomotic route between the internal thoracic and external iliac arteries'),
+  },
+  'deep circumflex iliac artery': {
+    來源: e('外髂動脈外側壁，約與下腹壁動脈相對的高度發出', 'The lateral wall of the external iliac artery, at about the level opposite the origin of the inferior epigastric artery'),
+    走向: e('沿腹股溝韌帶深面外上行至髂前上棘，再沿髂嵴內唇向後，先行於髂筋膜與腹橫筋膜之間，約在髂嵴中部穿腹橫肌，之後行於腹橫肌與腹內斜肌之間', 'Runs outward and upward behind the inguinal ligament to the anterior superior iliac spine, then backward along the inner lip of the iliac crest, first between the iliac fascia and the transversalis fascia, piercing transversus abdominis about the middle of the crest and then running between transversus abdominis and internal oblique'),
+    主要分支: e('升支（向上走在腹橫肌與腹內斜肌之間）與沿髂嵴的終末支', 'An ascending branch (between transversus abdominis and internal oblique) and terminal branches along the iliac crest'),
+    供應範圍: e('髂肌與下外側腹壁肌，並與髂腰動脈、旋股外側動脈與臀上動脈相吻合', 'Iliacus and the lower lateral abdominal wall muscles, anastomosing with the iliolumbar, lateral circumflex femoral and superior gluteal arteries'),
+  },
+  'superficial epigastric artery': {
+    來源: e('股動脈，在腹股溝韌帶下方約一公分處自前壁發出', 'The femoral artery, from its front wall about 1 cm below the inguinal ligament'),
+    走向: e('穿過篩狀筋膜，越過腹股溝韌帶，在腹壁淺筋膜內向臍的方向上行', 'Pierces the cribriform fascia, crosses the inguinal ligament and ascends in the superficial fascia of the abdominal wall toward the umbilicus'),
+    主要分支: e('皮支與淺淋巴結支，細支與對側及下腹壁動脈的分支相吻合', 'Cutaneous and superficial lymph node branches, with small twigs anastomosing with those of the opposite side and of the inferior epigastric artery'),
+    供應範圍: e('下腹部皮膚與皮下組織，以及腹股溝淺淋巴結', 'The skin and subcutaneous tissue of the lower abdomen, and the superficial inguinal lymph nodes'),
+  },
+  'superior epigastric artery': {
+    來源: e('內胸動脈的兩條終末支之一，在第六肋軟骨的高度分出（另一支為肌膈動脈）', 'One of the two terminal branches of the internal thoracic artery, arising at the level of the sixth costal cartilage (the other is the musculophrenic artery)'),
+    走向: e('穿過橫膈的胸肋三角（胸骨與肋部之間的縫隙）進入腹直肌鞘，行於腹直肌後面向下，並在肌肉內與下腹壁動脈吻合', 'Passes through the sternocostal gap of the diaphragm into the rectus sheath and descends behind rectus abdominis, anastomosing within the muscle with the inferior epigastric artery'),
+    主要分支: e('肌支、膈支與穿出腹直肌的皮支', 'Muscular and diaphragmatic branches and cutaneous branches that pierce rectus abdominis'),
+    供應範圍: e('腹直肌上部、上腹壁的皮膚與腹膜，並有細支到橫膈；與下腹壁動脈、肌膈動脈相吻合', 'The upper part of rectus abdominis, the skin and peritoneum of the upper abdominal wall, with twigs to the diaphragm; it anastomoses with the inferior epigastric and musculophrenic arteries'),
+  },
+  'musculophrenic artery': {
+    來源: e('內胸動脈的外側終末支，在第六肋軟骨附近分出', 'The lateral terminal branch of the internal thoracic artery, arising near the sixth costal cartilage'),
+    走向: e('沿肋弓內面向外下行，位於橫膈起點與肋軟骨之間，在第八或第九肋軟骨處穿過橫膈，到達腹壁', 'Runs outward and downward along the inner side of the costal margin, between the origin of the diaphragm and the costal cartilages, and pierces the diaphragm at the eighth or ninth costal cartilage to reach the abdominal wall'),
+    主要分支: e('前肋間動脈（到第七至第九肋間隙）、膈支與腹壁肌支', 'Anterior intercostal arteries (to the seventh to ninth intercostal spaces), diaphragmatic branches and branches to the abdominal wall muscles'),
+    供應範圍: e('下部肋間肌、橫膈與上外側腹壁；與下膈動脈、上腹壁動脈與深旋髂動脈相吻合', 'The lower intercostal muscles, the diaphragm and the upper lateral abdominal wall; it anastomoses with the inferior phrenic, superior epigastric and deep circumflex iliac arteries'),
+  },
+  'femoral artery': {
+    來源: e('外髂動脈的延續，在腹股溝韌帶深面、約髂前上棘與恥骨聯合連線的中點（腹股溝中點）進入大腿後改稱股動脈', 'The continuation of the external iliac artery, named femoral where it passes under the inguinal ligament at about the midpoint between the anterior superior iliac spine and the pubic symphysis (the mid-inguinal point)'),
+    走向: e('與腹部有關的是起始段：在股鞘內、股神經的內側、股靜脈的外側，經過股三角下行，供應下腹壁淺層的分支都在這一段發出', 'The part relevant to the abdomen is its beginning: it lies in the femoral sheath, medial to the femoral nerve and lateral to the femoral vein, and descends through the femoral triangle; the branches to the superficial lower abdominal wall arise here'),
+    主要分支: e('腹壁相關：淺腹壁動脈與淺旋髂動脈；另有外陰淺、深動脈與股深動脈，後續沿大腿下行', 'Related to the abdominal wall: the superficial epigastric and superficial circumflex iliac arteries; also the superficial and deep external pudendal arteries and the deep femoral artery, which continue down the thigh'),
+    供應範圍: e('下腹壁淺層、外生殖器前部與下肢；在腹股溝中點下方可摸到搏動', 'The superficial lower abdominal wall, the front of the external genitalia and the lower limb; its pulse can be felt just below the mid-inguinal point'),
+  },
+  'subcostal nerve': {
+    來源: e('第十二胸神經（T12）的前支', 'Ventral ramus of the twelfth thoracic nerve (T12)'),
+    走向: e('沿第十二肋下緣行走，經外側弓狀韌帶後方，在腰方肌前面、腎臟後方向外下行，穿過腹橫肌後行於腹橫肌與腹內斜肌之間，終末進入腹直肌鞘', 'Runs along the lower border of the twelfth rib, passes behind the lateral arcuate ligament in front of quadratus lumborum and behind the kidney, pierces transversus abdominis and continues between it and internal oblique, ending in the rectus sheath'),
+    主要分支: e('肌支、前皮支與外側皮支（越過髂嵴到臀部外上方皮膚）；常與髂腹下神經相連接', 'Muscular branches, an anterior cutaneous branch and a lateral cutaneous branch (crossing the iliac crest to the skin of the upper outer buttock); it often communicates with the iliohypogastric nerve'),
+    支配範圍: e('運動支配腹橫肌、腹內斜肌、腹外斜肌、腹直肌與錐狀肌；感覺支配下腹壁與臀外上部皮膚', 'Motor to transversus abdominis, the oblique muscles, rectus abdominis and pyramidalis; sensory to the skin of the lower abdominal wall and the upper outer buttock'),
+  },
+  'intercostal nerves': {
+    來源: e('第一至第十一胸神經（T1–T11）的前支（第一對大部分加入臂神經叢）；第十二對另稱肋下神經', 'Ventral rami of the first to eleventh thoracic nerves (T1–T11), the first mostly joining the brachial plexus; the twelfth is named the subcostal nerve'),
+    走向: e('在肋間隙內沿肋溝行走，位於肋間內肌與最內肋間肌之間，在血管下方；下部（約第七至第十一對）越過肋弓繼續進入腹壁，行於腹內斜肌與腹橫肌之間，最後入腹直肌鞘', 'Run in the costal groove of each intercostal space between the internal and innermost intercostal muscles, below the vessels; the lower ones (about T7–T11) pass beyond the costal margin into the abdominal wall between internal oblique and transversus abdominis and end in the rectus sheath'),
+    主要分支: e('外側皮支、前皮支與肌支；第二肋間神經的外側皮支特稱肋間臂神經', 'Lateral and anterior cutaneous branches and muscular branches; the lateral cutaneous branch of the second is called the intercostobrachial nerve'),
+    支配範圍: e('運動支配肋間肌、後上與後下鋸肌，下部尚支配腹壁肌；感覺支配胸壁與腹壁皮膚（臍周皮膚為第十胸神經分布區）及壁層胸膜與腹膜', 'Motor to the intercostal muscles and serratus posterior, and for the lower ones to the abdominal wall muscles; sensory to the skin of the chest and abdominal wall (the umbilical region is T10) and to the parietal pleura and peritoneum'),
+  },
+  'lumbar plexus': {
+    來源: e('第一至第四腰神經（L1–L4）的前支，常有第十二胸神經的細支加入', 'Ventral rami of L1–L4, usually joined by a small branch from T12'),
+    走向: e('位於腰大肌內部、腰椎橫突的前方；分支從腰大肌的外緣、前面與內緣穿出，向下進入腹壁、骨盆或大腿', 'Lies within psoas major in front of the lumbar transverse processes; its branches emerge from the lateral border, the front and the medial border of the muscle and run to the abdominal wall, pelvis or thigh'),
+    主要分支: e('髂腹下神經、髂腹股溝神經、生殖股神經、外股皮神經、股神經與閉孔神經，以及副閉孔神經與到腰大肌、腰方肌的肌支', 'The iliohypogastric, ilioinguinal, genitofemoral, lateral femoral cutaneous, femoral and obturator nerves, with the accessory obturator nerve and muscular branches to psoas and quadratus lumborum'),
+    支配範圍: e('下腹壁肌與皮膚、外生殖器前部、大腿前部與內側的肌肉和皮膚，以及髖與膝關節', 'The muscles and skin of the lower abdominal wall, the front of the external genitalia, the anterior and medial thigh, and the hip and knee joints'),
+  },
+  'iliohypogastric nerve': {
+    來源: e('第一腰神經（L1）的前支，常有第十二胸神經的細支加入', 'Ventral ramus of L1, often joined by a small branch from T12'),
+    走向: e('由腰大肌上部的外緣穿出，越過腰方肌前面，經腎臟後方向外，在髂嵴上方穿過腹橫肌，行於腹橫肌與腹內斜肌之間，再穿腹內斜肌；前皮支穿過腹外斜肌腱膜，在淺腹股溝環上方出現', 'Emerges from the lateral border of the upper part of psoas major, crosses in front of quadratus lumborum behind the kidney, pierces transversus abdominis above the iliac crest and runs between it and internal oblique; its anterior cutaneous branch pierces the external oblique aponeurosis above the superficial inguinal ring'),
+    主要分支: e('外側皮支（髂支，越過髂嵴到臀外上方）與前皮支（腹下支）', 'A lateral cutaneous (iliac) branch crossing the iliac crest to the upper outer buttock, and an anterior cutaneous (hypogastric) branch'),
+    支配範圍: e('運動支配腹橫肌與腹內斜肌的下部；感覺支配臀外上方與恥骨上方（下腹正中）皮膚', 'Motor to the lower parts of transversus abdominis and internal oblique; sensory to the skin of the upper outer buttock and of the suprapubic region'),
+  },
+  'ilioinguinal nerve': {
+    來源: e('第一腰神經（L1）的前支，與髂腹下神經常由 L1 同一幹分出', 'Ventral ramus of L1, often arising from the same L1 trunk as the iliohypogastric nerve'),
+    走向: e('由腰大肌外緣、髂腹下神經下方穿出，越過腰方肌與髂肌，在髂前上棘附近穿過腹橫肌，再穿腹內斜肌進入腹股溝管，在精索（女性為子宮圓韌帶）的前方通過，經淺腹股溝環穿出', 'Emerges from the lateral border of psoas major below the iliohypogastric nerve, crosses quadratus lumborum and iliacus, pierces transversus abdominis near the anterior superior iliac spine, then internal oblique, enters the inguinal canal in front of the spermatic cord (the round ligament in women) and leaves through the superficial inguinal ring'),
+    主要分支: e('肌支與皮支；皮支為陰囊前支（女性為陰唇前支）與大腿內側上部的感覺支', 'Muscular and cutaneous branches; the cutaneous branches are the anterior scrotal (labial in women) nerves and a branch to the upper medial thigh'),
+    支配範圍: e('運動支配腹內斜肌與腹橫肌的下部；感覺支配陰莖根部與陰囊前部（女性為陰阜與大陰唇）以及大腿內側上部皮膚', 'Motor to the lower parts of internal oblique and transversus abdominis; sensory to the skin of the root of the penis and front of the scrotum (the mons pubis and labium majus in women) and the upper medial thigh'),
+  },
+  'genitofemoral nerve': {
+    來源: e('第一、二腰神經（L1–L2）的前支', 'Ventral rami of L1 and L2'),
+    走向: e('穿過腰大肌並由其前面穿出，沿腰大肌表面下行，在腹股溝韌帶上方分成生殖支與股支；輸尿管在其前方越過', 'Pierces psoas major and emerges on its front surface, descends on the muscle and divides above the inguinal ligament into genital and femoral branches; the ureter crosses in front of it'),
+    主要分支: e('生殖支與股支', 'The genital branch and the femoral branch'),
+    支配範圍: e('生殖支：男性支配提睪肌與陰囊皮膚，女性支配陰阜與大陰唇皮膚；股支：支配股三角上部的大腿前皮膚', 'Genital branch: the cremaster muscle and scrotal skin in men, the skin of the mons pubis and labium majus in women; femoral branch: the skin of the upper anterior thigh over the femoral triangle'),
+  },
+  'genital branch of genitofemoral nerve': {
+    來源: e('生殖股神經，在腹股溝韌帶上方分出', 'The genitofemoral nerve, arising above the inguinal ligament'),
+    走向: e('經腹股溝深環進入腹股溝管，在精索內（多位於其後方）下行（女性沿子宮圓韌帶），到達陰囊或大陰唇', 'Enters the inguinal canal through the deep inguinal ring and runs down within the spermatic cord, usually behind it (along the round ligament in women), to the scrotum or labium majus'),
+    主要分支: e('提睪肌支與皮支', 'Cremasteric and cutaneous twigs'),
+    支配範圍: e('男性：提睪肌與陰囊皮膚；女性：陰阜與大陰唇皮膚', 'In men the cremaster muscle and scrotal skin; in women the skin of the mons pubis and labium majus'),
+  },
+  'femoral branch of genitofemoral nerve': {
+    來源: e('生殖股神經，在腹股溝韌帶上方分出', 'The genitofemoral nerve, arising above the inguinal ligament'),
+    走向: e('在腹股溝韌帶後方、股動脈外側下行，進入股鞘，穿過篩狀筋膜出現在大腿前面', 'Passes behind the inguinal ligament lateral to the femoral artery, enters the femoral sheath and pierces the cribriform fascia to reach the front of the thigh'),
+    主要分支: e('皮支', 'Cutaneous twigs'),
+    支配範圍: e('腹股溝韌帶下方股三角上部的大腿前皮膚', 'The skin of the upper anterior thigh just below the inguinal ligament over the femoral triangle'),
+  },
+  'lateral femoral cutaneous nerve': {
+    來源: e('第二、三腰神經（L2–L3）的前支（後股）', 'Ventral rami of L2 and L3 (posterior divisions)'),
+    走向: e('由腰大肌外緣穿出，斜越髂肌前面向髂前上棘行走，在髂前上棘內側附近、腹股溝韌帶深面（或穿過其外側端）進入大腿，再穿過闊筋膜', 'Emerges from the lateral border of psoas major, crosses iliacus obliquely toward the anterior superior iliac spine and enters the thigh medial to that spine, under (or through) the lateral end of the inguinal ligament, then pierces the fascia lata'),
+    主要分支: e('前支與後支，皆為皮支', 'Anterior and posterior branches, both cutaneous'),
+    支配範圍: e('純感覺神經，支配大腿前外側皮膚，下達膝附近', 'Purely sensory, to the skin of the anterolateral thigh down toward the knee'),
+  },
+  'femoral nerve': {
+    來源: e('第二至第四腰神經（L2–L4）前支的後股，是腰神經叢最大的分支', 'Posterior divisions of the ventral rami of L2–L4; the largest branch of the lumbar plexus'),
+    走向: e('在腰大肌外緣穿出，行於腰大肌與髂肌之間的溝內，經腹股溝韌帶深面進入大腿，位於股動脈的外側（不在股鞘內），隨即分成多支', 'Emerges from the lateral border of psoas major, runs in the groove between psoas and iliacus, passes under the inguinal ligament into the thigh lateral to the femoral artery (outside the femoral sheath) and soon divides into several branches'),
+    主要分支: e('腹部：髂肌支；大腿：恥骨肌支、縫匠肌支、股四頭肌各肌支、股中間與內側皮神經，以及最長的皮支隱神經', 'In the abdomen: branches to iliacus; in the thigh: branches to pectineus, sartorius and the heads of quadriceps, the intermediate and medial femoral cutaneous nerves, and the saphenous nerve, its longest cutaneous branch'),
+    支配範圍: e('運動支配髂肌、恥骨肌、縫匠肌與股四頭肌（伸膝）；感覺支配大腿前面與小腿內側（隱神經）皮膚', 'Motor to iliacus, pectineus, sartorius and quadriceps (knee extension); sensory to the skin of the front of the thigh and the medial leg (saphenous nerve)'),
+  },
+  'obturator nerve': {
+    來源: e('第二至第四腰神經（L2–L4）前支的前股', 'Anterior divisions of the ventral rami of L2–L4'),
+    走向: e('由腰大肌內側緣穿出，沿骨盆側壁越過骨盆緣，在閉孔血管的上方經閉孔管離開骨盆，進入大腿內側，分成前支與後支', 'Emerges from the medial border of psoas major, runs along the pelvic side wall across the pelvic brim and leaves the pelvis through the obturator canal above the obturator vessels into the medial thigh, where it divides into anterior and posterior branches'),
+    主要分支: e('前支（支配長收肌、短收肌、股薄肌與大腿內側皮膚）；後支（支配閉孔外肌與大收肌，並發出膝關節支）', 'An anterior branch (to adductor longus and brevis, gracilis and the skin of the medial thigh) and a posterior branch (to obturator externus and adductor magnus, with a branch to the knee joint)'),
+    支配範圍: e('運動支配大腿內收肌群；感覺支配大腿內側皮膚與髖、膝關節', 'Motor to the adductor muscles of the thigh; sensory to the skin of the medial thigh and the hip and knee joints'),
+  },
+  'accessory obturator nerve': {
+    來源: e('第三、四腰神經（L3–L4）前支，出現率各報告不一（約一成至三成），多數人沒有', 'Ventral rami of L3 and L4; reported in roughly 10–30% of people, so absent in most'),
+    走向: e('沿腰大肌內側緣下行，越過恥骨上支，在恥骨肌後方進入大腿，並與閉孔神經的前支相連', 'Descends along the medial border of psoas major, crosses the superior pubic ramus and enters the thigh behind pectineus, communicating with the anterior branch of the obturator nerve'),
+    主要分支: e('肌支、關節支，以及與閉孔神經的交通支', 'Muscular and articular branches and a communicating branch to the obturator nerve'),
+    支配範圍: e('運動支配恥骨肌，感覺支配髖關節', 'Motor to pectineus and sensory to the hip joint'),
+  },
+  'lumbosacral trunk': {
+    來源: e('第四腰神經（L4）前支的下行部分與第五腰神經（L5）前支合併而成', 'Formed by the descending part of the ventral ramus of L4 together with the ventral ramus of L5'),
+    走向: e('在腰大肌內側緣穿出，越過薦骨翼前方下行進入骨盆，在髂總血管後方與第一薦神經合併，連接薦神經叢', 'Emerges at the medial border of psoas major, descends in front of the ala of the sacrum into the pelvis behind the common iliac vessels and joins the first sacral nerve in the sacral plexus'),
+    主要分支: e('沒有獨立分支；其纖維進入薦神經叢，形成坐骨神經與臀上、下神經等的一部分', 'It gives no separate branches; its fibres enter the sacral plexus and contribute to the sciatic nerve and the superior and inferior gluteal nerves, among others'),
+    支配範圍: e('作為腰神經叢通往薦神經叢的橋樑，間接支配臀部與下肢', 'A link between the lumbar and sacral plexuses, supplying the gluteal region and lower limb through the sacral plexus'),
+  },
+});
+// ===== AB-A2 end =====
