@@ -774,7 +774,7 @@ Object.assign(CARD_EXTRAS, {
   'external carotid artery': {
     來源: e('總頸動脈在甲狀軟骨上緣附近分叉的前內側終支', 'The front-medial terminal branch of the common carotid artery, at about the upper border of the thyroid cartilage'),
     走向: e('起初在內頸動脈前內側，繼而轉到其外側上行，經二腹肌後腹與莖突舌骨肌深面，穿入腮腺；在下頜頸後方分為上頜動脈與淺顳動脈兩終支', 'At first in front of and medial to the internal carotid, it then crosses to its lateral side and ascends deep to the posterior belly of digastric and stylohyoid, entering the parotid gland; behind the neck of the mandible it ends as the maxillary and superficial temporal arteries'),
-    主要分支: e('由下而上依序有上甲狀腺動脈、升咽動脈、舌動脈、面動脈、枕動脈、耳後動脈，終支為上頜動脈與淺顳動脈', 'From below upward: superior thyroid, ascending pharyngeal, lingual, facial, occipital and posterior auricular arteries, ending as the maxillary and superficial temporal arteries'),
+    主要分支: e('由下而上依序有上甲狀腺動脈、升咽動脈、舌動脈、顏面動脈、枕動脈、後耳動脈，終支為上頜動脈與淺顳動脈', 'From below upward: superior thyroid, ascending pharyngeal, lingual, facial, occipital and posterior auricular arteries, ending as the maxillary and superficial temporal arteries'),
     供應範圍: e('頸前部、甲狀腺與喉、舌與口腔、顏面、頭皮、咽與扁桃體、顱底外面與硬腦膜、上下頜骨與牙齒及鼻腔（頭頸除眼、腦以外的大部分）', 'The front of the neck, thyroid gland and larynx, tongue and mouth, face, scalp, pharynx and tonsil, the outside of the skull base and the dura mater, the jaws and teeth and the nasal cavity (most of the head and neck except the eye and brain)'),
   },
   'internal carotid artery': {
@@ -896,7 +896,7 @@ Object.assign(CARD_EXTRAS, {
   },
   'cardial notch': {
     位置: e('食道左緣與胃底之間形成的銳角切跡，位在賁門的左側', 'Sharp notch between the left border of the oesophagus and the fundus, lying just to the left of the cardia'),
-    組成: e('由食道斜行進入胃壁形成；胃內面對應處有黏膜皺襞，形成瓣狀結構，有助於防止逆流', 'Formed by the oblique entry of the oesophagus into the stomach; on the inside a mucosal fold at this angle forms a valve-like flap that helps prevent reflux'),
+    形態: e('食道斜行進入胃，與胃底在此相交成銳角，是胃左緣上的一處凹入；胃內面對應處的黏膜皺襞與抗逆流機制有關', 'The oesophagus enters the stomach obliquely and meets the fundus at an acute angle here, making a concavity in the left border of the stomach; the mucosal fold on the inner surface at this level is related to the anti-reflux mechanism'),
     毗鄰: e('上方為橫膈與食道裂孔，其左側連續為胃大彎的起始處', 'Above it lie the diaphragm and oesophageal hiatus; to its left the greater curvature begins'),
     作用: e('保持食道與胃底之間的夾角，是抗逆流機制的一部分；夾角變鈍（如裂孔疝氣）時容易逆流', 'Keeps the angle between oesophagus and fundus, part of the anti-reflux mechanism; when the angle flattens, as in a hiatal hernia, reflux becomes easier'),
   },
@@ -927,19 +927,19 @@ Object.assign(CARD_EXTRAS, {
   },
   'lesser curvature of stomach': {
     位置: e('胃的右側緣與上緣，凹面向右上，自賁門起弧形向下到幽門', 'Right and upper border of the stomach, concave towards the upper right, curving down from the cardia to the pylorus'),
-    組成: e('短而凹，最低點為胃角切跡；兩層腹膜在此合併，向上連成小網膜（肝胃韌帶）', 'Short and concave, its lowest point being the angular incisure; the two layers of peritoneum meet along it and continue up as the lesser omentum (hepatogastric ligament)'),
-    毗鄰: e('小網膜內有左、右胃動脈沿弧吻合，並有胃冠狀靜脈與胃周淋巴結；迷走神經的胃支沿此分布；胃潰瘍多發生在小彎近胃角處', 'The left and right gastric arteries anastomose in the lesser omentum along the curve, together with the gastric veins and the gastric lymph nodes; gastric branches of the vagus run along it; gastric ulcers are common on the lesser curvature near the angular incisure'),
+    形態與附著: e('胃的右上緣，短而凹，最低點為胃角切跡；小網膜（肝胃韌帶）附著於此緣，向上連到肝', 'The short concave right-upper border of the stomach, lowest at the angular incisure; the lesser omentum (hepatogastric ligament) attaches along it and runs up to the liver'),
+    毗鄰: e('左、右胃動脈沿此緣相接成弧，並有胃冠狀靜脈與胃周淋巴結；迷走神經的胃支沿此緣分布；胃潰瘍多發生在小彎近胃角處', 'The left and right gastric arteries join in an arcade alongside this border, together with the gastric veins and the gastric lymph nodes; gastric branches of the vagus follow it; gastric ulcers are common on the lesser curvature near the angular incisure'),
     血液供應: e('左胃動脈（來自腹腔動脈幹）與右胃動脈（來自肝固有動脈）', 'Left gastric artery (from the coeliac trunk) and right gastric artery (from the proper hepatic artery)'),
   },
   'greater curvature of stomach': {
     位置: e('胃的左側緣與下緣，凸面向左下，自賁門切跡起越過胃底，沿胃體左下方弧行到幽門，長度約為小彎的四倍', 'Left and lower border of the stomach, convex to the lower left, starting at the cardial notch, arching over the fundus and running down the left side of the body to the pylorus; it is roughly four times as long as the lesser curvature'),
-    組成: e('凸而長；腹膜在此延伸為大網膜（含胃結腸韌帶與胃脾韌帶）；胃底另有胃膈韌帶連到橫膈', 'Long and convex; peritoneum from it forms the greater omentum (including the gastrocolic and gastrosplenic ligaments); at the fundus the gastrophrenic ligament also runs to the diaphragm'),
+    形態與附著: e('胃的左下緣，凸而長；大網膜（含胃結腸韌帶與胃脾韌帶）附著於此緣，胃底處另有胃膈韌帶連到橫膈', 'The long convex left-lower border of the stomach; the greater omentum (including the gastrocolic and gastrosplenic ligaments) attaches along it, with the gastrophrenic ligament at the fundus running to the diaphragm'),
     毗鄰: e('下方經胃結腸韌帶連橫結腸；左上方連胃脾韌帶至脾門；左、右胃網膜動脈沿弧吻合，短胃動脈經胃脾韌帶到達胃底', 'Below, the gastrocolic ligament links it to the transverse colon; at the upper left the gastrosplenic ligament runs to the hilum of the spleen; the left and right gastro-omental arteries anastomose along it, and the short gastric arteries reach the fundus through the gastrosplenic ligament'),
     血液供應: e('左胃網膜動脈（來自脾動脈）、右胃網膜動脈（來自胃十二指腸動脈）與短胃動脈', 'Left gastro-omental artery (from the splenic artery), right gastro-omental artery (from the gastroduodenal artery) and the short gastric arteries'),
   },
   'angular incisure (angular notch)': {
     位置: e('胃小彎下部最低處的明顯彎折，在幽門平面附近', 'Sharp bend at the lowest part of the lesser curvature, near the transpyloric plane'),
-    組成: e('小彎在此由垂直走向轉為水平走向；內面黏膜皺襞在此相對突起，內視鏡下可見', 'The lesser curvature changes here from a vertical to a horizontal course; on the inside the mucosal folds project towards each other and the notch can be seen at endoscopy'),
+    形態: e('胃小彎在此由垂直轉為水平，形成一處明顯的凹入；內視鏡下可在小彎側看到對應的折角', 'The lesser curvature turns here from a vertical to a horizontal course, forming a distinct indentation; the corresponding angle can be seen on the lesser-curvature side at endoscopy'),
     毗鄰: e('為胃體與幽門部的分界；對應胃大彎側沒有明顯切跡；後方鄰胰體', 'Marks the boundary between the body and the pyloric part, with no notch on the opposite side along the greater curvature; the pancreatic body lies behind'),
     作用: e('內視鏡與影像上用來辨認胃體與幽門竇的分界，也是胃潰瘍的好發部位之一', 'A landmark at endoscopy and in imaging for the division of body and antrum, and a common site of gastric ulcer'),
   },
@@ -987,8 +987,8 @@ Object.assign(CARD_EXTRAS, {
     血液供應: e('下胰十二指腸動脈與空腸動脈第一支', 'Inferior pancreaticoduodenal artery and the first jejunal artery'),
   },
   'duodenojejunal flexure': {
-    位置: e('十二指腸升部與空腸交界的急彎，約在第二腰椎左側，位於胰體下緣之下', 'Sharp bend where the ascending duodenum turns into the jejunum, at the left of L2 just below the lower border of the pancreatic body'),
-    組成: e('由十二指腸懸韌帶固定；腸管在此由後腹膜轉入有腸繫膜的腹膜內位', 'Held in place by the suspensory ligament of the duodenum; the gut passes here from a retroperitoneal position to an intraperitoneal one with a mesentery'),
+    位置: e('十二指腸升部轉向空腸的腸管轉彎處，約在第二腰椎左側、胰體下緣之下；是腸管轉彎的一段，有自己的管壁，與前後腸段相連', 'The turn of the gut tube where the ascending duodenum passes into the jejunum, at the left of L2 just below the lower border of the pancreatic body; it is a segment of gut with its own wall, continuous with the gut on either side'),
+    固定方式: e('由十二指腸懸韌帶固定；腸管在此由後腹膜轉入有腸繫膜的腹膜內位', 'Held in place by the suspensory ligament of the duodenum; the gut passes here from a retroperitoneal position to an intraperitoneal one with a mesentery'),
     毗鄰: e('前方為胃後壁與橫結腸繫膜，左側為左腎與左腎血管，後方為左腰大肌與腹主動脈的左側；下腸繫膜靜脈常在其附近匯入脾靜脈', 'In front the posterior wall of the stomach and the transverse mesocolon, to the left the left kidney and renal vessels, behind the left psoas and the left side of the aorta; the inferior mesenteric vein often passes nearby to join the splenic vein'),
     血液供應: e('空腸第一動脈與下胰十二指腸動脈', 'First jejunal artery and the inferior pancreaticoduodenal artery'),
     作用: e('是十二指腸與空腸的分界，臨床上常以此為上、下消化道出血的分界點', 'The boundary between the duodenum and jejunum, and the usual dividing line between upper and lower gastrointestinal bleeding'),
@@ -1103,13 +1103,13 @@ Object.assign(CARD_EXTRAS, {
   },
   'diaphragmatic surface of liver': {
     位置: e('肝的上面與前面及後面一部分，平滑呈圓頂狀，緊貼橫膈', 'The smooth dome-shaped upper surface of the liver with parts of its front and back, applied to the diaphragm'),
-    組成: e('被腹膜覆蓋，鐮狀韌帶與冠狀韌帶附著其上，並將肝分為左右部；後上方的裸區無腹膜覆蓋', 'Covered by peritoneum, with the falciform and coronary ligaments attached to it dividing the liver into right and left parts; the bare area behind and above has no peritoneal covering'),
+    表面特徵: e('此面大部分有腹膜覆蓋，鐮狀韌帶與冠狀韌帶附著於此面，鐮狀韌帶的附著線把肝分為左右部；後上方的裸區沒有腹膜覆蓋，直接貼橫膈', 'Most of this surface is covered by peritoneum; the falciform and coronary ligaments attach to it, the line of the falciform ligament dividing the liver into right and left parts; the bare area behind and above lacks peritoneum and lies directly against the diaphragm'),
     毗鄰: e('隔著橫膈，右側貼右肺與胸膜，左側貼心臟；前面貼前腹壁與肋弓', 'Across the diaphragm lie the right lung and pleura on the right and the heart on the left; in front lie the anterior abdominal wall and costal margin'),
     作用: e('右膈下間隙的膿瘍會貼附在此面；刺激橫膈時疼痛可牽涉到右肩', 'Subphrenic abscesses collect against it; irritation of the diaphragm can refer pain to the right shoulder'),
   },
   'visceral surface of liver': {
     位置: e('肝的下面與後下面，朝向下方與後方，與腹腔臟器相接', 'The inferior and posteroinferior surface of the liver, facing downward and backward towards the abdominal organs'),
-    組成: e('有 H 形的溝：右縱溝（膽囊窩與下腔靜脈溝）、左縱溝（肝圓韌帶裂與靜脈韌帶裂）和橫溝（肝門）；劃出右葉、左葉、方形葉與尾葉', 'Marked by an H-shaped set of grooves: the right sagittal groove (gallbladder fossa and groove for the inferior vena cava), the left sagittal groove (fissures for the round ligament and ligamentum venosum) and the transverse groove (porta hepatis); these delimit the right, left, quadrate and caudate lobes'),
+    表面特徵: e('表面有 H 形的溝：右縱溝（膽囊窩與下腔靜脈溝）、左縱溝（肝圓韌帶裂與靜脈韌帶裂）和橫溝（肝門）；劃出右葉、左葉、方形葉與尾葉', 'Marked by an H-shaped set of grooves: the right sagittal groove (gallbladder fossa and groove for the inferior vena cava), the left sagittal groove (fissures for the round ligament and ligamentum venosum) and the transverse groove (porta hepatis); these delimit the right, left, quadrate and caudate lobes'),
     毗鄰: e('留有胃壓跡、十二指腸壓跡、結腸壓跡、腎壓跡與腎上腺壓跡，分別與相應器官相接', 'Bears gastric, duodenal, colic, renal and suprarenal impressions where it touches the respective organs'),
     作用: e('肝門與周圍的器官壓跡是辨認臟面結構的標誌', 'The porta hepatis and the organ impressions are the landmarks for identifying structures on the visceral surface'),
   },
@@ -1239,3 +1239,249 @@ Object.assign(CARD_EXTRAS, {
   },
 });
 // ===== C02 end =====
+
+// ===== AB-A1 begin: abdominal aorta and its unpaired branches (card batch AB-A1). Standard anatomy only; a field we are not sure of stays out. =====
+Object.assign(CARD_EXTRAS, {
+  'abdominal aorta': {
+    來源: e('主動脈在第十二胸椎（T12）下緣高度經橫膈的主動脈裂孔進入腹腔後續成腹主動脈', 'The continuation of the thoracic aorta after it passes through the aortic hiatus of the diaphragm at the lower border of T12'),
+    走向: e('沿腰椎體前方稍偏左下行，右側為下腔靜脈，前方依次有胰、十二指腸第三部與腸繫膜根；約在第四腰椎（L4）高度分為左、右總髂動脈，分叉處另發出細小的正中薦動脈', 'Descends in front of the lumbar vertebral bodies slightly to the left of the midline, with the inferior vena cava on its right and the pancreas, third part of the duodenum and root of the mesentery in front; at about L4 it divides into the left and right common iliac arteries and gives off a slender median sacral artery at the fork'),
+    主要分支: e('不成對的內臟分支：腹腔動脈幹（約 T12）、上腸繫膜動脈（約 L1）、下腸繫膜動脈（約 L3）；成對分支：下膈動脈、腎上腺中動脈、腎動脈、生殖腺動脈、腰動脈、肋下動脈；分叉處另有正中薦動脈', 'Unpaired visceral branches: the celiac trunk (about T12), superior mesenteric artery (about L1) and inferior mesenteric artery (about L3); paired branches: inferior phrenic, middle suprarenal, renal, gonadal, lumbar and subcostal arteries; the median sacral artery arises at the bifurcation'),
+    供應範圍: e('腹腔內臟、後腹壁、橫膈下面，並藉總髂動脈供應骨盆與下肢', 'The abdominal viscera, posterior abdominal wall and underside of the diaphragm, and through the common iliac arteries the pelvis and lower limbs'),
+  },
+  'celiac trunk': {
+    來源: e('在約第十二胸椎（T12）高度（部分資料作 T12 至 L1 上緣），主動脈裂孔下方，由腹主動脈前壁發出', 'Arises from the front of the abdominal aorta at about T12 (some sources give T12 to the upper border of L1), just below the aortic hiatus'),
+    走向: e('非常短（約一至二公分），幾乎水平向前，位於胰體上緣上方、小網膜囊後方，被腹腔神經叢與腹腔神經節環繞；隨即分為三支', 'Very short (about 1 to 2 cm) and running almost horizontally forward, above the upper border of the body of the pancreas and behind the lesser sac, surrounded by the celiac plexus and ganglia; it soon divides into three branches'),
+    主要分支: e('左胃動脈、脾動脈、總肝動脈', 'Left gastric, splenic and common hepatic arteries'),
+    供應範圍: e('前腸衍生的器官：食道腹段、胃、十二指腸近端（至大十二指腸乳頭）、肝、膽囊、膽道、胰的大部分與脾', 'Foregut derivatives: the abdominal oesophagus, stomach, proximal duodenum (down to the major duodenal papilla), liver, gallbladder, bile ducts, most of the pancreas and the spleen'),
+  },
+  'left gastric artery': {
+    來源: e('腹腔動脈幹的三條分支中最小的一條，向左上走', 'The smallest of the three branches of the celiac trunk, running up and to the left'),
+    走向: e('在腹膜後向左上走到胃食道交界處，再轉向下，沿胃小彎走在小網膜兩層之間，與右胃動脈在小彎中部相接', 'Ascends retroperitoneally to the left towards the gastro-oesophageal junction, then turns down and runs along the lesser curvature between the layers of the lesser omentum to meet the right gastric artery'),
+    主要分支: e('食道支（向上）；胃支（沿小彎的前、後壁）；有時另有肝左副動脈', 'Oesophageal branches (upward) and gastric branches along the front and back walls of the lesser curvature; sometimes an accessory left hepatic artery'),
+    供應範圍: e('食道腹段下端與胃小彎側', 'The lower abdominal oesophagus and the lesser-curvature side of the stomach'),
+  },
+  'esophageal branch of left gastric artery': {
+    來源: e('左胃動脈在接近胃食道交界處發出的上行支', 'The ascending branch of the left gastric artery given off near the gastro-oesophageal junction'),
+    走向: e('沿食道前面上行，隨食道穿過橫膈的食道裂孔進入下胸部', 'Runs up on the front of the oesophagus and passes with it through the oesophageal hiatus of the diaphragm into the lower thorax'),
+    供應範圍: e('食道腹段與下胸段；與主動脈胸部的食道支在此吻合', 'The abdominal and lower thoracic oesophagus; it anastomoses here with the oesophageal branches of the thoracic aorta'),
+  },
+  'splenic artery': {
+    來源: e('腹腔動脈幹最大的分支，向左走', 'The largest branch of the celiac trunk, running to the left'),
+    走向: e('彎曲迂迴，沿胰體與胰尾上緣走，位於胃的後方、小網膜囊後壁，之後在脾腎韌帶內進入脾門，並在近脾門處分成數條終末支', 'Tortuous, running along the upper border of the body and tail of the pancreas behind the stomach and the back wall of the lesser sac, then within the splenorenal ligament to the splenic hilum, where it divides into terminal branches'),
+    主要分支: e('胰支（常包括背胰動脈、大胰動脈）、短胃動脈、左胃網膜動脈、後胃動脈（不恆定）、脾門處的脾支', 'Pancreatic branches (often including the dorsal and greater pancreatic arteries), short gastric arteries, left gastro-omental artery, posterior gastric artery (inconstant) and the splenic branches at the hilum'),
+    供應範圍: e('脾、胰體與胰尾、胃底與胃大彎左半', 'The spleen, body and tail of the pancreas, and the fundus and left part of the greater curvature of the stomach'),
+  },
+  'short gastric arteries': {
+    來源: e('脾動脈末端或其脾支發出的數條（約五至七條）細小動脈', 'Several (about five to seven) small arteries arising from the end of the splenic artery or its splenic branches'),
+    走向: e('在胃脾韌帶內向左上走，抵達胃底的大彎側', 'Run in the gastrosplenic ligament up to the greater-curvature side of the gastric fundus'),
+    供應範圍: e('胃底與胃體上部的大彎側；與左胃動脈及左胃網膜動脈互相吻合', 'The fundus and upper greater-curvature side of the stomach, anastomosing with the left gastric and left gastro-omental arteries'),
+  },
+  'left gastro-omental artery': {
+    來源: e('脾動脈末端（或脾支）的分支', 'A branch of the end of the splenic artery or one of its splenic branches'),
+    走向: e('經胃脾韌帶向下，再沿胃大彎走在大網膜前兩層之間，向右與右胃網膜動脈相接', 'Passes down in the gastrosplenic ligament and along the greater curvature between the layers of the greater omentum, running to the right to meet the right gastro-omental artery'),
+    供應範圍: e('胃大彎左側部分的前後壁與大網膜', 'The front and back walls of the left part of the greater curvature of the stomach, and the greater omentum'),
+  },
+  'posterior gastric artery': {
+    來源: e('脾動脈的小分支，不一定存在（出現率各報告不一）', 'A small branch of the splenic artery that is not always present (reported frequency varies)'),
+    走向: e('在腹膜後沿小網膜囊後壁向上走，經胃膈韌帶到達胃底後壁', 'Ascends behind the peritoneum of the posterior wall of the lesser sac and reaches the back wall of the fundus through the gastrophrenic fold'),
+    供應範圍: e('胃底與胃體上部的後壁', 'The back wall of the fundus and upper body of the stomach'),
+  },
+  'dorsal pancreatic artery': {
+    來源: e('最常見起自脾動脈根部（約四成），也可起自腹腔動脈幹、總肝動脈或上腸繫膜動脈', 'Most often from the root of the splenic artery (about 40 per cent); it may instead arise from the celiac trunk, common hepatic or superior mesenteric artery'),
+    走向: e('在胰頸後方向下走，分成左、右支；右支與前上胰十二指腸動脈相接，左支沿胰體下緣向左，續為胰下動脈', 'Descends behind the neck of the pancreas and divides into right and left branches; the right branch joins the anterior superior pancreaticoduodenal artery and the left branch runs along the lower border of the body of the pancreas as the inferior pancreatic artery'),
+    供應範圍: e('胰頸與胰體；與前上胰十二指腸動脈及大胰動脈吻合', 'The neck and body of the pancreas, anastomosing with the anterior superior pancreaticoduodenal artery and the greater pancreatic artery'),
+  },
+  'greater pancreatic artery': {
+    來源: e('脾動脈沿胰體上緣行經時，在約胰體中部發出的最大胰支', 'The largest pancreatic branch of the splenic artery, arising as it runs along the upper border of the pancreas at about the middle of the body'),
+    走向: e('向下進入胰體實質，分支供應胰體左段與胰尾，並與胰下動脈吻合', 'Passes down into the substance of the pancreas, supplying the left part of the body and the tail through its branches and anastomosing with the inferior pancreatic artery'),
+    供應範圍: e('胰體左段與胰尾', 'The left part of the body and the tail of the pancreas'),
+  },
+  'common hepatic artery': {
+    來源: e('腹腔動脈幹的右向分支', 'The rightward branch of the celiac trunk'),
+    走向: e('在小網膜囊後壁的腹膜後，沿胰頸上緣向右走，到十二指腸上部上緣附近分為肝固有動脈與胃十二指腸動脈', 'Runs to the right along the upper border of the neck of the pancreas, behind the peritoneum of the back wall of the lesser sac, and divides near the upper border of the first part of the duodenum into the proper hepatic and gastroduodenal arteries'),
+    主要分支: e('肝固有動脈、胃十二指腸動脈', 'Hepatic artery proper and gastroduodenal artery'),
+    供應範圍: e('肝、膽道、胃右側、十二指腸近端與胰頭（經其分支）', 'The liver, bile ducts, right side of the stomach, proximal duodenum and head of the pancreas through its branches'),
+  },
+  'hepatic artery proper': {
+    來源: e('總肝動脈分出胃十二指腸動脈之後的延續', 'The continuation of the common hepatic artery after the gastroduodenal artery is given off'),
+    走向: e('在肝十二指腸韌帶（小網膜游離緣）內上行，位於門靜脈的前方、膽總管的左側，到肝門附近分為左、右肝動脈', 'Ascends in the hepatoduodenal ligament (free edge of the lesser omentum) in front of the portal vein and to the left of the bile duct, and divides near the porta hepatis into the left and right hepatic arteries'),
+    主要分支: e('右胃動脈、左肝動脈、右肝動脈', 'Right gastric artery and the left and right hepatic arteries'),
+    供應範圍: e('肝與膽道', 'The liver and biliary tract'),
+  },
+  'left hepatic artery': {
+    來源: e('肝固有動脈在肝門的左側終支', 'The left terminal branch of the hepatic artery proper at the porta hepatis'),
+    走向: e('進入肝門左側，沿門靜脈左支走向左葉；若自左胃動脈發出，稱為替代肝左動脈（若除正常的肝左動脈外另有一條，稱副肝左動脈），是常見變異', 'Enters the left side of the porta hepatis and runs with the left branch of the portal vein to the left lobe; when it arises from the left gastric artery it is called a replaced left hepatic artery (an accessory left hepatic artery if there is one in addition to the normal left hepatic artery), a common variant'),
+    供應範圍: e('肝左葉與方葉（內側段），並分支供應尾狀葉', 'The left lobe and quadrate lobe (medial segment) of the liver, with branches to the caudate lobe'),
+  },
+  'right hepatic artery': {
+    來源: e('肝固有動脈在肝門右側的終支；約有一成多起自上腸繫膜動脈（替代肝右動脈），是最常見的肝動脈變異之一', 'The right terminal branch of the hepatic artery proper; in more than one in ten people it arises from the superior mesenteric artery (a replaced right hepatic artery), one of the commonest hepatic arterial variants'),
+    走向: e('向右走，約三分之二在總肝管後方越過，其餘在前方，進入肝門右側；替代型則走在門靜脈後方。途中通常在膽囊三角內發出膽囊動脈', 'Runs to the right, passing behind the common hepatic duct in about two thirds of people and in front of it in the rest, to enter the right side of the porta hepatis (a replaced one runs behind the portal vein); it usually gives off the cystic artery within the cystohepatic triangle'),
+    主要分支: e('膽囊動脈', 'Cystic artery'),
+    供應範圍: e('肝右葉與膽囊', 'The right lobe of the liver and the gallbladder'),
+  },
+  'right gastric artery': {
+    來源: e('通常起自肝固有動脈，也可起自總肝動脈或胃十二指腸動脈', 'Usually from the hepatic artery proper, sometimes from the common hepatic or gastroduodenal artery'),
+    走向: e('在小網膜內向左走到幽門上緣，再沿胃小彎向左上方，與左胃動脈相吻合', 'Runs to the left in the lesser omentum to the upper border of the pylorus, then along the lesser curvature to the left and upward, anastomosing with the left gastric artery'),
+    供應範圍: e('幽門與胃小彎右側（胃竇側）', 'The pylorus and the right (antral) part of the lesser curvature'),
+  },
+  'gastroduodenal artery': {
+    來源: e('總肝動脈的終末分支之一，在十二指腸上部上緣附近發出', 'One of the two terminal branches of the common hepatic artery, arising near the upper border of the first part of the duodenum'),
+    走向: e('在十二指腸上部後方下行，位於胰頸前方偏右，並在十二指腸上部下緣分為右胃網膜動脈與前上胰十二指腸動脈（後上胰十二指腸動脈較早自其後壁發出）', 'Descends behind the first part of the duodenum, in front of the neck of the pancreas on the right, and divides at the lower border of the duodenum into the right gastro-omental and anterior superior pancreaticoduodenal arteries (the posterior superior pancreaticoduodenal artery arises earlier from its back wall)'),
+    主要分支: e('上十二指腸動脈（不恆定）、後上胰十二指腸動脈、右胃網膜動脈、前上胰十二指腸動脈', 'Supraduodenal artery (inconstant), posterior superior pancreaticoduodenal artery, right gastro-omental artery and anterior superior pancreaticoduodenal artery'),
+    供應範圍: e('胃大彎右側、十二指腸上部與胰頭；十二指腸後壁潰瘍侵蝕時可大量出血', 'The right part of the greater curvature, the first part of the duodenum and the head of the pancreas; erosion by a posterior duodenal ulcer can cause heavy bleeding'),
+  },
+  'right gastro-omental artery': {
+    來源: e('胃十二指腸動脈的較大終支', 'The larger terminal branch of the gastroduodenal artery'),
+    走向: e('在幽門下方進入大網膜前兩層之間，沿胃大彎向左，與左胃網膜動脈相吻合', 'Enters the layers of the greater omentum below the pylorus and runs to the left along the greater curvature to anastomose with the left gastro-omental artery'),
+    供應範圍: e('胃大彎右側部分的前後壁與大網膜', 'The front and back walls of the right part of the greater curvature and the greater omentum'),
+  },
+  'superior pancreaticoduodenal artery': {
+    來源: e('胃十二指腸動脈的分支，包括前、後兩支：後支在十二指腸上部後方較高處發出，前支為其終末支之一', 'Branches of the gastroduodenal artery, comprising anterior and posterior branches: the posterior branch arises higher up, behind the first part of the duodenum, and the anterior branch is one of its terminal branches'),
+    走向: e('沿胰頭與十二指腸降部之間的溝下行，與下胰十二指腸動脈吻合，構成腹腔動脈幹與上腸繫膜動脈之間的重要側支通路', 'Descends in the groove between the head of the pancreas and the descending duodenum and anastomoses with the inferior pancreaticoduodenal artery, forming an important collateral route between the celiac trunk and superior mesenteric artery'),
+    主要分支: e('前上胰十二指腸動脈、後上胰十二指腸動脈', 'Anterior and posterior superior pancreaticoduodenal arteries'),
+    供應範圍: e('胰頭與十二指腸降部', 'The head of the pancreas and the descending duodenum'),
+  },
+  'anterior superior pancreaticoduodenal artery': {
+    來源: e('胃十二指腸動脈的終末分支', 'A terminal branch of the gastroduodenal artery'),
+    走向: e('沿胰頭前面靠近十二指腸處下行，與前下胰十二指腸動脈相接成弓', 'Descends on the front of the head of the pancreas next to the duodenum and joins the anterior inferior pancreaticoduodenal artery to form an arcade'),
+    供應範圍: e('胰頭前面與十二指腸降部前壁', 'The front of the head of the pancreas and the front of the descending duodenum'),
+  },
+  'posterior superior pancreaticoduodenal artery': {
+    來源: e('胃十二指腸動脈在十二指腸上部後方發出（先於前支發出）', 'Arises from the gastroduodenal artery behind the first part of the duodenum (before the anterior branch)'),
+    走向: e('沿胰頭後面下行，貼近膽總管（上段在其前方，再轉到其後方），隨後與後下支相接成弓', 'Descends on the back of the head of the pancreas close to the bile duct (in front of its upper part, then passing behind it), and then joins the posterior inferior branch to form an arcade'),
+    供應範圍: e('胰頭後面、膽總管下段與十二指腸降部後壁', 'The back of the head of the pancreas, the lower bile duct and the back of the descending duodenum'),
+  },
+  'supraduodenal artery': {
+    來源: e('不恆定的小動脈，常起自胃十二指腸動脈，也可起自肝動脈', 'An inconstant small artery, commonly from the gastroduodenal artery and sometimes from the hepatic artery'),
+    走向: e('向前走到十二指腸上部', 'Passes forward to the first part of the duodenum'),
+    供應範圍: e('十二指腸上部（球部）的上方與前後壁', 'The upper part and front and back walls of the first part (bulb) of the duodenum'),
+  },
+  'superior mesenteric artery': {
+    來源: e('約在第一腰椎（L1）高度，腹腔動脈幹下方約一公分處，由腹主動脈前壁發出', 'Arises from the front of the abdominal aorta at about L1, roughly 1 cm below the celiac trunk'),
+    走向: e('先在胰頸與脾靜脈後方下行，越過左腎靜脈、鉤突與十二指腸第三部前方，進入腸繫膜根，在小腸繫膜內向右下走向右髂窩，終末與迴結腸動脈相吻合', 'First descends behind the neck of the pancreas and the splenic vein, crosses in front of the left renal vein, uncinate process and third part of the duodenum, then enters the root of the mesentery and runs down to the right iliac fossa, ending by anastomosing with the ileocolic artery'),
+    主要分支: e('下胰十二指腸動脈；左側有空腸動脈與迴腸動脈；右側有中結腸動脈、右結腸動脈與迴結腸動脈', 'Inferior pancreaticoduodenal artery; on the left the jejunal and ileal arteries; on the right the middle colic, right colic and ileocolic arteries'),
+    供應範圍: e('中腸衍生的器官：十二指腸（大十二指腸乳頭以下）、空腸、迴腸、盲腸、闌尾、升結腸與橫結腸近三分之二，另供應部分胰頭', 'Midgut derivatives: the duodenum below the major duodenal papilla, jejunum, ileum, caecum, appendix, ascending colon and the proximal two thirds of the transverse colon, plus part of the head of the pancreas'),
+  },
+  'inferior pancreaticoduodenal artery': {
+    來源: e('上腸繫膜動脈剛離開主動脈後發出的第一條分支（也可與第一空腸動脈共幹）', 'The first branch of the superior mesenteric artery, close to its origin (it may share a trunk with the first jejunal artery)'),
+    走向: e('沿十二指腸第三部上緣附近向右，分成前、後兩支，在胰頭與十二指腸之間上行，與上胰十二指腸動脈的前、後支相吻合', 'Passes to the right near the upper border of the third part of the duodenum and divides into anterior and posterior branches that ascend between the head of the pancreas and the duodenum to anastomose with the corresponding superior pancreaticoduodenal branches'),
+    主要分支: e('前下胰十二指腸動脈、後下胰十二指腸動脈', 'Anterior and posterior inferior pancreaticoduodenal arteries'),
+    供應範圍: e('胰頭下部與十二指腸降部下段、水平部', 'The lower head of the pancreas and the lower descending and horizontal parts of the duodenum'),
+  },
+  'anterior inferior pancreaticoduodenal artery': {
+    來源: e('下胰十二指腸動脈的前支', 'The anterior branch of the inferior pancreaticoduodenal artery'),
+    走向: e('沿胰頭前面向上，與前上胰十二指腸動脈相接成弓', 'Ascends on the front of the head of the pancreas and joins the anterior superior pancreaticoduodenal artery to form an arcade'),
+    供應範圍: e('胰頭前下部與鄰近十二指腸', 'The front and lower part of the head of the pancreas and the adjacent duodenum'),
+  },
+  'posterior inferior pancreaticoduodenal artery': {
+    來源: e('下胰十二指腸動脈的後支', 'The posterior branch of the inferior pancreaticoduodenal artery'),
+    走向: e('沿胰頭後面向上，與後上胰十二指腸動脈相接成弓', 'Ascends on the back of the head of the pancreas and joins the posterior superior pancreaticoduodenal artery to form an arcade'),
+    供應範圍: e('胰頭後下部與鄰近十二指腸', 'The back and lower part of the head of the pancreas and the adjacent duodenum'),
+  },
+  'jejunal arteries': {
+    來源: e('上腸繫膜動脈左側壁發出的一組分支（常與迴腸動脈合計約十二至十五條）', 'A group of branches from the left side of the superior mesenteric artery (together with the ileal arteries commonly about 12 to 15)'),
+    走向: e('在小腸繫膜內向左走，分支相互吻合成動脈弓，再發出直小動脈（直血管）到空腸壁；空腸的弓層數較少、直血管較長', 'Run to the left in the mesentery and join in arterial arcades from which straight vessels (vasa recta) reach the jejunal wall; the jejunum has fewer arcade layers and longer straight vessels'),
+    供應範圍: e('空腸', 'The jejunum'),
+  },
+  'ileal arteries': {
+    來源: e('上腸繫膜動脈左側壁發出、位置較下方的一組分支', 'The lower group of branches from the left side of the superior mesenteric artery'),
+    走向: e('在小腸繫膜內向左下走，形成多層動脈弓，再發出較短的直小動脈到迴腸壁；最末段由迴結腸動脈的迴腸支接續', 'Run down and to the left in the mesentery, forming several layers of arcades from which shorter straight vessels reach the ileal wall; the last part is supplied by the ileal branch of the ileocolic artery'),
+    供應範圍: e('迴腸', 'The ileum'),
+  },
+  'ileocolic artery': {
+    來源: e('上腸繫膜動脈右側壁發出的最下一條分支', 'The lowest branch from the right side of the superior mesenteric artery'),
+    走向: e('在腹膜後向右下走向迴盲交界，分為上支（升結腸支）與下支；下支發出前、後盲腸動脈、闌尾動脈與迴腸支', 'Runs down and to the right behind the peritoneum towards the ileocaecal junction and divides into a superior (colic) branch and an inferior branch, which gives anterior and posterior caecal arteries, the appendicular artery and an ileal branch'),
+    主要分支: e('結腸支、前盲腸動脈、後盲腸動脈、闌尾動脈、迴腸支', 'Colic, anterior caecal, posterior caecal, appendicular and ileal branches'),
+    供應範圍: e('迴腸末端、盲腸、闌尾與升結腸下段', 'The terminal ileum, caecum, appendix and lower ascending colon'),
+  },
+  'appendicular artery': {
+    來源: e('迴結腸動脈（或其後盲腸分支）的分支', 'A branch of the ileocolic artery (or of its posterior caecal branch)'),
+    走向: e('經迴腸末端後方下降，進入闌尾繫膜，沿其游離緣到達闌尾尖端', 'Descends behind the terminal ileum into the mesoappendix and runs along its free edge to the tip of the appendix'),
+    供應範圍: e('闌尾；它是終動脈，血流中斷時闌尾容易壞死', 'The appendix; it is an end artery, so interruption of flow readily leads to necrosis of the appendix'),
+  },
+  'right colic artery': {
+    來源: e('上腸繫膜動脈右側壁，也常與迴結腸動脈共幹，有時缺如', 'From the right side of the superior mesenteric artery, often by a common trunk with the ileocolic artery, and sometimes absent'),
+    走向: e('在腹膜後向右走，橫過右輸尿管、生殖腺血管及腰大肌，接近升結腸時分為上行支與下行支', 'Runs to the right behind the peritoneum, crossing the right ureter, gonadal vessels and psoas major, and divides near the ascending colon into ascending and descending branches'),
+    供應範圍: e('升結腸（尤其上半）；上行支與中結腸動脈、下行支與迴結腸動脈吻合', 'The ascending colon, especially its upper half; the ascending branch anastomoses with the middle colic artery and the descending branch with the ileocolic artery'),
+  },
+  'middle colic artery': {
+    來源: e('上腸繫膜動脈在胰頸下緣附近發出的分支', 'A branch of the superior mesenteric artery near the lower border of the neck of the pancreas'),
+    走向: e('進入橫結腸繫膜，向前下走並分為右支與左支；右支與右結腸動脈吻合，左支與左結腸動脈吻合', 'Enters the transverse mesocolon, runs forward and down, and divides into right and left branches; the right branch anastomoses with the right colic artery and the left branch with the left colic artery'),
+    供應範圍: e('橫結腸的近三分之二；與左結腸動脈的吻合是上、下腸繫膜動脈之間的重要側支（邊緣動脈）', 'The proximal two thirds of the transverse colon; its anastomosis with the left colic artery is a key collateral between the superior and inferior mesenteric territories (the marginal artery)'),
+  },
+  'inferior mesenteric artery': {
+    來源: e('約在第三腰椎（L3）高度，主動脈分叉上方約三至四公分，由腹主動脈前壁偏左發出', 'Arises from the front of the abdominal aorta, slightly to the left, at about L3 and 3 to 4 cm above the aortic bifurcation'),
+    走向: e('在十二指腸第三部下方的腹膜後向左下走，在左腰大肌前方下行，越過左總髂動脈在骨盆緣處續為上直腸動脈', 'Runs down and to the left behind the peritoneum below the third part of the duodenum, in front of the left psoas major, and crosses the left common iliac vessels at the pelvic brim, where it continues as the superior rectal artery'),
+    主要分支: e('左結腸動脈、乙狀結腸動脈、上直腸動脈', 'Left colic, sigmoid and superior rectal arteries'),
+    供應範圍: e('後腸衍生的器官：橫結腸遠端約三分之一、降結腸、乙狀結腸、直腸上部（經上直腸動脈下達肛管上段）', 'Hindgut derivatives: the distal third of the transverse colon, descending colon, sigmoid colon and upper rectum (reaching the upper anal canal through the superior rectal artery)'),
+  },
+  'left colic artery': {
+    來源: e('下腸繫膜動脈離開主動脈後不久發出的第一條分支', 'The first branch of the inferior mesenteric artery, arising soon after it leaves the aorta'),
+    走向: e('在腹膜後向左走，橫過左輸尿管與生殖腺血管前方，分為上行支與下行支', 'Runs to the left behind the peritoneum in front of the left ureter and gonadal vessels and divides into ascending and descending branches'),
+    供應範圍: e('橫結腸遠端、結腸脾曲與降結腸；上行支與中結腸動脈、下行支與乙狀結腸動脈吻合', 'The distal transverse colon, splenic flexure and descending colon; the ascending branch anastomoses with the middle colic artery and the descending branch with the sigmoid arteries'),
+  },
+  'sigmoid arteries': {
+    來源: e('下腸繫膜動脈的分支（通常有二至三條，也可起自左結腸動脈）', 'Branches of the inferior mesenteric artery (usually two or three, sometimes from the left colic artery)'),
+    走向: e('進入乙狀結腸繫膜，向左下走向乙狀結腸，各自分成上行支與下行支並相互吻合', 'Enter the sigmoid mesocolon and run down and to the left to the sigmoid colon, each dividing into ascending and descending branches that anastomose with one another'),
+    供應範圍: e('降結腸下端與乙狀結腸；上方與左結腸動脈、下方與上直腸動脈吻合', 'The lower descending colon and the sigmoid colon, anastomosing above with the left colic artery and below with the superior rectal artery'),
+  },
+  'superior rectal artery': {
+    來源: e('下腸繫膜動脈的延續，在骨盆緣處越過左總髂動脈後得名', 'The continuation of the inferior mesenteric artery, named after it crosses the left common iliac vessels at the pelvic brim'),
+    走向: e('在乙狀結腸繫膜根內下行至骨盆，常在約第三薦椎高度分成左、右兩支，沿直腸兩側的後外側下行到達直腸壁', 'Descends in the root of the sigmoid mesocolon into the pelvis and often at about S3 divides into left and right branches that run down the posterolateral sides of the rectum to its wall'),
+    供應範圍: e('直腸上部至中部，並下達肛管上段；與中直腸動脈及下直腸動脈吻合', 'The upper and middle rectum and the upper anal canal, anastomosing with the middle and inferior rectal arteries'),
+  },
+});
+// ===== AB-A1 end =====
+
+// ===== HN-EC begin =====
+Object.assign(CARD_EXTRAS, {
+  'superior thyroid artery': {
+    來源: e('外頸動脈的第一條前壁分支，在頸動脈三角內、舌骨大角下方附近發出', 'The first anterior branch of the external carotid artery, arising in the carotid triangle just below the greater horn of the hyoid bone'),
+    走向: e('向前下彎成弧形，深入肩胛舌骨肌、胸骨舌骨肌與胸骨甲狀肌，到達甲狀腺上極；上極處與喉外神經相鄰', 'Arches forward and downward, passing deep to omohyoid, sternohyoid and sternothyroid to reach the upper pole of the thyroid gland, where it lies close to the external laryngeal nerve'),
+    主要分支: e('舌骨下支、胸鎖乳突肌支、上喉動脈（與喉內神經一同穿過甲狀舌骨膜）、環甲支，以及供應腺體的前、後與外側支', 'Infrahyoid, sternocleidomastoid, superior laryngeal (passing through the thyrohyoid membrane with the internal laryngeal nerve) and cricothyroid branches, and the anterior, posterior and lateral glandular branches'),
+    供應範圍: e('甲狀腺上部、喉、舌骨下肌群與胸鎖乳突肌；腺內與下甲狀腺動脈、對側同名動脈相吻合', 'The upper part of the thyroid gland, the larynx, the infrahyoid muscles and sternocleidomastoid; within the gland it anastomoses with the inferior thyroid artery and with its fellow of the opposite side'),
+  },
+  'ascending pharyngeal artery': {
+    來源: e('外頸動脈起始部附近的後內側壁分支，是外頸動脈最細的分支', 'A branch from the posteromedial wall of the external carotid artery near its origin; the smallest branch of that artery'),
+    走向: e('沿咽側壁、在內頸動脈內側垂直上行，到達顱底附近', 'Ascends vertically along the side wall of the pharynx, medial to the internal carotid artery, as far as the base of the skull'),
+    主要分支: e('咽支、下鼓室動脈、後腦膜動脈（經頸靜脈孔入顱）與椎前肌支', 'Pharyngeal branches, the inferior tympanic artery, the posterior meningeal artery (entering the skull through the jugular foramen) and branches to the prevertebral muscles'),
+    供應範圍: e('咽壁、扁桃體、軟顎、中耳與頸椎前肌，以及顱後窩的硬腦膜', 'The pharyngeal wall, tonsil, soft palate, middle ear and prevertebral muscles, and the dura mater of the posterior cranial fossa'),
+  },
+  'lingual artery': {
+    來源: e('外頸動脈的前壁分支，約在舌骨大角尖端高度、顏面動脈起點之下發出', 'An anterior branch of the external carotid artery, arising at about the level of the tip of the greater horn of the hyoid bone, below the origin of the facial artery'),
+    走向: e('先向上呈小弧形，再在舌骨大角上緣上方向前走；舌下神經橫過其淺面，接著深入舌骨舌肌的深面，其深側緊貼中咽縮肌，再前行入舌', 'Loops upward first, then runs forward above the greater horn of the hyoid bone; the hypoglossal nerve crosses its superficial side, and it then passes deep to hyoglossus, lying on the middle constrictor, before entering the tongue'),
+    主要分支: e('舌骨上支、舌背支、舌下動脈與舌深動脈（為終末支）', 'Suprahyoid and dorsal lingual branches, the sublingual artery, and the deep lingual artery as its terminal branch'),
+    供應範圍: e('舌、口腔底、舌下腺、扁桃體與會厭；舌深動脈在舌下面走近舌繫帶兩側', 'The tongue, floor of the mouth, sublingual gland, tonsil and epiglottis; the deep lingual artery runs on the underside of the tongue close to the frenulum'),
+  },
+  'facial artery': {
+    來源: e('外頸動脈的前壁分支，在舌動脈起點的稍上方發出', 'An anterior branch of the external carotid artery, arising just above the lingual artery'),
+    走向: e('先在二腹肌後腹與莖突舌骨肌深面上行，再貼著下頜下腺後方壓出溝槽，於咬肌前緣繞過下頜骨下緣上到顏面，彎曲地經口角外側、鼻翼旁抵達內眥', 'Ascends first deep to the posterior belly of digastric and stylohyoid, grooves the back of the submandibular gland, then winds over the lower border of the mandible at the front edge of masseter onto the face and runs tortuously beside the angle of the mouth and the side of the nose to the medial angle of the eye'),
+    主要分支: e('頸部：升顎動脈、扁桃體支、腺支與頦下動脈；顏面部：下唇動脈、上唇動脈、鼻外側動脈，終支為角動脈', 'In the neck: ascending palatine, tonsillar, glandular and submental arteries; on the face: inferior and superior labial and lateral nasal arteries, ending as the angular artery'),
+    供應範圍: e('扁桃體與軟顎、下頜下腺、口唇、鼻與內眥一帶的顏面；角動脈與眼動脈的鼻背支吻合，連結內、外頸動脈系統；在下頜骨下緣、咬肌前方可摸到搏動，其靜脈走在動脈後方', 'The tonsil and soft palate, submandibular gland, lips, and the face around the nose and medial angle of the eye; the angular artery anastomoses with the dorsal nasal branch of the ophthalmic artery, linking the internal and external carotid systems; its pulse can be felt on the lower border of the mandible in front of masseter, with the facial vein lying behind the artery'),
+  },
+  'occipital artery': {
+    來源: e('外頸動脈的後壁分支，約與顏面動脈同一高度，起於二腹肌後腹下緣', 'A posterior branch of the external carotid artery, arising at about the level of the facial artery at the lower border of the posterior belly of digastric'),
+    走向: e('沿顳骨乳突內側的枕動脈溝向後上行，淺越過內頸動脈、內頸靜脈、迷走神經與副神經，舌下神經由後向前繞過其起始部；行程中被胸鎖乳突肌、頭夾肌、頭最長肌與二腹肌後腹覆蓋，之後在斜方肌與胸鎖乳突肌附著於上項線處穿出筋膜，彎曲上行於後頭皮', 'Runs backward and upward along the occipital groove on the medial side of the mastoid process of the temporal bone, crossing superficial to the internal carotid artery, internal jugular vein, vagus and accessory nerves, with the hypoglossal nerve hooking round its origin from behind forward; it is covered by sternocleidomastoid, splenius capitis, longissimus capitis and the posterior belly of digastric, then pierces the fascia at the trapezius and sternocleidomastoid attachments to the superior nuchal line and ascends tortuously in the back of the scalp'),
+    主要分支: e('胸鎖乳突肌支、耳支、腦膜支、降支（與深頸動脈、橫頸動脈相吻合）與枕支', 'Sternocleidomastoid, auricular and meningeal branches, a descending branch (anastomosing with the deep cervical and transverse cervical arteries) and occipital branches'),
+    供應範圍: e('後頭皮、頸後部深層肌肉、胸鎖乳突肌與乳突、硬腦膜', 'The back of the scalp, the deep muscles of the back of the neck, sternocleidomastoid, the mastoid region and the dura mater'),
+  },
+  'posterior auricular artery': {
+    來源: e('外頸動脈的後壁分支，位於二腹肌與莖突舌骨肌上方，通常在腮腺深部或其邊緣發出', 'A posterior branch of the external carotid artery arising above digastric and stylohyoid, usually deep to or at the edge of the parotid gland'),
+    走向: e('在耳廓與乳突之間向後上行，沿乳突前方抵達耳後頭皮', 'Ascends between the auricle and the mastoid process and reaches the scalp behind the ear'),
+    主要分支: e('莖乳動脈（經莖乳孔入顏面神經管）、耳支、枕支與腮腺支', 'The stylomastoid artery (entering the facial canal through the stylomastoid foramen), and auricular, occipital and parotid branches'),
+    供應範圍: e('耳廓後面、耳後頭皮、腮腺，以及經莖乳動脈供應中耳、乳突小房與顏面神經；與枕動脈、淺顳動脈相吻合', 'The back of the auricle, the scalp behind the ear and the parotid gland, and through the stylomastoid artery the middle ear, mastoid air cells and facial nerve; it anastomoses with the occipital and superficial temporal arteries'),
+  },
+  'maxillary artery': {
+    來源: e('外頸動脈兩條終末支中較大的一條，在腮腺內、下頜頸後方發出', 'The larger of the two terminal branches of the external carotid artery, arising within the parotid gland behind the neck of the mandible'),
+    走向: e('以外側翼肌為界分三段：下頜段起於下頜頸後方，經下頜頸深面（內側、蝶下頜韌帶外側）向前進入顳下窩；翼段沿外側翼肌的淺面或深面行走（個體有差異，以淺面較常見）；翼顎段穿過翼上頜裂進入翼顎窩', 'Divided by lateral pterygoid into three parts: the mandibular part begins behind the neck of the mandible and passes forward deep (medial) to the neck, lateral to the sphenomandibular ligament, into the infratemporal fossa; the pterygoid part runs on the superficial or deep surface of lateral pterygoid (this varies between people, the superficial course being more common); the pterygopalatine part passes through the pterygomaxillary fissure into the pterygopalatine fossa'),
+    主要分支: e('下頜段：深耳動脈、前鼓室動脈、中腦膜動脈（經棘孔入顱）、下齒槽動脈、副腦膜動脈；翼段：咬肌動脈、深顳動脈、翼肌支、頰動脈；翼顎段：上牙槽後動脈、眶下動脈、降顎動脈、翼管動脈、咽支與蝶顎動脈', 'Mandibular part: deep auricular, anterior tympanic, middle meningeal (entering the skull through the foramen spinosum), inferior alveolar and accessory meningeal arteries; pterygoid part: masseteric, deep temporal, pterygoid and buccal branches; pterygopalatine part: posterior superior alveolar, infraorbital, descending palatine, artery of the pterygoid canal, pharyngeal and sphenopalatine arteries'),
+    供應範圍: e('深層顏面：上下頜骨與牙齒、咀嚼肌、鼻腔與硬顎、軟顎、硬腦膜（中腦膜動脈）與中耳', 'The deep face: the jaws and teeth, the muscles of mastication, the nasal cavity and hard and soft palate, the dura mater (middle meningeal artery) and the middle ear'),
+  },
+  'superficial temporal artery': {
+    來源: e('外頸動脈兩條終末支中較小的一條，在腮腺內、下頜頸後方發出，可視為外頸動脈的延續', 'The smaller terminal branch of the external carotid artery, arising within the parotid gland behind the neck of the mandible and seen as its continuation'),
+    走向: e('向上越過顴弓根部，在耳屏前方上行，耳顳神經走在其後方；約在顴弓上方五公分處（高度因人而異）分為額支與頂支', 'Ascends across the root of the zygomatic arch in front of the tragus, with the auriculotemporal nerve lying behind it, and divides about 5 cm above the arch into frontal and parietal branches'),
+    主要分支: e('橫面動脈（在腮腺內發出，走在顴弓下方與腮腺管上方）、中顳動脈、顴眶動脈、前耳支，終支為額支與頂支', 'The transverse facial artery (given off within the parotid gland and running below the zygomatic arch and above the parotid duct), middle temporal, zygomatico-orbital and anterior auricular branches, ending as the frontal and parietal branches'),
+    供應範圍: e('顳部與額頂部頭皮、耳廓前部、顳肌與顏面側部；在耳屏前方可摸到搏動，與眼動脈、後耳動脈、枕動脈的分支相吻合', 'The scalp of the temporal, frontal and parietal regions, the front of the auricle, temporalis and the side of the face; its pulse can be felt in front of the tragus, and it anastomoses with branches of the ophthalmic, posterior auricular and occipital arteries'),
+  },
+});
+// ===== HN-EC end =====

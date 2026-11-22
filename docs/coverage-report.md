@@ -6,10 +6,10 @@
 
 | 類別 | 不重複詞數 | 意思 |
 |---|---|---|
-| 一、已有 | 1220 | 模型有，而且可以用搜尋／圖層揀到 |
+| 一、已有 | 1277 | 模型有，而且可以用搜尋／圖層揀到 |
 | 二、模型有但 UI 搵唔到 | 0 | 模型有幾何，但搜尋唔到（見下面清單；已修好者會喺「修復」一節列明） |
-| 三、模型冇 | 1121 | 交俾第 2 部分補模型 |
-| 骨性標誌 | 262 | 結節、窩、切跡等，屬已有骨件嘅表面特徵，模型唔另外分件 |
+| 三、模型冇 | 1101 | 交俾第 2 部分補模型 |
+| 骨性標誌 | 225 | 結節、窩、切跡等，屬已有骨件嘅表面特徵，模型唔另外分件 |
 | 雜訊（已略去） | 650 | 唔係解剖結構 |
 
 ## 闊背肌（Latissimus dorsi）點解搵唔到
@@ -78,7 +78,7 @@
 
 ## 上肢 I　`20250228_解剖_上肢__W2`
 
-已有 50　·　UI 搵唔到 0　·　模型冇 8　·　骨標誌 13　·　雜訊 25
+已有 51　·　UI 搵唔到 0　·　模型冇 8　·　骨標誌 12　·　雜訊 25
 
 **三、模型冇**
 
@@ -93,7 +93,7 @@
 
 ## 神經系統　`20250321_解剖_神經系統__W5_2`
 
-已有 39　·　UI 搵唔到 0　·　模型冇 71　·　骨標誌 12　·　雜訊 26
+已有 47　·　UI 搵唔到 0　·　模型冇 69　·　骨標誌 6　·　雜訊 26
 
 **三、模型冇**
 
@@ -117,7 +117,6 @@
 - Dorsal motor nucleus
 - amibguus nucleus
 - Formed from a cranial root
-- Hypoglossal nucleus
 - Meningeal branches
 - Communicating branches
 - Preganglionic neuron Automatic ganglion
@@ -151,7 +150,6 @@
 - primary olfactory cortex（嗅皮質區）
 - ganglion cell（視網膜上的神經節細胞）
 - ganglion cell layer（第八層神經節細胞層）
-- optic canals（過蝶骨小翼的視神經管）
 - optic radiation fibers（纖維）
 - visual cortex（射到枕葉的視覺皮質區）
 - ventral midbrain（中腦腹側面）
@@ -279,7 +277,7 @@
 
 ## 腹部 III　`20250606_解剖_腹部III_謝___W16`
 
-已有 128　·　UI 搵唔到 0　·　模型冇 125　·　骨標誌 6　·　雜訊 33
+已有 127　·　UI 搵唔到 0　·　模型冇 126　·　骨標誌 6　·　雜訊 33
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -414,6 +412,7 @@
 - labium major（大陰脣）
 - asis（前上髂棘）
 - musculotendinous bands（肌肉與肌腱組成）
+- left colic flexure（左大腸彎）
 - ureteral stone（輸尿管結石）
 - urethral stone（尿道結石）
 
@@ -679,7 +678,7 @@
 
 ## 頭部 I（顏面、腮腺、頭皮）　`解剖_0929`
 
-已有 75　·　UI 搵唔到 0　·　模型冇 75　·　骨標誌 13　·　雜訊 35
+已有 87　·　UI 搵唔到 0　·　模型冇 69　·　骨標誌 7　·　雜訊 35
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -689,7 +688,6 @@
 
 - Facial expression muscle
 - Mimetic muscle
-- Parotid gland（腮腺）
 - Upper group of oral muscles
 - Lower group of oral muscles
 - Auricular muscles（耳肌）
@@ -698,10 +696,7 @@
 - Superior labial a（上唇動脈）
 - Lateral nasal a（鼻外側動脈）
 - Superficial temporal a（淺顳動脈）
-- mandibular bone（下頷骨）
-- parotid duct（耳下腺管）
 - External jugular v（外頸靜脈）
-- supraorbital v（眶上靜脈）
 - supratrochlear v（滑車上靜脈）
 - Lateral nasal v（走一路收集鼻外側靜脈）
 - Superior labial v（上唇靜脈）
@@ -716,7 +711,6 @@
 - Auriculotemporal nerve（耳顳神經）
 - Otic ganglion
 - Posterior auricular artery（耳後動脈）
-- Supraorbital artery（分支包括眶上動脈）
 - Supratrochlear artery（滑車上動脈）
 - likely to be damaged A
 - division of the trigeminal nerve
@@ -739,7 +733,6 @@
 - middle meningeal artery
 - descending palatine artery
 - inferior alveolar artery
-- CN V C. Mandibular branch
 - deepest in the parotid gland
 - infraorbital and infratrochlear vein
 - scalp（頭皮）
@@ -765,7 +758,7 @@
 
 ## 頭部 II　`解剖_1013`
 
-已有 74　·　UI 搵唔到 0　·　模型冇 128　·　骨標誌 45　·　雜訊 57
+已有 109　·　UI 搵唔到 0　·　模型冇 118　·　骨標誌 20　·　雜訊 57
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -779,7 +772,6 @@
 - dense fascia（緻密的筋膜）
 - II. III. IV. V
 - deep temporal nerve（深顳神經）
-- parotid gland（腮腺）
 - Otic ganglion（耳神經節）
 - Trigeminal ganglion（三叉神經節）
 - Main Trunk Branches（主幹分支）
@@ -806,38 +798,30 @@
 - Zygomaticotemporal nerve（顴顳神經）
 - Zygomaticofacial nerve（顴面神經）
 - Posterior superior alveolar nerve（後上齒槽神經）
-- Infraorbital nerve（眶下神經）
 - Middle superior alveolar nerve（中上齒槽神經）
 - Anterior superior alveolar nerve（前上齒槽神經）
 - Orbital branches
 - sphenoid sinus（蝶竇）
 - ethmoidal sinus（篩竇）
 - nasopalatine n（鼻顎神經）
-- Lesser palatine n
 - Parasympathetic ganglion（屬於副交感神經節）
 - Paranasal sinuses（鼻竇）
 - Superior cervical sympathetic ganglion
 - Deep petrosal nerve（深岩神經）
 - Greater petrosal nerve
-- Nerve of pterygoid canal
 - Vidian nerve
 - Within the ganglion（神經節內）
 - Greater petrosal n
 - sup. cervical sympathetic ganglion
 - Deep petrosal n
 - otic ganglion Lesser petrosal n
-- Sphenopalatine artery（上頷動脈的終）
 - Nasopalatine artery（鼻顎動脈）
 - Anterior superior alveolar artery（前上齒槽動脈）
 - Middle superior alveolar artery（中上齒槽動脈）
 - Posterior superior alveolar artery（後上齒槽動脈）
 - superior alveolar artery
 - Descending palatine artery
-- Greater palatine artery（大顎動脈）
-- palatine artery
-- Lesser palatine artery（小顎動脈）
 - Branches of the maxillary artery
-- sphenopalatine arteries
 - synovial joint（屬於滑關節）
 - superficial temporal artery（淺顳動脈）
 - auriculotemporal n（主要以耳顳神經）
@@ -855,7 +839,6 @@
 - Damage of the lingual nerve
 - Secretion of the submandibular gland
 - continue with the nasal cavity
-- the infraorbital artery
 - mandible. D. The masseter muscles
 - Middle superior alveolar n
 - fibers innervating the sublingual gland
@@ -904,7 +887,7 @@
 
 ## 頸部 II　`解剖_1020`
 
-已有 85　·　UI 搵唔到 0　·　模型冇 72　·　骨標誌 18　·　雜訊 45
+已有 89　·　UI 搵唔到 0　·　模型冇 70　·　骨標誌 16　·　雜訊 45
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -933,8 +916,6 @@
 - External jugular v（外頸靜脈）
 - Supraclavicular n（鎖骨上神經）
 - Middle Scalene m（中斜角肌）
-- carotid sinus（頸動脈竇）
-- Carotid Sinus nerve（壓訊息由頸動脈竇神經）
 - Superior thyroid a（上甲狀腺動脈）
 - Superior laryngeal a（上喉動脈）
 - Spinal accessory n（副神經）
@@ -1128,7 +1109,7 @@
 
 ## 頭部 IV　`解剖_1117`
 
-已有 89　·　UI 搵唔到 0　·　模型冇 72　·　骨標誌 15　·　雜訊 20
+已有 95　·　UI 搵唔到 0　·　模型冇 71　·　骨標誌 10　·　雜訊 20
 
 **三、模型冇**
 
@@ -1140,7 +1121,6 @@
 - Scleral venous sinus（鞏膜靜脈竇）
 - potential space（素層之間有一潛在空間）
 - optic disc（視盤）
-- nerve of pterygoid canal（翼管神經）
 - Anterior ciliary a（前睫動脈）
 - Posterior ciliary a（後睫動脈）
 - Short posterior ciliary a（短後睫動脈）
@@ -1207,7 +1187,7 @@
 
 ## 頸部 III　`解剖_1124-2_頸III_`
 
-已有 54　·　UI 搵唔到 0　·　模型冇 55　·　骨標誌 3　·　雜訊 27
+已有 57　·　UI 搵唔到 0　·　模型冇 52　·　骨標誌 3　·　雜訊 27
 
 **一、已有（部分配對：模型件較概括／較細，請覆核）**
 
@@ -1228,7 +1208,6 @@
 - palatine aponeurosis
 - Pharyngobasilar fascia
 - Sup. Cervical sympathetic ganglion（交感神經的上頸神經節）
-- carotid sinus
 - Otic ganglion（腮腺中的耳下腺）
 - ext. laryngeal n
 - Int. laryngeal n
@@ -1256,7 +1235,6 @@
 - pharyngeal recesses（咽隱窩）
 - salpingopharyngeal fold（耳咽管咽折）
 - pharyngotympanic tube（耳咽管）
-- palatine tonsil（顎扁桃體）
 - orifice of pharyngotympanic tube / eustachian tube（耳咽管開口）
 - tubal tonsils（咽鼓管扁桃腺）
 - lingual follicles of lingual tonsil（舌根淋巴濾泡）
@@ -1269,7 +1247,6 @@
 - elevates the pharynx and larynx（參與提升咽部和喉部）
 - pharyngo-esophageal junction（狹窄）
 - b. tubal tonsil（咽鼓管扁桃腺）
-- c. palatine tonsil（腭扁桃腺）
 
 ## 骨盆會陰 II　`解剖_1201`
 
