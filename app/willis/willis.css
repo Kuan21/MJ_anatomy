@@ -1,0 +1,17 @@
+.willis-legend{position:absolute;left:14px;top:12px;display:flex;flex-wrap:wrap;gap:6px 12px;max-width:min(70%,560px);margin:0;padding:6px 12px;border-radius:10px;background:#ffffffe6;border:1px solid #18253622;font-size:12px;color:#394957;z-index:4}
+.willis-legend span{display:flex;align-items:center;gap:5px}.willis-legend b{font-size:12px;color:#1f2c34}.willis-legend small{font-size:11px;color:#4e5d66}
+.willis-legend i{display:inline-block;width:14px;height:14px;border-radius:4px;border:1px solid #18253630}
+.willis-legend i.dot{border-radius:50%;background:#fff7e0;border-color:#c2412f}.willis-legend i.dot.rev{background:#ff8a1f;border-color:#b85a00}
+.willis-block{display:flex;flex-direction:column;justify-content:center;gap:1px;min-height:44px;font-size:12px;color:#68727d}
+.willis-block select{min-height:36px;min-width:180px;max-width:240px;font:inherit;font-size:13px;color:#20242b;border:1px solid #18253630;border-radius:8px;background:#fff;padding:2px 6px}
+.willis-reset{padding:6px 12px;min-height:44px;min-width:44px;font-size:13px}
+.willis-perfusion{display:flex;flex-direction:column;gap:8px}
+.willis-result{margin:0;padding:9px 12px;border-left:4px solid #c2412f;background:#fbefec;border-radius:8px;font-size:13px}.willis-result b{color:#8a2b1e}
+.willis-perfusion table{width:100%;border-collapse:collapse;font-size:12px}
+.willis-perfusion th{text-align:left;font-weight:600;color:#68727d;padding:3px 4px;border-bottom:1px solid #18253622}
+.willis-perfusion td{padding:4px;border-bottom:1px solid #1825360f;vertical-align:middle;white-space:nowrap}
+.willis-perfusion td span[lang=en]{display:block;font-size:12px;font-weight:600;color:#1f2c34}.willis-perfusion td small{font-size:11px;color:#4e5d66}
+.willis-perfusion tr.low td:last-child{color:#9a6b00;font-weight:650}.willis-perfusion tr.ischaemia td:last-child{color:#c23a1c;font-weight:700}
+.willis-bar{display:inline-block;width:58px;height:8px;margin-right:6px;border-radius:4px;background:#e7ebee;overflow:hidden;vertical-align:middle}.willis-bar i{display:block;height:100%;background:#3c9a6e}
+.willis-perfusion tr.low .willis-bar i{background:#f2c94c}.willis-perfusion tr.ischaemia .willis-bar i{background:#e4572e}
+@media(max-width:900px){.willis-legend{max-width:calc(100% - 28px)}.willis-block select{min-width:150px}}
