@@ -89,6 +89,14 @@ for (const f of sources) {
 }
 const scene = fs.readFileSync(path.join(dir, 'swallow-scene.ts'), 'utf8');
 assert.ok(/'軟顎'[^\n]*schematic: true/.test(scene) && /'食團'[^\n]*schematic: true/.test(scene), 'soft palate and bolus are labelled 示意');
+// labels never sit on the picture (review of #470, 2026-11-22): they live in two gutters beside the canvas and only leader lines cross it; status and controls are outside the canvas too
+assert.ok(scene.includes("new SideLabels(") && !/new LabelLayer\(/.test(scene), 'the scene uses the side-gutter labels');
+const anim = fs.readFileSync(path.join(dir, 'swallow-animation.tsx'), 'utf8'), css = fs.readFileSync(path.join(dir, 'swallow.css'), 'utf8'), side = fs.readFileSync(path.join(dir, 'side-labels.ts'), 'utf8');
+assert.ok(/swallow-gutter left[\s\S]*swallow-canvas[\s\S]*swallow-gutter right/.test(anim), 'gutter | canvas | gutter');
+assert.ok(anim.indexOf('swallow-status') < anim.indexOf('swallow-view') && anim.indexOf('swallow-controls') > anim.indexOf('swallow-view'), 'status above the picture, controls below it');
+assert.ok(/\.swallow-controls\{position:static/.test(css) && /grid-template-columns:170px minmax\(0,1fr\) 170px/.test(css), 'controls are not laid over the picture; two label columns');
+assert.ok(/gutter\.left - o\.left/.test(side), 'label boxes are placed inside a gutter, never over the canvas');
+assert.ok(anim.includes("import '../organ/organ.css'"), 'loading and error messages are styled');
 const main = fs.readFileSync(path.join(root, 'web/main.tsx'), 'utf8'), page = fs.readFileSync(path.join(root, 'app/page.tsx'), 'utf8');
 assert.ok(/lazy\(\(\) => import\('\.\.\/app\/swallow\/swallow-animation'\)\)/.test(main) && main.includes("'#/animation/swallow'"), 'route #/animation/swallow, loaded only when opened');
 assert.ok(page.includes("'#/animation/swallow'") && page.includes('>吞嚥</Button>'), 'button in the atlas');
