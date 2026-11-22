@@ -1,0 +1,6 @@
+.swallow-status{position:absolute;left:14px;top:12px;display:flex;flex-wrap:wrap;gap:6px;max-width:min(72%,620px);z-index:4}
+.swallow-status span{padding:4px 10px;border-radius:999px;background:#ffffffe6;border:1px solid #18253622;font-size:12px;color:#4e5d66}
+.swallow-status span b{margin-left:4px;color:#1f2c34}
+.swallow-status span[data-on="1"]{background:#fff1ea;border-color:#ff8a5c}.swallow-status span[data-on="1"] b{color:#b33a12}
+.swallow-reset{padding:6px 12px;min-height:44px;min-width:44px;font-size:13px}
+@media(max-width:900px){.swallow-status{max-width:calc(100% - 28px)}.swallow-status span{font-size:11px;padding:3px 8px}}
