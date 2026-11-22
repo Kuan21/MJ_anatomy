@@ -396,3 +396,21 @@ button.quiz-review-item:hover{background:#f4f7f9}
 /* background loading of the rest of a question's structures: a small chip, never a cover over the model */
 .quiz-loading-chip{position:absolute;left:14px;bottom:36px;z-index:3;display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:#ffffffd9;border:1px solid var(--quiz-line);font-size:11px;color:var(--quiz-muted);pointer-events:none}
 .quiz-loading-chip .quiz-spinner{width:12px;height:12px;border-width:2px}
+
+/* Region choosers (Quiz setup, mock exam, learn): 區域 and 器官 groups, tiles in two columns (one column on a phone); a tile that is open takes the whole row for its sections */
+.quiz-region-groups{display:grid;gap:22px}
+.quiz-region-group-title{margin:0 0 10px;font-size:13px;font-weight:620;color:var(--quiz-ink)}
+.quiz-region-group-title small{font-size:10px;letter-spacing:1px;font-weight:400;color:var(--quiz-muted);margin-left:8px;text-transform:uppercase}
+.quiz-region-group .quiz-setup-regions{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
+.quiz-region-group .setup-region.is-open{grid-column:1/-1}
+.quiz-region-group .setup-region-main{min-width:0}
+.quiz-region-group .setup-region-main em{white-space:nowrap}
+.quiz-hub-regions .quiz-region-group-title{margin-top:30px;font-size:15px}
+.quiz-hub-regions .quiz-hub-card{min-height:96px}
+.quiz-setup-options{margin-top:26px}
+.quiz-setup-card .quiz-region-groups{margin-bottom:6px}
+@media(max-width:900px){
+  .quiz-app .quiz-setup-content{display:block;padding:26px 20px 38px}
+  .quiz-app .quiz-intro{padding-top:0;margin-bottom:26px}
+}
+@media(max-width:560px){.quiz-region-group .quiz-setup-regions{grid-template-columns:1fr}}

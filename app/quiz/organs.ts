@@ -18,7 +18,7 @@ export const ORGAN_QUIZ: Record<OrganId, OrganQuiz> = {
 };
 export const organQuizRegion = (id: OrganId): QuizRegionDef => {
   const o = ORGAN_QUIZ[id];
-  return {id, label: o.label, english: o.english, tag: o.tag, file: `quiz-${id}.json`, hash: `#/quiz/${id}`, atlasHash: `#/organ/${id}`,
+  return {id, group: 'organ', label: o.label, english: o.english, tag: o.tag, file: `quiz-${id}.json`, hash: `#/quiz/${id}`, atlasHash: `#/organ/${id}`,
     headline: ['看名稱，', '點出位置。'], description: [`在 3D ${o.label}模型上練習辨認：${o.blurb}。`, '每答一題，立即顯示正確位置與資料卡。'],
     scope: o.scope, defaultView: 'front', defaultSide: 'both', systems: ['viscera', 'arterial', 'venous', 'nervous'], frame: o.frame, sections: o.sections};
 };

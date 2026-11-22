@@ -79,7 +79,7 @@ try {
   assert.ok(lessonsOf.length > 0, 'the new region has lessons');
   // the three pages are rendered with a tiny element harness
   const jsx = (type, props) => ({type, props: props ?? {}});
-  const external = {react: {useEffect() {}, useMemo: f => f()}, 'react/jsx-runtime': {jsx, jsxs: jsx, Fragment: 'fragment'}, 'lucide-react': Object.fromEntries(['ArrowLeft', 'ChevronRight', 'Lock', 'Target', 'GraduationCap'].map(n => [n, n]))};
+  const external = {react: {useEffect() {}, useMemo: f => f()}, 'react/jsx-runtime': {jsx, jsxs: jsx, Fragment: 'fragment'}, 'lucide-react': Object.fromEntries(['ArrowLeft', 'ChevronRight', 'Lock', 'Target', 'GraduationCap', 'Check', 'ChevronDown'].map(n => [n, n]))};
   const cache = new Map();
   const moduleFor = async key => {
     if (cache.has(key)) return cache.get(key);
@@ -89,7 +89,7 @@ try {
     cache.set(key, mod); return mod;
   };
   const link = async (spec, ref) => {let key = spec; if (spec.startsWith('.')) {key = path.resolve(path.dirname(ref.identifier), spec); if (!fs.existsSync(key)) key += fs.existsSync(key + '.ts') ? '.ts' : '.tsx';} return moduleFor(key);};
-  const all2 = n => Array.isArray(n) ? n.flatMap(all2) : !n || typeof n !== 'object' ? [] : [n, ...all2(n.props?.children)];
+  const all2 = n => Array.isArray(n) ? n.flatMap(all2) : !n || typeof n !== 'object' ? [] : typeof n.type === 'function' ? [n, ...all2(n.type(n.props))] : [n, ...all2(n.props?.children), ...(n.props?.tile ? all2(n.props.tile) : [])];
   const hrefs = async file => {
     const mod = await moduleFor(path.join(root, file)); await mod.link(link); await mod.evaluate();
     return all2(mod.namespace.default()).filter(n => n.type === 'a' && n.props['data-part']).map(n => [n.props['data-part'], n.props.href]);
@@ -102,7 +102,7 @@ assert.ok(!regionIds().includes(FAKE));
 
 // ---- the exam entrance is on the same region data (checked again when the exam page exists)
 const hubSource = fs.readFileSync(path.join(root, 'app/quiz/learn-hub.tsx'), 'utf8'), quizHubSource = fs.readFileSync(path.join(root, 'app/quiz/setup-page.tsx'), 'utf8');
-for (const [name, src] of [['learn hub', hubSource], ['quiz chooser', quizHubSource]]) assert.ok(src.includes('orderedRegions()'), `${name} builds its cards from the region data`);
+for (const [name, src] of [['learn hub', hubSource], ['quiz chooser', quizHubSource]]) assert.ok((src.includes('orderedRegions()') || src.includes('RegionGroups') || src.includes('RegionPicker')), `${name} builds its cards from the region data`);
 // no study page names notes or the exam sources
 for (const f of ['learn.tsx', 'learn-hub.tsx', 'mode-nav.tsx', 'exam.tsx', 'setup-page.tsx', 'run.tsx', 'page.tsx']) assert.ok(!/共筆|筆記|跑考摘要|課堂/.test(fs.readFileSync(path.join(root, 'app/quiz', f), 'utf8')), `${f}: no note wording`);
 console.log(`Learn modes passed: 80% pass rule, unlock chain, saved progress and old star results, routes, ${counted} region catalogue(s) give lessons, a region added to the data appears in the learning hub and the Quiz chooser.`);

@@ -46,19 +46,10 @@ export default function QuizSetupPage() {
       <section className="quiz-intro">
         <div className="quiz-kicker"><Target size={15}/> CHECK YOURSELF</div>
         <h1 tabIndex={-1}>想考哪些範圍？</h1>
-        <p>可以同時選多個區域、多個區段與多種構造，題數自訂，題目由選好的範圍隨機抽出、不重複。作答沒有提示，隨時可以提早結束，做過的題目照樣計分。</p>
-        <div className="quiz-how"><span><b>01</b>選範圍與構造種類</span><span><b>02</b>旋轉模型，點出答案</span><span><b>03</b>看結果，答錯的「回去學習」</span></div>
+        <p>先選怎樣考，再在右邊選考哪裡：可以同時選多個區域、區段與多種構造，題目由選好的範圍隨機抽出、不重複。作答沒有提示，隨時可以提早結束，做過的題目照樣計分。</p>
         <p className="quiz-scope">還沒學過這個區域？先到<a href="#/learn">學習</a>走一遍關卡，再回來檢測。</p>
-      </section>
-      <section className="quiz-setup-card" aria-label="設定 Quiz">
-        <fieldset><legend><b>01</b> 範圍 <small>可多選區域與區段</small></legend>
-          <RegionPicker regions={setup.regions} open={open} setOpen={setOpen} onRegion={toggleRegion} onSection={toggleSection}/>
-        </fieldset>
-        <fieldset><legend><b>02</b> 內容類型 <small>可選多個，任意組合</small></legend>
-          <CategoryPicker value={setup.categories} onChange={categories => update({categories})} count={c => chosen.length && !waiting ? countOf(c) : null}/>
-          <div className="quiz-category-tools"><button type="button" data-slot="quiz-button" className="quiz-text-button" onClick={() => update({categories: QUIZ_CATEGORIES.map(c => c.id)})}>全選</button><button type="button" data-slot="quiz-button" className="quiz-text-button" onClick={() => update({categories: []})}>全部取消</button><span>灰色的類別在選定範圍內暫無題目</span></div>
-        </fieldset>
-        <fieldset><legend><b>03</b> 作答方式</legend>
+        <div className="quiz-setup-options" aria-label="作答方式與設定">
+        <fieldset><legend><b>01</b> 作答方式</legend>
           <div className="quiz-level-grid">
             <button type="button" data-slot="quiz-button" data-level="1" aria-pressed={setup.level === 1} onClick={() => update({level: 1})}><span><b>看名稱找結構</b>在模型上點出答案<small>Level 1 · name → structure</small></span>{setup.level === 1 && <Check size={17}/>}</button>
             <button type="button" data-slot="quiz-button" data-level="3" aria-pressed={setup.level === 3} onClick={() => update({level: 3})}><span><b>看結構寫名稱</b>輸入英文或中文名稱<small>Level 2 · structure → name</small></span>{setup.level === 3 && <Check size={17}/>}</button>
@@ -72,12 +63,22 @@ export default function QuizSetupPage() {
           <fieldset><legend>作答語言</legend><div className="quiz-segmented">{([['en', '英文'], ['zh', '中文'], ['any', '任一']] as const).map(([id, label]) => <button type="button" data-slot="quiz-button" key={id} aria-pressed={setup.language === id} onClick={() => update({language: id})}>{label}</button>)}</div></fieldset>
           {sided && <fieldset><legend>左右側</legend><label className="quiz-context-toggle"><input type="checkbox" checked={setup.needSide} onChange={e => update({needSide: e.target.checked})}/>需要答出左右</label></fieldset>}
         </div>}
-        <fieldset><legend><b>04</b> 題數</legend>
+        <fieldset><legend><b>03</b> 題數</legend>
           <div className="quiz-segmented">{COUNT_CHOICES.map(n => <button type="button" data-slot="quiz-button" key={n} aria-pressed={setup.count === n && !custom} onClick={() => setCount(n)}>{n}</button>)}
             <button type="button" data-slot="quiz-button" aria-pressed={setup.count === 'all'} onClick={() => setCount('all')}>全部</button></div>
           <label className="setup-custom">自訂題數<input type="number" inputMode="numeric" min={1} max={MAX_COUNT} value={custom} placeholder="例如 15" onChange={e => {setCustom(e.target.value); const n = Math.floor(Number(e.target.value)); if (n >= 1) update({count: Math.min(n, MAX_COUNT)});}}/></label>
         </fieldset>
+        <fieldset><legend><b>02</b> 內容類型 <small>可選多個，任意組合</small></legend>
+          <CategoryPicker value={setup.categories} onChange={categories => update({categories})} count={c => chosen.length && !waiting ? countOf(c) : null}/>
+          <div className="quiz-category-tools"><button type="button" data-slot="quiz-button" className="quiz-text-button" onClick={() => update({categories: QUIZ_CATEGORIES.map(c => c.id)})}>全選</button><button type="button" data-slot="quiz-button" className="quiz-text-button" onClick={() => update({categories: []})}>全部取消</button><span>灰色的類別在選定範圍內暫無題目</span></div>
+        </fieldset>
         <label className="quiz-context-toggle setup-remember"><input type="checkbox" checked={setup.remember} onChange={e => update({remember: e.target.checked})}/>記住這次的設定，下次預設用回</label>
+        </div>
+      </section>
+      <section className="quiz-setup-card" aria-label="設定 Quiz">
+        <fieldset><legend>範圍 <small>可多選區域與區段</small></legend>
+          <RegionPicker regions={setup.regions} open={open} setOpen={setOpen} onRegion={toggleRegion} onSection={toggleSection}/>
+        </fieldset>
         {failed.length > 0 && <div className="quiz-error" role="alert">{failed.map(id => QUIZ_REGIONS[id].label).join('、')}的題庫未能載入。<button data-slot="quiz-button" onClick={reload}>重新載入</button></div>}
         <p className={`quiz-pool-note quiz-scope-count ${total || !chosen.length ? '' : 'is-empty'}`} role="status" aria-live="polite" data-count={total}>{!chosen.length ? '請先選擇至少一個區域。' : waiting ? '正在準備題庫…' : total ? <>此範圍共 <b>{total}</b> 題，本回抽 <b>{asked}</b> 題</> : '此範圍暫無題目，請調整區段、內容類型或左右側。'}</p>
         <div className="quiz-start-row"><button data-slot="quiz-button" className="quiz-primary" disabled={!total || waiting || !setup.categories.length} onClick={start}>開始測驗 <ArrowRight size={18}/></button>
