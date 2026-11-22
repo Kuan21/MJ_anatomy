@@ -65,14 +65,11 @@
 - 第三腓骨肌腱（tendon of fibularis tertius）：缺 起點、走向與通道、止點、功能
 - 蹠肌腱（tendon of plantaris）：缺 起點、走向與通道、止點、功能
 
-### 神經：0 / 16 項資料完整
+### 神經：3 / 16 項資料完整
 
 - 隱神經（saphenous nerve）：缺 來源、走向、主要分支、支配範圍
 - 腓腸神經（sural nerve）：缺 來源、走向、主要分支、支配範圍
 - 內側腓腸皮神經（medial sural cutaneous nerve）：缺 來源、走向、主要分支、支配範圍
-- 股神經（femoral nerve）：缺 來源、走向、主要分支、支配範圍
-- 外股皮神經（lateral femoral cutaneous nerve）：缺 來源、走向、主要分支、支配範圍
-- 閉孔神經（obturator nerve）：缺 來源、走向、主要分支、支配範圍
 - 淺腓神經（superficial fibular nerve）：缺 來源、走向、主要分支、支配範圍
 - 深腓神經（deep fibular nerve）：缺 來源、走向、主要分支、支配範圍
 - 坐骨神經（sciatic nerve）：缺 來源、走向、主要分支、支配範圍
@@ -84,7 +81,7 @@
 - 股方肌神經（nerve to quadratus femoris muscle）：缺 來源、走向、主要分支、支配範圍
 - 股後皮神經（posterior femoral cutaneous nerve）：缺 來源、走向、主要分支、支配範圍
 
-### 動脈：0 / 32 項資料完整
+### 動脈：4 / 32 項資料完整
 
 - 足背動脈（dorsalis pedis artery）：缺 來源、走向、主要分支、供應範圍
 - 旋股外側動脈降支（Descending branch of right lateral circumflex femoral artery）：缺 來源、走向、主要分支、供應範圍
@@ -95,7 +92,6 @@
 - 深趾動脈（deep plantar artery）：缺 來源、走向、主要分支、供應範圍
 - 降膝動脈（descending genicular artery）：缺 來源、走向、主要分支、供應範圍
 - 足背趾動脈（dorsal digital artery of foot）：缺 來源、走向、主要分支、供應範圍
-- 股動脈（femoral artery）：缺 來源、走向、主要分支、供應範圍
 - 外下膝動脈（inferior lateral genicular artery）：缺 來源、走向、主要分支、供應範圍
 - 內下膝動脈（inferior medial genicular artery）：缺 來源、走向、主要分支、供應範圍
 - 外旋股動脈（lateral circumflex femoral artery）：缺 來源、走向、主要分支、供應範圍
@@ -115,9 +111,6 @@
 - 腓動脈（fibular artery）：缺 來源、走向、主要分支、供應範圍
 - 足底固有趾動脈群（set of plantar digital arteries proper）：缺 來源、走向、主要分支、供應範圍
 - 足底蹠骨動脈（plantar metatarsal artery）：缺 來源、走向、主要分支、供應範圍
-- 總髂動脈（common iliac artery）：缺 來源、走向、主要分支、供應範圍
-- 外髂動脈（external iliac artery）：缺 來源、走向、主要分支、供應範圍
-- 內髂動脈（internal iliac artery）：缺 來源、走向、主要分支、供應範圍
 
 ### 靜脈：0 / 25 項資料完整
 
@@ -486,21 +479,18 @@
 
 （全部完整）
 
-### 神經：0 / 3 項資料完整
+### 神經：1 / 3 項資料完整
 
 - 迷走神經（vagus nerve (X)）：缺 主要分支
-- 肋間神經（intercostal nerves）：缺 來源、走向、主要分支、支配範圍
 - 交感神經（sympathetic nerves）：缺 來源、走向、主要分支、支配範圍
 
-### 動脈：7 / 18 項資料完整
+### 動脈：9 / 18 項資料完整
 
-- 胸主動脈（Descending thoracic aorta）：缺 來源、走向、主要分支、供應範圍
 - 食道動脈（Esophageal artery）：缺 來源、走向、主要分支、供應範圍
 - 最上肋間動脈（superior intercostal artery）：缺 來源、走向、主要分支、供應範圍
 - 內胸動脈（internal thoracic artery）：缺 來源、走向、主要分支、供應範圍
 - 後肋間動脈（posterior intercostal arteries）：缺 來源、走向、主要分支、供應範圍
 - 肋下動脈（subcostal artery）：缺 主要分支
-- 肌膈動脈（musculophrenic artery）：缺 來源、走向、主要分支、供應範圍
 - 甲狀頸動脈幹（thyrocervical trunk）：缺 來源、走向、主要分支、供應範圍
 - 頭臂動脈（Brachiocephalic artery）：缺 來源、走向、主要分支、供應範圍
 - 降主動脈（Descending aorta）：缺 來源、走向、主要分支、供應範圍
