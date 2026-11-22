@@ -1606,3 +1606,271 @@ CARD_EXTRAS['brachiocephalic artery'] = CARD_EXTRAS['brachiocephalic trunk'];
 CARD_EXTRAS['cricothyroid ligament'] = CARD_EXTRAS['median cricothyroid ligament'];
 CARD_EXTRAS['lobe of thymus'] = CARD_EXTRAS['thymus'];
 // ===== HN-A1 end =====
+
+// ===== AB-A3 begin: veins of the abdomen and trunk (card batch AB-A3). Standard anatomy only; a field we are not sure of stays out. =====
+Object.assign(CARD_EXTRAS, {
+  'inferior vena cava': {
+    來源: e('由左、右總髂靜脈在第五腰椎（L5）高度、右總髂動脈後方匯合而成，位置偏中線右側', 'Formed by the union of the left and right common iliac veins at about L5, behind the right common iliac artery and slightly to the right of the midline'),
+    走向: e('沿脊柱前方、主動脈右側上行；向上經十二指腸水平部與胰頭後方，嵌入肝後面的下腔靜脈溝，穿過橫膈中心腱的腔靜脈裂孔（約 T8），隨即進入右心房', 'Ascends in front of the vertebral column on the right of the aorta, behind the horizontal part of the duodenum and the head of the pancreas, lies in the groove on the back of the liver, passes through the caval opening in the central tendon of the diaphragm (about T8) and enters the right atrium'),
+    主要分支: e('腰靜脈（多為第三、四對）、右生殖腺靜脈、腎靜脈、右腎上腺靜脈、下膈靜脈、肝靜脈；左側的生殖腺與腎上腺靜脈經左腎靜脈間接匯入', 'Lumbar veins (usually the third and fourth pairs), the right gonadal vein, renal veins, the right suprarenal vein, inferior phrenic veins and hepatic veins; the left gonadal and suprarenal veins drain into it indirectly through the left renal vein'),
+    引流範圍: e('橫膈以下的下肢、骨盆、腹壁與腹部內臟的靜脈血（腸胃道與脾的血液先經肝門靜脈入肝，再由肝靜脈匯入）', 'Venous blood from the lower limbs, pelvis, abdominal wall and abdominal organs below the diaphragm (blood from the gut and spleen first passes through the hepatic portal vein and liver, then reaches it through the hepatic veins)'),
+  },
+  'hepatic veins': {
+    來源: e('由肝小葉的中央靜脈逐級匯合而成，共有左、中、右三條主幹，另有數條小的尾狀葉靜脈', 'Formed from the central veins of the liver lobules, which merge step by step into three main trunks (left, middle and right), plus several small veins from the caudate lobe'),
+    走向: e('與肝門靜脈分支不同，肝靜脈在肝實質內單獨行走；三條主幹從肝後上方出肝，很短，立即在橫膈下方注入下腔靜脈（第二肝門）', 'Unlike the portal vein branches, the hepatic veins run alone within the liver substance; the three trunks leave the upper back of the liver, are very short, and open directly into the inferior vena cava just below the diaphragm (the second porta of the liver)'),
+    主要分支: e('右肝靜脈、中肝靜脈、左肝靜脈（中、左肝靜脈常先合成一幹再入下腔靜脈）', 'Right, middle and left hepatic veins (the middle and left veins often unite before entering the inferior vena cava)'),
+    引流範圍: e('肝實質，即由肝動脈與肝門靜脈送入肝的血液', 'The liver parenchyma, that is, the blood delivered to the liver by the hepatic artery and the hepatic portal vein'),
+  },
+  'left hepatic vein': {
+    來源: e('由肝左葉（含左外側葉與左內側葉的一部分）內的小葉中央靜脈匯合而成', 'Formed by the merging central veins of the left lobe of the liver (the left lateral segments and part of the medial segment)'),
+    走向: e('在左葉的肝實質內向後上方行，常先與中肝靜脈匯合，再在肝上緣後方注入下腔靜脈左前壁', 'Runs backward and upward in the substance of the left lobe, often joins the middle hepatic vein first, and opens into the left front of the inferior vena cava behind the upper edge of the liver'),
+    引流範圍: e('肝左外側部與左內側部的一部分', 'The left lateral part of the liver and part of the left medial part'),
+  },
+  'middle (intermediate) hepatic vein': {
+    來源: e('由肝右前葉與左內側葉之間、沿肝中裂走的小葉中央靜脈匯合而成', 'Formed by central veins running along the main plane between the right anterior part and the left medial part of the liver'),
+    走向: e('沿肝的主要分界面（約自膽囊窩向下腔靜脈連線）向後上行，常與左肝靜脈合併後注入下腔靜脈', 'Ascends backward along the main dividing plane of the liver (roughly from the gallbladder fossa towards the inferior vena cava) and usually joins the left hepatic vein before entering the inferior vena cava'),
+    引流範圍: e('肝右前部與左內側部（包括肝方形葉）', 'The right anterior and left medial parts of the liver, including the quadrate lobe'),
+  },
+  'right hepatic vein': {
+    來源: e('由肝右葉的右後與右前部內的小葉中央靜脈匯合而成，三條肝靜脈中最粗', 'Formed by central veins of the right posterior and anterior parts of the right lobe; the largest of the three hepatic veins'),
+    走向: e('在右葉肝實質內向後上行，從肝後上方注入下腔靜脈右側壁', 'Runs backward and upward in the right lobe and opens into the right wall of the inferior vena cava at the upper back of the liver'),
+    引流範圍: e('肝右葉的大部分', 'Most of the right lobe of the liver'),
+  },
+  'inferior phrenic vein': {
+    來源: e('橫膈下面的小靜脈網，與下膈動脈伴行', 'Small veins on the underside of the diaphragm, accompanying the inferior phrenic artery'),
+    走向: e('右側沿橫膈下面向後內走，注入下腔靜脈；左側多與左腎上腺靜脈匯合後入左腎靜脈，也可有一支直接入下腔靜脈', 'The right vein runs backward and medially on the underside of the diaphragm into the inferior vena cava; the left vein usually joins the left suprarenal vein and then enters the left renal vein, and one branch may enter the inferior vena cava directly'),
+    引流範圍: e('橫膈下面，並與心包膈靜脈、肌膈靜脈有吻合', 'The undersurface of the diaphragm, with anastomoses to the pericardiacophrenic and musculophrenic veins'),
+  },
+  'renal vein': {
+    來源: e('腎內各葉間靜脈與弓狀靜脈匯成數條，在腎門合成腎靜脈，位於腎動脈前方', 'Interlobar and arcuate veins within the kidney merge into several trunks that unite at the hilum into the renal vein, lying in front of the renal artery'),
+    走向: e('由腎門向內走到下腔靜脈，約在第一至二腰椎（L1–L2）高度注入；右腎靜脈短（約 2–4 公分），左腎靜脈較長，越過主動脈前方、位於上腸繫膜動脈根部與主動脈之間，再注入下腔靜脈', 'Runs medially from the renal hilum to the inferior vena cava, which it enters at about L1–L2; the right renal vein is short (about 2–4 cm), while the left is longer and crosses in front of the aorta, between the root of the superior mesenteric artery and the aorta, before entering the inferior vena cava'),
+    主要分支: e('左腎靜脈接收左腎上腺靜脈（含左下膈靜脈）與左生殖腺靜脈；右腎靜脈通常沒有上述屬支（右生殖腺靜脈與右腎上腺靜脈直接入下腔靜脈）', 'The left renal vein receives the left suprarenal vein (with the left inferior phrenic vein) and the left gonadal vein; the right renal vein usually has no such tributaries (the right gonadal and right suprarenal veins enter the inferior vena cava directly)'),
+    引流範圍: e('腎', 'The kidney'),
+  },
+  'right suprarenal vein': {
+    來源: e('由右腎上腺的腺內靜脈在腺體前面（腺門）匯成', 'Formed from the veins within the right suprarenal gland, emerging at its hilum on the anterior surface'),
+    走向: e('非常短，幾乎直接向內走，注入下腔靜脈後外側壁', 'Very short, running almost directly medially into the posterolateral wall of the inferior vena cava'),
+    引流範圍: e('右腎上腺', 'The right suprarenal gland'),
+  },
+  'left suprarenal vein': {
+    來源: e('由左腎上腺的腺內靜脈在腺門匯成', 'Formed from the veins within the left suprarenal gland at its hilum'),
+    走向: e('向下走，常先與左下膈靜脈合併，再注入左腎靜脈上緣', 'Descends, usually joined by the left inferior phrenic vein, and enters the upper border of the left renal vein'),
+    引流範圍: e('左腎上腺', 'The left suprarenal gland'),
+  },
+  'right gonadal vein': {
+    來源: e('男性由蔓狀靜脈叢匯成睪丸靜脈，女性由卵巢靜脈叢匯成卵巢靜脈', 'In the male it is the testicular vein formed from the pampiniform plexus; in the female it is the ovarian vein formed from the ovarian plexus'),
+    走向: e('沿腰大肌前方、在輸尿管前面斜向上行，在腎靜脈下方以銳角直接注入下腔靜脈', 'Ascends obliquely in front of psoas major and the ureter and opens directly into the inferior vena cava below the renal vein'),
+    引流範圍: e('右側睪丸與附睪，或右側卵巢、輸卵管與子宮的上部', 'The right testis and epididymis, or the right ovary, uterine tube and upper uterus'),
+  },
+  'left gonadal vein': {
+    來源: e('男性由蔓狀靜脈叢匯成睪丸靜脈，女性由卵巢靜脈叢匯成卵巢靜脈', 'In the male it is the testicular vein formed from the pampiniform plexus; in the female it is the ovarian vein formed from the ovarian plexus'),
+    走向: e('沿腰大肌前方、在輸尿管前面上行，以近直角注入左腎靜脈，不直接進入下腔靜脈', 'Ascends in front of psoas major and the ureter and enters the left renal vein almost at a right angle, not the inferior vena cava directly'),
+    引流範圍: e('左側睪丸與附睪，或左側卵巢、輸卵管與子宮的上部', 'The left testis and epididymis, or the left ovary, uterine tube and upper uterus'),
+  },
+  'testicular vein': {
+    來源: e('由睪丸與附睪的蔓狀靜脈叢在深腹股溝環附近合併成一條或兩條', 'The pampiniform plexus of the testis and epididymis merges into one or two veins near the deep inguinal ring'),
+    走向: e('由精索穿腹股溝管入腹腔，沿腰大肌前方上行；右側注入下腔靜脈，左側注入左腎靜脈', 'Passes from the spermatic cord through the inguinal canal into the abdomen and ascends in front of psoas major; the right vein enters the inferior vena cava and the left enters the left renal vein'),
+    主要分支: e('蔓狀靜脈叢（起始部）', 'The pampiniform plexus (at its origin)'),
+    引流範圍: e('睪丸與附睪', 'The testis and epididymis'),
+  },
+  'ovarian vein': {
+    來源: e('由卵巢門處的卵巢靜脈叢匯成，叢與子宮靜脈叢相通', 'Formed from the ovarian venous plexus at the ovarian hilum, which communicates with the uterine venous plexus'),
+    走向: e('經卵巢懸韌帶向上越過骨盆緣，沿腰大肌前方上行；右側注入下腔靜脈，左側注入左腎靜脈', 'Ascends in the suspensory ligament of the ovary over the pelvic brim and in front of psoas major; the right vein enters the inferior vena cava and the left enters the left renal vein'),
+    引流範圍: e('卵巢、輸卵管與子宮的上部', 'The ovary, uterine tube and upper part of the uterus'),
+  },
+  'pampiniform venous plexus': {
+    來源: e('睪丸與附睪內的小靜脈，在精索內互相吻合成網', 'Small veins of the testis and epididymis that anastomose into a network within the spermatic cord'),
+    走向: e('包繞睪丸動脈，沿精索上行穿過腹股溝管，在深腹股溝環附近匯成睪丸靜脈', 'Surrounds the testicular artery, ascends in the spermatic cord through the inguinal canal and merges into the testicular vein near the deep inguinal ring'),
+    主要分支: e('逐漸合併為睪丸靜脈（通常一至二條）', 'Gradually merges into the testicular vein (usually one or two trunks)'),
+    引流範圍: e('睪丸與附睪；網狀排列使動脈血在進入睪丸前先被降溫，此處靜脈擴張稱精索靜脈曲張，多見於左側', 'The testis and epididymis; the network cools arterial blood on its way to the testis, and dilatation of these veins is called varicocele, more common on the left'),
+  },
+  'lumbar veins': {
+    來源: e('腹後壁與腹外側壁的靜脈，通常左右各四條，與腰動脈伴行', 'Veins of the posterior and lateral abdominal wall, usually four on each side, accompanying the lumbar arteries'),
+    走向: e('沿腰椎體側面繞向前，經腰大肌深面；下方兩對多直接注入下腔靜脈，上方幾對先連到升腰靜脈，再入奇靜脈系統；並經椎間靜脈與椎靜脈叢相通；左側腰靜脈行經主動脈後方', 'Wind forward around the sides of the lumbar vertebral bodies deep to psoas major; the lower two pairs usually open directly into the inferior vena cava, while the upper pairs link to the ascending lumbar vein and thus the azygos system; they also communicate with the vertebral venous plexuses through the intervertebral veins, and the left lumbar veins pass behind the aorta'),
+    主要分支: e('背支（接收背部肌肉與皮膚及椎靜脈叢的血液）與脊柱內靜脈叢的屬支', 'Dorsal tributaries (from the back muscles, skin and vertebral venous plexuses) and tributaries from the internal vertebral venous plexus'),
+    引流範圍: e('腹後壁與外側壁，以及背部深層肌肉與皮膚', 'The posterior and lateral abdominal wall and the deep muscles and skin of the back'),
+  },
+  'lumbar azygos vein': {
+    來源: e('指腰部脊柱旁連接腰靜脈、向上延續到奇靜脈系統的縱向通路（與升腰靜脈的縱向連接相近，命名依分類而異）', 'The longitudinal pathway beside the lumbar vertebral column that links the lumbar veins and continues upward into the azygos system (similar to the longitudinal connection of the ascending lumbar vein; the name varies with the classification)'),
+    走向: e('在腰椎體旁向上行，向上連到奇靜脈系統，作為下腔靜脈與上腔靜脈之間的側支通路', 'Ascends beside the lumbar vertebral bodies and continues into the azygos system, serving as a collateral route between the inferior and superior vena cava'),
+    引流範圍: e('腹後壁與腰部脊柱旁組織', 'The posterior abdominal wall and tissues beside the lumbar spine'),
+  },
+  'iliolumbar vein': {
+    來源: e('髂窩的髂肌與腰方肌、腰大肌下部及鄰近腰椎區的靜脈', 'Veins of iliacus, the lower parts of quadratus lumborum and psoas major, and the adjacent lumbar region'),
+    走向: e('與髂腰動脈伴行，向內下方走，多注入內髂靜脈，部分注入總髂靜脈；並與升腰靜脈相連', 'Accompanies the iliolumbar artery and runs medially and downward mostly into the internal iliac vein and in part into the common iliac vein; it also connects with the ascending lumbar vein'),
+    引流範圍: e('髂肌、腰方肌與腰大肌下部', 'Iliacus and the lower parts of quadratus lumborum and psoas major'),
+  },
+  'common iliac vein': {
+    來源: e('由外髂靜脈與內髂靜脈在薦髂關節前方匯合而成', 'Formed by the union of the external and internal iliac veins in front of the sacroiliac joint'),
+    走向: e('向內上方行，位於同側總髂動脈後方；左總髂靜脈較長、斜行，並越過右總髂動脈後方；兩側在第五腰椎（L5）高度合成下腔靜脈', 'Runs upward and medially behind the common iliac artery of its side; the left vein is longer and more oblique and passes behind the right common iliac artery; the two unite at about L5 to form the inferior vena cava'),
+    主要分支: e('髂腰靜脈（部分）、（左側）正中薦靜脈；外髂靜脈與內髂靜脈在此匯合', 'The iliolumbar vein (in part) and, on the left, the median sacral vein; the external and internal iliac veins unite here'),
+    引流範圍: e('下肢、骨盆壁與骨盆內臟', 'The lower limb, pelvic wall and pelvic organs'),
+  },
+  'external iliac vein': {
+    來源: e('在腹股溝韌帶深面續自股靜脈', 'The continuation of the femoral vein deep to the inguinal ligament'),
+    走向: e('沿骨盆入口緣、腰大肌內側上行，起初位於同名動脈內側，之後轉到其後方，在薦髂關節前方與內髂靜脈匯成總髂靜脈', 'Ascends along the pelvic brim on the medial side of psoas major, at first medial to the artery and later behind it, and joins the internal iliac vein in front of the sacroiliac joint to form the common iliac vein'),
+    主要分支: e('下腹壁靜脈、深旋髂靜脈、恥骨靜脈', 'Inferior epigastric, deep circumflex iliac and pubic veins'),
+    引流範圍: e('下肢與下腹壁', 'The lower limb and lower abdominal wall'),
+  },
+  'femoral vein': {
+    來源: e('在內收肌裂孔處續自膕靜脈', 'Continues from the popliteal vein at the adductor hiatus'),
+    走向: e('上行進入股三角，位於股動脈內側，進入股鞘；在腹股溝韌帶深面續為外髂靜脈', 'Ascends into the femoral triangle on the medial side of the femoral artery, enters the femoral sheath and continues deep to the inguinal ligament as the external iliac vein'),
+    主要分支: e('大隱靜脈（在隱靜脈裂孔處匯入，並帶入淺腹壁靜脈、淺旋髂靜脈與外陰部靜脈）與股深靜脈', 'The great saphenous vein (entering at the saphenous opening and bringing in the superficial epigastric, superficial circumflex iliac and external pudendal veins) and the deep femoral vein'),
+    引流範圍: e('下肢，以及經大隱靜脈匯入的下腹壁淺層', 'The lower limb, and the superficial lower abdominal wall through the great saphenous vein'),
+  },
+  'median sacral vein': {
+    來源: e('薦骨與尾骨前面的小靜脈，與正中薦動脈伴行', 'Small veins on the front of the sacrum and coccyx, accompanying the median sacral artery'),
+    走向: e('沿薦骨前面中線上行，通常注入左總髂靜脈（也可注入兩側總髂靜脈匯合處）', 'Ascends in the midline on the front of the sacrum and usually enters the left common iliac vein (or the junction of the common iliac veins)'),
+    引流範圍: e('薦骨與尾骨前方的組織', 'The tissues in front of the sacrum and coccyx'),
+  },
+  'azygos vein': {
+    來源: e('由右升腰靜脈與右肋下靜脈續成，經橫膈右腳（或主動脈裂孔）入胸腔', 'Continues from the right ascending lumbar vein and the right subcostal vein and enters the thorax through the right crus of the diaphragm (or the aortic hiatus)'),
+    走向: e('沿脊柱右前方、胸主動脈右側上行，到約第四胸椎（T4）高度向前繞過右肺根，注入上腔靜脈', 'Ascends on the right front of the vertebral column beside the thoracic aorta and, at about T4, arches forward over the root of the right lung to enter the superior vena cava'),
+    主要分支: e('右肋間後靜脈、半奇靜脈與副半奇靜脈、食道與支氣管的小靜脈', 'The right posterior intercostal veins, the hemiazygos and accessory hemiazygos veins, and small esophageal and bronchial veins'),
+    引流範圍: e('胸後壁與腹後壁，是下腔靜脈與上腔靜脈之間的重要側支通路', 'The posterior thoracic and abdominal walls; an important collateral route between the inferior and superior vena cava'),
+  },
+  'hemiazygos vein': {
+    來源: e('由左升腰靜脈與左肋下靜脈續成，穿過橫膈左腳入胸腔', 'Continues from the left ascending lumbar vein and the left subcostal vein and enters the thorax through the left crus of the diaphragm'),
+    走向: e('沿脊柱左側上行，約在 T8–T9 高度向右越過脊柱，行經胸主動脈、胸管與食道後方，注入奇靜脈', 'Ascends on the left of the vertebral column and, at about T8–T9, crosses to the right behind the thoracic aorta, thoracic duct and esophagus to enter the azygos vein'),
+    主要分支: e('左側下位肋間後靜脈、食道與縱隔的小靜脈', 'The lower left posterior intercostal veins and small esophageal and mediastinal veins'),
+    引流範圍: e('胸後壁下部與腹後壁的左側', 'The lower posterior thoracic wall and the left side of the posterior abdominal wall'),
+  },
+  'hepatic portal vein': {
+    來源: e('在約 L1–L2 高度、胰頸後方，由脾靜脈與上腸繫膜靜脈匯合而成', 'Formed behind the neck of the pancreas, at about L1–L2, by the union of the splenic vein and the superior mesenteric vein'),
+    走向: e('長約 8 公分，先在十二指腸上部後方上行，再進入肝十二指腸韌帶，位於膽管與肝固有動脈後方，到肝門分為左、右支入肝', 'About 8 cm long, it ascends behind the first part of the duodenum, enters the hepatoduodenal ligament behind the bile duct and proper hepatic artery, and divides at the porta hepatis into left and right branches that enter the liver'),
+    主要分支: e('脾靜脈、上腸繫膜靜脈（起始）；直接屬支有左胃靜脈、右胃靜脈、膽囊靜脈；臍旁靜脈則注入左支', 'The splenic and superior mesenteric veins (its origins); direct tributaries include the left gastric, right gastric and cystic veins, while the paraumbilical veins enter the left branch'),
+    引流範圍: e('消化道由食道腹段至直腸上部、胰、脾與膽囊的靜脈血，經肝竇隙後由肝靜脈入下腔靜脈', 'Venous blood from the gut from the abdominal esophagus to the upper rectum, the pancreas, spleen and gallbladder, which passes through the liver sinusoids and then the hepatic veins to the inferior vena cava'),
+  },
+  'splenic vein': {
+    來源: e('在脾門由數條脾內靜脈匯成', 'Formed at the splenic hilum from several veins emerging from the spleen'),
+    走向: e('向右沿胰體與胰尾後面行，位於脾動脈下方、左腎與左腎上腺前方，在胰頸後方與上腸繫膜靜脈匯合成肝門靜脈', 'Runs to the right along the back of the tail and body of the pancreas, below the splenic artery and in front of the left kidney and left suprarenal gland, and joins the superior mesenteric vein behind the neck of the pancreas to form the hepatic portal vein'),
+    主要分支: e('短胃靜脈、左胃網膜靜脈、後胃靜脈、胰靜脈；下腸繫膜靜脈常匯入此靜脈', 'Short gastric, left gastro-omental, posterior gastric and pancreatic veins; the inferior mesenteric vein often drains into it'),
+    引流範圍: e('脾、胃底與胃大彎左部、胰，以及（經下腸繫膜靜脈）降結腸與直腸上部', 'The spleen, the gastric fundus and left part of the greater curvature, the pancreas and, through the inferior mesenteric vein, the descending colon and upper rectum'),
+  },
+  'superior mesenteric vein': {
+    來源: e('在右髂窩附近由迴腸末段與迴盲部的小靜脈匯成', 'Begins near the right iliac fossa from the veins of the terminal ileum and ileocolic region'),
+    走向: e('在腸繫膜根內、上腸繫膜動脈右側上行，越過十二指腸水平部前方，再經胰頸後方與脾靜脈匯成肝門靜脈', 'Ascends in the root of the mesentery on the right of the superior mesenteric artery, crosses in front of the horizontal part of the duodenum and joins the splenic vein behind the neck of the pancreas to form the hepatic portal vein'),
+    主要分支: e('空腸靜脈、迴腸靜脈、迴結腸靜脈、右結腸靜脈、中結腸靜脈、胰十二指腸靜脈與右胃網膜靜脈（常經胃結腸幹）', 'Jejunal, ileal, ileocolic, right colic, middle colic and pancreaticoduodenal veins and the right gastro-omental vein (often through the gastrocolic trunk)'),
+    引流範圍: e('空腸、迴腸、盲腸與闌尾、升結腸、橫結腸、胰頭與十二指腸的一部分、胃大彎右部', 'The jejunum, ileum, cecum and appendix, ascending and transverse colon, the head of the pancreas and part of the duodenum, and the right part of the greater curvature of the stomach'),
+  },
+  'inferior mesenteric vein': {
+    來源: e('由直腸上部的上直腸靜脈向上延續而成', 'Continues upward from the superior rectal vein at the upper rectum'),
+    走向: e('在腹後壁左側、腰大肌前方、十二指腸空腸彎曲左側上行，經胰體後方，常注入脾靜脈，也可注入上腸繫膜靜脈或兩者匯合處', 'Ascends on the left side of the posterior abdominal wall in front of psoas major, to the left of the duodenojejunal flexure, passes behind the body of the pancreas and often enters the splenic vein, and may enter the superior mesenteric vein or their junction'),
+    主要分支: e('上直腸靜脈、乙狀結腸靜脈、左結腸靜脈', 'The superior rectal, sigmoid and left colic veins'),
+    引流範圍: e('直腸上部、乙狀結腸、降結腸與左大腸彎', 'The upper rectum, sigmoid colon, descending colon and left colic flexure'),
+  },
+  'left gastric vein': {
+    來源: e('由胃小彎左側的胃壁靜脈匯成，與左胃動脈伴行', 'Formed from the veins of the lesser-curvature side of the stomach, accompanying the left gastric artery'),
+    走向: e('沿胃小彎在小網膜內向上走到食道下端，再轉向下、向後，多注入肝門靜脈', 'Runs up along the lesser curvature in the lesser omentum to the lower esophagus, then turns downward and backward and mostly enters the hepatic portal vein'),
+    主要分支: e('食道靜脈（來自食道下段）與胃壁靜脈', 'Esophageal veins (from the lower esophagus) and gastric wall veins'),
+    引流範圍: e('胃小彎側與食道下端；食道靜脈是門體吻合的門靜脈側屬支', 'The lesser-curvature side of the stomach and the lower esophagus; the esophageal veins form the portal side of a portal-systemic anastomosis'),
+  },
+  'right gastric vein': {
+    來源: e('由胃小彎右側與幽門區的胃壁靜脈匯成，與右胃動脈伴行', 'Formed from the veins of the right part of the lesser curvature and the pyloric region, accompanying the right gastric artery'),
+    走向: e('沿胃小彎在小網膜內向右走，直接注入肝門靜脈', 'Runs to the right along the lesser curvature in the lesser omentum and enters the hepatic portal vein directly'),
+    引流範圍: e('胃小彎右部與幽門區', 'The right part of the lesser curvature and the pyloric region of the stomach'),
+  },
+  'short gastric veins': {
+    來源: e('胃底與胃大彎上部的小靜脈，共數條', 'Several small veins from the gastric fundus and upper greater curvature'),
+    走向: e('在胃脾韌帶內向左後方走，注入脾靜脈或其屬支', 'Run to the left and backward in the gastrosplenic ligament and enter the splenic vein or its tributaries'),
+    引流範圍: e('胃底與胃大彎上部', 'The fundus and upper part of the greater curvature of the stomach'),
+  },
+  'left gastro-omental vein': {
+    來源: e('由胃大彎左部與大網膜的靜脈匯成，與左胃網膜動脈伴行', 'Formed from the veins of the left part of the greater curvature and the greater omentum, accompanying the left gastro-omental artery'),
+    走向: e('沿胃大彎向左上行，經胃脾韌帶，注入脾靜脈', 'Runs to the left and upward along the greater curvature through the gastrosplenic ligament into the splenic vein'),
+    引流範圍: e('胃大彎左部與大網膜', 'The left part of the greater curvature and the greater omentum'),
+  },
+  'right gastro-omental vein': {
+    來源: e('由胃大彎右部與大網膜的靜脈匯成，與右胃網膜動脈伴行', 'Formed from the veins of the right part of the greater curvature and the greater omentum, accompanying the right gastro-omental artery'),
+    走向: e('沿胃大彎向右下行，經幽門下方，常經胃結腸幹注入上腸繫膜靜脈', 'Runs to the right and downward along the greater curvature, passes below the pylorus and usually enters the superior mesenteric vein through the gastrocolic trunk'),
+    引流範圍: e('胃大彎右部與大網膜', 'The right part of the greater curvature and the greater omentum'),
+  },
+  'posterior gastric veins': {
+    來源: e('胃底後壁的小靜脈', 'Small veins of the posterior wall of the gastric fundus'),
+    走向: e('向後上方走，多注入脾靜脈', 'Run backward and upward, mostly entering the splenic vein'),
+    引流範圍: e('胃底後壁', 'The posterior wall of the gastric fundus'),
+  },
+  'paraumbilical vein': {
+    來源: e('臍周的小靜脈，沿肝圓韌帶走行，連接臍周皮下靜脈與肝門靜脈左支', 'Small veins around the umbilicus that run in the round ligament of the liver and connect the periumbilical subcutaneous veins with the left branch of the hepatic portal vein'),
+    走向: e('在肝圓韌帶內向上，經鐮狀韌帶游離緣到達肝，注入肝門靜脈左支', 'Run upward in the round ligament along the free edge of the falciform ligament to the liver and enter the left branch of the hepatic portal vein'),
+    引流範圍: e('臍周前腹壁；與淺腹壁靜脈、下腹壁靜脈相通，門脈高壓時擴張，形成腹壁靜脈曲張（海蛇頭）', 'The anterior abdominal wall around the umbilicus; it communicates with the superficial and inferior epigastric veins and dilates in portal hypertension, producing visible abdominal wall veins (caput medusae)'),
+  },
+  'umbilical vein': {
+    來源: e('胎兒期由胎盤出發，在臍帶內攜帶含氧血進入胎兒體內', 'In the fetus it starts at the placenta and carries oxygenated blood through the umbilical cord into the body'),
+    走向: e('經臍進入腹壁，沿鐮狀韌帶游離緣上行到肝，通入肝門靜脈左支；一部分血液經靜脈導管直接入下腔靜脈。出生後閉鎖，成為肝圓韌帶', 'Enters the abdominal wall at the umbilicus, ascends along the free edge of the falciform ligament to the liver and joins the left branch of the portal vein; part of the blood bypasses the liver through the ductus venosus into the inferior vena cava. It closes after birth and becomes the round ligament of the liver'),
+    引流範圍: e('胎盤回流、含氧與營養的血液', 'Oxygenated, nutrient-rich blood returning from the placenta'),
+  },
+  'ductus venosus': {
+    來源: e('胎兒期位於肝門靜脈左支與下腔靜脈之間的短管，由肝內承接臍靜脈血液', 'In the fetus, a short channel inside the liver between the left branch of the portal vein and the inferior vena cava, receiving blood from the umbilical vein'),
+    走向: e('由肝門靜脈左支向後上走，經靜脈韌帶裂，注入下腔靜脈（接近肝靜脈開口處），讓一部分血液繞過肝竇隙；出生後閉鎖，成為靜脈韌帶', 'Runs backward and upward from the left portal vein through the fissure for the ligamentum venosum into the inferior vena cava near the hepatic vein openings, letting part of the blood bypass the liver sinusoids; it closes after birth and becomes the ligamentum venosum'),
+    引流範圍: e('胎兒由胎盤回流的血液（出生後閉鎖為靜脈韌帶）', 'Placental blood returning to the fetus (closing after birth to form the ligamentum venosum)'),
+  },
+  'superior rectal vein': {
+    來源: e('由直腸上部壁內的直腸內靜脈叢匯成', 'Formed from the internal rectal venous plexus in the wall of the upper rectum'),
+    走向: e('沿直腸上動脈上行，越過左總髂血管，續為下腸繫膜靜脈', 'Ascends with the superior rectal artery over the left common iliac vessels and continues as the inferior mesenteric vein'),
+    引流範圍: e('直腸上部與肛管上部，屬門靜脈系統；與中、下直腸靜脈在直腸壁相通，構成門體吻合', 'The upper rectum and upper anal canal, part of the portal system; it communicates in the rectal wall with the middle and inferior rectal veins, forming a portal-systemic anastomosis'),
+  },
+  'middle rectal veins': {
+    來源: e('由直腸中下部壁內的靜脈叢匯成，左右各一', 'Formed from venous plexuses in the wall of the middle and lower rectum, one on each side'),
+    走向: e('在骨盆內向外側走，注入內髂靜脈', 'Pass laterally in the pelvis and enter the internal iliac vein'),
+    引流範圍: e('直腸中下部，屬體靜脈（內髂靜脈系統）；與上直腸靜脈相通', 'The middle and lower rectum, part of the systemic (internal iliac) system; it communicates with the superior rectal vein'),
+  },
+  'inferior rectal veins': {
+    來源: e('由肛管下部與肛門括約肌周圍的靜脈匯成', 'Formed from veins of the lower anal canal and around the anal sphincters'),
+    走向: e('穿過坐骨肛門窩，注入內陰靜脈，再入內髂靜脈', 'Cross the ischioanal fossa and enter the internal pudendal vein, and then the internal iliac vein'),
+    引流範圍: e('肛管下部與肛門周圍，屬體靜脈；與中、上直腸靜脈相通', 'The lower anal canal and perianal region, part of the systemic system; it communicates with the middle and superior rectal veins'),
+  },
+  'esophageal vein': {
+    來源: e('食道壁內的黏膜下靜脈叢與食道周圍靜脈叢', 'Submucosal and periesophageal venous plexuses of the esophageal wall'),
+    走向: e('頸段注入下甲狀腺靜脈，胸段注入奇靜脈與半奇靜脈，腹段與下端注入左胃靜脈', 'The cervical part drains into the inferior thyroid vein, the thoracic part into the azygos and hemiazygos veins, and the abdominal part and lowest end into the left gastric vein'),
+    引流範圍: e('食道；下段是門靜脈與體靜脈的吻合處，門脈高壓時擴張成食道靜脈曲張，破裂可大出血', 'The esophagus; its lower part is a portal-systemic anastomosis, and in portal hypertension the veins dilate into esophageal varices that can bleed heavily'),
+  },
+  'superficial epigastric vein': {
+    來源: e('下腹壁皮下組織的淺靜脈', 'Superficial veins in the subcutaneous tissue of the lower abdominal wall'),
+    走向: e('在皮下向下走過腹股溝韌帶，注入大隱靜脈靠近隱靜脈裂孔處；向上與胸腹壁靜脈、臍周靜脈相通', 'Descends in the subcutaneous tissue across the inguinal ligament into the great saphenous vein near the saphenous opening; upward it communicates with the thoracoepigastric vein and the periumbilical veins'),
+    引流範圍: e('下腹壁的皮膚與皮下組織', 'The skin and subcutaneous tissue of the lower abdominal wall'),
+  },
+  'superior epigastric vein': {
+    來源: e('腹直肌上部及其鞘內的靜脈，與上腹壁動脈伴行', 'Veins of the upper rectus abdominis and its sheath, accompanying the superior epigastric artery'),
+    走向: e('在腹直肌後方、腹直肌鞘內向上走，注入內胸靜脈；在肌內與下腹壁靜脈相吻合', 'Ascends behind rectus abdominis within the rectus sheath into the internal thoracic vein, and anastomoses within the muscle with the inferior epigastric vein'),
+    引流範圍: e('上部腹直肌與上腹壁', 'The upper rectus abdominis and upper abdominal wall'),
+  },
+  'inferior epigastric vein': {
+    來源: e('腹直肌下部及其鞘內的靜脈，與下腹壁動脈伴行，常有兩條', 'Veins of the lower rectus abdominis and its sheath, accompanying the inferior epigastric artery, often as two companion veins'),
+    走向: e('在腹直肌後方向外下走，於腹股溝韌帶上方注入外髂靜脈；在肌內與上腹壁靜脈相吻合', 'Runs downward and laterally behind rectus abdominis and enters the external iliac vein just above the inguinal ligament; it anastomoses within the muscle with the superior epigastric vein'),
+    引流範圍: e('下部腹直肌與下腹壁，並與臍周靜脈相通', 'The lower rectus abdominis and lower abdominal wall, communicating with the periumbilical veins'),
+  },
+  'superficial circumflex iliac vein': {
+    來源: e('腹股溝外側與前上髂棘區皮下的淺靜脈', 'Superficial veins of the subcutaneous tissue of the lateral groin and the anterior superior iliac spine region'),
+    走向: e('沿腹股溝韌帶下方向內走，注入大隱靜脈近隱靜脈裂孔處', 'Runs medially below the inguinal ligament and enters the great saphenous vein near the saphenous opening'),
+    引流範圍: e('下腹壁外側與髂部的皮膚與皮下組織', 'The skin and subcutaneous tissue of the lateral lower abdominal wall and iliac region'),
+  },
+  'deep circumflex iliac vein': {
+    來源: e('髂脊附近腹壁肌肉的深靜脈，與深旋髂動脈伴行，常有兩條', 'Deep veins of the abdominal wall muscles near the iliac crest, accompanying the deep circumflex iliac artery, often as two companion veins'),
+    走向: e('沿腹股溝韌帶外側、髂脊內側向內走，在下腹壁靜脈起點附近注入外髂靜脈', 'Runs medially along the lateral part of the inguinal ligament and inside the iliac crest, entering the external iliac vein near the origin of the inferior epigastric vein'),
+    引流範圍: e('髂脊附近的腹壁肌肉與髂部', 'The abdominal wall muscles near the iliac crest and the iliac region'),
+  },
+  'thoracoepigastric vein': {
+    來源: e('軀幹外側皮下的縱向淺靜脈，下端連淺腹壁靜脈，上端連外胸靜脈', 'A longitudinal superficial vein of the lateral trunk linking the superficial epigastric vein below with the lateral thoracic vein above'),
+    走向: e('在胸腹壁外側皮下垂直走行，一端藉外胸靜脈通腋靜脈，另一端藉淺腹壁靜脈經大隱靜脈通股靜脈', 'Runs vertically in the subcutaneous tissue of the side of the chest and abdomen, joining the axillary vein through the lateral thoracic vein and, below, the femoral vein through the superficial epigastric vein and great saphenous vein'),
+    引流範圍: e('軀幹外側的皮膚與皮下組織；上、下腔靜脈之一阻塞時成為重要側支通路', 'The skin and subcutaneous tissue of the side of the trunk; it becomes an important collateral route if the superior or inferior vena cava is obstructed'),
+  },
+  'internal thoracic vein': {
+    來源: e('胸前壁肋間前靜脈與上腹壁靜脈等匯成，與內胸動脈伴行，下部常為兩條', 'Formed from the anterior intercostal veins and the superior epigastric vein among others, accompanying the internal thoracic artery, often as two companion veins in its lower part'),
+    走向: e('沿胸骨外側、肋軟骨後方向上行，往上合成一條，在第一肋軟骨高度注入頭臂靜脈', 'Ascends behind the costal cartilages beside the sternum, merges into a single vein above and enters the brachiocephalic vein at the level of the first costal cartilage'),
+    主要分支: e('肋間前靜脈、上腹壁靜脈、心包膈靜脈與胸腺、縱隔的小靜脈', 'Anterior intercostal veins, the superior epigastric vein, the pericardiacophrenic vein and small thymic and mediastinal veins'),
+    引流範圍: e('胸前壁與乳房內側，並藉上腹壁靜脈與腹前壁上部相連', 'The anterior chest wall and medial breast, and, through the superior epigastric vein, the upper anterior abdominal wall'),
+  },
+  'lateral thoracic vein': {
+    來源: e('胸外側壁與乳房外側部的靜脈，與胸外側動脈伴行', 'Veins of the lateral chest wall and lateral breast, accompanying the lateral thoracic artery'),
+    走向: e('沿胸小肌外側緣上行，注入腋靜脈', 'Ascends along the lateral border of pectoralis minor and enters the axillary vein'),
+    引流範圍: e('胸外側壁、前鋸肌與乳房外側部；下方與胸腹壁靜脈相連', 'The lateral chest wall, serratus anterior and lateral breast; it is connected below with the thoracoepigastric vein'),
+  },
+  'portal-systemic anastomoses': {
+    來源: e('門靜脈系統（引流消化道）與體靜脈系統（上、下腔靜脈）在若干部位的相通處，平時血流量小，門脈血流受阻時成為側支通路', 'Sites where the portal system (draining the gut) communicates with the systemic system (superior and inferior vena cava); normally small, they become collateral routes when portal flow is obstructed'),
+    走向: e('主要有四處：食道下段（左胃靜脈與奇靜脈；擴張成食道與胃底靜脈曲張）、直腸肛管（上直腸靜脈與中、下直腸靜脈；擴張成痔）、臍周（臍旁靜脈與上、下腹壁靜脈；擴張時成腹壁「海蛇頭」）、腹膜後與肝裸區（結腸後方小靜脈與腹後壁靜脈，肝裸區與膈靜脈）', 'There are four main sites: the lower esophagus (left gastric and azygos veins; dilating as esophageal and gastric varices), the rectum and anal canal (superior rectal with middle and inferior rectal veins; dilating as hemorrhoids), the umbilical region (paraumbilical with superior and inferior epigastric veins; dilating as caput medusae) and the retroperitoneum and bare area of the liver (small retrocolic veins with posterior abdominal wall veins, and the bare area with phrenic veins)'),
+    主要分支: e('門靜脈側：左胃靜脈、上直腸靜脈、臍旁靜脈、結腸後小靜脈；體靜脈側：奇靜脈與半奇靜脈、中與下直腸靜脈（入內髂靜脈）、淺與下腹壁靜脈、腰靜脈與腹後壁靜脈', 'Portal side: left gastric, superior rectal, paraumbilical and retrocolic veins; systemic side: azygos and hemiazygos veins, middle and inferior rectal veins (to the internal iliac vein), superficial and inferior epigastric veins, and lumbar and posterior abdominal wall veins'),
+    引流範圍: e('分流的血流：門脈血流受阻時，門靜脈系統的血液改由體靜脈回心', 'The diverted flow: when portal flow is obstructed, blood of the portal system returns to the heart through systemic veins'),
+  },
+});
+// ===== AB-A3 end =====
