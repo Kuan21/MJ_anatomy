@@ -1663,4 +1663,5 @@ Object.assign(CARD_EXTRAS, {
     支配範圍: e('作為腰神經叢通往薦神經叢的橋樑，間接支配臀部與下肢', 'A link between the lumbar and sacral plexuses, supplying the gluteal region and lower limb through the sacral plexus'),
   },
 });
+CARD_EXTRAS['descending thoracic aorta'] = CARD_EXTRAS['thoracic aorta'];
 // ===== AB-A2 end =====
