@@ -2,6 +2,8 @@
 //   node scripts/measure-nerve-components.mjs <mesh name, e.g. "Facial nerve (VII).l"> [--json]
 // Each piece is a branch or a ganglion of the source mesh that has no name of its own (the whole mesh carries one name). The two ends of a piece are the vertex farthest from its centroid and the vertex
 // farthest from that one (the tube's tips), the root end being the one nearer to the root landmark. Landmarks are meshes of the atlas (bones, foramina, teeth, other nerves).
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
 import {loadWorld} from './lib/paokao-world.mjs';
 import {closest} from './lib/heart-geom.mjs';
 export function pieces(m) {
@@ -15,7 +17,7 @@ export function pieces(m) {
     return {id: k + 1, verts: vs.length, lo, hi, ends: [at(A), at(B)], chord: d(at(A), at(B))};
   });
 }
-if (process.argv[1] === new URL(import.meta.url).pathname) {
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {   // .pathname never equals argv[1] on Windows
   const name = process.argv[2], w = loadWorld({paokao: true}), m = w.mesh(name), mm = v => v.map(x => (x * 1000).toFixed(0)).join(',');
   const sideName = /\.l$/.test(name) ? 'Left' : 'Right', LM = ['Mandible', `${sideName} angle of mandible`, `${sideName} zygomatic bone`, `${sideName} zygomatic arch`, `${sideName} maxilla`, `${sideName} stylomastoid foramen`, `${sideName} upper secondary canine tooth`, 'Mastoid process', `${sideName} sternocleidomastoid`, 'Skin'].filter(n => w.has(n));
   for (const p of pieces(m)) {

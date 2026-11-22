@@ -3,6 +3,8 @@
 // For every structure near the layer: the smallest distance from a layer vertex to its surface, the deepest layer vertex inside it (ray parity, mm), and whether the front face of the layer
 // (the back wall of the pharynx, which was not moved) is itself already inside that structure: then the overlap existed before and is listed, not counted. A structure that the layer
 // enters by more than 0.3 mm although the pharynx wall does not is a violation.
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
 import {loadWorld} from './lib/paokao-world.mjs';
 import {makeUtil} from './lib/paokao-util.mjs';
 import {meshOf, closest, ray} from './lib/heart-geom.mjs';
@@ -29,7 +31,7 @@ export function measure(options = {}) {
   for (const r of rows) r.verdict = verdict(r);
   return {rows, verts: n, tris: g.indices.length / 3, thickness: {mean: th.reduce((a, b) => a + b, 0) / n, min: Math.min(...th), thin: cnt(1.5), bbox: [lo, hi]}};
 }
-if (process.argv[1] === new URL(import.meta.url).pathname) {
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {   // .pathname never equals argv[1] on Windows
   const {rows, verts, thickness} = measure(), f = v => v.toFixed(1);
   console.log(`layer: ${verts} vertices per face; thickness (layer front face is 1.5 mm behind the pharynx wall): mean ${f(thickness.mean)} mm, thinnest ${f(thickness.min)} mm, ${thickness.thin} vertices thinner than 1.5 mm; extent x ${f(thickness.bbox[0][0] * 1e3)} to ${f(thickness.bbox[1][0] * 1e3)}, y ${f(thickness.bbox[0][1] * 1e3)} to ${f(thickness.bbox[1][1] * 1e3)} mm`);
   console.log('| structure | closest layer vertex (mm) | deepest layer vertex inside (mm) | back-face vertices inside | front-face vertices inside | verdict |\n|---|---|---|---|---|---|');
