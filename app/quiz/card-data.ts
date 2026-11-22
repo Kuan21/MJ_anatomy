@@ -1498,7 +1498,7 @@ Object.assign(CARD_EXTRAS, {
   'internal thoracic artery': {
     來源: e('鎖骨下動脈第一段的下壁，與甲狀頸動脈幹的起點相對', 'From the inferior surface of the first part of the subclavian artery, opposite the origin of the thyrocervical trunk'),
     走向: e('向下經鎖骨下靜脈後方進入胸腔，在前胸壁內側沿胸骨外側緣約一公分處下行；上段貼著壁胸膜、位於肋軟骨深面，下段在胸橫肌淺面；約在第六肋間隙分為兩終支', 'Passes down behind the subclavian vein into the thorax and descends about 1 cm lateral to the sternal border; its upper part lies against the parietal pleura deep to the costal cartilages and its lower part superficial to transversus thoracis; it divides into its two terminal branches at about the sixth intercostal space'),
-    主要分支: e('心包膈動脈、胸骨支、穿通支、前肋間支、縱隔支與胸腺支；終支為肌膈動脈與上腹壁動脈', 'Pericardiophrenic artery, sternal, perforating, anterior intercostal, mediastinal and thymic branches; its terminal branches are the musculophrenic and superior epigastric arteries'),
+    主要分支: e('心包膜膈動脈、胸骨支、穿通支、前肋間支、縱隔支與胸腺支；終支為肌膈動脈與上腹壁動脈', 'Pericardiophrenic artery, sternal, perforating, anterior intercostal, mediastinal and thymic branches; its terminal branches are the musculophrenic and superior epigastric arteries'),
     供應範圍: e('前胸壁、乳房、心包、橫膈與胸腺，並經上腹壁動脈到達腹直肌', 'The anterior chest wall, breast, pericardium, diaphragm and thymus, and through the superior epigastric artery the rectus abdominis'),
   },
   'suprascapular artery': {
