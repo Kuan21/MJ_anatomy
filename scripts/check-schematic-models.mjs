@@ -20,6 +20,7 @@ import {loadFullAtlas} from './lib/full-atlas.mjs';
 import {regionTools} from './lib/vessel-segments.mjs';
 import {loadPoseModule} from './lib/vessel-pose.mjs';
 import {surfaceIndex, pieceSizes} from './lib/surface-distance.mjs';
+import {MULTI_PIECE_VESSELS} from './audit-vessel-ends.mjs';
 
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 const write = process.argv.includes('--write'), onlyLandmarks = process.argv.includes('--only=landmarks'), jsonOut = process.argv.find(a => a.startsWith('--json='))?.slice(7);
@@ -174,8 +175,10 @@ for (const p of [...ends, ...pk]) {
   const sizes = pieceSizes([g]);
   if (isEnd) {
     // What a click selects (app/mj-vessel-unit.ts): the vessel together with its end piece. It must be one continuous structure.
-    const unit = vesselUnit(p.id, id => byId.has(id)).map(id => G(byId.get(id))), joined = pieceSizes(unit).length;
-    if (joined > 1) add('vessel-end', p, zone, '與主血管合併後仍斷開', `點選得到 ${joined} 段（末端片本身 ${sizes.length} 段）`);
+    // A vessel that is several separate segmental tubes by anatomy (the lumbar veins: each drains on its own into the inferior vena cava or the ascending lumbar vein, MULTI_PIECE_VESSELS) counts as that many independent
+    // structures: its end piece must not add loose segments of its own, but the separate tubes are not "broken".
+    const unit = vesselUnit(p.id, id => byId.has(id)).map(id => G(byId.get(id))), joined = pieceSizes(unit).length, expected = main && MULTI_PIECE_VESSELS.test(main.name) ? pieceSizes([G(main)]).length : 1;
+    if (joined > expected) add('vessel-end', p, zone, '與主血管合併後仍斷開', `點選得到 ${joined} 段（預期 ${expected} 段；末端片本身 ${sizes.length} 段）`);
     if (p.name === NEGATIVE.vessel) controlVessel = sizes.length > 1;   // the old selection (the end piece alone) must be found broken
   } else if (sizes.length > 1) add('schematic', p, zone, /(?:arteries|veins|branches|plexus|rami)\b/i.test(p.name) || /dorsal ramus of thoracic|perforating branch/i.test(p.name) ? '多段（名稱為複數、叢或多節段，可能是設計，待確認）' : '斷開成多段', `${sizes.length} 段`);
   if (!isEnd) {
