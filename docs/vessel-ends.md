@@ -1,14 +1,14 @@
 # 血管末端審核
 
-共檢查 10377 個血管末端（動脈與靜脈；每個血管網格的各分支尖端）。
+共檢查 9999 個血管末端（動脈與靜脈；每個血管網格的各分支尖端）。
 
 | 處理 | 數量 | 說明 |
 | --- | ---: | --- |
-| 原本已相連 | 3422 | 末端接到同類型的上游或分支血管，不處理 |
-| 補接（connector） | 565 | 12 mm 內有同類型血管，加一條細而彎的連接管，接回母血管 |
-| 樣條橋接（bridge） | 309 | 上肢與下肢：下一段血管距離大於本段管徑一半者，加一條口徑漸變的樣條連接管（半徑由本段漸變到下一段），取代簡單連接管 |
-| 漸細（fade） | 2811 | 半徑 1.8 mm 以下的小血管，真實解剖上止於肌肉、器官或筋膜；末端收成尖端，資料卡註明「末端逐漸變細，進入周圍組織」 |
-| 進入器官／其他（enters） | 3270 | 較大的血管進入器官或骨（如主動脈根部、肝靜脈進入肝），不改形狀，列在下方供人工複查 |
+| 原本已相連 | 3114 | 末端接到同類型的上游或分支血管，不處理 |
+| 補接（connector） | 504 | 12 mm 內有同類型血管，加一條細而彎的連接管，接回母血管 |
+| 樣條橋接（bridge） | 297 | 上肢與下肢：下一段血管距離大於本段管徑一半者，加一條口徑漸變的樣條連接管（半徑由本段漸變到下一段），取代簡單連接管 |
+| 漸細（fade） | 2859 | 半徑 1.8 mm 以下的小血管，真實解剖上止於肌肉、器官或筋膜；末端收成尖端，資料卡註明「末端逐漸變細，進入周圍組織」 |
+| 進入器官／其他（enters） | 3225 | 較大的血管進入器官或骨（如主動脈根部、肝靜脈進入肝），不改形狀，列在下方供人工複查 |
 
 ## 補接與未處理清單
 
@@ -20,14 +20,10 @@
 | Precuneal branch of left pericallosal artery (FJ1671M) | gap × 2 | 0.4 | 6.2 | 4.9 |
 | Branch of right middle cerebral artery to right angular gyrus (FJ1673) | gap × 2 | 0.4 | 4.3 | 5.5 |
 | Branch of left middle cerebral artery to left angular gyrus (FJ1673M) | gap × 2 | 0.4 | 4.2 | 4.7 |
-| Right callosomarginal artery (FJ1676) | gap × 1 | 1.1 | 5.5 | 11 |
-| Left callosomarginal artery (FJ1676M) | gap × 1 | 1.2 | 5.5 | 9.7 |
 | Middle temporal branch of right lateral occipital artery (FJ1680) | gap × 1 | 0.4 | 7.8 | 5 |
 | Middle temporal branch of left lateral occipital artery (FJ1680M) | gap × 1 | 0.4 | 7.8 | 4.7 |
 | Right internal carotid artery (FJ1682) | enters × 8 | 2.2 | 2.6 | 1.1 |
 | Left internal carotid artery (FJ1682M) | enters × 7 | 2.2 | 11.8 | 0.5 |
-| Right medial occipital artery (FJ1691) | gap × 1 | 0.4 | 4 | 8.1 |
-| Left medial occipital artery (FJ1691M) | gap × 1 | 0.4 | 4 | 6.7 |
 | Middle temporal branch of right middle cerebral artery (FJ1693) | enters × 1 | 0 | 29.5 | 9.3 |
 | Middle temporal branch of left middle cerebral artery (FJ1693M) | enters × 1 | 0 | 29.5 | 8.4 |
 | Right pericallosal artery (FJ1699) | gap × 2 | 0.4 | 3.9 | 6.7 |
@@ -60,12 +56,11 @@
 | Temporo-occipital branch of right middle cerebral artery (FJ1729) | enters × 4 | 0 | 6 | 1 |
 | Temporo-occipital branch of left middle cerebral artery (FJ1729M) | gap × 2 | 1 | 6.2 | 4.3 |
 | Temporo-occipital branch of left middle cerebral artery (FJ1729M) | enters × 3 | 0 | 5.9 | 0.6 |
-| Hepatovenous segment IX (FJ1858) | enters × 2 | 0 | 2.9 | 2.1 |
-| Tributary of middle hepatic vein (FJ1867) | gap × 4 | 1.8 | 5.3 | 15.8 |
+| Tributary of middle hepatic vein (FJ1867) | gap × 4 | 1.8 | 5.3 | 10.5 |
 | Descending thoracic aorta (FJ1931) | enters × 19 | 0 | 2.6 | 0.2 |
 | Descending thoracic aorta (FJ1931) | gap × 1 | 1.5 | 8.1 | 11.5 |
 | Abdominal aorta (FJ1932) | enters × 12 | 0 | 2.5 | 0.1 |
-| Right superior epigastric artery (FJ1936) | gap × 2 | 0.5 | 11.2 | 5.2 |
+| Right superior epigastric artery (FJ1936) | gap × 1 | 0.4 | 11.2 | 6.4 |
 | Right superior epigastric artery (FJ1936) | enters × 18 | 1.9 | 4.6 | 1.1 |
 | Right internal thoracic artery (FJ1937) | enters × 19 | 0 | 3.7 | 0.1 |
 | Right internal thoracic artery (FJ1937) | gap × 1 | 1.8 | 8.5 | 6.5 |
@@ -77,7 +72,7 @@
 | Right subcostal artery (FJ1967) | enters × 2 | 0 | 12.5 | 1.6 |
 | Right musculophrenic artery (FJ1969) | enters × 20 | 0 | 2.9 | 0.1 |
 | Left superior epigastric artery (FJ1971) | gap × 1 | 0.5 | 11.4 | 12.8 |
-| Left superior epigastric artery (FJ1971) | enters × 25 | 0 | 3.3 | 1.1 |
+| Left superior epigastric artery (FJ1971) | enters × 25 | 0 | 3.3 | 0.5 |
 | Left internal thoracic artery (FJ1972) | enters × 11 | 0 | 2.8 | 0 |
 | Left internal thoracic artery (FJ1972) | gap × 3 | 1.8 | 5.1 | 4.1 |
 | Left second posterior intercostal artery (FJ1974) | enters × 9 | 0 | 4.3 | 0.5 |
@@ -96,7 +91,7 @@
 | Right superior intercostal vein (FJ1991) | gap × 1 | 1 | 4.7 | 8.1 |
 | Right internal thoracic vein (FJ1993) | enters × 15 | 2 | 3.5 | 0.2 |
 | Right internal thoracic vein (FJ1993) | gap × 1 | 1.7 | 5.1 | 5.7 |
-| Set of anterior intercostal veins (FJ1994) | enters × 16 | 0 | 6.2 | 0 |
+| Set of anterior intercostal veins (FJ1994) | enters × 16 | 0 | 9 | 0 |
 | Right subcostal vein (FJ1995) | enters × 2 | 0 | 19.6 | 0.4 |
 | Right musculophrenic vein (FJ1996) | enters × 18 | 0 | 3.2 | 0.5 |
 | Right anterior segmental artery (FJ2041) | enters × 1 | 2.1 | 15.9 | 6.1 |
@@ -343,15 +338,14 @@
 | Right superior ulnar collateral artery (FJ2373) | enters × 2 | 0 | 21.4 | 0.1 |
 | Right superior ulnar collateral artery (FJ2373) | gap × 1 | 1.4 | 5.9 | 5.6 |
 | Left superior ulnar collateral artery (FJ2374) | enters × 3 | 0 | 2.5 | 0.4 |
-| Left portal vein (FJ2404) | gap × 23 | 2.8 | 3.2 | 4.5 |
-| Left portal vein (FJ2404) | enters × 6 | 0 | 2.5 | 1.9 |
-| Hepatovenous segment VII (FJ2409) | enters × 6 | 0 | 2.7 | 1 |
-| Middle hepatic vein (FJ2414) | gap × 19 | 3.1 | 2.6 | 4.4 |
-| Middle hepatic vein (FJ2414) | enters × 5 | 2.9 | 3.2 | 2.8 |
-| Left hepatic vein (FJ2415) | enters × 3 | 0 | 2.9 | 2.7 |
-| Left hepatic vein (FJ2415) | gap × 5 | 2.5 | 3.3 | 4.3 |
-| Right hepatic vein (FJ2416) | gap × 18 | 2.9 | 2.8 | 4.8 |
-| Right hepatic vein (FJ2416) | enters × 3 | 0 | 8.5 | 7.7 |
+| Left portal vein (FJ2404) | gap × 10 | 2.7 | 3.8 | 4.2 |
+| Left portal vein (FJ2404) | enters × 11 | 2.8 | 2.5 | 0.9 |
+| Middle hepatic vein (FJ2414) | gap × 15 | 3.1 | 2.6 | 4.4 |
+| Middle hepatic vein (FJ2414) | enters × 9 | 3 | 3.2 | 0.7 |
+| Left hepatic vein (FJ2415) | enters × 11 | 2.7 | 3.3 | 0.5 |
+| Left hepatic vein (FJ2415) | gap × 3 | 2.2 | 3.3 | 4.8 |
+| Right hepatic vein (FJ2416) | enters × 17 | 2.9 | 2.8 | 0.2 |
+| Right hepatic vein (FJ2416) | gap × 11 | 2.4 | 3.8 | 4.4 |
 | Splenic artery (FJ2562) | gap × 7 | 2.2 | 5.4 | 4.2 |
 | Splenic artery (FJ2562) | enters × 2 | 2.1 | 2.9 | 2.9 |
 | Trunk of anterior interventricular branch of left coronary artery (FJ2631) | enters × 2 | 2 | 5.9 | 0.2 |
@@ -360,19 +354,6 @@
 | Middle cardiac vein (FJ2678) | enters × 1 | 0 | 4 | 1.2 |
 | Trunk of right coronary artery (FJ2723) | enters × 4 | 2.1 | 2.7 | 0 |
 | Trunk of left coronary artery (FJ2737) | enters × 1 | 2.1 | 3.8 | 0.5 |
-| Hepatovenous segment II (FJ2818) | enters × 25 | 3 | 3.1 | 0.1 |
-| Hepatovenous segment II (FJ2818) | gap × 2 | 2.2 | 6.4 | 4.5 |
-| Hepatovenous segment III (FJ2819) | enters × 19 | 3 | 3 | 0.7 |
-| Hepatovenous segment III (FJ2819) | gap × 1 | 2.5 | 3.6 | 5 |
-| Hepatovenous segment IV (FJ2820) | enters × 13 | 2.4 | 3.2 | 0.4 |
-| Hepatovenous segment IV (FJ2820) | gap × 2 | 2.1 | 2.7 | 6 |
-| Hepatovenous segment V (FJ2821) | enters × 10 | 2.3 | 2.7 | 0.1 |
-| Hepatovenous segment V (FJ2821) | gap × 1 | 2.5 | 9.8 | 6.7 |
-| Hepatovenous segment VI (FJ2822) | gap × 2 | 2.4 | 7.5 | 7.6 |
-| Hepatovenous segment VI (FJ2822) | enters × 5 | 0 | 2.7 | 9.3 |
-| Hepatovenous segment VIII (FJ2823) | enters × 1 | 2.1 | 4.2 | 1.4 |
-| Hepatovenous segment VIII (FJ2824) | enters × 14 | 2.7 | 2.7 | 0.5 |
-| Hepatovenous segment VIII (FJ2824) | gap × 2 | 2.4 | 6.4 | 5.3 |
 | Left posterior basal segmental artery (FJ2881) | gap × 1 | 2.8 | 3 | 6.6 |
 | Left posterior basal segmental artery (FJ2881) | enters × 6 | 0 | 2.9 | 1 |
 | Left lateral basal segmental artery (FJ2882) | enters × 1 | 0 | 7.5 | 1.3 |
@@ -502,7 +483,7 @@
 | Apical part of right apical segmental artery (FJ3016) | enters × 1 | 2 | 2.6 | 0.9 |
 | Apical part of right posterior segmental artery (FJ3018) | enters × 7 | 2.6 | 3.3 | 0.5 |
 | Right pulmonary artery (FJ3019) | enters × 23 | 2.5 | 2.5 | 0.6 |
-| Right pulmonary artery (FJ3019) | gap × 1 | 3 | 3.6 | 9.7 |
+| Right pulmonary artery (FJ3019) | gap × 1 | 3 | 7.3 | 9.7 |
 | Right superior pulmonary vein (FJ3020) | enters × 2 | 2.6 | 2.8 | 2.3 |
 | Inferior part of right anterior segmental vein (FJ3021) | enters × 1 | 1.8 | 13.9 | 10.4 |
 | Right posterior segmental vein (FJ3022) | enters × 1 | 0 | 20.1 | 20.2 |
@@ -531,7 +512,7 @@
 | Right posterior basal segmental vein (FJ3041) | enters × 7 | 0 | 2.6 | 0.4 |
 | Right posterior basal segmental vein (FJ3041) | gap × 1 | 2.3 | 5.8 | 5.9 |
 | Anterior part of right apical segmental vein (FJ3042) | gap × 2 | 1.9 | 3.1 | 10.1 |
-| Right posterior basal segmental vein (FJ3043) | enters × 2 | 2.3 | 5.9 | 0.9 |
+| Right posterior basal segmental vein (FJ3043) | enters × 2 | 2.3 | 6.8 | 0.9 |
 | Right posterior basal segmental vein (FJ3043) | gap × 2 | 2.1 | 8.3 | 7.5 |
 | Right posterior basal segmental vein (FJ3044) | gap × 1 | 1.4 | 3.8 | 7.5 |
 | Right posterior basal segmental vein (FJ3048) | gap × 1 | 0.8 | 6.7 | 6.4 |
@@ -561,36 +542,38 @@
 | Right posterior segmental vein (FJ3069) | gap × 2 | 2.5 | 2.7 | 5.1 |
 | Right posterior segmental vein (FJ3070) | gap × 2 | 1.8 | 4 | 8.6 |
 | Right posterior segmental vein (FJ3070) | enters × 2 | 0 | 6 | 7.6 |
-| Anterior superior segmental branch of right portal vein (FJ3073) | enters × 3 | 2.4 | 2.7 | 1.9 |
-| Anterior superior segmental hepatic artery (FJ3076) | enters × 2 | 1.9 | 4.1 | 0.1 |
+| Anterior superior segmental branch of right portal vein (FJ3073) | enters × 4 | 2.5 | 2.7 | 1.9 |
+| Anterior superior segmental hepatic artery (FJ3076) | enters × 2 | 1.9 | 4.1 | 0 |
 | Common hepatic artery (FJ3078) | gap × 1 | 2.6 | 6.7 | 11.7 |
 | Hepatic artery proper (FJ3081) | enters × 1 | 2.1 | 4.7 | 2.2 |
 | Hepatic artery proper (FJ3081) | gap × 2 | 2.6 | 4 | 4.7 |
-| Anterior inferior segmental tributary of middle hepatic vein (FJ3083) | gap × 7 | 2.7 | 2.9 | 9.9 |
-| Anterior inferior segmental tributary of middle hepatic vein (FJ3083) | enters × 6 | 2.5 | 3 | 8.4 |
+| Anterior inferior segmental tributary of middle hepatic vein (FJ3083) | gap × 6 | 2.6 | 3 | 6.6 |
+| Anterior inferior segmental tributary of middle hepatic vein (FJ3083) | enters × 11 | 3 | 3 | 0 |
 | Medial inferior segmental tributary of middle hepatic vein (FJ3084) | gap × 4 | 2.6 | 2.8 | 5.6 |
 | Medial inferior segmental tributary of middle hepatic vein (FJ3085) | gap × 1 | 0.5 | 7.4 | 16.6 |
-| Anterior inferior segmental tributary of middle hepatic vein (FJ3086) | enters × 1 | 0 | 3 | 13.5 |
-| Anterior inferior segmental tributary of middle hepatic vein (FJ3086) | gap × 4 | 1.4 | 6.8 | 6.7 |
+| Anterior inferior segmental tributary of middle hepatic vein (FJ3086) | enters × 1 | 0 | 4.1 | 3 |
+| Anterior inferior segmental tributary of middle hepatic vein (FJ3086) | gap × 2 | 1.4 | 8.6 | 6.8 |
 | Trunk of left hepatic artery (FJ3095) | enters × 4 | 2.2 | 4.9 | 0.7 |
-| Lateral inferior segmental tributary of left hepatic vein (FJ3097) | gap × 3 | 2.3 | 3.9 | 4.3 |
-| Lateral inferior segmental tributary of left hepatic vein (FJ3099) | gap × 1 | 0.5 | 7.5 | 4.9 |
-| Lateral inferior segmental tributary of left hepatic vein (FJ3100) | gap × 1 | 0.5 | 3.7 | 4.8 |
-| Medial superior segmental tributary of left hepatic vein (FJ3101) | gap × 2 | 1.9 | 3 | 10 |
+| Lateral inferior segmental tributary of left hepatic vein (FJ3097) | gap × 2 | 2.3 | 5.3 | 5.7 |
+| Lateral inferior segmental tributary of left hepatic vein (FJ3097) | enters × 2 | 2.3 | 3.2 | 2.3 |
+| Lateral inferior segmental tributary of left hepatic vein (FJ3099) | gap × 1 | 0.5 | 8 | 4.9 |
+| Medial superior segmental tributary of left hepatic vein (FJ3101) | gap × 1 | 0.4 | 4.1 | 7.4 |
+| Medial superior segmental tributary of left hepatic vein (FJ3101) | enters × 1 | 1.9 | 3 | 3.6 |
 | Trunk of left portal vein (FJ3102) | enters × 2 | 2.7 | 3.3 | 3.9 |
-| Posterior inferior segmental tributary of right hepatic vein (FJ3118) | gap × 5 | 2.7 | 3.7 | 11.9 |
-| Posterior inferior segmental tributary of right hepatic vein (FJ3118) | enters × 8 | 0 | 2.8 | 7.9 |
-| Posterior superior segmental tributary of right hepatic vein (FJ3119) | gap × 3 | 2.3 | 2.9 | 10.7 |
-| Posterior inferior segmental tributary of right hepatic vein (FJ3120) | gap × 4 | 1.6 | 4.6 | 7.6 |
-| Anterior superior segmental tributary of right hepatic vein (FJ3121) | enters × 1 | 0 | 3.7 | 16.7 |
-| Anterior superior segmental tributary of right hepatic vein (FJ3121) | gap × 3 | 1.6 | 5.4 | Infinity |
+| Posterior inferior segmental tributary of right hepatic vein (FJ3118) | gap × 5 | 2.7 | 3.7 | 5.4 |
+| Posterior inferior segmental tributary of right hepatic vein (FJ3118) | enters × 8 | 0 | 2.8 | 2.9 |
+| Posterior superior segmental tributary of right hepatic vein (FJ3119) | gap × 2 | 2.3 | 2.9 | 10.7 |
+| Posterior inferior segmental tributary of right hepatic vein (FJ3120) | gap × 4 | 1.6 | 4.9 | 4.7 |
+| Anterior superior segmental tributary of right hepatic vein (FJ3121) | enters × 1 | 0 | 3.7 | 7.5 |
+| Anterior superior segmental tributary of right hepatic vein (FJ3121) | gap × 2 | 1.4 | 5.4 | 9.4 |
 | Lateral inferior segmental branch of left portal vein (FJ3125) | enters × 1 | 1.8 | 7.1 | 3.2 |
+| Lateral superior segmental branch of left portal vein (FJ3126) | enters × 1 | 2 | 8.4 | 0.4 |
 | Ascending branch of left colic artery (FJ3399) | enters × 5 | 0 | 4.2 | 0.2 |
 | Left colic vein (FJ3400) | enters × 4 | 0 | 12 | 2.4 |
 | Arch of aorta (FJ3411) | enters × 23 | 0 | 2.6 | 0 |
 | Ascending aorta (FJ3413) | enters × 23 | 2.8 | 2.9 | 0 |
 | Ascending branch of inferior branch of ileocolic artery (FJ3414) | enters × 1 | 0 | 8.7 | 0 |
-| Ileocolic vein (FJ3415) | gap × 1 | 1.5 | 4.8 | 4.8 |
+| Ileocolic vein (FJ3415) | gap × 1 | 1.5 | 7.7 | 4.8 |
 | Azygos vein (FJ3416) | gap × 7 | 2.8 | 3.4 | 4.5 |
 | Azygos vein (FJ3416) | enters × 22 | 2.9 | 3.2 | 0.1 |
 | Brachiocephalic artery (FJ3417) | enters × 12 | 0 | 2.7 | 0.5 |
@@ -599,16 +582,16 @@
 | Ileocolic artery (FJ3439) | gap × 1 | 0.9 | 4.9 | 4.7 |
 | Ileocolic vein (FJ3440) | enters × 1 | 0 | 4.2 | 5.2 |
 | Ileocolic vein (FJ3440) | gap × 1 | 1.6 | 5.5 | 5.5 |
-| Inferior vena cava (FJ3441) | enters × 13 | 0 | 3 | 0.6 |
+| Inferior vena cava (FJ3441) | enters × 15 | 0 | 3.8 | 0.6 |
 | Inferior mesenteric artery (FJ3442) | enters × 2 | 1.8 | 3.5 | 0.8 |
 | Inferior mesenteric artery (FJ3442) | gap × 1 | 2.7 | 4 | 7.1 |
 | Inferior mesenteric vein (FJ3443) | enters × 15 | 1.9 | 3.2 | 0 |
 | Inferior pancreatic artery (FJ3444) | enters × 1 | 0 | 5.3 | 0.5 |
-| Inferior phrenic vein (FJ3447) | enters × 8 | 0 | 2.7 | 0.1 |
-| Inferior phrenic vein (FJ3448) | enters × 3 | 0 | 7.3 | 0 |
+| Inferior phrenic vein (FJ3447) | enters × 9 | 0 | 3 | 0.1 |
+| Inferior phrenic vein (FJ3448) | enters × 3 | 0 | 9 | 0 |
 | Anterior division of left renal artery (FJ3463) | enters × 1 | 0 | 2.8 | 7 |
 | Left common iliac artery (FJ3464) | enters × 4 | 0 | 3.4 | 5.7 |
-| Left common iliac vein (FJ3465) | enters × 9 | 0 | 3.5 | 1 |
+| Left common iliac vein (FJ3465) | enters × 9 | 0 | 3.7 | 1 |
 | Left external iliac artery (FJ3466) | gap × 1 | 2.6 | 3 | 13.5 |
 | Left external iliac artery (FJ3466) | enters × 27 | 2.2 | 3.1 | 0.1 |
 | Left internal iliac artery (FJ3468) | enters × 7 | 2.2 | 16.1 | 1.4 |
@@ -616,16 +599,15 @@
 | Left internal iliac vein (FJ3469) | enters × 3 | 0 | 3.3 | 1.3 |
 | Left internal iliac vein (FJ3470) | enters × 1 | 0 | 11.2 | 0.2 |
 | Left internal iliac vein (FJ3471) | enters × 4 | 2 | 7.3 | 0.1 |
-| Left middle suprarenal artery (FJ3472) | gap × 1 | 1.4 | 3.6 | 7.5 |
 | Left middle suprarenal artery (FJ3472) | enters × 1 | 0 | 3.7 | 0.5 |
 | Left renal vein (FJ3477) | enters × 6 | 2.5 | 2.9 | 1.2 |
-| Left renal vein (FJ3477) | gap × 5 | 2.9 | 3.7 | 5.4 |
+| Left renal vein (FJ3477) | gap × 5 | 2.9 | 5.8 | 5.4 |
 | Left subclavian artery (FJ3479) | enters × 10 | 2.5 | 2.6 | 0 |
 | Left subclavian artery (FJ3479) | gap × 6 | 3.1 | 3.6 | 4.1 |
 | Left suprarenal vein (FJ3480) | enters × 1 | 0 | 11.6 | 0.2 |
 | Ureteric segment of left renal artery (FJ3481) | enters × 2 | 0 | 9.7 | 0 |
 | Left brachiocephalic vein (FJ3482) | enters × 19 | 2.7 | 2.6 | 0.1 |
-| Left brachiocephalic vein (FJ3482) | gap × 3 | 2.7 | 3.6 | 5.1 |
+| Left brachiocephalic vein (FJ3482) | gap × 3 | 2.7 | 5.4 | 5.1 |
 | Left common carotid artery (FJ3483) | enters × 10 | 2.3 | 6.9 | 0.1 |
 | Left common carotid artery (FJ3483) | gap × 1 | 1.3 | 6.3 | 9 |
 | Left external iliac vein (FJ3484) | gap × 1 | 1.4 | 5.3 | 4.1 |
@@ -633,13 +615,13 @@
 | Left internal jugular vein (FJ3485) | enters × 6 | 2.5 | 10 | 0.2 |
 | Left subclavian vein (FJ3486) | enters × 9 | 2.5 | 2.8 | 0.9 |
 | Left subclavian vein (FJ3486) | gap × 2 | 2.7 | 4.4 | 8.1 |
-| Left ascending lumbar vein (FJ3493) | enters × 13 | 2.5 | 2.8 | 0.2 |
-| Left ascending lumbar vein (FJ3493) | gap × 2 | 2 | 3.9 | 6.8 |
+| Left ascending lumbar vein (FJ3493) | enters × 14 | 2.5 | 2.8 | 0.2 |
+| Left ascending lumbar vein (FJ3493) | gap × 1 | 2 | 3.9 | 6.8 |
 | Left dorsal artery of penis (FJ3496) | enters × 5 | 0 | 14 | 0.1 |
 | Left gastric artery (FJ3499) | gap × 2 | 2.2 | 2.8 | Infinity |
 | Left gastric artery (FJ3499) | enters × 1 | 0 | 21.2 | 1.1 |
 | Left gastric vein (FJ3500) | gap × 1 | 1.7 | 2.9 | 5.9 |
-| Left gastric vein (FJ3500) | enters × 2 | 0 | 7.5 | 0.6 |
+| Left gastric vein (FJ3500) | enters × 2 | 0 | 10.5 | 0.6 |
 | Left gastroepiploic vein (FJ3502) | enters × 2 | 0 | 5.8 | 0.4 |
 | Left iliolumbar vein (FJ3510) | enters × 8 | 2.2 | 7.5 | 0.2 |
 | Left iliolumbar vein (FJ3510) | gap × 2 | 2.2 | 3.1 | 4.3 |
@@ -647,8 +629,8 @@
 | Left inferior epigastric artery (FJ3511) | enters × 4 | 0 | 30.4 | 1.4 |
 | Left inferior epigastric vein (FJ3512) | enters × 8 | 0 | 32.2 | 0.1 |
 | Left inferior epigastric vein (FJ3512) | gap × 2 | 1.7 | 5.5 | 4 |
-| Left inferior gluteal vein (FJ3513) | gap × 2 | 1.5 | 8.6 | 4.6 |
-| Left inferior gluteal vein (FJ3513) | enters × 5 | 0 | 9.6 | 1.4 |
+| Left inferior gluteal vein (FJ3513) | gap × 3 | 1.5 | 8.6 | 4.4 |
+| Left inferior gluteal vein (FJ3513) | enters × 6 | 2 | 4.4 | 0.7 |
 | Left inferior phrenic artery (FJ3514) | gap × 1 | 1.8 | 6.5 | 5.3 |
 | Left inferior phrenic artery (FJ3514) | enters × 3 | 2.1 | 3.9 | 0.8 |
 | Left inferior phrenic artery (FJ3515) | enters × 2 | 0 | 5.5 | 0.7 |
@@ -656,12 +638,11 @@
 | Left inferior phrenic artery (FJ3519) | enters × 1 | 0 | 9.6 | 0.7 |
 | Left external iliac vein (FJ3522) | enters × 2 | 0 | 2.7 | 0.9 |
 | Left internal pudendal vein (FJ3525) | enters × 1 | 1.9 | 4.8 | 1.3 |
-| Left internal pudendal vein (FJ3525) | gap × 4 | 1.8 | 5.7 | 4.1 |
+| Left internal pudendal vein (FJ3525) | gap × 2 | 1.8 | 9.8 | 5 |
 | Left lateral sacral vein (FJ3526) | enters × 3 | 1.9 | 4 | 0.2 |
-| Left lateral sacral vein (FJ3526) | gap × 2 | 1.4 | 6.6 | 4.5 |
 | Left superficial epigastric artery (FJ3529) | enters × 10 | 2.9 | 3.2 | 0.2 |
 | Left superficial epigastric artery (FJ3529) | gap × 1 | 2.7 | 11.5 | 6.4 |
-| Left superior gluteal vein (FJ3531) | enters × 10 | 1.8 | 6.4 | 0.1 |
+| Left superior gluteal vein (FJ3531) | enters × 11 | 2.3 | 5.4 | 0.1 |
 | Left testicular artery (FJ3532) | gap × 7 | 1.6 | 3.5 | 4.2 |
 | Left testicular artery (FJ3532) | enters × 6 | 0 | 7.2 | 0.2 |
 | Left testicular vein (FJ3533) | enters × 2 | 0 | 6.5 | 1.3 |
@@ -681,21 +662,19 @@
 | Right internal iliac vein (FJ3572) | enters × 7 | 1.8 | 3.1 | 1.6 |
 | Posterior division of right renal artery (FJ3574) | gap × 1 | 0.4 | 4.3 | 9.6 |
 | Right renal vein (FJ3577) | enters × 2 | 0 | 3.2 | 3.4 |
-| Right renal vein (FJ3577) | gap × 1 | 1.8 | 3.2 | 7.2 |
+| Right renal vein (FJ3577) | gap × 1 | 1.8 | 5.2 | 7.2 |
 | Right subclavian artery (FJ3579) | enters × 8 | 2.7 | 2.5 | 0.5 |
-| Right suprarenal vein (FJ3580) | enters × 1 | 0 | 10 | 1.5 |
+| Right suprarenal vein (FJ3580) | enters × 1 | 0 | 16.7 | 1.5 |
 | Right brachiocephalic vein (FJ3583) | enters × 10 | 2.5 | 2.7 | 0.2 |
 | Right brachiocephalic vein (FJ3583) | gap × 1 | 2.2 | 4.7 | 4.4 |
 | Right inferior suprarenal artery (FJ3584) | gap × 1 | 0.5 | 9.1 | 4.9 |
 | Right internal jugular vein (FJ3585) | enters × 6 | 2.7 | 8.1 | 0.4 |
 | Right subclavian vein (FJ3587) | enters × 7 | 2.9 | 4 | 0.6 |
 | Right subclavian vein (FJ3587) | gap × 1 | 2.3 | 5.2 | 8.2 |
-| Right ascending lumbar vein (FJ3589) | gap × 2 | 1.5 | 2.7 | 4.4 |
 | Right colic artery (FJ3590) | enters × 7 | 2.1 | 3.9 | 0 |
 | Right colic vein (FJ3591) | enters × 4 | 2.2 | 4.3 | 0.7 |
 | Right dorsal artery of penis (FJ3592) | enters × 3 | 0 | 15.4 | 0 |
 | Right gastric artery (FJ3594) | gap × 1 | 1.4 | 12 | 4.5 |
-| Right gastric vein (FJ3595) | gap × 2 | 1.5 | 5.3 | 4.6 |
 | Right gastro-epiploic artery (FJ3596) | enters × 1 | 0 | 3 | 0.3 |
 | Right gastroepiploic vein (FJ3597) | enters × 2 | 0 | 3.8 | 0.4 |
 | Right iliolumbar vein (FJ3603) | enters × 5 | 2.2 | 12.5 | 1.8 |
@@ -704,13 +683,13 @@
 | Right inferior epigastric artery (FJ3604) | gap × 3 | 0.9 | 4.1 | 4.7 |
 | Right inferior epigastric vein (FJ3605) | enters × 14 | 0 | 13.5 | 0.1 |
 | Right inferior epigastric vein (FJ3605) | gap × 1 | 1.1 | 10 | 5.9 |
-| Right inferior gluteal vein (FJ3606) | enters × 3 | 0 | 7.6 | 0.4 |
-| Right inferior gluteal vein (FJ3606) | gap × 3 | 1.9 | 5.5 | 6.1 |
+| Right inferior gluteal vein (FJ3606) | gap × 5 | 2.7 | 4.6 | 6.1 |
+| Right inferior gluteal vein (FJ3606) | enters × 4 | 1.9 | 7.6 | 0.4 |
 | Right internal iliac vein (FJ3607) | gap × 1 | 1.9 | 5 | 14.6 |
 | Right internal iliac vein (FJ3609) | enters × 1 | 0 | 3.1 | 6.2 |
-| Right internal pudendal vein (FJ3610) | gap × 5 | 1.9 | 2.8 | 4.2 |
+| Right internal pudendal vein (FJ3610) | enters × 2 | 1.9 | 14.8 | 9 |
+| Right internal pudendal vein (FJ3610) | gap × 1 | 1.2 | 9 | 4.2 |
 | Right lateral sacral vein (FJ3611) | gap × 1 | 1.6 | 3.9 | 6.6 |
-| Right obturator vein (FJ3612) | gap × 1 | 2 | 4.2 | 4.8 |
 | Right obturator vein (FJ3612) | enters × 2 | 2 | 3.1 | 3.4 |
 | Right superficial epigastric artery (FJ3614) | enters × 18 | 2.7 | 2.7 | 0 |
 | Right superior gluteal vein (FJ3616) | enters × 10 | 0 | 2.8 | 0.5 |
@@ -731,10 +710,10 @@
 | Superior mesenteric vein (FJ3647) | enters × 14 | 2.4 | 3.2 | 0.1 |
 | Superior phrenic vein (FJ3648) | gap × 1 | 0.7 | 2.6 | 5.6 |
 | Superior phrenic vein (FJ3648) | enters × 1 | 0 | 5 | 0.6 |
-| Superior phrenic vein (FJ3650) | enters × 1 | 0 | 5 | 0 |
-| Superior phrenic vein (FJ3651) | enters × 2 | 0 | 6.9 | 0.6 |
-| Superior phrenic vein (FJ3652) | enters × 1 | 0 | 3.1 | 0.2 |
-| Superior phrenic vein (FJ3653) | enters × 1 | 0 | 4.9 | 0.1 |
+| Superior phrenic vein (FJ3650) | enters × 1 | 0 | 8.7 | 0 |
+| Superior phrenic vein (FJ3651) | enters × 2 | 0 | 12.5 | 0.6 |
+| Superior phrenic vein (FJ3652) | enters × 1 | 0 | 9.3 | 0.2 |
+| Superior phrenic vein (FJ3653) | enters × 1 | 0 | 10.5 | 0.1 |
 | Superior phrenic vein (FJ3654) | enters × 1 | 0 | 8.1 | 0.2 |
 | Superior rectal artery (FJ3656) | enters × 1 | 0 | 5.3 | 1.2 |
 | Superior rectal vein (FJ3657) | enters × 1 | 0 | 11.1 | 2.3 |
