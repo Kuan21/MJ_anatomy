@@ -150,9 +150,9 @@ export function build({atlasPart, nervePart, paokaoPart, writer}) {
   const stats = {};
   for (const [key, m, zone, lineL] of [['Duodenum', duo, duoZone, duoLine], ['Pancreas', pan, panZone, null], ['Spleen', spl, splZone, splLine]]) {
     let {tz, tl} = labels(m, zone, lineL), out = {positions: m.positions, indices: m.indices};
-    // duodenojejunal flexure: the stretch of the gut where it turns forward into the jejunum, between two planes across the gut 12 mm either side of the bend
+    // duodenojejunal flexure: the stretch of the gut where it turns forward into the jejunum, between two planes across the gut 6 mm either side of the bend
     if (key === 'Duodenum') {
-      const tg = unit(sub(line.at(-1), line.at(-5))), c = sub(line.at(-1), mul(tg, .004)), slab = p => D(p, c) > .03 ? -1 : .012 - Math.abs((p[0] - c[0]) * tg[0] + (p[1] - c[1]) * tg[1] + (p[2] - c[2]) * tg[2]);
+      const tg = unit(sub(line.at(-1), line.at(-5))), c = sub(line.at(-1), mul(tg, .004)), slab = p => D(p, c) > .02 ? -1 : .006 - Math.abs((p[0] - c[0]) * tg[0] + (p[1] - c[1]) * tg[1] + (p[2] - c[2]) * tg[2]);
       const sp = splitByField({positions: m.positions, indices: m.indices, zone: tz, line: tl}, slab);
       for (let t = 0; t < sp.indices.length / 3; t++) if (slab(triCentre(sp, t)) > 0 && !sp.line[t]) sp.line[t] = 3;
       out = sp; tz = sp.zone; tl = sp.line;
