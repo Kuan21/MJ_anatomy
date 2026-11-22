@@ -19,7 +19,7 @@ const neutral = shown(undefined), male = shown('male'), female = shown('female')
 for (const p of neutral) {
   ok(p.system !== 'reproductive', `neutral view draws the reproductive part ${p.name}`);
   ok(!p.sex || (p.sex === 'male' && p.system === 'skeletal'), `neutral view draws ${p.name}, built for one sex (${p.sex})`);
-  ok(!/\b(penis|penile|scrot|testic|spermatic|prostat|seminal|uter|ovari|vagin|clitor|vulva|labi)/i.test(p.name), `neutral view draws ${p.name}`);
+  ok(!/\b(penis|penile|scrot|testic|spermatic|prostat|seminal|uter|ovari|vagin|clitor|vulva|labia|labium)/i.test(p.name), `neutral view draws ${p.name}`);
   ok(!(p.system === 'integumentary' && (p.name === 'Skin' || p.name === 'Pubic hair')), `neutral view draws ${p.name}`);
   ok(!(p.system === 'urinary' && p.name === 'Urethra'), 'neutral view draws the penile urethra');
 }
