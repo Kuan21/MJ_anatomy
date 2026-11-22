@@ -40,7 +40,7 @@ export default function abdomenArteries(U, built = []) {
     const side = (y, dir, lift = .0011) => wall(E, add(centre(y), mul(unit(dir), .02)), lift);
     const lga = 'Left gastric artery', o = startOn(lga, U.extreme(lga, [0, 1, 0]), ['Stomach']);
     // the lower oesophagus of the model runs inside the stomach mesh up to about 1.215 m: the branch climbs on the front of the cardia and reaches the oesophagus above it
-    artery('Esophageal branch of left gastric artery', '左胃動脈食道支', lga, [{pts: [o, wall('Stomach', add(o, [-.004, .007, -.003]), .0018), wall('Stomach', add(o, [-.007, .012, -.008]), .0016), side(1.222, [.2, 0, 1]), side(1.232, [.2, 0, 1])], r: [.0007, .0004]}],
+    artery('Esophageal branch of left gastric artery', '左胃動脈食道支', lga, [{pts: [o, wall('Stomach', add(o, [-.004, .007, -.003]), .0025), wall('Stomach', add(o, [-.007, .012, -.008]), .0025), side(1.222, [.2, 0, 1]), side(1.232, [.2, 0, 1])], r: [.0007, .0004]}],
       {origin: ['Left gastric artery, where it reaches the cardia', '左胃動脈到達賁門處'], course: ['Ascends on the abdominal oesophagus and through the oesophageal hiatus', '沿腹段食道上行，穿過食道裂孔'], supply: ['The abdominal oesophagus; joins the oesophageal branches of the thoracic aorta', '腹段食道；與胸主動脈的食道支吻合']});
     const lipa = 'Left inferior phrenic artery', p0 = startOn(lipa, [.0255, 1.2082, -.0139], [E, 'Stomach']);
     artery('Esophageal branch of left inferior phrenic artery', '左下膈動脈食道支', lipa, [{pts: [p0, lerp(p0, side(1.214, [.7, 0, -1]), .5), side(1.214, [.7, 0, -1]), side(1.224, [.5, 0, -1])], r: [.0006, .0004]}],
@@ -84,8 +84,8 @@ export default function abdomenArteries(U, built = []) {
     const ao = 'Abdominal aorta', ov = `${S.w} ovary`, lig = `${S.w} suspensory ligament of ovary`, ps = `${S.w} psoas major`;
     if (!U.has(ov) || !U.has(lig)) continue;
     const o = startOn(ao, [S.sx * .008, 1.098, .028], ['Left renal vein', 'Inferior vena cava']);
-    const onPsoas = y => wall(ps, [S.sx * .03, y, .03], .006), ligTop = U.extreme(lig, [0, 1, 0]), ligMid = U.cen(lig, lerp(ligTop, U.extreme(lig, [0, -1, 0]), .5), .004), t = wall(ov, U.pca(ov).c, .0006);
-    artery(`${S.w} ovarian artery`, `${S.zh}卵巢動脈`, ao, [{pts: [o, S.sx < 0 ? [-.012, 1.075, .034] : [.016, 1.085, .022], onPsoas(1.06), onPsoas(1.02), add(ligTop, [0, .012, .006]), ligTop, ligMid, t], r: [.0011, .0007], samples: 50}],
+    const onPsoas = y => wall(ps, [S.sx * .03, y, .03], .008), ligTop = U.extreme(lig, [0, 1, 0]), ligMid = U.cen(lig, lerp(ligTop, U.extreme(lig, [0, -1, 0]), .5), .004), t = wall(ov, U.pca(ov).c, .0006);
+    artery(`${S.w} ovarian artery`, `${S.zh}卵巢動脈`, ao, [{pts: [o, ...(S.sx < 0 ? [gap(['Duodenum', 'Inferior vena cava'], [-.01, 1.082, .03]), gap(['Duodenum', 'Inferior vena cava'], [-.016, 1.062, .03])] : [[.016, 1.085, .022]]), onPsoas(1.045), onPsoas(1.02), add(ligTop, [0, .012, .006]), ligTop, ligMid, t], r: [.0011, .0007], samples: 50}],
       {origin: ['Front of the abdominal aorta, just below the renal arteries (about L2)', '腹主動脈前面，腎動脈稍下方（約第二腰椎）'], course: ['Descends on psoas major behind the peritoneum, crosses the ureter and the external iliac vessels at the pelvic brim and runs in the suspensory ligament of the ovary to the ovary', '在腹膜後沿腰大肌下行，越過輸尿管與髂外血管進入骨盆，經卵巢懸韌帶到卵巢'], supply: ['The ovary and the lateral part of the uterine tube; joins the ovarian branch of the uterine artery', '卵巢與輸卵管外側部；與子宮動脈卵巢支吻合']}, {sex: 'female'});
   }
 
@@ -93,7 +93,7 @@ export default function abdomenArteries(U, built = []) {
   {
     const ao = 'Abdominal aorta', bottom = U.extreme(ao, [0, -1, 0]), o = startOn(ao, add(bottom, [0, .006, -.008]), ['Fifth lumbar vertebra']);
     const front = (bone, y, off = .0013) => wall(bone, U.extreme(bone, [0, 0, 1], {x: [-.008, .008], y: [y - .004, y + .004]}), off);
-    const path = [o, front('Fifth lumbar vertebra', 1.01), front('Fifth lumbar vertebra', .995), front('Sacrum', .975), front('Sacrum', .955), front('Sacrum', .935), front('Sacrum', .915)];
+    const path = [o, front('Fifth lumbar vertebra', 1.01, .0022), front('Fifth lumbar vertebra', .995, .0022), front('Sacrum', .975), front('Sacrum', .955), front('Sacrum', .935), front('Sacrum', .915)];
     artery('Median sacral artery', '正中薦動脈', ao, [{pts: path, r: [.0010, .0006], samples: 40}],
       {origin: ['Back of the abdominal aorta, just above its bifurcation', '腹主動脈後面，分叉處稍上方'], course: ['Descends in the midline in front of L4–L5, the sacrum and the coccyx', '在正中線沿第四、五腰椎、薦骨與尾骨前面下行'], supply: ['The sacrum and coccyx, the back of the rectum and the lowest lumbar region (small lumbar and lateral sacral branches)', '薦骨與尾骨、直腸後面與最下腰部（細小的腰支與薦外側支）']});
   }
@@ -104,8 +104,8 @@ export default function abdomenArteries(U, built = []) {
     // iliolumbar: from the back of the trunk, up and laterally behind psoas to the iliac fossa (iliac branch) and to psoas (lumbar branch)
     {
       const o = startOn(iia, add(top, [0, -.012, -.008]), []), bend = gap([`${S.w} psoas major`, 'Sacrum'], [S.sx * .045, 1.0, -.03], [`${S.w} hip bone`]);
-      const iliac = wall(`${S.w} hip bone`, [S.sx * .075, .99, -.02], .002), lumbar = wall(`${S.w} psoas major`, [S.sx * .04, 1.03, -.05], .003);
-      artery(`${S.w} iliolumbar artery`, `${S.zh}髂腰動脈`, iia, [{pts: [o, lerp(o, bend, .5), bend, iliac], r: [.0016, .0009]}, {pts: [bend, lerp(bend, lumbar, .5), lumbar], r: [.0011, .0007]}],
+      const iliac = wall(`${S.w} hip bone`, [S.sx * .075, .99, -.02], .002), lumbar = wall(`${S.w} psoas major`, [S.sx * .03, 1.0, -.015], .002);
+      artery(`${S.w} iliolumbar artery`, `${S.zh}髂腰動脈`, iia, [{pts: [o, lerp(o, bend, .5), bend, iliac], r: [.0016, .0009]}, {pts: [bend, wall(`${S.w} psoas major`, lerp(bend, lumbar, .5), .003), lumbar], r: [.0011, .0007]}],
         {origin: ['Posterior trunk of the internal iliac artery', '髂內動脈後幹'], course: ['Ascends laterally in front of the sacro-iliac joint and behind the obturator nerve and the external iliac vessels, to the medial border of psoas, and divides into lumbar and iliac branches', '在薦髂關節前方、閉孔神經與髂外血管後方向外上行至腰大肌內側緣，分為腰支與髂支'], supply: ['Psoas major, quadratus lumborum and iliacus, the ilium and the cauda equina (spinal branch)', '腰大肌、腰方肌與髂肌、髂骨及馬尾（脊支）']});
     }
     // middle rectal: medially from the anterior trunk to the lower rectum above the pelvic floor
@@ -124,7 +124,7 @@ export default function abdomenArteries(U, built = []) {
     {
       const ip = built.find(b => b.name === `${S.w} internal pudendal artery`)?.tubes?.[0]?.pts; if (!ip) throw new Error(`abdomen arteries: ${S.w} internal pudendal artery not built yet`);
       const o = ip.at(-1), t = wall('External anal sphincter', [S.sx * .012, .845, -.075], .0008);
-      artery(`${S.w} inferior rectal artery`, `${S.zh}下直腸動脈`, `${S.w} internal pudendal artery`, [{pts: [o, gap(['External anal sphincter'], lerp(o, t, .5), ['Rectum', `${S.w} hip bone`]), t], r: [.0009, .0005]}],
+      artery(`${S.w} inferior rectal artery`, `${S.zh}下直腸動脈`, `${S.w} internal pudendal artery`, [{pts: [o, add(o, [-S.sx * .008, 0, .002]), gap(['External anal sphincter'], add(lerp(o, t, .5), [-S.sx * .004, 0, 0]), ['Rectum', `${S.w} hip bone`]), t], r: [.0009, .0005]}],
         {origin: ['Internal pudendal artery, in the pudendal canal', '陰部內動脈（在陰部管內）'], course: ['Crosses the ischioanal fossa medially with the inferior rectal nerve', '與下直腸神經一起向內橫過坐骨肛門窩'], supply: ['The anal canal below the pectinate line, the external anal sphincter and the perianal skin', '齒狀線以下的肛管、肛門外括約肌與肛門周圍皮膚']});
     }
   }
