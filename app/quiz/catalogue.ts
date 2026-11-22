@@ -47,8 +47,8 @@ export const QUIZ_SYSTEMS: {id: QuizSystem; label: string; english: string; colo
 export interface QuizSectionDef {id: string; label: string; english: string; range: [number, number]}
 export interface QuizRegionDef {
   id: QuizRegionId;
-  /** 'organ' regions are listed under Organs in the chooser of every mode; omitted = a body part. */
-  group?: 'organ';
+  /** The group of the chooser of every mode: 'organ' regions are listed under Organs, 'region' (or omitted) ones under Body regions. */
+  group?: 'region' | 'organ';
   label: string;
   english: string;
   /** Header tag, catalogue file and route. */
@@ -295,7 +295,7 @@ const ABDOMEN_SECTIONS: QuizSectionDef[] = [
   {id: 'bones', label: '腰椎、肋骨與骨盆骨', english: 'Lumbar vertebrae, ribs and hip bones', range: ABD_RANGE},
 ];
 QUIZ_REGIONS.abdomen = {
-  id: 'abdomen', label: '腹部', english: 'Abdomen', tag: '腹部篇', file: 'quiz-abdomen.json', hash: '#/quiz/abdomen', atlasHash: '#/atlas/whole',
+  id: 'abdomen', group: 'region', label: '腹部', english: 'Abdomen', tag: '腹部篇', file: 'quiz-abdomen.json', hash: '#/quiz/abdomen', atlasHash: '#/atlas/whole',
   headline: ['看名稱，', '點出位置。'], description: ['由腹壁、胃腸與腹膜、肝膽胰脾，到腎與後腹壁、腹部血管與神經，在 3D 模型上練習辨認。', '每答一題，立即顯示正確位置與資料卡。'],
   scope: '採用現有圖譜的固定解剖姿勢，預設由前方觀看。題目只涵蓋主站腹部已有模型的構造；肝實質、膽道樹、胰實質與腎內血管等器官內部構造，由各器官的詳細模式 Quiz 出題，這裡不重複。模型沒有的構造（例如大網膜、小網膜、肝整體、食道腹段、腹股溝管）不會出題。題目是較深層的內臟（胰、十二指腸、腎、腎上腺、輸尿管）時，位於它前方的內臟會變成淡淡的玻璃。',
   defaultView: 'front', defaultSide: 'both', systems: ['skeletal', 'muscular', 'nervous', 'arterial', 'venous', 'trunkorgan'],

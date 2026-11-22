@@ -11,7 +11,7 @@ const lc = s => s[0].toLowerCase() + s.slice(1);
 /** Chinese names the profile table has no (or an English) entry for. The model's own English name stays; only the Chinese is added here. */
 export const TRUNK_ZH = {
   'sigmoid colon': '乙狀結腸', 'jejunum': '空腸', 'ileum': '迴腸', 'taenia mesocolica': '結腸繫膜帶', 'taenia omentalis': '網膜帶', 'taenia libera': '游離結腸帶',
-  'pancreatic duct': '胰管', 'ileocecal junction': '迴盲交界', 'transverse mesocolon': '橫結腸繫膜', 'mesentery of small intestine': '小腸繫膜', 'mesoappendix': '闌尾繫膜',
+  'pancreatic duct': '胰管', 'ileocecal junction': '迴盲部', 'transverse mesocolon': '橫結腸繫膜', 'mesentery of small intestine': '小腸繫膜', 'mesoappendix': '闌尾繫膜',
 };
 
 /** The candidates of a region: one row per atlas or course-package mesh that is in the region by the region bar rules and is not set aside by app/quiz/trunk.ts. Rows carry the decision (`reason` = why not asked). */
@@ -53,6 +53,8 @@ export function requiredAliases(region, structures) {
   const required = JSON.parse(fs.readFileSync(new URL(file, dir), 'utf8')).structures.filter(r => r.expect3d);
   const aliasFile = new URL(`aliases-${region}.json`, dir);
   const aliasTable = fs.existsSync(aliasFile) ? JSON.parse(fs.readFileSync(aliasFile, 'utf8')).aliases : [];
+  // the earlier wording of the names table (app/mj-required-names-trunk.json) lives in that table, not in the quiz data
+  const earlier = new Set(JSON.parse(fs.readFileSync(new URL('app/mj-required-names-trunk.json', root), 'utf8')).rows.flatMap(r => r.entries.flatMap(e => [...(e.zhAliases ?? []), ...(e.enAliases ?? [])])));
   const identity = /\b(?:left|right) (?:gastric|gastro-?epiploic|colic|hepatic|portal)\b/i;
   const keyOf = (name, forceSide = false) => forceSide || identity.test(name) ? 'id:' + name.toLowerCase().replace(/[^a-z0-9]+/g, '') : canonKey(name);
   const zhOf = (zh, sided) => zhKey(zh, sided);
@@ -87,8 +89,9 @@ export function requiredAliases(region, structures) {
   const result = new Map();
   for (const [id, row] of out) {
     const aliases = {};
-    if (row.en.size) aliases.en = [...row.en];
-    if (row.zh.size) aliases.zh = [...row.zh];
+    const en = [...row.en].filter(a => !earlier.has(a)), zh = [...row.zh].filter(a => !earlier.has(a));
+    if (en.length) aliases.en = en;
+    if (zh.length) aliases.zh = zh;
     if (aliases.en || aliases.zh) result.set(id, aliases);
   }
   return {aliases: result, coverage};

@@ -21,30 +21,30 @@
 
 ### 各區段的構造
 
-**腹壁與腹股溝（16）**：External oblique（腹外斜肌）；Inferior epigastric artery（下腹壁動脈）；Inferior epigastric vein（腹壁下靜脈）；Inguinal ligament（腹股溝韌帶）；Internal oblique（腹內斜肌）；Linea alba（腹白線）；Pyramidalis（錐狀肌）；Rectus abdominis（腹直肌）；Rectus sheath（腹直肌鞘）；Subcostal artery（肋下動脈）；Subcostal vein（肋下靜脈）；Superficial epigastric artery（淺腹壁動脈）；Superficial epigastric vein（腹壁淺靜脈）；Superior epigastric artery（上腹壁動脈）；Superior epigastric vein（腹壁上靜脈）；Transversus abdominis（腹橫肌）
+**腹壁與腹股溝（16）**：External oblique（腹外斜肌）；Inferior epigastric artery（下腹壁動脈）；Inferior epigastric vein（下腹壁靜脈）；Inguinal ligament（腹股溝韌帶）；Internal oblique（腹內斜肌）；Linea alba（腹白線）；Pyramidalis（錐狀肌）；Rectus abdominis（腹直肌）；Rectus sheath（腹直肌鞘）；Subcostal artery（肋下動脈）；Subcostal vein（肋下靜脈）；Superficial epigastric artery（淺腹壁動脈）；Superficial epigastric vein（淺腹壁靜脈）；Superior epigastric artery（上腹壁動脈）；Superior epigastric vein（上腹壁靜脈）；Transversus abdominis（腹橫肌）
 
-**胃腸與腹膜（15）**：Appendix（闌尾）；Ascending colon（升結腸）；Descending colon（降結腸）；Duodenum（十二指腸）；Ileocecal junction（迴盲交界）；Ileum（迴腸）；Jejunum（空腸）；Mesentery of small intestine（小腸繫膜）；Mesoappendix（闌尾繫膜）；Stomach（胃）；Taenia libera（游離結腸帶）；Taenia mesocolica（結腸繫膜帶）；Taenia omentalis（網膜帶）；Transverse colon（橫結腸）；Transverse mesocolon（橫結腸繫膜）
+**胃腸與腹膜（15）**：Appendix（闌尾）；Ascending colon（升結腸）；Descending colon（降結腸）；Duodenum（十二指腸）；Ileocecal junction（迴盲部）；Ileum（迴腸）；Jejunum（空腸）；Mesentery of small intestine（小腸繫膜）；Mesoappendix（闌尾繫膜）；Stomach（胃）；Taenia libera（游離結腸帶）；Taenia mesocolica（結腸繫膜帶）；Taenia omentalis（網膜帶）；Transverse colon（橫結腸）；Transverse mesocolon（橫結腸繫膜）
 
 **肝、膽、胰、脾（7）**：Common hepatic duct（總肝管）；Cystic duct（膽囊管）；Gallbladder（膽囊）；Hepatic duct（肝管）；Pancreas（胰臟）；Pancreatic duct（胰管）；Spleen（脾臟）
 
 **腎、腎上腺與後腹壁（8）**：Adrenal gland（腎上腺）；Aortic hiatus（主動脈裂孔）；Diaphragm（橫膈）；Iliacus（髂肌）；Kidney（腎臟）；Psoas major（腰大肌）；Quadratus lumborum（腰方肌）；Ureter（輸尿管）
 
-**腹部血管（64）**：Abdominal aorta（腹主動脈）；Anterior cecal artery（盲腸前動脈）；Anterior inferior pancreaticoduodenal artery（胰十二指腸前下動脈）；Anterior superior pancreaticoduodenal artery（胰十二指腸前上動脈）；Appendicular artery（闌尾動脈）；Ascending branch of colic artery（結腸動脈升支）；Ascending lumbar vein（腰升靜脈）；Caudal pancreatic artery（胰尾動脈）；Celiac artery（腹腔動脈幹）；Colic artery（結腸動脈）；Colic vein（結腸靜脈）；Common hepatic artery（總肝動脈）；Common iliac artery（總髂動脈）；Common iliac vein（總髂靜脈）；Descending branch of colic artery（結腸動脈降支）；Dorsal pancreatic artery（背胰動脈）；Gastric artery（胃動脈）；Gastric vein（胃靜脈）；Gastro-epiploic artery（胃網膜動脈）；Gastroduodenal artery（胃十二指腸動脈）；Gastroepiploic vein（胃網膜靜脈）；Great pancreatic artery（胰大動脈）；Hepatic artery（肝動脈）；Hepatic artery proper（固有肝動脈）；Hepatic portal vein（肝門靜脈）；Hepatic vein（肝靜脈）；Ileal artery（迴腸動脈）；Ileal vein（迴腸靜脈）；Ileocolic artery（迴結腸動脈）；Ileocolic vein（迴結腸靜脈）；Iliolumbar vein（髂腰靜脈）；Inferior mesenteric artery（下腸繫膜動脈）；Inferior mesenteric vein（下腸繫膜靜脈）；Inferior pancreatic artery（胰下動脈）；Inferior pancreaticoduodenal artery（下胰十二指腸動脈）；Inferior phrenic artery（下膈動脈）；Inferior phrenic vein（膈下靜脈）；Inferior suprarenal artery（腎上腺下動脈）；Inferior vena cava（下腔靜脈）；Lumbar artery（腰動脈）；Lumbar vein（腰靜脈）；Marginal artery of colon（結腸邊緣動脈）；Median sacral vein（薦正中靜脈）；Middle colic artery（中結腸動脈）；Middle colic vein（中結腸靜脈）；Middle hepatic vein（中肝靜脈）；Middle suprarenal artery（腎上腺中動脈）；Pancreaticoduodenal vein（胰十二指腸靜脈）；Portal vein（門靜脈）；Posterior cecal artery（盲腸後動脈）；Posterior inferior pancreaticoduodenal artery（胰十二指腸後下動脈）；Posterior superior pancreaticoduodenal artery（胰十二指腸後上動脈）；Renal artery（腎動脈）；Renal vein（腎靜脈）；Sigmoid artery（乙狀結腸動脈）；Sigmoid vein（乙狀結腸靜脈）；Splenic artery（脾動脈）；Splenic vein（脾靜脈）；Superficial circumflex iliac artery（旋髂淺動脈）；Superior mesenteric artery（上腸繫膜動脈）；Superior mesenteric vein（上腸繫膜靜脈）；Suprarenal vein（腎上腺靜脈）；Testicular artery（睪丸動脈）；Testicular vein（睪丸靜脈）
+**腹部血管（64）**：Abdominal aorta（腹主動脈）；Anterior cecal artery（盲腸前動脈）；Anterior inferior pancreaticoduodenal artery（前下胰十二指腸動脈）；Anterior superior pancreaticoduodenal artery（前上胰十二指腸動脈）；Appendicular artery（闌尾動脈）；Ascending branch of colic artery（結腸動脈升支）；Ascending lumbar vein（升腰靜脈）；Caudal pancreatic artery（胰尾動脈）；Celiac artery（腹腔動脈幹）；Colic artery（結腸動脈）；Colic vein（結腸靜脈）；Common hepatic artery（總肝動脈）；Common iliac artery（總髂動脈）；Common iliac vein（總髂靜脈）；Descending branch of colic artery（結腸動脈降支）；Dorsal pancreatic artery（背胰動脈）；Gastric artery（胃動脈）；Gastric vein（胃靜脈）；Gastro-epiploic artery（胃網膜動脈）；Gastroduodenal artery（胃十二指腸動脈）；Gastroepiploic vein（胃網膜靜脈）；Great pancreatic artery（胰大動脈）；Hepatic artery（肝動脈）；Hepatic artery proper（肝固有動脈）；Hepatic portal vein（肝門靜脈）；Hepatic vein（肝靜脈）；Ileal artery（迴腸動脈）；Ileal vein（迴腸靜脈）；Ileocolic artery（迴結腸動脈）；Ileocolic vein（迴結腸靜脈）；Iliolumbar vein（髂腰靜脈）；Inferior mesenteric artery（下腸繫膜動脈）；Inferior mesenteric vein（下腸繫膜靜脈）；Inferior pancreatic artery（胰下動脈）；Inferior pancreaticoduodenal artery（下胰十二指腸動脈）；Inferior phrenic artery（下膈動脈）；Inferior phrenic vein（下膈靜脈）；Inferior suprarenal artery（下腎上腺動脈）；Inferior vena cava（下腔靜脈）；Lumbar artery（腰動脈）；Lumbar vein（腰靜脈）；Marginal artery of colon（結腸邊緣動脈）；Median sacral vein（正中薦靜脈）；Middle colic artery（中結腸動脈）；Middle colic vein（中結腸靜脈）；Middle hepatic vein（中肝靜脈）；Middle suprarenal artery（中腎上腺動脈）；Pancreaticoduodenal vein（胰十二指腸靜脈）；Portal vein（門靜脈）；Posterior cecal artery（盲腸後動脈）；Posterior inferior pancreaticoduodenal artery（後下胰十二指腸動脈）；Posterior superior pancreaticoduodenal artery（後上胰十二指腸動脈）；Renal artery（腎動脈）；Renal vein（腎靜脈）；Sigmoid artery（乙狀結腸動脈）；Sigmoid vein（乙狀結腸靜脈）；Splenic artery（脾動脈）；Splenic vein（脾靜脈）；Superficial circumflex iliac artery（淺旋髂動脈）；Superior mesenteric artery（上腸繫膜動脈）；Superior mesenteric vein（上腸繫膜靜脈）；Suprarenal vein（腎上腺靜脈）；Testicular artery（睪丸動脈）；Testicular vein（睪丸靜脈）
 
-**腹部神經與神經叢（15）**：Aorticorenal ganglion（主動脈腎神經節）；Celiac ganglion（腹腔神經節）；Femoral branch of genitofemoral nerve（生殖股神經股支）；Femoral nerve（股神經）；Genital branch of genitofemoral nerve（生殖股神經生殖支）；Genitofemoral nerve（生殖股神經）；Greater splanchnic nerve（大內臟神經）；Ilio-inguinal nerve（髂腹股溝神經）；Iliohypogastric nerve（髂腹下神經）；Lateral femoral cutaneous nerve（外股皮神經）；Least splanchnic nerve（最小內臟神經）；Lesser splanchnic nerve（小內臟神經）；Obturator nerve（閉孔神經）；Renal ganglion（腎神經節）；Superior mesenteric ganglion（腸繫膜上神經節）
+**腹部神經與神經叢（15）**：Aorticorenal ganglion（主動脈腎神經節）；Celiac ganglion（腹腔神經節）；Femoral branch of genitofemoral nerve（生殖股神經股支）；Femoral nerve（股神經）；Genital branch of genitofemoral nerve（生殖股神經生殖支）；Genitofemoral nerve（生殖股神經）；Greater splanchnic nerve（大內臟神經）；Ilio-inguinal nerve（髂腹股溝神經）；Iliohypogastric nerve（髂腹下神經）；Lateral femoral cutaneous nerve（外股皮神經）；Least splanchnic nerve（最小內臟神經）；Lesser splanchnic nerve（小內臟神經）；Obturator nerve（閉孔神經）；Renal ganglion（腎神經節）；Superior mesenteric ganglion（上腸繫膜神經節）
 
 **腰椎、肋骨與骨盆骨（19）**：Eighth rib（第八肋骨）；Eleventh rib（第十一肋骨）；Fifth lumbar vertebra（第五腰椎）；First lumbar vertebra（第一腰椎）；Fourth lumbar vertebra（第四腰椎）；Hip bone（髖骨）；Intervertebral disk of fifth lumbar vertebra（第五腰椎椎間盤）；Intervertebral disk of first lumbar vertebra（第一腰椎椎間盤）；Intervertebral disk of fourth lumbar vertebra（第四腰椎椎間盤）；Intervertebral disk of second lumbar vertebra（第二腰椎椎間盤）；Intervertebral disk of third lumbar vertebra（第三腰椎椎間盤）；Ninth rib（第九肋骨）；Sacrum（薦骨）；Second lumbar vertebra（第二腰椎）；Seventh costal cartilage（第七肋軟骨）；Seventh rib（第七肋骨）；Tenth rib（第十肋骨）；Third lumbar vertebra（第三腰椎）；Twelfth rib（第十二肋骨）
 
 ### 資料卡
 
-資料卡只使用主站已有的資料；沒有資料的欄位顯示「尚無資料」，不自行補寫。欄位齊全：29 / 210；部分欄位有資料：12；完全沒有資料：169。
+資料卡只使用主站已有的資料；沒有資料的欄位顯示「尚無資料」，不自行補寫。欄位齊全：40 / 210；部分欄位有資料：23；完全沒有資料：147。
 
 | 系統 | 構造數 | 欄位齊全 | 部分有資料 | 完全沒有資料 |
 | --- | --- | --- | --- | --- |
 | 骨骼 | 27 | 0 | 6 | 21 |
 | 肌肉 | 17 | 17 | 0 | 0 |
 | 神經 | 30 | 0 | 0 | 30 |
-| 動脈 | 58 | 0 | 2 | 56 |
+| 動脈 | 58 | 11 | 13 | 34 |
 | 靜脈 | 44 | 0 | 4 | 40 |
 | 腹盆器官構造 | 34 | 12 | 0 | 22 |
 
@@ -54,7 +54,7 @@
 
 ### 名稱的其他接受寫法
 
-50 個構造另有可接受的寫法（來自必考清單的用詞，顯示名稱仍是主站的名稱）。
+22 個構造另有可接受的寫法（來自必考清單的用詞，顯示名稱仍是主站的名稱）。
 
 ### 不出題的構造（逐項）
 
@@ -75,7 +75,7 @@
 - Caudate lobe branch of left portal vein（左門靜脈尾狀葉葉支）
 - Caudate lobe branch of right hepatic artery（右肝動脈尾狀葉葉支）
 - Caudate lobe branch of right portal vein（右門靜脈尾狀葉葉支）
-- Caudate lobe of liver（肝尾狀葉）
+- Caudate lobe of liver（肝尾葉）
 - Caudate lobe tributary of left hepatic biliary tree（左肝內膽管樹尾狀葉屬支）
 - Hepatovenous segment II
 - Hepatovenous segment III
@@ -96,7 +96,7 @@
 - Lateral superior segmental hepatic artery（肝外側上段動脈）
 - Lateral superior segmental tributary of left hepatic vein（左肝靜脈外側上段屬支）
 - Lateral superior tributary of left hepatic biliary tree（左肝內膽管樹外側上屬支）
-- Left duct of caudate lobe of liver（左肝尾狀葉膽管） [left]
+- Left duct of caudate lobe of liver（左肝尾葉膽管） [left]
 - Left lobe branch of left hepatic artery（左肝動脈葉支）
 - Medial inferior segmental branch of left portal vein（左門靜脈內側下段支）
 - Medial inferior segmental hepatic artery（肝內側下段動脈）
@@ -132,9 +132,9 @@
 
 - Descending aorta（降主動脈）
 - Left latissimus dorsi（左闊背肌） [left]
-- Left superior phrenic artery（左膈上動脈） [left]
+- Left superior phrenic artery（左上膈動脈） [left]
 - Right latissimus dorsi（右闊背肌） [right]
-- Right superior phrenic artery（右膈上動脈） [right]
+- Right superior phrenic artery（右上膈動脈） [right]
 - Superior phrenic vein（膈上靜脈）
 - Thoracic duct（胸管）
 
@@ -144,7 +144,7 @@
 
 #### 另有左右分開的同名構造，這個沒有左右的副本不出題（1）
 
-- Ascending lumbar vein（腰升靜脈）
+- Ascending lumbar vein（升腰靜脈）
 
 #### 同名或同中文名的另一構造無法分辨，打字作答會沒有唯一答案（0）
 
