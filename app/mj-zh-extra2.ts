@@ -22,7 +22,7 @@ const EXACT:Record<string,string>={
  'anterior division of inferior trunk of brachial plexus':'臂神經叢下幹前股','posterior division of inferior trunk of brachial plexus':'臂神經叢下幹後股','anterior horn of spinal cord':'脊髓前角','posterior horn of spinal cord':'脊髓後角','white matter of spinal cord':'脊髓白質',
  // spinal ligaments, discs, joints
  'anterior longitudinal ligament':'前縱韌帶','posterior longitudinal ligament':'後縱韌帶','ligamenta flava':'黃韌帶','interspinous ligaments':'棘間韌帶','supraspinous ligament':'棘上韌帶','nuchal ligament':'項韌帶','iliolumbar ligament':'髂腰韌帶',
- 'sacrospinous ligament':'薦棘韌帶','sacrotuberous ligament':'薦結節韌帶','anterior sacro-iliac ligament':'前薦髂韌帶','posterior sacro-iliac ligament':'後薦髂韌帶','interosseous sacro-iliac ligament':'薦髂骨間韌帶','pubic symphysis':'恥骨聯合','interpubic disc':'恥骨間盤',
+ 'sacrospinous ligament':'薦棘韌帶','sacrotuberous ligament':'薦粗隆韌帶','anterior sacro-iliac ligament':'薦髂前韌帶','posterior sacro-iliac ligament':'薦髂後韌帶','interosseous sacro-iliac ligament':'薦髂骨間韌帶','pubic symphysis':'恥骨聯合','interpubic disc':'恥骨間盤',
  'sacrococcygeal symphysis':'薦尾聯合','superior pubic ligament':'恥骨上韌帶','inferior pubic ligament':'恥骨下韌帶','obturator membrane':'閉孔膜','triradiate cartilage':'Y 形軟骨','intercornual ligament':'角間韌帶',
  'costotransverse ligament':'肋橫突韌帶','radiate ligament of head of rib':'肋頭輻狀韌帶','intra-articular ligament of head of rib':'肋頭關節內韌帶','external intercostal membrane':'外肋間膜','internal intercostal membrane':'內肋間膜',
  // shoulder, elbow, wrist, hand
