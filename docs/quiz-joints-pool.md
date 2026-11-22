@@ -32,17 +32,17 @@
 
 ## 不出題：所屬部位（骨盆與其他尚未開放的部位）尚未開放測驗（12 種，19 個構造）
 
-- Anterior sacro-iliac ligament（前薦髂韌帶） [left/right]，pelvis
+- Anterior sacro-iliac ligament（薦髂前韌帶） [left/right]，pelvis
 - Iliolumbar ligament（髂腰韌帶） [left/right]，pelvis
 - Inferior pubic ligament（恥骨下韌帶） [midline]，pelvis
 - Intercornual ligament（角間韌帶） [left/right]，pelvis
 - Interosseous sacro-iliac ligament（薦髂骨間韌帶） [left/right]，pelvis
 - Interpubic disc（恥骨間盤） [midline]，pelvis
-- Posterior sacro-iliac ligament（後薦髂韌帶） [left/right]，pelvis
+- Posterior sacro-iliac ligament（薦髂後韌帶） [left/right]，pelvis
 - Pubic symphysis（恥骨聯合） [midline]，pelvis
 - Sacrococcygeal symphysis（薦尾聯合） [midline]，pelvis
 - Sacrospinous ligament（薦棘韌帶） [left/right]，pelvis
-- Sacrotuberous ligament（薦結節韌帶） [left/right]，pelvis
+- Sacrotuberous ligament（薦粗隆韌帶） [left/right]，pelvis
 - Superior pubic ligament（恥骨上韌帶） [midline]，pelvis
 
 ## 不出題：圖譜已有同名構造（屬其他系統），不重複出題（1 種，2 個構造）

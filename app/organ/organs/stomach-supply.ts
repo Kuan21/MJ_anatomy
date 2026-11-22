@@ -48,7 +48,7 @@ export const SUPPLY_PARTS: OrganPartDef[] = [
     rel: b('The portal vein lies behind it and the pancreas below it; the hepatic lymph nodes follow it.', '後方是肝門靜脈，下方是胰；肝淋巴結沿著它分布。'),
     fn: b('It supplies the liver, gallbladder, upper duodenum and head of the pancreas, and through its branches the pyloric part of the stomach.', '供應肝、膽囊、十二指腸上部與胰頭，並以分支供應胃的幽門側。'),
   }, {quizSystem: 'arterial'}),
-  art('Proper hepatic artery', 'Proper hepatic artery', '肝固有動脈', {
+  art('Proper hepatic artery', 'Hepatic artery proper', '肝固有動脈', {
     loc: b('The continuation of the common hepatic artery after the origin of the gastroduodenal artery. It lies in the free edge of the lesser omentum.', '總肝動脈在發出胃十二指腸動脈之後的延續，位於小網膜的游離緣內。'),
     course: b('It ascends in front of the portal vein and to the left of the bile duct and divides into the right and left hepatic arteries at the porta hepatis. The right gastric artery arises from it.', '在肝門靜脈前方、膽管左側上行，於肝門分成左、右肝動脈；右胃動脈由它發出。'),
     rel: b('Together with the bile duct and the portal vein it forms the portal triad in the hepatoduodenal ligament.', '與膽管、肝門靜脈一起組成肝十二指腸韌帶內的門三合體。'),
