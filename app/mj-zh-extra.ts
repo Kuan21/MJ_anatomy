@@ -7,15 +7,15 @@ import type {ZhName} from './mj-zh-anatomy';
 import {zhExtra2} from './mj-zh-extra2';
 
 const EXACT:Record<string,string>={
- 'sympathetic trunk':'交感幹','ganglia of sympathetic trunk':'交感幹神經節',
+ 'sympathetic trunk':'交感神經幹','ganglia of sympathetic trunk':'交感神經幹神經節',
  // digestive
  'esophagus':'食道','stomach':'胃','duodenum':'十二指腸','appendix':'闌尾','mesoappendix':'闌尾繫膜','ascending colon':'升結腸','transverse colon':'橫結腸','descending colon':'降結腸','rectum':'直腸',
- 'ileocecal junction':'迴盲交界','mesentery of small intestine':'小腸繫膜','transverse mesocolon':'橫結腸繫膜','taenia libera':'游離結腸帶','taenia mesocolica':'結腸繫膜帶','taenia omentalis':'網膜帶',
+ 'ileocecal junction':'迴盲部','mesentery of small intestine':'小腸繫膜','transverse mesocolon':'橫結腸繫膜','taenia libera':'游離結腸帶','taenia mesocolica':'結腸繫膜帶','taenia omentalis':'網膜帶',
  'distal part of ileum':'迴腸遠段','middle part of ileum':'迴腸中段','proximal part of ileum':'迴腸近段','distal part of jejunum':'空腸遠段','middle part of jejunum':'空腸中段','proximal part of jejunum':'空腸近段',
  'gallbladder':'膽囊','cystic duct':'膽囊管','common hepatic duct':'總肝管','hepatic duct':'肝管','pancreas':'胰臟','pancreatic duct':'胰管','pancreatic duct tree':'胰管樹','parenchyma of pancreas':'胰臟實質',
- 'caudate lobe of liver':'肝尾狀葉','duct of caudate lobe of liver':'肝尾狀葉膽管','tongue':'舌','sublingual gland':'舌下腺','submandibular gland':'頜下腺','spleen':'脾臟','lobe of thymus':'胸腺葉',
+ 'caudate lobe of liver':'肝尾葉','duct of caudate lobe of liver':'肝尾葉膽管','tongue':'舌','sublingual gland':'舌下腺','submandibular gland':'頜下腺','spleen':'脾臟','lobe of thymus':'胸腺葉',
  // urogenital, endocrine, skin
- 'kidney':'腎臟','ureter':'輸尿管','urethra':'尿道','urinary bladder':'膀胱','prostate':'前列腺','seminal vesicle':'精囊','deferent duct':'輸精管','epididymis':'副睪','testis':'睪丸','glans penis':'陰莖頭',
+ 'kidney':'腎臟','ureter':'輸尿管','urethra':'尿道','urinary bladder':'膀胱','prostate':'前列腺','seminal vesicle':'精囊','deferent duct':'輸精管','epididymis':'副睪','testis':'睪丸','glans penis':'龜頭',
  'corpus cavernosum of penis':'陰莖海綿體','corpus spongiosum of penis':'尿道海綿體','adrenal gland':'腎上腺','pineal body':'松果體','pituitary gland':'腦垂體',
  'skin':'皮膚','eyebrow':'眉','hair of head':'頭髮','pubic hair':'陰毛','lip':'嘴唇',
  // respiratory, larynx, pharynx
@@ -48,7 +48,7 @@ const EXACT:Record<string,string>={
  'visceral pleura':'臟層胸膜','parietal pleura':'壁層胸膜','costal part of parietal pleura':'壁層胸膜肋部','mediastinal part of parietal pleura':'壁層胸膜縱隔部','diaphragmatic part of parietal pleura':'壁層胸膜膈部','cervical part (cupula) of parietal pleura':'壁層胸膜頂（胸膜頂部）','fibrous pericardium':'纖維心包','visceral layer of serous pericardium':'漿膜心包臟層（心外膜）','parietal layer of serous pericardium':'漿膜心包壁層',
  'vagina':'陰道','cervicovaginal junction':'子宮頸陰道交界','ampulla of uterine tube':'輸卵管壺腹','isthmus of uterine tube':'輸卵管峽部','fimbriae of uterine tube':'輸卵管繖','infundibulum of uterine tube':'輸卵管漏斗',
  'round ligament of uterus':'子宮圓韌帶','uterosacral ligament':'子宮骶韌帶','cardinal ligament of uterus':'子宮主韌帶（子宮頸橫韌帶）','suspensory ligament of ovary':'卵巢懸韌帶','ovarian ligament':'卵巢韌帶','broad ligament of uterus':'子宮闊韌帶','mesovarium':'卵巢繫膜',
- 'trigone of urinary bladder':'膀胱三角','vesicouterine pouch':'膀胱子宮陷凹','rectouterine pouch':'直腸子宮陷凹','uterine cornua':'子宮角','mesosalpinx':'輸卵管繫膜','female urethra':'女性尿道','pelvic peritoneum':'盆腔腹膜',
+ 'trigone of urinary bladder':'膀胱三角','vesicouterine pouch':'膀胱子宮陷凹','rectouterine pouch':'子宮直腸陷凹','uterine cornua':'子宮角','mesosalpinx':'輸卵管繫膜','female urethra':'女性尿道','pelvic peritoneum':'盆腔腹膜',
  'ovary':'卵巢','body of uterus':'子宮體','fundus of uterus':'子宮底','lower uterine segment':'子宮下段','cervix of uterus':'子宮頸','uterine artery':'子宮動脈','uterine vein':'子宮靜脈',
  'interventricular foramen':'室間孔（Monro 孔）','cavity of atrium':'心房腔','cavity of ventricle':'心室腔','wall of atrium':'心房壁','wall of ventricle':'心室壁',
  // heart valves, vessels with fixed names
@@ -58,13 +58,13 @@ const EXACT:Record<string,string>={
  'coronary cusp of aortic valve':'主動脈瓣冠狀瓣','non-coronary cusp of aortic valve':'主動脈瓣無冠瓣','anterior semilunar cusp of pulmonary valve':'肺動脈瓣前半月瓣','semilunar cusp of pulmonary valve':'肺動脈瓣半月瓣',
  'inferolateral branch of coronary artery':'冠狀動脈下外側支','circumflex artery':'迴旋支','inferior vein of ventricle':'心室下靜脈','aortic arch':'主動脈弓','bifurcation of pulmonary trunk':'肺動脈幹分叉',
  'suboccipital nerve':'枕下神經','greater occipital nerve':'枕大神經','third occipital nerve':'第三枕神經','lesser occipital nerve':'枕小神經','great auricular nerve':'耳大神經','suboccipital venous plexus':'枕下靜脈叢',
- 'coronary sinus':'冠狀竇','celiac trunk':'腹腔動脈幹','celiac artery':'腹腔動脈幹','basilar artery':'基底動脈','anterior communicating artery':'前交通支','common hepatic artery':'總肝動脈','hepatic artery proper':'固有肝動脈',
+ 'coronary sinus':'冠狀竇','celiac trunk':'腹腔動脈幹','celiac artery':'腹腔動脈幹','basilar artery':'基底動脈','anterior communicating artery':'前交通支','common hepatic artery':'總肝動脈','hepatic artery proper':'肝固有動脈',
  'inferior mesenteric artery':'下腸繫膜動脈','ileocolic artery':'迴結腸動脈','ileal artery':'迴腸動脈','appendicular artery':'闌尾動脈','anterior cecal artery':'盲腸前動脈','lumbar artery':'腰動脈','marginal colic artery':'結腸邊緣動脈','marginal artery of colon':'結腸邊緣動脈',
- 'anterior inferior cerebellar artery':'前下小腦動脈','anterior inferior pancreaticoduodenal artery':'胰十二指腸前下動脈','anterior superior pancreaticoduodenal artery':'胰十二指腸前上動脈','inferior pancreaticoduodenal artery':'胰十二指腸下動脈',
+ 'anterior inferior cerebellar artery':'前下小腦動脈','anterior inferior pancreaticoduodenal artery':'前下胰十二指腸動脈','anterior superior pancreaticoduodenal artery':'前上胰十二指腸動脈','inferior pancreaticoduodenal artery':'胰十二指腸下動脈',
  'dorsal pancreatic artery':'胰背動脈','great pancreatic artery':'胰大動脈','inferior pancreatic artery':'胰下動脈','caudal pancreatic artery':'胰尾動脈',
  'hepatic portal vein':'肝門靜脈','pre-hepatic portal vein':'肝前門靜脈','middle hepatic vein':'中肝靜脈','splenic vein':'脾靜脈','superior mesenteric vein':'上腸繫膜靜脈','inferior mesenteric vein':'下腸繫膜靜脈','ileocolic vein':'迴結腸靜脈','ileal vein':'迴腸靜脈',
- 'middle colic vein':'中結腸靜脈','sigmoid vein':'乙狀結腸靜脈','superior rectal vein':'直腸上靜脈','pancreaticoduodenal vein':'胰十二指腸靜脈','gastric vein':'胃靜脈','gastroepiploic vein':'胃網膜靜脈','colic vein':'結腸靜脈','lumbar vein':'腰靜脈',
- 'inferior phrenic vein':'膈下靜脈','superior phrenic vein':'膈上靜脈','median sacral vein':'薦正中靜脈','dorsal metacarpal vein':'掌背靜脈','deep dorsal vein of penis':'陰莖背深靜脈','superficial dorsal vein of penis':'陰莖背淺靜脈',
+ 'middle colic vein':'中結腸靜脈','sigmoid vein':'乙狀結腸靜脈','superior rectal vein':'上直腸靜脈','pancreaticoduodenal vein':'胰十二指腸靜脈','gastric vein':'胃靜脈','gastroepiploic vein':'胃網膜靜脈','colic vein':'結腸靜脈','lumbar vein':'腰靜脈',
+ 'inferior phrenic vein':'下膈靜脈','superior phrenic vein':'膈上靜脈','median sacral vein':'正中薦靜脈','dorsal metacarpal vein':'掌背靜脈','deep dorsal vein of penis':'陰莖深背靜脈','superficial dorsal vein of penis':'陰莖淺背靜脈',
  'great cardiac vein':'心大靜脈','middle cardiac vein':'心中靜脈','small cardiac vein':'心小靜脈','anterior cardiac vein':'心前靜脈','anterior interventricular vein':'前室間靜脈','posterior vein of ventricle':'心室後靜脈',
  'inferior lingular artery':'下舌動脈','superior lingular vein':'上舌靜脈','inferior lingular vein':'下舌靜脈'
 };
@@ -75,13 +75,13 @@ const REGION:Record<string,string>={cervical:'頸',thoracic:'胸',lumbar:'腰'};
 /** Whole vessel names that are not composed from a parent. */
 const VESSEL:Record<string,string>={
  'anterior cerebral artery':'前大腦動脈','anterior parietal artery':'頂前動脈','anterior spinal artery':'前脊髓動脈','anterior temporal artery':'顳前動脈','conus artery':'圓錐動脈','dorsal artery of penis':'陰莖背動脈',
- 'gastric artery':'胃動脈','gastro-epiploic artery':'胃網膜動脈','iliolumbar vein':'髂腰靜脈','inferior epigastric artery':'腹壁下動脈','inferior epigastric vein':'腹壁下靜脈','inferior phrenic artery':'膈下動脈',
- 'inferior suprarenal artery':'腎上腺下動脈','inferior thyroid artery':'甲狀腺下動脈','internal carotid artery':'內頸動脈','internal jugular vein':'內頸靜脈','internal pudendal vein':'陰部內靜脈',
- 'lateral frontobasal artery':'外側額底動脈','lateral sacral vein':'薦外側靜脈','lateral thoracic vein':'胸外側靜脈','marginal vein':'邊緣靜脈','medial frontobasal artery':'內側額底動脈','medial occipital artery':'枕內側動脈',
- 'middle colic artery':'中結腸動脈','middle suprarenal artery':'腎上腺中動脈','ophthalmic artery':'眼動脈','pericallosal artery':'胼胝體周動脈','polar temporal artery':'顳極動脈','posterior cecal artery':'盲腸後動脈',
- 'posterior inferior cerebellar artery':'後下小腦動脈','posterior inferior pancreaticoduodenal artery':'胰十二指腸後下動脈','posterior superior pancreaticoduodenal artery':'胰十二指腸後上動脈','posterior medial choroidal artery':'脈絡叢後內側動脈',
+ 'gastric artery':'胃動脈','gastro-epiploic artery':'胃網膜動脈','iliolumbar vein':'髂腰靜脈','inferior epigastric artery':'腹壁下動脈','inferior epigastric vein':'下腹壁靜脈','inferior phrenic artery':'膈下動脈',
+ 'inferior suprarenal artery':'下腎上腺動脈','inferior thyroid artery':'甲狀腺下動脈','internal carotid artery':'內頸動脈','internal jugular vein':'內頸靜脈','internal pudendal vein':'內陰靜脈',
+ 'lateral frontobasal artery':'外側額底動脈','lateral sacral vein':'外側薦靜脈','lateral thoracic vein':'外胸靜脈','marginal vein':'邊緣靜脈','medial frontobasal artery':'內側額底動脈','medial occipital artery':'枕內側動脈',
+ 'middle colic artery':'中結腸動脈','middle suprarenal artery':'中腎上腺動脈','ophthalmic artery':'眼動脈','pericallosal artery':'胼胝體周動脈','polar temporal artery':'顳極動脈','posterior cecal artery':'盲腸後動脈',
+ 'posterior inferior cerebellar artery':'後下小腦動脈','posterior inferior pancreaticoduodenal artery':'後下胰十二指腸動脈','posterior superior pancreaticoduodenal artery':'後上胰十二指腸動脈','posterior medial choroidal artery':'脈絡叢後內側動脈',
  'posterior parietal artery':'頂後動脈','prefrontal artery':'前額動脈','renal vein':'腎靜脈','sigmoid artery':'乙狀結腸動脈','splenial artery':'胼胝體壓部動脈','splenic artery':'脾動脈','superficial epigastric artery':'腹壁淺動脈',
- 'superficial epigastric vein':'腹壁淺靜脈','superior epigastric artery':'腹壁上動脈','superior epigastric vein':'腹壁上靜脈','superior lingular artery':'上舌動脈','superior mesenteric artery':'上腸繫膜動脈','superior rectal artery':'直腸上動脈',
+ 'superficial epigastric vein':'淺腹壁靜脈','superior epigastric artery':'腹壁上動脈','superior epigastric vein':'上腹壁靜脈','superior lingular artery':'上舌動脈','superior mesenteric artery':'上腸繫膜動脈','superior rectal artery':'直腸上動脈',
  'suprarenal vein':'腎上腺靜脈','testicular artery':'睪丸動脈','testicular vein':'睪丸靜脈','thalamogeniculate artery':'視丘膝狀體動脈','thalamoperforating artery':'視丘穿通動脈','first posterior intercostal artery':'第一後肋間動脈',
  'second posterior intercostal artery':'第二後肋間動脈','trunk of gastroduodenal artery':'胃十二指腸動脈幹','tributary of middle hepatic vein':'中肝靜脈屬支',
  // parents used by composed names
