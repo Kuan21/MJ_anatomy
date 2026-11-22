@@ -29,4 +29,6 @@ for (const [sel, wide] of targets) {
 assert.ok(rules.some(r => r.sel.includes('.quiz-name-actions>button') && /white-space\s*:\s*nowrap/.test(r.body)), 'the buttons of the typing box do not wrap their text');
 // the view buttons wrap instead of running off the stage when there are many of them (brain: nine)
 assert.ok(rules.some(r => r.sel.includes('.quiz-view-buttons') && /flex-wrap\s*:\s*wrap/.test(r.body) && /max-width/.test(r.body)), 'the view buttons wrap inside the stage');
+// on a phone they are one scrollable row along the bottom of the stage, so they never cover the caption or the question
+assert.ok(rules.some(r => r.sel.includes('.quiz-view-buttons') && /bottom\s*:\s*[0-9]+px/.test(r.body) && /overflow-x\s*:\s*auto/.test(r.body) && /flex-wrap\s*:\s*nowrap/.test(r.body)), 'on a phone the view buttons are one scrollable row at the bottom');
 console.log(`quiz touch targets: ${n} controls at ${MIN} points or more`);
