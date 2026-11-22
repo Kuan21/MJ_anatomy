@@ -71,6 +71,7 @@ function clearOfBone(path, radius, keepEnd = 2) {
     return q;
   });
 }
+const RENAL_VESSELS = /^Right renal vein$/;   // the one connector that is closed to the vena cava after the renal hilum shift moved the vein (the left renal vein runs beside the pancreas: deeper there would touch it)
 for (const row of rows) {
   const frame = row.kind === 'joined' ? null : endFrame(row.id, row.at);
   let action = row.kind === 'joined' ? 'joined' : 'enters';
@@ -79,7 +80,7 @@ for (const row of rows) {
     if (row.kind === 'dangling' && gap) {
       action = 'gap';
       const d = row.toSameMm / 1000, target = row.closest, chord = unit(sub(target, row.at));
-      const bend = add(row.at, chord, d * .5), mid = add(bend, frame.dir, d * .18), through = add(target, chord, .001);
+      const bend = add(row.at, chord, d * .5), mid = add(bend, frame.dir, d * .18), through = add(target, chord, RENAL_VESSELS.test(row.name) ? .004 : .001);   // the right renal vein is shifted at the hilum while the vena cava stays (scripts/test-renal-hilum-shift.mjs): its connector to the cava ends 4 mm inside it, so the joint stays closed after the shift
       const gapPath = [add(row.at, frame.dir, -.0015), row.at, mid, through];   // the bend point of a pelvic connector leaves the bone as well
       piece(row.id, tube(PELVIC_VESSELS.test(row.name) ? clearOfBone(gapPath, frame.radius, 1) : gapPath, frame.radius * .95, frame.radius * .75, roundTip(row) ? 12 : 6, sides(row)), row.at, 'gap');
     } else if (frame.radius <= FADE_RADIUS) {
