@@ -904,7 +904,7 @@
 
 （全部完整）
 
-### 神經：0 / 15 項資料完整
+### 神經：7 / 15 項資料完整
 
 - 大內臟神經（greater splanchnic nerve）：缺 來源、走向、主要分支、支配範圍
 - 小內臟神經（lesser splanchnic nerve）：缺 來源、走向、主要分支、支配範圍
@@ -913,22 +913,13 @@
 - 主動脈腎神經節（aorticorenal ganglion）：缺 來源、走向、主要分支、支配範圍
 - 上腸繫膜神經節（superior mesenteric ganglion）：缺 來源、走向、主要分支、支配範圍
 - 腎神經節（renal ganglion）：缺 來源、走向、主要分支、支配範圍
-- 髂腹下神經（iliohypogastric nerve）：缺 來源、走向、主要分支、支配範圍
 - 髂腹股溝神經（ilio-inguinal nerve）：缺 來源、走向、主要分支、支配範圍
-- 股神經（femoral nerve）：缺 來源、走向、主要分支、支配範圍
-- 外股皮神經（lateral femoral cutaneous nerve）：缺 來源、走向、主要分支、支配範圍
-- 閉孔神經（obturator nerve）：缺 來源、走向、主要分支、支配範圍
-- 生殖股神經（genitofemoral nerve）：缺 來源、走向、主要分支、支配範圍
-- 生殖股神經股支（femoral branch of genitofemoral nerve）：缺 來源、走向、主要分支、支配範圍
-- 生殖股神經生殖支（genital branch of genitofemoral nerve）：缺 來源、走向、主要分支、支配範圍
 
-### 動脈：11 / 47 項資料完整
+### 動脈：19 / 47 項資料完整
 
 - 腹腔動脈幹（Celiac artery）：缺 來源、走向、主要分支、供應範圍
-- 上腹壁動脈（superior epigastric artery）：缺 來源、走向、主要分支、供應範圍
 - 肋下動脈（subcostal artery）：缺 主要分支
 - 結腸邊緣動脈（Marginal artery of colon）：缺 來源、走向、主要分支、供應範圍
-- 腎動脈（renal artery）：缺 來源、走向、主要分支、供應範圍
 - 左肝動脈（Left hepatic artery）：缺 主要分支
 - 左結腸動脈升支（Ascending branch of left colic artery）：缺 來源、走向、主要分支、供應範圍
 - 前下胰十二指腸動脈（Anterior inferior pancreaticoduodenal artery）：缺 主要分支
@@ -938,17 +929,11 @@
 - 胰尾動脈（Caudal pancreatic artery）：缺 來源、走向、主要分支、供應範圍
 - 左結腸動脈降支（Descending branch of left colic artery）：缺 來源、走向、主要分支、供應範圍
 - 背胰動脈（Dorsal pancreatic artery）：缺 主要分支
-- 胰大動脈（Great pancreatic artery）：缺 來源、走向、主要分支、供應範圍
+- 大胰動脈（Great pancreatic artery）：缺 來源、走向、主要分支、供應範圍
 - 迴腸動脈（Ileal artery）：缺 來源、走向、主要分支、供應範圍
 - 胰下動脈（Inferior pancreatic artery）：缺 來源、走向、主要分支、供應範圍
-- 總髂動脈（common iliac artery）：缺 來源、走向、主要分支、供應範圍
-- 下腎上腺動脈（inferior suprarenal artery）：缺 來源、走向、主要分支、供應範圍
-- 中腎上腺動脈（middle suprarenal artery）：缺 來源、走向、主要分支、供應範圍
 - 左結腸動脈（Left colic artery）：缺 主要分支
 - 左胃網膜動脈（Left gastro-epiploic artery）：缺 來源、走向、主要分支、供應範圍
-- 下腹壁動脈（inferior epigastric artery）：缺 來源、走向、主要分支、供應範圍
-- 下膈動脈（inferior phrenic artery）：缺 來源、走向、主要分支、供應範圍
-- 淺腹壁動脈（superficial epigastric artery）：缺 來源、走向、主要分支、供應範圍
 - 睪丸動脈（testicular artery）：缺 來源、走向、主要分支、供應範圍
 - 中結腸動脈（Middle colic artery）：缺 主要分支
 - 後下胰十二指腸動脈（Posterior inferior pancreaticoduodenal artery）：缺 主要分支
@@ -1000,7 +985,7 @@
 
 ### 腹盆器官構造：11 / 30 項資料完整
 
-- 腹白線（Linea alba）：缺 說明
+- 白線（Linea alba）：缺 說明
 - 胰臟（Pancreas）：缺 說明
 - 胰管（Pancreatic duct）：缺 說明
 - 脾臟（Spleen）：缺 說明

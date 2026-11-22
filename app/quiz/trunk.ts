@@ -102,7 +102,7 @@ export const ABDOMEN_NERVES: Record<string, {zh: string}> = {
   'genitofemoral nerve': {zh: '生殖股神經'},
   'femoral branch of genitofemoral nerve': {zh: '生殖股神經股支'},
   'genital branch of genitofemoral nerve': {zh: '生殖股神經生殖支'},
-  'lateral femoral cutaneous nerve': {zh: '股外側皮神經'},
+  'lateral femoral cutaneous nerve': {zh: '外股皮神經'},
   'femoral nerve': {zh: '股神經'},
   'obturator nerve': {zh: '閉孔神經'},
 };
