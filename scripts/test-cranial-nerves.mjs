@@ -94,8 +94,10 @@ for (const f of sources) {
 const sceneText = fs.readFileSync(path.join(dir, 'cn-scene.ts'), 'utf8'), anim = fs.readFileSync(path.join(dir, 'cn-animation.tsx'), 'utf8'), css = fs.readFileSync(path.join(dir, 'cn.css'), 'utf8');
 assert.ok(sceneText.includes('new SideLabels(') && !/new LabelLayer\(/.test(sceneText), 'side-gutter labels');
 assert.ok(/cn-gutter[\s\S]*cn-canvas[\s\S]*cn-gutter/.test(anim) && anim.indexOf('cn-legend') < anim.indexOf('cn-view') && anim.indexOf('cn-controls') > anim.indexOf('cn-view'), 'gutter | canvas | gutter, legend above, controls below');
-assert.ok(/\.cn-controls\{position:static/.test(css) && !/\.cn-legend\{position:absolute/.test(css), 'nothing laid over the picture');
+assert.ok(/\.cn-page \.cn-controls\{position:static/.test(css) && !/\.cn-legend\{position:absolute/.test(css) && /\.cn-stage\{display:grid;grid-template-rows:auto minmax\(0,1fr\) auto\}/.test(css) && /\.cn-canvas canvas\{position:absolute/.test(css), 'nothing laid over the picture: legend, picture and controls are three rows');
 assert.ok(anim.includes("import '../organ/organ.css'"), 'loading and error messages are styled');
+// label keys carry the nerve, so a label never keeps the text of the previous nerve; targets are see-through so they do not hide the nerve
+assert.ok(sceneText.includes('key: `p-${n.id}-${i}`') && sceneText.includes('key: `t-${n.id}-${i}`') && sceneText.includes('mat(TARGET, .45)'));
 // the two openings without a mark of their own stay labelled 示意 until the head-and-neck model marks them
 assert.ok(/schematic: !o\.mark \|\| \(\/jugular\/i/.test(sceneText) && CN_NOTE.includes('示意') && CN_NOTE.includes('頸靜脈孔') && CN_NOTE.includes('篩板'), 'cribriform plate and left jugular foramen are schematic');
 const main = fs.readFileSync(path.join(root, 'web/main.tsx'), 'utf8'), page = fs.readFileSync(path.join(root, 'app/page.tsx'), 'utf8');

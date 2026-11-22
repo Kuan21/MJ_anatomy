@@ -84,7 +84,8 @@ export function createCranialScene(host: HTMLElement, callbacks: Callbacks, gutt
       }
       if (BONES.test(m.name)) {const mesh = new T.Mesh(m.geometry, mat(BONE, .16)); mesh.renderOrder = 1; scene.add(mesh); continue;}
       if (BRAINSTEM.test(m.name)) {const mesh = new T.Mesh(m.geometry, mat(STEM, .5)); mesh.renderOrder = 2; scene.add(mesh); continue;}
-      const mesh = new T.Mesh(m.geometry, mat(TARGET)); mesh.renderOrder = 2; mesh.visible = false; scene.add(mesh);
+      // targets are see-through, so the nerve that runs into or across them stays visible
+      const mesh = new T.Mesh(m.geometry, mat(TARGET, .45)); mesh.renderOrder = 2; mesh.visible = false; scene.add(mesh);
       (targets.get(name) ?? targets.set(name, []).get(name)!).push(mesh);
     }
     // distance of every nerve vertex from where that nerve leaves the brainstem (its vertex nearest the brainstem, per nerve and side): the light band runs along this
@@ -155,11 +156,11 @@ export function createCranialScene(host: HTMLElement, callbacks: Callbacks, gutt
     out.push({key: `n-${n.id}`, en: `${n.roman} · ${n.en}`, zh: n.zh, at: point(left, 'origin'), accent: true, dx: 40, dy: -46});
     n.openings.forEach((o, i) => {
       const meshes = o.mark ? (openings.get(o.mark.toLowerCase()) ?? []).filter(m => m.geometry.boundingBox!.getCenter(new T.Vector3()).x > 0 || /magnum/i.test(o.mark!)) : (openings.get('cribriform') ?? []).filter(m => m.position.x >= 0);
-      out.push({key: `p-${i}`, en: o.en, zh: o.zh, at: point(meshes, 'centre'), schematic: !o.mark || (/jugular/i.test(o.mark) && meshes.every(m => m.userData.schematic)), dx: -190, dy: 20 + i * 36});
+      out.push({key: `p-${n.id}-${i}`, en: o.en, zh: o.zh, at: point(meshes, 'centre'), schematic: !o.mark || (/jugular/i.test(o.mark) && meshes.every(m => m.userData.schematic)), dx: -190, dy: 20 + i * 36});
     });
     n.targets.forEach((t, i) => {
       const meshes = t.meshes.flatMap(name => (targets.get(name) ?? []).filter(m => m.geometry.boundingBox!.getCenter(new T.Vector3()).x > 0));
-      if (meshes.length) out.push({key: `t-${i}`, en: t.en, zh: t.zh, at: point(meshes, 'centre'), dx: 46, dy: 30 + i * 34});
+      if (meshes.length) out.push({key: `t-${n.id}-${i}`, en: t.en, zh: t.zh, at: point(meshes, 'centre'), dx: 46, dy: 30 + i * 34});
     });
     return out;
   }
