@@ -232,7 +232,7 @@
  },
  {
   "name": "Right pericardiophrenic artery",
-  "zh": "右心包膈動脈",
+  "zh": "右心包膜膈動脈",
   "system": "arterial",
   "kind": "artery",
   "sex": "",
@@ -463,7 +463,7 @@
  },
  {
   "name": "Left pericardiophrenic artery",
-  "zh": "左心包膈動脈",
+  "zh": "左心包膜膈動脈",
   "system": "arterial",
   "kind": "artery",
   "sex": "",

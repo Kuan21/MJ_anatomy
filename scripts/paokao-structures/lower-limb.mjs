@@ -114,17 +114,17 @@ export default function lowerLimb(U) {
       const o = U.tipNear(iia, P(S.sx * .032, .930, -.060)), pirLo = pirLoA(.38);
       const spine = add(pirLoA(.55), P(S.sx * .0, -.012, .010));
       const sup = add(pirHi(.38), P(0, .003, -.004)), deepTo = U.onSurface(`${S.w} gluteus medius`, P(S.sx * .105, 1.000, -.085), -.004), supTo = U.onSurface(gmax, P(S.sx * .060, .985, -.095), -.004);
-      art(S, iia, 'superior gluteal artery', '上臀動脈', ['Posterior division of the internal iliac artery', '髂內動脈後幹'], ['Leaves the pelvis through the greater sciatic foramen above piriformis and divides into superficial and deep branches', '經坐骨大孔、梨狀肌上緣出骨盆，分為淺支與深支'],
+      art(S, iia, 'superior gluteal artery', '上臀動脈', ['Posterior division of the internal iliac artery', '內髂動脈後幹'], ['Leaves the pelvis through the greater sciatic foramen above piriformis and divides into superficial and deep branches', '經坐骨大孔、梨狀肌上緣出骨盆，分為淺支與深支'],
         ['Gluteus maximus, medius and minimus and tensor fasciae latae', '臀大肌、臀中肌、臀小肌與闊筋膜張肌'], [{pts: [o, add(lerp(o, sup, .5), P(0, .006, -.006)), sup], r: [.0030, .0024], samples: 24}]);
       art(S, `${S.w} superior gluteal artery`, 'superficial branch of superior gluteal artery', '上臀動脈淺支', ['Superior gluteal artery', '上臀動脈'], ['Enters the deep surface of gluteus maximus', '進入臀大肌深面'], ['Gluteus maximus', '臀大肌'],
         [{pts: [sup, add(lerp(sup, supTo, .5), P(0, .002, -.003)), supTo], r: [.0020, .0012], samples: 18}]);
       art(S, `${S.w} superior gluteal artery`, 'deep branch of superior gluteal artery', '上臀動脈深支', ['Superior gluteal artery', '上臀動脈'], ['Runs between gluteus medius and minimus (with the superior gluteal nerve) towards the greater trochanter', '在臀中肌與臀小肌之間（與上臀神經一起）朝大轉子'], ['Gluteus medius, gluteus minimus and the hip joint', '臀中肌、臀小肌與髖關節'],
         [{pts: [sup, add(lerp(sup, deepTo, .5), P(0, .012, 0)), deepTo], r: [.0022, .0012], samples: 18}]);
       const ig = add(pirLo, P(0, -.005, -.006)), igTo = U.onSurface(gmax, P(S.sx * .060, .900, -.100), -.004);
-      art(S, iia, 'inferior gluteal artery', '下臀動脈', ['Anterior division of the internal iliac artery', '髂內動脈前幹'], ['Leaves the pelvis through the greater sciatic foramen below piriformis and descends into gluteus maximus with the sciatic nerve', '經坐骨大孔、梨狀肌下緣出骨盆，與坐骨神經一起下行進入臀大肌'],
+      art(S, iia, 'inferior gluteal artery', '下臀動脈', ['Anterior division of the internal iliac artery', '內髂動脈前幹'], ['Leaves the pelvis through the greater sciatic foramen below piriformis and descends into gluteus maximus with the sciatic nerve', '經坐骨大孔、梨狀肌下緣出骨盆，與坐骨神經一起下行進入臀大肌'],
         ['Gluteus maximus, the upper hamstrings and the sciatic nerve (companion artery)', '臀大肌、膕繩肌上部與坐骨神經（伴行動脈）'], [{pts: [o, add(lerp(o, ig, .5), P(0, -.004, -.004)), ig, add(lerp(ig, igTo, .5), P(0, -.006, -.004)), igTo], r: [.0028, .0014], samples: 30}]);
       const ipa = [o, add(lerp(o, ig, .5), P(0, -.004, -.003)), add(ig, P(S.sx * .0, -.004, -.002)), add(spine, P(0, .003, -.003)), add(spine, P(S.sx * -.010, -.010, .002)), add(spine, P(S.sx * -.018, -.026, .012))];
-      art(S, iia, 'internal pudendal artery', '內陰動脈', ['Anterior division of the internal iliac artery', '髂內動脈前幹'], ['Leaves through the greater sciatic foramen below piriformis, curls round the ischial spine and re-enters the pelvis through the lesser sciatic foramen to the pudendal canal', '經坐骨大孔、梨狀肌下緣出骨盆，繞坐骨棘後經坐骨小孔回到會陰，走入陰部管'],
+      art(S, iia, 'internal pudendal artery', '內陰動脈', ['Anterior division of the internal iliac artery', '內髂動脈前幹'], ['Leaves through the greater sciatic foramen below piriformis, curls round the ischial spine and re-enters the pelvis through the lesser sciatic foramen to the pudendal canal', '經坐骨大孔、梨狀肌下緣出骨盆，繞坐骨棘後經坐骨小孔回到會陰，走入陰部管'],
         ['Perineum and external genitalia (with the pudendal nerve)', '會陰與外生殖器（與陰部神經伴行）'], [{pts: ipa, r: [.0022, .0012], samples: 30}]);
     }
     // ---- Nerves

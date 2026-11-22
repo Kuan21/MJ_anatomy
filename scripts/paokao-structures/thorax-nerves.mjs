@@ -36,7 +36,7 @@ export default function thoraxNerves(U) {
       for (const y of [1.356, 1.322, 1.288, 1.262]) pts.push(U.onSurface(peri, P(S.sx * .085, y, .034 + sh), off));
       pts.push(U.onSurface('Diaphragm', P(S.sx * .052, 1.262, .016 + sh), .0008));
       out.push({
-        name: `${S.w} pericardiophrenic ${kind}`, zh: `${S.zh}心包膈${kind === 'artery' ? '動脈' : '靜脈'}`, system: kind === 'artery' ? 'arterial' : 'venous', kind, parent: src,
+        name: `${S.w} pericardiophrenic ${kind}`, zh: `${S.zh}${kind === 'artery' ? '心包膜膈動脈' : '心包膈靜脈'}`, system: kind === 'artery' ? 'arterial' : 'venous', kind, parent: src,
         tubes: [{pts, r: kind === 'artery' ? [.0009, .0006] : [.0011, .0007], samples: 40}],
         card: {origin: [`Internal thoracic ${kind}`, kind === 'artery' ? '內胸動脈' : '內胸靜脈'],
           course: ['Descends with the phrenic nerve between the fibrous pericardium and the mediastinal pleura to the diaphragm', '與膈神經一起在纖維心包與縱隔胸膜之間下行到橫膈'],
