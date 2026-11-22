@@ -3,11 +3,12 @@
 // No browser. Prints counts only.
 import fs from 'node:fs';
 import path from 'node:path';
+import {fileURLToPath} from 'node:url';
 import assert from 'node:assert/strict';
 import {quizModule} from './quiz-modules.mjs';
 import {scanLine} from './lib/zh-rules.mjs';
 
-const root = new URL('../', import.meta.url).pathname;
+const root = fileURLToPath(new URL('../', import.meta.url));   // .pathname gives /C:/… on Windows
 const d = await quizModule('app/swallow/swallow-data.ts');
 const parts = await quizModule('app/swallow/swallow-parts.ts');
 const {SWALLOW_STEPS, STEP_COUNT, SWALLOW_NOTE, SWALLOW_S, poseAt, phaseAt, PATH_MARKS, initialPlay, goTo, stepBy, advance, wrapStep} = d;

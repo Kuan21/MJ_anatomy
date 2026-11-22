@@ -2,11 +2,12 @@
 // detail viewer leaves out. Positions are the model's own frame (metres; +x the body's left, +y up, +z front). Used by the circle of Willis animation test.
 import fs from 'node:fs';
 import {createRequire} from 'node:module';
+import {fileURLToPath} from 'node:url';
 
 const root = new URL('../../', import.meta.url);
 /** [{label, side, positions: Float32Array, index: Uint32Array}] */
 export async function loadBrainArteries() {
-  const factory = createRequire(import.meta.url)(new URL('.sites-runtime/nerve-draco.cjs', root).pathname);
+  const factory = createRequire(import.meta.url)(fileURLToPath(new URL('.sites-runtime/nerve-draco.cjs', root)));   // .pathname gives /C:/… on Windows
   const draco = await factory({wasmBinary: fs.readFileSync(new URL('public/draco/draco_decoder.wasm', root))});
   const b = fs.readFileSync(new URL('public/models/brain.glb', root)), n = b.readUInt32LE(12), j = JSON.parse(b.subarray(20, 20 + n)), bin = b.subarray(28 + n);
   const out = [];

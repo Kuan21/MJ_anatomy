@@ -3,12 +3,13 @@
 // No browser. Prints counts only.
 import fs from 'node:fs';
 import path from 'node:path';
+import {fileURLToPath} from 'node:url';
 import assert from 'node:assert/strict';
 import {quizModule} from './quiz-modules.mjs';
 import {scanLine} from './lib/zh-rules.mjs';
 import {loadBrainArteries} from './lib/brain-artery-source.mjs';
 
-const root = new URL('../', import.meta.url).pathname;
+const root = fileURLToPath(new URL('../', import.meta.url));   // .pathname gives /C:/… on Windows
 const d = await quizModule('app/willis/willis-data.ts');
 const {buildWillisPaths} = await quizModule('app/willis/willis-paths.ts');
 const {WILLIS_STEPS, STEP_COUNT, WILLIS_NOTE, SEGMENTS, SOURCES, SINKS, TERRITORIES, BLOCK_CHOICES, solveFlow, perfusionLevel, reversedSegments, territoryOf, dotPosition, dotCount, NORMAL_MAX_FLOW} = d;
