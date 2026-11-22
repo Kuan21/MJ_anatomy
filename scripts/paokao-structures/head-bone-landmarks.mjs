@@ -133,7 +133,7 @@ export default function headBoneLandmarks(U) {
       ['Transmits the mandibular nerve (the third division of the trigeminal nerve), the accessory meningeal artery and emissary veins', '通過下頜神經（三叉神經第三支）、副腦膜動脈與導靜脈']);
     mark(...sided(S, 'foramen spinosum', '棘孔'), [{bone: SPH, geometry: disc(SPH, SPH_HOLES.find(h => h.r === 9.2 && h.l[0][0] * sx > 0).l[0], .0028)}], ['On the greater wing of the sphenoid bone', '蝶骨大翼'],
       ['Small opening behind and lateral to the foramen ovale, near the spine of the sphenoid bone', '位於卵圓孔後外側、蝶骨棘附近的小孔'],
-      ['Transmits the middle meningeal artery and vein and the meningeal branch of the mandibular nerve', '通過腦膜中動脈、靜脈與下頜神經的腦膜支']);
+      ['Transmits the middle meningeal artery and vein and the meningeal branch of the mandibular nerve', '通過中腦膜動脈、靜脈與下頜神經的腦膜支']);
     mark(...sided(S, 'pterygoid canal', '翼管'), [{bone: SPH, geometry: disc(SPH, P(sx * 17, 1584, 5), .0026)}], ['At the root of the pterygoid process of the sphenoid bone', '蝶骨翼突根部'],
       ['Canal through the root of the pterygoid process, from the front of the foramen lacerum to the pterygopalatine fossa; its back opening is marked here', '穿過翼突根部的管道，由破裂孔前方通到翼顎窩；此處標示其後方開口'],
       ['Transmits the nerve of the pterygoid canal (greater and deep petrosal nerves) and the artery of the pterygoid canal', '通過翼管神經（大岩神經與深岩神經）與翼管動脈']);
