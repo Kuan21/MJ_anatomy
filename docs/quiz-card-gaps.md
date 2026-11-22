@@ -80,7 +80,7 @@
 - 外蹠神經（lateral plantar nerve）：缺 來源、走向、主要分支、支配範圍
 - 內蹠神經（medial plantar nerve）：缺 來源、走向、主要分支、支配範圍
 - 總腓神經（common fibular nerve）：缺 來源、走向、主要分支、支配範圍
-- 臀上神經（superior gluteal nerve）：缺 來源、走向、主要分支、支配範圍
+- 上臀神經（superior gluteal nerve）：缺 來源、走向、主要分支、支配範圍
 - 股方肌神經（nerve to quadratus femoris muscle）：缺 來源、走向、主要分支、支配範圍
 - 股後皮神經（posterior femoral cutaneous nerve）：缺 來源、走向、主要分支、支配範圍
 
@@ -141,11 +141,11 @@
 - 旋股內側靜脈（medial circumflex femoral vein）：缺 來源、走向、主要分支、引流範圍
 - 足底蹠骨靜脈（plantar metatarsal vein）：缺 來源、走向、主要分支、引流範圍
 - 總髂靜脈（common iliac vein）：缺 來源、走向、主要分支、引流範圍
-- 髂內靜脈（internal iliac vein）：缺 來源、走向、主要分支、引流範圍
-- 髂外靜脈（external iliac vein）：缺 來源、走向、主要分支、引流範圍
-- 臀下靜脈（inferior gluteal vein）：缺 來源、走向、主要分支、引流範圍
+- 內髂靜脈（internal iliac vein）：缺 來源、走向、主要分支、引流範圍
+- 外髂靜脈（external iliac vein）：缺 來源、走向、主要分支、引流範圍
+- 下臀靜脈（inferior gluteal vein）：缺 來源、走向、主要分支、引流範圍
 - 閉孔靜脈（obturator vein）：缺 來源、走向、主要分支、引流範圍
-- 臀上靜脈（superior gluteal vein）：缺 來源、走向、主要分支、引流範圍
+- 上臀靜脈（superior gluteal vein）：缺 來源、走向、主要分支、引流範圍
 
 ### 關節構造：0 / 58 項資料完整
 
@@ -574,7 +574,7 @@
 
 - 肋下靜脈（subcostal vein）：缺 來源、主要分支
 - 胸背靜脈（thoracodorsal vein）：缺 主要分支
-- 腰升靜脈（ascending lumbar vein）：缺 主要分支
+- 升腰靜脈（ascending lumbar vein）：缺 主要分支
 - 枕下靜脈叢（suboccipital venous plexus）：缺 走向、主要分支
 
 ### 關節構造：0 / 6 項資料完整

@@ -22,8 +22,8 @@ export const femaleCards:Record<string,Body>={
   'The muscular canal that runs from the vestibule of the vulva up to the cervix; it is the birth canal and the passage for menstrual flow.',
   '由陰道前庭向上連到子宮頸的肌性管道，是產道，也是經血排出的通路。',[
   loc('Behind the urinary bladder and urethra, in front of the rectum and anal canal; the upper end surrounds the cervix','位於膀胱與尿道之後、直腸與肛管之前；上端環繞子宮頸'),
-  rel('The recess around the cervix is the vaginal fornix, deepest behind; the rectouterine pouch lies just above the posterior fornix','環繞子宮頸的凹隙為陰道穹窿，後穹窿最深，其上方即直腸子宮陷凹'),
-  sup('Vaginal and uterine arteries, with branches of the internal pudendal artery','陰道動脈與子宮動脈，並有陰部內動脈的分支'),
+  rel('The recess around the cervix is the vaginal fornix, deepest behind; the rectouterine pouch lies just above the posterior fornix','環繞子宮頸的凹隙為陰道穹窿，後穹窿最深，其上方即子宮直腸陷凹'),
+  sup('Vaginal and uterine arteries, with branches of the internal pudendal artery','陰道動脈與子宮動脈，並有內陰動脈的分支'),
   fn('Birth canal, outlet for menstrual blood, receives the penis in intercourse','產道、排出經血，並在性交時容納陰莖')]),
  'cervicovaginal junction':card('子宮頸陰道交界',R,
   'The transition where the lower end of the cervix projects into the top of the vagina.',
@@ -73,7 +73,7 @@ export const femaleCards:Record<string,Body>={
   loc('From the tubal end of the ovary up over the pelvic brim toward the posterior abdominal wall','自卵巢的輸卵管端向上越過骨盆緣，走向腹後壁'),
   sup('Carries the ovarian artery and vein','內含卵巢動脈與靜脈'),
   fn('Fixes the upper pole of the ovary to the pelvic side wall','把卵巢上端固定於骨盆側壁')]),
- 'ovarian ligament':card('卵巢固有韌帶',L,
+ 'ovarian ligament':card('卵巢韌帶',L,
   'A short fibromuscular cord that joins the lower pole of the ovary to the side of the uterus.',
   '連接卵巢下端與子宮側緣的短小纖維肌性條索。',[
   loc('Between the ovary and the uterus, just below the entrance of the uterine tube, inside the back layer of the broad ligament','位於卵巢與子宮之間，輸卵管入口稍下方，在闊韌帶後層內'),
@@ -82,23 +82,23 @@ export const femaleCards:Record<string,Body>={
   'A wide double fold of peritoneum that drapes over the uterus, uterine tubes and ovaries and reaches the pelvic side wall.',
   '覆蓋子宮、輸卵管與卵巢、延伸到骨盆側壁的寬闊雙層腹膜皺襞。',[
   loc('Stretches between the sides of the uterus and the lateral pelvic walls, like a sheet','在子宮兩側與骨盆側壁之間展開，如一片帷幕'),
-  rel('Contains the uterine tube above, the round and ovarian ligaments, the uterine vessels and a little loose tissue (parametrium)','上緣含輸卵管，並包有圓韌帶、卵巢固有韌帶、子宮血管與疏鬆結締組織（子宮旁組織）'),
+  rel('Contains the uterine tube above, the round and ovarian ligaments, the uterine vessels and a little loose tissue (parametrium)','上緣含輸卵管，並包有圓韌帶、卵巢韌帶、子宮血管與疏鬆結締組織（子宮旁組織）'),
   fn('Folds that hold the uterus, tubes and ovaries in position','形成皺襞，使子宮、輸卵管與卵巢保持位置')]),
- 'mesovarium':card('卵巢系膜',L,
+ 'mesovarium':card('卵巢繫膜',L,
   'The short peritoneal fold that attaches the front border of the ovary to the back layer of the broad ligament.',
   '把卵巢前緣連到闊韌帶後層的短腹膜皺襞。',[
   loc('At the hilum of the ovary, on the back of the broad ligament','位於卵巢門，在闊韌帶後方'),
   sup('Ovarian vessels and nerves enter the ovary through it','卵巢的血管與神經由此進出卵巢')]),
- 'mesosalpinx':card('輸卵管系膜',L,
+ 'mesosalpinx':card('輸卵管繫膜',L,
   'The part of the broad ligament that lies above the mesovarium and encloses the uterine tube.',
-  '闊韌帶位於卵巢系膜之上、包裹輸卵管的部分。',[
+  '闊韌帶位於卵巢繫膜之上、包裹輸卵管的部分。',[
   loc('Upper margin of the broad ligament, around the uterine tube','位於闊韌帶上緣，環繞輸卵管'),
   fn('Suspends the uterine tube','懸吊輸卵管')]),
  'ovary':card('卵巢',R,
   'The almond-shaped female gonad: it produces egg cells and the hormones oestrogen and progesterone.',
   '杏仁形的女性生殖腺：產生卵細胞以及雌激素與黃體素。',[
   loc('On the side wall of the pelvis in the ovarian fossa, near the division of the common iliac artery','位於骨盆側壁的卵巢窩，靠近髂總動脈分叉處'),
-  rel('Held by the suspensory ligament, the mesovarium and the ovarian ligament; the fimbriae of the uterine tube lie against it','由卵巢懸韌帶、卵巢系膜與卵巢固有韌帶固定；輸卵管繖貼附於其上'),
+  rel('Held by the suspensory ligament, the mesovarium and the ovarian ligament; the fimbriae of the uterine tube lie against it','由卵巢懸韌帶、卵巢繫膜與卵巢韌帶固定；輸卵管繖貼附於其上'),
   sup('Ovarian artery from the abdominal aorta, with a branch of the uterine artery','卵巢動脈（起自腹主動脈）與子宮動脈的分支'),
   fn('Releases an egg each cycle and secretes sex hormones','每個週期排出一顆卵，並分泌性激素')]),
  'body of uterus':card('子宮體',R,
@@ -128,7 +128,7 @@ export const femaleCards:Record<string,Body>={
   'The upper lateral corners of the uterus where each uterine tube enters.',
   '子宮上外側的兩個角，輸卵管由此進入。',[
   loc('Either side of the fundus','位於子宮底兩側'),
-  rel('The round ligament and the ovarian ligament attach just below and behind it','圓韌帶與卵巢固有韌帶附著於其下方與後方')]),
+  rel('The round ligament and the ovarian ligament attach just below and behind it','圓韌帶與卵巢韌帶附著於其下方與後方')]),
  'uterine artery':card('子宮動脈',"Artery｜動脈",
   'The main artery of the uterus; it arises from the internal iliac artery and runs along the base of the broad ligament.',
   '子宮的主要動脈；起自髂內動脈，沿闊韌帶底部走行。',[
@@ -136,15 +136,15 @@ export const femaleCards:Record<string,Body>={
   sup('Supplies the uterus, upper vagina, uterine tube and ovary','供應子宮、陰道上部、輸卵管與卵巢')]),
  'uterine vein':card('子宮靜脈',"Vein｜靜脈",
   'Veins that form a plexus beside the uterus and vagina and drain to the internal iliac vein.',
-  '在子宮與陰道旁形成靜脈叢，回流到髂內靜脈。',[
-  ['Course','走向','Follows the uterine artery along the side of the uterus to the internal iliac vein','隨子宮動脈沿子宮側緣，匯入髂內靜脈'],
+  '在子宮與陰道旁形成靜脈叢，回流到內髂靜脈。',[
+  ['Course','走向','Follows the uterine artery along the side of the uterus to the internal iliac vein','隨子宮動脈沿子宮側緣，匯入內髂靜脈'],
   ['Drainage','回流','Uterus and upper vagina','子宮與陰道上部']]),
  'vesicouterine pouch':card('膀胱子宮陷凹',"Serous｜漿膜",
   'The shallow peritoneal pocket between the front of the uterus and the top of the bladder.',
   '子宮前方與膀胱上面之間淺的腹膜凹陷。',[
   loc('In front of the uterine body, behind the bladder','位於子宮體前方、膀胱後方'),
-  rel('Shallower than the rectouterine pouch because the uterus is tipped forward over the bladder','因子宮前傾覆於膀胱上，此陷凹比直腸子宮陷凹淺')]),
- 'rectouterine pouch':card('直腸子宮陷凹',"Serous｜漿膜",
+  rel('Shallower than the rectouterine pouch because the uterus is tipped forward over the bladder','因子宮前傾覆於膀胱上，此陷凹比子宮直腸陷凹淺')]),
+ 'rectouterine pouch':card('子宮直腸陷凹',"Serous｜漿膜",
   'The deep peritoneal pocket between the uterus and the rectum, also called the pouch of Douglas; it is the lowest part of the female peritoneal cavity.',
   '子宮與直腸之間深的腹膜凹陷，又稱道格拉斯氏陷凹；是女性腹膜腔最低處。',[
   loc('Behind the uterus and the upper vagina, in front of the rectum, between the two uterosacral folds','位於子宮與陰道上部後方、直腸前方，介於兩側子宮骶韌帶皺襞之間'),

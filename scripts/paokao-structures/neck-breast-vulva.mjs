@@ -137,8 +137,8 @@ export default function neckBreastVulva(U) {
       };
       const cs = {'-1': centre(-1), '1': centre(1)}, dx = (Math.abs(cs['-1'][0] - xm) + Math.abs(cs['1'][0] - xm)) / 2, cz = (cs['-1'][2] + cs['1'][2]) / 2;
       fit.report.glandMm = {vaginaAxisX: +(xm * 1000).toFixed(1), pelvisMidlineX: +(((hlo + hhi) / 2) * 1000).toFixed(1), offsetMm: +(dx * 1000).toFixed(1), y: +(yb * 1000).toFixed(1), z: +(cz * 1000).toFixed(1)};
-      for (const S of SIDES) out.push({name: `${S.w} greater vestibular gland`, zh: `${S.zh}前庭大腺（巴氏腺）`, system: 'reproductive', kind: 'gland', sex: 'female', geometry: [U.ellipsoid(P(xm + S.sx * dx, yb, cz), R.x, R.y, R.z)],
-        card: {origin: ['Pea-sized gland on each side of the vaginal opening, behind and beside it at about 4 and 8 o\'clock, deep to the posterior end of the vestibular bulb and the bulbospongiosus, against the lower vagina', '位於陰道口兩側後外方（約 4 點與 8 點方向）的豌豆大小腺體，在前庭球後端與球海綿體肌深面，貼著陰道下端'], course: ['Its duct, about 2 cm long, opens in the groove between the hymen and the labium minus, near the middle of the vestibule', '導管長約 2 公分，開口於處女膜與小陰唇之間的溝，約在前庭中部'], supply: ['Secretes mucus during arousal; blood supply from the internal pudendal artery', '興奮時分泌黏液；血液供應來自陰部內動脈']}, refs: []});
+      for (const S of SIDES) out.push({name: `${S.w} greater vestibular gland`, zh: `${S.zh}大前庭腺（巴氏腺）`, system: 'reproductive', kind: 'gland', sex: 'female', geometry: [U.ellipsoid(P(xm + S.sx * dx, yb, cz), R.x, R.y, R.z)],
+        card: {origin: ['Pea-sized gland on each side of the vaginal opening, behind and beside it at about 4 and 8 o\'clock, deep to the posterior end of the vestibular bulb and the bulbospongiosus, against the lower vagina', '位於陰道口兩側後外方（約 4 點與 8 點方向）的豌豆大小腺體，在前庭球後端與球海綿體肌深面，貼著陰道下端'], course: ['Its duct, about 2 cm long, opens in the groove between the hymen and the labium minus, near the middle of the vestibule', '導管長約 2 公分，開口於處女膜與小陰唇之間的溝，約在前庭中部'], supply: ['Secretes mucus during arousal; blood supply from the internal pudendal artery', '興奮時分泌黏液；血液供應來自內陰動脈']}, refs: []});
     }
     fit.report.glansMm = fit.report.glans.map(v => +v.toFixed(1));
   }
