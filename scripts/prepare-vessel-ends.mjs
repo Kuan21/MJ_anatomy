@@ -118,16 +118,6 @@ function targetOutOfBone(r, t, to) {
   }
   return best?.to ?? null;
 }
-/** A bridge whose far end lies deep inside a bone (the end of the left internal iliac artery is itself 3.6 mm in the sacrum) stops where it reaches the bone surface: the rest of the way is inside the bone, where nothing is drawn anyway. */
-function trimAtBone(path) {
-  for (let i = 2; i < path.length; i++) {
-    const s = boneSigned(path[i]); if (s == null || s > -.0015) continue;
-    let lo = path[i - 1], hi = path[i];   // bisect for the surface crossing
-    for (let k = 0; k < 12; k++) { const mid = lo.map((v, j) => (v + hi[j]) / 2), sm = boneSigned(mid); if (sm != null && sm < 0) hi = mid; else lo = mid; }
-    return [...path.slice(0, i), lo];
-  }
-  return path;
-}
 const planned = gapRows.filter(bridgeable), mutual = new Set();
 let bridged = 0;
 for (const r of planned) {
@@ -136,10 +126,11 @@ for (const r of planned) {
     if (twin && (mutual.has(twin) || r.id > twin.id)) continue; mutual.add(r);
   }
   const t = r.target; let to = r.kind === 'end-to-end' ? add(t.point, t.dir, -.001) : add(t.point, t.inward, Math.min(.0006 + t.radius * .5, .002));
-  if (r.kind !== 'end-to-end' && PELVIC_VESSELS.test(r.name)) to = targetOutOfBone(r, t, to) ?? to;
-  const travel = r.kind === 'end-to-end' ? t.dir.map(v => -v) : unit(sub(to, r.capAt));
-  const r1 = r.kind === 'end-to-end' ? Math.min(t.radius, r.radius * 2.2) : r.radius * .85;
-  const path = PELVIC_VESSELS.test(r.name) ? trimAtBone(clearOfBone(bridgePath(r.capAt, r.dir, to, travel), r.radius)) : bridgePath(r.capAt, r.dir, to, travel);   // pelvic vessels only: the bridges of the limbs keep their paths
+  let moved = false;
+  if (PELVIC_VESSELS.test(r.name)) { const out = targetOutOfBone(r, t, to); if (out) { to = out; moved = true; } }   // the trunk end lies in the bone: join the wall of the trunk where it is clear of it
+  const travel = r.kind === 'end-to-end' && !moved ? t.dir.map(v => -v) : unit(sub(to, r.capAt));
+  const r1 = r.kind === 'end-to-end' && !moved ? Math.min(t.radius, r.radius * 2.2) : r.radius * .85;
+  const path = PELVIC_VESSELS.test(r.name) ? clearOfBone(bridgePath(r.capAt, r.dir, to, travel), r.radius) : bridgePath(r.capAt, r.dir, to, travel);   // pelvic vessels only: the bridges of the limbs keep their paths
   const near = pieces.filter(q => q.id === r.id && q.action === 'gap' && len(sub(q.tip, r.tipAt)) < .004);
   for (const q of near) pieces.splice(pieces.indexOf(q), 1);
   const far = pieces.filter(q => q.id === r.id && q.action === 'fade' && len(sub(q.tip, r.tipAt)) < .004);
