@@ -2,8 +2,9 @@
 // a fraction of a millimetre off the organ (kind 'landmark', parent = the organ), so they can be searched, picked and quizzed and follow the organ when it is hidden.
 // Names (English and Chinese) are those of docs/required-structures/abdomen.json, so the card text of app/quiz/card-data.ts finds them. Borders are schematic: each patch is
 // the zero level of a smooth field on the organ surface (U.fieldPatch), from landmarks measured on the meshes:
-//   stomach   the oesophagus and duodenum contacts give the cardia and the pylorus; the lesser curvature is the shortest way over the surface between them, the greater curvature
-//             the ridge farthest from it, the angular incisure the sharpest bend of the lesser curvature (same rules as the stomach detail mode);
+//   stomach   the oesophagus and duodenum contacts give the cardia and the pylorus; the curvatures are the rim of the flattened bag (where the surface normal lies in the
+//             plane of the stomach): its short concave side between them is the lesser curvature, the long side from the cardial notch round the fundus the greater
+//             curvature; the angular incisure is the sharpest bend of the lesser curvature
 //   duodenum  a centre line from the pylorus to the duodenojejunal end, cut at its three bends into the superior, descending, inferior (horizontal) and ascending parts;
 //             the papillae open on the inner wall of the descending part and are marked on its medial (pancreatic) side;
 //   caecum    the atlas has no caecum mesh: it is the end of the ascending colon below the entry of the ileum; the ileocaecal valve is marked where the ileum enters;
@@ -24,9 +25,13 @@ const vertsOf = m => { const out = []; for (let i = 0; i < m.positions.length; i
 function graph(m) {
   const key = i => `${Math.round(m.positions[i * 3] * 1e6)},${Math.round(m.positions[i * 3 + 1] * 1e6)},${Math.round(m.positions[i * 3 + 2] * 1e6)}`, ids = new Map(), map = [], pts = [];
   for (let i = 0; i < m.positions.length / 3; i++) { const k = key(i); if (!ids.has(k)) { ids.set(k, ids.size); pts.push([m.positions[i * 3], m.positions[i * 3 + 1], m.positions[i * 3 + 2]]); } map.push(ids.get(k)); }
-  const adj = pts.map(() => new Map());
-  for (let t = 0; t < m.indices.length; t += 3) for (let k = 0; k < 3; k++) { const a = map[m.indices[t + k]], b = map[m.indices[t + (k + 1) % 3]]; if (a !== b) { const l = D(pts[a], pts[b]); adj[a].set(b, l); adj[b].set(a, l); } }
-  return {pts, adj};
+  const adj = pts.map(() => new Map()), nrm = pts.map(() => [0, 0, 0]);
+  for (let t = 0; t < m.indices.length; t += 3) {
+    for (let k = 0; k < 3; k++) { const a = map[m.indices[t + k]], b = map[m.indices[t + (k + 1) % 3]]; if (a !== b) { const l = D(pts[a], pts[b]); adj[a].set(b, l); adj[b].set(a, l); } }
+    const [a, b, c] = [0, 1, 2].map(k => map[m.indices[t + k]]), u = sub(pts[b], pts[a]), v = sub(pts[c], pts[a]), f = [u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0]];
+    for (const x of [a, b, c]) for (let q = 0; q < 3; q++) nrm[x][q] += f[q];
+  }
+  return {pts, adj, nrm: nrm.map(unit)};
 }
 /** Dijkstra from a set of sources; cost(a, b, length) defaults to the length. */
 function dijkstra(adj, sources, cost = (a, b, l) => l) {
@@ -62,8 +67,8 @@ function contact(a, b) { let best = [null, null, Infinity]; for (const p of a) f
 export default function abdomenParts(U) {
   const out = [];
   // lifts: every patch of one organ at its own height, 0.3 mm apart (twice the 0.15 mm at which scripts/lib/stability-static.mjs counts two faces as coincident, so the
-  // simplification below cannot close the step), so two patches that meet or overlap never draw on top of each other; the organ with the most parts (the stomach, 11) reaches
-  // 3.3 mm (scripts/check-schematic-models.mjs allows 3.5 mm for a part of an organ)
+  // simplification below cannot close the step), so two patches that meet or overlap never draw on top of each other; the highest (the pyloric canal) is
+  // 3.0 mm (scripts/check-schematic-models.mjs allows 3.5 mm for a part of an organ)
   const level = new Map(); let group = '';
   const lift = () => { const n = level.get(group) ?? 0; level.set(group, n + 1); return .0003 + n * .0003; };
   // the patches are simplified when the stream is written (scripts/prepare-paokao.mjs): to about 0.06 mm, so the 0.3 mm steps between them stay
@@ -87,10 +92,11 @@ export default function abdomenParts(U) {
   // Borders and angles of an organ (greater and lesser curvature, angular incisure, cardial notch) are not structures of their own (user, 2026-11-21): they are drawn as a thin
   // line about 1.5 mm wide along the border (a smoothed centre line on the surface), refined finely enough for the line to keep its width; so is the Z-line, a line by
   // definition. Parts, surfaces, hila and bends (the stretch of gut at the turn) stay areas.
-  const LINE = .00075, FINE = {maxEdge: .0005};
+  const LINE = .00075, FINE = {maxEdge: .0005, margin: .015}; // a wide margin: a large triangle the line crosses without a vertex near it is refined too
   // LEVEL: the height step of a part whose patch lies inside or on another one of the same organ: nested patches are two or more steps apart (a 0.3 mm step between a patch and
   // the one it lies in still lets about a third of its faces fall within 0.15 mm of the other's on the curved surface); parts that only meet at a border may be one step apart
-  const LEVEL = {'Pylorus': 0, 'Fundus of stomach': 1, 'Body of stomach': 2, 'Pyloric antrum': 3, 'Cardia (cardial orifice)': 4, 'Pyloric canal': 5, 'Pyloric sphincter': 7, 'Angular incisure (angular notch)': 8, 'Cardial notch': 8, 'Lesser curvature of stomach': 10, 'Greater curvature of stomach': 10,
+  // the thin lines on the border are the lowest (0.3 mm): they lie on the rim, where a higher lift would show as a line floating beside the organ
+  const LEVEL = {'Lesser curvature of stomach': 0, 'Greater curvature of stomach': 0, 'Angular incisure (angular notch)': 2, 'Cardial notch': 2, 'Pyloric sphincter': 2, 'Pylorus': 4, 'Fundus of stomach': 5, 'Body of stomach': 6, 'Pyloric antrum': 7, 'Cardia (cardial orifice)': 8, 'Pyloric canal': 9,
     'Superior part of duodenum (duodenal cap)': 0, 'Descending part of duodenum': 1, 'Inferior (horizontal) part of duodenum': 2, 'Ascending part of duodenum': 3, 'Major duodenal papilla': 3, 'Minor duodenal papilla': 3, 'Duodenojejunal flexure': 5,
     'Right lobe of liver': 1, 'Left lobe of liver': 2, 'Quadrate lobe of liver': 3, 'Bare area of liver': 4, 'Porta hepatis': 5};
   const patch = (organ, field, {level: n, ...opts} = {}) => U.fieldPatch(organ, field, {off: n === undefined ? lift() : .0003 + n * .0003, maxEdge: .0012, ...opts});
@@ -104,16 +110,27 @@ export default function abdomenParts(U) {
     const eso = U.V('Esophagus'), duo = U.V('Duodenum');
     const cardiaPt = contact(P, eso)[0], pylorusPt = contact(P, duo)[0];
     const c0 = nearestIndex(P, cardiaPt), p0 = nearestIndex(P, pylorusPt);
-    const fromC = dijkstra(G.adj, [c0]), lesserIdx = pathTo(fromC.prev, p0), lesser = onOrgan(smooth(lesserIdx.map(i => P[i]), 4)), arc = arcOf(lesser), lesserLen = arc.at(-1);
-    const dl = dijkstra(G.adj, lesserIdx), dMax = Math.max(...[...dl.dist].filter(Number.isFinite));
-    // the greater curvature ends at the cardial notch: the point of the ring around the cardia that lies farthest from the lesser curvature
-    let notch = c0, fd = -1; for (let v = 0; v < n; v++) { const d = D(P[v], P[c0]); if (d > .011 && d < .015 && dl.dist[v] > fd) { fd = dl.dist[v]; notch = v; } }
-    const ridge = dijkstra(G.adj, [p0], (a, b, l) => l * (.02 + Math.pow(1 - (dl.dist[a] + dl.dist[b]) / 2 / dMax, 2)));
-    const greater = onOrgan(smooth(pathTo(ridge.prev, notch).map(i => P[i]), 4));
+    // The two curvatures are the borders of the flattened bag: the rim where the surface turns from the front to the back wall, i.e. where its normal lies in the plane of
+    // the stomach (the plane of its two longest axes). Between the cardia and the pylorus the rim has a short, concave side (lesser curvature) and a long side round the
+    // fundus (greater curvature, from the cardial notch).
+    const cen0 = mul(P.reduce((a2, q) => add(a2, q), [0, 0, 0]), 1 / n), cov = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+    for (const q of P) { const d = sub(q, cen0); for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) cov[i][j] += d[i] * d[j]; }
+    const mulC = v => [0, 1, 2].map(i => cov[i][0] * v[0] + cov[i][1] * v[1] + cov[i][2] * v[2]);
+    let e1 = unit([1, .2, .1]); for (let it = 0; it < 50; it++) e1 = unit(mulC(e1));
+    let e2 = unit([.1, 1, .2]); for (let it = 0; it < 50; it++) { e2 = mulC(e2); e2 = unit(sub(e2, mul(e1, dot(e2, e1)))); }
+    const N = unit([e1[1] * e2[2] - e1[2] * e2[1], e1[2] * e2[0] - e1[0] * e2[2], e1[0] * e2[1] - e1[1] * e2[0]]);
+    // the paths keep to the rim: walking across the front or back wall (normal along N) costs much more than walking along the border
+    const off = G.nrm.map(v => Math.abs(dot(v, N))), rimCost = (a2, b2, l) => l * (.02 + ((off[a2] + off[b2]) / 2) ** 2);
+    const lesserIdx = pathTo(dijkstra(G.adj, [c0], rimCost).prev, p0), lesser = onOrgan(smooth(lesserIdx.map(i => P[i]), 6)), arc = arcOf(lesser), lesserLen = arc.at(-1);
+    // the greater curvature ends at the cardial notch: the point of the ring round the cardia that lies farthest from the lesser curvature
+    let notch = c0, fd = -1; for (let v = 0; v < n; v++) { const d = D(P[v], P[c0]); if (d > .011 && d < .015) { const dd = distToPolyline(P[v], lesser); if (dd > fd) { fd = dd; notch = v; } } }
+    // the long way round the rim, away from the lesser curvature (except near the pylorus, where both end)
+    const nearLesser = P.map(q => distToPolyline(q, lesser) < .012 && D(q, P[p0]) > .015);
+    const greater = onOrgan(smooth(pathTo(dijkstra(G.adj, [notch], (a2, b2, l) => rimCost(a2, b2, l) * (nearLesser[a2] || nearLesser[b2] ? 100 : 1)).prev, p0).map(i => P[i]), 6));
     // angular incisure: the sharpest bend of the lower lesser curvature
     const at = f => { const i = arc.findIndex(a => a >= f * lesserLen); return i < 0 ? lesser.length - 1 : i; };
-    let inc = at(.6), bestTurn = -1; const win = .09 * lesserLen;
-    for (let i = at(.45); i < at(.92); i++) {
+    let inc = at(.55), bestTurn = -1; const win = .15 * lesserLen; // a wide window: the bend of the whole border, not a local wiggle of the rim
+    for (let i = at(.3); i < at(.8); i++) {
       const a = arc.findIndex(x => x >= arc[i] - win), b = arc.findIndex(x => x >= arc[i] + win); if (a < 0 || b < 0) continue;
       const u = unit(sub(lesser[i], lesser[a])), v = unit(sub(lesser[b], lesser[i])), turn = Math.acos(Math.max(-1, Math.min(1, dot(u, v)))); if (turn > bestTurn) { bestTurn = turn; inc = i; }
     }
