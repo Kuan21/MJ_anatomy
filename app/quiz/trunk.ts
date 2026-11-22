@@ -83,6 +83,8 @@ export function abdomenSection(name: string, system: QuizSystem): string {
 /** Depth of the organs of the abdomen seen from the front (decides which organs are glass while a deeper one is the question). Only organs of the trunkorgan system have a layer. */
 export function abdomenLayerOf(name: string): TrunkLayer | undefined {
   const n = plain(name);
+  // the front wall (rectus sheath, linea alba, inguinal ligament) lies in front of every organ
+  if (/rectus sheath|linea alba|inguinal ligament/.test(n)) return 'front';
   if (/stomach|transverse colon|jejunum|ileum|sigmoid colon|mesentery|transverse mesocolon|omentum|taenia/.test(n) && !/duodenojejunal/.test(n)) return 'front';
   if (/pancreas|pancreatic duct|duoden|ascending colon|descending colon|cecum|ileocecal|appendix|mesoappendix|spleen|gallbladder|cystic duct|hepatic duct/.test(n)) return 'middle';
   if (/kidney|adrenal|ureter|hiatus/.test(n)) return 'deep';

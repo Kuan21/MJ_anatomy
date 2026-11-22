@@ -65,6 +65,7 @@ for (const id of regions) {
   assert.ok(layered.length >= 10, `${id}: depth layers are set`);
   const deep = layered.find(s => s.layer === 'deep'), front = layered.find(s => s.layer === 'front');
   assert.ok(deep && front, 'front and deep organs exist');
+  assert.ok(catalogue.structures.filter(s => /rectus sheath|linea alba/i.test(s.name)).every(s => s.layer === 'front'), 'the front wall is the front layer');
   assert.equal(coversTrunkTarget(deep, front), true); assert.equal(coversTrunkTarget(front, deep), false); assert.equal(coversTrunkTarget(deep, deep), false); assert.equal(coversTrunkTarget({}, front), false);
 
   // playable: every section × system gives a pool whose target is in the scene; the reduced scene keeps what a question needs
