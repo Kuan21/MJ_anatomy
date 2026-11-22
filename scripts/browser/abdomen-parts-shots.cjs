@@ -14,7 +14,7 @@ const LIVER='hepatovenous|caudate lobe|hepatic biliary|hepatic duct|duct of caud
 // [scene, parts tinted, parts hidden (regex), views: [name, target (m), direction from target to camera, distance (m), phone?]]
 const SCENES=[
  ['regions',['Fundus of stomach','Body of stomach','Pylorus','Superior part of duodenum (duodenal cap)','Descending part of duodenum','Inferior (horizontal) part of duodenum','Ascending part of duodenum','Cecum','Neck of gallbladder','Body of gallbladder','Fundus of gallbladder'],GUT,[
-  ['front',[0,1.11,0.03],[0,0,1],0.42,true],['back',[0,1.11,0.03],[0,0,-1],0.42],['right',[0,1.11,0.03],[-1,0,0],0.42],['left',[0,1.11,0.03],[1,0,0],0.42]]],
+  ['front',[0,1.08,0.03],[0,0,1],0.6,true],['back',[0,1.08,0.03],[0,0,-1],0.6],['right',[0,1.08,0.03],[-1,0,0],0.6],['left',[0,1.08,0.03],[1,0,0],0.6]]],
  ['liver-lobes',['Right lobe of liver','Left lobe of liver','Quadrate lobe of liver'],GUT,[
   ['front',[-0.01,1.19,0.05],[0,0,1],0.32,true],['below',[-0.01,1.18,0.05],[0,-0.75,0.66],0.3],['back',[-0.01,1.19,0.05],[0,0.2,-1],0.32]]],
  ['stomach-marks',['Cardia (cardial orifice)','Cardial notch','Angular incisure (angular notch)','Lesser curvature of stomach','Greater curvature of stomach','Pyloric sphincter'],GUT+'|'+LIVER+'|gallbladder|cystic duct',[
