@@ -3,7 +3,7 @@
 // Only the digestive organs and the spleen are shown. The parts are decals: they are drawn when picked, hovered or tinted, so each scene tints one group of parts that do not overlap
 // (each part its own colour, the same tint the lung view uses). Tag "before": nothing tinted or picked. The parts are decals that are not drawn until picked or tinted and the organ
 // meshes are not changed, so this is what the page showed before the parts were added (same build, same views). Every scene is shot at desktop size
-// (1500×950) and the main ones again at phone size (390×844). Loading takes 20–25 minutes with software WebGL.
+// (1500×950) and the main ones again at iPad size (820×1180); the picked curvatures also at phone size (390×844). Loading takes 20–25 minutes with software WebGL.
 const {chromium}=require('playwright');const fs=require('fs');
 const [port='4173',out='/tmp/abdomen-parts',tag='after',base='/']=process.argv.slice(2);fs.mkdirSync(out,{recursive:true});
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
@@ -51,20 +51,21 @@ const SCENES=[
  await p.mouse.click(5,300);await sleep(1000);
  let cur=tag;const shot=async (n,vp)=>{await sleep(3500);await p.screenshot({path:`${out}/${cur}-${vp}-${n}.png`,timeout:240000});console.log('shot',vp,n);};
  const look=([t,d,r],k=1)=>p.evaluate(([t,d,r])=>window.__mjView.look(t,d,r),[t,d,r*k]);
- const DESK={width:1500,height:950},PHONE={width:390,height:844};
+ const DESK={width:1500,height:950},IPAD={width:820,height:1180},PHONE={width:390,height:844};
  const TAGS=tag==='both'?['before','after']:[tag];
  for(const tg of TAGS){const tag=tg;cur=tg;
  for(const [scene,tint,hide,views] of SCENES){
   await p.setViewportSize(DESK);await sleep(3000);
   console.log(scene,JSON.stringify(await setScene(hide,tag==='before'?[]:tint,[])));await sleep(4000);
   for(const [n,...v] of views){await look(v);await shot(`${scene}-${n}`,'desktop');}
-  await p.setViewportSize(PHONE);await sleep(4000);
-  for(const [n,...v] of views.filter(v=>v[4])){await look(v,2.2);await shot(`${scene}-${n}`,'mobile');}
+  await p.setViewportSize(IPAD);await sleep(4000);
+  for(const [n,...v] of views.filter(v=>v[4])){await look(v,1.4);await shot(`${scene}-${n}`,'ipad');}
  }
  // what a student sees: one part picked (from the search or the list), the organ drawn as usual
  for(const [n,part,hide,v] of [['pick-greater-curvature','Greater curvature of stomach',GUT+'|'+LIVER+'|gallbladder|cystic duct',[[0.035,1.175,0.04],[0,0,1],0.22]],['pick-lesser-curvature','Lesser curvature of stomach',GUT+'|'+LIVER+'|gallbladder|cystic duct',[[0.01,1.17,0.04],[-0.3,0.1,1],0.18]],['pick-body-of-stomach','Body of stomach',GUT,[[0.035,1.175,0.04],[0,0,1],0.24]],['pick-major-papilla','Major duodenal papilla',GUT+'|'+LIVER+'|pancrea|^stomach$',[[-0.05,1.11,0.03],[1,0,0.25],0.12]]]){
   await p.setViewportSize(DESK);await sleep(3000);console.log(n,JSON.stringify(await setScene(hide,[],tag==='before'?[]:[part])));await sleep(4000);await look(v);await shot(n,'desktop');
-  await p.setViewportSize(PHONE);await sleep(4000);await look(v,2.2);await shot(n,'mobile');
+  await p.setViewportSize(IPAD);await sleep(4000);await look(v,1.4);await shot(n,'ipad');
+  if(/curvature/.test(n)){await p.setViewportSize(PHONE);await sleep(4000);await look(v,2.2);await shot(n,'mobile');}
  }
  }
  await b.close();console.log('done');
