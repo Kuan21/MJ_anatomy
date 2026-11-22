@@ -15,8 +15,12 @@ const atlas = JSON.parse(fs.readFileSync(root + 'public/models/atlas.json', 'utf
  atlas.parts = atlas.parts.filter(p => !excluded.has(p.id)).map(p => ({...p, ...(over.parts[p.id] || {})}));}
 const buffers = new Map(), buf = c => {if (!buffers.has(c)) {const b = fs.readFileSync(root + 'public' + atlas.chunks[c].url); buffers.set(c, b.buffer.slice(b.byteOffset, b.byteOffset + b.length));} return buffers.get(c);};
 const geom = p => {const ab = buf(p.chunk); return {pos: new Float32Array(ab, p.positions, p.vertexCount * 3), idx: new Uint32Array(ab, p.indices, p.indexCount)};};
-const isVessel = p => p.system === 'arterial' || p.system === 'venous';
-const TISSUE = p => ['muscular', 'skeletal', 'digestive', 'respiratory', 'urinary', 'reproductive', 'endocrine', 'lymphatic', 'connective', 'sensory', 'cardiac'].includes(p.system) || (p.system === 'nervous' && /brain|cerebr|spinal cord/i.test(p.name));
+// BodyParts3D's "hepatovenous segments" are the liver tissue itself (the parts of the liver each hepatic vein drains), not veins: the viewer shows them as digestive (displaySystem in app/mj-system-classifier.ts).
+// The audit used to take them for veins and built end pieces (connectors, tapers) for them, which float in the air once the organs are hidden (check VS-06, 2026-11-21); scripts/test-vessel-audit-systems.mjs keeps this in step with the classifier.
+export const NOT_VESSELS = /hepatovenous segment/i;
+const systemOf = p => NOT_VESSELS.test(p.name) ? 'digestive' : p.system;
+const isVessel = p => systemOf(p) === 'arterial' || systemOf(p) === 'venous';
+const TISSUE = p => ['muscular', 'skeletal', 'digestive', 'respiratory', 'urinary', 'reproductive', 'endocrine', 'lymphatic', 'connective', 'sensory', 'cardiac'].includes(systemOf(p)) || (systemOf(p) === 'nervous' && /brain|cerebr|spinal cord/i.test(p.name));
 const CELL = .008;
 export class Grid {
   constructor() {this.cells = new Map(); this.tris = [];}
@@ -105,7 +109,7 @@ export function tubeTips(g, minBranch = .006) {
 export const MULTI_PIECE_VESSELS = process.env.MJ_NO_MULTI_PIECE ? /(?!)/ : /^Lumbar vein$/;   // MJ_NO_MULTI_PIECE=1: the old behaviour (one piece per mesh), for before/after comparisons
 const MIN_PIECE_TRIANGLES = 40;
 /** The connected pieces of a mesh (vertices welded by position), each with its own compact positions and indices; pieces below MIN_PIECE_TRIANGLES are loose debris and dropped. */
-export function surfacePieces(g) {
+export function surfacePieces(g, minTriangles = MIN_PIECE_TRIANGLES) {
   const key = new Map(), remap = new Uint32Array(g.pos.length / 3); let n = 0;
   for (let i = 0; i < remap.length; i++) {
     const k = `${Math.round(g.pos[i * 3] * 1e5)},${Math.round(g.pos[i * 3 + 1] * 1e5)},${Math.round(g.pos[i * 3 + 2] * 1e5)}`;
@@ -117,7 +121,7 @@ export function surfacePieces(g) {
   for (let i = 0; i < g.idx.length; i += 3) { const r = find(remap[g.idx[i]]); if (!groups.has(r)) groups.set(r, []); groups.get(r).push(i); }
   const pieces = [];
   for (const tris of groups.values()) {
-    if (tris.length < MIN_PIECE_TRIANGLES) continue;
+    if (tris.length < minTriangles) continue;
     const local = new Map(), pos = [], idx = [];
     for (const i of tris) for (let t = 0; t < 3; t++) { const v = g.idx[i + t]; if (!local.has(v)) { local.set(v, pos.length / 3); pos.push(g.pos[v * 3], g.pos[v * 3 + 1], g.pos[v * 3 + 2]); } idx.push(local.get(v)); }
     pieces.push({pos: Float32Array.from(pos), idx: Uint32Array.from(idx)});

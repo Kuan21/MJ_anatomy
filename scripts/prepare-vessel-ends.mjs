@@ -10,7 +10,7 @@ import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {createStream} from './lib/stream-writer.mjs';
 import {tube} from './lib/nerve-schematics.mjs';
-import {auditEnds, atlas, geom} from './audit-vessel-ends.mjs';
+import {auditEnds, atlas, geom, surfacePieces} from './audit-vessel-ends.mjs';
 import {weldSurface, endFrame as endFrameOf, bridgePath, sub, add, len, unit} from './lib/vessel-frames.mjs';
 import {loadFullAtlas, STREAMS} from './lib/full-atlas.mjs';
 import {loadVessels, analyse, bridgeable, regionTools} from './lib/vessel-segments.mjs';
@@ -97,6 +97,25 @@ for (const r of planned) {
   const hit = report.find(x => x.id === r.id && len(sub(x.at, r.tipAt)) < .004); if (hit) hit.action = 'bridge';
 }
 console.log(`Vessel ends: ${bridged} limb bridges planned from ${gapRows.length} adjacent-segment ends.`);
+// A vessel whose mesh lost a stretch in the segmentation and kept a small fragment of it, floating a few millimetres away from the rest (check VS-06: the posterior division of the left renal artery, a 22-triangle piece 11 mm
+// from the rest of the artery): a thin link tube from the fragment to the nearest point of the main piece makes it one vessel again. Only the vessels listed here; two separate vessels in one mesh (the lumbar veins) are not linked.
+const LINK_FRAGMENTS = /^Posterior division of left renal artery$/;
+let linked = 0;
+for (const p of atlas.parts.filter(q => LINK_FRAGMENTS.test(q.name))) {
+  const pcs = surfacePieces(geom(p), 8).sort((a, b) => b.idx.length - a.idx.length), main = pcs[0], centre = pc => { const c = [0, 0, 0]; for (let i = 0; i < pc.pos.length; i += 3) for (let k = 0; k < 3; k++) c[k] += pc.pos[i + k] / (pc.pos.length / 3); return c; };
+  for (const frag of pcs.slice(1)) {
+    let best = {d: Infinity};
+    for (let i = 0; i < frag.pos.length; i += 3) for (let j = 0; j < main.pos.length; j += 3) {
+      const d = Math.hypot(frag.pos[i] - main.pos[j], frag.pos[i + 1] - main.pos[j + 1], frag.pos[i + 2] - main.pos[j + 2]);
+      if (d < best.d) best = {d, a: [frag.pos[i], frag.pos[i + 1], frag.pos[i + 2]], b: [main.pos[j], main.pos[j + 1], main.pos[j + 2]]};
+    }
+    if (!(best.d < .03)) continue;
+    const cf = centre(frag), cm = centre(main), fb = endFrame(p.id, best.b), r = Math.min(.0008, (fb?.radius ?? .0015) * .6);
+    const inA = add(best.a, unit(sub(cf, best.a)), Math.min(.001, len(sub(cf, best.a)))), inB = add(best.b, unit(sub(cm, best.b)), .0008), chord = unit(sub(inB, inA));
+    piece(p.id, tube([inA, best.a, add(best.a, chord, best.d / 3), add(best.a, chord, 2 * best.d / 3), best.b, inB], r, r, 16, 12), best.a, 'link'); linked++;
+  }
+}
+console.log(`Vessel ends: ${linked} link tube(s) between a vessel and a fragment of its own mesh.`);
 const byPart = new Map(); for (const q of pieces) { if (!byPart.has(q.id)) byPart.set(q.id, []); byPart.get(q.id).push(q.geometry); }
 
 fs.mkdirSync(out, {recursive: true}); fs.mkdirSync(new URL('public/models/vessel-ends/', root), {recursive: true}); fs.mkdirSync(new URL('work/', root), {recursive: true});
