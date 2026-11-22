@@ -35,7 +35,7 @@ export class Grid {
     let best = {d: Infinity, tag: null, q: null};
     for (let x = cx - r; x <= cx + r; x++) for (let y = cy - r; y <= cy + r; y++) for (let z = cz - r; z <= cz + r; z++) {
       const l = this.cells.get(`${x},${y},${z}`); if (!l) continue;
-      for (const id of l) { const t = this.tris[id]; if (self instanceof Set ? self.has(t[3]) : t[3] === self) continue; const d = triDist(p, t[0], t[1], t[2]); if (d < best.d) best = {d, tag: t[3], q: triDist.q}; }
+      for (const id of l) { const t = this.tris[id]; if (self instanceof Set ? self.has(t[3]) : t[3] === self) continue; const d = triDist(p, t[0], t[1], t[2]); if (d < best.d) best = {d, tag: t[3], q: triDist.q, tri: t}; }
     }
     return best;
   }
