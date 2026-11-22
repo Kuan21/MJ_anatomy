@@ -15,7 +15,8 @@ const viewport = size === 'mobile' ? {width: 390, height: 844} : size === 'table
   const click = async loc => { await loc.scrollIntoViewIfNeeded(); await loc.click(); };
   const view = async name => { await click(p.locator('.organ-views button', {hasText: name}).first()); await p.waitForTimeout(1500); };
   const preset = async zh => { await click(p.locator('.organ-segmented[aria-label="顯示分組"] button', {hasText: zh})); await p.waitForTimeout(1500); };
-  await shot('1-organ');
+  await shot('0-entry');
+  await preset('器官'); await shot('1-organ');
   await preset('動脈'); await shot('2-arteries');
   await preset('靜脈'); await shot('3-veins');
   await preset('神經'); await shot('4-nerves');
