@@ -17,7 +17,7 @@ export const bodyBindings=Object.fromEntries(Object.entries({...rawBindings,...p
 export const skullAttached=(p:{id:string;name:string})=>p.id.startsWith('BP3-FMA')||(p.id.startsWith('BP3S-')&&/epicranius|temporoparietalis|depressor septi nasi/i.test(p.name));
 /** Nerve meshes that carry no explicit binding follow the limb they lie in: below the hip and near the midline a leg (by side), further out an arm. */
 export const HIP_LEVEL=.93,ARM_X=.2;
-/** The vessels of the pelvis and perineum by name (scripts/lib/vessel-tip-plan.mjs has the same list; scripts/test-vessel-audit-systems.mjs keeps the two in step). */
+/** The vessels of the pelvis and perineum by name (scripts/lib/vessel-tip-plan.mjs has the same list: change both together). */
 export const PELVIC_VESSELS=/iliac|gluteal|pudendal|obturator|sacral|vesical|rectal|uterine|vaginal|ovarian|testicular|prostat|penile|clitoral|perineal|iliolumbar|labial|scrotal|bulb|crural/i,PELVIC_VESSEL_LIFT=.07;
 export function inferredLimb(center:{x:number;y:number}):'leftLeg'|'rightLeg'|'arm'|undefined{
  if(center.y<HIP_LEVEL&&Math.abs(center.x)<ARM_X)return center.x>=0?'leftLeg':'rightLeg';

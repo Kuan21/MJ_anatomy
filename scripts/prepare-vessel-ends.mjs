@@ -14,7 +14,7 @@ import {auditEnds, atlas, geom, surfacePieces, Grid} from './audit-vessel-ends.m
 import {weldSurface, endFrame as endFrameOf, bridgePath, sub, add, len, unit} from './lib/vessel-frames.mjs';
 import {loadFullAtlas, STREAMS} from './lib/full-atlas.mjs';
 import {loadVessels, analyse, bridgeable, regionTools} from './lib/vessel-segments.mjs';
-import {planTips, tipKey, NECK_ROOT_ARM_RIG} from './lib/vessel-tip-plan.mjs';
+import {planTips, tipKey, NECK_ROOT_ARM_RIG, PELVIC_VESSELS} from './lib/vessel-tip-plan.mjs';
 
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 const stamp = file('work/vessel-ends.stamp'), out = new URL('public/models/stream/', root), manifest = file('public/models/vessel-ends/vessel-ends-stream.json.gz');
@@ -105,7 +105,7 @@ for (const r of planned) {
   const t = r.target, to = r.kind === 'end-to-end' ? add(t.point, t.dir, -.001) : add(t.point, t.inward, Math.min(.0006 + t.radius * .5, .002));
   const travel = r.kind === 'end-to-end' ? t.dir.map(v => -v) : unit(sub(to, r.capAt));
   const r1 = r.kind === 'end-to-end' ? Math.min(t.radius, r.radius * 2.2) : r.radius * .85;
-  const path = clearOfBone(bridgePath(r.capAt, r.dir, to, travel), r.radius);
+  const path = PELVIC_VESSELS.test(r.name) ? clearOfBone(bridgePath(r.capAt, r.dir, to, travel), r.radius) : bridgePath(r.capAt, r.dir, to, travel);   // pelvic vessels only: the bridges of the limbs keep their paths
   const near = pieces.filter(q => q.id === r.id && q.action === 'gap' && len(sub(q.tip, r.tipAt)) < .004);
   for (const q of near) pieces.splice(pieces.indexOf(q), 1);
   const far = pieces.filter(q => q.id === r.id && q.action === 'fade' && len(sub(q.tip, r.tipAt)) < .004);
