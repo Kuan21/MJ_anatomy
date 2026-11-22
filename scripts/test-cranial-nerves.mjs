@@ -90,6 +90,14 @@ for (const f of sources) {
   assert.ok(!FORBIDDEN.test(shown), `${f}: note wording or a book name in a string`);
   for (const line of shown.split('\n')) assert.deepEqual(scanLine(line), [], `${f}: Cantonese wording in ${line.trim().slice(0, 60)}`);
 }
+// labels never sit on the picture (same layout as the swallowing animation): two gutters beside the canvas, leader lines only; legend above and controls below the picture
+const sceneText = fs.readFileSync(path.join(dir, 'cn-scene.ts'), 'utf8'), anim = fs.readFileSync(path.join(dir, 'cn-animation.tsx'), 'utf8'), css = fs.readFileSync(path.join(dir, 'cn.css'), 'utf8');
+assert.ok(sceneText.includes('new SideLabels(') && !/new LabelLayer\(/.test(sceneText), 'side-gutter labels');
+assert.ok(/cn-gutter[\s\S]*cn-canvas[\s\S]*cn-gutter/.test(anim) && anim.indexOf('cn-legend') < anim.indexOf('cn-view') && anim.indexOf('cn-controls') > anim.indexOf('cn-view'), 'gutter | canvas | gutter, legend above, controls below');
+assert.ok(/\.cn-controls\{position:static/.test(css) && !/\.cn-legend\{position:absolute/.test(css), 'nothing laid over the picture');
+assert.ok(anim.includes("import '../organ/organ.css'"), 'loading and error messages are styled');
+// the two openings without a mark of their own stay labelled 示意 until the head-and-neck model marks them
+assert.ok(/schematic: !o\.mark \|\| \(\/jugular\/i/.test(sceneText) && CN_NOTE.includes('示意') && CN_NOTE.includes('頸靜脈孔') && CN_NOTE.includes('篩板'), 'cribriform plate and left jugular foramen are schematic');
 const main = fs.readFileSync(path.join(root, 'web/main.tsx'), 'utf8'), page = fs.readFileSync(path.join(root, 'app/page.tsx'), 'utf8');
 assert.ok(/lazy\(\(\) => import\('\.\.\/app\/cranial-nerves\/cn-animation'\)\)/.test(main) && main.includes("'#/animation/cranial-nerves'"), 'route, loaded only when opened');
 assert.ok(page.includes("'#/animation/cranial-nerves'") && page.includes('>腦神經</Button>'), 'button in the atlas');

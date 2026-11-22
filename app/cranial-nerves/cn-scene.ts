@@ -1,7 +1,8 @@
 import * as T from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import {framingDistance} from '../camera-framing';
-import {LabelLayer, type LabelSpec} from '../ear-hearing/label-layer';
+import type {LabelSpec} from '../ear-hearing/label-layer';
+import {SideLabels} from '../swallow/side-labels';
 import {bandAt, CRANIAL_NERVES, flowDirection, LEVELS, type CranialNerve} from './cn-data';
 import {loadSiteMeshes, sideless, sideOf, type LoadedMesh} from './cn-load';
 
@@ -23,7 +24,8 @@ const smooth = (k: number) => k * k * (3 - 2 * k);
 
 /** The twelve cranial nerves in 3D: the nerves of the site's nerve stream, the brainstem, the skull as glass with the openings marked on it (#433), and the muscles each nerve supplies.
  *  The current nerve is lit, a band of light runs along it (outward for motor, inward for sensory), its openings pulse and its targets turn green. */
-export function createCranialScene(host: HTMLElement, callbacks: Callbacks) {
+/** `gutters`: the stage that holds the canvas host and the two label columns beside it (labels are never drawn over the canvas, so they cannot hide a nerve or an opening). */
+export function createCranialScene(host: HTMLElement, callbacks: Callbacks, gutters: {stage: HTMLElement; left: HTMLElement; right: HTMLElement}) {
   const scene = new T.Scene(), camera = new T.PerspectiveCamera(30, 1, .005, 5);
   const renderer = new T.WebGLRenderer({antialias: true, alpha: true, powerPreference: 'low-power'});
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5)); renderer.setClearColor('#cbd2d6', 0);
@@ -31,7 +33,7 @@ export function createCranialScene(host: HTMLElement, callbacks: Callbacks) {
   const canvas = renderer.domElement; canvas.className = 'hear-canvas'; canvas.style.touchAction = 'none';
   canvas.setAttribute('role', 'img'); canvas.setAttribute('aria-label', '十二對腦神經 3D 動畫。拖曳旋轉，滾輪或雙指縮放。');
   host.appendChild(canvas);
-  const labels = new LabelLayer(host);
+  const labels = new SideLabels(gutters.stage, gutters.left, gutters.right, host);
   const controls = new OrbitControls(camera, canvas); controls.enableDamping = true; controls.dampingFactor = .15; controls.minDistance = .04; controls.maxDistance = 1.5;
   scene.add(new T.HemisphereLight('#ffffff', '#7b8e9c', 2.1));
   const key = new T.DirectionalLight('#fff6e6', 2.3); key.position.set(2, -1, 3); scene.add(key);
@@ -201,7 +203,7 @@ export function createCranialScene(host: HTMLElement, callbacks: Callbacks) {
       // the overview colours do not change: paint them once; a nerve is repainted every frame (the band moves)
       if (step !== 0 || painted !== 0) {paint(t, now); painted = step;}
       renderer.render(scene, camera);
-      const r = host.getBoundingClientRect(); labels.update(project, r.width, r.height);
+      labels.update(project);
     },
     get canvas() {return canvas;},
     dispose() {

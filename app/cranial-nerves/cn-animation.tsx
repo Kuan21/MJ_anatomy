@@ -16,13 +16,14 @@ export default function CranialNervesAnimation({onClose}: {onClose: () => void})
   const [speed, setSpeed] = useState<number>(SPEED_SLIDER.initial), [ready, setReady] = useState(false), [percent, setPercent] = useState(0), [error, setError] = useState('');
   const speedRef = useRef(speed); speedRef.current = speed;
   const host = useRef<HTMLDivElement>(null), scene = useRef<Scene | null>(null);
+  const stage = useRef<HTMLDivElement>(null), leftGutter = useRef<HTMLDivElement>(null), rightGutter = useRef<HTMLDivElement>(null);
   const step = play.current.step, nerve = step ? CRANIAL_NERVES[step - 1] : null;
 
   const apply = useCallback((next: PlayState) => {const changed = next.step !== play.current.step; play.current = next; if (changed) rerender();}, []);
   const go = useCallback((i: number) => apply(goTo(play.current, i)), [apply]);
 
   useEffect(() => {
-    try {scene.current = createCranialScene(host.current!, {progress: setPercent, ready: () => setReady(true), error: setError});}
+    try {scene.current = createCranialScene(host.current!, {progress: setPercent, ready: () => setReady(true), error: setError}, {stage: stage.current!, left: leftGutter.current!, right: rightGutter.current!});}
     catch {setError('無法啟動 3D 顯示。請改用支援 WebGL 的瀏覽器開啟。');}
     return () => {scene.current?.dispose(); scene.current = null;};
   }, []);
@@ -61,15 +62,21 @@ export default function CranialNervesAnimation({onClose}: {onClose: () => void})
       {CRANIAL_NERVES.map((c, i) => <button key={c.id} aria-current={step === i + 1 ? 'step' : undefined} onClick={() => go(i + 1)} title={`${c.en}｜${c.zh}`}><b>{c.roman}</b><span>{c.zh}</span></button>)}
     </nav>
     <div className="hear-body">
-      <section className="hear-stage" aria-label="腦神經 3D 動畫">
-        <div className="hear-layer" ref={host}/>
-        {!ready && !error && <div className="hear-loading" role="status"><span className="organ-spinner"/><strong>載入頭頸模型與神經</strong><small>{percent ? `${percent}%` : '…'}</small></div>}
-        {error && <div className="organ-error stage" role="alert">{error}</div>}
+      <section className="hear-stage cn-stage" aria-label="腦神經 3D 動畫">
+        {/* legend above the picture, labels in the two gutters beside it, controls below it: nothing is drawn over the nerves or the openings */}
         <div className="cn-legend" aria-hidden="true">
           {nerve ? <><span><i className="nerve"/>神經（光帶＝訊號方向）</span><span><i className="hole"/>出顱孔</span><span><i className="target"/>支配目標</span></>
             : LEVELS.map((l, i) => <span key={l.en}><i style={{background: ['#7aa6d8', '#9b7fd1', '#e0a43c', '#5fae8a'][i]}}/>{l.zh}：{l.nerves.map(k => CRANIAL_NERVES[k - 1].roman).join('、')}</span>)}
         </div>
-        <div className="hear-controls">
+        <div className="cn-view" ref={stage}>
+          <div className="cn-gutter" ref={leftGutter} aria-hidden="true"/>
+          <div className="cn-canvas" ref={host}>
+            {!ready && !error && <div className="hear-loading" role="status"><span className="organ-spinner"/><strong>載入頭頸模型與神經</strong><small>{percent ? `${percent}%` : '…'}</small></div>}
+            {error && <div className="organ-error stage" role="alert">{error}</div>}
+          </div>
+          <div className="cn-gutter" ref={rightGutter} aria-hidden="true"/>
+        </div>
+        <div className="hear-controls cn-controls">
           <div className="hear-btns">
             <button aria-label="上一對" onClick={() => apply(stepBy(play.current, -1))}>◀ 上一對</button>
             <button className="primary" aria-pressed={p.playing} onClick={() => {apply({...play.current, playing: !play.current.playing}); rerender();}}>{p.playing ? '暫停' : '播放'}</button>

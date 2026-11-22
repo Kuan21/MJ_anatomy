@@ -128,7 +128,7 @@ export const CRANIAL_NERVES: readonly CranialNerve[] = [
     meshes: /^Hypoglossal nerve \(XII\)$/},
 ];
 export const NERVE_COUNT = CRANIAL_NERVES.length;
-export const CN_NOTE = '神經走向與出顱孔取自網站現有模型；光點表示神經訊號由腦幹向外（運動）或向內（感覺）的方向，為示意。嗅神經的篩板沒有骨面標示，以示意點標出。';
+export const CN_NOTE = '神經走向與出顱孔取自網站現有模型；光點表示神經訊號由腦幹向外（運動）或向內（感覺）的方向，為示意。嗅神經經過的篩板與左側頸靜脈孔在骨面上還沒有標示，分別以示意點與右側的鏡像標出（標〔示意〕）。';
 
 /** Brainstem level of each nerve, for the overview. */
 export const LEVELS: readonly {en: string; zh: string; nerves: number[]}[] = [
