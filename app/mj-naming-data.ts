@@ -53,7 +53,6 @@ export const NAMING_DATA={
   "lateral circumflex femoral artery": "外旋股動脈",
   "lateral femoral cutaneous nerve": "外股皮神經",
   "lateral plantar nerve": "外蹠神經",
-  "lateral sacral vein": "外薦靜脈",
   "levator palpebrae superioris": "提上眼瞼肌",
   "long ciliary nerve": "長睫神經",
   "long thoracic nerve": "長胸神經",

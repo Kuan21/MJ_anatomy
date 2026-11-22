@@ -27,7 +27,7 @@ const parts: OrganPartDef[] = [
       blood: {en: 'All from the coeliac trunk: left gastric artery (lesser curvature), right gastric artery (from the proper hepatic artery), right gastro-omental artery (from the gastroduodenal artery), left gastro-omental, short gastric and posterior gastric arteries (from the splenic artery). Veins drain to the portal system.',
         zh: '全部來自腹腔動脈幹：左胃動脈（走胃小彎）、右胃動脈（來自肝固有動脈）、右胃網膜動脈（來自胃十二指腸動脈）、左胃網膜動脈、短胃動脈與後胃動脈（來自脾動脈）。靜脈回流到肝門靜脈系統。'},
       nerve: {en: 'Parasympathetic: anterior and posterior vagal trunks (motility and acid secretion). Sympathetic: T6–T9 through the greater splanchnic nerves and the coeliac plexus. Stomach pain is felt in the epigastrium.',
-        zh: '副交感：迷走神經前幹與後幹（調控蠕動與胃酸分泌）。交感：T6–T9 經大內臟神經與腹腔叢。胃痛多感覺在上腹部。'},
+        zh: '副交感：前迷走神經幹與後幹（調控蠕動與胃酸分泌）。交感：T6–T9 經大內臟神經與腹腔叢。胃痛多感覺在上腹部。'},
       fn: {en: 'Stores a meal, churns it with acid and pepsin into chyme and releases it to the duodenum in small portions. Parietal cells also make intrinsic factor, needed to absorb vitamin B12.',
         zh: '暫存食物，以胃酸與胃蛋白酶攪拌成食糜，再分次少量送入十二指腸；壁細胞另分泌內在因子，維生素 B12 的吸收需要它。'},
       links: ['Cardia', 'Fundus', 'Body', 'Pylorus', 'Greater curvature', 'Lesser curvature']},
@@ -131,7 +131,7 @@ const parts: OrganPartDef[] = [
   {key: 'Esophagus', en: 'Abdominal esophagus', zh: '食道腹部', group: 'context', color: '#c98f8a',
     card: {
       loc: {en: 'The short segment, about 1 to 2 cm long, between the oesophageal hiatus of the diaphragm (about T10) and the cardia. The picture shows it with a short length of the thoracic part above.', zh: '位於橫膈食道裂孔（約 T10）與賁門之間的短段，長約 1 至 2 公分。畫面中連同上方一小段胸段一起顯示。'},
-      rel: {en: 'Lies in a groove on the back of the left lobe of the liver, in front of the aorta; the anterior and posterior vagal trunks accompany it.', zh: '位於肝左葉後面的凹溝中，在主動脈前方；迷走神經前幹與後幹伴行。'},
+      rel: {en: 'Lies in a groove on the back of the left lobe of the liver, in front of the aorta; the anterior and posterior vagal trunks accompany it.', zh: '位於肝左葉後面的凹溝中，在主動脈前方；前迷走神經幹與後幹伴行。'},
       blood: {en: 'Oesophageal branches of the left gastric artery and the left inferior phrenic artery.', zh: '左胃動脈的食道支與左下膈動脈。'},
       nerve: {en: 'Vagal trunks and the oesophageal plexus; sympathetic fibres from the greater splanchnic nerves.', zh: '迷走神經幹與食道神經叢；交感纖維來自大內臟神經。'},
       fn: {en: 'Delivers food to the stomach; the lower oesophageal sphincter and the diaphragmatic crura keep it closed between swallows.', zh: '把食物送入胃；食道下括約肌與橫膈腳在吞嚥之間使其閉合。'},

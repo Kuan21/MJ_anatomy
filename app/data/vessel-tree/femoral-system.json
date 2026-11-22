@@ -92,7 +92,7 @@
    },
    "supply": {
     "en": "Lower limb; gives the deep circumflex iliac and inferior epigastric arteries just above the inguinal ligament",
-    "zh": "下肢；在腹股溝韌帶上方分出旋髂深動脈與腹壁下動脈"
+    "zh": "下肢；在腹股溝韌帶上方分出深旋髂動脈與腹壁下動脈"
    },
    "relations": [],
    "keep": null,
@@ -260,7 +260,7 @@
    },
    "supply": {
     "en": "Tensor fasciae latae and the muscles round the hip; anastomoses with the superior gluteal artery",
-    "zh": "闊筋膜張肌與髖周肌肉；與臀上動脈吻合"
+    "zh": "闊筋膜張肌與髖周肌肉；與上臀動脈吻合"
    },
    "relations": [],
    "keep": null,
@@ -332,7 +332,7 @@
   {
    "id": "superficial-circumflex-iliac-artery",
    "en": "Superficial circumflex iliac artery",
-   "zh": "旋髂淺動脈",
+   "zh": "淺旋髂動脈",
    "kind": "artery",
    "bilateral": true,
    "parent": "femoral-artery",
@@ -363,7 +363,7 @@
   {
    "id": "deep-circumflex-iliac-artery",
    "en": "Deep circumflex iliac artery",
-   "zh": "旋髂深動脈",
+   "zh": "深旋髂動脈",
    "kind": "artery",
    "bilateral": true,
    "parent": "external-iliac-artery",
@@ -380,7 +380,7 @@
    },
    "course": {
     "en": "Runs laterally along the inguinal ligament to the anterior superior iliac spine, then along the inner lip of the iliac crest",
-    "zh": "沿腹股溝韌帶向外側至髂前上棘，再沿髂嵴內唇走行"
+    "zh": "沿腹股溝韌帶向外側至髂前上棘，再沿髂脊內唇走行"
    },
    "supply": {
     "en": "Iliacus and the muscles of the lower abdominal wall",
@@ -529,7 +529,7 @@
   {
    "id": "superior-gluteal-artery",
    "en": "Superior gluteal artery",
-   "zh": "臀上動脈",
+   "zh": "上臀動脈",
    "kind": "artery",
    "bilateral": true,
    "parent": "internal-iliac-artery",
@@ -562,7 +562,7 @@
   {
    "id": "superficial-branch-of-superior-gluteal-artery",
    "en": "Superficial branch of superior gluteal artery",
-   "zh": "臀上動脈淺支",
+   "zh": "上臀動脈淺支",
    "kind": "artery",
    "bilateral": true,
    "parent": "superior-gluteal-artery",
@@ -575,7 +575,7 @@
    "terminal": true,
    "origin": {
     "en": "Superior gluteal artery",
-    "zh": "臀上動脈"
+    "zh": "上臀動脈"
    },
    "course": {
     "en": "Enters the deep surface of gluteus maximus",
@@ -593,7 +593,7 @@
   {
    "id": "deep-branch-of-superior-gluteal-artery",
    "en": "Deep branch of superior gluteal artery",
-   "zh": "臀上動脈深支",
+   "zh": "上臀動脈深支",
    "kind": "artery",
    "bilateral": true,
    "parent": "superior-gluteal-artery",
@@ -606,7 +606,7 @@
    "terminal": true,
    "origin": {
     "en": "Superior gluteal artery",
-    "zh": "臀上動脈"
+    "zh": "上臀動脈"
    },
    "course": {
     "en": "Runs between gluteus medius and gluteus minimus",
@@ -624,7 +624,7 @@
   {
    "id": "inferior-gluteal-artery",
    "en": "Inferior gluteal artery",
-   "zh": "臀下動脈",
+   "zh": "下臀動脈",
    "kind": "artery",
    "bilateral": true,
    "parent": "internal-iliac-artery",
@@ -657,7 +657,7 @@
   {
    "id": "internal-pudendal-artery",
    "en": "Internal pudendal artery",
-   "zh": "陰部內動脈",
+   "zh": "內陰動脈",
    "kind": "artery",
    "bilateral": true,
    "parent": "internal-iliac-artery",
