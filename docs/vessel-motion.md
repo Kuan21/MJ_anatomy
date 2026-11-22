@@ -12,14 +12,14 @@
 | elbow flexion 140 (limit) | 327 | 1 | 2.7 |
 | wrist flexion 80 (limit) | 327 | 0 | 0.3 |
 | wrist flexion -70 (limit) | 327 | 8 | 2.4 |
-| hip flexion 90 | 325 | 11 | 43.7 |
-| knee flexion 90 | 325 | 2 | 5.5 |
-| hip flexion 120 + knee 130 (limit) | 325 | 17 | 57.9 |
-| hip extension -20 (limit) | 325 | 7 | 10.4 |
-| ankle dorsiflexion 20 (limit) | 325 | 0 | 0 |
-| ankle plantar flexion -30 (limit) | 325 | 0 | 1.7 |
-| hip abduction 35 (limit) | 325 | 7 | 5.8 |
-| hip rotation 20 (limit) | 325 | 8 | 8.7 |
+| hip flexion 90 | 318 | 11 | 43.7 |
+| knee flexion 90 | 318 | 2 | 5.5 |
+| hip flexion 120 + knee 130 (limit) | 318 | 17 | 57.9 |
+| hip extension -20 (limit) | 318 | 7 | 10.4 |
+| ankle dorsiflexion 20 (limit) | 318 | 0 | 0 |
+| ankle plantar flexion -30 (limit) | 318 | 0 | 1.7 |
+| hip abduction 35 (limit) | 318 | 7 | 5.8 |
+| hip rotation 20 (limit) | 318 | 8 | 8.7 |
 
 連接管背端與所屬血管分離超過 2 mm 的組合：8 個。
 

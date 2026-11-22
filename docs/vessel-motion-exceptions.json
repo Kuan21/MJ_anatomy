@@ -42,42 +42,42 @@
    "worstOpeningMm": 2.4
   },
   "hip flexion 90": {
-   "pairs": 325,
+   "pairs": 318,
    "exceptions": 11,
    "worstOpeningMm": 43.7
   },
   "knee flexion 90": {
-   "pairs": 325,
+   "pairs": 318,
    "exceptions": 2,
    "worstOpeningMm": 5.5
   },
   "hip flexion 120 + knee 130 (limit)": {
-   "pairs": 325,
+   "pairs": 318,
    "exceptions": 17,
    "worstOpeningMm": 57.9
   },
   "hip extension -20 (limit)": {
-   "pairs": 325,
+   "pairs": 318,
    "exceptions": 7,
    "worstOpeningMm": 10.4
   },
   "ankle dorsiflexion 20 (limit)": {
-   "pairs": 325,
+   "pairs": 318,
    "exceptions": 0,
    "worstOpeningMm": 0
   },
   "ankle plantar flexion -30 (limit)": {
-   "pairs": 325,
+   "pairs": 318,
    "exceptions": 0,
    "worstOpeningMm": 1.7
   },
   "hip abduction 35 (limit)": {
-   "pairs": 325,
+   "pairs": 318,
    "exceptions": 7,
    "worstOpeningMm": 5.8
   },
   "hip rotation 20 (limit)": {
-   "pairs": 325,
+   "pairs": 318,
    "exceptions": 8,
    "worstOpeningMm": 8.7
   }
