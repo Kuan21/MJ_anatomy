@@ -2,6 +2,7 @@ import {SYNONYMS} from './synonyms';
 import {headNeckSynonyms} from '../mj-head-neck-names';
 import {EYE_NAME_ROWS} from './eye';
 import type {QuizStructure} from './catalogue';
+import {IDENTITY_SIDE} from './trunk';
 import {structureProfile} from '../mj-structure-info';
 import type {SystemId} from '../anatomy';
 import paokaoAliases from '../../docs/paokao-aliases.json';
@@ -76,7 +77,9 @@ const HEAD_NECK_ROWS = headNeckSynonyms();
 export function acceptedNames(structure: Named): Accepted {
   const paired = isPaired(structure);
   // Left/right is part of the identity of a midline structure (left atrium, left coronary cusp), so its row is keyed with the word; paired structures are keyed without it.
-  const synonymRow = SYNONYMS[structure.name.toLowerCase()] ?? SYNONYMS[cleanKey(structure.name)], nameRow = HEAD_NECK_ROWS[structure.name.toLowerCase()] ?? HEAD_NECK_ROWS[cleanKey(structure.name)];
+  // the left and right gastric or colic arteries are two structures, not a side of one: a row of the side-less name must not give the left one the right one's wording
+  const identitySide = !paired && IDENTITY_SIDE.test(structure.name);
+  const synonymRow = SYNONYMS[structure.name.toLowerCase()] ?? (identitySide ? undefined : SYNONYMS[cleanKey(structure.name)]), nameRow = HEAD_NECK_ROWS[structure.name.toLowerCase()] ?? (identitySide ? undefined : HEAD_NECK_ROWS[cleanKey(structure.name)]);
   const own = structure.aliases;
   const eyeRow = EYE_NAME_ROWS[structure.name.toLowerCase()];
   const row = synonymRow || nameRow || eyeRow || own ? {en: [...(synonymRow?.en ?? []), ...(nameRow?.en ?? []), ...(eyeRow?.en ?? []), ...(own?.en ?? [])], zh: [...(synonymRow?.zh ?? []), ...(nameRow?.zh ?? []), ...(eyeRow?.zh ?? []), ...(own?.zh ?? [])]} : undefined;

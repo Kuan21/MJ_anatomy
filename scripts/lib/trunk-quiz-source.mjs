@@ -32,6 +32,7 @@ export async function trunkCandidates(region, {atlasParts, packageParts}) {
     let side = anatomicalSide(part);
     if (trunk.IDENTITY_SIDE.test(raw)) side = 'midline';
     const merge = trunk.TRUNK_MERGE[raw.toLowerCase()];
+    if (merge?.midline) side = 'midline';
     let name = merge?.name ?? raw.replace(/^./, c => c.toUpperCase());
     if (side !== 'midline' && !/\b(left|right)\b/i.test(name)) name = `${side === 'left' ? 'Left' : 'Right'} ${lc(name)}`;
     const profile = structureProfile(name, part.system, {...part, name});
@@ -72,6 +73,8 @@ export function requiredAliases(region, structures) {
     if (!found.size) {coverage.notAsked.push(r.id); continue;}
     coverage.asked.push(r.id);
     if (found.size > 2) continue;
+    // a side-less list entry (gastroepiploic artery) is not the wording of one of the left/right pair
+    if ([...found].some(s => identity.test(s.name)) && !identity.test(r.en)) continue;
     for (const s of found) {
       const paired = s.side !== 'midline' && !identity.test(s.name), zhPlain = paired ? (s.chinese ?? '').replace(/^[左右]/, '') : s.chinese ?? '';
       const row = out.get(s.id) ?? out.set(s.id, {en: new Set(), zh: new Set()}).get(s.id);

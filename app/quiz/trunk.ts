@@ -22,7 +22,9 @@ const ORGAN_INTERNAL = /segmental|hepatovenous|tributar|biliary tree|duct tree|p
 const OTHER_REGION = /^(?:descending aorta|thoracic duct)$|latissimus dorsi|^(?:left |right )?superior phrenic (?:artery|vein)$/i;
 
 /** Names of the abdomen pool that are the same structure under two names of the model (a trunk and the vessel itself, the old and new spelling): the second is drawn with the first. */
-export const TRUNK_MERGE: Record<string, {name: string; chinese?: string}> = {
+export const TRUNK_MERGE: Record<string, {name: string; chinese?: string; midline?: true}> = {
+  // the model names one mesh of the inferior vena cava "right"; it is the one unpaired vein
+  'right inferior vena cava': {name: 'Inferior vena cava', midline: true},
   'celiac trunk': {name: 'Celiac artery'},
   'trunk of superior mesenteric artery': {name: 'Superior mesenteric artery'},
   'trunk of left renal artery': {name: 'Left renal artery'},

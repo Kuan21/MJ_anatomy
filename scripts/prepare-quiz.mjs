@@ -417,7 +417,7 @@ for (const region of Object.keys(QUIZ_REGIONS)) {
       add({id: part.id, name: c.name, chinese: c.chinese, system: c.system, side: c.side, bounds: part.bounds, source: c.from === 'atlas' ? 'BodyParts3D' : 'Model package', layer: c.layer, cardSystem: c.system === 'trunkorgan' ? c.atlasSystem : undefined, positions, normals, indices});
     }
   }
-  for (const part of region === 'heart' || region === 'brain' || region === 'head-neck' || ownModel || ORGAN_IDS.includes(region) ? [] : atlas.parts) {
+  for (const part of region === 'heart' || region === 'brain' || region === 'head-neck' || ownModel || region === 'abdomen' || ORGAN_IDS.includes(region) ? [] : atlas.parts) {
     if (!QUIZ_SYSTEMS.some(s => s.id === part.system)) continue;
     // tendons are asked per region once a region has enough of them (the limbs now; the other regions follow in later batches)
     if (part.system === 'tendon' && region !== 'upper-limb' && region !== 'lower-limb') continue;
