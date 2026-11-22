@@ -80,7 +80,7 @@
 - 外蹠神經（lateral plantar nerve）：缺 來源、走向、主要分支、支配範圍
 - 內蹠神經（medial plantar nerve）：缺 來源、走向、主要分支、支配範圍
 - 總腓神經（common fibular nerve）：缺 來源、走向、主要分支、支配範圍
-- 臀上神經（superior gluteal nerve）：缺 來源、走向、主要分支、支配範圍
+- 上臀神經（superior gluteal nerve）：缺 來源、走向、主要分支、支配範圍
 - 股方肌神經（nerve to quadratus femoris muscle）：缺 來源、走向、主要分支、支配範圍
 - 股後皮神經（posterior femoral cutaneous nerve）：缺 來源、走向、主要分支、支配範圍
 
@@ -141,11 +141,11 @@
 - 旋股內側靜脈（medial circumflex femoral vein）：缺 來源、走向、主要分支、引流範圍
 - 足底蹠骨靜脈（plantar metatarsal vein）：缺 來源、走向、主要分支、引流範圍
 - 總髂靜脈（common iliac vein）：缺 來源、走向、主要分支、引流範圍
-- 髂內靜脈（internal iliac vein）：缺 來源、走向、主要分支、引流範圍
-- 髂外靜脈（external iliac vein）：缺 來源、走向、主要分支、引流範圍
-- 臀下靜脈（inferior gluteal vein）：缺 來源、走向、主要分支、引流範圍
+- 內髂靜脈（internal iliac vein）：缺 來源、走向、主要分支、引流範圍
+- 外髂靜脈（external iliac vein）：缺 來源、走向、主要分支、引流範圍
+- 下臀靜脈（inferior gluteal vein）：缺 來源、走向、主要分支、引流範圍
 - 閉孔靜脈（obturator vein）：缺 來源、走向、主要分支、引流範圍
-- 臀上靜脈（superior gluteal vein）：缺 來源、走向、主要分支、引流範圍
+- 上臀靜脈（superior gluteal vein）：缺 來源、走向、主要分支、引流範圍
 
 ### 關節構造：0 / 58 項資料完整
 
@@ -324,7 +324,7 @@
 - 正中神經肌支（muscular branches of median nerve）：缺 來源、走向、主要分支、支配範圍
 - 胸背神經（thoracodorsal nerve）：缺 來源、走向、支配範圍
 
-### 動脈：0 / 44 項資料完整
+### 動脈：1 / 44 項資料完整
 
 - 胸肩峰動脈肩峰支（Acromial branch of left thoraco-acromial artery）：缺 來源、走向、主要分支、供應範圍
 - 旋肱前動脈（anterior circumflex humeral artery）：缺 來源、走向、主要分支、供應範圍
@@ -348,7 +348,6 @@
 - 骨間返動脈（recurrent interosseous artery）：缺 來源、走向、主要分支、供應範圍
 - 肩胛下動脈（subscapular artery）：缺 來源、走向、主要分支、供應範圍
 - 淺掌動脈弓（superficial palmar arterial arch）：缺 來源、走向、主要分支、供應範圍
-- 肩胛上動脈（suprascapular artery）：缺 來源、走向、主要分支、供應範圍
 - 胸肩峰動脈幹（Trunk of left thoraco-acromial artery）：缺 來源、走向、主要分支、供應範圍
 - 尺動脈（ulnar artery）：缺 來源、走向、主要分支、供應範圍
 - 尺側返動脈前支（anterior ulnar recurrent artery）：缺 來源、走向、主要分支、供應範圍
@@ -371,7 +370,7 @@
 - 無名指內側掌側固有指動脈（Medial proper palmar digital artery of right ring finger）：缺 來源、走向、主要分支、供應範圍
 - 上尺側副動脈（superior ulnar collateral artery）：缺 來源、走向、主要分支、供應範圍
 
-### 靜脈：0 / 21 項資料完整
+### 靜脈：1 / 21 項資料完整
 
 - 旋肱前靜脈（anterior circumflex humeral vein）：缺 來源、走向、主要分支、引流範圍
 - 腋靜脈（axillary vein）：缺 來源、走向、主要分支、引流範圍
@@ -386,7 +385,6 @@
 - 橈靜脈（radial vein）：缺 來源、走向、主要分支、引流範圍
 - 肩胛下靜脈（subscapular vein）：缺 來源、走向、主要分支、引流範圍
 - 淺掌靜脈弓（superficial palmar venous arch）：缺 來源、走向、主要分支、引流範圍
-- 肩胛上靜脈（suprascapular vein）：缺 來源、走向、主要分支、引流範圍
 - 尺靜脈（ulnar vein）：缺 來源、走向、主要分支、引流範圍
 - 內側肱靜脈（medial brachial vein）：缺 來源、走向、主要分支、引流範圍
 - 小指掌側固有指靜脈（Proper palmar digital vein of left little finger）：缺 來源、走向、主要分支、引流範圍
@@ -492,21 +490,18 @@
 - 肋間神經（intercostal nerves）：缺 來源、走向、主要分支、支配範圍
 - 交感神經（sympathetic nerves）：缺 來源、走向、主要分支、支配範圍
 
-### 動脈：7 / 18 項資料完整
+### 動脈：10 / 18 項資料完整
 
 - 胸主動脈（Descending thoracic aorta）：缺 來源、走向、主要分支、供應範圍
 - 食道動脈（Esophageal artery）：缺 來源、走向、主要分支、供應範圍
 - 最上肋間動脈（superior intercostal artery）：缺 來源、走向、主要分支、供應範圍
-- 內胸動脈（internal thoracic artery）：缺 來源、走向、主要分支、供應範圍
 - 後肋間動脈（posterior intercostal arteries）：缺 來源、走向、主要分支、供應範圍
 - 肋下動脈（subcostal artery）：缺 主要分支
 - 肌膈動脈（musculophrenic artery）：缺 來源、走向、主要分支、供應範圍
-- 甲狀頸動脈幹（thyrocervical trunk）：缺 來源、走向、主要分支、供應範圍
-- 頭臂動脈（Brachiocephalic artery）：缺 來源、走向、主要分支、供應範圍
 - 降主動脈（Descending aorta）：缺 來源、走向、主要分支、供應範圍
 - 鎖骨下動脈（subclavian artery）：缺 來源、走向、主要分支、供應範圍
 
-### 靜脈：2 / 14 項資料完整
+### 靜脈：5 / 14 項資料完整
 
 - 副半奇靜脈（Accessory hemiazygos vein）：缺 來源、走向、主要分支、引流範圍
 - 前肋間靜脈群（set of anterior intercostal veins）：缺 來源、走向、主要分支、引流範圍
@@ -517,9 +512,6 @@
 - 奇靜脈（Azygos vein）：缺 來源、走向、主要分支、引流範圍
 - 半奇靜脈（Hemiazygos vein）：缺 來源、走向、主要分支、引流範圍
 - 下腔靜脈（Inferior vena cava）：缺 來源、走向、主要分支、引流範圍
-- 頭臂靜脈（brachiocephalic vein）：缺 來源、走向、主要分支、引流範圍
-- 鎖骨下靜脈（subclavian vein）：缺 來源、走向、主要分支、引流範圍
-- 上腔靜脈（Superior vena cava）：缺 來源、走向、主要分支、引流範圍
 
 ### 關節構造：0 / 3 項資料完整
 
@@ -529,7 +521,7 @@
 
 ## 背部（Back）
 
-### 骨骼：0 / 27 項資料完整
+### 骨骼：1 / 27 項資料完整
 
 - 第十胸椎（Tenth thoracic vertebra）：缺 附著肌肉
 - 第十一胸椎（Eleventh thoracic vertebra）：缺 附著肌肉
@@ -549,7 +541,6 @@
 - 第五胸椎（Fifth thoracic vertebra）：缺 附著肌肉
 - 第六頸椎（Sixth cervical vertebra）：缺 附著肌肉
 - 第六胸椎（Sixth thoracic vertebra）：缺 附著肌肉
-- 第七頸椎（Seventh cervical vertebra）：缺 附著肌肉
 - 第七胸椎（Seventh thoracic vertebra）：缺 附著肌肉
 - 第八胸椎（Eighth thoracic vertebra）：缺 附著肌肉
 - 第九胸椎（Ninth thoracic vertebra）：缺 附著肌肉
@@ -583,7 +574,7 @@
 
 - 肋下靜脈（subcostal vein）：缺 來源、主要分支
 - 胸背靜脈（thoracodorsal vein）：缺 主要分支
-- 腰升靜脈（ascending lumbar vein）：缺 主要分支
+- 升腰靜脈（ascending lumbar vein）：缺 主要分支
 - 枕下靜脈叢（suboccipital venous plexus）：缺 走向、主要分支
 
 ### 關節構造：0 / 6 項資料完整
@@ -607,12 +598,11 @@
 - 竇房結動脈（Sinoatrial nodal artery）：缺 來源、走向、主要分支、供應範圍
 - 左緣支（Left marginal branch）：缺 來源、走向、主要分支、供應範圍
 
-### 靜脈：6 / 13 項資料完整
+### 靜脈：7 / 13 項資料完整
 
 - 心中靜脈（Middle cardiac vein）：缺 主要分支
 - 左心室下靜脈（Inferior vein of left ventricle）：缺 來源、主要分支
 - 左心室後靜脈（Posterior vein of left ventricle）：缺 來源、主要分支
-- 上腔靜脈（Superior vena cava）：缺 來源、走向、主要分支、引流範圍
 - 下腔靜脈（Inferior vena cava）：缺 來源、走向、主要分支、引流範圍
 - 心小靜脈（Small cardiac vein）：缺 來源、走向、主要分支、引流範圍
 - 心前靜脈（Anterior cardiac veins）：缺 來源、走向、主要分支、引流範圍
@@ -767,14 +757,13 @@
 
 ## 頭頸（Head and neck）
 
-### 骨骼：0 / 28 項資料完整
+### 骨骼：1 / 28 項資料完整
 
 - 舌骨（Hyoid bone）：缺 附著肌肉
 - 第三頸椎（Third cervical vertebra）：缺 附著肌肉
 - 第四頸椎（Fourth cervical vertebra）：缺 附著肌肉
 - 第五頸椎（Fifth cervical vertebra）：缺 附著肌肉
 - 第六頸椎（Sixth cervical vertebra）：缺 附著肌肉
-- 第七頸椎（Seventh cervical vertebra）：缺 附著肌肉
 - 寰椎（Atlas）：缺 附著肌肉
 - 樞椎（Axis）：缺 附著肌肉
 - 篩骨（Ethmoid）：缺 附著肌肉
