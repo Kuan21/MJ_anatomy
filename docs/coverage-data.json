@@ -1,9 +1,9 @@
 {
  "totals": {
   "terms": 3816,
-  "have": 1277,
+  "have": 1278,
   "findability": 0,
-  "missing": 1101,
+  "missing": 1100,
   "landmark": 225,
   "noise": 650
  },
@@ -7504,8 +7504,8 @@
      "term": "liver",
      "zh": "肝臟",
      "kind": "contained",
-     "model": "Caudate lobe of liver",
-     "source": "atlas",
+     "model": "Right lobe of liver",
+     "source": "paokao",
      "system": "digestive"
     },
     {
@@ -7619,6 +7619,14 @@
      "model": "2/2 members",
      "source": "atlas",
      "system": "muscular"
+    },
+    {
+     "term": "left colic flexure",
+     "zh": "左大腸彎",
+     "kind": "exact",
+     "model": "Right colic flexure",
+     "source": "paokao",
+     "system": "digestive"
     }
    ],
    "findability": [],
@@ -8114,10 +8122,6 @@
     {
      "term": "musculotendinous bands",
      "zh": "肌肉與肌腱組成"
-    },
-    {
-     "term": "left colic flexure",
-     "zh": "左大腸彎"
     },
     {
      "term": "ureteral stone",
@@ -11096,9 +11100,9 @@
      "term": "sphincter muscle",
      "zh": "眼部與外界屬於括約肌",
      "kind": "contained",
-     "model": "External anal sphincter",
-     "source": "atlas",
-     "system": "muscular"
+     "model": "Pyloric sphincter",
+     "source": "paokao",
+     "system": "digestive"
     },
     {
      "term": "Zygomaticus major m",

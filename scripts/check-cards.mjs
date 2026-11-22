@@ -23,7 +23,7 @@ for (const p of atlas.parts) {
     // A part of an abdominal organ (kind 'landmark' on a digestive or lymphatic organ, scripts/paokao-structures/abdomen-parts.mjs) is not a bone landmark: its card names the
     // organ and where the part lies (both required), then the fields of its card text (app/quiz/card-data.ts) and the model note. Bone landmarks keep their own fields.
     const organPart = card.kind === 'landmark' && (part.system === 'digestive' || part.system === 'lymphatic');
-    const labels = organPart ? ['所在器官', '位置', '組成', '毗鄰', '血液供應', '神經支配', '作用', '臨床意義', '模型'] : LABELS[card.kind];
+    const labels = organPart ? ['所在器官', '位置', '形態', '形態與附著', '組成', '毗鄰', '固定方式', '血液供應', '神經支配', '作用', '臨床意義', '模型'] : LABELS[card.kind];
     const profile = structureProfile(card.name, part.system, part), got = profile.facts.map(f => f.labelZh);
     const extra = got.filter(l => !labels.includes(l) && l !== '模型末端'), empty = profile.facts.filter(f => !f.valueEn || !f.valueZh).map(f => f.labelZh);
     if (extra.length || empty.length) bad.push(`${part.id} ${card.name} (${card.kind}) has fields ${got.join('／')}${empty.length ? '; empty: ' + empty.join('／') : ''}`);
