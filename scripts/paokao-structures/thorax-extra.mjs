@@ -65,7 +65,7 @@ export default function thoraxExtra(U) {
       out.push({
         name: `${S.w} superior phrenic artery`, zh: `${S.zh}上膈動脈`, system: 'arterial', kind: 'artery', parent: 'Descending thoracic aorta',
         tubes: [{pts: [o, add(lerp(o, t, .5), P(S.sx * .002, 0, -.003)), t], r: [.0009, .0006], samples: 16}],
-        card: {origin: ['Lowest part of the thoracic aorta, just above the diaphragm', '胸主動脈最下段（橫膈上方）'], course: ['Runs to the posterior part of the upper surface of the diaphragm', '走到橫膈上面後部'], supply: ['Posterior part of the diaphragm (anastomoses with the musculophrenic and pericardiophrenic arteries)', '橫膈後部（與肌膈動脈、心包膈動脈吻合）']}, refs: [],
+        card: {origin: ['Lowest part of the thoracic aorta, just above the diaphragm', '胸主動脈最下段（橫膈上方）'], course: ['Runs to the posterior part of the upper surface of the diaphragm', '走到橫膈上面後部'], supply: ['Posterior part of the diaphragm (anastomoses with the musculophrenic and pericardiophrenic arteries)', '橫膈後部（與肌膈動脈、心包膜膈動脈吻合）']}, refs: [],
       });
     }
   }
