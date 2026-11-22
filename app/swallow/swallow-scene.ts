@@ -87,8 +87,9 @@ export function createSwallowScene(host: HTMLElement, callbacks: Callbacks) {
   function setup() {
     const tongue = boxOf(i => i.name === 'Tongue'); L.tongue.copy(tongue);
     // posterior edge of the hard palate: the hindmost point of the palatine bones near the midline
-    const palatine = midVerts(i => /palatine bone/.test(i.name), .012);
-    const hinge = palatine.reduce((a, b) => (b.z < a.z ? b : a), palatine[0] ?? new T.Vector3(0, 1.555, .03)); L.hinge.set(0, hinge.y, hinge.z);
+    // only the horizontal plate (the lowest few millimetres of the palatine bones near the midline): the perpendicular plate reaches up to the orbit
+    const palatine = midVerts(i => /palatine bone/.test(i.name), .012), low = Math.min(...palatine.map(v => v.y)), horizontal = palatine.filter(v => v.y < low + .005);
+    const hinge = horizontal.reduce((a, b) => (b.z < a.z ? b : a), horizontal[0] ?? new T.Vector3(0, 1.555, .03)); L.hinge.set(0, hinge.y, hinge.z);
     const uvula = boxOf(i => i.name === 'Uvular muscle');
     L.uvulaTip.set(0, uvula.isEmpty() ? hinge.y - .02 : uvula.min.y, uvula.isEmpty() ? hinge.z - .012 : (uvula.min.z + uvula.max.z) / 2);
     const epi = items.find(i => i.name === 'Epiglottis'); const epiBox = epi?.mesh.geometry.boundingBox ?? new T.Box3();
@@ -120,7 +121,9 @@ export function createSwallowScene(host: HTMLElement, callbacks: Callbacks) {
     }
     // the schematic soft palate: a rounded plate from the back of the hard palate to the uvula (half of it, as it is cut at the midline)
     palate = new T.Group(); palate.position.copy(L.hinge); scene.add(palate);
-    const tipRel = L.uvulaTip.clone().sub(L.hinge), len = tipRel.length(), angle = Math.atan2(-tipRel.z, -tipRel.y);
+    // at rest the soft palate slopes down and back from the hard palate at about 40° below the horizontal; its length is the distance to the uvula, kept within 2.5–3.5 cm
+    const len = Math.min(.035, Math.max(.025, L.uvulaTip.distanceTo(L.hinge))), angle = Math.PI / 2 - 40 * Math.PI / 180;
+    L.uvulaTip.copy(L.hinge).add(new T.Vector3(0, -Math.sin(40 * Math.PI / 180) * len, -Math.cos(40 * Math.PI / 180) * len));
     const shape = new T.CapsuleGeometry(.0042, Math.max(.004, len - .008), 6, 12); shape.scale(2.2, 1, 1); shape.translate(0, -len / 2, 0);
     const plate = new T.Mesh(shape, new T.MeshStandardMaterial({color: SCHEMATIC, roughness: .6, side: T.DoubleSide, clippingPlanes: [cut]}));
     plate.rotation.x = angle; palate.add(plate);
@@ -186,7 +189,8 @@ export function createSwallowScene(host: HTMLElement, callbacks: Callbacks) {
         case 'palate-muscle': active = p.palate * (it.name === 'Uvular muscle' ? .5 : 1); break;
         default: break;
       }
-      if (it.role !== 'bone' && it.role !== 'palate-muscle') {pos.needsUpdate = true; it.mesh.geometry.computeVertexNormals();}
+      // the atlas normals are kept: recomputing them from the winding turns some meshes black (their winding is reversed); the moves are small enough for the stored normals
+      if (it.role !== 'bone' && it.role !== 'palate-muscle') {pos.needsUpdate = true; it.mesh.geometry.computeBoundingSphere();}
       it.mesh.material.color.set(COLOUR[it.role]).lerp(ACTIVE, Math.min(1, active) * .75);
       it.mesh.material.emissive.copy(ACTIVE).multiplyScalar(Math.min(1, active) * .25);
     }
@@ -216,6 +220,14 @@ export function createSwallowScene(host: HTMLElement, callbacks: Callbacks) {
   }
   const meshPoint = (name: string, pick: (b: T.Box3) => T.Vector3) => () => {const it = items.find(i => i.name === name); if (!it) return null; it.mesh.geometry.computeBoundingBox(); return pick(it.mesh.geometry.boundingBox!);};
   const midOf = (b: T.Box3) => new T.Vector3(0, (b.min.y + b.max.y) / 2, (b.min.z + b.max.z) / 2);
+  /** the vertex of a mesh (as drawn now) that is furthest along `dir` among those near its vertical middle: a point on the structure itself, not in the space it wraps around */
+  const onMesh = (name: string, dir: 1 | -1) => () => {
+    const it = items.find(i => i.name === name); if (!it) return null;
+    const a = it.mesh.geometry.getAttribute('position'), b = it.mesh.geometry.boundingBox!, midY = (b.min.y + b.max.y) / 2, band = (b.max.y - b.min.y) * .25;
+    let best = -Infinity, at = -1;
+    for (let k = 0; k < a.count; k++) {if (Math.abs(a.getY(k) - midY) > band) continue; const v = a.getZ(k) * dir; if (v > best) {best = v; at = k;}}
+    return at < 0 ? null : new T.Vector3(a.getX(at), a.getY(at), a.getZ(at));
+  };
   function labelSpecs(): LabelSpec[] {
     const lab = (key: string, en: string, zh: string, at: () => T.Vector3 | null, o: Partial<LabelSpec> = {}): LabelSpec => ({key, en, zh, at, ...o});
     const oesophagus = step === 'oesophageal';
@@ -224,11 +236,11 @@ export function createSwallowScene(host: HTMLElement, callbacks: Callbacks) {
       lab('palate', 'Soft palate', '軟顎', () => palate ? palate.localToWorld(new T.Vector3(0, -.008, -.004)) : null, {schematic: true, dx: 30, dy: -60}),
       lab('naso', 'Nasopharynx', '鼻咽', () => L.nasopharynx.clone(), {dx: -150, dy: -40}),
       lab('epi', 'Epiglottis', '會厭軟骨', meshPoint('Epiglottis', b => new T.Vector3(0, b.max.y, (b.min.z + b.max.z) / 2)), {dx: 40, dy: -30}),
-      lab('hyoid', 'Hyoid bone', '舌骨', meshPoint('Hyoid bone', midOf), {dx: 40, dy: 20}),
+      lab('hyoid', 'Hyoid bone', '舌骨', onMesh('Hyoid bone', 1), {dx: 40, dy: 20}),
       lab('thyroid', 'Thyroid cartilage', '甲狀軟骨', meshPoint('Thyroid cartilage', b => new T.Vector3(0, (b.min.y + b.max.y) / 2, b.max.z)), {dx: 30, dy: 30}),
-      lab('c1', 'Superior pharyngeal constrictor', '上咽縮肌', meshPoint('Right superior pharyngeal constrictor', midOf), {dx: -210, dy: -10}),
-      lab('c2', 'Middle pharyngeal constrictor', '中咽縮肌', meshPoint('Right middle pharyngeal constrictor', midOf), {dx: -210, dy: 10}),
-      lab('c3', 'Inferior pharyngeal constrictor', '下咽縮肌', meshPoint('Right inferior pharyngeal constrictor', midOf), {dx: -210, dy: 20}),
+      lab('c1', 'Superior pharyngeal constrictor', '上咽縮肌', onMesh('Right superior pharyngeal constrictor', -1), {dx: -210, dy: -10}),
+      lab('c2', 'Middle pharyngeal constrictor', '中咽縮肌', onMesh('Right middle pharyngeal constrictor', -1), {dx: -210, dy: 10}),
+      lab('c3', 'Inferior pharyngeal constrictor', '下咽縮肌', onMesh('Right inferior pharyngeal constrictor', -1), {dx: -210, dy: 20}),
       lab('oes', 'Oesophagus', '食道', () => L.oesophagus.length ? new T.Vector3(...L.oesophagus[oesophagus ? 24 : 6]) : null, {dx: -150, dy: 10}),
       lab('bolus', 'Bolus', '食團', () => bolus?.position.clone() ?? null, {schematic: true, accent: true, dx: 34, dy: 26}),
     ];
