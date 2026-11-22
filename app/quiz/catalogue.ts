@@ -376,7 +376,7 @@ export const LOWER_NERVES: Record<string, {zh: string; sections: Exclude<QuizSec
   'medial plantar nerve': {zh: '足底內側神經', sections: ['foot']},
   'lateral plantar nerve': {zh: '足底外側神經', sections: ['foot']},
   'superior gluteal nerve': {zh: '上臀神經', sections: ['hip']},
-  'lateral femoral cutaneous nerve': {zh: '股外側皮神經', sections: ['hip', 'thigh']},
+  'lateral femoral cutaneous nerve': {zh: '外股皮神經', sections: ['hip', 'thigh']},
   'posterior femoral cutaneous nerve': {zh: '股後皮神經', sections: ['hip', 'thigh']},
   'nerve to quadratus femoris muscle': {zh: '股方肌神經', sections: ['hip']},
 };

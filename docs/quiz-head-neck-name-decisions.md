@@ -119,7 +119,7 @@
 | 同義異名 | 763 | Larynx | 喉 | 喉部 | — |  |
 | 同義異名 | （英文表） | Thyroid prominence | 喉結（Laryngeal prominence） | Thyroid prominence、甲狀突起、Adam's apple | — |  |
 | 同義異名 | （英文表） | Circle of Willis | 大腦動脈環（Circle of Willis） | Willis' circle、Cerebral arterial circle、威利氏環 | — |  |
-| 同義異名 | （英文表） | Inferior orbital fissure | 眶下裂（Inferior orbital fissure） | Infraorbital fissure | 眶下裂（原始碼文字內出現） |  |
+| 同義異名 | （英文表） | Inferior orbital fissure | 下眶裂（Inferior orbital fissure；必考清單寫法，2026-11-22 起顯示） | Infraorbital fissure、眶下裂 | 下眶裂（原始碼文字內出現） |  |
 | 同義異名 | （英文表） | Pineal gland | 松果體（Pineal gland） | Pineal body、松果腺 | 見序 423 |  |
 | 同義異名 | （英文表） | Turbinate (Nasal conchae) | 鼻甲（Nasal concha） | Turbinate、Concha、Nasal conchae | — |  |
 | 同義異名 | （英文表） | Superior tarsal muscle | 上瞼板肌（Superior tarsal muscle） | Muller's muscle、苗勒氏肌 | 見序 550 |  |

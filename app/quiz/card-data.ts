@@ -818,7 +818,7 @@ Object.assign(CARD_EXTRAS, {
   },
   'maxillary nerve': {
     來源: e('三叉神經第二支（V2），由三叉神經節中部發出', 'Second division of the trigeminal nerve (V2), arising from the middle of the trigeminal ganglion'),
-    走向: e('經海綿竇外側壁，在圓孔前先分出腦膜支，再由圓孔出顱入翼顎窩；在翼顎窩分出顴神經與後上齒槽神經，並與翼顎神經節相連；之後穿眶下裂進入眼眶，延續為眶下神經，途中發出中上（部分人有）與前上齒槽神經，最後由眶下孔到達臉部', 'Passes through the lateral wall of the cavernous sinus, gives a meningeal branch before the foramen rotundum, then leaves the skull by it into the pterygopalatine fossa; there it gives the zygomatic and posterior superior alveolar nerves and is connected to the pterygopalatine ganglion; it then enters the orbit through the inferior orbital fissure as the infra-orbital nerve, which gives middle (present in some people) and anterior superior alveolar branches on its way and reaches the face at the infra-orbital foramen'),
+    走向: e('經海綿竇外側壁，在圓孔前先分出腦膜支，再由圓孔出顱入翼顎窩；在翼顎窩分出顴神經與後上齒槽神經，並與翼顎神經節相連；之後穿下眶裂進入眼眶，延續為眶下神經，途中發出中上（部分人有）與前上齒槽神經，最後由眶下孔到達臉部', 'Passes through the lateral wall of the cavernous sinus, gives a meningeal branch before the foramen rotundum, then leaves the skull by it into the pterygopalatine fossa; there it gives the zygomatic and posterior superior alveolar nerves and is connected to the pterygopalatine ganglion; it then enters the orbit through the inferior orbital fissure as the infra-orbital nerve, which gives middle (present in some people) and anterior superior alveolar branches on its way and reaches the face at the infra-orbital foramen'),
     支配範圍: e('純感覺：下眼瞼、鼻側與上唇間的臉部皮膚、顴部與顳部前方皮膚、上排牙齒與牙齦、上頜竇、鼻腔與硬顎黏膜', 'Purely sensory: facial skin between the lower eyelid and upper lip, skin of the cheek bone and anterior temple, upper teeth and gingiva, maxillary sinus, nasal cavity and palatal mucosa'),
   },
   'mental nerve': {
@@ -1030,7 +1030,7 @@ Object.assign(CARD_EXTRAS, {
   'cecum': {
     位置: e('大腸的起始段，位於右髂窩，在迴盲瓣水平以下向下膨出成盲囊，長約六公分，上方連升結腸', 'Beginning of the large intestine, lying in the right iliac fossa as a blind pouch below the level of the ileocecal valve, about 6 cm long and continuous above with the ascending colon'),
     組成: e('寬而短的囊袋，三條結腸帶在其後內側壁匯集到闌尾根部；通常四面被腹膜包被而沒有繫膜，故活動度較大，也可能有一小段腹膜後固定的變異', 'A wide, short pouch; the three taeniae coli converge on the base of the appendix on its posteromedial wall; it is usually covered by peritoneum on all sides without a mesentery and is therefore fairly mobile, although some are partly fixed to the posterior wall'),
-    毗鄰: e('前方貼前腹壁（或被大網膜覆蓋），後方為髂肌、腰大肌與股外側皮神經，後方常有盲腸後隱窩；內側有迴腸末段進入', 'In front lies the anterior abdominal wall (or the greater omentum); behind lie iliacus, psoas major and the lateral femoral cutaneous nerve, often with a retrocecal recess; the terminal ileum enters medially'),
+    毗鄰: e('前方貼前腹壁（或被大網膜覆蓋），後方為髂肌、腰大肌與外股皮神經，後方常有盲腸後隱窩；內側有迴腸末段進入', 'In front lies the anterior abdominal wall (or the greater omentum); behind lie iliacus, psoas major and the lateral femoral cutaneous nerve, often with a retrocecal recess; the terminal ileum enters medially'),
     血液供應: e('迴結腸動脈的前、後盲腸動脈；靜脈經迴結腸靜脈回流至上腸繫膜靜脈', 'Anterior and posterior caecal arteries from the ileocolic artery; venous blood drains through the ileocolic vein to the superior mesenteric vein'),
     神經支配: e('來自腹腔叢與上腸繫膜神經叢的交感纖維，以及迷走神經的副交感纖維', 'Sympathetic fibres from the coeliac and superior mesenteric plexuses and parasympathetic fibres from the vagus nerve'),
     作用: e('接收迴腸排入的內容物，吸收水分與電解質並開始形成糞便', 'Receives the contents of the ileum, absorbs water and electrolytes and begins to form faeces'),
@@ -1498,7 +1498,7 @@ Object.assign(CARD_EXTRAS, {
   'internal thoracic artery': {
     來源: e('鎖骨下動脈第一段的下壁，與甲狀頸動脈幹的起點相對', 'From the inferior surface of the first part of the subclavian artery, opposite the origin of the thyrocervical trunk'),
     走向: e('向下經鎖骨下靜脈後方進入胸腔，在前胸壁內側沿胸骨外側緣約一公分處下行；上段貼著壁胸膜、位於肋軟骨深面，下段在胸橫肌淺面；約在第六肋間隙分為兩終支', 'Passes down behind the subclavian vein into the thorax and descends about 1 cm lateral to the sternal border; its upper part lies against the parietal pleura deep to the costal cartilages and its lower part superficial to transversus thoracis; it divides into its two terminal branches at about the sixth intercostal space'),
-    主要分支: e('心包膈動脈、胸骨支、穿通支、前肋間支、縱隔支與胸腺支；終支為肌膈動脈與上腹壁動脈', 'Pericardiophrenic artery, sternal, perforating, anterior intercostal, mediastinal and thymic branches; its terminal branches are the musculophrenic and superior epigastric arteries'),
+    主要分支: e('心包膜膈動脈、胸骨支、穿通支、前肋間支、縱隔支與胸腺支；終支為肌膈動脈與上腹壁動脈', 'Pericardiophrenic artery, sternal, perforating, anterior intercostal, mediastinal and thymic branches; its terminal branches are the musculophrenic and superior epigastric arteries'),
     供應範圍: e('前胸壁、乳房、心包、橫膈與胸腺，並經上腹壁動脈到達腹直肌', 'The anterior chest wall, breast, pericardium, diaphragm and thymus, and through the superior epigastric artery the rectus abdominis'),
   },
   'suprascapular artery': {

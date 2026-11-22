@@ -85,7 +85,7 @@
   {"id":"763","kind":"synonym","status":"applied","entries":[{"en":"Larynx","zh":"喉","enAliases":[],"zhAliases":["喉部"]}],"display":"alias"},
   {"id":"E-Thyroid prominence","kind":"synonym","status":"applied","entries":[{"en":"Laryngeal prominence","zh":"喉結","enAliases":["Thyroid prominence","Adam's apple"],"zhAliases":["甲狀突起"]}],"display":"alias"},
   {"id":"E-Circle of Willis","kind":"synonym","status":"applied","entries":[{"en":"Circle of Willis","zh":"大腦動脈環","enAliases":["Willis' circle","Cerebral arterial circle"],"zhAliases":["威利氏環"]}],"display":"alias"},
-  {"id":"E-Inferior orbital fissure","kind":"synonym","status":"applied","entries":[{"en":"Inferior orbital fissure","zh":"眶下裂","enAliases":["Infraorbital fissure"],"zhAliases":[]}],"display":"alias"},
+  {"id":"E-Inferior orbital fissure","kind":"synonym","status":"applied","entries":[{"en":"Inferior orbital fissure","zh":"下眶裂","enAliases":["Infraorbital fissure"],"zhAliases":["眶下裂"]}],"display":"alias"},
   {"id":"E-Pineal gland","kind":"synonym","status":"applied","entries":[{"en":"Pineal gland","zh":"松果體","enAliases":["Pineal body"],"zhAliases":["松果腺"]}],"display":"renamed"},
   {"id":"E-Turbinate (Nasal conchae)","kind":"synonym","status":"applied","entries":[{"en":"Nasal concha","zh":"鼻甲","enAliases":["Turbinate","Concha","Nasal conchae"],"zhAliases":[]}],"display":"alias"},
   {"id":"E-Superior tarsal muscle","kind":"synonym","status":"applied","entries":[{"en":"Superior tarsal muscle","zh":"上瞼板肌","enAliases":["Muller's muscle"],"zhAliases":["苗勒氏肌"]}],"display":"alias"},
