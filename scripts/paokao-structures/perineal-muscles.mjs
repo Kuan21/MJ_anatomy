@@ -11,7 +11,7 @@ const SIDES = [{w: 'Right', l: 'right', sx: -1, zh: '右'}, {w: 'Left', l: 'left
 const P = (x, y, z) => [x, y, z];
 
 /** Catmull-Rom spline through the control points, n samples. */
-function spline(pts, n) {
+export function spline(pts, n) {
   const out = [], m = pts.length, at = i => pts[Math.max(0, Math.min(m - 1, i))];
   for (let s = 0; s < m - 1; s++) for (let k = 0; k < n / (m - 1); k++) {
     const t = k / (n / (m - 1)), p0 = at(s - 1), p1 = at(s), p2 = at(s + 1), p3 = at(s + 2);
@@ -25,7 +25,7 @@ const lerpArr = (arr, t) => { const f = t * (arr.length - 1), i = Math.min(arr.l
  * A closed flattened tube along `ctrl` (control points) with half-width rh (across the path, in the horizontal plane) and half-thickness rv (the other way) interpolated from the arrays
  * `wid` and `thk` (metres, evenly spaced along the path); the two ends close to a point. `ref` is the direction the thickness axis leans towards (default up).
  */
-function belly(ctrl, wid, thk, {n = 26, sides = 14, ref = [0, 1, 0]} = {}) {
+export function belly(ctrl, wid, thk, {n = 26, sides = 14, ref = [0, 1, 0]} = {}) {
   const path = spline(ctrl, n), positions = [], indices = [], N = path.length;
   path.forEach((p, i) => {
     const tan = unit(sub(path[Math.min(N - 1, i + 1)], path[Math.max(0, i - 1)]));
@@ -37,9 +37,9 @@ function belly(ctrl, wid, thk, {n = 26, sides = 14, ref = [0, 1, 0]} = {}) {
   return {positions: Float32Array.from(positions), indices: Uint32Array.from(indices)};
 }
 
-const catPos = list => { const o = []; for (const g of list) for (const v of g.positions) o.push(v); return o; };
+export const catPos = list => { const o = []; for (const g of list) for (const v of g.positions) o.push(v); return o; };
 /** Centroids of `count` equal slices of a vertex cloud along coordinate `axis` (0 = x, 2 = z), ordered from `from` to `to` (m), with the vertical extent of each slice. */
-function slices(P3, axis, from, to, count) {
+export function slices(P3, axis, from, to, count) {
   const out = [], step = (to - from) / count;
   for (let s = 0; s < count; s++) {
     const a = Math.min(from + step * s, from + step * (s + 1)), b = Math.max(from + step * s, from + step * (s + 1)); let c = [0, 0, 0], k = 0, lo = 1e9, hi = -1e9;
@@ -48,11 +48,11 @@ function slices(P3, axis, from, to, count) {
   }
   return out;
 }
-const extent = (P3, k) => { let lo = 1e9, hi = -1e9; for (let i = k; i < P3.length; i += 3) { lo = Math.min(lo, P3[i]); hi = Math.max(hi, P3[i]); } return [lo, hi]; };
+export const extent = (P3, k) => { let lo = 1e9, hi = -1e9; for (let i = k; i < P3.length; i += 3) { lo = Math.min(lo, P3[i]); hi = Math.max(hi, P3[i]); } return [lo, hi]; };
 /** Merged positions and triangles of several meshes. */
-const catMesh = list => { const positions = [], indices = []; let off = 0; for (const g of list) { for (const v of g.positions) positions.push(v); for (const t of g.indices) indices.push(t + off); off += g.positions.length / 3; } return {positions: Float32Array.from(positions), indices: Uint32Array.from(indices)}; };
+export const catMesh = list => { const positions = [], indices = []; let off = 0; for (const g of list) { for (const v of g.positions) positions.push(v); for (const t of g.indices) indices.push(t + off); off += g.positions.length / 3; } return {positions: Float32Array.from(positions), indices: Uint32Array.from(indices)}; };
 /** Parity test: is the point inside the closed mesh (a ray towards +x crosses an odd number of triangles). */
-function insideMesh(P, I, x, y, z) {
+export function insideMesh(P, I, x, y, z) {
   let c = 0;
   for (let t = 0; t < I.length; t += 3) {
     const a = I[t] * 3, b = I[t + 1] * 3, d = I[t + 2] * 3, y0 = P[a + 1] - y, z0 = P[a + 2] - z, y1 = P[b + 1] - y, z1 = P[b + 2] - z, y2 = P[d + 1] - y, z2 = P[d + 2] - z;
@@ -67,7 +67,7 @@ function insideMesh(P, I, x, y, z) {
  * Moves every vertex of `geo` that lies inside one of the `covers` (the erectile structures the muscle lies on) out of it, in steps of 0.6 mm away from the local middle of that structure
  * (the centre of its vertices within 15 mm), and then eases the result so that the surface stays smooth. The muscle then rests on the structure instead of sinking into it.
  */
-function clearOf(geo, covers) {
+export function clearOf(geo, covers) {
   const P = geo.positions, n = P.length / 3, moved = new Uint8Array(n);
   for (const cv of covers) {
     const CP = cv.positions, CI = cv.indices;
