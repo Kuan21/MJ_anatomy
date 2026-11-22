@@ -58,10 +58,12 @@
 - 新工作等之前的 PR 合併後，才由最新 main 開分支，減少衝突。
 - 每天一次，把所有等使用者審核的 PR 整理成一張表（PR、標題、改了什麼、CI、衝突、要看什麼、截圖連結）交使用者，不要零散通知。
 
-### 工作登記表（使用者 2026-11-15 指示，所有工作階段必須遵守）
-- 登記表是 `docs/WORK_REGISTRY.md`，一行一項進行中的工作：工作內容｜負責工作階段｜分支／PR｜開始時間｜狀態。
-- **開始任何新工作或派 agent 之前：** 先 `git pull`（取最新 main）讀 `docs/WORK_REGISTRY.md`，同時搜尋 open PR 與遠端分支（`git ls-remote origin`、GitHub 的 open PR 清單），確認沒有人做同一樣的事。沒有人做才先登記一行再開工；有人做就不要開，報告使用者。
-- **完成或合併後：** 刪走那一行（隨該工作的 PR 一起改，或之後的文件 PR）。
+### 工作登記表（使用者 2026-11-15 指示，2026-11-21 改為分檔；所有工作階段必須遵守）
+- 登記表 `docs/WORK_REGISTRY.md` 是**生成檔，不准手改**，功能 PR 一律不准改它（為了不再互相衝突，做法同 ROADMAP.md）。內容寫在 `docs/registry/<工作階段名>.md`（一個工作階段一個檔，格式與規則見 `docs/registry/README.md`）：狀態一行、工作表（工作內容｜負責工作階段｜分支／PR｜開始時間｜狀態，一行一項進行中的工作）、等使用者決定、可選的附表。每個工作階段只改自己的檔案，不改別人的檔案；`_header.md`、`_decided.md` 只由總管改。
+- **開始任何新工作或派 agent 之前：** 先 `git pull`（取最新 main）讀 `docs/WORK_REGISTRY.md`，同時搜尋 open PR 與遠端分支（`git ls-remote origin`、GitHub 的 open PR 清單），確認沒有人做同一樣的事。沒有人做才先在**自己的** `docs/registry/<工作階段名>.md` 登記一行再開工；有人做就不要開，報告使用者。登記行隨你自己的 PR 一起推送。
+- **完成或合併後：** 刪走自己檔案裡那一行（隨該工作的 PR 一起改，或之後的文件 PR）。
+- **合併成總表：** 總管每日一次（或使用者要求時）執行 `node scripts/registry.mjs sync`，把 `docs/registry/*.md` 合併成 `docs/WORK_REGISTRY.md`，開只含文件的 PR，CI 全綠後自動合併。`node scripts/registry.mjs check`（在 `npm run check` 內）檢查格式。
+- **過渡期：** 分檔做法合併前，若 PR 在 `docs/WORK_REGISTRY.md` 撞到衝突，一律保留雙方內容，不要刪其他工作階段的行；分檔合併後，把自己的改動搬進自己的 `docs/registry/` 檔案。
 - **工作階段（使用者 2026-11-16 更新），只做自己範圍內的工作；超出範圍的要求轉交總管。現役：**
   - **總管：** 合併、清理、進度、派工；另外負責眼模板、耳、學習／Quiz／模擬考試。
   - **頭頸資訊卡：** 頭頸資訊卡寫作與核對（B01–B08）。
@@ -109,6 +111,8 @@
 - 不要動 `public/models/cmu-course-notes-v4.json` 的 git 歷史（是否清除由使用者在專案完成後決定）。
 
 ### 本機驗證與檢查清單（使用者 2026-11-13 指示，長期規則）
+- **純文件 PR 免跑 `ci:local`（使用者 2026-11-21 批准，為了重工作槽塞車）：** 只改 `docs/` 裡面 `.md` 檔的 PR（登記表 `docs/registry/*.md` 與 `docs/WORK_REGISTRY.md`、核對報告 `docs/qa-report.md`、`docs/roadmap-updates/`、`docs/review-log/` 等），推送前不用跑 `ci:local`，交 GitHub CI 驗證（`build` 綠就照原本規則合併）；但至少先跑不吃 CPU 的 `node scripts/pr-docs.mjs check` 與 `npm run check:zh`。**只要有改程式、資料檔（`.json`、`.ts` 等）或模型，照舊要完整 `ci:local`**；PR 內混有這兩類時，以較嚴的為準。
+- **重工作槽優先次序（使用者 2026-11-21 批准）：** 重工作（`regen`、`ci:local`、`build`）只有一個槽（`/tmp/claude-0/heavy.lock`），排隊時依序：① 考試範圍模型 PR（器官詳細模式如十二指腸／胰／脾、會陰肌肉、骨盆與會陰區域標示）→ ② 名稱統一（#446 這類）→ ③ Quiz → ④ 腳本 → ⑤ 其他。同級先到先得；已經在跑的不中斷。優先次序只決定誰先取鎖，不降低任何檢查要求。
 - **推送前必須在本機跑 `npm run ci:local` 並全部通過**：它讀 `.github/workflows/deploy-preview.yml` 的 `build` job，完全照 CI 的步驟與次序跑（`check`、`check:motion`、`check:vessels`、`check:vessels:accept`、`build --base /MJ_anatomy/`）。失敗時它會印出續跑指令（`npm run ci:local -- --from=N`）。
 - **截圖與 `npm run ci:local`（以及 `npm run check`、`check:motion`、`build`）不可同時跑**（使用者 2026-11-14 指示）：瀏覽器截圖與軟體繪圖會吃滿 CPU，`check:motion` 裡有計時測試（例如 `test-arm-collision` 的 25 ms 上限），搶 CPU 會讓它誤判失敗。一次只跑一項重工作；`ci:local` 跑的時候只做不吃 CPU 的事（讀程式碼、寫文件），截圖等它跑完再拍，反之亦然。計時測試單獨重跑能過、同時有負載才失敗時，是環境造成的，等負載消失後重跑，不要放寬測試門檻。
 - **提交前一定先跑 `npm run regen`**：一次過重新生成所有生成檔與自動文件（清單在 `scripts/checks/regen.txt`）。`check-stability --write` 只會縮小已知清單，遇到新增或變差會停下，要人工決定。
