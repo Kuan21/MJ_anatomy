@@ -391,6 +391,11 @@
   - 本機通過：七個 `test-centreline-*`、`check-no-notes`。完整 `npm run check` 因缺生成檔沒有跑。
   - 其餘仍等「待我決定」。`_diag-*.mjs` 四個與 `package-lock.json` 差異仍未提交；本機沒有 `gh`，未查 PR #248 的 CI。
 
+- 2026-11-22（第六十次）：只查狀態，沒有改程式、模型、解剖內容或網站。
+  - `git fetch` 後 main 仍在 #474，本分支已含全部 main 的 commit，不需要合併；`scripts/` 內沒有新的 `URL(...).pathname` 寫法。
+  - 本機通過：七個 `test-centreline-*`（200 步中的第 152–158 步）、`check-no-notes`。完整 `npm run check` 因缺生成檔沒有跑。
+  - 其餘仍等「待我決定」。`_diag-*.mjs` 四個與 `package-lock.json` 差異仍未提交；本機沒有 `gh`，未查 PR #248 的 CI。
+
 ## 進行中／等審核
 - S2 A–G、S3、S4、S6 相關工作都已有 PR（見上），等使用者審核。
 
