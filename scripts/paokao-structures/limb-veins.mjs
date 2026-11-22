@@ -80,7 +80,7 @@ export default function limbVeins(U) {
       out.push({
         name: `${S.w} thoracoepigastric vein`, zh: `${S.zh}胸腹壁靜脈`, system: 'venous', kind: 'vein', parent: `${S.w} lateral thoracic vein`,
         tubes,
-        card: {origin: ['Lateral thoracic vein (a tributary of the axillary vein) above; superficial epigastric vein (a tributary of the great saphenous vein) below', '上方為胸外側靜脈（腋靜脈屬支），下方為腹壁淺靜脈（大隱靜脈屬支）'],
+        card: {origin: ['Lateral thoracic vein (a tributary of the axillary vein) above; superficial epigastric vein (a tributary of the great saphenous vein) below', '上方為外胸靜脈（腋靜脈屬支），下方為淺腹壁靜脈（大隱靜脈屬支）'],
           course: ['A plexus of small subcutaneous veins on the side of the chest and abdomen: a main channel descends from the axilla to the groin, with several fine oblique tributaries and cross-links joining it to the periumbilical veins; it links the superior and inferior vena cava systems', '沿胸腹側壁皮下由腋窩下行到鼠蹊部的一叢細小靜脈：一條主幹加上多條斜行的細小屬支與橫向吻合支，並與臍周靜脈相連；連接上、下腔靜脈系統'],
           supply: ['Drains the skin and subcutaneous tissue of the lateral trunk; enlarges as a collateral route when a vena cava is blocked', '回收側軀幹皮膚與皮下組織；腔靜脈阻塞時成為側枝循環']},
         refs: [GRAYS_1918, OPENSTAX],
@@ -95,7 +95,7 @@ export default function limbVeins(U) {
           name: `${S.w} paraumbilical veins`, zh: `${S.zh}臍旁靜脈`, system: 'venous', kind: 'vein', parent: sev,
           tubes: rad.map(pts => ({pts, r: [.0007, .0006], samples: 30})),
           card: {origin: ['Subcutaneous veins around the umbilicus', '臍周皮下的小靜脈'],
-            course: ['Fine veins radiate from the umbilicus over the anterior abdominal wall and join the thoracoepigastric and superficial epigastric veins; along the round ligament of the liver they also communicate with the portal vein', '細小靜脈由臍部向外放射，分布於前腹壁，與胸腹壁靜脈、腹壁淺靜脈相連；並經肝圓韌帶與肝門靜脈相通'],
+            course: ['Fine veins radiate from the umbilicus over the anterior abdominal wall and join the thoracoepigastric and superficial epigastric veins; along the round ligament of the liver they also communicate with the portal vein', '細小靜脈由臍部向外放射，分布於前腹壁，與胸腹壁靜脈、淺腹壁靜脈相連；並經肝圓韌帶與肝門靜脈相通'],
             supply: ['Drains the skin and subcutaneous tissue around the umbilicus; a portal-to-systemic collateral route that can dilate when the portal vein is obstructed', '回收臍周皮膚與皮下組織的血液；為門靜脈與體循環之間的側枝，門靜脈阻塞時可擴張']},
           refs: [GRAYS_1918, OPENSTAX],
         });
