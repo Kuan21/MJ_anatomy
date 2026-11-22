@@ -53,6 +53,24 @@ const atNeckRoot = at => Math.abs(at[0]) <= .17 && at[1] >= 1.37 && at[1] <= 1.4
 const neckIds = new Set([...atlas.parts.filter(p => anatomicalRegion(p) === 'head-neck').map(p => p.id), ...NECK_ROOT_ARM_RIG]);
 const wallIds = new Set(atlas.parts.filter(p => WALL_VESSELS.test(p.name)).map(p => p.id)), round = id => (limbIds.has(id) || wallIds.has(id) || neckIds.has(id)) && !lightIds.has(id);
 const roundTip = row => (round(row.id) || (atNeckRoot(row.at) && !lightIds.has(row.id))), sides = row => roundTip(row) ? 12 : 5;
+// A bridge between two vessels must not run through a bone (the bridge of the left inferior gluteal artery to the internal iliac artery went 4 mm into the sacrum, check stability 2026-11-22): the points of its path that lie inside a bone,
+// or closer to it than the tube is wide, are pushed out along the bone's outward normal; the two ends stay where they are. Bone meshes have outward-facing triangles.
+const boneGrid = new Grid(); for (const p of atlas.parts.filter(q => q.system === 'skeletal')) { const g = geom(p); for (let i = 0; i < g.idx.length; i += 3) { const t = [0, 1, 2].map(k => [g.pos[g.idx[i + k] * 3], g.pos[g.idx[i + k] * 3 + 1], g.pos[g.idx[i + k] * 3 + 2]]); boneGrid.add(p.id, t[0], t[1], t[2]); } }
+function clearOfBone(path, radius, keepEnd = 2) {
+  const margin = radius + .0006;
+  return path.map((pt, i) => {
+    if (i < 2 || i >= path.length - keepEnd) return pt;   // the ends stay on their vessels
+    let q = pt;
+    for (let k = 0; k < 4; k++) {
+      const hit = boneGrid.nearest(q, .02, new Set()); if (!hit.tag || !hit.tri || hit.d > .02) break;
+      const [a, b, c] = hit.tri, n = unit([(b[1] - a[1]) * (c[2] - a[2]) - (b[2] - a[2]) * (c[1] - a[1]), (b[2] - a[2]) * (c[0] - a[0]) - (b[0] - a[0]) * (c[2] - a[2]), (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0])]);
+      const signed = (q[0] - hit.q[0]) * n[0] + (q[1] - hit.q[1]) * n[1] + (q[2] - hit.q[2]) * n[2], d = signed >= 0 ? hit.d : -hit.d;   // negative: inside the bone
+      if (d >= margin) break;
+      q = add(q, n, margin - d + .0003);
+    }
+    return q;
+  });
+}
 for (const row of rows) {
   const frame = row.kind === 'joined' ? null : endFrame(row.id, row.at);
   let action = row.kind === 'joined' ? 'joined' : 'enters';
@@ -62,7 +80,8 @@ for (const row of rows) {
       action = 'gap';
       const d = row.toSameMm / 1000, target = row.closest, chord = unit(sub(target, row.at));
       const bend = add(row.at, chord, d * .5), mid = add(bend, frame.dir, d * .18), through = add(target, chord, .001);
-      piece(row.id, tube([add(row.at, frame.dir, -.0015), row.at, mid, through], frame.radius * .95, frame.radius * .75, roundTip(row) ? 12 : 6, sides(row)), row.at, 'gap');
+      const gapPath = [add(row.at, frame.dir, -.0015), row.at, mid, through];   // the bend point of a pelvic connector leaves the bone as well
+      piece(row.id, tube(PELVIC_VESSELS.test(row.name) ? clearOfBone(gapPath, frame.radius, 1) : gapPath, frame.radius * .95, frame.radius * .75, roundTip(row) ? 12 : 6, sides(row)), row.at, 'gap');
     } else if (frame.radius <= FADE_RADIUS) {
       action = 'fade';
       if (shapedTips.has(row)) { /* the vessel's own mesh narrows to a rounded tip (scripts/prepare-model-stream.mjs): no cone beyond the end */ } else {
@@ -77,23 +96,37 @@ for (const row of rows) {
 // diameter to the next segment's, replacing the simple connector of the same end. The measurement is the one scripts/audit-vessel-continuity.mjs uses (scripts/lib/vessel-segments.mjs).
 const source = loadFullAtlas({streams: STREAMS.filter(s => !s.startsWith('vessel-ends'))});   // the vessels the viewer shows, without the pieces this step makes
 const {rows: gapRows} = await analyse({regions: ['upper', 'lower'], mode: 'before', V: await loadVessels({mode: 'before', source})});
-// A bridge between two vessels must not run through a bone (the bridge of the left inferior gluteal artery to the internal iliac artery went 4 mm into the sacrum, check stability 2026-11-22): the points of its path that lie inside a bone,
-// or closer to it than the tube is wide, are pushed out along the bone's outward normal; the two ends stay where they are. Bone meshes have outward-facing triangles.
-const boneGrid = new Grid(); for (const p of atlas.parts.filter(q => q.system === 'skeletal')) { const g = geom(p); for (let i = 0; i < g.idx.length; i += 3) { const t = [0, 1, 2].map(k => [g.pos[g.idx[i + k] * 3], g.pos[g.idx[i + k] * 3 + 1], g.pos[g.idx[i + k] * 3 + 2]]); boneGrid.add(p.id, t[0], t[1], t[2]); } }
-function clearOfBone(path, radius) {
-  const margin = radius + .0006;
-  return path.map((pt, i) => {
-    if (i < 2 || i >= path.length - 2) return pt;   // the ends stay on their vessels
-    let q = pt;
-    for (let k = 0; k < 4; k++) {
-      const hit = boneGrid.nearest(q, .02, new Set()); if (!hit.tag || !hit.tri || hit.d > .02) break;
-      const [a, b, c] = hit.tri, n = unit([(b[1] - a[1]) * (c[2] - a[2]) - (b[2] - a[2]) * (c[1] - a[1]), (b[2] - a[2]) * (c[0] - a[0]) - (b[0] - a[0]) * (c[2] - a[2]), (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0])]);
-      const signed = (q[0] - hit.q[0]) * n[0] + (q[1] - hit.q[1]) * n[1] + (q[2] - hit.q[2]) * n[2], d = signed >= 0 ? hit.d : -hit.d;   // negative: inside the bone
-      if (d >= margin) break;
-      q = add(q, n, margin - d + .0003);
-    }
-    return q;
-  });
+/** Signed distance (m) of a point to the nearest bone triangle, negative inside the bone; null when no bone lies within 2 cm. */
+function boneSigned(q) {
+  const hit = boneGrid.nearest(q, .02, new Set()); if (!hit.tag || !hit.tri || hit.d > .02) return null;
+  const [a, b, c] = hit.tri, n = unit([(b[1] - a[1]) * (c[2] - a[2]) - (b[2] - a[2]) * (c[1] - a[1]), (b[2] - a[2]) * (c[0] - a[0]) - (b[0] - a[0]) * (c[2] - a[2]), (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0])]);
+  return ((q[0] - hit.q[0]) * n[0] + (q[1] - hit.q[1]) * n[1] + (q[2] - hit.q[2]) * n[2] >= 0 ? 1 : -1) * hit.d;
+}
+/** Where a bridge to a pelvic trunk ends inside the bone (the left internal iliac artery lies 3.6 mm in the sacrum, so a bridge to it did too): the nearest wall point of that trunk that is clear of the bone, moved inside the trunk. */
+function targetOutOfBone(r, t, to) {
+  const s0 = boneSigned(to); if (s0 == null || s0 > -.001) return null;
+  const np = atlas.parts.find(q => q.id === r.neighbourId); if (!np) return null;
+  const g = geom(np), v = i => [g.pos[i * 3], g.pos[i * 3 + 1], g.pos[i * 3 + 2]], n = g.pos.length / 3, depth = Math.min(.0006 + t.radius * .5, .002);
+  let best = null;
+  for (let i = 0; i < n; i++) {
+    const w = v(i), d = len(sub(w, r.capAt)); if (best && d >= best.d) continue;
+    const sw = boneSigned(w); if (sw == null || sw < 0) continue;
+    const c = [0, 0, 0]; let m = 0; for (let j = 0; j < n; j += 3) { const u = v(j); if (len(sub(u, w)) < t.radius * 2) { for (let k = 0; k < 3; k++) c[k] += u[k]; m++; } }
+    if (m < 3) continue;
+    const inward = unit(sub(c.map(x => x / m), w)), p2 = add(w, inward, depth), s2 = boneSigned(p2); if (s2 != null && s2 < -.001) continue;
+    best = {d, to: p2};
+  }
+  return best?.to ?? null;
+}
+/** A bridge whose far end lies deep inside a bone (the end of the left internal iliac artery is itself 3.6 mm in the sacrum) stops where it reaches the bone surface: the rest of the way is inside the bone, where nothing is drawn anyway. */
+function trimAtBone(path) {
+  for (let i = 2; i < path.length; i++) {
+    const s = boneSigned(path[i]); if (s == null || s > -.0015) continue;
+    let lo = path[i - 1], hi = path[i];   // bisect for the surface crossing
+    for (let k = 0; k < 12; k++) { const mid = lo.map((v, j) => (v + hi[j]) / 2), sm = boneSigned(mid); if (sm != null && sm < 0) hi = mid; else lo = mid; }
+    return [...path.slice(0, i), lo];
+  }
+  return path;
 }
 const planned = gapRows.filter(bridgeable), mutual = new Set();
 let bridged = 0;
@@ -102,10 +135,11 @@ for (const r of planned) {
     const twin = planned.find(o => o !== r && o.id === r.neighbourId && o.neighbourId === r.id && len(sub(o.capAt, r.target.point)) < .002 && len(sub(r.capAt, o.target.point)) < .002);
     if (twin && (mutual.has(twin) || r.id > twin.id)) continue; mutual.add(r);
   }
-  const t = r.target, to = r.kind === 'end-to-end' ? add(t.point, t.dir, -.001) : add(t.point, t.inward, Math.min(.0006 + t.radius * .5, .002));
+  const t = r.target; let to = r.kind === 'end-to-end' ? add(t.point, t.dir, -.001) : add(t.point, t.inward, Math.min(.0006 + t.radius * .5, .002));
+  if (r.kind !== 'end-to-end' && PELVIC_VESSELS.test(r.name)) to = targetOutOfBone(r, t, to) ?? to;
   const travel = r.kind === 'end-to-end' ? t.dir.map(v => -v) : unit(sub(to, r.capAt));
   const r1 = r.kind === 'end-to-end' ? Math.min(t.radius, r.radius * 2.2) : r.radius * .85;
-  const path = PELVIC_VESSELS.test(r.name) ? clearOfBone(bridgePath(r.capAt, r.dir, to, travel), r.radius) : bridgePath(r.capAt, r.dir, to, travel);   // pelvic vessels only: the bridges of the limbs keep their paths
+  const path = PELVIC_VESSELS.test(r.name) ? trimAtBone(clearOfBone(bridgePath(r.capAt, r.dir, to, travel), r.radius)) : bridgePath(r.capAt, r.dir, to, travel);   // pelvic vessels only: the bridges of the limbs keep their paths
   const near = pieces.filter(q => q.id === r.id && q.action === 'gap' && len(sub(q.tip, r.tipAt)) < .004);
   for (const q of near) pieces.splice(pieces.indexOf(q), 1);
   const far = pieces.filter(q => q.id === r.id && q.action === 'fade' && len(sub(q.tip, r.tipAt)) < .004);
