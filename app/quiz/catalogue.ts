@@ -67,7 +67,7 @@ export interface QuizRegionDef {
   /** Systems offered on the setup page; omitted = the five body-system chips (not the heart or lung structures). */
   systems?: QuizSystem[];
   /** Framing of the section box: half-width in x (per side) and the z range in metres. */
-  frame: {x: number; z: [number, number]; footZ?: number; /** closest the camera frames the box (metres); the body-sized default is 0.28 */ minDistance?: number; /** a fixed box the question view frames (min and max corner, metres), instead of the side/range box; the target is always inside it */ box?: [number[], number[]]};
+  frame: {x: number; z: [number, number]; footZ?: number; organ?: boolean; /** closest the camera frames the box (metres); the body-sized default is 0.28 */ minDistance?: number; /** a fixed box the question view frames (min and max corner, metres), instead of the side/range box; the target is always inside it */ box?: [number[], number[]]};
   sections: QuizSectionDef[];
 }
 const LOWER_SECTIONS: QuizSectionDef[] = [
