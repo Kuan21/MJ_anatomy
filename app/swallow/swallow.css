@@ -1,6 +1,20 @@
-.swallow-status{position:absolute;left:14px;top:12px;display:flex;flex-wrap:wrap;gap:6px;max-width:min(72%,620px);z-index:4}
+/* the stage is a column: status chips, then [left labels | 3D picture | right labels], then the controls; only thin leader lines cross the picture */
+.swallow-stage{display:flex;flex-direction:column}
+.swallow-status{display:flex;flex-wrap:wrap;gap:6px;padding:8px 12px 6px;flex:none}
 .swallow-status span{padding:4px 10px;border-radius:999px;background:#ffffffe6;border:1px solid #18253622;font-size:12px;color:#4e5d66}
 .swallow-status span b{margin-left:4px;color:#1f2c34}
 .swallow-status span[data-on="1"]{background:#fff1ea;border-color:#ff8a5c}.swallow-status span[data-on="1"] b{color:#b33a12}
+.swallow-view{position:relative;flex:1;min-height:0;display:grid;grid-template-columns:170px minmax(0,1fr) 170px}
+.swallow-canvas{position:relative;min-width:0;min-height:0;overflow:hidden}
+.swallow-canvas canvas{display:block;width:100%;height:100%}
+.swallow-gutter{min-height:0;background:#dfe4e7}
+.swallow-leaders{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:3}
+.swallow-leaders line{stroke:#46545d;stroke-width:1}.swallow-leaders circle{fill:#263b48;stroke:#fff;stroke-width:1}
+.swallow-label{position:absolute;left:0;top:0;display:flex;flex-direction:column;padding:3px 7px;border-radius:7px;background:#fff;border:1px solid #18253622;line-height:1.25;z-index:4;pointer-events:none;will-change:transform}
+.swallow-label span{font-size:12px;font-weight:650;color:#1f2c34;overflow-wrap:anywhere}.swallow-label small{font-size:11px;color:#4e5d66}
+.swallow-label.accent{background:#e3f4ec;border-color:#5db89a}.swallow-label.accent span{color:#1f5c49}
+.swallow-controls{position:static;margin:8px 12px 12px;flex:none}
 .swallow-reset{padding:6px 12px;min-height:44px;min-width:44px;font-size:13px}
-@media(max-width:900px){.swallow-status{max-width:calc(100% - 28px)}.swallow-status span{font-size:11px;padding:3px 8px}}
+@media(max-width:900px){.swallow-view{grid-template-columns:128px minmax(0,1fr) 128px}.swallow-status span{font-size:11px;padding:3px 8px}}
+@media(max-width:560px){.swallow-view{grid-template-columns:92px minmax(0,1fr) 92px}.swallow-label span{font-size:11px}.swallow-label small{font-size:10px}}
+@media(max-width:900px){.swallow-page .hear-body{grid-template-rows:minmax(460px,70vh) 1fr}}
