@@ -17,6 +17,7 @@ const OrganDetail = lazy(() => import('../app/organ/organ-detail'));
 const EyeDetail = lazy(() => import('../app/organ/eye'));
 const EarDetail = lazy(() => import('../app/ear-detail'));
 const SwallowAnimation = lazy(() => import('../app/swallow/swallow-animation'));
+const CranialNervesAnimation = lazy(() => import('../app/cranial-nerves/cn-animation'));
 import {QUIZ_REGIONS, isExam, isLearnHub, isQuizHub, learnRegionOfHash, regionOfHash} from '../app/quiz/catalogue';
 /** The Skeleton v2 lab is a developer preview: it opens only with ?dev=1 (optionally ?dev=1&lab=skeleton-v2) and has no link in the product. */
 const devLab = () => {
@@ -53,11 +54,11 @@ function App() {
   const quiz = regionOfHash(hash), hub = isQuizHub(hash), learn = learnRegionOfHash(page), learnHub = isLearnHub(page), exam = isExam(page), organId = /^#\/organ\/([a-z-]+)$/.exec(page)?.[1], viscera = organId && isOrganId(organId) ? organId : null;
   // The tab title follows the screen; going back to the atlas (also with the browser's back and forward buttons) must restore the main title.
   useEffect(() => {
-    document.title = page === '#/organ/heart' ? '心臟詳細模式 · MJ Anatomy' : page === '#/organ/brain' ? '腦部詳細模式 · MJ Anatomy' : page === '#/organ/eye' ? '眼部詳細模式 · MJ Anatomy' : page === '#/organ/ear' ? '耳部詳細模式 · MJ Anatomy' : page === '#/animation/swallow' ? '吞嚥動畫 · MJ Anatomy' : viscera ? `${ORGAN_TITLES[viscera]}詳細模式 · MJ Anatomy` : hub ? 'Quiz · MJ Anatomy' : learnHub ? '學習 · MJ Anatomy' : learn ? `${QUIZ_REGIONS[learn].label}學習 · MJ Anatomy` : exam ? '模擬考試 · MJ Anatomy' : quiz ? `${QUIZ_REGIONS[quiz].label} Quiz · MJ Anatomy` : 'MJ Anatomy｜3D 解剖圖譜';
+    document.title = page === '#/organ/heart' ? '心臟詳細模式 · MJ Anatomy' : page === '#/organ/brain' ? '腦部詳細模式 · MJ Anatomy' : page === '#/organ/eye' ? '眼部詳細模式 · MJ Anatomy' : page === '#/organ/ear' ? '耳部詳細模式 · MJ Anatomy' : page === '#/animation/cranial-nerves' ? '十二對腦神經動畫 · MJ Anatomy' : page === '#/animation/swallow' ? '吞嚥動畫 · MJ Anatomy' : viscera ? `${ORGAN_TITLES[viscera]}詳細模式 · MJ Anatomy` : hub ? 'Quiz · MJ Anatomy' : learnHub ? '學習 · MJ Anatomy' : learn ? `${QUIZ_REGIONS[learn].label}學習 · MJ Anatomy` : exam ? '模擬考試 · MJ Anatomy' : quiz ? `${QUIZ_REGIONS[quiz].label} Quiz · MJ Anatomy` : 'MJ Anatomy｜3D 解剖圖譜';
   }, [hash, hub, quiz, learn, learnHub, exam, viscera]);
   if (stale) return <Trouble title="網站已更新，請重新載入後再開啟這個畫面。"/>;
   return <ErrorBoundary><Suspense fallback={<div role="status" style={{padding: 32}}>正在載入 MJ Anatomy…</div>}>
-    {page === '#/organ/heart' ? <HeartDetail/> : page === '#/organ/brain' ? <BrainDetail/> : page === '#/organ/eye' ? <EyeDetail/> : page === '#/organ/ear' ? <EarDetail/> : page === '#/animation/swallow' ? <SwallowAnimation onClose={() => {location.hash = '';}}/> : viscera ? <OrganDetail key={viscera} id={viscera}/> : hub ? <QuizSetup/> : page === '#/quiz/run' ? <QuizRun/> : learnHub ? <LearnHub/> : learn ? <LearnRegion key={learn} region={learn}/> : exam ? <ExamPage/> : quiz ? <RegionQuiz key={quiz} region={quiz}/> : devLab() ? <SkeletonLab/> : <Home initialRegion={hash === '#/atlas/lower' ? 'lower' : hash === '#/atlas/upper' ? 'upper' : 'whole'}/>}
+    {page === '#/organ/heart' ? <HeartDetail/> : page === '#/organ/brain' ? <BrainDetail/> : page === '#/organ/eye' ? <EyeDetail/> : page === '#/organ/ear' ? <EarDetail/> : page === '#/animation/cranial-nerves' ? <CranialNervesAnimation onClose={() => {location.hash = '';}}/> : page === '#/animation/swallow' ? <SwallowAnimation onClose={() => {location.hash = '';}}/> : viscera ? <OrganDetail key={viscera} id={viscera}/> : hub ? <QuizSetup/> : page === '#/quiz/run' ? <QuizRun/> : learnHub ? <LearnHub/> : learn ? <LearnRegion key={learn} region={learn}/> : exam ? <ExamPage/> : quiz ? <RegionQuiz key={quiz} region={quiz}/> : devLab() ? <SkeletonLab/> : <Home initialRegion={hash === '#/atlas/lower' ? 'lower' : hash === '#/atlas/upper' ? 'upper' : 'whole'}/>}
   </Suspense></ErrorBoundary>;
 }
 createRoot(document.getElementById('root')!).render(<App/>);
