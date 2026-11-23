@@ -1,8 +1,9 @@
 // Touch targets of the study pages (Learn, Quiz, mock exam) on an iPad: every control keeps a hit area of at least 44 x 44 points. Reads the style sheet only; no browser. Prints counts only.
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
+import {fileURLToPath} from 'node:url';
 
-const root = new URL('../', import.meta.url).pathname;
+const root = fileURLToPath(new URL('../', import.meta.url));   // .pathname gives /C:/… on Windows
 const MIN = 44;
 const css = fs.readFileSync(root + 'app/quiz/quiz.css', 'utf8');
 // flat list of rules; rules inside @media blocks are included, so a smaller value in a narrow-screen block fails the check as well

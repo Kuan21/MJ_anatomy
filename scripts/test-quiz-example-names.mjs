@@ -1,8 +1,9 @@
 // The example in the typing box of the Quiz (app/quiz/name-example.ts) must be a structure the region really has. Reads the generated question data; prints counts only.
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
+import {fileURLToPath} from 'node:url';
 
-const root = new URL('../', import.meta.url).pathname;
+const root = fileURLToPath(new URL('../', import.meta.url));   // .pathname gives /C:/… on Windows
 const src = fs.readFileSync(root + 'app/quiz/name-example.ts', 'utf8');
 const files = {'lower-limb': 'quiz-lower', 'upper-limb': 'quiz-upper', thorax: 'quiz-thorax', back: 'quiz-back', heart: 'quiz-heart', lung: 'quiz-lung', brain: 'quiz-brain', 'head-neck': 'quiz-head-neck', ear: 'quiz-ear', stomach: 'quiz-stomach'};
 let n = 0;

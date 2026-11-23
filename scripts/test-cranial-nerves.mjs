@@ -7,8 +7,9 @@ import zlib from 'node:zlib';
 import assert from 'node:assert/strict';
 import {quizModule} from './quiz-modules.mjs';
 import {scanLine} from './lib/zh-rules.mjs';
+import {fileURLToPath} from 'node:url';
 
-const root = new URL('../', import.meta.url).pathname;
+const root = fileURLToPath(new URL('../', import.meta.url));   // .pathname gives /C:/… on Windows
 const d = await quizModule('app/cranial-nerves/cn-data.ts');
 const {CRANIAL_NERVES, NERVE_COUNT, CN_NOTE, LEVELS, KIND_ZH, flowDirection, bandAt, STEP_COUNT, initialPlay, goTo, stepBy, wrapStep, advance, AUTO_DWELL_S} = d;
 
