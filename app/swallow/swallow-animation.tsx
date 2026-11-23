@@ -2,7 +2,7 @@ import {useCallback, useEffect, useReducer, useRef, useState} from 'react';
 import '../organ/organ.css';
 import '../ear-hearing/hearing.css';
 import './swallow.css';
-import {advance, goTo, initialPlay, PHASE_ZH, phaseAt, poseAt, SPEED_SLIDER, stepBy, STEP_COUNT, SWALLOW_NOTE, SWALLOW_STEPS, type PlayState} from './swallow-data';
+import {advance, atMoment, goTo, initialPlay, PHASE_ZH, phaseAt, poseAt, SPEED_SLIDER, stepBy, STEP_COUNT, SWALLOW_NOTE, SWALLOW_STEPS, type PlayState} from './swallow-data';
 import {createSwallowScene} from './swallow-scene';
 
 type Scene = ReturnType<typeof createSwallowScene>;
@@ -12,7 +12,8 @@ const reduced = () => typeof matchMedia === 'function' && matchMedia('(prefers-r
  *  Text and the time line are in swallow-data.ts; the layout and controls are the hearing animation's (hearing.css). */
 export default function SwallowAnimation({onClose}: {onClose: () => void}) {
   const [, rerender] = useReducer((n: number) => n + 1, 0);
-  const play = useRef<PlayState>(initialPlay(reduced()));
+  // a link may open the animation paused at a moment of the swallow: #/animation/swallow?t=2.4 (seconds of the whole swallow)
+  const play = useRef<PlayState>(atMoment(initialPlay(reduced()), new URLSearchParams(location.hash.split('?')[1] ?? '').get('t')));
   const [speed, setSpeed] = useState<number>(SPEED_SLIDER.initial), [ready, setReady] = useState(false), [percent, setPercent] = useState(0), [error, setError] = useState('');
   const speedRef = useRef(speed); speedRef.current = speed;
   const host = useRef<HTMLDivElement>(null), scene = useRef<Scene | null>(null), status = useRef<HTMLDivElement>(null);
