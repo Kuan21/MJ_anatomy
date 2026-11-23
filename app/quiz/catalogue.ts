@@ -64,7 +64,7 @@ export interface QuizRegionDef {
   /** Systems offered on the setup page; omitted = the five body-system chips (not the heart or lung structures). */
   systems?: QuizSystem[];
   /** Framing of the section box: half-width in x (per side) and the z range in metres. */
-  frame: {x: number; z: [number, number]; footZ?: number; /** closest the camera frames the box (metres); the body-sized default is 0.28 */ minDistance?: number; /** a fixed box the question view frames (min and max corner, metres), instead of the side/range box; the target is always inside it */ box?: [number[], number[]]};
+  frame: {x: number; z: [number, number]; footZ?: number; /** closest the camera frames the box (metres); the body-sized default is 0.28 */ minDistance?: number; /** a fixed box the question view frames (min and max corner, metres), instead of the side/range box; the target is always inside it */ box?: [number[], number[]]; /** organ quiz: the question view frames the union of the organ's own structures (system 'viscera'), plus the target */ organ?: boolean};
   sections: QuizSectionDef[];
 }
 const LOWER_SECTIONS: QuizSectionDef[] = [
@@ -229,7 +229,7 @@ const EAR_SECTIONS: QuizSectionDef[] = [
   {id: 'nerves', label: '耳內神經', english: 'Nerves of the ear', range: EAR_RANGE},
 ];
 QUIZ_REGIONS.ear = {
-  id: 'ear', label: '耳', english: 'Ear', tag: '耳篇', file: 'quiz-ear.json', hash: '#/quiz/ear', atlasHash: '#/organ/ear',
+  id: 'ear', group: 'organ', label: '耳', english: 'Ear', tag: '耳篇', file: 'quiz-ear.json', hash: '#/quiz/ear', atlasHash: '#/organ/ear',
   headline: ['看名稱，', '點出位置。'], description: ['由耳廓、鼓膜與三塊聽小骨，到骨性迷路、膜性迷路與耳內的神經，在 3D 耳模型上練習辨認。', '每答一題，立即顯示正確位置與資料卡。'],
   scope: '採用耳部詳細模型（右耳）。題目只涵蓋模型中真正有的網格：外耳道與耳咽管是示意管道、卵圓窗與圓窗是標在骨面上的色塊，都不出題；鼓室腔、鼓膜張肌、鐙骨肌、耳蝸管、內淋巴囊、前庭神經、前庭耳蝸神經與各神經節沒有網格，也不出題。題目是內層構造時，位於它外側的構造會變成淡淡的玻璃。',
   defaultView: 'side', defaultSide: 'right', systems: ['skeletal', 'nervous', 'ear'],
@@ -248,7 +248,7 @@ const EYE_SECTIONS: QuizSectionDef[] = [
   {id: 'lens', label: '水晶體與眼內液', english: 'Lens and ocular media', range: EYE_RANGE},
 ];
 QUIZ_REGIONS.eye = {
-  id: 'eye', label: '眼', english: 'Eye', tag: '眼篇', file: 'quiz-eye.json', hash: '#/quiz/eye', atlasHash: '#/organ/eye',
+  id: 'eye', group: 'organ', label: '眼', english: 'Eye', tag: '眼篇', file: 'quiz-eye.json', hash: '#/quiz/eye', atlasHash: '#/organ/eye',
   headline: ['看名稱，', '點出位置。'], description: ['由眼眶骨、眼瞼與淚器、眼外肌與眼眶神經，到眼球各層、水晶體與視覺路徑，在 3D 眼模型上練習辨認。', '每答一題，立即顯示正確位置與資料卡。'],
   scope: '採用眼部詳細模型（左側眼眶）。眼眶的孔、管與裂是標在骨面上的位置，題目以骨面上的一小片色塊表示。題目是較深層的構造時，位於它外側的構造會變成淡淡的玻璃；房水與玻璃體本身透明，除了自己是題目之外一律淡化。',
   defaultView: 'side', defaultSide: 'left', systems: ['skeletal', 'muscular', 'nervous', 'arterial', 'eye', 'brain'],
@@ -277,9 +277,14 @@ for (const id of ORGAN_IDS) QUIZ_REGIONS[id] = organQuizRegion(id);
 export const QUIZ_REGION_IDS = Object.keys(QUIZ_REGIONS) as QuizRegionId[];
 /** Every region that exists in QUIZ_REGIONS right now (read at call time, so a region added to the data is picked up without any list to edit). */
 export const regionIds = () => Object.keys(QUIZ_REGIONS) as QuizRegionId[];
-const REGION_ORDER = ['head-neck', 'thorax', 'back', 'upper-limb', 'lower-limb', 'heart', 'lung', 'brain', 'ear', 'eye'];
+const REGION_ORDER = ['head-neck', 'thorax', 'back', 'upper-limb', 'lower-limb', 'brain', 'eye', 'ear', 'heart', 'lung', 'stomach'];
 /** Regions in the order of the choosers: the known ones first (head and neck, trunk, limbs, organs), any new region after them. */
 export const orderedRegions = (): QuizRegionDef[] => regionIds().sort((a, b) => {const ia = REGION_ORDER.indexOf(a), ib = REGION_ORDER.indexOf(b); return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);}).map(id => QUIZ_REGIONS[id]);
+/** The two groups of the region choosers (setup, mock exam, learn): body regions and organs. A region added to the data lands in its group by itself; unknown ids come after the listed ones. */
+export const regionGroups = (): {id: 'region' | 'organ'; label: string; english: string; regions: QuizRegionDef[]}[] => {
+  const all = orderedRegions();
+  return [{id: 'region' as const, label: '區域', english: 'Regions', regions: all.filter(r => r.group !== 'organ')}, {id: 'organ' as const, label: '器官', english: 'Organs', regions: all.filter(r => r.group === 'organ')}].filter(g => g.regions.length);
+};
 export const isQuizHub = (hash: string) => hash === '#/quiz' || hash === '#/quiz/';
 export const regionOfHash = (hash: string): QuizRegionId | undefined => regionIds().find(id => QUIZ_REGIONS[id].hash === hash);
 export const QUIZ_SECTIONS = LOWER_SECTIONS;
