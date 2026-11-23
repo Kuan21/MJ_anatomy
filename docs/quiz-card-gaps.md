@@ -112,13 +112,12 @@
 - 足底固有趾動脈群（set of plantar digital arteries proper）：缺 來源、走向、主要分支、供應範圍
 - 足底蹠骨動脈（plantar metatarsal artery）：缺 來源、走向、主要分支、供應範圍
 
-### 靜脈：0 / 25 項資料完整
+### 靜脈：3 / 25 項資料完整
 
 - 足背靜脈弓（Dorsal venous arch of left foot）：缺 來源、走向、主要分支、引流範圍
 - 脛前靜脈（anterior tibial vein）：缺 來源、走向、主要分支、引流範圍
 - 股深靜脈（deep femoral vein）：缺 來源、走向、主要分支、引流範圍
 - 穿靜脈群（set of perforating veins）：缺 來源、走向、主要分支、引流範圍
-- 股靜脈（femoral vein）：缺 來源、走向、主要分支、引流範圍
 - 大隱靜脈（great saphenous vein）：缺 來源、走向、主要分支、引流範圍
 - 膝靜脈（genicular vein）：缺 來源、走向、主要分支、引流範圍
 - 足底靜脈弓屬支（tributary of plantar venous arch）：缺 來源、走向、主要分支、引流範圍
@@ -133,9 +132,7 @@
 - 旋股外側靜脈（lateral circumflex femoral vein）：缺 來源、走向、主要分支、引流範圍
 - 旋股內側靜脈（medial circumflex femoral vein）：缺 來源、走向、主要分支、引流範圍
 - 足底蹠骨靜脈（plantar metatarsal vein）：缺 來源、走向、主要分支、引流範圍
-- 總髂靜脈（common iliac vein）：缺 來源、走向、主要分支、引流範圍
 - 內髂靜脈（internal iliac vein）：缺 來源、走向、主要分支、引流範圍
-- 外髂靜脈（external iliac vein）：缺 來源、走向、主要分支、引流範圍
 - 下臀靜脈（inferior gluteal vein）：缺 來源、走向、主要分支、引流範圍
 - 閉孔靜脈（obturator vein）：缺 來源、走向、主要分支、引流範圍
 - 上臀靜脈（superior gluteal vein）：缺 來源、走向、主要分支、引流範圍
@@ -491,17 +488,13 @@
 - 降主動脈（Descending aorta）：缺 來源、走向、主要分支、供應範圍
 - 鎖骨下動脈（subclavian artery）：缺 來源、走向、主要分支、供應範圍
 
-### 靜脈：5 / 14 項資料完整
+### 靜脈：9 / 14 項資料完整
 
 - 副半奇靜脈（Accessory hemiazygos vein）：缺 來源、走向、主要分支、引流範圍
 - 前肋間靜脈群（set of anterior intercostal veins）：缺 來源、走向、主要分支、引流範圍
 - 最上肋間靜脈（superior intercostal vein）：缺 來源、走向、主要分支、引流範圍
 - 肋下靜脈（subcostal vein）：缺 來源、主要分支
 - 肌膈靜脈（musculophrenic vein）：缺 來源、走向、主要分支、引流範圍
-- 內胸靜脈（internal thoracic vein）：缺 來源、走向、主要分支、引流範圍
-- 奇靜脈（Azygos vein）：缺 來源、走向、主要分支、引流範圍
-- 半奇靜脈（Hemiazygos vein）：缺 來源、走向、主要分支、引流範圍
-- 下腔靜脈（Inferior vena cava）：缺 來源、走向、主要分支、引流範圍
 
 ### 關節構造：0 / 3 項資料完整
 
@@ -588,12 +581,11 @@
 - 竇房結動脈（Sinoatrial nodal artery）：缺 來源、走向、主要分支、供應範圍
 - 左緣支（Left marginal branch）：缺 來源、走向、主要分支、供應範圍
 
-### 靜脈：7 / 13 項資料完整
+### 靜脈：8 / 13 項資料完整
 
 - 心中靜脈（Middle cardiac vein）：缺 主要分支
 - 左心室下靜脈（Inferior vein of left ventricle）：缺 來源、主要分支
 - 左心室後靜脈（Posterior vein of left ventricle）：缺 來源、主要分支
-- 下腔靜脈（Inferior vena cava）：缺 來源、走向、主要分支、引流範圍
 - 心小靜脈（Small cardiac vein）：缺 來源、走向、主要分支、引流範圍
 - 心前靜脈（Anterior cardiac veins）：缺 來源、走向、主要分支、引流範圍
 

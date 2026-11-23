@@ -1,4 +1,5 @@
 import {useCallback, useEffect, useReducer, useRef, useState} from 'react';
+import '../organ/organ.css';
 import '../ear-hearing/hearing.css';
 import './swallow.css';
 import {advance, goTo, initialPlay, PHASE_ZH, phaseAt, poseAt, SPEED_SLIDER, stepBy, STEP_COUNT, SWALLOW_NOTE, SWALLOW_STEPS, type PlayState} from './swallow-data';
@@ -15,13 +16,14 @@ export default function SwallowAnimation({onClose}: {onClose: () => void}) {
   const [speed, setSpeed] = useState<number>(SPEED_SLIDER.initial), [ready, setReady] = useState(false), [percent, setPercent] = useState(0), [error, setError] = useState('');
   const speedRef = useRef(speed); speedRef.current = speed;
   const host = useRef<HTMLDivElement>(null), scene = useRef<Scene | null>(null), status = useRef<HTMLDivElement>(null);
+  const stage = useRef<HTMLDivElement>(null), leftGutter = useRef<HTMLDivElement>(null), rightGutter = useRef<HTMLDivElement>(null);
   const step = play.current.step, info = SWALLOW_STEPS[step];
 
   const apply = useCallback((next: PlayState) => {const changed = next.step !== play.current.step; play.current = next; if (changed) rerender();}, []);
   const go = useCallback((i: number) => apply(goTo(play.current, i)), [apply]);
 
   useEffect(() => {
-    try {scene.current = createSwallowScene(host.current!, {progress: setPercent, ready: () => setReady(true), error: setError});}
+    try {scene.current = createSwallowScene(host.current!, {progress: setPercent, ready: () => setReady(true), error: setError}, {stage: stage.current!, left: leftGutter.current!, right: rightGutter.current!});}
     catch {setError('無法啟動 3D 顯示。請改用支援 WebGL 的瀏覽器開啟。');}
     return () => {scene.current?.dispose(); scene.current = null;};
   }, []);
@@ -73,15 +75,21 @@ export default function SwallowAnimation({onClose}: {onClose: () => void}) {
       {SWALLOW_STEPS.map((s, i) => <button key={s.id} aria-current={i === step ? 'step' : undefined} onClick={() => go(i)}><b>{i + 1}</b><span>{s.short}</span></button>)}
     </nav>
     <div className="hear-body">
-      <section className="hear-stage" aria-label="吞嚥 3D 動畫">
-        <div className="hear-layer" ref={host}/>
-        {!ready && !error && <div className="hear-loading" role="status"><span className="organ-spinner"/><strong>載入頭頸模型</strong><small>{percent ? `${percent}%` : '…'}</small></div>}
-        {error && <div className="organ-error stage" role="alert">{error}</div>}
+      <section className="hear-stage swallow-stage" aria-label="吞嚥 3D 動畫">
+        {/* status above the picture, labels in the two gutters beside it, controls below it: nothing is drawn over the moving structures */}
         <div className="swallow-status" ref={status} aria-hidden="true">
           <span data-k="phase">階段 <b>—</b></span><span data-k="naso">鼻咽 <b>開放</b></span><span data-k="inlet">喉口 <b>開放</b></span>
           <span data-k="breath">呼吸 <b>正常</b></span><span data-k="ues">上食道括約肌 <b>收縮（關閉）</b></span>
         </div>
-        <div className="hear-controls">
+        <div className="swallow-view" ref={stage}>
+          <div className="swallow-gutter left" ref={leftGutter} aria-hidden="true"/>
+          <div className="swallow-canvas" ref={host}>
+            {!ready && !error && <div className="hear-loading" role="status"><span className="organ-spinner"/><strong>載入頭頸模型</strong><small>{percent ? `${percent}%` : '…'}</small></div>}
+            {error && <div className="organ-error stage" role="alert">{error}</div>}
+          </div>
+          <div className="swallow-gutter right" ref={rightGutter} aria-hidden="true"/>
+        </div>
+        <div className="hear-controls swallow-controls">
           <div className="hear-btns">
             <button aria-label="上一步" onClick={() => apply(stepBy(play.current, -1))}>◀ 上一步</button>
             <button className="primary" aria-pressed={p.playing} onClick={() => {apply({...play.current, playing: !play.current.playing}); rerender();}}>{p.playing ? '暫停' : '播放'}</button>

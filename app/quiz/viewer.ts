@@ -423,6 +423,17 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
     return lesson.apart ? chooseDirection(box, seededRandom(`${lesson.seed}#apart`), first) : first;
   };
 
+  /** Organ quiz: the question view frames the organ itself (the union of its own structures), not the body-sized section box, so a single organ fills the stage without a click on 放大至目標. */
+  let organBoxCache: T.Box3 | undefined;
+  const organBox = (): T.Box3 => {
+    if (organBoxCache) return organBoxCache.clone();
+    const box = new T.Box3();
+    for (const s of catalogue.structures) if (s.system === 'viscera') box.union(new T.Box3(new T.Vector3().fromArray(s.bounds[0]), new T.Vector3().fromArray(s.bounds[1])));
+    if (box.isEmpty()) box.set(new T.Vector3(-.13, 0, -.04), new T.Vector3(.13, 2, .11));
+    organBoxCache = box;
+    return box.clone();
+  };
+
   const frameModel = (view: QuizView) => {
     if (!state) return;
     const region = QUIZ_REGIONS[catalogue.region ?? 'lower-limb'];
@@ -432,6 +443,7 @@ export function createQuizViewer(host: HTMLDivElement, catalogue: QuizCatalogue,
     const box = view === 'answer' || view === 'space'
       ? new T.Box3(new T.Vector3().fromArray(state.target.bounds[0]), new T.Vector3().fromArray(state.target.bounds[1])).expandByScalar(view === 'space' ? SPACE_OPENING_MARGIN : .015)
       : region.frame.box ? new T.Box3(new T.Vector3().fromArray(region.frame.box[0]), new T.Vector3().fromArray(region.frame.box[1]))
+      : region.frame.organ ? organBox()
       : new T.Box3(new T.Vector3(minX, range[0], region.frame.z[0]), new T.Vector3(maxX, range[1], section === 'foot' && region.frame.footZ ? region.frame.footZ : region.frame.z[1]));
     // A structure spanning two sections must still be entirely in the frame.
     if (view !== 'answer' && view !== 'space') box.union(new T.Box3(new T.Vector3().fromArray(state.target.bounds[0]), new T.Vector3().fromArray(state.target.bounds[1])));

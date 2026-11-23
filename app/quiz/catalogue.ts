@@ -305,9 +305,14 @@ for (const id of ORGAN_IDS) QUIZ_REGIONS[id] = organQuizRegion(id);
 export const QUIZ_REGION_IDS = Object.keys(QUIZ_REGIONS) as QuizRegionId[];
 /** Every region that exists in QUIZ_REGIONS right now (read at call time, so a region added to the data is picked up without any list to edit). */
 export const regionIds = () => Object.keys(QUIZ_REGIONS) as QuizRegionId[];
-const REGION_ORDER = ['head-neck', 'thorax', 'abdomen', 'back', 'upper-limb', 'lower-limb', 'heart', 'lung', 'brain', 'ear', 'eye'];
+const REGION_ORDER = ['head-neck', 'thorax', 'abdomen', 'back', 'upper-limb', 'lower-limb', 'brain', 'eye', 'ear', 'heart', 'lung', 'stomach'];
 /** Regions in the order of the choosers: the known ones first (head and neck, trunk, limbs, organs), any new region after them. */
 export const orderedRegions = (): QuizRegionDef[] => regionIds().sort((a, b) => {const ia = REGION_ORDER.indexOf(a), ib = REGION_ORDER.indexOf(b); return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);}).map(id => QUIZ_REGIONS[id]);
+/** The two groups of the region choosers (setup, mock exam, learn): body regions and organs. A region added to the data lands in its group by itself; unknown ids come after the listed ones. */
+export const regionGroups = (): {id: 'region' | 'organ'; label: string; english: string; regions: QuizRegionDef[]}[] => {
+  const all = orderedRegions();
+  return [{id: 'region' as const, label: '區域', english: 'Regions', regions: all.filter(r => r.group !== 'organ')}, {id: 'organ' as const, label: '器官', english: 'Organs', regions: all.filter(r => r.group === 'organ')}].filter(g => g.regions.length);
+};
 export const isQuizHub = (hash: string) => hash === '#/quiz' || hash === '#/quiz/';
 export const regionOfHash = (hash: string): QuizRegionId | undefined => regionIds().find(id => QUIZ_REGIONS[id].hash === hash);
 export const QUIZ_SECTIONS = LOWER_SECTIONS;

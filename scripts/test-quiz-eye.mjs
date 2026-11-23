@@ -22,7 +22,8 @@ assert.deepEqual(SYSTEMS, ['skeletal', 'muscular', 'nervous', 'arterial', 'eye',
 assert.ok(QUIZ_SYSTEMS.some(s => s.id === 'eye'));
 assert.deepEqual(region.sections.map(s => s.id), ['all', 'orbit', 'adnexa', 'muscles', 'nerves', 'visual', 'wall', 'retina', 'lens']);
 const order = orderedRegions().map(r => r.id);
-assert.equal(order[order.indexOf('ear') + 1], 'eye', 'the setup, learning and exam pages list the eye after the ear');
+assert.equal(order[order.indexOf('brain') + 1], 'eye', 'the setup, learning and exam pages list the eye after the brain');
+assert.equal(order[order.indexOf('eye') + 1], 'ear', 'and the ear after the eye');
 
 const catalogue = JSON.parse(fs.readFileSync('public/models/quiz-eye.json', 'utf8')), report = JSON.parse(fs.readFileSync('.sites-runtime/quiz-eye-report.json', 'utf8'));
 assert.equal(catalogue.region, 'eye');
