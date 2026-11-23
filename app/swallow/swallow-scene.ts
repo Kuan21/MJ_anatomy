@@ -3,7 +3,8 @@ import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import {framingDistance} from '../camera-framing';
 import {fetchModelBuffer} from '../model-download';
 import {indexArray, normalArray, positionArray, type PackedPart} from '../stream-geometry';
-import {LabelLayer, type LabelSpec} from '../ear-hearing/label-layer';
+import type {LabelSpec} from '../ear-hearing/label-layer';
+import {SideLabels} from './side-labels';
 import {tubeCentreline, type V3} from '../ear-hearing/geometry-analysis';
 import {PATH_MARKS, poseAt, type SwallowPose, type SwallowStep} from './swallow-data';
 import {MOVE, pickSwallowParts, type SwallowRole} from './swallow-parts';
@@ -27,7 +28,8 @@ const VIEWS: Record<StepId, {yLow: number; yHigh: number; fill: number}> = {
 
 /** The swallow in 3D: the atlas meshes of the mouth, pharynx, larynx and oesophagus (the same package files as the main atlas), cut at the midline and moved by the time line of
  *  swallow-data.ts. The soft palate and the bolus are schematic (示意): the atlas has the palatal muscles but no soft palate of its own. */
-export function createSwallowScene(host: HTMLElement, callbacks: Callbacks) {
+/** `gutters`: the stage that holds the canvas host and the two label columns beside it (labels are never drawn over the canvas). */
+export function createSwallowScene(host: HTMLElement, callbacks: Callbacks, gutters: {stage: HTMLElement; left: HTMLElement; right: HTMLElement}) {
   const scene = new T.Scene(), camera = new T.PerspectiveCamera(30, 1, .005, 5);
   const renderer = new T.WebGLRenderer({antialias: true, alpha: true, powerPreference: 'low-power'});
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5)); renderer.setClearColor('#cbd2d6', 0);
@@ -36,7 +38,7 @@ export function createSwallowScene(host: HTMLElement, callbacks: Callbacks) {
   const canvas = renderer.domElement; canvas.className = 'hear-canvas'; canvas.style.touchAction = 'none';
   canvas.setAttribute('role', 'img'); canvas.setAttribute('aria-label', '吞嚥 3D 動畫（正中矢狀切面，從左側看右半）。拖曳旋轉，滾輪或雙指縮放。');
   host.appendChild(canvas);
-  const labels = new LabelLayer(host);
+  const labels = new SideLabels(gutters.stage, gutters.left, gutters.right, host);
   const controls = new OrbitControls(camera, canvas); controls.enableDamping = true; controls.dampingFactor = .15; controls.minDistance = .05; controls.maxDistance = 1.5;
   scene.add(new T.HemisphereLight('#ffffff', '#7b8e9c', 2.1));
   const key = new T.DirectionalLight('#fff6e6', 2.3); key.position.set(3, 2, 2); scene.add(key);
@@ -259,7 +261,7 @@ export function createSwallowScene(host: HTMLElement, callbacks: Callbacks) {
       if (!ready || disposed) return;
       if (tween) {const k = Math.min(1, (performance.now() - tween.start) / tween.ms), e = smooth(k); camera.position.lerpVectors(tween.from.pos, tween.to.pos, e); controls.target.lerpVectors(tween.from.tgt, tween.to.tgt, e); if (k >= 1) tween = null;}
       controls.update(); applyPose(poseAt(t)); renderer.render(scene, camera);
-      const r = host.getBoundingClientRect(); labels.update(project, r.width, r.height);
+      labels.update(project);
     },
     get canvas() {return canvas;},
     dispose() {
