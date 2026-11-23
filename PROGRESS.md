@@ -5,7 +5,7 @@
 
 ## 目前狀態
 - 專案處於**穩定期**（2026-11-08 起）：暫停新功能，只修顯示錯誤；所有 PR 都要使用者人工審核，不可自行 merge。
-- main 最新：#485（e626c7d4）。本分支已合併 main 到 #485（2026-11-24 第七十次推送；第七十一次確認 main 沒有前進）。
+- main 最新：#482（e570a471）。本分支已合併 main 到 #482（2026-11-24 第七十二次）。
 - **main 已經有中心線連續性檢查**（#281、#328：`scripts/check-centerlines.mjs`、基準 `docs/centerline-known.json` 57 條，已在 `npm run check` 內）。本分支的 `check-centreline-continuity.mjs` 是另一套做法，見「待我決定」。
 - 開放 PR（下列是 2026-11-11 的清單；本機沒有 `gh`，之後沒有再查，main 已合併到 #338，清單很可能已過時）：
   - #223 心臟腔內構造與標籤（部分完成）
@@ -443,6 +443,12 @@
 - 2026-11-24（第七十一次）：只查狀態，沒有改程式、模型、解剖內容或網站。
   - `git fetch` 後 main 仍在 #485（e626c7d4），本分支已含全部 main 的 commit，不需要合併（遠端只有別的工作階段的 `feat/quiz-abdomen` 前進，與本分支無關）；`scripts/` 內沒有新的 `URL(...).pathname` 寫法；`work/`、`supplement-stream.json.gz` 仍缺。
   - 本機通過：七個 `test-centreline-*`（203 步中的第 152–158 步）、`check-no-notes`。其餘仍等「待我決定」。
+
+- 2026-11-24（第七十二次）：只合併 main，沒有改程式、模型、解剖內容或網站。
+  - main 前進到 #482（腹部 Quiz 區）。`git merge-tree` 確認無衝突、main 沒有刪檔或改名，用一般 merge 合併。
+  - main 新增／修改的 quiz 腳本沒有 `URL.pathname` 或變數 `import()` 寫法。新的 `test-quiz-trunk`（在 `npm run check` 內）路徑正確，本機停在缺少的生成檔 `public/models/quiz-abdomen.json`，與本分支無關，沒有改。
+  - 本機通過：七個 `test-centreline-*`（205 步中的第 152–158 步）、`check-no-notes`。完整 `npm run check` 因缺生成檔沒有跑。
+  - 其餘仍等「待我決定」。`_diag-*.mjs` 四個與 `package-lock.json` 差異仍未提交；本機沒有 `gh`，未查 PR #248 的 CI。
 
 ## 進行中／等審核
 - S2 A–G、S3、S4、S6 相關工作都已有 PR（見上），等使用者審核。
