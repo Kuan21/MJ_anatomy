@@ -5,7 +5,7 @@
 
 ## 目前狀態
 - 專案處於**穩定期**（2026-11-08 起）：暫停新功能，只修顯示錯誤；所有 PR 都要使用者人工審核，不可自行 merge。
-- main 最新：#477（578f87ee）。本分支已合併 main 到 #477（2026-11-23 第六十二次；第六十三至六十八次確認 main 未前進）。
+- main 最新：#477（578f87ee）。本分支已合併 main 到 #477（2026-11-23 第六十二次；第六十三至六十九次確認 main 未前進）。
 - **main 已經有中心線連續性檢查**（#281、#328：`scripts/check-centerlines.mjs`、基準 `docs/centerline-known.json` 57 條，已在 `npm run check` 內）。本分支的 `check-centreline-continuity.mjs` 是另一套做法，見「待我決定」。
 - 開放 PR（下列是 2026-11-11 的清單；本機沒有 `gh`，之後沒有再查，main 已合併到 #338，清單很可能已過時）：
   - #223 心臟腔內構造與標籤（部分完成）
@@ -428,6 +428,10 @@
 
 - 2026-11-23（第六十八次）：只查狀態，沒有改程式、模型、解剖內容或網站。
   - `git fetch` 後 main 仍在 #477（578f87ee），本分支已含全部 main 的 commit，不需要合併（遠端只多了別的工作階段的 `feat/quiz-abdomen` 分支，與本分支無關）；`scripts/` 內沒有新的 `URL(...).pathname` 寫法；`work/`、`supplement-stream.json.gz` 仍缺。
+  - 本機通過：七個 `test-centreline-*`、`check-no-notes`。其餘仍等「待我決定」。
+
+- 2026-11-23（第六十九次）：只查狀態，沒有改程式、模型、解剖內容或網站。
+  - `git fetch` 後 main 仍在 #477（578f87ee），本分支已含全部 main 的 commit，不需要合併（遠端只有別的工作階段的 `feat/quiz-abdomen` 與 `pr-screenshots` 前進，與本分支無關）；`scripts/` 內沒有新的 `URL(...).pathname` 寫法；`work/`、`supplement-stream.json.gz` 仍缺。
   - 本機通過：七個 `test-centreline-*`、`check-no-notes`。其餘仍等「待我決定」。
 
 ## 進行中／等審核
