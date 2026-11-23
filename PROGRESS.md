@@ -1,11 +1,11 @@
 # PROGRESS（自動排程交接檔）
 
-最後更新：2026-11-23。分支：`claude/local-auto`（不推 main、不刪檔）。
+最後更新：2026-11-24。分支：`claude/local-auto`（不推 main、不刪檔）。
 依據：`ROADMAP.md`「穩定期」、`CLAUDE.md`、`git log`、開放 PR 清單。
 
 ## 目前狀態
 - 專案處於**穩定期**（2026-11-08 起）：暫停新功能，只修顯示錯誤；所有 PR 都要使用者人工審核，不可自行 merge。
-- main 最新：#477（578f87ee）。本分支已合併 main 到 #477（2026-11-23 第六十二次；第六十三至六十九次確認 main 未前進）。
+- main 最新：#485（e626c7d4）。本分支已合併 main 到 #485（2026-11-24 第七十次推送）。
 - **main 已經有中心線連續性檢查**（#281、#328：`scripts/check-centerlines.mjs`、基準 `docs/centerline-known.json` 57 條，已在 `npm run check` 內）。本分支的 `check-centreline-continuity.mjs` 是另一套做法，見「待我決定」。
 - 開放 PR（下列是 2026-11-11 的清單；本機沒有 `gh`，之後沒有再查，main 已合併到 #338，清單很可能已過時）：
   - #223 心臟腔內構造與標籤（部分完成）
@@ -433,6 +433,12 @@
 - 2026-11-23（第六十九次）：只查狀態，沒有改程式、模型、解剖內容或網站。
   - `git fetch` 後 main 仍在 #477（578f87ee），本分支已含全部 main 的 commit，不需要合併（遠端只有別的工作階段的 `feat/quiz-abdomen` 與 `pr-screenshots` 前進，與本分支無關）；`scripts/` 內沒有新的 `URL(...).pathname` 寫法；`work/`、`supplement-stream.json.gz` 仍缺。
   - 本機通過：七個 `test-centreline-*`、`check-no-notes`。其餘仍等「待我決定」。
+
+- 2026-11-24（第七十次）：合併 main 並修三個測試腳本的 Windows 路徑，沒有改模型、解剖內容或網站。
+  - 上一次排程已用一般 merge 把 main 合併到 #485（#481 Quiz 設定頁、#483 文件、#484 核對報告、#485 腹部與軀幹靜脈資訊卡），但沒有推送，也留下三個未提交的路徑修正。這次確認後提交並推送。
+  - `test-cranial-nerves`、`test-quiz-example-names`、`test-quiz-touch` 用 `URL.pathname` 當根目錄，本機重現原本會失敗（`C:\C:\…`）；改用 `fileURLToPath`。改後 `test-quiz-touch` 完整通過（25 個控制項都在 44 點以上）；另外兩個越過路徑錯誤，停在缺少的生成檔（`atlas-stream.json`、`quiz-lower.json`），**沒有完整執行**。Linux／CI 行為不變。`scripts/` 內已沒有 `import.meta.url).pathname` 寫法。
+  - 本機通過：七個 `test-centreline-*`、`check-no-notes`、`check:zh`（359 個檔）。完整 `npm run check` 因缺生成檔沒有跑。
+  - 其餘仍等「待我決定」。`_diag-*.mjs` 四個與 `package-lock.json` 差異仍未提交；本機沒有 `gh`，未查 PR #248 的 CI。
 
 ## 進行中／等審核
 - S2 A–G、S3、S4、S6 相關工作都已有 PR（見上），等使用者審核。
