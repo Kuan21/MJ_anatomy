@@ -80,7 +80,7 @@ const parts: OrganPartDef[] = [
       fn: {en: 'Strong peristaltic waves squeeze chyme against the almost closed pylorus, which grinds it; G cells here release gastrin.', zh: '強力的蠕動波把食糜推向幾乎關閉的幽門而加以研磨；這裡的 G 細胞分泌胃泌素。'},
       links: ['Pylorus', 'Pyloric canal', 'Angular incisure']},
   },
-  {key: 'Pyloric canal', en: 'Pyloric canal', zh: '幽門管', group: 'zones', color: '#c9a7e0', mark: zone([5]),
+  {key: 'Pyloric canal', en: 'Pyloric canal', zh: '幽門管', group: 'zones', color: '#e880a8', mark: zone([5]),
     card: {
       loc: {en: 'The narrow, thick-walled distal part of the pyloric part, about 2 to 3 cm long, which ends at the pyloric opening.', zh: '幽門部遠端狹窄、管壁厚的一段，長約 2 至 3 公分，終止於幽門口。'},
       rel: {en: 'Continues into the first part of the duodenum; the head of the pancreas lies behind it.', zh: '向下續接十二指腸第一部，後方是胰頭。'},
@@ -89,7 +89,7 @@ const parts: OrganPartDef[] = [
       fn: {en: 'Passes small amounts of chyme into the duodenum; the thick circular muscle of this part forms the pyloric sphincter at its end.', zh: '把少量食糜送入十二指腸；本段環走肌很厚，在末端形成幽門括約肌。'},
       links: ['Pyloric antrum', 'Pyloric sphincter', 'Duodenum']},
   },
-  {key: 'Greater curvature', en: 'Greater curvature of stomach', zh: '胃大彎', group: 'lines', color: '#1f2a33', mark: line(2, 5, 7), term: true,
+  {key: 'Greater curvature', en: 'Greater curvature of stomach', zh: '胃大彎', group: 'lines', color: '#b39ddb', mark: line(2, 5, 7), term: true,
     card: {
       loc: {en: 'Not a separate structure: the name of the long convex left and lower border of the stomach, from the cardial notch over the fundus and down to the pylorus. Shown as a thin line on the edge of the stomach when chosen.', zh: '不是獨立的構造，而是胃左側與下方那條長而凸的邊緣的名稱：由賁門切跡起，繞過胃底向下到幽門。選取時在胃的邊緣顯示一條細線。'},
       rel: {en: 'Attached along it: the greater omentum (its gastrosplenic and gastrocolic parts); between the two layers of the omentum, near the edge, run the right and left gastro-omental arteries and veins, and the short gastric vessels reach its upper part.', zh: '附著在這條邊緣上的有大網膜（胃脾韌帶與胃結腸韌帶部分）；在網膜兩層之間、靠近邊緣走著左、右胃網膜動脈與靜脈，上段則有短胃血管到達。'},
@@ -97,7 +97,7 @@ const parts: OrganPartDef[] = [
       fn: {en: 'A landmark for describing the stomach and for the attachment of the greater omentum.', zh: '用來描述胃的方位，也是大網膜附著的標記。'},
       links: ['Lesser curvature', 'Cardial notch', 'Fundus', 'Body']},
   },
-  {key: 'Lesser curvature', en: 'Lesser curvature of stomach', zh: '胃小彎', group: 'lines', color: '#1f5a2e', mark: line(1, 3, 6), term: true,
+  {key: 'Lesser curvature', en: 'Lesser curvature of stomach', zh: '胃小彎', group: 'lines', color: '#b39ddb', mark: line(1, 3, 6), term: true,
     card: {
       loc: {en: 'Not a separate structure: the name of the short concave right and upper border of the stomach, from the cardia to the pylorus; its lowest point is the angular incisure. Shown as a thin line on the edge of the stomach when chosen.', zh: '不是獨立的構造，而是胃右側與上方那條短而凹的邊緣的名稱：由賁門到幽門，最低處是胃角切跡。選取時在胃的邊緣顯示一條細線。'},
       rel: {en: 'Attached along it: the lesser omentum (hepatogastric ligament); between its two layers, near the edge, run the left and right gastric arteries and veins, with the left and right gastric lymph nodes and the gastric branches of the vagus nerves.', zh: '附著在這條邊緣上的是小網膜（肝胃韌帶）；在小網膜兩層之間、靠近邊緣走著左、右胃動脈與靜脈，旁邊有左、右胃淋巴結與迷走神經的胃支。'},
@@ -105,14 +105,14 @@ const parts: OrganPartDef[] = [
       fn: {en: 'A landmark for describing the stomach; gastric ulcers are most common along it near the angular incisure.', zh: '用來描述胃的方位；胃潰瘍最常發生在小彎靠近胃角切跡處。'},
       links: ['Greater curvature', 'Angular incisure', 'Cardia']},
   },
-  {key: 'Angular incisure', en: 'Angular incisure (angular notch)', zh: '胃角切跡', group: 'lines', color: '#5a1f7a', mark: line(3), term: true,
+  {key: 'Angular incisure', en: 'Angular incisure (angular notch)', zh: '胃角切跡', group: 'lines', color: '#b39ddb', mark: line(3), term: true,
     card: {
       loc: {en: 'Not a separate structure: the name of the sharp bend in the lower part of the lesser curvature, where the body turns into the pyloric part. Shown as a short thin line on that stretch of the lesser curvature when chosen.', zh: '不是獨立的構造，而是胃小彎下部急轉處的名稱，胃體在此轉為幽門部。選取時在小彎的這一段顯示一小段細線。'},
       rel: {en: 'The lesser omentum and the arcade of the left and right gastric vessels pass along it; the pancreas lies behind this level.', zh: '小網膜與左、右胃血管形成的動脈弓沿此經過；這個水平的後方是胰。'},
       fn: {en: 'Marks the border between the body and the pyloric antrum; on a barium film it shows as a notch, and ulcers are common here.', zh: '標記胃體與幽門竇的分界；鋇劑造影上呈切跡，也是潰瘍好發處。'},
       links: ['Lesser curvature', 'Body', 'Pyloric antrum']},
   },
-  {key: 'Cardial notch', en: 'Cardial notch', zh: '賁門切跡', group: 'lines', color: '#a0520e', mark: line(5), term: true,
+  {key: 'Cardial notch', en: 'Cardial notch', zh: '賁門切跡', group: 'lines', color: '#b39ddb', mark: line(5), term: true,
     card: {
       loc: {en: 'Not a separate structure: the name of the sharp angle between the left border of the abdominal oesophagus and the fundus, where the greater curvature begins. Shown as a short thin line there when chosen.', zh: '不是獨立的構造，而是食道腹部左緣與胃底之間銳角的名稱，胃大彎由此開始。選取時在該處顯示一小段細線。'},
       rel: {en: 'It lies under the left dome of the diaphragm, between the oesophagus and the fundus; the gastrophrenic ligament and short gastric vessels are close by.', zh: '位在左側橫膈圓頂下方、食道與胃底之間；附近有胃膈韌帶與短胃血管。'},

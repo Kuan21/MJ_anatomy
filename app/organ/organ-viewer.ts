@@ -10,6 +10,8 @@ interface Manifest {bytes: number; gzip: string; parts: ManifestPart[]}
 interface Callbacks {progress: (percent: number) => void; ready: () => void; error: (message: string) => void; pick: (key: string | null) => void}
 
 export const ORGAN_SELECT = {fill: '#5DB89A', emissive: '#1f6b52'};
+/** Thin line of an edge term (greater or lesser curvature, notch, lower border): one light lavender for every organ, whether or not it is selected (user 2026-11-22). */
+export const ORGAN_EDGE_LINE = {fill: '#b39ddb', emissive: '#2a2140'};
 const CUT_COLOR = '#d9928a';
 /** Each cut removes the half that faces the camera that looks into it: sagittal from the body's right, coronal from the front, horizontal from above. */
 export const ORGAN_CUT: Record<'sagittal' | 'coronal' | 'horizontal', {flip: boolean; view: OrganView}> = {sagittal: {flip: false, view: 'right'}, coronal: {flip: true, view: 'front'}, horizontal: {flip: true, view: 'top'}};
@@ -68,7 +70,8 @@ export function createOrganViewer(host: HTMLDivElement, def: OrganDef, callbacks
       }
       it.mesh.visible = visible;
       const m = it.mesh.material;
-      m.clippingPlanes = clip ? [plane] : []; m.color.set(selected ? ORGAN_SELECT.fill : d.color); m.emissive.set(selected ? ORGAN_SELECT.emissive : '#000000');
+      m.clippingPlanes = clip ? [plane] : []; const edge = !!d.term && d.mark?.channel === 'line', look = edge ? ORGAN_EDGE_LINE : selected ? ORGAN_SELECT : null;
+      m.color.set(look ? look.fill : d.color); m.emissive.set(look ? look.emissive : '#000000');
       m.opacity = opacity; m.transparent = opacity < 1; m.depthWrite = opacity >= .6;
       if (it.cap) { it.cap.visible = visible && clip && opacity >= 1 && !d.mark; (it.cap.material as T.MeshStandardMaterial).clippingPlanes = clip ? [plane] : []; }
     }

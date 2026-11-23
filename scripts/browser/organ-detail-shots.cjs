@@ -1,4 +1,4 @@
-// Screenshots of an organ detail mode (#/organ/<organ>): organ, arteries, veins, nerves, overview from the front and back, one structure selected, a section. Takes a production build
+// Screenshots of an organ detail mode (#/organ/<organ>): organ (region colours on and off), arteries, veins, nerves, overview from the front and back, one structure selected, a section. Takes a production build
 // served by `vite preview`; take /tmp/claude-0/heavy.lock and /tmp/claude-0/browser.lock yourself first.
 // usage: node organ-detail-shots.cjs <organ> <port> <outDir> <label> [desktop|mobile|tablet] [search term] [more terms to select, comma-separated]   (BASE_PATH=/MJ_anatomy/ when the build used --base)
 // Each extra term is searched, chosen and shot on its own (9-<n>-<term>.png), from the front, with the organ preset.
@@ -17,6 +17,9 @@ const viewport = size === 'mobile' ? {width: 390, height: 844} : size === 'table
   const preset = async zh => { await click(p.locator('.organ-segmented[aria-label="顯示分組"] button', {hasText: zh})); await p.waitForTimeout(1500); };
   await shot('0-entry');
   await preset('器官'); await shot('1-organ');
+  // the region colours switched the other way (on in the organ view: off), then back
+  const zonesBtn = p.locator('button[title="Region colours｜分區顏色"]');
+  if (await zonesBtn.count()) { await click(zonesBtn.first()); await p.waitForTimeout(1200); await shot('1b-zones-toggled'); await click(zonesBtn.first()); await p.waitForTimeout(1200); }
   await preset('動脈'); await shot('2-arteries');
   await preset('靜脈'); await shot('3-veins');
   await preset('神經'); await shot('4-nerves');
