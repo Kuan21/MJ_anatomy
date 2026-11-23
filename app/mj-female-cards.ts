@@ -97,7 +97,7 @@ export const femaleCards:Record<string,Body>={
  'ovary':card('卵巢',R,
   'The almond-shaped female gonad: it produces egg cells and the hormones oestrogen and progesterone.',
   '杏仁形的女性生殖腺：產生卵細胞以及雌激素與黃體素。',[
-  loc('On the side wall of the pelvis in the ovarian fossa, near the division of the common iliac artery','位於骨盆側壁的卵巢窩，靠近髂總動脈分叉處'),
+  loc('On the side wall of the pelvis in the ovarian fossa, near the division of the common iliac artery','位於骨盆側壁的卵巢窩，靠近總髂動脈分叉處'),
   rel('Held by the suspensory ligament, the mesovarium and the ovarian ligament; the fimbriae of the uterine tube lie against it','由卵巢懸韌帶、卵巢繫膜與卵巢韌帶固定；輸卵管繖貼附於其上'),
   sup('Ovarian artery from the abdominal aorta, with a branch of the uterine artery','卵巢動脈（起自腹主動脈）與子宮動脈的分支'),
   fn('Releases an egg each cycle and secretes sex hormones','每個週期排出一顆卵，並分泌性激素')]),
@@ -106,7 +106,7 @@ export const femaleCards:Record<string,Body>={
   '子宮的主要上部，肌層（子宮肌層）環繞子宮腔。',[
   loc('In the middle of the pelvis between the bladder in front and the rectum behind; normally tipped forward over the bladder','位於骨盆中央，前為膀胱、後為直腸；一般前傾，覆於膀胱上方'),
   rel('The uterine tubes enter at the upper corners; the body narrows to the isthmus and cervix below','輸卵管由上外角進入；向下漸窄，接子宮峽與子宮頸'),
-  sup('Uterine artery, from the internal iliac artery','子宮動脈，來自髂內動脈'),
+  sup('Uterine artery, from the internal iliac artery','子宮動脈，來自內髂動脈'),
   fn('Receives the embryo, grows with the foetus and contracts in labour','容納胚胎、隨胎兒增大，並在分娩時收縮')]),
  'fundus of uterus':card('子宮底',R,
   'The rounded top of the uterus, above the openings of the uterine tubes.',
@@ -131,7 +131,7 @@ export const femaleCards:Record<string,Body>={
   rel('The round ligament and the ovarian ligament attach just below and behind it','圓韌帶與卵巢韌帶附著於其下方與後方')]),
  'uterine artery':card('子宮動脈',"Artery｜動脈",
   'The main artery of the uterus; it arises from the internal iliac artery and runs along the base of the broad ligament.',
-  '子宮的主要動脈；起自髂內動脈，沿闊韌帶底部走行。',[
+  '子宮的主要動脈；起自內髂動脈，沿闊韌帶底部走行。',[
   ['Course','走向','Runs medially in the cardinal ligament, crosses above and in front of the ureter, then climbs along the side of the uterus and anastomoses with the ovarian artery','在子宮主韌帶內向內側走，從輸尿管上前方跨過，再沿子宮側緣上行，與卵巢動脈吻合'],
   sup('Supplies the uterus, upper vagina, uterine tube and ovary','供應子宮、陰道上部、輸卵管與卵巢')]),
  'uterine vein':card('子宮靜脈',"Vein｜靜脈",
@@ -154,7 +154,7 @@ export const femaleCards:Record<string,Body>={
   '儲存尿液的中空肌性器官；壁為逼尿肌，內襯可伸展的上皮。',[
   loc('In the pelvis behind the pubic symphysis; in the female it lies in front of the uterus and the upper vagina','位於骨盆內、恥骨聯合後方；女性位於子宮與陰道上部前方'),
   rel('The ureters enter at the back of the base; the urethra leaves from the neck','輸尿管由底部後方進入，尿道由膀胱頸發出'),
-  sup('Superior and inferior vesical arteries (branches of the internal iliac artery)','膀胱上動脈與膀胱下動脈（髂內動脈分支）'),
+  sup('Superior and inferior vesical arteries (branches of the internal iliac artery)','膀胱上動脈與膀胱下動脈（內髂動脈分支）'),
   fn('Stores urine and empties it through the urethra','儲存尿液，並經尿道排空')]),
  'trigone of urinary bladder':card('膀胱三角',U,
   'The smooth triangular area on the inside of the bladder base, bounded by the two ureteric openings and the internal urethral opening.',

@@ -13,17 +13,17 @@
 ## 一、結果摘要
 
 - 涵蓋結構名稱（去除左右後）：1475 個
-- 採用來源 1（muscle-layers.json）改名：33 個；來源 2（跑考摘要）：14 個；來源 3（其他筆記）：24 個
+- 採用來源 1（muscle-layers.json）改名：33 個；來源 2（跑考摘要）：13 個；來源 3（其他筆記）：22 個
 - 全站固定修正：「背闊肌」→「闊背肌」、「頷」→「頜」、「腭」→「顎」
 - 仍缺中文名或含英文：0 個
 
 | 來源 | 結構數 |
 |---|---|
-| 台灣解剖學名詞（程式內建對照表） | 1229 |
+| 台灣解剖學名詞（程式內建對照表） | 1226 |
 | muscle-layers.json | 88 |
-| glossary.json（其他筆記） | 70 |
-| 必考清單用詞（app/mj-required-names.json） | 56 |
-| glossary.json（跑考摘要） | 32 |
+| glossary.json（其他筆記） | 68 |
+| 必考清單用詞（app/mj-required-names.json） | 62 |
+| glossary.json（跑考摘要） | 31 |
 
 ## 二、已改名（前後對照）
 
@@ -83,8 +83,6 @@
 | radial recurrent artery | glossary.json（其他筆記） | 橈側返動脈 | 橈側迴返動脈 |
 | Dorsal pancreatic artery | glossary.json（其他筆記） | 胰背動脈 | 背胰動脈 |
 | Inferior pancreaticoduodenal artery | glossary.json（其他筆記） | 胰十二指腸下動脈 | 下胰十二指腸動脈 |
-| external iliac artery | glossary.json（其他筆記） | 髂外動脈 | 外髂動脈 |
-| internal iliac artery | glossary.json（其他筆記） | 髂內動脈 | 內髂動脈 |
 | inferior epigastric artery | glossary.json（其他筆記） | 腹壁下動脈 | 下腹壁動脈 |
 | inferior phrenic artery | glossary.json（其他筆記） | 膈下動脈 | 下膈動脈 |
 | superficial epigastric artery | glossary.json（跑考摘要） | 腹壁淺動脈 | 淺腹壁動脈 |
@@ -92,7 +90,6 @@
 | dorsal scapular nerve | glossary.json（其他筆記） | 肩胛背神經 | 背肩胛神經 |
 | long thoracic nerve | glossary.json（其他筆記） | 胸長神經 | 長胸神經 |
 | medial sural cutaneous nerve | glossary.json（跑考摘要） | 腓腸內側皮神經 | 內側腓腸皮神經 |
-| lateral femoral cutaneous nerve | glossary.json（跑考摘要） | 股外側皮神經 | 外股皮神經 |
 | superficial fibular nerve | glossary.json（跑考摘要） | 腓淺神經 | 淺腓神經 |
 | deep fibular nerve | glossary.json（跑考摘要） | 腓深神經 | 深腓神經 |
 | lateral plantar nerve | glossary.json（跑考摘要） | 足底外側神經 | 外蹠神經 |
@@ -1206,7 +1203,7 @@
 | Transverse head of adductor hallucis | 台灣解剖學名詞（程式內建對照表） | 拇收肌橫頭 |
 | Abdominal part of pectoralis major | 台灣解剖學名詞（程式內建對照表） | 胸大肌腹部 |
 | Clavicular part of pectoralis major | 台灣解剖學名詞（程式內建對照表） | 胸大肌鎖骨頭 |
-| Linea alba | 台灣解剖學名詞（程式內建對照表） | 腹白線 |
+| Linea alba | 必考清單用詞（app/mj-required-names.json） | 白線 |
 | coccygeus | glossary.json（其他筆記） | 尾骨肌 |
 | superficial perineal muscle | 台灣解剖學名詞（程式內建對照表） | 淺會陰肌 |
 | External anal sphincter | 台灣解剖學名詞（程式內建對照表） | 肛門外括約肌 |
@@ -2030,7 +2027,7 @@
 | Dorsal pancreatic artery | glossary.json（其他筆記） | 背胰動脈 |
 | Set of oesophageal branches of thoracic aorta | 台灣解剖學名詞（程式內建對照表） | 胸主動脈食道支 |
 | Trunk of gastroduodenal artery | 台灣解剖學名詞（程式內建對照表） | 胃十二指腸動脈幹 |
-| Great pancreatic artery | 台灣解剖學名詞（程式內建對照表） | 胰大動脈 |
+| Great pancreatic artery | 必考清單用詞（app/mj-required-names.json） | 大胰動脈 |
 | Hemiazygos vein | 台灣解剖學名詞（程式內建對照表） | 半奇靜脈 |
 | Ileal artery | glossary.json（其他筆記） | 迴腸動脈 |
 | Ileal vein | 台灣解剖學名詞（程式內建對照表） | 迴腸靜脈 |
@@ -2042,11 +2039,11 @@
 | Inferior pancreaticoduodenal artery | glossary.json（其他筆記） | 下胰十二指腸動脈 |
 | Inferior phrenic vein | 必考清單用詞（app/mj-required-names.json） | 下膈靜脈 |
 | Anterior division of renal artery | 台灣解剖學名詞（程式內建對照表） | 腎動脈前分支 |
-| common iliac artery | 台灣解剖學名詞（程式內建對照表） | 總髂動脈 |
+| common iliac artery | 必考清單用詞（app/mj-required-names.json） | 總髂動脈 |
 | common iliac vein | glossary.json（其他筆記） | 總髂靜脈 |
-| external iliac artery | glossary.json（其他筆記） | 外髂動脈 |
+| external iliac artery | 必考清單用詞（app/mj-required-names.json） | 外髂動脈 |
 | inferior suprarenal artery | 必考清單用詞（app/mj-required-names.json） | 下腎上腺動脈 |
-| internal iliac artery | glossary.json（其他筆記） | 內髂動脈 |
+| internal iliac artery | 必考清單用詞（app/mj-required-names.json） | 內髂動脈 |
 | internal iliac vein | 必考清單用詞（app/mj-required-names.json） | 內髂靜脈 |
 | middle suprarenal artery | 必考清單用詞（app/mj-required-names.json） | 中腎上腺動脈 |
 | Posterior division of renal artery | 台灣解剖學名詞（程式內建對照表） | 腎動脈後分支 |
@@ -2184,7 +2181,7 @@
 | medial sural cutaneous nerve | glossary.json（跑考摘要） | 內側腓腸皮神經 |
 | anterior cutaneous branches of femoral nerve | 台灣解剖學名詞（程式內建對照表） | 股神經前皮支 |
 | femoral nerve | glossary.json（跑考摘要） | 股神經 |
-| lateral femoral cutaneous nerve | glossary.json（跑考摘要） | 外股皮神經 |
+| lateral femoral cutaneous nerve | 必考清單用詞（app/mj-required-names.json） | 外股皮神經 |
 | obturator nerve | 台灣解剖學名詞（程式內建對照表） | 閉孔神經 |
 | posterior branch of obturator nerve | 台灣解剖學名詞（程式內建對照表） | 閉孔神經後支 |
 | anterior branch of obturator nerve | 台灣解剖學名詞（程式內建對照表） | 閉孔神經前支 |

@@ -3,6 +3,7 @@ import {ArrowLeft, ChevronRight, GraduationCap} from 'lucide-react';
 import {learnHashOf, orderedRegions} from './catalogue';
 import {loadProgress} from './learn-progress';
 import {ModeNav} from './mode-nav';
+import {RegionGroups} from './setup-parts';
 import './quiz.css';
 
 /** 學習 entrance: the regions come from the question data (QUIZ_REGIONS), so a new region shows up here without any change to this page. */
@@ -25,11 +26,7 @@ export default function LearnHub() {
         <h1 tabIndex={-1}>從哪個區域開始學？</h1>
         <p>每個區域分成多個小關卡，每關 4 至 12 個構造。每關三步：先「認識」，再「練習」，最後「過關測驗」，答對 80% 以上才解鎖下一關。在 Quiz 常答錯的構造會在地圖上標示，提醒你重溫。</p>
       </section>
-      <section aria-label="身體部位" className="quiz-hub-grid">{regions.filter(r => r.group !== 'organ').map(card)}</section>
-      {regions.some(r => r.group === 'organ') && <>
-        <h2 className="quiz-hub-subhead">器官 <small>Organs</small></h2>
-        <section aria-label="器官" className="quiz-hub-grid quiz-hub-organs">{regions.filter(r => r.group === 'organ').map(card)}</section>
-      </>}
+      <div className="quiz-hub-regions"><RegionGroups tile={card}/></div>
     </div>
   </main>;
 }

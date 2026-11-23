@@ -5,7 +5,7 @@
   {
    "id": "common-iliac-artery",
    "en": "Common iliac artery",
-   "zh": "髂總動脈",
+   "zh": "總髂動脈",
    "kind": "artery",
    "bilateral": true,
    "parent": null,
@@ -36,7 +36,7 @@
   {
    "id": "internal-iliac-artery",
    "en": "Internal iliac artery",
-   "zh": "髂內動脈",
+   "zh": "內髂動脈",
    "kind": "artery",
    "bilateral": true,
    "parent": "common-iliac-artery",
@@ -49,7 +49,7 @@
    "terminal": false,
    "origin": {
     "en": "Common iliac artery",
-    "zh": "髂總動脈"
+    "zh": "總髂動脈"
    },
    "course": {
     "en": "Short trunk that runs down into the pelvis in front of the sacroiliac joint and splits into an anterior and a posterior division",
@@ -71,7 +71,7 @@
   {
    "id": "external-iliac-artery",
    "en": "External iliac artery",
-   "zh": "髂外動脈",
+   "zh": "外髂動脈",
    "kind": "artery",
    "bilateral": true,
    "parent": "common-iliac-artery",
@@ -84,7 +84,7 @@
    "terminal": false,
    "origin": {
     "en": "Common iliac artery",
-    "zh": "髂總動脈"
+    "zh": "總髂動脈"
    },
    "course": {
     "en": "Runs along the medial border of psoas major to the midpoint between the anterior superior iliac spine and the pubic symphysis, where it passes under the inguinal ligament",
@@ -542,7 +542,7 @@
    "terminal": false,
    "origin": {
     "en": "Posterior division of the internal iliac artery",
-    "zh": "髂內動脈後幹"
+    "zh": "內髂動脈後幹"
    },
    "course": {
     "en": "Passes backwards between the lumbosacral trunk and the first sacral nerve and leaves the pelvis through the greater sciatic foramen above piriformis, then divides into superficial and deep branches",
@@ -637,7 +637,7 @@
    "terminal": true,
    "origin": {
     "en": "Anterior division of the internal iliac artery",
-    "zh": "髂內動脈前幹"
+    "zh": "內髂動脈前幹"
    },
    "course": {
     "en": "Passes between the second and third sacral nerves and leaves the pelvis below piriformis, then enters gluteus maximus",
@@ -670,7 +670,7 @@
    "terminal": true,
    "origin": {
     "en": "Anterior division of the internal iliac artery",
-    "zh": "髂內動脈前幹"
+    "zh": "內髂動脈前幹"
    },
    "course": {
     "en": "Leaves the pelvis below piriformis, curves round the ischial spine and returns to the perineum through the lesser sciatic foramen",
@@ -704,7 +704,7 @@
    "terminal": true,
    "origin": {
     "en": "Anterior division of the internal iliac artery",
-    "zh": "髂內動脈前幹"
+    "zh": "內髂動脈前幹"
    },
    "course": {
     "en": "Runs along the lateral wall of the pelvis with the obturator nerve and vein and leaves through the obturator canal, then divides into anterior and posterior branches",

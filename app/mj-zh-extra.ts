@@ -28,7 +28,7 @@ const EXACT:Record<string,string>={
  'superior lingular bronchial tree':'上舌支氣管樹','inferior lingular bronchial tree':'下舌支氣管樹',
  // costal cartilage, discs, connective
  'first costal cartilage':'第一肋軟骨','second costal cartilage':'第二肋軟骨','third costal cartilage':'第三肋軟骨','fourth costal cartilage':'第四肋軟骨','fifth costal cartilage':'第五肋軟骨','sixth costal cartilage':'第六肋軟骨','seventh costal cartilage':'第七肋軟骨',
- 'intervertebral disk':'椎間盤','intervertebral disk of axis':'第二頸椎椎間盤','iliotibial tract':'髂脛束','linea alba':'腹白線','calcaneal tendon':'跟腱','intermediate tendon':'中間腱','long plantar ligament':'長足底韌帶',
+ 'intervertebral disk':'椎間盤','intervertebral disk of axis':'第二頸椎椎間盤','iliotibial tract':'髂脛束','linea alba':'白線','calcaneal tendon':'跟腱','intermediate tendon':'中間腱','long plantar ligament':'長足底韌帶',
  'interosseous membrane of forearm':'前臂骨間膜','interosseous membrane of leg':'小腿骨間膜','flexor retinaculum of wrist':'屈肌支持帶（腕）','tendinous arch of levator ani':'提肛肌腱弓','lacrimal bone':'淚骨',
  // eye
  'anterior chamber of eyeball':'眼前房','check ligament of lateral rectus':'外直肌制止韌帶','check ligament of medial rectus':'內直肌制止韌帶','choroid':'脈絡膜','common tendinous ring':'總腱環','cornea':'角膜','corona ciliaris':'睫狀冠',
@@ -61,7 +61,7 @@ const EXACT:Record<string,string>={
  'coronary sinus':'冠狀竇','celiac trunk':'腹腔動脈幹','celiac artery':'腹腔動脈幹','basilar artery':'基底動脈','anterior communicating artery':'前交通支','common hepatic artery':'總肝動脈','hepatic artery proper':'肝固有動脈',
  'inferior mesenteric artery':'下腸繫膜動脈','ileocolic artery':'迴結腸動脈','ileal artery':'迴腸動脈','appendicular artery':'闌尾動脈','anterior cecal artery':'盲腸前動脈','lumbar artery':'腰動脈','marginal colic artery':'結腸邊緣動脈','marginal artery of colon':'結腸邊緣動脈',
  'anterior inferior cerebellar artery':'前下小腦動脈','anterior inferior pancreaticoduodenal artery':'前下胰十二指腸動脈','anterior superior pancreaticoduodenal artery':'前上胰十二指腸動脈','inferior pancreaticoduodenal artery':'胰十二指腸下動脈',
- 'dorsal pancreatic artery':'胰背動脈','great pancreatic artery':'胰大動脈','inferior pancreatic artery':'胰下動脈','caudal pancreatic artery':'胰尾動脈',
+ 'dorsal pancreatic artery':'胰背動脈','great pancreatic artery':'大胰動脈','inferior pancreatic artery':'胰下動脈','caudal pancreatic artery':'胰尾動脈',
  'hepatic portal vein':'肝門靜脈','pre-hepatic portal vein':'肝前門靜脈','middle hepatic vein':'中肝靜脈','splenic vein':'脾靜脈','superior mesenteric vein':'上腸繫膜靜脈','inferior mesenteric vein':'下腸繫膜靜脈','ileocolic vein':'迴結腸靜脈','ileal vein':'迴腸靜脈',
  'middle colic vein':'中結腸靜脈','sigmoid vein':'乙狀結腸靜脈','superior rectal vein':'上直腸靜脈','pancreaticoduodenal vein':'胰十二指腸靜脈','gastric vein':'胃靜脈','gastroepiploic vein':'胃網膜靜脈','colic vein':'結腸靜脈','lumbar vein':'腰靜脈',
  'inferior phrenic vein':'下膈靜脈','superior phrenic vein':'膈上靜脈','median sacral vein':'正中薦靜脈','dorsal metacarpal vein':'掌背靜脈','deep dorsal vein of penis':'陰莖深背靜脈','superficial dorsal vein of penis':'陰莖淺背靜脈',
