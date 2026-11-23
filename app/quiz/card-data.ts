@@ -1153,7 +1153,7 @@ Object.assign(CARD_EXTRAS, {
   'gallbladder': {
     位置: e('梨形的囊袋，位於肝臟面右縱溝前部的膽囊窩，其底部常在右側肋弓與腹直肌外緣的交點（第九肋軟骨）露出肝下緣', 'Pear-shaped sac lying in the gallbladder fossa at the front of the right sagittal groove on the visceral surface of the liver, with its fundus often projecting beyond the inferior border at the junction of the right costal margin and the lateral border of rectus abdominis (ninth costal cartilage)'),
     組成: e('分為底、體、頸三部分，頸部續接膽囊管；容積約三十至五十毫升；黏膜在頸部呈螺旋瓣；下面被腹膜覆蓋，上面直接貼肝', 'Divided into fundus, body and neck, with the neck continuing into the cystic duct; capacity about 30 to 50 mL; the mucosa forms a spiral fold in the neck; the lower surface is covered by peritoneum while the upper surface is attached directly to the liver'),
-    毗鄰: e('下方與十二指腸上部及結腸右曲相鄰，內側為十二指腸，前方為肝下緣與腹前壁；頸部靠近肝門右端', 'Below it lie the first part of the duodenum and the right colic flexure, in front are the inferior liver border and the anterior abdominal wall; its neck lies near the right end of the porta hepatis'),
+    毗鄰: e('下方與十二指腸上部及結腸右曲相鄰，後內側為十二指腸上部，前方為肝下緣與腹前壁；頸部靠近肝門右端', 'Below it lie the right colic flexure and, posteromedially, the first part of the duodenum; in front are the inferior liver border and the anterior abdominal wall; its neck lies near the right end of the porta hepatis'),
     血液供應: e('膽囊動脈，通常來自肝右動脈，經膽囊三角至膽囊頸；靜脈經膽囊靜脈入門靜脈右支，或直接入肝', 'Cystic artery, usually from the right hepatic artery, reaching the neck through the cystohepatic triangle; veins drain through the cystic vein to the right branch of the portal vein or directly into the liver'),
     神經支配: e('腹腔叢的交感纖維、迷走神經的副交感纖維，以及右膈神經的感覺纖維（膈下腹膜受刺激時，疼痛牽涉右肩）', 'Sympathetic fibres from the coeliac plexus, parasympathetic fibres from the vagus nerve and sensory fibres of the right phrenic nerve (irritation of the peritoneum near the diaphragm refers pain to the right shoulder)'),
     作用: e('濃縮並儲存肝分泌的膽汁；進食後在膽囊收縮素作用下收縮，把膽汁經膽囊管與膽總管排入十二指腸', 'Concentrates and stores the bile made by the liver; after a meal it contracts under cholecystokinin and drives bile through the cystic and common bile ducts into the duodenum'),
@@ -1168,7 +1168,7 @@ Object.assign(CARD_EXTRAS, {
   'body of gallbladder': {
     位置: e('膽囊的主要部分，貼在肝臟面的膽囊窩，介於底與頸之間', 'The main part of the gallbladder, lying in the gallbladder fossa of the liver between fundus and neck'),
     組成: e('上面直接貼肝（以疏鬆結締組織連接），下面被腹膜覆蓋', 'Its upper surface is attached directly to the liver by loose connective tissue and its lower surface is covered by peritoneum'),
-    毗鄰: e('下面為十二指腸上部與橫結腸', 'Below it lie the first part of the duodenum and the transverse colon'),
+    毗鄰: e('後內側為十二指腸上部，下方為橫結腸', 'Posteromedially lie the first part of the duodenum, and below it the transverse colon'),
     血液供應: e('膽囊動脈的淺支與深支', 'The superficial and deep branches of the cystic artery'),
     作用: e('是儲存膽汁的主要部位', 'The main store for bile'),
   },
@@ -1316,7 +1316,7 @@ Object.assign(CARD_EXTRAS, {
   },
   'right hepatic artery': {
     來源: e('肝固有動脈在肝門右側的終支；約有一成多起自上腸繫膜動脈（替代肝右動脈），是最常見的肝動脈變異之一', 'The right terminal branch of the hepatic artery proper; in more than one in ten people it arises from the superior mesenteric artery (a replaced right hepatic artery), one of the commonest hepatic arterial variants'),
-    走向: e('向右走，約三分之二在總肝管後方越過，其餘在前方，進入肝門右側；替代型則走在門靜脈後方。途中通常在膽囊三角內發出膽囊動脈', 'Runs to the right, passing behind the common hepatic duct in about two thirds of people and in front of it in the rest, to enter the right side of the porta hepatis (a replaced one runs behind the portal vein); it usually gives off the cystic artery within the cystohepatic triangle'),
+    走向: e('向右走，多數在總肝管後方越過，少數在前方，進入肝門右側；替代型則走在門靜脈後方。途中通常在膽囊三角內發出膽囊動脈', 'Runs to the right, passing behind the common hepatic duct in most people and in front of it in a minority, to enter the right side of the porta hepatis (a replaced one runs behind the portal vein); it usually gives off the cystic artery within the cystohepatic triangle'),
     主要分支: e('膽囊動脈', 'Cystic artery'),
     供應範圍: e('肝右葉與膽囊', 'The right lobe of the liver and the gallbladder'),
   },
@@ -1509,7 +1509,7 @@ Object.assign(CARD_EXTRAS, {
   },
   'thyrocervical trunk': {
     來源: e('鎖骨下動脈第一段的前上壁，在前斜角肌內側緣附近、椎動脈起點外側發出', 'From the front of the first part of the subclavian artery, near the medial border of scalenus anterior and lateral to the origin of the vertebral artery'),
-    走向: e('非常短（約一公分），向上發出後即分為多條分支；膈神經沿前斜角肌前面下行，位於其前方', 'A very short trunk (about 1 cm) that divides almost at once into several branches; the phrenic nerve descends on the front of scalenus anterior, in front of it'),
+    走向: e('非常短（約一公分），向上發出後即分為多條分支；其中頸橫動脈與肩胛上動脈向外橫越前斜角肌與膈神經的前方，膈神經貼在前斜角肌前面、位於這兩條動脈後方', 'A very short trunk (about 1 cm) that divides almost at once into several branches; of these, the transverse cervical and suprascapular arteries pass laterally in front of scalenus anterior and the phrenic nerve, which lies on the front of scalenus anterior behind them'),
     主要分支: e('甲狀腺下動脈（頸升動脈多由此發出）、頸橫動脈與肩胛上動脈', 'The inferior thyroid artery (the ascending cervical artery usually arises from it), the transverse cervical artery and the suprascapular artery'),
     供應範圍: e('甲狀腺、喉與氣管下部、食道頸段、頸後三角與肩胛區的肌肉，並由頸升動脈供應頸部深層肌與脊髓', 'The thyroid gland, lower larynx and trachea, cervical oesophagus, the muscles of the posterior triangle and scapular region, and through the ascending cervical artery the deep neck muscles and spinal cord'),
   },
@@ -1521,7 +1521,7 @@ Object.assign(CARD_EXTRAS, {
   },
   'subclavian vein': {
     來源: e('為腋靜脈在第一肋外側緣處的延續', 'The continuation of the axillary vein at the outer border of the first rib'),
-    走向: e('在第一肋上方、前斜角肌的前方經過，與其後方的鎖骨下動脈被前斜角肌與膈神經隔開；繞過鎖骨後方行向內側，在胸鎖關節後方與內頸靜脈匯合；左側的胸導管與右側的右淋巴導管注入靜脈角', 'Passes over the first rib in front of scalenus anterior, which separates it from the subclavian artery behind; it runs medially behind the clavicle and joins the internal jugular vein behind the sternoclavicular joint; the thoracic duct on the left and the right lymphatic duct on the right enter at the venous angle'),
+    走向: e('在第一肋上方、前斜角肌的前方經過，前斜角肌將它與後方的鎖骨下動脈隔開，膈神經貼在前斜角肌前面、位於靜脈後方；繞過鎖骨後方行向內側，在胸鎖關節後方與內頸靜脈匯合；左側的胸導管與右側的右淋巴導管注入靜脈角', 'Passes over the first rib in front of scalenus anterior, which separates it from the subclavian artery behind, while the phrenic nerve lies on the front of scalenus anterior behind the vein; it runs medially behind the clavicle and joins the internal jugular vein behind the sternoclavicular joint; the thoracic duct on the left and the right lymphatic duct on the right enter at the venous angle'),
     主要分支: e('頸外靜脈、肩胛背靜脈（偶有頸前靜脈）', 'The external jugular and dorsal scapular veins (occasionally the anterior jugular vein)'),
     引流範圍: e('上肢的全部靜脈血，以及頸部淺層與肩部一部分的血液', 'All the venous blood of the upper limb, with part of that from the superficial neck and shoulder'),
   },
@@ -1702,7 +1702,7 @@ Object.assign(CARD_EXTRAS, {
   },
   'common iliac vein': {
     來源: e('由外髂靜脈與內髂靜脈在薦髂關節前方匯合而成', 'Formed by the union of the external and internal iliac veins in front of the sacroiliac joint'),
-    走向: e('向內上方行，位於同側總髂動脈後方；左總髂靜脈較長、斜行，並越過右總髂動脈後方；兩側在第五腰椎（L5）高度合成下腔靜脈', 'Runs upward and medially behind the common iliac artery of its side; the left vein is longer and more oblique and passes behind the right common iliac artery; the two unite at about L5 to form the inferior vena cava'),
+    走向: e('向內上方行；右側在同名動脈的後外側，左側先在同名動脈內側，之後越過右總髂動脈後方；左總髂靜脈較長、較斜；兩側在第五腰椎（L5）高度合成下腔靜脈', 'Runs upward and medially; on the right it lies behind and lateral to its artery, on the left it lies medial to its artery and then passes behind the right common iliac artery; the left vein is longer and more oblique; the two unite at about L5 to form the inferior vena cava'),
     主要分支: e('髂腰靜脈（部分）、（左側）正中薦靜脈；外髂靜脈與內髂靜脈在此匯合', 'The iliolumbar vein (in part) and, on the left, the median sacral vein; the external and internal iliac veins unite here'),
     引流範圍: e('下肢、骨盆壁與骨盆內臟', 'The lower limb, pelvic wall and pelvic organs'),
   },
