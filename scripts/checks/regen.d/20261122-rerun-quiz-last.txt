@@ -1,0 +1,11 @@
+# regen 清單裡 prepare-quiz 在 prepare-naming 與 prepare-neuro-notes 之前，題庫會落後一輪；在最後補跑一次題庫與依賴它的報告
+node scripts/prepare-quiz.mjs
+node scripts/prepare-search-index.mjs
+node scripts/report-quiz-level2.mjs
+node scripts/report-quiz-accepted-names.mjs
+node scripts/check-quiz-banks.mjs --write
+node scripts/list-quiz-card-gaps.mjs
+node scripts/test-quiz-joints.mjs --write
+node scripts/test-quiz-spaces.mjs --write
+node scripts/report-quiz-headneck.mjs
+node scripts/report-quiz-brain.mjs

@@ -13,17 +13,17 @@
 ## 一、結果摘要
 
 - 涵蓋結構名稱（去除左右後）：1475 個
-- 採用來源 1（muscle-layers.json）改名：33 個；來源 2（跑考摘要）：14 個；來源 3（其他筆記）：25 個
+- 採用來源 1（muscle-layers.json）改名：33 個；來源 2（跑考摘要）：13 個；來源 3（其他筆記）：22 個
 - 全站固定修正：「背闊肌」→「闊背肌」、「頷」→「頜」、「腭」→「顎」
 - 仍缺中文名或含英文：0 個
 
 | 來源 | 結構數 |
 |---|---|
-| 台灣解剖學名詞（程式內建對照表） | 1255 |
+| 台灣解剖學名詞（程式內建對照表） | 1226 |
 | muscle-layers.json | 88 |
-| glossary.json（其他筆記） | 74 |
-| glossary.json（跑考摘要） | 33 |
-| 必考清單用詞（app/mj-required-names.json） | 25 |
+| glossary.json（其他筆記） | 68 |
+| 必考清單用詞（app/mj-required-names.json） | 62 |
+| glossary.json（跑考摘要） | 31 |
 
 ## 二、已改名（前後對照）
 
@@ -83,17 +83,13 @@
 | radial recurrent artery | glossary.json（其他筆記） | 橈側返動脈 | 橈側迴返動脈 |
 | Dorsal pancreatic artery | glossary.json（其他筆記） | 胰背動脈 | 背胰動脈 |
 | Inferior pancreaticoduodenal artery | glossary.json（其他筆記） | 胰十二指腸下動脈 | 下胰十二指腸動脈 |
-| external iliac artery | glossary.json（其他筆記） | 髂外動脈 | 外髂動脈 |
-| internal iliac artery | glossary.json（其他筆記） | 髂內動脈 | 內髂動脈 |
 | inferior epigastric artery | glossary.json（其他筆記） | 腹壁下動脈 | 下腹壁動脈 |
 | inferior phrenic artery | glossary.json（其他筆記） | 膈下動脈 | 下膈動脈 |
-| lateral sacral vein | glossary.json（其他筆記） | 薦外側靜脈 | 外薦靜脈 |
 | superficial epigastric artery | glossary.json（跑考摘要） | 腹壁淺動脈 | 淺腹壁動脈 |
 | Superior rectal artery | glossary.json（其他筆記） | 直腸上動脈 | 上直腸動脈 |
 | dorsal scapular nerve | glossary.json（其他筆記） | 肩胛背神經 | 背肩胛神經 |
 | long thoracic nerve | glossary.json（其他筆記） | 胸長神經 | 長胸神經 |
 | medial sural cutaneous nerve | glossary.json（跑考摘要） | 腓腸內側皮神經 | 內側腓腸皮神經 |
-| lateral femoral cutaneous nerve | glossary.json（跑考摘要） | 股外側皮神經 | 外股皮神經 |
 | superficial fibular nerve | glossary.json（跑考摘要） | 腓淺神經 | 淺腓神經 |
 | deep fibular nerve | glossary.json（跑考摘要） | 腓深神經 | 深腓神經 |
 | lateral plantar nerve | glossary.json（跑考摘要） | 足底外側神經 | 外蹠神經 |
@@ -1207,7 +1203,7 @@
 | Transverse head of adductor hallucis | 台灣解剖學名詞（程式內建對照表） | 拇收肌橫頭 |
 | Abdominal part of pectoralis major | 台灣解剖學名詞（程式內建對照表） | 胸大肌腹部 |
 | Clavicular part of pectoralis major | 台灣解剖學名詞（程式內建對照表） | 胸大肌鎖骨頭 |
-| Linea alba | 台灣解剖學名詞（程式內建對照表） | 腹白線 |
+| Linea alba | 必考清單用詞（app/mj-required-names.json） | 白線 |
 | coccygeus | glossary.json（其他筆記） | 尾骨肌 |
 | superficial perineal muscle | 台灣解剖學名詞（程式內建對照表） | 淺會陰肌 |
 | External anal sphincter | 台灣解剖學名詞（程式內建對照表） | 肛門外括約肌 |
@@ -1489,7 +1485,7 @@
 | Inferior segmental branch of renal artery | 台灣解剖學名詞（程式內建對照表） | 腎動脈下段支 |
 | Posterior segmental branch of renal artery | 台灣解剖學名詞（程式內建對照表） | 腎動脈後段支 |
 | dorsalis pedis artery | glossary.json（跑考摘要） | 足背動脈 |
-| Deep dorsal vein of penis | 台灣解剖學名詞（程式內建對照表） | 陰莖背深靜脈 |
+| Deep dorsal vein of penis | 必考清單用詞（app/mj-required-names.json） | 陰莖深背靜脈 |
 | Descending branch of lateral circumflex femoral artery | 台灣解剖學名詞（程式內建對照表） | 旋股外側動脈降支 |
 | Distal perforating artery | 台灣解剖學名詞（程式內建對照表） | 遠端穿動脈 |
 | Dorsal venous arch of foot | 台灣解剖學名詞（程式內建對照表） | 足背靜脈弓 |
@@ -1530,7 +1526,7 @@
 | posterior tibial vein | 台灣解剖學名詞（程式內建對照表） | 脛後靜脈 |
 | Set of plantar digital veins | 台灣解剖學名詞（程式內建對照表） | 足底趾靜脈群 |
 | small saphenous vein | glossary.json（跑考摘要） | 小隱靜脈 |
-| superficial epigastric vein | 台灣解剖學名詞（程式內建對照表） | 腹壁淺靜脈 |
+| superficial epigastric vein | 必考清單用詞（app/mj-required-names.json） | 淺腹壁靜脈 |
 | Plantar venous arch of foot | 台灣解剖學名詞（程式內建對照表） | 足底靜脈弓 |
 | fibular vein | 台灣解剖學名詞（程式內建對照表） | 腓靜脈 |
 | Set of dorsal digital veins | 台灣解剖學名詞（程式內建對照表） | 背側趾靜脈群 |
@@ -1538,7 +1534,7 @@
 | lateral circumflex femoral vein | 台灣解剖學名詞（程式內建對照表） | 旋股外側靜脈 |
 | medial circumflex femoral vein | 台灣解剖學名詞（程式內建對照表） | 旋股內側靜脈 |
 | Plantar metatarsal vein | 台灣解剖學名詞（程式內建對照表） | 足底蹠骨靜脈 |
-| Superficial dorsal vein of penis | 台灣解剖學名詞（程式內建對照表） | 陰莖背淺靜脈 |
+| Superficial dorsal vein of penis | 必考清單用詞（app/mj-required-names.json） | 陰莖淺背靜脈 |
 | inferior thyroid artery | glossary.json（其他筆記） | 下甲狀腺動脈 |
 | Acromial branch of thoraco-acromial artery | 台灣解剖學名詞（程式內建對照表） | 胸肩峰動脈肩峰支 |
 | anterior circumflex humeral artery | 台灣解剖學名詞（程式內建對照表） | 旋肱前動脈 |
@@ -1562,7 +1558,7 @@
 | Deltoid branch of thoraco-acromial artery | 台灣解剖學名詞（程式內建對照表） | 胸肩峰動脈三角肌支 |
 | Dorsal carpal branch of radial artery | 台灣解剖學名詞（程式內建對照表） | 橈動脈背側腕支 |
 | dorsal scapular artery | 台灣解剖學名詞（程式內建對照表） | 肩胛背動脈 |
-| lateral thoracic vein | 台灣解剖學名詞（程式內建對照表） | 胸外側靜脈 |
+| lateral thoracic vein | 必考清單用詞（app/mj-required-names.json） | 外胸靜脈 |
 | median antebrachial vein | 台灣解剖學名詞（程式內建對照表） | 前臂正中靜脈 |
 | median cubital vein | 台灣解剖學名詞（程式內建對照表） | 正中肘靜脈 |
 | dorsal carpal branch of ulnar artery | 台灣解剖學名詞（程式內建對照表） | 尺動脈背側腕支 |
@@ -1668,7 +1664,7 @@
 | Proximal part of ileum | 台灣解剖學名詞（程式內建對照表） | 迴腸近段 |
 | Middle part of ileum | 台灣解剖學名詞（程式內建對照表） | 迴腸中段 |
 | Distal part of ileum | 台灣解剖學名詞（程式內建對照表） | 迴腸遠段 |
-| Ileocecal junction | 台灣解剖學名詞（程式內建對照表） | 迴盲交界 |
+| Ileocecal junction | 必考清單用詞（app/mj-required-names.json） | 迴盲部 |
 | Proximal part of jejunum | 台灣解剖學名詞（程式內建對照表） | 空腸近段 |
 | Middle part of jejunum | 台灣解剖學名詞（程式內建對照表） | 空腸中段 |
 | Distal part of jejunum | 台灣解剖學名詞（程式內建對照表） | 空腸遠段 |
@@ -1744,7 +1740,7 @@
 | Hair of head | 台灣解剖學名詞（程式內建對照表） | 頭髮 |
 | Lip | 必考清單用詞（app/mj-required-names.json） | 嘴唇 |
 | Pubic hair | 台灣解剖學名詞（程式內建對照表） | 陰毛 |
-| Caudate lobe of liver | 台灣解剖學名詞（程式內建對照表） | 肝尾狀葉 |
+| Caudate lobe of liver | 必考清單用詞（app/mj-required-names.json） | 肝尾葉 |
 | Gallbladder | 台灣解剖學名詞（程式內建對照表） | 膽囊 |
 | Hepatovenous segment II | 台灣解剖學名詞（程式內建對照表） | 肝第 II 段 |
 | Hepatovenous segment III | 台灣解剖學名詞（程式內建對照表） | 肝第 III 段 |
@@ -1813,7 +1809,7 @@
 | Common hepatic artery | glossary.json（其他筆記） | 總肝動脈 |
 | Common hepatic duct | 台灣解剖學名詞（程式內建對照表） | 總肝管 |
 | Cystic duct | 台灣解剖學名詞（程式內建對照表） | 膽囊管 |
-| Hepatic artery proper | 台灣解剖學名詞（程式內建對照表） | 固有肝動脈 |
+| Hepatic artery proper | 必考清單用詞（app/mj-required-names.json） | 肝固有動脈 |
 | Pre-hepatic portal vein | 台灣解剖學名詞（程式內建對照表） | 肝前門靜脈 |
 | Anterior inferior segmental tributary of middle hepatic vein | 台灣解剖學名詞（程式內建對照表） | 中肝靜脈前下段屬支 |
 | Medial inferior segmental tributary of middle hepatic vein | 台灣解剖學名詞（程式內建對照表） | 中肝靜脈內側下段屬支 |
@@ -1821,7 +1817,7 @@
 | Lateral inferior tributary of hepatic biliary tree | 台灣解剖學名詞（程式內建對照表） | 肝內膽管樹外側下屬支 |
 | Lateral superior segmental hepatic artery | 台灣解剖學名詞（程式內建對照表） | 肝外側上段動脈 |
 | Lateral inferior segmental hepatic artery | 台灣解剖學名詞（程式內建對照表） | 肝外側下段動脈 |
-| duct of caudate lobe of liver | 台灣解剖學名詞（程式內建對照表） | 肝尾狀葉膽管 |
+| duct of caudate lobe of liver | 台灣解剖學名詞（程式內建對照表） | 肝尾葉膽管 |
 | Trunk of hepatic artery | 台灣解剖學名詞（程式內建對照表） | 肝動脈幹 |
 | hepatic duct | 台灣解剖學名詞（程式內建對照表） | 肝管 |
 | Lateral inferior segmental tributary of hepatic vein | 台灣解剖學名詞（程式內建對照表） | 肝靜脈外側下段屬支 |
@@ -1849,7 +1845,7 @@
 | Diaphragm | 台灣解剖學名詞（程式內建對照表） | 橫膈 |
 | Corpus cavernosum of penis | 台灣解剖學名詞（程式內建對照表） | 陰莖海綿體 |
 | Corpus spongiosum of penis | 台灣解剖學名詞（程式內建對照表） | 尿道海綿體 |
-| Glans penis | 台灣解剖學名詞（程式內建對照表） | 陰莖頭 |
+| Glans penis | 必考清單用詞（app/mj-required-names.json） | 龜頭 |
 | deferent duct | 台灣解剖學名詞（程式內建對照表） | 輸精管 |
 | epididymis | 台灣解剖學名詞（程式內建對照表） | 副睪 |
 | seminal vesicle | 台灣解剖學名詞（程式內建對照表） | 精囊 |
@@ -2013,9 +2009,9 @@
 | Transverse mesocolon | 台灣解剖學名詞（程式內建對照表） | 橫結腸繫膜 |
 | Ascending branch of colic artery | 台灣解剖學名詞（程式內建對照表） | 結腸動脈升支 |
 | colic vein | 台灣解剖學名詞（程式內建對照表） | 結腸靜脈 |
-| Anterior inferior pancreaticoduodenal artery | 台灣解剖學名詞（程式內建對照表） | 胰十二指腸前下動脈 |
+| Anterior inferior pancreaticoduodenal artery | 必考清單用詞（app/mj-required-names.json） | 前下胰十二指腸動脈 |
 | Anterior cecal artery | 台灣解剖學名詞（程式內建對照表） | 盲腸前動脈 |
-| Anterior superior pancreaticoduodenal artery | 台灣解剖學名詞（程式內建對照表） | 胰十二指腸前上動脈 |
+| Anterior superior pancreaticoduodenal artery | 必考清單用詞（app/mj-required-names.json） | 前上胰十二指腸動脈 |
 | Appendicular artery | glossary.json（其他筆記） | 闌尾動脈 |
 | Arch of aorta | 台灣解剖學名詞（程式內建對照表） | 主動脈弓 |
 | Ascending aorta | 台灣解剖學名詞（程式內建對照表） | 升主動脈 |
@@ -2031,7 +2027,7 @@
 | Dorsal pancreatic artery | glossary.json（其他筆記） | 背胰動脈 |
 | Set of oesophageal branches of thoracic aorta | 台灣解剖學名詞（程式內建對照表） | 胸主動脈食道支 |
 | Trunk of gastroduodenal artery | 台灣解剖學名詞（程式內建對照表） | 胃十二指腸動脈幹 |
-| Great pancreatic artery | 台灣解剖學名詞（程式內建對照表） | 胰大動脈 |
+| Great pancreatic artery | 必考清單用詞（app/mj-required-names.json） | 大胰動脈 |
 | Hemiazygos vein | 台灣解剖學名詞（程式內建對照表） | 半奇靜脈 |
 | Ileal artery | glossary.json（其他筆記） | 迴腸動脈 |
 | Ileal vein | 台灣解剖學名詞（程式內建對照表） | 迴腸靜脈 |
@@ -2041,15 +2037,15 @@
 | Inferior mesenteric vein | 台灣解剖學名詞（程式內建對照表） | 下腸繫膜靜脈 |
 | Inferior pancreatic artery | 台灣解剖學名詞（程式內建對照表） | 胰下動脈 |
 | Inferior pancreaticoduodenal artery | glossary.json（其他筆記） | 下胰十二指腸動脈 |
-| Inferior phrenic vein | 台灣解剖學名詞（程式內建對照表） | 膈下靜脈 |
+| Inferior phrenic vein | 必考清單用詞（app/mj-required-names.json） | 下膈靜脈 |
 | Anterior division of renal artery | 台灣解剖學名詞（程式內建對照表） | 腎動脈前分支 |
-| common iliac artery | 台灣解剖學名詞（程式內建對照表） | 總髂動脈 |
+| common iliac artery | 必考清單用詞（app/mj-required-names.json） | 總髂動脈 |
 | common iliac vein | glossary.json（其他筆記） | 總髂靜脈 |
-| external iliac artery | glossary.json（其他筆記） | 外髂動脈 |
-| inferior suprarenal artery | 台灣解剖學名詞（程式內建對照表） | 腎上腺下動脈 |
-| internal iliac artery | glossary.json（其他筆記） | 內髂動脈 |
-| internal iliac vein | 台灣解剖學名詞（程式內建對照表） | 髂內靜脈 |
-| middle suprarenal artery | 台灣解剖學名詞（程式內建對照表） | 腎上腺中動脈 |
+| external iliac artery | 必考清單用詞（app/mj-required-names.json） | 外髂動脈 |
+| inferior suprarenal artery | 必考清單用詞（app/mj-required-names.json） | 下腎上腺動脈 |
+| internal iliac artery | 必考清單用詞（app/mj-required-names.json） | 內髂動脈 |
+| internal iliac vein | 必考清單用詞（app/mj-required-names.json） | 內髂靜脈 |
+| middle suprarenal artery | 必考清單用詞（app/mj-required-names.json） | 中腎上腺動脈 |
 | Posterior division of renal artery | 台灣解剖學名詞（程式內建對照表） | 腎動脈後分支 |
 | Trunk of renal artery | 台灣解剖學名詞（程式內建對照表） | 腎動脈幹 |
 | renal vein | 台灣解剖學名詞（程式內建對照表） | 腎靜脈 |
@@ -2058,10 +2054,10 @@
 | Ureteric segment of renal artery | 台灣解剖學名詞（程式內建對照表） | 腎動脈輸尿管段 |
 | brachiocephalic vein | 台灣解剖學名詞（程式內建對照表） | 頭臂靜脈 |
 | common carotid artery | glossary.json（其他筆記） | 總頸動脈 |
-| external iliac vein | 台灣解剖學名詞（程式內建對照表） | 髂外靜脈 |
+| external iliac vein | 必考清單用詞（app/mj-required-names.json） | 外髂靜脈 |
 | internal jugular vein | glossary.json（其他筆記） | 內頸靜脈 |
 | subclavian vein | 台灣解剖學名詞（程式內建對照表） | 鎖骨下靜脈 |
-| ascending lumbar vein | 台灣解剖學名詞（程式內建對照表） | 腰升靜脈 |
+| ascending lumbar vein | 必考清單用詞（app/mj-required-names.json） | 升腰靜脈 |
 | colic artery | 台灣解剖學名詞（程式內建對照表） | 結腸動脈 |
 | dorsal artery of penis | 台灣解剖學名詞（程式內建對照表） | 陰莖背動脈 |
 | gastric artery | 台灣解剖學名詞（程式內建對照表） | 胃動脈 |
@@ -2070,25 +2066,25 @@
 | gastroepiploic vein | 台灣解剖學名詞（程式內建對照表） | 胃網膜靜脈 |
 | iliolumbar vein | 台灣解剖學名詞（程式內建對照表） | 髂腰靜脈 |
 | inferior epigastric artery | glossary.json（其他筆記） | 下腹壁動脈 |
-| inferior epigastric vein | 台灣解剖學名詞（程式內建對照表） | 腹壁下靜脈 |
-| inferior gluteal vein | 台灣解剖學名詞（程式內建對照表） | 臀下靜脈 |
+| inferior epigastric vein | 必考清單用詞（app/mj-required-names.json） | 下腹壁靜脈 |
+| inferior gluteal vein | 必考清單用詞（app/mj-required-names.json） | 下臀靜脈 |
 | inferior phrenic artery | glossary.json（其他筆記） | 下膈動脈 |
-| internal pudendal vein | 台灣解剖學名詞（程式內建對照表） | 陰部內靜脈 |
-| lateral sacral vein | glossary.json（其他筆記） | 外薦靜脈 |
+| internal pudendal vein | 必考清單用詞（app/mj-required-names.json） | 內陰靜脈 |
+| lateral sacral vein | 必考清單用詞（app/mj-required-names.json） | 外側薦靜脈 |
 | obturator vein | 台灣解剖學名詞（程式內建對照表） | 閉孔靜脈 |
 | superficial epigastric artery | glossary.json（跑考摘要） | 淺腹壁動脈 |
-| superior epigastric vein | 台灣解剖學名詞（程式內建對照表） | 腹壁上靜脈 |
-| superior gluteal vein | 台灣解剖學名詞（程式內建對照表） | 臀上靜脈 |
+| superior epigastric vein | 必考清單用詞（app/mj-required-names.json） | 上腹壁靜脈 |
+| superior gluteal vein | 必考清單用詞（app/mj-required-names.json） | 上臀靜脈 |
 | testicular artery | glossary.json（其他筆記） | 睪丸動脈 |
 | testicular vein | 台灣解剖學名詞（程式內建對照表） | 睪丸靜脈 |
 | Marginal artery of colon | 台灣解剖學名詞（程式內建對照表） | 結腸邊緣動脈 |
-| Median sacral vein | 台灣解剖學名詞（程式內建對照表） | 薦正中靜脈 |
+| Median sacral vein | 必考清單用詞（app/mj-required-names.json） | 正中薦靜脈 |
 | Middle colic artery | 台灣解剖學名詞（程式內建對照表） | 中結腸動脈 |
 | Middle colic vein | 台灣解剖學名詞（程式內建對照表） | 中結腸靜脈 |
 | Pancreaticoduodenal vein | 台灣解剖學名詞（程式內建對照表） | 胰十二指腸靜脈 |
-| Posterior inferior pancreaticoduodenal artery | 台灣解剖學名詞（程式內建對照表） | 胰十二指腸後下動脈 |
+| Posterior inferior pancreaticoduodenal artery | 必考清單用詞（app/mj-required-names.json） | 後下胰十二指腸動脈 |
 | Posterior cecal artery | 台灣解剖學名詞（程式內建對照表） | 盲腸後動脈 |
-| Posterior superior pancreaticoduodenal artery | 台灣解剖學名詞（程式內建對照表） | 胰十二指腸後上動脈 |
+| Posterior superior pancreaticoduodenal artery | 必考清單用詞（app/mj-required-names.json） | 後上胰十二指腸動脈 |
 | Lumbar vein | 台灣解剖學名詞（程式內建對照表） | 腰靜脈 |
 | Lumbar artery | glossary.json（其他筆記） | 腰動脈 |
 | Sigmoid artery | glossary.json（其他筆記） | 乙狀結腸動脈 |
@@ -2099,7 +2095,7 @@
 | Superior mesenteric vein | 台灣解剖學名詞（程式內建對照表） | 上腸繫膜靜脈 |
 | Superior phrenic vein | 台灣解剖學名詞（程式內建對照表） | 膈上靜脈 |
 | Superior rectal artery | glossary.json（其他筆記） | 上直腸動脈 |
-| Superior rectal vein | 台灣解剖學名詞（程式內建對照表） | 直腸上靜脈 |
+| Superior rectal vein | 必考清單用詞（app/mj-required-names.json） | 上直腸靜脈 |
 | olfactory nerve (I) | 台灣解剖學名詞（程式內建對照表） | 嗅神經（第一對腦神經） |
 | optic nerve (II) | 台灣解剖學名詞（程式內建對照表） | 視神經（第二對腦神經） |
 | oculomotor nerve (III) | 台灣解剖學名詞（程式內建對照表） | 動眼神經（第三對腦神經） |
@@ -2185,7 +2181,7 @@
 | medial sural cutaneous nerve | glossary.json（跑考摘要） | 內側腓腸皮神經 |
 | anterior cutaneous branches of femoral nerve | 台灣解剖學名詞（程式內建對照表） | 股神經前皮支 |
 | femoral nerve | glossary.json（跑考摘要） | 股神經 |
-| lateral femoral cutaneous nerve | glossary.json（跑考摘要） | 外股皮神經 |
+| lateral femoral cutaneous nerve | 必考清單用詞（app/mj-required-names.json） | 外股皮神經 |
 | obturator nerve | 台灣解剖學名詞（程式內建對照表） | 閉孔神經 |
 | posterior branch of obturator nerve | 台灣解剖學名詞（程式內建對照表） | 閉孔神經後支 |
 | anterior branch of obturator nerve | 台灣解剖學名詞（程式內建對照表） | 閉孔神經前支 |
@@ -2209,8 +2205,8 @@
 | proper plantar digital branches of lateral plantar nerve | 台灣解剖學名詞（程式內建對照表） | 外蹠神經蹠側固有趾支 |
 | Common plantar digital branches of medial plantar nerve | 台灣解剖學名詞（程式內建對照表） | 內蹠神經蹠側總趾支 |
 | sympathetic nerves | 台灣解剖學名詞（程式內建對照表） | 交感神經 |
-| ganglia of sympathetic trunk | 台灣解剖學名詞（程式內建對照表） | 交感幹神經節 |
-| sympathetic trunk | 台灣解剖學名詞（程式內建對照表） | 交感幹 |
+| ganglia of sympathetic trunk | 台灣解剖學名詞（程式內建對照表） | 交感神經幹神經節 |
+| sympathetic trunk | 必考清單用詞（app/mj-required-names.json） | 交感神經幹 |
 | White matter of spinal cord | 台灣解剖學名詞（程式內建對照表） | 脊髓白質 |
 | Posterior horn of spinal cord | 台灣解剖學名詞（程式內建對照表） | 脊髓後角 |
 | Anterior horn of spinal cord | 台灣解剖學名詞（程式內建對照表） | 脊髓前角 |
@@ -2221,7 +2217,7 @@
 | superior subscapular nerve | 台灣解剖學名詞（程式內建對照表） | 肩胛下神經（上） |
 | inferior subscapular nerve | 台灣解剖學名詞（程式內建對照表） | 肩胛下神經（下） |
 | thoracodorsal nerve | 台灣解剖學名詞（程式內建對照表） | 胸背神經 |
-| superior gluteal nerve | glossary.json（跑考摘要） | 臀上神經 |
+| superior gluteal nerve | 必考清單用詞（app/mj-required-names.json） | 上臀神經 |
 | nerve to piriformis muscle | 台灣解剖學名詞（程式內建對照表） | 梨狀肌神經 |
 | nerve to quadratus femoris muscle | 台灣解剖學名詞（程式內建對照表） | 股方肌神經 |
 | posterior femoral cutaneous nerve | 台灣解剖學名詞（程式內建對照表） | 股後皮神經 |
@@ -2308,10 +2304,10 @@
 | iliolumbar ligament | 台灣解剖學名詞（程式內建對照表） | 髂腰韌帶 |
 | obturator membrane | 台灣解剖學名詞（程式內建對照表） | 閉孔膜 |
 | sacrospinous ligament | glossary.json（其他筆記） | 薦棘韌帶 |
-| sacrotuberous ligament | glossary.json（其他筆記） | 薦結節韌帶 |
-| anterior sacro-iliac ligament | glossary.json（其他筆記） | 前薦髂韌帶 |
+| sacrotuberous ligament | 必考清單用詞（app/mj-required-names.json） | 薦粗隆韌帶 |
+| anterior sacro-iliac ligament | 必考清單用詞（app/mj-required-names.json） | 薦髂前韌帶 |
 | interosseous sacro-iliac ligament | glossary.json（其他筆記） | 薦髂骨間韌帶 |
-| posterior sacro-iliac ligament | glossary.json（其他筆記） | 後薦髂韌帶 |
+| posterior sacro-iliac ligament | 必考清單用詞（app/mj-required-names.json） | 薦髂後韌帶 |
 | sphenomandibular ligament | glossary.json（其他筆記） | 蝶下頷韌帶 |
 | stylomandibular ligament | glossary.json（其他筆記） | 莖突下頷韌帶 |
 | articular capsule of temporomandibular joint | 台灣解剖學名詞（程式內建對照表） | 顳顎關節囊 |

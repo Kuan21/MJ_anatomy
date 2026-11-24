@@ -1,7 +1,7 @@
 # Quiz 第三級額外接受的答案
 
 此檔由 `node scripts/report-quiz-accepted-names.mjs` 產生，請勿手改。除了構造自己的英文名、中文名、括號內別名與同義詞表（`app/quiz/synonyms.ts`，列在 REVIEW_LOG）之外，第三級與學習關卡還接受下列寫法；群名只算「接近」並列入錯題。左右兩側同一規則，只列一側。
-合計 246 個構造有額外接受的寫法。
+合計 274 個構造有額外接受的寫法。
 
 
 ## 下肢（lower）：40 個構造
@@ -238,6 +238,15 @@
 | 題目 | 中文 | 也接受 | 只算接近 |
 | --- | --- | --- | --- |
 
+## 眼（eye）：4 個構造
+
+| 題目 | 中文 | 也接受 | 只算接近 |
+| --- | --- | --- | --- |
+| Corneoscleral junction | 角膜緣（角鞏膜交界） | corneal limbus |  |
+| Superior branch of oculomotor nerve | 動眼神經上支 | superior division of oculomotor nerve |  |
+| Inferior branch of oculomotor nerve | 動眼神經下支 | inferior division of oculomotor nerve |  |
+| Superior orbital fissure | 上眶裂 | 眶上裂 |  |
+
 ## 頭頸（head-neck）：52 個構造
 
 | 題目 | 中文 | 也接受 | 只算接近 |
@@ -294,4 +303,33 @@
 | Left great auricular nerve | 左耳大神經 | greater auricular nerve |  |
 | Left articular capsule of temporomandibular joint | 左顳顎關節囊 | tmj capsule |  |
 | Right lateral temporomandibular ligament | 右顳下頜外側韌帶 | temporomandibular ligament |  |
+
+## 腹部（abdomen）：24 個構造
+
+| 題目 | 中文 | 也接受 | 只算接近 |
+| --- | --- | --- | --- |
+| Right iliacus | 右髂肌 |  | iliopsoas muscle |
+| Right psoas major | 右腰大肌 |  | iliopsoas muscle |
+| Right external oblique | 右腹外斜肌 | Right external abdominal oblique |  |
+| Celiac artery | 腹腔動脈幹 | Celiac trunk |  |
+| Ileum | 迴腸 | Ileum |  |
+| Jejunum | 空腸 | Jejunum |  |
+| Right hip bone | 右髖骨 | Right coxal bone |  |
+| First lumbar vertebra | 第一腰椎 | L1 vertebra |  |
+| Second lumbar vertebra | 第二腰椎 | L2 vertebra |  |
+| Third lumbar vertebra | 第三腰椎 | L3 vertebra |  |
+| Fourth lumbar vertebra | 第四腰椎 | L4 vertebra |  |
+| Fifth lumbar vertebra | 第五腰椎 | L5 vertebra |  |
+| Left tenth rib | 左第十肋骨 | Left 10th rib |  |
+| Left eleventh rib | 左第十一肋骨 | Left 11th rib |  |
+| Left twelfth rib | 左第十二肋骨 | Left 12th rib |  |
+| Left seventh rib | 左第七肋骨 | Left 7th rib |  |
+| Left eighth rib | 左第八肋骨 | Left 8th rib |  |
+| Left ninth rib | 左第九肋骨 | Left 9th rib |  |
+| Left seventh costal cartilage | 左第七肋軟骨 | Left 7th costal cartilage |  |
+| Ascending branch of left colic artery | 左結腸動脈升支 | Left ascending branch of colic artery |  |
+| Descending branch of left colic artery | 左結腸動脈降支 | Left descending branch of colic artery |  |
+| Right greater splanchnic nerve | 右大內臟神經 |  | thoracic splanchnic nerve |
+| Right lesser splanchnic nerve | 右小內臟神經 |  | thoracic splanchnic nerve |
+| Right least splanchnic nerve | 右最小內臟神經 |  | thoracic splanchnic nerve |
 

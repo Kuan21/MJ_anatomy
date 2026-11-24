@@ -21,12 +21,15 @@ import zanatomyLowerLimb from '../paokao-structures/zanatomy-lower-limb.mjs';
 import ligamentsLowerLimb from '../paokao-structures/ligaments-lower-limb.mjs';
 
 import perinealMuscles from '../paokao-structures/perineal-muscles.mjs';
+import headBoneLandmarks from '../paokao-structures/head-bone-landmarks.mjs';
 import occipitalAponeurosis from '../paokao-structures/occipital-aponeurosis.mjs';
+import neckLymphatics from '../paokao-structures/neck-lymphatics.mjs';
+import retropharyngealSpace from '../paokao-structures/retropharyngeal-space.mjs';
 import {clearBones} from './nerve-bone-clearance.mjs';
 
 export function buildAll() {
   const w = loadWorld(), U = makeUtil(w), specs = [...thorax(U), ...thoraxNerves(U), ...upperLimb(U), ...limbVeins(U), ...lowerLimb(U), ...thoraxExtra(U), ...landmarks(U), ...membranes(U), ...knee(U), ...spacesMuscles(U), ...lungs(U), ...neckBreastVulva(U)], built = [];
-  const lateSpecs = [...lungs(U, 'late'), ...tendonsUpperLimb(U, w), ...zanatomyUpperLimb(), ...ligamentsUpperLimb(U), ...tendonsLowerLimb(), ...zanatomyLowerLimb(U), ...ligamentsLowerLimb(U), ...occipitalAponeurosis(U, w)], late = [];
+  const lateSpecs = [...lungs(U, 'late'), ...tendonsUpperLimb(U, w), ...zanatomyUpperLimb(), ...ligamentsUpperLimb(U), ...tendonsLowerLimb(), ...zanatomyLowerLimb(U), ...ligamentsLowerLimb(U), ...occipitalAponeurosis(U, w), ...neckLymphatics(U), ...headBoneLandmarks(U), ...retropharyngealSpace(U)], late = [];
   lateSpecs.push(...perinealMuscles(U, specs));   // the clitoral complex is built by now; last in the list, so that the ids of every earlier structure stay as they are (some code files name them)
   for (const s of [...specs, ...lateSpecs]) {
     const pieces = [];

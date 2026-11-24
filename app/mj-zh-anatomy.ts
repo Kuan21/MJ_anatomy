@@ -37,19 +37,19 @@ const STANDARD:Record<string,string>={
  'common interosseous artery':'總骨間動脈','anterior interosseous artery':'前骨間動脈','dorsal carpal branch of radial artery':'橈動脈背側腕支','dorsal carpal branch of ulnar artery':'尺動脈背側腕支',
  'deep palmar arch':'深掌動脈弓','superficial palmar arterial arch':'淺掌動脈弓','palmar metacarpal artery':'掌側掌骨動脈',
  'circumflex scapular artery':'旋肩胛動脈','subscapular artery':'肩胛下動脈','suprascapular artery':'肩胛上動脈','dorsal scapular artery':'肩胛背動脈',
- 'lateral thoracic artery':'外胸動脈','thoracodorsal artery':'胸背動脈','deep cervical artery':'深頸動脈','superficial cervical artery':'頸淺動脈','vertebral artery':'椎動脈','ascending lumbar vein':'腰升靜脈','thoracodorsal vein':'胸背靜脈','transverse cervical artery':'橫頸動脈',
+ 'lateral thoracic artery':'外胸動脈','thoracodorsal artery':'胸背動脈','deep cervical artery':'深頸動脈','superficial cervical artery':'頸淺動脈','vertebral artery':'椎動脈','ascending lumbar vein':'升腰靜脈','thoracodorsal vein':'胸背靜脈','transverse cervical artery':'橫頸動脈',
  // upper-limb veins
  'axillary vein':'腋靜脈','basilic vein':'貴要靜脈','cephalic vein':'頭靜脈','median cubital vein':'正中肘靜脈','median antebrachial vein':'前臂正中靜脈','radial vein':'橈靜脈','ulnar vein':'尺靜脈',
  'circumflex scapular vein':'旋肩胛靜脈','subscapular vein':'肩胛下靜脈','suprascapular vein':'肩胛上靜脈','common palmar digital vein':'掌側總指靜脈',
  'deep palmar venous arch':'深掌靜脈弓','superficial palmar venous arch':'淺掌靜脈弓','dorsal venous network of hand':'手背靜脈網','palmar metacarpal vein':'掌側掌骨靜脈',
  // lower-limb arteries
- 'common iliac artery':'總髂動脈','external iliac artery':'髂外動脈','internal iliac artery':'髂內動脈','femoral artery':'股動脈','popliteal artery':'膕動脈','fibular artery':'腓動脈','ascending and transverse branches of lateral circumflex femoral artery':'旋股外側動脈升支與橫支','anterior tibial artery':'脛前動脈','posterior tibial artery':'脛後動脈',
+ 'common iliac artery':'總髂動脈','external iliac artery':'外髂動脈','internal iliac artery':'內髂動脈','femoral artery':'股動脈','popliteal artery':'膕動脈','fibular artery':'腓動脈','ascending and transverse branches of lateral circumflex femoral artery':'旋股外側動脈升支與橫支','anterior tibial artery':'脛前動脈','posterior tibial artery':'脛後動脈',
  'dorsalis pedis artery':'足背動脈','arcuate artery':'弓狀動脈','lateral plantar artery':'足底外側動脈','medial plantar artery':'足底內側動脈','deep plantar artery':'足底深動脈','plantar arch':'足底動脈弓',
  'lateral tarsal artery':'外側跗動脈','anterior tibial recurrent artery':'脛前返動脈','descending genicular artery':'膝降動脈','middle genicular artery':'膝中動脈','lateral circumflex femoral artery':'旋股外側動脈',
  // lower-limb veins
- 'common iliac vein':'總髂靜脈','external iliac vein':'髂外靜脈','internal iliac vein':'髂內靜脈','femoral vein':'股靜脈','popliteal vein':'膕靜脈','great saphenous vein':'大隱靜脈','small saphenous vein':'小隱靜脈',
+ 'common iliac vein':'總髂靜脈','external iliac vein':'外髂靜脈','internal iliac vein':'內髂靜脈','femoral vein':'股靜脈','popliteal vein':'膕靜脈','great saphenous vein':'大隱靜脈','small saphenous vein':'小隱靜脈',
  'anterior tibial vein':'脛前靜脈','posterior tibial vein':'脛後靜脈','fibular vein':'腓靜脈','deep femoral vein':'股深靜脈','lateral circumflex femoral vein':'旋股外側靜脈','medial circumflex femoral vein':'旋股內側靜脈',
- 'obturator vein':'閉孔靜脈','superior gluteal vein':'臀上靜脈','inferior gluteal vein':'臀下靜脈','dorsal venous arch of foot':'足背靜脈弓','plantar venous arch of foot':'足底靜脈弓',
+ 'obturator vein':'閉孔靜脈','superior gluteal vein':'上臀靜脈','inferior gluteal vein':'下臀靜脈','dorsal venous arch of foot':'足背靜脈弓','plantar venous arch of foot':'足底靜脈弓',
  // muscle
  'tensor fasciae latae':'闊筋膜張肌',
 };

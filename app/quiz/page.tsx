@@ -1,3 +1,4 @@
+import {namePlaceholder} from './name-example';
 import {ORGAN_IDS} from '../organ/organ-ids';
 import {useEffect, useMemo, useRef, useState} from 'react';
 import {AlertCircle, ArrowLeft, ArrowRight, Check, CheckCircle2, ChevronRight, Eye, Layers, Maximize2, Pencil, RotateCcw, Shuffle, Target, Trash2, X, XCircle} from 'lucide-react';
@@ -34,6 +35,8 @@ export default function RegionQuiz({region: regionId = 'lower-limb', block}: {re
   const [typed, setTyped] = useState(''), [clarity, setClarity] = useState(.45), [only, setOnly] = useState(false), [highlightIds, setHighlightIds] = useState<string[]>([]);
   const [saved, setSaved] = useState<string[]>([]), [sessionLevel, setSessionLevel] = useState<1 | 3>(1);
   const naming = sessionLevel === 3;
+  /** The side choice is offered only when a structure of the chosen kinds is paired (the stomach's organ and vessels are all midline; only its nerves are left and right). Unknown until the catalogue is here. */
+  const sided = !catalogue || catalogue.structures.some(s => s.side !== 'midline' && (settings.categories ?? ALL_CATEGORIES).includes(categoryOf(s)));
   const title = useRef<HTMLHeadingElement>(null), input = useRef<HTMLInputElement>(null);
   const scope = scopeOf(regionId, level);
   // saved mistakes of the typed-name level used to be under L2 (now L3): moved once, before the list is read
@@ -71,7 +74,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb', block}: {re
   const system = QUIZ_SYSTEMS.find(s => s.id === target?.system);
   const category = target ? QUIZ_CATEGORIES.find(c => c.id === categoryOf(target)) : undefined;
   const categories = settings.categories ?? ALL_CATEGORIES;
-  const contextName = regionId === 'heart' ? '其他心臟構造' : regionId === 'lung' ? '其他肺構造' : regionId === 'brain' ? '其他腦構造' : regionId === 'ear' ? '其他耳構造' : regionId && (ORGAN_IDS as string[]).includes(regionId) ? `其他${QUIZ_REGIONS[regionId].label}構造` : '骨骼';
+  const contextName = regionId === 'heart' ? '其他心臟構造' : regionId === 'lung' ? '其他肺構造' : regionId === 'brain' ? '其他腦構造' : regionId === 'ear' ? '其他耳構造' : regionId === 'eye' ? '其他眼構造' : regionId === 'abdomen' ? '其他腹部構造' : regionId && (ORGAN_IDS as string[]).includes(regionId) ? `其他${QUIZ_REGIONS[regionId].label}構造` : '骨骼';
   const questionKey = `${round}:${index}:${target?.id ?? ''}`;
   const ready = readiness.key === questionKey && readiness.ready && !error;
   const shown = seen.key === questionKey && seen.shown;
@@ -169,13 +172,13 @@ export default function RegionQuiz({region: regionId = 'lower-limb', block}: {re
           <div className="quiz-category-tools"><button type="button" data-slot="quiz-button" className="quiz-text-button" onClick={() => setSettings(s => ({...s, categories: ALL_CATEGORIES}))}>全選</button><button type="button" data-slot="quiz-button" className="quiz-text-button" onClick={() => setSettings(s => ({...s, categories: []}))}>全部取消</button><span>灰色的類別在目前的部位與左右側下暫無題目</span></div>
         </fieldset>
         <div className="quiz-options-row">
-          <fieldset><legend><b>03</b> 左右側</legend><div className="quiz-segmented">{([['right', '右側'], ['left', '左側'], ['both', '雙側']] as const).map(([id, label]) => <button data-slot="quiz-button" key={id} aria-pressed={settings.side === id} onClick={() => setSettings(s => ({...s, side: id}))}>{label}</button>)}</div></fieldset>
+          {sided && <fieldset><legend><b>03</b> 左右側</legend><div className="quiz-segmented">{([['right', '右側'], ['left', '左側'], ['both', '雙側']] as const).map(([id, label]) => <button data-slot="quiz-button" key={id} aria-pressed={settings.side === id} onClick={() => setSettings(s => ({...s, side: id}))}>{label}</button>)}</div></fieldset>}
           <fieldset className="quiz-scope-field"><legend>範圍 <small>Scope</small></legend><div className="quiz-segmented">{([['all', '包括延伸', 'Summary and extended'], ['summary', '只考摘要範圍', 'Summary only']] as const).map(([id, label, en]) => <button data-slot="quiz-button" key={id} data-scope={id} aria-pressed={(settings.scope ?? 'all') === id} title={en} onClick={() => setSettings(s => ({...s, scope: id}))}>{label}</button>)}</div></fieldset>
           {<fieldset><legend>每回題數</legend><div className="quiz-segmented">{(level === 3 ? LEVEL3_COUNTS : [10, 20, 9999]).map(n => <button data-slot="quiz-button" key={n} aria-pressed={settings.count === n} onClick={() => setSettings(s => ({...s, count: n}))}>{n === 9999 ? '全部' : n}</button>)}</div></fieldset>}
         </div>
         {level === 3 && <div className="quiz-options-row quiz-naming-options">
           <fieldset><legend>作答語言 <small>Language</small></legend><div className="quiz-segmented">{([['en', '英文'], ['zh', '中文'], ['any', '任一']] as const).map(([id, label]) => <button data-slot="quiz-button" key={id} aria-pressed={language === id} onClick={() => setLanguage(id)}>{label}</button>)}</div></fieldset>
-          <fieldset><legend>左右側 <small>Side</small></legend><label className="quiz-context-toggle"><input type="checkbox" checked={needSide} onChange={e => setNeedSide(e.target.checked)}/>需要答出左右</label></fieldset>
+          {sided && <fieldset><legend>左右側 <small>Side</small></legend><label className="quiz-context-toggle"><input type="checkbox" checked={needSide} onChange={e => setNeedSide(e.target.checked)}/>需要答出左右</label></fieldset>}
         </div>}
         {catalogue && <p className={`quiz-pool-note quiz-scope-count ${pool.length ? '' : 'is-empty'}`} role="status" aria-live="polite" data-count={pool.length}>{pool.length ? <>此範圍共 <b>{pool.length}</b> 題</> : '此範圍暫無題目'}{level === 3 && allInScope !== pool.length && <> （第一級共 {allInScope} 題）</>}</p>}
         {catalogue && savedHere.length > 0 && <div className="quiz-saved-row"><AlertCircle size={15}/><span>錯題本（{level === 1 ? '第一級' : '第二級'}）：{savedHere.length} 題</span><button data-slot="quiz-button" className="quiz-secondary" onClick={() => begin(sessionOf(savedHere))}><RotateCcw size={14}/>只練錯題</button><button data-slot="quiz-button" className="quiz-text-button" onClick={() => {clearMistakes(scope); setSaved([]);}}><Trash2 size={14}/>清除</button></div>}
@@ -188,7 +191,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb', block}: {re
       <section className="quiz-stage" aria-label="點選模型作答">
         <QuizScene key={sceneRetry} catalogue={catalogue} view={{key: questionKey, target, section: settings.section, side: settings.side, answered: !!answer, pickedId: answer?.pickedId ?? null, hidden: autoHidden.length ? [...hidden, ...autoHidden] : hidden, context, peeling, command, mode: naming ? 'name' : 'find', clarity, only, highlightIds, progressive: true, next: nextTarget && catalogue ? {catalogue, target: nextTarget} : undefined}}
           onReady={(key, value) => setReadiness({key, ready: value})} onShown={(key, value) => setSeen({key, shown: value})} onProgress={(loaded, total) => setLoad({loaded, total})} onError={setError} onPick={choose} onMessage={setMessage}/>
-        <div className="quiz-stage-caption"><span>{section.id === 'all' ? (naming ? region.label : region.sections.find(s => s.id === target.sections[0])?.label) : section.label}</span><span>{category?.label} · {settings.side === 'both' ? '雙側' : settings.side === 'right' ? '右側' : '左側'}</span></div>
+        <div className="quiz-stage-caption"><span>{section.id === 'all' ? (naming ? region.label : region.sections.find(s => s.id === target.sections[0])?.label) : section.label}</span><span>{category?.label}{sided && target.side !== 'midline' ? ` · ${settings.side === 'both' ? '雙側' : settings.side === 'right' ? '右側' : '左側'}` : ''}</span></div>
         <div className="quiz-view-buttons" aria-label="模型視角"><button data-slot="quiz-button" onClick={() => changeView('front')}>前面</button><button data-slot="quiz-button" onClick={() => changeView('back')}>後面</button><button data-slot="quiz-button" onClick={() => changeView('side')}>側面</button>{(regionId === 'lung' || regionId === 'brain') && <button data-slot="quiz-button" onClick={() => changeView('medial')}>內側面</button>}{regionId === 'brain' && <><button data-slot="quiz-button" onClick={() => changeView('top')}>上面</button><button data-slot="quiz-button" onClick={() => changeView('bottom')}>下面</button></>}<button data-slot="quiz-button" onClick={() => changeView('fit')} aria-label="模型置中"><RotateCcw size={16}/></button>{naming && <><button data-slot="quiz-button" onClick={() => changeView('random')} aria-label="隨機角度"><Shuffle size={15}/>隨機</button><button data-slot="quiz-button" onClick={() => changeView('answer')} aria-label="放大至目標"><Maximize2 size={15}/>放大</button></>}</div>
         {!shown && !error && <div className="quiz-loading" role="status"><span className="quiz-spinner"/><strong>載入本題模型</strong><small>{load.loaded} / {load.total || '…'} 個模型套件</small></div>}
         {shown && !ready && !error && <div className="quiz-loading-chip" role="status"><span className="quiz-spinner"/>其餘構造載入中 {load.loaded} / {load.total}</div>}
@@ -204,7 +207,7 @@ export default function RegionQuiz({region: regionId = 'lower-limb', block}: {re
           {!answer ? <form className="quiz-name-form" onSubmit={e => {e.preventDefault(); submit();}}>
             <h1 className="quiz-target quiz-target-hidden" ref={title} tabIndex={-1}>紫色標示的是什麼構造？</h1>
             <label htmlFor="quiz-typed">請輸入名稱<small>{language === 'en' ? '用英文作答' : language === 'zh' ? '用中文作答' : '英文或中文皆可'}{needSide ? '，並寫出左右側' : ''}</small></label>
-            <input id="quiz-typed" ref={input} className="quiz-name-input" value={typed} onChange={e => setTyped(e.target.value)} autoComplete="off" autoCapitalize="off" spellCheck={false} lang={language === 'zh' ? 'zh-Hant' : 'en'} placeholder={language === 'zh' ? '例如：二尖瓣' : 'e.g. Bicuspid valve'} disabled={!ready}/>
+            <input id="quiz-typed" ref={input} className="quiz-name-input" value={typed} onChange={e => setTyped(e.target.value)} autoComplete="off" autoCapitalize="off" spellCheck={false} lang={language === 'zh' ? 'zh-Hant' : 'en'} placeholder={namePlaceholder(regionId, language)} disabled={!ready}/>
             <div className="quiz-name-actions"><button type="submit" data-slot="quiz-button" className="quiz-primary" disabled={!ready || !typed.trim()}><Pencil size={16}/>送出<small>Enter</small></button><button type="button" data-slot="quiz-button" className="quiz-secondary" disabled={!ready} onClick={giveUp}><Eye size={17}/>我不知道</button></div>
             <div className="quiz-answer-tools quiz-naming-tools">
               <div className="quiz-tool-row"><button type="button" data-slot="quiz-button" className="quiz-tool-button" disabled={!ready} onClick={() => changeView('random')}><Shuffle size={16}/><span>隨機角度<small>換一個看得到目標的視角</small></span></button><button type="button" data-slot="quiz-button" className="quiz-tool-button" disabled={!ready} onClick={() => changeView('answer')}><Maximize2 size={16}/><span>放大至目標</span></button></div>

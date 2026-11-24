@@ -36,7 +36,7 @@ export default function thoraxNerves(U) {
       for (const y of [1.356, 1.322, 1.288, 1.262]) pts.push(U.onSurface(peri, P(S.sx * .085, y, .034 + sh), off));
       pts.push(U.onSurface('Diaphragm', P(S.sx * .052, 1.262, .016 + sh), .0008));
       out.push({
-        name: `${S.w} pericardiophrenic ${kind}`, zh: `${S.zh}心包膈${kind === 'artery' ? '動脈' : '靜脈'}`, system: kind === 'artery' ? 'arterial' : 'venous', kind, parent: src,
+        name: `${S.w} pericardiophrenic ${kind}`, zh: `${S.zh}${kind === 'artery' ? '心包膜膈動脈' : '心包膈靜脈'}`, system: kind === 'artery' ? 'arterial' : 'venous', kind, parent: src,
         tubes: [{pts, r: kind === 'artery' ? [.0009, .0006] : [.0011, .0007], samples: 40}],
         card: {origin: [`Internal thoracic ${kind}`, kind === 'artery' ? '內胸動脈' : '內胸靜脈'],
           course: ['Descends with the phrenic nerve between the fibrous pericardium and the mediastinal pleura to the diaphragm', '與膈神經一起在纖維心包與縱隔胸膜之間下行到橫膈'],
@@ -94,16 +94,16 @@ export default function thoraxNerves(U) {
         tubes: [{pts, r: [.0009, .0007], samples: 30}],
         card: {origin: [en_origin, zh_origin], course: [`Runs down the side of the vertebral bodies, pierces the crus of the diaphragm and ends in the ${ganglion[0]}`, `沿椎體側面下行，穿過橫膈腳，終於${ganglion[1]}`],
           supply: ['Preganglionic sympathetic fibres to the abdominal viscera', '腹腔內臟的交感神經節前纖維']}, refs: []});
-      base('greater splanchnic nerve', '大內臟神經', 'Thoracic sympathetic trunk, ganglia T5–T9', '胸交感幹第五至第九胸節', greater, ['coeliac ganglion', '腹腔神經節']);
-      base('lesser splanchnic nerve', '小內臟神經', 'Thoracic sympathetic trunk, ganglia T10–T11', '胸交感幹第十至第十一胸節', lesser, ['aorticorenal ganglion', '主動脈腎神經節']);
-      base('least splanchnic nerve', '最小內臟神經', 'Thoracic sympathetic trunk, ganglion T12', '胸交感幹第十二胸節', least, ['renal plexus (renal ganglion)', '腎神經叢（腎神經節）']);
+      base('greater splanchnic nerve', '大內臟神經', 'Thoracic sympathetic trunk, ganglia T5–T9', '胸交感神經幹第五至第九胸節', greater, ['coeliac ganglion', '腹腔神經節']);
+      base('lesser splanchnic nerve', '小內臟神經', 'Thoracic sympathetic trunk, ganglia T10–T11', '胸交感神經幹第十至第十一胸節', lesser, ['aorticorenal ganglion', '主動脈腎神經節']);
+      base('least splanchnic nerve', '最小內臟神經', 'Thoracic sympathetic trunk, ganglion T12', '胸交感神經幹第十二胸節', least, ['renal plexus (renal ganglion)', '腎神經叢（腎神經節）']);
       const gang = (nm, zh, c, ax) => out.push({
         name: `${S.w} ${nm}`, zh: `${S.zh}${zh}`, system: 'nervous', kind: 'ganglion',
         geometry: [U.ellipsoid(c, ax[0], ax[1], ax[2])],
         card: {origin: ['Prevertebral sympathetic ganglion on the aorta', '主動脈旁的椎前交感神經節'], course: [`Lies at the origin of the ${ax[3]}`, `位於${ax[4]}起始處`], supply: ['Relay for splanchnic nerve fibres to the abdominal viscera', '內臟神經纖維換元後分布到腹腔內臟']}, refs: []});
       gang('celiac ganglion', '腹腔神經節', gCeliac, [.0058, .0042, .0034, 'coeliac trunk', '腹腔動脈']);
       gang('aorticorenal ganglion', '主動脈腎神經節', gAort, [.0045, .0035, .0030, 'renal artery', '腎動脈']);
-      gang('superior mesenteric ganglion', '腸繫膜上神經節', gSma, [.0040, .0032, .0028, 'superior mesenteric artery', '腸繫膜上動脈']);
+      gang('superior mesenteric ganglion', '上腸繫膜神經節', gSma, [.0040, .0032, .0028, 'superior mesenteric artery', '腸繫膜上動脈']);
       gang('renal ganglion', '腎神經節', gRenal, [.0035, .0028, .0026, 'renal artery near the renal hilum', '腎動脈靠近腎門處']);
     }
   }
@@ -114,19 +114,19 @@ export default function thoraxNerves(U) {
     const R = .0108, ring = (cc, ang, r = R) => add(cc, P(Math.sin(ang) * r, 0, Math.cos(ang) * r));
     const trunk = ang => c.map((cc, i) => ring(cc, ang + (i > 1 ? 0 : .0)));
     out.push({
-      name: 'Anterior vagal trunk', zh: '迷走神經前幹', system: 'nervous', kind: 'nerve',
+      name: 'Anterior vagal trunk', zh: '前迷走神經幹', system: 'nervous', kind: 'nerve',
       tubes: [{pts: trunk(0).slice(1), r: [.0012, .0010], samples: 28}],
       card: {origin: ['Left vagus nerve, mainly, after the oesophageal plexus', '主要來自左側迷走神經，經食道神經叢重組'], course: ['Runs on the front of the oesophagus through the oesophageal hiatus to the stomach', '沿食道前面下行，經食道裂孔到胃'], supply: ['Stomach, liver and biliary tract (anterior gastric and hepatic branches)', '胃、肝與膽道（前胃支與肝支）']}, refs: []});
     out.push({
-      name: 'Posterior vagal trunk', zh: '迷走神經後幹', system: 'nervous', kind: 'nerve',
+      name: 'Posterior vagal trunk', zh: '後迷走神經幹', system: 'nervous', kind: 'nerve',
       tubes: [{pts: trunk(Math.PI).slice(1), r: [.0012, .0010], samples: 28}],
-      card: {origin: ['Right vagus nerve, mainly, after the oesophageal plexus', '主要來自右側迷走神經，經食道神經叢重組'], course: ['Runs on the back of the oesophagus through the oesophageal hiatus to the abdomen', '沿食道後面下行，經食道裂孔入腹腔'], supply: ['Stomach (posterior gastric branches) and the coeliac plexus (coeliac branches)', '胃（後胃支）與腹腔神經叢（腹腔支）']}, refs: []});
+      card: {origin: ['Right vagus nerve, mainly, after the oesophageal plexus', '主要來自右側迷走神經，經食道神經叢重組'], course: ['Runs on the back of the oesophagus through the oesophageal hiatus to the abdomen', '沿食道後面下行，經食道裂孔入腹腔'], supply: ['Stomach (posterior gastric branches) and the coeliac plexus (coeliac branches)', '胃（後胃支）與腹腔叢（腹腔支）']}, refs: []});
     // plexus: three interlacing strands wound round the lower oesophagus
     const strand = (phase, turns) => c.map((cc, i) => ring(cc, phase + (i / (c.length - 1)) * turns, R * 1.02));
     out.push({
       name: 'Esophageal plexus', zh: '食道神經叢', system: 'nervous', kind: 'plexus',
       tubes: [{pts: strand(.4, 2.2), r: [.0006, .0005], samples: 48}, {pts: strand(2.5, -2.0), r: [.0006, .0005], samples: 48}, {pts: strand(4.5, 1.7), r: [.0006, .0005], samples: 48}],
-      card: {origin: ['Vagus nerves (both) and sympathetic fibres from the thoracic trunk', '左右迷走神經與胸交感幹的交感纖維'], course: ['A network wound round the lower oesophagus; it re-forms into the anterior and posterior vagal trunks', '纏繞食道下段的網狀神經叢，再組成迷走神經前幹與後幹'], supply: ['Oesophagus (smooth-muscle motility and secretion)', '食道（平滑肌蠕動與分泌）']}, refs: []});
+      card: {origin: ['Vagus nerves (both) and sympathetic fibres from the thoracic trunk', '左右迷走神經與胸交感神經幹的交感纖維'], course: ['A network wound round the lower oesophagus; it re-forms into the anterior and posterior vagal trunks', '纏繞食道下段的網狀神經叢，再組成前迷走神經幹與後幹'], supply: ['Oesophagus (smooth-muscle motility and secretion)', '食道（平滑肌蠕動與分泌）']}, refs: []});
   }
   return out;
 }

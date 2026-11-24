@@ -5,7 +5,7 @@
   {
    "id": "common-iliac-artery",
    "en": "Common iliac artery",
-   "zh": "髂總動脈",
+   "zh": "總髂動脈",
    "kind": "artery",
    "bilateral": true,
    "parent": null,
@@ -36,7 +36,7 @@
   {
    "id": "internal-iliac-artery",
    "en": "Internal iliac artery",
-   "zh": "髂內動脈",
+   "zh": "內髂動脈",
    "kind": "artery",
    "bilateral": true,
    "parent": "common-iliac-artery",
@@ -49,7 +49,7 @@
    "terminal": false,
    "origin": {
     "en": "Common iliac artery",
-    "zh": "髂總動脈"
+    "zh": "總髂動脈"
    },
    "course": {
     "en": "Short trunk that runs down into the pelvis in front of the sacroiliac joint and splits into an anterior and a posterior division",
@@ -71,7 +71,7 @@
   {
    "id": "external-iliac-artery",
    "en": "External iliac artery",
-   "zh": "髂外動脈",
+   "zh": "外髂動脈",
    "kind": "artery",
    "bilateral": true,
    "parent": "common-iliac-artery",
@@ -84,7 +84,7 @@
    "terminal": false,
    "origin": {
     "en": "Common iliac artery",
-    "zh": "髂總動脈"
+    "zh": "總髂動脈"
    },
    "course": {
     "en": "Runs along the medial border of psoas major to the midpoint between the anterior superior iliac spine and the pubic symphysis, where it passes under the inguinal ligament",
@@ -92,7 +92,7 @@
    },
    "supply": {
     "en": "Lower limb; gives the deep circumflex iliac and inferior epigastric arteries just above the inguinal ligament",
-    "zh": "下肢；在腹股溝韌帶上方分出旋髂深動脈與腹壁下動脈"
+    "zh": "下肢；在腹股溝韌帶上方分出深旋髂動脈與腹壁下動脈"
    },
    "relations": [],
    "keep": null,
@@ -260,7 +260,7 @@
    },
    "supply": {
     "en": "Tensor fasciae latae and the muscles round the hip; anastomoses with the superior gluteal artery",
-    "zh": "闊筋膜張肌與髖周肌肉；與臀上動脈吻合"
+    "zh": "闊筋膜張肌與髖周肌肉；與上臀動脈吻合"
    },
    "relations": [],
    "keep": null,
@@ -332,7 +332,7 @@
   {
    "id": "superficial-circumflex-iliac-artery",
    "en": "Superficial circumflex iliac artery",
-   "zh": "旋髂淺動脈",
+   "zh": "淺旋髂動脈",
    "kind": "artery",
    "bilateral": true,
    "parent": "femoral-artery",
@@ -363,7 +363,7 @@
   {
    "id": "deep-circumflex-iliac-artery",
    "en": "Deep circumflex iliac artery",
-   "zh": "旋髂深動脈",
+   "zh": "深旋髂動脈",
    "kind": "artery",
    "bilateral": true,
    "parent": "external-iliac-artery",
@@ -380,7 +380,7 @@
    },
    "course": {
     "en": "Runs laterally along the inguinal ligament to the anterior superior iliac spine, then along the inner lip of the iliac crest",
-    "zh": "沿腹股溝韌帶向外側至髂前上棘，再沿髂嵴內唇走行"
+    "zh": "沿腹股溝韌帶向外側至髂前上棘，再沿髂脊內唇走行"
    },
    "supply": {
     "en": "Iliacus and the muscles of the lower abdominal wall",
@@ -529,7 +529,7 @@
   {
    "id": "superior-gluteal-artery",
    "en": "Superior gluteal artery",
-   "zh": "臀上動脈",
+   "zh": "上臀動脈",
    "kind": "artery",
    "bilateral": true,
    "parent": "internal-iliac-artery",
@@ -542,7 +542,7 @@
    "terminal": false,
    "origin": {
     "en": "Posterior division of the internal iliac artery",
-    "zh": "髂內動脈後幹"
+    "zh": "內髂動脈後幹"
    },
    "course": {
     "en": "Passes backwards between the lumbosacral trunk and the first sacral nerve and leaves the pelvis through the greater sciatic foramen above piriformis, then divides into superficial and deep branches",
@@ -562,7 +562,7 @@
   {
    "id": "superficial-branch-of-superior-gluteal-artery",
    "en": "Superficial branch of superior gluteal artery",
-   "zh": "臀上動脈淺支",
+   "zh": "上臀動脈淺支",
    "kind": "artery",
    "bilateral": true,
    "parent": "superior-gluteal-artery",
@@ -575,7 +575,7 @@
    "terminal": true,
    "origin": {
     "en": "Superior gluteal artery",
-    "zh": "臀上動脈"
+    "zh": "上臀動脈"
    },
    "course": {
     "en": "Enters the deep surface of gluteus maximus",
@@ -593,7 +593,7 @@
   {
    "id": "deep-branch-of-superior-gluteal-artery",
    "en": "Deep branch of superior gluteal artery",
-   "zh": "臀上動脈深支",
+   "zh": "上臀動脈深支",
    "kind": "artery",
    "bilateral": true,
    "parent": "superior-gluteal-artery",
@@ -606,7 +606,7 @@
    "terminal": true,
    "origin": {
     "en": "Superior gluteal artery",
-    "zh": "臀上動脈"
+    "zh": "上臀動脈"
    },
    "course": {
     "en": "Runs between gluteus medius and gluteus minimus",
@@ -624,7 +624,7 @@
   {
    "id": "inferior-gluteal-artery",
    "en": "Inferior gluteal artery",
-   "zh": "臀下動脈",
+   "zh": "下臀動脈",
    "kind": "artery",
    "bilateral": true,
    "parent": "internal-iliac-artery",
@@ -637,7 +637,7 @@
    "terminal": true,
    "origin": {
     "en": "Anterior division of the internal iliac artery",
-    "zh": "髂內動脈前幹"
+    "zh": "內髂動脈前幹"
    },
    "course": {
     "en": "Passes between the second and third sacral nerves and leaves the pelvis below piriformis, then enters gluteus maximus",
@@ -657,7 +657,7 @@
   {
    "id": "internal-pudendal-artery",
    "en": "Internal pudendal artery",
-   "zh": "陰部內動脈",
+   "zh": "內陰動脈",
    "kind": "artery",
    "bilateral": true,
    "parent": "internal-iliac-artery",
@@ -670,7 +670,7 @@
    "terminal": true,
    "origin": {
     "en": "Anterior division of the internal iliac artery",
-    "zh": "髂內動脈前幹"
+    "zh": "內髂動脈前幹"
    },
    "course": {
     "en": "Leaves the pelvis below piriformis, curves round the ischial spine and returns to the perineum through the lesser sciatic foramen",
@@ -704,7 +704,7 @@
    "terminal": true,
    "origin": {
     "en": "Anterior division of the internal iliac artery",
-    "zh": "髂內動脈前幹"
+    "zh": "內髂動脈前幹"
    },
    "course": {
     "en": "Runs along the lateral wall of the pelvis with the obturator nerve and vein and leaves through the obturator canal, then divides into anterior and posterior branches",
