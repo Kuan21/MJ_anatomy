@@ -86,19 +86,19 @@ function clearOf(geo, covers) {
 
 const CARD = {
   ischiocavernosus: {
-    origin: ['Inner surface of the ischial tuberosity and the ischial ramus', '坐骨結節與坐骨支內面'],
+    origin: ['Inner surface of the ischial tuberosity and the ischial ramus', '坐骨粗隆與坐骨支內面'],
     insertion: ['Sides and lower surface of the crus of the penis or clitoris', '陰莖腳或陰蒂腳的側面與下面'],
     nerve: ['Perineal branch of the pudendal nerve', '陰部神經會陰支'],
     action: ['Presses the crus against the pubic arch and helps maintain erection by compressing the venous outflow of the erectile tissue', '把海綿體腳壓向恥骨弓，壓迫勃起組織的靜脈回流，協助維持勃起'],
   },
   bulbospongiosus: {
     origin: ['Perineal body (and the median raphe of the bulb in the male)', '會陰體（男性另有陰莖球的正中縫）'],
-    insertion: ['Male: around the bulb and corpus spongiosum, ending on the corpora cavernosa; female: over the bulb of the vestibule and its gland, ending on the body of the clitoris', '男性：包繞陰莖球與尿道海綿體，止於陰莖海綿體；女性：覆蓋前庭球與前庭大腺，止於陰蒂體'],
+    insertion: ['Male: around the bulb and corpus spongiosum, ending on the corpora cavernosa; female: over the bulb of the vestibule and its gland, ending on the body of the clitoris', '男性：包繞陰莖球與尿道海綿體，止於陰莖海綿體；女性：覆蓋前庭球與大前庭腺，止於陰蒂體'],
     nerve: ['Perineal branch of the pudendal nerve', '陰部神經會陰支'],
-    action: ['Male: empties the urethra after urination and ejaculation and helps erection; female: narrows the vaginal opening and presses the vestibular gland to release its secretion', '男性：排尿或射精後排空尿道並協助勃起；女性：縮窄陰道口並擠壓前庭大腺使其分泌'],
+    action: ['Male: empties the urethra after urination and ejaculation and helps erection; female: narrows the vaginal opening and presses the vestibular gland to release its secretion', '男性：排尿或射精後排空尿道並協助勃起；女性：縮窄陰道口並擠壓大前庭腺使其分泌'],
   },
   transverse: {
-    origin: ['Inner surface of the ischial ramus near the ischial tuberosity', '坐骨結節附近的坐骨支內面'],
+    origin: ['Inner surface of the ischial ramus near the ischial tuberosity', '坐骨粗隆附近的坐骨支內面'],
     insertion: ['Perineal body (central tendon of the perineum)', '會陰體（會陰中心腱）'],
     nerve: ['Perineal branch of the pudendal nerve', '陰部神經會陰支'],
     action: ['Fixes the perineal body, which the other perineal muscles and the pelvic floor attach to', '固定會陰體，使其他會陰肌與盆底肌有穩固的附著點'],
