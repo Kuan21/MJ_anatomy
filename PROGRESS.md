@@ -1,6 +1,6 @@
 # PROGRESS（自動排程交接檔）
 
-最後更新：2026-11-26。分支：`claude/local-auto`（不推 main、不刪檔）。
+最後更新：2026-11-27。分支：`claude/local-auto`（不推 main、不刪檔）。
 依據：`ROADMAP.md`「穩定期」、`CLAUDE.md`、`git log`、開放 PR 清單。
 
 ## 目前狀態
@@ -551,6 +551,10 @@
   - 本機通過：七個 `test-centreline-*`、`check-no-notes`。其餘仍等「待我決定」。
 
 - 2026-11-26（第九十八次）：只查狀態，沒有改程式、模型、解剖內容或網站。
+  - `git fetch` 後 main 仍在 #482（e570a471），本分支已含全部 main 的 commit，不需要合併；`scripts/` 內沒有新的 `URL(...).pathname` 寫法；`work/`、`supplement-stream.json.gz` 仍缺。
+  - 本機通過：七個 `test-centreline-*`、`check-no-notes`。其餘仍等「待我決定」。
+
+- 2026-11-27（第九十九次）：只查狀態，沒有改程式、模型、解剖內容或網站。
   - `git fetch` 後 main 仍在 #482（e570a471），本分支已含全部 main 的 commit，不需要合併；`scripts/` 內沒有新的 `URL(...).pathname` 寫法；`work/`、`supplement-stream.json.gz` 仍缺。
   - 本機通過：七個 `test-centreline-*`、`check-no-notes`。其餘仍等「待我決定」。
 
