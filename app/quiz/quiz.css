@@ -184,8 +184,9 @@ a.quiz-hub-card:hover{transform:translateY(-2px);border-color:#263b4866;box-shad
 /* Level 3: structure → name */
 .quiz-level{margin-bottom:22px}
 .quiz-level legend small{color:var(--quiz-muted);font-weight:400;margin-left:6px}
-.quiz-level-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.quiz-level-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .quiz-level-grid>button{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;text-align:left;padding:14px 15px;min-height:76px;border:1px solid var(--quiz-line);border-radius:12px;background:#fff;color:var(--quiz-ink);font-size:12px}
+.quiz-level-grid>button>span{flex:1;min-width:0}
 .quiz-level-grid>button b{display:block;font-size:14px;margin-bottom:2px}
 .quiz-level-grid>button small{display:block;font-size:10px;color:var(--quiz-muted);margin-top:4px}
 .quiz-level-grid>button[aria-pressed=true]{border-color:var(--quiz-accent);box-shadow:0 0 0 1px var(--quiz-accent) inset;background:#f4f7f9}
