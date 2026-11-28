@@ -16,8 +16,15 @@ const MALE_PELVIC_FLOOR=/^(?:Left|Right) (?:iliococcygeus|pubococcygeus|puborect
 /** The atlas skin is a male surface (the penis and scrotum are part of the mesh) and its pubic hair patch follows it; in female mode the female copies (ids HRAF-skin and HRAF-pubic-hair, groin reshaped) are drawn instead. */
 const MALE_SKIN=(part:Part)=>part.system==='integumentary'&&(part.name==='Skin'||part.name==='Pubic hair')&&!part.sex;
 
+/** The neutral view (no sex chosen, the default): nothing that belongs to one sex only. Bones, muscles, vessels, nerves and the shared organs stay; the reproductive organs, their vessels and nerves,
+ * the structures built for one sex (the breast, the perineal muscles, the female pelvis copies), the penile urethra and the skin (the atlas skin carries a penis and a scrotum) are not drawn.
+ * A patch of the male hip bone (a bone landmark) stays, because the bone it lies on is drawn. */
+const neutralHides=(part:Part)=>part.system==='reproductive'||MALE_ONLY.test(part.name)||FEMALE_ONLY.test(part.name)||MALE_SKIN(part)
+ ||part.sex==='female'||(part.sex==='male'&&part.system!=='skeletal')||(part.system==='urinary'&&part.name==='Urethra')||(part.system==='integumentary'&&part.sex!==undefined);
+
 export const matchesSex=(part:Part,sex:'male'|'female'|undefined)=>{
- const shown=sex??'male';
+ if(sex===undefined)return !neutralHides(part);
+ const shown=sex;
  if(part.sex==='female')return shown==='female';
  // a patch cut from a BodyParts3D (male) pelvic bone, whose female copy is drawn in female mode (hip-bone landmarks)
  if(part.sex==='male')return shown==='male';

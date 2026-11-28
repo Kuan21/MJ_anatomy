@@ -32,7 +32,7 @@ const maleSkin = named('Skin', false), femaleSkinParts = named('Skin', true), ma
 ok(maleSkin.length === 1 && femaleSkinParts.length === 1, `expected one male and one female skin, found ${maleSkin.length} and ${femaleSkinParts.length}`);
 ok(maleHair.length === 1 && femaleHair.length === 1, `expected one male and one female pubic-hair patch, found ${maleHair.length} and ${femaleHair.length}`);
 const owners = O.buildOwners(parts);
-for (const [sex, shown, hidden] of [['male', [...maleSkin, ...maleHair], [...femaleSkinParts, ...femaleHair]], ['female', [...femaleSkinParts, ...femaleHair], [...maleSkin, ...maleHair]], [undefined, [...maleSkin, ...maleHair], [...femaleSkinParts, ...femaleHair]]]) {
+for (const [sex, shown, hidden] of [['male', [...maleSkin, ...maleHair], [...femaleSkinParts, ...femaleHair]], ['female', [...femaleSkinParts, ...femaleHair], [...maleSkin, ...maleHair]], [undefined, [], [...maleSkin, ...maleHair, ...femaleSkinParts, ...femaleHair]]]) {
   for (const vis of [ALL, ['integumentary']]) {
     const v = V.partVisibility(owners, state({visible: vis, sex}));
     for (const p of shown) ok(v.base(p), `${sex ?? 'default'} mode: ${p.name} (${p.id}) is not drawn`);
