@@ -1785,3 +1785,153 @@ Object.assign(CARD_EXTRAS, {
 });
 CARD_EXTRAS['descending thoracic aorta'] = CARD_EXTRAS['thoracic aorta'];
 // ===== AB-A2 end =====
+// ===== AB-A4 begin: abdominal-wall muscles not yet in the muscle fact table, aponeuroses and ligaments of the abdominal wall and inguinal region, and bones of the abdominal wall (card batch AB-A4). Standard anatomy only; a field we are not sure of stays out. =====
+Object.assign(CARD_EXTRAS, {
+ 'cremaster': {
+ 起點: e('由腹內斜肌最下部的肌束分出，並有少數纖維來自腹股溝韌帶中部；肌束成袢狀隨精索下行', 'Slips split off the lowest fibres of internal oblique, with a few fibres from the middle of the inguinal ligament; the fibres descend as loops along the spermatic cord'),
+ 止點: e('肌袢包繞精索與睪丸，內側端附著於恥骨粗隆與恥骨脊附近', 'The loops enclose the spermatic cord and testis; the medial ends attach near the pubic tubercle and pubic crest'),
+ 作用: e('收縮時把睪丸向上提向腹股溝管，藉此調節睪丸的溫度，也是提睪肌反射的效應肌；女性只有少數薄弱的肌束伴隨子宮圓韌帶', 'Draws the testis up toward the inguinal canal, helping regulate its temperature, and is the effector of the cremasteric reflex; in women only a few thin fibres accompany the round ligament of the uterus'),
+ 神經支配: e('生殖股神經的生殖支（L1–L2）', 'Genital branch of the genitofemoral nerve (L1–L2)'),
+ 血液供應: e('提睪肌動脈（下腹壁動脈的分支）', 'Cremasteric artery, a branch of the inferior epigastric artery'),
+ },
+ 'psoas minor': {
+ 起點: e('第 12 胸椎與第 1 腰椎椎體的側面及其間的椎間盤', 'Sides of the bodies of T12 and L1 and the intervertebral disc between them'),
+ 止點: e('細長的肌腱走在腰大肌前面，止於恥骨線與髂恥隆凸，並以筋膜部分延續到髂筋膜', 'A long slender tendon lying in front of psoas major, inserting on the pectineal line and the iliopubic eminence and blending with the iliac fascia'),
+ 作用: e('輕微屈曲腰椎並拉緊髂筋膜；許多人缺如，缺如時不影響功能', 'Weakly flexes the lumbar spine and tenses the iliac fascia; it is absent in many people without loss of function'),
+ 神經支配: e('第 1 腰神經前支（L1）', 'Ventral ramus of the first lumbar nerve (L1)'),
+ 血液供應: e('腰動脈的分支（細小，記載不一）', 'Small branches of the lumbar arteries (reports vary)'),
+ },
+ 'iliopsoas': {
+ 起點: e('腰大肌起自 T12–L5 椎體與椎間盤的側面及腰椎橫突；髂肌起自髂窩、髂脊內唇與薦髂前韌帶', 'Psoas major from the sides of the bodies and discs of T12–L5 and the lumbar transverse processes; iliacus from the iliac fossa, the inner lip of the iliac crest and the anterior sacro-iliac ligament'),
+ 止點: e('兩肌向下會合為一條肌腱，經腹股溝韌帶深面與髖關節前方，止於股骨小轉子', 'The two muscles unite into one tendon that passes under the inguinal ligament and in front of the hip joint to insert on the lesser trochanter of the femur'),
+ 作用: e('是髖關節最有力的屈肌；下肢固定時使軀幹向前屈（如仰臥起坐），腰大肌另可協助腰椎側屈', 'The strongest flexor of the hip; with the leg fixed it flexes the trunk forward (as in a sit-up), and psoas major also helps bend the lumbar spine sideways'),
+ 神經支配: e('腰大肌受腰神經前支（L1–L3）支配；髂肌受股神經（L2–L3）支配', 'Psoas major by the ventral rami of L1–L3; iliacus by the femoral nerve (L2–L3)'),
+ 血液供應: e('髂腰動脈與腰動脈的分支，髂肌另有旋股內側動脈的分支', 'Branches of the iliolumbar and lumbar arteries; iliacus also receives branches of the medial circumflex femoral artery'),
+ },
+ 'linea alba': {
+ 附著: e('腹前壁正中的纖維帶，由左右三層側腹肌的腱膜在中線交織而成；上端附於劍突，下端附於恥骨聯合', 'A fibrous band in the midline of the anterior abdominal wall formed by the interlacing aponeuroses of the three flat muscles of both sides; attached above to the xiphoid process and below to the pubic symphysis'),
+ 毗鄰: e('位於左右腹直肌之間；臍以上較寬，臍以下變得很窄；臍環位於其中段，錐狀肌附著於其下部', 'Lies between the two rectus abdominis muscles; it is broad above the umbilicus and narrow below it, the umbilical ring lies in its middle part, and pyramidalis attaches to its lower part'),
+ 作用: e('把兩側側腹肌的拉力傳到中線並固定左右腹直肌鞘，維持腹前壁的完整；中線幾乎沒有血管與神經穿過，是腹部正中切口的常用路徑', 'Transmits the pull of the lateral abdominal muscles of both sides to the midline and anchors the two rectus sheaths, keeping the front wall intact; few vessels and nerves cross the midline, so it is the usual route for a midline incision'),
+ },
+ 'semilunar line (linea semilunaris)': {
+ 附著: e('腹直肌外側緣處一條向外凸的弧形淺溝，自第 9 肋軟骨尖端向下延伸到恥骨粗隆；是腹橫肌肌腹移行為腱膜的位置', 'A shallow curved groove, convex outward, along the lateral border of rectus abdominis running from the tip of the ninth costal cartilage down to the pubic tubercle; it marks where the muscle fibres of transversus abdominis turn into aponeurosis'),
+ 毗鄰: e('內側是腹直肌及其肌鞘，外側是腹橫肌的肌性部分，淺面為腹外斜肌與腹內斜肌的腱膜或肌腹', 'Medial to it lie rectus abdominis and its sheath, lateral to it the muscular part of transversus abdominis, with the aponeurosis or muscle of the two oblique muscles in front'),
+ 作用: e('標示腹直肌鞘外側界與側腹肌肌肉部和腱膜部的交界；此線附近腹壁較薄弱，是半月線疝的發生處', 'Marks the lateral limit of the rectus sheath and the junction of muscular and aponeurotic parts of the flat muscles; the wall is relatively weak here and it is the site of semilunar-line hernias (Spigelian hernias)'),
+ },
+ 'tendinous intersections': {
+ 附著: e('腹直肌肌腹內的橫行纖維帶，通常有三條（約在劍突、臍與兩者之間的高度），有時臍下另有第 4 條；牢固附於腹直肌鞘前層', 'Transverse fibrous bands within the belly of rectus abdominis, usually three (near the level of the xiphoid process, at the umbilicus and between the two), sometimes with a fourth below the umbilicus; they are firmly fixed to the anterior layer of the rectus sheath'),
+ 毗鄰: e('只與鞘的前層相連，後面與鞘後層之間沒有附著，因此腹直肌後方可自由滑動；把腹直肌分成數個肌節，體表呈現為分塊的外形', 'They adhere only to the anterior layer of the sheath and are free from the posterior layer, so the back of the muscle can glide; they divide rectus abdominis into segments, which gives the surface its block-like outline'),
+ 作用: e('把腹直肌分成數個肌節並固定於鞘前層，限制肌肉在鞘內的滑動', 'Divide the muscle into segments and anchor it to the anterior sheath, limiting its slide within the sheath'),
+ },
+ 'arcuate line': {
+ 附著: e('腹直肌鞘後層下緣的弧形游離緣，約位於臍與恥骨聯合之間的中段；是腹內斜肌腱膜後層與腹橫肌腱膜轉到腹直肌前方的位置', 'The curved free lower edge of the posterior layer of the rectus sheath, about midway between the umbilicus and the pubic symphysis; it is where the posterior lamina of the internal oblique aponeurosis and the aponeurosis of transversus abdominis pass in front of rectus abdominis'),
+ 毗鄰: e('此線以上，腹直肌後方有後鞘；此線以下三層腱膜都走在腹直肌前面，肌肉後方只剩腹橫筋膜、腹膜外組織與腹膜；下腹壁血管在此附近進入腹直肌鞘', 'Above the line the muscle has a posterior sheath; below it all three aponeuroses pass in front of rectus abdominis, leaving only transversalis fascia, extraperitoneal tissue and peritoneum behind it; the inferior epigastric vessels enter the sheath near this line'),
+ 作用: e('標示腹直肌鞘構造改變的界線，是描述腹壁層次與切口、疝位置的重要標誌', 'Marks where the structure of the rectus sheath changes, an important landmark for describing the layers of the wall, incisions and hernias'),
+ },
+ 'external oblique aponeurosis': {
+ 附著: e('腹外斜肌的肌腹在腹直肌外緣附近移行為寬闊的腱膜；向內參與腹直肌鞘前層並止於白線，下緣增厚並向內後方捲曲成腹股溝韌帶，連於前上髂棘與恥骨粗隆之間', 'The fleshy part of external oblique turns into a broad aponeurosis near the lateral border of rectus abdominis; medially it forms part of the anterior rectus sheath and ends at the linea alba, and its lower border thickens and curls inward to form the inguinal ligament between the anterior superior iliac spine and the pubic tubercle'),
+ 毗鄰: e('淺面是淺筋膜與皮膚，深面是腹內斜肌；髂腹股溝神經走在其深面；近恥骨處腱膜纖維分開形成淺腹股溝環', 'In front are the superficial fascia and skin, behind is internal oblique; the ilioinguinal nerve runs deep to it; near the pubis its fibres part to form the superficial inguinal ring'),
+ 作用: e('構成腹直肌鞘前層與腹股溝管前壁，並把腹外斜肌的收縮力傳到白線與骨盆', 'Forms the anterior layer of the rectus sheath and the anterior wall of the inguinal canal, and transmits the pull of external oblique to the linea alba and the pelvis'),
+ },
+ 'aponeurosis of internal oblique': {
+ 附著: e('腹內斜肌在腹直肌外緣附近移行為腱膜；弓狀線以上分成前、後兩層包住腹直肌，前層與腹外斜肌腱膜、後層與腹橫肌腱膜會合，都止於白線；弓狀線以下整層走在腹直肌前面', 'Internal oblique turns into an aponeurosis near the lateral border of rectus abdominis; above the arcuate line it splits into an anterior and a posterior lamina that enclose rectus abdominis, joining the external oblique aponeurosis in front and the transversus aponeurosis behind, and reaching the linea alba; below the arcuate line the whole layer passes in front of the muscle'),
+ 毗鄰: e('淺面是腹外斜肌腱膜，深面是腹橫肌及其腱膜；最下部的纖維與腹橫肌腱膜合成聯合肌腱', 'Superficial to it lies the external oblique aponeurosis and deep to it transversus abdominis and its aponeurosis; its lowest fibres join the transversus aponeurosis to form the conjoint tendon'),
+ 作用: e('構成腹直肌鞘的前層與後層（弓狀線以上），把腹內斜肌的拉力傳到白線', 'Contributes to the anterior and posterior layers of the rectus sheath above the arcuate line and carries the pull of internal oblique to the linea alba'),
+ },
+ 'aponeurosis of transversus abdominis': {
+ 附著: e('腹橫肌在半月線附近移行為腱膜；弓狀線以上與腹內斜肌腱膜後層合成腹直肌鞘後層，並止於白線；弓狀線以下轉到腹直肌前面加入前鞘', 'Transversus abdominis becomes aponeurotic near the semilunar line; above the arcuate line it joins the posterior lamina of the internal oblique aponeurosis to form the posterior rectus sheath and ends at the linea alba; below the arcuate line it passes in front of rectus abdominis and joins the anterior sheath'),
+ 毗鄰: e('淺面是腹內斜肌，深面是腹橫筋膜；最下部的纖維與腹內斜肌腱膜合成聯合肌腱，止於恥骨脊與恥骨線', 'Superficial to it is internal oblique, deep to it is transversalis fascia; its lowest fibres join the internal oblique aponeurosis to form the conjoint tendon, which inserts on the pubic crest and pectineal line'),
+ 作用: e('構成腹直肌鞘後層的主要成分（弓狀線以上），把腹橫肌的束腹作用傳到白線', 'The main component of the posterior rectus sheath above the arcuate line, carrying the girdle-like action of transversus abdominis to the linea alba'),
+ },
+ 'inguinal ligament': {
+ 附著: e('腹外斜肌腱膜下緣增厚並向內後方捲曲而成的纖維帶，外側附於前上髂棘，內側附於恥骨粗隆，整體呈向下凸的弧形', 'A fibrous band formed by the thickened lower border of the external oblique aponeurosis curling inward and backward; fixed laterally to the anterior superior iliac spine and medially to the pubic tubercle, curved with its convexity downward'),
+ 毗鄰: e('上方是腹股溝管；腹內斜肌與腹橫肌的下緣部分起自其外側部；深面有髂腰肌、股神經與股血管下行入大腿；下方連接闊筋膜；內側端向後折返形成腔隙韌帶', 'Above it lies the inguinal canal, with parts of internal oblique and transversus abdominis arising from its lateral part; underneath it the iliopsoas, the femoral nerve and the femoral vessels pass into the thigh; the fascia lata is attached below, and its medial end turns backward as the lacunar ligament'),
+ 作用: e('分隔腹部與大腿，構成腹股溝管的底，並為腹壁肌肉與大腿筋膜的附著線；前上髂棘與恥骨聯合連線的中點（腹股溝中點）是定位股動脈的標誌；腹股溝疝在恥骨粗隆的上內側、股疝在其下外側', 'Separates the abdomen from the thigh, forms the floor of the inguinal canal and is an attachment line for abdominal muscles and the fascia of the thigh; the midpoint between the anterior superior iliac spine and the pubic symphysis locates the femoral artery; an inguinal hernia lies superomedial to the pubic tubercle and a femoral hernia inferolateral to it'),
+ },
+ 'lacunar ligament': {
+ 附著: e('腹股溝韌帶內側端向後、向下折返形成的三角形扇狀纖維，附於恥骨線（恥骨梳）；外側緣游離，呈凹形', 'Triangular fan of fibres formed where the medial end of the inguinal ligament turns backward and downward to attach to the pectineal line of the pubis; its lateral edge is free and concave'),
+ 毗鄰: e('構成股環的內側界；上方連於腹股溝韌帶，後方延續為恥骨梳韌帶；內側部位於腹股溝管底部', 'Forms the medial boundary of the femoral ring; it is continuous with the inguinal ligament above and with the pectineal ligament behind, and its medial part lies in the floor of the inguinal canal'),
+ 作用: e('補強腹股溝管底的內側端，並圍出股環內側緣；股疝經股環下行時，此邊緣質地堅韌，容易造成嵌頓', 'Strengthens the medial end of the floor of the inguinal canal and bounds the medial edge of the femoral ring; this edge is firm and can trap a femoral hernia passing through the ring'),
+ },
+ 'iliopectineal ligament': {
+ 附著: e('髂筋膜增厚形成的帶狀結構，從腹股溝韌帶深面向後下延伸，附於髂恥隆凸', 'A band formed by thickening of the iliac fascia, running from the deep surface of the inguinal ligament backward and downward to the iliopubic eminence'),
+ 毗鄰: e('把腹股溝韌帶深面的空間分成外側的肌腔隙與內側的血管腔隙；肌腔隙通過髂腰肌、股神經與外股皮神經，血管腔隙通過股動脈、股靜脈、股管與淋巴管', 'Divides the space under the inguinal ligament into a lateral muscular compartment and a medial vascular compartment; the muscular compartment carries iliopsoas, the femoral nerve and the lateral femoral cutaneous nerve, the vascular compartment the femoral artery and vein, the femoral canal and lymphatics'),
+ 作用: e('把肌腔隙與血管腔隙分開，各自容納不同內容物', 'Separates the muscular and vascular compartments, each holding different contents'),
+ },
+ 'conjoint tendon': {
+ 附著: e('腹內斜肌與腹橫肌腱膜最下部的纖維合併而成的腱，附於恥骨脊與恥骨線的內側部，並與腹直肌鞘外緣相連', 'A tendon formed by the lowest fibres of the aponeuroses of internal oblique and transversus abdominis; it inserts on the pubic crest and the medial part of the pectineal line and joins the lateral edge of the rectus sheath'),
+ 毗鄰: e('位於精索的後內側、腹直肌外緣之後；前方有腹外斜肌腱膜與淺腹股溝環，後方緊貼腹橫筋膜', 'Lies posteromedial to the spermatic cord and behind the lateral edge of rectus abdominis; the external oblique aponeurosis and the superficial inguinal ring lie in front, and transversalis fascia directly behind'),
+ 作用: e('補強腹股溝管後壁的內側部（腹股溝三角），防止腹腔內容物向前突出而形成直疝；是否成為獨立的腱，各人不盡相同', 'Reinforces the medial part of the posterior wall of the inguinal canal (the inguinal triangle) and helps prevent bowel pushing forward as a direct hernia; how distinct a tendon it forms varies between people'),
+ },
+ 'iliolumbar ligament': {
+ 附著: e('扇形的堅韌纖維束，由第 4、第 5 腰椎橫突尖端向外延伸到髂脊後部的內唇與髂骨內面', 'A strong fan-shaped band running from the tips of the transverse processes of L4 and L5 outward to the inner lip of the posterior part of the iliac crest and the inner surface of the ilium'),
+ 毗鄰: e('前方有腰大肌與腰方肌，腰方肌下端部分起自此韌帶；後方為豎脊肌', 'Psoas major and quadratus lumborum lie in front, and the lower part of quadratus lumborum partly arises from it; the erector spinae lie behind'),
+ 作用: e('把下位腰椎固定於髂骨，限制第 5 腰椎在薦骨上向前滑動，並限制腰薦部過度的側屈與旋轉', 'Binds the lower lumbar vertebrae to the ilium, resists forward sliding of L5 on the sacrum and limits excessive side-bending and rotation at the lumbosacral junction'),
+ },
+ "pectineal (cooper's) ligament": {
+ 附著: e('腔隙韌帶向外側延續，沿恥骨線（恥骨梳）的一條厚而堅韌的纖維帶，緊貼恥骨骨膜，並有恥骨肌筋膜與聯合肌腱的纖維加入', 'A thick tough fibrous band continuing laterally from the lacunar ligament along the pectineal line of the pubis, closely fixed to the periosteum and joined by fibres of the fascia over pectineus and of the conjoint tendon'),
+ 毗鄰: e('構成股環的後界；下方是恥骨肌，上方隔著腹橫筋膜與腹膜相鄰；內側端與腔隙韌帶相連', 'Forms the posterior boundary of the femoral ring; pectineus lies below it, and transversalis fascia and peritoneum lie above; continuous at its medial end with the lacunar ligament'),
+ 作用: e('是恥骨上緣堅固的固定帶，疝氣修補時常縫在此處作為牢固的錨點', 'A firm anchoring band along the upper border of the pubis, commonly used as a strong point for stitches in hernia repair'),
+ },
+ 'medial crus of superficial inguinal ring': {
+ 附著: e('淺腹股溝環是腹外斜肌腱膜下部的三角形裂口；內側腳是裂口的內上緣，附著於恥骨聯合前面，並與對側的纖維交織', 'The superficial inguinal ring is a triangular gap in the lower external oblique aponeurosis; the medial crus is its upper medial margin and attaches to the front of the pubic symphysis, interlacing with fibres of the opposite side'),
+ 毗鄰: e('位於精索（女性為子宮圓韌帶）的內上方；與外側腳之間有腳間纖維橫跨，防止環口被撐開', 'Lies superomedial to the spermatic cord (round ligament of the uterus in women); intercrural fibres span between it and the lateral crus to keep the ring from spreading'),
+ 作用: e('與外側腳共同圍成淺腹股溝環，讓精索或子宮圓韌帶由此離開腹股溝管', 'With the lateral crus it bounds the superficial inguinal ring, through which the spermatic cord or round ligament leaves the inguinal canal'),
+ },
+ 'lateral crus of superficial inguinal ring': {
+ 附著: e('淺腹股溝環的外下緣，由腹外斜肌腱膜增厚形成，附著於恥骨粗隆，與腹股溝韌帶的內側端相連', 'The lower lateral margin of the superficial inguinal ring, a thickening of the external oblique aponeurosis attached to the pubic tubercle and continuous with the medial end of the inguinal ligament'),
+ 毗鄰: e('位於精索（女性為子宮圓韌帶）的外下方，精索由其上方跨過；內側與內側腳之間有腳間纖維相連', 'Lies inferolateral to the spermatic cord (round ligament of the uterus in women), which rests on it; intercrural fibres join it to the medial crus'),
+ 作用: e('與內側腳共同圍成淺腹股溝環，並承托通過此環的精索或子宮圓韌帶', 'With the medial crus it bounds the superficial inguinal ring and supports the spermatic cord or round ligament passing through it'),
+ },
+ 'median arcuate ligament': {
+ 附著: e('連接左右橫膈腳內側緣、橫跨主動脈前方的纖維弓，構成主動脈裂孔的前緣，約在第 12 胸椎高度', 'A fibrous arch joining the medial margins of the right and left crura of the diaphragm in front of the aorta, forming the anterior margin of the aortic hiatus at about the level of T12'),
+ 毗鄰: e('後方是主動脈與胸管；腹腔動脈幹自其下緣下方發出；附近有腹腔神經節', 'The aorta and thoracic duct lie behind it; the celiac trunk arises just below its lower edge, near the celiac ganglia'),
+ 作用: e('構成主動脈裂孔的前緣，使主動脈由胸腔進入腹腔時不受橫膈收縮擠壓；少數人此弓位置偏低而壓迫腹腔動脈幹起始部', 'Forms the front of the aortic hiatus so that the aorta passes from thorax to abdomen without being squeezed by the diaphragm; in some people the arch lies low and compresses the origin of the celiac trunk'),
+ },
+ 'medial arcuate ligament': {
+ 附著: e('覆蓋腰大肌上部的筋膜增厚而成的腱弓，內側連於橫膈腳旁的腰椎體側面（約 L1–L2），外側附於第 1 腰椎橫突尖端', 'A tendinous arch formed by thickening of the fascia over the upper part of psoas major, attached medially to the side of the first or second lumbar vertebral body beside the crus and laterally to the tip of the transverse process of L1'),
+ 毗鄰: e('腰大肌與交感神經幹從其深面（後方）通過；外側接續外側弓狀韌帶', 'Psoas major and the sympathetic trunk pass behind it; laterally it continues into the lateral arcuate ligament'),
+ 作用: e('是橫膈腰部的起點之一，在橫膈與腰大肌之間留出通道，讓腰大肌與交感神經幹通過', 'One of the origins of the lumbar part of the diaphragm, leaving a gap between the diaphragm and psoas major through which psoas and the sympathetic trunk pass'),
+ },
+ 'lateral arcuate ligament': {
+ 附著: e('覆蓋腰方肌上部的筋膜增厚而成的腱弓，內側附於第 1 腰椎橫突尖端，外側附於第 12 肋的下緣', 'A tendinous arch formed by thickening of the fascia over the upper part of quadratus lumborum, attached medially to the tip of the transverse process of L1 and laterally to the lower border of the twelfth rib'),
+ 毗鄰: e('腰方肌從其深面通過；肋下血管與肋下神經也在其後方進入腹壁；內側接續內側弓狀韌帶', 'Quadratus lumborum passes behind it, and the subcostal vessels and nerve also pass behind it into the abdominal wall; medially it is continuous with the medial arcuate ligament'),
+ 作用: e('是橫膈腰部的起點之一，並為腰方肌上方的橫膈附著提供腱性弓，使腰方肌能在橫膈後方通過', 'One of the origins of the lumbar part of the diaphragm, providing a tendinous arch for diaphragm fibres over quadratus lumborum so that the muscle can pass behind the diaphragm'),
+ },
+ 'xiphoid process': {
+ 主要標誌: e('胸骨最下方最小的一段，呈尖形或分叉，幼年為軟骨、成年漸骨化；位於胸骨下角頂點，約在第 9 胸椎高度；上外側緣常有與第 7 肋軟骨相接的小半面', 'The smallest and lowest part of the sternum, pointed or forked, cartilaginous in youth and ossifying with age; it lies at the apex of the infrasternal angle at about the level of T9, and its upper lateral margin often has a small facet for the seventh costal cartilage'),
+ 相關關節: e('胸骨劍突聯合（與胸骨體，約在第 9 胸椎高度，成年後常骨化癒合）；與第 7 肋軟骨有時形成小關節', 'Xiphisternal joint with the body of the sternum, at about the level of T9, often fused by ossification in adults; sometimes a small joint with the seventh costal cartilage'),
+ 附著肌肉: e('腹直肌、橫膈胸骨部與胸橫肌；白線以其為上端附著', 'Rectus abdominis, the sternal part of the diaphragm and transversus thoracis; the linea alba is attached to it above'),
+ },
+ 'pubic symphysis': {
+ 主要標誌: e('左右恥骨體在中線以纖維軟骨性的恥骨間盤連接；其外上方是恥骨脊與恥骨粗隆，下方兩側恥骨下支圍成恥骨弓', 'The bodies of the two pubic bones meet in the midline through a fibrocartilaginous interpubic disc; the pubic crest and pubic tubercle lie lateral and above it, and the two inferior pubic rami below form the subpubic arch'),
+ 相關關節: e('屬軟骨聯合（纖維軟骨關節），由恥骨上韌帶與恥骨弓狀韌帶加固；構成骨盆環的前方連接，妊娠期會變得較鬆動', 'A cartilaginous joint (symphysis) strengthened by the superior pubic and arcuate pubic ligaments; it closes the pelvic ring in front and loosens during pregnancy'),
+ 附著肌肉: e('腹直肌與錐狀肌；鄰近的恥骨體與恥骨下支上有長收肌、短收肌、股薄肌與恥骨直腸肌附著', 'Rectus abdominis and pyramidalis; on the adjacent pubic body and inferior ramus attach adductor longus, adductor brevis, gracilis and puborectalis'),
+ },
+ 'lumbar vertebrae': {
+ 主要標誌: e('共五節，位於脊柱下段；椎體大而厚、呈腎形，椎孔呈三角形，棘突短而寬、向後水平伸出，橫突細長，上關節突有乳突、橫突後方有副突；腰椎前凸使其向前彎曲', 'Five vertebrae in the lower spine; the body is large, thick and kidney-shaped, the vertebral foramen triangular, the spinous process short, broad and projecting straight backward, the transverse processes slender, with mammillary processes on the superior articular processes and accessory processes behind the transverse processes; the lumbar spine curves forward (lordosis)'),
+ 相關關節: e('椎體間以椎間盤相連；上、下關節突組成關節突關節（上關節面朝後內，下關節面朝前外，容許屈伸與側屈、限制旋轉）；第 5 腰椎與薦骨構成腰薦關節，並以髂腰韌帶連於髂骨', 'Vertebral bodies are joined by intervertebral discs; the articular processes form facet joints (superior facets face backward and medially, inferior facets forward and laterally, permitting flexion, extension and side-bending but limiting rotation); L5 forms the lumbosacral joint with the sacrum and is tied to the ilium by the iliolumbar ligament'),
+ 附著肌肉: e('腰大肌（椎體與橫突）、腰方肌（橫突）、橫膈腳（L1–L3 前面，右側較長）、多裂肌與豎脊肌（棘突、橫突、乳突）、腰橫突間肌', 'Psoas major (bodies and transverse processes), quadratus lumborum (transverse processes), the crura of the diaphragm (front of L1–L3, the right longer), multifidus and erector spinae (spinous, transverse and mammillary processes) and the lumbar intertransversarii'),
+ },
+ 'intervertebral discs': {
+ 主要標誌: e('相鄰椎體之間的纖維軟骨墊：周邊為同心環狀排列的纖維環，中央為膠狀的髓核，髓核略偏後；腰部椎間盤最厚，前部較後部厚，有助於形成腰椎前凸；全部椎間盤約占脊柱長度的四分之一', 'Fibrocartilage pads between adjacent vertebral bodies: an outer annulus fibrosus of concentric fibre rings around a gel-like nucleus pulposus placed slightly behind the centre; lumbar discs are the thickest and thicker in front than behind, helping to produce the lumbar lordosis; together the discs make up about a quarter of the length of the spine'),
+ 相關關節: e('相鄰椎體之間的軟骨聯合（纖維軟骨關節），上下以透明軟骨終板與椎體相連，前後面分別覆有前縱韌帶與後縱韌帶；後外側較薄弱，髓核突出多往此方向', 'The cartilaginous joint (symphysis) between adjacent vertebral bodies, attached above and below to the bodies by hyaline cartilage end-plates, with the anterior and posterior longitudinal ligaments on its front and back; the posterolateral part is thinner and is where the nucleus most often herniates'),
+ 附著肌肉: e('沒有肌肉大面積附著；腰大肌的起點包含 T12–L5 椎間盤的側面，橫膈腳起自上位腰椎椎間盤的前面', 'No muscle attaches over a large area; the origin of psoas major includes the sides of the T12–L5 discs and the diaphragmatic crura arise partly from the fronts of the upper lumbar discs'),
+ },
+ 'eleventh rib': {
+ 主要標誌: e('與第 12 肋同為浮肋，前端游離、止於腹壁肌肉內，不與肋軟骨弓相連；肋頭只有單一關節面，肋結節與肋角都不明顯，肋溝淺；位於腎上部的後方', 'A floating rib, like the twelfth: its front end is free in the muscles of the abdominal wall and does not join the costal margin; the head has a single articular facet, the tubercle and angle are indistinct and the costal groove shallow; it lies behind the upper part of the kidney'),
+ 相關關節: e('肋頭關節（與第 11 胸椎椎體）；因結節不明顯，沒有肋橫突關節', 'Joint of the head with the body of T11 (costovertebral joint); because the tubercle is indistinct there is no costotransverse joint'),
+ 附著肌肉: e('腹外斜肌、腹內斜肌（下緣）、後下鋸肌、闊背肌、肋間肌、橫膈肋骨部與肋提肌', 'External oblique, internal oblique (lower border), serratus posterior inferior, latissimus dorsi, the intercostal muscles, the costal part of the diaphragm and levator costae'),
+ },
+ 'twelfth rib': {
+ 主要標誌: e('最下一根浮肋，比第 11 肋短，前端游離而尖細，沒有肋結節與肋頸，肋角與肋溝缺如或不明顯，頭部只有單一關節面；長度因人而異；位於腎的後方，中間隔著橫膈與腎周脂肪；胸膜下界越過其內側部，肋下神經與血管沿其下緣下方走行', 'The lowest floating rib, shorter than the eleventh, with a free, tapering front end; it has no tubercle or neck and little or no angle or costal groove, and the head has a single facet; its length varies; it lies behind the kidney, separated from it by the diaphragm and perirenal fat; the lower pleural reflection crosses its medial part, and the subcostal nerve and vessels run below its lower border'),
+ 相關關節: e('肋頭關節（與第 12 胸椎椎體）；沒有肋橫突關節', 'Joint of the head with the body of T12 (costovertebral joint); there is no costotransverse joint'),
+ 附著肌肉: e('腰方肌（下緣內側部）、橫膈肋骨部、腹外斜肌、腹內斜肌、後下鋸肌、闊背肌、肋提肌，另有外側弓狀韌帶附著於其下緣', 'Quadratus lumborum (medial part of the lower border), the costal part of the diaphragm, external oblique, internal oblique, serratus posterior inferior, latissimus dorsi and levator costae, with the lateral arcuate ligament attached to its lower border'),
+ },
+ 'costal cartilages': {
+ 主要標誌: e('共十二對，由透明軟骨構成，隨年齡逐漸鈣化；第 1 至 7 對直接連到胸骨，第 8 至 10 對依次連到上一條肋軟骨，形成肋弓，第 11、12 對很短、尖端游離於腹壁肌肉中', 'Twelve pairs of hyaline cartilage that calcify with age; the first seven join the sternum directly, the eighth to tenth each join the cartilage above to form the costal margin, and the eleventh and twelfth are short with free tips in the abdominal wall muscles'),
+ 相關關節: e('與肋骨相連處為不動的軟骨結合；第 1 肋軟骨與胸骨柄為軟骨結合，第 2 至 7 對與胸骨形成胸肋關節；下位數對相鄰肋軟骨之間（約第 6–9 對）有肋軟骨間關節', 'Joined to the ribs by immobile cartilaginous unions; the first joins the manubrium by synchondrosis, the second to seventh form sternocostal joints with the sternum, and the sixth to ninth have interchondral joints where they touch'),
+ 附著肌肉: e('腹直肌（第 5 至 7 對）、腹橫肌與橫膈肋骨部（下位肋軟骨內面）、胸橫肌（第 2 至 6 對內面）、胸大肌、肋間肌', 'Rectus abdominis (fifth to seventh), transversus abdominis and the costal part of the diaphragm (inner surfaces of the lower cartilages), transversus thoracis (inner surfaces of the second to sixth), pectoralis major and the intercostal muscles'),
+ },
+});
+// ===== AB-A4 end =====
