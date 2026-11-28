@@ -85,6 +85,6 @@ try {
   assert.deepEqual(setupMod.loadExamSetup({getItem: () => JSON.stringify({regions: {[FAKE]: ['arm']}}), setItem() {}, removeItem() {}}).regions, {[FAKE]: ['arm']});
 } finally { delete QUIZ_REGIONS[FAKE]; }
 const page = fs.readFileSync(path.join(root, 'app/quiz/exam.tsx'), 'utf8') + fs.readFileSync(path.join(root, 'app/quiz/setup-parts.tsx'), 'utf8');
-assert.ok(page.includes('orderedRegions()') && !/'head-neck'|'upper-limb'|'lower-limb'/.test(page), 'the exam page names no region');
+assert.ok(page.includes('regionGroups()') && !/'head-neck'|'upper-limb'|'lower-limb'/.test(page), 'the exam page names no region');
 assert.ok(!/共筆|筆記|跑考|課堂/.test(page), 'no note wording on the exam page');
 console.log(`Mock exam passed: 50 x 30 s defaults, ${eligible} questions in ${real.length} catalogues across three tiers, hard 40% / medium 40-50% mix, shuffled across regions, left/right in answers, remembered setup.`);

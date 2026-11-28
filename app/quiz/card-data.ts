@@ -499,6 +499,7 @@ Object.assign(CARD_EXTRAS, {
   },
   'median cricothyroid ligament': {
     附著: e('上緣附於甲狀軟骨下緣的正中，下緣附於環狀軟骨弓前方的上緣；是彈性圓錐前部增厚的正中帶', 'Upper edge on the midline of the lower border of the thyroid cartilage, lower edge on the upper border of the front of the cricoid arch; the thickened median part of the conus elasticus'),
+    毗鄰: e('位於頸前部皮下，僅被皮膚與淺筋膜覆蓋；兩側有環甲肌，後方為喉腔；環甲動脈沿其上部橫過', 'Lies just beneath the skin and superficial fascia at the front of the neck, with the cricothyroid muscles at each side and the laryngeal cavity behind; the cricothyroid artery crosses along its upper part'),
     作用: e('連結並穩住甲狀軟骨與環狀軟骨的前部，讓甲狀軟骨能以環甲關節為軸前傾；此處在頸前正中位置表淺，也是緊急建立氣道的切開處', 'Binds the front of the thyroid and cricoid cartilages and lets the thyroid cartilage tilt forward on the cricothyroid joints; it lies superficially in the midline of the neck and is the site for emergency airway access'),
   },
   'lateral thyrohyoid ligament': {
@@ -817,7 +818,7 @@ Object.assign(CARD_EXTRAS, {
   },
   'maxillary nerve': {
     來源: e('三叉神經第二支（V2），由三叉神經節中部發出', 'Second division of the trigeminal nerve (V2), arising from the middle of the trigeminal ganglion'),
-    走向: e('經海綿竇外側壁，在圓孔前先分出腦膜支，再由圓孔出顱入翼顎窩；在翼顎窩分出顴神經與後上齒槽神經，並與翼顎神經節相連；之後穿眶下裂進入眼眶，延續為眶下神經，途中發出中上（部分人有）與前上齒槽神經，最後由眶下孔到達臉部', 'Passes through the lateral wall of the cavernous sinus, gives a meningeal branch before the foramen rotundum, then leaves the skull by it into the pterygopalatine fossa; there it gives the zygomatic and posterior superior alveolar nerves and is connected to the pterygopalatine ganglion; it then enters the orbit through the inferior orbital fissure as the infra-orbital nerve, which gives middle (present in some people) and anterior superior alveolar branches on its way and reaches the face at the infra-orbital foramen'),
+    走向: e('經海綿竇外側壁，在圓孔前先分出腦膜支，再由圓孔出顱入翼顎窩；在翼顎窩分出顴神經與後上齒槽神經，並與翼顎神經節相連；之後穿下眶裂進入眼眶，延續為眶下神經，途中發出中上（部分人有）與前上齒槽神經，最後由眶下孔到達臉部', 'Passes through the lateral wall of the cavernous sinus, gives a meningeal branch before the foramen rotundum, then leaves the skull by it into the pterygopalatine fossa; there it gives the zygomatic and posterior superior alveolar nerves and is connected to the pterygopalatine ganglion; it then enters the orbit through the inferior orbital fissure as the infra-orbital nerve, which gives middle (present in some people) and anterior superior alveolar branches on its way and reaches the face at the infra-orbital foramen'),
     支配範圍: e('純感覺：下眼瞼、鼻側與上唇間的臉部皮膚、顴部與顳部前方皮膚、上排牙齒與牙齦、上頜竇、鼻腔與硬顎黏膜', 'Purely sensory: facial skin between the lower eyelid and upper lip, skin of the cheek bone and anterior temple, upper teeth and gingiva, maxillary sinus, nasal cavity and palatal mucosa'),
   },
   'mental nerve': {
@@ -1029,7 +1030,7 @@ Object.assign(CARD_EXTRAS, {
   'cecum': {
     位置: e('大腸的起始段，位於右髂窩，在迴盲瓣水平以下向下膨出成盲囊，長約六公分，上方連升結腸', 'Beginning of the large intestine, lying in the right iliac fossa as a blind pouch below the level of the ileocecal valve, about 6 cm long and continuous above with the ascending colon'),
     組成: e('寬而短的囊袋，三條結腸帶在其後內側壁匯集到闌尾根部；通常四面被腹膜包被而沒有繫膜，故活動度較大，也可能有一小段腹膜後固定的變異', 'A wide, short pouch; the three taeniae coli converge on the base of the appendix on its posteromedial wall; it is usually covered by peritoneum on all sides without a mesentery and is therefore fairly mobile, although some are partly fixed to the posterior wall'),
-    毗鄰: e('前方貼前腹壁（或被大網膜覆蓋），後方為髂肌、腰大肌與股外側皮神經，後方常有盲腸後隱窩；內側有迴腸末段進入', 'In front lies the anterior abdominal wall (or the greater omentum); behind lie iliacus, psoas major and the lateral femoral cutaneous nerve, often with a retrocecal recess; the terminal ileum enters medially'),
+    毗鄰: e('前方貼前腹壁（或被大網膜覆蓋），後方為髂肌、腰大肌與外股皮神經，後方常有盲腸後隱窩；內側有迴腸末段進入', 'In front lies the anterior abdominal wall (or the greater omentum); behind lie iliacus, psoas major and the lateral femoral cutaneous nerve, often with a retrocecal recess; the terminal ileum enters medially'),
     血液供應: e('迴結腸動脈的前、後盲腸動脈；靜脈經迴結腸靜脈回流至上腸繫膜靜脈', 'Anterior and posterior caecal arteries from the ileocolic artery; venous blood drains through the ileocolic vein to the superior mesenteric vein'),
     神經支配: e('來自腹腔叢與上腸繫膜神經叢的交感纖維，以及迷走神經的副交感纖維', 'Sympathetic fibres from the coeliac and superior mesenteric plexuses and parasympathetic fibres from the vagus nerve'),
     作用: e('接收迴腸排入的內容物，吸收水分與電解質並開始形成糞便', 'Receives the contents of the ileum, absorbs water and electrolytes and begins to form faeces'),
@@ -1152,7 +1153,7 @@ Object.assign(CARD_EXTRAS, {
   'gallbladder': {
     位置: e('梨形的囊袋，位於肝臟面右縱溝前部的膽囊窩，其底部常在右側肋弓與腹直肌外緣的交點（第九肋軟骨）露出肝下緣', 'Pear-shaped sac lying in the gallbladder fossa at the front of the right sagittal groove on the visceral surface of the liver, with its fundus often projecting beyond the inferior border at the junction of the right costal margin and the lateral border of rectus abdominis (ninth costal cartilage)'),
     組成: e('分為底、體、頸三部分，頸部續接膽囊管；容積約三十至五十毫升；黏膜在頸部呈螺旋瓣；下面被腹膜覆蓋，上面直接貼肝', 'Divided into fundus, body and neck, with the neck continuing into the cystic duct; capacity about 30 to 50 mL; the mucosa forms a spiral fold in the neck; the lower surface is covered by peritoneum while the upper surface is attached directly to the liver'),
-    毗鄰: e('下方與十二指腸上部及結腸右曲相鄰，內側為十二指腸，前方為肝下緣與腹前壁；頸部靠近肝門右端', 'Below it lie the first part of the duodenum and the right colic flexure, in front are the inferior liver border and the anterior abdominal wall; its neck lies near the right end of the porta hepatis'),
+    毗鄰: e('下方與十二指腸上部及結腸右曲相鄰，後內側為十二指腸上部，前方為肝下緣與腹前壁；頸部靠近肝門右端', 'Below it lie the right colic flexure and, posteromedially, the first part of the duodenum; in front are the inferior liver border and the anterior abdominal wall; its neck lies near the right end of the porta hepatis'),
     血液供應: e('膽囊動脈，通常來自肝右動脈，經膽囊三角至膽囊頸；靜脈經膽囊靜脈入門靜脈右支，或直接入肝', 'Cystic artery, usually from the right hepatic artery, reaching the neck through the cystohepatic triangle; veins drain through the cystic vein to the right branch of the portal vein or directly into the liver'),
     神經支配: e('腹腔叢的交感纖維、迷走神經的副交感纖維，以及右膈神經的感覺纖維（膈下腹膜受刺激時，疼痛牽涉右肩）', 'Sympathetic fibres from the coeliac plexus, parasympathetic fibres from the vagus nerve and sensory fibres of the right phrenic nerve (irritation of the peritoneum near the diaphragm refers pain to the right shoulder)'),
     作用: e('濃縮並儲存肝分泌的膽汁；進食後在膽囊收縮素作用下收縮，把膽汁經膽囊管與膽總管排入十二指腸', 'Concentrates and stores the bile made by the liver; after a meal it contracts under cholecystokinin and drives bile through the cystic and common bile ducts into the duodenum'),
@@ -1167,7 +1168,7 @@ Object.assign(CARD_EXTRAS, {
   'body of gallbladder': {
     位置: e('膽囊的主要部分，貼在肝臟面的膽囊窩，介於底與頸之間', 'The main part of the gallbladder, lying in the gallbladder fossa of the liver between fundus and neck'),
     組成: e('上面直接貼肝（以疏鬆結締組織連接），下面被腹膜覆蓋', 'Its upper surface is attached directly to the liver by loose connective tissue and its lower surface is covered by peritoneum'),
-    毗鄰: e('下面為十二指腸上部與橫結腸', 'Below it lie the first part of the duodenum and the transverse colon'),
+    毗鄰: e('後內側為十二指腸上部，下方為橫結腸', 'Posteromedially lie the first part of the duodenum, and below it the transverse colon'),
     血液供應: e('膽囊動脈的淺支與深支', 'The superficial and deep branches of the cystic artery'),
     作用: e('是儲存膽汁的主要部位', 'The main store for bile'),
   },
@@ -1315,7 +1316,7 @@ Object.assign(CARD_EXTRAS, {
   },
   'right hepatic artery': {
     來源: e('肝固有動脈在肝門右側的終支；約有一成多起自上腸繫膜動脈（替代肝右動脈），是最常見的肝動脈變異之一', 'The right terminal branch of the hepatic artery proper; in more than one in ten people it arises from the superior mesenteric artery (a replaced right hepatic artery), one of the commonest hepatic arterial variants'),
-    走向: e('向右走，約三分之二在總肝管後方越過，其餘在前方，進入肝門右側；替代型則走在門靜脈後方。途中通常在膽囊三角內發出膽囊動脈', 'Runs to the right, passing behind the common hepatic duct in about two thirds of people and in front of it in the rest, to enter the right side of the porta hepatis (a replaced one runs behind the portal vein); it usually gives off the cystic artery within the cystohepatic triangle'),
+    走向: e('向右走，多數在總肝管後方越過，少數在前方，進入肝門右側；替代型則走在門靜脈後方。途中通常在膽囊三角內發出膽囊動脈', 'Runs to the right, passing behind the common hepatic duct in most people and in front of it in a minority, to enter the right side of the porta hepatis (a replaced one runs behind the portal vein); it usually gives off the cystic artery within the cystohepatic triangle'),
     主要分支: e('膽囊動脈', 'Cystic artery'),
     供應範圍: e('肝右葉與膽囊', 'The right lobe of the liver and the gallbladder'),
   },
@@ -1485,3 +1486,570 @@ Object.assign(CARD_EXTRAS, {
   },
 });
 // ===== HN-EC end =====
+
+// ===== HN-A1 begin: root of the neck — vessels, cervical vertebrae, ligaments, raphes, thymus, oesophagus, sympathetic trunk (card batch HN-A1). Standard anatomy only; a field we are not sure of stays out. =====
+Object.assign(CARD_EXTRAS, {
+  'brachiocephalic trunk': {
+    來源: e('主動脈弓凸側的第一條分支，起自胸骨柄後方的上縱隔；只有右側有此幹，左側的總頸動脈與左鎖骨下動脈直接由主動脈弓發出', 'The first branch from the convexity of the aortic arch, arising in the superior mediastinum behind the manubrium; it exists on the right only, the left common carotid and left subclavian arteries arising directly from the arch'),
+    走向: e('向右上斜行，約長四至五公分，前方有左頭臂靜脈與胸腺殘餘，後方為氣管，右側為右頭臂靜脈；到右胸鎖關節後方分為兩支', 'Runs obliquely up and to the right for about 4 to 5 cm, with the left brachiocephalic vein and thymic remnants in front, the trachea behind and the right brachiocephalic vein to its right; it divides behind the right sternoclavicular joint'),
+    主要分支: e('右鎖骨下動脈與右總頸動脈；偶有最下甲狀腺動脈自幹發出，也可起自主動脈弓或右總頸動脈', 'The right subclavian artery and the right common carotid artery; occasionally a thyroidea ima artery arises from the trunk, and it may also arise from the aortic arch or the right common carotid artery'),
+    供應範圍: e('右頭頸部與右上肢（經兩條終支）', 'The right side of the head and neck and the right upper limb, through its two terminal branches'),
+  },
+  'internal thoracic artery': {
+    來源: e('鎖骨下動脈第一段的下壁，與甲狀頸動脈幹的起點相對', 'From the inferior surface of the first part of the subclavian artery, opposite the origin of the thyrocervical trunk'),
+    走向: e('向下經鎖骨下靜脈後方進入胸腔，在前胸壁內側沿胸骨外側緣約一公分處下行；上段貼著壁胸膜、位於肋軟骨深面，下段在胸橫肌淺面；約在第六肋間隙分為兩終支', 'Passes down behind the subclavian vein into the thorax and descends about 1 cm lateral to the sternal border; its upper part lies against the parietal pleura deep to the costal cartilages and its lower part superficial to transversus thoracis; it divides into its two terminal branches at about the sixth intercostal space'),
+    主要分支: e('心包膜膈動脈、胸骨支、穿通支、前肋間支、縱隔支與胸腺支；終支為肌膈動脈與上腹壁動脈', 'Pericardiophrenic artery, sternal, perforating, anterior intercostal, mediastinal and thymic branches; its terminal branches are the musculophrenic and superior epigastric arteries'),
+    供應範圍: e('前胸壁、乳房、心包、橫膈與胸腺，並經上腹壁動脈到達腹直肌', 'The anterior chest wall, breast, pericardium, diaphragm and thymus, and through the superior epigastric artery the rectus abdominis'),
+  },
+  'suprascapular artery': {
+    來源: e('通常起自甲狀頸動脈幹，有時直接起自鎖骨下動脈，少數起自內胸動脈', 'Usually from the thyrocervical trunk; sometimes directly from the subclavian artery and rarely from the internal thoracic artery'),
+    走向: e('橫越前斜角肌與膈神經的前方，在鎖骨後方沿肩胛舌骨肌下腹行向外側；越過肩胛上橫韌帶的上方進入棘上窩，繞過肩胛頸的棘盂切跡進入棘下窩', 'Crosses in front of scalenus anterior and the phrenic nerve and runs laterally behind the clavicle along the inferior belly of omohyoid; it passes over the superior transverse scapular ligament into the supraspinous fossa and winds around the spinoglenoid notch into the infraspinous fossa'),
+    主要分支: e('胸鎖乳突肌支、肩峰支、棘上與棘下肌支，並發出關節支；在肩胛頸處與旋肩胛動脈、頸橫動脈降支相吻合', 'Sternocleidomastoid and acromial branches, branches to supraspinatus and infraspinatus and articular branches; it anastomoses with the circumflex scapular artery and the descending branch of the transverse cervical artery around the scapular neck'),
+    供應範圍: e('棘上肌、棘下肌、肩胛骨與肩關節，並與周圍動脈構成肩胛周圍吻合', 'Supraspinatus, infraspinatus, the scapula and the shoulder joint, forming the scapular anastomosis with neighbouring arteries'),
+  },
+  'thyrocervical trunk': {
+    來源: e('鎖骨下動脈第一段的前上壁，在前斜角肌內側緣附近、椎動脈起點外側發出', 'From the front of the first part of the subclavian artery, near the medial border of scalenus anterior and lateral to the origin of the vertebral artery'),
+    走向: e('非常短（約一公分），向上發出後即分為多條分支；其中頸橫動脈與肩胛上動脈向外橫越前斜角肌與膈神經的前方，膈神經貼在前斜角肌前面、位於這兩條動脈後方', 'A very short trunk (about 1 cm) that divides almost at once into several branches; of these, the transverse cervical and suprascapular arteries pass laterally in front of scalenus anterior and the phrenic nerve, which lies on the front of scalenus anterior behind them'),
+    主要分支: e('甲狀腺下動脈（頸升動脈多由此發出）、頸橫動脈與肩胛上動脈', 'The inferior thyroid artery (the ascending cervical artery usually arises from it), the transverse cervical artery and the suprascapular artery'),
+    供應範圍: e('甲狀腺、喉與氣管下部、食道頸段、頸後三角與肩胛區的肌肉，並由頸升動脈供應頸部深層肌與脊髓', 'The thyroid gland, lower larynx and trachea, cervical oesophagus, the muscles of the posterior triangle and scapular region, and through the ascending cervical artery the deep neck muscles and spinal cord'),
+  },
+  'brachiocephalic vein': {
+    來源: e('由同側的鎖骨下靜脈與內頸靜脈在胸鎖關節後方匯合而成（靜脈角）', 'Formed behind the sternoclavicular joint by the union of the subclavian and internal jugular veins of the same side (the venous angle)'),
+    走向: e('右側短而幾乎垂直下行；左側長約六公分，斜越過主動脈弓三條大分支的前方到達右側；兩條在右第一肋軟骨下緣後方匯成上腔靜脈', 'The right vein is short and runs almost vertically down; the left is about 6 cm long and crosses obliquely in front of the three great branches of the aortic arch to reach the right side; the two unite behind the lower border of the right first costal cartilage to form the superior vena cava'),
+    主要分支: e('椎靜脈、甲狀腺下靜脈、內胸靜脈、最上肋間靜脈與胸腺靜脈；左側還有心包靜脈與支氣管靜脈', 'Vertebral, inferior thyroid, internal thoracic, supreme intercostal and thymic veins, with pericardial and bronchial tributaries on the left'),
+    引流範圍: e('頭頸、上肢與上胸壁的靜脈血，匯入上腔靜脈', 'Venous blood from the head and neck, upper limb and upper chest wall, which passes on into the superior vena cava'),
+  },
+  'subclavian vein': {
+    來源: e('為腋靜脈在第一肋外側緣處的延續', 'The continuation of the axillary vein at the outer border of the first rib'),
+    走向: e('在第一肋上方、前斜角肌的前方經過，前斜角肌將它與後方的鎖骨下動脈隔開，膈神經貼在前斜角肌前面、位於靜脈後方；繞過鎖骨後方行向內側，在胸鎖關節後方與內頸靜脈匯合；左側的胸導管與右側的右淋巴導管注入靜脈角', 'Passes over the first rib in front of scalenus anterior, which separates it from the subclavian artery behind, while the phrenic nerve lies on the front of scalenus anterior behind the vein; it runs medially behind the clavicle and joins the internal jugular vein behind the sternoclavicular joint; the thoracic duct on the left and the right lymphatic duct on the right enter at the venous angle'),
+    主要分支: e('頸外靜脈、肩胛背靜脈（偶有頸前靜脈）', 'The external jugular and dorsal scapular veins (occasionally the anterior jugular vein)'),
+    引流範圍: e('上肢的全部靜脈血，以及頸部淺層與肩部一部分的血液', 'All the venous blood of the upper limb, with part of that from the superficial neck and shoulder'),
+  },
+  'superior vena cava': {
+    來源: e('由左、右頭臂靜脈在右第一肋軟骨下緣後方匯合而成', 'Formed by the union of the left and right brachiocephalic veins behind the lower border of the right first costal cartilage'),
+    走向: e('在上縱隔右側垂直下行，約七公分；上半段在心包外，下半段被心包包裹；在右第三肋軟骨高度注入右心房上部，奇靜脈在其進入心包前由後方注入', 'Descends vertically on the right side of the superior mediastinum for about 7 cm; its upper half lies outside the pericardium and its lower half is enclosed by it; it opens into the upper right atrium at the level of the right third costal cartilage, the azygos vein joining it from behind just before it enters the pericardium'),
+    主要分支: e('左、右頭臂靜脈與奇靜脈', 'The left and right brachiocephalic veins and the azygos vein'),
+    引流範圍: e('頭、頸、上肢與胸壁上部的靜脈血，回流右心房', 'Venous blood of the head, neck, upper limbs and upper chest wall, returning it to the right atrium'),
+  },
+  'suprascapular vein': {
+    來源: e('起自肩胛區，伴隨肩胛上動脈的小靜脈（常為兩條）', 'Small veins (often two) arising in the scapular region and accompanying the suprascapular artery'),
+    走向: e('自棘上窩與棘下窩收集血液，越過肩胛上橫韌帶，沿鎖骨後方向內行', 'Collect blood from the supraspinous and infraspinous fossae, pass over the superior transverse scapular ligament and run medially behind the clavicle'),
+    主要分支: e('棘上、棘下肌的肌支與肩峰區的小靜脈', 'Muscular veins from supraspinatus and infraspinatus and small veins from the acromial region'),
+    引流範圍: e('棘上肌、棘下肌與肩胛區，通常匯入頸外靜脈，或注入鎖骨下靜脈，也可入頸橫靜脈或內頸靜脈', 'Supraspinatus, infraspinatus and the scapular region; it usually ends in the external jugular vein or the subclavian vein, and may also enter the transverse cervical or internal jugular vein'),
+  },
+  'cervical vertebrae': {
+    主要標誌: e('脊柱最上段，共七節（C1 至 C7），支撐頭部並保護頸段脊髓與椎動脈；椎體小而寬；橫突有橫突孔，供椎動脈與椎靜脈通過（C7 的橫突孔通常只有細小血管）；C3 至 C6 的棘突短且末端分叉；上關節突朝後上，椎孔大而呈三角形；椎體上面兩側有鉤突，形成鉤椎關節', 'The uppermost part of the vertebral column, seven vertebrae (C1 to C7), supporting the head and protecting the cervical spinal cord and the vertebral arteries; small, broad bodies; the transverse processes have foramina transversaria that transmit the vertebral artery and vein (at C7 usually only small vessels); the spines of C3 to C6 are short and bifid; the superior articular facets face backward and upward, and the vertebral foramen is large and triangular; uncinate processes on the sides of the upper body surface form the uncovertebral joints'),
+    相關關節: e('相鄰椎體之間為椎間盤，後方為關節突關節，椎體側緣為鉤椎關節；C1 與枕骨相接形成寰枕關節，C1 與 C2 形成寰軸關節', 'Intervertebral discs between adjacent bodies, zygapophyseal joints behind and uncovertebral joints at the sides of the bodies; C1 meets the occipital bone at the atlanto-occipital joint and C2 at the atlanto-axial joints'),
+    附著肌肉: e('橫突前結節供前斜角肌、頸長肌附著；後結節供中斜角肌、肩胛提肌（C1–C4）與頸夾肌附著；棘突供項韌帶與半棘肌、多裂肌等附著', 'The anterior tubercles of the transverse processes give attachment to scalenus anterior and longus colli, and the posterior tubercles to scalenus medius, levator scapulae (C1 to C4) and splenius cervicis; the spines give attachment to the nuchal ligament, semispinalis and multifidus'),
+  },
+  'anterior longitudinal ligament': {
+    附著: e('寬而堅韌的纖維帶，上端附著於枕骨底部的咽結節，並與寰枕前膜相續；沿各椎體與椎間盤的前面下行，下端終止於薦骨前面', 'A broad, strong fibrous band attached above to the pharyngeal tubercle of the occipital bone and continuous with the anterior atlanto-occipital membrane; it descends over the front of the vertebral bodies and discs and ends on the front of the sacrum'),
+    毗鄰: e('前方為頸長肌、咽後壁與食道（頸段）及胸主動脈；深面與椎間盤及椎體邊緣緊密相連，在椎體中部較鬆', 'In front lie longus colli, the posterior wall of the pharynx and cervical oesophagus, and below that the thoracic aorta; its deep surface is firmly bound to the discs and the margins of the vertebral bodies and more loosely to the middle of each body'),
+    作用: e('限制脊柱過度後伸，並加強椎間盤前方，防止椎體相對前移', 'Limits excessive extension of the vertebral column and reinforces the front of the discs, preventing the vertebral bodies from slipping forward on one another'),
+  },
+  'intermediate tendon': {
+    起點: e('二腹肌後腹的肌腹末端', 'The end of the muscle belly of the posterior belly of digastric'),
+    走向與通道: e('向前下穿過莖突舌骨肌止點附近，以纖維筋膜環繫於舌骨體與大角交界處', 'Passes forward and downward through the insertion of stylohyoid and is held to the hyoid bone at the junction of the body and greater horn by a fibrous sling'),
+    止點: e('續接二腹肌前腹，前腹止於下頜骨的二腹肌窩', 'Continues into the anterior belly of digastric, which inserts into the digastric fossa of the mandible'),
+    功能: e('讓二腹肌在舌骨處轉折，如同滑車；兩腹共同收縮時下壓下頜、上提舌骨', 'Lets digastric change direction at the hyoid like a pulley; when both bellies contract together they depress the mandible and elevate the hyoid'),
+  },
+  'nuchal ligament': {
+    附著: e('頸後部正中的矢狀位纖維彈性薄板；上端附著於枕外隆凸與枕外嵴，並連接各頸椎棘突的尖端，下端附著於第七頸椎（隆椎）棘突，向下續為棘上韌帶', 'A sagittal sheet of fibro-elastic tissue in the midline at the back of the neck; attached above to the external occipital protuberance and crest, to the tips of the cervical spines in between and below to the spine of C7, where it continues as the supraspinous ligament'),
+    毗鄰: e('兩側分隔左、右後頸肌群（夾肌與半棘肌），為斜方肌與小菱形肌提供附著面；淺面僅隔皮下組織與皮膚', 'Forms a median septum between the left and right posterior neck muscles (splenius and semispinalis) and provides an attachment surface for trapezius and rhomboid minor; superficially it lies directly beneath subcutaneous tissue and skin'),
+    作用: e('頸部屈曲時繃緊，限制頭頸過度前屈，同時作為肌肉的附著膜', 'Becomes taut on flexion, limiting excessive forward bending of the head and neck; it also serves as a muscular attachment membrane'),
+  },
+  'thymus': {
+    位置: e('位於前縱隔上部、胸骨柄後方，上端可向上延伸至頸根部甲狀腺下方；由左、右兩葉組成', 'In the upper part of the anterior mediastinum behind the manubrium, its upper end sometimes reaching into the root of the neck below the thyroid; it consists of two lobes'),
+    組成: e('兩葉各分為許多小葉，每小葉有外層的皮質（密集的淋巴細胞）與內層的髓質（含胸腺小體）；相對身體比例以幼年最大，青春期後逐漸退化、被脂肪取代', 'Each lobe is divided into lobules with an outer cortex packed with lymphocytes and an inner medulla containing thymic corpuscles; largest relative to body size in early childhood, it involutes after puberty and is replaced by fat'),
+    毗鄰: e('前方為胸骨柄與胸骨體上部及胸骨甲狀肌起始處；後方為心包、主動脈弓、頭臂靜脈與氣管；兩側為縱隔胸膜與肺', 'In front lie the manubrium, upper body of the sternum and the origin of sternothyroid; behind are the pericardium, aortic arch, brachiocephalic veins and trachea; at the sides the mediastinal pleura and lungs'),
+    血液供應: e('主要來自內胸動脈與甲狀腺下動脈的胸腺支；靜脈注入左頭臂靜脈、內胸靜脈與甲狀腺下靜脈', 'Mainly thymic branches of the internal thoracic and inferior thyroid arteries; veins drain to the left brachiocephalic, internal thoracic and inferior thyroid veins'),
+    神經支配: e('迷走神經的小支與交感神經', 'Small branches of the vagus nerve and sympathetic nerves'),
+    作用: e('T 淋巴細胞分化與成熟的場所，是免疫系統的中樞淋巴器官', 'The site of differentiation and maturation of T lymphocytes; a primary lymphoid organ of the immune system'),
+  },
+  'levator scapulae': {
+    起點: e('第一至第四頸椎橫突的後結節', 'Posterior tubercles of the transverse processes of the first to fourth cervical vertebrae'),
+    止點: e('肩胛骨內側緣，自肩胛上角至肩胛棘根部之間', 'The medial border of the scapula between its superior angle and the root of the spine'),
+    神經支配: e('肩胛背神經（C5 根），並有 C3 與 C4 頸神經的分支', 'Dorsal scapular nerve (C5 root), with branches of the cervical nerves C3 and C4'),
+    作用: e('上提肩胛骨並使肩胛下角向內旋；肩胛固定時，單側收縮使頸部向同側側屈，雙側收縮使頸部後伸', 'Elevates the scapula and rotates its inferior angle medially; with the scapula fixed, one side bends the neck to the same side and both sides extend it'),
+    血液供應: e('肩胛背動脈、頸橫動脈與頸升動脈的肌支', 'The dorsal scapular artery and muscular branches of the transverse cervical and ascending cervical arteries'),
+  },
+  'sympathetic trunk': {
+    來源: e('由脊柱兩側的一串交感神經節以神經幹相連而成，自顱底延伸到尾骨前方；節前纖維由胸髓 T1 至 L2 側角經白交通支進入', 'A chain of sympathetic ganglia joined by nerve cords on each side of the vertebral column from the skull base to the front of the coccyx; preganglionic fibres enter from the lateral horn of T1 to L2 through white rami communicantes'),
+    走向: e('頸段位於頸動脈鞘的後方、椎前筋膜的前方，在頸椎橫突與頸長肌的前面，有上、中、下三個神經節（中神經節常缺）；下神經節常與第一胸神經節合成星狀神經節（頸胸神經節）；其後續為胸、腰、薦段', 'The cervical part lies behind the carotid sheath and in front of the prevertebral fascia, on the front of the transverse processes of the cervical vertebrae and longus colli, with superior, middle (often absent) and inferior ganglia; the inferior often fuses with the first thoracic ganglion as the stellate (cervicothoracic) ganglion; below it continues as the thoracic, lumbar and sacral parts'),
+    主要分支: e('灰交通支（到頸神經）、頸內動脈神經叢、頸外動脈神經叢、上、中、下心神經、咽支與喉咽支', 'Grey rami communicantes (to the cervical nerves), internal and external carotid plexuses, the superior, middle and inferior cardiac nerves, and pharyngeal branches'),
+    支配範圍: e('頭頸部的汗腺、豎毛肌、血管平滑肌，瞳孔開大肌與上瞼板肌，以及心臟與唾液腺等；節後纖維循動脈或隨脊神經分布', 'Sweat glands, arrector pili muscles and vascular smooth muscle of the head and neck, dilator pupillae and superior tarsal muscle, and the heart and salivary glands; postganglionic fibres follow arteries or travel with spinal nerves'),
+  },
+  'esophagus': {
+    位置: e('始於第六頸椎高度、環狀軟骨下緣（與咽相續），在頸部位於氣管後方稍偏左，下行入胸腔經後縱隔，約在第十胸椎高度穿過橫膈食道裂孔，止於胃的賁門（全長約 25 公分：頸段約 5 公分、胸段約 18 公分、腹段約 1–2 公分）', 'Begins at the level of C6 at the lower border of the cricoid cartilage, where it continues from the pharynx; in the neck it lies behind the trachea, slightly to the left, then descends through the posterior mediastinum and passes the oesophageal hiatus of the diaphragm at about T10 to end at the cardia of the stomach (about 25 cm in all: cervical part about 5 cm, thoracic part about 18 cm, abdominal part about 1 to 2 cm)'),
+    組成: e('肌性管道：上三分之一為骨骼肌，中段混合，下三分之一為平滑肌；內面襯複層鱗狀上皮，外層頸段與胸段為外膜，沒有漿膜', 'A muscular tube: striated muscle in the upper third, mixed in the middle and smooth muscle in the lower third; lined by stratified squamous epithelium, with an adventitia rather than a serosa in the neck and thorax'),
+    毗鄰: e('頸段：前方為氣管，兩側為甲狀腺側葉與頸總動脈，喉返神經在氣管食道溝內上行，後方為椎前筋膜與頸椎；胸段：前方為氣管、左主支氣管與心包，後方為胸椎與胸主動脈，左側為主動脈弓', 'Cervical part: the trachea lies in front, the thyroid lobes and common carotid arteries at the sides, the recurrent laryngeal nerves ascend in the tracheo-oesophageal groove and the prevertebral fascia and cervical spine lie behind; thoracic part: the trachea, left main bronchus and pericardium lie in front, the thoracic vertebrae and descending aorta behind and the aortic arch to the left'),
+    血液供應: e('頸段由甲狀腺下動脈供應，胸段由胸主動脈的食道支與支氣管動脈供應，腹段由左胃動脈與下膈動脈供應；靜脈流向甲狀腺下靜脈、奇靜脈與左胃靜脈', 'The cervical part is supplied by the inferior thyroid artery, the thoracic part by oesophageal branches of the thoracic aorta and bronchial arteries and the abdominal part by the left gastric and inferior phrenic arteries; veins drain to the inferior thyroid, azygos and left gastric veins'),
+    神經支配: e('迷走神經（含喉返神經）與交感神經幹的分支，構成食道神經叢', 'Vagus nerves (including the recurrent laryngeal nerves) and branches of the sympathetic trunk, forming the oesophageal plexus'),
+    作用: e('以蠕動把食團由咽輸送到胃；上、下端各有括約肌（上食道括約肌與下食道括約肌）防止逆流', 'Carries the swallowed bolus from the pharynx to the stomach by peristalsis; sphincters at the upper and lower ends (upper and lower oesophageal sphincters) prevent reflux'),
+  },
+  'skin': {
+    位置: e('頭頸部的體表覆蓋層；頭皮、顏面、耳與頸部皮膚的厚度與附屬構造各不相同，眼瞼的最薄，後頸與頭皮的較厚', 'The outer covering of the head and neck; its thickness and appendages vary between scalp, face, ear and neck, the eyelids being thinnest and the nape and scalp thicker'),
+    組成: e('表皮（角化的複層鱗狀上皮）與真皮兩層，下方為皮下組織；含毛囊、皮脂腺與汗腺；頭皮有五層（皮膚、皮下組織、帽狀腱膜、疏鬆結締組織、骨膜）', 'Epidermis (keratinised stratified squamous epithelium) and dermis, with the subcutaneous tissue beneath; contains hair follicles, sebaceous and sweat glands; the scalp has five layers (skin, connective tissue, aponeurosis, loose areolar tissue and pericranium)'),
+    毗鄰: e('下方依部位而異：頭皮下是帽狀腱膜，顏面下是表情肌與其筋膜，頸部下是頸闊肌與淺筋膜', 'The underlying structures vary: the epicranial aponeurosis beneath the scalp, the muscles of facial expression and their fascia beneath the face and the platysma and superficial fascia in the neck'),
+    血液供應: e('來自頸內、外動脈的分支：顏面動脈、淺顳動脈、枕動脈、後耳動脈、眶上動脈與滑車上動脈等，吻合豐富；靜脈大致與動脈伴行', 'From branches of the internal and external carotid arteries, such as the facial, superficial temporal, occipital, posterior auricular, supraorbital and supratrochlear arteries, with rich anastomoses; the veins mostly accompany the arteries'),
+    神經支配: e('顏面大部分皮膚為三叉神經的三條分支，下頜角由耳大神經支配；後頭皮與頸部皮膚為頸神經叢（C2–C4）與頸神經後支；汗腺與豎毛肌由交感神經支配', 'Most facial skin by the three divisions of the trigeminal nerve, with the angle of the mandible supplied by the great auricular nerve; the back of the scalp and the neck by the cervical plexus (C2–C4) and the dorsal rami of the cervical nerves; sweat glands and arrector pili by sympathetic fibres'),
+    作用: e('保護、感覺、調節體溫、防止水分流失，並藉維生素 D 合成參與代謝', 'Protection, sensation, temperature regulation, prevention of water loss and, through vitamin D synthesis, a metabolic role'),
+  },
+});
+CARD_EXTRAS['seventh cervical vertebra'] = {
+  主要標誌: e('頸胸交界處，頸椎中最下的一節；頸部屈曲時，後頸部正中最明顯隆起的骨突即是其棘突（隆椎）；棘突特別長，近乎水平，末端不分叉而有結節，體表易於觸及，供項韌帶附著；橫突較大，橫突孔小，通常只有副椎靜脈通過；椎體形態接近胸椎', 'At the cervicothoracic junction, the lowest cervical vertebra; its spine forms the most obvious bony projection at the back of the neck when the neck is flexed (vertebra prominens); a particularly long, nearly horizontal spine that is not bifid but ends in a tubercle, easily palpated and giving attachment to the nuchal ligament; large transverse processes with small transverse foramina, usually transmitting only the accessory vertebral vein; the body resembles that of a thoracic vertebra'),
+  相關關節: CERVICAL.相關關節,
+  附著肌肉: e('棘突有斜方肌、菱形肌與夾肌的附著，並有項韌帶下端；橫突後結節供中斜角肌附著，前結節不明顯', 'The spine gives attachment to trapezius, the rhomboids and splenius, together with the lower end of the nuchal ligament; the posterior tubercle of the transverse process gives attachment to scalenus medius, the anterior tubercle being indistinct'),
+};
+CARD_EXTRAS['vertebra prominens (c7)'] = CARD_EXTRAS['seventh cervical vertebra'];
+CARD_EXTRAS['brachiocephalic artery'] = CARD_EXTRAS['brachiocephalic trunk'];
+CARD_EXTRAS['cricothyroid ligament'] = CARD_EXTRAS['median cricothyroid ligament'];
+CARD_EXTRAS['lobe of thymus'] = CARD_EXTRAS['thymus'];
+// ===== HN-A1 end =====
+// ===== AB-A2 begin: paired abdominal arteries, iliac and abdominal-wall arteries, lumbar plexus nerves (card batch AB-A2). Standard anatomy only; a field we are not sure of stays out. =====
+Object.assign(CARD_EXTRAS, {
+  'thoracic aorta': {
+    來源: e('主動脈弓的延續，在第四胸椎下緣左側開始', 'The continuation of the aortic arch, beginning on the left side at the lower border of the fourth thoracic vertebra'),
+    走向: e('在後縱隔內沿脊柱左前方下行，逐漸移到中線，約在第十二胸椎高度穿過橫膈的主動脈裂孔，之後改稱腹主動脈', 'Descends in the posterior mediastinum in front of and to the left of the vertebral column, drifting toward the midline, and passes through the aortic hiatus of the diaphragm at about T12, where it becomes the abdominal aorta'),
+    主要分支: e('壁支：後肋間動脈（第三至第十一對）、肋下動脈、上膈動脈；臟支：支氣管動脈、食道動脈、縱隔支與心包支', 'Parietal: the posterior intercostal arteries (third to eleventh), the subcostal artery and the superior phrenic arteries; visceral: bronchial, oesophageal, mediastinal and pericardial branches'),
+    供應範圍: e('胸壁、縱隔內臟（氣管支氣管樹、食道、心包）與橫膈上面；肋間動脈與內胸動脈的前肋間支相吻合', 'The chest wall, the mediastinal viscera (bronchial tree, oesophagus, pericardium) and the upper surface of the diaphragm; the intercostal arteries anastomose with the anterior intercostal branches of the internal thoracic artery'),
+  },
+  'inferior phrenic artery': {
+    來源: e('腹主動脈，在橫膈主動脈裂孔下方、腹腔動脈幹起點附近發出；常與腹腔動脈幹共同起始，有時起自腎動脈', 'The abdominal aorta just below the aortic hiatus, close to the origin of the coeliac trunk; often it arises with the coeliac trunk from a common origin, and sometimes from the renal artery'),
+    走向: e('左、右各一，沿橫膈下面向外上行，經過腎上腺的上方', 'One on each side; ascends laterally along the under surface of the diaphragm, passing above the suprarenal gland'),
+    主要分支: e('上腎上腺動脈（數條小支）；右側下膈動脈經下腔靜脈後方，左側經食道裂孔後外側，並發細支到食道下段；終末分成內側支與外側支', 'The superior suprarenal arteries (several small twigs); the right passes behind the inferior vena cava and the left behind and lateral to the oesophageal hiatus, with twigs to the lower oesophagus; it ends as medial and lateral branches'),
+    供應範圍: e('橫膈下面，並以上腎上腺動脈供應腎上腺上部；與肌膈動脈、心包膜膈動脈與肋間動脈相吻合', 'The under surface of the diaphragm, and through the superior suprarenal arteries the upper part of the suprarenal gland; it anastomoses with the musculophrenic, pericardiacophrenic and intercostal arteries'),
+  },
+  'superior suprarenal artery': {
+    來源: e('下膈動脈，通常為數條細小分支', 'The inferior phrenic artery, usually as several small branches'),
+    走向: e('由橫膈下面向下，到達腎上腺上緣與上部', 'Runs down from the under surface of the diaphragm to the upper border and upper part of the suprarenal gland'),
+    主要分支: e('在腺體被膜下分成許多細支', 'Splits into many small twigs beneath the capsule of the gland'),
+    供應範圍: e('腎上腺的上部，與中、下腎上腺動脈在腺內相吻合', 'The upper part of the suprarenal gland, anastomosing within the gland with the middle and inferior suprarenal arteries'),
+  },
+  'middle suprarenal artery': {
+    來源: e('腹主動脈側壁，約在上腸繫膜動脈起點的高度發出', 'The side of the abdominal aorta at about the level of the origin of the superior mesenteric artery'),
+    走向: e('短而橫向外行，越過橫膈腳，直接到達腎上腺的內側面', 'Runs a short, transverse course outward across the crus of the diaphragm to the medial surface of the suprarenal gland'),
+    主要分支: e('進入腺體後分成細支，與上、下腎上腺動脈相連', 'Divides into small twigs on entering the gland, joining the superior and inferior suprarenal arteries'),
+    供應範圍: e('腎上腺的中部（內側面）', 'The middle part (medial surface) of the suprarenal gland'),
+  },
+  'inferior suprarenal artery': {
+    來源: e('腎動脈，在其靠近起點處發出', 'The renal artery, near its origin'),
+    走向: e('由腎動脈向上行至腎上腺的下部', 'Passes upward from the renal artery to the lower part of the suprarenal gland'),
+    主要分支: e('在腺體下部分成細支，與中、上腎上腺動脈相吻合', 'Breaks into small twigs in the lower part of the gland, anastomosing with the middle and superior suprarenal arteries'),
+    供應範圍: e('腎上腺的下部；腎上腺因此由三組動脈（來自下膈動脈、腹主動脈與腎動脈）共同供血', 'The lower part of the suprarenal gland; the gland therefore receives blood from three sources (the inferior phrenic artery, the aorta and the renal artery)'),
+  },
+  'renal artery': {
+    來源: e('腹主動脈側壁，約在第一與第二腰椎之間（上腸繫膜動脈起點下方）發出，左右各一，起點高度略有差異（右側常略低）', 'The side of the abdominal aorta at about the L1–L2 level, just below the origin of the superior mesenteric artery; one on each side, the level differing slightly (the right often a little lower)'),
+    走向: e('橫向外行，經橫膈腳與腰大肌前方走向腎門；右腎動脈較長，從下腔靜脈後方通過；兩側的腎靜脈都位於腎動脈前方', 'Runs transversely outward in front of the diaphragmatic crus and psoas major to the hilum of the kidney; the right renal artery is longer and passes behind the inferior vena cava; on both sides the renal vein lies in front of the artery'),
+    主要分支: e('下腎上腺動脈與輸尿管支，在腎門附近分成前支與後支，前支分出尖、上前、中前、下前四段，後支成為後段，共五條節段動脈', 'The inferior suprarenal artery and ureteric branches; near the hilum it divides into anterior and posterior divisions, the anterior division giving the apical, upper anterior, middle anterior and lower anterior segmental arteries and the posterior division becoming the posterior segmental artery, five in all'),
+    供應範圍: e('腎臟、腎盂與輸尿管上段，並以下腎上腺動脈供應腎上腺下部；節段動脈屬終動脈，彼此之間沒有吻合', 'The kidney, renal pelvis and upper ureter, and through the inferior suprarenal artery the lower part of the suprarenal gland; the segmental arteries are end arteries without anastomoses between them'),
+  },
+  'gonadal artery': {
+    來源: e('腹主動脈前外側壁，在腎動脈起點稍下方（約第二腰椎高度）發出，左右各一；男性稱睪丸動脈，女性稱卵巢動脈', 'The anterolateral wall of the abdominal aorta just below the renal arteries (about L2), one on each side; called the testicular artery in men and the ovarian artery in women'),
+    走向: e('在腹膜後沿腰大肌前面斜向外下行，在前方越過輸尿管與外髂血管。男性續行至腹股溝深環，穿腹股溝管進入精索，下達陰囊；女性越過骨盆緣進入骨盆，行於卵巢懸韌帶（骨盆漏斗韌帶）內，到達卵巢與輸卵管', 'Descends obliquely outward behind the peritoneum on psoas major, crossing in front of the ureter and the external iliac vessels. In men it reaches the deep inguinal ring, traverses the inguinal canal in the spermatic cord and descends to the scrotum; in women it crosses the pelvic brim and runs in the suspensory ligament of the ovary (infundibulopelvic ligament) to the ovary and uterine tube'),
+    主要分支: e('輸尿管支；男性有附睪支與睪丸支；女性有卵巢支與輸卵管支，並與子宮動脈的卵巢支相吻合', 'Ureteric branches; in men epididymal and testicular branches; in women ovarian and tubal branches, anastomosing with the ovarian branch of the uterine artery'),
+    供應範圍: e('男性：睪丸與附睪；女性：卵巢與輸卵管外側部。生殖腺在胚胎期起自腹腔高處，下降時帶著這條動脈，所以起點遠高於器官', 'In men the testis and epididymis; in women the ovary and the lateral part of the uterine tube. The gonad develops high in the abdomen and carries its artery down with it, which is why the origin lies far above the organ'),
+  },
+  'common iliac artery': {
+    來源: e('腹主動脈，約在第四腰椎高度偏左分成左、右總髂動脈', 'The abdominal aorta, which divides at about L4, slightly to the left of the midline, into the left and right common iliac arteries'),
+    走向: e('向外下斜行，沿腰大肌內側緣，到骨盆緣（約薦髂關節前方）分成內髂動脈與外髂動脈；右側較左側長，輸尿管在分叉處前方越過', 'Runs obliquely down and outward along the medial border of psoas major and divides at the pelvic brim, in front of the sacroiliac joint, into the internal and external iliac arteries; the right is longer than the left, and the ureter crosses in front of the bifurcation'),
+    主要分支: e('通常只有終末分支（內髂動脈與外髂動脈），另有細小分支到輸尿管與腰大肌', 'Normally only its terminal branches (internal and external iliac arteries), with small twigs to the ureter and psoas major'),
+    供應範圍: e('作為通往骨盆與下肢的幹道，間接供應骨盆內臟、臀部與下肢', 'A trunk to the pelvis and lower limb, supplying the pelvic viscera, the gluteal region and the lower limb through its two branches'),
+  },
+  'internal iliac artery': {
+    來源: e('總髂動脈，在骨盆緣、薦髂關節前方分出', 'The common iliac artery, at the pelvic brim in front of the sacroiliac joint'),
+    走向: e('向後內下進入骨盆，行程約四公分，到坐骨大孔上緣附近分成前幹與後幹；輸尿管與其前方相鄰', 'Passes down and back into the pelvis for about 4 cm and divides near the upper edge of the greater sciatic foramen into anterior and posterior divisions; the ureter lies in front of it'),
+    主要分支: e('後幹：髂腰動脈、外側薦動脈、上臀動脈；前幹：臍動脈（發出上膀胱動脈）、閉孔動脈、下膀胱動脈（女性為陰道動脈）、中直腸動脈、子宮動脈（僅女性）、內陰動脈與下臀動脈', 'Posterior division: iliolumbar, lateral sacral and superior gluteal arteries; anterior division: umbilical (giving the superior vesical), obturator, inferior vesical (vaginal in women), middle rectal, uterine (women only), internal pudendal and inferior gluteal arteries'),
+    供應範圍: e('骨盆壁與骨盆內臟、臀部、會陰與大腿內側肌群；是骨盆的主要動脈', 'The pelvic wall and viscera, the gluteal region, the perineum and the medial thigh muscles; the main artery of the pelvis'),
+  },
+  'external iliac artery': {
+    來源: e('總髂動脈，在骨盆緣、薦髂關節前方分出，與內髂動脈同一高度', 'The common iliac artery, at the pelvic brim in front of the sacroiliac joint, at the same point as the internal iliac artery'),
+    走向: e('沿腰大肌內側緣向外下方行走，在髂筋膜之下、腹膜之後，到腹股溝韌帶中點深面，在約髂前上棘與恥骨聯合連線的中點（腹股溝中點）進入大腿成為股動脈', 'Runs down and outward along the medial border of psoas major beneath the peritoneum, and passes under the inguinal ligament at about the mid-inguinal point (midway between the anterior superior iliac spine and the pubic symphysis) into the thigh, where it becomes the femoral artery'),
+    主要分支: e('下腹壁動脈與深旋髂動脈，兩者都在腹股溝韌帶上方不遠處發出', 'The inferior epigastric and deep circumflex iliac arteries, both arising just above the inguinal ligament'),
+    供應範圍: e('下腹壁與髂窩區，並延續為下肢的主要動脈', 'The lower abdominal wall and iliac region, and it continues as the main artery of the lower limb'),
+  },
+  'inferior epigastric artery': {
+    來源: e('外髂動脈，在腹股溝韌帶上方、腹股溝深環的內側發出', 'The external iliac artery just above the inguinal ligament, medial to the deep inguinal ring'),
+    走向: e('在腹股溝深環的內側向上內行，穿過腹橫筋膜，在弓狀線處由腹直肌後面（腹橫筋膜與肌肉之間）進入腹直肌鞘上行，約在臍附近與上腹壁動脈吻合；此動脈本身構成腹股溝三角（海氏三角）的外側界', 'Runs up and inward on the medial side of the deep inguinal ring, pierces the transversalis fascia, enters the rectus sheath at the arcuate line, ascending behind rectus abdominis (between the transversalis fascia and the muscle) and anastomosing with the superior epigastric artery near the umbilicus; the artery itself forms the lateral boundary of the inguinal triangle'),
+    主要分支: e('提睪肌動脈（女性為子宮圓韌帶動脈）、恥骨支（與閉孔動脈的恥骨支相吻合），以及肌支與皮支', 'The cremasteric artery (the artery of the round ligament in women), a pubic branch (anastomosing with the pubic branch of the obturator artery), and muscular and cutaneous branches'),
+    供應範圍: e('腹直肌與其表面皮膚、下腹壁肌，以及精索被膜；與上腹壁動脈連成內胸動脈與外髂動脈之間的吻合通路', 'Rectus abdominis and the overlying skin, the lower abdominal wall muscles and the coverings of the spermatic cord; with the superior epigastric artery it forms an anastomotic route between the internal thoracic and external iliac arteries'),
+  },
+  'deep circumflex iliac artery': {
+    來源: e('外髂動脈外側壁，約與下腹壁動脈相對的高度發出', 'The lateral wall of the external iliac artery, at about the level opposite the origin of the inferior epigastric artery'),
+    走向: e('沿腹股溝韌帶深面外上行至髂前上棘，再沿髂脊內唇向後，先行於髂筋膜與腹橫筋膜之間，約在髂脊中部穿腹橫肌，之後行於腹橫肌與腹內斜肌之間', 'Runs outward and upward behind the inguinal ligament to the anterior superior iliac spine, then backward along the inner lip of the iliac crest, first between the iliac fascia and the transversalis fascia, piercing transversus abdominis about the middle of the crest and then running between transversus abdominis and internal oblique'),
+    主要分支: e('升支（向上走在腹橫肌與腹內斜肌之間）與沿髂脊的終末支', 'An ascending branch (between transversus abdominis and internal oblique) and terminal branches along the iliac crest'),
+    供應範圍: e('髂肌與下外側腹壁肌，並與髂腰動脈、旋股外側動脈與上臀動脈相吻合', 'Iliacus and the lower lateral abdominal wall muscles, anastomosing with the iliolumbar, lateral circumflex femoral and superior gluteal arteries'),
+  },
+  'superficial epigastric artery': {
+    來源: e('股動脈，在腹股溝韌帶下方約一公分處自前壁發出', 'The femoral artery, from its front wall about 1 cm below the inguinal ligament'),
+    走向: e('穿過篩狀筋膜，越過腹股溝韌帶，在腹壁淺筋膜內向臍的方向上行', 'Pierces the cribriform fascia, crosses the inguinal ligament and ascends in the superficial fascia of the abdominal wall toward the umbilicus'),
+    主要分支: e('皮支與淺淋巴結支，細支與對側及下腹壁動脈的分支相吻合', 'Cutaneous and superficial lymph node branches, with small twigs anastomosing with those of the opposite side and of the inferior epigastric artery'),
+    供應範圍: e('下腹部皮膚與皮下組織，以及腹股溝淺淋巴結', 'The skin and subcutaneous tissue of the lower abdomen, and the superficial inguinal lymph nodes'),
+  },
+  'superior epigastric artery': {
+    來源: e('內胸動脈的兩條終末支之一，在第六肋軟骨的高度分出（另一支為肌膈動脈）', 'One of the two terminal branches of the internal thoracic artery, arising at the level of the sixth costal cartilage (the other is the musculophrenic artery)'),
+    走向: e('穿過橫膈的胸肋三角（胸骨與肋部之間的縫隙）進入腹直肌鞘，行於腹直肌後面向下，並在肌肉內與下腹壁動脈吻合', 'Passes through the sternocostal gap of the diaphragm into the rectus sheath and descends behind rectus abdominis, anastomosing within the muscle with the inferior epigastric artery'),
+    主要分支: e('肌支、膈支與穿出腹直肌的皮支', 'Muscular and diaphragmatic branches and cutaneous branches that pierce rectus abdominis'),
+    供應範圍: e('腹直肌上部、上腹壁的皮膚與腹膜，並有細支到橫膈；與下腹壁動脈、肌膈動脈相吻合', 'The upper part of rectus abdominis, the skin and peritoneum of the upper abdominal wall, with twigs to the diaphragm; it anastomoses with the inferior epigastric and musculophrenic arteries'),
+  },
+  'musculophrenic artery': {
+    來源: e('內胸動脈的外側終末支，在第六肋軟骨附近分出', 'The lateral terminal branch of the internal thoracic artery, arising near the sixth costal cartilage'),
+    走向: e('沿肋弓內面向外下行，位於橫膈起點與肋軟骨之間，在第八或第九肋軟骨處穿過橫膈，到達腹壁', 'Runs outward and downward along the inner side of the costal margin, between the origin of the diaphragm and the costal cartilages, and pierces the diaphragm at the eighth or ninth costal cartilage to reach the abdominal wall'),
+    主要分支: e('前肋間動脈（到第七至第九肋間隙）、膈支與腹壁肌支', 'Anterior intercostal arteries (to the seventh to ninth intercostal spaces), diaphragmatic branches and branches to the abdominal wall muscles'),
+    供應範圍: e('下部肋間肌、橫膈與上外側腹壁；與下膈動脈、上腹壁動脈與深旋髂動脈相吻合', 'The lower intercostal muscles, the diaphragm and the upper lateral abdominal wall; it anastomoses with the inferior phrenic, superior epigastric and deep circumflex iliac arteries'),
+  },
+  'femoral artery': {
+    來源: e('外髂動脈的延續，在腹股溝韌帶深面、約髂前上棘與恥骨聯合連線的中點（腹股溝中點）進入大腿後改稱股動脈', 'The continuation of the external iliac artery, named femoral where it passes under the inguinal ligament at about the midpoint between the anterior superior iliac spine and the pubic symphysis (the mid-inguinal point)'),
+    走向: e('與腹部有關的是起始段：在股鞘內、股神經的內側、股靜脈的外側，經過股三角下行，供應下腹壁淺層的分支都在這一段發出', 'The part relevant to the abdomen is its beginning: it lies in the femoral sheath, medial to the femoral nerve and lateral to the femoral vein, and descends through the femoral triangle; the branches to the superficial lower abdominal wall arise here'),
+    主要分支: e('腹壁相關：淺腹壁動脈與淺旋髂動脈；另有外陰淺、深動脈與股深動脈，後續沿大腿下行', 'Related to the abdominal wall: the superficial epigastric and superficial circumflex iliac arteries; also the superficial and deep external pudendal arteries and the deep femoral artery, which continue down the thigh'),
+    供應範圍: e('下腹壁淺層、外生殖器前部與下肢；在腹股溝中點下方可摸到搏動', 'The superficial lower abdominal wall, the front of the external genitalia and the lower limb; its pulse can be felt just below the mid-inguinal point'),
+  },
+  'subcostal nerve': {
+    來源: e('第十二胸神經（T12）的前支', 'Ventral ramus of the twelfth thoracic nerve (T12)'),
+    走向: e('沿第十二肋下緣行走，經外側弓狀韌帶後方，在腰方肌前面、腎臟後方向外下行，穿過腹橫肌後行於腹橫肌與腹內斜肌之間，終末進入腹直肌鞘', 'Runs along the lower border of the twelfth rib, passes behind the lateral arcuate ligament in front of quadratus lumborum and behind the kidney, pierces transversus abdominis and continues between it and internal oblique, ending in the rectus sheath'),
+    主要分支: e('肌支、前皮支與外側皮支（越過髂脊到臀部外上方皮膚）；常與髂腹下神經相連接', 'Muscular branches, an anterior cutaneous branch and a lateral cutaneous branch (crossing the iliac crest to the skin of the upper outer buttock); it often communicates with the iliohypogastric nerve'),
+    支配範圍: e('運動支配腹橫肌、腹內斜肌、腹外斜肌、腹直肌與錐狀肌；感覺支配下腹壁與臀外上部皮膚', 'Motor to transversus abdominis, the oblique muscles, rectus abdominis and pyramidalis; sensory to the skin of the lower abdominal wall and the upper outer buttock'),
+  },
+  'intercostal nerves': {
+    來源: e('第一至第十一胸神經（T1–T11）的前支（第一對大部分加入臂神經叢）；第十二對另稱肋下神經', 'Ventral rami of the first to eleventh thoracic nerves (T1–T11), the first mostly joining the brachial plexus; the twelfth is named the subcostal nerve'),
+    走向: e('在肋間隙內沿肋溝行走，位於肋間內肌與最內肋間肌之間，在血管下方；下部（約第七至第十一對）越過肋弓繼續進入腹壁，行於腹內斜肌與腹橫肌之間，最後入腹直肌鞘', 'Run in the costal groove of each intercostal space between the internal and innermost intercostal muscles, below the vessels; the lower ones (about T7–T11) pass beyond the costal margin into the abdominal wall between internal oblique and transversus abdominis and end in the rectus sheath'),
+    主要分支: e('外側皮支、前皮支與肌支；第二肋間神經的外側皮支特稱肋間臂神經', 'Lateral and anterior cutaneous branches and muscular branches; the lateral cutaneous branch of the second is called the intercostobrachial nerve'),
+    支配範圍: e('運動支配肋間肌、後上與後下鋸肌，下部尚支配腹壁肌；感覺支配胸壁與腹壁皮膚（臍周皮膚為第十胸神經分布區）及壁層胸膜與腹膜', 'Motor to the intercostal muscles and serratus posterior, and for the lower ones to the abdominal wall muscles; sensory to the skin of the chest and abdominal wall (the umbilical region is T10) and to the parietal pleura and peritoneum'),
+  },
+  'lumbar plexus': {
+    來源: e('第一至第四腰神經（L1–L4）的前支，常有第十二胸神經的細支加入', 'Ventral rami of L1–L4, usually joined by a small branch from T12'),
+    走向: e('位於腰大肌內部、腰椎橫突的前方；分支從腰大肌的外緣、前面與內緣穿出，向下進入腹壁、骨盆或大腿', 'Lies within psoas major in front of the lumbar transverse processes; its branches emerge from the lateral border, the front and the medial border of the muscle and run to the abdominal wall, pelvis or thigh'),
+    主要分支: e('髂腹下神經、髂腹股溝神經、生殖股神經、外股皮神經、股神經與閉孔神經，以及副閉孔神經與到腰大肌、腰方肌的肌支', 'The iliohypogastric, ilioinguinal, genitofemoral, lateral femoral cutaneous, femoral and obturator nerves, with the accessory obturator nerve and muscular branches to psoas and quadratus lumborum'),
+    支配範圍: e('下腹壁肌與皮膚、外生殖器前部、大腿前部與內側的肌肉和皮膚，以及髖與膝關節', 'The muscles and skin of the lower abdominal wall, the front of the external genitalia, the anterior and medial thigh, and the hip and knee joints'),
+  },
+  'iliohypogastric nerve': {
+    來源: e('第一腰神經（L1）的前支，常有第十二胸神經的細支加入', 'Ventral ramus of L1, often joined by a small branch from T12'),
+    走向: e('由腰大肌上部的外緣穿出，越過腰方肌前面，經腎臟後方向外，在髂脊上方穿過腹橫肌，行於腹橫肌與腹內斜肌之間，再穿腹內斜肌；前皮支穿過腹外斜肌腱膜，在淺腹股溝環上方出現', 'Emerges from the lateral border of the upper part of psoas major, crosses in front of quadratus lumborum behind the kidney, pierces transversus abdominis above the iliac crest and runs between it and internal oblique; its anterior cutaneous branch pierces the external oblique aponeurosis above the superficial inguinal ring'),
+    主要分支: e('外側皮支（髂支，越過髂脊到臀外上方）與前皮支（腹下支）', 'A lateral cutaneous (iliac) branch crossing the iliac crest to the upper outer buttock, and an anterior cutaneous (hypogastric) branch'),
+    支配範圍: e('運動支配腹橫肌與腹內斜肌的下部；感覺支配臀外上方與恥骨上方（下腹正中）皮膚', 'Motor to the lower parts of transversus abdominis and internal oblique; sensory to the skin of the upper outer buttock and of the suprapubic region'),
+  },
+  'ilioinguinal nerve': {
+    來源: e('第一腰神經（L1）的前支，與髂腹下神經常由 L1 同一幹分出', 'Ventral ramus of L1, often arising from the same L1 trunk as the iliohypogastric nerve'),
+    走向: e('由腰大肌外緣、髂腹下神經下方穿出，越過腰方肌與髂肌，在髂前上棘附近穿過腹橫肌，再穿腹內斜肌進入腹股溝管，在精索（女性為子宮圓韌帶）的前方通過，經淺腹股溝環穿出', 'Emerges from the lateral border of psoas major below the iliohypogastric nerve, crosses quadratus lumborum and iliacus, pierces transversus abdominis near the anterior superior iliac spine, then internal oblique, enters the inguinal canal in front of the spermatic cord (the round ligament in women) and leaves through the superficial inguinal ring'),
+    主要分支: e('肌支與皮支；皮支為陰囊前支（女性為陰唇前支）與大腿內側上部的感覺支', 'Muscular and cutaneous branches; the cutaneous branches are the anterior scrotal (labial in women) nerves and a branch to the upper medial thigh'),
+    支配範圍: e('運動支配腹內斜肌與腹橫肌的下部；感覺支配陰莖根部與陰囊前部（女性為陰阜與大陰唇）以及大腿內側上部皮膚', 'Motor to the lower parts of internal oblique and transversus abdominis; sensory to the skin of the root of the penis and front of the scrotum (the mons pubis and labium majus in women) and the upper medial thigh'),
+  },
+  'genitofemoral nerve': {
+    來源: e('第一、二腰神經（L1–L2）的前支', 'Ventral rami of L1 and L2'),
+    走向: e('穿過腰大肌並由其前面穿出，沿腰大肌表面下行，在腹股溝韌帶上方分成生殖支與股支；輸尿管在其前方越過', 'Pierces psoas major and emerges on its front surface, descends on the muscle and divides above the inguinal ligament into genital and femoral branches; the ureter crosses in front of it'),
+    主要分支: e('生殖支與股支', 'The genital branch and the femoral branch'),
+    支配範圍: e('生殖支：男性支配提睪肌與陰囊皮膚，女性支配陰阜與大陰唇皮膚；股支：支配股三角上部的大腿前皮膚', 'Genital branch: the cremaster muscle and scrotal skin in men, the skin of the mons pubis and labium majus in women; femoral branch: the skin of the upper anterior thigh over the femoral triangle'),
+  },
+  'genital branch of genitofemoral nerve': {
+    來源: e('生殖股神經，在腹股溝韌帶上方分出', 'The genitofemoral nerve, arising above the inguinal ligament'),
+    走向: e('經腹股溝深環進入腹股溝管，在精索內（多位於其後方）下行（女性沿子宮圓韌帶），到達陰囊或大陰唇', 'Enters the inguinal canal through the deep inguinal ring and runs down within the spermatic cord, usually behind it (along the round ligament in women), to the scrotum or labium majus'),
+    主要分支: e('提睪肌支與皮支', 'Cremasteric and cutaneous twigs'),
+    支配範圍: e('男性：提睪肌與陰囊皮膚；女性：陰阜與大陰唇皮膚', 'In men the cremaster muscle and scrotal skin; in women the skin of the mons pubis and labium majus'),
+  },
+  'femoral branch of genitofemoral nerve': {
+    來源: e('生殖股神經，在腹股溝韌帶上方分出', 'The genitofemoral nerve, arising above the inguinal ligament'),
+    走向: e('在腹股溝韌帶後方、股動脈外側下行，進入股鞘，穿過篩狀筋膜出現在大腿前面', 'Passes behind the inguinal ligament lateral to the femoral artery, enters the femoral sheath and pierces the cribriform fascia to reach the front of the thigh'),
+    主要分支: e('皮支', 'Cutaneous twigs'),
+    支配範圍: e('腹股溝韌帶下方股三角上部的大腿前皮膚', 'The skin of the upper anterior thigh just below the inguinal ligament over the femoral triangle'),
+  },
+  'lateral femoral cutaneous nerve': {
+    來源: e('第二、三腰神經（L2–L3）的前支（後股）', 'Ventral rami of L2 and L3 (posterior divisions)'),
+    走向: e('由腰大肌外緣穿出，斜越髂肌前面向髂前上棘行走，在髂前上棘內側附近、腹股溝韌帶深面（或穿過其外側端）進入大腿，再穿過闊筋膜', 'Emerges from the lateral border of psoas major, crosses iliacus obliquely toward the anterior superior iliac spine and enters the thigh medial to that spine, under (or through) the lateral end of the inguinal ligament, then pierces the fascia lata'),
+    主要分支: e('前支與後支，皆為皮支', 'Anterior and posterior branches, both cutaneous'),
+    支配範圍: e('純感覺神經，支配大腿前外側皮膚，下達膝附近', 'Purely sensory, to the skin of the anterolateral thigh down toward the knee'),
+  },
+  'femoral nerve': {
+    來源: e('第二至第四腰神經（L2–L4）前支的後股，是腰神經叢最大的分支', 'Posterior divisions of the ventral rami of L2–L4; the largest branch of the lumbar plexus'),
+    走向: e('在腰大肌外緣穿出，行於腰大肌與髂肌之間的溝內，經腹股溝韌帶深面進入大腿，位於股動脈的外側（不在股鞘內），隨即分成多支', 'Emerges from the lateral border of psoas major, runs in the groove between psoas and iliacus, passes under the inguinal ligament into the thigh lateral to the femoral artery (outside the femoral sheath) and soon divides into several branches'),
+    主要分支: e('腹部：髂肌支；大腿：恥骨肌支、縫匠肌支、股四頭肌各肌支、股中間與內側皮神經，以及最長的皮支隱神經', 'In the abdomen: branches to iliacus; in the thigh: branches to pectineus, sartorius and the heads of quadriceps, the intermediate and medial femoral cutaneous nerves, and the saphenous nerve, its longest cutaneous branch'),
+    支配範圍: e('運動支配髂肌、恥骨肌、縫匠肌與股四頭肌（伸膝）；感覺支配大腿前面與小腿內側（隱神經）皮膚', 'Motor to iliacus, pectineus, sartorius and quadriceps (knee extension); sensory to the skin of the front of the thigh and the medial leg (saphenous nerve)'),
+  },
+  'obturator nerve': {
+    來源: e('第二至第四腰神經（L2–L4）前支的前股', 'Anterior divisions of the ventral rami of L2–L4'),
+    走向: e('由腰大肌內側緣穿出，沿骨盆側壁越過骨盆緣，在閉孔血管的上方經閉孔管離開骨盆，進入大腿內側，分成前支與後支', 'Emerges from the medial border of psoas major, runs along the pelvic side wall across the pelvic brim and leaves the pelvis through the obturator canal above the obturator vessels into the medial thigh, where it divides into anterior and posterior branches'),
+    主要分支: e('前支（支配長收肌、短收肌、股薄肌與大腿內側皮膚）；後支（支配閉孔外肌與大收肌，並發出膝關節支）', 'An anterior branch (to adductor longus and brevis, gracilis and the skin of the medial thigh) and a posterior branch (to obturator externus and adductor magnus, with a branch to the knee joint)'),
+    支配範圍: e('運動支配大腿內收肌群；感覺支配大腿內側皮膚與髖、膝關節', 'Motor to the adductor muscles of the thigh; sensory to the skin of the medial thigh and the hip and knee joints'),
+  },
+  'accessory obturator nerve': {
+    來源: e('第三、四腰神經（L3–L4）前支，出現率各報告不一（約一成至三成），多數人沒有', 'Ventral rami of L3 and L4; reported in roughly 10–30% of people, so absent in most'),
+    走向: e('沿腰大肌內側緣下行，越過恥骨上支，在恥骨肌後方進入大腿，並與閉孔神經的前支相連', 'Descends along the medial border of psoas major, crosses the superior pubic ramus and enters the thigh behind pectineus, communicating with the anterior branch of the obturator nerve'),
+    主要分支: e('肌支、關節支，以及與閉孔神經的交通支', 'Muscular and articular branches and a communicating branch to the obturator nerve'),
+    支配範圍: e('運動支配恥骨肌，感覺支配髖關節', 'Motor to pectineus and sensory to the hip joint'),
+  },
+  'lumbosacral trunk': {
+    來源: e('第四腰神經（L4）前支的下行部分與第五腰神經（L5）前支合併而成', 'Formed by the descending part of the ventral ramus of L4 together with the ventral ramus of L5'),
+    走向: e('在腰大肌內側緣穿出，越過薦骨翼前方下行進入骨盆，在髂總血管後方與第一薦神經合併，連接薦神經叢', 'Emerges at the medial border of psoas major, descends in front of the ala of the sacrum into the pelvis behind the common iliac vessels and joins the first sacral nerve in the sacral plexus'),
+    主要分支: e('沒有獨立分支；其纖維進入薦神經叢，形成坐骨神經與臀上、下神經等的一部分', 'It gives no separate branches; its fibres enter the sacral plexus and contribute to the sciatic nerve and the superior and inferior gluteal nerves, among others'),
+    支配範圍: e('作為腰神經叢通往薦神經叢的橋樑，間接支配臀部與下肢', 'A link between the lumbar and sacral plexuses, supplying the gluteal region and lower limb through the sacral plexus'),
+  },
+});
+CARD_EXTRAS['descending thoracic aorta'] = CARD_EXTRAS['thoracic aorta'];
+// ===== AB-A2 end =====
+
+// ===== AB-A3 begin: veins of the abdomen and trunk (card batch AB-A3). Standard anatomy only; a field we are not sure of stays out. =====
+Object.assign(CARD_EXTRAS, {
+  'inferior vena cava': {
+    來源: e('由左、右總髂靜脈在第五腰椎（L5）高度、右總髂動脈後方匯合而成，位置偏中線右側', 'Formed by the union of the left and right common iliac veins at about L5, behind the right common iliac artery and slightly to the right of the midline'),
+    走向: e('沿脊柱前方、主動脈右側上行；向上經十二指腸水平部與胰頭後方，嵌入肝後面的下腔靜脈溝，穿過橫膈中心腱的腔靜脈裂孔（約 T8），隨即進入右心房', 'Ascends in front of the vertebral column on the right of the aorta, behind the horizontal part of the duodenum and the head of the pancreas, lies in the groove on the back of the liver, passes through the caval opening in the central tendon of the diaphragm (about T8) and enters the right atrium'),
+    主要分支: e('腰靜脈（多為第三、四對）、右生殖腺靜脈、腎靜脈、右腎上腺靜脈、下膈靜脈、肝靜脈；左側的生殖腺與腎上腺靜脈經左腎靜脈間接匯入', 'Lumbar veins (usually the third and fourth pairs), the right gonadal vein, renal veins, the right suprarenal vein, inferior phrenic veins and hepatic veins; the left gonadal and suprarenal veins drain into it indirectly through the left renal vein'),
+    引流範圍: e('橫膈以下的下肢、骨盆、腹壁與腹部內臟的靜脈血（腸胃道與脾的血液先經肝門靜脈入肝，再由肝靜脈匯入）', 'Venous blood from the lower limbs, pelvis, abdominal wall and abdominal organs below the diaphragm (blood from the gut and spleen first passes through the hepatic portal vein and liver, then reaches it through the hepatic veins)'),
+  },
+  'hepatic veins': {
+    來源: e('由肝小葉的中央靜脈逐級匯合而成，共有左、中、右三條主幹，另有數條小的尾狀葉靜脈', 'Formed from the central veins of the liver lobules, which merge step by step into three main trunks (left, middle and right), plus several small veins from the caudate lobe'),
+    走向: e('與肝門靜脈分支不同，肝靜脈在肝實質內單獨行走；三條主幹從肝後上方出肝，很短，立即在橫膈下方注入下腔靜脈（第二肝門）', 'Unlike the portal vein branches, the hepatic veins run alone within the liver substance; the three trunks leave the upper back of the liver, are very short, and open directly into the inferior vena cava just below the diaphragm (the second porta of the liver)'),
+    主要分支: e('右肝靜脈、中肝靜脈、左肝靜脈（中、左肝靜脈常先合成一幹再入下腔靜脈）', 'Right, middle and left hepatic veins (the middle and left veins often unite before entering the inferior vena cava)'),
+    引流範圍: e('肝實質，即由肝動脈與肝門靜脈送入肝的血液', 'The liver parenchyma, that is, the blood delivered to the liver by the hepatic artery and the hepatic portal vein'),
+  },
+  'left hepatic vein': {
+    來源: e('由肝左葉（含左外側葉與左內側葉的一部分）內的小葉中央靜脈匯合而成', 'Formed by the merging central veins of the left lobe of the liver (the left lateral segments and part of the medial segment)'),
+    走向: e('在左葉的肝實質內向後上方行，常先與中肝靜脈匯合，再在肝上緣後方注入下腔靜脈左前壁', 'Runs backward and upward in the substance of the left lobe, often joins the middle hepatic vein first, and opens into the left front of the inferior vena cava behind the upper edge of the liver'),
+    引流範圍: e('肝左外側部與左內側部的一部分', 'The left lateral part of the liver and part of the left medial part'),
+  },
+  'middle (intermediate) hepatic vein': {
+    來源: e('由肝右前葉與左內側葉之間、沿肝中裂走的小葉中央靜脈匯合而成', 'Formed by central veins running along the main plane between the right anterior part and the left medial part of the liver'),
+    走向: e('沿肝的主要分界面（約自膽囊窩向下腔靜脈連線）向後上行，常與左肝靜脈合併後注入下腔靜脈', 'Ascends backward along the main dividing plane of the liver (roughly from the gallbladder fossa towards the inferior vena cava) and usually joins the left hepatic vein before entering the inferior vena cava'),
+    引流範圍: e('肝右前部與左內側部（包括肝方形葉）', 'The right anterior and left medial parts of the liver, including the quadrate lobe'),
+  },
+  'right hepatic vein': {
+    來源: e('由肝右葉的右後與右前部內的小葉中央靜脈匯合而成，三條肝靜脈中最粗', 'Formed by central veins of the right posterior and anterior parts of the right lobe; the largest of the three hepatic veins'),
+    走向: e('在右葉肝實質內向後上行，從肝後上方注入下腔靜脈右側壁', 'Runs backward and upward in the right lobe and opens into the right wall of the inferior vena cava at the upper back of the liver'),
+    引流範圍: e('肝右葉的大部分', 'Most of the right lobe of the liver'),
+  },
+  'inferior phrenic vein': {
+    來源: e('橫膈下面的小靜脈網，與下膈動脈伴行', 'Small veins on the underside of the diaphragm, accompanying the inferior phrenic artery'),
+    走向: e('右側沿橫膈下面向後內走，注入下腔靜脈；左側多與左腎上腺靜脈匯合後入左腎靜脈，也可有一支直接入下腔靜脈', 'The right vein runs backward and medially on the underside of the diaphragm into the inferior vena cava; the left vein usually joins the left suprarenal vein and then enters the left renal vein, and one branch may enter the inferior vena cava directly'),
+    引流範圍: e('橫膈下面，並與心包膈靜脈、肌膈靜脈有吻合', 'The undersurface of the diaphragm, with anastomoses to the pericardiacophrenic and musculophrenic veins'),
+  },
+  'renal vein': {
+    來源: e('腎內各葉間靜脈與弓狀靜脈匯成數條，在腎門合成腎靜脈，位於腎動脈前方', 'Interlobar and arcuate veins within the kidney merge into several trunks that unite at the hilum into the renal vein, lying in front of the renal artery'),
+    走向: e('由腎門向內走到下腔靜脈，約在第一至二腰椎（L1–L2）高度注入；右腎靜脈短（約 2–4 公分），左腎靜脈較長，越過主動脈前方、位於上腸繫膜動脈根部與主動脈之間，再注入下腔靜脈', 'Runs medially from the renal hilum to the inferior vena cava, which it enters at about L1–L2; the right renal vein is short (about 2–4 cm), while the left is longer and crosses in front of the aorta, between the root of the superior mesenteric artery and the aorta, before entering the inferior vena cava'),
+    主要分支: e('左腎靜脈接收左腎上腺靜脈（含左下膈靜脈）與左生殖腺靜脈；右腎靜脈通常沒有上述屬支（右生殖腺靜脈與右腎上腺靜脈直接入下腔靜脈）', 'The left renal vein receives the left suprarenal vein (with the left inferior phrenic vein) and the left gonadal vein; the right renal vein usually has no such tributaries (the right gonadal and right suprarenal veins enter the inferior vena cava directly)'),
+    引流範圍: e('腎', 'The kidney'),
+  },
+  'right suprarenal vein': {
+    來源: e('由右腎上腺的腺內靜脈在腺體前面（腺門）匯成', 'Formed from the veins within the right suprarenal gland, emerging at its hilum on the anterior surface'),
+    走向: e('非常短，幾乎直接向內走，注入下腔靜脈後外側壁', 'Very short, running almost directly medially into the posterolateral wall of the inferior vena cava'),
+    引流範圍: e('右腎上腺', 'The right suprarenal gland'),
+  },
+  'left suprarenal vein': {
+    來源: e('由左腎上腺的腺內靜脈在腺門匯成', 'Formed from the veins within the left suprarenal gland at its hilum'),
+    走向: e('向下走，常先與左下膈靜脈合併，再注入左腎靜脈上緣', 'Descends, usually joined by the left inferior phrenic vein, and enters the upper border of the left renal vein'),
+    引流範圍: e('左腎上腺', 'The left suprarenal gland'),
+  },
+  'right gonadal vein': {
+    來源: e('男性由蔓狀靜脈叢匯成睪丸靜脈，女性由卵巢靜脈叢匯成卵巢靜脈', 'In the male it is the testicular vein formed from the pampiniform plexus; in the female it is the ovarian vein formed from the ovarian plexus'),
+    走向: e('沿腰大肌前方、在輸尿管前面斜向上行，在腎靜脈下方以銳角直接注入下腔靜脈', 'Ascends obliquely in front of psoas major and the ureter and opens directly into the inferior vena cava below the renal vein'),
+    引流範圍: e('右側睪丸與附睪，或右側卵巢、輸卵管與子宮的上部', 'The right testis and epididymis, or the right ovary, uterine tube and upper uterus'),
+  },
+  'left gonadal vein': {
+    來源: e('男性由蔓狀靜脈叢匯成睪丸靜脈，女性由卵巢靜脈叢匯成卵巢靜脈', 'In the male it is the testicular vein formed from the pampiniform plexus; in the female it is the ovarian vein formed from the ovarian plexus'),
+    走向: e('沿腰大肌前方、在輸尿管前面上行，以近直角注入左腎靜脈，不直接進入下腔靜脈', 'Ascends in front of psoas major and the ureter and enters the left renal vein almost at a right angle, not the inferior vena cava directly'),
+    引流範圍: e('左側睪丸與附睪，或左側卵巢、輸卵管與子宮的上部', 'The left testis and epididymis, or the left ovary, uterine tube and upper uterus'),
+  },
+  'testicular vein': {
+    來源: e('由睪丸與附睪的蔓狀靜脈叢在深腹股溝環附近合併成一條或兩條', 'The pampiniform plexus of the testis and epididymis merges into one or two veins near the deep inguinal ring'),
+    走向: e('由精索穿腹股溝管入腹腔，沿腰大肌前方上行；右側注入下腔靜脈，左側注入左腎靜脈', 'Passes from the spermatic cord through the inguinal canal into the abdomen and ascends in front of psoas major; the right vein enters the inferior vena cava and the left enters the left renal vein'),
+    主要分支: e('蔓狀靜脈叢（起始部）', 'The pampiniform plexus (at its origin)'),
+    引流範圍: e('睪丸與附睪', 'The testis and epididymis'),
+  },
+  'ovarian vein': {
+    來源: e('由卵巢門處的卵巢靜脈叢匯成，叢與子宮靜脈叢相通', 'Formed from the ovarian venous plexus at the ovarian hilum, which communicates with the uterine venous plexus'),
+    走向: e('經卵巢懸韌帶向上越過骨盆緣，沿腰大肌前方上行；右側注入下腔靜脈，左側注入左腎靜脈', 'Ascends in the suspensory ligament of the ovary over the pelvic brim and in front of psoas major; the right vein enters the inferior vena cava and the left enters the left renal vein'),
+    引流範圍: e('卵巢、輸卵管與子宮的上部', 'The ovary, uterine tube and upper part of the uterus'),
+  },
+  'pampiniform venous plexus': {
+    來源: e('睪丸與附睪內的小靜脈，在精索內互相吻合成網', 'Small veins of the testis and epididymis that anastomose into a network within the spermatic cord'),
+    走向: e('包繞睪丸動脈，沿精索上行穿過腹股溝管，在深腹股溝環附近匯成睪丸靜脈', 'Surrounds the testicular artery, ascends in the spermatic cord through the inguinal canal and merges into the testicular vein near the deep inguinal ring'),
+    主要分支: e('逐漸合併為睪丸靜脈（通常一至二條）', 'Gradually merges into the testicular vein (usually one or two trunks)'),
+    引流範圍: e('睪丸與附睪；網狀排列使動脈血在進入睪丸前先被降溫，此處靜脈擴張稱精索靜脈曲張，多見於左側', 'The testis and epididymis; the network cools arterial blood on its way to the testis, and dilatation of these veins is called varicocele, more common on the left'),
+  },
+  'lumbar veins': {
+    來源: e('腹後壁與腹外側壁的靜脈，通常左右各四條，與腰動脈伴行', 'Veins of the posterior and lateral abdominal wall, usually four on each side, accompanying the lumbar arteries'),
+    走向: e('沿腰椎體側面繞向前，經腰大肌深面；下方兩對多直接注入下腔靜脈，上方幾對先連到升腰靜脈，再入奇靜脈系統；並經椎間靜脈與椎靜脈叢相通；左側腰靜脈行經主動脈後方', 'Wind forward around the sides of the lumbar vertebral bodies deep to psoas major; the lower two pairs usually open directly into the inferior vena cava, while the upper pairs link to the ascending lumbar vein and thus the azygos system; they also communicate with the vertebral venous plexuses through the intervertebral veins, and the left lumbar veins pass behind the aorta'),
+    主要分支: e('背支（接收背部肌肉與皮膚及椎靜脈叢的血液）與脊柱內靜脈叢的屬支', 'Dorsal tributaries (from the back muscles, skin and vertebral venous plexuses) and tributaries from the internal vertebral venous plexus'),
+    引流範圍: e('腹後壁與外側壁，以及背部深層肌肉與皮膚', 'The posterior and lateral abdominal wall and the deep muscles and skin of the back'),
+  },
+  'lumbar azygos vein': {
+    來源: e('指腰部脊柱旁連接腰靜脈、向上延續到奇靜脈系統的縱向通路（與升腰靜脈的縱向連接相近，命名依分類而異）', 'The longitudinal pathway beside the lumbar vertebral column that links the lumbar veins and continues upward into the azygos system (similar to the longitudinal connection of the ascending lumbar vein; the name varies with the classification)'),
+    走向: e('在腰椎體旁向上行，向上連到奇靜脈系統，作為下腔靜脈與上腔靜脈之間的側支通路', 'Ascends beside the lumbar vertebral bodies and continues into the azygos system, serving as a collateral route between the inferior and superior vena cava'),
+    引流範圍: e('腹後壁與腰部脊柱旁組織', 'The posterior abdominal wall and tissues beside the lumbar spine'),
+  },
+  'iliolumbar vein': {
+    來源: e('髂窩的髂肌與腰方肌、腰大肌下部及鄰近腰椎區的靜脈', 'Veins of iliacus, the lower parts of quadratus lumborum and psoas major, and the adjacent lumbar region'),
+    走向: e('與髂腰動脈伴行，向內下方走，多注入內髂靜脈，部分注入總髂靜脈；並與升腰靜脈相連', 'Accompanies the iliolumbar artery and runs medially and downward mostly into the internal iliac vein and in part into the common iliac vein; it also connects with the ascending lumbar vein'),
+    引流範圍: e('髂肌、腰方肌與腰大肌下部', 'Iliacus and the lower parts of quadratus lumborum and psoas major'),
+  },
+  'common iliac vein': {
+    來源: e('由外髂靜脈與內髂靜脈在薦髂關節前方匯合而成', 'Formed by the union of the external and internal iliac veins in front of the sacroiliac joint'),
+    走向: e('向內上方行；右側在同名動脈的後外側，左側先在同名動脈內側，之後越過右總髂動脈後方；左總髂靜脈較長、較斜；兩側在第五腰椎（L5）高度合成下腔靜脈', 'Runs upward and medially; on the right it lies behind and lateral to its artery, on the left it lies medial to its artery and then passes behind the right common iliac artery; the left vein is longer and more oblique; the two unite at about L5 to form the inferior vena cava'),
+    主要分支: e('髂腰靜脈（部分）、（左側）正中薦靜脈；外髂靜脈與內髂靜脈在此匯合', 'The iliolumbar vein (in part) and, on the left, the median sacral vein; the external and internal iliac veins unite here'),
+    引流範圍: e('下肢、骨盆壁與骨盆內臟', 'The lower limb, pelvic wall and pelvic organs'),
+  },
+  'external iliac vein': {
+    來源: e('在腹股溝韌帶深面續自股靜脈', 'The continuation of the femoral vein deep to the inguinal ligament'),
+    走向: e('沿骨盆入口緣、腰大肌內側上行，起初位於同名動脈內側，之後轉到其後方，在薦髂關節前方與內髂靜脈匯成總髂靜脈', 'Ascends along the pelvic brim on the medial side of psoas major, at first medial to the artery and later behind it, and joins the internal iliac vein in front of the sacroiliac joint to form the common iliac vein'),
+    主要分支: e('下腹壁靜脈、深旋髂靜脈、恥骨靜脈', 'Inferior epigastric, deep circumflex iliac and pubic veins'),
+    引流範圍: e('下肢與下腹壁', 'The lower limb and lower abdominal wall'),
+  },
+  'femoral vein': {
+    來源: e('在內收肌裂孔處續自膕靜脈', 'Continues from the popliteal vein at the adductor hiatus'),
+    走向: e('上行進入股三角，位於股動脈內側，進入股鞘；在腹股溝韌帶深面續為外髂靜脈', 'Ascends into the femoral triangle on the medial side of the femoral artery, enters the femoral sheath and continues deep to the inguinal ligament as the external iliac vein'),
+    主要分支: e('大隱靜脈（在隱靜脈裂孔處匯入，並帶入淺腹壁靜脈、淺旋髂靜脈與外陰部靜脈）與股深靜脈', 'The great saphenous vein (entering at the saphenous opening and bringing in the superficial epigastric, superficial circumflex iliac and external pudendal veins) and the deep femoral vein'),
+    引流範圍: e('下肢，以及經大隱靜脈匯入的下腹壁淺層', 'The lower limb, and the superficial lower abdominal wall through the great saphenous vein'),
+  },
+  'median sacral vein': {
+    來源: e('薦骨與尾骨前面的小靜脈，與正中薦動脈伴行', 'Small veins on the front of the sacrum and coccyx, accompanying the median sacral artery'),
+    走向: e('沿薦骨前面中線上行，通常注入左總髂靜脈（也可注入兩側總髂靜脈匯合處）', 'Ascends in the midline on the front of the sacrum and usually enters the left common iliac vein (or the junction of the common iliac veins)'),
+    引流範圍: e('薦骨與尾骨前方的組織', 'The tissues in front of the sacrum and coccyx'),
+  },
+  'azygos vein': {
+    來源: e('由右升腰靜脈與右肋下靜脈續成，經橫膈右腳（或主動脈裂孔）入胸腔', 'Continues from the right ascending lumbar vein and the right subcostal vein and enters the thorax through the right crus of the diaphragm (or the aortic hiatus)'),
+    走向: e('沿脊柱右前方、胸主動脈右側上行，到約第四胸椎（T4）高度向前繞過右肺根，注入上腔靜脈', 'Ascends on the right front of the vertebral column beside the thoracic aorta and, at about T4, arches forward over the root of the right lung to enter the superior vena cava'),
+    主要分支: e('右肋間後靜脈、半奇靜脈與副半奇靜脈、食道與支氣管的小靜脈', 'The right posterior intercostal veins, the hemiazygos and accessory hemiazygos veins, and small esophageal and bronchial veins'),
+    引流範圍: e('胸後壁與腹後壁，是下腔靜脈與上腔靜脈之間的重要側支通路', 'The posterior thoracic and abdominal walls; an important collateral route between the inferior and superior vena cava'),
+  },
+  'hemiazygos vein': {
+    來源: e('由左升腰靜脈與左肋下靜脈續成，穿過橫膈左腳入胸腔', 'Continues from the left ascending lumbar vein and the left subcostal vein and enters the thorax through the left crus of the diaphragm'),
+    走向: e('沿脊柱左側上行，約在 T8–T9 高度向右越過脊柱，行經胸主動脈、胸管與食道後方，注入奇靜脈', 'Ascends on the left of the vertebral column and, at about T8–T9, crosses to the right behind the thoracic aorta, thoracic duct and esophagus to enter the azygos vein'),
+    主要分支: e('左側下位肋間後靜脈、食道與縱隔的小靜脈', 'The lower left posterior intercostal veins and small esophageal and mediastinal veins'),
+    引流範圍: e('胸後壁下部與腹後壁的左側', 'The lower posterior thoracic wall and the left side of the posterior abdominal wall'),
+  },
+  'hepatic portal vein': {
+    來源: e('在約 L1–L2 高度、胰頸後方，由脾靜脈與上腸繫膜靜脈匯合而成', 'Formed behind the neck of the pancreas, at about L1–L2, by the union of the splenic vein and the superior mesenteric vein'),
+    走向: e('長約 8 公分，先在十二指腸上部後方上行，再進入肝十二指腸韌帶，位於膽管與肝固有動脈後方，到肝門分為左、右支入肝', 'About 8 cm long, it ascends behind the first part of the duodenum, enters the hepatoduodenal ligament behind the bile duct and proper hepatic artery, and divides at the porta hepatis into left and right branches that enter the liver'),
+    主要分支: e('脾靜脈、上腸繫膜靜脈（起始）；直接屬支有左胃靜脈、右胃靜脈、膽囊靜脈；臍旁靜脈則注入左支', 'The splenic and superior mesenteric veins (its origins); direct tributaries include the left gastric, right gastric and cystic veins, while the paraumbilical veins enter the left branch'),
+    引流範圍: e('消化道由食道腹段至直腸上部、胰、脾與膽囊的靜脈血，經肝竇隙後由肝靜脈入下腔靜脈', 'Venous blood from the gut from the abdominal esophagus to the upper rectum, the pancreas, spleen and gallbladder, which passes through the liver sinusoids and then the hepatic veins to the inferior vena cava'),
+  },
+  'splenic vein': {
+    來源: e('在脾門由數條脾內靜脈匯成', 'Formed at the splenic hilum from several veins emerging from the spleen'),
+    走向: e('向右沿胰體與胰尾後面行，位於脾動脈下方、左腎與左腎上腺前方，在胰頸後方與上腸繫膜靜脈匯合成肝門靜脈', 'Runs to the right along the back of the tail and body of the pancreas, below the splenic artery and in front of the left kidney and left suprarenal gland, and joins the superior mesenteric vein behind the neck of the pancreas to form the hepatic portal vein'),
+    主要分支: e('短胃靜脈、左胃網膜靜脈、後胃靜脈、胰靜脈；下腸繫膜靜脈常匯入此靜脈', 'Short gastric, left gastro-omental, posterior gastric and pancreatic veins; the inferior mesenteric vein often drains into it'),
+    引流範圍: e('脾、胃底與胃大彎左部、胰，以及（經下腸繫膜靜脈）降結腸與直腸上部', 'The spleen, the gastric fundus and left part of the greater curvature, the pancreas and, through the inferior mesenteric vein, the descending colon and upper rectum'),
+  },
+  'superior mesenteric vein': {
+    來源: e('在右髂窩附近由迴腸末段與迴盲部的小靜脈匯成', 'Begins near the right iliac fossa from the veins of the terminal ileum and ileocolic region'),
+    走向: e('在腸繫膜根內、上腸繫膜動脈右側上行，越過十二指腸水平部前方，再經胰頸後方與脾靜脈匯成肝門靜脈', 'Ascends in the root of the mesentery on the right of the superior mesenteric artery, crosses in front of the horizontal part of the duodenum and joins the splenic vein behind the neck of the pancreas to form the hepatic portal vein'),
+    主要分支: e('空腸靜脈、迴腸靜脈、迴結腸靜脈、右結腸靜脈、中結腸靜脈、胰十二指腸靜脈與右胃網膜靜脈（常經胃結腸幹）', 'Jejunal, ileal, ileocolic, right colic, middle colic and pancreaticoduodenal veins and the right gastro-omental vein (often through the gastrocolic trunk)'),
+    引流範圍: e('空腸、迴腸、盲腸與闌尾、升結腸、橫結腸、胰頭與十二指腸的一部分、胃大彎右部', 'The jejunum, ileum, cecum and appendix, ascending and transverse colon, the head of the pancreas and part of the duodenum, and the right part of the greater curvature of the stomach'),
+  },
+  'inferior mesenteric vein': {
+    來源: e('由直腸上部的上直腸靜脈向上延續而成', 'Continues upward from the superior rectal vein at the upper rectum'),
+    走向: e('在腹後壁左側、腰大肌前方、十二指腸空腸彎曲左側上行，經胰體後方，常注入脾靜脈，也可注入上腸繫膜靜脈或兩者匯合處', 'Ascends on the left side of the posterior abdominal wall in front of psoas major, to the left of the duodenojejunal flexure, passes behind the body of the pancreas and often enters the splenic vein, and may enter the superior mesenteric vein or their junction'),
+    主要分支: e('上直腸靜脈、乙狀結腸靜脈、左結腸靜脈', 'The superior rectal, sigmoid and left colic veins'),
+    引流範圍: e('直腸上部、乙狀結腸、降結腸與左大腸彎', 'The upper rectum, sigmoid colon, descending colon and left colic flexure'),
+  },
+  'left gastric vein': {
+    來源: e('由胃小彎左側的胃壁靜脈匯成，與左胃動脈伴行', 'Formed from the veins of the lesser-curvature side of the stomach, accompanying the left gastric artery'),
+    走向: e('沿胃小彎在小網膜內向上走到食道下端，再轉向下、向後，多注入肝門靜脈', 'Runs up along the lesser curvature in the lesser omentum to the lower esophagus, then turns downward and backward and mostly enters the hepatic portal vein'),
+    主要分支: e('食道靜脈（來自食道下段）與胃壁靜脈', 'Esophageal veins (from the lower esophagus) and gastric wall veins'),
+    引流範圍: e('胃小彎側與食道下端；食道靜脈是門體吻合的門靜脈側屬支', 'The lesser-curvature side of the stomach and the lower esophagus; the esophageal veins form the portal side of a portal-systemic anastomosis'),
+  },
+  'right gastric vein': {
+    來源: e('由胃小彎右側與幽門區的胃壁靜脈匯成，與右胃動脈伴行', 'Formed from the veins of the right part of the lesser curvature and the pyloric region, accompanying the right gastric artery'),
+    走向: e('沿胃小彎在小網膜內向右走，直接注入肝門靜脈', 'Runs to the right along the lesser curvature in the lesser omentum and enters the hepatic portal vein directly'),
+    引流範圍: e('胃小彎右部與幽門區', 'The right part of the lesser curvature and the pyloric region of the stomach'),
+  },
+  'short gastric veins': {
+    來源: e('胃底與胃大彎上部的小靜脈，共數條', 'Several small veins from the gastric fundus and upper greater curvature'),
+    走向: e('在胃脾韌帶內向左後方走，注入脾靜脈或其屬支', 'Run to the left and backward in the gastrosplenic ligament and enter the splenic vein or its tributaries'),
+    引流範圍: e('胃底與胃大彎上部', 'The fundus and upper part of the greater curvature of the stomach'),
+  },
+  'left gastro-omental vein': {
+    來源: e('由胃大彎左部與大網膜的靜脈匯成，與左胃網膜動脈伴行', 'Formed from the veins of the left part of the greater curvature and the greater omentum, accompanying the left gastro-omental artery'),
+    走向: e('沿胃大彎向左上行，經胃脾韌帶，注入脾靜脈', 'Runs to the left and upward along the greater curvature through the gastrosplenic ligament into the splenic vein'),
+    引流範圍: e('胃大彎左部與大網膜', 'The left part of the greater curvature and the greater omentum'),
+  },
+  'right gastro-omental vein': {
+    來源: e('由胃大彎右部與大網膜的靜脈匯成，與右胃網膜動脈伴行', 'Formed from the veins of the right part of the greater curvature and the greater omentum, accompanying the right gastro-omental artery'),
+    走向: e('沿胃大彎向右下行，經幽門下方，常經胃結腸幹注入上腸繫膜靜脈', 'Runs to the right and downward along the greater curvature, passes below the pylorus and usually enters the superior mesenteric vein through the gastrocolic trunk'),
+    引流範圍: e('胃大彎右部與大網膜', 'The right part of the greater curvature and the greater omentum'),
+  },
+  'posterior gastric veins': {
+    來源: e('胃底後壁的小靜脈', 'Small veins of the posterior wall of the gastric fundus'),
+    走向: e('向後上方走，多注入脾靜脈', 'Run backward and upward, mostly entering the splenic vein'),
+    引流範圍: e('胃底後壁', 'The posterior wall of the gastric fundus'),
+  },
+  'paraumbilical vein': {
+    來源: e('臍周的小靜脈，沿肝圓韌帶走行，連接臍周皮下靜脈與肝門靜脈左支', 'Small veins around the umbilicus that run in the round ligament of the liver and connect the periumbilical subcutaneous veins with the left branch of the hepatic portal vein'),
+    走向: e('在肝圓韌帶內向上，經鐮狀韌帶游離緣到達肝，注入肝門靜脈左支', 'Run upward in the round ligament along the free edge of the falciform ligament to the liver and enter the left branch of the hepatic portal vein'),
+    引流範圍: e('臍周前腹壁；與淺腹壁靜脈、下腹壁靜脈相通，門脈高壓時擴張，形成腹壁靜脈曲張（海蛇頭）', 'The anterior abdominal wall around the umbilicus; it communicates with the superficial and inferior epigastric veins and dilates in portal hypertension, producing visible abdominal wall veins (caput medusae)'),
+  },
+  'umbilical vein': {
+    來源: e('胎兒期由胎盤出發，在臍帶內攜帶含氧血進入胎兒體內', 'In the fetus it starts at the placenta and carries oxygenated blood through the umbilical cord into the body'),
+    走向: e('經臍進入腹壁，沿鐮狀韌帶游離緣上行到肝，通入肝門靜脈左支；一部分血液經靜脈導管直接入下腔靜脈。出生後閉鎖，成為肝圓韌帶', 'Enters the abdominal wall at the umbilicus, ascends along the free edge of the falciform ligament to the liver and joins the left branch of the portal vein; part of the blood bypasses the liver through the ductus venosus into the inferior vena cava. It closes after birth and becomes the round ligament of the liver'),
+    引流範圍: e('胎盤回流、含氧與營養的血液', 'Oxygenated, nutrient-rich blood returning from the placenta'),
+  },
+  'ductus venosus': {
+    來源: e('胎兒期位於肝門靜脈左支與下腔靜脈之間的短管，由肝內承接臍靜脈血液', 'In the fetus, a short channel inside the liver between the left branch of the portal vein and the inferior vena cava, receiving blood from the umbilical vein'),
+    走向: e('由肝門靜脈左支向後上走，經靜脈韌帶裂，注入下腔靜脈（接近肝靜脈開口處），讓一部分血液繞過肝竇隙；出生後閉鎖，成為靜脈韌帶', 'Runs backward and upward from the left portal vein through the fissure for the ligamentum venosum into the inferior vena cava near the hepatic vein openings, letting part of the blood bypass the liver sinusoids; it closes after birth and becomes the ligamentum venosum'),
+    引流範圍: e('胎兒由胎盤回流的血液（出生後閉鎖為靜脈韌帶）', 'Placental blood returning to the fetus (closing after birth to form the ligamentum venosum)'),
+  },
+  'superior rectal vein': {
+    來源: e('由直腸上部壁內的直腸內靜脈叢匯成', 'Formed from the internal rectal venous plexus in the wall of the upper rectum'),
+    走向: e('沿直腸上動脈上行，越過左總髂血管，續為下腸繫膜靜脈', 'Ascends with the superior rectal artery over the left common iliac vessels and continues as the inferior mesenteric vein'),
+    引流範圍: e('直腸上部與肛管上部，屬門靜脈系統；與中、下直腸靜脈在直腸壁相通，構成門體吻合', 'The upper rectum and upper anal canal, part of the portal system; it communicates in the rectal wall with the middle and inferior rectal veins, forming a portal-systemic anastomosis'),
+  },
+  'middle rectal veins': {
+    來源: e('由直腸中下部壁內的靜脈叢匯成，左右各一', 'Formed from venous plexuses in the wall of the middle and lower rectum, one on each side'),
+    走向: e('在骨盆內向外側走，注入內髂靜脈', 'Pass laterally in the pelvis and enter the internal iliac vein'),
+    引流範圍: e('直腸中下部，屬體靜脈（內髂靜脈系統）；與上直腸靜脈相通', 'The middle and lower rectum, part of the systemic (internal iliac) system; it communicates with the superior rectal vein'),
+  },
+  'inferior rectal veins': {
+    來源: e('由肛管下部與肛門括約肌周圍的靜脈匯成', 'Formed from veins of the lower anal canal and around the anal sphincters'),
+    走向: e('穿過坐骨肛門窩，注入內陰靜脈，再入內髂靜脈', 'Cross the ischioanal fossa and enter the internal pudendal vein, and then the internal iliac vein'),
+    引流範圍: e('肛管下部與肛門周圍，屬體靜脈；與中、上直腸靜脈相通', 'The lower anal canal and perianal region, part of the systemic system; it communicates with the middle and superior rectal veins'),
+  },
+  'esophageal vein': {
+    來源: e('食道壁內的黏膜下靜脈叢與食道周圍靜脈叢', 'Submucosal and periesophageal venous plexuses of the esophageal wall'),
+    走向: e('頸段注入下甲狀腺靜脈，胸段注入奇靜脈與半奇靜脈，腹段與下端注入左胃靜脈', 'The cervical part drains into the inferior thyroid vein, the thoracic part into the azygos and hemiazygos veins, and the abdominal part and lowest end into the left gastric vein'),
+    引流範圍: e('食道；下段是門靜脈與體靜脈的吻合處，門脈高壓時擴張成食道靜脈曲張，破裂可大出血', 'The esophagus; its lower part is a portal-systemic anastomosis, and in portal hypertension the veins dilate into esophageal varices that can bleed heavily'),
+  },
+  'superficial epigastric vein': {
+    來源: e('下腹壁皮下組織的淺靜脈', 'Superficial veins in the subcutaneous tissue of the lower abdominal wall'),
+    走向: e('在皮下向下走過腹股溝韌帶，注入大隱靜脈靠近隱靜脈裂孔處；向上與胸腹壁靜脈、臍周靜脈相通', 'Descends in the subcutaneous tissue across the inguinal ligament into the great saphenous vein near the saphenous opening; upward it communicates with the thoracoepigastric vein and the periumbilical veins'),
+    引流範圍: e('下腹壁的皮膚與皮下組織', 'The skin and subcutaneous tissue of the lower abdominal wall'),
+  },
+  'superior epigastric vein': {
+    來源: e('腹直肌上部及其鞘內的靜脈，與上腹壁動脈伴行', 'Veins of the upper rectus abdominis and its sheath, accompanying the superior epigastric artery'),
+    走向: e('在腹直肌後方、腹直肌鞘內向上走，注入內胸靜脈；在肌內與下腹壁靜脈相吻合', 'Ascends behind rectus abdominis within the rectus sheath into the internal thoracic vein, and anastomoses within the muscle with the inferior epigastric vein'),
+    引流範圍: e('上部腹直肌與上腹壁', 'The upper rectus abdominis and upper abdominal wall'),
+  },
+  'inferior epigastric vein': {
+    來源: e('腹直肌下部及其鞘內的靜脈，與下腹壁動脈伴行，常有兩條', 'Veins of the lower rectus abdominis and its sheath, accompanying the inferior epigastric artery, often as two companion veins'),
+    走向: e('在腹直肌後方向外下走，於腹股溝韌帶上方注入外髂靜脈；在肌內與上腹壁靜脈相吻合', 'Runs downward and laterally behind rectus abdominis and enters the external iliac vein just above the inguinal ligament; it anastomoses within the muscle with the superior epigastric vein'),
+    引流範圍: e('下部腹直肌與下腹壁，並與臍周靜脈相通', 'The lower rectus abdominis and lower abdominal wall, communicating with the periumbilical veins'),
+  },
+  'superficial circumflex iliac vein': {
+    來源: e('腹股溝外側與前上髂棘區皮下的淺靜脈', 'Superficial veins of the subcutaneous tissue of the lateral groin and the anterior superior iliac spine region'),
+    走向: e('沿腹股溝韌帶下方向內走，注入大隱靜脈近隱靜脈裂孔處', 'Runs medially below the inguinal ligament and enters the great saphenous vein near the saphenous opening'),
+    引流範圍: e('下腹壁外側與髂部的皮膚與皮下組織', 'The skin and subcutaneous tissue of the lateral lower abdominal wall and iliac region'),
+  },
+  'deep circumflex iliac vein': {
+    來源: e('髂脊附近腹壁肌肉的深靜脈，與深旋髂動脈伴行，常有兩條', 'Deep veins of the abdominal wall muscles near the iliac crest, accompanying the deep circumflex iliac artery, often as two companion veins'),
+    走向: e('沿腹股溝韌帶外側、髂脊內側向內走，在下腹壁靜脈起點附近注入外髂靜脈', 'Runs medially along the lateral part of the inguinal ligament and inside the iliac crest, entering the external iliac vein near the origin of the inferior epigastric vein'),
+    引流範圍: e('髂脊附近的腹壁肌肉與髂部', 'The abdominal wall muscles near the iliac crest and the iliac region'),
+  },
+  'thoracoepigastric vein': {
+    來源: e('軀幹外側皮下的縱向淺靜脈，下端連淺腹壁靜脈，上端連外胸靜脈', 'A longitudinal superficial vein of the lateral trunk linking the superficial epigastric vein below with the lateral thoracic vein above'),
+    走向: e('在胸腹壁外側皮下垂直走行，一端藉外胸靜脈通腋靜脈，另一端藉淺腹壁靜脈經大隱靜脈通股靜脈', 'Runs vertically in the subcutaneous tissue of the side of the chest and abdomen, joining the axillary vein through the lateral thoracic vein and, below, the femoral vein through the superficial epigastric vein and great saphenous vein'),
+    引流範圍: e('軀幹外側的皮膚與皮下組織；上、下腔靜脈之一阻塞時成為重要側支通路', 'The skin and subcutaneous tissue of the side of the trunk; it becomes an important collateral route if the superior or inferior vena cava is obstructed'),
+  },
+  'internal thoracic vein': {
+    來源: e('胸前壁肋間前靜脈與上腹壁靜脈等匯成，與內胸動脈伴行，下部常為兩條', 'Formed from the anterior intercostal veins and the superior epigastric vein among others, accompanying the internal thoracic artery, often as two companion veins in its lower part'),
+    走向: e('沿胸骨外側、肋軟骨後方向上行，往上合成一條，在第一肋軟骨高度注入頭臂靜脈', 'Ascends behind the costal cartilages beside the sternum, merges into a single vein above and enters the brachiocephalic vein at the level of the first costal cartilage'),
+    主要分支: e('肋間前靜脈、上腹壁靜脈、心包膈靜脈與胸腺、縱隔的小靜脈', 'Anterior intercostal veins, the superior epigastric vein, the pericardiacophrenic vein and small thymic and mediastinal veins'),
+    引流範圍: e('胸前壁與乳房內側，並藉上腹壁靜脈與腹前壁上部相連', 'The anterior chest wall and medial breast, and, through the superior epigastric vein, the upper anterior abdominal wall'),
+  },
+  'lateral thoracic vein': {
+    來源: e('胸外側壁與乳房外側部的靜脈，與胸外側動脈伴行', 'Veins of the lateral chest wall and lateral breast, accompanying the lateral thoracic artery'),
+    走向: e('沿胸小肌外側緣上行，注入腋靜脈', 'Ascends along the lateral border of pectoralis minor and enters the axillary vein'),
+    引流範圍: e('胸外側壁、前鋸肌與乳房外側部；下方與胸腹壁靜脈相連', 'The lateral chest wall, serratus anterior and lateral breast; it is connected below with the thoracoepigastric vein'),
+  },
+  'portal-systemic anastomoses': {
+    來源: e('門靜脈系統（引流消化道）與體靜脈系統（上、下腔靜脈）在若干部位的相通處，平時血流量小，門脈血流受阻時成為側支通路', 'Sites where the portal system (draining the gut) communicates with the systemic system (superior and inferior vena cava); normally small, they become collateral routes when portal flow is obstructed'),
+    走向: e('主要有四處：食道下段（左胃靜脈與奇靜脈；擴張成食道與胃底靜脈曲張）、直腸肛管（上直腸靜脈與中、下直腸靜脈；擴張成痔）、臍周（臍旁靜脈與上、下腹壁靜脈；擴張時成腹壁「海蛇頭」）、腹膜後與肝裸區（結腸後方小靜脈與腹後壁靜脈，肝裸區與膈靜脈）', 'There are four main sites: the lower esophagus (left gastric and azygos veins; dilating as esophageal and gastric varices), the rectum and anal canal (superior rectal with middle and inferior rectal veins; dilating as hemorrhoids), the umbilical region (paraumbilical with superior and inferior epigastric veins; dilating as caput medusae) and the retroperitoneum and bare area of the liver (small retrocolic veins with posterior abdominal wall veins, and the bare area with phrenic veins)'),
+    主要分支: e('門靜脈側：左胃靜脈、上直腸靜脈、臍旁靜脈、結腸後小靜脈；體靜脈側：奇靜脈與半奇靜脈、中與下直腸靜脈（入內髂靜脈）、淺與下腹壁靜脈、腰靜脈與腹後壁靜脈', 'Portal side: left gastric, superior rectal, paraumbilical and retrocolic veins; systemic side: azygos and hemiazygos veins, middle and inferior rectal veins (to the internal iliac vein), superficial and inferior epigastric veins, and lumbar and posterior abdominal wall veins'),
+    引流範圍: e('分流的血流：門脈血流受阻時，門靜脈系統的血液改由體靜脈回心', 'The diverted flow: when portal flow is obstructed, blood of the portal system returns to the heart through systemic veins'),
+  },
+});
+// ===== AB-A3 end =====

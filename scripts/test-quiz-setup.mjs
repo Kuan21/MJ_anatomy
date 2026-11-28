@@ -76,6 +76,6 @@ try {
 } finally { delete QUIZ_REGIONS[FAKE]; }
 const page = fs.readFileSync(path.join(root, 'app/quiz/setup-page.tsx'), 'utf8');
 const parts = fs.readFileSync(path.join(root, 'app/quiz/setup-parts.tsx'), 'utf8');
-assert.ok(parts.includes('orderedRegions()') && !/'head-neck'|'upper-limb'|'lower-limb'/.test(page + parts), 'the setup page names no region');
+assert.ok(parts.includes('regionGroups()') && !/'head-neck'|'upper-limb'|'lower-limb'/.test(page + parts), 'the setup page names no region');
 assert.ok(!/共筆|筆記|跑考摘要|課堂/.test(page + fs.readFileSync(path.join(root, 'app/quiz/run.tsx'), 'utf8')));
 console.log(`Quiz setup passed: count split, remembered setup, multi-section pools (${shoulder}+${arm} -> ${both}), plan blocks, a region added to the data is offered.`);

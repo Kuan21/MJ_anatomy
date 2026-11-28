@@ -76,8 +76,8 @@ assert.equal(lay('Auricle').layer, 'auricle'); assert.equal(lay('Tympanic membra
 assert.ok(catalogue.structures.every(s => s.layer && s.layer === earLayerOf(byName.get(s.name).id, byName.get(s.name).group)));
 assert.ok(coversEarTarget(lay('Utricle'), lay('Auricle')) && coversEarTarget(lay('Utricle'), lay('Malleus')) && coversEarTarget(lay('Utricle'), lay('Vestibule')) && coversEarTarget(lay('Malleus'), lay('Tympanic membrane')));
 assert.ok(!coversEarTarget(lay('Auricle'), lay('Utricle')) && !coversEarTarget(lay('Malleus'), lay('Incus')) && !coversEarTarget(lay('Malleus'), lay('Facial nerve (intratemporal part)')) && !coversEarTarget(lay('Vestibule'), lay('Scala vestibuli')));
-// the setup and learning pages list the regions of the data, so the ear shows up there; it follows the brain
+// the setup and learning pages list the regions of the data, so the ear shows up there; the order is brain, eye, ear
 const {orderedRegions} = await quizModule('app/quiz/catalogue.ts');
 const order = orderedRegions().map(r => r.id);
-assert.equal(order[order.indexOf('brain') + 1], 'ear');
+assert.equal(order[order.indexOf('eye') + 1], 'ear');
 console.log(`Ear quiz passed: ${catalogue.structures.length} structures in 5 sections; ${report.excluded.length} excluded with a documented reason (no mesh, schematic tube, patch on a bone); cards, names, levels and lessons consistent.`);
