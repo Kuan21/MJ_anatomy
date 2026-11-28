@@ -9,8 +9,7 @@ export class SideLabels {
   private svg: SVGSVGElement;
   private items = new Map<string, Item>();
   /** `overlay` covers the whole stage (gutters and canvas); `left` and `right` are the gutters, `canvas` the element the 3D picture is drawn in. */
-  /** `avoid` (optional) gives the left and right edge, in canvas pixels, of the part of the picture that moves: each label then goes to the gutter whose leader crosses less of it. */
-  constructor(private overlay: HTMLElement, private left: HTMLElement, private right: HTMLElement, private canvas: HTMLElement, private avoid?: () => {left: number; right: number} | null) {
+  constructor(private overlay: HTMLElement, private left: HTMLElement, private right: HTMLElement, private canvas: HTMLElement) {
     this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); this.svg.setAttribute('class', 'swallow-leaders');
     overlay.appendChild(this.svg);
   }
@@ -32,17 +31,14 @@ export class SideLabels {
   /** `project` turns a world point into canvas pixels (or null behind the camera). */
   update(project: (p: T.Vector3) => {x: number; y: number} | null) {
     const o = this.overlay.getBoundingClientRect(), c = this.canvas.getBoundingClientRect(), l = this.left.getBoundingClientRect(), r = this.right.getBoundingClientRect();
-    const cx = c.left - o.left, cy = c.top - o.top, zone = this.avoid?.() ?? null;
+    const cx = c.left - o.left, cy = c.top - o.top;
     const placed: {side: 'l' | 'r'; y: number; h: number; w: number; px: number; py: number; item: Item}[] = [];
     for (const item of this.items.values()) {
       const world = item.spec.at(), p = world && project(world);
       const show = !!p && p.x >= 0 && p.x <= c.width && p.y >= 0 && p.y <= c.height;
       item.box.style.display = item.line.style.display = item.dot.style.display = show ? '' : 'none';
       if (!show || !p) continue;
-      // the gutter whose leader runs over less of the moving part; without one, the gutter on the point's own half
-      let side: 'l' | 'r' = p.x < c.width / 2 ? 'l' : 'r';
-      if (zone) {const toLeft = Math.max(0, Math.min(p.x, zone.right) - zone.left), toRight = Math.max(0, zone.right - Math.max(p.x, zone.left)); if (Math.abs(toLeft - toRight) > 2) side = toLeft < toRight ? 'l' : 'r';}
-      const w = side === 'l' ? l.width - 8 : r.width - 8;
+      const side = p.x < c.width / 2 ? 'l' : 'r', w = side === 'l' ? l.width - 8 : r.width - 8;
       item.box.style.width = `${Math.max(60, w)}px`;
       placed.push({side, y: 0, h: item.box.offsetHeight || 34, w, px: cx + p.x, py: cy + p.y, item});
     }

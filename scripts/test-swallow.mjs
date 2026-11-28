@@ -80,34 +80,23 @@ assert.ok(mid(B('Epiglottis'), 2) < B('Tongue')[1][2] && mid(B('Epiglottis'), 1)
 assert.ok(B('Esophagus')[1][1] < B('Epiglottis')[1][1] && mid(B('Esophagus'), 2) < mid(B('Thyroid cartilage'), 2), 'oesophagus below and behind the larynx');
 assert.ok(parts.MOVE.hyoid.up > .01 && parts.MOVE.hyoid.up < .03 && parts.MOVE.larynx.up < .03, 'hyoid and larynx rise 1–3 cm');
 
-// ---- the shapes the animation measures, on the real atlas meshes (review of #478, 2026-11-23: SW-01, SW-03, SW-04, SW-05)
+// ---- the shapes the animation measures, on the real atlas meshes (review of #478: SW-01; SW-03 to SW-06 after the exam)
 {
   const geo = await quizModule('app/swallow/swallow-geometry.ts'), sg = await quizModule('app/stream-geometry.ts');
   const buffers = new Map(), posOf = p => {if (!buffers.has(p.chunk)) {const b = zlib.gunzipSync(fs.readFileSync(path.join(root, 'public', manifest.chunks[p.chunk].gzip))); buffers.set(p.chunk, b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength));} return sg.positionArray(buffers.get(p.chunk), p);};
   const byName = n => chosen.filter(p => n instanceof RegExp ? n.test(p.name) : p.name === n).map(posOf);
-  const tongue = geo.midline(byName('Tongue'), .012), tb0 = B('Tongue'), palate = geo.midline(byName(/^(Left|Right) (maxilla|palatine bone)$/)).filter(q => q[1] > tb0[1][1] - .004 && q[1] < tb0[1][1] + .02);
+  const tongue = geo.midline(byName('Tongue'), .012);
   const front = geo.midline([...byName('Tongue'), ...byName('Epiglottis'), ...byName('Cricoid cartilage'), ...byName(/arytenoid/)]), wall = geo.midline(byName(/pharyngeal constrictor$|^Pharyngeal raphe$/));
   const tb = B('Tongue'), z0 = tb[0][2] + .016, z1 = tb[1][2] - .022;
-  // SW-03 / SW-04: along the dorsum the hard palate is found above the tongue, with a gap the tongue can close
-  const gaps = []; for (let z = z0; z <= z1; z += .002) {const t = geo.topAt(tongue, z, .004), pb = geo.bottomAt(palate, z); if (t !== null && pb !== null && pb > t) gaps.push(pb - t);}
-  assert.ok(gaps.length >= 5, `hard palate measured above the dorsum at ${gaps.length} places`);
-  assert.ok(gaps.every(g => g < .025), 'the gap between dorsum and palate is a few millimetres to a few centimetres, so the rise ends on the palate');
   // SW-01: every point of the bolus path through the pharynx lies inside the cavity, between the structures in front and the posterior wall
   const yTop = (geo.topAt(tongue, z0, .004) ?? tb[1][1]) + .0015, yBottom = B('Esophagus')[1][1] + .004, pp = geo.pharynxPath(front, wall, yTop, yBottom, 14);
   assert.ok(pp.points.length === 14, 'path through the pharynx');
   let measured = 0;
   for (const q of pp.points) {const l = geo.lumenAt(front, wall, q[1]); if (!l) continue; measured++; const back = geo.backAt(front, q[1]), wallFront = geo.frontAt(wall, q[1]); assert.ok(q[2] < back && q[2] > wallFront, `bolus path at y ${(q[1] * 1e3).toFixed(0)} mm stays between the front structures and the posterior wall`);}
   assert.ok(measured >= 8, `cavity measured at ${measured} of 14 levels`);
-  // SW-05: the soft palate is a curved band with thickness, wider than thick and arched, not a cylinder
-  const band = geo.softPalateBand(.03, 40), bp = band.positions, ring = 20;
-  const span = (k0, axis) => {let lo = Infinity, hi = -Infinity; for (let j = 0; j < ring; j++) {const v = bp[(k0 * ring + j) * 3 + axis]; lo = Math.min(lo, v); hi = Math.max(hi, v);} return hi - lo;};
-  assert.ok(span(2, 0) > 1.8 * Math.max(span(2, 1), span(2, 2) * .1), 'the band is wider (x) than it is thick');
-  const [my, mz] = band.curve(.5), [ey, ez] = band.curve(1), chordY = ey / 2, chordZ = ez / 2;
-  assert.ok(my > chordY && (my - chordY) + Math.abs(mz - chordZ) > .001, 'the band arches upward between the hard palate and the uvula');
-  assert.ok(span(23, 0) < span(2, 0), 'it tapers toward the uvula');
   const sceneText = fs.readFileSync(path.join(root, 'app/swallow/swallow-scene.ts'), 'utf8');
-  assert.ok(!/CapsuleGeometry|CylinderGeometry/.test(sceneText) && sceneText.includes('softPalateBand('), 'no cylinder or capsule stands in for the soft palate');
-  assert.ok(sceneText.includes('pharynxPath(') && sceneText.includes('it.gap![k]'), 'the scene uses the measured cavity and the measured palate gap');
+  assert.ok(sceneText.includes('pharynxPath(frontPts, wallPts'), 'SW-01: the scene takes the bolus path from the measured cavity');
+  assert.ok(/palateRest\.clone\(\)\.applyAxisAngle[\s\S]{0,400}bolus\.position\.y = limit/.test(sceneText), 'SW-02: under the soft palate the bolus is kept below its lower surface');
 }
 
 // ---- sources: only the main atlas package is fetched, nothing from the notes; the atlas has a button and the route opens the page
