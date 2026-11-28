@@ -938,42 +938,33 @@
 - 乙狀結腸動脈（Sigmoid artery）：缺 來源、走向、主要分支、供應範圍
 - 淺旋髂動脈（superficial circumflex iliac artery）：缺 來源、走向、主要分支、供應範圍
 
-### 靜脈：0 / 34 項資料完整
+### 靜脈：9 / 34 項資料完整
 
-- 肝門靜脈（Hepatic portal vein）：缺 來源、走向、主要分支、引流範圍
 - 左門靜脈（Left portal vein）：缺 來源、走向、主要分支、引流範圍
 - 右門靜脈（Right portal vein）：缺 來源、走向、主要分支、引流範圍
 - 肋下靜脈（subcostal vein）：缺 來源、主要分支
-- 淺腹壁靜脈（superficial epigastric vein）：缺 來源、走向、主要分支、引流範圍
+- 淺腹壁靜脈（superficial epigastric vein）：缺 主要分支
 - 中肝靜脈（Middle hepatic vein）：缺 來源、走向、主要分支、引流範圍
-- 左肝靜脈（Left hepatic vein）：缺 來源、走向、主要分支、引流範圍
-- 右肝靜脈（Right hepatic vein）：缺 來源、走向、主要分支、引流範圍
+- 左肝靜脈（Left hepatic vein）：缺 主要分支
+- 右肝靜脈（Right hepatic vein）：缺 主要分支
 - 左結腸靜脈（Left colic vein）：缺 來源、走向、主要分支、引流範圍
 - 迴結腸靜脈（Ileocolic vein）：缺 來源、走向、主要分支、引流範圍
 - 迴腸靜脈（Ileal vein）：缺 來源、走向、主要分支、引流範圍
-- 下腔靜脈（Inferior vena cava）：缺 來源、走向、主要分支、引流範圍
-- 下腸繫膜靜脈（Inferior mesenteric vein）：缺 來源、走向、主要分支、引流範圍
-- 下膈靜脈（Inferior phrenic vein）：缺 來源、走向、主要分支、引流範圍
-- 總髂靜脈（common iliac vein）：缺 來源、走向、主要分支、引流範圍
-- 腎靜脈（renal vein）：缺 來源、走向、主要分支、引流範圍
-- 腎上腺靜脈（suprarenal vein）：缺 來源、走向、主要分支、引流範圍
+- 下膈靜脈（Inferior phrenic vein）：缺 主要分支
+- 腎上腺靜脈（suprarenal vein）：缺 主要分支
 - 升腰靜脈（ascending lumbar vein）：缺 主要分支
-- 左胃靜脈（Left gastric vein）：缺 來源、走向、主要分支、引流範圍
 - 左胃網膜靜脈（Left gastroepiploic vein）：缺 來源、走向、主要分支、引流範圍
-- 髂腰靜脈（iliolumbar vein）：缺 來源、走向、主要分支、引流範圍
-- 下腹壁靜脈（inferior epigastric vein）：缺 來源、走向、主要分支、引流範圍
-- 上腹壁靜脈（superior epigastric vein）：缺 來源、走向、主要分支、引流範圍
-- 睪丸靜脈（testicular vein）：缺 來源、走向、主要分支、引流範圍
-- 正中薦靜脈（Median sacral vein）：缺 來源、走向、主要分支、引流範圍
+- 髂腰靜脈（iliolumbar vein）：缺 主要分支
+- 下腹壁靜脈（inferior epigastric vein）：缺 主要分支
+- 上腹壁靜脈（superior epigastric vein）：缺 主要分支
+- 正中薦靜脈（Median sacral vein）：缺 主要分支
 - 中結腸靜脈（Middle colic vein）：缺 來源、走向、主要分支、引流範圍
 - 胰十二指腸靜脈（Pancreaticoduodenal vein）：缺 來源、走向、主要分支、引流範圍
 - 右結腸靜脈（Right colic vein）：缺 來源、走向、主要分支、引流範圍
-- 右胃靜脈（Right gastric vein）：缺 來源、走向、主要分支、引流範圍
+- 右胃靜脈（Right gastric vein）：缺 主要分支
 - 右胃網膜靜脈（Right gastroepiploic vein）：缺 來源、走向、主要分支、引流範圍
 - 腰靜脈（Lumbar vein）：缺 來源、走向、主要分支、引流範圍
 - 乙狀結腸靜脈（Sigmoid vein）：缺 來源、走向、主要分支、引流範圍
-- 脾靜脈（Splenic vein）：缺 來源、走向、主要分支、引流範圍
-- 上腸繫膜靜脈（Superior mesenteric vein）：缺 來源、走向、主要分支、引流範圍
 
 ### 腹盆器官構造：11 / 30 項資料完整
 
