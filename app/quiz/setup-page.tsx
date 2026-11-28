@@ -51,8 +51,8 @@ export default function QuizSetupPage() {
         <div className="quiz-setup-options" aria-label="作答方式與設定">
         <fieldset><legend><b>01</b> 作答方式</legend>
           <div className="quiz-level-grid">
-            <button type="button" data-slot="quiz-button" data-level="1" aria-pressed={setup.level === 1} onClick={() => update({level: 1})}><span><b>看名稱找結構</b>在模型上點出答案<small>Level 1 · name → structure</small></span>{setup.level === 1 && <Check size={17}/>}</button>
-            <button type="button" data-slot="quiz-button" data-level="3" aria-pressed={setup.level === 3} onClick={() => update({level: 3})}><span><b>看結構寫名稱</b>輸入英文或中文名稱<small>Level 2 · structure → name</small></span>{setup.level === 3 && <Check size={17}/>}</button>
+            <button type="button" data-slot="quiz-button" data-level="1" aria-pressed={setup.level === 1} onClick={() => update({level: 1})}><span className="quiz-level-copy"><b>看名稱找結構</b><span>在模型上點出答案</span><small>Level 1 · name → structure</small></span>{setup.level === 1 && <Check size={17}/>}</button>
+            <button type="button" data-slot="quiz-button" data-level="3" aria-pressed={setup.level === 3} onClick={() => update({level: 3})}><span className="quiz-level-copy"><b>看結構寫名稱</b><span>輸入英文或中文名稱</span><small>Level 2 · structure → name</small></span>{setup.level === 3 && <Check size={17}/>}</button>
           </div>
         </fieldset>
         <div className="quiz-options-row">

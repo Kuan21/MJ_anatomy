@@ -1,8 +1,8 @@
 // Stomach detail package. No external model: the BodyParts3D stomach (public/models/atlas.json, CC BY 4.0, already in the repository) is subdivided for a smooth surface and
 // its regions are marked on that surface (triangle labels, no new meshes). The abdominal oesophagus and the first part of the duodenum come from the same atlas as context.
 //   zone channel : 1 cardia, 2 fundus, 3 body, 4 pyloric antrum, 5 pyloric canal      (a partition of the stomach surface)
-//   line channel : 1 lesser curvature, 2 greater curvature, 3 angular incisure, 4 pyloric sphincter band, 5 cardial notch (strips and patches laid over the zones)
-import {weld, loopSubdivide, graphOf, dijkstra, compact, clipPlane, distToPolyline, smoothPolyline, vertexNormals} from '../lib/organ-mesh.mjs';
+//   line channel : 1 lesser curvature, 2 greater curvature, 3 angular incisure, 5 cardial notch (thin term lines, see below), 4 pyloric sphincter band (6, 7: overlaps)
+import {weld, loopSubdivide, graphOf, dijkstra, compact, clipPlane, distToPolyline, smoothPolyline} from '../lib/organ-mesh.mjs';
 import {buildSupply} from './stomach-supply.mjs';
 
 export const id = 'stomach';
@@ -55,10 +55,7 @@ export function build({atlasPart, nervePart, paokaoPart, writer}) {
   const lineOf = new Uint8Array(n);
   const stripLine = (path, r, label) => { const poly = smoothPolyline(path.map(pos), 4, 3); for (let v = 0; v < n; v++) if (distToPolyline(pos(v), poly) <= r) lineOf[v] = label; };
   // the two curvatures are their own thin bands (below), not triangle labels: a band cut along a smooth line of equal distance has a smooth edge, a run of whole triangles does not
-  for (let v = 0; v < n; v++) { const p = pos(v); if (D(p, ai) <= .0065) lineOf[v] = 3; const along = dot(pylorusP, canalAxis, p); if (zoneOf[v] >= 4 && along >= 0 && along <= sphincterLen) lineOf[v] = 4; }
-  // cardial notch: the angle between the oesophagus and the fundus, on the side of the cardia that faces away from the lesser curvature
-  const notchV = (() => { let far = c0, fd = -1; for (let v = 0; v < n; v++) if (zoneOf[v] === 1 && dl.dist[v] > fd) { fd = dl.dist[v]; far = v; } return far; })();
-  for (let v = 0; v < n; v++) if (D(pos(v), pos(notchV)) <= .0075) lineOf[v] = 5;
+  for (let v = 0; v < n; v++) { const p = pos(v); const along = dot(pylorusP, canalAxis, p); if (zoneOf[v] >= 4 && along >= 0 && along <= sphincterLen) lineOf[v] = 4; }
   // triangle labels: a triangle takes the zone of most of its corners, and a line label when two corners carry it
   const nt = s.indices.length / 3, triZone = new Uint8Array(nt), triLine = new Uint8Array(nt);
   for (let t = 0; t < nt; t++) {
@@ -68,18 +65,26 @@ export function build({atlasPart, nervePart, paokaoPart, writer}) {
   }
   const stats = {vertices: n, triangles: nt, lesserLenMm: +(lesserLen * 1000).toFixed(1), greaterVertices: greater.length, incisureArcFraction: +(arc[incisure] / lesserLen).toFixed(2), turnDeg: +(bestTurn * 180 / Math.PI).toFixed(0),
     zone: Object.fromEntries([1, 2, 3, 4, 5].map(z => [z, [...triZone].filter(x => x === z).length])), line: Object.fromEntries([1, 2, 3, 4, 5].map(z => [z, [...triLine].filter(x => x === z).length]))};
-  const part = writer.addMesh('Stomach', s.positions, s.indices, {});
-  part.triZone = writer.addBytes(triZone); part.triLine = writer.addBytes(triLine);
+  // Position terms (the curvatures, the angular incisure and the cardial notch) are not structures of their own: they are thin lines (1.5 mm) on the stomach surface itself, along the
+  // smoothed curvature, shown only when chosen (OrganPartDef.term). The surface is split along the two lines of equal distance on either side of each curve, so a line has smooth
+  // edges and is a set of the stomach's own triangles. Labels that overlap share a value: 1 lesser curvature, 3 its stretch at the angular incisure, 2 greater curvature, 5 its
+  // stretch at the cardial notch, 4 pyloric sphincter, 6 lesser curvature over the sphincter, 7 greater curvature over the sphincter.
+  const W = .0015, lessPoly = smoothPolyline(lesser.map(pos), 4, 3), greatPoly = smoothPolyline(greater.map(pos), 4, 3);
+  const incSeg = lessPoly.filter(p => D(p, ai) <= .006), notchSeg = (() => { const out = [greatPoly[0]]; let acc = 0; for (let i = 1; i < greatPoly.length && acc < .012; i++) { acc += D(greatPoly[i], greatPoly[i - 1]); out.push(greatPoly[i]); } return out; })();
+  let mesh = {positions: s.positions, indices: s.indices, zone: triZone, line: triLine};
+  for (const poly of [lessPoly, greatPoly]) mesh = splitByField(mesh, p => W / 2 - distToPolyline(p, poly));
+  const tc = t => [0, 1, 2].map(k => (mesh.positions[mesh.indices[t * 3] * 3 + k] + mesh.positions[mesh.indices[t * 3 + 1] * 3 + k] + mesh.positions[mesh.indices[t * 3 + 2] * 3 + k]) / 3);
+  for (let t = 0; t < mesh.indices.length / 3; t++) {
+    const c = tc(t), onLess = distToPolyline(c, lessPoly) < W / 2, onGreat = !onLess && distToPolyline(c, greatPoly) < W / 2, sph = mesh.line[t] === 4;
+    if (onLess) mesh.line[t] = sph ? 6 : incSeg.length > 1 && distToPolyline(c, incSeg) < W / 2 ? 3 : 1;
+    else if (onGreat) mesh.line[t] = sph ? 7 : distToPolyline(c, notchSeg) < W / 2 ? 5 : 2;
+    else if (mesh.line[t] !== 4) mesh.line[t] = 0;
+  }
+  const part = writer.addMesh('Stomach', mesh.positions, mesh.indices, {});
+  part.triZone = writer.addBytes(mesh.zone); part.triLine = writer.addBytes(mesh.line);
+  stats.termLine = Object.fromEntries([1, 2, 3, 5, 6, 7].map(l => [l, mesh.line.reduce((a, x) => a + (x === l), 0)]));
   // context: the abdominal oesophagus (plus a short stretch above the diaphragm) and the first part of the duodenum, each cut straight with a plane
   const e1 = loopSubdivide(eso.positions, eso.indices, 1), e2 = clipPlane(e1.positions, e1.indices, [0, 1, 0], cardiaPt[1] + .14);
-  // curvature bands: the stomach surface within BAND of the (smoothed) curvature, cut along the line of equal distance and lifted 0.8 mm out of the surface (the zone colours are drawn with a polygon offset; a smaller lift lets them cover the band in grazing views)
-  const BAND = .0014, LIFT = .0008, sn = vertexNormals(s.positions, s.indices);
-  for (const [key, path] of [['Lesser curvature', lesser], ['Greater curvature', greater]]) {
-    const poly = smoothPolyline(path.map(pos), 4, 3), f = Float64Array.from({length: n}, (_, v) => BAND - distToPolyline(pos(v), poly));
-    const band = fieldClip(s.positions, s.indices, f);
-    for (let v = 0; v < band.positions.length / 3; v++) { const src = band.from[v]; for (let k = 0; k < 3; k++) band.positions[v * 3 + k] += LIFT * (sn[src[0] * 3 + k] * (1 - src[2]) + sn[src[1] * 3 + k] * src[2]); }
-    writer.addMesh(key, band.positions, band.indices);
-  }
   writer.addMesh('Esophagus', e2.positions, e2.indices);
   const d1 = loopSubdivide(duo.positions, duo.indices, 1), dn = []; for (let v = 0; v < d1.positions.length / 3; v++) if (D(pt(d1, v), pylorusPt) < .04) dn.push(v);
   const dc = [0, 1, 2].map(k => dn.reduce((t, v) => t + pt(d1, v)[k], 0) / dn.length), du = dc.map((x, k) => x - pylorusPt[k]), dul = Math.hypot(...du), u = du.map(x => x / dul);
@@ -90,19 +95,20 @@ export function build({atlasPart, nervePart, paokaoPart, writer}) {
 }
 
 /**
- * The part of a mesh where the per-vertex field f is >= 0, the triangles crossing the zero level cut along it (linear along each edge), so the border is a smooth line.
- * Returns positions, indices and, for every output vertex, the source edge [a, b, t] it lies on (a = b for a source vertex), so normals can be carried over.
+ * Splits the triangles of a mesh that cross the zero level of a field (fOf: position -> value) along that level (linear along each edge), keeping both sides; each new triangle keeps
+ * the zone and line labels of the triangle it comes from. Shared edges are cut once, so the mesh stays watertight.
  */
-function fieldClip(P, I, f) {
-  const out = [], from = [], map = new Map(), edge = new Map(), idx = [];
-  const vert = v => { if (!map.has(v)) { map.set(v, out.length / 3); out.push(P[v * 3], P[v * 3 + 1], P[v * 3 + 2]); from.push([v, v, 0]); } return map.get(v); };
-  const cut = (a, b) => { const k = a < b ? `${a}_${b}` : `${b}_${a}`; if (edge.has(k)) return edge.get(k); const t = f[a] / (f[a] - f[b]), i = out.length / 3;
-    for (let c = 0; c < 3; c++) out.push(P[a * 3 + c] + (P[b * 3 + c] - P[a * 3 + c]) * t); from.push([a, b, t]); edge.set(k, i); return i; };
-  for (let t = 0; t < I.length; t += 3) {
-    const tri = [I[t], I[t + 1], I[t + 2]], inside = tri.map(v => f[v] >= 0), k = inside.filter(Boolean).length;
-    if (k === 3) idx.push(...tri.map(vert));
-    else if (k === 1) { const i = inside.indexOf(true), a = tri[i], b = tri[(i + 1) % 3], c = tri[(i + 2) % 3]; idx.push(vert(a), cut(a, b), cut(a, c)); }
-    else if (k === 2) { const o = inside.indexOf(false), a = tri[o], b = tri[(o + 1) % 3], c = tri[(o + 2) % 3]; const ab = cut(b, a), ca = cut(c, a); idx.push(vert(b), vert(c), ca, vert(b), ca, ab); }
+function splitByField({positions: P, indices: I, zone, line}, fOf) {
+  const pos = Array.from(P), f = [], edge = new Map(), idx = [], z = [], l = [];
+  for (let v = 0; v < P.length / 3; v++) f.push(fOf([P[v * 3], P[v * 3 + 1], P[v * 3 + 2]]));
+  const cut = (a, b) => { const k = a < b ? `${a}_${b}` : `${b}_${a}`; if (edge.has(k)) return edge.get(k); const t = f[a] / (f[a] - f[b]), i = pos.length / 3;
+    for (let c = 0; c < 3; c++) pos.push(pos[a * 3 + c] + (pos[b * 3 + c] - pos[a * 3 + c]) * t); f.push(0); edge.set(k, i); return i; };
+  for (let t = 0; t < I.length / 3; t++) {
+    const tri = [I[t * 3], I[t * 3 + 1], I[t * 3 + 2]], s = tri.map(v => f[v] >= 0), push = (a, b, c) => { idx.push(a, b, c); z.push(zone[t]); l.push(line[t]); };
+    if (s[0] === s[1] && s[1] === s[2]) { push(...tri); continue; }
+    // the corner on its own side, then the other two in order (keeps the winding)
+    const k = s[0] !== s[1] && s[0] !== s[2] ? 0 : s[1] !== s[0] && s[1] !== s[2] ? 1 : 2, L = tri[k], M = tri[(k + 1) % 3], N = tri[(k + 2) % 3], pM = cut(L, M), pN = cut(L, N);
+    push(L, pM, pN); push(pM, M, N); push(pM, N, pN);
   }
-  return {positions: Float32Array.from(out), indices: Uint32Array.from(idx), from};
+  return {positions: Float32Array.from(pos), indices: Uint32Array.from(idx), zone: Uint8Array.from(z), line: Uint8Array.from(l)};
 }
