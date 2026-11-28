@@ -7,7 +7,7 @@ import {displaceAlong, grooveLine, resampleByArc, sampleAtHeight} from '../lib/r
 const SIDES = [{w: 'Right', l: 'right', sx: -1, zh: '右', s: 'r'}, {w: 'Left', l: 'left', sx: 1, zh: '左', s: 'l'}];
 
 export default function thoraxNerves(U) {
-  const out = [], P = (x, y, z) => [x, y, z];
+  const out = [], P = (x, y, z) => [x, y, z], G = {};
   const axis = (name, y, near) => U.axisAt(name, y, near, .002);
   for (const S of SIDES) {
     const trunk = `Sympathetic trunk.${S.s}`;
@@ -85,6 +85,7 @@ export default function thoraxNerves(U) {
       const bodyZ = y => (y > 1.2 ? vert('Eleventh thoracic vertebra')[2] : vert('Twelfth thoracic vertebra')[2]) - .003;
       const celiac = axis('Celiac artery', 1.160, P(.006, 1.16, .02)), sma = axis('Superior mesenteric artery', 1.128, P(0, 1.128, .03)), renal = axis(`${S.w} renal artery`, 1.114, P(S.sx * .02, 1.115, .005));
       const gCeliac = add(celiac, P(S.sx * .0115, .001, -.003)), gAort = add(renal, P(S.sx * -.021, .008, .012)), gSma = add(sma, P(S.sx * .0065, .004, -.004)), gRenal = add(renal, P(S.sx * .016, .0, .0));
+      G[S.s] = {celiac: gCeliac, sma: gSma};
       const at = (y) => { const t = axis(trunk, y, P(S.sx * .016, y, -.05)); return t; };
       const greater = [at(1.292), add(at(1.250), P(S.sx * -.003, 0, .006)), P(S.sx * .0155, 1.205, bodyZ(1.2)), P(S.sx * .0140, 1.180, bodyZ(1.2) + .003), gCeliac];
       const lesser = [at(1.215), add(at(1.190), P(S.sx * -.003, 0, .006)), P(S.sx * .0150, 1.165, bodyZ(1.16)), P(S.sx * .0150, 1.140, bodyZ(1.16) + .004), gAort];
@@ -97,13 +98,16 @@ export default function thoraxNerves(U) {
       base('greater splanchnic nerve', '大內臟神經', 'Thoracic sympathetic trunk, ganglia T5–T9', '胸交感神經幹第五至第九胸節', greater, ['coeliac ganglion', '腹腔神經節']);
       base('lesser splanchnic nerve', '小內臟神經', 'Thoracic sympathetic trunk, ganglia T10–T11', '胸交感神經幹第十至第十一胸節', lesser, ['aorticorenal ganglion', '主動脈腎神經節']);
       base('least splanchnic nerve', '最小內臟神經', 'Thoracic sympathetic trunk, ganglion T12', '胸交感神經幹第十二胸節', least, ['renal plexus (renal ganglion)', '腎神經叢（腎神經節）']);
-      const gang = (nm, zh, c, ax) => out.push({
+      const gang = (nm, zh, c, ax, tubes) => out.push({
         name: `${S.w} ${nm}`, zh: `${S.zh}${zh}`, system: 'nervous', kind: 'ganglion',
-        geometry: [U.ellipsoid(c, ax[0], ax[1], ax[2])],
+        geometry: [U.ellipsoid(c, ax[0], ax[1], ax[2])], ...(tubes ? {tubes} : {}),
         card: {origin: ['Prevertebral sympathetic ganglion on the aorta', '主動脈旁的椎前交感神經節'], course: [`Lies at the origin of the ${ax[3]}`, `位於${ax[4]}起始處`], supply: ['Relay for splanchnic nerve fibres to the abdominal viscera', '內臟神經纖維換元後分布到腹腔內臟']}, refs: []});
       gang('celiac ganglion', '腹腔神經節', gCeliac, [.0058, .0042, .0034, 'coeliac trunk', '腹腔動脈']);
       gang('aorticorenal ganglion', '主動脈腎神經節', gAort, [.0045, .0035, .0030, 'renal artery', '腎動脈']);
-      gang('superior mesenteric ganglion', '上腸繫膜神經節', gSma, [.0040, .0032, .0028, 'superior mesenteric artery', '腸繫膜上動脈']);
+      // The superior mesenteric ganglion is joined to the coeliac ganglion above it by the fibres of the coeliac plexus that continue down the front of the aorta to the origin of the
+      // superior mesenteric artery (before, the ganglion touched no other nerve: QA NV-04). The strand runs a little lateral of the two arteries, on the front of the aorta.
+      const smgLink = [gSma, add(lerp(gSma, gCeliac, .35), P(S.sx * .003, 0, -.001)), add(lerp(gSma, gCeliac, .7), P(S.sx * .002, 0, -.001)), gCeliac];
+      gang('superior mesenteric ganglion', '上腸繫膜神經節', gSma, [.0040, .0032, .0028, 'superior mesenteric artery', '腸繫膜上動脈'], [{pts: smgLink, r: [.0007, .0007], samples: 16}]);
       gang('renal ganglion', '腎神經節', gRenal, [.0035, .0028, .0026, 'renal artery near the renal hilum', '腎動脈靠近腎門處']);
     }
   }
@@ -119,8 +123,11 @@ export default function thoraxNerves(U) {
       card: {origin: ['Left vagus nerve, mainly, after the oesophageal plexus', '主要來自左側迷走神經，經食道神經叢重組'], course: ['Runs on the front of the oesophagus through the oesophageal hiatus to the stomach', '沿食道前面下行，經食道裂孔到胃'], supply: ['Stomach, liver and biliary tract (anterior gastric and hepatic branches)', '胃、肝與膽道（前胃支與肝支）']}, refs: []});
     out.push({
       name: 'Posterior vagal trunk', zh: '後迷走神經幹', system: 'nervous', kind: 'nerve',
-      tubes: [{pts: trunk(Math.PI).slice(1), r: [.0012, .0010], samples: 28}],
-      card: {origin: ['Right vagus nerve, mainly, after the oesophageal plexus', '主要來自右側迷走神經，經食道神經叢重組'], course: ['Runs on the back of the oesophagus through the oesophageal hiatus to the abdomen', '沿食道後面下行，經食道裂孔入腹腔'], supply: ['Stomach (posterior gastric branches) and the coeliac plexus (coeliac branches)', '胃（後胃支）與腹腔叢（腹腔支）']}, refs: []});
+      // Joined at the top to the oesophageal plexus (the strand that starts on the back of the oesophagus) and continued at the bottom by its coeliac branch to the right coeliac ganglion;
+      // before, it touched no other nerve at either end (QA NV-03).
+      tubes: [{pts: [ring(c[0], 2.5, R * 1.02), ring(lerp(c[0], c[1], .5), 2.85), ...trunk(Math.PI).slice(1)], r: [.0012, .0010], samples: 32},
+        {pts: (() => { const e = ring(c[5], Math.PI), g = G.r.celiac; return [e, add(lerp(e, g, .3), P(0, 0, -.004)), add(lerp(e, g, .65), P(0, 0, -.003)), g]; })(), r: [.0009, .0008], samples: 20}],
+      card: {origin: ['Right vagus nerve, mainly, after the oesophageal plexus', '主要來自右側迷走神經，經食道神經叢重組'], course: ['Runs on the back of the oesophagus through the oesophageal hiatus to the abdomen; its coeliac branch runs to the coeliac ganglion', '沿食道後面下行，經食道裂孔入腹腔；腹腔支走到腹腔神經節'], supply: ['Stomach (posterior gastric branches) and the coeliac plexus (coeliac branches)', '胃（後胃支）與腹腔叢（腹腔支）']}, refs: []});
     // plexus: three interlacing strands wound round the lower oesophagus
     const strand = (phase, turns) => c.map((cc, i) => ring(cc, phase + (i / (c.length - 1)) * turns, R * 1.02));
     out.push({
