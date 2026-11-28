@@ -38,6 +38,7 @@ export function buildSupply({writer, atlasPart, nervePart, paokaoPart, surface, 
   const onWall = (p, lift = .0007) => { const {p: q, n} = surfaceAt(nearestIndex(sv, p)); return add(q, mul(n, lift)); };
   const wobble = (a, b, k, amp) => { const d = unit(sub(b, a)), side = unit(cross(d, [0, 1, 0])); return add(lerp(a, b, k), mul(side, amp)); };
   const R_ARTERY = .0011, R_VEIN = .0012, R_NERVE = .0007;
+  const distinctPath = (points, minStep = 1e-6) => points.filter((p, i) => !i || len(sub(p, points[i - 1])) >= minStep);
 
   // The wall point nearest to `aim` among the points that face `from` (the outside of the wall, seen from the vessel that ends on it), lifted a little out of the surface.
   const wallFacing = (from, aim, lift = .0007) => {
@@ -60,11 +61,13 @@ export function buildSupply({writer, atlasPart, nervePart, paokaoPart, surface, 
   const fromSplenic = (verts, lo, hi) => { const xs = verts.map(p => p[0]), x0 = Math.min(...xs), x1 = Math.max(...xs); return verts.filter(p => p[0] > x0 + lo * (x1 - x0) && p[0] < x0 + hi * (x1 - x0) && !insideMesh(surface, p)).reduce((b, p) => p[1] > b[1] ? p : b); };
   for (const [key, verts, lo, hi, dx, r] of [['Posterior gastric artery', splenicA, .35, .7, 0, R_ARTERY], ['Posterior gastric vein', splenicV, .35, .7, .008, R_VEIN]]) {
     const a0 = fromSplenic(verts, lo, hi), t = wallFacing(a0, add(a0, [dx, .03, -.004]));
-    // on the wall it runs on up the back of the fundus for about 20 mm, tapering, with two small branches, as its branches do: seen through the glass stomach from the front, a vessel that stopped at the
+    // on the wall it runs on over the back of the stomach for about 20 mm, tapering, with two small branches, as its branches do: seen through the glass stomach from the front, a vessel that stopped at the
     // wall looked like a stick ending in the air
-    const onBack = [.006, .012, .02].map(h => wallFacing(a0, add(t, [0, h, 0]), .0006)), fork = onBack[1];
-    const twigs = [-1, 1].map(sd => tubeThrough([fork, wallFacing(a0, add(fork, [sd * .004, .004, 0]), .0006), wallFacing(a0, add(fork, [sd * .009, .009, 0]), .0006)], r * .4, r * .25, 6, 8));
-    meshes.set(key, merge([tubeThrough([a0, lerp(a0, t, .35), lerp(a0, t, .7), t, ...onBack], r * .8, r * .3), ...twigs]));
+    // the run on the wall keeps the direction the vessel arrives in (no bend where it reaches the wall): small steps, each one put back on the wall
+    const dIn = unit(sub(t, lerp(a0, t, .7))), onBack = []; let at = t;
+    for (let k = 0; k < 5; k++) { const next = wallFacing(a0, add(at, mul(dIn, .004)), .0006); onBack.push(next); at = next; }
+    const twigs = [];
+    meshes.set(key, merge([tubeThrough(distinctPath([a0, lerp(a0, t, .35), lerp(a0, t, .7), t, ...onBack]), r * .8, r * .3), ...twigs]));
   }
 
   // anterior vagal trunk: the continuation of the left vagus nerve, down the front of the oesophagus to the cardia; the anterior gastric branches fan out on the front wall along the lesser curvature

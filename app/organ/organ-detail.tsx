@@ -31,7 +31,12 @@ export default function OrganDetail({id}: {id: OrganId}) {
 }
 
 function OrganDetailView({def}: {def: OrganDef}) {
-  const defaults: OrganViewState = useMemo(() => ({hiddenGroups: def.groups.filter(g => !g.on).map(g => g.id), hiddenParts: [], peel: 0, isolate: null, selectedIds: [], section: {axis: 'none', offset: .5, flip: false}, zones: def.zonesDefault ?? false, ghost: [], glass: false, command: {id: 0, view: 'front'}}), [def]);
+  // the detail mode opens on the Overview arrangement (organ, arteries, veins and nerves together) when the organ has one (user 2026-11-22), and Reset returns to it
+  const defaults: OrganViewState = useMemo(() => {
+    const base: OrganViewState = {hiddenGroups: def.groups.filter(g => !g.on).map(g => g.id), hiddenParts: [], peel: 0, isolate: null, selectedIds: [], section: {axis: 'none', offset: .5, flip: false}, zones: def.zonesDefault ?? false, ghost: [], glass: false, command: {id: 0, view: 'front'}};
+    const ov = def.presets?.find(p => p.id === 'overview');
+    return ov ? {...base, hiddenGroups: def.groups.map(g => g.id).filter(id => !ov.show.includes(id) && !(ov.ghost ?? []).includes(id)), ghost: ov.ghost ?? [], glass: !!ov.glass, zones: ov.zones ?? base.zones} : base;
+  }, [def]);
   const [view, setView] = useState<OrganViewState>(defaults);
   const [ready, setReady] = useState(false), [error, setError] = useState(''), [percent, setPercent] = useState(0), [query, setQuery] = useState('');
   const [open, setOpen] = useState<string[]>(() => def.groups.filter(g => g.layer !== 0).map(g => g.id)), [allOpen, setAllOpen] = useState(false);
