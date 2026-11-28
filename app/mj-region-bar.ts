@@ -209,6 +209,7 @@ export function quizHrefFor(key:RegionKey,sub?:string):string{
  if(key==='lower'||key==='gluteal')return '#/quiz/lower-limb';
  if(key==='chest')return sub==='mediastinum'?'#/quiz/heart':sub==='lung'?'#/quiz/lung':'#/quiz/thorax';
  if(key==='back')return '#/quiz/back';
+ if(key==='abdomen')return '#/quiz/abdomen';
  if(key==='head')return '#/quiz/head-neck';
  return '#/quiz';
 }
