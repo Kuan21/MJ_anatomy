@@ -90,7 +90,8 @@ export function poseAt(t: number): SwallowPose {
     tongueTip: pulse(s, .1, .5, 2.6, 3.2),
     tongueWave: smooth((s - .5) / 1.6), tongueWaveAmp: pulse(s, .4, .7, 2.2, 2.8),
     tongueBase: pulse(s, 1.9, 2.4, 3.0, 3.6),
-    palate: pulse(s, 1.8, 2.2, 3.1, 3.6),
+    // the soft palate starts to rise at the end of the oral phase, before the bolus reaches it
+    palate: pulse(s, 1.0, 1.5, 3.1, 3.6),
     larynx: pulse(s, 1.95, 2.35, 3.1, 3.7),
     epiglottis: pulse(s, 2.15, 2.5, 3.1, 3.6),
     constrictor,
@@ -124,4 +125,13 @@ export function advance(s: PlayState, dt: number, speed: number): PlayState {
   const [a, b] = SWALLOW_STEPS[s.step].span, end = b + (b >= SWALLOW_S ? REST_S : .5);
   const t = s.t + dt * speed;
   return {...s, t: t > end ? a : t};
+}
+
+/** Opens the whole swallow paused at `t` seconds (from a link such as #/animation/swallow?t=2.4); anything that is not a time inside the swallow leaves the state as it is. */
+export function atMoment(s: PlayState, t: string | null): PlayState {
+  const v = t === null ? NaN : Number(t);
+  if (!Number.isFinite(v) || v < 0 || v > SWALLOW_S) return s;
+  // the step of that moment (its camera shows the moment closest); a moment after the swallow opens the whole swallow
+  const ph = phaseAt(v), id = ph === 'oral' ? 'oral' : ph === 'pharyngeal' ? 'pharyngeal' : ph === 'oesophageal' ? 'oesophageal' : 'whole';
+  return {...s, step: SWALLOW_STEPS.findIndex(x => x.id === id), t: v, playing: false};
 }

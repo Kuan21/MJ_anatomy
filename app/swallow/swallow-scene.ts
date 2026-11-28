@@ -8,6 +8,7 @@ import {SideLabels} from './side-labels';
 import {tubeCentreline, type V3} from '../ear-hearing/geometry-analysis';
 import {PATH_MARKS, poseAt, type SwallowPose, type SwallowStep} from './swallow-data';
 import {MOVE, pickSwallowParts, type SwallowRole} from './swallow-parts';
+import {midline, pharynxPath, type P} from './swallow-geometry';
 
 type StepId = SwallowStep['id'];
 interface Callbacks {progress: (percent: number) => void; ready: () => void; error: (message: string) => void}
@@ -52,6 +53,8 @@ export function createSwallowScene(host: HTMLElement, callbacks: Callbacks, gutt
   const abort = new AbortController();
   // landmarks, measured from the loaded meshes
   const L = {hinge: new T.Vector3(), uvulaTip: new T.Vector3(), epiPivot: new T.Vector3(), tongue: new T.Box3(), lumenZ: 0, oesophagus: [] as V3[], nasopharynx: new T.Vector3(), inlet: new T.Vector3(), hyoid: new T.Vector3()};
+  /** the uvula tip relative to the hinge of the soft palate, at rest */
+  const palateRest = new T.Vector3();
   let palate: T.Group | null = null, bolus: T.Mesh | null = null, bolusPath: {mouth: T.CatmullRomCurve3; pharynx: T.CatmullRomCurve3; oesophagus: T.CatmullRomCurve3} | null = null;
 
   void (async () => {
@@ -132,9 +135,14 @@ export function createSwallowScene(host: HTMLElement, callbacks: Callbacks, gutt
     const uv = items.find(i => i.name === 'Uvular muscle'); if (uv) {uv.mesh.removeFromParent(); uv.mesh.position.sub(L.hinge); palate.add(uv.mesh);}
     // the bolus (schematic) and its path
     const front = new T.Vector3(0, tongue.max.y + .004, tongue.max.z - .022), back = new T.Vector3(0, tongue.max.y + .002, tongue.min.z + .016);
-    const oro = new T.Vector3(0, L.hyoid.y + .018, L.lumenZ), laryngo = new T.Vector3(0, thyroid.isEmpty() ? L.hyoid.y - .02 : (thyroid.min.y + thyroid.max.y) / 2, (aryt.isEmpty() ? L.lumenZ : aryt.min.z) - .004);
+    // through the pharynx the bolus follows the middle of the cavity, measured at each level between the structures in front (tongue base, epiglottis, larynx) and the posterior wall (constrictors), so it never enters the muscle
+    const mid = (test: (i: Item) => boolean) => midline(items.filter(test).map(i => i.base));
+    const frontPts = mid(i => ['Tongue', 'Epiglottis', 'Cricoid cartilage'].includes(i.name) || /arytenoid/.test(i.name)), wallPts = mid(i => i.role.startsWith('constrictor') || i.name === 'Pharyngeal raphe');
     const oe = L.oesophagus.length ? L.oesophagus : [[0, 1.468, -.01], [0, 1.2, -.02]] as V3[], top = new T.Vector3(...oe[0]);
-    bolusPath = {mouth: new T.CatmullRomCurve3([front, back, oro]), pharynx: new T.CatmullRomCurve3([oro, laryngo, top]), oesophagus: new T.CatmullRomCurve3(oe.map(p => new T.Vector3(...p)))};
+    const cavity = pharynxPath(frontPts, wallPts, back.y - .006, top.y + .004, 14).points.map((q: P) => new T.Vector3(...q));
+    const oro = cavity[0] ?? new T.Vector3(0, L.hyoid.y + .018, L.lumenZ), laryngo = new T.Vector3(0, thyroid.isEmpty() ? L.hyoid.y - .02 : (thyroid.min.y + thyroid.max.y) / 2, (aryt.isEmpty() ? L.lumenZ : aryt.min.z) - .004);
+    palateRest.copy(L.uvulaTip).sub(L.hinge);
+    bolusPath = {mouth: new T.CatmullRomCurve3([front, back, oro]), pharynx: new T.CatmullRomCurve3(cavity.length >= 2 ? [...cavity, top] : [oro, laryngo, top]), oesophagus: new T.CatmullRomCurve3(oe.map(p => new T.Vector3(...p)))};
     bolus = new T.Mesh(new T.SphereGeometry(.0055, 20, 14), new T.MeshStandardMaterial({color: BOLUS, roughness: .5})); bolus.renderOrder = 3; scene.add(bolus);
   }
 
@@ -206,6 +214,11 @@ export function createSwallowScene(host: HTMLElement, callbacks: Callbacks, gutt
       // squeezed long and thin as it passes the pharynx and the oesophagus
       const stretch = s < PATH_MARKS.oropharynx ? 1 : 1.5;
       bolus.scale.set(1 / Math.sqrt(stretch), stretch, 1 / Math.sqrt(stretch));
+      // the bolus passes through the fauces below the soft palate, never through it: under the palate it is kept below the palate's lower surface (half thickness 4.2 mm)
+      if (palate && s < PATH_MARKS.oesophagus) {
+        const tip = palateRest.clone().applyAxisAngle(new T.Vector3(1, 0, 0), palate.rotation.x).add(L.hinge), z = bolus.position.z;
+        if (z < L.hinge.z && z > tip.z) {const lineY = L.hinge.y + (tip.y - L.hinge.y) * (L.hinge.z - z) / (L.hinge.z - tip.z), limit = lineY - .0042 - .0055 * stretch - .0005; if (bolus.position.y > limit) bolus.position.y = limit;}
+      }
     }
   }
 

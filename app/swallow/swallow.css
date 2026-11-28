@@ -13,7 +13,7 @@
 .swallow-label{position:absolute;left:0;top:0;display:flex;flex-direction:column;padding:3px 7px;border-radius:7px;background:#fff;border:1px solid #18253622;line-height:1.25;z-index:4;pointer-events:none;will-change:transform}
 .swallow-label span{font-size:12px;font-weight:650;color:#1f2c34;overflow-wrap:anywhere}.swallow-label small{font-size:11px;color:#4e5d66}
 .swallow-label.accent{background:#e3f4ec;border-color:#5db89a}.swallow-label.accent span{color:#1f5c49}
-.swallow-controls{position:static;margin:8px 12px 12px;flex:none}
+.swallow-page .swallow-controls{position:static;margin:8px 12px 12px;flex:none}
 .swallow-reset{padding:6px 12px;min-height:44px;min-width:44px;font-size:13px}
 @media(max-width:900px){.swallow-view{grid-template-columns:128px minmax(0,1fr) 128px}.swallow-status span{font-size:11px;padding:3px 8px}}
 @media(max-width:560px){.swallow-view{grid-template-columns:92px minmax(0,1fr) 92px}.swallow-label span{font-size:11px}.swallow-label small{font-size:10px}}
