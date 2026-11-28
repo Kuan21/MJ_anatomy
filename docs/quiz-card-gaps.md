@@ -112,13 +112,12 @@
 - 足底固有趾動脈群（set of plantar digital arteries proper）：缺 來源、走向、主要分支、供應範圍
 - 足底蹠骨動脈（plantar metatarsal artery）：缺 來源、走向、主要分支、供應範圍
 
-### 靜脈：0 / 25 項資料完整
+### 靜脈：3 / 25 項資料完整
 
 - 足背靜脈弓（Dorsal venous arch of left foot）：缺 來源、走向、主要分支、引流範圍
 - 脛前靜脈（anterior tibial vein）：缺 來源、走向、主要分支、引流範圍
 - 股深靜脈（deep femoral vein）：缺 來源、走向、主要分支、引流範圍
 - 穿靜脈群（set of perforating veins）：缺 來源、走向、主要分支、引流範圍
-- 股靜脈（femoral vein）：缺 來源、走向、主要分支、引流範圍
 - 大隱靜脈（great saphenous vein）：缺 來源、走向、主要分支、引流範圍
 - 膝靜脈（genicular vein）：缺 來源、走向、主要分支、引流範圍
 - 足底靜脈弓屬支（tributary of plantar venous arch）：缺 來源、走向、主要分支、引流範圍
@@ -133,9 +132,7 @@
 - 旋股外側靜脈（lateral circumflex femoral vein）：缺 來源、走向、主要分支、引流範圍
 - 旋股內側靜脈（medial circumflex femoral vein）：缺 來源、走向、主要分支、引流範圍
 - 足底蹠骨靜脈（plantar metatarsal vein）：缺 來源、走向、主要分支、引流範圍
-- 總髂靜脈（common iliac vein）：缺 來源、走向、主要分支、引流範圍
 - 內髂靜脈（internal iliac vein）：缺 來源、走向、主要分支、引流範圍
-- 外髂靜脈（external iliac vein）：缺 來源、走向、主要分支、引流範圍
 - 下臀靜脈（inferior gluteal vein）：缺 來源、走向、主要分支、引流範圍
 - 閉孔靜脈（obturator vein）：缺 來源、走向、主要分支、引流範圍
 - 上臀靜脈（superior gluteal vein）：缺 來源、走向、主要分支、引流範圍
@@ -491,17 +488,13 @@
 - 降主動脈（Descending aorta）：缺 來源、走向、主要分支、供應範圍
 - 鎖骨下動脈（subclavian artery）：缺 來源、走向、主要分支、供應範圍
 
-### 靜脈：5 / 14 項資料完整
+### 靜脈：9 / 14 項資料完整
 
 - 副半奇靜脈（Accessory hemiazygos vein）：缺 來源、走向、主要分支、引流範圍
 - 前肋間靜脈群（set of anterior intercostal veins）：缺 來源、走向、主要分支、引流範圍
 - 最上肋間靜脈（superior intercostal vein）：缺 來源、走向、主要分支、引流範圍
 - 肋下靜脈（subcostal vein）：缺 來源、主要分支
 - 肌膈靜脈（musculophrenic vein）：缺 來源、走向、主要分支、引流範圍
-- 內胸靜脈（internal thoracic vein）：缺 來源、走向、主要分支、引流範圍
-- 奇靜脈（Azygos vein）：缺 來源、走向、主要分支、引流範圍
-- 半奇靜脈（Hemiazygos vein）：缺 來源、走向、主要分支、引流範圍
-- 下腔靜脈（Inferior vena cava）：缺 來源、走向、主要分支、引流範圍
 
 ### 關節構造：0 / 3 項資料完整
 
@@ -588,12 +581,11 @@
 - 竇房結動脈（Sinoatrial nodal artery）：缺 來源、走向、主要分支、供應範圍
 - 左緣支（Left marginal branch）：缺 來源、走向、主要分支、供應範圍
 
-### 靜脈：7 / 13 項資料完整
+### 靜脈：8 / 13 項資料完整
 
 - 心中靜脈（Middle cardiac vein）：缺 主要分支
 - 左心室下靜脈（Inferior vein of left ventricle）：缺 來源、主要分支
 - 左心室後靜脈（Posterior vein of left ventricle）：缺 來源、主要分支
-- 下腔靜脈（Inferior vena cava）：缺 來源、走向、主要分支、引流範圍
 - 心小靜脈（Small cardiac vein）：缺 來源、走向、主要分支、引流範圍
 - 心前靜脈（Anterior cardiac veins）：缺 來源、走向、主要分支、引流範圍
 
@@ -875,6 +867,135 @@
 ### 特殊空間與孔：1 / 1 項資料完整
 
 （全部完整）
+
+## 腹部（Abdomen）
+
+### 骨骼：0 / 19 項資料完整
+
+- 髖骨（hip bone）：缺 主要標誌、相關關節、附著肌肉
+- 第一腰椎（First lumbar vertebra）：缺 附著肌肉
+- 第二腰椎（Second lumbar vertebra）：缺 附著肌肉
+- 第三腰椎（Third lumbar vertebra）：缺 附著肌肉
+- 第四腰椎（Fourth lumbar vertebra）：缺 附著肌肉
+- 第五腰椎（Fifth lumbar vertebra）：缺 附著肌肉
+- 第一腰椎椎間盤（Intervertebral disk of first lumbar vertebra）：缺 主要標誌、相關關節、附著肌肉
+- 第二腰椎椎間盤（Intervertebral disk of second lumbar vertebra）：缺 主要標誌、相關關節、附著肌肉
+- 第三腰椎椎間盤（Intervertebral disk of third lumbar vertebra）：缺 主要標誌、相關關節、附著肌肉
+- 第四腰椎椎間盤（Intervertebral disk of fourth lumbar vertebra）：缺 主要標誌、相關關節、附著肌肉
+- 第五腰椎椎間盤（Intervertebral disk of fifth lumbar vertebra）：缺 主要標誌、相關關節、附著肌肉
+- 第十肋骨（tenth rib）：缺 主要標誌、相關關節、附著肌肉
+- 第十一肋骨（eleventh rib）：缺 主要標誌、相關關節、附著肌肉
+- 第十二肋骨（twelfth rib）：缺 主要標誌、相關關節、附著肌肉
+- 第七肋骨（seventh rib）：缺 主要標誌、相關關節、附著肌肉
+- 第八肋骨（eighth rib）：缺 主要標誌、相關關節、附著肌肉
+- 第九肋骨（ninth rib）：缺 主要標誌、相關關節、附著肌肉
+- 第七肋軟骨（seventh costal cartilage）：缺 主要標誌、相關關節、附著肌肉
+- 薦骨（Sacrum）：缺 附著肌肉
+
+### 肌肉：9 / 9 項資料完整
+
+（全部完整）
+
+### 神經：7 / 15 項資料完整
+
+- 大內臟神經（greater splanchnic nerve）：缺 來源、走向、主要分支、支配範圍
+- 小內臟神經（lesser splanchnic nerve）：缺 來源、走向、主要分支、支配範圍
+- 最小內臟神經（least splanchnic nerve）：缺 來源、走向、主要分支、支配範圍
+- 腹腔神經節（celiac ganglion）：缺 來源、走向、主要分支、支配範圍
+- 主動脈腎神經節（aorticorenal ganglion）：缺 來源、走向、主要分支、支配範圍
+- 上腸繫膜神經節（superior mesenteric ganglion）：缺 來源、走向、主要分支、支配範圍
+- 腎神經節（renal ganglion）：缺 來源、走向、主要分支、支配範圍
+- 髂腹股溝神經（ilio-inguinal nerve）：缺 來源、走向、主要分支、支配範圍
+
+### 動脈：19 / 47 項資料完整
+
+- 腹腔動脈幹（Celiac artery）：缺 來源、走向、主要分支、供應範圍
+- 肋下動脈（subcostal artery）：缺 主要分支
+- 結腸邊緣動脈（Marginal artery of colon）：缺 來源、走向、主要分支、供應範圍
+- 左肝動脈（Left hepatic artery）：缺 主要分支
+- 左結腸動脈升支（Ascending branch of left colic artery）：缺 來源、走向、主要分支、供應範圍
+- 前下胰十二指腸動脈（Anterior inferior pancreaticoduodenal artery）：缺 主要分支
+- 盲腸前動脈（Anterior cecal artery）：缺 來源、走向、主要分支、供應範圍
+- 前上胰十二指腸動脈（Anterior superior pancreaticoduodenal artery）：缺 主要分支
+- 闌尾動脈（Appendicular artery）：缺 主要分支
+- 胰尾動脈（Caudal pancreatic artery）：缺 來源、走向、主要分支、供應範圍
+- 左結腸動脈降支（Descending branch of left colic artery）：缺 來源、走向、主要分支、供應範圍
+- 背胰動脈（Dorsal pancreatic artery）：缺 主要分支
+- 大胰動脈（Great pancreatic artery）：缺 來源、走向、主要分支、供應範圍
+- 迴腸動脈（Ileal artery）：缺 來源、走向、主要分支、供應範圍
+- 胰下動脈（Inferior pancreatic artery）：缺 來源、走向、主要分支、供應範圍
+- 左結腸動脈（Left colic artery）：缺 主要分支
+- 左胃網膜動脈（Left gastro-epiploic artery）：缺 來源、走向、主要分支、供應範圍
+- 睪丸動脈（testicular artery）：缺 來源、走向、主要分支、供應範圍
+- 中結腸動脈（Middle colic artery）：缺 主要分支
+- 後下胰十二指腸動脈（Posterior inferior pancreaticoduodenal artery）：缺 主要分支
+- 盲腸後動脈（Posterior cecal artery）：缺 來源、走向、主要分支、供應範圍
+- 後上胰十二指腸動脈（Posterior superior pancreaticoduodenal artery）：缺 主要分支
+- 右結腸動脈（Right colic artery）：缺 主要分支
+- 右胃動脈（Right gastric artery）：缺 主要分支
+- 右胃網膜動脈（Right gastro-epiploic artery）：缺 來源、走向、主要分支、供應範圍
+- 腰動脈（Lumbar artery）：缺 來源、走向、主要分支、供應範圍
+- 乙狀結腸動脈（Sigmoid artery）：缺 來源、走向、主要分支、供應範圍
+- 淺旋髂動脈（superficial circumflex iliac artery）：缺 來源、走向、主要分支、供應範圍
+
+### 靜脈：0 / 34 項資料完整
+
+- 肝門靜脈（Hepatic portal vein）：缺 來源、走向、主要分支、引流範圍
+- 左門靜脈（Left portal vein）：缺 來源、走向、主要分支、引流範圍
+- 右門靜脈（Right portal vein）：缺 來源、走向、主要分支、引流範圍
+- 肋下靜脈（subcostal vein）：缺 來源、主要分支
+- 淺腹壁靜脈（superficial epigastric vein）：缺 來源、走向、主要分支、引流範圍
+- 中肝靜脈（Middle hepatic vein）：缺 來源、走向、主要分支、引流範圍
+- 左肝靜脈（Left hepatic vein）：缺 來源、走向、主要分支、引流範圍
+- 右肝靜脈（Right hepatic vein）：缺 來源、走向、主要分支、引流範圍
+- 左結腸靜脈（Left colic vein）：缺 來源、走向、主要分支、引流範圍
+- 迴結腸靜脈（Ileocolic vein）：缺 來源、走向、主要分支、引流範圍
+- 迴腸靜脈（Ileal vein）：缺 來源、走向、主要分支、引流範圍
+- 下腔靜脈（Inferior vena cava）：缺 來源、走向、主要分支、引流範圍
+- 下腸繫膜靜脈（Inferior mesenteric vein）：缺 來源、走向、主要分支、引流範圍
+- 下膈靜脈（Inferior phrenic vein）：缺 來源、走向、主要分支、引流範圍
+- 總髂靜脈（common iliac vein）：缺 來源、走向、主要分支、引流範圍
+- 腎靜脈（renal vein）：缺 來源、走向、主要分支、引流範圍
+- 腎上腺靜脈（suprarenal vein）：缺 來源、走向、主要分支、引流範圍
+- 升腰靜脈（ascending lumbar vein）：缺 主要分支
+- 左胃靜脈（Left gastric vein）：缺 來源、走向、主要分支、引流範圍
+- 左胃網膜靜脈（Left gastroepiploic vein）：缺 來源、走向、主要分支、引流範圍
+- 髂腰靜脈（iliolumbar vein）：缺 來源、走向、主要分支、引流範圍
+- 下腹壁靜脈（inferior epigastric vein）：缺 來源、走向、主要分支、引流範圍
+- 上腹壁靜脈（superior epigastric vein）：缺 來源、走向、主要分支、引流範圍
+- 睪丸靜脈（testicular vein）：缺 來源、走向、主要分支、引流範圍
+- 正中薦靜脈（Median sacral vein）：缺 來源、走向、主要分支、引流範圍
+- 中結腸靜脈（Middle colic vein）：缺 來源、走向、主要分支、引流範圍
+- 胰十二指腸靜脈（Pancreaticoduodenal vein）：缺 來源、走向、主要分支、引流範圍
+- 右結腸靜脈（Right colic vein）：缺 來源、走向、主要分支、引流範圍
+- 右胃靜脈（Right gastric vein）：缺 來源、走向、主要分支、引流範圍
+- 右胃網膜靜脈（Right gastroepiploic vein）：缺 來源、走向、主要分支、引流範圍
+- 腰靜脈（Lumbar vein）：缺 來源、走向、主要分支、引流範圍
+- 乙狀結腸靜脈（Sigmoid vein）：缺 來源、走向、主要分支、引流範圍
+- 脾靜脈（Splenic vein）：缺 來源、走向、主要分支、引流範圍
+- 上腸繫膜靜脈（Superior mesenteric vein）：缺 來源、走向、主要分支、引流範圍
+
+### 腹盆器官構造：11 / 30 項資料完整
+
+- 白線（Linea alba）：缺 說明
+- 胰臟（Pancreas）：缺 說明
+- 胰管（Pancreatic duct）：缺 說明
+- 脾臟（Spleen）：缺 說明
+- 升結腸（Ascending colon）：缺 說明
+- 降結腸（Descending colon）：缺 說明
+- 游離結腸帶（Taenia libera）：缺 說明
+- 結腸繫膜帶（Taenia mesocolica）：缺 說明
+- 網膜帶（Taenia omentalis）：缺 說明
+- 橫結腸（Transverse colon）：缺 說明
+- 迴腸（Ileum）：缺 說明
+- 空腸（Jejunum）：缺 說明
+- 腎上腺（adrenal gland）：缺 說明
+- 腎臟（kidney）：缺 說明
+- 小腸繫膜（Mesentery of small intestine）：缺 說明
+- 橫結腸繫膜（Transverse mesocolon）：缺 說明
+- 腹股溝韌帶（inguinal ligament）：缺 說明
+- 腹直肌鞘（Rectus sheath）：缺 說明
+- 主動脈裂孔（Aortic hiatus）：缺 說明
 
 ## 胃（Stomach）
 
