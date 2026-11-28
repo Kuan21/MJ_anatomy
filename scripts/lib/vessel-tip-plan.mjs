@@ -14,6 +14,8 @@ import {taperLength, continuesAhead, FLARE_MIN_TRUNK} from './vessel-tip-shape.m
 const root = new URL('../../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 /** Identity of a vessel end across the two build steps: the vessel and the cut position to 0.01 mm. */
 export const tipKey = row => `${row.id}@${row.at.map(x => Math.round(x * 1e5)).join(',')}`;
+/** The vessels of the pelvis and perineum, by name (the region label puts most of them in the abdomen or the hip; owner's decision 2026-11-17: the name decides, 41 vessels in the atlas). app/biomechanics-v2/body-motion.ts keeps the same list for the hip skinning. */
+export const PELVIC_VESSELS = /iliac|gluteal|pudendal|obturator|sacral|vesical|rectal|uterine|vaginal|ovarian|testicular|prostat|penile|clitoral|perineal|iliolumbar|labial|scrotal|bulb|crural/i;
 export const STUB_RADIUS = .0032, LOST_GAP_RADIUS = .005;   // head and neck, neck root: an end of up to 3.2 mm radius is rounded too, down to half a radius long
 export const FADE_RADIUS = .0018, FLARE_MAX_RADIUS = .0018, FLARE_END_CLEAR = .003, GAP_MM = 12;
 

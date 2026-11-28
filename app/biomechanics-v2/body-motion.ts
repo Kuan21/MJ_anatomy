@@ -17,6 +17,8 @@ export const bodyBindings=Object.fromEntries(Object.entries({...rawBindings,...p
 export const skullAttached=(p:{id:string;name:string})=>p.id.startsWith('BP3-FMA')||(p.id.startsWith('BP3S-')&&/epicranius|temporoparietalis|depressor septi nasi/i.test(p.name));
 /** Nerve meshes that carry no explicit binding follow the limb they lie in: below the hip and near the midline a leg (by side), further out an arm. */
 export const HIP_LEVEL=.93,ARM_X=.2;
+/** The vessels of the pelvis and perineum by name (scripts/lib/vessel-tip-plan.mjs has the same list: change both together). */
+export const PELVIC_VESSELS=/iliac|gluteal|pudendal|obturator|sacral|vesical|rectal|uterine|vaginal|ovarian|testicular|prostat|penile|clitoral|perineal|iliolumbar|labial|scrotal|bulb|crural/i,PELVIC_VESSEL_LIFT=.07;
 export function inferredLimb(center:{x:number;y:number}):'leftLeg'|'rightLeg'|'arm'|undefined{
  if(center.y<HIP_LEVEL&&Math.abs(center.x)<ARM_X)return center.x>=0?'leftLeg':'rightLeg';
  if(center.y<1.45&&Math.abs(center.x)>=ARM_X)return'arm';
@@ -169,6 +171,9 @@ export function bindBodyTissue(rig:BodyRig,positions:ArrayLike<number>,skull=fal
  for(let i=0;i<count;i++){
   const y=c?.y??positions[i*3+1],z=c?.z??positions[i*3+2];
   let w=skull&&rig.region==='head'?[0,0,0,0,0,0,0,0,1]:skull&&rig.region==='spine'?Array.from({length:rig.pivots.length},(_,j)=>j===rig.pivots.length-1?1:0):rig.region==='head'&&!spinal?neckSoftWeights(rig,y,z):bodyWeights(rig,y);
+  // The vessels of the pelvis (the gluteal, pudendal, obturator, sacral, iliolumbar … vessels) lie in the pelvis and only run out into the gluteal region: their upper part stays on the pelvis when the hip bends,
+  // instead of following the thigh from the hip pivot down (the inferior gluteal vein ended up to 58 mm from the internal iliac vein it drains into at hip flexion 120, check VS-09). The hip blend of these vessels starts 70 mm lower.
+  if((rig.region==='leftLeg'||rig.region==='rightLeg')&&part&&(part.system==='arterial'||part.system==='venous')&&PELVIC_VESSELS.test(part.name))w=bodyWeights(rig,y+PELVIC_VESSEL_LIFT);
   if(part?.system==='integumentary'&&part.name==='Skin'&&rig.region==='spine'){
    // Arms hang beside the trunk and ride on the top frame (like their bones); only the torso skin blends by height.
    const x=Math.abs(positions[i*3]);

@@ -3,7 +3,7 @@
 // veins in the portal vein (check VS-04, VS-05). A pair (A, B) is
 //   yes       related: the same name apart from the side (Left/Right), one name contained in the other (Descending aorta / Descending thoracic aorta), a direct parent or child
 //             in the registered vessel tree (app/mj-vessel-parents.json; siblings and grandparents are not related), where the tree has no entry for one of the two vessels the two meshes already touch each other (a branch touches its trunk where it leaves it), or both belong to
-//             one of the FAMILIES below (the hepatic veins, the portal vein and its branches, the renal artery and its segmental branches)
+//             one of the FAMILIES below (the hepatic veins; a trunk and its branches, never two branches of one trunk)
 //   unknown   the tree says nothing about one of the two vessels (it is neither in the tree nor touches any vessel): a conservative rule applies, the other vessel must lie within 4 mm
 //   no        both are known and not related: never joined, the end is rounded off instead
 import fs from 'node:fs';
@@ -12,18 +12,22 @@ import {fileURLToPath} from 'node:url';
 const root = new URL('../../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 export const UNKNOWN_MM = 4;
 export const CONTACTS_FILE = 'work/vessel-contacts.json';
-/** Vessels of one family belong to one tree even where the registered tree has no entry for them. */
+/** Trees the registered vessel tree has no entries for. `peers`: every member is part of the same vessel or continues into the others (the segments of a hepatic vein; the superior and inferior epigastric arteries meet in the rectus sheath).
+ *  `hub` + `spokes`: a spoke joins its hub (a branch joins its trunk) and two spokes NEVER join each other: the inferior gluteal and the internal pudendal vein each drain into the internal iliac vein, they do not join one another (check VS-09, 2026-11-21). */
 const FAMILIES = [
-  /hepat(?:ic|ovenous)/i,
-  /portal|gastric vein|splenic vein|mesenteric vein|ileal vein|jejunal vein|colic vein|sigmoid vein/i,   // the portal vein and the veins that drain into it
-  /\brenal\b/i,
-  /internal iliac|gluteal|pudendal|obturator|vesical|rectal|uterine|vaginal|sacral|iliolumbar|prostatic/i,   // the internal iliac vessel and its pelvic branches (not the external iliac)
-  /epigastric|external iliac artery|femoral artery/i,   // the epigastric arteries meet in the rectus sheath; the inferior one leaves the external iliac artery just above the groin, where the model switches to the femoral artery
+  {peers: /hepatic/i},   // the hepatic veins and arteries
+  {hub: /portal|superior mesenteric vein|inferior mesenteric vein|splenic vein/i, spokes: /gastric vein|ileal vein|jejunal vein|colic vein|sigmoid vein/i},   // the portal vein and the veins that drain into it
+  {hub: /internal iliac/i, spokes: /gluteal|pudendal|obturator|vesical|middle rectal|uterine|vaginal|lateral sacral|iliolumbar|prostatic/i},   // the internal iliac vessel and its pelvic branches (not the external iliac)
+  {peers: /\brenal artery\b/i},   // the renal artery and its divisions and segmental branches (inside the kidney the branches arise from the divisions, which the registered tree does not list)
+  {peers: /epigastric/i},
+  {hub: /external iliac artery|femoral artery/i, spokes: /inferior epigastric/i},   // the inferior epigastric artery leaves the external iliac artery just above the groin, where the model switches to the femoral artery
 ];
+const inFamily = (na, nb) => FAMILIES.some(f => f.peers ? f.peers.test(na) && f.peers.test(nb) : (f.hub.test(na) && (f.hub.test(nb) || f.spokes.test(nb))) || (f.hub.test(nb) && f.spokes.test(na)));
 
 const PARTITIVE = /\b(?:branch|branches|tributary|tributaries|part|division|set|of)\b/i;
 const norm = n => n.replace(/^(?:Left|Right)\s+/i, '').toLowerCase();
 const tokens = n => new Set(norm(n).split(/[^a-z0-9]+/).filter(Boolean));
+const sideOf = n => { const m = /\b(left|right)\b/i.exec(n); return m ? m[1].toLowerCase() : null; };
 const stripEnd = tag => String(tag).replace(/-END$/, '');
 
 /** Pairs of vessel ids whose meshes touch (an end of one lies within 2.5 mm of the other): from the "joined" rows of the end audit. */
@@ -46,14 +50,18 @@ export function makeRelation(nameOf, pairs, names = []) {
   const cache = new Map();
   const classify = (a, b) => {
     const na = nameOf(a), nb = nameOf(b); if (!na || !nb) return 'unknown';
+    // a vessel of the left side never joins one of the right side (the right internal pudendal vein is not the continuation of the left one)
+    const sa = sideOf(na), sb = sideOf(nb); if (sa && sb && sa !== sb) return 'no';
     if (norm(na) === norm(nb)) return 'yes';
+    // two spokes of one hub (the inferior gluteal and the internal pudendal vein, both draining into the internal iliac vein) are not joined to each other, even where their meshes touch
+    if (FAMILIES.some(f => f.spokes && !f.hub.test(na) && !f.hub.test(nb) && f.spokes.test(na) && f.spokes.test(nb))) return 'no';
     const ta = tokens(na), tb = tokens(nb);
     // one name inside the other (Descending aorta / Descending thoracic aorta); not for "X branch of Y" names, whose words overlap by accident (Acromial branch of … thoraco-acromial artery)
     if (!PARTITIVE.test(na) && !PARTITIVE.test(nb) && ([...ta].every(t => tb.has(t)) || [...tb].every(t => ta.has(t)))) return 'yes';
     const info = id => known.has(nameOf(id));
     // both vessels are in the registered tree: its parent-child links decide (a grandparent is reached through the vessel between, and two meshes that merely touch are not joined)
     if (parentsOf(na).includes(nb) || parentsOf(nb).includes(na)) return 'yes';
-    if (FAMILIES.some(f => f.test(na) && f.test(nb))) return 'yes';
+    if (inFamily(na, nb)) return 'yes';
     if (info(a) && info(b)) return 'no';
     // the tree is silent about one of them: a mesh that touches the other is its trunk or branch
     if (touch.get(a)?.has(b)) return 'yes';

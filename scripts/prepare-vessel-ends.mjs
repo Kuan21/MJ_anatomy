@@ -10,11 +10,11 @@ import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {createStream} from './lib/stream-writer.mjs';
 import {tube} from './lib/nerve-schematics.mjs';
-import {auditEnds, atlas, geom} from './audit-vessel-ends.mjs';
+import {auditEnds, atlas, geom, surfacePieces, Grid} from './audit-vessel-ends.mjs';
 import {weldSurface, endFrame as endFrameOf, bridgePath, sub, add, len, unit} from './lib/vessel-frames.mjs';
 import {loadFullAtlas, STREAMS} from './lib/full-atlas.mjs';
 import {loadVessels, analyse, bridgeable, regionTools} from './lib/vessel-segments.mjs';
-import {planTips, tipKey, NECK_ROOT_ARM_RIG} from './lib/vessel-tip-plan.mjs';
+import {planTips, tipKey, NECK_ROOT_ARM_RIG, PELVIC_VESSELS} from './lib/vessel-tip-plan.mjs';
 
 const root = new URL('../', import.meta.url), file = f => fileURLToPath(new URL(f, root));
 const stamp = file('work/vessel-ends.stamp'), out = new URL('public/models/stream/', root), manifest = file('public/models/vessel-ends/vessel-ends-stream.json.gz');
@@ -53,6 +53,25 @@ const atNeckRoot = at => Math.abs(at[0]) <= .17 && at[1] >= 1.37 && at[1] <= 1.4
 const neckIds = new Set([...atlas.parts.filter(p => anatomicalRegion(p) === 'head-neck').map(p => p.id), ...NECK_ROOT_ARM_RIG]);
 const wallIds = new Set(atlas.parts.filter(p => WALL_VESSELS.test(p.name)).map(p => p.id)), round = id => (limbIds.has(id) || wallIds.has(id) || neckIds.has(id)) && !lightIds.has(id);
 const roundTip = row => (round(row.id) || (atNeckRoot(row.at) && !lightIds.has(row.id))), sides = row => roundTip(row) ? 12 : 5;
+// A bridge between two vessels must not run through a bone (the bridge of the left inferior gluteal artery to the internal iliac artery went 4 mm into the sacrum, check stability 2026-11-22): the points of its path that lie inside a bone,
+// or closer to it than the tube is wide, are pushed out along the bone's outward normal; the two ends stay where they are. Bone meshes have outward-facing triangles.
+const boneGrid = new Grid(); for (const p of atlas.parts.filter(q => q.system === 'skeletal')) { const g = geom(p); for (let i = 0; i < g.idx.length; i += 3) { const t = [0, 1, 2].map(k => [g.pos[g.idx[i + k] * 3], g.pos[g.idx[i + k] * 3 + 1], g.pos[g.idx[i + k] * 3 + 2]]); boneGrid.add(p.id, t[0], t[1], t[2]); } }
+function clearOfBone(path, radius, keepEnd = 2) {
+  const margin = radius + .0006;
+  return path.map((pt, i) => {
+    if (i < 2 || i >= path.length - keepEnd) return pt;   // the ends stay on their vessels
+    let q = pt;
+    for (let k = 0; k < 4; k++) {
+      const hit = boneGrid.nearest(q, .02, new Set()); if (!hit.tag || !hit.tri || hit.d > .02) break;
+      const [a, b, c] = hit.tri, n = unit([(b[1] - a[1]) * (c[2] - a[2]) - (b[2] - a[2]) * (c[1] - a[1]), (b[2] - a[2]) * (c[0] - a[0]) - (b[0] - a[0]) * (c[2] - a[2]), (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0])]);
+      const signed = (q[0] - hit.q[0]) * n[0] + (q[1] - hit.q[1]) * n[1] + (q[2] - hit.q[2]) * n[2], d = signed >= 0 ? hit.d : -hit.d;   // negative: inside the bone
+      if (d >= margin) break;
+      q = add(q, n, margin - d + .0003);
+    }
+    return q;
+  });
+}
+const RENAL_VESSELS = /^Right renal vein$/;   // the one connector that is closed to the vena cava after the renal hilum shift moved the vein (the left renal vein runs beside the pancreas: deeper there would touch it)
 for (const row of rows) {
   const frame = row.kind === 'joined' ? null : endFrame(row.id, row.at);
   let action = row.kind === 'joined' ? 'joined' : 'enters';
@@ -61,8 +80,9 @@ for (const row of rows) {
     if (row.kind === 'dangling' && gap) {
       action = 'gap';
       const d = row.toSameMm / 1000, target = row.closest, chord = unit(sub(target, row.at));
-      const bend = add(row.at, chord, d * .5), mid = add(bend, frame.dir, d * .18), through = add(target, chord, .001);
-      piece(row.id, tube([add(row.at, frame.dir, -.0015), row.at, mid, through], frame.radius * .95, frame.radius * .75, roundTip(row) ? 12 : 6, sides(row)), row.at, 'gap');
+      const bend = add(row.at, chord, d * .5), mid = add(bend, frame.dir, d * .18), through = add(target, chord, RENAL_VESSELS.test(row.name) ? .004 : .001);   // the right renal vein is shifted at the hilum while the vena cava stays (scripts/test-renal-hilum-shift.mjs): its connector to the cava ends 4 mm inside it, so the joint stays closed after the shift
+      const gapPath = [add(row.at, frame.dir, -.0015), row.at, mid, through];   // the bend point of a pelvic connector leaves the bone as well
+      piece(row.id, tube(PELVIC_VESSELS.test(row.name) ? clearOfBone(gapPath, frame.radius, 1) : gapPath, frame.radius * .95, frame.radius * .75, roundTip(row) ? 12 : 6, sides(row)), row.at, 'gap');
     } else if (frame.radius <= FADE_RADIUS) {
       action = 'fade';
       if (shapedTips.has(row)) { /* the vessel's own mesh narrows to a rounded tip (scripts/prepare-model-stream.mjs): no cone beyond the end */ } else {
@@ -77,6 +97,28 @@ for (const row of rows) {
 // diameter to the next segment's, replacing the simple connector of the same end. The measurement is the one scripts/audit-vessel-continuity.mjs uses (scripts/lib/vessel-segments.mjs).
 const source = loadFullAtlas({streams: STREAMS.filter(s => !s.startsWith('vessel-ends'))});   // the vessels the viewer shows, without the pieces this step makes
 const {rows: gapRows} = await analyse({regions: ['upper', 'lower'], mode: 'before', V: await loadVessels({mode: 'before', source})});
+/** Signed distance (m) of a point to the nearest bone triangle, negative inside the bone; null when no bone lies within 2 cm. */
+function boneSigned(q) {
+  const hit = boneGrid.nearest(q, .02, new Set()); if (!hit.tag || !hit.tri || hit.d > .02) return null;
+  const [a, b, c] = hit.tri, n = unit([(b[1] - a[1]) * (c[2] - a[2]) - (b[2] - a[2]) * (c[1] - a[1]), (b[2] - a[2]) * (c[0] - a[0]) - (b[0] - a[0]) * (c[2] - a[2]), (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0])]);
+  return ((q[0] - hit.q[0]) * n[0] + (q[1] - hit.q[1]) * n[1] + (q[2] - hit.q[2]) * n[2] >= 0 ? 1 : -1) * hit.d;
+}
+/** Where a bridge to a pelvic trunk ends inside the bone (the left internal iliac artery lies 3.6 mm in the sacrum, so a bridge to it did too): the nearest wall point of that trunk that is clear of the bone, moved inside the trunk. */
+function targetOutOfBone(r, t, to) {
+  const s0 = boneSigned(to); if (s0 == null || s0 > -.001) return null;
+  const np = atlas.parts.find(q => q.id === r.neighbourId); if (!np) return null;
+  const g = geom(np), v = i => [g.pos[i * 3], g.pos[i * 3 + 1], g.pos[i * 3 + 2]], n = g.pos.length / 3, depth = Math.min(.0006 + t.radius * .5, .002);
+  let best = null;
+  for (let i = 0; i < n; i++) {
+    const w = v(i), d = len(sub(w, r.capAt)); if (best && d >= best.d) continue;
+    const sw = boneSigned(w); if (sw == null || sw < 0) continue;
+    const c = [0, 0, 0]; let m = 0; for (let j = 0; j < n; j += 3) { const u = v(j); if (len(sub(u, w)) < t.radius * 2) { for (let k = 0; k < 3; k++) c[k] += u[k]; m++; } }
+    if (m < 3) continue;
+    const inward = unit(sub(c.map(x => x / m), w)), p2 = add(w, inward, depth), s2 = boneSigned(p2); if (s2 != null && s2 < -.001) continue;
+    best = {d, to: p2};
+  }
+  return best?.to ?? null;
+}
 const planned = gapRows.filter(bridgeable), mutual = new Set();
 let bridged = 0;
 for (const r of planned) {
@@ -84,10 +126,12 @@ for (const r of planned) {
     const twin = planned.find(o => o !== r && o.id === r.neighbourId && o.neighbourId === r.id && len(sub(o.capAt, r.target.point)) < .002 && len(sub(r.capAt, o.target.point)) < .002);
     if (twin && (mutual.has(twin) || r.id > twin.id)) continue; mutual.add(r);
   }
-  const t = r.target, to = r.kind === 'end-to-end' ? add(t.point, t.dir, -.001) : add(t.point, t.inward, Math.min(.0006 + t.radius * .5, .002));
-  const travel = r.kind === 'end-to-end' ? t.dir.map(v => -v) : unit(sub(to, r.capAt));
-  const r1 = r.kind === 'end-to-end' ? Math.min(t.radius, r.radius * 2.2) : r.radius * .85;
-  const path = bridgePath(r.capAt, r.dir, to, travel);
+  const t = r.target; let to = r.kind === 'end-to-end' ? add(t.point, t.dir, -.001) : add(t.point, t.inward, Math.min(.0006 + t.radius * .5, .002));
+  let moved = false;
+  if (PELVIC_VESSELS.test(r.name)) { const out = targetOutOfBone(r, t, to); if (out) { to = out; moved = true; } }   // the trunk end lies in the bone: join the wall of the trunk where it is clear of it
+  const travel = r.kind === 'end-to-end' && !moved ? t.dir.map(v => -v) : unit(sub(to, r.capAt));
+  const r1 = r.kind === 'end-to-end' && !moved ? Math.min(t.radius, r.radius * 2.2) : r.radius * .85;
+  const path = PELVIC_VESSELS.test(r.name) ? clearOfBone(bridgePath(r.capAt, r.dir, to, travel), r.radius) : bridgePath(r.capAt, r.dir, to, travel);   // pelvic vessels only: the bridges of the limbs keep their paths
   const near = pieces.filter(q => q.id === r.id && q.action === 'gap' && len(sub(q.tip, r.tipAt)) < .004);
   for (const q of near) pieces.splice(pieces.indexOf(q), 1);
   const far = pieces.filter(q => q.id === r.id && q.action === 'fade' && len(sub(q.tip, r.tipAt)) < .004);
@@ -97,6 +141,25 @@ for (const r of planned) {
   const hit = report.find(x => x.id === r.id && len(sub(x.at, r.tipAt)) < .004); if (hit) hit.action = 'bridge';
 }
 console.log(`Vessel ends: ${bridged} limb bridges planned from ${gapRows.length} adjacent-segment ends.`);
+// A vessel whose mesh lost a stretch in the segmentation and kept a small fragment of it, floating a few millimetres away from the rest (check VS-06: the posterior division of the left renal artery, a 22-triangle piece 11 mm
+// from the rest of the artery): a thin link tube from the fragment to the nearest point of the main piece makes it one vessel again. Only the vessels listed here; two separate vessels in one mesh (the lumbar veins) are not linked.
+const LINK_FRAGMENTS = /^Posterior division of left renal artery$/;
+let linked = 0;
+for (const p of atlas.parts.filter(q => LINK_FRAGMENTS.test(q.name))) {
+  const pcs = surfacePieces(geom(p), 8).sort((a, b) => b.idx.length - a.idx.length), main = pcs[0], centre = pc => { const c = [0, 0, 0]; for (let i = 0; i < pc.pos.length; i += 3) for (let k = 0; k < 3; k++) c[k] += pc.pos[i + k] / (pc.pos.length / 3); return c; };
+  for (const frag of pcs.slice(1)) {
+    let best = {d: Infinity};
+    for (let i = 0; i < frag.pos.length; i += 3) for (let j = 0; j < main.pos.length; j += 3) {
+      const d = Math.hypot(frag.pos[i] - main.pos[j], frag.pos[i + 1] - main.pos[j + 1], frag.pos[i + 2] - main.pos[j + 2]);
+      if (d < best.d) best = {d, a: [frag.pos[i], frag.pos[i + 1], frag.pos[i + 2]], b: [main.pos[j], main.pos[j + 1], main.pos[j + 2]]};
+    }
+    if (!(best.d < .03)) continue;
+    const cf = centre(frag), cm = centre(main), fb = endFrame(p.id, best.b), r = Math.min(.0008, (fb?.radius ?? .0015) * .6);
+    const inA = add(best.a, unit(sub(cf, best.a)), Math.min(.001, len(sub(cf, best.a)))), inB = add(best.b, unit(sub(cm, best.b)), .0008), chord = unit(sub(inB, inA));
+    piece(p.id, tube([inA, best.a, add(best.a, chord, best.d / 3), add(best.a, chord, 2 * best.d / 3), best.b, inB], r, r, 16, 12), best.a, 'link'); linked++;
+  }
+}
+console.log(`Vessel ends: ${linked} link tube(s) between a vessel and a fragment of its own mesh.`);
 const byPart = new Map(); for (const q of pieces) { if (!byPart.has(q.id)) byPart.set(q.id, []); byPart.get(q.id).push(q.geometry); }
 
 fs.mkdirSync(out, {recursive: true}); fs.mkdirSync(new URL('public/models/vessel-ends/', root), {recursive: true}); fs.mkdirSync(new URL('work/', root), {recursive: true});

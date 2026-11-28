@@ -9,10 +9,10 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | check | violations |
 |---|---|
 | Fragments | 31 |
-| Vessel, nerve and tendon walls inside bone | 420 |
+| Vessel, nerve and tendon walls inside bone | 418 |
 | Coincident faces (z-fighting) | 72 |
 | Straight cuts in meshes | 47 |
-| Triangle stretch over 2x in the limit poses | 138 |
+| Triangle stretch over 2x in the limit poses | 132 |
 | Structures that leave their bone in the limit poses | 150 |
 
 ## Fragments (31)
@@ -51,7 +51,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Acromial branch of left thoraco-acromial artery | 1 | 使用者 2026-11-18 批准；解剖上相連，原本被誤接的連接管遮住；考試後第一優先修好，修好後刪除此項 |
 | Right ulnar artery | 1 | 使用者 2026-11-18 批准；解剖上相連，原本被誤接的連接管遮住；考試後第一優先修好，修好後刪除此項 |
 
-## Vessel, nerve and tendon walls inside bone (420)
+## Vessel, nerve and tendon walls inside bone (418)
 
 | structure | size | detail |
 |---|---|---|
@@ -187,9 +187,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Left subclavian vein | 4.1 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left ascending lumbar vein | 4.6 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left ascending lumbar vein | 6 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Left inferior gluteal vein | 3.2 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left inferior phrenic artery | 2.3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Left lateral sacral vein | 7.3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left lateral sacral vein | 7.8 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right internal iliac vein | 2.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Right subclavian artery | 4.1 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
@@ -227,8 +225,8 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Left posterior interosseous artery | 6 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left posterior interosseous vein | 2.3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left saphenous branch of descending genicular artery | 7.6 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Left superior gluteal artery | 7.1 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
-| Left superior gluteal artery | 3.1 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
+| Left superior gluteal artery | 5.2 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
+| Left superior gluteal artery | 2.9 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left superior gluteal artery | 4.7 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left superior gluteal artery | 2.9 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
 | Left superior thoracic artery | 2.3 | tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds |
@@ -605,7 +603,7 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | renderer clipping plane in organ/heart-viewer.ts | 3 | section plane of the brain or heart detail mode: a cut view on purpose, the cut face is drawn by the viewer |
 | renderer clipping plane in organ/organ-viewer.ts | 2 | section plane of the shared organ detail mode only (none, sagittal, coronal, horizontal; same cut feature as the brain, eye and ear detail modes; the main atlas is not affected): a cut view on purpose; the user decided 2026-11-16 that sections follow the shared template and approved this exception 2026-11-17 |
 
-## Triangle stretch over 2x in the limit poses (138)
+## Triangle stretch over 2x in the limit poses (132)
 
 | structure | size | detail |
 |---|---|---|
@@ -711,16 +709,12 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right sublingual gland | 20 | triangles stretch beyond 2x at head extension 35: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right submandibular gland | 23 | triangles stretch beyond 2x at head extension 35: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Skin | 40 | triangles stretch beyond 2x at head extension 35: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) 女性皮膚（HRAF-skin）沿用這張男性皮膚的蒙皮權重，頭部伸展時同一處拉伸（同一批 40 個三角形，位置在頸部與頭頸交界、y 約 1.50–1.54 m，不在鼠蹊部），登記為孿生例外 stretch/HRAF-skin/head extension 35；皮膚權重平滑修好時兩條一齊移除。 |
-| Left inferior gluteal vein | 301 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left inferior gluteal vein | 889 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right inferior gluteal vein | 454 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right inferior gluteal vein | 869 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right superior gluteal vein | 26 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Left inferior gluteal vein | 38 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
+| Right inferior gluteal vein | 62 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Skin | 40 | 女性皮膚沿用男性皮膚（FJ2810，見 stretch/FJ2810/head extension 35）的蒙皮權重，頭部伸展時同一處拉伸（同一批 40 個三角形，位置在頸部與頭頸交界、y 約 1.50–1.54 m，不在鼠蹊部），與 FJ2810 同一問題；待皮膚權重平滑時兩條一齊移除。2026-11-16 經使用者核准。 |
 | Left axillary fossa | 2 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left axillary fossa | 2 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left axillary sheath | 94 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Left inferior gluteal artery | 67 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left lateral cord of brachial plexus | 10 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left quadrangular space | 8 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Left tendon of triceps brachii | 40 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
@@ -729,10 +723,8 @@ Poses: shoulder flexion 150, shoulder abduction 120, elbow flexion 140, forearm 
 | Right axillary fossa | 2 | triangles stretch beyond 2x at shoulder abduction 120: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right axillary fossa | 2 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right axillary sheath | 73 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right inferior gluteal artery | 115 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right lateral cord of brachial plexus | 18 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) Re-baselined once on 2026-11-11 when the nerve meshes were regenerated from the official files (the value rose slightly); to be reduced again by moving the nerve off the neighbouring structure. |
 | Right quadrangular space | 8 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
-| Right superior gluteal artery | 4 | triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right tendon of triceps brachii | 2 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right tendon of triceps brachii | 2 | triangles stretch beyond 2x at elbow flexion 140: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |
 | Right triangular interval | 8 | triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A) |

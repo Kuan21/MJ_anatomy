@@ -169,5 +169,9 @@ export function bridgeable(r) {
   if (r.sub === 'hand') return false;   // the hand and fingers have their own digit rig (finger motion): connectors there would not follow the phalanges, so those ends keep their original connector and are listed instead
   if (r.gapMm <= r.diameterMm * GAP_FACTOR) return false;
   if (r.kind === 'end-to-end') return r.tangentDeg <= 120 && r.gapMm <= adjacentMm(r.diameterMm);
+  // a pelvic branch whose trunk is the internal iliac vessel always joins it, however short the branch ends of the model are: the branches of the internal iliac vessel do not end in the muscle, and the trunk is the only
+  // vessel the relation rules leave for them (check VS-09, 2026-11-22: they used to be joined to a neighbouring branch instead)
+  if (PELVIC_BRANCH.test(r.name) && /internal iliac/i.test(r.neighbour ?? '')) return r.gapMm <= adjacentMm(r.diameterMm);
   return (r.diameterMm > 3.6 || r.gapMm <= 1.5 * r.diameterMm + 1) && r.gapMm <= 2 + 3 * r.diameterMm;
 }
+const PELVIC_BRANCH = /gluteal|pudendal|obturator|vesical|middle rectal|uterine|vaginal|lateral sacral|iliolumbar|prostatic/i;

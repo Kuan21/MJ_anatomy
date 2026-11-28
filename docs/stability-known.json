@@ -2084,19 +2084,9 @@
    "measure": 6,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
-  "penetration|FJ3513-END|FJ3393": {
-   "name": "Left inferior gluteal vein",
-   "measure": 3.2,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
   "penetration|FJ3519|FJ3225": {
    "name": "Left inferior phrenic artery",
    "measure": 2.3,
-   "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
-  },
-  "penetration|FJ3526-END|FJ3393": {
-   "name": "Left lateral sacral vein",
-   "measure": 7.3,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
   "penetration|FJ3526|FJ3393": {
@@ -2286,12 +2276,12 @@
   },
   "penetration|PK:Left superior gluteal artery-END|FJ3288": {
    "name": "Left superior gluteal artery",
-   "measure": 7.1,
+   "measure": 5.2,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
   "penetration|PK:Left superior gluteal artery-END|FJ3393": {
    "name": "Left superior gluteal artery",
-   "measure": 3.1,
+   "measure": 2.9,
    "reason": "tube wall overlaps the bone mesh: path is closer to the bone than the coarse bone surface allows; to be moved off the bone in the vessel and nerve rebuilds"
   },
   "penetration|PK:Left superior gluteal artery|FJ3288": {
@@ -4233,40 +4223,19 @@
    "fraction": 0.0008939746111210441,
    "severity": 3.5
   },
-  "stretch|FJ3513-END|hip flexion 120 knee flexion 130": {
-   "name": "Left inferior gluteal vein",
-   "measure": 301,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.050775978407557355,
-   "severity": 2.5
-  },
   "stretch|FJ3513|hip flexion 120 knee flexion 130": {
    "name": "Left inferior gluteal vein",
-   "measure": 889,
+   "measure": 38,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.3561698717948718,
-   "severity": 2.5
-  },
-  "stretch|FJ3606-END|hip flexion 120 knee flexion 130": {
-   "name": "Right inferior gluteal vein",
-   "measure": 454,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.08559577677224736,
-   "severity": 2.3
+   "fraction": 0.015224358974358974,
+   "severity": 2.2
   },
   "stretch|FJ3606|hip flexion 120 knee flexion 130": {
    "name": "Right inferior gluteal vein",
-   "measure": 869,
+   "measure": 62,
    "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.34347826086956523,
-   "severity": 2.5
-  },
-  "stretch|FJ3616-END|hip flexion 120 knee flexion 130": {
-   "name": "Right superior gluteal vein",
-   "measure": 26,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.019345238095238096,
-   "severity": 2.1
+   "fraction": 0.02450592885375494,
+   "severity": 2.3
   },
   "stretch|HRAF-skin|head extension 35": {
    "name": "Skin",
@@ -4295,13 +4264,6 @@
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.13428571428571429,
    "severity": 2.4
-  },
-  "stretch|PK:Left inferior gluteal artery|hip flexion 120 knee flexion 130": {
-   "name": "Left inferior gluteal artery",
-   "measure": 67,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.09571428571428571,
-   "severity": 2.6
   },
   "stretch|PK:Left lateral cord of brachial plexus|shoulder flexion 150": {
    "name": "Left lateral cord of brachial plexus",
@@ -4359,13 +4321,6 @@
    "fraction": 0.10428571428571429,
    "severity": 2.3
   },
-  "stretch|PK:Right inferior gluteal artery|hip flexion 120 knee flexion 130": {
-   "name": "Right inferior gluteal artery",
-   "measure": 115,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.16428571428571428,
-   "severity": 2.5
-  },
   "stretch|PK:Right lateral cord of brachial plexus|shoulder flexion 150": {
    "name": "Right lateral cord of brachial plexus",
    "measure": 18,
@@ -4379,13 +4334,6 @@
    "reason": "triangles stretch beyond 2x at shoulder flexion 150: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
    "fraction": 0.6666666666666666,
    "severity": 2.3
-  },
-  "stretch|PK:Right superior gluteal artery-END|hip flexion 120 knee flexion 130": {
-   "name": "Right superior gluteal artery",
-   "measure": 4,
-   "reason": "triangles stretch beyond 2x at hip flexion 120 knee flexion 130: skin weights jump across the joint; to be smoothed in the motion fixes (stabilisation section 2 A)",
-   "fraction": 0.0016339869281045752,
-   "severity": 2
   },
   "stretch|PK:Right tendon of triceps brachii#1|elbow flexion 140": {
    "name": "Right tendon of triceps brachii",
