@@ -5,7 +5,7 @@
 
 ## 目前狀態
 - 專案處於**穩定期**（2026-11-08 起）：暫停新功能，只修顯示錯誤；所有 PR 都要使用者人工審核，不可自行 merge。
-- main 最新：#495（86d5c7ec）。本分支已合併 main 到 #495（2026-11-28 第一百二十八次）。
+- main 最新：#496（4051316c）。本分支已合併 main 到 #496（2026-11-28 第一百二十九次）。
 - **main 已經有中心線連續性檢查**（#281、#328：`scripts/check-centerlines.mjs`、基準 `docs/centerline-known.json` 57 條，已在 `npm run check` 內）。本分支的 `check-centreline-continuity.mjs` 是另一套做法，見「待我決定」。
 - 開放 PR（下列是 2026-11-11 的清單；本機沒有 `gh`，之後沒有再查，main 已合併到 #338，清單很可能已過時）：
   - #223 心臟腔內構造與標籤（部分完成）
@@ -674,6 +674,11 @@
 
 - 2026-11-28（第一百二十八次）：合併 main，沒有改程式、模型、解剖內容或網站。
   - `git fetch` 後 main 由 #452 前進到 #495（86d5c7ec，中間有 #487 Quiz 選項對齊、#493 腹壁資訊卡與多個文件 PR）；`git merge-tree` 確認沒有衝突後合併（15 個檔，沒有改到 `scripts/`）。
+  - `work/`、`supplement-stream.json.gz` 仍缺。
+  - 本機通過：七個 `test-centreline-*`、`check-no-notes`。其餘仍等「待我決定」。
+
+- 2026-11-28（第一百二十九次）：合併 main，沒有改程式、模型、解剖內容或網站。
+  - `git fetch` 後 main 由 #495 前進到 #496（4051316c，只改 `docs/registry/_decided.md`）；`git merge-tree` 確認沒有衝突後合併。
   - `work/`、`supplement-stream.json.gz` 仍缺。
   - 本機通過：七個 `test-centreline-*`、`check-no-notes`。其餘仍等「待我決定」。
 
