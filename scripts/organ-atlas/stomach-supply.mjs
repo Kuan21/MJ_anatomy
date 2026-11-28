@@ -38,6 +38,7 @@ export function buildSupply({writer, atlasPart, nervePart, paokaoPart, surface, 
   const onWall = (p, lift = .0007) => { const {p: q, n} = surfaceAt(nearestIndex(sv, p)); return add(q, mul(n, lift)); };
   const wobble = (a, b, k, amp) => { const d = unit(sub(b, a)), side = unit(cross(d, [0, 1, 0])); return add(lerp(a, b, k), mul(side, amp)); };
   const R_ARTERY = .0011, R_VEIN = .0012, R_NERVE = .0007;
+  const distinctPath = (points, minStep = 1e-6) => points.filter((p, i) => !i || len(sub(p, points[i - 1])) >= minStep);
 
   // The wall point nearest to `aim` among the points that face `from` (the outside of the wall, seen from the vessel that ends on it), lifted a little out of the surface.
   const wallFacing = (from, aim, lift = .0007) => {
@@ -66,7 +67,7 @@ export function buildSupply({writer, atlasPart, nervePart, paokaoPart, surface, 
     const dIn = unit(sub(t, lerp(a0, t, .7))), onBack = []; let at = t;
     for (let k = 0; k < 5; k++) { const next = wallFacing(a0, add(at, mul(dIn, .004)), .0006); onBack.push(next); at = next; }
     const twigs = [];
-    meshes.set(key, merge([tubeThrough([a0, lerp(a0, t, .35), lerp(a0, t, .7), t, ...onBack], r * .8, r * .3), ...twigs]));
+    meshes.set(key, merge([tubeThrough(distinctPath([a0, lerp(a0, t, .35), lerp(a0, t, .7), t, ...onBack]), r * .8, r * .3), ...twigs]));
   }
 
   // anterior vagal trunk: the continuation of the left vagus nerve, down the front of the oesophagus to the cardia; the anterior gastric branches fan out on the front wall along the lesser curvature
